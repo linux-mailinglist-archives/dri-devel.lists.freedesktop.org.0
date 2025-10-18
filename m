@@ -2,121 +2,276 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 411DABEDC2E
-	for <lists+dri-devel@lfdr.de>; Sat, 18 Oct 2025 23:17:20 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 48329BEDC84
+	for <lists+dri-devel@lfdr.de>; Sun, 19 Oct 2025 00:41:06 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2EEEC10E136;
-	Sat, 18 Oct 2025 21:17:03 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D49D710E04E;
+	Sat, 18 Oct 2025 22:41:02 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="P7nCt1lK";
+	dkim=pass (2048-bit key; unprotected) header.d=amazon.com header.i=@amazon.com header.b="kbf2gS1i";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
- [205.220.168.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7D75F10E136
- for <dri-devel@lists.freedesktop.org>; Sat, 18 Oct 2025 21:17:01 +0000 (UTC)
-Received: from pps.filterd (m0279862.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 59IJir7Y010381
- for <dri-devel@lists.freedesktop.org>; Sat, 18 Oct 2025 21:17:01 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
- cc:content-type:date:from:in-reply-to:message-id:mime-version
- :references:subject:to; s=qcppdkim1; bh=vrxfYT8Rg7BR1iZK2D5Bfqse
- b7Dp1q3QQoYVTBHmaUI=; b=P7nCt1lK854RKmL6G8DimTXTcdOd/BAqw/GLfAIK
- pcI8vnzt2OsZh80T4VbyUuedYWu56adfK/Xa0yhJCvn/CEGlNLkjw6KW8xXbolGw
- z14oRZv2hCTuzFF4TfzQMNTVJbpY5xDL1fsWkeuBrEnjxbIgm4sqK0UwlUFOVeJr
- cZs4k1mPDKpI4J8+LVsnBhCxOCY1G2anCxQIYDkgEIIQieFj5Bs8Jjkio0py7WF/
- 5V2fQUX1E4XnUplclYwOtckiFWvYhzT47+FT6USBMvsrxsfXORVldBFuBQSDdCBK
- K4MvxaaDXSXmspllOWp1cCC6Ufau9IqYKMb1ZvmPatol5g==
-Received: from mail-qv1-f72.google.com (mail-qv1-f72.google.com
- [209.85.219.72])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 49v3nf99mc-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
- for <dri-devel@lists.freedesktop.org>; Sat, 18 Oct 2025 21:17:00 +0000 (GMT)
-Received: by mail-qv1-f72.google.com with SMTP id
- 6a1803df08f44-8787a94467cso110206056d6.0
- for <dri-devel@lists.freedesktop.org>; Sat, 18 Oct 2025 14:17:00 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1760822219; x=1761427019;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=vrxfYT8Rg7BR1iZK2D5Bfqseb7Dp1q3QQoYVTBHmaUI=;
- b=p8SBDLSnyGgTgI75FoZvvJYeNQ5LjY3GkHS77ctNdf10iVbXGT2Z9sctKDDWJdOAxq
- qTqnhUCHC1LGrsBfQtAbMS+P9OKT77xZsTBMZrAO2kkQi5x6+iD5/rZyJaK3jl6L9s8i
- p3Rb+vMUgpuEgHfIbGWfP1uXNJU1Ou6CL+6wAmvexrx60wISEBoZdXsvW4iH5aBszVyP
- gIyJxwpheVR/qixTzQQVdsteh14sJ3Csh9DIm1gDF8+9iIbw336mgb4Nj/6nMKmXWcBa
- xav6KGef7FMSgK69e/uZ0sw79y+iwTjGYc1mA1hMqZe1SZkt/FdnTM9Vs9VVsJQ1MPtt
- KNWw==
-X-Forwarded-Encrypted: i=1;
- AJvYcCWfnMBE7uNqbc5WMX4OIak1onADTpfVBU7wOQ4jW/T2rAvdbXmQJLiNXXEtEYMyZtJUGZZYVsnzuhM=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YxbcDRNZCkcfnt410nlp7r7oJ39l2Pl+iI7daWvnteRCpl1RE1D
- Uv8RbphLMxNyQbLJvMBeGGgGhaihcbSLwxwbcO37iQd6BgYAsd4mROeU0xixyuItgzB8ZSqdopJ
- kyPhJcuf7tGTodBRn4s/TF8TaKvCpTZimd+IEQuYheagsNgFCnPHwSrhwwXd/TzCGljHcAZ4=
-X-Gm-Gg: ASbGncsMFddQg9RDMtcfoXHIN3xPgpGVmLz92xlfojY9vFzvs8nKBB2avYt2e1ZDgO1
- Zcq3QAfxms+jVOAUdu5cTAG/bFtMTz30EJd7BgD0CcFU2xMT+k2fAnN4orPzh4dkP56bnlo3pC+
- AwdYH/Bp+85wyC522UcYsN+e3ety68dhw3nuimrKNvA2N6zrAUOQbgo0Lj3viANmhUis4mbv9NP
- OMrZy8JtCYE3WOJMSHPEv2n35rt+TSIeIowqEazgIHF0i/cOhX6PMvJ6TAgUOdqMxupyGrZsM7B
- IPX2Fuxwvr7PE+eNlppK0YjwyXpmxsQf1TdTYL+yVuqu5WqpvenjvJ3ti3xquRZyEuk9hf/6qH9
- nLphAatPj1bGxtfg0NKUsOZ9hFydTJ1uajm/ColPXz/6lFv/jXv0bdgX2gWNB5jf7PybSGWQGys
- zoJMV+trF3NSE=
-X-Received: by 2002:ac8:5795:0:b0:4e8:b846:d9c with SMTP id
- d75a77b69052e-4e8b846128bmr19763981cf.39.1760822219199; 
- Sat, 18 Oct 2025 14:16:59 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IGhMckk6vv3eZfcCkUZgmjTi4d3z78dKv7YVQm6GKjnzp6ZqtUqwANaCiyEgjQEUuP2X+X8KQ==
-X-Received: by 2002:ac8:5795:0:b0:4e8:b846:d9c with SMTP id
- d75a77b69052e-4e8b846128bmr19763641cf.39.1760822218592; 
- Sat, 18 Oct 2025 14:16:58 -0700 (PDT)
-Received: from umbar.lan
- (2001-14ba-a0c3-3a00-264b-feff-fe8b-be8a.rev.dnainternet.fi.
- [2001:14ba:a0c3:3a00:264b:feff:fe8b:be8a])
- by smtp.gmail.com with ESMTPSA id
- 38308e7fff4ca-377a91f49basm9074441fa.16.2025.10.18.14.16.55
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 18 Oct 2025 14:16:56 -0700 (PDT)
-Date: Sun, 19 Oct 2025 00:16:53 +0300
-From: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
-To: federico@izzo.pro
-Cc: Rob Clark <robin.clark@oss.qualcomm.com>,
- Dmitry Baryshkov <lumag@kernel.org>,
- Abhinav Kumar <abhinav.kumar@linux.dev>,
- Jessica Zhang <jesszhan0024@gmail.com>, Sean Paul <sean@poorly.run>,
- Marijn Suijten <marijn.suijten@somainline.org>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org,
- freedreno@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- phone-devel@vger.kernel.org, ~postmarketos/upstreaming@lists.sr.ht,
- nicola@corna.info, David Heidelberg <david@ixit.cz>
-Subject: Re: [PATCH] drm/msm/dpu: Add DSPP GC driver to provide GAMMA_LUT DRM
- property
-Message-ID: <5gdqqsl3a33z6aj5yl2hgm5dulkdg4aqbb4k34yrfiyslzeg4j@s3bcgldjs4bp>
-References: <20251018-dpu-add-dspp-gc-driver-v1-1-ed0369214252@izzo.pro>
+Received: from iad-out-013.esa.us-east-1.outbound.mail-perimeter.amazon.com
+ (iad-out-013.esa.us-east-1.outbound.mail-perimeter.amazon.com
+ [34.198.218.121])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1C04210E219;
+ Sat, 18 Oct 2025 20:07:52 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=amazon.com; i=@amazon.com; q=dns/txt; s=amazoncorp2;
+ t=1760818072; x=1792354072;
+ h=from:to:cc:subject:date:message-id:references:
+ in-reply-to:content-transfer-encoding:mime-version;
+ bh=faTSuBMol+S8aiOV6ICfD5+EPjrZok0AzHQwNcEXMP8=;
+ b=kbf2gS1iJ9i+k4x+x7zl+2ec9AyOTjIgaQGEVp0bbeI0q0XS2euIUfJv
+ jqULpcvrZOVMpnJR13FgYceDTsDWxtLQgI53STSXcaywtgv4Wk+auddvx
+ tgtcWiV+ChFj5UQZpnI3FjDiTDEAJuRtxxecNlLm2isFfykPXenwrrsnm
+ MJ7fPhd1cyT600+pq0eDBliD2W8PbAHqQnGbRsXsR3CmwmwSw3K28EyGc
+ QyuVAS9aClCyXzurJ/N5OsdvJGlpp1zchuUQKAtaSHUm2L5zX+fQ1zLTq
+ 7vi9MAQ1YPEUqRfoaPS/CNekq+U4z8ulVn6iQjA5BdJw5cUMVNHxsXt6l g==;
+X-CSE-ConnectionGUID: giSIe6tITsSah9GLTxasFw==
+X-CSE-MsgGUID: /ziCnTclSdq9KqJpm3qZKw==
+X-IronPort-AV: E=Sophos;i="6.18,259,1751241600"; 
+   d="scan'208";a="4219831"
+Received: from ip-10-4-3-150.ec2.internal (HELO
+ smtpout.naws.us-east-1.prod.farcaster.email.amazon.dev) ([10.4.3.150])
+ by internal-iad-out-013.esa.us-east-1.outbound.mail-perimeter.amazon.com with
+ ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Oct 2025 20:07:47 +0000
+Received: from EX19MTAUEA002.ant.amazon.com [72.21.196.65:25918]
+ by smtpin.naws.us-east-1.prod.farcaster.email.amazon.dev [10.0.61.254:2525]
+ with esmtp (Farcaster)
+ id b8b370c3-14a3-4401-b9fc-de73221abf88; Sat, 18 Oct 2025 20:07:47 +0000 (UTC)
+X-Farcaster-Flow-ID: b8b370c3-14a3-4401-b9fc-de73221abf88
+Received: from EX19EXOUEC002.ant.amazon.com (10.252.135.179) by
+ EX19MTAUEA002.ant.amazon.com (10.252.134.9) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA) id 15.2.2562.20;
+ Sat, 18 Oct 2025 20:07:43 +0000
+Received: from EX19EXOUEC001.ant.amazon.com (10.252.135.173) by
+ EX19EXOUEC002.ant.amazon.com (10.252.135.179) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA) id 15.2.2562.20;
+ Sat, 18 Oct 2025 20:07:41 +0000
+Received: from BL2PR08CU001.outbound.protection.outlook.com (10.252.134.239)
+ by EX19EXOUEC001.ant.amazon.com (10.252.135.173) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA) id 15.2.2562.20
+ via Frontend Transport; Sat, 18 Oct 2025 20:07:41 +0000
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=dZ7mquB/NZm0MDovCQCZq0H9RRfMhiK60/biMQw/ewXkMDY4Cfx361IGKxbuvW8w3JiycO1/Jtw1yS6uMhBqIZMhWiWRiq+4Q1xVhASNeFJgKH9IEvmoH5T4kT1SmsGk9bCpW9M8ECVmFNrYJeleC30yJ92IoASJO4TICXjqNnVmCX/+P8ogJQ3oS5/r/zjglQ0nS1ZaaNmttxUSWNEi2rRx3pNaqWMkyiVq54WQmzbEbtx9IHHzH1zPSTaciXKgDp0o0VADhqUINgzQaDa6wBSbIJmGLZeEt7wPViAJcYr7vyXfw43ut+Mn5DTputqhcMo7FjLdYHsRo3QuDzL+nQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=faTSuBMol+S8aiOV6ICfD5+EPjrZok0AzHQwNcEXMP8=;
+ b=Y54Kgu/hi7IX+xgSwTP2r/NkBRMFa0L/WWm3WWGGKfKeakm1LBlG3sphEQDRTdKyHBmEah5/ErwPFQLuS9NKCSU/grZJHDgDGZNwgUTtLwGXWoa1A2hhvP+MmuIRAlaDfrnOlDZF1kwWsogifzC0UB9df5fh23JIeiTTwxOlpoALHAGwwkx0jnYEB2Nm23QvW1QUDO4PAqYSfT3eR7PSeC4VeQAn2Rlt9tmcLCS50lR6QSRGIwEd+sZWr7TYqomUXW0J/3cUbqbDUV00EYGl1oJZu3thbLxV2Szhgl1STo8r/Db82rHuY+av++5WHXyrEOuKozg33pVoMR9/B7A+2g==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amazon.com; dmarc=pass action=none header.from=amazon.com;
+ dkim=pass header.d=amazon.com; arc=none
+Received: from CH0PR18MB5433.namprd18.prod.outlook.com (2603:10b6:610:181::16)
+ by PH0PR18MB4558.namprd18.prod.outlook.com (2603:10b6:510:ac::13)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9228.14; Sat, 18 Oct
+ 2025 20:07:33 +0000
+Received: from CH0PR18MB5433.namprd18.prod.outlook.com
+ ([fe80::1423:ab6b:11cc:7b0]) by CH0PR18MB5433.namprd18.prod.outlook.com
+ ([fe80::1423:ab6b:11cc:7b0%7]) with mapi id 15.20.9228.014; Sat, 18 Oct 2025
+ 20:07:33 +0000
+From: "Farber, Eliav" <farbere@amazon.com>
+To: Greg KH <gregkh@linuxfoundation.org>
+CC: "stable@vger.kernel.org" <stable@vger.kernel.org>, "linux@armlinux.org.uk"
+ <linux@armlinux.org.uk>, "jdike@addtoit.com" <jdike@addtoit.com>,
+ "richard@nod.at" <richard@nod.at>, "anton.ivanov@cambridgegreys.com"
+ <anton.ivanov@cambridgegreys.com>, "dave.hansen@linux.intel.com"
+ <dave.hansen@linux.intel.com>, "luto@kernel.org" <luto@kernel.org>,
+ "peterz@infradead.org" <peterz@infradead.org>, "tglx@linutronix.de"
+ <tglx@linutronix.de>, "mingo@redhat.com" <mingo@redhat.com>, "bp@alien8.de"
+ <bp@alien8.de>, "x86@kernel.org" <x86@kernel.org>, "hpa@zytor.com"
+ <hpa@zytor.com>, "tony.luck@intel.com" <tony.luck@intel.com>,
+ "qiuxu.zhuo@intel.com" <qiuxu.zhuo@intel.com>, "mchehab@kernel.org"
+ <mchehab@kernel.org>, "james.morse@arm.com" <james.morse@arm.com>,
+ "rric@kernel.org" <rric@kernel.org>, "harry.wentland@amd.com"
+ <harry.wentland@amd.com>, "sunpeng.li@amd.com" <sunpeng.li@amd.com>,
+ "alexander.deucher@amd.com" <alexander.deucher@amd.com>,
+ "christian.koenig@amd.com" <christian.koenig@amd.com>, "airlied@linux.ie"
+ <airlied@linux.ie>, "daniel@ffwll.ch" <daniel@ffwll.ch>, "evan.quan@amd.com"
+ <evan.quan@amd.com>, "james.qian.wang@arm.com" <james.qian.wang@arm.com>,
+ "liviu.dudau@arm.com" <liviu.dudau@arm.com>, "mihail.atanassov@arm.com"
+ <mihail.atanassov@arm.com>, "brian.starkey@arm.com" <brian.starkey@arm.com>,
+ "maarten.lankhorst@linux.intel.com" <maarten.lankhorst@linux.intel.com>,
+ "mripard@kernel.org" <mripard@kernel.org>, "tzimmermann@suse.de"
+ <tzimmermann@suse.de>, "robdclark@gmail.com" <robdclark@gmail.com>,
+ "sean@poorly.run" <sean@poorly.run>, "jdelvare@suse.com" <jdelvare@suse.com>, 
+ "linux@roeck-us.net" <linux@roeck-us.net>, "fery@cypress.com"
+ <fery@cypress.com>, "dmitry.torokhov@gmail.com" <dmitry.torokhov@gmail.com>,
+ "agk@redhat.com" <agk@redhat.com>, "snitzer@redhat.com" <snitzer@redhat.com>, 
+ "dm-devel@redhat.com" <dm-devel@redhat.com>, "rajur@chelsio.com"
+ <rajur@chelsio.com>, "davem@davemloft.net" <davem@davemloft.net>,
+ "kuba@kernel.org" <kuba@kernel.org>, "peppe.cavallaro@st.com"
+ <peppe.cavallaro@st.com>, "alexandre.torgue@st.com"
+ <alexandre.torgue@st.com>, "joabreu@synopsys.com" <joabreu@synopsys.com>,
+ "mcoquelin.stm32@gmail.com" <mcoquelin.stm32@gmail.com>, "malattia@linux.it"
+ <malattia@linux.it>, "hdegoede@redhat.com" <hdegoede@redhat.com>,
+ "mgross@linux.intel.com" <mgross@linux.intel.com>,
+ "intel-linux-scu@intel.com" <intel-linux-scu@intel.com>,
+ "artur.paszkiewicz@intel.com" <artur.paszkiewicz@intel.com>,
+ "jejb@linux.ibm.com" <jejb@linux.ibm.com>, "martin.petersen@oracle.com"
+ <martin.petersen@oracle.com>, "sakari.ailus@linux.intel.com"
+ <sakari.ailus@linux.intel.com>, "clm@fb.com" <clm@fb.com>,
+ "josef@toxicpanda.com" <josef@toxicpanda.com>, "dsterba@suse.com"
+ <dsterba@suse.com>, "xiang@kernel.org" <xiang@kernel.org>, "chao@kernel.org"
+ <chao@kernel.org>, "jack@suse.com" <jack@suse.com>, "tytso@mit.edu"
+ <tytso@mit.edu>, "adilger.kernel@dilger.ca" <adilger.kernel@dilger.ca>,
+ "dushistov@mail.ru" <dushistov@mail.ru>, "luc.vanoostenryck@gmail.com"
+ <luc.vanoostenryck@gmail.com>, "rostedt@goodmis.org" <rostedt@goodmis.org>,
+ "pmladek@suse.com" <pmladek@suse.com>, "sergey.senozhatsky@gmail.com"
+ <sergey.senozhatsky@gmail.com>, "andriy.shevchenko@linux.intel.com"
+ <andriy.shevchenko@linux.intel.com>, "linux@rasmusvillemoes.dk"
+ <linux@rasmusvillemoes.dk>, "minchan@kernel.org" <minchan@kernel.org>,
+ "ngupta@vflare.org" <ngupta@vflare.org>, "akpm@linux-foundation.org"
+ <akpm@linux-foundation.org>, "kuznet@ms2.inr.ac.ru" <kuznet@ms2.inr.ac.ru>,
+ "yoshfuji@linux-ipv6.org" <yoshfuji@linux-ipv6.org>, "pablo@netfilter.org"
+ <pablo@netfilter.org>, "kadlec@netfilter.org" <kadlec@netfilter.org>,
+ "fw@strlen.de" <fw@strlen.de>, "jmaloy@redhat.com" <jmaloy@redhat.com>,
+ "ying.xue@windriver.com" <ying.xue@windriver.com>, "willy@infradead.org"
+ <willy@infradead.org>, "sashal@kernel.org" <sashal@kernel.org>,
+ "ruanjinjie@huawei.com" <ruanjinjie@huawei.com>, "David.Laight@aculab.com"
+ <David.Laight@aculab.com>, "herve.codina@bootlin.com"
+ <herve.codina@bootlin.com>, "Jason@zx2c4.com" <Jason@zx2c4.com>,
+ "keescook@chromium.org" <keescook@chromium.org>, "kbusch@kernel.org"
+ <kbusch@kernel.org>, "nathan@kernel.org" <nathan@kernel.org>,
+ "bvanassche@acm.org" <bvanassche@acm.org>, "ndesaulniers@google.com"
+ <ndesaulniers@google.com>, "linux-arm-kernel@lists.infradead.org"
+ <linux-arm-kernel@lists.infradead.org>, "linux-kernel@vger.kernel.org"
+ <linux-kernel@vger.kernel.org>, "linux-um@lists.infradead.org"
+ <linux-um@lists.infradead.org>, "linux-edac@vger.kernel.org"
+ <linux-edac@vger.kernel.org>, "amd-gfx@lists.freedesktop.org"
+ <amd-gfx@lists.freedesktop.org>, "dri-devel@lists.freedesktop.org"
+ <dri-devel@lists.freedesktop.org>, "linux-arm-msm@vger.kernel.org"
+ <linux-arm-msm@vger.kernel.org>, "freedreno@lists.freedesktop.org"
+ <freedreno@lists.freedesktop.org>, "linux-hwmon@vger.kernel.org"
+ <linux-hwmon@vger.kernel.org>, "linux-input@vger.kernel.org"
+ <linux-input@vger.kernel.org>, "linux-media@vger.kernel.org"
+ <linux-media@vger.kernel.org>, "netdev@vger.kernel.org"
+ <netdev@vger.kernel.org>, "linux-stm32@st-md-mailman.stormreply.com"
+ <linux-stm32@st-md-mailman.stormreply.com>,
+ "platform-driver-x86@vger.kernel.org" <platform-driver-x86@vger.kernel.org>,
+ "linux-scsi@vger.kernel.org" <linux-scsi@vger.kernel.org>,
+ "linux-staging@lists.linux.dev" <linux-staging@lists.linux.dev>,
+ "linux-btrfs@vger.kernel.org" <linux-btrfs@vger.kernel.org>,
+ "linux-erofs@lists.ozlabs.org" <linux-erofs@lists.ozlabs.org>,
+ "linux-ext4@vger.kernel.org" <linux-ext4@vger.kernel.org>,
+ "linux-sparse@vger.kernel.org" <linux-sparse@vger.kernel.org>,
+ "linux-mm@kvack.org" <linux-mm@kvack.org>, "netfilter-devel@vger.kernel.org"
+ <netfilter-devel@vger.kernel.org>, "coreteam@netfilter.org"
+ <coreteam@netfilter.org>, "tipc-discussion@lists.sourceforge.net"
+ <tipc-discussion@lists.sourceforge.net>, "Farber, Eliav" <farbere@amazon.com>
+Subject: RE: [PATCH v2 00/27 5.10.y] Backport minmax.h updates from v6.17-rc7
+Thread-Topic: [PATCH v2 00/27 5.10.y] Backport minmax.h updates from v6.17-rc7
+Thread-Index: AQHcQGrWt9KuxcR5vUiwU3AnN2A8Rw==
+Date: Sat, 18 Oct 2025 20:07:32 +0000
+Message-ID: <CH0PR18MB5433BB2E99395D2AC8B0E0FBC6F7A@CH0PR18MB5433.namprd18.prod.outlook.com>
+References: <20251017090519.46992-1-farbere@amazon.com>
+ <2025101704-rumble-chatroom-60b5@gregkh>
+In-Reply-To: <2025101704-rumble-chatroom-60b5@gregkh>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=amazon.com;
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: CH0PR18MB5433:EE_|PH0PR18MB4558:EE_
+x-ms-office365-filtering-correlation-id: f5d260fd-b8cb-46ea-5ff8-08de0e81f93a
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;
+ ARA:13230040|1800799024|366016|7416014|376014|38070700021; 
+x-microsoft-antispam-message-info: =?utf-8?B?WVNPOVJSUmdZU1NwaGlDMDRQbXNCdE51WnRZZGN1VHA3MlVSeUxTcWtMV2hO?=
+ =?utf-8?B?Y0ZMYVRtaGhnS0IzUk9mMFd2MWpGVTAxY1dRTWV1bHZIK2JGTVRVQS9LSzFn?=
+ =?utf-8?B?anE5YzVrWjVvaEdCSjExTDNBZnB1WUVwSVhFeEhJNVZXVWVWL1QrYk1EMmJw?=
+ =?utf-8?B?dFBybTVhSmFEWkovWTdzZ0JYcWFQb3VhbnlqRU1oQ2RrOTZuU2tSZldKNGNs?=
+ =?utf-8?B?c1FTeklkQnJ4dG1kM1hYMkNQVnNhdXF6elFnQkViZldFWmhITTdGZWRmS2Q4?=
+ =?utf-8?B?Nk9sbVJLSSs5c1liOVUzTjN6MGlpOXo4RGtDUjlESUl3eVRySFA5dWFVWXhN?=
+ =?utf-8?B?K01KOElma1hrT1BpSzZuNnYveUNwYXZZdmFEc3ZQTTR2alJ1OGVTNlN3QVhu?=
+ =?utf-8?B?WmZYT1RiOWlHbzgrdmlvWC90RU51N3hMbzJUeTUzcUpkTHM5UzJncUVCOXEx?=
+ =?utf-8?B?OThGMTV0U0xETWptOS9Oa0h4d2RTdzJtK2xuWEUxWUZBMjF5UnBsZmdYU2tv?=
+ =?utf-8?B?YWpreSttNk8xV1hxTU9NY1hmQWFNZ2pwTFRrQXk4OGl3NzkvK1JvWEt0b0pk?=
+ =?utf-8?B?Uk82emVEV1JLaXh0OEh2QkVoSzFsTE9kTFk5cUdwc3ljTjFpK1p5V2dOdFBK?=
+ =?utf-8?B?YjNtSE0xTU5iTXBqd3hsczJoWDRqVy8zS1hOK3JydWJ1UENSYkFuZVdaS3Bs?=
+ =?utf-8?B?ZjNOYnI5dkNMc25WYjMwdUZhMm4raVNQTGxXb3VBaGZpOWVuNXllcEE5Y1J0?=
+ =?utf-8?B?emU4Wkp6bmNXMVhEcWRzaGdWTm9WMmdFMzBXbDRRZ2ZaTkloZVhvVlhoTWxY?=
+ =?utf-8?B?cWJhOU4vZnpkbzR5OFYybFBIMEY4UDFiME1HVFhabC9CWkNDYm5vQm94VFZW?=
+ =?utf-8?B?djhqYTJHdjdGSXd2Tys3dDBEbUFHOU8rZEVEcXM5SHpRMjR5RjVxZFVQNnFC?=
+ =?utf-8?B?bmxSTEJrVE1ybEcvMkRLbWc1QS9uOC9peWdUOENLb0xFUC9xNms0aC9aRURK?=
+ =?utf-8?B?YlB5c1VhOEZ2WkpoWUtQdFltQVZoNXN6c0pJVjVFbE1lNjAvaDRmUTFzK0tB?=
+ =?utf-8?B?dEc2TVE2ckczZGhnZVlLbVFXNFRsUk55QmlIbmVGdENnQmttWjRra2dlMFZL?=
+ =?utf-8?B?OTBuc2JtMnEzcmlzdUUyYXkvM0hpVHJ4czYxdmdxWFB6alhENFpGbEs3Qll3?=
+ =?utf-8?B?YTF4b3lBS3dYQTZsR1lybHREZU45UVRmdXBndFBZUVdEbzJvWTdTcGJEWldx?=
+ =?utf-8?B?dllZT1NTSXFYMEZ3ZGh6TEIvRDZNbDRWT2xxUThHZHEvSllFdjk3bElVQUxV?=
+ =?utf-8?B?TGN2eEEwZzVnM3lMOGJGNjlxdmJBRS9zMzg4U1hwTjJqR05aZnRrdTlzSzM0?=
+ =?utf-8?B?WTBZRGovOTJYZ296RDdTUXNzenhaMzdBcWE0Z0xPZE84UFpyRUVISUgrdFNR?=
+ =?utf-8?B?SGM4TmtMeE5nZXB6TDN1RUVUaERGYTdQc3dPS1pIREV6ZjhYNytzOUg3eHdz?=
+ =?utf-8?B?Mk1lWWRXNmI4UUlRYVBrTGF3eEpRNXkxQ3o2RkJPemhobVllTVZ4Ukp0RjVW?=
+ =?utf-8?B?UG1uV3QvMzBkOFZlMkJ6M2tvalJFSmpKcTQvMWdEb0ZKWTIwLzdRRzRyUE1U?=
+ =?utf-8?B?UmpHYVVTclNXeGcvU0VKL0tlUzA0a3lwdWM4MTFFT2lMbHR2cmpDcEcwREhT?=
+ =?utf-8?B?eDdkSktnd1ZHZkw3cE1KS2hzellQeThwbjBGMjNyWHRwb1dNcUZ0eDJPTU9l?=
+ =?utf-8?B?aUtKQmxvdGtzeFc2enR3S1cvanJHZzZmTE04VUJnd3dGNTIvWG0za3FuekFI?=
+ =?utf-8?B?bU56d2ZUTnBDOVZQM3ArUzdWNU1rV25YN3VFY2hSNEkvb2NOdlg2MFo5a3c4?=
+ =?utf-8?B?WE80VVlmQ0dlait1djVpeXk2ajY3UjZ1ajg4S2JaNjIzVFVmZmtqcnhZYkpT?=
+ =?utf-8?B?QktycVRHVlM5UFg5M3BaeFFpQVB2OUxyMDVYR3A3Q2xyL2R1a0tLRy9tRVlt?=
+ =?utf-8?B?TFdUS3VybkNBPT0=?=
+x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:CH0PR18MB5433.namprd18.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230040)(1800799024)(366016)(7416014)(376014)(38070700021); DIR:OUT;
+ SFP:1101; 
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: =?utf-8?B?ZWVhdGxieG1obWpVczZVUEVPMm93cEtvVDhoaHQ1SnZNcTFyZlI5cXhVcFJT?=
+ =?utf-8?B?Rk15WjBTSFRkbVEvQVRvR3N3VTJFbi9iQkJXVFA2bGNPVUo3MGc4Y3U4V0Js?=
+ =?utf-8?B?MTZtdW92N2J3Tm1ubmx1OXV4RjBzYU1HUDZEK3RqeGdMbDFtNEoyYzdLVFNw?=
+ =?utf-8?B?TEZIWFphVE11UXJKN25EMHdMMysyL3ZoYWw5aU5uL2RRdDY4eWlPdEF6aGN2?=
+ =?utf-8?B?OEZjQVgxekFwNkk2aEpmQTJ1QWcvWTZia2NEdDdIUHlnMkZONXIxQTAvY3Zz?=
+ =?utf-8?B?aXFEODFLcHZkcnpSK0NEd3JQZ0F0UmFlL0hzWWtSOExBaDBzQUFNaFYyV3VL?=
+ =?utf-8?B?ZE9LS0dac2t1ekFVTVNYMkl2TTJKWXdpb0ZzbHphUVd4NVUwQTBQOEdDWTlF?=
+ =?utf-8?B?cTAzUktCaWVyQjFvRGhhcUc5NlRRMmNzYTg3UDJEKytKU3FVRXBaTk1kRC9N?=
+ =?utf-8?B?NzFpN2ZJeGxPMTQwZWkwdWJ1VFZvY2V4Vm4ybDJ5SnlyYmVNRTZ4WkVlcWlG?=
+ =?utf-8?B?K3BDYjF5V1NFQTg3L0hra0ZzVWVWSHdWRXhpNDhHdHdZUjZvbVh1TVJNYVlS?=
+ =?utf-8?B?d3o5REdrUHZoZjVlT1VJck1haWlnK0ZIb3dxaEhjaC9DZzVxTytQWmNEWGl1?=
+ =?utf-8?B?T1ZkNFpLZitmb2FxRjZxdTB3K25JLzFmc3RJTUE4bDhHdkZvOFJLd2k2NjJW?=
+ =?utf-8?B?VE9uTEhmdERLRllIR3VQR3RweFVHR2o5Y0tLenlTMTIxSlloVEt0SGpFcFZS?=
+ =?utf-8?B?S2QveVk3amJmTjg3S3dyeUN2Vk5kWlB2NkJIOHRQY1Q0d21RMFpidndCbDNH?=
+ =?utf-8?B?bGc4Nnh4SWRiY1ZQWFM2TmcvN0ZQeFJCN2hmbURveGJOUS90Qis3Z0htNkpx?=
+ =?utf-8?B?dkE2WWpjOFJMOGlYUkpjaTFidWZiK1N4dkJMcGRDMklNTHU1L3p6VGpaUG5Y?=
+ =?utf-8?B?TmVXVEtiTnlDRG9nT3BtMzhZMW9mdTJYdWtLbjJ0ZDM0anlZUEprQ1VoaDRF?=
+ =?utf-8?B?OGJabXJmcXFYbTJYOEJNRWdFZ1c0UGN2dElVNFN3NU5YUC83bUlOZXN5RWJR?=
+ =?utf-8?B?QmUvVHZOdEluY3hOalZRUDczMkZaRGh5MFZtS2Vyd0hENHRnbHI3SVhFYUFV?=
+ =?utf-8?B?UlhzMHVxdmU3dWVWUnUzTlVnSlpLSE1HTzRiVEJCMDJ3OGdLM096OWlja0hv?=
+ =?utf-8?B?TTZETC9GWjB5aWJBN2paNEhZOHZBNVY4Nk1IaU4rUDdMQmd3Ym9tOEVtU1ZZ?=
+ =?utf-8?B?OEFLc01BRW9JSjh4NjF3UW14ZEVNVExaQVl0Nkx2UXNPYVdrMlJvYWhDYkZw?=
+ =?utf-8?B?ZjNkMGVZMjNVcUxnQUREV20vM1IrNndEcElCZEc5N2o0dUZ2Y3hIRmNEQnVx?=
+ =?utf-8?B?OXpCcjN0bGZIKzAvNTZoRE9XZldTdlk2WE9TTEExc2JXU0syVmlzaHBvY1Zs?=
+ =?utf-8?B?MEFHWTg0M3REbTlnWUN3dVQ2eDBVaVNpNVVBaHBEb0VmUE56cHZIblQ3NEtu?=
+ =?utf-8?B?RHJpUDVNNEUxRUg0bTBFQ1RDcTlmV21HdXd3aUxmZTczRFJ1WCtxcyt6Q2Fy?=
+ =?utf-8?B?cHB5RDIrV2ZDRGozcGVwVlp4UURzbmwzenNoeFlZdmlJQWRDdWR4TnEyU1pR?=
+ =?utf-8?B?ckh5ajV1REhiTjBEM05DZzR4MlFVOGpIOWFvbFpSdWNDRkJubHdjQTVsaFkx?=
+ =?utf-8?B?aERneHpmMzliWTJDQkZCM3FTU3NqcGlVZSttdTM4MHk2djltWkRwUWdVRHJj?=
+ =?utf-8?B?TFVqMmhUTGFCSDh2YkcvcnMxZ0ZYNWxNbnR5RDhqQnJad0Y5NG00UWo1WXc3?=
+ =?utf-8?B?aS9QRzF3a2RPUHFoS1gvSWUrcGhZNzVDR1JiVGhFcUh2MFREbUlGbG1Iclhk?=
+ =?utf-8?B?d1hoUFRMZUx5VTlDbGhLZ3dCaWVtUkFzQ0kwaHpDSnNFZURiQUhVZXlxdEp4?=
+ =?utf-8?B?NXhlRjRJSW90REVmTUwweEo1RHpYdzNyM0VxY1I3NmJwSU9BZVdyU0NhSjh2?=
+ =?utf-8?B?N0hYZEJ5bkFkQWtwak0rSnJaQmUxYmtuQ1kvTmZWdDhTWlJlS3o3OGkyUUUr?=
+ =?utf-8?B?bWltY243dDNBMVhEUzJ1NVJnNzhSZ3J4VkFkMXljakxwYUNjT3BzbmdGMEFY?=
+ =?utf-8?Q?FYN4=3D?=
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20251018-dpu-add-dspp-gc-driver-v1-1-ed0369214252@izzo.pro>
-X-Proofpoint-ORIG-GUID: 5cTCyzSR8UJY2nHnoPxQspviLd8gvGKX
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUxMDE4MDAyNyBTYWx0ZWRfX20s4TjK3SBv0
- tsG8l0/ijBZCVuZftRpJeD8eXcYVnfJAbDgfB7+6aKmHvVfeEx8eSlK+8Qr2m2ra/CkFlPKQ03X
- 4TbbpH+AZgeGivwNDrSwFv71BZf+OgaGx2oxOdD4PRJeno6dnNFpu667WwTPDqSpK+tPX0aZWcb
- e+X9Fs+1BFX5Sxd3lkiKFTO56dLhb6NHbl6tmCWxe1xTuOs3GFW5e/H9bI37ygFfojuhwsHgzkg
- BqpXhEHA0vHnAMJfi7s6Xrhll4kBP6ESEd+PMFKJsBwtDJw/0vyNyqSPVn9IyMvRYg2ESIOoA1g
- nwyDXdesM05qN14i7CPA5kxABJ7+2Qxi+fn+SuQxrXGeLkTXgGm9Kldw7SMr4QV7d7mWLpczo94
- gEhuijAPD12Bb3Hw3FKdGuslPb1aVw==
-X-Proofpoint-GUID: 5cTCyzSR8UJY2nHnoPxQspviLd8gvGKX
-X-Authority-Analysis: v=2.4 cv=EYjFgfmC c=1 sm=1 tr=0 ts=68f403cc cx=c_pps
- a=7E5Bxpl4vBhpaufnMqZlrw==:117 a=xqWC_Br6kY4A:10 a=kj9zAlcOel0A:10
- a=x6icFKpwvdMA:10 a=VkNPw1HP01LnGYTKEx00:22 a=p0WdMEafAAAA:8
- a=A8Lk8QbXsLJbOl2LSk4A:9 a=CjuIK1q_8ugA:10 a=pJ04lnu7RYOZP9TFuWaZ:22
- a=poXaRoVlC6wW9_mwW8W4:22 a=pHzHmUro8NiASowvMSCR:22 a=n87TN5wuljxrRezIQYnT:22
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.9,FMLib:17.12.80.40
- definitions=2025-10-18_07,2025-10-13_01,2025-03-28_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- bulkscore=0 clxscore=1015 spamscore=0 malwarescore=0 lowpriorityscore=0
- priorityscore=1501 impostorscore=0 phishscore=0 adultscore=0 suspectscore=0
- classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.19.0-2510020000 definitions=main-2510180027
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: CH0PR18MB5433.namprd18.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: f5d260fd-b8cb-46ea-5ff8-08de0e81f93a
+X-MS-Exchange-CrossTenant-originalarrivaltime: 18 Oct 2025 20:07:32.8050 (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 5280104a-472d-4538-9ccf-1e1d0efe8b1b
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: g+ny1zt614LyeAmtN+QMZX+GivZb18A4g+iLjEgNWGUZ+g/wjXRYpBLk6Oob+KdDOZBbiA6OODP6Limctphz8w==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH0PR18MB4558
+X-OriginatorOrg: amazon.com
+X-Mailman-Approved-At: Sat, 18 Oct 2025 22:41:01 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -132,419 +287,144 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Sat, Oct 18, 2025 at 03:18:29PM +0200, Federico Amedeo Izzo via B4 Relay wrote:
-> From: Federico Amedeo Izzo <federico@izzo.pro>
-> 
-> This patch adds support for DSPP GC block in DPU driver for Qualcomm SoCs.
-
-Please see Documentation/processes/submitting-patches.rst. "This patch"
-
-> The driver exposes the GAMMA_LUT DRM property, which is needed to enable
-> night light and basic screen color calibration.
-> 
-> I used LineageOS downstream kernel as a reference and found the LUT
-> format by trial-and-error on OnePlus 6.
-
-Nice!
-
-> 
-> Tested on oneplus-enchilada (sdm845-mainline 6.16-dev) and xiaomi-tissot
-> (msm8953-mainline 6.12/main).
-> 
-> Signed-off-by: Federico Amedeo Izzo <federico@izzo.pro>
-> Tested-by: David Heidelberg <david@ixit.cz>  # Pixel 3 (next-20251018)
-> ---
-> DRM GAMMA_LUT support was missing on sdm845 and other Qualcomm SoCs using
-> DPU for CRTC. This is needed in userspace to enable features like Night
-> Light or basic color calibration.
-> 
-> I wrote this driver to enable Night Light on OnePlus 6, and after the
-> driver was working I found out it applies to the 29 different Qualcomm SoCs
-> that use the DPU display engine, including X1E for laptops.
-> 
-> I used the LineageOS downstream kernel as reference and found the correct 
-> LUT format by trial-and-error on OnePlus 6.
-> 
-> This was my first Linux driver and it's been a great learning
-> experience.
-> 
-> The patch was reviewed by postmarketOS contributors here: 
-> https://gitlab.com/sdm845-mainline/linux/-/merge_requests/137
-> During review the patch was tested successfully on hamoa (X1E).
-> ---
->  drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c       | 90 ++++++++++++++++++++++----
->  drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c |  4 ++
->  drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.h |  4 ++
->  drivers/gpu/drm/msm/disp/dpu1/dpu_hw_ctl.c     |  3 +
->  drivers/gpu/drm/msm/disp/dpu1/dpu_hw_dspp.c    | 56 ++++++++++++++++
->  drivers/gpu/drm/msm/disp/dpu1/dpu_hw_dspp.h    | 26 ++++++++
->  6 files changed, 169 insertions(+), 14 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c
-> index 4b970a59deaf..f2c97c4ef0af 100644
-> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c
-> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c
-> @@ -812,12 +812,44 @@ static void _dpu_crtc_get_pcc_coeff(struct drm_crtc_state *state,
->  	cfg->b.b = CONVERT_S3_15(ctm->matrix[8]);
->  }
->  
-> +static void _dpu_crtc_get_gc_lut(struct drm_crtc_state *state,
-> +		struct dpu_hw_gc_lut *gc_lut)
-> +{
-> +	struct drm_color_lut *lut;
-> +	int i;
-> +	u32 val_even, val_odd;
-> +
-> +	memset(gc_lut, 0, sizeof(struct dpu_hw_gc_lut));
-> +
-> +	lut = (struct drm_color_lut *)state->gamma_lut->data;
-> +
-> +	if (!lut)
-> +		return;
-> +
-> +	/* Pack 1024 10-bit entries in 512 32-bit registers */
-> +	for (i = 0; i < PGC_TBL_LEN; i++) {
-> +		val_even = drm_color_lut_extract(lut[i * 2].green, 10);
-> +		val_odd = drm_color_lut_extract(lut[i * 2 + 1].green, 10);
-> +		gc_lut->c0[i] = val_even | (val_odd << 16);
-> +		val_even = drm_color_lut_extract(lut[i * 2].blue, 10);
-> +		val_odd = drm_color_lut_extract(lut[i * 2 + 1].blue, 10);
-> +		gc_lut->c1[i] = val_even | (val_odd << 16);
-> +		val_even = drm_color_lut_extract(lut[i * 2].red, 10);
-> +		val_odd = drm_color_lut_extract(lut[i * 2 + 1].red, 10);
-> +		gc_lut->c2[i] = val_even | (val_odd << 16);
-> +	}
-> +
-> +	/* Disable 8-bit rounding mode */
-> +	gc_lut->flags = 0;
-> +}
-> +
->  static void _dpu_crtc_setup_cp_blocks(struct drm_crtc *crtc)
->  {
->  	struct drm_crtc_state *state = crtc->state;
->  	struct dpu_crtc_state *cstate = to_dpu_crtc_state(crtc->state);
->  	struct dpu_crtc_mixer *mixer = cstate->mixers;
->  	struct dpu_hw_pcc_cfg cfg;
-> +	struct dpu_hw_gc_lut *gc_lut;
->  	struct dpu_hw_ctl *ctl;
->  	struct dpu_hw_dspp *dspp;
->  	int i;
-> @@ -830,19 +862,40 @@ static void _dpu_crtc_setup_cp_blocks(struct drm_crtc *crtc)
->  		ctl = mixer[i].lm_ctl;
->  		dspp = mixer[i].hw_dspp;
->  
-> -		if (!dspp || !dspp->ops.setup_pcc)
-> +		if (!dspp)
->  			continue;
->  
-> -		if (!state->ctm) {
-> -			dspp->ops.setup_pcc(dspp, NULL);
-> -		} else {
-> -			_dpu_crtc_get_pcc_coeff(state, &cfg);
-> -			dspp->ops.setup_pcc(dspp, &cfg);
-> +		if (dspp->ops.setup_pcc) {
-> +			if (!state->ctm) {
-> +				dspp->ops.setup_pcc(dspp, NULL);
-> +			} else {
-> +				_dpu_crtc_get_pcc_coeff(state, &cfg);
-> +				dspp->ops.setup_pcc(dspp, &cfg);
-> +			}
-> +
-> +			/* stage config flush mask */
-> +			ctl->ops.update_pending_flush_dspp(ctl,
-> +				mixer[i].hw_dspp->idx, DPU_DSPP_PCC);
->  		}
->  
-> -		/* stage config flush mask */
-> -		ctl->ops.update_pending_flush_dspp(ctl,
-> -			mixer[i].hw_dspp->idx, DPU_DSPP_PCC);
-> +		if (dspp->ops.setup_gc) {
-> +			if (!state->gamma_lut) {
-> +				dspp->ops.setup_gc(dspp, NULL);
-> +			} else {
-> +				gc_lut = kzalloc(sizeof(*gc_lut), GFP_KERNEL);
-> +				if (!gc_lut) {
-> +					DRM_ERROR("failed to allocate gc_lut\n");
-> +					continue;
-> +				}
-> +				_dpu_crtc_get_gc_lut(state, gc_lut);
-> +				dspp->ops.setup_gc(dspp, gc_lut);
-> +				kfree(gc_lut);
-> +			}
-> +
-> +			/* stage config flush mask */
-> +			ctl->ops.update_pending_flush_dspp(ctl,
-> +				mixer[i].hw_dspp->idx, DPU_DSPP_GC);
-> +		}
->  	}
->  }
->  
-> @@ -1340,7 +1393,7 @@ static struct msm_display_topology dpu_crtc_get_topology(
->  	 *
->  	 * If DSC is enabled, use 2 LMs for 2:2:1 topology
->  	 *
-> -	 * Add dspps to the reservation requirements if ctm is requested
-> +	 * Add dspps to the reservation requirements if ctm or gamma_lut are requested
->  	 *
->  	 * Only hardcode num_lm to 2 for cases where num_intf == 2 and CWB is not
->  	 * enabled. This is because in cases where CWB is enabled, num_intf will
-> @@ -1359,7 +1412,7 @@ static struct msm_display_topology dpu_crtc_get_topology(
->  	else
->  		topology.num_lm = 1;
->  
-> -	if (crtc_state->ctm)
-> +	if (crtc_state->ctm || crtc_state->gamma_lut)
->  		topology.num_dspp = topology.num_lm;
->  
->  	return topology;
-> @@ -1471,7 +1524,8 @@ static int dpu_crtc_atomic_check(struct drm_crtc *crtc,
->  	bool needs_dirtyfb = dpu_crtc_needs_dirtyfb(crtc_state);
->  
->  	/* don't reallocate resources if only ACTIVE has beeen changed */
-> -	if (crtc_state->mode_changed || crtc_state->connectors_changed) {
-> +	if (crtc_state->mode_changed || crtc_state->connectors_changed ||
-> +		crtc_state->color_mgmt_changed) {
-
-Please align the text to the same column (so that crtc_state are one
-under another one.
-
->  		rc = dpu_crtc_assign_resources(crtc, crtc_state);
->  		if (rc < 0)
->  			return rc;
-> @@ -1831,8 +1885,16 @@ struct drm_crtc *dpu_crtc_init(struct drm_device *dev, struct drm_plane *plane,
->  
->  	drm_crtc_helper_add(crtc, &dpu_crtc_helper_funcs);
->  
-> -	if (dpu_kms->catalog->dspp_count)
-> -		drm_crtc_enable_color_mgmt(crtc, 0, true, 0);
-> +	if (dpu_kms->catalog->dspp_count) {
-> +		const struct dpu_dspp_cfg *dspp = &dpu_kms->catalog->dspp[0];
-> +
-> +		if (dspp->sblk->gc.base) {
-> +			drm_mode_crtc_set_gamma_size(crtc, DPU_GAMMA_LUT_SIZE);
-> +			drm_crtc_enable_color_mgmt(crtc, 0, true, DPU_GAMMA_LUT_SIZE);
-> +		} else {
-> +			drm_crtc_enable_color_mgmt(crtc, 0, true, 0);
-> +		}
-> +	}
->  
->  	/* save user friendly CRTC name for later */
->  	snprintf(dpu_crtc->name, DPU_CRTC_NAME_SIZE, "crtc%u", crtc->base.id);
-> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c
-> index 6641455c4ec6..8a4b9fc3ac84 100644
-> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c
-> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c
-> @@ -382,11 +382,15 @@ static const struct dpu_lm_sub_blks qcm2290_lm_sblk = {
->  static const struct dpu_dspp_sub_blks msm8998_dspp_sblk = {
->  	.pcc = {.name = "pcc", .base = 0x1700,
->  		.len = 0x90, .version = 0x10007},
-> +	.gc = {.name = "gc", .base = 0x17c0,
-> +		.len = 0x90, .version = 0x10007},
-
-.len = 0x40
-
->  };
->  
->  static const struct dpu_dspp_sub_blks sdm845_dspp_sblk = {
->  	.pcc = {.name = "pcc", .base = 0x1700,
->  		.len = 0x90, .version = 0x40000},
-> +	.gc = {.name = "gc", .base = 0x17c0,
-> +		.len = 0x90, .version = 0x40000},
-
-The version is incorrect, see sdm845-sde.dtsi
-
-.len = 0x40
-
->  };
->  
->  static const struct dpu_dspp_sub_blks sm8750_dspp_sblk = {
-> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.h b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.h
-> index f0768f54e9b3..3ea67c1cf5c0 100644
-> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.h
-> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.h
-> @@ -77,9 +77,11 @@ enum {
->  /**
->   * DSPP sub-blocks
->   * @DPU_DSPP_PCC             Panel color correction block
-> + * @DPU_DSPP_GC              Gamma correction block
->   */
->  enum {
->  	DPU_DSPP_PCC = 0x1,
-> +	DPU_DSPP_GC,
->  	DPU_DSPP_MAX
->  };
->  
-> @@ -314,9 +316,11 @@ struct dpu_lm_sub_blks {
->  /**
->   * struct dpu_dspp_sub_blks: Information of DSPP block
->   * @pcc: pixel color correction block
-> + * @gc: gamma correction block
->   */
->  struct dpu_dspp_sub_blks {
->  	struct dpu_pp_blk pcc;
-> +	struct dpu_pp_blk gc;
->  };
->  
->  struct dpu_pingpong_sub_blks {
-> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_ctl.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_ctl.c
-> index ac834db2e4c1..36a497f1d6c1 100644
-> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_ctl.c
-> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_ctl.c
-> @@ -399,6 +399,9 @@ static void dpu_hw_ctl_update_pending_flush_dspp_sub_blocks(
->  	case DPU_DSPP_PCC:
->  		ctx->pending_dspp_flush_mask[dspp - DSPP_0] |= BIT(4);
->  		break;
-> +	case DPU_DSPP_GC:
-> +		ctx->pending_dspp_flush_mask[dspp - DSPP_0] |= BIT(5);
-> +		break;
->  	default:
->  		return;
->  	}
-> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_dspp.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_dspp.c
-> index 54b20faa0b69..7bf572379890 100644
-> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_dspp.c
-> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_dspp.c
-> @@ -24,6 +24,18 @@
->  #define PCC_BLUE_G_OFF 0x24
->  #define PCC_BLUE_B_OFF 0x30
->  
-> +/* DSPP_GC */
-> +#define GC_EN BIT(0)
-> +#define GC_DIS 0
-> +#define GC_8B_ROUND_EN BIT(1)
-> +#define GC_LUT_SWAP_OFF 0x1c
-> +#define GC_C0_OFF 0x4
-> +#define GC_C1_OFF 0xC
-
-lowercase the hex
-
-> +#define GC_C2_OFF 0x14
-> +#define GC_C0_INDEX_OFF 0x8
-> +#define GC_C1_INDEX_OFF 0x10
-> +#define GC_C2_INDEX_OFF 0x18
-> +
->  static void dpu_setup_dspp_pcc(struct dpu_hw_dspp *ctx,
->  		struct dpu_hw_pcc_cfg *cfg)
->  {
-> @@ -63,6 +75,48 @@ static void dpu_setup_dspp_pcc(struct dpu_hw_dspp *ctx,
->  	DPU_REG_WRITE(&ctx->hw, base, PCC_EN);
->  }
->  
-> +static void dpu_setup_dspp_gc(struct dpu_hw_dspp *ctx,
-> +		struct dpu_hw_gc_lut *gc_lut)
-> +{
-> +	int i = 0;
-> +	u32 base, reg;
-> +
-> +	if (!ctx) {
-> +		DRM_ERROR("invalid ctx %pK\n", ctx);
-> +		return;
-> +	}
-> +
-> +	base = ctx->cap->sblk->gc.base;
-> +
-> +	if (!base) {
-> +		DRM_ERROR("invalid ctx %pK gc base 0x%x\n", ctx, base);
-> +		return;
-> +	}
-> +
-> +	if (!gc_lut) {
-> +		DRM_DEBUG_DRIVER("disable gc feature\n");
-> +		DPU_REG_WRITE(&ctx->hw, base, GC_DIS);
-> +		return;
-> +	}
-> +
-> +	reg = 0;
-> +	DPU_REG_WRITE(&ctx->hw, base + GC_C0_INDEX_OFF, reg);
-> +	DPU_REG_WRITE(&ctx->hw, base + GC_C1_INDEX_OFF, reg);
-> +	DPU_REG_WRITE(&ctx->hw, base + GC_C2_INDEX_OFF, reg);
-> +
-> +	for (i = 0; i < PGC_TBL_LEN; i++) {
-> +		DPU_REG_WRITE(&ctx->hw, base + GC_C0_OFF, gc_lut->c0[i]);
-> +		DPU_REG_WRITE(&ctx->hw, base + GC_C1_OFF, gc_lut->c1[i]);
-> +		DPU_REG_WRITE(&ctx->hw, base + GC_C2_OFF, gc_lut->c2[i]);
-> +	}
-> +
-> +	reg = BIT(0);
-> +	DPU_REG_WRITE(&ctx->hw, base + GC_LUT_SWAP_OFF, reg);
-
-inline reg, pleas
-
-> +
-> +	reg = GC_EN | ((gc_lut->flags & PGC_8B_ROUND) ? GC_8B_ROUND_EN : 0);
-> +	DPU_REG_WRITE(&ctx->hw, base, reg);
-> +}
-> +
->  /**
->   * dpu_hw_dspp_init() - Initializes the DSPP hw driver object.
->   * should be called once before accessing every DSPP.
-> @@ -92,6 +146,8 @@ struct dpu_hw_dspp *dpu_hw_dspp_init(struct drm_device *dev,
->  	c->cap = cfg;
->  	if (c->cap->sblk->pcc.base)
->  		c->ops.setup_pcc = dpu_setup_dspp_pcc;
-> +	if (c->cap->sblk->gc.base)
-> +		c->ops.setup_gc = dpu_setup_dspp_gc;
->  
->  	return c;
->  }
-> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_dspp.h b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_dspp.h
-> index 45c26cd49fa3..d608f84e9434 100644
-> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_dspp.h
-> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_dspp.h
-> @@ -33,6 +33,25 @@ struct dpu_hw_pcc_cfg {
->  	struct dpu_hw_pcc_coeff b;
->  };
->  
-> +#define DPU_GAMMA_LUT_SIZE 1024
-> +#define PGC_TBL_LEN 512
-> +#define PGC_8B_ROUND (1 << 0)
-
-BIT(0)
-
-> +
-> +/**
-> + * struct dpu_hw_gc_lut - gc lut feature structure
-> + * @flags: flags for the feature values can be:
-> + *         - PGC_8B_ROUND
-> + * @c0: color0 component lut
-> + * @c1: color1 component lut
-> + * @c2: color2 component lut
-> + */
-> +struct dpu_hw_gc_lut {
-> +	__u64 flags;
-> +	__u32 c0[PGC_TBL_LEN];
-> +	__u32 c1[PGC_TBL_LEN];
-> +	__u32 c2[PGC_TBL_LEN];
-> +};
-> +
->  /**
->   * struct dpu_hw_dspp_ops - interface to the dspp hardware driver functions
->   * Caller must call the init function to get the dspp context for each dspp
-> @@ -46,6 +65,13 @@ struct dpu_hw_dspp_ops {
->  	 */
->  	void (*setup_pcc)(struct dpu_hw_dspp *ctx, struct dpu_hw_pcc_cfg *cfg);
->  
-> +	/**
-> +	 * setup_gc - setup dspp gc
-> +	 * @ctx: Pointer to dspp context
-> +	 * @gc_lut: Pointer to lut content
-> +	 */
-> +	void (*setup_gc)(struct dpu_hw_dspp *ctx, struct dpu_hw_gc_lut *gc_lut);
-> +
->  };
->  
->  /**
-> 
-> ---
-> base-commit: 2433b84761658ef123ae683508bc461b07c5b0f0
-> change-id: 20251017-dpu-add-dspp-gc-driver-c5d1c08be770
-> 
-> Best regards,
-> -- 
-> Federico Amedeo Izzo <federico@izzo.pro>
-> 
-> 
-
--- 
-With best wishes
-Dmitry
+PiBPbiBGcmksIE9jdCAxNywgMjAyNSBhdCAwOTowNDo1MkFNICswMDAwLCBFbGlhdiBGYXJiZXIg
+d3JvdGU6DQo+ID4gVGhpcyBzZXJpZXMgYmFja3BvcnRzIDI3IHBhdGNoZXMgdG8gdXBkYXRlIG1p
+bm1heC5oIGluIHRoZSA1LjEwLnkNCj4gPiBicmFuY2gsIGFsaWduaW5nIGl0IHdpdGggdjYuMTct
+cmM3Lg0KPiA+DQo+ID4gVGhlIHVsdGltYXRlIGdvYWwgaXMgdG8gc3luY2hyb25pemUgYWxsIGxv
+bmctdGVybSBicmFuY2hlcyBzbyB0aGF0IHRoZXkNCj4gPiBpbmNsdWRlIHRoZSBmdWxsIHNldCBv
+ZiBtaW5tYXguaCBjaGFuZ2VzLg0KPiA+DQo+ID4gLSA2LjEyLnkgaGFzIGFscmVhZHkgYmVlbiBi
+YWNrcG9ydGVkOyB0aGUgY2hhbmdlcyBhcmUgaW5jbHVkZWQgaW4NCj4gPiAgIHY2LjEyLjQ5Lg0K
+PiA+IC0gNi42LnkgaGFzIGFscmVhZHkgYmVlbiBiYWNrcG9ydGVkOyB0aGUgY2hhbmdlcyBhcmUg
+aW5jbHVkZWQgaW4NCj4gPiAgIHY2LjYuMTA5Lg0KPiA+IC0gNi4xLnkgaGFzIGFscmVhZHkgYmVl
+biBiYWNrcG9ydGVkOyB0aGUgY2hhbmdlcyBhcmUgY3VycmVudGx5IGluIHRoZQ0KPiA+ICAgNi4x
+LXN0YWJsZSB0cmVlLg0KPiA+IC0gNS4xNS55IGhhcyBhbHJlYWR5IGJlZW4gYmFja3BvcnRlZDsg
+dGhlIGNoYW5nZXMgYXJlIGN1cnJlbnRseSBpbiB0aGUNCj4gPiAgIDUuMTUtc3RhYmxlIHRyZWUu
+DQo+DQo+IFdpdGggdGhpcyBzZXJpZXMgYXBwbGllZCwgb24gYW4gYXJtNjQgc2VydmVyLCBidWls
+ZGluZyAnYWxsbW9kY29uZmlnJywgSQ0KPiBnZXQgdGhlIGZvbGxvd2luZyBidWlsZCBlcnJvci4N
+Cj4NCj4gT2RkbHkgSSBkb24ndCBzZWUgaXQgb24gbXkgeDg2IHNlcnZlciwgcGVyaGFwcyBkdWUg
+dG8gZGlmZmVyZW50IGNvbXBpbGVyDQo+IHZlcnNpb25zPw0KPg0KPiBBbnkgaWRlYXM/DQoNClRo
+aXMgbWFpbmxpbmUgY29tbWl0IGlzIG1pc3Npbmc6DQpodHRwczovL2dpdC5rZXJuZWwub3JnL3B1
+Yi9zY20vbGludXgva2VybmVsL2dpdC90b3J2YWxkcy9saW51eC5naXQvY29tbWl0L2RyaXZlcnMv
+bmV0L3dpcmVsZXNzL3JhbGluay9ydDJ4MDAvcnQyODAwbGliLmM/aD12Ni4xOC1yYzEmaWQ9NjYw
+NjMwMzNmNzdlMTBiOTg1MjU4MTI2YTk3NTczZjg0YmI4ZDNiNA0KDQpUaGlzIGZpeCBhbHJlYWR5
+IGV4aXN0cyBpbiA1LjE1Lnk6DQpodHRwczovL2dpdC5rZXJuZWwub3JnL3B1Yi9zY20vbGludXgv
+a2VybmVsL2dpdC9zdGFibGUvbGludXguZ2l0L2NvbW1pdC9kcml2ZXJzL25ldC93aXJlbGVzcy9y
+YWxpbmsvcnQyeDAwL3J0MjgwMGxpYi5jP2g9djUuMTUuMTk0JmlkPTJkM2NlZjNkN2E1ZGYyNjBh
+MTRhNjY3OWM0YWNhMGM5N2U1NzBlZTUNCuKApmJ1dCBpcyBtaXNzaW5nIGluIDUuMTAueS4NCg0K
+SSBub3cgYmFja3BvcnRlZCBpdCB0byA1LjEwLnkgaGVyZToNCmh0dHBzOi8vbG9yZS5rZXJuZWwu
+b3JnL3N0YWJsZS8yMDI1MTAxODE5NTk0NS4xODgyNS0xLWZhcmJlcmVAYW1hem9uLmNvbS9ULyN1
+DQoNClJlZ2FyZHMsIEVsaWF2DQoNCg0KPiBJbiBmdW5jdGlvbiDigJhydDI4MDBfdHhwb3dlcl90
+b19kZXbigJksDQo+ICAgICBpbmxpbmVkIGZyb20g4oCYcnQyODAwX2NvbmZpZ19jaGFubmVs4oCZ
+IGF0IC4uL2RyaXZlcnMvbmV0L3dpcmVsZXNzL3JhbGluay9ydDJ4MDAvcnQyODAwbGliLmM6NDAy
+MjoyNToNCj4uLy4uL2luY2x1ZGUvbGludXgvY29tcGlsZXJfdHlwZXMuaDozMDk6NDU6IGVycm9y
+OiBjYWxsIHRvIOKAmF9fY29tcGlsZXRpbWVfYXNzZXJ0XzExNjjigJkgZGVjbGFyZWQgd2l0aCBh
+dHRyaWJ1dGUgZXJyb3I6IGNsYW1wKCkgbG93IGxpbWl0IC03IGdyZWF0ZXIgdGhhbiBoaWdoIGxp
+bWl0IDE1DQo+ICAgMzA5IHwgICAgICAgICBfY29tcGlsZXRpbWVfYXNzZXJ0KGNvbmRpdGlvbiwg
+bXNnLCBfX2NvbXBpbGV0aW1lX2Fzc2VydF8sIF9fQ09VTlRFUl9fKQ0KPiAgICAgICB8ICAgICAg
+ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgXg0KPi4vLi4vaW5jbHVkZS9s
+aW51eC9jb21waWxlcl90eXBlcy5oOjI5MDoyNTogbm90ZTogaW4gZGVmaW5pdGlvbiBvZiBtYWNy
+byDigJhfX2NvbXBpbGV0aW1lX2Fzc2VydOKAmQ0KPiAgIDI5MCB8ICAgICAgICAgICAgICAgICAg
+ICAgICAgIHByZWZpeCAjIyBzdWZmaXgoKTsgICAgICAgICAgICAgICAgICAgICAgICAgICAgIFwN
+Cj4gICAgICAgfCAgICAgICAgICAgICAgICAgICAgICAgICBefn5+fn4NCj4uLy4uL2luY2x1ZGUv
+bGludXgvY29tcGlsZXJfdHlwZXMuaDozMDk6OTogbm90ZTogaW4gZXhwYW5zaW9uIG9mIG1hY3Jv
+IOKAmF9jb21waWxldGltZV9hc3NlcnTigJkNCj4gICAzMDkgfCAgICAgICAgIF9jb21waWxldGlt
+ZV9hc3NlcnQoY29uZGl0aW9uLCBtc2csIF9fY29tcGlsZXRpbWVfYXNzZXJ0XywgX19DT1VOVEVS
+X18pDQo+ICAgICAgIHwgICAgICAgICBefn5+fn5+fn5+fn5+fn5+fn5+DQo+Li4vaW5jbHVkZS9s
+aW51eC9idWlsZF9idWcuaDozOTozNzogbm90ZTogaW4gZXhwYW5zaW9uIG9mIG1hY3JvIOKAmGNv
+bXBpbGV0aW1lX2Fzc2VydOKAmQ0KPiAgICAzOSB8ICNkZWZpbmUgQlVJTERfQlVHX09OX01TRyhj
+b25kLCBtc2cpIGNvbXBpbGV0aW1lX2Fzc2VydCghKGNvbmQpLCBtc2cpDQo+ICAgICAgIHwgICAg
+ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgXn5+fn5+fn5+fn5+fn5+fn5+DQo+Li4v
+aW5jbHVkZS9saW51eC9taW5tYXguaDoxODg6OTogbm90ZTogaW4gZXhwYW5zaW9uIG9mIG1hY3Jv
+IOKAmEJVSUxEX0JVR19PTl9NU0figJkNCj4gICAxODggfCAgICAgICAgIEJVSUxEX0JVR19PTl9N
+U0coc3RhdGljYWxseV90cnVlKHVsbyA+IHVoaSksICAgICAgICAgICAgICAgICAgICAgICAgICAg
+IFwNCj4gICAgICAgfCAgICAgICAgIF5+fn5+fn5+fn5+fn5+fn4NCj4uLi9pbmNsdWRlL2xpbnV4
+L21pbm1heC5oOjE5NTo5OiBub3RlOiBpbiBleHBhbnNpb24gb2YgbWFjcm8g4oCYX19jbGFtcF9v
+bmNl4oCZDQo+ICAgMTk1IHwgICAgICAgICBfX2NsYW1wX29uY2UodHlwZSwgdmFsLCBsbywgaGks
+IF9fVU5JUVVFX0lEKHZfKSwgX19VTklRVUVfSUQobF8pLCBfX1VOSVFVRV9JRChoXykpDQo+ICAg
+ICAgIHwgICAgICAgICBefn5+fn5+fn5+fn4NCj4uLi9pbmNsdWRlL2xpbnV4L21pbm1heC5oOjIx
+ODozNjogbm90ZTogaW4gZXhwYW5zaW9uIG9mIG1hY3JvIOKAmF9fY2FyZWZ1bF9jbGFtcOKAmQ0K
+PiAgIDIxOCB8ICNkZWZpbmUgY2xhbXBfdCh0eXBlLCB2YWwsIGxvLCBoaSkgX19jYXJlZnVsX2Ns
+YW1wKHR5cGUsIHZhbCwgbG8sIGhpKQ0KPiAgICAgICB8ICAgICAgICAgICAgICAgICAgICAgICAg
+ICAgICAgICAgICAgXn5+fn5+fn5+fn5+fn5+DQo+Li4vZHJpdmVycy9uZXQvd2lyZWxlc3MvcmFs
+aW5rL3J0MngwMC9ydDI4MDBsaWIuYzozOTgwOjI0OiBub3RlOiBpbiBleHBhbnNpb24gb2YgbWFj
+cm8g4oCYY2xhbXBfdOKAmQ0KPiAgMzk4MCB8ICAgICAgICAgICAgICAgICByZXR1cm4gY2xhbXBf
+dChjaGFyLCB0eHBvd2VyLCBNSU5fQV9UWFBPV0VSLCBNQVhfQV9UWFBPV0VSKTsNCj4gICAgICAg
+fCAgICAgICAgICAgICAgICAgICAgICAgIF5+fn5+fn4NCj4gSW4gZnVuY3Rpb24g4oCYcnQyODAw
+X3R4cG93ZXJfdG9fZGV24oCZLA0KPiAgICAgaW5saW5lZCBmcm9tIOKAmHJ0MjgwMF9jb25maWdf
+Y2hhbm5lbOKAmSBhdCAuLi9kcml2ZXJzL25ldC93aXJlbGVzcy9yYWxpbmsvcnQyeDAwL3J0Mjgw
+MGxpYi5jOjQwMjQ6MjU6DQo+Li8uLi9pbmNsdWRlL2xpbnV4L2NvbXBpbGVyX3R5cGVzLmg6MzA5
+OjQ1OiBlcnJvcjogY2FsbCB0byDigJhfX2NvbXBpbGV0aW1lX2Fzc2VydF8xMTY44oCZIGRlY2xh
+cmVkIHdpdGggYXR0cmlidXRlIGVycm9yOiBjbGFtcCgpIGxvdyBsaW1pdCAtNyBncmVhdGVyIHRo
+YW4gaGlnaCBsaW1pdCAxNQ0KPiAgIDMwOSB8ICAgICAgICAgX2NvbXBpbGV0aW1lX2Fzc2VydChj
+b25kaXRpb24sIG1zZywgX19jb21waWxldGltZV9hc3NlcnRfLCBfX0NPVU5URVJfXykNCj4gICAg
+ICAgfCAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIF4NCj4uLy4u
+L2luY2x1ZGUvbGludXgvY29tcGlsZXJfdHlwZXMuaDoyOTA6MjU6IG5vdGU6IGluIGRlZmluaXRp
+b24gb2YgbWFjcm8g4oCYX19jb21waWxldGltZV9hc3NlcnTigJkNCj4gICAyOTAgfCAgICAgICAg
+ICAgICAgICAgICAgICAgICBwcmVmaXggIyMgc3VmZml4KCk7ICAgICAgICAgICAgICAgICAgICAg
+ICAgICAgICBcDQo+ICAgICAgIHwgICAgICAgICAgICAgICAgICAgICAgICAgXn5+fn5+DQo+Li8u
+Li9pbmNsdWRlL2xpbnV4L2NvbXBpbGVyX3R5cGVzLmg6MzA5Ojk6IG5vdGU6IGluIGV4cGFuc2lv
+biBvZiBtYWNybyDigJhfY29tcGlsZXRpbWVfYXNzZXJ04oCZDQo+ICAgMzA5IHwgICAgICAgICBf
+Y29tcGlsZXRpbWVfYXNzZXJ0KGNvbmRpdGlvbiwgbXNnLCBfX2NvbXBpbGV0aW1lX2Fzc2VydF8s
+IF9fQ09VTlRFUl9fKQ0KPiAgICAgICB8ICAgICAgICAgXn5+fn5+fn5+fn5+fn5+fn5+fg0KPi4u
+L2luY2x1ZGUvbGludXgvYnVpbGRfYnVnLmg6Mzk6Mzc6IG5vdGU6IGluIGV4cGFuc2lvbiBvZiBt
+YWNybyDigJhjb21waWxldGltZV9hc3NlcnTigJkNCj4gICAgMzkgfCAjZGVmaW5lIEJVSUxEX0JV
+R19PTl9NU0coY29uZCwgbXNnKSBjb21waWxldGltZV9hc3NlcnQoIShjb25kKSwgbXNnKQ0KPiAg
+ICAgICB8ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIF5+fn5+fn5+fn5+fn5+
+fn5+fg0KPi4uL2luY2x1ZGUvbGludXgvbWlubWF4Lmg6MTg4Ojk6IG5vdGU6IGluIGV4cGFuc2lv
+biBvZiBtYWNybyDigJhCVUlMRF9CVUdfT05fTVNH4oCZDQo+ICAgMTg4IHwgICAgICAgICBCVUlM
+RF9CVUdfT05fTVNHKHN0YXRpY2FsbHlfdHJ1ZSh1bG8gPiB1aGkpLCAgICAgICAgICAgICAgICAg
+ICAgICAgICAgICBcDQo+ICAgICAgIHwgICAgICAgICBefn5+fn5+fn5+fn5+fn5+DQo+Li4vaW5j
+bHVkZS9saW51eC9taW5tYXguaDoxOTU6OTogbm90ZTogaW4gZXhwYW5zaW9uIG9mIG1hY3JvIOKA
+mF9fY2xhbXBfb25jZeKAmQ0KPiAgIDE5NSB8ICAgICAgICAgX19jbGFtcF9vbmNlKHR5cGUsIHZh
+bCwgbG8sIGhpLCBfX1VOSVFVRV9JRCh2XyksIF9fVU5JUVVFX0lEKGxfKSwgX19VTklRVUVfSUQo
+aF8pKQ0KPiAgICAgICB8ICAgICAgICAgXn5+fn5+fn5+fn5+DQo+Li4vaW5jbHVkZS9saW51eC9t
+aW5tYXguaDoyMTg6MzY6IG5vdGU6IGluIGV4cGFuc2lvbiBvZiBtYWNybyDigJhfX2NhcmVmdWxf
+Y2xhbXDigJkNCj4gICAyMTggfCAjZGVmaW5lIGNsYW1wX3QodHlwZSwgdmFsLCBsbywgaGkpIF9f
+Y2FyZWZ1bF9jbGFtcCh0eXBlLCB2YWwsIGxvLCBoaSkNCj4gICAgICAgfCAgICAgICAgICAgICAg
+ICAgICAgICAgICAgICAgICAgICAgIF5+fn5+fn5+fn5+fn5+fg0KPi4uL2RyaXZlcnMvbmV0L3dp
+cmVsZXNzL3JhbGluay9ydDJ4MDAvcnQyODAwbGliLmM6Mzk4MDoyNDogbm90ZTogaW4gZXhwYW5z
+aW9uIG9mIG1hY3JvIOKAmGNsYW1wX3TigJkNCj4gIDM5ODAgfCAgICAgICAgICAgICAgICAgcmV0
+dXJuIGNsYW1wX3QoY2hhciwgdHhwb3dlciwgTUlOX0FfVFhQT1dFUiwgTUFYX0FfVFhQT1dFUik7
+DQo+ICAgICAgIHwgICAgICAgICAgICAgICAgICAgICAgICBefn5+fn5+DQo+IEluIGZ1bmN0aW9u
+IOKAmHJ0MjgwMF90eHBvd2VyX3RvX2RlduKAmSwNCj4gICAgIGlubGluZWQgZnJvbSDigJhydDI4
+MDBfY29uZmlnX2NoYW5uZWzigJkgYXQgLi4vZHJpdmVycy9uZXQvd2lyZWxlc3MvcmFsaW5rL3J0
+MngwMC9ydDI4MDBsaWIuYzo0MDI4OjQ6DQo+Li8uLi9pbmNsdWRlL2xpbnV4L2NvbXBpbGVyX3R5
+cGVzLmg6MzA5OjQ1OiBlcnJvcjogY2FsbCB0byDigJhfX2NvbXBpbGV0aW1lX2Fzc2VydF8xMTY4
+4oCZIGRlY2xhcmVkIHdpdGggYXR0cmlidXRlIGVycm9yOiBjbGFtcCgpIGxvdyBsaW1pdCAtNyBn
+cmVhdGVyIHRoYW4gaGlnaCBsaW1pdCAxNQ0KPiAgIDMwOSB8ICAgICAgICAgX2NvbXBpbGV0aW1l
+X2Fzc2VydChjb25kaXRpb24sIG1zZywgX19jb21waWxldGltZV9hc3NlcnRfLCBfX0NPVU5URVJf
+XykNCj4gICAgICAgfCAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
+IF4NCj4uLy4uL2luY2x1ZGUvbGludXgvY29tcGlsZXJfdHlwZXMuaDoyOTA6MjU6IG5vdGU6IGlu
+IGRlZmluaXRpb24gb2YgbWFjcm8g4oCYX19jb21waWxldGltZV9hc3NlcnTigJkNCj4gICAyOTAg
+fCAgICAgICAgICAgICAgICAgICAgICAgICBwcmVmaXggIyMgc3VmZml4KCk7ICAgICAgICAgICAg
+ICAgICAgICAgICAgICAgICBcDQo+ICAgICAgIHwgICAgICAgICAgICAgICAgICAgICAgICAgXn5+
+fn5+DQo+Li8uLi9pbmNsdWRlL2xpbnV4L2NvbXBpbGVyX3R5cGVzLmg6MzA5Ojk6IG5vdGU6IGlu
+IGV4cGFuc2lvbiBvZiBtYWNybyDigJhfY29tcGlsZXRpbWVfYXNzZXJ04oCZDQo+ICAgMzA5IHwg
+ICAgICAgICBfY29tcGlsZXRpbWVfYXNzZXJ0KGNvbmRpdGlvbiwgbXNnLCBfX2NvbXBpbGV0aW1l
+X2Fzc2VydF8sIF9fQ09VTlRFUl9fKQ0KPiAgICAgICB8ICAgICAgICAgXn5+fn5+fn5+fn5+fn5+
+fn5+fg0KPi4uL2luY2x1ZGUvbGludXgvYnVpbGRfYnVnLmg6Mzk6Mzc6IG5vdGU6IGluIGV4cGFu
+c2lvbiBvZiBtYWNybyDigJhjb21waWxldGltZV9hc3NlcnTigJkNCj4gICAgMzkgfCAjZGVmaW5l
+IEJVSUxEX0JVR19PTl9NU0coY29uZCwgbXNnKSBjb21waWxldGltZV9hc3NlcnQoIShjb25kKSwg
+bXNnKQ0KPiAgICAgICB8ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIF5+fn5+
+fn5+fn5+fn5+fn5+fg0KPi4uL2luY2x1ZGUvbGludXgvbWlubWF4Lmg6MTg4Ojk6IG5vdGU6IGlu
+IGV4cGFuc2lvbiBvZiBtYWNybyDigJhCVUlMRF9CVUdfT05fTVNH4oCZDQo+ICAgMTg4IHwgICAg
+ICAgICBCVUlMRF9CVUdfT05fTVNHKHN0YXRpY2FsbHlfdHJ1ZSh1bG8gPiB1aGkpLCAgICAgICAg
+ICAgICAgICAgICAgICAgICAgICBcDQo+ICAgICAgIHwgICAgICAgICBefn5+fn5+fn5+fn5+fn5+
+DQo+Li4vaW5jbHVkZS9saW51eC9taW5tYXguaDoxOTU6OTogbm90ZTogaW4gZXhwYW5zaW9uIG9m
+IG1hY3JvIOKAmF9fY2xhbXBfb25jZeKAmQ0KPiAgIDE5NSB8ICAgICAgICAgX19jbGFtcF9vbmNl
+KHR5cGUsIHZhbCwgbG8sIGhpLCBfX1VOSVFVRV9JRCh2XyksIF9fVU5JUVVFX0lEKGxfKSwgX19V
+TklRVUVfSUQoaF8pKQ0KPiAgICAgICB8ICAgICAgICAgXn5+fn5+fn5+fn5+DQo+Li4vaW5jbHVk
+ZS9saW51eC9taW5tYXguaDoyMTg6MzY6IG5vdGU6IGluIGV4cGFuc2lvbiBvZiBtYWNybyDigJhf
+X2NhcmVmdWxfY2xhbXDigJkNCj4gICAyMTggfCAjZGVmaW5lIGNsYW1wX3QodHlwZSwgdmFsLCBs
+bywgaGkpIF9fY2FyZWZ1bF9jbGFtcCh0eXBlLCB2YWwsIGxvLCBoaSkNCj4gICAgICAgfCAgICAg
+ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIF5+fn5+fn5+fn5+fn5+fg0KPi4uL2RyaXZl
+cnMvbmV0L3dpcmVsZXNzL3JhbGluay9ydDJ4MDAvcnQyODAwbGliLmM6Mzk4MDoyNDogbm90ZTog
+aW4gZXhwYW5zaW9uIG9mIG1hY3JvIOKAmGNsYW1wX3TigJkNCj4gIDM5ODAgfCAgICAgICAgICAg
+ICAgICAgcmV0dXJuIGNsYW1wX3QoY2hhciwgdHhwb3dlciwgTUlOX0FfVFhQT1dFUiwgTUFYX0Ff
+VFhQT1dFUik7DQo+ICAgICAgIHwgICAgICAgICAgICAgICAgICAgICAgICBefn5+fn5+DQo+IG1h
+a2VbNl06ICoqKiBbLi4vc2NyaXB0cy9NYWtlZmlsZS5idWlsZDoyODY6IGRyaXZlcnMvbmV0L3dp
+cmVsZXNzL3JhbGluay9ydDJ4MDAvcnQyODAwbGliLm9dIEVycm9yIDENCj4gbWFrZVs1XTogKioq
+IFsuLi9zY3JpcHRzL01ha2VmaWxlLmJ1aWxkOjUwMzogZHJpdmVycy9uZXQvd2lyZWxlc3MvcmFs
+aW5rL3J0MngwMF0gRXJyb3IgMg0KPiBtYWtlWzRdOiAqKiogWy4uL3NjcmlwdHMvTWFrZWZpbGUu
+YnVpbGQ6NTAzOiBkcml2ZXJzL25ldC93aXJlbGVzcy9yYWxpbmtdIEVycm9yIDINCj4gbWFrZVs0
+XTogKioqIFdhaXRpbmcgZm9yIHVuZmluaXNoZWQgam9icy4uLi4NCg==
