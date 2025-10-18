@@ -2,72 +2,168 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3E897BED05B
-	for <lists+dri-devel@lfdr.de>; Sat, 18 Oct 2025 15:19:20 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 426A1BED0A3
+	for <lists+dri-devel@lfdr.de>; Sat, 18 Oct 2025 15:41:44 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id AC2B510E1EF;
-	Sat, 18 Oct 2025 13:19:16 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E94F010E103;
+	Sat, 18 Oct 2025 13:41:39 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="blbqLeHh";
+	dkim=pass (2048-bit key; unprotected) header.d=Nvidia.com header.i=@Nvidia.com header.b="NWKPcuND";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sea.source.kernel.org (sea.source.kernel.org [172.234.252.31])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3976310E0C2;
- Sat, 18 Oct 2025 13:19:15 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by sea.source.kernel.org (Postfix) with ESMTP id D5AE044E82;
- Sat, 18 Oct 2025 13:19:14 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPS id AA030C113D0;
- Sat, 18 Oct 2025 13:19:14 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1760793554;
- bh=BqqkzwP4Hw/MYdgzXyPJloYkHZPFtYyGHsIV7jNKBkE=;
- h=From:Date:Subject:To:Cc:Reply-To:From;
- b=blbqLeHh2334VkKtK1z5Oj8XzRGnKh1VA2Hrk7DUMsz19KIldfwpcXEhgOFckrCLc
- gaQJvX+3jCLJM80KOtJ9253SyA+FvraNi08vqrt/n+81swssNDPK/UwscLFrx0UhA8
- ZT3n4xFTmsUlIu4r4YI1aoKdkGGVx8auzxTpGzZ3p16lded3+GP+7pyrMbB1BbtKY9
- tWfwyJEvZEFtoqXmgAtSU4EWlGldszsn6+5vW8pvPGdkRwQ9ga9x+bR775GvwMEo1B
- ZqHwkK+nwbuiKdeJOEB3iN/NUJIWn0+S934E/rUja+vz8NzqeAsH7PhZf+N9pdwqbj
- t7vRQOYl8EOew==
-Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org
- (localhost.localdomain [127.0.0.1])
- by smtp.lore.kernel.org (Postfix) with ESMTP id 9EAEECCD193;
- Sat, 18 Oct 2025 13:19:14 +0000 (UTC)
-From: Federico Amedeo Izzo via B4 Relay <devnull+federico.izzo.pro@kernel.org>
-Date: Sat, 18 Oct 2025 15:18:29 +0200
-Subject: [PATCH] drm/msm/dpu: Add DSPP GC driver to provide GAMMA_LUT DRM
- property
+Received: from MW6PR02CU001.outbound.protection.outlook.com
+ (mail-westus2azon11012070.outbound.protection.outlook.com [52.101.48.70])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 37BFA10E0C2;
+ Sat, 18 Oct 2025 13:41:39 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=Xk+PQ12JcNFQkxYUiT/EBzuHF7k+5PZy20pL8VK/3IgnPxiwPndOGDrNdJEIfLqKbE/Qy2recqjz8KPKWXbn208348C1OwVXDB6XvHNnE8mwOS42JQXv0TP9GJRLfDzmnqmosuO5SAj1tkbyx5bMpZzsGAZgEuSEDSEY3kaPl8OdXMNuSYRQsg0LlvV/f7mgRpfjANnXjI3uJS0TW+AsPsigg0vkuxYT5r952I2x7go3I4dEwE3isnhew3v6faApc2jKe7rBcaTHmTiDih/2NpNJv1BmjZTy0y5oh0sPLxwi3Ncc+Fzgnsskmdlc4Zo/i4675R/RWm+htRrsVXeTtA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=veTXDxv00cN8gDSTKP/vYlbQU9oRWf9c5Bj21yLAnq8=;
+ b=Lh1NG9nI0Pmj9u6TTpWpuQSvct3EqWrQlSYckRRK4wKGZH3mT1UVTSgX+lMf3+V0WeeGzmW2wyY3lEF4kbJ56F/eLy8LS2BmqbiKG3GLr2ds3HbaWtuts0ljERfTzAaSBgbso0UgQYIKx3a8AfIllKirZ8tgl9488m7woFJavnFbF/LEhDVzdEBAqrEZ08mq1PzflQ9LRQ6HsDclWg4Pzp2PAk2+cY/1Wjqioa1NfWTyx4lNkCswwTeGC2iAOj7H6yLbzib4UkliAaXyHVKIUSB0rbTCSEsZOBvBl21v6uk1em3urpAXRRO4N64Fd50T0GoOIMsKoR0jlSlgKJO7Sg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
+ dkim=pass header.d=nvidia.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=veTXDxv00cN8gDSTKP/vYlbQU9oRWf9c5Bj21yLAnq8=;
+ b=NWKPcuND4bCe9cJi2GmelRKSUlcAKuvAkOYWEJLGRQR9ffqj8czlAy6Uu0mxH/R0QWNeBuLJ4FYTQmj5mLWCFNYH8lUGNqGksX0pjPwt97759Y8NkGGZmdIk/oH+SWWOn5hJNGiSprAwUyESyvoWQZSYTxyLPKQAkO2e6m/aTI2XJw+d6+lBvgDgFGz002pq/jqyZ+QO0o3WsgUKbVTEml+lnFNXTE2RTjzNCAW6TxsRH17vETs5ZaY71m5HSUkic3KjHeey+EA8YhpV2f5b6Ryqavg5RXNETM9fQg0Y+BoVRAg2XKthAV081ZmVbs+T+J6X3PtmMCsJeg8h1X3G0Q==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=nvidia.com;
+Received: from CH2PR12MB3990.namprd12.prod.outlook.com (2603:10b6:610:28::18)
+ by BL3PR12MB6474.namprd12.prod.outlook.com (2603:10b6:208:3ba::16)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9228.12; Sat, 18 Oct
+ 2025 13:41:33 +0000
+Received: from CH2PR12MB3990.namprd12.prod.outlook.com
+ ([fe80::7de1:4fe5:8ead:5989]) by CH2PR12MB3990.namprd12.prod.outlook.com
+ ([fe80::7de1:4fe5:8ead:5989%6]) with mapi id 15.20.9228.011; Sat, 18 Oct 2025
+ 13:41:33 +0000
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Date: Sat, 18 Oct 2025 22:41:29 +0900
+Message-Id: <DDLHP1ABV9BA.3V0NXW3RWHGL6@nvidia.com>
+Cc: "Alistair Popple" <apopple@nvidia.com>, "Miguel Ojeda"
+ <ojeda@kernel.org>, "Alex Gaynor" <alex.gaynor@gmail.com>, "Boqun Feng"
+ <boqun.feng@gmail.com>, "Gary Guo" <gary@garyguo.net>,
+ <bjorn3_gh@protonmail.com>, "Benno Lossin" <lossin@kernel.org>, "Andreas
+ Hindborg" <a.hindborg@kernel.org>, "Alice Ryhl" <aliceryhl@google.com>,
+ "Trevor Gross" <tmgross@umich.edu>, "David Airlie" <airlied@gmail.com>,
+ "Simona Vetter" <simona@ffwll.ch>, "Maarten Lankhorst"
+ <maarten.lankhorst@linux.intel.com>, "Maxime Ripard" <mripard@kernel.org>,
+ "Thomas Zimmermann" <tzimmermann@suse.de>, "John Hubbard"
+ <jhubbard@nvidia.com>, "Timur Tabi" <ttabi@nvidia.com>,
+ <joel@joelfernandes.org>, "Elle Rhumsaa" <elle@weathered-steel.dev>, "Yury
+ Norov" <yury.norov@gmail.com>, "Daniel Almeida"
+ <daniel.almeida@collabora.com>, <nouveau@lists.freedesktop.org>
+Subject: Re: [PATCH v7.1 0/4] bitfield initial refactor within nova-core
+ (RESEND)
+From: "Alexandre Courbot" <acourbot@nvidia.com>
+To: "Joel Fernandes" <joelagnelf@nvidia.com>,
+ <linux-kernel@vger.kernel.org>, <rust-for-linux@vger.kernel.org>,
+ <dri-devel@lists.freedesktop.org>, <dakr@kernel.org>, <acourbot@nvidia.com>
+X-Mailer: aerc 0.21.0-0-g5549850facc2
+References: <20251016151323.1201196-1-joelagnelf@nvidia.com>
+In-Reply-To: <20251016151323.1201196-1-joelagnelf@nvidia.com>
+X-ClientProxiedBy: TYCP286CA0362.JPNP286.PROD.OUTLOOK.COM
+ (2603:1096:405:79::16) To CH2PR12MB3990.namprd12.prod.outlook.com
+ (2603:10b6:610:28::18)
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20251018-dpu-add-dspp-gc-driver-v1-1-ed0369214252@izzo.pro>
-X-B4-Tracking: v=1; b=H4sIAKST82gC/x3MMQqAMAxA0atIZgNtQSpeRRxqEzWLlhSLULy7x
- fEN/1fIrMIZpq6CcpEs19lg+w7iEc6dUagZnHGDNdYjpRsDEVJOCfeIpFJYMQ5koxlX9t5Ai5P
- yJs8/npf3/QA9f3j+aAAAAA==
-X-Change-ID: 20251017-dpu-add-dspp-gc-driver-c5d1c08be770
-To: Rob Clark <robin.clark@oss.qualcomm.com>, 
- Dmitry Baryshkov <lumag@kernel.org>, 
- Abhinav Kumar <abhinav.kumar@linux.dev>, 
- Jessica Zhang <jesszhan0024@gmail.com>, Sean Paul <sean@poorly.run>, 
- Marijn Suijten <marijn.suijten@somainline.org>, 
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>
-Cc: linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org, 
- freedreno@lists.freedesktop.org, linux-kernel@vger.kernel.org, 
- phone-devel@vger.kernel.org, ~postmarketos/upstreaming@lists.sr.ht, 
- nicola@corna.info, Federico Amedeo Izzo <federico@izzo.pro>, 
- David Heidelberg <david@ixit.cz>
-X-Mailer: b4 0.14.3
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1760793551; l=12745;
- i=federico@izzo.pro; s=20251017; h=from:subject:message-id;
- bh=rzIjs7mTTzmQ+cDiwYXj77QlSFsjpUDzdUg7/yu7xyc=;
- b=iA1YQG/ezlHpLV2nPDt/yg/fHnKVf31ch8aF2Fhoq4nA7ZpvHjTK4dKpHiOXPyoQtvjuoNNBX
- 1fVD+VXuWVdBxsckBnY540tPO10Sl34O26cnn5fSeJVRH/cX82Y+roQ
-X-Developer-Key: i=federico@izzo.pro; a=ed25519;
- pk=XfmNfpH48k8jLbId5NKrp0yoKoFb/uLjr97qIxBImBw=
-X-Endpoint-Received: by B4 Relay for federico@izzo.pro/20251017 with
- auth_id=544
-X-Original-From: Federico Amedeo Izzo <federico@izzo.pro>
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: CH2PR12MB3990:EE_|BL3PR12MB6474:EE_
+X-MS-Office365-Filtering-Correlation-Id: 806a1fcf-94e3-468d-1a49-08de0e4c0c9c
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+ ARA:13230040|10070799003|7416014|1800799024|376014|366016; 
+X-Microsoft-Antispam-Message-Info: =?utf-8?B?L2lQOHVNWDNUVUUrVmNnSldxTHNaSEhyNHVLS2sxSXY2VzkreEpYaFVoM2g1?=
+ =?utf-8?B?eFRaTXhWMEkvRFZWcWdBOXpVbWJhbXArNGorcUVYODZwbWJNQjhsM2xQcjhI?=
+ =?utf-8?B?clJXczBtc1psTjUyQ2U2L1V4bnFkY1JGT3JBRlBLdDc3RHJQeEl1aEFlSVJ2?=
+ =?utf-8?B?SlRCaERDcm11UmdDdG1SV2J5cEM2M25nYURVVGdGVzBlMmFSTVVEbWFpMkh2?=
+ =?utf-8?B?ZStZSkVLUVhFMzRYK0NRaE8xN2pBOG5QMlNDUU5oVkkrbXdZVzFiYmtGZG1u?=
+ =?utf-8?B?dWRhdHczNTdpOXZhNno3ZTNrTEp0d3pPemVjNVY2RVVpRDlURWFPaGcxd2pZ?=
+ =?utf-8?B?RUFHM2Q3N1BodlFCckZPSUtRVHRicjF3Nm1YWWJmQng0MUYwNXJVUXNGbGFV?=
+ =?utf-8?B?T1d3Szg0RnVqZERMbnp2akdyQTc2UUlwMko3Y2pCYXMwNTA2cHBZTldvMkRt?=
+ =?utf-8?B?cjZRVG9iUEtVOFkwaFJ1Uk9ocEE1WlQ3V3F5TWN3QXBlTThwcXhSWFdTZ1pm?=
+ =?utf-8?B?RjNYWWp6Q2lFbEFIVVcwM2VlNmV1dDJhYUNmT1J6ZFEybk5BSy80QVJPRUZh?=
+ =?utf-8?B?YWpQdTNYWWdMZE1PRWMyRlFFOCt3K3hpck9rbXpxeFJlVXdCMlVIZGQ1bEJD?=
+ =?utf-8?B?Q1YrSXhxcHJTc0xsNGNPeTAzSk9XVUsyNzIvUEVBRUdLdmJNT0MvRHNhaEFG?=
+ =?utf-8?B?YjdhMVMzcGpNaTlKdmZRTGoxSWpKV0ZwVGk4YTVUV1pCaEQ3OVpBSE9JbEN2?=
+ =?utf-8?B?OUc4QXhTeVpsV2MreElReXl4R1NzZVd1UzdTb1Qrd2s0L2ZZTk1yUzgrcDdN?=
+ =?utf-8?B?REtNWnE3T1hwWXFON1NNaERQa0tEYXk3TXVlamtUS2g2YnQ5NFVjRlJNTlpk?=
+ =?utf-8?B?ZGlDTDJ0VWNablN2ZGZmWWxmZThKNnBNNUlrZVgweUlEUUdrdmZoK1oyUXpC?=
+ =?utf-8?B?YXpBSlNnVlFRZVlzNEtnUU10YkQ4Vk1sS3ZaN1M3ZE1xUmJjS3BEZldib21n?=
+ =?utf-8?B?UHlJZitvVE1rQnl3SVdxL0xDUnQxRCtWbHFTVUFrbC91bkhqSWg0c0xsR0NC?=
+ =?utf-8?B?RUR5NXQ3R2xGalArMnlPMVljSVBZc3pXMkVHYXFYTEduZ1Z5SWJMVktMZUxL?=
+ =?utf-8?B?SkkzaWpKUkZqZ2dpdU1kbWxqMHRFaXVwVmgzU0NwYmc2OU03enllV1hYZWkw?=
+ =?utf-8?B?K1hqcDJ2NVN5YTFMZG53SkR3MW0vSWxwZXJtRjB6ZDVnU0VaLzFRMGRUSnR4?=
+ =?utf-8?B?azhGY1g3MVptd0VydkhJWDJCSmRCSjI0ZkliRkdnek44K0NxaGxUZE9XNTAv?=
+ =?utf-8?B?WUVyVmJiUzNYcXd0RHRjb3JzbDFoU2VRWFVRZEdPRnBWYW90T09ZS0FRUG9P?=
+ =?utf-8?B?a1crc0NrM3REQ2J5endyVmdlZFZFc2oxNXpKN09jRHh3cDRsNkFLNGhTM2t1?=
+ =?utf-8?B?SWxVaXAweG9EREdsTTVwTE00cDEvNldnSEFKcFhkSThyN3BlUWNwSWZaQitl?=
+ =?utf-8?B?V3d6V2dscjAzS3dwVjJZZHZ4amVxN3g4dzBkL1JQUTV4Y1YyRzgzbGVqSnV4?=
+ =?utf-8?B?WmlIeXBtYkhhUFUxRkRZaGdrSVAzdXBRcC9lTW9GVElTTUhMQmhUQkc2SU1m?=
+ =?utf-8?B?WGlWVldOcCtyYmo2enpia3NsQmFkaDFjcWZwcnB3V0dMTWVIU2ljWlVscjN3?=
+ =?utf-8?B?N3NKTis3T0ZUSFpQV3JJVEZJQU5OdWtLZDBYRU1NOUZqb0huRzBkSldwZVhL?=
+ =?utf-8?B?b1ltTytPNXZmcWVXZnFjSUJkaDhMVHlERStVNzBrQS9FZHZLcUx6UURUdFRj?=
+ =?utf-8?B?VHlpR0w2THpzalBtcGFHVFFqMUdGdG9STWhocTNacC9Za09LRWQzRElGNjlY?=
+ =?utf-8?B?Qmp6VmhjRzkwY2pSTFZlVm5jY0Y5aXcvZlgxR0FqYnNBNXpFd2hMeVA0ZjBH?=
+ =?utf-8?Q?Si808C4uzrQY3l9u8obKoZPKNydtispZ?=
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:CH2PR12MB3990.namprd12.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230040)(10070799003)(7416014)(1800799024)(376014)(366016); DIR:OUT;
+ SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?eGpUY1UwQUUvT1A2ZUtUN0dYTzBCSVRSWitBV2o4SDRBc3dGTUl1bGRzS0xa?=
+ =?utf-8?B?Y1NuMnlRMjRzT1pVbktjejc0Y1Fsc21WR0o1MFR5ZnA1Z1gvcWVpY2IxaFBL?=
+ =?utf-8?B?bEMzMGxySGNac0dKRHduSFlTNmJ4MXovKzhiZERycDU3UTMrRnhzeTVVWkhX?=
+ =?utf-8?B?M2I1UjNOd0ZBbUJZRCsvZUpualhQWXRnQzFHOTNjUEMwOC9VV0tONXlEbnJ6?=
+ =?utf-8?B?MGd4djJHZjI0WTlpRFBqaVYvWjV1K0l1eHN2dE52bjdVb0dlN1FDNTNBVWlC?=
+ =?utf-8?B?T1dxTS9MaDRmU29GMzdRdlhJdUZCWUVLL0M3WUVselRIcU9ubUVTK2JhMVFR?=
+ =?utf-8?B?cmI0NXVBY2xTbFJybjJaNmxpN2Z4NXUxOFo0UmRRcHd5R0NYSzYwbWVMVkVp?=
+ =?utf-8?B?V2ROR1QxOFhvU0RmRWE3WkZYRDRURTVENTZIcGZreGE3T2RrVG9uRGE5VEpt?=
+ =?utf-8?B?WjVoWjRFMGVTdThOUWdja1lZb2RIdWFuVkpLMVhHbWJKb01ueE9HUHErZnpr?=
+ =?utf-8?B?bi9kZUR5U1A5RWVsZVF5aExzSjFyYjBjQnROUmhvMmRHVmRnRTRXWHVqTTFq?=
+ =?utf-8?B?bHFhbytSd3B6blVSajgrM0tnZ05SQTlKRzUxeUYwQ1NXOXJoaWx1NnZFbFIv?=
+ =?utf-8?B?RmlDbG56N2wwUTRvVFNqUTJjTEd5N2tsak1TaTVUaW1XbkZySWZNa2Qzd0hJ?=
+ =?utf-8?B?TU52aEdFYWw0Q3VBMmF0WjdQWExLRUhWN2dIeURWRGpyYVZQMnRPRWwxOXJa?=
+ =?utf-8?B?TC93ZzhUQ2g5VUtLSk9OZnA3bzhtM25sUXF3UzVNZ2l0V0wvM250cWVYQWJM?=
+ =?utf-8?B?bHEra3dpR3JpY3plYm1mSW5SM214RTk4VGRCTU1PNTY5RFlyU2hMcVRTTC9T?=
+ =?utf-8?B?QlhMZXBvNiszSkxyd0pKVjB3NUxYOWh4SjhjM0QrVVY3ZWRBODhSUEswMHhj?=
+ =?utf-8?B?U2ZJTVVRYm1vNVVTU3B2Qi9hRjhlL0Y1RFJ5WjJ5UVVxeWNOWmhuUGJRQW8w?=
+ =?utf-8?B?SzFrVEJOcU5PTjN4Si9FSkwwNWtaVXJzb2pQNy9VdGZVbE8rTFkzMVlocHdK?=
+ =?utf-8?B?TFAzY0RhVUt4OU1hQTVnT0dKVWlLaHJPOUIzTDlzS1BpZHpvYWxDZmhHWWZP?=
+ =?utf-8?B?UzEvTDQ3dkswN0Y3OVZBSnN4RkRmZlUxZ1lqOW9qZ3MzWmpjOWt3a3RUQUVS?=
+ =?utf-8?B?Nzd3RVIrUmRKMDhCZHJlemJ1OWQ3clcyZkZjRkhGUm55OENyL1M4c2NWbXY5?=
+ =?utf-8?B?T3pGUU9KbmVrR29TVjNhVFpqeHhYTzA5ODlPRm1PcVQ2TVQ5dS9oZ2MxUkpN?=
+ =?utf-8?B?VHZ3ODhoeU4vZHRabERHeFZyMG5GWlRWUno0cWd4NzYycjFzZG9EaVJORWtS?=
+ =?utf-8?B?blFPS2J0MHZLbzBvOFIwYlFheFRZNGNsVXd0K3NTWHBId3hsR0NWWm1obzJK?=
+ =?utf-8?B?SWxOQ1pEU0lHaEhWZmxoVlY1cS91M3FiOFRaUkJqRTVBUGl5ZzA1SGJvVUVJ?=
+ =?utf-8?B?WUx3dlp1WXZuVG1EV1pCUXoza2dkcE90dWlGK2huT3NWVjlMNXNkU0g2cGFp?=
+ =?utf-8?B?bTJFVkM0V1lIVDhYYWdTWlpXSU1CQkp6cEhmWVFrdDZEOG00MVhxSWNjQVY4?=
+ =?utf-8?B?VVFmakhMZFNyeDZGK1B1c0Z2N201aWdPTjVTRCtQV1BzVFI0SklpQ2s3Z0E5?=
+ =?utf-8?B?NGFKMEpBaUlVcldSdHFwb3J2RTlmTjM4VzdJS0lxTUJsSklURUdCSSs5aHpy?=
+ =?utf-8?B?RUlIWHFSQmR5WVBzVHlReG5ZN3pYNDVHNWtISXIyTHVic1NuaTZ6Y1RTVmRw?=
+ =?utf-8?B?Z1F3Q0lFWjhWSDdJaVNqK1NVRVJNSC9qbzlJaXpNdHlXeUZLdy9BQ1BmK0w3?=
+ =?utf-8?B?NUlyMmFyMFFhcjFXaWZpSm8ycUYveTRkWnhFeGZZcTF2SEFXVDRSb1Z5T0FN?=
+ =?utf-8?B?NU1zdWxHWnY5eHVCY3gyTkxDMzlDZ3lMeWRtV2I4VlVLREtZSVFZVGdGR2dG?=
+ =?utf-8?B?SXE5YjF3MDIzczUrNy9DdDM2M0tlbXFhNWVqN0lYc05nZWJ1ckk0d2I0VVVq?=
+ =?utf-8?B?RmJmOUlDTncvUmVLYUg3SzdSK1ROOURpZXg4aXhJTVFQWUtjOEVYalM4aGN0?=
+ =?utf-8?B?NFNQTWpjb3lrMEVGV00ybkhHTVY0NUZzNS9FQU1pUTNjb0NPY2lJd205YTdH?=
+ =?utf-8?Q?6AE3HdNbOXsyINdF2/XlQBxAU9ddXVkXlaLtdfWfWECl?=
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 806a1fcf-94e3-468d-1a49-08de0e4c0c9c
+X-MS-Exchange-CrossTenant-AuthSource: CH2PR12MB3990.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 18 Oct 2025 13:41:33.1057 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: NDY6avKYbXIc+1SIpW8CZQnULVij4qSx86umXZG7LPk5VMQnD0RX2iciSwlX9wUvmNLcBPVHJNOEPJ16s8UXHQ==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BL3PR12MB6474
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -80,391 +176,30 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Reply-To: federico@izzo.pro
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Federico Amedeo Izzo <federico@izzo.pro>
+On Fri Oct 17, 2025 at 12:13 AM JST, Joel Fernandes wrote:
+> (Resending due to some commit message mistakes (missing SOB etc). Thanks!=
+).
+>
+> These patches implement the initial refactoring and few improvements to t=
+he
+> register and bitfield macros. Rebased on drm-rust-next.
+>
+> Main difference from the previous series [1] is dropped the moving out of
+> nova-core pending BoundedInt changes:
+> https://lore.kernel.org/all/20251003154748.1687160-1-joelagnelf@nvidia.co=
+m/
+> Other than that, added tags, resolved conflict with kernel::fmt changes a=
+nd
+> rebased on drm-rust-next.
 
-This patch adds support for DSPP GC block in DPU driver for Qualcomm SoCs.
-The driver exposes the GAMMA_LUT DRM property, which is needed to enable
-night light and basic screen color calibration.
+Thanks, this version is looking pretty good, and works as intended.
 
-I used LineageOS downstream kernel as a reference and found the LUT
-format by trial-and-error on OnePlus 6.
+I plan on pushing these 4 patches soonish after fixing the line length
+issues and the other few problems reported by checkpatch.
 
-Tested on oneplus-enchilada (sdm845-mainline 6.16-dev) and xiaomi-tissot
-(msm8953-mainline 6.12/main).
-
-Signed-off-by: Federico Amedeo Izzo <federico@izzo.pro>
-Tested-by: David Heidelberg <david@ixit.cz>  # Pixel 3 (next-20251018)
----
-DRM GAMMA_LUT support was missing on sdm845 and other Qualcomm SoCs using
-DPU for CRTC. This is needed in userspace to enable features like Night
-Light or basic color calibration.
-
-I wrote this driver to enable Night Light on OnePlus 6, and after the
-driver was working I found out it applies to the 29 different Qualcomm SoCs
-that use the DPU display engine, including X1E for laptops.
-
-I used the LineageOS downstream kernel as reference and found the correct 
-LUT format by trial-and-error on OnePlus 6.
-
-This was my first Linux driver and it's been a great learning
-experience.
-
-The patch was reviewed by postmarketOS contributors here: 
-https://gitlab.com/sdm845-mainline/linux/-/merge_requests/137
-During review the patch was tested successfully on hamoa (X1E).
----
- drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c       | 90 ++++++++++++++++++++++----
- drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c |  4 ++
- drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.h |  4 ++
- drivers/gpu/drm/msm/disp/dpu1/dpu_hw_ctl.c     |  3 +
- drivers/gpu/drm/msm/disp/dpu1/dpu_hw_dspp.c    | 56 ++++++++++++++++
- drivers/gpu/drm/msm/disp/dpu1/dpu_hw_dspp.h    | 26 ++++++++
- 6 files changed, 169 insertions(+), 14 deletions(-)
-
-diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c
-index 4b970a59deaf..f2c97c4ef0af 100644
---- a/drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c
-+++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c
-@@ -812,12 +812,44 @@ static void _dpu_crtc_get_pcc_coeff(struct drm_crtc_state *state,
- 	cfg->b.b = CONVERT_S3_15(ctm->matrix[8]);
- }
- 
-+static void _dpu_crtc_get_gc_lut(struct drm_crtc_state *state,
-+		struct dpu_hw_gc_lut *gc_lut)
-+{
-+	struct drm_color_lut *lut;
-+	int i;
-+	u32 val_even, val_odd;
-+
-+	memset(gc_lut, 0, sizeof(struct dpu_hw_gc_lut));
-+
-+	lut = (struct drm_color_lut *)state->gamma_lut->data;
-+
-+	if (!lut)
-+		return;
-+
-+	/* Pack 1024 10-bit entries in 512 32-bit registers */
-+	for (i = 0; i < PGC_TBL_LEN; i++) {
-+		val_even = drm_color_lut_extract(lut[i * 2].green, 10);
-+		val_odd = drm_color_lut_extract(lut[i * 2 + 1].green, 10);
-+		gc_lut->c0[i] = val_even | (val_odd << 16);
-+		val_even = drm_color_lut_extract(lut[i * 2].blue, 10);
-+		val_odd = drm_color_lut_extract(lut[i * 2 + 1].blue, 10);
-+		gc_lut->c1[i] = val_even | (val_odd << 16);
-+		val_even = drm_color_lut_extract(lut[i * 2].red, 10);
-+		val_odd = drm_color_lut_extract(lut[i * 2 + 1].red, 10);
-+		gc_lut->c2[i] = val_even | (val_odd << 16);
-+	}
-+
-+	/* Disable 8-bit rounding mode */
-+	gc_lut->flags = 0;
-+}
-+
- static void _dpu_crtc_setup_cp_blocks(struct drm_crtc *crtc)
- {
- 	struct drm_crtc_state *state = crtc->state;
- 	struct dpu_crtc_state *cstate = to_dpu_crtc_state(crtc->state);
- 	struct dpu_crtc_mixer *mixer = cstate->mixers;
- 	struct dpu_hw_pcc_cfg cfg;
-+	struct dpu_hw_gc_lut *gc_lut;
- 	struct dpu_hw_ctl *ctl;
- 	struct dpu_hw_dspp *dspp;
- 	int i;
-@@ -830,19 +862,40 @@ static void _dpu_crtc_setup_cp_blocks(struct drm_crtc *crtc)
- 		ctl = mixer[i].lm_ctl;
- 		dspp = mixer[i].hw_dspp;
- 
--		if (!dspp || !dspp->ops.setup_pcc)
-+		if (!dspp)
- 			continue;
- 
--		if (!state->ctm) {
--			dspp->ops.setup_pcc(dspp, NULL);
--		} else {
--			_dpu_crtc_get_pcc_coeff(state, &cfg);
--			dspp->ops.setup_pcc(dspp, &cfg);
-+		if (dspp->ops.setup_pcc) {
-+			if (!state->ctm) {
-+				dspp->ops.setup_pcc(dspp, NULL);
-+			} else {
-+				_dpu_crtc_get_pcc_coeff(state, &cfg);
-+				dspp->ops.setup_pcc(dspp, &cfg);
-+			}
-+
-+			/* stage config flush mask */
-+			ctl->ops.update_pending_flush_dspp(ctl,
-+				mixer[i].hw_dspp->idx, DPU_DSPP_PCC);
- 		}
- 
--		/* stage config flush mask */
--		ctl->ops.update_pending_flush_dspp(ctl,
--			mixer[i].hw_dspp->idx, DPU_DSPP_PCC);
-+		if (dspp->ops.setup_gc) {
-+			if (!state->gamma_lut) {
-+				dspp->ops.setup_gc(dspp, NULL);
-+			} else {
-+				gc_lut = kzalloc(sizeof(*gc_lut), GFP_KERNEL);
-+				if (!gc_lut) {
-+					DRM_ERROR("failed to allocate gc_lut\n");
-+					continue;
-+				}
-+				_dpu_crtc_get_gc_lut(state, gc_lut);
-+				dspp->ops.setup_gc(dspp, gc_lut);
-+				kfree(gc_lut);
-+			}
-+
-+			/* stage config flush mask */
-+			ctl->ops.update_pending_flush_dspp(ctl,
-+				mixer[i].hw_dspp->idx, DPU_DSPP_GC);
-+		}
- 	}
- }
- 
-@@ -1340,7 +1393,7 @@ static struct msm_display_topology dpu_crtc_get_topology(
- 	 *
- 	 * If DSC is enabled, use 2 LMs for 2:2:1 topology
- 	 *
--	 * Add dspps to the reservation requirements if ctm is requested
-+	 * Add dspps to the reservation requirements if ctm or gamma_lut are requested
- 	 *
- 	 * Only hardcode num_lm to 2 for cases where num_intf == 2 and CWB is not
- 	 * enabled. This is because in cases where CWB is enabled, num_intf will
-@@ -1359,7 +1412,7 @@ static struct msm_display_topology dpu_crtc_get_topology(
- 	else
- 		topology.num_lm = 1;
- 
--	if (crtc_state->ctm)
-+	if (crtc_state->ctm || crtc_state->gamma_lut)
- 		topology.num_dspp = topology.num_lm;
- 
- 	return topology;
-@@ -1471,7 +1524,8 @@ static int dpu_crtc_atomic_check(struct drm_crtc *crtc,
- 	bool needs_dirtyfb = dpu_crtc_needs_dirtyfb(crtc_state);
- 
- 	/* don't reallocate resources if only ACTIVE has beeen changed */
--	if (crtc_state->mode_changed || crtc_state->connectors_changed) {
-+	if (crtc_state->mode_changed || crtc_state->connectors_changed ||
-+		crtc_state->color_mgmt_changed) {
- 		rc = dpu_crtc_assign_resources(crtc, crtc_state);
- 		if (rc < 0)
- 			return rc;
-@@ -1831,8 +1885,16 @@ struct drm_crtc *dpu_crtc_init(struct drm_device *dev, struct drm_plane *plane,
- 
- 	drm_crtc_helper_add(crtc, &dpu_crtc_helper_funcs);
- 
--	if (dpu_kms->catalog->dspp_count)
--		drm_crtc_enable_color_mgmt(crtc, 0, true, 0);
-+	if (dpu_kms->catalog->dspp_count) {
-+		const struct dpu_dspp_cfg *dspp = &dpu_kms->catalog->dspp[0];
-+
-+		if (dspp->sblk->gc.base) {
-+			drm_mode_crtc_set_gamma_size(crtc, DPU_GAMMA_LUT_SIZE);
-+			drm_crtc_enable_color_mgmt(crtc, 0, true, DPU_GAMMA_LUT_SIZE);
-+		} else {
-+			drm_crtc_enable_color_mgmt(crtc, 0, true, 0);
-+		}
-+	}
- 
- 	/* save user friendly CRTC name for later */
- 	snprintf(dpu_crtc->name, DPU_CRTC_NAME_SIZE, "crtc%u", crtc->base.id);
-diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c
-index 6641455c4ec6..8a4b9fc3ac84 100644
---- a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c
-+++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c
-@@ -382,11 +382,15 @@ static const struct dpu_lm_sub_blks qcm2290_lm_sblk = {
- static const struct dpu_dspp_sub_blks msm8998_dspp_sblk = {
- 	.pcc = {.name = "pcc", .base = 0x1700,
- 		.len = 0x90, .version = 0x10007},
-+	.gc = {.name = "gc", .base = 0x17c0,
-+		.len = 0x90, .version = 0x10007},
- };
- 
- static const struct dpu_dspp_sub_blks sdm845_dspp_sblk = {
- 	.pcc = {.name = "pcc", .base = 0x1700,
- 		.len = 0x90, .version = 0x40000},
-+	.gc = {.name = "gc", .base = 0x17c0,
-+		.len = 0x90, .version = 0x40000},
- };
- 
- static const struct dpu_dspp_sub_blks sm8750_dspp_sblk = {
-diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.h b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.h
-index f0768f54e9b3..3ea67c1cf5c0 100644
---- a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.h
-+++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.h
-@@ -77,9 +77,11 @@ enum {
- /**
-  * DSPP sub-blocks
-  * @DPU_DSPP_PCC             Panel color correction block
-+ * @DPU_DSPP_GC              Gamma correction block
-  */
- enum {
- 	DPU_DSPP_PCC = 0x1,
-+	DPU_DSPP_GC,
- 	DPU_DSPP_MAX
- };
- 
-@@ -314,9 +316,11 @@ struct dpu_lm_sub_blks {
- /**
-  * struct dpu_dspp_sub_blks: Information of DSPP block
-  * @pcc: pixel color correction block
-+ * @gc: gamma correction block
-  */
- struct dpu_dspp_sub_blks {
- 	struct dpu_pp_blk pcc;
-+	struct dpu_pp_blk gc;
- };
- 
- struct dpu_pingpong_sub_blks {
-diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_ctl.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_ctl.c
-index ac834db2e4c1..36a497f1d6c1 100644
---- a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_ctl.c
-+++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_ctl.c
-@@ -399,6 +399,9 @@ static void dpu_hw_ctl_update_pending_flush_dspp_sub_blocks(
- 	case DPU_DSPP_PCC:
- 		ctx->pending_dspp_flush_mask[dspp - DSPP_0] |= BIT(4);
- 		break;
-+	case DPU_DSPP_GC:
-+		ctx->pending_dspp_flush_mask[dspp - DSPP_0] |= BIT(5);
-+		break;
- 	default:
- 		return;
- 	}
-diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_dspp.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_dspp.c
-index 54b20faa0b69..7bf572379890 100644
---- a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_dspp.c
-+++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_dspp.c
-@@ -24,6 +24,18 @@
- #define PCC_BLUE_G_OFF 0x24
- #define PCC_BLUE_B_OFF 0x30
- 
-+/* DSPP_GC */
-+#define GC_EN BIT(0)
-+#define GC_DIS 0
-+#define GC_8B_ROUND_EN BIT(1)
-+#define GC_LUT_SWAP_OFF 0x1c
-+#define GC_C0_OFF 0x4
-+#define GC_C1_OFF 0xC
-+#define GC_C2_OFF 0x14
-+#define GC_C0_INDEX_OFF 0x8
-+#define GC_C1_INDEX_OFF 0x10
-+#define GC_C2_INDEX_OFF 0x18
-+
- static void dpu_setup_dspp_pcc(struct dpu_hw_dspp *ctx,
- 		struct dpu_hw_pcc_cfg *cfg)
- {
-@@ -63,6 +75,48 @@ static void dpu_setup_dspp_pcc(struct dpu_hw_dspp *ctx,
- 	DPU_REG_WRITE(&ctx->hw, base, PCC_EN);
- }
- 
-+static void dpu_setup_dspp_gc(struct dpu_hw_dspp *ctx,
-+		struct dpu_hw_gc_lut *gc_lut)
-+{
-+	int i = 0;
-+	u32 base, reg;
-+
-+	if (!ctx) {
-+		DRM_ERROR("invalid ctx %pK\n", ctx);
-+		return;
-+	}
-+
-+	base = ctx->cap->sblk->gc.base;
-+
-+	if (!base) {
-+		DRM_ERROR("invalid ctx %pK gc base 0x%x\n", ctx, base);
-+		return;
-+	}
-+
-+	if (!gc_lut) {
-+		DRM_DEBUG_DRIVER("disable gc feature\n");
-+		DPU_REG_WRITE(&ctx->hw, base, GC_DIS);
-+		return;
-+	}
-+
-+	reg = 0;
-+	DPU_REG_WRITE(&ctx->hw, base + GC_C0_INDEX_OFF, reg);
-+	DPU_REG_WRITE(&ctx->hw, base + GC_C1_INDEX_OFF, reg);
-+	DPU_REG_WRITE(&ctx->hw, base + GC_C2_INDEX_OFF, reg);
-+
-+	for (i = 0; i < PGC_TBL_LEN; i++) {
-+		DPU_REG_WRITE(&ctx->hw, base + GC_C0_OFF, gc_lut->c0[i]);
-+		DPU_REG_WRITE(&ctx->hw, base + GC_C1_OFF, gc_lut->c1[i]);
-+		DPU_REG_WRITE(&ctx->hw, base + GC_C2_OFF, gc_lut->c2[i]);
-+	}
-+
-+	reg = BIT(0);
-+	DPU_REG_WRITE(&ctx->hw, base + GC_LUT_SWAP_OFF, reg);
-+
-+	reg = GC_EN | ((gc_lut->flags & PGC_8B_ROUND) ? GC_8B_ROUND_EN : 0);
-+	DPU_REG_WRITE(&ctx->hw, base, reg);
-+}
-+
- /**
-  * dpu_hw_dspp_init() - Initializes the DSPP hw driver object.
-  * should be called once before accessing every DSPP.
-@@ -92,6 +146,8 @@ struct dpu_hw_dspp *dpu_hw_dspp_init(struct drm_device *dev,
- 	c->cap = cfg;
- 	if (c->cap->sblk->pcc.base)
- 		c->ops.setup_pcc = dpu_setup_dspp_pcc;
-+	if (c->cap->sblk->gc.base)
-+		c->ops.setup_gc = dpu_setup_dspp_gc;
- 
- 	return c;
- }
-diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_dspp.h b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_dspp.h
-index 45c26cd49fa3..d608f84e9434 100644
---- a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_dspp.h
-+++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_dspp.h
-@@ -33,6 +33,25 @@ struct dpu_hw_pcc_cfg {
- 	struct dpu_hw_pcc_coeff b;
- };
- 
-+#define DPU_GAMMA_LUT_SIZE 1024
-+#define PGC_TBL_LEN 512
-+#define PGC_8B_ROUND (1 << 0)
-+
-+/**
-+ * struct dpu_hw_gc_lut - gc lut feature structure
-+ * @flags: flags for the feature values can be:
-+ *         - PGC_8B_ROUND
-+ * @c0: color0 component lut
-+ * @c1: color1 component lut
-+ * @c2: color2 component lut
-+ */
-+struct dpu_hw_gc_lut {
-+	__u64 flags;
-+	__u32 c0[PGC_TBL_LEN];
-+	__u32 c1[PGC_TBL_LEN];
-+	__u32 c2[PGC_TBL_LEN];
-+};
-+
- /**
-  * struct dpu_hw_dspp_ops - interface to the dspp hardware driver functions
-  * Caller must call the init function to get the dspp context for each dspp
-@@ -46,6 +65,13 @@ struct dpu_hw_dspp_ops {
- 	 */
- 	void (*setup_pcc)(struct dpu_hw_dspp *ctx, struct dpu_hw_pcc_cfg *cfg);
- 
-+	/**
-+	 * setup_gc - setup dspp gc
-+	 * @ctx: Pointer to dspp context
-+	 * @gc_lut: Pointer to lut content
-+	 */
-+	void (*setup_gc)(struct dpu_hw_dspp *ctx, struct dpu_hw_gc_lut *gc_lut);
-+
- };
- 
- /**
-
----
-base-commit: 2433b84761658ef123ae683508bc461b07c5b0f0
-change-id: 20251017-dpu-add-dspp-gc-driver-c5d1c08be770
-
-Best regards,
--- 
-Federico Amedeo Izzo <federico@izzo.pro>
-
-
+Danilo, please let me know if you think this is premature, but imho it
+is good to set this part in stone to avoid merge conflicts with future
+patches that will want to modify the register macro.
