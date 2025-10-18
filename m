@@ -2,41 +2,41 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A2030BED900
-	for <lists+dri-devel@lfdr.de>; Sat, 18 Oct 2025 21:17:40 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id ACBBABED904
+	for <lists+dri-devel@lfdr.de>; Sat, 18 Oct 2025 21:17:46 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D2BBC10E1DD;
-	Sat, 18 Oct 2025 19:17:38 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E1CE410E1EB;
+	Sat, 18 Oct 2025 19:17:44 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="Zml/XwiH";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="iBGrgfs4";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from sea.source.kernel.org (sea.source.kernel.org [172.234.252.31])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9A3E010E1DD
- for <dri-devel@lists.freedesktop.org>; Sat, 18 Oct 2025 19:17:37 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0404C10E1EA
+ for <dri-devel@lists.freedesktop.org>; Sat, 18 Oct 2025 19:17:43 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by sea.source.kernel.org (Postfix) with ESMTP id 80F0A45230;
+ by sea.source.kernel.org (Postfix) with ESMTP id D320D44B4A;
+ Sat, 18 Oct 2025 19:17:42 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A33A0C116B1;
  Sat, 18 Oct 2025 19:17:37 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 77C6DC4CEF8;
- Sat, 18 Oct 2025 19:17:32 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1760815057;
- bh=t3MeAiRnGdoesAhwXOBk5BryendJK05svLbfpjh+K4s=;
+ s=k20201202; t=1760815062;
+ bh=mvzw2mOgVK1rTE6DegAxCmeiKe+4WCD0q+Vgj2JT9WU=;
  h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
- b=Zml/XwiHfAwgAYGqQhQmjibupmeFVe6AL7G8yrtIuhgOGPBajlIixZDSvtj/n0cDk
- 2Z9BgLJttZxcWNnImfvAzllTCHLttg8qJu4b4dFmHIEcRX8xXKeBmCML2/EZNY7rE4
- p4Ir/tpGxrPSTwfdst6VSVYv7LU0RGpp38aNgAgoePrOM5uUx6Vc46fHJ16izzuSeq
- bGDflThcMknvRW0bV/o8iclVods5ULufhvLGmTeJ94Pyu6YD1WIYBz2vDiPASQSh4S
- G/8WCo/ke3Nu5XltcaPNa36wdcUfG6WWtvNa9Ar7hgizm8vpndWzYi07A2+zrkVDMw
- TUQSBlMs1rCLQ==
+ b=iBGrgfs4GuEuh6D6ykM1vled445YaakCr43raArOpb6AMPxUylZ/sY8YIZ8/ZWuKx
+ l2ujB11ocOSuHi8Iw4VnX3qeaoOVrhagPImm5Lnfb7Tq+pOkuJFNaJ318v10IXizu3
+ gFgA57LXOC6oLXyskeEAD44u8+iqC8pMYIreQCOq41gcSezsBGWxPvRb2m4BBFHtAZ
+ DrFShpK4zZA7APeFat9mdn5pix3wb3FPQF8Ti+1G18sGFW1gpTs7/sbYNa/25049G8
+ MovMdmjKZSzVOTL4HyaPU8WIwFlNFtVnm71iSvxuYShp3rZDWus+xnxLboFSUcFpQf
+ IMD4WIfZLwxMg==
 From: Tamir Duberstein <tamird@kernel.org>
-Date: Sat, 18 Oct 2025 15:16:33 -0400
-Subject: [RESEND PATCH v18 12/16] rust: configfs: use `CStr::as_char_ptr`
+Date: Sat, 18 Oct 2025 15:16:34 -0400
+Subject: [RESEND PATCH v18 13/16] rust: regulator: use `CStr::as_char_ptr`
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20251018-cstr-core-v18-12-9378a54385f8@gmail.com>
+Message-Id: <20251018-cstr-core-v18-13-9378a54385f8@gmail.com>
 References: <20251018-cstr-core-v18-0-9378a54385f8@gmail.com>
 In-Reply-To: <20251018-cstr-core-v18-0-9378a54385f8@gmail.com>
 To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
@@ -74,13 +74,13 @@ Cc: rust-for-linux@vger.kernel.org, linux-kernel@vger.kernel.org,
  dri-devel@lists.freedesktop.org, linux-fsdevel@vger.kernel.org, 
  llvm@lists.linux.dev, Tamir Duberstein <tamird@gmail.com>
 X-Mailer: b4 0.15-dev
-X-Developer-Signature: v=1; a=openssh-sha256; t=1760814989; l=931;
+X-Developer-Signature: v=1; a=openssh-sha256; t=1760814989; l=2203;
  i=tamird@gmail.com; h=from:subject:message-id;
- bh=D3+7P/SS4fL5Q9I/e/hnwaICnLJa3uX2WlUDB305PhA=;
+ bh=TVneWa6JveF7OyfYzj6Kyk7+7jG+eRccWAa0D/umdvA=;
  b=U1NIU0lHAAAAAQAAADMAAAALc3NoLWVkMjU1MTkAAAAgtYz36g7iDMSkY5K7Ab51ksGX7hJgs
  MRt+XVZTrIzMVIAAAAGcGF0YXR0AAAAAAAAAAZzaGE1MTIAAABTAAAAC3NzaC1lZDI1NTE5AAAA
- QJNTPLMMNL1Y0QjjEhUqhLLisj+FekJgSfqKzOMBilFTfJSI1pvk3DV52ieZT/JQS43drzCi0jB
- W4MEhimPTDwU=
+ QB66XSchXpQP0ql6hf2wFqSMWIu/xghHrf/J2fVOOToGeEX1prtd6Qtlv/bZtBsRRBGIVNZMvr8
+ dES/KD1MjIgk=
 X-Developer-Key: i=tamird@gmail.com; a=openssh;
  fpr=SHA256:264rPmnnrb+ERkS7DDS3tuwqcJss/zevJRzoylqMsbc
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -107,22 +107,43 @@ implement `Deref<Target=&[u8]>`.
 
 Signed-off-by: Tamir Duberstein <tamird@gmail.com>
 ---
- rust/kernel/configfs.rs | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ rust/kernel/regulator.rs | 9 ++++++---
+ 1 file changed, 6 insertions(+), 3 deletions(-)
 
-diff --git a/rust/kernel/configfs.rs b/rust/kernel/configfs.rs
-index 10f1547ca9f1..466fb7f40762 100644
---- a/rust/kernel/configfs.rs
-+++ b/rust/kernel/configfs.rs
-@@ -157,7 +157,7 @@ pub fn new(
-                     unsafe {
-                         bindings::config_group_init_type_name(
-                             &mut (*place.get()).su_group,
--                            name.as_ptr(),
-+                            name.as_char_ptr(),
-                             item_type.as_ptr(),
-                         )
-                     };
+diff --git a/rust/kernel/regulator.rs b/rust/kernel/regulator.rs
+index b55a201e5029..65a4eb096cae 100644
+--- a/rust/kernel/regulator.rs
++++ b/rust/kernel/regulator.rs
+@@ -84,7 +84,7 @@ pub struct Error<State: RegulatorState> {
+ pub fn devm_enable(dev: &Device<Bound>, name: &CStr) -> Result {
+     // SAFETY: `dev` is a valid and bound device, while `name` is a valid C
+     // string.
+-    to_result(unsafe { bindings::devm_regulator_get_enable(dev.as_raw(), name.as_ptr()) })
++    to_result(unsafe { bindings::devm_regulator_get_enable(dev.as_raw(), name.as_char_ptr()) })
+ }
+ 
+ /// Same as [`devm_enable`], but calls `devm_regulator_get_enable_optional`
+@@ -102,7 +102,9 @@ pub fn devm_enable(dev: &Device<Bound>, name: &CStr) -> Result {
+ pub fn devm_enable_optional(dev: &Device<Bound>, name: &CStr) -> Result {
+     // SAFETY: `dev` is a valid and bound device, while `name` is a valid C
+     // string.
+-    to_result(unsafe { bindings::devm_regulator_get_enable_optional(dev.as_raw(), name.as_ptr()) })
++    to_result(unsafe {
++        bindings::devm_regulator_get_enable_optional(dev.as_raw(), name.as_char_ptr())
++    })
+ }
+ 
+ /// A `struct regulator` abstraction.
+@@ -268,7 +270,8 @@ pub fn get_voltage(&self) -> Result<Voltage> {
+     fn get_internal(dev: &Device, name: &CStr) -> Result<Regulator<T>> {
+         // SAFETY: It is safe to call `regulator_get()`, on a device pointer
+         // received from the C code.
+-        let inner = from_err_ptr(unsafe { bindings::regulator_get(dev.as_raw(), name.as_ptr()) })?;
++        let inner =
++            from_err_ptr(unsafe { bindings::regulator_get(dev.as_raw(), name.as_char_ptr()) })?;
+ 
+         // SAFETY: We can safely trust `inner` to be a pointer to a valid
+         // regulator if `ERR_PTR` was not returned.
 
 -- 
 2.51.1
