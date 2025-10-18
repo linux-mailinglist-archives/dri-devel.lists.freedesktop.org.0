@@ -2,42 +2,41 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1B9B6BED8B4
-	for <lists+dri-devel@lfdr.de>; Sat, 18 Oct 2025 21:16:43 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id E58A0BED8B9
+	for <lists+dri-devel@lfdr.de>; Sat, 18 Oct 2025 21:17:02 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CAAB410E0C1;
-	Sat, 18 Oct 2025 19:16:40 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D77C210E0C9;
+	Sat, 18 Oct 2025 19:16:47 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="ffmzT0BQ";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="A/dpn0uV";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sea.source.kernel.org (sea.source.kernel.org [172.234.252.31])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1E67E10E0C1
- for <dri-devel@lists.freedesktop.org>; Sat, 18 Oct 2025 19:16:40 +0000 (UTC)
+Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7DDE510E0D8
+ for <dri-devel@lists.freedesktop.org>; Sat, 18 Oct 2025 19:16:46 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by sea.source.kernel.org (Postfix) with ESMTP id 0272F44A89;
+ by tor.source.kernel.org (Postfix) with ESMTP id 7920961148;
+ Sat, 18 Oct 2025 19:16:45 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2A377C4CEF9;
  Sat, 18 Oct 2025 19:16:40 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E148FC113D0;
- Sat, 18 Oct 2025 19:16:34 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1760814999;
- bh=C/oRk6L2M1VkY7xKBMS5ZMJ8LE5yFtLvwMHX6+hqOxA=;
+ s=k20201202; t=1760815005;
+ bh=FXpiJO4Szqw/E4PskiE/Nb1PmghCqw89WwTByz9xO7w=;
  h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
- b=ffmzT0BQLpFASxz1wAbiwkDhaUXcLcXDaBDPawZYky792LHnQQkEcZLYzQ77G04xJ
- 9u1U/rmI6GfszQeOISTm9zMEbvNdsu5I1NNMbsEG/0W629DU4VzY+Dob+mDb4pyG1J
- aXC00UBVOYciS0PQWHtgXLA/5a+juNvAgXkAbMOZPhjcAalDSgyibn0WAjVZYqZRBj
- enTyjTLLfgTbTW4x0tzSB9mOx+QrzSn9LnrsVVsxl63q9CIyj0n40TmxaTc1UF/r8g
- HXt4sjJG2P9rN8mJu5nch20yeVrYaZP5b5Hy9GHSRzf7uywM0z5C3WEL+QMdfoq4fl
- Qp3c0CHNGvruw==
+ b=A/dpn0uVxITbU6P2OKgIIpSWGQ3PRIKee8oc/CVpAkmcP7+KGmUsIUreLpHX+sF3w
+ hdCw0qGG1bIPjEAUFiOBCgVQ9CwJwj++BpYZJSwz/xt76JJ3jU+LWRV+TbSEFd7dE6
+ D587PewuJAn6SWONEy97LP9kayvQGcsMPMjS9b37cvQcju5SP7dZGlYZnejWc2/cRJ
+ mEBazmyzSu6oMBSb/FtWH1lpz3905ulF+CqNsUjKXFawpndVXBH1p8htdSzNA4sqfo
+ K8kao+zOe+3SBcwuYls4kcrKYWlkUZOIznEFkuoNVIuda/xnqZfGAn7JhKNAdVcK7P
+ 4LQZWaDTcgp2w==
 From: Tamir Duberstein <tamird@kernel.org>
-Date: Sat, 18 Oct 2025 15:16:22 -0400
-Subject: [RESEND PATCH v18 01/16] samples: rust: platform: remove trailing
- commas
+Date: Sat, 18 Oct 2025 15:16:23 -0400
+Subject: [RESEND PATCH v18 02/16] rust_binder: remove trailing comma
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20251018-cstr-core-v18-1-9378a54385f8@gmail.com>
+Message-Id: <20251018-cstr-core-v18-2-9378a54385f8@gmail.com>
 References: <20251018-cstr-core-v18-0-9378a54385f8@gmail.com>
 In-Reply-To: <20251018-cstr-core-v18-0-9378a54385f8@gmail.com>
 To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
@@ -75,13 +74,13 @@ Cc: rust-for-linux@vger.kernel.org, linux-kernel@vger.kernel.org,
  dri-devel@lists.freedesktop.org, linux-fsdevel@vger.kernel.org, 
  llvm@lists.linux.dev, Tamir Duberstein <tamird@gmail.com>
 X-Mailer: b4 0.15-dev
-X-Developer-Signature: v=1; a=openssh-sha256; t=1760814988; l=1642;
+X-Developer-Signature: v=1; a=openssh-sha256; t=1760814988; l=981;
  i=tamird@gmail.com; h=from:subject:message-id;
- bh=5IzviSKzcg5QXxBA9uZe2s664KTsV8Tne2rtRwo/bww=;
+ bh=6FtTg88GY2fWPari0/xVYIFZl0LtyM/QigeE2PMN1js=;
  b=U1NIU0lHAAAAAQAAADMAAAALc3NoLWVkMjU1MTkAAAAgtYz36g7iDMSkY5K7Ab51ksGX7hJgs
  MRt+XVZTrIzMVIAAAAGcGF0YXR0AAAAAAAAAAZzaGE1MTIAAABTAAAAC3NzaC1lZDI1NTE5AAAA
- QGFOQ9P1ygqKYue8QBUD63+vl5I5OZhEnEQypfM8/m49Pku6mJjUNDELTnaH5fNEKD7axzy9NwF
- E+2LbMtqURAg=
+ QBzpNh+4gws9u4pKOIjLa44Nt+SlBTBcXIDZ9dAT5dByUahiamCRo1CqKlvXc21TQxnXcZ/H5IM
+ oOjoaFrgTsg0=
 X-Developer-Key: i=tamird@gmail.com; a=openssh;
  fpr=SHA256:264rPmnnrb+ERkS7DDS3tuwqcJss/zevJRzoylqMsbc
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -103,37 +102,27 @@ From: Tamir Duberstein <tamird@gmail.com>
 
 This prepares for a later commit in which we introduce a custom
 formatting macro; that macro doesn't handle trailing commas so just
-remove them.
+remove this one.
 
-Acked-by: Danilo Krummrich <dakr@kernel.org>
-Reviewed-by: Benno Lossin <lossin@kernel.org>
+Reviewed-by: Alice Ryhl <aliceryhl@google.com>
 Signed-off-by: Tamir Duberstein <tamird@gmail.com>
 ---
- samples/rust/rust_driver_platform.rs | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ drivers/android/binder/process.rs | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/samples/rust/rust_driver_platform.rs b/samples/rust/rust_driver_platform.rs
-index 6473baf4f120..8a82e251820f 100644
---- a/samples/rust/rust_driver_platform.rs
-+++ b/samples/rust/rust_driver_platform.rs
-@@ -146,7 +146,7 @@ fn properties_parse(dev: &device::Device) -> Result {
- 
-         let name = c_str!("test,u32-optional-prop");
-         let prop = fwnode.property_read::<u32>(name).or(0x12);
--        dev_info!(dev, "'{name}'='{prop:#x}' (default = 0x12)\n",);
-+        dev_info!(dev, "'{name}'='{prop:#x}' (default = 0x12)\n");
- 
-         // A missing required property will print an error. Discard the error to
-         // prevent properties_parse from failing in that case.
-@@ -161,7 +161,7 @@ fn properties_parse(dev: &device::Device) -> Result {
-         let prop: [i16; 4] = fwnode.property_read(name).required_by(dev)?;
-         dev_info!(dev, "'{name}'='{prop:?}'\n");
-         let len = fwnode.property_count_elem::<u16>(name)?;
--        dev_info!(dev, "'{name}' length is {len}\n",);
-+        dev_info!(dev, "'{name}' length is {len}\n");
- 
-         let name = c_str!("test,i16-array");
-         let prop: KVec<i16> = fwnode.property_read_array_vec(name, 4)?.required_by(dev)?;
+diff --git a/drivers/android/binder/process.rs b/drivers/android/binder/process.rs
+index f13a747e784c..d8111c990f21 100644
+--- a/drivers/android/binder/process.rs
++++ b/drivers/android/binder/process.rs
+@@ -596,7 +596,7 @@ pub(crate) fn debug_print(&self, m: &SeqFile, ctx: &Context, print_all: bool) ->
+                     "  ref {}: desc {} {}node {debug_id} s {strong} w {weak}",
+                     r.debug_id,
+                     r.handle,
+-                    if dead { "dead " } else { "" },
++                    if dead { "dead " } else { "" }
+                 );
+             }
+         }
 
 -- 
 2.51.1
