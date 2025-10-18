@@ -2,75 +2,75 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C1DF4BED616
-	for <lists+dri-devel@lfdr.de>; Sat, 18 Oct 2025 19:46:04 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4D124BED61C
+	for <lists+dri-devel@lfdr.de>; Sat, 18 Oct 2025 19:46:09 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DF8E210E143;
-	Sat, 18 Oct 2025 17:46:02 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7772F10E17F;
+	Sat, 18 Oct 2025 17:46:07 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="nBOd4p34";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="NUkJiOki";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-qk1-f174.google.com (mail-qk1-f174.google.com
- [209.85.222.174])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0110810E149
- for <dri-devel@lists.freedesktop.org>; Sat, 18 Oct 2025 17:46:01 +0000 (UTC)
-Received: by mail-qk1-f174.google.com with SMTP id
- af79cd13be357-8909f01bd00so280614985a.0
- for <dri-devel@lists.freedesktop.org>; Sat, 18 Oct 2025 10:46:01 -0700 (PDT)
+Received: from mail-qv1-f53.google.com (mail-qv1-f53.google.com
+ [209.85.219.53])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8A23310E17F
+ for <dri-devel@lists.freedesktop.org>; Sat, 18 Oct 2025 17:46:04 +0000 (UTC)
+Received: by mail-qv1-f53.google.com with SMTP id
+ 6a1803df08f44-87c20106cbeso39543016d6.1
+ for <dri-devel@lists.freedesktop.org>; Sat, 18 Oct 2025 10:46:04 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1760809561; x=1761414361; darn=lists.freedesktop.org;
+ d=gmail.com; s=20230601; t=1760809563; x=1761414363; darn=lists.freedesktop.org;
  h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
  :mime-version:subject:date:from:from:to:cc:subject:date:message-id
- :reply-to; bh=H5WimfWZlEqiYHKzfmcAckTYkDvTe0+bpTYNTmk8aT4=;
- b=nBOd4p34CRRumfUXn4ocLhXH+i9o/fEJ2dsEYYGtsC99cQ7tPRm8eM2LHui8dg/M1l
- wS4TbNgbS+BYhnEIcIuwTlHS06F38ZxBi55vMwIWq+hMsOV/en0K2ywhXyzAwN8kY/kw
- WHckhoq8maJ2l3Fj7HNZwfWsbazWYzlx2CabN3qo8jwO/QRQxb6+zn6IOd17BuSLvdR2
- 8+y4XbljuPndByyL4DAv54vXPXyXz42/sw1r/M1UTik8JW1aQ39EK9FLK/CGjLbixxxt
- TBDcvVBbwNT2yVtZ3k5QGk5N5lMiOndBItLAlRacMAjQatkvsLEJWMr3tzLt5etuGz/D
- +aXg==
+ :reply-to; bh=Ycwx31K2mxLEujn4A81pZPUGOjv1ArmgOKcrq9XGsoU=;
+ b=NUkJiOki766SR3qyGalj+5vvhqXUZgQoWq0UYRR3hI7qWAimkF+90TSWOGQQnN4iO+
+ UAIPwHYPJQNKXjyY9uChFiefKladll9fOHrWdb9l5B7f82nChsfOFQfeMf/4Sk/mFQFZ
+ qd3NzX55TNijvcoWhea8q9EPGgDfu2oXEfTZx+QZY8Vj6nO6PTkqG7e73W4bajqBfZQa
+ uYM13P6E71+u5xUol+N8EHJYB/tQGBveTv4YyCIAUQV0Rvy4lVn+vgoWqmSN721H7ZYv
+ 4n5XPRLushv7aVqYlqKpS6+ZGcTkjClNdsbnZpNx6vXV8dbuWHtckUvqaTAlp9rBhwPe
+ L8OQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1760809561; x=1761414361;
+ d=1e100.net; s=20230601; t=1760809563; x=1761414363;
  h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
  :mime-version:subject:date:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=H5WimfWZlEqiYHKzfmcAckTYkDvTe0+bpTYNTmk8aT4=;
- b=iyGTRZ1eUkFIuB7aVSgperhViuYN34cx2J6EvKwx/oHasuin+KwIpW3DED7DD+35YC
- 2zGZkhFwBfigyXQXIVEQ3J7+N15Ku4/hVvfVguby1xqhSEWn59V6QYktkOXfmHhr9f7O
- XJQp8yQIdhKdmtbga5RIYFg14iSULSmGCxcKAv6pGmgG59/rE4zIVwgyRyiozmBsH7pG
- KbtnsNFwjQDkzz7HdAkZgAyX1uXoy4aTlbNe2OHSHZt83KcLlERBc1MhX8MkTQqYRcvw
- X5nmPyrKrmv9ezB+q4apsZK3ZxijUfObUXp0fFeDf1feQhoZuAELRegSw/5LRv4oriPo
- V4QQ==
+ bh=Ycwx31K2mxLEujn4A81pZPUGOjv1ArmgOKcrq9XGsoU=;
+ b=Qy5iUk2vKUCZHyQr8PHq3hWAy/tng8Evef2LfB9fnXACB9DVaEKuV6Y/PrzRgMPUfL
+ WoOffVYgPywKImyZNihvJpfUeSP1kwcUW2/nEY4Qu8eCabK+2CvHYFmTSWHWKS8CcCpT
+ V0KWPi9V6KzDB0RBQLELCIw8I+5emF4n7ARC3/y0tTR+8bbHS3NpghFlJlQbopTRW11y
+ 1XThoWN+fUsNZhbz1VFpSne/cWF/LKsrWOpQQU9e/vfe2SqQl4Ga4QwxxsmnjG1Fem2S
+ g6BirXWRzZMz6mOEQNDRFQhq+wz9hWMAzRbG2drF7qhLQCvlG3qv67D+UAbNV8V0IiAn
+ fpUA==
 X-Forwarded-Encrypted: i=1;
- AJvYcCVUSkDjd6uqIkR2Whryi7beSwJ1x38jTmWoD2a4PO1V0TGOjJa52VAVHB98uMsPXb/gLidcPwDTJYw=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YzUU2pqDfMIYgu+17P5c1ZkgBqkkS0Gepodp1FnZGl/03yPdSrW
- D09HWus5VVBMsYmmbrchaarnvXLS7joY2g7iC8o48a//l85uVav6S4x5
-X-Gm-Gg: ASbGncuEci0klhEcjPv8zKCVSkzEf3bVirUoCovVHA7nXp/p6bwJvCNN5rBLHXXSluh
- zwMd+omQwJyBnhbvCc4CNx1VC6lgNPx20DuYxSlL7/kSKsutgjmdjpJJkjLIBlsSd5/0CglRY3L
- +R7lpHsn4aH0Na7vBfWE63Piq9OdbsLM++If9umuHLc0+eAYAoSCBG8Kied1RLh2KAM/HbY6Il/
- B8ELSKFVhbVxjf1/P4B2ODplZYWW7ighUNbcqhbAi/nlrbrdpqxTKPIEgo6DUhMvukPdxutUdqB
- CWb0jGvlvk7KBTLoowGFw562b5FSfhWCzO4wyUKw/RwLWJF6f4cs/CtPmIWOc1EDa6JsSPlmGdE
- M74LjrDUE0TBoRO6sSMLFrrla63UL63RnyN+VvU9XoJQaCw9Iirzt3z2kEmFRC8m0HSecLEAbEM
- Pfqztjz11T48dTViwutwlWZUPn/BtrUsIDIMHVt17aPN2PgCn1b4G27gvbJzC0cKS6WTqRX8Ra3
- pSVbdK3J4CLwengbMemvbNsGHlgJn2Dv6yocQnhcKpciHyHslW9OsOsVja69I4=
-X-Google-Smtp-Source: AGHT+IH8lweP2XYB08E+inbzDnXw7d9uWVgrdDvTnlgrkRHMKVP2lag0JhfKwKbfvNE1zYcp4Zi2rA==
-X-Received: by 2002:a05:622a:15cd:b0:4e8:894e:1345 with SMTP id
- d75a77b69052e-4e89d07d9b1mr104925911cf.0.1760809560785; 
- Sat, 18 Oct 2025 10:46:00 -0700 (PDT)
+ AJvYcCU3O82Pkd/gzyzEHVlzQKbcDXzNDIbh9l92bIjUPzxBmbiuhvql+eo2TVrP6MeXXYkSGT9f0GJ0V7s=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YxXQ+ao21DQmHLDe/E2FbMl7y4FnaPeZVMIH7YVeHaTB4HazdcT
+ /2wykesKV993JO1rBEQH0DMdVwcOr3jmpWF4vohP2VDyHWz72II/EdMe
+X-Gm-Gg: ASbGncss5eMD8Q+uuyHsNbfL7NaJ5vHJu7iUwu3vssQaAZfu6S4kq5ira+xHxW6t7X7
+ tEQSIU/AC0+43A6BAIhqUAQ7XmNr1hE4p2zqA4NdOUrKFd1fCjaet4Iefu1jgwoVp6F0v64D7Ea
+ /tUS5JzCdIeq7jFF0UH+hNYwLNyMRef1enCcL5hcdVUT+Tmo7JlKrPB7Cw1A5+slr2y2duVExsR
+ jpVitlyq+pykhWljg9OnN6GnangcnpvjCrAkR14QZILnBalD8zkiqOId4a0sv5akMh7fbtsfO3+
+ CpWGJ/oLLONAfT/nhY2KzXVyMHQTa7UtzIO0gMZij5Hht5Cm8lvuDVbbGwDWMM4FR0hmVUFdI6p
+ iI5XjDfI1HcPqUy/an7pO/5/yShGvehT0e6he9s1KZKgQxKpo4ZALlGoXbkgq7RNxS2Q5z84hEU
+ hQVGTbIu2RmjVJiqMbLOPXpr01k0CnLp9BX3AIcGttQy/CVD84nr+8U79bHIK+7Ko3LF/OkjA/L
+ iH8WNn8APZA2CpJweiqBZpQK3sghBMEdTkJtSxZoFL9PMcEBvYCIhpM4kuKtN8wDtbSPWMM9Q==
+X-Google-Smtp-Source: AGHT+IGG7z7f3MNU21/Rti4PmtrZca4GFxKfblibRIkboUBwmpGvzYHP42u9XCSh6vTqFJ+cvotYfQ==
+X-Received: by 2002:ac8:5910:0:b0:4e8:9596:ee77 with SMTP id
+ d75a77b69052e-4e89d1eca83mr102709391cf.10.1760809563421; 
+ Sat, 18 Oct 2025 10:46:03 -0700 (PDT)
 Received: from 117.1.168.192.in-addr.arpa
  ([2600:4808:6353:5c00:1948:1052:f1e9:e23a])
  by smtp.gmail.com with ESMTPSA id
- d75a77b69052e-4e8ab114132sm20445161cf.40.2025.10.18.10.45.57
+ d75a77b69052e-4e8ab114132sm20445161cf.40.2025.10.18.10.46.00
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 18 Oct 2025 10:45:59 -0700 (PDT)
+ Sat, 18 Oct 2025 10:46:02 -0700 (PDT)
 From: Tamir Duberstein <tamird@gmail.com>
-Date: Sat, 18 Oct 2025 13:45:19 -0400
-Subject: [PATCH v18 08/16] rust: pci: use `kernel::fmt`
+Date: Sat, 18 Oct 2025 13:45:20 -0400
+Subject: [PATCH v18 09/16] rust: remove spurious `use core::fmt::Debug`
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20251018-cstr-core-v18-8-ef3d02760804@gmail.com>
+Message-Id: <20251018-cstr-core-v18-9-ef3d02760804@gmail.com>
 References: <20251018-cstr-core-v18-0-ef3d02760804@gmail.com>
 In-Reply-To: <20251018-cstr-core-v18-0-ef3d02760804@gmail.com>
 To: Miguel Ojeda <ojeda@kernel.org>, Alex Gaynor <alex.gaynor@gmail.com>, 
@@ -109,13 +109,13 @@ Cc: rust-for-linux@vger.kernel.org, linux-kernel@vger.kernel.org,
  linux-pm@vger.kernel.org, linux-clk@vger.kernel.org, 
  dri-devel@lists.freedesktop.org, Tamir Duberstein <tamird@gmail.com>
 X-Mailer: b4 0.15-dev
-X-Developer-Signature: v=1; a=openssh-sha256; t=1760809527; l=918;
+X-Developer-Signature: v=1; a=openssh-sha256; t=1760809527; l=668;
  i=tamird@gmail.com; h=from:subject:message-id;
- bh=03bsWp5q/RvNg/sXSrzNos1bBBR49+qyJdq4+m4Ha6w=;
+ bh=uLnXUd5iHMMEJTAMJKY0bsxZkX3e5rGAkuIO16n9SP8=;
  b=U1NIU0lHAAAAAQAAADMAAAALc3NoLWVkMjU1MTkAAAAgtYz36g7iDMSkY5K7Ab51ksGX7hJgs
  MRt+XVZTrIzMVIAAAAGcGF0YXR0AAAAAAAAAAZzaGE1MTIAAABTAAAAC3NzaC1lZDI1NTE5AAAA
- QH27Y5uAfTmrvKZIdGCHYL/oomYMJkFLfNEOLtlLtpxxDPHsRr1ISH3D/10dPkATw5kw42q12/O
- zIe1ETaFKVAY=
+ QGXXqQt9RHGxpoBFZLlXeLUPAugoqd/q2N96Ig7iFhgm9rnqX6mshM+HDXmtIVBN7F9GI6CbJIb
+ k7xYI3LBrrwQ=
 X-Developer-Key: i=tamird@gmail.com; a=openssh;
  fpr=SHA256:264rPmnnrb+ERkS7DDS3tuwqcJss/zevJRzoylqMsbc
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -133,32 +133,29 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Reduce coupling to implementation details of the formatting machinery by
-avoiding direct use for `core`'s formatting traits and macros.
+We want folks to use `kernel::fmt` but this is only used for `derive` so
+can be removed entirely.
 
-This backslid in commit ed78a01887e2 ("rust: pci: provide access to PCI
-Class and Class-related items").
+This backslid in commit ea60cea07d8c ("rust: add `Alignment` type").
 
-Acked-by: Danilo Krummrich <dakr@kernel.org>
+Reviewed-by: Alice Ryhl <aliceryhl@google.com>
 Signed-off-by: Tamir Duberstein <tamird@gmail.com>
 ---
- rust/kernel/pci/id.rs | 3 +--
- 1 file changed, 1 insertion(+), 2 deletions(-)
+ rust/kernel/ptr.rs | 1 -
+ 1 file changed, 1 deletion(-)
 
-diff --git a/rust/kernel/pci/id.rs b/rust/kernel/pci/id.rs
-index 7f2a7f57507f..5f5d59ff49fc 100644
---- a/rust/kernel/pci/id.rs
-+++ b/rust/kernel/pci/id.rs
-@@ -4,8 +4,7 @@
- //!
- //! This module contains PCI class codes, Vendor IDs, and supporting types.
+diff --git a/rust/kernel/ptr.rs b/rust/kernel/ptr.rs
+index 2e5e2a090480..e3893ed04049 100644
+--- a/rust/kernel/ptr.rs
++++ b/rust/kernel/ptr.rs
+@@ -2,7 +2,6 @@
  
--use crate::{bindings, error::code::EINVAL, error::Error, prelude::*};
--use core::fmt;
-+use crate::{bindings, error::code::EINVAL, error::Error, fmt, prelude::*};
+ //! Types and functions to work with pointers and addresses.
  
- /// PCI device class codes.
- ///
+-use core::fmt::Debug;
+ use core::mem::align_of;
+ use core::num::NonZero;
+ 
 
 -- 
 2.51.1
