@@ -2,41 +2,41 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A5CCCBED8F2
-	for <lists+dri-devel@lfdr.de>; Sat, 18 Oct 2025 21:17:36 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id A2030BED900
+	for <lists+dri-devel@lfdr.de>; Sat, 18 Oct 2025 21:17:40 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D116F10E1E2;
-	Sat, 18 Oct 2025 19:17:34 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D2BBC10E1DD;
+	Sat, 18 Oct 2025 19:17:38 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="C0fdIGiX";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="Zml/XwiH";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 19A3A10E1DD
- for <dri-devel@lists.freedesktop.org>; Sat, 18 Oct 2025 19:17:33 +0000 (UTC)
+Received: from sea.source.kernel.org (sea.source.kernel.org [172.234.252.31])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9A3E010E1DD
+ for <dri-devel@lists.freedesktop.org>; Sat, 18 Oct 2025 19:17:37 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by tor.source.kernel.org (Postfix) with ESMTP id 8CE9D611AD;
+ by sea.source.kernel.org (Postfix) with ESMTP id 80F0A45230;
+ Sat, 18 Oct 2025 19:17:37 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 77C6DC4CEF8;
  Sat, 18 Oct 2025 19:17:32 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 579C5C16AAE;
- Sat, 18 Oct 2025 19:17:27 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1760815052;
- bh=9juD2re7DWE7O8nJl0lrYDN5UrR09N9/s9yGrWP5DGM=;
+ s=k20201202; t=1760815057;
+ bh=t3MeAiRnGdoesAhwXOBk5BryendJK05svLbfpjh+K4s=;
  h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
- b=C0fdIGiXnl6qIebTUwvFtbcdka1UB0QhIJqAtbfttoSdLgL9kiMoku2+sDGUCNSGd
- sBkqKEY8XgQApQ9L4TqGvWsTLRHGByG8ZgCZMcmMa63MBuZwYuv3cNw+WuwEYELWzB
- d44278S08gcsJnhADbPK868vAN+WbeDvfqEzAYxnXGYI5KaiIeOwoN3L0SgRVRmkfx
- X7H3Sk2YlCpU1WE1jen0VkGoPvvbHQ29NuWn5I9izcWMDPB9h38QzE9+UY8X0SHNTc
- ND5byOs3qIZEaYXGqCbYghVlrUsPmm6LEGWClQCYlvL5CWl5fNe+iimuEelLbUIUFg
- iMMLIdf3UrCug==
+ b=Zml/XwiHfAwgAYGqQhQmjibupmeFVe6AL7G8yrtIuhgOGPBajlIixZDSvtj/n0cDk
+ 2Z9BgLJttZxcWNnImfvAzllTCHLttg8qJu4b4dFmHIEcRX8xXKeBmCML2/EZNY7rE4
+ p4Ir/tpGxrPSTwfdst6VSVYv7LU0RGpp38aNgAgoePrOM5uUx6Vc46fHJ16izzuSeq
+ bGDflThcMknvRW0bV/o8iclVods5ULufhvLGmTeJ94Pyu6YD1WIYBz2vDiPASQSh4S
+ G/8WCo/ke3Nu5XltcaPNa36wdcUfG6WWtvNa9Ar7hgizm8vpndWzYi07A2+zrkVDMw
+ TUQSBlMs1rCLQ==
 From: Tamir Duberstein <tamird@kernel.org>
-Date: Sat, 18 Oct 2025 15:16:32 -0400
-Subject: [RESEND PATCH v18 11/16] rust: opp: fix broken rustdoc link
+Date: Sat, 18 Oct 2025 15:16:33 -0400
+Subject: [RESEND PATCH v18 12/16] rust: configfs: use `CStr::as_char_ptr`
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20251018-cstr-core-v18-11-9378a54385f8@gmail.com>
+Message-Id: <20251018-cstr-core-v18-12-9378a54385f8@gmail.com>
 References: <20251018-cstr-core-v18-0-9378a54385f8@gmail.com>
 In-Reply-To: <20251018-cstr-core-v18-0-9378a54385f8@gmail.com>
 To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
@@ -74,13 +74,13 @@ Cc: rust-for-linux@vger.kernel.org, linux-kernel@vger.kernel.org,
  dri-devel@lists.freedesktop.org, linux-fsdevel@vger.kernel.org, 
  llvm@lists.linux.dev, Tamir Duberstein <tamird@gmail.com>
 X-Mailer: b4 0.15-dev
-X-Developer-Signature: v=1; a=openssh-sha256; t=1760814988; l=760;
+X-Developer-Signature: v=1; a=openssh-sha256; t=1760814989; l=931;
  i=tamird@gmail.com; h=from:subject:message-id;
- bh=tThvb3NWkM3msr/ABoCM1JnbhTAqdV/nFrTXflsMRkU=;
+ bh=D3+7P/SS4fL5Q9I/e/hnwaICnLJa3uX2WlUDB305PhA=;
  b=U1NIU0lHAAAAAQAAADMAAAALc3NoLWVkMjU1MTkAAAAgtYz36g7iDMSkY5K7Ab51ksGX7hJgs
  MRt+XVZTrIzMVIAAAAGcGF0YXR0AAAAAAAAAAZzaGE1MTIAAABTAAAAC3NzaC1lZDI1NTE5AAAA
- QPqF/mm9xNU7+TBmT1XlcmtJzse6LYSkUbnpcCK4weGSJVuR/nhZk/QSMwFd0BfjfApI5KXNqgQ
- 3X4sYkgg0KAc=
+ QJNTPLMMNL1Y0QjjEhUqhLLisj+FekJgSfqKzOMBilFTfJSI1pvk3DV52ieZT/JQS43drzCi0jB
+ W4MEhimPTDwU=
 X-Developer-Key: i=tamird@gmail.com; a=openssh;
  fpr=SHA256:264rPmnnrb+ERkS7DDS3tuwqcJss/zevJRzoylqMsbc
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -100,26 +100,29 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: Tamir Duberstein <tamird@gmail.com>
 
-Correct the spelling of "CString" to make the link work.
+Replace the use of `as_ptr` which works through `<CStr as
+Deref<Target=&[u8]>::deref()` in preparation for replacing
+`kernel::str::CStr` with `core::ffi::CStr` as the latter does not
+implement `Deref<Target=&[u8]>`.
 
 Signed-off-by: Tamir Duberstein <tamird@gmail.com>
 ---
- rust/kernel/opp.rs | 2 +-
+ rust/kernel/configfs.rs | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/rust/kernel/opp.rs b/rust/kernel/opp.rs
-index 9d6c58178a6f..523a333553bd 100644
---- a/rust/kernel/opp.rs
-+++ b/rust/kernel/opp.rs
-@@ -87,7 +87,7 @@ fn drop(&mut self) {
- 
- use macros::vtable;
- 
--/// Creates a null-terminated slice of pointers to [`Cstring`]s.
-+/// Creates a null-terminated slice of pointers to [`CString`]s.
- fn to_c_str_array(names: &[CString]) -> Result<KVec<*const c_char>> {
-     // Allocated a null-terminated vector of pointers.
-     let mut list = KVec::with_capacity(names.len() + 1, GFP_KERNEL)?;
+diff --git a/rust/kernel/configfs.rs b/rust/kernel/configfs.rs
+index 10f1547ca9f1..466fb7f40762 100644
+--- a/rust/kernel/configfs.rs
++++ b/rust/kernel/configfs.rs
+@@ -157,7 +157,7 @@ pub fn new(
+                     unsafe {
+                         bindings::config_group_init_type_name(
+                             &mut (*place.get()).su_group,
+-                            name.as_ptr(),
++                            name.as_char_ptr(),
+                             item_type.as_ptr(),
+                         )
+                     };
 
 -- 
 2.51.1
