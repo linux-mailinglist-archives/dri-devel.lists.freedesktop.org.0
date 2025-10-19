@@ -2,103 +2,74 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5E062BEE197
-	for <lists+dri-devel@lfdr.de>; Sun, 19 Oct 2025 11:13:15 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 59CC9BEE1A9
+	for <lists+dri-devel@lfdr.de>; Sun, 19 Oct 2025 11:16:59 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0F63D10E152;
-	Sun, 19 Oct 2025 09:13:12 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6826810E1C0;
+	Sun, 19 Oct 2025 09:16:56 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="uS+5M1Qe";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="tki903Ig";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from sea.source.kernel.org (sea.source.kernel.org [172.234.252.31])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D674010E152;
- Sun, 19 Oct 2025 09:13:10 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 07D3610E1BF;
+ Sun, 19 Oct 2025 09:16:55 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by sea.source.kernel.org (Postfix) with ESMTP id 604B2481A8;
- Sun, 19 Oct 2025 09:13:10 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3D906C4CEE7;
- Sun, 19 Oct 2025 09:13:05 +0000 (UTC)
+ by sea.source.kernel.org (Postfix) with ESMTP id 8519E43AE9;
+ Sun, 19 Oct 2025 09:16:54 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 4C3C4C4CEE7;
+ Sun, 19 Oct 2025 09:16:54 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1760865190;
- bh=cS2664aPb+EmVIid19f3kzZfKdifj4f7Pzq4bzCqEdI=;
- h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
- b=uS+5M1QeR6d0fvKMMVJIx4KJo8wpoKJWjEP6AmnxDbiGlCrSTU11/k2Xt1MzDI1CK
- eKc5gp/lPLJa0Y/1ZETKYLIoUvDCQmWt7yfXNIMAILV5tZ14r9RE6Ib5QH9ey+3uG4
- 76PPa4/5QZqnbZDNOFK/E4mQRdAAWiU3jFJdoGzCpfzpZysDE7uveTFtZ6ty3BYlYx
- S7IVioorvHJr6rW1iA0lsKVHo3QVgNUxWkBccNxLh8r9w1w6brpuvRZ7gG4i0CaHO+
- W98jlBDe0OcYrCT5f/QN7WwKxFkQRwr84n245Wk5cGktQhSxqcWBKJYR4ghVOywqaP
- bUP6EGKN1hFQg==
-Message-ID: <8f3f4874-2e82-473e-87bd-e3bd58089b90@kernel.org>
-Date: Sun, 19 Oct 2025 11:13:03 +0200
+ s=k20201202; t=1760865414;
+ bh=OYSkrvp/1rK94NiaxnAiKbfIAxL7GAn6vM9rDG4i90A=;
+ h=From:Date:Subject:To:Cc:Reply-To:From;
+ b=tki903IgOojbTC20VayKVDdXTrT7BAyO+TlTPJeH43YOOuIpC3OjbrfwDGIB/w5ms
+ TwSYbfm4RFjaAs4V8o4OTnvb7jgUgmtCJjRtpVzi4eQXV0I4zW0qKLj4EIs5RVs1iE
+ ZeFuSYp7/n0ZGpu6c7tEh+gbKQ3xVDgEOkT/E/VogtbhRHIcjLwVO0lz1fV8Tio6Gl
+ 0Y8giapZ8xI7Yc8BIqoCdQ9nTMCcVL3i0ExqfQIXfM2ZwEU5/6pJwuJEPo018onZfg
+ umyodH7nGEzLwmyv3mivzgDJfSWz15GkkQehI4+p9rw7b+mwzWq9oqzrIdd2pBJETa
+ /QZpsRd5Nlrxw==
+Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org
+ (localhost.localdomain [127.0.0.1])
+ by smtp.lore.kernel.org (Postfix) with ESMTP id 37B25CCD183;
+ Sun, 19 Oct 2025 09:16:54 +0000 (UTC)
+From: Federico Amedeo Izzo via B4 Relay <devnull+federico.izzo.pro@kernel.org>
+Date: Sun, 19 Oct 2025 11:16:28 +0200
+Subject: [PATCH v2] drm/msm/dpu: Add DSPP GC driver to provide GAMMA_LUT
+ DRM property
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 3/6] dt-bindings: display/msm/gmu: Document A612 RGMU
-To: Akhil P Oommen <akhilpo@oss.qualcomm.com>,
- Rob Clark <robin.clark@oss.qualcomm.com>, Sean Paul <sean@poorly.run>,
- Konrad Dybcio <konradybcio@kernel.org>, Dmitry Baryshkov <lumag@kernel.org>,
- Abhinav Kumar <abhinav.kumar@linux.dev>,
- Jessica Zhang <jessica.zhang@oss.qualcomm.com>,
- Marijn Suijten <marijn.suijten@somainline.org>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>, Bjorn Andersson <andersson@kernel.org>
-Cc: linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org,
- freedreno@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- devicetree@vger.kernel.org
-References: <20251017-qcs615-spin-2-v1-0-0baa44f80905@oss.qualcomm.com>
- <20251017-qcs615-spin-2-v1-3-0baa44f80905@oss.qualcomm.com>
-From: Krzysztof Kozlowski <krzk@kernel.org>
-Content-Language: en-US
-Autocrypt: addr=krzk@kernel.org; keydata=
- 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 a/A=
-In-Reply-To: <20251017-qcs615-spin-2-v1-3-0baa44f80905@oss.qualcomm.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
+Message-Id: <20251019-dpu-add-dspp-gc-driver-v2-1-30c8cb79cb17@izzo.pro>
+X-B4-Tracking: v=1; b=H4sIAGus9GgC/3WNMQ7CMAxFr4IyYxQHSgsT90AdSmxaL03kQASte
+ ndCJUbG96T//mwSq3Ay581slLMkCWMBt90YP3RjzyBU2DjrKrRYA8UndERAKUboPZBKZgVfEXr
+ b3LiurSnjqHyX1xq+toUHSY+g7/Un49f+ks2/ZEZAYLL748nhwVXuItMUdlGDaZdl+QBhUMJ7u
+ wAAAA==
+X-Change-ID: 20251017-dpu-add-dspp-gc-driver-c5d1c08be770
+To: Rob Clark <robin.clark@oss.qualcomm.com>, 
+ Dmitry Baryshkov <lumag@kernel.org>, 
+ Abhinav Kumar <abhinav.kumar@linux.dev>, 
+ Jessica Zhang <jesszhan0024@gmail.com>, Sean Paul <sean@poorly.run>, 
+ Marijn Suijten <marijn.suijten@somainline.org>, 
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>
+Cc: linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org, 
+ freedreno@lists.freedesktop.org, linux-kernel@vger.kernel.org, 
+ phone-devel@vger.kernel.org, ~postmarketos/upstreaming@lists.sr.ht, 
+ nicola@corna.info, David Heidelberg <david@ixit.cz>, 
+ =?utf-8?q?Guido_G=C3=BCnther?= <agx@sigxcpu.org>, 
+ Federico Amedeo Izzo <federico@izzo.pro>
+X-Mailer: b4 0.14.3
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1760865410; l=12991;
+ i=federico@izzo.pro; s=20251017; h=from:subject:message-id;
+ bh=0jwji8NBq90nq460VC442NPqFPHuaa70zVMpKEzuJqs=;
+ b=TYTNfH59d/bFEzPQZJdxcWkVm7sEUd6oM9gkdP3va+gKPLAFomFIsDf2bUhxJE03clZXOdRCD
+ UDjzo7UWiEKCjEH/qAbfBbH6Y15p6u3niZSlwsCA60ImIM4B1kf0Rfz
+X-Developer-Key: i=federico@izzo.pro; a=ed25519;
+ pk=XfmNfpH48k8jLbId5NKrp0yoKoFb/uLjr97qIxBImBw=
+X-Endpoint-Received: by B4 Relay for federico@izzo.pro/20251017 with
+ auth_id=544
+X-Original-From: Federico Amedeo Izzo <federico@izzo.pro>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -111,186 +82,396 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Reply-To: federico@izzo.pro
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 17/10/2025 19:08, Akhil P Oommen wrote:
-> RGMU a.k.a Reduced Graphics Management Unit is a small state machine
-> with the sole purpose of providing IFPC (Inter Frame Power Collapse)
-> support. Compared to GMU, it doesn't manage GPU clock, voltage
-> scaling, bw voting or any other functionalities. All it does is detect
-> an idle GPU and toggle the GDSC switch. As it doesn't access DDR space,
-> it doesn't require iommu.
-> 
-> So far, only Adreno 612 GPU has an RGMU core. Document RGMU in the GMU's
-> schema.
-> 
-> Signed-off-by: Akhil P Oommen <akhilpo@oss.qualcomm.com>
-> ---
->  .../devicetree/bindings/display/msm/gmu.yaml       | 98 +++++++++++++++++-----
->  1 file changed, 79 insertions(+), 19 deletions(-)
-> 
-> diff --git a/Documentation/devicetree/bindings/display/msm/gmu.yaml b/Documentation/devicetree/bindings/display/msm/gmu.yaml
-> index afc1879357440c137cadeb2d9a74ae8459570a25..a262d41755f09f21f607bf7a1fd567f386595f39 100644
-> --- a/Documentation/devicetree/bindings/display/msm/gmu.yaml
-> +++ b/Documentation/devicetree/bindings/display/msm/gmu.yaml
-> @@ -26,6 +26,9 @@ properties:
->        - items:
->            - pattern: '^qcom,adreno-gmu-x[1-9][0-9][0-9]\.[0-9]$'
->            - const: qcom,adreno-gmu
-> +      - items:
-> +          - const: qcom,adreno-rgmu-612.0
-> +          - const: qcom,adreno-rgmu
->        - const: qcom,adreno-gmu-wrapper
->  
->    reg:
-> @@ -45,24 +48,30 @@ properties:
->      maxItems: 7
->  
->    interrupts:
-> -    items:
-> -      - description: GMU HFI interrupt
-> -      - description: GMU interrupt
+From: Federico Amedeo Izzo <federico@izzo.pro>
 
+Add support for DSPP GC block in DPU driver for Qualcomm SoCs.
+Expose the GAMMA_LUT DRM property, which is needed to enable
+night light and basic screen color calibration.
 
-Both stay, just explain what is the first interrupt. You should not drop
-descriptions here. Look at every other binding - of course except that
-terrible Adreno GPU which is anti-example.
+I used LineageOS downstream kernel as a reference and found the LUT
+format by trial-and-error on OnePlus 6.
 
-> +    minItems: 2
-> +    maxItems: 2
->  
->    interrupt-names:
-> -    items:
-> -      - const: hfi
-> -      - const: gmu
-> +    oneOf:
-> +      - items:
-> +          - const: hfi
-> +            description: GMU HFI interrupt
+Tested on oneplus-enchilada (sdm845-mainline 6.16-dev) and xiaomi-tissot
+(msm8953-mainline 6.12/main).
 
-No, descriptions never go to xxx-names, but to xxx.
+Tested-by: David Heidelberg <david@ixit.cz>  # Pixel 3 (next-20251018)
+Tested-by: Guido Günther <agx@sigxcpu.org> # on sdm845-shift-axolotl
+Signed-off-by: Federico Amedeo Izzo <federico@izzo.pro>
+---
+DRM GAMMA_LUT support was missing on sdm845 and other Qualcomm SoCs using
+DPU for CRTC. This is needed in userspace to enable features like Night
+Light or basic color calibration.
 
-> +          - const: gmu
-> +            description: GMU interrupt
-> +      - items:
-> +          - const: oob
-> +            description: GMU OOB interrupt
-> +          - const: gmu
-> +            description: GMU interrupt
-> +
->  
->    power-domains:
-> -    items:
-> -      - description: CX power domain
-> -      - description: GX power domain
-> +    minItems: 2
-> +    maxItems: 3
+I wrote this driver to enable Night Light on OnePlus 6, and after the
+driver was working I found out it applies to the 29 different Qualcomm SoCs
+that use the DPU display engine, including X1E for laptops.
 
-No.
+I used the LineageOS downstream kernel as reference and found the correct 
+LUT format by trial-and-error on OnePlus 6.
 
->  
->    power-domain-names:
-> -    items:
-> -      - const: cx
-> -      - const: gx
-> +    minItems: 2
-> +    maxItems: 3
+This was my first Linux driver and it's been a great learning
+experience.
 
+The patch was reviewed by postmarketOS contributors here: 
+https://gitlab.com/sdm845-mainline/linux/-/merge_requests/137
+During review the patch was tested successfully on hamoa (X1E).
+---
+Changes in v2:
+- Fix gc register .len and .version in dpu_hw_catalog.c
+- Apply coding style suggestions
+- Link to v1: https://lore.kernel.org/r/20251018-dpu-add-dspp-gc-driver-v1-1-ed0369214252@izzo.pro
+---
+ drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c       | 90 ++++++++++++++++++++++----
+ drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c |  4 ++
+ drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.h |  4 ++
+ drivers/gpu/drm/msm/disp/dpu1/dpu_hw_ctl.c     |  3 +
+ drivers/gpu/drm/msm/disp/dpu1/dpu_hw_dspp.c    | 55 ++++++++++++++++
+ drivers/gpu/drm/msm/disp/dpu1/dpu_hw_dspp.h    | 26 ++++++++
+ 6 files changed, 168 insertions(+), 14 deletions(-)
 
-No. Why?
+diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c
+index 4b970a59deaf..8e7e9a334cf4 100644
+--- a/drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c
++++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c
+@@ -812,12 +812,44 @@ static void _dpu_crtc_get_pcc_coeff(struct drm_crtc_state *state,
+ 	cfg->b.b = CONVERT_S3_15(ctm->matrix[8]);
+ }
+ 
++static void _dpu_crtc_get_gc_lut(struct drm_crtc_state *state,
++		struct dpu_hw_gc_lut *gc_lut)
++{
++	struct drm_color_lut *lut;
++	int i;
++	u32 val_even, val_odd;
++
++	memset(gc_lut, 0, sizeof(struct dpu_hw_gc_lut));
++
++	lut = (struct drm_color_lut *)state->gamma_lut->data;
++
++	if (!lut)
++		return;
++
++	/* Pack 1024 10-bit entries in 512 32-bit registers */
++	for (i = 0; i < PGC_TBL_LEN; i++) {
++		val_even = drm_color_lut_extract(lut[i * 2].green, 10);
++		val_odd = drm_color_lut_extract(lut[i * 2 + 1].green, 10);
++		gc_lut->c0[i] = val_even | (val_odd << 16);
++		val_even = drm_color_lut_extract(lut[i * 2].blue, 10);
++		val_odd = drm_color_lut_extract(lut[i * 2 + 1].blue, 10);
++		gc_lut->c1[i] = val_even | (val_odd << 16);
++		val_even = drm_color_lut_extract(lut[i * 2].red, 10);
++		val_odd = drm_color_lut_extract(lut[i * 2 + 1].red, 10);
++		gc_lut->c2[i] = val_even | (val_odd << 16);
++	}
++
++	/* Disable 8-bit rounding mode */
++	gc_lut->flags = 0;
++}
++
+ static void _dpu_crtc_setup_cp_blocks(struct drm_crtc *crtc)
+ {
+ 	struct drm_crtc_state *state = crtc->state;
+ 	struct dpu_crtc_state *cstate = to_dpu_crtc_state(crtc->state);
+ 	struct dpu_crtc_mixer *mixer = cstate->mixers;
+ 	struct dpu_hw_pcc_cfg cfg;
++	struct dpu_hw_gc_lut *gc_lut;
+ 	struct dpu_hw_ctl *ctl;
+ 	struct dpu_hw_dspp *dspp;
+ 	int i;
+@@ -830,19 +862,40 @@ static void _dpu_crtc_setup_cp_blocks(struct drm_crtc *crtc)
+ 		ctl = mixer[i].lm_ctl;
+ 		dspp = mixer[i].hw_dspp;
+ 
+-		if (!dspp || !dspp->ops.setup_pcc)
++		if (!dspp)
+ 			continue;
+ 
+-		if (!state->ctm) {
+-			dspp->ops.setup_pcc(dspp, NULL);
+-		} else {
+-			_dpu_crtc_get_pcc_coeff(state, &cfg);
+-			dspp->ops.setup_pcc(dspp, &cfg);
++		if (dspp->ops.setup_pcc) {
++			if (!state->ctm) {
++				dspp->ops.setup_pcc(dspp, NULL);
++			} else {
++				_dpu_crtc_get_pcc_coeff(state, &cfg);
++				dspp->ops.setup_pcc(dspp, &cfg);
++			}
++
++			/* stage config flush mask */
++			ctl->ops.update_pending_flush_dspp(ctl,
++				mixer[i].hw_dspp->idx, DPU_DSPP_PCC);
+ 		}
+ 
+-		/* stage config flush mask */
+-		ctl->ops.update_pending_flush_dspp(ctl,
+-			mixer[i].hw_dspp->idx, DPU_DSPP_PCC);
++		if (dspp->ops.setup_gc) {
++			if (!state->gamma_lut) {
++				dspp->ops.setup_gc(dspp, NULL);
++			} else {
++				gc_lut = kzalloc(sizeof(*gc_lut), GFP_KERNEL);
++				if (!gc_lut) {
++					DRM_ERROR("failed to allocate gc_lut\n");
++					continue;
++				}
++				_dpu_crtc_get_gc_lut(state, gc_lut);
++				dspp->ops.setup_gc(dspp, gc_lut);
++				kfree(gc_lut);
++			}
++
++			/* stage config flush mask */
++			ctl->ops.update_pending_flush_dspp(ctl,
++				mixer[i].hw_dspp->idx, DPU_DSPP_GC);
++		}
+ 	}
+ }
+ 
+@@ -1340,7 +1393,7 @@ static struct msm_display_topology dpu_crtc_get_topology(
+ 	 *
+ 	 * If DSC is enabled, use 2 LMs for 2:2:1 topology
+ 	 *
+-	 * Add dspps to the reservation requirements if ctm is requested
++	 * Add dspps to the reservation requirements if ctm or gamma_lut are requested
+ 	 *
+ 	 * Only hardcode num_lm to 2 for cases where num_intf == 2 and CWB is not
+ 	 * enabled. This is because in cases where CWB is enabled, num_intf will
+@@ -1359,7 +1412,7 @@ static struct msm_display_topology dpu_crtc_get_topology(
+ 	else
+ 		topology.num_lm = 1;
+ 
+-	if (crtc_state->ctm)
++	if (crtc_state->ctm || crtc_state->gamma_lut)
+ 		topology.num_dspp = topology.num_lm;
+ 
+ 	return topology;
+@@ -1471,7 +1524,8 @@ static int dpu_crtc_atomic_check(struct drm_crtc *crtc,
+ 	bool needs_dirtyfb = dpu_crtc_needs_dirtyfb(crtc_state);
+ 
+ 	/* don't reallocate resources if only ACTIVE has beeen changed */
+-	if (crtc_state->mode_changed || crtc_state->connectors_changed) {
++	if (crtc_state->mode_changed || crtc_state->connectors_changed ||
++	    crtc_state->color_mgmt_changed) {
+ 		rc = dpu_crtc_assign_resources(crtc, crtc_state);
+ 		if (rc < 0)
+ 			return rc;
+@@ -1831,8 +1885,16 @@ struct drm_crtc *dpu_crtc_init(struct drm_device *dev, struct drm_plane *plane,
+ 
+ 	drm_crtc_helper_add(crtc, &dpu_crtc_helper_funcs);
+ 
+-	if (dpu_kms->catalog->dspp_count)
+-		drm_crtc_enable_color_mgmt(crtc, 0, true, 0);
++	if (dpu_kms->catalog->dspp_count) {
++		const struct dpu_dspp_cfg *dspp = &dpu_kms->catalog->dspp[0];
++
++		if (dspp->sblk->gc.base) {
++			drm_mode_crtc_set_gamma_size(crtc, DPU_GAMMA_LUT_SIZE);
++			drm_crtc_enable_color_mgmt(crtc, 0, true, DPU_GAMMA_LUT_SIZE);
++		} else {
++			drm_crtc_enable_color_mgmt(crtc, 0, true, 0);
++		}
++	}
+ 
+ 	/* save user friendly CRTC name for later */
+ 	snprintf(dpu_crtc->name, DPU_CRTC_NAME_SIZE, "crtc%u", crtc->base.id);
+diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c
+index 6641455c4ec6..8bcfab70f023 100644
+--- a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c
++++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c
+@@ -382,11 +382,15 @@ static const struct dpu_lm_sub_blks qcm2290_lm_sblk = {
+ static const struct dpu_dspp_sub_blks msm8998_dspp_sblk = {
+ 	.pcc = {.name = "pcc", .base = 0x1700,
+ 		.len = 0x90, .version = 0x10007},
++	.gc = {.name = "gc", .base = 0x17c0,
++		.len = 0x40, .version = 0x10007},
+ };
+ 
+ static const struct dpu_dspp_sub_blks sdm845_dspp_sblk = {
+ 	.pcc = {.name = "pcc", .base = 0x1700,
+ 		.len = 0x90, .version = 0x40000},
++	.gc = {.name = "gc", .base = 0x17c0,
++		.len = 0x40, .version = 0x10008},
+ };
+ 
+ static const struct dpu_dspp_sub_blks sm8750_dspp_sblk = {
+diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.h b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.h
+index f0768f54e9b3..3ea67c1cf5c0 100644
+--- a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.h
++++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.h
+@@ -77,9 +77,11 @@ enum {
+ /**
+  * DSPP sub-blocks
+  * @DPU_DSPP_PCC             Panel color correction block
++ * @DPU_DSPP_GC              Gamma correction block
+  */
+ enum {
+ 	DPU_DSPP_PCC = 0x1,
++	DPU_DSPP_GC,
+ 	DPU_DSPP_MAX
+ };
+ 
+@@ -314,9 +316,11 @@ struct dpu_lm_sub_blks {
+ /**
+  * struct dpu_dspp_sub_blks: Information of DSPP block
+  * @pcc: pixel color correction block
++ * @gc: gamma correction block
+  */
+ struct dpu_dspp_sub_blks {
+ 	struct dpu_pp_blk pcc;
++	struct dpu_pp_blk gc;
+ };
+ 
+ struct dpu_pingpong_sub_blks {
+diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_ctl.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_ctl.c
+index ac834db2e4c1..36a497f1d6c1 100644
+--- a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_ctl.c
++++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_ctl.c
+@@ -399,6 +399,9 @@ static void dpu_hw_ctl_update_pending_flush_dspp_sub_blocks(
+ 	case DPU_DSPP_PCC:
+ 		ctx->pending_dspp_flush_mask[dspp - DSPP_0] |= BIT(4);
+ 		break;
++	case DPU_DSPP_GC:
++		ctx->pending_dspp_flush_mask[dspp - DSPP_0] |= BIT(5);
++		break;
+ 	default:
+ 		return;
+ 	}
+diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_dspp.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_dspp.c
+index 54b20faa0b69..7ebe7d8a5382 100644
+--- a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_dspp.c
++++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_dspp.c
+@@ -24,6 +24,18 @@
+ #define PCC_BLUE_G_OFF 0x24
+ #define PCC_BLUE_B_OFF 0x30
+ 
++/* DSPP_GC */
++#define GC_EN BIT(0)
++#define GC_DIS 0
++#define GC_8B_ROUND_EN BIT(1)
++#define GC_LUT_SWAP_OFF 0x1c
++#define GC_C0_OFF 0x4
++#define GC_C1_OFF 0xc
++#define GC_C2_OFF 0x14
++#define GC_C0_INDEX_OFF 0x8
++#define GC_C1_INDEX_OFF 0x10
++#define GC_C2_INDEX_OFF 0x18
++
+ static void dpu_setup_dspp_pcc(struct dpu_hw_dspp *ctx,
+ 		struct dpu_hw_pcc_cfg *cfg)
+ {
+@@ -63,6 +75,47 @@ static void dpu_setup_dspp_pcc(struct dpu_hw_dspp *ctx,
+ 	DPU_REG_WRITE(&ctx->hw, base, PCC_EN);
+ }
+ 
++static void dpu_setup_dspp_gc(struct dpu_hw_dspp *ctx,
++		struct dpu_hw_gc_lut *gc_lut)
++{
++	int i = 0;
++	u32 base, reg;
++
++	if (!ctx) {
++		DRM_ERROR("invalid ctx %pK\n", ctx);
++		return;
++	}
++
++	base = ctx->cap->sblk->gc.base;
++
++	if (!base) {
++		DRM_ERROR("invalid ctx %pK gc base 0x%x\n", ctx, base);
++		return;
++	}
++
++	if (!gc_lut) {
++		DRM_DEBUG_DRIVER("disable gc feature\n");
++		DPU_REG_WRITE(&ctx->hw, base, GC_DIS);
++		return;
++	}
++
++	reg = 0;
++	DPU_REG_WRITE(&ctx->hw, base + GC_C0_INDEX_OFF, reg);
++	DPU_REG_WRITE(&ctx->hw, base + GC_C1_INDEX_OFF, reg);
++	DPU_REG_WRITE(&ctx->hw, base + GC_C2_INDEX_OFF, reg);
++
++	for (i = 0; i < PGC_TBL_LEN; i++) {
++		DPU_REG_WRITE(&ctx->hw, base + GC_C0_OFF, gc_lut->c0[i]);
++		DPU_REG_WRITE(&ctx->hw, base + GC_C1_OFF, gc_lut->c1[i]);
++		DPU_REG_WRITE(&ctx->hw, base + GC_C2_OFF, gc_lut->c2[i]);
++	}
++
++	DPU_REG_WRITE(&ctx->hw, base + GC_LUT_SWAP_OFF, BIT(0));
++
++	reg = GC_EN | ((gc_lut->flags & PGC_8B_ROUND) ? GC_8B_ROUND_EN : 0);
++	DPU_REG_WRITE(&ctx->hw, base, reg);
++}
++
+ /**
+  * dpu_hw_dspp_init() - Initializes the DSPP hw driver object.
+  * should be called once before accessing every DSPP.
+@@ -92,6 +145,8 @@ struct dpu_hw_dspp *dpu_hw_dspp_init(struct drm_device *dev,
+ 	c->cap = cfg;
+ 	if (c->cap->sblk->pcc.base)
+ 		c->ops.setup_pcc = dpu_setup_dspp_pcc;
++	if (c->cap->sblk->gc.base)
++		c->ops.setup_gc = dpu_setup_dspp_gc;
+ 
+ 	return c;
+ }
+diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_dspp.h b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_dspp.h
+index 45c26cd49fa3..58eca1ed8509 100644
+--- a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_dspp.h
++++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_dspp.h
+@@ -33,6 +33,25 @@ struct dpu_hw_pcc_cfg {
+ 	struct dpu_hw_pcc_coeff b;
+ };
+ 
++#define DPU_GAMMA_LUT_SIZE 1024
++#define PGC_TBL_LEN 512
++#define PGC_8B_ROUND BIT(0)
++
++/**
++ * struct dpu_hw_gc_lut - gc lut feature structure
++ * @flags: flags for the feature values can be:
++ *         - PGC_8B_ROUND
++ * @c0: color0 component lut
++ * @c1: color1 component lut
++ * @c2: color2 component lut
++ */
++struct dpu_hw_gc_lut {
++	__u64 flags;
++	__u32 c0[PGC_TBL_LEN];
++	__u32 c1[PGC_TBL_LEN];
++	__u32 c2[PGC_TBL_LEN];
++};
++
+ /**
+  * struct dpu_hw_dspp_ops - interface to the dspp hardware driver functions
+  * Caller must call the init function to get the dspp context for each dspp
+@@ -46,6 +65,13 @@ struct dpu_hw_dspp_ops {
+ 	 */
+ 	void (*setup_pcc)(struct dpu_hw_dspp *ctx, struct dpu_hw_pcc_cfg *cfg);
+ 
++	/**
++	 * setup_gc - setup dspp gc
++	 * @ctx: Pointer to dspp context
++	 * @gc_lut: Pointer to lut content
++	 */
++	void (*setup_gc)(struct dpu_hw_dspp *ctx, struct dpu_hw_gc_lut *gc_lut);
++
+ };
+ 
+ /**
 
->  
->    iommus:
->      maxItems: 1
-> @@ -86,6 +95,44 @@ required:
->  additionalProperties: false
->  
->  allOf:
-> +  - if:
-> +      properties:
-> +        compatible:
-> +          contains:
-> +            const: qcom,adreno-rgmu-612.0
-> +    then:
-> +      properties:
-> +        reg:
-> +          items:
-> +            - description: Core RGMU registers
-> +        reg-names:
-> +          items:
-> +            - const: gmu
-> +        clocks:
-> +          items:
-> +            - description: GMU clock
-> +            - description: GPU CX clock
-> +            - description: GPU AXI clock
-> +            - description: GPU MEMNOC clock
-> +            - description: GPU SMMU vote clock
-> +        clock-names:
-> +          items:
-> +            - const: gmu
-> +            - const: cxo
-> +            - const: axi
-> +            - const: memnoc
-> +            - const: smmu_vote
-> +        power-domains:
-> +          items:
-> +            - description: CX power domain
-> +            - description: GX power domain
-> +            - description: VDD_CX power domain
-> +        power-domain-names:
-> +          items:
-> +            - const: cx
-> +            - const: gx
-> +            - const: vdd_cx
-
-This does not make even sense. Why did you remove the the common list
-from  power-domain-names?
-
-> +
->    - if:
->        properties:
->          compatible:
-> @@ -313,13 +360,26 @@ allOf:
->            items:
->              - const: gmu
->      else:
-> -      required:
-> -        - clocks
-> -        - clock-names
-> -        - interrupts
-> -        - interrupt-names
-> -        - iommus
-> -        - operating-points-v2
-> +      if:
-> +        properties:
-> +          compatible:
-> +            contains:
-> +              const: qcom,adreno-rgmu
-> +      then:
-> +        required:
-> +          - clocks
-> +          - clock-names
-> +          - interrupts
-> +          - interrupt-names
-> +          - operating-points-v2
-> +      else:
-
-No. Don't nest multiple ifs.
-
-> +        required:
-> +          - clocks
-> +          - clock-names
-> +          - interrupts
-> +          - interrupt-names
-> +          - iommus
-> +          - operating-points-v2
->  
->  examples:
->    - |
-> 
-
+---
+base-commit: 2433b84761658ef123ae683508bc461b07c5b0f0
+change-id: 20251017-dpu-add-dspp-gc-driver-c5d1c08be770
 
 Best regards,
-Krzysztof
+-- 
+Federico Amedeo Izzo <federico@izzo.pro>
+
+
