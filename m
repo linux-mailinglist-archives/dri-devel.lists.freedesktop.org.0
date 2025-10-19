@@ -2,64 +2,77 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 57573BEED95
-	for <lists+dri-devel@lfdr.de>; Sun, 19 Oct 2025 23:31:27 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5AF6DBEEE4F
+	for <lists+dri-devel@lfdr.de>; Mon, 20 Oct 2025 00:52:33 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DFA5810E229;
-	Sun, 19 Oct 2025 21:31:23 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3F19E10E060;
+	Sun, 19 Oct 2025 22:52:30 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="IcBgCSzH";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="K2ZfGYlg";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sea.source.kernel.org (sea.source.kernel.org [172.234.252.31])
- by gabe.freedesktop.org (Postfix) with ESMTPS id ECFB010E229
- for <dri-devel@lists.freedesktop.org>; Sun, 19 Oct 2025 21:31:21 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by sea.source.kernel.org (Postfix) with ESMTP id 75D2543B3C;
- Sun, 19 Oct 2025 21:31:21 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id DC02AC4CEE7;
- Sun, 19 Oct 2025 21:31:07 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1760909481;
- bh=sApG3ZbJWTksJqIVkodaBxHNS4Hr0anMh4n685JAKh0=;
- h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=IcBgCSzHByUTg0KSFE2YM1558TixTmxwF02MD0Ww3VADciu/Lgk9WrbXSXsGsOcaC
- v6kMEo34mZA0JLdIPDM43OncXFjvRLZLRwVW7vZr7fMYiZgAndiThkdqHZg5bAjnpC
- 94jwtQi5u8uivbJ/4fvAOYbSXhEt/PxHcW8V6BdzK0MWoXpKbXOunAy3ffRXj7R1M6
- dnsL/PYJUOmW7BfALr3gW9l/dimBr5iaveWEIDvnxLR0wsLf1XI3GeetXX1sqjLHb6
- Bv5r/a7HIE0buC/WueXJh7mVyIA3XNlCEAZ9ktEMuAVTaUiKBm2F727HQEcgVsHa4Z
- TYLOgNQsBVxGA==
-From: Miguel Ojeda <ojeda@kernel.org>
-To: tamird@kernel.org, Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- "Rafael J. Wysocki" <rafael@kernel.org>,
- Danilo Krummrich <dakr@kernel.org>, Miguel Ojeda <ojeda@kernel.org>,
- Alex Gaynor <alex.gaynor@gmail.com>
-Cc: Liam.Howlett@oracle.com, a.hindborg@kernel.org, airlied@gmail.com,
- aliceryhl@google.com, arve@android.com, axboe@kernel.dk,
- bhelgaas@google.com, bjorn3_gh@protonmail.com, boqun.feng@gmail.com,
- brauner@kernel.org, broonie@kernel.org, cmllamas@google.com,
- dri-devel@lists.freedesktop.org, gary@garyguo.net, jack@suse.cz,
- joelagnelf@nvidia.com, justinstitt@google.com, kwilczynski@kernel.org,
- leitao@debian.org, lgirdwood@gmail.com, linux-block@vger.kernel.org,
- linux-clk@vger.kernel.org, linux-fsdevel@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-pci@vger.kernel.org,
- linux-pm@vger.kernel.org, llvm@lists.linux.dev, longman@redhat.com,
- lorenzo.stoakes@oracle.com, lossin@kernel.org, maco@android.com,
- mcgrof@kernel.org, mingo@redhat.com, mmaurer@google.com, morbo@google.com,
- mturquette@baylibre.com, nathan@kernel.org,
- nick.desaulniers+lkml@gmail.com, nm@ti.com, peterz@infradead.org,
- russ.weight@linux.dev, rust-for-linux@vger.kernel.org, sboyd@kernel.org,
- simona@ffwll.ch, surenb@google.com, tamird@gmail.com, tkjos@android.com,
- tmgross@umich.edu, urezki@gmail.com, vbabka@suse.cz, vireshk@kernel.org,
- viro@zeniv.linux.org.uk, will@kernel.org, patches@lists.linux.dev
-Subject: [PATCH] samples: rust: debugfs: use `core::ffi::CStr` method names
-Date: Sun, 19 Oct 2025 23:30:49 +0200
-Message-ID: <20251019213049.2060970-1-ojeda@kernel.org>
-In-Reply-To: <20251018-cstr-core-v18-7-9378a54385f8@gmail.com>
-References: <20251018-cstr-core-v18-7-9378a54385f8@gmail.com>
+Received: from mail-pl1-f181.google.com (mail-pl1-f181.google.com
+ [209.85.214.181])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DD1B510E159
+ for <dri-devel@lists.freedesktop.org>; Sun, 19 Oct 2025 18:35:28 +0000 (UTC)
+Received: by mail-pl1-f181.google.com with SMTP id
+ d9443c01a7336-269640c2d4bso6410025ad.2
+ for <dri-devel@lists.freedesktop.org>; Sun, 19 Oct 2025 11:35:28 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20230601; t=1760898928; x=1761503728; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=rRfOoLkKKIZ1P08u43a+VdAcQJSYKDXjEt4i3GhWSy8=;
+ b=K2ZfGYlgI9o2FB6Z64tL2Lz+GLjOj5BTiM2XC4rLaTmcRM4wBjSt1vd8gfNqbRjf7J
+ U8YTowzP6JdnNdv6H9UetRRRIf57LmsAD7kEXntbpHt+1kXMNChLfREhGT50Yg/0SPgv
+ 2lH/72ksYRsRnQ6M7mdQEbkK0U6SlxVqu1m7M0rpa4NSQCJdTRMxebvseFX/OpJXr/jS
+ ILmBbySwMccfv4o0qzxoJtpk7RuNYWKVZ+58VbFFZXSLS7W0iBewZ0SZnCRAO/fwTkuF
+ lvPtXvUAuEVo2CnUixe4mdchR/xZnzRtkU6ibF3vDBZwTNNQ+t4vUthTnFtHwp3EAh6g
+ uXJw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1760898928; x=1761503728;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=rRfOoLkKKIZ1P08u43a+VdAcQJSYKDXjEt4i3GhWSy8=;
+ b=hNWL7T2tErEL47yr6uiRKDcUQjHW1oHi/L+yKeycy2p3oppiU6bDh7yhDTUZBkfI6E
+ qXjjEiVSUn5BzTdAZfVCJSuI7+qoqd4U/ZH0gN9J/rIjed31aV1L2xyUwdKteCrKlsEH
+ ywFD4Rdp2bbLC1c7QHl6sgZmuViBs09uExLhMAxmtGIWM3XdpKHjuzzQPn9qcGOy1b+G
+ MkUb3+VXKQzsnsQLDqSdUSZAOLmhbxdZ4srq4Tx7Nnc7VnekFlpNmUA2baSlKGdSroMH
+ KXb6PW04ANA0Nsrm/SaCiPkyPp75CWoUolN0IQTtrZRmRUlUUTxzu4RYycsZVrFz4BsS
+ KvCQ==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCXUFShrSy6MeJvWNEc51ugGAkLXWKfDKFFM6rnpvA2w/Mhhg/0EZgRf4qmU6ys1bqGm2BA/gKEeU4M=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Yz0f9GKCOCp5z0b+JasQcGgis7O81swH9Q4TNaP6sLpbhUIfXyc
+ icvpFj2EVXMsiwEOGQ/rBe2YaAb8vqaREdcymBW5IdU1vI8r3w0r6FGX
+X-Gm-Gg: ASbGnct0EPB66WZksn2GsMO4UiNHfvaAI2ZASqYorQAoYB6G4rdoNBP46uvyoCibmF1
+ FqTwwi3WXrmJ7tmEvnvnrw9BaNv4Wr2Ju2OqPrJJ7HYEXlSqr0o3/oMQPuzyh8BvN+3KPY6QFzp
+ NeezZTnhn4rV/v8rAyBs4OywZDv/ziY69eWmNuiWAs529OiPmMi5Uaiz6PtvnNIbsrgfPeeQcI2
+ gW+DTg8p+nUiv3hlMHwZFIoFCtD+HE26SHS4VEVNhqKlalq09HkKgQMDPQqURCGLExv/+zo47D5
+ FEjUqXBZJGuODMnFkMeZM2XhHeAYXBEZay6QseArBZQrJ68fufIkwlSsVyWzX1YPLOPSl/ZmbAS
+ VwGsGGquBmVqCfZQ153KJgalNfDhsWmB1GtXlEfYUH4keRAfeBlOosDEx+h3Yd4SuImK29WSG2x
+ bTrk0Ywvj1ww==
+X-Google-Smtp-Source: AGHT+IEBr/+KS4HtviMuGoC1wIJRCMADPtQbZ3CNlH5yqb2pJ0Un5KgzQq3dwYcp0NYpYolDK9OUyw==
+X-Received: by 2002:a17:903:8c3:b0:25a:4437:dbb7 with SMTP id
+ d9443c01a7336-290c9d2debcmr73367365ad.4.1760898928335; 
+ Sun, 19 Oct 2025 11:35:28 -0700 (PDT)
+Received: from sulfur-sorcerer.. ([2409:40d4:154:dd90:39bc:ea42:d3d:15d6])
+ by smtp.gmail.com with ESMTPSA id
+ d9443c01a7336-292471fde15sm58785055ad.84.2025.10.19.11.35.23
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Sun, 19 Oct 2025 11:35:27 -0700 (PDT)
+From: PIYUSH CHOUDHARY <mercmerc961@gmail.com>
+To: deller@gmx.de
+Cc: linux-fbdev@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, PIYUSH CHOUDHARY <mercmerc961@gmail.com>
+Subject: [PATCH] video: fb: Fix typo in comment
+Date: Mon, 20 Oct 2025 00:05:08 +0530
+Message-ID: <20251019183508.20804-1-mercmerc961@gmail.com>
+X-Mailer: git-send-email 2.43.0
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
+X-Mailman-Approved-At: Sun, 19 Oct 2025 22:52:28 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -75,32 +88,26 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Prepare for `core::ffi::CStr` taking the place of `kernel::str::CStr` by
-avoiding methods that only exist on the latter.
+Fix typo: "verical" -> "vertical" in macro description
 
-This backslid in commit d4a5d397c7fb ("samples: rust: Add scoped debugfs
-sample driver").
-
-Signed-off-by: Miguel Ojeda <ojeda@kernel.org>
+Signed-off-by: PIYUSH CHOUDHARY <mercmerc961@gmail.com>
 ---
- samples/rust/rust_debugfs_scoped.rs | 2 +-
+ include/uapi/linux/fb.h | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/samples/rust/rust_debugfs_scoped.rs b/samples/rust/rust_debugfs_scoped.rs
-index b0c4e76b123e..eb870e9986b8 100644
---- a/samples/rust/rust_debugfs_scoped.rs
-+++ b/samples/rust/rust_debugfs_scoped.rs
-@@ -38,7 +38,7 @@ fn remove_file_write(
-     mod_data
-         .devices
-         .lock()
--        .retain(|device| device.name.as_bytes() != to_remove.as_bytes());
-+        .retain(|device| device.name.to_bytes() != to_remove.to_bytes());
-     Ok(())
- }
+diff --git a/include/uapi/linux/fb.h b/include/uapi/linux/fb.h
+index cde8f173f566..22acaaec7b1c 100644
+--- a/include/uapi/linux/fb.h
++++ b/include/uapi/linux/fb.h
+@@ -319,7 +319,7 @@ enum {
+ #define FB_VBLANK_HAVE_VCOUNT	0x020	/* the vcount field is valid */
+ #define FB_VBLANK_HAVE_HCOUNT	0x040	/* the hcount field is valid */
+ #define FB_VBLANK_VSYNCING	0x080	/* currently in a vsync */
+-#define FB_VBLANK_HAVE_VSYNC	0x100	/* verical syncs can be detected */
++#define FB_VBLANK_HAVE_VSYNC	0x100	/* vertical syncs can be detected */
  
-
-base-commit: b214b442f2fa78aad04ebe1b5cad2c1d94120cb7
+ struct fb_vblank {
+ 	__u32 flags;			/* FB_VBLANK flags */
 -- 
-2.51.0
+2.43.0
 
