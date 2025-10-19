@@ -2,127 +2,129 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8BCB9BEE3F5
-	for <lists+dri-devel@lfdr.de>; Sun, 19 Oct 2025 13:53:01 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id B9B8DBEE47E
+	for <lists+dri-devel@lfdr.de>; Sun, 19 Oct 2025 14:11:57 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B9E1110E02C;
-	Sun, 19 Oct 2025 11:52:57 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8628389CC4;
+	Sun, 19 Oct 2025 12:11:54 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="ZG6XlRve";
+	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="g8ouADzE";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
  [205.220.180.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C165A10E02C
- for <dri-devel@lists.freedesktop.org>; Sun, 19 Oct 2025 11:52:56 +0000 (UTC)
-Received: from pps.filterd (m0279873.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 59JBW2W2024371
- for <dri-devel@lists.freedesktop.org>; Sun, 19 Oct 2025 11:52:56 GMT
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0576489CC4
+ for <dri-devel@lists.freedesktop.org>; Sun, 19 Oct 2025 12:11:53 +0000 (UTC)
+Received: from pps.filterd (m0279872.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 59J4F2BH024567
+ for <dri-devel@lists.freedesktop.org>; Sun, 19 Oct 2025 12:11:53 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
  cc:content-type:date:from:in-reply-to:message-id:mime-version
- :references:subject:to; s=qcppdkim1; bh=TN7+hMpDo5h/8U2Db7n/Ndrm
- G2ZsOSEUMs79Cs5uzu0=; b=ZG6XlRve7QWzDRwvZRk40ibakpaPla2Tq9keXomE
- hVETZk2RE2Nl7pXWDKz1+4ZwjmenUDh0h6EtOA6JfYP/lR84itPZwh9NeFycO+Eh
- Fp4vwiK+PZjNlguvBxrr4CFHXHBvDfg45enp2RG/qI2sUIfHfX9T9e0KuXao3D1U
- lPu9SrnsZXkjoTcZtX5OB/GbF0Axa6cAiOdJddtS9EGFvf20k7l3bjhVdPJFknCV
- mERaatKCy8x35whZu4M1BGP7wD8m0ZSZETNFIeMGvtZRey/5D7TnTLgiYOjeIyZI
- ZMJ1+TkZNLVf6FXKNZXcmYGrLCwdNaVBUV/80Mm0JOczIg==
-Received: from mail-qv1-f72.google.com (mail-qv1-f72.google.com
- [209.85.219.72])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 49v08pak0e-1
+ :references:subject:to; s=qcppdkim1; bh=FXakmNjNk9hILrNuLbMXrtpa
+ gW3k4d1NuiaVjYCVt/0=; b=g8ouADzEe0zM/uNAVtVaconF+XQLNz+dEJWtiayy
+ wZxGiZVX74GKQFgaPqUdiyjOsqx9Q67CLBNMvO3UZU3IxvLpIB9yUJ2you+o4zvr
+ HTBnLtyiVb8GD3v9rTSx+QfOyb6UlW4i+KzQrY6CvsLLMPKNSni1LjiQmPcoYyH6
+ GmhpYg7qy28ZubfupYrrFfUeX74bL/p+lX+RBANpLiQ+6N2xa2ZsvBOdKEn16Z9J
+ 3ujNlM5WqFj2bWuSfW2x2irKnhIDL9n/BzRr2jlIrqMBX3dnjL9U0F/xb97u9WaJ
+ zgxW9W5fzW9mNnw/w/3eybvl1zxu6NmD+LXTBhBohKLgFA==
+Received: from mail-qk1-f198.google.com (mail-qk1-f198.google.com
+ [209.85.222.198])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 49v3982a59-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
- for <dri-devel@lists.freedesktop.org>; Sun, 19 Oct 2025 11:52:55 +0000 (GMT)
-Received: by mail-qv1-f72.google.com with SMTP id
- 6a1803df08f44-79e48b76f68so172670796d6.3
- for <dri-devel@lists.freedesktop.org>; Sun, 19 Oct 2025 04:52:55 -0700 (PDT)
+ for <dri-devel@lists.freedesktop.org>; Sun, 19 Oct 2025 12:11:52 +0000 (GMT)
+Received: by mail-qk1-f198.google.com with SMTP id
+ af79cd13be357-88fec61f826so1081034885a.1
+ for <dri-devel@lists.freedesktop.org>; Sun, 19 Oct 2025 05:11:52 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1760874775; x=1761479575;
+ d=1e100.net; s=20230601; t=1760875912; x=1761480712;
  h=in-reply-to:content-disposition:mime-version:references:message-id
  :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
  :message-id:reply-to;
- bh=TN7+hMpDo5h/8U2Db7n/NdrmG2ZsOSEUMs79Cs5uzu0=;
- b=fxe1LyILLeYLfF1WfVet6VslU8+O3MdUxqecxqS3jXzZd62YYOigqQ6DjFUHmjv3/2
- oYP33BL8iR+7v3HeP5ETNWEF/ue8b/hFNTPItdJjFmmGgSvnL/FF0POTKhG67ajwLVeP
- NUTB25YM4K33LYJx1LIL8mrrf2BfGSnolHIuydPyVIVbTS6eNwjoT6XqraexfIQmAVjh
- FSpFPYE+AZg8KnV8tFwW5p3J0lidE/l/tD9EHkEO+0l1oOocQPlVosuS3g/nerBDBWZS
- cMPd8CNuAj9oYJ4WOFysxA7yHmYImpRpC4GBURSFIDzrYPOqJbbX0b5Y1vezlJeOWa2z
- jkgg==
+ bh=FXakmNjNk9hILrNuLbMXrtpagW3k4d1NuiaVjYCVt/0=;
+ b=LHNAfyBZ44/SW5cuYEiqZP7buqAMOPMH6GN86tWIHz/qgHwPIKhjgsAPwZ6RyNN0Sd
+ oEmh3Pxh/qOHDLeT1bI0IO5CmJqqPEn1CYNTyNjybYHmg8zcA3f5OHU3dQF30mD/IMuV
+ 5MiCeuR8u74pjMZFTthi9eQk5CsiYHFZW2JBgy7rB+VnG4f5OY2ewdoQ1AAmozGRhF/R
+ 7abHvGBhv1Q26xlKtbn3rwnnre8PKTXpoDWJEIXyJH/aWacPiQw+jpFXp86XfVo+hiR/
+ YGm9WstdgpDctBoGGDvsjEEs5KniofARwo0CKXQCDjIZQVVw95bO5dTsSvNLbJiiBW4F
+ zw3w==
 X-Forwarded-Encrypted: i=1;
- AJvYcCWiSN6wPBEQhbrffKWWOi6NP6wDfrwGNWRq8LXjhPfiFMrvjK7Eiv09Ru/4sBiw/oLvQHp+N+vbWxw=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YyDPbFTaDxcbiGQNqW8f4nG8F8dmKQ3WA5QB+NJx9UcDIwP11hc
- F1u8pYba3v/SPjKCib1MRvYVkVtChCGQf5K2J0IbEdXwlogR7xhPtWy0mM4N5mkMTk/R/qCeSb2
- Kqd6T1UZ8ngmqlpZg648dxrEvjetfaODFcOHe771D9EH2Ax9i3sBBQ1oQ6KuU1r3fUOQVlVU=
-X-Gm-Gg: ASbGncutGPw2marj+t26XKjVT2Lb9qoHu0KeHU9+xdfJaLbcNjLX1COB+OP/U8qXHS+
- vXD+uswQrFPjtVWYL8UiL5jsqTmBwgC9c0txuPhzG++oe/nj/KMNeFgIB2et/ydX2UWC3hKGd2s
- c1DIr1y7GJasvc/xKvNIfYX/nK1CJ+GTlbN9a8Btv3xCPryeDfS5GN6jJvR8K4MAzKo7v4Rl39E
- rIX5vK51Z9GCSj0v48GsfepsQh16yQzayvNdIk/HHeI2zoqQdoKJSLMHmfyx3IAIjXhPdKa2oU/
- gVcvSYKRbEc7qU38IqJMaq5vhS3isC4iNU8ubw1Z18knYBpeP9DuMd93MFI+WssKLX/hih6qjZe
- 501virURO0MeHoQfg+w3RVoEKvF3DLs6zuprwVU7qT0oaWx0yvuPDJ9TVMOB0ve7tyu0jUcSWg4
- dqjlIQ0EhC+UU=
-X-Received: by 2002:a05:622a:1812:b0:4e8:9402:a809 with SMTP id
- d75a77b69052e-4e89d263d69mr120018861cf.31.1760874774992; 
- Sun, 19 Oct 2025 04:52:54 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IEPcnFN62n4rxi/er56tz0GO9JJVb5HUURvhr8kT25MVhi+bHd5RuXDHCFN4GVJs/pYXza+tQ==
-X-Received: by 2002:a05:622a:1812:b0:4e8:9402:a809 with SMTP id
- d75a77b69052e-4e89d263d69mr120018661cf.31.1760874774327; 
- Sun, 19 Oct 2025 04:52:54 -0700 (PDT)
+ AJvYcCXCixvSNQ30CaN074c0bVXV7zJa7XRkacmpyKbT3/fXTxxBEPbFK+w14tFZF05i2GVnlaUvmvT+p/8=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Yw768YWkdEQv/zjwH90Yy1nOtgHukWrMVzVBCWplvb1aa4Q5xic
+ WnU0wV9Qlxyci5Fbf1wtoco5Rmh6a8uOEtQL9sKk3EExeMilTAUYlL5QftBriQX//lgPhChXYpG
+ OjsyJAlrSyy2L8yb0A3VwbaSzzVlWCiqAM8SVbcuc6QGCR3ZDknkHFzKvU7ZBjKrDQO7jQg0=
+X-Gm-Gg: ASbGncuM9Lukk123fxHlrf5fBtYLidB2441PXQ2lq1ERNhXbvj0qrUmLjJPgRMu+ZiC
+ wSq+ZQ1e0jyp4BMtRH7RXzWoUAtFcXOV2GbdXMOxneJWj74OH8Pa3HVCB4RG0a7I9SUsGGqLFYQ
+ 4xFsLaBxo4K/Tus4xtaoX/nMoC8a2FdqmIh9CU5OcbhdPwr9uS7V6KZMCZI3J1v+d9jUUSkyq6D
+ 77BPWBez4YbWunRDQHWs5xas1coWHJE80K09+Ecba/sy7HzOfr0Le/4WcQFEMNkW9G9rDBZNLAI
+ mOH8mBFPwSkdKC1JG0bbj+7mpwLtaewfHtEq86pkycDtRdJQpNw+Ry/qaEWREW3CuhqlYk3gyq0
+ kximY1vVUqefp3Ws2JW7IgWp03zLmP45ic50pbliFdGBwGboNnwea1vJ5NvUf4Y7caOh6CL9Eo2
+ +tGJpQQNqWEcI=
+X-Received: by 2002:a05:622a:5cc:b0:4e8:a51e:cdbc with SMTP id
+ d75a77b69052e-4e8a51ed369mr89145251cf.43.1760875912142; 
+ Sun, 19 Oct 2025 05:11:52 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IHQGIvBCD9sJ/M1qvRjDaUZ1+T6tRELaWa2oMHhW/HyBqE/0fYTWTtclEdazefvpcZR2v9Ysg==
+X-Received: by 2002:a05:622a:5cc:b0:4e8:a51e:cdbc with SMTP id
+ d75a77b69052e-4e8a51ed369mr89144771cf.43.1760875911633; 
+ Sun, 19 Oct 2025 05:11:51 -0700 (PDT)
 Received: from umbar.lan
  (2001-14ba-a0c3-3a00-264b-feff-fe8b-be8a.rev.dnainternet.fi.
  [2001:14ba:a0c3:3a00:264b:feff:fe8b:be8a])
  by smtp.gmail.com with ESMTPSA id
- 2adb3069b0e04-591def28beasm1501207e87.114.2025.10.19.04.52.53
+ 38308e7fff4ca-377a91b7111sm13663761fa.7.2025.10.19.05.11.49
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 19 Oct 2025 04:52:53 -0700 (PDT)
-Date: Sun, 19 Oct 2025 14:52:51 +0300
+ Sun, 19 Oct 2025 05:11:49 -0700 (PDT)
+Date: Sun, 19 Oct 2025 15:11:48 +0300
 From: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
-To: Bjorn Andersson <andersson@kernel.org>
-Cc: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>,
- Mani Chandana Ballary Kuntumalla <quic_mkuntuma@quicinc.com>,
- marijn.suijten@somainline.org, swboyd@chromium.org, mripard@kernel.org,
- abel.vesa@linaro.org, konradybcio@kernel.org, robh@kernel.org,
- krzk+dt@kernel.org, conor+dt@kernel.org, robin.clark@oss.qualcomm.com,
- jessica.zhang@oss.qualcomm.com, abhinav.kumar@linux.dev,
- sean@poorly.run, airlied@gmail.com, simona@ffwll.ch,
- alex.vinarskis@gmail.com, linux-arm-msm@vger.kernel.org,
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org, freedreno@lists.freedesktop.org,
- dri-devel@lists.freedesktop.org, quic_rajeevny@quicinc.com,
- quic_vproddut@quicinc.com, quic_riteshk@quicnic.com,
- quic_amitsi@quicnic.com
-Subject: Re: [PATCH 3/4] arm64: dts: qcom: lemans-ride: Enable dispcc1
-Message-ID: <mxim7iweydzzhetqlao54hrd4ntufdhwdsbaunblyhlovdv25z@gct5iydvzbzu>
-References: <20250926085956.2346179-1-quic_mkuntuma@quicinc.com>
- <20250926085956.2346179-4-quic_mkuntuma@quicinc.com>
- <v4b35cmwbkoosdgs3d6ftml4yvdkyh27q65ssqojplb7uyniwp@wuxbeof7cikr>
- <869d1f94-9d66-4045-abdb-6e88d504a884@oss.qualcomm.com>
- <62nvkgq4f5hoew4lbvszizplkm67t67dbpskej3ha6m55jnblx@vajuvual7lng>
+To: David Heidelberg <david@ixit.cz>
+Cc: Neil Armstrong <neil.armstrong@linaro.org>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>,
+ Thierry Reding <thierry.reding@gmail.com>, Sam Ravnborg <sam@ravnborg.org>,
+ Bjorn Andersson <andersson@kernel.org>,
+ Konrad Dybcio <konradybcio@kernel.org>,
+ Casey Connolly <casey.connolly@linaro.org>,
+ Jessica Zhang <jesszhan0024@gmail.com>,
+ dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+ phone-devel@vger.kernel.org
+Subject: Re: [PATCH v3 4/8] drm/panel: Add Samsung S6E3FC2X01 DDIC with
+ AMS641RW panel
+Message-ID: <32iy3k5aq7aiz3juq5i2wnnidsmbde3kdixlkpxrvgv75573ow@ebo3pi6kbr6n>
+References: <20251016-s6e3fc2x01-v3-0-ce0f3566b903@ixit.cz>
+ <20251016-s6e3fc2x01-v3-4-ce0f3566b903@ixit.cz>
+ <didkbltadu4ql6xcqtjrtf2iguody5bgy6mqlwtbyfgbambaii@mzofzymnfbju>
+ <d13cdf83-22df-4a24-a711-2db4abe3a0a8@ixit.cz>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <62nvkgq4f5hoew4lbvszizplkm67t67dbpskej3ha6m55jnblx@vajuvual7lng>
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUxMDE4MDAwMCBTYWx0ZWRfXzCTavSGJznho
- 6X/yA0nNJQ2d4s0Q8bxG1AWIAjcARUXNKG8yF21Nb8VR7GRVE6ymEN3uNLr/YRfXrebPWNzqwgi
- Eav3PR7S/WSzqvd2Iz1tmWRo9ZMJXK5zC5lXjp6nTlGJ31jCu+mUkJGRzFfuYop6A/auCcu6eGg
- N5kdsSY7rhoq5XQarz0dvUymDyuliyEVHVZ88bRP9fdmVhYuDtqMZPZJOWiQ2PirAiuWt9Mu+BA
- +0IpQPjgZfLy6CT7cVBs3oE/vtIrYodfzk/YkRomhg1DbTq7fnH9vv2BKCx9SAaIf0G69/0h0fg
- eEVqyYScao/+N6gAQUQL8hIrCbY5IzbwiHK14iVoznSOpZ0VJt9pgmaBneda57PtlRWmgJgDYj0
- z3cDZtGZuneFkBXWyCdjOpT4TGPepw==
-X-Proofpoint-GUID: UaxZlMznmQ9rlWIM_JZ9OKW-fi6rAlQx
-X-Authority-Analysis: v=2.4 cv=Up1u9uwB c=1 sm=1 tr=0 ts=68f4d117 cx=c_pps
- a=7E5Bxpl4vBhpaufnMqZlrw==:117 a=xqWC_Br6kY4A:10 a=kj9zAlcOel0A:10
- a=x6icFKpwvdMA:10 a=VkNPw1HP01LnGYTKEx00:22 a=COk6AnOGAAAA:8
- a=vRBcCzbY8zNoOr-dCfEA:9 a=CjuIK1q_8ugA:10 a=pJ04lnu7RYOZP9TFuWaZ:22
- a=TjNXssC_j7lpFel5tvFf:22
-X-Proofpoint-ORIG-GUID: UaxZlMznmQ9rlWIM_JZ9OKW-fi6rAlQx
+In-Reply-To: <d13cdf83-22df-4a24-a711-2db4abe3a0a8@ixit.cz>
+X-Authority-Analysis: v=2.4 cv=KcvfcAYD c=1 sm=1 tr=0 ts=68f4d589 cx=c_pps
+ a=qKBjSQ1v91RyAK45QCPf5w==:117 a=xqWC_Br6kY4A:10 a=kj9zAlcOel0A:10
+ a=x6icFKpwvdMA:10 a=VkNPw1HP01LnGYTKEx00:22 a=WFa1dZBpAAAA:8 a=bBqXziUQAAAA:8
+ a=yoNOsk6A1An68yMDdNAA:9 a=CjuIK1q_8ugA:10 a=NFOGd7dJGGMPyQGDc5-O:22
+ a=MZguhEFr_PtxzKXayD1K:22 a=BjKv_IHbNJvPKzgot4uq:22
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUxMDE4MDAyNSBTYWx0ZWRfXxxgC5VG1zKov
+ LzwEDWIMN9nncSl+eDoLMlO8IsH1NcBTRTCQYWrUNNhsVzkMsL4kGLu1ahWxhVbi4V6dfqxVFZQ
+ xr6areT+POGKIfGuTABbXw5HQSUy7pBFvEG7eqvag0Qd/0evs19c29uhrFcB5qMWdsbRD1LNgaG
+ hXH0QjWYmkAf2BjOe1eVw34gBkA/NnNNc63Z5DKNwi971zkjfBhlfLJYt5NV6eX9fhCDn5XlbWf
+ tu5cVrljakLG+kCrqLs0nuD9zflhB1ElKOqszRkMgtia1MdpBfVhqubqrp8c3gVUBqhJ9cdObyO
+ XxEazlCJ6tppZ2qch55QIeCsVBz1pFf/gixL4OpznsJhbl2Y5JG5lOLjvSZr+Q98IPWqVgB44nO
+ AMGtLeyK0kSyQQJF7PVFZLLPR9Ycew==
+X-Proofpoint-GUID: ICvgX9KGizpAAKvMwwOc96JsYxVx4s_h
+X-Proofpoint-ORIG-GUID: ICvgX9KGizpAAKvMwwOc96JsYxVx4s_h
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.9,FMLib:17.12.80.40
  definitions=2025-10-19_05,2025-10-13_01,2025-03-28_01
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- lowpriorityscore=0 adultscore=0 suspectscore=0 malwarescore=0 clxscore=1015
- impostorscore=0 bulkscore=0 priorityscore=1501 spamscore=0 phishscore=0
+ adultscore=0 phishscore=0 priorityscore=1501 suspectscore=0 impostorscore=0
+ malwarescore=0 clxscore=1015 bulkscore=0 spamscore=0 lowpriorityscore=0
  classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.19.0-2510020000 definitions=main-2510180000
+ reason=mlx scancount=1 engine=8.19.0-2510020000 definitions=main-2510180025
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -138,48 +140,63 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, Oct 17, 2025 at 03:54:09PM -0700, Bjorn Andersson wrote:
-> On Wed, Oct 01, 2025 at 11:43:44AM +0200, Konrad Dybcio wrote:
-> > On 9/26/25 3:53 PM, Dmitry Baryshkov wrote:
-> > > On Fri, Sep 26, 2025 at 02:29:55PM +0530, Mani Chandana Ballary Kuntumalla wrote:
-> > >> This change enables display1 clock controller.
-> > >>
-> > >> Signed-off-by: Mani Chandana Ballary Kuntumalla <quic_mkuntuma@quicinc.com>
-> > >> ---
-> > >>  arch/arm64/boot/dts/qcom/lemans-ride-common.dtsi | 4 ++++
-> > >>  1 file changed, 4 insertions(+)
-> > >>
-> > >> diff --git a/arch/arm64/boot/dts/qcom/lemans-ride-common.dtsi b/arch/arm64/boot/dts/qcom/lemans-ride-common.dtsi
-> > >> index c69aa2f41ce2..d4436bc473ba 100644
-> > >> --- a/arch/arm64/boot/dts/qcom/lemans-ride-common.dtsi
-> > >> +++ b/arch/arm64/boot/dts/qcom/lemans-ride-common.dtsi
-> > >> @@ -436,6 +436,10 @@ vreg_l8e: ldo8 {
-> > >>  	};
-> > >>  };
-> > >>  
-> > >> +&dispcc1 {
-> > >> +	status = "okay";
+On Thu, Oct 16, 2025 at 10:46:56PM +0200, David Heidelberg wrote:
+> On 16/10/2025 22:12, Dmitry Baryshkov wrote:
+> > On Thu, Oct 16, 2025 at 06:16:59PM +0200, David Heidelberg via B4 Relay wrote:
+> > > From: David Heidelberg <david@ixit.cz>
 > > > 
-> > > I think this one should be enabled by default. Unless Konrad or Bjorn
-> > > disagrees, please fix lemans.dtsi.
+> > > Add panel driver used in the OnePlus 6T.
+> > > 
+> > > No datasheet, based mostly on EDK2 init sequence and the downstream driver.
+> > > 
+> > > Note: This driver doesn't use previously mentioned "samsung,s6e3fc2x01"
+> > > by OnePlus 6T device-tree.
+> > > The reason is because DDIC itself without knowing the panel type used
+> > > with it will not give the driver enough information about the panel used,
+> > > as the panel cannot be autodetected.
+> > > While would be more practical to support the original compatible,
+> > > I would like to avoid it, to prevent confusing devs upstreaming DDICs.
+> > > 
+> > > Based on work of:
+> > >    Casey Connolly <casey@connolly.tech>
+> > >    Joel Selvaraj <foss@joelselvaraj.com>
+> > >    Nia Espera <a5b6@riseup.net>
+> > > 
+> > > Signed-off-by: David Heidelberg <david@ixit.cz>
+> > > ---
+> > >   MAINTAINERS                                      |   1 +
+> > >   drivers/gpu/drm/panel/Kconfig                    |  13 +
+> > >   drivers/gpu/drm/panel/Makefile                   |   1 +
+> > >   drivers/gpu/drm/panel/panel-samsung-s6e3fc2x01.c | 399 +++++++++++++++++++++++
+> > >   4 files changed, 414 insertions(+)
+> > > 
+> > > +static const struct of_device_id s6e3fc2x01_of_match[] = {
+> > > +	/* samsung,s6e3fc2x01 will default to the AMS641RW mode (legacy) */
+> > > +	{ .compatible = "samsung,s6e3fc2x01", .data = &ams641rw_mode },
 > > 
-> > Of course there is no reason for clock controllers to be disabled
+> > Is there a need to probide this kind of legacy?
+> 
+> I don't know. I don't see the need to provide it, but I understood you may
+> want to have it. If not, please tell me and I'll happily remove it from next
+> version.
+
+Since this never worked as expected and there were no DTs in upstream
+that used this compat string, I think it can be dropped.
+
+> 
+> David
+> 
+> > 
+> > > +	{ .compatible = "samsung,s6e3fc2x01-ams641rw", .data = &ams641rw_mode },
+> > > +	{ /* sentinel */ }
+> > > +};
+> > > +MODULE_DEVICE_TABLE(of, s6e3fc2x01_of_match);
+> > > +
 > > 
 > 
-> On SC8280XP we have the same setup (two MDSS), there the clock
-> controller was left disabled because not all SKUs had that IP-block
-> accessible.
-
-Do you mean some auto platforms or something else?
-
+> -- 
+> David Heidelberg
 > 
-> Whether this is the case of not for Lemans I don't know, if it is then
-> the commit message should have stated that.
-> 
-> Regards,
-> Bjorn
-> 
-> > Konrad
 
 -- 
 With best wishes
