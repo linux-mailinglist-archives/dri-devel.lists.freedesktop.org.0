@@ -2,96 +2,79 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 224E0BEE098
-	for <lists+dri-devel@lfdr.de>; Sun, 19 Oct 2025 10:20:01 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9863CBEE0A1
+	for <lists+dri-devel@lfdr.de>; Sun, 19 Oct 2025 10:24:38 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E086410E033;
-	Sun, 19 Oct 2025 08:19:57 +0000 (UTC)
-Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="mQc8zkOG";
-	dkim-atps=neutral
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4C9C510E057;
+	Sun, 19 Oct 2025 08:24:35 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ej1-f41.google.com (mail-ej1-f41.google.com
- [209.85.218.41])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 38F0A10E033
- for <dri-devel@lists.freedesktop.org>; Sun, 19 Oct 2025 08:19:57 +0000 (UTC)
-Received: by mail-ej1-f41.google.com with SMTP id
- a640c23a62f3a-b3c2db014easo726167966b.0
- for <dri-devel@lists.freedesktop.org>; Sun, 19 Oct 2025 01:19:57 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1760861996; x=1761466796; darn=lists.freedesktop.org;
- h=user-agent:in-reply-to:content-disposition:mime-version:references
- :reply-to:message-id:subject:cc:to:from:date:from:to:cc:subject:date
- :message-id:reply-to;
- bh=hzAnCEb80QifK9acVK1YEWu5S4rWy7O2ChI/IhFvLrQ=;
- b=mQc8zkOGvQyZLlw/P5yoJ0qYSCHNZbRx+pBqR7o7YTQEWXVWd/SkMhSVAkym09vCZA
- Nx+Wc69EjBiG4GKgXXodSI7gHrfvJpsFWjr90ufhaTTP5NjB5IvG12NOcUqRBHqHhEvs
- wGJWhh7r+zjHlTCGHFoYzmSWINUlU1ZH3pMTOqCvlbxXrl+m2fNvYF/7BQv7XcC0jqlm
- 2pzDIPuqu/MR97o082JCZyKc5wfgrZiNsSXzlg/uFS+p7pDu9ZWiTUPckcc6tynD2ZAO
- 1Csd7aE2bep5S8q8nk46kHpraf8urjOt8dD8wGKctopIaiecL/s8uWVoZQ+/YUtIQHCf
- wllQ==
+Received: from mail-lf1-f43.google.com (mail-lf1-f43.google.com
+ [209.85.167.43])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C1F3610E057
+ for <dri-devel@lists.freedesktop.org>; Sun, 19 Oct 2025 08:24:33 +0000 (UTC)
+Received: by mail-lf1-f43.google.com with SMTP id
+ 2adb3069b0e04-57d8ff3944dso3902418e87.3
+ for <dri-devel@lists.freedesktop.org>; Sun, 19 Oct 2025 01:24:33 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1760861996; x=1761466796;
- h=user-agent:in-reply-to:content-disposition:mime-version:references
- :reply-to:message-id:subject:cc:to:from:date:x-gm-message-state:from
- :to:cc:subject:date:message-id:reply-to;
- bh=hzAnCEb80QifK9acVK1YEWu5S4rWy7O2ChI/IhFvLrQ=;
- b=gb52AlzUkKRB7MaUQBZSg5myMnYL5F4CH3JTD3sSBx54JHxJxWLOY/pmQTTRdqPZ7P
- XFhkEDh0vVuizEIFDordlD9CcTQSmTRWJj9A8NtQdiquK8Ec47pgXpH9FNycpC+tQrud
- L4Zoqr/wGLHDYtjS2secFagZUCU8gTgDDnJKqujquzDTDnZyjqCzAz851yLWaVr/WxFs
- jiGSFh4ulweApWn6TIp2hnAzm5KkQ+r3hgYp2ufY4ZhSjAK9cg42bp0HOIzpI3GYQven
- aSsOF0yDmZ2hJXH5FFTENuN+kFA7zt2ew3gO93fNiHL5BmRCJQIYAgLcBIIz35fTaGsN
- 4v5w==
+ d=1e100.net; s=20230601; t=1760862269; x=1761467069;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :reply-to:in-reply-to:references:mime-version:x-gm-message-state
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=FMwNP3my/AAtkqEoi875nhGGuoIYGuPvqPRBJ3G+A9w=;
+ b=jTVaByoZPLZ/53o/WI09gRnn1QzstRyD9GAm6wRc3Cuj2i8tIRI7PFzBIYNsQb4Rg9
+ PkyWgMMYa2x8cH6vVm76Iyb9MCwnX75/Gr5G15FTiC96yOF3nPFLYTsxK+7vWIFfz/1W
+ nrgA6bJocrtx+wYUJwbJN6Q3kwA39nM8gdda6xvmYegfdSCQGH/c9nkBJbmHxcDe1cL4
+ txylzyzzSGWDX2p4z1zOPLXgX8s6EWax1rIMci6tI9NLBdZwJpzRvrASTrKJaWfG25U4
+ cuHLzhhhdv/MU5AieSAScNATmPVQmmYYW0Yi1MvEB5dso04r5aNhiTboI6c+83b6nh1X
+ zUDg==
 X-Forwarded-Encrypted: i=1;
- AJvYcCUd+uPnw7ZEfJx0bP6Opuorv+68lb+7dME8V3Z3Zu3JxLXTWuVqjlYKa1Er5sGi2tfk7DMyvQOSo6s=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YxqRT3n9IOEHfibJ2wCwee1hrsGtlxUZoQLpDN8yGlzGnv3RkFb
- E7S49NcbaH00Ysgt7j7U4hUlQqerIgtr+ZHmD3jp3csAM1BvpSlhc3c6
-X-Gm-Gg: ASbGnctE7R+TsTlPFEQ2Iz717sM/Q2RdY9b86Ni8RmxXMu6R7QJNYJNpj4AJkgJ+Hn3
- O49cQj6G9f4Pu4zuc7VQuSKM4b7jjkw00vkkrBetw088lolLX9OYN3QsONMeBwgh/CILduxaAO0
- XR/t67SjmrYb5TFcd7nFS3xs817oMwd+3conOj7713zk1rsojDZJ+v/t8xxTNvdIAN9gDHiqEgt
- YIgSWT2Drm3xgcBYaWjKEqihNkiyr0N1/TxR73CW3JQYqyLhhY2Tv8KPs9y6i37FXPsJZJynTya
- n4mxJh0XTA5ACw72/M7TVCKDYJKp4VwnpXQ3tt59UR04mwa88kHVGeao3VpMnIwQg42MnvFzbp4
- wsfCuOKFBwcIzIT4omLV9mFrBMOS4MygGlDapO59Q4HlZxfQPLNmq23sw23RJY3ZtuoI3GFVwE9
- y5xv8=
-X-Google-Smtp-Source: AGHT+IGe2bSS2UoD1lk0Xxfgzd8YXhfUNUOT8b22z2p6gAASSaXv1SkNEJLCq1pmMcg1S7iCxcQ1kQ==
-X-Received: by 2002:a17:906:c145:b0:b57:78fa:db48 with SMTP id
- a640c23a62f3a-b6474f185a3mr1028142366b.51.1760861995556; 
- Sun, 19 Oct 2025 01:19:55 -0700 (PDT)
-Received: from localhost ([185.92.221.13]) by smtp.gmail.com with ESMTPSA id
- a640c23a62f3a-b65ebb499dasm457209766b.73.2025.10.19.01.19.55
- (version=TLS1_2 cipher=ECDHE-ECDSA-CHACHA20-POLY1305 bits=256/256);
- Sun, 19 Oct 2025 01:19:55 -0700 (PDT)
-Date: Sun, 19 Oct 2025 08:19:54 +0000
-From: Wei Yang <richard.weiyang@gmail.com>
-To: Balbir Singh <balbirs@nvidia.com>
-Cc: linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- linux-mm@kvack.org, akpm@linux-foundation.org,
- David Hildenbrand <david@redhat.com>, Zi Yan <ziy@nvidia.com>,
- Joshua Hahn <joshua.hahnjy@gmail.com>, Rakie Kim <rakie.kim@sk.com>,
- Byungchul Park <byungchul@sk.com>, Gregory Price <gourry@gourry.net>,
- Ying Huang <ying.huang@linux.alibaba.com>,
- Alistair Popple <apopple@nvidia.com>, Oscar Salvador <osalvador@suse.de>,
- Lorenzo Stoakes <lorenzo.stoakes@oracle.com>,
- Baolin Wang <baolin.wang@linux.alibaba.com>,
- "Liam R. Howlett" <Liam.Howlett@oracle.com>,
- Nico Pache <npache@redhat.com>, Ryan Roberts <ryan.roberts@arm.com>,
- Dev Jain <dev.jain@arm.com>, Barry Song <baohua@kernel.org>,
- Lyude Paul <lyude@redhat.com>, Danilo Krummrich <dakr@kernel.org>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Ralph Campbell <rcampbell@nvidia.com>,
- Mika =?iso-8859-1?Q?Penttil=E4?= <mpenttil@redhat.com>,
- Matthew Brost <matthew.brost@intel.com>,
- Francois Dugast <francois.dugast@intel.com>
-Subject: Re: [v7 11/16] mm/migrate_device: add THP splitting during migration
-Message-ID: <20251019081954.luz3mp5ghdhii3vr@master>
-References: <20251001065707.920170-1-balbirs@nvidia.com>
- <20251001065707.920170-12-balbirs@nvidia.com>
+ AJvYcCU7EWMJTesyADBqsztj7i1oR5iAfW2F+sV1E/WNRas9Sbwf6qwqThU50fnMAu2OeLbMuraNqBaYFFs=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YwT7FH2qenYmmrI2d0n2W+X2P17NnJYUS+A1Oe23muq7sP851UE
+ qTEC2jnEi7F7VtPliGeIbnzi9p1dFB7ZZRA+xV7mv23xNSoFn44ByXABIJd1ACD5
+X-Gm-Gg: ASbGncsHbSyHDewlpDDHqDHgOcqkqh0HsnL0n1q0ix9C6LWneWMNt3+pL84hEQ2ZBwZ
+ NJSZA3PWulnFQs5TNzA10HxMbF+F36MgR1y1u19QVSHAeXt62fRVeB/vlY/tTd5eYB1g8nVnyiH
+ urhAq1WDeuz+kWHFAm55g5SE4EAt1AO64trJYQJSIP41DILYAy8k06gWNCpoFpIA093D/4zvGch
+ Kru/gG/vZ55MTsDN80RZ5DQH/+gIaXo9S2BBRpptfEH0mBe1iA2+/mC/TeIr6P9SFnpdx6GX3Fv
+ sbuTunA3BqFDmWKTzmAFFWnzjtRK+pPXcG3Q7Shgkrgb57Z5d4W9Mjmm3w55bPaN3CelHGgKh7K
+ nTx7quU8ubtK2OGMN6Z+rZp78s5EtTk8RHoCzzvo1nLhsKJQebmDJv6+DQpktN4ErNCZVu7CqUY
+ Kef473r0SeQEr+txxirzNdoOXovqcJ0TuS
+X-Google-Smtp-Source: AGHT+IEhMFA17/W+Y7D6BWTYFEkg6iDwmjMe8coenUMZ/WTkyBLxAJpZB1qe7qDEGjCiULU/M10Skg==
+X-Received: by 2002:a05:6512:3d89:b0:585:1ca7:1b69 with SMTP id
+ 2adb3069b0e04-591d84f9601mr3161123e87.13.1760862269150; 
+ Sun, 19 Oct 2025 01:24:29 -0700 (PDT)
+Received: from mail-lj1-f182.google.com (mail-lj1-f182.google.com.
+ [209.85.208.182]) by smtp.gmail.com with ESMTPSA id
+ 2adb3069b0e04-591def1b37dsm1375580e87.87.2025.10.19.01.24.28
+ for <dri-devel@lists.freedesktop.org>
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Sun, 19 Oct 2025 01:24:28 -0700 (PDT)
+Received: by mail-lj1-f182.google.com with SMTP id
+ 38308e7fff4ca-36a6a3974fdso35108891fa.0
+ for <dri-devel@lists.freedesktop.org>; Sun, 19 Oct 2025 01:24:28 -0700 (PDT)
+X-Forwarded-Encrypted: i=1;
+ AJvYcCVHdf1aqlA91bf7TW3BRv7cS3BgYIkOM+F4YhG8g0tKObyxGGMfr59RXmN5TcDnSOUl/zqgRxXXD2c=@lists.freedesktop.org
+X-Received: by 2002:a2e:bd86:0:b0:36b:f63:2785 with SMTP id
+ 38308e7fff4ca-37797a09b5emr26596581fa.27.1760862268372; Sun, 19 Oct 2025
+ 01:24:28 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20251001065707.920170-12-balbirs@nvidia.com>
-User-Agent: NeoMutt/20170113 (1.7.2)
+References: <20251012192330.6903-1-jernej.skrabec@gmail.com>
+ <20251012192330.6903-5-jernej.skrabec@gmail.com>
+In-Reply-To: <20251012192330.6903-5-jernej.skrabec@gmail.com>
+From: Chen-Yu Tsai <wens@csie.org>
+Date: Sun, 19 Oct 2025 16:24:13 +0800
+X-Gmail-Original-Message-ID: <CAGb2v64_HXub5SZn8U2=Smi_XheyK5-k-ycwR19wmboEvub3Rg@mail.gmail.com>
+X-Gm-Features: AS18NWD0jnxz1Ue42cbwTGa97ilz_J4ZeWnbXU3EI3BU7YNx8yeEWNSRMp4bPA8
+Message-ID: <CAGb2v64_HXub5SZn8U2=Smi_XheyK5-k-ycwR19wmboEvub3Rg@mail.gmail.com>
+Subject: Re: [PATCH 04/30] drm/sun4i: ui_layer: Move check from update to
+ check callback
+To: Jernej Skrabec <jernej.skrabec@gmail.com>
+Cc: mripard@kernel.org, maarten.lankhorst@linux.intel.com, tzimmermann@suse.de,
+ airlied@gmail.com, simona@ffwll.ch, samuel@sholland.org, 
+ dri-devel@lists.freedesktop.org, linux-arm-kernel@lists.infradead.org, 
+ linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -104,96 +87,81 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Reply-To: Wei Yang <richard.weiyang@gmail.com>
+Reply-To: wens@csie.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Oct 01, 2025 at 04:57:02PM +1000, Balbir Singh wrote:
-[...]
-> static int __folio_split(struct folio *folio, unsigned int new_order,
-> 		struct page *split_at, struct page *lock_at,
->-		struct list_head *list, bool uniform_split)
->+		struct list_head *list, bool uniform_split, bool unmapped)
-> {
-> 	struct deferred_split *ds_queue = get_deferred_split_queue(folio);
-> 	XA_STATE(xas, &folio->mapping->i_pages, folio->index);
->@@ -3765,13 +3757,15 @@ static int __folio_split(struct folio *folio, unsigned int new_order,
-> 		 * is taken to serialise against parallel split or collapse
-> 		 * operations.
-> 		 */
->-		anon_vma = folio_get_anon_vma(folio);
->-		if (!anon_vma) {
->-			ret = -EBUSY;
->-			goto out;
->+		if (!unmapped) {
->+			anon_vma = folio_get_anon_vma(folio);
->+			if (!anon_vma) {
->+				ret = -EBUSY;
->+				goto out;
->+			}
->+			anon_vma_lock_write(anon_vma);
-> 		}
-> 		mapping = NULL;
->-		anon_vma_lock_write(anon_vma);
-> 	} else {
-> 		unsigned int min_order;
-> 		gfp_t gfp;
->@@ -3838,7 +3832,8 @@ static int __folio_split(struct folio *folio, unsigned int new_order,
-> 		goto out_unlock;
-> 	}
-> 
->-	unmap_folio(folio);
->+	if (!unmapped)
->+		unmap_folio(folio);
-> 
-> 	/* block interrupt reentry in xa_lock and spinlock */
-> 	local_irq_disable();
->@@ -3925,10 +3920,13 @@ static int __folio_split(struct folio *folio, unsigned int new_order,
-> 
-> 			next = folio_next(new_folio);
-> 
->+			zone_device_private_split_cb(folio, new_folio);
->+
-> 			expected_refs = folio_expected_ref_count(new_folio) + 1;
-> 			folio_ref_unfreeze(new_folio, expected_refs);
-> 
->-			lru_add_split_folio(folio, new_folio, lruvec, list);
->+			if (!unmapped)
->+				lru_add_split_folio(folio, new_folio, lruvec, list);
-> 
-> 			/*
-> 			 * Anonymous folio with swap cache.
->@@ -3959,6 +3957,8 @@ static int __folio_split(struct folio *folio, unsigned int new_order,
-> 			__filemap_remove_folio(new_folio, NULL);
-> 			folio_put_refs(new_folio, nr_pages);
-> 		}
->+
->+		zone_device_private_split_cb(folio, NULL);
-> 		/*
-> 		 * Unfreeze @folio only after all page cache entries, which
-> 		 * used to point to it, have been updated with new folios.
->@@ -3982,6 +3982,9 @@ static int __folio_split(struct folio *folio, unsigned int new_order,
-> 
-> 	local_irq_enable();
-> 
->+	if (unmapped)
->+		return ret;
+On Mon, Oct 13, 2025 at 3:23=E2=80=AFAM Jernej Skrabec <jernej.skrabec@gmai=
+l.com> wrote:
+>
+> DRM requires that all checks are done in atomic_check callback. Move
+> one check from atomic_commit to atomic_update callback.
 
-As the comment of __folio_split() and __split_huge_page_to_list_to_order()
-mentioned:
+                                  ^ atomic_check?
 
-  * The large folio must be locked
-  * After splitting, the after-split folio containing @lock_at remains locked
+Otherwise the commit message seems self-contradictory.
 
-But here we seems to change the prerequisites.
+Once fixed,
 
-Hmm.. I am not sure this is correct.
+Reviewed-by: Chen-Yu Tsai <wens@csie.org>
 
->+
-> 	if (nr_shmem_dropped)
-> 		shmem_uncharge(mapping->host, nr_shmem_dropped);
-> 
-
--- 
-Wei Yang
-Help you, Help me
+> Signed-off-by: Jernej Skrabec <jernej.skrabec@gmail.com>
+> ---
+>  drivers/gpu/drm/sun4i/sun8i_ui_layer.c | 18 +++++++++++-------
+>  1 file changed, 11 insertions(+), 7 deletions(-)
+>
+> diff --git a/drivers/gpu/drm/sun4i/sun8i_ui_layer.c b/drivers/gpu/drm/sun=
+4i/sun8i_ui_layer.c
+> index 9b786e5c7f3c..fce7b265c5d8 100644
+> --- a/drivers/gpu/drm/sun4i/sun8i_ui_layer.c
+> +++ b/drivers/gpu/drm/sun4i/sun8i_ui_layer.c
+> @@ -134,16 +134,11 @@ static int sun8i_ui_layer_update_formats(struct sun=
+8i_mixer *mixer, int channel,
+>         struct drm_plane_state *state =3D plane->state;
+>         const struct drm_format_info *fmt;
+>         u32 val, ch_base, hw_fmt;
+> -       int ret;
+>
+>         ch_base =3D sun8i_channel_base(mixer, channel);
+>
+>         fmt =3D state->fb->format;
+> -       ret =3D sun8i_mixer_drm_format_to_hw(fmt->format, &hw_fmt);
+> -       if (ret || fmt->is_yuv) {
+> -               DRM_DEBUG_DRIVER("Invalid format\n");
+> -               return -EINVAL;
+> -       }
+> +       sun8i_mixer_drm_format_to_hw(fmt->format, &hw_fmt);
+>
+>         val =3D hw_fmt << SUN8I_MIXER_CHAN_UI_LAYER_ATTR_FBFMT_OFFSET;
+>         regmap_update_bits(mixer->engine.regs,
+> @@ -201,7 +196,9 @@ static int sun8i_ui_layer_atomic_check(struct drm_pla=
+ne *plane,
+>         struct sun8i_layer *layer =3D plane_to_sun8i_layer(plane);
+>         struct drm_crtc *crtc =3D new_plane_state->crtc;
+>         struct drm_crtc_state *crtc_state;
+> -       int min_scale, max_scale;
+> +       const struct drm_format_info *fmt;
+> +       int min_scale, max_scale, ret;
+> +       u32 hw_fmt;
+>
+>         if (!crtc)
+>                 return 0;
+> @@ -211,6 +208,13 @@ static int sun8i_ui_layer_atomic_check(struct drm_pl=
+ane *plane,
+>         if (WARN_ON(!crtc_state))
+>                 return -EINVAL;
+>
+> +       fmt =3D new_plane_state->fb->format;
+> +       ret =3D sun8i_mixer_drm_format_to_hw(fmt->format, &hw_fmt);
+> +       if (ret || fmt->is_yuv) {
+> +               DRM_DEBUG_DRIVER("Invalid plane format\n");
+> +               return -EINVAL;
+> +       }
+> +
+>         min_scale =3D DRM_PLANE_NO_SCALING;
+>         max_scale =3D DRM_PLANE_NO_SCALING;
+>
+> --
+> 2.51.0
+>
+>
