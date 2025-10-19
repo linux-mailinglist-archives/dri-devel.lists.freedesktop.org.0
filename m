@@ -2,39 +2,39 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 11EC6BEE188
-	for <lists+dri-devel@lfdr.de>; Sun, 19 Oct 2025 11:10:22 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5E062BEE197
+	for <lists+dri-devel@lfdr.de>; Sun, 19 Oct 2025 11:13:15 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 81D9D10E100;
-	Sun, 19 Oct 2025 09:10:18 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0F63D10E152;
+	Sun, 19 Oct 2025 09:13:12 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="H4Ewit2a";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="uS+5M1Qe";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 910EB10E100;
- Sun, 19 Oct 2025 09:10:17 +0000 (UTC)
+Received: from sea.source.kernel.org (sea.source.kernel.org [172.234.252.31])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D674010E152;
+ Sun, 19 Oct 2025 09:13:10 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by tor.source.kernel.org (Postfix) with ESMTP id BFFC1601EE;
- Sun, 19 Oct 2025 09:10:16 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 929B9C4CEE7;
- Sun, 19 Oct 2025 09:10:11 +0000 (UTC)
+ by sea.source.kernel.org (Postfix) with ESMTP id 604B2481A8;
+ Sun, 19 Oct 2025 09:13:10 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3D906C4CEE7;
+ Sun, 19 Oct 2025 09:13:05 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1760865016;
- bh=3shpPgiWLn2oVdcGJeEmeZTcZOfIHxZnlQlHZPS7LBE=;
+ s=k20201202; t=1760865190;
+ bh=cS2664aPb+EmVIid19f3kzZfKdifj4f7Pzq4bzCqEdI=;
  h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
- b=H4Ewit2avuAceStAVppeXRiHyJYYTFEJIU1dLBd8NeToxy2hSxqBv4TQGGqrFzVrb
- 3N2OXz3iJaU8WcOEVqHD3Ijij3gXzJ7Nd1Uml3iuE331cEkSXuEd0Jtu/gvqsQ7SBH
- q0eJRo4X91d2rdkup/yte+Y/tTt+7qbj4he+C6j3DKmXIr5W0Tkw5DC3L3vw9ewJmA
- NqIwo5JaIfCTqVc4NGGigvePHhOsuGD/rd/GA/OTCphYPgVmk8qnx7q0PQroRZ0Exy
- ly0+CGuxYx/y2E2CPx+Ro3688W/lZw0D8Vdh3EdC7/lr4N3cskuZOlwZyC7ZiWV4TM
- EXNKb6miJ6b9g==
-Message-ID: <811c728c-e2c9-462d-9c7a-dd79a683e301@kernel.org>
-Date: Sun, 19 Oct 2025 11:10:09 +0200
+ b=uS+5M1QeR6d0fvKMMVJIx4KJo8wpoKJWjEP6AmnxDbiGlCrSTU11/k2Xt1MzDI1CK
+ eKc5gp/lPLJa0Y/1ZETKYLIoUvDCQmWt7yfXNIMAILV5tZ14r9RE6Ib5QH9ey+3uG4
+ 76PPa4/5QZqnbZDNOFK/E4mQRdAAWiU3jFJdoGzCpfzpZysDE7uveTFtZ6ty3BYlYx
+ S7IVioorvHJr6rW1iA0lsKVHo3QVgNUxWkBccNxLh8r9w1w6brpuvRZ7gG4i0CaHO+
+ W98jlBDe0OcYrCT5f/QN7WwKxFkQRwr84n245Wk5cGktQhSxqcWBKJYR4ghVOywqaP
+ bUP6EGKN1hFQg==
+Message-ID: <8f3f4874-2e82-473e-87bd-e3bd58089b90@kernel.org>
+Date: Sun, 19 Oct 2025 11:13:03 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 2/6] dt-bindings: display/msm: gpu: Document A612 GPU
+Subject: Re: [PATCH 3/6] dt-bindings: display/msm/gmu: Document A612 RGMU
 To: Akhil P Oommen <akhilpo@oss.qualcomm.com>,
  Rob Clark <robin.clark@oss.qualcomm.com>, Sean Paul <sean@poorly.run>,
  Konrad Dybcio <konradybcio@kernel.org>, Dmitry Baryshkov <lumag@kernel.org>,
@@ -50,7 +50,7 @@ Cc: linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org,
  freedreno@lists.freedesktop.org, linux-kernel@vger.kernel.org,
  devicetree@vger.kernel.org
 References: <20251017-qcs615-spin-2-v1-0-0baa44f80905@oss.qualcomm.com>
- <20251017-qcs615-spin-2-v1-2-0baa44f80905@oss.qualcomm.com>
+ <20251017-qcs615-spin-2-v1-3-0baa44f80905@oss.qualcomm.com>
 From: Krzysztof Kozlowski <krzk@kernel.org>
 Content-Language: en-US
 Autocrypt: addr=krzk@kernel.org; keydata=
@@ -96,7 +96,7 @@ Autocrypt: addr=krzk@kernel.org; keydata=
  jWt87ecuHlpL3uuQ0ZZNWqHgZoQLXoqC2ZV5KrtKWb/jyiFX/sxSrodALf0zf+tfHv0FZWT2
  zHjUqd0t4njD/UOsuIMOQn4Ig0SdivYPfZukb5cdasKJukG1NOpbW7yRNivaCnfZz6dTawXw
  XRIV/KDsHQiyVxKvN73bThKhONkcX2LWuD928tAR6XMM2G5ovxLe09vuOzzfTWQDsm++9UKF a/A=
-In-Reply-To: <20251017-qcs615-spin-2-v1-2-0baa44f80905@oss.qualcomm.com>
+In-Reply-To: <20251017-qcs615-spin-2-v1-3-0baa44f80905@oss.qualcomm.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -115,71 +115,182 @@ Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 On 17/10/2025 19:08, Akhil P Oommen wrote:
-> A612 GPU has a new IP called RGMU (Reduced Graphics Management Unit)
-> which replaces GMU. But it doesn't do clock or voltage scaling. So we
-> need the gpu core clock in the GPU node along with the power domain to
-> do clock and voltage scaling from the kernel. Update the bindings to
-> describe this GPU.
+> RGMU a.k.a Reduced Graphics Management Unit is a small state machine
+> with the sole purpose of providing IFPC (Inter Frame Power Collapse)
+> support. Compared to GMU, it doesn't manage GPU clock, voltage
+> scaling, bw voting or any other functionalities. All it does is detect
+> an idle GPU and toggle the GDSC switch. As it doesn't access DDR space,
+> it doesn't require iommu.
+> 
+> So far, only Adreno 612 GPU has an RGMU core. Document RGMU in the GMU's
+> schema.
 > 
 > Signed-off-by: Akhil P Oommen <akhilpo@oss.qualcomm.com>
 > ---
->  .../devicetree/bindings/display/msm/gpu.yaml       | 31 ++++++++++++++++++++--
->  1 file changed, 29 insertions(+), 2 deletions(-)
+>  .../devicetree/bindings/display/msm/gmu.yaml       | 98 +++++++++++++++++-----
+>  1 file changed, 79 insertions(+), 19 deletions(-)
 > 
-> diff --git a/Documentation/devicetree/bindings/display/msm/gpu.yaml b/Documentation/devicetree/bindings/display/msm/gpu.yaml
-> index 3696b083e353031a496a1f299d8f373270ca562d..efc529e82bc198e7c3c89a5eecb6f929960a8de9 100644
-> --- a/Documentation/devicetree/bindings/display/msm/gpu.yaml
-> +++ b/Documentation/devicetree/bindings/display/msm/gpu.yaml
-> @@ -45,11 +45,11 @@ properties:
->            - const: amd,imageon
->  
->    clocks:
-> -    minItems: 2
-> +    minItems: 1
->      maxItems: 7
->  
->    clock-names:
-> -    minItems: 2
-> +    minItems: 1
->      maxItems: 7
+> diff --git a/Documentation/devicetree/bindings/display/msm/gmu.yaml b/Documentation/devicetree/bindings/display/msm/gmu.yaml
+> index afc1879357440c137cadeb2d9a74ae8459570a25..a262d41755f09f21f607bf7a1fd567f386595f39 100644
+> --- a/Documentation/devicetree/bindings/display/msm/gmu.yaml
+> +++ b/Documentation/devicetree/bindings/display/msm/gmu.yaml
+> @@ -26,6 +26,9 @@ properties:
+>        - items:
+>            - pattern: '^qcom,adreno-gmu-x[1-9][0-9][0-9]\.[0-9]$'
+>            - const: qcom,adreno-gmu
+> +      - items:
+> +          - const: qcom,adreno-rgmu-612.0
+> +          - const: qcom,adreno-rgmu
+>        - const: qcom,adreno-gmu-wrapper
 >  
 >    reg:
-> @@ -388,6 +388,33 @@ allOf:
->        required:
->          - clocks
->          - clock-names
+> @@ -45,24 +48,30 @@ properties:
+>      maxItems: 7
+>  
+>    interrupts:
+> -    items:
+> -      - description: GMU HFI interrupt
+> -      - description: GMU interrupt
+
+
+Both stay, just explain what is the first interrupt. You should not drop
+descriptions here. Look at every other binding - of course except that
+terrible Adreno GPU which is anti-example.
+
+> +    minItems: 2
+> +    maxItems: 2
+>  
+>    interrupt-names:
+> -    items:
+> -      - const: hfi
+> -      - const: gmu
+> +    oneOf:
+> +      - items:
+> +          - const: hfi
+> +            description: GMU HFI interrupt
+
+No, descriptions never go to xxx-names, but to xxx.
+
+> +          - const: gmu
+> +            description: GMU interrupt
+> +      - items:
+> +          - const: oob
+> +            description: GMU OOB interrupt
+> +          - const: gmu
+> +            description: GMU interrupt
 > +
+>  
+>    power-domains:
+> -    items:
+> -      - description: CX power domain
+> -      - description: GX power domain
+> +    minItems: 2
+> +    maxItems: 3
+
+No.
+
+>  
+>    power-domain-names:
+> -    items:
+> -      - const: cx
+> -      - const: gx
+> +    minItems: 2
+> +    maxItems: 3
+
+
+No. Why?
+
+>  
+>    iommus:
+>      maxItems: 1
+> @@ -86,6 +95,44 @@ required:
+>  additionalProperties: false
+>  
+>  allOf:
 > +  - if:
 > +      properties:
 > +        compatible:
 > +          contains:
-> +            const: qcom,adreno-612.0
+> +            const: qcom,adreno-rgmu-612.0
 > +    then:
 > +      properties:
+> +        reg:
+> +          items:
+> +            - description: Core RGMU registers
+> +        reg-names:
+> +          items:
+> +            - const: gmu
 > +        clocks:
-> +          minItems: 1
-
-Drop, it's implied.
-
-
-> +          maxItems: 1
-> +
+> +          items:
+> +            - description: GMU clock
+> +            - description: GPU CX clock
+> +            - description: GPU AXI clock
+> +            - description: GPU MEMNOC clock
+> +            - description: GPU SMMU vote clock
 > +        clock-names:
 > +          items:
-> +            - const: core
-> +              description: GPU Core clock
-> +
-
-Missing constraint for 'reg'.
-
-> +        reg-names:
-> +          minItems: 1
-
-Drop. MMIO range is not flexible.
-
+> +            - const: gmu
+> +            - const: cxo
+> +            - const: axi
+> +            - const: memnoc
+> +            - const: smmu_vote
+> +        power-domains:
 > +          items:
-> +            - const: kgsl_3d0_reg_memory
-> +            - const: cx_dbgc
+> +            - description: CX power domain
+> +            - description: GX power domain
+> +            - description: VDD_CX power domain
+> +        power-domain-names:
+> +          items:
+> +            - const: cx
+> +            - const: gx
+> +            - const: vdd_cx
+
+This does not make even sense. Why did you remove the the common list
+from  power-domain-names?
+
 > +
+>    - if:
+>        properties:
+>          compatible:
+> @@ -313,13 +360,26 @@ allOf:
+>            items:
+>              - const: gmu
+>      else:
+> -      required:
+> -        - clocks
+> -        - clock-names
+> -        - interrupts
+> -        - interrupt-names
+> -        - iommus
+> -        - operating-points-v2
+> +      if:
+> +        properties:
+> +          compatible:
+> +            contains:
+> +              const: qcom,adreno-rgmu
+> +      then:
+> +        required:
+> +          - clocks
+> +          - clock-names
+> +          - interrupts
+> +          - interrupt-names
+> +          - operating-points-v2
+> +      else:
+
+No. Don't nest multiple ifs.
+
+> +        required:
+> +          - clocks
+> +          - clock-names
+> +          - interrupts
+> +          - interrupt-names
+> +          - iommus
+> +          - operating-points-v2
+>  
+>  examples:
+>    - |
+> 
+
+
 Best regards,
 Krzysztof
