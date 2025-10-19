@@ -2,91 +2,155 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E91E3BEEADF
-	for <lists+dri-devel@lfdr.de>; Sun, 19 Oct 2025 19:30:23 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id CC471BEEAE5
+	for <lists+dri-devel@lfdr.de>; Sun, 19 Oct 2025 19:30:27 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 78E9810E21F;
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7E92710E220;
 	Sun, 19 Oct 2025 17:30:20 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="EbjDaLrt";
+	dkim=pass (1024-bit key; unprotected) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="mr7tZ637";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-f52.google.com (mail-wm1-f52.google.com
- [209.85.128.52])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1CF9510E1F0
- for <dri-devel@lists.freedesktop.org>; Sun, 19 Oct 2025 11:57:33 +0000 (UTC)
-Received: by mail-wm1-f52.google.com with SMTP id
- 5b1f17b1804b1-46b303f7469so26167145e9.1
- for <dri-devel@lists.freedesktop.org>; Sun, 19 Oct 2025 04:57:33 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1760875051; x=1761479851; darn=lists.freedesktop.org;
- h=content-transfer-encoding:in-reply-to:from:content-language
- :references:cc:to:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=CFyJz4TGbBiB8xKgL30elmXo6maKrPja2K5Egv8H5yA=;
- b=EbjDaLrt3MxyCEsZhNcftxXorWLKIhEuF3RhPlP2qFYrbQps9YvUflv8lANHOmF+oV
- NoeSw9peUOz5cX4U6dBPiAnoQwRS0HF76spwMkTIh5IHIiAF+ZssaHDuCxLHzkVxpbge
- MgBb7wmtDQWojH8dnPEl8Voq/AZ+ySbjFtAgoE2EBotyPvWQJzs3Bgb5bEJ1N/BYgrkB
- YPvkO3rWgWJRvLXgfTZXxJ3M6Z2SgvZ/gQROywFim788CqU8K2n3WrrUq1linRPvY/0k
- sdghJ5qMtPSmzBiKITnE1peN9owPfB1oVVAhH4CraKjqvxxVGbbc02DdEydy5/My8zT3
- L6NA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1760875051; x=1761479851;
- h=content-transfer-encoding:in-reply-to:from:content-language
- :references:cc:to:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=CFyJz4TGbBiB8xKgL30elmXo6maKrPja2K5Egv8H5yA=;
- b=men2y/DaPdJPkdwKuGPqrIcjrezHYpM47kAL8iMEsYUN2wKsry/0+UD5mQvs5UPhyp
- lMW1AxAesuBg1d88sKbHIFbUndb697yxq8smdaba11SqFQ9BX4KfskBrR2UdpwSoSGhc
- trwxPXESM2+nQvlms2W9aUoAzRgBaSyYDe6Sp4o1YS3YYn/wozCcug97slewzJLr6N2Z
- hM4QKxUmBvsJKF9y7ddYeyF2znUNQtEDbeBU+Ot0bHCx2f5+v7mhQ50uDpsFm48kjzum
- 9bmfXGjRCeI2WXiCCrZDPwcB8Jxhf3QZ67lvVwtRzSNYZ3AtZaHICCgCjmudWuDqqDoZ
- j8Yg==
-X-Forwarded-Encrypted: i=1;
- AJvYcCWFWqA6EHrsKAj9QYCnQz54StrO/m3XGBIhlNtBcS9FvA6B0FvCv+X7HUD2EeLEwSylXfZl6HB5Wr4=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YyJhrD0RVHZ54sOOyGqfUyUptbP1s+jn9GtnM/pkaW6yQyN2w8F
- TCTzAJDGcYFlt5t3v03Mb8plYYsh5k8wRIZSiuO01f+PhgWOtdIKB8u+
-X-Gm-Gg: ASbGncs7e49Ck6C9qA0H1BM4OjD52YLJXz+2kRXAZQ3iEZy56ZpMIxhugCIsDHGWBHi
- h4O6t15FGO0ZyLkgtBrR8tbv6rOw0XxFv5p26+hrBNa9mvc46r78E1I1e3ifDUCXEz3muPnHage
- S/n9iWcilh8Zg5mcJwRa28zmu7txBTB2iw5F9dXXhs0wz900o2G1MFeU23dt2NiNxDzS5CI2MVb
- shLjyw+NT2IA34XYHORAzGU5R87kgBIWU1MQquVopZXia1RFNl0dXCjP6z4dtbXAI8uFvNrILoO
- l+J/6B+LqZfLMX47mIDi1WG4kWzZdU/YtF6/3XR9yMEZ3x6bKWNnU6W+AzuxpiJEkZwpIV4u4co
- 7B7WRbxOf1RMLbfCUM77ZP4bYdYDJzSnkWt7u8KEOk0mgEukWa3tTBB+Kp8MY0QHv4v07jX1NjL
- SkRi9NFW34aQwTDn/zGRPg/6amhgHYgitz3FW/gUv4NXraMnAlh8xEGXCGunS3gpFm/1A=
-X-Google-Smtp-Source: AGHT+IHvDD+ifAg+17oqux4wEgOfVHaOlLPFxtbGdrBBFjTGnfI9PU8wWphxIaLJLYGzyWFboM6Djg==
-X-Received: by 2002:a05:600c:548a:b0:471:669:e95d with SMTP id
- 5b1f17b1804b1-4711787dcc8mr62020415e9.12.1760875051305; 
- Sun, 19 Oct 2025 04:57:31 -0700 (PDT)
-Received: from ?IPV6:2a01:e0a:acc:bb60:756b:64e3:20ef:1d08?
- ([2a01:e0a:acc:bb60:756b:64e3:20ef:1d08])
- by smtp.gmail.com with ESMTPSA id
- 5b1f17b1804b1-471529598c9sm91035475e9.5.2025.10.19.04.57.30
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Sun, 19 Oct 2025 04:57:30 -0700 (PDT)
-Message-ID: <72cfbe83-e587-441e-abfb-b50155a326ab@gmail.com>
-Date: Sun, 19 Oct 2025 13:57:29 +0200
+Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DF38210E10B;
+ Sun, 19 Oct 2025 12:37:45 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by tor.source.kernel.org (Postfix) with ESMTP id 285FE604E4;
+ Sun, 19 Oct 2025 12:37:44 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 54864C4CEE7;
+ Sun, 19 Oct 2025 12:37:42 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+ s=korg; t=1760877463;
+ bh=dgzA9LsGuiP/mYejoGwFkpon4M45cMihfvBvR4qrSRg=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=mr7tZ637v1WDh2Nr8sg19/xoeGzZL3RvlnXfYUykPJk+G6zQteton6Oo+u5wVdnxN
+ ZBC8QPSBVC5hJfXNWgutJHN6QRJ4bxeGe2+hYWxIp2brHCNu/KXcKMeG5P43CM4Fjg
+ vDPDOANq6idL2020QoIIUuWRPKXTuhm7Nf2n5Cxw=
+Date: Sun, 19 Oct 2025 14:37:40 +0200
+From: Greg KH <gregkh@linuxfoundation.org>
+To: "Farber, Eliav" <farbere@amazon.com>
+Cc: "stable@vger.kernel.org" <stable@vger.kernel.org>,
+ "linux@armlinux.org.uk" <linux@armlinux.org.uk>,
+ "jdike@addtoit.com" <jdike@addtoit.com>, "richard@nod.at" <richard@nod.at>,
+ "anton.ivanov@cambridgegreys.com" <anton.ivanov@cambridgegreys.com>,
+ "dave.hansen@linux.intel.com" <dave.hansen@linux.intel.com>,
+ "luto@kernel.org" <luto@kernel.org>,
+ "peterz@infradead.org" <peterz@infradead.org>,
+ "tglx@linutronix.de" <tglx@linutronix.de>,
+ "mingo@redhat.com" <mingo@redhat.com>,
+ "bp@alien8.de" <bp@alien8.de>, "x86@kernel.org" <x86@kernel.org>,
+ "hpa@zytor.com" <hpa@zytor.com>,
+ "tony.luck@intel.com" <tony.luck@intel.com>,
+ "qiuxu.zhuo@intel.com" <qiuxu.zhuo@intel.com>,
+ "mchehab@kernel.org" <mchehab@kernel.org>,
+ "james.morse@arm.com" <james.morse@arm.com>,
+ "rric@kernel.org" <rric@kernel.org>,
+ "harry.wentland@amd.com" <harry.wentland@amd.com>,
+ "sunpeng.li@amd.com" <sunpeng.li@amd.com>,
+ "alexander.deucher@amd.com" <alexander.deucher@amd.com>,
+ "christian.koenig@amd.com" <christian.koenig@amd.com>,
+ "airlied@linux.ie" <airlied@linux.ie>, "daniel@ffwll.ch" <daniel@ffwll.ch>,
+ "evan.quan@amd.com" <evan.quan@amd.com>,
+ "james.qian.wang@arm.com" <james.qian.wang@arm.com>,
+ "liviu.dudau@arm.com" <liviu.dudau@arm.com>,
+ "mihail.atanassov@arm.com" <mihail.atanassov@arm.com>,
+ "brian.starkey@arm.com" <brian.starkey@arm.com>,
+ "maarten.lankhorst@linux.intel.com" <maarten.lankhorst@linux.intel.com>,
+ "mripard@kernel.org" <mripard@kernel.org>,
+ "tzimmermann@suse.de" <tzimmermann@suse.de>,
+ "robdclark@gmail.com" <robdclark@gmail.com>,
+ "sean@poorly.run" <sean@poorly.run>,
+ "jdelvare@suse.com" <jdelvare@suse.com>,
+ "linux@roeck-us.net" <linux@roeck-us.net>,
+ "fery@cypress.com" <fery@cypress.com>,
+ "dmitry.torokhov@gmail.com" <dmitry.torokhov@gmail.com>,
+ "agk@redhat.com" <agk@redhat.com>,
+ "snitzer@redhat.com" <snitzer@redhat.com>,
+ "dm-devel@redhat.com" <dm-devel@redhat.com>,
+ "rajur@chelsio.com" <rajur@chelsio.com>,
+ "davem@davemloft.net" <davem@davemloft.net>,
+ "kuba@kernel.org" <kuba@kernel.org>,
+ "peppe.cavallaro@st.com" <peppe.cavallaro@st.com>,
+ "alexandre.torgue@st.com" <alexandre.torgue@st.com>,
+ "joabreu@synopsys.com" <joabreu@synopsys.com>,
+ "mcoquelin.stm32@gmail.com" <mcoquelin.stm32@gmail.com>,
+ "malattia@linux.it" <malattia@linux.it>,
+ "hdegoede@redhat.com" <hdegoede@redhat.com>,
+ "mgross@linux.intel.com" <mgross@linux.intel.com>,
+ "intel-linux-scu@intel.com" <intel-linux-scu@intel.com>,
+ "artur.paszkiewicz@intel.com" <artur.paszkiewicz@intel.com>,
+ "jejb@linux.ibm.com" <jejb@linux.ibm.com>,
+ "martin.petersen@oracle.com" <martin.petersen@oracle.com>,
+ "sakari.ailus@linux.intel.com" <sakari.ailus@linux.intel.com>,
+ "clm@fb.com" <clm@fb.com>, "josef@toxicpanda.com" <josef@toxicpanda.com>,
+ "dsterba@suse.com" <dsterba@suse.com>,
+ "xiang@kernel.org" <xiang@kernel.org>, "chao@kernel.org" <chao@kernel.org>,
+ "jack@suse.com" <jack@suse.com>, "tytso@mit.edu" <tytso@mit.edu>,
+ "adilger.kernel@dilger.ca" <adilger.kernel@dilger.ca>,
+ "dushistov@mail.ru" <dushistov@mail.ru>,
+ "luc.vanoostenryck@gmail.com" <luc.vanoostenryck@gmail.com>,
+ "rostedt@goodmis.org" <rostedt@goodmis.org>,
+ "pmladek@suse.com" <pmladek@suse.com>,
+ "sergey.senozhatsky@gmail.com" <sergey.senozhatsky@gmail.com>,
+ "andriy.shevchenko@linux.intel.com" <andriy.shevchenko@linux.intel.com>,
+ "linux@rasmusvillemoes.dk" <linux@rasmusvillemoes.dk>,
+ "minchan@kernel.org" <minchan@kernel.org>,
+ "ngupta@vflare.org" <ngupta@vflare.org>,
+ "akpm@linux-foundation.org" <akpm@linux-foundation.org>,
+ "kuznet@ms2.inr.ac.ru" <kuznet@ms2.inr.ac.ru>,
+ "yoshfuji@linux-ipv6.org" <yoshfuji@linux-ipv6.org>,
+ "pablo@netfilter.org" <pablo@netfilter.org>,
+ "kadlec@netfilter.org" <kadlec@netfilter.org>,
+ "fw@strlen.de" <fw@strlen.de>, "jmaloy@redhat.com" <jmaloy@redhat.com>,
+ "ying.xue@windriver.com" <ying.xue@windriver.com>,
+ "willy@infradead.org" <willy@infradead.org>,
+ "sashal@kernel.org" <sashal@kernel.org>,
+ "ruanjinjie@huawei.com" <ruanjinjie@huawei.com>,
+ "David.Laight@aculab.com" <David.Laight@aculab.com>,
+ "herve.codina@bootlin.com" <herve.codina@bootlin.com>,
+ "Jason@zx2c4.com" <Jason@zx2c4.com>,
+ "keescook@chromium.org" <keescook@chromium.org>,
+ "kbusch@kernel.org" <kbusch@kernel.org>,
+ "nathan@kernel.org" <nathan@kernel.org>,
+ "bvanassche@acm.org" <bvanassche@acm.org>,
+ "ndesaulniers@google.com" <ndesaulniers@google.com>,
+ "linux-arm-kernel@lists.infradead.org" <linux-arm-kernel@lists.infradead.org>, 
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+ "linux-um@lists.infradead.org" <linux-um@lists.infradead.org>,
+ "linux-edac@vger.kernel.org" <linux-edac@vger.kernel.org>,
+ "amd-gfx@lists.freedesktop.org" <amd-gfx@lists.freedesktop.org>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+ "linux-arm-msm@vger.kernel.org" <linux-arm-msm@vger.kernel.org>,
+ "freedreno@lists.freedesktop.org" <freedreno@lists.freedesktop.org>,
+ "linux-hwmon@vger.kernel.org" <linux-hwmon@vger.kernel.org>,
+ "linux-input@vger.kernel.org" <linux-input@vger.kernel.org>,
+ "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
+ "netdev@vger.kernel.org" <netdev@vger.kernel.org>,
+ "linux-stm32@st-md-mailman.stormreply.com"
+ <linux-stm32@st-md-mailman.stormreply.com>, 
+ "platform-driver-x86@vger.kernel.org" <platform-driver-x86@vger.kernel.org>,
+ "linux-scsi@vger.kernel.org" <linux-scsi@vger.kernel.org>,
+ "linux-staging@lists.linux.dev" <linux-staging@lists.linux.dev>,
+ "linux-btrfs@vger.kernel.org" <linux-btrfs@vger.kernel.org>,
+ "linux-erofs@lists.ozlabs.org" <linux-erofs@lists.ozlabs.org>,
+ "linux-ext4@vger.kernel.org" <linux-ext4@vger.kernel.org>,
+ "linux-sparse@vger.kernel.org" <linux-sparse@vger.kernel.org>,
+ "linux-mm@kvack.org" <linux-mm@kvack.org>,
+ "netfilter-devel@vger.kernel.org" <netfilter-devel@vger.kernel.org>,
+ "coreteam@netfilter.org" <coreteam@netfilter.org>,
+ "tipc-discussion@lists.sourceforge.net"
+ <tipc-discussion@lists.sourceforge.net>
+Subject: Re: [PATCH v2 00/27 5.10.y] Backport minmax.h updates from v6.17-rc7
+Message-ID: <2025101929-curator-poplar-7460@gregkh>
+References: <20251017090519.46992-1-farbere@amazon.com>
+ <2025101704-rumble-chatroom-60b5@gregkh>
+ <CH0PR18MB5433BB2E99395D2AC8B0E0FBC6F7A@CH0PR18MB5433.namprd18.prod.outlook.com>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 1/2] nova-core: Solve mentions of `CoherentAllocation`
- improvements [COHA]
-To: Alexandre Courbot <acourbot@nvidia.com>,
- Danilo Krummrich <dakr@kernel.org>, David Airlie <airlied@gmail.com>,
- Simona Vetter <simona@ffwll.ch>, Miguel Ojeda <ojeda@kernel.org>,
- Alex Gaynor <alex.gaynor@gmail.com>
-Cc: nouveau@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, Boqun Feng <boqun.feng@gmail.com>,
- Gary Guo <gary@garyguo.net>, =?UTF-8?Q?Bj=C3=B6rn_Roy_Baron?=
- <bjorn3_gh@protonmail.com>, Benno Lossin <lossin@kernel.org>,
- Andreas Hindborg <a.hindborg@kernel.org>, Alice Ryhl <aliceryhl@google.com>,
- Trevor Gross <tmgross@umich.edu>, rust-for-linux@vger.kernel.org
-References: <20251015194936.121586-1-delcastillodelarosadaniel@gmail.com>
- <DDK7N52VX059.202D7SPGFV8A9@nvidia.com>
-Content-Language: en-US
-From: Daniel del Castillo <delcastillodelarosadaniel@gmail.com>
-In-Reply-To: <DDK7N52VX059.202D7SPGFV8A9@nvidia.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <CH0PR18MB5433BB2E99395D2AC8B0E0FBC6F7A@CH0PR18MB5433.namprd18.prod.outlook.com>
 X-Mailman-Approved-At: Sun, 19 Oct 2025 17:30:18 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -103,168 +167,41 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Alexandre,
-
-Thanks for your comments!
-
-
-
-On 10/17/25 03:36, Alexandre Courbot wrote:
-> On Thu Oct 16, 2025 at 4:49 AM JST, Daniel del Castillo wrote:
->> This patch solves the existing mentions of COHA, a task
->> in the Nova task list about improving the `CoherentAllocation` API.
->> I confirmed by talking to Alexandre Courbot, that the reading/writing
->> methods in `CoherentAllocation` can never be safe, so
->> this patch doesn't actually change `CoherentAllocation`, but rather
->> tries to solve the existing references to [COHA].
+On Sat, Oct 18, 2025 at 08:07:32PM +0000, Farber, Eliav wrote:
+> > On Fri, Oct 17, 2025 at 09:04:52AM +0000, Eliav Farber wrote:
+> > > This series backports 27 patches to update minmax.h in the 5.10.y
+> > > branch, aligning it with v6.17-rc7.
+> > >
+> > > The ultimate goal is to synchronize all long-term branches so that they
+> > > include the full set of minmax.h changes.
+> > >
+> > > - 6.12.y has already been backported; the changes are included in
+> > >   v6.12.49.
+> > > - 6.6.y has already been backported; the changes are included in
+> > >   v6.6.109.
+> > > - 6.1.y has already been backported; the changes are currently in the
+> > >   6.1-stable tree.
+> > > - 5.15.y has already been backported; the changes are currently in the
+> > >   5.15-stable tree.
+> >
+> > With this series applied, on an arm64 server, building 'allmodconfig', I
+> > get the following build error.
+> >
+> > Oddly I don't see it on my x86 server, perhaps due to different compiler
+> > versions?
+> >
+> > Any ideas?
 > 
-> This mention of background discussions should be in the comment part of
-> your commit (below the `---`).
-
-Noted, will do for the next version of the patch.
-
->>
->> Signed-off-by: Daniel del Castillo <delcastillodelarosadaniel@gmail.com>
->> ---
->>  drivers/gpu/nova-core/dma.rs            |  20 ++---
->>  drivers/gpu/nova-core/firmware/fwsec.rs | 104 ++++++++++--------------
->>  2 files changed, 50 insertions(+), 74 deletions(-)
->>
->> diff --git a/drivers/gpu/nova-core/dma.rs b/drivers/gpu/nova-core/dma.rs
->> index 94f44bcfd748..639a99cf72c4 100644
->> --- a/drivers/gpu/nova-core/dma.rs
->> +++ b/drivers/gpu/nova-core/dma.rs
->> @@ -25,21 +25,11 @@ pub(crate) fn new(dev: &device::Device<device::Bound>, len: usize) -> Result<Sel
->>      }
->>  
->>      pub(crate) fn from_data(dev: &device::Device<device::Bound>, data: &[u8]) -> Result<Self> {
->> -        Self::new(dev, data.len()).map(|mut dma_obj| {
->> -            // TODO[COHA]: replace with `CoherentAllocation::write()` once available.
->> -            // SAFETY:
->> -            // - `dma_obj`'s size is at least `data.len()`.
->> -            // - We have just created this object and there is no other user at this stage.
->> -            unsafe {
->> -                core::ptr::copy_nonoverlapping(
->> -                    data.as_ptr(),
->> -                    dma_obj.dma.start_ptr_mut(),
->> -                    data.len(),
->> -                );
->> -            }
->> -
->> -            dma_obj
->> -        })
->> +        let mut dma_obj = Self::new(dev, data.len())?;
->> +        // SAFETY: We have just created this object and there is no other user at this stage.
->> +        unsafe { dma_obj.write(data, 0)? };
->> +
->> +        Ok(dma_obj)
+> This mainline commit is missing:
+> https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/drivers/net/wireless/ralink/rt2x00/rt2800lib.c?h=v6.18-rc1&id=66063033f77e10b985258126a97573f84bb8d3b4
 > 
-> Can you preserve the use of `map`? This removes the need for the
-> temporary variable.
+> This fix already exists in 5.15.y:
+> https://git.kernel.org/pub/scm/linux/kernel/git/stable/linux.git/commit/drivers/net/wireless/ralink/rt2x00/rt2800lib.c?h=v5.15.194&id=2d3cef3d7a5df260a14a6679c4aca0c97e570ee5
+> …but is missing in 5.10.y.
 > 
+> I now backported it to 5.10.y here:
+> https://lore.kernel.org/stable/20251018195945.18825-1-farbere@amazon.com/T/#u
 
-Sure.> <snip>
->>  /// The FWSEC microcode, extracted from the BIOS and to be run on the GSP falcon.
->> @@ -260,32 +245,38 @@ fn new_fwsec(dev: &Device<device::Bound>, bios: &Vbios, cmd: FwsecCommand) -> Re
->>  
->>          // Find the DMEM mapper section in the firmware.
->>          for i in 0..hdr.entry_count as usize {
->> -            let app: &FalconAppifV1 =
->>              // SAFETY: we have exclusive access to `dma_object`.
->> -            unsafe {
->> +            let app: &FalconAppifV1 = unsafe {
->>                  transmute(
->>                      &dma_object,
->> -                    hdr_offset + hdr.header_size as usize + i * hdr.entry_size as usize
->> +                    hdr_offset + hdr.header_size as usize + i * hdr.entry_size as usize,
->>                  )
->>              }?;
->>  
->>              if app.id != NVFW_FALCON_APPIF_ID_DMEMMAPPER {
->>                  continue;
->>              }
->> +            let dmem_base = app.dmem_base;
->>  
->>              // SAFETY: we have exclusive access to `dma_object`.
->>              let dmem_mapper: &mut FalconAppifDmemmapperV3 = unsafe {
->> -                transmute_mut(
->> -                    &mut dma_object,
->> -                    (desc.imem_load_size + app.dmem_base) as usize,
->> -                )
->> +                transmute_mut(&mut dma_object, (desc.imem_load_size + dmem_base) as usize)
->>              }?;
->>  
->> +            dmem_mapper.init_cmd = match cmd {
->> +                FwsecCommand::Frts {
->> +                    frts_addr: _,
->> +                    frts_size: _,
-> 
-> Can the `{ .. }` syntax be used here?
-> 
-Yes! I didn't remember that syntax.
+Thanks,I've queued that up now.
 
-
->> +                } => NVFW_FALCON_APPIF_DMEMMAPPER_CMD_FRTS,
->> +                FwsecCommand::Sb => NVFW_FALCON_APPIF_DMEMMAPPER_CMD_SB,
->> +            };
->> +            let cmd_in_buffer_offset = dmem_mapper.cmd_in_buffer_offset;
->> +
->>              // SAFETY: we have exclusive access to `dma_object`.
->>              let frts_cmd: &mut FrtsCmd = unsafe {
->>                  transmute_mut(
->>                      &mut dma_object,
->> -                    (desc.imem_load_size + dmem_mapper.cmd_in_buffer_offset) as usize,
->> +                    (desc.imem_load_size + cmd_in_buffer_offset) as usize,
->>                  )
->>              }?;
->>  
->> @@ -296,24 +287,19 @@ fn new_fwsec(dev: &Device<device::Bound>, bios: &Vbios, cmd: FwsecCommand) -> Re
->>                  size: 0,
->>                  flags: 2,
->>              };
->> -
->> -            dmem_mapper.init_cmd = match cmd {
->> -                FwsecCommand::Frts {
->> -                    frts_addr,
->> -                    frts_size,
->> -                } => {
->> -                    frts_cmd.frts_region = FrtsRegion {
->> -                        ver: 1,
->> -                        hdr: size_of::<FrtsRegion>() as u32,
->> -                        addr: (frts_addr >> 12) as u32,
->> -                        size: (frts_size >> 12) as u32,
->> -                        ftype: NVFW_FRTS_CMD_REGION_TYPE_FB,
->> -                    };
->> -
->> -                    NVFW_FALCON_APPIF_DMEMMAPPER_CMD_FRTS
->> -                }
->> -                FwsecCommand::Sb => NVFW_FALCON_APPIF_DMEMMAPPER_CMD_SB,
->> -            };
->> +            if let FwsecCommand::Frts {
->> +                frts_addr,
->> +                frts_size,
->> +            } = cmd
->> +            {
->> +                frts_cmd.frts_region = FrtsRegion {
->> +                    ver: 1,
->> +                    hdr: size_of::<FrtsRegion>() as u32,
->> +                    addr: (frts_addr >> 12) as u32,
->> +                    size: (frts_size >> 12) as u32,
->> +                    ftype: NVFW_FRTS_CMD_REGION_TYPE_FB,
->> +                };
->> +            }
-> 
-> I liked that the original code updated both `init_cmd` and `frts_region`
-> in the same match block. I understand it might be difficult to preserve
-> due to the borrowing rules, but can you try to preserve it if that's
-> possible at all?
-
-I agree it was nicer. I tried to preserve it, but I don't see a way to
-do it cleanly, as I can't keep both mutable references at the same time.
-What I could do is only check `cmd` once, set `init_cmd` and store an
-`Option<FrtsRegion>` that I will later use to set `frts_region` if it's
-not `None`. Let me know if you prefer that.
-
-Cheers,
-Daniel
-
+greg k-h
