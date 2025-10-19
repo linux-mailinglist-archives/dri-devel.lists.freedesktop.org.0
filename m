@@ -2,81 +2,109 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 34A4DBEEB9B
-	for <lists+dri-devel@lfdr.de>; Sun, 19 Oct 2025 20:59:55 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 31A55BEED19
+	for <lists+dri-devel@lfdr.de>; Sun, 19 Oct 2025 23:25:34 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 63C0210E159;
-	Sun, 19 Oct 2025 18:59:52 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3076810E013;
+	Sun, 19 Oct 2025 21:25:31 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=aol.com header.i=@aol.com header.b="KN9ArAVq";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="kCcXxQyB";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sonic304-24.consmr.mail.gq1.yahoo.com
- (sonic304-24.consmr.mail.gq1.yahoo.com [98.137.68.205])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B37D610E159
- for <dri-devel@lists.freedesktop.org>; Sun, 19 Oct 2025 18:59:50 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=aol.com; s=a2048;
- t=1760900389; bh=YHPBx3499LOsnw+xWczKHUVNbwb3wogW8BPwpY/euag=;
- h=From:To:Cc:Subject:Date:References:From:Subject:Reply-To;
- b=KN9ArAVqNCsu3x6LiLEeHbVLTmBXwlWWrHD51pybj73SWUp7UtJJTBCir6IgFJ8Gg7NCPTt74gxiVlgFeDigx4JB3RTBwNRAMlJJGRj2M9QVYBjDTy2DhDmELTjFCFZiSNeCmVqgfQe8Okt4y69Uzzj2PAS/2zjrmVv+psL7BHdqFvbaEdlNFkhVs+8sK9C5iplto9SCaTBqgymA1/s2l2nqTG2qb0EwhFYawzB3QDJlvt+AbYtOpphisgtU9okE9ao9sBiVNq+f9qBH0N/nDvVGWMiwFsH+ZiUxQ7sDu6n4AXfpHqA5ADoURF/OoZ/Dl3onmlXLe05lI8wRZX2QqA==
-X-SONIC-DKIM-SIGN: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yahoo.com; s=s2048;
- t=1760900389; bh=3N+gsrhmkUW0IQdhSRqBibDvSEX3bZTyQbxFRxu3/Qs=;
- h=X-Sonic-MF:From:To:Subject:Date:From:Subject;
- b=EpouwoS1tLCu7EBV4AqYpemYeP6YjViPOkPsu7yUi2AtDnQRJ9C7A8jmbD+AvY2a8A+sC4RiJNLezwtSwgrj6lW9CDCAlPaOWZQuyDz7Yf17Wu2b3vo8SGJY1yS0fabIEazTxmxh13TlmaFdeZ1U91ncUQvuGwoD+gxSJYj4vi5BkFBXgg3ZMKsxwYnkRRDIMqptotblDjK6h+o3YVn1eOvtvUdzhngknen7Srb0K9sPpOd/36Hqc4oVWxJSKKzjrxeW2ZkCZUHbbW0ifZBZ2FMxe3r/vWRFkMrtdOr+hboZTu8gwvLDLgD8WiPviS30l3T0l3bbjkqHftgfbXWe/w==
-X-YMail-OSG: LgNV5DMVM1kH1cp.M3z9M91NI6p6fSKvh5UAqHiF3sjAl7W4P_KRG0tdCc.mknU
- 5IeK6.rnKjrpkfA3eJ_wxDJM3pGkIwubweVAN1knQOKOLHO9DqgOxUGgHcHe2E2RllbmgQ5RCUB_
- HLEMIXZuHgAIWoNhSFmXNot1WvUfoce3W5aKfe7HrbdmKeMd8AkrV8UvBlGcwYV_s44tFe6_hlGR
- IUw2mM5ht3kqKDafZIt28tLTS1_8WtQb9dSpFO4rYJQ0V9XvuJq2lHTuQ5GMHZTTczItQKkJXjr5
- Z6NysMPwC_9TOeVvi4s3JpsvPNesHed3EQ7AwTHBfMYBmRcM4H1WMFDMlvOE.nfvO3tWER0yaIQ.
- urOSlCAWT3PmMybg25.GugffkZqnZaCaAX8CNjI0enX6Vmq3mNE6oPjRyLe7mBsavXqzrWjkHrLV
- E1.FcxwKXkBq3jeoPgdxcJ5tbMotNb0MVEZ7AeD1qmjSUDWtIurJr9bCS0vmq_p48VPiUNVXzZxg
- VNX6YyeFYiMzQ7Pmj0JDAS4eSzRJ8P0YJvDymClhSeLxfJ4h1K_OacdOckc4ZpjsHC_xmEozuSOo
- R81P4NaNo2VFhqXGDd1obZtK6EaqOewdArRswAHKBGnS62PWiJu_Xq_.Av2qtZyz4z_969nacDhM
- .EJE7n2L9yl3Ydr.7UOufDda7tYZVvzLoMik1Tk9ndrILa6L41fbMK3fdqsNRhz4OqP11Y.LqdQQ
- e7Fsbq8ImkEBgLlPn1t0lpIQOU74rQYnF0dKiNnxPDFrXI_61N72jDC08Zwzy9.dKCVFHBXZzBkz
- CQiUUcb7dHC8yIcY.ZuVtKeqrdTfudOB69wb_iW_EQMckqHK0ID9dFwWHRSA6H0XvY_c.sIPrrou
- JNiKnNXWJKE6wFCTZBW.oBb5hJ6Nz7yhhZfiZcNmoRHmdaimHuCN3EZuj5lsFlGinH8ZX_vdTOQ4
- 8bczbFoPJ_kZ__tEQfPtXNo4KQQJWR._jvU_1.Awp0TYYU8I8vdgsXslM_ZRImPgsKY66wBdvwyv
- Ub13p0T_xUjdRaJDpR_ZtJsS5FWBNer8_YSloFZ6B0FzuQB.dS893gL2zzdhWpqnTHvWIMEazm_G
- iJ3llmlLIlx2y9VSf8JtTav3IE7L4qbEJelIJUymG7ZKOtp1J6OyMBSMkVMV0hE_lXcsU2NcU56P
- zdfs9GEJaLxe15e4myRly7wH.WOBWnxFqyUz4CREs.YjaOYkUmEAwNRwuymdIRBvRRN49o.fGau2
- zjqtb9jdMzjUb2lMXQg74ZdX2Frx.4HTll7Ja9HM2vLL5479r_HU.R0QJ120cxpw.EpymYKSZJ92
- Fz3DnWqln.6yoCZyN8EMH7_DNCVqL3Td6tDsFhiB9wGutFjq6h8CT0WXpPuH5pyZEV.RMllz8MvM
- B7xRKi7mdhDs.isDAS9wkSFDwug0d3TZftFeCsgDTxOUS3LjcGR5H9CnrQ7Jn2m8tfDuQcNL3DAM
- KRI79AhMHt4GVirKZvvYhPU7yQAvQFD_esmaBDB2hxTHv8AEy2_hCRZubXsxLjXDbmsrD0oGQVWG
- AXY3nOfzVRIOKUVK5x8hKxJ_n4fCurEoFaBIQs.Es2HzpRFTZBgDZej_xL8wGFcVSaWxk92vryDY
- uXV4FvZEHeLoHubpn.7y6ZZWgIJXORi5vHO8iLqKCY3xn9WHgI1_76TUeFc.YU.S_UKmnLjwxdMm
- dJd_P6POH0a6XlCjxklIhh.7loxNlUabdflh6yXRncokiyCvyGyHbE1mVqL9fPfSikgaKxRgOtDG
- LMheq5hryVDrzmSxCGUqaaqN1aenZ4.huEbXdxw53C1bBXfub8vSbjimECzCEaiD0UVzjVFJaYzj
- v8Yvvnm_QG6h24SGanWadNCIjOupSh6GfvZl8jRHZjeHUh1pLwib263iwHu0gl28reMaN0w3r0mz
- PUOB6vJY7bNYtAsFgIbIaAOi8UceIlzF_ar9cFTIetQzRrCp3vVhukRAOGCYQoG8YP_TGrZM5VyA
- a5EJfjlwetINU8kwcT7HpKjiDOpHk1tgsNT.PVY2OT4JsylrRQmmuAB7cqwRI49DyoAxFMP5HnGA
- hSqTU01tZwQMyKHuoStAYoEnNFKw_hk2WOkfewNmLWCnnFaOewtjAcoeIzRXXwdSYrHYEieAQBtL
- IKE3cWvJ.frjN00nPInwcNOLj7DbWGkI5xn6.SRen.xV8OCtQLUfbZnN8uHYO0iq2fttfHuwVrbH
- jiajLwin5kSJI4cecHTIhoZl00iSnGxPY1UM_qkGd
-X-Sonic-MF: <rubenru09@aol.com>
-X-Sonic-ID: d59c9510-0251-42a6-92ae-8953e64a1015
-Received: from sonic.gate.mail.ne1.yahoo.com by
- sonic304.consmr.mail.gq1.yahoo.com with HTTP; Sun, 19 Oct 2025 18:59:49 +0000
-Received: by hermes--production-ir2-cdb597784-phg5h (Yahoo Inc. Hermes SMTP
- Server) with ESMTPA ID b23e1a914437bdc8f5bc6926d5f840c3; 
- Sun, 19 Oct 2025 18:59:46 +0000 (UTC)
-From: Ruben Wauters <rubenru09@aol.com>
-To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
- Simona Vetter <simona@ffwll.ch>
-Cc: Ruben Wauters <rubenru09@aol.com>, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org
-Subject: [PATCH] drm/gud: rearrange gud_probe() to prepare for function
- splitting
-Date: Sun, 19 Oct 2025 19:53:48 +0100
-Message-ID: <20251019185642.14266-2-rubenru09@aol.com>
-X-Mailer: git-send-email 2.51.0
+Received: from mail-pl1-f182.google.com (mail-pl1-f182.google.com
+ [209.85.214.182])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 12E9710E013
+ for <dri-devel@lists.freedesktop.org>; Sun, 19 Oct 2025 21:25:30 +0000 (UTC)
+Received: by mail-pl1-f182.google.com with SMTP id
+ d9443c01a7336-26987b80720so7068925ad.2
+ for <dri-devel@lists.freedesktop.org>; Sun, 19 Oct 2025 14:25:30 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20230601; t=1760909129; x=1761513929; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=VMzOcGlzTmgP7Sx2K6Mr5nIuxpWb7Ycpm/3lBUKh9gU=;
+ b=kCcXxQyB4f7/TBdAfPP5jTztz2JDazXQE5Dsv4HnjCvMB3fxmf7LDdNf+qh27hpmcd
+ kH0r7YuSP3tssygGnQceQBp8GKCVuZCF1dBXs0b7KLjfRBCPnzxMea8tYJL/mJNsNGho
+ IZmIB++ytq+xWqU7oKhPePad45jD7Ndx2tIvRvIC64y0XcY4IqSrd8PetmJIzROfYfuR
+ vP7uaticx4jTI6VqvYxi6rMb8DlCcfonqsr57aWNJu0XXMtC9JQ+JACpaKgzyulfdg9L
+ Gn/0uMQSm0lk7lCp9t67XvZwS6ZoNeLpPV+dFGpunapHTSdjz5RVmi6nAr3+rvjDdv4W
+ 3RLg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1760909129; x=1761513929;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=VMzOcGlzTmgP7Sx2K6Mr5nIuxpWb7Ycpm/3lBUKh9gU=;
+ b=Rri85yu4TVcrAiKhM8yStEa2idNG47IQW3Q3WVH5p/mnzMja7G15mBhOEuuypSmyTc
+ DVPmE7ZtagrN0K5pQ+mcmwVELWEp+Nz0LzeUmsXqdQ7QI/TEMzhtVYMXGDtoOiNoFMN8
+ DVHQJJqCCaLY6cSJlN6ska6RK2s2DUwm9aHd6Tjv9/Qphk+E6rENHxVkvZREMmKmb82G
+ OTpCgV1ik9L4gXAgVbuJCdNUrPGOAlsPqPBF7fvuWUj+j3PJfh8pIRRmeXxO7A4Hy12N
+ u9rvwBsajrzix3foOxoyz5V+CPRQRNfeYovu/UyXoO+tOeHagpenpLxHKoFIwgEUhfvy
+ Lo+w==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCW84HiQLRYObSd/xzS2rFW152FwhZi2CUAWnsCBrLWgv9sTT+Yna4ou2kDYPzm7ltp+JUtjX84TOWM=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YzJQLelkJ4nLtAg4p6xQJ/IBZvAgA5eO/cZY3adw2Y+LQsHy/8j
+ MH36XQXdqf/Iw4ZtldunOfwsnBATud7qt2epauk/dsgU7eOUUMCEa0dv/vb8ix2yTIz94OCcr93
+ Grd1qTweSXFOC1UTH3kiGQ3nIM+J393E=
+X-Gm-Gg: ASbGncsosujEKq6aFNYvMT3XgbnUUpOE5N/UJthW+f1WuNNnDdfs3WCz+KemjYDjTMD
+ jBatZshDGOA4eYjgNKaQtDiQkgOaR5vBpwfhZwXqM47JxmoWGqIgkdI5qQ5UNEDa4JrsgrodL6p
+ XK9/dtT4QtNlr0OsS7WzlY6N+jPDRbPiZ0qKByguvTIkgEkkXCruDg0BSQFHB/i6dCbeg19lu4y
+ 6ig7fctxhR6Xt1Zn9Nyeroqnq12eq8Cfq251bmnduFK7Y1FkeJv2/ni/BZc+z5kJpi/lENeXlr5
+ k04aKJv/FcXHIGnGQNxZt+Al7dYQ/SpcoVsnGQCYwAlEZqSFmk5zIoEFFI0a7HOb9V1Y1tKm9pj
+ /V/bESfE90WYDdA==
+X-Google-Smtp-Source: AGHT+IFkXmb/qgb/KgY8CoxXBFCqji+DioDep8k1ccK80l52uLY2VJCsOrEx4mXqL5zBbM0jkYzLAt9Oa8qgqgiQULk=
+X-Received: by 2002:a17:903:1a0b:b0:27e:eb9b:b80f with SMTP id
+ d9443c01a7336-290c9c9a8a7mr71999045ad.2.1760909129461; Sun, 19 Oct 2025
+ 14:25:29 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-References: <20251019185642.14266-2-rubenru09.ref@aol.com>
+References: <20251018-cstr-core-v18-0-9378a54385f8@gmail.com>
+ <20251018-cstr-core-v18-13-9378a54385f8@gmail.com>
+In-Reply-To: <20251018-cstr-core-v18-13-9378a54385f8@gmail.com>
+From: Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
+Date: Sun, 19 Oct 2025 23:25:16 +0200
+X-Gm-Features: AS18NWDXrZ8O-3KwwwBOxfZWPwAGhp3HE5GT4mOk-9o3K1qGCus24KCpGnZzuZA
+Message-ID: <CANiq72mpmO2fyfHmkipYZmirRg-x90Hi3Ly+2mriuGX96bOuew@mail.gmail.com>
+Subject: Re: [RESEND PATCH v18 13/16] rust: regulator: use `CStr::as_char_ptr`
+To: Tamir Duberstein <tamird@kernel.org>, Liam Girdwood <lgirdwood@gmail.com>, 
+ Mark Brown <broonie@kernel.org>
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ "Rafael J. Wysocki" <rafael@kernel.org>, 
+ Danilo Krummrich <dakr@kernel.org>, Miguel Ojeda <ojeda@kernel.org>,
+ Alex Gaynor <alex.gaynor@gmail.com>, 
+ Boqun Feng <boqun.feng@gmail.com>, Gary Guo <gary@garyguo.net>, 
+ =?UTF-8?Q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>, 
+ Benno Lossin <lossin@kernel.org>, Andreas Hindborg <a.hindborg@kernel.org>, 
+ Alice Ryhl <aliceryhl@google.com>, Trevor Gross <tmgross@umich.edu>, 
+ =?UTF-8?B?QXJ2ZSBIasO4bm5ldsOlZw==?= <arve@android.com>, 
+ Todd Kjos <tkjos@android.com>, Martijn Coenen <maco@android.com>, 
+ Joel Fernandes <joelagnelf@nvidia.com>, Christian Brauner <brauner@kernel.org>,
+ Carlos Llamas <cmllamas@google.com>, Suren Baghdasaryan <surenb@google.com>,
+ Jens Axboe <axboe@kernel.dk>, 
+ Lorenzo Stoakes <lorenzo.stoakes@oracle.com>, Vlastimil Babka <vbabka@suse.cz>,
+ "Liam R. Howlett" <Liam.Howlett@oracle.com>,
+ Uladzislau Rezki <urezki@gmail.com>, Bjorn Helgaas <bhelgaas@google.com>,
+ =?UTF-8?Q?Krzysztof_Wilczy=C5=84ski?= <kwilczynski@kernel.org>, 
+ Viresh Kumar <vireshk@kernel.org>, Nishanth Menon <nm@ti.com>,
+ Stephen Boyd <sboyd@kernel.org>, 
+ Breno Leitao <leitao@debian.org>, Michael Turquette <mturquette@baylibre.com>, 
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
+ Luis Chamberlain <mcgrof@kernel.org>, Russ Weight <russ.weight@linux.dev>, 
+ Alexander Viro <viro@zeniv.linux.org.uk>, Jan Kara <jack@suse.cz>, 
+ Peter Zijlstra <peterz@infradead.org>, Ingo Molnar <mingo@redhat.com>,
+ Will Deacon <will@kernel.org>, 
+ Waiman Long <longman@redhat.com>, Nathan Chancellor <nathan@kernel.org>, 
+ Nick Desaulniers <nick.desaulniers+lkml@gmail.com>,
+ Bill Wendling <morbo@google.com>, 
+ Justin Stitt <justinstitt@google.com>, rust-for-linux@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, linux-block@vger.kernel.org, 
+ linux-pci@vger.kernel.org, linux-pm@vger.kernel.org, 
+ linux-clk@vger.kernel.org, dri-devel@lists.freedesktop.org, 
+ linux-fsdevel@vger.kernel.org, llvm@lists.linux.dev, 
+ Tamir Duberstein <tamird@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -92,104 +120,23 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-gud_prove() is currently very large and does many things, including
-pipeline setup and feature detection, as well as having USB functions.
+On Sat, Oct 18, 2025 at 9:17=E2=80=AFPM Tamir Duberstein <tamird@kernel.org=
+> wrote:
+>
+> From: Tamir Duberstein <tamird@gmail.com>
+>
+> Replace the use of `as_ptr` which works through `<CStr as
+> Deref<Target=3D&[u8]>::deref()` in preparation for replacing
+> `kernel::str::CStr` with `core::ffi::CStr` as the latter does not
+> implement `Deref<Target=3D&[u8]>`.
+>
+> Signed-off-by: Tamir Duberstein <tamird@gmail.com>
 
-This patch re-orders the code in gud_probe() to make it more organised
-and easier to split apart in the future.
+Liam, Mark: I will apply this since it would be nice to try to get the
+flag day patch in this series finally done -- please shout if you have
+a problem with this.
 
-Signed-off-by: Ruben Wauters <rubenru09@aol.com>
----
-I wanted to move mode config to just before pipeline init, however mode
-config is edited in feature detection so I was unsure how to go about it
-exactly.
-Further untangling of this may be required before splitting it out
----
- drivers/gpu/drm/gud/gud_drv.c | 31 +++++++++++++++++--------------
- 1 file changed, 17 insertions(+), 14 deletions(-)
+An Acked-by would be very appreciated, thanks!
 
-diff --git a/drivers/gpu/drm/gud/gud_drv.c b/drivers/gpu/drm/gud/gud_drv.c
-index b7345c8d823d..583f7f8f4c00 100644
---- a/drivers/gpu/drm/gud/gud_drv.c
-+++ b/drivers/gpu/drm/gud/gud_drv.c
-@@ -463,10 +463,6 @@ static int gud_probe(struct usb_interface *intf, const struct usb_device_id *id)
- 		return PTR_ERR(gdrm);
- 
- 	drm = &gdrm->drm;
--	drm->mode_config.funcs = &gud_mode_config_funcs;
--	ret = drmm_mode_config_init(drm);
--	if (ret)
--		return ret;
- 
- 	gdrm->flags = le32_to_cpu(desc.flags);
- 	gdrm->compression = desc.compression & GUD_COMPRESSION_LZ4;
-@@ -483,11 +479,18 @@ static int gud_probe(struct usb_interface *intf, const struct usb_device_id *id)
- 	if (ret)
- 		return ret;
- 
-+	/* Mode config init*/
-+	ret = drmm_mode_config_init(drm);
-+	if (ret)
-+		return ret;
-+
- 	drm->mode_config.min_width = le32_to_cpu(desc.min_width);
- 	drm->mode_config.max_width = le32_to_cpu(desc.max_width);
- 	drm->mode_config.min_height = le32_to_cpu(desc.min_height);
- 	drm->mode_config.max_height = le32_to_cpu(desc.max_height);
-+	drm->mode_config.funcs = &gud_mode_config_funcs;
- 
-+	/*Format init*/
- 	formats_dev = devm_kmalloc(dev, GUD_FORMATS_MAX_NUM, GFP_KERNEL);
- 	/* Add room for emulated XRGB8888 */
- 	formats = devm_kmalloc_array(dev, GUD_FORMATS_MAX_NUM + 1, sizeof(*formats), GFP_KERNEL);
-@@ -587,6 +590,7 @@ static int gud_probe(struct usb_interface *intf, const struct usb_device_id *id)
- 			return -ENOMEM;
- 	}
- 
-+	/*Pipeline init*/
- 	ret = drm_universal_plane_init(drm, &gdrm->plane, 0,
- 				       &gud_plane_funcs,
- 				       formats, num_formats,
-@@ -598,15 +602,6 @@ static int gud_probe(struct usb_interface *intf, const struct usb_device_id *id)
- 	drm_plane_helper_add(&gdrm->plane, &gud_plane_helper_funcs);
- 	drm_plane_enable_fb_damage_clips(&gdrm->plane);
- 
--	devm_kfree(dev, formats);
--	devm_kfree(dev, formats_dev);
--
--	ret = gud_get_properties(gdrm);
--	if (ret) {
--		dev_err(dev, "Failed to get properties (error=%d)\n", ret);
--		return ret;
--	}
--
- 	ret = drm_crtc_init_with_planes(drm, &gdrm->crtc, &gdrm->plane, NULL,
- 					&gud_crtc_funcs, NULL);
- 	if (ret)
-@@ -621,6 +616,13 @@ static int gud_probe(struct usb_interface *intf, const struct usb_device_id *id)
- 	}
- 
- 	drm_mode_config_reset(drm);
-+	drm_kms_helper_poll_init(drm);
-+
-+	ret = gud_get_properties(gdrm);
-+	if (ret) {
-+		dev_err(dev, "Failed to get properties (error=%d)\n", ret);
-+		return ret;
-+	}
- 
- 	usb_set_intfdata(intf, gdrm);
- 
-@@ -638,7 +640,8 @@ static int gud_probe(struct usb_interface *intf, const struct usb_device_id *id)
- 	if (ret)
- 		return ret;
- 
--	drm_kms_helper_poll_init(drm);
-+	devm_kfree(dev, formats);
-+	devm_kfree(dev, formats_dev);
- 
- 	drm_client_setup(drm, NULL);
- 
--- 
-2.51.0
-
+Cheers,
+Miguel
