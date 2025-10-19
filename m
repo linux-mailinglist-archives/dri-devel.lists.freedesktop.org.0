@@ -2,86 +2,58 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3B32BBEE831
-	for <lists+dri-devel@lfdr.de>; Sun, 19 Oct 2025 17:03:57 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id DEDF1BEE8F7
+	for <lists+dri-devel@lfdr.de>; Sun, 19 Oct 2025 17:54:06 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1CC8810E210;
-	Sun, 19 Oct 2025 15:03:54 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7614910E07A;
+	Sun, 19 Oct 2025 15:54:03 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="Wipd3Owz";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="Nz+rcMfP";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ej1-f51.google.com (mail-ej1-f51.google.com
- [209.85.218.51])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C9A0E10E210
- for <dri-devel@lists.freedesktop.org>; Sun, 19 Oct 2025 15:03:52 +0000 (UTC)
-Received: by mail-ej1-f51.google.com with SMTP id
- a640c23a62f3a-b3df81b1486so60174066b.2
- for <dri-devel@lists.freedesktop.org>; Sun, 19 Oct 2025 08:03:52 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1760886231; x=1761491031; darn=lists.freedesktop.org;
- h=content-transfer-encoding:in-reply-to:from:content-language
- :references:cc:to:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=/9udsA3BE7foY00QqPjtJbwYeXlQDHSIpbrDLCZLLAM=;
- b=Wipd3OwzUKlxSxqerSrURfo5h72Vgc1NHj0+ctecVrQeaAziFKgNVOPUTzKsbAX53J
- rX1jLiOX6R1ETYheLUMIhX1pzXqFuGCMFJU6mjuAa5tXZ90P9B1/zlUWHlb1wYr2Q5Bw
- uCyup8v6FA2BFZi2Wx7CmOaJPK8AAFqDeadqVMy8QXyCKHcFtUFtZ5ZcJwnPGDxCYWQN
- iyFPRmryFEVgKUxEYAp/dfIC0lghAudhhtJNdS7VtZahlPTq5oL1VPrqzxAbQs1Ep/Mf
- A/WPZCqOJQHLte5P6KSB4qmCQCzRpi0r4JMJGyKUDz+90JA3BFBONvHq52i9Z/RU9jzj
- MrZA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1760886231; x=1761491031;
- h=content-transfer-encoding:in-reply-to:from:content-language
- :references:cc:to:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=/9udsA3BE7foY00QqPjtJbwYeXlQDHSIpbrDLCZLLAM=;
- b=Bmg4ZtESS0IPkRnMmbX5PIl/D+174Hp2Cged4hNzGuc4CHcQOAR/Bq9wS6BJU7nNPS
- OcSemPN4dvw0RM/eOXeOKWddXHc8bi6cxyZ3stcYGqZ+WvtFXm71Ji0/1G1FViSUM0rj
- EmN0yCort05Zm/0FFdTJYG7MriTy8GlLmBTxgMCxGrPfRf4MKlGcEZPpRbKL2bOVn0hC
- GVOg3LVj8RmZm0yMghtqxzj1FcEUKqfmMiWDpvg7Y5aq/kN+5iP/Mpzo4l3e+2QThSjD
- lyNfbU27EHDRO3u4jjmr3Kj3LvHre+kB8X5eU9Xpu4B90IqUZTH//gYqfV0RTmqij9Op
- oddw==
-X-Forwarded-Encrypted: i=1;
- AJvYcCUtrwwBHD2JSavBz7RBbyrdo0bT7PplJuvVcU8nKdqpdbkIrDQIclpQ12xXRY+zrvhUBzvdSqmgCXY=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Yy345yWldPrCtYiZqDRbYi5v2kLNqH28dyRHZ0THTTzwhcIPm5G
- J7rqP3I/tlWK2cpHqU+23rjzYdIkV45zGoj3HvO0+0YxflBOqBcJo6Vf
-X-Gm-Gg: ASbGncsk+GXMlDC7SbzXW/i6motyIRu9QcuxKMjEyNupDGLwYtir8kT3ru4MOUZRwD5
- 4zflXP8rPdxC4B86iRrBE6a7fjhELQNawjtXinm2/ztma2nE0oFoXv2DFCoZU9sfPLPBUq4PeRm
- kWMorzx3H5Ub/XEUHvhlDT9Q1Ja0bPdDgzP0GZrleK4xlQqsImT5+rFvZwTtPCULbtrdLOQkaZs
- fuM2SE83DrGnya7vMIcpQV+n5MKL3RALD0wTNTOAU7r9grcogtQ7V9P3oPLH5Sro39rdHnEMNjE
- g6bnBRJ3lUkkLguvqyPGmP6AlqUTBRa+ulrfZbYL6UnBS6gQUgY7DSolGgTiR3nkYs8b2GluLNa
- cGFNQyE7bOHkQPkQN+kcZ/KQ2zxS+X0PLKC3pi3g0LW11drUIT2uxZcQAKI4XcaqFhzwcreq+P+
- nVQ2025/6iP0YAZIdzVxcM
-X-Google-Smtp-Source: AGHT+IH6TluHuNvwOnAVvgBjwGA0zfWFt6b5AZGTbaDmowoHujtKj2lEr/TiFV0djG0kgxyb8b/vig==
-X-Received: by 2002:a05:6402:2751:b0:634:4e0:8377 with SMTP id
- 4fb4d7f45d1cf-63c1f634390mr5314959a12.2.1760886230847; 
- Sun, 19 Oct 2025 08:03:50 -0700 (PDT)
-Received: from [192.168.1.105] ([165.50.121.102])
- by smtp.gmail.com with ESMTPSA id
- 4fb4d7f45d1cf-63c48a92961sm4345576a12.8.2025.10.19.08.03.49
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Sun, 19 Oct 2025 08:03:50 -0700 (PDT)
-Message-ID: <d072dfe7-e0e9-49f6-89ed-25d194035e3b@gmail.com>
-Date: Sun, 19 Oct 2025 17:03:42 +0100
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9FDC510E07A
+ for <dri-devel@lists.freedesktop.org>; Sun, 19 Oct 2025 15:54:01 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1760889241; x=1792425241;
+ h=from:to:cc:subject:date:message-id:mime-version:
+ content-transfer-encoding;
+ bh=Y5PN7GETpS9idJ617+SVI/czLHfb0EdEQ3+7TWAzs2g=;
+ b=Nz+rcMfPiH2PORYUx9lvqOFtiiT7EeTtclt3GYrdIQTC7I7H+BQsrSin
+ 308oMYWB12PP/WT7TEDz2xJpvD3rNR0lwmJnWxjeQY3PftKI6TyVfFEMz
+ rygRpvfclMgS0yUjcCYIaNKNED/PMwxw8npzREVHfk71rUlW+Th5gykYj
+ ZZG0bPA3f6wM5jdDxN0uzMANB/92a4yV6RbOga2aq/DsT7xwULQdKrnaq
+ HLEYUbOJvXNYNv2+8O1vyySX7WLa68HyZf6WmLfYQTt4EETTmZp+DVirQ
+ m4M6EzmI3V486e9hjTklFcedVLsSw4ieprOzoYCny019rxm70uEQspBuh A==;
+X-CSE-ConnectionGUID: ENkaIWK5Ttu8OIKJjEUlKA==
+X-CSE-MsgGUID: sCuHblULRnW34zuHPbE1yA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11587"; a="63176438"
+X-IronPort-AV: E=Sophos;i="6.19,241,1754982000"; d="scan'208";a="63176438"
+Received: from orviesa007.jf.intel.com ([10.64.159.147])
+ by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 19 Oct 2025 08:54:01 -0700
+X-CSE-ConnectionGUID: /I3oDpP5Rh6VrkNMutR1iw==
+X-CSE-MsgGUID: BEz4SnD1QVSNszj/RQDlDQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.19,241,1754982000"; d="scan'208";a="182979301"
+Received: from b580.bj.intel.com ([10.238.152.130])
+ by orviesa007-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 19 Oct 2025 08:53:58 -0700
+From: Junjie Cao <junjie.cao@intel.com>
+To: Simona Vetter <simona@ffwll.ch>, Helge Deller <deller@gmx.de>,
+ Zsolt Kajtar <soci@c64.rulez.org>
+Cc: Albin Babu Varghese <albinbabuvarghese20@gmail.com>,
+ linux-fbdev@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, syzkaller-bugs@googlegroups.com,
+ Junjie Cao <junjie.cao@intel.com>,
+ syzbot+793cf822d213be1a74f2@syzkaller.appspotmail.com
+Subject: [PATCH] fbdev: bitblit: bound-check glyph index in bit_putcs*
+Date: Mon, 20 Oct 2025 07:53:31 +0800
+Message-ID: <20251019235331.1243671-1-junjie.cao@intel.com>
+X-Mailer: git-send-email 2.48.1
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] drm/tiny: Use kmalloc_array() instead of kmalloc()
-To: Thomas Zimmermann <tzimmermann@suse.de>,
- Greg KH <gregkh@linuxfoundation.org>
-Cc: lanzano.alex@gmail.com, maarten.lankhorst@linux.intel.com,
- mripard@kernel.org, airlied@gmail.com, simona@ffwll.ch,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- skhan@linuxfoundation.org, david.hunter.linux@gmail.com, khalid@kernel.org,
- linux-kernel-mentees@lists.linuxfoundation.org
-References: <20251019151247.171558-1-mehdi.benhadjkhelifa@gmail.com>
- <2025101910-dipper-suburb-1755@gregkh>
- <cb0f0a36-0593-4d4c-8450-d086b9c99d87@suse.de>
-Content-Language: en-US
-From: Mehdi Ben Hadj Khelifa <mehdi.benhadjkhelifa@gmail.com>
-In-Reply-To: <cb0f0a36-0593-4d4c-8450-d086b9c99d87@suse.de>
-Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -98,62 +70,63 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 10/19/25 3:47 PM, Thomas Zimmermann wrote:
-> Hi
-> 
-> Am 19.10.25 um 16:34 schrieb Greg KH:
->> On Sun, Oct 19, 2025 at 04:12:28PM +0100, Mehdi Ben Hadj Khelifa wrote:
->>> Replace kmalloc() with kmalloc_array() to correctly
->>> handle array allocations and benefit from built-in overflow checking[1].
->>>
->>> [1]:https://docs.kernel.org/process/deprecated.html
->>>
->>> Signed-off-by: Mehdi Ben Hadj Khelifa <mehdi.benhadjkhelifa@gmail.com>
->>> ---
->>>   drivers/gpu/drm/tiny/repaper.c | 2 +-
->>>   1 file changed, 1 insertion(+), 1 deletion(-)
->>>
->>> diff --git a/drivers/gpu/drm/tiny/repaper.c b/drivers/gpu/drm/tiny/ 
->>> repaper.c
->>> index 4824f863fdba..290132c24ff9 100644
->>> --- a/drivers/gpu/drm/tiny/repaper.c
->>> +++ b/drivers/gpu/drm/tiny/repaper.c
->>> @@ -534,7 +534,7 @@ static int repaper_fb_dirty(struct 
->>> drm_framebuffer *fb, const struct iosys_map *
->>>       DRM_DEBUG("Flushing [FB:%d] st=%ums\n", fb->base.id,
->>>             epd->factored_stage_time);
->>> -    buf = kmalloc(fb->width * fb->height / 8, GFP_KERNEL);
->>> +    buf = kmalloc_array(fb->height / 8, fb->width, GFP_KERNEL);
->> This isn't an array, so this function change doesn't seem to make much
->> sense, right?  The size should have already been checked earlier in the
->> call change to be correct.
-Yes,I was intending to say framebuffer but I was working on another 
-similar patch simultaneously so I reused same words by mistake. Thanks 
-for clarifying that.>
-> Yes, we've recently received plenty of these pointless changes. The 
-> correct code would compute the number of bytes per pixel using 
-> drm_format_info_min_pitch() and multiply with fb->height. The latter 
-> could (maybe) use kmalloc_array(). It would still not be an array in the 
-> common sense.
-> 
-Thanks for the review and suggestion.I will be sending a v2 patch with 
-the recommended code change.
+bit_putcs_aligned()/unaligned() derived the glyph pointer from the
+character value masked by 0xff/0x1ff, which may exceed the actual font's
+glyph count and read past the end of the built-in font array.
+Clamp the index to the actual glyph count before computing the address.
 
-Best Regards,
-Mehdi Ben Hadj Khelifa> Best regards
-> Thomas
-> 
->>
->> thanks,
->>
->> greg k-h
-> 
-> -- 
-> -- 
-> Thomas Zimmermann
-> Graphics Driver Developer
-> SUSE Software Solutions Germany GmbH
-> Frankenstrasse 146, 90461 Nuernberg, Germany
-> GF: Ivo Totev, Andrew Myers, Andrew McDonald, Boudien Moerman
-> HRB 36809 (AG Nuernberg)
+This fixes a global out-of-bounds read reported by syzbot.
+
+Reported-by: syzbot+793cf822d213be1a74f2@syzkaller.appspotmail.com
+Closes: https://syzkaller.appspot.com/bug?extid=793cf822d213be1a74f2
+Tested-by: syzbot+793cf822d213be1a74f2@syzkaller.appspotmail.com
+Signed-off-by: Junjie Cao <junjie.cao@intel.com>
+---
+ drivers/video/fbdev/core/bitblit.c | 14 ++++++++++----
+ 1 file changed, 10 insertions(+), 4 deletions(-)
+
+diff --git a/drivers/video/fbdev/core/bitblit.c b/drivers/video/fbdev/core/bitblit.c
+index a9ec7f488522..710883831826 100644
+--- a/drivers/video/fbdev/core/bitblit.c
++++ b/drivers/video/fbdev/core/bitblit.c
+@@ -79,12 +79,15 @@ static inline void bit_putcs_aligned(struct vc_data *vc, struct fb_info *info,
+ 				     struct fb_image *image, u8 *buf, u8 *dst)
+ {
+ 	u16 charmask = vc->vc_hi_font_mask ? 0x1ff : 0xff;
++	unsigned int charcnt = vc->vc_font.charcount;
+ 	u32 idx = vc->vc_font.width >> 3;
+ 	u8 *src;
+ 
+ 	while (cnt--) {
+-		src = vc->vc_font.data + (scr_readw(s++)&
+-					  charmask)*cellsize;
++		u16 ch = scr_readw(s++) & charmask;
++	if (ch >= charcnt)
++		ch = 0;
++	src = vc->vc_font.data + (unsigned int)ch * cellsize;
+ 
+ 		if (attr) {
+ 			update_attr(buf, src, attr, vc);
+@@ -112,14 +115,17 @@ static inline void bit_putcs_unaligned(struct vc_data *vc,
+ 				       u8 *dst)
+ {
+ 	u16 charmask = vc->vc_hi_font_mask ? 0x1ff : 0xff;
++	unsigned int charcnt = vc->vc_font.charcount;
+ 	u32 shift_low = 0, mod = vc->vc_font.width % 8;
+ 	u32 shift_high = 8;
+ 	u32 idx = vc->vc_font.width >> 3;
+ 	u8 *src;
+ 
+ 	while (cnt--) {
+-		src = vc->vc_font.data + (scr_readw(s++)&
+-					  charmask)*cellsize;
++		u16 ch = scr_readw(s++) & charmask;
++	if (ch >= charcnt)
++		ch = 0;
++	src = vc->vc_font.data + (unsigned int)ch * cellsize;
+ 
+ 		if (attr) {
+ 			update_attr(buf, src, attr, vc);
+-- 
+2.48.1
 
