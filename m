@@ -2,71 +2,71 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C8D2FBEDFB3
-	for <lists+dri-devel@lfdr.de>; Sun, 19 Oct 2025 09:41:47 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1E0FCBEDFBF
+	for <lists+dri-devel@lfdr.de>; Sun, 19 Oct 2025 09:43:04 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8E8FF10E1A8;
-	Sun, 19 Oct 2025 07:41:44 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5B14C10E0DB;
+	Sun, 19 Oct 2025 07:43:02 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-f42.google.com (mail-lf1-f42.google.com
- [209.85.167.42])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4601810E1A8
- for <dri-devel@lists.freedesktop.org>; Sun, 19 Oct 2025 07:41:43 +0000 (UTC)
-Received: by mail-lf1-f42.google.com with SMTP id
- 2adb3069b0e04-57b7c83cc78so3159860e87.1
- for <dri-devel@lists.freedesktop.org>; Sun, 19 Oct 2025 00:41:43 -0700 (PDT)
+Received: from mail-lf1-f48.google.com (mail-lf1-f48.google.com
+ [209.85.167.48])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E640810E0DB
+ for <dri-devel@lists.freedesktop.org>; Sun, 19 Oct 2025 07:43:00 +0000 (UTC)
+Received: by mail-lf1-f48.google.com with SMTP id
+ 2adb3069b0e04-57bd482dfd2so3237064e87.2
+ for <dri-devel@lists.freedesktop.org>; Sun, 19 Oct 2025 00:43:00 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1760859697; x=1761464497;
+ d=1e100.net; s=20230601; t=1760859776; x=1761464576;
  h=content-transfer-encoding:cc:to:subject:message-id:date:from
  :reply-to:in-reply-to:references:mime-version:x-gm-message-state
  :from:to:cc:subject:date:message-id:reply-to;
- bh=hjuUe+UFCTyI3ZlwUaVCKaC02uBTC5d7Of/hpQUOtLw=;
- b=iR6t9yoFOuJYk0XbJ8mgg7qa1aQYuDJt6PvBkloHO3MHUki/WR+1qNl0SGRh9BXx70
- n0XKzXfFkHnvTtiURsfMJiQznqX8m0SY7xHOtYi/6wD60XGAC0aeywX9lEctgedmlP/6
- Kw5Cdtefno4lSdSKL59IRVMcQUx6E2cwxsJvw4zoFVTW2iCmr5ZAH8eUS7sQ6qQ5dxug
- wdcGm0LjHMClzTDi6oCox4TG2jzxIMkXuOQEYm4i5civiLyvuNDHSRkvjdpDWXVGpeqm
- V/ad9ZePRIWTleJXkiqR+NvBRAG8SQN0YysXf+Bpeu6QfSJ5+qNdwzOxUAbGQvV2xUCX
- n6yw==
+ bh=a6iMxdmrYbuGMj6PYzMkKXgm2YkNHUTOljsMub0V7/Q=;
+ b=uKh90wEK5jiy1T/PbbWrhMcp13KqXnde1P6Vr37LppotmWC0j5Iuuf3qvCC7tGJR29
+ xoRSDwH0DuFXey80hKbQz0Bl+YOLTRApehFDibFJEG43bCMBQ+ifJJCRlWPIZnfFHuRW
+ x4n8BBHiio6A/0a9jzsvxAlGx3mNTe+pCBa5nYPYDRTt6qXPNk42OsUiKdjoUg91iC8Z
+ 4VvuJnoN5HosW5sTYKmIss6Fh/ruSKqa1PzvBsaDdgOevcpNvVwvESeO3LYrWucwEwNH
+ kOVAF1/bBI1xmVrF1h9NZdmT/eS5gUZX985UVVWgTepIWKoKuQCf5qtosbOhG9aAJeHn
+ OoFA==
 X-Forwarded-Encrypted: i=1;
- AJvYcCWvb+sbeFvCt29LYDI1hwsoJNsukC3lCOdCCce553DpZix72T1k+JNfF1t2js4N/T0ocMcDOjvnEAs=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YwGpKqJ6lp5BWMVcltUj6wIW6nZ4em1LXEny8hKyscP3xhDUsFo
- UmMdQ47OisIxKDqwP+TVe5fSvAdrfPUQSydFvgl3bzjEGyfwYXs5E2/mqRzIbCy8
-X-Gm-Gg: ASbGncuxlCR3NRYzbx1RSAgb7MIGDQKb45lFSRMzHDzVyn8qKJBUyHXfP2b6z+RGiFS
- rekU+IzO63XZXK3idLbZzpf6NftnfFVwFMnBhayNWWlSej9paKvDyOZSS4vNDeC4CaWJDPfL7+K
- hG/j0FZmGyDb2N46Jh9j4yu/MXWART2+HNrKyhLHcuTH7oSlWjkAfSwzMkx6UxmR5jH1CV0/UBG
- 3+CpjF5Ekq3vFKxMx7VsVIKpZI9LJmucNXR6MGn7FDTqeVAovoKUgxagPRiYsRc9ceAYPv32j9G
- ppF5qzFyDd0S6thzu15gT0v8tE4POx/4TuJE5doQ71bVpiT5mwf0L1MbbYFKtCF1lES4Y66pWqd
- epOdrXvyg3eULuFqaUrlkxf2DWFS28wds9mKhkdKcsR3z1HF43VHbdLxswoTSf9EQxvB6CXW6sY
- WqFTji8gbxLetkxIx+B+c2tBTA+r7mJ9gc
-X-Google-Smtp-Source: AGHT+IFnA2KPQvBIa9x3YhIjQwMnS7Ia1C9+zL9vj53UnzA3ObG5oxDW1tiNuXWxxOlkdEs/8gesPA==
-X-Received: by 2002:a05:6512:2398:b0:590:59ea:8a42 with SMTP id
- 2adb3069b0e04-591d073a95fmr4433164e87.6.1760859697185; 
- Sun, 19 Oct 2025 00:41:37 -0700 (PDT)
-Received: from mail-lj1-f182.google.com (mail-lj1-f182.google.com.
- [209.85.208.182]) by smtp.gmail.com with ESMTPSA id
- 2adb3069b0e04-591def1bbf6sm1348714e87.89.2025.10.19.00.41.35
+ AJvYcCXl8/6250TJ0q3RGknc/tbY+1TP3SVNed48K6UT3DvSAei39pvINTsYFqJrpnBCTo2aXGDIGrZF36Q=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YzDzLUwpObDVXXgmbgOny0ELUTFU0SalTAxaqkUMWGMm/3F9lCH
+ u0yXyXi5w2+cnCDN522saAs223M6e5o8ARfL6VL4pfbVFchh3AkiuV2PA6bG/3Vz
+X-Gm-Gg: ASbGncsGB+DMAVtLpu7zK0T8YR1X2EZDnDKyrC8CuZorvnsOMiCWcE97U8YxLer/Rb7
+ eK1Y6ucAMQKDx4Tu+vgBocry5h8JNA17rZ55L8rq4FOjKK2QPxa3U2VO0vgLeK/vfs2b/9aF7s4
+ feCdW/uLVmMrCH4NNGRYRiUzG0n1VcG/OQMYehy9K6duChXwxxuLUlLuy3Un75GnaAIbfGUYpCf
+ Ui+THD2v/PANwflU57B6LOyP7I4ooebtoGzm4m03KZwl6/SK1A55IbPJB+j3mNLwzQV8T79ncKl
+ EzooI8WoY2zR/slY/rtBCn3PGKvp4wrlH9wjyNwf5o1qEWuzdLU8vBRZup9W5q9BJJcM8mFwhiL
+ 8Q4GjpDlPxv495YgwbsF4MLiw1O9yUK1Tny61SpgmaGF1ek1/Xo5yKGqxs6d0PGvNP/RAwhOpYC
+ PvcAK07O0G/gk8gnoCKFqqhlJpVcQd
+X-Google-Smtp-Source: AGHT+IHBMUQg3Cp4OStlACEr4DgvmeeDyQmidviii23Fxd2eZ6Kc5pnL6Lhxv2M4OEBcQfLesp2ZuA==
+X-Received: by 2002:a05:6512:b97:b0:58b:11b:28b9 with SMTP id
+ 2adb3069b0e04-591d85356femr2569240e87.30.1760859775771; 
+ Sun, 19 Oct 2025 00:42:55 -0700 (PDT)
+Received: from mail-lf1-f45.google.com (mail-lf1-f45.google.com.
+ [209.85.167.45]) by smtp.gmail.com with ESMTPSA id
+ 2adb3069b0e04-591def169fdsm1340356e87.68.2025.10.19.00.42.54
  for <dri-devel@lists.freedesktop.org>
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Sun, 19 Oct 2025 00:41:36 -0700 (PDT)
-Received: by mail-lj1-f182.google.com with SMTP id
- 38308e7fff4ca-373a56498b9so43089681fa.1
- for <dri-devel@lists.freedesktop.org>; Sun, 19 Oct 2025 00:41:35 -0700 (PDT)
+ Sun, 19 Oct 2025 00:42:54 -0700 (PDT)
+Received: by mail-lf1-f45.google.com with SMTP id
+ 2adb3069b0e04-57dfd0b6cd7so3789824e87.0
+ for <dri-devel@lists.freedesktop.org>; Sun, 19 Oct 2025 00:42:54 -0700 (PDT)
 X-Forwarded-Encrypted: i=1;
- AJvYcCWtdSot2UULZdVcAXtimUDRfNQaGB+ROzM1j0Cj++TqKof3djTnYmOJSXwFEc+yW/lXesMLZjGMFjQ=@lists.freedesktop.org
-X-Received: by 2002:a05:651c:2113:b0:36b:2fab:fa6f with SMTP id
- 38308e7fff4ca-37782137beemr41886461fa.3.1760859695663; Sun, 19 Oct 2025
- 00:41:35 -0700 (PDT)
+ AJvYcCVtqGc3iBytzHqzDwE+O8wihS6F9BobgIakZGOM0QB6ktNNvQY8b+BbYiuNNfvrLIOXpmZl/xXUn5w=@lists.freedesktop.org
+X-Received: by 2002:a05:651c:1510:b0:336:ae5b:8a12 with SMTP id
+ 38308e7fff4ca-37797830eb3mr28747941fa.3.1760859774128; Sun, 19 Oct 2025
+ 00:42:54 -0700 (PDT)
 MIME-Version: 1.0
 References: <20251012192330.6903-1-jernej.skrabec@gmail.com>
- <20251012192330.6903-2-jernej.skrabec@gmail.com>
-In-Reply-To: <20251012192330.6903-2-jernej.skrabec@gmail.com>
+ <20251012192330.6903-3-jernej.skrabec@gmail.com>
+In-Reply-To: <20251012192330.6903-3-jernej.skrabec@gmail.com>
 From: Chen-Yu Tsai <wens@csie.org>
-Date: Sun, 19 Oct 2025 15:41:23 +0800
-X-Gmail-Original-Message-ID: <CAGb2v66ddMgVSFFtQde34BY2FcjPn38hxCsvVQ+m5+fOJtyJ7A@mail.gmail.com>
-X-Gm-Features: AS18NWCXbetOzzBsxzmfJfwCXigzPHLCDC4AqSPGnEbYZf4O62hkT_fB8IZOMeY
-Message-ID: <CAGb2v66ddMgVSFFtQde34BY2FcjPn38hxCsvVQ+m5+fOJtyJ7A@mail.gmail.com>
-Subject: Re: [PATCH 01/30] drm/sun4i: mixer: Fix up DE33 channel macros
+Date: Sun, 19 Oct 2025 15:42:41 +0800
+X-Gmail-Original-Message-ID: <CAGb2v644YqdwspTda7cy6y6iYQHRrt3e5hD_m_pEfC-x-py1mQ@mail.gmail.com>
+X-Gm-Features: AS18NWCc9PhOVShnjr54QcL_MXzi6J-9o-zc3G5gD4DZJXqV9MLEpSrxeXlLZX4
+Message-ID: <CAGb2v644YqdwspTda7cy6y6iYQHRrt3e5hD_m_pEfC-x-py1mQ@mail.gmail.com>
+Subject: Re: [PATCH 02/30] drm/sun4i: mixer: Remove ccsc cfg for >= DE3
 To: Jernej Skrabec <jernej.skrabec@gmail.com>
 Cc: mripard@kernel.org, maarten.lankhorst@linux.intel.com, tzimmermann@suse.de,
  airlied@gmail.com, simona@ffwll.ch, samuel@sholland.org, 
@@ -93,8 +93,8 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 On Mon, Oct 13, 2025 at 3:23=E2=80=AFAM Jernej Skrabec <jernej.skrabec@gmai=
 l.com> wrote:
 >
-> Properly define macros. Till now raw numbers and inappropriate macro was
-> used.
+> Those engine versions don't need ccsc argument, since CSC units are
+> located on different position and for each layer.
 >
 > Signed-off-by: Jernej Skrabec <jernej.skrabec@gmail.com>
 
