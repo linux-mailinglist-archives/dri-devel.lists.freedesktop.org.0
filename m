@@ -2,73 +2,74 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 31A55BEED19
-	for <lists+dri-devel@lfdr.de>; Sun, 19 Oct 2025 23:25:34 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 770DEBEED22
+	for <lists+dri-devel@lfdr.de>; Sun, 19 Oct 2025 23:25:37 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3076810E013;
-	Sun, 19 Oct 2025 21:25:31 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 351B610E05F;
+	Sun, 19 Oct 2025 21:25:35 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="kCcXxQyB";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="M89v5TgB";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pl1-f182.google.com (mail-pl1-f182.google.com
- [209.85.214.182])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 12E9710E013
- for <dri-devel@lists.freedesktop.org>; Sun, 19 Oct 2025 21:25:30 +0000 (UTC)
-Received: by mail-pl1-f182.google.com with SMTP id
- d9443c01a7336-26987b80720so7068925ad.2
- for <dri-devel@lists.freedesktop.org>; Sun, 19 Oct 2025 14:25:30 -0700 (PDT)
+Received: from mail-pl1-f178.google.com (mail-pl1-f178.google.com
+ [209.85.214.178])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id F2B8010E05F
+ for <dri-devel@lists.freedesktop.org>; Sun, 19 Oct 2025 21:25:32 +0000 (UTC)
+Received: by mail-pl1-f178.google.com with SMTP id
+ d9443c01a7336-26816246a0aso6697725ad.2
+ for <dri-devel@lists.freedesktop.org>; Sun, 19 Oct 2025 14:25:32 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1760909129; x=1761513929; darn=lists.freedesktop.org;
+ d=gmail.com; s=20230601; t=1760909132; x=1761513932; darn=lists.freedesktop.org;
  h=content-transfer-encoding:cc:to:subject:message-id:date:from
  :in-reply-to:references:mime-version:from:to:cc:subject:date
  :message-id:reply-to;
- bh=VMzOcGlzTmgP7Sx2K6Mr5nIuxpWb7Ycpm/3lBUKh9gU=;
- b=kCcXxQyB4f7/TBdAfPP5jTztz2JDazXQE5Dsv4HnjCvMB3fxmf7LDdNf+qh27hpmcd
- kH0r7YuSP3tssygGnQceQBp8GKCVuZCF1dBXs0b7KLjfRBCPnzxMea8tYJL/mJNsNGho
- IZmIB++ytq+xWqU7oKhPePad45jD7Ndx2tIvRvIC64y0XcY4IqSrd8PetmJIzROfYfuR
- vP7uaticx4jTI6VqvYxi6rMb8DlCcfonqsr57aWNJu0XXMtC9JQ+JACpaKgzyulfdg9L
- Gn/0uMQSm0lk7lCp9t67XvZwS6ZoNeLpPV+dFGpunapHTSdjz5RVmi6nAr3+rvjDdv4W
- 3RLg==
+ bh=ycAfcyNNCDvL8r+cj6EK2T80BYm3/AHXV1y+txWFqzI=;
+ b=M89v5TgBs/M3vpefVpgCCwK1nM+bCXnXvkT93AObSpfNriBanTyzUyBjZcQNGgkfbd
+ aRvyZ2KJvlgafH20mnNQUJKMiOu3YwFCB2o+7FpR6ZCL06E4Ubd0WqAw65Qrdm+Kqdjz
+ IAPcQxDXXfJaxd+FC6NSRnX4l1pGmXyzOC5NSzBHAV3MPSEPUozFmfMgBYO09jOVAMWE
+ Y3thZ0R05a69K1r0NgAWyHhFXJyWxyunEW7HjE7lGnvaqM5zjgVtyATr+752mNWvpN2u
+ Fe2CvCH2eGi405LAXGD/W9yJQPZwJqBRDZvUELERl9+CiTyEqX6zNhrDbYsqE/BVieCS
+ LsVw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1760909129; x=1761513929;
+ d=1e100.net; s=20230601; t=1760909132; x=1761513932;
  h=content-transfer-encoding:cc:to:subject:message-id:date:from
  :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=VMzOcGlzTmgP7Sx2K6Mr5nIuxpWb7Ycpm/3lBUKh9gU=;
- b=Rri85yu4TVcrAiKhM8yStEa2idNG47IQW3Q3WVH5p/mnzMja7G15mBhOEuuypSmyTc
- DVPmE7ZtagrN0K5pQ+mcmwVELWEp+Nz0LzeUmsXqdQ7QI/TEMzhtVYMXGDtoOiNoFMN8
- DVHQJJqCCaLY6cSJlN6ska6RK2s2DUwm9aHd6Tjv9/Qphk+E6rENHxVkvZREMmKmb82G
- OTpCgV1ik9L4gXAgVbuJCdNUrPGOAlsPqPBF7fvuWUj+j3PJfh8pIRRmeXxO7A4Hy12N
- u9rvwBsajrzix3foOxoyz5V+CPRQRNfeYovu/UyXoO+tOeHagpenpLxHKoFIwgEUhfvy
- Lo+w==
+ bh=ycAfcyNNCDvL8r+cj6EK2T80BYm3/AHXV1y+txWFqzI=;
+ b=XlGM2M9W+dwNriKB0ccolRBygVwCikupm+ZiQ1qMKs9GqhffQ3HpOA8F6oKLst6PDI
+ PFV7vblNM+PRwiJHynBzPE+MAxhFmkMRFCVgPx9E+G4xuIzTdSjCVQXnTieO4hDa7y5u
+ +/ufBkfhyMywv1R18kf3HaoUGMY2pLf0WwXJJ6Tc1SEzSReATzXGr9SQof7VW1JcFDoq
+ E8meoIh+S0fN8ZnY0EGGz92DTjBbJD8QRLIFIpTOBRzjAtyBMYoTH4Xcu1Igs4anIMNo
+ 3ocuzmAfnmPCIs+FMwiYq1l1/XipX0dsY+phwV5wRBksUApdTPmNKq8872dtxc/4F4ML
+ 2wkw==
 X-Forwarded-Encrypted: i=1;
- AJvYcCW84HiQLRYObSd/xzS2rFW152FwhZi2CUAWnsCBrLWgv9sTT+Yna4ou2kDYPzm7ltp+JUtjX84TOWM=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YzJQLelkJ4nLtAg4p6xQJ/IBZvAgA5eO/cZY3adw2Y+LQsHy/8j
- MH36XQXdqf/Iw4ZtldunOfwsnBATud7qt2epauk/dsgU7eOUUMCEa0dv/vb8ix2yTIz94OCcr93
- Grd1qTweSXFOC1UTH3kiGQ3nIM+J393E=
-X-Gm-Gg: ASbGncsosujEKq6aFNYvMT3XgbnUUpOE5N/UJthW+f1WuNNnDdfs3WCz+KemjYDjTMD
- jBatZshDGOA4eYjgNKaQtDiQkgOaR5vBpwfhZwXqM47JxmoWGqIgkdI5qQ5UNEDa4JrsgrodL6p
- XK9/dtT4QtNlr0OsS7WzlY6N+jPDRbPiZ0qKByguvTIkgEkkXCruDg0BSQFHB/i6dCbeg19lu4y
- 6ig7fctxhR6Xt1Zn9Nyeroqnq12eq8Cfq251bmnduFK7Y1FkeJv2/ni/BZc+z5kJpi/lENeXlr5
- k04aKJv/FcXHIGnGQNxZt+Al7dYQ/SpcoVsnGQCYwAlEZqSFmk5zIoEFFI0a7HOb9V1Y1tKm9pj
- /V/bESfE90WYDdA==
-X-Google-Smtp-Source: AGHT+IFkXmb/qgb/KgY8CoxXBFCqji+DioDep8k1ccK80l52uLY2VJCsOrEx4mXqL5zBbM0jkYzLAt9Oa8qgqgiQULk=
-X-Received: by 2002:a17:903:1a0b:b0:27e:eb9b:b80f with SMTP id
- d9443c01a7336-290c9c9a8a7mr71999045ad.2.1760909129461; Sun, 19 Oct 2025
- 14:25:29 -0700 (PDT)
+ AJvYcCXp9wqUUnIGE2K+hn28ZL27F6PH9gKrWdKERBB2gzxibGrjGxfJ7Jy6L6VMXuhj/Bo/sMMWB4FW3vw=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YzIHsj1vm8NKH1PFBQnKw3xJfHtRkXWasfDrHyffBi4KX6PK1Wy
+ AAHU/V2JxZo2u8MZLt+yO+RIh/9KTzhYTBQd6jVV2sEOej/vBSi8nse830AOEBhqdkW2ux70dMW
+ BbUtbXouP72xnDX7e9RtLnyJO2iLORh0=
+X-Gm-Gg: ASbGncv4/GHYlKAEnpeN1jD5YByp9morZGzgNarERufPnaHSYQyvybSIgXTM3v/X/dW
+ fdWUftnem8o/EeAiag2Acy5Z3631s0iqTobbhVEFyZdRnsAdggskOY31MwP541OSOVayH3Z4UBa
+ h2yd+UKav50FaV4/S53EbiU/oMqFU3DsyDi/O7t0hWf4XRmiaIKUEsW2cDuAHWWufwXAk7hHxFt
+ FW0Jrv6KSe1xdWEm9V7sldeSjFuSDQDxgq5gwLKVG94n+Y3J1Z8arkAGc0jOtEsZ7xXHlnoldsG
+ RK54zL5i+Iz7E2+S9Z35bS5qkagpSbAhH60iJ41qVbjRi5g9s8519ZmlfUKCfObKsSWTVxH/fMI
+ bHoby0v8ImIhA5Q==
+X-Google-Smtp-Source: AGHT+IEqij5v9mJs5/CWA1m9c2NrE8PMDKfGOLkkgvIBrH2S+dVqx6DMlKfweKNo3iNjtFuT7Y5fW/l69CjJHY+CKa4=
+X-Received: by 2002:a17:903:b8f:b0:290:c5c5:57e6 with SMTP id
+ d9443c01a7336-290c9cff139mr74090165ad.3.1760909132458; Sun, 19 Oct 2025
+ 14:25:32 -0700 (PDT)
 MIME-Version: 1.0
 References: <20251018-cstr-core-v18-0-9378a54385f8@gmail.com>
- <20251018-cstr-core-v18-13-9378a54385f8@gmail.com>
-In-Reply-To: <20251018-cstr-core-v18-13-9378a54385f8@gmail.com>
+ <20251018-cstr-core-v18-14-9378a54385f8@gmail.com>
+In-Reply-To: <20251018-cstr-core-v18-14-9378a54385f8@gmail.com>
 From: Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
-Date: Sun, 19 Oct 2025 23:25:16 +0200
-X-Gm-Features: AS18NWDXrZ8O-3KwwwBOxfZWPwAGhp3HE5GT4mOk-9o3K1qGCus24KCpGnZzuZA
-Message-ID: <CANiq72mpmO2fyfHmkipYZmirRg-x90Hi3Ly+2mriuGX96bOuew@mail.gmail.com>
-Subject: Re: [RESEND PATCH v18 13/16] rust: regulator: use `CStr::as_char_ptr`
-To: Tamir Duberstein <tamird@kernel.org>, Liam Girdwood <lgirdwood@gmail.com>, 
- Mark Brown <broonie@kernel.org>
+Date: Sun, 19 Oct 2025 23:25:18 +0200
+X-Gm-Features: AS18NWAMycluR5p3NBfaTwCbAsRiC2-Lwc15QqFISNzvPKOcYBFx7NoYnd__ov0
+Message-ID: <CANiq72md2Gt-UUpPdnoOimUW8d+M8Wp=9jDTZ47NzvruhfP6+A@mail.gmail.com>
+Subject: Re: [RESEND PATCH v18 14/16] rust: clk: use `CStr::as_char_ptr`
+To: Tamir Duberstein <tamird@kernel.org>,
+ Michael Turquette <mturquette@baylibre.com>, 
+ Stephen Boyd <sboyd@kernel.org>
 Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
  "Rafael J. Wysocki" <rafael@kernel.org>, 
  Danilo Krummrich <dakr@kernel.org>, Miguel Ojeda <ojeda@kernel.org>,
@@ -87,8 +88,8 @@ Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
  Uladzislau Rezki <urezki@gmail.com>, Bjorn Helgaas <bhelgaas@google.com>,
  =?UTF-8?Q?Krzysztof_Wilczy=C5=84ski?= <kwilczynski@kernel.org>, 
  Viresh Kumar <vireshk@kernel.org>, Nishanth Menon <nm@ti.com>,
- Stephen Boyd <sboyd@kernel.org>, 
- Breno Leitao <leitao@debian.org>, Michael Turquette <mturquette@baylibre.com>, 
+ Breno Leitao <leitao@debian.org>, 
+ Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, 
  David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
  Luis Chamberlain <mcgrof@kernel.org>, Russ Weight <russ.weight@linux.dev>, 
  Alexander Viro <viro@zeniv.linux.org.uk>, Jan Kara <jack@suse.cz>, 
@@ -132,9 +133,9 @@ On Sat, Oct 18, 2025 at 9:17=E2=80=AFPM Tamir Duberstein <tamird@kernel.org=
 >
 > Signed-off-by: Tamir Duberstein <tamird@gmail.com>
 
-Liam, Mark: I will apply this since it would be nice to try to get the
-flag day patch in this series finally done -- please shout if you have
-a problem with this.
+Michael, Stephen: I will apply this since it would be nice to try to
+get the flag day patch in this series finally done -- please shout if
+you have a problem with this.
 
 An Acked-by would be very appreciated, thanks!
 
