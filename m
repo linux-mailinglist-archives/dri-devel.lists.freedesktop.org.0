@@ -2,40 +2,40 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 81E8DBEEA90
-	for <lists+dri-devel@lfdr.de>; Sun, 19 Oct 2025 19:11:49 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id D5613BEEAB7
+	for <lists+dri-devel@lfdr.de>; Sun, 19 Oct 2025 19:13:45 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B9E7410E21C;
-	Sun, 19 Oct 2025 17:11:47 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A2B3410E21D;
+	Sun, 19 Oct 2025 17:13:42 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="h5rPwysQ";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="ofo4JYY+";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sea.source.kernel.org (sea.source.kernel.org [172.234.252.31])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0037710E21B;
- Sun, 19 Oct 2025 17:11:45 +0000 (UTC)
+Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 464EC10E21B;
+ Sun, 19 Oct 2025 17:13:41 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by sea.source.kernel.org (Postfix) with ESMTP id A1800455FA;
- Sun, 19 Oct 2025 17:11:45 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 282FCC4CEE7;
- Sun, 19 Oct 2025 17:11:39 +0000 (UTC)
+ by tor.source.kernel.org (Postfix) with ESMTP id 75F2260239;
+ Sun, 19 Oct 2025 17:13:40 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id BFAC4C4CEE7;
+ Sun, 19 Oct 2025 17:13:34 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1760893905;
- bh=pGSeByPyjXU0xF/GT6nI9BVPEVJ+TrjfUe8CJ/Y5sO4=;
+ s=k20201202; t=1760894020;
+ bh=xyEfLRN8ZylZ1U+SxjoVN+rv4eGUG+EVIb9AGdg00OM=;
  h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
- b=h5rPwysQfQG1dM5SNU2O0ilf16LNEq3O5m+hOE+UZ0Jzn2OVfmwCcwLVIe0zZc94h
- XJbYhXvbLLqpY9d1otkGjlutVBoLOf1mj6AoIanXTirrDWfHI1qI9x83/56YNF6KkZ
- yzfVN5LV90itVII7jZ+tnrnee/8ZJZURdF/qIaKp5YOVniPJjQEzU9/j9c7pA/sG05
- ozqeYF5IY/lfhPta+FiDH7lxmiyCzSAVmurCK6/AmKfnusWIu4BUn+04UngPXldvOp
- zhIXUFHxIzHXqGUVbJHpRWq5FwPtzFzBNffRUWxZpEZIUg+pQvASZ1mTlKDvxR2Ayr
- OSZGpDI2S65BA==
-Message-ID: <13d1491a-2c5a-467d-bd55-01c0603a4b81@kernel.org>
-Date: Sun, 19 Oct 2025 19:11:38 +0200
+ b=ofo4JYY+lLe2QPhNy5mzWgfYWwrDE48j9YfVjx7YiJXSOo0DnJyRis/T2jpXm2SuY
+ JWF7PegfoUrbDw3/v2Dlj5T1WPVmaK3LcNdrZbOMinsmVjRc3DYBI95B1CRGimQP8J
+ Xab2JQVQNgeWUeh4o+Q/oZWwlid+ntkNNdKXcjjZ1i9IEiBqZZgPhdzBQTxwmqu4xK
+ SqVMGbSApmdQDvnbHq6nVQ/mM4610CviYIgAhKHuRF71634iBHnikKYmo2pRT7rJtc
+ JPMNkC6+l3VL0CnMG732S/F9/LPMvYXsLhoxBxqJBtv4A54MfnIndkHUXti6eo9tuI
+ I2r/wt2YApV+w==
+Message-ID: <58446b2d-560f-4a7e-890a-78ae0bb92908@kernel.org>
+Date: Sun, 19 Oct 2025 19:13:32 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v4 2/3] arm64: dts: qcom: Add DisplayPort and QMP USB3DP
- PHY for SM6150
+Subject: Re: [PATCH v4 1/3] dt-bindings: display/msm: Add SM6150 DisplayPort
+ controller
 To: xiangxu.yin@oss.qualcomm.com, Rob Clark <robin.clark@oss.qualcomm.com>,
  Dmitry Baryshkov <lumag@kernel.org>, Abhinav Kumar
  <abhinav.kumar@linux.dev>, Jessica Zhang <jessica.zhang@oss.qualcomm.com>,
@@ -51,7 +51,7 @@ Cc: linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org,
  linux-kernel@vger.kernel.org, fange.zhang@oss.qualcomm.com,
  yongxing.mou@oss.qualcomm.com, li.liu@oss.qualcomm.com
 References: <20251015-add-displayport-support-to-qcs615-devicetree-v4-0-aa2cb8470e9d@oss.qualcomm.com>
- <20251015-add-displayport-support-to-qcs615-devicetree-v4-2-aa2cb8470e9d@oss.qualcomm.com>
+ <20251015-add-displayport-support-to-qcs615-devicetree-v4-1-aa2cb8470e9d@oss.qualcomm.com>
 From: Krzysztof Kozlowski <krzk@kernel.org>
 Content-Language: en-US
 Autocrypt: addr=krzk@kernel.org; keydata=
@@ -97,7 +97,7 @@ Autocrypt: addr=krzk@kernel.org; keydata=
  jWt87ecuHlpL3uuQ0ZZNWqHgZoQLXoqC2ZV5KrtKWb/jyiFX/sxSrodALf0zf+tfHv0FZWT2
  zHjUqd0t4njD/UOsuIMOQn4Ig0SdivYPfZukb5cdasKJukG1NOpbW7yRNivaCnfZz6dTawXw
  XRIV/KDsHQiyVxKvN73bThKhONkcX2LWuD928tAR6XMM2G5ovxLe09vuOzzfTWQDsm++9UKF a/A=
-In-Reply-To: <20251015-add-displayport-support-to-qcs615-devicetree-v4-2-aa2cb8470e9d@oss.qualcomm.com>
+In-Reply-To: <20251015-add-displayport-support-to-qcs615-devicetree-v4-1-aa2cb8470e9d@oss.qualcomm.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -118,27 +118,51 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 On 15/10/2025 03:53, Xiangxu Yin via B4 Relay wrote:
 > From: Xiangxu Yin <xiangxu.yin@oss.qualcomm.com>
 > 
-> Introduce DisplayPort controller node and associated QMP USB3-DP PHY
-> for SM6150 SoC. Add data-lanes property to the DP endpoint and update
-> clock assignments for proper DP integration.
+> Describe the DisplayPort controller for Qualcomm SM6150 SoC.
 > 
 > Signed-off-by: Xiangxu Yin <xiangxu.yin@oss.qualcomm.com>
 > ---
->  arch/arm64/boot/dts/qcom/sm6150.dtsi | 113 ++++++++++++++++++++++++++++++++++-
->  1 file changed, 111 insertions(+), 2 deletions(-)
+>  .../devicetree/bindings/display/msm/qcom,sm6150-mdss.yaml     | 11 +++++++++++
+>  1 file changed, 11 insertions(+)
 > 
-> diff --git a/arch/arm64/boot/dts/qcom/sm6150.dtsi b/arch/arm64/boot/dts/qcom/sm6150.dtsi
-> index 6128d8c48f9c0807ac488ddac3b2377678e8f8c3..36a536cef99a095938f3e18a9b5e7825308ca426 100644
-> --- a/arch/arm64/boot/dts/qcom/sm6150.dtsi
-> +++ b/arch/arm64/boot/dts/qcom/sm6150.dtsi
-> @@ -17,6 +17,7 @@
->  #include <dt-bindings/power/qcom-rpmpd.h>
->  #include <dt-bindings/power/qcom,rpmhpd.h>
->  #include <dt-bindings/soc/qcom,rpmh-rsc.h>
-> +#include <dt-bindings/phy/phy-qcom-qmp.h>
+> diff --git a/Documentation/devicetree/bindings/display/msm/qcom,sm6150-mdss.yaml b/Documentation/devicetree/bindings/display/msm/qcom,sm6150-mdss.yaml
+> index 9ac24f99d3ada1c197c9654dc9babebccae972ed..935eca23ce6b30b81b3ad778e5fcacc817a230c3 100644
+> --- a/Documentation/devicetree/bindings/display/msm/qcom,sm6150-mdss.yaml
+> +++ b/Documentation/devicetree/bindings/display/msm/qcom,sm6150-mdss.yaml
+> @@ -51,6 +51,16 @@ patternProperties:
+>        compatible:
+>          const: qcom,sm6150-dpu
+>  
+> +  "^displayport-controller@[0-9a-f]+$":
+> +    type: object
+> +    additionalProperties: true
+> +    properties:
+> +      compatible:
+> +        items:
+> +          - const: qcom,sm6150-dp
+> +          - const: qcom,sm8150-dp
 
+6150 is compatible with 8150 or 8350? I have doubts.
 
-This is ordered, don't break it.
+> +          - const: qcom,sm8350-dp
+> +
+>    "^dsi@[0-9a-f]+$":
+>      type: object
+>      additionalProperties: true
+> @@ -132,6 +142,7 @@ examples:
+>                  port@0 {
+>                    reg = <0>;
+>                    dpu_intf0_out: endpoint {
+> +                      remote-endpoint = <&mdss_dp0_in>;
+
+Mention reason for doing this in the commit msg.
+
+Also, messed up indentation.
+
+>                    };
+>                  };
+>  
+> 
 
 
 Best regards,
