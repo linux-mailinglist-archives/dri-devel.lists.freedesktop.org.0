@@ -2,43 +2,43 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id DA753BF061D
-	for <lists+dri-devel@lfdr.de>; Mon, 20 Oct 2025 12:04:36 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5A69BBF062F
+	for <lists+dri-devel@lfdr.de>; Mon, 20 Oct 2025 12:04:45 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2606B10E39F;
-	Mon, 20 Oct 2025 10:04:34 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5650110E3A5;
+	Mon, 20 Oct 2025 10:04:43 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="HoJ9JA6o";
+	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="dcUcu3EH";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from bali.collaboradmins.com (bali.collaboradmins.com
  [148.251.105.195])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 14BB210E39E
- for <dri-devel@lists.freedesktop.org>; Mon, 20 Oct 2025 10:04:31 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 26CC510E39E
+ for <dri-devel@lists.freedesktop.org>; Mon, 20 Oct 2025 10:04:33 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1760954669;
- bh=IV+xFbIFU0tK2tXhub1pHDb9c/lzEMIQDMPHcmWu09Q=;
+ s=mail; t=1760954671;
+ bh=LtNMw27Mt4P/xIk8X58zhfmW/Kpfb3u6BFl+S4hGtOw=;
  h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
- b=HoJ9JA6omdS7lMAhbjAEXaISHRoSK3MfmK2nKyNOjLq65oRSL2dA7fyDZeYqiUDw2
- mJTa+ai1jhseUueMTKXpEUQlm7pauO12zVU7c+SIHC7QStIfpJZunQaBnwZs7v+Vay
- I1nmVMhNfs1hp/SdRmIJJhWBlGyUHUK6jPA3LRE5JXJgH20IeiaNQkmDnp4N5woFdQ
- WUZDKTLt07s/KJYIQ0A2gn9id/yY5BOOmzCGqrm1iyNzdfs7wE6phxnFNIeaP/urDW
- Pex+bYGsi1NA1EvtPHoZvIbz8IOu1YgocDV3oBVLZHDUvrvnd+03+AFq8+BleeuUWB
- ZG467KK8/EIjA==
+ b=dcUcu3EHnYluDoVoXcR9F7BHxyUnteEIvpDOxMvihLuRILQvJt1kaOtpbok9FeVnv
+ ydt+vSbxyfDeKJIE5380rO0PKXLIsUl5Il4T5BpncFm9JbqQFaAM5dfiD4Mbqbu7FK
+ fExDvjYCnmsAbqBf4a7URIuSdtiEX7tfC+hMg7X18itkESzk9TovchiewMukgHcevh
+ dJz02idY9Yt0KOgFcJgX/65eRndXReihVKMYaBQRRERf5aFkHfPQCg5byFqovQaVAJ
+ jdjb/VU7J/IXjT5s4Y5aPx/dO18lDsmtndNjhoQPAcRg9IV1XRN11wE143NK1CpX35
+ 7u0S/BUa4RRrw==
 Received: from [192.168.1.100] (2-237-20-237.ip236.fastwebnet.it
  [2.237.20.237])
  (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits))
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
  (No client certificate requested) (Authenticated sender: kholk11)
- by bali.collaboradmins.com (Postfix) with ESMTPSA id BACAA17E13A5;
- Mon, 20 Oct 2025 12:04:28 +0200 (CEST)
-Message-ID: <def12c6b-94ef-465b-94ec-2144464e4ff3@collabora.com>
-Date: Mon, 20 Oct 2025 12:04:28 +0200
+ by bali.collaboradmins.com (Postfix) with ESMTPSA id E7C7517E0FAD;
+ Mon, 20 Oct 2025 12:04:30 +0200 (CEST)
+Message-ID: <e28e45ee-db95-4c32-b2e8-16849670eaf8@collabora.com>
+Date: Mon, 20 Oct 2025 12:04:30 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v8 17/20] media: platform: mtk-mdp3: Use
- cmdq_pkt_jump_rel() without shift_pa
+Subject: Re: [PATCH v8 15/20] media: platform: mtk-mdp3: Change
+ cmdq_pkt_jump_rel() to cmdq_pkt_jump_rel_temp()
 To: Jason-JH Lin <jason-jh.lin@mediatek.com>, Rob Herring <robh@kernel.org>,
  Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
  <conor+dt@kernel.org>, Jassi Brar <jassisinghbrar@gmail.com>,
@@ -56,10 +56,10 @@ Cc: Matthias Brugger <matthias.bgg@gmail.com>,
  dri-devel@lists.freedesktop.org, linux-mediatek@lists.infradead.org,
  linux-arm-kernel@lists.infradead.org, linux-media@vger.kernel.org
 References: <20251017065028.1676930-1-jason-jh.lin@mediatek.com>
- <20251017065028.1676930-18-jason-jh.lin@mediatek.com>
+ <20251017065028.1676930-16-jason-jh.lin@mediatek.com>
 From: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
 Content-Language: en-US
-In-Reply-To: <20251017065028.1676930-18-jason-jh.lin@mediatek.com>
+In-Reply-To: <20251017065028.1676930-16-jason-jh.lin@mediatek.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -78,13 +78,11 @@ Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 Il 17/10/25 08:44, Jason-JH Lin ha scritto:
-> With the removal of the shift_pa parameter, cmdq_pkt_jump_rel_temp()
-> can be replaced by the new cmdq_pkt_jump_rel() without shift_pa.
+> To facilitate the removal of the shift_pa parameter from
+> cmdq_pkt_jump_rel(), current users of cmdq_pkt_jump_rel() need to
+> transition to using cmdq_pkt_jump_rel_temp() before the API change
+> is implemented.
 > 
-> Then, remove the cmdq_shift_pa variable in the mdp_dev structure for
-> each mbox client.
-> 
-> Fixes: ade176534112 ("soc: mediatek: cmdq: Add parameter shift_pa to cmdq_pkt_jump()")
 > Signed-off-by: Jason-JH Lin <jason-jh.lin@mediatek.com>
 
 Reviewed-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
