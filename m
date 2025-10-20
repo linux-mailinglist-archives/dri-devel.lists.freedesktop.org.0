@@ -2,54 +2,65 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 24989BF2ABE
-	for <lists+dri-devel@lfdr.de>; Mon, 20 Oct 2025 19:19:06 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id BC4D4BF2ADA
+	for <lists+dri-devel@lfdr.de>; Mon, 20 Oct 2025 19:21:33 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5509F10E154;
-	Mon, 20 Oct 2025 17:19:04 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 54B4310E491;
+	Mon, 20 Oct 2025 17:21:31 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="qSfz08Ns";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="Rvl/jEr3";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 59A4210E154
- for <dri-devel@lists.freedesktop.org>; Mon, 20 Oct 2025 17:19:03 +0000 (UTC)
+Received: from sea.source.kernel.org (sea.source.kernel.org [172.234.252.31])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1793010E492
+ for <dri-devel@lists.freedesktop.org>; Mon, 20 Oct 2025 17:21:30 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by tor.source.kernel.org (Postfix) with ESMTP id CD4C2620CB;
- Mon, 20 Oct 2025 17:19:02 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 559C4C4CEF9;
- Mon, 20 Oct 2025 17:18:59 +0000 (UTC)
+ by sea.source.kernel.org (Postfix) with ESMTP id CA4C748C74
+ for <dri-devel@lists.freedesktop.org>; Mon, 20 Oct 2025 17:21:29 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9F876C19421
+ for <dri-devel@lists.freedesktop.org>; Mon, 20 Oct 2025 17:21:29 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1760980742;
- bh=d2jINvzcEowHYXUQtyByG0BLnrpPSoNJ9KYOgYddVTI=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=qSfz08NsopoJBlCTowu9oCXd//s4JDWGOFYx3omXLXJefUl1UzZL5Mj0T1IQc2mhg
- vjerZuHSwJ2gZUmIvMwly4gwcb3GG8PvnLIeOQFv5UMVnBSWDQPQkl7Ceaoy1/zUim
- EHm/rD/S4Y36etd0uOEnCn7OZDn1ydWG/SzOlX6bnpkc6qmIht7vX8MBqL0csrtdsr
- rzSnz+qwouug/Z1RNrXtIL9Uj9l1WNPC/Q8uQtDFY0pe3+v2UFcdNTL8g887y9APim
- Kj0wJCYBA3qdka/oR7GbS4x8E2y+i2znYcmB7Q/42VhGaW+jEYL4Q9VAIiYCvQfFJ9
- q17inbhmJaWZg==
-Date: Mon, 20 Oct 2025 18:18:56 +0100
-From: Conor Dooley <conor@kernel.org>
-To: Heiko Stuebner <heiko@sntech.de>
-Cc: maarten.lankhorst@linux.intel.com, mripard@kernel.org,
- tzimmermann@suse.de, robh@kernel.org, krzk+dt@kernel.org,
- conor+dt@kernel.org, quentin.schulz@cherry.de,
- andy.yan@rock-chips.com, dri-devel@lists.freedesktop.org,
- devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
- linux-rockchip@lists.infradead.org, linux-kernel@vger.kernel.org,
- cn.liweihao@gmail.com, Heiko Stuebner <heiko.stuebner@cherry.de>
-Subject: Re: [PATCH 1/9] dt-bindings: display: rockchip: dw-hdmi: Add
- compatible for RK3368 HDMI
-Message-ID: <20251020-showcase-crayon-660e4f67881a@spud>
-References: <20251020082508.3636511-1-heiko@sntech.de>
- <20251020082508.3636511-2-heiko@sntech.de>
+ s=k20201202; t=1760980889;
+ bh=uI5rsFpiE13xOKlRUr0iIvhiw/jg45u3VMFRQxTK9Hk=;
+ h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+ b=Rvl/jEr3JCHqO7eVAcQ2vXHc4Cei02Xx6mPp//9vMReOYECUZuKOyRBR+1PEWGaA4
+ OC0QZ6+t4kJMRFIJJbJwgZCdpcAw2s+dHkmCCjHU8VD3ZOQfjrhuCJMGfag72QqfST
+ I6Bjc3dq6SeRjZPSjcR4FRNU4IzbZOd1U5dX3vXYoLcineMF8fz0zHbLkjqc5U7cVu
+ Cd9hm3ahpdusMDDvIl2HRGLy8LUR6Waqfjv8u+TxMUWHeo0AdDkaU0DglgUQjOry2z
+ idCNbCNd0uJEi7ZLN1dkaMUI5FaCTKSVGDAWAOwqRqPi0ybiqtwFwuXMvdj2g3UhKw
+ zwRUsrO/I+V6w==
+Received: by mail-oa1-f45.google.com with SMTP id
+ 586e51a60fabf-3c97c98c791so2660567fac.2
+ for <dri-devel@lists.freedesktop.org>; Mon, 20 Oct 2025 10:21:29 -0700 (PDT)
+X-Forwarded-Encrypted: i=1;
+ AJvYcCUN7hYpgkI5nRQn8AWuJqrPxcsi94VR9ZW+BvRzefvKQwRCDP2j9Y7Q/vOo9qsVFiO9TopdR649HfY=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YxQs+w4bUHe9V8oyIfwlPxCNiQU8E2Qr4JZwhFkeXXduipwM+GC
+ m7qWd4oV1eleAkPFfu95/yogryIAn7gNSj0Frw3gOU0k8LVwRM/w7Arc3LtKL98kmdkIagkBDq7
+ CsDovl4Wfnr7ZaLJSB2AA8jUp6Itq4mg=
+X-Google-Smtp-Source: AGHT+IFU0bU8fKZ0Wua75/5pRYAXjg6ICdC5ZIAIZU0v6VlGJqQRFSAEBuztx/l/Pivh+cm/UonHIHXKPVckX8HLNyQ=
+X-Received: by 2002:a05:6871:2e90:b0:387:9b79:a61b with SMTP id
+ 586e51a60fabf-3c98cff3fd9mr5575729fac.22.1760980888969; Mon, 20 Oct 2025
+ 10:21:28 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
- protocol="application/pgp-signature"; boundary="7YQcMoFn8RBCI1lI"
-Content-Disposition: inline
-In-Reply-To: <20251020082508.3636511-2-heiko@sntech.de>
+References: <20251020165317.3992933-1-superm1@kernel.org>
+ <20251020165317.3992933-4-superm1@kernel.org>
+In-Reply-To: <20251020165317.3992933-4-superm1@kernel.org>
+From: "Rafael J. Wysocki" <rafael@kernel.org>
+Date: Mon, 20 Oct 2025 19:21:17 +0200
+X-Gmail-Original-Message-ID: <CAJZ5v0gsdmfXUJuLW8Ogt2jKDunx4g51LqCfSVMWQ6WHXBw_zg@mail.gmail.com>
+X-Gm-Features: AS18NWChU2EP-kmiSeBpXBkZQsZMUWO1qaU0RIWwAVoz1ykVcHqEMNRFvTKh8NY
+Message-ID: <CAJZ5v0gsdmfXUJuLW8Ogt2jKDunx4g51LqCfSVMWQ6WHXBw_zg@mail.gmail.com>
+Subject: Re: [RFC 3/3] drm/amd: Return -EBUSY for amdgpu_pmops_thaw() on
+ success
+To: "Mario Limonciello (AMD)" <superm1@kernel.org>
+Cc: mario.limonciello@amd.com, airlied@gmail.com, alexander.deucher@amd.com, 
+ christian.koenig@amd.com, dakr@kernel.org, gregkh@linuxfoundation.org, 
+ lenb@kernel.org, pavel@kernel.org, rafael@kernel.org, simona@ffwll.ch, 
+ Muhammad Usama Anjum <usama.anjum@collabora.com>, amd-gfx@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org, linux-pm@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -65,23 +76,41 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+On Mon, Oct 20, 2025 at 6:53=E2=80=AFPM Mario Limonciello (AMD)
+<superm1@kernel.org> wrote:
+>
+> From: Mario Limonciello <mario.limonciello@amd.com>
+>
+> The PM core should be notified that thaw was skipped for the device
+> so that if it's tried to be resumed (such as an aborted hibernate)
+> that it gets another chance to resume.
+>
+> Cc: Muhammad Usama Anjum <usama.anjum@collabora.com>
+> Signed-off-by: Mario Limonciello <mario.limonciello@amd.com>
+> ---
+>  drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+>
+> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c b/drivers/gpu/drm/am=
+d/amdgpu/amdgpu_drv.c
+> index 61268aa82df4d..d40af069f24dd 100644
+> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c
+> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c
+> @@ -2681,7 +2681,7 @@ static int amdgpu_pmops_thaw(struct device *dev)
+>
+>         /* do not resume device if it's normal hibernation */
+>         if (!pm_hibernate_is_recovering() && !pm_hibernation_mode_is_susp=
+end())
+> -               return 0;
+> +               return -EBUSY;
 
---7YQcMoFn8RBCI1lI
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+So that's why you need the special handling of -EBUSY in the previous patch=
+.
 
-Acked-by: Conor Dooley <conor.dooley@microchip.com>
-pw-bot: not-applicable
+I think that you need to save some state in this driver and then use
+it in subsequent callbacks instead of hacking the core to do what you
+want.
 
---7YQcMoFn8RBCI1lI
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYKAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCaPZvAAAKCRB4tDGHoIJi
-0gdnAP9UKaGnCPV2zaldvnd211nAHuvWh9YTAsetUvI6810yKwEAvc3hLDjMN6Zn
-5Mim/845bWOoq9O19ETLpIYckAc7uAE=
-=7vaE
------END PGP SIGNATURE-----
-
---7YQcMoFn8RBCI1lI--
+>         return amdgpu_device_resume(drm_dev, true);
+>  }
+> --
