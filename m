@@ -2,42 +2,79 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1B2A0BF0D0E
-	for <lists+dri-devel@lfdr.de>; Mon, 20 Oct 2025 13:24:40 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9695EBF0D7D
+	for <lists+dri-devel@lfdr.de>; Mon, 20 Oct 2025 13:31:51 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 35EEB10E41A;
-	Mon, 20 Oct 2025 11:24:37 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C1FE910E41D;
+	Mon, 20 Oct 2025 11:31:48 +0000 (UTC)
+Authentication-Results: gabe.freedesktop.org;
+	dkim=pass (2048-bit key; unprotected) header.d=google.com header.i=@google.com header.b="xVUDeRRc";
+	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
- by gabe.freedesktop.org (Postfix) with ESMTP id 33F9F10E41A
- for <dri-devel@lists.freedesktop.org>; Mon, 20 Oct 2025 11:24:36 +0000 (UTC)
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
- by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id C61E11063;
- Mon, 20 Oct 2025 04:24:27 -0700 (PDT)
-Received: from [10.57.36.117] (unknown [10.57.36.117])
- by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id AF72A3F66E;
- Mon, 20 Oct 2025 04:24:33 -0700 (PDT)
-Message-ID: <7be294e2-e6fe-4c47-8bf3-507443e3b1d5@arm.com>
-Date: Mon, 20 Oct 2025 12:24:31 +0100
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v1 07/10] drm/panthor: Implement soft and fast reset via
- PWR_CONTROL
-To: Karunika Choo <karunika.choo@arm.com>, dri-devel@lists.freedesktop.org
-Cc: nd@arm.com, Boris Brezillon <boris.brezillon@collabora.com>,
- Liviu Dudau <liviu.dudau@arm.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- linux-kernel@vger.kernel.org
-References: <20251014094337.1009601-1-karunika.choo@arm.com>
- <20251014094337.1009601-8-karunika.choo@arm.com>
-Content-Language: en-GB
-From: Steven Price <steven.price@arm.com>
-In-Reply-To: <20251014094337.1009601-8-karunika.choo@arm.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Received: from mail-wm1-f73.google.com (mail-wm1-f73.google.com
+ [209.85.128.73])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BEF7A10E41D
+ for <dri-devel@lists.freedesktop.org>; Mon, 20 Oct 2025 11:31:47 +0000 (UTC)
+Received: by mail-wm1-f73.google.com with SMTP id
+ 5b1f17b1804b1-47106720618so24899265e9.1
+ for <dri-devel@lists.freedesktop.org>; Mon, 20 Oct 2025 04:31:47 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=google.com; s=20230601; t=1760959906; x=1761564706;
+ darn=lists.freedesktop.org; 
+ h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
+ :date:from:to:cc:subject:date:message-id:reply-to;
+ bh=DMcqFZ5cAqBQM1biUtf3Krfxn1U/zGBC3gm6VwatmXg=;
+ b=xVUDeRRc26liKAPzgc2YVlE04osNEQ/pYqQ/fOQs+IvXHESocYx9zQEQn2TfGWBl9R
+ MQYPhztDOC08G4N43UuY7xfsjWeNYyyLNaX+cAjWnU1ejNTfYsDHHtyGPXlKBY8LndpR
+ 9SN72RpuKizgKMQ4Olf/97uCySukbUALW+yTlCsQwc5hPLef5RR9/vNZiQjXiJa1iSz4
+ 4YIHz1Hm/t6baPi5KGht36E0XvGptm3Ky5I8EXKn+JQ8Ki2a1u5vAuZTX4xRGAe3woMA
+ ZNOSvzNpMUwBnPm4dH//miaV4aT+Xx5c64MMp5jfPN+a1F//TS4xY3KzQWScY9CRvelx
+ KoEA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1760959906; x=1761564706;
+ h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
+ :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=DMcqFZ5cAqBQM1biUtf3Krfxn1U/zGBC3gm6VwatmXg=;
+ b=CH9e7RMI8DD068jMuPj7i4z7m+19czZ2PvBjTm4VdRytBQthPdFrxtpiVGBn42Fl3X
+ LoxKq9K0o+rL7KOyVOl57D8yips7uiGPxj4H5yAzN5LOFcDX6ThVQ9ozWf/yCuyej0Y6
+ 9ziN5JCMDy9pJ4MROmpNL0S4FQirsDmFu8F8+7xoWYovRvloizdKibuiPGnBZaeB2iFc
+ VnIShzoML63G4m7vmHwczzozRnj4dhT6WldFwZAzGiHBa5HVLA5zM+LCpw7YN8O00dSr
+ PY/OwoXnqmKotNbW+2rdVBVPrprNNBNqNKWdQuEVMwXN2rPqQtZ9fwTPWM5ui51QjA2u
+ FSWA==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCUUuoCaVuJjYOtah2m/oi0sR7M+DWDWMpDZkjAIOJm1pOib/Vogxwc8zV38Q7m3vg22aW8FaXvRtWY=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Yw7G3PjNdI2H62gR7njvuPOo6WljvwvFy4in8/98nwPeiUzr+1N
+ il6+bRtxVKKJe/GkDCyHgXIahmIYZx70x5Y9HZdJzDXQoLnBzUFYXtXFwh9fFU4KWRCNV/G0Xd0
+ pn0dRHxHrRZu/LjqfCQ==
+X-Google-Smtp-Source: AGHT+IH2Qofc6ndiBT2TBEJUwAKSdi714gdnYYSKwoeWjdLZfKMzLOYYEgFO9KCms/5i7YzVpY9EuZiKpgOsDG8=
+X-Received: from wmbjx13.prod.google.com
+ ([2002:a05:600c:578d:b0:46e:5611:ee71])
+ (user=aliceryhl job=prod-delivery.src-stubby-dispatcher) by
+ 2002:a05:600c:4ec6:b0:46f:b327:ecfb with SMTP id
+ 5b1f17b1804b1-4711787bfe8mr99039325e9.9.1760959906081; 
+ Mon, 20 Oct 2025 04:31:46 -0700 (PDT)
+Date: Mon, 20 Oct 2025 11:31:45 +0000
+In-Reply-To: <20251006-vmbo-defer-v4-0-30cbd2c05adb@google.com>
+Mime-Version: 1.0
+References: <20251006-vmbo-defer-v4-0-30cbd2c05adb@google.com>
+Message-ID: <aPYdoU-Fey8hBqJ_@google.com>
+Subject: Re: [PATCH v4 0/2] Defer vm_bo cleanup in GPUVM with
+ DRM_GPUVM_IMMEDIATE_MODE
+From: Alice Ryhl <aliceryhl@google.com>
+To: Danilo Krummrich <dakr@kernel.org>, Matthew Brost <matthew.brost@intel.com>,
+ "Thomas =?utf-8?Q?Hellstr=C3=B6m?=" <thomas.hellstrom@linux.intel.com>
+Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, 
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
+ Simona Vetter <simona@ffwll.ch>, 
+ Boris Brezillon <boris.brezillon@collabora.com>,
+ Steven Price <steven.price@arm.com>, 
+ Daniel Almeida <daniel.almeida@collabora.com>,
+ Liviu Dudau <liviu.dudau@arm.com>, 
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org, 
+ rust-for-linux@vger.kernel.org
+Content-Type: text/plain; charset="utf-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -53,152 +90,43 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 14/10/2025 10:43, Karunika Choo wrote:
-> Add helpers to issue reset commands through the PWR_CONTROL interface
-> and wait for reset completion using IRQ signaling. This enables support
-> for both RESET_SOFT and RESET_FAST operations with timeout handling and
-> status verification.
+On Mon, Oct 06, 2025 at 12:05:54PM +0000, Alice Ryhl wrote:
+> There are two main ways that GPUVM might be used:
 > 
-> Signed-off-by: Karunika Choo <karunika.choo@arm.com>
-> ---
->  drivers/gpu/drm/panthor/panthor_pwr.c | 62 ++++++++++++++++++++++++++-
->  drivers/gpu/drm/panthor/panthor_pwr.h |  2 +
->  2 files changed, 63 insertions(+), 1 deletion(-)
+> * staged mode, where VM_BIND ioctls update the GPUVM immediately so that
+>   the GPUVM reflects the state of the VM *including* staged changes that
+>   are not yet applied to the GPU's virtual address space.
+> * immediate mode, where the GPUVM state is updated during run_job(),
+>   i.e., in the DMA fence signalling critical path, to ensure that the
+>   GPUVM and the GPU's virtual address space has the same state at all
+>   times.
 > 
-> diff --git a/drivers/gpu/drm/panthor/panthor_pwr.c b/drivers/gpu/drm/panthor/panthor_pwr.c
-> index 594181aba847..ecb278824d06 100644
-> --- a/drivers/gpu/drm/panthor/panthor_pwr.c
-> +++ b/drivers/gpu/drm/panthor/panthor_pwr.c
-> @@ -3,6 +3,7 @@
->  
->  #include <linux/platform_device.h>
->  #include <linux/interrupt.h>
-> +#include <linux/cleanup.h>
->  #include <linux/iopoll.h>
->  #include <linux/wait.h>
->  
-> @@ -31,6 +32,8 @@
->  
->  #define PWR_RETRACT_TIMEOUT_US		2000
->  
-> +#define PWR_RESET_TIMEOUT_MS		500
-> +
->  /**
->   * struct panthor_pwr - PWR_CONTROL block management data.
->   */
-> @@ -80,6 +83,42 @@ static void panthor_pwr_write_command(struct panthor_device *ptdev, u32 command,
->  	gpu_write(ptdev, PWR_COMMAND, command);
->  }
->  
-> +static bool reset_irq_raised(struct panthor_device *ptdev)
-> +{
-> +	return gpu_read(ptdev, PWR_INT_RAWSTAT) & PWR_IRQ_RESET_COMPLETED;
-> +}
-> +
-> +static bool reset_completed(struct panthor_device *ptdev)
-> +{
-> +	return (ptdev->pwr->pending_reqs & PWR_IRQ_RESET_COMPLETED);
-> +}
-> +
-> +static int panthor_pwr_reset(struct panthor_device *ptdev, u32 reset_cmd)
-> +{
-> +	scoped_guard(spinlock_irqsave, &ptdev->pwr->reqs_lock) {
-> +		if (!drm_WARN_ON(&ptdev->base, !reset_completed(ptdev))) {
-> +			ptdev->pwr->pending_reqs |= PWR_IRQ_RESET_COMPLETED;
-> +			gpu_write(ptdev, PWR_INT_CLEAR, PWR_IRQ_RESET_COMPLETED);
-> +			panthor_pwr_write_command(ptdev, reset_cmd, 0);
-> +		}
+> Currently, only Panthor uses GPUVM in immediate mode, but the Rust
+> drivers Tyr and Nova will also use GPUVM in immediate mode, so it is
+> worth to support both staged and immediate mode well in GPUVM. To use
+> immediate mode, we must manage the vm_bos and vas during the fence
+> signalling critical path.
+> 
+> The first part of that work was the introduction of a fence signalling
+> safe mutex for the GEMs GPUVA list in commit e7fa80e2932c ("drm_gem: add
+> mutex to drm_gem_object.gpuva").
+> 
+> This is series the second part of that work: Dropping a vm_bo object in
+> the fence signalling critical path is problematic for two reasons:
+> 
+> * When using DRM_GPUVM_RESV_PROTECTED, you cannot remove the vm_bo from
+>   the extobj/evicted lists during the fence signalling path.
+> * Dropping a vm_bo could lead to the GEM object getting destroyed.
+>   The requirement that GEM object cleanup is fence signalling safe is
+>   dubious and likely to be violated in practice.
+> 
+> Panthor already has its own custom implementation of postponing vm_bo
+> cleanup. Take inspiration from that by moving the logic into GPUVM, and
+> adjust Panthor to use the new GPUVM logic.
+> 
+> Signed-off-by: Alice Ryhl <aliceryhl@google.com>
 
-This would be easier to read as:
+Pushed to drm-rust-next.
 
-if (reset_completed(ptdev)) {
-	....
-} else {
-	drm_WARN(&ptdev->base, 1, "Hey, we're already resetting?");
-}
-
-[Message modified to taste ;) ]
-
-I'm also wondering if things would be easier to read if you switched
-from reset_completed() to reset_pending(). Certainly here it's the
-'pending' test you are trying to do.
-
-> +	}
-> +
-> +	if (!wait_event_timeout(ptdev->pwr->reqs_acked, reset_completed(ptdev),
-> +				msecs_to_jiffies(PWR_RESET_TIMEOUT_MS))) {
-> +		guard(spinlock_irqsave)(&ptdev->pwr->reqs_lock);
-> +
-> +		if (!reset_completed(ptdev) && !reset_irq_raised(ptdev)) {
-> +			drm_err(&ptdev->base, "RESET_%s timed out",
-> +				reset_cmd == PWR_COMMAND_RESET_SOFT ? "SOFT" : "FAST");
-> +			return -ETIMEDOUT;
-> +		}
-> +
-> +		ptdev->pwr->pending_reqs &= ~PWR_IRQ_RESET_COMPLETED;
-> +	}
-> +
-> +	return 0;
-> +}
-> +
->  static const char *get_domain_name(u8 domain)
->  {
->  	switch (domain) {
-> @@ -407,9 +446,30 @@ int panthor_pwr_init(struct panthor_device *ptdev)
->  	return 0;
->  }
->  
-> +int panthor_pwr_reset_fast(struct panthor_device *ptdev)
-> +{
-> +	if (!ptdev->pwr)
-> +		return 0;
-> +
-> +	if (!(panthor_pwr_read_status(ptdev) & PWR_STATUS_ALLOW_FAST_RESET)) {
-> +		drm_err(&ptdev->base, "RESET_SOFT not allowed");
-
-Copy/paste mistake on the error message.
-
-> +		return -EOPNOTSUPP;
-> +	}
-> +
-> +	return panthor_pwr_reset(ptdev, PWR_COMMAND_RESET_FAST);
-> +}
-
-I can't actually find a caller of this function within the series.
-
-> +
->  int panthor_pwr_reset_soft(struct panthor_device *ptdev)
->  {
-> -	return 0;
-> +	if (!ptdev->pwr)
-> +		return 0;
-
-When would this happen? Is this not a programming error?
-
-Thanks,
-Steve
-
-> +
-> +	if (!(panthor_pwr_read_status(ptdev) & PWR_STATUS_ALLOW_SOFT_RESET)) {
-> +		drm_err(&ptdev->base, "RESET_SOFT not allowed");
-> +		return -EOPNOTSUPP;
-> +	}
-> +
-> +	return panthor_pwr_reset(ptdev, PWR_COMMAND_RESET_SOFT);
->  }
->  
->  int panthor_pwr_l2_power_off(struct panthor_device *ptdev)
-> diff --git a/drivers/gpu/drm/panthor/panthor_pwr.h b/drivers/gpu/drm/panthor/panthor_pwr.h
-> index a4042c125448..2301c26dab86 100644
-> --- a/drivers/gpu/drm/panthor/panthor_pwr.h
-> +++ b/drivers/gpu/drm/panthor/panthor_pwr.h
-> @@ -10,6 +10,8 @@ void panthor_pwr_unplug(struct panthor_device *ptdev);
->  
->  int panthor_pwr_init(struct panthor_device *ptdev);
->  
-> +int panthor_pwr_reset_fast(struct panthor_device *ptdev);
-> +
->  int panthor_pwr_reset_soft(struct panthor_device *ptdev);
->  
->  int panthor_pwr_l2_power_on(struct panthor_device *ptdev);
-
+I added this to drm-rust instead of drm-misc as a prerequisite for
+another patch. If merge conflicts show up, we can do a backmerge.
