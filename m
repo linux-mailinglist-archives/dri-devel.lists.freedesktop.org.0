@@ -2,42 +2,42 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2741FBEFAB2
-	for <lists+dri-devel@lfdr.de>; Mon, 20 Oct 2025 09:29:51 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 08F68BEFAB8
+	for <lists+dri-devel@lfdr.de>; Mon, 20 Oct 2025 09:29:56 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A7C8010E117;
-	Mon, 20 Oct 2025 07:29:47 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 21F8310E275;
+	Mon, 20 Oct 2025 07:29:54 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="vAeyrdcO";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="KP/3bo2g";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from sea.source.kernel.org (sea.source.kernel.org [172.234.252.31])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0228A10E117;
- Mon, 20 Oct 2025 07:29:46 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E9CE810E26E;
+ Mon, 20 Oct 2025 07:29:52 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by sea.source.kernel.org (Postfix) with ESMTP id A5D3345A20;
- Mon, 20 Oct 2025 07:29:46 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2C3CAC4CEF9;
- Mon, 20 Oct 2025 07:29:46 +0000 (UTC)
+ by sea.source.kernel.org (Postfix) with ESMTP id CF5AF408DB;
+ Mon, 20 Oct 2025 07:29:52 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4F52CC4CEFB;
+ Mon, 20 Oct 2025 07:29:52 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1760945386;
- bh=RjFIO1r+q3N4OyF3t30qtbjkFjY6rLYauIxFwgJyc/c=;
+ s=k20201202; t=1760945392;
+ bh=3hJ5BI7iRuLKd/HdNYkWO7tGlXPKbYKN671lRM6sd0Q=;
  h=Date:From:To:Subject:In-Reply-To:References:Cc:From;
- b=vAeyrdcOI9qcmWbUpZE9/z+Sl2jCVjp8VSJg2+jTF9+jFlbtbrDl+p45ManKysmLP
- TvvPVNsAFnAHX6nHQ2oDoa/VXuUHMbHvkNQF6fhJqiV7yBrgVq0u2kWYnmcnSXg0Nn
- Kecr2BCFSw+0euZ+q9PfTNq5xAzS42H+gYXKSBaWFVtQVvRPLJcSgP0OjZUxSHTFvW
- rbrnlVs2S0U8uU7LOxEoP3x7I9o6nRz8tEEuIAEzlCh6dzOMbz6mhxe7fH9DRCgSpm
- 2pCCXmB460gJrnuVj1pke8LKKbEBHFcKVqyQnLKJjSOa3gJNRDwxqsBdWgJaGCgmyV
- KjO3o6mxbPACw==
-Message-ID: <66c4428b2129ee017133e9e2d6693295@kernel.org>
-Date: Mon, 20 Oct 2025 07:29:43 +0000
+ b=KP/3bo2gHxsm0CBkxYLqYCnrHrNNwmhUtjeCJ0H8zy3SI9RaX4lZfsCHcF0NaE48z
+ OUqot8mcIfxlythVOmTznyUyrD2dKnK1RbGeCi4uFImD3gAZupLbzga8QlHEVJtn2h
+ wVmBCv/puH8cdo2RUYsrYMxNmsXZkyLy/z/AvuSQNmJlHRdOsJlOVHs9m89xqT143N
+ uz2juPyoYAFetOwFkDuju1HAZPANtpaNSjuO5GB1R/sxHn5zE0emdPLMCZ7U1563ax
+ LFKtYvvQp13H9DgDn9JgJlsE/R3p+H1RQuQTzCVpFFQ+vOCCgT8jp45mcFLKpObO3u
+ ob1NY7Nohn8gQ==
+Message-ID: <6bccb6ce0672f5b736bb8669060d8005@kernel.org>
+Date: Mon, 20 Oct 2025 07:29:49 +0000
 From: "Maxime Ripard" <mripard@kernel.org>
 To: "Ville Syrjala" <ville.syrjala@linux.intel.com>
-Subject: Re: [PATCH 1/2] drm/atomic: WARN about missing acquire_ctx in
- drm_atomic_get_private_obj_state()
-In-Reply-To: <20251017163327.9074-1-ville.syrjala@linux.intel.com>
-References: <20251017163327.9074-1-ville.syrjala@linux.intel.com>
+Subject: Re: [PATCH 2/2] drm/atomic: WARN about invalid drm_foo_get_state()
+ usage
+In-Reply-To: <20251017163327.9074-2-ville.syrjala@linux.intel.com>
+References: <20251017163327.9074-2-ville.syrjala@linux.intel.com>
 Cc: dri-devel@lists.freedesktop.org, intel-gfx@lists.freedesktop.org,
  intel-xe@lists.freedesktop.org, "Dan
  Carpenter" <dan.carpenter@linaro.org>, "Maxime Ripard" <mripard@kernel.org>
@@ -57,12 +57,12 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, 17 Oct 2025 19:33:26 +0300, Ville Syrjala wrote:
+On Fri, 17 Oct 2025 19:33:27 +0300, Ville Syrjala wrote:
 > From: Ville Syrj=C3=A4l=C3=A4 <ville.syrjala@linux.intel.com>
 >=20
-> The crtc/plane/connector counterparts of
-> drm_atomic_get_private_obj_state() all WARN about a missing
-> acquire_ctx. Do the same in drm_atomic_get_private_obj_state()
+> drm_{crtc,plane,connector,private_obj}_get_state() must not
+> be called after the atomic check phase. At that point the commit
+> has been carved in stone and no new objects must be introduced
 >=20
 > [ ... ]
 
