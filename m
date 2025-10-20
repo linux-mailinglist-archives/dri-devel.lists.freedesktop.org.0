@@ -2,88 +2,83 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 07C7CBF3C32
-	for <lists+dri-devel@lfdr.de>; Mon, 20 Oct 2025 23:34:12 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 13ED9BF3787
+	for <lists+dri-devel@lfdr.de>; Mon, 20 Oct 2025 22:39:09 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1734C10E529;
-	Mon, 20 Oct 2025 21:34:09 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E40EA10E50F;
+	Mon, 20 Oct 2025 20:39:06 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="AyU4lpCm";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="Gt9QJ8VT";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pl1-f176.google.com (mail-pl1-f176.google.com
- [209.85.214.176])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D05CF10E529
- for <dri-devel@lists.freedesktop.org>; Mon, 20 Oct 2025 21:34:07 +0000 (UTC)
-Received: by mail-pl1-f176.google.com with SMTP id
- d9443c01a7336-29245cb814cso6126435ad.1
- for <dri-devel@lists.freedesktop.org>; Mon, 20 Oct 2025 14:34:07 -0700 (PDT)
+Received: from mail-ej1-f42.google.com (mail-ej1-f42.google.com
+ [209.85.218.42])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id AAB1010E50C
+ for <dri-devel@lists.freedesktop.org>; Mon, 20 Oct 2025 20:39:05 +0000 (UTC)
+Received: by mail-ej1-f42.google.com with SMTP id
+ a640c23a62f3a-b3c76f3703cso83392066b.3
+ for <dri-devel@lists.freedesktop.org>; Mon, 20 Oct 2025 13:39:05 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1760996047; x=1761600847; darn=lists.freedesktop.org;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=TIA8kHBtPk6GgWmqAWWXnwTpPlJ3gJjCHeq/XdJy1Q8=;
- b=AyU4lpCmGrxKOD3IbKwZB+A2cHtg46X9gvFDDUAQeXS/UoO17xmNqzof2Tdr6hmDNe
- uO9AIDmDv4551YT4jZblphVkn4tNahlV85El7cI+7NB1u0oFJAdbwI3mIZNxB3/QJiEu
- ydsbYQRZNGOaMk/nna41tdeZ1OKWTU5M+XixQW7ty4xfQuLBHkrclWeHBKyhWa2Rs5R3
- 3Pt1DPJ52lqZf0U3Vmxk+xpu2NiNm7lI6eg/4JbuLEJt0DbZyUr97vxMvnlmZs2jQXO7
- 6ASqvDEfOAoFbHeeZWsOsRYM3QGj8GFucSZKPSvo9dEaoSOv6oWVKnAaF/VsqN5oYEfS
- E8qg==
+ d=gmail.com; s=20230601; t=1760992744; x=1761597544; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:in-reply-to:from:content-language
+ :references:cc:to:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=I13zc6oy6n5wEThdTlFRQKlOHJB6pi47H7uQVP12yGs=;
+ b=Gt9QJ8VTLfkwMSVoJTCmWJtPiFxr0PHt6liIO6A84fpHSy7WarZ+WUTYLKLBAO8nmk
+ VmhSbp3Dwkg2id/s9Jo7y5ohGZV6hoJgaegYfPvcaO2MQ4m3HMKTUzUKbNOpKIE0AQh9
+ dRU2Ug+1oJd9v7ncDSUpE3NrI4q52OMqFxd/9R6DHLdr+H+oLWKc3X31JnUBqtveTkIV
+ HtUtfZVm4e6rrWaRuC8QSxFS9d28n+zbsHMEkQBnDQJngWH8EFtXArjUPQr4kPxDpTqH
+ 6PJ/CkydJbAi61uzoN5LrkBbOchH5zuRUdrKnj1gHa7aRVegPUCxnZYcB/9SKVIiEpzq
+ zvHQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1760996047; x=1761600847;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=TIA8kHBtPk6GgWmqAWWXnwTpPlJ3gJjCHeq/XdJy1Q8=;
- b=VKH7CzCfDsk6sMgSmWGeImNrl7gOKO1tOGPyD3zjj11E18DFDORweowpGXpG9vnrXd
- Yka5dtZWea8OJQv2FRCeqgi1Os6o9BuSsUw0eHP8EVLobhAWGZKHwxn2u+vf25WofA7w
- 4QV7SCNSQnTqr1Ka4Vegvad0gpUHL77rW36BxOCUSba7Ry9JXjK4qGG/fSLyewFYD4Zs
- m/d/5x/+3eQHeadlzu8zh5T1c/wlrPjMF7V0vTkduQfyKG3jrp/1cG9pCo6qfOBOf61d
- UMGrKgOri7I3eJC/AcxuhLQ5fq+uZ+ORIGLaKAkMTVIwl2Wa5Wyp1fvHxSVZimQ5oMn6
- JK9w==
-X-Forwarded-Encrypted: i=1;
- AJvYcCWlk0B1jNzOalQ5ID979HCuCwgOWtF0C0rvn7JQAsNhTSOwLbmlX4iR9wrOJafzFaJUQDwlTOpklpQ=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Yx6mOsS+hvC+n+tJWztaxeYXOMArZm3jvwrJojCrvOD8NmeUQZ4
- 6KXTrOopwBN+0YMXhefWPXDkXSPBY9n9czNCnGhhC1Lti0p0PK+n0VjLrrxLa1fj2DtY1bkIH48
- eWzh7WMFOyK/lyANjYkEgXuo69SSS0ok=
-X-Gm-Gg: ASbGncvfkZ6O+Rboh0liSK2pgbIob16g3pjTeUN4qgWcJQk08ah/DqW7RFOIXUy2pY2
- 2DK0gMJZrJ5Qcwy/hdFjohGBBGB97yl3ptw9Qmn+AbCOIdW3Gw/EUXsl8Gk/qeIzccmNOPoCBLp
- scb0BwbLsFKkYcrGHPZojkjh9IHTYwdJIwuw2v6JdA8jzh8hcJOh3BIQe5OvtiMjEZiXxJq53si
- Wtzq4+OU74t96oEAoVv6eXrMttw32CKK7bKzUHvDcQ59k6VdUMP00nR95p2JYTWtspaqyN1iFMZ
- kpDYL8kAaV87PN1TcuEdHHf5PWEcfbJGzC+fxf9rXRckqVOjGPTCzg+2/GY3PmL0miCBiYA+1yT
- zbd64qEFRlc/m9Q==
-X-Google-Smtp-Source: AGHT+IENeHKMjyzGTYHHZV28uVbTm7W0v2W0HGYIwZ1YpX54wVhZRXd1wDtmMhBidXjOzxTnYzIEdPK9TNFHSokqIok=
-X-Received: by 2002:a17:903:94e:b0:26a:3c75:5241 with SMTP id
- d9443c01a7336-292d3fcce91mr5493965ad.9.1760996047308; Mon, 20 Oct 2025
- 14:34:07 -0700 (PDT)
+ d=1e100.net; s=20230601; t=1760992744; x=1761597544;
+ h=content-transfer-encoding:in-reply-to:from:content-language
+ :references:cc:to:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=I13zc6oy6n5wEThdTlFRQKlOHJB6pi47H7uQVP12yGs=;
+ b=APEfYtsLF0VQ8ZTRc2pgsrJHA/ks7mg6VKwIdaNc9QNt/uhTCgrJf3xWMWHGpIEIW0
+ Ybg+4SU16K+dK1GzTFSl1pJBugv3HI6XaIrYhiBJPFgERvKE3fc4EspQ5t5Tg92CIWkJ
+ frkMpKbm6wl+CJIsCCQS0odFDJiHtNMRps94GILHnhsPUqPG/2oOsNcyqd5XEUn0G3SR
+ 9KHpYlTz46tu9It1AuQ32PKB7a/hqHC53spseQaA3dspS+xHwfTbt+t7xULu1CiZvsFl
+ KT+U27WQIrsK6HYqQx1M70aB4StuffAWRLAHRG4Xge/J+FrSVkNUAH2wJaiDXv05W0F8
+ /FOQ==
+X-Gm-Message-State: AOJu0YybsMm+fpit/KEuUVBqL2tzwcSQMnjrVzO3VmDii4hgh4VYRThM
+ Ycpf5qbMEwy/PtBVRCY786ikIans0xJBtP2KzE98g0+2SzadHHtkeD8x
+X-Gm-Gg: ASbGncvPqaQ5lI42Ef5n/RGCeqPXFVRRIDPRaArfUF7snJw3v9FpywxxFToqF2+xmNR
+ SOEbCa6p36savkmJileGUIxhU/uFhXMnynkr4AkFRfldA+bS0F/z0dERda4Tyj/W4N7kOuKMKtf
+ 2oLZH07b1Rz4tnXlWqXL4QqQ3m8MGH843igGV4PdGTBKOwbLHYxeQGfV/YOVFo/dWE57cvXxSQb
+ kry+VEPFr9/gLsylYYl0nGrPu7MZrbD+aqHa8yzPMu4/ZeKPEVmpt+RxEzFyjI3gtJQqsuSwyGP
+ kacucxDOtJQB4XSN8XUGePHMZs97j6uS/vUS8UkCIJf3E/D+2Hi8Zej8Z56c598uvbRhQcIfPi0
+ x/2u/FoV+/RbjO0O26CyfrQB/S5yLCEyz6jPx5KWlm70Kqj0jxbWEvOqvb4gjcOa/tOHQT9t32B
+ Z/X/wmBn7+9IWskPhUTXSnJ5kpALlw
+X-Google-Smtp-Source: AGHT+IHzlmKFJ8QvxM6XXCi3yDGc0o5ave5OzIak2mYRhAtf9x4ZklR2v8SH+Ts3J9IOPDUqUfvRMA==
+X-Received: by 2002:a17:907:9805:b0:b29:8743:81ef with SMTP id
+ a640c23a62f3a-b6c744b500bmr72625166b.0.1760992744003; 
+ Mon, 20 Oct 2025 13:39:04 -0700 (PDT)
+Received: from [192.168.1.105] ([165.50.73.64])
+ by smtp.gmail.com with ESMTPSA id
+ a640c23a62f3a-b65eb035d5fsm891116266b.44.2025.10.20.13.39.02
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 20 Oct 2025 13:39:03 -0700 (PDT)
+Message-ID: <e4f0290b-5d15-472f-acee-e1e1b0629ec0@gmail.com>
+Date: Mon, 20 Oct 2025 22:38:55 +0100
 MIME-Version: 1.0
-References: <20251020185539.49986-1-joelagnelf@nvidia.com>
- <20251020185539.49986-2-joelagnelf@nvidia.com>
-In-Reply-To: <20251020185539.49986-2-joelagnelf@nvidia.com>
-From: Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
-Date: Mon, 20 Oct 2025 23:33:54 +0200
-X-Gm-Features: AS18NWAADgBeA1nYLOcKyihsh6E3dmd5BWRM3ztrLw4uDz1-mBK39vAmoeM9Wwg
-Message-ID: <CANiq72nGPeLvrjQB-62Ht8TR7oWPgF9HFO=yPX7TT3faqxnNFg@mail.gmail.com>
-Subject: Re: [PATCH 1/7] docs: rust: Fix a few grammatical errors
-To: Joel Fernandes <joelagnelf@nvidia.com>
-Cc: linux-kernel@vger.kernel.org, rust-for-linux@vger.kernel.org, 
- dri-devel@lists.freedesktop.org, dakr@kernel.org, acourbot@nvidia.com, 
- Alistair Popple <apopple@nvidia.com>, Miguel Ojeda <ojeda@kernel.org>, 
- Alex Gaynor <alex.gaynor@gmail.com>, Boqun Feng <boqun.feng@gmail.com>, 
- Gary Guo <gary@garyguo.net>, bjorn3_gh@protonmail.com, 
- Benno Lossin <lossin@kernel.org>, Andreas Hindborg <a.hindborg@kernel.org>, 
- Alice Ryhl <aliceryhl@google.com>, Trevor Gross <tmgross@umich.edu>, 
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, 
- Thomas Zimmermann <tzimmermann@suse.de>, John Hubbard <jhubbard@nvidia.com>,
- Timur Tabi <ttabi@nvidia.com>, 
- joel@joelfernandes.org, Elle Rhumsaa <elle@weathered-steel.dev>, 
- Daniel Almeida <daniel.almeida@collabora.com>, nouveau@lists.freedesktop.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] drm/solomon: Use kmalloc_array() instead of kmalloc()
+To: Shuah Khan <skhan@linuxfoundation.org>, javierm@redhat.com,
+ maarten.lankhorst@linux.intel.com, mripard@kernel.org, tzimmermann@suse.de,
+ airlied@gmail.com, simona@ffwll.ch
+Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ david.hunter.linux@gmail.com, khalid@kernel.org,
+ linux-kernel-mentees@lists.linuxfoundation.org
+References: <20251019145927.167544-1-mehdi.benhadjkhelifa@gmail.com>
+ <2541f99c-1081-4253-ae58-97654694cd78@linuxfoundation.org>
+Content-Language: en-US
+From: Mehdi Ben Hadj Khelifa <mehdi.benhadjkhelifa@gmail.com>
+In-Reply-To: <2541f99c-1081-4253-ae58-97654694cd78@linuxfoundation.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -99,17 +94,53 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Oct 20, 2025 at 8:55=E2=80=AFPM Joel Fernandes <joelagnelf@nvidia.c=
-om> wrote:
->
-> Fix two grammatical errors in the Rust coding guidelines document.
->
-> Signed-off-by: Joel Fernandes <joelagnelf@nvidia.com>
+On 10/20/25 9:08 PM, Shuah Khan wrote:
+> On 10/19/25 08:58, Mehdi Ben Hadj Khelifa wrote:
+>> Replace kmalloc() with kmalloc_array() in several places to correctly
+>> handle array allocations and benefit from built-in overflow checking.
+>> This prevents potential integer overflows[1] when computing allocation
+>> sizes from width, height, pitch, or page values.
+>>
+>> [1]:https://docs.kernel.org/process/deprecated.html
+> 
+> Mu understanding is that this document lists deprecates APIs so people
+> don't keep adding new ones.
+> 
+> I didn't get the impression that we are supposed to go delete them from
+> the kernel and cause a churn.
+> 
+the document[1] specifically quotes the following:"
+Dynamic size calculations (especially multiplication) should not be 
+performed in memory allocator (or similar) function arguments due to the 
+risk of them overflowing. This could lead to values wrapping around and 
+a smaller allocation being made than the caller was expecting. Using 
+those allocations could lead to linear overflows of heap memory and 
+other misbehaviors. (One exception to this is literal values where the 
+compiler can warn if they might overflow. However, the preferred way in 
+these cases is to refactor the code as suggested below to avoid the 
+open-coded arithmetic.)"
+Specifically mentionned the refactor of the code base in such cases 
+which is why i'm doing the patches in the first place.Also i'm trying 
+the best to send patches related to the issue where such issues of 
+overflow are present or to be consistent with the same API used within 
+the same subsystem.
+[1]:https://docs.kernel.org/process/deprecated.html> How are you testing 
+these changes - do you have this hardware?
+> 
+>>
+I have a raspberrypi zero 2 wh that i'm using in combination with the 
+ssd1306 OLED panel via I2C to test it's rendering and it's working 
+properly by using modetest and seeing no regressions or warnings in dmesg.
 
-In general, please submit independent patches like this one
-independently, e.g. this should go through the Rust tree.
+Best Regards,
+Mehdi Ben Hadj Khelifa
 
-Thanks!
+>> Signed-off-by: Mehdi Ben Hadj Khelifa <mehdi.benhadjkhelifa@gmail.com>
+>> ---
+>>   drivers/gpu/drm/solomon/ssd130x.c | 6 +++---
+>>   1 file changed, 3 insertions(+), 3 deletions(-)
+>>
+> 
+> thanks,
+> -- Shuah
 
-Cheers,
-Miguel
