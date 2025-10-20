@@ -2,59 +2,76 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 045CEBF16DB
-	for <lists+dri-devel@lfdr.de>; Mon, 20 Oct 2025 15:06:30 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id BC6B8BF19CA
+	for <lists+dri-devel@lfdr.de>; Mon, 20 Oct 2025 15:47:32 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7E3D710E432;
-	Mon, 20 Oct 2025 13:06:27 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id EC0C410E27D;
+	Mon, 20 Oct 2025 13:47:30 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="J1jOkYyO";
+	dkim=pass (2048-bit key; unprotected) header.d=fooishbar.org header.i=@fooishbar.org header.b="dKBWkawh";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B37DE10E432
- for <dri-devel@lists.freedesktop.org>; Mon, 20 Oct 2025 13:06:26 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1760965586; x=1792501586;
- h=from:to:cc:subject:date:message-id:mime-version:
- content-transfer-encoding;
- bh=wAI0xMkSnbhaSLTqgomUxHh2ZZalda3QNhhiLBoAQgI=;
- b=J1jOkYyOw65Gl7I5dB68E30rH7C59DSgCMhxqOhoPfkR56Sm5nbL3yFR
- pH039HM7N5ALrYbRNfl53PurZGTB5op8YBLQSD1vRf9snz65BOxlYae5u
- gTOyQiso37YfrpZkL0mrFRH1vC5/Vjp84nYzyBMkM9ezbwK0qqr6pku1E
- 0SXFZUJVFuEB07yPPjA1QMy0aYCT1e5v0imk2JemS/2Aw2/dkAKLKzlZf
- 7mNF6TCDa2DWJemiglH8K3qd44ytXTGeQQpThp24OnUD6OTTEgX1FYIZQ
- gD9KT6/puRi5CKosYwFv1DcRQy2hkIIjOfvWt1w8vpgidw3stQxdV4fTz Q==;
-X-CSE-ConnectionGUID: nvzBDQDGRUqsQNTPryPj8g==
-X-CSE-MsgGUID: WTkcQEbCRze8zw3yqnO1KQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11586"; a="66942897"
-X-IronPort-AV: E=Sophos;i="6.19,242,1754982000"; d="scan'208";a="66942897"
-Received: from orviesa004.jf.intel.com ([10.64.159.144])
- by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 20 Oct 2025 06:06:26 -0700
-X-CSE-ConnectionGUID: 1WMr52nHQFe+l2MAr15/QQ==
-X-CSE-MsgGUID: DHmPvODTREu8wI8w65VIxg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.19,242,1754982000"; d="scan'208";a="187583943"
-Received: from b580.bj.intel.com ([10.238.152.130])
- by orviesa004-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 20 Oct 2025 06:06:23 -0700
-From: Junjie Cao <junjie.cao@intel.com>
-To: Thomas Zimmermann <tzimmermann@suse.de>, Simona Vetter <simona@ffwll.ch>,
- Helge Deller <deller@gmx.de>, Zsolt Kajtar <soci@c64.rulez.org>
-Cc: Albin Babu Varghese <albinbabuvarghese20@gmail.com>,
- linux-fbdev@vger.kernel.org, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, syzkaller-bugs@googlegroups.com,
- Junjie Cao <junjie.cao@intel.com>,
- syzbot+793cf822d213be1a74f2@syzkaller.appspotmail.com
-Subject: [PATCH v2] fbdev: bitblit: bound-check glyph index in bit_putcs*
-Date: Mon, 20 Oct 2025 21:47:01 +0800
-Message-ID: <20251020134701.84082-1-junjie.cao@intel.com>
-X-Mailer: git-send-email 2.48.1
+Received: from mail-qv1-f46.google.com (mail-qv1-f46.google.com
+ [209.85.219.46])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CB3FD10E27D
+ for <dri-devel@lists.freedesktop.org>; Mon, 20 Oct 2025 13:47:29 +0000 (UTC)
+Received: by mail-qv1-f46.google.com with SMTP id
+ 6a1803df08f44-87c1a760df5so90143416d6.1
+ for <dri-devel@lists.freedesktop.org>; Mon, 20 Oct 2025 06:47:29 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=fooishbar.org; s=google; t=1760968049; x=1761572849;
+ darn=lists.freedesktop.org; 
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=PKZZMRJedp+rsMnIrxlIXP5u4ASLGgSVqwDMmcqgOpA=;
+ b=dKBWkawhVKMzMKbVMqEjGBJe7CejQIt5wEdRpgijj+7rH/wviOowTFtiUIAaT54KJq
+ 2Ed8beWUeFSa9Gb2na46h/u4YI5aVagJjXcbQ+3/QFeERdx6ZF9Byo6eFkcS+E7H9WCs
+ s9na2jRZBrIMvdISxrLJhBH0EreVPIytwzqSnf2KP2ixajZNFxXfSkPAr4l7ad6f0IEq
+ CZmh9a0LqIswkoXqwO2Gd9mXqSu26u6Q0TEhnSx9CTQ+uGwFeTnN2l9nRsW1F0w3mySO
+ 66vxtf9iHcWEEsvclxsnVc0vIdae7gnIIUuHEhLZToMvMj/kVFDV8+co9ebaMvNmsbg/
+ 2w4g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1760968049; x=1761572849;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=PKZZMRJedp+rsMnIrxlIXP5u4ASLGgSVqwDMmcqgOpA=;
+ b=wX7svgTsQ9zLMFJNBzKWX660JaXGTTYZNm6UoPIHAZVsoGvCCkulFeKIOhc7I7YJOn
+ DIV+gFK6ARDpnRbT6FL2nXDani9vEvEIp/TWLHf2pWGaghh9m2iSPK+dQ6NWXmj+p4mS
+ pN9SDGmCAxr+hej+SswP2al1WJ2ygMzqpr9b4mn6T2/Uy/l/ikkO2V7kSxb1yn4hegrM
+ gboE0sGY68OWtib0t2lUhGU2Nr46Sjz645pOsDV7hpG28GH76QD+DIo0ZT6JVyMVOKxZ
+ Exn10tgK2t0gpfFZijM1Rukk572OIGlPqv3+gcXgdfBGpKKdLWjAyToW3l8f8JJNKWlX
+ DZiQ==
+X-Gm-Message-State: AOJu0YyBFr3axjOcKuiLi1oh1sDmz2Wi/v6yYZIAyEsMl/QyGT7PKaf7
+ aMZvZabEUI+mtwB2XQJn+q2Bf5NkodaKPD8ZoSnRF5Hl9pCtEzGViXu0avSAku5tohESG+tnq2Z
+ BNa2a7RJl4OMndUBrnJ0oPOHpYqcxu8cRy2ta4l8VLQ==
+X-Gm-Gg: ASbGncuBXPJ0OfTJ2X36aKpQmPqh0FTs16uzOO70XJc/zMdfp1WPs8dOsw28jhPRVTl
+ 8nzcQHC3mZxMTAxwSHDzMyAzYYpF5hpXBFdfXWpLOO+lsvv+9TGxBIQTrjGYgy12IERU+9pdH5H
+ er//Ct7wEdcsPxHmtOMHlWqRdUedVqKXDxPm8JD8IglfBgSmhEqRKSWHMu0xDIz+okddmrJ0cRp
+ QHPGClT4+v5iHGTRWzXvRn+s1YCwIyQUcxU/0HTWVdSa6u4sT1qGOh4C7aU
+X-Google-Smtp-Source: AGHT+IEnb3jLcZkFDQjKr/hsinDqFhBEWkF2GKiirCkzyc0lfgX5M31zvX+r+4+6Y68G44Rh++XEnKxlypZYhubFPJQ=
+X-Received: by 2002:ac8:5d0c:0:b0:4b7:8d26:5068 with SMTP id
+ d75a77b69052e-4e89d1d931amr163580051cf.17.1760968048673; Mon, 20 Oct 2025
+ 06:47:28 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20251015110042.41273-1-daniels@collabora.com>
+ <20251015110042.41273-7-daniels@collabora.com>
+ <26943126.6Emhk5qWAg@phil> <6535426.R56niFO833@phil>
+In-Reply-To: <6535426.R56niFO833@phil>
+From: Daniel Stone <daniel@fooishbar.org>
+Date: Mon, 20 Oct 2025 14:47:16 +0100
+X-Gm-Features: AS18NWCgqd3zZokt6jwa2aW8nEJhFag9WPKoss1venrEOp6eY7Q_I6V1in552vM
+Message-ID: <CAPj87rM=Zvg9HbJ71FCmbGXAe32R0B1yLwRwyS0ztEy6=aww_w@mail.gmail.com>
+Subject: Re: [PATCH 06/13] drm/rockchip: Switch impossible format conditional
+ to WARN_ON
+To: Heiko Stuebner <heiko@sntech.de>
+Cc: dri-devel@lists.freedesktop.org, Daniel Stone <daniels@collabora.com>, 
+ andy.yan@rock-chips.com, hjc@rock-chips.com, cristian.ciocaltea@collabora.com, 
+ kernel@collabora.com
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -70,70 +87,44 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-bit_putcs_aligned()/unaligned() derived the glyph pointer from the
-character value masked by 0xff/0x1ff, which may exceed the actual font's
-glyph count and read past the end of the built-in font array.
-Clamp the index to the actual glyph count before computing the address.
+Hi,
 
-This fixes a global out-of-bounds read reported by syzbot.
+On Mon, 20 Oct 2025 at 14:25, Heiko Stuebner <heiko@sntech.de> wrote:
+> Am Montag, 20. Oktober 2025, 15:10:31 Mitteleurop=C3=A4ische Sommerzeit s=
+chrieb Heiko Stuebner:
+> > Am Mittwoch, 15. Oktober 2025, 13:00:35 Mitteleurop=C3=A4ische Sommerze=
+it schrieb Daniel Stone:
+> > >     format =3D vop2_convert_format(fb->format->format);
+> > > -   if (format < 0)
+> > > -           return format;
+> > > +   /* We shouldn't be able to create a fb for an unsupported format =
+*/
+> > > +   WARN_ON(format < 0);
+> >
+> > What happened to Greg's
+> > "But don't add new WARN() calls please, just properly clean up and hand=
+le
+> > the error." [0]
+> >
+> > Also, switching to WARN_ON would then continue the atomic_check functio=
+n
+> > where it currently does exit with a real error code?
+>
+> So while I can live with WARN_ON as something that should never ever
+> happen
 
-Reported-by: syzbot+793cf822d213be1a74f2@syzkaller.appspotmail.com
-Closes: https://syzkaller.appspot.com/bug?extid=793cf822d213be1a74f2
-Tested-by: syzbot+793cf822d213be1a74f2@syzkaller.appspotmail.com
-Signed-off-by: Junjie Cao <junjie.cao@intel.com>
----
-v1: https://lore.kernel.org/linux-fbdev/5d237d1a-a528-4205-a4d8-71709134f1e1@suse.de/
-v1 -> v2:
- - Fix indentation and add blank line after declarations with the .pl helper
- - No functional changes
+Right, I'm following the clarifications from jgg and Kees in that
+thread, namely that WARN_ON is being used for 'how on earth did this
+happen, the code is somehow completely broken' situations that
+userspace should never be able to trigger under any circumstances.
 
- drivers/video/fbdev/core/bitblit.c | 16 ++++++++++++----
- 1 file changed, 12 insertions(+), 4 deletions(-)
+> I still think atomic_check should follow its function and report
+> the error upwards like:
+>
+> if (WARN_ON(format < 0))
+>   return format;
 
-diff --git a/drivers/video/fbdev/core/bitblit.c b/drivers/video/fbdev/core/bitblit.c
-index 9d2e59796c3e..085ffb44c51a 100644
---- a/drivers/video/fbdev/core/bitblit.c
-+++ b/drivers/video/fbdev/core/bitblit.c
-@@ -79,12 +79,16 @@ static inline void bit_putcs_aligned(struct vc_data *vc, struct fb_info *info,
- 				     struct fb_image *image, u8 *buf, u8 *dst)
- {
- 	u16 charmask = vc->vc_hi_font_mask ? 0x1ff : 0xff;
-+	unsigned int charcnt = vc->vc_font.charcount;
- 	u32 idx = vc->vc_font.width >> 3;
- 	u8 *src;
- 
- 	while (cnt--) {
--		src = vc->vc_font.data + (scr_readw(s++)&
--					  charmask)*cellsize;
-+		u16 ch = scr_readw(s++) & charmask;
-+
-+		if (ch >= charcnt)
-+			ch = 0;
-+		src = vc->vc_font.data + (unsigned int)ch * cellsize;
- 
- 		if (attr) {
- 			update_attr(buf, src, attr, vc);
-@@ -112,14 +116,18 @@ static inline void bit_putcs_unaligned(struct vc_data *vc,
- 				       u8 *dst)
- {
- 	u16 charmask = vc->vc_hi_font_mask ? 0x1ff : 0xff;
-+	unsigned int charcnt = vc->vc_font.charcount;
- 	u32 shift_low = 0, mod = vc->vc_font.width % 8;
- 	u32 shift_high = 8;
- 	u32 idx = vc->vc_font.width >> 3;
- 	u8 *src;
- 
- 	while (cnt--) {
--		src = vc->vc_font.data + (scr_readw(s++)&
--					  charmask)*cellsize;
-+		u16 ch = scr_readw(s++) & charmask;
-+
-+		if (ch >= charcnt)
-+			ch = 0;
-+		src = vc->vc_font.data + (unsigned int)ch * cellsize;
- 
- 		if (attr) {
- 			update_attr(buf, src, attr, vc);
--- 
-2.48.1
+Happy to do this if you prefer.
 
+Cheers,
+Daniel
