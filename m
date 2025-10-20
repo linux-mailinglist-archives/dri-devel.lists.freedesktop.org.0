@@ -2,34 +2,34 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id BC13CBEFEA7
+	by mail.lfdr.de (Postfix) with ESMTPS id E57C5BEFEA9
 	for <lists+dri-devel@lfdr.de>; Mon, 20 Oct 2025 10:26:15 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 048A910E31A;
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4255410E31C;
 	Mon, 20 Oct 2025 08:26:00 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; secure) header.d=sntech.de header.i=@sntech.de header.b="v2x/H7jj";
+	dkim=pass (2048-bit key; secure) header.d=sntech.de header.i=@sntech.de header.b="rDUON071";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from gloria.sntech.de (gloria.sntech.de [185.11.138.130])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 460AD10E316
- for <dri-devel@lists.freedesktop.org>; Mon, 20 Oct 2025 08:25:54 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 33C1510E313
+ for <dri-devel@lists.freedesktop.org>; Mon, 20 Oct 2025 08:25:55 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=sntech.de; 
  s=gloria202408;
  h=Content-Transfer-Encoding:MIME-Version:References:
  In-Reply-To:Message-ID:Date:Subject:Cc:To:From:Reply-To:Content-Type;
- bh=Yj6MA66tzVBn+KRYXc/UT/sYW9ZjhkSRMZ8pqWy1J7g=; b=v2x/H7jjQM2bM50tAt6guxmne9
- 3RK9T2Rp+ZjfBlQNhgis87jMVhX25x4gHOUTVHfePIjXqEfsS4SRzYGz3kYSzYzeSWbeGsPHmsbFE
- QQX60MsGnpDvBcgDf3SVjv8d1d5yQ2FCwsolFl5yNqZN6jgAbnJHJWJoeTdMmyLbUGWJMVaFd3u+A
- jG2bwh9VpTt3EMzFxgNOJgvXD08GuCM4wp64KueWM90+7WNMSQBOfeVXww+e+Rv676rupj8g+Y5jb
- fY8z6sE5jVmTwHDMIxRw/+5d7+kmZq1Kjfhgeciai5BRqCraZrA8yhQ1qAyfhC31+jLkbZ3AmAZ0z
- wJ1BOxAg==;
+ bh=CSwYSi0Xsz6tuPWeN+n3HczJ/oB9p6CTq0FVpTz/uaI=; b=rDUON071VRbe/08gmHCk5RdYAL
+ xRLUZXgv4qI3q0MXbZaqLw0BDKEq35NvtlrTQPtKZIOhDFr2tsQ4DGIoPim3KWPIy2n/2QUJkblGA
+ ZwYWKGFjcpTIt0gk4TAXd7vmPxOGdztVOH+5fxFjl8RS8oRrEOLMEBjLlbtloxGotqXlevqEQUzKI
+ mM3Hnn4lCdtV5iDEaJEcixDmmeCHOJXZeHN6RZXUH/s5VKOa+NtoTE5JrNhZ2yd4i6maSYYVK7H6Q
+ Bg/wiwNNONUN1IB74uWCGHV1Xo/N8QPvbVST/IGKwqJCQpO9w9eUcw01sML9idmV4brpV9KxG8VBg
+ tpGXMCyQ==;
 Received: from [141.76.253.240] (helo=phil.eduroam.local)
  by gloria.sntech.de with esmtpsa (TLS1.3) tls
  TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384 (Exim 4.94.2)
  (envelope-from <heiko@sntech.de>)
- id 1vAlCy-00078O-Ha; Mon, 20 Oct 2025 10:25:36 +0200
+ id 1vAlCy-00078O-U0; Mon, 20 Oct 2025 10:25:36 +0200
 From: Heiko Stuebner <heiko@sntech.de>
 To: heiko@sntech.de
 Cc: maarten.lankhorst@linux.intel.com, mripard@kernel.org, tzimmermann@suse.de,
@@ -39,9 +39,10 @@ Cc: maarten.lankhorst@linux.intel.com, mripard@kernel.org, tzimmermann@suse.de,
  linux-arm-kernel@lists.infradead.org, linux-rockchip@lists.infradead.org,
  linux-kernel@vger.kernel.org, cn.liweihao@gmail.com,
  Heiko Stuebner <heiko.stuebner@cherry.de>
-Subject: [PATCH 2/9] drm/rockchip: hdmi: add RK3368 controller variant
-Date: Mon, 20 Oct 2025 10:25:01 +0200
-Message-ID: <20251020082508.3636511-3-heiko@sntech.de>
+Subject: [PATCH 3/9] soc: rockchip: grf: Add select correct PWM implementation
+ on RK3368
+Date: Mon, 20 Oct 2025 10:25:02 +0200
+Message-ID: <20251020082508.3636511-4-heiko@sntech.de>
 X-Mailer: git-send-email 2.47.2
 In-Reply-To: <20251020082508.3636511-1-heiko@sntech.de>
 References: <20251020082508.3636511-1-heiko@sntech.de>
@@ -64,48 +65,31 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: Heiko Stuebner <heiko.stuebner@cherry.de>
 
-The RK3368 has only one VOP, so there is no source selection happening
-and the controller uses an internal phy for the HDMI output.
+Similar to the RK3288, the RK3368 has two different implementations of
+the PWM block inside the soc - the newer one that we have a driver for
+and that is used on every soc and a previous variant that was likely
+left as a fallback if the new one creates problems.
+
+The devicetree already is set up for the new variant, so make sure
+we actually use it - similar to the RK3288.
 
 Signed-off-by: Heiko Stuebner <heiko.stuebner@cherry.de>
 ---
- drivers/gpu/drm/rockchip/dw_hdmi-rockchip.c | 16 ++++++++++++++++
- 1 file changed, 16 insertions(+)
+ drivers/soc/rockchip/grf.c | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/drivers/gpu/drm/rockchip/dw_hdmi-rockchip.c b/drivers/gpu/drm/rockchip/dw_hdmi-rockchip.c
-index 7b613997bb50..95ff3fce97a3 100644
---- a/drivers/gpu/drm/rockchip/dw_hdmi-rockchip.c
-+++ b/drivers/gpu/drm/rockchip/dw_hdmi-rockchip.c
-@@ -467,6 +467,19 @@ static const struct dw_hdmi_plat_data rk3328_hdmi_drv_data = {
- 	.use_drm_infoframe = true,
+diff --git a/drivers/soc/rockchip/grf.c b/drivers/soc/rockchip/grf.c
+index 344870da7675..963cdea01ce7 100644
+--- a/drivers/soc/rockchip/grf.c
++++ b/drivers/soc/rockchip/grf.c
+@@ -91,6 +91,7 @@ static const struct rockchip_grf_info rk3328_grf __initconst = {
+ 
+ static const struct rockchip_grf_value rk3368_defaults[] __initconst = {
+ 	{ "jtag switching", RK3368_GRF_SOC_CON15, FIELD_PREP_WM16_CONST(BIT(13), 0) },
++	{ "pwm select", RK3368_GRF_SOC_CON15, FIELD_PREP_WM16_CONST(BIT(12), 1) },
  };
  
-+static struct rockchip_hdmi_chip_data rk3368_chip_data = {
-+	.lcdsel_grf_reg = -1,
-+};
-+
-+static const struct dw_hdmi_plat_data rk3368_hdmi_drv_data = {
-+	.mode_valid = dw_hdmi_rockchip_mode_valid,
-+	.mpll_cfg   = rockchip_mpll_cfg,
-+	.cur_ctr    = rockchip_cur_ctr,
-+	.phy_config = rockchip_phy_config,
-+	.phy_data = &rk3368_chip_data,
-+	.use_drm_infoframe = true,
-+};
-+
- static struct rockchip_hdmi_chip_data rk3399_chip_data = {
- 	.lcdsel_grf_reg = RK3399_GRF_SOC_CON20,
- 	.lcdsel_big = FIELD_PREP_WM16_CONST(RK3399_HDMI_LCDC_SEL, 0),
-@@ -507,6 +520,9 @@ static const struct of_device_id dw_hdmi_rockchip_dt_ids[] = {
- 	{ .compatible = "rockchip,rk3328-dw-hdmi",
- 	  .data = &rk3328_hdmi_drv_data
- 	},
-+	{ .compatible = "rockchip,rk3368-dw-hdmi",
-+	 .data = &rk3368_hdmi_drv_data
-+	},
- 	{ .compatible = "rockchip,rk3399-dw-hdmi",
- 	  .data = &rk3399_hdmi_drv_data
- 	},
+ static const struct rockchip_grf_info rk3368_grf __initconst = {
 -- 
 2.47.2
 
