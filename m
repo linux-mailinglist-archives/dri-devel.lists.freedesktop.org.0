@@ -2,128 +2,58 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A99F1BEFDB1
-	for <lists+dri-devel@lfdr.de>; Mon, 20 Oct 2025 10:14:32 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 568E7BEFDF2
+	for <lists+dri-devel@lfdr.de>; Mon, 20 Oct 2025 10:16:40 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D1BA710E278;
-	Mon, 20 Oct 2025 08:14:29 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 518C210E26E;
+	Mon, 20 Oct 2025 08:16:37 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="Gf2VOWhK";
+	dkim=pass (2048-bit key; secure) header.d=mailbox.org header.i=@mailbox.org header.b="hJhEqsul";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
- [205.220.168.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4599810E278
- for <dri-devel@lists.freedesktop.org>; Mon, 20 Oct 2025 08:14:28 +0000 (UTC)
-Received: from pps.filterd (m0279866.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 59JLu9dA004642
- for <dri-devel@lists.freedesktop.org>; Mon, 20 Oct 2025 08:14:28 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
- cc:content-transfer-encoding:content-type:date:from:in-reply-to
- :message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
- cqErHmEw+q0Gb9LguQ9gJqRnV0oxz5k7O/UGJB1RlIQ=; b=Gf2VOWhKCdH1LMKb
- 9l0Yyn6xFMW3W1lHdWbQ3AeeIsfo5zo199DqRLl+stxPOmwCJOYnrwV9L6z6Mqhq
- E+mB652cyDj/s5VjEzsHalsEwqQYEs7bJtwnWDsHkHDAJDKEgHBheuBOYuR7zkVN
- ZbyVSSb6/3LR2Y/mD+g0PULsaXtS8i0WIXA4oi1rV3PwKwsKpnV+6kuiuIj/9eiI
- Ll8+EwhEbUShIBW+ViBfAYsNYl468aRKFH02eyUVb2bFFIKbo7IYAnRg4t0iJK3u
- Rg9MV6ZHGek0UzbxkGR8d78d7en4ymOJs2Zv2M1KVpyw49/tujlnGFCpZbLDuteu
- xNgpmA==
-Received: from mail-pf1-f197.google.com (mail-pf1-f197.google.com
- [209.85.210.197])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 49v469byyy-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
- for <dri-devel@lists.freedesktop.org>; Mon, 20 Oct 2025 08:14:27 +0000 (GMT)
-Received: by mail-pf1-f197.google.com with SMTP id
- d2e1a72fcca58-77f1a7d00c9so944342b3a.0
- for <dri-devel@lists.freedesktop.org>; Mon, 20 Oct 2025 01:14:27 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1760948067; x=1761552867;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to:subject
- :user-agent:mime-version:date:message-id:x-gm-message-state:from:to
- :cc:subject:date:message-id:reply-to;
- bh=cqErHmEw+q0Gb9LguQ9gJqRnV0oxz5k7O/UGJB1RlIQ=;
- b=MJLirJhCcf6DUYcz1ZgDVuZjKbSm3I0FVdO3QQPQkDHO2Hkp4lcXbcly/MioA7rTy4
- G5APkcO/6/lQ+Y164cxB5YHIE3I6uSTIh9AUKfreYhiXc/DpfBzN/jAGM1+x8tWZwrRW
- ANhRL6Jo5puz2j2FOPk40ftksex3MpYy21+k4C4PdaZJjPAZS7BVmNaxuZxSe7Ah2rOz
- kZVDDY9tnDB488rak2bp1HOVnLL6lR0O+Q+Lus+3uoMPY3OSoGfNEDVLpiI/I/VeovR+
- ZIu5j0METxCgdlAYlB5kYK9W3K/Gp4BdX+/V22d7L6DExm0Zyt2Z4F+dO6Wu9hDVVbZz
- yYqA==
-X-Forwarded-Encrypted: i=1;
- AJvYcCVi2GMQKXfAhfXV0c23hHIgaurxjypXSdbXwujcFBw9SI5yC2W3GfkMg3w3tAmDHSiYrM92daBBx5A=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YzkOodH04ZFi5iRfQ7Bssgcxu2b7FvqZOUcyl5qFLOsbskEJho7
- uIgOceCdFJlmhUKg/TUTrt8wzm/Z4Y1NzCIWSwKRTIkIYSEPoySyEmsVb454ixKSvJFARgK+WIe
- 0LF61aw5+V6eR8cssP3voRtAzVQlA9Tpdblq5ugK3/jU3w80rIaLp1CRAo9Lr7IaDeahlDvs=
-X-Gm-Gg: ASbGnctCqWIs62YqCzjCHdpY7pSFBy91if11L75LQkk0zcFmNrrfC+xpEbZ4h6r3z4l
- eekEw0or2yM6HWNvvSjzEHGCI2faUkF1Ket3l9Pkpgu/sKmA5WIYXRWE468Xooqph4fKhfQDrax
- V6BgloPdOanjmniirZ3cDaph3pR5Y455M97y1PE+r39I5/oaMxGc2L7dBIqH8HqqcJ855EhEd5d
- llUffP+ViBIdZe9Ly3sLrlxcXQSoZkRhl6XWuW5fg5LDAcB8A24s8CnQsvyOsn9G84hYs+j6HKR
- Osz4dKVSy05I5rrNHqQYmluPJfs6cAFOC+3qF+IT9tZiIGtUTfSBNkbfTdPJ+Wlwu6V/z2BkBnC
- Afow76sf1wxlFOqSpkOrsnkF/BySSGKYQHN7SwCtHW+fFE5vaF3pjv1TWZ1IMBLh5nLc/9A==
-X-Received: by 2002:a05:6a00:3e17:b0:781:21db:4e06 with SMTP id
- d2e1a72fcca58-7a21fe23a9cmr7338924b3a.0.1760948066792; 
- Mon, 20 Oct 2025 01:14:26 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IEYG7VcpOs9/sXd8l28vPILUQQOWXIHteA2HclIXYOQtqaNMgzV91sC6BjxWGVMix8BHepUSw==
-X-Received: by 2002:a05:6a00:3e17:b0:781:21db:4e06 with SMTP id
- d2e1a72fcca58-7a21fe23a9cmr7338892b3a.0.1760948066367; 
- Mon, 20 Oct 2025 01:14:26 -0700 (PDT)
-Received: from [10.133.33.101] (tpe-colo-wan-fw-bordernet.qualcomm.com.
- [103.229.16.4]) by smtp.gmail.com with ESMTPSA id
- d2e1a72fcca58-7a22ff34b8bsm7573235b3a.22.2025.10.20.01.14.18
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 20 Oct 2025 01:14:26 -0700 (PDT)
-Message-ID: <eaca20a6-5aed-4870-b45f-e341d119db3a@oss.qualcomm.com>
-Date: Mon, 20 Oct 2025 16:14:14 +0800
+Received: from mout-p-102.mailbox.org (mout-p-102.mailbox.org [80.241.56.152])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id F0DB710E26E
+ for <dri-devel@lists.freedesktop.org>; Mon, 20 Oct 2025 08:16:35 +0000 (UTC)
+Received: from smtp1.mailbox.org (smtp1.mailbox.org
+ [IPv6:2001:67c:2050:b231:465::1])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested)
+ by mout-p-102.mailbox.org (Postfix) with ESMTPS id 4cqpDG2hBnz9vCS;
+ Mon, 20 Oct 2025 10:16:30 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org;
+ s=mail20150812; 
+ t=1760948190; h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=FHkUF9I8XPrkEDAfHoooluy54np847b+w31rMFkELbM=;
+ b=hJhEqsuldMq9F4+1DoaoG5GwLSPM/6KpRsZBoOv5/BBP96tFIoYNuNosrajwkVuD/GMhFn
+ N7aPlAnMJBYdyoCLgOwT4l70TjzQ9ZYbUFxdaGzftZeCIQeASja27Z3zrpka0GsSYzQl0U
+ C4Lz9qEeguC07xDScQ/tQBb1f+w1lW9R9A3VhUzCmQ0WyJQj0++H6M51AumQlWM5xuwgfd
+ +xLD+wdrMR/+LqNIPP9p8nrt6njleGJVGyX7fBkOlHJJASLYVKvHjZe4s3MFOqq6gWKnXw
+ mdT4bHtLgU7ZJGDkfJTzFP7UQBvfHqilLvEyH0gxxWpBUKp0ls06NNJZrKRk8g==
+Message-ID: <7b53f502aa0eaee4ffe4350621ddbcbfaafcad06.camel@mailbox.org>
+Subject: Re: [RFC PATCH] dma-fence: Remove 64-bit flag
+From: Philipp Stanner <phasta@mailbox.org>
+To: Matthew Brost <matthew.brost@intel.com>, Philipp Stanner
+ <phasta@kernel.org>
+Cc: Sumit Semwal <sumit.semwal@linaro.org>, Gustavo Padovan
+ <gustavo@padovan.org>, Christian =?ISO-8859-1?Q?K=F6nig?=
+ <christian.koenig@amd.com>, tursulin@ursulin.net,
+ linux-media@vger.kernel.org,  dri-devel@lists.freedesktop.org,
+ linaro-mm-sig@lists.linaro.org,  linux-kernel@vger.kernel.org
+Date: Mon, 20 Oct 2025 10:16:23 +0200
+In-Reply-To: <aPK04r1E7IbAZ9QY@lstrano-desk.jf.intel.com>
+References: <20251017093146.169996-2-phasta@kernel.org>
+ <aPK04r1E7IbAZ9QY@lstrano-desk.jf.intel.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v4 2/3] arm64: dts: qcom: Add DisplayPort and QMP USB3DP
- PHY for SM6150
-To: Krzysztof Kozlowski <krzk@kernel.org>,
- Rob Clark <robin.clark@oss.qualcomm.com>, Dmitry Baryshkov
- <lumag@kernel.org>, Abhinav Kumar <abhinav.kumar@linux.dev>,
- Jessica Zhang <jessica.zhang@oss.qualcomm.com>,
- Sean Paul <sean@poorly.run>,
- Marijn Suijten <marijn.suijten@somainline.org>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, Rob Herring <robh@kernel.org>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>, Bjorn Andersson <andersson@kernel.org>,
- Konrad Dybcio <konradybcio@kernel.org>
-Cc: linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org,
- freedreno@lists.freedesktop.org, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org, fange.zhang@oss.qualcomm.com,
- yongxing.mou@oss.qualcomm.com, li.liu@oss.qualcomm.com
-References: <20251015-add-displayport-support-to-qcs615-devicetree-v4-0-aa2cb8470e9d@oss.qualcomm.com>
- <20251015-add-displayport-support-to-qcs615-devicetree-v4-2-aa2cb8470e9d@oss.qualcomm.com>
- <13d1491a-2c5a-467d-bd55-01c0603a4b81@kernel.org>
-From: Xiangxu Yin <xiangxu.yin@oss.qualcomm.com>
-In-Reply-To: <13d1491a-2c5a-467d-bd55-01c0603a4b81@kernel.org>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Proofpoint-ORIG-GUID: NCHnoMuuabwHYGVMGKFPPNFZfDt0HNs-
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUxMDE4MDAzMiBTYWx0ZWRfX+TeAAYmVY0JI
- cpyipPVGe4St+zm/ybRt+9qoPcwLur7AW1NpyB1Ak8nrloVjOCtMeNtDYk1t17Yfft7MBOsuN5b
- AOVeOog2OrM7MT2dw8TJTNhBX6lQvBft1Dl+naaxJaA6ozd9UAyvp5XqDcui1igjhn0zYmdhPv3
- 3u+aW5yHI//28Eq4UEY7Gy7sCHX6IHZfyGqxtRoodrQr+/fmEDFqztO/TXFSmVO5iZ4lPJYAywW
- 2QlpkSIy4IRUCqAK81Cdq2FOq4KcQEH8Y3qGVeQ3MWm4JwB5WJnPXnTp+z9llH//Y1UIQDw8AOA
- GIrkxWtbqYcKaaIVvJzkuEied1IEA1HXrka4arIanW0OC7MdADWW0xBiDaDWx0kHRiIX4aE5lga
- yNoRih8KCAm9nqeVZFNAb6WDbXwlcQ==
-X-Authority-Analysis: v=2.4 cv=U8qfzOru c=1 sm=1 tr=0 ts=68f5ef63 cx=c_pps
- a=rEQLjTOiSrHUhVqRoksmgQ==:117 a=nuhDOHQX5FNHPW3J6Bj6AA==:17
- a=IkcTkHD0fZMA:10 a=x6icFKpwvdMA:10 a=VkNPw1HP01LnGYTKEx00:22
- a=EUspDBNiAAAA:8 a=teJiM7Ac5wN5jP0k6lIA:9 a=QEXdDO2ut3YA:10
- a=2VI0MkxyNR6bbpdq8BZq:22
-X-Proofpoint-GUID: NCHnoMuuabwHYGVMGKFPPNFZfDt0HNs-
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.9,FMLib:17.12.80.40
- definitions=2025-10-20_02,2025-10-13_01,2025-03-28_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- impostorscore=0 adultscore=0 bulkscore=0 malwarescore=0 priorityscore=1501
- spamscore=0 clxscore=1015 lowpriorityscore=0 phishscore=0 suspectscore=0
- classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.19.0-2510020000 definitions=main-2510180032
+X-MBO-RS-META: ckzj76w7pqjppcm86u6bngsnw17nh93a
+X-MBO-RS-ID: 9e37c173e6de09cda77
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -136,39 +66,112 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Reply-To: phasta@kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+On Fri, 2025-10-17 at 14:28 -0700, Matthew Brost wrote:
+> On Fri, Oct 17, 2025 at 11:31:47AM +0200, Philipp Stanner wrote:
+> > It seems that DMA_FENCE_FLAG_SEQNO64_BIT has no real effects anymore,
+> > since seqno is a u64 everywhere.
+> >=20
+> > Remove the unneeded flag.
+> >=20
+> > Signed-off-by: Philipp Stanner <phasta@kernel.org>
+> > ---
+> > Seems to me that this flag doesn't really do anything anymore?
+> >=20
+> > I *suspect* that it could be that some drivers pass a u32 to
+> > dma_fence_init()? I guess they could be ported, couldn't they.
+> >=20
+>=20
+> Xe uses 32-bit hardware fence sequence numbers=E2=80=94see [1] and [2]. W=
+e could
+> switch to 64-bit hardware fence sequence numbers, but that would require
+> changes on the driver side. If you sent this to our CI, I=E2=80=99m fairl=
+y
+> certain we=E2=80=99d see a bunch of failures. I suspect this would also b=
+reak
+> several other drivers.
 
-On 10/20/2025 1:11 AM, Krzysztof Kozlowski wrote:
-> On 15/10/2025 03:53, Xiangxu Yin via B4 Relay wrote:
->> From: Xiangxu Yin <xiangxu.yin@oss.qualcomm.com>
->>
->> Introduce DisplayPort controller node and associated QMP USB3-DP PHY
->> for SM6150 SoC. Add data-lanes property to the DP endpoint and update
->> clock assignments for proper DP integration.
->>
->> Signed-off-by: Xiangxu Yin <xiangxu.yin@oss.qualcomm.com>
->> ---
->>  arch/arm64/boot/dts/qcom/sm6150.dtsi | 113 ++++++++++++++++++++++++++++++++++-
->>  1 file changed, 111 insertions(+), 2 deletions(-)
->>
->> diff --git a/arch/arm64/boot/dts/qcom/sm6150.dtsi b/arch/arm64/boot/dts/qcom/sm6150.dtsi
->> index 6128d8c48f9c0807ac488ddac3b2377678e8f8c3..36a536cef99a095938f3e18a9b5e7825308ca426 100644
->> --- a/arch/arm64/boot/dts/qcom/sm6150.dtsi
->> +++ b/arch/arm64/boot/dts/qcom/sm6150.dtsi
->> @@ -17,6 +17,7 @@
->>  #include <dt-bindings/power/qcom-rpmpd.h>
->>  #include <dt-bindings/power/qcom,rpmhpd.h>
->>  #include <dt-bindings/soc/qcom,rpmh-rsc.h>
->> +#include <dt-bindings/phy/phy-qcom-qmp.h>
->
-> This is ordered, don't break it.
+What exactly breaks? Help me out here; if you pass a u32 for a u64,
+doesn't the C standard guarantee that the higher, unused 32 bits will
+be 0?
 
+Because the only thing the flag still does is do this lower_32 check in
+fence_is_later.
 
-Ok, will update.
+P.
 
+>=20
+> As I mentioned, all Xe-supported platforms could be updated since their
+> rings support 64-bit store instructions. However, I suspect that very
+> old i915 platforms don=E2=80=99t support such instructions in the ring. I=
+ agree
+> this is a legacy issue, and we should probably use 64-bit sequence
+> numbers in Xe. But again, platforms and drivers that are decades old
+> might break as a result.
+>=20
+> Matt
+>=20
+> [1] https://elixir.bootlin.com/linux/v6.17.1/source/drivers/gpu/drm/xe/xe=
+_hw_fence.c#L264
+> [2] https://elixir.bootlin.com/linux/v6.17.1/source/drivers/gpu/drm/xe/xe=
+_hw_fence_types.h#L51
+>=20
+> > P.
+> > ---
+> > =C2=A0drivers/dma-buf/dma-fence.c |=C2=A0 3 +--
+> > =C2=A0include/linux/dma-fence.h=C2=A0=C2=A0 | 10 +---------
+> > =C2=A02 files changed, 2 insertions(+), 11 deletions(-)
+> >=20
+> > diff --git a/drivers/dma-buf/dma-fence.c b/drivers/dma-buf/dma-fence.c
+> > index 3f78c56b58dc..24794c027813 100644
+> > --- a/drivers/dma-buf/dma-fence.c
+> > +++ b/drivers/dma-buf/dma-fence.c
+> > @@ -1078,8 +1078,7 @@ void
+> > =C2=A0dma_fence_init64(struct dma_fence *fence, const struct dma_fence_=
+ops *ops,
+> > =C2=A0		 spinlock_t *lock, u64 context, u64 seqno)
+> > =C2=A0{
+> > -	__dma_fence_init(fence, ops, lock, context, seqno,
+> > -			 BIT(DMA_FENCE_FLAG_SEQNO64_BIT));
+> > +	__dma_fence_init(fence, ops, lock, context, seqno, 0);
+> > =C2=A0}
+> > =C2=A0EXPORT_SYMBOL(dma_fence_init64);
+> > =C2=A0
+> > diff --git a/include/linux/dma-fence.h b/include/linux/dma-fence.h
+> > index 64639e104110..4eca2db28625 100644
+> > --- a/include/linux/dma-fence.h
+> > +++ b/include/linux/dma-fence.h
+> > @@ -98,7 +98,6 @@ struct dma_fence {
+> > =C2=A0};
+> > =C2=A0
+> > =C2=A0enum dma_fence_flag_bits {
+> > -	DMA_FENCE_FLAG_SEQNO64_BIT,
+> > =C2=A0	DMA_FENCE_FLAG_SIGNALED_BIT,
+> > =C2=A0	DMA_FENCE_FLAG_TIMESTAMP_BIT,
+> > =C2=A0	DMA_FENCE_FLAG_ENABLE_SIGNAL_BIT,
+> > @@ -470,14 +469,7 @@ dma_fence_is_signaled(struct dma_fence *fence)
+> > =C2=A0 */
+> > =C2=A0static inline bool __dma_fence_is_later(struct dma_fence *fence, =
+u64 f1, u64 f2)
+> > =C2=A0{
+> > -	/* This is for backward compatibility with drivers which can only han=
+dle
+> > -	 * 32bit sequence numbers. Use a 64bit compare when the driver says t=
+o
+> > -	 * do so.
+> > -	 */
+> > -	if (test_bit(DMA_FENCE_FLAG_SEQNO64_BIT, &fence->flags))
+> > -		return f1 > f2;
+> > -
+> > -	return (int)(lower_32_bits(f1) - lower_32_bits(f2)) > 0;
+> > +	return f1 > f2;
+> > =C2=A0}
+> > =C2=A0
+> > =C2=A0/**
+> > --=20
+> > 2.49.0
+> >=20
 
->
-> Best regards,
-> Krzysztof
