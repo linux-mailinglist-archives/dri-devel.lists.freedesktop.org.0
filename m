@@ -2,34 +2,34 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5800FBF28A4
-	for <lists+dri-devel@lfdr.de>; Mon, 20 Oct 2025 18:53:35 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2A3A1BF28AA
+	for <lists+dri-devel@lfdr.de>; Mon, 20 Oct 2025 18:53:37 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id ED72F10E484;
-	Mon, 20 Oct 2025 16:53:32 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E899910E487;
+	Mon, 20 Oct 2025 16:53:33 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="mt8x8Koh";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="P5BPbzKT";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1F81F10E484;
+Received: from sea.source.kernel.org (sea.source.kernel.org [172.234.252.31])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BD7D810E484;
  Mon, 20 Oct 2025 16:53:32 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by tor.source.kernel.org (Postfix) with ESMTP id 480FA6209F;
+ by sea.source.kernel.org (Postfix) with ESMTP id A49F948DBA;
+ Mon, 20 Oct 2025 16:53:32 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3310AC4CEF9;
  Mon, 20 Oct 2025 16:53:31 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 942E3C4CEFE;
- Mon, 20 Oct 2025 16:53:29 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1760979210;
- bh=NTNN3wwtEyiPMnu+I2XHXc/XM3jyZiRd3TIIAscmDFQ=;
+ s=k20201202; t=1760979212;
+ bh=1jA9mRZr/xXEpElZQP1h8QlFxHjPmdmKv3OcE+yAbS8=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=mt8x8Koh/LvecZ6pnOUPt7IVv3IL40j30WXV7SP6/ghDJV3c8dBhgB8HqwLEemZZ9
- G9DaMzfwssu2jnbRLmqgnH5+EslhalUMZ6jx3l/qN42h7hBmEx/e+Q7vHLh5/hhpad
- UVhbfHzzW0DqboYrjnGxjLYzLWTqQiR777Ua+fO5Faju2UDIFBnFuDZHjDgGM/urnY
- 4S47ToqU6dsHIRRqD50hCt8YU1W2NlRBQQFNSGrxEk8gMV31pu86xYRee6hpbkV1FC
- Ld+Qd8YKK3uOEurY7T5K06i5y9RsX94mex4zXwh8b0BUuxGHPbjDMnIkNlZEpT6rxp
- ahO/lWoU/BrKw==
+ b=P5BPbzKTtdf8ltLd6vsPjendOtYpNv+2vNL8tpUuiAQ2F9BC1wrODA+g3tHEXFL7o
+ XZ/tNKlvuqT+oivt+AUdp20dy0keXGArHwGWArXYFXX1pKajk5d81YuDZLSxMjOrzb
+ Wxc2iC5CyPuXFp87jMmSPRVsPvGf6FiX6LZ40G92jToZmid6VuJkGshE3SvpLRitM2
+ t8vIcP8WI5zFNJQxrcrvWBR46sY7FRLYFuk2CbR8Lxq8W9lwwBkCIUAa0hNsiDR3fZ
+ Xh+/AChcJGP4yfGKD5DyyWO++kuVXoICFPUeyjvJeBeWjLwunAlmnbZnLzpKgyGFWO
+ Uii3XVoKhx7Zw==
 From: "Mario Limonciello (AMD)" <superm1@kernel.org>
 To: mario.limonciello@amd.com, airlied@gmail.com, alexander.deucher@amd.com,
  christian.koenig@amd.com, dakr@kernel.org, gregkh@linuxfoundation.org,
@@ -37,9 +37,9 @@ To: mario.limonciello@amd.com, airlied@gmail.com, alexander.deucher@amd.com,
 Cc: Muhammad Usama Anjum <usama.anjum@collabora.com>,
  Mario Limonciello <superm1@kernel.org>, amd-gfx@lists.freedesktop.org,
  dri-devel@lists.freedesktop.org, linux-pm@vger.kernel.org
-Subject: [RFC 1/3] PM: Mark device as suspended if it failed to resume
-Date: Mon, 20 Oct 2025 11:50:47 -0500
-Message-ID: <20251020165317.3992933-2-superm1@kernel.org>
+Subject: [RFC 2/3] PM: Don't pass up device_resume() -EBUSY errors
+Date: Mon, 20 Oct 2025 11:50:48 -0500
+Message-ID: <20251020165317.3992933-3-superm1@kernel.org>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20251020165317.3992933-1-superm1@kernel.org>
 References: <20251020165317.3992933-1-superm1@kernel.org>
@@ -62,29 +62,32 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: Mario Limonciello <mario.limonciello@amd.com>
 
-If a device failed to resume the PM core treats it as though it
-succeeded.  This could cause state machine problems.
+If a device resume returns -EBUSY the device resume sequence has
+been skipped. Don't show errors for this or pass it up to async
+resume.  If resume is run again in another stage the device should
+try again.
 
 Cc: Muhammad Usama Anjum <usama.anjum@collabora.com>
 Signed-off-by: Mario Limonciello (AMD) <superm1@kernel.org>
 ---
- drivers/base/power/main.c | 3 +++
- 1 file changed, 3 insertions(+)
+ drivers/base/power/main.c | 4 +++-
+ 1 file changed, 3 insertions(+), 1 deletion(-)
 
 diff --git a/drivers/base/power/main.c b/drivers/base/power/main.c
-index e83503bdc1fdb..bf9c3d79c455f 100644
+index bf9c3d79c455f..f6bc7ef9a8371 100644
 --- a/drivers/base/power/main.c
 +++ b/drivers/base/power/main.c
-@@ -1104,6 +1104,9 @@ static void device_resume(struct device *dev, pm_message_t state, bool async)
- 	device_unlock(dev);
- 	dpm_watchdog_clear(&wd);
+@@ -1112,7 +1112,9 @@ static void device_resume(struct device *dev, pm_message_t state, bool async)
  
-+	if (error)
-+		dev->power.is_suspended = true;
-+
-  Complete:
- 	complete_all(&dev->power.completion);
+ 	TRACE_RESUME(error);
  
+-	if (error) {
++	if (error == -EBUSY)
++		pm_dev_dbg(dev, state, async ? " async" : "");
++	else if (error) {
+ 		WRITE_ONCE(async_error, error);
+ 		dpm_save_failed_dev(dev_name(dev));
+ 		pm_dev_err(dev, state, async ? " async" : "", error);
 -- 
 2.43.0
 
