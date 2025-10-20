@@ -2,62 +2,48 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1C405BF40EA
-	for <lists+dri-devel@lfdr.de>; Tue, 21 Oct 2025 01:44:56 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id E9EDCBF410E
+	for <lists+dri-devel@lfdr.de>; Tue, 21 Oct 2025 01:51:01 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C5E9410E541;
-	Mon, 20 Oct 2025 23:44:51 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BB81F10E53B;
+	Mon, 20 Oct 2025 23:50:59 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="eAAimqfx";
+	dkim=pass (2048-bit key; secure) header.d=canb.auug.org.au header.i=@canb.auug.org.au header.b="LHnt3nwT";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 917C210E0DA;
- Mon, 20 Oct 2025 23:44:50 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by tor.source.kernel.org (Postfix) with ESMTP id 9F0FE602F0;
- Mon, 20 Oct 2025 23:44:49 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2DA3AC4CEFB;
- Mon, 20 Oct 2025 23:44:43 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1761003889;
- bh=ErnMc4zfx6Bt1UKhR4J5JkX5muJWOlmyUseeP5/tWtw=;
- h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
- b=eAAimqfxlfQsE0eGwPHFXR/+HG/Yc8+ijhBPSbQAlE/j1yRwkdCqoEgGwyPAJlPRH
- +xLSqo9Oyd6sPdJSuYGMYtb6kTtV/4NEw2qx2zXVC/2KTrEX4zfAFFyQiISUHIzAqa
- q+W+gJdEeMW/58t8BdPexfKsWvhgnqsPv43w4cwH1DTNhGMspB57SPppK0gq+CxtPR
- 0oIG/kjbN5aE/uaXNE5Id4whpGTj3dotEVPddn9quwHKj5d3W/MILkyiNo9th+vOrm
- YLMIVyUTQ/uxbibrq0raEntSp22AHKJIulGH9nQ/NiEsJBhEQ3HLvIUBWAaVGOgLth
- sspme8NV03kyg==
-Message-ID: <059912ef-6023-4af4-a8df-f4b34fe98e71@kernel.org>
-Date: Tue, 21 Oct 2025 01:44:42 +0200
+Received: from mail.ozlabs.org (gandalf.ozlabs.org [150.107.74.76])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3D5EB10E53B;
+ Mon, 20 Oct 2025 23:50:57 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=canb.auug.org.au;
+ s=202503; t=1761004255;
+ bh=6WMm8tGMXSN99Y/9sHUeDqO796wa8ktuH4la28PIJ0E=;
+ h=Date:From:To:Cc:Subject:From;
+ b=LHnt3nwTHf2Fvf8j63TUEzOs8SSfIN6RLWlt0tY8CVVMBxSBogc1qtPJ04FrupIxT
+ X9DhsgkyrYLyZ2AMPpkDsagxOzzj5CRH864VvrDEUmI+LyzTEHoTs/ZtOoF2vf2G53
+ Qt7s5ona2efMhcS2+mmgHC3zkaU94cMvmaOvONY0olcnIpEoeAbR09k7Ol5UyiIhSs
+ 2iUyMQZ99lt3VT3fUfjfKpbu/NI6VghjnhzPSHuSfeqlsrehQnHwqR9n8AI7ZQ+rHu
+ w3+o/PWT4Tefv7cH7fJ6x4oMz+sDdfDzpq82NWfNsBOdUMcl7DxfWUj8x1lhVvBFan
+ xC+2e75l6O+2Q==
+Received: from authenticated.ozlabs.org (localhost [127.0.0.1])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (Client did not present a certificate)
+ by mail.ozlabs.org (Postfix) with ESMTPSA id 4crByQ2FJ3z4w9y;
+ Tue, 21 Oct 2025 10:50:54 +1100 (AEDT)
+Date: Tue, 21 Oct 2025 10:50:53 +1100
+From: Stephen Rothwell <sfr@canb.auug.org.au>
+To: Simona Vetter <simona.vetter@ffwll.ch>, Intel Graphics
+ <intel-gfx@lists.freedesktop.org>, DRI <dri-devel@lists.freedesktop.org>
+Cc: Alok Tiwari <alok.a.tiwari@oracle.com>, Daniel Stone
+ <daniels@collabora.com>, Heiko Stuebner <heiko@sntech.de>, Linux Kernel
+ Mailing List <linux-kernel@vger.kernel.org>, Linux Next Mailing List
+ <linux-next@vger.kernel.org>
+Subject: linux-next: manual merge of the drm-misc tree with Linus' tree
+Message-ID: <20251021105053.54ff847e@canb.auug.org.au>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v7.1 0/4] bitfield initial refactor within nova-core
- (RESEND)
-To: Alexandre Courbot <acourbot@nvidia.com>
-Cc: Joel Fernandes <joelagnelf@nvidia.com>, linux-kernel@vger.kernel.org,
- rust-for-linux@vger.kernel.org, dri-devel@lists.freedesktop.org,
- Alistair Popple <apopple@nvidia.com>, Miguel Ojeda <ojeda@kernel.org>,
- Alex Gaynor <alex.gaynor@gmail.com>, Boqun Feng <boqun.feng@gmail.com>,
- Gary Guo <gary@garyguo.net>, bjorn3_gh@protonmail.com,
- Benno Lossin <lossin@kernel.org>, Andreas Hindborg <a.hindborg@kernel.org>,
- Alice Ryhl <aliceryhl@google.com>, Trevor Gross <tmgross@umich.edu>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- John Hubbard <jhubbard@nvidia.com>, Timur Tabi <ttabi@nvidia.com>,
- joel@joelfernandes.org, Elle Rhumsaa <elle@weathered-steel.dev>,
- Yury Norov <yury.norov@gmail.com>,
- Daniel Almeida <daniel.almeida@collabora.com>, nouveau@lists.freedesktop.org
-References: <20251016151323.1201196-1-joelagnelf@nvidia.com>
- <DDLHP1ABV9BA.3V0NXW3RWHGL6@nvidia.com>
-From: Danilo Krummrich <dakr@kernel.org>
-Content-Language: en-US
-In-Reply-To: <DDLHP1ABV9BA.3V0NXW3RWHGL6@nvidia.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: multipart/signed; boundary="Sig_/tJIz+ZoMW=1Eb8W2GTxasgC";
+ protocol="application/pgp-signature"; micalg=pgp-sha256
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -73,34 +59,53 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 10/18/25 3:41 PM, Alexandre Courbot wrote:
-> On Fri Oct 17, 2025 at 12:13 AM JST, Joel Fernandes wrote:
->> (Resending due to some commit message mistakes (missing SOB etc). Thanks!).
->>
->> These patches implement the initial refactoring and few improvements to the
->> register and bitfield macros. Rebased on drm-rust-next.
->>
->> Main difference from the previous series [1] is dropped the moving out of
->> nova-core pending BoundedInt changes:
->> https://lore.kernel.org/all/20251003154748.1687160-1-joelagnelf@nvidia.com/
->> Other than that, added tags, resolved conflict with kernel::fmt changes and
->> rebased on drm-rust-next.
-> 
-> Thanks, this version is looking pretty good, and works as intended.
-> 
-> I plan on pushing these 4 patches soonish after fixing the line length
-> issues and the other few problems reported by checkpatch.
-> 
-> Danilo, please let me know if you think this is premature, but imho it
-> is good to set this part in stone to avoid merge conflicts with future
-> patches that will want to modify the register macro.
+--Sig_/tJIz+ZoMW=1Eb8W2GTxasgC
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: quoted-printable
 
-SGTM, we can keep discussing the hi:lo ascending / descending topic for
-nova-core independently.
+Hi all,
 
-However, for the sample code that, eventually, we'll move out of nova-core, we
-should stick to what's common.
+Today's linux-next merge of the drm-misc tree got a conflict in:
 
-With that,
+  drivers/gpu/drm/rockchip/rockchip_drm_vop2.c
 
-Acked-by: Danilo Krummrich <dakr@kernel.org>
+between commit:
+
+  7f38a1487555 ("drm/rockchip: vop2: use correct destination rectangle heig=
+ht check")
+
+from Linus' tree and commit:
+
+  4e39740d77e9 ("drm/rockchip: Use temporary variables")
+
+from the drm-misc tree.
+
+I fixed it up (the latter includes a fixe for the same bug as the former,
+so I just used the latter) and can carry the fix as necessary. This
+is now fixed as far as linux-next is concerned, but any non trivial
+conflicts should be mentioned to your upstream maintainer when your tree
+is submitted for merging.  You may also want to consider cooperating
+with the maintainer of the conflicting tree to minimise any particularly
+complex conflicts.
+
+--=20
+Cheers,
+Stephen Rothwell
+
+--Sig_/tJIz+ZoMW=1Eb8W2GTxasgC
+Content-Type: application/pgp-signature
+Content-Description: OpenPGP digital signature
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEENIC96giZ81tWdLgKAVBC80lX0GwFAmj2yt0ACgkQAVBC80lX
+0GwRPAf/aMgl2aVqnn3/SwRSgh4vAs86r4ROY28j+VG56aN4uv2MP7plXxSXDvxf
+9EwcbFpKK0ARXt45X4YzwhIO3It3pNUa9qR4CJ2UR+qxBX8JsbEXbiixS1BzZCha
+2LWrYoBaKrprGoSkH3xkjNDZBfqdrarRnaHH8GQhMY4hMGKGxaiTfsGlDkuWzAoY
+Va1FEnM4dOiTGuI4yE4P57oZ6TpeksIAMpkIftseseZcOiNz2soPdQSD9eCWl3kN
+KpL6n6AGKwJn4A6uZfql4wIVU3Am3TJIEhiS6BmwvKJ0aXQlr/Gfa8vIWu01pbzn
+toiPHIcG+rchJiCI26zFOaGwV1MkEA==
+=pG4z
+-----END PGP SIGNATURE-----
+
+--Sig_/tJIz+ZoMW=1Eb8W2GTxasgC--
