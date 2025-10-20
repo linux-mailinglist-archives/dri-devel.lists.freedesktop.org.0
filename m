@@ -2,67 +2,67 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id EC964BF35F5
-	for <lists+dri-devel@lfdr.de>; Mon, 20 Oct 2025 22:22:06 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 40C36BF3613
+	for <lists+dri-devel@lfdr.de>; Mon, 20 Oct 2025 22:22:58 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 24B4410E4FA;
-	Mon, 20 Oct 2025 20:22:05 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 691F910E4FC;
+	Mon, 20 Oct 2025 20:22:56 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="CxaiV6k+";
+	dkim=pass (1024-bit key; unprotected) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="byZuqLCq";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-il1-f182.google.com (mail-il1-f182.google.com
- [209.85.166.182])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 65C3710E4FA
- for <dri-devel@lists.freedesktop.org>; Mon, 20 Oct 2025 20:22:03 +0000 (UTC)
-Received: by mail-il1-f182.google.com with SMTP id
- e9e14a558f8ab-430d7638d27so18859745ab.3
- for <dri-devel@lists.freedesktop.org>; Mon, 20 Oct 2025 13:22:03 -0700 (PDT)
+Received: from mail-io1-f46.google.com (mail-io1-f46.google.com
+ [209.85.166.46])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C85D610E4FB
+ for <dri-devel@lists.freedesktop.org>; Mon, 20 Oct 2025 20:22:54 +0000 (UTC)
+Received: by mail-io1-f46.google.com with SMTP id
+ ca18e2360f4ac-93bccd4901aso414413239f.2
+ for <dri-devel@lists.freedesktop.org>; Mon, 20 Oct 2025 13:22:54 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linuxfoundation.org; s=google; t=1760991722; x=1761596522;
+ d=linuxfoundation.org; s=google; t=1760991774; x=1761596574;
  darn=lists.freedesktop.org; 
  h=content-transfer-encoding:in-reply-to:from:content-language
  :references:cc:to:subject:user-agent:mime-version:date:message-id
  :from:to:cc:subject:date:message-id:reply-to;
  bh=Mg4rdzF03I9VKfQ6A0u6ZEt7ExfErvnSo3bCDGro3gQ=;
- b=CxaiV6k+Dm79TfuvFBFjh2UgVlprsIMddPIEkJbUzLogsyGlDWqx5VkqK3RZOkwCpG
- H/YAtNq29S6aCog1jr073Q5fASNWH/n+N1lzVbDgbuTIUZYFcMmJBdurezlmB6ZSiB2p
- VbD67GCMvslmpcZeOXRRHvMWGrlQXGgChsc+Y=
+ b=byZuqLCqcu0Zo3lN3L+L0VsBmMgn4ERUKC3uvYRFXPBFIGQZ5mi4rIgWWCw4KKCwlf
+ gKpaxhr+fi+w79TGWTRuLE+Cy9w+ZH0AJoYzhU/ffvKsMDqq6Rt2/0CipYoJR6seJ2JH
+ 3W4lpYQT8d1+gicvmfNwqQ5cVZDbYXIfGVrH0=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1760991722; x=1761596522;
+ d=1e100.net; s=20230601; t=1760991774; x=1761596574;
  h=content-transfer-encoding:in-reply-to:from:content-language
  :references:cc:to:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
  bh=Mg4rdzF03I9VKfQ6A0u6ZEt7ExfErvnSo3bCDGro3gQ=;
- b=ChTjD12nyPsdxLjR6aULmbMUEF4ejTSZhecaloqEBxJXLfo4B2V43+eHKWpzu6d2dY
- MjMZQ+LF0/ePcWU5XHcyTx7+cVESpVsTk3Lx115veXK4BgRqOMRKaRYrFiX7FYtSSP97
- JWTrrsQrDvRSmf3LV6OWUsOu58w7z3GINPmV62lydqcqjZrLHZ0R3+YYl6HdOCdcryZH
- RiUADcnrFHh6J+d9mAuJalgcDd+yvIaQavlgt5HrrftMZNtLUthACa8aUw9L3TgLJh4L
- SYcKoQD3N4wewJoDQYBFNWQuTRn6uCFVBCa2K80AmgUGwOJ+txe913iMJFnGV6N9GZcB
- D1Jg==
+ b=gwUzWh8kMeaYwM+6TRjCf9Q/HwtPPlMl+YKQfBiC3SNP5xwFh8vWBnKqrNJvCrqr5j
+ ws+PeIY26bk7fBDrJAleioGkYOdB983tOWkPuNG3ctLmnMxPVgHOQCGEruTafP1oWWz2
+ c8feM6aqpkAqeJyN317/He9qHW2M5ZQ7Eoi75Csv/ogQ5HX4FWxibdULW8jtDooirfH8
+ YBNnKyPrTOgyBG3/BDmR4FJ0nbbTigbzuD8HvlG3ZpOItbyCoKgt4pd5ncu+qaoYo66d
+ cXp42hFtzqjnHyahMg7fnkxxSl8lrwvOtR6ozNpD3bkWIKNidyvY1vl/ot2szbV12MsX
+ v+3A==
 X-Forwarded-Encrypted: i=1;
- AJvYcCX86AaIgjSCFmi+R57e1vXKFHw/thsE1x+jmI6D4NtfLSd5TdO1ei/EekT6ExydvjjNKqAl1jp9FOM=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YxkStYmUUs0SfqFhIqY0fOxkIOTIiJO1dOeQatqyOdFcjlRC+Wv
- dj63VW0ittUL0wHOdFBkafY6dt7EC4o8Pd8fFdQlR7G0NYXJBmEYzD9bHitmIlJQhaA=
-X-Gm-Gg: ASbGncuhcKCMf9O2OHVFlC2Mqh/Zxpj12tmSzKe9K7M8jglhmIFIYiXiIogB7fpD+mT
- o8mwqDhX9OsyClqpn/G+9DYtUL7tnmjQQfpDBaa4KWN7cJrowhiZXrMtxhw3Dx0Ey+LUcUj6Q1h
- 8BEssOAmjr46cvSSQ1c3RBOPWsDL6S388IAnXgjmgMJnHqRrPofDiuGxr+otQFhceNnokXy/tDo
- kVG9nu/znoIGtKGip4L9KCMwJPhW8Y3HncwhAiB+FZOBDA3dcFS4DvCyIlHe23Lo94rldpQaJ/l
- IBZ1yNEm9y459aeAdw8Ez26bF97wpxZ/WRp4u4sHXeiPqZQl2oISnZA3OxpAUoTmZxZv6Hgf9zb
- lmfC/2cZt2pda29eZEqg3131i9qW9ICBofNa6KLii/sT5tbkUYoSj1FF9niF0VF9mchSy5P4uYx
- LPaxCh2elwodRr
-X-Google-Smtp-Source: AGHT+IEx/5ik37vP/1BDBpbyZ9iaSfWbLzs622j+5vpvMwxWidniwm4iTR3/qfu+5Q474PGa8wVHGQ==
-X-Received: by 2002:a05:6e02:1d9d:b0:430:a538:25e7 with SMTP id
- e9e14a558f8ab-430c52cae26mr231351515ab.29.1760991722165; 
- Mon, 20 Oct 2025 13:22:02 -0700 (PDT)
+ AJvYcCUNGQNchLqd6K4/mRVkbnae5tbV0qkyMOtpstQmAgbBzif9QauPpDEwe+lOsxmcrLW46dN9SUlO3Bg=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YxTmtU4VrVfZLHGjc93pkPHL+fz2cjJxiEGGEcIWdVgX+zE0rWC
+ ZYmrMCIl8g2PA3xEMbrLD9nbNnYHtthldjE7ec5r8TtnEiUHsZp+zXwdvHYUI9lcawg=
+X-Gm-Gg: ASbGncu7XUlPSQyOPzXi+fkYUi17wwXP8fLdVHsIyQth44mGWAvkjizgmLoCoKG9vCi
+ d3/VWfJ6u6cVSHXepDp81wzNVP9PZ706u/GM28r1wPye//YIHU5Aip2m8F6VgHCfBl8VntkhpO3
+ NtrUvDDQS5NjB4pbe2J7wqR09PNp3tZgSIvTu0RYfNp1sNyNVdF+gN5/6kMTq/nPMaAJbCBGt76
+ 1e4ODGYZ1ueaD3TD3eSbo7H4FoqkwbgkCJ2VC9Vg0aumXWcho4FyG/Wx6ANJ4kvXeQQ+MLOPQnm
+ yoMMdfApD8t5mLDLSJcGaT+F3SwiMm/NnblzuuCyDf4gJvsG6PHp6r1qK6DJuB2V6nge44S2ilH
+ VcilIS6wXrZjim53H1/rpDl6socgQr1ThoY20GEcpPYKaffslU20hbPfksWoCvtOpEkiiTrgpg6
+ 4AdnIqOxKvqy0eOZluaAZI7bU=
+X-Google-Smtp-Source: AGHT+IH3lraseKHKDfkvaNbqZdA/pDcJuk3ieKtNJ64spgnZ1oKvXWo8ZrnWbAQWu1y8fgRUWB7mKQ==
+X-Received: by 2002:a05:6602:3f91:b0:887:6ce4:8e07 with SMTP id
+ ca18e2360f4ac-93e763ccef2mr2303274739f.9.1760991773699; 
+ Mon, 20 Oct 2025 13:22:53 -0700 (PDT)
 Received: from [192.168.1.14] ([38.175.187.108])
  by smtp.gmail.com with ESMTPSA id
- 8926c6da1cb9f-5a8a973ec13sm3238979173.38.2025.10.20.13.22.01
+ ca18e2360f4ac-93e8661d228sm327198839f.1.2025.10.20.13.22.52
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 20 Oct 2025 13:22:01 -0700 (PDT)
-Message-ID: <dbe75986-348a-4835-ad18-b7545694dfba@linuxfoundation.org>
-Date: Mon, 20 Oct 2025 14:22:00 -0600
+ Mon, 20 Oct 2025 13:22:53 -0700 (PDT)
+Message-ID: <21415b1d-17c0-42a0-961c-a4aee16d20d1@linuxfoundation.org>
+Date: Mon, 20 Oct 2025 14:22:52 -0600
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
 Subject: Re: [PATCH] drm/tiny: Use kmalloc_array() instead of kmalloc()
