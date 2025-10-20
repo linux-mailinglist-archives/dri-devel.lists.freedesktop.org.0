@@ -2,93 +2,80 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6E92FBF0671
-	for <lists+dri-devel@lfdr.de>; Mon, 20 Oct 2025 12:06:08 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7B9BBBF05D5
+	for <lists+dri-devel@lfdr.de>; Mon, 20 Oct 2025 12:02:15 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8B79210E3BF;
-	Mon, 20 Oct 2025 10:06:06 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C550C10E392;
+	Mon, 20 Oct 2025 10:02:11 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=ew.tq-group.com header.i=@ew.tq-group.com header.b="o//5y2uZ";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="R/LWpNQW";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 403 seconds by postgrey-1.36 at gabe;
- Mon, 20 Oct 2025 10:06:03 UTC
-Received: from mx-relay90-hz2.antispameurope.com
- (mx-relay90-hz2.antispameurope.com [94.100.136.190])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BC34610E3BF
- for <dri-devel@lists.freedesktop.org>; Mon, 20 Oct 2025 10:06:03 +0000 (UTC)
-ARC-Authentication-Results: i=1; mx-gate90-hz2.hornetsecurity.com 1; spf=pass
- reason=mailfrom (ip=94.100.132.6,
- headerfrom=ew.tq-group.com)
- smtp.mailfrom=ew.tq-group.com
- smtp.helo=hmail-p-smtp01-out03-hz1.hornetsecurity.com; dmarc=pass
- header.from=ew.tq-group.com orig.disposition=pass
-ARC-Message-Signature: a=rsa-sha256;
- bh=Vy47wkPi9vz9nd/Ubb0WzYYj5086de9de6TtEsO3Zns=; c=relaxed/relaxed;
- d=hornetsecurity.com; h=from:to:date:subject:mime-version:; i=1; s=hse1;
- t=1760954338;
- b=kcmPXfjv8wIpdVidk0/Kl1CjlQKOIPgrh+CbmG9Z1VT8OQ8vlx3H/B34vh9nxaUyhENQcNH9
- tn9eJmUGxV8FvWFg7d4PTEqQuo0BkIe/YD+Uil3oHi+XqwhmyQ/yzUbpTGx/0YeRQ75Zlc4Ns+p
- aXB/cfQr8gxfr9i53vSaI/h/M8zM49hEa6hLaedSEFgMJhIN4sIO18WfOOCPr4shD+7BIn32pKO
- nEJtacW11zoJQdYYH4VUQMGm+eMTF2ZRTwHVs6XN6cAcrJil32fr4pchy592GOoOO95ThyYXgOn
- ibTC7+4TjfmMH+oYZFJCv3uZA2WUsWCh/TS5vPmgXmuYw==
-ARC-Seal: a=rsa-sha256; cv=none; d=hornetsecurity.com; i=1; s=hse1;
- t=1760954338;
- b=OY0eL3xcj1VtpgOr9FiI2Quhf6vOcxaqS+37dammMgFg0+mikmgYStNE2V54rUkV+fGEgDlz
- 4HVfeLGttQWh/MMVEuXgDp2rNYSzQH6RnkVJ57XKdHEjsUWBWlGmTNNEmsxuuYFpnuuRsrfWbjT
- xJFmIIahmvwuvoW1yvfrYn4zfxVHTw4X3azaZKLBC5AXALsyrd88/PlRZCLgOg3zazxPtw5OSso
- 4rhCcl/Lb7my34Bi0ZjCUjsUxhtjrYBp2Jj8Uwz8IjTSTFsuGADHZLjocleedWh6g41MdtE18WQ
- hR0V1oS+S0BsKwKVUv6Sg85RuZxUfBLSca76F/4d0V++Q==
-Received: from he-nlb01-hz1.hornetsecurity.com ([94.100.132.6]) by
- mx-relay90-hz2.antispameurope.com; Mon, 20 Oct 2025 11:58:57 +0200
-Received: from steina-w.tq-net.de (host-82-135-125-110.customer.m-online.net
- [82.135.125.110])
- (Authenticated sender: alexander.stein@ew.tq-group.com)
- by hmail-p-smtp01-out03-hz1.hornetsecurity.com (Postfix) with ESMTPSA id
- 88256CC0DD7; Mon, 20 Oct 2025 11:58:49 +0200 (CEST)
-From: Alexander Stein <alexander.stein@ew.tq-group.com>
-To: Marek Vasut <marex@denx.de>, Stefan Agner <stefan@agner.ch>,
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5DB9810E145
+ for <dri-devel@lists.freedesktop.org>; Mon, 20 Oct 2025 10:02:10 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1760954530; x=1792490530;
+ h=date:from:to:cc:subject:message-id:references:
+ mime-version:in-reply-to;
+ bh=7OgHgc7V9jCA/aH/wZmpPfoG6Zo6Xb08lXUbbydETp4=;
+ b=R/LWpNQWWM3L/XZmBjliJSsO0Y2An53b0bOdONEg7N9VGNJFYSWDt23e
+ AsmhspAJFEUbQjJVVft4XzkgKgeXGXDBq9KITZ3DPvzNi8pHZ1wF1UBG8
+ x+MGxlflHLObPtaRN3ws+W3MOVurm1yub6CUBnH/FO8TUnL6e6XzbPI6C
+ ODBwbfbEo/JbH63LyDK4IKDoFl9MhdcLx55zURZuY3wWh2iQ+chRHEnK0
+ njSS37aoEigSFiA05dkn0zIsaUQV7d/jdxsfVPyVOD4akZ1MSu0EQyXb6
+ VMOAKJzlkCoc1y8er3EAM6j1GyCylAtpxZXAtUIpkifQ9HFPoKmUvl7UT A==;
+X-CSE-ConnectionGUID: WgmCEL9wRnu3tMiSWkzTSQ==
+X-CSE-MsgGUID: iF59UIAlSwuTas9Me2fdew==
+X-IronPort-AV: E=McAfee;i="6800,10657,11587"; a="62276020"
+X-IronPort-AV: E=Sophos;i="6.19,242,1754982000"; d="scan'208";a="62276020"
+Received: from orviesa008.jf.intel.com ([10.64.159.148])
+ by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 20 Oct 2025 03:02:10 -0700
+X-CSE-ConnectionGUID: Rbwng+eMQgabSBT8iqlHxg==
+X-CSE-MsgGUID: 5PEY46adTHK0yIfKFWIaWg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.19,242,1754982000"; d="scan'208";a="183308787"
+Received: from aschofie-mobl2.amr.corp.intel.com (HELO kuha.fi.intel.com)
+ ([10.124.220.112])
+ by orviesa008.jf.intel.com with SMTP; 20 Oct 2025 03:02:01 -0700
+Received: by kuha.fi.intel.com (sSMTP sendmail emulation);
+ Mon, 20 Oct 2025 13:02:00 +0300
+Date: Mon, 20 Oct 2025 13:02:00 +0300
+From: Heikki Krogerus <heikki.krogerus@linux.intel.com>
+To: Chaoyi Chen <kernel@airkyi.com>
+Cc: Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>, Vinod Koul <vkoul@kernel.org>,
+ Kishon Vijay Abraham I <kishon@kernel.org>,
+ Heiko Stuebner <heiko@sntech.de>, Sandy Huang <hjc@rock-chips.com>,
+ Andy Yan <andy.yan@rock-chips.com>,
+ Yubing Zhang <yubing.zhang@rock-chips.com>,
+ Frank Wang <frank.wang@rock-chips.com>,
  Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
  Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
- Simona Vetter <simona@ffwll.ch>, Shawn Guo <shawnguo@kernel.org>,
- Sascha Hauer <s.hauer@pengutronix.de>,
- Pengutronix Kernel Team <kernel@pengutronix.de>,
- Fabio Estevam <festevam@gmail.com>
-Cc: Alexander Stein <alexander.stein@ew.tq-group.com>,
- dri-devel@lists.freedesktop.org, imx@lists.linux.dev,
- linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
- Liu Ying <victor.liu@nxp.com>, Marco Felsch <m.felsch@pengutronix.de>
-Subject: [PATCH v2 1/1] drm: lcdif: Use dev_err_probe()
-Date: Mon, 20 Oct 2025 11:58:45 +0200
-Message-ID: <20251020095846.116202-1-alexander.stein@ew.tq-group.com>
-X-Mailer: git-send-email 2.43.0
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Amit Sunil Dhamne <amitsd@google.com>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Chaoyi Chen <chaoyi.chen@rock-chips.com>,
+ Dragan Simic <dsimic@manjaro.org>, Johan Jonker <jbx6244@gmail.com>,
+ Diederik de Haas <didi.debian@cknow.org>,
+ Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>,
+ Peter Robinson <pbrobinson@gmail.com>, linux-usb@vger.kernel.org,
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-phy@lists.infradead.org, linux-arm-kernel@lists.infradead.org,
+ linux-rockchip@lists.infradead.org, dri-devel@lists.freedesktop.org
+Subject: Re: [PATCH v6 1/8] usb: typec: Add default HPD device when register
+ DisplayPort altmode
+Message-ID: <aPYImGmesrZWwyqh@kuha.fi.intel.com>
+References: <20251016022741.91-1-kernel@airkyi.com>
+ <20251016022741.91-2-kernel@airkyi.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-cloud-security-sender: alexander.stein@ew.tq-group.com
-X-cloud-security-recipient: dri-devel@lists.freedesktop.org
-X-cloud-security-crypt: load encryption module
-X-cloud-security-Mailarchiv: E-Mail archived for:
- alexander.stein@ew.tq-group.com
-X-cloud-security-Mailarchivtype: outbound
-X-cloud-security-Virusscan: CLEAN
-X-cloud-security-disclaimer: This E-Mail was scanned by E-Mailservice on
- mx-relay90-hz2.antispameurope.com with 4cqrVL377fzX01q
-X-cloud-security-connect: he-nlb01-hz1.hornetsecurity.com[94.100.132.6], TLS=1,
- IP=94.100.132.6
-X-cloud-security-Digest: 303711fa30182f3b5e5363e87477579b
-X-cloud-security: scantime:1.797
-DKIM-Signature: a=rsa-sha256;
- bh=Vy47wkPi9vz9nd/Ubb0WzYYj5086de9de6TtEsO3Zns=; c=relaxed/relaxed;
- d=ew.tq-group.com;
- h=content-type:mime-version:subject:from:to:message-id:date; s=hse1;
- t=1760954337; v=1;
- b=o//5y2uZJoc/ULfv1wYBomGUeGNNHKgDaJXBZkmfHMXXVsWBLXDj9rAzFdzigDuGuyT+KhCv
- Xq47UihZEwVfEga9oL97Nnq8L2x1aA0gXr4tMWPfkZH3Sr24RfvCeABkWZBUZSIHNW0xwFvV+wy
- 7f0fmarcIkHfm70aaAmhfCW7z+mG/zdmAYQomNcRRtl2n8vH5I5QxU01utMStc+DWrjO5Ucz2Be
- 1fkdnsRacH0oH39xknY/B9fBiDBglYCZJSYoJsNd05RyZl6gna2AFYDrEffkwwckQLwPQppqzD4
- DcQag4gG2KzGuc3cz9k+1C/QLBybAuunX+rO72RjxHoVQ==
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20251016022741.91-2-kernel@airkyi.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -104,44 +91,133 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Use dev_err_probe() to add a reason for deferred probe. This can
-especially happen on lcdif3 which uses hdmi_tx_phy for 'pix' clock
+On Thu, Oct 16, 2025 at 10:27:34AM +0800, Chaoyi Chen wrote:
+> From: Chaoyi Chen <chaoyi.chen@rock-chips.com>
+> 
+> Add default DRM AUX HPD bridge device when register DisplayPort
+> altmode. That makes it redundant for each Type-C driver to implement
+> a similar registration process in embedded scenarios.
+> 
+> Signed-off-by: Chaoyi Chen <chaoyi.chen@rock-chips.com>
+> ---
+> 
+> Changes in v6:
+> - Fix depend in Kconfig.
+> 
+> Changes in v5:
+> - Remove the calls related to `drm_aux_hpd_bridge_notify()`.
+> - Place the helper functions in the same compilation unit.
+> - Add more comments about parent device.
+> 
+>  drivers/usb/typec/Kconfig         |  2 ++
+>  drivers/usb/typec/class.c         | 26 ++++++++++++++++++++++++++
+>  include/linux/usb/typec_altmode.h |  2 ++
+>  3 files changed, 30 insertions(+)
+> 
+> diff --git a/drivers/usb/typec/Kconfig b/drivers/usb/typec/Kconfig
+> index 2f80c2792dbd..a6730fbb576b 100644
+> --- a/drivers/usb/typec/Kconfig
+> +++ b/drivers/usb/typec/Kconfig
+> @@ -2,6 +2,8 @@
+>  
+>  menuconfig TYPEC
+>  	tristate "USB Type-C Support"
+> +	depends on DRM || DRM=n
+> +	select DRM_AUX_HPD_BRIDGE if DRM_BRIDGE && OF
 
-Reviewed-by: Liu Ying <victor.liu@nxp.com>
-Reviewed-by: Marco Felsch <m.felsch@pengutronix.de>
-Signed-off-by: Alexander Stein <alexander.stein@ew.tq-group.com>
----
-Changes in v2:
-* Collected Liu's and Marcos' R-b
+This is wrong. DRM should not dictate how this entire subsystem core
+is configured. The dependency needs to be on the DRM bridge side.
 
- drivers/gpu/drm/mxsfb/lcdif_drv.c | 8 +++++---
- 1 file changed, 5 insertions(+), 3 deletions(-)
+You can for example use the bus notification there to see when a new
+alternate mode is being registered, or use some other notification
+mechanism.
 
-diff --git a/drivers/gpu/drm/mxsfb/lcdif_drv.c b/drivers/gpu/drm/mxsfb/lcdif_drv.c
-index fcb2a7517377e..47da1d9336b90 100644
---- a/drivers/gpu/drm/mxsfb/lcdif_drv.c
-+++ b/drivers/gpu/drm/mxsfb/lcdif_drv.c
-@@ -149,15 +149,17 @@ static int lcdif_load(struct drm_device *drm)
- 
- 	lcdif->clk = devm_clk_get(drm->dev, "pix");
- 	if (IS_ERR(lcdif->clk))
--		return PTR_ERR(lcdif->clk);
-+		return dev_err_probe(drm->dev, PTR_ERR(lcdif->clk), "Failed to get pix clock\n");
- 
- 	lcdif->clk_axi = devm_clk_get(drm->dev, "axi");
- 	if (IS_ERR(lcdif->clk_axi))
--		return PTR_ERR(lcdif->clk_axi);
-+		return dev_err_probe(drm->dev, PTR_ERR(lcdif->clk_axi),
-+				     "Failed to get axi clock\n");
- 
- 	lcdif->clk_disp_axi = devm_clk_get(drm->dev, "disp_axi");
- 	if (IS_ERR(lcdif->clk_disp_axi))
--		return PTR_ERR(lcdif->clk_disp_axi);
-+		return dev_err_probe(drm->dev, PTR_ERR(lcdif->clk_disp_axi),
-+				     "Failed to get disp_axi clock\n");
- 
- 	platform_set_drvdata(pdev, drm);
- 
+thanks,
+
+>  	help
+>  	  USB Type-C Specification defines a cable and connector for USB where
+>  	  only one type of plug is supported on both ends, i.e. there will not
+> diff --git a/drivers/usb/typec/class.c b/drivers/usb/typec/class.c
+> index 67a533e35150..e9d7772d1a8f 100644
+> --- a/drivers/usb/typec/class.c
+> +++ b/drivers/usb/typec/class.c
+> @@ -8,14 +8,18 @@
+>  
+>  #include <linux/module.h>
+>  #include <linux/mutex.h>
+> +#include <linux/of.h>
+>  #include <linux/property.h>
+>  #include <linux/slab.h>
+>  #include <linux/string_choices.h>
+>  #include <linux/usb/pd_vdo.h>
+> +#include <linux/usb/typec_dp.h>
+>  #include <linux/usb/typec_mux.h>
+>  #include <linux/usb/typec_retimer.h>
+>  #include <linux/usb.h>
+>  
+> +#include <drm/bridge/aux-bridge.h>
+> +
+>  #include "bus.h"
+>  #include "class.h"
+>  #include "pd.h"
+> @@ -538,6 +542,21 @@ const struct device_type typec_altmode_dev_type = {
+>  	.release = typec_altmode_release,
+>  };
+>  
+> +static void dp_altmode_hpd_device_register(struct typec_altmode *alt)
+> +{
+> +	if (alt->svid != USB_TYPEC_DP_SID)
+> +		return;
+> +
+> +	/*
+> +	 * alt->dev.parent->parent : USB-C controller device
+> +	 * alt->dev.parent         : USB-C connector device
+> +	 */
+> +	alt->hpd_dev = drm_dp_hpd_bridge_register(alt->dev.parent->parent,
+> +						  to_of_node(alt->dev.parent->fwnode));
+> +	if (IS_ERR(alt->hpd_dev))
+> +		alt->hpd_dev = NULL;
+> +}
+> +
+>  static struct typec_altmode *
+>  typec_register_altmode(struct device *parent,
+>  		       const struct typec_altmode_desc *desc)
+> @@ -600,6 +619,13 @@ typec_register_altmode(struct device *parent,
+>  		return ERR_PTR(ret);
+>  	}
+>  
+> +	/*
+> +	 * It is too late to register the HPD device when the DisplayPort
+> +	 * altmode device becomes ready. If the current altmode is DP,
+> +	 * register a static HPD device.
+> +	 */
+> +	dp_altmode_hpd_device_register(&alt->adev);
+> +
+>  	return &alt->adev;
+>  }
+>  
+> diff --git a/include/linux/usb/typec_altmode.h b/include/linux/usb/typec_altmode.h
+> index b3c0866ea70f..acb0af1b9d5d 100644
+> --- a/include/linux/usb/typec_altmode.h
+> +++ b/include/linux/usb/typec_altmode.h
+> @@ -21,6 +21,7 @@ struct typec_altmode_ops;
+>   * @desc: Optional human readable description of the mode
+>   * @ops: Operations vector from the driver
+>   * @cable_ops: Cable operations vector from the driver.
+> + * @hpd_dev: HPD device for DisplayPort
+>   */
+>  struct typec_altmode {
+>  	struct device			dev;
+> @@ -32,6 +33,7 @@ struct typec_altmode {
+>  	char				*desc;
+>  	const struct typec_altmode_ops	*ops;
+>  	const struct typec_cable_ops	*cable_ops;
+> +	struct device			*hpd_dev;
+>  };
+>  
+>  #define to_typec_altmode(d) container_of(d, struct typec_altmode, dev)
+> -- 
+> 2.49.0
+
 -- 
-2.43.0
-
+heikki
