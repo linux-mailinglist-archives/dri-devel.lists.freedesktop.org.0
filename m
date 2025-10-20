@@ -2,106 +2,53 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4AD18BF0CA3
-	for <lists+dri-devel@lfdr.de>; Mon, 20 Oct 2025 13:18:55 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2302FBF0CB4
+	for <lists+dri-devel@lfdr.de>; Mon, 20 Oct 2025 13:20:12 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7D51010E41B;
-	Mon, 20 Oct 2025 11:18:53 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4593D10E288;
+	Mon, 20 Oct 2025 11:20:10 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="C1JwrdS/";
+	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="MaMM1T8k";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1CEFD10E288;
- Mon, 20 Oct 2025 11:18:52 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by tor.source.kernel.org (Postfix) with ESMTP id 4988161E48;
- Mon, 20 Oct 2025 11:18:51 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3CD51C4CEF9;
- Mon, 20 Oct 2025 11:18:44 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1760959131;
- bh=Iy3FMNU5JJj4+eobaequ5U9DsJS3Eu2JCPZfUoHRLM0=;
- h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
- b=C1JwrdS/G9cyZBVz70TdUPL5CDw4bxQC7K/UKxcbX3pIQw4jA9CPEPCJz3qzNiDJr
- xfrZ8qt0NuHseRzPdlugNgT1mtMdBhrm5YWRM5rMHgMyr4fJIwtYXVmLu8TwEMn3D2
- nWme45d69LMWaKx/HcloNPDqIXuRnNLNI2uzVLMqYv65uIPYy0lVVjOOHcpnCO1QJ5
- C+y57GeZXMvAZ8dyWf2gmXPuBecIsHzhtpMS+rJ4x9PO1oaYatt4Z2V1J9V/NPFfI1
- ULuLMnns6lTPJCXShpffMxBJExnx+W40wwyVa4jw1UFMu3XmfhxInInHRD8F7gmfZH
- utBZp4qVtSV3g==
-Message-ID: <a3994a92-0a36-411e-97a3-b01fd406ddd1@kernel.org>
-Date: Mon, 20 Oct 2025 13:18:43 +0200
+Received: from bali.collaboradmins.com (bali.collaboradmins.com
+ [148.251.105.195])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 496AF10E288
+ for <dri-devel@lists.freedesktop.org>; Mon, 20 Oct 2025 11:20:08 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+ s=mail; t=1760959206;
+ bh=GbM499rYztmTo2pv+FqowS2W/5GxpHh/TTTctifhzfo=;
+ h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+ b=MaMM1T8k1/m2rJf1LXKMv2d2M8wMTD7/cJiEuzXtHLTudXpOZj6/9Tt1da9Ga1OUJ
+ Dq776rdaXYJZDKpK4RuEJgkdjg+Pyn4wyzItHcv4GA5ZWM+WfTLjWuLeKdWmFL9bgw
+ xgAEM9r9Ku9D23mQ3ZYGhgzmnnRXdXzdH6MYfG2v1Ls+Dejsf6A/iYMZmHAl4YyilR
+ 5nqu38/DlwHGBke2SXUc4sLBSajJ86AZBKVF5KjrTvTjIq6jjo+2K9t1ogg0hxAw1l
+ RBYw24x6oj06R520r8Eo78QAAJDO5XAcwkJLQH5VIyzNTQdc83P16h0T9yYFVL04Ux
+ GwQHs/ZbBkvZw==
+Received: from fedora (unknown [IPv6:2a01:e0a:2c:6930:d919:a6e:5ea1:8a9f])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested) (Authenticated sender: bbrezillon)
+ by bali.collaboradmins.com (Postfix) with ESMTPSA id 5E74A17E129E;
+ Mon, 20 Oct 2025 13:20:06 +0200 (CEST)
+Date: Mon, 20 Oct 2025 13:20:01 +0200
+From: Boris Brezillon <boris.brezillon@collabora.com>
+To: Akash Goel <akash.goel@arm.com>
+Cc: liviu.dudau@arm.com, steven.price@arm.com,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ maarten.lankhorst@linux.intel.com, mripard@kernel.org, tzimmermann@suse.de,
+ airlied@gmail.com, daniel@ffwll.ch, nd@arm.com
+Subject: Re: [PATCH] drm/panthor: Fix potential memleak of vma structure
+Message-ID: <20251020132001.75ac7598@fedora>
+In-Reply-To: <6549faee-1633-427a-b7e8-3722808976f2@arm.com>
+References: <20251020085914.1276090-1-akash.goel@arm.com>
+ <20251020113029.1ec51806@fedora>
+ <6549faee-1633-427a-b7e8-3722808976f2@arm.com>
+Organization: Collabora
+X-Mailer: Claws Mail 4.3.1 (GTK 3.24.49; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v4 1/3] dt-bindings: display/msm: Add SM6150 DisplayPort
- controller
-To: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
-Cc: xiangxu.yin@oss.qualcomm.com, Rob Clark <robin.clark@oss.qualcomm.com>,
- Dmitry Baryshkov <lumag@kernel.org>, Abhinav Kumar
- <abhinav.kumar@linux.dev>, Jessica Zhang <jessica.zhang@oss.qualcomm.com>,
- Sean Paul <sean@poorly.run>, Marijn Suijten <marijn.suijten@somainline.org>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>, Bjorn Andersson <andersson@kernel.org>,
- Konrad Dybcio <konradybcio@kernel.org>, linux-arm-msm@vger.kernel.org,
- dri-devel@lists.freedesktop.org, freedreno@lists.freedesktop.org,
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
- fange.zhang@oss.qualcomm.com, yongxing.mou@oss.qualcomm.com,
- li.liu@oss.qualcomm.com
-References: <20251015-add-displayport-support-to-qcs615-devicetree-v4-0-aa2cb8470e9d@oss.qualcomm.com>
- <20251015-add-displayport-support-to-qcs615-devicetree-v4-1-aa2cb8470e9d@oss.qualcomm.com>
- <58446b2d-560f-4a7e-890a-78ae0bb92908@kernel.org>
- <f4dihh4z2nnkjcpsrmopycm6opellvv4mkpee72xjbn26nw544@sfc4oy6c2xci>
-From: Krzysztof Kozlowski <krzk@kernel.org>
-Content-Language: en-US
-Autocrypt: addr=krzk@kernel.org; keydata=
- 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 a/A=
-In-Reply-To: <f4dihh4z2nnkjcpsrmopycm6opellvv4mkpee72xjbn26nw544@sfc4oy6c2xci>
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -118,48 +65,60 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 20/10/2025 13:07, Dmitry Baryshkov wrote:
-> On Sun, Oct 19, 2025 at 07:13:32PM +0200, Krzysztof Kozlowski wrote:
->> On 15/10/2025 03:53, Xiangxu Yin via B4 Relay wrote:
->>> From: Xiangxu Yin <xiangxu.yin@oss.qualcomm.com>
->>>
->>> Describe the DisplayPort controller for Qualcomm SM6150 SoC.
->>>
->>> Signed-off-by: Xiangxu Yin <xiangxu.yin@oss.qualcomm.com>
->>> ---
->>>  .../devicetree/bindings/display/msm/qcom,sm6150-mdss.yaml     | 11 +++++++++++
->>>  1 file changed, 11 insertions(+)
->>>
->>> diff --git a/Documentation/devicetree/bindings/display/msm/qcom,sm6150-mdss.yaml b/Documentation/devicetree/bindings/display/msm/qcom,sm6150-mdss.yaml
->>> index 9ac24f99d3ada1c197c9654dc9babebccae972ed..935eca23ce6b30b81b3ad778e5fcacc817a230c3 100644
->>> --- a/Documentation/devicetree/bindings/display/msm/qcom,sm6150-mdss.yaml
->>> +++ b/Documentation/devicetree/bindings/display/msm/qcom,sm6150-mdss.yaml
->>> @@ -51,6 +51,16 @@ patternProperties:
->>>        compatible:
->>>          const: qcom,sm6150-dpu
->>>  
->>> +  "^displayport-controller@[0-9a-f]+$":
->>> +    type: object
->>> +    additionalProperties: true
->>> +    properties:
->>> +      compatible:
->>> +        items:
->>> +          - const: qcom,sm6150-dp
->>> +          - const: qcom,sm8150-dp
->>
->> 6150 is compatible with 8150 or 8350? I have doubts.
+On Mon, 20 Oct 2025 10:50:19 +0100
+Akash Goel <akash.goel@arm.com> wrote:
+
+> On 10/20/25 10:30, Boris Brezillon wrote:
+> > On Mon, 20 Oct 2025 09:59:14 +0100
+> > Akash Goel <akash.goel@arm.com> wrote:
+> >   
+> >> This commit addresses a memleak issue of panthor_vma (or drm_gpuva)
+> >> structure in Panthor driver, that can happen if the GPU page table
+> >> update operation to map the pages fail.
+> >> The issue is very unlikely to occur in practice.
+> >>
+> >> Fixes: 647810ec2476 ("drm/panthor: Add the MMU/VM logical block")
+> >> Signed-off-by: Akash Goel <akash.goel@arm.com>
+> >> ---
+> >>   drivers/gpu/drm/panthor/panthor_mmu.c | 4 +++-
+> >>   1 file changed, 3 insertions(+), 1 deletion(-)
+> >>
+> >> diff --git a/drivers/gpu/drm/panthor/panthor_mmu.c b/drivers/gpu/drm/panthor/panthor_mmu.c
+> >> index 6dec4354e378..34a86f7b58d9 100644
+> >> --- a/drivers/gpu/drm/panthor/panthor_mmu.c
+> >> +++ b/drivers/gpu/drm/panthor/panthor_mmu.c
+> >> @@ -2081,8 +2081,10 @@ static int panthor_gpuva_sm_step_map(struct drm_gpuva_op *op, void *priv)
+> >>   	ret = panthor_vm_map_pages(vm, op->map.va.addr, flags_to_prot(vma->flags),
+> >>   				   op_ctx->map.sgt, op->map.gem.offset,
+> >>   				   op->map.va.range);
+> >> -	if (ret)
+> >> +	if (ret) {
+> >> +		kfree(vma);  
+> > 
+> > Calling kfree() in this context is probably fine, but I think I'd
+> > prefer if we were introducing a panthor_vm_op_ctx_return_vma() helper
+> > returning the vma to the preallocated array, and letting the deferred
+> > cleanup function free this up.  
 > 
-> SM6150 has the same DP controller as SM8150. SM8150 is compatible with
-> SM8350.
+> 
+> Thanks for the quick review.
+> 
+> So need to do like this, where we search for a NULL entry to store the 
+> VMA pointer to be returned ?
+> 
+> static void
+> panthor_vm_op_ctx_return_vma(struct panthor_vm_op_ctx *op_ctx,
+> 			     struct panthor_vma *vma)
+> {
+> 	for (u32 i = 0; i < ARRAY_SIZE(op_ctx->preallocated_vmas); i++) {
+> 		if (!op_ctx->preallocated_vmas[i]) {
+> 			op_ctx->preallocated_vmas[i] = vma;
+> 			return;
+> 		}
+> 	}
+> }
+> 
+> 
+> Please let me know.
 
-
-So if SM6150 is EXACTLY the same as SM8150, then describe it in commit
-msg. If NOT EXACTLY the same, then probably this should be just
-compatible with 8350. Anyway, proper justification is missing.
-
-Existing commit msg is pretty useless, repeat the diff. I can read the
-diff. Commit msg should explain all the background which is not obvious.
-
-
-Best regards,
-Krzysztof
+Yep, that looks good to me.
