@@ -2,55 +2,59 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8038BBF2B57
-	for <lists+dri-devel@lfdr.de>; Mon, 20 Oct 2025 19:28:42 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 002F7BF2B7B
+	for <lists+dri-devel@lfdr.de>; Mon, 20 Oct 2025 19:30:38 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 856F710E498;
-	Mon, 20 Oct 2025 17:28:39 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3A58110E49A;
+	Mon, 20 Oct 2025 17:30:37 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="WcSnKK4i";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="q5cpivVp";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sea.source.kernel.org (sea.source.kernel.org [172.234.252.31])
- by gabe.freedesktop.org (Postfix) with ESMTPS id AD39610E498;
- Mon, 20 Oct 2025 17:28:38 +0000 (UTC)
+Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5BA5210E49A
+ for <dri-devel@lists.freedesktop.org>; Mon, 20 Oct 2025 17:30:36 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by sea.source.kernel.org (Postfix) with ESMTP id 8390E448C0;
- Mon, 20 Oct 2025 17:28:38 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id F3D63C4CEF9;
- Mon, 20 Oct 2025 17:28:36 +0000 (UTC)
+ by tor.source.kernel.org (Postfix) with ESMTP id 5225A620C9;
+ Mon, 20 Oct 2025 17:30:35 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 821A5C4CEF9;
+ Mon, 20 Oct 2025 17:30:31 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1760981318;
- bh=XoBtTVIfyCks+3vvS0y9uJAoDlapnqVQpQnuzzSfF34=;
- h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
- b=WcSnKK4iDS6gPA+JCDA/Z1VumuFkDT4duTisGd1ZPAtcbjeztp7eAmEx6CxakyzNo
- lDKwiRz/S6EPF9pYjk+RBRtiKxE5JdH+cfaOPqFd5MrGoCGsjmlDEoQ0KFgv9jLT/5
- NRnESVeL2/kBb9s6u9ITQ36EKBP6gg6J0NnDHAXlQFb6hwZREmu336yBqWAoi41O+h
- jH2Je8EZ1tOoA0VOw0acAmyWKtOUMNUH7qaM/8+QyMK5FGVhOHY5Bu35km62417HZG
- 2NaXyg6/3tkPI1joejAKNBJLCE+Lpji1QQ/U9eRX4etPmUzWQnr17rpRZSJCmzILfT
- Z/1VrmtoO4/Mw==
-Message-ID: <85c039ef-e189-48c1-8bf7-50ac0c2484e2@kernel.org>
-Date: Mon, 20 Oct 2025 12:28:36 -0500
+ s=k20201202; t=1760981435;
+ bh=j1YYlwvZJcHj3cRypJW49aARjh1abXFYf74hk2SqfvI=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=q5cpivVpgWMuClQFbbF5i4A5x2SZJX5tpGoPlmmQ4DBWAXEJLDHjehrnbYfYlMuSP
+ 8WX7axy9a2VOBkpd28GA24JngncaurJDCSyFLaBmX0rGtcXZ6E04avpv2L4OvDXttf
+ j8cP0n0cVK24SfhACuoVMhS2OOVQWdfKJmqBhCJgacowioHIZHqtycJQMWBvKBKHV7
+ ywTLw7rmdgSxeN7+neYTUN8AO9zPvgRQpxVUytbfFhKyIlyZPrJqvC/b5nzJcxRhWl
+ 3HYkK5Up5UPBkEMk3/lLozkiMyrepLHU1T76HCQuPApY3IurwD43Q72SE6b5+uZmgd
+ eJDtx5O95XzXw==
+Date: Mon, 20 Oct 2025 18:30:29 +0100
+From: Conor Dooley <conor@kernel.org>
+To: Marek Vasut <marek.vasut+renesas@mailbox.org>
+Cc: linux-arm-kernel@lists.infradead.org, Adam Ford <aford173@gmail.com>,
+ Conor Dooley <conor+dt@kernel.org>, David Airlie <airlied@gmail.com>,
+ Frank Binns <frank.binns@imgtec.com>,
+ Geert Uytterhoeven <geert+renesas@glider.be>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Magnus Damm <magnus.damm@gmail.com>, Matt Coster <matt.coster@imgtec.com>,
+ Maxime Ripard <mripard@kernel.org>, Rob Herring <robh@kernel.org>,
+ Simona Vetter <simona@ffwll.ch>,
+ Thomas Zimmermann <tzimmermann@suse.de>, devicetree@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, linux-renesas-soc@vger.kernel.org
+Subject: Re: [PATCH 2/2] dt-bindings: gpu: img,powervr-rogue: Rework the
+ allOf section
+Message-ID: <20251020-deserve-tipped-fbf75a0e7612@spud>
+References: <20251018130147.12831-1-marek.vasut+renesas@mailbox.org>
+ <20251018130147.12831-2-marek.vasut+renesas@mailbox.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [RFC 3/3] drm/amd: Return -EBUSY for amdgpu_pmops_thaw() on
- success
-To: "Rafael J. Wysocki" <rafael@kernel.org>
-Cc: mario.limonciello@amd.com, airlied@gmail.com, alexander.deucher@amd.com,
- christian.koenig@amd.com, dakr@kernel.org, gregkh@linuxfoundation.org,
- lenb@kernel.org, pavel@kernel.org, simona@ffwll.ch,
- Muhammad Usama Anjum <usama.anjum@collabora.com>,
- amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- linux-pm@vger.kernel.org
-References: <20251020165317.3992933-1-superm1@kernel.org>
- <20251020165317.3992933-4-superm1@kernel.org>
- <CAJZ5v0gsdmfXUJuLW8Ogt2jKDunx4g51LqCfSVMWQ6WHXBw_zg@mail.gmail.com>
-Content-Language: en-US
-From: "Mario Limonciello (AMD) (kernel.org)" <superm1@kernel.org>
-In-Reply-To: <CAJZ5v0gsdmfXUJuLW8Ogt2jKDunx4g51LqCfSVMWQ6WHXBw_zg@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Type: multipart/signed; micalg=pgp-sha512;
+ protocol="application/pgp-signature"; boundary="TVNoAyQTwvsLjUE5"
+Content-Disposition: inline
+In-Reply-To: <20251018130147.12831-2-marek.vasut+renesas@mailbox.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -67,55 +71,36 @@ Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
+--TVNoAyQTwvsLjUE5
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-On 10/20/2025 12:21 PM, Rafael J. Wysocki wrote:
-> On Mon, Oct 20, 2025 at 6:53 PM Mario Limonciello (AMD)
-> <superm1@kernel.org> wrote:
->>
->> From: Mario Limonciello <mario.limonciello@amd.com>
->>
->> The PM core should be notified that thaw was skipped for the device
->> so that if it's tried to be resumed (such as an aborted hibernate)
->> that it gets another chance to resume.
->>
->> Cc: Muhammad Usama Anjum <usama.anjum@collabora.com>
->> Signed-off-by: Mario Limonciello <mario.limonciello@amd.com>
->> ---
->>   drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c | 2 +-
->>   1 file changed, 1 insertion(+), 1 deletion(-)
->>
->> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c
->> index 61268aa82df4d..d40af069f24dd 100644
->> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c
->> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c
->> @@ -2681,7 +2681,7 @@ static int amdgpu_pmops_thaw(struct device *dev)
->>
->>          /* do not resume device if it's normal hibernation */
->>          if (!pm_hibernate_is_recovering() && !pm_hibernation_mode_is_suspend())
->> -               return 0;
->> +               return -EBUSY;
-> 
-> So that's why you need the special handling of -EBUSY in the previous patch.
+On Sat, Oct 18, 2025 at 03:00:59PM +0200, Marek Vasut wrote:
+> Rework the current allOf: section such that all handling of
+> clocks/clock-names properties happens first, and all handling
+> of power-domains/power-domain-names happens second.
+>=20
+> This allows the allOf section to limit various GPU models to
+> matching clocks count in the first half, and apply the same
+> for power-domains count in the second half, without conflating
+> the two limits together.
+>=20
+> This makes addition of GPU models with different clocks and
+> power-domains count easier. No functional change intended.
 
-Yup.
+Acked-by: Conor Dooley <conor.dooley@microchip.com>
+pw-bot: not-applicable
 
-> 
-> I think that you need to save some state in this driver and then use
-> it in subsequent callbacks instead of hacking the core to do what you
-> want.
-> 
+--TVNoAyQTwvsLjUE5
+Content-Type: application/pgp-signature; name="signature.asc"
 
-The problem is the core decides "what" to call and more importantly 
-"when" to call it.
+-----BEGIN PGP SIGNATURE-----
 
-IE if the core thinks that something is thawed it will never call 
-resume, and that's why you end up in a bad place with Muhammad's 
-cancellation series and why I proposed this one to discuss.
+iHUEABYKAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCaPZxtQAKCRB4tDGHoIJi
+0kRoAQC70QJpZNmQzWYCj25MA0DaOEK7Tqn0OizZPOjwMtu+/gD/boMVKbDhI6jf
+r2UD8AMHhsO2/IE8GGzp8eD9r0aoywU=
+=bmSF
+-----END PGP SIGNATURE-----
 
-We could obviously go back to dropping this case entirely:
-
-if (!pm_hibernate_is_recovering() && !pm_hibernation_mode_is_suspend())
-
-But then the display turns on at thaw(), you do an unnecessary resource 
-eviction, it takes a lot longer if you have a ton of VRAM etc.
-
+--TVNoAyQTwvsLjUE5--
