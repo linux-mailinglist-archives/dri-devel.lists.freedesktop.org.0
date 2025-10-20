@@ -2,39 +2,40 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D2807BF2B15
-	for <lists+dri-devel@lfdr.de>; Mon, 20 Oct 2025 19:24:27 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8038BBF2B57
+	for <lists+dri-devel@lfdr.de>; Mon, 20 Oct 2025 19:28:42 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 01F9610E495;
-	Mon, 20 Oct 2025 17:24:26 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 856F710E498;
+	Mon, 20 Oct 2025 17:28:39 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="cFac1jYc";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="WcSnKK4i";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7CDA110E495;
- Mon, 20 Oct 2025 17:24:24 +0000 (UTC)
+Received: from sea.source.kernel.org (sea.source.kernel.org [172.234.252.31])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id AD39610E498;
+ Mon, 20 Oct 2025 17:28:38 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by tor.source.kernel.org (Postfix) with ESMTP id A30A66205F;
- Mon, 20 Oct 2025 17:24:23 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id EBF12C4CEF9;
- Mon, 20 Oct 2025 17:24:21 +0000 (UTC)
+ by sea.source.kernel.org (Postfix) with ESMTP id 8390E448C0;
+ Mon, 20 Oct 2025 17:28:38 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id F3D63C4CEF9;
+ Mon, 20 Oct 2025 17:28:36 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1760981063;
- bh=uN4YzlNmTDyMTVbkr8hP6fCxIeShyG12ItAxTKnPx/U=;
+ s=k20201202; t=1760981318;
+ bh=XoBtTVIfyCks+3vvS0y9uJAoDlapnqVQpQnuzzSfF34=;
  h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
- b=cFac1jYc5I/mpLogrxJs+C1FSnV2hXbV3gLCdZCPseI5UTHbib0gaI8Bw7ULWpQRK
- /3yIC+HPGOrBZQrCrR/9ZHTVPQIlr+dHqzdvXocWj5RB89FAcpyaPYZtWDIaFf9ttH
- s458D7gJOxhlLDUeI7EcwRltwTNawyrHYamEDpgSKf7wyWVGjSZDtHU5HvA6IGCNaM
- jenI2DlyZ7AZ5vgD3amV/0/fmmetkdx+3pS5p7vQBfT9TRHuvadRfsd8+UpKjXmhmV
- mkKbzPz0qi7umxDfn/uTfqjzzrgG0pYTdz0wWLhQFfCeNLKH0PIa8bjc1pSCXPuvi2
- mmYc2ddF7qVyw==
-Message-ID: <f44ec6c9-80f9-4e5b-9cdb-e92d4c6b72fc@kernel.org>
-Date: Mon, 20 Oct 2025 12:24:20 -0500
+ b=WcSnKK4iDS6gPA+JCDA/Z1VumuFkDT4duTisGd1ZPAtcbjeztp7eAmEx6CxakyzNo
+ lDKwiRz/S6EPF9pYjk+RBRtiKxE5JdH+cfaOPqFd5MrGoCGsjmlDEoQ0KFgv9jLT/5
+ NRnESVeL2/kBb9s6u9ITQ36EKBP6gg6J0NnDHAXlQFb6hwZREmu336yBqWAoi41O+h
+ jH2Je8EZ1tOoA0VOw0acAmyWKtOUMNUH7qaM/8+QyMK5FGVhOHY5Bu35km62417HZG
+ 2NaXyg6/3tkPI1joejAKNBJLCE+Lpji1QQ/U9eRX4etPmUzWQnr17rpRZSJCmzILfT
+ Z/1VrmtoO4/Mw==
+Message-ID: <85c039ef-e189-48c1-8bf7-50ac0c2484e2@kernel.org>
+Date: Mon, 20 Oct 2025 12:28:36 -0500
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [RFC 2/3] PM: Don't pass up device_resume() -EBUSY errors
+Subject: Re: [RFC 3/3] drm/amd: Return -EBUSY for amdgpu_pmops_thaw() on
+ success
 To: "Rafael J. Wysocki" <rafael@kernel.org>
 Cc: mario.limonciello@amd.com, airlied@gmail.com, alexander.deucher@amd.com,
  christian.koenig@amd.com, dakr@kernel.org, gregkh@linuxfoundation.org,
@@ -43,11 +44,11 @@ Cc: mario.limonciello@amd.com, airlied@gmail.com, alexander.deucher@amd.com,
  amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
  linux-pm@vger.kernel.org
 References: <20251020165317.3992933-1-superm1@kernel.org>
- <20251020165317.3992933-3-superm1@kernel.org>
- <CAJZ5v0g64Hu15k5sLVfxj-AADy2goyvseGGm_zTAqSPHXEaxOA@mail.gmail.com>
+ <20251020165317.3992933-4-superm1@kernel.org>
+ <CAJZ5v0gsdmfXUJuLW8Ogt2jKDunx4g51LqCfSVMWQ6WHXBw_zg@mail.gmail.com>
 Content-Language: en-US
 From: "Mario Limonciello (AMD) (kernel.org)" <superm1@kernel.org>
-In-Reply-To: <CAJZ5v0g64Hu15k5sLVfxj-AADy2goyvseGGm_zTAqSPHXEaxOA@mail.gmail.com>
+In-Reply-To: <CAJZ5v0gsdmfXUJuLW8Ogt2jKDunx4g51LqCfSVMWQ6WHXBw_zg@mail.gmail.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -67,63 +68,54 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
 
-On 10/20/2025 12:18 PM, Rafael J. Wysocki wrote:
+On 10/20/2025 12:21 PM, Rafael J. Wysocki wrote:
 > On Mon, Oct 20, 2025 at 6:53 PM Mario Limonciello (AMD)
 > <superm1@kernel.org> wrote:
 >>
 >> From: Mario Limonciello <mario.limonciello@amd.com>
 >>
->> If a device resume returns -EBUSY the device resume sequence has
->> been skipped.
-> 
-> Is this actually demonstrably true in all of the cases?
-> 
-> And what about -EAGAIN?
-> 
-
-I haven't audited codepaths of all drivers to guarantee it to be true 
-for all cases.  That's the main reason I wanted to make it RFC - to 
-discuss the idea of a dedicated return code to indicate it was skipped.
-
-Another idea I had is that we could make it return a positive number, 
-and PM core could recognize that as a skip.
-
-So would like your thoughts against the ideas currently presented:
-
-* -EAGAIN
-* -EBUSY
-* Some other return code
-* > 0
-
-Whichever is decided the PM core documentation would need to be updated 
-to match as well.
-
->> Don't show errors for this or pass it up to async
->> resume.  If resume is run again in another stage the device should
->> try again.
+>> The PM core should be notified that thaw was skipped for the device
+>> so that if it's tried to be resumed (such as an aborted hibernate)
+>> that it gets another chance to resume.
 >>
 >> Cc: Muhammad Usama Anjum <usama.anjum@collabora.com>
->> Signed-off-by: Mario Limonciello (AMD) <superm1@kernel.org>
+>> Signed-off-by: Mario Limonciello <mario.limonciello@amd.com>
 >> ---
->>   drivers/base/power/main.c | 4 +++-
->>   1 file changed, 3 insertions(+), 1 deletion(-)
+>>   drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c | 2 +-
+>>   1 file changed, 1 insertion(+), 1 deletion(-)
 >>
->> diff --git a/drivers/base/power/main.c b/drivers/base/power/main.c
->> index bf9c3d79c455f..f6bc7ef9a8371 100644
->> --- a/drivers/base/power/main.c
->> +++ b/drivers/base/power/main.c
->> @@ -1112,7 +1112,9 @@ static void device_resume(struct device *dev, pm_message_t state, bool async)
+>> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c
+>> index 61268aa82df4d..d40af069f24dd 100644
+>> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c
+>> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c
+>> @@ -2681,7 +2681,7 @@ static int amdgpu_pmops_thaw(struct device *dev)
 >>
->>          TRACE_RESUME(error);
->>
->> -       if (error) {
->> +       if (error == -EBUSY)
->> +               pm_dev_dbg(dev, state, async ? " async" : "");
->> +       else if (error) {
->>                  WRITE_ONCE(async_error, error);
->>                  dpm_save_failed_dev(dev_name(dev));
->>                  pm_dev_err(dev, state, async ? " async" : "", error);
->> --
->> 2.43.0
->>
+>>          /* do not resume device if it's normal hibernation */
+>>          if (!pm_hibernate_is_recovering() && !pm_hibernation_mode_is_suspend())
+>> -               return 0;
+>> +               return -EBUSY;
+> 
+> So that's why you need the special handling of -EBUSY in the previous patch.
+
+Yup.
+
+> 
+> I think that you need to save some state in this driver and then use
+> it in subsequent callbacks instead of hacking the core to do what you
+> want.
+> 
+
+The problem is the core decides "what" to call and more importantly 
+"when" to call it.
+
+IE if the core thinks that something is thawed it will never call 
+resume, and that's why you end up in a bad place with Muhammad's 
+cancellation series and why I proposed this one to discuss.
+
+We could obviously go back to dropping this case entirely:
+
+if (!pm_hibernate_is_recovering() && !pm_hibernation_mode_is_suspend())
+
+But then the display turns on at thaw(), you do an unnecessary resource 
+eviction, it takes a lot longer if you have a ton of VRAM etc.
 
