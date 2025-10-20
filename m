@@ -2,74 +2,120 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9108ABF1C1A
-	for <lists+dri-devel@lfdr.de>; Mon, 20 Oct 2025 16:13:35 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id BA5FBBF1C5F
+	for <lists+dri-devel@lfdr.de>; Mon, 20 Oct 2025 16:15:27 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4084610E44F;
-	Mon, 20 Oct 2025 14:13:33 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CA93210E450;
+	Mon, 20 Oct 2025 14:15:24 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="UKJ1t2Mv";
+	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="PJUZLJik";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from bali.collaboradmins.com (bali.collaboradmins.com
- [148.251.105.195])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D1BB810E44E;
- Mon, 20 Oct 2025 14:13:31 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1760969610;
- bh=TvYssAkPQLG2m2KKWp4oKulXBwqsnyHFiW1/8FMfTRw=;
- h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
- b=UKJ1t2Mv9iTIFpZ0UNlXXnBI2ZEV3XsYaDmlhtXR5AiCvXUxut2ycdosfITanbF9U
- nf41fXqA/SaR/AWtSs3EA9CjkZgDlGjON7CpU1VvQLR7Ozsz1pATxR518yyagkWO/Z
- n1N07PDRUYXGF6L2x+ibF9GKaiiViLXCj92pj3VW8swdx7m5LCqzzPb0A7+zod4+Lt
- TxueDTAvsgJas1VH3ETOAcCMu7hWXCRTmPnZXuh1i9Zseu7zozKur0BjsvE3JrGxsw
- CiVm4zTx4i8yWmPsrDfAI7iQSyGJCrFJUGqi1WHjFIJa+09qdRm7EQ+uxnfRd4mgR7
- ZkX2C+sn/MnyQ==
-Received: from [IPV6:2a01:e0a:5e3:6100:7aed:fe0e:8590:cbaa] (unknown
- [IPv6:2a01:e0a:5e3:6100:7aed:fe0e:8590:cbaa])
- (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested)
- (Authenticated sender: loicmolinari)
- by bali.collaboradmins.com (Postfix) with ESMTPSA id 643FD17E02B0;
- Mon, 20 Oct 2025 16:13:29 +0200 (CEST)
-Message-ID: <8ba7350a-83a7-4c83-8d91-83803d0c06e8@collabora.com>
-Date: Mon, 20 Oct 2025 16:13:28 +0200
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
+ [205.220.180.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 963B810E450
+ for <dri-devel@lists.freedesktop.org>; Mon, 20 Oct 2025 14:15:23 +0000 (UTC)
+Received: from pps.filterd (m0279872.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 59KC7u1D028857
+ for <dri-devel@lists.freedesktop.org>; Mon, 20 Oct 2025 14:15:22 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+ cc:content-transfer-encoding:content-type:date:from:in-reply-to
+ :message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+ LDmy2GELi7gtK/8jzxwGBbx8R1YBxICNIb8VNFsE1t4=; b=PJUZLJikmWQP3BlF
+ 519kMTMz74gHVVnCpksl8pQUEKNqaYAYhqquCzDaIwYoi1bL1Nl/2mKVdCQDg27+
+ skeVLrdlFK9D3ZsItTdTKGMjYQGX3W3I+7e6DURs3uLlSJELCdnDKAg1fwrwL6PU
+ MI0ss15A6EXJtv5Pvk3kxyg/EPbBhGQTq7H9Fx7cRd4NJWIPsD2GX+Ii6kceXBOA
+ 7f3R9REKSTyyqqC8t8mqLYQ0FAXz56YAHOePkbokpvLVOEeiFwt4bBkudJLTZOjb
+ EVu6y3l92CHT6xQppMYSSu9Wl+RDhyJgz0SPJ7xw6T9TvSsTHK6kh4HsP9Qc1pYp
+ blQmCQ==
+Received: from mail-qv1-f72.google.com (mail-qv1-f72.google.com
+ [209.85.219.72])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 49v3984wjb-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
+ for <dri-devel@lists.freedesktop.org>; Mon, 20 Oct 2025 14:15:22 +0000 (GMT)
+Received: by mail-qv1-f72.google.com with SMTP id
+ 6a1803df08f44-850553dfef2so15739726d6.0
+ for <dri-devel@lists.freedesktop.org>; Mon, 20 Oct 2025 07:15:22 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1760969722; x=1761574522;
+ h=content-transfer-encoding:in-reply-to:from:content-language
+ :references:cc:to:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=LDmy2GELi7gtK/8jzxwGBbx8R1YBxICNIb8VNFsE1t4=;
+ b=fjg0tN9SKPKU+H2DDRgOIQoFcoUZc67vgmO/zV1LHvlA3PHQrQVKP4ndz65Q391ajS
+ uYNo2IRAB/ScsCLG3Z2mL+mLg93QdoLPtdyMR9BrF4CveiuKrI8tWphyffeLvImixrs3
+ ZG46nIHOrr21HMD1Hi4r139608VHZ6B3WpwIhELFND+af2klznZpanGLkFS/NRPFSAyU
+ 2BfiXRNhbe+kPDu9zEbvFraIvimQtjstArG+msdN7PKNMXmoiUhUNAsCACRJEDNwyOcc
+ 5JdBr6o3tVvz5dYSQwPLVN36RbZDZPEU6uYG5soDUxM+r6vBDMYvBFi3pT2/2RCNf0LQ
+ tm4A==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCUl5XAPYJ0lLPdlOTrig6LbzP9Icd3L8kzZ4xRE0mnSbT3ew3bZp3fDCZAo3Floj3Uraoy4HWCNDNg=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YwWkxjfjnEd/RLdb0fLt6RqVDaFmDgO+PYeD459/h4AOTVq8HAF
+ 1Swg2asHX8enhx/zVnQjPvvdimxS5qFpNh2rHEMt/q40bbcktHOJ/vevoIW5+Y3fOyrGfw/2afJ
+ 8eR55TA5Mv7SHridxiUu5CTP6rbU1y1SgylLIg+gLrl1u8uw20PRwqKrraeKsNl0YNyKeKvE=
+X-Gm-Gg: ASbGncsclI69QOkE2v5I0UURSOCmLsyM2VWnME6+RukP2gdC0UTgKXLw5dk6I7CoJ9D
+ 6nQbG2EiVcto2TEBzcHmWOKljTdM7geF4GQxxfBdNCAQbh7Valcwss3gG1F8QJA1k3Ib82Q2/nN
+ YUJg4qBkG7KsQPYy7I5WfiIBowwqVaUgo0w8cPbui0ekipETKLFianbK5f5sJp96zedouUweeLb
+ f+yxnSZFBuN15ybFpHK5twJwWIY4tm3OKYXIl+AlzVjOUjt9qh89Hx6SMbLpE2rYDUIsUbsEgja
+ guLFynm0Ujj4y7z8hQ2WLUPS2RLF8aJZC6eEiVnaWy2Jvq9UChOF8i+FJRppMzk+b/8vuVWINEx
+ 2Y2ZQbWnlGnifJPx+AR+E3nGTfaeNbF7SDnNOTgQAycar4EEJ7/RfkmYB
+X-Received: by 2002:a05:622a:430c:b0:4e8:9ed2:78fa with SMTP id
+ d75a77b69052e-4e89ed27b1amr70538581cf.1.1760969721850; 
+ Mon, 20 Oct 2025 07:15:21 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IFgFJIAqpM19kvrDWGwCuBgqCdJgurbW+8pv+OyXQ/fhgIZbl4A99RK4rC5R2fhCALO5DvG/g==
+X-Received: by 2002:a05:622a:430c:b0:4e8:9ed2:78fa with SMTP id
+ d75a77b69052e-4e89ed27b1amr70538361cf.1.1760969721351; 
+ Mon, 20 Oct 2025 07:15:21 -0700 (PDT)
+Received: from [192.168.119.202] (078088045245.garwolin.vectranet.pl.
+ [78.88.45.245]) by smtp.gmail.com with ESMTPSA id
+ 4fb4d7f45d1cf-63c4949bfd3sm6749303a12.41.2025.10.20.07.15.19
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 20 Oct 2025 07:15:20 -0700 (PDT)
+Message-ID: <88f04334-8d73-4ced-9c46-e69c3e6cbc72@oss.qualcomm.com>
+Date: Mon, 20 Oct 2025 16:15:18 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v4 05/13] drm/gem: Add huge tmpfs mount point helper
-To: Tvrtko Ursulin <tursulin@ursulin.net>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Jani Nikula <jani.nikula@linux.intel.com>,
- Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>,
- Boris Brezillon <boris.brezillon@collabora.com>,
- Rob Herring <robh@kernel.org>, Steven Price <steven.price@arm.com>,
- Liviu Dudau <liviu.dudau@arm.com>, Melissa Wen <mwen@igalia.com>,
- =?UTF-8?Q?Ma=C3=ADra_Canal?= <mcanal@igalia.com>,
- Hugh Dickins <hughd@google.com>, Baolin Wang
- <baolin.wang@linux.alibaba.com>, Andrew Morton <akpm@linux-foundation.org>,
- Al Viro <viro@zeniv.linux.org.uk>, =?UTF-8?Q?Miko=C5=82aj_Wasiak?=
- <mikolaj.wasiak@intel.com>, Christian Brauner <brauner@kernel.org>,
- Nitin Gote <nitin.r.gote@intel.com>, Andi Shyti
- <andi.shyti@linux.intel.com>, Jonathan Corbet <corbet@lwn.net>,
- Christopher Healy <healych@amazon.com>, Matthew Wilcox
- <willy@infradead.org>, Bagas Sanjaya <bagasdotme@gmail.com>
-Cc: linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- intel-gfx@lists.freedesktop.org, linux-mm@kvack.org,
- linux-doc@vger.kernel.org, kernel@collabora.com
-References: <20251015153018.43735-1-loic.molinari@collabora.com>
- <20251015153018.43735-6-loic.molinari@collabora.com>
- <7584abe7-0c3f-4022-b510-c2a57fd167bb@ursulin.net>
-Content-Language: fr
-From: =?UTF-8?Q?Lo=C3=AFc_Molinari?= <loic.molinari@collabora.com>
-Organization: Collabora Ltd
-In-Reply-To: <7584abe7-0c3f-4022-b510-c2a57fd167bb@ursulin.net>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Subject: Re: [PATCH v2] drm/msm/dpu: Filter modes based on adjusted mode clock
+To: Neil Armstrong <neil.armstrong@linaro.org>,
+ Jessica Zhang <jessica.zhang@oss.qualcomm.com>,
+ Rob Clark <robdclark@gmail.com>, Dmitry Baryshkov <lumag@kernel.org>,
+ Sean Paul <sean@poorly.run>,
+ Marijn Suijten <marijn.suijten@somainline.org>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>
+Cc: Abhinav Kumar <quic_abhinavk@quicinc.com>, linux-arm-msm@vger.kernel.org, 
+ dri-devel@lists.freedesktop.org, freedreno@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org
+References: <20250506-filter-modes-v2-1-c20a0b7aa241@oss.qualcomm.com>
+ <1b783a60-39c7-49b5-8932-e77230f6cddd@linaro.org>
+Content-Language: en-US
+From: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
+In-Reply-To: <1b783a60-39c7-49b5-8932-e77230f6cddd@linaro.org>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-Authority-Analysis: v=2.4 cv=KcvfcAYD c=1 sm=1 tr=0 ts=68f643fa cx=c_pps
+ a=7E5Bxpl4vBhpaufnMqZlrw==:117 a=FpWmc02/iXfjRdCD7H54yg==:17
+ a=IkcTkHD0fZMA:10 a=x6icFKpwvdMA:10 a=VkNPw1HP01LnGYTKEx00:22
+ a=P-IC7800AAAA:8 a=VwQbUJbxAAAA:8 a=EUspDBNiAAAA:8 a=KKAkSRfTAAAA:8
+ a=QfOM7-ESXlBk_NPiMl4A:9 a=QEXdDO2ut3YA:10 a=pJ04lnu7RYOZP9TFuWaZ:22
+ a=d3PnA9EDa4IxuAV0gXij:22 a=cvBusfyB2V15izCimMoJ:22 a=HhbK4dLum7pmb74im6QT:22
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUxMDE4MDAyNSBTYWx0ZWRfX7KwA/lp2u5Ep
+ VgLCoM0pM4OFpRwJs4DrIixcFNy0SYQ+noedRpio4+hqpuFW98dQzpcVgDPLFxHT2xG2hCLo3lA
+ bRBIVZpaf9L3Rg3KW2JirPwNGO+3X/9FcNNMRmf23PU2WBgzMkbuKEuEcN/lctn48xtpO643PRF
+ 8pf7wnNyfoLlyPb1CpyJ3UKCn38QU1aEdZA/+DxrchqKi4uDgq4WrzyQpW6Oe0NuLDgzZa3C1nN
+ I+cOU6mLy9F5YPry1Jp49GZaeSfJbu2hQonH0O4PK9YEGxzzTQ/snUmEyzf/ft7/5RANGMHJibK
+ 0Xesxss5wR2Y6TBjAaJru5OHb+JhvXGKTzMjdK5zCOlsglCMLWo2l3NRfasu2ObhYLTJux37EA1
+ 48lO/XNiVGJmvCFJ5xP2y8kmGASTTg==
+X-Proofpoint-GUID: 9LolACkQ2xk_hOYO1RyW5kD5Nbi5yc6N
+X-Proofpoint-ORIG-GUID: 9LolACkQ2xk_hOYO1RyW5kD5Nbi5yc6N
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.9,FMLib:17.12.80.40
+ definitions=2025-10-20_04,2025-10-13_01,2025-03-28_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ adultscore=0 phishscore=0 priorityscore=1501 suspectscore=0 impostorscore=0
+ malwarescore=0 clxscore=1015 bulkscore=0 spamscore=0 lowpriorityscore=0
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.19.0-2510020000 definitions=main-2510180025
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -85,206 +131,35 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 20/10/2025 11:10, Tvrtko Ursulin wrote:
+On 10/20/25 4:05 PM, neil.armstrong@linaro.org wrote:
+> Hi,
 > 
-> On 15/10/2025 16:30, Loïc Molinari wrote:
->> Add the drm_gem_huge_mnt_create() helper to avoid code duplication in
->> the i915, V3D, Panfrost and Panthor drivers. It creates and mounts a
->> dedicated huge tmpfs mountpoint, for the lifetime of a DRM device,
->> used at GEM object initialization.
+> On 5/7/25 03:38, Jessica Zhang wrote:
+>> Filter out modes that have a clock rate greater than the max core clock
+>> rate when adjusted for the perf clock factor
 >>
->> The next commits will port drivers to this helper.
+>> This is especially important for chipsets such as QCS615 that have lower
+>> limits for the MDP max core clock.
 >>
->> v3:
->> - store huge tmpfs mountpoint in drm_device
+>> Since the core CRTC clock is at least the mode clock (adjusted for the
+>> perf clock factor) [1], the modes supported by the driver should be less
+>> than the max core clock rate.
 >>
->> v4:
->> - return 0 in builds with CONFIG_TRANSPARENT_HUGEPAGE=n
->> - return 0 when huge_mnt already exists
+>> [1] https://elixir.bootlin.com/linux/v6.12.4/source/drivers/gpu/drm/msm/disp/dpu1/dpu_core_perf.c#L83
 >>
->> Signed-off-by: Loïc Molinari <loic.molinari@collabora.com>
->> ---
->>   drivers/gpu/drm/drm_gem.c | 58 +++++++++++++++++++++++++++++++++++++++
->>   include/drm/drm_device.h  | 11 ++++++++
->>   include/drm/drm_gem.h     |  1 +
->>   3 files changed, 70 insertions(+)
->>
->> diff --git a/drivers/gpu/drm/drm_gem.c b/drivers/gpu/drm/drm_gem.c
->> index a98d5744cc6c..db8c0a217add 100644
->> --- a/drivers/gpu/drm/drm_gem.c
->> +++ b/drivers/gpu/drm/drm_gem.c
->> @@ -29,6 +29,7 @@
->>   #include <linux/export.h>
->>   #include <linux/file.h>
->>   #include <linux/fs.h>
->> +#include <linux/fs_context.h>
->>   #include <linux/iosys-map.h>
->>   #include <linux/mem_encrypt.h>
->>   #include <linux/mm.h>
->> @@ -82,6 +83,63 @@
->>    * up at a later date, and as our interface with shmfs for memory 
->> allocation.
->>    */
->> +static void drm_gem_huge_mnt_free(struct drm_device *dev, void *data)
->> +{
->> +    drm_WARN_ON(dev, dev->huge_mnt == NULL);
+>> Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+>> Signed-off-by: Jessica Zhang <jessica.zhang@oss.qualcomm.com>
 > 
-> I don't see a benefit of adding this check but maybe I am missing 
-> something.
-
-That was mostly to detect and warn drivers setting the drm_device's 
-huge_mnt pointer directly. I can remove that.
-
->> +
->> +    kern_unmount(dev->huge_mnt);
->> +    dev->huge_mnt = NULL;
+> This change breaks the T14s OLED display, no modes are reported on the eDP connector.
+> msm_dpu ae01000.display-controller: [drm:update_display_info.part.0 [drm]] [CONNECTOR:41:eDP-1] Assigning EDID-1.4 digital sink color depth as 10 bpc.
+> msm_dpu ae01000.display-controller: [drm:update_display_info.part.0 [drm]] [CONNECTOR:41:eDP-1] ELD monitor
+> msm_dpu ae01000.display-controller: [drm:update_display_info.part.0 [drm]] [CONNECTOR:41:eDP-1] ELD size 20, SAD count 0
+> [drm:drm_mode_object_put.part.0 [drm]] OBJ ID: 113 (1)
+> msm_dpu ae01000.display-controller: [drm:drm_mode_prune_invalid [drm]] Rejected mode: "2880x1800": 120 652260 2880 2912 2920 2980 1800 1808 1816 1824 0x48 0x9 (CLOCK_HIGH)
+> msm_dpu ae01000.display-controller: [drm:drm_mode_prune_invalid [drm]] Rejected mode: "2880x1800": 60 652260 2880 2888 2920 2980 1800 1808 1816 3648 0x40 0x9 (CLOCK_HIGH)
 > 
-> Ditto - device is going away, no? So why bother clearing the pointer?
+> With this reverted on v6.18-rc, display works again.
 
-This one is necessary to let drivers tear down and reload. 
-drm_gem_huge_mnt_create() returns if the pointer isn't NULL.
+https://lore.kernel.org/linux-arm-msm/20250923-modeclk-fix-v2-1-01fcd0b2465a@oss.qualcomm.com/
 
-> Also, is the compiler smart enough to not compile or complain this 
-> function is unused in the !CONFIG_TRANSPARENT_HUGEPAGE case?
-
-No compiler warnings, but this might not be the case with different 
-compilers/versions so I'll ifdef it out.
-
->> +}
->> +
->> +/**
->> + * drm_gem_huge_mnt_create - Create, mount and use a huge tmpfs 
->> mountpoint
->> + * @dev: drm_device a huge tmpfs mountpoint should be used with
->> + * @value: huge tmpfs mount option value
->> + *
->> + * This function creates and mounts a dedicated huge tmpfs mountpoint 
->> for the
->> + * lifetime of the drm device @dev which is used at GEM object 
->> initialization
->> + * with drm_gem_object_init().
->> + *
->> + * The most common option value @value is "within_size" which only 
->> allocates
->> + * huge pages if the page will be fully within the GEM object size. 
->> "always",
->> + * "advise" and "never" are supported too but the latter would just 
->> create a
->> + * mountpoint similar to the default one (`shm_mnt`). See shmemfs and
->> + * Transparent Hugepage for more information.
->> + *
->> + * Returns:
->> + * 0 on success or a negative error code on failure.
->> + */
->> +int drm_gem_huge_mnt_create(struct drm_device *dev, const char *value)
->> +{
->> +    struct file_system_type *type;
->> +    struct fs_context *fc;
->> +    int ret;
->> +
->> +    if (!IS_ENABLED(CONFIG_TRANSPARENT_HUGEPAGE))
->> +        return 0;
-> 
-> Is there a specific reason why the !CONFIG_TRANSPARENT_HUGEPAGE path is 
-> not implemented in the header as a static inline? That would enable 
-> those builds to avoid the pointless function in text and function call 
-> in the drivers.
-
-Good point. I'll propose a new version with drm_gem_huge_mnt_create() 
-implemented as a static inline function that calls into 
-__drm_gem_huge_mnt_create() only for builds with 
-CONFIG_TRANSPARENT_HUGEPAGE=y.
-
->  
->> +    if (unlikely(dev->huge_mnt))
->> +        return 0;
-> 
-> Any special reason why it is allowed to call it multiple times with 
-> success?
-
-That was initially returning -EEXIST in v3 but got changed after review 
-to simplify call sites.
-
-> 
->> +
->> +    type = get_fs_type("tmpfs");
->> +    if (unlikely(!type))
->> +        return -EOPNOTSUPP;
->> +    fc = fs_context_for_mount(type, SB_KERNMOUNT);
->> +    if (IS_ERR(fc))
->> +        return PTR_ERR(fc);
->> +    ret = vfs_parse_fs_string(fc, "source", "tmpfs");
->> +    if (unlikely(ret))
->> +        return -ENOPARAM;
->> +    ret = vfs_parse_fs_string(fc, "huge", value);
->> +    if (unlikely(ret))
->> +        return -ENOPARAM;
->> +
->> +    dev->huge_mnt = fc_mount_longterm(fc);
->> +    put_fs_context(fc);
->> +
->> +    return drmm_add_action_or_reset(dev, drm_gem_huge_mnt_free, NULL);
->> +}
->> +EXPORT_SYMBOL_GPL(drm_gem_huge_mnt_create);
->> +
->>   static void
->>   drm_gem_init_release(struct drm_device *dev, void *ptr)
->>   {
->> diff --git a/include/drm/drm_device.h b/include/drm/drm_device.h
->> index 778b2cca6c49..352e3db402d7 100644
->> --- a/include/drm/drm_device.h
->> +++ b/include/drm/drm_device.h
->> @@ -3,6 +3,7 @@
->>   #include <linux/list.h>
->>   #include <linux/kref.h>
->> +#include <linux/mount.h>
->>   #include <linux/mutex.h>
->>   #include <linux/idr.h>
->>   #include <linux/sched.h>
->> @@ -168,6 +169,16 @@ struct drm_device {
->>        */
->>       struct drm_master *master;
->> +    /**
->> +     * @huge_mnt:
->> +     *
->> +     * Huge tmpfs mountpoint used at GEM object initialization
->> +     * drm_gem_object_init(). Drivers can call 
->> drm_gem_huge_mnt_create() to
->> +     * create a huge tmfps mountpoint. The default tmpfs mountpoint
->> +     * (`shm_mnt`) is used if NULL.
->> +     */
->> +    struct vfsmount *huge_mnt;
-> 
-> Maybe it would be nice to hide this in the !CONFIG_TRANSPARENT_HUGEPAGE 
-> case? A bit ugly to add an ifdef but it is also a bit questionable to 
-> force the member on everyone.
-
-It was initially stored in drivers' data structures but, as mentioned 
-above for v3, got put in drm_device to simplify call sites.
-
-Both V3D and i915 are testing for that pointer in a few places and that 
-would require adding ifdefs there too. This would also be the same for 
-any drivers adding support for huge pages. Is that really worth it?
-
-> 
-> Regards,
-> 
-> Tvrtko
-> 
->> +
->>       /**
->>        * @driver_features: per-device driver features
->>        *
->> diff --git a/include/drm/drm_gem.h b/include/drm/drm_gem.h
->> index 7c8bd67d087c..7285a62d9afc 100644
->> --- a/include/drm/drm_gem.h
->> +++ b/include/drm/drm_gem.h
->> @@ -492,6 +492,7 @@ struct drm_gem_object {
->>           DRM_GEM_FOPS,\
->>       }
->> +int drm_gem_huge_mnt_create(struct drm_device *dev, const char *value);
->>   void drm_gem_object_release(struct drm_gem_object *obj);
->>   void drm_gem_object_free(struct kref *kref);
->>   int drm_gem_object_init(struct drm_device *dev,
-> 
-
+Konrad
