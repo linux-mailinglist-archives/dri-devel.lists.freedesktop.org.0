@@ -2,43 +2,43 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8F457BF0614
-	for <lists+dri-devel@lfdr.de>; Mon, 20 Oct 2025 12:04:30 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id CD0DFBF061A
+	for <lists+dri-devel@lfdr.de>; Mon, 20 Oct 2025 12:04:35 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 95D2B10E399;
-	Mon, 20 Oct 2025 10:04:28 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A727110E39E;
+	Mon, 20 Oct 2025 10:04:33 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="UIJLHvH2";
+	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="JFlNh8PF";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from bali.collaboradmins.com (bali.collaboradmins.com
  [148.251.105.195])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3EB3010E26F
- for <dri-devel@lists.freedesktop.org>; Mon, 20 Oct 2025 10:04:27 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6F41510E395
+ for <dri-devel@lists.freedesktop.org>; Mon, 20 Oct 2025 10:04:28 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1760954665;
- bh=dvZ8bfGnbZO2NRCAIBX8BuUMCdu45We+toYTCgYJlU4=;
+ s=mail; t=1760954667;
+ bh=HAo0u9lj8gh67AIZa7MpgeL6X721kh0HCt2UfsjSGtI=;
  h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
- b=UIJLHvH2ugD4Q5kVNdA3RiMXkg9uBwJ9IRPs6Y/M/cDPN1L8vfpoGlhRM+jwoZwRm
- qc8Nf8dlC4pceHHMz7UGg7dtgeBwPv3tEpiuulq/PW+N+RdqFi4GLHeDOtwDr5APcm
- o446RXh0kM4lZfV+NgjemI7zu0H446cZBZwsq/dn2baQzudIlfzzOR/sSeiVN8vmVH
- +sb4hG9PjV2S6FW8WWRolfkvpqkfpExqhFsR9oUPXztISVqWgBkzPONrkF7lkAjzmM
- 3jGLJvg6iDNidNQL8KHHn8uN7WQt9rkxZI5stGvKaNzOp6mfw7BzE7fz5tLAauh333
- vyWlaK3zTmcUg==
+ b=JFlNh8PF9j5E+7YvKhHPr9LB4/23lSOser7ah7FVnzBtfmA/J/VYtmvGVfsWZSffi
+ NmCzTJgHFbxrEPAXJOWwPInsP+bNsJ3kiRQQc1FSI9pR0InRGryeQQWBmziZWj8iAl
+ juTJuqv6ZmiIgP801q25W6eJTE0SAkk7HGtaN+K3gHeCcLsdXA99qEHuOrZmIz9D+5
+ WTVDx+4GHklfMRHSdoTqaTixCtt8/XfrParHHjjWSvWH+uBiF3EGQs4lLHVTmDb851
+ /31UmKpofsFQrAXgJE/zFVBi8oU2TLJ7GY6HndUrd2NLkDutvqjgPakGjI242clXr6
+ XGqyXvP/ltA+w==
 Received: from [192.168.1.100] (2-237-20-237.ip236.fastwebnet.it
  [2.237.20.237])
  (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
  key-exchange X25519 server-signature RSA-PSS (4096 bits))
  (No client certificate requested) (Authenticated sender: kholk11)
- by bali.collaboradmins.com (Postfix) with ESMTPSA id B534517E108C;
- Mon, 20 Oct 2025 12:04:24 +0200 (CEST)
-Message-ID: <a624e724-4f29-4d9b-ac13-eca387867805@collabora.com>
-Date: Mon, 20 Oct 2025 12:04:24 +0200
+ by bali.collaboradmins.com (Postfix) with ESMTPSA id 1C7B417E1278;
+ Mon, 20 Oct 2025 12:04:26 +0200 (CEST)
+Message-ID: <abed2954-8a0e-4b8e-af44-f0b0d9764527@collabora.com>
+Date: Mon, 20 Oct 2025 12:04:25 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v8 19/20] soc: mediatek: mtk-cmdq: Remove cmdq_pkt_write()
- and cmdq_pkt_write_mask()
+Subject: Re: [PATCH v8 18/20] soc: mediatek: mtk-cmdq: Remove cmdq_pkt_jump()
+ and cmdq_pkt_jump_rel_temp()
 To: Jason-JH Lin <jason-jh.lin@mediatek.com>, Rob Herring <robh@kernel.org>,
  Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
  <conor+dt@kernel.org>, Jassi Brar <jassisinghbrar@gmail.com>,
@@ -56,10 +56,10 @@ Cc: Matthias Brugger <matthias.bgg@gmail.com>,
  dri-devel@lists.freedesktop.org, linux-mediatek@lists.infradead.org,
  linux-arm-kernel@lists.infradead.org, linux-media@vger.kernel.org
 References: <20251017065028.1676930-1-jason-jh.lin@mediatek.com>
- <20251017065028.1676930-20-jason-jh.lin@mediatek.com>
+ <20251017065028.1676930-19-jason-jh.lin@mediatek.com>
 From: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
 Content-Language: en-US
-In-Reply-To: <20251017065028.1676930-20-jason-jh.lin@mediatek.com>
+In-Reply-To: <20251017065028.1676930-19-jason-jh.lin@mediatek.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -78,14 +78,13 @@ Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 Il 17/10/25 08:44, Jason-JH Lin ha scritto:
-> The original cmdq_pkt_write() and cmdq_pkt_write_mask() only supported
-> generating GCE instructions with subsys ID. They have been replaced by
-> cmdq_pkt_write_pa(), cmdq_pkt_write_subsys(), cmdq_pkt_write_mask_pa()
-> and cmdq_pkt_write_mask_subsys().
+> Since all users have migrated to the new cmdq_pkt_jump* APIs without
+> shift_pa, the wrapper APIs cmdq_pkt_jump() and cmdq_pkt_jump_rel_temp()
+> can be removed.
 > 
-> These 2 functions can now be removed as they are no longer in use.
-> 
+> Fixes: ade176534112 ("soc: mediatek: cmdq: Add parameter shift_pa to cmdq_pkt_jump()")
 > Signed-off-by: Jason-JH Lin <jason-jh.lin@mediatek.com>
 
 Reviewed-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+
 
