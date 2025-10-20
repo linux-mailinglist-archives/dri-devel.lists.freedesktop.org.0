@@ -2,72 +2,67 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id CDC93BF2B9F
-	for <lists+dri-devel@lfdr.de>; Mon, 20 Oct 2025 19:33:08 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6EE6FBF2BFC
+	for <lists+dri-devel@lfdr.de>; Mon, 20 Oct 2025 19:39:51 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id EEAA810E49E;
-	Mon, 20 Oct 2025 17:33:06 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7DBBC10E2B1;
+	Mon, 20 Oct 2025 17:39:48 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="AyPxJ7eh";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="esCKnBGZ";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pj1-f48.google.com (mail-pj1-f48.google.com
- [209.85.216.48])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BCFB410E49E
- for <dri-devel@lists.freedesktop.org>; Mon, 20 Oct 2025 17:33:04 +0000 (UTC)
-Received: by mail-pj1-f48.google.com with SMTP id
- 98e67ed59e1d1-339d7c401d8so1133010a91.2
- for <dri-devel@lists.freedesktop.org>; Mon, 20 Oct 2025 10:33:04 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1760981584; x=1761586384; darn=lists.freedesktop.org;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=VI2PtJUq4Sc30HWOhQj8ldzwhG1vYDstA/zAjK88nRU=;
- b=AyPxJ7ehtvGnlu7gVium/xO3xN5ndGmZKE5fbNq1Z5zNw7IMlYvk+iwlm3LyHz328e
- ttMqDe4NExxijF27WiSaeQQydWVFgku86re+HOcQv8oj6nTsFwmTOl55zEMEvinL/UQS
- A1O3AgSqB9+gTEwl+Zz8wkWB7zdEMhFic5SYqqiK6kkvLwxJNmQz14iOdBktG1fMPoXZ
- 6Yi9LeMp0TlKDmGox3pb1j3xz3khU/LDkKxAxV0HVzHT/SHz8WI0aDCN1IQjczvoIwaZ
- OA2SVPZAjxj6Mx7nvq5AD/c+r41yT5kuVaVG5Ldbx3f54Kf2jEzrDPfkaRy4j1JOTD0D
- g1Nw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1760981584; x=1761586384;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=VI2PtJUq4Sc30HWOhQj8ldzwhG1vYDstA/zAjK88nRU=;
- b=smSWEW8ZOpltfT25Mi6a7THQy7OD/gDPLiS4wuJhDQ52esIDLd34z01KKEAiNpJtTh
- URZrFI8iJ6vmG6/Dag310vE5tsQxx4/7+6hO05y6VobPHbGxvJq+RbL38Mu3Y3H2dBqi
- k4YTOxu7xZJNetuWnGVS8XdKQJunThL2HMk5639ZLc/za8+8LwieCCQ/X9eyuElGmiBu
- 54FuGxJ0jSCxXrjPOmuALFhfkyubPkhcjL1Wc1aDHSsuRVAjBXsirOYXraLnJP65fzYZ
- isnN0YbkxP1d221PdCShqr8iLbxgtig/y04loAS/OrVGCCujmjiz+jNvtiaFPHy26Y+q
- lCIw==
+Received: from sea.source.kernel.org (sea.source.kernel.org [172.234.252.31])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E12EC10E490
+ for <dri-devel@lists.freedesktop.org>; Mon, 20 Oct 2025 17:39:47 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by sea.source.kernel.org (Postfix) with ESMTP id 9A37148E3D
+ for <dri-devel@lists.freedesktop.org>; Mon, 20 Oct 2025 17:39:47 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7CEE1C4AF09
+ for <dri-devel@lists.freedesktop.org>; Mon, 20 Oct 2025 17:39:47 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1760981987;
+ bh=wT1Y0qfI1uM/2GtV+FQhAIBMo9jpLEUnAXNhpAS02FE=;
+ h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+ b=esCKnBGZ6tc7fXkUNN0JMOBxu4pT8vQeT0lTR5kZUFWi+3eMrJIJJBjRCN85L+Nba
+ oQpck0TBqIfTz0bdA27GzRuRMDrlPQYiN+8itrLY2Bg4xX3JMsd3oqo0dUym8iRseY
+ kHyQUsYhahuf50qjT0r2elMPjfOeOjT8t1Mq09jIc8WLS6U+ql/aSTJwekhaXUN+eu
+ hJ3Sg5z7uInlb/xr6vLmnxZ3SlFZjE1QUhtFyQoJ3+oCOLGgx29OwbJgxrr0XlOAas
+ R1kCWqalRAZ3NA3aBPyrgqXuvAJfIEUnZG39F9IUByVkYfl/QOt5LKcIq0zCyjnSk+
+ 6Op2Pp9/4GVvw==
+Received: by mail-oo1-f53.google.com with SMTP id
+ 006d021491bc7-651c743b2d9so2031143eaf.3
+ for <dri-devel@lists.freedesktop.org>; Mon, 20 Oct 2025 10:39:47 -0700 (PDT)
 X-Forwarded-Encrypted: i=1;
- AJvYcCWn4BdxFb94EOM6Q0duH7eBSpBWgk8O+bI7NYpwItf1BjIzuHF56v76LNuj+fcCndaRtoIZCiZVp0s=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YwOsF7v1HJ+yCHeUIGG/Ewsd+FwxnAJ1fqI6g9T0zeHZRlY3pm7
- 01hGJkfMG9S0Zg6tB+kNQESPqXxcPcCZT1S/cHWVHV7hcDR8rtMq0tGSPDMCU3/1WRHJhI1yo/H
- f6YU8en3YeL0jVgeL1OmAROWk3I+nW9o=
-X-Gm-Gg: ASbGncv9rQIOklHBSQZS8D7uedyqQrWMyh8sodSOQtSedEeXaYZZAl7RVE5Y4vQMkLe
- jKB4ofAGG3BnCTmJwY5xdKRWfrRQJ1/hJN0reSstKR0U5Xw2OzmZ13g7mvTwVZt9weC5+TFgPLO
- 7o3tzC7zXbaaRn38nDjfYq6HscAwoAfifWSKg9tK8OlmSOFVzGvj+nS453AlvgzJbbEseVUtLNv
- LFJhi83vXNsIuu0CHVgElWyt327hM+Y4QvbgjZUZeukMkOKxWxIMrPTqDY5yMUDO4MlVI0=
-X-Google-Smtp-Source: AGHT+IFU+KqAEkbMCW8Xf53JYAtbqincSoO/rgEjO02snl6niQ+EZQMNsesNeWJPPWOHadiHVfJVBWRPjcMTziYcl0I=
-X-Received: by 2002:a17:903:8c8:b0:277:c230:bfca with SMTP id
- d9443c01a7336-292d3e57324mr1368175ad.4.1760981584179; Mon, 20 Oct 2025
- 10:33:04 -0700 (PDT)
+ AJvYcCVwrIFz4i4a1q3Xt0PWcyWfqnsSqr5piiJd370hhnleI68pr/+rf1Wi3Q4Wc/iTQbMAbQXLBSeMC5g=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YwxeXp+Rz9EXOsB1QSPDnb8+Wq7GFrUqbeMcR74mtZulyUrQhZ2
+ x5WPFqc69lzM8+Sc3I+8HqN06W3iswohHIUVLQ4Q7gcAV1oNPtv8FTtbyCDTV5ivy8kzkkP/i3Z
+ lTwp5/RrUw86NZH7kMP4GkgOR9iH4csM=
+X-Google-Smtp-Source: AGHT+IG2Rxr5g0ETdapUPV9rmvM1DRXwrnwlcoW74xA8ZYJcZOIYF2AKB8oeuOlCh0+q7dU4hWkh88h8bpa+Do93q4Y=
+X-Received: by 2002:a05:6808:138b:b0:441:8f74:fb1 with SMTP id
+ 5614622812f47-443a31ef503mr6101556b6e.62.1760981986716; Mon, 20 Oct 2025
+ 10:39:46 -0700 (PDT)
 MIME-Version: 1.0
-References: <20251018054451.259432-1-daniel@0x0f.com>
-In-Reply-To: <20251018054451.259432-1-daniel@0x0f.com>
-From: Alex Deucher <alexdeucher@gmail.com>
-Date: Mon, 20 Oct 2025 13:32:51 -0400
-X-Gm-Features: AS18NWD66tyW2gm21ozKGA5vxvXrn7M693EyUTlpuxSeBNhOvz2jwM0dQyB4ats
-Message-ID: <CADnq5_MBLAOsam77vZME=rjOoDMXL_+J+grxXVGz2ekxO=512w@mail.gmail.com>
-Subject: Re: [PATCH 0/3] drm/radeon: fix up some badness when probe fails
-To: Daniel Palmer <daniel@0x0f.com>
-Cc: alexander.deucher@amd.com, christian.koenig@amd.com, airlied@gmail.com, 
- simona@ffwll.ch, wuhoipok@gmail.com, amd-gfx@lists.freedesktop.org, 
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
+References: <20251020165317.3992933-1-superm1@kernel.org>
+ <20251020165317.3992933-4-superm1@kernel.org>
+ <CAJZ5v0gsdmfXUJuLW8Ogt2jKDunx4g51LqCfSVMWQ6WHXBw_zg@mail.gmail.com>
+ <85c039ef-e189-48c1-8bf7-50ac0c2484e2@kernel.org>
+In-Reply-To: <85c039ef-e189-48c1-8bf7-50ac0c2484e2@kernel.org>
+From: "Rafael J. Wysocki" <rafael@kernel.org>
+Date: Mon, 20 Oct 2025 19:39:34 +0200
+X-Gmail-Original-Message-ID: <CAJZ5v0gT9BG5QPcwg6jJ1Jghny2YxC9_HY542LTBy-aVc_2T_w@mail.gmail.com>
+X-Gm-Features: AS18NWAGFArtUw2iag6c7zcOb_ybIi_pg36NhodGLq9MnSrMsDZdX75ZsN_KO40
+Message-ID: <CAJZ5v0gT9BG5QPcwg6jJ1Jghny2YxC9_HY542LTBy-aVc_2T_w@mail.gmail.com>
+Subject: Re: [RFC 3/3] drm/amd: Return -EBUSY for amdgpu_pmops_thaw() on
+ success
+To: "Mario Limonciello (AMD) (kernel.org)" <superm1@kernel.org>
+Cc: "Rafael J. Wysocki" <rafael@kernel.org>, mario.limonciello@amd.com,
+ airlied@gmail.com, 
+ alexander.deucher@amd.com, christian.koenig@amd.com, dakr@kernel.org, 
+ gregkh@linuxfoundation.org, lenb@kernel.org, pavel@kernel.org, 
+ simona@ffwll.ch, Muhammad Usama Anjum <usama.anjum@collabora.com>,
+ amd-gfx@lists.freedesktop.org, 
+ dri-devel@lists.freedesktop.org, linux-pm@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -85,42 +80,67 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Applied.  Thanks!
+On Mon, Oct 20, 2025 at 7:28=E2=80=AFPM Mario Limonciello (AMD) (kernel.org=
+)
+<superm1@kernel.org> wrote:
+>
+>
+>
+> On 10/20/2025 12:21 PM, Rafael J. Wysocki wrote:
+> > On Mon, Oct 20, 2025 at 6:53=E2=80=AFPM Mario Limonciello (AMD)
+> > <superm1@kernel.org> wrote:
+> >>
+> >> From: Mario Limonciello <mario.limonciello@amd.com>
+> >>
+> >> The PM core should be notified that thaw was skipped for the device
+> >> so that if it's tried to be resumed (such as an aborted hibernate)
+> >> that it gets another chance to resume.
+> >>
+> >> Cc: Muhammad Usama Anjum <usama.anjum@collabora.com>
+> >> Signed-off-by: Mario Limonciello <mario.limonciello@amd.com>
+> >> ---
+> >>   drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c | 2 +-
+> >>   1 file changed, 1 insertion(+), 1 deletion(-)
+> >>
+> >> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c b/drivers/gpu/drm=
+/amd/amdgpu/amdgpu_drv.c
+> >> index 61268aa82df4d..d40af069f24dd 100644
+> >> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c
+> >> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c
+> >> @@ -2681,7 +2681,7 @@ static int amdgpu_pmops_thaw(struct device *dev)
+> >>
+> >>          /* do not resume device if it's normal hibernation */
+> >>          if (!pm_hibernate_is_recovering() && !pm_hibernation_mode_is_=
+suspend())
+> >> -               return 0;
+> >> +               return -EBUSY;
+> >
+> > So that's why you need the special handling of -EBUSY in the previous p=
+atch.
+>
+> Yup.
+>
+> >
+> > I think that you need to save some state in this driver and then use
+> > it in subsequent callbacks instead of hacking the core to do what you
+> > want.
+> >
+>
+> The problem is the core decides "what" to call and more importantly
+> "when" to call it.
+>
+> IE if the core thinks that something is thawed it will never call
+> resume, and that's why you end up in a bad place with Muhammad's
+> cancellation series and why I proposed this one to discuss.
+>
+> We could obviously go back to dropping this case entirely:
+>
+> if (!pm_hibernate_is_recovering() && !pm_hibernation_mode_is_suspend())
+>
+> But then the display turns on at thaw(), you do an unnecessary resource
+> eviction, it takes a lot longer if you have a ton of VRAM etc.
 
-Alex
+The cancellation series is at odds with this code path AFAICS because
+what if hibernation is canceled after the entire thaw transition?
 
-On Sat, Oct 18, 2025 at 1:51=E2=80=AFAM Daniel Palmer <daniel@0x0f.com> wro=
-te:
->
-> I have been trying to get a Radeon 9250 running on an Amiga 4000[0].
->
-> On that setup it fails to find the BIOS and the probe fails which is
-> expected but then a bunch of WARN_ON()s etc are triggered.
->
-> I though maybe this is "m68k problems" so I bought an old x86 board and
-> there if I have a different primary VGA card the BIOS part of the
-> probe fails in the same way and the same scary messages[1] are showing
-> up in the console.
->
-> It seems like the probe failure path wasn't tested when some previous
-> cleaning up happened.
->
-> I'll fix the issues with not finding the BIOS if the card wasn't
-> initialised in the normal x86 way later.
->
-> 0 - https://lore.kernel.org/lkml/20251007092313.755856-1-daniel@thingy.jp=
-/
-> 1 - https://gist.github.com/fifteenhex/b971bd62c49383a0558395c62c05ce3b
->
-> Daniel Palmer (3):
->   drm/radeon: Clean up pdev->dev instances in probe
->   drm/radeon: Do not kfree() devres managed rdev
->   drm/radeon: Remove calls to drm_put_dev()
->
->  drivers/gpu/drm/radeon/radeon_drv.c | 34 ++++++++---------------------
->  drivers/gpu/drm/radeon/radeon_kms.c |  1 -
->  2 files changed, 9 insertions(+), 26 deletions(-)
->
-> --
-> 2.51.0
->
+Some cleanup would need to be done before thawing user space I suppose.
