@@ -2,81 +2,56 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A843BBF1B21
-	for <lists+dri-devel@lfdr.de>; Mon, 20 Oct 2025 16:02:04 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 85CABBF1ACF
+	for <lists+dri-devel@lfdr.de>; Mon, 20 Oct 2025 15:57:49 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D054B10E449;
-	Mon, 20 Oct 2025 14:02:02 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9992210E441;
+	Mon, 20 Oct 2025 13:57:46 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=aol.com header.i=@aol.com header.b="dwutskja";
+	dkim=pass (2048-bit key; secure) header.d=mailbox.org header.i=@mailbox.org header.b="qNCE4Ivi";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sonic317-20.consmr.mail.gq1.yahoo.com
- (sonic317-20.consmr.mail.gq1.yahoo.com [98.137.66.146])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 73A1D10E449
- for <dri-devel@lists.freedesktop.org>; Mon, 20 Oct 2025 14:02:01 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=aol.com; s=a2048;
- t=1760968920; bh=pFLYA2YQt6LoYcfiWureQPG0b5378+W1bpApadzNODc=;
- h=From:To:Cc:Subject:Date:References:From:Subject:Reply-To;
- b=dwutskjaN0fIry6cSjmb/OzeKY3UByWG5UZFei3p9LyzqM0Yf/ceelODqF2upmxSCCVJ+tA9oVV49yeDG2KAnd9xfVbFF0eaol1dpSRpvm4rr+jIoVzkSp0P8NbQZRnheh5AzGICZg8ZxCnHuXKtHZ7zAThyZHnYERyEIe0tvyZcKVU7bSBJIHHcbMEkVVsCG4BUIUnL7OA75T5ycgCzLa1kd9xPaYXFUlV3sOkxSDiyMt+Bf8KaEqIBWRsPyGF0y0AdtnQgBXdC9KBfKZ1e/CfmRavMtxmnxFIrsIMZqfYxzcKMt6LXf2ZbTaTQRxBAHFFSeWjXbjj05Ye0pYV2Cw==
-X-SONIC-DKIM-SIGN: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yahoo.com; s=s2048;
- t=1760968920; bh=sLJ+lJW0Bl6aVihorOIPfe2FarlkOTJ3kiJZYZkrW1i=;
- h=X-Sonic-MF:From:To:Subject:Date:From:Subject;
- b=Sscaw318wL5P6sAoCAKmahRIZ9ltYxVSaZZspDOZxN2GXqtNQlEUyNIcxc7UPFwRBrRaSgGS9z96gQOx+8VAIL/HHj+Iiw2tKIgWlq9a9Hr2eiz9zGh1PwwM62+CDYYZ9bvflF50hKx7IRTaY1lUN1VC0M2xldF8rsQLKI+RBuUruSd7u3CYv+51hMmdJ4Sc4Az4jhSl5OIfULbQO0+N+VGfFuyJkCjGJx4pbG7ZptFTuIWNFgg0e0YogtD+JyBAaX/88mcsKd4yUq0W6wbzO539Y4em+nap+FVYkc5p7h9x9y3SxHw2cDGk9kCyZ/hwK1Kk7MxhWbDLt0B7W8RW3g==
-X-YMail-OSG: ba_ULjoVM1mYBlcGgLq4hO2OWzUHqmLZmTSrHIWU2XjIRunWTXQnhvhPa0ZhKIi
- 0j3HzQeRDkIHRzSMWQIsjDPvFIZsdHJ_koOJM6LsunZrfiOIIfz01ug4W.RbKv_v51cFIX.GaaOX
- 9hoJiuzBGpOtdWqHNpViDljeZSSuAscpT1NgPzKtEs1DiAAFCxyiLk5nECeb2kW8l4FJP.aYrwIj
- 71X8JI1jQkbLWQ4CKtzyjcVA37rhsvI9x4CDC7.YGyipboepywFtTcBQX8u2hzGIRra1mQE9_Vd2
- Y5DJHGYlVTZ4YaGVQqgBOmO_gw7_b5YEf9aHBSeykBcotI__bQU3FDT6Pa.E8iSrfhZm9Dcx0oTu
- nsIuomuYEMiNVTy.N_X5yMKIeonR2USNkTtbbRYnJXfx8zRVQk6KYOuqI_ck.DQITrk3bVS8_LKo
- hAJJZ11sMVom9AGs7PtkXVKAdsopKnn13UObmqO5IPNE93beS_sd8E2LzyIxOaXpVAO8gabqUxga
- asLHihHu5ksFcEEehq7L9GC5YhLSnHpmA9ZHCKgUN4zFferCm1zbFDnpQ982c9CCF2t0.osNZvHw
- L0TT_GbQ29bZLeabSfzanOOMrR0LyBdi6ILMNwP3UYt9fLVdnzURdMxTguDhyy.ZwfQH7cBH9xG0
- dIRZaK_StOHjHIlEhFqddxzE7QBkZ9o8MCO3yYlbsy42a07BG2XoM1i474N7j01A8R.0zsfzsWIZ
- hhnALGxjRPMOVFu2OaoJoaBCRdHofxPmgdCpHmvXu0VSkciCm_o1AWWXd4Xv4hBNGptalmNUfUZY
- QIabUcQGG.EQ2EkQaTfWN5SwjX0cwNMimUCnXWylmTd422nl70qHeLRDmdCdL_vdxfjykaxhPJAR
- ykM.V792xL_KDjB83j3VDBAi7f1_zQO5Zy2uTn59IwZc4pK3Iem7xIdoivqYB1u4oI5apQiwnnWX
- RhveGUPQ9cOd692bvu5rHWyeHoSP9K6r60bKqO6ne1N5fVDlvr6XVoiEUsIFWcxiRFjmwAJRu8j6
- asgCtNTNIIK318qWMsmt4Yp2NO4eOIBmxfnPLGluNeUk04rbaHeTpU1ticBcEfegy9lIvnVWuVro
- WzBk02f0CcTXJz39MSP.KQyibwQJgpZhSMCJilBl.mTjIA8MWymcbgkUj5J1bgaAG3SYffUoTFAD
- UF5td730D0VtVf5_.ubG8sru5H7FrfPQrove3WP41iEpV_9EGLGZO5qKxnriRfp6JYJwTNADHZ5K
- Em6.4pjrI4YSOdiZdkmtPyqzrItUgdUdFk.6KXjTJVtXSA1gYqq7bZbDu0tFjJBuzSW7I6__XOLA
- vSZeLu82ut1NRSrML0BVFHIKD.YRBEio11Z0cdnAYM.cXfwxMhnkFB2AzZVyRcAadFeDuOmW5O.m
- g4G6BZDCZVcXGPZaQrmjL2Yy6T0Wn5slUu4tj3E8IIY45PONKaw88wF3vm2HF3BrnpmV2IIEKz9v
- NWLRYTyL_4R36hBqFGN8GhPBC7C.x7ut9qElkUDOZFGpx5HCmTcUJ1PValtlEnb3TpaWNiHjtnsz
- 3qKEfsw6xKhy9BrZG9q4bsOMurg7qL3a4iEFf2Z6DjmGyafIhfm2bt.QWpKZfYlzDaKFQ04Ffdbb
- EOjj5WLFpTqAmR4dOlLmaau7uejmo_FtjBm_KpQgbMHnrFIVwT1G4R3bSn38UASgGYhSYeYH3XvU
- l0jS4fz4F5AIIXx7gK3BATz0GJsD0rRDcLJdyWZ4qgpBrtCS6SQHrBsDd7hc__6Kouy_rH5Z73W7
- sRTx6jWDeXE5Wdr0XOvFajezUHOsQxbfD6pecL7YxXMJdTvjxZq1T3S7oQC.gAOe08P2Bq4euECp
- GX2XND4FseMG2Ue6O6uTGkukxlaVzEZ.Njf2iiaEe4LWS_mDrZ2V2ljeibIfkF7hBytpQzapBQb8
- WmF73DbZyjk58eBksNvX1rj4J8QTb1mpXXpjFTcYM8Y6hnRi.1Cye1pIBDSzScCy_xu1Co2jWLuI
- aJE3uJddJbRC_F_E877WVg.HO1SA2JUReZP0mArAQ2AmK1WoXhWABBgOqU6qs4Jx3IkDxzafhDp1
- A0QugVBR.z0hixBKgtCD.0mi7bmpMTA3luIMWLmx64FOZiZh94_Uxk6cUqCJBWWRqp48k80fwiL8
- 1W9pedBgG53RUjg_HTXoCAMRJgw5lpj3DVfDY8ESfom73hCkY8NIVUWqad0casEI3Ix51tm4._3A
- sBkKxkoK9i2Kwv8qjuWqEXBC4OiSAEpTINeVG.lcXi4acSj6HWINL
-X-Sonic-MF: <rubenru09@aol.com>
-X-Sonic-ID: 7059ca9b-e0e7-42f8-be81-8e1f8b89ef92
-Received: from sonic.gate.mail.ne1.yahoo.com by
- sonic317.consmr.mail.gq1.yahoo.com with HTTP; Mon, 20 Oct 2025 14:02:00 +0000
-Received: by hermes--production-ir2-cdb597784-q5vnj (Yahoo Inc. Hermes SMTP
- Server) with ESMTPA ID c2ad94a46301785748ed7ea5463a1645; 
- Mon, 20 Oct 2025 14:01:55 +0000 (UTC)
-From: Ruben Wauters <rubenru09@aol.com>
-To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
- Simona Vetter <simona@ffwll.ch>
-Cc: Ruben Wauters <rubenru09@aol.com>, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org
-Subject: [PATCH v2] drm/gud: rearrange gud_probe() to prepare for function
- splitting
-Date: Mon, 20 Oct 2025 14:56:04 +0100
-Message-ID: <20251020140147.5017-1-rubenru09@aol.com>
-X-Mailer: git-send-email 2.51.0
+Received: from mout-p-101.mailbox.org (mout-p-101.mailbox.org [80.241.56.151])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9CEE610E441;
+ Mon, 20 Oct 2025 13:57:44 +0000 (UTC)
+Received: from smtp1.mailbox.org (smtp1.mailbox.org [10.196.197.1])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested)
+ by mout-p-101.mailbox.org (Postfix) with ESMTPS id 4cqxnx2lpRz9swN;
+ Mon, 20 Oct 2025 15:57:41 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org;
+ s=mail20150812; 
+ t=1760968661; h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=5d/1Bwx2LOFXuQOo44sBE1oqgvK/9xQiorV6VWIGpUo=;
+ b=qNCE4Ivi/6ZhtVlu8mrjF1rYFYoKPzLs3X6GLEqO8yomwyYI/UfD85rgQoA8aBMumhinK+
+ DoCo3ZPZg0wtHUpX8Furn/Ur0Dbe+r6DrCZqAMfuWpwjeQg8RomHil1XQ2qinAV+v/1eXo
+ BG8RZcG+2tiEFuNZe4KySev77U7lumKu0yqO7nvBrOEjvOldVhm1btSMOlNi7/cDo/eIaz
+ NlnHzBBLjkbfBbgdfuARgXvpoIv+9+pdD/KPG5tdA1YRMrv87JPeRP5+HmoaKdEnUAeayw
+ MQgP6zHGtoEQDhHH4HOD9Smg5jJP9xygHYR39GljATFnC1TPu9R+rZTH+7X9aQ==
+Message-ID: <2f1eb1943d4d6a7185391e6d35e9c5d9818649da.camel@mailbox.org>
+Subject: Re: [PATCH v2 09/27] drm/sched: Add fair scheduling policy
+From: Philipp Stanner <phasta@mailbox.org>
+To: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>,
+ amd-gfx@lists.freedesktop.org,  dri-devel@lists.freedesktop.org
+Cc: kernel-dev@igalia.com, Christian =?ISO-8859-1?Q?K=F6nig?=
+ <christian.koenig@amd.com>, Danilo Krummrich <dakr@kernel.org>, Matthew
+ Brost <matthew.brost@intel.com>, Philipp Stanner <phasta@kernel.org>,
+ Pierre-Eric Pelloux-Prayer <pierre-eric.pelloux-prayer@amd.com>
+Date: Mon, 20 Oct 2025 15:57:37 +0200
+In-Reply-To: <20251017133644.44747-10-tvrtko.ursulin@igalia.com>
+References: <20251017133644.44747-1-tvrtko.ursulin@igalia.com>
+ <20251017133644.44747-10-tvrtko.ursulin@igalia.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-References: <20251020140147.5017-1-rubenru09.ref@aol.com>
+X-MBO-RS-ID: 97cb9a8e1b7950dab50
+X-MBO-RS-META: mwpftb5h53etu416uodid4adbeazoymt
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -89,132 +64,566 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Reply-To: phasta@kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-gud_probe() is currently very large and does many things, including
-pipeline setup and feature detection, as well as having USB functions.
+On Fri, 2025-10-17 at 14:36 +0100, Tvrtko Ursulin wrote:
+> The FAIR scheduling policy is built upon the same concepts as the well
+> known CFS CPU scheduler - entity run queue is sorted by the virtual GPU
+> time consumed by entities in a way that the entity with least vruntime
+> runs first.
+>=20
+> It is able to avoid total priority starvation, which is one of the
+> problems with FIFO, and it also does not need for per priority run queues=
+.
+> As it scales the actual GPU runtime by an exponential factor as the
+> priority decreases, the virtual runtime for low priority entities grows
+> faster than for normal priority, pushing them further down the runqueue
+> order for the same real GPU time spent.
+>=20
+> Apart from this fundamental fairness, fair policy is especially strong in
+> oversubscription workloads where it is able to give more GPU time to shor=
+t
+> and bursty workloads when they are running in parallel with GPU heavy
+> clients submitting deep job queues.
+>=20
+> Signed-off-by: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
+> Cc: Christian K=C3=B6nig <christian.koenig@amd.com>
+> Cc: Danilo Krummrich <dakr@kernel.org>
+> Cc: Matthew Brost <matthew.brost@intel.com>
+> Cc: Philipp Stanner <phasta@kernel.org>
+> Cc: Pierre-Eric Pelloux-Prayer <pierre-eric.pelloux-prayer@amd.com>
+> ---
+> =C2=A0drivers/gpu/drm/scheduler/sched_entity.c=C2=A0=C2=A0 |=C2=A0 28 ++-=
+-
+> =C2=A0drivers/gpu/drm/scheduler/sched_internal.h |=C2=A0=C2=A0 5 +
+> =C2=A0drivers/gpu/drm/scheduler/sched_main.c=C2=A0=C2=A0=C2=A0=C2=A0 |=C2=
+=A0 11 +-
+> =C2=A0drivers/gpu/drm/scheduler/sched_rq.c=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0 | 166 ++++++++++++++++++++-
+> =C2=A0include/drm/gpu_scheduler.h=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 |=C2=A0 16 +-
+> =C2=A05 files changed, 207 insertions(+), 19 deletions(-)
+>=20
+> diff --git a/drivers/gpu/drm/scheduler/sched_entity.c b/drivers/gpu/drm/s=
+cheduler/sched_entity.c
+> index 565eddebb667..4144a97702a5 100644
+> --- a/drivers/gpu/drm/scheduler/sched_entity.c
+> +++ b/drivers/gpu/drm/scheduler/sched_entity.c
+> @@ -107,6 +107,8 @@ int drm_sched_entity_init(struct drm_sched_entity *en=
+tity,
+> =C2=A0	entity->guilty =3D guilty;
+> =C2=A0	entity->num_sched_list =3D num_sched_list;
+> =C2=A0	entity->priority =3D priority;
+> +	entity->rq_priority =3D drm_sched_policy =3D=3D DRM_SCHED_POLICY_FAIR ?
+> +			=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 DRM_SCHED_PRIORITY_KERNEL : priority;
+> =C2=A0	/*
+> =C2=A0	 * It's perfectly valid to initialize an entity without having a v=
+alid
+> =C2=A0	 * scheduler attached. It's just not valid to use the scheduler be=
+fore it
+> @@ -123,17 +125,23 @@ int drm_sched_entity_init(struct drm_sched_entity *=
+entity,
+> =C2=A0		 */
+> =C2=A0		pr_warn("%s: called with uninitialized scheduler\n", __func__);
+> =C2=A0	} else if (num_sched_list) {
+> -		/* The "priority" of an entity cannot exceed the number of run-queues =
+of a
+> -		 * scheduler. Protect against num_rqs being 0, by converting to signed=
+. Choose
+> -		 * the lowest priority available.
+> +		enum drm_sched_priority p =3D entity->priority;
+> +
+> +		/*
+> +		 * The "priority" of an entity cannot exceed the number of
+> +		 * run-queues of a scheduler. Protect against num_rqs being 0,
+> +		 * by converting to signed. Choose the lowest priority
+> +		 * available.
+> =C2=A0		 */
+> -		if (entity->priority >=3D sched_list[0]->num_rqs) {
+> -			dev_err(sched_list[0]->dev, "entity has out-of-bounds priority: %u. n=
+um_rqs: %u\n",
+> -				entity->priority, sched_list[0]->num_rqs);
+> -			entity->priority =3D max_t(s32, (s32) sched_list[0]->num_rqs - 1,
+> -						 (s32) DRM_SCHED_PRIORITY_KERNEL);
+> +		if (p >=3D sched_list[0]->num_user_rqs) {
+> +			dev_err(sched_list[0]->dev, "entity with out-of-bounds priority:%u nu=
+m_user_rqs:%u\n",
+> +				p, sched_list[0]->num_user_rqs);
+> +			p =3D max_t(s32,
+> +				 (s32)sched_list[0]->num_user_rqs - 1,
+> +				 (s32)DRM_SCHED_PRIORITY_KERNEL);
+> +			entity->priority =3D p;
+> =C2=A0		}
+> -		entity->rq =3D sched_list[0]->sched_rq[entity->priority];
+> +		entity->rq =3D sched_list[0]->sched_rq[entity->rq_priority];
+> =C2=A0	}
+> =C2=A0
+> =C2=A0	init_completion(&entity->entity_idle);
+> @@ -566,7 +574,7 @@ void drm_sched_entity_select_rq(struct drm_sched_enti=
+ty *entity)
+> =C2=A0
+> =C2=A0	spin_lock(&entity->lock);
+> =C2=A0	sched =3D drm_sched_pick_best(entity->sched_list, entity->num_sche=
+d_list);
+> -	rq =3D sched ? sched->sched_rq[entity->priority] : NULL;
+> +	rq =3D sched ? sched->sched_rq[entity->rq_priority] : NULL;
+> =C2=A0	if (rq !=3D entity->rq) {
+> =C2=A0		drm_sched_rq_remove_entity(entity->rq, entity);
+> =C2=A0		entity->rq =3D rq;
+> diff --git a/drivers/gpu/drm/scheduler/sched_internal.h b/drivers/gpu/drm=
+/scheduler/sched_internal.h
+> index 9adad48ec084..593e380a2d59 100644
+> --- a/drivers/gpu/drm/scheduler/sched_internal.h
+> +++ b/drivers/gpu/drm/scheduler/sched_internal.h
+> @@ -12,6 +12,8 @@
+> =C2=A0 * @kref: reference count for the object.
+> =C2=A0 * @lock: lock guarding the @runtime updates.
+> =C2=A0 * @runtime: time entity spent on the GPU.
+> + * @prev_runtime: previous @runtime used to get the runtime delta.
+> + * @vruntime: virtual runtime as accumulated by the fair algorithm.
+> =C2=A0 *
+> =C2=A0 * Because jobs and entities have decoupled lifetimes, ie. we canno=
+t access the
+> =C2=A0 * entity once the job is completed and we know how much time it to=
+ok on the
+> @@ -22,6 +24,8 @@ struct drm_sched_entity_stats {
+> =C2=A0	struct kref	kref;
+> =C2=A0	spinlock_t	lock;
+> =C2=A0	ktime_t		runtime;
+> +	ktime_t		prev_runtime;
+> +	ktime_t		vruntime;
+> =C2=A0};
+> =C2=A0
+> =C2=A0/* Used to choose between FIFO and RR job-scheduling */
+> @@ -29,6 +33,7 @@ extern int drm_sched_policy;
+> =C2=A0
+> =C2=A0#define DRM_SCHED_POLICY_RR=C2=A0=C2=A0=C2=A0 0
+> =C2=A0#define DRM_SCHED_POLICY_FIFO=C2=A0 1
+> +#define DRM_SCHED_POLICY_FAIR=C2=A0 2
+> =C2=A0
+> =C2=A0bool drm_sched_can_queue(struct drm_gpu_scheduler *sched,
+> =C2=A0			 struct drm_sched_entity *entity);
+> diff --git a/drivers/gpu/drm/scheduler/sched_main.c b/drivers/gpu/drm/sch=
+eduler/sched_main.c
+> index 0c5f7a0594bf..74a155377561 100644
+> --- a/drivers/gpu/drm/scheduler/sched_main.c
+> +++ b/drivers/gpu/drm/scheduler/sched_main.c
+> @@ -90,7 +90,7 @@ int drm_sched_policy =3D DRM_SCHED_POLICY_FIFO;
+> =C2=A0 * DOC: sched_policy (int)
+> =C2=A0 * Used to override default entities scheduling policy in a run que=
+ue.
+> =C2=A0 */
+> -MODULE_PARM_DESC(sched_policy, "Specify the scheduling policy for entiti=
+es on a run-queue, " __stringify(DRM_SCHED_POLICY_RR) " =3D Round Robin, " =
+__stringify(DRM_SCHED_POLICY_FIFO) " =3D FIFO (default).");
+> +MODULE_PARM_DESC(sched_policy, "Specify the scheduling policy for entiti=
+es on a run-queue, " __stringify(DRM_SCHED_POLICY_RR) " =3D Round Robin, " =
+__stringify(DRM_SCHED_POLICY_FIFO) " =3D FIFO, " __stringify(DRM_SCHED_POLI=
+CY_FAIR) " =3D Fair (default).");
+> =C2=A0module_param_named(sched_policy, drm_sched_policy, int, 0444);
 
-This patch re-orders the code in gud_probe() to make it more organised
-and easier to split apart in the future.
+Wrong. This patch does not make Fair the default scheduling policy.
 
-Signed-off-by: Ruben Wauters <rubenru09@aol.com>
----
-Changelog:
+> =C2=A0
+> =C2=A0static u32 drm_sched_available_credits(struct drm_gpu_scheduler *sc=
+hed)
+> @@ -1133,11 +1133,14 @@ int drm_sched_init(struct drm_gpu_scheduler *sche=
+d, const struct drm_sched_init_
+> =C2=A0		sched->own_submit_wq =3D true;
+> =C2=A0	}
+> =C2=A0
+> -	sched->sched_rq =3D kmalloc_array(args->num_rqs, sizeof(*sched->sched_r=
+q),
+> +	sched->num_user_rqs =3D args->num_rqs;
+> +	sched->num_rqs =3D drm_sched_policy !=3D DRM_SCHED_POLICY_FAIR ?
+> +			 args->num_rqs : 1;
+> +	sched->sched_rq =3D kmalloc_array(sched->num_rqs, sizeof(*sched->sched_=
+rq),
+> =C2=A0					GFP_KERNEL | __GFP_ZERO);
+> =C2=A0	if (!sched->sched_rq)
+> =C2=A0		goto Out_check_own;
+> -	sched->num_rqs =3D args->num_rqs;
+> +
+> =C2=A0	for (i =3D DRM_SCHED_PRIORITY_KERNEL; i < sched->num_rqs; i++) {
+> =C2=A0		sched->sched_rq[i] =3D kzalloc(sizeof(*sched->sched_rq[i]), GFP_K=
+ERNEL);
+> =C2=A0		if (!sched->sched_rq[i])
+> @@ -1279,7 +1282,7 @@ void drm_sched_increase_karma(struct drm_sched_job =
+*bad)
+> =C2=A0	if (bad->s_priority !=3D DRM_SCHED_PRIORITY_KERNEL) {
+> =C2=A0		atomic_inc(&bad->karma);
+> =C2=A0
+> -		for (i =3D DRM_SCHED_PRIORITY_HIGH; i < sched->num_rqs; i++) {
+> +		for (i =3D DRM_SCHED_PRIORITY_KERNEL; i < sched->num_rqs; i++) {
+> =C2=A0			struct drm_sched_rq *rq =3D sched->sched_rq[i];
+> =C2=A0
+> =C2=A0			spin_lock(&rq->lock);
+> diff --git a/drivers/gpu/drm/scheduler/sched_rq.c b/drivers/gpu/drm/sched=
+uler/sched_rq.c
+> index 2d1f579d8352..b12d0f1859f0 100644
+> --- a/drivers/gpu/drm/scheduler/sched_rq.c
+> +++ b/drivers/gpu/drm/scheduler/sched_rq.c
+> @@ -5,6 +5,8 @@
+> =C2=A0
+> =C2=A0#include "sched_internal.h"
+> =C2=A0
+> +#define DRM_SCHED_PRIORITY_INVALID (-1) /* Do not want the enum visible =
+outside. */
 
-v2
-- rename gud_get_properties to gud_plane_add_properties and move
-  function call to proper location
-- move usb_set_intfdata and block with dma setup to just under gdrm init
-- add proper spacing for init comments
----
- drivers/gpu/drm/gud/gud_drv.c | 45 +++++++++++++++++++----------------
- 1 file changed, 24 insertions(+), 21 deletions(-)
+Well nope, that's not what I had in mind at all =E2=80=93 there's no harm a=
+t
+all by defining that in the real enum. Users know that "Invalid" is not
+supposed to be used.
 
-diff --git a/drivers/gpu/drm/gud/gud_drv.c b/drivers/gpu/drm/gud/gud_drv.c
-index b7345c8d823d..42135a48d92e 100644
---- a/drivers/gpu/drm/gud/gud_drv.c
-+++ b/drivers/gpu/drm/gud/gud_drv.c
-@@ -249,7 +249,7 @@ int gud_usb_set_u8(struct gud_device *gdrm, u8 request, u8 val)
- 	return gud_usb_set(gdrm, request, 0, &val, sizeof(val));
- }
- 
--static int gud_get_properties(struct gud_device *gdrm)
-+static int gud_plane_add_properties(struct gud_device *gdrm)
+Setting it as the starter with -1 in the enum will guarantee
+correctness since the subsequent members will be numbered
+incrementingly.
+
+> +
+> =C2=A0static __always_inline bool
+> =C2=A0drm_sched_entity_compare_before(struct rb_node *a, const struct rb_=
+node *b)
+> =C2=A0{
+> @@ -16,6 +18,32 @@ drm_sched_entity_compare_before(struct rb_node *a, con=
+st struct rb_node *b)
+> =C2=A0	return ktime_before(ea->oldest_job_waiting, eb->oldest_job_waiting=
+);
+> =C2=A0}
+> =C2=A0
+> +static void drm_sched_rq_update_prio(struct drm_sched_rq *rq)
+> +{
+> +	enum drm_sched_priority prio =3D DRM_SCHED_PRIORITY_INVALID;
+> +	struct rb_node *rb;
+> +
+> +	lockdep_assert_held(&rq->lock);
+> +
+> +	rb =3D rb_first_cached(&rq->rb_tree_root);
+> +	if (rb) {
+> +		struct drm_sched_entity *entity =3D
+> +			rb_entry(rb, typeof(*entity), rb_tree_node);
+> +
+> +		/*
+> +		 * Unlocked read is fine to avoid the rq vs entity lock
+> +		 * inversion. If the priority had just changed it is no big
+> +		 * deal for our algorithm, but just a transient reachable only
+> +		 * by drivers with userspace dynamic priority changes API. Equal
+> +		 * in effect to the priority change becoming visible a few
+> +		 * instructions later.
+> +		 */
+> +		prio =3D READ_ONCE(entity->priority);
+
+OK, so here's the good news:
+
+I just looked it through and once the _whole series_ is applied this
+actually is not an unlocked read anymore.
+
+Once the series is applied, the only callers of this function here are
+drm_sched_rq_remove_tree_locked() and
+drm_sched_rq_update_tree_locked(), both of which grab the entity lock.=20
+
+
+So what we could do is suffer the READ_ONCE for a few patches and then
+remove it again once the other code paths running into here are
+removed. And probably add the entity lockdep guard, too.
+
+Unless I'm mistaken?
+
+Best to detail that in the commit message, as always.
+
+
+> +	}
+> +
+> +	rq->head_prio =3D prio;
+> +}
+> +
+> =C2=A0static void drm_sched_rq_remove_fifo_locked(struct drm_sched_entity=
+ *entity,
+> =C2=A0					=C2=A0=C2=A0=C2=A0 struct drm_sched_rq *rq)
+> =C2=A0{
+> @@ -25,6 +53,7 @@ static void drm_sched_rq_remove_fifo_locked(struct drm_=
+sched_entity *entity,
+> =C2=A0	if (!RB_EMPTY_NODE(&entity->rb_tree_node)) {
+> =C2=A0		rb_erase_cached(&entity->rb_tree_node, &rq->rb_tree_root);
+> =C2=A0		RB_CLEAR_NODE(&entity->rb_tree_node);
+> +		drm_sched_rq_update_prio(rq);
+> =C2=A0	}
+> =C2=A0}
+> =C2=A0
+> @@ -46,6 +75,7 @@ static void drm_sched_rq_update_fifo_locked(struct drm_=
+sched_entity *entity,
+> =C2=A0
+> =C2=A0	rb_add_cached(&entity->rb_tree_node, &rq->rb_tree_root,
+> =C2=A0		=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 drm_sched_entity_compare_before);
+> +	drm_sched_rq_update_prio(rq);
+> =C2=A0}
+> =C2=A0
+> =C2=A0/**
+> @@ -62,6 +92,123 @@ void drm_sched_rq_init(struct drm_gpu_scheduler *sche=
+d,
+> =C2=A0	INIT_LIST_HEAD(&rq->entities);
+> =C2=A0	rq->rb_tree_root =3D RB_ROOT_CACHED;
+> =C2=A0	rq->sched =3D sched;
+> +	rq->head_prio =3D DRM_SCHED_PRIORITY_INVALID;
+> +}
+> +
+> +static ktime_t
+> +drm_sched_rq_get_min_vruntime(struct drm_sched_rq *rq)
+> +{
+> +	ktime_t vruntime =3D 0;
+> +	struct rb_node *rb;
+> +
+> +	lockdep_assert_held(&rq->lock);
+> +
+> +	for (rb =3D rb_first_cached(&rq->rb_tree_root); rb; rb =3D rb_next(rb))=
  {
- 	struct gud_property_req *properties;
- 	unsigned int i, num_properties;
-@@ -463,10 +463,6 @@ static int gud_probe(struct usb_interface *intf, const struct usb_device_id *id)
- 		return PTR_ERR(gdrm);
- 
- 	drm = &gdrm->drm;
--	drm->mode_config.funcs = &gud_mode_config_funcs;
--	ret = drmm_mode_config_init(drm);
--	if (ret)
--		return ret;
- 
- 	gdrm->flags = le32_to_cpu(desc.flags);
- 	gdrm->compression = desc.compression & GUD_COMPRESSION_LZ4;
-@@ -483,11 +479,28 @@ static int gud_probe(struct usb_interface *intf, const struct usb_device_id *id)
- 	if (ret)
- 		return ret;
- 
-+	usb_set_intfdata(intf, gdrm);
-+
-+	dma_dev = usb_intf_get_dma_device(intf);
-+	if (dma_dev) {
-+		drm_dev_set_dma_dev(drm, dma_dev);
-+		put_device(dma_dev);
-+	} else {
-+		dev_warn(dev, "buffer sharing not supported"); /* not an error */
-+	}
-+
-+	/* Mode config init */
-+	ret = drmm_mode_config_init(drm);
-+	if (ret)
-+		return ret;
-+
- 	drm->mode_config.min_width = le32_to_cpu(desc.min_width);
- 	drm->mode_config.max_width = le32_to_cpu(desc.max_width);
- 	drm->mode_config.min_height = le32_to_cpu(desc.min_height);
- 	drm->mode_config.max_height = le32_to_cpu(desc.max_height);
-+	drm->mode_config.funcs = &gud_mode_config_funcs;
- 
-+	/* Format init */
- 	formats_dev = devm_kmalloc(dev, GUD_FORMATS_MAX_NUM, GFP_KERNEL);
- 	/* Add room for emulated XRGB8888 */
- 	formats = devm_kmalloc_array(dev, GUD_FORMATS_MAX_NUM + 1, sizeof(*formats), GFP_KERNEL);
-@@ -587,6 +600,7 @@ static int gud_probe(struct usb_interface *intf, const struct usb_device_id *id)
- 			return -ENOMEM;
- 	}
- 
-+	/* Pipeline init */
- 	ret = drm_universal_plane_init(drm, &gdrm->plane, 0,
- 				       &gud_plane_funcs,
- 				       formats, num_formats,
-@@ -598,12 +612,9 @@ static int gud_probe(struct usb_interface *intf, const struct usb_device_id *id)
- 	drm_plane_helper_add(&gdrm->plane, &gud_plane_helper_funcs);
- 	drm_plane_enable_fb_damage_clips(&gdrm->plane);
- 
--	devm_kfree(dev, formats);
--	devm_kfree(dev, formats_dev);
--
--	ret = gud_get_properties(gdrm);
-+	ret = gud_plane_add_properties(gdrm);
- 	if (ret) {
--		dev_err(dev, "Failed to get properties (error=%d)\n", ret);
-+		dev_err(dev, "Failed to add properties (error=%d)\n", ret);
- 		return ret;
- 	}
- 
-@@ -621,16 +632,7 @@ static int gud_probe(struct usb_interface *intf, const struct usb_device_id *id)
- 	}
- 
- 	drm_mode_config_reset(drm);
--
--	usb_set_intfdata(intf, gdrm);
--
--	dma_dev = usb_intf_get_dma_device(intf);
--	if (dma_dev) {
--		drm_dev_set_dma_dev(drm, dma_dev);
--		put_device(dma_dev);
--	} else {
--		dev_warn(dev, "buffer sharing not supported"); /* not an error */
--	}
-+	drm_kms_helper_poll_init(drm);
- 
- 	drm_debugfs_add_file(drm, "stats", gud_stats_debugfs, NULL);
- 
-@@ -638,7 +640,8 @@ static int gud_probe(struct usb_interface *intf, const struct usb_device_id *id)
- 	if (ret)
- 		return ret;
- 
--	drm_kms_helper_poll_init(drm);
-+	devm_kfree(dev, formats);
-+	devm_kfree(dev, formats_dev);
- 
- 	drm_client_setup(drm, NULL);
- 
--- 
-2.51.0
+> +		struct drm_sched_entity *entity =3D
+> +			rb_entry(rb, typeof(*entity), rb_tree_node);
+> +		struct drm_sched_entity_stats *stats =3D entity->stats;
+> +
+> +		/*
+> +		 * We only need the spin lock here on platforms where access to
+> +		 * 64-bit ktime_t can tear but for simplicity we take it un-
+> +		 * conditionally.
+> +		 */
+> +		spin_lock(&stats->lock);
+> +		vruntime =3D stats->vruntime;
+> +		spin_unlock(&stats->lock);
+> +	}
+> +
+> +	return vruntime;
+> +}
+> +
+> +static void
+> +drm_sched_entity_save_vruntime(struct drm_sched_entity *entity,
+> +			=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 ktime_t min_vruntime)
+> +{
+> +	struct drm_sched_entity_stats *stats =3D entity->stats;
+> +	ktime_t vruntime;
+> +
+> +	spin_lock(&stats->lock);
+> +	vruntime =3D stats->vruntime;
+> +	if (min_vruntime && vruntime > min_vruntime)
+> +		vruntime =3D ktime_sub(vruntime, min_vruntime);
+> +	else
+> +		vruntime =3D 0;
+> +	stats->vruntime =3D vruntime;
+> +	spin_unlock(&stats->lock);
+> +}
+> +
+> +static ktime_t
+> +drm_sched_entity_restore_vruntime(struct drm_sched_entity *entity,
+> +				=C2=A0 ktime_t min_vruntime,
+> +				=C2=A0 enum drm_sched_priority rq_prio)
+> +{
+> +	struct drm_sched_entity_stats *stats =3D entity->stats;
+> +	enum drm_sched_priority prio =3D entity->priority;
+> +	ktime_t vruntime;
+> +
+> +	BUILD_BUG_ON(DRM_SCHED_PRIORITY_NORMAL < DRM_SCHED_PRIORITY_HIGH);
+
+Why's that a build bug. Who is to set / change those values?
+
+> +
+> +	spin_lock(&stats->lock);
+> +	vruntime =3D stats->vruntime;
+> +
+> +	/*
+> +	 * Special handling for entities which were picked from the top of the
+> +	 * queue and are now re-joining the top with another one already there.
+> +	 */
+> +	if (!vruntime && min_vruntime) {
+> +		if (prio > rq_prio) {
+> +			/*
+> +			 * Lower priority should not overtake higher when re-
+> +			 * joining at the top of the queue.
+> +			 */
+> +			vruntime =3D us_to_ktime(prio - rq_prio);
+> +		} else if (prio < rq_prio) {
+> +			/*
+> +			 * Higher priority can go first.
+> +			 */
+> +			vruntime =3D -us_to_ktime(rq_prio - prio);
+> +		}
+> +	}
+> +
+> +	/*
+> +	 * Restore saved relative position in the queue.
+> +	 */
+> +	vruntime =3D ktime_add(min_vruntime, vruntime);
+> +
+> +	stats->vruntime =3D vruntime;
+> +	spin_unlock(&stats->lock);
+> +
+> +	return vruntime;
+> +}
+> +
+> +static ktime_t drm_sched_entity_update_vruntime(struct drm_sched_entity =
+*entity)
+> +{
+> +	static const unsigned int shift[] =3D {
+> +		[DRM_SCHED_PRIORITY_KERNEL] =3D 1,
+> +		[DRM_SCHED_PRIORITY_HIGH]=C2=A0=C2=A0 =3D 2,
+> +		[DRM_SCHED_PRIORITY_NORMAL] =3D 4,
+> +		[DRM_SCHED_PRIORITY_LOW]=C2=A0=C2=A0=C2=A0 =3D 7,
+> +	};
+
+Still no comments about these numbers origin?
+
+> +	struct drm_sched_entity_stats *stats =3D entity->stats;
+> +	ktime_t runtime, prev;
+> +
+> +	spin_lock(&stats->lock);
+> +	prev =3D stats->prev_runtime;
+> +	runtime =3D stats->runtime;
+> +	stats->prev_runtime =3D runtime;
+> +	runtime =3D ktime_add_ns(stats->vruntime,
+> +			=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 ktime_to_ns(ktime_sub(runtime, p=
+rev)) <<
+> +			=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 shift[entity->priority]);
+> +	stats->vruntime =3D runtime;
+> +	spin_unlock(&stats->lock);
+> +
+> +	return runtime;
+> +}
+> +
+> +static ktime_t drm_sched_entity_get_job_ts(struct drm_sched_entity *enti=
+ty)
+> +{
+> +	return drm_sched_entity_update_vruntime(entity);
+> =C2=A0}
+> =C2=A0
+> =C2=A0/**
+> @@ -98,8 +245,14 @@ drm_sched_rq_add_entity(struct drm_sched_entity *enti=
+ty, ktime_t ts)
+> =C2=A0		list_add_tail(&entity->list, &rq->entities);
+> =C2=A0	}
+> =C2=A0
+> -	if (drm_sched_policy =3D=3D DRM_SCHED_POLICY_RR)
+> +	if (drm_sched_policy =3D=3D DRM_SCHED_POLICY_FAIR) {
+> +		ts =3D drm_sched_rq_get_min_vruntime(rq);
+> +		ts =3D drm_sched_entity_restore_vruntime(entity, ts,
+> +						=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 rq->head_prio);
+> +	} else if (drm_sched_policy =3D=3D DRM_SCHED_POLICY_RR) {
+> =C2=A0		ts =3D entity->rr_ts;
+> +	}
+> +
+> =C2=A0	drm_sched_rq_update_fifo_locked(entity, rq, ts);
+> =C2=A0
+> =C2=A0	spin_unlock(&rq->lock);
+> @@ -171,7 +324,9 @@ void drm_sched_rq_pop_entity(struct drm_sched_entity =
+*entity)
+> =C2=A0	if (next_job) {
+> =C2=A0		ktime_t ts;
+> =C2=A0
+> -		if (drm_sched_policy =3D=3D DRM_SCHED_POLICY_FIFO)
+> +		if (drm_sched_policy =3D=3D DRM_SCHED_POLICY_FAIR)
+> +			ts =3D drm_sched_entity_get_job_ts(entity);
+> +		else if (drm_sched_policy =3D=3D DRM_SCHED_POLICY_FIFO)
+
+FAIR is not even the dafault policy in this patch, so git diff could be
+made smaller by reversing order. Same applies a few lines above.
+
+
+(more comments later this week, am a bit busy)
+
+P.
+
+> =C2=A0			ts =3D next_job->submit_ts;
+> =C2=A0		else
+> =C2=A0			ts =3D drm_sched_rq_next_rr_ts(rq, entity);
+> @@ -179,6 +334,13 @@ void drm_sched_rq_pop_entity(struct drm_sched_entity=
+ *entity)
+> =C2=A0		drm_sched_rq_update_fifo_locked(entity, rq, ts);
+> =C2=A0	} else {
+> =C2=A0		drm_sched_rq_remove_fifo_locked(entity, rq);
+> +
+> +		if (drm_sched_policy =3D=3D DRM_SCHED_POLICY_FAIR) {
+> +			ktime_t min_vruntime;
+> +
+> +			min_vruntime =3D drm_sched_rq_get_min_vruntime(rq);
+> +			drm_sched_entity_save_vruntime(entity, min_vruntime);
+> +		}
+> =C2=A0	}
+> =C2=A0	spin_unlock(&rq->lock);
+> =C2=A0	spin_unlock(&entity->lock);
+> diff --git a/include/drm/gpu_scheduler.h b/include/drm/gpu_scheduler.h
+> index be382cacabb5..ff798ee9e3c2 100644
+> --- a/include/drm/gpu_scheduler.h
+> +++ b/include/drm/gpu_scheduler.h
+> @@ -150,6 +150,11 @@ struct drm_sched_entity {
+> =C2=A0	 */
+> =C2=A0	enum drm_sched_priority=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0 priority;
+> =C2=A0
+> +	/**
+> +	 * @rq_priority: Run-queue priority
+> +	 */
+> +	enum drm_sched_priority=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+ rq_priority;
+> +
+> =C2=A0	/**
+> =C2=A0	 * @rr_ts:
+> =C2=A0	 *
+> @@ -254,10 +259,11 @@ struct drm_sched_entity {
+> =C2=A0 * struct drm_sched_rq - queue of entities to be scheduled.
+> =C2=A0 *
+> =C2=A0 * @sched: the scheduler to which this rq belongs to.
+> - * @lock: protects @entities, @rb_tree_root and @rr_ts.
+> + * @lock: protects @entities, @rb_tree_root, @rr_ts and @head_prio.
+> =C2=A0 * @rr_ts: monotonically incrementing fake timestamp for RR mode.
+> =C2=A0 * @entities: list of the entities to be scheduled.
+> =C2=A0 * @rb_tree_root: root of time based priority queue of entities for=
+ FIFO scheduling
+> + * @head_prio: priority of the top tree element.
+> =C2=A0 *
+> =C2=A0 * Run queue is a set of entities scheduling command submissions fo=
+r
+> =C2=A0 * one specific ring. It implements the scheduling policy that sele=
+cts
+> @@ -271,6 +277,7 @@ struct drm_sched_rq {
+> =C2=A0	ktime_t				rr_ts;
+> =C2=A0	struct list_head		entities;
+> =C2=A0	struct rb_root_cached		rb_tree_root;
+> +	enum drm_sched_priority		head_prio;
+> =C2=A0};
+> =C2=A0
+> =C2=A0/**
+> @@ -563,8 +570,10 @@ struct drm_sched_backend_ops {
+> =C2=A0 * @credit_count: the current credit count of this scheduler
+> =C2=A0 * @timeout: the time after which a job is removed from the schedul=
+er.
+> =C2=A0 * @name: name of the ring for which this scheduler is being used.
+> - * @num_rqs: Number of run-queues. This is at most DRM_SCHED_PRIORITY_CO=
+UNT,
+> - *=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 as there'=
+s usually one run-queue per priority, but could be less.
+> + * @num_user_rqs: Number of run-queues. This is at most
+> + *=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0 DRM_SCHED_PRIORITY_COUNT, as there's usually one run-=
+queue per
+> + *=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0 priority, but could be less.
+> + * @num_rqs: Equal to @num_user_rqs for FIFO and RR and 1 for the FAIR p=
+olicy.
+> =C2=A0 * @sched_rq: An allocated array of run-queues of size @num_rqs;
+> =C2=A0 * @job_scheduled: once drm_sched_entity_flush() is called the sche=
+duler
+> =C2=A0 *=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 waits on this wait queue until all the sc=
+heduled jobs are
+> @@ -597,6 +606,7 @@ struct drm_gpu_scheduler {
+> =C2=A0	long				timeout;
+> =C2=A0	const char			*name;
+> =C2=A0	u32=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 num_rqs;
+> +	u32=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0 num_user_rqs;
+> =C2=A0	struct drm_sched_rq=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0 **sched_rq;
+> =C2=A0	wait_queue_head_t		job_scheduled;
+> =C2=A0	atomic64_t			job_id_count;
 
