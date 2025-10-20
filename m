@@ -2,80 +2,54 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D0DEFBF2B12
-	for <lists+dri-devel@lfdr.de>; Mon, 20 Oct 2025 19:24:24 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id D2807BF2B15
+	for <lists+dri-devel@lfdr.de>; Mon, 20 Oct 2025 19:24:27 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 86D1D10E33A;
-	Mon, 20 Oct 2025 17:24:21 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 01F9610E495;
+	Mon, 20 Oct 2025 17:24:26 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="MX08mmGR";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="cFac1jYc";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lj1-f178.google.com (mail-lj1-f178.google.com
- [209.85.208.178])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A0CC010E33A
- for <dri-devel@lists.freedesktop.org>; Mon, 20 Oct 2025 17:24:19 +0000 (UTC)
-Received: by mail-lj1-f178.google.com with SMTP id
- 38308e7fff4ca-367444a3e2aso56651281fa.2
- for <dri-devel@lists.freedesktop.org>; Mon, 20 Oct 2025 10:24:19 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1760981058; x=1761585858; darn=lists.freedesktop.org;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=JJL3ymzyML+diLAVT9nhgdl7Vx9TWLZbPp7QEm8FssI=;
- b=MX08mmGRCuZfrvKthxr9x+VmWUK7w+Pl/4xQZt/A+ejxf58UN+tBq1Gx1n944NWBYL
- //mzgJMg4uBp2qR8icK/SoGdOIJoX0x4a4Pqf6qy+lBrmJMa2n9ENfBMkRTBVmaUFk3t
- 41GVzXSejGGjW3WLAiU2UP/EJvuIGQTnBiUpSrGj6rM13fBNBUxu2DWqoPkt3+xbpE5N
- DMBr48Pils5KARomT2Yu22U2TU1v5rjXEmslRilFGrY8GnNGS/40EHyYlZB5eGF4mJKg
- b2RuP2BuPYmBMVzQ+q4wXpxt67BPNeCBqb19X5bx1AC4MHX2BMQ/n3J5sqlGbwzyxv87
- G1GA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1760981058; x=1761585858;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=JJL3ymzyML+diLAVT9nhgdl7Vx9TWLZbPp7QEm8FssI=;
- b=aHVcBWv5V6t7oOERC9fClpfPJoOyHhu6zDXjTR7h8ZTWEYUjmaN9fs3O13RQVux4Z2
- /K+6VXfJG08GH5nGOs28R5FSbuZcqZeWcrfEi6I/+sxttAMhofuJb9gMPczdMKCkiteH
- KaTyTTheuBce9m1iFQb8BQzkYAoUZNjP/PNJs9jSlbriedBC7Dkf95D1KobjP/BO9yjI
- QGYtLlkOA44KoR5i7yIshat5qfC9yWqFTQUjNgMjHak5segXV4NcZWnN8MVQ3UuOD8BT
- vGA7ub4cZj+r9WhstCJfnQ7Wvod6Im+q0/DwgNOhkzsAevrMiffSqtL2pbeG3UY6v5jr
- Gmkg==
-X-Forwarded-Encrypted: i=1;
- AJvYcCXj0Ac345OooU0tX1I+IK01gExGzuBirSHg8zXVhBN+JeWPCupB6K0UdLhSJZ+t4BMk7fUuS4mULH0=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Yx1+ZJFRDgK06Kj04SXDQgZNQ66snQ9lnPehYhH2rsk8BftVJ2Y
- vaYC3NpuPGdYPhtyLLTlNUKXTPhnI+16b3BYJvMK7xF//j2supNr3NE7aa7G9Aqb3Op2e7JkQiC
- v8CmX3c5EDu1HzrFj0H8XlLZWy0FKywQ=
-X-Gm-Gg: ASbGncsgirtxlFgZQPuNGr2Wn9EceeXzY210pNcaA/OiUYR3tcoKSfq4ZXd+ILa+Vxh
- tXsDCE78lbjz0r4KOKvyO+Buxht6vfmgu3Eukbk2XyMuvFQpuVtMRCg6TgZgRlbwJVD/Wk7pahq
- Wt3lpCzUbhoC5GFTInuqmU2okFc2m360EBLQlg4rccG3695y8Ses7ogDpEzw/0asBb099IUU0HA
- Dzz/hN3FaGj3ZckXzJpGHhuHfEBcbiR3HwLZBt1BKp+8tZwhvLC74G2bNd+dZBzdQiiLfoIC7Hn
- nEgBWqKmjrHIGzqg
-X-Google-Smtp-Source: AGHT+IFGvquo7dKjulQge3D4nLth2WI8das3/MTTYuoViw5UYS7r0NQDoBhHAaPE++J0d5/68a7BWV0yZERz90yIgHQ=
-X-Received: by 2002:a05:651c:1990:b0:375:f6b9:c948 with SMTP id
- 38308e7fff4ca-377978d7927mr37082001fa.15.1760981056694; Mon, 20 Oct 2025
- 10:24:16 -0700 (PDT)
+Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7CDA110E495;
+ Mon, 20 Oct 2025 17:24:24 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by tor.source.kernel.org (Postfix) with ESMTP id A30A66205F;
+ Mon, 20 Oct 2025 17:24:23 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id EBF12C4CEF9;
+ Mon, 20 Oct 2025 17:24:21 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1760981063;
+ bh=uN4YzlNmTDyMTVbkr8hP6fCxIeShyG12ItAxTKnPx/U=;
+ h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+ b=cFac1jYc5I/mpLogrxJs+C1FSnV2hXbV3gLCdZCPseI5UTHbib0gaI8Bw7ULWpQRK
+ /3yIC+HPGOrBZQrCrR/9ZHTVPQIlr+dHqzdvXocWj5RB89FAcpyaPYZtWDIaFf9ttH
+ s458D7gJOxhlLDUeI7EcwRltwTNawyrHYamEDpgSKf7wyWVGjSZDtHU5HvA6IGCNaM
+ jenI2DlyZ7AZ5vgD3amV/0/fmmetkdx+3pS5p7vQBfT9TRHuvadRfsd8+UpKjXmhmV
+ mkKbzPz0qi7umxDfn/uTfqjzzrgG0pYTdz0wWLhQFfCeNLKH0PIa8bjc1pSCXPuvi2
+ mmYc2ddF7qVyw==
+Message-ID: <f44ec6c9-80f9-4e5b-9cdb-e92d4c6b72fc@kernel.org>
+Date: Mon, 20 Oct 2025 12:24:20 -0500
 MIME-Version: 1.0
-References: <20251013205155.1187947-1-festevam@gmail.com>
- <4bd512fd-b3df-484a-8a04-a1ed066c42fa@nxp.com>
-In-Reply-To: <4bd512fd-b3df-484a-8a04-a1ed066c42fa@nxp.com>
-From: Fabio Estevam <festevam@gmail.com>
-Date: Mon, 20 Oct 2025 14:24:05 -0300
-X-Gm-Features: AS18NWDxC1BDffoJ0EW6ktW9w7SITyz7Fejydue0HKFG2UIjYNHc8u5VIdoiknI
-Message-ID: <CAOMZO5AGRejEwNvkH0Di0HVi8QPduTeCSud+_GqOkD4tqEcsdA@mail.gmail.com>
-Subject: Re: [PATCH RESEND v4 1/3] dt-bindings: lcdif: Document a imx6sx-lcdif
- fallback
-To: Liu Ying <victor.liu@nxp.com>
-Cc: marex@denx.de, stefan@agner.ch, airlied@gmail.com, simona@ffwll.ch, 
- maarten.lankhorst@linux.intel.com, mripard@kernel.org, tzimmermann@suse.de, 
- robh@kernel.org, krzk+dt@kernel.org, conor+dt@kernel.org, 
- dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org, 
- shawnguo@kernel.org, imx@lists.linux.dev, 
- linux-arm-kernel@lists.infradead.org, Ahmad Fatoum <a.fatoum@pengutronix.de>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla Thunderbird
+Subject: Re: [RFC 2/3] PM: Don't pass up device_resume() -EBUSY errors
+To: "Rafael J. Wysocki" <rafael@kernel.org>
+Cc: mario.limonciello@amd.com, airlied@gmail.com, alexander.deucher@amd.com,
+ christian.koenig@amd.com, dakr@kernel.org, gregkh@linuxfoundation.org,
+ lenb@kernel.org, pavel@kernel.org, simona@ffwll.ch,
+ Muhammad Usama Anjum <usama.anjum@collabora.com>,
+ amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ linux-pm@vger.kernel.org
+References: <20251020165317.3992933-1-superm1@kernel.org>
+ <20251020165317.3992933-3-superm1@kernel.org>
+ <CAJZ5v0g64Hu15k5sLVfxj-AADy2goyvseGGm_zTAqSPHXEaxOA@mail.gmail.com>
+Content-Language: en-US
+From: "Mario Limonciello (AMD) (kernel.org)" <superm1@kernel.org>
+In-Reply-To: <CAJZ5v0g64Hu15k5sLVfxj-AADy2goyvseGGm_zTAqSPHXEaxOA@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -91,26 +65,65 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Liu,
 
-On Tue, Oct 14, 2025 at 1:12=E2=80=AFAM Liu Ying <victor.liu@nxp.com> wrote=
-:
 
-> Strictly speaking, I don't think i.MX6SX LCDIF is compatible with i.MX28 =
-LCDIF
-> because at least i.MX28 LCDIF has the version and debug{0,1,2} registers(=
-at
-> 0x1c0, 0x1d0, 0x1e0 and 0x1f0) while i.MX6SX LCDIF hasn't.
+On 10/20/2025 12:18 PM, Rafael J. Wysocki wrote:
+> On Mon, Oct 20, 2025 at 6:53 PM Mario Limonciello (AMD)
+> <superm1@kernel.org> wrote:
+>>
+>> From: Mario Limonciello <mario.limonciello@amd.com>
+>>
+>> If a device resume returns -EBUSY the device resume sequence has
+>> been skipped.
+> 
+> Is this actually demonstrably true in all of the cases?
+> 
+> And what about -EAGAIN?
+> 
 
-There are some DT users, such as Barebox that matches against
-fsl,imx28-lcdif, so we cannot remove it.
+I haven't audited codepaths of all drivers to guarantee it to be true 
+for all cases.  That's the main reason I wanted to make it RFC - to 
+discuss the idea of a dedicated return code to indicate it was skipped.
 
-In my first attempt,  I tried removing it:
+Another idea I had is that we could make it return a positive number, 
+and PM core could recognize that as a skip.
 
-https://lore.kernel.org/linux-devicetree/20241028180844.154349-2-festevam@g=
-mail.com/
+So would like your thoughts against the ideas currently presented:
 
-but this was rejected due to potential dtb compatibility breakage:
+* -EAGAIN
+* -EBUSY
+* Some other return code
+* > 0
 
-https://lore.kernel.org/linux-devicetree/4addc413-dd13-4867-8c49-45539af7b4=
-5b@pengutronix.de/
+Whichever is decided the PM core documentation would need to be updated 
+to match as well.
+
+>> Don't show errors for this or pass it up to async
+>> resume.  If resume is run again in another stage the device should
+>> try again.
+>>
+>> Cc: Muhammad Usama Anjum <usama.anjum@collabora.com>
+>> Signed-off-by: Mario Limonciello (AMD) <superm1@kernel.org>
+>> ---
+>>   drivers/base/power/main.c | 4 +++-
+>>   1 file changed, 3 insertions(+), 1 deletion(-)
+>>
+>> diff --git a/drivers/base/power/main.c b/drivers/base/power/main.c
+>> index bf9c3d79c455f..f6bc7ef9a8371 100644
+>> --- a/drivers/base/power/main.c
+>> +++ b/drivers/base/power/main.c
+>> @@ -1112,7 +1112,9 @@ static void device_resume(struct device *dev, pm_message_t state, bool async)
+>>
+>>          TRACE_RESUME(error);
+>>
+>> -       if (error) {
+>> +       if (error == -EBUSY)
+>> +               pm_dev_dbg(dev, state, async ? " async" : "");
+>> +       else if (error) {
+>>                  WRITE_ONCE(async_error, error);
+>>                  dpm_save_failed_dev(dev_name(dev));
+>>                  pm_dev_err(dev, state, async ? " async" : "", error);
+>> --
+>> 2.43.0
+>>
+
