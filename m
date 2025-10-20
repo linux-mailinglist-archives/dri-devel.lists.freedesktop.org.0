@@ -2,79 +2,131 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9695EBF0D7D
-	for <lists+dri-devel@lfdr.de>; Mon, 20 Oct 2025 13:31:51 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8B815BF0DE0
+	for <lists+dri-devel@lfdr.de>; Mon, 20 Oct 2025 13:36:22 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C1FE910E41D;
-	Mon, 20 Oct 2025 11:31:48 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7428B10E41C;
+	Mon, 20 Oct 2025 11:36:19 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=google.com header.i=@google.com header.b="xVUDeRRc";
+	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="bUQLio5n";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-f73.google.com (mail-wm1-f73.google.com
- [209.85.128.73])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BEF7A10E41D
- for <dri-devel@lists.freedesktop.org>; Mon, 20 Oct 2025 11:31:47 +0000 (UTC)
-Received: by mail-wm1-f73.google.com with SMTP id
- 5b1f17b1804b1-47106720618so24899265e9.1
- for <dri-devel@lists.freedesktop.org>; Mon, 20 Oct 2025 04:31:47 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=google.com; s=20230601; t=1760959906; x=1761564706;
- darn=lists.freedesktop.org; 
- h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
- :date:from:to:cc:subject:date:message-id:reply-to;
- bh=DMcqFZ5cAqBQM1biUtf3Krfxn1U/zGBC3gm6VwatmXg=;
- b=xVUDeRRc26liKAPzgc2YVlE04osNEQ/pYqQ/fOQs+IvXHESocYx9zQEQn2TfGWBl9R
- MQYPhztDOC08G4N43UuY7xfsjWeNYyyLNaX+cAjWnU1ejNTfYsDHHtyGPXlKBY8LndpR
- 9SN72RpuKizgKMQ4Olf/97uCySukbUALW+yTlCsQwc5hPLef5RR9/vNZiQjXiJa1iSz4
- 4YIHz1Hm/t6baPi5KGht36E0XvGptm3Ky5I8EXKn+JQ8Ki2a1u5vAuZTX4xRGAe3woMA
- ZNOSvzNpMUwBnPm4dH//miaV4aT+Xx5c64MMp5jfPN+a1F//TS4xY3KzQWScY9CRvelx
- KoEA==
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
+ [205.220.180.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id EFBB810E41F
+ for <dri-devel@lists.freedesktop.org>; Mon, 20 Oct 2025 11:36:17 +0000 (UTC)
+Received: from pps.filterd (m0279873.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 59KB7E1U027936
+ for <dri-devel@lists.freedesktop.org>; Mon, 20 Oct 2025 11:36:17 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+ cc:content-transfer-encoding:content-type:date:from:in-reply-to
+ :message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+ GK+5rKa1ckv1Q0xDSQsg2JrLR6JcjvANAgY1SmDdptQ=; b=bUQLio5nYqY+yhTW
+ sugPBh3IxjvFCDE77A33/Vy0zmWuKxMSSrIIvPjuQKOi0UW3SHP+EBqOMfvlxPTy
+ QeTD8cmED3H+gE3hLrx5mkL8vhQhr0p9THQMRdGrpPfqvjlY1FjjfXoGNugMKZr9
+ NWizG9S2D8TyPnFCAESEestSOSVCz5o0GqU8V1a7uCpn8GBnjrLk5SD5tckqhLyC
+ KAfSN3YXpkrfIaYwxFa9NXdu1kpcsHwCneXV3ggLKZ9Ju10m1+xFu/yRNak/28Nl
+ 5Hc0DTaiGmJu8GYnwtgFHvAItVzbiEXUG7ByAoBmiwfi4U4cuJmAL3/lzhbzffda
+ IazMWQ==
+Received: from mail-pl1-f197.google.com (mail-pl1-f197.google.com
+ [209.85.214.197])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 49v08pcu7p-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
+ for <dri-devel@lists.freedesktop.org>; Mon, 20 Oct 2025 11:36:16 +0000 (GMT)
+Received: by mail-pl1-f197.google.com with SMTP id
+ d9443c01a7336-26b3e727467so15678605ad.0
+ for <dri-devel@lists.freedesktop.org>; Mon, 20 Oct 2025 04:36:16 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1760959906; x=1761564706;
- h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
- :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=DMcqFZ5cAqBQM1biUtf3Krfxn1U/zGBC3gm6VwatmXg=;
- b=CH9e7RMI8DD068jMuPj7i4z7m+19czZ2PvBjTm4VdRytBQthPdFrxtpiVGBn42Fl3X
- LoxKq9K0o+rL7KOyVOl57D8yips7uiGPxj4H5yAzN5LOFcDX6ThVQ9ozWf/yCuyej0Y6
- 9ziN5JCMDy9pJ4MROmpNL0S4FQirsDmFu8F8+7xoWYovRvloizdKibuiPGnBZaeB2iFc
- VnIShzoML63G4m7vmHwczzozRnj4dhT6WldFwZAzGiHBa5HVLA5zM+LCpw7YN8O00dSr
- PY/OwoXnqmKotNbW+2rdVBVPrprNNBNqNKWdQuEVMwXN2rPqQtZ9fwTPWM5ui51QjA2u
- FSWA==
+ d=1e100.net; s=20230601; t=1760960176; x=1761564976;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to:subject
+ :user-agent:mime-version:date:message-id:x-gm-message-state:from:to
+ :cc:subject:date:message-id:reply-to;
+ bh=GK+5rKa1ckv1Q0xDSQsg2JrLR6JcjvANAgY1SmDdptQ=;
+ b=GJNlgFkHW6/32GjqiXq94mmY0ifcDOmntYKnYf0LM8t6ulQQFbjDAwg65CNM35sTBO
+ inl/e0kfEYesaHkW6YlMlCw5XADF+89vLhPAEQ+irv/jGelq55kHhKdqANOPmSkm3sWR
+ CkUIT/mp7n9Del/2nqsx7u/WaFAQp93RhcbTWCxYd6+soPgEQTCgPRPGcxgd11Feqf9o
+ 8dT2nbsHeLdh+WyeT2boofQBoAoFIU5ExfUGm4+OFZjnQsDVMgf1k9muFVa3Qa8zPxk9
+ uKt0rxOGhA9TVmU3VjVszjUaihPuNeKWzQSIhkN7bIbp8GjqOw6XcB4Z03n+kPgYtbuA
+ ZLlg==
 X-Forwarded-Encrypted: i=1;
- AJvYcCUUuoCaVuJjYOtah2m/oi0sR7M+DWDWMpDZkjAIOJm1pOib/Vogxwc8zV38Q7m3vg22aW8FaXvRtWY=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Yw7G3PjNdI2H62gR7njvuPOo6WljvwvFy4in8/98nwPeiUzr+1N
- il6+bRtxVKKJe/GkDCyHgXIahmIYZx70x5Y9HZdJzDXQoLnBzUFYXtXFwh9fFU4KWRCNV/G0Xd0
- pn0dRHxHrRZu/LjqfCQ==
-X-Google-Smtp-Source: AGHT+IH2Qofc6ndiBT2TBEJUwAKSdi714gdnYYSKwoeWjdLZfKMzLOYYEgFO9KCms/5i7YzVpY9EuZiKpgOsDG8=
-X-Received: from wmbjx13.prod.google.com
- ([2002:a05:600c:578d:b0:46e:5611:ee71])
- (user=aliceryhl job=prod-delivery.src-stubby-dispatcher) by
- 2002:a05:600c:4ec6:b0:46f:b327:ecfb with SMTP id
- 5b1f17b1804b1-4711787bfe8mr99039325e9.9.1760959906081; 
- Mon, 20 Oct 2025 04:31:46 -0700 (PDT)
-Date: Mon, 20 Oct 2025 11:31:45 +0000
-In-Reply-To: <20251006-vmbo-defer-v4-0-30cbd2c05adb@google.com>
-Mime-Version: 1.0
-References: <20251006-vmbo-defer-v4-0-30cbd2c05adb@google.com>
-Message-ID: <aPYdoU-Fey8hBqJ_@google.com>
-Subject: Re: [PATCH v4 0/2] Defer vm_bo cleanup in GPUVM with
- DRM_GPUVM_IMMEDIATE_MODE
-From: Alice Ryhl <aliceryhl@google.com>
-To: Danilo Krummrich <dakr@kernel.org>, Matthew Brost <matthew.brost@intel.com>,
- "Thomas =?utf-8?Q?Hellstr=C3=B6m?=" <thomas.hellstrom@linux.intel.com>
-Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, 
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
- Simona Vetter <simona@ffwll.ch>, 
- Boris Brezillon <boris.brezillon@collabora.com>,
- Steven Price <steven.price@arm.com>, 
- Daniel Almeida <daniel.almeida@collabora.com>,
- Liviu Dudau <liviu.dudau@arm.com>, 
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org, 
- rust-for-linux@vger.kernel.org
-Content-Type: text/plain; charset="utf-8"
+ AJvYcCUEXxGjepZ91n/RW4KkPJzv0JS2jbDhMPWhDjd2QpSH0+aV3EstINynU3LpnFKiTgq6nlk7Hdo8jQM=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YwysZWswYiaL8q/Rau/56u462J6D3jh74MUbMuWPvIoqv86wxbI
+ 1uQHlSVDAaTUv0t9bKxGagBtl8Vwmv+/TquAPAeQrHXPbgGrvT6Z82T9kYbBiaXswpxPwAcq02Q
+ Yr1PEU05n584VNHTQKf9G49oMJ2paXPBvE0HzsMiGSjOveWprHZXMcuj/8021Uiuw3Rrx9ew=
+X-Gm-Gg: ASbGncvAwkXt4bcxQ67CmL3DCyp7ZmdmaqGz3UbI9iOl10DUjbhHO10eQtzS9xMtivD
+ oOX5ft6ZYcEj3fHVXTVKP9RjWzKoe8BIgluR66bhMjZQnMfebZ2Q72X1q6Q5QbsR0wGy89nGQ2G
+ UuQETJduoU/9ReDKUzS7xeLNzwXLWPh3scneAvzX8yKWE7qF5X0H5r29hoJxku40qUpCUyjsoEi
+ OJMqUa2rapkv4s75hbggRIg9Z3d3A8i48lH1UkCW6s6Bqtqe6eonQDANYyFz63VtUN4/UWgRAQm
+ iJXKIdj4AMDrSphRQmOWIgQnKgvO4osXBHJuhubNWVVeS/j29gC3uJzv4FJIkzQBIxWroRSLt/5
+ ILCbE/iG6Tuz9NHMqp5otxOB/UhfNF5+coB7+S/hRJPW84UXOz/IUIbtHdTM5fY6CpG31vg==
+X-Received: by 2002:a17:902:f550:b0:290:aaff:344e with SMTP id
+ d9443c01a7336-290c9d07528mr93219795ad.2.1760960175708; 
+ Mon, 20 Oct 2025 04:36:15 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IGqYXTamiz1sZaI2FXDLVVOOe09rjZU54qmwtT0sYAF4DGpiXYK7IZbq29yBk4Y3Y1cW0n/IQ==
+X-Received: by 2002:a17:902:f550:b0:290:aaff:344e with SMTP id
+ d9443c01a7336-290c9d07528mr93219385ad.2.1760960175155; 
+ Mon, 20 Oct 2025 04:36:15 -0700 (PDT)
+Received: from [10.133.33.101] (tpe-colo-wan-fw-bordernet.qualcomm.com.
+ [103.229.16.4]) by smtp.gmail.com with ESMTPSA id
+ d9443c01a7336-292471fe4d8sm77471275ad.96.2025.10.20.04.36.06
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 20 Oct 2025 04:36:14 -0700 (PDT)
+Message-ID: <e6c481cd-e084-4f5f-a75a-d1e0a254efc1@oss.qualcomm.com>
+Date: Mon, 20 Oct 2025 19:36:02 +0800
+MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v4 1/3] dt-bindings: display/msm: Add SM6150 DisplayPort
+ controller
+To: Krzysztof Kozlowski <krzk@kernel.org>,
+ Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
+Cc: Rob Clark <robin.clark@oss.qualcomm.com>,
+ Dmitry Baryshkov <lumag@kernel.org>, Abhinav Kumar
+ <abhinav.kumar@linux.dev>, Jessica Zhang <jessica.zhang@oss.qualcomm.com>,
+ Sean Paul <sean@poorly.run>,
+ Marijn Suijten <marijn.suijten@somainline.org>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, Rob Herring <robh@kernel.org>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>, Bjorn Andersson <andersson@kernel.org>,
+ Konrad Dybcio <konradybcio@kernel.org>, linux-arm-msm@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, freedreno@lists.freedesktop.org,
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+ fange.zhang@oss.qualcomm.com, yongxing.mou@oss.qualcomm.com,
+ li.liu@oss.qualcomm.com
+References: <20251015-add-displayport-support-to-qcs615-devicetree-v4-0-aa2cb8470e9d@oss.qualcomm.com>
+ <20251015-add-displayport-support-to-qcs615-devicetree-v4-1-aa2cb8470e9d@oss.qualcomm.com>
+ <58446b2d-560f-4a7e-890a-78ae0bb92908@kernel.org>
+ <f4dihh4z2nnkjcpsrmopycm6opellvv4mkpee72xjbn26nw544@sfc4oy6c2xci>
+ <a3994a92-0a36-411e-97a3-b01fd406ddd1@kernel.org>
+From: Xiangxu Yin <xiangxu.yin@oss.qualcomm.com>
+In-Reply-To: <a3994a92-0a36-411e-97a3-b01fd406ddd1@kernel.org>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUxMDE4MDAwMCBTYWx0ZWRfXzQJ/InFAumYf
+ NUyE1LETfB2O2LcQoySAisXGVA7iGvTwtu+Zw6AoAWvZ72HJU6ca5npRHKd6rUEubXlOfqgew8i
+ f5cCkNwpIoDYm4vn8osanaV5CEHGSkiUUa9DRz01ruIcG5VGzoSJpJWrGO+fkFFCueQ/rLd/4TE
+ i+lbDGbR2RTLkzTHM5NCnAA8sifaI4Zzfnp9z4dZoOucEci0NGjxN902/aTL5g2zrVt5GAYuBcP
+ 8UplgSKa6DyXwGBXZ4gjMqJA5X+O3QjtjKPQHn9CKjYuyfr8wNFLxMFLJN1exJ9W5QixpDIrzYA
+ LPpu1aUaZXqH22oaqxzFIBySH1QOguqJMp+8/scsvVRi8G7OWKY6z9KzYadQA63sOUau/RG3Xyq
+ bn+FK5sQAd8Opuo2l2BUPBPbmWVQxA==
+X-Proofpoint-GUID: OvfeifnXVRmskiiLkKWEPsa9hWOYDzL5
+X-Authority-Analysis: v=2.4 cv=Up1u9uwB c=1 sm=1 tr=0 ts=68f61eb1 cx=c_pps
+ a=cmESyDAEBpBGqyK7t0alAg==:117 a=nuhDOHQX5FNHPW3J6Bj6AA==:17
+ a=IkcTkHD0fZMA:10 a=x6icFKpwvdMA:10 a=VkNPw1HP01LnGYTKEx00:22
+ a=EUspDBNiAAAA:8 a=csQNx8weYdTNeSVC_AYA:9 a=QEXdDO2ut3YA:10
+ a=1OuFwYUASf3TG4hYMiVC:22
+X-Proofpoint-ORIG-GUID: OvfeifnXVRmskiiLkKWEPsa9hWOYDzL5
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.9,FMLib:17.12.80.40
+ definitions=2025-10-20_02,2025-10-13_01,2025-03-28_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ lowpriorityscore=0 adultscore=0 suspectscore=0 malwarescore=0 clxscore=1015
+ impostorscore=0 bulkscore=0 priorityscore=1501 spamscore=0 phishscore=0
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.19.0-2510020000 definitions=main-2510180000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -90,43 +142,54 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Oct 06, 2025 at 12:05:54PM +0000, Alice Ryhl wrote:
-> There are two main ways that GPUVM might be used:
-> 
-> * staged mode, where VM_BIND ioctls update the GPUVM immediately so that
->   the GPUVM reflects the state of the VM *including* staged changes that
->   are not yet applied to the GPU's virtual address space.
-> * immediate mode, where the GPUVM state is updated during run_job(),
->   i.e., in the DMA fence signalling critical path, to ensure that the
->   GPUVM and the GPU's virtual address space has the same state at all
->   times.
-> 
-> Currently, only Panthor uses GPUVM in immediate mode, but the Rust
-> drivers Tyr and Nova will also use GPUVM in immediate mode, so it is
-> worth to support both staged and immediate mode well in GPUVM. To use
-> immediate mode, we must manage the vm_bos and vas during the fence
-> signalling critical path.
-> 
-> The first part of that work was the introduction of a fence signalling
-> safe mutex for the GEMs GPUVA list in commit e7fa80e2932c ("drm_gem: add
-> mutex to drm_gem_object.gpuva").
-> 
-> This is series the second part of that work: Dropping a vm_bo object in
-> the fence signalling critical path is problematic for two reasons:
-> 
-> * When using DRM_GPUVM_RESV_PROTECTED, you cannot remove the vm_bo from
->   the extobj/evicted lists during the fence signalling path.
-> * Dropping a vm_bo could lead to the GEM object getting destroyed.
->   The requirement that GEM object cleanup is fence signalling safe is
->   dubious and likely to be violated in practice.
-> 
-> Panthor already has its own custom implementation of postponing vm_bo
-> cleanup. Take inspiration from that by moving the logic into GPUVM, and
-> adjust Panthor to use the new GPUVM logic.
-> 
-> Signed-off-by: Alice Ryhl <aliceryhl@google.com>
 
-Pushed to drm-rust-next.
+On 10/20/2025 7:18 PM, Krzysztof Kozlowski wrote:
+> On 20/10/2025 13:07, Dmitry Baryshkov wrote:
+>> On Sun, Oct 19, 2025 at 07:13:32PM +0200, Krzysztof Kozlowski wrote:
+>>> On 15/10/2025 03:53, Xiangxu Yin via B4 Relay wrote:
+>>>> From: Xiangxu Yin <xiangxu.yin@oss.qualcomm.com>
+>>>>
+>>>> Describe the DisplayPort controller for Qualcomm SM6150 SoC.
+>>>>
+>>>> Signed-off-by: Xiangxu Yin <xiangxu.yin@oss.qualcomm.com>
+>>>> ---
+>>>>  .../devicetree/bindings/display/msm/qcom,sm6150-mdss.yaml     | 11 +++++++++++
+>>>>  1 file changed, 11 insertions(+)
+>>>>
+>>>> diff --git a/Documentation/devicetree/bindings/display/msm/qcom,sm6150-mdss.yaml b/Documentation/devicetree/bindings/display/msm/qcom,sm6150-mdss.yaml
+>>>> index 9ac24f99d3ada1c197c9654dc9babebccae972ed..935eca23ce6b30b81b3ad778e5fcacc817a230c3 100644
+>>>> --- a/Documentation/devicetree/bindings/display/msm/qcom,sm6150-mdss.yaml
+>>>> +++ b/Documentation/devicetree/bindings/display/msm/qcom,sm6150-mdss.yaml
+>>>> @@ -51,6 +51,16 @@ patternProperties:
+>>>>        compatible:
+>>>>          const: qcom,sm6150-dpu
+>>>>  
+>>>> +  "^displayport-controller@[0-9a-f]+$":
+>>>> +    type: object
+>>>> +    additionalProperties: true
+>>>> +    properties:
+>>>> +      compatible:
+>>>> +        items:
+>>>> +          - const: qcom,sm6150-dp
+>>>> +          - const: qcom,sm8150-dp
+>>> 6150 is compatible with 8150 or 8350? I have doubts.
+>> SM6150 has the same DP controller as SM8150. SM8150 is compatible with
+>> SM8350.
+>
+> So if SM6150 is EXACTLY the same as SM8150, then describe it in commit
+> msg. If NOT EXACTLY the same, then probably this should be just
+> compatible with 8350. Anyway, proper justification is missing.
+>
+> Existing commit msg is pretty useless, repeat the diff. I can read the
+> diff. Commit msg should explain all the background which is not obvious.
 
-I added this to drm-rust instead of drm-misc as a prerequisite for
-another patch. If merge conflicts show up, we can do a backmerge.
+
+Yes, SM6150 uses the same DP controller as SM8150. We already discussed this in
+'20250916-add-dp-controller-support-for-sm6150-v3-1-dd60ebbd101e@oss.qualcomm.com'.
+I will update the commit message to clarify the compatible information and fix
+the indentation in the binding example.
+
+
+>
+> Best regards,
+> Krzysztof
