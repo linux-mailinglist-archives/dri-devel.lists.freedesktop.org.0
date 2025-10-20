@@ -2,76 +2,82 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B7385BF0B21
-	for <lists+dri-devel@lfdr.de>; Mon, 20 Oct 2025 12:58:19 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id A481BBF1233
+	for <lists+dri-devel@lfdr.de>; Mon, 20 Oct 2025 14:23:55 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C32A310E135;
-	Mon, 20 Oct 2025 10:58:16 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DF08110E28A;
+	Mon, 20 Oct 2025 12:23:52 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="FnD3y4qs";
+	dkim=pass (2048-bit key; unprotected) header.d=google.com header.i=@google.com header.b="aP0IiadW";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ej1-f42.google.com (mail-ej1-f42.google.com
- [209.85.218.42])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7451D10E135
- for <dri-devel@lists.freedesktop.org>; Mon, 20 Oct 2025 10:58:15 +0000 (UTC)
-Received: by mail-ej1-f42.google.com with SMTP id
- a640c23a62f3a-b3df81b1486so80631066b.2
- for <dri-devel@lists.freedesktop.org>; Mon, 20 Oct 2025 03:58:15 -0700 (PDT)
+Received: from mail-wm1-f47.google.com (mail-wm1-f47.google.com
+ [209.85.128.47])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 54A9210E28A
+ for <dri-devel@lists.freedesktop.org>; Mon, 20 Oct 2025 12:23:51 +0000 (UTC)
+Received: by mail-wm1-f47.google.com with SMTP id
+ 5b1f17b1804b1-4711825a02bso26801175e9.2
+ for <dri-devel@lists.freedesktop.org>; Mon, 20 Oct 2025 05:23:51 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1760957894; x=1761562694; darn=lists.freedesktop.org;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:from:to:cc:subject:date:message-id:reply-to;
- bh=GkFaQ1bopt/VkRBUzrDCpvzpaSMPfW8Xt+ULvEdICqg=;
- b=FnD3y4qsTMvRwawfSdoRDOuNgOd0mz49irUSOB3tLP7R39OvCwCz3nLIq9cf5ZB0CU
- u2yaL/kD7uKq2p7MlSelThg0gyQ01iu0JhhAVYlAJo72n4Bl3efSHiA9VHxMT6BMMynS
- 0ij/AnVXNdi5zOf4d51BOnc7wrRiOgqmzgPrG6zdOI4jUTOOLWRmA7oFRBtCbWfdJH5F
- /VTKjR4jHDdeQIG1VfEUQlRWHOSB4yzdo4ASwOEbNW9hrL3WqE901RED/BsOGEmAfbvV
- soCjMrLNSGznyg45XtzzIGh/fJbMDY0WqcV6D+PnRdVyt7MqG6ovHo/bJkvj5K65a23A
- nZyA==
+ d=google.com; s=20230601; t=1760963030; x=1761567830;
+ darn=lists.freedesktop.org; 
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=xsVrddNgKdsa59i88tOUom/s0Tf6ykU6bezL99BIn20=;
+ b=aP0IiadWsd0Qz/oo5wuF+k/sTCuf6bQTYpjZNCtUcnhScW9C5KrmR0CKz0Zv6CnvV/
+ fC6Dx568Q3NMcMCeSxvjoayVbbxt9X+jxodGuuwOBtHXb8f2UtXxs66yFiNk2iHVYVZH
+ FL7UM0LeE+ZRBayMZm5t28xojVOpw9QH+zzqhdEIVQ2RVsqKTg0nmLUi7csJw6i9s7ap
+ S0QKmqG7ttUQGWb3Ajk6UkucM/Va59Mr+3z1vfQIWPFg+oe9Ju2YRpA9XShDrLcbbOCV
+ Ljry196ZvZk9eJvyiZNRCpzxPA7MYRrCDGbNnEnoj/P1n44PE0TuQqIcg+mTbnzyL4sC
+ W0dQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1760957894; x=1761562694;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=GkFaQ1bopt/VkRBUzrDCpvzpaSMPfW8Xt+ULvEdICqg=;
- b=Fo9lKch87XEHbqDs1wg38r8U1ulw1nB2kCToX6OmZ8SXMERIjXVAdpyOLJ+7mbpgY6
- jLfPJnwu/jwdzfbNL9X7iIQONPTNlZtPGy+s0TiCGQIg/Ze5k6C4sRWSOqiKOnscni0X
- wFMIud8FRBPbBW+aB1uWNBto4jYfIATNzCXtjw2UjC5sP4R/LqbJd/ln5si3wrbetMfU
- qttwulPRdSeHnyTdJEwYFRt3J9fcOarsjHpkjLDDe1AGZQdezbBJ/FHtfOXdL3dM6LSC
- ZHJJGAeJJHtyPTCALDwwmZnQXAiuPnKpws0wM49bgkj92E5Y5i/pn9fILAiRK0nBwMWZ
- JfYA==
-X-Gm-Message-State: AOJu0YxDPamwuHShcrvc9QskS8a7eM6H3yzHPgOEagAF8CpsNwKq/Wrk
- YRA8rMumNtuxqvn510GlTieNm6sq4+L2CyMP3GjuvtIJyQc03UclVkeM
-X-Gm-Gg: ASbGncuP0E85trXuix5lbllup7qaFLzRIywPnlthxQGrHJD7xUiaViwARDpXxP3J+Sb
- CbZxOs56QYuAkBhSWRRx/qgYfZ2Ifx+YOtfmMHEzNpyz70hqytXyQ4bAgjfo8EJYy3LTJhxHwo0
- 8WlomwmWmp8/97G7kzRuXLR/FHpPjf07bucNBdYO4SfDhsxPFUDidDh9XfVZG02btnSMkeT/aOV
- q7mev6kIiw6uauOSsZLR+2DYVgKw76UAQv7Ah5IQj3ZsqdN16Bz8nUiUIlUClmQa1h3D0keHezI
- pLYR8lHnWA7bSZjXwAXxdCLBxdhmXVkqq0Dn2pNVn51yG+7fo+qVG7SKaGLoO+O/08UTkLuIWzR
- t7v4/lJeKxb8+JIZ7OCG6obR5gJQjktbSiE8mid7psj+wvUwGJ78mWmbFiKGT+jeE+IT130wIfd
- dUvEY=
-X-Google-Smtp-Source: AGHT+IFonlP9IIaHnKYJ1FGKly6VFGVY9U/JNDCz4I3ar5aMmaJr0RPUUSGZ9EBntxqPtU8gcUrFxg==
-X-Received: by 2002:a17:906:9f86:b0:b3d:5088:2140 with SMTP id
- a640c23a62f3a-b6472353d0emr769387166b.3.1760957893588; 
- Mon, 20 Oct 2025 03:58:13 -0700 (PDT)
-Received: from bhk ([165.50.81.231]) by smtp.gmail.com with ESMTPSA id
- a640c23a62f3a-b65e8971897sm751474166b.37.2025.10.20.03.58.12
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 20 Oct 2025 03:58:13 -0700 (PDT)
-From: Mehdi Ben Hadj Khelifa <mehdi.benhadjkhelifa@gmail.com>
-To: lanzano.alex@gmail.com, maarten.lankhorst@linux.intel.com,
- mripard@kernel.org, tzimmermann@suse.de, airlied@gmail.com, simona@ffwll.ch
-Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- skhan@linuxfoundation.org, david.hunter.linux@gmail.com, khalid@kernel.org,
- linux-kernel-mentees@lists.linuxfoundation.org,
- Mehdi Ben Hadj Khelifa <mehdi.benhadjkhelifa@gmail.com>
-Subject: [PATCH] drm/tiny: Refactor framebuffer's size calculation
-Date: Mon, 20 Oct 2025 12:57:23 +0100
-Message-ID: <20251020115803.192572-1-mehdi.benhadjkhelifa@gmail.com>
-X-Mailer: git-send-email 2.51.1.dirty
+ d=1e100.net; s=20230601; t=1760963030; x=1761567830;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=xsVrddNgKdsa59i88tOUom/s0Tf6ykU6bezL99BIn20=;
+ b=sXqva1KbB4fVg6zs472NViH4ZZd53xuh1Qg81tfGoEP6EcJLcIf+KyspVewE27R+sa
+ pJB4YSa4FKFRb49FDF15oE9QLtW9WVAXopDfdBkI31PutMBP4uDEKN4WzxQCETwnOf1w
+ 69F/Q6r0q+I3QKrwa6+Yh48FmX2Chi0aQs6o/V+O1AyJ6FFVergl1N5V1ztnAGZnu0TA
+ IB+hpmTjyABoP0AROz35vgaHENYgKptuYvRjiJRvxrv244WbJVlnimQNZHT34UppzMwh
+ AZJiGtWJX8JZkeFhU7K31PXs7vkfhbvIONkQ7DTg8ICm73l3qfPQKycXc5CmblKXApag
+ 9myQ==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCXlU3srNPO/MZkGHoFotTjs/LBn23NLRtCRAHYpZKffdkLF+dJEqX18llr9P+7HDoFi8uZs6T87weg=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YzdxUfvKWIKv9o4A/8plqmROAY6pCW/zS/f/TNgJ3ljzH0Daem9
+ DzZz8z0c09xBQxfUNjmwZ/da3M5gb5OfrJ68PQuyl86roRxJ7OOt0S1UhXrvJaCQ51N17jpT8UV
+ TMTyCLv3lIgp2GUM04CdtFaH5GJu3tl/k3JDxTS3y
+X-Gm-Gg: ASbGncu592J0uCu5MnCuDuCxAePNBKBRu4npDa/wxke5kiJSjHevTrNZqh/L0lpRe4N
+ mn1XEGr9it7ohQaargLlTvJJRiiGzxsAS/qoKrwb1zfY6D9oLZCTJS66Djy1khOjIRA/JFljCOi
+ wb7qEf9Qb9H4q5uTcW+SRKEAqDy5RG4aEnxhhmSaR8WVtCO/+YKnWFzZlO43jbgLHlKrQbwxtIK
+ VLiWQ+7KzUQsXwgD8IGZtpmTE8tXr7t1YgEtImRtrnZUXc8d1jaPXTgHcH89HOwX/KUzcjg37GL
+ k9Z4R4Fq9+2LlFk=
+X-Google-Smtp-Source: AGHT+IEzDxQ99eTVFb1p72eG4BzDy4n/ljYK7KwPaNsss7sxyo0CST4hlFo6R49mTS4MCJM90qjBH4sAGn3rQV8UuQ0=
+X-Received: by 2002:a05:600c:1d9c:b0:45d:d1a3:ba6a with SMTP id
+ 5b1f17b1804b1-471179174dcmr105272825e9.33.1760963029708; Mon, 20 Oct 2025
+ 05:23:49 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20251014064120.263455-1-lukas.bulwahn@redhat.com>
+In-Reply-To: <20251014064120.263455-1-lukas.bulwahn@redhat.com>
+From: Alice Ryhl <aliceryhl@google.com>
+Date: Mon, 20 Oct 2025 14:23:37 +0200
+X-Gm-Features: AS18NWA5B7IaPN02pGfQccVfxUVjCyEnsxCY8l0rw-xGHW4tso6TZRmVCMfMeXA
+Message-ID: <CAH5fLghsp6UXy9ghYe0bS7ASty-VrDLVwRkmOt44Pr1sU6vvag@mail.gmail.com>
+Subject: Re: [PATCH] rust: drm: remove unneeded handling for config DRM_LEGACY
+To: Lukas Bulwahn <lbulwahn@redhat.com>
+Cc: Danilo Krummrich <dakr@kernel.org>, David Airlie <airlied@gmail.com>,
+ Simona Vetter <simona@ffwll.ch>, 
+ Miguel Ojeda <ojeda@kernel.org>, Alex Gaynor <alex.gaynor@gmail.com>, 
+ Boqun Feng <boqun.feng@gmail.com>, Gary Guo <gary@garyguo.net>, 
+ =?UTF-8?Q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>, 
+ Benno Lossin <lossin@kernel.org>, Andreas Hindborg <a.hindborg@kernel.org>, 
+ Trevor Gross <tmgross@umich.edu>, dri-devel@lists.freedesktop.org, 
+ rust-for-linux@vger.kernel.org, kernel-janitors@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, Lukas Bulwahn <lukas.bulwahn@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -87,41 +93,18 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Use drm_format_info_min_pitch() to calculate the framebuffer line pitch
-instead of directly multiplying width and height. This aligns with DRM
-helpers for determining per-line byte size and avoids manual assumptions
-about bytes per pixel.
+On Tue, Oct 14, 2025 at 8:41=E2=80=AFAM Lukas Bulwahn <lbulwahn@redhat.com>=
+ wrote:
+>
+> From: Lukas Bulwahn <lukas.bulwahn@redhat.com>
+>
+> Since commit 94f8f319cbcb ("drm: Remove Kconfig option for legacy support
+> (CONFIG_DRM_LEGACY)"), the special handling in the rust drm code for the
+> config DRM_LEGACY is not needed.
+>
+> Remove the drm_legacy_fields macro and simply use bindings::drm_driver
+> unconditionally.
+>
+> Signed-off-by: Lukas Bulwahn <lukas.bulwahn@redhat.com>
 
-Suggested-by: Thomas Zimmermann <tzimmermann@suse.de>
-Signed-off-by: Mehdi Ben Hadj Khelifa <mehdi.benhadjkhelifa@gmail.com>
----
- drivers/gpu/drm/tiny/repaper.c | 6 +++++-
- 1 file changed, 5 insertions(+), 1 deletion(-)
-
-diff --git a/drivers/gpu/drm/tiny/repaper.c b/drivers/gpu/drm/tiny/repaper.c
-index 4824f863fdba..aeff49bc6ba7 100644
---- a/drivers/gpu/drm/tiny/repaper.c
-+++ b/drivers/gpu/drm/tiny/repaper.c
-@@ -517,6 +517,8 @@ static int repaper_fb_dirty(struct drm_framebuffer *fb, const struct iosys_map *
- 	unsigned int dst_pitch = 0;
- 	struct iosys_map dst;
- 	struct drm_rect clip;
-+	const struct drm_format_info *info = fb->format;
-+	size_t pitch;
- 	int idx, ret = 0;
- 	u8 *buf = NULL;
- 
-@@ -534,7 +536,9 @@ static int repaper_fb_dirty(struct drm_framebuffer *fb, const struct iosys_map *
- 	DRM_DEBUG("Flushing [FB:%d] st=%ums\n", fb->base.id,
- 		  epd->factored_stage_time);
- 
--	buf = kmalloc(fb->width * fb->height / 8, GFP_KERNEL);
-+	pitch = drm_format_info_min_pitch(info, 0, fb->width);
-+
-+	buf = kmalloc_array(fb->height, pitch, GFP_KERNEL);
- 	if (!buf) {
- 		ret = -ENOMEM;
- 		goto out_exit;
--- 
-2.51.1.dirty
-
+Reviewed-by: Alice Ryhl <aliceryhl@google.com>
