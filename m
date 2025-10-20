@@ -2,69 +2,70 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id EAC76BF3027
-	for <lists+dri-devel@lfdr.de>; Mon, 20 Oct 2025 20:50:40 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id E5AA5BF305D
+	for <lists+dri-devel@lfdr.de>; Mon, 20 Oct 2025 20:51:41 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9DC2810E4B0;
-	Mon, 20 Oct 2025 18:50:37 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A682610E4C8;
+	Mon, 20 Oct 2025 18:51:39 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="HBzKp5rt";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="inqXn8jJ";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C963710E4AF
- for <dri-devel@lists.freedesktop.org>; Mon, 20 Oct 2025 18:50:35 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by tor.source.kernel.org (Postfix) with ESMTP id A3C19620FA
- for <dri-devel@lists.freedesktop.org>; Mon, 20 Oct 2025 18:50:34 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4A6ACC2BC86
- for <dri-devel@lists.freedesktop.org>; Mon, 20 Oct 2025 18:50:34 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1760986234;
- bh=T9xox0HM4UF95GIL4X1Mn43yKdjkpOS/EWQtbC4EEJ8=;
- h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
- b=HBzKp5rtQ0Q8SVxn/1FlqftM/plmc2WgoX+gulyccpBKV5FTDk2wp5otTaeIk4jFC
- fEt62b6Kv9PD71QGe/1OuyX8OcUtrQV9ifO08jXPy8cCSOwfjmH4oYCp3gB6jN+0q9
- snx49ojC4QIbP8v1S+Wx3Z9b0058PyeXPDjlHjnZkeh+diBAqfFg4TsXtszuVjSExg
- DAUt/syVsbuu7YNFn3ofbBGaRKXaeXQfzroNKoJ5JKYBRzLls68TXNvsA73DjzeF8w
- dyScxKWNtAUvvb5e++cTiRbz30AH4/qM0T19Qh3DnEKpxdBbLC/GbztpLYJNzsU2KC
- UTdwsD6+qpvPQ==
-Received: by mail-ot1-f54.google.com with SMTP id
- 46e09a7af769-7c28bf230feso1984409a34.0
- for <dri-devel@lists.freedesktop.org>; Mon, 20 Oct 2025 11:50:34 -0700 (PDT)
-X-Forwarded-Encrypted: i=1;
- AJvYcCXQyGcZENjQ2tIAQSjflzTCaCJV8EJp9QkW4za7ZNx+VHmAmosChfohKEQayyeKyJjCRnZkHArHse8=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YxCHU4wIhm+kKJifS00xXuJV/xJNiM3980uA5YC+omdpbpI5daa
- 1sb6W1lk4wXiz5yOgpddTcgVbbxQ1YJusbvIjSJoKi5tiI89QFyMAyC8KqF8S9ULwBWuHXgH3jO
- I0Lz9c36y4mlhgfffgDL/k6I5vL9F1B0=
-X-Google-Smtp-Source: AGHT+IHST6iSSjR9sowIUp74URZmCfDo260rlv0OLY3MtNgq5MbkgmXa21ZyE1N1chceC+tTpTh+NIvIgmYQVBg9HjI=
-X-Received: by 2002:a05:6808:6718:b0:43f:abc7:f840 with SMTP id
- 5614622812f47-441fb97f76cmr7641827b6e.17.1760986233391; Mon, 20 Oct 2025
- 11:50:33 -0700 (PDT)
+Received: from mail-oi1-f182.google.com (mail-oi1-f182.google.com
+ [209.85.167.182])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0594610E4CB
+ for <dri-devel@lists.freedesktop.org>; Mon, 20 Oct 2025 18:51:38 +0000 (UTC)
+Received: by mail-oi1-f182.google.com with SMTP id
+ 5614622812f47-4444887d8d1so1094448b6e.1
+ for <dri-devel@lists.freedesktop.org>; Mon, 20 Oct 2025 11:51:37 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20230601; t=1760986297; x=1761591097; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=+vsthhME6C5E/KVlrt09XAdKh88uNeVFJkSudT+yDN8=;
+ b=inqXn8jJoUnHyl5TICHSNbnmbOtmozUTUBoMVoUsim0dfr7wtPd0B46oJjE1Tjx/kW
+ 9HerE7OAx1M8ZjKmQag5YU+TAG3Po3BJnmQQ2OqSmwbYLIsDq6xr3dFALLFQm0T27RQc
+ 4Gb/hZMw8GRgckLI2apDvWMwC5vsre6KCFeDR0rjzcS8WStpfRp4EzU6VZ9LiVir5+Jj
+ bDSzSzKjAzuqGpLV/DX3ndCCZrv7cpyhFrOTxZTDVPwWUUhlMcbjLiEoFD/NO/Tk4r/v
+ jXTFMVB+9/XF0qS1ymUXUCcJPxRIEvOYM7377AgBajgxXAXjw3zVkgoNC9AJQTybLVST
+ WQOQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1760986297; x=1761591097;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=+vsthhME6C5E/KVlrt09XAdKh88uNeVFJkSudT+yDN8=;
+ b=YfA+VEHLZ4Qa0+r7MXUys5szTl6KgSzsuyqrbGtnP6WA7oYVG0JM44ZEfMZwG5ruqD
+ ZS9O7+osFOo/zqXQdY+/1FzbaXONuNc/62/7dnpqBQuYUn8e2rDFH3i7U/Mv+TD0YsVq
+ ySdhUIwY4lCirdvR7S/DtwJLqlhy+pttbgb6RWKygH7dcWJNDWjujkqgBRvQaf/VODlL
+ OUDL9qGSILnSUUWSoCyDlxclzY8xWUG78VN9A6mg4P2YEfcHNttBJ0IJoDoNzjMHqQPU
+ LlG4PPIwFWmQ/ghzYZcOtH8kWvuAbAZy/cz08puKTesWwBxUATxCTjSFzeOJcWIYMoPN
+ Lakw==
+X-Gm-Message-State: AOJu0YxCoIdUSiCdD+ECbAzKmAOQTMoyanLsN+0w9DXPbpuJUZmZu0Yc
+ 1GwF5ScxuqNtHozSDXKAtel4UR7gAW8++YpDG1+M7S72tjEDdE0uJZePoJD16V/x4RlrORNGx+y
+ 5eCEtUqNHtmtK4b1DNJ8E1rHZ7/9eKA8=
+X-Gm-Gg: ASbGnctdiSKKH0lwZuMrgYJjffMHjMEiW6hHEO97mz430YwHqePa6O6B5PYCbLzdVJ1
+ 7sm9bk8C4CoX4/toR6ksCNCG32MrujTln6LD7GdwKLzGus0nxyFrE06W+/YCJp8xoAG7Yy2uRyG
+ jNuLMjM29QjeZAViHmEtnhjLiikzoMYv9nYYIpp6aRd0Kbj2nqGewDERp89PxmUQn2AiVlSrNSX
+ a3tffcvih4prmpG8YCz4P+CkSz6S2MjCnKfvdaFzqPsCwCNYWoXcq2j1mPKIEO+OlrJcQ==
+X-Google-Smtp-Source: AGHT+IH4hrQ0pCg0q1eiVkWENe8fkrrS1susN02fuh7MCHo4dpm9btSTzesYb7Fp6Q8tcKYk1G0dg24eRhv74g8VglA=
+X-Received: by 2002:a05:6808:1a0d:b0:441:8f74:fae with SMTP id
+ 5614622812f47-443a31b76b8mr6533038b6e.59.1760986297109; Mon, 20 Oct 2025
+ 11:51:37 -0700 (PDT)
 MIME-Version: 1.0
-References: <20251020165317.3992933-1-superm1@kernel.org>
- <20251020165317.3992933-4-superm1@kernel.org>
- <CAJZ5v0gsdmfXUJuLW8Ogt2jKDunx4g51LqCfSVMWQ6WHXBw_zg@mail.gmail.com>
- <85c039ef-e189-48c1-8bf7-50ac0c2484e2@kernel.org>
- <CAJZ5v0gT9BG5QPcwg6jJ1Jghny2YxC9_HY542LTBy-aVc_2T_w@mail.gmail.com>
- <aec8fc6c-3f9f-4ec1-a929-7a0be6026a3d@kernel.org>
-In-Reply-To: <aec8fc6c-3f9f-4ec1-a929-7a0be6026a3d@kernel.org>
-From: "Rafael J. Wysocki" <rafael@kernel.org>
-Date: Mon, 20 Oct 2025 20:50:21 +0200
-X-Gmail-Original-Message-ID: <CAJZ5v0gMf-qMGa6iBL2NdRXd-Mt5cpsoVQ90y+rSyK5xoYEf8A@mail.gmail.com>
-X-Gm-Features: AS18NWBuf_ZaMFCedSeiIN34onuDzQPdHGd1wzQY-S5DN-sJHQED06c6kG-OGlI
-Message-ID: <CAJZ5v0gMf-qMGa6iBL2NdRXd-Mt5cpsoVQ90y+rSyK5xoYEf8A@mail.gmail.com>
-Subject: Re: [RFC 3/3] drm/amd: Return -EBUSY for amdgpu_pmops_thaw() on
- success
-To: "Mario Limonciello (AMD) (kernel.org)" <superm1@kernel.org>
-Cc: "Rafael J. Wysocki" <rafael@kernel.org>, mario.limonciello@amd.com,
- airlied@gmail.com, 
- alexander.deucher@amd.com, christian.koenig@amd.com, dakr@kernel.org, 
- gregkh@linuxfoundation.org, lenb@kernel.org, pavel@kernel.org, 
- simona@ffwll.ch, Muhammad Usama Anjum <usama.anjum@collabora.com>,
- amd-gfx@lists.freedesktop.org, 
- dri-devel@lists.freedesktop.org, linux-pm@vger.kernel.org
+References: <CAGkpkRXO35=pmEZLJ4efTzaUytu6GURwogPdv3hroOYmHWg4JQ@mail.gmail.com>
+ <CADnq5_MO7=jx4qbzsHW8=M4jyYgmLxc+QT78qbv00POuBbtxuw@mail.gmail.com>
+In-Reply-To: <CADnq5_MO7=jx4qbzsHW8=M4jyYgmLxc+QT78qbv00POuBbtxuw@mail.gmail.com>
+From: John Smith <itistotalbotnet@gmail.com>
+Date: Mon, 20 Oct 2025 20:51:26 +0200
+X-Gm-Features: AS18NWB17bQ_bDtcsWuGOmUjHHKnggVNN0a-NUht4F0EXMlh2bXL3jYWn5x65eg
+Message-ID: <CAGkpkRUPsiaDPBqaOVWmvn_iZRVk9vzMMamy-r9M43h0cBNb7w@mail.gmail.com>
+Subject: Re: [PATCH] drm/amd/pm/powerplay/smumgr: Fix PCIeBootLinkLevel value
+ on Fiji
+To: Alex Deucher <alexdeucher@gmail.com>
+Cc: dri-devel@lists.freedesktop.org
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -82,93 +83,87 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Oct 20, 2025 at 8:32=E2=80=AFPM Mario Limonciello (AMD) (kernel.org=
-)
-<superm1@kernel.org> wrote:
->
->
->
-> On 10/20/2025 12:39 PM, Rafael J. Wysocki wrote:
-> > On Mon, Oct 20, 2025 at 7:28=E2=80=AFPM Mario Limonciello (AMD) (kernel=
-.org)
-> > <superm1@kernel.org> wrote:
-> >>
-> >>
-> >>
-> >> On 10/20/2025 12:21 PM, Rafael J. Wysocki wrote:
-> >>> On Mon, Oct 20, 2025 at 6:53=E2=80=AFPM Mario Limonciello (AMD)
-> >>> <superm1@kernel.org> wrote:
-> >>>>
-> >>>> From: Mario Limonciello <mario.limonciello@amd.com>
-> >>>>
-> >>>> The PM core should be notified that thaw was skipped for the device
-> >>>> so that if it's tried to be resumed (such as an aborted hibernate)
-> >>>> that it gets another chance to resume.
-> >>>>
-> >>>> Cc: Muhammad Usama Anjum <usama.anjum@collabora.com>
-> >>>> Signed-off-by: Mario Limonciello <mario.limonciello@amd.com>
-> >>>> ---
-> >>>>    drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c | 2 +-
-> >>>>    1 file changed, 1 insertion(+), 1 deletion(-)
-> >>>>
-> >>>> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c b/drivers/gpu/d=
-rm/amd/amdgpu/amdgpu_drv.c
-> >>>> index 61268aa82df4d..d40af069f24dd 100644
-> >>>> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c
-> >>>> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c
-> >>>> @@ -2681,7 +2681,7 @@ static int amdgpu_pmops_thaw(struct device *de=
-v)
-> >>>>
-> >>>>           /* do not resume device if it's normal hibernation */
-> >>>>           if (!pm_hibernate_is_recovering() && !pm_hibernation_mode_=
-is_suspend())
-> >>>> -               return 0;
-> >>>> +               return -EBUSY;
-> >>>
-> >>> So that's why you need the special handling of -EBUSY in the previous=
- patch.
-> >>
-> >> Yup.
-> >>
-> >>>
-> >>> I think that you need to save some state in this driver and then use
-> >>> it in subsequent callbacks instead of hacking the core to do what you
-> >>> want.
-> >>>
-> >>
-> >> The problem is the core decides "what" to call and more importantly
-> >> "when" to call it.
-> >>
-> >> IE if the core thinks that something is thawed it will never call
-> >> resume, and that's why you end up in a bad place with Muhammad's
-> >> cancellation series and why I proposed this one to discuss.
-> >>
-> >> We could obviously go back to dropping this case entirely:
-> >>
-> >> if (!pm_hibernate_is_recovering() && !pm_hibernation_mode_is_suspend()=
-)
-> >>
-> >> But then the display turns on at thaw(), you do an unnecessary resourc=
-e
-> >> eviction, it takes a lot longer if you have a ton of VRAM etc.
-> >
-> > The cancellation series is at odds with this code path AFAICS because
-> > what if hibernation is canceled after the entire thaw transition?
->
-> Muhammad - did you test that specific timing of cancelling the hibernate?
-> >
-> > Some cleanup would need to be done before thawing user space I suppose.
->
-> I agree; I think that series would need changes for it.
->
-> But if you put that series aside, I think this one still has some merit
-> on it's own.  If another driver aborted the hibernate, I think the same
-> thing could happen if it happened to run before amdgpu's device thaw().
->
-> That series just exposed a very "easy" way to reproduce this issue.
+> It would be good to switch both of these for consistency with the
+> other chips, but the rationale for this is not quite correct.
+> PCIeBootLinkLevel is supposed to represent the level the link was
+> trained at when the system booted.
 
-Device thaw errors don't abort anything AFAICS.
+I see, didn't know about that.
 
-What can happen though is that another device may abort the final
-"power off" transition, which is one of the reasons why I think that
-rolling it back is generally hard.
+> If this does make a difference for you,
+> then you may have a platform which does not support dynamic gen
+> switching in which case, you'd be stuck at the boot level.
+
+No clue, this is the only Fiji card that I have and the only card that
+exhibits this behaviour,
+my Polaris card and a Nvidia card that I have spare do the switching
+just fine...
+
+> Please send this patch along with the patch for iceland and I'll apply th=
+em.
+
+Will do.
+
+On Mon, Oct 20, 2025 at 8:00=E2=80=AFPM Alex Deucher <alexdeucher@gmail.com=
+> wrote:
+>
+> On Mon, Oct 20, 2025 at 10:21=E2=80=AFAM John Smith <itistotalbotnet@gmai=
+l.com> wrote:
+> >
+> > Fiji seems to have difficulty with switching PCIe generations
+> > including on my Instinct MI8, where it is basically stuck at Gen 1
+> > unless manually switched by using a different PowerPlay profile.
+> > (using the pp_dpm_pcie sysfs does not work)
+> >
+> > 18edef19ea44 introduced support for Fiji's SMU, which included setting
+> > the PCIeBootLinkLevel value to zero which is equal to PCI Express Gen
+> > 1.
+> >
+> > By copying what Tonga and other generations of AMD GPUs do, which is
+> > to use the maximum value from the speed table, fixes the issue.
+> >
+> > (p.s. I believe Topaz's SMU also has the same issue, I can send in an
+> > additional patch if needed)
+>
+> It would be good to switch both of these for consistency with the
+> other chips, but the rationale for this is not quite correct.
+> PCIeBootLinkLevel is supposed to represent the level the link was
+> trained at when the system booted.  We should read the current level
+> from PCI config space, however, it was changed to
+> pcie_speed_table.count because after a driver unload and reload, the
+> PCIe level will end up at gen 1 because the firmware will put it there
+> when the driver was previously loaded.  I don't think the boot link
+> level affects PCIe at runtime.  IIRC, the PCIe gen levels are
+> determined based on PCIe caps and whether the platform supports
+> dynamic PCIe gen switching.  If this does make a difference for you,
+> then you may have a platform which does not support dynamic gen
+> switching in which case, you'd be stuck at the boot level.  Please
+> send this patch along with the patch for iceland and I'll apply them.
+>
+> Thanks!
+>
+> Alex
+>
+> >
+> > Fixes: 18edef19ea44 ("drm/amd/powerplay: implement fw image related
+> > smu interface for Fiji.")
+> > Signed-off-by: John Smith <itistotalbotnet@gmail.com>
+> > ---
+> >  drivers/gpu/drm/amd/pm/powerplay/smumgr/fiji_smumgr.c | 2 +-
+> >  1 file changed, 1 insertion(+), 1 deletion(-)
+> >
+> > diff --git a/drivers/gpu/drm/amd/pm/powerplay/smumgr/fiji_smumgr.c
+> > b/drivers/gpu/drm/amd/pm/powerplay/smumgr/fiji_smumgr.c
+> > index d2dbd90bb427..0a876c840c79 100644
+> > --- a/drivers/gpu/drm/amd/pm/powerplay/smumgr/fiji_smumgr.c
+> > +++ b/drivers/gpu/drm/amd/pm/powerplay/smumgr/fiji_smumgr.c
+> > @@ -2024,7 +2024,7 @@ static int fiji_init_smc_table(struct pp_hwmgr *h=
+wmgr)
+> >   table->VoltageResponseTime =3D 0;
+> >   table->PhaseResponseTime =3D 0;
+> >   table->MemoryThermThrottleEnable =3D 1;
+> > - table->PCIeBootLinkLevel =3D 0;      /* 0:Gen1 1:Gen2 2:Gen3*/
+> > + table->PCIeBootLinkLevel =3D (uint8_t) (data->dpm_table.pcie_speed_ta=
+ble.count);
+> >   table->PCIeGenInterval =3D 1;
+> >   table->VRConfig =3D 0;
