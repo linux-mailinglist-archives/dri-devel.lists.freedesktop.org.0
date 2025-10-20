@@ -2,42 +2,152 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 148BEBF178D
-	for <lists+dri-devel@lfdr.de>; Mon, 20 Oct 2025 15:12:49 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 60E98BF17B1
+	for <lists+dri-devel@lfdr.de>; Mon, 20 Oct 2025 15:14:26 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 41D1E10E2A3;
-	Mon, 20 Oct 2025 13:12:47 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 88FB110E436;
+	Mon, 20 Oct 2025 13:14:24 +0000 (UTC)
+Authentication-Results: gabe.freedesktop.org;
+	dkim=pass (2048-bit key; unprotected) header.d=Nvidia.com header.i=@Nvidia.com header.b="I9TDiMKW";
+	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
- by gabe.freedesktop.org (Postfix) with ESMTP id 0099B10E2A3
- for <dri-devel@lists.freedesktop.org>; Mon, 20 Oct 2025 13:12:45 +0000 (UTC)
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
- by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 5565F1007;
- Mon, 20 Oct 2025 06:12:37 -0700 (PDT)
-Received: from [10.57.36.117] (unknown [10.57.36.117])
- by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 39CBD3F66E;
- Mon, 20 Oct 2025 06:12:43 -0700 (PDT)
-Message-ID: <01bb8a05-b756-4bfd-9ac1-72ee16a6e8a9@arm.com>
-Date: Mon, 20 Oct 2025 14:12:41 +0100
+Received: from SA9PR02CU001.outbound.protection.outlook.com
+ (mail-southcentralusazon11013063.outbound.protection.outlook.com
+ [40.93.196.63])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7F00310E436
+ for <dri-devel@lists.freedesktop.org>; Mon, 20 Oct 2025 13:14:23 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=MrzpPA5i94EvEyx60neIius7leKRgL5pF8QF3bOo5TB/FU1zJZGUxP4zNHD+Y/7u3wqbZkk79VjyDf1uSVEkf2nT9CzZCE8hspF+BgWcFb7KsKTNDKFCDAK962uh9IBWlozCISS9BF6OVefN58MtXUHz/Hgjk9HJsMoZhghBrQzeORzDXZiKdIhpNeYXrtPWwhE5R4BWvVOTivm0X+lb00U1fOwZDePgNNjESudoyQLr/HnJbhBadUr+F9LodiJcQsEip664tt+UzPrr8v8vgPxPEAol+HSDiSAHWrMolTvhW36E95u9IjX0a2j6W9taDUSYOpRro1IA2yWJWBWS3Q==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=g/xAhEPdrCK7JzGGZ23ruMt4w7fGstjGlW1v3WB/k4s=;
+ b=Ap5O4/YAq/QqFmvo11OWHzVr7CtneIkGolo40xMEQFx+zPYp8SMoO6ff84Y+CpmqVIPBY8O0j81Ov7wVnIOF16C30ZNwnHo62C4NCR7SoEw0FH2stLNXOA0JqABQLzQ7/dyMRnMhlJaLHSmuZU01FIZvrEr21PKerOnBcmlY0ixRY2XUL+jsBwLrYY+YSCA4qLlndynlzT4fPXBNE/iOe6OQIxaBcH+yaAOT3hIO6OJnSoQCQYqbk+vovFlU+rCAUwWwg0mT618v3CYfzwTU0jO+Q4a+dnh7YNP5pMwO08ukSwUf7jsf0iUwZUksJDYJCr5P877fJBR6/Vi537FxRQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
+ dkim=pass header.d=nvidia.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=g/xAhEPdrCK7JzGGZ23ruMt4w7fGstjGlW1v3WB/k4s=;
+ b=I9TDiMKW7HA+TWyHbqwbSfxrSgrHWKtbtznvfCm4jIpPSAyF5tuLlU5+Q7flcPZ695SHyewl/1DFXvWsKAbXScrHXJsSJYCDhWk/E9bf1HblK2Se9MsYxl52CjzZdzBUF/qfWsOoPqcbNBAcfybu3TUys49BsWn8mEnxR1v7Gfy0Bkmrdlmr3+vN6AFvSlSxQd5XEGDVDDsVlNKYvHMKr8Kbf8sjPNOenelxd+cX8CvRaFx91TyyBdJFof2jYy7T1p9orfRE57Gf2fRaHJqPjTYmsFTt9QnMX6btPzlBHbx1o4VTpa2kAPSXYtlbi0sJDMsn4HDiVQ6k3UHFPztTqQ==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=nvidia.com;
+Received: from MN2PR12MB3613.namprd12.prod.outlook.com (2603:10b6:208:c1::17)
+ by MN2PR12MB4334.namprd12.prod.outlook.com (2603:10b6:208:1d1::10)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9228.17; Mon, 20 Oct
+ 2025 13:14:19 +0000
+Received: from MN2PR12MB3613.namprd12.prod.outlook.com
+ ([fe80::1b3b:64f5:9211:608b]) by MN2PR12MB3613.namprd12.prod.outlook.com
+ ([fe80::1b3b:64f5:9211:608b%4]) with mapi id 15.20.9228.015; Mon, 20 Oct 2025
+ 13:14:19 +0000
+Date: Mon, 20 Oct 2025 10:14:17 -0300
+From: Jason Gunthorpe <jgg@nvidia.com>
+To: Christoph Hellwig <hch@infradead.org>
+Cc: Leon Romanovsky <leon@kernel.org>,
+ Alex Williamson <alex.williamson@redhat.com>,
+ Leon Romanovsky <leonro@nvidia.com>,
+ Andrew Morton <akpm@linux-foundation.org>,
+ Bjorn Helgaas <bhelgaas@google.com>,
+ Christian =?utf-8?B?S8O2bmln?= <christian.koenig@amd.com>,
+ dri-devel@lists.freedesktop.org, iommu@lists.linux.dev,
+ Jens Axboe <axboe@kernel.dk>, Joerg Roedel <joro@8bytes.org>,
+ kvm@vger.kernel.org, linaro-mm-sig@lists.linaro.org,
+ linux-block@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-media@vger.kernel.org, linux-mm@kvack.org,
+ linux-pci@vger.kernel.org, Logan Gunthorpe <logang@deltatee.com>,
+ Marek Szyprowski <m.szyprowski@samsung.com>,
+ Robin Murphy <robin.murphy@arm.com>,
+ Sumit Semwal <sumit.semwal@linaro.org>,
+ Vivek Kasireddy <vivek.kasireddy@intel.com>, Will Deacon <will@kernel.org>
+Subject: Re: [PATCH v5 4/9] PCI/P2PDMA: Export pci_p2pdma_map_type() function
+Message-ID: <20251020131417.GN316284@nvidia.com>
+References: <cover.1760368250.git.leon@kernel.org>
+ <0fa715706e1adf5e26199dc3eaa3b1ff3b14db67.1760368250.git.leon@kernel.org>
+ <aPHi2c2BQNB4eqm_@infradead.org>
+ <20251017121447.GH3901471@nvidia.com>
+ <aPYrEroyWVOvAu-5@infradead.org>
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <aPYrEroyWVOvAu-5@infradead.org>
+X-ClientProxiedBy: SA9PR13CA0093.namprd13.prod.outlook.com
+ (2603:10b6:806:24::8) To MN2PR12MB3613.namprd12.prod.outlook.com
+ (2603:10b6:208:c1::17)
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v1 09/10] drm/panthor: Support 64-bit endpoint_req
- register for Mali-G1
-To: Karunika Choo <karunika.choo@arm.com>, dri-devel@lists.freedesktop.org
-Cc: nd@arm.com, Boris Brezillon <boris.brezillon@collabora.com>,
- Liviu Dudau <liviu.dudau@arm.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- linux-kernel@vger.kernel.org
-References: <20251014094337.1009601-1-karunika.choo@arm.com>
- <20251014094337.1009601-10-karunika.choo@arm.com>
-From: Steven Price <steven.price@arm.com>
-Content-Language: en-GB
-In-Reply-To: <20251014094337.1009601-10-karunika.choo@arm.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: MN2PR12MB3613:EE_|MN2PR12MB4334:EE_
+X-MS-Office365-Filtering-Correlation-Id: 70f5d0ca-0780-4bc8-e865-08de0fda93b8
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;ARA:13230040|366016|1800799024|376014|7416014;
+X-Microsoft-Antispam-Message-Info: =?us-ascii?Q?b8joZkN0/h9N0cTScTXpGlY+QCxIzckVOo2+SUUfCzclXooinPWxlpPD5y+Q?=
+ =?us-ascii?Q?E/7ayuHiKwr+ke38/IJFK8Iuwc9HASoLkYnSGw0/RR2b6IYpq8sGWq1uucCS?=
+ =?us-ascii?Q?7IFSpGqjGNzpKegd2gm9Z1NLMsjJdn1EVoT/qYf+3GJywLIZI7Hb0KtG8CtK?=
+ =?us-ascii?Q?EulAgrq9kEEpOeAI3uCSmodlBPgVJZ8jgcASaBbVF7+FeDtqU4NQBAsZoSx6?=
+ =?us-ascii?Q?Sv+xER1A0++imaYoSic5PKEy7r9MpxJCL6X4BcrdM+QjRO5xZGhhr+SmepkL?=
+ =?us-ascii?Q?oLejVPK39wzuOTpBtfhtC4GWdg0VjrKZVe2i3XmXuhFMM89kUGbTdBZuLmgg?=
+ =?us-ascii?Q?kaMGahdxrRs1Z1MYZgtpcmpFuD89CcxDA5tZYVO/7cH9w5Pqj3zCtHtBmFuJ?=
+ =?us-ascii?Q?Tk3xNCpUepuHEy/foPy5HiG9qiZGe3DOIfGxkOgcJmUre7ttOqDRLL/U05jC?=
+ =?us-ascii?Q?Qy8uWjjhYTttRlbnGlhHiq1Orp1Kn/9zMj8HnUsNSW4dvxuegdsgL7TN7Hut?=
+ =?us-ascii?Q?SrGdF9QjjoRRZpBZcUqnHTndChbgKKsjhDRGQ+GOVIbv2LW95FjbEOdlT5TE?=
+ =?us-ascii?Q?Zp4pBAQBuPSkzWAugGEphtgHvIQ3I04gzpNB6iz7YfVaypj+kby8e4fS+TY4?=
+ =?us-ascii?Q?dRjWnKB0gusi84OGSWHzxjwLZM6TscsOhnq7F7LGAx4YJU4a5ZX6EhUuCRwK?=
+ =?us-ascii?Q?KEoG8V/YtP/2r655u2eaS2YcfGngmOLnd6AjFhVtzYGy6+vdpqiSBy1x2AaT?=
+ =?us-ascii?Q?lMb5nhLBa01J2QB9K2W+Y//M/t8Tv+qBuiTORmN+NcOyvJAlCKbF3MEdVCPe?=
+ =?us-ascii?Q?VK6CkzUxkIBA20UzLtU/bpYHVIe/4rD9w5cLiFWoCxsoLkaB8dyPJXm+TXgZ?=
+ =?us-ascii?Q?1A1BI/zT65q2xMocseJbdnp7iYI5tpYVR2Vw8vsHCXEULH4GoRwHqAZDwkwd?=
+ =?us-ascii?Q?uiUTyieVDHZv2PyC2wzBQEiCYm+u0+/LGuYdK4a3lCD9S58veoljfM21ZVju?=
+ =?us-ascii?Q?GW0AgnuFLcIgFFE0ThDFXM5tNV7rzGWTxk30cpXmnbvkZpT1xX/gSXGu99yl?=
+ =?us-ascii?Q?3ffOf7PcxTNSb6qWsLU4LDrw04ncDxuCTMAdQ9hz/GpAXBFXt3ounjVBg+e5?=
+ =?us-ascii?Q?hFVEwj6YutYz9U3ylHRCw0z1/WwUF3uIc6P+dRSH0JMslqusS4KuIulHQJr2?=
+ =?us-ascii?Q?3VJbWp2SyjSGiVcaYrOUcOmBd/J0Jt3+GgEDViEFZb94Zdb2nXaXp0Z95qKR?=
+ =?us-ascii?Q?ZRskr0i+jwOTI9XWH+Ly2rbYjlVsc3GROwRvLLTz7gz3WvBylQk86GC0jcHd?=
+ =?us-ascii?Q?FELno61k61GZDTih8xKq3dnb1nQxoDfqk5cuBQtxjhT7BHlbF5BjR97HQTbu?=
+ =?us-ascii?Q?S21LgNt7QROouxx3cpy10uBx912TUXABICySUgwAITtRDZrvA3ZTps/ap5Fp?=
+ =?us-ascii?Q?/4Xp5D2bNdeNg3ohDUZVuVrAVRTeaq6Va0c+QgQuKqWBKicrd0rYIw=3D=3D?=
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:MN2PR12MB3613.namprd12.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230040)(366016)(1800799024)(376014)(7416014); DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?5/FCbxZF3EcF6IVjezMmolqCLTK8l+FzsfT1KSHSMtBbKcAVMXkIj0eewVqD?=
+ =?us-ascii?Q?TuKqv4QVURMbUgnRhjswyaTL1EDdzBq5XYIcQbXyuBYSOBQG76n2Jhe+7zVs?=
+ =?us-ascii?Q?qTJmy6B5hynEUr3WIcLE1oDJuFGIeBg2QCweYLzGAv0+ONg2OBoBdFtAiOoD?=
+ =?us-ascii?Q?SxKy3lZIdxCLUaXhm32fI7rKwWUv1DRycG82SQNAFRDGXgies+fyDl/FPbP2?=
+ =?us-ascii?Q?riyWjuGmdPgGMrUhZ67/5A0zG8sjsia3vIhonnMpIxNuSIy97MYQ294uSNnY?=
+ =?us-ascii?Q?viAgjJc0RMYw8stUHDtf+rp5yashs5GhW3sSql5z7Pe3hvYvODlzNv/nuGvB?=
+ =?us-ascii?Q?koM7doslwd4LjLayTyGiyPF5+ZFWdcN5LjuWp7Tfv490Nbs/alMjv95YWjQj?=
+ =?us-ascii?Q?ISE0/2JstBDXlrZsCixD2RLfEmWzwlsik055Kbt+wEP5SwkWLP+QpSTjEpty?=
+ =?us-ascii?Q?Ssu24jFJkwgFLfKXId8fR1Ms4O/0I/VP/aLcewOXb251LhHfyYq4lkdsw9K3?=
+ =?us-ascii?Q?C2htt4JkbPSjqasKuluNWZ54m7rVeuOtosL+NcrnKYPVYTaKJpV8iEx+Z6Qp?=
+ =?us-ascii?Q?s0+QHYoEyvL184nJVPWyp5yRS6fBBMWtiXW5KT47aIpSIZWL0/ElgZh8kB5q?=
+ =?us-ascii?Q?x9q8iEq25fVtbpOzS4hM2NWNCdTqhqzNLz6QMjAqnCeXZazgoCjkFaKs3J0P?=
+ =?us-ascii?Q?GxlT61CDVi7VE3+rnR0Q/lLjjbt/iv4dP2+uH9nGwFBWXio94ZCY3cryFobZ?=
+ =?us-ascii?Q?ZSGz7oy2oE+B95PUtmfFq9T2/EL+TUSlwkwgkc2Xfg51iMkxxd7UvPbgS/Z5?=
+ =?us-ascii?Q?x1oGKJS7s1fNiJJUEVGj10cxWCWFsUPTJAkjm4xAIIYVq2FuG9eMSq/VjQGd?=
+ =?us-ascii?Q?slaNqbIEg/H4/p5wXqNnhGCmfFxpwyy+BxZBEoEnAEQXJNQPbxbBkHH4oS72?=
+ =?us-ascii?Q?ctEes0Rui37zVQV3d6Sq44Laj/m35uplqDEetwNZvLeEvUU+12TZggjyctJH?=
+ =?us-ascii?Q?oDywnv+Y4+KDsa3KBD0AYluNgZySfwIUz0Ee277UnaIjBp7KrxEQNpQV7+j5?=
+ =?us-ascii?Q?Xaif1cmsqUb4dda15OL996Rq76Pghgu0/VvLK80VuU/Ow9tncnI6uqEge4LG?=
+ =?us-ascii?Q?Ae4pl31CTYkmX+Kzxqo6oMrPGy6mYMMeuyk9wPfGLaDB0+74ahgcKrmgwclI?=
+ =?us-ascii?Q?QDVvt026JIW7Air+tkLA3nMwC3xr2oDbktuOZt1BD7zl3CbaQ1pkhhxcrnVe?=
+ =?us-ascii?Q?YG3AuuLIITdALZfXQwak8hhnHiufAc0q9dqjx8gXSf6sk+R/y7S6NarpFEFv?=
+ =?us-ascii?Q?q6OzmlVVnTJ2ND0Lmrba5ZpWTjMUdaSRbEarHpd5YresbVp0HyZflajkx5Vt?=
+ =?us-ascii?Q?hUyclZetKzcCGiBzOxDd0PPmyhMw+fxC9HsnyuVCtzXedq5TKder6miJeKaX?=
+ =?us-ascii?Q?lctUHx1hDM+NYDNwSvI6fwVKcrtT8cPbk1+WynSwGNNh12NwHkAlcn0W/j3x?=
+ =?us-ascii?Q?UYEVAIpH7PLzIxuVfyupOQjOJTqawc9IaUWiZCiYXpSMfk98sZGg+dNoUOja?=
+ =?us-ascii?Q?DLN39+Kkytck41uWAINLYPpYHF2n6ADRaSXTkxEJ?=
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 70f5d0ca-0780-4bc8-e865-08de0fda93b8
+X-MS-Exchange-CrossTenant-AuthSource: MN2PR12MB3613.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 20 Oct 2025 13:14:19.2031 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: V9sVEPkJmgkdE09DNOGndubxcCIH7wcoFoZoRf01i6x4VsEMvvKi6RXUISyr/NGs
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MN2PR12MB4334
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -53,241 +163,38 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 14/10/2025 10:43, Karunika Choo wrote:
-> Add support for the 64-bit endpoint_req register introduced in CSF v4.0+
-> GPUs. Unlike a simple register widening, the 64-bit variant occupies the
-> next 64 bits after the original 32-bit field, requiring
-> version-dependent access.
+On Mon, Oct 20, 2025 at 05:29:06AM -0700, Christoph Hellwig wrote:
+> On Fri, Oct 17, 2025 at 09:14:47AM -0300, Jason Gunthorpe wrote:
+> > On Thu, Oct 16, 2025 at 11:31:53PM -0700, Christoph Hellwig wrote:
+> > > 
+> > > Nacked-by: Christoph Hellwig <hch@lst.de>
+> > > 
+> > > As explained to you multiple times, pci_p2pdma_map_type is a low-level
+> > > helper that absolutely MUST be wrapper in proper accessors. 
+> > 
+> > You never responded to the discussion:
+> > 
+> > https://lore.kernel.org/all/20250727190252.GF7551@nvidia.com/
+> > 
+> > What is the plan here? Is the new DMA API unusable by modules? That
+> > seems a little challenging.
 > 
-> This change introduces helper functions to read, write, and update the
-> endpoint_req register based on the CSF interface version, ensuring
-> correct handling on both pre-v4.0 and v4.0+ hardware.
-> 
-> Signed-off-by: Karunika Choo <karunika.choo@arm.com>
-> ---
->  drivers/gpu/drm/panthor/panthor_fw.c    | 43 ++++++++++++++++++++++---
->  drivers/gpu/drm/panthor/panthor_fw.h    | 20 +++++++++++-
->  drivers/gpu/drm/panthor/panthor_sched.c | 22 +++++++------
->  3 files changed, 70 insertions(+), 15 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/panthor/panthor_fw.c b/drivers/gpu/drm/panthor/panthor_fw.c
-> index 48bbae8931cb..c1b2fba311d8 100644
-> --- a/drivers/gpu/drm/panthor/panthor_fw.c
-> +++ b/drivers/gpu/drm/panthor/panthor_fw.c
-> @@ -318,6 +318,41 @@ panthor_fw_get_cs_iface(struct panthor_device *ptdev, u32 csg_slot, u32 cs_slot)
->  	return &ptdev->fw->iface.streams[csg_slot][cs_slot];
->  }
->  
-> +u64 panthor_fw_csg_endpoint_req_get(struct panthor_device *ptdev, u32 csg_id)
-> +{
-> +	struct panthor_fw_global_iface *glb_iface = panthor_fw_get_glb_iface(ptdev);
-> +	struct panthor_fw_csg_iface *csg_iface = panthor_fw_get_csg_iface(ptdev, csg_id);
-> +
-> +	if (glb_iface->control->version >= CSF_IFACE_VERSION(4, 0, 0))
-> +		return csg_iface->input->endpoint_req2;
-> +	else
-> +		return csg_iface->input->endpoint_req;
-> +}
+> Yes.  These are only intended to be wrapped by subsystems.
 
-I'm not sure it's an improvement taking csg_id rather than csg_iface.
-csg_slot_sync_priority_locked() does get more simple, but the other
-functions already have the csg_iface pointer so this is just repeated work.
+Sure, but many subsystems are fully modular too.. RDMA for example.
 
-We also really want a helper for the version check...
+Well, lets see what comes in the future..
 
-> +
-> +void panthor_fw_csg_endpoint_req_set(struct panthor_device *ptdev, u32 csg_id, u64 value)
-> +{
-> +	struct panthor_fw_global_iface *glb_iface = panthor_fw_get_glb_iface(ptdev);
-> +	struct panthor_fw_csg_iface *csg_iface = panthor_fw_get_csg_iface(ptdev, csg_id);
-> +
-> +	if (glb_iface->control->version >= CSF_IFACE_VERSION(4, 0, 0))
-> +		csg_iface->input->endpoint_req2 = value;
-> +	else
-> +		csg_iface->input->endpoint_req = lower_32_bits(value);
-> +}
-> +
-> +void panthor_fw_csg_endpoint_req_update(struct panthor_device *ptdev, u32 csg_id, u64 value,
-> +					u64 mask)
-> +{
-> +	struct panthor_fw_global_iface *glb_iface = panthor_fw_get_glb_iface(ptdev);
-> +	struct panthor_fw_csg_iface *csg_iface = panthor_fw_get_csg_iface(ptdev, csg_id);
-> +
-> +	if (glb_iface->control->version >= CSF_IFACE_VERSION(4, 0, 0))
-> +		panthor_fw_update_reqs64(csg_iface, endpoint_req2, value, mask);
-> +	else
-> +		panthor_fw_update_reqs(csg_iface, endpoint_req, lower_32_bits(value),
-> +				       lower_32_bits(mask));
-> +}
-> +
->  /**
->   * panthor_fw_conv_timeout() - Convert a timeout into a cycle-count
->   * @ptdev: Device.
-> @@ -997,7 +1032,7 @@ static void panthor_fw_init_global_iface(struct panthor_device *ptdev)
->  					 GLB_IDLE_EN |
->  					 GLB_IDLE;
->  
-> -	if (panthor_fw_csf_version(ptdev) >= CSF_IFACE_VERSION(4, 1, 0))
-> +	if (glb_iface->control->version >= CSF_IFACE_VERSION(4, 1, 0))
+> Yes, that sounds much better.  And dmabuf in general could use some
+> deduplicating of their dma mapping patterns (and eventual fixing).
 
-These should be in the previous patch.
+Yes, it certainly could, but I wanted to tackle this later..
 
->  		glb_iface->input->ack_irq_mask |= GLB_STATE_MASK;
->  
->  	panthor_fw_update_reqs(glb_iface, req, GLB_IDLE_EN, GLB_IDLE_EN);
-> @@ -1080,7 +1115,7 @@ static bool panthor_fw_mcu_halted(struct panthor_device *ptdev)
->  
->  	halted = gpu_read(ptdev, MCU_STATUS) == MCU_STATUS_HALT;
->  
-> -	if (panthor_fw_csf_version(ptdev) >= CSF_IFACE_VERSION(4, 1, 0))
-> +	if (glb_iface->control->version >= CSF_IFACE_VERSION(4, 1, 0))
->  		halted &= (GLB_STATE_GET(glb_iface->output->ack) == GLB_STATE_HALT);
->  
->  	return halted;
-> @@ -1090,7 +1125,7 @@ static void panthor_fw_halt_mcu(struct panthor_device *ptdev)
->  {
->  	struct panthor_fw_global_iface *glb_iface = panthor_fw_get_glb_iface(ptdev);
->  
-> -	if (panthor_fw_csf_version(ptdev) >= CSF_IFACE_VERSION(4, 1, 0))
-> +	if (glb_iface->control->version >= CSF_IFACE_VERSION(4, 1, 0))
->  		panthor_fw_update_reqs(glb_iface, req, GLB_STATE(GLB_STATE_HALT), GLB_STATE_MASK);
->  	else
->  		panthor_fw_update_reqs(glb_iface, req, GLB_HALT, GLB_HALT);
-> @@ -1115,7 +1150,7 @@ static void panthor_fw_mcu_set_active(struct panthor_device *ptdev)
->  {
->  	struct panthor_fw_global_iface *glb_iface = panthor_fw_get_glb_iface(ptdev);
->  
-> -	if (panthor_fw_csf_version(ptdev) >= CSF_IFACE_VERSION(4, 1, 0))
-> +	if (glb_iface->control->version >= CSF_IFACE_VERSION(4, 1, 0))
->  		panthor_fw_update_reqs(glb_iface, req, GLB_STATE(GLB_STATE_ACTIVE), GLB_STATE_MASK);
->  	else
->  		panthor_fw_update_reqs(glb_iface, req, 0, GLB_HALT);
-> diff --git a/drivers/gpu/drm/panthor/panthor_fw.h b/drivers/gpu/drm/panthor/panthor_fw.h
-> index a19ed48b2d0b..25ebf0d31d0d 100644
-> --- a/drivers/gpu/drm/panthor/panthor_fw.h
-> +++ b/drivers/gpu/drm/panthor/panthor_fw.h
-> @@ -168,9 +168,10 @@ struct panthor_fw_csg_input_iface {
->  #define CSG_EP_REQ_EXCL_COMPUTE			BIT(20)
->  #define CSG_EP_REQ_EXCL_FRAGMENT		BIT(21)
->  #define CSG_EP_REQ_PRIORITY(x)			(((x) << 28) & GENMASK(31, 28))
-> +#define CSG_EP_REQ_PRIORITY_GET(x)		(((x) & GENMASK(31, 28)) >> 28)
->  #define CSG_EP_REQ_PRIORITY_MASK		GENMASK(31, 28)
+I think adding some 'dmabuf create a map for this list of phys on this
+provider' is a good simplifed primitive. Simple drivers like VFIO that
+only want to expose MMIO can just call it directly.
 
-NIT: if we reorder then we can avoid repeating GENMASK(31, 28).
+Once this is settled I want to have RDMA wrap some of its MMIO VMAs in
+DMABUF as well, so I can see at least two users of the helper.
 
->  	u32 endpoint_req;
-> -	u32 reserved2[2];
-> +	u64 endpoint_req2;
->  	u64 suspend_buf;
->  	u64 protm_suspend_buf;
->  	u32 config;
-> @@ -464,6 +465,16 @@ struct panthor_fw_global_iface {
->  		spin_unlock(&(__iface)->lock); \
->  	} while (0)
->  
-> +#define panthor_fw_update_reqs64(__iface, __in_reg, __val, __mask) \
-> +	do { \
-> +		u64 __cur_val, __new_val; \
-> +		spin_lock(&(__iface)->lock); \
-> +		__cur_val = READ_ONCE((__iface)->input->__in_reg); \
-> +		__new_val = (__cur_val & ~(__mask)) | ((__val) & (__mask)); \
-> +		WRITE_ONCE((__iface)->input->__in_reg, __new_val); \
-> +		spin_unlock(&(__iface)->lock); \
-> +	} while (0)
-> +
->  struct panthor_fw_global_iface *
->  panthor_fw_get_glb_iface(struct panthor_device *ptdev);
->  
-> @@ -473,6 +484,13 @@ panthor_fw_get_csg_iface(struct panthor_device *ptdev, u32 csg_slot);
->  struct panthor_fw_cs_iface *
->  panthor_fw_get_cs_iface(struct panthor_device *ptdev, u32 csg_slot, u32 cs_slot);
->  
-> +u64 panthor_fw_csg_endpoint_req_get(struct panthor_device *ptdev, u32 csg_id);
-> +
-> +void panthor_fw_csg_endpoint_req_set(struct panthor_device *ptdev, u32 csg_id, u64 value);
-> +
-> +void panthor_fw_csg_endpoint_req_update(struct panthor_device *ptdev, u32 csg_id, u64 value,
-> +					u64 mask);
-> +
->  int panthor_fw_csg_wait_acks(struct panthor_device *ptdev, u32 csg_id, u32 req_mask,
->  			     u32 *acked, u32 timeout_ms);
->  
-> diff --git a/drivers/gpu/drm/panthor/panthor_sched.c b/drivers/gpu/drm/panthor/panthor_sched.c
-> index 0cc9055f4ee5..25663de62b8e 100644
-> --- a/drivers/gpu/drm/panthor/panthor_sched.c
-> +++ b/drivers/gpu/drm/panthor/panthor_sched.c
-> @@ -1138,12 +1138,11 @@ static void
->  csg_slot_sync_priority_locked(struct panthor_device *ptdev, u32 csg_id)
->  {
->  	struct panthor_csg_slot *csg_slot = &ptdev->scheduler->csg_slots[csg_id];
-> -	struct panthor_fw_csg_iface *csg_iface;
->  
->  	lockdep_assert_held(&ptdev->scheduler->lock);
->  
-> -	csg_iface = panthor_fw_get_csg_iface(ptdev, csg_id);
-> -	csg_slot->priority = (csg_iface->input->endpoint_req & CSG_EP_REQ_PRIORITY_MASK) >> 28;
-> +	csg_slot->priority =
-> +		CSG_EP_REQ_PRIORITY_GET(panthor_fw_csg_endpoint_req_get(ptdev, csg_id));
-
-NIT: This is a useful refactor, but it's best to avoid refactoring at
-the same time as making other changes as it's then harder to review (and
-regressions are harder to pin down).
-
-I also think a local variable would help with the line length:
-
-  u64 endpoint_req = panthor_fw_csg_endpoint_req_get(ptdev, csg_id);
-
-  csg_slot->priority = CSG_EP_REQ_PRIORITY_GET(endpoint_req);
-
->  }
->  
->  /**
-> @@ -1303,6 +1302,7 @@ csg_slot_prog_locked(struct panthor_device *ptdev, u32 csg_id, u32 priority)
->  	struct panthor_csg_slot *csg_slot;
->  	struct panthor_group *group;
->  	u32 queue_mask = 0, i;
-> +	u32 endpoint_req = 0;
-
-No need to initialise (and doing so hides compiler warnings if this is
-used when it shouldn't be).
-
-It won't actually make any difference, but this should also be u64 to
-match the new wider register.
-
-Thanks,
-Steve
-
->  
->  	lockdep_assert_held(&ptdev->scheduler->lock);
->  
-> @@ -1329,10 +1329,12 @@ csg_slot_prog_locked(struct panthor_device *ptdev, u32 csg_id, u32 priority)
->  	csg_iface->input->allow_compute = group->compute_core_mask;
->  	csg_iface->input->allow_fragment = group->fragment_core_mask;
->  	csg_iface->input->allow_other = group->tiler_core_mask;
-> -	csg_iface->input->endpoint_req = CSG_EP_REQ_COMPUTE(group->max_compute_cores) |
-> -					 CSG_EP_REQ_FRAGMENT(group->max_fragment_cores) |
-> -					 CSG_EP_REQ_TILER(group->max_tiler_cores) |
-> -					 CSG_EP_REQ_PRIORITY(priority);
-> +	endpoint_req = CSG_EP_REQ_COMPUTE(group->max_compute_cores) |
-> +		       CSG_EP_REQ_FRAGMENT(group->max_fragment_cores) |
-> +		       CSG_EP_REQ_TILER(group->max_tiler_cores) |
-> +		       CSG_EP_REQ_PRIORITY(priority);
-> +	panthor_fw_csg_endpoint_req_set(ptdev, csg_id, endpoint_req);
-> +
->  	csg_iface->input->config = panthor_vm_as(group->vm);
->  
->  	if (group->suspend_buf)
-> @@ -2230,9 +2232,9 @@ tick_ctx_apply(struct panthor_scheduler *sched, struct panthor_sched_tick_ctx *c
->  				continue;
->  			}
->  
-> -			panthor_fw_update_reqs(csg_iface, endpoint_req,
-> -					       CSG_EP_REQ_PRIORITY(new_csg_prio),
-> -					       CSG_EP_REQ_PRIORITY_MASK);
-> +			panthor_fw_csg_endpoint_req_update(ptdev, csg_id,
-> +							   CSG_EP_REQ_PRIORITY(new_csg_prio),
-> +							   CSG_EP_REQ_PRIORITY_MASK);
->  			csgs_upd_ctx_queue_reqs(ptdev, &upd_ctx, csg_id,
->  						csg_iface->output->ack ^ CSG_ENDPOINT_CONFIG,
->  						CSG_ENDPOINT_CONFIG);
-
+Jason
