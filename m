@@ -2,55 +2,58 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A05D1BEEEB3
-	for <lists+dri-devel@lfdr.de>; Mon, 20 Oct 2025 01:41:35 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id E1B1DBEEEE4
+	for <lists+dri-devel@lfdr.de>; Mon, 20 Oct 2025 02:38:20 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id F087210E22C;
-	Sun, 19 Oct 2025 23:41:30 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3593110E045;
+	Mon, 20 Oct 2025 00:38:17 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; secure) header.d=canb.auug.org.au header.i=@canb.auug.org.au header.b="Kxv3o1fo";
+	dkim=fail reason="signature verification failed" (2048-bit key; secure) header.d=infradead.org header.i=@infradead.org header.b="chbihm9i";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 604 seconds by postgrey-1.36 at gabe;
- Sun, 19 Oct 2025 23:41:28 UTC
-Received: from mail.ozlabs.org (gandalf.ozlabs.org [150.107.74.76])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 881D110E068;
- Sun, 19 Oct 2025 23:41:28 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=canb.auug.org.au;
- s=202503; t=1760916681;
- bh=UoGToMhmBvEkGtFCZAK2Hfm8FjJbcOJcRKBGQzSH3uk=;
- h=Date:From:To:Cc:Subject:From;
- b=Kxv3o1forkHd7Kw9IxA6kAr7BphZdpSx4oj/w9NqLMQXh15veMVaN37hr18BZkidr
- oKVtEL/8Rp9K/Z3kUQ6loa8g0e7aD/GtuQpTfWs27JA+zmS1s3rmB07TeK1hKaJZUG
- 8kT1mVj+IOhplw+PPoJ6ZAlPWorg1UIRXSkkrgTx4DivJ/waafhJhWIQLKF2qLWY5p
- 3ticRZ8Ul9i3+c9CLl+QOK0UQfrdepO3lBN3mmhTR1267iCc9JmFnPidFuzGwbQew4
- 0GDlnBKt3EjZQxjd/2G+U7QdXIm+7tuhLS+ccsjKtRZA7rzXprO8u0Jn60rag/J+LO
- MBj6L70PkItCw==
-Received: from authenticated.ozlabs.org (localhost [127.0.0.1])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (Client did not present a certificate)
- by mail.ozlabs.org (Postfix) with ESMTPSA id 4cqZZJ1QW7z4w9Q;
- Mon, 20 Oct 2025 10:31:19 +1100 (AEDT)
-Date: Mon, 20 Oct 2025 10:31:19 +1100
-From: Stephen Rothwell <sfr@canb.auug.org.au>
-To: Lucas De Marchi <lucas.demarchi@intel.com>, Thomas =?UTF-8?B?SGVsbHN0?=
- =?UTF-8?B?csO2bQ==?= <thomas.hellstrom@linux.intel.com>, Simona Vetter
- <simona.vetter@ffwll.ch>, Jani Nikula <jani.nikula@linux.intel.com>, Joonas
- Lahtinen <joonas.lahtinen@linux.intel.com>, Rodrigo Vivi
- <rodrigo.vivi@intel.com>
-Cc: Dnyaneshwar Bhadane <dnyaneshwar.bhadane@intel.com>, Matt Roper
- <matthew.d.roper@intel.com>, Suraj Kandpal <suraj.kandpal@intel.com>, Linux
- Kernel Mailing List <linux-kernel@vger.kernel.org>, Linux Next Mailing List
- <linux-next@vger.kernel.org>, Intel Graphics
- <intel-gfx@lists.freedesktop.org>, DRI <dri-devel@lists.freedesktop.org>,
- DRM XE List <intel-xe@lists.freedesktop.org>
-Subject: linux-next: manual merge of the drm-xe tree with the drm-intel tree
-Message-ID: <20251020103119.3215fa25@canb.auug.org.au>
+Received: from bombadil.infradead.org (bombadil.infradead.org
+ [198.137.202.133])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5D7A810E045;
+ Mon, 20 Oct 2025 00:38:12 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+ d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
+ Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+ Message-ID:Sender:Reply-To:Content-ID:Content-Description;
+ bh=GpAV/VMY9yx3kzxtCkfBCxjEDydMOc4ro6VHFxkqJFE=; b=chbihm9iGw7tLsnTA4HX8e1Lk4
+ 4mXInwKV99SnKp3PMSubLDTcEAbar5itv3gbc1ZDqoq5Nkhy8ts9vr/flEh16X9i+UWVLfvUDFTrC
+ /q0PUnRDDN99lCZ6nyT3US6UTRIez8QIMg1uPLnx+kY/fFk6bh8X3oI2kvMwUeYm9ovcKgPy9rgVF
+ HEfx8qFPTzMLlGoGlG//XHmB5TA1RdilHajP92tzjC91yDu4vq4wFh7TIjUdgdjZOAPc0Sf7dCF5j
+ qpg2IAL9NEzwyvQzZnZKKyc0dixIMQdiuuiss+wDzRC0Bz2uCmo8UQZGHtC6jp8vtCM9Vgxmv70pp
+ IY0SC0Lg==;
+Received: from [50.53.43.113] (helo=[192.168.254.34])
+ by bombadil.infradead.org with esmtpsa (Exim 4.98.2 #2 (Red Hat Linux))
+ id 1vAdua-0000000BZ1w-1mIz; Mon, 20 Oct 2025 00:38:08 +0000
+Message-ID: <f6e3c761-a676-4351-902c-5fbff9f8db6f@infradead.org>
+Date: Sun, 19 Oct 2025 17:38:06 -0700
 MIME-Version: 1.0
-Content-Type: multipart/signed; boundary="Sig_/zoF=3JrYD9.aAWKh3I7OTaC";
- protocol="application/pgp-signature"; micalg=pgp-sha256
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2] mei: intel_lb_mei_interface.h: mark struct member with
+ kernel-doc
+To: "Usyskin, Alexander" <alexander.usyskin@intel.com>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>
+Cc: Petr Vorel <pvorel@suse.cz>, "Gote, Nitin R" <nitin.r.gote@intel.com>,
+ "De Marchi, Lucas" <lucas.demarchi@intel.com>,
+ Jani Nikula <jani.nikula@linux.intel.com>,
+ "Vivi, Rodrigo" <rodrigo.vivi@intel.com>,
+ =?UTF-8?Q?Thomas_Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>,
+ Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
+ Tvrtko Ursulin <tursulin@ursulin.net>,
+ "intel-gfx@lists.freedesktop.org" <intel-gfx@lists.freedesktop.org>,
+ "intel-xe@lists.freedesktop.org" <intel-xe@lists.freedesktop.org>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>
+References: <20251016190941.1306157-1-rdunlap@infradead.org>
+ <CY5PR11MB6366AC1589B2FE4E054ED6CCEDF4A@CY5PR11MB6366.namprd11.prod.outlook.com>
+Content-Language: en-US
+From: Randy Dunlap <rdunlap@infradead.org>
+In-Reply-To: <CY5PR11MB6366AC1589B2FE4E054ED6CCEDF4A@CY5PR11MB6366.namprd11.prod.outlook.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -66,65 +69,82 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
---Sig_/zoF=3JrYD9.aAWKh3I7OTaC
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: quoted-printable
 
-Hi all,
 
-Today's linux-next merge of the drm-xe tree got a conflict in:
+On 10/19/25 12:30 AM, Usyskin, Alexander wrote:
+>> Subject: [PATCH v2] mei: intel_lb_mei_interface.h: mark struct member with
+>> kernel-doc
+>>
+>> Use correct kernel-doc notation to prevent 3 kernel-doc warnings.
+>> @push_payload is a struct member here, not a function, so use '@'
+>> and ':' in its description.
+>>
+>> Warning: intel_lb_mei_interface.h:55 Incorrect use of kernel-doc format:
+>>  * push_payload - Sends a payload to the authentication firmware
+>> Warning: intel_lb_mei_interface.h:67 Invalid param:
+>>  * @dev: Device struct corresponding to the mei device
+>>  * @type: Payload type (see &enum intel_lb_type)
+>>  * @flags: Payload flags bitmap (e.g. %INTEL_LB_FLAGS_IS_PERSISTENT)
+>>  * @payload: Pointer to payload buffer
+>>  * @payload_size: Payload buffer size in bytes
+>>  * * Return: 0 success, negative errno value on transport failure,
+>>  *         positive status returned by firmware */
+>>  int (*push_payload)(struct device *dev, u32 type, u32 flags, const void
+>>  *payload, size_t payload_size)
+>> Warning: intel_lb_mei_interface.h:67 struct member '* @dev: Device struct
+>>  corresponding to the mei device * @type: Payload type (see &enum
+>>  intel_lb_type' not described in 'intel_lb_component_ops'
+>>
+> 
+> Not sure about the right format here but this patch makes things better.
 
-  drivers/gpu/drm/xe/xe_pci.c
+Yeah, we don't have a way to document callbacks in kernel-doc.
 
-between commit:
+@push_payload is just a struct member here, not a function.
+And the callback parameters aren't struct members. I just
+didn't remove them since it's nice to have them documented
+and this is the most logical/central place to do that
+(most of this IMO).
 
-  32620e176443 ("drm/pcids: Split PTL pciids group to make wcl subplatform")
 
-from the drm-intel tree and commit:
+> Acked-by: Alexander Usyskin <alexander.usyskin@intel.com>
+> 
+>> Fixes: 741eeabb7c78 ("mei: late_bind: add late binding component driver")
+>> Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
+>> Reviewed-by: Petr Vorel <pvorel@suse.cz>
+>> Reviewed-by: Nitin Gote <nitin.r.gote@intel.com>
+>> ---
+>> v2: reformat long kernel-doc warning lines to <= 75 chars. (Nitin)
+>>
+>> Cc: Alexander Usyskin <alexander.usyskin@intel.com>
+>> Cc: Lucas De Marchi <lucas.demarchi@intel.com>
+>> Cc: Jani Nikula <jani.nikula@linux.intel.com>
+>> Cc: Rodrigo Vivi <rodrigo.vivi@intel.com>
+>> Cc: Thomas Hellström <thomas.hellstrom@linux.intel.com>
+>> Cc: Joonas Lahtinen <joonas.lahtinen@linux.intel.com>
+>> Cc: Tvrtko Ursulin <tursulin@ursulin.net>
+>> Cc: intel-gfx@lists.freedesktop.org
+>> Cc: intel-xe@lists.freedesktop.org
+>> Cc: David Airlie <airlied@gmail.com>
+>> Cc: Simona Vetter <simona@ffwll.ch>
+>> Cc: dri-devel@lists.freedesktop.org
+>> ---
+>>  include/drm/intel/intel_lb_mei_interface.h |    2 +-
+>>  1 file changed, 1 insertion(+), 1 deletion(-)
+>>
+>> --- linux-next-20251013.orig/include/drm/intel/intel_lb_mei_interface.h
+>> +++ linux-next-20251013/include/drm/intel/intel_lb_mei_interface.h
+>> @@ -53,7 +53,7 @@ enum intel_lb_status {
+>>   */
+>>  struct intel_lb_component_ops {
+>>  	/**
+>> -	 * push_payload - Sends a payload to the authentication firmware
+>> +	 * @push_payload: Sends a payload to the authentication firmware
+>>  	 * @dev: Device struct corresponding to the mei device
+>>  	 * @type: Payload type (see &enum intel_lb_type)
+>>  	 * @flags: Payload flags bitmap (e.g.
+>> %INTEL_LB_FLAGS_IS_PERSISTENT)
 
-  c002b1764e7b ("drm/xe/nvl: Define NVL-S platform")
+-- 
+~Randy
 
-from the drm-xe tree.
-
-I fixed it up (see below) and can carry the fix as necessary. This
-is now fixed as far as linux-next is concerned, but any non trivial
-conflicts should be mentioned to your upstream maintainer when your tree
-is submitted for merging.  You may also want to consider cooperating
-with the maintainer of the conflicting tree to minimise any particularly
-complex conflicts.
-
---=20
-Cheers,
-Stephen Rothwell
-
-diff --cc drivers/gpu/drm/xe/xe_pci.c
-index 89cc6d32f041,c326430e75b5..000000000000
---- a/drivers/gpu/drm/xe/xe_pci.c
-+++ b/drivers/gpu/drm/xe/xe_pci.c
-@@@ -375,7 -422,7 +422,8 @@@ static const struct pci_device_id pciid
-  	INTEL_LNL_IDS(INTEL_VGA_DEVICE, &lnl_desc),
-  	INTEL_BMG_IDS(INTEL_VGA_DEVICE, &bmg_desc),
-  	INTEL_PTL_IDS(INTEL_VGA_DEVICE, &ptl_desc),
- +	INTEL_WCL_IDS(INTEL_VGA_DEVICE, &ptl_desc),
-+ 	INTEL_NVLS_IDS(INTEL_VGA_DEVICE, &nvls_desc),
-  	{ }
-  };
-  MODULE_DEVICE_TABLE(pci, pciidlist);
-
---Sig_/zoF=3JrYD9.aAWKh3I7OTaC
-Content-Type: application/pgp-signature
-Content-Description: OpenPGP digital signature
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCAAdFiEENIC96giZ81tWdLgKAVBC80lX0GwFAmj1dMcACgkQAVBC80lX
-0GyPMQf/ToOBFxvQNw2oteVkjpM/0z+8iG8ISnM1FvDa21g72UesBZhT4EX04u6/
-wOYpD1n3q4MTzjViVsfRE0Y2v457Z7897w+szt4y2tV67EJrIhVeDouhIVwFLsbM
-UqR2NQnVImkMFvcz6MraNxohiduykQx1CH91F2BMJ+4wl7kpSV7zE8hfJTM5OQhK
-byDBmHn1VY8ZSLse5pLmfGvdZmivDv2BWFyjL0a48GloJR0nj6+Stq3+n0rb0eSf
-0Aypbhz0qTuxtPvPhWMWv2uhMXqnc6e3Ku9nY9mHvakDWjQWttZK7lB12UwIFZkC
-TlnzJBchDkPZn3iL6UyqNOCHvJDKiw==
-=m7WL
------END PGP SIGNATURE-----
-
---Sig_/zoF=3JrYD9.aAWKh3I7OTaC--
