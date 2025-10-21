@@ -2,67 +2,67 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 411FCBF501C
-	for <lists+dri-devel@lfdr.de>; Tue, 21 Oct 2025 09:42:03 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id DB77EBF5025
+	for <lists+dri-devel@lfdr.de>; Tue, 21 Oct 2025 09:42:58 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7F08510E57D;
-	Tue, 21 Oct 2025 07:42:01 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1A6C010E57E;
+	Tue, 21 Oct 2025 07:42:57 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="gMTTTz+N";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="Jkz5cwDI";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ej1-f49.google.com (mail-ej1-f49.google.com
- [209.85.218.49])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D1A1F10E57D
- for <dri-devel@lists.freedesktop.org>; Tue, 21 Oct 2025 07:41:59 +0000 (UTC)
-Received: by mail-ej1-f49.google.com with SMTP id
- a640c23a62f3a-b3c76f3703cso90742266b.3
- for <dri-devel@lists.freedesktop.org>; Tue, 21 Oct 2025 00:41:59 -0700 (PDT)
+Received: from mail-ej1-f45.google.com (mail-ej1-f45.google.com
+ [209.85.218.45])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2A6C310E57E
+ for <dri-devel@lists.freedesktop.org>; Tue, 21 Oct 2025 07:42:56 +0000 (UTC)
+Received: by mail-ej1-f45.google.com with SMTP id
+ a640c23a62f3a-b3f5a6e114dso94901866b.0
+ for <dri-devel@lists.freedesktop.org>; Tue, 21 Oct 2025 00:42:56 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1761032518; x=1761637318; darn=lists.freedesktop.org;
+ d=gmail.com; s=20230601; t=1761032575; x=1761637375; darn=lists.freedesktop.org;
  h=content-transfer-encoding:in-reply-to:from:content-language
  :references:cc:to:subject:user-agent:mime-version:date:message-id
  :from:to:cc:subject:date:message-id:reply-to;
- bh=qq2A1Kd0gSkqieCWoXvyag5Ixf7jlTaGJ4OOCGbMDnM=;
- b=gMTTTz+NlET0MXkZWfAIoBCIAJnoay91wiZDiI7VhB1vw9mP4W83Z8Vy2e6niiZxeX
- 01R8UQPimS9uj+BJNj0sZ0/N3asz393tfD9LrPT6FMqoLJ7JhVgtlHAfuMDWhfZp03K8
- 2J5NLtW7LBw9AOSuRRs8RZ9CZDKO6zePi7TuzIMU4Vv5WmxBWWAVMD+4C8duYZ8x7YQ2
- ExRcI2I0s8ORpraitRTb3MYnzn37GsGnerNEOr/rxNQUnD8Qe/99+qpsQmtwmqXgDtH9
- NyFvjuLpi3X86dmlAY3eMfteCnJe1JljoMP9BrSz5UcFHx8pVozAawi7m1peA7REtc2y
- XMWA==
+ bh=GStPgF6qWg8eBpq7k/CjdOQ6h0CGmfUgYnZon0KO2vw=;
+ b=Jkz5cwDIxV+dWMNvCwAvHQSKsIxzqsW/JDwfS7m1Lq6QaUCUFn0aNfV1A+h5i2IrJf
+ fNEr8SVxzw4rZ+PRhNAlJ6UhDDY8BO7UQ7ABZCRfrrkmMO7ZDtOF9iAbke3zCYw1ry8I
+ +dlkQp8ZkREWTwhD8DX/oaaHZIAlLfumNEhODe+gYje1JGpRcgk2AmOMm+T5YnyCCe3U
+ 9M5KhwlFFqNh0OJaXgyAp+Kyx1hj+YRmuYffrWTlekHPf2eOoL7KIiPrGZZSDgeM5CRD
+ oRne0Crli0SG6s8IvqU1Jd1GbnHaWHhRNInDFnnmc61OMwBo4BxDadCTWuM3g9R/PWUq
+ 7faQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1761032518; x=1761637318;
+ d=1e100.net; s=20230601; t=1761032575; x=1761637375;
  h=content-transfer-encoding:in-reply-to:from:content-language
  :references:cc:to:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=qq2A1Kd0gSkqieCWoXvyag5Ixf7jlTaGJ4OOCGbMDnM=;
- b=UdNmNJyPjMM2je7pU6EAlCYfZY7R2k4pYmsZZ+AO4fJPqNVqSzMkiBfSmJlBFSsS7a
- zcgc8n6bAu3hSVZkGz4KJyUoxTy5wdzUruz1U8+MFoCIfQGYAzZT7qU9BidUgaLIuE0c
- d40N0hToQJJbAJ9SVhx8ZHz63HAnEpG/nedBJCZRTHuO0B3kb3Pd8ZEQ3rPuEne2MJhG
- mnJfPLa9Va6m01eyzQX0jwiV8hHxdt4sULn7/nC0PnKt1ckKQ7H1dhJCwH2fitANKBYl
- YjUf1am4e+eEJtHC3Ti2Ppiki8ofoBCbPYwhPpNK4fMQvbuy1N/LG1UG/v5s+WlZ+pwV
- Te8g==
-X-Gm-Message-State: AOJu0YyljX0bTJnHXd2EfDA8VX8Fa5mxHpG+1x4eNSFxbDfi6BQZaHZp
- 2vBKP6NdOQZtSUTqsPRe6t755toFpqJ/KMRFK/U1usSaiZex9qKUYQiV
-X-Gm-Gg: ASbGncspER9JhL3SjMRNDTJKuZ8utgOOxy2SdIGkWBQtxIrV7tzJwoaxFf4GDQVqYAr
- MizEwzvKWUo6VPLon2KAWp2KGbVWj8LCAtWyTUuc59mEa2m/x8i21QFVxD/38CRT9CdKXD05wcw
- VgQE2Fy4YArv8sfj1EawrhOB9AXJ6Y0S2gSgpWfJS/MCOWqnZPqUdL3n3pEX+xREH1aT36KZDvi
- jDNgq+DlyQyzuJGo/BjMKY74jIgzd7zYa+05Y/hujBuffBJdy0XEmpkjLLZckULLXKLxSYtwX96
- Ax4v/c2IF8mpFEnTn0IfnmG5wmALIw9hMCkgr+AXjj6G7dZc0/U/jPF/CGhhtyDBkfXaejMjgy8
- x1vZ2F6CO6Oa0cRk4z1vDuGYByZGNQI+jPZMxW4QiKakbqkhmlX2zX+Y9CTHIxUf8HG7A2Jr6+v
- rHwK1l2gYGbiIEBcgn1hs/v7mGtxc6
-X-Google-Smtp-Source: AGHT+IGodTzNkYb0f/6+s9/q8PjxsWVWjCrsIvbWBLyQaGYptSG386KqvkxQNtg9R8tF9hr8VXvYZA==
-X-Received: by 2002:a17:907:3cd5:b0:b3b:44a8:c64b with SMTP id
- a640c23a62f3a-b6c77583751mr151353866b.1.1761032517726; 
- Tue, 21 Oct 2025 00:41:57 -0700 (PDT)
+ bh=GStPgF6qWg8eBpq7k/CjdOQ6h0CGmfUgYnZon0KO2vw=;
+ b=QD7B10JD2CbqW3E8BpYlqIzyeR1FH3wlgOGOo7H6+boY4HSBNWYd1u/91ZmmOEt9zn
+ VRc0QPnIvNQslc9Lo8rxRi2De2jpsuOShprR3atTrwPBS1ZJ8lW/a64YnkYH9zrM14xz
+ A+2CEHMRIShxBroZYpaeuEYkLEVDOvSOlnHYfFIOuzOSaXWA7kFDNvyTATN3DxTPdAdm
+ U20gEe5BbjthL+Ks2t4CabyB5SuNUqP6uBPqe2fi30Wu5o4lqtA5lf+YgDEEeidGGTpy
+ ZDDW6VVWIP9BtWpuxu1UtUypE1bXQxr9V36QOMXVm3YZ/RT6wokZlnSINQE4Z0o3ump0
+ BZyg==
+X-Gm-Message-State: AOJu0Ywywus0CXR5mYd+J8JQ1DjW+hyew24CofMhDUEKQnPn4G2A5KWl
+ SGOSoQFAPu9thSXj6MhRPMaLDwqczkanU8p6K0dN6VNrjBiaMHqADnYd
+X-Gm-Gg: ASbGncvoj2rGNBqWCzNE7gtvGkUNNINZV4t7L+FpsVTHdgl3YGjO5zjQbaT803RljcL
+ 0pGfe5lrxBYRhqVyilU2kKHVIfjbmXrERRMg4hz4+ZgC3UKtjvK33gULy4Y6C3Q+yWL6PRbZhgS
+ FoGm4lBEp1d+7c/Lkflw8ZNH4pxUb/vh6ii7U9kklwdbs0rcNZ+2pileREApqWB2X/5fr2d800b
+ LuhtDgNhg0p2gA/jdeXX0LXx/3JqwE5ntYy2221gnTfap4uYI+f13QAzlY0GvGdu6gGy/tD+Rot
+ 6AuJc8HItztIOuv5KiVPFV6aotFu+0nG1m8IUJZlTn5eE/8Ba9F9EhVwhqlv5JKK3xl5F2HxKEC
+ PAL5kU5JZD0pJzYCEZ1StOR17NPdeIxGXbCwjpfsEC09MjhLJ3ulunmujXwu/y+6wNkT8lmU4ou
+ 89WDPe3sEv20B39hS/RT13IOsxqfF/
+X-Google-Smtp-Source: AGHT+IGTAHitbAGYUoiDBb3JjyGZ6zbzSc2aytK1cYPhymZfc5cQ/shi+4Gz6sE1cziBWlkHoCqTpg==
+X-Received: by 2002:a17:907:6ea3:b0:b65:c8b8:144f with SMTP id
+ a640c23a62f3a-b6c793063bbmr164905566b.6.1761032574440; 
+ Tue, 21 Oct 2025 00:42:54 -0700 (PDT)
 Received: from [192.168.1.105] ([165.50.73.64])
  by smtp.gmail.com with ESMTPSA id
- a640c23a62f3a-b65eb52621csm1007794266b.59.2025.10.21.00.41.56
+ a640c23a62f3a-b65e7da25c9sm1018929566b.11.2025.10.21.00.42.53
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 21 Oct 2025 00:41:57 -0700 (PDT)
-Message-ID: <6a917f07-18dd-4f8f-bfc5-b85d9051339d@gmail.com>
-Date: Tue, 21 Oct 2025 09:41:49 +0100
+ Tue, 21 Oct 2025 00:42:54 -0700 (PDT)
+Message-ID: <dfb3d547-9842-443b-80a2-94bf715bb46e@gmail.com>
+Date: Tue, 21 Oct 2025 09:42:46 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
 Subject: Re: [PATCH] drm/tiny: Refactor framebuffer's size calculation
@@ -74,9 +74,10 @@ Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
  linux-kernel-mentees@lists.linuxfoundation.org
 References: <20251020115803.192572-1-mehdi.benhadjkhelifa@gmail.com>
  <1de3112b-6349-46d8-b90b-69d0849c7659@suse.de>
+ <a37d83c7-dc2d-4e1d-a8d4-5628e0ac52a2@suse.de>
 Content-Language: en-US
 From: Mehdi Ben Hadj Khelifa <mehdi.benhadjkhelifa@gmail.com>
-In-Reply-To: <1de3112b-6349-46d8-b90b-69d0849c7659@suse.de>
+In-Reply-To: <a37d83c7-dc2d-4e1d-a8d4-5628e0ac52a2@suse.de>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -94,54 +95,67 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 10/21/25 7:51 AM, Thomas Zimmermann wrote:
-> Hi
+On 10/21/25 7:57 AM, Thomas Zimmermann wrote:
 > 
-> Am 20.10.25 um 13:57 schrieb Mehdi Ben Hadj Khelifa:
->> Use drm_format_info_min_pitch() to calculate the framebuffer line pitch
->> instead of directly multiplying width and height. This aligns with DRM
->> helpers for determining per-line byte size and avoids manual assumptions
->> about bytes per pixel.
+> 
+> Am 21.10.25 um 08:51 schrieb Thomas Zimmermann:
+>> Hi
 >>
->> Suggested-by: Thomas Zimmermann <tzimmermann@suse.de>
->> Signed-off-by: Mehdi Ben Hadj Khelifa <mehdi.benhadjkhelifa@gmail.com>
->> ---
->>   drivers/gpu/drm/tiny/repaper.c | 6 +++++-
->>   1 file changed, 5 insertions(+), 1 deletion(-)
+>> Am 20.10.25 um 13:57 schrieb Mehdi Ben Hadj Khelifa:
+>>> Use drm_format_info_min_pitch() to calculate the framebuffer line pitch
+>>> instead of directly multiplying width and height. This aligns with DRM
+>>> helpers for determining per-line byte size and avoids manual assumptions
+>>> about bytes per pixel.
+>>>
+>>> Suggested-by: Thomas Zimmermann <tzimmermann@suse.de>
+>>> Signed-off-by: Mehdi Ben Hadj Khelifa <mehdi.benhadjkhelifa@gmail.com>
+>>> ---
+>>>   drivers/gpu/drm/tiny/repaper.c | 6 +++++-
+>>>   1 file changed, 5 insertions(+), 1 deletion(-)
+>>>
+>>> diff --git a/drivers/gpu/drm/tiny/repaper.c b/drivers/gpu/drm/tiny/ 
+>>> repaper.c
+>>> index 4824f863fdba..aeff49bc6ba7 100644
+>>> --- a/drivers/gpu/drm/tiny/repaper.c
+>>> +++ b/drivers/gpu/drm/tiny/repaper.c
+>>> @@ -517,6 +517,8 @@ static int repaper_fb_dirty(struct 
+>>> drm_framebuffer *fb, const struct iosys_map *
+>>>       unsigned int dst_pitch = 0;
+>>>       struct iosys_map dst;
+>>>       struct drm_rect clip;
+>>> +    const struct drm_format_info *info = fb->format;
 >>
->> diff --git a/drivers/gpu/drm/tiny/repaper.c b/drivers/gpu/drm/tiny/ 
->> repaper.c
->> index 4824f863fdba..aeff49bc6ba7 100644
->> --- a/drivers/gpu/drm/tiny/repaper.c
->> +++ b/drivers/gpu/drm/tiny/repaper.c
->> @@ -517,6 +517,8 @@ static int repaper_fb_dirty(struct drm_framebuffer 
->> *fb, const struct iosys_map *
->>       unsigned int dst_pitch = 0;
->>       struct iosys_map dst;
->>       struct drm_rect clip;
->> +    const struct drm_format_info *info = fb->format;
+>> This is the wrong format. You're allocating the output buffer here, 
+>> but you're using the input format. IIUC the output format is 
+>> DRM_FORMAT_R1. The input is _XRGB8888.
+>>
+>> Best regards
+>> Thomas
+>>
+>>> +    size_t pitch;
+>>>       int idx, ret = 0;
+>>>       u8 *buf = NULL;
+>>>   @@ -534,7 +536,9 @@ static int repaper_fb_dirty(struct 
+>>> drm_framebuffer *fb, const struct iosys_map *
+>>>       DRM_DEBUG("Flushing [FB:%d] st=%ums\n", fb->base.id,
+>>>             epd->factored_stage_time);
+>>>   -    buf = kmalloc(fb->width * fb->height / 8, GFP_KERNEL);
+>>> +    pitch = drm_format_info_min_pitch(info, 0, fb->width);
+>>> +
+>>> +    buf = kmalloc_array(fb->height, pitch, GFP_KERNEL);
 > 
-> This is the wrong format. You're allocating the output buffer here, but 
-> you're using the input format. IIUC the output format is DRM_FORMAT_R1. 
-> The input is _XRGB8888.
+> And TBH I'm not sure if we should really convert this call. It's not an 
+> array in the sense of that API.
 > 
-Ah. Thanks for clarification.I thought since it had the same output 
-format. I will send a v3 shortly.> Best regards
-> Thomas
+> Good candidates look like 'kmalloc(count * sizeof(<some type or 
+> variable>))'
 > 
->> +    size_t pitch;
->>       int idx, ret = 0;
->>       u8 *buf = NULL;
->> @@ -534,7 +536,9 @@ static int repaper_fb_dirty(struct drm_framebuffer 
->> *fb, const struct iosys_map *
->>       DRM_DEBUG("Flushing [FB:%d] st=%ums\n", fb->base.id,
->>             epd->factored_stage_time);
->> -    buf = kmalloc(fb->width * fb->height / 8, GFP_KERNEL);
->> +    pitch = drm_format_info_min_pitch(info, 0, fb->width);
->> +
->> +    buf = kmalloc_array(fb->height, pitch, GFP_KERNEL);
->>       if (!buf) {
->>           ret = -ENOMEM;
->>           goto out_exit;
+I will leave kmalloc in v3. Do you want me to send deep testing 
+information on this patch?
+BR,
+Mehdi>>>       if (!buf) {
+>>>           ret = -ENOMEM;
+>>>           goto out_exit;
+>>
 > 
 
