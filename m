@@ -2,51 +2,48 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9D8EEBF631D
-	for <lists+dri-devel@lfdr.de>; Tue, 21 Oct 2025 13:53:25 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6F017BF6304
+	for <lists+dri-devel@lfdr.de>; Tue, 21 Oct 2025 13:53:11 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9CC4710E5D3;
-	Tue, 21 Oct 2025 11:53:23 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7E8C010E274;
+	Tue, 21 Oct 2025 11:53:09 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="rRszY6hf";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="K/KzvzyX";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from sea.source.kernel.org (sea.source.kernel.org [172.234.252.31])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 414E910E5CC
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4115210E5CA
  for <dri-devel@lists.freedesktop.org>; Tue, 21 Oct 2025 11:53:08 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by sea.source.kernel.org (Postfix) with ESMTP id E5FF74373E;
- Tue, 21 Oct 2025 11:53:07 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPS id B42DDC4CEF5;
+ by sea.source.kernel.org (Postfix) with ESMTP id 02E5749C12;
+ Tue, 21 Oct 2025 11:53:08 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPS id C5542C4CEF1;
  Tue, 21 Oct 2025 11:53:07 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
  s=k20201202; t=1761047587;
- bh=blLYQzw7Fm/i30T1vjILSnrxGfqml6yfu8ONDXj51Y4=;
- h=From:Subject:Date:To:Cc:Reply-To:From;
- b=rRszY6hfcEdp+PtctmpjxP7ov+6pUDiRB07YU6SQ1YZ8okt3q7yBc9IbYz+yIt8Nn
- euGxSzrh12BkhJp4MWlwKpTBzX6Jc8nSgDx2r75vuCmJSJsmnLgVgAkbV3m0qZOlTm
- iDjKaUlzs8lNRQg9dP10HXB88wDvXXe1RXmwtw0KAPbKCE0kDw33WgRtSLkmDjDenD
- BFRBlNVkgcTFPDv5Y22Kb40vL8iGknGB35kPfkS56zeFTfRiW6vDC5sfRhO15q0cJ/
- SCR5hpc0yKLNzfxIxkc0MIQGf9Z+mqSYtUzMn+bYRFAATyKiuRP4xzjKIfXoVIBx/j
- Um2qXB89duhuw==
+ bh=nmPuutRk5b32HClJ1JpF095nMvI4XlkPn7j8/55HKJc=;
+ h=From:Date:Subject:References:In-Reply-To:To:Cc:Reply-To:From;
+ b=K/KzvzyXrFt23cqTkVCepl086eQIuJT1qEZxeB2hNjjDYDPFPYwPa+Lxb/eVyb6na
+ /8KqKP8aptYHnRfOryVuUx9UeruhsOqlVCIuXiswe6psMskIxERZ+5SBRboXHtWPNH
+ l/13a2t2h2CCkVGagsMqwNQ9UCdoXwMvkKPc9UyZPyuiz7Q6c+ctvMh5X6QPJG2QVh
+ skFlUaibpPj56E0QAHjxhUbA/6bv88DTeBr5Xw6fKAY6QcfJrnL2tE4vR0x5qDeI5K
+ fn2hRkwHpCgqfMRcyON6ZyJWxnb7PNjUCyuZEosWG2M/YRQoW+nG+R60EuO3vN44pK
+ oZZMgWIVoYSPA==
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org
  (localhost.localdomain [127.0.0.1])
- by smtp.lore.kernel.org (Postfix) with ESMTP id A215CCCD1AA;
+ by smtp.lore.kernel.org (Postfix) with ESMTP id B365CCCD184;
  Tue, 21 Oct 2025 11:53:07 +0000 (UTC)
 From: David Heidelberg via B4 Relay <devnull+david.ixit.cz@kernel.org>
-Subject: [PATCH v4 0/7] Add OnePlus 6T display (Samsung S6E3FC2X01 DDIC
- with AMS641RW panel)
-Date: Tue, 21 Oct 2025 13:53:00 +0200
-Message-Id: <20251021-s6e3fc2x01-v4-0-5e3ee21c688a@ixit.cz>
+Date: Tue, 21 Oct 2025 13:53:01 +0200
+Subject: [PATCH v4 1/7] dt-bindings: panel: Add Samsung S6E3FC2X01 DDIC
+ with panel
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-X-B4-Tracking: v=1; b=H4sIABx092gC/1XMQQ6CMBCF4auYrq2ZTm2hrryHcQFlKt2AaUmDE
- u5uIVFh+V7y/ROLFDxFdjlMLFDy0fddHufjgdm26h7EfZM3Q0AFBiWPmqSzOILgzigFdYnoSLE
- MnoGcH9fY7Z536+PQh9faTmJ5vxm1zSTBgRs0EoQudOmKqx/9cLJvtkQS/qAAKHcQM0RBthKNs
- liaPZQbKPQOygwtgZNK69qA/MN5nj+JGJNQFAEAAA==
-X-Change-ID: 20250923-s6e3fc2x01-f9550b822fe5
+Message-Id: <20251021-s6e3fc2x01-v4-1-5e3ee21c688a@ixit.cz>
+References: <20251021-s6e3fc2x01-v4-0-5e3ee21c688a@ixit.cz>
+In-Reply-To: <20251021-s6e3fc2x01-v4-0-5e3ee21c688a@ixit.cz>
 To: Neil Armstrong <neil.armstrong@linaro.org>, 
  Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
  Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
@@ -60,24 +57,23 @@ To: Neil Armstrong <neil.armstrong@linaro.org>,
  Jessica Zhang <jesszhan0024@gmail.com>
 Cc: dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org, 
  linux-kernel@vger.kernel.org, linux-arm-msm@vger.kernel.org, 
- phone-devel@vger.kernel.org, David Heidelberg <david@ixit.cz>, 
- Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
+ phone-devel@vger.kernel.org, David Heidelberg <david@ixit.cz>
 X-Mailer: b4 0.14.3
-X-Developer-Signature: v=1; a=openpgp-sha256; l=3382; i=david@ixit.cz;
+X-Developer-Signature: v=1; a=openpgp-sha256; l=3282; i=david@ixit.cz;
  h=from:subject:message-id;
- bh=blLYQzw7Fm/i30T1vjILSnrxGfqml6yfu8ONDXj51Y4=;
- b=owEBbQKS/ZANAwAIAWACP8TTSSByAcsmYgBo93Qh3FPzNbk+JxqhgQdlfcVYFIdEF2EHd7ELL
- TRtADqcSFiJAjMEAAEIAB0WIQTXegnP7twrvVOnBHRgAj/E00kgcgUCaPd0IQAKCRBgAj/E00kg
- ctkjEADNUBvs+NxZnOwNAZwk86zOFwp0a16dxx05NpX/5At4jHxdWbsxoBt34OfItoomBxZKm9p
- XQqo5vMG/5i8YWOByEe7aotWghqpyTIU8fCGqXI4rMQJ2yJZst/FAlNnRFZFQI2wMAmdY3fkSFJ
- Sawc+6V53Uzryn567OwBc/c15EYf5ieAKAuXIictpduLpKrHegnB1yMcMnskwPaICFxWWroEj6G
- uRyJ64jR/m/r4lyHK8ls+rr7r3sBWzX0Lk4DVi9MZTqvLqI8sjwzH6Ft3dlz5IRWhtwtavmgog9
- kR8y9YW8HeT3T9d78YtubjQFANx/GqCOmV1f1/nyeIvOd6n5jjww+eNw0rF9M8p4d1cIlEBREEY
- qctt9fRYVhtTMhJaEWHQqHirBMDioBp5TddDw5PPdmcbMrV+/1fTbURFgyKUFp6NXvWg2y3W22w
- q5EocidMjTyfF1y1O0BZfcwqrOqzALLndv9lcbjjTFubcAbDUh2jf1N14IX3JFq4KVpt2B0XJ/p
- ng6R+FgWH5fFUlqCL6Rj8ubyGulUxazCJzrMdXMBiZ8oVUtR9IVgYEI3Aofk6sZn9l4NXkBPT/5
- bRvjRZVMOplRoBiZT91rZXv3ldrspcOZGBKEncMoU59KOMbGv2U3E74IpwPMJeiyoQuNRIz0W9D
- /TN1mtmvYosKJMg==
+ bh=JdHXDnZheYdpaOz/cxbhwjp10b+1nHR1LCLgjicoVIo=;
+ b=owEBbQKS/ZANAwAIAWACP8TTSSByAcsmYgBo93QhIq2aimDTlf+pIpmwIXbpeLugsjz55OOsg
+ L5y1AyFJoyJAjMEAAEIAB0WIQTXegnP7twrvVOnBHRgAj/E00kgcgUCaPd0IQAKCRBgAj/E00kg
+ cuHuEACfs0x114XMyrWl5lWGBG4hlIY3gIUBhKzrzVmo6uQB3geQhc1D6s+UZUlyh3VJVYXOxUd
+ MAd9UmyXuZ1c9amn7RoT91igzQCDM6es8HBIPdFopQKNxJAA9W5lIGFWWjrqcH/+UW8RP52gdBO
+ 0gV+4qTH3Nc+cxgeqvAqRGA05Fuz/TgwdJwpkv13Dri7MZ90ewcD7gUywwv0LViHbeSxOrTe9op
+ 8IITAi4+RvUcNDk3oUyf/VIgWpzr9k+w0e3/J8NrrNmDFBrIQGV1LEOQ2M3DS4gMDZtr9wJLide
+ IR7yC0PnwBZOQEnPKsLWeJ1r03FHLPxsa2LrQh2dUdFQSYCME3PvgkkdEbdqvwl+36SwHOye6L5
+ K8cFhQebeWSYdr3bbI4Lt5pKp8jwISmyCd68JqCuQwu262V2n5aqftCJzxhezSsFCU9uHMJSzTh
+ ri7hnMgq0bRwOMiamHDpEk1BUOt75Hg0NA7xlEUW9i4wuFvVHLUZNLGG904kbmwuTyVj6uKIPFo
+ Ssg8yiEQvaH5rLiatIoL2q1mi/Zpkdc+gJUf98woo72/NVzP8Gp1OVZuOnxavPbspI6ur0BQVvo
+ Mbne+RtLLtOGge4ZCLB/ePpVFNUJuDK+WRvqa0O8pjDrIgvfWe7inRtoCyNAyX3/VP0JLISheJc
+ 7u/WeKFLu24fYQg==
 X-Developer-Key: i=david@ixit.cz; a=openpgp;
  fpr=D77A09CFEEDC2BBD53A7047460023FC4D3492072
 X-Endpoint-Received: by B4 Relay for david@ixit.cz/default with auth_id=355
@@ -98,77 +94,126 @@ Reply-To: david@ixit.cz
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This patchset enables the display on the OnePlus 6T smartphone.
+From: David Heidelberg <david@ixit.cz>
 
-Patches 1-2 add the bindings and the panel driver.
-Patches 3-6 document the panel, pinctrls, and GPIOs.
-Patch 7 removes the compatible entry from the simple DSI panel.
+Basic description for S6E3FC2X01 DDIC with attached panel AMS641RW.
 
-Since the display node is shared between the OnePlus 6 and 6T,
-the following warning appears:
+Samsung AMS641RW is 6.41 inch, 1080x2340 pixels, 19.5:9 ratio panel
 
-..sdm845-oneplus-enchilada.dtb: panel@0 (samsung,sofef00): 'poc-supply', 'te-gpios', 'vci-supply' do not match any of the regexes: '^pinctrl-[0-9]+$'
-
-This will be addressed in a follow-up patch, as the SOFEF00 DDIC also
-requires additional overhaul to properly initialize and function in mainline.
+panel-simple-dsi cannot be used because it's limited to one
+power-supply, while we use three.
 
 Signed-off-by: David Heidelberg <david@ixit.cz>
 ---
-Changes in v4:
-- Use refcounted allocation in place of devm_kzalloc()
-- Added include drm_probe_helper (Raihan)
-- Corrected te-gpio value from 30 to 10.
-- Removed legacy compatible samsung,s6e3fc2x01 from the driver (Dmitry)
-- Removed old compatible also from panel-simple-dsi enum.
-- Link to v3: https://lore.kernel.org/r/20251016-s6e3fc2x01-v3-0-ce0f3566b903@ixit.cz
+ .../bindings/display/panel/samsung,s6e3fc2x01.yaml | 81 ++++++++++++++++++++++
+ MAINTAINERS                                        |  5 ++
+ 2 files changed, 86 insertions(+)
 
-Changes in v3:
-- Use mipi_dsi_dcs_set_display_brightness_large (Konrad)
-- added legacy compatible samsung,s6e3fc2x01 into the driver (Dmitry)
-- extended compatible string to
-  "samsung,s6e3fc2x01-ams641rw", "samsung,s6e3fc2x01" (Dmitry)
-- Brought back
-  "dt-bindings: display: panel-simple-dsi: Remove Samsung S6E3FC2 compatible"
-- Link to v2: https://lore.kernel.org/r/20251008-s6e3fc2x01-v2-0-21eca1d5c289@ixit.cz
+diff --git a/Documentation/devicetree/bindings/display/panel/samsung,s6e3fc2x01.yaml b/Documentation/devicetree/bindings/display/panel/samsung,s6e3fc2x01.yaml
+new file mode 100644
+index 0000000000000..d48354fb52ea0
+--- /dev/null
++++ b/Documentation/devicetree/bindings/display/panel/samsung,s6e3fc2x01.yaml
+@@ -0,0 +1,81 @@
++# SPDX-License-Identifier: GPL-2.0-only OR BSD-2-Clause
++%YAML 1.2
++---
++$id: http://devicetree.org/schemas/display/panel/samsung,s6e3fc2x01.yaml#
++$schema: http://devicetree.org/meta-schemas/core.yaml#
++
++title: Samsung S6E3FC2X01 AMOLED DDIC
++
++description: The S6E3FC2X01 is display driver IC with connected panel.
++
++maintainers:
++  - David Heidelberg <david@ixit.cz>
++
++allOf:
++  - $ref: panel-common.yaml#
++
++properties:
++  compatible:
++    items:
++      - enum:
++            # Samsung 6.41 inch, 1080x2340 pixels, 19.5:9 ratio
++          - samsung,s6e3fc2x01-ams641rw
++      - const: samsung,s6e3fc2x01
++
++  reg:
++    maxItems: 1
++
++  reset-gpios: true
++
++  port: true
++
++  vddio-supply:
++    description: VDD regulator
++
++  vci-supply:
++    description: VCI regulator
++
++  poc-supply:
++    description: POC regulator
++
++required:
++  - compatible
++  - reset-gpios
++  - vddio-supply
++  - vci-supply
++  - poc-supply
++
++unevaluatedProperties: false
++
++examples:
++  - |
++    #include <dt-bindings/gpio/gpio.h>
++
++    dsi {
++        #address-cells = <1>;
++        #size-cells = <0>;
++
++        panel@0 {
++            compatible = "samsung,s6e3fc2x01-ams641rw", "samsung,s6e3fc2x01";
++            reg = <0>;
++
++            vddio-supply = <&vreg_l14a_1p88>;
++            vci-supply = <&s2dos05_buck1>;
++            poc-supply = <&s2dos05_ldo1>;
++
++            te-gpios = <&tlmm 10 GPIO_ACTIVE_HIGH>;
++            reset-gpios = <&tlmm 6 GPIO_ACTIVE_HIGH>;
++
++            pinctrl-0 = <&sde_dsi_active &sde_te_active_sleep>;
++            pinctrl-1 = <&sde_dsi_suspend &sde_te_active_sleep>;
++            pinctrl-names = "default", "sleep";
++
++            port {
++                panel_in: endpoint {
++                    remote-endpoint = <&mdss_dsi0_out>;
++                };
++            };
++        };
++    };
++
++...
+diff --git a/MAINTAINERS b/MAINTAINERS
+index be1861bd6f4e3..42be36b42c29b 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -8061,6 +8061,11 @@ S:	Maintained
+ F:	Documentation/devicetree/bindings/display/panel/samsung,s6d7aa0.yaml
+ F:	drivers/gpu/drm/panel/panel-samsung-s6d7aa0.c
+ 
++DRM DRIVER FOR SAMSUNG S6E3FC2X01 DDIC
++M:	David Heidelberg <david@ixit.cz>
++S:	Maintained
++F:	Documentation/devicetree/bindings/display/panel/samsung,s6e3fc2x01.yaml
++
+ DRM DRIVER FOR SAMSUNG S6E3HA8 PANELS
+ M:	Dzmitry Sankouski <dsankouski@gmail.com>
+ S:	Maintained
 
-Changes in v2:
-- Dropped the gpio reset polarity change as suggested (Jens and Dmitry).
-- Fixed unused warnings (kernel test robot).
-- Added a pinctrl config for the VCI and POC supply.
-- Removed patch "dt-bindings: display: panel-simple-dsi: Remove Samsung S6E3FC2 compatible"
-  while the compatible is used in device-tree, but without any driver
-  serving it, do not touch it (Rob)
-- Added more details into the device-tree about the OnePlus 6T panel properties
-- Put display gpio -pins into one -state block.
-- Link to v1: https://lore.kernel.org/r/20250925-s6e3fc2x01-v1-0-9293016768f7@ixit.cz
-
----
-Casey Connolly (1):
-      arm64: dts: qcom: sdm845-oneplus: Update compatbible and add DDIC supplies
-
-David Heidelberg (6):
-      dt-bindings: panel: Add Samsung S6E3FC2X01 DDIC with panel
-      drm/panel: Add Samsung S6E3FC2X01 DDIC with AMS641RW panel
-      arm64: dts: qcom: sdm845-oneplus: Group panel pinctrl
-      arm64: dts: qcom: sdm845-oneplus: Implement panel sleep pinctrl
-      arm64: dts: qcom: sdm845-oneplus: Describe TE gpio
-      dt-bindings: display: panel-simple-dsi: Remove Samsung S6E3FC2 compatible
-
- .../bindings/display/panel/panel-simple-dsi.yaml   |   3 -
- .../bindings/display/panel/samsung,s6e3fc2x01.yaml |  81 +++++
- MAINTAINERS                                        |   6 +
- .../arm64/boot/dts/qcom/sdm845-oneplus-common.dtsi | 113 ++++--
- arch/arm64/boot/dts/qcom/sdm845-oneplus-fajita.dts |   2 +-
- drivers/gpu/drm/panel/Kconfig                      |  13 +
- drivers/gpu/drm/panel/Makefile                     |   1 +
- drivers/gpu/drm/panel/panel-samsung-s6e3fc2x01.c   | 385 +++++++++++++++++++++
- 8 files changed, 579 insertions(+), 25 deletions(-)
----
-base-commit: 606da5bb165594c052ee11de79bf05bc38bc1aa6
-change-id: 20250923-s6e3fc2x01-f9550b822fe5
-
-Best regards,
 -- 
-David Heidelberg <david@ixit.cz>
+2.51.0
 
 
