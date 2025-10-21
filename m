@@ -2,89 +2,89 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1216FBF686B
-	for <lists+dri-devel@lfdr.de>; Tue, 21 Oct 2025 14:47:51 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 81353BF688F
+	for <lists+dri-devel@lfdr.de>; Tue, 21 Oct 2025 14:49:16 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D228810E30F;
-	Tue, 21 Oct 2025 12:47:48 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A08D410E2F9;
+	Tue, 21 Oct 2025 12:49:14 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="gQOnw+6n";
+	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="G/hqdvVC";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from us-smtp-delivery-124.mimecast.com
  (us-smtp-delivery-124.mimecast.com [170.10.133.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A5DFE10E5DB
- for <dri-devel@lists.freedesktop.org>; Tue, 21 Oct 2025 12:47:46 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0F63A10E2F9
+ for <dri-devel@lists.freedesktop.org>; Tue, 21 Oct 2025 12:49:12 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1761050865;
+ s=mimecast20190719; t=1761050952;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=NsAbQCPZDvKOoJwmtsqUpOBXBASGBxZqdateSFggr7Q=;
- b=gQOnw+6nvQyCdNGPw23FtHShyyb6f7w2GGamFVevSDyAtVC62+vgqb0YHBQ0XBLZdbg+rD
- 0i9sFpkb8roT/IRMKG5QsPGp7HkBEu8/uFXlb9G2hTvmaCyJpmEcYivDRk5HTsKeOgSwOU
- JJ9ujiGWeeQJvvCWys3NE+w5wMSJzds=
-Received: from mail-ej1-f69.google.com (mail-ej1-f69.google.com
- [209.85.218.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=NotgoKovng1iy+0xpZ6BU/lVjcuGwV7UFwjMJDqBXWM=;
+ b=G/hqdvVCiQCFt6tn3iwvz1SSYt6zZI1J3a+ZpW2XsrIYb4y55ssTnEWuRi80YUNaZ4BV5s
+ SnXPAkUTRGsH5m1SruUBGO+GTIT2ZkkdnpV27PBuAa+cAfbXyqqfMVsvMycHRpfwpPkICc
+ fnPk0hwAMNl+IA3zZpv1pOsILHvQ5y4=
+Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
+ [209.85.128.71]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-180-JO8KagAhOXO_hEvs_NDiYQ-1; Tue, 21 Oct 2025 08:47:44 -0400
-X-MC-Unique: JO8KagAhOXO_hEvs_NDiYQ-1
-X-Mimecast-MFC-AGG-ID: JO8KagAhOXO_hEvs_NDiYQ_1761050863
-Received: by mail-ej1-f69.google.com with SMTP id
- a640c23a62f3a-b56f1c14b71so194932066b.2
- for <dri-devel@lists.freedesktop.org>; Tue, 21 Oct 2025 05:47:44 -0700 (PDT)
+ us-mta-636-kqV8saaOOF-cFB2bWWQ3Mg-1; Tue, 21 Oct 2025 08:49:10 -0400
+X-MC-Unique: kqV8saaOOF-cFB2bWWQ3Mg-1
+X-Mimecast-MFC-AGG-ID: kqV8saaOOF-cFB2bWWQ3Mg_1761050949
+Received: by mail-wm1-f71.google.com with SMTP id
+ 5b1f17b1804b1-471005f28d2so21569615e9.0
+ for <dri-devel@lists.freedesktop.org>; Tue, 21 Oct 2025 05:49:10 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1761050863; x=1761655663;
+ d=1e100.net; s=20230601; t=1761050949; x=1761655749;
  h=content-transfer-encoding:in-reply-to:from:content-language
  :references:cc:to:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=NsAbQCPZDvKOoJwmtsqUpOBXBASGBxZqdateSFggr7Q=;
- b=LdaU3GV4u72M5zY3SGF9QihiCCoObhjXpyj/NenUwy2U4INspMSURZX6YPMP9yxzEa
- Mn1xucRm9rnNE5tXXqlEiNARN/Uq8OMCSdUBSrNwuAE1eGxXaszVbYXR1VROL68FLvn4
- kB36/Iaw+D3zpuG4pScnjhd57aHOZRoGeHd932WkA0GE9F91uakuJY81DxaNRv5E+8PD
- P1qREjD4THqwjUEJaDF+Ny3EDsHQJiMwXbAaqLukr5736p1mnbxy1D6BbN606EUFEvw/
- U/L2RfR4TA3N+rG1lKl4PvXtWGJ5IAKL4hqMLRs6CtvLX62HuZyM2Wdrswp5qpIiDSgd
- 1dBA==
-X-Gm-Message-State: AOJu0YzvClTTMO6w7h11S8RBXCkgASvJhW6TR4cDeFUC1/dpgStsuN4N
- T5Lk5i8cJ1RsQHrTdIeH8BixoSwScEjKkQzPU2/jGbRRJmUqZn1HSfp6dV68Ubq5Af6QE/olIRI
- YMFxIrjwqHwvQL0UPjAomdWcFk75kbWJiaGLEMsjhnwsSefpR69mpAeGRUKpjP3PaLcs1mw==
-X-Gm-Gg: ASbGncuAldoQCLhNRzpwZfA7FVlL7oqYQfpMo7Qd4HprSDv3CSnZ8tlBKwuL7f0woax
- IqOnquekvKtBR4L8vPn1Nx2hFOAAwKgPSvEkjs2lSaextSgC34DND0zzVheK7JKMGt9zJH06BVH
- QP+7KlsIaZyGx7q2efeOWGr8hp8MiR9s2UyXS2c5yG67bqvEVNVW3wGb8KFBnWnXI7TRPAs76dK
- 9fr+49xSuBtud1Wxi3oyYPaMNlzTxgFX3rTNd184tGF5tfv5vgLs3bjR+tz6W1vrOZ0Ze+JF2Vr
- G455upKSaDSPP5SHydSYkqQxgiqJYpjposzHz1nX+Zo3YSzWzwMdYQeAxoa+jLK3Bz/4KJgBamE
- OAjzV3UJjJWcCbB1byWB88f5aEjsVDkW5CN4YsO4=
-X-Received: by 2002:a17:906:3688:b0:b6c:fdaa:8161 with SMTP id
- a640c23a62f3a-b6cfdaa8282mr173050066b.44.1761050863223; 
- Tue, 21 Oct 2025 05:47:43 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IGEuS93kS84TkfF2iOZ+5XlgLX7RB2A25oPnnGb0yS6ufeS81hpG+cwHRRFtiKz1vfx7xpW1w==
-X-Received: by 2002:a17:906:3688:b0:b6c:fdaa:8161 with SMTP id
- a640c23a62f3a-b6cfdaa8282mr173046666b.44.1761050862744; 
- Tue, 21 Oct 2025 05:47:42 -0700 (PDT)
+ bh=NotgoKovng1iy+0xpZ6BU/lVjcuGwV7UFwjMJDqBXWM=;
+ b=ECwPL8HHXQPSfnAzbjeytADmlUX1jp6pYEUeHSY74j0rkap/AaNdF1/84+ojUeK/vX
+ /DJVa+b3UwjyekKqNsoBgCCmkkNG17/qAhh8sNAaSDXGBr8g1U5A9H/X9TRAePaF2SE+
+ zdu/l2DToFxCp++GkVar01Kxh2nLKSe590HCUlvo2sSs4HnOLuCMuIakUUf8OURHg1gy
+ lHvSeURu8V0KO428oBibWuoyXpCULLW614N3jNUE4nSfMxngGYFe+sDqQRkdljbuxbB6
+ zNfcdmfsXmJcBN9hi+sBC14A3ajV9DYmntfA/zzeVsJTOdvotqQtOuIDMdfjcNAq6hTP
+ q5HA==
+X-Gm-Message-State: AOJu0YwgY8FZ25Cd54XrsIcmNWBhYf3bdDf8ZYfQHNXyT+awXWc0Q0h3
+ 1lsQ1iRrxYPFozMY9HzS9teD8PRm1HpMP6IsWLOC9KcHnJrzqBVkVA+DW8E0zU704Ubj64iOgY9
+ vAe+LrZbTk87crn776x9ARw0IPgj34YWww4F0PNtoi29y1ISNBkQ5HgiV8GUxEDmkrz6EmQ==
+X-Gm-Gg: ASbGncszT3W7qpHJeaFLamewwDHQsgTcxZ87WFvtDKrVrndebUZxSq+NwIVLaVk/+xO
+ FYt06E7/N7klzvnC361RWzrNomCWMHYM2pOhig/BKyNAMZ9/bZvtOf4xJ9OilNQONYZ4/yM/Afj
+ tn+wC5BClxhJynWNs4LOOHk5tCUEsMCXqUN4WdWUMLP04ZVKPGtGJHg8tj00mImMz1pFW5eno4p
+ CccuDasxCl4/NuWCoc+kt0csBxAol+hfiQbjK46gH2tVbC5CwcEojPN+Fzp2ZYWg0aufbV/q91h
+ bBvVIG9ImIkYNLsbFQhADSsGtRXNY1ixma23awXbFCREF5Ii3kv3vdv5q5AglMjiKuR7H1MYn33
+ nKYmPZbXz2+KQr5Tbh1SS2Koi+OD1djJEVBCnuGQ=
+X-Received: by 2002:a05:600c:3492:b0:46e:33b2:c8da with SMTP id
+ 5b1f17b1804b1-4711791cadfmr146170845e9.32.1761050949426; 
+ Tue, 21 Oct 2025 05:49:09 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IEZvGLG+4O4+8tcsZ0H2qZUwGE2TzgllXp8mzAZGq8ee+8KjdZQgUv57Azkf47sFP7cA1RkiQ==
+X-Received: by 2002:a05:600c:3492:b0:46e:33b2:c8da with SMTP id
+ 5b1f17b1804b1-4711791cadfmr146170595e9.32.1761050949029; 
+ Tue, 21 Oct 2025 05:49:09 -0700 (PDT)
 Received: from ?IPV6:2a01:e0a:c:37e0:8998:e0cf:68cc:1b62?
  ([2a01:e0a:c:37e0:8998:e0cf:68cc:1b62])
  by smtp.gmail.com with ESMTPSA id
- a640c23a62f3a-b65eb035bafsm1077252366b.42.2025.10.21.05.47.41
+ 5b1f17b1804b1-47154d382d8sm199012585e9.12.2025.10.21.05.49.08
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 21 Oct 2025 05:47:42 -0700 (PDT)
-Message-ID: <dd16638b-88cc-4483-8345-b151c47e88cd@redhat.com>
-Date: Tue, 21 Oct 2025 14:47:41 +0200
+ Tue, 21 Oct 2025 05:49:08 -0700 (PDT)
+Message-ID: <9c4e9000-7196-42c3-a76d-333ae037af29@redhat.com>
+Date: Tue, 21 Oct 2025 14:49:07 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 2/7] drm/client: Move dumb-buffer handling to
- drm_client_framebuffer_create()
+Subject: Re: [PATCH 3/7] drm/client: Inline drm_client_buffer_addfb() and
+ _rmfb()
 To: Thomas Zimmermann <tzimmermann@suse.de>, javierm@redhat.com,
  rrameshbabu@nvidia.com, maarten.lankhorst@linux.intel.com,
  mripard@kernel.org, airlied@gmail.com, simona@ffwll.ch
 Cc: dri-devel@lists.freedesktop.org
 References: <20251020151402.53013-1-tzimmermann@suse.de>
- <20251020151402.53013-3-tzimmermann@suse.de>
+ <20251020151402.53013-4-tzimmermann@suse.de>
 From: Jocelyn Falempe <jfalempe@redhat.com>
-In-Reply-To: <20251020151402.53013-3-tzimmermann@suse.de>
+In-Reply-To: <20251020151402.53013-4-tzimmermann@suse.de>
 X-Mimecast-Spam-Score: 0
-X-Mimecast-MFC-PROC-ID: A1JNokvgNm6n7SsN6xI72F97hKMhfVDuRjrmf68Rfkc_1761050863
+X-Mimecast-MFC-PROC-ID: 5225BeqrdcHgH9kM4cgm37xuHuYc7DK5Ib38xmjeJp0_1761050949
 X-Mimecast-Originator: redhat.com
 Content-Language: en-US, fr
 Content-Type: text/plain; charset=UTF-8; format=flowed
@@ -105,131 +105,181 @@ Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 On 20/10/2025 17:04, Thomas Zimmermann wrote:
-> Dumb-buffer creation within the client code is asymetrically balanced
-> across drm_client_buffer_create() and drm_client_framebuffer_create().
-> Put all dumb-buffer code into drm_client_framebuffer_create() and leave
-> client-buffer initialization to drm_client_buffer_create(). Clarifies
-> responsibility between these functions.
+> Creating and deleting a client buffer always creates and deletes
+> the underlying DRM framebuffer. Inline the helper functions into
+> their callers.
 > 
-> Apart form the architectural improvements, drm_client_buffer_create()
-> can now be exported if needed by clients. The client will be able to
-> initialize buffers that have been created from other interfaces than
-> dumb buffers.
+> With the _addfb code being inlined into drm_client_buffer_create(),
+> clean up the function's error rollback to release the framebuffer's
+> handle and GEM buffer object as needed.
+> 
+> Move the _rmfb code into drm_client_buffer_delete() rather than its
+> current location in drm_client_framebuffer_delete(). The former is
+> now the inverse of drm_client_buffer_create(). Makes no difference
+> for cleaning up. Also prepares for the removal of
+> drm_client_framebuffer_delete().
 
 Thanks, it looks good to me.
 
 Reviewed-by: Jocelyn Falempe <jfalempe@redhat.com>
 
+
 > 
 > Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
 > ---
->   drivers/gpu/drm/drm_client.c | 56 +++++++++++++++++++-----------------
->   1 file changed, 29 insertions(+), 27 deletions(-)
+>   drivers/gpu/drm/drm_client.c | 93 ++++++++++++++++--------------------
+>   1 file changed, 40 insertions(+), 53 deletions(-)
 > 
 > diff --git a/drivers/gpu/drm/drm_client.c b/drivers/gpu/drm/drm_client.c
-> index 5fa8a1628563..9bf2edfb7b64 100644
+> index 9bf2edfb7b64..73ae63f856a0 100644
 > --- a/drivers/gpu/drm/drm_client.c
 > +++ b/drivers/gpu/drm/drm_client.c
-> @@ -184,11 +184,8 @@ static void drm_client_buffer_delete(struct drm_client_buffer *buffer)
+> @@ -174,6 +174,13 @@ EXPORT_SYMBOL(drm_client_release);
 >   
->   static struct drm_client_buffer *
->   drm_client_buffer_create(struct drm_client_dev *client, u32 width, u32 height,
-> -			 u32 format, u32 *handle, u32 *pitch)
-> +			 u32 format, u32 handle, u32 pitch)
+>   static void drm_client_buffer_delete(struct drm_client_buffer *buffer)
 >   {
-> -	const struct drm_format_info *info = drm_format_info(format);
-> -	struct drm_mode_create_dumb dumb_args = { };
-> -	struct drm_device *dev = client->dev;
+> +	int ret;
+> +
+> +	ret = drm_mode_rmfb(buffer->client->dev, buffer->fb->base.id, buffer->client->file);
+> +	if (ret)
+> +		drm_err(buffer->client->dev,
+> +			"Error removing FB:%u (%d)\n", buffer->fb->base.id, ret);
+> +
+>   	if (buffer->gem) {
+>   		drm_gem_vunmap(buffer->gem, &buffer->map);
+>   		drm_gem_object_put(buffer->gem);
+> @@ -186,8 +193,21 @@ static struct drm_client_buffer *
+>   drm_client_buffer_create(struct drm_client_dev *client, u32 width, u32 height,
+>   			 u32 format, u32 handle, u32 pitch)
+>   {
+> +	struct drm_mode_fb_cmd2 fb_req = {
+> +		.width = width,
+> +		.height = height,
+> +		.pixel_format = format,
+> +		.handles = {
+> +			handle,
+> +		},
+> +		.pitches = {
+> +			pitch,
+> +		},
+> +	};
+> +	struct drm_device *dev = client->dev;
 >   	struct drm_client_buffer *buffer;
 >   	struct drm_gem_object *obj;
+> +	struct drm_framebuffer *fb;
 >   	int ret;
-> @@ -199,28 +196,18 @@ drm_client_buffer_create(struct drm_client_dev *client, u32 width, u32 height,
 >   
->   	buffer->client = client;
->   
-> -	dumb_args.width = width;
-> -	dumb_args.height = height;
-> -	dumb_args.bpp = drm_format_info_bpp(info, 0);
-> -	ret = drm_mode_create_dumb(dev, &dumb_args, client->file);
-> -	if (ret)
-> -		goto err_delete;
-> -
-> -	obj = drm_gem_object_lookup(client->file, dumb_args.handle);
-> +	obj = drm_gem_object_lookup(client->file, handle);
->   	if (!obj)  {
->   		ret = -ENOENT;
+>   	buffer = kzalloc(sizeof(*buffer), GFP_KERNEL);
+> @@ -202,10 +222,30 @@ drm_client_buffer_create(struct drm_client_dev *client, u32 width, u32 height,
 >   		goto err_delete;
 >   	}
 >   
+> +	ret = drm_mode_addfb2(dev, &fb_req, client->file);
+> +	if (ret)
+> +		goto err_drm_gem_object_put;
+> +
+> +	fb = drm_framebuffer_lookup(dev, client->file, fb_req.fb_id);
+> +	if (drm_WARN_ON(dev, !fb)) {
+> +		ret = -ENOENT;
+> +		goto err_drm_mode_rmfb;
+> +	}
+> +
+> +	/* drop the reference we picked up in framebuffer lookup */
+> +	drm_framebuffer_put(fb);
+> +
+> +	strscpy(fb->comm, client->name, TASK_COMM_LEN);
+> +
 >   	buffer->gem = obj;
-> -	*handle = dumb_args.handle;
-> -	*pitch = dumb_args.pitch;
+> +	buffer->fb = fb;
 >   
 >   	return buffer;
 >   
+> +err_drm_mode_rmfb:
+> +	drm_mode_rmfb(dev, fb_req.fb_id, client->file);
+> +err_drm_gem_object_put:
+> +	drm_gem_object_put(obj);
 >   err_delete:
-> -	drm_client_buffer_delete(buffer);
-> -
-> +	kfree(buffer);
+>   	kfree(buffer);
 >   	return ERR_PTR(ret);
+> @@ -319,51 +359,6 @@ void drm_client_buffer_vunmap(struct drm_client_buffer *buffer)
 >   }
+>   EXPORT_SYMBOL(drm_client_buffer_vunmap);
 >   
-> @@ -394,16 +381,30 @@ static int drm_client_buffer_addfb(struct drm_client_buffer *buffer,
->   struct drm_client_buffer *
->   drm_client_framebuffer_create(struct drm_client_dev *client, u32 width, u32 height, u32 format)
->   {
-> +	const struct drm_format_info *info = drm_format_info(format);
-> +	struct drm_device *dev = client->dev;
-> +	struct drm_mode_create_dumb dumb_args = { };
->   	struct drm_client_buffer *buffer;
-> -	u32 handle, pitch;
->   	int ret;
+> -static void drm_client_buffer_rmfb(struct drm_client_buffer *buffer)
+> -{
+> -	int ret;
+> -
+> -	if (!buffer->fb)
+> -		return;
+> -
+> -	ret = drm_mode_rmfb(buffer->client->dev, buffer->fb->base.id, buffer->client->file);
+> -	if (ret)
+> -		drm_err(buffer->client->dev,
+> -			"Error removing FB:%u (%d)\n", buffer->fb->base.id, ret);
+> -
+> -	buffer->fb = NULL;
+> -}
+> -
+> -static int drm_client_buffer_addfb(struct drm_client_buffer *buffer,
+> -				   u32 width, u32 height, u32 format,
+> -				   u32 handle, u32 pitch)
+> -{
+> -	struct drm_client_dev *client = buffer->client;
+> -	struct drm_mode_fb_cmd2 fb_req = { };
+> -	int ret;
+> -
+> -	fb_req.width = width;
+> -	fb_req.height = height;
+> -	fb_req.pixel_format = format;
+> -	fb_req.handles[0] = handle;
+> -	fb_req.pitches[0] = pitch;
+> -
+> -	ret = drm_mode_addfb2(client->dev, &fb_req, client->file);
+> -	if (ret)
+> -		return ret;
+> -
+> -	buffer->fb = drm_framebuffer_lookup(client->dev, buffer->client->file, fb_req.fb_id);
+> -	if (WARN_ON(!buffer->fb))
+> -		return -ENOENT;
+> -
+> -	/* drop the reference we picked up in framebuffer lookup */
+> -	drm_framebuffer_put(buffer->fb);
+> -
+> -	strscpy(buffer->fb->comm, client->name, TASK_COMM_LEN);
+> -
+> -	return 0;
+> -}
+> -
+>   /**
+>    * drm_client_framebuffer_create - Create a client framebuffer
+>    * @client: DRM client
+> @@ -401,11 +396,6 @@ drm_client_framebuffer_create(struct drm_client_dev *client, u32 width, u32 heig
+>   		goto err_drm_mode_destroy_dumb;
+>   	}
 >   
-> +	dumb_args.width = width;
-> +	dumb_args.height = height;
-> +	dumb_args.bpp = drm_format_info_bpp(info, 0);
-> +	ret = drm_mode_create_dumb(dev, &dumb_args, client->file);
-> +	if (ret)
-> +		return ERR_PTR(ret);
-> +
->   	buffer = drm_client_buffer_create(client, width, height, format,
-> -					  &handle, &pitch);
-> -	if (IS_ERR(buffer))
-> -		return buffer;
-> +					  dumb_args.handle, dumb_args.pitch);
-> +	if (IS_ERR(buffer)) {
-> +		ret = PTR_ERR(buffer);
-> +		goto err_drm_mode_destroy_dumb;
-> +	}
->   
-> -	ret = drm_client_buffer_addfb(buffer, width, height, format, handle, pitch);
-> +	ret = drm_client_buffer_addfb(buffer, width, height, format,
-> +				      dumb_args.handle, dumb_args.pitch);
-> +	if (ret)
-> +		goto err_drm_client_buffer_delete;
->   
+> -	ret = drm_client_buffer_addfb(buffer, width, height, format,
+> -				      dumb_args.handle, dumb_args.pitch);
+> -	if (ret)
+> -		goto err_drm_client_buffer_delete;
+> -
 >   	/*
 >   	 * The handle is only needed for creating the framebuffer, destroy it
-> @@ -411,14 +412,15 @@ drm_client_framebuffer_create(struct drm_client_dev *client, u32 width, u32 heig
->   	 * object as DMA-buf. The framebuffer and our buffer structure are still
->   	 * holding references to the GEM object to prevent its destruction.
->   	 */
-> -	drm_mode_destroy_dumb(client->dev, handle, client->file);
-> -
-> -	if (ret) {
-> -		drm_client_buffer_delete(buffer);
-> -		return ERR_PTR(ret);
-> -	}
-> +	drm_mode_destroy_dumb(client->dev, dumb_args.handle, client->file);
+>   	 * again to solve a circular dependency should anybody export the GEM
+> @@ -416,8 +406,6 @@ drm_client_framebuffer_create(struct drm_client_dev *client, u32 width, u32 heig
 >   
 >   	return buffer;
-> +
-> +err_drm_client_buffer_delete:
-> +	drm_client_buffer_delete(buffer);
-> +err_drm_mode_destroy_dumb:
-> +	drm_mode_destroy_dumb(client->dev, dumb_args.handle, client->file);
-> +	return ERR_PTR(ret);
->   }
->   EXPORT_SYMBOL(drm_client_framebuffer_create);
 >   
+> -err_drm_client_buffer_delete:
+> -	drm_client_buffer_delete(buffer);
+>   err_drm_mode_destroy_dumb:
+>   	drm_mode_destroy_dumb(client->dev, dumb_args.handle, client->file);
+>   	return ERR_PTR(ret);
+> @@ -433,7 +421,6 @@ void drm_client_framebuffer_delete(struct drm_client_buffer *buffer)
+>   	if (!buffer)
+>   		return;
+>   
+> -	drm_client_buffer_rmfb(buffer);
+>   	drm_client_buffer_delete(buffer);
+>   }
+>   EXPORT_SYMBOL(drm_client_framebuffer_delete);
 
