@@ -2,44 +2,44 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 854FCBF8DC1
-	for <lists+dri-devel@lfdr.de>; Tue, 21 Oct 2025 23:01:27 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0F823BF8DCA
+	for <lists+dri-devel@lfdr.de>; Tue, 21 Oct 2025 23:01:32 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6597910E10D;
-	Tue, 21 Oct 2025 21:01:25 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3704510E116;
+	Tue, 21 Oct 2025 21:01:29 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=bootlin.com header.i=@bootlin.com header.b="neaVNvmC";
+	dkim=pass (2048-bit key; unprotected) header.d=bootlin.com header.i=@bootlin.com header.b="jZa+e3kM";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtpout-04.galae.net (smtpout-04.galae.net [185.171.202.116])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7022410E101
- for <dri-devel@lists.freedesktop.org>; Tue, 21 Oct 2025 21:01:22 +0000 (UTC)
+Received: from smtpout-03.galae.net (smtpout-03.galae.net [185.246.85.4])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D871710E101
+ for <dri-devel@lists.freedesktop.org>; Tue, 21 Oct 2025 21:01:23 +0000 (UTC)
 Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
- by smtpout-04.galae.net (Postfix) with ESMTPS id 65C2AC0B8A3;
- Tue, 21 Oct 2025 21:01:00 +0000 (UTC)
+ by smtpout-03.galae.net (Postfix) with ESMTPS id B69974E4124F;
+ Tue, 21 Oct 2025 21:01:22 +0000 (UTC)
 Received: from mail.galae.net (mail.galae.net [212.83.136.155])
- by smtpout-01.galae.net (Postfix) with ESMTPS id 1AAE260680;
- Tue, 21 Oct 2025 21:01:20 +0000 (UTC)
+ by smtpout-01.galae.net (Postfix) with ESMTPS id 8CCCB60680;
+ Tue, 21 Oct 2025 21:01:22 +0000 (UTC)
 Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon)
- with ESMTPSA id 4F249102F2416; 
- Tue, 21 Oct 2025 23:01:17 +0200 (CEST)
+ with ESMTPSA id C890B102F241D; 
+ Tue, 21 Oct 2025 23:01:19 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
- t=1761080479; h=from:subject:date:message-id:to:cc:mime-version:content-type:
+ t=1761080481; h=from:subject:date:message-id:to:cc:mime-version:content-type:
  content-transfer-encoding:in-reply-to:references;
- bh=b0w3PlRCn8AXDASJDWQBx6mglmsv4W7JDgIPcOEiCNo=;
- b=neaVNvmCD5ETz7+fvroOyps0QsXqsLCHCndlM86FhF/RRbvG+D53Yt6u3iIq98RJjIhnG0
- /aeTCkZuMq4NvdVQ5IxCFdJ4GLO/VU0JHVFAn+cPEliuAS9T8SJTj25CAtnrgwdt6eqfGg
- u5GUN6saY0UFl0BsU4GIpsmibG3yGn2iVudAYSfuMD0p95UkLmfwfjQdfMH8Ht+uCJddUt
- Jez1MpR3LvO57fW8zT24+R1jXIR7qrdwXApa1CEkQwVXYGmkX/uB53A8m+icBAAe1QEyvv
- uCgAIiCadrKK2JpfpdK2T8Xwzu8rQtJk10gTLsO+o66GglB969aDfYCHAI4+hw==
+ bh=v4TlBW0emiT/9iFEv7lk2VA7zMISVgmCM2JQdD8PYmw=;
+ b=jZa+e3kM0LTzew6S/IoqQu28flOPvY8mVvr3sHPERGEA43GJ/Kk2OImASKHY3YWvfWc2kf
+ IFbdjlABfEje/aG9jVLF7+bw8bt/XxVdg4rFL3ZtHBIedEG8QgjpmEQUm0N51Ryni4L6T8
+ XuRfOi16YNWTiukSGwSo9HX2zXFsSX4dk/xV1PRSLVhTVU+krP2HR8Iprs3/OnErrCghDn
+ 0KGz0b9bualpC2Be6CMGDxUnHy7WX4buSHpZVEXYt7xzw0vrExp/eIlm87a9fTbNaKmZRb
+ XOjkJeTaPxh55GhxGNXgacYju1i6JuCfF/sksvOIn0FODQBW7MTPdIv9EaFWfA==
 From: Luca Ceresoli <luca.ceresoli@bootlin.com>
-Date: Tue, 21 Oct 2025 23:00:44 +0200
-Subject: [PATCH v2 1/5] drm/sti: hda: add bridge before attaching
+Date: Tue, 21 Oct 2025 23:00:45 +0200
+Subject: [PATCH v2 2/5] drm/sti: hdmi: add bridge before attaching
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20251021-b4-drm-bridge-alloc-add-before-attach-v2-1-c17cc1bbff72@bootlin.com>
+Message-Id: <20251021-b4-drm-bridge-alloc-add-before-attach-v2-2-c17cc1bbff72@bootlin.com>
 References: <20251021-b4-drm-bridge-alloc-add-before-attach-v2-0-c17cc1bbff72@bootlin.com>
 In-Reply-To: <20251021-b4-drm-bridge-alloc-add-before-attach-v2-0-c17cc1bbff72@bootlin.com>
 To: Alain Volmat <alain.volmat@foss.st.com>, 
@@ -80,33 +80,29 @@ Link: https://lore.kernel.org/all/20250709-sophisticated-loon-of-rain-6ccdd8@hou
 Acked-by: Raphael Gallais-Pou <rgallaispou@gmail.com>
 Signed-off-by: Luca Ceresoli <luca.ceresoli@bootlin.com>
 ---
- drivers/gpu/drm/sti/sti_hda.c | 5 +++++
- 1 file changed, 5 insertions(+)
+ drivers/gpu/drm/sti/sti_hdmi.c | 2 ++
+ 1 file changed, 2 insertions(+)
 
-diff --git a/drivers/gpu/drm/sti/sti_hda.c b/drivers/gpu/drm/sti/sti_hda.c
-index 2c015f563de96ae58959801493ead870c49f70e5..b7397827889c94d6f8e8c2a48b09f06e29ceeaf7 100644
---- a/drivers/gpu/drm/sti/sti_hda.c
-+++ b/drivers/gpu/drm/sti/sti_hda.c
-@@ -779,6 +779,8 @@ static int sti_hda_probe(struct platform_device *pdev)
- 		return PTR_ERR(hda->clk_hddac);
- 	}
+diff --git a/drivers/gpu/drm/sti/sti_hdmi.c b/drivers/gpu/drm/sti/sti_hdmi.c
+index 4e7c3d78b2b971f8083deae96f3967b44a6499cb..f8222e60b1e01afb6d93f816915f17056c060f22 100644
+--- a/drivers/gpu/drm/sti/sti_hdmi.c
++++ b/drivers/gpu/drm/sti/sti_hdmi.c
+@@ -1459,6 +1459,7 @@ static int sti_hdmi_probe(struct platform_device *pdev)
  
-+	drm_bridge_add(&hda->bridge);
-+
- 	platform_set_drvdata(pdev, hda);
+ 	platform_set_drvdata(pdev, hdmi);
  
- 	return component_add(&pdev->dev, &sti_hda_ops);
-@@ -786,7 +788,10 @@ static int sti_hda_probe(struct platform_device *pdev)
++	drm_bridge_add(&hdmi->bridge);
+ 	return component_add(&pdev->dev, &sti_hdmi_ops);
  
- static void sti_hda_remove(struct platform_device *pdev)
- {
-+	struct sti_hda *hda = platform_get_drvdata(pdev);
-+
- 	component_del(&pdev->dev, &sti_hda_ops);
-+	drm_bridge_remove(&hda->bridge);
+  release_adapter:
+@@ -1475,6 +1476,7 @@ static void sti_hdmi_remove(struct platform_device *pdev)
+ 	if (hdmi->audio_pdev)
+ 		platform_device_unregister(hdmi->audio_pdev);
+ 	component_del(&pdev->dev, &sti_hdmi_ops);
++	drm_bridge_remove(&hdmi->bridge);
  }
  
- static const struct of_device_id hda_of_match[] = {
+ struct platform_driver sti_hdmi_driver = {
 
 -- 
 2.51.0
