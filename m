@@ -2,58 +2,54 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 56325BF69DC
-	for <lists+dri-devel@lfdr.de>; Tue, 21 Oct 2025 15:01:41 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3C185BF6B02
+	for <lists+dri-devel@lfdr.de>; Tue, 21 Oct 2025 15:12:57 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 56F3210E5E0;
-	Tue, 21 Oct 2025 13:01:38 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 36CEA10E5E1;
+	Tue, 21 Oct 2025 13:12:55 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="nCFrou7h";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="Jaevhp3o";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CCA5910E5E0
- for <dri-devel@lists.freedesktop.org>; Tue, 21 Oct 2025 13:01:37 +0000 (UTC)
+Received: from sea.source.kernel.org (sea.source.kernel.org [172.234.252.31])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7CBE010E5E1
+ for <dri-devel@lists.freedesktop.org>; Tue, 21 Oct 2025 13:12:54 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by tor.source.kernel.org (Postfix) with ESMTP id 03EFB6040F;
- Tue, 21 Oct 2025 13:01:37 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6ED48C4CEF1;
- Tue, 21 Oct 2025 13:01:36 +0000 (UTC)
+ by sea.source.kernel.org (Postfix) with ESMTP id 0F56746060;
+ Tue, 21 Oct 2025 13:12:54 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 997DFC4CEF1;
+ Tue, 21 Oct 2025 13:12:52 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1761051696;
- bh=bAOSuzIkzsOMAD3DqjZxBinmkAaLtQ6iZXn/jLl6V2M=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=nCFrou7hkHM2i3UwEjobo/NFRNvv8GUkcdcdedMIjJLBr3GyGSHXvCpUua5SdmUdg
- sMlGwu29ciX1fx5rx3OhTIOpdiCTFK3oqdvOpoI4ej/V87yZfc7WQECv2CDTrzL3cN
- I4ANO5Rx+lLGzEgC6q1pfCGT9LD7oHiRoEG68FZBaIG7D8PWBJw3qhu3ZuDcTFEQZ+
- YS9dVq/de3rffqLGJiA4chc9C9YUmC4yUYP1Ktz1JwkICwiSUlQAouPODfSCuT72j4
- CFlaaRUh9ovua5iNbnQPBmo7LAV2IgmCij3mwFpATmUGuNNyUkUSQYiBJySrzPkmlF
- sb6kkoFNcK+RA==
-Date: Tue, 21 Oct 2025 08:01:34 -0500
-From: "Rob Herring (Arm)" <robh@kernel.org>
-To: Louis-Alexis Eyraud <louisalexis.eyraud@collabora.com>
-Cc: linux-mediatek@lists.infradead.org,
- Conor Dooley <conor.dooley@microchip.com>, linux-kernel@vger.kernel.org,
- AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
- linux-arm-kernel@lists.infradead.org,
- Thomas Zimmermann <tzimmermann@suse.de>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Maxime Ripard <mripard@kernel.org>,
- Matthias Brugger <matthias.bgg@gmail.com>,
- dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- David Airlie <airlied@gmail.com>, kernel@collabora.com,
- Simona Vetter <simona@ffwll.ch>, Conor Dooley <conor+dt@kernel.org>
-Subject: Re: [PATCH v2 1/3] dt-bindings: gpu: mali-bifrost: Add compatible
- for MT8365 SoC
-Message-ID: <176105169286.4039322.13842766904505593753.robh@kernel.org>
-References: <20251021-mt8365-enable-gpu-v2-0-17e05cff2c86@collabora.com>
- <20251021-mt8365-enable-gpu-v2-1-17e05cff2c86@collabora.com>
+ s=k20201202; t=1761052373;
+ bh=8oRM8KNv9EpBZEUAjSUMO/IEtmvTcNa9qeko5xoXvMA=;
+ h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+ b=Jaevhp3oMGrB0GYTEE6HDJ7F1JG1S/T3W89avJUeQp7zOWWEVL2drgrbtJSmfrK79
+ lfQwfKz2yVhvHxD/g9o/RIxQtlcvP51Eb43xe0SnLu9ZotfSTFEmZ/lbCkWCWgQ9r7
+ 9oqc9o8rSvFvWi18HlyZ4GKPME0OIzzAYufL0AsLjwOOaCyGZeawsVDnpiNNiaQm7O
+ WdjE9HjIKyNXQ6sk5fltMoJxKsxD/a7JjE+wS4VmFAziydBlang6sBfg+/yXGT0wMu
+ aIsfSWaGlBpCVtj1SSSbCA89lwUoWr3Lb5NLeu9DGQH2JO0KgpYd560sQ38+pG2+kJ
+ UHI10pQg3MGMA==
+From: Sasha Levin <sashal@kernel.org>
+To: stable@vger.kernel.org
+Cc: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>,
+ Dan Carpenter <dan.carpenter@linaro.org>,
+ =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
+ Rob Clark <robdclark@chromium.org>, Daniel Vetter <daniel.vetter@ffwll.ch>,
+ Matthew Brost <matthew.brost@intel.com>,
+ Danilo Krummrich <dakr@kernel.org>, Philipp Stanner <phasta@kernel.org>,
+ =?UTF-8?q?Christian=20K=C3=B6nig?= <ckoenig.leichtzumerken@gmail.com>,
+ dri-devel@lists.freedesktop.org, Sasha Levin <sashal@kernel.org>
+Subject: [PATCH 6.1.y] drm/sched: Fix potential double free in
+ drm_sched_job_add_resv_dependencies
+Date: Tue, 21 Oct 2025 09:12:50 -0400
+Message-ID: <20251021131250.2072371-1-sashal@kernel.org>
+X-Mailer: git-send-email 2.51.0
+In-Reply-To: <2025102034-voltage-truck-aeff@gregkh>
+References: <2025102034-voltage-truck-aeff@gregkh>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20251021-mt8365-enable-gpu-v2-1-17e05cff2c86@collabora.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -69,18 +65,100 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+From: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
 
-On Tue, 21 Oct 2025 09:30:51 +0200, Louis-Alexis Eyraud wrote:
-> Add a compatible for the MediaTek MT8365 SoC, that has an integrated
-> ARM Mali G52 MC1 GPU and compatible with arm,mali-bifrost.
-> 
-> Reviewed-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
-> Acked-by: Conor Dooley <conor.dooley@microchip.com>
-> Signed-off-by: Louis-Alexis Eyraud <louisalexis.eyraud@collabora.com>
-> ---
->  Documentation/devicetree/bindings/gpu/arm,mali-bifrost.yaml | 1 +
->  1 file changed, 1 insertion(+)
-> 
+[ Upstream commit 5801e65206b065b0b2af032f7f1eef222aa2fd83 ]
 
-Applied, thanks!
+When adding dependencies with drm_sched_job_add_dependency(), that
+function consumes the fence reference both on success and failure, so in
+the latter case the dma_fence_put() on the error path (xarray failed to
+expand) is a double free.
+
+Interestingly this bug appears to have been present ever since
+commit ebd5f74255b9 ("drm/sched: Add dependency tracking"), since the code
+back then looked like this:
+
+drm_sched_job_add_implicit_dependencies():
+...
+       for (i = 0; i < fence_count; i++) {
+               ret = drm_sched_job_add_dependency(job, fences[i]);
+               if (ret)
+                       break;
+       }
+
+       for (; i < fence_count; i++)
+               dma_fence_put(fences[i]);
+
+Which means for the failing 'i' the dma_fence_put was already a double
+free. Possibly there were no users at that time, or the test cases were
+insufficient to hit it.
+
+The bug was then only noticed and fixed after
+commit 9c2ba265352a ("drm/scheduler: use new iterator in drm_sched_job_add_implicit_dependencies v2")
+landed, with its fixup of
+commit 4eaf02d6076c ("drm/scheduler: fix drm_sched_job_add_implicit_dependencies").
+
+At that point it was a slightly different flavour of a double free, which
+commit 963d0b356935 ("drm/scheduler: fix drm_sched_job_add_implicit_dependencies harder")
+noticed and attempted to fix.
+
+But it only moved the double free from happening inside the
+drm_sched_job_add_dependency(), when releasing the reference not yet
+obtained, to the caller, when releasing the reference already released by
+the former in the failure case.
+
+As such it is not easy to identify the right target for the fixes tag so
+lets keep it simple and just continue the chain.
+
+While fixing we also improve the comment and explain the reason for taking
+the reference and not dropping it.
+
+Signed-off-by: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
+Fixes: 963d0b356935 ("drm/scheduler: fix drm_sched_job_add_implicit_dependencies harder")
+Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
+Closes: https://lore.kernel.org/dri-devel/aNFbXq8OeYl3QSdm@stanley.mountain/
+Cc: Christian König <christian.koenig@amd.com>
+Cc: Rob Clark <robdclark@chromium.org>
+Cc: Daniel Vetter <daniel.vetter@ffwll.ch>
+Cc: Matthew Brost <matthew.brost@intel.com>
+Cc: Danilo Krummrich <dakr@kernel.org>
+Cc: Philipp Stanner <phasta@kernel.org>
+Cc: Christian König <ckoenig.leichtzumerken@gmail.com>
+Cc: dri-devel@lists.freedesktop.org
+Cc: stable@vger.kernel.org # v5.16+
+Signed-off-by: Philipp Stanner <phasta@kernel.org>
+Link: https://lore.kernel.org/r/20251015084015.6273-1-tvrtko.ursulin@igalia.com
+[ applied to drm_sched_job_add_implicit_dependencies instead of drm_sched_job_add_resv_dependencies ]
+Signed-off-by: Sasha Levin <sashal@kernel.org>
+---
+ drivers/gpu/drm/scheduler/sched_main.c | 13 +++++++------
+ 1 file changed, 7 insertions(+), 6 deletions(-)
+
+diff --git a/drivers/gpu/drm/scheduler/sched_main.c b/drivers/gpu/drm/scheduler/sched_main.c
+index dbdd00c61315b..a80001350411a 100644
+--- a/drivers/gpu/drm/scheduler/sched_main.c
++++ b/drivers/gpu/drm/scheduler/sched_main.c
+@@ -719,13 +719,14 @@ int drm_sched_job_add_implicit_dependencies(struct drm_sched_job *job,
+ 
+ 	dma_resv_for_each_fence(&cursor, obj->resv, dma_resv_usage_rw(write),
+ 				fence) {
+-		/* Make sure to grab an additional ref on the added fence */
+-		dma_fence_get(fence);
+-		ret = drm_sched_job_add_dependency(job, fence);
+-		if (ret) {
+-			dma_fence_put(fence);
++		/*
++		 * As drm_sched_job_add_dependency always consumes the fence
++		 * reference (even when it fails), and dma_resv_for_each_fence
++		 * is not obtaining one, we need to grab one before calling.
++		 */
++		ret = drm_sched_job_add_dependency(job, dma_fence_get(fence));
++		if (ret)
+ 			return ret;
+-		}
+ 	}
+ 	return 0;
+ }
+-- 
+2.51.0
 
