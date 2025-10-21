@@ -2,54 +2,113 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B42C5BF720A
-	for <lists+dri-devel@lfdr.de>; Tue, 21 Oct 2025 16:42:21 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id C4A7EBF72CC
+	for <lists+dri-devel@lfdr.de>; Tue, 21 Oct 2025 16:52:18 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C947C10E605;
-	Tue, 21 Oct 2025 14:42:19 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5DCB610E2FF;
+	Tue, 21 Oct 2025 14:52:15 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="gcEwCGpt";
+	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="akosL2Cr";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from bali.collaboradmins.com (bali.collaboradmins.com
- [148.251.105.195])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 153A510E605
- for <dri-devel@lists.freedesktop.org>; Tue, 21 Oct 2025 14:42:14 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1761057731;
- bh=AdOTqC6GnppcuVY2+ZB5OHVNph65GMdeDJ+SDxsEadI=;
- h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
- b=gcEwCGptiVGdGVW7I0QsjIyInYkV3j4tfo4x2NFO/rgVTGXFJ9gxiLO8Yulsyyn7R
- e+0OLncKWE1DQQAjZQtwK1F/n75dGq7/m8sYza6+NQReOlQSTOoJw7roe+hm0lKvxy
- q/1B6GDNXDj3nj0kOHDKQegAfygNbQGwYFT1tsfDViktIQ+d1jG/NQg3tPMfIynM0h
- JDSyDBMP/Gfx5NQGjivBSW6lDP91vnoVN8YKLgGoOdjsJp9N6vulfNLJel5nrv3/VA
- fBxQ25+gBI4kHdNi3FcJz3fMQ5LXwssB7KDoJhVZ4SmZ5djtHHays7nLaYyvSM+HhW
- L86mJlAam+RTw==
-Received: from fedora (unknown [IPv6:2a01:e0a:2c:6930:d919:a6e:5ea1:8a9f])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested) (Authenticated sender: bbrezillon)
- by bali.collaboradmins.com (Postfix) with ESMTPSA id CCDDF17E00AC;
- Tue, 21 Oct 2025 16:42:10 +0200 (CEST)
-Date: Tue, 21 Oct 2025 16:42:03 +0200
-From: Boris Brezillon <boris.brezillon@collabora.com>
-To: =?UTF-8?B?QWRyacOhbg==?= Larumbe <adrian.larumbe@collabora.com>
-Cc: linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org, Steven
- Price <steven.price@arm.com>, kernel@collabora.com, Liviu Dudau
- <liviu.dudau@arm.com>, Maarten Lankhorst
- <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
- Simona Vetter <simona@ffwll.ch>
-Subject: Re: [PATCH] drm/panthor: Support partial unmaps of huge pages
-Message-ID: <20251021164203.2b9fec35@fedora>
-In-Reply-To: <20251019032108.3498086-1-adrian.larumbe@collabora.com>
-References: <20251019032108.3498086-1-adrian.larumbe@collabora.com>
-Organization: Collabora
-X-Mailer: Claws Mail 4.3.1 (GTK 3.24.49; x86_64-redhat-linux-gnu)
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
+ [205.220.180.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DB04710E2FF
+ for <dri-devel@lists.freedesktop.org>; Tue, 21 Oct 2025 14:52:13 +0000 (UTC)
+Received: from pps.filterd (m0279872.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 59LEMeQa010742
+ for <dri-devel@lists.freedesktop.org>; Tue, 21 Oct 2025 14:52:13 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+ cc:content-transfer-encoding:content-type:date:from:in-reply-to
+ :message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+ Em9/rJl9Wie8PxF2J1wtN/wbFabOjF9ZEKafl6+3A+c=; b=akosL2Cr8+5+0svM
+ /XjOr0dg5guhe11G88jCOOSF2RtRQjxt3HaAo9Oj7PRJOJFSDoRkezmKLBGSu5IX
+ diNW+sOIe6Iu0IO3S2S4Z0gDv7qMKRNa951nrTiEqc7Jb0kaVA93LCnPNoI6mtlC
+ 9/JISQiD0VTYvXQGOm1hqnnNJx1MdlYqb+KLuKikl30E/VLxXznQ+L37TYcSHMrR
+ dtHcMscp/vbZ8cpW+qZ0drITDFUbNu9fJsx2B981ZkgGo9kFzHaOF2LDPmQJmKUP
+ hGa5rzd4YGRb5JTuM6reiuh4K1PZIqAdS1a203xk6GQ8PwdfD6O8nZD5Cuu6BCkX
+ z6qrqg==
+Received: from mail-pl1-f200.google.com (mail-pl1-f200.google.com
+ [209.85.214.200])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 49wtgeucve-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
+ for <dri-devel@lists.freedesktop.org>; Tue, 21 Oct 2025 14:52:12 +0000 (GMT)
+Received: by mail-pl1-f200.google.com with SMTP id
+ d9443c01a7336-290e4fade70so42239755ad.2
+ for <dri-devel@lists.freedesktop.org>; Tue, 21 Oct 2025 07:52:12 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1761058331; x=1761663131;
+ h=content-transfer-encoding:in-reply-to:from:content-language
+ :references:cc:to:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=Em9/rJl9Wie8PxF2J1wtN/wbFabOjF9ZEKafl6+3A+c=;
+ b=dMILJlht41Wwfa5tmPRqk22K2y+9fOA+TFInf34/QZQfLKEOr/IxRlLylCNzbopKPp
+ 6ngoPJlf2wj4Ko3kFDyPb9HiasdhRJfseCCypnerqOBwFvYuddM7CR2Jw1Ez9QPThSZU
+ bUJOFEyKiuR39fOtXTP20eA4Qf5beSII2otHnYX8u7G2N2Kt2NarS9RVc9I5f48urk4P
+ bQv1br/D0oJax/llFY9cSLUwV2hhTubjVFo9T5h/Zq6t7Ei9n4CIKJztkdhuL4zk0T7Y
+ uYB62Ex+1Xg5D4gMFFFeHKPseekGYUJAAi68J+RIktlTzbiOdpRJQmOLQgXrZveRwdSB
+ E6Ig==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCUSjLRsZJkIexBP2zFHeWdhsprnLWXZljpzXQvDaMNafTCo8FRx0JADR5ovQwxMTlvNJS/4iFaby7I=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YzNMmnXmPwixMDVp7RYun1U8iRo9HoDzOlsza4qtR6gMn6O22lz
+ is5TQaeZ4g1aNMQYKH89kUUXcTmP5HJQo8YrLNopIA70Jy9O3jHymu8RczVYcU44GNa0I5lmhP/
+ yE/dPKkRc0Fviy6hcwr2EItkbJZkhDxcNJ7B7RBp/f3uzGp17Go0NC/tj6w2e3LcXwIGVkrNPwn
+ 2RW5Y=
+X-Gm-Gg: ASbGnctYacYgpjYBcQhE0D1Q8VdqSbKWzgAU25FTuJKOzBvTXzpxQnzUgJ8UpwE9Cvp
+ szEdBVg5f3P4ess5CNSVOxpAPoyGtsQNH9IjTH2Ar2Zu9eaJSNtASvhqZfiZ45ohX85PvgIO7up
+ i6CAs/afuS4AmD706OkH7JrCJ+KPnfMIoyy//iwcR4qzCQZE03ugleiY8w5NjVxR57HSx0XClXD
+ ZxPqjk0UDFF1WxBiJcLCqhTStwHXbh4u7idoMK0QcbA6oWm1DMQN7BzgjZj0XUcj+r5Cfde5VnR
+ ZMJawdchwBxHKCc+wC5ZRR/0ARzFNscY1DkLdM/soxu3+YGEreGyauvYTZaGY5THNm2c35jPAeV
+ t95WwLXhsntmlO7EX4kRBQJMEa736pQz1OLglGFZrqiHWr1eCaWz9
+X-Received: by 2002:a17:903:11ce:b0:273:3f62:6eca with SMTP id
+ d9443c01a7336-290c9ca804emr219844795ad.18.1761058331467; 
+ Tue, 21 Oct 2025 07:52:11 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IGKlW0zUQ5dP9215lLLhLFUr7po2uXZaQSAYjeyaM3p2+HJWbTsoD9Nz6yR4gkPQZLXQPE5aw==
+X-Received: by 2002:a17:903:11ce:b0:273:3f62:6eca with SMTP id
+ d9443c01a7336-290c9ca804emr219842985ad.18.1761058329367; 
+ Tue, 21 Oct 2025 07:52:09 -0700 (PDT)
+Received: from [10.226.59.182] (i-global254.qualcomm.com. [199.106.103.254])
+ by smtp.gmail.com with ESMTPSA id
+ d9443c01a7336-2924721b6fdsm111346235ad.118.2025.10.21.07.52.08
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 21 Oct 2025 07:52:08 -0700 (PDT)
+Message-ID: <0485ac05-38a7-49b1-8928-d3c4a42bf0d3@oss.qualcomm.com>
+Date: Tue, 21 Oct 2025 08:52:07 -0600
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] accel/ivpu: Add support for Nova Lake's NPU
+To: Maciej Falkowski <maciej.falkowski@linux.intel.com>,
+ dri-devel@lists.freedesktop.org
+Cc: oded.gabbay@gmail.com, karol.wachowski@linux.intel.com, lizhi.hou@amd.com
+References: <20251021141948.2216735-1-maciej.falkowski@linux.intel.com>
+Content-Language: en-US
+From: Jeff Hugo <jeff.hugo@oss.qualcomm.com>
+In-Reply-To: <20251021141948.2216735-1-maciej.falkowski@linux.intel.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Proofpoint-ORIG-GUID: wCT08FUpLPMiCjMmY1TXAkXw42WADavo
+X-Authority-Analysis: v=2.4 cv=JeaxbEKV c=1 sm=1 tr=0 ts=68f79e1c cx=c_pps
+ a=IZJwPbhc+fLeJZngyXXI0A==:117 a=JYp8KDb2vCoCEuGobkYCKw==:17
+ a=IkcTkHD0fZMA:10 a=x6icFKpwvdMA:10 a=VkNPw1HP01LnGYTKEx00:22
+ a=QyXUC8HyAAAA:8 a=EUspDBNiAAAA:8 a=AtBEedvpfnXa7H_QwbwA:9 a=QEXdDO2ut3YA:10
+ a=uG9DUKGECoFWVXl0Dc02:22
+X-Proofpoint-GUID: wCT08FUpLPMiCjMmY1TXAkXw42WADavo
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUxMDIwMDE1NCBTYWx0ZWRfX6lu0P4bwbjRz
+ KD6O4bZehbNi8qjuwGwBwSUjbG3nkaJaAdCW96KInTv9wAC/74wRNj+CJiA32mOAwJCtRXovahT
+ HlI4Lq22YbNEdGSyf6XoV1afKF7fsIK9XXsidyB+RJj7OAbinMI6wBzysym+i3a1h8xTcKZGlWM
+ Ywu4PZmEwxes2Y48FroSRjswY2399y4kKs/PEFvdY/NknL9Mc9ekVz0LozedOii1PEHgkuCyg6y
+ zfABPd15ySaPauPtakZFTDWvts1tCQC+DmIbbiRy2Wt944ybYEdK1NFkNy785vpnFgn4+dQedAc
+ TE4BbXnHxklKpL3xW8oKyGk+4cywX48rfXe9HB1GxHl0vOgCXCNYK96993XdrgSaHFSnfn9Hm9o
+ DB1KenOcxZtg4hlywC/y5Hthn3PKtA==
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.9,FMLib:17.12.80.40
+ definitions=2025-10-21_02,2025-10-13_01,2025-03-28_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ phishscore=0 clxscore=1015 malwarescore=0 impostorscore=0 spamscore=0
+ bulkscore=0 suspectscore=0 priorityscore=1501 lowpriorityscore=0 adultscore=0
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.19.0-2510020000 definitions=main-2510200154
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -65,352 +124,17 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Adrian,
+On 10/21/2025 8:19 AM, Maciej Falkowski wrote:
+> Add support for NPU6 generation that
+> will be present on Nova Lake CPUs.
+> As with previous generations, it maintains compatibility
+> so no bigger functional changes.
 
-On Sun, 19 Oct 2025 04:19:42 +0100
-Adri=C3=A1n Larumbe <adrian.larumbe@collabora.com> wrote:
+Looks like this got word wrapped early. Commit messages can go out to 75 
+columns if I recall correctly.
 
-> Commit 33729a5fc0ca ("iommu/io-pgtable-arm: Remove split on unmap
-> behavior") did away with the treatment of partial unmaps of huge IOPTEs.
->=20
-> In the case of Panthor, that means an attempt to run a VM_BIND unmap
-> operation on a memory region whose start address and size aren't 2MiB
-> aligned, in the event it intersects with a huge page, would lead to ARM
-> IOMMU management code to fail and a warning being raised.
->=20
-> Presently, and for lack of a better alternative, it's best to have
-> Panthor handle partial unmaps at the driver level, by unmapping entire
-> huge pages and remapping the difference between them and the requested
-> unmap region.
->=20
-> This could change in the future when the VM_BIND uAPI is expanded to
-> enforce huge page alignment and map/unmap operational constraints that
-> render this code unnecessary.
->=20
-> Signed-off-by: Adri=C3=A1n Larumbe <adrian.larumbe@collabora.com>
-> ---
->  drivers/gpu/drm/panthor/panthor_mmu.c | 129 +++++++++++++++++++++++++-
->  1 file changed, 126 insertions(+), 3 deletions(-)
->=20
-> diff --git a/drivers/gpu/drm/panthor/panthor_mmu.c b/drivers/gpu/drm/pant=
-hor/panthor_mmu.c
-> index 2d041a2e75e9..f9d200e57c04 100644
-> --- a/drivers/gpu/drm/panthor/panthor_mmu.c
-> +++ b/drivers/gpu/drm/panthor/panthor_mmu.c
-> @@ -2093,6 +2093,98 @@ static int panthor_gpuva_sm_step_map(struct drm_gp=
-uva_op *op, void *priv)
->  	return 0;
->  }
-> =20
-> +static bool
-> +is_huge_page_partial_unmap(const struct panthor_vma *unmap_vma,
-> +			   const struct drm_gpuva_op_map *op,
-> +			   u64 unmap_start, u64 unmap_range,
-> +			   u64 sz2m_prev, u64 sz2m_next)
-> +{
-> +	size_t pgcount, pgsize;
-> +	const struct page *pg;
-> +	pgoff_t bo_offset;
-> +
-> +	if (op->va.addr < unmap_vma->base.va.addr) {
-> +		bo_offset =3D unmap_start - unmap_vma->base.va.addr + unmap_vma->base.=
-gem.offset;
-> +		sz2m_prev =3D ALIGN_DOWN(unmap_start, SZ_2M);
-> +		sz2m_next =3D ALIGN(unmap_start + 1, SZ_2M);
-> +		pgsize =3D get_pgsize(unmap_start, unmap_range, &pgcount);
-> +
-> +	} else {
-> +		bo_offset =3D ((unmap_start + unmap_range - 1) - unmap_vma->base.va.ad=
-dr)
-> +			+ unmap_vma->base.gem.offset;
-> +		sz2m_prev =3D ALIGN_DOWN(unmap_start + unmap_range - 1, SZ_2M);
-> +		sz2m_next =3D ALIGN(unmap_start + unmap_range, SZ_2M);
-> +		pgsize =3D get_pgsize(sz2m_prev, unmap_start + unmap_range - sz2m_prev=
-, &pgcount);
-> +	}
-> +
-> +	pg =3D to_panthor_bo(unmap_vma->base.gem.obj)->base.pages[bo_offset >> =
-PAGE_SHIFT];
-> +
-> +	if (pgsize =3D=3D SZ_4K && folio_order(page_folio(pg)) =3D=3D PMD_ORDER=
- &&
-> +	    unmap_vma->base.va.addr <=3D sz2m_prev && unmap_vma->base.va.addr +
-> +	    unmap_vma->base.va.range >=3D sz2m_next)
-> +		return true;
-> +
-> +	return false;
-> +}
-> +
-> +struct remap_params {
-> +	u64 prev_unmap_start, prev_unmap_range;
-> +	u64 prev_remap_start, prev_remap_range;
-> +	u64 next_unmap_start, next_unmap_range;
-> +	u64 next_remap_start, next_remap_range;
-> +	u64 unmap_start, unmap_range;
-> +};
-> +
-> +static struct remap_params
-> +get_map_unmap_intervals(const struct drm_gpuva_op_remap *op,
-> +			const struct panthor_vma *unmap_vma)
-> +{
-> +	u64 unmap_start, unmap_range, sz2m_prev, sz2m_next;
-> +	struct remap_params params =3D {0};
-> +
-> +	drm_gpuva_op_remap_to_unmap_range(op, &unmap_start, &unmap_range);
-> +
-> +	if (op->prev) {
-> +		sz2m_prev =3D ALIGN_DOWN(unmap_start, SZ_2M);
-> +		sz2m_next =3D ALIGN(unmap_start + 1, SZ_2M);
-> +
-> +		if (is_huge_page_partial_unmap(unmap_vma, op->prev, unmap_start,
-> +					       unmap_range, sz2m_prev, sz2m_next)) {
-> +			params.prev_unmap_start =3D sz2m_prev;
-> +			params.prev_unmap_range =3D SZ_2M;
-> +			params.prev_remap_start =3D sz2m_prev;
-> +			params.prev_remap_range =3D unmap_start & (SZ_2M - 1);
-> +
-> +			u64 diff =3D min(sz2m_next - unmap_start, unmap_range);
-> +
-> +			unmap_range -=3D diff;
-> +			unmap_start +=3D diff;
-> +		}
-> +	}
-> +
-> +	if (op->next) {
-> +		sz2m_prev =3D ALIGN_DOWN(unmap_start + unmap_range - 1, SZ_2M);
-> +		sz2m_next =3D ALIGN(unmap_start + unmap_range, SZ_2M);
-> +
-> +		if (is_huge_page_partial_unmap(unmap_vma, op->next, unmap_start,
-> +					       unmap_range, sz2m_prev, sz2m_next)) {
-> +			if (unmap_range) {
-> +				params.next_unmap_start =3D sz2m_prev;
-> +				params.next_unmap_range =3D SZ_2M;
-> +				unmap_range -=3D op->next->va.addr & (SZ_2M - 1);
-> +			}
-> +
-> +			params.next_remap_start =3D op->next->va.addr;
-> +			params.next_remap_range =3D SZ_2M - (op->next->va.addr & (SZ_2M - 1));
-> +		}
-> +	}
-> +
-> +	params.unmap_start =3D unmap_start;
-> +	params.unmap_range =3D unmap_range;
-> +
-> +	return params;
-> +}
-> +
->  static int panthor_gpuva_sm_step_remap(struct drm_gpuva_op *op,
->  				       void *priv)
->  {
-> @@ -2100,20 +2192,51 @@ static int panthor_gpuva_sm_step_remap(struct drm=
-_gpuva_op *op,
->  	struct panthor_vm *vm =3D priv;
->  	struct panthor_vm_op_ctx *op_ctx =3D vm->op_ctx;
->  	struct panthor_vma *prev_vma =3D NULL, *next_vma =3D NULL;
-> -	u64 unmap_start, unmap_range;
-> +	struct remap_params params;
->  	int ret;
-> =20
-> -	drm_gpuva_op_remap_to_unmap_range(&op->remap, &unmap_start, &unmap_rang=
-e);
-> -	ret =3D panthor_vm_unmap_pages(vm, unmap_start, unmap_range);
-> +	/*
-> +	 * ARM IOMMU page table management code disallows partial unmaps of hug=
-e pages,
-> +	 * so when a partial unmap is requested, we must first unmap the entire=
- huge
-> +	 * page and then remap the difference between the huge page minus the r=
-equested
-> +	 * unmap region. Calculating the right offsets and ranges for the diffe=
-rent unmap
-> +	 * and map operations is the responsibility of the following function.
-> +	 */
-> +	params =3D get_map_unmap_intervals(&op->remap, unmap_vma);
-> +
-> +	ret =3D panthor_vm_unmap_pages(vm, params.unmap_start, params.unmap_ran=
-ge);
->  	if (ret)
->  		return ret;
-> =20
->  	if (op->remap.prev) {
-> +		ret =3D panthor_vm_unmap_pages(vm, params.prev_unmap_start,
-> +					     params.prev_unmap_range);
+> 
+> Signed-off-by: Maciej Falkowski <maciej.falkowski@linux.intel.com>
 
-This should be part of the previous unmap.
-
-> +		if (ret)
-> +			return ret;
-> +		ret =3D panthor_vm_map_pages(vm, params.prev_remap_start,
-> +					   flags_to_prot(unmap_vma->flags),
-> +					   to_drm_gem_shmem_obj(op->remap.prev->gem.obj)->sgt,
-> +					   op->remap.prev->gem.offset, params.prev_remap_range);
-> +		if (ret)
-> +			return ret;
-> +
->  		prev_vma =3D panthor_vm_op_ctx_get_vma(op_ctx);
->  		panthor_vma_init(prev_vma, unmap_vma->flags);
->  	}
-> =20
->  	if (op->remap.next) {
-> +		ret =3D panthor_vm_unmap_pages(vm, params.next_unmap_start,
-> +					     params.next_unmap_range);
-
-This one too.
-
-> +		if (ret)
-> +			return ret;
-> +
-> +		ret =3D panthor_vm_map_pages(vm, params.next_remap_start,
-> +					   flags_to_prot(unmap_vma->flags),
-> +					   to_drm_gem_shmem_obj(op->remap.next->gem.obj)->sgt,
-> +					   op->remap.next->gem.offset, params.next_remap_range);
-> +		if (ret)
-> +			return ret;
-> +
->  		next_vma =3D panthor_vm_op_ctx_get_vma(op_ctx);
->  		panthor_vma_init(next_vma, unmap_vma->flags);
->  	}
-
-Overall, it feels more complicated than what I had in mind (see
-below, only compile-tested though).
-
-Cheers,
-
-Boris
-
---->8---
-diff --git a/drivers/gpu/drm/panthor/panthor_mmu.c b/drivers/gpu/drm/pantho=
-r/panthor_mmu.c
-index 6dec4354e378..15718241fd2f 100644
---- a/drivers/gpu/drm/panthor/panthor_mmu.c
-+++ b/drivers/gpu/drm/panthor/panthor_mmu.c
-@@ -2093,27 +2093,104 @@ static int panthor_gpuva_sm_step_map(struct drm_gp=
-uva_op *op, void *priv)
-        return 0;
- }
-=20
-+static void
-+align_unmap_range(const struct drm_gpuva_op_remap *op,
-+                 u64 *unmap_start, u64 *unmap_end)
-+{
-+       u64 aligned_unmap_start =3D ALIGN_DOWN(*unmap_start, SZ_2M);
-+       u64 aligned_unmap_end =3D ALIGN(*unmap_end, SZ_2M);
-+
-+       /* If we're dealing with a huge page, make sure the unmap region is
-+        * aligned on the start of the page.
-+        */
-+       if (op->prev && aligned_unmap_start < *unmap_start &&
-+           op->prev->va.addr <=3D aligned_unmap_start) {
-+               struct panthor_gem_object *bo =3D to_panthor_bo(op->prev->g=
-em.obj);
-+               u64 bo_offset =3D op->prev->gem.offset + *unmap_start -
-+                               op->prev->va.addr;
-+               const struct page *pg =3D bo->base.pages[bo_offset >> PAGE_=
-SHIFT];
-+
-+               if (folio_size(page_folio(pg)) >=3D SZ_2M)
-+                       *unmap_start =3D aligned_unmap_start;
-+       }
-+
-+       /* If we're dealing with a huge page, make sure the unmap region is
-+        * aligned on the end of the page.
-+        */
-+       if (op->next && aligned_unmap_end > *unmap_end &&
-+           op->next->va.addr + op->next->va.range >=3D aligned_unmap_end) {
-+               struct panthor_gem_object *bo =3D to_panthor_bo(op->next->g=
-em.obj);
-+               u64 bo_offset =3D op->next->gem.offset + op->next->va.addr +
-+                               op->next->va.range - *unmap_end;
-+               const struct page *pg =3D bo->base.pages[bo_offset >> PAGE_=
-SHIFT];
-+
-+               if (folio_size(page_folio(pg)) >=3D SZ_2M)
-+                       *unmap_end =3D aligned_unmap_end;
-+       }
-+}
-+
- static int panthor_gpuva_sm_step_remap(struct drm_gpuva_op *op,
-                                       void *priv)
- {
-        struct panthor_vma *unmap_vma =3D container_of(op->remap.unmap->va,=
- struct panthor_vma, base);
-+       u64 unmap_start, unmap_range, unmap_end, aligned_unmap_start, align=
-ed_unmap_end;
-        struct panthor_vm *vm =3D priv;
-        struct panthor_vm_op_ctx *op_ctx =3D vm->op_ctx;
-        struct panthor_vma *prev_vma =3D NULL, *next_vma =3D NULL;
--       u64 unmap_start, unmap_range;
-        int ret;
-=20
-+       /*
-+        * ARM IOMMU page table management code disallows partial unmaps of=
- huge pages,
-+        * so when a partial unmap is requested, we must first unmap the en=
-tire huge
-+        * page and then remap the difference between the huge page minus t=
-he requested
-+        * unmap region. Calculating the right offsets and ranges for the d=
-ifferent unmap
-+        * and map operations is the responsibility of the following functi=
-on.
-+        */
-        drm_gpuva_op_remap_to_unmap_range(&op->remap, &unmap_start, &unmap_=
-range);
--       ret =3D panthor_vm_unmap_pages(vm, unmap_start, unmap_range);
-+       unmap_end =3D unmap_start + unmap_range;
-+       aligned_unmap_start =3D unmap_start;
-+       aligned_unmap_end =3D unmap_end;
-+       align_unmap_range(&op->remap, &aligned_unmap_start, &aligned_unmap_=
-end);
-+
-+       ret =3D panthor_vm_unmap_pages(vm, aligned_unmap_start,
-+                                    aligned_unmap_end - aligned_unmap_star=
-t);
-        if (ret)
-                return ret;
-=20
-        if (op->remap.prev) {
-+               if (aligned_unmap_start < unmap_start) {
-+                       struct panthor_gem_object *bo =3D
-+                               to_panthor_bo(op->remap.prev->gem.obj);
-+                       u64 bo_offset =3D op->remap.prev->gem.offset +
-+                                       aligned_unmap_start - op->remap.pre=
-v->va.addr;
-+
-+                       ret =3D panthor_vm_map_pages(vm, aligned_unmap_star=
-t,
-+                                                  flags_to_prot(unmap_vma-=
->flags),
-+                                                  bo->base.sgt, bo_offset,
-+                                                  unmap_start - aligned_un=
-map_start);
-+                       if (ret)
-+                               return ret;
-+               }
-+
-                prev_vma =3D panthor_vm_op_ctx_get_vma(op_ctx);
-                panthor_vma_init(prev_vma, unmap_vma->flags);
-        }
-=20
-        if (op->remap.next) {
-+               if (aligned_unmap_end > unmap_end) {
-+                       struct panthor_gem_object *bo =3D
-+                               to_panthor_bo(op->remap.next->gem.obj);
-+                       u64 bo_offset =3D op->remap.next->gem.offset + unma=
-p_end -
-+                                       op->remap.next->va.addr;
-+
-+                       ret =3D panthor_vm_map_pages(vm, unmap_end,
-+                                                  flags_to_prot(unmap_vma-=
->flags),
-+                                                  bo->base.sgt, bo_offset,
-+                                                  aligned_unmap_end - unma=
-p_end);
-+                       if (ret)
-+                               return ret;
-+               }
-+
-                next_vma =3D panthor_vm_op_ctx_get_vma(op_ctx);
-                panthor_vma_init(next_vma, unmap_vma->flags);
-        }
-
+With that,
+Reviewed-by: Jeff Hugo <jeff.hugo@oss.qualcomm.com>
