@@ -2,66 +2,66 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9803CBF5C78
-	for <lists+dri-devel@lfdr.de>; Tue, 21 Oct 2025 12:28:57 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id D85ECBF5C8D
+	for <lists+dri-devel@lfdr.de>; Tue, 21 Oct 2025 12:31:59 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3C47510E2EA;
-	Tue, 21 Oct 2025 10:28:54 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 25B3210E2F3;
+	Tue, 21 Oct 2025 10:31:57 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=collabora.com header.i=dmitry.osipenko@collabora.com header.b="PIFfvJg3";
+	dkim=pass (2048-bit key; unprotected) header.d=bootlin.com header.i=@bootlin.com header.b="UAKVwMh6";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sender4-pp-f112.zoho.com (sender4-pp-f112.zoho.com
- [136.143.188.112])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BA4D510E2EA
- for <dri-devel@lists.freedesktop.org>; Tue, 21 Oct 2025 10:28:52 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; t=1761042525; cv=none; 
- d=zohomail.com; s=zohoarc; 
- b=QzZZ3fYxaXWfsDAwg+8OTiQQpo0/puoqLHfVuq82iqsSaIoU4MSteisnWKfxnfGXmh9J/fEqnjNYP69PZHQYHnP5OX7eKMBMPIKzQw37/6WXrraK/4uGi1sMlaQz2zrvBKdHuka+8CqVcvtiSr1C6YmImbITT/Rnk4kXfcpF4YY=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
- s=zohoarc; t=1761042525;
- h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To;
- bh=jZuSP7CIv2Yik6596VgKC2i8oP2tWtzljTZtGY/y+NQ=; 
- b=ESAJloMG6mT0kLhUzANTjmi6k4EBH1kDjG8hSgPBwJcWpy78J+j/yDtuXpWXcaOAqiGrGxuql5fCIHNZMVGejEcWccuwK+sPq8wIjgt7zo7r3xotdagGgVXiiYNpmVyQz0unksesnbJ5CNrM5EyeEbIby5I/KIOojoCOup/TY7c=
-ARC-Authentication-Results: i=1; mx.zohomail.com;
- dkim=pass  header.i=collabora.com;
- spf=pass  smtp.mailfrom=dmitry.osipenko@collabora.com;
- dmarc=pass header.from=<dmitry.osipenko@collabora.com>
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1761042525; 
- s=zohomail; d=collabora.com; i=dmitry.osipenko@collabora.com; 
- h=Message-ID:Date:Date:MIME-Version:Subject:Subject:To:To:Cc:Cc:References:From:From:In-Reply-To:Content-Type:Content-Transfer-Encoding:Message-Id:Reply-To;
- bh=jZuSP7CIv2Yik6596VgKC2i8oP2tWtzljTZtGY/y+NQ=;
- b=PIFfvJg3aDLnwCdt2+4NuVt+4wRtNfCagrlr2wrE7s6cYlQQSbbl4abOieTo0NG3
- RYGeGpDjPLXVblnYRxqntgo5OVfamV9bPm92Gij4+k7CysJMCzHMt1N3rmjgJJzXlTt
- D5jC5HZW74iptngrFjksUGV8D8ahI+x1Z0iOs9ag=
-Received: by mx.zohomail.com with SMTPS id 1761042523809409.2792412131598;
- Tue, 21 Oct 2025 03:28:43 -0700 (PDT)
-Message-ID: <ee77b9c9-1a28-45b8-9e96-d8c1afb0ac53@collabora.com>
-Date: Tue, 21 Oct 2025 13:28:39 +0300
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [RFC][PATCH] drm/virtgpu: Make vblank event dependent on the host
- resource
-To: Thomas Zimmermann <tzimmermann@suse.de>,
- "Kasireddy, Vivek" <vivek.kasireddy@intel.com>,
- "gurchetansingh@chromium.org" <gurchetansingh@chromium.org>,
- "kraxel@redhat.com" <kraxel@redhat.com>,
- "airlied@redhat.com" <airlied@redhat.com>
-Cc: "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
- "virtualization@lists.linux.dev" <virtualization@lists.linux.dev>
-References: <20251016145230.79270-1-tzimmermann@suse.de>
- <IA0PR11MB7185A7BA7B8CEAC46CBC0922F8F6A@IA0PR11MB7185.namprd11.prod.outlook.com>
- <21851b98-06ee-4e2c-8570-70e8a4fe5d86@suse.de>
- <afc6ba14-cd95-49b9-89f5-e90fd19c8927@collabora.com>
- <a2afbc13-0be6-46ef-a6da-9461fd30376b@collabora.com>
- <126a0b10-a550-430c-a1b3-7e144461a0ff@suse.de>
-Content-Language: en-US
-From: Dmitry Osipenko <dmitry.osipenko@collabora.com>
-In-Reply-To: <126a0b10-a550-430c-a1b3-7e144461a0ff@suse.de>
+Received: from smtpout-03.galae.net (smtpout-03.galae.net [185.246.85.4])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id F213410E2F3
+ for <dri-devel@lists.freedesktop.org>; Tue, 21 Oct 2025 10:31:55 +0000 (UTC)
+Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
+ by smtpout-03.galae.net (Postfix) with ESMTPS id A8AA84E41235;
+ Tue, 21 Oct 2025 10:31:54 +0000 (UTC)
+Received: from mail.galae.net (mail.galae.net [212.83.136.155])
+ by smtpout-01.galae.net (Postfix) with ESMTPS id 6FBD860680;
+ Tue, 21 Oct 2025 10:31:54 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon)
+ with ESMTPSA id 050A6102F238A; 
+ Tue, 21 Oct 2025 12:31:15 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
+ t=1761042712; h=from:subject:date:message-id:to:cc:mime-version:content-type:
+ content-transfer-encoding:in-reply-to:references;
+ bh=YuVVLdxM0un/2EVnLCzvPprS2wmsm9jt4ri10VpX44E=;
+ b=UAKVwMh67iPoBl4NTClw0ksLV00XODy/DIHEJ+Abr2eO5IqpQcehz/93nuSEIk1KNn1Bmg
+ alRZgs0hHh6R//b9Djv11rXnVg0M3E+zSIsxC47sYWAJyGtBqcFsIVJo+s20tNSMGbhOor
+ eyrx4hjsFi7ZY638H2w5XkfJ2MlT/Z227QFyUd5rEkIdAeesvlToC3vmxcoH4ehhF9PII8
+ zbM6HzvGFQmw1YC877GgY3McN5LwDhQmATKGTMlq8UENwmFokLOU0KtyQWXnW3mlO7fJAu
+ j9PCgp7hTfzSMz4K/v7Wh0IGkXn6qFI19aHgSoubt+UeSXbN8tO7oymiMdGsUQ==
+Mime-Version: 1.0
+Content-Transfer-Encoding: quoted-printable
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-ZohoMailClient: External
+Date: Tue, 21 Oct 2025 12:31:11 +0200
+Message-Id: <DDNXIYL494D2.2N8L1J7XTBT4S@bootlin.com>
+Cc: <Laurent.pinchart@ideasonboard.com>, <jonas@kwiboo.se>,
+ <jernej.skrabec@gmail.com>, <maarten.lankhorst@linux.intel.com>,
+ <mripard@kernel.org>, <tzimmermann@suse.de>, <airlied@gmail.com>,
+ <simona@ffwll.ch>, <shawnguo@kernel.org>, <s.hauer@pengutronix.de>,
+ <kernel@pengutronix.de>, <festevam@gmail.com>, <inki.dae@samsung.com>,
+ <sw0312.kim@samsung.com>, <kyungmin.park@samsung.com>, <krzk@kernel.org>,
+ <alim.akhtar@samsung.com>, <jingoohan1@gmail.com>,
+ <p.zabel@pengutronix.de>, <hjc@rock-chips.com>, <heiko@sntech.de>,
+ <andy.yan@rock-chips.com>, <dmitry.baryshkov@oss.qualcomm.com>,
+ <dianders@chromium.org>, <m.szyprowski@samsung.com>,
+ <jani.nikula@intel.com>, <linux-kernel@vger.kernel.org>,
+ <dri-devel@lists.freedesktop.org>, <imx@lists.linux.dev>,
+ <linux-arm-kernel@lists.infradead.org>,
+ <linux-samsung-soc@vger.kernel.org>, <linux-rockchip@lists.infradead.org>
+Subject: Re: [PATCH v7 01/18] drm/display: bridge_connector: Ensure last
+ bridge determines EDID/modes detection capabilities
+From: "Luca Ceresoli" <luca.ceresoli@bootlin.com>
+To: "Damon Ding" <damon.ding@rock-chips.com>, <andrzej.hajda@intel.com>,
+ <neil.armstrong@linaro.org>, <rfoss@kernel.org>
+X-Mailer: aerc 0.20.1
+References: <20251021023130.1523707-1-damon.ding@rock-chips.com>
+ <20251021023130.1523707-2-damon.ding@rock-chips.com>
+In-Reply-To: <20251021023130.1523707-2-damon.ding@rock-chips.com>
+X-Last-TLS-Session-Version: TLSv1.3
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -77,52 +77,94 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 10/21/25 09:39, Thomas Zimmermann wrote:
-> Hi
-> 
-> Am 19.10.25 um 19:10 schrieb Dmitry Osipenko:
->> On 10/17/25 16:58, Dmitry Osipenko wrote:
->>> Hi,
->>>
->>> On 10/17/25 10:38, Thomas Zimmermann wrote:
->>> ...
->>>> There's little difference between the current event handling and the
->>>> one
->>>> where no vblanks have been set up. I suspect that the vblank timer
->>>> callback interferes with the locking in atomic_flush. That would also
->>>> explain why the fps drop at no clear pattern.
->>>>
->>>> Could you please test the attached patch? It enables/disables the
->>>> vblank
->>>> timer depending on the buffer resources; as you suggested before.  Does
->>>> this make a difference?
->>> The attached patch doesn't work, please see the trace below.
->>>
->>> @Vivek Please clarify whether you only see frames drop with your
->>> multi-gpu guest-blob setup or with a usual virgl too. I haven't noticed
->>> problem with frames pacing for virgl and nctx modes yesterday, will
->>> check again.
->> On a second look, I now see that this RFC (not the attached) patch
->> doesn't work properly with host blobs.
->>
->> I'm getting 100-150fps with this patch applied instead of expected
->> 60fps. Without this RFC patch I'm getting constant 60fps with native
->> context displaying host blobs.
->>
->> Not sure why guest blob would behave differently from the host blob.
->> Suspect something if off with the prime sharing that Vivek uses in the
->> vfio testing setup. I'd suggest to disable vblank timer only for guest
->> blobs if no quick solution will be found.
-> 
-> After reading your reply and Vivek's new results, I'm confused now. Does
-> it work or is there another patch needed?
+Hello Damon,
 
-Didn't work for me, apparently worked for Vivek. Got a black screen,
-flashing sometimes, and that error splat.
+On Tue Oct 21, 2025 at 4:31 AM CEST, Damon Ding wrote:
+> When multiple bridges are present, EDID detection capability
+> (DRM_BRIDGE_OP_EDID) takes precedence over modes detection
+> (DRM_BRIDGE_OP_MODES). To ensure the above two capabilities are
+> determined by the last bridge in the chain, we handle three cases:
+>
+> Case 1: The later bridge declares only DRM_BRIDGE_OP_MODES
+>  - If the previous bridge declares DRM_BRIDGE_OP_EDID, set
+>    &drm_bridge_connector.bridge_edid to NULL and set
+>    &drm_bridge_connector.bridge_modes to the later bridge.
+>  - Ensure modes detection capability of the later bridge will not
+>    be ignored.
+>
+> Case 2: The later bridge declares only DRM_BRIDGE_OP_EDID
+>  - If the previous bridge declares DRM_BRIDGE_OP_MODES, set
+>    &drm_bridge_connector.bridge_modes to NULL and set
+>    &drm_bridge_connector.bridge_edid to the later bridge.
+>  - Although EDID detection capability has higher priority, this
+>    operation is for balance and makes sense.
+>
+> Case 3: the later bridge declares both of them
+>  - Assign later bridge as &drm_bridge_connector.bridge_edid and
+>    and &drm_bridge_connector.bridge_modes to this bridge.
+>  - Just leave transfer of these two capabilities as before.
+>
+> Signed-off-by: Damon Ding <damon.ding@rock-chips.com>
+> Suggested-by: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
+> Tested-by: Marek Szyprowski <m.szyprowski@samsung.com>
+>
+> ---
+>
+> Changes in v7:
+> - As Luca suggested, simplify the code and related comment.
+> ---
+>  drivers/gpu/drm/display/drm_bridge_connector.c | 16 ++++++++++++----
+>  1 file changed, 12 insertions(+), 4 deletions(-)
+>
+> diff --git a/drivers/gpu/drm/display/drm_bridge_connector.c b/drivers/gpu=
+/drm/display/drm_bridge_connector.c
+> index baacd21e7341..7c2936d59517 100644
+> --- a/drivers/gpu/drm/display/drm_bridge_connector.c
+> +++ b/drivers/gpu/drm/display/drm_bridge_connector.c
+> @@ -673,14 +673,22 @@ struct drm_connector *drm_bridge_connector_init(str=
+uct drm_device *drm,
+>  		if (!bridge->ycbcr_420_allowed)
+>  			connector->ycbcr_420_allowed =3D false;
+>
+> -		if (bridge->ops & DRM_BRIDGE_OP_EDID)
+> -			bridge_connector->bridge_edid =3D bridge;
+> +		/*
+> +		 * Ensure the last bridge declares OP_EDID or OP_MODES or both.
+> +		 */
+> +		if (bridge->ops & DRM_BRIDGE_OP_EDID || bridge->ops & DRM_BRIDGE_OP_MO=
+DES) {
+> +			bridge_connector->bridge_edid =3D NULL;
+> +			bridge_connector->bridge_modes =3D NULL;
+> +			if (bridge->ops & DRM_BRIDGE_OP_EDID)
+> +				bridge_connector->bridge_edid =3D bridge;
+> +			if (bridge->ops & DRM_BRIDGE_OP_MODES)
+> +				bridge_connector->bridge_modes =3D bridge;
+> +		}
+>  		if (bridge->ops & DRM_BRIDGE_OP_HPD)
+>  			bridge_connector->bridge_hpd =3D bridge;
+>  		if (bridge->ops & DRM_BRIDGE_OP_DETECT)
+>  			bridge_connector->bridge_detect =3D bridge;
+> -		if (bridge->ops & DRM_BRIDGE_OP_MODES)
+> -			bridge_connector->bridge_modes =3D bridge;
+> +
 
-Now realized that I only tested with enabled virgl 3d context, while in
-Vivek's case 3d is disabled. Will test further.
+This does not apply on current drm-misc-next, due to the patch I mentioned
+in a previous iteration, now applied as commit 2be300f9a0b6 ("drm/display:
+bridge_connector: get/put the stored bridges").
 
--- 
-Best regards,
-Dmitry
+However I'm sorry I have to mention that patch turned out being buggy, so
+I've sent a series to apply a corrected version [0]. I suggest watching the
+disucssion about the fix series, and if that gets approved rebase on top of
+that and adapt your changes.
+
+Sorry about the mess. :(
+
+[0] https://lore.kernel.org/r/20251017-drm-bridge-alloc-getput-bridge-conne=
+ctor-fix-hdmi_cec-v2-0-667abf6d47c0@bootlin.com
+
+Luca
+
+--
+Luca Ceresoli, Bootlin
+Embedded Linux and Kernel engineering
+https://bootlin.com
