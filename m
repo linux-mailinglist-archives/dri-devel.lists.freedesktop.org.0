@@ -2,114 +2,102 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C31C7BF57CE
-	for <lists+dri-devel@lfdr.de>; Tue, 21 Oct 2025 11:25:33 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id A26FEBF57EE
+	for <lists+dri-devel@lfdr.de>; Tue, 21 Oct 2025 11:27:22 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CFE4010E270;
-	Tue, 21 Oct 2025 09:25:28 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0741510E2DA;
+	Tue, 21 Oct 2025 09:27:20 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="ES1sGkVm";
+	dkim=pass (1024-bit key; secure) header.d=ffwll.ch header.i=@ffwll.ch header.b="G1ND2LyR";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
- [205.220.168.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4078610E270
- for <dri-devel@lists.freedesktop.org>; Tue, 21 Oct 2025 09:25:27 +0000 (UTC)
-Received: from pps.filterd (m0279863.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 59L8CBJX020555
- for <dri-devel@lists.freedesktop.org>; Tue, 21 Oct 2025 09:25:26 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
- cc:content-transfer-encoding:content-type:date:from:in-reply-to
- :message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
- 7nW2A2/Sdl+uA+0oNeIno2lzJVyfIo1jiDtXonqrUVg=; b=ES1sGkVmOXmoUqoZ
- BOuZXLEhjrmlGaBzUy8AfJwTkfgGwKDnyMlKODA5J+pPwIq6ttrAnb+efE9FZnyl
- AbVrs5C4+eWw/NoYx07MwKlhX9jeYCyR2n9eF9OVUEDyLeC2uWphjjC5EX8iUqi6
- ousMS/JP8RgDJgA19wWwd/aTAi3ghIwwyNyN+Aaz9aciUp5tIjxeqe6VyJEygfY3
- xpFrMyA2irDJMX7PbcTrW8D88xapHmuaVcizKtxcrIa/DifJMDplaWczqRX1G2T1
- H+es4mfT37LmDV75bV9Oww1vYS5wQtm76vnq3DSfHfJ/0LsIoj8dpsNmeF2JKR4X
- yaIfbQ==
-Received: from mail-qv1-f69.google.com (mail-qv1-f69.google.com
- [209.85.219.69])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 49v34405k2-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
- for <dri-devel@lists.freedesktop.org>; Tue, 21 Oct 2025 09:25:26 +0000 (GMT)
-Received: by mail-qv1-f69.google.com with SMTP id
- 6a1803df08f44-87c1d388a94so18654016d6.1
- for <dri-devel@lists.freedesktop.org>; Tue, 21 Oct 2025 02:25:26 -0700 (PDT)
+Received: from mail-ej1-f53.google.com (mail-ej1-f53.google.com
+ [209.85.218.53])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7B20A10E2DA
+ for <dri-devel@lists.freedesktop.org>; Tue, 21 Oct 2025 09:27:18 +0000 (UTC)
+Received: by mail-ej1-f53.google.com with SMTP id
+ a640c23a62f3a-b64cdbb949cso873798766b.1
+ for <dri-devel@lists.freedesktop.org>; Tue, 21 Oct 2025 02:27:18 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=ffwll.ch; s=google; t=1761038837; x=1761643637; darn=lists.freedesktop.org; 
+ h=in-reply-to:content-disposition:mime-version:references
+ :mail-followup-to:message-id:subject:cc:to:from:date:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=8fiak3iwfikjarVQ22RTf8mHmUiPs3Zv+6ZrupgeqTg=;
+ b=G1ND2LyRhRU28FbS0OMfbps+WhWi6hHtFjYYlZ6xJPz3MxFsB7HV8sqT52LIJDxqB7
+ L4FitnZ/DEKnpxUpMW2YWeAVp1OE5UU1gmKUbwOcKwUBb15SdDw5LXC/bkBKA1QnC3CY
+ UEOtKwPXv9xuPgCgdlkj72vqKSpuZcj3BF35M=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1761038712; x=1761643512;
- h=content-transfer-encoding:in-reply-to:from:content-language
- :references:cc:to:subject:user-agent:mime-version:date:message-id
+ d=1e100.net; s=20230601; t=1761038837; x=1761643637;
+ h=in-reply-to:content-disposition:mime-version:references
+ :mail-followup-to:message-id:subject:cc:to:from:date
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=7nW2A2/Sdl+uA+0oNeIno2lzJVyfIo1jiDtXonqrUVg=;
- b=BD9dJU5koWhJVMNKa4C42GA+p+CtRAuQvE5x/4HdM7ZZMJ5qtwfG1kGT69MRuThZEm
- Xk0c1uMB57aIzzL4vPi5qINXbAt/LNIw0PNwoyMZK1LF+8VhHFJZcfZ0t7OUfK44ykAp
- sq0SiAQNclqtUZsd6F+LcZIoz+V5AL6+HePE7OdsJiQkJnptmyjd7VLtddXCzyrQsePG
- Cbrc4iIvrfIRaxOifUN/euKFmhAe30O/Rx1KjLMrF0FLP8LTb+KM2ZRsgxT9YPEGvpTi
- XTRdtWdRQFE/Yn+cTWUTqn42Pc4/7sG9Be4GVMdOcGj7EuJVoTgRHT8toVcsGu8Z/s2H
- DwSA==
+ bh=8fiak3iwfikjarVQ22RTf8mHmUiPs3Zv+6ZrupgeqTg=;
+ b=rsaqL/tyyZp8RUUy6FP1eEtrjxsJfRCoCtvUUl7ckQRp7OH3hvM5GCQL90Q5lfIc6t
+ ekZUwTlutHHPIvU1AqvegSeQdbXTb6dgnBrR9A1V3FP7XNaanWxWnK0WtGtkKOrV+Uup
+ ngmPDAXm4d0pE08WE1xh5hQYHhLGOZVDyVF6XdxHm4nm7XMb7JkdMNOXTPHTvegUtEP5
+ +rTq50iN+u9vzLkk21WogJueDWm8QvlDwVFu6ngknuCJHuYYtYgEW06OQD9rq5aB9ijd
+ e+Oe6nrzGyIhG0WvJ1ZmvBTuNJn9J/FqudV0y0+IpksR8b1Pk47VEjdbWY3FfLtI8eD7
+ 4zrA==
 X-Forwarded-Encrypted: i=1;
- AJvYcCXAFd3m1kDuUqTr6XGvIjEIOW94i+J+Yp/7YZwnhQQ9wLTSx7oRTdT9a3AHV6MCS2t8mlA915yIl0c=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YzFcxkJ9oV/iEpqUEQ5lS8CuZNs9BCiYUD/MU0mT6wV7cqARSlP
- 9es8su1xCbTz39OE4BjIUA8Lu0LV4Rls92h50U5Fkah6knou6Ic047OAdoYmvHEzJ7NoamRoFFu
- GPz8R9EoznHk4XXvknsgLPfWXd4yyVjk2KyBDAAWPWmxXbbaxrLG3GF7kNCrAZOhqO7ivNjU=
-X-Gm-Gg: ASbGncsF1VkA8BuQmU9BH4Ctx7aWt58tqfZKKLqbC7S5vu/jiqJO+ei/SUYN5t7Goau
- B9ppT7y7V+hYYgHc70k/+pGJI9tds3Dbj1iQh0VXHr2TXOxkfAqUMqdYqZaNNvccmlMQ9udOxez
- Q55usg4Xb4sIRsLE9TOkomm+K7FqLu2H/1Acg+M6wsleBP7h9/WEaox6Po6/3JFb7iDa3ReXK0x
- YIGY9nLyU33cGCNYahAwis0Z9wAE3cNA5qCgiymFpsEtjG9CRL8o1N1M/pwjbaySjCmWgpi/jRf
- V0z577WHCzFPkChr6TkJ82k83JrgIHel2t7X4ozeJ0+SwX5Hx/7YMd5YuJFHX5tcikmpiIcjTk0
- wsTCjcuoGaGHcWrL+9Gte46LOqNiOZejykauMkOigrReEZFpwQOvXeqMP
-X-Received: by 2002:a05:622a:4c7:b0:4e8:9bf5:5ecd with SMTP id
- d75a77b69052e-4ea1168541bmr18751971cf.1.1761038711965; 
- Tue, 21 Oct 2025 02:25:11 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IHk59Wq45eSmY+tGWqEQNxDk//11cZC7q1beswb65jhbWLCg1ETbu+zF69qDRXnYYMyGb4j9A==
-X-Received: by 2002:a05:622a:4c7:b0:4e8:9bf5:5ecd with SMTP id
- d75a77b69052e-4ea1168541bmr18751761cf.1.1761038711453; 
- Tue, 21 Oct 2025 02:25:11 -0700 (PDT)
-Received: from [192.168.119.202] (078088045245.garwolin.vectranet.pl.
- [78.88.45.245]) by smtp.gmail.com with ESMTPSA id
- a640c23a62f3a-b65eb03671csm1014961166b.38.2025.10.21.02.25.10
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 21 Oct 2025 02:25:10 -0700 (PDT)
-Message-ID: <5569198e-5548-48f7-b64e-b7574ea59691@oss.qualcomm.com>
-Date: Tue, 21 Oct 2025 11:25:09 +0200
+ AJvYcCUA/oEk/2daihdyWf3n8l3p6Rx0UcK8cKzYUBd+h4o0ZOH1Y3fsSQgoA3LTyE0o4wecNEx5P378Pkc=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Yw+9WOqQVu4aRfe/KxDcbbi1NgeacKBES9mnP4jm5mA7XX+H3qI
+ 8XKe0iOwy59zcUOhAYfHP8JVuVTTvG/dGhzdirBvWW7wlJbvy6F6b/QbhYyvLeN3w0w=
+X-Gm-Gg: ASbGncs+gDa4Gcw02FwziX1wfsT1cEZU5Xny03hzh6gorL+QMYlT82e+gb3kocvgk6z
+ mbBqHmXsDqlwAwvcSkf2w1IGcQpDY+JJIfoRXaDeqDsrfEtteoCqnRBO2M/wCBdCKbzMi5bBRhi
+ eQq3uMnuvKV4zv4JhVWWd1znPU+I0UyYe/oITVMzdxxe3xtqn+NE3NIsQpl0qwRZICfggv5AJq4
+ hatZExdAiuLCZRD0fL6hujXPIlNUouphbFphe1E7JSUj5+m87kIPBYL27P3Ptx9REDrIFq7C0wK
+ dRm1/MVZtHNzVGPAwsvuwgFIFCSkFOrZm8y23BC6P9gLM3f404UxqtR2QJSZPjPPekylxgNGHjK
+ pwrjNjDjtFuC9KQS2lEkHrmM/vwzdNzV24WpTIPPXTGnGfggVIRKmZ2/SzfZxXTZxv148Tx71Oz
+ XRHWmIrw7DmWmiPDnc6X7MNKD4SRTjXvUU
+X-Google-Smtp-Source: AGHT+IFm/KoayqzspHd8mI9RnV0dy/J2zGNTNE3AaiHK0wTHFJ8JnK4adD4zkjoh9BLc4aS8jUaUfw==
+X-Received: by 2002:a17:907:d08:b0:b60:18d5:429a with SMTP id
+ a640c23a62f3a-b647323fac1mr1812094666b.22.1761038836822; 
+ Tue, 21 Oct 2025 02:27:16 -0700 (PDT)
+Received: from phenom.ffwll.local ([2a02:168:57f4:0:5485:d4b2:c087:b497])
+ by smtp.gmail.com with ESMTPSA id
+ a640c23a62f3a-b65e896f904sm1044786866b.35.2025.10.21.02.27.15
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 21 Oct 2025 02:27:16 -0700 (PDT)
+Date: Tue, 21 Oct 2025 11:27:14 +0200
+From: Simona Vetter <simona.vetter@ffwll.ch>
+To: Maxime Ripard <mripard@kernel.org>
+Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Andrzej Hajda <andrzej.hajda@intel.com>,
+ Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Jyri Sarha <jyri.sarha@iki.fi>,
+ Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
+ Devarsh Thakkar <devarsht@ti.com>, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 13/29] drm/atomic_helper: Compare actual and readout
+ states once the commit is done
+Message-ID: <aPdR8g53oqJlHmYa@phenom.ffwll.local>
+Mail-Followup-To: Maxime Ripard <mripard@kernel.org>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Andrzej Hajda <andrzej.hajda@intel.com>,
+ Neil Armstrong <neil.armstrong@linaro.org>,
+ Robert Foss <rfoss@kernel.org>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Jonas Karlman <jonas@kwiboo.se>,
+ Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Jyri Sarha <jyri.sarha@iki.fi>,
+ Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
+ Devarsh Thakkar <devarsht@ti.com>, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org
+References: <20250902-drm-state-readout-v1-0-14ad5315da3f@kernel.org>
+ <20250902-drm-state-readout-v1-13-14ad5315da3f@kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] backlight: qcom-wled: fix unbalanced ovp irq enable
-To: foss@joelselvaraj.com, Lee Jones <lee@kernel.org>,
- Daniel Thompson <danielt@kernel.org>,
- Jingoo Han <jingoohan1@gmail.com>, Helge Deller <deller@gmx.de>
-Cc: linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org,
- linux-fbdev@vger.kernel.org, linux-kernel@vger.kernel.org
-References: <20251021-qcom-wled-fix-unbalanced-ovp-irq-enable-v1-1-edd304d165a5@joelselvaraj.com>
-Content-Language: en-US
-From: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
-In-Reply-To: <20251021-qcom-wled-fix-unbalanced-ovp-irq-enable-v1-1-edd304d165a5@joelselvaraj.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Proofpoint-GUID: t5bhTcRcX7UOas6YFBpHWNLzCmTK0juW
-X-Proofpoint-ORIG-GUID: t5bhTcRcX7UOas6YFBpHWNLzCmTK0juW
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUxMDE4MDAyMyBTYWx0ZWRfX+o0HjPys8CVQ
- /jgaJU2nBqXW7/zKAMiFxBKDH59ZMiAF3PEaAGQW+Jn49MCx09hn2EKcR+8w/NnXH8J6NjatNUB
- mFrlnoDQd/cx0WaxH29X1lOLi+BLJElY+1+Jroui99Sdt8CWrEjOlgxOF48DNxgvxPnblHTxwFY
- dOMgswE9RSumit1CyqcbmwNzaqzOd086gDK8VwDe44aQdDv7xZlIKQdYmv6gVoA4YcQp7P6F5By
- JX76WfQHvz0mRCPgzM//MXxRXCArU6eMbC6ot2pqjhjOSjTFI+tkSq6f4tOhwFd2wwNvv7uWvwl
- 4FPGtQN4UeYDmJcVFNyvugSjOOZAlygF01tBe8+1n7yXdobaLA1qAfoarpv8qWHl7KUhpDTlPwk
- myW51g/IEqPidVVfkyVkikN4qdo/5w==
-X-Authority-Analysis: v=2.4 cv=E/vAZKdl c=1 sm=1 tr=0 ts=68f75186 cx=c_pps
- a=wEM5vcRIz55oU/E2lInRtA==:117 a=FpWmc02/iXfjRdCD7H54yg==:17
- a=IkcTkHD0fZMA:10 a=x6icFKpwvdMA:10 a=VkNPw1HP01LnGYTKEx00:22
- a=WFa1dZBpAAAA:8 a=6r-yMKpJyw27a2n3RXYA:9 a=QEXdDO2ut3YA:10
- a=OIgjcC2v60KrkQgK7BGD:22 a=MZguhEFr_PtxzKXayD1K:22
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.9,FMLib:17.12.80.40
- definitions=2025-10-20_07,2025-10-13_01,2025-03-28_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- impostorscore=0 spamscore=0 priorityscore=1501 bulkscore=0 suspectscore=0
- lowpriorityscore=0 clxscore=1015 adultscore=0 phishscore=0 malwarescore=0
- classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.19.0-2510020000 definitions=main-2510180023
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250902-drm-state-readout-v1-13-14ad5315da3f@kernel.org>
+X-Operating-System: Linux phenom 6.12.38+deb13-amd64 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -125,68 +113,334 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 10/21/25 9:33 AM, Joel Selvaraj via B4 Relay wrote:
-> From: Joel Selvaraj <foss@joelselvaraj.com>
+On Tue, Sep 02, 2025 at 10:32:41AM +0200, Maxime Ripard wrote:
+> The new atomic state readout infrastructure can be hard to test because
+> getting access to every firmware variation is hard, but also because
+> most firmware setup will be pretty basic and won't test a wide range of
+> features. Noticing whether it was sucessful or not is also not very
+> convenient.
 > 
-> In Xiaomi Poco F1 and at least few other devices, the qcom wled driver
-> triggers unbalanced ovp irq enable warning like the following during
-> boot up.
+> In order to make it easier, we can however provide some infrastructure
+> to read out a new state every time a non-blocking commit is made, and
+> compare the readout one with the committed one. And since we do this
+> only on non-blocking commits, the time penalty doesn't matter.
 > 
-> [    1.151677] ------------[ cut here ]------------
-> [    1.151680] Unbalanced enable for IRQ 176
-> [    1.151693] WARNING: CPU: 0 PID: 160 at kernel/irq/manage.c:774 __enable_irq+0x50/0x80
-> [    1.151710] Modules linked in:
-> [    1.151717] CPU: 0 PID: 160 Comm: kworker/0:11 Not tainted 5.17.0-sdm845 #4
-> [    1.151724] Hardware name: Xiaomi Pocophone F1 (DT)
-> [    1.151728] Workqueue: events wled_ovp_work
-> ...<snip>...
-> [    1.151833] Call trace:
-> [    1.151836]  __enable_irq+0x50/0x80
-> [    1.151841]  enable_irq+0x48/0xa0
-> [    1.151846]  wled_ovp_work+0x18/0x24
-> [    1.151850]  process_one_work+0x1d0/0x350
-> [    1.151858]  worker_thread+0x13c/0x460
-> [    1.151862]  kthread+0x110/0x114
-> [    1.151868]  ret_from_fork+0x10/0x20
-> [    1.151876] ---[ end trace 0000000000000000 ]---
+> To do so, we introduce a new hook for every state, atomic_compare_state,
+> that takes two state instances and is supposed to return whether they
+> are identical or not.
 > 
-> Fix it by storing and checking the state of ovp irq before enabling and
-> disabling it.
-> 
-> Signed-off-by: Joel Selvaraj <foss@joelselvaraj.com>
+> Signed-off-by: Maxime Ripard <mripard@kernel.org>
 > ---
-> I am not entirely sure if this is the ideal fix. But this patch provides
-> an okayish stopgap solution till we can properly fix it. I am open to 
-> try a different approach if there is any suggestion.
-> ---
->  drivers/video/backlight/qcom-wled.c | 15 ++++++++++++---
->  1 file changed, 12 insertions(+), 3 deletions(-)
+>  drivers/gpu/drm/drm_atomic_helper.c | 113 ++++++++++++++++++++++++++++++++++++
+>  include/drm/drm_atomic.h            |  14 +++++
+>  include/drm/drm_bridge.h            |  14 +++++
+>  include/drm/drm_connector.h         |  14 +++++
+>  include/drm/drm_crtc.h              |  14 +++++
+>  include/drm/drm_plane.h             |  14 +++++
+>  6 files changed, 183 insertions(+)
 > 
-> diff --git a/drivers/video/backlight/qcom-wled.c b/drivers/video/backlight/qcom-wled.c
-> index a63bb42c8f8b0333cd6d0ddc5bda93916da3fef3..36e2fe5c5fa37cfb8750254a75eff612741983c8 100644
-> --- a/drivers/video/backlight/qcom-wled.c
-> +++ b/drivers/video/backlight/qcom-wled.c
-> @@ -197,6 +197,7 @@ struct wled {
->  	bool disabled_by_short;
->  	bool has_short_detect;
->  	bool cabc_disabled;
-> +	bool ovp_irq_disabled;
-
-This is generally "..irq_enabled"
-
->  	int short_irq;
->  	int ovp_irq;
+> diff --git a/drivers/gpu/drm/drm_atomic_helper.c b/drivers/gpu/drm/drm_atomic_helper.c
+> index 14d9bc282ca570964e494936090898b2dc6bee31..aa8f52b5d5a5e6146a6472eebaf02e675c35ccd2 100644
+> --- a/drivers/gpu/drm/drm_atomic_helper.c
+> +++ b/drivers/gpu/drm/drm_atomic_helper.c
+> @@ -428,10 +428,120 @@ void drm_atomic_helper_readout_state(struct drm_device *dev)
+>  	drm_atomic_helper_install_readout_state(state);
+>  	drm_atomic_state_put(state);
+>  }
+>  EXPORT_SYMBOL(drm_atomic_helper_readout_state);
 >  
-> @@ -294,7 +295,10 @@ static void wled_ovp_work(struct work_struct *work)
+> +static bool drm_atomic_helper_readout_compare(struct drm_atomic_state *committed_state)
+> +{
+> +	struct drm_device *dev = committed_state->dev;
+> +	struct drm_printer p = drm_err_printer(dev, NULL);
+> +	struct drm_private_state *new_obj_state;
+> +	struct drm_private_obj *obj;
+> +	struct drm_plane_state *new_plane_state;
+> +	struct drm_plane *plane;
+> +	struct drm_crtc_state *new_crtc_state;
+> +	struct drm_crtc *crtc;
+> +	struct drm_connector_state *new_conn_state;
+> +	struct drm_connector *conn;
+> +	struct drm_atomic_state *readout_state;
+> +	unsigned int i;
+> +	bool identical = true;
+> +
+> +	readout_state = drm_atomic_build_readout_state(dev);
+> +	if (WARN_ON(IS_ERR(readout_state)))
+> +		return false;
+> +
+> +	for_each_new_plane_in_state(committed_state, plane, new_plane_state, i) {
+> +		const struct drm_plane_funcs *plane_funcs =
+> +			plane->funcs;
+> +		struct drm_plane_state *readout_plane_state;
+> +
+> +		readout_plane_state = drm_atomic_get_old_plane_state(readout_state, plane);
+> +		if (!readout_plane_state) {
+> +			identical = false;
+> +			continue;
+> +		}
+> +
+> +		if (!plane_funcs->atomic_compare_state)
+> +			continue;
+> +
+> +		if (!plane_funcs->atomic_compare_state(plane, &p, new_plane_state, readout_plane_state)) {
+> +			drm_warn(dev, "[PLANE:%d:%s] Committed and Readout PLANE state don't match\n",
+> +				 plane->base.id, plane->name);
+> +			identical = false;
+> +			continue;
+> +		}
+> +	}
+> +
+> +	for_each_new_crtc_in_state(committed_state, crtc, new_crtc_state, i) {
+> +		const struct drm_crtc_funcs *crtc_funcs = crtc->funcs;
+> +		struct drm_crtc_state *readout_crtc_state;
+> +
+> +		readout_crtc_state = drm_atomic_get_old_crtc_state(readout_state, crtc);
+> +		if (!readout_crtc_state) {
+> +			identical = false;
+> +			continue;
+> +		}
+> +
+> +		if (!crtc_funcs->atomic_compare_state)
+> +			continue;
+> +
+> +		if (!crtc_funcs->atomic_compare_state(crtc, &p, new_crtc_state, readout_crtc_state)) {
+> +			drm_warn(dev, "[CRTC:%d:%s] Committed and Readout CRTC state don't match\n",
+> +				 crtc->base.id, crtc->name);
+> +			identical = false;
+> +			continue;
+> +		}
+> +	}
+> +
+> +	for_each_new_connector_in_state(committed_state, conn, new_conn_state, i) {
+> +		const struct drm_connector_funcs *conn_funcs =
+> +			conn->funcs;
+> +		struct drm_connector_state *readout_conn_state;
+> +
+> +		readout_conn_state = drm_atomic_get_old_connector_state(readout_state, conn);
+> +		if (!readout_conn_state) {
+> +			identical = false;
+> +			continue;
+> +		}
+> +
+> +		if (!conn_funcs->atomic_compare_state)
+> +			continue;
+> +
+> +		if (!conn_funcs->atomic_compare_state(conn, &p, new_conn_state, readout_conn_state)) {
+> +			drm_warn(dev, "[CONNECTOR:%d:%s] Committed and Readout connector state don't match\n",
+> +				 conn->base.id, conn->name);
+> +			identical = false;
+> +			continue;
+> +		}
+> +	}
+> +
+> +	for_each_new_private_obj_in_state(committed_state, obj, new_obj_state, i) {
+> +		const struct drm_private_state_funcs *obj_funcs = obj->funcs;
+> +		struct drm_private_state *readout_obj_state;
+> +
+> +		readout_obj_state = drm_atomic_get_old_private_obj_state(readout_state, obj);
+> +		if (!readout_obj_state) {
+> +			identical = false;
+> +			continue;
+> +		}
+> +
+> +		if (!obj_funcs->atomic_compare_state)
+> +			continue;
+> +
+> +		if (!obj_funcs->atomic_compare_state(obj, &p, new_obj_state, readout_obj_state)) {
+> +			drm_warn(dev, "Committed and Readout private object state don't match\n");
+> +			identical = false;
+> +			continue;
+> +		}
+> +	}
+> +
+> +	drm_atomic_state_put(readout_state);
+> +
+> +	return identical;
+> +}
+> +
+>  /**
+>   * DOC: overview
+>   *
+>   * This helper library provides implementations of check and commit functions on
+>   * top of the CRTC modeset helper callbacks and the plane helper callbacks. It
+> @@ -2382,10 +2492,13 @@ static void commit_tail(struct drm_atomic_state *state, bool nonblock)
+>  						 (unsigned long)commit_time_ms,
+>  						 new_self_refresh_mask);
+>  
+>  	drm_atomic_helper_commit_cleanup_done(state);
+>  
+
+Over the w/e I've had a bit a panic about GFP_KERNEL allocations in the
+readout code and how that's a problem if it's in the fence critical path.
+But you've already implemented the same solution I've come up with (and
+also what I've come up with for i915 way back), so all good.
+
+I think a comment to explain why we can only do this after all the
+completion signalling has been done but while we still hold all the
+modeset locks, and how this check achieves that, would be great here.
+
+Cheers, Sima
+
+> +	if (!nonblock)
+> +		drm_atomic_helper_readout_compare(state);
+> +
+>  	drm_atomic_state_put(state);
+>  }
+>  
+>  static void commit_work(struct work_struct *work)
 >  {
->  	struct wled *wled = container_of(work,
->  					 struct wled, ovp_work.work);
-> -	enable_irq(wled->ovp_irq);
-> +	if (wled->ovp_irq_disabled) {
-> +		enable_irq(wled->ovp_irq);
-> +		wled->ovp_irq_disabled = false;
+> diff --git a/include/drm/drm_atomic.h b/include/drm/drm_atomic.h
+> index f13f926d21047e42bb9ac692c2dd4b88f2ebd91c..d75a9c7e23adf7fa264df766b47526f75e9cc753 100644
+> --- a/include/drm/drm_atomic.h
+> +++ b/include/drm/drm_atomic.h
+> @@ -226,10 +226,24 @@ struct drm_private_state_funcs {
+>  	 * Frees the private object state created with @atomic_duplicate_state.
+>  	 */
+>  	void (*atomic_destroy_state)(struct drm_private_obj *obj,
+>  				     struct drm_private_state *state);
+>  
+> +	/**
+> +	 * @atomic_compare_state
+> +	 *
+> +	 * Compares two &struct drm_private_state instances.
+> +	 *
+> +	 * RETURNS:
+> +	 *
+> +	 * True if the states are identical, false otherwise.
+> +	 */
+> +	bool (*atomic_compare_state)(struct drm_private_obj *obj,
+> +				     struct drm_printer *p,
+> +				     struct drm_private_state *a,
+> +				     struct drm_private_state *b);
+> +
+>  	/**
+>  	 * @atomic_print_state:
+>  	 *
+>  	 * If driver subclasses &struct drm_private_state, it should implement
+>  	 * this optional hook for printing additional driver specific state.
+> diff --git a/include/drm/drm_bridge.h b/include/drm/drm_bridge.h
+> index 15b63053f01869786831936ba28b7efc1e55e2e8..5ea63b51a4dd4cb00468afcf7d126c774f63ade0 100644
+> --- a/include/drm/drm_bridge.h
+> +++ b/include/drm/drm_bridge.h
+> @@ -511,10 +511,24 @@ struct drm_bridge_funcs {
+>  	int (*atomic_readout_state)(struct drm_bridge *bridge,
+>  				    struct drm_bridge_state *bridge_state,
+>  				    struct drm_crtc_state *crtc_state,
+>  				    struct drm_connector_state *conn_state);
+>  
+> +	/**
+> +	 * @atomic_compare_state
+> +	 *
+> +	 * Compares two &struct drm_bridge_state instances.
+> +	 *
+> +	 * RETURNS:
+> +	 *
+> +	 * True if the states are identical, false otherwise.
+> +	 */
+> +	bool (*atomic_compare_state)(struct drm_bridge *bridge,
+> +				     struct drm_printer *p,
+> +				     struct drm_bridge_state *a,
+> +				     struct drm_bridge_state *b);
+> +
+>  	/**
+>  	 * @atomic_duplicate_state:
+>  	 *
+>  	 * Duplicate the current bridge state object (which is guaranteed to be
+>  	 * non-NULL).
+> diff --git a/include/drm/drm_connector.h b/include/drm/drm_connector.h
+> index f68bd9627c085c6d2463b847aaa245ccc651f27b..dc2c77b04df9010cbfb2028de8ef8c747003c489 100644
+> --- a/include/drm/drm_connector.h
+> +++ b/include/drm/drm_connector.h
+> @@ -1534,10 +1534,24 @@ struct drm_connector_funcs {
+>  	 * This callback is mandatory for atomic drivers.
+>  	 */
+>  	void (*atomic_destroy_state)(struct drm_connector *connector,
+>  				     struct drm_connector_state *state);
+>  
+> +	/**
+> +	 * @atomic_compare_state
+> +	 *
+> +	 * Compares two &struct drm_connector_state instances.
+> +	 *
+> +	 * RETURNS:
+> +	 *
+> +	 * True if the states are identical, false otherwise.
+> +	 */
+> +	bool (*atomic_compare_state)(struct drm_connector *connector,
+> +				     struct drm_printer *p,
+> +				     struct drm_connector_state *a,
+> +				     struct drm_connector_state *b);
+> +
+>  	/**
+>  	 * @atomic_set_property:
+>  	 *
+>  	 * Decode a driver-private property value and store the decoded value
+>  	 * into the passed-in state structure. Since the atomic core decodes all
+> diff --git a/include/drm/drm_crtc.h b/include/drm/drm_crtc.h
+> index 11e3299cfad1572c6e507918c7cceae7a28ba4cf..21c20ecdda40f3d155d3c140e06b3801270f5262 100644
+> --- a/include/drm/drm_crtc.h
+> +++ b/include/drm/drm_crtc.h
+> @@ -676,10 +676,24 @@ struct drm_crtc_funcs {
+>  	 * This callback is mandatory for atomic drivers.
+>  	 */
+>  	void (*atomic_destroy_state)(struct drm_crtc *crtc,
+>  				     struct drm_crtc_state *state);
+>  
+> +	/**
+> +	 * @atomic_compare_state
+> +	 *
+> +	 * Compares two &struct drm_crtc_state instances.
+> +	 *
+> +	 * RETURNS:
+> +	 *
+> +	 * True if the states are identical, false otherwise.
+> +	 */
+> +	bool (*atomic_compare_state)(struct drm_crtc *crtc,
+> +				     struct drm_printer *p,
+> +				     struct drm_crtc_state *a,
+> +				     struct drm_crtc_state *b);
+> +
+>  	/**
+>  	 * @atomic_set_property:
+>  	 *
+>  	 * Decode a driver-private property value and store the decoded value
+>  	 * into the passed-in state structure. Since the atomic core decodes all
+> diff --git a/include/drm/drm_plane.h b/include/drm/drm_plane.h
+> index 691a267c857a228f674ef02a63fb6d1ff9e379a8..c24c10ccc8e8f2ba23e77e279aef61ae86e320c7 100644
+> --- a/include/drm/drm_plane.h
+> +++ b/include/drm/drm_plane.h
+> @@ -449,10 +449,24 @@ struct drm_plane_funcs {
+>  	 * This callback is mandatory for atomic drivers.
+>  	 */
+>  	void (*atomic_destroy_state)(struct drm_plane *plane,
+>  				     struct drm_plane_state *state);
+>  
+> +	/**
+> +	 * @atomic_compare_state
+> +	 *
+> +	 * Compares two &struct drm_plane_state instances.
+> +	 *
+> +	 * RETURNS:
+> +	 *
+> +	 * True if the states are identical, false otherwise.
+> +	 */
+> +	bool (*atomic_compare_state)(struct drm_plane *plane,
+> +				     struct drm_printer *p,
+> +				     struct drm_plane_state *a,
+> +				     struct drm_plane_state *b);
+> +
+>  	/**
+>  	 * @atomic_set_property:
+>  	 *
+>  	 * Decode a driver-private property value and store the decoded value
+>  	 * into the passed-in state structure. Since the atomic core decodes all
+> 
+> -- 
+> 2.50.1
+> 
 
-You can also create a short wrapper like ovp_irq_enable() that would do
-it internally (making it harder to overlook assigning this variable)
-
-Konrad
+-- 
+Simona Vetter
+Software Engineer
+http://blog.ffwll.ch
