@@ -2,75 +2,80 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0C965BF47D8
-	for <lists+dri-devel@lfdr.de>; Tue, 21 Oct 2025 05:18:39 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id D55C0BF495B
+	for <lists+dri-devel@lfdr.de>; Tue, 21 Oct 2025 06:20:51 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 34FC610E56B;
-	Tue, 21 Oct 2025 03:18:36 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B675C10E099;
+	Tue, 21 Oct 2025 04:20:48 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="DUi8bbyu";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="Ag+zbiic";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B5A3E10E144;
- Tue, 21 Oct 2025 03:18:29 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by tor.source.kernel.org (Postfix) with ESMTP id 2753F62269;
- Tue, 21 Oct 2025 03:18:29 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 4EC5FC4AF0C;
- Tue, 21 Oct 2025 03:18:28 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1761016708;
- bh=twQe4lNSb8Ip4QtBohU/pM2tdRR+fK+3N/4cynHxS1A=;
- h=From:Date:Subject:References:In-Reply-To:To:Cc:Reply-To:From;
- b=DUi8bbyugDPApBKo4y/pHdOSqo1lb4rLfA/XGHeK6EtIHzqnMRf8249bb5YgOj83/
- gM1qoOuFgQN7aXntv1AOnOdslf6duDH93+x1xW5w8BkaCcfJuprnyq+CoO3XfoxTSo
- 1uWM7P0BFMeqklM+AhF4AgAJSvJA5eoUCRchcEUitVcqTi4CzX0emK4kjrlCBsjE+w
- DrBQP7YllEImZ1NXCwb1zil3ttjZJM4TK+nKrOeEjyPWPkI++vlTYamUDRWrC38kEx
- lnISuxGAnCKfxrc0WgtYZF9o2rX381PiGC4zpjbYxg08eGGcL2iWjvQYuJORrCRR1S
- 1QxjJUIvRzQkA==
-Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org
- (localhost.localdomain [127.0.0.1])
- by smtp.lore.kernel.org (Postfix) with ESMTP id 40184CCD1AF;
- Tue, 21 Oct 2025 03:18:28 +0000 (UTC)
-From: Xiangxu Yin via B4 Relay
- <devnull+xiangxu.yin.oss.qualcomm.com@kernel.org>
-Date: Tue, 21 Oct 2025 11:18:09 +0800
-Subject: [PATCH v5 3/3] arm64: dts: qcom: qcs615-ride: Enable DisplayPort
+Received: from mail-pg1-f170.google.com (mail-pg1-f170.google.com
+ [209.85.215.170])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9CCFB10E099
+ for <dri-devel@lists.freedesktop.org>; Tue, 21 Oct 2025 04:20:47 +0000 (UTC)
+Received: by mail-pg1-f170.google.com with SMTP id
+ 41be03b00d2f7-b593def09e3so3423358a12.2
+ for <dri-devel@lists.freedesktop.org>; Mon, 20 Oct 2025 21:20:47 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20230601; t=1761020447; x=1761625247; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=SRLdP4GmC8TAaehpYwLWmY0fXaXzRogSZM1ApFlMens=;
+ b=Ag+zbiic9WFm41n6QuQciFypxMcU/g4yOFEoXlFXE9uezjmb5BtCynsYkqaP02aUmN
+ ToVsQjcPG1tFOwIH5tFrzGeTS+enLvWqBTCLg1Z3eUPP8gG+MvfD9r5SWrE/wdCmrKNY
+ IgRbIVx8yza8oSheUW0cTk8JaHuUcbanncnndnpBPhEcvsZTZ50eoukTVaMdhJGhpXPV
+ 9Wv2FaqqhlKuKgSxztqVvlGG2XUuqWK2OQfHGWfV7Z3Ja21cXZYZznYsZjarasrFA5p5
+ JSs8CUD6afuWEzST6JwkcsYzNvh0aJUfs8sgMJ8DndNiextjKmmQ1PSZmbUAQoDGEvL2
+ DnWw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1761020447; x=1761625247;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=SRLdP4GmC8TAaehpYwLWmY0fXaXzRogSZM1ApFlMens=;
+ b=fpKTlIZLXMIc1TtKakAOhQxLNGA/7/8dbp8wK5VMscMYvuCBh9GuNkyQAxqezjBX9+
+ D7SgKhAPnPJBqiK7H4MkvZXP5p7Z8JfUpzDQhszYH/QCwZe7aicRbwBW8qMQRAa+i9U0
+ QBBSETHR9ZWHCqJ1zpYYuHE9ITY2M6UfjglU4BRmFU32e9Q73rkjp0qtUAMdslERWpGl
+ G1kX3ov8itONZkWpG901bcs/aRp5D32rU0nwUq6UMK2u/oQ1hnTiVSRsuCUYbESTlYEO
+ DwTfnHGHFwnCPlrdQfJqfQo4AjgRXW6cJya3iDz9srYMqQghUrkMxCQshNyY9DC7KZsR
+ bZxw==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCUgeOOI8BHQudpF5iqWs/2tJrmSFcKl7GcCBSoW2SFxi4Jl44znTSdTRBw+DaZcgnTgR52qIYxivBU=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YxPxmGXkdpuyp9X3ctdSlsBgCBaC+C0q5ckAEv9vJUAH2j7aZPK
+ 2Y0E/ST9xjeSUx1xLCV6qg32EAwFNjWj4fXBM9sso4KRe31s3NpAg2XD
+X-Gm-Gg: ASbGncsE96iZHJp+U5DUXf+jkLZTLEQxe7vJZnPhdOEFjK8LRzXyk4YQedJXjfDQlLZ
+ y1ByLv8ZgtU845XtGsqROyEzrjO7lG4gg7VyVH+7uLn8DtX2vesD7wJTgrE6/HjgD98L3W6DQLF
+ C0GqwsdI+bTJsEl9Bqo24nVbnDc8N/RsZcGIPW45t9dLRm5BCw7EB8hsPm6tiMumrt+kry2so/+
+ lZGvCpz9wAFfJbcyxj5pEx7rSwmB1ktX5NixvSulSFF3ooOWiMh5IYsMyDL06GYYriztrG7fBdS
+ 9GCzSPrXEZjXDqe1HfhxsunyHkw33XUlk5UNrBDxXleGQZDN6NZYSq54iZzPpXGV3+I0M9EEm2I
+ kQMvgQSBY7rnS7GbFFVPvz+hiKcZhgCWRC1hQJ9XjAuUfKM9UEeLaJBk0K6wDPdYu3aa4JPWd6U
+ zvvw2l0096v1tW2rWxnFixtHfUx0HHCPJkEJLh0OgY52I=
+X-Google-Smtp-Source: AGHT+IGuMYHt7WIQD1fK0EiihxrlnrbJ5cDcN1SmyPvVx87IncetjCE6sVwVUYILV4vleroj1LiXDQ==
+X-Received: by 2002:a17:902:ce12:b0:27e:ec72:f62 with SMTP id
+ d9443c01a7336-290c9c89b06mr180684945ad.6.1761020446906; 
+ Mon, 20 Oct 2025 21:20:46 -0700 (PDT)
+Received: from Barrys-MBP.hub ([47.72.128.212])
+ by smtp.gmail.com with ESMTPSA id
+ d9443c01a7336-292471fde15sm96162725ad.84.2025.10.20.21.20.41
+ (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
+ Mon, 20 Oct 2025 21:20:46 -0700 (PDT)
+From: Barry Song <21cnbao@gmail.com>
+To: linaro-mm-sig@lists.linaro.org, linux-kernel@vger.kernel.org,
+ linux-media@vger.kernel.org, sumit.semwal@linaro.org
+Cc: 21cnbao@gmail.com, Brian.Starkey@arm.com, benjamin.gaignard@collabora.com,
+ christian.koenig@amd.com, dri-devel@lists.freedesktop.org,
+ jstultz@google.com, tjmercier@google.com, v-songbaohua@oppo.com,
+ zhengtangquan@oppo.com
+Subject: [PATCH v2] dma-buf: system_heap: use larger contiguous mappings
+ instead of per-page mmap
+Date: Tue, 21 Oct 2025 17:20:22 +1300
+Message-Id: <20251021042022.47919-1-21cnbao@gmail.com>
+X-Mailer: git-send-email 2.39.3 (Apple Git-146)
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20251021-add-displayport-support-to-qcs615-devicetree-v5-3-92f0f3bf469f@oss.qualcomm.com>
-References: <20251021-add-displayport-support-to-qcs615-devicetree-v5-0-92f0f3bf469f@oss.qualcomm.com>
-In-Reply-To: <20251021-add-displayport-support-to-qcs615-devicetree-v5-0-92f0f3bf469f@oss.qualcomm.com>
-To: Rob Clark <robin.clark@oss.qualcomm.com>, 
- Dmitry Baryshkov <lumag@kernel.org>, 
- Abhinav Kumar <abhinav.kumar@linux.dev>, 
- Jessica Zhang <jesszhan0024@gmail.com>, Sean Paul <sean@poorly.run>, 
- Marijn Suijten <marijn.suijten@somainline.org>, 
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
- Conor Dooley <conor+dt@kernel.org>, Bjorn Andersson <andersson@kernel.org>, 
- Konrad Dybcio <konradybcio@kernel.org>
-Cc: linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org, 
- freedreno@lists.freedesktop.org, devicetree@vger.kernel.org, 
- linux-kernel@vger.kernel.org, fange.zhang@oss.qualcomm.com, 
- yongxing.mou@oss.qualcomm.com, li.liu@oss.qualcomm.com, 
- Xiangxu Yin <xiangxu.yin@oss.qualcomm.com>
-X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1761016706; l=1548;
- i=xiangxu.yin@oss.qualcomm.com; s=20241125; h=from:subject:message-id;
- bh=d+cJKrXD4tfTqdXBaY3G1wbp7JyY9CM0nzg66HGu5Rc=;
- b=3BpajUgoipQ1XI8eILZcg5WAAFs/DsG22cAfib4OCZKrPE2nNFVnSLfr4c/cL6+yb2EdOII+Z
- F5b8PyjFk0qB+FpH/0i6ZECSXHjL9vP+aWoVtASQaOR8zURkkjb7dQ5
-X-Developer-Key: i=xiangxu.yin@oss.qualcomm.com; a=ed25519;
- pk=F1TwipJzpywfbt3n/RPi4l/A4AVF+QC89XzCHgZYaOc=
-X-Endpoint-Received: by B4 Relay for xiangxu.yin@oss.qualcomm.com/20241125
- with auth_id=542
-X-Original-From: Xiangxu Yin <xiangxu.yin@oss.qualcomm.com>
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -83,77 +88,143 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Reply-To: xiangxu.yin@oss.qualcomm.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Xiangxu Yin <xiangxu.yin@oss.qualcomm.com>
+From: Barry Song <v-songbaohua@oppo.com>
 
-Add DP connector node and configure MDSS DisplayPort controller for
-QCS615 Ride platform. Include PHY supply settings to support DP output.
+We can allocate high-order pages, but mapping them one by
+one is inefficient. This patch changes the code to map
+as large a chunk as possible. The code looks somewhat
+complicated mainly because supporting mmap with a
+non-zero offset is a bit tricky.
 
-Signed-off-by: Xiangxu Yin <xiangxu.yin@oss.qualcomm.com>
+Using the micro-benchmark below, we see that mmap becomes
+3.5X faster:
+
+  #include <stdio.h>
+  #include <fcntl.h>
+  #include <linux/dma-heap.h>
+  #include <sys/ioctl.h>
+  #include <sys/mman.h>
+  #include <time.h>
+  #include <unistd.h>
+  #include <stdlib.h>
+
+  #define SIZE   (512UL * 1024 * 1024)
+  #define PAGE   4096
+  #define STRIDE (PAGE/sizeof(int))
+  #define PAGES  (SIZE/PAGE)
+
+  int main(void) {
+      int heap = open("/dev/dma_heap/system", O_RDONLY);
+      struct dma_heap_allocation_data d =
+            { .len = SIZE, .fd_flags = O_RDWR|O_CLOEXEC };
+      ioctl(heap, DMA_HEAP_IOCTL_ALLOC, &d);
+
+      struct timespec t0, t1;
+      clock_gettime(CLOCK_MONOTONIC, &t0);
+      int *p = mmap(NULL, SIZE, PROT_READ|PROT_WRITE, MAP_SHARED, d.fd, 0);
+      clock_gettime(CLOCK_MONOTONIC, &t1);
+
+      for (int i = 0; i < PAGES; i++) p[i*STRIDE] = i;
+      for (int i = 0; i < PAGES; i++)
+          if (p[i*STRIDE] != i) {
+              fprintf(stderr, "mismatch at page %d\n", i);
+              exit(1);
+          }
+
+      long ns = (t1.tv_sec-t0.tv_sec)*1000000000L +
+                (t1.tv_nsec-t0.tv_nsec);
+      printf("mmap 512MB took %.3f us, verify OK\n", ns/1000.0);
+      return 0;
+  }
+
+W/ patch:
+
+~ # ./a.out
+mmap 512MB took 200266.000 us, verify OK
+~ # ./a.out
+mmap 512MB took 198151.000 us, verify OK
+~ # ./a.out
+mmap 512MB took 197069.000 us, verify OK
+~ # ./a.out
+mmap 512MB took 196781.000 us, verify OK
+~ # ./a.out
+mmap 512MB took 198102.000 us, verify OK
+~ # ./a.out
+mmap 512MB took 195552.000 us, verify OK
+
+W/o patch:
+
+~ # ./a.out
+mmap 512MB took 6987470.000 us, verify OK
+~ # ./a.out
+mmap 512MB took 6970739.000 us, verify OK
+~ # ./a.out
+mmap 512MB took 6984383.000 us, verify OK
+~ # ./a.out
+mmap 512MB took 6971311.000 us, verify OK
+~ # ./a.out
+mmap 512MB took 6991680.000 us, verify OK
+
+Signed-off-by: Barry Song <v-songbaohua@oppo.com>
+Acked-by: John Stultz <jstultz@google.com>
 ---
- arch/arm64/boot/dts/qcom/qcs615-ride.dts | 30 ++++++++++++++++++++++++++++++
- 1 file changed, 30 insertions(+)
+ -v2: collect John's ack. thanks!
 
-diff --git a/arch/arm64/boot/dts/qcom/qcs615-ride.dts b/arch/arm64/boot/dts/qcom/qcs615-ride.dts
-index 9ac1dd3483b56f9d1652f8a38f62d759efa92b6a..bb0f4b8265e4807e50d067aed8b21557d97b20dd 100644
---- a/arch/arm64/boot/dts/qcom/qcs615-ride.dts
-+++ b/arch/arm64/boot/dts/qcom/qcs615-ride.dts
-@@ -39,6 +39,20 @@ xo_board_clk: xo-board-clk {
- 		};
- 	};
- 
-+	dp0-connector {
-+		compatible = "dp-connector";
-+		label = "DP0";
-+		type = "mini";
-+
-+		hpd-gpios = <&io_expander 8 GPIO_ACTIVE_HIGH>;
-+
-+		port {
-+			dp0_connector_in: endpoint {
-+				remote-endpoint = <&mdss_dp0_out>;
-+			};
-+		};
-+	};
-+
- 	dp-dsi0-connector {
- 		compatible = "dp-connector";
- 		label = "DSI0";
-@@ -423,6 +437,15 @@ &mdss {
- 	status = "okay";
- };
- 
-+&mdss_dp0 {
-+	status = "okay";
-+};
-+
-+&mdss_dp0_out {
-+	link-frequencies = /bits/ 64 <1620000000 2700000000 5400000000>;
-+	remote-endpoint = <&dp0_connector_in>;
-+};
-+
- &mdss_dsi0 {
- 	vdda-supply = <&vreg_l11a>;
- 	status = "okay";
-@@ -623,6 +646,13 @@ &usb_qmpphy {
- 	status = "okay";
- };
- 
-+&usb_qmpphy_2 {
-+	vdda-phy-supply = <&vreg_l5a>;
-+	vdda-pll-supply = <&vreg_l12a>;
-+
-+	status = "okay";
-+};
-+
- &usb_1 {
- 	status = "okay";
- };
+ drivers/dma-buf/heaps/system_heap.c | 33 +++++++++++++++++++++--------
+ 1 file changed, 24 insertions(+), 9 deletions(-)
 
+diff --git a/drivers/dma-buf/heaps/system_heap.c b/drivers/dma-buf/heaps/system_heap.c
+index bbe7881f1360..4c782fe33fd4 100644
+--- a/drivers/dma-buf/heaps/system_heap.c
++++ b/drivers/dma-buf/heaps/system_heap.c
+@@ -186,20 +186,35 @@ static int system_heap_mmap(struct dma_buf *dmabuf, struct vm_area_struct *vma)
+ 	struct system_heap_buffer *buffer = dmabuf->priv;
+ 	struct sg_table *table = &buffer->sg_table;
+ 	unsigned long addr = vma->vm_start;
+-	struct sg_page_iter piter;
+-	int ret;
++	unsigned long pgoff = vma->vm_pgoff;
++	struct scatterlist *sg;
++	int i, ret;
++
++	for_each_sgtable_sg(table, sg, i) {
++		unsigned long n = sg->length >> PAGE_SHIFT;
+ 
+-	for_each_sgtable_page(table, &piter, vma->vm_pgoff) {
+-		struct page *page = sg_page_iter_page(&piter);
++		if (pgoff < n)
++			break;
++		pgoff -= n;
++	}
++
++	for (; sg && addr < vma->vm_end; sg = sg_next(sg)) {
++		unsigned long n = (sg->length >> PAGE_SHIFT) - pgoff;
++		struct page *page = sg_page(sg) + pgoff;
++		unsigned long size = n << PAGE_SHIFT;
++
++		if (addr + size > vma->vm_end)
++			size = vma->vm_end - addr;
+ 
+-		ret = remap_pfn_range(vma, addr, page_to_pfn(page), PAGE_SIZE,
+-				      vma->vm_page_prot);
++		ret = remap_pfn_range(vma, addr, page_to_pfn(page),
++				size, vma->vm_page_prot);
+ 		if (ret)
+ 			return ret;
+-		addr += PAGE_SIZE;
+-		if (addr >= vma->vm_end)
+-			return 0;
++
++		addr += size;
++		pgoff = 0;
+ 	}
++
+ 	return 0;
+ }
+ 
 -- 
-2.34.1
-
+2.39.3 (Apple Git-146)
 
