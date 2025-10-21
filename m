@@ -2,70 +2,85 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C7738BF592E
-	for <lists+dri-devel@lfdr.de>; Tue, 21 Oct 2025 11:44:22 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 967D2BF5532
+	for <lists+dri-devel@lfdr.de>; Tue, 21 Oct 2025 10:44:27 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DAD1F10E2F6;
-	Tue, 21 Oct 2025 09:44:19 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3CBDE10E599;
+	Tue, 21 Oct 2025 08:44:24 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=rock-chips.com header.i=@rock-chips.com header.b="g6OhVZ/y";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="lIRTEssO";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-m32112.qiye.163.com (mail-m32112.qiye.163.com
- [220.197.32.112])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8932F10E303
- for <dri-devel@lists.freedesktop.org>; Tue, 21 Oct 2025 09:44:17 +0000 (UTC)
-Received: from [172.16.12.149] (unknown [58.22.7.114])
- by smtp.qiye.163.com (Hmail) with ESMTP id 26a698a5f;
- Tue, 21 Oct 2025 17:44:12 +0800 (GMT+08:00)
-Message-ID: <1221dd6c-2035-4e5d-8052-341da279fe81@rock-chips.com>
-Date: Tue, 21 Oct 2025 17:44:11 +0800
+Received: from mail-ej1-f41.google.com (mail-ej1-f41.google.com
+ [209.85.218.41])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DEFB110E599
+ for <dri-devel@lists.freedesktop.org>; Tue, 21 Oct 2025 08:44:22 +0000 (UTC)
+Received: by mail-ej1-f41.google.com with SMTP id
+ a640c23a62f3a-b3c82276592so102151266b.3
+ for <dri-devel@lists.freedesktop.org>; Tue, 21 Oct 2025 01:44:22 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20230601; t=1761036261; x=1761641061; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:in-reply-to:from:content-language
+ :references:cc:to:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=GYiwgwtNxK6/rIcMjyR2at6k/Vxbv6cWYDWAIm9NAlQ=;
+ b=lIRTEssO9tLRZmPEVKMIOT0G/sG+mwqF7dMppnjcr9CWDDykVVb9fb7aKyOj1YTTfi
+ iQF7KXRBJa9GHOfSkCYLOXgt69GVtgHzldkizaicUSaxS+toQuvLn49eoNSlRyQqrrZ3
+ 4PWoj8ah9gPFzvTEU4qi26hjAqR/48X1hZHmtcCb7I+TqtAC0vSlhva/J6oQYtZRKscB
+ mbgR42HGeZHbFi3EbciojsWd5qfXkYcd8u4KtUVi53TRqozNJtTtHmSJjdOQ/c2iY4jz
+ R/xMWpl2NQnPq6m2aRVsVPLxLEaH8d11Z8l8+tuRlYxKNQSSwnT7AKZmhuFc9JzD7rhJ
+ 9jdA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1761036261; x=1761641061;
+ h=content-transfer-encoding:in-reply-to:from:content-language
+ :references:cc:to:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=GYiwgwtNxK6/rIcMjyR2at6k/Vxbv6cWYDWAIm9NAlQ=;
+ b=KhFeQohZ1A/UHCgpp/3TYfOOJmhDNTlr7D0NHTdOxODYgTIs+MtLAPMFwYiGQZQtu0
+ G5BcQE3lX3Rlavgb4xf3VezUniGpql1A91MUo7fyTigxkdZFh2XKLdJ2w28/PvvvXp7H
+ iMeJWRCHWuxYBOS5JnG9G9dE0KH62GIMKH9oeiexOstBJI2hA+O3pDwR6lTwbJX0+rZ4
+ Srgt0sYdqFokOB7oD0Fs85PGEmJKetSP/VpNMls4v1BWCV6q9gbEty6zzU57KZkh2ibR
+ M9oMSQH0pPN40gSi2UATAD0/k/QbAA0HCs3YeCQ7QDoGEDO4Lc/moKBKRauepFkt0+YB
+ Btig==
+X-Gm-Message-State: AOJu0YxSs/wZnvJznAJIQr1OjsnYp2hMZBrnF1RNmZLpWlUaheBlDh4N
+ qXIPsKmglXyXaURKVaAc0cVKkr/5gTcLoaPwZr4Wp97vy7LbdvxoEVmXiyNRRA==
+X-Gm-Gg: ASbGncs4BnvKMPogsMx1c3Io2yMQoli6dIrGQOnPu0gFGDl+5SlMY3B7W88+hgbkXnP
+ YD1mOG8XfugDpT17mIceQV8eiNuSYv/8v9/DTWrKglj5TrYq73eM4JSazhXUmxGxxOtdxvNHllq
+ 3WopJXQzswg/TH+egBfhfmHgqukgqKe3gawt/BWMWLFkPiwJpbwr6DH4eoTVJVSFU0Em7GxRJQr
+ lO5MJkHW2QqsELnnxY1LwI0Wote9Pyz1Rt/C/7upWVZW8zVsBaNKCR/+WnPL0Cw54ASyrA+HLrN
+ 0M5IaDtzdz743wgTxRtflIl6cK/iM3waLUjJxjRSSYaAVnap/ZNauckrXLANzBqCtnZaTXXHJO1
+ FSRmFS2Zn9g5HmmyPrBvNqs4Hj8bmZ/uNQ1ac3oQZ4+79qstpYZiAdKebUj+N5MJKhV8jw0cKu5
+ /tw48QqnSaeSWl8ulYlT/vR3LvPJ3R
+X-Google-Smtp-Source: AGHT+IHgFcbQCcTMOQ9kPtrRGAEFN37W9IGTKfgQiKIn3e3zPC+cubu+IIUXeREIVPhgLeQPlMhorw==
+X-Received: by 2002:a17:907:9708:b0:b04:2d89:5d3a with SMTP id
+ a640c23a62f3a-b6475505d94mr1071125466b.7.1761036261251; 
+ Tue, 21 Oct 2025 01:44:21 -0700 (PDT)
+Received: from [192.168.1.105] ([165.50.73.64])
+ by smtp.gmail.com with ESMTPSA id
+ a640c23a62f3a-b65e7da2bbcsm1000822466b.5.2025.10.21.01.44.19
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 21 Oct 2025 01:44:21 -0700 (PDT)
+Message-ID: <d7e06f84-c555-4eb7-b781-b8444eedd625@gmail.com>
+Date: Tue, 21 Oct 2025 10:44:12 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v6 1/8] usb: typec: Add default HPD device when register
- DisplayPort altmode
-To: Heikki Krogerus <heikki.krogerus@linux.intel.com>
-Cc: Chaoyi Chen <kernel@airkyi.com>, Rob Herring <robh@kernel.org>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
- <conor+dt@kernel.org>, Vinod Koul <vkoul@kernel.org>,
- Kishon Vijay Abraham I <kishon@kernel.org>, Heiko Stuebner
- <heiko@sntech.de>, Sandy Huang <hjc@rock-chips.com>,
- Andy Yan <andy.yan@rock-chips.com>,
- Yubing Zhang <yubing.zhang@rock-chips.com>,
- Frank Wang <frank.wang@rock-chips.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Amit Sunil Dhamne <amitsd@google.com>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Dragan Simic <dsimic@manjaro.org>, Johan Jonker <jbx6244@gmail.com>,
- Diederik de Haas <didi.debian@cknow.org>,
- Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>,
- Peter Robinson <pbrobinson@gmail.com>, linux-usb@vger.kernel.org,
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-phy@lists.infradead.org, linux-arm-kernel@lists.infradead.org,
- linux-rockchip@lists.infradead.org, dri-devel@lists.freedesktop.org
-References: <20251016022741.91-1-kernel@airkyi.com>
- <20251016022741.91-2-kernel@airkyi.com> <aPYImGmesrZWwyqh@kuha.fi.intel.com>
- <954a67d1-1759-4e18-8eef-3fa14fb3cef5@rock-chips.com>
- <aPdI7Vb_djrfCfbT@kuha.fi.intel.com>
+Subject: Re: [PATCH] drm/tiny: Refactor framebuffer's size calculation
+To: Thomas Zimmermann <tzimmermann@suse.de>, lanzano.alex@gmail.com,
+ maarten.lankhorst@linux.intel.com, mripard@kernel.org, airlied@gmail.com,
+ simona@ffwll.ch
+Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ skhan@linuxfoundation.org, david.hunter.linux@gmail.com, khalid@kernel.org,
+ linux-kernel-mentees@lists.linuxfoundation.org
+References: <20251020115803.192572-1-mehdi.benhadjkhelifa@gmail.com>
+ <1de3112b-6349-46d8-b90b-69d0849c7659@suse.de>
+ <6a917f07-18dd-4f8f-bfc5-b85d9051339d@gmail.com>
+ <4b01c775-f87a-4c3c-88f1-f5c52261d9b2@suse.de>
 Content-Language: en-US
-From: Chaoyi Chen <chaoyi.chen@rock-chips.com>
-In-Reply-To: <aPdI7Vb_djrfCfbT@kuha.fi.intel.com>
+From: Mehdi Ben Hadj Khelifa <mehdi.benhadjkhelifa@gmail.com>
+In-Reply-To: <4b01c775-f87a-4c3c-88f1-f5c52261d9b2@suse.de>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-HM-Tid: 0a9a0627a3a903abkunm5cd7977fb8e2b1
-X-HM-MType: 1
-X-HM-Spam-Status: e1kfGhgUHx5ZQUpXWQgPGg8OCBgUHx5ZQUlOS1dZFg8aDwILHllBWSg2Ly
- tZV1koWUFDSUNOT01LS0k3V1ktWUFJV1kPCRoVCBIfWUFZGUpDS1YaGRpIHUpDTBlKGU1WFRQJFh
- oXVRMBExYaEhckFA4PWVdZGBILWUFZTkNVSUlVTFVKSk9ZV1kWGg8SFR0UWUFZT0tIVUpLSEpOTE
- 9VSktLVUpCS0tZBg++
-DKIM-Signature: a=rsa-sha256;
- b=g6OhVZ/yiqpa03UuI1XX7K9vWZ8zWP3G2Gzz5rhk0AcJK/U+UJws7ashU78Y+//2Cp1XYy8iR5A+1sB1SdjmB78dMX58786reFgEn7dhTHoMucj84RbJ6zYHbg7CDu7vWXLe8oopZFd6uuDFaXjD2L3+MUHefnrApM/1yNbvoa0=;
- s=default; c=relaxed/relaxed; d=rock-chips.com; v=1; 
- bh=qUewYvs5quWL8CZ5KUc8yRAa2rvIV3/2PN0yp7OZqoo=;
- h=date:mime-version:subject:message-id:from;
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -81,68 +96,74 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 10/21/2025 4:48 PM, Heikki Krogerus wrote:
-
-> Hi,
->
-> On Mon, Oct 20, 2025 at 07:07:46PM +0800, Chaoyi Chen wrote:
->> Hi Heikki,
->>
->> On 10/20/2025 6:02 PM, Heikki Krogerus wrote:
->>> On Thu, Oct 16, 2025 at 10:27:34AM +0800, Chaoyi Chen wrote:
->>>> From: Chaoyi Chen <chaoyi.chen@rock-chips.com>
->>>>
->>>> Add default DRM AUX HPD bridge device when register DisplayPort
->>>> altmode. That makes it redundant for each Type-C driver to implement
->>>> a similar registration process in embedded scenarios.
->>>>
->>>> Signed-off-by: Chaoyi Chen <chaoyi.chen@rock-chips.com>
->>>> ---
->>>>
->>>> Changes in v6:
->>>> - Fix depend in Kconfig.
->>>>
->>>> Changes in v5:
->>>> - Remove the calls related to `drm_aux_hpd_bridge_notify()`.
->>>> - Place the helper functions in the same compilation unit.
->>>> - Add more comments about parent device.
->>>>
->>>>    drivers/usb/typec/Kconfig         |  2 ++
->>>>    drivers/usb/typec/class.c         | 26 ++++++++++++++++++++++++++
->>>>    include/linux/usb/typec_altmode.h |  2 ++
->>>>    3 files changed, 30 insertions(+)
->>>>
->>>> diff --git a/drivers/usb/typec/Kconfig b/drivers/usb/typec/Kconfig
->>>> index 2f80c2792dbd..a6730fbb576b 100644
->>>> --- a/drivers/usb/typec/Kconfig
->>>> +++ b/drivers/usb/typec/Kconfig
->>>> @@ -2,6 +2,8 @@
->>>>    menuconfig TYPEC
->>>>    	tristate "USB Type-C Support"
->>>> +	depends on DRM || DRM=n
->>>> +	select DRM_AUX_HPD_BRIDGE if DRM_BRIDGE && OF
->>> This is wrong. DRM should not dictate how this entire subsystem core
->>> is configured. The dependency needs to be on the DRM bridge side.
+On 10/21/25 9:32 AM, Thomas Zimmermann wrote:
+> Hi
+> 
+> Am 21.10.25 um 10:41 schrieb Mehdi Ben Hadj Khelifa:
+>> On 10/21/25 7:51 AM, Thomas Zimmermann wrote:
+>>> Hi
 >>>
->>> You can for example use the bus notification there to see when a new
->>> alternate mode is being registered, or use some other notification
->>> mechanism.
->> Is it a good idea to implement notification functions like
->> drivers/usb/core/notify.c in TCPM, and then let other subsystems (such as DRM)
->> listen to these notifications?
-> Don't limit this to tcpm only. I would suggest something similar what
-> we have for usb bus: drivers/usb/core/notify.c
->
-> So that, but for the typec bus. Then in DRM bridge code you just use
-> typec_register/unregister_notify().
+>>> Am 20.10.25 um 13:57 schrieb Mehdi Ben Hadj Khelifa:
+>>>> Use drm_format_info_min_pitch() to calculate the framebuffer line pitch
+>>>> instead of directly multiplying width and height. This aligns with DRM
+>>>> helpers for determining per-line byte size and avoids manual 
+>>>> assumptions
+>>>> about bytes per pixel.
+>>>>
+>>>> Suggested-by: Thomas Zimmermann <tzimmermann@suse.de>
+>>>> Signed-off-by: Mehdi Ben Hadj Khelifa <mehdi.benhadjkhelifa@gmail.com>
+>>>> ---
+>>>>   drivers/gpu/drm/tiny/repaper.c | 6 +++++-
+>>>>   1 file changed, 5 insertions(+), 1 deletion(-)
+>>>>
+>>>> diff --git a/drivers/gpu/drm/tiny/repaper.c b/drivers/gpu/drm/tiny/ 
+>>>> repaper.c
+>>>> index 4824f863fdba..aeff49bc6ba7 100644
+>>>> --- a/drivers/gpu/drm/tiny/repaper.c
+>>>> +++ b/drivers/gpu/drm/tiny/repaper.c
+>>>> @@ -517,6 +517,8 @@ static int repaper_fb_dirty(struct 
+>>>> drm_framebuffer *fb, const struct iosys_map *
+>>>>       unsigned int dst_pitch = 0;
+>>>>       struct iosys_map dst;
+>>>>       struct drm_rect clip;
+>>>> +    const struct drm_format_info *info = fb->format;
+>>>
+>>> This is the wrong format. You're allocating the output buffer here, 
+>>> but you're using the input format. IIUC the output format is 
+>>> DRM_FORMAT_R1. The input is _XRGB8888.
+>>>
+>> Ah. Thanks for clarification.I thought since it had the same output 
+>> format. I will send a v3 shortly.> Best regards
+> 
+> Maybe just don't do it. This is just churn with no clear goal.
+> 
+Okay,I will abort working on it.Though my goal was to remove the manual 
+assumption that height is multiple of 8 and to align with other 
+'correct' API used in other drm drivers as you suggested[1].
 
-I will try to add drivers/usb/typec/notify.c in v7 to implement this. Thank you.
+[1]:https://lore.kernel.org/all/cb0f0a36-0593-4d4c-8450-d086b9c99d87@suse.de/
 
-
->
-> thanks,
->
--- 
-Best,
-Chaoyi
+Best Regards,
+Mehdi Ben Hadj Khelifa> Best regards
+> Thomas
+> 
+>>> Thomas
+>>>
+>>>> +    size_t pitch;
+>>>>       int idx, ret = 0;
+>>>>       u8 *buf = NULL;
+>>>> @@ -534,7 +536,9 @@ static int repaper_fb_dirty(struct 
+>>>> drm_framebuffer *fb, const struct iosys_map *
+>>>>       DRM_DEBUG("Flushing [FB:%d] st=%ums\n", fb->base.id,
+>>>>             epd->factored_stage_time);
+>>>> -    buf = kmalloc(fb->width * fb->height / 8, GFP_KERNEL);
+>>>> +    pitch = drm_format_info_min_pitch(info, 0, fb->width);
+>>>> +
+>>>> +    buf = kmalloc_array(fb->height, pitch, GFP_KERNEL);
+>>>>       if (!buf) {
+>>>>           ret = -ENOMEM;
+>>>>           goto out_exit;
+>>>
+>>
+> 
 
