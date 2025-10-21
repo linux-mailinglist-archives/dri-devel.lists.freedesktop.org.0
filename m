@@ -2,38 +2,38 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C0F3CBF608B
-	for <lists+dri-devel@lfdr.de>; Tue, 21 Oct 2025 13:31:05 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2D90FBF6097
+	for <lists+dri-devel@lfdr.de>; Tue, 21 Oct 2025 13:31:09 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D4A2810E5B5;
-	Tue, 21 Oct 2025 11:31:01 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0B70D10E5B6;
+	Tue, 21 Oct 2025 11:31:03 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="jkEGlLvJ";
+	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="JBo247+a";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from bali.collaboradmins.com (bali.collaboradmins.com
  [148.251.105.195])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 11F7010E5B8;
- Tue, 21 Oct 2025 11:30:59 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0277C10E5B4;
+ Tue, 21 Oct 2025 11:31:00 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1761046257;
- bh=KOWDNuw2RyynKmJ4ZsE60XfwYk9U21BJtK/dnqbhV5M=;
+ s=mail; t=1761046258;
+ bh=b5DjKy8Ku5W6YjxLJ5sbdp7mTOI5CNz17N4tCTUcgu8=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=jkEGlLvJpL5ipkJhIbJS1NwsbTwZgBAiguvdFmT0Nrqj06FOVmUzTIWBEcuNmQBk8
- GEDWAi9ffa5cUQhGgT5n7+VowfmdGSL99UAfy4SCACh7QyOhfvA+q+Sx4VNM6vah1p
- TZyULGL0sK0Gf8OSBJDt1Z6OSbOo1x5ck3NP+Go821cvK0Cp22bfiYQ1T9QI65iGXT
- KT90nErM0JkINFpGUfL1KglP4AaAgr1ukN37aLDcsHac/I3VzPt9Bx+cLChW1OjxSa
- rZRTmqatrZkOTx02CzNmrOSNrtB0O7nhwSis/C/pHb6G6jeTfn993Bl0m+kSqjot2q
- z5hExxJfWZ56g==
+ b=JBo247+aL1JX25fByWt1HEwt3SEbx1YeMbAdQ0IqQ67eXRvH9z9JYIOkfGwTd+U8l
+ QiIDDrF74o723OS5FwS7yv15E72pHMPEq4cdEVkVsxqkLq4zTH/K0PFuHLNWwb0i6r
+ jwrMmgi5KWer3/K585iB6n3sFieDrCdYYINNW7Qkaz9F4AXfUL1reEx00L+3Vu8kT7
+ hzKIdP4jN24BBm25ssnHeSV9uVYyn33s/mYOtZgxkhLnoFjzu65AHsB25SIlYwL3FX
+ g9jSs0j2u6AsE/oI/z4fSiiKG06CTZQtgtO78ervT37fjs3alX+3CkWciZc4HxbHWA
+ mTb0hr/n2bIvQ==
 Received: from debian-rockchip-rock5b-rk3588.. (unknown
  [IPv6:2a01:e0a:5e3:6100:826d:bc07:e98c:84a])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
  (No client certificate requested)
  (Authenticated sender: loicmolinari)
- by bali.collaboradmins.com (Postfix) with ESMTPSA id BB76A17E1404;
- Tue, 21 Oct 2025 13:30:56 +0200 (CEST)
+ by bali.collaboradmins.com (Postfix) with ESMTPSA id BFFB917E1407;
+ Tue, 21 Oct 2025 13:30:57 +0200 (CEST)
 From: =?UTF-8?q?Lo=C3=AFc=20Molinari?= <loic.molinari@collabora.com>
 To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
  Maxime Ripard <mripard@kernel.org>,
@@ -60,10 +60,9 @@ To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
 Cc: linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
  intel-gfx@lists.freedesktop.org, linux-mm@kvack.org,
  linux-doc@vger.kernel.org, kernel@collabora.com
-Subject: [PATCH v5 02/12] drm/shmem-helper: Implement map_pages fault-around
- handler
-Date: Tue, 21 Oct 2025 13:30:39 +0200
-Message-ID: <20251021113049.17242-3-loic.molinari@collabora.com>
+Subject: [PATCH v5 03/12] drm/shmem-helper: Map huge pages in fault handlers
+Date: Tue, 21 Oct 2025 13:30:40 +0200
+Message-ID: <20251021113049.17242-4-loic.molinari@collabora.com>
 X-Mailer: git-send-email 2.47.3
 In-Reply-To: <20251021113049.17242-1-loic.molinari@collabora.com>
 References: <20251021113049.17242-1-loic.molinari@collabora.com>
@@ -85,128 +84,81 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This gives the mm subsystem the ability to increase fault handling
-performance by proposing the insertion of a range of pages around the
-faulty address in a single batch.
+Check whether the starting address in the fault-around handler or the
+faulty address in the fault handler is part of a huge page in order to
+attempt a PMD sized PFN insertion into the VMA.
+
+On builds with CONFIG_TRANSPARENT_HUGEPAGE enabled, if the mmap() user
+address is PMD size aligned, if the GEM object is backed by shmem
+buffers on mountpoints setting the 'huge=' option and if the shmem
+backing store manages to allocate a huge folio, CPU mapping would then
+benefit from significantly increased memcpy() performance. When these
+conditions are met on a system with 2 MiB huge pages, an aligned copy
+of 2 MiB would raise a single page fault instead of 4096.
 
 v4:
 - implement map_pages instead of huge_fault
 
-v5:
-- improve patch series progression
-- use dma_resv_trylock() in map_pages (many thanks to Matthew Wilcox)
-- validate map_pages range based on end_pgoff instead of start_pgoff
-
 Signed-off-by: Loïc Molinari <loic.molinari@collabora.com>
 ---
- drivers/gpu/drm/drm_gem_shmem_helper.c | 72 ++++++++++++++++++++++----
- 1 file changed, 62 insertions(+), 10 deletions(-)
+ drivers/gpu/drm/drm_gem_shmem_helper.c | 30 ++++++++++++++++++++++++++
+ 1 file changed, 30 insertions(+)
 
 diff --git a/drivers/gpu/drm/drm_gem_shmem_helper.c b/drivers/gpu/drm/drm_gem_shmem_helper.c
-index be89be1c804c..2a9fbc9c3712 100644
+index 2a9fbc9c3712..b7238448d4f9 100644
 --- a/drivers/gpu/drm/drm_gem_shmem_helper.c
 +++ b/drivers/gpu/drm/drm_gem_shmem_helper.c
-@@ -567,31 +567,82 @@ int drm_gem_shmem_dumb_create(struct drm_file *file, struct drm_device *dev,
+@@ -580,6 +580,26 @@ static bool drm_gem_shmem_fault_is_valid(struct drm_gem_object *obj,
+ 	return true;
  }
- EXPORT_SYMBOL_GPL(drm_gem_shmem_dumb_create);
  
--static vm_fault_t drm_gem_shmem_fault(struct vm_fault *vmf)
-+static bool drm_gem_shmem_fault_is_valid(struct drm_gem_object *obj,
-+					 pgoff_t pgoff)
++static bool drm_gem_shmem_map_pmd(struct vm_fault *vmf, unsigned long addr,
++				  struct page *page)
 +{
-+	struct drm_gem_shmem_object *shmem = to_drm_gem_shmem_obj(obj);
++#ifdef CONFIG_ARCH_SUPPORTS_PMD_PFNMAP
++	unsigned long pfn = page_to_pfn(page);
++	unsigned long paddr = pfn << PAGE_SHIFT;
++	bool aligned = (addr & ~PMD_MASK) == (paddr & ~PMD_MASK);
 +
-+	if (drm_WARN_ON_ONCE(obj->dev, !shmem->pages) ||
-+	    pgoff >= (obj->size >> PAGE_SHIFT) ||
-+	    shmem->madv < 0)
-+		return false;
++	if (aligned &&
++	    pmd_none(*vmf->pmd) &&
++	    folio_test_pmd_mappable(page_folio(page))) {
++		pfn &= PMD_MASK >> PAGE_SHIFT;
++		if (vmf_insert_pfn_pmd(vmf, pfn, false) == VM_FAULT_NOPAGE)
++			return true;
++	}
++#endif
 +
-+	return true;
++	return false;
 +}
 +
-+static vm_fault_t drm_gem_shmem_map_pages(struct vm_fault *vmf,
-+					  pgoff_t start_pgoff,
-+					  pgoff_t end_pgoff)
- {
- 	struct vm_area_struct *vma = vmf->vma;
- 	struct drm_gem_object *obj = vma->vm_private_data;
- 	struct drm_gem_shmem_object *shmem = to_drm_gem_shmem_obj(obj);
--	loff_t num_pages = obj->size >> PAGE_SHIFT;
-+	struct page **pages = shmem->pages;
-+	unsigned long addr, pfn;
- 	vm_fault_t ret;
--	struct page *page;
-+
-+	start_pgoff -= vma->vm_pgoff;
-+	end_pgoff -= vma->vm_pgoff;
-+	addr = vma->vm_start + (start_pgoff << PAGE_SHIFT);
-+
-+	/* map_pages is called with the RCU lock for reading (sleep isn't
-+	 * allowed) so just fall through to the more heavy-weight fault path.
-+	 */
-+	if (unlikely(!dma_resv_trylock(shmem->base.resv)))
-+		return 0;
-+
-+	if (unlikely(!drm_gem_shmem_fault_is_valid(obj, end_pgoff))) {
-+		ret = VM_FAULT_SIGBUS;
+ static vm_fault_t drm_gem_shmem_map_pages(struct vm_fault *vmf,
+ 					  pgoff_t start_pgoff,
+ 					  pgoff_t end_pgoff)
+@@ -606,6 +626,11 @@ static vm_fault_t drm_gem_shmem_map_pages(struct vm_fault *vmf,
+ 		goto out;
+ 	}
+ 
++	if (drm_gem_shmem_map_pmd(vmf, addr, pages[start_pgoff])) {
++		ret = VM_FAULT_NOPAGE;
 +		goto out;
 +	}
 +
-+	/* Map a range of pages around the faulty address. */
-+	do {
-+		pfn = page_to_pfn(pages[start_pgoff]);
-+		ret = vmf_insert_pfn(vma, addr, pfn);
-+		addr += PAGE_SIZE;
-+	} while (++start_pgoff <= end_pgoff && ret == VM_FAULT_NOPAGE);
-+
-+ out:
-+	dma_resv_unlock(shmem->base.resv);
-+
-+	return ret;
-+}
-+
-+static vm_fault_t drm_gem_shmem_fault(struct vm_fault *vmf)
-+{
-+	struct vm_area_struct *vma = vmf->vma;
-+	struct drm_gem_object *obj = vma->vm_private_data;
-+	struct drm_gem_shmem_object *shmem = to_drm_gem_shmem_obj(obj);
-+	struct page **pages = shmem->pages;
- 	pgoff_t page_offset;
-+	unsigned long pfn;
-+	vm_fault_t ret;
- 
- 	/* Offset to faulty address in the VMA (without the fake offset). */
- 	page_offset = vmf->pgoff - vma->vm_pgoff;
- 
- 	dma_resv_lock(shmem->base.resv, NULL);
- 
--	if (page_offset >= num_pages ||
--	    drm_WARN_ON_ONCE(obj->dev, !shmem->pages) ||
--	    shmem->madv < 0) {
-+	if (unlikely(!drm_gem_shmem_fault_is_valid(obj, page_offset))) {
- 		ret = VM_FAULT_SIGBUS;
--	} else {
--		page = shmem->pages[page_offset];
--
--		ret = vmf_insert_pfn(vma, vmf->address, page_to_pfn(page));
-+		goto out;
+ 	/* Map a range of pages around the faulty address. */
+ 	do {
+ 		pfn = page_to_pfn(pages[start_pgoff]);
+@@ -639,6 +664,11 @@ static vm_fault_t drm_gem_shmem_fault(struct vm_fault *vmf)
+ 		goto out;
  	}
  
-+	pfn = page_to_pfn(pages[page_offset]);
-+	ret = vmf_insert_pfn(vma, vmf->address, pfn);
++	if (drm_gem_shmem_map_pmd(vmf, vmf->address, pages[page_offset])) {
++		ret = VM_FAULT_NOPAGE;
++		goto out;
++	}
 +
-+ out:
- 	dma_resv_unlock(shmem->base.resv);
+ 	pfn = page_to_pfn(pages[page_offset]);
+ 	ret = vmf_insert_pfn(vma, vmf->address, pfn);
  
- 	return ret;
-@@ -632,6 +683,7 @@ static void drm_gem_shmem_vm_close(struct vm_area_struct *vma)
- }
- 
- const struct vm_operations_struct drm_gem_shmem_vm_ops = {
-+	.map_pages = drm_gem_shmem_map_pages,
- 	.fault = drm_gem_shmem_fault,
- 	.open = drm_gem_shmem_vm_open,
- 	.close = drm_gem_shmem_vm_close,
 -- 
 2.47.3
 
