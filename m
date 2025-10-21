@@ -2,49 +2,47 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5C973BF5BDC
-	for <lists+dri-devel@lfdr.de>; Tue, 21 Oct 2025 12:19:36 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5241FBF5BDF
+	for <lists+dri-devel@lfdr.de>; Tue, 21 Oct 2025 12:19:38 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 22ED710E2C9;
+	by gabe.freedesktop.org (Postfix) with ESMTP id 63E1B10E2EE;
 	Tue, 21 Oct 2025 10:19:32 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="YzdC9JNI";
+	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="TGUFXqDR";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from bali.collaboradmins.com (bali.collaboradmins.com
  [148.251.105.195])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 902FB10E2C9
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9383A10E2EC
  for <dri-devel@lists.freedesktop.org>; Tue, 21 Oct 2025 10:19:30 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1761041968;
- bh=WMHACjCgeCP7hXg1N7fliMXhe6mJU1JutnrJGt/SU24=;
- h=From:Subject:Date:To:Cc:From;
- b=YzdC9JNI3agIUERz01h/HciBT86ZR7IoKC0E3J7egjMeL5JCigqLa1cTSkt18aOkF
- ZtldKxwqsKrWxAscs5sq7KD+ZHcxpvGk2bEJsSycjiIjuW3MOFC55e4vdG5uGmeBRF
- cSYhdcpmV+ERiH4WdCEsrNjoGC8ysH1zLG23EUslmxuAwmA9o/zZYOVDmmX0tsRtIi
- 1ba0ICc3uK1mBCJ5hETxf6qVp9wkYsGdmsTCQuEJVAaKhfd732jtR6g+rPFwsnyV2u
- g5h3kegHb53iz3Fr07IT1ZbQL3VMy92HzBeTZ+4kxafpzrme7bHrTEjcQDtiYBHZjL
- cViIEiWpsbNMA==
+ s=mail; t=1761041969;
+ bh=y/xlBmCmud/5CWpIujKGb7vl0OQ2W7IHrhHnGXT37Ek=;
+ h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
+ b=TGUFXqDRSCsxPLa4XyRqdMDeh3Fh17vn1mJqvDSwrNR0XHN1RRcg3X7seVsrywUVB
+ Jw57bObsYYG9fyvwKf+lWZmhFZH0ymbABmeticfeZR31rR9+FV153ZmUtUPoJ+AhkB
+ mPLy+EC4M9wzM1w3vmr8vxRPCLqpHSFpG8K7at9FRwLic1oI3QLc6YSjVqKv4mSEMM
+ iY9eD0dfJw2NV6hFyh/kRUSOCJRp1tyAB9y+BVSChgCRvFgFqKOk7XqUFDkj5ViqVI
+ RjT9zHGzsEczhgd1sW7xUmEHf9mFxaK6TpfkX5uRuiVBv27FuRFm0+pwkaTdmRdABV
+ hbXu2BNhAoFyg==
 Received: from localhost (unknown [82.79.138.145])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange ECDHE (prime256v1) server-signature RSA-PSS (4096 bits)
  server-digest SHA256) (No client certificate requested)
  (Authenticated sender: cristicc)
- by bali.collaboradmins.com (Postfix) with UTF8SMTPSA id 514EE17E129E;
- Tue, 21 Oct 2025 12:19:28 +0200 (CEST)
+ by bali.collaboradmins.com (Postfix) with UTF8SMTPSA id 1BB4417E131B;
+ Tue, 21 Oct 2025 12:19:29 +0200 (CEST)
 From: Cristian Ciocaltea <cristian.ciocaltea@collabora.com>
-Subject: [PATCH v3 0/5] High color depth support for RK3576/RK3588 HDMI output
-Date: Tue, 21 Oct 2025 13:19:13 +0300
-Message-Id: <20251021-rk3588-10bpc-v3-0-3d3eed00a6db@collabora.com>
+Date: Tue, 21 Oct 2025 13:19:14 +0300
+Subject: [PATCH v3 1/5] drm/rockchip: vop2: Check bpc before switching DCLK
+ source
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-X-B4-Tracking: v=1; b=H4sIACFe92gC/3XP0QqCMBQG4FeRXbfYjh6bXfUe0cWcW47K2WajE
- N+9aUEgdPn/cD7+M5KgvdWB7LOReB1tsK5LId9kRLWyO2tqm5QJMEC2A079JUchKGd1r6hAYwo
- FIHSZk3TSe23sc+GOp5RbGwbnX4se+dz+gSKnjOoKZSFrZQoBB+WuV1k7L7fK3ciMRfgBAnAFQ
- AIqxBKg4WUlcA1Mn3le3x/pyeG7cZreRnj0jQIBAAA=
-X-Change-ID: 20250721-rk3588-10bpc-85ff4c228e63
+Message-Id: <20251021-rk3588-10bpc-v3-1-3d3eed00a6db@collabora.com>
+References: <20251021-rk3588-10bpc-v3-0-3d3eed00a6db@collabora.com>
+In-Reply-To: <20251021-rk3588-10bpc-v3-0-3d3eed00a6db@collabora.com>
 To: Sandy Huang <hjc@rock-chips.com>, 
  =?utf-8?q?Heiko_St=C3=BCbner?= <heiko@sntech.de>, 
  Andy Yan <andy.yan@rock-chips.com>, 
@@ -74,42 +72,109 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Since both Rockchip RK3576 and RK3588 SoCs are capable of handling 10
-bpc color depth HDMI output and we've already landed the required HDPTX
-PHY driver changes to support the setup, let's add the missing bits and
-pieces to VOP2, DW HDMI QP encoder and bridge library.
+When making use of the HDMI PHY PLL as a VOP2 DCLK source, it's output
+rate does normally match the mode clock.  But this is only applicable
+for default color depth of 8 bpc.  For higher depths, the output clock
+is further divided by the hardware according to the formula:
 
+  output rate = PHY PLL rate * 8 / bpc
+
+Hence there is no need for VOP2 to compensate for bpc when adjusting
+DCLK, but it is required to do so when computing its maximum operating
+frequency.
+
+Take color depth into consideration before deciding to switch DCLK
+source.
+
+Reviewed-by: Daniel Stone <daniels@collabora.com>
+Acked-by: Daniel Stone <daniels@collabora.com>
 Signed-off-by: Cristian Ciocaltea <cristian.ciocaltea@collabora.com>
 ---
-Changes in v3:
-- Rebased series onto latest drm-misc-next in order to:
-  * Replace HIWORD_UPDATE with FIELD_PREP_WM16 macro
-  * Remove dependency on HDMI CEC series
-- Unconditionally used DIV_ROUND_CLOSEST_ULL(), as suggested by Daniel;
-  also collected his R-b and A-b tags
-- Link to v2: https://lore.kernel.org/r/20250825-rk3588-10bpc-v2-0-955622d16985@collabora.com
+ drivers/gpu/drm/rockchip/rockchip_drm_vop2.c | 58 +++++++++++++++-------------
+ 1 file changed, 32 insertions(+), 26 deletions(-)
 
-Changes in v2:
-- Replaced patch 'drm/rockchip: vop2: Add high color depth support' with
-  'drm/rockchip: vop2: Check bpc before switching DCLK source'
-- Rebased series onto next-20250825 while adding the HDMI CEC series as
-  a dependency
-- Link to v1: https://lore.kernel.org/r/20250721-rk3588-10bpc-v1-0-e95a4abcf482@collabora.com
+diff --git a/drivers/gpu/drm/rockchip/rockchip_drm_vop2.c b/drivers/gpu/drm/rockchip/rockchip_drm_vop2.c
+index 284c8a048034..54176298a53b 100644
+--- a/drivers/gpu/drm/rockchip/rockchip_drm_vop2.c
++++ b/drivers/gpu/drm/rockchip/rockchip_drm_vop2.c
+@@ -101,7 +101,7 @@ enum vop2_afbc_format {
+ 	VOP2_AFBC_FMT_INVALID = -1,
+ };
+ 
+-#define VOP2_MAX_DCLK_RATE		600000000
++#define VOP2_MAX_DCLK_RATE		600000000UL
+ 
+ /*
+  * bus-format types.
+@@ -1742,36 +1742,42 @@ static void vop2_crtc_atomic_enable(struct drm_crtc *crtc,
+ 	 * Switch to HDMI PHY PLL as DCLK source for display modes up
+ 	 * to 4K@60Hz, if available, otherwise keep using the system CRU.
+ 	 */
+-	if ((vop2->pll_hdmiphy0 || vop2->pll_hdmiphy1) && clock <= VOP2_MAX_DCLK_RATE) {
+-		drm_for_each_encoder_mask(encoder, crtc->dev, crtc_state->encoder_mask) {
+-			struct rockchip_encoder *rkencoder = to_rockchip_encoder(encoder);
+-
+-			if (rkencoder->crtc_endpoint_id == ROCKCHIP_VOP2_EP_HDMI0) {
+-				if (!vop2->pll_hdmiphy0)
++	if (vop2->pll_hdmiphy0 || vop2->pll_hdmiphy1) {
++		unsigned long max_dclk = DIV_ROUND_CLOSEST_ULL(VOP2_MAX_DCLK_RATE * 8,
++							       vcstate->output_bpc);
++		if (clock <= max_dclk) {
++			drm_for_each_encoder_mask(encoder, crtc->dev, crtc_state->encoder_mask) {
++				struct rockchip_encoder *rkencoder = to_rockchip_encoder(encoder);
++
++				if (rkencoder->crtc_endpoint_id == ROCKCHIP_VOP2_EP_HDMI0) {
++					if (!vop2->pll_hdmiphy0)
++						break;
++
++					if (!vp->dclk_src)
++						vp->dclk_src = clk_get_parent(vp->dclk);
++
++					ret = clk_set_parent(vp->dclk, vop2->pll_hdmiphy0);
++					if (ret < 0)
++						drm_warn(vop2->drm,
++							 "Could not switch to HDMI0 PHY PLL: %d\n",
++							 ret);
+ 					break;
++				}
+ 
+-				if (!vp->dclk_src)
+-					vp->dclk_src = clk_get_parent(vp->dclk);
++				if (rkencoder->crtc_endpoint_id == ROCKCHIP_VOP2_EP_HDMI1) {
++					if (!vop2->pll_hdmiphy1)
++						break;
+ 
+-				ret = clk_set_parent(vp->dclk, vop2->pll_hdmiphy0);
+-				if (ret < 0)
+-					drm_warn(vop2->drm,
+-						 "Could not switch to HDMI0 PHY PLL: %d\n", ret);
+-				break;
+-			}
++					if (!vp->dclk_src)
++						vp->dclk_src = clk_get_parent(vp->dclk);
+ 
+-			if (rkencoder->crtc_endpoint_id == ROCKCHIP_VOP2_EP_HDMI1) {
+-				if (!vop2->pll_hdmiphy1)
++					ret = clk_set_parent(vp->dclk, vop2->pll_hdmiphy1);
++					if (ret < 0)
++						drm_warn(vop2->drm,
++							 "Could not switch to HDMI1 PHY PLL: %d\n",
++							 ret);
+ 					break;
+-
+-				if (!vp->dclk_src)
+-					vp->dclk_src = clk_get_parent(vp->dclk);
+-
+-				ret = clk_set_parent(vp->dclk, vop2->pll_hdmiphy1);
+-				if (ret < 0)
+-					drm_warn(vop2->drm,
+-						 "Could not switch to HDMI1 PHY PLL: %d\n", ret);
+-				break;
++				}
+ 			}
+ 		}
+ 	}
 
----
-Cristian Ciocaltea (5):
-      drm/rockchip: vop2: Check bpc before switching DCLK source
-      drm/bridge: dw-hdmi-qp: Handle platform supported formats and color depth
-      drm/rockchip: dw_hdmi_qp: Switch to phy_configure()
-      drm/rockchip: dw_hdmi_qp: Use bit macros for RK3576 regs
-      drm/rockchip: dw_hdmi_qp: Add high color depth support
-
- drivers/gpu/drm/bridge/synopsys/dw-hdmi-qp.c   |  11 ++-
- drivers/gpu/drm/rockchip/dw_hdmi_qp-rockchip.c | 108 +++++++++++++++++--------
- drivers/gpu/drm/rockchip/rockchip_drm_vop2.c   |  58 +++++++------
- include/drm/bridge/dw_hdmi_qp.h                |   4 +
- 4 files changed, 121 insertions(+), 60 deletions(-)
----
-base-commit: 7ea0468380216c10b73633b976d33efa8c12d375
-change-id: 20250721-rk3588-10bpc-85ff4c228e63
+-- 
+2.51.0
 
