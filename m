@@ -2,35 +2,35 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7CB03BF9398
-	for <lists+dri-devel@lfdr.de>; Wed, 22 Oct 2025 01:25:59 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 83A69BF93AD
+	for <lists+dri-devel@lfdr.de>; Wed, 22 Oct 2025 01:28:37 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6B10A10E0E1;
-	Tue, 21 Oct 2025 23:25:56 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7E96F10E058;
+	Tue, 21 Oct 2025 23:28:34 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="WKC0o2Hu";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="KFtLUaQM";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A264610E058;
- Tue, 21 Oct 2025 23:25:54 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6E2B210E058;
+ Tue, 21 Oct 2025 23:28:33 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by tor.source.kernel.org (Postfix) with ESMTP id E80C062768;
- Tue, 21 Oct 2025 23:25:53 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 67118C4CEF1;
- Tue, 21 Oct 2025 23:25:53 +0000 (UTC)
+ by tor.source.kernel.org (Postfix) with ESMTP id 8DB4860489;
+ Tue, 21 Oct 2025 23:28:32 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1108BC4CEF1;
+ Tue, 21 Oct 2025 23:28:31 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1761089153;
- bh=1Q261+lqodSbA5keUei/4MITWiCMB6vI0+adsJXuQ2U=;
+ s=k20201202; t=1761089312;
+ bh=yLUPTfQ0fOP6q5PaV+LDloE5TD4E7DwDV7LaIqrcPSg=;
  h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=WKC0o2HuGeIPZ/5AfrFlvg2UQ5VGHNnR7fUcaI5paR18KVahZo4Y5dTEvucdTlXU1
- 7TVVbhjDVBZrsGQiUn4fpiK6Sec2MpyG988/HZYvb/Fbi0mcpIn4b5zL/dPXQ8Moc/
- DEyB++58jVsOpO2LC6ctRPw64Xn0bHMbPvk2h1JV2F4Iv9Sfjch5aJCxGiftLmfJUx
- Rsc1cArqQ+TwIuydvM2z+fBTZUrj8sAu6sPHmM9K9D3w3YXCJ1jVpObAgGSu9q65U8
- zwYbDVelise+SKUVw3mQ6k3iBkyJVm9ll6AYjSnOHDJVAOd0CGziOCrbK7E+seqbpT
- 1gbHB51NAOjmg==
-Date: Tue, 21 Oct 2025 13:25:52 -1000
+ b=KFtLUaQMOWo3d76/lTJ9Tect9Ec+1Rgy0s5sznhblE6CqzqeBEEIkhVn2yHdYo0Ye
+ 7RiFzJnGfcKEy2irBmH4lmtIo6ZTMztgNrnilGQoqgJlzYeaztDVweFbYsdvqxHXHs
+ dgq40r4UMHBDGpZ0xefp3NhkcewNtcPqTQLuotkaYql2T23nUk9xZ3iOpooeeUo7bh
+ qhhhOsf0ezVALtKc2JkPRjcqV6MPyXkwTSf3aiYqGmmiGsfTrVLXYMBJwMq18Z2qLB
+ S6dpeoaHd3cSkvXjWxJPoJmMQc5TcolvDGooBsOuBg7G5iN9ZDtbCOnhSp4VBYrjqZ
+ IbWawI7Hk9f4g==
+Date: Tue, 21 Oct 2025 13:28:31 -1000
 From: Tejun Heo <tj@kernel.org>
 To: Matthew Brost <matthew.brost@intel.com>
 Cc: intel-xe@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
@@ -39,16 +39,16 @@ Cc: intel-xe@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
  pstanner@redhat.com, dakr@kernel.org
 Subject: Re: [RFC PATCH 1/3] workqueue: Add an interface to taint workqueue
  lockdep with reclaim
-Message-ID: <aPgWgAs_5XoEWri9@slm.duckdns.org>
+Message-ID: <aPgXH_JjkmKO5_a_@slm.duckdns.org>
 References: <20251021213952.746900-1-matthew.brost@intel.com>
  <20251021213952.746900-2-matthew.brost@intel.com>
  <aPgBjmIm6n9H-R_u@slm.duckdns.org>
  <aPgDXsQY5qAfU0Tv@lstrano-desk.jf.intel.com>
- <aPgD/3d7lJKoSzI8@lstrano-desk.jf.intel.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <aPgD/3d7lJKoSzI8@lstrano-desk.jf.intel.com>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <aPgDXsQY5qAfU0Tv@lstrano-desk.jf.intel.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -66,15 +66,24 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 Hello,
 
-On Tue, Oct 21, 2025 at 03:06:55PM -0700, Matthew Brost wrote:
-> > > Given that it's about reclaim, "memory cannot be allocated" may be a bit
-> > > misleading. Can you make the description more accurate? Also, it'd be great
+On Tue, Oct 21, 2025 at 03:04:14PM -0700, Matthew Brost wrote:
+> > Hmm... would it make sense to tie this to WQ_MEM_RECLAIM - ie. enable it
+> > implicitly on workqueues w/ the flag set?
 > 
-> Can fix the comment. The rule is memory cannot be allocated in the
-> context of reclaim (e.g., GFP_KERNEL).
+> I had considered this, and for a while I thought WQ_MEM_RECLAIM already
+> did what I'm suggesting—especially since I’ve spotted bugs in drivers
+> where I would have expected lockdep to catch them.
+> 
+> In my opinion, this approach is better, but it has a broader kernel-wide
+> scope and could potentially break some things. My subsequent patches
+> will likely break one or two DRM drivers, so it might not be a concern
+> to fix everything that breaks across the kernel. It's up to you which
+> route we want to take here.
 
-Oh, I meant that e.g. GPF_ATOMIC or GFP_NOFS reclaims should be fine. It's
-just that we can't recurse into reclaim from WQ_RECLAIM workqueue, right?
+Yeah, it is bothersome that WQ_MEM_RECLAIM doesn't currently have a way to
+ensure compliance. I just didn't know about the lockdep mechanism. Can you
+please update the patch so that WQ_MEM_RECLAIM implicitly enables the
+checking?
 
 Thanks.
 
