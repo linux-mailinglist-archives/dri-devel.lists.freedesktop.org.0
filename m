@@ -2,61 +2,145 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C9A10BF5346
-	for <lists+dri-devel@lfdr.de>; Tue, 21 Oct 2025 10:17:23 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8B34EBF53CD
+	for <lists+dri-devel@lfdr.de>; Tue, 21 Oct 2025 10:32:32 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E7BC610E595;
-	Tue, 21 Oct 2025 08:17:21 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A263F10E2D9;
+	Tue, 21 Oct 2025 08:32:29 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=bootlin.com header.i=@bootlin.com header.b="Ba/euyJz";
+	dkim=pass (1024-bit key; unprotected) header.d=suse.de header.i=@suse.de header.b="fSglqdGg";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="zpRK7YsP";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="pReC2n1v";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="7Kp5pBhl";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtpout-03.galae.net (smtpout-03.galae.net [185.246.85.4])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 122F710E591
- for <dri-devel@lists.freedesktop.org>; Tue, 21 Oct 2025 08:17:20 +0000 (UTC)
-Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
- by smtpout-03.galae.net (Postfix) with ESMTPS id EF06B4E41233;
- Tue, 21 Oct 2025 08:17:18 +0000 (UTC)
-Received: from mail.galae.net (mail.galae.net [212.83.136.155])
- by smtpout-01.galae.net (Postfix) with ESMTPS id C372560680;
- Tue, 21 Oct 2025 08:17:18 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon)
- with ESMTPSA id BE45F102F23E8; 
- Tue, 21 Oct 2025 10:17:13 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
- t=1761034637; h=from:subject:date:message-id:to:cc:mime-version:content-type:
- content-transfer-encoding:in-reply-to:references;
- bh=xHAShxnhnZCwEdWrOYZ+7ePUS4h11/+ez0cLNZHpkMY=;
- b=Ba/euyJzAopBOFlMPI2NxnI9yId0ifeCDG3MIFlQRU8f/BOUMymScfexdlhlItgzCrxXaG
- iksC98PjLJcBbYSHlk/4tlOGwNQ9HlbesyU/MxKL3JAC6/6lrfOwvWwK0tWU4qOc10HOkT
- SIclcA8gNzIB5w6h7j7KeU4rQdk5SCzwZOExEXJTuHgTTlEJtgk1YmB++F0Crrqe/eAWzY
- sv+KSH6/Z5C2Mv0BB+lgl96bbuJu4BMOOR1eIVNl9FIiPZYxrH3pmnDOnsAttS03R5UwGr
- NZRjPXOR6gI7n+9W8IEXu0SiGd52li32MCqiVFVefl7wObFxN8VlbftV3P2mwA==
-Mime-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
-Date: Tue, 21 Oct 2025 10:17:13 +0200
-Message-Id: <DDNUOE1ZNUKS.GD10B3113L1T@bootlin.com>
-To: "Maxime Ripard" <mripard@kernel.org>, "Maarten Lankhorst"
- <maarten.lankhorst@linux.intel.com>, "Thomas Zimmermann"
- <tzimmermann@suse.de>, "David Airlie" <airlied@gmail.com>, "Simona Vetter"
- <simona@ffwll.ch>
-Cc: <dri-devel@lists.freedesktop.org>, "Dmitry Baryshkov"
- <dmitry.baryshkov@oss.qualcomm.com>, "Andrzej Hajda"
- <andrzej.hajda@intel.com>, "Neil Armstrong" <neil.armstrong@linaro.org>,
- "Robert Foss" <rfoss@kernel.org>, "Laurent Pinchart"
- <Laurent.pinchart@ideasonboard.com>, "Jonas Karlman" <jonas@kwiboo.se>,
- "Jernej Skrabec" <jernej.skrabec@gmail.com>, "dri-devel"
- <dri-devel-bounces@lists.freedesktop.org>
-Subject: Re: [PATCH v2 05/16] drm/bridge: Switch private_obj initialization
- to atomic_create_state
-From: "Luca Ceresoli" <luca.ceresoli@bootlin.com>
-X-Mailer: aerc 0.20.1
-References: <20251014-drm-private-obj-reset-v2-0-6dd60e985e9d@kernel.org>
- <20251014-drm-private-obj-reset-v2-5-6dd60e985e9d@kernel.org>
-In-Reply-To: <20251014-drm-private-obj-reset-v2-5-6dd60e985e9d@kernel.org>
-X-Last-TLS-Session-Version: TLSv1.3
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 306D410E2D9
+ for <dri-devel@lists.freedesktop.org>; Tue, 21 Oct 2025 08:32:28 +0000 (UTC)
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org
+ [IPv6:2a07:de40:b281:104:10:150:64:97])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested)
+ by smtp-out1.suse.de (Postfix) with ESMTPS id 5E829211F5;
+ Tue, 21 Oct 2025 08:32:18 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1761035542; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=CFVe7t+jNbGnuviY5swscHquUBPgdT2KUteI+H3AgZc=;
+ b=fSglqdGgaSkFjVTHfLyZYfXAmyQ2K/0WXWZQfmUkG2qV/3qRyMCmMhEb5+ceeRXu8YKcEY
+ Dd4CxVbTBkyOsIFwsl4s999RUd2/k31XLFSUk445L3LNOCbWTiGOnJx4Mw92ChrExosNHH
+ sn4LlIvePmlfjzI3wYS4Sp/BOKjPG3Q=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1761035542;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=CFVe7t+jNbGnuviY5swscHquUBPgdT2KUteI+H3AgZc=;
+ b=zpRK7YsPf1iugkiNswgUJWD/vz1vCs5No0toC4BnaqYr4QkEH0ytWVT3RaA1gwoghdEG+j
+ ijH6hTtVbMCibvDw==
+Authentication-Results: smtp-out1.suse.de;
+ dkim=pass header.d=suse.de header.s=susede2_rsa header.b=pReC2n1v;
+ dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=7Kp5pBhl
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1761035538; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=CFVe7t+jNbGnuviY5swscHquUBPgdT2KUteI+H3AgZc=;
+ b=pReC2n1vUafxGuS5xL1/TzdvoYqHaPgbqOds+5+HojdwxDV2cPPVytOxi1qnVoAV+4FFTz
+ blebwf9r46Y9xnv5C6kluwdDklzxYILN74UatB/QQ868QlI2e5+4c7dAI9DpfGR3oMdPIr
+ OS7Pk1yoSPpdkE+nTnrqZWEqqpJ4e9I=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1761035538;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=CFVe7t+jNbGnuviY5swscHquUBPgdT2KUteI+H3AgZc=;
+ b=7Kp5pBhlPJIkT+LhMOCQpayycsPddOlGF7wgo0SLYE6dkhr2AyJIWra84gC0ox1Fz2fl+3
+ 1gIYAhFvKRhi3zCg==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested)
+ by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 0529B139B1;
+ Tue, 21 Oct 2025 08:32:18 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+ by imap1.dmz-prg2.suse.org with ESMTPSA id bGoFABJF92g8EgAAD6G6ig
+ (envelope-from <tzimmermann@suse.de>); Tue, 21 Oct 2025 08:32:17 +0000
+Message-ID: <4b01c775-f87a-4c3c-88f1-f5c52261d9b2@suse.de>
+Date: Tue, 21 Oct 2025 10:32:17 +0200
+MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] drm/tiny: Refactor framebuffer's size calculation
+To: Mehdi Ben Hadj Khelifa <mehdi.benhadjkhelifa@gmail.com>,
+ lanzano.alex@gmail.com, maarten.lankhorst@linux.intel.com,
+ mripard@kernel.org, airlied@gmail.com, simona@ffwll.ch
+Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ skhan@linuxfoundation.org, david.hunter.linux@gmail.com, khalid@kernel.org,
+ linux-kernel-mentees@lists.linuxfoundation.org
+References: <20251020115803.192572-1-mehdi.benhadjkhelifa@gmail.com>
+ <1de3112b-6349-46d8-b90b-69d0849c7659@suse.de>
+ <6a917f07-18dd-4f8f-bfc5-b85d9051339d@gmail.com>
+Content-Language: en-US
+From: Thomas Zimmermann <tzimmermann@suse.de>
+Autocrypt: addr=tzimmermann@suse.de; keydata=
+ xsBNBFs50uABCADEHPidWt974CaxBVbrIBwqcq/WURinJ3+2WlIrKWspiP83vfZKaXhFYsdg
+ XH47fDVbPPj+d6tQrw5lPQCyqjwrCPYnq3WlIBnGPJ4/jreTL6V+qfKRDlGLWFjZcsrPJGE0
+ BeB5BbqP5erN1qylK9i3gPoQjXGhpBpQYwRrEyQyjuvk+Ev0K1Jc5tVDeJAuau3TGNgah4Yc
+ hdHm3bkPjz9EErV85RwvImQ1dptvx6s7xzwXTgGAsaYZsL8WCwDaTuqFa1d1jjlaxg6+tZsB
+ 9GluwvIhSezPgnEmimZDkGnZRRSFiGP8yjqTjjWuf0bSj5rUnTGiyLyRZRNGcXmu6hjlABEB
+ AAHNJ1Rob21hcyBaaW1tZXJtYW5uIDx0emltbWVybWFubkBzdXNlLmRlPsLAjgQTAQgAOAIb
+ AwULCQgHAgYVCgkICwIEFgIDAQIeAQIXgBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftODH
+ AAoJEGgNwR1TC3ojx1wH/0hKGWugiqDgLNXLRD/4TfHBEKmxIrmfu9Z5t7vwUKfwhFL6hqvo
+ lXPJJKQpQ2z8+X2vZm/slsLn7J1yjrOsoJhKABDi+3QWWSGkaGwRJAdPVVyJMfJRNNNIKwVb
+ U6B1BkX2XDKDGffF4TxlOpSQzdtNI/9gleOoUA8+jy8knnDYzjBNOZqLG2FuTdicBXblz0Mf
+ vg41gd9kCwYXDnD91rJU8tzylXv03E75NCaTxTM+FBXPmsAVYQ4GYhhgFt8S2UWMoaaABLDe
+ 7l5FdnLdDEcbmd8uLU2CaG4W2cLrUaI4jz2XbkcPQkqTQ3EB67hYkjiEE6Zy3ggOitiQGcqp
+ j//OwE0EWznS4AEIAMYmP4M/V+T5RY5at/g7rUdNsLhWv1APYrh9RQefODYHrNRHUE9eosYb
+ T6XMryR9hT8XlGOYRwKWwiQBoWSDiTMo/Xi29jUnn4BXfI2px2DTXwc22LKtLAgTRjP+qbU6
+ 3Y0xnQN29UGDbYgyyK51DW3H0If2a3JNsheAAK+Xc9baj0LGIc8T9uiEWHBnCH+RdhgATnWW
+ GKdDegUR5BkDfDg5O/FISymJBHx2Dyoklv5g4BzkgqTqwmaYzsl8UxZKvbaxq0zbehDda8lv
+ hFXodNFMAgTLJlLuDYOGLK2AwbrS3Sp0AEbkpdJBb44qVlGm5bApZouHeJ/+n+7r12+lqdsA
+ EQEAAcLAdgQYAQgAIAIbDBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftOH6AAoJEGgNwR1T
+ C3ojVSkIALpAPkIJPQoURPb1VWjh34l0HlglmYHvZszJWTXYwavHR8+k6Baa6H7ufXNQtThR
+ yIxJrQLW6rV5lm7TjhffEhxVCn37+cg0zZ3j7zIsSS0rx/aMwi6VhFJA5hfn3T0TtrijKP4A
+ SAQO9xD1Zk9/61JWk8OysuIh7MXkl0fxbRKWE93XeQBhIJHQfnc+YBLprdnxR446Sh8Wn/2D
+ Ya8cavuWf2zrB6cZurs048xe0UbSW5AOSo4V9M0jzYI4nZqTmPxYyXbm30Kvmz0rYVRaitYJ
+ 4kyYYMhuULvrJDMjZRvaNe52tkKAvMevcGdt38H4KSVXAylqyQOW5zvPc4/sq9c=
+In-Reply-To: <6a917f07-18dd-4f8f-bfc5-b85d9051339d@gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Rspamd-Queue-Id: 5E829211F5
+X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
+X-Spamd-Result: default: False [-3.01 / 50.00]; BAYES_HAM(-3.00)[100.00%];
+ SUSPICIOUS_RECIPS(1.50)[]; NEURAL_HAM_LONG(-1.00)[-1.000];
+ NEURAL_HAM_SHORT(-0.20)[-1.000];
+ R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+ MIME_GOOD(-0.10)[text/plain]; MX_GOOD(-0.01)[];
+ RCPT_COUNT_TWELVE(0.00)[12]; TO_MATCH_ENVRCPT_ALL(0.00)[];
+ FREEMAIL_TO(0.00)[gmail.com,linux.intel.com,kernel.org,ffwll.ch];
+ ARC_NA(0.00)[];
+ DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+ MIME_TRACE(0.00)[0:+]; FREEMAIL_ENVRCPT(0.00)[gmail.com];
+ RCVD_TLS_ALL(0.00)[]; TO_DN_SOME(0.00)[];
+ RCVD_COUNT_TWO(0.00)[2]; FROM_EQ_ENVFROM(0.00)[];
+ FROM_HAS_DN(0.00)[];
+ FREEMAIL_CC(0.00)[lists.freedesktop.org,vger.kernel.org,linuxfoundation.org,gmail.com,kernel.org,lists.linuxfoundation.org];
+ DNSWL_BLOCKED(0.00)[2a07:de40:b281:104:10:150:64:97:from,2a07:de40:b281:106:10:150:64:167:received];
+ TAGGED_RCPT(0.00)[]; MID_RHS_MATCH_FROM(0.00)[];
+ DKIM_TRACE(0.00)[suse.de:+]; RCVD_VIA_SMTP_AUTH(0.00)[];
+ DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,
+ imap1.dmz-prg2.suse.org:rdns, suse.de:email, suse.de:mid, suse.de:dkim]
+X-Rspamd-Action: no action
+X-Spam-Flag: NO
+X-Spam-Score: -3.01
+X-Spam-Level: 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -72,106 +156,75 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hello Maxime,
+Hi
 
-On Tue Oct 14, 2025 at 11:31 AM CEST, Maxime Ripard wrote:
-> The bridge implementation relies on a drm_private_obj, that is
-> initialized by allocating and initializing a state, and then passing it
-> to drm_private_obj_init.
->
-> Since we're gradually moving away from that pattern to the more
-> established one relying on a atomic_create_state implementation, let's
-> migrate this instance to the new pattern.
->
-> Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
-> Signed-off-by: Maxime Ripard <mripard@kernel.org>
-> ---
->
-> Cc: Andrzej Hajda <andrzej.hajda@intel.com>
-> Cc: Neil Armstrong <neil.armstrong@linaro.org>
-> Cc: Robert Foss <rfoss@kernel.org>
-> Cc: Laurent Pinchart <Laurent.pinchart@ideasonboard.com>
-> Cc: Jonas Karlman <jonas@kwiboo.se>
-> Cc: Jernej Skrabec <jernej.skrabec@gmail.com>
-> ---
->  drivers/gpu/drm/drm_bridge.c | 33 ++++++++++++++++++---------------
->  1 file changed, 18 insertions(+), 15 deletions(-)
->
-> diff --git a/drivers/gpu/drm/drm_bridge.c b/drivers/gpu/drm/drm_bridge.c
-> index 630b5e6594e0affad9ba48791207c7b403da5db8..f0db891863428ee65625a6a3e=
-d38f63ec802595e 100644
-> --- a/drivers/gpu/drm/drm_bridge.c
-> +++ b/drivers/gpu/drm/drm_bridge.c
-> @@ -394,11 +394,27 @@ drm_bridge_atomic_destroy_priv_state(struct drm_pri=
-vate_obj *obj,
->  	struct drm_bridge *bridge =3D drm_priv_to_bridge(obj);
->
->  	bridge->funcs->atomic_destroy_state(bridge, state);
->  }
->
-> +static struct drm_private_state *
-> +drm_bridge_atomic_create_priv_state(struct drm_private_obj *obj)
-> +{
-> +	struct drm_bridge *bridge =3D drm_priv_to_bridge(obj);
-> +	struct drm_bridge_state *state;
-> +
-> +	state =3D bridge->funcs->atomic_reset(bridge);
-> +	if (IS_ERR(state))
-> +		return ERR_PTR(-ENOMEM);
+Am 21.10.25 um 10:41 schrieb Mehdi Ben Hadj Khelifa:
+> On 10/21/25 7:51 AM, Thomas Zimmermann wrote:
+>> Hi
+>>
+>> Am 20.10.25 um 13:57 schrieb Mehdi Ben Hadj Khelifa:
+>>> Use drm_format_info_min_pitch() to calculate the framebuffer line pitch
+>>> instead of directly multiplying width and height. This aligns with DRM
+>>> helpers for determining per-line byte size and avoids manual 
+>>> assumptions
+>>> about bytes per pixel.
+>>>
+>>> Suggested-by: Thomas Zimmermann <tzimmermann@suse.de>
+>>> Signed-off-by: Mehdi Ben Hadj Khelifa <mehdi.benhadjkhelifa@gmail.com>
+>>> ---
+>>>   drivers/gpu/drm/tiny/repaper.c | 6 +++++-
+>>>   1 file changed, 5 insertions(+), 1 deletion(-)
+>>>
+>>> diff --git a/drivers/gpu/drm/tiny/repaper.c b/drivers/gpu/drm/tiny/ 
+>>> repaper.c
+>>> index 4824f863fdba..aeff49bc6ba7 100644
+>>> --- a/drivers/gpu/drm/tiny/repaper.c
+>>> +++ b/drivers/gpu/drm/tiny/repaper.c
+>>> @@ -517,6 +517,8 @@ static int repaper_fb_dirty(struct 
+>>> drm_framebuffer *fb, const struct iosys_map *
+>>>       unsigned int dst_pitch = 0;
+>>>       struct iosys_map dst;
+>>>       struct drm_rect clip;
+>>> +    const struct drm_format_info *info = fb->format;
+>>
+>> This is the wrong format. You're allocating the output buffer here, 
+>> but you're using the input format. IIUC the output format is 
+>> DRM_FORMAT_R1. The input is _XRGB8888.
+>>
+> Ah. Thanks for clarification.I thought since it had the same output 
+> format. I will send a v3 shortly.> Best regards
 
-This is slightly changing the behaviour, assuming that every error is
--ENOMEM, while in the current implementation any error code is just
-propagated. I searched all .atomic_reset callbacks and apparently none can
-return any other error, so this would not introduce a bug with current
-drivers. However the atomic_reset docs say any ERR_PTR can be returned,
-thus a future driver would be allowed to return another error value, even
-thoug it's unlikely. The drm_bridge.c core having no control over what
-other drivers do, I wonder whether we should just return ERR_PTR(state)
-here, and keep the check on the drm_atomic_private_obj_init() return value
-below.
+Maybe just don't do it. This is just churn with no clear goal.
 
-I have no strong position about which direction is best however. Maybe
-changing the docs to say "Return: only -ENOMEM", and add here a
-WARN_ON(IS_ERR(state) && ERR_PTR(state) !=3D -ENOMEM)?
+Best regards
+Thomas
 
-> @@ -462,30 +478,17 @@ int drm_bridge_attach(struct drm_encoder *encoder, =
-struct drm_bridge *bridge,
->  		ret =3D bridge->funcs->attach(bridge, encoder, flags);
->  		if (ret < 0)
->  			goto err_reset_bridge;
->  	}
->
-> -	if (drm_bridge_is_atomic(bridge)) {
-> -		struct drm_bridge_state *state;
-> -
-> -		state =3D bridge->funcs->atomic_reset(bridge);
-> -		if (IS_ERR(state)) {
-> -			ret =3D PTR_ERR(state);
-> -			goto err_detach_bridge;
-> -		}
-> -
-> +	if (drm_bridge_is_atomic(bridge))
->  		drm_atomic_private_obj_init(bridge->dev, &bridge->base,
-> -					    &state->base,
-> +					    NULL,
->  					    &drm_bridge_priv_state_funcs);
-> -	}
->
->  	return 0;
->
-> -err_detach_bridge:
-> -	if (bridge->funcs->detach)
-> -		bridge->funcs->detach(bridge);
-> -
->  err_reset_bridge:
->  	bridge->dev =3D NULL;
->  	bridge->encoder =3D NULL;
->  	list_del(&bridge->chain_node);
+>> Thomas
+>>
+>>> +    size_t pitch;
+>>>       int idx, ret = 0;
+>>>       u8 *buf = NULL;
+>>> @@ -534,7 +536,9 @@ static int repaper_fb_dirty(struct 
+>>> drm_framebuffer *fb, const struct iosys_map *
+>>>       DRM_DEBUG("Flushing [FB:%d] st=%ums\n", fb->base.id,
+>>>             epd->factored_stage_time);
+>>> -    buf = kmalloc(fb->width * fb->height / 8, GFP_KERNEL);
+>>> +    pitch = drm_format_info_min_pitch(info, 0, fb->width);
+>>> +
+>>> +    buf = kmalloc_array(fb->height, pitch, GFP_KERNEL);
+>>>       if (!buf) {
+>>>           ret = -ENOMEM;
+>>>           goto out_exit;
+>>
 >
 
-Luca
-
+-- 
 --
-Luca Ceresoli, Bootlin
-Embedded Linux and Kernel engineering
-https://bootlin.com
+Thomas Zimmermann
+Graphics Driver Developer
+SUSE Software Solutions Germany GmbH
+Frankenstrasse 146, 90461 Nuernberg, Germany
+GF: Ivo Totev, Andrew Myers, Andrew McDonald, Boudien Moerman
+HRB 36809 (AG Nuernberg)
+
+
