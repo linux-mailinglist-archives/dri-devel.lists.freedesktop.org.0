@@ -2,94 +2,171 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5D8CABF6C4D
-	for <lists+dri-devel@lfdr.de>; Tue, 21 Oct 2025 15:29:18 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id CE611BF6DB8
+	for <lists+dri-devel@lfdr.de>; Tue, 21 Oct 2025 15:46:46 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id EEDAE10E5ED;
-	Tue, 21 Oct 2025 13:29:14 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 633A810E5F9;
+	Tue, 21 Oct 2025 13:46:43 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="TLmFnjHZ";
+	dkim=pass (2048-bit key; unprotected) header.d=Nvidia.com header.i=@Nvidia.com header.b="cZOmie8t";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
- [213.167.242.64])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CD5B910E5EA;
- Tue, 21 Oct 2025 13:29:12 +0000 (UTC)
-Received: from [192.168.88.20] (91-158-153-178.elisa-laajakaista.fi
- [91.158.153.178])
- by perceval.ideasonboard.com (Postfix) with ESMTPSA id A6D036A6;
- Tue, 21 Oct 2025 15:27:27 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
- s=mail; t=1761053248;
- bh=TdmnHYraVLXyq2KpB8KKjs8nVP++3l4uw6Cj2Qx6icU=;
- h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
- b=TLmFnjHZ7QGrJGGch1/PS5cm/SEPmEHLgfnRuKGU633tUbrafTejahnxqwDqb8WUA
- BzvQIu/AKRvUSlGdmWCAqjQjW9PUt5VL1fWjA2Ktkz5YhQDUq8+cEhbqslGSWERmTI
- Acn2+DbnOn3ka05kWMPm1BmHMJcyPmrIx4Z+WbUg=
-Message-ID: <5ae8b52a-ff6c-4ab6-b2e6-83bd858b206a@ideasonboard.com>
-Date: Tue, 21 Oct 2025 16:29:08 +0300
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 1/4] drm/client: Add client free callback to unprepare
- fb_helper
-To: Thomas Zimmermann <tzimmermann@suse.de>, jfalempe@redhat.com,
- javierm@redhat.com, mripard@kernel.org, maarten.lankhorst@linux.intel.com
-Cc: dri-devel@lists.freedesktop.org, linux-arm-kernel@lists.infradead.org,
- linux-samsung-soc@vger.kernel.org, intel-gfx@lists.freedesktop.org,
- intel-xe@lists.freedesktop.org, linux-arm-msm@vger.kernel.org,
- freedreno@lists.freedesktop.org, amd-gfx@lists.freedesktop.org,
- linux-tegra@vger.kernel.org
-References: <20251009132006.45834-1-tzimmermann@suse.de>
- <20251009132006.45834-2-tzimmermann@suse.de>
-Content-Language: en-US
-From: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-Autocrypt: addr=tomi.valkeinen@ideasonboard.com; keydata=
- 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
-In-Reply-To: <20251009132006.45834-2-tzimmermann@suse.de>
+Received: from CO1PR03CU002.outbound.protection.outlook.com
+ (mail-westus2azon11010050.outbound.protection.outlook.com [52.101.46.50])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D92BC10E5F4;
+ Tue, 21 Oct 2025 13:46:41 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=F1wY/GcVx9RDjA0ju4YAEFXL4gwlx1x6kcp8h4umf9D6mPOvlAiz3+v85csL5NKLbDgIW13vXz6g7ifHTKtb7YEOHg6fMHRzXu/mtytnAvIPGE5eOiMGIfgNe68wNOpBpncmZC7A+cUdopzK/FX4RruE499a9Ki+SE6uVTJAVKjAwr5xgrPxVEatBvFNoAvzemAe8lUcwoC1W3Kbm1Tm9BqFcvkF1K1N8PU7dRTMHX5ynre6ScjZKavK+wiphQRT5XvnYgfsESAOQP/+abYx2kxNklsuubPGUKtCeoiLhNulaziJIZ6FBZGfSoocA/GhU2WzBfBo2Z5mjRx8EruSew==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=to7udOvavfpslXPixvbyYVKGwrdINxB3QFJU4XXDzzo=;
+ b=bCqw7X5K/vigQXGhe9psPecne0m1X+eb4ayzuWJmdrRGczzSbHUrkeVP5lookEjaDCOYMNCx7x99Chh1Pyf9DbJH+MoNVrRka/lEBGvWn5PDWXNYv1/KQVWyI+YYCvSf20rv0fslTjQWa1Vn64oaHgxX2uLMzY5JcH6jKDzrd9USnlhVR0V4K3lIAs9GsHqz19RiWDxSZLTjiDQC86puDm9JCcWdlVU/EAohOPIolbB5BQV63+5driqdOYcTQ9E+4iOYiMdv5TF1a2fffYLgGIaoqY+2NzYVaXwrQoWmyYkSUDPOY/VMb73IRLXOLgp3AVwTu9mrM3DNRIQoqTVl2w==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
+ dkim=pass header.d=nvidia.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=to7udOvavfpslXPixvbyYVKGwrdINxB3QFJU4XXDzzo=;
+ b=cZOmie8tZZY8Cmmk7CfvZ5XC/wZEoStuP+UeS+fNUaUm87J/FJ4St7ueZisbcZpa3xE3AiJnDaBxykWFWFYSVpLl9LiQCte2WyyI95aYlxCrPen3jqraQz+J5E2b1VPPjTl8/beLPtFzIV7/v+22zkh0xLkNa1Hn6nUsxs7E/h0Jh489IvquGeh5YL3qy4QFfWZKhOTHSffzNZ2drlP3dLlcgMQ2vCJXHYVRT9qsmz+0CUytEJarcrW6EYA3wmaTlTS70b2P/NPy+evKACDgb0Y/4adGrgYTqN0zITysvclAIo39K2cPMAyMpX4HxjfxTSkwT1KsM+1frwWuOUAi9Q==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=nvidia.com;
+Received: from MN2PR12MB3997.namprd12.prod.outlook.com (2603:10b6:208:161::11)
+ by CH3PR12MB8332.namprd12.prod.outlook.com (2603:10b6:610:131::21)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9253.12; Tue, 21 Oct
+ 2025 13:46:36 +0000
+Received: from MN2PR12MB3997.namprd12.prod.outlook.com
+ ([fe80::d161:329:fdd3:e316]) by MN2PR12MB3997.namprd12.prod.outlook.com
+ ([fe80::d161:329:fdd3:e316%4]) with mapi id 15.20.9228.016; Tue, 21 Oct 2025
+ 13:46:35 +0000
+Content-Transfer-Encoding: quoted-printable
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Date: Tue, 21 Oct 2025 22:46:01 +0900
+Message-Id: <DDO1O4XLJVHR.1642YK4GK85CT@nvidia.com>
+Cc: "Joel Fernandes" <joelagnelf@nvidia.com>,
+ <linux-kernel@vger.kernel.org>, <rust-for-linux@vger.kernel.org>,
+ <dri-devel@lists.freedesktop.org>, "Alistair Popple" <apopple@nvidia.com>,
+ "Miguel Ojeda" <ojeda@kernel.org>, "Alex Gaynor" <alex.gaynor@gmail.com>,
+ "Boqun Feng" <boqun.feng@gmail.com>, "Gary Guo" <gary@garyguo.net>,
+ <bjorn3_gh@protonmail.com>, "Benno Lossin" <lossin@kernel.org>, "Andreas
+ Hindborg" <a.hindborg@kernel.org>, "Alice Ryhl" <aliceryhl@google.com>,
+ "Trevor Gross" <tmgross@umich.edu>, "David Airlie" <airlied@gmail.com>,
+ "Simona Vetter" <simona@ffwll.ch>, "Maarten Lankhorst"
+ <maarten.lankhorst@linux.intel.com>, "Maxime Ripard" <mripard@kernel.org>,
+ "Thomas Zimmermann" <tzimmermann@suse.de>, "John Hubbard"
+ <jhubbard@nvidia.com>, "Timur Tabi" <ttabi@nvidia.com>,
+ <joel@joelfernandes.org>, "Elle Rhumsaa" <elle@weathered-steel.dev>, "Yury
+ Norov" <yury.norov@gmail.com>, "Daniel Almeida"
+ <daniel.almeida@collabora.com>, <nouveau@lists.freedesktop.org>
+Subject: Re: [PATCH v7.1 0/4] bitfield initial refactor within nova-core
+ (RESEND)
+From: "Alexandre Courbot" <acourbot@nvidia.com>
+To: "Danilo Krummrich" <dakr@kernel.org>, "Alexandre Courbot"
+ <acourbot@nvidia.com>
+X-Mailer: aerc 0.21.0-0-g5549850facc2
+References: <20251016151323.1201196-1-joelagnelf@nvidia.com>
+ <DDLHP1ABV9BA.3V0NXW3RWHGL6@nvidia.com>
+ <059912ef-6023-4af4-a8df-f4b34fe98e71@kernel.org>
+In-Reply-To: <059912ef-6023-4af4-a8df-f4b34fe98e71@kernel.org>
+X-ClientProxiedBy: TYCPR01CA0004.jpnprd01.prod.outlook.com (2603:1096:405::16)
+ To CH2PR12MB3990.namprd12.prod.outlook.com
+ (2603:10b6:610:28::18)
+MIME-Version: 1.0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: MN2PR12MB3997:EE_|CH3PR12MB8332:EE_
+X-MS-Office365-Filtering-Correlation-Id: b77dc1f9-3094-46b4-31a1-08de10a8322e
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+ ARA:13230040|366016|1800799024|10070799003|7416014|376014|7053199007; 
+X-Microsoft-Antispam-Message-Info: =?utf-8?B?N2FBbTZHVm1sYVJlK0czWjlNV1dpZEdHczJnUE5RRE0xOWNwbWRyZVhway9h?=
+ =?utf-8?B?bkV2NEIwVzZvSGdKV25PTFJ1Wlo2NTdCb3ltWlBzS2ZnbjEwai96UUJId3dR?=
+ =?utf-8?B?UkxoWjVZM0RlbWY2Kzk0SG5qa20rMkFiR3loNWNnRDhvMGg1eXpaUHdxVDNo?=
+ =?utf-8?B?UTFKK3pCNVQvVjBiYzJGREk4RW12QWFDcWZ0clE0WlA3VWRVUjFvcE9sYVR4?=
+ =?utf-8?B?UmRUak9rOXpvS2duR0RZakxZTEFrcWJ1anh3MGJvc0lldUNpRjJlQ1NVQmtU?=
+ =?utf-8?B?WVNuUlNVdFdwK1JYSVN2QWRMcHJBVUpvUk5nTVpVQmFHeEdUYkZYa3lZbDQ2?=
+ =?utf-8?B?SWttcEc2aHM3Y1NNZWVYZzRsOVlSQzBJaFNVZE1KYWNiSUVGaVZHQitPZUQ2?=
+ =?utf-8?B?MEpGRTZRVk9DVGZlaXRudDE3dWIrVmVjaVhNMWtaUnJ3T2tVUGswWjZ0RFRF?=
+ =?utf-8?B?Z2pJTkZIUUdTSWlzaElaUWpaM2xsSGlSUU9iQi9DT3k1SWUycHR0R1h1cURa?=
+ =?utf-8?B?clM1WlZJRHljcmtyb2ZET2w0V0pGRzZHVVBGeHQ0QjZYaUVEWlUzaURtUnNa?=
+ =?utf-8?B?R2xzOHlndTBPbWNOOFlub2I5SjNEeEdUR0t6SHUrNUpQNUFhaXlwbjNTY0w4?=
+ =?utf-8?B?blRLQmpwTGhDbVQxaEthYXVZTE1pcmZUU2t2T2tTZ253NUNRZWMrSHN5QjZQ?=
+ =?utf-8?B?S1A2R2RiUW1OanRaYmFaQXpTL1VZM04wN2pnQnBVR0ZPZ1JxYXZEME5SUHpW?=
+ =?utf-8?B?QWxLK1lYaEFMandGVnA0U1lSRDJNcTBGb0QyTzFCM21MK1JnV3l2Q0l3NUhp?=
+ =?utf-8?B?dGdlYzVFc28rdHZXb1Z0TXNVdzdQQ1FZUi8wOXdjN1JvRUR6NFRrZWxOR2lS?=
+ =?utf-8?B?c2JZalFxV1R0cEZ3NUF4aDV1NHc1UWNUbSt1MmVNVWZGRjc0QnMzN1FaT2FZ?=
+ =?utf-8?B?QU5BeHQ0NVJmM0NNandPcVR6UnhXeHJxQ0dhMVAwa1NrWlZmWk1rUWZZaEtT?=
+ =?utf-8?B?ZEgva1pMMzgyaGZVdzVUU21aS09GVkxkcFZUeDFkcjlhL1JIaDVHbzkrd1c5?=
+ =?utf-8?B?cDR1S2VVTzE3cjBxK0M4QUVORTBTaG1wOEg0QWRtZG9SOTE2WS9aRS9BQm81?=
+ =?utf-8?B?dWxVNit5R0lkRHp2aFlVUFhqQ1NRUHhwSzFNTzhVYUwraEdwWUM0cC9CMFRT?=
+ =?utf-8?B?S0RVeWV4dzVVTGVhSGFjcGhjSnZuWWJLb04wN3F6S3JDRHUxeXhla1l6R0Rv?=
+ =?utf-8?B?TzRXWUgwK0lXK2JLQ04yY1duRTRTK3R4KytlcXVpa01SLytmdElUN3BlYmNh?=
+ =?utf-8?B?Z3ZyRjFjSU5DSFRxNExuS3hJSitDejVwcVpndGJUWmJOTWg3azBlQ2JhMy9r?=
+ =?utf-8?B?dEtWWU1adDJ4MlJPRGdoa3dVZFlxSVJmc1o4ZDYzRDF3K21jMkZCQkhCdHp0?=
+ =?utf-8?B?c2k5MmtaR283dEVnUTRUM2hkdGFnTWFLRXdISVV2NGpPazhkSkhzcXVDdUU2?=
+ =?utf-8?B?OWhkWEhxYnNJekx1TzY2SS9RSVdUd2YzaGFIaTNyQ3Z5bi82SUVOMFBpN09F?=
+ =?utf-8?B?eFhHL04zM3hFbUlQMGdHQzlPODJ3N0U3MXVxRkFkYVlRTFRrc0ZYU2YvNzB1?=
+ =?utf-8?B?UzNJQWlaODl5UDJ2eWZ1ZTk3M2FHK3pmV3Z3U1VJS3hSWFZ3WmNxMnhvQXpG?=
+ =?utf-8?B?ZERVVnBKVm4xUkZ6MFZnbm42YlVxbUxpR0VOWkUyU2E4b2QrOVd3OGlwVGtE?=
+ =?utf-8?B?YUd6S3QzaUY1NE9qL2lUU3dCR0xSVDRzb1pzZlVaL1VMOFZNM1I4T0RuVFgy?=
+ =?utf-8?B?V2R6ZWIyZXVTditoY2VVQWF2V0QrUk9zVThqK2hsc1NNWng2R2pNSG4zeno0?=
+ =?utf-8?B?MkdCaFNVSC8zZGlsdnVGak5uMnVvVXVJT0MzRHB5WkZQS2VrZWtuN1lYcWJS?=
+ =?utf-8?Q?87idhu5aObKTCZEcUcT/CHTIq77VxFIB?=
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:MN2PR12MB3997.namprd12.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230040)(366016)(1800799024)(10070799003)(7416014)(376014)(7053199007);
+ DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?Snh6ZlNBaUlwNWhRNGVYWTRtWU5LOTVQTGk0RVk4S1RDREpNcW9wTGptbU1Q?=
+ =?utf-8?B?UlgyWXArdVFMOW1DeW5oZGp5WnNnR1g5Tnh0WVFRSUIzRURmekI3dUhERFM0?=
+ =?utf-8?B?emk1YXZuTktOdWttQTF1d21lTVM4dThZWm9abEFBVkFHL2VvNnBhK1FDMklp?=
+ =?utf-8?B?MEhwSHhZWGpHRUhhWHBENlFMYkVHekgveTVOZjF1akowbmhKUUxiZ1hPTkNP?=
+ =?utf-8?B?NktvcG9ET0xoeGtMSlBQQ3ZnUmsrRjJsMk1BWnBucUNsKzAyMCtMcGtPOVM1?=
+ =?utf-8?B?QTBBMzlSc3psWTlMUW9xN3B2OVBNY05xNFdJeUtvQitvbDQ2ZzJyVHJoTFFD?=
+ =?utf-8?B?d3YyVHZRYU9IT3Q0TEpQd05IQnFia3hWTFplT1B0bG5sUEdua0Q2SFNvY0Fz?=
+ =?utf-8?B?YXhpOTFyQ3Y0WlFxQU9oZFprSVRtSFRWaVNxd3ZBMUhIZlBXcGpwUWdEM0xT?=
+ =?utf-8?B?V3YrL2twclV2VDg5RE0zbW90R0srZXFoZWxQYnNqYlFsZDVkdGhmNXNqVEpj?=
+ =?utf-8?B?OVFZUXNGcGk3YVhobmwyT2lMSEZlOW1JTUdDdDlHY00yUzJPdlljYndEYys1?=
+ =?utf-8?B?czZQREhWWlRxa25NdmFuTDdKTzZ5RXFuQzNHOEZPTW5YbENSQ0lEYm15cUkv?=
+ =?utf-8?B?QUkxOXhxODRuL0NkY1dsRUQwSUZQb0dGSi82TXU3NWxIQmFadTlQbUFjZjds?=
+ =?utf-8?B?RDhGeTlOS3VlK29uWUViRXhMdzc1eGd3Y254S1BLNVFWN3NGTmtLbW5ha2Jv?=
+ =?utf-8?B?UzhrRUdVS2pLVmNsQllmRC9iZjdRUXVudGhOTlBKdlBpb0VHM21hWDk2NUNJ?=
+ =?utf-8?B?c2VIMXFmbzkzTTRsUGZmd2l4VFlXTGVyTmE4KzdjVHNoNUlaWDFCMGJ4dTY0?=
+ =?utf-8?B?cFlXUitJNHZabHZ1Qkc3UDZZNDJndzJWVVhTTWF2TGVVRjN0VDNZWUxkZUpp?=
+ =?utf-8?B?NXR5SDhIVGNqVVRyb1pmUWJUYkxucytmL3E2RE9lR1BRYjVzblhNbnhjZzF3?=
+ =?utf-8?B?NmdnemFEY3RVdU5sdUpkZkRJUENXNjBVYTh0WUNpVmxmZmxEdkpaa2EveWZR?=
+ =?utf-8?B?TjU2VW9YQzRtc21Wb1ZTR2paNWFySzFIeUtlbm1nYmxXNDd3eDQxR09tU08y?=
+ =?utf-8?B?YzJrTnZINWtpT09wazNpcXVvTlhPN0N4WWVrb2Raa215WFY5MW5XM0RIZkdm?=
+ =?utf-8?B?R0ZobURzcFdIWElVTGZkTkRiZ0ZPUUxlSTNFSDN6VVFaR3Y4MmZEVEtqWWND?=
+ =?utf-8?B?bUhQL216NXJnVWpzNE5tQ2FEUUhONVpCL2NETHdvNE1uZkNQcGVackNJY0pp?=
+ =?utf-8?B?UGI0QlRxSkFxTFRBWVhKNEJwVFF0eTQwcE11Q216bzIyZ1RRN1lHOEtXSHZU?=
+ =?utf-8?B?ekpZeisyNzFzNzhRdlJ2MlBEMlhib2htZGFMN2pFMHd1bi80ZDlzK1ZNUWlE?=
+ =?utf-8?B?a2JIRHFzcVZqU1o0WVArcXNVT0hRZnFYSXR5WnFNUTI4djBURi9VdVI5UG9r?=
+ =?utf-8?B?SXpwbmY3SXNqZHVrbUprTDRYS0tKVkZXSEpaZFZaUWZiMFNtQVRTaEEvSHpK?=
+ =?utf-8?B?SDBUWmozMC9BclBaVFhtTUM5alRBRmFxMG9HdzhIR01KVU53SVFCZXZNeElS?=
+ =?utf-8?B?ZWdqZEZUcWZuVFJ1M1JQZ0JGdWxNN3VRb1hoWnE2WTRTajd6bnhydHJqR096?=
+ =?utf-8?B?ZFd4V2thSGtkbHBETXBRaFB0L0pYLzdyaTkrVmt3UFdOZXcxTzBDZVR1em9F?=
+ =?utf-8?B?bDZIQWpKcU9hTjIwL0RkWFhLdjFIWHNYRkNab0J5NS84bjR1R1hPSWNHYk5Z?=
+ =?utf-8?B?WXNHYzdJOHZSbzNqYmthMllzYlJkcDNkR2dQMG1MNU94WGpVSXgwZGczb2xK?=
+ =?utf-8?B?bXZ2VVZ3YjlHQTR5VG1rZG9kclNmajEweWduaEZ5MVZWR2ErOUFnNC9SeHRH?=
+ =?utf-8?B?VjZ3WnNJeVZEcDY2VjhjSTlxNkF3T1ZYSy9RWnJoSUNlRlp6NWNWTmx2OEw2?=
+ =?utf-8?B?ZDNmUEdtbmphV1gzTXAwK3VBTUNWc1g4aXo2dkN2dCtpeWYrejh1ckhEVVdt?=
+ =?utf-8?B?cElZOVZmVlcvVjNzNXRLaDdiMkYvZkJ4Y3pmSnBNSi9Zam5PWlgzcWt1Zi9S?=
+ =?utf-8?B?TXVKelVLQUR1azRLOTcyRlVGZGdsZS9EeHBudGdEeTU4RTNaaDE0VnVCWWhX?=
+ =?utf-8?Q?u5ahwwpFAaX4hBOGF0zi3ivrQNgysyiI2vCbj/Md7BAB?=
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: b77dc1f9-3094-46b4-31a1-08de10a8322e
+X-MS-Exchange-CrossTenant-AuthSource: CH2PR12MB3990.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 21 Oct 2025 13:46:35.4063 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: qXgomwxH5/PX9gBOXkSS5cuaVMY2JjggzttCcfcdRhzPk0ExOdBx7e5iRP95tiQzptnKSpeIBEZM2TwV1z2YPw==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CH3PR12MB8332
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -105,275 +182,47 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 09/10/2025 16:16, Thomas Zimmermann wrote:
-> Add free callback to struct drm_client_funcs. Invoke function to
-> free the client memory as part of the release process. Implement
-> free for fbdev emulation.
-> 
-> Fbdev emulation allocates and prepares client memory in
-> drm_fbdev_client_setup(). The release happens in fb_destroy from
-> struct fb_ops. Multiple implementations of this callback exist in
-> the various drivers that provide fbdev implementation. Each of them
-> needs to follow the implementation details of the fbdev setup code.
-> 
-> Adding a free callback for the client puts the unprepare and release
-> of the fbdev client in a single place.
-> 
-> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
-> ---
->  drivers/gpu/drm/armada/armada_fbdev.c      |  2 --
->  drivers/gpu/drm/clients/drm_fbdev_client.c | 17 +++++++++++++++--
->  drivers/gpu/drm/drm_client.c               |  4 ++++
->  drivers/gpu/drm/drm_fbdev_dma.c            |  4 ----
->  drivers/gpu/drm/drm_fbdev_shmem.c          |  2 --
->  drivers/gpu/drm/drm_fbdev_ttm.c            |  2 --
->  drivers/gpu/drm/exynos/exynos_drm_fbdev.c  |  2 --
->  drivers/gpu/drm/gma500/fbdev.c             |  3 ---
->  drivers/gpu/drm/i915/display/intel_fbdev.c |  2 --
->  drivers/gpu/drm/msm/msm_fbdev.c            |  2 --
->  drivers/gpu/drm/omapdrm/omap_fbdev.c       |  2 --
+On Tue Oct 21, 2025 at 8:44 AM JST, Danilo Krummrich wrote:
+> On 10/18/25 3:41 PM, Alexandre Courbot wrote:
+>> On Fri Oct 17, 2025 at 12:13 AM JST, Joel Fernandes wrote:
+>>> (Resending due to some commit message mistakes (missing SOB etc). Thank=
+s!).
+>>>
+>>> These patches implement the initial refactoring and few improvements to=
+ the
+>>> register and bitfield macros. Rebased on drm-rust-next.
+>>>
+>>> Main difference from the previous series [1] is dropped the moving out =
+of
+>>> nova-core pending BoundedInt changes:
+>>> https://lore.kernel.org/all/20251003154748.1687160-1-joelagnelf@nvidia.=
+com/
+>>> Other than that, added tags, resolved conflict with kernel::fmt changes=
+ and
+>>> rebased on drm-rust-next.
+>>=20
+>> Thanks, this version is looking pretty good, and works as intended.
+>>=20
+>> I plan on pushing these 4 patches soonish after fixing the line length
+>> issues and the other few problems reported by checkpatch.
+>>=20
+>> Danilo, please let me know if you think this is premature, but imho it
+>> is good to set this part in stone to avoid merge conflicts with future
+>> patches that will want to modify the register macro.
+>
+> SGTM, we can keep discussing the hi:lo ascending / descending topic for
+> nova-core independently.
+>
+> However, for the sample code that, eventually, we'll move out of nova-cor=
+e, we
+> should stick to what's common.
+>
+> With that,
+>
+> Acked-by: Danilo Krummrich <dakr@kernel.org>
 
-For omapdrm:
+Pushed to drm-rust-next after fixing the checkpatch errors and
+reordering the sample code in descending order.
 
-Acked-by: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-
- Tomi
-
->  drivers/gpu/drm/radeon/radeon_fbdev.c      |  2 --
->  drivers/gpu/drm/tegra/fbdev.c              |  2 --
->  include/drm/drm_client.h                   | 10 ++++++++++
->  14 files changed, 29 insertions(+), 27 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/armada/armada_fbdev.c b/drivers/gpu/drm/armada/armada_fbdev.c
-> index cb53cc91bafb..22e2081bfa04 100644
-> --- a/drivers/gpu/drm/armada/armada_fbdev.c
-> +++ b/drivers/gpu/drm/armada/armada_fbdev.c
-> @@ -28,8 +28,6 @@ static void armada_fbdev_fb_destroy(struct fb_info *info)
->  	fbh->fb->funcs->destroy(fbh->fb);
->  
->  	drm_client_release(&fbh->client);
-> -	drm_fb_helper_unprepare(fbh);
-> -	kfree(fbh);
->  }
->  
->  static const struct fb_ops armada_fb_ops = {
-> diff --git a/drivers/gpu/drm/clients/drm_fbdev_client.c b/drivers/gpu/drm/clients/drm_fbdev_client.c
-> index f894ba52bdb5..5336accab1b6 100644
-> --- a/drivers/gpu/drm/clients/drm_fbdev_client.c
-> +++ b/drivers/gpu/drm/clients/drm_fbdev_client.c
-> @@ -13,16 +13,28 @@
->   * struct drm_client_funcs
->   */
->  
-> +static void drm_fbdev_client_free(struct drm_client_dev *client)
-> +{
-> +	struct drm_fb_helper *fb_helper = drm_fb_helper_from_client(client);
-> +
-> +	drm_fb_helper_unprepare(fb_helper);
-> +	kfree(fb_helper);
-> +}
-> +
->  static void drm_fbdev_client_unregister(struct drm_client_dev *client)
->  {
->  	struct drm_fb_helper *fb_helper = drm_fb_helper_from_client(client);
->  
->  	if (fb_helper->info) {
-> +		/*
-> +		 * Fully probed framebuffer device
-> +		 */
->  		drm_fb_helper_unregister_info(fb_helper);
->  	} else {
-> +		/*
-> +		 * Partially initialized client, no framebuffer device yet
-> +		 */
->  		drm_client_release(&fb_helper->client);
-> -		drm_fb_helper_unprepare(fb_helper);
-> -		kfree(fb_helper);
->  	}
->  }
->  
-> @@ -88,6 +100,7 @@ static int drm_fbdev_client_resume(struct drm_client_dev *client, bool holds_con
->  
->  static const struct drm_client_funcs drm_fbdev_client_funcs = {
->  	.owner		= THIS_MODULE,
-> +	.free		= drm_fbdev_client_free,
->  	.unregister	= drm_fbdev_client_unregister,
->  	.restore	= drm_fbdev_client_restore,
->  	.hotplug	= drm_fbdev_client_hotplug,
-> diff --git a/drivers/gpu/drm/drm_client.c b/drivers/gpu/drm/drm_client.c
-> index 3fa38d4ac70b..fe9c6d7083ea 100644
-> --- a/drivers/gpu/drm/drm_client.c
-> +++ b/drivers/gpu/drm/drm_client.c
-> @@ -168,6 +168,10 @@ void drm_client_release(struct drm_client_dev *client)
->  
->  	drm_client_modeset_free(client);
->  	drm_client_close(client);
-> +
-> +	if (client->funcs && client->funcs->free)
-> +		client->funcs->free(client);
-> +
->  	drm_dev_put(dev);
->  }
->  EXPORT_SYMBOL(drm_client_release);
-> diff --git a/drivers/gpu/drm/drm_fbdev_dma.c b/drivers/gpu/drm/drm_fbdev_dma.c
-> index 8bd626ef16c7..c6196293e424 100644
-> --- a/drivers/gpu/drm/drm_fbdev_dma.c
-> +++ b/drivers/gpu/drm/drm_fbdev_dma.c
-> @@ -57,8 +57,6 @@ static void drm_fbdev_dma_fb_destroy(struct fb_info *info)
->  	drm_client_buffer_vunmap(fb_helper->buffer);
->  	drm_client_framebuffer_delete(fb_helper->buffer);
->  	drm_client_release(&fb_helper->client);
-> -	drm_fb_helper_unprepare(fb_helper);
-> -	kfree(fb_helper);
->  }
->  
->  static const struct fb_ops drm_fbdev_dma_fb_ops = {
-> @@ -92,8 +90,6 @@ static void drm_fbdev_dma_shadowed_fb_destroy(struct fb_info *info)
->  	drm_client_buffer_vunmap(fb_helper->buffer);
->  	drm_client_framebuffer_delete(fb_helper->buffer);
->  	drm_client_release(&fb_helper->client);
-> -	drm_fb_helper_unprepare(fb_helper);
-> -	kfree(fb_helper);
->  }
->  
->  static const struct fb_ops drm_fbdev_dma_shadowed_fb_ops = {
-> diff --git a/drivers/gpu/drm/drm_fbdev_shmem.c b/drivers/gpu/drm/drm_fbdev_shmem.c
-> index 1e827bf8b815..51573058df6f 100644
-> --- a/drivers/gpu/drm/drm_fbdev_shmem.c
-> +++ b/drivers/gpu/drm/drm_fbdev_shmem.c
-> @@ -65,8 +65,6 @@ static void drm_fbdev_shmem_fb_destroy(struct fb_info *info)
->  	drm_client_buffer_vunmap(fb_helper->buffer);
->  	drm_client_framebuffer_delete(fb_helper->buffer);
->  	drm_client_release(&fb_helper->client);
-> -	drm_fb_helper_unprepare(fb_helper);
-> -	kfree(fb_helper);
->  }
->  
->  static const struct fb_ops drm_fbdev_shmem_fb_ops = {
-> diff --git a/drivers/gpu/drm/drm_fbdev_ttm.c b/drivers/gpu/drm/drm_fbdev_ttm.c
-> index 85feb55bba11..ccf460fbc1f0 100644
-> --- a/drivers/gpu/drm/drm_fbdev_ttm.c
-> +++ b/drivers/gpu/drm/drm_fbdev_ttm.c
-> @@ -53,8 +53,6 @@ static void drm_fbdev_ttm_fb_destroy(struct fb_info *info)
->  	drm_client_framebuffer_delete(fb_helper->buffer);
->  
->  	drm_client_release(&fb_helper->client);
-> -	drm_fb_helper_unprepare(fb_helper);
-> -	kfree(fb_helper);
->  }
->  
->  static const struct fb_ops drm_fbdev_ttm_fb_ops = {
-> diff --git a/drivers/gpu/drm/exynos/exynos_drm_fbdev.c b/drivers/gpu/drm/exynos/exynos_drm_fbdev.c
-> index 93de25b77e68..a3bd21a827ad 100644
-> --- a/drivers/gpu/drm/exynos/exynos_drm_fbdev.c
-> +++ b/drivers/gpu/drm/exynos/exynos_drm_fbdev.c
-> @@ -42,8 +42,6 @@ static void exynos_drm_fb_destroy(struct fb_info *info)
->  	drm_framebuffer_remove(fb);
->  
->  	drm_client_release(&fb_helper->client);
-> -	drm_fb_helper_unprepare(fb_helper);
-> -	kfree(fb_helper);
->  }
->  
->  static const struct fb_ops exynos_drm_fb_ops = {
-> diff --git a/drivers/gpu/drm/gma500/fbdev.c b/drivers/gpu/drm/gma500/fbdev.c
-> index a6af21514cff..bc92fa24a1e2 100644
-> --- a/drivers/gpu/drm/gma500/fbdev.c
-> +++ b/drivers/gpu/drm/gma500/fbdev.c
-> @@ -84,9 +84,6 @@ static void psb_fbdev_fb_destroy(struct fb_info *info)
->  	drm_gem_object_put(obj);
->  
->  	drm_client_release(&fb_helper->client);
-> -
-> -	drm_fb_helper_unprepare(fb_helper);
-> -	kfree(fb_helper);
->  }
->  
->  static const struct fb_ops psb_fbdev_fb_ops = {
-> diff --git a/drivers/gpu/drm/i915/display/intel_fbdev.c b/drivers/gpu/drm/i915/display/intel_fbdev.c
-> index 3fbdf75415cc..d5f26c8bb102 100644
-> --- a/drivers/gpu/drm/i915/display/intel_fbdev.c
-> +++ b/drivers/gpu/drm/i915/display/intel_fbdev.c
-> @@ -146,8 +146,6 @@ static void intel_fbdev_fb_destroy(struct fb_info *info)
->  	drm_framebuffer_remove(fb_helper->fb);
->  
->  	drm_client_release(&fb_helper->client);
-> -	drm_fb_helper_unprepare(fb_helper);
-> -	kfree(fb_helper);
->  }
->  
->  __diag_push();
-> diff --git a/drivers/gpu/drm/msm/msm_fbdev.c b/drivers/gpu/drm/msm/msm_fbdev.c
-> index b5969374d53f..aad6fb77f0de 100644
-> --- a/drivers/gpu/drm/msm/msm_fbdev.c
-> +++ b/drivers/gpu/drm/msm/msm_fbdev.c
-> @@ -52,8 +52,6 @@ static void msm_fbdev_fb_destroy(struct fb_info *info)
->  	drm_framebuffer_remove(fb);
->  
->  	drm_client_release(&helper->client);
-> -	drm_fb_helper_unprepare(helper);
-> -	kfree(helper);
->  }
->  
->  static const struct fb_ops msm_fb_ops = {
-> diff --git a/drivers/gpu/drm/omapdrm/omap_fbdev.c b/drivers/gpu/drm/omapdrm/omap_fbdev.c
-> index 948af7ec1130..b5df2923d2a6 100644
-> --- a/drivers/gpu/drm/omapdrm/omap_fbdev.c
-> +++ b/drivers/gpu/drm/omapdrm/omap_fbdev.c
-> @@ -103,8 +103,6 @@ static void omap_fbdev_fb_destroy(struct fb_info *info)
->  	drm_framebuffer_remove(fb);
->  
->  	drm_client_release(&helper->client);
-> -	drm_fb_helper_unprepare(helper);
-> -	kfree(helper);
->  }
->  
->  /*
-> diff --git a/drivers/gpu/drm/radeon/radeon_fbdev.c b/drivers/gpu/drm/radeon/radeon_fbdev.c
-> index dc81b0c2dbff..4df6c9167bf0 100644
-> --- a/drivers/gpu/drm/radeon/radeon_fbdev.c
-> +++ b/drivers/gpu/drm/radeon/radeon_fbdev.c
-> @@ -184,8 +184,6 @@ static void radeon_fbdev_fb_destroy(struct fb_info *info)
->  	radeon_fbdev_destroy_pinned_object(gobj);
->  
->  	drm_client_release(&fb_helper->client);
-> -	drm_fb_helper_unprepare(fb_helper);
-> -	kfree(fb_helper);
->  }
->  
->  static const struct fb_ops radeon_fbdev_fb_ops = {
-> diff --git a/drivers/gpu/drm/tegra/fbdev.c b/drivers/gpu/drm/tegra/fbdev.c
-> index 1b70f5e164af..91aece6f34e0 100644
-> --- a/drivers/gpu/drm/tegra/fbdev.c
-> +++ b/drivers/gpu/drm/tegra/fbdev.c
-> @@ -53,8 +53,6 @@ static void tegra_fbdev_fb_destroy(struct fb_info *info)
->  	drm_framebuffer_remove(fb);
->  
->  	drm_client_release(&helper->client);
-> -	drm_fb_helper_unprepare(helper);
-> -	kfree(helper);
->  }
->  
->  static const struct fb_ops tegra_fb_ops = {
-> diff --git a/include/drm/drm_client.h b/include/drm/drm_client.h
-> index bdd845e383ef..eecb8d6e15c7 100644
-> --- a/include/drm/drm_client.h
-> +++ b/include/drm/drm_client.h
-> @@ -28,6 +28,16 @@ struct drm_client_funcs {
->  	 */
->  	struct module *owner;
->  
-> +	/**
-> +	 * @free:
-> +	 *
-> +	 * Called when the client gets unregistered. Implementations should
-> +	 * release all client-specific data and free the memory.
-> +	 *
-> +	 * This callback is optional.
-> +	 */
-> +	void (*free)(struct drm_client_dev *client);
-> +
->  	/**
->  	 * @unregister:
->  	 *
-
+... and as dim was pushing, I noticed I forgot to add your Acked-by. >_<
+Apologies for that.
