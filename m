@@ -2,68 +2,93 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6E838BF68BA
-	for <lists+dri-devel@lfdr.de>; Tue, 21 Oct 2025 14:51:16 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1FF9CBF68B6
+	for <lists+dri-devel@lfdr.de>; Tue, 21 Oct 2025 14:51:06 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6FFFF10E5DB;
-	Tue, 21 Oct 2025 12:51:14 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4DDED10E5DE;
+	Tue, 21 Oct 2025 12:51:04 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=collabora.com header.i=sebastian.reichel@collabora.com header.b="CIUe4zA6";
+	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="UWegeLBG";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sender4-pp-f112.zoho.com (sender4-pp-f112.zoho.com
- [136.143.188.112])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 23ECD10E5DB
- for <dri-devel@lists.freedesktop.org>; Tue, 21 Oct 2025 12:51:13 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; t=1761051051; cv=none; 
- d=zohomail.com; s=zohoarc; 
- b=lzHgoYFKgS6RXH252NfGtH5MKLPjYZwcdKP6Hm4hhKvhh636hEasRNBCz0mEkhfymDtl1ejemeWqMlWmODTub2iEZZp3GRJGhyli0ze1rLtq9YjFUZSu3TKDs+b/9alKnoppTOSErgWicKM2N9ogMy2pkqQuvCyO50Iorv/EEPY=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
- s=zohoarc; t=1761051051;
- h=Content-Type:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To;
- bh=sVBs5E3IrDShRMqJSob7W9r3Q2rnou+h3QXZROh8of0=; 
- b=cL/tOcRYcCRSBuBtSMMvi1aTFLCeP5/8SZ0nHgqqq+TJeY9N+wOHSS9cqiBayakZwbwnrSYt5LKpvdSRU+MPagz0GamYHbEruDK33UBSqbNeyJmsQVzIWJpCAG6RQbuCLaTCZFzh4KmPHQnZ36HQM4Xdq3VNqPk5AoD0rImhvXc=
-ARC-Authentication-Results: i=1; mx.zohomail.com;
- dkim=pass  header.i=collabora.com;
- spf=pass  smtp.mailfrom=sebastian.reichel@collabora.com;
- dmarc=pass header.from=<sebastian.reichel@collabora.com>
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1761051051; 
- s=zohomail; d=collabora.com; i=sebastian.reichel@collabora.com;
- h=Date:Date:From:From:To:To:Cc:Cc:Subject:Subject:Message-ID:References:MIME-Version:Content-Type:In-Reply-To:Message-Id:Reply-To;
- bh=sVBs5E3IrDShRMqJSob7W9r3Q2rnou+h3QXZROh8of0=;
- b=CIUe4zA6cMdyn5fizicruc74iBFytep1RKW60SFwRu2m09eg64yshzB4DdS8YG+V
- hjFD0Lc2hHrB5/XfgXLwcAM0BhvMtkbixfllwJmnfyTwJHWNTHC9a52Qk8Cvj6L+O//
- OyDVd2WN0Gqqa9N/nDFvdGZI4KkHU8dwhnJs5ZCQ=
-Received: by mx.zohomail.com with SMTPS id 1761051048276913.6194416974873;
- Tue, 21 Oct 2025 05:50:48 -0700 (PDT)
-Received: by venus (Postfix, from userid 1000)
- id D227918374D; Tue, 21 Oct 2025 14:50:39 +0200 (CEST)
-Date: Tue, 21 Oct 2025 14:50:39 +0200
-From: Sebastian Reichel <sebastian.reichel@collabora.com>
-To: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
-Cc: Louis-Alexis Eyraud <louisalexis.eyraud@collabora.com>, 
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, 
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, 
- Simona Vetter <simona@ffwll.ch>, Rob Herring <robh@kernel.org>, 
- Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
- Matthias Brugger <matthias.bgg@gmail.com>, kernel@collabora.com,
- dri-devel@lists.freedesktop.org, 
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
- linux-arm-kernel@lists.infradead.org, linux-mediatek@lists.infradead.org, 
- Conor Dooley <conor.dooley@microchip.com>,
- Boris Brezillon <boris.brezillon@collabora.com>, 
- Steven Price <steven.price@arm.com>
-Subject: Re: [PATCH v2 0/3] Add Mali GPU support for Mediatek MT8365 SoC
-Message-ID: <e3hyej2bjtyjlwcpzupomvjzyqkwyclhvoyesgzq3byk3slom4@7bs5zsaxjq6t>
-References: <20251021-mt8365-enable-gpu-v2-0-17e05cff2c86@collabora.com>
- <0e5ca992-730d-42c5-b5b8-5ad04116b8d4@collabora.com>
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B9F8E10E5DE
+ for <dri-devel@lists.freedesktop.org>; Tue, 21 Oct 2025 12:51:03 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1761051062;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=TUgvyKJjSPu3KWgjI9OA8D7l95+GmQlFsSQ0tgCxkb8=;
+ b=UWegeLBGBwD9H112nTE2zro9sjNjBnwxTPzNAYMGoFNWgn+avoy9fGIAyoBppGhfGsYKf4
+ xBhUlQndaZ5BNgLOFPztBl6amIre3hchMba+swJS9ANQtS8cmjlE9qXSru1izC/M3Tng0F
+ kgEiAnWoAlhFPLnY5NHDVkEf/r3OeDk=
+Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
+ [209.85.221.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-19-TXucnd2vPNGPYB17iotPww-1; Tue, 21 Oct 2025 08:51:01 -0400
+X-MC-Unique: TXucnd2vPNGPYB17iotPww-1
+X-Mimecast-MFC-AGG-ID: TXucnd2vPNGPYB17iotPww_1761051061
+Received: by mail-wr1-f69.google.com with SMTP id
+ ffacd0b85a97d-42700099ff5so4400151f8f.2
+ for <dri-devel@lists.freedesktop.org>; Tue, 21 Oct 2025 05:51:01 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1761051060; x=1761655860;
+ h=content-transfer-encoding:in-reply-to:from:content-language
+ :references:cc:to:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=TUgvyKJjSPu3KWgjI9OA8D7l95+GmQlFsSQ0tgCxkb8=;
+ b=IMgSHzt93qa+qkhyG0tGELIwcaRfABtP/YD54+4dy0flSCf41QKy9XQCdkfNBMQp2Q
+ tu+GsblZwji8xaXLyAteiNN5eZLlVZlt5G84idE2yXcDzqRH/BpIbxH+nkSwLWp58ot8
+ X907zqm5pDsTWEcu8yIbooCFe38fkQIh73ZfPtJmBH1HpHNEXiIXOKD4vo7T1J/OqzSL
+ GbDNPC7m37QHHpyRF8owcC9i0EAnOMrKK+Ow7Xu85LLv0yThAMXRPPzIP5KuBsQMhaVY
+ y8VVZO7h4Hof91C3esaQpbtRCHh2ju0Cz45mpa3cDy/oQiPp/9qwJ2SLSwDFgNYmGV4L
+ 06lQ==
+X-Gm-Message-State: AOJu0Yw9ZRfkUOikWfcivsoCZ8F+utr2U3WYXP4wK/XCWehvjrnYqOku
+ lHx5cZQVWYYuh+q0Wtz6yQ/wz6KIqTMV/KOov/kxBN501Xd1WAaOJQlXNIAk0ZYlR/V7zNlGmzO
+ khErfv2MYW4OVFlrfAOvcyY4iaCr9Dm5ZbcJ5RtKXAAqMrjf5wbwt/5zBEtF/+UQ0CvV3acRiCi
+ KiTQ==
+X-Gm-Gg: ASbGnctYLQ6tUXi8htGrnMRLm54WR2Jsk3r/qX0U9MT6uBbc175HvqC9Djw5tGasQlh
+ uNuFUT7QEs5xmRFv52TPm/hpR9iyPgvzcD5NljVmICTJ9sEH5sJJuy65Ui1rJyk6ihuvNzMe5CM
+ 7XGoyhH4Gw70N0sMtmBoecgDoZxyfcYuLQI6PEE9GKGIeeP5cALoLbLRqX4dKgw0b4VHJU1VANM
+ RZeCZE/KBLejugyvxHhKJ98d4dTskAYgPef63tsC08hfWV4PyqrGAO76+5wRhcktsnx9M/oCSo9
+ LHrbHcthFlpPb5ouAM36km1hddKZnRyVD/o3vwd4OecajzrtiOrG+MaEHtteGpHRv1eWTKnHfer
+ NSmS2qEjzC1BBFIPNPK6ztDy2Gcv3wjsw/Q/hmrA=
+X-Received: by 2002:a05:6000:1a8e:b0:410:3a4f:1298 with SMTP id
+ ffacd0b85a97d-42704d86b8fmr11322250f8f.15.1761051060207; 
+ Tue, 21 Oct 2025 05:51:00 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IEWjf6B2ByHTOy8FrT+rzfF6XIRgkXbcgq+Q5Z2ge4eNqJwo/6jlSbkSO3I+7zpf3gS36lJWg==
+X-Received: by 2002:a05:6000:1a8e:b0:410:3a4f:1298 with SMTP id
+ ffacd0b85a97d-42704d86b8fmr11322224f8f.15.1761051059713; 
+ Tue, 21 Oct 2025 05:50:59 -0700 (PDT)
+Received: from ?IPV6:2a01:e0a:c:37e0:8998:e0cf:68cc:1b62?
+ ([2a01:e0a:c:37e0:8998:e0cf:68cc:1b62])
+ by smtp.gmail.com with ESMTPSA id
+ ffacd0b85a97d-427ea5b3c56sm20473660f8f.18.2025.10.21.05.50.58
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 21 Oct 2025 05:50:59 -0700 (PDT)
+Message-ID: <2951cbcf-f5fa-4c3f-b8e8-9cc91914176d@redhat.com>
+Date: Tue, 21 Oct 2025 14:50:58 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <0e5ca992-730d-42c5-b5b8-5ad04116b8d4@collabora.com>
-X-ZohoMailClient: External
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 5/7] drm/client: Remove drm_client_framebuffer_delete()
+To: Thomas Zimmermann <tzimmermann@suse.de>, javierm@redhat.com,
+ rrameshbabu@nvidia.com, maarten.lankhorst@linux.intel.com,
+ mripard@kernel.org, airlied@gmail.com, simona@ffwll.ch
+Cc: dri-devel@lists.freedesktop.org
+References: <20251020151402.53013-1-tzimmermann@suse.de>
+ <20251020151402.53013-6-tzimmermann@suse.de>
+From: Jocelyn Falempe <jfalempe@redhat.com>
+In-Reply-To: <20251020151402.53013-6-tzimmermann@suse.de>
+X-Mimecast-Spam-Score: 0
+X-Mimecast-MFC-PROC-ID: Nb3iJuihDZeViL1LVZNvWjhttUAnEZ49Bq3sM8nnE80_1761051061
+X-Mimecast-Originator: redhat.com
+Content-Language: en-US, fr
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -79,138 +104,216 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-[+cc Boris, Steven]
-
-Hi,
-
-On Tue, Oct 21, 2025 at 10:03:52AM +0200, AngeloGioacchino Del Regno wrote:
-> Il 21/10/25 09:30, Louis-Alexis Eyraud ha scritto:
-> > This patchset adds the support of the ARM Mali G52 MC1 GPU (Bifrost),
-> > integrated to the Mediatek MT8365 SoC, and its enablement to the
-> > Mediatek Genio 350-EVK board.
-> > 
-> > I've tested this patchset on a Mediatek Genio 350-EVK board,
-> > with a kernel based on linux-next (tag: next-20251021).
-> > 
+On 20/10/2025 17:04, Thomas Zimmermann wrote:
+> Release client buffers with drm_client_buffer_delete() instead of
+> drm_client_framebuffer_delete(). The latter is just a tiny wrapper
+> around the former.
 > 
-> Thanks for this one! This series is ready to be merged.
-> 
-> However, in order to take the DT patches I need someone to pick
-> the binding first.
+> Move the test for !buffer into drm_client_buffer_delete(), although
+> all callers appear to always have a valid pointer.
 
-The binding patch submission is missing most of the maintainers
-potentially doing that in To/Cc ;)
 
-Somebody should update the MAINTAINERS entry for "ARM MALI PANFROST
-DRM DRIVER" to include the binding file, just like it is handled for
-the PANTHOR driver in the next section.
+A minor issue below, with that fixed:
 
-Greetings,
-
--- Sebastian
+Reviewed-by: Jocelyn Falempe <jfalempe@redhat.com>
 
 
 > 
-> Cheers,
-> Angelo
+> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
+> ---
+>   drivers/gpu/drm/clients/drm_log.c |  4 ++--
+>   drivers/gpu/drm/drm_client.c      | 25 ++++++++++---------------
+>   drivers/gpu/drm/drm_fbdev_dma.c   |  6 +++---
+>   drivers/gpu/drm/drm_fbdev_shmem.c |  4 ++--
+>   drivers/gpu/drm/drm_fbdev_ttm.c   |  8 ++++----
+>   include/drm/drm_client.h          |  2 +-
+>   6 files changed, 22 insertions(+), 27 deletions(-)
 > 
-> > The panfrost driver probed with the following messages:
-> > ```
-> > panfrost 13040000.gpu: clock rate = 450000031
-> > panfrost 13040000.gpu: mali-g52 id 0x7402 major 0x1 minor 0x0 status
-> >    0x0
-> > panfrost 13040000.gpu: features: 00000000,00000df7, issues: 00000000,
-> >    00000400
-> > panfrost 13040000.gpu: Features: L2:0x07110206 Shader:0x00000003
-> >   Tiler:0x00000209 Mem:0x1 MMU:0x00002823 AS:0xff JS:0x7
-> > panfrost 13040000.gpu: shader_present=0x1 l2_present=0x1
-> > [drm] Initialized panfrost 1.5.0 for 13040000.gpu on minor 0
-> > ```
-> > 
-> > Running glmark2-es2-drm with MESA 25.2 is also OK:
-> > ```
-> > =======================================================
-> >      glmark2 2023.01
-> > =======================================================
-> >      OpenGL Information
-> >      GL_VENDOR:      Mesa
-> >      GL_RENDERER:    Mali-G52 r1 (Panfrost)
-> >      GL_VERSION:     OpenGL ES 3.1 Mesa 25.2.5-1
-> >      Surface Config: buf=32 r=8 g=8 b=8 a=8 depth=24 stencil=0 samples=0
-> >      Surface Size:   1200x1920 fullscreen
-> > =======================================================
-> > [build] use-vbo=false: FPS: 513 FrameTime: 1.952 ms
-> > [build] use-vbo=true: FPS: 514 FrameTime: 1.947 ms
-> > [texture] texture-filter=nearest: FPS: 489 FrameTime: 2.046 ms
-> > [texture] texture-filter=linear: FPS: 486 FrameTime: 2.061 ms
-> > [texture] texture-filter=mipmap: FPS: 476 FrameTime: 2.101 ms
-> > [shading] shading=gouraud: FPS: 436 FrameTime: 2.296 ms
-> > [shading] shading=blinn-phong-inf: FPS: 387 FrameTime: 2.585 ms
-> > [shading] shading=phong: FPS: 253 FrameTime: 3.955 ms
-> > [shading] shading=cel: FPS: 232 FrameTime: 4.328 ms
-> > [bump] bump-render=high-poly: FPS: 266 FrameTime: 3.765 ms
-> > [bump] bump-render=normals: FPS: 421 FrameTime: 2.376 ms
-> > [bump] bump-render=height: FPS: 343 FrameTime: 2.922 ms
-> > [effect2d] kernel=0,1,0;1,-4,1;0,1,0;: FPS: 133 FrameTime: 7.521 ms
-> > [effect2d] kernel=1,1,1,1,1;1,1,1,1,1;1,1,1,1,1;: FPS: 46 FrameTime:
-> >    21.990 ms
-> > [pulsar] light=false:quads=5:texture=false: FPS: 379 FrameTime: 2.645 ms
-> > [desktop] blur-radius=5:effect=blur:passes=1:separable=true:windows=4:
-> >    FPS: 57 FrameTime: 17.735 ms
-> > [desktop] effect=shadow:windows=4: FPS: 249 FrameTime: 4.018 ms
-> > [buffer] columns=200:interleave=false:update-dispersion=0.9:update-fraction
-> >    =0.5:update-method=map: FPS: 81 FrameTime: 12.447 ms
-> > [buffer] columns=200:interleave=false:update-dispersion=0.9:update-fraction
-> >    =0.5:update-method=subdata: FPS: 81 FrameTime: 12.388 ms
-> > [buffer] columns=200:interleave=true:update-dispersion=0.9:update-fraction
-> >    =0.5:update-method=map: FPS: 99 FrameTime: 10.127 ms
-> > [ideas] speed=duration: FPS: 287 FrameTime: 3.492 ms
-> > [jellyfish] <default>: FPS: 114 FrameTime: 8.842 ms
-> > [terrain] <default>: FPS: 14 FrameTime: 76.911 ms
-> > [shadow] <default>: FPS: 156 FrameTime: 6.432 ms
-> > [refract] <default>: FPS: 29 FrameTime: 34.791 ms
-> > [conditionals] fragment-steps=0:vertex-steps=0: FPS: 529 FrameTime: 1.890 ms
-> > [conditionals] fragment-steps=5:vertex-steps=0: FPS: 326 FrameTime: 3.076 ms
-> > [conditionals] fragment-steps=0:vertex-steps=5: FPS: 532 FrameTime: 1.880 ms
-> > [function] fragment-complexity=low:fragment-steps=5: FPS: 475 FrameTime:
-> >    2.106 ms
-> > [function] fragment-complexity=medium:fragment-steps=5: FPS: 227
-> >    FrameTime: 4.417 ms
-> > [loop] fragment-loop=false:fragment-steps=5:vertex-steps=5: FPS: 475
-> >    FrameTime: 2.108 ms
-> > [loop] fragment-steps=5:fragment-uniform=false:vertex-steps=5: FPS: 474
-> >    FrameTime: 2.110 ms
-> > [loop] fragment-steps=5:fragment-uniform=true:vertex-steps=5: FPS: 226
-> >    FrameTime: 4.428 ms
-> > =======================================================
-> >                                    glmark2 Score: 296
-> > =======================================================
-> > ```
-> > 
-> > Signed-off-by: Louis-Alexis Eyraud <louisalexis.eyraud@collabora.com>
-> > ---
-> > Changes in v2:
-> > - Rebased on next-20251021 tag
-> > - Fixed missing blank lines in 'arm64: dts: mediatek: mt8365: Add GPU
-> >    support' patch
-> > - Added reviewed-by and acked-by trailers
-> > - Updated cover letter
-> > - Link to v1: https://lore.kernel.org/r/20250813-mt8365-enable-gpu-v1-0-46c44c6c1566@collabora.com
-> > 
-> > ---
-> > Louis-Alexis Eyraud (3):
-> >        dt-bindings: gpu: mali-bifrost: Add compatible for MT8365 SoC
-> >        arm64: dts: mediatek: mt8365: Add GPU support
-> >        arm64: dts: mediatek: mt8365-evk: Enable GPU support
-> > 
-> >   .../devicetree/bindings/gpu/arm,mali-bifrost.yaml  |  1 +
-> >   arch/arm64/boot/dts/mediatek/mt8365-evk.dts        |  9 +++++
-> >   arch/arm64/boot/dts/mediatek/mt8365.dtsi           | 43 +++++++++++++++++++++-
-> >   3 files changed, 52 insertions(+), 1 deletion(-)
-> > ---
-> > base-commit: 853c202e4aec8006c2c1367b052c9f8949db019a
-> > change-id: 20250812-mt8365-enable-gpu-a39835dca7fc
-> > 
-> > Best regards,
-> 
-> 
+> diff --git a/drivers/gpu/drm/clients/drm_log.c b/drivers/gpu/drm/clients/drm_log.c
+> index fd8556dd58ed..2d748ab318fe 100644
+> --- a/drivers/gpu/drm/clients/drm_log.c
+> +++ b/drivers/gpu/drm/clients/drm_log.c
+> @@ -272,7 +272,7 @@ static void drm_log_init_client(struct drm_log *dlog)
+>   
+>   err_failed_commit:
+>   	for (i = 0; i < n_modeset; i++)
+> -		drm_client_framebuffer_delete(dlog->scanout[i].buffer);
+> +		drm_client_buffer_delete(dlog->scanout[i].buffer);
+>   
+>   err_nomodeset:
+>   	kfree(dlog->scanout);
+> @@ -286,7 +286,7 @@ static void drm_log_free_scanout(struct drm_client_dev *client)
+>   
+>   	if (dlog->n_scanout) {
+>   		for (i = 0; i < dlog->n_scanout; i++)
+> -			drm_client_framebuffer_delete(dlog->scanout[i].buffer);
+> +			drm_client_buffer_delete(dlog->scanout[i].buffer);
+>   		dlog->n_scanout = 0;
+>   		kfree(dlog->scanout);
+>   		dlog->scanout = NULL;
+> diff --git a/drivers/gpu/drm/drm_client.c b/drivers/gpu/drm/drm_client.c
+> index 29ed5f55b5f9..d4c424ff44a9 100644
+> --- a/drivers/gpu/drm/drm_client.c
+> +++ b/drivers/gpu/drm/drm_client.c
+> @@ -173,11 +173,18 @@ void drm_client_release(struct drm_client_dev *client)
+>   }
+>   EXPORT_SYMBOL(drm_client_release);
+>   
+> -static void drm_client_buffer_delete(struct drm_client_buffer *buffer)
+> +/**
+> + * drm_client_buffer_delete - Delete a client buffer
+> + * @buffer: DRM client buffer
+> + */
+> +void drm_client_buffer_delete(struct drm_client_buffer *buffer)
+>   {
+>   	struct drm_gem_object *gem = drm_gem_fb_get_obj(buffer->fb, 0);
+>   	int ret;
+>   
+> +	if (!buffer)
+> +		return;
+> +
+
+It's too late to check, as you already used buffer->fb in the previous line.
+
+>   	drm_gem_vunmap(gem, &buffer->map);
+>   
+>   	ret = drm_mode_rmfb(buffer->client->dev, buffer->fb->base.id, buffer->client->file);
+> @@ -189,6 +196,7 @@ static void drm_client_buffer_delete(struct drm_client_buffer *buffer)
+>   
+>   	kfree(buffer);
+>   }
+> +EXPORT_SYMBOL(drm_client_buffer_delete);
+>   
+>   static struct drm_client_buffer *
+>   drm_client_buffer_create(struct drm_client_dev *client, u32 width, u32 height,
+> @@ -372,7 +380,7 @@ EXPORT_SYMBOL(drm_client_buffer_vunmap);
+>    *
+>    * This function creates a &drm_client_buffer which consists of a
+>    * &drm_framebuffer backed by a dumb buffer.
+> - * Call drm_client_framebuffer_delete() to free the buffer.
+> + * Call drm_client_buffer_delete() to free the buffer.
+>    *
+>    * Returns:
+>    * Pointer to a client buffer or an error pointer on failure.
+> @@ -416,19 +424,6 @@ drm_client_framebuffer_create(struct drm_client_dev *client, u32 width, u32 heig
+>   }
+>   EXPORT_SYMBOL(drm_client_framebuffer_create);
+>   
+> -/**
+> - * drm_client_framebuffer_delete - Delete a client framebuffer
+> - * @buffer: DRM client buffer (can be NULL)
+> - */
+> -void drm_client_framebuffer_delete(struct drm_client_buffer *buffer)
+> -{
+> -	if (!buffer)
+> -		return;
+> -
+> -	drm_client_buffer_delete(buffer);
+> -}
+> -EXPORT_SYMBOL(drm_client_framebuffer_delete);
+> -
+>   /**
+>    * drm_client_framebuffer_flush - Manually flush client framebuffer
+>    * @buffer: DRM client buffer (can be NULL)
+> diff --git a/drivers/gpu/drm/drm_fbdev_dma.c b/drivers/gpu/drm/drm_fbdev_dma.c
+> index 8bd626ef16c7..17fef288e86b 100644
+> --- a/drivers/gpu/drm/drm_fbdev_dma.c
+> +++ b/drivers/gpu/drm/drm_fbdev_dma.c
+> @@ -55,7 +55,7 @@ static void drm_fbdev_dma_fb_destroy(struct fb_info *info)
+>   	drm_fb_helper_fini(fb_helper);
+>   
+>   	drm_client_buffer_vunmap(fb_helper->buffer);
+> -	drm_client_framebuffer_delete(fb_helper->buffer);
+> +	drm_client_buffer_delete(fb_helper->buffer);
+>   	drm_client_release(&fb_helper->client);
+>   	drm_fb_helper_unprepare(fb_helper);
+>   	kfree(fb_helper);
+> @@ -90,7 +90,7 @@ static void drm_fbdev_dma_shadowed_fb_destroy(struct fb_info *info)
+>   	vfree(shadow);
+>   
+>   	drm_client_buffer_vunmap(fb_helper->buffer);
+> -	drm_client_framebuffer_delete(fb_helper->buffer);
+> +	drm_client_buffer_delete(fb_helper->buffer);
+>   	drm_client_release(&fb_helper->client);
+>   	drm_fb_helper_unprepare(fb_helper);
+>   	kfree(fb_helper);
+> @@ -328,7 +328,7 @@ int drm_fbdev_dma_driver_fbdev_probe(struct drm_fb_helper *fb_helper,
+>   	fb_helper->buffer = NULL;
+>   	drm_client_buffer_vunmap(buffer);
+>   err_drm_client_buffer_delete:
+> -	drm_client_framebuffer_delete(buffer);
+> +	drm_client_buffer_delete(buffer);
+>   	return ret;
+>   }
+>   EXPORT_SYMBOL(drm_fbdev_dma_driver_fbdev_probe);
+> diff --git a/drivers/gpu/drm/drm_fbdev_shmem.c b/drivers/gpu/drm/drm_fbdev_shmem.c
+> index 1e827bf8b815..f7966b8c51cd 100644
+> --- a/drivers/gpu/drm/drm_fbdev_shmem.c
+> +++ b/drivers/gpu/drm/drm_fbdev_shmem.c
+> @@ -63,7 +63,7 @@ static void drm_fbdev_shmem_fb_destroy(struct fb_info *info)
+>   	drm_fb_helper_fini(fb_helper);
+>   
+>   	drm_client_buffer_vunmap(fb_helper->buffer);
+> -	drm_client_framebuffer_delete(fb_helper->buffer);
+> +	drm_client_buffer_delete(fb_helper->buffer);
+>   	drm_client_release(&fb_helper->client);
+>   	drm_fb_helper_unprepare(fb_helper);
+>   	kfree(fb_helper);
+> @@ -206,7 +206,7 @@ int drm_fbdev_shmem_driver_fbdev_probe(struct drm_fb_helper *fb_helper,
+>   	fb_helper->buffer = NULL;
+>   	drm_client_buffer_vunmap(buffer);
+>   err_drm_client_buffer_delete:
+> -	drm_client_framebuffer_delete(buffer);
+> +	drm_client_buffer_delete(buffer);
+>   	return ret;
+>   }
+>   EXPORT_SYMBOL(drm_fbdev_shmem_driver_fbdev_probe);
+> diff --git a/drivers/gpu/drm/drm_fbdev_ttm.c b/drivers/gpu/drm/drm_fbdev_ttm.c
+> index 85feb55bba11..54f9a46b96c2 100644
+> --- a/drivers/gpu/drm/drm_fbdev_ttm.c
+> +++ b/drivers/gpu/drm/drm_fbdev_ttm.c
+> @@ -50,7 +50,7 @@ static void drm_fbdev_ttm_fb_destroy(struct fb_info *info)
+>   	fb_deferred_io_cleanup(info);
+>   	drm_fb_helper_fini(fb_helper);
+>   	vfree(shadow);
+> -	drm_client_framebuffer_delete(fb_helper->buffer);
+> +	drm_client_buffer_delete(fb_helper->buffer);
+>   
+>   	drm_client_release(&fb_helper->client);
+>   	drm_fb_helper_unprepare(fb_helper);
+> @@ -202,7 +202,7 @@ int drm_fbdev_ttm_driver_fbdev_probe(struct drm_fb_helper *fb_helper,
+>   	screen_buffer = vzalloc(screen_size);
+>   	if (!screen_buffer) {
+>   		ret = -ENOMEM;
+> -		goto err_drm_client_framebuffer_delete;
+> +		goto err_drm_client_buffer_delete;
+>   	}
+>   
+>   	info = drm_fb_helper_alloc_info(fb_helper);
+> @@ -235,10 +235,10 @@ int drm_fbdev_ttm_driver_fbdev_probe(struct drm_fb_helper *fb_helper,
+>   	drm_fb_helper_release_info(fb_helper);
+>   err_vfree:
+>   	vfree(screen_buffer);
+> -err_drm_client_framebuffer_delete:
+> +err_drm_client_buffer_delete:
+>   	fb_helper->fb = NULL;
+>   	fb_helper->buffer = NULL;
+> -	drm_client_framebuffer_delete(buffer);
+> +	drm_client_buffer_delete(buffer);
+>   	return ret;
+>   }
+>   EXPORT_SYMBOL(drm_fbdev_ttm_driver_fbdev_probe);
+> diff --git a/include/drm/drm_client.h b/include/drm/drm_client.h
+> index 5909664d4d43..6019f2712448 100644
+> --- a/include/drm/drm_client.h
+> +++ b/include/drm/drm_client.h
+> @@ -185,7 +185,7 @@ struct drm_client_buffer {
+>   
+>   struct drm_client_buffer *
+>   drm_client_framebuffer_create(struct drm_client_dev *client, u32 width, u32 height, u32 format);
+> -void drm_client_framebuffer_delete(struct drm_client_buffer *buffer);
+> +void drm_client_buffer_delete(struct drm_client_buffer *buffer);
+>   int drm_client_framebuffer_flush(struct drm_client_buffer *buffer, struct drm_rect *rect);
+>   int drm_client_buffer_vmap_local(struct drm_client_buffer *buffer,
+>   				 struct iosys_map *map_copy);
+
