@@ -2,56 +2,107 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 078BBBF78F8
-	for <lists+dri-devel@lfdr.de>; Tue, 21 Oct 2025 18:01:25 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id C4ABCBF7922
+	for <lists+dri-devel@lfdr.de>; Tue, 21 Oct 2025 18:03:52 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 451E410E300;
-	Tue, 21 Oct 2025 16:01:22 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D776310E61C;
+	Tue, 21 Oct 2025 16:03:50 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="D9Zujx5R";
+	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="HK+8mwlg";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sea.source.kernel.org (sea.source.kernel.org [172.234.252.31])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C2E0410E300
- for <dri-devel@lists.freedesktop.org>; Tue, 21 Oct 2025 16:01:20 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by sea.source.kernel.org (Postfix) with ESMTP id 7881444CD7;
- Tue, 21 Oct 2025 16:01:20 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 008AAC4CEF1;
- Tue, 21 Oct 2025 16:01:19 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1761062480;
- bh=h8f+2mlAVixbbRPndHqYJN9W6PWBGmuOEI1As8n6tWo=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=D9Zujx5RJHL1eHpmvYiNlBCVvZxpCqzOdS4c5hgHPHOfhQVCQ3pLtv9EkvLGhKZRD
- wmbws4xIqo57po58rlpuz9G5djnt1iF+vohuAxkA0U3YrZxmDC+r1bLKhJBdK94QfX
- 1Zm6srQrbVV87pOQFvPN69v2cMc7CnAL1NhhE4OSNCJ7ycotbWDj0MN69D9dLXoS3o
- tY1OBuepwmLeK8dYO5lV63m27T8dFODYX+SKoyLNVwOQ95eQ4RMQxJOIjb6q6m9mTZ
- sF0ekUmVOg3ghSZRIxRuGrAVI/iqDSf/YmUGHN3eG9QdO8aqllutNOdkmuCrr6s+Vq
- ELLa2gbYiqL3Q==
-Date: Tue, 21 Oct 2025 18:01:17 +0200
-From: Maxime Ripard <mripard@kernel.org>
-To: Kory Maincent <kory.maincent@bootlin.com>
-Cc: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>, 
- Douglas Anderson <dianders@chromium.org>, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, 
- Bajjuri Praneeth <praneeth@ti.com>, Louis Chauvet <louis.chauvet@bootlin.com>, 
- thomas.petazzoni@bootlin.com, Jyri Sarha <jyri.sarha@iki.fi>, 
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Thomas Zimmermann <tzimmermann@suse.de>, 
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>
-Subject: Re: [PATCH] drm/tilcdc: Fix removal actions in case of failed probe
-Message-ID: <zpbkhcczqdf2ppxnytms3yfnvf5nr2r5pvsg2hiob76m5fxm4g@czug2uitm57n>
-References: <20251014143229.559564-1-kory.maincent@bootlin.com>
- <p4u2goyadub3dfuz4empf3g7a44b2ausy4hjjkcwj7nzgeochx@xztpij2i2lao>
- <20251014182122.5f63b027@kmaincent-XPS-13-7390>
- <20251021151435.23a03b85@kmaincent-XPS-13-7390>
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
+ [205.220.168.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C34EC10E61D
+ for <dri-devel@lists.freedesktop.org>; Tue, 21 Oct 2025 16:03:48 +0000 (UTC)
+Received: from pps.filterd (m0279867.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 59LEVcg8029417
+ for <dri-devel@lists.freedesktop.org>; Tue, 21 Oct 2025 16:03:48 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+ cc:content-transfer-encoding:content-type:date:from:in-reply-to
+ :message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+ qzg1b+V2MbCM40QMIXspKGkDVVwpiA7CintGa6Jk2gc=; b=HK+8mwlgoJU7oTEE
+ IbusCqNPwFBls5YLROCvLNL42FPzsYKLQw9ABWRPEkXYs9E5cM6N6T5RqHrPAg8f
+ QwDiBvOFF7UA1cpbvYoxlAwrQ0zydK+7I7bfP912BwIdWDwd2TQemy7datWQEqiS
+ y6yaYzWGhUkkzB2m+jm2KI6siaQUOXWxwv2WTr3CTSaXoUBn6oJqNhzyYULS5e8/
+ 6pxeadxX1qagwJ7QR5ScIgplEpMLAWOKnrUvY/QUIhwUZW6HIMcOn/a3lco0Oub3
+ kx/2RGyW8YKX+GMOS7Fuyo3TdeSe6qRCZgTM20vtpv8JFpS221v78X9ZSjgFcOpU
+ hwckZA==
+Received: from mail-vk1-f200.google.com (mail-vk1-f200.google.com
+ [209.85.221.200])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 49wswnuqwk-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
+ for <dri-devel@lists.freedesktop.org>; Tue, 21 Oct 2025 16:03:48 +0000 (GMT)
+Received: by mail-vk1-f200.google.com with SMTP id
+ 71dfb90a1353d-54bbe14a05dso116635e0c.0
+ for <dri-devel@lists.freedesktop.org>; Tue, 21 Oct 2025 09:03:47 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1761062627; x=1761667427;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=qzg1b+V2MbCM40QMIXspKGkDVVwpiA7CintGa6Jk2gc=;
+ b=O6UbXlex8OPvCYkkgYKXOa1qXhwiMPGj3zu2LDa1yYMnJSj9VP7ClVa0uIimBeHOCv
+ lrVTUB86Z42iyyEQ6Jnwm4nEva2MUkBx1ujHGnCDWvFbfENrxGLu9RLMR7uxo4zbDROW
+ qwNlwHhhxPJE2Cy0zW/Uu30E/2myE6Z/FZMInAOhMUSwrXqdk+6o3YUFtQDTqVie7ZEp
+ 3D5UFE2sWVmNYCTN9t4iV99OuXtNoZVuMc3gtGkstgOA1ABgXOA8G/08m1byyIG82W2o
+ iCp2SkuojZpCP2cvSMZcDniS3ljLe3DtHDXZo0oRGZfE9QSr8x/ODshrhPC7vX3CrQrM
+ JKkA==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCWUIN3DTRqGJ3H5s8HByeNCxe5wLHS76vPcvBzK9jvHv/TIesL58JnMoTSyAkXkMyWIsCal4qlF0UM=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Yy5oCGL861ayBOTFbM5PfT1HgoECPJkO4eIxk+4waXADWpo+2eq
+ 9Io002uJBxayZL7M7XN9JowEE2Ihay7ncvn8MqQkD/u4ueIkdYxOK/x0wlJ2KjBPxnD72HGWaYz
+ xnCZ5FlK1S35ZJag6L/Wpr16sT99RlxRK/HkJb6cb4mp1rjq0YikGk3ReKFc/90XCCiGv8EN6yi
+ rQxOFSjKUWzVJDORWIEyDPeqUGcNhgsR7W+Uy98wiKkGl2gg==
+X-Gm-Gg: ASbGncvR0qlfSw5od3DN6eW9gHYeler4QTRLK3vfiioMfDTaM7VZBnoBRuiyDQRK9wU
+ xcb1WF0TSjmke7E3WhLrUvI25R2dNeim+GhqGc2R3xFz1RujCsWJWxM2DNOfrDrID2RlACcnbWO
+ PrWrFf7cMBbLNYnPYERFckN7MJKXODvnCg1IwthDCURFpz07jtbqskAAlDKg==
+X-Received: by 2002:a05:6122:2229:b0:541:80ff:31a5 with SMTP id
+ 71dfb90a1353d-556964b26f3mr71363e0c.3.1761062626637; 
+ Tue, 21 Oct 2025 09:03:46 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IHWHrQqbthjaETH/h/MGGEHvgjs3M08A+BTYpH4dPC2xN8sR4xqX3wTWxEEqxRw9eFyTrg6I8gqf+Cg28YZvHU=
+X-Received: by 2002:a05:6122:2229:b0:541:80ff:31a5 with SMTP id
+ 71dfb90a1353d-556964b26f3mr71318e0c.3.1761062626219; Tue, 21 Oct 2025
+ 09:03:46 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha384;
- protocol="application/pgp-signature"; boundary="n7x4gneis3run3kt"
-Content-Disposition: inline
-In-Reply-To: <20251021151435.23a03b85@kmaincent-XPS-13-7390>
+References: <20251015152239.167226-1-youssef.abdulrahman@oss.qualcomm.com>
+ <a4367373-a0a4-4876-bec0-d8a560244c40@oss.qualcomm.com>
+In-Reply-To: <a4367373-a0a4-4876-bec0-d8a560244c40@oss.qualcomm.com>
+From: Youssef Abdulrahman <youssef.abdulrahman@oss.qualcomm.com>
+Date: Tue, 21 Oct 2025 17:03:34 +0100
+X-Gm-Features: AS18NWCidWXI4-Ma4SweG5OGrwWycP4ccECZXEXtreUEwbNh0eAnQ8MazVgXAcw
+Message-ID: <CANyhwx2VQocQyidmQ1zi76zLzM8qmC7KTSDEVqRCgp0m19JB=Q@mail.gmail.com>
+Subject: Re: [PATCH] accel/qaic: Replace user defined overflow check
+To: Jeff Hugo <jeff.hugo@oss.qualcomm.com>
+Cc: carl.vanderlip@oss.qualcomm.com, troy.hanson@oss.qualcomm.com,
+ zachary.mckevitt@oss.qualcomm.com, ogabbay@kernel.org,
+ lizhi.hou@amd.com, karol.wachowski@linux.intel.com,
+ linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Proofpoint-GUID: 2_G3g7ahZKV0h728HhzZ5VsI6GXlP7vx
+X-Authority-Analysis: v=2.4 cv=Maxhep/f c=1 sm=1 tr=0 ts=68f7aee4 cx=c_pps
+ a=wuOIiItHwq1biOnFUQQHKA==:117 a=IkcTkHD0fZMA:10 a=x6icFKpwvdMA:10
+ a=VkNPw1HP01LnGYTKEx00:22 a=EUspDBNiAAAA:8 a=COk6AnOGAAAA:8
+ a=v055lZ0IC0VJRkRHfXUA:9 a=QEXdDO2ut3YA:10 a=XD7yVLdPMpWraOa8Un9W:22
+ a=TjNXssC_j7lpFel5tvFf:22
+X-Proofpoint-ORIG-GUID: 2_G3g7ahZKV0h728HhzZ5VsI6GXlP7vx
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUxMDIwMDE0OCBTYWx0ZWRfXz6Tk/WgClF+e
+ gNAFHhQnH+SI5/XPcOhp5fXmC+0DQuVyJtv87tOZrI0PHniS4sm49huX60il1uChriZRXtynZfY
+ h61Un6zF8OcpJJRM/ldNGCcqPHHagoz+GC0nfucAUOafXL4Lszxhrrx2FZz8EXgQ6lOlfDUFlnU
+ KpjV4VxxX62RdYG+/RuW3AmzVyHoikhk/e2tmZ/udK6HHpIqGRQp8uSV6sLdeuyrYNW4uzgj9ad
+ egwqDAihwd9o89+QgC4WXzJCQbnSqRa04KpRYt83AYRGn+o1NODp9XwxKI2AUjSZYC1qzlLNwc5
+ S1NzLrkWTTQi8YNejgY8Pne5SD5Jf65jZ1Tr7BBFzTo/BcRanjGoGNJd4IWfGb5csRhiimmD+D2
+ qbv9RMSmHQUBnObzijKbLQcq2rklxg==
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.9,FMLib:17.12.80.40
+ definitions=2025-10-21_02,2025-10-13_01,2025-03-28_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ spamscore=0 adultscore=0 priorityscore=1501 lowpriorityscore=0 phishscore=0
+ suspectscore=0 impostorscore=0 clxscore=1015 malwarescore=0 bulkscore=0
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.19.0-2510020000 definitions=main-2510200148
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -67,123 +118,28 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+On Mon, Oct 20, 2025 at 4:05=E2=80=AFPM Jeff Hugo <jeff.hugo@oss.qualcomm.c=
+om> wrote:
+>
+> On 10/15/2025 9:22 AM, Youssef Samir wrote:
+> > From: Sourab Bera <quic_sourbera@quicinc.com>
+> >
+> > Replace the current logic to check overflow, with the kernel-provided
+> > macro `check_mul_overflow` in the function __qaic_execute_bo_ioctl().
+> >
+> > Signed-off-by: Sourab Bera <quic_sourbera@quicinc.com>
+> > Signed-off-by: Youssef Samir <youssef.abdulrahman@oss.qualcomm.com>
+>
+> Youssef,
+>
+> It looks like this conflicts with "accel/qaic: Replace kcalloc +
+> copy_from_user with memdup_array_user".  It looks like we don't need to
+> bring back the overflow check, which would make this change no longer
+> needed.
+>
+> Can you have a look and see if you agree?
+Hi Jeff,
 
---n7x4gneis3run3kt
-Content-Type: text/plain; protected-headers=v1; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-Subject: Re: [PATCH] drm/tilcdc: Fix removal actions in case of failed probe
-MIME-Version: 1.0
+I checked it out and you're right. It doesn't apply anymore.
 
-On Tue, Oct 21, 2025 at 03:14:35PM +0200, Kory Maincent wrote:
-> On Tue, 14 Oct 2025 18:21:22 +0200
-> Kory Maincent <kory.maincent@bootlin.com> wrote:
->=20
-> > Hello Maxime,
-> >=20
-> > On Tue, 14 Oct 2025 17:36:47 +0200
-> > Maxime Ripard <mripard@kernel.org> wrote:
-> >=20
-> > > On Tue, Oct 14, 2025 at 04:32:28PM +0200, Kory Maincent wrote: =20
-> > > > From: "Kory Maincent (TI.com)" <kory.maincent@bootlin.com>
-> > > >=20
-> > > > The drm_kms_helper_poll_fini() and drm_atomic_helper_shutdown() hel=
-pers
-> > > > should only be called when the device has been successfully registe=
-red.
-> > > > Currently, these functions are called unconditionally in tilcdc_fin=
-i(),
-> > > > which causes warnings during probe deferral scenarios.
-> > > >=20
-> > > > [    7.972317] WARNING: CPU: 0 PID: 23 at
-> > > > drivers/gpu/drm/drm_atomic_state_helper.c:175
-> > > > drm_atomic_helper_crtc_duplicate_state+0x60/0x68 ... [    8.005820]
-> > > > drm_atomic_helper_crtc_duplicate_state from
-> > > > drm_atomic_get_crtc_state+0x68/0x108 [    8.005858]
-> > > > drm_atomic_get_crtc_state from drm_atomic_helper_disable_all+0x90/0=
-x1c8 [
-> > > >  8.005885]  drm_atomic_helper_disable_all from
-> > > > drm_atomic_helper_shutdown+0x90/0x144 [    8.005911]
-> > > > drm_atomic_helper_shutdown from tilcdc_fini+0x68/0xf8 [tilcdc] [
-> > > > 8.005957]  tilcdc_fini [tilcdc] from tilcdc_pdev_probe+0xb0/0x6d4 [=
-tilcdc]
-> > > >=20
-> > > > Fix this by moving both drm_kms_helper_poll_fini() and
-> > > > drm_atomic_helper_shutdown() inside the priv->is_registered conditi=
-onal
-> > > > block, ensuring they only execute after successful device registrat=
-ion.
-> > > >=20
-> > > > Fixes: 3c4babae3c4a ("drm: Call drm_atomic_helper_shutdown() at
-> > > > shutdown/remove time for misc drivers") Signed-off-by: Kory Maincent
-> > > > (TI.com) <kory.maincent@bootlin.com> ---
-> > > >  drivers/gpu/drm/tilcdc/tilcdc_drv.c | 8 ++++----
-> > > >  1 file changed, 4 insertions(+), 4 deletions(-)
-> > > >=20
-> > > > diff --git a/drivers/gpu/drm/tilcdc/tilcdc_drv.c
-> > > > b/drivers/gpu/drm/tilcdc/tilcdc_drv.c index 7caec4d38ddf..2031267a3=
-490
-> > > > 100644 --- a/drivers/gpu/drm/tilcdc/tilcdc_drv.c
-> > > > +++ b/drivers/gpu/drm/tilcdc/tilcdc_drv.c
-> > > > @@ -172,11 +172,11 @@ static void tilcdc_fini(struct drm_device *de=
-v)
-> > > >  	if (priv->crtc)
-> > > >  		tilcdc_crtc_shutdown(priv->crtc);
-> > > > =20
-> > > > -	if (priv->is_registered)
-> > > > +	if (priv->is_registered) {
-> > > >  		drm_dev_unregister(dev);
-> > > > -
-> > > > -	drm_kms_helper_poll_fini(dev);
-> > > > -	drm_atomic_helper_shutdown(dev);
-> > > > +		drm_kms_helper_poll_fini(dev);
-> > > > +		drm_atomic_helper_shutdown(dev);
-> > > > +	}
-> > > >  	tilcdc_irq_uninstall(dev);
-> > > >  	drm_mode_config_cleanup(dev);   =20
-> > >=20
-> > > I don't think that's the right fix. tilcdc_fini is pretty complex
-> > > because it gets called from multiple locations with various level of
-> > > initialisation.
-> > >=20
-> > > This is done because tilcdc_init is using a bunch of deprecated
-> > > functions with better alternatives now, and those would make the job =
-of
-> > > tilcdc_fini much easier.
-> > >=20
-> > > That's what we should be focusing on. =20
-> >=20
-> > I am also currently focusing on improving this driver (which has indeed=
- some
-> > weird code leftover), but this work will land in drm misc next while th=
-is is a
-> > fix for the current implementation which fix an unwanted warning.
->=20
-> Maxime is it okay to merge this to the right drm fix branch as I am curre=
-ntly
-> working on the tilcdc cleaning process that will land into drm misc next.
->=20
-> Also I intend to remove the tilcdc panel subdriver and its binding as it
-> can be replaced by the simple panel driver. I know it is unusual to remov=
-e a
-> binding but the driver and the binding are crappy and legacy. What do you=
- think?
-
-I don't see why what I was suggesting also couldn't be fixes, but at the
-end of the day, I don't care which way it goes.
-
-Maxime
-
---n7x4gneis3run3kt
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iJUEABMJAB0WIQTkHFbLp4ejekA/qfgnX84Zoj2+dgUCaPeuSQAKCRAnX84Zoj2+
-du+JAYDfQOLwXDYTby3YeidW4aLo0eJAhYd67R95dahkcCEsaD6yDv6w7d9OWP6J
-bC0peGEBfAgXz2XXC+SrZtOpd+rCSua4tDE6+3jKAt70GTsrerW3UPaGCyZvAtF5
-Q/m7v0YJiA==
-=4mGh
------END PGP SIGNATURE-----
-
---n7x4gneis3run3kt--
+-Youssef
