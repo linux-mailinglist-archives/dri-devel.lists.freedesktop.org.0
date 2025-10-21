@@ -2,60 +2,72 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 06410BF6B44
-	for <lists+dri-devel@lfdr.de>; Tue, 21 Oct 2025 15:14:55 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 80E24BF6BD8
+	for <lists+dri-devel@lfdr.de>; Tue, 21 Oct 2025 15:23:35 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CCE8F10E5E3;
-	Tue, 21 Oct 2025 13:14:52 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 83D4210E5F6;
+	Tue, 21 Oct 2025 13:23:32 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=bootlin.com header.i=@bootlin.com header.b="THN0jJkn";
+	dkim=pass (1024-bit key; unprotected) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="R7UUFjUQ";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtpout-04.galae.net (smtpout-04.galae.net [185.171.202.116])
- by gabe.freedesktop.org (Postfix) with ESMTPS id EE7C610E5E3
- for <dri-devel@lists.freedesktop.org>; Tue, 21 Oct 2025 13:14:50 +0000 (UTC)
-Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
- by smtpout-04.galae.net (Postfix) with ESMTPS id 0B401C0B887
- for <dri-devel@lists.freedesktop.org>; Tue, 21 Oct 2025 13:14:29 +0000 (UTC)
-Received: from mail.galae.net (mail.galae.net [212.83.136.155])
- by smtpout-01.galae.net (Postfix) with ESMTPS id 97C2F60680;
- Tue, 21 Oct 2025 13:14:48 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon)
- with ESMTPSA id 2E6FA102F2403; 
- Tue, 21 Oct 2025 15:14:38 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
- t=1761052487; h=from:subject:date:message-id:to:cc:mime-version:content-type:
- content-transfer-encoding:in-reply-to:references;
- bh=lKeQTm9TBCdl3jhEh30xKHzcJ/AvP84waFAJQyNp9dQ=;
- b=THN0jJknB2+qSSzRX7sNi1IniQBFcb6kSYu5+ANMhlR6MFFP01X2sqo7gqWEVKQjTdzrXw
- 2NpAajNFdCjkJrceZhVvo1Wc8G3OycyhpZbNImBZCLgyIKRwvMOFKNNIPlRoZb+Bo19gWc
- MgPByYkndtpcmunCfQXY7/Qn9f7RMfP/2Zn5Mem9I5qZJGtHpHPSSYcjOr9oUvf1js43ZS
- WQl4vwvcH/wWLkf8hmXjRUwGctHb7cez4GZMDO/p0hjwEXWkVZ1QlCDZzYn7meg3nSPufl
- 2RjRKJh0wZctq+3kZ7tlo5TPfs2m2c58nmcn2QDRpc+znhm4sLo41A0zcfLtLw==
-Date: Tue, 21 Oct 2025 15:14:35 +0200
-From: Kory Maincent <kory.maincent@bootlin.com>
-To: Maxime Ripard <mripard@kernel.org>
-Cc: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>, Douglas Anderson
- <dianders@chromium.org>, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, Bajjuri Praneeth <praneeth@ti.com>, Louis
- Chauvet <louis.chauvet@bootlin.com>, thomas.petazzoni@bootlin.com, Jyri
- Sarha <jyri.sarha@iki.fi>, Maarten Lankhorst
- <maarten.lankhorst@linux.intel.com>, Thomas Zimmermann
- <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, Simona Vetter
- <simona@ffwll.ch>
-Subject: Re: [PATCH] drm/tilcdc: Fix removal actions in case of failed probe
-Message-ID: <20251021151435.23a03b85@kmaincent-XPS-13-7390>
-In-Reply-To: <20251014182122.5f63b027@kmaincent-XPS-13-7390>
-References: <20251014143229.559564-1-kory.maincent@bootlin.com>
- <p4u2goyadub3dfuz4empf3g7a44b2ausy4hjjkcwj7nzgeochx@xztpij2i2lao>
- <20251014182122.5f63b027@kmaincent-XPS-13-7390>
-Organization: bootlin
-X-Mailer: Claws Mail 4.2.0 (GTK 3.24.41; x86_64-pc-linux-gnu)
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
+ [213.167.242.64])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 94B8B10E5EB
+ for <dri-devel@lists.freedesktop.org>; Tue, 21 Oct 2025 13:23:31 +0000 (UTC)
+Received: from [127.0.1.1] (91-158-153-178.elisa-laajakaista.fi
+ [91.158.153.178])
+ by perceval.ideasonboard.com (Postfix) with ESMTPSA id DAE426A6;
+ Tue, 21 Oct 2025 15:21:45 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+ s=mail; t=1761052906;
+ bh=Y9ZTONpm589+RojL1lzdfFuJkRYHnz4HWW2urQfAi4Q=;
+ h=From:Subject:Date:To:Cc:From;
+ b=R7UUFjUQlXPZ0QyWEZrIDzGV0sI2mekpKrCarcrkZW6l2wZ+eLwAlCry+4KCmQNw+
+ 7ojaEBNNxZ+bqw95BMS1nbqdKmzfnWQQEMPlc7dYNzDKJq6v/dZwGLUxJo2OOb5nBE
+ gSiO3o9yxUW3irBXF4zldSDRPUQUEZ+WaEEfEy3Y=
+From: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+Subject: [PATCH 0/7] drm/bridge: tc358768: Long command support
+Date: Tue, 21 Oct 2025 16:22:56 +0300
+Message-Id: <20251021-tc358768-v1-0-d590dc6a1a0c@ideasonboard.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-X-Last-TLS-Session-Version: TLSv1.3
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIADGJ92gC/6tWKk4tykwtVrJSqFYqSi3LLM7MzwNyDHUUlJIzE
+ vPSU3UzU4B8JSMDI1NDAyND3ZJkY1MLczMLXUvj1CQjYzMLyyTzRCWg8oKi1LTMCrBR0bG1tQC
+ vsKS/WgAAAA==
+X-Change-ID: 20251021-tc358768-93eb23689b7a
+To: Andrzej Hajda <andrzej.hajda@intel.com>, 
+ Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>, 
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>, 
+ Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
+ Parth Pancholi <parth.pancholi@toradex.com>, 
+ Francesco Dolcini <francesco.dolcini@toradex.com>
+Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org, 
+ Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>, 
+ Dmitry Osipenko <digetx@gmail.com>
+X-Mailer: b4 0.15-dev-c25d1
+X-Developer-Signature: v=1; a=openpgp-sha256; l=2092;
+ i=tomi.valkeinen@ideasonboard.com; h=from:subject:message-id;
+ bh=Y9ZTONpm589+RojL1lzdfFuJkRYHnz4HWW2urQfAi4Q=;
+ b=owEBbQKS/ZANAwAIAfo9qoy8lh71AcsmYgBo94lJfRq1+7S5Yp12KN+JPMIwAcqW0ah6q/eeh
+ 9Xe9O2vHdiJAjMEAAEIAB0WIQTEOAw+ll79gQef86f6PaqMvJYe9QUCaPeJSQAKCRD6PaqMvJYe
+ 9XcXD/45MM0PpEJDhfDQNr2SZEfVvu/KDnfjua5bjeMxE5dZMuwKE/vsXau1mkrt0d+TEoAyAfu
+ 96o2IZVO90Dt1xC+wpYkoTZ+m0WYcsew1JMpSse7kT4aF+fsSQ+Qn1zbHIrymfnXC1zgi89oSqU
+ 6VLUNTlIImM6jf+F5oMya7SMDJHR9SATx503IfMCW67Syf29+yVQ3dCi6fuIu1NrsoGTBmAN0UC
+ fD5VQFpt4OXRUkQ3rN5i3od/Y4WCyCuEkhY5bE/cwRr4UQ2zbIj5E80Xj9FxVJadG8VCRPsx5N6
+ MT3oD3VL9ZcMTIy+v/azeae53YavGN93sB1GKUmZU1nFMSeR+Dby28Xkp2rRZcU/40LcaSpQDxX
+ RsayzaENXW9H+AWjYtbTifHgDrzRjN8L/cKz1alqBmgNntr/K8B//uXyN87dEzRN9hDq+fqf1uW
+ uYWFK8B6La1uZNHldwSrmzZi5VFLRezsBc7CUnDbvgtSvVJc+QTwnbWoZei9CnEkSCFYsajfosl
+ 5EEF2SL34YX5WlfPbCcQ3bNbuQTBZdC+0eMKBw8q9A8N0y6ruegky1rbs0AYDcGtjOJ77cAfqQ2
+ HLa/AAH5hCdYodPCEI4kXtyd3ida1q07JK0gxuBvKpJL60oFVJ6caNwgtdajJQ04o6hU5/XVCnV
+ DMJNIkwcViO6k3w==
+X-Developer-Key: i=tomi.valkeinen@ideasonboard.com; a=openpgp;
+ fpr=C4380C3E965EFD81079FF3A7FA3DAA8CBC961EF5
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -71,97 +83,54 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, 14 Oct 2025 18:21:22 +0200
-Kory Maincent <kory.maincent@bootlin.com> wrote:
+This series makes some small improvements to the tc358768 driver, and
+then adds support for long commands, commands that have more than 8
+bytes of payload.
 
-> Hello Maxime,
->=20
-> On Tue, 14 Oct 2025 17:36:47 +0200
-> Maxime Ripard <mripard@kernel.org> wrote:
->=20
-> > On Tue, Oct 14, 2025 at 04:32:28PM +0200, Kory Maincent wrote: =20
-> > > From: "Kory Maincent (TI.com)" <kory.maincent@bootlin.com>
-> > >=20
-> > > The drm_kms_helper_poll_fini() and drm_atomic_helper_shutdown() helpe=
-rs
-> > > should only be called when the device has been successfully registere=
-d.
-> > > Currently, these functions are called unconditionally in tilcdc_fini(=
-),
-> > > which causes warnings during probe deferral scenarios.
-> > >=20
-> > > [    7.972317] WARNING: CPU: 0 PID: 23 at
-> > > drivers/gpu/drm/drm_atomic_state_helper.c:175
-> > > drm_atomic_helper_crtc_duplicate_state+0x60/0x68 ... [    8.005820]
-> > > drm_atomic_helper_crtc_duplicate_state from
-> > > drm_atomic_get_crtc_state+0x68/0x108 [    8.005858]
-> > > drm_atomic_get_crtc_state from drm_atomic_helper_disable_all+0x90/0x1=
-c8 [
-> > >  8.005885]  drm_atomic_helper_disable_all from
-> > > drm_atomic_helper_shutdown+0x90/0x144 [    8.005911]
-> > > drm_atomic_helper_shutdown from tilcdc_fini+0x68/0xf8 [tilcdc] [
-> > > 8.005957]  tilcdc_fini [tilcdc] from tilcdc_pdev_probe+0xb0/0x6d4 [ti=
-lcdc]
-> > >=20
-> > > Fix this by moving both drm_kms_helper_poll_fini() and
-> > > drm_atomic_helper_shutdown() inside the priv->is_registered condition=
-al
-> > > block, ensuring they only execute after successful device registratio=
-n.
-> > >=20
-> > > Fixes: 3c4babae3c4a ("drm: Call drm_atomic_helper_shutdown() at
-> > > shutdown/remove time for misc drivers") Signed-off-by: Kory Maincent
-> > > (TI.com) <kory.maincent@bootlin.com> ---
-> > >  drivers/gpu/drm/tilcdc/tilcdc_drv.c | 8 ++++----
-> > >  1 file changed, 4 insertions(+), 4 deletions(-)
-> > >=20
-> > > diff --git a/drivers/gpu/drm/tilcdc/tilcdc_drv.c
-> > > b/drivers/gpu/drm/tilcdc/tilcdc_drv.c index 7caec4d38ddf..2031267a3490
-> > > 100644 --- a/drivers/gpu/drm/tilcdc/tilcdc_drv.c
-> > > +++ b/drivers/gpu/drm/tilcdc/tilcdc_drv.c
-> > > @@ -172,11 +172,11 @@ static void tilcdc_fini(struct drm_device *dev)
-> > >  	if (priv->crtc)
-> > >  		tilcdc_crtc_shutdown(priv->crtc);
-> > > =20
-> > > -	if (priv->is_registered)
-> > > +	if (priv->is_registered) {
-> > >  		drm_dev_unregister(dev);
-> > > -
-> > > -	drm_kms_helper_poll_fini(dev);
-> > > -	drm_atomic_helper_shutdown(dev);
-> > > +		drm_kms_helper_poll_fini(dev);
-> > > +		drm_atomic_helper_shutdown(dev);
-> > > +	}
-> > >  	tilcdc_irq_uninstall(dev);
-> > >  	drm_mode_config_cleanup(dev);   =20
-> >=20
-> > I don't think that's the right fix. tilcdc_fini is pretty complex
-> > because it gets called from multiple locations with various level of
-> > initialisation.
-> >=20
-> > This is done because tilcdc_init is using a bunch of deprecated
-> > functions with better alternatives now, and those would make the job of
-> > tilcdc_fini much easier.
-> >=20
-> > That's what we should be focusing on. =20
->=20
-> I am also currently focusing on improving this driver (which has indeed s=
-ome
-> weird code leftover), but this work will land in drm misc next while this=
- is a
-> fix for the current implementation which fix an unwanted warning.
+This has been tested on Toradex Verdin AM62 board, with a ST7703 based
+DSI panel which requires initial configuration using commands that have
+8+ bytes.
 
-Maxime is it okay to merge this to the right drm fix branch as I am current=
-ly
-working on the tilcdc cleaning process that will land into drm misc next.
+I tested the following combinations, by observing the panel visually and
+the DSI lanes with an oscilloscope:
 
-Also I intend to remove the tilcdc panel subdriver and its binding as it
-can be replaced by the simple panel driver. I know it is unusual to remove a
-binding but the driver and the binding are crappy and legacy. What do you t=
-hink?
+- HS command transfer, continuous clock
+- HS command transfer, non-continuous clock
+- LP command transfer, continuous clock
+- LP command transfer, non-continuous clock
 
-Regards,
---=20
-K=C3=B6ry Maincent, Bootlin
-Embedded Linux and kernel engineering
-https://bootlin.com
+All except LP + continuous clock work fine. While observing the lanes
+with normal oscilloscope is a very high level and vague view of what
+exactly is going on the lanes, it still looks good to me: initial
+commands are sent in LP, and then video data is being sent in HS, and
+clock lane is continuous. However, the panel stays black, so something
+is not quite right.
+
+As it doesn't make sense to send commands in LP during initial
+configuration, especially with longer commands, I will leave that
+particular combination unresolved. I'd be interested to hear if it works
+on some other panel.
+
+Signed-off-by: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+---
+Parth Pancholi (1):
+      drm/bridge: tc358768: Set pre_enable_prev_first for reverse order
+
+Tomi Valkeinen (6):
+      drm/bridge: tc358768: Fix typo in TC358768_DSI_CONTROL_DIS_MODE
+      drm/bridge: tc358768: Separate indirect register writes
+      drm/bridge: tc358768: Support non-continuous clock
+      drm/bridge: tc358768: Add LP mode command support
+      drm/bridge: tc358768: Separate video format config
+      drm/bridge: tc358768: Add support for long command tx via video buffer
+
+ drivers/gpu/drm/bridge/tc358768.c | 202 +++++++++++++++++++++++++++++---------
+ 1 file changed, 157 insertions(+), 45 deletions(-)
+---
+base-commit: e5f0a698b34ed76002dc5cff3804a61c80233a7a
+change-id: 20251021-tc358768-93eb23689b7a
+
+Best regards,
+-- 
+Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+
