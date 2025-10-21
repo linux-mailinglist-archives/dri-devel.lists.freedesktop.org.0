@@ -2,91 +2,106 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3F4CCBF5143
-	for <lists+dri-devel@lfdr.de>; Tue, 21 Oct 2025 09:51:16 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id BCDF1BF5216
+	for <lists+dri-devel@lfdr.de>; Tue, 21 Oct 2025 10:02:12 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0164210E594;
-	Tue, 21 Oct 2025 07:51:13 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3488310E165;
+	Tue, 21 Oct 2025 08:02:10 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="DPiBy/9i";
+	dkim=pass (1024-bit key; secure) header.d=ffwll.ch header.i=@ffwll.ch header.b="RJpcBCMc";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.133.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7C05710E58A
- for <dri-devel@lists.freedesktop.org>; Tue, 21 Oct 2025 07:51:11 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1761033070;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=1h6fa2qbHoy++SvDQf77xOSpwekaCSKBmi7FZ2f1xQY=;
- b=DPiBy/9iPpWv6wJZ2mYKnhsjh8DUYZ0F9ZxMwNS++1NJk0MrWJiBMwU1QXw8jhmLWAUFUW
- gQlxlj7KhzVNeaFvSyPrDEHlRnQ1anjl/aabQz7EHMX4CiLQHeet29/F9p1fRY27AgcBs0
- 1mv+3NQmZbTEcT1daTwptvnMc07q9YY=
-Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
- [209.85.221.72]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-100-vyiNjPKtNoyy-6swWb4Y_g-1; Tue, 21 Oct 2025 03:51:08 -0400
-X-MC-Unique: vyiNjPKtNoyy-6swWb4Y_g-1
-X-Mimecast-MFC-AGG-ID: vyiNjPKtNoyy-6swWb4Y_g_1761033067
-Received: by mail-wr1-f72.google.com with SMTP id
- ffacd0b85a97d-426d4f59cbcso3300645f8f.1
- for <dri-devel@lists.freedesktop.org>; Tue, 21 Oct 2025 00:51:08 -0700 (PDT)
+Received: from mail-ed1-f48.google.com (mail-ed1-f48.google.com
+ [209.85.208.48])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id EBBA210E165
+ for <dri-devel@lists.freedesktop.org>; Tue, 21 Oct 2025 08:02:07 +0000 (UTC)
+Received: by mail-ed1-f48.google.com with SMTP id
+ 4fb4d7f45d1cf-63c523864caso6742446a12.1
+ for <dri-devel@lists.freedesktop.org>; Tue, 21 Oct 2025 01:02:07 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=ffwll.ch; s=google; t=1761033726; x=1761638526; darn=lists.freedesktop.org; 
+ h=in-reply-to:content-disposition:mime-version:references
+ :mail-followup-to:message-id:subject:cc:to:from:date:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=mmJ3kbCZYasBy1tdyPRhi15Hy8S31f6BJlgZcjYUhfI=;
+ b=RJpcBCMch+nzQlSuX8Zkzee3nCcgFtl/756zxiWCS0Udss7uOGdwRlp2mwEvn05XO2
+ PSIWFIOe76J4pUwAjTWATv5Be9jtW9gkGqVEFlWm/wivZGClqFM6Zqxsmt6UZZQjdjzP
+ 7vK5F41PgDAC8fpKB3J9m/6ERGA2hndvMjZAM=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1761033067; x=1761637867;
- h=mime-version:message-id:date:references:in-reply-to:subject:cc:to
- :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=1h6fa2qbHoy++SvDQf77xOSpwekaCSKBmi7FZ2f1xQY=;
- b=TCTSXCE8wXZET/ZkFV7m2IO7RBJSV/hFyd250J2d9lqr48+TdKWbyyYz+sMQr+wQHP
- 6TRn7vPQctZWyueaM9IJALQ5VBVTHK2EJyLC1bkVuu4JUcTdAwnmLGOqV2mKSLicN7lv
- 6qqLhIuTlqq/Dw1xtvPbAiVL0ElZequbxKAeFR88qPzI3g7z8gflTbbaBsXAjI9tSn1i
- G/SYydEwNkzZKGFAdlAJtORdH1ukSrot3UcgDY2wq2Kh7z3yXWxsqmE8CUTcin6ban6U
- Knx6OhKLyvVksAOkHaTK3VCw4GF9TdFuzTh6FUxiFpAPIIbbQN2rw2rbzZ3dZrjyHzBM
- wqMQ==
-X-Gm-Message-State: AOJu0Yz6cqhue/f4DinCuRJKEylKU9FGcQt6Qt8SDAThG5eGrwuJEwaQ
- H8BnVS6ThdIvRFkA0tudOo5CzdsFKg2zSBFDsiBysFHN2w6yG3cAHkaKWp8jmAqAYM5vA34jHO1
- U4bgjA9yVonUZ7yiOfrig+Il3yPR6UnMtXHEz6u3KrmwCmQkdqW23q7ieli834PfoVZ4h0A==
-X-Gm-Gg: ASbGnctFzQbA9KiYsWH+NYxFruhAnPoAogcdLpZlyMxavdUyHC3v+ujFIpbPVYC9hVL
- DUHp1VOWKzwjqy8eDYIZky8jdVrHbXMOesDoVYTIRRyDL18Gtp5AVCNEHvDSuB8jMjMe9aROdf5
- Kk9DRPLcqGKCzBPg28CLlR317C2pROqHcmcywssJWLTBmY0GPIxn6ilv4SqNHM2z16MWbNHtUC5
- 7pI+w7rRNdvx0DejSwTG4Ik1z7F5aAQpSY0Lr+hjx1FRPK9Ob6U6M5v1TB2C7KduOQGdoTvUf6a
- yYrCimv02kU2O30eAiNaMeYeuQoecWbS3ER1TpLWs7fsHbJZCyQkD8FFVqh4bn4YFrkok7MgedQ
- KGyDC8zSIcPE7pDJvE+UxEsWL0GUNvwfksnHsCQQ61jrbhJEpM0OokIth2w==
-X-Received: by 2002:a5d:64e7:0:b0:3e7:428f:d33 with SMTP id
- ffacd0b85a97d-42704bc0e86mr14036918f8f.16.1761033067211; 
- Tue, 21 Oct 2025 00:51:07 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IHz8/veJYRT8JadPcK7SQ32pn8LgrM+ivv/Y11OS7FOCN/IU1aUPsxB4lxzjs+wdp1rzZtnZQ==
-X-Received: by 2002:a5d:64e7:0:b0:3e7:428f:d33 with SMTP id
- ffacd0b85a97d-42704bc0e86mr14036895f8f.16.1761033066816; 
- Tue, 21 Oct 2025 00:51:06 -0700 (PDT)
-Received: from localhost (62-151-111-63.jazzfree.ya.com. [62.151.111.63])
+ d=1e100.net; s=20230601; t=1761033726; x=1761638526;
+ h=in-reply-to:content-disposition:mime-version:references
+ :mail-followup-to:message-id:subject:cc:to:from:date
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=mmJ3kbCZYasBy1tdyPRhi15Hy8S31f6BJlgZcjYUhfI=;
+ b=tZWOyL2O4NmCbuCHOfu7MrsgjCO1xVBEYmh9McxvULv/PTBYtMfpXPS5ffD5jD4msV
+ acgh1Hvjra28zy0dkCzMt3gw5zgf4mPt2QXjMhwyY0AwpmDfi9zMBssvs8STMKr//iu3
+ uWLkCgnk5NjfIH6Zq76QrQiDfllv6DoKmRgCIUZ9O45vh1Hiw/QAWERbWsSE0OvMQTv0
+ NTTnD3zrnvfLnwDnFuKP5B4y2WHCFGUNGUeXh2Rj7jbGwf0k6IFvdTKqW/JqwBjfRjk6
+ zA2xH8fEKWCQLZPQfIg/JVyd5L7oUm3OhgI9lmaQetuRZzz/QVGg5FrrWuxRs/DNCbEz
+ L2nw==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCVAcIJsW1BEfkXDGseO/y9owG58V0OWfXBVSitQToE2QiuCgkZ/yt62lVW2KRPiTKqCf8ze/b3TiFo=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YwULyZK7EP3f9fqUgLvPtqEARYcIlaTSduf0jvHR4rdzrWDiFBs
+ dh8jdTQqdAgOBbjQU5clqU0US4mNGSeRFQvZAnPnkwxjkLbCEA/QhkbE1Arz1kAp51s=
+X-Gm-Gg: ASbGncuFiA4bCnSEB0nFIWP72OD3uNrYt8BqrjTxiuWONvzjb5mVwLC/xw6iNdl04LG
+ 6H7cuym03DuoyklzyMQ+IMIw/VsaYA6xIYDHqyPcDim9l4fAywl9SCZWnGaX0lJvbSWXJ4VFSf0
+ 4QBGLhRFCpdtRVcbd4XZbyoXZdsgIcwWbREiO4qXCPxx6LblzFktJw5cExqBoWnxBkqwEV96Ypc
+ Os4Bmpm785YvQddtMfOiABorWtfePBeR/FcfjLPVDXV184LvaLQ7cH/ucjPbY3p3j0+YM1aMpg2
+ dTG24b/dxKFNcmHpg07v/eaK0DuukZRo60MdRFq1bQHO9vDbj52UnPvhrLmTRkcbRb0ZP4gzz1X
+ JXUp89eXPPT2xj+Dsj3Ozc0rmOWV662LdA1/ZhvSbQfpLUsp9KjI4riX9iBM/Zhn932Whd8m5Vz
+ zBZOkdhwRmCQo+1du+alnQWA==
+X-Google-Smtp-Source: AGHT+IEQBbHU46zJp3I8qzuqYSyvo8c+5/g/4Db1HXzfzGIE1r78chLA2+YlpgeKvqwNE6fWnrQZTA==
+X-Received: by 2002:a05:6402:1471:b0:62e:e722:a3c7 with SMTP id
+ 4fb4d7f45d1cf-63c1f6345ccmr16006744a12.9.1761033725994; 
+ Tue, 21 Oct 2025 01:02:05 -0700 (PDT)
+Received: from phenom.ffwll.local ([2a02:168:57f4:0:5485:d4b2:c087:b497])
  by smtp.gmail.com with ESMTPSA id
- ffacd0b85a97d-427e1be5d6csm18888806f8f.0.2025.10.21.00.51.06
+ 4fb4d7f45d1cf-63c494301aasm8934112a12.24.2025.10.21.01.02.04
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 21 Oct 2025 00:51:06 -0700 (PDT)
-From: Javier Martinez Canillas <javierm@redhat.com>
-To: Mehdi Ben Hadj Khelifa <mehdi.benhadjkhelifa@gmail.com>, Shuah Khan
- <skhan@linuxfoundation.org>, maarten.lankhorst@linux.intel.com,
- mripard@kernel.org, tzimmermann@suse.de, airlied@gmail.com, simona@ffwll.ch
-Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- david.hunter.linux@gmail.com, khalid@kernel.org,
- linux-kernel-mentees@lists.linuxfoundation.org
-Subject: Re: [PATCH] drm/solomon: Use kmalloc_array() instead of kmalloc()
-In-Reply-To: <8dc12a18-58ee-4df6-a9f3-12d8c05a0954@gmail.com>
-References: <20251019145927.167544-1-mehdi.benhadjkhelifa@gmail.com>
- <2541f99c-1081-4253-ae58-97654694cd78@linuxfoundation.org>
- <e4f0290b-5d15-472f-acee-e1e1b0629ec0@gmail.com>
- <3f523293-8a8d-4136-b4bc-4ad0d4a50c59@linuxfoundation.org>
- <8dc12a18-58ee-4df6-a9f3-12d8c05a0954@gmail.com>
-Date: Tue, 21 Oct 2025 09:51:05 +0200
-Message-ID: <878qh4ae1i.fsf@ocarina.mail-host-address-is-not-set>
+ Tue, 21 Oct 2025 01:02:05 -0700 (PDT)
+Date: Tue, 21 Oct 2025 10:02:03 +0200
+From: Simona Vetter <simona.vetter@ffwll.ch>
+To: Shengjiu Wang <shengjiu.wang@nxp.com>
+Cc: andrzej.hajda@intel.com, neil.armstrong@linaro.org, rfoss@kernel.org,
+ Laurent.pinchart@ideasonboard.com, jonas@kwiboo.se,
+ jernej.skrabec@gmail.com, maarten.lankhorst@linux.intel.com,
+ mripard@kernel.org, tzimmermann@suse.de, airlied@gmail.com,
+ simona@ffwll.ch, lumag@kernel.org, dianders@chromium.org,
+ cristian.ciocaltea@collabora.com, luca.ceresoli@bootlin.com,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ victor.liu@nxp.com, shawnguo@kernel.org, s.hauer@pengutronix.de,
+ kernel@pengutronix.de, festevam@gmail.com, imx@lists.linux.dev,
+ linux-arm-kernel@lists.infradead.org, robh@kernel.org,
+ krzk+dt@kernel.org, conor+dt@kernel.org, p.zabel@pengutronix.de,
+ devicetree@vger.kernel.org, l.stach@pengutronix.de,
+ shengjiu.wang@gmail.com, perex@perex.cz, tiwai@suse.com,
+ linux-sound@vger.kernel.org
+Subject: Re: [PATCH v7 1/7] dt-bindings: display: imx: add HDMI PAI for i.MX8MP
+Message-ID: <aPc9-wYxGB1KYPyQ@phenom.ffwll.local>
+Mail-Followup-To: Shengjiu Wang <shengjiu.wang@nxp.com>,
+ andrzej.hajda@intel.com, neil.armstrong@linaro.org,
+ rfoss@kernel.org, Laurent.pinchart@ideasonboard.com,
+ jonas@kwiboo.se, jernej.skrabec@gmail.com,
+ maarten.lankhorst@linux.intel.com, mripard@kernel.org,
+ tzimmermann@suse.de, airlied@gmail.com, simona@ffwll.ch,
+ lumag@kernel.org, dianders@chromium.org,
+ cristian.ciocaltea@collabora.com, luca.ceresoli@bootlin.com,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ victor.liu@nxp.com, shawnguo@kernel.org, s.hauer@pengutronix.de,
+ kernel@pengutronix.de, festevam@gmail.com, imx@lists.linux.dev,
+ linux-arm-kernel@lists.infradead.org, robh@kernel.org,
+ krzk+dt@kernel.org, conor+dt@kernel.org, p.zabel@pengutronix.de,
+ devicetree@vger.kernel.org, l.stach@pengutronix.de,
+ shengjiu.wang@gmail.com, perex@perex.cz, tiwai@suse.com,
+ linux-sound@vger.kernel.org
+References: <20250923053001.2678596-1-shengjiu.wang@nxp.com>
+ <20250923053001.2678596-2-shengjiu.wang@nxp.com>
 MIME-Version: 1.0
-X-Mimecast-Spam-Score: 0
-X-Mimecast-MFC-PROC-ID: wKEYJtjWNcFwHQzDEZG1U-b7YR59Zs7Ru2YjSErXMDI_1761033067
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250923053001.2678596-2-shengjiu.wang@nxp.com>
+X-Operating-System: Linux phenom 6.12.38+deb13-amd64 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -102,41 +117,141 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Mehdi Ben Hadj Khelifa <mehdi.benhadjkhelifa@gmail.com> writes:
+On Tue, Sep 23, 2025 at 01:29:55PM +0800, Shengjiu Wang wrote:
+> Add binding for the i.MX8MP HDMI parallel Audio interface block.
+> 
+> The HDMI TX Parallel Audio Interface (HTX_PAI) is a digital module that
+> acts as the bridge between the Audio Subsystem to the HDMI TX Controller.
+> This IP block is found in the HDMI subsystem of the i.MX8MP SoC.
+> 
+> Aud2htx module in Audio Subsystem, HDMI PAI module and HDMI TX
+> Controller compose the HDMI audio pipeline.
+> 
+> In fsl,imx8mp-hdmi-tx.yaml, add port@2 that is linked to pai_to_hdmi_tx.
+> 
+> Signed-off-by: Shengjiu Wang <shengjiu.wang@nxp.com>
+> Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+> Tested-by: Alexander Stein <alexander.stein@ew.tq-group.com>
 
-Hello Mehdi,
+dt patches need an ack from dt maintainers before you push them, please
+make sure you follow that for the next changes.
+-Sima
 
-> On 10/20/25 9:56 PM, Shuah Khan wrote:
-
-[...]
-
->>> I have a raspberrypi zero 2 wh that i'm using in combination with the 
->>> ssd1306 OLED panel via I2C to test it's rendering and it's working 
->>> properly by using modetest and seeing no regressions or warnings in 
->>> dmesg.
->>>
->> 
->> Send v2 with all these details and why this change is needed
->> in the first place.
->> 
-> Okay, I will do that as soon as possible.> When and how does this 
-> potential problem trigger? Is this a
->> theoretical or does this happen in this code path and how?
->> Next time include all of these details people understand the
->> problem better.
->> 
-> We'll do in the next iteration.Thanks
->
-
-A similar patch was posted by another developer a couple of weeks
-ago and is now queued already in the drm-misc-next branch:
-
-https://cgit.freedesktop.org/drm/drm-misc/commit/?id=940dd88c5f5bdb1f3e19873a856a677ebada63a9
+> ---
+>  .../display/bridge/fsl,imx8mp-hdmi-tx.yaml    | 12 ++++
+>  .../display/imx/fsl,imx8mp-hdmi-pai.yaml      | 69 +++++++++++++++++++
+>  2 files changed, 81 insertions(+)
+>  create mode 100644 Documentation/devicetree/bindings/display/imx/fsl,imx8mp-hdmi-pai.yaml
+> 
+> diff --git a/Documentation/devicetree/bindings/display/bridge/fsl,imx8mp-hdmi-tx.yaml b/Documentation/devicetree/bindings/display/bridge/fsl,imx8mp-hdmi-tx.yaml
+> index 05442d437755..6211ab8bbb0e 100644
+> --- a/Documentation/devicetree/bindings/display/bridge/fsl,imx8mp-hdmi-tx.yaml
+> +++ b/Documentation/devicetree/bindings/display/bridge/fsl,imx8mp-hdmi-tx.yaml
+> @@ -49,6 +49,10 @@ properties:
+>          $ref: /schemas/graph.yaml#/properties/port
+>          description: HDMI output port
+>  
+> +      port@2:
+> +        $ref: /schemas/graph.yaml#/properties/port
+> +        description: Parallel audio input port
+> +
+>      required:
+>        - port@0
+>        - port@1
+> @@ -98,5 +102,13 @@ examples:
+>                      remote-endpoint = <&hdmi0_con>;
+>                  };
+>              };
+> +
+> +            port@2 {
+> +                reg = <2>;
+> +
+> +                endpoint {
+> +                    remote-endpoint = <&pai_to_hdmi_tx>;
+> +                };
+> +            };
+>          };
+>      };
+> diff --git a/Documentation/devicetree/bindings/display/imx/fsl,imx8mp-hdmi-pai.yaml b/Documentation/devicetree/bindings/display/imx/fsl,imx8mp-hdmi-pai.yaml
+> new file mode 100644
+> index 000000000000..4f99682a308d
+> --- /dev/null
+> +++ b/Documentation/devicetree/bindings/display/imx/fsl,imx8mp-hdmi-pai.yaml
+> @@ -0,0 +1,69 @@
+> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
+> +%YAML 1.2
+> +---
+> +$id: http://devicetree.org/schemas/display/imx/fsl,imx8mp-hdmi-pai.yaml#
+> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> +
+> +title: Freescale i.MX8MP HDMI Parallel Audio Interface
+> +
+> +maintainers:
+> +  - Shengjiu Wang <shengjiu.wang@nxp.com>
+> +
+> +description:
+> +  The HDMI TX Parallel Audio Interface (HTX_PAI) is a bridge between the
+> +  Audio Subsystem to the HDMI TX Controller.
+> +
+> +properties:
+> +  compatible:
+> +    const: fsl,imx8mp-hdmi-pai
+> +
+> +  reg:
+> +    maxItems: 1
+> +
+> +  interrupts:
+> +    maxItems: 1
+> +
+> +  clocks:
+> +    maxItems: 1
+> +
+> +  clock-names:
+> +    const: apb
+> +
+> +  power-domains:
+> +    maxItems: 1
+> +
+> +  port:
+> +    $ref: /schemas/graph.yaml#/properties/port
+> +    description: Output to the HDMI TX controller.
+> +
+> +required:
+> +  - compatible
+> +  - reg
+> +  - interrupts
+> +  - clocks
+> +  - clock-names
+> +  - power-domains
+> +  - port
+> +
+> +additionalProperties: false
+> +
+> +examples:
+> +  - |
+> +    #include <dt-bindings/clock/imx8mp-clock.h>
+> +    #include <dt-bindings/power/imx8mp-power.h>
+> +
+> +    audio-bridge@32fc4800 {
+> +        compatible = "fsl,imx8mp-hdmi-pai";
+> +        reg = <0x32fc4800 0x800>;
+> +        interrupt-parent = <&irqsteer_hdmi>;
+> +        interrupts = <14>;
+> +        clocks = <&clk IMX8MP_CLK_HDMI_APB>;
+> +        clock-names = "apb";
+> +        power-domains = <&hdmi_blk_ctrl IMX8MP_HDMIBLK_PD_PAI>;
+> +
+> +        port {
+> +            pai_to_hdmi_tx: endpoint {
+> +                remote-endpoint = <&hdmi_tx_from_pai>;
+> +            };
+> +        };
+> +    };
+> -- 
+> 2.34.1
+> 
 
 -- 
-Best regards,
-
-Javier Martinez Canillas
-Core Platforms
-Red Hat
-
+Simona Vetter
+Software Engineer
+http://blog.ffwll.ch
