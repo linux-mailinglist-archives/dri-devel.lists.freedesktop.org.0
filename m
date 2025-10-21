@@ -2,70 +2,63 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4C7F0BF5A54
-	for <lists+dri-devel@lfdr.de>; Tue, 21 Oct 2025 11:52:16 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5C973BF5BDC
+	for <lists+dri-devel@lfdr.de>; Tue, 21 Oct 2025 12:19:36 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3723A10E5B1;
-	Tue, 21 Oct 2025 09:52:13 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 22ED710E2C9;
+	Tue, 21 Oct 2025 10:19:32 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="eaTUWinI";
+	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="YzdC9JNI";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pj1-f53.google.com (mail-pj1-f53.google.com
- [209.85.216.53])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0054610E2E6
- for <dri-devel@lists.freedesktop.org>; Tue, 21 Oct 2025 09:52:10 +0000 (UTC)
-Received: by mail-pj1-f53.google.com with SMTP id
- 98e67ed59e1d1-33bbc4e81dfso5466417a91.1
- for <dri-devel@lists.freedesktop.org>; Tue, 21 Oct 2025 02:52:10 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1761040330; x=1761645130; darn=lists.freedesktop.org;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=K8jwCSDNhGwJHggzSQN1M2tcia9PBWtTMzqgZ2U6K50=;
- b=eaTUWinIzQxqY7aiRT6ulqdkyQgJh0PB8Qx8Ws4n7ubhZJvYOWTETiFH5ozgqEg3F5
- mDRD3RvfOZOWn9hHzHmDfzx06ZSW2L96JpUX3lmd/sQ59gBDCh9JG9nrnCLP55soiOwV
- nMEpQ4JG+/55uqb5UnNJoHM92x93zp1k6q6n586zUxVmxu3oX3tFwxJHsnk+rcUhJvGH
- 8onlKJLA8sjymbBF7WFBmt6mLQn8qcct3CNV3u2uNtlMnYKN0lgdi+oV6+9384dUYXPv
- njusAXbv2CB5FOZQ/G4pETw5wIQAAPYlw7cR2QGtd3QlLMUPI8JxxTKQeJWpBSSdPvYG
- K4SQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1761040330; x=1761645130;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=K8jwCSDNhGwJHggzSQN1M2tcia9PBWtTMzqgZ2U6K50=;
- b=OUBHj4e/3ezcUY3IQB5BvzeZobx1D5ihbzgXpNfQH4aimLiCS4YwyM5P4QGwS18Ech
- sknxinSwxZ4jLi7eJcDLEs6Hjvk1mxOVE9TKg39To1/3SGUKMbHyS288yvfWcj0fScZp
- dScn+ifRC/TMccFCcKEXBxtEVLymHo359OigcYwN2lMnDW+FqYruy2oT5XosRndFnhBq
- dGi7NFMxbre0EL68WDKykkhjCphI7rKLWggxwuHOLdsjI8nZq/aovJvffZ7VwJZfg3Wg
- 8Q+N1mDE0cnemyD86JOw12r/KtWXv1+shpDLDUkb/RUYTsXkIa+uxO8XC53zqoqpxEmH
- R27w==
-X-Forwarded-Encrypted: i=1;
- AJvYcCWF3gLxZE2yzDuiVXM3BvXDavQ+E3BAV3btXxJMUkOSlmmV2WaqJGaKPgCzHEBjXqK6rtCU3sf6PJU=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Yw51tCizmwjwDa7b/RgnG6XdJNY0i7EXTslTqhU/DV9/WQXa1Wb
- miIRzpszQq/2cLETpVbM31FGloaxqO+fF8PNrRcoov2nwXLeZ6XYFKNuQMCp2izmJ45z04+GaZs
- 8+A8tMwqjc7RP7iVlxb3pTU3bY54oXgs=
-X-Gm-Gg: ASbGncuXsnCKZNRejpeo9bc7C5AakCelKAGb8FOwurxonFiEOnrel7SWV420me8LAOU
- T3xPJbFVajIywXM+RHRyXMwSC3A7rMmmjC/JSApDTIdigqkVPCPfn04YAz7O+D7U5xM/cODf+lH
- 9HOWWsCSJtRb+1e2CkK4bZO3NFvhmvflG/zQtowjoP7hp7W7bByRWWtysHQPEPFphQ9rOqyfL+t
- 9Wwn0HDYYST0o16pXXxrH7YYxIB5oI76plnML0J0Ni9qynFFrBW7QGPyMmH3cT3Exr8Gw==
-X-Google-Smtp-Source: AGHT+IG23FxeOHCoMqTfhFgLarGEk0iZCA29r/9imOIOPJUHrjyHV2ZDMGJ7QYTK8sEdU0yOMeCneV8tQoishg1dTC4=
-X-Received: by 2002:a17:90b:248f:b0:33b:cfae:3621 with SMTP id
- 98e67ed59e1d1-33bcfae47d8mr12840569a91.32.1761040330410; Tue, 21 Oct 2025
- 02:52:10 -0700 (PDT)
+Received: from bali.collaboradmins.com (bali.collaboradmins.com
+ [148.251.105.195])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 902FB10E2C9
+ for <dri-devel@lists.freedesktop.org>; Tue, 21 Oct 2025 10:19:30 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+ s=mail; t=1761041968;
+ bh=WMHACjCgeCP7hXg1N7fliMXhe6mJU1JutnrJGt/SU24=;
+ h=From:Subject:Date:To:Cc:From;
+ b=YzdC9JNI3agIUERz01h/HciBT86ZR7IoKC0E3J7egjMeL5JCigqLa1cTSkt18aOkF
+ ZtldKxwqsKrWxAscs5sq7KD+ZHcxpvGk2bEJsSycjiIjuW3MOFC55e4vdG5uGmeBRF
+ cSYhdcpmV+ERiH4WdCEsrNjoGC8ysH1zLG23EUslmxuAwmA9o/zZYOVDmmX0tsRtIi
+ 1ba0ICc3uK1mBCJ5hETxf6qVp9wkYsGdmsTCQuEJVAaKhfd732jtR6g+rPFwsnyV2u
+ g5h3kegHb53iz3Fr07IT1ZbQL3VMy92HzBeTZ+4kxafpzrme7bHrTEjcQDtiYBHZjL
+ cViIEiWpsbNMA==
+Received: from localhost (unknown [82.79.138.145])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange ECDHE (prime256v1) server-signature RSA-PSS (4096 bits)
+ server-digest SHA256) (No client certificate requested)
+ (Authenticated sender: cristicc)
+ by bali.collaboradmins.com (Postfix) with UTF8SMTPSA id 514EE17E129E;
+ Tue, 21 Oct 2025 12:19:28 +0200 (CEST)
+From: Cristian Ciocaltea <cristian.ciocaltea@collabora.com>
+Subject: [PATCH v3 0/5] High color depth support for RK3576/RK3588 HDMI output
+Date: Tue, 21 Oct 2025 13:19:13 +0300
+Message-Id: <20251021-rk3588-10bpc-v3-0-3d3eed00a6db@collabora.com>
 MIME-Version: 1.0
-References: <20251021093723.3887980-1-l.stach@pengutronix.de>
-In-Reply-To: <20251021093723.3887980-1-l.stach@pengutronix.de>
-From: Christian Gmeiner <christian.gmeiner@gmail.com>
-Date: Tue, 21 Oct 2025 11:51:58 +0200
-X-Gm-Features: AS18NWD4zdSyZ7dAT--Q7ATUT1K_RvSYXFdN1uFlkuPoTveP-glb9vojpIzg8po
-Message-ID: <CAH9NwWfEYJLF2L4=uXs0Dv61TkYsGsGLHohRrgPRi6c3n99YQA@mail.gmail.com>
-Subject: Re: [PATCH v3] drm/etnaviv: fix flush sequence logic
-To: Lucas Stach <l.stach@pengutronix.de>
-Cc: etnaviv@lists.freedesktop.org, dri-devel@lists.freedesktop.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIACFe92gC/3XP0QqCMBQG4FeRXbfYjh6bXfUe0cWcW47K2WajE
+ N+9aUEgdPn/cD7+M5KgvdWB7LOReB1tsK5LId9kRLWyO2tqm5QJMEC2A079JUchKGd1r6hAYwo
+ FIHSZk3TSe23sc+GOp5RbGwbnX4se+dz+gSKnjOoKZSFrZQoBB+WuV1k7L7fK3ciMRfgBAnAFQ
+ AIqxBKg4WUlcA1Mn3le3x/pyeG7cZreRnj0jQIBAAA=
+X-Change-ID: 20250721-rk3588-10bpc-85ff4c228e63
+To: Sandy Huang <hjc@rock-chips.com>, 
+ =?utf-8?q?Heiko_St=C3=BCbner?= <heiko@sntech.de>, 
+ Andy Yan <andy.yan@rock-chips.com>, 
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
+ Andrzej Hajda <andrzej.hajda@intel.com>, 
+ Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>, 
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>, 
+ Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>
+Cc: kernel@collabora.com, dri-devel@lists.freedesktop.org, 
+ linux-arm-kernel@lists.infradead.org, linux-rockchip@lists.infradead.org, 
+ linux-kernel@vger.kernel.org, Daniel Stone <daniels@collabora.com>
+X-Mailer: b4 0.14.3
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -81,29 +74,42 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
->
-> From: Tomeu Vizoso <tomeu@tomeuvizoso.net>
->
-> The current logic uses the flush sequence from the current address
-> space. This is harmless when deducing the flush requirements for the
-> current submit, as either the incoming address space is the same one
-> as the currently active one or we switch context, in which case the
-> flush is unconditional.
->
-> However, this sequence is also stored as the current flush sequence
-> of the GPU. If we switch context the stored flush sequence will no
-> longer belong to the currently active address space. This incoherency
-> can then cause missed flushes, resulting in translation errors.
->
-> Fixes: 27b67278e007 ("drm/etnaviv: rework MMU handling")
-> Signed-off-by: Tomeu Vizoso <tomeu@tomeuvizoso.net>
-> Signed-off-by: Lucas Stach <l.stach@pengutronix.de>
+Since both Rockchip RK3576 and RK3588 SoCs are capable of handling 10
+bpc color depth HDMI output and we've already landed the required HDPTX
+PHY driver changes to support the setup, let's add the missing bits and
+pieces to VOP2, DW HDMI QP encoder and bridge library.
 
-Reviewed-by: Christian Gmeiner <cgmeiner@igalia.com>
+Signed-off-by: Cristian Ciocaltea <cristian.ciocaltea@collabora.com>
+---
+Changes in v3:
+- Rebased series onto latest drm-misc-next in order to:
+  * Replace HIWORD_UPDATE with FIELD_PREP_WM16 macro
+  * Remove dependency on HDMI CEC series
+- Unconditionally used DIV_ROUND_CLOSEST_ULL(), as suggested by Daniel;
+  also collected his R-b and A-b tags
+- Link to v2: https://lore.kernel.org/r/20250825-rk3588-10bpc-v2-0-955622d16985@collabora.com
 
--- 
-greets
---
-Christian Gmeiner, MSc
+Changes in v2:
+- Replaced patch 'drm/rockchip: vop2: Add high color depth support' with
+  'drm/rockchip: vop2: Check bpc before switching DCLK source'
+- Rebased series onto next-20250825 while adding the HDMI CEC series as
+  a dependency
+- Link to v1: https://lore.kernel.org/r/20250721-rk3588-10bpc-v1-0-e95a4abcf482@collabora.com
 
-https://christian-gmeiner.info/privacypolicy
+---
+Cristian Ciocaltea (5):
+      drm/rockchip: vop2: Check bpc before switching DCLK source
+      drm/bridge: dw-hdmi-qp: Handle platform supported formats and color depth
+      drm/rockchip: dw_hdmi_qp: Switch to phy_configure()
+      drm/rockchip: dw_hdmi_qp: Use bit macros for RK3576 regs
+      drm/rockchip: dw_hdmi_qp: Add high color depth support
+
+ drivers/gpu/drm/bridge/synopsys/dw-hdmi-qp.c   |  11 ++-
+ drivers/gpu/drm/rockchip/dw_hdmi_qp-rockchip.c | 108 +++++++++++++++++--------
+ drivers/gpu/drm/rockchip/rockchip_drm_vop2.c   |  58 +++++++------
+ include/drm/bridge/dw_hdmi_qp.h                |   4 +
+ 4 files changed, 121 insertions(+), 60 deletions(-)
+---
+base-commit: 7ea0468380216c10b73633b976d33efa8c12d375
+change-id: 20250721-rk3588-10bpc-85ff4c228e63
+
