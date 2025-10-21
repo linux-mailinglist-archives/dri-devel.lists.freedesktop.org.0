@@ -2,66 +2,65 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7D299BF4F7A
-	for <lists+dri-devel@lfdr.de>; Tue, 21 Oct 2025 09:31:57 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6FA2FBF4F9B
+	for <lists+dri-devel@lfdr.de>; Tue, 21 Oct 2025 09:33:33 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A0FC510E574;
-	Tue, 21 Oct 2025 07:31:55 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9202310E575;
+	Tue, 21 Oct 2025 07:33:31 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="dW0gTjge";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="l/hY+F5v";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from bali.collaboradmins.com (bali.collaboradmins.com
- [148.251.105.195])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BA19510E572
- for <dri-devel@lists.freedesktop.org>; Tue, 21 Oct 2025 07:31:49 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1761031908;
- bh=qr9XyEgoKDrOvlQ/a4EvmrD00l7EvEI7RmtYodAKgIY=;
- h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
- b=dW0gTjgeOApqnGqmEI57D2DqO0dLmHAF2ruzdQQoe0xxt+dy4PLcasIdyPbR6HG0M
- Lv0N9El/lXwuwcdtP3baYFAASpLznKjJVFzGHzrrPddXI9d+GrifdBJQbgOWd84CnD
- tsHOVG1yVeJ/xvC8z/hKQgKS7jT6ZsP+OIlj+U7pAXZOHFZRVl+PehVydDi6yZPSOH
- 6C2kEb9w8JrpQkWd1cznIflMWViMXLIleiCQvxdFWgRZbsTfJFoet1qAajhlcEOZ4t
- EbqWu00tZ+ZkOYHrGfaLS3nYoixj0yblyor/1v6rnjZGReJ9HcLYNmPen+TxPfZqra
- GXqqXZXkldPPg==
-Received: from yukiji.home (amontpellier-657-1-116-247.w83-113.abo.wanadoo.fr
- [83.113.51.247])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested) (Authenticated sender: laeyraud)
- by bali.collaboradmins.com (Postfix) with ESMTPSA id AF99D17E1404;
- Tue, 21 Oct 2025 09:31:47 +0200 (CEST)
-From: Louis-Alexis Eyraud <louisalexis.eyraud@collabora.com>
-Date: Tue, 21 Oct 2025 09:30:53 +0200
-Subject: [PATCH v2 3/3] arm64: dts: mediatek: mt8365-evk: Enable GPU
- support
+Received: from sea.source.kernel.org (sea.source.kernel.org [172.234.252.31])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2C69610E575
+ for <dri-devel@lists.freedesktop.org>; Tue, 21 Oct 2025 07:33:30 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by sea.source.kernel.org (Postfix) with ESMTP id D7ED340264;
+ Tue, 21 Oct 2025 07:33:29 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPS id AF788C4CEF1;
+ Tue, 21 Oct 2025 07:33:29 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1761032009;
+ bh=+mStnn3HPi6kjUfpST2uFpAvmbn8K6R4UaMlJ2X3oSE=;
+ h=From:Date:Subject:To:Cc:Reply-To:From;
+ b=l/hY+F5vyMD+XVWeaZ224w1o6v9I+kaGNzSfbVSMHvRy71ptwu1ohChPpDYOIzR/6
+ agN0VIxsfKJZuya7ngp09Gp2cusgJNqs/ows/J++GPZeg+/wKO4sRUFwZfVb3P4KC2
+ cADrJbq/RQsXjSKxN/rctvQ2jes/se9RCFvA0E6UqoBeUBFQ7bbjg6FII/weh0XLvj
+ 4M0D/O5i4FFUbxlo5oqlSVtjXoPUa0Z50oNZlEKOzTKoeVZrD0DyeQBLb1lZcALJW8
+ PnX2hmxN/rucD60hepiys+tm2EV7L4xIEfeHUXMzW7nAqeiYBWZEfp0bLsEC/e3lU8
+ yYdZeDto/Smyg==
+Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org
+ (localhost.localdomain [127.0.0.1])
+ by smtp.lore.kernel.org (Postfix) with ESMTP id 9F302CCD184;
+ Tue, 21 Oct 2025 07:33:29 +0000 (UTC)
+From: Joel Selvaraj via B4 Relay <devnull+foss.joelselvaraj.com@kernel.org>
+Date: Tue, 21 Oct 2025 02:33:23 -0500
+Subject: [PATCH] backlight: qcom-wled: fix unbalanced ovp irq enable
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20251021-mt8365-enable-gpu-v2-3-17e05cff2c86@collabora.com>
-References: <20251021-mt8365-enable-gpu-v2-0-17e05cff2c86@collabora.com>
-In-Reply-To: <20251021-mt8365-enable-gpu-v2-0-17e05cff2c86@collabora.com>
-To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
- Conor Dooley <conor+dt@kernel.org>, 
- Matthias Brugger <matthias.bgg@gmail.com>, 
- AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
-Cc: kernel@collabora.com, dri-devel@lists.freedesktop.org, 
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
- linux-arm-kernel@lists.infradead.org, linux-mediatek@lists.infradead.org, 
- Louis-Alexis Eyraud <louisalexis.eyraud@collabora.com>
+Message-Id: <20251021-qcom-wled-fix-unbalanced-ovp-irq-enable-v1-1-edd304d165a5@joelselvaraj.com>
+X-B4-Tracking: v=1; b=H4sIAEI392gC/x3NQQrCMBCF4auUWTuQhDagVxEXk2TUgZi0CdZC6
+ d07uPwW/3s7dG7CHW7DDo1X6VKLwl4GiG8qL0ZJanDGTdY4i0usH/xlTviUDb8lUKYSlXWdUdq
+ CXChkxmkcfbDGU7p60LW5sQb/p/vjOE5zlSnweQAAAA==
+X-Change-ID: 20251021-qcom-wled-fix-unbalanced-ovp-irq-enable-5446b106ad96
+To: Lee Jones <lee@kernel.org>, Daniel Thompson <danielt@kernel.org>, 
+ Jingoo Han <jingoohan1@gmail.com>, Helge Deller <deller@gmx.de>
+Cc: linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org, 
+ linux-fbdev@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ Joel Selvaraj <foss@joelselvaraj.com>
 X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1761031905; l=1137;
- i=louisalexis.eyraud@collabora.com; s=20250113; h=from:subject:message-id;
- bh=qr9XyEgoKDrOvlQ/a4EvmrD00l7EvEI7RmtYodAKgIY=;
- b=BTk5evTjx76vWj0BG4kqs51CoKzKQA0I1u53jD7R8c+No3fzOaD/cj8PcW5jg7FGhngEcjNh5
- lfTS+ARGzmiB2mjtHq+TygszS/qCGstK24Iinm/XVo45JtYMCefdsmE
-X-Developer-Key: i=louisalexis.eyraud@collabora.com; a=ed25519;
- pk=CHFBDB2Kqh4EHc6JIqFn69GhxJJAzc0Zr4e8QxtumuM=
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1761032009; l=3415;
+ i=foss@joelselvaraj.com; s=20250919; h=from:subject:message-id;
+ bh=TgO0CVPZO00Cf30CCD6Yj7u97D72h24ioMyPxeIISiA=;
+ b=yX/Y7aeTGZuyQpEDbLe8dX/oAgeOGDp2FkygKfpZZ62PMf7+MuuNncznQinNhRQ3og0ZjqdTy
+ 1Xe2rZJ1399BBHxdszQPKd4v164bVEHrCwKZc2Qtw8ur1ehxF1x82SE
+X-Developer-Key: i=foss@joelselvaraj.com; a=ed25519;
+ pk=BBMos4ph15apUFh2AkG9rLZIrBWl5LD4egPOhEv63X0=
+X-Endpoint-Received: by B4 Relay for foss@joelselvaraj.com/20250919 with
+ auth_id=529
+X-Original-From: Joel Selvaraj <foss@joelselvaraj.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -74,46 +73,109 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Reply-To: foss@joelselvaraj.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Enable for the Mediatek Genio 350-EVK board the support of the
-Arm Mali G52 MC1 GPU integrated in the MT8365 SoC.
+From: Joel Selvaraj <foss@joelselvaraj.com>
 
-Reviewed-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
-Signed-off-by: Louis-Alexis Eyraud <louisalexis.eyraud@collabora.com>
+In Xiaomi Poco F1 and at least few other devices, the qcom wled driver
+triggers unbalanced ovp irq enable warning like the following during
+boot up.
+
+[    1.151677] ------------[ cut here ]------------
+[    1.151680] Unbalanced enable for IRQ 176
+[    1.151693] WARNING: CPU: 0 PID: 160 at kernel/irq/manage.c:774 __enable_irq+0x50/0x80
+[    1.151710] Modules linked in:
+[    1.151717] CPU: 0 PID: 160 Comm: kworker/0:11 Not tainted 5.17.0-sdm845 #4
+[    1.151724] Hardware name: Xiaomi Pocophone F1 (DT)
+[    1.151728] Workqueue: events wled_ovp_work
+...<snip>...
+[    1.151833] Call trace:
+[    1.151836]  __enable_irq+0x50/0x80
+[    1.151841]  enable_irq+0x48/0xa0
+[    1.151846]  wled_ovp_work+0x18/0x24
+[    1.151850]  process_one_work+0x1d0/0x350
+[    1.151858]  worker_thread+0x13c/0x460
+[    1.151862]  kthread+0x110/0x114
+[    1.151868]  ret_from_fork+0x10/0x20
+[    1.151876] ---[ end trace 0000000000000000 ]---
+
+Fix it by storing and checking the state of ovp irq before enabling and
+disabling it.
+
+Signed-off-by: Joel Selvaraj <foss@joelselvaraj.com>
 ---
- arch/arm64/boot/dts/mediatek/mt8365-evk.dts | 9 +++++++++
- 1 file changed, 9 insertions(+)
+I am not entirely sure if this is the ideal fix. But this patch provides
+an okayish stopgap solution till we can properly fix it. I am open to 
+try a different approach if there is any suggestion.
+---
+ drivers/video/backlight/qcom-wled.c | 15 ++++++++++++---
+ 1 file changed, 12 insertions(+), 3 deletions(-)
 
-diff --git a/arch/arm64/boot/dts/mediatek/mt8365-evk.dts b/arch/arm64/boot/dts/mediatek/mt8365-evk.dts
-index 3de04ae70cc5fcd203a9cb745dfb3575ace66801..92ecde96dfeb4bdbc85a8fd869b405ef6cc1cdc0 100644
---- a/arch/arm64/boot/dts/mediatek/mt8365-evk.dts
-+++ b/arch/arm64/boot/dts/mediatek/mt8365-evk.dts
-@@ -284,6 +284,11 @@ eth_phy: ethernet-phy@0 {
- 	};
- };
+diff --git a/drivers/video/backlight/qcom-wled.c b/drivers/video/backlight/qcom-wled.c
+index a63bb42c8f8b0333cd6d0ddc5bda93916da3fef3..36e2fe5c5fa37cfb8750254a75eff612741983c8 100644
+--- a/drivers/video/backlight/qcom-wled.c
++++ b/drivers/video/backlight/qcom-wled.c
+@@ -197,6 +197,7 @@ struct wled {
+ 	bool disabled_by_short;
+ 	bool has_short_detect;
+ 	bool cabc_disabled;
++	bool ovp_irq_disabled;
+ 	int short_irq;
+ 	int ovp_irq;
  
-+&gpu {
-+	mali-supply = <&mt6357_vcore_reg>;
-+	status = "okay";
-+};
-+
- &i2c0 {
- 	clock-frequency = <100000>;
- 	pinctrl-0 = <&i2c0_pins>;
-@@ -354,6 +359,10 @@ touchscreen@5d {
- 	};
- };
+@@ -294,7 +295,10 @@ static void wled_ovp_work(struct work_struct *work)
+ {
+ 	struct wled *wled = container_of(work,
+ 					 struct wled, ovp_work.work);
+-	enable_irq(wled->ovp_irq);
++	if (wled->ovp_irq_disabled) {
++		enable_irq(wled->ovp_irq);
++		wled->ovp_irq_disabled = false;
++	}
+ }
  
-+&mfg {
-+	domain-supply = <&mt6357_vsram_others_reg>;
-+};
-+
- &mmc0 {
- 	assigned-clock-parents = <&topckgen CLK_TOP_MSDCPLL>;
- 	assigned-clocks = <&topckgen CLK_TOP_MSDC50_0_SEL>;
+ static int wled_module_enable(struct wled *wled, int val)
+@@ -321,8 +325,10 @@ static int wled_module_enable(struct wled *wled, int val)
+ 			 */
+ 			schedule_delayed_work(&wled->ovp_work, HZ / 100);
+ 		} else {
+-			if (!cancel_delayed_work_sync(&wled->ovp_work))
++			if (!cancel_delayed_work_sync(&wled->ovp_work) && !wled->ovp_irq_disabled) {
+ 				disable_irq(wled->ovp_irq);
++				wled->ovp_irq_disabled = true;
++			}
+ 		}
+ 	}
+ 
+@@ -1613,8 +1619,10 @@ static int wled_configure_ovp_irq(struct wled *wled,
+ 		return rc;
+ 
+ 	/* Keep OVP irq disabled until module is enabled */
+-	if (!(val & WLED3_CTRL_REG_MOD_EN_MASK))
++	if (!(val & WLED3_CTRL_REG_MOD_EN_MASK)) {
+ 		disable_irq(wled->ovp_irq);
++		wled->ovp_irq_disabled = true;
++	}
+ 
+ 	return 0;
+ }
+@@ -1727,6 +1735,7 @@ static void wled_remove(struct platform_device *pdev)
+ 	cancel_delayed_work_sync(&wled->ovp_work);
+ 	disable_irq(wled->short_irq);
+ 	disable_irq(wled->ovp_irq);
++	wled->ovp_irq_disabled = true;
+ }
+ 
+ static const struct of_device_id wled_match_table[] = {
 
+---
+base-commit: fe45352cd106ae41b5ad3f0066c2e54dbb2dfd70
+change-id: 20251021-qcom-wled-fix-unbalanced-ovp-irq-enable-5446b106ad96
+
+Best regards,
 -- 
-2.51.0
+Joel Selvaraj <foss@joelselvaraj.com>
+
 
