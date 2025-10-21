@@ -2,54 +2,66 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7B2CEBF7CEF
-	for <lists+dri-devel@lfdr.de>; Tue, 21 Oct 2025 19:02:51 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 502DDBF7DD7
+	for <lists+dri-devel@lfdr.de>; Tue, 21 Oct 2025 19:22:54 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id AFE1610E626;
-	Tue, 21 Oct 2025 17:02:48 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E09FD89B01;
+	Tue, 21 Oct 2025 17:22:37 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=cse.ust.hk header.i=@cse.ust.hk header.b="mwlRwnKK";
+	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="QFuq5llG";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from cse.ust.hk (cssvr7.cse.ust.hk [143.89.41.157])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7A02010E626;
- Tue, 21 Oct 2025 17:02:45 +0000 (UTC)
-Received: from chcpu18 (191host009.mobilenet.cse.ust.hk [143.89.191.9])
- (authenticated bits=0)
- by cse.ust.hk (8.18.1/8.12.5) with ESMTPSA id 59LH2V42779999
- (version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 bits=256 verify=NOT);
- Wed, 22 Oct 2025 01:02:37 +0800
-ARC-Seal: i=1; a=rsa-sha256; d=cse.ust.hk; s=arccse; t=1761066158; cv=none;
- b=T/+4lEACQsGHm9udGaaM8aihrcqTVOZWFMG5F6JFTX6O29X4zQZJiKQrzOHaxLRU+TYJsGkQRHU3tjXryqiqgGc7KJk2elxnVrcyA/Mvoeibz+Pzj33l0AGvdmVwNOYeUAo+cwO8r6eqmBR6wuzCErqMQUWX8CAoTbSlOoiytpg=
-ARC-Message-Signature: i=1; a=rsa-sha256; d=cse.ust.hk; s=arccse;
- t=1761066158; c=relaxed/relaxed;
- bh=FRVfiD6X5NXLrHjgmPEma2QRAwCTtDTlCJMspqk53gA=;
- h=DKIM-Signature:Date:From:To:Subject:Message-ID:MIME-Version;
- b=raDpEqVXBRFjJ+wUSmpp+P5YZX13JFY763EFGLojsAm+RjHi87pcnobAFrsD0vwZkLzLTY9hubuslyhvuNW5z01X8BeF0ajY4UpCh0pSIIVj2fi22fA913vR9n9oweBRKicWL+VqmC7A9gTlrtAnKEldHMr8xkv4tp+EMdPi+Do=
-ARC-Authentication-Results: i=1; cse.ust.hk
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cse.ust.hk;
- s=cseusthk; t=1761066158;
- bh=FRVfiD6X5NXLrHjgmPEma2QRAwCTtDTlCJMspqk53gA=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=mwlRwnKKPlBkjp3sWnD8EgVcbM/N++9LiW8IlROkRqjbjbzRlLTmg7lQJHzbrG2qW
- aIDSzRBg1+MM2UqOgD5pJyEa7zPj1JEgLuPN7A15TuOAsATKh1i4izXe+Qm8kqJVOe
- s2FCrgZbTxk+vgaMx9KSo5SixHbjlgQ3wOXoZzLY=
-Date: Tue, 21 Oct 2025 17:02:26 +0000
-From: Shuhao Fu <sfual@cse.ust.hk>
-To: Lyude Paul <lyude@redhat.com>, Danilo Krummrich <dakr@kernel.org>
-Cc: dri-devel@lists.freedesktop.org, nouveau@lists.freedesktop.org,
- stable@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v3] drm/nouveau: Fix refcount leak in
- nouveau_connector_detect
-Message-ID: <aPe8optzxlZ8Rwf5@chcpu18>
-References: <aOPy5aCiRTqb9kjR@homelab>
- <aOXYV5pgilTvqMxR@osx.local>
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E2BFB89B01
+ for <dri-devel@lists.freedesktop.org>; Tue, 21 Oct 2025 17:22:35 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1761067354;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=cdSPcH+wHvNWj0StlLEMwA8RIMWmorG7W7FYDNP1txU=;
+ b=QFuq5llGbp01Ubi5DneI68Y2WAa3hLQ3pQQcB4lJ2V0vX+j5tknOZHMX14fWhDzdfdHIKa
+ HqGy8Pqhm8eajJ3mK4XoX9nXWPUPLa8a0wPMOkCdQzUqIxASjq3K8GOEnKymqZfjv7yXTi
+ nPD70nDgPk1yKv88ntw3S2ulBpsJnBE=
+Received: from mx-prod-mc-08.mail-002.prod.us-west-2.aws.redhat.com
+ (ec2-35-165-154-97.us-west-2.compute.amazonaws.com [35.165.154.97]) by
+ relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
+ cipher=TLS_AES_256_GCM_SHA384) id us-mta-653-Bn21VuWYNCCoPQv5bCC6Fw-1; Tue,
+ 21 Oct 2025 13:22:30 -0400
+X-MC-Unique: Bn21VuWYNCCoPQv5bCC6Fw-1
+X-Mimecast-MFC-AGG-ID: Bn21VuWYNCCoPQv5bCC6Fw_1761067348
+Received: from mx-prod-int-08.mail-002.prod.us-west-2.aws.redhat.com
+ (mx-prod-int-08.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.111])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+ (No client certificate requested)
+ by mx-prod-mc-08.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS
+ id 4333518002C1; Tue, 21 Oct 2025 17:22:28 +0000 (UTC)
+Received: from chopper.lan (unknown [10.22.81.81])
+ by mx-prod-int-08.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP
+ id 2C94E1800451; Tue, 21 Oct 2025 17:22:23 +0000 (UTC)
+From: Lyude Paul <lyude@redhat.com>
+To: dri-devel@lists.freedesktop.org, rust-for-linux@vger.kernel.org,
+ Alice Ryhl <aliceryhl@google.com>
+Cc: Danilo Krummrich <dakr@kernel.org>, David Airlie <airlied@gmail.com>,
+ Simona Vetter <simona@ffwll.ch>, Miguel Ojeda <ojeda@kernel.org>,
+ Alex Gaynor <alex.gaynor@gmail.com>, Boqun Feng <boqun.feng@gmail.com>,
+ Gary Guo <gary@garyguo.net>,
+ =?UTF-8?q?Bj=C3=B6rn=20Roy=20Baron?= <bjorn3_gh@protonmail.com>,
+ Benno Lossin <lossin@kernel.org>, Andreas Hindborg <a.hindborg@kernel.org>,
+ Trevor Gross <tmgross@umich.edu>,
+ Daniel Almeida <daniel.almeida@collabora.com>,
+ Shankari Anand <shankari.ak0208@gmail.com>,
+ Asahi Lina <lina+kernel@asahilina.net>,
+ linux-kernel@vger.kernel.org (open list)
+Subject: [PATCH v2] rust: drm/gem: Remove Object.dev
+Date: Tue, 21 Oct 2025 13:21:36 -0400
+Message-ID: <20251021172220.252558-1-lyude@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <aOXYV5pgilTvqMxR@osx.local>
-X-Env-From: sfual
+Content-Transfer-Encoding: 8bit
+X-Scanned-By: MIMEDefang 3.4.1 on 10.30.177.111
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -65,48 +77,64 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi, this is a friendly reminder of this patch. Please do let me know if
-it needs any rework.
+I noticed by chance that there's actually already a pointer to this in
+struct drm_gem_object. So, no use in carrying this around!
 
-On Wed, Oct 08, 2025 at 11:20:15AM +0800, Shuhao Fu wrote:
-> A possible inconsistent refcount update has been identified in function
-> `nouveau_connector_detect`, which may cause a resource leak.
-> 
-> After calling `pm_runtime_get_*(dev->dev)`, the usage counter of `dev->dev`
-> gets increased. In case function `nvif_outp_edid_get` returns negative,
-> function `nouveau_connector_detect` returns without decreasing the usage
-> counter of `dev->dev`, causing a refcount inconsistency.
-> 
-> Closes: https://gitlab.freedesktop.org/drm/nouveau/-/issues/450
-> Fixes: 0cd7e0718139 ("drm/nouveau/disp: add output method to fetch edid")
-> Signed-off-by: Shuhao Fu <sfual@cse.ust.hk>
-> Cc: stable@vger.kernel.org
-> 
-> Change in v3:
-> - Cc stable
-> Change in v2:
-> - Add "Fixes" and "Cc" tags
-> ---
->  drivers/gpu/drm/nouveau/nouveau_connector.c | 6 ++++--
->  1 file changed, 4 insertions(+), 2 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/nouveau/nouveau_connector.c b/drivers/gpu/drm/nouveau/nouveau_connector.c
-> index 63621b151..45caccade 100644
-> --- a/drivers/gpu/drm/nouveau/nouveau_connector.c
-> +++ b/drivers/gpu/drm/nouveau/nouveau_connector.c
-> @@ -600,8 +600,10 @@ nouveau_connector_detect(struct drm_connector *connector, bool force)
->                                 new_edid = drm_get_edid(connector, nv_encoder->i2c);
->                 } else {
->                         ret = nvif_outp_edid_get(&nv_encoder->outp, (u8 **)&new_edid);
-> -                       if (ret < 0)
-> -                               return connector_status_disconnected;
-> +                       if (ret < 0) {
-> +                               conn_status = connector_status_disconnected;
-> +                               goto out;
-> +                       }
->                 }
-> 
->                 nouveau_connector_set_edid(nv_connector, new_edid);
-> --
-> 2.39.5
-> 
+Signed-off-by: Lyude Paul <lyude@redhat.com>
+Acked-by: Danilo Krummrich <dakr@kernel.org>
+---
+V2:
+* Improve safety comment in Object.dev()
+
+ rust/kernel/drm/gem/mod.rs | 15 +++++++--------
+ 1 file changed, 7 insertions(+), 8 deletions(-)
+
+diff --git a/rust/kernel/drm/gem/mod.rs b/rust/kernel/drm/gem/mod.rs
+index 30c853988b942..d984148403679 100644
+--- a/rust/kernel/drm/gem/mod.rs
++++ b/rust/kernel/drm/gem/mod.rs
+@@ -187,12 +187,10 @@ impl<T: IntoGEMObject> BaseObject for T {}
+ /// Invariants
+ ///
+ /// - `self.obj` is a valid instance of a `struct drm_gem_object`.
+-/// - `self.dev` is always a valid pointer to a `struct drm_device`.
+ #[repr(C)]
+ #[pin_data]
+ pub struct Object<T: DriverObject + Send + Sync> {
+     obj: Opaque<bindings::drm_gem_object>,
+-    dev: NonNull<drm::Device<T::Driver>>,
+     #[pin]
+     data: T,
+ }
+@@ -222,9 +220,6 @@ pub fn new(dev: &drm::Device<T::Driver>, size: usize) -> Result<ARef<Self>> {
+             try_pin_init!(Self {
+                 obj: Opaque::new(bindings::drm_gem_object::default()),
+                 data <- T::new(dev, size),
+-                // INVARIANT: The drm subsystem guarantees that the `struct drm_device` will live
+-                // as long as the GEM object lives.
+-                dev: dev.into(),
+             }),
+             GFP_KERNEL,
+         )?;
+@@ -247,9 +242,13 @@ pub fn new(dev: &drm::Device<T::Driver>, size: usize) -> Result<ARef<Self>> {
+ 
+     /// Returns the `Device` that owns this GEM object.
+     pub fn dev(&self) -> &drm::Device<T::Driver> {
+-        // SAFETY: The DRM subsystem guarantees that the `struct drm_device` will live as long as
+-        // the GEM object lives, hence the pointer must be valid.
+-        unsafe { self.dev.as_ref() }
++        // SAFETY:
++        // - `struct drm_gem_object.dev` is initialized and valid for as long as the GEM
++        //   object lives.
++        // - The device we used for creating the gem object is passed as &drm::Device<T::Driver> to
++        //   Object::<T>::new(), so we know that `T::Driver` is the right generic parameter to use
++        //   here.
++        unsafe { drm::Device::from_raw((*self.as_raw()).dev) }
+     }
+ 
+     fn as_raw(&self) -> *mut bindings::drm_gem_object {
+
+base-commit: 77ed4376d7c5de8be1f2612d6b4777077fb5fdb2
+-- 
+2.51.0
+
