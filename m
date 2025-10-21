@@ -2,96 +2,90 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 43688BF5F19
-	for <lists+dri-devel@lfdr.de>; Tue, 21 Oct 2025 13:04:55 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id A8CD2BF5F5B
+	for <lists+dri-devel@lfdr.de>; Tue, 21 Oct 2025 13:11:04 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 05C3D10E303;
-	Tue, 21 Oct 2025 11:04:52 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 99DC110E5A7;
+	Tue, 21 Oct 2025 11:11:01 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="GMLqIDqe";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="ouYxP6Mj";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3659810E5AD
- for <dri-devel@lists.freedesktop.org>; Tue, 21 Oct 2025 11:04:50 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by tor.source.kernel.org (Postfix) with ESMTP id 67A93603CB;
- Tue, 21 Oct 2025 11:04:49 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 34945C4CEF1;
- Tue, 21 Oct 2025 11:04:46 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1761044689;
- bh=e9CEg/dQb5l4GmgaPwHILbc/QI4weegnGGq+KcEsvcA=;
- h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
- b=GMLqIDqe7cqhQ76YEGkyt9SELjAbolWf6T27gLdK2U9VvFcwoKq5TQam1IzgVFTWL
- DpsUqqQ4MBzMcsMlCumXnFUjr9ihkKy5wp62V1QhxH/wBVDYHdafCfw5ObAkW6rmnI
- 7fLmdRfShWoPzYaiqpXXJut59IUIzUQNo7pX2YELYYjlc5CRdZhPEAuc6wltwbXbyK
- hl00cCZp21dqbozPNNT+SATGnuKK+fgSdjGa9gWF0ujd7hruUu1IQjY6eupNK3+DSV
- BgjUqj18NbnR3zzzyrOE1JXrqgBKfPtdQNpq5shg0dZjO5DA5h+Q2yRTRpO249YhQc
- 2GNeHZ3SI94IQ==
-Message-ID: <658446d1-5d3b-4924-a446-f26a1a8b9be6@kernel.org>
-Date: Tue, 21 Oct 2025 13:04:44 +0200
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2] drm/display: add hw_params callback function to
- drm_connector_hdmi_audio_ops
-To: Jianfeng Liu <liujianfeng1994@gmail.com>, linux-arm-msm@vger.kernel.org
-Cc: Xilin Wu <sophon@radxa.com>, Abhinav Kumar <quic_abhinavk@quicinc.com>,
- David Airlie <airlied@gmail.com>, Dmitry Baryshkov <lumag@kernel.org>,
+Received: from mail-wr1-f43.google.com (mail-wr1-f43.google.com
+ [209.85.221.43])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 192AC10E5A7
+ for <dri-devel@lists.freedesktop.org>; Tue, 21 Oct 2025 11:11:01 +0000 (UTC)
+Received: by mail-wr1-f43.google.com with SMTP id
+ ffacd0b85a97d-42702037a01so794963f8f.3
+ for <dri-devel@lists.freedesktop.org>; Tue, 21 Oct 2025 04:11:01 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1761045059; x=1761649859; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=JZxh2RHqPkMdvbwb2L7q+GZUxl/+aVRyGR8X3MbWpuw=;
+ b=ouYxP6MjbGkBZQP5Cw3o+L2h2j1s6vUSQ1wbJ2FPniccQH5HdzpQ7AfmyyZmI8VxZN
+ 2uGOQJX2atcvAQABbOOLu76k3FtJxmmnn191aShi1VFqKUSaj+lWFisWngVoXtK4z5rF
+ MSlhWAuWhkJ+ugRBZE1iK1XoTq/zvUZ9P4cIQk3sna4QelgBSwUJXd9n75z2bqfo4z+4
+ 5AIgTyCh09HgtAwMlWlIxmFjzEblZfTVS7/4XV61DcfCSLGM/qB1ID4Rt2KeXDqqcnN4
+ 24GV2ad4aK2nGi08xlN8PIYasUaObwY9IFEwhB56Eymyh76+USv3BLumd0XZluDi4vcw
+ RAFg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1761045059; x=1761649859;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=JZxh2RHqPkMdvbwb2L7q+GZUxl/+aVRyGR8X3MbWpuw=;
+ b=QZ+7XokxdFueB/5jwvQsOPEZBQP7mcH1vwp3JfWXRLxnoRtKsxm8bccq6REGw82ThF
+ yxIUMSen9Ph5fCeHQID7Nr2UB4zDIcpUdU+0p637cGYhJmWDuAMjZBxm5xyDtVy2ir0y
+ PcFXSxmUpbtZn5+vENA++JXT+GzZRTtlziX0DwNatBiTPeG+nrUBKXb/9JpgNq2GsQRy
+ 3x7hmihAp3rJZ4gYyOgPe2qZ+P+EbC6gZYsFVHAY7zB+ISiJ0H1dNLENT1TPR6zFwn0S
+ ewkIlJ1l27FsMoOCLgVF/3vpazGA18eOsZ0J2adLV4ZYAiAqePwOkhatQ7BUtHhVQ9W4
+ 25pA==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCWA4aBzYngQ/+Z82SNgptrjUJh9lgeVYd+XeFjHgIJ9QgPW3XljL0gwWqQ6IJqFKRxvTee6+7cyaSs=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Ywa6nsUrRhEEvID3yClLsMf10ujuRkmt4sPhITDNkDOGL7ARfjW
+ SvZbOwysCo5ytPKXtt2ITVHQ4Vq+kWnlbu/Kn7CRKZWTy404Mv5KIthy4pNQOe+AtpY=
+X-Gm-Gg: ASbGnctvOP+iBmrHVzHkdmNtB6GP5M0XfBSzxq6jRQvIDcyHUhKZxDmLHfv9pBZTiCl
+ /LOXTBh76S5oKfoEs7Hcvg6SzNRzU6BJan40axlYWDaTMcafAKftxDwqFRmegYoiItPk8k36PUr
+ x0bXPB0xmVKAmbEB2Ie2wErYx5GFnWWat6JgyLgWkOB/SWBTm1ZoDx5kmNKlDSfY4cQvE1rkCus
+ ftCY22do9C+gmV7nO62b21s1omzBULdZl2Fb1QI6DbbQB51wOKtrR5szYRBj4t+yIFwGKrogzA8
+ fzLeBj+oXRHxafCtITf1VTWNRqe8/hyGem8ljyKP8rJz+n6YFuVC6KAwCLEa/475ZgEbfw0/dZC
+ aFWGxf9l0k0XH3atZjEYHpd5C2Z4o+tf2mbxjeD/oevTCWdoHKbOL+/r8ONEu5MTn87ydJRZsem
+ rvFjdBx3TKSpUZdcHS1XDnPQoiEgxXI1+c
+X-Google-Smtp-Source: AGHT+IGVDBYsOBdDa5NG0DSZa5Yr0ZnxdYzLYQZD37fgSLb7c/VmYVbHh3NUBKG7BjssK7ci3BmYKg==
+X-Received: by 2002:a05:6000:2311:b0:427:52a:7ca4 with SMTP id
+ ffacd0b85a97d-4284e52da1fmr1195908f8f.4.1761045059441; 
+ Tue, 21 Oct 2025 04:10:59 -0700 (PDT)
+Received: from kuoka.. ([178.197.219.123]) by smtp.gmail.com with ESMTPSA id
+ ffacd0b85a97d-427f00ce06bsm19510485f8f.45.2025.10.21.04.10.57
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 21 Oct 2025 04:10:58 -0700 (PDT)
+From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+To: Rob Clark <robin.clark@oss.qualcomm.com>,
+ Dmitry Baryshkov <lumag@kernel.org>,
+ Abhinav Kumar <abhinav.kumar@linux.dev>,
+ Jessica Zhang <jessica.zhang@oss.qualcomm.com>,
+ Sean Paul <sean@poorly.run>,
+ Marijn Suijten <marijn.suijten@somainline.org>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
  Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Mark Brown <broonie@kernel.org>, Maxime Ripard <mripard@kernel.org>,
- Simona Vetter <simona@ffwll.ch>, Thomas Zimmermann <tzimmermann@suse.de>,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
-References: <20250925040530.20731-1-liujianfeng1994@gmail.com>
-From: Krzysztof Kozlowski <krzk@kernel.org>
-Content-Language: en-US
-Autocrypt: addr=krzk@kernel.org; keydata=
- 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 a/A=
-In-Reply-To: <20250925040530.20731-1-liujianfeng1994@gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, Rob Herring <robh@kernel.org>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>, Bjorn Andersson <andersson@kernel.org>,
+ Konrad Dybcio <konradybcio@kernel.org>,
+ Kuogee Hsieh <quic_khsieh@quicinc.com>, linux-arm-msm@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, freedreno@lists.freedesktop.org,
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
+Cc: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Subject: [PATCH 1/2] dt-bindings: display/msm: Reference DAI schema for DAI
+ properties
+Date: Tue, 21 Oct 2025 13:10:51 +0200
+Message-ID: <20251021111050.28554-3-krzysztof.kozlowski@linaro.org>
+X-Mailer: git-send-email 2.48.1
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -107,41 +101,36 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 25/09/2025 06:05, Jianfeng Liu wrote:
-> After reusing drm_hdmi_audio_* helpers and drm_bridge_connector
-> integration in drm/msm/dp, we have dropped msm_dp_audio_hw_params and
-> use msm_dp_audio_prepare instead. While userspace is still calling
-> hw_params to do audio initialization, and we get the following errors:
-> 
-> q6apm-lpass-dais 3700000.remoteproc:glink-edge:gpr:service@1:bedais: q6apm_lpass_dai_prepare() started
-> q6apm-lpass-dais 3700000.remoteproc:glink-edge:gpr:service@1:bedais: q6apm_lpass_dai_prepare() started
-> q6apm-lpass-dais 3700000.remoteproc:glink-edge:gpr:service@1:bedais: q6apm_lpass_dai_prepare() started
-> hdmi-audio-codec hdmi-audio-codec.0.auto: hdmi_codec_hw_params() started
-> q6apm-lpass-dais 3700000.remoteproc:glink-edge:gpr:service@1:bedais: q6apm_lpass_dai_prepare() started
-> qcom-apm gprsvc:service:2:1: Error (1) Processing 0x01001002 cmd
-> qcom-apm gprsvc:service:2:1: DSP returned error[1001002] 1
-> q6apm-lpass-dais 3700000.remoteproc:glink-edge:gpr:service@1:bedais: Failed to start APM port 104
-> q6apm-lpass-dais 3700000.remoteproc:glink-edge:gpr:service@1:bedais: ASoC error (-22): at snd_soc_dai_prepare() on DISPLAY_PORT_RX_0
-> MultiMedia2 Playback: ASoC error (-22): at dpcm_run_update_startup() on MultiMedia2 Playback
-> 
-> msm_dp_audio_prepare is not called because hdmi-codec driver only checks
-> and runs hw_params before q6apm_lpass_dai_prepare(). This commit will
-> add hw_params callback same as drm_connector_hdmi_audio_prepare, so that
-> hdmi-codec driver can work with userspace alsa.
-> 
-> Tested with Radxa Dragon Q6A.
-> 
+DisplayPort nodes are DAIs (Digital Audio Interfaces): they have already
+'sound-dai-cells'.  Reference the common DAI schema to bring common
+properties for them, which allows also customizing DAI name prefix.
 
+Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+---
+ .../devicetree/bindings/display/msm/dp-controller.yaml         | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
-Missing Cc stable.
-
-> Fixes: 98a8920e7b07 ("drm/msm/dp: reuse generic HDMI codec implementation")
-> Signed-off-by: Jianfeng Liu <liujianfeng1994@gmail.com>
-> ---
-
-I confirm this fixes the audio over DP/HDMI on X1E laptops. Please apply
-this for fixes.
-
-Best regards,
-Krzysztof
+diff --git a/Documentation/devicetree/bindings/display/msm/dp-controller.yaml b/Documentation/devicetree/bindings/display/msm/dp-controller.yaml
+index aeb4e4f36044..08c273f707c1 100644
+--- a/Documentation/devicetree/bindings/display/msm/dp-controller.yaml
++++ b/Documentation/devicetree/bindings/display/msm/dp-controller.yaml
+@@ -198,6 +198,7 @@ allOf:
+                 - qcom,sa8775p-dp
+                 - qcom,x1e80100-dp
+       then:
++        $ref: /schemas/sound/dai-common.yaml#
+         oneOf:
+           - required:
+               - aux-bus
+@@ -295,7 +296,7 @@ allOf:
+           minItems: 6
+           maxItems: 8
+ 
+-additionalProperties: false
++unevaluatedProperties: false
+ 
+ examples:
+   - |
+-- 
+2.48.1
 
