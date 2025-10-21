@@ -2,58 +2,83 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id DFCAEBF523D
-	for <lists+dri-devel@lfdr.de>; Tue, 21 Oct 2025 10:03:57 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 411FCBF501C
+	for <lists+dri-devel@lfdr.de>; Tue, 21 Oct 2025 09:42:03 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1995810E2D7;
-	Tue, 21 Oct 2025 08:03:56 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7F08510E57D;
+	Tue, 21 Oct 2025 07:42:01 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="QROdFjdg";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="gMTTTz+N";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from bali.collaboradmins.com (bali.collaboradmins.com
- [148.251.105.195])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1CC7510E2D7
- for <dri-devel@lists.freedesktop.org>; Tue, 21 Oct 2025 08:03:55 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1761033833;
- bh=uRJHPyETDsTCj2+OQ1mRFlr8Bbks2lxPY6twkMXsU2I=;
- h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
- b=QROdFjdgod/ROylJgy2Guz/ooeoHdSBvVBAh5Je/NIPZVw8Id9oRiFxWXCVHFjshj
- rsRD6xnfsiXOoIPMpzKWa6gwzqBRxnJMMUIlnqUbKP4ybKE7I6R4GhedPFsJ3ZE0cn
- Fyat/tvas5N+DYhHCkOokWzRItq5v/Zd0JQSmtES+G9vqj1rpn4RTI4NNADxdS9hrh
- LXFtS0yZsdBIuIYbxVdQSQpkvqS3ytSXDQfTh0SgTgTNByE7O342gjxdPj5kPaOuN7
- H4/zTP9IVJTZUkHvAUNgPFqiZR4fy2QKTfr5H1t2/iaoHCAlUctjMHye0LLH0p2Rjt
- 4/RNQDNBGf7PA==
-Received: from [192.168.1.100] (2-237-20-237.ip236.fastwebnet.it
- [2.237.20.237])
- (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested) (Authenticated sender: kholk11)
- by bali.collaboradmins.com (Postfix) with ESMTPSA id 08DC317E081A;
- Tue, 21 Oct 2025 10:03:52 +0200 (CEST)
-Message-ID: <0e5ca992-730d-42c5-b5b8-5ad04116b8d4@collabora.com>
-Date: Tue, 21 Oct 2025 10:03:52 +0200
+Received: from mail-ej1-f49.google.com (mail-ej1-f49.google.com
+ [209.85.218.49])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D1A1F10E57D
+ for <dri-devel@lists.freedesktop.org>; Tue, 21 Oct 2025 07:41:59 +0000 (UTC)
+Received: by mail-ej1-f49.google.com with SMTP id
+ a640c23a62f3a-b3c76f3703cso90742266b.3
+ for <dri-devel@lists.freedesktop.org>; Tue, 21 Oct 2025 00:41:59 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20230601; t=1761032518; x=1761637318; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:in-reply-to:from:content-language
+ :references:cc:to:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=qq2A1Kd0gSkqieCWoXvyag5Ixf7jlTaGJ4OOCGbMDnM=;
+ b=gMTTTz+NlET0MXkZWfAIoBCIAJnoay91wiZDiI7VhB1vw9mP4W83Z8Vy2e6niiZxeX
+ 01R8UQPimS9uj+BJNj0sZ0/N3asz393tfD9LrPT6FMqoLJ7JhVgtlHAfuMDWhfZp03K8
+ 2J5NLtW7LBw9AOSuRRs8RZ9CZDKO6zePi7TuzIMU4Vv5WmxBWWAVMD+4C8duYZ8x7YQ2
+ ExRcI2I0s8ORpraitRTb3MYnzn37GsGnerNEOr/rxNQUnD8Qe/99+qpsQmtwmqXgDtH9
+ NyFvjuLpi3X86dmlAY3eMfteCnJe1JljoMP9BrSz5UcFHx8pVozAawi7m1peA7REtc2y
+ XMWA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1761032518; x=1761637318;
+ h=content-transfer-encoding:in-reply-to:from:content-language
+ :references:cc:to:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=qq2A1Kd0gSkqieCWoXvyag5Ixf7jlTaGJ4OOCGbMDnM=;
+ b=UdNmNJyPjMM2je7pU6EAlCYfZY7R2k4pYmsZZ+AO4fJPqNVqSzMkiBfSmJlBFSsS7a
+ zcgc8n6bAu3hSVZkGz4KJyUoxTy5wdzUruz1U8+MFoCIfQGYAzZT7qU9BidUgaLIuE0c
+ d40N0hToQJJbAJ9SVhx8ZHz63HAnEpG/nedBJCZRTHuO0B3kb3Pd8ZEQ3rPuEne2MJhG
+ mnJfPLa9Va6m01eyzQX0jwiV8hHxdt4sULn7/nC0PnKt1ckKQ7H1dhJCwH2fitANKBYl
+ YjUf1am4e+eEJtHC3Ti2Ppiki8ofoBCbPYwhPpNK4fMQvbuy1N/LG1UG/v5s+WlZ+pwV
+ Te8g==
+X-Gm-Message-State: AOJu0YyljX0bTJnHXd2EfDA8VX8Fa5mxHpG+1x4eNSFxbDfi6BQZaHZp
+ 2vBKP6NdOQZtSUTqsPRe6t755toFpqJ/KMRFK/U1usSaiZex9qKUYQiV
+X-Gm-Gg: ASbGncspER9JhL3SjMRNDTJKuZ8utgOOxy2SdIGkWBQtxIrV7tzJwoaxFf4GDQVqYAr
+ MizEwzvKWUo6VPLon2KAWp2KGbVWj8LCAtWyTUuc59mEa2m/x8i21QFVxD/38CRT9CdKXD05wcw
+ VgQE2Fy4YArv8sfj1EawrhOB9AXJ6Y0S2gSgpWfJS/MCOWqnZPqUdL3n3pEX+xREH1aT36KZDvi
+ jDNgq+DlyQyzuJGo/BjMKY74jIgzd7zYa+05Y/hujBuffBJdy0XEmpkjLLZckULLXKLxSYtwX96
+ Ax4v/c2IF8mpFEnTn0IfnmG5wmALIw9hMCkgr+AXjj6G7dZc0/U/jPF/CGhhtyDBkfXaejMjgy8
+ x1vZ2F6CO6Oa0cRk4z1vDuGYByZGNQI+jPZMxW4QiKakbqkhmlX2zX+Y9CTHIxUf8HG7A2Jr6+v
+ rHwK1l2gYGbiIEBcgn1hs/v7mGtxc6
+X-Google-Smtp-Source: AGHT+IGodTzNkYb0f/6+s9/q8PjxsWVWjCrsIvbWBLyQaGYptSG386KqvkxQNtg9R8tF9hr8VXvYZA==
+X-Received: by 2002:a17:907:3cd5:b0:b3b:44a8:c64b with SMTP id
+ a640c23a62f3a-b6c77583751mr151353866b.1.1761032517726; 
+ Tue, 21 Oct 2025 00:41:57 -0700 (PDT)
+Received: from [192.168.1.105] ([165.50.73.64])
+ by smtp.gmail.com with ESMTPSA id
+ a640c23a62f3a-b65eb52621csm1007794266b.59.2025.10.21.00.41.56
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 21 Oct 2025 00:41:57 -0700 (PDT)
+Message-ID: <6a917f07-18dd-4f8f-bfc5-b85d9051339d@gmail.com>
+Date: Tue, 21 Oct 2025 09:41:49 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 0/3] Add Mali GPU support for Mediatek MT8365 SoC
-To: Louis-Alexis Eyraud <louisalexis.eyraud@collabora.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>, Matthias Brugger <matthias.bgg@gmail.com>
-Cc: kernel@collabora.com, dri-devel@lists.freedesktop.org,
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org, linux-mediatek@lists.infradead.org,
- Conor Dooley <conor.dooley@microchip.com>
-References: <20251021-mt8365-enable-gpu-v2-0-17e05cff2c86@collabora.com>
-From: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+Subject: Re: [PATCH] drm/tiny: Refactor framebuffer's size calculation
+To: Thomas Zimmermann <tzimmermann@suse.de>, lanzano.alex@gmail.com,
+ maarten.lankhorst@linux.intel.com, mripard@kernel.org, airlied@gmail.com,
+ simona@ffwll.ch
+Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ skhan@linuxfoundation.org, david.hunter.linux@gmail.com, khalid@kernel.org,
+ linux-kernel-mentees@lists.linuxfoundation.org
+References: <20251020115803.192572-1-mehdi.benhadjkhelifa@gmail.com>
+ <1de3112b-6349-46d8-b90b-69d0849c7659@suse.de>
 Content-Language: en-US
-In-Reply-To: <20251021-mt8365-enable-gpu-v2-0-17e05cff2c86@collabora.com>
+From: Mehdi Ben Hadj Khelifa <mehdi.benhadjkhelifa@gmail.com>
+In-Reply-To: <1de3112b-6349-46d8-b90b-69d0849c7659@suse.de>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -69,119 +94,54 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Il 21/10/25 09:30, Louis-Alexis Eyraud ha scritto:
-> This patchset adds the support of the ARM Mali G52 MC1 GPU (Bifrost),
-> integrated to the Mediatek MT8365 SoC, and its enablement to the
-> Mediatek Genio 350-EVK board.
+On 10/21/25 7:51 AM, Thomas Zimmermann wrote:
+> Hi
 > 
-> I've tested this patchset on a Mediatek Genio 350-EVK board,
-> with a kernel based on linux-next (tag: next-20251021).
+> Am 20.10.25 um 13:57 schrieb Mehdi Ben Hadj Khelifa:
+>> Use drm_format_info_min_pitch() to calculate the framebuffer line pitch
+>> instead of directly multiplying width and height. This aligns with DRM
+>> helpers for determining per-line byte size and avoids manual assumptions
+>> about bytes per pixel.
+>>
+>> Suggested-by: Thomas Zimmermann <tzimmermann@suse.de>
+>> Signed-off-by: Mehdi Ben Hadj Khelifa <mehdi.benhadjkhelifa@gmail.com>
+>> ---
+>>   drivers/gpu/drm/tiny/repaper.c | 6 +++++-
+>>   1 file changed, 5 insertions(+), 1 deletion(-)
+>>
+>> diff --git a/drivers/gpu/drm/tiny/repaper.c b/drivers/gpu/drm/tiny/ 
+>> repaper.c
+>> index 4824f863fdba..aeff49bc6ba7 100644
+>> --- a/drivers/gpu/drm/tiny/repaper.c
+>> +++ b/drivers/gpu/drm/tiny/repaper.c
+>> @@ -517,6 +517,8 @@ static int repaper_fb_dirty(struct drm_framebuffer 
+>> *fb, const struct iosys_map *
+>>       unsigned int dst_pitch = 0;
+>>       struct iosys_map dst;
+>>       struct drm_rect clip;
+>> +    const struct drm_format_info *info = fb->format;
 > 
-
-Thanks for this one! This series is ready to be merged.
-
-However, in order to take the DT patches I need someone to pick the binding first.
-
-Cheers,
-Angelo
-
-> The panfrost driver probed with the following messages:
-> ```
-> panfrost 13040000.gpu: clock rate = 450000031
-> panfrost 13040000.gpu: mali-g52 id 0x7402 major 0x1 minor 0x0 status
->    0x0
-> panfrost 13040000.gpu: features: 00000000,00000df7, issues: 00000000,
->    00000400
-> panfrost 13040000.gpu: Features: L2:0x07110206 Shader:0x00000003
->   Tiler:0x00000209 Mem:0x1 MMU:0x00002823 AS:0xff JS:0x7
-> panfrost 13040000.gpu: shader_present=0x1 l2_present=0x1
-> [drm] Initialized panfrost 1.5.0 for 13040000.gpu on minor 0
-> ```
+> This is the wrong format. You're allocating the output buffer here, but 
+> you're using the input format. IIUC the output format is DRM_FORMAT_R1. 
+> The input is _XRGB8888.
 > 
-> Running glmark2-es2-drm with MESA 25.2 is also OK:
-> ```
-> =======================================================
->      glmark2 2023.01
-> =======================================================
->      OpenGL Information
->      GL_VENDOR:      Mesa
->      GL_RENDERER:    Mali-G52 r1 (Panfrost)
->      GL_VERSION:     OpenGL ES 3.1 Mesa 25.2.5-1
->      Surface Config: buf=32 r=8 g=8 b=8 a=8 depth=24 stencil=0 samples=0
->      Surface Size:   1200x1920 fullscreen
-> =======================================================
-> [build] use-vbo=false: FPS: 513 FrameTime: 1.952 ms
-> [build] use-vbo=true: FPS: 514 FrameTime: 1.947 ms
-> [texture] texture-filter=nearest: FPS: 489 FrameTime: 2.046 ms
-> [texture] texture-filter=linear: FPS: 486 FrameTime: 2.061 ms
-> [texture] texture-filter=mipmap: FPS: 476 FrameTime: 2.101 ms
-> [shading] shading=gouraud: FPS: 436 FrameTime: 2.296 ms
-> [shading] shading=blinn-phong-inf: FPS: 387 FrameTime: 2.585 ms
-> [shading] shading=phong: FPS: 253 FrameTime: 3.955 ms
-> [shading] shading=cel: FPS: 232 FrameTime: 4.328 ms
-> [bump] bump-render=high-poly: FPS: 266 FrameTime: 3.765 ms
-> [bump] bump-render=normals: FPS: 421 FrameTime: 2.376 ms
-> [bump] bump-render=height: FPS: 343 FrameTime: 2.922 ms
-> [effect2d] kernel=0,1,0;1,-4,1;0,1,0;: FPS: 133 FrameTime: 7.521 ms
-> [effect2d] kernel=1,1,1,1,1;1,1,1,1,1;1,1,1,1,1;: FPS: 46 FrameTime:
->    21.990 ms
-> [pulsar] light=false:quads=5:texture=false: FPS: 379 FrameTime: 2.645 ms
-> [desktop] blur-radius=5:effect=blur:passes=1:separable=true:windows=4:
->    FPS: 57 FrameTime: 17.735 ms
-> [desktop] effect=shadow:windows=4: FPS: 249 FrameTime: 4.018 ms
-> [buffer] columns=200:interleave=false:update-dispersion=0.9:update-fraction
->    =0.5:update-method=map: FPS: 81 FrameTime: 12.447 ms
-> [buffer] columns=200:interleave=false:update-dispersion=0.9:update-fraction
->    =0.5:update-method=subdata: FPS: 81 FrameTime: 12.388 ms
-> [buffer] columns=200:interleave=true:update-dispersion=0.9:update-fraction
->    =0.5:update-method=map: FPS: 99 FrameTime: 10.127 ms
-> [ideas] speed=duration: FPS: 287 FrameTime: 3.492 ms
-> [jellyfish] <default>: FPS: 114 FrameTime: 8.842 ms
-> [terrain] <default>: FPS: 14 FrameTime: 76.911 ms
-> [shadow] <default>: FPS: 156 FrameTime: 6.432 ms
-> [refract] <default>: FPS: 29 FrameTime: 34.791 ms
-> [conditionals] fragment-steps=0:vertex-steps=0: FPS: 529 FrameTime: 1.890 ms
-> [conditionals] fragment-steps=5:vertex-steps=0: FPS: 326 FrameTime: 3.076 ms
-> [conditionals] fragment-steps=0:vertex-steps=5: FPS: 532 FrameTime: 1.880 ms
-> [function] fragment-complexity=low:fragment-steps=5: FPS: 475 FrameTime:
->    2.106 ms
-> [function] fragment-complexity=medium:fragment-steps=5: FPS: 227
->    FrameTime: 4.417 ms
-> [loop] fragment-loop=false:fragment-steps=5:vertex-steps=5: FPS: 475
->    FrameTime: 2.108 ms
-> [loop] fragment-steps=5:fragment-uniform=false:vertex-steps=5: FPS: 474
->    FrameTime: 2.110 ms
-> [loop] fragment-steps=5:fragment-uniform=true:vertex-steps=5: FPS: 226
->    FrameTime: 4.428 ms
-> =======================================================
->                                    glmark2 Score: 296
-> =======================================================
-> ```
+Ah. Thanks for clarification.I thought since it had the same output 
+format. I will send a v3 shortly.> Best regards
+> Thomas
 > 
-> Signed-off-by: Louis-Alexis Eyraud <louisalexis.eyraud@collabora.com>
-> ---
-> Changes in v2:
-> - Rebased on next-20251021 tag
-> - Fixed missing blank lines in 'arm64: dts: mediatek: mt8365: Add GPU
->    support' patch
-> - Added reviewed-by and acked-by trailers
-> - Updated cover letter
-> - Link to v1: https://lore.kernel.org/r/20250813-mt8365-enable-gpu-v1-0-46c44c6c1566@collabora.com
+>> +    size_t pitch;
+>>       int idx, ret = 0;
+>>       u8 *buf = NULL;
+>> @@ -534,7 +536,9 @@ static int repaper_fb_dirty(struct drm_framebuffer 
+>> *fb, const struct iosys_map *
+>>       DRM_DEBUG("Flushing [FB:%d] st=%ums\n", fb->base.id,
+>>             epd->factored_stage_time);
+>> -    buf = kmalloc(fb->width * fb->height / 8, GFP_KERNEL);
+>> +    pitch = drm_format_info_min_pitch(info, 0, fb->width);
+>> +
+>> +    buf = kmalloc_array(fb->height, pitch, GFP_KERNEL);
+>>       if (!buf) {
+>>           ret = -ENOMEM;
+>>           goto out_exit;
 > 
-> ---
-> Louis-Alexis Eyraud (3):
->        dt-bindings: gpu: mali-bifrost: Add compatible for MT8365 SoC
->        arm64: dts: mediatek: mt8365: Add GPU support
->        arm64: dts: mediatek: mt8365-evk: Enable GPU support
-> 
->   .../devicetree/bindings/gpu/arm,mali-bifrost.yaml  |  1 +
->   arch/arm64/boot/dts/mediatek/mt8365-evk.dts        |  9 +++++
->   arch/arm64/boot/dts/mediatek/mt8365.dtsi           | 43 +++++++++++++++++++++-
->   3 files changed, 52 insertions(+), 1 deletion(-)
-> ---
-> base-commit: 853c202e4aec8006c2c1367b052c9f8949db019a
-> change-id: 20250812-mt8365-enable-gpu-a39835dca7fc
-> 
-> Best regards,
-
 
