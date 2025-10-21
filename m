@@ -2,91 +2,66 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 35C2ABF5C69
-	for <lists+dri-devel@lfdr.de>; Tue, 21 Oct 2025 12:26:28 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9803CBF5C78
+	for <lists+dri-devel@lfdr.de>; Tue, 21 Oct 2025 12:28:57 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E51DD10E2EC;
-	Tue, 21 Oct 2025 10:26:24 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3C47510E2EA;
+	Tue, 21 Oct 2025 10:28:54 +0000 (UTC)
+Authentication-Results: gabe.freedesktop.org;
+	dkim=pass (1024-bit key; unprotected) header.d=collabora.com header.i=dmitry.osipenko@collabora.com header.b="PIFfvJg3";
+	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-vk1-f178.google.com (mail-vk1-f178.google.com
- [209.85.221.178])
- by gabe.freedesktop.org (Postfix) with ESMTPS id ECB7D10E2EC
- for <dri-devel@lists.freedesktop.org>; Tue, 21 Oct 2025 10:26:22 +0000 (UTC)
-Received: by mail-vk1-f178.google.com with SMTP id
- 71dfb90a1353d-54aa6a0babeso5233667e0c.0
- for <dri-devel@lists.freedesktop.org>; Tue, 21 Oct 2025 03:26:22 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1761042382; x=1761647182;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=tDNH9pDF9LBAisWYpnrCUtwA+9hrIVu2UeAytlJC/r0=;
- b=fC/4+VxZTu95vbB6wshhvbljPP6k3bA1xYEUhNiNCJ1rBG8ykQ8TjCe0nmHjd2K7Zh
- H8Y/ULX9wymy1kAo9xt2iYi3oHsQG+NImm3GBKbW6jCkQD+Lv1WfGwodxNzEC0pne0tf
- XOXQj/JSUd8UOFpV9NdKZryiJxtgQnq4Jg7oCv8Hehvj1PBO2OYyIJRxhc2Ep+/AGJbc
- T6vVPdeQUwhjjkPqMVW67gk/N23deSgikuXC+TZLAfEwKa2tbiU1CD34s9dOtz5Hvavb
- CW3sQ0wPHfaOvpWonjmEmEtuKX0lFVTPLYzjb+iNQ3t+/6TZd2niNEaER3xMY6AkRyZj
- mtCg==
-X-Forwarded-Encrypted: i=1;
- AJvYcCVX+cSlSRO1b17I+UTcvyfyjJ4fKkJztG8mjVLAPCYPr83mWvxfdkouSeYP/yR4QXueeNGUTYgeibs=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YwIDfIY3eUtvoSldm7LWTcajmbTQBxzYj7nmk7JNnXLQyTR31Nw
- reVVT/u1+D3idTAox4u7vznBBCqxWT8bUfVlls95cA1Oje6YJoqRWdreSeGwvC1r
-X-Gm-Gg: ASbGncuTUxYk4WZ0GrOndY9hr3w70Lkl7AFqOynbdgs0TrGm+a0seMqUPg2vy5IQXcq
- EBkbifj0eOZ0yrNbQkODrQyRBj70eX12hgoLjiTZMO5UYyYmcrn/BevKmsaq1PbN8Mj2HXKZ+jb
- l7OiEu7IIkTcvaMrE0S1x8qmsDTDSTC/HA3e8kZgbd8uh8ugG8gdfoKeB14vF0O48nGlhTiofT9
- 1E8lwnIE3cdB2bq3nosCaySzhCDC5ViwWB8Eq9a9//CS4rd91Lla0r21VjztIci8s/etrv6hoK8
- 1rMT5q1CsHGoCDSc5PGG75WH6ZOroCd2J0/r6a71JNEfRe/iu7pgmbn5SDM1hN04s6/EodWbH6S
- XAG1m/KBBnLNe1CbTNulCxKkA/lkly5CxJkGZ91cgZl3SJ/bgeepJqhvILrkAHmAdOns/oKsXlV
- gRgamlZse+c9BY4pJZuakRin6wH5IGLNXO7MojZSUIEiEic+NT
-X-Google-Smtp-Source: AGHT+IE+aRgQ9KwTD/dLapyH/QsApiS/RFhrYAQMi1pQcJ88JlspBz7RYw/M8F1qeYKtdK+Hm0/dIw==
-X-Received: by 2002:a05:6122:1e01:b0:54a:a3b1:db63 with SMTP id
- 71dfb90a1353d-5564eedc60amr5256527e0c.6.1761042381590; 
- Tue, 21 Oct 2025 03:26:21 -0700 (PDT)
-Received: from mail-vs1-f44.google.com (mail-vs1-f44.google.com.
- [209.85.217.44]) by smtp.gmail.com with ESMTPSA id
- 71dfb90a1353d-556620d8cfbsm3186108e0c.20.2025.10.21.03.26.20
- for <dri-devel@lists.freedesktop.org>
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 21 Oct 2025 03:26:20 -0700 (PDT)
-Received: by mail-vs1-f44.google.com with SMTP id
- ada2fe7eead31-5d5fbfca7e2so4549608137.0
- for <dri-devel@lists.freedesktop.org>; Tue, 21 Oct 2025 03:26:20 -0700 (PDT)
-X-Forwarded-Encrypted: i=1;
- AJvYcCXzYTzP4pY9xghenMV8yKzsxxi3KPXxnHIezIpv3xiVlqEdMJYugDZJ2TWUPBC/D/oKKcjx/Gy/ZBs=@lists.freedesktop.org
-X-Received: by 2002:a05:6102:e08:b0:529:7c2f:ceb5 with SMTP id
- ada2fe7eead31-5d7dd5035afmr5261434137.1.1761042379969; Tue, 21 Oct 2025
- 03:26:19 -0700 (PDT)
+Received: from sender4-pp-f112.zoho.com (sender4-pp-f112.zoho.com
+ [136.143.188.112])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BA4D510E2EA
+ for <dri-devel@lists.freedesktop.org>; Tue, 21 Oct 2025 10:28:52 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; t=1761042525; cv=none; 
+ d=zohomail.com; s=zohoarc; 
+ b=QzZZ3fYxaXWfsDAwg+8OTiQQpo0/puoqLHfVuq82iqsSaIoU4MSteisnWKfxnfGXmh9J/fEqnjNYP69PZHQYHnP5OX7eKMBMPIKzQw37/6WXrraK/4uGi1sMlaQz2zrvBKdHuka+8CqVcvtiSr1C6YmImbITT/Rnk4kXfcpF4YY=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
+ s=zohoarc; t=1761042525;
+ h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To;
+ bh=jZuSP7CIv2Yik6596VgKC2i8oP2tWtzljTZtGY/y+NQ=; 
+ b=ESAJloMG6mT0kLhUzANTjmi6k4EBH1kDjG8hSgPBwJcWpy78J+j/yDtuXpWXcaOAqiGrGxuql5fCIHNZMVGejEcWccuwK+sPq8wIjgt7zo7r3xotdagGgVXiiYNpmVyQz0unksesnbJ5CNrM5EyeEbIby5I/KIOojoCOup/TY7c=
+ARC-Authentication-Results: i=1; mx.zohomail.com;
+ dkim=pass  header.i=collabora.com;
+ spf=pass  smtp.mailfrom=dmitry.osipenko@collabora.com;
+ dmarc=pass header.from=<dmitry.osipenko@collabora.com>
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1761042525; 
+ s=zohomail; d=collabora.com; i=dmitry.osipenko@collabora.com; 
+ h=Message-ID:Date:Date:MIME-Version:Subject:Subject:To:To:Cc:Cc:References:From:From:In-Reply-To:Content-Type:Content-Transfer-Encoding:Message-Id:Reply-To;
+ bh=jZuSP7CIv2Yik6596VgKC2i8oP2tWtzljTZtGY/y+NQ=;
+ b=PIFfvJg3aDLnwCdt2+4NuVt+4wRtNfCagrlr2wrE7s6cYlQQSbbl4abOieTo0NG3
+ RYGeGpDjPLXVblnYRxqntgo5OVfamV9bPm92Gij4+k7CysJMCzHMt1N3rmjgJJzXlTt
+ D5jC5HZW74iptngrFjksUGV8D8ahI+x1Z0iOs9ag=
+Received: by mx.zohomail.com with SMTPS id 1761042523809409.2792412131598;
+ Tue, 21 Oct 2025 03:28:43 -0700 (PDT)
+Message-ID: <ee77b9c9-1a28-45b8-9e96-d8c1afb0ac53@collabora.com>
+Date: Tue, 21 Oct 2025 13:28:39 +0300
 MIME-Version: 1.0
-References: <20251015192611.241920-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
-In-Reply-To: <20251015192611.241920-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
-From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Tue, 21 Oct 2025 12:26:08 +0200
-X-Gmail-Original-Message-ID: <CAMuHMdW1B7Yk1hUU9MSJsiL8wSmjAUGN7Qd_wgBHv8Ct=-wi4Q@mail.gmail.com>
-X-Gm-Features: AS18NWA5TDVRnTdlKeYEusciZZnf69CtVCQ6CEB6928Ztx_Tex5oqUI1hZkbQkE
-Message-ID: <CAMuHMdW1B7Yk1hUU9MSJsiL8wSmjAUGN7Qd_wgBHv8Ct=-wi4Q@mail.gmail.com>
-Subject: Re: [PATCH v11 0/7] Add support for DU/DSI clocks and DSI driver
- support for the Renesas RZ/V2H(P) SoC
-To: Prabhakar <prabhakar.csengg@gmail.com>
-Cc: Andrzej Hajda <andrzej.hajda@intel.com>,
- Neil Armstrong <neil.armstrong@linaro.org>, 
- Robert Foss <rfoss@kernel.org>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>, 
- Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, 
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
- Simona Vetter <simona@ffwll.ch>, 
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>, 
- Michael Turquette <mturquette@baylibre.com>, Stephen Boyd <sboyd@kernel.org>, 
- Biju Das <biju.das.jz@bp.renesas.com>, Magnus Damm <magnus.damm@gmail.com>, 
- dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org, 
- linux-kernel@vger.kernel.org, linux-renesas-soc@vger.kernel.org, 
- linux-clk@vger.kernel.org, Fabrizio Castro <fabrizio.castro.jz@renesas.com>, 
- Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>, 
- Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-Content-Type: text/plain; charset="UTF-8"
+User-Agent: Mozilla Thunderbird
+Subject: Re: [RFC][PATCH] drm/virtgpu: Make vblank event dependent on the host
+ resource
+To: Thomas Zimmermann <tzimmermann@suse.de>,
+ "Kasireddy, Vivek" <vivek.kasireddy@intel.com>,
+ "gurchetansingh@chromium.org" <gurchetansingh@chromium.org>,
+ "kraxel@redhat.com" <kraxel@redhat.com>,
+ "airlied@redhat.com" <airlied@redhat.com>
+Cc: "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+ "virtualization@lists.linux.dev" <virtualization@lists.linux.dev>
+References: <20251016145230.79270-1-tzimmermann@suse.de>
+ <IA0PR11MB7185A7BA7B8CEAC46CBC0922F8F6A@IA0PR11MB7185.namprd11.prod.outlook.com>
+ <21851b98-06ee-4e2c-8570-70e8a4fe5d86@suse.de>
+ <afc6ba14-cd95-49b9-89f5-e90fd19c8927@collabora.com>
+ <a2afbc13-0be6-46ef-a6da-9461fd30376b@collabora.com>
+ <126a0b10-a550-430c-a1b3-7e144461a0ff@suse.de>
+Content-Language: en-US
+From: Dmitry Osipenko <dmitry.osipenko@collabora.com>
+In-Reply-To: <126a0b10-a550-430c-a1b3-7e144461a0ff@suse.de>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-ZohoMailClient: External
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -102,49 +77,52 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Prabhakar et al,
+On 10/21/25 09:39, Thomas Zimmermann wrote:
+> Hi
+> 
+> Am 19.10.25 um 19:10 schrieb Dmitry Osipenko:
+>> On 10/17/25 16:58, Dmitry Osipenko wrote:
+>>> Hi,
+>>>
+>>> On 10/17/25 10:38, Thomas Zimmermann wrote:
+>>> ...
+>>>> There's little difference between the current event handling and the
+>>>> one
+>>>> where no vblanks have been set up. I suspect that the vblank timer
+>>>> callback interferes with the locking in atomic_flush. That would also
+>>>> explain why the fps drop at no clear pattern.
+>>>>
+>>>> Could you please test the attached patch? It enables/disables the
+>>>> vblank
+>>>> timer depending on the buffer resources; as you suggested before.  Does
+>>>> this make a difference?
+>>> The attached patch doesn't work, please see the trace below.
+>>>
+>>> @Vivek Please clarify whether you only see frames drop with your
+>>> multi-gpu guest-blob setup or with a usual virgl too. I haven't noticed
+>>> problem with frames pacing for virgl and nctx modes yesterday, will
+>>> check again.
+>> On a second look, I now see that this RFC (not the attached) patch
+>> doesn't work properly with host blobs.
+>>
+>> I'm getting 100-150fps with this patch applied instead of expected
+>> 60fps. Without this RFC patch I'm getting constant 60fps with native
+>> context displaying host blobs.
+>>
+>> Not sure why guest blob would behave differently from the host blob.
+>> Suspect something if off with the prime sharing that Vivek uses in the
+>> vfio testing setup. I'd suggest to disable vblank timer only for guest
+>> blobs if no quick solution will be found.
+> 
+> After reading your reply and Vivek's new results, I'm confused now. Does
+> it work or is there another patch needed?
 
-On Wed, 15 Oct 2025 at 21:26, Prabhakar <prabhakar.csengg@gmail.com> wrote:
-> This patch series adds DU/DSI clocks and provides support for the
-> MIPI DSI interface on the RZ/V2H(P) SoC.
->
-> v10->v11:
-> - Split CPG_PLL_CLK1_K/M/PDIV macro change into separate patch
-> - Updated rzv2h_cpg_plldsi_div_determine_rate()
->   while iterating over the divider table
-> - Added Acked-by tag from Tomi for patch 2/7 and 3/7
-> - Added Reviewed-by tag from Geert for patch 2/7 and 3/7
+Didn't work for me, apparently worked for Vivek. Got a black screen,
+flashing sometimes, and that error splat.
 
-I think this series is ready for merging.
+Now realized that I only tested with enabled virgl 3d context, while in
+Vivek's case 3d is disabled. Will test further.
 
-> Lad Prabhakar (7):
->   clk: renesas: rzv2h-cpg: Add instance field to struct pll
->   clk: renesas: rzv2h-cpg: Use GENMASK for PLL fields
->   clk: renesas: rzv2h-cpg: Add support for DSI clocks
->   clk: renesas: r9a09g057: Add clock and reset entries for DSI and LCDC
->   dt-bindings: display: bridge: renesas,dsi: Document RZ/V2H(P) and
->     RZ/V2N
->   drm: renesas: rz-du: mipi_dsi: Add LPCLK clock support
->   drm: renesas: rz-du: mipi_dsi: Add support for RZ/V2H(P) SoC
-
-As this touches both clk and drm, let's discuss the merge strategy.
-My proposal:
-  1. I queue patches 1-3 in an immutable branch with a signed tag,
-     to be used as a base for the remaining patches,
-  2. I queue patch 4 on top of 1 in renesas-clk for v6.19,
-  3. The DRM people queue patches 5-7 on top of 1.
-
-Does that sound fine for you?
-Thanks!
-
-Gr{oetje,eeting}s,
-
-                        Geert
-
-
---
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
-
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
+-- 
+Best regards,
+Dmitry
