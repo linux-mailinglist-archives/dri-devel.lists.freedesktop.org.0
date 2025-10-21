@@ -2,46 +2,41 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B3FF0BF88F0
-	for <lists+dri-devel@lfdr.de>; Tue, 21 Oct 2025 22:07:16 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1874BBF89AB
+	for <lists+dri-devel@lfdr.de>; Tue, 21 Oct 2025 22:10:05 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9064910E331;
-	Tue, 21 Oct 2025 20:07:13 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CF0BC10E33F;
+	Tue, 21 Oct 2025 20:10:01 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="fgoMBR0O";
+	dkim=pass (1024-bit key; unprotected) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="fB8ADAYp";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E396D10E331
- for <dri-devel@lists.freedesktop.org>; Tue, 21 Oct 2025 20:07:11 +0000 (UTC)
+Received: from sea.source.kernel.org (sea.source.kernel.org [172.234.252.31])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1B0C210E33F
+ for <dri-devel@lists.freedesktop.org>; Tue, 21 Oct 2025 20:10:00 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by tor.source.kernel.org (Postfix) with ESMTP id DDF8162699;
- Tue, 21 Oct 2025 20:07:10 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C7366C4CEF1;
- Tue, 21 Oct 2025 20:07:09 +0000 (UTC)
+ by sea.source.kernel.org (Postfix) with ESMTP id AA28A49FB7;
+ Tue, 21 Oct 2025 20:09:59 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 23E48C4CEF1;
+ Tue, 21 Oct 2025 20:09:58 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
- s=korg; t=1761077230;
- bh=dJGiJGr5FXq68IatlXr2vpxigx94E/78pCCGDDL16fc=;
+ s=korg; t=1761077399;
+ bh=PB7B/AipzO93x44/hRYdq2OUS4rKuXptvT7Psx9fFh8=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=fgoMBR0OEi9aaC5Ih/IgIzXg7bf7lTijy9VN31kXypjs+2wwp0MmQ1ILDTm+Wgy6C
- obYYcs/qMOiED5MKP25pxpMKdByaibO8KZSAWX4ntcJ/VURt9TXSmKC5ry49xBPUBG
- l+UdSJv4FrlVU75TOBAa2ASTc0lYOmBoGfEA56+A=
+ b=fB8ADAYponwkGpHh9MqGJkYBdRQjrlRG/AwaLo10l8zQovjSdDqCym09buShsC5H9
+ PM0Qb1Zinem5rIUn5AfC0DQH03jW0QXxY2G5BTGVQOjSf5KfVZi/w5I+CaazaFVpxh
+ dk2UsGVnmMSJJfFHfg7ZyRCs7wdV5A5wtafj/BpQ=
 From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 To: stable@vger.kernel.org
 Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, patches@lists.linux.dev,
- Tvrtko Ursulin <tvrtko.ursulin@igalia.com>,
- Dan Carpenter <dan.carpenter@linaro.org>,
- =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
- Rob Clark <robdclark@chromium.org>, Daniel Vetter <daniel.vetter@ffwll.ch>,
- Matthew Brost <matthew.brost@intel.com>,
- Danilo Krummrich <dakr@kernel.org>, Philipp Stanner <phasta@kernel.org>,
- =?UTF-8?q?Christian=20K=C3=B6nig?= <ckoenig.leichtzumerken@gmail.com>,
- dri-devel@lists.freedesktop.org
-Subject: [PATCH 6.17 039/159] drm/sched: Fix potential double free in
- drm_sched_job_add_resv_dependencies
-Date: Tue, 21 Oct 2025 21:50:16 +0200
-Message-ID: <20251021195044.136517420@linuxfoundation.org>
+ Thomas Zimmermann <tzimmermann@suse.de>, Nick Bowler <nbowler@draconx.ca>,
+ Douglas Anderson <dianders@chromium.org>, Dave Airlie <airlied@redhat.com>,
+ Jocelyn Falempe <jfalempe@redhat.com>, dri-devel@lists.freedesktop.org
+Subject: [PATCH 6.17 040/159] drm/ast: Blank with VGACR17 sync enable,
+ always clear VGACRB6 sync off
+Date: Tue, 21 Oct 2025 21:50:17 +0200
+Message-ID: <20251021195044.163217433@linuxfoundation.org>
 X-Mailer: git-send-email 2.51.1
 In-Reply-To: <20251021195043.182511864@linuxfoundation.org>
 References: <20251021195043.182511864@linuxfoundation.org>
@@ -49,7 +44,6 @@ User-Agent: quilt/0.69
 X-stable: review
 X-Patchwork-Hint: ignore
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -70,96 +64,90 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 ------------------
 
-From: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
+From: Thomas Zimmermann <tzimmermann@suse.de>
 
-commit 5801e65206b065b0b2af032f7f1eef222aa2fd83 upstream.
+commit 6f719373b943a955fee6fc2012aed207b65e2854 upstream.
 
-When adding dependencies with drm_sched_job_add_dependency(), that
-function consumes the fence reference both on success and failure, so in
-the latter case the dma_fence_put() on the error path (xarray failed to
-expand) is a double free.
+Blank the display by disabling sync pulses with VGACR17<7>. Unblank
+by reenabling them. This VGA setting should be supported by all Aspeed
+hardware.
 
-Interestingly this bug appears to have been present ever since
-commit ebd5f74255b9 ("drm/sched: Add dependency tracking"), since the code
-back then looked like this:
+Ast currently blanks via sync-off bits in VGACRB6. Not all BMCs handle
+VGACRB6 correctly. After disabling sync during a reboot, some BMCs do
+not reenable it after the soft reset. The display output remains dark.
+When the display is off during boot, some BMCs set the sync-off bits in
+VGACRB6, so the display remains dark. Observed with  Blackbird AST2500
+BMCs. Clearing the sync-off bits unconditionally fixes these issues.
 
-drm_sched_job_add_implicit_dependencies():
-...
-       for (i = 0; i < fence_count; i++) {
-               ret = drm_sched_job_add_dependency(job, fences[i]);
-               if (ret)
-                       break;
-       }
+Also do not modify VGASR1's SD bit for blanking, as it only disables GPU
+access to video memory.
 
-       for (; i < fence_count; i++)
-               dma_fence_put(fences[i]);
+v2:
+- init vgacrb6 correctly (Jocelyn)
 
-Which means for the failing 'i' the dma_fence_put was already a double
-free. Possibly there were no users at that time, or the test cases were
-insufficient to hit it.
-
-The bug was then only noticed and fixed after
-commit 9c2ba265352a ("drm/scheduler: use new iterator in drm_sched_job_add_implicit_dependencies v2")
-landed, with its fixup of
-commit 4eaf02d6076c ("drm/scheduler: fix drm_sched_job_add_implicit_dependencies").
-
-At that point it was a slightly different flavour of a double free, which
-commit 963d0b356935 ("drm/scheduler: fix drm_sched_job_add_implicit_dependencies harder")
-noticed and attempted to fix.
-
-But it only moved the double free from happening inside the
-drm_sched_job_add_dependency(), when releasing the reference not yet
-obtained, to the caller, when releasing the reference already released by
-the former in the failure case.
-
-As such it is not easy to identify the right target for the fixes tag so
-lets keep it simple and just continue the chain.
-
-While fixing we also improve the comment and explain the reason for taking
-the reference and not dropping it.
-
-Signed-off-by: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
-Fixes: 963d0b356935 ("drm/scheduler: fix drm_sched_job_add_implicit_dependencies harder")
-Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
-Closes: https://lore.kernel.org/dri-devel/aNFbXq8OeYl3QSdm@stanley.mountain/
-Cc: Christian König <christian.koenig@amd.com>
-Cc: Rob Clark <robdclark@chromium.org>
-Cc: Daniel Vetter <daniel.vetter@ffwll.ch>
-Cc: Matthew Brost <matthew.brost@intel.com>
-Cc: Danilo Krummrich <dakr@kernel.org>
-Cc: Philipp Stanner <phasta@kernel.org>
-Cc: Christian König <ckoenig.leichtzumerken@gmail.com>
+Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
+Fixes: ce3d99c83495 ("drm: Call drm_atomic_helper_shutdown() at shutdown time for misc drivers")
+Tested-by: Nick Bowler <nbowler@draconx.ca>
+Reported-by: Nick Bowler <nbowler@draconx.ca>
+Closes: https://lore.kernel.org/dri-devel/wpwd7rit6t4mnu6kdqbtsnk5bhftgslio6e2jgkz6kgw6cuvvr@xbfswsczfqsi/
+Cc: Douglas Anderson <dianders@chromium.org>
+Cc: Dave Airlie <airlied@redhat.com>
+Cc: Thomas Zimmermann <tzimmermann@suse.de>
+Cc: Jocelyn Falempe <jfalempe@redhat.com>
 Cc: dri-devel@lists.freedesktop.org
-Cc: stable@vger.kernel.org # v5.16+
-Signed-off-by: Philipp Stanner <phasta@kernel.org>
-Link: https://lore.kernel.org/r/20251015084015.6273-1-tvrtko.ursulin@igalia.com
+Cc: <stable@vger.kernel.org> # v6.7+
+Reviewed-by: Jocelyn Falempe <jfalempe@redhat.com>
+Link: https://lore.kernel.org/r/20251014084743.18242-1-tzimmermann@suse.de
 Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 ---
- drivers/gpu/drm/scheduler/sched_main.c |   13 +++++++------
- 1 file changed, 7 insertions(+), 6 deletions(-)
+ drivers/gpu/drm/ast/ast_mode.c |   18 ++++++++++--------
+ drivers/gpu/drm/ast/ast_reg.h  |    1 +
+ 2 files changed, 11 insertions(+), 8 deletions(-)
 
---- a/drivers/gpu/drm/scheduler/sched_main.c
-+++ b/drivers/gpu/drm/scheduler/sched_main.c
-@@ -986,13 +986,14 @@ int drm_sched_job_add_resv_dependencies(
- 	dma_resv_assert_held(resv);
+--- a/drivers/gpu/drm/ast/ast_mode.c
++++ b/drivers/gpu/drm/ast/ast_mode.c
+@@ -836,22 +836,24 @@ ast_crtc_helper_atomic_flush(struct drm_
+ static void ast_crtc_helper_atomic_enable(struct drm_crtc *crtc, struct drm_atomic_state *state)
+ {
+ 	struct ast_device *ast = to_ast_device(crtc->dev);
++	u8 vgacr17 = 0x00;
++	u8 vgacrb6 = 0xff;
  
- 	dma_resv_for_each_fence(&cursor, resv, usage, fence) {
--		/* Make sure to grab an additional ref on the added fence */
--		dma_fence_get(fence);
--		ret = drm_sched_job_add_dependency(job, fence);
--		if (ret) {
--			dma_fence_put(fence);
-+		/*
-+		 * As drm_sched_job_add_dependency always consumes the fence
-+		 * reference (even when it fails), and dma_resv_for_each_fence
-+		 * is not obtaining one, we need to grab one before calling.
-+		 */
-+		ret = drm_sched_job_add_dependency(job, dma_fence_get(fence));
-+		if (ret)
- 			return ret;
--		}
- 	}
- 	return 0;
+-	ast_set_index_reg_mask(ast, AST_IO_VGACRI, 0xb6, 0xfc, 0x00);
+-	ast_set_index_reg_mask(ast, AST_IO_VGASRI, 0x01, 0xdf, 0x00);
++	vgacr17 |= AST_IO_VGACR17_SYNC_ENABLE;
++	vgacrb6 &= ~(AST_IO_VGACRB6_VSYNC_OFF | AST_IO_VGACRB6_HSYNC_OFF);
++
++	ast_set_index_reg_mask(ast, AST_IO_VGACRI, 0x17, 0x7f, vgacr17);
++	ast_set_index_reg_mask(ast, AST_IO_VGACRI, 0xb6, 0xfc, vgacrb6);
  }
+ 
+ static void ast_crtc_helper_atomic_disable(struct drm_crtc *crtc, struct drm_atomic_state *state)
+ {
+ 	struct drm_crtc_state *old_crtc_state = drm_atomic_get_old_crtc_state(state, crtc);
+ 	struct ast_device *ast = to_ast_device(crtc->dev);
+-	u8 vgacrb6;
++	u8 vgacr17 = 0xff;
+ 
+-	ast_set_index_reg_mask(ast, AST_IO_VGASRI, 0x01, 0xdf, AST_IO_VGASR1_SD);
+-
+-	vgacrb6 = AST_IO_VGACRB6_VSYNC_OFF |
+-		  AST_IO_VGACRB6_HSYNC_OFF;
+-	ast_set_index_reg_mask(ast, AST_IO_VGACRI, 0xb6, 0xfc, vgacrb6);
++	vgacr17 &= ~AST_IO_VGACR17_SYNC_ENABLE;
++	ast_set_index_reg_mask(ast, AST_IO_VGACRI, 0x17, 0x7f, vgacr17);
+ 
+ 	/*
+ 	 * HW cursors require the underlying primary plane and CRTC to
+--- a/drivers/gpu/drm/ast/ast_reg.h
++++ b/drivers/gpu/drm/ast/ast_reg.h
+@@ -29,6 +29,7 @@
+ #define AST_IO_VGAGRI			(0x4E)
+ 
+ #define AST_IO_VGACRI			(0x54)
++#define AST_IO_VGACR17_SYNC_ENABLE	BIT(7) /* called "Hardware reset" in docs */
+ #define AST_IO_VGACR80_PASSWORD		(0xa8)
+ #define AST_IO_VGACR99_VGAMEM_RSRV_MASK	GENMASK(1, 0)
+ #define AST_IO_VGACRA1_VGAIO_DISABLED	BIT(1)
 
 
