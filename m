@@ -2,57 +2,82 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C1653BF54E7
-	for <lists+dri-devel@lfdr.de>; Tue, 21 Oct 2025 10:41:22 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 50074BF55AA
+	for <lists+dri-devel@lfdr.de>; Tue, 21 Oct 2025 10:49:00 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E571010E597;
-	Tue, 21 Oct 2025 08:41:20 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 44CCA10E196;
+	Tue, 21 Oct 2025 08:48:57 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; secure) header.d=sntech.de header.i=@sntech.de header.b="JeutWjWf";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="aeGO1Ufi";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from gloria.sntech.de (gloria.sntech.de [185.11.138.130])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 274E810E597
- for <dri-devel@lists.freedesktop.org>; Tue, 21 Oct 2025 08:41:20 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=sntech.de; 
- s=gloria202408;
- h=Content-Type:Content-Transfer-Encoding:MIME-Version:
- References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:Reply-To;
- bh=OMqtz21WxbMi8VBZjYtytcrz+hZpM9P8lLYQDAdVBZc=; b=JeutWjWfFw7/Z6LO+JooK0rt9M
- MhJp80ndS4eV7655BwHzm5EZqINVFQq9RCIyXPsS8ie7ScQnMmmwNGyvscr46QqnXAJ00kLUmDnXk
- anL12s+RnLboKyspfEBOqBU5Y24WFCdLEide841YtSCUv9AF1dNDy1oZEG0n/U4HxF7ugmz1okiHV
- /Tu5nLLxJQaVgT7bwwtmS4F8NYlFbZ34dEo5AchB+c2zrTEVvYbelYojpn7pfCC4508OmBOoyR392
- BM0VDanby9lrU3gzfYFZkrOfLOG2CsdRtAkHad5mRTYUdpyN5YE2MmGTo0RhubRHGaMaHpvjYd+tE
- /QKCraag==;
-Received: from [212.111.240.218] (helo=phil.localnet)
- by gloria.sntech.de with esmtpsa (TLS1.3) tls
- TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384 (Exim 4.94.2)
- (envelope-from <heiko@sntech.de>)
- id 1vB7vc-0001Wr-GZ; Tue, 21 Oct 2025 10:41:12 +0200
-From: Heiko Stuebner <heiko@sntech.de>
-To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc: devicetree@vger.kernel.org, dri-devel@lists.freedesktop.org,
- linux-arm-kernel@lists.infradead.org, linux-rockchip@lists.infradead.org,
- Alexey Charkov <alchark@gmail.com>, Algea Cao <algea.cao@rock-chips.com>,
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 188BB10E196
+ for <dri-devel@lists.freedesktop.org>; Tue, 21 Oct 2025 08:48:55 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1761036537; x=1792572537;
+ h=date:from:to:cc:subject:message-id:references:
+ mime-version:in-reply-to;
+ bh=ixN0SnuQ8N2jtGJB1Dvgz9zJy2AHG8oUKIXx/yt/S8w=;
+ b=aeGO1UfizO148v/f+76FotvAGhQrrCYY/x9BmoQxP+A2pkxG7iUmtZkz
+ Iyna+f4PRrKpSWdiOsCCw3DQikrZhazqHP06b7HwH4FPdp5Gc9GIEwW81
+ rhay9GR8u85mzEdVMOZGfyp7oOSIp5Lxq2h1EhC7Z+Qio6ROUcrRTz1bT
+ qrTSDT64RGzM4u3T3tTx10SYX4wytVdiPDP0V7zCXctc1H4YqXzLrViiL
+ MEK7fV8TZ1N8h5w8Bc5Nf1lGkEeA33SLG17mv9hlDOgnLHYrnTPn+QpOB
+ Fi8OSNgkNYpy4XqELmlq3UG9n3LM6kNCrEL8FzkFpK+pMn0Lqx3tpLvuT Q==;
+X-CSE-ConnectionGUID: bBZ8bTbORfOC5zIt/VG7OA==
+X-CSE-MsgGUID: KaduynKRTumhvK+lmBPj+g==
+X-IronPort-AV: E=McAfee;i="6800,10657,11586"; a="63055507"
+X-IronPort-AV: E=Sophos;i="6.19,244,1754982000"; d="scan'208";a="63055507"
+Received: from orviesa009.jf.intel.com ([10.64.159.149])
+ by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 21 Oct 2025 01:48:56 -0700
+X-CSE-ConnectionGUID: eCD/H1/RSIKfOQZXnX6Vww==
+X-CSE-MsgGUID: 5oEWrWiFR5aYJfjpPgNG5g==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.19,244,1754982000"; d="scan'208";a="183099996"
+Received: from mgerlach-mobl1.amr.corp.intel.com (HELO kuha.fi.intel.com)
+ ([10.124.220.224])
+ by orviesa009.jf.intel.com with SMTP; 21 Oct 2025 01:48:47 -0700
+Received: by kuha.fi.intel.com (sSMTP sendmail emulation);
+ Tue, 21 Oct 2025 11:48:45 +0300
+Date: Tue, 21 Oct 2025 11:48:45 +0300
+From: Heikki Krogerus <heikki.krogerus@linux.intel.com>
+To: Chaoyi Chen <chaoyi.chen@rock-chips.com>
+Cc: Chaoyi Chen <kernel@airkyi.com>, Rob Herring <robh@kernel.org>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>, Vinod Koul <vkoul@kernel.org>,
+ Kishon Vijay Abraham I <kishon@kernel.org>,
+ Heiko Stuebner <heiko@sntech.de>, Sandy Huang <hjc@rock-chips.com>,
  Andy Yan <andy.yan@rock-chips.com>,
- Cenk Uluisik <cenk.uluisik@googlemail.com>,
- Conor Dooley <conor+dt@kernel.org>,
- Cristian Ciocaltea <cristian.ciocaltea@collabora.com>,
- Jimmy Hon <honyuenkwun@gmail.com>, Kever Yang <kever.yang@rock-chips.com>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>, Maxime Ripard <mripard@kernel.org>, 
- Muhammed Efe Cetin <efectn@6tel.net>, Ondrej Jirman <megi@xff.cz>,
- Rob Herring <robh@kernel.org>, Sandy Huang <hjc@rock-chips.com>
-Subject: Re: [PATCH v2 0/5] arm64: dts: rockchip: Add device tree for the
- Orange Pi CM5 Base board
-Date: Tue, 21 Oct 2025 10:41:11 +0200
-Message-ID: <3720286.R56niFO833@phil>
-In-Reply-To: <20251020154625.GB6159@pendragon.ideasonboard.com>
-References: <20251005235542.1017-1-laurent.pinchart@ideasonboard.com>
- <2328202.iZASKD2KPV@phil> <20251020154625.GB6159@pendragon.ideasonboard.com>
+ Yubing Zhang <yubing.zhang@rock-chips.com>,
+ Frank Wang <frank.wang@rock-chips.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Amit Sunil Dhamne <amitsd@google.com>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Dragan Simic <dsimic@manjaro.org>, Johan Jonker <jbx6244@gmail.com>,
+ Diederik de Haas <didi.debian@cknow.org>,
+ Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>,
+ Peter Robinson <pbrobinson@gmail.com>, linux-usb@vger.kernel.org,
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-phy@lists.infradead.org, linux-arm-kernel@lists.infradead.org,
+ linux-rockchip@lists.infradead.org, dri-devel@lists.freedesktop.org
+Subject: Re: [PATCH v6 1/8] usb: typec: Add default HPD device when register
+ DisplayPort altmode
+Message-ID: <aPdI7Vb_djrfCfbT@kuha.fi.intel.com>
+References: <20251016022741.91-1-kernel@airkyi.com>
+ <20251016022741.91-2-kernel@airkyi.com>
+ <aPYImGmesrZWwyqh@kuha.fi.intel.com>
+ <954a67d1-1759-4e18-8eef-3fa14fb3cef5@rock-chips.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset="utf-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <954a67d1-1759-4e18-8eef-3fa14fb3cef5@rock-chips.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -68,72 +93,62 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Am Montag, 20. Oktober 2025, 17:46:25 Mitteleurop=C3=A4ische Sommerzeit sch=
-rieb Laurent Pinchart:
-> On Mon, Oct 20, 2025 at 04:44:21PM +0200, Heiko Stuebner wrote:
-> > Am Montag, 6. Oktober 2025, 01:55:36 Mitteleurop=C3=A4ische Sommerzeit =
-schrieb Laurent Pinchart:
-> > > Hello,
-> > >=20
-> > > This patch series adds a device tree for the Orange Pi CM5 Base board
-> > > from Xunlong. This is a combination of a compute module and a carrier
-> > > board, so the device tree is split in two files.
-> > >=20
-> > > The work is based on a combination of upstream device trees for other
-> > > RK3588-based Orange Pi boards and the downstream device tree, all
-> > > checked against the available schematics for the carrier board. The
-> > > compute module schematics is unfortunately not available.
-> > >=20
-> > > The series starts with three patches that add a new tmds-enable-gpios
-> > > property to the rk3588-dw-hdmi-qp DT binding (1/5) and update the dri=
-ver
-> > > accordingly (2/5 and 3/5). Those patches have been authored by Cristi=
-an
-> > > Ciocaltea as part of a larger series, I have incorporated them here
-> > > as-is.
-> > >=20
-> > > Patch 4/5 then add a new compatible for the board to arm/rockchip.yam=
-l.
-> > > The last patch (5/5) adds the device tree for the board.
-> > >=20
-> > > Patches 2/5 and 3/5 could be merged separately through the DRM tree,
-> > > but patch 1/5 needs to be merged with the device tree in 5/5 to avoid
-> > > introducing DT validation warnings. I'd appreciate advice from the DT
-> > > maintainers regarding how to handle this, as I have been told before
-> > > that DT bindings and DT sources can't be merged through the same tree.
-> >=20
-> > I think we generally only care about binding warnings happening
-> > in linux-next.
-> >=20
-> > I.e. in most cases, the binding is merged with the driver and
-> > the dts then into a separate tree - sort of ignoring the local
-> > binding error, because everything will be fine once stuff comes
-> > together in linux-next.
->=20
-> Assuming they get merged together in linux-next. If there's a delay,
-> linux-next will exhibit warnings for some time. I don't know what the
-> rule is regarding that.
+Hi,
 
-Normally once the driver-maintainer has applied binding + driver
-change, I also pick up the devicetree shortly change after that.
+On Mon, Oct 20, 2025 at 07:07:46PM +0800, Chaoyi Chen wrote:
+> Hi Heikki,
+> 
+> On 10/20/2025 6:02 PM, Heikki Krogerus wrote:
+> > On Thu, Oct 16, 2025 at 10:27:34AM +0800, Chaoyi Chen wrote:
+> > > From: Chaoyi Chen <chaoyi.chen@rock-chips.com>
+> > > 
+> > > Add default DRM AUX HPD bridge device when register DisplayPort
+> > > altmode. That makes it redundant for each Type-C driver to implement
+> > > a similar registration process in embedded scenarios.
+> > > 
+> > > Signed-off-by: Chaoyi Chen <chaoyi.chen@rock-chips.com>
+> > > ---
+> > > 
+> > > Changes in v6:
+> > > - Fix depend in Kconfig.
+> > > 
+> > > Changes in v5:
+> > > - Remove the calls related to `drm_aux_hpd_bridge_notify()`.
+> > > - Place the helper functions in the same compilation unit.
+> > > - Add more comments about parent device.
+> > > 
+> > >   drivers/usb/typec/Kconfig         |  2 ++
+> > >   drivers/usb/typec/class.c         | 26 ++++++++++++++++++++++++++
+> > >   include/linux/usb/typec_altmode.h |  2 ++
+> > >   3 files changed, 30 insertions(+)
+> > > 
+> > > diff --git a/drivers/usb/typec/Kconfig b/drivers/usb/typec/Kconfig
+> > > index 2f80c2792dbd..a6730fbb576b 100644
+> > > --- a/drivers/usb/typec/Kconfig
+> > > +++ b/drivers/usb/typec/Kconfig
+> > > @@ -2,6 +2,8 @@
+> > >   menuconfig TYPEC
+> > >   	tristate "USB Type-C Support"
+> > > +	depends on DRM || DRM=n
+> > > +	select DRM_AUX_HPD_BRIDGE if DRM_BRIDGE && OF
+> > This is wrong. DRM should not dictate how this entire subsystem core
+> > is configured. The dependency needs to be on the DRM bridge side.
+> > 
+> > You can for example use the bus notification there to see when a new
+> > alternate mode is being registered, or use some other notification
+> > mechanism.
+> 
+> Is it a good idea to implement notification functions like
+> drivers/usb/core/notify.c in TCPM, and then let other subsystems (such as DRM)
+> listen to these notifications?
 
-And in most cases the driver change will be in -next the next day,
-and the dts change as well or 1-2 days later.
+Don't limit this to tcpm only. I would suggest something similar what
+we have for usb bus: drivers/usb/core/notify.c
 
-If a CI bot complains, one then goes looking if something went wrong :-) .
-But in 99.9% of cases, things just work out.
+So that, but for the typec bus. Then in DRM bridge code you just use
+typec_register/unregister_notify().
 
+thanks,
 
-> > Speaking of bindings, does your board _need_ the frl-gpio to produce
-> > any hdmi output? Like could we merge the board without the (optional)
-> > gpio and then add it later, once the binding+driver have made it in?
->=20
-> With a suitable pull-up I think so. I can submit a v3 with that.
-
-I guess that might be a nice way to go, as then the main board dts
-doesn't has to wait for the drm changes to be finalized :-)
-
-
-Heiko
-
-
+-- 
+heikki
