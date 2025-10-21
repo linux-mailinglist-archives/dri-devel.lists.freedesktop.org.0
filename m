@@ -2,52 +2,91 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 07F4CBF5049
-	for <lists+dri-devel@lfdr.de>; Tue, 21 Oct 2025 09:43:39 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3F4CCBF5143
+	for <lists+dri-devel@lfdr.de>; Tue, 21 Oct 2025 09:51:16 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7FA2F10E588;
-	Tue, 21 Oct 2025 07:43:35 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0164210E594;
+	Tue, 21 Oct 2025 07:51:13 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; secure) header.d=sntech.de header.i=@sntech.de header.b="FknXXbVc";
+	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="DPiBy/9i";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from gloria.sntech.de (gloria.sntech.de [185.11.138.130])
- by gabe.freedesktop.org (Postfix) with ESMTPS id F31D410E57F
- for <dri-devel@lists.freedesktop.org>; Tue, 21 Oct 2025 07:43:24 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=sntech.de; 
- s=gloria202408;
- h=Content-Transfer-Encoding:MIME-Version:References:
- In-Reply-To:Message-ID:Date:Subject:Cc:To:From:Reply-To:Content-Type;
- bh=OUNye3HxeUTkEv5mR8T9fjHeXru/yz+Ueb4MLuCjw/U=; b=FknXXbVc+AL84Jf0OleZjxYmRq
- 25eomfdtP+fEGs33x3mvXmhvS019aKYeMy9GK9b6FlMkkh5I05TD8FpM209gLcqvFzpLREUxqtgEH
- 2VwR9I21xYiqe4AWMSmerkE+WMdf/AMPRmtOAlrmGV3N7gwsmue9HNml+g3VhFvaGGvDB3PIXELzq
- Q0rwvy4UrbUUhHY7JeqEv5iok+MkeI3vcOLk/hBPyu87mAp73+NYMPVHbYagFHI8P250DzKy9UQfb
- HAkcPYsfCJ3VH4aYFJ8tFyLKptc9KTv+d+UzHBTPJ27/k6jNAYyEw6s5/J+t1CiydgVCMxWIB2JbU
- QPKbWVLQ==;
-Received: from [212.111.240.218] (helo=phil.guestnet.ukdd.de)
- by gloria.sntech.de with esmtpsa (TLS1.3) tls
- TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384 (Exim 4.94.2)
- (envelope-from <heiko@sntech.de>)
- id 1vB71Q-0000uy-70; Tue, 21 Oct 2025 09:43:08 +0200
-From: Heiko Stuebner <heiko@sntech.de>
-To: heiko@sntech.de
-Cc: maarten.lankhorst@linux.intel.com, mripard@kernel.org, tzimmermann@suse.de,
- robh@kernel.org, krzk+dt@kernel.org, conor+dt@kernel.org,
- quentin.schulz@cherry.de, andy.yan@rock-chips.com,
- dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org, linux-rockchip@lists.infradead.org,
- linux-kernel@vger.kernel.org, cn.liweihao@gmail.com,
- Heiko Stuebner <heiko.stuebner@cherry.de>
-Subject: [PATCH v2 9/9] arm64: dts: rockchip: Add the Video-Demo overlay for
- Lion Haikou
-Date: Tue, 21 Oct 2025 09:42:54 +0200
-Message-ID: <20251021074254.87065-10-heiko@sntech.de>
-X-Mailer: git-send-email 2.47.2
-In-Reply-To: <20251021074254.87065-1-heiko@sntech.de>
-References: <20251021074254.87065-1-heiko@sntech.de>
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7C05710E58A
+ for <dri-devel@lists.freedesktop.org>; Tue, 21 Oct 2025 07:51:11 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1761033070;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=1h6fa2qbHoy++SvDQf77xOSpwekaCSKBmi7FZ2f1xQY=;
+ b=DPiBy/9iPpWv6wJZ2mYKnhsjh8DUYZ0F9ZxMwNS++1NJk0MrWJiBMwU1QXw8jhmLWAUFUW
+ gQlxlj7KhzVNeaFvSyPrDEHlRnQ1anjl/aabQz7EHMX4CiLQHeet29/F9p1fRY27AgcBs0
+ 1mv+3NQmZbTEcT1daTwptvnMc07q9YY=
+Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
+ [209.85.221.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-100-vyiNjPKtNoyy-6swWb4Y_g-1; Tue, 21 Oct 2025 03:51:08 -0400
+X-MC-Unique: vyiNjPKtNoyy-6swWb4Y_g-1
+X-Mimecast-MFC-AGG-ID: vyiNjPKtNoyy-6swWb4Y_g_1761033067
+Received: by mail-wr1-f72.google.com with SMTP id
+ ffacd0b85a97d-426d4f59cbcso3300645f8f.1
+ for <dri-devel@lists.freedesktop.org>; Tue, 21 Oct 2025 00:51:08 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1761033067; x=1761637867;
+ h=mime-version:message-id:date:references:in-reply-to:subject:cc:to
+ :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=1h6fa2qbHoy++SvDQf77xOSpwekaCSKBmi7FZ2f1xQY=;
+ b=TCTSXCE8wXZET/ZkFV7m2IO7RBJSV/hFyd250J2d9lqr48+TdKWbyyYz+sMQr+wQHP
+ 6TRn7vPQctZWyueaM9IJALQ5VBVTHK2EJyLC1bkVuu4JUcTdAwnmLGOqV2mKSLicN7lv
+ 6qqLhIuTlqq/Dw1xtvPbAiVL0ElZequbxKAeFR88qPzI3g7z8gflTbbaBsXAjI9tSn1i
+ G/SYydEwNkzZKGFAdlAJtORdH1ukSrot3UcgDY2wq2Kh7z3yXWxsqmE8CUTcin6ban6U
+ Knx6OhKLyvVksAOkHaTK3VCw4GF9TdFuzTh6FUxiFpAPIIbbQN2rw2rbzZ3dZrjyHzBM
+ wqMQ==
+X-Gm-Message-State: AOJu0Yz6cqhue/f4DinCuRJKEylKU9FGcQt6Qt8SDAThG5eGrwuJEwaQ
+ H8BnVS6ThdIvRFkA0tudOo5CzdsFKg2zSBFDsiBysFHN2w6yG3cAHkaKWp8jmAqAYM5vA34jHO1
+ U4bgjA9yVonUZ7yiOfrig+Il3yPR6UnMtXHEz6u3KrmwCmQkdqW23q7ieli834PfoVZ4h0A==
+X-Gm-Gg: ASbGnctFzQbA9KiYsWH+NYxFruhAnPoAogcdLpZlyMxavdUyHC3v+ujFIpbPVYC9hVL
+ DUHp1VOWKzwjqy8eDYIZky8jdVrHbXMOesDoVYTIRRyDL18Gtp5AVCNEHvDSuB8jMjMe9aROdf5
+ Kk9DRPLcqGKCzBPg28CLlR317C2pROqHcmcywssJWLTBmY0GPIxn6ilv4SqNHM2z16MWbNHtUC5
+ 7pI+w7rRNdvx0DejSwTG4Ik1z7F5aAQpSY0Lr+hjx1FRPK9Ob6U6M5v1TB2C7KduOQGdoTvUf6a
+ yYrCimv02kU2O30eAiNaMeYeuQoecWbS3ER1TpLWs7fsHbJZCyQkD8FFVqh4bn4YFrkok7MgedQ
+ KGyDC8zSIcPE7pDJvE+UxEsWL0GUNvwfksnHsCQQ61jrbhJEpM0OokIth2w==
+X-Received: by 2002:a5d:64e7:0:b0:3e7:428f:d33 with SMTP id
+ ffacd0b85a97d-42704bc0e86mr14036918f8f.16.1761033067211; 
+ Tue, 21 Oct 2025 00:51:07 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IHz8/veJYRT8JadPcK7SQ32pn8LgrM+ivv/Y11OS7FOCN/IU1aUPsxB4lxzjs+wdp1rzZtnZQ==
+X-Received: by 2002:a5d:64e7:0:b0:3e7:428f:d33 with SMTP id
+ ffacd0b85a97d-42704bc0e86mr14036895f8f.16.1761033066816; 
+ Tue, 21 Oct 2025 00:51:06 -0700 (PDT)
+Received: from localhost (62-151-111-63.jazzfree.ya.com. [62.151.111.63])
+ by smtp.gmail.com with ESMTPSA id
+ ffacd0b85a97d-427e1be5d6csm18888806f8f.0.2025.10.21.00.51.06
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 21 Oct 2025 00:51:06 -0700 (PDT)
+From: Javier Martinez Canillas <javierm@redhat.com>
+To: Mehdi Ben Hadj Khelifa <mehdi.benhadjkhelifa@gmail.com>, Shuah Khan
+ <skhan@linuxfoundation.org>, maarten.lankhorst@linux.intel.com,
+ mripard@kernel.org, tzimmermann@suse.de, airlied@gmail.com, simona@ffwll.ch
+Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ david.hunter.linux@gmail.com, khalid@kernel.org,
+ linux-kernel-mentees@lists.linuxfoundation.org
+Subject: Re: [PATCH] drm/solomon: Use kmalloc_array() instead of kmalloc()
+In-Reply-To: <8dc12a18-58ee-4df6-a9f3-12d8c05a0954@gmail.com>
+References: <20251019145927.167544-1-mehdi.benhadjkhelifa@gmail.com>
+ <2541f99c-1081-4253-ae58-97654694cd78@linuxfoundation.org>
+ <e4f0290b-5d15-472f-acee-e1e1b0629ec0@gmail.com>
+ <3f523293-8a8d-4136-b4bc-4ad0d4a50c59@linuxfoundation.org>
+ <8dc12a18-58ee-4df6-a9f3-12d8c05a0954@gmail.com>
+Date: Tue, 21 Oct 2025 09:51:05 +0200
+Message-ID: <878qh4ae1i.fsf@ocarina.mail-host-address-is-not-set>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+X-Mimecast-Spam-Score: 0
+X-Mimecast-MFC-PROC-ID: wKEYJtjWNcFwHQzDEZG1U-b7YR59Zs7Ru2YjSErXMDI_1761033067
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -63,222 +102,41 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Heiko Stuebner <heiko.stuebner@cherry.de>
+Mehdi Ben Hadj Khelifa <mehdi.benhadjkhelifa@gmail.com> writes:
 
-The video-demo adapter also works on the Lion SoM when running
-on a Haikou baseboard, so add an overlay for it.
+Hello Mehdi,
 
-Signed-off-by: Heiko Stuebner <heiko.stuebner@cherry.de>
----
- arch/arm64/boot/dts/rockchip/Makefile         |   5 +
- .../rk3368-lion-haikou-video-demo.dtso        | 174 ++++++++++++++++++
- 2 files changed, 179 insertions(+)
- create mode 100644 arch/arm64/boot/dts/rockchip/rk3368-lion-haikou-video-demo.dtso
+> On 10/20/25 9:56 PM, Shuah Khan wrote:
 
-diff --git a/arch/arm64/boot/dts/rockchip/Makefile b/arch/arm64/boot/dts/rockchip/Makefile
-index ad684e3831bc..494fdd685a5c 100644
---- a/arch/arm64/boot/dts/rockchip/Makefile
-+++ b/arch/arm64/boot/dts/rockchip/Makefile
-@@ -42,6 +42,7 @@ dtb-$(CONFIG_ARCH_ROCKCHIP) += rk3368-evb-act8846.dtb
- dtb-$(CONFIG_ARCH_ROCKCHIP) += rk3368-geekbox.dtb
- dtb-$(CONFIG_ARCH_ROCKCHIP) += rk3368-lba3368.dtb
- dtb-$(CONFIG_ARCH_ROCKCHIP) += rk3368-lion-haikou.dtb
-+dtb-$(CONFIG_ARCH_ROCKCHIP) += rk3368-lion-haikou-video-demo.dtbo
- dtb-$(CONFIG_ARCH_ROCKCHIP) += rk3368-orion-r68-meta.dtb
- dtb-$(CONFIG_ARCH_ROCKCHIP) += rk3368-px5-evb.dtb
- dtb-$(CONFIG_ARCH_ROCKCHIP) += rk3368-r88.dtb
-@@ -231,6 +232,10 @@ dtb-$(CONFIG_ARCH_ROCKCHIP) += px30-ringneck-haikou-haikou-video-demo.dtb
- px30-ringneck-haikou-haikou-video-demo-dtbs := px30-ringneck-haikou.dtb \
- 	px30-ringneck-haikou-video-demo.dtbo
- 
-+dtb-$(CONFIG_ARCH_ROCKCHIP) += rk3368-lion-haikou-haikou-video-demo.dtb
-+rk3368-lion-haikou-haikou-video-demo-dtbs := rk3368-lion-haikou.dtb \
-+	rk3368-lion-haikou-video-demo.dtbo
-+
- dtb-$(CONFIG_ARCH_ROCKCHIP) += rk3399-puma-haikou-haikou-video-demo.dtb
- rk3399-puma-haikou-haikou-video-demo-dtbs := rk3399-puma-haikou.dtb \
- 	rk3399-puma-haikou-video-demo.dtbo
-diff --git a/arch/arm64/boot/dts/rockchip/rk3368-lion-haikou-video-demo.dtso b/arch/arm64/boot/dts/rockchip/rk3368-lion-haikou-video-demo.dtso
-new file mode 100644
-index 000000000000..e7767c008144
---- /dev/null
-+++ b/arch/arm64/boot/dts/rockchip/rk3368-lion-haikou-video-demo.dtso
-@@ -0,0 +1,174 @@
-+// SPDX-License-Identifier: (GPL-2.0+ OR MIT)
-+/*
-+ * Copyright (c) 2025 Cherry Embedded Solutions GmbH
-+ *
-+ * DEVKIT ADDON CAM-TS-A01
-+ * https://embedded.cherry.de/product/development-kit/
-+ *
-+ * DT-overlay for the camera / DSI demo appliance for Haikou boards.
-+ * In the flavour for use with a Puma system-on-module.
-+ */
-+
-+/dts-v1/;
-+/plugin/;
-+
-+#include <dt-bindings/clock/rk3368-cru.h>
-+#include <dt-bindings/gpio/gpio.h>
-+#include <dt-bindings/interrupt-controller/irq.h>
-+#include <dt-bindings/leds/common.h>
-+#include <dt-bindings/pinctrl/rockchip.h>
-+
-+&{/} {
-+	backlight: backlight {
-+		compatible = "pwm-backlight";
-+		power-supply = <&dc_12v>;
-+		pwms = <&pwm1 0 25000 0>;
-+	};
-+
-+	cam_afvdd_2v8: regulator-cam-afvdd-2v8 {
-+		compatible = "regulator-fixed";
-+		gpio = <&pca9670 2 GPIO_ACTIVE_LOW>;
-+		regulator-max-microvolt = <2800000>;
-+		regulator-min-microvolt = <2800000>;
-+		regulator-name = "cam-afvdd-2v8";
-+		vin-supply = <&vcc2v8_video>;
-+	};
-+
-+	cam_avdd_2v8: regulator-cam-avdd-2v8 {
-+		compatible = "regulator-fixed";
-+		gpio = <&pca9670 4 GPIO_ACTIVE_LOW>;
-+		regulator-max-microvolt = <2800000>;
-+		regulator-min-microvolt = <2800000>;
-+		regulator-name = "cam-avdd-2v8";
-+		vin-supply = <&vcc2v8_video>;
-+	};
-+
-+	cam_dovdd_1v8: regulator-cam-dovdd-1v8 {
-+		compatible = "regulator-fixed";
-+		gpio = <&pca9670 3 GPIO_ACTIVE_LOW>;
-+		regulator-max-microvolt = <1800000>;
-+		regulator-min-microvolt = <1800000>;
-+		regulator-name = "cam-dovdd-1v8";
-+		vin-supply = <&vcc1v8_video>;
-+	};
-+
-+	cam_dvdd_1v2: regulator-cam-dvdd-1v2 {
-+		compatible = "regulator-fixed";
-+		enable-active-high;
-+		gpio = <&pca9670 5 GPIO_ACTIVE_HIGH>;
-+		regulator-max-microvolt = <1200000>;
-+		regulator-min-microvolt = <1200000>;
-+		regulator-name = "cam-dvdd-1v2";
-+		vin-supply = <&vcc3v3_baseboard>;
-+	};
-+
-+	vcc1v8_video: regulator-vcc1v8-video {
-+		compatible = "regulator-fixed";
-+		regulator-always-on;
-+		regulator-boot-on;
-+		regulator-max-microvolt = <1800000>;
-+		regulator-min-microvolt = <1800000>;
-+		regulator-name = "vcc1v8-video";
-+		vin-supply = <&vcc3v3_baseboard>;
-+	};
-+
-+	vcc2v8_video: regulator-vcc2v8-video {
-+		compatible = "regulator-fixed";
-+		regulator-always-on;
-+		regulator-boot-on;
-+		regulator-max-microvolt = <2800000>;
-+		regulator-min-microvolt = <2800000>;
-+		regulator-name = "vcc2v8-video";
-+		vin-supply = <&vcc3v3_baseboard>;
-+	};
-+
-+	video-adapter-leds {
-+		compatible = "gpio-leds";
-+
-+		video-adapter-led {
-+			color = <LED_COLOR_ID_BLUE>;
-+			gpios = <&pca9670 7 GPIO_ACTIVE_HIGH>;
-+			label = "video-adapter-led";
-+			linux,default-trigger = "none";
-+		};
-+	};
-+};
-+
-+&dphy {
-+	status = "okay";
-+};
-+
-+&i2c_gp2 {
-+	#address-cells = <1>;
-+	#size-cells = <0>;
-+	/* OV5675, GT911, DW9714 are limited to 400KHz */
-+	clock-frequency = <400000>;
-+
-+	touchscreen@14 {
-+		compatible = "goodix,gt911";
-+		reg = <0x14>;
-+		interrupt-parent = <&gpio1>;
-+		interrupts = <RK_PB5 IRQ_TYPE_LEVEL_LOW>;
-+		irq-gpios = <&gpio1 RK_PB5 GPIO_ACTIVE_HIGH>;
-+		pinctrl-0 = <&touch_int>;
-+		pinctrl-names = "default";
-+		reset-gpios = <&pca9670 1 GPIO_ACTIVE_HIGH>;
-+		AVDD28-supply = <&vcc2v8_video>;
-+		VDDIO-supply = <&vcc3v3_baseboard>;
-+	};
-+
-+	pca9670: gpio@27 {
-+		compatible = "nxp,pca9670";
-+		reg = <0x27>;
-+		gpio-controller;
-+		#gpio-cells = <2>;
-+		pinctrl-0 = <&pca9670_resetn>;
-+		pinctrl-names = "default";
-+		reset-gpios = <&gpio1 RK_PA5 GPIO_ACTIVE_LOW>;
-+	};
-+};
-+
-+&mipi_dsi {
-+	#address-cells = <1>;
-+	#size-cells = <0>;
-+	status = "okay";
-+
-+	panel@0 {
-+		compatible = "leadtek,ltk050h3148w";
-+		reg = <0>;
-+		backlight = <&backlight>;
-+		iovcc-supply = <&vcc1v8_video>;
-+		reset-gpios = <&pca9670 0 GPIO_ACTIVE_LOW>;
-+		vci-supply = <&vcc2v8_video>;
-+
-+		port {
-+			mipi_in_panel: endpoint {
-+				remote-endpoint = <&mipi_out_panel>;
-+			};
-+		};
-+	};
-+};
-+
-+&mipi_out {
-+	mipi_out_panel: endpoint {
-+		remote-endpoint = <&mipi_in_panel>;
-+	};
-+};
-+
-+&pinctrl {
-+	pca9670 {
-+		pca9670_resetn: pca9670-resetn {
-+			rockchip,pins = <1 RK_PA5 RK_FUNC_GPIO &pcfg_pull_none>;
-+		};
-+	};
-+
-+	touch {
-+		touch_int: touch-int {
-+			rockchip,pins = <1 RK_PB5 RK_FUNC_GPIO &pcfg_pull_none>;
-+		};
-+	};
-+};
-+
-+&pwm1 {
-+	status = "okay";
-+};
-\ No newline at end of file
+[...]
+
+>>> I have a raspberrypi zero 2 wh that i'm using in combination with the 
+>>> ssd1306 OLED panel via I2C to test it's rendering and it's working 
+>>> properly by using modetest and seeing no regressions or warnings in 
+>>> dmesg.
+>>>
+>> 
+>> Send v2 with all these details and why this change is needed
+>> in the first place.
+>> 
+> Okay, I will do that as soon as possible.> When and how does this 
+> potential problem trigger? Is this a
+>> theoretical or does this happen in this code path and how?
+>> Next time include all of these details people understand the
+>> problem better.
+>> 
+> We'll do in the next iteration.Thanks
+>
+
+A similar patch was posted by another developer a couple of weeks
+ago and is now queued already in the drm-misc-next branch:
+
+https://cgit.freedesktop.org/drm/drm-misc/commit/?id=940dd88c5f5bdb1f3e19873a856a677ebada63a9
+
 -- 
-2.47.2
+Best regards,
+
+Javier Martinez Canillas
+Core Platforms
+Red Hat
 
