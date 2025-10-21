@@ -2,45 +2,44 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A6ADFBF5BE4
-	for <lists+dri-devel@lfdr.de>; Tue, 21 Oct 2025 12:19:42 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 28047BF5BE2
+	for <lists+dri-devel@lfdr.de>; Tue, 21 Oct 2025 12:19:39 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1F26910E2EF;
+	by gabe.freedesktop.org (Postfix) with ESMTP id 22A6B10E2F2;
 	Tue, 21 Oct 2025 10:19:33 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="I/vScD0R";
+	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="J2MW1bF2";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from bali.collaboradmins.com (bali.collaboradmins.com
  [148.251.105.195])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8E4C910E2C9
- for <dri-devel@lists.freedesktop.org>; Tue, 21 Oct 2025 10:19:31 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3950010E2EC
+ for <dri-devel@lists.freedesktop.org>; Tue, 21 Oct 2025 10:19:32 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
  s=mail; t=1761041970;
- bh=2cSPcRcetu19nIiABMe7i4sAQC6sGYCknXIE9y1yPg4=;
+ bh=s3C57jE/RyRY0ojZyNVm3JP0AqGDocSnepbywENMmxA=;
  h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
- b=I/vScD0RgKo6qV+1u18CpreOi5kY6DYeVZmAm5GSw7erjg8HIAw27q8SScgniCurG
- Eb2LIyztM/Sum8WHvABFjs90vI2qFlVW+K3+sef2yCYxkm4+bu6yR3YHmZ5TOh3ZJp
- he8N1EK3q+mt6j0vZCR/rb2eAF1hkG87JjYVDyeEjDkxBc8ZTEXzSm0IjzgqhfjTZI
- pW8tQXPYkAwi5RQ2iRcmgs+4wn9L55Apai/F9IoMb8wAOoZiEHo0DBaqQ2mt2sruf5
- r4OEMlF2D007Kfa2ANTUYDChuUCcQcZWLzIl7nnq0LvTVhIGFMFB1GL+cc7jS2GAfu
- WsSF/97ewgWWQ==
+ b=J2MW1bF2jnDtDz2TXt69m4xCKV49c0rajPIZ/8IoOPaw7/xzDGcbrBDJI3AH7hYNW
+ m4Skcc48Omg5ucJNp67+TljntOI5e5Lxx0a7ZKea/w6mv21leIQmLvE7WEeKOD4Vhk
+ xAmTtsutwq9Q6UInX1mLLXYsvGQtvV0anLs2K1gQYanFqRKgfty7G2d8NoAwYdstaO
+ NXHowjCKF6HBAeaMm43a8opDWYyN1nSaiz7xG7DFgZZfLhHSqm/jvAQwQF5B3svM9n
+ gT87s9ZxxauaxNRifVctU43DiS6q+05dy1sNkoQaEviSbGKqJD0mU7nLDm+qkhxS4k
+ Lb2Oo6y7EvAHQ==
 Received: from localhost (unknown [82.79.138.145])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange ECDHE (prime256v1) server-signature RSA-PSS (4096 bits)
  server-digest SHA256) (No client certificate requested)
  (Authenticated sender: cristicc)
- by bali.collaboradmins.com (Postfix) with UTF8SMTPSA id DC98117E13A5;
- Tue, 21 Oct 2025 12:19:29 +0200 (CEST)
+ by bali.collaboradmins.com (Postfix) with UTF8SMTPSA id A147017E1407;
+ Tue, 21 Oct 2025 12:19:30 +0200 (CEST)
 From: Cristian Ciocaltea <cristian.ciocaltea@collabora.com>
-Date: Tue, 21 Oct 2025 13:19:15 +0300
-Subject: [PATCH v3 2/5] drm/bridge: dw-hdmi-qp: Handle platform supported
- formats and color depth
+Date: Tue, 21 Oct 2025 13:19:16 +0300
+Subject: [PATCH v3 3/5] drm/rockchip: dw_hdmi_qp: Switch to phy_configure()
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20251021-rk3588-10bpc-v3-2-3d3eed00a6db@collabora.com>
+Message-Id: <20251021-rk3588-10bpc-v3-3-3d3eed00a6db@collabora.com>
 References: <20251021-rk3588-10bpc-v3-0-3d3eed00a6db@collabora.com>
 In-Reply-To: <20251021-rk3588-10bpc-v3-0-3d3eed00a6db@collabora.com>
 To: Sandy Huang <hjc@rock-chips.com>, 
@@ -72,64 +71,100 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Extend struct dw_hdmi_qp_plat_data to include the supported display
-output formats and maximum bits per color channel.  When provided by the
-platform driver, use them to setup the HDMI bridge accordingly.
+Stop relying on phy_set_bus_width() based workaround to setup the TMDS
+character rate and, instead, use the recently introduced HDMI PHY
+configuration API.  This is also a prerequisite to enable high color
+depth and FRL support.
 
-Additionally, improve debug logging in dw_hdmi_qp_bridge_atomic_enable()
-to also show the current HDMI output format and bpc.
+Additionally, move the logic to ->atomic_check() callback where the
+current mode rate is already provided by the connector state.  As a
+matter of fact this is actually necessary to ensure the link rate is
+configured before VOP2 attempts to use the PHY PLL as a DCLK source in
+vop2_crtc_atomic_enable().  The rationale is to restrict any changes of
+the PHY rate via CCF and, instead, prefer the PHY configuration API for
+this purpose.
 
 Acked-by: Daniel Stone <daniels@collabora.com>
 Signed-off-by: Cristian Ciocaltea <cristian.ciocaltea@collabora.com>
 ---
- drivers/gpu/drm/bridge/synopsys/dw-hdmi-qp.c | 11 +++++++++--
- include/drm/bridge/dw_hdmi_qp.h              |  4 ++++
- 2 files changed, 13 insertions(+), 2 deletions(-)
+ drivers/gpu/drm/rockchip/dw_hdmi_qp-rockchip.c | 37 +++++++++++++-------------
+ 1 file changed, 19 insertions(+), 18 deletions(-)
 
-diff --git a/drivers/gpu/drm/bridge/synopsys/dw-hdmi-qp.c b/drivers/gpu/drm/bridge/synopsys/dw-hdmi-qp.c
-index 4ba7b339eff6..fe4c026280f0 100644
---- a/drivers/gpu/drm/bridge/synopsys/dw-hdmi-qp.c
-+++ b/drivers/gpu/drm/bridge/synopsys/dw-hdmi-qp.c
-@@ -868,8 +868,9 @@ static void dw_hdmi_qp_bridge_atomic_enable(struct drm_bridge *bridge,
- 		return;
+diff --git a/drivers/gpu/drm/rockchip/dw_hdmi_qp-rockchip.c b/drivers/gpu/drm/rockchip/dw_hdmi_qp-rockchip.c
+index 931343b072ad..04e18dd9102a 100644
+--- a/drivers/gpu/drm/rockchip/dw_hdmi_qp-rockchip.c
++++ b/drivers/gpu/drm/rockchip/dw_hdmi_qp-rockchip.c
+@@ -14,6 +14,7 @@
+ #include <linux/module.h>
+ #include <linux/platform_device.h>
+ #include <linux/phy/phy.h>
++#include <linux/phy/phy-hdmi.h>
+ #include <linux/regmap.h>
+ #include <linux/workqueue.h>
  
- 	if (connector->display_info.is_hdmi) {
--		dev_dbg(hdmi->dev, "%s mode=HDMI rate=%llu\n",
--			__func__, conn_state->hdmi.tmds_char_rate);
-+		dev_dbg(hdmi->dev, "%s mode=HDMI %s rate=%llu bpc=%u\n", __func__,
-+			drm_hdmi_connector_get_output_format_name(conn_state->hdmi.output_format),
-+			conn_state->hdmi.tmds_char_rate, conn_state->hdmi.output_bpc);
- 		op_mode = 0;
- 		hdmi->tmds_char_rate = conn_state->hdmi.tmds_char_rate;
- 	} else {
-@@ -1287,6 +1288,12 @@ struct dw_hdmi_qp *dw_hdmi_qp_bind(struct platform_device *pdev,
- 	hdmi->bridge.vendor = "Synopsys";
- 	hdmi->bridge.product = "DW HDMI QP TX";
- 
-+	if (plat_data->supported_formats)
-+		hdmi->bridge.supported_formats = plat_data->supported_formats;
-+
-+	if (plat_data->max_bpc)
-+		hdmi->bridge.max_bpc = plat_data->max_bpc;
-+
- 	hdmi->bridge.ddc = dw_hdmi_qp_i2c_adapter(hdmi);
- 	if (IS_ERR(hdmi->bridge.ddc))
- 		return ERR_CAST(hdmi->bridge.ddc);
-diff --git a/include/drm/bridge/dw_hdmi_qp.h b/include/drm/bridge/dw_hdmi_qp.h
-index 76ecf3130199..3f461f6b9bbf 100644
---- a/include/drm/bridge/dw_hdmi_qp.h
-+++ b/include/drm/bridge/dw_hdmi_qp.h
-@@ -25,6 +25,10 @@ struct dw_hdmi_qp_plat_data {
- 	int main_irq;
- 	int cec_irq;
- 	unsigned long ref_clk_rate;
-+	/* Supported output formats: bitmask of @hdmi_colorspace */
-+	unsigned int supported_formats;
-+	/* Maximum bits per color channel: 8, 10 or 12 */
-+	unsigned int max_bpc;
+@@ -96,6 +97,7 @@ struct rockchip_hdmi_qp {
+ 	struct delayed_work hpd_work;
+ 	int port_id;
+ 	const struct rockchip_hdmi_qp_ctrl_ops *ctrl_ops;
++	unsigned long long tmds_char_rate;
  };
  
- struct dw_hdmi_qp *dw_hdmi_qp_bind(struct platform_device *pdev,
+ struct rockchip_hdmi_qp_ctrl_ops {
+@@ -114,24 +116,9 @@ static struct rockchip_hdmi_qp *to_rockchip_hdmi_qp(struct drm_encoder *encoder)
+ static void dw_hdmi_qp_rockchip_encoder_enable(struct drm_encoder *encoder)
+ {
+ 	struct rockchip_hdmi_qp *hdmi = to_rockchip_hdmi_qp(encoder);
+-	struct drm_crtc *crtc = encoder->crtc;
+-	unsigned long long rate;
+ 
+ 	/* Unconditionally switch to TMDS as FRL is not yet supported */
+ 	gpiod_set_value(hdmi->enable_gpio, 1);
+-
+-	if (crtc && crtc->state) {
+-		rate = drm_hdmi_compute_mode_clock(&crtc->state->adjusted_mode,
+-						   8, HDMI_COLORSPACE_RGB);
+-		/*
+-		 * FIXME: Temporary workaround to pass pixel clock rate
+-		 * to the PHY driver until phy_configure_opts_hdmi
+-		 * becomes available in the PHY API. See also the related
+-		 * comment in rk_hdptx_phy_power_on() from
+-		 * drivers/phy/rockchip/phy-rockchip-samsung-hdptx.c
+-		 */
+-		phy_set_bus_width(hdmi->phy, div_u64(rate, 100));
+-	}
+ }
+ 
+ static int
+@@ -139,12 +126,26 @@ dw_hdmi_qp_rockchip_encoder_atomic_check(struct drm_encoder *encoder,
+ 					 struct drm_crtc_state *crtc_state,
+ 					 struct drm_connector_state *conn_state)
+ {
++	struct rockchip_hdmi_qp *hdmi = to_rockchip_hdmi_qp(encoder);
+ 	struct rockchip_crtc_state *s = to_rockchip_crtc_state(crtc_state);
++	union phy_configure_opts phy_cfg = {};
++	int ret;
+ 
+-	s->output_mode = ROCKCHIP_OUT_MODE_AAAA;
+-	s->output_type = DRM_MODE_CONNECTOR_HDMIA;
++	if (hdmi->tmds_char_rate == conn_state->hdmi.tmds_char_rate)
++		return 0;
+ 
+-	return 0;
++	phy_cfg.hdmi.tmds_char_rate = conn_state->hdmi.tmds_char_rate;
++
++	ret = phy_configure(hdmi->phy, &phy_cfg);
++	if (!ret) {
++		hdmi->tmds_char_rate = conn_state->hdmi.tmds_char_rate;
++		s->output_mode = ROCKCHIP_OUT_MODE_AAAA;
++		s->output_type = DRM_MODE_CONNECTOR_HDMIA;
++	} else {
++		dev_err(hdmi->dev, "Failed to configure phy: %d\n", ret);
++	}
++
++	return ret;
+ }
+ 
+ static const struct
 
 -- 
 2.51.0
