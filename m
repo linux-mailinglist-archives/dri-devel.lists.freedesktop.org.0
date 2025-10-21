@@ -2,45 +2,46 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 55CB4BF631C
-	for <lists+dri-devel@lfdr.de>; Tue, 21 Oct 2025 13:53:25 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3A48DBF632C
+	for <lists+dri-devel@lfdr.de>; Tue, 21 Oct 2025 13:53:47 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6C8E210E5D1;
+	by gabe.freedesktop.org (Postfix) with ESMTP id EC90C10E5D4;
 	Tue, 21 Oct 2025 11:53:23 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="NwFuJJU5";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="nZhH0hmf";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from sea.source.kernel.org (sea.source.kernel.org [172.234.252.31])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5B16A10E5CE
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5E95210E5D1
  for <dri-devel@lists.freedesktop.org>; Tue, 21 Oct 2025 11:53:08 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by sea.source.kernel.org (Postfix) with ESMTP id 3E1E749C4C;
+ by sea.source.kernel.org (Postfix) with ESMTP id 43CC449C4F;
  Tue, 21 Oct 2025 11:53:08 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPS id EC279C116C6;
- Tue, 21 Oct 2025 11:53:07 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 07371C4AF11;
+ Tue, 21 Oct 2025 11:53:08 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
  s=k20201202; t=1761047588;
- bh=fj87h6fHhPiKSl6C5poX504gv/9y/218PwQyedWdhg8=;
+ bh=5X+p8856R9wQw/SJFD+sls3MORYg4XJwRc2UpYjPT94=;
  h=From:Date:Subject:References:In-Reply-To:To:Cc:Reply-To:From;
- b=NwFuJJU5vMMje1o9FS3cTBBT8Izn7i/8faRGaxEOI4bLpe+a+Y2kTMZvrIugMuTPe
- 3fek92YoK7nPY3AnMoANHkzZ2it4YyW5jTmR/0JC+mNOHr/dP1ISgF+jXPv6Y+UkBV
- rASTSVRDUlooecuMux0CuBM9soTzeJivtakTuilOoWlPFYY/XzYb/VdX1pGqnlfyva
- PN3MRqrg2Q/ZadK0aIjgt+EE2m5az616tT5p257NkYHYlq0bj2NkccvpUp4V9+VFET
- RKay/RlTgmmaDoRKlarquQv4WPWFslLZ3PSNzoyaw8twb5XPI3WdoWxrVZe3stkjrE
- CtaKIpRhu5YBQ==
+ b=nZhH0hmfxcLNLc2ea/l65V1JzbY1kVZD/92V/QBPMR3mjOhP7+PpWeMQsiORsHMyk
+ Z7cGmvIANeL3wbcl0V+RyiYeZW1PhJWI/7DfX+EXlnSNurpA+bx/5enh1v860VWqJ5
+ 8Lsfwb1WFFDygKXNSRS3cnO8eOzFBwPhORu+Vj4clD8/vzp7XbssveD37MweXKzhJ6
+ ZhEQVD8c/dDfNZOhPhbzFtVbsAuJTtmqGroKwWzomypAjY2MRgNPBAV2Zv49rFhEkG
+ AKDudNx5mQLqoFeM/1LzwsBedt9ci206X69g7RPenzFGCK1hUO1DYXmfaOtG2S5+d9
+ tsV77kJl7n3ig==
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org
  (localhost.localdomain [127.0.0.1])
- by smtp.lore.kernel.org (Postfix) with ESMTP id E140FCCD1AB;
+ by smtp.lore.kernel.org (Postfix) with ESMTP id F1FA1CCD1AA;
  Tue, 21 Oct 2025 11:53:07 +0000 (UTC)
 From: David Heidelberg via B4 Relay <devnull+david.ixit.cz@kernel.org>
-Date: Tue, 21 Oct 2025 13:53:04 +0200
-Subject: [PATCH v4 4/7] arm64: dts: qcom: sdm845-oneplus: Group panel pinctrl
+Date: Tue, 21 Oct 2025 13:53:05 +0200
+Subject: [PATCH v4 5/7] arm64: dts: qcom: sdm845-oneplus: Implement panel
+ sleep pinctrl
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20251021-s6e3fc2x01-v4-4-5e3ee21c688a@ixit.cz>
+Message-Id: <20251021-s6e3fc2x01-v4-5-5e3ee21c688a@ixit.cz>
 References: <20251021-s6e3fc2x01-v4-0-5e3ee21c688a@ixit.cz>
 In-Reply-To: <20251021-s6e3fc2x01-v4-0-5e3ee21c688a@ixit.cz>
 To: Neil Armstrong <neil.armstrong@linaro.org>, 
@@ -59,21 +60,21 @@ Cc: dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
  phone-devel@vger.kernel.org, David Heidelberg <david@ixit.cz>, 
  Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
 X-Mailer: b4 0.14.3
-X-Developer-Signature: v=1; a=openpgp-sha256; l=2066; i=david@ixit.cz;
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1553; i=david@ixit.cz;
  h=from:subject:message-id;
- bh=KTrLESxmqDJURSGJs44NIqxmLK4hwbD8ph2DGEQH+CE=;
- b=owEBbQKS/ZANAwAIAWACP8TTSSByAcsmYgBo93QhYI72W+xL1iYR88xJCffoEAu642WnVDrao
- s6SRRtq/dOJAjMEAAEIAB0WIQTXegnP7twrvVOnBHRgAj/E00kgcgUCaPd0IQAKCRBgAj/E00kg
- clv6EACVHWSXf8INehHmARalnfS2d8uET3mOQRebSwlbgVKmeQntR6cmrg9LGNOck6cod4zRIzC
- ZSB0DUjS1eKC+Dy6HM6gxpNI9F1NWIlv8cC6X6tj4isG+wUXeu6fGvTXrJk9m67fh0ZxFjSRSbd
- o7BBbzrWtgqpGbjtLpxLu0tRnhaULOF/5lHWcCvTMUHcSjcx99arDFSVd8/+4QPUtdjBhVCcLwP
- Naqj3RIad4j5qHt1t9uiowVqpvxQ0K1hYjn64AAajW9+5mAEPkOD7ZbspRc6njSAQpb0yktcpbL
- LNUTS6cXL6IV7R0GlSMFkTEYMy6s1TS/fBz18y+/iMcm0ZEuL0n72OOK3Palr34WOjf3M+UsQ7j
- HkTfK1mWg5HbSPCrVx+JlpboizW8Z6zexy/3xPkIgaMSZ2iSJH7s0UhAQhlGie5JYWdqwXM4oNK
- 9KOn/Jl1kz0VYLneK4yuSO0W4F6CKEbOpstc9T5iMwwX8THJ0sZ+o/Kn9ty1Gk1sFTou6VHleYo
- aIJ7NrWw0lLtlsUw1zSTyLzBWrjXOYOzHiriR5iFIZNhMjIrdw5DalOo2Px9hQKVu/ZBATfSkyM
- lAvI518j9mmulDWEEzi0cpU7ek08GELVHfoK+H5xdejDqPcZwFEhdItAjCoZF90n3mFeH2808qg
- WCAHQYlKOUi/xFg==
+ bh=ojFoQ3nmgXFa6brSu0i4y7xk0ivDDVrkpAAIpMNxPBQ=;
+ b=owEBbQKS/ZANAwAIAWACP8TTSSByAcsmYgBo93QhGUWPwsDLQX/S4Ji9ihyCdz32C3uI7IHz7
+ Ec7HIEqTquJAjMEAAEIAB0WIQTXegnP7twrvVOnBHRgAj/E00kgcgUCaPd0IQAKCRBgAj/E00kg
+ cgMgD/9TkrWg/mJUQaXp3FmThwVY5VV227lcdjmNTnPhmymZAA30WGukQfNt2vZCk+rCrR+RExp
+ j4W1AZ+kIObqR4zqfEvP6Hsi7IeWM8a7RLbRxE6Zhm0XzdvGyZHTh/gss3oTv52aqOMFcugFrAm
+ kJGTb3nxQrvq0oxlvtomkDyctnjStgdWsAg7wN+LSZibq1X7Wb3z0Cu9WoF0+k/2ZUbHmxDCOgC
+ eTrSCHq9/XgnCPn89jfEKWWolfIGU1JS/MYF16zhyCjvq7RzgyJSeqWkDkHngJUqlYO9Zo6lA1m
+ f0l+RPesMKt3LOjwrUvTxtZDcaa1FFCAfRpGDyhMXvEPBFIQscpiwko15+UeJopcujKVS7GEwWc
+ Q2NEwhm1Yk4eW6Fniev1JRkVn5fmtT+luk3TCzyfkzw3R5zr4kul3lFbUnVx70OrRGB49B+xsuL
+ P1IdimovTumVt9TFy6OsakUsrTEeWxAVLhEuO/tj9F2YpgwtM40sp+cO/97mQC+lJXoaEkTBeM4
+ s+lEA3peBRifYBjHvd4P5cdA3Kaj+4Ib6LQNHUcB+3FTxhUmNJVXORR1f5tUQgkIVx5JOY7bYRY
+ YIR2gsPVl1bkXpfof4P7uldLMl67znsw1KVnnw0dwHSaU0yKd1swuPZ3yXzU4I9gLbAGM3KfJxc
+ hjhoaoShycK0cQA==
 X-Developer-Key: i=david@ixit.cz; a=openpgp;
  fpr=D77A09CFEEDC2BBD53A7047460023FC4D3492072
 X-Endpoint-Received: by B4 Relay for david@ixit.cz/default with auth_id=355
@@ -96,32 +97,38 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: David Heidelberg <david@ixit.cz>
 
-As these pins won't be used outside the group, let's group them.
+We can DSI pin from 8mA to 2mA while suspend, do it.
+
+In theory, should give us extra 2 hours of idle battery life.
+
+cosmetic: sort pinctrl properties.
 
 Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
 Signed-off-by: David Heidelberg <david@ixit.cz>
 ---
- .../arm64/boot/dts/qcom/sdm845-oneplus-common.dtsi | 46 +++++++++++-----------
- 1 file changed, 24 insertions(+), 22 deletions(-)
+ .../arm64/boot/dts/qcom/sdm845-oneplus-common.dtsi | 26 +++++++++++++++++++++-
+ 1 file changed, 25 insertions(+), 1 deletion(-)
 
 diff --git a/arch/arm64/boot/dts/qcom/sdm845-oneplus-common.dtsi b/arch/arm64/boot/dts/qcom/sdm845-oneplus-common.dtsi
-index 1cf03047dd7ae..9b571fab9c80c 100644
+index 9b571fab9c80c..a8e87507d667b 100644
 --- a/arch/arm64/boot/dts/qcom/sdm845-oneplus-common.dtsi
 +++ b/arch/arm64/boot/dts/qcom/sdm845-oneplus-common.dtsi
-@@ -463,7 +463,7 @@ display_panel: panel@0 {
+@@ -462,8 +462,9 @@ display_panel: panel@0 {
+ 
  		reset-gpios = <&tlmm 6 GPIO_ACTIVE_LOW>;
  
- 		pinctrl-names = "default";
--		pinctrl-0 = <&panel_reset_pins &panel_te_pin &panel_esd_pin>;
-+		pinctrl-0 = <&panel_default>;
+-		pinctrl-names = "default";
+ 		pinctrl-0 = <&panel_default>;
++		pinctrl-1 = <&panel_sleep>;
++		pinctrl-names = "default", "sleep";
  
  		port {
  			panel_in: endpoint {
-@@ -847,6 +847,29 @@ panel_poc_default: poc-state {
- 		bias-disable;
+@@ -870,6 +871,29 @@ te-pins {
+ 		};
  	};
  
-+	panel_default: panel-default-state {
++	panel_sleep: panel-sleep-state {
 +		esd-pins {
 +			pins = "gpio30";
 +			function = "gpio";
@@ -132,8 +139,8 @@ index 1cf03047dd7ae..9b571fab9c80c 100644
 +		reset-pins {
 +			pins = "gpio6";
 +			function = "gpio";
-+			drive-strength = <8>;
-+			bias-disable;
++			drive-strength = <2>;
++			bias-pull-down;
 +		};
 +
 +		te-pins {
@@ -146,34 +153,6 @@ index 1cf03047dd7ae..9b571fab9c80c 100644
 +
  	tri_state_key_default: tri-state-key-default-state {
  		pins = "gpio40", "gpio42", "gpio26";
- 		function = "gpio";
-@@ -861,27 +884,6 @@ ts_default_pins: ts-int-state {
- 		bias-pull-up;
- 	};
- 
--	panel_reset_pins: panel-reset-state {
--		pins = "gpio6";
--		function = "gpio";
--		drive-strength = <8>;
--		bias-disable;
--	};
--
--	panel_te_pin: panel-te-state {
--		pins = "gpio10";
--		function = "mdp_vsync";
--		drive-strength = <2>;
--		bias-disable;
--	};
--
--	panel_esd_pin: panel-esd-state {
--		pins = "gpio30";
--		function = "gpio";
--		drive-strength = <2>;
--		bias-pull-down;
--	};
--
- 	speaker_default: speaker-default-state {
- 		pins = "gpio69";
  		function = "gpio";
 
 -- 
