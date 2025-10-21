@@ -2,80 +2,83 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 03AE3BF6E78
-	for <lists+dri-devel@lfdr.de>; Tue, 21 Oct 2025 15:54:30 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 84E54BF6F27
+	for <lists+dri-devel@lfdr.de>; Tue, 21 Oct 2025 16:02:32 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5AB0B10E5F8;
-	Tue, 21 Oct 2025 13:54:25 +0000 (UTC)
-Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="Bm/uGYTI";
-	dkim-atps=neutral
+	by gabe.freedesktop.org (Postfix) with ESMTP id 99E4410E08A;
+	Tue, 21 Oct 2025 14:02:29 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-oo1-f42.google.com (mail-oo1-f42.google.com
- [209.85.161.42])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 63F3010E5FD
- for <dri-devel@lists.freedesktop.org>; Tue, 21 Oct 2025 13:54:23 +0000 (UTC)
-Received: by mail-oo1-f42.google.com with SMTP id
- 006d021491bc7-64e84414cfbso2479359eaf.1
- for <dri-devel@lists.freedesktop.org>; Tue, 21 Oct 2025 06:54:23 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1761054862; x=1761659662; darn=lists.freedesktop.org;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=7zRCoVsDUrAKkHnPzEPaybWLTpv8PSDVhOpYhyOZPuA=;
- b=Bm/uGYTIea1TxCtKGtp+y699qvdNuQHI5lfDZebz1zW96chxPbnGNALYq+n5q6s2/p
- AOLU2++maKKcDtuguieqav32Cb2w8Z+pV8/g0hFIly7lwfwURZ9hUktHIu0LyOVcbwHe
- 2Z5/5pRVfzDV/IudXdUUH7G+mBHYc13ZbGeTPq7T9B0EFyXBhujsIy6MawGryGlt34JL
- nlgiFkhUVZzjEQCqG1nW/vktI+Wgya2uHfUKI9LkzSJUYlsszC9L3zozZmLStG2vwgIw
- kM8IelY8Tk4WhFR6No5kupGSlQAvnaWSKVSgXk2Q6+/UYs4KOe2X3GzUlrXBWoI0EApy
- D54Q==
+Received: from mail-vk1-f178.google.com (mail-vk1-f178.google.com
+ [209.85.221.178])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C300310E08A
+ for <dri-devel@lists.freedesktop.org>; Tue, 21 Oct 2025 14:02:28 +0000 (UTC)
+Received: by mail-vk1-f178.google.com with SMTP id
+ 71dfb90a1353d-54bc6356624so5597924e0c.1
+ for <dri-devel@lists.freedesktop.org>; Tue, 21 Oct 2025 07:02:28 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1761054862; x=1761659662;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=7zRCoVsDUrAKkHnPzEPaybWLTpv8PSDVhOpYhyOZPuA=;
- b=X9OMuvKwLnnuKEYGr39Th86xS/76IOFzElUiYor9MT+/cScp36XxKQ45sabAPlSUfm
- B01RgSAOPQZDkqlEdqoA4pZyw8giFQv57YqL65k4Mxcs6kMpG1toyBOHkd1QTDHjJe90
- eDLW4F9PvCcO5ZTHO5uzmLzNY4Gf4OyadiqcIKQA5UrOx7UPmeO0YxiZL4ypYLmCVv7Y
- 65h0KU8QKYL1PpayrMchK6aTw+qdbplzRAF8u7ZiXOsujtvibuBAac/1rlI/5QQjcgnh
- zwj7rFu73StdbnjMGp7w1Xt4Ryv/frZ6ygOjq+FagPwbgYWw9Tqa9t4Wph5HDGHYAlE9
- yPdQ==
+ d=1e100.net; s=20230601; t=1761055347; x=1761660147;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=YXugAlNcvucEYnbbLM3xKX3aXFg6Ylpfx0k5Z7y5qH4=;
+ b=ZVZVMSJSTViVO3IHGZAjFj0kATXCMX8XltGjTxaEu0GsUeYnBXfuSVjE9LAW74mFH7
+ TGNYsvQHc5BcU94yeynejqUBfk9QINUKizi1KYzfL8rzsOduehEg08SCoty/wVYHq6Cm
+ fUpoO9Qu8LvW9bT95zxaxyeq5w1+BHC1L10e2/vL9gkkBsJrAWNzV6CWvWTD00PwifkA
+ zpicygG+w66EW+AMkvUcxSeBxYQOd/4jeewyQbcnqyCkWBZ9hXmzNDl99o7xDH20O80x
+ pTfc/lg6b7vA2BTj19zC5vSIEisPlQVSGHfyhrEVgJQlSdSyYVflzr0SuK+gvO+Idqmn
+ eumA==
 X-Forwarded-Encrypted: i=1;
- AJvYcCXr2sWonIhvx5pnehEPpONN+cDPxPyL+/wkOPhejwSE+u8nOOnafZpQvMXzbJ2Ar+wTs7JS3ib+ya0=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YwHi+xWrP0lrTJgGIX0+japf371FGz8GKbn2P63I99qyOElHzVM
- KVCehS5cgLWvHjHH7gjhgVYNWxFo+1iO3/n0INEtq7O/vgP6/De5jhGsuM3ZSD9C84SlQuyzS6s
- Sq9/WrvxvyBpwat+hUmB2or6IKPqmP5M=
-X-Gm-Gg: ASbGncsZxCpU9jbRuUCF5l4i5FvpN3ub4fHdW7F45qWZyelfbgxrHeUDfulplq/6IK/
- ipVroSjVjQbCQKUII7hAOEp1cXzSivvMEtzxs8LRVIlnyeh4QKJRhqIe1XU/ZuGIpXRgOmXQMbb
- LwmLVGc3bIwcjZCL9mWf5bWJc9pMkFy0n7bnmWaHPxc4msgPnQs5Z0FE5oWmT9fFn0zoQJ0xY5D
- aKSxnjV7gOEK/lH3sQaVd6ew1aY4Z59Ew7Mfqv3vWPmsh0f61h2tIHNBnxKvJq4qhv9r07cYhWO
- gNBl
-X-Google-Smtp-Source: AGHT+IEEJhV+7HDnd1rLWzRKPuVeGqK0sxHNPjpMcz5TApDVHa18O8uA1yfTw5iWk/coCiGbH7jCRQhrN34RTrEXqCE=
-X-Received: by 2002:a05:6808:1889:b0:43c:afd4:646d with SMTP id
- 5614622812f47-443a2ed23f8mr6546477b6e.14.1761054862105; Tue, 21 Oct 2025
- 06:54:22 -0700 (PDT)
+ AJvYcCU7soMEXiakRPhDiURW7Y5AOWB2C0XU9v+gAMln/G8mw2AKL5Bjgv+7Lflg0qQiq1sd2kRV4Bfz314=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YwII1Wfga+299vwIHB7NyUraWlNrBO328iXd1x/JD8alpCmBjCB
+ cUBWK2b+jNYBcNPGbEjqyu83nijA02h5O2S6i4E/3S20zURfHhv6uqjWLtj1Lv5S
+X-Gm-Gg: ASbGncs218i82dKfJil3Z2VRNuTM/DsYCW4+FbOI5XwGmD0O/6Bh534lyxoDC+63TgX
+ bRZxUoFajvFE8EPuOXxMCoANlFjUBaFwKXIRdLleZZKm8qfN1AHCXXzFxciBLNG9WXNpckuhNab
+ G5TL5zfVMSqKXxpm+xfo+ACFyRezBnIUBIB4O19zP5Md0MZWYUuCwsEWo3ADRaCrdZmKRoo+qUl
+ g3e7kCWPul+N8YEFdj5PpR2MsWdfIH2aMxKu+Ii1FA+Cq3FMo0ayhBinOgXNjEqiEyf9exOQ2RL
+ 5zMz/tLxE/cYV/csiguoq7bzDJA90UiIynkp3tmpY0+Dh9kmTg9xIYn4SRqq+ROqW1g0No7sbXn
+ XsMtQ//DOUsFo+6OKZN6PhwmWdL3IP7dCxhsPA9re3I0o05xrLhTZEsnFqMmekcNAwIL37GUgqZ
+ OvmIQujKe9Em4WWFyXLMVGA9KaYuvZY5d+L1NVew==
+X-Google-Smtp-Source: AGHT+IHZZCxbm2TPU06dFI5WxfsZyLF5jJd2YOC7CxDyoPckIN6bvXVC5/HGrqAQD08PrbwIlswvUA==
+X-Received: by 2002:a05:6122:e0d5:b0:556:94ae:ae32 with SMTP id
+ 71dfb90a1353d-55694aeb05amr88123e0c.4.1761055347329; 
+ Tue, 21 Oct 2025 07:02:27 -0700 (PDT)
+Received: from mail-ua1-f46.google.com (mail-ua1-f46.google.com.
+ [209.85.222.46]) by smtp.gmail.com with ESMTPSA id
+ 71dfb90a1353d-5568d49c8c7sm565882e0c.21.2025.10.21.07.02.25
+ for <dri-devel@lists.freedesktop.org>
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 21 Oct 2025 07:02:25 -0700 (PDT)
+Received: by mail-ua1-f46.google.com with SMTP id
+ a1e0cc1a2514c-932e88546a8so662718241.0
+ for <dri-devel@lists.freedesktop.org>; Tue, 21 Oct 2025 07:02:25 -0700 (PDT)
+X-Forwarded-Encrypted: i=1;
+ AJvYcCX8QFWT7epSGdLR/g4gZN6YPcKrWVFRgl1A3IEDciiJOexP1p3/M6DdapCsy65SLie2IkiMJm+0isk=@lists.freedesktop.org
+X-Received: by 2002:a05:6102:2ad3:b0:5d5:f6ae:3914 with SMTP id
+ ada2fe7eead31-5d7dd6dae8amr6635478137.22.1761055331143; Tue, 21 Oct 2025
+ 07:02:11 -0700 (PDT)
 MIME-Version: 1.0
-References: <20251009132006.45834-1-tzimmermann@suse.de>
- <20251009132006.45834-2-tzimmermann@suse.de>
-In-Reply-To: <20251009132006.45834-2-tzimmermann@suse.de>
-From: Patrik Jakobsson <patrik.r.jakobsson@gmail.com>
-Date: Tue, 21 Oct 2025 15:54:11 +0200
-X-Gm-Features: AS18NWD9WGUNOjZaiHNhwA1jJulHFlj-NuelchpaG-8PGVgNFP5jcKmCav4IxoA
-Message-ID: <CAMeQTsbLQcUbFvDMgMoA2EZqO-f5j1fkjtBKWKQmKdMBeJ7Yzw@mail.gmail.com>
-Subject: Re: [PATCH 1/4] drm/client: Add client free callback to unprepare
- fb_helper
-To: Thomas Zimmermann <tzimmermann@suse.de>
-Cc: jfalempe@redhat.com, javierm@redhat.com, mripard@kernel.org, 
- maarten.lankhorst@linux.intel.com, dri-devel@lists.freedesktop.org, 
- linux-arm-kernel@lists.infradead.org, linux-samsung-soc@vger.kernel.org, 
- intel-gfx@lists.freedesktop.org, intel-xe@lists.freedesktop.org, 
- linux-arm-msm@vger.kernel.org, freedreno@lists.freedesktop.org, 
- amd-gfx@lists.freedesktop.org, linux-tegra@vger.kernel.org
+References: <20250912142056.2123725-1-chris.brandt@renesas.com>
+ <20250912142056.2123725-2-chris.brandt@renesas.com>
+In-Reply-To: <20250912142056.2123725-2-chris.brandt@renesas.com>
+From: Geert Uytterhoeven <geert@linux-m68k.org>
+Date: Tue, 21 Oct 2025 16:02:00 +0200
+X-Gmail-Original-Message-ID: <CAMuHMdVf7dSeqAhtyxDCFuCheQRzwS-8996Rr2Ntui21uiBgdA@mail.gmail.com>
+X-Gm-Features: AS18NWAilKOsk0msuDZD61x0CWnEgj86O5ttkvj001Q_uv_hFWGEg6rSKnFmYMU
+Message-ID: <CAMuHMdVf7dSeqAhtyxDCFuCheQRzwS-8996Rr2Ntui21uiBgdA@mail.gmail.com>
+Subject: Re: [PATCH v2 1/2] clk: renesas: rzg2l: Remove DSI clock rate
+ restrictions
+To: Chris Brandt <chris.brandt@renesas.com>
+Cc: Michael Turquette <mturquette@baylibre.com>,
+ Stephen Boyd <sboyd@kernel.org>, Biju Das <biju.das.jz@bp.renesas.com>, 
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, 
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
+ Simona Vetter <simona@ffwll.ch>, 
+ Hien Huynh <hien.huynh.px@renesas.com>, Nghia Vo <nghia.vo.zn@renesas.com>, 
+ Hugo Villeneuve <hugo@hugovil.com>, linux-renesas-soc@vger.kernel.org, 
+ linux-clk@vger.kernel.org, dri-devel@lists.freedesktop.org
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -91,303 +94,254 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Oct 9, 2025 at 3:31=E2=80=AFPM Thomas Zimmermann <tzimmermann@suse.=
-de> wrote:
->
-> Add free callback to struct drm_client_funcs. Invoke function to
-> free the client memory as part of the release process. Implement
-> free for fbdev emulation.
->
-> Fbdev emulation allocates and prepares client memory in
-> drm_fbdev_client_setup(). The release happens in fb_destroy from
-> struct fb_ops. Multiple implementations of this callback exist in
-> the various drivers that provide fbdev implementation. Each of them
-> needs to follow the implementation details of the fbdev setup code.
->
-> Adding a free callback for the client puts the unprepare and release
-> of the fbdev client in a single place.
->
-> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
+Hi Chris,
 
-For gma500:
-Acked-by: Patrik Jakobsson <patrik.r.jakobsson@gmail.com>
+On Fri, 12 Sept 2025 at 16:22, Chris Brandt <chris.brandt@renesas.com> wrote:
+> Convert the limited MIPI clock calculations to a full range of settings
+> based on math including H/W limitation validation.
+> Since the required DSI division setting must be specified from external
+> sources before calculations, expose a new API to set it.
+>
+> Signed-off-by: Chris Brandt <chris.brandt@renesas.com>
+> Signed-off-by: hienhuynh <hien.huynh.px@renesas.com>
+> Signed-off-by: Nghia Vo <nghia.vo.zn@renesas.com>
 
-> ---
->  drivers/gpu/drm/armada/armada_fbdev.c      |  2 --
->  drivers/gpu/drm/clients/drm_fbdev_client.c | 17 +++++++++++++++--
->  drivers/gpu/drm/drm_client.c               |  4 ++++
->  drivers/gpu/drm/drm_fbdev_dma.c            |  4 ----
->  drivers/gpu/drm/drm_fbdev_shmem.c          |  2 --
->  drivers/gpu/drm/drm_fbdev_ttm.c            |  2 --
->  drivers/gpu/drm/exynos/exynos_drm_fbdev.c  |  2 --
->  drivers/gpu/drm/gma500/fbdev.c             |  3 ---
->  drivers/gpu/drm/i915/display/intel_fbdev.c |  2 --
->  drivers/gpu/drm/msm/msm_fbdev.c            |  2 --
->  drivers/gpu/drm/omapdrm/omap_fbdev.c       |  2 --
->  drivers/gpu/drm/radeon/radeon_fbdev.c      |  2 --
->  drivers/gpu/drm/tegra/fbdev.c              |  2 --
->  include/drm/drm_client.h                   | 10 ++++++++++
->  14 files changed, 29 insertions(+), 27 deletions(-)
+Thanks for your patch!
+
+> --- a/drivers/clk/renesas/rzg2l-cpg.c
+> +++ b/drivers/clk/renesas/rzg2l-cpg.c
+> @@ -74,6 +74,22 @@
+>  #define MSTOP_OFF(conf)                FIELD_GET(GENMASK(31, 16), (conf))
+>  #define MSTOP_MASK(conf)       FIELD_GET(GENMASK(15, 0), (conf))
 >
-> diff --git a/drivers/gpu/drm/armada/armada_fbdev.c b/drivers/gpu/drm/arma=
-da/armada_fbdev.c
-> index cb53cc91bafb..22e2081bfa04 100644
-> --- a/drivers/gpu/drm/armada/armada_fbdev.c
-> +++ b/drivers/gpu/drm/armada/armada_fbdev.c
-> @@ -28,8 +28,6 @@ static void armada_fbdev_fb_destroy(struct fb_info *inf=
-o)
->         fbh->fb->funcs->destroy(fbh->fb);
+> +#define PLL5_FOUTVCO_MIN       800000000
+> +#define PLL5_FOUTVCO_MAX       3000000000
+> +#define PLL5_POSTDIV_MIN       1
+> +#define PLL5_POSTDIV_MAX       7
+> +#define PLL5_POSTDIV_DEF       1
+> +#define PLL5_REFDIV_MIN                1
+> +#define PLL5_REFDIV_MAX                2
+
+Documentation says 1..63?
+
+> +#define PLL5_REFDIV_DEF                1
+> +#define PLL5_INTIN_MIN         20
+> +#define PLL5_INTIN_MAX         320
+> +#define PLL5_INTIN_DEF         125
+> +#define PLL5_FRACIN_DEF                0
+> +
+> +#define PLL5_TARGET_DPI                0
+> +#define PLL5_TARGET_DSI                1
+
+These two should become an enum in include/linux/clk/renesas.h,
+as their values are passed (as magic numbers) from outside.
+
+> +
+>  /**
+>   * struct clk_hw_data - clock hardware data
+>   * @hw: clock hw
+> @@ -129,6 +145,12 @@ struct rzg2l_pll5_param {
+>         u8 pl5_spread;
+>  };
 >
->         drm_client_release(&fbh->client);
-> -       drm_fb_helper_unprepare(fbh);
-> -       kfree(fbh);
+> +/* PLL5 output will be used for DPI or MIPI-DSI */
+> +static int dsi_div_target = PLL5_TARGET_DPI;
+> +
+> +/* Required division ratio for MIPI D-PHY clock changes depending on resolution and lanes. */
+> +static int dsi_div_ab;
+
+unsigned int
+
+> +
+>  struct rzg2l_pll5_mux_dsi_div_param {
+>         u8 clksrc;
+>         u8 dsi_div_a;
+> @@ -557,24 +579,102 @@ rzg2l_cpg_sd_mux_clk_register(const struct cpg_core_clk *core,
 >  }
 >
->  static const struct fb_ops armada_fb_ops =3D {
-> diff --git a/drivers/gpu/drm/clients/drm_fbdev_client.c b/drivers/gpu/drm=
-/clients/drm_fbdev_client.c
-> index f894ba52bdb5..5336accab1b6 100644
-> --- a/drivers/gpu/drm/clients/drm_fbdev_client.c
-> +++ b/drivers/gpu/drm/clients/drm_fbdev_client.c
-> @@ -13,16 +13,28 @@
->   * struct drm_client_funcs
->   */
->
-> +static void drm_fbdev_client_free(struct drm_client_dev *client)
-> +{
-> +       struct drm_fb_helper *fb_helper =3D drm_fb_helper_from_client(cli=
-ent);
-> +
-> +       drm_fb_helper_unprepare(fb_helper);
-> +       kfree(fb_helper);
-> +}
-> +
->  static void drm_fbdev_client_unregister(struct drm_client_dev *client)
+>  static unsigned long
+> -rzg2l_cpg_get_foutpostdiv_rate(struct rzg2l_pll5_param *params,
+> +rzg2l_cpg_get_foutpostdiv_rate(struct rzg2l_cpg_priv *priv,
+> +                              struct rzg2l_pll5_param *params,
+>                                unsigned long rate)
 >  {
->         struct drm_fb_helper *fb_helper =3D drm_fb_helper_from_client(cli=
-ent);
->
->         if (fb_helper->info) {
-> +               /*
-> +                * Fully probed framebuffer device
-> +                */
->                 drm_fb_helper_unregister_info(fb_helper);
->         } else {
-> +               /*
-> +                * Partially initialized client, no framebuffer device ye=
-t
-> +                */
->                 drm_client_release(&fb_helper->client);
-> -               drm_fb_helper_unprepare(fb_helper);
-> -               kfree(fb_helper);
->         }
->  }
->
-> @@ -88,6 +100,7 @@ static int drm_fbdev_client_resume(struct drm_client_d=
-ev *client, bool holds_con
->
->  static const struct drm_client_funcs drm_fbdev_client_funcs =3D {
->         .owner          =3D THIS_MODULE,
-> +       .free           =3D drm_fbdev_client_free,
->         .unregister     =3D drm_fbdev_client_unregister,
->         .restore        =3D drm_fbdev_client_restore,
->         .hotplug        =3D drm_fbdev_client_hotplug,
-> diff --git a/drivers/gpu/drm/drm_client.c b/drivers/gpu/drm/drm_client.c
-> index 3fa38d4ac70b..fe9c6d7083ea 100644
-> --- a/drivers/gpu/drm/drm_client.c
-> +++ b/drivers/gpu/drm/drm_client.c
-> @@ -168,6 +168,10 @@ void drm_client_release(struct drm_client_dev *clien=
-t)
->
->         drm_client_modeset_free(client);
->         drm_client_close(client);
+>         unsigned long foutpostdiv_rate, foutvco_rate;
+> +       u8 div = 1;
+> +       bool found = 0;
+> +       int a, b;
+
+unsigned int
+
 > +
-> +       if (client->funcs && client->funcs->free)
-> +               client->funcs->free(client);
+> +       if (priv->mux_dsi_div_params.clksrc)
+> +               div = 2;
 > +
->         drm_dev_put(dev);
->  }
->  EXPORT_SYMBOL(drm_client_release);
-> diff --git a/drivers/gpu/drm/drm_fbdev_dma.c b/drivers/gpu/drm/drm_fbdev_=
-dma.c
-> index 8bd626ef16c7..c6196293e424 100644
-> --- a/drivers/gpu/drm/drm_fbdev_dma.c
-> +++ b/drivers/gpu/drm/drm_fbdev_dma.c
-> @@ -57,8 +57,6 @@ static void drm_fbdev_dma_fb_destroy(struct fb_info *in=
-fo)
->         drm_client_buffer_vunmap(fb_helper->buffer);
->         drm_client_framebuffer_delete(fb_helper->buffer);
->         drm_client_release(&fb_helper->client);
-> -       drm_fb_helper_unprepare(fb_helper);
-> -       kfree(fb_helper);
->  }
->
->  static const struct fb_ops drm_fbdev_dma_fb_ops =3D {
-> @@ -92,8 +90,6 @@ static void drm_fbdev_dma_shadowed_fb_destroy(struct fb=
-_info *info)
->         drm_client_buffer_vunmap(fb_helper->buffer);
->         drm_client_framebuffer_delete(fb_helper->buffer);
->         drm_client_release(&fb_helper->client);
-> -       drm_fb_helper_unprepare(fb_helper);
-> -       kfree(fb_helper);
->  }
->
->  static const struct fb_ops drm_fbdev_dma_shadowed_fb_ops =3D {
-> diff --git a/drivers/gpu/drm/drm_fbdev_shmem.c b/drivers/gpu/drm/drm_fbde=
-v_shmem.c
-> index 1e827bf8b815..51573058df6f 100644
-> --- a/drivers/gpu/drm/drm_fbdev_shmem.c
-> +++ b/drivers/gpu/drm/drm_fbdev_shmem.c
-> @@ -65,8 +65,6 @@ static void drm_fbdev_shmem_fb_destroy(struct fb_info *=
-info)
->         drm_client_buffer_vunmap(fb_helper->buffer);
->         drm_client_framebuffer_delete(fb_helper->buffer);
->         drm_client_release(&fb_helper->client);
-> -       drm_fb_helper_unprepare(fb_helper);
-> -       kfree(fb_helper);
->  }
->
->  static const struct fb_ops drm_fbdev_shmem_fb_ops =3D {
-> diff --git a/drivers/gpu/drm/drm_fbdev_ttm.c b/drivers/gpu/drm/drm_fbdev_=
-ttm.c
-> index 85feb55bba11..ccf460fbc1f0 100644
-> --- a/drivers/gpu/drm/drm_fbdev_ttm.c
-> +++ b/drivers/gpu/drm/drm_fbdev_ttm.c
-> @@ -53,8 +53,6 @@ static void drm_fbdev_ttm_fb_destroy(struct fb_info *in=
-fo)
->         drm_client_framebuffer_delete(fb_helper->buffer);
->
->         drm_client_release(&fb_helper->client);
-> -       drm_fb_helper_unprepare(fb_helper);
-> -       kfree(fb_helper);
->  }
->
->  static const struct fb_ops drm_fbdev_ttm_fb_ops =3D {
-> diff --git a/drivers/gpu/drm/exynos/exynos_drm_fbdev.c b/drivers/gpu/drm/=
-exynos/exynos_drm_fbdev.c
-> index 93de25b77e68..a3bd21a827ad 100644
-> --- a/drivers/gpu/drm/exynos/exynos_drm_fbdev.c
-> +++ b/drivers/gpu/drm/exynos/exynos_drm_fbdev.c
-> @@ -42,8 +42,6 @@ static void exynos_drm_fb_destroy(struct fb_info *info)
->         drm_framebuffer_remove(fb);
->
->         drm_client_release(&fb_helper->client);
-> -       drm_fb_helper_unprepare(fb_helper);
-> -       kfree(fb_helper);
->  }
->
->  static const struct fb_ops exynos_drm_fb_ops =3D {
-> diff --git a/drivers/gpu/drm/gma500/fbdev.c b/drivers/gpu/drm/gma500/fbde=
-v.c
-> index a6af21514cff..bc92fa24a1e2 100644
-> --- a/drivers/gpu/drm/gma500/fbdev.c
-> +++ b/drivers/gpu/drm/gma500/fbdev.c
-> @@ -84,9 +84,6 @@ static void psb_fbdev_fb_destroy(struct fb_info *info)
->         drm_gem_object_put(obj);
->
->         drm_client_release(&fb_helper->client);
-> -
-> -       drm_fb_helper_unprepare(fb_helper);
-> -       kfree(fb_helper);
->  }
->
->  static const struct fb_ops psb_fbdev_fb_ops =3D {
-> diff --git a/drivers/gpu/drm/i915/display/intel_fbdev.c b/drivers/gpu/drm=
-/i915/display/intel_fbdev.c
-> index 3fbdf75415cc..d5f26c8bb102 100644
-> --- a/drivers/gpu/drm/i915/display/intel_fbdev.c
-> +++ b/drivers/gpu/drm/i915/display/intel_fbdev.c
-> @@ -146,8 +146,6 @@ static void intel_fbdev_fb_destroy(struct fb_info *in=
-fo)
->         drm_framebuffer_remove(fb_helper->fb);
->
->         drm_client_release(&fb_helper->client);
-> -       drm_fb_helper_unprepare(fb_helper);
-> -       kfree(fb_helper);
->  }
->
->  __diag_push();
-> diff --git a/drivers/gpu/drm/msm/msm_fbdev.c b/drivers/gpu/drm/msm/msm_fb=
-dev.c
-> index b5969374d53f..aad6fb77f0de 100644
-> --- a/drivers/gpu/drm/msm/msm_fbdev.c
-> +++ b/drivers/gpu/drm/msm/msm_fbdev.c
-> @@ -52,8 +52,6 @@ static void msm_fbdev_fb_destroy(struct fb_info *info)
->         drm_framebuffer_remove(fb);
->
->         drm_client_release(&helper->client);
-> -       drm_fb_helper_unprepare(helper);
-> -       kfree(helper);
->  }
->
->  static const struct fb_ops msm_fb_ops =3D {
-> diff --git a/drivers/gpu/drm/omapdrm/omap_fbdev.c b/drivers/gpu/drm/omapd=
-rm/omap_fbdev.c
-> index 948af7ec1130..b5df2923d2a6 100644
-> --- a/drivers/gpu/drm/omapdrm/omap_fbdev.c
-> +++ b/drivers/gpu/drm/omapdrm/omap_fbdev.c
-> @@ -103,8 +103,6 @@ static void omap_fbdev_fb_destroy(struct fb_info *inf=
-o)
->         drm_framebuffer_remove(fb);
->
->         drm_client_release(&helper->client);
-> -       drm_fb_helper_unprepare(helper);
-> -       kfree(helper);
->  }
->
->  /*
-> diff --git a/drivers/gpu/drm/radeon/radeon_fbdev.c b/drivers/gpu/drm/rade=
-on/radeon_fbdev.c
-> index dc81b0c2dbff..4df6c9167bf0 100644
-> --- a/drivers/gpu/drm/radeon/radeon_fbdev.c
-> +++ b/drivers/gpu/drm/radeon/radeon_fbdev.c
-> @@ -184,8 +184,6 @@ static void radeon_fbdev_fb_destroy(struct fb_info *i=
-nfo)
->         radeon_fbdev_destroy_pinned_object(gobj);
->
->         drm_client_release(&fb_helper->client);
-> -       drm_fb_helper_unprepare(fb_helper);
-> -       kfree(fb_helper);
->  }
->
->  static const struct fb_ops radeon_fbdev_fb_ops =3D {
-> diff --git a/drivers/gpu/drm/tegra/fbdev.c b/drivers/gpu/drm/tegra/fbdev.=
-c
-> index 1b70f5e164af..91aece6f34e0 100644
-> --- a/drivers/gpu/drm/tegra/fbdev.c
-> +++ b/drivers/gpu/drm/tegra/fbdev.c
-> @@ -53,8 +53,6 @@ static void tegra_fbdev_fb_destroy(struct fb_info *info=
-)
->         drm_framebuffer_remove(fb);
->
->         drm_client_release(&helper->client);
-> -       drm_fb_helper_unprepare(helper);
-> -       kfree(helper);
->  }
->
->  static const struct fb_ops tegra_fb_ops =3D {
-> diff --git a/include/drm/drm_client.h b/include/drm/drm_client.h
-> index bdd845e383ef..eecb8d6e15c7 100644
-> --- a/include/drm/drm_client.h
-> +++ b/include/drm/drm_client.h
-> @@ -28,6 +28,16 @@ struct drm_client_funcs {
->          */
->         struct module *owner;
->
-> +       /**
-> +        * @free:
-> +        *
-> +        * Called when the client gets unregistered. Implementations shou=
-ld
-> +        * release all client-specific data and free the memory.
-> +        *
-> +        * This callback is optional.
+> +       /* Calculate the DIV_DSI_A and DIV_DSI_B based on the final DIV DSI */
+> +       for (a = 0; a < 4; a++) {
+> +
+> +               if (dsi_div_target == PLL5_TARGET_DPI && a == 0)
+> +                       continue;       /* 1/1 div not supported for DIV_DSI_A for DPI */
+> +
+> +               for (b = 0; b < 16; b++) {
+> +
+> +                       if (dsi_div_target == PLL5_TARGET_DPI && b != 0)
+> +                               continue;       /* Only 1/1 div supported for DIV_DSI_B in DPI */
+> +
+> +                       if (((1 << a) * (b + 1)) == dsi_div_ab) {
+
+"(b + 1) << a"?
+
+> +                               priv->mux_dsi_div_params.dsi_div_a = a;
+> +                               priv->mux_dsi_div_params.dsi_div_b = b;
+> +
+> +                               goto found_dsi_div;
+> +                       }
+> +               }
+> +       }
+> +
+> +found_dsi_div:
+> +       /*
+> +        * Below conditions must be set for PLL5 parameters:
+> +        * - REFDIV must be between 1 and 2.
+> +        * - POSTDIV1/2 must be between 1 and 7.
+> +        * - INTIN must be between 20 and 320.
+> +        * - FOUTVCO must be between 800MHz and 3000MHz.
 > +        */
-> +       void (*free)(struct drm_client_dev *client);
+> +       for (params->pl5_postdiv1 = PLL5_POSTDIV_MIN;
+> +            params->pl5_postdiv1 < PLL5_POSTDIV_MAX + 1;
+> +            params->pl5_postdiv1++) {
+> +               for (params->pl5_postdiv2 = PLL5_POSTDIV_MIN;
+> +                    params->pl5_postdiv2 < PLL5_POSTDIV_MAX + 1;
+> +                    params->pl5_postdiv2++) {
+> +                       foutvco_rate = rate * ((1 << priv->mux_dsi_div_params.dsi_div_a) *
+
+rate * ... << priv->mux_dsi_div_params.dsi_div_a;
+
+> +                                              (priv->mux_dsi_div_params.dsi_div_b + 1)) *
+> +                                             div * params->pl5_postdiv1 * params->pl5_postdiv2;
+> +                       if (foutvco_rate < PLL5_FOUTVCO_MIN + 1 ||
+> +                           foutvco_rate > PLL5_FOUTVCO_MAX - 1)
+> +                               continue;
 > +
->         /**
->          * @unregister:
->          *
-> --
-> 2.51.0
+> +                       for (params->pl5_refdiv = PLL5_REFDIV_MIN;
+> +                            params->pl5_refdiv < PLL5_REFDIV_MAX + 1;
+> +                            params->pl5_refdiv++) {
+> +                               params->pl5_intin = (foutvco_rate * params->pl5_refdiv) /
+> +                                                   (EXTAL_FREQ_IN_MEGA_HZ * MEGA);
+> +                               if (params->pl5_intin < PLL5_INTIN_MIN + 1 ||
+> +                                   params->pl5_intin > PLL5_INTIN_MAX - 1)
+> +                                       continue;
+> +                               params->pl5_fracin = div_u64(((u64)
+> +                                                    (foutvco_rate * params->pl5_refdiv) %
+> +                                                    (EXTAL_FREQ_IN_MEGA_HZ * MEGA)) << 24,
+
+Please move the cast to u64 outside the modulo operation, else
+the latter becomes a 64-by-32 modulo, which requires using a helper
+from <linux/math64.h> when compile-testing for a 32-bit platform.
+
+> +                                                    EXTAL_FREQ_IN_MEGA_HZ * MEGA);
+> +                               found = 1;
+> +                               goto found_clk;
+> +                       }
+> +               }
+> +       }
+> +
+> +found_clk:
+> +       if (!found) {
+> +               params->pl5_intin = PLL5_INTIN_DEF;
+> +               params->pl5_fracin = PLL5_FRACIN_DEF;
+> +               params->pl5_refdiv = PLL5_REFDIV_DEF;
+> +               params->pl5_postdiv1 = PLL5_POSTDIV_DEF;
+> +               params->pl5_postdiv2 = PLL5_POSTDIV_DEF;
+> +       }
 >
+> -       params->pl5_intin = rate / MEGA;
+> -       params->pl5_fracin = div_u64(((u64)rate % MEGA) << 24, MEGA);
+
+(u64)(rate % MEGA)
+
+> -       params->pl5_refdiv = 2;
+> -       params->pl5_postdiv1 = 1;
+> -       params->pl5_postdiv2 = 1;
+>         params->pl5_spread = 0x16;
+>
+>         foutvco_rate = div_u64(mul_u32_u32(EXTAL_FREQ_IN_MEGA_HZ * MEGA,
+> -                                          (params->pl5_intin << 24) + params->pl5_fracin),
+> -                              params->pl5_refdiv) >> 24;
+> +                      (params->pl5_intin << 24) + params->pl5_fracin),
+> +                      params->pl5_refdiv) >> 24;
+>         foutpostdiv_rate = DIV_ROUND_CLOSEST_ULL(foutvco_rate,
+
+foutvco_rate is unsigned long, but the division uses the _ULL() macro variant?
+
+>                                                  params->pl5_postdiv1 * params->pl5_postdiv2);
+>
+> +       /* If foutvco is above 1.5GHz, change parent and recalculate */
+> +       if (priv->mux_dsi_div_params.clksrc && foutvco_rate > 1500000000) {
+> +               priv->mux_dsi_div_params.clksrc = 0;
+> +               dsi_div_ab *= 2;
+> +               dsi_div_target = PLL5_TARGET_DSI;       /* Assume MIPI-DSI */
+> +               return rzg2l_cpg_get_foutpostdiv_rate(priv, params, rate);
+> +       }
+> +
+>         return foutpostdiv_rate;
+>  }
+>
+> @@ -607,7 +707,7 @@ static unsigned long rzg2l_cpg_get_vclk_parent_rate(struct clk_hw *hw,
+>         struct rzg2l_pll5_param params;
+>         unsigned long parent_rate;
+>
+> -       parent_rate = rzg2l_cpg_get_foutpostdiv_rate(&params, rate);
+> +       parent_rate = rzg2l_cpg_get_foutpostdiv_rate(priv, &params, rate);
+>
+>         if (priv->mux_dsi_div_params.clksrc)
+>                 parent_rate /= 2;
+> @@ -626,6 +726,13 @@ static int rzg2l_cpg_dsi_div_determine_rate(struct clk_hw *hw,
+>         return 0;
+>  }
+>
+> +void rzg2l_cpg_dsi_div_set_divider(int divider, int target)
+
+unsigned int divider
+
+> +{
+> +       dsi_div_ab = divider;
+> +       dsi_div_target = target;
+> +}
+> +EXPORT_SYMBOL_GPL(rzg2l_cpg_dsi_div_set_divider);
+> +
+>  static int rzg2l_cpg_dsi_div_set_rate(struct clk_hw *hw,
+>                                       unsigned long rate,
+>                                       unsigned long parent_rate)
+> @@ -859,7 +966,7 @@ static int rzg2l_cpg_sipll5_set_rate(struct clk_hw *hw,
+>
+>         vclk_rate = rzg2l_cpg_get_vclk_rate(hw, rate);
+>         sipll5->foutpostdiv_rate =
+> -               rzg2l_cpg_get_foutpostdiv_rate(&params, vclk_rate);
+> +               rzg2l_cpg_get_foutpostdiv_rate(priv, &params, vclk_rate);
+>
+>         /* Put PLL5 into standby mode */
+>         writel(CPG_SIPLL5_STBY_RESETB_WEN, priv->base + CPG_SIPLL5_STBY);
+> @@ -949,6 +1056,8 @@ rzg2l_cpg_sipll5_register(const struct cpg_core_clk *core,
+>         priv->mux_dsi_div_params.clksrc = 1; /* Use clk src 1 for DSI */
+>         priv->mux_dsi_div_params.dsi_div_a = 1; /* Divided by 2 */
+>         priv->mux_dsi_div_params.dsi_div_b = 2; /* Divided by 3 */
+> +       dsi_div_ab = (1 << priv->mux_dsi_div_params.dsi_div_a) *
+> +                    (priv->mux_dsi_div_params.dsi_div_b + 1);
+
+(priv->mux_dsi_div_params.dsi_div_b + 1) << priv->mux_dsi_div_params.dsi_div_a
+
+>
+>         return clk_hw->clk;
+>  }
+
+Gr{oetje,eeting}s,
+
+                        Geert
+
+-- 
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
