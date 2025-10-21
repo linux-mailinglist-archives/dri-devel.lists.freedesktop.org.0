@@ -2,57 +2,60 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 48395BF5340
-	for <lists+dri-devel@lfdr.de>; Tue, 21 Oct 2025 10:17:12 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id C9A10BF5346
+	for <lists+dri-devel@lfdr.de>; Tue, 21 Oct 2025 10:17:23 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 69BD510E58F;
-	Tue, 21 Oct 2025 08:17:09 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E7BC610E595;
+	Tue, 21 Oct 2025 08:17:21 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=bootlin.com header.i=@bootlin.com header.b="m1jmBeBQ";
+	dkim=pass (2048-bit key; unprotected) header.d=bootlin.com header.i=@bootlin.com header.b="Ba/euyJz";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtpout-04.galae.net (smtpout-04.galae.net [185.171.202.116])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5A95510E591
- for <dri-devel@lists.freedesktop.org>; Tue, 21 Oct 2025 08:17:08 +0000 (UTC)
+Received: from smtpout-03.galae.net (smtpout-03.galae.net [185.246.85.4])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 122F710E591
+ for <dri-devel@lists.freedesktop.org>; Tue, 21 Oct 2025 08:17:20 +0000 (UTC)
 Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
- by smtpout-04.galae.net (Postfix) with ESMTPS id BEECBC0B883;
- Tue, 21 Oct 2025 08:16:46 +0000 (UTC)
+ by smtpout-03.galae.net (Postfix) with ESMTPS id EF06B4E41233;
+ Tue, 21 Oct 2025 08:17:18 +0000 (UTC)
 Received: from mail.galae.net (mail.galae.net [212.83.136.155])
- by smtpout-01.galae.net (Postfix) with ESMTPS id 5C2E260680;
- Tue, 21 Oct 2025 08:17:06 +0000 (UTC)
+ by smtpout-01.galae.net (Postfix) with ESMTPS id C372560680;
+ Tue, 21 Oct 2025 08:17:18 +0000 (UTC)
 Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon)
- with ESMTPSA id 7D961102F23E8; 
- Tue, 21 Oct 2025 10:17:03 +0200 (CEST)
+ with ESMTPSA id BE45F102F23E8; 
+ Tue, 21 Oct 2025 10:17:13 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
- t=1761034625; h=from:subject:date:message-id:to:cc:mime-version:content-type:
+ t=1761034637; h=from:subject:date:message-id:to:cc:mime-version:content-type:
  content-transfer-encoding:in-reply-to:references;
- bh=gG6ACXbgHLqntlwpp7tQgheuNdUSppWZPDXL3qYxZVQ=;
- b=m1jmBeBQX2Of+b7bJG6KFBgUDUm4u/8FcEvF3b47qMPqungiRFa+Wu7/8lFduK6BNzuM7E
- /N9mnlGgiSOagEsfHnf1kg5qpJWUGySBJajZYXQI9sdMOZqg78OH7/niqU5qRCvAe6PM2u
- TSI+LOs/R2S9GRwMS7NwAaEuQH7ZVfSpDBUTLNrMB8XJm/cVi1XBfy0MRq7sMrPITrFkx1
- ByxDo2qSP03CS5PMfyMfLkOKGI1oi5hD39/EDpdR+usgJSbA9kRi/n17xkmtDJICtK2lni
- ot7ibrD3VEI0uiRV1xz9n+jz5RQF0r/RVhQP1YGhxiaD8fpKTih0cqa8R5+fkw==
+ bh=xHAShxnhnZCwEdWrOYZ+7ePUS4h11/+ez0cLNZHpkMY=;
+ b=Ba/euyJzAopBOFlMPI2NxnI9yId0ifeCDG3MIFlQRU8f/BOUMymScfexdlhlItgzCrxXaG
+ iksC98PjLJcBbYSHlk/4tlOGwNQ9HlbesyU/MxKL3JAC6/6lrfOwvWwK0tWU4qOc10HOkT
+ SIclcA8gNzIB5w6h7j7KeU4rQdk5SCzwZOExEXJTuHgTTlEJtgk1YmB++F0Crrqe/eAWzY
+ sv+KSH6/Z5C2Mv0BB+lgl96bbuJu4BMOOR1eIVNl9FIiPZYxrH3pmnDOnsAttS03R5UwGr
+ NZRjPXOR6gI7n+9W8IEXu0SiGd52li32MCqiVFVefl7wObFxN8VlbftV3P2mwA==
 Mime-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 Content-Type: text/plain; charset=UTF-8
-Date: Tue, 21 Oct 2025 10:17:03 +0200
-Message-Id: <DDNUO9BL6O0O.39RNS6M98L1IE@bootlin.com>
-Subject: Re: [PATCH v2 03/16] drm/atomic: Add new atomic_create_state
- callback to drm_private_obj
+Date: Tue, 21 Oct 2025 10:17:13 +0200
+Message-Id: <DDNUOE1ZNUKS.GD10B3113L1T@bootlin.com>
+To: "Maxime Ripard" <mripard@kernel.org>, "Maarten Lankhorst"
+ <maarten.lankhorst@linux.intel.com>, "Thomas Zimmermann"
+ <tzimmermann@suse.de>, "David Airlie" <airlied@gmail.com>, "Simona Vetter"
+ <simona@ffwll.ch>
+Cc: <dri-devel@lists.freedesktop.org>, "Dmitry Baryshkov"
+ <dmitry.baryshkov@oss.qualcomm.com>, "Andrzej Hajda"
+ <andrzej.hajda@intel.com>, "Neil Armstrong" <neil.armstrong@linaro.org>,
+ "Robert Foss" <rfoss@kernel.org>, "Laurent Pinchart"
+ <Laurent.pinchart@ideasonboard.com>, "Jonas Karlman" <jonas@kwiboo.se>,
+ "Jernej Skrabec" <jernej.skrabec@gmail.com>, "dri-devel"
+ <dri-devel-bounces@lists.freedesktop.org>
+Subject: Re: [PATCH v2 05/16] drm/bridge: Switch private_obj initialization
+ to atomic_create_state
 From: "Luca Ceresoli" <luca.ceresoli@bootlin.com>
-To: "Dmitry Baryshkov" <dmitry.baryshkov@oss.qualcomm.com>, "Maxime Ripard"
- <mripard@kernel.org>
-Cc: "Maarten Lankhorst" <maarten.lankhorst@linux.intel.com>, "Thomas
- Zimmermann" <tzimmermann@suse.de>, "David Airlie" <airlied@gmail.com>,
- "Simona Vetter" <simona@ffwll.ch>, <dri-devel@lists.freedesktop.org>,
- "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 X-Mailer: aerc 0.20.1
 References: <20251014-drm-private-obj-reset-v2-0-6dd60e985e9d@kernel.org>
- <20251014-drm-private-obj-reset-v2-3-6dd60e985e9d@kernel.org>
- <c43t73qbgrimpuinjsjyxcit6cvjflusomjayzv62nvvvmtwuo@elo37btubnul>
- <tx6dccjku67hgkydr5nxgfi7gifxdij7z2e4eslacb35wz6erp@qsqkwcr5mnya>
-In-Reply-To: <tx6dccjku67hgkydr5nxgfi7gifxdij7z2e4eslacb35wz6erp@qsqkwcr5mnya>
+ <20251014-drm-private-obj-reset-v2-5-6dd60e985e9d@kernel.org>
+In-Reply-To: <20251014-drm-private-obj-reset-v2-5-6dd60e985e9d@kernel.org>
 X-Last-TLS-Session-Version: TLSv1.3
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -69,95 +72,103 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hello Maxime, Dmitry,
+Hello Maxime,
 
-On Wed Oct 15, 2025 at 2:17 AM CEST, Dmitry Baryshkov wrote:
-> On Wed, Oct 15, 2025 at 01:49:33AM +0300, Dmitry Baryshkov wrote:
->> On Tue, Oct 14, 2025 at 11:31:47AM +0200, Maxime Ripard wrote:
->> > The drm_private_obj initialization was inconsistent with the rest of t=
-he
->> > KMS objects. Indeed, it required to pass a preallocated state in
->> > drm_private_obj_init(), while all the others objects would have a rese=
-t
->> > callback that would be called later on to create the state.
->> >
->> > However, reset really is meant to reset the hardware and software stat=
-e.
->> > That it creates an initial state is a side-effect that has been used i=
-n
->> > all objects but drm_private_obj. This is made more complex since some
->> > drm_private_obj, the DisplayPort ones in particular, need to be
->> > persistent across and suspend/resume cycle, and such a cycle would cal=
-l
->> > drm_mode_config_reset().
->>
->> Doesn't that mean that we need to save private objects's state in
->> drm_atomic_helper_duplicate_state() and restore it in
->> drm_atomic_helper_commit_duplicated_state()? Private objects don't have
->> .atomic_commit() callbacks, but they can be used by other objects during
->> drm_atomic_commit().
->>
->> > Thus, we need to add a new callback to allocate a pristine state for a
->> > given private object.
->> >
->> > This discussion has also came up during the atomic state readout
->> > discussion, so it might be introduced into the other objects later on.
->> >
->> > Until all drivers are converted to that new allocation pattern, we wil=
-l
->> > only call it if the passed state is NULL. This will be removed
->> > eventually.
->> >
->> > Signed-off-by: Maxime Ripard <mripard@kernel.org>
->> > ---
->> >  drivers/gpu/drm/drm_atomic.c | 20 ++++++++++++++++++--
->> >  include/drm/drm_atomic.h     | 13 +++++++++++++
->> >  2 files changed, 31 insertions(+), 2 deletions(-)
->> >
->> > diff --git a/drivers/gpu/drm/drm_atomic.c b/drivers/gpu/drm/drm_atomic=
-.c
->> > index a5c5617266ae1dfe6038baeee6dfa3828c626683..36b56c71cb4e1ddc57577d=
-f724efe7d89b4fb6a9 100644
->> > --- a/drivers/gpu/drm/drm_atomic.c
->> > +++ b/drivers/gpu/drm/drm_atomic.c
->> > @@ -793,15 +793,31 @@ int drm_atomic_private_obj_init(struct drm_devic=
-e *dev,
->> >  	memset(obj, 0, sizeof(*obj));
->> >
->> >  	drm_modeset_lock_init(&obj->lock);
->> >
->> >  	obj->dev =3D dev;
->> > -	obj->state =3D state;
->> >  	obj->funcs =3D funcs;
->> >  	list_add_tail(&obj->head, &dev->mode_config.privobj_list);
->> >
->> > -	state->obj =3D obj;
->> > +	/*
->> > +	 * Not all users of drm_atomic_private_obj_init have been
->> > +	 * converted to using &drm_private_obj_funcs.reset yet. For the
->> > +	 * time being, let's only call reset if the passed state is
->> > +	 * NULL. Otherwise, we will fallback to the previous behaviour.
->>
->> This comment does no longer reflect the code.
->>
->> > +	 */
->> > +	if (!state) {
->> > +		if (obj->funcs->atomic_create_state) {
+On Tue Oct 14, 2025 at 11:31 AM CEST, Maxime Ripard wrote:
+> The bridge implementation relies on a drm_private_obj, that is
+> initialized by allocating and initializing a state, and then passing it
+> to drm_private_obj_init.
 >
-> Shouldn't this callback be mandatory here? Otherwise we can easily end
-> up with the object without a connected state, if the driver doesn't
-> implement it.
+> Since we're gradually moving away from that pattern to the more
+> established one relying on a atomic_create_state implementation, let's
+> migrate this instance to the new pattern.
+>
+> Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
+> Signed-off-by: Maxime Ripard <mripard@kernel.org>
+> ---
+>
+> Cc: Andrzej Hajda <andrzej.hajda@intel.com>
+> Cc: Neil Armstrong <neil.armstrong@linaro.org>
+> Cc: Robert Foss <rfoss@kernel.org>
+> Cc: Laurent Pinchart <Laurent.pinchart@ideasonboard.com>
+> Cc: Jonas Karlman <jonas@kwiboo.se>
+> Cc: Jernej Skrabec <jernej.skrabec@gmail.com>
+> ---
+>  drivers/gpu/drm/drm_bridge.c | 33 ++++++++++++++++++---------------
+>  1 file changed, 18 insertions(+), 15 deletions(-)
+>
+> diff --git a/drivers/gpu/drm/drm_bridge.c b/drivers/gpu/drm/drm_bridge.c
+> index 630b5e6594e0affad9ba48791207c7b403da5db8..f0db891863428ee65625a6a3e=
+d38f63ec802595e 100644
+> --- a/drivers/gpu/drm/drm_bridge.c
+> +++ b/drivers/gpu/drm/drm_bridge.c
+> @@ -394,11 +394,27 @@ drm_bridge_atomic_destroy_priv_state(struct drm_pri=
+vate_obj *obj,
+>  	struct drm_bridge *bridge =3D drm_priv_to_bridge(obj);
+>
+>  	bridge->funcs->atomic_destroy_state(bridge, state);
+>  }
+>
+> +static struct drm_private_state *
+> +drm_bridge_atomic_create_priv_state(struct drm_private_obj *obj)
+> +{
+> +	struct drm_bridge *bridge =3D drm_priv_to_bridge(obj);
+> +	struct drm_bridge_state *state;
+> +
+> +	state =3D bridge->funcs->atomic_reset(bridge);
+> +	if (IS_ERR(state))
+> +		return ERR_PTR(-ENOMEM);
 
-AFAICT Dmitry's point looks reasonable to me. Should you go along this path=
-,
-why not adding a
+This is slightly changing the behaviour, assuming that every error is
+-ENOMEM, while in the current implementation any error code is just
+propagated. I searched all .atomic_reset callbacks and apparently none can
+return any other error, so this would not introduce a bug with current
+drivers. However the atomic_reset docs say any ERR_PTR can be returned,
+thus a future driver would be allowed to return another error value, even
+thoug it's unlikely. The drm_bridge.c core having no control over what
+other drivers do, I wonder whether we should just return ERR_PTR(state)
+here, and keep the check on the drm_atomic_private_obj_init() return value
+below.
 
-   WARN_ON((!state && !obj->funcs->atomic_create_state) ||
-           (state && obj->funcs->atomic_create_state));
+I have no strong position about which direction is best however. Maybe
+changing the docs to say "Return: only -ENOMEM", and add here a
+WARN_ON(IS_ERR(state) && ERR_PTR(state) !=3D -ENOMEM)?
 
-to prevent bad usage?
+> @@ -462,30 +478,17 @@ int drm_bridge_attach(struct drm_encoder *encoder, =
+struct drm_bridge *bridge,
+>  		ret =3D bridge->funcs->attach(bridge, encoder, flags);
+>  		if (ret < 0)
+>  			goto err_reset_bridge;
+>  	}
+>
+> -	if (drm_bridge_is_atomic(bridge)) {
+> -		struct drm_bridge_state *state;
+> -
+> -		state =3D bridge->funcs->atomic_reset(bridge);
+> -		if (IS_ERR(state)) {
+> -			ret =3D PTR_ERR(state);
+> -			goto err_detach_bridge;
+> -		}
+> -
+> +	if (drm_bridge_is_atomic(bridge))
+>  		drm_atomic_private_obj_init(bridge->dev, &bridge->base,
+> -					    &state->base,
+> +					    NULL,
+>  					    &drm_bridge_priv_state_funcs);
+> -	}
+>
+>  	return 0;
+>
+> -err_detach_bridge:
+> -	if (bridge->funcs->detach)
+> -		bridge->funcs->detach(bridge);
+> -
+>  err_reset_bridge:
+>  	bridge->dev =3D NULL;
+>  	bridge->encoder =3D NULL;
+>  	list_del(&bridge->chain_node);
+>
 
-Just my 2c,
 Luca
 
 --
