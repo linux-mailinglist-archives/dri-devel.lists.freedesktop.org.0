@@ -2,55 +2,107 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E25ADBFBE37
-	for <lists+dri-devel@lfdr.de>; Wed, 22 Oct 2025 14:38:03 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1C802BFBE46
+	for <lists+dri-devel@lfdr.de>; Wed, 22 Oct 2025 14:41:16 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id F1CC010E768;
-	Wed, 22 Oct 2025 12:38:00 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D68FB10E773;
+	Wed, 22 Oct 2025 12:41:12 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="nXuYgllD";
+	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="pfVvjU1P";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from bali.collaboradmins.com (bali.collaboradmins.com
- [148.251.105.195])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 75C9210E768
- for <dri-devel@lists.freedesktop.org>; Wed, 22 Oct 2025 12:37:59 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1761136678;
- bh=kuoFaGo1lFWbIqr/873RAd2sTYktB7+UNWZKq7cfbJs=;
- h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
- b=nXuYgllDeWhpaFxvCbTo2kiVnG1MXxMHkHlx/2y+xUS2ga8VHsSGmDT70jPriKFMW
- eBYKwYw3ZKQ3kqabRPSKfrFSPdzQyY56gvBzB64YIM/r8w28qT5WDECk5PfM810nYk
- 3nu0AsFwBPq4dG1jmsX3vsqSrtAFYbS/EJF03Ar2OaFVHE+BjUNUzsEaRUWcjDoMs0
- BpHjobTE0/Bh4bwVX52pnkxIKUZs53GY3DLtgZlKzT2zZnJPvhy0DyKikpgzZNf7wn
- lsHJHeyEhpFD5AQgwn5hLMNJ0nkZrD3/rFEMCtvVMBgmIOwTwIOfrLjOdZQ+o81Sq2
- Uldcsx/TWvw2w==
-Received: from fedora (unknown [IPv6:2a01:e0a:2c:6930:d919:a6e:5ea1:8a9f])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested) (Authenticated sender: bbrezillon)
- by bali.collaboradmins.com (Postfix) with ESMTPSA id 8014917E12AF;
- Wed, 22 Oct 2025 14:37:57 +0200 (CEST)
-Date: Wed, 22 Oct 2025 14:37:51 +0200
-From: Boris Brezillon <boris.brezillon@collabora.com>
-To: Ketil Johnsen <ketil.johnsen@arm.com>
-Cc: Steven Price <steven.price@arm.com>, Liviu Dudau <liviu.dudau@arm.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Maxime Ripard
- <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, David Airlie
- <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, Heiko Stuebner
- <heiko@sntech.de>, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2] drm/panthor: Fix UAF race between device unplug and
- FW event processing
-Message-ID: <20251022143751.769c1f23@fedora>
-In-Reply-To: <20251022103014.1082629-1-ketil.johnsen@arm.com>
-References: <20251022103014.1082629-1-ketil.johnsen@arm.com>
-Organization: Collabora
-X-Mailer: Claws Mail 4.3.1 (GTK 3.24.49; x86_64-redhat-linux-gnu)
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
+ [205.220.168.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E6BFD10E773
+ for <dri-devel@lists.freedesktop.org>; Wed, 22 Oct 2025 12:41:10 +0000 (UTC)
+Received: from pps.filterd (m0279866.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 59M9pNt2018743
+ for <dri-devel@lists.freedesktop.org>; Wed, 22 Oct 2025 12:41:10 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+ cc:content-transfer-encoding:date:from:message-id:mime-version
+ :subject:to; s=qcppdkim1; bh=RfeB47HT/QiUsh1/oI/2Si/JRWwIwPFsYvk
+ n2bnCrfA=; b=pfVvjU1Puhj210Xunm3F+HooWC5NkWy44nmwuuXx/Wrr0B8Hd1n
+ WitlIhtMgQLaMxgUPDduF/HWN9G1aTxdoHMEakAIPIrX5AXLETOw6pZAmmAM9U8/
+ fkG2ALQnvdNzJhJRra8Zvelp7xJrl3flPacVrZ+AcHmSna1GA13rPYJuiu5i/uS7
+ kt1lJQFyaHRNPqbhIWGQuF5yviryoHH2Fjve51v0z7ZyJuIciOjfI0j+xDrLzvd/
+ PL7fyP/1Tabwxj3xakPdH6kpCHLdwJwSf5mwihW7GtlGTi06LzFkxb6z+ZE3fuDm
+ 8+d4HaImfsySfnmFM5YFtjLwpHWnfi4rEQg==
+Received: from mail-qt1-f197.google.com (mail-qt1-f197.google.com
+ [209.85.160.197])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 49v469mkbc-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
+ for <dri-devel@lists.freedesktop.org>; Wed, 22 Oct 2025 12:41:10 +0000 (GMT)
+Received: by mail-qt1-f197.google.com with SMTP id
+ d75a77b69052e-4e88ddf3cd0so36984611cf.3
+ for <dri-devel@lists.freedesktop.org>; Wed, 22 Oct 2025 05:41:10 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1761136869; x=1761741669;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=RfeB47HT/QiUsh1/oI/2Si/JRWwIwPFsYvkn2bnCrfA=;
+ b=hNTFkW0k94a1Lgfs44T24MXz4MCAesJVuvrBMrvS4xfDBzb7ylwQS42jJ5j8zCKGP4
+ UyALNvyaEn3+fWTnk+pWbaZfaqvhP/Z5G/RW4bYtfnZgS/LJmGAZ8Q8vxvQonCf89kmD
+ Z+9t+vI9FSPFj3TtiYjCTc9/8t/ddhvrGUZP9IOtGoBZX/VbfuKYCCb2zowtzsmciqfF
+ 73+O9NSIBNTYtQO0vNa1FfgdlDq+U3kjFnN6+9y244sQSYME2rRPQ0wcqj9IBiNrYgZQ
+ cCnEuZY8kl5PqKYHUhGqJu54/aIVfWi0y4zaB5wA+296tV8e+ISmUtg3PxrnbUBh1Cgt
+ Twfw==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCVDkutFU4de/wQu6F7KaellSzMDLdJT+rEvvWJfm4jeXg5BGsUfzCITBug6hiKbTmEx/rdGV40Yw8k=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Yxh4uAelwcPS0WfA6yS063RRqIYE27RB5N++Oyo9U1yyjc3u2P/
+ k4mYIIu4vBAPGTIgPEghwuC62nWYiFJCcPkX3BRdmdu7kwCq8SUSkedoAeYzDGMuCLrF5ShIm/B
+ 5R+PawCAbTU/BUnwZGMbFpBgv0rGADF7MLS61XJAFqPuqtt03Vo2bJjdtOLL22Th1I5dflDg=
+X-Gm-Gg: ASbGncv42pyOqhofyVUn4J+J32+dTSLZT+b4pao3L2GeqyGSCCJDfLnadIlOicoqCZo
+ wPhnNT+W2Qpth4il8vsIfBK6QVZoPK1Te0ulGU8vQSTLEy3cBWVDKItTwKk0FqXCuIkLtkSqYYE
+ 3sw5NRecN5/+zHrA1kX4TgA+I4qJh8VPPrrDGqB5fTK2iYzRXINSQDaWx0M0MpNrgTQTLnM001b
+ WxL8p9N8hILwALmuCExma/fQlEK59WkHwV2ZDTrhgcSUuQWSv/sua1rIwOk0hvvWdD3ExUMHapz
+ 5zA/ADRPbRjIUe1CK7QnykSJ/kvx5aYomMF8YvANvmvcRrpYHa9GK0hRWzT8OuTXbmTMuIe5gPs
+ 7xQVqe/E463Mp7SRrk6GqhgrFZn3Rr3NJ+hGJUc8=
+X-Received: by 2002:ac8:590d:0:b0:4e8:b8d4:a79c with SMTP id
+ d75a77b69052e-4e8b8d4b387mr164900521cf.80.1761136869151; 
+ Wed, 22 Oct 2025 05:41:09 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IGqCfqyUzXWxiXG0l7vjX+HSWH2fQ6hXaF+mWu6DPoEfJooEHAYpGwfxJnETVGQVv5KJ8VGgQ==
+X-Received: by 2002:ac8:590d:0:b0:4e8:b8d4:a79c with SMTP id
+ d75a77b69052e-4e8b8d4b387mr164900251cf.80.1761136868622; 
+ Wed, 22 Oct 2025 05:41:08 -0700 (PDT)
+Received: from hu-yabdulra-ams.qualcomm.com ([212.136.9.4])
+ by smtp.gmail.com with ESMTPSA id
+ a640c23a62f3a-b65ebb4ae4dsm1315965766b.74.2025.10.22.05.41.08
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 22 Oct 2025 05:41:08 -0700 (PDT)
+From: Youssef Samir <youssef.abdulrahman@oss.qualcomm.com>
+To: jeff.hugo@oss.qualcomm.com, carl.vanderlip@oss.qualcomm.com,
+ troy.hanson@oss.qualcomm.com, zachary.mckevitt@oss.qualcomm.com
+Cc: ogabbay@kernel.org, lizhi.hou@amd.com, karol.wachowski@linux.intel.com,
+ linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org
+Subject: [PATCH] accel/qaic: Fix comment
+Date: Wed, 22 Oct 2025 14:41:07 +0200
+Message-ID: <20251022124107.3712466-1-youssef.abdulrahman@oss.qualcomm.com>
+X-Mailer: git-send-email 2.43.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
+X-Proofpoint-ORIG-GUID: _yt0arM1TlLfXUYDxSawtbAmH-t40feD
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUxMDE4MDAzMiBTYWx0ZWRfX5LvICT+QC+/Z
+ D5aFX377f8G1J3H96PchO7jQtyS7c1qkCf5z1+w5gVS9ek4lPEajyEOOM5TbL2b1qCCOAW3Bjug
+ AVMyRV1waDUz3qaWQi+bk1iKI+eqHlMbw/sdg3JcxnFxOKnbztiUb6+D1IvX5wrkyXGPRYf+F+c
+ MWD3OZIlSZeyETisgdx45i7WwWtIJzKu7hj2SPwfnxo2+zJlxT6vD2R4TRqy9xyneZaqkrRsIeX
+ QhmZGljFdebb6sHXOw7coglljk2JklkhPD7b21FACurRIUpqKANka6ADsdAAUeBaUxTJI4oaAxu
+ hcnaDXW2r+i5eONjBTt7CfQIRjckvhDk4W9ES1A6lwm98YuzqCUr49/+Y3eeerp9EVMIkb21ovE
+ XR/ayGqd7Gl/SXn1AeDjBudr2eaexw==
+X-Authority-Analysis: v=2.4 cv=U8qfzOru c=1 sm=1 tr=0 ts=68f8d0e6 cx=c_pps
+ a=EVbN6Ke/fEF3bsl7X48z0g==:117 a=dNlqnMcrdpbb+gQrTujlOQ==:17
+ a=x6icFKpwvdMA:10 a=VkNPw1HP01LnGYTKEx00:22 a=EUspDBNiAAAA:8
+ a=jbbOOnZT4aFDcoY3tVQA:9 a=a_PwQJl-kcHnX1M80qC6:22
+X-Proofpoint-GUID: _yt0arM1TlLfXUYDxSawtbAmH-t40feD
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.9,FMLib:17.12.80.40
+ definitions=2025-10-22_04,2025-10-13_01,2025-03-28_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ impostorscore=0 adultscore=0 bulkscore=0 malwarescore=0 priorityscore=1501
+ spamscore=0 clxscore=1015 lowpriorityscore=0 phishscore=0 suspectscore=0
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.19.0-2510020000 definitions=main-2510180032
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -66,122 +118,29 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, 22 Oct 2025 12:30:13 +0200
-Ketil Johnsen <ketil.johnsen@arm.com> wrote:
+From: Aswin Venkatesan <aswivenk@qti.qualcomm.com>
 
-> The function panthor_fw_unplug() will free the FW memory sections.
-> The problem is that there could still be pending FW events which are yet
-> not handled at this point. process_fw_events_work() can in this case try
-> to access said freed memory.
-> 
-> This fix introduces a destroyed state for the panthor_scheduler object,
-> and we check for this before processing FW events.
-> 
-> Signed-off-by: Ketil Johnsen <ketil.johnsen@arm.com>
-> Fixes: de85488138247 ("drm/panthor: Add the scheduler logical block")
-> ---
-> v2:
-> - Followed Boris's advice and handle the race purely within the
->   scheduler block (by adding a destroyed state)
-> ---
->  drivers/gpu/drm/panthor/panthor_sched.c | 15 ++++++++++++---
->  1 file changed, 12 insertions(+), 3 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/panthor/panthor_sched.c b/drivers/gpu/drm/panthor/panthor_sched.c
-> index 0cc9055f4ee52..4996f987b8183 100644
-> --- a/drivers/gpu/drm/panthor/panthor_sched.c
-> +++ b/drivers/gpu/drm/panthor/panthor_sched.c
-> @@ -315,6 +315,13 @@ struct panthor_scheduler {
->  		 */
->  		struct list_head stopped_groups;
->  	} reset;
-> +
-> +	/**
-> +	 * @destroyed: Scheduler object is (being) destroyed
-> +	 *
-> +	 * Normal scheduler operations should no longer take place.
-> +	 */
-> +	bool destroyed;
+Replace the word "Qranium" with "qaic" in the function parameter description.
 
-Do we really need a new field for that? Can't we just reset
-panthor_device::scheduler to NULL early enough in the unplug path?
-I guess it's not that simple if we have works going back to ptdev
-and then dereferencing ptdev->scheduler, but I think it's also
-fundamentally broken to have scheduler works active after the
-scheduler teardown has started, so we might want to add some more
-checks in the work callbacks too.
+Signed-off-by: Aswin Venkatesan <aswivenk@qti.qualcomm.com>
+Signed-off-by: Youssef Samir <youssef.abdulrahman@oss.qualcomm.com>
+---
+ drivers/accel/qaic/qaic_data.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
->  };
->  
->  /**
-> @@ -1765,7 +1772,10 @@ static void process_fw_events_work(struct work_struct *work)
->  	u32 events = atomic_xchg(&sched->fw_events, 0);
->  	struct panthor_device *ptdev = sched->ptdev;
->  
-> -	mutex_lock(&sched->lock);
-> +	guard(mutex)(&sched->lock);
-> +
-> +	if (sched->destroyed)
-> +		return;
->  
->  	if (events & JOB_INT_GLOBAL_IF) {
->  		sched_process_global_irq_locked(ptdev);
-> @@ -1778,8 +1788,6 @@ static void process_fw_events_work(struct work_struct *work)
->  		sched_process_csg_irq_locked(ptdev, csg_id);
->  		events &= ~BIT(csg_id);
->  	}
-> -
-> -	mutex_unlock(&sched->lock);
->  }
->  
->  /**
-> @@ -3882,6 +3890,7 @@ void panthor_sched_unplug(struct panthor_device *ptdev)
->  	cancel_delayed_work_sync(&sched->tick_work);
->  
->  	mutex_lock(&sched->lock);
-> +	sched->destroyed = true;
->  	if (sched->pm.has_ref) {
->  		pm_runtime_put(ptdev->base.dev);
->  		sched->pm.has_ref = false;
+diff --git a/drivers/accel/qaic/qaic_data.c b/drivers/accel/qaic/qaic_data.c
+index c4f117edb266..8751b5381d27 100644
+--- a/drivers/accel/qaic/qaic_data.c
++++ b/drivers/accel/qaic/qaic_data.c
+@@ -1941,7 +1941,7 @@ int disable_dbc(struct qaic_device *qdev, u32 dbc_id, struct qaic_user *usr)
+  * enable_dbc - Enable the DBC. DBCs are disabled by removing the context of
+  * user. Add user context back to DBC to enable it. This function trusts the
+  * DBC ID passed and expects the DBC to be disabled.
+- * @qdev: Qranium device handle
++ * @qdev: qaic device handle
+  * @dbc_id: ID of the DBC
+  * @usr: User context
+  */
+-- 
+2.43.0
 
-Hm, I'd really like to see a cancel_work_sync(&sched->fw_events_work)
-rather than letting the work execute after we've started tearing down
-the scheduler object.
-
-If you follow my suggestion to reset the ptdev->scheduler field, I
-guess something like that would do:
-
-void panthor_sched_unplug(struct panthor_device *ptdev)
-{
-        struct panthor_scheduler *sched = ptdev->scheduler;
-
-	/* We want the schedu */
-	WRITE_ONCE(*ptdev->scheduler, NULL);
-
-	cancel_work_sync(&sched->fw_events_work);
-        cancel_delayed_work_sync(&sched->tick_work);
-
-        mutex_lock(&sched->lock);
-        if (sched->pm.has_ref) {
-                pm_runtime_put(ptdev->base.dev);
-                sched->pm.has_ref = false;
-        }
-        mutex_unlock(&sched->lock);
-}
-
-and
-
-void panthor_sched_report_fw_events(struct panthor_device *ptdev, u32 events) {
-	struct panthor_scheduler *sched = READ_ONCE(*ptdev->scheduler);
-
-	/* Scheduler is not initialized, or it's gone. */
-        if (!sched)
-                return;
-
-        atomic_or(events, &sched->fw_events);
-        sched_queue_work(sched, fw_events);
-}
-
-
-sched_queue_[delayed_]work() could also be automated to issue a drm_WARN_ON()
-when it's called and ptdev->scheduler = NULL.
