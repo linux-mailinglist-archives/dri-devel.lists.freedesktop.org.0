@@ -2,53 +2,81 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 84568BFC616
-	for <lists+dri-devel@lfdr.de>; Wed, 22 Oct 2025 16:06:33 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 30A3CBFC638
+	for <lists+dri-devel@lfdr.de>; Wed, 22 Oct 2025 16:08:12 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CD03410E7A8;
-	Wed, 22 Oct 2025 14:06:29 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E6A6C10E7AD;
+	Wed, 22 Oct 2025 14:08:09 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="mAPm7D+z";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="JzFm2y15";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E118A10E7A8
- for <dri-devel@lists.freedesktop.org>; Wed, 22 Oct 2025 14:06:27 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by tor.source.kernel.org (Postfix) with ESMTP id 0A247604D9;
- Wed, 22 Oct 2025 14:06:27 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 45357C4CEE7;
- Wed, 22 Oct 2025 14:06:26 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1761141986;
- bh=u6pKPv1bs2F42lJLD1X+kTmhrAvZkYh64kL/QaicVF0=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=mAPm7D+zTZ37BG2tR89Zux5zdzTcuzRoRSbGw3jUy5Ezjj3P9AhsUFpPC2qw4yo+n
- xrEeK2zusgNTNkcte3h03v6CR+ZjzxNPTiOYUMu/4rcJfRt+BqesUX0ndFy0nJcSpc
- k+gziTRx8bze2TstkW0PNE9meweRG/LozMpTxZOd19AgX5S3VSMnJixtbzO2N9uSsc
- v4bgfUvvY/gwnZeySsD/805wLj0IcEXKCkU1gNTvWyz7PCTnFlSt5iu8wJ6JHlGzkh
- YP65z5smSDC9qnbgtKI+pghAQdI83vtMxd60X4xGg5ixZ3A0Oj6rShEmG/PAnfBcqF
- PoU/to6pdi9Qw==
-Date: Wed, 22 Oct 2025 16:06:23 +0200
-From: Maxime Ripard <mripard@kernel.org>
-To: Devarsh Thakkar <devarsht@ti.com>
-Cc: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>, 
- Jyri Sarha <jyri.sarha@iki.fi>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, 
- Simona Vetter <simona@ffwll.ch>, dri-devel@lists.freedesktop.org, 
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
- linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2] drm/tidss: Add some support for splash-screen
-Message-ID: <qljdrluxqi3abg7opwvp24ki7255jxrpowf47rpumzlcbnlnon@pccj5wm2kbxt>
-References: <20250908-tidss-splash-v2-1-e388b0581dfa@ideasonboard.com>
- <348086ac-b5bc-4ca9-9e5b-82106d319eeb@ti.com>
+Received: from mail-pl1-f178.google.com (mail-pl1-f178.google.com
+ [209.85.214.178])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DEB7D10E7AD
+ for <dri-devel@lists.freedesktop.org>; Wed, 22 Oct 2025 14:08:08 +0000 (UTC)
+Received: by mail-pl1-f178.google.com with SMTP id
+ d9443c01a7336-2699ef1b4e3so11650865ad.0
+ for <dri-devel@lists.freedesktop.org>; Wed, 22 Oct 2025 07:08:08 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20230601; t=1761142088; x=1761746888; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=pxWecD44n8F7A68MtB2Gk3SGRDfmDIC8qrgGGOx9IvQ=;
+ b=JzFm2y15gzaqngtYJeuEXuDTCeDmCVz9dMyBnhT+ED/crIewLyewD1pQrWvq/9ANOf
+ Q2BbhmtSWkxRCJs3/EaNkPsWa2QgJ0s+YgHlLEfnJ2ubZh4wXsWZ4PFD1Nq9sFqfv+7q
+ 0viCMeqHfmRgtlirqOiJuU9GvetRGlX7slbT+hwoX30/LHNggRp34RC7TEU6hQ+ocYyC
+ u0BTx3FvQREel1kdL1IY3ELR3z0mfxWdQx1wjRtT3u7rhWkGq3oDJzQHNnC0pnm0dVYG
+ oRV3EcdRCLaRqCQi6MM0HeV3CHzkb3d6w7KC85PJ52jJFv8dABnxUAc6LzI/QvMKXRyO
+ P/zQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1761142088; x=1761746888;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=pxWecD44n8F7A68MtB2Gk3SGRDfmDIC8qrgGGOx9IvQ=;
+ b=fJle3mqH2eAMNQkg4Qn1gyxl2h+nFK1L2CLKUbC/ApWhZn8tAsdWQRwPJHQBtzrKsd
+ En6wqwEXYcddwrX/o8pytfm33+pbo0V+FB4xyI2a7fxCdQQKLlK4AyJT8eLPETPQOAIZ
+ EWRUXA+LWjrOV+zNJhXIakg0jW8t/jMw+WBF299dXRwlYqv1dzcEgze8+kwcdW9ylJoH
+ JCXrCoJ0l9oaHC+IoyXAuFWdyYYH0stU7J0CNS3xnuWMmzwQWgwfNzb5Or6//x5Tzock
+ BolUrXuloubeUCk0qDMLRqe0lWnvdvTPykEaPivtCMSQ1LdBSAFodpExXZoTEKeVw28T
+ dnXw==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCW3lD+bpGwtmd47KCsoa3FcdbqJWbv8EzuIzcfJ/SIMeuM2EutkZLFDRTZIsIpre8+pVw+HjGO0a2Q=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YwnbIWueqJ+/MDDZVLd+MhgFCpgwH/IAZ6SsvrpUzmSsz9aZITD
+ Pbqoe8V1s5XBK2E04+OwEXyaB2cASbVL3Oji6HruDX6jJEvgXvf+wrQZUG3qTbfqf7jbO1UMpXF
+ huaQmUopKNFGsGw76y5X4PopgnUElsn0=
+X-Gm-Gg: ASbGnctG3ohhY5ix1GahRdwf5rbD0qOQGqxMsgBsHjHkM0eXnfWkpxMsxgSXG9g2Rqq
+ QylizE1r7VCtxrg51utNq38iKNVZ5EUaET5vh3uXXJ8mPoqcSpAMKPaMYWvZu452Za98vbHfu8g
+ Ks+3yYJccd4kH4E1P+PQc51RexDg9uOgYRJB8ggVzdCJSMOZXtw22uS0IBUzalDx4Ii5GzN4RdB
+ uRrC3KlGXkthHvHwMxI0yZyN2hEVrgRBpsMogLcH68uPqE3xtkZId2WNP5u
+X-Google-Smtp-Source: AGHT+IGM3mvFgkHnTG7QRIj/Gmy3p+LRuhhPAH5vukdmhYx7TsNqfkR+YhVrgCxY2EWb4hIpzDcGres9mluYuxqKhfc=
+X-Received: by 2002:a17:903:120b:b0:28d:1904:6e77 with SMTP id
+ d9443c01a7336-290c9d26917mr126853125ad.3.1761142087899; Wed, 22 Oct 2025
+ 07:08:07 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha384;
- protocol="application/pgp-signature"; boundary="otc7oe2kf2v4rfy7"
-Content-Disposition: inline
-In-Reply-To: <348086ac-b5bc-4ca9-9e5b-82106d319eeb@ti.com>
+References: <aPi5_CILMKn3ZrVd@stanley.mountain>
+In-Reply-To: <aPi5_CILMKn3ZrVd@stanley.mountain>
+From: Alex Deucher <alexdeucher@gmail.com>
+Date: Wed, 22 Oct 2025 10:07:56 -0400
+X-Gm-Features: AS18NWBdUcj9BuAc7F-BssClfHNNkfo9ryZDxZvVPhEuoCs-u5I60K5betUL5-0
+Message-ID: <CADnq5_MoG0s7K5wCaf8-32SWCnOeaPkYvDCyixem_w_jVBbgag@mail.gmail.com>
+Subject: Re: [PATCH next] drm/amdgpu/userqueue: Fix use after free in
+ amdgpu_userq_buffer_vas_list_cleanup()
+To: Dan Carpenter <dan.carpenter@linaro.org>
+Cc: Prike Liang <Prike.Liang@amd.com>, Alex Deucher <alexander.deucher@amd.com>,
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>, 
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Sunil Khatri <sunil.khatri@amd.com>, 
+ Shashank Sharma <shashank.sharma@amd.com>, 
+ Arunpravin Paneer Selvam <Arunpravin.PaneerSelvam@amd.com>,
+ amd-gfx@lists.freedesktop.org, 
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org, 
+ kernel-janitors@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -64,96 +92,41 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+Applied.  Thanks!
 
---otc7oe2kf2v4rfy7
-Content-Type: text/plain; protected-headers=v1; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-Subject: Re: [PATCH v2] drm/tidss: Add some support for splash-screen
-MIME-Version: 1.0
+Alex
 
-Hi,
-
-On Wed, Oct 22, 2025 at 07:25:10PM +0530, Devarsh Thakkar wrote:
-> On 08/09/25 14:43, Tomi Valkeinen wrote:
-> > Currently when the driver's probe is called, we do a full DSS reset. If
-> > the bootloader has set up a splash-screen, the reset will disable the
-> > video output, and after that it may still take time until the display is
-> > usable (all the kernel modules have been loaded) and even more time
-> > until the userspace is able to use the display.
-> >=20
-> > If fbdev is enabled, in a perfect case tidss would take over the fb
-> > memory set up by the bootloader, and use that memory for tidss's fbdev,
-> > thus retaining the splash-screen. However, we're not there yet.
-> >=20
-> > As a partial solution, this patch changes the driver so that the driver
-> > will not reset (or change) the DSS registers until tidss_runtime_get()
-> > is called when the display is being set up (because of fbdev modesetting
-> > or modesetting from the userspace).
-> >=20
-> > This is achieved in two parts:
-> >=20
-> > 1. Probe
-> >=20
-> > At probe time, in dispc_init_hw(), we check if the DSS is idle
-> > (videoports disabled). If yes, do a reset and continue as before. If
-> > not, we know that there's a splash-screen, and we set the
-> > 'tidss->boot_enabled_vp_mask' field to reflect the enabled VPs.
-> >=20
-> > We then enable the corresponding VP clocks (to ensure they stay on), set
-> > the IRQENABLE to 0 to make sure we won't get any interrupts, and then
-> > exit leaving the fclk and VP clocks enabled, and the runtime PM status
-> > active.
-> >=20
-> > 2. Runtime get
-> >=20
-> > Later, when the tidss_runtime_get() is called the first time, we check
-> > the 'boot_enabled_vp_mask'. If set, we know that we have the
-> > splash-screen showing on the screen, and thus the clocks are enabled and
-> > runtime PM status is active. This indicates that
-> > pm_runtime_resume_and_get() call just before in tidss_runtime_get() did
-> > not cause a runtime_resume callback to get called, so we need to do that
-> > manually.
-> >=20
-> > We call dispc_splash_fini() which essentially returns the DSS into the
-> > state where it would be in a non-splash-screen case: dispc_splash_fini()
-> > will do a DSS reset, manually call the runtime_resume callback, and then
-> > call clk_disable_unprepare() and pm_runtime_put_noidle() to counter the
-> > actions at probe time.
-> >=20
-> > Finally 'boot_enabled_vp_mask' is set to zero to mark that we're no
-> > longer in the "splash-screen mode".
-> >=20
-> > A note about fbdev emulation:
-> >=20
-> > If fbdev emulation is enabled in the DRM, tidss will set up an fbdev.
-> > This will cause a modeset, and the blank framebuffer from tidss's fbdev
-> > will be shown instead of the splash-screen.
-> >=20
-> > I see two improvements to this: either we should memcpy the pixel data
-> > from the bootloader's splash-screen to the new fbdev buffer, or the
-> > fbdev could use the splash-screen directly as its buffer. I have done
-> > some hacks for the former, but I'm not sure how to implement either of
-> > these properly.
-
-I still think it's not the kind of driver-specific driver behaviour we
-want to have.
-
-Even more so when we have a generic solution to this problem in the
-works.
-
-Maxime
-
---otc7oe2kf2v4rfy7
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iJUEABMJAB0WIQTkHFbLp4ejekA/qfgnX84Zoj2+dgUCaPjk3wAKCRAnX84Zoj2+
-drn7AX4y9RoHwDywUQwCeiG/iWB6AcTZKVzVZBh+cjEnZmheIEUsxGDajgkBshI7
-3JePT/YBf3vp+kUuqIDHbnYREFsQzqchsP1pfxfMHFzylPoUyj+IrCoj17BItgbZ
-cmmDsIF6Ag==
-=s4U9
------END PGP SIGNATURE-----
-
---otc7oe2kf2v4rfy7--
+On Wed, Oct 22, 2025 at 9:31=E2=80=AFAM Dan Carpenter <dan.carpenter@linaro=
+.org> wrote:
+>
+> The amdgpu_userq_buffer_va_list_del() function frees "va_cursor" but it
+> is dereferenced on the next line when we print the debug message.  Print
+> the debug message first and then free it.
+>
+> Fixes: 2a28f9665dca ("drm/amdgpu: track the userq bo va for its obj manag=
+ement")
+> Signed-off-by: Dan Carpenter <dan.carpenter@linaro.org>
+> ---
+>  drivers/gpu/drm/amd/amdgpu/amdgpu_userq.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+>
+> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_userq.c b/drivers/gpu/drm/=
+amd/amdgpu/amdgpu_userq.c
+> index 9d4751a39c20..2200e0bbf040 100644
+> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_userq.c
+> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_userq.c
+> @@ -159,9 +159,9 @@ static int amdgpu_userq_buffer_vas_list_cleanup(struc=
+t amdgpu_device *adev,
+>                         r =3D -EINVAL;
+>                         goto err;
+>                 }
+> -               amdgpu_userq_buffer_va_list_del(mapping, va_cursor);
+>                 dev_dbg(adev->dev, "delete the userq:%p va:%llx\n",
+>                         queue, va_cursor->gpu_addr);
+> +               amdgpu_userq_buffer_va_list_del(mapping, va_cursor);
+>         }
+>  err:
+>         amdgpu_bo_unreserve(queue->vm->root.bo);
+> --
+> 2.51.0
+>
