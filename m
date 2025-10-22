@@ -2,88 +2,87 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E9E77BFA553
-	for <lists+dri-devel@lfdr.de>; Wed, 22 Oct 2025 08:51:44 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id EF0ECBFA569
+	for <lists+dri-devel@lfdr.de>; Wed, 22 Oct 2025 08:52:42 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9B95F10E6BD;
-	Wed, 22 Oct 2025 06:51:42 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 327A910E04C;
+	Wed, 22 Oct 2025 06:52:41 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=suse.de header.i=@suse.de header.b="oQGf4jIW";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="DaVhkWgu";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="AXnzepi1";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="d38IKGfc";
+	dkim=pass (1024-bit key; unprotected) header.d=suse.de header.i=@suse.de header.b="AZVQ0MDx";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="Rk8UB9e/";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="BirebAOg";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="nw+uOeZ3";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C5A1E10E6BD
- for <dri-devel@lists.freedesktop.org>; Wed, 22 Oct 2025 06:51:40 +0000 (UTC)
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org
- [IPv6:2a07:de40:b281:104:10:150:64:97])
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1F56B10E04C
+ for <dri-devel@lists.freedesktop.org>; Wed, 22 Oct 2025 06:52:40 +0000 (UTC)
+Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
  (No client certificate requested)
- by smtp-out1.suse.de (Postfix) with ESMTPS id 4BDDC21153;
- Wed, 22 Oct 2025 06:51:31 +0000 (UTC)
+ by smtp-out2.suse.de (Postfix) with ESMTPS id 3D8B91F391;
+ Wed, 22 Oct 2025 06:52:30 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1761115895; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ t=1761115954; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=5bBztiQKe3McWuotMfa8daU8SawULlhXGzCVd2U9PWQ=;
- b=oQGf4jIWyYg8hPowPD1gunncA0B32wEvvYxYa/a7DoTqdaWRx8615NNap23JvpL1JfcmOE
- DYcfN4Hr92hp00c9jzLPNMzqE2GePEHjBcdDhRGt1J+dYm642DZlE5+EiaJoMCCu/hAvOf
- dUvMMdZFwND1yOQJd8Qc6m7AWG2Ney4=
+ bh=vMZi22sC9kDQAYxuCp4E5dadMxEEsvUH8RSCUZCh46s=;
+ b=AZVQ0MDxGr3YBQ4Wsh+PJMVKewJUPwMZI57lUxlNQG9rhPSYjdNUxj697n/Vwg++dUz4Jb
+ s0v+M9o4Ixp3pIi3e/DTl5DwUwuZ987vJjEbUa5wRIq7XlVuc80E3DuGclhQ7pCyY7DNUH
+ QahUQexjtIPMadpn9sEW2Yr0ZBAGWk4=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1761115895;
+ s=susede2_ed25519; t=1761115954;
  h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=5bBztiQKe3McWuotMfa8daU8SawULlhXGzCVd2U9PWQ=;
- b=DaVhkWguqUtCXutsreZIvTEa+ypkUd0mGiVvCfIv0em45o0IoHM1+5qmYZw+7MosZbnb0D
- pzon05Nk5ZXQ8kBg==
-Authentication-Results: smtp-out1.suse.de;
- dkim=pass header.d=suse.de header.s=susede2_rsa header.b=AXnzepi1;
- dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=d38IKGfc
+ bh=vMZi22sC9kDQAYxuCp4E5dadMxEEsvUH8RSCUZCh46s=;
+ b=Rk8UB9e/ojiHKWWe/SrjCFnkFayt16ng1k+huSYnoS0XhNWn5pIw+z6b2qjq4XHCkXXBuq
+ qbgkTeomcLYDV4Bw==
+Authentication-Results: smtp-out2.suse.de;
+	none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1761115891; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ t=1761115950; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=5bBztiQKe3McWuotMfa8daU8SawULlhXGzCVd2U9PWQ=;
- b=AXnzepi11WJ4biS5HQsnFB1GSCFLGdeZBy7U9PgnAov9bP2f6pBu4OD5OfxVmcJDijwYrb
- dhgUg12UTXdkvpeji18T8mwwB4DO0XSHO5OEB1wFkI4rYnTFHsmNVhKZx+ABwzJmR9vRfY
- q+wc2QllXcdTGOdjtsqpEZwMxAfbuR0=
+ bh=vMZi22sC9kDQAYxuCp4E5dadMxEEsvUH8RSCUZCh46s=;
+ b=BirebAOgPG8i85VOAFm6QboA1mCI/uMWmW9zg7THjZtfc8cysMqCVOMRofPr/2/KCZ9PTi
+ CaiborHfTiEMLtvgsCbznmSuXeDsSlHwxe1MOUBX3W2z5tEBja4Sxp3HdiveQGlVz3PXZu
+ F2oWdwk0aAyKOo7eehKIA1TkQFkVSS0=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1761115891;
+ s=susede2_ed25519; t=1761115950;
  h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=5bBztiQKe3McWuotMfa8daU8SawULlhXGzCVd2U9PWQ=;
- b=d38IKGfcrSnptjTiDfPTEXIBtOA7pdeTyFWLxW39gsJmM0symN49RufUh9/JvLU4rmvcD3
- zrGJemTP+ZEobgCQ==
+ bh=vMZi22sC9kDQAYxuCp4E5dadMxEEsvUH8RSCUZCh46s=;
+ b=nw+uOeZ3rksS0g8Pq4MWg/Bm58BIIiZV6da/halqdzKatfSSjwTpNePae8Vuxk41RBQObk
+ eb7f+ybzkgptS0Dg==
 Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
  (No client certificate requested)
- by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 03F8213A29;
- Wed, 22 Oct 2025 06:51:30 +0000 (UTC)
+ by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id E9D1F13A29;
+ Wed, 22 Oct 2025 06:52:29 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
- by imap1.dmz-prg2.suse.org with ESMTPSA id LsNgO/J++GgjcAAAD6G6ig
- (envelope-from <tzimmermann@suse.de>); Wed, 22 Oct 2025 06:51:30 +0000
-Content-Type: multipart/mixed; boundary="------------IFq0UOMYTWshbPHE0miIKq0X"
-Message-ID: <43992c88-3a3a-4855-9f46-27a7e5fdec2e@suse.de>
-Date: Wed, 22 Oct 2025 08:51:30 +0200
+ by imap1.dmz-prg2.suse.org with ESMTPSA id fHhjNy1/+GhHcQAAD6G6ig
+ (envelope-from <tzimmermann@suse.de>); Wed, 22 Oct 2025 06:52:29 +0000
+Message-ID: <ed3ce22d-ee90-410e-8f69-88c7b44711a2@suse.de>
+Date: Wed, 22 Oct 2025 08:52:29 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [REGRESSION][BISECTED] Screen goes blank with ASpeed AST2300 in
- 6.18-rc2
-To: Peter Schneider <pschneider1968@googlemail.com>,
- regressions@lists.linux.dev, LKML <linux-kernel@vger.kernel.org>
-Cc: dri-devel@lists.freedesktop.org, stable@vger.kernel.org,
- jfalempe@redhat.com, airlied@redhat.com, dianders@chromium.org,
- nbowler@draconx.ca, Linus Torvalds <torvalds@linux-foundation.org>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-References: <20251014084743.18242-1-tzimmermann@suse.de>
- <a40caf8e-58ad-4f9c-af7f-54f6f69c29bb@googlemail.com>
+Subject: Re: [PATCH] drm/sitronix/st7571-i2c: remove unneeded semicolon
+To: Marcus Folkesson <marcus.folkesson@gmail.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, David Airlie <airlied@gmail.com>,
+ Simona Vetter <simona@ffwll.ch>
+Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ kernel test robot <lkp@intel.com>
+References: <20251022-st7571-semicolon-v1-1-83d322618ff4@gmail.com>
 Content-Language: en-US
 From: Thomas Zimmermann <tzimmermann@suse.de>
 Autocrypt: addr=tzimmermann@suse.de; keydata=
@@ -110,34 +109,26 @@ Autocrypt: addr=tzimmermann@suse.de; keydata=
  SAQO9xD1Zk9/61JWk8OysuIh7MXkl0fxbRKWE93XeQBhIJHQfnc+YBLprdnxR446Sh8Wn/2D
  Ya8cavuWf2zrB6cZurs048xe0UbSW5AOSo4V9M0jzYI4nZqTmPxYyXbm30Kvmz0rYVRaitYJ
  4kyYYMhuULvrJDMjZRvaNe52tkKAvMevcGdt38H4KSVXAylqyQOW5zvPc4/sq9c=
-In-Reply-To: <a40caf8e-58ad-4f9c-af7f-54f6f69c29bb@googlemail.com>
-X-Rspamd-Queue-Id: 4BDDC21153
-X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
-X-Spamd-Result: default: False [-3.41 / 50.00]; BAYES_HAM(-3.00)[100.00%];
- MIME_BASE64_TEXT_BOGUS(1.00)[]; NEURAL_HAM_LONG(-1.00)[-1.000];
- R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
- NEURAL_HAM_SHORT(-0.20)[-1.000];
- MIME_GOOD(-0.10)[multipart/mixed,text/plain,text/x-patch];
- MIME_BASE64_TEXT(0.10)[]; MX_GOOD(-0.01)[];
- URIBL_BLOCKED(0.00)[imap1.dmz-prg2.suse.org:helo,imap1.dmz-prg2.suse.org:rdns,suse.de:email,suse.de:mid,suse.de:dkim];
- FREEMAIL_TO(0.00)[googlemail.com,lists.linux.dev,vger.kernel.org];
- RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from]; 
- TO_DN_SOME(0.00)[];
+In-Reply-To: <20251022-st7571-semicolon-v1-1-83d322618ff4@gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Spamd-Result: default: False [-2.80 / 50.00]; BAYES_HAM(-3.00)[100.00%];
+ SUSPICIOUS_RECIPS(1.50)[]; NEURAL_HAM_LONG(-1.00)[-1.000];
+ NEURAL_HAM_SHORT(-0.20)[-1.000]; MIME_GOOD(-0.10)[text/plain];
+ FREEMAIL_ENVRCPT(0.00)[gmail.com]; RCPT_COUNT_SEVEN(0.00)[8];
+ FREEMAIL_TO(0.00)[gmail.com,linux.intel.com,kernel.org,ffwll.ch];
+ RCVD_VIA_SMTP_AUTH(0.00)[]; ARC_NA(0.00)[];
+ TAGGED_RCPT(0.00)[]; MIME_TRACE(0.00)[0:+];
+ MID_RHS_MATCH_FROM(0.00)[];
  DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
- MIME_TRACE(0.00)[0:+,1:+,2:+]; ARC_NA(0.00)[];
- TO_MATCH_ENVRCPT_ALL(0.00)[];
- FREEMAIL_ENVRCPT(0.00)[googlemail.com]; RCVD_TLS_ALL(0.00)[];
- RCVD_COUNT_TWO(0.00)[2]; MID_RHS_MATCH_FROM(0.00)[];
+ URIBL_BLOCKED(0.00)[intel.com:email,suse.de:mid,suse.de:email,imap1.dmz-prg2.suse.org:helo];
  FROM_EQ_ENVFROM(0.00)[]; FROM_HAS_DN(0.00)[];
- SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
- RCPT_COUNT_SEVEN(0.00)[11]; RCVD_VIA_SMTP_AUTH(0.00)[];
- RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
- HAS_ATTACHMENT(0.00)[]; DKIM_TRACE(0.00)[suse.de:+];
- DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,
- imap1.dmz-prg2.suse.org:rdns, suse.de:email, suse.de:mid, suse.de:dkim]
-X-Rspamd-Action: no action
+ TO_DN_SOME(0.00)[]; RCVD_TLS_ALL(0.00)[];
+ RCVD_COUNT_TWO(0.00)[2]; TO_MATCH_ENVRCPT_ALL(0.00)[];
+ DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo, intel.com:email,
+ suse.de:mid, suse.de:email]
 X-Spam-Flag: NO
-X-Spam-Score: -3.41
+X-Spam-Score: -2.80
 X-Spam-Level: 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -154,74 +145,40 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This is a multi-part message in MIME format.
---------------IFq0UOMYTWshbPHE0miIKq0X
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
 
-Hi
 
-Am 22.10.25 um 05:27 schrieb Peter Schneider:
-> #regzbot introduced: 6f719373b943a955fee6fc2012aed207b65e2854
+Am 22.10.25 um 08:10 schrieb Marcus Folkesson:
+> Fix style issue reported by Kernel test robot.
 >
-> Hi all,
->
-> I have encountered a serious (for me) regression with 6.18-rc2 on my 
-> 2-socket Ivy Bridge Xeon E5-2697 v2 server. After booting, my console 
-> screen goes blank and stays blank. 6.18-rc1 was still fine.
->
-> The machine has an Asus Z9PE-D16 server mainboard with an onboard 
-> ASpeed AST2300 VGA chip with 16MB VRAM. I have attached an older HP 
-> Monitor to it via old VGA jack/cable. It also has a second graphics 
-> card in a PCI-E slot; an older NVidia GTX 560. It is not connected to 
-> a monitor, but I have configured it via kernel command line for 
-> PCI-pass-through to VMs running on this server (I use Proxmox VE, i.e. 
-> QEMU/KVM virtual machines). Currently, no VMs use this yet, and also 
-> no VMs are autostarting with machine boot. So when this regression 
-> occurs, the server is idle. Pressing a key on the keyboard does not 
-> make the screen come alive. The server is running fine though, and I 
-> can access it via SSH. It just has no graphic output anymore. In case 
-> this is important, the machine also has a ASMB6 BMC (can be used via 
-> http).
->
-> I have attached dmesg output from both 6.18-rc1 which is fine, and 
-> 6.18-rc2 which exhibits this bug. I have bisected the issue, please 
-> see attached git bisect.log.
+> Reported-by: kernel test robot <lkp@intel.com>
+> Closes: https://lore.kernel.org/oe-kbuild-all/202510221125.Cg0sM4xJ-lkp@intel.com/
+> Signed-off-by: Marcus Folkesson <marcus.folkesson@gmail.com>
 
-Thanks for the detailed bug report.
+Reviewed-by: Thomas Zimmermann <tzimmermann@suse.de>
 
-Attached is a patch that partially reverts the broken commit. Could you 
-please apply it on top of the broken kernel and report on the results?
-
-Best regards
-Thomas
-
+> ---
+>   drivers/gpu/drm/sitronix/st7571-i2c.c | 2 +-
+>   1 file changed, 1 insertion(+), 1 deletion(-)
 >
-> The bad commit is
+> diff --git a/drivers/gpu/drm/sitronix/st7571-i2c.c b/drivers/gpu/drm/sitronix/st7571-i2c.c
+> index 32b91d65b768b26caa7dcef42a00d36f236fbc32..4e73c8b415d677dab5b421666b56f4bb3697b982 100644
+> --- a/drivers/gpu/drm/sitronix/st7571-i2c.c
+> +++ b/drivers/gpu/drm/sitronix/st7571-i2c.c
+> @@ -322,7 +322,7 @@ static void st7571_prepare_buffer_grayscale(struct st7571_device *st7571,
+>   		size = (rect->x2 - rect->x1) * (rect->y2 - rect->y1) / 4;
+>   		memcpy(st7571->hwbuf, vmap->vaddr, size);
+>   		break;
+> -	};
+> +	}
+>   }
+>   
+>   static int st7571_fb_update_rect_monochrome(struct drm_framebuffer *fb, struct drm_rect *rect)
 >
-> commit 6f719373b943a955fee6fc2012aed207b65e2854
-> Author: Thomas Zimmermann <tzimmermann@suse.de>
-> Date:   Tue Oct 14 10:46:34 2025 +0200
+> ---
+> base-commit: c1a7cc00cd412505e070eb4e62bc0b0ca85243e0
+> change-id: 20251022-st7571-semicolon-bc5287cde264
 >
->     drm/ast: Blank with VGACR17 sync enable, always clear VGACRB6 sync 
-> off
->
->     Blank the display by disabling sync pulses with VGACR17<7>. Unblank
->     by reenabling them. This VGA setting should be supported by all 
-> Aspeed
->     hardware.
->
-> When I revert this from 6.18-rc2, the issue goes away and my console 
-> screen works again.
->
-> I just saw that Greg just yesterday evening included the offending 
-> patch already in stable RCs 6.12.55-rc1 and 6.17.5-rc1, so I'll test 
-> these seperately and send a mail to the stable mailing list, too, if 
-> affected (which I anticipate).
->
-> Beste Grüße,
-> Peter Schneider
->
+> Best regards,
 
 -- 
 --
@@ -233,44 +190,3 @@ GF: Ivo Totev, Andrew Myers, Andrew McDonald, Boudien Moerman
 HRB 36809 (AG Nuernberg)
 
 
---------------IFq0UOMYTWshbPHE0miIKq0X
-Content-Type: text/x-patch; charset=UTF-8;
- name="0001-ast-Set-clear-screen-disable-bit.patch"
-Content-Disposition: attachment;
- filename="0001-ast-Set-clear-screen-disable-bit.patch"
-Content-Transfer-Encoding: base64
-
-RnJvbSA1ZmRlYTJlOTkzNmE0OTkwNTkwMmUzMzllNjI3YTI3YjBhYjBhODg0IE1vbiBTZXAg
-MTcgMDA6MDA6MDAgMjAwMQpGcm9tOiBUaG9tYXMgWmltbWVybWFubiA8dHppbW1lcm1hbm5A
-c3VzZS5kZT4KRGF0ZTogV2VkLCAyMiBPY3QgMjAyNSAwODo0ODo0OSArMDIwMApTdWJqZWN0
-OiBbUEFUQ0hdIGFzdDogU2V0L2NsZWFyIHNjcmVlbi1kaXNhYmxlIGJpdAoKLS0tCiBkcml2
-ZXJzL2dwdS9kcm0vYXN0L2FzdF9tb2RlLmMgfCA4ICsrKysrKysrCiAxIGZpbGUgY2hhbmdl
-ZCwgOCBpbnNlcnRpb25zKCspCgpkaWZmIC0tZ2l0IGEvZHJpdmVycy9ncHUvZHJtL2FzdC9h
-c3RfbW9kZS5jIGIvZHJpdmVycy9ncHUvZHJtL2FzdC9hc3RfbW9kZS5jCmluZGV4IDljZTg3
-NGRiYTY5Yy4uYjczNDM3MDgzZGJmIDEwMDY0NAotLS0gYS9kcml2ZXJzL2dwdS9kcm0vYXN0
-L2FzdF9tb2RlLmMKKysrIGIvZHJpdmVycy9ncHUvZHJtL2FzdC9hc3RfbW9kZS5jCkBAIC04
-MjAsNiArODIwLDcgQEAgYXN0X2NydGNfaGVscGVyX2F0b21pY19mbHVzaChzdHJ1Y3QgZHJt
-X2NydGMgKmNydGMsCiBzdGF0aWMgdm9pZCBhc3RfY3J0Y19oZWxwZXJfYXRvbWljX2VuYWJs
-ZShzdHJ1Y3QgZHJtX2NydGMgKmNydGMsIHN0cnVjdCBkcm1fYXRvbWljX3N0YXRlICpzdGF0
-ZSkKIHsKIAlzdHJ1Y3QgYXN0X2RldmljZSAqYXN0ID0gdG9fYXN0X2RldmljZShjcnRjLT5k
-ZXYpOworCXU4IHZnYXNyMSA9IDB4ZmY7CiAJdTggdmdhY3IxNyA9IDB4MDA7CiAJdTggdmdh
-Y3JiNiA9IDB4ZmY7CiAKQEAgLTgyOCw2ICs4MjksOSBAQCBzdGF0aWMgdm9pZCBhc3RfY3J0
-Y19oZWxwZXJfYXRvbWljX2VuYWJsZShzdHJ1Y3QgZHJtX2NydGMgKmNydGMsIHN0cnVjdCBk
-cm1fYXRvbQogCiAJYXN0X3NldF9pbmRleF9yZWdfbWFzayhhc3QsIEFTVF9JT19WR0FDUkks
-IDB4MTcsIDB4N2YsIHZnYWNyMTcpOwogCWFzdF9zZXRfaW5kZXhfcmVnX21hc2soYXN0LCBB
-U1RfSU9fVkdBQ1JJLCAweGI2LCAweGZjLCB2Z2FjcmI2KTsKKworCXZnYXNyMSAmPSB+QVNU
-X0lPX1ZHQVNSMV9TRDsKKwlhc3Rfc2V0X2luZGV4X3JlZ19tYXNrKGFzdCwgQVNUX0lPX1ZH
-QVNSSSwgMHgwMSwgMHhkZiwgdmdhc3IxKTsKIH0KIAogc3RhdGljIHZvaWQgYXN0X2NydGNf
-aGVscGVyX2F0b21pY19kaXNhYmxlKHN0cnVjdCBkcm1fY3J0YyAqY3J0Yywgc3RydWN0IGRy
-bV9hdG9taWNfc3RhdGUgKnN0YXRlKQpAQCAtODM1LDYgKzgzOSwxMCBAQCBzdGF0aWMgdm9p
-ZCBhc3RfY3J0Y19oZWxwZXJfYXRvbWljX2Rpc2FibGUoc3RydWN0IGRybV9jcnRjICpjcnRj
-LCBzdHJ1Y3QgZHJtX2F0bwogCXN0cnVjdCBkcm1fY3J0Y19zdGF0ZSAqb2xkX2NydGNfc3Rh
-dGUgPSBkcm1fYXRvbWljX2dldF9vbGRfY3J0Y19zdGF0ZShzdGF0ZSwgY3J0Yyk7CiAJc3Ry
-dWN0IGFzdF9kZXZpY2UgKmFzdCA9IHRvX2FzdF9kZXZpY2UoY3J0Yy0+ZGV2KTsKIAl1OCB2
-Z2FjcjE3ID0gMHhmZjsKKwl1OCB2Z2FzcjEgPSAweDAwOworCisJdmdhc3IxIHw9IEFTVF9J
-T19WR0FTUjFfU0Q7CisJYXN0X3NldF9pbmRleF9yZWdfbWFzayhhc3QsIEFTVF9JT19WR0FT
-UkksIDB4MDEsIDB4ZGYsIHZnYXNyMSk7CiAKIAl2Z2FjcjE3ICY9IH5BU1RfSU9fVkdBQ1Ix
-N19TWU5DX0VOQUJMRTsKIAlhc3Rfc2V0X2luZGV4X3JlZ19tYXNrKGFzdCwgQVNUX0lPX1ZH
-QUNSSSwgMHgxNywgMHg3ZiwgdmdhY3IxNyk7Ci0tIAoyLjUxLjAKCg==
-
---------------IFq0UOMYTWshbPHE0miIKq0X--
