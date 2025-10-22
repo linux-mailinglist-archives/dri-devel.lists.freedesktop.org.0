@@ -2,41 +2,82 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B8E24BFF975
-	for <lists+dri-devel@lfdr.de>; Thu, 23 Oct 2025 09:29:44 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id B59ECBFF993
+	for <lists+dri-devel@lfdr.de>; Thu, 23 Oct 2025 09:30:03 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B5A2710E894;
-	Thu, 23 Oct 2025 07:29:39 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3550310E898;
+	Thu, 23 Oct 2025 07:30:01 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; secure) header.d=protonmail.com header.i=@protonmail.com header.b="q0WjQ/uD";
+	dkim=pass (2048-bit key; secure) header.d=mary.zone header.i=@mary.zone header.b="burPOSjm";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-244102.protonmail.ch (mail-244102.protonmail.ch
- [109.224.244.102])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B9FC610E14F
- for <dri-devel@lists.freedesktop.org>; Wed, 22 Oct 2025 16:54:40 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=protonmail.com;
- s=protonmail3; t=1761152075; x=1761411275;
- bh=aLLP+4O1TuEFGP3Nd3w2xHUT+zEmiMbGCzDWVfJDgCk=;
- h=Date:To:From:Subject:Message-ID:Feedback-ID:From:To:Cc:Date:
- Subject:Reply-To:Feedback-ID:Message-ID:BIMI-Selector;
- b=q0WjQ/uDDXiNOzjAH1dZtDD4hCw9qhoBRKSeEoTf38LfbEbVVPVSzmom22HddmW46
- hVKja+x0i3y9aj8iJsTK3qXGIpHchwmcxfEycNKXC2pcP/Sr1cRYdt7URvXJBC3w5S
- HjRWlsSNd+AHByrb2Ki0UnygwIiln5+Gbsx7340DetNE3RNE+c8MmJc+q9Gjvr3e65
- Sexosghz/Eq7BYILOjXkD/MCEpOQaX1i9viPBm1aGQowxwYO13CVXooJI7jbpsrjD8
- SJKsbCJw4o1ouuK14C80YvkN4woClVabEzz2Ur+FS8MUnQxgNzc3IKVnWBqQKxGLub
- OKS4FnqOA8Qyw==
-Date: Wed, 22 Oct 2025 16:54:31 +0000
-To: "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>
-From: CS Sushi Man <cssushiman@protonmail.com>
-Subject: Question about DRM Framebuffer
-Message-ID: <kJDCwu-BdCjeuVfBNgBp-i7YwQX7dzJZZfNcDbjC9gYpxsaq_IxQQHkPHEBQ2YteD6V_HWYGm2cayZYBkljjvQv4AT1bkMw1xupREPZxf6o=@protonmail.com>
-Feedback-ID: 93478688:user:proton
-X-Pm-Message-ID: 7bd7966f9f219b8ebca9c5d20aadcb172ba02b43
+Received: from mail-yw1-f178.google.com (mail-yw1-f178.google.com
+ [209.85.128.178])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E74AF10E854
+ for <dri-devel@lists.freedesktop.org>; Wed, 22 Oct 2025 21:39:52 +0000 (UTC)
+Received: by mail-yw1-f178.google.com with SMTP id
+ 00721157ae682-780fe76f457so1008407b3.0
+ for <dri-devel@lists.freedesktop.org>; Wed, 22 Oct 2025 14:39:52 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=mary.zone; s=google; t=1761169191; x=1761773991; darn=lists.freedesktop.org; 
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=XY/fVzl28BJXNG49hJlcZcehSDNURMQ7FS8BdFDQScQ=;
+ b=burPOSjm6sv+2rTFzfgP48VuAYtJ9Dkmd4jhLdfMD0u6BZWV0IGde08xtqFi3xuCln
+ EsK1W0l1XWah50nk+Cx2SDba262Cd/5mRmAzi7SlECS5U4o2aDTCsC4/azJa3bcdIbnQ
+ 0zGGG2uVGtqT1Q7Ov6eS/DxvZ1iVww5yY6laOw0rRxodCPXx/fhqNvCs/42iSifpxEDn
+ bihUBP5kTrxzrHukxDKq63LeKs4bd18X3K6iS0xZ9F6w8hp9hnB7t2n1cpVKxg+3kfOX
+ oSLbTwxNm2q9sWEWg2TA4Ms79dYNfnOYXtb9UO7BCT0H3Fk678HrNC4oH/CVlesAaJRf
+ FILA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1761169191; x=1761773991;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=XY/fVzl28BJXNG49hJlcZcehSDNURMQ7FS8BdFDQScQ=;
+ b=RjO33qKt7ryYpyC+SxaepROr70aD1dPWz8nArsm30KWDxsn2iNUzJnTOdYGkhIMoX5
+ 4VxvchuorsgON0Jxr3jpxUyvv6QqePVtDhnov9zIbai4saHXYuuFZYjb4U3CPHbljWP3
+ zbCX685n2qqHodHCI9Dmjp+lFJEdvLbQ1qJs6Z6g+g1hepAcbKRDLWvGV9CKaFv+mgyn
+ PrYCzWu/E/Q0iYRl4JoMDuBGaUx03YancsF10K6Py2ypHhdB0fr7BVY2BQGctUW5Le8a
+ YUkfmxr4mwtgIsdZGiRzAwhUtLj/klU/317WNYj/ixvv8rUu8UnvrzWJkT7FJuzDTXz8
+ Zm6A==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCUiw+wHeh+0Sj9p5wiiriRIr7nyfJ/+QW6V9qJ24r0zlsLLmLzGlquxlnoMB7gthMqcRWXuQLaQYhY=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YzcjGywd0AZG2JrovfqC1XyoVdeoP3GHU6S05OWQhsBSNo9ykbD
+ jlWG4kJut7uA0ogSEd6NhO5SZo3Bng7S9ji0dOwlSrN2xkhp2EwaifmOZxYPiHljtFAWT7vVoA2
+ DGoBKDf21YEPa0Uuu7CWjsBwmFjyBtyLkihnGLAqgQA==
+X-Gm-Gg: ASbGncuhzMzzgMvakLgLSOD73f2K2MSwA7tVsGjJ5jKIJtyWvAfP3FukKw/UWAnvwUv
+ zuGKxEm7gm5BpBw1oPKpHrT/EofjlPKqiKQqFaed8RyEY5l1jbqqS7O1q2FnBoq+w3TkMuxWjJF
+ ZAfYNZbfx9xABcSn4l4Y6cvo2w30IENKG3BhIrF+16F888Lqg7r4kIgR7Xwlc/ClnnIQQtmIsUS
+ ZwljrREdPpMnRIyb5VC9+WZZFx07fU+GIXiHFP+FVmRUT2fy4+YUvnRXmuEWXtnVp0o2qemohRI
+ X3iNcypIIWtQkGTqdDkuzYukn3ds
+X-Google-Smtp-Source: AGHT+IHLticEoUHzz+5YlBnUoC99gaUTyPszn1BD+u/JBN5hlfiJhQmAcF37pUbO0+8+V7Ij2JZoZtpIzB/MD40J78o=
+X-Received: by 2002:a05:690c:25c6:b0:780:fdbb:5265 with SMTP id
+ 00721157ae682-7836d1c62b1mr345947707b3.19.1761169191371; Wed, 22 Oct 2025
+ 14:39:51 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: multipart/alternative;
- boundary="b1=_DG8g80NzNAx4S8aE6CNqx4XL1prvroaV9i67pDy10"
+References: <20251009233837.10283-1-mohamedahmedegypt2001@gmail.com>
+ <20251009233837.10283-3-mohamedahmedegypt2001@gmail.com>
+ <CAA+WOBvVasy2wRP_wmP-R6Q8y5B4sN08jNYfHuDVjiWXV+m23Q@mail.gmail.com>
+ <904ba70f-b1bf-4745-8e92-d27a6c903673@kernel.org>
+In-Reply-To: <904ba70f-b1bf-4745-8e92-d27a6c903673@kernel.org>
+From: Mary Guillemard <mary@mary.zone>
+Date: Wed, 22 Oct 2025 23:39:40 +0200
+X-Gm-Features: AS18NWBm422X6XetKOPBkLZPJQB9QiYJm8O_YbBTYHKPk9yZbZPBR3qyH8LezJU
+Message-ID: <CAPv6GL2DQ_wY=r4eV_V=nBGaj20HtYzRfJg==rQJtuO8Fo+HAg@mail.gmail.com>
+Subject: Re: [PATCH 2/5] drm/nouveau/uvmm: Allow larger pages
+To: Danilo Krummrich <dakr@kernel.org>
+Cc: Mohamed Ahmed <mohamedahmedegypt2001@gmail.com>,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org, 
+ Faith Ekstrand <faith.ekstrand@collabora.com>, Lyude Paul <lyude@redhat.com>, 
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, 
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
+ Simona Vetter <simona@ffwll.ch>, nouveau@lists.freedesktop.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-Mailman-Approved-At: Thu, 23 Oct 2025 07:29:39 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -53,40 +94,35 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
---b1=_DG8g80NzNAx4S8aE6CNqx4XL1prvroaV9i67pDy10
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: base64
+On Wed, Oct 22, 2025 at 10:56=E2=80=AFPM Danilo Krummrich <dakr@kernel.org>=
+ wrote:
+>
+> On 10/22/25 12:16 PM, Mohamed Ahmed wrote:
+> > Pinging again re: review and also was asking if we can revert the
+> > select_page_shift() handling back to v1 behavior with a fall-back
+> > path, as it looks like there are some cases where
+> > nouveau_bo_fixup_align() isn't enough;
+> > https://gitlab.freedesktop.org/mesa/mesa/-/merge_requests/36450#note_31=
+59199.
+>
+> I don't think we should add a fallback for something that is expected to =
+be
+> sufficient.
+>
+> Instead we should figure out in which exact case the WARN_ON() was hit an=
+d why.
 
-SW4gdGhlIGNhc2UgdGhhdCBJIHN0YXJ0IHVwIGFuIGFwcGxpY2F0aW9uIGZyb20gdGhlIExpbnV4
-IHRlcm1pbmFsLCBjb3VsZCB5b3UgZGV0YWlsIHRoZSBwcm9jZXNzIG9mIGV4cG9zaW5nIGEgZnJh
-bWUgYnVmZmVyIGRldmljZS9tZW1vcnkgc3BhY2UsIHRoYXQgaXMgZXF1aXZhbGVudCB0byBmYmRl
-dj8gQW5kIGlmIHBvc3NpYmxlLCBjb3VsZCB5b3UgYWxzbyBwYXNzIG1lIGEgbGluayB0byBhbiBl
-eGFtcGxlPwoKSSBkbyBrbm93IHRoYXQgYSBkZXZpY2Ugd291bGQgaGF2ZSB0byBiZSBmb3VuZCBh
-bmQgbW9kZXNldCBmaXJzdCwgd2l0aCBhIGdpdmVuIENSVEMsIGFuZCBtYXliZSBhbiBlbmNvZGVy
-IGFzIHdlbGwuCgpTZW50IHdpdGggW1Byb3RvbiBNYWlsXShodHRwczovL3Byb3Rvbi5tZS9tYWls
-L2hvbWUpIHNlY3VyZSBlbWFpbC4=
+The reason I wrote this code initially was to handle addresses
+provided by userspace that aren't aligned to the page size selected
+during BO creation.
+This is something I did trigger when typing this patch initially with
+my distro provided version of mesa (likely 25.0.x but it has been a
+while)
+Thomas Andersen also confirmed on nouveau irc channel that he did hit
+this case with an old version of NVK and this patchset.
 
---b1=_DG8g80NzNAx4S8aE6CNqx4XL1prvroaV9i67pDy10
-Content-Type: text/html; charset=utf-8
-Content-Transfer-Encoding: base64
+I think we could just remove the WARN_ON and properly document that
+this was previously allowed and is there for backward compatibility.
 
-PGRpdiBzdHlsZT0iZm9udC1mYW1pbHk6IEFyaWFsLCBzYW5zLXNlcmlmOyBmb250LXNpemU6IDE0
-cHg7Ij5JbiB0aGUgY2FzZSB0aGF0IEkgc3RhcnQgdXAgYW4gYXBwbGljYXRpb24gZnJvbSB0aGUg
-TGludXggdGVybWluYWwsIGNvdWxkIHlvdSBkZXRhaWwgdGhlIHByb2Nlc3Mgb2YgZXhwb3Npbmcg
-YSBmcmFtZSBidWZmZXIgZGV2aWNlL21lbW9yeSBzcGFjZSwgdGhhdCBpcyBlcXVpdmFsZW50IHRv
-IGZiZGV2PyBBbmQgaWYgcG9zc2libGUsIGNvdWxkIHlvdSBhbHNvIHBhc3MgbWUgYSBsaW5rIHRv
-IGFuIGV4YW1wbGU/PGJyPjxicj5JIGRvIGtub3cgdGhhdCBhIGRldmljZSB3b3VsZCBoYXZlIHRv
-IGJlIGZvdW5kIGFuZCBtb2Rlc2V0IGZpcnN0LCB3aXRoIGEgZ2l2ZW4gQ1JUQywgYW5kIG1heWJl
-IGFuIGVuY29kZXIgYXMgd2VsbC48L2Rpdj48ZGl2IHN0eWxlPSJmb250LWZhbWlseTogQXJpYWws
-IHNhbnMtc2VyaWY7IGZvbnQtc2l6ZTogMTRweDsiPjxicj48L2Rpdj4NCjxkaXYgc3R5bGU9ImZv
-bnQtZmFtaWx5OiBBcmlhbCwgc2Fucy1zZXJpZjsgZm9udC1zaXplOiAxNHB4OyIgY2xhc3M9InBy
-b3Rvbm1haWxfc2lnbmF0dXJlX2Jsb2NrIj4NCiAgICA8ZGl2IGNsYXNzPSJwcm90b25tYWlsX3Np
-Z25hdHVyZV9ibG9jay11c2VyIHByb3Rvbm1haWxfc2lnbmF0dXJlX2Jsb2NrLWVtcHR5Ij4NCiAg
-ICAgICAgDQogICAgICAgICAgICA8L2Rpdj4NCiAgICANCiAgICAgICAgICAgIDxkaXYgY2xhc3M9
-InByb3Rvbm1haWxfc2lnbmF0dXJlX2Jsb2NrLXByb3RvbiI+DQogICAgICAgIFNlbnQgd2l0aCA8
-YSBocmVmPSJodHRwczovL3Byb3Rvbi5tZS9tYWlsL2hvbWUiIHRhcmdldD0iX2JsYW5rIj5Qcm90
-b24gTWFpbDwvYT4gc2VjdXJlIGVtYWlsLg0KICAgIDwvZGl2Pg0KPC9kaXY+DQo=
-
-
---b1=_DG8g80NzNAx4S8aE6CNqx4XL1prvroaV9i67pDy10--
-
+Regards,
+Mary Guillemard
