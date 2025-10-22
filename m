@@ -2,43 +2,85 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 38EB3BFB84B
-	for <lists+dri-devel@lfdr.de>; Wed, 22 Oct 2025 13:02:50 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 03704BFB854
+	for <lists+dri-devel@lfdr.de>; Wed, 22 Oct 2025 13:03:03 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4FA6D10E088;
-	Wed, 22 Oct 2025 11:02:47 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 345A610E74D;
+	Wed, 22 Oct 2025 11:03:01 +0000 (UTC)
+Authentication-Results: gabe.freedesktop.org;
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="Eo7pnWJI";
+	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
- by gabe.freedesktop.org (Postfix) with ESMTP id 374D910E088
- for <dri-devel@lists.freedesktop.org>; Wed, 22 Oct 2025 11:02:46 +0000 (UTC)
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
- by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id F30CD1C00
- for <dri-devel@lists.freedesktop.org>; Wed, 22 Oct 2025 04:02:37 -0700 (PDT)
-Received: from e110455-lin.cambridge.arm.com (usa-sjc-imap-foss1.foss.arm.com
- [10.121.207.14])
- by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPA id 98B6F3F59E
- for <dri-devel@lists.freedesktop.org>; Wed, 22 Oct 2025 04:02:45 -0700 (PDT)
-Date: Wed, 22 Oct 2025 12:02:34 +0100
-From: Liviu Dudau <liviu.dudau@arm.com>
-To: Ketil Johnsen <ketil.johnsen@arm.com>
-Cc: Boris Brezillon <boris.brezillon@collabora.com>,
- Steven Price <steven.price@arm.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>,
+Received: from mail-wm1-f45.google.com (mail-wm1-f45.google.com
+ [209.85.128.45])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2472F10E74E
+ for <dri-devel@lists.freedesktop.org>; Wed, 22 Oct 2025 11:03:00 +0000 (UTC)
+Received: by mail-wm1-f45.google.com with SMTP id
+ 5b1f17b1804b1-474975af41dso14229815e9.2
+ for <dri-devel@lists.freedesktop.org>; Wed, 22 Oct 2025 04:03:00 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1761130978; x=1761735778; darn=lists.freedesktop.org;
+ h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=w9oIpyKZKP65JjkSPCQNgE2Eec7phDpEBv4WlPPRGpA=;
+ b=Eo7pnWJI6w9V7dNlBAG0qVONBUH5nWJ9jiKvFsh5qJ2zTA/1HHOBndSDeVv/SjqfPO
+ 4fqybjOdcRKtHuLduDUbpWzrBye1s5lzdrJZkUnv/8YYImjnkRtSIZCaS/smBCVivXAy
+ c5+JCmPB6bzaUFws/C8jKRSA+IgXb+4uZ2NF0Aajd0VjRsH7C1scI/jyP+ssIrt8FZ6q
+ LGzmDB9lkYRMKhEu4bQqYB0iP3dD5kAy82tVmZRuOUbCd/FUZ8am0Qv/dwvOdWwbP3Js
+ u6Wegc5T5RaF+1fGn47AASniUWRNLMnutgcUWq4Vs0pdTCuTtiCChRrXIoX7BbKt+Rf2
+ K3Cw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1761130978; x=1761735778;
+ h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=w9oIpyKZKP65JjkSPCQNgE2Eec7phDpEBv4WlPPRGpA=;
+ b=k8Q4pTSSAWcPRD+WpgLcpzRU6xo+puT5y6iVkU459yGMOO/G8zQ+Xa72Ji9BBDdlsQ
+ uIF9rdb/GY4abo3dpjtWJhD5hCH+eNhaimZLjvzZHl+1qJcxWejrBivSOVYtzPCPv1iX
+ iihTwkMH7z8Aa46zo/ou3sHm50XHAIeyBZQ+c3EAhYaBqsYmu700JNaws3KTxCKu1MM8
+ rOClGSNzYw3zu9REINrL6nbhUQJYcnJpWRC8QTRaUCEpm3LHzqPiyEfE78hpzqKXUrL2
+ XcyvhG3aHqb9Oqt58RKjnY404RdSlDskvQQj1gS/I8XUooe7JRklLKKZQmLXDsDlFz6o
+ 1sxA==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCXtPOvRCS7iY/0tQ4tAjHIys7+rZJBS3FlTAdnyHFypmA/kSw4X18PhUCR8gJG9/z+tRhqgMukLgWU=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YyJYFWjh2LVz4x/ZQ4R4oNy8nlieBWMEXd5rm4ujZPITiHIxdis
+ a5AvXu3W5wcSyIht0gNcBwJMjO/XF8PgcMSVHdDGZ5FfRQMOKvBlnjMsMPSQdsCheEzsUNCwUpF
+ 5rRzx
+X-Gm-Gg: ASbGnctcAw+fQS1IJW2aoqagiD8vHHpEH1illmOJes1P4KmpDK50bfgFJ84iB9ybdi+
+ 1prbvEl50Alvu0scVXJZQHQQhxrOZzIGK6M0Eqe+EfVFJGC2sAdrOenxrhCIaSIrvnkHy1JeWTV
+ ymMFC7JjJRBjTjiuuS9FPufwGIAGF+A8vHkrHtXCjZ/yKj12Eo1ZWVXhcI2Rxuo3drOYChRQXKo
+ RGLBVpv7Qzx/HigAxvi1uxzBljR+d3zgxP39iSPz94xfPTC3inBbXVxTter38NRlBoxtlCH31jJ
+ vZaSjXgnFNW2WhnqnKC7x4NQFSTe5KbmKhecL8sbcb2Kt8UhAfn2MB3Gj8k1/meBbureI48Vkxf
+ q02kArXEuwImZvcqiMIPE72WOmdBk3SBe7CUA1GSKXl3Vw6/kFG7zg8mh5JoZ8wrlNQ1vex+FQD
+ 2MeA4nyWXkxbuvQ0BK
+X-Google-Smtp-Source: AGHT+IHuoJkLRfik10AD7NBPZIudPe/zz0dSg5CN+bjMkIVUA3hu11mzQRZgc9RP/6950DlYAOSGLQ==
+X-Received: by 2002:a05:600c:5298:b0:46e:432f:32ab with SMTP id
+ 5b1f17b1804b1-4711791d1e3mr152626135e9.33.1761130978504; 
+ Wed, 22 Oct 2025 04:02:58 -0700 (PDT)
+Received: from localhost ([196.207.164.177])
+ by smtp.gmail.com with UTF8SMTPSA id
+ 5b1f17b1804b1-47494ae5510sm35646435e9.3.2025.10.22.04.02.57
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 22 Oct 2025 04:02:58 -0700 (PDT)
+Date: Wed, 22 Oct 2025 14:02:54 +0300
+From: Dan Carpenter <dan.carpenter@linaro.org>
+To: Sunil Khatri <sunil.khatri@amd.com>
+Cc: Alex Deucher <alexander.deucher@amd.com>,
+ Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
  David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Heiko Stuebner <heiko@sntech.de>, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2] drm/panthor: Fix UAF race between device unplug and
- FW event processing
-Message-ID: <aPi5yi9oND0b-7g5@e110455-lin.cambridge.arm.com>
-References: <20251022103014.1082629-1-ketil.johnsen@arm.com>
+ Srinivasan Shanmugam <srinivasan.shanmugam@amd.com>,
+ Liu01 Tong <Tong.Liu01@amd.com>,
+ Tvrtko Ursulin <tvrtko.ursulin@igalia.com>,
+ Mario Limonciello <mario.limonciello@amd.com>,
+ amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, kernel-janitors@vger.kernel.org
+Subject: [PATCH next] drm/amdgpu: unlock and cleanup on error in
+ amdgpu_cs_parser_bos()
+Message-ID: <aPi53iS_z4y4uVef@stanley.mountain>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20251022103014.1082629-1-ketil.johnsen@arm.com>
+X-Mailer: git-send-email haha only kidding
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -54,88 +96,32 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Oct 22, 2025 at 12:30:13PM +0200, Ketil Johnsen wrote:
-> The function panthor_fw_unplug() will free the FW memory sections.
-> The problem is that there could still be pending FW events which are yet
-> not handled at this point. process_fw_events_work() can in this case try
-> to access said freed memory.
-> 
-> This fix introduces a destroyed state for the panthor_scheduler object,
-> and we check for this before processing FW events.
-> 
-> Signed-off-by: Ketil Johnsen <ketil.johnsen@arm.com>
-> Fixes: de85488138247 ("drm/panthor: Add the scheduler logical block")
+If amdgpu_hmm_range_alloc() fails then free the previous iterations and
+call mutex_unlock(&p->bo_list->bo_list_mutex) before returning.
 
-Reviewed-by: Liviu Dudau <liviu.dudau@arm.com>
+Fixes: e095b55155ef ("drm/amdgpu: use user provided hmm_range buffer in amdgpu_ttm_tt_get_user_pages")
+Signed-off-by: Dan Carpenter <dan.carpenter@linaro.org>
+---
+ drivers/gpu/drm/amd/amdgpu/amdgpu_cs.c | 6 ++++--
+ 1 file changed, 4 insertions(+), 2 deletions(-)
 
-Best regards,
-Liviu
-
-> ---
-> v2:
-> - Followed Boris's advice and handle the race purely within the
->   scheduler block (by adding a destroyed state)
-> ---
->  drivers/gpu/drm/panthor/panthor_sched.c | 15 ++++++++++++---
->  1 file changed, 12 insertions(+), 3 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/panthor/panthor_sched.c b/drivers/gpu/drm/panthor/panthor_sched.c
-> index 0cc9055f4ee52..4996f987b8183 100644
-> --- a/drivers/gpu/drm/panthor/panthor_sched.c
-> +++ b/drivers/gpu/drm/panthor/panthor_sched.c
-> @@ -315,6 +315,13 @@ struct panthor_scheduler {
->  		 */
->  		struct list_head stopped_groups;
->  	} reset;
-> +
-> +	/**
-> +	 * @destroyed: Scheduler object is (being) destroyed
-> +	 *
-> +	 * Normal scheduler operations should no longer take place.
-> +	 */
-> +	bool destroyed;
->  };
->  
->  /**
-> @@ -1765,7 +1772,10 @@ static void process_fw_events_work(struct work_struct *work)
->  	u32 events = atomic_xchg(&sched->fw_events, 0);
->  	struct panthor_device *ptdev = sched->ptdev;
->  
-> -	mutex_lock(&sched->lock);
-> +	guard(mutex)(&sched->lock);
-> +
-> +	if (sched->destroyed)
-> +		return;
->  
->  	if (events & JOB_INT_GLOBAL_IF) {
->  		sched_process_global_irq_locked(ptdev);
-> @@ -1778,8 +1788,6 @@ static void process_fw_events_work(struct work_struct *work)
->  		sched_process_csg_irq_locked(ptdev, csg_id);
->  		events &= ~BIT(csg_id);
->  	}
-> -
-> -	mutex_unlock(&sched->lock);
->  }
->  
->  /**
-> @@ -3882,6 +3890,7 @@ void panthor_sched_unplug(struct panthor_device *ptdev)
->  	cancel_delayed_work_sync(&sched->tick_work);
->  
->  	mutex_lock(&sched->lock);
-> +	sched->destroyed = true;
->  	if (sched->pm.has_ref) {
->  		pm_runtime_put(ptdev->base.dev);
->  		sched->pm.has_ref = false;
-> -- 
-> 2.47.2
-> 
-
+diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_cs.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_cs.c
+index ecdfe6cb36cc..dac0b15823f2 100644
+--- a/drivers/gpu/drm/amd/amdgpu/amdgpu_cs.c
++++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_cs.c
+@@ -892,8 +892,10 @@ static int amdgpu_cs_parser_bos(struct amdgpu_cs_parser *p,
+ 		struct amdgpu_bo *bo = e->bo;
+ 
+ 		e->range = amdgpu_hmm_range_alloc(NULL);
+-		if (unlikely(!e->range))
+-			return -ENOMEM;
++		if (unlikely(!e->range)) {
++			r = -ENOMEM;
++			goto out_free_user_pages;
++		}
+ 
+ 		r = amdgpu_ttm_tt_get_user_pages(bo, e->range);
+ 		if (r)
 -- 
-====================
-| I would like to |
-| fix the world,  |
-| but they're not |
-| giving me the   |
- \ source code!  /
-  ---------------
-    ¯\_(ツ)_/¯
+2.51.0
+
