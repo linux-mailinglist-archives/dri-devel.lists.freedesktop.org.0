@@ -2,86 +2,64 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1FF10BFC4C2
-	for <lists+dri-devel@lfdr.de>; Wed, 22 Oct 2025 15:53:29 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0DEB5BFC501
+	for <lists+dri-devel@lfdr.de>; Wed, 22 Oct 2025 15:55:33 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2A18810E791;
-	Wed, 22 Oct 2025 13:53:27 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E3A1710E799;
+	Wed, 22 Oct 2025 13:55:29 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="TCpC1zou";
+	dkim=pass (1024-bit key; unprotected) header.d=ti.com header.i=@ti.com header.b="iAjzbENW";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-yx1-f41.google.com (mail-yx1-f41.google.com
- [74.125.224.41])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8262A10E791
- for <dri-devel@lists.freedesktop.org>; Wed, 22 Oct 2025 13:53:25 +0000 (UTC)
-Received: by mail-yx1-f41.google.com with SMTP id
- 956f58d0204a3-63cd60ca2b2so7000281d50.2
- for <dri-devel@lists.freedesktop.org>; Wed, 22 Oct 2025 06:53:25 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1761141204; x=1761746004; darn=lists.freedesktop.org;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=C/j5eoblv5CnkAUUpYz1QsciL/siC0nJHtFi7ofm3EM=;
- b=TCpC1zou3KMHp9VMuGWW5xOAa9X+x6jus4yKOVMH/MBqvvWXpiPFXPdCj4j8i+wKGj
- WncJFm6fr7kORBPGw1pKFVbofem3INizbqxOSVAkcWhX21vaYTjOR4RuarKX1qqMcbQc
- Dfef2Vb00Rf165DL1+XDRBnwWw96ol7vXHqCq8mDBuWsuZXwd6K231pmPds4lwaEF/S5
- zWTJR36vnzoe6JdaMB8r8B91zXXe2b+0zuDGRl8KMEYwuNagLncyV/QNBXWnHhEPW5NO
- DZyBoGHWCs5eSGekfB1mUu32Fv2UiJbD5dxi+/PkZUmRDhb7l/L1BPVbnj6ACzklycOD
- Td6Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1761141204; x=1761746004;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=C/j5eoblv5CnkAUUpYz1QsciL/siC0nJHtFi7ofm3EM=;
- b=RGvyZwVJXBlrtQxXTXxdcXLHKan2QsATq8RSLov7xKBbJsiRuPtjk/juDldO+eswKm
- Dj+xQhl7XEqClc6hTjgUSsisZ57LEUhaxbKTajMf61nLmJpT1j7MxPw0D1BQGh9TOEy7
- 31HjyFDgVNcChC8lFyNlU/627WiGQFsOXAFJxB1UnRFNbbymBF7BefRsb9RV7fge8xPm
- 1Rze1J/2cZ/d3DUsTOu/eIT9RW+hyHaHnnFUTk7uQYSf8Z76ZhQxZvdyN6aG4h1EpMvT
- OCqRcfXFVQoMG9EXEsSoN8+HRR9AQusDEPQxPyvWlTeEsnZ843QD9H5YXWEkls9u75Ni
- dN+w==
-X-Forwarded-Encrypted: i=1;
- AJvYcCWUJ0CX/8dk4EfNcgu42R6JipmhWIcl7sBFxyhBcpry4KWW3fGrE8zvRdmO8wkXi1OCt78nKbnUEq8=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YzrV7YiSwmKUOhypJaZeDN1rMnbjeZCNB9IRcCov+mgyiJoFJAm
- nClVvgst/KMZvjfcko7zT5ou2vYXacikZ2heA1WvH8f5Fadwf5MD6Io5WlwCGBsU7xUY8ol+MIy
- 2zNAdiPINb8aE8LEYw4450rNjZCUD9ULi2tf/zCCE0w==
-X-Gm-Gg: ASbGncthzDGdsKJABRipMgOM9qECAr9Q/k2UtLSvyllMp1j3D79U2DFgKWOAwJ8CyjJ
- hGh1U+JJ14mLk8ShVjbWKAFrlAkQKUPC01Rj8vRgHsDDeg/rOO0JQxAOUEhgUNWTGWf930oiwmG
- RoEPZfI9kA778ecBT2hxmeVbw0Lnn0irkrLs3IMaA+xTGHgzavLxdjOMwU5uyuo903m2yLYaF50
- ohf2bt3m4KzNkRbOnsUPz+VMW19dk0kswcxhmk23wOztfwQ/mpjrvHJQtTcjA==
-X-Google-Smtp-Source: AGHT+IGkIsMiAiy0OMY9NOg/fOQ4xRzqfVIxSS0H+XRdH1ppXu5FKgzSI2Nq8vw/XDXoApTEl/vCiaN/izGRmp7a5Sk=
-X-Received: by 2002:a05:690e:1209:b0:636:1a8d:9d43 with SMTP id
- 956f58d0204a3-63e161c65f4mr13694508d50.40.1761141194803; Wed, 22 Oct 2025
- 06:53:14 -0700 (PDT)
+Received: from fllvem-ot04.ext.ti.com (fllvem-ot04.ext.ti.com [198.47.19.246])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id F114F10E799
+ for <dri-devel@lists.freedesktop.org>; Wed, 22 Oct 2025 13:55:27 +0000 (UTC)
+Received: from lelvem-sh01.itg.ti.com ([10.180.77.71])
+ by fllvem-ot04.ext.ti.com (8.15.2/8.15.2) with ESMTP id 59MDtFbw281139;
+ Wed, 22 Oct 2025 08:55:15 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
+ s=ti-com-17Q1; t=1761141315;
+ bh=KRk0qaCDATGfJuje+GUpPYzA+/Ljos4ngAQuB0Hz3ds=;
+ h=Date:Subject:To:CC:References:From:In-Reply-To;
+ b=iAjzbENWL7IhE/83/SbVtC4UAa9z3N37BVFp7XmprTWi544PUt/ISsvtRdlYr/Ys/
+ 5NbJBcm1RKgxhzs9wJmvSLipRI8VIpSdb8GqAxgJ0NmbgBvQniegGiNHrizPpwiPxM
+ nul5XAEpAm14pq8wvUNn+nqSm3ZWL4uUDlZA9hf0=
+Received: from DFLE108.ent.ti.com (dfle108.ent.ti.com [10.64.6.29])
+ by lelvem-sh01.itg.ti.com (8.18.1/8.18.1) with ESMTPS id 59MDtEbb1971353
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES128-SHA256 bits=128 verify=FAIL);
+ Wed, 22 Oct 2025 08:55:14 -0500
+Received: from DFLE214.ent.ti.com (10.64.6.72) by DFLE108.ent.ti.com
+ (10.64.6.29) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.55; Wed, 22
+ Oct 2025 08:55:14 -0500
+Received: from lelvem-mr06.itg.ti.com (10.180.75.8) by DFLE214.ent.ti.com
+ (10.64.6.72) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.20 via Frontend
+ Transport; Wed, 22 Oct 2025 08:55:14 -0500
+Received: from [172.24.233.62] (devarsh-precision-tower-3620.dhcp.ti.com
+ [172.24.233.62])
+ by lelvem-mr06.itg.ti.com (8.18.1/8.18.1) with ESMTP id 59MDtBeB1292249;
+ Wed, 22 Oct 2025 08:55:11 -0500
+Message-ID: <348086ac-b5bc-4ca9-9e5b-82106d319eeb@ti.com>
+Date: Wed, 22 Oct 2025 19:25:10 +0530
 MIME-Version: 1.0
-References: <20251017-mt8196-gpufreq-v8-0-98fc1cc566a1@collabora.com>
-In-Reply-To: <20251017-mt8196-gpufreq-v8-0-98fc1cc566a1@collabora.com>
-From: Ulf Hansson <ulf.hansson@linaro.org>
-Date: Wed, 22 Oct 2025 15:52:38 +0200
-X-Gm-Features: AS18NWDAzC-C9hpZX4zqvWaqFK3hrZnGICZfjmwMGuyk72lavE7AqMKaCEuEL8w
-Message-ID: <CAPDyKFodsAR5bOAST3mPLvSVbe653QS6SdSwHr6kyraQ1cwbhQ@mail.gmail.com>
-Subject: Re: [PATCH v8 0/5] MT8196 GPU Frequency/Power Control Support
-To: Nicolas Frattaroli <nicolas.frattaroli@collabora.com>
-Cc: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, 
- Boris Brezillon <boris.brezillon@collabora.com>,
- Jassi Brar <jassisinghbrar@gmail.com>, 
- Chia-I Wu <olvaffe@gmail.com>, Chen-Yu Tsai <wenst@chromium.org>, 
- Steven Price <steven.price@arm.com>, Liviu Dudau <liviu.dudau@arm.com>, 
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, 
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
- Simona Vetter <simona@ffwll.ch>, 
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>, 
- Matthias Brugger <matthias.bgg@gmail.com>, Kees Cook <kees@kernel.org>, 
- "Gustavo A. R. Silva" <gustavoars@kernel.org>, kernel@collabora.com, 
- dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org, 
- linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
- linux-mediatek@lists.infradead.org, linux-hardening@vger.kernel.org, 
- linux-pm@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2] drm/tidss: Add some support for splash-screen
+To: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>, Jyri Sarha
+ <jyri.sarha@iki.fi>, Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>
+CC: <dri-devel@lists.freedesktop.org>, Laurent Pinchart
+ <laurent.pinchart@ideasonboard.com>, <linux-kernel@vger.kernel.org>
+References: <20250908-tidss-splash-v2-1-e388b0581dfa@ideasonboard.com>
+Content-Language: en-US
+From: Devarsh Thakkar <devarsht@ti.com>
+In-Reply-To: <20250908-tidss-splash-v2-1-e388b0581dfa@ideasonboard.com>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 7bit
+X-C2ProcessedOrg: 333ef613-75bf-4e12-a4b1-8e3623f5dcea
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -97,263 +75,356 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, 17 Oct 2025 at 17:32, Nicolas Frattaroli
-<nicolas.frattaroli@collabora.com> wrote:
->
-> This series introduces two new drivers to accomplish controlling the
-> frequency and power of the Mali GPU on MediaTek MT8196 SoCs.
->
-> The reason why it's not as straightforward as with other SoCs is that
-> the MT8196 has quite complex glue logic in order to squeeze the maximum
-> amount of performance possible out of the silicon. There's an additional
-> MCU running a specialised firmware, which communicates with the
-> application processor through a mailbox and some reserved memory, and is
-> in charge of controlling the regulators, the PLL clocks, and the power
-> gating of the GPU, all while also being in charge of any DVFS control.
->
-> This set of drivers is enough to communicate desired OPP index limits to
-> the aforementioned MCU, referred to as "GPUEB" from here on out. The
-> GPUEB is still free to lower the effective frequency if the GPU has no
-> jobs going on at all, even when a higher OPP is set.
->
-> The power- and frequency control driver, mtk-mfg-pmdomain, is now
-> implemented as a power domain driver, with a set_performance_state
-> operation. It also exposes itself as a clock provider, so that panthor
-> can read the actual achieved DVFS clock rate as per the GPUEB firmware.
->
-> This power domain approach means that panthor does not need to know
-> about how the frequency control works on this SoC, as the OPP core
-> framework already takes care of it. The only exception is that panthor
-> needs to not register OPPs from DT itself if there already is an OPP
-> table present.
->
-> The mailbox driver is a fairly bog-standard common mailbox framework
-> driver, just specific to the firmware that runs on the GPUEB. It was
-> merged in v6.18 already.
->
-> Signed-off-by: Nicolas Frattaroli <nicolas.frattaroli@collabora.com>
+On 08/09/25 14:43, Tomi Valkeinen wrote:
+> Currently when the driver's probe is called, we do a full DSS reset. If
+> the bootloader has set up a splash-screen, the reset will disable the
+> video output, and after that it may still take time until the display is
+> usable (all the kernel modules have been loaded) and even more time
+> until the userspace is able to use the display.
+> 
+> If fbdev is enabled, in a perfect case tidss would take over the fb
+> memory set up by the bootloader, and use that memory for tidss's fbdev,
+> thus retaining the splash-screen. However, we're not there yet.
+> 
+> As a partial solution, this patch changes the driver so that the driver
+> will not reset (or change) the DSS registers until tidss_runtime_get()
+> is called when the display is being set up (because of fbdev modesetting
+> or modesetting from the userspace).
+> 
+> This is achieved in two parts:
+> 
+> 1. Probe
+> 
+> At probe time, in dispc_init_hw(), we check if the DSS is idle
+> (videoports disabled). If yes, do a reset and continue as before. If
+> not, we know that there's a splash-screen, and we set the
+> 'tidss->boot_enabled_vp_mask' field to reflect the enabled VPs.
+> 
+> We then enable the corresponding VP clocks (to ensure they stay on), set
+> the IRQENABLE to 0 to make sure we won't get any interrupts, and then
+> exit leaving the fclk and VP clocks enabled, and the runtime PM status
+> active.
+> 
+> 2. Runtime get
+> 
+> Later, when the tidss_runtime_get() is called the first time, we check
+> the 'boot_enabled_vp_mask'. If set, we know that we have the
+> splash-screen showing on the screen, and thus the clocks are enabled and
+> runtime PM status is active. This indicates that
+> pm_runtime_resume_and_get() call just before in tidss_runtime_get() did
+> not cause a runtime_resume callback to get called, so we need to do that
+> manually.
+> 
+> We call dispc_splash_fini() which essentially returns the DSS into the
+> state where it would be in a non-splash-screen case: dispc_splash_fini()
+> will do a DSS reset, manually call the runtime_resume callback, and then
+> call clk_disable_unprepare() and pm_runtime_put_noidle() to counter the
+> actions at probe time.
+> 
+> Finally 'boot_enabled_vp_mask' is set to zero to mark that we're no
+> longer in the "splash-screen mode".
+> 
+> A note about fbdev emulation:
+> 
+> If fbdev emulation is enabled in the DRM, tidss will set up an fbdev.
+> This will cause a modeset, and the blank framebuffer from tidss's fbdev
+> will be shown instead of the splash-screen.
+> 
+> I see two improvements to this: either we should memcpy the pixel data
+> from the bootloader's splash-screen to the new fbdev buffer, or the
+> fbdev could use the splash-screen directly as its buffer. I have done
+> some hacks for the former, but I'm not sure how to implement either of
+> these properly.
+> 
+> Signed-off-by: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
 
-This looks good to me!
+Reviewed-by: Devarsh Thakkar <devarsht@ti.com>
 
-I can certainly pick up patch2 and patch5, but before I go ahead I
-just wanted to check what is the preferred merging strategy?
-
-The drm/gpu patches can go independently from the pmdomain patches
-others, right? In either case, I can pick this complete series too via
-my pmdomain tree, if that makes sense for everyone. Please let me
-know.
-
-Kind regards
-Uffe
+Regards
+Devarsh
 
 > ---
-> Changes in v8:
-> - mtk-mfg-pmdomain: remove unused shmem variable that caused a warning
->   on GCC, but not clang
-> - Link to v7: https://lore.kernel.org/r/20251015-mt8196-gpufreq-v7-0-0a6435da2080@collabora.com
->
-> Changes in v7:
-> - panthor: rename "t" to "table"
-> - panthor: add code comment explaining why an existing OPP table is
->   being checked for
-> - mtk-mfg-pmdomain: use GF_REG_MAGIC offset for sake of consistency
-> - mtk-mfg-pmdomain: remove redundant semicolon after mtk_mfg_mt8196_init
-> - mtk-mfg-pmdomain: fix resource leaks on probe failure
-> - mtk-mfg-pmdomain: enable/disable EB clock during MT8196 init, which is
->   needed for the register read
-> - Rebase onto next-20251014, which drops already merged patches, namely
->   mailbox driver+bindings, and drops the ASN_HASH patch series
->   dependency, which was also merged
-> - Link to v6: https://lore.kernel.org/r/20251003-mt8196-gpufreq-v6-0-76498ad61d9e@collabora.com
->
-> Changes in v6:
-> - mailbox: move buf definition into if condition, as per Chia-I Wu
-> - panthor: remove the redundant NULL checks in panthor_devfreq_get_freq
-> - mtk-mfg-pmdomain: adjust return style consistency
-> - mtk-mfg-pmdomain: add docstring for mtk_mfg_send_ipi to explain it's
->   blocking
-> - mtk-mfg-pmdomain: use CMD_FIX_DUAL_TARGET_OPPIDX instead of
->   CMD_FIX_TARGET_OPPIDX.
-> - mtk-mfg-pmdomain: reword code comments to not be in the "we" style
-> - mtk-mfg-pmdomain: shuffle around mbox allocations as per Angelo
-> - mtk-mfg-pmdomain: don't pointlessly turn on EB clock in probe,
->   reducing the need for a comment explaining the bookkeeping
-> - mtk-mfg-pmdomain: consistently use dev_err_probe and Capitalise first
->   letter of error string
-> - mtk-mfg-pmdomain: get rid of redundant ret = dev_err_probe assignment
-> - mtk-mfg-pmdomain: reintroduce stack OPP table, choose min(gpu, stack)
->   when adding frequencies. Fixes gaps in OPP levels where only stack
->   changed, but gpu had duplicates, which resulted in choosing a too slow
->   OPP
-> - mtk-mfg-pmdomain: stub round_rate clk op to opt out of CCF always
->   "rounding" a devfreq rate request to the current rate
-> - Link to v5: https://lore.kernel.org/r/20250929-mt8196-gpufreq-v5-0-3056e5ecf765@collabora.com
->
-> Changes in v5:
-> - mtk-mfg-pmdomain binding: add memory-regions property, remove shmem
->   property, as we now correctly describe the shared memory as a regular
->   memory region
-> - mtk-mfg-pmdomain binding: get rid of redundant |
-> - drop "dt-bindings: sram: Add compatible for
->   mediatek,mt8196-gpufreq-sram" as part of the move to reserved memory
-> - mtk-mfg-pmdomain: move to using reserved-memory for GPUEB shared
->   memory
-> - mtk-mfg-pmdomain: demote some types to smaller sizes in struct
->   mtk_mfg, as per Angelo's suggestions
-> - mtk-mfg-pmdomain: use units.h for Hz-to-KHz
-> - mtk-mfg-pmdomain: change for loop in attach_dev to reduce indentation
-> - mtk-mfg-pmdomain: simplify return in mtk_mfg_power_off
-> - mtk-mfg-pmdomain: move of_device_id after probe
-> - mtk_mfg_pmdomain: map mmio by index
-> - mtk_mfg_pmdomain: add error checking to pm_genpd_init()
-> - mtk_mfg_pmdomain: add remove function
-> - mtk_mfg_pmdomain: remove last_opp member and logic, since OPP core
->   already does that for us
-> - mtk_mfg_pmdomain: adjust comment in mtk_mfg_set_performance to explain
->   why we're doing what we're doing
-> - mtk_mfg_pmdomain: call mtk_mfg_set_oppidx in mtk_mfg_power_on with
->   the performance_state we deferred setting while it was powered off
-> - mtk_mfg_pmdomain: add inline function for PWR_ACK checking, as it's
->   now used twice with the added remove function
-> - mtk-mfg-pmdomain: add suppress_bind_attrs so people don't play with
->   that
-> - mtk-mfg-pmdomain: change KConfig from tristate to bool, as module
->   unloading results in strange likely firmware-induced hardware state
->   woes in the mali GPU
-> - mtk-mfg-pmdomain: read IPI magic in power_on, don't zero it after
->   confirming that seemingly had no purpose
-> - mtk-mfg-pmdomain: misc style changes
-> - Link to v4: https://lore.kernel.org/r/20250923-mt8196-gpufreq-v4-0-6cd63ade73d6@collabora.com
->
-> Changes in v4:
-> - rebase onto next-20250922, which includes Laura Nao's clock patches
-> - refactor mediatek_mfg into a pmdomain driver called "mtk-mfg-pmdomain"
-> - move mt8196-gpufreq binding to the power subdirectory
-> - mali-valhall-csf binding: adjust for power-domains usage
-> - mali-valhall-csf binding: use clocks on mt8196
-> - mailbox: prefix defines with "GPUEB_"
-> - mailbox: get rid of custom of_xlate
-> - mailbox: rename "CLOGGED" to "BLOCKED"
-> - mailbox: adjust send_data comment to include more technical info
-> - mailbox: misc style improvements
-> - panthor: drop "drm/panthor: devfreq: make get_dev_status use
->   get_cur_freq", as it is now not necessary and makes the code worse
-> - panthor: drop "drm/panthor: devfreq: add pluggable devfreq providers"
-> - panthor: drop "drm/panthor: add no_clocks soc_data member for MT8196",
->   as we now have clocks courtesy of gpufreq
-> - panthor: check for existing opp table before registering a new one
-> - mtk-mfg-pmdomain: add turbo_below variant data, which marks OPPs below
->   a certain index as turbo for the OPP subsystem
-> - mtk-mfg-pmdomain: no longer read stack OPPs, as they weren't used
-> - mtk-mfg-pmdomain: get rid of num gpu opp != num stack opp check.
->   That's the firmware's problem should it ever happen, not ours
-> - mtk-mfg-pmdomain: some small name and whitespace changes on the defines
-> - Link to v3: https://lore.kernel.org/r/20250917-mt8196-gpufreq-v3-0-c4ede4b4399e@collabora.com
->
-> Changes in v3:
-> - mali-valhall-csf binding: get rid of clocks for MT8196, rebase onto
->   Chia-I Wu's patch
-> - mt8196-gpufreq binding: rename hw_revision to hw-revision
-> - mt8196-gpufreq binding: rename clocks
-> - mt8196-gpufreq binding: drop pointless label in example
-> - mailbox binding: drop pointless label in example
-> - mailbox: whitespace changes on defines
-> - mailbox: remove rx_buf member from channel struct, use stack buffer
-> - mailbox: check in probe that no rx_len exceeds MBOX_MAX_RX_SIZE
-> - panthor: add no_clocks SoC data patch, also rebase onto Chia-I Wu's
->   series
-> - panthor: refactor devfreq provider functionality to do allocation and
->   initialisation of panthor_devfreq struct in panthor in all cases
-> - panthor: drop the patch that moves struct panthor_devfreq to a header
->   file, as it no longer needs to be exposed to devfreq providers
-> - mediatek_mfg: refactor devfreq provider functionality to decouple it
->   more from panthor itself
-> - mediatek_mfg: move SRAM magic to a #define
-> - mediatek_mfg: begrudgingly rename member "padding_lol" to "reserved"
-> - mediatek_mfg: use local struct device pointer var in more places
-> - mediatek_mfg: change wording of sleep command failure error message,
->   but keep the format specifier because I don't want to throw bare
->   errnos at users
-> - mediatek_mfg: remove unnecessary braces around dev_err EB power off
->   timeout message
-> - mediatek_mfg: allocate rx_data for channels that expect a response
-> - mediatek_mfg: memcpy the rx buffer from the common mailbox framework
->   in the rx callback to rx_data, as mssg now points to stack memory
-> - mediatek_mfg: make SRAM clearing message dev_dbg
-> - mediatek_mfg: no longer print physical address of SRAM
-> - mediatek_mfg: expand on the GF_REG_OPP_TABLE_STK comment, toning down
->   its defeatist attitude in the process
-> - mediatek_mfg: style fixes in mtk_mfg_get_closest_opp_idx
-> - mediatek_mfg: rename clocks and hw-revision reg as per binding
-> - Link to v2: https://lore.kernel.org/r/20250912-mt8196-gpufreq-v2-0-779a8a3729d9@collabora.com
->
 > Changes in v2:
-> - mali-valhall-csf binding: move from performance-controller to
->   performance-domains property
-> - mali-valhall-csf binding: fix vendor name oopsie in compatible of if
->   condition
-> - mt8196-gpufreq binding: move from performance-controller to
->   performance-domains by adding the cells property
-> - mt8196-gpufreq binding: rename e2_id to hw_revision
-> - mt8196-gpufreq binding: add description that mentions "MediaTek
->   Flexible Graphics"
-> - mt8196-gpufreq binding: get rid of mailbox channels we're unlikely to
->   use any time soon, if ever
-> - mt8196-gpufreq binding: change name of mailbox channels to use -
->   instead of _
-> - mailbox binding: change reg-names to "data" and "ctl"
-> - drm/panthor: mediatek_mfg: rename e2_id to hw_revision
-> - drm/panthor: devfreq: switch from performance-controller to
->   performance-domains
-> - drm/panthor: devfreq: get rid of the accidental get_cur_freq function
->   move
-> - mailbox: rename mtk_gpueb_mbox_ch to mtk_gpueb_mbox_chan_desc
-> - mailbox: use smaller types in mtk_gpueb_mbox_chan_desc where possible
-> - mailbox: add per-channel runtime data struct
-> - mailbox: request one threaded IRQ per channel, pass channel struct as
->   data
-> - mailbox: make num_channels in variant struct u8
-> - mailbox: get rid of no_response, as it was redundant
-> - mailbox: enable and disable clock in mailbox startup/shutdown
-> - mailbox: point con_priv of mailbox framework channel struct to this
->   driver's channel struct
-> - mailbox: request and free the threaded IRQ in startup/shutdown
-> - mailbox: only clear IRQ bit flag once RX data has been read from MMIO
-> - mailbox: reduce needlessly large receive buffer size
-> - mailbox: handle allocation errors wherever they could pop up
-> - mailbox: style cleanups in mtk_gpueb_mbox_read_rx
-> - mailbox: call platform_get_irq earlier on in probe
-> - mailbox: set drvdata later on in probe
-> - mailbox: ioremap resources by index, not name
-> - mailbox: handle devm_mbox_controller_register errors
-> - mailbox: rename channels to correspond to bindings
-> - mailbox: document a few of the private driver structs to be kind to
->   the next person who will look at this code
-> - Link to v1: https://lore.kernel.org/r/20250905-mt8196-gpufreq-v1-0-7b6c2d6be221@collabora.com
->
+> - Rebased to latest drm-misc-next, and fixed the issues with the new
+>    register access macros
+> - Clarified the patch description a bit
+> - Dropped the second patch "drm/tidss: Remove early fb", as it's already
+>    in upstream
+> - Link to v1: https://lore.kernel.org/r/20250416-tidss-splash-v1-0-4ff396eb5008@ideasonboard.com
 > ---
-> Nicolas Frattaroli (5):
->       dt-bindings: gpu: mali-valhall-csf: add mediatek,mt8196-mali variant
->       dt-bindings: power: Add MT8196 GPU frequency control binding
->       drm/panthor: call into devfreq for current frequency
->       drm/panthor: Use existing OPP table if present
->       pmdomain: mediatek: Add support for MFlexGraphics
->
->  .../bindings/gpu/arm,mali-valhall-csf.yaml         |   37 +-
->  .../bindings/power/mediatek,mt8196-gpufreq.yaml    |  117 +++
->  drivers/gpu/drm/panthor/panthor_devfreq.c          |   62 +-
->  drivers/gpu/drm/panthor/panthor_devfreq.h          |    2 +
->  drivers/gpu/drm/panthor/panthor_device.h           |    3 -
->  drivers/gpu/drm/panthor/panthor_drv.c              |    4 +-
->  drivers/pmdomain/mediatek/Kconfig                  |   16 +
->  drivers/pmdomain/mediatek/Makefile                 |    1 +
->  drivers/pmdomain/mediatek/mtk-mfg-pmdomain.c       | 1044 ++++++++++++++++++++
->  9 files changed, 1268 insertions(+), 18 deletions(-)
+>   drivers/gpu/drm/tidss/tidss_dispc.c | 127 ++++++++++++++++++++++++++++++++----
+>   drivers/gpu/drm/tidss/tidss_dispc.h |   5 ++
+>   drivers/gpu/drm/tidss/tidss_drv.c   |  29 +++++++-
+>   drivers/gpu/drm/tidss/tidss_drv.h   |   2 +
+>   4 files changed, 148 insertions(+), 15 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/tidss/tidss_dispc.c b/drivers/gpu/drm/tidss/tidss_dispc.c
+> index 7c8c15a5c39b..1bf208cb227b 100644
+> --- a/drivers/gpu/drm/tidss/tidss_dispc.c
+> +++ b/drivers/gpu/drm/tidss/tidss_dispc.c
+> @@ -2800,6 +2800,11 @@ void dispc_vp_setup(struct dispc_device *dispc, u32 hw_videoport,
+>   	dispc_vp_set_color_mgmt(dispc, hw_videoport, state, newmodeset);
+>   }
+>   
+> +static bool dispc_is_idle(struct dispc_device *dispc)
+> +{
+> +	return REG_GET(dispc, DSS_SYSSTATUS, DSS_SYSSTATUS_DISPC_IDLE_STATUS);
+> +}
+> +
+>   int dispc_runtime_suspend(struct dispc_device *dispc)
+>   {
+>   	dev_dbg(dispc->dev, "suspend\n");
+> @@ -2940,7 +2945,7 @@ static int dispc_softreset(struct dispc_device *dispc)
+>   	return 0;
+>   }
+>   
+> -static int dispc_init_hw(struct dispc_device *dispc)
+> +int dispc_init_hw(struct dispc_device *dispc)
+>   {
+>   	struct device *dev = dispc->dev;
+>   	int ret;
+> @@ -2957,15 +2962,70 @@ static int dispc_init_hw(struct dispc_device *dispc)
+>   		goto err_runtime_suspend;
+>   	}
+>   
+> -	ret = dispc_softreset(dispc);
+> -	if (ret)
+> -		goto err_clk_disable;
+> +	dispc->tidss->boot_enabled_vp_mask = 0;
+>   
+> -	clk_disable_unprepare(dispc->fclk);
+> -	ret = pm_runtime_set_suspended(dev);
+> -	if (ret) {
+> -		dev_err(dev, "Failed to set DSS PM to suspended\n");
+> -		return ret;
+> +	if (dispc_is_idle(dispc)) {
+> +		ret = dispc_softreset(dispc);
+> +		if (ret)
+> +			goto err_clk_disable;
+> +	} else {
+> +		for (u32 vp_idx = 0; vp_idx < dispc->feat->num_vps; vp_idx++) {
+> +			bool enabled = VP_REG_GET(dispc, vp_idx,
+> +						  DISPC_VP_CONTROL,
+> +						  DISPC_VP_CONTROL_ENABLE_MASK);
+> +
+> +			if (!enabled)
+> +				continue;
+> +
+> +			dispc->tidss->boot_enabled_vp_mask |= BIT(vp_idx);
+> +
+> +			/* Keep the VP clk enabled */
+> +			ret = clk_prepare_enable(dispc->vp_clk[vp_idx]);
+> +			if (ret) {
+> +				while (vp_idx--) {
+> +					if (!(dispc->tidss->boot_enabled_vp_mask &
+> +					      BIT(vp_idx)))
+> +						continue;
+> +
+> +					clk_disable_unprepare(dispc->vp_clk[vp_idx]);
+> +				}
+> +
+> +				goto err_clk_disable;
+> +			}
+> +		}
+> +
+> +		if (!dispc->tidss->boot_enabled_vp_mask) {
+> +			dev_warn(dev,
+> +				 "Bad HW state: DSS not idle but no VPs are enabled. Resetting.\n");
+> +			ret = dispc_softreset(dispc);
+> +			if (ret)
+> +				goto err_clk_disable;
+> +		} else {
+> +			/*
+> +			 * Do basic HW init here, which won't interrupt the
+> +			 * splash-screen.
+> +			 */
+> +
+> +			/* Ensure we won't get interrupts */
+> +			dispc_set_irqenable(dispc, 0);
+> +			dispc_read_and_clear_irqstatus(dispc);
+> +		}
+> +	}
+> +
+> +	if (dispc->tidss->boot_enabled_vp_mask) {
+> +		dev_dbg(dev,
+> +			"Bootloader splash-screen detected, leaving DSS active.\n");
+> +		pm_runtime_get_noresume(dev);
+> +	} else {
+> +		/*
+> +		 * No splash-screen. Disable the clock and set DSS back to suspended.
+> +		 */
+> +		clk_disable_unprepare(dispc->fclk);
+> +		ret = pm_runtime_set_suspended(dev);
+> +		if (ret) {
+> +			dev_err(dev, "Failed to set DSS PM to suspended\n");
+> +			return ret;
+> +		}
+>   	}
+>   
+>   	return 0;
+> @@ -2983,6 +3043,28 @@ static int dispc_init_hw(struct dispc_device *dispc)
+>   	return ret;
+>   }
+>   
+> +void dispc_init_hw_cleanup(struct dispc_device *dispc)
+> +{
+> +	if (!dispc->tidss->boot_enabled_vp_mask)
+> +		return;
+> +
+> +	/*
+> +	 * Call clk_disable_unprepare() to counter the clk_prepare_enable() we
+> +	 * did in the dispc_init_hw().
+> +	 */
+> +	clk_disable_unprepare(dispc->fclk);
+> +
+> +	for (u32 vp_idx = 0; vp_idx < dispc->feat->num_vps; vp_idx++) {
+> +		if (dispc->tidss->boot_enabled_vp_mask & BIT(vp_idx))
+> +			clk_disable_unprepare(dispc->vp_clk[vp_idx]);
+> +	}
+> +
+> +	/* counter the pm_runtime_get_noresume() */
+> +	pm_runtime_put_noidle(dispc->dev);
+> +
+> +	dispc->tidss->boot_enabled_vp_mask = 0;
+> +}
+> +
+>   int dispc_init(struct tidss_device *tidss)
+>   {
+>   	struct device *dev = tidss->dev;
+> @@ -3092,11 +3174,30 @@ int dispc_init(struct tidss_device *tidss)
+>   	of_property_read_u32(dispc->dev->of_node, "max-memory-bandwidth",
+>   			     &dispc->memory_bandwidth_limit);
+>   
+> -	r = dispc_init_hw(dispc);
+> -	if (r)
+> -		return r;
+> -
+>   	tidss->dispc = dispc;
+>   
+>   	return 0;
+>   }
+> +
+> +void dispc_splash_fini(struct dispc_device *dispc)
+> +{
+> +	if (WARN_ON(!dispc->tidss->boot_enabled_vp_mask))
+> +		return;
+> +
+> +	/*
+> +	 * Do a reset now, to clean up the bootloader setup, as we're about to
+> +	 * do a modeset.
+> +	 */
+> +	dispc_softreset(dispc);
+> +
+> +	/*
+> +	 * Call resume manually. This will clk_prepare_enable() the fclk, and do
+> +	 * the common basic HW configuration.
+> +	 */
+> +	dispc_runtime_resume(dispc);
+> +
+> +	/*
+> +	 * Revert the enables and gets we did in dispc_init_hw() at probe time.
+> +	 */
+> +	dispc_init_hw_cleanup(dispc);
+> +}
+> diff --git a/drivers/gpu/drm/tidss/tidss_dispc.h b/drivers/gpu/drm/tidss/tidss_dispc.h
+> index 60c1b400eb89..647ed013e080 100644
+> --- a/drivers/gpu/drm/tidss/tidss_dispc.h
+> +++ b/drivers/gpu/drm/tidss/tidss_dispc.h
+> @@ -152,4 +152,9 @@ const u32 *dispc_plane_formats(struct dispc_device *dispc, unsigned int *len);
+>   int dispc_init(struct tidss_device *tidss);
+>   void dispc_remove(struct tidss_device *tidss);
+>   
+> +int dispc_init_hw(struct dispc_device *dispc);
+> +void dispc_init_hw_cleanup(struct dispc_device *dispc);
+> +
+> +void dispc_splash_fini(struct dispc_device *dispc);
+> +
+>   #endif
+> diff --git a/drivers/gpu/drm/tidss/tidss_drv.c b/drivers/gpu/drm/tidss/tidss_drv.c
+> index 27d9a8fd541f..eb6a57b8f682 100644
+> --- a/drivers/gpu/drm/tidss/tidss_drv.c
+> +++ b/drivers/gpu/drm/tidss/tidss_drv.c
+> @@ -36,8 +36,22 @@ int tidss_runtime_get(struct tidss_device *tidss)
+>   	dev_dbg(tidss->dev, "%s\n", __func__);
+>   
+>   	r = pm_runtime_resume_and_get(tidss->dev);
+> -	WARN_ON(r < 0);
+> -	return r;
+> +	if (WARN_ON(r < 0))
+> +		return r;
+> +
+> +	if (tidss->boot_enabled_vp_mask) {
+> +		/*
+> +		 * If 'boot_enabled_vp_mask' is set, it means that the DSS is
+> +		 * enabled and bootloader splash-screen is still on the screen,
+> +		 * using bootloader's DSS HW config.
+> +		 *
+> +		 * This is the first time the driver is about to use the HW, and
+> +		 * we need to do some cleanup and initial setup.
+> +		 */
+> +		dispc_splash_fini(tidss->dispc);
+> +	}
+> +
+> +	return 0;
+>   }
+>   
+>   void tidss_runtime_put(struct tidss_device *tidss)
+> @@ -149,6 +163,12 @@ static int tidss_probe(struct platform_device *pdev)
+>   		return ret;
+>   	}
+>   
+> +	ret = dispc_init_hw(tidss->dispc);
+> +	if (ret) {
+> +		dev_err(dev, "failed to initialize dispc HW: %d\n", ret);
+> +		return ret;
+> +	}
+> +
+>   	ret = tidss_oldi_init(tidss);
+>   	if (ret)
+>   		return dev_err_probe(dev, ret, "failed to init OLDI\n");
+> @@ -211,6 +231,7 @@ static int tidss_probe(struct platform_device *pdev)
+>   	tidss_irq_uninstall(ddev);
+>   
+>   err_runtime_suspend:
+> +
+>   #ifndef CONFIG_PM
+>   	dispc_runtime_suspend(tidss->dispc);
+>   #endif
+> @@ -219,6 +240,8 @@ static int tidss_probe(struct platform_device *pdev)
+>   
+>   	tidss_oldi_deinit(tidss);
+>   
+> +	dispc_init_hw_cleanup(tidss->dispc);
+> +
+>   	return ret;
+>   }
+>   
+> @@ -245,6 +268,8 @@ static void tidss_remove(struct platform_device *pdev)
+>   
+>   	tidss_oldi_deinit(tidss);
+>   
+> +	dispc_init_hw_cleanup(tidss->dispc);
+> +
+>   	/* devm allocated dispc goes away with the dev so mark it NULL */
+>   	dispc_remove(tidss);
+>   
+> diff --git a/drivers/gpu/drm/tidss/tidss_drv.h b/drivers/gpu/drm/tidss/tidss_drv.h
+> index 84454a4855d1..c23091be2b60 100644
+> --- a/drivers/gpu/drm/tidss/tidss_drv.h
+> +++ b/drivers/gpu/drm/tidss/tidss_drv.h
+> @@ -39,6 +39,8 @@ struct tidss_device {
+>   	/* protects the irq masks field and irqenable/irqstatus registers */
+>   	spinlock_t irq_lock;
+>   	dispc_irq_t irq_mask;	/* enabled irqs */
+> +
+> +	u32 boot_enabled_vp_mask;
+>   };
+>   
+>   #define to_tidss(__dev) container_of(__dev, struct tidss_device, ddev)
+> 
 > ---
-> base-commit: 3477f49ff0433a241da12ec9cecf6c9b2bd1c6f8
-> change-id: 20250829-mt8196-gpufreq-a7645670d182
->
+> base-commit: 685e8dae19df73d5400734ee5ad9e96470f9c0b4
+> change-id: 20250416-tidss-splash-3d8f328b7160
+> 
 > Best regards,
-> --
-> Nicolas Frattaroli <nicolas.frattaroli@collabora.com>
->
+
