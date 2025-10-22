@@ -2,148 +2,78 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 89AE8BFBBC7
-	for <lists+dri-devel@lfdr.de>; Wed, 22 Oct 2025 13:54:39 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id C8874BFBC10
+	for <lists+dri-devel@lfdr.de>; Wed, 22 Oct 2025 14:01:36 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id ACB6110E770;
-	Wed, 22 Oct 2025 11:54:31 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 08CCE10E76B;
+	Wed, 22 Oct 2025 12:01:35 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=Nvidia.com header.i=@Nvidia.com header.b="a6C+vCy4";
+	dkim=pass (1024-bit key; unprotected) header.d=linux.dev header.i=@linux.dev header.b="YlQF9Kqj";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from BL2PR02CU003.outbound.protection.outlook.com
- (mail-eastusazon11011012.outbound.protection.outlook.com [52.101.52.12])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7159110E773
- for <dri-devel@lists.freedesktop.org>; Wed, 22 Oct 2025 11:54:30 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=Te9hyPazRwZIZT7aUC3HKjOzBT2Y64eV/dQs09J2LXu2fXOtIvVAD0OAze9mnA4TuWxZglJxQoXd6n/WlfxaSd51XTIgirxK6kIi88zPkx0eYWXx6QLvBR8HDVrqzyAxaMopAzGn6oAPfqgmF3LJF2GG+wRFk2rVbC/+jMSMBdeoy0lecbn7VkoKQpogJvs4zdAO7qvtniNoWqjIlB83x+yWZhHIYXCk/SbVLq9I/5OqutFIgKw4j4WjyC3vnlnf6eLyaTVQSr1baXLcK0sl/jPUdI/OsPU0/31PVm4ByO9X5DxH38P+nmuY3j/yDnH4QMsknGG8A5RQKJUeXyJ9LA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=ib5aqvGaEHdiMdjBTN03WwGhVDjVBo6+8WzwawgQ5JM=;
- b=x3tw/nqjatwbuMmnHs9QQOGWVeaKeIXnFjyFP2N0XrdhPvfivwQno1gbHFi7htSVamYlIm5qfJ4MpGgDkLp9m8CsEvpJcgo7uUd6daDjrmm1BPNIEkbSfIfvxNTmhyXTDl8DQLshqRbY+VoqN1j7AkjMQV0UadMe4jw8V5vBWOJ7WoS1mHb2dIHp6kVYQ4eZFcVFk/w0pgLlSQZFZUrMIqD0LFK9ovI3dMGty1wvUZkP7bGNCgEx5icDxX9gSQMiiZwZE74SmN1BGBNaYguwijjXt8n/gBCNQ3HccoWQUUoOGYdudT4LKV976Ph1JkhgeQRpWQthV6FG+YKITXAibA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
- dkim=pass header.d=nvidia.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=ib5aqvGaEHdiMdjBTN03WwGhVDjVBo6+8WzwawgQ5JM=;
- b=a6C+vCy4QukRcWXHoUH21hG4kDs5Lywr8v0+gS86pNNOv110BrZH18QZHSXR2Lp0s7rCflcZK5tRKTXSqe8axL8pJbTyVduxqGEOWDxOuCMcrBuWEeCKVPeznttIrIfR1j6wHuk6boRFxVl33LV6rSFFIznGkxR1M0SGXBDZ0xYkFoEZCdgr1rlZmE+QyHNitT493L66Gqx+WQs060vVQsUHA/B/5LSWMAY++saammg4/98ZKXD9rL1ZpC5wVBMcHCFVJTspeKXSWNLGOYIhNIIaYFxRymuA4yYVVpDSZvGjmQwdKSWn/r9ukvjPA/OzLkp1/cfX0hlh5dbWdehcOQ==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nvidia.com;
-Received: from MN2PR12MB3613.namprd12.prod.outlook.com (2603:10b6:208:c1::17)
- by PH7PR12MB5950.namprd12.prod.outlook.com (2603:10b6:510:1d9::9)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9253.13; Wed, 22 Oct
- 2025 11:54:25 +0000
-Received: from MN2PR12MB3613.namprd12.prod.outlook.com
- ([fe80::1b3b:64f5:9211:608b]) by MN2PR12MB3613.namprd12.prod.outlook.com
- ([fe80::1b3b:64f5:9211:608b%4]) with mapi id 15.20.9253.011; Wed, 22 Oct 2025
- 11:54:25 +0000
-Date: Wed, 22 Oct 2025 08:54:24 -0300
-From: Jason Gunthorpe <jgg@nvidia.com>
-To: Leon Romanovsky <leon@kernel.org>
-Cc: Alex Williamson <alex.williamson@redhat.com>,
- Leon Romanovsky <leonro@nvidia.com>,
- Andrew Morton <akpm@linux-foundation.org>,
- Bjorn Helgaas <bhelgaas@google.com>,
- Christian =?utf-8?B?S8O2bmln?= <christian.koenig@amd.com>,
- dri-devel@lists.freedesktop.org, iommu@lists.linux.dev,
- Jens Axboe <axboe@kernel.dk>, Joerg Roedel <joro@8bytes.org>,
- kvm@vger.kernel.org, linaro-mm-sig@lists.linaro.org,
- linux-block@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-media@vger.kernel.org, linux-mm@kvack.org,
- linux-pci@vger.kernel.org, Logan Gunthorpe <logang@deltatee.com>,
- Marek Szyprowski <m.szyprowski@samsung.com>,
- Robin Murphy <robin.murphy@arm.com>,
- Sumit Semwal <sumit.semwal@linaro.org>,
- Vivek Kasireddy <vivek.kasireddy@intel.com>, Will Deacon <will@kernel.org>
-Subject: Re: [PATCH v5 8/9] vfio/pci: Enable peer-to-peer DMA transactions by
- default
-Message-ID: <20251022115424.GA244727@nvidia.com>
-References: <cover.1760368250.git.leon@kernel.org>
- <a04c44aa4625a6edfadaf9c9e2c2afb460ad1857.1760368250.git.leon@kernel.org>
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <a04c44aa4625a6edfadaf9c9e2c2afb460ad1857.1760368250.git.leon@kernel.org>
-X-ClientProxiedBy: MN2PR14CA0021.namprd14.prod.outlook.com
- (2603:10b6:208:23e::26) To MN2PR12MB3613.namprd12.prod.outlook.com
- (2603:10b6:208:c1::17)
+X-Greylist: delayed 376 seconds by postgrey-1.36 at gabe;
+ Wed, 22 Oct 2025 12:01:32 UTC
+Received: from out-182.mta1.migadu.com (out-182.mta1.migadu.com
+ [95.215.58.182])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A936310E76B
+ for <dri-devel@lists.freedesktop.org>; Wed, 22 Oct 2025 12:01:32 +0000 (UTC)
+X-Forwarded-Encrypted: i=1;
+ AJvYcCVeggEZk3pvNRR+Z24pIx40oRPIh2juZW6VfvF7d1PNONLCjXN0+J8KQIrXT5Mf3PON/iWUdvGZ4jc=@lists.freedesktop.org
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
+ t=1761134114;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=3anz9Xoypecd3KnBJKu2SEe+GoHlBtB+8NICP5dLvZU=;
+ b=YlQF9KqjIrsIuBFbMw1G2dbhcrDsl+hBHAWDOyMmXWyHUXFNnLsZKDQgM4KC9aNlPJCqw6
+ kIFSdcusCpw5s5Tk84loqRddA2jr+aK1EBcVzaawTKz3p1xWTpG48EJSuXYuK15/kHG7Es
+ KYMO8xzCsV+3DKevHozq6fryQXOJDII=
+X-Gm-Message-State: AOJu0YzP5imRG3lrk8hHLh/vUhl8B1zqjo5bYn7cTemXE3czw5d6o7yb
+ BiOpbjb0rHMJTCB1L9LTqDYCajYfbnkITj4+wAymFAnpEu/y6GFaj6QtaGdVksFnZf2NTydJv0r
+ PP5p863mb+BAoH9bLLVQKVrL6x6GZrXM=
+X-Google-Smtp-Source: AGHT+IHZJxZ1U3oPvy2l5YN+pFjSaAAubn8QK4QwG6aE2rmfYuNYY/hyqdkxjgytGV7PtICYeaJLn4Vz3+u/qBym7iE=
+X-Received: by 2002:ad4:5b85:0:b0:766:be67:3e63 with SMTP id
+ 6a1803df08f44-87c20572737mr235341646d6.18.1761134105050; Wed, 22 Oct 2025
+ 04:55:05 -0700 (PDT)
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: MN2PR12MB3613:EE_|PH7PR12MB5950:EE_
-X-MS-Office365-Filtering-Correlation-Id: 2fcb0803-dcd6-4924-6efc-08de1161bf55
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|1800799024|376014|7416014|366016;
-X-Microsoft-Antispam-Message-Info: =?us-ascii?Q?VC5kDduGhcmTc//afFoGb7AjHgFkNwGYEU4Z0a9WLwmHv6ulJQ6jXa/Lh7av?=
- =?us-ascii?Q?PNoDa9U85bf3wTdqxZ70gU04Xz5i0YSuUE2Y7/wgjhcBYxfz5RRs6BU5V+NZ?=
- =?us-ascii?Q?2pSBAd/dVaRwwqnxwAugGpjOjAeD/ydBSSy7sZwF+JexDzQcqdQhffqRaTMK?=
- =?us-ascii?Q?pG9T6eKZzVEClT6gSy6R2Ka1PB+fiVpKa1Eb9JOO7gQZlwZFfsFn2voNJR5+?=
- =?us-ascii?Q?DD19bJgniUOL0dqOUoCW23eqLJIBr1TPWxzdHkPw/4vxEobN3EdQ9MT68ta2?=
- =?us-ascii?Q?eXc3A4pSq5rLNn7S7nDYQM09k1FEUoSV24P8K5hoCSkYj9KhTdJLT0qUI60z?=
- =?us-ascii?Q?gUN1wuU3g8a0nN+lyGTjT+A5vYyjSM8GXSVKnFE6h4SEDX67JwrnfrkO48Br?=
- =?us-ascii?Q?qeuPLWSvR/AN6v2z+H5rQymnFcym6Qzhd+JPPHmRYA5faQxUN4OMnNDfPqMO?=
- =?us-ascii?Q?vkzgAPqLV+WCt525QQ2HmyTE0Eb7DfvbMitAU4ay5b5aGT9M49I+GuDEP48S?=
- =?us-ascii?Q?7/Vd44yZqjnBVWGPxSJ8sd6djAC/gs0znjq3l5Dw96cJQNIT8BC58wuneErx?=
- =?us-ascii?Q?7+leKMXfCthOCSrtNUbVnvvrEUSVbtjPZxrJQXUT+sYt87EEt/9OjO/X7CUf?=
- =?us-ascii?Q?iQ6AmbJLkYiVsKVlLmqkMhCFtBxU7g6LXFXfZFJtx+3A9BoItoYRoDuepVG/?=
- =?us-ascii?Q?XzvotERHcn60LamuPj5sGgWrXVs+1x6bJ3Kh6aN4gA2jq2jr69ur7IrohAi2?=
- =?us-ascii?Q?baWW/8OB/P/ujobt5U0tGDK0hbIswJCn3TxUrMXXwPpRY0Ss6fn13wMTPbVf?=
- =?us-ascii?Q?FGhA6n/q1pp4OJJJxLMdn2nPiL0anAeZTe0n637jsYekW87OMpAMZnjyjbcf?=
- =?us-ascii?Q?teez8f3fzg1QTOuBch9EDlYwWK1+bX0fuZYz+P5HjEr3GV+Q7fmxpArIAvWl?=
- =?us-ascii?Q?RDeWYyZoDxWFHPtNtjHxIqGV5V0C69rBtiG7huFAmhSlahOQfEu/xQunCAiv?=
- =?us-ascii?Q?2mocknrKGEhyXcOE4lW8rJngfLkc6C9Hk8QSMIJ9Qnrtu93+4Iy78rbZpFw9?=
- =?us-ascii?Q?UFPPWWifYPJMy11kwi6DBP2eic+Crca0xxKdEoC5X6YJnNmeCJOlurINnPfy?=
- =?us-ascii?Q?C6YMWRJpkjc9QuNOY0rtSFa4Iv388nZ5x2hMcH7XsLIDAguhiFWGvDwpqkbw?=
- =?us-ascii?Q?WaIGdiXS0CZKEdH4ps/+vxDTNlyVbZ3o2z8SyuFw56eOKJUKPRfWcYvGoDCk?=
- =?us-ascii?Q?Zz1wd9eEMDAoDmWXARaGhB+QtdSJy8hcn6hPIsQZnudZR4KsNeJmWN2Y9zTn?=
- =?us-ascii?Q?j4IA+/D9ssdvxIPHAIo5pS+pDGT+PGaWmozVZKUDRaanWaV9K3PMywWh0/Cx?=
- =?us-ascii?Q?VCqkMboY3D+4qRIUpkPs/HstTv0EW6bvKVw4pGZI+9T2RuX+44o/9aPuu1qi?=
- =?us-ascii?Q?82Fepe2zbkBkhLTCVFweWGGpYK1TiDhX?=
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:MN2PR12MB3613.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230040)(1800799024)(376014)(7416014)(366016); DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?dU8JH+Hf0F3h1kCikd6jc/nrTxHAjUavPYzc13NIFNnRE6e3RpGuGATMUIFM?=
- =?us-ascii?Q?/OZfhgyyjf3JNqe80n4RTAxCkQXRz9XWla0TQg4rvpJN1RQMnghMLMmvxQEp?=
- =?us-ascii?Q?DPV0YHMbo8gybO53jQy4Ro48e7EMdnnDy9KrxBOCDfgRNlbcPw7URlJmSwXF?=
- =?us-ascii?Q?Ntj/wbky7q4p4P0+3IG8oua3G6+Seu4APbQzhQZ2XXcC+wRlbBzZ8ax+8O6f?=
- =?us-ascii?Q?gDqrkrDh5vusGw/kNKwgIyuQl72tzAD8FoBw3PvJCSoKFh1mwIDtyIP2vHmy?=
- =?us-ascii?Q?ulFf4+rBhL92Ztk+PlRTOxt5IrZgTRo0Eu82heA94cXf7Yxx/E+SRkqIMAws?=
- =?us-ascii?Q?Jfhpe203EunOk8tx0Y0FrBOgnfcMvf81KThTfxyFuZAi7u1hPhWHjbyEgONa?=
- =?us-ascii?Q?4seFkX87hmXSNzhUkod1jI6M4oiuu9WZMEYA7LoTWEghP4/T/4XLUN+RnUmg?=
- =?us-ascii?Q?c5N/Ki+rp0CJgVmvgedu10RTjbGLrOXw23lkP23y7+BQw2qJsa8dz7le0YUp?=
- =?us-ascii?Q?911ZT5wC1qXnc0L3ggcfxjwDpdW5L4Yh4IgRRTOvqwAnmG4XtfwsEQk50bGv?=
- =?us-ascii?Q?pEA0xss77Yx//prW048kLytQsi4waHkmmC6OH4qmcMnL2dUzHDFI95nG/DAQ?=
- =?us-ascii?Q?2tgIKDXIHJxZfaBJJnbO17R/nt6YZ83nMboAA/h29czCv2PRLlSKCP8ey4UV?=
- =?us-ascii?Q?65uSedzBrlePWOePJGtz1xUK+SLcubgbUmtlXz4w9VWa0yWhOgE9RmnPrfjA?=
- =?us-ascii?Q?J9JcttgLC2EP4syASICDiqbz3sl+OZXK1dH3DTsdzbLMQh890HABZvJzPJo3?=
- =?us-ascii?Q?wb7693Hv7PC5xTJEVWpJBilfzoRtoc48+CO+Pu2+NeVUcE865fkb7hSBr3F/?=
- =?us-ascii?Q?D9eq39O8nciIxpicGdroT7/p+J01XGtq9cHSQ4gB27UrUx+JzGe5utl648JN?=
- =?us-ascii?Q?hhrwf5hACG54y80j7Znliwl7wuTKvMa4mtRYoVT3+dcd3GOQtkbKdR49iHNu?=
- =?us-ascii?Q?uebE0KjX1Ah6JYKOBEOqXIscAk6DyYi/UAnJHRiCWv2a8VCToOOtHtSd3NwV?=
- =?us-ascii?Q?CtjfMkVIMNOPfoqB6d7wX/w2/VCBJ070rbqNCL/d88NR51vL9eBXnL2JbIPU?=
- =?us-ascii?Q?V7nbTVdvee1Z0hvHVwjcefr9JJFTSAPdy+yAFO6b42HUjMDs6fml+yi2+EiO?=
- =?us-ascii?Q?vhFD4ojI/LlUOhU1E4klbCBnz4T+azBSL9XYdWwO/lD17uhxBGcu3a6vVAto?=
- =?us-ascii?Q?tNIMpFoOswUosenCgUZ/EuRuDegn+oHN9oIfQNpdEdMocPFZChOXBCg4/AxB?=
- =?us-ascii?Q?WopZ4sGz9RveKsWaRT1IA9PJcEqa2qiagEtoNGixqICDv9/s4/W7y3LTnFG8?=
- =?us-ascii?Q?S8aUsf2fJ07QGvep0uREOCCcYgxo80NAW+Brc+4sCexACZI+MtQFoa/uXqdJ?=
- =?us-ascii?Q?D90t6xWWQ2n0sK4glDvYtN/qS9n7YoeGvLZ53vaosuLFFf663GMSTptS6yJt?=
- =?us-ascii?Q?jumTIwSr51nE/yYLurIPM8bZEDZfD7A9LN7Vjtkcf1aaipvBrwIl8dPcAYpY?=
- =?us-ascii?Q?5RV/BJUsW5vCh5j5fqo=3D?=
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 2fcb0803-dcd6-4924-6efc-08de1161bf55
-X-MS-Exchange-CrossTenant-AuthSource: MN2PR12MB3613.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 22 Oct 2025 11:54:25.5792 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: sGXhoq8V+jCsM9rgSAy7exVCDkN6w2vP2GtEKiwH2hXilixRYO3iVL5NPVru+HnJ
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH7PR12MB5950
+References: <20251001065707.920170-1-balbirs@nvidia.com>
+ <20251001065707.920170-5-balbirs@nvidia.com>
+In-Reply-To: <20251001065707.920170-5-balbirs@nvidia.com>
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and
+ include these headers.
+From: Lance Yang <lance.yang@linux.dev>
+Date: Wed, 22 Oct 2025 19:54:28 +0800
+X-Gmail-Original-Message-ID: <CABzRoyZZ8QLF5PSeDCVxgcnQmF9kFQ3RZdNq0Deik3o9OrK+BQ@mail.gmail.com>
+X-Gm-Features: AS18NWCWKcU0vSe5CKpt6Lz9fM0G_zvx7umDf5kOeC6brpsJ4Dt06pu0gaElRJ0
+Message-ID: <CABzRoyZZ8QLF5PSeDCVxgcnQmF9kFQ3RZdNq0Deik3o9OrK+BQ@mail.gmail.com>
+Subject: Re: [v7 04/16] mm/rmap: extend rmap and migration support
+ device-private entries
+To: Balbir Singh <balbirs@nvidia.com>
+Cc: linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org, 
+ linux-mm@kvack.org, akpm@linux-foundation.org, 
+ David Hildenbrand <david@redhat.com>, Zi Yan <ziy@nvidia.com>,
+ Joshua Hahn <joshua.hahnjy@gmail.com>, 
+ Rakie Kim <rakie.kim@sk.com>, Byungchul Park <byungchul@sk.com>,
+ Gregory Price <gourry@gourry.net>, 
+ Ying Huang <ying.huang@linux.alibaba.com>, Alistair Popple <apopple@nvidia.com>,
+ Oscar Salvador <osalvador@suse.de>,
+ Lorenzo Stoakes <lorenzo.stoakes@oracle.com>, 
+ Baolin Wang <baolin.wang@linux.alibaba.com>,
+ "Liam R. Howlett" <Liam.Howlett@oracle.com>, 
+ Nico Pache <npache@redhat.com>, Ryan Roberts <ryan.roberts@arm.com>,
+ Dev Jain <dev.jain@arm.com>, 
+ Barry Song <baohua@kernel.org>, Lyude Paul <lyude@redhat.com>,
+ Danilo Krummrich <dakr@kernel.org>, 
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
+ Ralph Campbell <rcampbell@nvidia.com>,
+ =?UTF-8?Q?Mika_Penttil=C3=A4?= <mpenttil@redhat.com>, 
+ Matthew Brost <matthew.brost@intel.com>,
+ Francois Dugast <francois.dugast@intel.com>, SeongJae Park <sj@kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Migadu-Flow: FLOW_OUT
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -159,37 +89,260 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Oct 13, 2025 at 06:26:10PM +0300, Leon Romanovsky wrote:
-> From: Leon Romanovsky <leonro@nvidia.com>
-> 
-> Make sure that all VFIO PCI devices have peer-to-peer capabilities
-> enables, so we would be able to export their MMIO memory through DMABUF,
+On Wed, Oct 1, 2025 at 3:25=E2=80=AFPM Balbir Singh <balbirs@nvidia.com> wr=
+ote:
+>
+> Add device-private THP support to reverse mapping infrastructure, enablin=
+g
+> proper handling during migration and walk operations.
+>
+> The key changes are:
+> - add_migration_pmd()/remove_migration_pmd(): Handle device-private
+>   entries during folio migration and splitting
+> - page_vma_mapped_walk(): Recognize device-private THP entries during
+>   VMA traversal operations
+>
+> This change supports folio splitting and migration operations on
+> device-private entries.
+>
+> Cc: Andrew Morton <akpm@linux-foundation.org>
+> Cc: David Hildenbrand <david@redhat.com>
+> Cc: Zi Yan <ziy@nvidia.com>
+> Cc: Joshua Hahn <joshua.hahnjy@gmail.com>
+> Cc: Rakie Kim <rakie.kim@sk.com>
+> Cc: Byungchul Park <byungchul@sk.com>
+> Cc: Gregory Price <gourry@gourry.net>
+> Cc: Ying Huang <ying.huang@linux.alibaba.com>
+> Cc: Alistair Popple <apopple@nvidia.com>
+> Cc: Oscar Salvador <osalvador@suse.de>
+> Cc: Lorenzo Stoakes <lorenzo.stoakes@oracle.com>
+> Cc: Baolin Wang <baolin.wang@linux.alibaba.com>
+> Cc: "Liam R. Howlett" <Liam.Howlett@oracle.com>
+> Cc: Nico Pache <npache@redhat.com>
+> Cc: Ryan Roberts <ryan.roberts@arm.com>
+> Cc: Dev Jain <dev.jain@arm.com>
+> Cc: Barry Song <baohua@kernel.org>
+> Cc: Lyude Paul <lyude@redhat.com>
+> Cc: Danilo Krummrich <dakr@kernel.org>
+> Cc: David Airlie <airlied@gmail.com>
+> Cc: Simona Vetter <simona@ffwll.ch>
+> Cc: Ralph Campbell <rcampbell@nvidia.com>
+> Cc: Mika Penttil=C3=A4 <mpenttil@redhat.com>
+> Cc: Matthew Brost <matthew.brost@intel.com>
+> Cc: Francois Dugast <francois.dugast@intel.com>
+> Acked-by: Zi Yan <ziy@nvidia.com>
+> Signed-off-by: Balbir Singh <balbirs@nvidia.com>
+> Reviewed-by: SeongJae Park <sj@kernel.org>
+> ---
+>  mm/damon/ops-common.c | 20 +++++++++++++++++---
+>  mm/huge_memory.c      | 16 +++++++++++++++-
+>  mm/page_idle.c        |  7 +++++--
+>  mm/page_vma_mapped.c  |  7 +++++++
+>  mm/rmap.c             | 24 ++++++++++++++++++++----
+>  5 files changed, 64 insertions(+), 10 deletions(-)
+>
+> diff --git a/mm/damon/ops-common.c b/mm/damon/ops-common.c
+> index 998c5180a603..ac54bf5b2623 100644
+> --- a/mm/damon/ops-common.c
+> +++ b/mm/damon/ops-common.c
+> @@ -75,12 +75,24 @@ void damon_ptep_mkold(pte_t *pte, struct vm_area_stru=
+ct *vma, unsigned long addr
+>  void damon_pmdp_mkold(pmd_t *pmd, struct vm_area_struct *vma, unsigned l=
+ong addr)
+>  {
+>  #ifdef CONFIG_TRANSPARENT_HUGEPAGE
+> -       struct folio *folio =3D damon_get_folio(pmd_pfn(pmdp_get(pmd)));
+> +       pmd_t pmdval =3D pmdp_get(pmd);
+> +       struct folio *folio;
+> +       bool young =3D false;
+> +       unsigned long pfn;
+> +
+> +       if (likely(pmd_present(pmdval)))
+> +               pfn =3D pmd_pfn(pmdval);
+> +       else
+> +               pfn =3D swp_offset_pfn(pmd_to_swp_entry(pmdval));
+>
+> +       folio =3D damon_get_folio(pfn);
+>         if (!folio)
+>                 return;
+>
+> -       if (pmdp_clear_young_notify(vma, addr, pmd))
+> +       if (likely(pmd_present(pmdval)))
+> +               young |=3D pmdp_clear_young_notify(vma, addr, pmd);
+> +       young |=3D mmu_notifier_clear_young(vma->vm_mm, addr, addr + HPAG=
+E_PMD_SIZE);
+> +       if (young)
+>                 folio_set_young(folio);
+>
+>         folio_set_idle(folio);
+> @@ -203,7 +215,9 @@ static bool damon_folio_young_one(struct folio *folio=
+,
+>                                 mmu_notifier_test_young(vma->vm_mm, addr)=
+;
+>                 } else {
+>  #ifdef CONFIG_TRANSPARENT_HUGEPAGE
+> -                       *accessed =3D pmd_young(pmdp_get(pvmw.pmd)) ||
+> +                       pmd_t pmd =3D pmdp_get(pvmw.pmd);
+> +
+> +                       *accessed =3D (pmd_present(pmd) && pmd_young(pmd)=
+) ||
+>                                 !folio_test_idle(folio) ||
+>                                 mmu_notifier_test_young(vma->vm_mm, addr)=
+;
+>  #else
+> diff --git a/mm/huge_memory.c b/mm/huge_memory.c
+> index 8e0a1747762d..483b8341ce22 100644
+> --- a/mm/huge_memory.c
+> +++ b/mm/huge_memory.c
+> @@ -4628,7 +4628,10 @@ int set_pmd_migration_entry(struct page_vma_mapped=
+_walk *pvmw,
+>                 return 0;
+>
+>         flush_cache_range(vma, address, address + HPAGE_PMD_SIZE);
+> -       pmdval =3D pmdp_invalidate(vma, address, pvmw->pmd);
+> +       if (unlikely(!pmd_present(*pvmw->pmd)))
+> +               pmdval =3D pmdp_huge_get_and_clear(vma->vm_mm, address, p=
+vmw->pmd);
+> +       else
+> +               pmdval =3D pmdp_invalidate(vma, address, pvmw->pmd);
+>
+>         /* See folio_try_share_anon_rmap_pmd(): invalidate PMD first. */
+>         anon_exclusive =3D folio_test_anon(folio) && PageAnonExclusive(pa=
+ge);
+> @@ -4678,6 +4681,17 @@ void remove_migration_pmd(struct page_vma_mapped_w=
+alk *pvmw, struct page *new)
+>         entry =3D pmd_to_swp_entry(*pvmw->pmd);
+>         folio_get(folio);
+>         pmde =3D folio_mk_pmd(folio, READ_ONCE(vma->vm_page_prot));
+> +
+> +       if (folio_is_device_private(folio)) {
+> +               if (pmd_write(pmde))
+> +                       entry =3D make_writable_device_private_entry(
+> +                                                       page_to_pfn(new))=
+;
+> +               else
+> +                       entry =3D make_readable_device_private_entry(
+> +                                                       page_to_pfn(new))=
+;
+> +               pmde =3D swp_entry_to_pmd(entry);
+> +       }
+> +
+>         if (pmd_swp_soft_dirty(*pvmw->pmd))
+>                 pmde =3D pmd_mksoft_dirty(pmde);
+>         if (is_writable_migration_entry(entry))
+> diff --git a/mm/page_idle.c b/mm/page_idle.c
+> index a82b340dc204..d4299de81031 100644
+> --- a/mm/page_idle.c
+> +++ b/mm/page_idle.c
+> @@ -71,8 +71,11 @@ static bool page_idle_clear_pte_refs_one(struct folio =
+*folio,
+>                                 referenced |=3D ptep_test_and_clear_young=
+(vma, addr, pvmw.pte);
+>                         referenced |=3D mmu_notifier_clear_young(vma->vm_=
+mm, addr, addr + PAGE_SIZE);
+>                 } else if (IS_ENABLED(CONFIG_TRANSPARENT_HUGEPAGE)) {
+> -                       if (pmdp_clear_young_notify(vma, addr, pvmw.pmd))
+> -                               referenced =3D true;
+> +                       pmd_t pmdval =3D pmdp_get(pvmw.pmd);
+> +
+> +                       if (likely(pmd_present(pmdval)))
+> +                               referenced |=3D pmdp_clear_young_notify(v=
+ma, addr, pvmw.pmd);
+> +                       referenced |=3D mmu_notifier_clear_young(vma->vm_=
+mm, addr, addr + PMD_SIZE);
+>                 } else {
+>                         /* unexpected pmd-mapped page? */
+>                         WARN_ON_ONCE(1);
+> diff --git a/mm/page_vma_mapped.c b/mm/page_vma_mapped.c
+> index c498a91b6706..137ce27ff68c 100644
+> --- a/mm/page_vma_mapped.c
+> +++ b/mm/page_vma_mapped.c
+> @@ -277,6 +277,13 @@ bool page_vma_mapped_walk(struct page_vma_mapped_wal=
+k *pvmw)
+>                          * cannot return prematurely, while zap_huge_pmd(=
+) has
+>                          * cleared *pmd but not decremented compound_mapc=
+ount().
+>                          */
+> +                       swp_entry_t entry =3D pmd_to_swp_entry(pmde);
+> +
+> +                       if (is_device_private_entry(entry)) {
+> +                               pvmw->ptl =3D pmd_lock(mm, pvmw->pmd);
+> +                               return true;
+> +                       }
+> +
 
-Let's enhance this:
+We could make this simpler:
 
-VFIO has always supported P2P mappings with itself. VFIO type 1
-insecurely reads PFNs directly out of a VMA's PTEs and programs them
-into the IOMMU allowing any two VFIO devices to perform P2P to each
-other.
+                        if (is_device_private_entry(pmd_to_swp_entry(pmde))=
+) {
+                                pvmw->ptl =3D pmd_lock(mm, pvmw->pmd);
+                                return true;
+                        }
 
-All existing VMMs use this capability to export P2P into a VM where
-the VM could setup any kind of DMA it likes. Projects like DPDK/SPDK
-are also known to make use of this, though less frequently.
+Thanks,
+Lance
 
-As a first step to more properly integrating VFIO with the P2P
-subsystem unconditionally enable P2P support for VFIO PCI devices. The
-struct p2pdma_provider will act has a handle to the P2P subsystem to
-do things like DMA mapping.
-
-While real PCI devices have to support P2P (they can't even tell if an
-IOVA is P2P or not) there may be fake PCI devices that may trigger
-some kind of catastrophic system failure. To date VFIO has never
-tripped up on such a case, but if one is discovered the plan is to add
-a PCI quirk and have pcim_p2pdma_init() fail. This will fully block
-the broken device throughout any users of the P2P subsystem in the
-kernel.
-
-Thus P2P through DMABUF will follow the historical VFIO model and be
-unconditionally enabled by vfio-pci.
-
-Jason
+>                         if ((pvmw->flags & PVMW_SYNC) &&
+>                             thp_vma_suitable_order(vma, pvmw->address,
+>                                                    PMD_ORDER) &&
+> diff --git a/mm/rmap.c b/mm/rmap.c
+> index 9bab13429975..c3fc30cf3636 100644
+> --- a/mm/rmap.c
+> +++ b/mm/rmap.c
+> @@ -1046,9 +1046,16 @@ static int page_vma_mkclean_one(struct page_vma_ma=
+pped_walk *pvmw)
+>                 } else {
+>  #ifdef CONFIG_TRANSPARENT_HUGEPAGE
+>                         pmd_t *pmd =3D pvmw->pmd;
+> -                       pmd_t entry;
+> +                       pmd_t entry =3D pmdp_get(pmd);
+>
+> -                       if (!pmd_dirty(*pmd) && !pmd_write(*pmd))
+> +                       /*
+> +                        * Please see the comment above (!pte_present).
+> +                        * A non present PMD is not writable from a CPU
+> +                        * perspective.
+> +                        */
+> +                       if (!pmd_present(entry))
+> +                               continue;
+> +                       if (!pmd_dirty(entry) && !pmd_write(entry))
+>                                 continue;
+>
+>                         flush_cache_range(vma, address,
+> @@ -2343,6 +2350,9 @@ static bool try_to_migrate_one(struct folio *folio,=
+ struct vm_area_struct *vma,
+>         while (page_vma_mapped_walk(&pvmw)) {
+>                 /* PMD-mapped THP migration entry */
+>                 if (!pvmw.pte) {
+> +                       __maybe_unused unsigned long pfn;
+> +                       __maybe_unused pmd_t pmdval;
+> +
+>                         if (flags & TTU_SPLIT_HUGE_PMD) {
+>                                 split_huge_pmd_locked(vma, pvmw.address,
+>                                                       pvmw.pmd, true);
+> @@ -2351,8 +2361,14 @@ static bool try_to_migrate_one(struct folio *folio=
+, struct vm_area_struct *vma,
+>                                 break;
+>                         }
+>  #ifdef CONFIG_ARCH_ENABLE_THP_MIGRATION
+> -                       subpage =3D folio_page(folio,
+> -                               pmd_pfn(*pvmw.pmd) - folio_pfn(folio));
+> +                       pmdval =3D pmdp_get(pvmw.pmd);
+> +                       if (likely(pmd_present(pmdval)))
+> +                               pfn =3D pmd_pfn(pmdval);
+> +                       else
+> +                               pfn =3D swp_offset_pfn(pmd_to_swp_entry(p=
+mdval));
+> +
+> +                       subpage =3D folio_page(folio, pfn - folio_pfn(fol=
+io));
+> +
+>                         VM_BUG_ON_FOLIO(folio_test_hugetlb(folio) ||
+>                                         !folio_test_pmd_mappable(folio), =
+folio);
+>
+> --
+> 2.51.0
+>
+>
