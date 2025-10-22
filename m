@@ -2,82 +2,79 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7ECD0BFABEE
-	for <lists+dri-devel@lfdr.de>; Wed, 22 Oct 2025 10:01:50 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id CB0FCBFAD3E
+	for <lists+dri-devel@lfdr.de>; Wed, 22 Oct 2025 10:14:38 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 87F4E10E6EB;
-	Wed, 22 Oct 2025 08:01:48 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4A15710E6E4;
+	Wed, 22 Oct 2025 08:14:35 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=chromium.org header.i=@chromium.org header.b="M/g36IG0";
+	dkim=pass (2048-bit key; unprotected) header.d=google.com header.i=@google.com header.b="W3zTPzuH";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pj1-f54.google.com (mail-pj1-f54.google.com
- [209.85.216.54])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5FB5610E6EB
- for <dri-devel@lists.freedesktop.org>; Wed, 22 Oct 2025 08:01:47 +0000 (UTC)
-Received: by mail-pj1-f54.google.com with SMTP id
- 98e67ed59e1d1-33292adb180so6510191a91.3
- for <dri-devel@lists.freedesktop.org>; Wed, 22 Oct 2025 01:01:47 -0700 (PDT)
+Received: from mail-wm1-f73.google.com (mail-wm1-f73.google.com
+ [209.85.128.73])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5084510E6E4
+ for <dri-devel@lists.freedesktop.org>; Wed, 22 Oct 2025 08:14:34 +0000 (UTC)
+Received: by mail-wm1-f73.google.com with SMTP id
+ 5b1f17b1804b1-4710d174c31so66574805e9.0
+ for <dri-devel@lists.freedesktop.org>; Wed, 22 Oct 2025 01:14:34 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=chromium.org; s=google; t=1761120107; x=1761724907;
+ d=google.com; s=20230601; t=1761120873; x=1761725673;
  darn=lists.freedesktop.org; 
- h=content-transfer-encoding:mime-version:date:message-id:subject
- :references:in-reply-to:cc:to:from:from:to:cc:subject:date
- :message-id:reply-to;
- bh=2Czcihnqa+RdFrhOYT/oFUcxYUUGz6vVNGz6e5p2QTY=;
- b=M/g36IG0VOu8YykTgpTUj8+Rsit6BP6TKG0rusNGqu422iO7XxaP5ZgOulAWiBBk3G
- hvfe07lZNxwDhkJ+ArTIC6h/4YVFh07J7UxsJfMYa52G7mAAxWJyUADnD0LTSULGTdD8
- f79DN7ffjRN7uQdVoOqqLD0/3uBHBf77QrLJM=
+ h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
+ :date:from:to:cc:subject:date:message-id:reply-to;
+ bh=7ogsn3X1mobn8/e1uiGkS9XQJsz3R6ivSIjiDXFm3+Q=;
+ b=W3zTPzuH1UzZUfTPZxiccNTj2DRlCTN2SS97lJp4ixeOnKIUmzB4DNjhk0oR6Fvp9V
+ WotW0OuDGsBx2DUMQ3IpZK5swBpM8iuetIoi2aDrwLGn+to61gahLgqRjrwSywSCbkF4
+ jXV9xlw2hyb1MUE+g/GqTbqQI/g6cKJP3baObVV1IiB00uqv689ZpjeN4Pvr75WlndHb
+ zKAqyGjZqmwnjYa1nB6AyzfOgDgRBbdf5FGJRu4Vuy0PP7X13usc2ztsqz4EXSCBgT7x
+ WbAk189fK9+5IT7nQW1WsdHebqyadhJwHw1dTD2gPrMZl+Y2wgEAmu5qCXe7uOyBPuun
+ AWhw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1761120107; x=1761724907;
- h=content-transfer-encoding:mime-version:date:message-id:subject
- :references:in-reply-to:cc:to:from:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=2Czcihnqa+RdFrhOYT/oFUcxYUUGz6vVNGz6e5p2QTY=;
- b=dFxrGKBi+orGGRpQw9JYnDuU6urIvrKXDH0Yiu8y/lE5gZPugT31ztSR3wKzkWfw3g
- JfdOUq09qPyFgj+ZmD8fXG8QzdguKXQqwb4VTmj6pFRaKXt/TEqBCzwbJqMzg2XD7ylM
- fIuw2StIaZFVjacAZ3xnpnHpZh3gf+alMUVVI+arX4DMFrpPHqZi8V5bdx0Fd1eu7p3R
- jjEdU9dh3Cj9A7pt+muCcjMVYsLXGc1dU+ll7su5ZGaXgJEyBtd4isCk6CntPXPzj3P3
- KrkleKP/yXwm5ANkBgIq720rds1winz+PcyeNdYhonO3q/9Du6u4q/WEtyPKtxdXJhkQ
- Pp5A==
-X-Forwarded-Encrypted: i=1;
- AJvYcCXuFmE0khc1o5/wFe/8yvwLlAl3tizZ1nsXAVcaK3c8IL8FlI+5mKGxnHqBLOC/xFhCIGZsRmDAfpc=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YxJRL4cCMV/bdOZ2QSGI5+wNrD6/sZQ7o4l21/i9EHfpV2v/nw8
- tk0I0Dny8CrSNLukxecEWeGOLXah2Mh3ZT/wWMU4Ku/OML2qjchNs/kWmVsNvJ17hQ==
-X-Gm-Gg: ASbGnct1SOV6crvbUAN8tLTC5EQFGIZTHYNGIlkS8jOhCtzMal7hFIIDNA/on6ipQMY
- bDNTnl/GpJhpSy9BAKK9DZERnmh7kxh3Y/oNyIz3ygk4qSrzAYrgi2sRARAWfWlhionEAvFz5x3
- xPdUhwx7aJjEhFENrcwas/lMttN8YJDr55rDuBaNdsZaZJ01KYuz1UXrluGnYOYzP3qDyC/bkXD
- lbGJQVX7bEqOIVhVSW9olAh1q0uNAEePkCjY060oC4UeMRs2jJCoUrjZS8Gnnv0KNPJlxcofHdI
- RY92HaXSMajgXqRWX+oOqUkS+zXt54UVoeI2jPdvPRV/Q3oW0nmeTfnz3Z2pm0DV6MMcmtePefN
- w3RmMpy5A+BJD86AXY/HhSPuPS8Dfb4yLmvrAAA5yWQ/Y7907qQOGxivxefth2hfUNRXnKrYI71
- NmBw+aVc8QYiwLmNkM7rE3l4Ym6y6BQ+N1ijxihhTuafvhKrDG+cPs
-X-Google-Smtp-Source: AGHT+IEt15ezmGTqR4A8CJGFXTvCgrS4gO8P9rtkeOmGm46bHNcAFHWrZsKB4y1EeUubGMyQT47cig==
-X-Received: by 2002:a17:90b:1dcb:b0:33b:b033:d7e5 with SMTP id
- 98e67ed59e1d1-33bcf9186f0mr29084769a91.35.1761120106936; 
- Wed, 22 Oct 2025 01:01:46 -0700 (PDT)
-Received: from wenstp920.tpe.corp.google.com
- ([2a00:79e0:201d:8:5534:56e9:528e:f9b4])
- by smtp.gmail.com with ESMTPSA id
- 98e67ed59e1d1-33e223dfaacsm1771401a91.10.2025.10.22.01.01.44
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 22 Oct 2025 01:01:46 -0700 (PDT)
-From: Chen-Yu Tsai <wenst@chromium.org>
-X-Google-Original-From: Chen-Yu Tsai <wens@kernel.org>
-To: Jernej Skrabec <jernej@kernel.org>, 
- Samuel Holland <samuel@sholland.org>, Chen-Yu Tsai <wens@kernel.org>
-Cc: Lee Jones <lee@kernel.org>, Maxime Ripard <mripard@kernel.org>, 
- linux-sunxi@lists.linux.dev, dri-devel@lists.freedesktop.org, 
- linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org
-In-Reply-To: <20251020045603.2573544-1-wens@kernel.org>
-References: <20251020045603.2573544-1-wens@kernel.org>
-Subject: Re: [PATCH resend] MAINTAINERS: Update Chen-Yu's email address
-Message-Id: <176112010476.488381.11368848750305962943.b4-ty@kernel.org>
-Date: Wed, 22 Oct 2025 16:01:44 +0800
-MIME-Version: 1.0
+ d=1e100.net; s=20230601; t=1761120873; x=1761725673;
+ h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
+ :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=7ogsn3X1mobn8/e1uiGkS9XQJsz3R6ivSIjiDXFm3+Q=;
+ b=CMwDoSlFiTTiVhcC3+39VJp7+tJVv1M8vcm7y7AwYxadpQWVAhHRfAam9e6I2DQWYV
+ 0RWJ4cUOcFxy9tzbiNVVej6aC1/PXmxAFzWpEYgD8EMPv93lFC3yrpE5KdMQvFI+7Aw+
+ uG2Vl+XFBf6Na3fMrSnmIGDZQsMnDpX/WgO1d2DyU32V+gp6CwId0aQB0NzPD08WcCJ8
+ OEQu9yPPqQ9u0kKBVXK+PE33gxMzfrHuqt0Fzartij0oDO1N/bz41nQ9G/CdA8Ngr+RX
+ r2aEWwN7zNyw/wToVTn5aREWp9OQeJtgAxTcLdEGcqt9XeGhc/3eGpYQksdhAgUxbnxH
+ T66w==
+X-Gm-Message-State: AOJu0YxY+I7OPa6z4Pp9Za/dJ8vX6VUqC+j12TZm7dIuPlgzk1Kr+6FV
+ FRpD2OGtORMtEWZghXkytM3i1JRgGLn9o0p2kwKf0gxnN77wuvgeQncobsDpOZTmKXNpSZIqLE3
+ zo4584N7iBjm7Wyd/XA==
+X-Google-Smtp-Source: AGHT+IHVymDPMVFRxtz+pEpsqCDA+1l2F++eBCPDtyYxS79P5clFYGmutl6mMG3GyLc2Iqc0bUnGJy61wcbICgU=
+X-Received: from wmwr3.prod.google.com ([2002:a05:600d:8383:b0:46e:1f9e:6471])
+ (user=aliceryhl job=prod-delivery.src-stubby-dispatcher) by
+ 2002:a05:600c:3b03:b0:471:15df:9fc7 with SMTP id
+ 5b1f17b1804b1-47117906a72mr141554885e9.26.1761120872959; 
+ Wed, 22 Oct 2025 01:14:32 -0700 (PDT)
+Date: Wed, 22 Oct 2025 08:14:31 +0000
+In-Reply-To: <25717cdeac76376fbcf7ba10a1b2e855800d3778.camel@redhat.com>
+Mime-Version: 1.0
+References: <20251016210955.2813186-1-lyude@redhat.com>
+ <20251016210955.2813186-3-lyude@redhat.com>
+ <aPJDGqsRFzuARlgP@google.com>
+ <25717cdeac76376fbcf7ba10a1b2e855800d3778.camel@redhat.com>
+Message-ID: <aPiSZ_CGLD4o755q@google.com>
+Subject: Re: [PATCH v4 2/9] rust/drm: Add gem::impl_aref_for_gem_obj!
+From: Alice Ryhl <aliceryhl@google.com>
+To: Lyude Paul <lyude@redhat.com>
+Cc: dri-devel@lists.freedesktop.org, rust-for-linux@vger.kernel.org, 
+ Daniel Almeida <daniel.almeida@collabora.com>, David Airlie <airlied@gmail.com>,
+ Simona Vetter <simona@ffwll.ch>, Danilo Krummrich <dakr@kernel.org>,
+ Miguel Ojeda <ojeda@kernel.org>, 
+ Alex Gaynor <alex.gaynor@gmail.com>, Boqun Feng <boqun.feng@gmail.com>, 
+ Gary Guo <gary@garyguo.net>, 
+ "=?utf-8?B?QmrDtnJu?= Roy Baron" <bjorn3_gh@protonmail.com>,
+ Benno Lossin <lossin@kernel.org>, 
+ Andreas Hindborg <a.hindborg@kernel.org>, Trevor Gross <tmgross@umich.edu>, 
+ Asahi Lina <lina+kernel@asahilina.net>,
+ Shankari Anand <shankari.ak0208@gmail.com>, 
+ open list <linux-kernel@vger.kernel.org>
 Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-X-Mailer: b4 0.14.2
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -93,19 +90,15 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
-On Mon, 20 Oct 2025 12:56:02 +0800, Chen-Yu Tsai wrote:
-> The email forwarder I'm using has run into severe problems with Gmail
-> lately. Switch over to my kernel.org address for kernel development.
+On Tue, Oct 21, 2025 at 01:33:00PM -0400, Lyude Paul wrote:
+> On Fri, 2025-10-17 at 13:22 +0000, Alice Ryhl wrote:
+> > 1. Annotated with #[macro_export]
+> > 2. Export with `pub use impl_aref_for_gem_obj`
 > 
-> 
+> I assume you meant pub(crate) here? (Since we don't really want to expose
+> impl_aref_for_gem_object! to users outside of the drm crate).
 
-Applied, thanks!
+We will probably need it to be pub later when we split up kernel, but
+feel free to put pub(crate).
 
-[1/1] MAINTAINERS: Update Chen-Yu's email address
-      commit: caa2f6ee91d4e2dab39b30de34d2c74b6f45d0a3
-
-Best regards,
--- 
-Chen-Yu Tsai <wens@kernel.org>
-
+Alice
