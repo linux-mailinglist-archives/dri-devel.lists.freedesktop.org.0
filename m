@@ -2,86 +2,61 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id EF34BBFB31F
-	for <lists+dri-devel@lfdr.de>; Wed, 22 Oct 2025 11:39:33 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 43628BFB361
+	for <lists+dri-devel@lfdr.de>; Wed, 22 Oct 2025 11:48:44 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C970710E723;
-	Wed, 22 Oct 2025 09:39:30 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6B35E10E027;
+	Wed, 22 Oct 2025 09:48:42 +0000 (UTC)
+Authentication-Results: gabe.freedesktop.org;
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="BaQEoEze";
+	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-vk1-f176.google.com (mail-vk1-f176.google.com
- [209.85.221.176])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C193510E723
- for <dri-devel@lists.freedesktop.org>; Wed, 22 Oct 2025 09:39:29 +0000 (UTC)
-Received: by mail-vk1-f176.google.com with SMTP id
- 71dfb90a1353d-54a80b26f88so2569593e0c.0
- for <dri-devel@lists.freedesktop.org>; Wed, 22 Oct 2025 02:39:29 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1761125968; x=1761730768;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=i9oPjoXljJJlUVHMn87s6VhA1+MnxIqFzqOvfh/e2MM=;
- b=UwoUq26wXo/JGn4aQPcpyTt3j4uGokYNDw2/RVqGWYILuCNXhFRZDGkt7Mn0VC5+KW
- HwntyfhEDN5J+UtcYSIRrNXfjS36eMzcn2dLzBGD2qLRP6+OzW4Q/tUHV0zdysy6jcLl
- RJLKFiM+FfVJbbXCI4aX2w29JpI/bct1iGDeQ9i2xE/IAHnA0/S4LcqBg2ZcgiNfRVr3
- 1xu1PWPby169B3yUh/9fP/7itiPDN2rgrh+kjLeQxTSrGRsPy4ivc6OxMfuV8KqZhGL+
- FC8SrxLDPAUvX9ii+mnt75Vq9GXP4fexTgSNCoXV1jIoHoHomr1LHRaOFei6HuBEJWeK
- vvWA==
-X-Forwarded-Encrypted: i=1;
- AJvYcCXtTTG9K1Fcm7iu0gid1ukd+9o/Q7ObWdecoEsroRL00kfuCDtAGhNjf9jOyA0YSZbHT8W6HL9tMro=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YwTusrP/r4b1OuHTkJhgMMSIcrZ/hyF6bW+25++yAAmlkY/FvQI
- QYyRpTMOcM3dmGxa0UNy6sJ86DTjRGK5kxA4BwpwTV2tbYQxmoqKFyIDzgZ9W2x6
-X-Gm-Gg: ASbGncsYRk5CN2ijufFC1stV2p5fTz4O0fLS+xb4ky1cqCx3GHaLiPwPHNKxwVhoq4K
- YFD/KdxCA0LmNhD9vsI6KM4oNTx3CpOgIOAI0IWsPKEjhffAbJBvdUbN+8JjFVlc8OeTYDl7HiN
- 51lETm09QV1LZZ2/ti0K6q9KIz9LaOdntBZvAK3xLpQxCRXj+nGAIOW+MwQF2VFV4HGQ7bjWiob
- 1BrAM0WyC8pkgUiTTkawhNXYHcNtKzUBEcgUHZOwTO1r7X9xGORIYTIQ6s4yd3Y67QZ1zbovFCZ
- OF/zgmTEC/p+2IBxFa4I4ohfOevewVrl8feVlS2/aBCwH8ko87Ufej9FCBXE+K5ext+dZPJx9HP
- jE6Mw0AJ1ikj8GY/bPf9W7asYLJ8tx6NRSOYok6ZprgBhhGXv3q9gBzTEfQkXwnP3FrsrAc/RK6
- +nUGSpbXINBeo27klY3jNBOuS5ByEXf0y9CzwMXAcKKj5Z0xCe
-X-Google-Smtp-Source: AGHT+IHRT6le/sN7tbF5fBziOcRcoTFGK+roQt5HSycPtKHDgysuezB4QZ9XTN49zR0BqZl/wNPOKw==
-X-Received: by 2002:a05:6122:17a1:b0:54a:a782:47c5 with SMTP id
- 71dfb90a1353d-5564ef717e3mr5777108e0c.15.1761125968356; 
- Wed, 22 Oct 2025 02:39:28 -0700 (PDT)
-Received: from mail-ua1-f43.google.com (mail-ua1-f43.google.com.
- [209.85.222.43]) by smtp.gmail.com with ESMTPSA id
- 71dfb90a1353d-5568319eb26sm2142078e0c.25.2025.10.22.02.39.26
- for <dri-devel@lists.freedesktop.org>
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 22 Oct 2025 02:39:27 -0700 (PDT)
-Received: by mail-ua1-f43.google.com with SMTP id
- a1e0cc1a2514c-932cb562289so1142693241.3
- for <dri-devel@lists.freedesktop.org>; Wed, 22 Oct 2025 02:39:26 -0700 (PDT)
-X-Forwarded-Encrypted: i=1;
- AJvYcCW8hUfE+83wrRP4fcHCE5mhEF6bgd+e0/Q+wh8LGSobL4AMArta35bKCXE6Glfy3as5jWDZmOk5guU=@lists.freedesktop.org
-X-Received: by 2002:a05:6102:a4f:b0:523:759e:b0cf with SMTP id
- ada2fe7eead31-5d7dd6ad6bdmr5856194137.21.1761125966715; Wed, 22 Oct 2025
- 02:39:26 -0700 (PDT)
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1690F10E027;
+ Wed, 22 Oct 2025 09:48:42 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1761126522; x=1792662522;
+ h=from:to:cc:subject:date:message-id:mime-version:
+ content-transfer-encoding;
+ bh=lu3ER0RaQE4YMjokoVoKHX2S2rMLsvskJffS/tmz98g=;
+ b=BaQEoEzeACXQtv8jxU1OJVhV+jgoYmzy0i0xTPeijGKjmdt+YVz9YYFm
+ aNIYEj5VXcWAhGgPtc6qKs5WBciS6RPlVheh01Qn4Xw1jZhZ6R3poaJ72
+ sNG+fSU+gCXJJXndqvhhnDeedxErTgrJmTS9UoAvjHxUlcOdt8YmDKUDF
+ UJiT/UwuXInTbJu12q7qGvAljibX2VCJqi/vJFTcA1uDIs2CIfidXubLH
+ W2Y7Kc3IvkntcIDuAdYeCnN7PTNIy3R6XF7ne9m9i/A0YyXhG3mnxU7wx
+ HEdRYtCaEPKVPwN+I8rdZro9VOMAod58Yyv0h4FyimaGHCEErpZ4BqGCD g==;
+X-CSE-ConnectionGUID: bvip2NTzRO2LDN3BoAHYJQ==
+X-CSE-MsgGUID: jDLNof40T2OaHEoFSznrxw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11586"; a="63177136"
+X-IronPort-AV: E=Sophos;i="6.19,246,1754982000"; d="scan'208";a="63177136"
+Received: from fmviesa002.fm.intel.com ([10.60.135.142])
+ by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 22 Oct 2025 02:48:41 -0700
+X-CSE-ConnectionGUID: EP7hrc5PQp+pwHeBJYtVvg==
+X-CSE-MsgGUID: gPQG67aPSvSosIpDzFHYXA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.19,246,1754982000"; d="scan'208";a="207502720"
+Received: from fdefranc-mobl3.ger.corp.intel.com (HELO localhost)
+ ([10.245.246.104])
+ by fmviesa002-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 22 Oct 2025 02:48:38 -0700
+From: Jani Nikula <jani.nikula@intel.com>
+To: dri-devel@lists.freedesktop.org, maarten.lankhorst@linux.intel.com,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@redhat.com>,
+ simona.vetter@ffwll.ch
+Cc: jani.nikula@intel.com, intel-gfx@lists.freedesktop.org,
+ intel-xe@lists.freedesktop.org
+Subject: [PATCH v2 0/3] drm: replace drm_print.h includes from headers with a
+ forward declaration
+Date: Wed, 22 Oct 2025 12:48:30 +0300
+Message-ID: <cover.1761126446.git.jani.nikula@intel.com>
+X-Mailer: git-send-email 2.47.3
 MIME-Version: 1.0
-References: <20251022033847.471106-1-marek.vasut+renesas@mailbox.org>
- <20251022033847.471106-3-marek.vasut+renesas@mailbox.org>
-In-Reply-To: <20251022033847.471106-3-marek.vasut+renesas@mailbox.org>
-From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Wed, 22 Oct 2025 11:39:13 +0200
-X-Gmail-Original-Message-ID: <CAMuHMdVpVkvHwihk=jVdq37Xi01oh_6O2p9Z2b645ViiuxpFTw@mail.gmail.com>
-X-Gm-Features: AS18NWCLE2aAyAzKtAQbH4VnFmVWNSxcs2C7oaQZc_Iov4xWvW3S_J-Tvmn1Aps
-Message-ID: <CAMuHMdVpVkvHwihk=jVdq37Xi01oh_6O2p9Z2b645ViiuxpFTw@mail.gmail.com>
-Subject: Re: [PATCH v3 3/3] arm64: dts: renesas: r8a77961: Add GX6250 GPU node
-To: Marek Vasut <marek.vasut+renesas@mailbox.org>
-Cc: linux-arm-kernel@lists.infradead.org, Matt Coster <matt.coster@imgtec.com>,
- =?UTF-8?Q?Niklas_S=C3=B6derlund?= <niklas.soderlund+renesas@ragnatech.se>, 
- Adam Ford <aford173@gmail.com>, Conor Dooley <conor+dt@kernel.org>, 
- David Airlie <airlied@gmail.com>, Frank Binns <frank.binns@imgtec.com>, 
- Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>, 
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Magnus Damm <magnus.damm@gmail.com>, 
- Maxime Ripard <mripard@kernel.org>, Rob Herring <robh@kernel.org>,
- Simona Vetter <simona@ffwll.ch>, 
- Thomas Zimmermann <tzimmermann@suse.de>, devicetree@vger.kernel.org, 
- dri-devel@lists.freedesktop.org, linux-renesas-soc@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -97,37 +72,400 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Marek,
+v2 of [1] with a bunch of inevitable build errors fixed.
 
-On Wed, 22 Oct 2025 at 05:39, Marek Vasut
-<marek.vasut+renesas@mailbox.org> wrote:
-> Describe Imagination Technologies PowerVR Rogue GX6250 BNVC 4.45.2.58
-> present in Renesas R-Car R8A77961 M3-W+ SoC.
->
-> Acked-by: Matt Coster <matt.coster@imgtec.com>
-> Reviewed-by: Niklas S=C3=B6derlund <niklas.soderlund+renesas@ragnatech.se=
->
-> Signed-off-by: Marek Vasut <marek.vasut+renesas@mailbox.org>
+BR,
+Jani.
 
-> V3: - Add AB from Matt
->     - Disable the GPU by default
 
-Thanks for the update!
+[1] https://lore.kernel.org/r/cover.1761063757.git.jani.nikula@intel.com
 
-My
-Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
-on v2 is still valid, will queue in renesas-devel for v6.19.
 
-Gr{oetje,eeting}s,
+Jani Nikula (3):
+  drm/mm: replace drm_print.h include with a forward declaration
+  drm/buddy: replace drm_print.h include with a forward declaration
+  drm/ttm: replace drm_print.h include with a forward declaration
 
-                        Geert
+ drivers/accel/amdxdna/amdxdna_gem.c                       | 1 +
+ drivers/accel/rocket/rocket_gem.c                         | 1 +
+ drivers/gpu/drm/adp/adp_drv.c                             | 1 +
+ drivers/gpu/drm/arm/display/komeda/komeda_framebuffer.c   | 1 +
+ drivers/gpu/drm/arm/hdlcd_crtc.c                          | 1 +
+ drivers/gpu/drm/arm/hdlcd_drv.c                           | 1 +
+ drivers/gpu/drm/arm/malidp_drv.c                          | 1 +
+ drivers/gpu/drm/arm/malidp_mw.c                           | 1 +
+ drivers/gpu/drm/armada/armada_crtc.c                      | 1 +
+ drivers/gpu/drm/armada/armada_debugfs.c                   | 1 +
+ drivers/gpu/drm/armada/armada_fb.c                        | 1 +
+ drivers/gpu/drm/armada/armada_fbdev.c                     | 1 +
+ drivers/gpu/drm/armada/armada_gem.c                       | 1 +
+ drivers/gpu/drm/armada/armada_overlay.c                   | 1 +
+ drivers/gpu/drm/armada/armada_plane.c                     | 1 +
+ drivers/gpu/drm/ast/ast_mode.c                            | 1 +
+ drivers/gpu/drm/atmel-hlcdc/atmel_hlcdc_dc.c              | 1 +
+ drivers/gpu/drm/atmel-hlcdc/atmel_hlcdc_plane.c           | 1 +
+ drivers/gpu/drm/drm_buddy.c                               | 1 +
+ drivers/gpu/drm/drm_dumb_buffers.c                        | 1 +
+ drivers/gpu/drm/drm_fbdev_dma.c                           | 1 +
+ drivers/gpu/drm/drm_fbdev_shmem.c                         | 1 +
+ drivers/gpu/drm/drm_gem_dma_helper.c                      | 1 +
+ drivers/gpu/drm/drm_gem_framebuffer_helper.c              | 1 +
+ drivers/gpu/drm/drm_gem_ttm_helper.c                      | 1 +
+ drivers/gpu/drm/drm_gem_vram_helper.c                     | 1 +
+ drivers/gpu/drm/drm_gpuvm.c                               | 1 +
+ drivers/gpu/drm/drm_mipi_dbi.c                            | 1 +
+ drivers/gpu/drm/drm_mm.c                                  | 1 +
+ drivers/gpu/drm/drm_prime.c                               | 1 +
+ drivers/gpu/drm/etnaviv/etnaviv_buffer.c                  | 1 +
+ drivers/gpu/drm/etnaviv/etnaviv_drv.c                     | 1 +
+ drivers/gpu/drm/etnaviv/etnaviv_gem.c                     | 1 +
+ drivers/gpu/drm/etnaviv/etnaviv_gem_submit.c              | 1 +
+ drivers/gpu/drm/etnaviv/etnaviv_gpu.c                     | 2 ++
+ drivers/gpu/drm/etnaviv/etnaviv_mmu.c                     | 2 ++
+ drivers/gpu/drm/exynos/exynos5433_drm_decon.c             | 1 +
+ drivers/gpu/drm/exynos/exynos7_drm_decon.c                | 1 +
+ drivers/gpu/drm/exynos/exynos_drm_fb.c                    | 1 +
+ drivers/gpu/drm/exynos/exynos_drm_fbdev.c                 | 1 +
+ drivers/gpu/drm/exynos/exynos_drm_fimd.c                  | 1 +
+ drivers/gpu/drm/exynos/exynos_drm_g2d.c                   | 1 +
+ drivers/gpu/drm/exynos/exynos_drm_gem.c                   | 1 +
+ drivers/gpu/drm/exynos/exynos_drm_ipp.c                   | 1 +
+ drivers/gpu/drm/exynos/exynos_drm_plane.c                 | 1 +
+ drivers/gpu/drm/exynos/exynos_drm_vidi.c                  | 1 +
+ drivers/gpu/drm/exynos/exynos_mixer.c                     | 1 +
+ drivers/gpu/drm/fsl-dcu/fsl_dcu_drm_plane.c               | 1 +
+ drivers/gpu/drm/gma500/backlight.c                        | 2 ++
+ drivers/gpu/drm/gma500/cdv_device.c                       | 1 +
+ drivers/gpu/drm/gma500/cdv_intel_display.c                | 1 +
+ drivers/gpu/drm/gma500/cdv_intel_dp.c                     | 1 +
+ drivers/gpu/drm/gma500/cdv_intel_hdmi.c                   | 1 +
+ drivers/gpu/drm/gma500/cdv_intel_lvds.c                   | 1 +
+ drivers/gpu/drm/gma500/gem.c                              | 1 +
+ drivers/gpu/drm/gma500/intel_bios.c                       | 1 +
+ drivers/gpu/drm/gma500/intel_gmbus.c                      | 2 ++
+ drivers/gpu/drm/gma500/mid_bios.c                         | 1 +
+ drivers/gpu/drm/gma500/oaktrail_crtc.c                    | 1 +
+ drivers/gpu/drm/gma500/oaktrail_hdmi.c                    | 1 +
+ drivers/gpu/drm/gma500/oaktrail_hdmi_i2c.c                | 3 +++
+ drivers/gpu/drm/gma500/oaktrail_lvds.c                    | 1 +
+ drivers/gpu/drm/gma500/opregion.c                         | 3 +++
+ drivers/gpu/drm/gma500/psb_drv.c                          | 1 +
+ drivers/gpu/drm/gma500/psb_intel_display.c                | 1 +
+ drivers/gpu/drm/gma500/psb_intel_lvds.c                   | 1 +
+ drivers/gpu/drm/gma500/psb_intel_sdvo.c                   | 1 +
+ drivers/gpu/drm/gma500/psb_irq.c                          | 1 +
+ drivers/gpu/drm/hisilicon/kirin/kirin_drm_ade.c           | 1 +
+ drivers/gpu/drm/hisilicon/kirin/kirin_drm_drv.c           | 1 +
+ drivers/gpu/drm/i915/display/i9xx_wm.c                    | 2 ++
+ drivers/gpu/drm/i915/display/intel_bios.c                 | 1 +
+ drivers/gpu/drm/i915/display/intel_bw.c                   | 2 ++
+ drivers/gpu/drm/i915/display/intel_cdclk.c                | 1 +
+ drivers/gpu/drm/i915/display/intel_connector.c            | 1 +
+ drivers/gpu/drm/i915/display/intel_crtc.c                 | 1 +
+ drivers/gpu/drm/i915/display/intel_display.c              | 1 +
+ drivers/gpu/drm/i915/display/intel_display_debugfs.c      | 1 +
+ drivers/gpu/drm/i915/display/intel_display_driver.c       | 1 +
+ drivers/gpu/drm/i915/display/intel_display_irq.c          | 1 +
+ drivers/gpu/drm/i915/display/intel_display_power.c        | 2 ++
+ drivers/gpu/drm/i915/display/intel_display_power_well.c   | 2 ++
+ drivers/gpu/drm/i915/display/intel_display_reset.c        | 1 +
+ drivers/gpu/drm/i915/display/intel_dpt.c                  | 2 ++
+ drivers/gpu/drm/i915/display/intel_fb.c                   | 1 +
+ drivers/gpu/drm/i915/display/intel_fb_bo.c                | 1 +
+ drivers/gpu/drm/i915/display/intel_fb_pin.c               | 2 ++
+ drivers/gpu/drm/i915/display/intel_fbc.c                  | 1 +
+ drivers/gpu/drm/i915/display/intel_fbdev_fb.c             | 2 ++
+ drivers/gpu/drm/i915/display/intel_frontbuffer.c          | 1 +
+ drivers/gpu/drm/i915/display/intel_gmbus.c                | 1 +
+ drivers/gpu/drm/i915/display/intel_hdcp_gsc.c             | 1 +
+ drivers/gpu/drm/i915/display/intel_hotplug.c              | 1 +
+ drivers/gpu/drm/i915/display/intel_overlay.c              | 1 +
+ drivers/gpu/drm/i915/display/intel_pipe_crc.c             | 2 ++
+ drivers/gpu/drm/i915/display/intel_plane.c                | 1 +
+ drivers/gpu/drm/i915/display/intel_plane_initial.c        | 2 ++
+ drivers/gpu/drm/i915/display/intel_psr.c                  | 1 +
+ drivers/gpu/drm/i915/display/intel_vblank.c               | 1 +
+ drivers/gpu/drm/i915/display/skl_universal_plane.c        | 1 +
+ drivers/gpu/drm/i915/gem/i915_gem_context.c               | 1 +
+ drivers/gpu/drm/i915/gem/i915_gem_create.c                | 1 +
+ drivers/gpu/drm/i915/gem/i915_gem_execbuffer.c            | 1 +
+ drivers/gpu/drm/i915/gem/i915_gem_object.c                | 1 +
+ drivers/gpu/drm/i915/gem/i915_gem_pages.c                 | 4 +++-
+ drivers/gpu/drm/i915/gem/i915_gem_phys.c                  | 1 +
+ drivers/gpu/drm/i915/gem/i915_gem_shrinker.c              | 2 ++
+ drivers/gpu/drm/i915/gem/i915_gem_stolen.c                | 1 +
+ drivers/gpu/drm/i915/gem/i915_gem_ttm.c                   | 3 ++-
+ drivers/gpu/drm/i915/gem/i915_gem_ttm_pm.c                | 1 +
+ drivers/gpu/drm/i915/gem/i915_gem_userptr.c               | 2 ++
+ drivers/gpu/drm/i915/gem/i915_gemfs.c                     | 2 ++
+ drivers/gpu/drm/i915/gem/selftests/i915_gem_client_blt.c  | 2 ++
+ drivers/gpu/drm/i915/gem/selftests/i915_gem_mman.c        | 2 ++
+ drivers/gpu/drm/i915/gt/gen8_engine_cs.c                  | 2 ++
+ drivers/gpu/drm/i915/gt/intel_breadcrumbs.c               | 2 ++
+ drivers/gpu/drm/i915/gt/intel_engine_heartbeat.c          | 2 ++
+ drivers/gpu/drm/i915/gt/intel_engine_user.c               | 2 ++
+ drivers/gpu/drm/i915/gt/intel_execlists_submission.c      | 2 ++
+ drivers/gpu/drm/i915/gt/intel_ggtt.c                      | 1 +
+ drivers/gpu/drm/i915/gt/intel_ggtt_fencing.c              | 2 ++
+ drivers/gpu/drm/i915/gt/intel_ggtt_gmch.c                 | 1 +
+ drivers/gpu/drm/i915/gt/intel_gt_debugfs.c                | 2 ++
+ drivers/gpu/drm/i915/gt/intel_gt_pm_debugfs.c             | 2 ++
+ drivers/gpu/drm/i915/gt/intel_lrc.c                       | 2 ++
+ drivers/gpu/drm/i915/gt/intel_mocs.c                      | 2 ++
+ drivers/gpu/drm/i915/gt/intel_rc6.c                       | 2 ++
+ drivers/gpu/drm/i915/gt/intel_region_lmem.c               | 2 ++
+ drivers/gpu/drm/i915/gt/intel_renderstate.c               | 2 ++
+ drivers/gpu/drm/i915/gt/intel_sa_media.c                  | 1 +
+ drivers/gpu/drm/i915/gt/intel_sseu.c                      | 2 ++
+ drivers/gpu/drm/i915/gt/intel_sseu_debugfs.c              | 2 ++
+ drivers/gpu/drm/i915/gt/intel_timeline.c                  | 1 +
+ drivers/gpu/drm/i915/gt/intel_wopcm.c                     | 2 ++
+ drivers/gpu/drm/i915/gt/selftest_context.c                | 2 ++
+ drivers/gpu/drm/i915/gt/selftest_execlists.c              | 2 ++
+ drivers/gpu/drm/i915/gt/uc/intel_gsc_uc_heci_cmd_submit.c | 2 ++
+ drivers/gpu/drm/i915/gvt/aperture_gm.c                    | 2 ++
+ drivers/gpu/drm/i915/gvt/cfg_space.c                      | 2 ++
+ drivers/gpu/drm/i915/gvt/cmd_parser.c                     | 2 ++
+ drivers/gpu/drm/i915/gvt/display.c                        | 1 +
+ drivers/gpu/drm/i915/gvt/dmabuf.c                         | 1 +
+ drivers/gpu/drm/i915/gvt/edid.c                           | 1 +
+ drivers/gpu/drm/i915/gvt/gtt.c                            | 2 ++
+ drivers/gpu/drm/i915/gvt/handlers.c                       | 1 +
+ drivers/gpu/drm/i915/gvt/interrupt.c                      | 2 ++
+ drivers/gpu/drm/i915/gvt/kvmgt.c                          | 1 +
+ drivers/gpu/drm/i915/gvt/mmio.c                           | 3 +++
+ drivers/gpu/drm/i915/gvt/mmio_context.c                   | 2 ++
+ drivers/gpu/drm/i915/gvt/scheduler.c                      | 2 ++
+ drivers/gpu/drm/i915/gvt/vgpu.c                           | 2 ++
+ drivers/gpu/drm/i915/i915_cmd_parser.c                    | 1 +
+ drivers/gpu/drm/i915/i915_debugfs.c                       | 1 +
+ drivers/gpu/drm/i915/i915_gem.c                           | 1 +
+ drivers/gpu/drm/i915/i915_getparam.c                      | 2 ++
+ drivers/gpu/drm/i915/i915_irq.c                           | 1 +
+ drivers/gpu/drm/i915/i915_module.c                        | 1 +
+ drivers/gpu/drm/i915/i915_pmu.c                           | 2 ++
+ drivers/gpu/drm/i915/i915_query.c                         | 2 ++
+ drivers/gpu/drm/i915/i915_request.c                       | 2 ++
+ drivers/gpu/drm/i915/i915_switcheroo.c                    | 2 ++
+ drivers/gpu/drm/i915/i915_sysfs.c                         | 2 ++
+ drivers/gpu/drm/i915/i915_ttm_buddy_manager.c             | 4 ++--
+ drivers/gpu/drm/i915/i915_utils.c                         | 1 +
+ drivers/gpu/drm/i915/i915_vgpu.c                          | 2 ++
+ drivers/gpu/drm/i915/i915_vma.c                           | 2 ++
+ drivers/gpu/drm/i915/intel_clock_gating.c                 | 2 ++
+ drivers/gpu/drm/i915/intel_gvt.c                          | 2 ++
+ drivers/gpu/drm/i915/intel_memory_region.c                | 1 +
+ drivers/gpu/drm/i915/intel_pcode.c                        | 2 ++
+ drivers/gpu/drm/i915/intel_step.c                         | 2 ++
+ drivers/gpu/drm/i915/intel_uncore.c                       | 1 +
+ drivers/gpu/drm/i915/intel_wakeref.c                      | 2 ++
+ drivers/gpu/drm/i915/pxp/intel_pxp.c                      | 2 ++
+ drivers/gpu/drm/i915/pxp/intel_pxp_gsccs.c                | 2 ++
+ drivers/gpu/drm/i915/pxp/intel_pxp_huc.c                  | 2 ++
+ drivers/gpu/drm/i915/pxp/intel_pxp_session.c              | 2 ++
+ drivers/gpu/drm/i915/selftests/i915_active.c              | 2 ++
+ drivers/gpu/drm/i915/selftests/i915_request.c             | 2 ++
+ drivers/gpu/drm/i915/soc/intel_dram.c                     | 1 +
+ drivers/gpu/drm/i915/soc/intel_gmch.c                     | 1 +
+ drivers/gpu/drm/i915/vlv_iosf_sb.c                        | 2 ++
+ drivers/gpu/drm/imagination/pvr_ccb.c                     | 1 +
+ drivers/gpu/drm/imagination/pvr_fw.c                      | 1 +
+ drivers/gpu/drm/imagination/pvr_fw_meta.c                 | 2 ++
+ drivers/gpu/drm/imagination/pvr_fw_trace.c                | 1 +
+ drivers/gpu/drm/imagination/pvr_power.c                   | 1 +
+ drivers/gpu/drm/imagination/pvr_vm.c                      | 1 +
+ drivers/gpu/drm/imx/dcss/dcss-plane.c                     | 1 +
+ drivers/gpu/drm/imx/ipuv3/ipuv3-plane.c                   | 1 +
+ drivers/gpu/drm/imx/lcdc/imx-lcdc.c                       | 1 +
+ drivers/gpu/drm/kmb/kmb_drv.c                             | 1 +
+ drivers/gpu/drm/kmb/kmb_plane.c                           | 1 +
+ drivers/gpu/drm/lima/lima_sched.c                         | 2 ++
+ drivers/gpu/drm/loongson/lsdc_benchmark.c                 | 1 +
+ drivers/gpu/drm/loongson/lsdc_crtc.c                      | 1 +
+ drivers/gpu/drm/loongson/lsdc_debugfs.c                   | 1 +
+ drivers/gpu/drm/loongson/lsdc_drv.c                       | 1 +
+ drivers/gpu/drm/loongson/lsdc_gem.c                       | 1 +
+ drivers/gpu/drm/loongson/lsdc_i2c.c                       | 1 +
+ drivers/gpu/drm/loongson/lsdc_irq.c                       | 1 +
+ drivers/gpu/drm/loongson/lsdc_output_7a1000.c             | 1 +
+ drivers/gpu/drm/loongson/lsdc_output_7a2000.c             | 1 +
+ drivers/gpu/drm/loongson/lsdc_pixpll.c                    | 1 +
+ drivers/gpu/drm/loongson/lsdc_plane.c                     | 1 +
+ drivers/gpu/drm/loongson/lsdc_ttm.c                       | 1 +
+ drivers/gpu/drm/mcde/mcde_display.c                       | 1 +
+ drivers/gpu/drm/mediatek/mtk_crtc.c                       | 1 +
+ drivers/gpu/drm/mediatek/mtk_gem.c                        | 1 +
+ drivers/gpu/drm/mediatek/mtk_plane.c                      | 1 +
+ drivers/gpu/drm/meson/meson_overlay.c                     | 1 +
+ drivers/gpu/drm/meson/meson_plane.c                       | 1 +
+ drivers/gpu/drm/mgag200/mgag200_drv.c                     | 1 +
+ drivers/gpu/drm/mgag200/mgag200_g200.c                    | 1 +
+ drivers/gpu/drm/mgag200/mgag200_g200eh.c                  | 1 +
+ drivers/gpu/drm/mgag200/mgag200_g200eh3.c                 | 1 +
+ drivers/gpu/drm/mgag200/mgag200_g200eh5.c                 | 1 +
+ drivers/gpu/drm/mgag200/mgag200_g200er.c                  | 1 +
+ drivers/gpu/drm/mgag200/mgag200_g200ev.c                  | 1 +
+ drivers/gpu/drm/mgag200/mgag200_g200ew3.c                 | 1 +
+ drivers/gpu/drm/mgag200/mgag200_g200se.c                  | 1 +
+ drivers/gpu/drm/mgag200/mgag200_g200wb.c                  | 1 +
+ drivers/gpu/drm/mgag200/mgag200_vga.c                     | 1 +
+ drivers/gpu/drm/mgag200/mgag200_vga_bmc.c                 | 1 +
+ drivers/gpu/drm/mxsfb/lcdif_kms.c                         | 1 +
+ drivers/gpu/drm/mxsfb/mxsfb_kms.c                         | 1 +
+ drivers/gpu/drm/nouveau/nouveau_drv.h                     | 1 +
+ drivers/gpu/drm/omapdrm/omap_crtc.c                       | 1 +
+ drivers/gpu/drm/omapdrm/omap_debugfs.c                    | 1 +
+ drivers/gpu/drm/omapdrm/omap_dmm_tiler.c                  | 2 ++
+ drivers/gpu/drm/omapdrm/omap_drv.c                        | 1 +
+ drivers/gpu/drm/omapdrm/omap_fb.c                         | 1 +
+ drivers/gpu/drm/omapdrm/omap_fbdev.c                      | 1 +
+ drivers/gpu/drm/omapdrm/omap_gem.c                        | 1 +
+ drivers/gpu/drm/omapdrm/omap_irq.c                        | 1 +
+ drivers/gpu/drm/omapdrm/omap_overlay.c                    | 1 +
+ drivers/gpu/drm/omapdrm/omap_plane.c                      | 1 +
+ drivers/gpu/drm/panfrost/panfrost_devfreq.c               | 2 ++
+ drivers/gpu/drm/panfrost/panfrost_drv.c                   | 1 +
+ drivers/gpu/drm/panfrost/panfrost_gem.c                   | 1 +
+ drivers/gpu/drm/panfrost/panfrost_gpu.c                   | 2 ++
+ drivers/gpu/drm/panfrost/panfrost_mmu.c                   | 1 +
+ drivers/gpu/drm/panthor/panthor_devfreq.c                 | 1 +
+ drivers/gpu/drm/panthor/panthor_device.c                  | 1 +
+ drivers/gpu/drm/panthor/panthor_drv.c                     | 1 +
+ drivers/gpu/drm/panthor/panthor_fw.c                      | 1 +
+ drivers/gpu/drm/panthor/panthor_gem.c                     | 1 +
+ drivers/gpu/drm/panthor/panthor_gpu.c                     | 1 +
+ drivers/gpu/drm/panthor/panthor_heap.c                    | 1 +
+ drivers/gpu/drm/panthor/panthor_hw.c                      | 2 ++
+ drivers/gpu/drm/panthor/panthor_mmu.c                     | 1 +
+ drivers/gpu/drm/panthor/panthor_sched.c                   | 1 +
+ drivers/gpu/drm/pl111/pl111_display.c                     | 1 +
+ drivers/gpu/drm/qxl/qxl_cmd.c                             | 1 +
+ drivers/gpu/drm/qxl/qxl_debugfs.c                         | 1 +
+ drivers/gpu/drm/qxl/qxl_display.c                         | 1 +
+ drivers/gpu/drm/qxl/qxl_drv.c                             | 1 +
+ drivers/gpu/drm/qxl/qxl_gem.c                             | 1 +
+ drivers/gpu/drm/qxl/qxl_image.c                           | 2 ++
+ drivers/gpu/drm/qxl/qxl_ioctl.c                           | 2 ++
+ drivers/gpu/drm/qxl/qxl_irq.c                             | 1 +
+ drivers/gpu/drm/qxl/qxl_kms.c                             | 1 +
+ drivers/gpu/drm/qxl/qxl_release.c                         | 2 ++
+ drivers/gpu/drm/qxl/qxl_ttm.c                             | 1 +
+ drivers/gpu/drm/radeon/radeon.h                           | 1 +
+ drivers/gpu/drm/renesas/rcar-du/rcar_du_crtc.c            | 1 +
+ drivers/gpu/drm/renesas/rcar-du/rcar_du_drv.c             | 1 +
+ drivers/gpu/drm/rockchip/analogix_dp-rockchip.c           | 1 +
+ drivers/gpu/drm/rockchip/cdn-dp-core.c                    | 1 +
+ drivers/gpu/drm/rockchip/cdn-dp-reg.c                     | 2 ++
+ drivers/gpu/drm/rockchip/dw-mipi-dsi-rockchip.c           | 1 +
+ drivers/gpu/drm/rockchip/inno_hdmi.c                      | 1 +
+ drivers/gpu/drm/rockchip/rk3066_hdmi.c                    | 1 +
+ drivers/gpu/drm/rockchip/rockchip_drm_drv.c               | 1 +
+ drivers/gpu/drm/rockchip/rockchip_drm_gem.c               | 1 +
+ drivers/gpu/drm/rockchip/rockchip_drm_vop.c               | 1 +
+ drivers/gpu/drm/rockchip/rockchip_lvds.c                  | 1 +
+ drivers/gpu/drm/rockchip/rockchip_rgb.c                   | 1 +
+ drivers/gpu/drm/sitronix/st7586.c                         | 1 +
+ drivers/gpu/drm/sitronix/st7735r.c                        | 1 +
+ drivers/gpu/drm/solomon/ssd130x.c                         | 1 +
+ drivers/gpu/drm/sti/sti_cursor.c                          | 1 +
+ drivers/gpu/drm/sti/sti_drv.c                             | 1 +
+ drivers/gpu/drm/sti/sti_gdp.c                             | 1 +
+ drivers/gpu/drm/sti/sti_hqvdp.c                           | 1 +
+ drivers/gpu/drm/sti/sti_plane.c                           | 1 +
+ drivers/gpu/drm/stm/drv.c                                 | 1 +
+ drivers/gpu/drm/stm/ltdc.c                                | 1 +
+ drivers/gpu/drm/sun4i/sun4i_backend.c                     | 1 +
+ drivers/gpu/drm/sun4i/sun4i_drv.c                         | 1 +
+ drivers/gpu/drm/sun4i/sun4i_frontend.c                    | 1 +
+ drivers/gpu/drm/sun4i/sun8i_mixer.c                       | 1 +
+ drivers/gpu/drm/sun4i/sun8i_ui_layer.c                    | 1 +
+ drivers/gpu/drm/sun4i/sun8i_vi_layer.c                    | 1 +
+ drivers/gpu/drm/sysfb/efidrm.c                            | 1 +
+ drivers/gpu/drm/sysfb/ofdrm.c                             | 1 +
+ drivers/gpu/drm/sysfb/simpledrm.c                         | 1 +
+ drivers/gpu/drm/sysfb/vesadrm.c                           | 1 +
+ drivers/gpu/drm/tegra/dc.c                                | 1 +
+ drivers/gpu/drm/tegra/drm.c                               | 1 +
+ drivers/gpu/drm/tegra/dsi.c                               | 1 +
+ drivers/gpu/drm/tegra/fb.c                                | 1 +
+ drivers/gpu/drm/tegra/hdmi.c                              | 1 +
+ drivers/gpu/drm/tegra/hub.c                               | 1 +
+ drivers/gpu/drm/tegra/sor.c                               | 1 +
+ drivers/gpu/drm/tests/drm_mm_test.c                       | 1 +
+ drivers/gpu/drm/tidss/tidss_crtc.c                        | 1 +
+ drivers/gpu/drm/tidss/tidss_dispc.c                       | 1 +
+ drivers/gpu/drm/tiny/bochs.c                              | 1 +
+ drivers/gpu/drm/tiny/cirrus-qemu.c                        | 1 +
+ drivers/gpu/drm/tiny/gm12u320.c                           | 1 +
+ drivers/gpu/drm/tiny/hx8357d.c                            | 1 +
+ drivers/gpu/drm/tiny/ili9163.c                            | 1 +
+ drivers/gpu/drm/tiny/ili9225.c                            | 1 +
+ drivers/gpu/drm/tiny/ili9341.c                            | 1 +
+ drivers/gpu/drm/tiny/ili9486.c                            | 1 +
+ drivers/gpu/drm/tiny/mi0283qt.c                           | 1 +
+ drivers/gpu/drm/tiny/panel-mipi-dbi.c                     | 1 +
+ drivers/gpu/drm/tiny/pixpaper.c                           | 1 +
+ drivers/gpu/drm/tiny/repaper.c                            | 1 +
+ drivers/gpu/drm/ttm/tests/ttm_mock_manager.c              | 1 +
+ drivers/gpu/drm/ttm/ttm_bo.c                              | 1 +
+ drivers/gpu/drm/ttm/ttm_resource.c                        | 1 +
+ drivers/gpu/drm/ttm/ttm_tt.c                              | 1 +
+ drivers/gpu/drm/tve200/tve200_display.c                   | 1 +
+ drivers/gpu/drm/udl/udl_edid.c                            | 1 +
+ drivers/gpu/drm/v3d/v3d_bo.c                              | 2 ++
+ drivers/gpu/drm/v3d/v3d_debugfs.c                         | 1 +
+ drivers/gpu/drm/v3d/v3d_drv.c                             | 1 +
+ drivers/gpu/drm/v3d/v3d_gem.c                             | 1 +
+ drivers/gpu/drm/v3d/v3d_gemfs.c                           | 2 ++
+ drivers/gpu/drm/v3d/v3d_irq.c                             | 2 ++
+ drivers/gpu/drm/v3d/v3d_sched.c                           | 1 +
+ drivers/gpu/drm/v3d/v3d_submit.c                          | 1 +
+ drivers/gpu/drm/vboxvideo/vbox_irq.c                      | 1 +
+ drivers/gpu/drm/vboxvideo/vbox_main.c                     | 1 +
+ drivers/gpu/drm/vboxvideo/vbox_mode.c                     | 1 +
+ drivers/gpu/drm/vboxvideo/vbox_ttm.c                      | 1 +
+ drivers/gpu/drm/vc4/vc4_bo.c                              | 1 +
+ drivers/gpu/drm/vc4/vc4_debugfs.c                         | 1 +
+ drivers/gpu/drm/vc4/vc4_dpi.c                             | 1 +
+ drivers/gpu/drm/vc4/vc4_drv.c                             | 1 +
+ drivers/gpu/drm/vc4/vc4_dsi.c                             | 1 +
+ drivers/gpu/drm/vc4/vc4_gem.c                             | 1 +
+ drivers/gpu/drm/vc4/vc4_hdmi.c                            | 1 +
+ drivers/gpu/drm/vc4/vc4_hvs.c                             | 1 +
+ drivers/gpu/drm/vc4/vc4_irq.c                             | 1 +
+ drivers/gpu/drm/vc4/vc4_kms.c                             | 1 +
+ drivers/gpu/drm/vc4/vc4_perfmon.c                         | 2 ++
+ drivers/gpu/drm/vc4/vc4_plane.c                           | 1 +
+ drivers/gpu/drm/vc4/vc4_render_cl.c                       | 2 ++
+ drivers/gpu/drm/vc4/vc4_txp.c                             | 1 +
+ drivers/gpu/drm/vc4/vc4_v3d.c                             | 2 ++
+ drivers/gpu/drm/vc4/vc4_validate.c                        | 2 ++
+ drivers/gpu/drm/vc4/vc4_validate_shaders.c                | 2 ++
+ drivers/gpu/drm/vc4/vc4_vec.c                             | 1 +
+ drivers/gpu/drm/virtio/virtgpu_debugfs.c                  | 1 +
+ drivers/gpu/drm/virtio/virtgpu_display.c                  | 1 +
+ drivers/gpu/drm/virtio/virtgpu_drv.c                      | 1 +
+ drivers/gpu/drm/virtio/virtgpu_kms.c                      | 1 +
+ drivers/gpu/drm/virtio/virtgpu_object.c                   | 2 ++
+ drivers/gpu/drm/virtio/virtgpu_plane.c                    | 1 +
+ drivers/gpu/drm/virtio/virtgpu_vq.c                       | 1 +
+ drivers/gpu/drm/vkms/vkms_composer.c                      | 1 +
+ drivers/gpu/drm/vkms/vkms_crtc.c                          | 1 +
+ drivers/gpu/drm/vkms/vkms_drv.c                           | 1 +
+ drivers/gpu/drm/vkms/vkms_output.c                        | 1 +
+ drivers/gpu/drm/vkms/vkms_plane.c                         | 1 +
+ drivers/gpu/drm/vkms/vkms_writeback.c                     | 1 +
+ drivers/gpu/drm/vmwgfx/vmwgfx_drv.h                       | 1 +
+ drivers/gpu/drm/xe/xe_heci_gsc.c                          | 2 ++
+ drivers/gpu/drm/xe/xe_tuning.c                            | 1 +
+ drivers/gpu/drm/xen/xen_drm_front.c                       | 1 +
+ drivers/gpu/drm/xen/xen_drm_front_gem.c                   | 1 +
+ drivers/gpu/drm/xen/xen_drm_front_kms.c                   | 1 +
+ include/drm/drm_buddy.h                                   | 2 +-
+ include/drm/drm_mm.h                                      | 2 +-
+ include/drm/ttm/ttm_resource.h                            | 3 ++-
+ 378 files changed, 474 insertions(+), 7 deletions(-)
 
---=20
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k=
-.org
+-- 
+2.47.3
 
-In personal conversations with technical people, I call myself a hacker. Bu=
-t
-when I'm talking to journalists I just say "programmer" or something like t=
-hat.
-                                -- Linus Torvalds
