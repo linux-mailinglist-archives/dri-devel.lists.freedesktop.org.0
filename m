@@ -2,183 +2,88 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id F15AFBFF4B5
-	for <lists+dri-devel@lfdr.de>; Thu, 23 Oct 2025 08:05:05 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 492E0BFF987
+	for <lists+dri-devel@lfdr.de>; Thu, 23 Oct 2025 09:29:56 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5D3F310E879;
-	Thu, 23 Oct 2025 06:05:02 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1232510E899;
+	Thu, 23 Oct 2025 07:29:54 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="HxrJephG";
+	dkim=pass (2048-bit key; unprotected) header.d=googlemail.com header.i=@googlemail.com header.b="Mnn0EODK";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1B8F410E00E;
- Thu, 23 Oct 2025 06:05:01 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1761199501; x=1792735501;
- h=from:to:cc:subject:date:message-id:references:
- in-reply-to:content-transfer-encoding:mime-version;
- bh=g2Jbmh+TfmCXFCobuTDJhu2NKHshyL7DCiGmOhBscAQ=;
- b=HxrJephGEZiehoIWcpIlRVZpGAgF2t37ErqtcXwR05s8JW294WPLuaZ6
- pMQfmfoIPty7mc6qB2RYf5gXz2L9g5hfCFFj2rh3ooj0+ypSkEMAdZLXt
- cQpHQI36EcA+U8OXNmrgyZjKv6+QMsaa0w67Cpz9umAbrEMPf0B6/lGJB
- wTumTL/y2t3H3tZ2HKJVxyKGABY/gvcL0ANsp6LWSs4RcBJJJzUn4LL8K
- v4HCSy0OvU9TYQewal+tZbibH55QYkqUaIXO8GocMlVVamefy/X7LxCxw
- xEBoFdIWAnQnGS2S6C6z9lqDAFQtwrMCXP6c7oj7m+uZBfA+gC5J1p336 Q==;
-X-CSE-ConnectionGUID: ZmD+R+ROT2KeIklGjmvEhw==
-X-CSE-MsgGUID: sXL0mFKaQT2VM+IKcExCzQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11531"; a="63281392"
-X-IronPort-AV: E=Sophos;i="6.17,312,1747724400"; d="scan'208";a="63281392"
-Received: from orviesa010.jf.intel.com ([10.64.159.150])
- by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 22 Oct 2025 23:05:00 -0700
-X-CSE-ConnectionGUID: 9op+yUSiR1ikYFEkJxHdcQ==
-X-CSE-MsgGUID: L327EnITTGiL3MUjYiswsw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.19,248,1754982000"; d="scan'208";a="183287552"
-Received: from fmsmsx902.amr.corp.intel.com ([10.18.126.91])
- by orviesa010.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 22 Oct 2025 23:05:00 -0700
-Received: from FMSMSX903.amr.corp.intel.com (10.18.126.92) by
- fmsmsx902.amr.corp.intel.com (10.18.126.91) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.27; Wed, 22 Oct 2025 23:05:00 -0700
-Received: from fmsedg901.ED.cps.intel.com (10.1.192.143) by
- FMSMSX903.amr.corp.intel.com (10.18.126.92) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.27 via Frontend Transport; Wed, 22 Oct 2025 23:05:00 -0700
-Received: from SJ2PR03CU001.outbound.protection.outlook.com (52.101.43.68) by
- edgegateway.intel.com (192.55.55.81) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.27; Wed, 22 Oct 2025 23:05:00 -0700
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=lhSnTR2lk7lTNIRyWW0xGu2qhG0a1z2gcRRjwMxu/E/mn3H0vF+wJk+wOgxjNgeVO80/w635JEL0Rt5dUU56AlVF0cbmk9FkGKilSfA1iJSRNiR28jXEvTQqaZdG/IsDuZOaDS6SAxof2qDYIqo02BtIJyeeb30Hynx29g6XU1YhbIRZpenD4CGynjXIdq5ppytp9z1ngmyxERDprmcrEZYjkR72DnQOJWLSa7B1rFmHHW6zykZQdVB8t5OHyVyqgz64trjAXoNU7lzG6NIhp9SUXRfR3zZ8Hnl1zdXEkiV2dxW6VvGUlD81IZ4wE254TEd/T1FSCnFQw3uuI+jcZg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=n5Acq8EauiVDBVoiPsE/RwHlJ5ZTn+ZuJ5XrM/rDu9c=;
- b=KUqsAacTGa/J31wQlU5/jP8B5OVp3dGul3SYGHu+xEPEB9zFDmsyw2jU6cPv+GJOcEhBYnQ9HBC4wquEOniyjLShwLqcXOB5pVN2+qJU+EjT69D2r43RBrXghQVjQhru1FzQRbEiQXUwhHRGU4AaJHDL8wgJNcHVulZ6215s+I/dKC4/8CbJ3J1UXIm/g8mh1saqNoxasy1cpKwQXw1QFonxmSJt1dCA8tbHxiOmfG679+4D1BsicS9STsRUT3aQs+Afc2MHfEC+LcY/LgMAR2hzd2DzTs5HL+mdHEAmozxH5qJfdXEEeEtRntpvZvIkN4xY5mbZJ4WWvUPH494SMA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
-Received: from DM3PPF208195D8D.namprd11.prod.outlook.com
- (2603:10b6:f:fc00::f13) by IA1PR11MB8098.namprd11.prod.outlook.com
- (2603:10b6:208:44b::12) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9253.13; Thu, 23 Oct
- 2025 06:04:52 +0000
-Received: from DM3PPF208195D8D.namprd11.prod.outlook.com
- ([fe80::95c9:5973:5297:d3cc]) by DM3PPF208195D8D.namprd11.prod.outlook.com
- ([fe80::95c9:5973:5297:d3cc%4]) with mapi id 15.20.9253.011; Thu, 23 Oct 2025
- 06:04:52 +0000
-From: "Kandpal, Suraj" <suraj.kandpal@intel.com>
-To: "Shankar, Uma" <uma.shankar@intel.com>, "intel-gfx@lists.freedesktop.org"
- <intel-gfx@lists.freedesktop.org>, "intel-xe@lists.freedesktop.org"
- <intel-xe@lists.freedesktop.org>, "dri-devel@lists.freedesktop.org"
- <dri-devel@lists.freedesktop.org>
-CC: "Borah, Chaitanya Kumar" <chaitanya.kumar.borah@intel.com>,
- "ville.syrjala@linux.intel.com" <ville.syrjala@linux.intel.com>,
- "pekka.paalanen@collabora.com" <pekka.paalanen@collabora.com>,
- "contact@emersion.fr" <contact@emersion.fr>, "harry.wentland@amd.com"
- <harry.wentland@amd.com>, "mwen@igalia.com" <mwen@igalia.com>,
- "jadahl@redhat.com" <jadahl@redhat.com>, "sebastian.wick@redhat.com"
- <sebastian.wick@redhat.com>, "shashank.sharma@amd.com"
- <shashank.sharma@amd.com>, "Sharma, Swati2" <swati2.sharma@intel.com>,
- "alex.hung@amd.com" <alex.hung@amd.com>, "Shankar, Uma"
- <uma.shankar@intel.com>
-Subject: RE: [v5 07/24] drm/i915: Add identifiers for intel color blocks
-Thread-Topic: [v5 07/24] drm/i915: Add identifiers for intel color blocks
-Thread-Index: AQHb6zDrO6mKH3CiZUGuIxR8EWFlN7TP7sEg
-Date: Thu, 23 Oct 2025 06:04:52 +0000
-Message-ID: <DM3PPF208195D8D31C50FCFFA341B3D690EE3F0A@DM3PPF208195D8D.namprd11.prod.outlook.com>
-References: <20250702091936.3004854-1-uma.shankar@intel.com>
- <20250702091936.3004854-8-uma.shankar@intel.com>
-In-Reply-To: <20250702091936.3004854-8-uma.shankar@intel.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=intel.com;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: DM3PPF208195D8D:EE_|IA1PR11MB8098:EE_
-x-ms-office365-filtering-correlation-id: 051b4cc4-f470-47e3-397e-08de11fa14d8
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;
- ARA:13230040|7416014|376014|366016|1800799024|38070700021; 
-x-microsoft-antispam-message-info: =?us-ascii?Q?ukOblEJiZVKtVb7a/uDRzkFfXSQmTsX6+NKTwD3nqlil7BS2tbLNFNPY8mop?=
- =?us-ascii?Q?4PXWnaAhbA9U9/zSJrhDlLJs/dRBfzSK095mV8A2j1dOzqumEWlnq3gTaEes?=
- =?us-ascii?Q?C1FlerTdDSEO7/Qc3qiypGiKqg5+hLAvTSrS+RBcQxa6mJti1NmRMBA/qyH4?=
- =?us-ascii?Q?zmqFA3yBZ6goB7Ht43GCaSZBi22EfV4mrAccBDEzzFBFMkodExmXhPu0raDo?=
- =?us-ascii?Q?Z6g2K9XzZrRNgyGYhCw6ZjK5JQVd1PPfUqirapagKV2BnqxmcDLJTPNDtL/g?=
- =?us-ascii?Q?wBoLzmx0AdpPtK6jem2ALykJhhLFYZJQuoV0Dt/FLSREl/RUEibCMcBtjebf?=
- =?us-ascii?Q?GY6gJNTMDQFrMeUjeiLZYaQCO3Vayy+BgWOliC58cNKfFFASH+R2zC66PoOT?=
- =?us-ascii?Q?PWI4Y4btSdlm9WajO609bIqtg9UPIsJune1nAHKN5ifU2h7d0vBXeejpXs/Z?=
- =?us-ascii?Q?is4TTZG1Il4udea/NCokd/+pr9HOmKjOrn6gJKOvL5ejzse1zdFUWROti8m4?=
- =?us-ascii?Q?1+23ZAn/okRJLEueivItzGhFUD3VuILJv8BGpZ7AnN+S5JgY5i1ZEAwEeZ8y?=
- =?us-ascii?Q?ZUXibhxdnwxT1df8DOijRknbFm8s98KR6eNshZOtD5st8mcwbyg0ARbRwDSm?=
- =?us-ascii?Q?d8R6d6RpQxgKe/yTfxhiwPxCrpW60sBSbRumC2ZTQRkq+/sYtA4MvprGdp4/?=
- =?us-ascii?Q?P9eN9sHLil4ObwLbMd7GbnrNQfQXJWTGf+6zEsqxaSF31cC5DBN2Kcr4lfR9?=
- =?us-ascii?Q?znGzvS2jsZzdKuDPpIPkYyRnGbQKk75lh4trqeIGrZTrPUxRbZfmyd1ioDFv?=
- =?us-ascii?Q?i0mtICUv1HWvqpfnFTPPmSTqDfODB4G85kG1+9KCpSWmSRsauO5rzVBaCsz+?=
- =?us-ascii?Q?/VeLfko0hP2WC4dgHe5Kcb34nJ7VoRbDXOZGYLyWGG/ayjKrrQdtfF3IrIFF?=
- =?us-ascii?Q?J+wi4muKjlYQu9gkJsCpZgfkW25yGCoQUYmA5QLuxNBW5sNOpLFjUFiaMbZt?=
- =?us-ascii?Q?bgmyMzm0gioeRf0MYRbIslXTfnYinbtDx0BaQTzBYXOsJL/rSvjC1ojPPuFV?=
- =?us-ascii?Q?q83WCbTbz2axEMJSaKB9PdCkiZ/cSygf/5QB7yPVDDl66UjixIgid/AIBFDP?=
- =?us-ascii?Q?QAMX8lfd0Qi1em2jo45SBPXIvev0HObiF+uLSbwwVty6AJzKRmTYW8/gny3s?=
- =?us-ascii?Q?qu+lo7h8i2xltzao2UOQBHd+ipD3Nr319zyRmUN3T1aHmtUu4xHzzwMnJluC?=
- =?us-ascii?Q?d1TgrCjhEK/Wt0CrFaqBEoyeWCySMYqofeDiJVUP4CTp7XOiQP9BY/Zxxgze?=
- =?us-ascii?Q?ZagxtU9K/dcx54/IwCXfvk9XRCZBtBg1hfaCkZV8LrgOkgimasyQYCZCvemI?=
- =?us-ascii?Q?AtZJ+HokUAJfugtHdT0Rm4vJiFts7v8ThiGL+y0wvaj95yvHSZIRMRz77auY?=
- =?us-ascii?Q?VAwMo+m+3DlCzvF11oCqWRF9QlWDrAoWNe6NM6We4NLFXcsiW+RU68BuwjJn?=
- =?us-ascii?Q?RQOD8iDP2XlZya9pXoUQk8KIqUlLbyrTwiwI?=
-x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:DM3PPF208195D8D.namprd11.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230040)(7416014)(376014)(366016)(1800799024)(38070700021); DIR:OUT;
- SFP:1101; 
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?us-ascii?Q?Fkex1sLcADBghvpr5omUM70xLSZKRaYz+cQ/Dgb7CBlLFjcoe7eDu2cado+f?=
- =?us-ascii?Q?qz0GEJRHVCBJgpJItqKTWGuwqRZrTXQ+UiedNiAagMH+fnFJWg10fsl5jHcU?=
- =?us-ascii?Q?9bd6OylZHXKREAUrV3mAbY6U5j+T3WPgeTLVEi4NT6Xy9HHVQZZxr0Hl1Sdu?=
- =?us-ascii?Q?6MJGssxkmlyQ9sdYwFOM0it/ij+DBZlbPjvi7H/Ccizhz9fdkL7jv0+7jyhD?=
- =?us-ascii?Q?eqHp1EKUOCN0God0bgsqmpkpNdGefzJk6+mArGFxKBS/G8+DwDuVzOdXLKJk?=
- =?us-ascii?Q?1+lIVCwG2dRq/mwqszQsnBrOuZ5wF5kDFWUoeq+nXaFLjbQyHS03MAnShHJa?=
- =?us-ascii?Q?hQIVcTHTeCwbRoLA8HNr+Vh8lPw/KQ6ql4HUFzSmeUQ1h4nB4Fa9K31Hzvp1?=
- =?us-ascii?Q?UP0ATmqGpOOSN5sulycbJJSs1+4BLfNxU6Bt921vlC3jjctY9bMSxtB9kzCn?=
- =?us-ascii?Q?8CYJwLR35atPxuR7rsutBcvoQNVkqpTqs4uJs502Y6D7yyrgDg8ur2C7DwcV?=
- =?us-ascii?Q?QR8BF1vuDfxXRiVSZvXEB9HpLypHZyjXU+PhhQR1zKiZ+aK/Y/mQ7fcCoctV?=
- =?us-ascii?Q?i7ScKumDfpxLaY6pLIAe9JoJjEwWbS3uQVhrzCY2tJErYcIcGKKcNWSMiI14?=
- =?us-ascii?Q?bZ1UGMmRHvpV7sPFAnAWQe78tS+1HHp5KelaITw0opAM9m8VYKuQtKou6a++?=
- =?us-ascii?Q?UlQmm32X93q/rcZR+JXIOMhmaEOOmm9dmuD1aTtFycH1RpnNF6eX2o/RLbB2?=
- =?us-ascii?Q?1N7UrFzjfF72/aByqs1iM7fxhnh6lwzebDaE3Bq1gYpaPiV8UkdmvJZ3G2Nm?=
- =?us-ascii?Q?OLwl9YrRpNx4v0yfQz/OeivhnX0agyK9lq7+qzJ//h/UNZe/7ZmpYW1sz7W5?=
- =?us-ascii?Q?QxiSZJ4iDBwfDcM9o6mHx2sd/oVYU8XmxTCl3MAAXejEcJLYfcWjpV7dYg3J?=
- =?us-ascii?Q?hji2C1HoHYppDEjqyLFtaCDTYbNSug1HJBtFDaHRabAUC1f8VHADWv5/6I4R?=
- =?us-ascii?Q?SGuhGx5Qn/hwy6uULaEv2FcnzOBqG7j9/yImcBrzopDje3EjJ6A0lUyA/JV6?=
- =?us-ascii?Q?LI+32PsVHxa3k4iGwH5Fflca+BanVe1gYKBWdVJD4ZlW7Z1CcgmD2FeiFUYz?=
- =?us-ascii?Q?dVJ//kz+YkgmeGaUiUWy3Z4gPoK0Mi+Sj11Ac3OqX5Ie+u6KwStSkvFQJYFe?=
- =?us-ascii?Q?sP0BsArPphQQcYB7KdsKA7g2uqObrZJO1C5iIARXNUDbFABM+lWIGjXX49L9?=
- =?us-ascii?Q?74zwoMF6Y/9eJy32qud/nOzMI8Tpc9shJ9P11wd8VBTxlnWAiFYw/r0of3lX?=
- =?us-ascii?Q?CS+4oGPlhY9QfN0yUkFNN9MVsFSyQw9qQVCTm91h3niQ6zH4+kSmz6Jze/NP?=
- =?us-ascii?Q?OwGjEpi6yy3Fa8twi7hvjBYvel3jxv4ShiDMicVq/LHCLoncIvPhiA3ZuEiM?=
- =?us-ascii?Q?sQGxd9/OJHxhcnhQ8z8Gn6LvkDpy5kWfrpyNVCNSkSxfwsJ0ytsuA62N0JZX?=
- =?us-ascii?Q?HRFyI5PxuY4MWfaVf9UBWXtyzDII54ULzBsfbXzhSlO95DMV2zDU8JNLTZbQ?=
- =?us-ascii?Q?/i6fbrC65XsSolGPfEwqJlWvcR8HbiltcR8PJCb0?=
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+Received: from mail-wm1-f51.google.com (mail-wm1-f51.google.com
+ [209.85.128.51])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 939C510E6ED
+ for <dri-devel@lists.freedesktop.org>; Wed, 22 Oct 2025 08:08:54 +0000 (UTC)
+Received: by mail-wm1-f51.google.com with SMTP id
+ 5b1f17b1804b1-4712c6d9495so12447605e9.2
+ for <dri-devel@lists.freedesktop.org>; Wed, 22 Oct 2025 01:08:54 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=googlemail.com; s=20230601; t=1761120533; x=1761725333;
+ darn=lists.freedesktop.org; 
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=UcnB1vPCv4/5O7NSkhwvuNPMqNZtj/H/Vxellyl6lWw=;
+ b=Mnn0EODKvOKn8Ha0Uea+0bCV4KdaaULZshJSq1ddLdBs9RachT4RFqnvtUcGS78ou6
+ uMtOMnQLAIqTdvU1yu2xigB5rFptNOe2Pv63hU78IGuL22mvJHvaCOlBnLuMP+YxhFT5
+ dMdGNGmp0mvLjArCyoYEz4c9w3FHi3paKf57cGn5YoeMdjUn1X+5+LxYxtcpPWDvhE4T
+ bFrO7kmDQRRQnVgrDKg7Cd9aghK70/CRccARA48jdvFlecMEgfyzHAaOfxQJWqmUcQSM
+ PfDCcBhC8iiwhg1pIyvcyneYAdDa0ue5dMCdoEqvPTYI5W1kjE0ojIX5tkt7cCZ237VO
+ gDjA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1761120533; x=1761725333;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=UcnB1vPCv4/5O7NSkhwvuNPMqNZtj/H/Vxellyl6lWw=;
+ b=kK9FGKRR/fqyGnQfFW4THpiJw4jGL6aE0HjeMhvqRYLWiE1yzE4pldghu2gWKn32M/
+ zCmo4AI8ZUXF3v3rOMAtAc4RdHEQJId60/BAJOCJadluI783m/tEr1ez+a79KTH9N8Jy
+ yvNCryJOB0HeKOhKtgd1Yt2fbTucdF5qQaHkuq1nWYSQH4Pj3E5hqsQTi/IOBZLIjfIS
+ RsQ/+vdhCGX3UZXqUPr7uvAvpgvtGKjvHNzrcGOoEPaNyh1eDr4yAokvtL/KqwsWaEJd
+ RddS0HbWPsZOO9pmv121wxXpxfk17ORJEEFiZKdY7hVzF/MoQ/CVK2Y1gWnIBkrpCHsg
+ 1Dmw==
+X-Gm-Message-State: AOJu0YyreNs/KB34GDVk/a2lGqcphanom6TEuhgywwkRVdrAs4FIMGyF
+ GU3bXbXob6UsVOu+BYe/MMnQqSpqmh56HMnU6zMkuUaeTAqqMdvRF+M=
+X-Gm-Gg: ASbGncudeNPKTc8hG8UjxZeNOxEDviZigYyfrJ1EmgO+13w3snYKxOOo+F92RsCXl5H
+ jHxLXID9MLwkNmwMh9hKgxz1DBTExwhVJbIi/xcsZMGKc0p+t/OJY9qpRxSpsV6jhTeHgS33LTG
+ VyGryk0qOJrv/Dntwmdx9uniBL5QZaMkdcueKBI1i88L1xNJTconQxQL55z9E7rSuGRbIcu9v/A
+ QrTNeru8Rcokdz6syh4juhwtykh6SF0Ngo/V5ELUjd8VvuLniKIRnNO/fpjhs6Ua8kqAb/FGvMa
+ m0CujyeUxsuvkWj/7G0oUDkx82GiLMyv7ReN7rVOfSITNCsql4vVC/KcN+JZI2qcyHM3BIlU2xC
+ V8ISI/tnoramJdIbGtqbLAKv1Bds4U86xWmCFhYNPn61KveIxWenzxVGdo6bM2oFy+eMGwYN7lr
+ jczHGX/Kgrmmdvm/qFhHOWdw3SS7EuTso54cTO7WJNJbO6uYnpHqlbJF4zZSDPow==
+X-Google-Smtp-Source: AGHT+IF/cCvzRlFyWOqSA/Xn2hsqVgkC6A23PcoYB3/ncn63CK7+kyxojS9N24qzW1KCsixw1CexVg==
+X-Received: by 2002:a05:600c:6085:b0:471:133c:4b9a with SMTP id
+ 5b1f17b1804b1-4711786c79emr171726605e9.6.1761120532780; 
+ Wed, 22 Oct 2025 01:08:52 -0700 (PDT)
+Received: from [192.168.1.3] (p5b057850.dip0.t-ipconnect.de. [91.5.120.80])
+ by smtp.gmail.com with ESMTPSA id
+ 5b1f17b1804b1-475c428a534sm35770345e9.6.2025.10.22.01.08.52
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 22 Oct 2025 01:08:52 -0700 (PDT)
+Message-ID: <798ba37a-41d0-4953-b8f5-8fe6c00f8dd3@googlemail.com>
+Date: Wed, 22 Oct 2025 10:08:51 +0200
 MIME-Version: 1.0
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: DM3PPF208195D8D.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 051b4cc4-f470-47e3-397e-08de11fa14d8
-X-MS-Exchange-CrossTenant-originalarrivaltime: 23 Oct 2025 06:04:52.2001 (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 46c98d88-e344-4ed4-8496-4ed7712e255d
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: SSk/eILMMdQcnTfUaF+RNqjAR4NlCQd2fa71qaaKHspHHyUdcJfeSnrVp6iHiXa34aiV4gpZmL/VNHczDYRGuw==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: IA1PR11MB8098
-X-OriginatorOrg: intel.com
+User-Agent: Betterbird (Windows)
+Subject: Re: [REGRESSION][BISECTED] Screen goes blank with ASpeed AST2300 in
+ 6.18-rc2
+Content-Language: de-DE
+To: Thomas Zimmermann <tzimmermann@suse.de>, regressions@lists.linux.dev,
+ LKML <linux-kernel@vger.kernel.org>
+Cc: dri-devel@lists.freedesktop.org, stable@vger.kernel.org,
+ jfalempe@redhat.com, airlied@redhat.com, dianders@chromium.org,
+ nbowler@draconx.ca, Linus Torvalds <torvalds@linux-foundation.org>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Thorsten Leemhuis <regressions@leemhuis.info>
+References: <20251014084743.18242-1-tzimmermann@suse.de>
+ <a40caf8e-58ad-4f9c-af7f-54f6f69c29bb@googlemail.com>
+ <43992c88-3a3a-4855-9f46-27a7e5fdec2e@suse.de>
+From: Peter Schneider <pschneider1968@googlemail.com>
+In-Reply-To: <43992c88-3a3a-4855-9f46-27a7e5fdec2e@suse.de>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Mailman-Approved-At: Thu, 23 Oct 2025 07:29:39 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -194,53 +99,59 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-> Subject: [v5 07/24] drm/i915: Add identifiers for intel color blocks
+Hi Thomas,
 
-So I don't think you need to mention intel color blocks here since drm/i915
-Implies this will be used by intel.
+thanks very much for your quick response!
 
->=20
-> From: Chaitanya Kumar Borah <chaitanya.kumar.borah@intel.com>
->=20
-> Add macros to identify intel color blocks. It will help in mapping drm_co=
-lor_ops
-> to intel color HW blocks
->=20
-> Signed-off-by: Chaitanya Kumar Borah <chaitanya.kumar.borah@intel.com>
-> Signed-off-by: Uma Shankar <uma.shankar@intel.com>
-> ---
->  drivers/gpu/drm/i915/display/intel_display_limits.h | 13 +++++++++++++
->  1 file changed, 13 insertions(+)
->=20
-> diff --git a/drivers/gpu/drm/i915/display/intel_display_limits.h
-> b/drivers/gpu/drm/i915/display/intel_display_limits.h
-> index f0fa27e365ab..97c960cc16aa 100644
-> --- a/drivers/gpu/drm/i915/display/intel_display_limits.h
-> +++ b/drivers/gpu/drm/i915/display/intel_display_limits.h
-> @@ -138,4 +138,17 @@ enum hpd_pin {
->  	HPD_NUM_PINS
->  };
->=20
-> +/*
-> + * Intel Color Blocks
-> + *
-> + */
-> +
-> +enum intel_color_block {
-> +	CB_PLANE_PRE_CSC_LUT,
-> +	CB_PLANE_CSC,
-> +	CB_PLANE_POST_CSC_LUT,
-> +
-> +	I915_MAX_CB
+(adding Thorsten to CC)
 
-Make this INTEL_MAX_CB
 
-Regards,
-Suraj Kandpal
+Am 22.10.2025 um 08:51 schrieb Thomas Zimmermann:
+> Hi
+> 
+> Am 22.10.25 um 05:27 schrieb Peter Schneider:
+>> #regzbot introduced: 6f719373b943a955fee6fc2012aed207b65e2854
+>>
+>> Hi all,
+>>
+>> I have encountered a serious (for me) regression with 6.18-rc2 on my 2-socket Ivy Bridge Xeon E5-2697 v2 server. After 
+>> booting, my console screen goes blank and stays blank. 6.18-rc1 was still fine.
+>>
+>> The machine has an Asus Z9PE-D16 server mainboard with an onboard ASpeed AST2300 VGA chip with 16MB VRAM. I have 
+>> attached an older HP Monitor to it via old VGA jack/cable. It also has a second graphics card in a PCI-E slot; an 
+>> older NVidia GTX 560. It is not connected to a monitor, but I have configured it via kernel command line for PCI-pass- 
+>> through to VMs running on this server (I use Proxmox VE, i.e. QEMU/KVM virtual machines). Currently, no VMs use this 
+>> yet, and also no VMs are autostarting with machine boot. So when this regression occurs, the server is idle. Pressing 
+>> a key on the keyboard does not make the screen come alive. The server is running fine though, and I can access it via 
+>> SSH. It just has no graphic output anymore. In case this is important, the machine also has a ASMB6 BMC (can be used 
+>> via http).
+>>
+>> I have attached dmesg output from both 6.18-rc1 which is fine, and 6.18-rc2 which exhibits this bug. I have bisected 
+>> the issue, please see attached git bisect.log.
+> 
+> Thanks for the detailed bug report.
+> 
+> Attached is a patch that partially reverts the broken commit. Could you please apply it on top of the broken kernel and 
+> report on the results?
+> 
+> Best regards
+> Thomas
 
-> +};
-> +
->  #endif /* __INTEL_DISPLAY_LIMITS_H__ */
-> --
-> 2.42.0
 
+Your patch applied cleanly against 6.18-rc2 and the kernel built fine, but unfortunately it did not solve the issue: my 
+console screen stays blank after booting. This is regardless whether I do a soft reboot, press the reset button or power 
+cycle and do a cold boot. They are all the same.
+
+
+Beste Grüße,
+Peter Schneider
+
+-- 
+Climb the mountain not to plant your flag, but to embrace the challenge,
+enjoy the air and behold the view. Climb it so you can see the world,
+not so the world can see you.                    -- David McCullough Jr.
+
+OpenPGP:  0xA3828BD796CCE11A8CADE8866E3A92C92C3FF244
+Download: https://www.peters-netzplatz.de/download/pschneider1968_pub.asc
+https://keys.mailvelope.com/pks/lookup?op=get&search=pschneider1968@googlemail.com
+https://keys.mailvelope.com/pks/lookup?op=get&search=pschneider1968@gmail.com
