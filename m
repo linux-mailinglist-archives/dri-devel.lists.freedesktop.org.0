@@ -2,66 +2,66 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E98B8BF9B63
-	for <lists+dri-devel@lfdr.de>; Wed, 22 Oct 2025 04:27:05 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id DB628BF9B7B
+	for <lists+dri-devel@lfdr.de>; Wed, 22 Oct 2025 04:27:34 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DB98210E0B9;
-	Wed, 22 Oct 2025 02:27:02 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1BE9A10E571;
+	Wed, 22 Oct 2025 02:27:33 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="a7aK/hGO";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="r2w3KeJ9";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pf1-f180.google.com (mail-pf1-f180.google.com
- [209.85.210.180])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C6ABA10E0B9
- for <dri-devel@lists.freedesktop.org>; Wed, 22 Oct 2025 02:27:01 +0000 (UTC)
-Received: by mail-pf1-f180.google.com with SMTP id
- d2e1a72fcca58-7835321bc98so5664443b3a.2
- for <dri-devel@lists.freedesktop.org>; Tue, 21 Oct 2025 19:27:01 -0700 (PDT)
+Received: from mail-pj1-f48.google.com (mail-pj1-f48.google.com
+ [209.85.216.48])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D528B10E571
+ for <dri-devel@lists.freedesktop.org>; Wed, 22 Oct 2025 02:27:31 +0000 (UTC)
+Received: by mail-pj1-f48.google.com with SMTP id
+ 98e67ed59e1d1-33badfbbc48so7636022a91.2
+ for <dri-devel@lists.freedesktop.org>; Tue, 21 Oct 2025 19:27:31 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1761100021; x=1761704821; darn=lists.freedesktop.org;
+ d=linaro.org; s=google; t=1761100051; x=1761704851; darn=lists.freedesktop.org;
  h=in-reply-to:content-disposition:mime-version:references:message-id
  :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
- bh=WqQzNiLchpkg3pgwyuDiy5UGt+eUDtmLfbzoo0ne91s=;
- b=a7aK/hGO7jRf4cT4ya3bDOKqQYJOh53g7ktCi0bWKmwt/XukgxIf2bSzewynVA8leo
- iuzaa7WB+OtcQSTFecxr5Yc0GtEl/NlZvn8P1vuUAWfD3LexRLrUt4bBJeYBJ5uF7j3F
- QzqWXi2gDlCTDc+7gWaa3wfinqQEz1zfuayz+Ld3lAda5AgQDpt89M94GlFC6gQIa1m9
- IWGMqsHovC4Ip7sou9Xw4mcGDVq1QX/no48jVAySw4/9bZ5ZdzNBv4kXeFCYSj7ooaMK
- WcX0Nb1fT2AyZs0cPSdImkUKEros8rYIdsb5qcRH+gxhvdJKM9KcVM7ZAC0y5iAZS7Uu
- qqmA==
+ bh=7Kynz5f6kQn3G9h5f1VDmHPl6BLtsPQWnOh0t3sfi0M=;
+ b=r2w3KeJ9VaVRDpd9af72gPcpFBC95a89HuWEcCxcL7GY5D9u6dZ9D8KAenz/51nWsf
+ FmY9ZHIvXBvVmXpiRuvz3529oZZcUNJ9QqLdcpNKw7uKdsJbljWCI9ogxq0SOVR3u+7y
+ YiBdlgCBJxWJ5F3fPyyZyZ0BI+ysCWF9kywK2qT/Cfaz6Y3sKTTiUxD6lpzZL7i3T6Cm
+ 1FZzHCfJ98fX0IMLGDTBtK6VH3zPoA910bzWjxJYHuqGOA/pqvJj6fVo4JZs5wswJ6n0
+ Aia9aUFtPhlVcHndpJjMNpr9pKQmatnEEDG3xeO2vl7XnfyZO9GCTrbDEXwPG9TCtT9C
+ JsJg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1761100021; x=1761704821;
+ d=1e100.net; s=20230601; t=1761100051; x=1761704851;
  h=in-reply-to:content-disposition:mime-version:references:message-id
  :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
  :message-id:reply-to;
- bh=WqQzNiLchpkg3pgwyuDiy5UGt+eUDtmLfbzoo0ne91s=;
- b=uF7Za+eVNkwMXjRZtOvI8LBN0UjtEo7HWCC5oZ5jBLVegrx0c6BjOf76YocRUVZQS7
- yKw/SPAbEbMoTXVKyOKkadAl1uTFZB2/ijYQcP86op+o7htEz16v27f0kcyMXN2f938Y
- TT+V5yIZ+DRgFh5SJRAskY5NIVQbF6iJ1wu0DCpnRj1zTO8dL5ovwHme1A14WaezkPtU
- KMrOW/j7JwGFmITa9s6zrtxSxcCasVFfysNprj8WeXMgyOcpi0aWbth1JghdW3PYnHKe
- Vav3aS2ZSSsZ2DgqmMy+ca/xF1wwhzYp0qxXRemZKrGMassHEZ88yql2Z/YTscCLDUB2
- 1Dpw==
+ bh=7Kynz5f6kQn3G9h5f1VDmHPl6BLtsPQWnOh0t3sfi0M=;
+ b=EnDhdQvr1G/qcGRc2piAEAsPOHMfbxcN0GMMbTqzKFzj/S+gB+qzd+BATYHdNnLFjf
+ gAB6eS/OQKJ2Bbn6VLQPlxPBfut2/ObZ18ogLk9lRuLfHx5efLJ0y9JFXiW9MNBVq3go
+ qiRy4dHVq6liQzNmHDAmNvnCBnU7F/2WWBp6Rz44ZdKfPLLM5f4eE4FkheW3uiW753bi
+ 4EPsRO46YoOL406rLTQfmaUHpd9RuPZEfq1FTyCf88Eyat6Thks13A71r9TuAnNKPsgo
+ SeWqHqjjYRVZ8fjHlXryOgRXoyHss9P5gELkvyDOZliGdL7CP9bh3G6G4ZG+Nvo1gEir
+ 3CaA==
 X-Forwarded-Encrypted: i=1;
- AJvYcCWmVf+3Ok0AbrznLH/cU/d28wCLPM89VbhXqYq6yGeudde+fQVgdpeDM3Ox8rZKXbduD33fmdeYDyM=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YxxuduvuPEiUov6fC650l0vZGALobXPEkTijxL04VRIDb3svoYU
- OJR0RyHF3ngIiqmCsSCn1J82JdRIae8n6WXiUeAZirmOc7GMJv2mTU/dU/oX3MYEmOI=
-X-Gm-Gg: ASbGnctl4i9u0o/81OXv2DMmUfmNPD9TG8cyd3uXaQL/QSOdwzINXvqQg+Z3XF7HM8a
- SRLHR8j+Nyr64LxJL8YRtxdiKwiIqC4Od9fbJIwRm5ZlC9RhOmzOiC/WjwUxggU/+JOabbkOYxB
- GfmJII9jWuaE9mhG4cfenHMv6LBGRjE3rXt1np/iu1iZk1YXCwfUgkXFfCiG/lriYVhiLZXyzs5
- d+e8DpAb2/eEVYMFvt5K6Mk7tT6UCHmz7kSD0CBsZ4y9zpJy0s5Nz0M/Pl6OoD+3/gCt3M+jVY5
- ixharj6UQtCRSZcHDFlX16gt43cdA7sFn3VzWe0gSoK5wwcwKmeyFD/v4UsHCqxvJWaaXaJ8rmu
- exm+86HEW8Y2/j7YELa/S39pnJB7YQKL9XgHhLul12nbPRSSEsK31mElHOIzL8H4Euob8x7qukx
- Vmbw==
-X-Google-Smtp-Source: AGHT+IEiODVZTmpBKH4GJGfRgQpdF+p0v4t2QcX4SapXa+98D5HxqE/HG1opMUzT/b2Bq6W9RKZPmQ==
-X-Received: by 2002:a05:6a00:2e1f:b0:781:171f:df6f with SMTP id
- d2e1a72fcca58-7a220b14d80mr26349244b3a.18.1761100020948; 
- Tue, 21 Oct 2025 19:27:00 -0700 (PDT)
+ AJvYcCWheSvPiHT20edv9FwfhC0pc4Boom3ZcyvVFn37ehXTVfikYB4akv+PgrhISObjf796Yhe7l8QWDLo=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YwgHS6aiSBzk089i8JqBcYsID2WtEYVeqfHRvcJHWXfrZ4Nodp3
+ aVfESb4/77dke57xDEioeq1UNLc5VqjBSK8o1jbrA/EkRrh0oV/jfA+XZx86ph58F9g=
+X-Gm-Gg: ASbGncuPPvw8jQAhQ7CiIRbB9YFZrgVAVq0wFoofKbxXAkgzFqLuTOtEvEx8XWv4l78
+ 5j/V+zCI6+htP+ISH9ZJpBM/m0cIX574smHxTPwxmGgY2B0Mq+bd6JtXoCwh9cOOQbnUJ/jLER3
+ CV2MsK9ls9aHB0C7mYR1vs12PoLMUaB4v1NxmOAYuBlR5hU/N5MTQ/Ijx52f6NkxrNj0hlcX+S2
+ bGrXpg61/XURYjwn4hnKDd5otGtKLx0UuXSXxIt+K3PvOqwtl9v+WirPzy8mAzdHnwuGPlhE6T7
+ hIQfPlKAJjcjzlGneBJZ0rdAQxlZjpJ1UADtayTq2HBDfHFwy+BKREVCSsEw+3ffTl/1r5gnBH3
+ a8XaX3iutpFuQOHaMnPIT9NiolmrwC2RkZ5MAZ1vwluMPrG4BDEKRahoMTxhdEkQdUWlkhrBT1s
+ B5WFfI8d7U3D4rq/1nznXfFYo=
+X-Google-Smtp-Source: AGHT+IFJLVFpIR1aWCyZCFOIKnAA6a58lXYXHZeAFELxfkfneTEN5uN4Dh2U6O2etE9y+Y+gRJvc9A==
+X-Received: by 2002:a17:90b:1dc6:b0:32e:64ca:e84a with SMTP id
+ 98e67ed59e1d1-33bcf888575mr30106334a91.12.1761100051119; 
+ Tue, 21 Oct 2025 19:27:31 -0700 (PDT)
 Received: from localhost ([122.172.87.183]) by smtp.gmail.com with ESMTPSA id
- d2e1a72fcca58-7a23011088fsm12778187b3a.65.2025.10.21.19.26.59
+ 98e67ed59e1d1-33e223f11e1sm981092a91.12.2025.10.21.19.27.30
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 21 Oct 2025 19:27:00 -0700 (PDT)
-Date: Wed, 22 Oct 2025 07:56:57 +0530
+ Tue, 21 Oct 2025 19:27:30 -0700 (PDT)
+Date: Wed, 22 Oct 2025 07:57:28 +0530
 From: Viresh Kumar <viresh.kumar@linaro.org>
 To: Tamir Duberstein <tamird@gmail.com>
 Cc: Miguel Ojeda <ojeda@kernel.org>, Alex Gaynor <alex.gaynor@gmail.com>, 
@@ -99,14 +99,14 @@ Cc: Miguel Ojeda <ojeda@kernel.org>, Alex Gaynor <alex.gaynor@gmail.com>,
  linux-block@vger.kernel.org, linux-pci@vger.kernel.org,
  linux-pm@vger.kernel.org, 
  linux-clk@vger.kernel.org, dri-devel@lists.freedesktop.org
-Subject: Re: [PATCH v18 10/16] rust: opp: use `CStr::as_char_ptr`
-Message-ID: <75keuxnrpd2p2lumgmoxpwt42ovsx4xyltq3dimarvlspjq3gn@cmadekc427tk>
+Subject: Re: [PATCH v18 11/16] rust: opp: fix broken rustdoc link
+Message-ID: <gcdcwpotzidrksmsnyvesnojcylbb2fqpiue4fijhj2cmayli5@7lpyessslxka>
 References: <20251018-cstr-core-v18-0-ef3d02760804@gmail.com>
- <20251018-cstr-core-v18-10-ef3d02760804@gmail.com>
+ <20251018-cstr-core-v18-11-ef3d02760804@gmail.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20251018-cstr-core-v18-10-ef3d02760804@gmail.com>
+In-Reply-To: <20251018-cstr-core-v18-11-ef3d02760804@gmail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -123,15 +123,12 @@ Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 On 18-10-25, 13:45, Tamir Duberstein wrote:
-> Replace the use of `as_ptr` which works through `<CStr as
-> Deref<Target=&[u8]>::deref()` in preparation for replacing
-> `kernel::str::CStr` with `core::ffi::CStr` as the latter does not
-> implement `Deref<Target=&[u8]>`.
+> Correct the spelling of "CString" to make the link work.
 > 
 > Signed-off-by: Tamir Duberstein <tamird@gmail.com>
 > ---
->  rust/kernel/opp.rs | 6 +++---
->  1 file changed, 3 insertions(+), 3 deletions(-)
+>  rust/kernel/opp.rs | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
 
 Acked-by: Viresh Kumar <viresh.kumar@linaro.org>
 
