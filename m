@@ -2,64 +2,64 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 60D33BFC72E
-	for <lists+dri-devel@lfdr.de>; Wed, 22 Oct 2025 16:21:48 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id CE1C4BFC746
+	for <lists+dri-devel@lfdr.de>; Wed, 22 Oct 2025 16:22:10 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 22B9210E7C0;
-	Wed, 22 Oct 2025 14:21:44 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E509F10E7C1;
+	Wed, 22 Oct 2025 14:22:08 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="bEfPwJec";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="XHxSArKP";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-f44.google.com (mail-wr1-f44.google.com
- [209.85.221.44])
- by gabe.freedesktop.org (Postfix) with ESMTPS id F27A410E7BD
- for <dri-devel@lists.freedesktop.org>; Wed, 22 Oct 2025 14:21:42 +0000 (UTC)
-Received: by mail-wr1-f44.google.com with SMTP id
- ffacd0b85a97d-4270a3464bcso3803035f8f.2
- for <dri-devel@lists.freedesktop.org>; Wed, 22 Oct 2025 07:21:42 -0700 (PDT)
+Received: from mail-wm1-f46.google.com (mail-wm1-f46.google.com
+ [209.85.128.46])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B6A6610E7BD
+ for <dri-devel@lists.freedesktop.org>; Wed, 22 Oct 2025 14:21:44 +0000 (UTC)
+Received: by mail-wm1-f46.google.com with SMTP id
+ 5b1f17b1804b1-47103b6058fso7678005e9.1
+ for <dri-devel@lists.freedesktop.org>; Wed, 22 Oct 2025 07:21:44 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1761142901; x=1761747701; darn=lists.freedesktop.org;
+ d=gmail.com; s=20230601; t=1761142903; x=1761747703; darn=lists.freedesktop.org;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=bgdj41tpB2VgIRDJrZCciZQ/xBBL1EcMgPyAyntTnpo=;
- b=bEfPwJecqC7C65LBiREKlMSpJHemV19VMQP9P4rHXwatk/R7ueC979GF1+jT8kpDOJ
- 0PRVz7b9wv4gYLPxKo5SQC/cBMzA2Y1XH+aAI8GfcQrgj6sKBwTEpBWG+YXXZ1JJNtlm
- oxEFL4ofiJVDHu9TVFsHyRcZrKU30K59m83hifGCIUo2ahuHLsqtmdXd54PEZoleKpFm
- TrRE1t2jPP/62ydW5QYyXPJ7y5MP8c3jVnmLDWDfOHTWicbr8K2aR1kmhS8iHTvDlNA8
- wauuudNel3IPlkmIVDOPD7gf7vJO2hDn48KUrl1LX+VsjdqzNogCKlvTm0KoPevAK71+
- FayQ==
+ bh=GxcQ3SZL/bX2w7ws13Plp9aplxV6uyygzePW373+H0o=;
+ b=XHxSArKPjRn8Kvch0vWGY9E7MLc2zVKwdeM1ib16mJ0z4N3dI19TAoA9Rv0kL+sXtj
+ q+uiAL2VbsWjhbQARZhiWv0C+RsI9/0tlA2v5ZW+U1Xyf7mM+EwpdPz36MXh7NwW8Q0t
+ yOqlyKq8TI5TjiA25kaUzHVYhwQjeGumfqWkDo3q1nzo/6wvpIj6cDos00daP5hYN4gY
+ KfvXctEVAavlb9tqKu4lqtWQuspp2lL0dEyfn26lrZoZqQjVSB3Iqef8jmfxZcYKM6Dy
+ grVkAIxXc7ClK3W+AR6WbfeUt2JZyAIV2XdhNPDI0bynTUT9uI7PMWQCEayQPcT2qss2
+ UQOA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1761142901; x=1761747701;
+ d=1e100.net; s=20230601; t=1761142903; x=1761747703;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=bgdj41tpB2VgIRDJrZCciZQ/xBBL1EcMgPyAyntTnpo=;
- b=vMmFBtRQnwbMyiazI2mCoCXdcDzm4vnP6LQ+SZO2T15vacjmLdXaYy+FAWV1kKvqoe
- btJz8SBqyy+4DOxKhZ+5i1aCVjxS5oCzvU4TOckVbijkvq1SZHV0REygxFMhI12O1Vi1
- zCpok+wLJ8PjlT7FYru4eqqkbxII6+W+zeKcA2D/wkO1X4Ewr21aVqZZ68q7fsXlEJOx
- ozHR4m10vwqHeR4O7uZbZ8onSbnrdXzpMPczlCtbscl11xkKOUI8KikCTT9xqN1de79J
- GJfWd4TH2bjUkgwQufapHiNQ47Mv8e81psr0kkXYgo3s1y5BVZ8Bo8DUQQFCPftET3Mt
- HL1Q==
-X-Gm-Message-State: AOJu0YwAbjBM1C7TfCAkeVfAqKz4+OgdJ3qyjJdaFIPyrH+umYHM1fzM
- ewDJZY119912rHVa+EeJpTz/4dW9eyGBIRQ5yfcyZCHnDZpMW0lgwCnA
-X-Gm-Gg: ASbGncuhRAQF27z5pLPC7OAHuM322/6lPCrUTe0PE2JTTejV1LXHGoduWvKxbC+m3yV
- 2wsG+Y4uibI4w1VWY28Gpnd31N3In4csRhjtNNcQAllXayPGOZrbtLlQkfuozEhyDMOFYE1h9rP
- lss7KaeupUx3VpNdzbKHG1gY79IbPLgLsfQ9bNnkeqQoFwiQSt8QjeCUSOroSpwLq4qYVrT4RRf
- 6Wfg+7Tehtz9qJBnbvhTnJ/8m34N8vd5riu/nhnLR9LGWuN278kpuxYdS68MxStSkr45GdI+VL0
- 3B36rTaTviOqoGot59I6TUIbdK6McuTWuDQFXywcUMT4q+dFz228nEaVaytF5QtkCVpVrAiCzYq
- McA8HcelXLWIoK63HkxEeKoRO45ODh+KJ+cshlzTVDpmkwcST2MktpWU6xuk2t9r97dhg4ykk+5
- qFsg==
-X-Google-Smtp-Source: AGHT+IHM03V7eJFt3Eu6ja1MYetjG461AcLXE4YT5HRjXzs799spnfwnfQrFSdx7t2nEB8DurbecfQ==
-X-Received: by 2002:a05:6000:24c6:b0:427:928:787f with SMTP id
- ffacd0b85a97d-427092879c8mr10794030f8f.21.1761142901362; 
- Wed, 22 Oct 2025 07:21:41 -0700 (PDT)
+ bh=GxcQ3SZL/bX2w7ws13Plp9aplxV6uyygzePW373+H0o=;
+ b=c1T2I+NsRA+LdfZ1nQEt+pE1c0mCbdyyJm9B2sy28Uc5+5BEobZNmXMyef4hU13ZvH
+ kCS6ZugPEPnL/VlyV3wuf43jcp3NMfy/aMrQT2vbyMjvZc1iVS3LJjgnAzYqiNBa79B/
+ HOtUYbZK89YJESPN9dwYdGRcUAt0rl6DpPBXvwKOUt67pXmq4lLuiTpHIKABWqPczxH2
+ 96kBbRvUk26q64xamEPQUS8JIimcyEeIMnxTZ5Svl2l2sosCV873fR2pkcoZJbn7GQBj
+ Omt3Iz2STOJDtAHqF4hYHUqtoOO6ZQKnV8AnxyafyiV+qwqF/43Oout2xOcdGt+NgCDI
+ +dLA==
+X-Gm-Message-State: AOJu0YxeAq0i5d/1fcE/AOX/joA8MTKEIUqTWIGnQRp1GTXeaNxtc2W7
+ 1qgOsj1mbvLekA/Zz/Lnvdl0CVC1qMwaHX1KNigxHhbKtag5uQyd3SfU
+X-Gm-Gg: ASbGnct/XAcvNzEIKv0duWmVyq3rqvkOlKtV9ojlBDmg/3HTk8M3wuGCiG07RjW41U2
+ FmobNycSh2O0CrVQaQgcNM7iDCzoSN9jUlpc6RaiC2nVOGgN9ifxAkjeN/dv8vdQ7aI76kMdEAU
+ 7X3GOhC1zgklZrQrzXAI5hL4K/3/iHcyUJy6GgYfVEsoUqN52S9coK5W2J7s82iy8ioqkt6Fs1S
+ V5aHg6MhD0/pdgTq1ybhg38B2RTdYcU0g0993T1XltgkL4cnGoOUaXFfBw9TPw16X3pRTbIaQeV
+ BESyZVg7lgoxU2AzMwIiHkHux+BkH0r0gqoC+TqiECxxwr35rxHGv0H1f4HurkIpLcCYedBQH7P
+ 3+fmbKd54cUoE78yHM8Kf2t0eWyTRwvfJLf55kUFOSPHWLnLgJhe60pzEuHHQNqgOae1czolkve
+ y6oQ==
+X-Google-Smtp-Source: AGHT+IFzZOOF0atmxMPwb2Ue8vrmfwejiEjF1/G9gDbf31n6b2z7qklg1cXO9eefJTfh6D3ezEa6PA==
+X-Received: by 2002:a05:600c:8b84:b0:471:793:e795 with SMTP id
+ 5b1f17b1804b1-475c6ed4639mr13800775e9.0.1761142903064; 
+ Wed, 22 Oct 2025 07:21:43 -0700 (PDT)
 Received: from xeon.. ([188.163.112.61]) by smtp.gmail.com with ESMTPSA id
- ffacd0b85a97d-427ea5b3d4csm24803518f8f.19.2025.10.22.07.21.39
+ ffacd0b85a97d-427ea5b3d4csm24803518f8f.19.2025.10.22.07.21.41
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 22 Oct 2025 07:21:40 -0700 (PDT)
+ Wed, 22 Oct 2025 07:21:42 -0700 (PDT)
 From: Svyatoslav Ryhel <clamor95@gmail.com>
 To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
  Maxime Ripard <mripard@kernel.org>,
@@ -86,10 +86,10 @@ Cc: dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
  linux-tegra@vger.kernel.org, linux-kernel@vger.kernel.org,
  linux-media@vger.kernel.org, linux-clk@vger.kernel.org,
  linux-staging@lists.linux.dev
-Subject: [PATCH v5 10/23] dt-bindings: display: tegra: document Tegra132 MIPI
- calibration device
-Date: Wed, 22 Oct 2025 17:20:38 +0300
-Message-ID: <20251022142051.70400-11-clamor95@gmail.com>
+Subject: [PATCH v5 11/23] staging: media: tegra-video: vi: improve logic of
+ source requesting
+Date: Wed, 22 Oct 2025 17:20:39 +0300
+Message-ID: <20251022142051.70400-12-clamor95@gmail.com>
 X-Mailer: git-send-email 2.48.1
 In-Reply-To: <20251022142051.70400-1-clamor95@gmail.com>
 References: <20251022142051.70400-1-clamor95@gmail.com>
@@ -110,30 +110,106 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Document MIPI calibration device found in Tegra132. This compatible
-already exists in the Linux kernel, I have just documented it to satisfy
-warnings.
+By default tegra_channel_get_remote_csi_subdev returns next device in pipe
+assuming it is CSI but in case of Tegra20 and Tegra30 it can also be VIP
+or even HOST.
 
-Each Tegra SoC generation has unique set of registers which should be
-configured. They all differ, hence fallback is not suitable here.
+Define tegra_channel_get_remote_csi_subdev within CSI and add check if
+returned device is actually CSI by comparing subdevice operations.
+
+Previous tegra_channel_get_remote_csi_subdev definition in VI rename to
+tegra_channel_get_remote_bridge_subdev and use it only in VI driver since
+core VI driver does not care about source and does not call any specific
+functions.
 
 Signed-off-by: Svyatoslav Ryhel <clamor95@gmail.com>
-Acked-by: Conor Dooley <conor.dooley@microchip.com>
 ---
- .../devicetree/bindings/display/tegra/nvidia,tegra114-mipi.yaml  | 1 +
- 1 file changed, 1 insertion(+)
+ drivers/staging/media/tegra-video/csi.c | 16 ++++++++++++++++
+ drivers/staging/media/tegra-video/vi.c  | 14 +++++++-------
+ 2 files changed, 23 insertions(+), 7 deletions(-)
 
-diff --git a/Documentation/devicetree/bindings/display/tegra/nvidia,tegra114-mipi.yaml b/Documentation/devicetree/bindings/display/tegra/nvidia,tegra114-mipi.yaml
-index 193ddb105283..9a500f52f01d 100644
---- a/Documentation/devicetree/bindings/display/tegra/nvidia,tegra114-mipi.yaml
-+++ b/Documentation/devicetree/bindings/display/tegra/nvidia,tegra114-mipi.yaml
-@@ -18,6 +18,7 @@ properties:
-     enum:
-       - nvidia,tegra114-mipi
-       - nvidia,tegra124-mipi
-+      - nvidia,tegra132-mipi
-       - nvidia,tegra210-mipi
-       - nvidia,tegra186-mipi
+diff --git a/drivers/staging/media/tegra-video/csi.c b/drivers/staging/media/tegra-video/csi.c
+index 9e3bd6109781..ef5f054b6d49 100644
+--- a/drivers/staging/media/tegra-video/csi.c
++++ b/drivers/staging/media/tegra-video/csi.c
+@@ -445,6 +445,22 @@ static const struct v4l2_subdev_ops tegra_csi_ops = {
+ 	.pad    = &tegra_csi_pad_ops,
+ };
+ 
++struct v4l2_subdev *tegra_channel_get_remote_csi_subdev(struct tegra_vi_channel *chan)
++{
++	struct media_pad *pad;
++	struct v4l2_subdev *subdev;
++
++	pad = media_pad_remote_pad_first(&chan->pad);
++	if (!pad)
++		return NULL;
++
++	subdev = media_entity_to_v4l2_subdev(pad->entity);
++	if (!subdev)
++		return NULL;
++
++	return subdev->ops == &tegra_csi_ops ? subdev : NULL;
++}
++
+ static int tegra_csi_channel_alloc(struct tegra_csi *csi,
+ 				   struct device_node *node,
+ 				   unsigned int port_num, unsigned int lanes,
+diff --git a/drivers/staging/media/tegra-video/vi.c b/drivers/staging/media/tegra-video/vi.c
+index 90473729b546..04b538e8b514 100644
+--- a/drivers/staging/media/tegra-video/vi.c
++++ b/drivers/staging/media/tegra-video/vi.c
+@@ -160,8 +160,8 @@ static void tegra_channel_buffer_queue(struct vb2_buffer *vb)
+ 	wake_up_interruptible(&chan->start_wait);
+ }
+ 
+-struct v4l2_subdev *
+-tegra_channel_get_remote_csi_subdev(struct tegra_vi_channel *chan)
++static struct v4l2_subdev *
++tegra_channel_get_remote_bridge_subdev(struct tegra_vi_channel *chan)
+ {
+ 	struct media_pad *pad;
+ 
+@@ -182,7 +182,7 @@ tegra_channel_get_remote_source_subdev(struct tegra_vi_channel *chan)
+ 	struct v4l2_subdev *subdev;
+ 	struct media_entity *entity;
+ 
+-	subdev = tegra_channel_get_remote_csi_subdev(chan);
++	subdev = tegra_channel_get_remote_bridge_subdev(chan);
+ 	if (!subdev)
+ 		return NULL;
+ 
+@@ -204,7 +204,7 @@ static int tegra_channel_enable_stream(struct tegra_vi_channel *chan)
+ 	struct v4l2_subdev *subdev;
+ 	int ret;
+ 
+-	subdev = tegra_channel_get_remote_csi_subdev(chan);
++	subdev = tegra_channel_get_remote_bridge_subdev(chan);
+ 	ret = v4l2_subdev_call(subdev, video, s_stream, true);
+ 	if (ret < 0 && ret != -ENOIOCTLCMD)
+ 		return ret;
+@@ -217,7 +217,7 @@ static int tegra_channel_disable_stream(struct tegra_vi_channel *chan)
+ 	struct v4l2_subdev *subdev;
+ 	int ret;
+ 
+-	subdev = tegra_channel_get_remote_csi_subdev(chan);
++	subdev = tegra_channel_get_remote_bridge_subdev(chan);
+ 	ret = v4l2_subdev_call(subdev, video, s_stream, false);
+ 	if (ret < 0 && ret != -ENOIOCTLCMD)
+ 		return ret;
+@@ -1630,11 +1630,11 @@ static int tegra_vi_graph_notify_complete(struct v4l2_async_notifier *notifier)
+ 		goto unregister_video;
+ 	}
+ 
+-	subdev = tegra_channel_get_remote_csi_subdev(chan);
++	subdev = tegra_channel_get_remote_bridge_subdev(chan);
+ 	if (!subdev) {
+ 		ret = -ENODEV;
+ 		dev_err(vi->dev,
+-			"failed to get remote csi subdev: %d\n", ret);
++			"failed to get remote bridge subdev: %d\n", ret);
+ 		goto unregister_video;
+ 	}
  
 -- 
 2.48.1
