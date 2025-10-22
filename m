@@ -2,115 +2,51 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8F82EBFD025
-	for <lists+dri-devel@lfdr.de>; Wed, 22 Oct 2025 18:04:01 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id CF55CBFD978
+	for <lists+dri-devel@lfdr.de>; Wed, 22 Oct 2025 19:31:51 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3EC3710E804;
-	Wed, 22 Oct 2025 16:03:59 +0000 (UTC)
-Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="KtU6Ht5E";
-	dkim-atps=neutral
+	by gabe.freedesktop.org (Postfix) with ESMTP id AAE5A10E81F;
+	Wed, 22 Oct 2025 17:31:48 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
- [205.220.180.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2183410E803
- for <dri-devel@lists.freedesktop.org>; Wed, 22 Oct 2025 16:03:58 +0000 (UTC)
-Received: from pps.filterd (m0279871.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 59MAcuHE030207
- for <dri-devel@lists.freedesktop.org>; Wed, 22 Oct 2025 16:03:57 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
- cc:content-transfer-encoding:content-type:date:from:in-reply-to
- :message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
- 0bkJ6jeJ29nnDrwRLI2RJgTF7Qjpy+xqM2cBm1hyQ0c=; b=KtU6Ht5Et70lZips
- F43ZCf0jMKmu+sRb8LUDfiRWCnzjKRJNUt2jZEjn2f84EhFC8h8DWq5UC6pXL8qZ
- MqgCSLOc8w3cCucqmoEnfKLj6O06XPPqTR7+n+OvDTsNMqfuWP0NeAmliorDQyQ3
- urNizChjr2tZ4RBLb9iGKpgxGYJX0S7OkOy1+h6CBsCLGP5RXVU9x+9YZfzXxLkf
- bdrr2gByXUhpI3NIA12wx2CaDTQyXA6iDn9JiRRIyAGzhOrGX4ih0qFD0Dcn6j2Q
- u2T5iIPH9LcU1JzhTI1umNAs3mAARkMazs05jauJPKr3+i1enkKK9tS7XB8Zhv7U
- RjNo1g==
-Received: from mail-ua1-f70.google.com (mail-ua1-f70.google.com
- [209.85.222.70])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 49v2ge582y-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
- for <dri-devel@lists.freedesktop.org>; Wed, 22 Oct 2025 16:03:57 +0000 (GMT)
-Received: by mail-ua1-f70.google.com with SMTP id
- a1e0cc1a2514c-8e48b01c70aso42464241.0
- for <dri-devel@lists.freedesktop.org>; Wed, 22 Oct 2025 09:03:57 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1761149036; x=1761753836;
- h=content-transfer-encoding:in-reply-to:from:content-language
- :references:cc:to:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=0bkJ6jeJ29nnDrwRLI2RJgTF7Qjpy+xqM2cBm1hyQ0c=;
- b=TYziRc+45R3zKJVO8rksRVoOdeayvEZ3Q/MWol5TqgvJ39cAads/i+DMAcdv5XlIcJ
- /FwH76T+zB9vezvDWsq3tuhC8ZrWJrydMoT8isdaXIlpas7mNE1sV6pfxnz2QWUVLUV7
- vka2cPLlmsu5/TamC2MweOZLdcLENfRf+NMkRtQJtsy9rMF7m11YF9RB7ccGiK0iK4+J
- eMqNH87BIeV/vYVhzwZu5sJxigkAp+srgz/wbbvMu7dpVB1ZYwslVHY1tl9+YYUMuw2v
- SyDsn0OSKz/VYZ5UPymbDQ3CVjvvyRNy6xF+liCm6HQbzuR0jsElofOCUqIZXgbPFzrN
- XbsA==
-X-Forwarded-Encrypted: i=1;
- AJvYcCW+UQX/P59N2hhFpZmuMzm4yolXD6fyCsRjdY30daZidw1wSkaZsRPLUoJO+rkrHLoHW3s/MVhJ9sg=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YwSTS1bHaz/Udy9Y2h6DH1G/CugNVmLwToStHy3v2YcmWHmYqO0
- dbsMSlJSTk3TXp4x8m2pBxMTzUhGu8h+jE0Rb33BSbgOdYb2wAIPk5xbUs42Cb+K9TVI+fkgXYp
- yVYCEzrRFxPfI8JoUWGV9zU16f6fVh7vT2ujILiBQ5lNiSqKWPTcMe9935mnv9uhRKPeqUjI=
-X-Gm-Gg: ASbGncvayc70ZuoNVN9DogsSSXrTIbaBYmmgXqb4Mu1p1nLeMbCkxeLO+gqZsOfz39U
- txOxYednPM4QE5RyoA7QriCHTqjnjMCJByQmJmfs/NVC+jaKIj9MLjHQ11G3WRz7muVPQmkw2La
- O7QAbyqCnUsbX+tuUSOqGDgtFxHhduDh9zuF+yhbDb/flqu2S+o5O+beG9sHscUQkvKY9baTBYj
- a+py5W9OoghruZ1yz4KXeqZ2vh6OGN57SnlR0iHfgVL3CT0Gpi3eYmgU5D0HNtgPq6Y2yaZ84pM
- OvIMgUUGi/aLPfCK3ZBfF+6jJrADElwyufJBsua+bZdV2phKQQZB2S7Oual8jO/UURghIU3gu0x
- X2sqTxfkl4lucNriHfWH1QA3rT0bkk/XvxTmzYZtj3j2y27jK5WBer4P7
-X-Received: by 2002:a05:6122:e053:b0:557:4f6:869f with SMTP id
- 71dfb90a1353d-55704f68872mr121494e0c.2.1761149036421; 
- Wed, 22 Oct 2025 09:03:56 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IEz2OIzuiv802LcnLiAEsfb0ojC3aqzoP2E8vJYUz3+oYqqjTF4SM4lmLudV7C3wmo90WcQyQ==
-X-Received: by 2002:a05:6122:e053:b0:557:4f6:869f with SMTP id
- 71dfb90a1353d-55704f68872mr121463e0c.2.1761149035929; 
- Wed, 22 Oct 2025 09:03:55 -0700 (PDT)
-Received: from [192.168.119.202] (078088045245.garwolin.vectranet.pl.
- [78.88.45.245]) by smtp.gmail.com with ESMTPSA id
- a640c23a62f3a-b6d40790b88sm30479166b.25.2025.10.22.09.03.53
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 22 Oct 2025 09:03:54 -0700 (PDT)
-Message-ID: <77abcd1d-ce69-42c8-9608-4a9557613d21@oss.qualcomm.com>
-Date: Wed, 22 Oct 2025 18:03:52 +0200
+X-Greylist: delayed 4199 seconds by postgrey-1.36 at gabe;
+ Wed, 22 Oct 2025 17:31:47 UTC
+Received: from 7.mo550.mail-out.ovh.net (7.mo550.mail-out.ovh.net
+ [87.98.158.110])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CC1FF10E81F
+ for <dri-devel@lists.freedesktop.org>; Wed, 22 Oct 2025 17:31:47 +0000 (UTC)
+Received: from director10.ghost.mail-out.ovh.net (unknown [10.109.249.109])
+ by mo550.mail-out.ovh.net (Postfix) with ESMTP id 4cs3RG3kHZz6Y8F
+ for <dri-devel@lists.freedesktop.org>; Wed, 22 Oct 2025 09:15:22 +0000 (UTC)
+Received: from ghost-submission-7d8d68f679-vbl9r (unknown [10.110.113.85])
+ by director10.ghost.mail-out.ovh.net (Postfix) with ESMTPS id 11BCDC1466;
+ Wed, 22 Oct 2025 09:15:20 +0000 (UTC)
+Received: from etezian.org ([37.59.142.107])
+ by ghost-submission-7d8d68f679-vbl9r with ESMTPSA
+ id quqMFKig+GizIgYAQbzVqQ
+ (envelope-from <andi@etezian.org>); Wed, 22 Oct 2025 09:15:20 +0000
+Authentication-Results: garm.ovh; auth=pass
+ (GARM-107S001210f364e-decb-409c-a7a4-03ba37cfc365,
+ 417D5E67C9D32DD93A46DBE638E683C8EEFD90CF) smtp.auth=andi@etezian.org
+X-OVh-ClientIp: 178.82.31.9
+From: Andi Shyti <andi.shyti@kernel.org>
+To: intel-gfx <intel-gfx@lists.freedesktop.org>,
+ dri-devel <dri-devel@lists.freedesktop.org>
+Cc: Andi Shyti <andi.shyti@kernel.org>,
+ Andi Shyti <andi.shyti@linux.intel.com>,
+ Jani Nikula <jani.nikula@linux.intel.com>,
+ "Christoph Lameter (Ampere)" <cl@gentwo.org>
+Subject: [PATCH] drm/i915/gt: Use standard API for seqcount read in TLB
+ invalidation
+Date: Wed, 22 Oct 2025 11:15:01 +0200
+Message-ID: <20251022091501.282955-1-andi.shyti@kernel.org>
+X-Mailer: git-send-email 2.51.0
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] accel/qaic: Support the new READ_DATA implementation
-To: Youssef Samir <youssef.abdulrahman@oss.qualcomm.com>,
- jeff.hugo@oss.qualcomm.com, carl.vanderlip@oss.qualcomm.com,
- troy.hanson@oss.qualcomm.com, zachary.mckevitt@oss.qualcomm.com
-Cc: ogabbay@kernel.org, lizhi.hou@amd.com, karol.wachowski@linux.intel.com,
- linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org,
- Carl Vanderlip <quic_carlv@quicinc.com>
-References: <20251007224045.605374-1-youssef.abdulrahman@oss.qualcomm.com>
-Content-Language: en-US
-From: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
-In-Reply-To: <20251007224045.605374-1-youssef.abdulrahman@oss.qualcomm.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUxMDE4MDAyMCBTYWx0ZWRfXzq8fqRjmC2BY
- pnClqycN4OU8iVND3ETH+2PpHA/PSQW7H8LLbDtY2X88KgVZgikCDRrO3d9n8LcFkij4pZZ27vg
- c8/k/958wBQhYSCkuPQEOQENmNHvjce5SdzC8MqEqbkNQuUvzxC6E/2WTIuN0/bbj6PKc4XdVBF
- 78tSlSa7+GUT9HNl/CxGcfqTMbk+CxOt8Ig6mUHh54rnXawhtDMntqVPdF03pFxv5NY3IhzLVol
- 4nCYE3ZCItLj/oAa2KOflY39YN+O/fj/N7RadzuzlUls8IpMyARIF4xRTQC3M8dM5BnF4sKlRI+
- C6uSFXtuOzrRCmfKkJg3UNqlwjSoCqJPh6LG4gIy9DIBUeL+WjQObYqh2+ulBa28zcQV+SU3KkE
- yMP8P1dtkr5EmdM/0u7Bsm9ngz0UCQ==
-X-Authority-Analysis: v=2.4 cv=KqFAGGWN c=1 sm=1 tr=0 ts=68f9006d cx=c_pps
- a=R6oCqFB+Yf/t2GF8e0/dFg==:117 a=FpWmc02/iXfjRdCD7H54yg==:17
- a=IkcTkHD0fZMA:10 a=x6icFKpwvdMA:10 a=VkNPw1HP01LnGYTKEx00:22
- a=EUspDBNiAAAA:8 a=hMcU9Fbdl6L4-kwaL4sA:9 a=QEXdDO2ut3YA:10 a=ZXulRonScM0A:10
- a=TD8TdBvy0hsOASGTdmB-:22
-X-Proofpoint-GUID: U4pj-TVYdOPPw9IgDwaZuU1J7yflqj7Y
-X-Proofpoint-ORIG-GUID: U4pj-TVYdOPPw9IgDwaZuU1J7yflqj7Y
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.9,FMLib:17.12.80.40
- definitions=2025-10-22_07,2025-10-13_01,2025-03-28_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- bulkscore=0 clxscore=1015 phishscore=0 malwarescore=0 impostorscore=0
- lowpriorityscore=0 adultscore=0 priorityscore=1501 spamscore=0 suspectscore=0
- classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.19.0-2510020000 definitions=main-2510180020
+Content-Transfer-Encoding: 8bit
+X-Ovh-Tracer-Id: 11576784318696524537
+X-VR-SPAMSTATE: OK
+X-VR-SPAMSCORE: -100
+X-VR-SPAMCAUSE: dmFkZTFR1gWUM8Edx5jhgH4wEl/bmWrnsDa2Oufisv7r2Zrk0EGtEnl1R1IE0UqTnQwfxvpZQb1zo3KfrQhvc87B2ZDSDqPoXPE2ou3EWfLki5W7ZHBbt/uGNcdFOfY0Frl4bAqb8FWPzGWUJcgyHCQz02L/rTd6ix+dXbxJAQCQQ8iXwKrCMJZshP62iQA02RSPr1+KFZTwMbzNIaRmnm0ZxMAJe8Ye8djhor/VLu4Y3MxOnjD1yJrjURnbRjbTZkD3dNQhQ6PCh6GwppI3FCtYtvJG1mk3NtPhdST4mgg/K868fTTW6td6eLCemAQtGs3quB8EBnzSz/4jjmCRnPW+vAORSQdXrca5L5JKWUhRCPGk9jAzLdOffEnTSNrv5bpjsADlbQn3aW9easniz9tfloZ3vmKaL4dxkIEd+Ozbk2EODs7O7GNL9mLzh9bhyT8ms6+jIZ+C+XhzxNnYp8QondnAaeRDnIbjQKjk6xjMN33g4dlPOgDvuNpKXtr0MG/oxgzqknOez2KdF/G8HipOzkpJH2T8deOHx08WFMwIAPdRYOxxdVVpAeZg/1/Q23mEq4p6b6x2ga1lLfGdNSFOqgry7IxmdxfBENMy9GEnchWemeGzW5pPFbYs+EEVBzwogt9eDgWEWvVmnHAPGBf2wKBR5DFwnlq0TEuD9jNHrDImaA
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -126,14 +62,57 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 10/8/25 12:40 AM, Youssef Samir wrote:
-> From: Jeff Hugo <jeff.hugo@oss.qualcomm.com>
-> 
-> AIC200 uses the newer "XBL" firmware implementation which changes the
-> expectations of how READ_DATA is performed. Larger data requests are
-> supported via streaming the data over the transport instead of requiring
-> a single transport transfer for everything.
+From: Andi Shyti <andi.shyti@linux.intel.com>
 
-tldr just like reading/writing images in 'raw_mode' up until now?
+seqprop_sequence() is not intended for use outside seqlock.h.
+Although it is accessible as a macro, it is meant to be used only
+internally within the header.
 
-Konrad
+Replace it with its proper wrapper, raw_read_seqcount().
+
+Signed-off-by: Andi Shyti <andi.shyti@linux.intel.com>
+Co-developed-by: Jani Nikula <jani.nikula@linux.intel.com>
+Signed-off-by: Jani Nikula <jani.nikula@linux.intel.com>
+Cc: Christoph Lameter (Ampere) <cl@gentwo.org>
+---
+Hi,
+
+this patch fixes an issue that came up during Christoph's
+work[*], which made his series trickier to move forward.
+
+I also added Jani to the chain of tags, since I later noticed he
+had suggested the same thing. Joonas had some concerns about this
+approach possibly introducing locking issues, so I ran a few
+tests before posting to make sure everything behaves as
+expected[**].
+
+There could still be a more refined way to handle the seqcount
+for TLB invalidation using raw_seqcount_try_begin() and
+read_seqcount_retry(), but that would need a fair bit of
+refactoring, and I am not sure it would bring enough benefit.
+
+Thanks,
+Andi
+
+[*] https://lore.kernel.org/all/20240912-seq_optimize-v3-1-8ee25e04dffa@gentwo.org/
+[**] https://patchwork.freedesktop.org/series/155638/
+
+ drivers/gpu/drm/i915/gt/intel_tlb.h | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/drivers/gpu/drm/i915/gt/intel_tlb.h b/drivers/gpu/drm/i915/gt/intel_tlb.h
+index 337327af92ac..ec7612216248 100644
+--- a/drivers/gpu/drm/i915/gt/intel_tlb.h
++++ b/drivers/gpu/drm/i915/gt/intel_tlb.h
+@@ -18,7 +18,7 @@ void intel_gt_fini_tlb(struct intel_gt *gt);
+ 
+ static inline u32 intel_gt_tlb_seqno(const struct intel_gt *gt)
+ {
+-	return seqprop_sequence(&gt->tlb.seqno);
++	return raw_read_seqcount(&gt->tlb.seqno);
+ }
+ 
+ static inline u32 intel_gt_next_invalidate_tlb_full(const struct intel_gt *gt)
+-- 
+2.51.0
+
