@@ -2,118 +2,96 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E4077BFD377
-	for <lists+dri-devel@lfdr.de>; Wed, 22 Oct 2025 18:30:56 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6F690BFD44F
+	for <lists+dri-devel@lfdr.de>; Wed, 22 Oct 2025 18:37:35 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 07D6F10E807;
-	Wed, 22 Oct 2025 16:30:54 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E6D5710E808;
+	Wed, 22 Oct 2025 16:37:32 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="E6khpsQy";
+	dkim=pass (1024-bit key; unprotected) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="l/WRi5Z4";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
- [205.220.168.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DEC4A10E807
- for <dri-devel@lists.freedesktop.org>; Wed, 22 Oct 2025 16:30:52 +0000 (UTC)
-Received: from pps.filterd (m0279865.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 59MA8X3l002484
- for <dri-devel@lists.freedesktop.org>; Wed, 22 Oct 2025 16:30:52 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
- cc:content-transfer-encoding:content-type:date:from:in-reply-to
- :message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
- UVExzC/ZCldcYzHdZY/GkmSX7NUaqTgV3yEbwJDlx0c=; b=E6khpsQydcbAEi40
- zoafvNR9ktTHOR8zf7JsDSjupDet2ik4ZOKBJIsEpZVztICNanQQLUxcxo5lZNLZ
- FuBA7G1OlGkXlDALhK8uC9qyAqaSd4wp0SjY4ViiP2fdI9wJaz3zAhxWcusHNJT0
- mERFRU+kG4v8Oj2ITg9nmOmxD/v7ylNhz3cx7pny/1cVhCm+I8BsVGbqR8Xpswf6
- dDwC1TiL0wqS0I6Sc2uAb7fVg29N30DB+q6F8YTMvBT73SFDq3mSa3yGSy/xV+sR
- 6jlvEBm0w79AcXVy1GSwtVLqfeSW+aMZ3fLBQzZ2Wvpt6VIejC6PUKjpuOi7HE/b
- oQYSnw==
-Received: from mail-qv1-f70.google.com (mail-qv1-f70.google.com
- [209.85.219.70])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 49w08wayy6-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
- for <dri-devel@lists.freedesktop.org>; Wed, 22 Oct 2025 16:30:52 +0000 (GMT)
-Received: by mail-qv1-f70.google.com with SMTP id
- 6a1803df08f44-87c19c8393dso23894726d6.0
- for <dri-devel@lists.freedesktop.org>; Wed, 22 Oct 2025 09:30:52 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1761150651; x=1761755451;
- h=content-transfer-encoding:in-reply-to:from:content-language
- :references:cc:to:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=UVExzC/ZCldcYzHdZY/GkmSX7NUaqTgV3yEbwJDlx0c=;
- b=j8T5+c57VBO+s28MNRvZz8/qmCYdkCNDLFEr+79wgV1ugTw9SEbpvCURSRvbPZ3ZQz
- 3FOTVqrc4DqVpFQR8978/7WW1jmN5pHGRWJY/70jolO1JN2xoqHQ059U+2OI4yICn85h
- ykUwxUTSumPXwuc+rdWipNn88zRa9/+tdloIv7xHfOlsSK9u0XKdvLNRcx4X2FaV1QmT
- sypIcSFE4SUfGKV8PF5cPKwbKoCDthBKGXYGuHavi62gB0CpnqGa1Lk4oLn9c+JZkAhA
- IadiTk1c5PGAoqC58Fca43p6dxbYC4xmGQNZVyjoaj1EKbUgpncr/Uw+bDvGLaAqnp2u
- wYMg==
-X-Forwarded-Encrypted: i=1;
- AJvYcCWdHyPvxGp6MKfIMBbyOJnqcQYO+L6mvzW2LS8Nm3CY0LueN1OiyAZW7NcnB8IEPVnpOI6coCxQZ6Q=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Yy8q0TRFpNfjfDMhoRsBA0hDgzuBLCxqDRzwZsUjStfxbLM8XDu
- V+znMTepPp/SDybATNBjI53u6N37jjkxXrb0i7GE2/TWn9VH2nFj2XTywUafzl6E8RHDfcCnLPW
- X/jOOUZXVxBLQpIhsNvdrkcLd8kGElcfnPSu2DFY/4eXnueJJtLc/t5XojvUsjfyPtTwKRXo=
-X-Gm-Gg: ASbGnctjC2G1oxZ1qYiqDSm+8DbsKPZNfrhFtoKi5cb5+Ck0QrYK3NnplSXRvi/RxD0
- NMLgDaQjQTcXU16Kn0Y5p62O/cU6CHviLjM8uYJYiDc0o99pN20x8mmNbrFkFpV8ujLxGoT3th7
- zjkERYBWkeraf1vzAjaw3YcuSqPS6qhjarcEoI1sqKhddAoDkptjbC/JtWixnRvdLaUgA381Sgf
- 7YVJe/RZf1lg9yFEHjRPT78GgDl9SD3wIBIBoXZ/bz0binQLQcLeUmvVnW10GnRkS0ohDRFrDid
- Gb1OXMFUgjwikOr7/GMyCNuesalwbRC1MZTKz5TT7u66KAd2hQYyqpO7yCt/YTil3fGmdyBKyDd
- ZcTI2VmwBj/bnLm1/QQXzWwAAl+/cHXWE2Fi1MDK+r6M3dFMcI7eib8d7
-X-Received: by 2002:a05:622a:199a:b0:4e8:a9f6:359 with SMTP id
- d75a77b69052e-4ea1178251cmr64395051cf.10.1761150650917; 
- Wed, 22 Oct 2025 09:30:50 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IEu5byM9VPY0GokSXOTKlkuO/ePXSQsQWPpLZUvvK8N8S7OzCxNnNQq8bwkQTgfXEaXa53r3Q==
-X-Received: by 2002:a05:622a:199a:b0:4e8:a9f6:359 with SMTP id
- d75a77b69052e-4ea1178251cmr64394541cf.10.1761150650310; 
- Wed, 22 Oct 2025 09:30:50 -0700 (PDT)
-Received: from [192.168.119.202] (078088045245.garwolin.vectranet.pl.
- [78.88.45.245]) by smtp.gmail.com with ESMTPSA id
- a640c23a62f3a-b65e83937a3sm1398041066b.23.2025.10.22.09.30.47
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 22 Oct 2025 09:30:49 -0700 (PDT)
-Message-ID: <8667f4c6-5d09-4ec0-96d3-d88c717a3d92@oss.qualcomm.com>
-Date: Wed, 22 Oct 2025 18:30:46 +0200
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
+ [213.167.242.64])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id F286710E80A
+ for <dri-devel@lists.freedesktop.org>; Wed, 22 Oct 2025 16:37:31 +0000 (UTC)
+Received: from [192.168.88.20] (91-158-153-178.elisa-laajakaista.fi
+ [91.158.153.178])
+ by perceval.ideasonboard.com (Postfix) with ESMTPSA id 98CB98FA;
+ Wed, 22 Oct 2025 18:35:45 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+ s=mail; t=1761150946;
+ bh=c6iXq2CXhRSiU/zyPKgk/97y67GG3wPx5D49DMmb4mA=;
+ h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+ b=l/WRi5Z4ycRNSf9pqsvs2Q3ABA2mElozQDXLWHcQUvbKhIaYza2AnUZ6PmTon8Hj4
+ A/ayI/sIpY6c9PClpYHGQSYXigtRWYvY7MC6G9MXtyqVXgtatcs/OKX5Lhnce4XBYx
+ 6EGQGGXReu6M24rqCa8mvK0HIerqDAQ9lyvmHVvc=
+Message-ID: <7ebf501a-68f5-4644-9419-49e391caacd8@ideasonboard.com>
+Date: Wed, 22 Oct 2025 19:37:27 +0300
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] accel/qaic: Support the new READ_DATA implementation
-To: Jeff Hugo <jeff.hugo@oss.qualcomm.com>,
- Youssef Samir <youssef.abdulrahman@oss.qualcomm.com>,
- carl.vanderlip@oss.qualcomm.com, troy.hanson@oss.qualcomm.com,
- zachary.mckevitt@oss.qualcomm.com
-Cc: ogabbay@kernel.org, lizhi.hou@amd.com, karol.wachowski@linux.intel.com,
- linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org,
- Carl Vanderlip <quic_carlv@quicinc.com>
-References: <20251007224045.605374-1-youssef.abdulrahman@oss.qualcomm.com>
- <77abcd1d-ce69-42c8-9608-4a9557613d21@oss.qualcomm.com>
- <0514142e-b3a7-4d44-8ef3-31b3ce1ebc4a@oss.qualcomm.com>
+Subject: Re: [PATCH v2] drm/tidss: Add some support for splash-screen
+To: Thomas Zimmermann <tzimmermann@suse.de>,
+ Maxime Ripard <mripard@kernel.org>, Devarsh Thakkar <devarsht@ti.com>
+Cc: Jyri Sarha <jyri.sarha@iki.fi>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ dri-devel@lists.freedesktop.org,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ linux-kernel@vger.kernel.org
+References: <20250908-tidss-splash-v2-1-e388b0581dfa@ideasonboard.com>
+ <348086ac-b5bc-4ca9-9e5b-82106d319eeb@ti.com>
+ <qljdrluxqi3abg7opwvp24ki7255jxrpowf47rpumzlcbnlnon@pccj5wm2kbxt>
+ <0d1affe1-1e3c-452a-9052-104acaabef62@suse.de>
 Content-Language: en-US
-From: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
-In-Reply-To: <0514142e-b3a7-4d44-8ef3-31b3ce1ebc4a@oss.qualcomm.com>
+From: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+Autocrypt: addr=tomi.valkeinen@ideasonboard.com; keydata=
+ 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
+In-Reply-To: <0d1affe1-1e3c-452a-9052-104acaabef62@suse.de>
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-Proofpoint-ORIG-GUID: ERRcAS7rgMpm2UX-IUai_yUu3CKFYbWq
-X-Proofpoint-GUID: ERRcAS7rgMpm2UX-IUai_yUu3CKFYbWq
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUxMDE5MDA5MCBTYWx0ZWRfXw2yYrruKpkIr
- mJgMcGN39d7vPzgCPZGEBgomQ/ImyhH2Es8zlVcob1bO+LIe686Ly6yU1KBMKWfcX7qLqcqlcKR
- UPmBn/LRk+2rwyVSAITvVxRNAsE2m1myVwtTKrQ0YS9b2md6/aI5mElU34DujxCV+1aU7EwO8sC
- kYK8Q6vM59SUCS/UATLJupN692HevCQ7j5MQ7XWusCjxS6LboYMtxTY7ISL/hBsJgEegalw0woZ
- xTbzENtY1+bjMFYcncjPiUYrrkzSe6WLXMij2h5maTm8FF/5NfUSfhz4W/LD6cOfzp4kpUo5pZM
- AFVARuwXyRpGN9VcxbrTvkxHTsruddXCjR5j3tqF2IUMGopXTcFLX/VFD+Lzrr9XBNxCJXvCada
- cNNLZMOlrl41bXQVODmlQjCHZXdhAA==
-X-Authority-Analysis: v=2.4 cv=V5NwEOni c=1 sm=1 tr=0 ts=68f906bc cx=c_pps
- a=oc9J++0uMp73DTRD5QyR2A==:117 a=FpWmc02/iXfjRdCD7H54yg==:17
- a=IkcTkHD0fZMA:10 a=x6icFKpwvdMA:10 a=VkNPw1HP01LnGYTKEx00:22
- a=EUspDBNiAAAA:8 a=V4hQleJxWy1ojOnldBYA:9 a=3ZKOabzyN94A:10 a=QEXdDO2ut3YA:10
- a=iYH6xdkBrDN1Jqds4HTS:22
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.9,FMLib:17.12.80.40
- definitions=2025-10-22_07,2025-10-22_01,2025-03-28_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- bulkscore=0 malwarescore=0 adultscore=0 priorityscore=1501 lowpriorityscore=0
- spamscore=0 suspectscore=0 clxscore=1015 phishscore=0 impostorscore=0
- classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.19.0-2510020000 definitions=main-2510190090
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -129,36 +107,96 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 10/22/25 6:28 PM, Jeff Hugo wrote:
-> On 10/22/2025 10:03 AM, Konrad Dybcio wrote:
->> On 10/8/25 12:40 AM, Youssef Samir wrote:
->>> From: Jeff Hugo <jeff.hugo@oss.qualcomm.com>
->>>
->>> AIC200 uses the newer "XBL" firmware implementation which changes the
->>> expectations of how READ_DATA is performed. Larger data requests are
->>> supported via streaming the data over the transport instead of requiring
->>> a single transport transfer for everything.
+Hi,
+
+On 22/10/2025 17:59, Thomas Zimmermann wrote:
+> Hi
+> 
+> Am 22.10.25 um 16:06 schrieb Maxime Ripard:
+>> Hi,
 >>
->> tldr just like reading/writing images in 'raw_mode' up until now?
+>> On Wed, Oct 22, 2025 at 07:25:10PM +0530, Devarsh Thakkar wrote:
+>>> On 08/09/25 14:43, Tomi Valkeinen wrote:
+>>>> Currently when the driver's probe is called, we do a full DSS reset. If
+>>>> the bootloader has set up a splash-screen, the reset will disable the
+>>>> video output, and after that it may still take time until the
+>>>> display is
+>>>> usable (all the kernel modules have been loaded) and even more time
+>>>> until the userspace is able to use the display.
+>>>>
+>>>> If fbdev is enabled, in a perfect case tidss would take over the fb
+>>>> memory set up by the bootloader, and use that memory for tidss's fbdev,
+>>>> thus retaining the splash-screen. However, we're not there yet.
+>>>>
+>>>> As a partial solution, this patch changes the driver so that the driver
+>>>> will not reset (or change) the DSS registers until tidss_runtime_get()
+>>>> is called when the display is being set up (because of fbdev
+>>>> modesetting
+>>>> or modesetting from the userspace).
+>>>>
+>>>> This is achieved in two parts:
+>>>>
+>>>> 1. Probe
+>>>>
+>>>> At probe time, in dispc_init_hw(), we check if the DSS is idle
+>>>> (videoports disabled). If yes, do a reset and continue as before. If
+>>>> not, we know that there's a splash-screen, and we set the
+>>>> 'tidss->boot_enabled_vp_mask' field to reflect the enabled VPs.
+>>>>
+>>>> We then enable the corresponding VP clocks (to ensure they stay on),
+>>>> set
+>>>> the IRQENABLE to 0 to make sure we won't get any interrupts, and then
+>>>> exit leaving the fclk and VP clocks enabled, and the runtime PM status
+>>>> active.
+>>>>
+>>>> 2. Runtime get
+>>>>
+>>>> Later, when the tidss_runtime_get() is called the first time, we check
+>>>> the 'boot_enabled_vp_mask'. If set, we know that we have the
+>>>> splash-screen showing on the screen, and thus the clocks are enabled
+>>>> and
+>>>> runtime PM status is active. This indicates that
+>>>> pm_runtime_resume_and_get() call just before in tidss_runtime_get() did
+>>>> not cause a runtime_resume callback to get called, so we need to do
+>>>> that
+>>>> manually.
+>>>>
+>>>> We call dispc_splash_fini() which essentially returns the DSS into the
+>>>> state where it would be in a non-splash-screen case:
+>>>> dispc_splash_fini()
+>>>> will do a DSS reset, manually call the runtime_resume callback, and
+>>>> then
+>>>> call clk_disable_unprepare() and pm_runtime_put_noidle() to counter the
+>>>> actions at probe time.
+>>>>
+>>>> Finally 'boot_enabled_vp_mask' is set to zero to mark that we're no
+>>>> longer in the "splash-screen mode".
+>>>>
+>>>> A note about fbdev emulation:
+>>>>
+>>>> If fbdev emulation is enabled in the DRM, tidss will set up an fbdev.
+>>>> This will cause a modeset, and the blank framebuffer from tidss's fbdev
+>>>> will be shown instead of the splash-screen.
+>>>>
+>>>> I see two improvements to this: either we should memcpy the pixel data
+>>>> from the bootloader's splash-screen to the new fbdev buffer, or the
+>>>> fbdev could use the splash-screen directly as its buffer. I have done
+>>>> some hacks for the former, but I'm not sure how to implement either of
+>>>> these properly.
+>> I still think it's not the kind of driver-specific driver behaviour we
+>> want to have.
+>>
+>> Even more so when we have a generic solution to this problem in the
+>> works.
 > 
-> I'm not sure I understand what you are asking here.
+> I agree with that sentiment. We want atomic-state readout plus a
+> bootsplash DRM client. This would give us flicker-free booting with
+> smooth transitions across drivers and user space.
 
-Sorry I confused sahara with firehose here.. The former doesn't have a
-notion of what I referred to
+I like the sound of it. What does a bootsplash DRM client do? Would this
+give us the ability for the userspace to do some small modifications to
+the fb (e.g. progress bar), and would it work with a built-in dummy
+driver (simpledrm), and the main DRM driver as a module?
 
-> 
-> AIC100 is the "old" SBL architecture. When the "current" XBL architecture came about, quite a bit of the components were rewritten. It seems like a different interpretation of the Sahara spec was taken for the XBL implementation.
-> 
-> In both cases, the boot component that is driving the Sahara component in FW will want segment X of the elf for the next step of processing.
-> 
-> In SBL, the Sahara component would have a specific MTU and break up the request (segment X of the elf) into MTU sized read requests for the host. The MTU is negotiated with the transport (MHI). The Sahara component expects the entire read request to be satisfied in a single return from the transport - anything less is an error.
-> 
-> In XBL, the Sahara component would make a single read request to the host for the entire request from the boot component (segment X of the elf), and expects the underlying transport to shove up data until the entire read request is satisfied (Sahara will sit in a loop until it gets all of the data).
-> 
-> There is a bit of oddity because the Sahara spec says that the host can indicate an error by sending a packet that is anything other than the requested read size, but "packet" is not defined. The SBL interpretation is that a "packet" is the transport packet - aka the MHI transfer.  The XBL interpretation is that the packet is a "Sahara packet" which is decoupled from the transport.
-> 
-> In the end, we have two different Sahara implementations in FW with different expectations, and both need to be supported.
+ Tomi
 
-Thanks
-
-Konrad
