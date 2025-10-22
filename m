@@ -2,68 +2,68 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 492E0BFF987
-	for <lists+dri-devel@lfdr.de>; Thu, 23 Oct 2025 09:29:56 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 63395BFF972
+	for <lists+dri-devel@lfdr.de>; Thu, 23 Oct 2025 09:29:42 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1232510E899;
-	Thu, 23 Oct 2025 07:29:54 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C540210E896;
+	Thu, 23 Oct 2025 07:29:39 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=googlemail.com header.i=@googlemail.com header.b="Mnn0EODK";
+	dkim=pass (2048-bit key; unprotected) header.d=googlemail.com header.i=@googlemail.com header.b="WkeB2RIW";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-f51.google.com (mail-wm1-f51.google.com
- [209.85.128.51])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 939C510E6ED
- for <dri-devel@lists.freedesktop.org>; Wed, 22 Oct 2025 08:08:54 +0000 (UTC)
-Received: by mail-wm1-f51.google.com with SMTP id
- 5b1f17b1804b1-4712c6d9495so12447605e9.2
- for <dri-devel@lists.freedesktop.org>; Wed, 22 Oct 2025 01:08:54 -0700 (PDT)
+Received: from mail-wr1-f41.google.com (mail-wr1-f41.google.com
+ [209.85.221.41])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C4BD710E70D
+ for <dri-devel@lists.freedesktop.org>; Wed, 22 Oct 2025 09:16:58 +0000 (UTC)
+Received: by mail-wr1-f41.google.com with SMTP id
+ ffacd0b85a97d-3ee64bc6b85so8547186f8f.3
+ for <dri-devel@lists.freedesktop.org>; Wed, 22 Oct 2025 02:16:58 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=googlemail.com; s=20230601; t=1761120533; x=1761725333;
+ d=googlemail.com; s=20230601; t=1761124617; x=1761729417;
  darn=lists.freedesktop.org; 
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :from:to:cc:subject:date:message-id:reply-to;
- bh=UcnB1vPCv4/5O7NSkhwvuNPMqNZtj/H/Vxellyl6lWw=;
- b=Mnn0EODKvOKn8Ha0Uea+0bCV4KdaaULZshJSq1ddLdBs9RachT4RFqnvtUcGS78ou6
- uMtOMnQLAIqTdvU1yu2xigB5rFptNOe2Pv63hU78IGuL22mvJHvaCOlBnLuMP+YxhFT5
- dMdGNGmp0mvLjArCyoYEz4c9w3FHi3paKf57cGn5YoeMdjUn1X+5+LxYxtcpPWDvhE4T
- bFrO7kmDQRRQnVgrDKg7Cd9aghK70/CRccARA48jdvFlecMEgfyzHAaOfxQJWqmUcQSM
- PfDCcBhC8iiwhg1pIyvcyneYAdDa0ue5dMCdoEqvPTYI5W1kjE0ojIX5tkt7cCZ237VO
- gDjA==
+ bh=0d1OtznxSM+pdxcYthlznRVSRSBvTGMBZ9iBozHqpE0=;
+ b=WkeB2RIWzhEaSE9oJNak4rJq0dWylIDNcVftWsXuD4R2VrvfBGb35HtZwyxPRl8bbv
+ zxV/Rz6CsDc+lPQbSuu6eTymGegZTasIkdrs3VYAfUCuy0o6tuJ64Ensrr720hL2vodu
+ UuQ3PEfXpeYJU8BRSDS/9K0x/+eUPkk3XEw+1T6JYxRHS7Q29WOUaaKjDJ4WPXwnT6zv
+ shL8MbHu0OOaP+SKphiTbn4Z6CERImx/jt10ZVDNxTalnaJomy/P6zTHQ0MBGvNSGRvW
+ z75SNSqIL/0LqeXyrAJ5Yf1lPL8HzW/Xj6OYlAmnH3lhZRUknhpafAmzhw97sHhElbHH
+ 9FPg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1761120533; x=1761725333;
+ d=1e100.net; s=20230601; t=1761124617; x=1761729417;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=UcnB1vPCv4/5O7NSkhwvuNPMqNZtj/H/Vxellyl6lWw=;
- b=kK9FGKRR/fqyGnQfFW4THpiJw4jGL6aE0HjeMhvqRYLWiE1yzE4pldghu2gWKn32M/
- zCmo4AI8ZUXF3v3rOMAtAc4RdHEQJId60/BAJOCJadluI783m/tEr1ez+a79KTH9N8Jy
- yvNCryJOB0HeKOhKtgd1Yt2fbTucdF5qQaHkuq1nWYSQH4Pj3E5hqsQTi/IOBZLIjfIS
- RsQ/+vdhCGX3UZXqUPr7uvAvpgvtGKjvHNzrcGOoEPaNyh1eDr4yAokvtL/KqwsWaEJd
- RddS0HbWPsZOO9pmv121wxXpxfk17ORJEEFiZKdY7hVzF/MoQ/CVK2Y1gWnIBkrpCHsg
- 1Dmw==
-X-Gm-Message-State: AOJu0YyreNs/KB34GDVk/a2lGqcphanom6TEuhgywwkRVdrAs4FIMGyF
- GU3bXbXob6UsVOu+BYe/MMnQqSpqmh56HMnU6zMkuUaeTAqqMdvRF+M=
-X-Gm-Gg: ASbGncudeNPKTc8hG8UjxZeNOxEDviZigYyfrJ1EmgO+13w3snYKxOOo+F92RsCXl5H
- jHxLXID9MLwkNmwMh9hKgxz1DBTExwhVJbIi/xcsZMGKc0p+t/OJY9qpRxSpsV6jhTeHgS33LTG
- VyGryk0qOJrv/Dntwmdx9uniBL5QZaMkdcueKBI1i88L1xNJTconQxQL55z9E7rSuGRbIcu9v/A
- QrTNeru8Rcokdz6syh4juhwtykh6SF0Ngo/V5ELUjd8VvuLniKIRnNO/fpjhs6Ua8kqAb/FGvMa
- m0CujyeUxsuvkWj/7G0oUDkx82GiLMyv7ReN7rVOfSITNCsql4vVC/KcN+JZI2qcyHM3BIlU2xC
- V8ISI/tnoramJdIbGtqbLAKv1Bds4U86xWmCFhYNPn61KveIxWenzxVGdo6bM2oFy+eMGwYN7lr
- jczHGX/Kgrmmdvm/qFhHOWdw3SS7EuTso54cTO7WJNJbO6uYnpHqlbJF4zZSDPow==
-X-Google-Smtp-Source: AGHT+IF/cCvzRlFyWOqSA/Xn2hsqVgkC6A23PcoYB3/ncn63CK7+kyxojS9N24qzW1KCsixw1CexVg==
-X-Received: by 2002:a05:600c:6085:b0:471:133c:4b9a with SMTP id
- 5b1f17b1804b1-4711786c79emr171726605e9.6.1761120532780; 
- Wed, 22 Oct 2025 01:08:52 -0700 (PDT)
+ bh=0d1OtznxSM+pdxcYthlznRVSRSBvTGMBZ9iBozHqpE0=;
+ b=MqjEHMTXhLbgu+MSPafcjZNZ2RF+UNe8QTYMyto9g0E+0WJcFEo42331dohqDLWo3Q
+ s3Sc3Kj1HGtrDYs7kfeddBvmwnaN7yBeUDc7UO/wYsbj8NC6I1ZN8Gs3XM35Z6G+chRk
+ 9eHUWt2Hu+ohCNqWHzmWwpp86FtSdhPTdL9XJUuuDNXw2c2eIVvGTYLmNmDUVN8ApDDp
+ G4kfbfrmKaEr9lUb9ndfZ/rPJBekhKgj4BfptQQu4ft5n+9uaNyFNc1yql13BPFKF/jn
+ 0VElXR9JYXxjz46tQKxIa3VOh5oN2thChFAq/LSe35LjVS4uvVqI+a9lwhvoIziWMwju
+ 5OFg==
+X-Gm-Message-State: AOJu0YyxxlLVhFmuTzmp6zQv7ELUk0u4C1VkxdRsr5VTrMJtBOpzwzhN
+ 3RvmxMWKGJVLfoxGY6Ky2LahntNCv/VwNVTtbe5gptzofBnjd2MIuCw=
+X-Gm-Gg: ASbGncu3Zxm5yRGnRR/AzBdH+RTrw1qxHT1TSqNOWzrfwGQAXuuzUdu6kqPfE9EvwTH
+ cmbL1jXghpXI4s8ztKEk9X3RzBwDA2PnfJnXOcGIpk0lH7kutfETJL4PAceN1VBsQlwZRJdetcf
+ OD+ftNwgzKvJ84n1B2UpLJJXmnQ4oneoL3ACM3mFG512ptRECYWVMq0mutGY8yzoht2BQfM6ctQ
+ Rc1rlU/iM167YgzizES7/JHnI2G8JpRNaBPpI98zbqpjNIUl5yDhBZpSP4Ms+k8b7lj+d/tdT4x
+ ak/vZyBm1yir48YCbkL3nUPFBZNBkJisMKyEYUkTNu0a6Qbw/rh1lNrruCrWzuXKKkR7oTO4tX4
+ vr3GROX5BiKMwgUqidwz2F0C42bwxbA4KlB8IxuNudyQE6/9LPkRDZFfybor12j37Eo38bpESK0
+ Kq6c3CaPwVmO6FNXiDeGFr5EOMq1Xw6IA27goIAJijYJs56/XUs/XndLRMl6kpgg==
+X-Google-Smtp-Source: AGHT+IHa35nbyTK6Dmlfdg41+HIA1hn/cBaTOnRlZDC5R3mjJeMyTqjZs96LilY2c+rKxD8zCB0KXg==
+X-Received: by 2002:a05:6000:26ce:b0:3eb:5e99:cbb9 with SMTP id
+ ffacd0b85a97d-42704d7eaa2mr12913918f8f.10.1761124616882; 
+ Wed, 22 Oct 2025 02:16:56 -0700 (PDT)
 Received: from [192.168.1.3] (p5b057850.dip0.t-ipconnect.de. [91.5.120.80])
  by smtp.gmail.com with ESMTPSA id
- 5b1f17b1804b1-475c428a534sm35770345e9.6.2025.10.22.01.08.52
+ ffacd0b85a97d-427ea5a0f88sm23394732f8f.7.2025.10.22.02.16.56
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 22 Oct 2025 01:08:52 -0700 (PDT)
-Message-ID: <798ba37a-41d0-4953-b8f5-8fe6c00f8dd3@googlemail.com>
-Date: Wed, 22 Oct 2025 10:08:51 +0200
+ Wed, 22 Oct 2025 02:16:56 -0700 (PDT)
+Message-ID: <5f8fba3b-2ee1-4a02-9b41-e6e1de1a507a@googlemail.com>
+Date: Wed, 22 Oct 2025 11:16:56 +0200
 MIME-Version: 1.0
 User-Agent: Betterbird (Windows)
 Subject: Re: [REGRESSION][BISECTED] Screen goes blank with ASpeed AST2300 in
@@ -79,8 +79,10 @@ Cc: dri-devel@lists.freedesktop.org, stable@vger.kernel.org,
 References: <20251014084743.18242-1-tzimmermann@suse.de>
  <a40caf8e-58ad-4f9c-af7f-54f6f69c29bb@googlemail.com>
  <43992c88-3a3a-4855-9f46-27a7e5fdec2e@suse.de>
+ <798ba37a-41d0-4953-b8f5-8fe6c00f8dd3@googlemail.com>
+ <bf827c5c-c4dd-46f1-962d-3a8e2a0a7fdf@suse.de>
 From: Peter Schneider <pschneider1968@googlemail.com>
-In-Reply-To: <43992c88-3a3a-4855-9f46-27a7e5fdec2e@suse.de>
+In-Reply-To: <bf827c5c-c4dd-46f1-962d-3a8e2a0a7fdf@suse.de>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 X-Mailman-Approved-At: Thu, 23 Oct 2025 07:29:39 +0000
@@ -99,48 +101,23 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Thomas,
-
-thanks very much for your quick response!
-
-(adding Thorsten to CC)
-
-
-Am 22.10.2025 um 08:51 schrieb Thomas Zimmermann:
+Am 22.10.2025 um 11:11 schrieb Thomas Zimmermann:
 > Hi
 > 
-> Am 22.10.25 um 05:27 schrieb Peter Schneider:
->> #regzbot introduced: 6f719373b943a955fee6fc2012aed207b65e2854
+> Am 22.10.25 um 10:08 schrieb Peter Schneider:
 >>
->> Hi all,
->>
->> I have encountered a serious (for me) regression with 6.18-rc2 on my 2-socket Ivy Bridge Xeon E5-2697 v2 server. After 
->> booting, my console screen goes blank and stays blank. 6.18-rc1 was still fine.
->>
->> The machine has an Asus Z9PE-D16 server mainboard with an onboard ASpeed AST2300 VGA chip with 16MB VRAM. I have 
->> attached an older HP Monitor to it via old VGA jack/cable. It also has a second graphics card in a PCI-E slot; an 
->> older NVidia GTX 560. It is not connected to a monitor, but I have configured it via kernel command line for PCI-pass- 
->> through to VMs running on this server (I use Proxmox VE, i.e. QEMU/KVM virtual machines). Currently, no VMs use this 
->> yet, and also no VMs are autostarting with machine boot. So when this regression occurs, the server is idle. Pressing 
->> a key on the keyboard does not make the screen come alive. The server is running fine though, and I can access it via 
->> SSH. It just has no graphic output anymore. In case this is important, the machine also has a ASMB6 BMC (can be used 
->> via http).
->>
->> I have attached dmesg output from both 6.18-rc1 which is fine, and 6.18-rc2 which exhibits this bug. I have bisected 
->> the issue, please see attached git bisect.log.
+>> Your patch applied cleanly against 6.18-rc2 and the kernel built fine, but unfortunately it did not solve the issue: 
+>> my console screen stays blank after booting. This is regardless whether I do a soft reboot, press the reset button or 
+>> power cycle and do a cold boot. They are all the same.
 > 
-> Thanks for the detailed bug report.
-> 
-> Attached is a patch that partially reverts the broken commit. Could you please apply it on top of the broken kernel and 
-> report on the results?
-> 
-> Best regards
-> Thomas
+> Just to be sure: you do see output at the early boot stages (BIOS, boot loader). It's at some later point during boot, 
+> the driver loads and the display blanks out?
 
+Yes, that's correct.
 
-Your patch applied cleanly against 6.18-rc2 and the kernel built fine, but unfortunately it did not solve the issue: my 
-console screen stays blank after booting. This is regardless whether I do a soft reboot, press the reset button or power 
-cycle and do a cold boot. They are all the same.
+> There's another patch attached. does this make a difference?
+
+Do I have to apply that against base 6.18-rc2 or against 6.18-rc2 + your previous patch?
 
 
 Beste Grüße,
