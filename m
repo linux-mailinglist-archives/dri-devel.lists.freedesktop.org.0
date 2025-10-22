@@ -2,71 +2,80 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A66CCBFBE73
-	for <lists+dri-devel@lfdr.de>; Wed, 22 Oct 2025 14:46:01 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 24B61BFBE86
+	for <lists+dri-devel@lfdr.de>; Wed, 22 Oct 2025 14:47:07 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CC57610E774;
-	Wed, 22 Oct 2025 12:45:59 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9DECB10E778;
+	Wed, 22 Oct 2025 12:46:39 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; secure) header.d=mailbox.org header.i=@mailbox.org header.b="ELfdDuMb";
+	dkim=pass (2048-bit key; unprotected) header.d=huaqin-corp-partner-google-com.20230601.gappssmtp.com header.i=@huaqin-corp-partner-google-com.20230601.gappssmtp.com header.b="nfiP1ZBi";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mout-p-202.mailbox.org (mout-p-202.mailbox.org [80.241.56.172])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5DFF810E774
- for <dri-devel@lists.freedesktop.org>; Wed, 22 Oct 2025 12:45:58 +0000 (UTC)
-Received: from smtp2.mailbox.org (smtp2.mailbox.org
- [IPv6:2001:67c:2050:b231:465::2])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested)
- by mout-p-202.mailbox.org (Postfix) with ESMTPS id 4cs86C1w6Pz9tTc;
- Wed, 22 Oct 2025 14:45:55 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org;
- s=mail20150812; t=1761137155;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=WzUax9fdH9Q+7uhR0AVunlAerrb+3qRgdTcqDjLZB2U=;
- b=ELfdDuMbVQr6UZ5kbpXZAF+BVE6RjH4j9m4CisJh3pb2vVCFxQFGIpp16uUrQwTr6BpmDs
- ssXDNc83GNFWOmxcGJ1WJEVXvcM2pDHVNIKI530jYVrfUJ1m2pLiuDKD/Nv9OYrc/404k5
- Fh6AkndoEnddGsDVA5Q1XkBHFf71rQHX+i7HWPbgNPYuHEl2zhQZzT5SFxo079tPfe9Z6x
- y21+8dUG040OfvnBRH1/664SKwdWaMWhWmS7LtPoHoF8Dwz936aurNsKlXDQRTtgM1pd7E
- bs/9jdApzngHo3hbeVsuXXZTzbhjUc1KAVrBLPVGtE3rsnmXbB8gcEatxvsb5g==
-Message-ID: <0d809766-36bb-478e-a77b-ed786bfc84d9@mailbox.org>
-Date: Wed, 22 Oct 2025 14:45:50 +0200
+Received: from mail-pf1-f173.google.com (mail-pf1-f173.google.com
+ [209.85.210.173])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9915E10E776
+ for <dri-devel@lists.freedesktop.org>; Wed, 22 Oct 2025 12:46:37 +0000 (UTC)
+Received: by mail-pf1-f173.google.com with SMTP id
+ d2e1a72fcca58-78f3bfe3f69so5955893b3a.2
+ for <dri-devel@lists.freedesktop.org>; Wed, 22 Oct 2025 05:46:37 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=huaqin-corp-partner-google-com.20230601.gappssmtp.com; s=20230601;
+ t=1761137197; x=1761741997; darn=lists.freedesktop.org; 
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=DYmui300xmsOqVGhM5Jgeku6egbsvMIV9ovTXTcHC2I=;
+ b=nfiP1ZBi3cBiqdhnqNP8O5PkG6iuen8n1nTz/i5iJLyJRr1L6I56RE6vFC1pAhqs4A
+ ZRl+iw+H5jM3MmmzZN5SRwTP7Qwx+fBrAN+8U0juBIAq6ovu0atFOlJelWuPc2sDfP/s
+ 8ZQssc/G0RBi8fmW6rQC8wsRhdmbCx0L0DJ36DHElVR9kvEG/DcZBEn2gTmH2MX/lout
+ fsYhp3BR7clZbi2jIWoebjloWF5+i0Ck/pD13+mQYefAkI3LwC/2iyvM5i/L0DHyyYKf
+ k0k8Zf3VJJhqIvnUDN49+zNtcBd9Y5fAN9sI+jBkB4eGYv1Pr7v+7IyCrLg8rdOeCnhy
+ yxGA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1761137197; x=1761741997;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=DYmui300xmsOqVGhM5Jgeku6egbsvMIV9ovTXTcHC2I=;
+ b=no0o3UST8xYl5y0HgKmc9W9pIVy3qWwv4lXowJ5vWTCNRVdJ7ZOOFSPhItpF2mxDSs
+ 8PIw1AqM988/NmCsRK7PeMpXcRwzkr3QEnoINdzBHEOuVACDifA6INpN1iLdaVEsOLEW
+ EJHD3YvVp71Secpp6hwX844i+MnXsAwGpdfakAqZ2m7GmYl1hygmfOBw0t849EqMbyF6
+ 0LH2u7GP+KIDJkYoCBxIWowpABIgSM3xznKs9W4c+qAhobilO6dXD1looWiufsmU77PT
+ 3MKwwXA86YI3f6HJEpdAji4CTG2t52ZeFP5S9UugScxJSbGzJkoV14Ot9/nJM7iVfVDv
+ T4Lw==
+X-Gm-Message-State: AOJu0YwhJYnfvKI+thrPVgbJ9h+0TLgNRaH1BxEK3xcPqlk5wgUqCpV1
+ 1ehiaDXBuH5vd0fkcxz7g0x5zB+FYWBCDu2YQTmTfqkpQAHFUUnniugx/OAiQ1obWwA=
+X-Gm-Gg: ASbGnctVwf/dsLt+JShPYboeAhBHqeuwhCWYZSs1CgVWv6JoNqQTU+H502J5j/iL5EF
+ 4Ss/JEVyFLzNZRD/Y9qD455ytnyU+0XwOYNyOryvOKrq9V1ANAjJXrVuabeB5goMKYaHB3PycgB
+ A5zhD1lx/Q7RESIPRXs3mcG+se3ufQpQJszt6gjol8+yeMvQjMZzl/nVImYxbQn1omGDCDOtB+a
+ yUmN5NrScoDUZXLNdj5S0A8NfY+gSkxWwVP3L+v8UW4V31XZ2ZDzZSakUiN631z3EkkPEjBqMvA
+ Uwba9Bp33fMu9SLAmbirt6YK6SSwHCE2JMOqD3Za8exWmcVmfJcBkEIcv5XQ7/BouCr86IcmMwX
+ Wxjk/24qWA1IPRY98V/v16apTbt7NEwWy8h1TdaeGhj8HXha7GxgC9kJcXS2L3jgK4/AN7XTVHy
+ suFEBvkhRHeN1nBizoeDqrbLVQKyno1S4YIcgHgPuZAItBJdQsl8mgjS7VLQ==
+X-Google-Smtp-Source: AGHT+IGSJSxaOUKpYiZ60vtbFdEMCWPb89iyz1DbTd1qZJyxQRWM+oUSWq9CrrRKfdrQfK3NOdLXgw==
+X-Received: by 2002:a05:6a00:3cc6:b0:781:239d:f2da with SMTP id
+ d2e1a72fcca58-7a220acb30cmr24901864b3a.31.1761137197031; 
+ Wed, 22 Oct 2025 05:46:37 -0700 (PDT)
+Received: from dgp100339560-01.huaqin.com ([103.117.77.121])
+ by smtp.gmail.com with ESMTPSA id
+ d2e1a72fcca58-7a23010e25asm14363935b3a.56.2025.10.22.05.46.33
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 22 Oct 2025 05:46:36 -0700 (PDT)
+From: Langyan Ye <yelangyan@huaqin.corp-partner.google.com>
+To: neil.armstrong@linaro.org, jessica.zhang@oss.qualcomm.com,
+ airlied@gmail.com, simona@ffwll.ch, maarten.lankhorst@linux.intel.com,
+ mripard@kernel.org, tzimmermann@suse.de, robh@kernel.org,
+ krzk+dt@kernel.org, conor+dt@kernel.org, dianders@chromium.org
+Cc: dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org,
+ Langyan Ye <yelangyan@huaqin.corp-partner.google.com>
+Subject: [PATCH v4 0/2] drm/panel: Add Ilitek IL79900A controller and bindings
+Date: Wed, 22 Oct 2025 20:46:26 +0800
+Message-Id: <20251022124628.311544-1-yelangyan@huaqin.corp-partner.google.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-Subject: Re: [PATCH v2 4/4] dt-bindings: display: bridge: renesas, dsi-csi2-tx:
- Allow panel@ subnode
-To: Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>,
- dri-devel@lists.freedesktop.org
-Cc: Conor Dooley <conor+dt@kernel.org>, David Airlie <airlied@gmail.com>,
- Geert Uytterhoeven <geert+renesas@glider.be>,
- Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
- Neil Armstrong <neil.armstrong@linaro.org>, Rob Herring <robh@kernel.org>,
- Robert Foss <rfoss@kernel.org>, Simona Vetter <simona@ffwll.ch>,
- Thomas Zimmermann <tzimmermann@suse.de>, devicetree@vger.kernel.org,
- linux-renesas-soc@vger.kernel.org
-References: <20250904210147.186728-1-marek.vasut+renesas@mailbox.org>
- <20250904210147.186728-4-marek.vasut+renesas@mailbox.org>
- <4ffcf4fc-17a9-4669-af07-f81ddb46aee9@ideasonboard.com>
- <d76ff19c-7b0f-4aa9-8ae2-d08c82d70410@mailbox.org>
- <aebc10ec-73ed-4843-95c5-9ba5a2759ccb@ideasonboard.com>
- <b4c0e78a-eecb-4a18-9199-18ea91c8df31@mailbox.org>
- <2da374d1-7557-4f7e-9160-86945b73731a@ideasonboard.com>
- <14e5da7c-c6ce-4bb6-884b-08629f5a5788@mailbox.org>
- <7a159b09-d957-4d9b-9460-adf62df9a440@mailbox.org>
- <626acab8-46ae-44cf-b9ef-0ac78d0954c9@ideasonboard.com>
-Content-Language: en-US
-From: Marek Vasut <marek.vasut@mailbox.org>
-In-Reply-To: <626acab8-46ae-44cf-b9ef-0ac78d0954c9@ideasonboard.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-MBO-RS-META: ggjpzsuj5xs3yrwikn5cwggs4wcxzw1r
-X-MBO-RS-ID: 6a1016291c5f2f21ca7
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -82,32 +91,35 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 10/22/25 9:19 AM, Tomi Valkeinen wrote:
+This series adds device tree bindings and a DRM panel driver for
+the Ilitek IL79900A MIPI-DSI LCD controller, which is used in the
+Tianma TL121BVMS07-00 12.1-inch panel.
 
-Hello Tomi,
+Changes in v4:
+- PATCH 1/2: Rename compatible to "tianma,tl121bvms07-00" and update example accordingly.
+- PATCH 2/2: Update driver to use new compatible and rename related data structure.
+- Link to v3: https://lore.kernel.org/all/20251016095043.1694736-1-yelangyan@huaqin.corp-partner.google.com/
 
->>>>>> Ok. My point was just that the dsi-controller.yaml doesn't allow
->>>>>> "bridge" node (you can just rename the panel to bridge to test). I
->>>>>> thought someone (I just can't remember who was it =) will send a patch
->>>>>> for it, but I think that hasn't happened.
->>>>> Do you want me to drop the bridge part from the commit message (I
->>>>> assume
->>>>> yes) ?
->>>>>
->>>>> Any other change I should do before sending a V3 ?
->>>>
->>>> As we found out, this has been fixed in linux-next. For this, and the
->>>> rest in this series:
->>>>
->>>> Reviewed-by: Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>
->>>
->>> Understood, thank you.
->> Do you think this 4/4 can now be applied ? The rest already is.
-> 
-> Pushed to drm-misc-next.
+Changes in v3:
+- PATCH 1/2: Fix DT schema error for `backlight` property.
+- PATCH 2/2: Address review feedback (use mipi_dsi_msleep/_multi, move init sequence to mode, minor cleanups).
+- Link to v2: https://lore.kernel.org/all/20251010093751.2793492-1-yelangyan@huaqin.corp-partner.google.com/
 
-Thank you
+Changes in v2:
+- PATCH 1/2: Address Rob Herring’s review comments and align with panel-common.yaml conventions.
+- PATCH 2/2: Rename driver to panel-ilitek-il79900a and align naming and structure with existing Ilitek panel drivers.
+- Link to v1: https://lore.kernel.org/all/20250930075044.1368134-1-yelangyan@huaqin.corp-partner.google.com/
+
+Langyan Ye (2):
+  dt-bindings: display: panel: Add Tianma TL121BVMS07-00 panel
+  drm/panel: Add driver for Ilitek IL79900A-based panels
+
+ .../display/panel/ilitek,il79900a.yaml        |  68 ++++
+ drivers/gpu/drm/panel/panel-ilitek-il79900a.c | 358 ++++++++++++++++++
+ 2 files changed, 426 insertions(+)
+ create mode 100644 Documentation/devicetree/bindings/display/panel/ilitek,il79900a.yaml
+ create mode 100644 drivers/gpu/drm/panel/panel-ilitek-il79900a.c
 
 -- 
-Best regards,
-Marek Vasut
+2.34.1
+
