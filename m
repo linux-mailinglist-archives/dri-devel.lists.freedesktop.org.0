@@ -2,79 +2,77 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id CCF60BFB241
-	for <lists+dri-devel@lfdr.de>; Wed, 22 Oct 2025 11:22:48 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 75C90BFB23B
+	for <lists+dri-devel@lfdr.de>; Wed, 22 Oct 2025 11:22:32 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0427E10E721;
-	Wed, 22 Oct 2025 09:22:47 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9D58910E71D;
+	Wed, 22 Oct 2025 09:22:30 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="ClvFXZ8H";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="Vfzibwym";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-f43.google.com (mail-wm1-f43.google.com
- [209.85.128.43])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 55F7B10E71E
- for <dri-devel@lists.freedesktop.org>; Wed, 22 Oct 2025 09:22:45 +0000 (UTC)
-Received: by mail-wm1-f43.google.com with SMTP id
- 5b1f17b1804b1-4711810948aso46415345e9.2
- for <dri-devel@lists.freedesktop.org>; Wed, 22 Oct 2025 02:22:45 -0700 (PDT)
+Received: from mail-wr1-f47.google.com (mail-wr1-f47.google.com
+ [209.85.221.47])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A269910E71E
+ for <dri-devel@lists.freedesktop.org>; Wed, 22 Oct 2025 09:22:29 +0000 (UTC)
+Received: by mail-wr1-f47.google.com with SMTP id
+ ffacd0b85a97d-3ecde0be34eso458721f8f.1
+ for <dri-devel@lists.freedesktop.org>; Wed, 22 Oct 2025 02:22:29 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1761124964; x=1761729764; darn=lists.freedesktop.org;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:from:to:cc:subject:date:message-id:reply-to;
- bh=VNMoTZJllpgSAwO+/JhEP/SxoXgVZAY6noBMUvcjjeA=;
- b=ClvFXZ8HW5akXqHSP0O3al+iJN/LZp9Ckn98ngiEX3UV8KisuoEr5AHt+dmx2Cpkkj
- j4Wi0tzMaaNrEjyjlBMnSIu0ojyJSloAbnN6GM13o0DfDOr8yUr5VcYFO3QQS3B67EKK
- WL3DRAZQ202XYV5b0xanp4RoMgMQ87zlLTNWiwY/B0iEM9D9aItNhUgKr/6+SXCccNnq
- CZ8A/QfosLZiiH6NaNY64PjtXQwtOq/stJQxTSyvvWC2m8X2GeaJKwqBFgh9t4c6TUCh
- uHnq6XnwOs9cImMGUSAdPy4nGLFWgx7IImJwuyu/ZgDFin+heeJhtuj5zWqc094hTO1j
- g7XA==
+ d=linaro.org; s=google; t=1761124948; x=1761729748; darn=lists.freedesktop.org;
+ h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=Z7+WPa6fzkzIkb/WM7fYUJAZP3WTURYIOOoTI2A/B20=;
+ b=VfzibwymMzTkicDamVAQgY+2nDrm/m4rMC3oqahpD/QmEQ37a6MwpyiUbgVfm3YDmU
+ jyZa/yu9WAvN44VvukRg6uhGqpqRagWLYR7LHfLK3J+Wnr9/ZESFKsaRS3hjAWE78FYa
+ y3nsQRwy1EGzaQLv2gciMl/vNGswlj11EaiRVz+jwAF7ps2tBLApluyTi0WC8SCw5wVW
+ /ipdlyOBwvzic//r7979cKUoBIp/wMN8heAG+zKzRa19VNuPz35mBQuMc90z8pdKsIE0
+ Jffkvr/mSi4cjl9lZgEGkxgrDhlk0A+7HG8jPUPi5BI5+9wK4gUj1pVbBm6wmDBn1E/h
+ nn7g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1761124964; x=1761729764;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=VNMoTZJllpgSAwO+/JhEP/SxoXgVZAY6noBMUvcjjeA=;
- b=CXNVtS8Blocfn/1A86mgJz4J7KhYOECQezWTaRLTtdFdJzvNWCKpHBep3qIUN1wu27
- JKUcznfXvJwBKHHIDDaafP6OoIwGBnCLS07DuJcvZMVLMsF5vO9tRlKmG8GibDFfQQcW
- s3jwZY+fFZhfbJkHw3jf1+IlVdzLwEgnKnmKiRZu4sN3JGnmexngjMJpAfmTxD1u67a+
- vnHLV1fmc2rmZfEbpMKR7G8vuJ0i3n8+Toq39DH0eoWFaQFJuCGDme7xXULpsiUJ3pGI
- TEuduMJCUolCG/omdYzs5qiGNZOD4UMMkqEv3G8RNXr/KTmtRHQY3IwMGal8AD2+lVEG
- uhZA==
+ d=1e100.net; s=20230601; t=1761124948; x=1761729748;
+ h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=Z7+WPa6fzkzIkb/WM7fYUJAZP3WTURYIOOoTI2A/B20=;
+ b=VCH/Eb15LgeYSmWnTGUGJtc3+U89pOwIHUO5orrHLq6vBQ7dQY1kiYDqAjtKy3zNCV
+ 6l0uo/2az5te2QpoyPuRB/maCpHtdIVMIsCL75bUoQpTXQHqYm5K1We1j0CMuXphqbnX
+ RdJL8Ry+3uL/f0XOZxZINJDNIrF0zoIZRhHiDJeFT63th1CdU0xHGVbF/gYTTiWwrGW4
+ M1BPZ+ghIyt7BqF4qBHPvZuAjsmg24aTFbsy6Gk9ZhMIMd1Jx4yj+fOzHDl+7PJYlH1w
+ PBDZfEhRbpnyUxRZAKzbmFqUycxS+VJM4z4RddMt8oRR3TXB9744+dI0Gl8nI59b82dX
+ RvVA==
 X-Forwarded-Encrypted: i=1;
- AJvYcCWMAXmjOO5quY0THlUK7YuXCBnl8y5IgqBXqOqFyVByW2Ag3L9PDiITg38GW3cvExTwPyClrQxIXHM=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Yw7/G5oeEaPYKz6RiWlnIUuR36eyoxVOU5hNy7qqAiZL9qqfXip
- hwqYAUj9NQlXm+nFV9d/cqL5lwmlC8SN18AvuYu35cDSZt3dGleTD1v6
-X-Gm-Gg: ASbGncuip7X0hPKDIi5zTOalgl6U5d00EHnD4IIdKRB79kioep9RdugxMm11aJEyrCb
- lOzWkNgBnAIhUtS6kLRdzhCYtuiTUKEn8tixFggGcT+VcYt930hAQ0XdJDxhdBm+V6zQgUe/fv4
- UmqMlZ/zSWMvaCSWqOlP3Av/6Xrb6o4g01FpTcDx7axS0l1N8Z2RS0I2myRL7OowuraGz96Bnl/
- VZeP3/gEagk/BcHyytBSf9Toj6jZBfx4957G5lHOSiporgNH9G8NsHtuAcGeBwKR4HdXemWMzwG
- 87QqsXkJtfQLl9QBB6zela8FFk1+RCy1h1YCju5lEYye6HvBDOExa0nH7JVNSW0VobWXFTBB0tO
- FFIvT/2rf4f3MfihWTSiLiGUBOpo5+kwI6m61EYeRc1QOT+fYDVAuPnylBFAP3IBjwxZCE68WHK
- z3BDBCKU8wWQ==
-X-Google-Smtp-Source: AGHT+IG3shR1jkIXjfz9mpIHyj77SpOy/9Mx7bfHfwJZCSED1Rhf3mSo44aJkQh6ifUEBGx+vAYZxA==
-X-Received: by 2002:a05:600c:3494:b0:471:76f:80ed with SMTP id
- 5b1f17b1804b1-47117934827mr145803435e9.41.1761124963386; 
- Wed, 22 Oct 2025 02:22:43 -0700 (PDT)
-Received: from fedora ([94.73.33.104]) by smtp.gmail.com with ESMTPSA id
- 5b1f17b1804b1-47496afd459sm34829455e9.1.2025.10.22.02.22.42
+ AJvYcCU7fsnU1Yn4GY1MM/w2A8vh4BBSx5pP5ROlnNW/jtm8FyW6yOlLR1Bl/bAhB8uKsgPttSs9PHNssqE=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YyFxOg4ukinrG89uKtT/DDEazHSUyMXhoaElvwQZ9HMEM9Bfs6X
+ AWwea2zdbdIySZvf9nhrmHH8wjQD/y6Sop9Z05k2XPeA9f4VVq0fw64Tj8RAnBvd6G32bZb+TCh
+ VA9tv
+X-Gm-Gg: ASbGncuw1rZI2tkET303UFqhRavcTyhOrWuqiL0OTaJE9NYPuSKz86GqS62n+bZDHat
+ E6gnhXhqeoREEOqjNjoxMoD5SdJsDqvBiqnlD/KQJkaMSWHq0kTs3BaWFelPGOmPLt3a76Rey8O
+ ENsI9/j+9W5lcI5sDPgoFqk5jOM/zthPZk9FAwUKX6sewSJvXcbe7AVGFXx/mKcb6efaxrr3deF
+ Ew5dRCQN/uAN4res3AYZxQN4V56k6JaWxUDSvZTAuA+99APa+GHkTxDKtl6btN+B0YqfWCdz9pD
+ xQ5uSugdbKfp5FXDSfOCKSxtsd2INArt/5RQR8Z8QLsQ772IR6EcQRFVg2BKJ2Q5/nyHGJ2BnEV
+ tidx4kD1YzHDEcyRq4CwADid/PCGgn79g7Aywx9+AFfo3EtdRkfrwEzyE3aBHXyf3bnYFfGMeQa
+ TsZ58AAw==
+X-Google-Smtp-Source: AGHT+IE/+JkAy3x0Euv5ZMU/5Z9wLNiLKtrBsG+0gIPOWd+6NlnmnvFC9TXedSVDhLlMgRN2O9Lcjg==
+X-Received: by 2002:a05:6000:2585:b0:426:fc52:cca6 with SMTP id
+ ffacd0b85a97d-428532557femr2044051f8f.7.1761124948043; 
+ Wed, 22 Oct 2025 02:22:28 -0700 (PDT)
+Received: from localhost ([196.207.164.177])
+ by smtp.gmail.com with UTF8SMTPSA id
+ ffacd0b85a97d-427f009a7dasm26554232f8f.25.2025.10.22.02.22.27
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 22 Oct 2025 02:22:42 -0700 (PDT)
-From: =?UTF-8?q?Jos=C3=A9=20Exp=C3=B3sito?= <jose.exposito89@gmail.com>
-To: mripard@kernel.org
-Cc: maarten.lankhorst@linux.intel.com, tzimmermann@suse.de, airlied@gmail.com,
- simona@ffwll.ch, cristian.ciocaltea@collabora.com, lumag@kernel.org,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- =?UTF-8?q?Jos=C3=A9=20Exp=C3=B3sito?= <jose.exposito89@gmail.com>
-Subject: [PATCH] drm/tests: hdmi: Handle
- drm_kunit_helper_enable_crtc_connector() returning EDEADLK
-Date: Wed, 22 Oct 2025 11:22:14 +0200
-Message-ID: <20251022092233.8020-1-jose.exposito89@gmail.com>
-X-Mailer: git-send-email 2.51.0
+ Wed, 22 Oct 2025 02:22:27 -0700 (PDT)
+Date: Wed, 22 Oct 2025 12:22:24 +0300
+From: Dan Carpenter <dan.carpenter@linaro.org>
+To: Ellen Pan <yunru.pan@amd.com>
+Cc: amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ "SHANMUGAM, SRINIVASAN" <SRINIVASAN.SHANMUGAM@amd.com>
+Subject: [bug report] drm/amdgpu: Introduce SRIOV critical regions v2 during
+ VF init
+Message-ID: <aPiiUG_y0k1iLFJd@stanley.mountain>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -90,430 +88,52 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Fedora/CentOS/RHEL CI is reporting intermittent failures while running
-the KUnit tests present in drm_hdmi_state_helper_test.c [1].
+Hello Ellen Pan,
 
-While the specific test causing the failure change between runs, all of
-them are caused by drm_kunit_helper_enable_crtc_connector() returning
--EDEADLK. The error trace always follow this structure:
+Commit 07009df6494d ("drm/amdgpu: Introduce SRIOV critical regions v2
+during VF init") from Oct 7, 2025 (linux-next), leads to the
+following Smatch static checker warning:
 
-    # <test name>: ASSERTION FAILED at
-    # drivers/gpu/drm/tests/drm_hdmi_state_helper_test.c:<line>
-    Expected ret == 0, but
-        ret == -35 (0xffffffffffffffdd)
+	drivers/gpu/drm/amd/amdgpu/amdgpu_virt.c:950 amdgpu_virt_init_critical_region()
+	warn: unsigned 'init_hdr_offset' is never less than zero.
 
-As documented, if the drm_kunit_helper_enable_crtc_connector() function
-returns -EDEADLK (-35), the entire atomic sequence must be restarted.
+drivers/gpu/drm/amd/amdgpu/amdgpu_virt.c
+    937 int amdgpu_virt_init_critical_region(struct amdgpu_device *adev)
+    938 {
+    939         struct amd_sriov_msg_init_data_header *init_data_hdr = NULL;
+    940         uint32_t init_hdr_offset = adev->virt.init_data_header.offset;
+    941         uint32_t init_hdr_size = adev->virt.init_data_header.size_kb << 10;
+    942         uint64_t vram_size;
+    943         int r = 0;
+    944         uint8_t checksum = 0;
+    945 
+    946         /* Skip below init if critical region version != v2 */
+    947         if (adev->virt.req_init_data_ver != GPU_CRIT_REGION_V2)
+    948                 return 0;
+    949 
+--> 950         if (init_hdr_offset < 0) {
+                    ^^^^^^^^^^^^^^^
+unsigned so it can't be less than zero.
 
-Handle this error code for all function calls.
+    951                 dev_err(adev->dev, "Invalid init header offset\n");
+    952                 return -EINVAL;
+    953         }
+    954 
+    955         vram_size = RREG32(mmRCC_CONFIG_MEMSIZE);
+    956         if (!vram_size || vram_size == U32_MAX)
+    957                 return -EINVAL;
+    958         vram_size <<= 20;
+    959 
+    960         if ((init_hdr_offset + init_hdr_size) > vram_size) {
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+Would we be concerned about integer overflows here?  Should it be:
 
-Closes: https://datawarehouse.cki-project.org/issue/4039  [1]
-Fixes: 6a5c0ad7e08e ("drm/tests: hdmi_state_helpers: Switch to new helper")
-Signed-off-by: José Expósito <jose.exposito89@gmail.com>
----
- .../drm/tests/drm_hdmi_state_helper_test.c    | 143 ++++++++++++++++++
- 1 file changed, 143 insertions(+)
+	if (size_add(init_hdr_offset, init_hdr_size) > vram_size) {
 
-diff --git a/drivers/gpu/drm/tests/drm_hdmi_state_helper_test.c b/drivers/gpu/drm/tests/drm_hdmi_state_helper_test.c
-index 8bd412735000..70f9aa702143 100644
---- a/drivers/gpu/drm/tests/drm_hdmi_state_helper_test.c
-+++ b/drivers/gpu/drm/tests/drm_hdmi_state_helper_test.c
-@@ -257,10 +257,16 @@ static void drm_test_check_broadcast_rgb_crtc_mode_changed(struct kunit *test)
- 
- 	drm_modeset_acquire_init(&ctx, 0);
- 
-+retry_conn_enable:
- 	ret = drm_kunit_helper_enable_crtc_connector(test, drm,
- 						     crtc, conn,
- 						     preferred,
- 						     &ctx);
-+	if (ret == -EDEADLK) {
-+		ret = drm_modeset_backoff(&ctx);
-+		if (!ret)
-+			goto retry_conn_enable;
-+	}
- 	KUNIT_ASSERT_EQ(test, ret, 0);
- 
- 	state = drm_kunit_helper_atomic_state_alloc(test, drm, &ctx);
-@@ -326,10 +332,16 @@ static void drm_test_check_broadcast_rgb_crtc_mode_not_changed(struct kunit *tes
- 
- 	drm_modeset_acquire_init(&ctx, 0);
- 
-+retry_conn_enable:
- 	ret = drm_kunit_helper_enable_crtc_connector(test, drm,
- 						     crtc, conn,
- 						     preferred,
- 						     &ctx);
-+	if (ret == -EDEADLK) {
-+		ret = drm_modeset_backoff(&ctx);
-+		if (!ret)
-+			goto retry_conn_enable;
-+	}
- 	KUNIT_ASSERT_EQ(test, ret, 0);
- 
- 	state = drm_kunit_helper_atomic_state_alloc(test, drm, &ctx);
-@@ -397,10 +409,16 @@ static void drm_test_check_broadcast_rgb_auto_cea_mode(struct kunit *test)
- 
- 	drm_modeset_acquire_init(&ctx, 0);
- 
-+retry_conn_enable:
- 	ret = drm_kunit_helper_enable_crtc_connector(test, drm,
- 						     crtc, conn,
- 						     preferred,
- 						     &ctx);
-+	if (ret == -EDEADLK) {
-+		ret = drm_modeset_backoff(&ctx);
-+		if (!ret)
-+			goto retry_conn_enable;
-+	}
- 	KUNIT_ASSERT_EQ(test, ret, 0);
- 
- 	state = drm_kunit_helper_atomic_state_alloc(test, drm, &ctx);
-@@ -457,10 +475,17 @@ static void drm_test_check_broadcast_rgb_auto_cea_mode_vic_1(struct kunit *test)
- 	KUNIT_ASSERT_NOT_NULL(test, mode);
- 
- 	crtc = priv->crtc;
-+
-+retry_conn_enable:
- 	ret = drm_kunit_helper_enable_crtc_connector(test, drm,
- 						     crtc, conn,
- 						     mode,
- 						     &ctx);
-+	if (ret == -EDEADLK) {
-+		ret = drm_modeset_backoff(&ctx);
-+		if (!ret)
-+			goto retry_conn_enable;
-+	}
- 	KUNIT_ASSERT_EQ(test, ret, 0);
- 
- 	state = drm_kunit_helper_atomic_state_alloc(test, drm, &ctx);
-@@ -518,10 +543,16 @@ static void drm_test_check_broadcast_rgb_full_cea_mode(struct kunit *test)
- 
- 	drm_modeset_acquire_init(&ctx, 0);
- 
-+retry_conn_enable:
- 	ret = drm_kunit_helper_enable_crtc_connector(test, drm,
- 						     crtc, conn,
- 						     preferred,
- 						     &ctx);
-+	if (ret == -EDEADLK) {
-+		ret = drm_modeset_backoff(&ctx);
-+		if (!ret)
-+			goto retry_conn_enable;
-+	}
- 	KUNIT_ASSERT_EQ(test, ret, 0);
- 
- 	state = drm_kunit_helper_atomic_state_alloc(test, drm, &ctx);
-@@ -580,10 +611,17 @@ static void drm_test_check_broadcast_rgb_full_cea_mode_vic_1(struct kunit *test)
- 	KUNIT_ASSERT_NOT_NULL(test, mode);
- 
- 	crtc = priv->crtc;
-+
-+retry_conn_enable:
- 	ret = drm_kunit_helper_enable_crtc_connector(test, drm,
- 						     crtc, conn,
- 						     mode,
- 						     &ctx);
-+	if (ret == -EDEADLK) {
-+		ret = drm_modeset_backoff(&ctx);
-+		if (!ret)
-+			goto retry_conn_enable;
-+	}
- 	KUNIT_ASSERT_EQ(test, ret, 0);
- 
- 	state = drm_kunit_helper_atomic_state_alloc(test, drm, &ctx);
-@@ -643,10 +681,16 @@ static void drm_test_check_broadcast_rgb_limited_cea_mode(struct kunit *test)
- 
- 	drm_modeset_acquire_init(&ctx, 0);
- 
-+retry_conn_enable:
- 	ret = drm_kunit_helper_enable_crtc_connector(test, drm,
- 						     crtc, conn,
- 						     preferred,
- 						     &ctx);
-+	if (ret == -EDEADLK) {
-+		ret = drm_modeset_backoff(&ctx);
-+		if (!ret)
-+			goto retry_conn_enable;
-+	}
- 	KUNIT_ASSERT_EQ(test, ret, 0);
- 
- 	state = drm_kunit_helper_atomic_state_alloc(test, drm, &ctx);
-@@ -705,10 +749,17 @@ static void drm_test_check_broadcast_rgb_limited_cea_mode_vic_1(struct kunit *te
- 	KUNIT_ASSERT_NOT_NULL(test, mode);
- 
- 	crtc = priv->crtc;
-+
-+retry_conn_enable:
- 	ret = drm_kunit_helper_enable_crtc_connector(test, drm,
- 						     crtc, conn,
- 						     mode,
- 						     &ctx);
-+	if (ret == -EDEADLK) {
-+		ret = drm_modeset_backoff(&ctx);
-+		if (!ret)
-+			goto retry_conn_enable;
-+	}
- 	KUNIT_ASSERT_EQ(test, ret, 0);
- 
- 	state = drm_kunit_helper_atomic_state_alloc(test, drm, &ctx);
-@@ -870,10 +921,16 @@ static void drm_test_check_output_bpc_crtc_mode_changed(struct kunit *test)
- 
- 	drm_modeset_acquire_init(&ctx, 0);
- 
-+retry_conn_enable:
- 	ret = drm_kunit_helper_enable_crtc_connector(test, drm,
- 						     crtc, conn,
- 						     preferred,
- 						     &ctx);
-+	if (ret == -EDEADLK) {
-+		ret = drm_modeset_backoff(&ctx);
-+		if (!ret)
-+			goto retry_conn_enable;
-+	}
- 	KUNIT_ASSERT_EQ(test, ret, 0);
- 
- 	state = drm_kunit_helper_atomic_state_alloc(test, drm, &ctx);
-@@ -946,10 +1003,16 @@ static void drm_test_check_output_bpc_crtc_mode_not_changed(struct kunit *test)
- 
- 	drm_modeset_acquire_init(&ctx, 0);
- 
-+retry_conn_enable:
- 	ret = drm_kunit_helper_enable_crtc_connector(test, drm,
- 						     crtc, conn,
- 						     preferred,
- 						     &ctx);
-+	if (ret == -EDEADLK) {
-+		ret = drm_modeset_backoff(&ctx);
-+		if (!ret)
-+			goto retry_conn_enable;
-+	}
- 	KUNIT_ASSERT_EQ(test, ret, 0);
- 
- 	state = drm_kunit_helper_atomic_state_alloc(test, drm, &ctx);
-@@ -1022,10 +1085,16 @@ static void drm_test_check_output_bpc_dvi(struct kunit *test)
- 
- 	drm_modeset_acquire_init(&ctx, 0);
- 
-+retry_conn_enable:
- 	ret = drm_kunit_helper_enable_crtc_connector(test, drm,
- 						     crtc, conn,
- 						     preferred,
- 						     &ctx);
-+	if (ret == -EDEADLK) {
-+		ret = drm_modeset_backoff(&ctx);
-+		if (!ret)
-+			goto retry_conn_enable;
-+	}
- 	KUNIT_ASSERT_EQ(test, ret, 0);
- 
- 	conn_state = conn->state;
-@@ -1069,10 +1138,16 @@ static void drm_test_check_tmds_char_rate_rgb_8bpc(struct kunit *test)
- 
- 	drm_modeset_acquire_init(&ctx, 0);
- 
-+retry_conn_enable:
- 	ret = drm_kunit_helper_enable_crtc_connector(test, drm,
- 						     crtc, conn,
- 						     preferred,
- 						     &ctx);
-+	if (ret == -EDEADLK) {
-+		ret = drm_modeset_backoff(&ctx);
-+		if (!ret)
-+			goto retry_conn_enable;
-+	}
- 	KUNIT_ASSERT_EQ(test, ret, 0);
- 
- 	conn_state = conn->state;
-@@ -1118,10 +1193,16 @@ static void drm_test_check_tmds_char_rate_rgb_10bpc(struct kunit *test)
- 
- 	drm_modeset_acquire_init(&ctx, 0);
- 
-+retry_conn_enable:
- 	ret = drm_kunit_helper_enable_crtc_connector(test, drm,
- 						     crtc, conn,
- 						     preferred,
- 						     &ctx);
-+	if (ret == -EDEADLK) {
-+		ret = drm_modeset_backoff(&ctx);
-+		if (!ret)
-+			goto retry_conn_enable;
-+	}
- 	KUNIT_ASSERT_EQ(test, ret, 0);
- 
- 	conn_state = conn->state;
-@@ -1167,10 +1248,16 @@ static void drm_test_check_tmds_char_rate_rgb_12bpc(struct kunit *test)
- 
- 	drm_modeset_acquire_init(&ctx, 0);
- 
-+retry_conn_enable:
- 	ret = drm_kunit_helper_enable_crtc_connector(test, drm,
- 						     crtc, conn,
- 						     preferred,
- 						     &ctx);
-+	if (ret == -EDEADLK) {
-+		ret = drm_modeset_backoff(&ctx);
-+		if (!ret)
-+			goto retry_conn_enable;
-+	}
- 	KUNIT_ASSERT_EQ(test, ret, 0);
- 
- 	conn_state = conn->state;
-@@ -1218,10 +1305,16 @@ static void drm_test_check_hdmi_funcs_reject_rate(struct kunit *test)
- 
- 	drm_modeset_acquire_init(&ctx, 0);
- 
-+retry_conn_enable:
- 	ret = drm_kunit_helper_enable_crtc_connector(test, drm,
- 						     crtc, conn,
- 						     preferred,
- 						     &ctx);
-+	if (ret == -EDEADLK) {
-+		ret = drm_modeset_backoff(&ctx);
-+		if (!ret)
-+			goto retry_conn_enable;
-+	}
- 	KUNIT_ASSERT_EQ(test, ret, 0);
- 
- 	/* You shouldn't be doing that at home. */
-@@ -1292,10 +1385,16 @@ static void drm_test_check_max_tmds_rate_bpc_fallback_rgb(struct kunit *test)
- 
- 	drm_modeset_acquire_init(&ctx, 0);
- 
-+retry_conn_enable:
- 	ret = drm_kunit_helper_enable_crtc_connector(test, drm,
- 						     crtc, conn,
- 						     preferred,
- 						     &ctx);
-+	if (ret == -EDEADLK) {
-+		ret = drm_modeset_backoff(&ctx);
-+		if (!ret)
-+			goto retry_conn_enable;
-+	}
- 	KUNIT_EXPECT_EQ(test, ret, 0);
- 
- 	conn_state = conn->state;
-@@ -1440,10 +1539,16 @@ static void drm_test_check_max_tmds_rate_bpc_fallback_ignore_yuv422(struct kunit
- 
- 	drm_modeset_acquire_init(&ctx, 0);
- 
-+retry_conn_enable:
- 	ret = drm_kunit_helper_enable_crtc_connector(test, drm,
- 						     crtc, conn,
- 						     preferred,
- 						     &ctx);
-+	if (ret == -EDEADLK) {
-+		ret = drm_modeset_backoff(&ctx);
-+		if (!ret)
-+			goto retry_conn_enable;
-+	}
- 	KUNIT_EXPECT_EQ(test, ret, 0);
- 
- 	conn_state = conn->state;
-@@ -1669,10 +1774,17 @@ static void drm_test_check_output_bpc_format_vic_1(struct kunit *test)
- 	drm_modeset_acquire_init(&ctx, 0);
- 
- 	crtc = priv->crtc;
-+
-+retry_conn_enable:
- 	ret = drm_kunit_helper_enable_crtc_connector(test, drm,
- 						     crtc, conn,
- 						     mode,
- 						     &ctx);
-+	if (ret == -EDEADLK) {
-+		ret = drm_modeset_backoff(&ctx);
-+		if (!ret)
-+			goto retry_conn_enable;
-+	}
- 	KUNIT_EXPECT_EQ(test, ret, 0);
- 
- 	conn_state = conn->state;
-@@ -1736,10 +1848,16 @@ static void drm_test_check_output_bpc_format_driver_rgb_only(struct kunit *test)
- 
- 	drm_modeset_acquire_init(&ctx, 0);
- 
-+retry_conn_enable:
- 	ret = drm_kunit_helper_enable_crtc_connector(test, drm,
- 						     crtc, conn,
- 						     preferred,
- 						     &ctx);
-+	if (ret == -EDEADLK) {
-+		ret = drm_modeset_backoff(&ctx);
-+		if (!ret)
-+			goto retry_conn_enable;
-+	}
- 	KUNIT_EXPECT_EQ(test, ret, 0);
- 
- 	conn_state = conn->state;
-@@ -1805,10 +1923,16 @@ static void drm_test_check_output_bpc_format_display_rgb_only(struct kunit *test
- 
- 	drm_modeset_acquire_init(&ctx, 0);
- 
-+retry_conn_enable:
- 	ret = drm_kunit_helper_enable_crtc_connector(test, drm,
- 						     crtc, conn,
- 						     preferred,
- 						     &ctx);
-+	if (ret == -EDEADLK) {
-+		ret = drm_modeset_backoff(&ctx);
-+		if (!ret)
-+			goto retry_conn_enable;
-+	}
- 	KUNIT_EXPECT_EQ(test, ret, 0);
- 
- 	conn_state = conn->state;
-@@ -1865,10 +1989,16 @@ static void drm_test_check_output_bpc_format_driver_8bpc_only(struct kunit *test
- 
- 	drm_modeset_acquire_init(&ctx, 0);
- 
-+retry_conn_enable:
- 	ret = drm_kunit_helper_enable_crtc_connector(test, drm,
- 						     crtc, conn,
- 						     preferred,
- 						     &ctx);
-+	if (ret == -EDEADLK) {
-+		ret = drm_modeset_backoff(&ctx);
-+		if (!ret)
-+			goto retry_conn_enable;
-+	}
- 	KUNIT_EXPECT_EQ(test, ret, 0);
- 
- 	conn_state = conn->state;
-@@ -1927,10 +2057,16 @@ static void drm_test_check_output_bpc_format_display_8bpc_only(struct kunit *tes
- 
- 	drm_modeset_acquire_init(&ctx, 0);
- 
-+retry_conn_enable:
- 	ret = drm_kunit_helper_enable_crtc_connector(test, drm,
- 						     crtc, conn,
- 						     preferred,
- 						     &ctx);
-+	if (ret == -EDEADLK) {
-+		ret = drm_modeset_backoff(&ctx);
-+		if (!ret)
-+			goto retry_conn_enable;
-+	}
- 	KUNIT_EXPECT_EQ(test, ret, 0);
- 
- 	conn_state = conn->state;
-@@ -1970,10 +2106,17 @@ static void drm_test_check_disable_connector(struct kunit *test)
- 
- 	drm = &priv->drm;
- 	crtc = priv->crtc;
-+
-+retry_conn_enable:
- 	ret = drm_kunit_helper_enable_crtc_connector(test, drm,
- 						     crtc, conn,
- 						     preferred,
- 						     &ctx);
-+	if (ret == -EDEADLK) {
-+		ret = drm_modeset_backoff(&ctx);
-+		if (!ret)
-+			goto retry_conn_enable;
-+	}
- 	KUNIT_ASSERT_EQ(test, ret, 0);
- 
- 	state = drm_kunit_helper_atomic_state_alloc(test, drm, &ctx);
--- 
-2.51.0
+    961                 dev_err(adev->dev, "init_data_header exceeds VRAM size, exiting\n");
+    962                 return -EINVAL;
+    963         }
+    964 
 
+regards,
+dan carpenter
