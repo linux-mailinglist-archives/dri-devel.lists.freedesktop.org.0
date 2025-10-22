@@ -2,57 +2,51 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C9C44BFD20F
-	for <lists+dri-devel@lfdr.de>; Wed, 22 Oct 2025 18:21:23 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id ABA97BFD1D9
+	for <lists+dri-devel@lfdr.de>; Wed, 22 Oct 2025 18:19:57 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 03B4510E809;
-	Wed, 22 Oct 2025 16:21:22 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 726E410E805;
+	Wed, 22 Oct 2025 16:19:55 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=collabora.com header.i=dmitry.osipenko@collabora.com header.b="HjoYVDdP";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="KytjhFJm";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sender4-pp-f112.zoho.com (sender4-pp-f112.zoho.com
- [136.143.188.112])
- by gabe.freedesktop.org (Postfix) with ESMTPS id F3BD410E80E
- for <dri-devel@lists.freedesktop.org>; Wed, 22 Oct 2025 16:21:20 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; t=1761150069; cv=none; 
- d=zohomail.com; s=zohoarc; 
- b=lGCaflefZf9vW0sZUzl5R9DP8UEulwgyXUiaW+glHfUz31zKUpTCTtzJhn7nKRV0XYHMe7hwwkqRlSa6DNzkt2GWlia9O4YhjkvqdkVVK26uawqepgwLMmFOxxCjLnYK2zAf72kvwsYU66EU6Zi/alQaHMmDkjkIijxYYPMrAGU=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
- s=zohoarc; t=1761150069;
- h=Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:MIME-Version:Message-ID:Subject:Subject:To:To:Message-Id:Reply-To;
- bh=FdcrSneWicl1pfGMcZk6PTeqOTBE1QoowN6eLnXOcgU=; 
- b=H/uwlob0aAvM70DEBoKO/53Mu77vNhN7nV3svwqA6OZXj1Q6xieeknEwj66tK4ofB4Xf9p4A4IdPW5bZbAQvfXfcsKcAEkxBaitzg6enV8Di4F5cfOMwui4ZPwCgKiQyceNyTS3xXWS7PC/vy2LSLVcG9efvqFg04Lf/pbR8Bfs=
-ARC-Authentication-Results: i=1; mx.zohomail.com;
- dkim=pass  header.i=collabora.com;
- spf=pass  smtp.mailfrom=dmitry.osipenko@collabora.com;
- dmarc=pass header.from=<dmitry.osipenko@collabora.com>
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1761150068; 
- s=zohomail; d=collabora.com; i=dmitry.osipenko@collabora.com; 
- h=From:From:To:To:Cc:Cc:Subject:Subject:Date:Date:Message-ID:MIME-Version:Content-Transfer-Encoding:Message-Id:Reply-To;
- bh=FdcrSneWicl1pfGMcZk6PTeqOTBE1QoowN6eLnXOcgU=;
- b=HjoYVDdPhe2UO4MEseYlCzsf5PLSkSqmQ3FBRRpzmXJYnVSgD+EsF1o8xOmD2lBO
- QQW8K+SkhZYDmAJBDqyWPe+4t7rnakJ4ZJOOGeB85q9hxtMI7pc4+4efkg7d7kQPxYi
- 5PV1jfVkEizK87x9AmLdRXkEczkClnEiczdwOHWE=
-Received: by mx.zohomail.com with SMTPS id 1761150066573669.259808258432;
- Wed, 22 Oct 2025 09:21:06 -0700 (PDT)
-From: Dmitry Osipenko <dmitry.osipenko@collabora.com>
-To: Sandy Huang <hjc@rock-chips.com>,
- =?UTF-8?q?Heiko=20St=C3=BCbner?= <heiko@sntech.de>,
- Andy Yan <andy.yan@rock-chips.com>, Robin Murphy <robin.murphy@arm.com>,
- Sebastian Reichel <sebastian.reichel@collabora.com>,
- Daniel Stone <daniels@collabora.com>
-Cc: kernel@collabora.com, linux-arm-kernel@lists.infradead.org,
- linux-rockchip@lists.infradead.org, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org
-Subject: [PATCH v1] drm/rockchip: Set VOP for the DRM DMA device
-Date: Wed, 22 Oct 2025 19:19:48 +0300
-Message-ID: <20251022161948.199731-1-dmitry.osipenko@collabora.com>
-X-Mailer: git-send-email 2.51.0
+Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9E04A10E805;
+ Wed, 22 Oct 2025 16:19:54 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by tor.source.kernel.org (Postfix) with ESMTP id C844163D2B;
+ Wed, 22 Oct 2025 16:19:53 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6D781C4CEFD;
+ Wed, 22 Oct 2025 16:19:51 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1761149993;
+ bh=42fW/kZrr7BAeXGQ9pIcfCjCgAKlhltOQhbQ5NwKFZ4=;
+ h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+ b=KytjhFJmz+NwT7vLnGoAUvA8UOgaeNvczUV0a5q2YXRYrM3qVU9349+jWh7PoJLQQ
+ 9xaTG0FXqPhrKP4J6uKZroAA4IcjrjjP4pG87GMAInlv5PJ1nETouhvC6xHpICJMEM
+ DWHpp6QVCHu6VC70h3HHySkJIW/ffZLSX2NCUolNxcPUhiEKNAEk7UbtCa1LCc+V6L
+ gI4XSeg0ulfy5aN/cMEbgvSZiKy2KODjOQTA7T/FjXw5xhr1dmQ3VxFXZnp+noUFtx
+ 5g0LOsM4HN8ICbo6c98clOJSTGF3mJWurY7oFZzr2z2YHXfHPtKBg0IqLsQAD88M9A
+ +e++hXwVorCQA==
+Message-ID: <508ba490-9591-400a-a216-55a69b78c660@kernel.org>
+Date: Wed, 22 Oct 2025 18:19:49 +0200
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-ZohoMailClient: External
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 0/3] gpu: nova-core: various bitfield fixes
+To: Alexandre Courbot <acourbot@nvidia.com>
+Cc: Alice Ryhl <aliceryhl@google.com>, Edwin Peer <epeer@nvidia.com>,
+ John Hubbard <jhubbard@nvidia.com>, Alistair Popple <apopple@nvidia.com>,
+ Joel Fernandes <joelagnelf@nvidia.com>, Timur Tabi <ttabi@nvidia.com>,
+ nouveau@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, rust-for-linux@vger.kernel.org
+References: <20251022-nova-bitfield-v1-0-73bc0988667b@nvidia.com>
+From: Danilo Krummrich <dakr@kernel.org>
+Content-Language: en-US
+In-Reply-To: <20251022-nova-bitfield-v1-0-73bc0988667b@nvidia.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -68,39 +62,23 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Use VOP for DMA operations performed by DRM core. Rockchip DRM driver
-is backed by a virtual device that isn't IOMMU-capable, while VOP is the
-actual display controller device backed by IOMMU. Fixes "swiotlb buffer
-is full" warning messages originated from GEM prime code paths.
+On 10/22/25 12:50 PM, Alexandre Courbot wrote:
+> These trivial patches fix a few issues reported by Edwin in [1].
+> 
+> [1] https://lore.kernel.org/rust-for-linux/F3853912-2C1C-4F9B-89B0-3168689F35B3@nvidia.com/
+> 
+> To: Danilo Krummrich <dakr@kernel.org>
+> To: Alice Ryhl <aliceryhl@google.com>
+> To: Edwin Peer <epeer@nvidia.com>
+> Cc: John Hubbard <jhubbard@nvidia.com>
+> Cc: Alistair Popple <apopple@nvidia.com>
+> Cc: Joel Fernandes <joelagnelf@nvidia.com>
+> Cc: Timur Tabi <ttabi@nvidia.com>
+> Cc: nouveau@lists.freedesktop.org
+> Cc: dri-devel@lists.freedesktop.org
+> Cc: linux-kernel@vger.kernel.org
+> Cc: rust-for-linux@vger.kernel.org
+> 
+> Signed-off-by: Alexandre Courbot <acourbot@nvidia.com>
 
-Note, that backporting is non-trivial as this depends on 143ec8d3f9396
-("drm/prime: Support dedicated DMA device for dma-buf imports"), which
-landed in v6.16 and 421be3ee36a4 ("drm/rockchip: Refactor IOMMU
-initialisation"), which landed in v5.19.
-
-Reported-by: Daniel Stone <daniels@collabora.com>
-Fixes: 2048e3286f34 ("drm: rockchip: Add basic drm driver")
-Cc: stable@vger.kernel.org # v6.16+
-Reviewed-by: Sebastian Reichel <sebastian.reichel@collabora.com>
-Signed-off-by: Dmitry Osipenko <dmitry.osipenko@collabora.com>
----
- drivers/gpu/drm/rockchip/rockchip_drm_drv.c | 3 +++
- 1 file changed, 3 insertions(+)
-
-diff --git a/drivers/gpu/drm/rockchip/rockchip_drm_drv.c b/drivers/gpu/drm/rockchip/rockchip_drm_drv.c
-index eb77bde9f628..e693160e9b7f 100644
---- a/drivers/gpu/drm/rockchip/rockchip_drm_drv.c
-+++ b/drivers/gpu/drm/rockchip/rockchip_drm_drv.c
-@@ -96,6 +96,9 @@ void rockchip_drm_dma_init_device(struct drm_device *drm_dev,
- 		private->iommu_dev = ERR_PTR(-ENODEV);
- 	else if (!private->iommu_dev)
- 		private->iommu_dev = dev;
-+
-+	if (!IS_ERR(private->iommu_dev))
-+		drm_dev_set_dma_dev(drm_dev, private->iommu_dev);
- }
- 
- static int rockchip_drm_init_iommu(struct drm_device *drm_dev)
--- 
-2.51.0
-
+Reviewed-by: Danilo Krummrich <dakr@kernel.org>
