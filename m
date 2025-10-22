@@ -2,61 +2,65 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E9BE4BFB4F5
-	for <lists+dri-devel@lfdr.de>; Wed, 22 Oct 2025 12:07:59 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4ADF0BFB589
+	for <lists+dri-devel@lfdr.de>; Wed, 22 Oct 2025 12:14:15 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2BB5310E72D;
-	Wed, 22 Oct 2025 10:07:58 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8035110E736;
+	Wed, 22 Oct 2025 10:14:05 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="H1LAxPRJ";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="lG0UOy/8";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
- by gabe.freedesktop.org (Postfix) with ESMTPS id EDACB10E72D
- for <dri-devel@lists.freedesktop.org>; Wed, 22 Oct 2025 10:07:56 +0000 (UTC)
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E261910E736;
+ Wed, 22 Oct 2025 10:14:04 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1761127677; x=1792663677;
- h=from:to:cc:subject:in-reply-to:references:date:
- message-id:mime-version;
- bh=2gWgs3JtkqrQlNaMUerxSTz5OsBLRFl9X1Eoptbmj+U=;
- b=H1LAxPRJbvAmfCA9Y1z1+PvYuM+QwgjaHg/qujkxFwxcRE7YIlD8vyLK
- qQh2agpfwI/XVlwUgQlxBsljJw9f9qRbG/I4yYK8J/CNmKT5QjVA++t3t
- rREYOON1kkwpgnljFSwLlFcp/VAT8GXB9atxK1lmTdWx1mF+U4oygsDjB
- 1TMkIkOL6r0NJURx9+DFMLYSJoe8Lib6I3UhZ+/QWisDfwQFGgn+z7qGe
- NhfdiEjpgbau/bGPwNfN01UytuaxTDpU3e7ndjiBJeFWuSuj0YyCxen5G
- m3k0CYJnuqMhfnI9syEg3vsBDt9PhjO8HSb/myqufMmacYWpGdNRjzQOD w==;
-X-CSE-ConnectionGUID: 6/LSZedXTVKiR3l5mFf/sA==
-X-CSE-MsgGUID: Gf/CuciVT+OpUuFsXtbKBw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11586"; a="73875399"
-X-IronPort-AV: E=Sophos;i="6.19,246,1754982000"; d="scan'208";a="73875399"
-Received: from fmviesa002.fm.intel.com ([10.60.135.142])
- by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 22 Oct 2025 03:07:57 -0700
-X-CSE-ConnectionGUID: sOQyO88fRPmnmtVCeanZ6w==
-X-CSE-MsgGUID: waVFlqmcTgeaiFoWUxhojg==
+ t=1761128045; x=1792664045;
+ h=date:from:to:cc:subject:message-id:references:
+ mime-version:in-reply-to;
+ bh=6vjn1H8rNiLOgQgAa18nhmtmVtmG907ZLx+q3HiuLqQ=;
+ b=lG0UOy/8TSALBJWC5lgJIGj3yHKDBLilMyZ6e5Ziepbc11tXchn5cwXA
+ rGWc41TJco8sAIgmNwBT9hXrDXd/VTQRodmW/pMj4Y3/+oRW5uaD+hTyK
+ DpnsaNCKMYWQYbOC/Z4CwrnKPFLTVYb76AiOF0SKPeis9uaa7Lo8LHnKr
+ sr1nEsUxVZWQpbrn+CD3Wf3ZhXBEYzgGFigfgoyUeVYBCgOEy5raLXvV9
+ 5LKrRgLqyuTSfjjWiSSwtcEUj7Ni1tzlGbrNENezLr4vcm9aJUmoeaqkK
+ xKJGoJ+nmpmWH8esc/ilYkdDBaCGvPDkEdTKRSLOXQ019yV81U9/SZmVM Q==;
+X-CSE-ConnectionGUID: MlXB5h0UROKeTVLCl8b6rQ==
+X-CSE-MsgGUID: me+yIIWKTf+BrIOZPb3bXQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11586"; a="67135584"
+X-IronPort-AV: E=Sophos;i="6.19,246,1754982000"; d="scan'208";a="67135584"
+Received: from orviesa006.jf.intel.com ([10.64.159.146])
+ by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 22 Oct 2025 03:14:04 -0700
+X-CSE-ConnectionGUID: 2+FicCQ3SYWK+M+zCq0wYw==
+X-CSE-MsgGUID: TqWbeSpjQhioYfAg0WFvtA==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.19,246,1754982000"; d="scan'208";a="207506486"
-Received: from fdefranc-mobl3.ger.corp.intel.com (HELO localhost)
- ([10.245.246.104])
- by fmviesa002-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 22 Oct 2025 03:07:53 -0700
-From: Jani Nikula <jani.nikula@linux.intel.com>
-To: Biancaa Ramesh <biancaa2210329@ssn.edu.in>, sumit.semwal@linaro.org
-Cc: christian.koenig@amd.com, linux-media@vger.kernel.org,
- dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org,
- linux-kernel@vger.kernel.org, lkp@intel.com, Biancaa Ramesh
- <biancaa2210329@ssn.edu.in>
-Subject: Re: [PATCH v2] Signed-off-by: Biancaa Ramesh
- <biancaa2210329@ssn.edu.in>
-In-Reply-To: <20251022043108.7197-1-biancaa2210329@ssn.edu.in>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-References: <20251022043108.7197-1-biancaa2210329@ssn.edu.in>
-Date: Wed, 22 Oct 2025 13:07:51 +0300
-Message-ID: <bc4356efa91d65d5a2407ea8a2cfd54bb697cf4b@intel.com>
+X-IronPort-AV: E=Sophos;i="6.19,246,1754982000"; d="scan'208";a="183004343"
+Received: from pgcooper-mobl3.ger.corp.intel.com (HELO localhost)
+ ([10.245.244.57])
+ by orviesa006-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 22 Oct 2025 03:14:01 -0700
+Date: Wed, 22 Oct 2025 12:13:59 +0200
+From: Andi Shyti <andi.shyti@linux.intel.com>
+To: Krzysztof Niemiec <krzysztof.niemiec@intel.com>
+Cc: dri-devel@lists.freedesktop.org, intel-gfx@lists.freedesktop.org,
+ Arunpravin Paneer Selvam <Arunpravin.PaneerSelvam@amd.com>,
+ Andi Shyti <andi.shyti@linux.intel.com>,
+ Janusz Krzysztofik <janusz.krzysztofik@linux.intel.com>,
+ Krzysztof Karas <krzysztof.karas@intel.com>,
+ Sebastian Brzezinka <sebastian.brzezinka@intel.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>
+Subject: Re: [PATCH] drm/buddy: Mark drm_test_buddy_fragmentation_performance
+ test as slow
+Message-ID: <aPiuZz4W5jj__n8g@ashyti-mobl2.lan>
+References: <20251021164341.6154-2-krzysztof.niemiec@intel.com>
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20251021164341.6154-2-krzysztof.niemiec@intel.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -72,39 +76,22 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, 22 Oct 2025, Biancaa Ramesh <biancaa2210329@ssn.edu.in> wrote:
-> -- 
-> ::DISCLAIMER::
+Hi Krzysztof,
+
+On Tue, Oct 21, 2025 at 06:43:42PM +0200, Krzysztof Niemiec wrote:
+> Mark the newly introduced drm_test_buddy_fragmentation_performance test
+> as KUNIT_SPEED_SLOW, as it might take more than a second on some
+> systems.
 > 
-> ---------------------------------------------------------------------
-> The 
-> contents of this e-mail and any attachment(s) are confidential and
-> intended 
-> for the named recipient(s) only. Views or opinions, if any,
-> presented in 
-> this email are solely those of the author and may not
-> necessarily reflect 
-> the views or opinions of SSN Institutions (SSN) or its
-> affiliates. Any form 
-> of reproduction, dissemination, copying, disclosure,
-> modification, 
-> distribution and / or publication of this message without the
-> prior written 
-> consent of authorized representative of SSN is strictly
-> prohibited. If you 
-> have received this email in error please delete it and
-> notify the sender 
-> immediately.
+> Fixes: https://gitlab.freedesktop.org/drm/i915/kernel/-/issues/15095
 
-There are some obvious issues in the patch itself, but please do figure
-out how to send patches and generally list email without disclaimers
-like this first. Or use the b4 web submission endpoint [1].
+This is Closes: not Fixes: and please don't add a blank line
+between tags.
 
-BR,
-Jani.
+Please, next time in this path, Cc also:
 
+  Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
+  Maxime Ripard <mripard@kernel.org>
+  Thomas Zimmermann <tzimmermann@suse.de>
 
-[1] https://b4.docs.kernel.org/en/latest/contributor/send.html
-
--- 
-Jani Nikula, Intel
+Andi
