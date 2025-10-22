@@ -2,144 +2,127 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6E316BFCBB8
-	for <lists+dri-devel@lfdr.de>; Wed, 22 Oct 2025 17:00:08 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1087EBFCC5D
+	for <lists+dri-devel@lfdr.de>; Wed, 22 Oct 2025 17:07:51 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id AD93E10E7DF;
-	Wed, 22 Oct 2025 14:59:48 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 001FE10E7E0;
+	Wed, 22 Oct 2025 15:07:47 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=suse.de header.i=@suse.de header.b="FgYCUYYN";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="OxD0FsVx";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="HC9MwwDk";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="cqraaotP";
+	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="VAMgLndq";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 459E110E7DF
- for <dri-devel@lists.freedesktop.org>; Wed, 22 Oct 2025 14:59:47 +0000 (UTC)
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org
- [IPv6:2a07:de40:b281:104:10:150:64:97])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested)
- by smtp-out1.suse.de (Postfix) with ESMTPS id C48E1211B0;
- Wed, 22 Oct 2025 14:59:37 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1761145182; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=kJRe14lXO8+Q4511d6OrUEQHfX+t56hx4yTEPXEsO68=;
- b=FgYCUYYNEjTkPtjuZ6TesC6ukMK8CIsktyvvw5w0D/x4BPc2JFPxc8GECCb/b7AKO0KXua
- k5NB/1ql2Kfv4v6QzpaRG5s9XZgPs05esbdyqtWrZeGEwREo7I1qyfMS3l1l7Rv5UIZwBS
- V8c06PjWas8gdz5vFpv4A0UNZ+8Rivo=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1761145182;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=kJRe14lXO8+Q4511d6OrUEQHfX+t56hx4yTEPXEsO68=;
- b=OxD0FsVxw8844f4JrnjQkYjatuj64DbCh2v2/5uuvRK05rkUcesYzYoi/K6edOFaXOeING
- 0k0VdOHD/+JoERCw==
-Authentication-Results: smtp-out1.suse.de;
- dkim=pass header.d=suse.de header.s=susede2_rsa header.b=HC9MwwDk;
- dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=cqraaotP
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1761145177; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=kJRe14lXO8+Q4511d6OrUEQHfX+t56hx4yTEPXEsO68=;
- b=HC9MwwDkCrMe6l/XoUTqy99tLQk19pjQkx0goO8jzk7i0jxyRpHHcd87tuX1J0MtMHCnsN
- M05kIFrCIvIGkezYc7N995zCMB/36zVfo/rDtLyZv82dgoZTboZQfR83Og0PP3D7Lsqxdm
- XAlWrI1PuFEKjWl0h7IKUsaxHMwyDX8=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1761145177;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=kJRe14lXO8+Q4511d6OrUEQHfX+t56hx4yTEPXEsO68=;
- b=cqraaotPEW7PNEM3xtE32FtEmnA4mbn0UaMEiBSaJJkttLO0CZxGH1IFgaE8Vhe3EX98KB
- bJkIht5ICfljkNBg==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested)
- by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 868AA13A29;
- Wed, 22 Oct 2025 14:59:37 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
- by imap1.dmz-prg2.suse.org with ESMTPSA id D/yWH1nx+GjXQAAAD6G6ig
- (envelope-from <tzimmermann@suse.de>); Wed, 22 Oct 2025 14:59:37 +0000
-Message-ID: <0d1affe1-1e3c-452a-9052-104acaabef62@suse.de>
-Date: Wed, 22 Oct 2025 16:59:37 +0200
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2] drm/tidss: Add some support for splash-screen
-To: Maxime Ripard <mripard@kernel.org>, Devarsh Thakkar <devarsht@ti.com>
-Cc: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
- Jyri Sarha <jyri.sarha@iki.fi>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
+ [205.220.168.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1B0FB10E7DD
+ for <dri-devel@lists.freedesktop.org>; Wed, 22 Oct 2025 15:07:47 +0000 (UTC)
+Received: from pps.filterd (m0279863.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 59M9SGQw020413
+ for <dri-devel@lists.freedesktop.org>; Wed, 22 Oct 2025 15:07:46 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+ cc:content-type:date:from:in-reply-to:message-id:mime-version
+ :references:subject:to; s=qcppdkim1; bh=AizstXEr7j+qbEZcyP2bfp+P
+ 4ZNYzI2uQPOCe7cb9eE=; b=VAMgLndq5aZabdDcknWnnVTZSyxEm3BZHhfkYEdy
+ 8LbwqLs0IjtwkctqPa7y47YKvZo1zWhXPJW0IP6opR8rTmllLnwLMfx7UcLCvJeS
+ EwQ3lRLiYfRg/yOYDCI+oUsAkmGmqdRVFZR9v57weOQvxjR9aZleUhi2aoR7JZT9
+ 16/zxlyDDV0nBEgIOy5P1vUBA1TZeOlJ15dHPIsVdxyKSQX+ucwRYwRHrcv+fT7G
+ e/8lpDtKqTNZ5ncYm+HQY0dkitQzRI94G9DIOnDS+r7AV2ZgN8XY0gB+tbZNXRRN
+ 6to9VhqF823AB4K+14koNECPB4gi0jINzr0M29Bc8s198A==
+Received: from mail-vk1-f197.google.com (mail-vk1-f197.google.com
+ [209.85.221.197])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 49v34453v2-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
+ for <dri-devel@lists.freedesktop.org>; Wed, 22 Oct 2025 15:07:46 +0000 (GMT)
+Received: by mail-vk1-f197.google.com with SMTP id
+ 71dfb90a1353d-54a7c3c3157so3169479e0c.0
+ for <dri-devel@lists.freedesktop.org>; Wed, 22 Oct 2025 08:07:46 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1761145662; x=1761750462;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=AizstXEr7j+qbEZcyP2bfp+P4ZNYzI2uQPOCe7cb9eE=;
+ b=nhFz6WraEYKebQizX+QVrFgbn65Bqz+MfF/8DkdqmBOmDE+eg/opIazwi2mFv1TIbg
+ 2h6lz03Pt3I3BpphAxN49oRAOe/1Xfd0lgbw8fyTrOMnCvAZyZTo7KddccdsX3BowVjJ
+ 1G4YA/p+rifRQJOmGjnaZQNgMdFlxCktKC+TLo79gchi5MXPeNaaUn8M6OWjCQvqSMrH
+ xM+qudOMVu5YgsOAmRSMVXvYwLlBSQEdfsW/eqhQicrEpd5IaHTmH1s6Y8jmSPU/ESXz
+ 8zdON7NuMGwppA5PnEn3CGF+/nroWbfEHOwpdcfOvwPQdyGT+qw1XoIDuZ9VwUZUiwHh
+ Al7g==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCWgcTq1JkdZTOv7X7QlGFrQQsaSdP7fVVSXoLOIeia8FoeDWUElia3xtWgRXqgCSwHW51WwW0k3j1g=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YwiGupU33XfscREmJkbY/UFkQnXP9MxyXMqlIrV0EirbJLI7dIx
+ XV2vrTFS8FG6upSAOc+ETAFCwvOdJhR8JYhGG7y6ZcsANGSbYDqNu7oqzPBnxv5XwxvBuIt0Eom
+ EYTFnrRxBwowDci0Kw6TA9azwZGtuKWEg3pewoCt5LFegyUqJ8Y9mcmGGI7/bU2rEKsJ/7bg=
+X-Gm-Gg: ASbGncsePs74iS3YN3fTsJsn+ChqlYX38QP7zJ20PclY1JdqKwjCqShRFSlR0FnAl88
+ qp92rhpvkzAiEOPMoQOOJUNuU3sPI8fN6szljijcgf8rkN/evp3IN/CA5rSnCHdvbDHZwMA8BeU
+ OuyGHIskxYyaWIdm7d5wBUW7Ds+pE9h5I+hYQ1JddRAvUphrdzZ6IM9xKVqRKf6TKDTV1lcNF6B
+ EyZPFGJKq2S3TjaV5igC7YeKqfmCQTtuB+KFHHsF8FbYQxJhh0RvIE5WLamo2FMvh13hWomit3b
+ sbvypx4jOdlnXJPWoBeqJxcsSuXoJnNMB9lDCWccozpB4SEeWU21NnHKZiPAZJ5jdoKy+MXBrZG
+ LhDOhRLi/bcDUCcwhev2yHmsoDqcSRyxTrP+QpQDlRsWJJPDoSrBWUUbx4eoapw8cI9Pjwz8inw
+ HOpAmlRVdZ2T4=
+X-Received: by 2002:a05:6122:3412:b0:556:745f:6a06 with SMTP id
+ 71dfb90a1353d-556745f6b89mr3111970e0c.10.1761145661938; 
+ Wed, 22 Oct 2025 08:07:41 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IEFXovL3a0V22gWge+cpQKP3S8k4AeqKhy/tySq4N0wYr3JuPRxNPuz/9nahs3f/axhVrCdrQ==
+X-Received: by 2002:a05:6122:3412:b0:556:745f:6a06 with SMTP id
+ 71dfb90a1353d-556745f6b89mr3111877e0c.10.1761145661262; 
+ Wed, 22 Oct 2025 08:07:41 -0700 (PDT)
+Received: from umbar.lan
+ (2001-14ba-a0c3-3a00-264b-feff-fe8b-be8a.rev.dnainternet.fi.
+ [2001:14ba:a0c3:3a00:264b:feff:fe8b:be8a])
+ by smtp.gmail.com with ESMTPSA id
+ 38308e7fff4ca-377a9586b2dsm39381791fa.46.2025.10.22.08.07.38
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 22 Oct 2025 08:07:39 -0700 (PDT)
+Date: Wed, 22 Oct 2025 18:07:37 +0300
+From: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
+To: xiangxu.yin@oss.qualcomm.com
+Cc: Rob Clark <robin.clark@oss.qualcomm.com>,
+ Dmitry Baryshkov <lumag@kernel.org>,
+ Abhinav Kumar <abhinav.kumar@linux.dev>,
+ Jessica Zhang <jesszhan0024@gmail.com>, Sean Paul <sean@poorly.run>,
+ Marijn Suijten <marijn.suijten@somainline.org>,
  David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- dri-devel@lists.freedesktop.org,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
- linux-kernel@vger.kernel.org
-References: <20250908-tidss-splash-v2-1-e388b0581dfa@ideasonboard.com>
- <348086ac-b5bc-4ca9-9e5b-82106d319eeb@ti.com>
- <qljdrluxqi3abg7opwvp24ki7255jxrpowf47rpumzlcbnlnon@pccj5wm2kbxt>
-Content-Language: en-US
-From: Thomas Zimmermann <tzimmermann@suse.de>
-Autocrypt: addr=tzimmermann@suse.de; keydata=
- xsBNBFs50uABCADEHPidWt974CaxBVbrIBwqcq/WURinJ3+2WlIrKWspiP83vfZKaXhFYsdg
- XH47fDVbPPj+d6tQrw5lPQCyqjwrCPYnq3WlIBnGPJ4/jreTL6V+qfKRDlGLWFjZcsrPJGE0
- BeB5BbqP5erN1qylK9i3gPoQjXGhpBpQYwRrEyQyjuvk+Ev0K1Jc5tVDeJAuau3TGNgah4Yc
- hdHm3bkPjz9EErV85RwvImQ1dptvx6s7xzwXTgGAsaYZsL8WCwDaTuqFa1d1jjlaxg6+tZsB
- 9GluwvIhSezPgnEmimZDkGnZRRSFiGP8yjqTjjWuf0bSj5rUnTGiyLyRZRNGcXmu6hjlABEB
- AAHNJ1Rob21hcyBaaW1tZXJtYW5uIDx0emltbWVybWFubkBzdXNlLmRlPsLAjgQTAQgAOAIb
- AwULCQgHAgYVCgkICwIEFgIDAQIeAQIXgBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftODH
- AAoJEGgNwR1TC3ojx1wH/0hKGWugiqDgLNXLRD/4TfHBEKmxIrmfu9Z5t7vwUKfwhFL6hqvo
- lXPJJKQpQ2z8+X2vZm/slsLn7J1yjrOsoJhKABDi+3QWWSGkaGwRJAdPVVyJMfJRNNNIKwVb
- U6B1BkX2XDKDGffF4TxlOpSQzdtNI/9gleOoUA8+jy8knnDYzjBNOZqLG2FuTdicBXblz0Mf
- vg41gd9kCwYXDnD91rJU8tzylXv03E75NCaTxTM+FBXPmsAVYQ4GYhhgFt8S2UWMoaaABLDe
- 7l5FdnLdDEcbmd8uLU2CaG4W2cLrUaI4jz2XbkcPQkqTQ3EB67hYkjiEE6Zy3ggOitiQGcqp
- j//OwE0EWznS4AEIAMYmP4M/V+T5RY5at/g7rUdNsLhWv1APYrh9RQefODYHrNRHUE9eosYb
- T6XMryR9hT8XlGOYRwKWwiQBoWSDiTMo/Xi29jUnn4BXfI2px2DTXwc22LKtLAgTRjP+qbU6
- 3Y0xnQN29UGDbYgyyK51DW3H0If2a3JNsheAAK+Xc9baj0LGIc8T9uiEWHBnCH+RdhgATnWW
- GKdDegUR5BkDfDg5O/FISymJBHx2Dyoklv5g4BzkgqTqwmaYzsl8UxZKvbaxq0zbehDda8lv
- hFXodNFMAgTLJlLuDYOGLK2AwbrS3Sp0AEbkpdJBb44qVlGm5bApZouHeJ/+n+7r12+lqdsA
- EQEAAcLAdgQYAQgAIAIbDBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftOH6AAoJEGgNwR1T
- C3ojVSkIALpAPkIJPQoURPb1VWjh34l0HlglmYHvZszJWTXYwavHR8+k6Baa6H7ufXNQtThR
- yIxJrQLW6rV5lm7TjhffEhxVCn37+cg0zZ3j7zIsSS0rx/aMwi6VhFJA5hfn3T0TtrijKP4A
- SAQO9xD1Zk9/61JWk8OysuIh7MXkl0fxbRKWE93XeQBhIJHQfnc+YBLprdnxR446Sh8Wn/2D
- Ya8cavuWf2zrB6cZurs048xe0UbSW5AOSo4V9M0jzYI4nZqTmPxYyXbm30Kvmz0rYVRaitYJ
- 4kyYYMhuULvrJDMjZRvaNe52tkKAvMevcGdt38H4KSVXAylqyQOW5zvPc4/sq9c=
-In-Reply-To: <qljdrluxqi3abg7opwvp24ki7255jxrpowf47rpumzlcbnlnon@pccj5wm2kbxt>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Spam-Level: 
-X-Spam-Flag: NO
-X-Rspamd-Queue-Id: C48E1211B0
-X-Rspamd-Action: no action
-X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
-X-Spamd-Result: default: False [-4.51 / 50.00]; BAYES_HAM(-3.00)[100.00%];
- NEURAL_HAM_LONG(-1.00)[-1.000];
- R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
- NEURAL_HAM_SHORT(-0.20)[-1.000]; MIME_GOOD(-0.10)[text/plain];
- MX_GOOD(-0.01)[];
- RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
- FREEMAIL_ENVRCPT(0.00)[gmail.com]; RCVD_VIA_SMTP_AUTH(0.00)[];
- RCVD_TLS_ALL(0.00)[]; MIME_TRACE(0.00)[0:+]; ARC_NA(0.00)[];
- RCPT_COUNT_SEVEN(0.00)[10]; MID_RHS_MATCH_FROM(0.00)[];
- DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
- FROM_HAS_DN(0.00)[];
- FREEMAIL_CC(0.00)[ideasonboard.com,iki.fi,linux.intel.com,gmail.com,ffwll.ch,lists.freedesktop.org,vger.kernel.org];
- TO_DN_SOME(0.00)[]; FROM_EQ_ENVFROM(0.00)[];
- DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:dkim,suse.de:mid,imap1.dmz-prg2.suse.org:rdns,imap1.dmz-prg2.suse.org:helo];
- RCVD_COUNT_TWO(0.00)[2]; TO_MATCH_ENVRCPT_ALL(0.00)[];
- DKIM_TRACE(0.00)[suse.de:+]
-X-Spam-Score: -4.51
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, Rob Herring <robh@kernel.org>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>, Bjorn Andersson <andersson@kernel.org>,
+ Konrad Dybcio <konradybcio@kernel.org>, linux-arm-msm@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, freedreno@lists.freedesktop.org,
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+ fange.zhang@oss.qualcomm.com, yongxing.mou@oss.qualcomm.com,
+ li.liu@oss.qualcomm.com
+Subject: Re: [PATCH v5 1/3] dt-bindings: display/msm: Add SM6150 DisplayPort
+ controller
+Message-ID: <fh7daiy5p5taaz7ifymbivfktjqngs5oashhd3osrtzspsac2z@nswaeyh3kkhi>
+References: <20251021-add-displayport-support-to-qcs615-devicetree-v5-0-92f0f3bf469f@oss.qualcomm.com>
+ <20251021-add-displayport-support-to-qcs615-devicetree-v5-1-92f0f3bf469f@oss.qualcomm.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20251021-add-displayport-support-to-qcs615-devicetree-v5-1-92f0f3bf469f@oss.qualcomm.com>
+X-Proofpoint-GUID: cehGR2Me_Mf_UOx5EBEf73dfdJI0EF5S
+X-Proofpoint-ORIG-GUID: cehGR2Me_Mf_UOx5EBEf73dfdJI0EF5S
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUxMDE4MDAyMyBTYWx0ZWRfX4dCQ1HvF54fO
+ edM5IBW+ihdGDPfwTimeisU8ANrbd/Z0ITy6GszeZmwaffa2MkEJQ0thV9palwm2c/T3+ZoKp8L
+ M22Pg2CjuKEy/Ir/8GqMRn7B+E4L6V4VnsUN0yfVKnExri3KHTcb6YmURvlBVQdH6/t/4qUeTlu
+ ilYurL2qHLB/12qeh24bQt6yoGCWLKrYH3vPu18YyZg8z5VSxEn1kM7LkTBfC9m8zqvf6CZAo9M
+ 470CbPihhzNCqRgfWuWKMt/GHrwpV2ZooTgvFAfWq2XZZExCrf1heFZCfs5GeDJZ6gfmklwbvHS
+ 6fvVbKk7HmxdoMtlfWL1Eh5YRB8qaDV+x3Or5fjmhVxP5KOTCX9+0mGvFtHu9lZwPxZN29LkueC
+ 0Crt2L2SZ+KxmWpCJZoiRAo02coNJw==
+X-Authority-Analysis: v=2.4 cv=E/vAZKdl c=1 sm=1 tr=0 ts=68f8f342 cx=c_pps
+ a=JIY1xp/sjQ9K5JH4t62bdg==:117 a=xqWC_Br6kY4A:10 a=kj9zAlcOel0A:10
+ a=x6icFKpwvdMA:10 a=VkNPw1HP01LnGYTKEx00:22 a=EUspDBNiAAAA:8
+ a=I67Lji_zawwbCJgw2PAA:9 a=CjuIK1q_8ugA:10 a=tNoRWFLymzeba-QzToBc:22
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.9,FMLib:17.12.80.40
+ definitions=2025-10-22_06,2025-10-13_01,2025-03-28_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ impostorscore=0 spamscore=0 priorityscore=1501 bulkscore=0 suspectscore=0
+ lowpriorityscore=0 clxscore=1015 adultscore=0 phishscore=0 malwarescore=0
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.19.0-2510020000 definitions=main-2510180023
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -155,95 +138,67 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi
+On Tue, Oct 21, 2025 at 11:18:07AM +0800, Xiangxu Yin via B4 Relay wrote:
+> From: Xiangxu Yin <xiangxu.yin@oss.qualcomm.com>
+> 
+> SM6150 uses the same DisplayPort controller as SM8150, which is already
+> compatible with SM8350. Add the SM6150-specific compatible string and
+> update the binding example accordingly.
+> 
+> Signed-off-by: Xiangxu Yin <xiangxu.yin@oss.qualcomm.com>
+> ---
+>  .../devicetree/bindings/display/msm/qcom,sm6150-mdss.yaml   | 13 ++++++++++++-
+>  1 file changed, 12 insertions(+), 1 deletion(-)
+> 
+> diff --git a/Documentation/devicetree/bindings/display/msm/qcom,sm6150-mdss.yaml b/Documentation/devicetree/bindings/display/msm/qcom,sm6150-mdss.yaml
+> index 9ac24f99d3ada1c197c9654dc9babebccae972ed..89852af70de97a9025079107b838de578778c049 100644
+> --- a/Documentation/devicetree/bindings/display/msm/qcom,sm6150-mdss.yaml
+> +++ b/Documentation/devicetree/bindings/display/msm/qcom,sm6150-mdss.yaml
+> @@ -51,6 +51,16 @@ patternProperties:
+>        compatible:
+>          const: qcom,sm6150-dpu
+>  
+> +  "^displayport-controller@[0-9a-f]+$":
+> +    type: object
+> +    additionalProperties: true
+> +    properties:
+> +      compatible:
+> +        items:
+> +          - const: qcom,sm6150-dp
+> +          - const: qcom,sm8150-dp
+> +          - const: qcom,sm8350-dp
+> +
+>    "^dsi@[0-9a-f]+$":
+>      type: object
+>      additionalProperties: true
+> @@ -132,13 +142,14 @@ examples:
+>                  port@0 {
+>                    reg = <0>;
+>                    dpu_intf0_out: endpoint {
+> +                    remote-endpoint = <&mdss_dp0_in>;
 
-Am 22.10.25 um 16:06 schrieb Maxime Ripard:
-> Hi,
->
-> On Wed, Oct 22, 2025 at 07:25:10PM +0530, Devarsh Thakkar wrote:
->> On 08/09/25 14:43, Tomi Valkeinen wrote:
->>> Currently when the driver's probe is called, we do a full DSS reset. If
->>> the bootloader has set up a splash-screen, the reset will disable the
->>> video output, and after that it may still take time until the display is
->>> usable (all the kernel modules have been loaded) and even more time
->>> until the userspace is able to use the display.
->>>
->>> If fbdev is enabled, in a perfect case tidss would take over the fb
->>> memory set up by the bootloader, and use that memory for tidss's fbdev,
->>> thus retaining the splash-screen. However, we're not there yet.
->>>
->>> As a partial solution, this patch changes the driver so that the driver
->>> will not reset (or change) the DSS registers until tidss_runtime_get()
->>> is called when the display is being set up (because of fbdev modesetting
->>> or modesetting from the userspace).
->>>
->>> This is achieved in two parts:
->>>
->>> 1. Probe
->>>
->>> At probe time, in dispc_init_hw(), we check if the DSS is idle
->>> (videoports disabled). If yes, do a reset and continue as before. If
->>> not, we know that there's a splash-screen, and we set the
->>> 'tidss->boot_enabled_vp_mask' field to reflect the enabled VPs.
->>>
->>> We then enable the corresponding VP clocks (to ensure they stay on), set
->>> the IRQENABLE to 0 to make sure we won't get any interrupts, and then
->>> exit leaving the fclk and VP clocks enabled, and the runtime PM status
->>> active.
->>>
->>> 2. Runtime get
->>>
->>> Later, when the tidss_runtime_get() is called the first time, we check
->>> the 'boot_enabled_vp_mask'. If set, we know that we have the
->>> splash-screen showing on the screen, and thus the clocks are enabled and
->>> runtime PM status is active. This indicates that
->>> pm_runtime_resume_and_get() call just before in tidss_runtime_get() did
->>> not cause a runtime_resume callback to get called, so we need to do that
->>> manually.
->>>
->>> We call dispc_splash_fini() which essentially returns the DSS into the
->>> state where it would be in a non-splash-screen case: dispc_splash_fini()
->>> will do a DSS reset, manually call the runtime_resume callback, and then
->>> call clk_disable_unprepare() and pm_runtime_put_noidle() to counter the
->>> actions at probe time.
->>>
->>> Finally 'boot_enabled_vp_mask' is set to zero to mark that we're no
->>> longer in the "splash-screen mode".
->>>
->>> A note about fbdev emulation:
->>>
->>> If fbdev emulation is enabled in the DRM, tidss will set up an fbdev.
->>> This will cause a modeset, and the blank framebuffer from tidss's fbdev
->>> will be shown instead of the splash-screen.
->>>
->>> I see two improvements to this: either we should memcpy the pixel data
->>> from the bootloader's splash-screen to the new fbdev buffer, or the
->>> fbdev could use the splash-screen directly as its buffer. I have done
->>> some hacks for the former, but I'm not sure how to implement either of
->>> these properly.
-> I still think it's not the kind of driver-specific driver behaviour we
-> want to have.
->
-> Even more so when we have a generic solution to this problem in the
-> works.
+Why?
 
-I agree with that sentiment. We want atomic-state readout plus a 
-bootsplash DRM client. This would give us flicker-free booting with 
-smooth transitions across drivers and user space.
+>                    };
+>                  };
+>  
+>                  port@1 {
+>                    reg = <1>;
+>                    dpu_intf1_out: endpoint {
+> -                      remote-endpoint = <&mdss_dsi0_in>;
+> +                    remote-endpoint = <&mdss_dsi0_in>;
 
-Best regards
-Thomas
+Why?
 
->
-> Maxime
+>                    };
+>                  };
+>              };
+> 
+> -- 
+> 2.34.1
+> 
+> 
 
 -- 
---
-Thomas Zimmermann
-Graphics Driver Developer
-SUSE Software Solutions Germany GmbH
-Frankenstrasse 146, 90461 Nuernberg, Germany
-GF: Ivo Totev, Andrew Myers, Andrew McDonald, Boudien Moerman
-HRB 36809 (AG Nuernberg)
-
-
+With best wishes
+Dmitry
