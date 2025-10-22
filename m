@@ -2,99 +2,59 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A3677BFC74C
-	for <lists+dri-devel@lfdr.de>; Wed, 22 Oct 2025 16:22:11 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 06A2CBFC7C5
+	for <lists+dri-devel@lfdr.de>; Wed, 22 Oct 2025 16:24:59 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6B35210E7C2;
-	Wed, 22 Oct 2025 14:22:09 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1245510E7CA;
+	Wed, 22 Oct 2025 14:24:56 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="UoqGkYJI";
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=igalia.com header.i=@igalia.com header.b="e0H6pJpj";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-f54.google.com (mail-wr1-f54.google.com
- [209.85.221.54])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8708810E7C1
- for <dri-devel@lists.freedesktop.org>; Wed, 22 Oct 2025 14:22:00 +0000 (UTC)
-Received: by mail-wr1-f54.google.com with SMTP id
- ffacd0b85a97d-427084a641aso3416513f8f.1
- for <dri-devel@lists.freedesktop.org>; Wed, 22 Oct 2025 07:22:00 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1761142919; x=1761747719; darn=lists.freedesktop.org;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:from:to:cc:subject:date
- :message-id:reply-to;
- bh=UNRJG9b/INfi23des3nzlgfKaLYdiUShg0Bsn9STYF0=;
- b=UoqGkYJIPcwj5NKrVNVJwBdylRDlIhw0ju8MVP6iKE/xE0oYMo0xo9G8gLteFhOIYw
- tMKNuo6sxgGpqDnBUU3bNWAjV5DCYtjsUUhjisjFR2tqWFUffLFP5M8cqi4HjuCnPAhL
- JJR1tB09LhCZEwo+SLLSKB+KWqyR+803kIGQTh65ZLJBNXB0tsFafXkEE52O3fuUmA4F
- a6bocFV7UxCcUzvcIlZ6W+81+psV3bvj5ZYU64diIroZRn3zp93Ky4NAHycKOdvszVfD
- ZGyyfzN+jagmH6UiUQ9KqcBSfUZjWQeJVbsHN7l1sxDQiXfDq4SmoHxBX6sEvaueQvf6
- FaeA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1761142919; x=1761747719;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=UNRJG9b/INfi23des3nzlgfKaLYdiUShg0Bsn9STYF0=;
- b=msWTQaA2ZQvOy/c3IEXGZbq+CuDpq+3Lbi60uYAVdYgSZ9ejVg+r8NKE4TW6n/tLG9
- oDVpVJHfw8sVIaRWcY6BiMdk3KYpvBiPw6wthPA0rSdxAQ3HmKsKU4E3/TzDQv+vlM3+
- w+TLeIG1HxKMltFQZtRo+qNzxqrrw5DUPSkwLH/qSlXLeCHaindiGNmICmNbkcljhHKT
- 0/gBdeSC2KtiZ+gxXacM9GNYe8EFP/EQoQAJ33UGqJOSLXke3/OC0FzV46mQyGhEYzib
- zT5EsKsVyij7LqE6hesEPG8T+u8E5i+FAxwx3GqECZPc3O9II63IPrdEEM08jQeMHEVw
- UcJQ==
-X-Gm-Message-State: AOJu0YyvdopeoipEPhBa1z7CSUwjJlkd1GSC3pN5QmNIKR0LkVAvKuEQ
- zNewluwsmRRwtK5A5flP8sU7agLm3uVu6Tn4Uv7a4xGqO1oWnmTSHeNT
-X-Gm-Gg: ASbGncvjtYS2o+R8PJjeDax7GRyb6NO5lQBuRl6jKP3aVrM9kQH+yX4Pll9M381fpni
- 1WxPYSZr/w8gvF2sZHC0kDmMXyhC/aWYd0VK+17qF1NpZRy/qEzxAtalMQ6dWLacVDPXus4opLF
- XhJKYm6UDssicFmfuFd2wifVZIC9HB8PB9Sk4DmxGYzfh/Y+Hz4h+ekZUTYkndqFOS6a65qxBj6
- EgGByUcyFXqfh6NkuzaruhqTAVrqWNNCClnn5Lvesq+D4rCuYOV9Pcwh4RB/p5NEFkJOyhdYhnp
- YBXEzp4Tt0GgiIk3AFD+vRDFb60H+cstz3qatCmA1XU+INDGxWVyJVRr6RJI+qFZSzDLIF0owVI
- vT4dq/YIcqFQ4512vV+WeUitWR/iM8CX/HIEqCcxtuA7Wg2YgEWYXZppKNDtR2mQM7p8f2OwTR4
- uOSA==
-X-Google-Smtp-Source: AGHT+IHXd0IcgPPuddYC43FouBDl7JZ23qUq6zvhrCcNdJja7V9zzVEVqdzVMGBz5q8/P63zDQWKhg==
-X-Received: by 2002:a05:6000:2913:b0:428:3fbb:8409 with SMTP id
- ffacd0b85a97d-4283fbb8df6mr11330113f8f.46.1761142918838; 
- Wed, 22 Oct 2025 07:21:58 -0700 (PDT)
-Received: from xeon.. ([188.163.112.61]) by smtp.gmail.com with ESMTPSA id
- ffacd0b85a97d-427ea5b3d4csm24803518f8f.19.2025.10.22.07.21.57
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 22 Oct 2025 07:21:58 -0700 (PDT)
-From: Svyatoslav Ryhel <clamor95@gmail.com>
-To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
- Simona Vetter <simona@ffwll.ch>, Rob Herring <robh@kernel.org>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>,
- Thierry Reding <thierry.reding@gmail.com>,
- Jonathan Hunter <jonathanh@nvidia.com>,
- Sowjanya Komatineni <skomatineni@nvidia.com>,
- Luca Ceresoli <luca.ceresoli@bootlin.com>,
- Prashant Gaikwad <pgaikwad@nvidia.com>,
- Michael Turquette <mturquette@baylibre.com>,
- Stephen Boyd <sboyd@kernel.org>, Mikko Perttunen <mperttunen@nvidia.com>,
- Mauro Carvalho Chehab <mchehab@kernel.org>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Svyatoslav Ryhel <clamor95@gmail.com>,
- =?UTF-8?q?Jonas=20Schw=C3=B6bel?= <jonasschwoebel@yahoo.de>,
- Dmitry Osipenko <digetx@gmail.com>,
- Charan Pedumuru <charan.pedumuru@gmail.com>,
- Diogo Ivo <diogo.ivo@tecnico.ulisboa.pt>,
- Aaron Kling <webgeek1234@gmail.com>, Arnd Bergmann <arnd@arndb.de>
-Cc: dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
- linux-tegra@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-media@vger.kernel.org, linux-clk@vger.kernel.org,
- linux-staging@lists.linux.dev
-Subject: [PATCH v5 20/23] staging: media: tegra-video: tegra20: adjust luma
- buffer stride
-Date: Wed, 22 Oct 2025 17:20:48 +0300
-Message-ID: <20251022142051.70400-21-clamor95@gmail.com>
-X-Mailer: git-send-email 2.48.1
-In-Reply-To: <20251022142051.70400-1-clamor95@gmail.com>
-References: <20251022142051.70400-1-clamor95@gmail.com>
+Received: from fanzine2.igalia.com (fanzine2.igalia.com [213.97.179.56])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 82A4410E7C8;
+ Wed, 22 Oct 2025 14:24:51 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
+ s=20170329;
+ h=Content-Transfer-Encoding:Content-Type:In-Reply-To:From:
+ References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender:Reply-To:
+ Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+ Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
+ List-Subscribe:List-Post:List-Owner:List-Archive;
+ bh=sul5MNyOLZ4Sq6XICaXAZybizXHbk/dd1tfrb7pVu7k=; b=e0H6pJpj0iYPUbchMauQQRlbgz
+ 4eq6DO5vU2h93BkJ8c/CsPdsJn+o69eFg9bjvv8ceOfwXIjddXgL7c8gC4DyufbrxJKXYX/zGHFgw
+ DR1Tg8R48jfmNIqTmiqN0kMAKreovyMuDS4/fQ0tHcYr8y6I4KLC7aT9nb37pL9sgTvUPPtgR/ids
+ VhzaOuF+Freg3IQ9ZjSJXWKqXhBxIWhJUd7h02pMXv69GKG9Iq77tYGLBK67yZ8ysJJU2dQZNDA20
+ sGo11fEd2/uXZe2bKX9ELTCcF0b61p+9uWH+ycY6zedLVd6rWxIWJm+ReKDr6GAU7N7bDGgaHoeUu
+ Dt/V37/g==;
+Received: from [90.242.12.242] (helo=[192.168.0.101])
+ by fanzine2.igalia.com with esmtpsa 
+ (Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_128_GCM:128) (Exim)
+ id 1vBZlh-00D85V-Ci; Wed, 22 Oct 2025 16:24:49 +0200
+Message-ID: <c836e71d-9cde-4379-9905-0fd881a252dd@igalia.com>
+Date: Wed, 22 Oct 2025 15:24:48 +0100
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 09/27] drm/sched: Add fair scheduling policy
+To: Danilo Krummrich <dakr@kernel.org>
+Cc: phasta@kernel.org, amd-gfx@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org, kernel-dev@igalia.com,
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
+ Matthew Brost <matthew.brost@intel.com>,
+ Pierre-Eric Pelloux-Prayer <pierre-eric.pelloux-prayer@amd.com>
+References: <20251017133644.44747-1-tvrtko.ursulin@igalia.com>
+ <20251017133644.44747-10-tvrtko.ursulin@igalia.com>
+ <2f1eb1943d4d6a7185391e6d35e9c5d9818649da.camel@mailbox.org>
+ <a6a6e8da-e1ae-44c4-a34f-c684a441ffca@igalia.com>
+ <df3fa9d1893c3bd2a2b6de73613b26a3b8ed3d55.camel@mailbox.org>
+ <c62693d0-f172-4b4f-b25c-6caef575bc2d@igalia.com>
+ <DDOWNREZG1U8.HXMTNEYSFQHJ@kernel.org>
+Content-Language: en-GB
+From: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
+In-Reply-To: <DDOWNREZG1U8.HXMTNEYSFQHJ@kernel.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -110,28 +70,53 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Luma buffer stride is calculated by multiplying height in pixels of image
-by bytes per line. Adjust that value accordingly.
 
-Signed-off-by: Svyatoslav Ryhel <clamor95@gmail.com>
-Reviewed-by: Mikko Perttunen <mperttunen@nvidia.com>
----
- drivers/staging/media/tegra-video/tegra20.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+On 22/10/2025 15:03, Danilo Krummrich wrote:
+> On Wed Oct 22, 2025 at 3:50 PM CEST, Tvrtko Ursulin wrote:
+>> Yes, for the case when entity joins the run-queue it can be the same
+>> entity which is now the head of the queue, or it can be a different one.
+>> Depends on the insertion position.
+>>
+>> But for the case where entity is leaving the run queue it is always a
+>> different entity and therefore a lock inversion. We have essentially this:
+>>
+>> lock entity
+>> lock rq
+>> remove entity from the rq
+>> rq->prio = rq->head_entity->prio // different entity, unlocked read
+>> unlock rq
+>> unlock entity
+> 
+> This sounds like it repeates the unclear locking situation that is also
+> documented for struct drm_sched_rq:
+> 
+> 	 * FIXME: Locking is very unclear for this. Writers are protected by
+> 	 * @lock, but readers are generally lockless and seem to just race with
+> 	 * not even a READ_ONCE.
+> 
+> This sounds pretty suspicious to me and I think it indicates a more fundamental
+> design issue that you now end up working around now.
 
-diff --git a/drivers/staging/media/tegra-video/tegra20.c b/drivers/staging/media/tegra-video/tegra20.c
-index 0457209b789a..626f34543853 100644
---- a/drivers/staging/media/tegra-video/tegra20.c
-+++ b/drivers/staging/media/tegra-video/tegra20.c
-@@ -504,7 +504,7 @@ static void tegra20_camera_capture_setup(struct tegra_vi_channel *chan)
- 	u32 data_type = chan->fmtinfo->img_dt;
- 	int width  = chan->format.width;
- 	int height = chan->format.height;
--	int stride_l = chan->format.bytesperline;
-+	int stride_l = chan->format.bytesperline * height;
- 	int stride_c = (output_fourcc == V4L2_PIX_FMT_YUV420 ||
- 			output_fourcc == V4L2_PIX_FMT_YVU420) ? 1 : 0;
- 	enum tegra_vi_out output_channel = (data_type == TEGRA_IMAGE_DT_RAW8 ||
--- 
-2.48.1
+I'm afraid it is not nearly the same. Guarantee that entity->rq is 
+stable is a multi-step one which depends on the job queue being non 
+empty and the last submitted job not being signalled. That side even 
+includes a smp_rmb() in drm_sched_entity_select_rq(). Code which does 
+the suspicious unlocked entity->rq access therefore claims to be certain 
+one or both of those conditions must be true.
+
+What I am doing here is way, way simpler and IMO should not 
+controversial. It is well defined that entities can only enter and exit 
+the run queue with the rq->lock held. Which the code path holds, and the 
+functions asserts for. So a lockless read of an integer is nowhere near 
+the complexities of the FIXME you quote.
+
+> I'd like to dig in a bit more, but unfortunately it's very unlikely I will have
+> the time to do this until after LPC.
+
+Should I interpret this as putting a blocker on the series until 
+effectively 2026?
+
+Regards,
+
+Tvrtko
 
