@@ -2,113 +2,56 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 31821BFC9BA
-	for <lists+dri-devel@lfdr.de>; Wed, 22 Oct 2025 16:43:10 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id E7C57BFC9C9
+	for <lists+dri-devel@lfdr.de>; Wed, 22 Oct 2025 16:44:28 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6992810E7C6;
-	Wed, 22 Oct 2025 14:43:07 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1C85C10E7D5;
+	Wed, 22 Oct 2025 14:44:27 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="T7SezIqp";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="bhEoxQFe";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
- [205.220.180.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 312E510E7D0
- for <dri-devel@lists.freedesktop.org>; Wed, 22 Oct 2025 14:43:06 +0000 (UTC)
-Received: from pps.filterd (m0279868.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 59MAQQvw027450
- for <dri-devel@lists.freedesktop.org>; Wed, 22 Oct 2025 14:43:05 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
- cc:content-transfer-encoding:content-type:date:from:in-reply-to
- :message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
- +VNIBqXRgcjhXbgHMkSA9HBHXvFnvRAXiqT9puj745A=; b=T7SezIqp1B2o/Ttx
- PMVix5I8DW/uSAvKCSvzavLoDn0Q7MMGXLaZRa7yXAjwR19vWk/C8kzCEZ+NNUTP
- YQB3Woxl7lfOT5mQAQQcoEQarCuieIpNt6U/gc9Oe0YKM4tz9cILvF6ymqip9GJP
- CsCB2oCDqiJGRWb50manu4SKIDuT7rB31bhBHcND2cFMsmPHP7QB3UU4HuZ4qlyh
- IekABV8Hm+pQeJtxuTrSFEM/ycNxpq2XbxzD3Ei4UCSyhRU1JFFN/XeGVgGjtAMl
- C2raH/ttZeP8iIZjQv4u/gwnWlgwnoXVP49IpjbQy2l8INe/k8uv2hC+gIIl4Kuo
- RruyHw==
-Received: from mail-pg1-f200.google.com (mail-pg1-f200.google.com
- [209.85.215.200])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 49v27j4wsu-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
- for <dri-devel@lists.freedesktop.org>; Wed, 22 Oct 2025 14:43:05 +0000 (GMT)
-Received: by mail-pg1-f200.google.com with SMTP id
- 41be03b00d2f7-b6ce1b57b9cso504336a12.1
- for <dri-devel@lists.freedesktop.org>; Wed, 22 Oct 2025 07:43:05 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1761144184; x=1761748984;
- h=content-transfer-encoding:in-reply-to:from:content-language
- :references:cc:to:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=+VNIBqXRgcjhXbgHMkSA9HBHXvFnvRAXiqT9puj745A=;
- b=OkjjVOR3kNvzqMJoEyQahAkLkeevtmo2gsxeSrs4Z3tmd1EqH7HtkbibVnM+b+igIE
- SkXSsAaq77UJnUns/v232JTXvhhNN72myKehKjlbsKvEw7zqsHjnkGY30mWBl9zj0Tln
- BnjBBN5NMNsyt9mxXrOK/l0VfqfdJ8yUrBNbPduSI8a1fuPhhqT7TaAUS+J2o5ceMEme
- +hwAGDYO95ouFxNRfGeLxbIePNDKcrq9VHPX0woQZERzJCgIOt3NhnsGVsBm0EImmnMo
- HQZGhGmWVU2uH1zubkc+FZ7ti4ltVDXqOFiraSyh0+i1iDjDaq8mvwDtq9xTX1vAV7M6
- +wgg==
-X-Forwarded-Encrypted: i=1;
- AJvYcCUmxP6Hy7YpGVQpP6NN8FCbRgz54eTYgfiA9Aaf53x4GjR4qwgliOlCDvWmrEl3WzDQJdGWeFPj0sA=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YxPO4PRl/g9Vh+Sp8VtILa7I9EBgiPhOZy2kpIydz4SPaLR5naf
- KoMKigXUAjfOJTLc91oNO/FYxaQ4lvfkI/1I5ja8vqP33VK7boHBUK6i71tjAIti9E+tgDLIzby
- HRSOpwq+bU/NunqHiqvNDLqF+RVDitHZPmVBFO9ItPyHumrcX6acZuf4Emzfw2tshXzIo40c=
-X-Gm-Gg: ASbGncuhnFBuXo3tNODLo2DQsP1/8PahKWognz5g+TzGu05+t6lh7kPv1KCgn2v81nY
- k4thKAYWRa3yYoODv1FgUw1XsTPxzBbzv2EkCgdwpHs8fveJYTsv0EdYcd3OX4/McQHZsIlATC1
- 25CABUJciAP85IcEu3ovXqJZAgg9+Aq4tQe2Xiq573zGBpabV2pyxreZdZMqUVAT+aTXXZ5AwMW
- yNJcGeWdNVjrYlh2fnCDI0//oTGatubGsnk86HHifuijJGkeoE3pUdXkDAPMZDZhUXtbiMKV2VS
- bvsz5QHzrr6OIR6i6w+V78o4thI1JokMTwUPmTJWhqLOa7doH7WagXuzAbCjY5cHLetsgpjU452
- QqzUs+0FunUxIIh2qKUt3BkPNdtaL37Fm2mxHTfcFhAPdUxcxg4wZ
-X-Received: by 2002:a05:6a20:394c:b0:2fa:516e:26ca with SMTP id
- adf61e73a8af0-334a85ef4b4mr28709353637.39.1761144183845; 
- Wed, 22 Oct 2025 07:43:03 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IHP+Aplf4L3V4dNkRPGcrtEHRxUKdv1Ih4cArfvPipJFZ9qg4LUG5ktr6ZZ6vGgMKwOn4aVPQ==
-X-Received: by 2002:a05:6a20:394c:b0:2fa:516e:26ca with SMTP id
- adf61e73a8af0-334a85ef4b4mr28709294637.39.1761144183206; 
- Wed, 22 Oct 2025 07:43:03 -0700 (PDT)
-Received: from [10.226.59.182] (i-global254.qualcomm.com. [199.106.103.254])
- by smtp.gmail.com with ESMTPSA id
- 41be03b00d2f7-b6cdafadb8dsm2704297a12.1.2025.10.22.07.43.02
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 22 Oct 2025 07:43:02 -0700 (PDT)
-Message-ID: <1f024aa7-3daa-4e2a-8110-e1ac72817dfe@oss.qualcomm.com>
-Date: Wed, 22 Oct 2025 08:43:01 -0600
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2] accel/ivpu: Add support for Nova Lake's NPU
-To: Maciej Falkowski <maciej.falkowski@linux.intel.com>,
- dri-devel@lists.freedesktop.org
-Cc: oded.gabbay@gmail.com, karol.wachowski@linux.intel.com, lizhi.hou@amd.com
-References: <20251022105348.2237273-1-maciej.falkowski@linux.intel.com>
-Content-Language: en-US
-From: Jeff Hugo <jeff.hugo@oss.qualcomm.com>
-In-Reply-To: <20251022105348.2237273-1-maciej.falkowski@linux.intel.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUxMDE4MDAxOCBTYWx0ZWRfX818rCRKr/NlV
- kW8ThieFWhpRbUYSr3icZoFP35iFxRSdMa83R7skTpe9Viv3Aq3FZz9bqr5ItW013v3pLGHJR+L
- 3EADrWp6O9Ru3gZeoDiAdT22FAMWDSwBBGSM9RoCMP505gAluQfkin5M3WvCxtf5rkfFjAuQ7BW
- lQvZ3O9WiJlwlXMR7r7OzEuCe9lEe2Urxzlli7qWzbkUBhHZjzfXidCNhJnR50T8QdSHgoxaly1
- 73s0h1zBKxEZKJxMI6XwFpDKlyKGuhpvSlf+yMBR08T7QshJPnjoVuezCBkECAL67sIUUb2zNIP
- TyAdc9Jnoi3U0UTVplLVQGTBAVvW737TpD4qFfOXnhvMF1fsDf0MsHp/qjbIwrpL9/uMjxZzIVY
- VC650a09xqKHDHsydQB0EFF+xmZAKA==
-X-Authority-Analysis: v=2.4 cv=G4UR0tk5 c=1 sm=1 tr=0 ts=68f8ed79 cx=c_pps
- a=oF/VQ+ItUULfLr/lQ2/icg==:117 a=JYp8KDb2vCoCEuGobkYCKw==:17
- a=IkcTkHD0fZMA:10 a=x6icFKpwvdMA:10 a=VkNPw1HP01LnGYTKEx00:22
- a=QyXUC8HyAAAA:8 a=EUspDBNiAAAA:8 a=VVJSyEthBQzU0sCDRvsA:9 a=QEXdDO2ut3YA:10
- a=3WC7DwWrALyhR5TkjVHa:22
-X-Proofpoint-GUID: Zkhl4jQ8zqbTEZiZ7MYKUkkbTvbrLiPm
-X-Proofpoint-ORIG-GUID: Zkhl4jQ8zqbTEZiZ7MYKUkkbTvbrLiPm
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.9,FMLib:17.12.80.40
- definitions=2025-10-22_06,2025-10-13_01,2025-03-28_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- impostorscore=0 lowpriorityscore=0 malwarescore=0 bulkscore=0
- priorityscore=1501 spamscore=0 suspectscore=0 adultscore=0 clxscore=1015
- phishscore=0 classifier=typeunknown authscore=0 authtc= authcc=
- route=outbound adjust=0 reason=mlx scancount=1 engine=8.19.0-2510020000
- definitions=main-2510180018
+Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 59C2C10E7E9;
+ Wed, 22 Oct 2025 14:44:26 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by tor.source.kernel.org (Postfix) with ESMTP id A86B063BFF;
+ Wed, 22 Oct 2025 14:44:25 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id BA50DC4CEF7;
+ Wed, 22 Oct 2025 14:44:23 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1761144265;
+ bh=D7REE8Z4PHIFhY2ILwfKKJUH6C5G15rEGzgelb+08m4=;
+ h=Date:Subject:Cc:To:From:References:In-Reply-To:From;
+ b=bhEoxQFeig8f3qjOmsyfrFBhrSBqGr11vmoG9ESclTR+FdiPc68oeJfh3G9ofoYka
+ +0i2wVKejFEJd6ceb/WHqc+OHSpK7VlLPfJR5dczb8cYhqlu2qeob6OMVax+VxtyHI
+ e0ih6WpyHXfMLphjNNm2XFkaYMkc0Af1wzPpKc2nL8HjIoy+8J9HpckO60YDv9Kp4t
+ HKNWHOkUzYDCzIvhx2CoHGHuONapH6TPTSgu/IByTSjJjipiD04WGThBs0GXc7IK/X
+ fDXlkeO+r7KUwNOzaqVnslm25rkKGHVzhOPuhoicTjcL21xA6iYi2iCeiG8kuM/Xt7
+ Ri5sZqsKOgLYA==
+Mime-Version: 1.0
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Date: Wed, 22 Oct 2025 16:44:22 +0200
+Message-Id: <DDOXJCVU8HVW.S58H517LVMEV@kernel.org>
+Subject: Re: [PATCH v2 09/27] drm/sched: Add fair scheduling policy
+Cc: <phasta@kernel.org>, <amd-gfx@lists.freedesktop.org>,
+ <dri-devel@lists.freedesktop.org>, <kernel-dev@igalia.com>,
+ =?utf-8?q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>, "Matthew
+ Brost" <matthew.brost@intel.com>, "Pierre-Eric Pelloux-Prayer"
+ <pierre-eric.pelloux-prayer@amd.com>
+To: "Tvrtko Ursulin" <tvrtko.ursulin@igalia.com>
+From: "Danilo Krummrich" <dakr@kernel.org>
+References: <20251017133644.44747-1-tvrtko.ursulin@igalia.com>
+ <20251017133644.44747-10-tvrtko.ursulin@igalia.com>
+ <2f1eb1943d4d6a7185391e6d35e9c5d9818649da.camel@mailbox.org>
+ <a6a6e8da-e1ae-44c4-a34f-c684a441ffca@igalia.com>
+ <df3fa9d1893c3bd2a2b6de73613b26a3b8ed3d55.camel@mailbox.org>
+ <c62693d0-f172-4b4f-b25c-6caef575bc2d@igalia.com>
+ <DDOWNREZG1U8.HXMTNEYSFQHJ@kernel.org>
+ <c836e71d-9cde-4379-9905-0fd881a252dd@igalia.com>
+In-Reply-To: <c836e71d-9cde-4379-9905-0fd881a252dd@igalia.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -124,20 +67,69 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 10/22/2025 4:53 AM, Maciej Falkowski wrote:
-> Add support for NPU6 generation that will be present on Nova Lake CPUs.
-> As with previous generations, it maintains compatibility
-> so no bigger functional changes apart from removing
-> deprecated call to soc_cpu_drive() function.
-> 
-> Quiescing TOP_MMIO in SOC_CPU_NOC as part of boot procedure is no longer
-> needed starting from 60XX. Remove soc_cpu_drive() call from NPU6 onward.
-> 
-> The VPU_CPU_NOC_QREQN, VPU_CPU_NOC_QACCEPTN, and VPU_CPU_NOC_QDENY
-> registers are deprecated and non-functional on 60XX. They will be
-> removed in future generations.
-> 
-> Signed-off-by: Karol Wachowski <karol.wachowski@linux.intel.com>
-> Signed-off-by: Maciej Falkowski <maciej.falkowski@linux.intel.com>
+On Wed Oct 22, 2025 at 4:24 PM CEST, Tvrtko Ursulin wrote:
+>
+> On 22/10/2025 15:03, Danilo Krummrich wrote:
+>> On Wed Oct 22, 2025 at 3:50 PM CEST, Tvrtko Ursulin wrote:
+>>> Yes, for the case when entity joins the run-queue it can be the same
+>>> entity which is now the head of the queue, or it can be a different one=
+.
+>>> Depends on the insertion position.
+>>>
+>>> But for the case where entity is leaving the run queue it is always a
+>>> different entity and therefore a lock inversion. We have essentially th=
+is:
+>>>
+>>> lock entity
+>>> lock rq
+>>> remove entity from the rq
+>>> rq->prio =3D rq->head_entity->prio // different entity, unlocked read
+>>> unlock rq
+>>> unlock entity
+>>=20
+>> This sounds like it repeates the unclear locking situation that is also
+>> documented for struct drm_sched_rq:
+>>=20
+>> 	 * FIXME: Locking is very unclear for this. Writers are protected by
+>> 	 * @lock, but readers are generally lockless and seem to just race with
+>> 	 * not even a READ_ONCE.
+>>=20
+>> This sounds pretty suspicious to me and I think it indicates a more fund=
+amental
+>> design issue that you now end up working around now.
+>
+> I'm afraid it is not nearly the same. Guarantee that entity->rq is=20
+> stable is a multi-step one which depends on the job queue being non=20
+> empty and the last submitted job not being signalled. That side even=20
+> includes a smp_rmb() in drm_sched_entity_select_rq(). Code which does=20
+> the suspicious unlocked entity->rq access therefore claims to be certain=
+=20
+> one or both of those conditions must be true.
+>
+> What I am doing here is way, way simpler and IMO should not=20
+> controversial. It is well defined that entities can only enter and exit=
+=20
+> the run queue with the rq->lock held. Which the code path holds, and the=
+=20
+> functions asserts for. So a lockless read of an integer is nowhere near=
+=20
+> the complexities of the FIXME you quote.
 
-Reviewed-by: Jeff Hugo <jeff.hugo@oss.qualcomm.com>
+What I'm saying is that the pattern is the same, the writer side protects a=
+n
+entity field with a lock, whereas the reader side does not.
+
+And the fact that this is done for locking inversion reasons indicates a de=
+sign
+issue -- not necessarily with your code, but maybe with the existing code.
+
+>> I'd like to dig in a bit more, but unfortunately it's very unlikely I wi=
+ll have
+>> the time to do this until after LPC.
+>
+> Should I interpret this as putting a blocker on the series until=20
+> effectively 2026?
+
+It means that I won't have time to help by digging in and see if it's in fa=
+ct an
+issue you inherit from the existing code.
