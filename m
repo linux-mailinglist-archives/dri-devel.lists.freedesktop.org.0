@@ -2,101 +2,67 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 56BC3BFC011
-	for <lists+dri-devel@lfdr.de>; Wed, 22 Oct 2025 15:02:21 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 474A2BFC0AA
+	for <lists+dri-devel@lfdr.de>; Wed, 22 Oct 2025 15:12:30 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1D47A10E77A;
-	Wed, 22 Oct 2025 13:02:18 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7DCF110E0E0;
+	Wed, 22 Oct 2025 13:12:28 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; secure) header.d=ziepe.ca header.i=@ziepe.ca header.b="ExFSYp5K";
+	dkim=pass (1024-bit key; unprotected) header.d=ti.com header.i=@ti.com header.b="G1rVAeN7";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-qk1-f174.google.com (mail-qk1-f174.google.com
- [209.85.222.174])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2957D10E77A
- for <dri-devel@lists.freedesktop.org>; Wed, 22 Oct 2025 13:02:17 +0000 (UTC)
-Received: by mail-qk1-f174.google.com with SMTP id
- af79cd13be357-890deb84f95so736674585a.1
- for <dri-devel@lists.freedesktop.org>; Wed, 22 Oct 2025 06:02:17 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=ziepe.ca; s=google; t=1761138136; x=1761742936; darn=lists.freedesktop.org; 
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
- bh=q4+nptwg+b4cKjk/7eopK4TdMQlKGxJAx/ff9A8jy1A=;
- b=ExFSYp5KUnnPXzr1ReH81du9WvsJpeynxrVU1kh7Q/w11DRaXYsvJxG5BW//yfc0B1
- zBe4N9bZlUZ45FJQ7OvTKwGjrEIpwYmqPRKjqEmGze3QeQf11Dhxae7FbQYFbzuamc/e
- sB+1Q5u9mQiXe01BL8BFToAJhK/Iq8inUq5TmDCfRJ4wF9zE1IXUVEz946jnKp4bmktW
- 2f0zALPqce1h4hf8a12KVR4qekTtaDgvtj+kclKU7yBuzLjMcFLtO69VNTJlCYAalkpw
- FKtyNKddrfD0d9nN5eY4QLYZefgu0L++ycmLTyZHjMcV/DliHqYqt5gl8r2+p/ONgSzD
- 8Utw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1761138136; x=1761742936;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=q4+nptwg+b4cKjk/7eopK4TdMQlKGxJAx/ff9A8jy1A=;
- b=YKBUAyCAENS9BVeuRD6PUaAOibJYiGHeaBZXAbT5rFcIa35HJKm8ZZDuUdXGxV4RoI
- TZK41b20GtYqoNH8clGaOYuD5Hx8KlNNBcV/OOUZ71ckew0XJI3LTG1Bept/EsGjioV6
- r6xSZcSLOymCblfN4m1iLy+rZtxV8sDhcfAKkF2A5ZWrsnu+GcaTDv4Hi7gysYIpe1W+
- kSXnS1SBhlHZUaEEE9cpxZH78CaMnNKBtd5eYy8FkZiyrEC8c1duANvwwmYP6zvixLF5
- kDd1+b+Gds8h/4hUFIzxQGclF2kb9BqGp00wKbVTuGROvsCctEwqou6CibkKUlj8u0Cp
- cSUg==
-X-Forwarded-Encrypted: i=1;
- AJvYcCVWDxBuDhG6eF6UpnuGp4ZltkIY+tEVcYmAh5vmlyyZ/4XU34Mb/mRyT0lX+rCc2Aqp8AfHTqGwIEs=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YyhErmYlhKJ/gVRhnVzn3FMi0eIP6v3RBxwQRgxDifH+JcS2yvW
- YIWLK1zoWXJnWzanlo70mLNd89J/IzZo0luKbzvAGNl25Ai49EsZ8cyuIixz6WRc+Gg=
-X-Gm-Gg: ASbGncvWKSyiWTY79ZLGBGvcxzmavLDB0JWXamu3haYwnhb5XT0ZBHGHinibPbNqlmA
- WujxTyTc2/fP3JoTJ/2jwgKqmORgQD2uz6HZO0zi3A9qRBfsL/7P10mf7YqYxrqjbvDSl9rZP1o
- SRNCzDHyCTJsiUIfVd9IhcgvtNMgkxKL5v4ARnxN6xW4Oxn6djRDDIqZeJG35B5Cy+V/gPze/Kx
- uE3/RZ4he3zPXaT/3+bbLDQ4zsqOrsoEXmH9dO0s+kWGpgsvBMx0FRcTLVoQW1VZUpNZC4MlIeF
- RxsLXYyox+7KmSRj9U+yKajKNoN4+zTniA3IGTanyN1JeiwQJy0KzyUpW4yZrYtk5ny+uVuUb6W
- znz7MY9jHCtj1/74nmm6inB9x/SANLKm6RCqSCgW5mgXaphU73UBfDU824FQdLKVwBbsjSO20W1
- 7fE9DYbBsMrROps5L9jkNoucTZSECw0hUNFH1CXDDnXvyhxQ==
-X-Google-Smtp-Source: AGHT+IE1fp7nysFYiIihX3mwCtCavGTxjXwNOEmPOD6TCnzoLGlT2YOfHP4QDFq10IqJKetGapnVeA==
-X-Received: by 2002:a05:620a:171e:b0:891:bde8:8120 with SMTP id
- af79cd13be357-891bde882e8mr2006535485a.85.1761138126706; 
- Wed, 22 Oct 2025 06:02:06 -0700 (PDT)
-Received: from ziepe.ca
- (hlfxns017vw-47-55-120-4.dhcp-dynamic.fibreop.ns.bellaliant.net.
- [47.55.120.4]) by smtp.gmail.com with ESMTPSA id
- 6a1803df08f44-87d028a9a48sm87209396d6.43.2025.10.22.06.02.05
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 22 Oct 2025 06:02:05 -0700 (PDT)
-Received: from jgg by wakko with local (Exim 4.97)
- (envelope-from <jgg@ziepe.ca>) id 1vBYTc-00000001288-0pdQ;
- Wed, 22 Oct 2025 10:02:04 -0300
-Date: Wed, 22 Oct 2025 10:02:04 -0300
-From: Jason Gunthorpe <jgg@ziepe.ca>
-To: Matthew Brost <matthew.brost@intel.com>
-Cc: =?utf-8?Q?Micha=C5=82?= Winiarski <michal.winiarski@intel.com>,
- Alex Williamson <alex.williamson@redhat.com>,
- Lucas De Marchi <lucas.demarchi@intel.com>,
- Thomas =?utf-8?Q?Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>, Yishai Hadas <yishaih@nvidia.com>,
- Kevin Tian <kevin.tian@intel.com>,
- Shameer Kolothum <shameerali.kolothum.thodi@huawei.com>,
- intel-xe@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- kvm@vger.kernel.org, dri-devel@lists.freedesktop.org,
- Michal Wajdeczko <michal.wajdeczko@intel.com>,
- Jani Nikula <jani.nikula@linux.intel.com>,
- Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
- Tvrtko Ursulin <tursulin@ursulin.net>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Lukasz Laguna <lukasz.laguna@intel.com>
-Subject: Re: [PATCH 26/26] vfio/xe: Add vendor-specific vfio_pci driver for
- Intel graphics
-Message-ID: <20251022130204.GD21554@ziepe.ca>
-References: <20251011193847.1836454-1-michal.winiarski@intel.com>
- <20251011193847.1836454-27-michal.winiarski@intel.com>
- <20251021230328.GA21554@ziepe.ca>
- <aPgT1u1YO3C3YozC@lstrano-desk.jf.intel.com>
- <20251021233811.GB21554@ziepe.ca>
- <aPgwJ8DHhqCfAdpk@lstrano-desk.jf.intel.com>
+Received: from lelvem-ot01.ext.ti.com (lelvem-ot01.ext.ti.com [198.47.23.234])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 90F6010E0E0
+ for <dri-devel@lists.freedesktop.org>; Wed, 22 Oct 2025 13:12:21 +0000 (UTC)
+Received: from lelvem-sh01.itg.ti.com ([10.180.77.71])
+ by lelvem-ot01.ext.ti.com (8.15.2/8.15.2) with ESMTP id 59MDC3X61420385;
+ Wed, 22 Oct 2025 08:12:03 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
+ s=ti-com-17Q1; t=1761138723;
+ bh=m/cAaTTfbQ3qHJtzsorg06KXjTXRKukmNLthb9x5rFs=;
+ h=Date:Subject:To:CC:References:From:In-Reply-To;
+ b=G1rVAeN79KYWk7Jic+txu7PQrWKP6VQ4k5FW2Qiu95NA6b5g/DkvC3TygV0O9B3g7
+ GSZPNmX8UedDkhaExyE4fPcg6aEHlESRf4xwS16GJnBaKjQ4+l/nijC+SnPWJw6Wy8
+ +6/maDt23ZttChewIeNNbLUvgNcgshv4r5C5rEXw=
+Received: from DLEE214.ent.ti.com (dlee214.ent.ti.com [157.170.170.117])
+ by lelvem-sh01.itg.ti.com (8.18.1/8.18.1) with ESMTPS id 59MDC3Wd1948730
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=FAIL);
+ Wed, 22 Oct 2025 08:12:03 -0500
+Received: from DLEE205.ent.ti.com (157.170.170.85) by DLEE214.ent.ti.com
+ (157.170.170.117) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.20; Wed, 22 Oct
+ 2025 08:12:03 -0500
+Received: from lelvem-mr05.itg.ti.com (10.180.75.9) by DLEE205.ent.ti.com
+ (157.170.170.85) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.20 via Frontend
+ Transport; Wed, 22 Oct 2025 08:12:03 -0500
+Received: from [172.24.233.62] (devarsh-precision-tower-3620.dhcp.ti.com
+ [172.24.233.62])
+ by lelvem-mr05.itg.ti.com (8.18.1/8.18.1) with ESMTP id 59MDBxjW1230100;
+ Wed, 22 Oct 2025 08:12:00 -0500
+Message-ID: <f4b35661-24c8-4d1e-8267-6b39c0521a4a@ti.com>
+Date: Wed, 22 Oct 2025 18:41:59 +0530
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <aPgwJ8DHhqCfAdpk@lstrano-desk.jf.intel.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 1/2] drm/tidss: Restructure dispc_vp_prepare() and
+ dispc_vp_enable()
+To: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>, Jyri Sarha
+ <jyri.sarha@iki.fi>, Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>
+CC: Pekka Paalanen <pekka.paalanen@collabora.com>,
+ <dri-devel@lists.freedesktop.org>, <linux-kernel@vger.kernel.org>, Laurent
+ Pinchart <laurent.pinchart@ideasonboard.com>
+References: <20250905-tidss-fix-timestamp-v1-0-c2aedf31e2c9@ideasonboard.com>
+ <20250905-tidss-fix-timestamp-v1-1-c2aedf31e2c9@ideasonboard.com>
+Content-Language: en-US
+From: Devarsh Thakkar <devarsht@ti.com>
+In-Reply-To: <20250905-tidss-fix-timestamp-v1-1-c2aedf31e2c9@ideasonboard.com>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 7bit
+X-C2ProcessedOrg: 333ef613-75bf-4e12-a4b1-8e3623f5dcea
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -112,24 +78,114 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Oct 21, 2025 at 06:15:19PM -0700, Matthew Brost wrote:
+On 05/09/25 19:28, Tomi Valkeinen wrote:
+> tidss_crtc.c calls dispc_vp_prepare() and dispc_vp_enable() in that
+> order, next to each other. dispc_vp_prepare() does preparations for
+> enabling the crtc, by writing some registers, and dispc_vp_enable() does
+> more preparations. As the last thing, dispc_vp_enable() enables the CRTC
+> by writing the enable bit.
+> 
+> There might have been a reason at some point in the history for this
+> split, but I can't find any point to it. They also do a bit of
+> overlapping work: both call dispc_vp_find_bus_fmt(). They could as well
+> be a single function.
+> 
+> But instead of combining them, this patch moves everything from
+> dispc_vp_enable() to dispc_vp_prepare(), except the actual CRTC enable
+> bit write. The reason for this is that unlike all the preparatory
+> register writes, CRTC enable has an immediate effect, starting the
+> timing generator and the CRTC as a whole. Thus it may be important to
+> time the enable just right (as we do in the next patch).
+> 
+> No functional changes.
+> 
+> Signed-off-by: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
 
-> Ok, I think I see what you're getting at. The idea is to call
-> dev_set_drvdata on the Xe side, then use pci_iov_get_pf_drvdata on the
-> VFIO side to retrieve that data. This allows passing whatever Xe sets
-> via dev_set_drvdata between the module interfaces, while only
-> forward-declaring the interface struct in the shared header.
+Reviewed-by: Devarsh Thakkar <devarsht@ti.com>
 
-Yes. The other email looks good:
+Regards
+Devarsh
 
-  struct xe_device *xe_sriov_vfio_get_xe_device(struct pci_dev *pdev);
+> ---
+>   drivers/gpu/drm/tidss/tidss_crtc.c  |  2 +-
+>   drivers/gpu/drm/tidss/tidss_dispc.c | 22 ++++++----------------
+>   drivers/gpu/drm/tidss/tidss_dispc.h |  3 +--
+>   3 files changed, 8 insertions(+), 19 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/tidss/tidss_crtc.c b/drivers/gpu/drm/tidss/tidss_crtc.c
+> index da89fd01c337..1b767af8e1f6 100644
+> --- a/drivers/gpu/drm/tidss/tidss_crtc.c
+> +++ b/drivers/gpu/drm/tidss/tidss_crtc.c
+> @@ -244,7 +244,7 @@ static void tidss_crtc_atomic_enable(struct drm_crtc *crtc,
+>   
+>   	dispc_vp_prepare(tidss->dispc, tcrtc->hw_videoport, crtc->state);
+>   
+> -	dispc_vp_enable(tidss->dispc, tcrtc->hw_videoport, crtc->state);
+> +	dispc_vp_enable(tidss->dispc, tcrtc->hw_videoport);
+>   
+>   	spin_lock_irqsave(&ddev->event_lock, flags);
+>   
+> diff --git a/drivers/gpu/drm/tidss/tidss_dispc.c b/drivers/gpu/drm/tidss/tidss_dispc.c
+> index 7c8c15a5c39b..d4762410d262 100644
+> --- a/drivers/gpu/drm/tidss/tidss_dispc.c
+> +++ b/drivers/gpu/drm/tidss/tidss_dispc.c
+> @@ -1161,6 +1161,9 @@ void dispc_vp_prepare(struct dispc_device *dispc, u32 hw_videoport,
+>   {
+>   	const struct tidss_crtc_state *tstate = to_tidss_crtc_state(state);
+>   	const struct dispc_bus_format *fmt;
+> +	const struct drm_display_mode *mode = &state->adjusted_mode;
+> +	bool align, onoff, rf, ieo, ipc, ihs, ivs;
+> +	u32 hsw, hfp, hbp, vsw, vfp, vbp;
+>   
+>   	fmt = dispc_vp_find_bus_fmt(dispc, hw_videoport, tstate->bus_format,
+>   				    tstate->bus_flags);
+> @@ -1173,22 +1176,6 @@ void dispc_vp_prepare(struct dispc_device *dispc, u32 hw_videoport,
+>   
+>   		dispc_enable_am65x_oldi(dispc, hw_videoport, fmt);
+>   	}
+> -}
+> -
+> -void dispc_vp_enable(struct dispc_device *dispc, u32 hw_videoport,
+> -		     const struct drm_crtc_state *state)
+> -{
+> -	const struct drm_display_mode *mode = &state->adjusted_mode;
+> -	const struct tidss_crtc_state *tstate = to_tidss_crtc_state(state);
+> -	bool align, onoff, rf, ieo, ipc, ihs, ivs;
+> -	const struct dispc_bus_format *fmt;
+> -	u32 hsw, hfp, hbp, vsw, vfp, vbp;
+> -
+> -	fmt = dispc_vp_find_bus_fmt(dispc, hw_videoport, tstate->bus_format,
+> -				    tstate->bus_flags);
+> -
+> -	if (WARN_ON(!fmt))
+> -		return;
+>   
+>   	dispc_set_num_datalines(dispc, hw_videoport, fmt->data_width);
+>   
+> @@ -1244,7 +1231,10 @@ void dispc_vp_enable(struct dispc_device *dispc, u32 hw_videoport,
+>   				  mode->crtc_hdisplay - 1) |
+>   		       FIELD_PREP(DISPC_VP_SIZE_SCREEN_VDISPLAY_MASK,
+>   				  mode->crtc_vdisplay - 1));
+> +}
+>   
+> +void dispc_vp_enable(struct dispc_device *dispc, u32 hw_videoport)
+> +{
+>   	VP_REG_FLD_MOD(dispc, hw_videoport, DISPC_VP_CONTROL, 1,
+>   		       DISPC_VP_CONTROL_ENABLE_MASK);
+>   }
+> diff --git a/drivers/gpu/drm/tidss/tidss_dispc.h b/drivers/gpu/drm/tidss/tidss_dispc.h
+> index 60c1b400eb89..f38493a70122 100644
+> --- a/drivers/gpu/drm/tidss/tidss_dispc.h
+> +++ b/drivers/gpu/drm/tidss/tidss_dispc.h
+> @@ -119,8 +119,7 @@ void dispc_ovr_enable_layer(struct dispc_device *dispc,
+>   
+>   void dispc_vp_prepare(struct dispc_device *dispc, u32 hw_videoport,
+>   		      const struct drm_crtc_state *state);
+> -void dispc_vp_enable(struct dispc_device *dispc, u32 hw_videoport,
+> -		     const struct drm_crtc_state *state);
+> +void dispc_vp_enable(struct dispc_device *dispc, u32 hw_videoport);
+>   void dispc_vp_disable(struct dispc_device *dispc, u32 hw_videoport);
+>   void dispc_vp_unprepare(struct dispc_device *dispc, u32 hw_videoport);
+>   bool dispc_vp_go_busy(struct dispc_device *dispc, u32 hw_videoport);
+> 
 
-Should call pci_iov_get_pf_drvdata() internally.
-
-And 'struct xe_device' can be a forward declared type that cannot be
-dereferenced by VFIO to enforce some code modularity.
-
-Using strong types is obviously better than passing around pci_dev and
-hoping for the best :)
-
-Jason
