@@ -2,128 +2,131 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E57D7BFCB27
-	for <lists+dri-devel@lfdr.de>; Wed, 22 Oct 2025 16:54:05 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 01B6FBFCB2A
+	for <lists+dri-devel@lfdr.de>; Wed, 22 Oct 2025 16:54:14 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8402810E7D9;
-	Wed, 22 Oct 2025 14:54:02 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3566A10E7DB;
+	Wed, 22 Oct 2025 14:54:12 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="H7m6lo4b";
+	dkim=pass (1024-bit key; unprotected) header.d=suse.de header.i=@suse.de header.b="GIbbitBP";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="SaIcuCLO";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="qkhif+SN";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="/W+6kuuo";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
- [205.220.168.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CD23D10E7DA
- for <dri-devel@lists.freedesktop.org>; Wed, 22 Oct 2025 14:54:01 +0000 (UTC)
-Received: from pps.filterd (m0279866.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 59MA60WB018763
- for <dri-devel@lists.freedesktop.org>; Wed, 22 Oct 2025 14:54:01 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
- cc:content-transfer-encoding:content-type:date:from:in-reply-to
- :message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
- i1D55EkVM9ROmsSy8YnVa/jnMbgKIG284477dKPaODQ=; b=H7m6lo4bJ9+Nvn6z
- ct5jbWjwmzbAOzaCstoLQBztO6WF6xC5WIt6ihDUfRccP6V/DKONApuU/GEsLr+I
- L77XyOkHno3F5887p+xcGVd5uBBjjW8CPCpQajeMbNlH7WhiG+KVPrMOQC6JJpaG
- 0eUEl4QQ7rJKK1esggRU99FZHlXSqjl9Imok3MxVzqle3HdMF6LNaflLPAl9kwdU
- 98n0CIA/4TvadIKNkA8uq7obz/SCmk1iZmLfcBhoEXIgNbtFnkg5sJ4CNepyfK+P
- ei05QVnTU6Ko8YsXUU/+NFE+5o6NIre4GfZ6y4q1ftPp+RMF8OaePEWaj+ogxRhK
- yOmeIQ==
-Received: from mail-qt1-f197.google.com (mail-qt1-f197.google.com
- [209.85.160.197])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 49v469n0s9-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
- for <dri-devel@lists.freedesktop.org>; Wed, 22 Oct 2025 14:54:01 +0000 (GMT)
-Received: by mail-qt1-f197.google.com with SMTP id
- d75a77b69052e-4e8aab76050so4470981cf.2
- for <dri-devel@lists.freedesktop.org>; Wed, 22 Oct 2025 07:54:01 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1761144840; x=1761749640;
- h=content-transfer-encoding:in-reply-to:from:content-language
- :references:cc:to:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=i1D55EkVM9ROmsSy8YnVa/jnMbgKIG284477dKPaODQ=;
- b=BMGQxVdXdts6bDnv/eymQEZ8tJUD8o8qg81puOy4b+A3fSgLIERJmKqPHrXFx1TmMk
- MFbXfGjh7a8Ije9gmYbsCV3g0Px5JxODurzW1nReN2PJuCoihKGu08C1jy/+s+xMcwbY
- hI+etWfhGy9VcQRf7y0nuUGn9/ya1X4wi5B7wwcVriFnIxxjf1cd+tQYMIVxLUfw1KH8
- sP5WJ9+y5NAMxudOjyoUE7qEiHW3egwh0QIksSX0z7ZDNCvzdai2jwSp/dNOfOy3HEVI
- ndxdGQYE41CJsZospwYJDIp0cqLs2WBjPlfp2gQwzXQrugiIKA8gvk3i2wXUIEJKFAke
- YGZA==
-X-Forwarded-Encrypted: i=1;
- AJvYcCVxjvZ8nsfPQZAqEtj8QCd9EteNy0D+ksKFfbcj1xWMfAsgbpOgIB8mBAYPFAqTOu4RjTAjvG3Oqeg=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YxUhBQovfXCbcvh+0qa9CKmH6rgJWfFxod7EL/40q2lqoKpCvt+
- D0TrR+x0Tm79FLJXKqsIcWG3cpO0nvcdqVnGgxPuOqF69xr5mKN0Qt6i3Vhmlx3PKv8JXR9S8gi
- 7TED5DyRn2+WJhoTcm2c+3Z6dyrHcFFYfxqOrwMJQkUhylDtX0iydOeiXBgf7DPR4OF8JCB0=
-X-Gm-Gg: ASbGnctDtVkEZvj8Du/nThp3KIuCLQSHhYfLfa4bMxtjFUJo3eawlsutKKb9E8dU134
- 8Mo63c2pQ0/UBaqR2Oy4CcV3Sb4LDcQADn+Y9F9k/I5rldWWH1Ot4u0yxAqXnLv7pf/s63n1cA2
- qdetMalz4XvHsDlFtlMD/8yVKPZ2Tj5NXgOW0MBcGxwXXNEmZimcB4RzIS3lQLbeLPzhGOtNC8o
- GrVNnm/GETipYwEL83BmWFsP5w9cztUsErpJxmB9MMyZkOqZZc3Vq2BN0Bb0Xk0fzGQ4UuDyslw
- cYRA65NCDm2PkMpOmbs6bCcdptkVykMRavpPgIaXkR/FW41y6OoxG8RBhV8YammBGoBgZwHmIEg
- t/6cy9b/8M1mdvp3OaexDHx8oFQovdWr5zJCKqUEdty5hihyRAXZ8z+NZ
-X-Received: by 2002:a05:622a:20a:b0:4e8:9ed2:78fa with SMTP id
- d75a77b69052e-4ea116a2337mr58384771cf.1.1761144839859; 
- Wed, 22 Oct 2025 07:53:59 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IEYvZrPUqnLoE15E4DKPCHcqL6kLKjuVsKLcLPIxjePxERoJWVvHeMNwix7xgXgKYhV7otIeg==
-X-Received: by 2002:a05:622a:20a:b0:4e8:9ed2:78fa with SMTP id
- d75a77b69052e-4ea116a2337mr58384401cf.1.1761144839366; 
- Wed, 22 Oct 2025 07:53:59 -0700 (PDT)
-Received: from [192.168.119.202] (078088045245.garwolin.vectranet.pl.
- [78.88.45.245]) by smtp.gmail.com with ESMTPSA id
- a640c23a62f3a-b6d3fb6a63csm25808766b.29.2025.10.22.07.53.55
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 22 Oct 2025 07:53:57 -0700 (PDT)
-Message-ID: <59592a3d-447a-4c99-8654-d3cb9b9f9a58@oss.qualcomm.com>
-Date: Wed, 22 Oct 2025 16:53:55 +0200
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5661310E7DB
+ for <dri-devel@lists.freedesktop.org>; Wed, 22 Oct 2025 14:54:10 +0000 (UTC)
+Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested)
+ by smtp-out1.suse.de (Postfix) with ESMTPS id DC8EE2119C;
+ Wed, 22 Oct 2025 14:54:00 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1761144845; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=8qbs5v9LMLkBcYIqJdm+QBkSP4Z0Gcm9BV41JGxRfsQ=;
+ b=GIbbitBP7OC5hUv1DHXaSYwrYGcAEqttp5KWT7Y4xDjLiG+wzuHcaecK9nFHEWLHCobnnD
+ rWVX5UDazxOd4qYn+07KwoxTClWv2rtMSqfsI95Z31A1IkgL1L28oY0SpU7h2OiInrChwu
+ 2Bd20JTAqh+6tYoX1gt61rmkSGA7dV8=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1761144845;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=8qbs5v9LMLkBcYIqJdm+QBkSP4Z0Gcm9BV41JGxRfsQ=;
+ b=SaIcuCLOMfaSHQDtfSnvBMm+XApgfQg0h9xbNOqSL1XC+z3VHt8WnedqWSRzJezx0lyMBL
+ Va4kpzk5MFhDzlBA==
+Authentication-Results: smtp-out1.suse.de;
+	none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1761144840; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=8qbs5v9LMLkBcYIqJdm+QBkSP4Z0Gcm9BV41JGxRfsQ=;
+ b=qkhif+SNolU/0sRXSCn9HON9llBpAyqw1HBHK/BuPrXHPe/LwWUYu+W0BzDbKIcrjEUwiX
+ ByKA0O/7Mme+LxVnAQ1D0aoQcZ0PlPj70vvYbgZhOAMG6t4/jyi/51ui2uE4V6greDDRZx
+ 6Ok7RdlPreC9Nd+xmm8+Ws8vSfUX8+4=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1761144840;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=8qbs5v9LMLkBcYIqJdm+QBkSP4Z0Gcm9BV41JGxRfsQ=;
+ b=/W+6kuuoOIK2Z0MpYLm6jm29Yo3mwxMB5Kxg8Ug0gNKuksQjB3B0XRRAgmGaNYQu9nnTBo
+ fAtJiBLs0scQAuDg==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested)
+ by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id B2B481339F;
+ Wed, 22 Oct 2025 14:54:00 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+ by imap1.dmz-prg2.suse.org with ESMTPSA id /HE0Kgjw+GjcOwAAD6G6ig
+ (envelope-from <tzimmermann@suse.de>); Wed, 22 Oct 2025 14:54:00 +0000
+Message-ID: <2457f184-96ee-4937-8b3d-ccd97deef118@suse.de>
+Date: Wed, 22 Oct 2025 16:54:00 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v5 2/3] arm64: dts: qcom: Add DisplayPort and QMP USB3DP
- PHY for SM6150
-To: xiangxu.yin@oss.qualcomm.com, Rob Clark <robin.clark@oss.qualcomm.com>,
- Dmitry Baryshkov <lumag@kernel.org>, Abhinav Kumar
- <abhinav.kumar@linux.dev>,
- Jessica Zhang <jesszhan0024@gmail.com>, Sean Paul <sean@poorly.run>,
- Marijn Suijten <marijn.suijten@somainline.org>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, Rob Herring <robh@kernel.org>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>, Bjorn Andersson <andersson@kernel.org>,
- Konrad Dybcio <konradybcio@kernel.org>
-Cc: linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org,
- freedreno@lists.freedesktop.org, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org, fange.zhang@oss.qualcomm.com,
- yongxing.mou@oss.qualcomm.com, li.liu@oss.qualcomm.com,
- Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
-References: <20251021-add-displayport-support-to-qcs615-devicetree-v5-0-92f0f3bf469f@oss.qualcomm.com>
- <20251021-add-displayport-support-to-qcs615-devicetree-v5-2-92f0f3bf469f@oss.qualcomm.com>
+Subject: Re: Adding EDID support to simpledrm on top of the EFI sysfb ?
+To: Hans de Goede <hansg@kernel.org>,
+ Javier Martinez Canillas <javierm@redhat.com>, nickblack@linux.com
+Cc: "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>
+References: <301d7da1-5101-4f16-90cd-5bb4ac41c87b@kernel.org>
+ <b99e3a32-6d3e-48a0-9936-a67999354a44@suse.de>
+ <9eb60fce-b235-4dad-8672-1cc4e61309c5@kernel.org>
 Content-Language: en-US
-From: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
-In-Reply-To: <20251021-add-displayport-support-to-qcs615-devicetree-v5-2-92f0f3bf469f@oss.qualcomm.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Proofpoint-ORIG-GUID: sdsr45h896F9h0uYnepuQcgmEQCbUbPF
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUxMDE4MDAzMiBTYWx0ZWRfX1saeUGY/JAqa
- OveloqfUgxZUwkEzLVa753Vy7+iko8rJn/EYSF9c3Ru5nRV3ygrmf+Oz0Vwu7E8RKdElcLpzASG
- a1cCVnR4AmIlsvx7pQzIJR/jnTztHucNrdI2NkRLYV/iQa2bDdJ6P2QQfhA6aihF76UVOYhMWQa
- 57u4p/lcazgwtS+ZGI+hY7MJg9w3AEdJrNVkyH4KAn72L9DgfgWC8gZlfpRjloo2GVNCYFua9hm
- N4yUy99c5FQfi5BJQqG2KdtXp3awj8k2BgoMu4DNW4x4gAnUbsEL0tmGUWwVMX0VSUhm5OMAPIQ
- 68Gadd9y8FVM93GEyGPdDRPwH2vNh8UsAbW3sFh1Q8OOcVWloUg5p+nCFJ4Q4aWOeaYJHdd6H/v
- WTUcCn/AY6miJhgprOkwoYYmzdY6qw==
-X-Authority-Analysis: v=2.4 cv=U8qfzOru c=1 sm=1 tr=0 ts=68f8f009 cx=c_pps
- a=EVbN6Ke/fEF3bsl7X48z0g==:117 a=FpWmc02/iXfjRdCD7H54yg==:17
- a=IkcTkHD0fZMA:10 a=x6icFKpwvdMA:10 a=VkNPw1HP01LnGYTKEx00:22
- a=EUspDBNiAAAA:8 a=Qc9Wp3Nav7UuNmgFpJYA:9 a=QEXdDO2ut3YA:10
- a=a_PwQJl-kcHnX1M80qC6:22
-X-Proofpoint-GUID: sdsr45h896F9h0uYnepuQcgmEQCbUbPF
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.9,FMLib:17.12.80.40
- definitions=2025-10-22_06,2025-10-13_01,2025-03-28_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- impostorscore=0 adultscore=0 bulkscore=0 malwarescore=0 priorityscore=1501
- spamscore=0 clxscore=1015 lowpriorityscore=0 phishscore=0 suspectscore=0
- classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.19.0-2510020000 definitions=main-2510180032
+From: Thomas Zimmermann <tzimmermann@suse.de>
+Autocrypt: addr=tzimmermann@suse.de; keydata=
+ xsBNBFs50uABCADEHPidWt974CaxBVbrIBwqcq/WURinJ3+2WlIrKWspiP83vfZKaXhFYsdg
+ XH47fDVbPPj+d6tQrw5lPQCyqjwrCPYnq3WlIBnGPJ4/jreTL6V+qfKRDlGLWFjZcsrPJGE0
+ BeB5BbqP5erN1qylK9i3gPoQjXGhpBpQYwRrEyQyjuvk+Ev0K1Jc5tVDeJAuau3TGNgah4Yc
+ hdHm3bkPjz9EErV85RwvImQ1dptvx6s7xzwXTgGAsaYZsL8WCwDaTuqFa1d1jjlaxg6+tZsB
+ 9GluwvIhSezPgnEmimZDkGnZRRSFiGP8yjqTjjWuf0bSj5rUnTGiyLyRZRNGcXmu6hjlABEB
+ AAHNJ1Rob21hcyBaaW1tZXJtYW5uIDx0emltbWVybWFubkBzdXNlLmRlPsLAjgQTAQgAOAIb
+ AwULCQgHAgYVCgkICwIEFgIDAQIeAQIXgBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftODH
+ AAoJEGgNwR1TC3ojx1wH/0hKGWugiqDgLNXLRD/4TfHBEKmxIrmfu9Z5t7vwUKfwhFL6hqvo
+ lXPJJKQpQ2z8+X2vZm/slsLn7J1yjrOsoJhKABDi+3QWWSGkaGwRJAdPVVyJMfJRNNNIKwVb
+ U6B1BkX2XDKDGffF4TxlOpSQzdtNI/9gleOoUA8+jy8knnDYzjBNOZqLG2FuTdicBXblz0Mf
+ vg41gd9kCwYXDnD91rJU8tzylXv03E75NCaTxTM+FBXPmsAVYQ4GYhhgFt8S2UWMoaaABLDe
+ 7l5FdnLdDEcbmd8uLU2CaG4W2cLrUaI4jz2XbkcPQkqTQ3EB67hYkjiEE6Zy3ggOitiQGcqp
+ j//OwE0EWznS4AEIAMYmP4M/V+T5RY5at/g7rUdNsLhWv1APYrh9RQefODYHrNRHUE9eosYb
+ T6XMryR9hT8XlGOYRwKWwiQBoWSDiTMo/Xi29jUnn4BXfI2px2DTXwc22LKtLAgTRjP+qbU6
+ 3Y0xnQN29UGDbYgyyK51DW3H0If2a3JNsheAAK+Xc9baj0LGIc8T9uiEWHBnCH+RdhgATnWW
+ GKdDegUR5BkDfDg5O/FISymJBHx2Dyoklv5g4BzkgqTqwmaYzsl8UxZKvbaxq0zbehDda8lv
+ hFXodNFMAgTLJlLuDYOGLK2AwbrS3Sp0AEbkpdJBb44qVlGm5bApZouHeJ/+n+7r12+lqdsA
+ EQEAAcLAdgQYAQgAIAIbDBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftOH6AAoJEGgNwR1T
+ C3ojVSkIALpAPkIJPQoURPb1VWjh34l0HlglmYHvZszJWTXYwavHR8+k6Baa6H7ufXNQtThR
+ yIxJrQLW6rV5lm7TjhffEhxVCn37+cg0zZ3j7zIsSS0rx/aMwi6VhFJA5hfn3T0TtrijKP4A
+ SAQO9xD1Zk9/61JWk8OysuIh7MXkl0fxbRKWE93XeQBhIJHQfnc+YBLprdnxR446Sh8Wn/2D
+ Ya8cavuWf2zrB6cZurs048xe0UbSW5AOSo4V9M0jzYI4nZqTmPxYyXbm30Kvmz0rYVRaitYJ
+ 4kyYYMhuULvrJDMjZRvaNe52tkKAvMevcGdt38H4KSVXAylqyQOW5zvPc4/sq9c=
+In-Reply-To: <9eb60fce-b235-4dad-8672-1cc4e61309c5@kernel.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Spam-Level: 
+X-Spamd-Result: default: False [-3.30 / 50.00]; BAYES_HAM(-3.00)[100.00%];
+ SUBJECT_ENDS_QUESTION(1.00)[]; NEURAL_HAM_LONG(-1.00)[-1.000];
+ NEURAL_HAM_SHORT(-0.20)[-0.999]; MIME_GOOD(-0.10)[text/plain];
+ RCVD_VIA_SMTP_AUTH(0.00)[]; ARC_NA(0.00)[];
+ MIME_TRACE(0.00)[0:+]; TO_DN_SOME(0.00)[];
+ TO_DN_EQ_ADDR_SOME(0.00)[]; MID_RHS_MATCH_FROM(0.00)[];
+ RCVD_TLS_ALL(0.00)[];
+ DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+ FROM_HAS_DN(0.00)[]; RCPT_COUNT_THREE(0.00)[4];
+ FROM_EQ_ENVFROM(0.00)[]; TO_MATCH_ENVRCPT_ALL(0.00)[];
+ RCVD_COUNT_TWO(0.00)[2];
+ DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo, suse.de:mid,
+ gnu.org:url]
+X-Spam-Flag: NO
+X-Spam-Score: -3.30
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -139,39 +142,89 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 10/21/25 5:18 AM, Xiangxu Yin via B4 Relay wrote:
-> From: Xiangxu Yin <xiangxu.yin@oss.qualcomm.com>
-> 
-> Introduce DisplayPort controller node and associated QMP USB3-DP PHY
-> for SM6150 SoC. Add data-lanes property to the DP endpoint and update
-> clock assignments for proper DP integration.
-> 
-> Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
-> Signed-off-by: Xiangxu Yin <xiangxu.yin@oss.qualcomm.com>
-> ---
+Hi
 
-[...]
+Am 22.10.25 um 15:12 schrieb Hans de Goede:
+> Hi Thomas,
+>
+> On 11-Oct-25 5:17 PM, Thomas Zimmermann wrote:
+>> Hi Hans
+>>
+>> Am 11.10.25 um 12:02 schrieb Hans de Goede:
+>>> Hi,
+>>>
+>>> A while ago I did a blogpost about not having the native GPU drivers in
+>>> the initrd: https://hansdegoede.dreamwidth.org/28291.html
+>>>
+>>> With the Fedora /boot partition size increase there has been renewed
+>>> interest in this and as a result I got an interesting comment on
+>>> the blog post pointing out that there are EFI protocols to get EDID
+>>> info for the monitor (presumably for the one the GOP has lit up).
+>>>
+>>> It would be useful to see if we can hook this up so that the simpledrm
+>>> device can report the physical dimensions of the screen and the boot
+>>> splash does not need to guess the DPI and thus does not need to guess
+>>> whether to do hiDPI scaling or not. The comment is here:
+>>>
+>>> https://hansdegoede.dreamwidth.org/28291.html?thread=14467#cmt14467
+>>>
+>>> and it points to:
+>>>
+>>> https://uefi.org/sites/default/files/resources/2_-_AMD_UEFI_Plugfest_EDID_Spring2012.pdf
+>>> https://uefi.org/specs/UEFI/2.9_A/12_Protocols_Console_Support.html
+>>>
+>>> Unfortunately I do not have time to work on this myself, hence this
+>>> email in the hope that someone else can pick this idea up.
+>> There are now efidrm and vesadrm, which support specifically the features that we get from the rsp. standards, hardware  and bootloader. For VESA and EFI the EDID can be transferred from grub via bootparams. A patch [1] is on its way into upstream grub. The Linux kernel stores that data in edid_info, from where it is picked up by efidrm and vesadrm.  If the EFI framebuffer comes directly from the EFI calls, we need to implement this in the kernel, but the principle is the same. I also have ideas for making this work on Coreboot.
+>>
+>> For simpledrm, I'd rather strip if from the ability to use EFI/VESA framebuffers and focus on simple-framebuffer DT nodes. These sometimes come with DPI information. Maybe we could extend the DT to support EDID as well.
+>>
+>> [1] https://lists.gnu.org/archive/html/grub-devel/2025-10/msg00043.html
+>>
+>> I have long been working on all this and it is now slowly coming together.
+> Cool, thank you for working on this!
+>
+> I agree that if we are going to have efidrm and vesadrm that
+> making simpledrm a DT platform thing only makes sense.
+>
+> I do wonder about the choice to primarily make the EDID passing
+> a grub thing though.
+>
+> Some distros are actively trying to move away from grub since
+> grub is quite a complex beast and they are trying to move to
+> something simpler like systemd-boot. As such it would be a good
+> idea IMHO if efidrm could directly get the EDID from EFI itself.
 
-> +				ports {
-> +					#address-cells = <1>;
-> +					#size-cells = <0>;
-> +
-> +					port@0 {
-> +						reg = <0>;
-> +						mdss_dp0_in: endpoint {
-> +							remote-endpoint = <&dpu_intf0_out>;
-> +						};
-> +					};
-> +
-> +					port@1 {
-> +						reg = <1>;
-> +						mdss_dp0_out: endpoint {
+Yes, the GRUB patch is mostly useful for VESA. For EFI on x86, I posted 
+a patch series to fetch the EDID in the EFI stub and forward it to the 
+kernel. Have a look at [1]. For non-x86 EFI systems, I also have a 
+prototype, but wanted to get the x86 done first. I have to some research 
+if systemd-boot requires anything extra.
 
-Ideally there should be a \n between the last property and
-the following subnode
+Things are moving in the right direction.
 
-other than that
+Best regards
+Thomas
 
-Reviewed-by: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
+[1] 
+https://lore.kernel.org/lkml/20251015160816.525825-1-tzimmermann@suse.de/
 
-Konrad
+>
+> Note I'm afraid I don't really have time to work on this myself.
+>
+> Regards,
+>
+> Hans
+>
+>
+
+-- 
+--
+Thomas Zimmermann
+Graphics Driver Developer
+SUSE Software Solutions Germany GmbH
+Frankenstrasse 146, 90461 Nuernberg, Germany
+GF: Ivo Totev, Andrew Myers, Andrew McDonald, Boudien Moerman
+HRB 36809 (AG Nuernberg)
+
+
