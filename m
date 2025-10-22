@@ -2,69 +2,39 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2E7A4BFB61F
-	for <lists+dri-devel@lfdr.de>; Wed, 22 Oct 2025 12:22:51 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id CFD6FBFB691
+	for <lists+dri-devel@lfdr.de>; Wed, 22 Oct 2025 12:30:32 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4E5AC10E069;
-	Wed, 22 Oct 2025 10:22:49 +0000 (UTC)
-Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="ICD6RTGR";
-	dkim-atps=neutral
+	by gabe.freedesktop.org (Postfix) with ESMTP id CFF1110E0C8;
+	Wed, 22 Oct 2025 10:30:29 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 465B010E069;
- Wed, 22 Oct 2025 10:22:48 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1761128568; x=1792664568;
- h=from:to:cc:subject:date:message-id:in-reply-to:
- references:mime-version:content-transfer-encoding;
- bh=M8fzZvn2TkbI77VsUuRslIDx11TNR7FYqz3t+eN01ig=;
- b=ICD6RTGRaguZ4FT8TbIPjJ5qYQvaLKZk/56sbEFUS2SYECvmUO7wS0ee
- +YO6jKE8atQOTFQCAIrFAV2qSSsaZsxqgMNqAAbn8rz3WrA4OwRarnXl3
- oVmLUeYnrTkn3SORGuMW/cENBvBjNANe+AaD3NkYs34dEfgHmoCUjIy7+
- 1BBHbvNwdF1as8L4Q4NJ8Zjkjyno4+vnF2x52Ho4Ky9KLJULxnv3fVRuH
- afiTx37OBuwYiuPR4JW2Ye7+tQYENqlxClCbKId+F/cMd/uecJJqhm3CV
- rmkFN6rDcuOJCJjFOlxrWh/SNOZTrnwQM9qlCBjoM+7Hk6rHIhQVAxliz g==;
-X-CSE-ConnectionGUID: Ml16TsnxQ2CxK+ZW9EZoVw==
-X-CSE-MsgGUID: TsI1l9qeRnG5tW4pISMCIA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11586"; a="73876596"
-X-IronPort-AV: E=Sophos;i="6.19,246,1754982000"; d="scan'208";a="73876596"
-Received: from orviesa001.jf.intel.com ([10.64.159.141])
- by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 22 Oct 2025 03:22:48 -0700
-X-CSE-ConnectionGUID: 4v2J5rq6S9C4tANmGtZ4Zg==
-X-CSE-MsgGUID: 5CJE7kegQeeL7Txy+11fnw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.19,246,1754982000"; d="scan'208";a="221029013"
-Received: from jkrzyszt-mobl2.ger.corp.intel.com ([10.245.244.51])
- by smtpauth.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 22 Oct 2025 03:22:44 -0700
-From: Janusz Krzysztofik <janusz.krzysztofik@linux.intel.com>
-To: Andi Shyti <andi.shyti@kernel.org>
-Cc: intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- Jani Nikula <jani.nikula@linux.intel.com>,
- Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>, Tvrtko Ursulin <tursulin@ursulin.net>, 
- Thomas =?UTF-8?B?SGVsbHN0csO2bQ==?= <thomas.hellstrom@linux.intel.com>,
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 50B1210E0C8
+ for <dri-devel@lists.freedesktop.org>; Wed, 22 Oct 2025 10:30:29 +0000 (UTC)
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+ by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 0A11A1063;
+ Wed, 22 Oct 2025 03:30:21 -0700 (PDT)
+Received: from e120398-lin.trondheim.arm.com (e120398-lin.trondheim.arm.com
+ [10.40.16.110])
+ by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 73E363F63F;
+ Wed, 22 Oct 2025 03:30:26 -0700 (PDT)
+From: Ketil Johnsen <ketil.johnsen@arm.com>
+To: Boris Brezillon <boris.brezillon@collabora.com>,
+ Steven Price <steven.price@arm.com>, Liviu Dudau <liviu.dudau@arm.com>,
  Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Krzysztof Niemiec <krzysztof.niemiec@intel.com>,
- Sebastian Brzezinka <sebastian.brzezinka@intel.com>,
- Krzysztof Karas <krzysztof.karas@intel.com>
-Subject: Re: [PATCH v2 2/3] drm/i915: Wait longer for threads in migrate
- selftest on CHV/BXT+VTD
-Date: Wed, 22 Oct 2025 12:22:41 +0200
-Message-ID: <3847115.MHq7AAxBmi@jkrzyszt-mobl2.ger.corp.intel.com>
-Organization: Intel Technology Poland sp. z o.o. - ul. Slowackiego 173,
- 80-298 Gdansk - KRS 101882 - NIP 957-07-52-316
-In-Reply-To: <fnrlush5qxoasswzyc7xqp35ewlyqjvvnk2ehfscfh4y5vyyga@j7pewlzaoms4>
-References: <20251014125504.14804-5-janusz.krzysztofik@linux.intel.com>
- <20251014125504.14804-7-janusz.krzysztofik@linux.intel.com>
- <fnrlush5qxoasswzyc7xqp35ewlyqjvvnk2ehfscfh4y5vyyga@j7pewlzaoms4>
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
+ Simona Vetter <simona@ffwll.ch>, Heiko Stuebner <heiko@sntech.de>
+Cc: Ketil Johnsen <ketil.johnsen@arm.com>, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org
+Subject: [PATCH v2] drm/panthor: Fix UAF race between device unplug and FW
+ event processing
+Date: Wed, 22 Oct 2025 12:30:13 +0200
+Message-ID: <20251022103014.1082629-1-ketil.johnsen@arm.com>
+X-Mailer: git-send-email 2.43.0
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -80,48 +50,71 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Andi,
+The function panthor_fw_unplug() will free the FW memory sections.
+The problem is that there could still be pending FW events which are yet
+not handled at this point. process_fw_events_work() can in this case try
+to access said freed memory.
 
-On Friday, 17 October 2025 10:45:23 CEST Andi Shyti wrote:
-> Hi Janusz,
-> 
-> > diff --git a/drivers/gpu/drm/i915/gt/selftest_migrate.c b/drivers/gpu/drm/
-i915/gt/selftest_migrate.c
-> > index 54bc447efce0b..cde755751a0ba 100644
-> > --- a/drivers/gpu/drm/i915/gt/selftest_migrate.c
-> > +++ b/drivers/gpu/drm/i915/gt/selftest_migrate.c
-> > @@ -710,7 +710,8 @@ static int threaded_migrate(struct intel_migrate 
-*migrate,
-> >  		thread[i].tsk = tsk;
-> >  	}
-> >  
-> > -	msleep(10 * n_cpus); /* start all threads before we kthread_stop() 
-*/
-> > +	/* start all threads before we kthread_stop() */
-> > +	msleep((intel_vm_no_concurrent_access_wa(migrate->context->vm->i915) 
-? 100 : 10) * n_cpus);
-> 
-> First question, why 100? Second question why not 100 for
-> everyone?
+This fix introduces a destroyed state for the panthor_scheduler object,
+and we check for this before processing FW events.
 
-100ms because 10ms occurred too short on CHV / BXT+VTD with GGTT workarounds, 
-and I've empirically determined a sufficient delay of 100ms, as mentioned in 
-commit description.  Do you want me to add that information to the inline 
-comment as well?
+Signed-off-by: Ketil Johnsen <ketil.johnsen@arm.com>
+Fixes: de85488138247 ("drm/panthor: Add the scheduler logical block")
+---
+v2:
+- Followed Boris's advice and handle the race purely within the
+  scheduler block (by adding a destroyed state)
+---
+ drivers/gpu/drm/panthor/panthor_sched.c | 15 ++++++++++++---
+ 1 file changed, 12 insertions(+), 3 deletions(-)
 
-Not for everyone because 10ms has proven to be sufficient for platforms with 
-no CHV / BXT+VTD specific workarounds.  Do you want me to use a single value?
-
-Thanks,
-Janusz
-
-> 
-> Andi
-> 
-> >  	for (i = 0; i < n_cpus; ++i) {
-> >  		struct task_struct *tsk = thread[i].tsk;
-> 
-
-
-
+diff --git a/drivers/gpu/drm/panthor/panthor_sched.c b/drivers/gpu/drm/panthor/panthor_sched.c
+index 0cc9055f4ee52..4996f987b8183 100644
+--- a/drivers/gpu/drm/panthor/panthor_sched.c
++++ b/drivers/gpu/drm/panthor/panthor_sched.c
+@@ -315,6 +315,13 @@ struct panthor_scheduler {
+ 		 */
+ 		struct list_head stopped_groups;
+ 	} reset;
++
++	/**
++	 * @destroyed: Scheduler object is (being) destroyed
++	 *
++	 * Normal scheduler operations should no longer take place.
++	 */
++	bool destroyed;
+ };
+ 
+ /**
+@@ -1765,7 +1772,10 @@ static void process_fw_events_work(struct work_struct *work)
+ 	u32 events = atomic_xchg(&sched->fw_events, 0);
+ 	struct panthor_device *ptdev = sched->ptdev;
+ 
+-	mutex_lock(&sched->lock);
++	guard(mutex)(&sched->lock);
++
++	if (sched->destroyed)
++		return;
+ 
+ 	if (events & JOB_INT_GLOBAL_IF) {
+ 		sched_process_global_irq_locked(ptdev);
+@@ -1778,8 +1788,6 @@ static void process_fw_events_work(struct work_struct *work)
+ 		sched_process_csg_irq_locked(ptdev, csg_id);
+ 		events &= ~BIT(csg_id);
+ 	}
+-
+-	mutex_unlock(&sched->lock);
+ }
+ 
+ /**
+@@ -3882,6 +3890,7 @@ void panthor_sched_unplug(struct panthor_device *ptdev)
+ 	cancel_delayed_work_sync(&sched->tick_work);
+ 
+ 	mutex_lock(&sched->lock);
++	sched->destroyed = true;
+ 	if (sched->pm.has_ref) {
+ 		pm_runtime_put(ptdev->base.dev);
+ 		sched->pm.has_ref = false;
+-- 
+2.47.2
 
