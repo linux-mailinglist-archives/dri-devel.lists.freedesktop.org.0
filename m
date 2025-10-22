@@ -2,50 +2,156 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A3BA8BFDE51
-	for <lists+dri-devel@lfdr.de>; Wed, 22 Oct 2025 20:41:15 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7CFACBFDE8D
+	for <lists+dri-devel@lfdr.de>; Wed, 22 Oct 2025 20:43:25 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D513D10E831;
-	Wed, 22 Oct 2025 18:41:12 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D6AAC10E832;
+	Wed, 22 Oct 2025 18:43:21 +0000 (UTC)
+Authentication-Results: gabe.freedesktop.org;
+	dkim=pass (1024-bit key; unprotected) header.d=amd.com header.i=@amd.com header.b="KRfplHYt";
+	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
- by gabe.freedesktop.org (Postfix) with ESMTP id 75ACF10E831;
- Wed, 22 Oct 2025 18:41:11 +0000 (UTC)
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
- by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 0AF611655;
- Wed, 22 Oct 2025 11:41:03 -0700 (PDT)
-Received: from arm.com (usa-sjc-imap-foss1.foss.arm.com [10.121.207.14])
- by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 401E13F66E;
- Wed, 22 Oct 2025 11:41:04 -0700 (PDT)
-Date: Wed, 22 Oct 2025 20:40:55 +0200
-From: Beata Michalska <beata.michalska@arm.com>
-To: Joel Fernandes <joelagnelf@nvidia.com>
-Cc: linux-kernel@vger.kernel.org, rust-for-linux@vger.kernel.org,
- dri-devel@lists.freedesktop.org, dakr@kernel.org,
- acourbot@nvidia.com, Alistair Popple <apopple@nvidia.com>,
- Miguel Ojeda <ojeda@kernel.org>, Alex Gaynor <alex.gaynor@gmail.com>,
- Boqun Feng <boqun.feng@gmail.com>, Gary Guo <gary@garyguo.net>,
- bjorn3_gh@protonmail.com, Benno Lossin <lossin@kernel.org>,
- Andreas Hindborg <a.hindborg@kernel.org>,
- Alice Ryhl <aliceryhl@google.com>, Trevor Gross <tmgross@umich.edu>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- John Hubbard <jhubbard@nvidia.com>, Timur Tabi <ttabi@nvidia.com>,
- joel@joelfernandes.org, Elle Rhumsaa <elle@weathered-steel.dev>,
- Yury Norov <yury.norov@gmail.com>,
- Daniel Almeida <daniel.almeida@collabora.com>,
- Andrea Righi <arighi@nvidia.com>, nouveau@lists.freedesktop.org
-Subject: Re: [PATCH v6 4/5] rust: Move register and bitfield macros out of Nova
-Message-ID: <aPklNydcTdOeXtdU@arm.com>
-References: <20251003154748.1687160-1-joelagnelf@nvidia.com>
- <20251003154748.1687160-5-joelagnelf@nvidia.com>
+Received: from PH0PR06CU001.outbound.protection.outlook.com
+ (mail-westus3azon11011038.outbound.protection.outlook.com [40.107.208.38])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CF95310E832;
+ Wed, 22 Oct 2025 18:43:20 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=AuK9YSxMknj6PdXebdJTMBd12R/2L2JEfh02+RPNk/1iQ3h2DJ5x6hCLl46tcjWa/VXYzhyKU1cFCxrZZCd+tWZ8bG68Zi1gb+GwQ5yje7kT9936V3IvrA9qppwBGkm/UpvCjjqa0bGOPz41GP0ehKJyYC641y4W0tCNaWeV3T9xcnewA379eWpbVqT946kKtKosEpHiVxEZIwMNoQ/U+TQHvu8ZuDmhC83xYYJsh6odyE6r4H4T1NJ7nooiB1k0hKHmJbuSGCfCws3AZJBAetmk/+F93J6NpznCWylydA/xoU2rz9Ti3+ZZ8UicmMGnufvy57H5AKtCNf1LJS3J5Q==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=QUGNAH7bqA7gdQ23tpCoX8wg8+e7fLA/inx/mKsWuxw=;
+ b=nmExbDCOORrCKH50HNjsiQUFYLJF7jwU6lqxj3QW8/KsZ+M/VPMK5gO6xqgIvIt9b7G0kSN5ErbcJLXRl3TaCYmJhwzAnzWqXKBOhbCIdOholGE3vt4jK5I5vsVkf8UC/jXMbAOYpRxaw+7mMYiNtTTrWwvNKhhxf6c8ubi+1ye77YqgMN3wJSpu39s07gIbQFWWZ9XaGCWs0+sBAPTljZmxup/EO9mDqC2ld4sMT558UzEILkByuJHHQY3PK5vKwJGVZ5Mdtudm79ZEA9Zy8LNPZiV26iA66LVZPlwD2WNh9pWy2IR8DOUKWjKrYQ46QP2XM+K2KbLquDo0aMtSnA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=QUGNAH7bqA7gdQ23tpCoX8wg8+e7fLA/inx/mKsWuxw=;
+ b=KRfplHYt8VRl6v7y/7wvPrw7WM7PUR8h/Jgfq9eBfqrZErUb34yxWkO1f0T0XNJb58RfKBLrOWdjkWYUp8FJsdoVSQyVNy/aytLH2PhGA2X9RRIAZdcddUkl0HempJPmkICbklQarMbp+WEqRkc3Yascp/Hj1oStZUENQYjMKzQ=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=amd.com;
+Received: from PH8PR12MB7301.namprd12.prod.outlook.com (2603:10b6:510:222::12)
+ by DM4PR12MB7766.namprd12.prod.outlook.com (2603:10b6:8:101::8) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9253.12; Wed, 22 Oct
+ 2025 18:43:17 +0000
+Received: from PH8PR12MB7301.namprd12.prod.outlook.com
+ ([fe80::a929:e8eb:ef22:6350]) by PH8PR12MB7301.namprd12.prod.outlook.com
+ ([fe80::a929:e8eb:ef22:6350%5]) with mapi id 15.20.9253.011; Wed, 22 Oct 2025
+ 18:43:17 +0000
+Content-Type: multipart/alternative;
+ boundary="------------eeaAXuUtHrMy1t0KfqHOYeKX"
+Message-ID: <d366c74e-ac0a-4279-88b6-4601a4efaa84@amd.com>
+Date: Thu, 23 Oct 2025 00:13:08 +0530
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] drm/buddy: Mark drm_test_buddy_fragmentation_performance
+ test as slow
+To: Krzysztof Niemiec <krzysztof.niemiec@intel.com>,
+ dri-devel@lists.freedesktop.org, intel-gfx@lists.freedesktop.org
+Cc: Andi Shyti <andi.shyti@linux.intel.com>,
+ Janusz Krzysztofik <janusz.krzysztofik@linux.intel.com>,
+ Krzysztof Karas <krzysztof.karas@intel.com>,
+ Sebastian Brzezinka <sebastian.brzezinka@intel.com>
+References: <20251021164341.6154-2-krzysztof.niemiec@intel.com>
+Content-Language: en-US
+From: Arunpravin Paneer Selvam <arunpravin.paneerselvam@amd.com>
+In-Reply-To: <20251021164341.6154-2-krzysztof.niemiec@intel.com>
+X-ClientProxiedBy: PN3PEPF0000017F.INDPRD01.PROD.OUTLOOK.COM
+ (2603:1096:c04::4f) To PH8PR12MB7301.namprd12.prod.outlook.com
+ (2603:10b6:510:222::12)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20251003154748.1687160-5-joelagnelf@nvidia.com>
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: PH8PR12MB7301:EE_|DM4PR12MB7766:EE_
+X-MS-Office365-Filtering-Correlation-Id: 8987635e-3490-44f0-8150-08de119add15
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+ ARA:13230040|376014|1800799024|366016|7053199007|13003099007|8096899003; 
+X-Microsoft-Antispam-Message-Info: =?utf-8?B?REpENmlPTnZBNlF1dWRpYWoyWUQ5bHdoa3BYaXJoVGNBbWF5am1WU1NHZW1V?=
+ =?utf-8?B?TkpmdDZZOXJ5c3J5aHRveVI3OXhlQXJkRlVqdHJQakpTeXRTUXBiTGFGbWxm?=
+ =?utf-8?B?VWUrQmxES1pBL2R6elJFUmpvMlJUM214WUMyUHlZYWozQURxZkFWZ0poTDIx?=
+ =?utf-8?B?TDZJTXlHZGhuOTJYalVOSVFKZGVBV2Uzem1LZDU2NTVlOHhyS0FwaWlrbVVs?=
+ =?utf-8?B?dmVnNWEzdmhIOHpnR1p6d2tFTTRFbmtKb2tBWCtSVlhRUDh6bkRDMENmU1R4?=
+ =?utf-8?B?OC9ZcFJpVXlWTzFpNU16YmdSMnNGL1FJUEZRcG1jTEVnbHF0Z1ZBVkVHeUR6?=
+ =?utf-8?B?eEYxMWdQQTEyZ2pNeWlZZ1F0V3dtem9aNVlxdW9jS01lVUJmMUI3NmplVHlJ?=
+ =?utf-8?B?T0ZqNEZQVUp2Q0dRM0lTNkx6RFM5YTNQUVh0N0s3UG1PSFJDWXlLREJaYUxC?=
+ =?utf-8?B?NjhxVmxMSWJaYUtHYWQ3dElRNkcxclpsd0l5MU9FeTBkcVV4OTJWZStabngv?=
+ =?utf-8?B?NnVmZTRnbk9Wd0g0MmhnUzY2d0o1L3VSNGFMVzl4S2VIVFFOYXovWGkydmZZ?=
+ =?utf-8?B?VVNXUEtPUlpXWEJRQ1hxeFVVUjZHZFVUSFJSbHZFeXlJc1p2aVhHOG43cmNL?=
+ =?utf-8?B?TTdVcnBMcFBsTGRZckJ5bDBTSzBmSTlmMjF6ZnBXemJtNm9BdnoxQVFFS3Fu?=
+ =?utf-8?B?czZ1bmdVTzltY0d1YW5SNmZld25qcEs0TTM0QThUb1hDOTc3cUVRejBxckVr?=
+ =?utf-8?B?N2pjNDdWcTEwY2lES1JSSFBtZmNhSXhoMGdzMmRtbzRGSDJSSUF0dW5Od2NK?=
+ =?utf-8?B?OWo4bTY1Vzdad1E0V01wcUQzblpuU29zMWxERXM0eHJrclBtc2xOcEJsUllq?=
+ =?utf-8?B?NGszQ2pXREt0R2tMV3UzWURSTFJwTnd4cFAvR0NDZHhUN09vOEFwTFRiTEdK?=
+ =?utf-8?B?Wkk1Z3BUb3c3TlV3a2Z3SFlEOGlIWWJCMlBmTVp0bGo5OVV2L0ZReTQwNGtK?=
+ =?utf-8?B?Y1hLZ1cvRFBHTDRoK3pDclpUdHhDWThPOEpBK1JBbXhRVlA1U1FhdVJtNWJv?=
+ =?utf-8?B?MnkwYWxPMjVmbE1sY0wrYm9zRHNjZklyaUlHYkZNc3Y4SW0vUFBCOFFTRDc3?=
+ =?utf-8?B?U3ppclYxTG9GamZha1ErNVBmd3hXcFFBQnlaS3IrdTI4N2gyOTBicElIZ0k3?=
+ =?utf-8?B?dUtNMGVHZXRPUTMvcHY4Tk1leUZIVXQyK0NGWGtXMlcxdnE5dk9Mdm5vUjh1?=
+ =?utf-8?B?ZjN2YUJNay96OUJzMU5PelRrWmZRcVFjcGRnSjFDSlowR0FDNVNjbk9hdENY?=
+ =?utf-8?B?WWZ0TUlSekh0NDBYbWRxZXlVVzRNbmJGNEFLdHJJKzNSMDFjWkdhajRJRWNz?=
+ =?utf-8?B?VjBmQjJsMm1SbEJPK2JnZTJxSHhETThpZG9zMkN0ZVlqdFRsdFVKcmJZWnpk?=
+ =?utf-8?B?L0cyQktRQ05kSmJzaHJYSGQzbU1QQ3JobVNDTUFSSHNZMU83K2dtWitpZFNL?=
+ =?utf-8?B?S2p3VHNnR3BZWkZhSXBaekRQWTFwWTNoRURVWUJ4UFNNZ0YwbEtDWC9zYnho?=
+ =?utf-8?B?dC9EaE1GWjh4R2t5MkZqb3I5NU8vSTlzN0tKbFJsVjNZaE80TGl0VHRvOWVR?=
+ =?utf-8?B?dnNCZHFaU05ZVXRmc3VtelpZU2hsQldMSFFRN0lwRUlTRjF2S2Y0VTRyaGZ2?=
+ =?utf-8?B?SHVFdlRKencrUWZNcThNNjVjSGFMQ0grbU4rMVJRVTBnRDgzUUU1dWM1ZTkr?=
+ =?utf-8?B?aE1jeW9xSTJzK3FEK3RCNEdqaWpWTjRCbWN2aUlxanNnZ0E3d2srd3VGSWVK?=
+ =?utf-8?B?U1Q0YXBiY1hvNVlnSTM0Ti9LY0QzMmZDTGNaK0xSMmdNMXlIeGY4UVFsbmY1?=
+ =?utf-8?B?R2pEMmlzMDhqUDgyT3ZKZHJnRFVFa1pVaXA0MTRzTnp5SHc9PQ==?=
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:PH8PR12MB7301.namprd12.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230040)(376014)(1800799024)(366016)(7053199007)(13003099007)(8096899003);
+ DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?cDVCMkpQbHZ0UitQdXMrYm1xOU9kT3pDTHlwV0YxeGpmQldsSElLSjVQYXI0?=
+ =?utf-8?B?OC9nZ2hjSWRKUGg5M09RdGpDcVF5TTU5QmtHWVdLRDVSZkxFbGVvaG1GSktk?=
+ =?utf-8?B?dG91VG5SYXBqblNjVXI5TVNPTEY4dmhHQ2tjUVZ4MFVtclQxbjl4K3MyLzJ4?=
+ =?utf-8?B?ajd1eEdiN3JSVlgyOE5nbXZ4K1FzWG00UWZySGsvZGVXei82YXlFVlVJendw?=
+ =?utf-8?B?b3FEbTNuandEcVRBS0dEUzJsa0swMHMrd2IrcUk5K3l6akc3U0pwaDYzWUpF?=
+ =?utf-8?B?aFgxUFduMXdqWS9kajVEbEJvS2p2STR5bnQyWHcyTDR4aVdsY2dEZzJSK1VX?=
+ =?utf-8?B?OEdJeTVYQUdYV29RWms3Zzg5andFbzhMV0FEZEFIdWdzTU9UZ0F2dzN4d01n?=
+ =?utf-8?B?RVZRTGt0cXhxUC8xT3p1V29VMTA1RncybXVSeDFjNHZwWjZFQ0xEVmc4KzdR?=
+ =?utf-8?B?cEswRFhLR2tHOVdSenY5NktZTUdGQkp6OTBjajZMWkJTYnI0dDVUeEp6Y2VI?=
+ =?utf-8?B?cGpsb1c0MmNKYnNNMWRSRVZEd1VGTHJVQWdJb1pLUEVrKzJRdzVkdFIrQVRI?=
+ =?utf-8?B?TDBHWU02d3lpWlU0RW1VK1Q4OWlJVS9SWFVtR1ovbEpMMFZDWUdrYUcyZWFy?=
+ =?utf-8?B?bGhJcXBiUnBZc05yOFFMNmQ3aVlmR01QV0pyamVNclcyeGpZa2pJa00zdDAz?=
+ =?utf-8?B?dmJqd0UyRjV2UVdaR29nenZwbXBXMUU3M2FWb3JkL0U2alhZNlNObllzcFJX?=
+ =?utf-8?B?bmVDUStrU1U2ZGhiWE1rVzV1MmZ4WEZHVmR5TnF5TWU2dCtVQmpNR2J3N2l5?=
+ =?utf-8?B?bWVxSzNDeGpSUEsrVy9Wd2hKMWNUbnNBdUlmblpiOWYyeEptSnZrbG00R0ZH?=
+ =?utf-8?B?UW04N1R1WmJFRXNIaDIvVHRQeGg1MmJUVTQweXhOdlU0RHg1aDNxTFk1cTR5?=
+ =?utf-8?B?K3oxaFhuVTNGaE95SzRPMFZ2bXJJV1p4Zm1va0tBRlFKbytFc2RsT2dEU21Z?=
+ =?utf-8?B?TkpYUEljTkF1amFoSjZaSlBZRzlHZFRJRk43Z2RmV2ZCbVJWRWtROHVBa0hw?=
+ =?utf-8?B?YSt2VWRLVzlkTXFOUlBUMlN4MjlWOWVuY21vczVjdHhtK2ExQlorUnMydmp4?=
+ =?utf-8?B?blFhNnhhVjFqeFJGNTN6emhaczVuZHdLUHQvWGlFZ0s3aithekd1M3o5L1NJ?=
+ =?utf-8?B?K1VOcW1FSVczaVp5TkJjM0xzWVJsNGhnT3V0R3BmbkhlMEhpV0dLSERKNGxT?=
+ =?utf-8?B?RnJsR1RkUzgwUmR4emJrSTdwSWlEMExmdll2Vk5vU0lyc1RWWUtMSXVHb3pH?=
+ =?utf-8?B?RmV0Ui9hSjJiQ3Awc1hSZ1Vib2lwWnNCRWR2aUM2dUNjWTFZOENUZ0phQTNn?=
+ =?utf-8?B?L1VGQVJjVWhmakx5elVCNFR6U2NSVXN1NGxRSnlWbHdjK0J1LzBPVUJKWnhC?=
+ =?utf-8?B?ZHhkUWx4S0FBaUpOU1E1M25KUExWM0NVbXV3NkdxWXRPYkhoNVY1QzJWS0hW?=
+ =?utf-8?B?cDVvT3NaSG1TQ0VWVW1OQStDWHV4R3lSSHNLTjA4U0Y0S21QTzI0clRNWUJD?=
+ =?utf-8?B?MXBBSG5NL3dsZkErdGpRMFdtaStyMVNXYldsWEx3Q2Nwc25ZZEt0UnFPbDZB?=
+ =?utf-8?B?RTRtVGcreDhHb0lrOXgzOUtrNkxRbmU1dHlZRnl5S3N6YWw1TVljYml3L2Iv?=
+ =?utf-8?B?c0dxZ2xiQm1XS1NEVDQrMWJzVmV2eFZxRWVtRXNGM3dGZnZxYnBvWWE1U2FV?=
+ =?utf-8?B?Yjc1TitBd2xlWWd6OHhqd1pOdjdPNzZWbjEzZldHNGw2THJuRVJVOUVKYTlK?=
+ =?utf-8?B?QkhOWmU5S2hvUzdkN2xCMENIN0YxVU03YUlrMEFYSFN5dWx4QmY5TVRmV0ln?=
+ =?utf-8?B?MW9lQWt4dXppNis5TXozOHMydkEyQnk3dXVtRHMzbVFqbTJ2Y1pzRklRVU5l?=
+ =?utf-8?B?QzBGU2Zsd3ZiOTQxSmZxRlMvTDVpVEtVeFA0eC8zc0drdXhBT3F6NlVwcUVq?=
+ =?utf-8?B?NzgvSXpaNkdIOWFzR2prTE1ieXJTcjhPTjZpRFp5V2ZYYk5vN29zV2RDbUxU?=
+ =?utf-8?B?VmNEQ0FGc0tObnNVOW05ODAybW5aWCtKSXJRYWw2VHBTellQLzA0NERqNkd2?=
+ =?utf-8?Q?UjkFVi6wUiOVnZsakzlNqmWoe?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 8987635e-3490-44f0-8150-08de119add15
+X-MS-Exchange-CrossTenant-AuthSource: PH8PR12MB7301.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 22 Oct 2025 18:43:16.9984 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: sxZ01n4zLLJHo/Qfww308L96mJz0C5hlswS22Gmg3gCtfr9N+y44gz5ZY7JxGXD0TLGA1SQztWaZ+Nq5NuEx6w==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM4PR12MB7766
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -61,579 +167,90 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Joel,
+--------------eeaAXuUtHrMy1t0KfqHOYeKX
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-I know I'm chiming in a bit late, so apologies for that.
-
-The register! macro does seem to be a solid foundation for MMIO register
-definitions, thought there are few points that could be potentially
-[re]considered.
-
-The current design assumes a fixed, compile-time-known MMIO region size.
-It does not cover cases when the region size is known only at runtime.
-I do appreciate that in cases like that, we are loosing all the deliberate
-compile-time checks but it might be necessary to provide support for those as
-well (at some point at least).
-
-On the (potential) improvement side:
-
-Allowing offsets to be expressions rather than literals would make the macro
-easier to use for regions defined at a fixed base offset, where subsequent
-offsets are derived from that base, i.e:
-
-REG_1_BASE 	-> 0x100
-REG_1_STATUS 	-> REG_1_BASE + 0x0
-REG_1_CONTROL	-> REG_1_BASE + 0x04
-...
-
-The alias mechanism is a nice touch. It might be worth allowing arrays of
-registers with explicit aliases to be defined in a single macro invocation,
-instead of repeating similar definitions, smth along the lines of:
-
-  register!(
-      REG_STATUS @ 0x300[8; STRIDE] {
-          0:0 enabled as bool;
-          3:1 mode as u8;
-          7:4 flags as u8;
-      }
-      aliases {
-          REG_STATUS_ENABLED[0] {
-              0:0 enabled as bool;
-          }
-          REG_STATUS_MODE[0] {
-              3:1 mode as u8;
-          }
-          REG_STATUS_FLAGS[4] {
-              7:4 flags as u8;
-          }
-      }
-  );
+Reviewed-by: Arunpravin Paneer Selvam <Arunpravin.PaneerSelvam@amd.com>
 
 
-Finally, for runtime values such as indexes, it could be useful to verify once
-and then allow infallible reads/writes through some kind access token.
-That might make runtime-safe access patterns simpler and more efficient.
-I'm still pondering on how that could look like though (implementation-wise)
+Thanks,
 
----
-BR
-Beata
+Arun.
 
-On Fri, Oct 03, 2025 at 11:47:47AM -0400, Joel Fernandes wrote:
-> Out of broad need for the register and bitfield macros in Rust, move
-> them out of nova into the kernel crate. Several usecases need them (Nova
-> is already using these and Tyr developers said they need them).
-> 
-> bitfield moved into kernel crate - defines bitfields in Rust.
-> register moved into io module - defines hardware registers and accessors.
-> 
-> Reviewed-by: Alexandre Courbot <acourbot@nvidia.com>
-> Reviewed-by: Elle Rhumsaa <elle@weathered-steel.dev>
-> Signed-off-by: Joel Fernandes <joelagnelf@nvidia.com>
+On 10/21/2025 10:13 PM, Krzysztof Niemiec wrote:
+> Mark the newly introduced drm_test_buddy_fragmentation_performance test
+> as KUNIT_SPEED_SLOW, as it might take more than a second on some
+> systems.
+>
+> Fixes:https://gitlab.freedesktop.org/drm/i915/kernel/-/issues/15095
+>
+> Signed-off-by: Krzysztof Niemiec<krzysztof.niemiec@intel.com>
 > ---
->  drivers/gpu/nova-core/falcon.rs               |  2 +-
->  drivers/gpu/nova-core/falcon/gsp.rs           |  4 +-
->  drivers/gpu/nova-core/falcon/sec2.rs          |  2 +-
->  drivers/gpu/nova-core/nova_core.rs            |  3 -
->  drivers/gpu/nova-core/regs.rs                 |  6 +-
->  .../gpu/nova-core => rust/kernel}/bitfield.rs | 27 ++++-----
->  rust/kernel/io.rs                             |  1 +
->  .../macros.rs => rust/kernel/io/register.rs   | 58 ++++++++++---------
->  rust/kernel/lib.rs                            |  1 +
->  9 files changed, 54 insertions(+), 50 deletions(-)
->  rename {drivers/gpu/nova-core => rust/kernel}/bitfield.rs (91%)
->  rename drivers/gpu/nova-core/regs/macros.rs => rust/kernel/io/register.rs (93%)
-> 
-> diff --git a/drivers/gpu/nova-core/falcon.rs b/drivers/gpu/nova-core/falcon.rs
-> index 37e6298195e4..a15fa98c8614 100644
-> --- a/drivers/gpu/nova-core/falcon.rs
-> +++ b/drivers/gpu/nova-core/falcon.rs
-> @@ -6,6 +6,7 @@
->  use hal::FalconHal;
->  use kernel::device;
->  use kernel::dma::DmaAddress;
-> +use kernel::io::register::RegisterBase;
->  use kernel::prelude::*;
->  use kernel::sync::aref::ARef;
->  use kernel::time::Delta;
-> @@ -14,7 +15,6 @@
->  use crate::driver::Bar0;
->  use crate::gpu::Chipset;
->  use crate::regs;
-> -use crate::regs::macros::RegisterBase;
->  use crate::util;
->  
->  pub(crate) mod gsp;
-> diff --git a/drivers/gpu/nova-core/falcon/gsp.rs b/drivers/gpu/nova-core/falcon/gsp.rs
-> index f17599cb49fa..cd4960e997c8 100644
-> --- a/drivers/gpu/nova-core/falcon/gsp.rs
-> +++ b/drivers/gpu/nova-core/falcon/gsp.rs
-> @@ -1,9 +1,11 @@
->  // SPDX-License-Identifier: GPL-2.0
->  
-> +use kernel::io::register::RegisterBase;
-> +
->  use crate::{
->      driver::Bar0,
->      falcon::{Falcon, FalconEngine, PFalcon2Base, PFalconBase},
-> -    regs::{self, macros::RegisterBase},
-> +    regs::self,
->  };
->  
->  /// Type specifying the `Gsp` falcon engine. Cannot be instantiated.
-> diff --git a/drivers/gpu/nova-core/falcon/sec2.rs b/drivers/gpu/nova-core/falcon/sec2.rs
-> index 815786c8480d..81717868a8a8 100644
-> --- a/drivers/gpu/nova-core/falcon/sec2.rs
-> +++ b/drivers/gpu/nova-core/falcon/sec2.rs
-> @@ -1,7 +1,7 @@
->  // SPDX-License-Identifier: GPL-2.0
->  
->  use crate::falcon::{FalconEngine, PFalcon2Base, PFalconBase};
-> -use crate::regs::macros::RegisterBase;
-> +use kernel::io::register::RegisterBase;
->  
->  /// Type specifying the `Sec2` falcon engine. Cannot be instantiated.
->  pub(crate) struct Sec2(());
-> diff --git a/drivers/gpu/nova-core/nova_core.rs b/drivers/gpu/nova-core/nova_core.rs
-> index 112277c7921e..fffcaee2249f 100644
-> --- a/drivers/gpu/nova-core/nova_core.rs
-> +++ b/drivers/gpu/nova-core/nova_core.rs
-> @@ -2,9 +2,6 @@
->  
->  //! Nova Core GPU Driver
->  
-> -#[macro_use]
-> -mod bitfield;
-> -
->  mod dma;
->  mod driver;
->  mod falcon;
-> diff --git a/drivers/gpu/nova-core/regs.rs b/drivers/gpu/nova-core/regs.rs
-> index 206dab2e1335..1f08e6d4045a 100644
-> --- a/drivers/gpu/nova-core/regs.rs
-> +++ b/drivers/gpu/nova-core/regs.rs
-> @@ -4,15 +4,13 @@
->  // but are mapped to types.
->  #![allow(non_camel_case_types)]
->  
-> -#[macro_use]
-> -pub(crate) mod macros;
-> -
->  use crate::falcon::{
->      DmaTrfCmdSize, FalconCoreRev, FalconCoreRevSubversion, FalconFbifMemType, FalconFbifTarget,
->      FalconModSelAlgo, FalconSecurityModel, PFalcon2Base, PFalconBase, PeregrineCoreSelect,
->  };
->  use crate::gpu::{Architecture, Chipset};
->  use kernel::prelude::*;
-> +use kernel::register;
->  
->  // PMC
->  
-> @@ -331,6 +329,7 @@ pub(crate) fn mem_scrubbing_done(self) -> bool {
->  
->  pub(crate) mod gm107 {
->      // FUSE
-> +    use kernel::register;
->  
->      register!(NV_FUSE_STATUS_OPT_DISPLAY @ 0x00021c04 {
->          0:0     display_disabled as bool;
-> @@ -339,6 +338,7 @@ pub(crate) mod gm107 {
->  
->  pub(crate) mod ga100 {
->      // FUSE
-> +    use kernel::register;
->  
->      register!(NV_FUSE_STATUS_OPT_DISPLAY @ 0x00820c04 {
->          0:0     display_disabled as bool;
-> diff --git a/drivers/gpu/nova-core/bitfield.rs b/rust/kernel/bitfield.rs
-> similarity index 91%
-> rename from drivers/gpu/nova-core/bitfield.rs
-> rename to rust/kernel/bitfield.rs
-> index cbedbb0078f6..09cd5741598c 100644
-> --- a/drivers/gpu/nova-core/bitfield.rs
-> +++ b/rust/kernel/bitfield.rs
-> @@ -9,7 +9,7 @@
->  /// # Syntax
->  ///
->  /// ```rust
-> -/// use nova_core::bitfield;
-> +/// use kernel::bitfield;
->  ///
->  /// #[derive(Debug, Clone, Copy, Default)]
->  /// enum Mode {
-> @@ -82,10 +82,11 @@
->  ///   the result.
->  /// - `as <type> ?=> <try_into_type>` calls `<try_into_type>`'s `TryFrom::<<type>>` implementation
->  ///   and returns the result. This is useful with fields for which not all values are valid.
-> +#[macro_export]
->  macro_rules! bitfield {
->      // Main entry point - defines the bitfield struct with fields
->      ($vis:vis struct $name:ident($storage:ty) $(, $comment:literal)? { $($fields:tt)* }) => {
-> -        bitfield!(@core $vis $name $storage $(, $comment)? { $($fields)* });
-> +        ::kernel::bitfield!(@core $vis $name $storage $(, $comment)? { $($fields)* });
->      };
->  
->      // All rules below are helpers.
-> @@ -114,7 +115,7 @@ fn from(val: $name) -> $storage {
->              }
->          }
->  
-> -        bitfield!(@fields_dispatcher $vis $name $storage { $($fields)* });
-> +        ::kernel::bitfield!(@fields_dispatcher $vis $name $storage { $($fields)* });
->      };
->  
->      // Captures the fields and passes them to all the implementers that require field information.
-> @@ -130,7 +131,7 @@ fn from(val: $name) -> $storage {
->          )*
->      }
->      ) => {
-> -        bitfield!(@field_accessors $vis $name $storage {
-> +        ::kernel::bitfield!(@field_accessors $vis $name $storage {
->              $(
->                  $hi:$lo $field as $type
->                  $(?=> $try_into_type)?
-> @@ -139,8 +140,8 @@ fn from(val: $name) -> $storage {
->              ;
->              )*
->          });
-> -        bitfield!(@debug $name { $($field;)* });
-> -        bitfield!(@default $name { $($field;)* });
-> +        ::kernel::bitfield!(@debug $name { $($field;)* });
-> +        ::kernel::bitfield!(@default $name { $($field;)* });
->      };
->  
->      // Defines all the field getter/setter methods for `$name`.
-> @@ -155,13 +156,13 @@ fn from(val: $name) -> $storage {
->          }
->      ) => {
->          $(
-> -            bitfield!(@check_field_bounds $hi:$lo $field as $type);
-> +            ::kernel::bitfield!(@check_field_bounds $hi:$lo $field as $type);
->          )*
->  
->          #[allow(dead_code)]
->          impl $name {
->              $(
-> -            bitfield!(@field_accessor $vis $name $storage, $hi:$lo $field as $type
-> +            ::kernel::bitfield!(@field_accessor $vis $name $storage, $hi:$lo $field as $type
->                  $(?=> $try_into_type)?
->                  $(=> $into_type)?
->                  $(, $comment)?
-> @@ -198,7 +199,7 @@ impl $name {
->          @field_accessor $vis:vis $name:ident $storage:ty, $hi:tt:$lo:tt $field:ident as bool => $into_type:ty
->              $(, $comment:literal)?;
->      ) => {
-> -        bitfield!(
-> +        ::kernel::bitfield!(
->              @leaf_accessor $vis $name $storage, $hi:$lo $field
->              { |f| <$into_type>::from(if f != 0 { true } else { false }) }
->              $into_type => $into_type $(, $comment)?;
-> @@ -209,7 +210,7 @@ impl $name {
->      (
->          @field_accessor $vis:vis $name:ident $storage:ty, $hi:tt:$lo:tt $field:ident as bool $(, $comment:literal)?;
->      ) => {
-> -        bitfield!(@field_accessor $vis $name $storage, $hi:$lo $field as bool => bool $(, $comment)?;);
-> +        ::kernel::bitfield!(@field_accessor $vis $name $storage, $hi:$lo $field as bool => bool $(, $comment)?;);
->      };
->  
->      // Catches the `?=>` syntax for non-boolean fields.
-> @@ -217,7 +218,7 @@ impl $name {
->          @field_accessor $vis:vis $name:ident $storage:ty, $hi:tt:$lo:tt $field:ident as $type:tt ?=> $try_into_type:ty
->              $(, $comment:literal)?;
->      ) => {
-> -        bitfield!(@leaf_accessor $vis $name $storage, $hi:$lo $field
-> +        ::kernel::bitfield!(@leaf_accessor $vis $name $storage, $hi:$lo $field
->              { |f| <$try_into_type>::try_from(f as $type) } $try_into_type =>
->              ::core::result::Result<
->                  $try_into_type,
-> @@ -231,7 +232,7 @@ impl $name {
->          @field_accessor $vis:vis $name:ident $storage:ty, $hi:tt:$lo:tt $field:ident as $type:tt => $into_type:ty
->              $(, $comment:literal)?;
->      ) => {
-> -        bitfield!(@leaf_accessor $vis $name $storage, $hi:$lo $field
-> +        ::kernel::bitfield!(@leaf_accessor $vis $name $storage, $hi:$lo $field
->              { |f| <$into_type>::from(f as $type) } $into_type => $into_type $(, $comment)?;);
->      };
->  
-> @@ -240,7 +241,7 @@ impl $name {
->          @field_accessor $vis:vis $name:ident $storage:ty, $hi:tt:$lo:tt $field:ident as $type:tt
->              $(, $comment:literal)?;
->      ) => {
-> -        bitfield!(@field_accessor $vis $name $storage, $hi:$lo $field as $type => $type $(, $comment)?;);
-> +        ::kernel::bitfield!(@field_accessor $vis $name $storage, $hi:$lo $field as $type => $type $(, $comment)?;);
->      };
->  
->      // Generates the accessor methods for a single field.
-> diff --git a/rust/kernel/io.rs b/rust/kernel/io.rs
-> index 03b467722b86..a79b603604b1 100644
-> --- a/rust/kernel/io.rs
-> +++ b/rust/kernel/io.rs
-> @@ -8,6 +8,7 @@
->  use crate::{bindings, build_assert, ffi::c_void};
->  
->  pub mod mem;
-> +pub mod register;
->  pub mod resource;
->  
->  pub use resource::Resource;
-> diff --git a/drivers/gpu/nova-core/regs/macros.rs b/rust/kernel/io/register.rs
-> similarity index 93%
-> rename from drivers/gpu/nova-core/regs/macros.rs
-> rename to rust/kernel/io/register.rs
-> index c0a5194e8d97..c24d956f122f 100644
-> --- a/drivers/gpu/nova-core/regs/macros.rs
-> +++ b/rust/kernel/io/register.rs
-> @@ -17,7 +17,8 @@
->  /// The `T` generic argument is used to distinguish which base to use, in case a type provides
->  /// several bases. It is given to the `register!` macro to restrict the use of the register to
->  /// implementors of this particular variant.
-> -pub(crate) trait RegisterBase<T> {
-> +pub trait RegisterBase<T> {
-> +    /// The base address for the register.
->      const BASE: usize;
->  }
->  
-> @@ -26,7 +27,7 @@ pub(crate) trait RegisterBase<T> {
->  ///
->  /// Example:
->  ///
-> -/// ```no_run
-> +/// ```ignore
->  /// register!(BOOT_0 @ 0x00000100, "Basic revision information about the GPU" {
->  ///    3:0     minor_revision as u8, "Minor revision of the chip";
->  ///    7:4     major_revision as u8, "Major revision of the chip";
-> @@ -39,7 +40,7 @@ pub(crate) trait RegisterBase<T> {
->  /// significant bits of the register. Each field can be accessed and modified using accessor
->  /// methods:
->  ///
-> -/// ```no_run
-> +/// ```ignore
->  /// // Read from the register's defined offset (0x100).
->  /// let boot0 = BOOT_0::read(&bar);
->  /// pr_info!("chip revision: {}.{}", boot0.major_revision(), boot0.minor_revision());
-> @@ -61,7 +62,7 @@ pub(crate) trait RegisterBase<T> {
->  /// It is also possible to create a alias register by using the `=> ALIAS` syntax. This is useful
->  /// for cases where a register's interpretation depends on the context:
->  ///
-> -/// ```no_run
-> +/// ```ignore
->  /// register!(SCRATCH @ 0x00000200, "Scratch register" {
->  ///    31:0     value as u32, "Raw value";
->  /// });
-> @@ -111,7 +112,7 @@ pub(crate) trait RegisterBase<T> {
->  /// this register needs to implement `RegisterBase<Base>`. Here is the above example translated
->  /// into code:
->  ///
-> -/// ```no_run
-> +/// ```ignore
->  /// // Type used to identify the base.
->  /// pub(crate) struct CpuCtlBase;
->  ///
-> @@ -162,7 +163,7 @@ pub(crate) trait RegisterBase<T> {
->  /// compile-time or runtime bound checking. Simply define their address as `Address[Size]`, and add
->  /// an `idx` parameter to their `read`, `write` and `alter` methods:
->  ///
-> -/// ```no_run
-> +/// ```ignore
->  /// # fn no_run() -> Result<(), Error> {
->  /// # fn get_scratch_idx() -> usize {
->  /// #   0x15
-> @@ -211,7 +212,7 @@ pub(crate) trait RegisterBase<T> {
->  /// Combining the two features described in the sections above, arrays of registers accessible from
->  /// a base can also be defined:
->  ///
-> -/// ```no_run
-> +/// ```ignore
->  /// # fn no_run() -> Result<(), Error> {
->  /// # fn get_scratch_idx() -> usize {
->  /// #   0x15
-> @@ -273,28 +274,29 @@ pub(crate) trait RegisterBase<T> {
->  /// # Ok(())
->  /// # }
->  /// ```
-> +#[macro_export]
->  macro_rules! register {
->      // Creates a register at a fixed offset of the MMIO space.
->      ($name:ident @ $offset:literal $(, $comment:literal)? { $($fields:tt)* } ) => {
-> -        bitfield!(pub(crate) struct $name(u32) $(, $comment)? { $($fields)* } );
-> +        ::kernel::bitfield!(pub(crate) struct $name(u32) $(, $comment)? { $($fields)* } );
->          register!(@io_fixed $name @ $offset);
->      };
->  
->      // Creates an alias register of fixed offset register `alias` with its own fields.
->      ($name:ident => $alias:ident $(, $comment:literal)? { $($fields:tt)* } ) => {
-> -        bitfield!(pub(crate) struct $name(u32) $(, $comment)? { $($fields)* } );
-> +        ::kernel::bitfield!(pub(crate) struct $name(u32) $(, $comment)? { $($fields)* } );
->          register!(@io_fixed $name @ $alias::OFFSET);
->      };
->  
->      // Creates a register at a relative offset from a base address provider.
->      ($name:ident @ $base:ty [ $offset:literal ] $(, $comment:literal)? { $($fields:tt)* } ) => {
-> -        bitfield!(pub(crate) struct $name(u32) $(, $comment)? { $($fields)* } );
-> +        ::kernel::bitfield!(pub(crate) struct $name(u32) $(, $comment)? { $($fields)* } );
->          register!(@io_relative $name @ $base [ $offset ]);
->      };
->  
->      // Creates an alias register of relative offset register `alias` with its own fields.
->      ($name:ident => $base:ty [ $alias:ident ] $(, $comment:literal)? { $($fields:tt)* }) => {
-> -        bitfield!(pub(crate) struct $name(u32) $(, $comment)? { $($fields)* } );
-> +        ::kernel::bitfield!(pub(crate) struct $name(u32) $(, $comment)? { $($fields)* } );
->          register!(@io_relative $name @ $base [ $alias::OFFSET ]);
->      };
->  
-> @@ -305,7 +307,7 @@ macro_rules! register {
->          }
->      ) => {
->          static_assert!(::core::mem::size_of::<u32>() <= $stride);
-> -        bitfield!(pub(crate) struct $name(u32) $(, $comment)? { $($fields)* } );
-> +        ::kernel::bitfield!(pub(crate) struct $name(u32) $(, $comment)? { $($fields)* } );
->          register!(@io_array $name @ $offset [ $size ; $stride ]);
->      };
->  
-> @@ -326,7 +328,7 @@ macro_rules! register {
->              $(, $comment:literal)? { $($fields:tt)* }
->      ) => {
->          static_assert!(::core::mem::size_of::<u32>() <= $stride);
-> -        bitfield!(pub(crate) struct $name(u32) $(, $comment)? { $($fields)* } );
-> +        ::kernel::bitfield!(pub(crate) struct $name(u32) $(, $comment)? { $($fields)* } );
->          register!(@io_relative_array $name @ $base [ $offset [ $size ; $stride ] ]);
->      };
->  
-> @@ -348,7 +350,7 @@ macro_rules! register {
->          }
->      ) => {
->          static_assert!($idx < $alias::SIZE);
-> -        bitfield!(pub(crate) struct $name(u32) $(, $comment)? { $($fields)* } );
-> +        ::kernel::bitfield!(pub(crate) struct $name(u32) $(, $comment)? { $($fields)* } );
->          register!(@io_relative $name @ $base [ $alias::OFFSET + $idx * $alias::STRIDE ] );
->      };
->  
-> @@ -357,7 +359,7 @@ macro_rules! register {
->      // to avoid it being interpreted in place of the relative register array alias rule.
->      ($name:ident => $alias:ident [ $idx:expr ] $(, $comment:literal)? { $($fields:tt)* }) => {
->          static_assert!($idx < $alias::SIZE);
-> -        bitfield!(pub(crate) struct $name(u32) $(, $comment)? { $($fields)* } );
-> +        ::kernel::bitfield!(pub(crate) struct $name(u32) $(, $comment)? { $($fields)* } );
->          register!(@io_fixed $name @ $alias::OFFSET + $idx * $alias::STRIDE );
->      };
->  
-> @@ -414,12 +416,12 @@ pub(crate) fn read<const SIZE: usize, T, B>(
->                  base: &B,
->              ) -> Self where
->                  T: ::core::ops::Deref<Target = ::kernel::io::Io<SIZE>>,
-> -                B: crate::regs::macros::RegisterBase<$base>,
-> +                B: ::kernel::io::register::RegisterBase<$base>,
->              {
->                  const OFFSET: usize = $name::OFFSET;
->  
->                  let value = io.read32(
-> -                    <B as crate::regs::macros::RegisterBase<$base>>::BASE + OFFSET
-> +                    <B as ::kernel::io::register::RegisterBase<$base>>::BASE + OFFSET
->                  );
->  
->                  Self(value)
-> @@ -435,13 +437,13 @@ pub(crate) fn write<const SIZE: usize, T, B>(
->                  base: &B,
->              ) where
->                  T: ::core::ops::Deref<Target = ::kernel::io::Io<SIZE>>,
-> -                B: crate::regs::macros::RegisterBase<$base>,
-> +                B: ::kernel::io::register::RegisterBase<$base>,
->              {
->                  const OFFSET: usize = $name::OFFSET;
->  
->                  io.write32(
->                      self.0,
-> -                    <B as crate::regs::macros::RegisterBase<$base>>::BASE + OFFSET
-> +                    <B as ::kernel::io::register::RegisterBase<$base>>::BASE + OFFSET
->                  );
->              }
->  
-> @@ -455,7 +457,7 @@ pub(crate) fn alter<const SIZE: usize, T, B, F>(
->                  f: F,
->              ) where
->                  T: ::core::ops::Deref<Target = ::kernel::io::Io<SIZE>>,
-> -                B: crate::regs::macros::RegisterBase<$base>,
-> +                B: ::kernel::io::register::RegisterBase<$base>,
->                  F: ::core::ops::FnOnce(Self) -> Self,
->              {
->                  let reg = f(Self::read(io, base));
-> @@ -600,11 +602,11 @@ pub(crate) fn read<const SIZE: usize, T, B>(
->                  idx: usize,
->              ) -> Self where
->                  T: ::core::ops::Deref<Target = ::kernel::io::Io<SIZE>>,
-> -                B: crate::regs::macros::RegisterBase<$base>,
-> +                B: ::kernel::io::register::RegisterBase<$base>,
->              {
->                  build_assert!(idx < Self::SIZE);
->  
-> -                let offset = <B as crate::regs::macros::RegisterBase<$base>>::BASE +
-> +                let offset = <B as ::kernel::io::register::RegisterBase<$base>>::BASE +
->                      Self::OFFSET + (idx * Self::STRIDE);
->                  let value = io.read32(offset);
->  
-> @@ -622,11 +624,11 @@ pub(crate) fn write<const SIZE: usize, T, B>(
->                  idx: usize
->              ) where
->                  T: ::core::ops::Deref<Target = ::kernel::io::Io<SIZE>>,
-> -                B: crate::regs::macros::RegisterBase<$base>,
-> +                B: ::kernel::io::register::RegisterBase<$base>,
->              {
->                  build_assert!(idx < Self::SIZE);
->  
-> -                let offset = <B as crate::regs::macros::RegisterBase<$base>>::BASE +
-> +                let offset = <B as ::kernel::io::register::RegisterBase<$base>>::BASE +
->                      Self::OFFSET + (idx * Self::STRIDE);
->  
->                  io.write32(self.0, offset);
-> @@ -643,7 +645,7 @@ pub(crate) fn alter<const SIZE: usize, T, B, F>(
->                  f: F,
->              ) where
->                  T: ::core::ops::Deref<Target = ::kernel::io::Io<SIZE>>,
-> -                B: crate::regs::macros::RegisterBase<$base>,
-> +                B: ::kernel::io::register::RegisterBase<$base>,
->                  F: ::core::ops::FnOnce(Self) -> Self,
->              {
->                  let reg = f(Self::read(io, base, idx));
-> @@ -662,7 +664,7 @@ pub(crate) fn try_read<const SIZE: usize, T, B>(
->                  idx: usize,
->              ) -> ::kernel::error::Result<Self> where
->                  T: ::core::ops::Deref<Target = ::kernel::io::Io<SIZE>>,
-> -                B: crate::regs::macros::RegisterBase<$base>,
-> +                B: ::kernel::io::register::RegisterBase<$base>,
->              {
->                  if idx < Self::SIZE {
->                      Ok(Self::read(io, base, idx))
-> @@ -684,7 +686,7 @@ pub(crate) fn try_write<const SIZE: usize, T, B>(
->                  idx: usize,
->              ) -> ::kernel::error::Result where
->                  T: ::core::ops::Deref<Target = ::kernel::io::Io<SIZE>>,
-> -                B: crate::regs::macros::RegisterBase<$base>,
-> +                B: ::kernel::io::register::RegisterBase<$base>,
->              {
->                  if idx < Self::SIZE {
->                      Ok(self.write(io, base, idx))
-> @@ -707,7 +709,7 @@ pub(crate) fn try_alter<const SIZE: usize, T, B, F>(
->                  f: F,
->              ) -> ::kernel::error::Result where
->                  T: ::core::ops::Deref<Target = ::kernel::io::Io<SIZE>>,
-> -                B: crate::regs::macros::RegisterBase<$base>,
-> +                B: ::kernel::io::register::RegisterBase<$base>,
->                  F: ::core::ops::FnOnce(Self) -> Self,
->              {
->                  if idx < Self::SIZE {
-> diff --git a/rust/kernel/lib.rs b/rust/kernel/lib.rs
-> index fcffc3988a90..8f8260090c02 100644
-> --- a/rust/kernel/lib.rs
-> +++ b/rust/kernel/lib.rs
-> @@ -63,6 +63,7 @@
->  pub mod alloc;
->  #[cfg(CONFIG_AUXILIARY_BUS)]
->  pub mod auxiliary;
-> +pub mod bitfield;
->  pub mod bits;
->  #[cfg(CONFIG_BLOCK)]
->  pub mod block;
-> -- 
-> 2.34.1
-> 
-> 
+>   drivers/gpu/drm/tests/drm_buddy_test.c | 2 +-
+>   1 file changed, 1 insertion(+), 1 deletion(-)
+>
+> diff --git a/drivers/gpu/drm/tests/drm_buddy_test.c b/drivers/gpu/drm/tests/drm_buddy_test.c
+> index 5f40b5343bd8..672423af7c17 100644
+> --- a/drivers/gpu/drm/tests/drm_buddy_test.c
+> +++ b/drivers/gpu/drm/tests/drm_buddy_test.c
+> @@ -876,7 +876,7 @@ static struct kunit_case drm_buddy_tests[] = {
+>   	KUNIT_CASE(drm_test_buddy_alloc_contiguous),
+>   	KUNIT_CASE(drm_test_buddy_alloc_clear),
+>   	KUNIT_CASE(drm_test_buddy_alloc_range_bias),
+> -	KUNIT_CASE(drm_test_buddy_fragmentation_performance),
+> +	KUNIT_CASE_SLOW(drm_test_buddy_fragmentation_performance),
+>   	{}
+>   };
+>   
+
+--------------eeaAXuUtHrMy1t0KfqHOYeKX
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+
+<!DOCTYPE html><html><head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  </head>
+  <body>
+    <p style="margin:0in;font-family:Calibri;font-size:11.0pt">Reviewed-by:
+      Arunpravin Paneer Selvam &lt;<a href="mailto:Arunpravin.PaneerSelvam@amd.com" class="moz-txt-link-freetext">Arunpravin.PaneerSelvam@amd.com</a>&gt;</p>
+    <p style="margin:0in;font-family:Calibri;font-size:11.0pt"><br>
+    </p>
+    <p style="margin:0in;font-family:Calibri;font-size:11.0pt">Thanks,</p>
+    <p style="margin:0in;font-family:Calibri;font-size:11.0pt">Arun.<br>
+    </p>
+    <div class="moz-cite-prefix">On 10/21/2025 10:13 PM, Krzysztof
+      Niemiec wrote:<br>
+    </div>
+    <blockquote type="cite" cite="mid:20251021164341.6154-2-krzysztof.niemiec@intel.com">
+      <pre class="moz-quote-pre" wrap="">Mark the newly introduced drm_test_buddy_fragmentation_performance test
+as KUNIT_SPEED_SLOW, as it might take more than a second on some
+systems.
+
+Fixes: <a class="moz-txt-link-freetext" href="https://gitlab.freedesktop.org/drm/i915/kernel/-/issues/15095">https://gitlab.freedesktop.org/drm/i915/kernel/-/issues/15095</a>
+
+Signed-off-by: Krzysztof Niemiec <a class="moz-txt-link-rfc2396E" href="mailto:krzysztof.niemiec@intel.com">&lt;krzysztof.niemiec@intel.com&gt;</a>
+---
+ drivers/gpu/drm/tests/drm_buddy_test.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/drivers/gpu/drm/tests/drm_buddy_test.c b/drivers/gpu/drm/tests/drm_buddy_test.c
+index 5f40b5343bd8..672423af7c17 100644
+--- a/drivers/gpu/drm/tests/drm_buddy_test.c
++++ b/drivers/gpu/drm/tests/drm_buddy_test.c
+@@ -876,7 +876,7 @@ static struct kunit_case drm_buddy_tests[] = {
+ 	KUNIT_CASE(drm_test_buddy_alloc_contiguous),
+ 	KUNIT_CASE(drm_test_buddy_alloc_clear),
+ 	KUNIT_CASE(drm_test_buddy_alloc_range_bias),
+-	KUNIT_CASE(drm_test_buddy_fragmentation_performance),
++	KUNIT_CASE_SLOW(drm_test_buddy_fragmentation_performance),
+ 	{}
+ };
+ 
+</pre>
+    </blockquote>
+    <br>
+  </body>
+</html>
+
+--------------eeaAXuUtHrMy1t0KfqHOYeKX--
