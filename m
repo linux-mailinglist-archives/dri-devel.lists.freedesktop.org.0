@@ -2,59 +2,58 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8F97CBFB7DC
-	for <lists+dri-devel@lfdr.de>; Wed, 22 Oct 2025 12:58:04 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id E4876BFB7E8
+	for <lists+dri-devel@lfdr.de>; Wed, 22 Oct 2025 12:58:39 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CE6B710E743;
-	Wed, 22 Oct 2025 10:58:01 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 34EF810E745;
+	Wed, 22 Oct 2025 10:58:38 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="dRgScpES";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="GpkCoBEW";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DB34210E743
- for <dri-devel@lists.freedesktop.org>; Wed, 22 Oct 2025 10:57:59 +0000 (UTC)
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4207610E745
+ for <dri-devel@lists.freedesktop.org>; Wed, 22 Oct 2025 10:58:36 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1761130680; x=1792666680;
+ t=1761130716; x=1792666716;
  h=message-id:date:mime-version:subject:to:cc:references:
  from:in-reply-to:content-transfer-encoding;
- bh=pXo8HuRn7Fn1l0CR1wRonLuaFRpKfPDZdersXTmqzcI=;
- b=dRgScpES86FsEUJ1ZnXv273UMdekvXTFEJIebsiqcZeSSnt5DrTa747H
- 78sJ/JvS9O6qxoIUKibyxXu+/kaTB09O5IkxQtVtMCCS4qJZjBRPGCcoU
- rXuj39SYEMbHTAGvdwguT2zW+g+xEe0NsMuQw2t6t94CkyRN3wa0KoMzv
- BEtwjafgB9qbF8SA8+fJC82Ve2ZahofLqTVranTauMrOEF2GsN45qnHt3
- NaWXja80428zJtVF1Bjom2ZQwIcreQKCMxy6ORuiB/X0N1m4O/UMgCypt
- hDnShyKyAPeCY0Y4MvRohshS7LysaUMyl5mnaYrqXp/wo1nk/mGlKSqjV g==;
-X-CSE-ConnectionGUID: 2Gvxr6zxQYugh/WEHj3Zow==
-X-CSE-MsgGUID: aO3pZY7kSnuanInKnqYwng==
-X-IronPort-AV: E=McAfee;i="6800,10657,11586"; a="73564526"
-X-IronPort-AV: E=Sophos;i="6.19,247,1754982000"; d="scan'208";a="73564526"
+ bh=KiSPvaFbDnqDbnvCoziaMl9Sx2Ffy7oVubq6MTNhiUA=;
+ b=GpkCoBEWTGGZPZRjuCjJeJg9rzyQXcGo0TzsySZeCKwbCLGOLN+MZFRS
+ Tnv8PDN9j+aFEd34fnt5VzheU4eyGKi4zRuC7uzcz6gTNBVr8UD3aq0ql
+ 8zdHskynKVdlSh4d/nwjSUud9u3uob0AKosISbJss+QYRdueXK6PqhAkt
+ TKk+5X6vygGnFmLptF6Dr4E6A5KGNwg+oozcTPV7fuQBF82qE8Gh6a7MZ
+ 4Ea6rqKIbd1iAJxoHDiEHaa9z2eJu26E7RF2P6DvW1ZsqKMDgcDJBOqPK
+ slDFirlPyptyYu3FfxdgeUkWyUrJAv1BNW7O3YTEUdmRUGoZ2kVsihLln A==;
+X-CSE-ConnectionGUID: 064+i++HR6W5yp170LkoSQ==
+X-CSE-MsgGUID: IT2FBcrISlW1K0s4eBvXYg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11586"; a="62977407"
+X-IronPort-AV: E=Sophos;i="6.19,246,1754982000"; d="scan'208";a="62977407"
 Received: from orviesa003.jf.intel.com ([10.64.159.143])
- by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 22 Oct 2025 03:57:59 -0700
-X-CSE-ConnectionGUID: SBIHZ0y/RS2Csxs9CQ2LDw==
-X-CSE-MsgGUID: wiqWU2arQuqwP6fWZ1fzow==
+ by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 22 Oct 2025 03:58:35 -0700
+X-CSE-ConnectionGUID: gQF47zjoR9aMzyZX1ZLb8g==
+X-CSE-MsgGUID: kM8Z3XCnTGyXW90xC8StvA==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.19,246,1754982000"; d="scan'208";a="187882118"
+X-IronPort-AV: E=Sophos;i="6.19,246,1754982000"; d="scan'208";a="187882220"
 Received: from mfalkows-mobl.ger.corp.intel.com (HELO [10.246.17.115])
  ([10.246.17.115])
  by ORVIESA003-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 22 Oct 2025 03:57:58 -0700
-Message-ID: <59d15b3e-199f-4657-b7bf-ed456a60343f@linux.intel.com>
-Date: Wed, 22 Oct 2025 12:57:51 +0200
+ 22 Oct 2025 03:58:35 -0700
+Message-ID: <2b468073-d886-417b-8006-9e9946511076@linux.intel.com>
+Date: Wed, 22 Oct 2025 12:58:32 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] accel/ivpu: Remove VPU_CPU_NOC_* register access from
- NPU6 onward
+Subject: Re: [PATCH] accel/ivpu: Add support for Nova Lake's NPU
 To: Jeff Hugo <jeff.hugo@oss.qualcomm.com>, dri-devel@lists.freedesktop.org
 Cc: oded.gabbay@gmail.com, karol.wachowski@linux.intel.com, lizhi.hou@amd.com
-References: <20251021142005.2216776-1-maciej.falkowski@linux.intel.com>
- <bf77d882-7ab4-4271-a47b-ec0b86d19f91@oss.qualcomm.com>
+References: <20251021141948.2216735-1-maciej.falkowski@linux.intel.com>
+ <0485ac05-38a7-49b1-8928-d3c4a42bf0d3@oss.qualcomm.com>
 Content-Language: en-US
 From: "Falkowski, Maciej" <maciej.falkowski@linux.intel.com>
-In-Reply-To: <bf77d882-7ab4-4271-a47b-ec0b86d19f91@oss.qualcomm.com>
+In-Reply-To: <0485ac05-38a7-49b1-8928-d3c4a42bf0d3@oss.qualcomm.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -72,29 +71,23 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 10/21/2025 4:55 PM, Jeff Hugo wrote:
+On 10/21/2025 4:52 PM, Jeff Hugo wrote:
 
-> On 10/21/2025 8:20 AM, Maciej Falkowski wrote:
->> From: Karol Wachowski <karol.wachowski@linux.intel.com>
+> On 10/21/2025 8:19 AM, Maciej Falkowski wrote:
+>> Add support for NPU6 generation that
+>> will be present on Nova Lake CPUs.
+>> As with previous generations, it maintains compatibility
+>> so no bigger functional changes.
+>
+> Looks like this got word wrapped early. Commit messages can go out to 
+> 75 columns if I recall correctly.
+Thanks, it will be corrected in v2.
+
+Best regards,
+Maciej
+>
 >>
->> Quiescing TOP_MMIO in SOC_CPU_NOC as part of boot procedure is no longer
->> needed starting from 60XX. Remove soc_cpu_drive() call from NPU6 onward.
->>
->> The VPU_CPU_NOC_QREQN, VPU_CPU_NOC_QACCEPTN, and VPU_CPU_NOC_QDENY
->> registers are deprecated and non-functional on 60XX. They will be
->> removed in future generations.
->>
->> Signed-off-by: Karol Wachowski <karol.wachowski@linux.intel.com>
 >> Signed-off-by: Maciej Falkowski <maciej.falkowski@linux.intel.com>
 >
-> Should you just squash this into "[PATCH] accel/ivpu: Add support for 
-> Nova Lake's NPU"? Feels a bit odd to introduce an issue in that patch, 
-> and then immediately fix it.
-It wasn't exactly introducing an issue but sure squashing the two 
-commits into one will simplify things.
-
-Thanks,
-Maciej
-
->
-> -Jeff
+> With that,
+> Reviewed-by: Jeff Hugo <jeff.hugo@oss.qualcomm.com>
