@@ -2,90 +2,99 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C2EA5BFA2A8
-	for <lists+dri-devel@lfdr.de>; Wed, 22 Oct 2025 08:08:01 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id C5032BFA2D3
+	for <lists+dri-devel@lfdr.de>; Wed, 22 Oct 2025 08:11:16 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8239510E2C3;
-	Wed, 22 Oct 2025 06:07:44 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A6ECA10E6AD;
+	Wed, 22 Oct 2025 06:11:13 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=googlemail.com header.i=@googlemail.com header.b="TGaUi+GO";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="Iz1C3px4";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-f44.google.com (mail-wr1-f44.google.com
- [209.85.221.44])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3859910E0B0
- for <dri-devel@lists.freedesktop.org>; Wed, 22 Oct 2025 05:52:56 +0000 (UTC)
-Received: by mail-wr1-f44.google.com with SMTP id
- ffacd0b85a97d-3ecde0be34eso324383f8f.1
- for <dri-devel@lists.freedesktop.org>; Tue, 21 Oct 2025 22:52:56 -0700 (PDT)
+Received: from mail-lf1-f44.google.com (mail-lf1-f44.google.com
+ [209.85.167.44])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B027910E6AD
+ for <dri-devel@lists.freedesktop.org>; Wed, 22 Oct 2025 06:11:12 +0000 (UTC)
+Received: by mail-lf1-f44.google.com with SMTP id
+ 2adb3069b0e04-57e36125e8aso6137805e87.2
+ for <dri-devel@lists.freedesktop.org>; Tue, 21 Oct 2025 23:11:12 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=googlemail.com; s=20230601; t=1761112375; x=1761717175;
- darn=lists.freedesktop.org; 
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=1qTaxXHc0odr/JWFQILy/0jeEMddwplEQInrG8Kvvg8=;
- b=TGaUi+GO2t1NWC9eOkQLxeaRdcPWzpxS/5B/Zj21xPsqzKnoLujQ21+kD5HPN+6s+K
- 3jiVZon7S0xbGTHuIIMnlnt1d0kRcFbb6tqJhFPULgAR8+YFcjFeDOwT3qEAujr4sEUr
- hbijqrqNGuhlclfwOiI+jSNaaXfKGBrLqN6zh4KLHAp1E7EzfhNl6WzPKRqZvQWOFmcn
- sLcGW+nmVOoYS2KnmYZreB083ekKwLFfsgYNpdhrlHzwZphbbyitWPJdsd1FsmURfp2c
- Fy4mAbI5tjuVGH2NkOCvkgHxYfyvojSFLJNkpJIwFqty8XbykFU2EujRSt10NzzftsZj
- ATWQ==
+ d=gmail.com; s=20230601; t=1761113471; x=1761718271; darn=lists.freedesktop.org;
+ h=cc:to:message-id:content-transfer-encoding:mime-version:subject
+ :date:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=H0+BgDGfdaSQSOaQDhEvXyp9Ns3uPDwLDm/lWJtPZkY=;
+ b=Iz1C3px4YsqpFWU8szBqeeMtHScGZ6/YE7KtxXrSAStVIz2luMquKZO+w9xFG8RlM7
+ M9JV3CeSQ6GWTgJfNen1rWzhobcEYOAnLHawEvktlzsOfQah/asnAYXy21Q7+63sKZ+7
+ u9GyPQLq9Yg/bFfayYoe4c1J1XKYn0QKX4bp+bqd5RL+zVmIjKNh7XGReXJlZJ0ugImu
+ hgY/UrEzSd2mVagv0bLIs5FYg7n7LvD/fWc2BaZ4HZDwqg5sIrwsYrrQvRzQVE+iECix
+ 3HECoScmmPmTZT5RAnkBhLwcCUOA4omLB+bCMjVaMvIBbv0MFVeO2wNtJS2eKDthabet
+ l6Vw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1761112375; x=1761717175;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=1qTaxXHc0odr/JWFQILy/0jeEMddwplEQInrG8Kvvg8=;
- b=b8p8L6vsYN8Sxup5UoZ3wli88Sey+yPRaQ0qoqKB7lGH5H9wHzKQalTWQ2DMinH3PT
- ZjPFJ00h2UKxZeY6kujr6W8QVeuyu1Dk8QsqfxxZnvF6kYp091U7qj93T7SdAQXoVoih
- YKUEA8nxtuWAvUoF/Jet3jb2KE1iW4D4on1Z4QdrWMeBrZIsZDweDiWlj+alWjbCZRM2
- cgXqUqaUBlurX4D4dNcfXTufWgxMfvItktjDPCeIWSop+DBYwGO1U9/X91zIA230/Feu
- 3eK+OtRPbFKd22N3y3dJAjB0ptF8n39acuU6/0ds0vhir/cISp1nOfzBXjNpaH4/I8MD
- jwxw==
-X-Forwarded-Encrypted: i=1;
- AJvYcCU+L0DTub4JJ0UudBkYZe94n93N868wDX5SLgjoSHYPKGoG6yLpw4zj9MAdyZaZ9z9hPO10aS+Pzeo=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YwGkXHeau09O3BA4H5MIGndBXy/L3y4fS0Sca5eIZdlZnf28z4K
- uE9FEc/yJyLZUmnb7RhAvI1V4W6oRJL/Ci8FLsKLv5l9A9Gt1ws3Y54=
-X-Gm-Gg: ASbGncvIiUtLXZ16K10tTW+pGrYW5W+sUPwyaBgq2VqoQ+1wlSOZLv7cgIk8NNHos61
- paxKYaE43hV5wCW3TG6qzA8r/iKrRGKdQKs8WZfo8aLprRDquyDsFZ10gfVyjZBP7XLB9w8W2Ny
- ouqlNEqr11+Y54v+izuscSPYuIu+pQx6p1pZE8gXngy8ZTCk4rnOYrl/x0WolsbfLNOGcyQYXgP
- mK7ZVqn25rgbwLRYaZIMWNJQcodrIcNfP87kZZTvCifqNX0JKQOcv1o6suazcNU5K1N/dNLkFXn
- LhCRoCDBrbNLAuTfcvxq0/NZ7dMcCfVKFggv3ON4LmKwF0+RFjfEmzI8fP87xU8PGcRRISdKJgJ
- Tj5oF0pa4bvyx/MWSVr59Plp8/YDdwU9Dq/LPTDgPEM/lbPixSmcwUj/fZR3DsbWo2Xw1oIgxGq
- Deg6nMuKn9SDWov7iKgmD2yHZ0LV7voBYhj6fHi6B5ZNpIdE2w1PKCkTOgxk9OsA==
-X-Google-Smtp-Source: AGHT+IGaXuonT12yrC1omcvmYN8cKYZBhHbfpNOj1J7o5Hhyd3k15v1KQ0NH5QOy4oOd+nt52eeBHg==
-X-Received: by 2002:a5d:5847:0:b0:3e7:428f:d33 with SMTP id
- ffacd0b85a97d-42853264c37mr1533870f8f.16.1761112374479; 
- Tue, 21 Oct 2025 22:52:54 -0700 (PDT)
-Received: from [192.168.1.3] (p5b057850.dip0.t-ipconnect.de. [91.5.120.80])
- by smtp.gmail.com with ESMTPSA id
- ffacd0b85a97d-427ea5b3f5esm23079194f8f.20.2025.10.21.22.52.53
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 21 Oct 2025 22:52:54 -0700 (PDT)
-Message-ID: <af5633f4-f339-49a5-9047-2b0682e50584@googlemail.com>
-Date: Wed, 22 Oct 2025 07:52:53 +0200
+ d=1e100.net; s=20230601; t=1761113471; x=1761718271;
+ h=cc:to:message-id:content-transfer-encoding:mime-version:subject
+ :date:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=H0+BgDGfdaSQSOaQDhEvXyp9Ns3uPDwLDm/lWJtPZkY=;
+ b=JDkTVWbZk32NBBrXP6JiNrDRLBRTqA3BR1m+RP1R3DLWIAD7PvBNVQ285fV+NCrYw7
+ oDGfmqDYegr0i6D/MW0J+4ao4ZPYsyuhl4yyoTPwUtTpVC8/eUv51Vua7N1CEti0Cbzk
+ WZMEFt6qL/wrGjtvlUQiOZ+u5MDDO64zj8ebKQ5sSh7lckl08WYx3PwXM3pUtdMxIv7y
+ pDFFvJp0q1ASbeTJSWFm4+nm5F2RvVgY6dn4ZBAgitgoVRpjBKwQmlpKC2cq6B0vJ7Nk
+ ifvNhXm8v9loNefW2163DPI1C/99UP8vJH1bs60iX6c0ZY4mbK/zJ3n9iczDu4vmuj6p
+ 4vDA==
+X-Gm-Message-State: AOJu0YwA/FFIROq7Y1B2UQtP3OO/ddvAakUvkdh9hsGv4r5AKoLYAk/S
+ UYKKyeRigvhCV5Vs8rtEkrBSf2FolZgSMUmsUhMlZmC7b8nkdqI8Geb6
+X-Gm-Gg: ASbGncumyGwwS6RnzvliytzX5ws4yUr7N7yzeT48uZ2NwgvIkhK29QFlcGGXu3wBj58
+ TF0+t3FT/22vG1FTkYHSU5zJvUai508TV8PoxLTObao+UhTeIb35Aa+wZlyxYia+iMQHxBtrsSM
+ 2W/Kf0dQw9cAS6YClTCorxeGy9uGB48ewcf2n7b2eR4CRye1Q2SNTdjL9wJNMqN6c6UNxbBmjWh
+ J1CAp4vtAg48aNBzuUs2rQXgISKUX1RYPVRb2Zi+BdlC8bT57Y0EGmzG7pZytXjXfHHK+muk3mR
+ t6/5tVZHJ5h6dQCTesFhbHhv5nJo6h1z4hdsHArYZmeOp4CmNjkm/eMq9+y6rSrItHquakj4wQq
+ K89mbZV1skqeCQ6Dv0CXuujj5NHKnrBg/WRQrAqBeE0GuKcak75zD7phKG254NOaJpdyMCZjius
+ UetMlI7ZJNRMMfUupohmvViqRg1Co1m0zjM4ZoSUjVQM9srKPnU3csHfE=
+X-Google-Smtp-Source: AGHT+IGDud48MYPYUyRNhPw1PG4OdE3gQrYlaeAVeQROu+jTZopngjWe2bD/jmGlNJeOxKzMvjADxA==
+X-Received: by 2002:a05:6512:31cf:b0:578:ed03:7b87 with SMTP id
+ 2adb3069b0e04-591d858a844mr5437023e87.33.1761113470564; 
+ Tue, 21 Oct 2025 23:11:10 -0700 (PDT)
+Received: from [192.168.1.168] (83-233-6-197.cust.bredband2.com.
+ [83.233.6.197]) by smtp.gmail.com with ESMTPSA id
+ 2adb3069b0e04-592f039d766sm208072e87.71.2025.10.21.23.11.07
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 21 Oct 2025 23:11:08 -0700 (PDT)
+From: Marcus Folkesson <marcus.folkesson@gmail.com>
+Date: Wed, 22 Oct 2025 08:10:57 +0200
+Subject: [PATCH] drm/sitronix/st7571-i2c: remove unneeded semicolon
 MIME-Version: 1.0
-User-Agent: Betterbird (Windows)
-Subject: Re: [PATCH 6.17 040/159] drm/ast: Blank with VGACR17 sync enable,
- always clear VGACRB6 sync off
-Content-Language: de-DE
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Thorsten Leemhuis <regressions@leemhuis.info>
-Cc: stable@vger.kernel.org, patches@lists.linux.dev,
- Thomas Zimmermann <tzimmermann@suse.de>, Nick Bowler <nbowler@draconx.ca>,
- Douglas Anderson <dianders@chromium.org>, Dave Airlie <airlied@redhat.com>,
- Jocelyn Falempe <jfalempe@redhat.com>, dri-devel@lists.freedesktop.org
-References: <20251021195043.182511864@linuxfoundation.org>
- <20251021195044.163217433@linuxfoundation.org>
- <499eb508-5f24-4ef4-a2a3-f3d76d89db66@leemhuis.info>
- <2025102235-pediatric-sandlot-f2de@gregkh>
-From: Peter Schneider <pschneider1968@googlemail.com>
-In-Reply-To: <2025102235-pediatric-sandlot-f2de@gregkh>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Mailman-Approved-At: Wed, 22 Oct 2025 06:07:43 +0000
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Message-Id: <20251022-st7571-semicolon-v1-1-83d322618ff4@gmail.com>
+X-B4-Tracking: v=1; b=H4sIAHB1+GgC/x3MQQqAIBBA0avErBNyyIyuEi3KphooDSciCO+et
+ HyL/18QikwCXfFCpJuFg8/QZQFuG/1KiudswAqNrhCVXNZYrYQOdmEPXk3OYGvdTNjUkLMz0sL
+ Pv+yHlD5Yyop3YgAAAA==
+X-Change-ID: 20251022-st7571-semicolon-bc5287cde264
+To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>
+Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org, 
+ kernel test robot <lkp@intel.com>, 
+ Marcus Folkesson <marcus.folkesson@gmail.com>
+X-Mailer: b4 0.14.2
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1136;
+ i=marcus.folkesson@gmail.com; h=from:subject:message-id;
+ bh=ovaGz5LWbEQy3l3kBh4Ix3pVci1hLdFEix4Tpa7cZKs=;
+ b=owEBbQKS/ZANAwAKAYiATm9ZXVIyAcsmYgBo+HV1DRQGPHoeDhzBWKzqI6DZcw21t8+YKDd1E
+ gqDGfE/y2aJAjMEAAEKAB0WIQQFUaLotmy1TWTBLGWIgE5vWV1SMgUCaPh1dQAKCRCIgE5vWV1S
+ MnP2D/sFFHeJI+kLW2rsUU0mpvB6p3CxqSWBjzBb6IuKkkuoOz9HdeMTvLTR0GTQo+5GejvRsg4
+ TjusQEmXW7XqGmYFKFZGnMtMB3G8jd7ffVGao5dzID7Xgf5JBuAha9z/U1Pzd1g1vOzxl8BKhKC
+ 681JdoD2r0hbr7f+9Lc4EWbAtGjeRZoP5Okdux+PBDd/J7uBUO8MvDEYpiog+D3yl26wg/No/vp
+ XV2GESWyiQQ+P0GvnNk6P2YRM36DMj0x6mOIW3bsQZNyCgMDBnii/yaq8tFKERl0t3qI47wdOoC
+ RM+QVfU0hBD4O+1zszaiaLcX0x3FwIKNZIaHHHZCAoZQeGkJlHxJcnh6W9Ri/U7LJcrsGfupRtP
+ MkWAmLQZnt78B8r5aMVNAHdY4fSrPbLgcXNgm4NK0s+iPJQzn2XRzOVgznY3YqMkk7XdRUDAOlr
+ JOQGQm4KmwY38NJcFEdG0qswbx/MeZnQg1obn68GVLaahbNRxRXzP6cti+hLcUfjBs/KDuSYvOH
+ AhSk1amtbju3e0giCJngh9QTuS6ScpYghvK1rEAO+ZvF6kwVVV+75KHsF2FBZpC1pjwNpEaAbC8
+ oT0aE3oKrNsDUYZl3Jrdou76yvKbluiMYY6vjLtepF3oxD+qt2WPJKAdfccUapbNjAxyWZfnrHV
+ /VNiVwtDxHEmE+w==
+X-Developer-Key: i=marcus.folkesson@gmail.com; a=openpgp;
+ fpr=AB91D46C7E0F6E6FB2AB640EC0FE25D598F6C127
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -101,63 +110,34 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Greg,
+Fix style issue reported by Kernel test robot.
 
+Reported-by: kernel test robot <lkp@intel.com>
+Closes: https://lore.kernel.org/oe-kbuild-all/202510221125.Cg0sM4xJ-lkp@intel.com/
+Signed-off-by: Marcus Folkesson <marcus.folkesson@gmail.com>
+---
+ drivers/gpu/drm/sitronix/st7571-i2c.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-Am 22.10.2025 um 07:28 schrieb Greg Kroah-Hartman:
-> On Wed, Oct 22, 2025 at 06:49:21AM +0200, Thorsten Leemhuis wrote:
->> On 10/21/25 21:50, Greg Kroah-Hartman wrote:
->>> 6.17-stable review patch.  If anyone has any objections, please let me know.
->>>
->>> ------------------
->>>
->>> From: Thomas Zimmermann <tzimmermann@suse.de>
->>>
->>> commit 6f719373b943a955fee6fc2012aed207b65e2854 upstream.
->>>
->>> Blank the display by disabling sync pulses with VGACR17<7>. Unblank
->>> by reenabling them. This VGA setting should be supported by all Aspeed
->>> hardware.
->>
->> TWIMC, a regression report about 6.18-rc2 that was bisected to this
->> commit just came in:
->>
->> https://lore.kernel.org/all/a40caf8e-58ad-4f9c-af7f-54f6f69c29bb@googlemail.com/
->>
->> To quote:
->>
->> """
->> I have encountered a serious (for me) regression with 6.18-rc2 on my
->> 2-socket Ivy Bridge Xeon E5-2697 v2 server. After
->> booting, my console screen goes blank and stays blank. 6.18-rc1 was
->> still fine.
->>
->> [...]
->>
->> When I revert this from 6.18-rc2, the issue goes away and my console
->> screen works again.
->> """
-> 
-> Thanks, I'll go drop this patch from the stable queues for now.
-> 
-> greg k-h
+diff --git a/drivers/gpu/drm/sitronix/st7571-i2c.c b/drivers/gpu/drm/sitronix/st7571-i2c.c
+index 32b91d65b768b26caa7dcef42a00d36f236fbc32..4e73c8b415d677dab5b421666b56f4bb3697b982 100644
+--- a/drivers/gpu/drm/sitronix/st7571-i2c.c
++++ b/drivers/gpu/drm/sitronix/st7571-i2c.c
+@@ -322,7 +322,7 @@ static void st7571_prepare_buffer_grayscale(struct st7571_device *st7571,
+ 		size = (rect->x2 - rect->x1) * (rect->y2 - rect->y1) / 4;
+ 		memcpy(st7571->hwbuf, vmap->vaddr, size);
+ 		break;
+-	};
++	}
+ }
+ 
+ static int st7571_fb_update_rect_monochrome(struct drm_framebuffer *fb, struct drm_rect *rect)
 
+---
+base-commit: c1a7cc00cd412505e070eb4e62bc0b0ca85243e0
+change-id: 20251022-st7571-semicolon-bc5287cde264
 
-So Thorsten (thanks!) was 20 minutes quicker ;-) But I just tested this with 6.12.55-rc1 and 6.17.5-rc1, too, and can 
-confirm that this offending patch breaks VGA on my machine, and that reverting just this patch against either RC makes 
-the issue go away.
-
-I'll retest -rc2 too when it's out.
-
-Beste Grüße,
-Peter Schneider
-
+Best regards,
 -- 
-Climb the mountain not to plant your flag, but to embrace the challenge,
-enjoy the air and behold the view. Climb it so you can see the world,
-not so the world can see you.                    -- David McCullough Jr.
+Marcus Folkesson <marcus.folkesson@gmail.com>
 
-OpenPGP:  0xA3828BD796CCE11A8CADE8866E3A92C92C3FF244
-Download: https://www.peters-netzplatz.de/download/pschneider1968_pub.asc
-https://keys.mailvelope.com/pks/lookup?op=get&search=pschneider1968@googlemail.com
-https://keys.mailvelope.com/pks/lookup?op=get&search=pschneider1968@gmail.com
