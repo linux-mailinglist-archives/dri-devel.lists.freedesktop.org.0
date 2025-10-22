@@ -2,66 +2,66 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 538A7BFBE8B
+	by mail.lfdr.de (Postfix) with ESMTPS id 59D48BFBE8C
 	for <lists+dri-devel@lfdr.de>; Wed, 22 Oct 2025 14:47:07 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A7C4410E779;
-	Wed, 22 Oct 2025 12:46:42 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DDC1910E77D;
+	Wed, 22 Oct 2025 12:46:47 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=huaqin-corp-partner-google-com.20230601.gappssmtp.com header.i=@huaqin-corp-partner-google-com.20230601.gappssmtp.com header.b="P+GII8mA";
+	dkim=pass (2048-bit key; unprotected) header.d=huaqin-corp-partner-google-com.20230601.gappssmtp.com header.i=@huaqin-corp-partner-google-com.20230601.gappssmtp.com header.b="UPH42f44";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pf1-f169.google.com (mail-pf1-f169.google.com
- [209.85.210.169])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 86B2D10E779
- for <dri-devel@lists.freedesktop.org>; Wed, 22 Oct 2025 12:46:41 +0000 (UTC)
-Received: by mail-pf1-f169.google.com with SMTP id
- d2e1a72fcca58-782bfd0a977so5045442b3a.3
- for <dri-devel@lists.freedesktop.org>; Wed, 22 Oct 2025 05:46:41 -0700 (PDT)
+Received: from mail-pf1-f177.google.com (mail-pf1-f177.google.com
+ [209.85.210.177])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2F8F210E77A
+ for <dri-devel@lists.freedesktop.org>; Wed, 22 Oct 2025 12:46:45 +0000 (UTC)
+Received: by mail-pf1-f177.google.com with SMTP id
+ d2e1a72fcca58-7a213c3c3f5so8865959b3a.3
+ for <dri-devel@lists.freedesktop.org>; Wed, 22 Oct 2025 05:46:45 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=huaqin-corp-partner-google-com.20230601.gappssmtp.com; s=20230601;
- t=1761137201; x=1761742001; darn=lists.freedesktop.org; 
+ t=1761137205; x=1761742005; darn=lists.freedesktop.org; 
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=A50ivLTFfIL5rLTOAdlo5avQWAkkIMfNPchxjnbv+ts=;
- b=P+GII8mASevjeciYWtyMapggM3N2L+Fz92JpHAGHhYR+tq2Ilpv9WonX9YfrPPX2iY
- 0dLNTSxj8v9IvYSrQ5JIabZR5J0JTLTwOsMIE2tmXvCk/MDj9ElsB1hoqtKuqoFRLcpJ
- EFsycWegfSR5pe43pwNGityu3DC0G6tZiJN4VbbngogByO6SsiJrSikelVIP7qN8AlRf
- cY2CT5t282tRe2ul0WQk20G9g+5bqrwGlpLmrcRC2AsObJw33ADY93nwoOwQBQnup9TQ
- +FH6itwIa+/tb/fUGvsbM8EywrIjk1ANzdasaVG0ZT0f+DE5ZbGMhj0HBPO8GfWacbaC
- 0aog==
+ bh=X+NH/aT8hlW+F0DlQAJG3UacKe8/nPKjgQkeP9+wF1w=;
+ b=UPH42f44f/V1e1PicoY0s5at0I17tQSLAsjNASkvkMFSi/LPnwwuSIUwa0fbRe9jHn
+ 4S+hepXEmOz32vNgr/9eyV1ardHqknNJd1snc8nsGJdqEQwZCsBZqv5C7ogkBGEYCkqQ
+ lnau6+nvcgdoHRAQaMhx5PAetLy6x8mPuGrYDVFsd750K7nAXLMrFrFZ4WNipsJA0HBD
+ 1JjfVKiWfqmvvwL9gNAYGsouxeCycZ/qjP14zpBbqrLsFlgmjP6Qfy+IM2RcnYLjnnbt
+ VFUXA4uLaQeA136mm62mwdFMq8xdlbVMdsl56nEx6aihbIA9/EJzcYN1cMjii1dBJTXi
+ TG0A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1761137201; x=1761742001;
+ d=1e100.net; s=20230601; t=1761137205; x=1761742005;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=A50ivLTFfIL5rLTOAdlo5avQWAkkIMfNPchxjnbv+ts=;
- b=CFDxgz4IcUMokGVRQa3mAu564T6PAKrsr/SXHjt4t8scET8rCvFikTpqSRHgziIbIZ
- kBoPRZvTdOhDlUuSHreVtF8IckhZatrfGWKBhpdNINxuwHTu03BskeqlKvHEZDbBlgVm
- cQxyZ7PrrO73aZWOoZa8TynXoMcT1CEXG8JaiQaH7R5RMKAVOOEismyqRGHgLJxBfukW
- ZQLrDWO8smybVXt/HrzS9PXN5Ked6xXL9bl/YeLosv6aY3RTbMzuj2tmhcyp+BsWXqV7
- psrOejvzLMGkm0+OkNWJ467THqe5eg9z3qeU4HcA0Lg2nBcNw9JcTcFHglavC4ur3qOL
- zbxA==
-X-Gm-Message-State: AOJu0Yyzy/VzOOa8vanJ15boPVxc2YRIz/e7JRTMYGt2mqXt6LmyrTtP
- 2/lfSIj+gu2TLUwQPKJnDJ6Gn1wn4mtrZcgw3b6kst3x3TOGTZHyKrtNk6B7YBphHRk=
-X-Gm-Gg: ASbGnct/KwI+qzyf/RbGqBVD1ALuqWbdQ/9IupziDJlLqNJn5PSUkm7VJ4f24OtwCib
- 2p3LFk4IueQ1LSIVxOtIlPqkBBVvVPFNWNE8SksSIXeJuE4Hz+c6rr+/ObLX60I8oyYITKlqyv6
- xxEaYp/LNcFldnyM/VkeMfQc9PKQdhqqp/HZQFzD/UMkyus9m7IcbnszbQYYgUamEnGoBILgfH3
- 5VlZEUt2ggnUiOMOqTnyoGwI2VNEbzmtpZW/Vk35srhiiloRYrGYQj64/lzoZTRoKGUg8ga0LEr
- vDH+Slk5x28MFCqTuBmg5i4LT/X3x5fy0G3yUUnDprSt52TYL9JiswW3YcM0+itmMvqrOho7HtH
- +hfVbuSeONGUKoaJSBiHvAFwVLIAkNXwaxqJBREaTCsQv+wL1WBi7l/yO5Cn/7u3IhB12Sif0rZ
- +I+oJfNtKUTHCEFED0UFsNBz22VnT+fq1zLi91S9/B3PQ/jvgyhomIa+b2Ew==
-X-Google-Smtp-Source: AGHT+IFShKa0+/lbzXoLsCR0uN15Uq+d2ftAkvw2Ky3lzofYQm99g+jnMJV5beGBG+hMOWHlqbHTXg==
-X-Received: by 2002:a05:6a00:2182:b0:77b:943e:7615 with SMTP id
- d2e1a72fcca58-7a220acb8f1mr23954246b3a.16.1761137201007; 
- Wed, 22 Oct 2025 05:46:41 -0700 (PDT)
+ bh=X+NH/aT8hlW+F0DlQAJG3UacKe8/nPKjgQkeP9+wF1w=;
+ b=fCWeWGTwLJFHVO2ewOl6/ncAOcT+OiUgwj6Xu0FqnwwisQFydElzzTdRz9rGHe6deT
+ oCWAOOewWUFcatwubADB91+hnWwOBu2d5W3Y8jq4BYvqANVroFps78Ms9w9tofwPPKrR
+ g48DWv94skE9U1lH6X8yJgCmOgl+5p+RelaFWfMAGowCRXfshpwyt9OAYrd912xudaB+
+ j3RusSbcZQxdWMHRz7JNbIowpbX3MGuEzjUIB6feKBrRNt+5XiZXoAZc2J2H5nK7Ilzb
+ pTHJl4heqG9lORXtWygCicMQrGaehuDfHgAbVZWIAJjH5iW1KOBWKobUSC0dNgEc9dsh
+ eesA==
+X-Gm-Message-State: AOJu0YxT+1ujafTaSshUAUDLCV8xIFbsYKeweilI/8QgKh+ivW+Cy+nh
+ l7cJk2PkPbP3No8Zj7MApmAG3bAJM1KICH3O6C0VGSn1Wtsw+EicDjD6rly3NOWXU6k=
+X-Gm-Gg: ASbGncvihxAo+SPpEeLp6LvsAPMZoDaVYfvnebyCqcK5HS17M3Sckj0ogPrMNSMFuVl
+ ewEcUWKVBcMc1UQ8WvFTeN0AKaoUUx+j1bRNOK0DiFjCLraNdpG2QwItrVWOhvUAEDTQ/bPgpYf
+ dHPK6E53B4FJmHl6xBNS5H/NwUurdYeyPqeMZx5epxaBE7szfi+EVXH1KnJij7+KPMosBzk9+c1
+ LJcH1LH3at1FELl+wNglJ1PkC9ELD6aFDea8q2xBFLvN5NIdsHebV5A/VWd2HRzAEeZ5pgYMXcG
+ QlR9Z8Qq99LIMJZnje84GsprYHRmMyN7404zSOHxb1fPrqqWROqtOJsIYguLHYqHzC/W+VxLvxF
+ m3GwJhBAF4Ovikfpkw3pZa901aPvmELreOA1Ol0MpCEsnk9YeY064sar4rlGOPmZdrMJT+P5JVB
+ 9NZhRuzag99MJxbaNaM33WPcdpUBLIHdmxJaN2ovHw40zj8y9XQVBGGL+XFQ==
+X-Google-Smtp-Source: AGHT+IE8a8+6ACPG8wIq/ttQqQZG3AYg7Faf2H7dXLpHiq39qDJvSnhSllCzxQgB6sRPhHyhpmgb5Q==
+X-Received: by 2002:a05:6a20:72a2:b0:334:8002:740f with SMTP id
+ adf61e73a8af0-334a85bacd8mr26645510637.41.1761137204614; 
+ Wed, 22 Oct 2025 05:46:44 -0700 (PDT)
 Received: from dgp100339560-01.huaqin.com ([103.117.77.121])
  by smtp.gmail.com with ESMTPSA id
- d2e1a72fcca58-7a23010e25asm14363935b3a.56.2025.10.22.05.46.37
+ d2e1a72fcca58-7a23010e25asm14363935b3a.56.2025.10.22.05.46.41
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 22 Oct 2025 05:46:40 -0700 (PDT)
+ Wed, 22 Oct 2025 05:46:44 -0700 (PDT)
 From: Langyan Ye <yelangyan@huaqin.corp-partner.google.com>
 To: neil.armstrong@linaro.org, jessica.zhang@oss.qualcomm.com,
  airlied@gmail.com, simona@ffwll.ch, maarten.lankhorst@linux.intel.com,
@@ -70,10 +70,9 @@ To: neil.armstrong@linaro.org, jessica.zhang@oss.qualcomm.com,
 Cc: dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
  linux-kernel@vger.kernel.org,
  Langyan Ye <yelangyan@huaqin.corp-partner.google.com>
-Subject: [PATCH v4 1/2] dt-bindings: display: panel: Add Tianma TL121BVMS07-00
- panel
-Date: Wed, 22 Oct 2025 20:46:27 +0800
-Message-Id: <20251022124628.311544-2-yelangyan@huaqin.corp-partner.google.com>
+Subject: [PATCH v4 2/2] drm/panel: Add driver for Ilitek IL79900A-based panels
+Date: Wed, 22 Oct 2025 20:46:28 +0800
+Message-Id: <20251022124628.311544-3-yelangyan@huaqin.corp-partner.google.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20251022124628.311544-1-yelangyan@huaqin.corp-partner.google.com>
 References: <20251022124628.311544-1-yelangyan@huaqin.corp-partner.google.com>
@@ -94,90 +93,382 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Add device tree bindings for the Tianma TL121BVMS07-00 12.1-inch
-MIPI-DSI TFT LCD panel. The panel is based on the Ilitek IL79900A
-controller.
+Add a DRM panel driver for the Ilitek IL79900A MIPI-DSI LCD controller.
+
+The controller is used in panels such as the Tianma TL121BVMS07-00.
+It requires multiple power supplies (AVDD, AVEE, 1.8V logic), an enable
+GPIO, and a backlight device.
 
 Signed-off-by: Langyan Ye <yelangyan@huaqin.corp-partner.google.com>
 ---
- .../display/panel/ilitek,il79900a.yaml        | 68 +++++++++++++++++++
- 1 file changed, 68 insertions(+)
- create mode 100644 Documentation/devicetree/bindings/display/panel/ilitek,il79900a.yaml
+ drivers/gpu/drm/panel/panel-ilitek-il79900a.c | 358 ++++++++++++++++++
+ 1 file changed, 358 insertions(+)
+ create mode 100644 drivers/gpu/drm/panel/panel-ilitek-il79900a.c
 
-diff --git a/Documentation/devicetree/bindings/display/panel/ilitek,il79900a.yaml b/Documentation/devicetree/bindings/display/panel/ilitek,il79900a.yaml
+diff --git a/drivers/gpu/drm/panel/panel-ilitek-il79900a.c b/drivers/gpu/drm/panel/panel-ilitek-il79900a.c
 new file mode 100644
-index 000000000000..02f7fb1f16dc
+index 000000000000..b2fa9b8860f7
 --- /dev/null
-+++ b/Documentation/devicetree/bindings/display/panel/ilitek,il79900a.yaml
-@@ -0,0 +1,68 @@
-+# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-+%YAML 1.2
-+---
-+$id: http://devicetree.org/schemas/display/panel/ilitek,il79900a.yaml#
-+$schema: http://devicetree.org/meta-schemas/core.yaml#
++++ b/drivers/gpu/drm/panel/panel-ilitek-il79900a.c
+@@ -0,0 +1,358 @@
++// SPDX-License-Identifier: GPL-2.0
++/*
++ * Panels based on the Ilitek IL79900A display controller.
++ *
++ * Based on drivers/gpu/drm/panel/panel-ilitek-ili9882t.c
++ */
++#include <linux/delay.h>
++#include <linux/gpio/consumer.h>
++#include <linux/module.h>
++#include <linux/of.h>
++#include <linux/regulator/consumer.h>
 +
-+title: Ilitek IL79900a based MIPI-DSI panels
++#include <drm/drm_connector.h>
++#include <drm/drm_probe_helper.h>
++#include <drm/drm_crtc.h>
++#include <drm/drm_mipi_dsi.h>
++#include <drm/drm_panel.h>
 +
-+maintainers:
-+  - Langyan Ye <yelangyan@huaqin.corp-partner.google.com>
++#include <video/mipi_display.h>
 +
-+allOf:
-+  - $ref: panel-common.yaml#
++struct il79900a;
 +
-+properties:
-+  compatible:
-+    items:
-+      - enum:
-+          - tianma,tl121bvms07-00
-+      - const: ilitek,il79900a
++/*
++ * Use this descriptor struct to describe different panels using the
++ * Ilitek IL79900A display controller.
++ */
++struct panel_desc {
++	const struct drm_display_mode *modes;
++	unsigned int bpc;
++	unsigned long mode_flags;
++	enum mipi_dsi_pixel_format format;
++	int (*init)(struct il79900a *boe);
++	unsigned int lanes;
++};
 +
-+  reg:
-+    maxItems: 1
-+    description: DSI virtual channel used by the panel
++struct il79900a {
++	struct drm_panel base;
++	struct mipi_dsi_device *dsi;
 +
-+  enable-gpios:
-+    maxItems: 1
-+    description: GPIO specifier for the enable pin
++	const struct panel_desc *desc;
 +
-+  avdd-supply:
-+    description: Positive analog voltage supply (AVDD)
++	enum drm_panel_orientation orientation;
++	struct regulator *pp1800;
++	struct regulator *avee;
++	struct regulator *avdd;
++	struct gpio_desc *enable_gpio;
++};
 +
-+  avee-supply:
-+    description: Negative analog voltage supply (AVEE)
++/* IL79900A-specific commands, add new commands as you decode them */
++#define IL79900A_DCS_SWITCH_PAGE	0xFF
 +
-+  pp1800-supply:
-+    description: 1.8V logic voltage supply
++#define il79900a_switch_page(ctx, page) \
++	mipi_dsi_dcs_write_seq_multi(ctx, IL79900A_DCS_SWITCH_PAGE, \
++				     0x5a, 0xa5, (page))
 +
-+  backlight: true
++static int tianma_il79900a_init(struct il79900a *ili)
++{
++	struct mipi_dsi_multi_context ctx = { .dsi = ili->dsi };
 +
-+required:
-+  - compatible
-+  - reg
-+  - enable-gpios
-+  - avdd-supply
-+  - avee-supply
-+  - pp1800-supply
++	mipi_dsi_usleep_range(&ctx, 5000, 5100);
 +
-+additionalProperties: false
++	il79900a_switch_page(&ctx, 0x06);
++	mipi_dsi_dcs_write_seq_multi(&ctx, 0x3e, 0x62);
 +
-+examples:
-+  - |
-+    dsi {
-+        #address-cells = <1>;
-+        #size-cells = <0>;
++	il79900a_switch_page(&ctx, 0x02);
++	mipi_dsi_dcs_write_seq_multi(&ctx, 0x1b, 0x20);
++	mipi_dsi_dcs_write_seq_multi(&ctx, 0x5d, 0x00);
++	mipi_dsi_dcs_write_seq_multi(&ctx, 0x5e, 0x40);
 +
-+        panel@0 {
-+            compatible = "tianma,tl121bvms07-00", "ilitek,il79900a";
-+            reg = <0>;
-+            enable-gpios = <&pio 25 0>;
-+            avdd-supply = <&reg_avdd>;
-+            avee-supply = <&reg_avee>;
-+            pp1800-supply = <&reg_pp1800>;
-+            backlight = <&backlight>;
-+        };
-+    };
++	il79900a_switch_page(&ctx, 0x07);
++	mipi_dsi_dcs_write_seq_multi(&ctx, 0X29, 0x00);
 +
-+...
++	il79900a_switch_page(&ctx, 0x06);
++	mipi_dsi_dcs_write_seq_multi(&ctx, 0x92, 0x22);
++
++	il79900a_switch_page(&ctx, 0x00);
++	mipi_dsi_dcs_write_seq_multi(&ctx, MIPI_DCS_EXIT_SLEEP_MODE);
++
++	mipi_dsi_msleep(&ctx, 120);
++
++	mipi_dsi_dcs_write_seq_multi(&ctx, MIPI_DCS_SET_DISPLAY_ON);
++
++	mipi_dsi_msleep(&ctx, 80);
++
++	return 0;
++};
++
++static inline struct il79900a *to_il79900a(struct drm_panel *panel)
++{
++	return container_of(panel, struct il79900a, base);
++}
++
++static int il79900a_enter_sleep_mode(struct mipi_dsi_multi_context *ctx)
++{
++	mipi_dsi_dcs_set_display_off_multi(ctx);
++	mipi_dsi_dcs_enter_sleep_mode_multi(ctx);
++	return ctx->accum_err;
++}
++
++static int il79900a_disable(struct drm_panel *panel)
++{
++	struct il79900a *ili = to_il79900a(panel);
++	struct mipi_dsi_multi_context ctx = { .dsi = ili->dsi };
++	int ret;
++
++	il79900a_switch_page(&ctx, 0x00);
++	if (ctx.accum_err)
++		return ctx.accum_err;
++
++	ret = il79900a_enter_sleep_mode(&ctx);
++	if (ret < 0) {
++		dev_err(panel->dev, "failed to set panel off: %d\n", ret);
++		return ret;
++	}
++
++	mipi_dsi_msleep(&ctx, 150);
++
++	return 0;
++}
++
++static int il79900a_unprepare(struct drm_panel *panel)
++{
++	struct il79900a *ili = to_il79900a(panel);
++
++	gpiod_set_value(ili->enable_gpio, 0);
++	usleep_range(1000, 2000);
++	regulator_disable(ili->avee);
++	regulator_disable(ili->avdd);
++	usleep_range(5000, 7000);
++	regulator_disable(ili->pp1800);
++
++	return 0;
++}
++
++static int il79900a_prepare(struct drm_panel *panel)
++{
++	struct il79900a *ili = to_il79900a(panel);
++	int ret;
++
++	gpiod_set_value(ili->enable_gpio, 0);
++	usleep_range(1000, 1500);
++
++	ret = regulator_enable(ili->pp1800);
++	if (ret < 0)
++		return ret;
++
++	usleep_range(3000, 5000);
++
++	ret = regulator_enable(ili->avdd);
++	if (ret < 0)
++		goto poweroff1v8;
++	ret = regulator_enable(ili->avee);
++	if (ret < 0)
++		goto poweroffavdd;
++
++	usleep_range(10000, 11000);
++
++	// MIPI needs to keep the LP11 state before the lcm_reset pin is pulled high
++	ret = mipi_dsi_dcs_nop(ili->dsi);
++	if (ret < 0) {
++		dev_err(&ili->dsi->dev, "Failed to send NOP: %d\n", ret);
++		goto poweroff;
++	}
++	usleep_range(1000, 2000);
++
++	gpiod_set_value(ili->enable_gpio, 1);
++	usleep_range(1000, 2000);
++	gpiod_set_value(ili->enable_gpio, 0);
++	usleep_range(10000, 11000);
++	gpiod_set_value(ili->enable_gpio, 1);
++	usleep_range(20000, 21000);
++
++	ret = ili->desc->init(ili);
++	if (ret < 0)
++		goto poweroff;
++
++	return 0;
++
++poweroff:
++	gpiod_set_value(ili->enable_gpio, 0);
++	regulator_disable(ili->avee);
++poweroffavdd:
++	regulator_disable(ili->avdd);
++poweroff1v8:
++	usleep_range(5000, 7000);
++	regulator_disable(ili->pp1800);
++
++	return ret;
++}
++
++static int il79900a_enable(struct drm_panel *panel)
++{
++	return 0;
++}
++
++static const struct drm_display_mode tianma_il79900a_default_mode = {
++	.clock = 264355,
++	.hdisplay = 1600,
++	.hsync_start = 1600 + 20,
++	.hsync_end = 1600 + 20 + 4,
++	.htotal = 1600 + 20 + 4 + 20,
++	.vdisplay = 2560,
++	.vsync_start = 2560 + 82,
++	.vsync_end = 2560 + 82 + 2,
++	.vtotal = 2560 + 82 + 2 + 36,
++	.width_mm = 163,
++	.height_mm = 260,
++};
++
++static const struct panel_desc tianma_tl121bvms07_desc = {
++	.modes = &tianma_il79900a_default_mode,
++	.bpc = 8,
++	.lanes = 3,
++	.format = MIPI_DSI_FMT_RGB888,
++	.mode_flags = MIPI_DSI_MODE_VIDEO | MIPI_DSI_MODE_VIDEO_SYNC_PULSE |
++		      MIPI_DSI_MODE_LPM,
++	.init = tianma_il79900a_init,
++};
++
++static int il79900a_get_modes(struct drm_panel *panel,
++			      struct drm_connector *connector)
++{
++	struct il79900a *ili = to_il79900a(panel);
++	const struct drm_display_mode *m = ili->desc->modes;
++	int num_modes;
++
++	num_modes = drm_connector_helper_get_modes_fixed(connector, m);
++	if (num_modes <= 0)
++		return 0;
++
++	connector->display_info.bpc = ili->desc->bpc;
++
++	return num_modes;
++}
++
++static enum drm_panel_orientation il79900a_get_orientation(struct drm_panel *panel)
++{
++	struct il79900a *ili = to_il79900a(panel);
++
++	return ili->orientation;
++}
++
++static const struct drm_panel_funcs il79900a_funcs = {
++	.disable = il79900a_disable,
++	.unprepare = il79900a_unprepare,
++	.prepare = il79900a_prepare,
++	.enable = il79900a_enable,
++	.get_modes = il79900a_get_modes,
++	.get_orientation = il79900a_get_orientation,
++};
++
++static int il79900a_add(struct il79900a *ili)
++{
++	struct device *dev = &ili->dsi->dev;
++	int err;
++
++	ili->avdd = devm_regulator_get(dev, "avdd");
++	if (IS_ERR(ili->avdd))
++		return PTR_ERR(ili->avdd);
++
++	ili->avee = devm_regulator_get(dev, "avee");
++	if (IS_ERR(ili->avee))
++		return PTR_ERR(ili->avee);
++
++	ili->pp1800 = devm_regulator_get(dev, "pp1800");
++	if (IS_ERR(ili->pp1800))
++		return PTR_ERR(ili->pp1800);
++
++	ili->enable_gpio = devm_gpiod_get(dev, "enable", GPIOD_OUT_LOW);
++	if (IS_ERR(ili->enable_gpio)) {
++		dev_err(dev, "cannot get reset-gpios %ld\n",
++			PTR_ERR(ili->enable_gpio));
++		return PTR_ERR(ili->enable_gpio);
++	}
++
++	gpiod_set_value(ili->enable_gpio, 0);
++
++	drm_panel_init(&ili->base, dev, &il79900a_funcs,
++		       DRM_MODE_CONNECTOR_DSI);
++	err = of_drm_get_panel_orientation(dev->of_node, &ili->orientation);
++	if (err < 0) {
++		dev_err(dev, "%pOF: failed to get orientation %d\n", dev->of_node, err);
++		return err;
++	}
++
++	err = drm_panel_of_backlight(&ili->base);
++	if (err)
++		return err;
++
++	ili->base.funcs = &il79900a_funcs;
++	ili->base.dev = &ili->dsi->dev;
++
++	drm_panel_add(&ili->base);
++
++	return 0;
++}
++
++static int il79900a_probe(struct mipi_dsi_device *dsi)
++{
++	struct il79900a *ili;
++	int ret;
++	const struct panel_desc *desc;
++
++	ili = devm_kzalloc(&dsi->dev, sizeof(*ili), GFP_KERNEL);
++	if (!ili)
++		return -ENOMEM;
++
++	desc = of_device_get_match_data(&dsi->dev);
++	dsi->lanes = desc->lanes;
++	dsi->format = desc->format;
++	dsi->mode_flags = desc->mode_flags;
++	ili->desc = desc;
++	ili->dsi = dsi;
++	ret = il79900a_add(ili);
++	if (ret < 0)
++		return ret;
++
++	mipi_dsi_set_drvdata(dsi, ili);
++
++	ret = mipi_dsi_attach(dsi);
++	if (ret)
++		drm_panel_remove(&ili->base);
++
++	return ret;
++}
++
++static void il79900a_remove(struct mipi_dsi_device *dsi)
++{
++	struct il79900a *ili = mipi_dsi_get_drvdata(dsi);
++	int ret;
++
++	ret = mipi_dsi_detach(dsi);
++	if (ret < 0)
++		dev_err(&dsi->dev, "failed to detach from DSI host: %d\n", ret);
++
++	if (ili->base.dev)
++		drm_panel_remove(&ili->base);
++}
++
++static const struct of_device_id il79900a_of_match[] = {
++	{ .compatible = "tianma,tl121bvms07-00", .data = &tianma_tl121bvms07_desc },
++	{ /* sentinel */ }
++};
++MODULE_DEVICE_TABLE(of, il79900a_of_match);
++
++static struct mipi_dsi_driver il79900a_driver = {
++	.driver = {
++		.name = "panel-il79900a",
++		.of_match_table = il79900a_of_match,
++	},
++	.probe = il79900a_probe,
++	.remove = il79900a_remove,
++};
++module_mipi_dsi_driver(il79900a_driver);
++
++MODULE_AUTHOR("Langyan Ye <yelangyan@huaqin.corp-partner.google.com>");
++MODULE_DESCRIPTION("Ilitek IL79900A-based panels driver");
++MODULE_LICENSE("GPL");
 -- 
 2.34.1
 
