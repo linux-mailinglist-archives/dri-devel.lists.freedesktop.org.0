@@ -2,166 +2,199 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2A1B3BFE5D5
-	for <lists+dri-devel@lfdr.de>; Thu, 23 Oct 2025 00:04:21 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 103F6BFE5EC
+	for <lists+dri-devel@lfdr.de>; Thu, 23 Oct 2025 00:06:18 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1762310E19F;
-	Wed, 22 Oct 2025 22:04:17 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BEBD310E1A2;
+	Wed, 22 Oct 2025 22:06:15 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=Nvidia.com header.i=@Nvidia.com header.b="m7ZH17P/";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="ZhLeXozc";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from MW6PR02CU001.outbound.protection.outlook.com
- (mail-westus2azon11012012.outbound.protection.outlook.com [52.101.48.12])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 15C7810E043;
- Wed, 22 Oct 2025 22:04:15 +0000 (UTC)
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D1B8810E1A2;
+ Wed, 22 Oct 2025 22:06:14 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1761170775; x=1792706775;
+ h=message-id:date:subject:to:cc:references:from:
+ in-reply-to:content-transfer-encoding:mime-version;
+ bh=88ugJs06B+JjmClOMoOoy+b0v2CHR7JHR3bBtuPj77g=;
+ b=ZhLeXozcNXq8/7Yt/4y3cGDboYjimNwAXx2sJR6gq03Y3wcvclatHijS
+ cFJUtAvEE1WL7KxQDvRw343wWMVxtdsSXmtcIAw6tYooIudYNfpljqU0i
+ un9KmYLvplptfxScoTDkJ7cSQAqZl5HzOteLVrChLEBusYVzpRBY6av/R
+ nm+wxngtGWRizz94MISm0QQkWhsovXpKuzefN0u8Bm36G9scqu7hPvajT
+ 9/J3gSCCLWGpX9sb3SnX0MuJjNMUtoQPdDKoQ8o7aqJdFYNOawykzHIdW
+ x8AeQXti38dmZuSTryF0rzmjGM+mAP/vkir8LMssaQ1Da7aqoYWOXqt2s g==;
+X-CSE-ConnectionGUID: +MpNuzhPS0OL8jJ6ZQnLNw==
+X-CSE-MsgGUID: q5v7C56kScG38yZ5kteK4Q==
+X-IronPort-AV: E=McAfee;i="6800,10657,11586"; a="63034468"
+X-IronPort-AV: E=Sophos;i="6.19,248,1754982000"; d="scan'208";a="63034468"
+Received: from fmviesa006.fm.intel.com ([10.60.135.146])
+ by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 22 Oct 2025 15:06:14 -0700
+X-CSE-ConnectionGUID: sjeAd74pRBWOl8XdhC2nBA==
+X-CSE-MsgGUID: bW2D6aGvRhSpFn4g14fRug==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.19,248,1754982000"; d="scan'208";a="183922946"
+Received: from orsmsx903.amr.corp.intel.com ([10.22.229.25])
+ by fmviesa006.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 22 Oct 2025 15:06:14 -0700
+Received: from ORSMSX901.amr.corp.intel.com (10.22.229.23) by
+ ORSMSX903.amr.corp.intel.com (10.22.229.25) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.2562.27; Wed, 22 Oct 2025 15:06:13 -0700
+Received: from ORSEDG901.ED.cps.intel.com (10.7.248.11) by
+ ORSMSX901.amr.corp.intel.com (10.22.229.23) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.2562.27 via Frontend Transport; Wed, 22 Oct 2025 15:06:13 -0700
+Received: from BYAPR05CU005.outbound.protection.outlook.com (52.101.85.17) by
+ edgegateway.intel.com (134.134.137.111) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.2562.27; Wed, 22 Oct 2025 15:06:13 -0700
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=PIg0KoTnH7vxEv5+y4q+dB34CTpmhhs65F8iy6GuNaVHjknJAgN6pyFI5t368TCy7+tZEyYMfhytd/3YEuD6dPV8V0gmOVtZhJ33THUMppWQGEBNGvhMEEuvxitpTb2pbLZM+VhYVvJZtYo66S2l8W1r+RT2mZ3cEmrx0Lb/f1dBz+Q/hYh2f/8b0vgHXYoSNKNXf00gb8fqVejz4Q4mB39gKwF96LfwkLltawYwt+1BzAN0hVxUrdrHO2dlqV/Mx4yLIwJ7uOMYpkExVe8P1+JjXmrsy9XPMmIw/3gWIJ5OAngh+EHO2QIJliEHGC8CrGKJR09ZTANhvn00rPlRwg==
+ b=WNe4Q5QdohW0MpA4uFBCJRoXXXfaQwwmViycoFLrJM+PS+W4+USoGECflw+Q1/GiMRGyBgolwz4XIOG6bI54wVdGgEIpibugIQJucUqL7FOK18oTcN3W4puelLBEv5sOn2QEnaTMxunUSzYUekzcbNTyNXvtbGF/4MgZ5SYw/Zs4/dZa91WLcHn6XjzAAa8y7YQBIhcSn6pbYdqZmcGB7Tni19tb0jXdf61ydvM9QLz9Za3/jDdQtXKRCFZx2Km3E3yMyB8mfHJ0lI2OaNLArao2KEfa81fwMulBEPA5qDFJuEsiXQgHBZipee071jYDfWXGTNFoqd45vyFDpW1QGg==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=13gNJqknYFcU1Pnm/4/n5Zkm/TJ7BKKv3KyYbKnKlJo=;
- b=HmZuvh2cFjxS2HFTUpGU99X1O67d9W6RpuQzLoLjaxJDsTKo1Knu+J9/T8zyVhkzvU9/7xxuhM6ULmb+nLmYaQi3IxnMUSE0dZEJgc/1NhmZpjo54vpSBq4Y/YrG6S8ifV08eUlgNLLm2HQASK2SH7vlOG6QZTvxMuPzOcPJVC8q76W5nQxu9Iw4ldHGvkuW9dhPjwoGeIPxrfUIDgv71LG4FQmpuC/seruZBFGII4WixLpm9sHpKVr34ZenQLXDscrWBtnTUOl/3MqRmWTiVuFfg2Gcj7HkOkaT/avubcMFAXHDFThUaYj+gqVYT7p70D8+Rf3OC/B1ZrhgqvMi3g==
+ bh=EOhjeuwR67zYLlx+VPj77+WFfn5Pz/b21dsJpvOBvik=;
+ b=QOXlRy4TW1mZR4ia5J9bdzFSu9UH7C9y/yjOlKPaKJ9oQujYMLuVr1zRZBoGhhueMI5a73/7TC5hUq81QmYzehDzuZC5gNTW1+dA//Enwk3TQkFk62I5+TXsRREah+25TOuKPhVwLv2NwiPhM8iuz3c3IRDkFlxwy9k7fdcRES2UR6s5i+KrKBYnIGRUcR5F/9z4Ih1ELkIIIL2fXgvJV2wItP5M5Kczt6GRzjUxIyFh2qXf+pjxIZzMYQYzxWl3kTTpSTZtsejQhpACkhc7Xk0bQdDBTjZDizJK/Yj8Ei/X7gPJMHsSOFV8bPGMoO1IR3KII1rh+XMstOlSQTbDiQ==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
- dkim=pass header.d=nvidia.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=13gNJqknYFcU1Pnm/4/n5Zkm/TJ7BKKv3KyYbKnKlJo=;
- b=m7ZH17P/olARzR8oCqUldF57SNBUT8lzk5YD5sOE+dgm/mlysTDEG9+Tbth2lSNnAczL+CiMl+jgBm792tXBd9+rTq02rXaFbkhteZ4m1EF9MJUyRWM9Bvav/IIiUuuBOHFXHRtVUoKe6Xi/tV0LP0+vYNFlJbxUfimEt33xddEiFPlJDZkA8nPZwCMijQWiDmFagXfIbJKMhP/k0/Z+tnIi1kJGZb3D5BpP329WzSfVNqyT0tqWmkVL0gs/+9QCnpaLioSLkjnoDnN48M2uyUX4ApGkkMiqJEJC0AFVTp1OV+O2B9kERJLSjXAwcmcGmMppURm59seNoYCdPSyYmg==
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
 Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nvidia.com;
-Received: from SN7PR12MB8059.namprd12.prod.outlook.com (2603:10b6:806:32b::7)
- by DS0PR12MB8343.namprd12.prod.outlook.com (2603:10b6:8:fd::8) with
- Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.9253.13; Wed, 22 Oct 2025 22:04:10 +0000
-Received: from SN7PR12MB8059.namprd12.prod.outlook.com
- ([fe80::4ee2:654e:1fe8:4b91]) by SN7PR12MB8059.namprd12.prod.outlook.com
- ([fe80::4ee2:654e:1fe8:4b91%2]) with mapi id 15.20.9228.015; Wed, 22 Oct 2025
- 22:04:10 +0000
-Message-ID: <4b953fef-da09-4147-8a88-e16f326c7bdf@nvidia.com>
-Date: Wed, 22 Oct 2025 18:04:08 -0400
+ header.d=none;dmarc=none action=none header.from=intel.com;
+Received: from MN0PR11MB6011.namprd11.prod.outlook.com (2603:10b6:208:372::6)
+ by IA4PR11MB9153.namprd11.prod.outlook.com (2603:10b6:208:56c::12)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9253.12; Wed, 22 Oct
+ 2025 22:06:11 +0000
+Received: from MN0PR11MB6011.namprd11.prod.outlook.com
+ ([fe80::bbbc:5368:4433:4267]) by MN0PR11MB6011.namprd11.prod.outlook.com
+ ([fe80::bbbc:5368:4433:4267%6]) with mapi id 15.20.9253.011; Wed, 22 Oct 2025
+ 22:06:11 +0000
+Message-ID: <34891f4c-07bd-4c18-b049-5b499695b6b2@intel.com>
+Date: Thu, 23 Oct 2025 00:06:05 +0200
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 6/7] nova-core: mm: Add support to use PRAMIN windows to
- write to VRAM
-To: Alexandre Courbot <acourbot@nvidia.com>, linux-kernel@vger.kernel.org,
- rust-for-linux@vger.kernel.org, dri-devel@lists.freedesktop.org,
- dakr@kernel.org
-Cc: Alistair Popple <apopple@nvidia.com>, Miguel Ojeda <ojeda@kernel.org>,
- Alex Gaynor <alex.gaynor@gmail.com>, Boqun Feng <boqun.feng@gmail.com>,
- Gary Guo <gary@garyguo.net>, bjorn3_gh@protonmail.com,
- Benno Lossin <lossin@kernel.org>, Andreas Hindborg <a.hindborg@kernel.org>,
- Alice Ryhl <aliceryhl@google.com>, Trevor Gross <tmgross@umich.edu>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- John Hubbard <jhubbard@nvidia.com>, Timur Tabi <ttabi@nvidia.com>,
- joel@joelfernandes.org, Elle Rhumsaa <elle@weathered-steel.dev>,
- Daniel Almeida <daniel.almeida@collabora.com>, nouveau@lists.freedesktop.org
-References: <20251020185539.49986-1-joelagnelf@nvidia.com>
- <20251020185539.49986-7-joelagnelf@nvidia.com>
- <DDOSD746PCSR.CNAYZSTFR9XR@nvidia.com>
+Subject: Re: [PATCH v2 04/26] drm/xe/pf: Add data structures and handlers for
+ migration rings
+To: =?UTF-8?Q?Micha=C5=82_Winiarski?= <michal.winiarski@intel.com>, "Alex
+ Williamson" <alex.williamson@redhat.com>, Lucas De Marchi
+ <lucas.demarchi@intel.com>, =?UTF-8?Q?Thomas_Hellstr=C3=B6m?=
+ <thomas.hellstrom@linux.intel.com>, Rodrigo Vivi <rodrigo.vivi@intel.com>,
+ Jason Gunthorpe <jgg@ziepe.ca>, Yishai Hadas <yishaih@nvidia.com>, Kevin Tian
+ <kevin.tian@intel.com>, <intel-xe@lists.freedesktop.org>,
+ <linux-kernel@vger.kernel.org>, <kvm@vger.kernel.org>, Matthew Brost
+ <matthew.brost@intel.com>
+CC: <dri-devel@lists.freedesktop.org>, Jani Nikula
+ <jani.nikula@linux.intel.com>, Joonas Lahtinen
+ <joonas.lahtinen@linux.intel.com>, Tvrtko Ursulin <tursulin@ursulin.net>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, "Lukasz
+ Laguna" <lukasz.laguna@intel.com>
+References: <20251021224133.577765-1-michal.winiarski@intel.com>
+ <20251021224133.577765-5-michal.winiarski@intel.com>
 Content-Language: en-US
-From: Joel Fernandes <joelagnelf@nvidia.com>
-In-Reply-To: <DDOSD746PCSR.CNAYZSTFR9XR@nvidia.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: BLAP220CA0010.NAMP220.PROD.OUTLOOK.COM
- (2603:10b6:208:32c::15) To SN7PR12MB8059.namprd12.prod.outlook.com
- (2603:10b6:806:32b::7)
+From: Michal Wajdeczko <michal.wajdeczko@intel.com>
+In-Reply-To: <20251021224133.577765-5-michal.winiarski@intel.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
+X-ClientProxiedBy: WA0P291CA0021.POLP291.PROD.OUTLOOK.COM
+ (2603:10a6:1d0:1::25) To MN0PR11MB6011.namprd11.prod.outlook.com
+ (2603:10b6:208:372::6)
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: SN7PR12MB8059:EE_|DS0PR12MB8343:EE_
-X-MS-Office365-Filtering-Correlation-Id: fde3e9ee-a78a-4813-b814-08de11b6edcb
+X-MS-TrafficTypeDiagnostic: MN0PR11MB6011:EE_|IA4PR11MB9153:EE_
+X-MS-Office365-Filtering-Correlation-Id: 111b9ff5-15ac-440a-1e52-08de11b7357a
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|1800799024|7416014|376014|366016;
-X-Microsoft-Antispam-Message-Info: =?utf-8?B?dDBaVGFFR0k3eUJIQnQ3dDRLNzBzeERWRi8rSG1jZWtobXJ6OUJldHVPYS9y?=
- =?utf-8?B?WDNIQkU5bFFFZ0JQcHRWNzBXNENCNmlXc2IwditVTFhCT1doVE5vOHpzYkpL?=
- =?utf-8?B?dVBxQk5VY09Ta21ldzZiTXJxdzM0TlZOZFUybUwvZCt4eUg3d084Z09GRzJS?=
- =?utf-8?B?QjN4QllGcDlKdW5BbGdkZFVzTUxRaGVYb3NVVEhPNGFab1ptam4xMHlSaDZX?=
- =?utf-8?B?NXZHVTJVbmYxK1hzZVpGaEwvdzRsdG5WdEhhR3QxN3pDNENYV1U0WWJVY1Rh?=
- =?utf-8?B?c0JhQS9ON0FVMFB0NytRejdhcjkyYVFiQnRUaEo3NTBUSC9Ha3lDUjhGdlhk?=
- =?utf-8?B?Y3BMY1Y2SDhNQnRhWnlWbDdIb2F3NUZ0NktheXRwUGFpU0FRZ3JlNGVYeWRU?=
- =?utf-8?B?Y3VwN1Fyb0dUL3Q3L1dPT2lTT2x5MnNXR0xFand1cFlsSndSQkt1N3FibUNL?=
- =?utf-8?B?azFVK0xNbWFkb3hQZXIxY2ZCeEwzczBFRDIyc0kzZHN5YTRVK3BOaDZCZHBZ?=
- =?utf-8?B?cEJzVVNSem1KMDArMEoxR3NYTWRtZkpxaUVPYzhya3RHakJGTkhxWVZIeCtk?=
- =?utf-8?B?bCtwQ21pM2UvRmc0NVNGK3ViNEs0bEJsOXdDZFV2MVB6RXUwWHFodjljZStT?=
- =?utf-8?B?YWhRTzM4TEUxaTRhMWlxN0FIZFJDY0ZyT3lVcEZqdnJMTVRhbCthRXJTZ3Zm?=
- =?utf-8?B?YUduS3l2L3hqZFRlVVZtaUtpVXBxbW42RXFRVHpJUEJxTHA1QWh0Ykp0WVh1?=
- =?utf-8?B?TG5kZW1NamVNRFdCRFBCZTFGZGFsc1ozNy9Cb2h0M0JBSlFxRWJiQlZUMHVi?=
- =?utf-8?B?eS9qaEl4akZMYUVYM2w1dkcvWnByVzhzYjVGRnpTS0JQRGhTZTZhMHpxbHEy?=
- =?utf-8?B?WGVjbEN1QWtRUVNQb2kvckI1NFRQaGVIN2tteUlPd0s0cUhieCtJVFpHbVN3?=
- =?utf-8?B?TngrbklqVmRBME5ud0RKVFdHQUZVTitaVjBSaUpnWTh5QUgvSDdZMG1IczY1?=
- =?utf-8?B?THpwdk14L1Z2OFc2RmlNT0I3RGJvVStTQnE1S0gxbXBjQnNwZVBySThmMmNo?=
- =?utf-8?B?bks0VWdsWlFGU2ZSUmd4KzhYemNrMGxnR1JEN3lyanJ0UjRvNHBTRldOc1g0?=
- =?utf-8?B?MmJDTTY4ajRvS3lPVWo0WUNVUHRrVTU4cnpHTk5RVkJqUFgwb2Q4cDUvWXJG?=
- =?utf-8?B?RVRQSUJrdVZQRzd3QUwyQTlRdmRPN05tNlllc2psYjhjUU1DN2doNm42RDBR?=
- =?utf-8?B?SzA5dnEyWTJIMzhLcmhab25IdmliUkxnNlh2a05kVytJemRsQXQzbXFjNlVE?=
- =?utf-8?B?NU9RbDBzQ0xXamtYUjRPV24zNkxub1ZBaTlSYVNDMVBJdnAraGtXQ0sySHN3?=
- =?utf-8?B?eTlGcW44WkpZcnRONUZDZVJiQXZ6RU5GZVVsUEJnazdVNjFLSUFBd25PdEE5?=
- =?utf-8?B?cnYwbTM2OThLS2g4bFZObEMyYWFCM1lVeGtESDdYbXFCZVJ0YS9PV3gybFBU?=
- =?utf-8?B?bkRQMXNtZWZkRzF5cE1QTlM5UjN1eHZJOURMaktaMWhVUjhHc0x4aGRPWE43?=
- =?utf-8?B?eVlJbEQxRzh4M3NVdXlwZm1jNndDNW9HaklJVXRIMERTQkc0d3dzSTR3RGVK?=
- =?utf-8?B?RVlZRHRHNjZlVDNaZDRUbkFtNHg1UjRpSVJIKzZOdk9VMXUvN3pkdXNlM2Vt?=
- =?utf-8?B?eDFZY1ExTFRMVW1SdHBBUTQ3TnJzTDZkb2oyU2ptSnhET3BTY3VURllyZTQ5?=
- =?utf-8?B?Q01pRDhUaFlnRTRSdzFvNGRoY2JOeWRqZGZZaCtWc0wwOU5kQitZbXFjVDdW?=
- =?utf-8?B?MnRuSkxqNWVBSExsUzBNNk1QNFdIUVNHRGRFN05ncXJpSVJ4UjhucjM5alpG?=
- =?utf-8?B?MDNsOUY0VkxGVDIyd3JVekFPQjNBRU5PTHhCOHpHT0FJRTltQkoxRFlSekNv?=
- =?utf-8?Q?bYRR8H5CGa+grFHWmpP1R0+3iQQXf1hK?=
+X-Microsoft-Antispam: BCL:0;
+ ARA:13230040|366016|376014|7416014|1800799024|921020; 
+X-Microsoft-Antispam-Message-Info: =?utf-8?B?aGRVQU5IekpGN2FuUDhBRWdOeTIxeGNqNWFJZ0tpRmpCc0ViMkU4OEl1VnJu?=
+ =?utf-8?B?Y3NhUzNlY29ObVlLcE1SUEw3bll2bnpEVGJMYmtGZU5kZWFYUlQ3akcyK0Zo?=
+ =?utf-8?B?UDlkajI1SE9QMkllaFZqcit5QWEwYWxnMG8xbktpUXdONTJGSlRlbEN1L3N3?=
+ =?utf-8?B?d0lLb1RFTWx3Q2ZCWDFwenRoRytzdVpNeXQvRTNJcFNvR2R6eXlNR1lGTWVt?=
+ =?utf-8?B?UzhGRW04K0lHNVlVMkRoeS9iQ3Q3a1BrL1Nzb1Y0ejB1STZWWk5hY0xiMW10?=
+ =?utf-8?B?dTlkVmpnV0VvRTM4QnBBa3ZlMDdaQWg4dXV2WHc2bE9tYjJCaGVQZHc3ektF?=
+ =?utf-8?B?Mk0zcVNQRmdPeWpValZYSG9tN25XbEVSckl6MFBJRTdkVGxQaUw2SkxuNm1W?=
+ =?utf-8?B?ald1Ynl3dnpwd3Z6eXNFNDNWbFYrcjdqMlZSd0loRDdqT3lBdldVVW92WVpu?=
+ =?utf-8?B?SmhSbVJIMEVhYldYR0h3UEpOQ0FJMU0veERZYzhNbHY0RWxSN1ZOa3lvbDEy?=
+ =?utf-8?B?K2g5Q2hOclhZQ3BoTUJDU0ZlcFVBZW1ybUtBNGpCZEt3eThNNmQya3BGNUVV?=
+ =?utf-8?B?blFxZ3ZwVDJvejBtYWV4cXJaVElPRkFHeHRYNk85bkR5Z0hhUTFTQmRxeUMx?=
+ =?utf-8?B?c2xjcHpjTVBVZUQvTDlIVHBLNFBSdlBiRHdnOHFDUkVXS3BTYlRiWGpRQVp2?=
+ =?utf-8?B?b1hZTVRjanVHWXpueWRzMTZ5eUkySEtFam9vVFE3NmxkQkwwd3E3STkyRVBK?=
+ =?utf-8?B?ZDlqRFc2bVpmZDc0SmZRaWtISEpmQVlpVThPMnludFZBdkxTK0dWbGRIS0E2?=
+ =?utf-8?B?dGRyTm5hVnhrZEc0cDVTMWI4YW55SXBUSWJsY2NjOEpDSjMxd2RxZ2JwVWVx?=
+ =?utf-8?B?T3pRR0F4M1NYWXR3bElhQ2Vxc2Z1ZFRnNm1JV3p3S3A4YmRZVENTUXRHeVQ4?=
+ =?utf-8?B?K0tLZ2VBSEpNZnVzZmxiTDhranZFWVhFMVNtdG4rZWlrWHpvdm5helJpNndp?=
+ =?utf-8?B?UXFzZmo5bEFKOFdISCs4dUFGenRoUlA4VjJjQ2gwQnlvMzZhR2IzRnVVbHE1?=
+ =?utf-8?B?SnJUNjVIcEU1SThNa21STlcvK28xS0RyK3BEcEZud3RTNHVPc2RGNmVKNzRT?=
+ =?utf-8?B?WENVMVljMERaV0RpMitmOGEwQ3JXMXBXdDdoNVhGM0pCR3ZiYVl0QjVhODUw?=
+ =?utf-8?B?TlN1UVlBd3RtWktuVmFOUFpTaDdwM1p2QUN0emRnU3M0U3JXeWZ4S284WXNx?=
+ =?utf-8?B?WFBMQWgrUU9MY1JCQ0ZwSWR2MG9oTy9xOWtPTWNYdElvcjVCWFoxNnFMQ21Y?=
+ =?utf-8?B?QmlZclVMb3VYczFFVWRWdVJrTk9WRkh3MUVCRjcrcTBLOFR4bEx1WktyRzh1?=
+ =?utf-8?B?OHVlRDBkNnlsdmhGK1JuUGFxRDlkOEJPTFF1QTd4Q2VtUm9OZ0Q0azY0bVZO?=
+ =?utf-8?B?ZVhxUjZYdXlxT1VMQTBIdEUveVFveHlYaTM2N0JsdEVES1hnWm1oOEJLTVVo?=
+ =?utf-8?B?VHlTVk53aWlFR3VMQVN0Qk5XMThmcVd0SUxTOXNsZjZwdVdWTW5BYllmT1VC?=
+ =?utf-8?B?aG1ORTNaNW5Gc3JtVE1WaUYwV1YxV0pOc1BDZTJiNVNDVCtBTW8vTTN4d3NL?=
+ =?utf-8?B?NThxSW9CdDlHNmdZa0VKU0locnRDVThQU05CK2Q0aU9HbUFuRllQM1FxaWVI?=
+ =?utf-8?B?cHVMNjZCQzhXT3I5SytpeU1tUDdXWk5yN21JajJNNUg1ek1oenFHb1d5bHBp?=
+ =?utf-8?B?WlVxMkdXcDA3ZjVnTDFoRE9UR2FxTitWNThSSXVDMGpyeWoxd2dZS054QjhS?=
+ =?utf-8?B?SE01eXFqcmd6d3NvV2hRMGRtamVQUStrR3BZL1pOTWlVR0VXdTlMVkVqTFRG?=
+ =?utf-8?B?N3NVMjZEb2VXa0wvRXhxbzlMb1JVMk5QbG9PTDRZOGNuWDY5ZzIwV3NpcE5u?=
+ =?utf-8?B?bkNORzVKOW9DN0lUU1l1QkU5bzJXbVdaMFk0R09UeVdoSzdOdi9hZE81S09t?=
+ =?utf-8?Q?wIs6wOABysRx9t4bRyLtO9PLGmdUx0=3D?=
 X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:SN7PR12MB8059.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230040)(1800799024)(7416014)(376014)(366016); DIR:OUT; SFP:1101; 
+ IPV:NLI; SFV:NSPM; H:MN0PR11MB6011.namprd11.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230040)(366016)(376014)(7416014)(1800799024)(921020); DIR:OUT; SFP:1101;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?WVFLVVZWOWNtcFVhdGlvVFNPU2ZQdTB4dFAzTTZqTnJvMXorVDhMTEZZZGFP?=
- =?utf-8?B?ejdkMktZUGRUUVUxZHN1ZzRlVEptVmtJVThpOVRzRVRhVmVKLzNhMlYrRzc3?=
- =?utf-8?B?VEI2RkdzdFJwVmpYYWIzOWZNY0RNcXcxOTVDd09HNmxrUXh1Zk5tcGZmL3JC?=
- =?utf-8?B?NG11ZSt4NHQvMEFWcmc2WkJrODRlVDExOVFxVFBKNDJMNXBPNDBiNlhPRmpX?=
- =?utf-8?B?TGlkc3J5NmRIY3cyQ3U0VE91K2pDZksrd0RpSGhqQ2hwbmx0YkkreEtwaHhP?=
- =?utf-8?B?R1JLQzBNelROZjdaMUhlTERTNFFuV3pVNW52Mm1qQXoyUWtMWUk1TVlCTWN5?=
- =?utf-8?B?bjNyZkZWRXZ5Uk81czFOc2ZzalJjdFZtcHFHano4dHhycWV5Y3ljRGRvRHYw?=
- =?utf-8?B?aURzMk1VUzc3VGllSDZyd3Bwb3ZteTIrM3B0SlI0V0s5eWE3aGJ4YkwxeUJK?=
- =?utf-8?B?MUlQVlkzMlAwamg2NW9Gb3JOSC9ScGE0dVU0RytvL1VyOFRVNVlvZzBDTTBl?=
- =?utf-8?B?S2hsTVdOeTFzUEMvWE4zazlrQjN2TDN1OXBOMVd3cG5GekVBa3M1ZStXQmVK?=
- =?utf-8?B?UmdvczJXem9lOFkzMnVpRnF6UVpaN0kyOUZMRVR0ZlJnRUF3MzROU3hnczcw?=
- =?utf-8?B?U1NLUGZzLzdMQ0tWbVZtYk9idTBvZ1V4SFdkMHlKVXhUUmUrOGZYeGdFc3FV?=
- =?utf-8?B?RDRzbXpHdmZTa0w3SjFxb1dqTzB2Q0hQZ0JMQXBFNytEV1VUdEVJQmY2bnlV?=
- =?utf-8?B?M00vNkRxRFg5Q3VadUJQTUNDV3VEZDZ6Vk1hd0hYZTFsdzJxaXJoTERZbEhh?=
- =?utf-8?B?N01HLzU2YTFEbGJLTTFUUlFXd0twVnl4NXdCbmh0cWJQMVRMNjhlQ3ZjMU1V?=
- =?utf-8?B?ek1FSytvZmdnc3QvOFhnRGJUVWpYdDRwYmJkU3A5VElkNWd4Z3FhMFZnVHl3?=
- =?utf-8?B?STJSck0xSk0zRjAyeXNJSGJyeFpTcXlTOUIyKy92N3FCUGVzVXFVa01SdHBQ?=
- =?utf-8?B?WmpOYWxzcWV6SlRjcTZ0TDJIK2JsamFxOEloOG1wRUw5aHJaNFQ1MkNtRnFG?=
- =?utf-8?B?SndCMjNmc0t5Mk9ya08wU3lYeUQ4VWJacExwWitOTlllM2pIcEVDRC8reFNy?=
- =?utf-8?B?c1B6bkFVaHpjTEoyUVRkU2FLL1JINzdPUVExeUxJREZMeWcxM3RrL0VDc3Fs?=
- =?utf-8?B?aGw3cHlaMDZsRHp2R1hnOEwxaHZhWFVQSStlSm9rY29SWGYvM2NrL1haWjAv?=
- =?utf-8?B?NHZXbWt4U2dwME4vdzhORmRhZXVjcEYyeHJjeVlIZFFJV1Y2UUFpVlE5Q3hw?=
- =?utf-8?B?V2NNcFNST0VjbjgrMTJXM28rblBob1ZxRklSSEtPZm4vampDWFJseEV4VVZV?=
- =?utf-8?B?ZFAwK0dTcW1BK1VZc1d4R0RIL0JPT0NMQVB4SjhNb1NmMkJWZnRBeUhCdDB5?=
- =?utf-8?B?eUhvZlI1cjdMeE5tODd5Vi82MFEzN2pvZkZTVHpNSmZXK3phdDNRR2YzZS9k?=
- =?utf-8?B?QURsQnF0Y0oxN3BBKzRaMW1ZQ3lsMlpyUzB4SnNHRTk0cGhzLzdpbzhlT0py?=
- =?utf-8?B?dUpnb2hzejFkaDk3a3grc1JiZWxZcE9OZ1lad2J0SHpMWXV0dDVybkJFT016?=
- =?utf-8?B?QVhSNlJQTWdZWTJwNWFqYU4zaEFjYWhNalprNjk0NFZ2K0hSUlAzZmxlenc2?=
- =?utf-8?B?TzBUTkVSM0VlbHZaWFJuWTdWejVLQjdzTEVtQUJHZWtPdmZQbit4dVNpVEtZ?=
- =?utf-8?B?aVJzZ09FQ1hGdExzZDdiRUM3V3B6cHRwb0FFa012cmpGU1I1V05UK0o0dmZY?=
- =?utf-8?B?NVRMMmRZQlZ1K1lKYXRDcVA3Z0szM1V4RlRwVE14dDB6b2N0SllFSC9LdkxQ?=
- =?utf-8?B?RDZPeXdUTDQ5eUV3Sjk3UmNobFUrSEwzRXllMzh5eVdrcVBQSWZNM1UrQ1Vr?=
- =?utf-8?B?akJqbURPMTVhNmpVZUM3amlsRVZWb1JEbzZicnE3RVlpQ1p1WWg3NGl4UDRW?=
- =?utf-8?B?eFNhTUF0OTVyY0lDc05sZlVBa2ZITjhBSFN2dldhSjI3aWkrelA5TGxhRExz?=
- =?utf-8?B?TnRNbTVYblN2SnNDNDlsNlFsUmhLZUhyazNOeVZrMGtsdEUzVi9VWFZIVFc2?=
- =?utf-8?Q?G+iiS0cqaDqV82bc8c+0pfCbP?=
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: fde3e9ee-a78a-4813-b814-08de11b6edcb
-X-MS-Exchange-CrossTenant-AuthSource: SN7PR12MB8059.namprd12.prod.outlook.com
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?TXdkQlhKRHFLMGJ0S3U2MS83elMzN0lmMFVoRmdiTDhZM2JQVFByeXRJN3Js?=
+ =?utf-8?B?eXE5SEJiWnBQbjV5STR3cVVudEtCUmI1RStNZlkvOEIzeTlGSUZwR0xqRzcv?=
+ =?utf-8?B?S1FpMVRvYzVIdUV4M2RaNWlDckRrUW8wci81ellVNmVTZGZ1anVhWEJoM3hB?=
+ =?utf-8?B?OU9wN1VmblVWMXZyWFNjeWMrKzUyVkhTdjFyTWNLNEdIZzEyUU05MEhIa3Bp?=
+ =?utf-8?B?by9pbTFEMUVIWlE0OHlrSjJuQ2pSeGhtVmNrWFBWRVl2Smh5dHhCTUhySDNN?=
+ =?utf-8?B?Y0x0OXpaQ2RmeXhMMmhYbWlETXRpczVKKzRKRE02bmNKUDhZMFZjUStUL1dV?=
+ =?utf-8?B?OXJub1N1Q1o0eDhoK1VLUVhoamhyeFNZSlpJaGF3SjR5U3luVDVhOXlGSHdv?=
+ =?utf-8?B?Y2c5cXFReFFIWGJtTDRYeU84TjlXdXFVcXg0SDByRDVvZ29rdmFOZHlvN3o3?=
+ =?utf-8?B?aS9KTGs0ZlRnMVY0R3NKUEozS2NRQXlrYXh5RzdmSjkvSFFRY0NSZEdOV2Fw?=
+ =?utf-8?B?M2lsMWY4RSt3dG8yVCtOcDVCNU1JVU9XMjdNbitCOXY2VGg4RHpSN21pbkpp?=
+ =?utf-8?B?NEIxbThSUzk3aGdXcDc2SWRiUUlxYitaZDhVV1NydHlUVCs2UnN3b0VKVDlW?=
+ =?utf-8?B?K2VsRFRCNDQwdUl6RFREVEhUNjB5RVBFYzRidUZZRWZiRkQ5R2VXNnJBZlRr?=
+ =?utf-8?B?RWt4MHRQRUNJV290YjE3cldycXR3d0p1MnhWVHRwQXV0UWlZeVRONmZycUtw?=
+ =?utf-8?B?VnkwY1U3eXpNbWY3RFlhWlN0MHd3MEVucy8xRVBqS0RqTUJUR2x1dlp6M1Q0?=
+ =?utf-8?B?cTFCUk95Mjg3cWVPYXk5RUtrRUhRRkFXOUhkQVg3ME5mZTAyZTJvYTBnWVpY?=
+ =?utf-8?B?YkdOU2tia2F1cEZPa0NwcjlOaWkrcVJscXJlREdzY21yTW0vM1d3VEh1Tm9M?=
+ =?utf-8?B?ZzJBSkpkaUdxcHVqOEFsWko2V2lXMVN5TlJJVjJvTFVZWkVnLzZzcVNzY3BO?=
+ =?utf-8?B?WjVuZEkrZXo3M0N2Y2ZLNXNQQk1SUkhzRVVKdkpoQXovWDkyVTdUdGhvV00y?=
+ =?utf-8?B?UHBvZXZXNTdzdStLT2VtcXVUTUpCOFFPUlo0WFlTQnRYSDdRcEhnZWZ0VUU2?=
+ =?utf-8?B?TmNjRldJNWJtYXpqdjlXeVJCbjNkSEl3UXZRZVZYV0hLZzU0YmZDb2FOZzUr?=
+ =?utf-8?B?VVo3KzdObVBDN3dwallxNmZhbndkUmx2RjQzSFNodDV1aERKY0QremRzQlZV?=
+ =?utf-8?B?YVhNMHFlQkFTVmxYaTNuNEF5dHJVRkJrMWdKVjBwN3dzUFM3WkVpcktMTElU?=
+ =?utf-8?B?WU80QXRJcTJ1ZVBJZG1rYTNMdEMxbEtrK0ptOXZ2bGhSb0lOT01wWWYyNSs2?=
+ =?utf-8?B?OC9oWEFaazJwQmtaSEsxd3gwWDE4bG1ndE9FK0FMdnpIODYvTkUzNFlMUDA0?=
+ =?utf-8?B?NmFRenFwMGZwclVqTTFlS2lud0EyTCt1WXNjUVNXUkJQMnMxZWkwMVRmRm5y?=
+ =?utf-8?B?eng5U21vc0dJNUY5b2FJVjBMY0dKRVRldi83TmhJeWVRWDJIRDV4MWpFRDRB?=
+ =?utf-8?B?OEViZVYyc1AyQzQycE40MEVRNGZEWnQyYXM0STJEL1dVekVvRE1MUFZLVTFa?=
+ =?utf-8?B?Nkd5bnZCckM1SWZBbGxlKytNUDhtSTRzR2RQbWZ2bFlTRnRjVUxyMFpwYWZF?=
+ =?utf-8?B?dkRBTmZ3SGN2bTdaS0lqaWJpaHRwWmNMTXlsZG9rd0l2UkVLd2JHdTA4ZSts?=
+ =?utf-8?B?ZUt1QXgrSDgwV2lxVCs4QkZmNlp1RlI5R1hNNzVrRGRoVFR0YWwxRXJBbkQ1?=
+ =?utf-8?B?NkdXeXJvenVYWFpNNU5UTHB6QUtVck9OcHNDbzY5UDluK0dIRk5tYzBGbHFt?=
+ =?utf-8?B?c3ZCWDFGdGlnUFZlUXRhVUZEK0Iwc1duTitYYzVQSU9WOXQ2OGlqRE40NFJU?=
+ =?utf-8?B?SXpTM0JMaGhHZncwZnl5R2dVcXFDa01ReTc1M0lHaDBBeHUyUTJFSm84cGI0?=
+ =?utf-8?B?Q1o4emhwbjJSMjJqakVjdkswd1BuYmNqOWtjZEI5V3puY3dCc0hWNHJ1VUgw?=
+ =?utf-8?B?cERWV0o3VGJNZk9tL1RkamxrMlpqZ3Z5YUFrdTBKZWZPVmdzSkp0bmVFcjRs?=
+ =?utf-8?B?dHVnOG9BQXh6REI5bkZIL1ROU2ZKZVhBd09qaC9EcGdiQ3cvYlIrRFlBZVdG?=
+ =?utf-8?B?Wmc9PQ==?=
+X-MS-Exchange-CrossTenant-Network-Message-Id: 111b9ff5-15ac-440a-1e52-08de11b7357a
+X-MS-Exchange-CrossTenant-AuthSource: MN0PR11MB6011.namprd11.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 22 Oct 2025 22:04:10.6355 (UTC)
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 22 Oct 2025 22:06:10.9880 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: 93Cr7muCdFoKV84Z/c08x1NawGDnUhIYsyt7DTP3Pl4mrItSihGok35/jPS0KxGB3zbOrIQv8N/aK7sqzl7gnw==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DS0PR12MB8343
+X-MS-Exchange-CrossTenant-UserPrincipalName: SpSibXvEOWMw7h8bpEfmnKONFxmNuU6QYuR/UdyP9rYBrPrtbVOlLFWFDFput6LrDOcpXaw+W1uM4PstYgaWi/uu/lJOQkeVWP75hukZyuw=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: IA4PR11MB9153
+X-OriginatorOrg: intel.com
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -177,256 +210,1095 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Alex,
 
-On 10/22/2025 6:41 AM, Alexandre Courbot wrote:
-> On Tue Oct 21, 2025 at 3:55 AM JST, Joel Fernandes wrote:
->> Required for writing page tables directly to VRAM physical memory,
->> before page tables and MMU are setup.
->>
->> Signed-off-by: Joel Fernandes <joelagnelf@nvidia.com>
->> ---
->>  drivers/gpu/nova-core/mm/mod.rs    |   3 +
->>  drivers/gpu/nova-core/mm/pramin.rs | 241 +++++++++++++++++++++++++++++
->>  drivers/gpu/nova-core/nova_core.rs |   1 +
->>  drivers/gpu/nova-core/regs.rs      |  29 +++-
->>  4 files changed, 273 insertions(+), 1 deletion(-)
->>  create mode 100644 drivers/gpu/nova-core/mm/mod.rs
->>  create mode 100644 drivers/gpu/nova-core/mm/pramin.rs
->>
->> diff --git a/drivers/gpu/nova-core/mm/mod.rs b/drivers/gpu/nova-core/mm/mod.rs
->> new file mode 100644
->> index 000000000000..54c7cd9416a9
->> --- /dev/null
->> +++ b/drivers/gpu/nova-core/mm/mod.rs
->> @@ -0,0 +1,3 @@
->> +// SPDX-License-Identifier: GPL-2.0
->> +
->> +pub(crate) mod pramin;
->> diff --git a/drivers/gpu/nova-core/mm/pramin.rs b/drivers/gpu/nova-core/mm/pramin.rs
->> new file mode 100644
->> index 000000000000..4f4e1b8c0b9b
->> --- /dev/null
->> +++ b/drivers/gpu/nova-core/mm/pramin.rs
->> @@ -0,0 +1,241 @@
->> +// SPDX-License-Identifier: GPL-2.0
->> +
->> +//! Direct VRAM access through PRAMIN window before page tables are set up.
->> +//! PRAMIN can also write to system memory, however for simplicty we only
+
+On 10/22/2025 12:41 AM, Michał Winiarski wrote:
+> Migration data is queued in a per-GT ptr_ring to decouple the worker
+> responsible for handling the data transfer from the .read() and .write()
+> syscalls.
+> Add the data structures and handlers that will be used in future
+> commits.
 > 
-> s/simplicty/simplicity
-
-Ok.
-
->> +//! support VRAM access.
->> +//!
->> +//! # Examples
->> +//!
->> +//! ## Writing u32 data to VRAM
->> +//!
->> +//! ```no_run
->> +//! use crate::driver::Bar0;
->> +//! use crate::mm::pramin::PraminVram;
->> +//!
->> +//! fn write_data_to_vram(bar: &Bar0) -> Result {
->> +//!     let pramin = PraminVram::new(bar);
->> +//!     // Write 4 32-bit words to VRAM at offset 0x10000
->> +//!     let data: [u32; 4] = [0xDEADBEEF, 0xCAFEBABE, 0x12345678, 0x87654321];
->> +//!     pramin.write::<u32>(0x10000, &data)?;
->> +//!     Ok(())
->> +//! }
->> +//! ```
->> +//!
->> +//! ## Reading bytes from VRAM
->> +//!
->> +//! ```no_run
->> +//! use crate::driver::Bar0;
->> +//! use crate::mm::pramin::PraminVram;
->> +//!
->> +//! fn read_data_from_vram(bar: &Bar0, buffer: &mut KVec<u8>) -> Result {
->> +//!     let pramin = PraminVram::new(bar);
->> +//!     // Read a u8 from VRAM starting at offset 0x20000
->> +//!     pramin.read::<u8>(0x20000, buffer)?;
->> +//!     Ok(())
->> +//! }
->> +//! ```
->> +
->> +#![expect(dead_code)]
->> +
->> +use crate::driver::Bar0;
->> +use crate::regs;
->> +use core::mem;
->> +use kernel::prelude::*;
->> +
->> +/// PRAMIN is a window into the VRAM (not a hardware block) that is used to access
->> +/// the VRAM directly. These addresses are consistent across all GPUs.
->> +const PRAMIN_BASE: usize = 0x700000; // PRAMIN is always at BAR0 + 0x700000
+> Signed-off-by: Michał Winiarski <michal.winiarski@intel.com>
+> ---
+>  drivers/gpu/drm/xe/xe_gt_sriov_pf_control.c   | 259 +++++++++++++++++-
+>  drivers/gpu/drm/xe/xe_gt_sriov_pf_control.h   |   6 +-
+>  .../gpu/drm/xe/xe_gt_sriov_pf_control_types.h |  12 +
+>  drivers/gpu/drm/xe/xe_gt_sriov_pf_migration.c | 183 +++++++++++++
+>  drivers/gpu/drm/xe/xe_gt_sriov_pf_migration.h |  14 +
+>  .../drm/xe/xe_gt_sriov_pf_migration_types.h   |  11 +
+>  drivers/gpu/drm/xe/xe_gt_sriov_pf_types.h     |   3 +
+>  drivers/gpu/drm/xe/xe_sriov_pf_migration.c    | 143 ++++++++++
+>  drivers/gpu/drm/xe/xe_sriov_pf_migration.h    |   7 +
+>  .../gpu/drm/xe/xe_sriov_pf_migration_types.h  |  58 ++++
+>  drivers/gpu/drm/xe/xe_sriov_pf_types.h        |   3 +
+>  11 files changed, 684 insertions(+), 15 deletions(-)
 > 
-> This definition looks like it could be an array of registers - that way
-> we could use its `BASE` associated constant and keep the hardware
-> offsets into the `regs` module.
-> 
-> Even if we don't use the array of registers for convenience, it is good
-> to have it defined in `regs` for consistency.
+> diff --git a/drivers/gpu/drm/xe/xe_gt_sriov_pf_control.c b/drivers/gpu/drm/xe/xe_gt_sriov_pf_control.c
+> index b770916e88e53..cad73fdaee93c 100644
+> --- a/drivers/gpu/drm/xe/xe_gt_sriov_pf_control.c
+> +++ b/drivers/gpu/drm/xe/xe_gt_sriov_pf_control.c
+> @@ -19,6 +19,7 @@
+>  #include "xe_guc_ct.h"
+>  #include "xe_sriov.h"
+>  #include "xe_sriov_pf_control.h"
+> +#include "xe_sriov_pf_migration.h"
+>  #include "xe_sriov_pf_service.h"
+>  #include "xe_tile.h"
+>  
+> @@ -185,9 +186,15 @@ static const char *control_bit_to_string(enum xe_gt_sriov_control_bits bit)
+>  	CASE2STR(PAUSE_FAILED);
+>  	CASE2STR(PAUSED);
+>  	CASE2STR(SAVE_WIP);
+> +	CASE2STR(SAVE_PROCESS_DATA);
+> +	CASE2STR(SAVE_WAIT_DATA);
+> +	CASE2STR(SAVE_DATA_DONE);
+>  	CASE2STR(SAVE_FAILED);
+>  	CASE2STR(SAVED);
+>  	CASE2STR(RESTORE_WIP);
+> +	CASE2STR(RESTORE_PROCESS_DATA);
+> +	CASE2STR(RESTORE_WAIT_DATA);
+> +	CASE2STR(RESTORE_DATA_DONE);
+>  	CASE2STR(RESTORE_FAILED);
+>  	CASE2STR(RESTORED);
+>  	CASE2STR(RESUME_WIP);
+> @@ -804,9 +811,50 @@ int xe_gt_sriov_pf_control_resume_vf(struct xe_gt *gt, unsigned int vfid)
+>  	return -ECANCELED;
+>  }
+>  
+> +/**
+> + * DOC: The VF SAVE state machine
+> + *
+> + * SAVE extends the PAUSED state.
+> + *
+> + * The VF SAVE state machine looks like::
+> + *
+> + * ....PAUSED....................................................
+> + * :                                                            :
+> + * :     (O)<---------o                                         :
+> + * :      |            \                                        :
+> + * :    save          (SAVED)    (SAVE_FAILED)                  :
+> + * :      |               ^           ^                         :
+> + * :      |               |           |                         :
+> + * :  ....V...............o...........o......SAVE_WIP.........  :
+> + * :  :   |               |           |                      :  :
+> + * :  :   |             empty         |                      :  :
+> + * :  :   |               |           |                      :  :
+> + * :  :   |               |           |                      :  :
+> + * :  :   |           DATA_DONE       |                      :  :
+> + * :  :   |               ^           |                      :  :
+> + * :  :   |               |        error                     :  :
+> + * :  :   |            no_data       /                       :  :
+> + * :  :   |              /          /                        :  :
+> + * :  :   |             /          /                         :  :
+> + * :  :   |            /          /                          :  :
+> + * :  :   o---------->PROCESS_DATA<----consume               :  :
+> + * :  :                \                      \              :  :
+> + * :  :                 \                      \             :  :
+> + * :  :                  \                      \            :  :
+> + * :  :                   ring_full----->WAIT_DATA           :  :
+> + * :  :                                                      :  :
+> + * :  :......................................................:  :
+> + * :............................................................:
 
-Ok, I wanted to do that, but I thought since these are registers, it is weird to
-move it there.
+this will not render correctly (missing extra indent, RESTORE_WIP below is fine)
 
-Also we need byte-level access, register macro is u32. I don't think we should
-overload regs.rs just to store magic numbers, these are not registers right? We
-have PRAM window configuration registers but that's different.
+> + *
+> + * For the full state machine view, see `The VF state machine`_.
+> + */
+>  static void pf_exit_vf_save_wip(struct xe_gt *gt, unsigned int vfid)
+>  {
+> -	pf_exit_vf_state(gt, vfid, XE_GT_SRIOV_STATE_SAVE_WIP);
+> +	if (pf_exit_vf_state(gt, vfid, XE_GT_SRIOV_STATE_SAVE_WIP)) {
+> +		pf_escape_vf_state(gt, vfid, XE_GT_SRIOV_STATE_SAVE_PROCESS_DATA);
+> +		pf_escape_vf_state(gt, vfid, XE_GT_SRIOV_STATE_SAVE_WAIT_DATA);
+> +		pf_escape_vf_state(gt, vfid, XE_GT_SRIOV_STATE_SAVE_DATA_DONE);
+> +	}
+>  }
+>  
+>  static void pf_enter_vf_saved(struct xe_gt *gt, unsigned int vfid)
+> @@ -821,12 +869,39 @@ static void pf_enter_vf_saved(struct xe_gt *gt, unsigned int vfid)
+>  	pf_expect_vf_state(gt, vfid, XE_GT_SRIOV_STATE_PAUSED);
+>  }
+>  
+> +static void pf_enter_vf_save_failed(struct xe_gt *gt, unsigned int vfid)
+> +{
+> +	pf_enter_vf_state(gt, vfid, XE_GT_SRIOV_STATE_SAVE_FAILED);
+> +	pf_exit_vf_wip(gt, vfid);
+> +}
+> +
+> +static int pf_handle_vf_save_data(struct xe_gt *gt, unsigned int vfid)
+> +{
+> +	return 0;
+> +}
+> +
+>  static bool pf_handle_vf_save(struct xe_gt *gt, unsigned int vfid)
+>  {
+> -	if (!pf_exit_vf_state(gt, vfid, XE_GT_SRIOV_STATE_SAVE_WIP))
+> +	int ret;
+> +
+> +	if (!pf_exit_vf_state(gt, vfid, XE_GT_SRIOV_STATE_SAVE_PROCESS_DATA))
+>  		return false;
+>  
+> -	pf_enter_vf_saved(gt, vfid);
+> +	pf_enter_vf_state(gt, vfid, XE_GT_SRIOV_STATE_SAVE_WAIT_DATA);
 
-> 
->> +const PRAMIN_SIZE: usize = 0x100000; // 1MB aperture - max access per window position
-> 
-> You can use `kernel::sizes::SZ_1M` here.
+this seems to be done too early
 
-Sure, will do.
+> +	if (xe_gt_sriov_pf_migration_ring_full(gt, vfid)) {
 
->> +
->> +/// Trait for types that can be read/written through PRAMIN.
->> +pub(crate) trait PraminNum: Copy + Default + Sized {
->> +    fn read_from_bar(bar: &Bar0, offset: usize) -> Result<Self>;
->> +
->> +    fn write_to_bar(self, bar: &Bar0, offset: usize) -> Result;
->> +
->> +    fn size_bytes() -> usize {
->> +        mem::size_of::<Self>()
->> +    }
->> +
->> +    fn alignment() -> usize {
->> +        Self::size_bytes()
->> +    }
->> +}
-> 
-> Since this trait requires `Sized`, you can use `size_of` and `align_of`
-> directly, making the `size_bytes` and `alignment` methods redundant.
-> Only `write_to_bar` should remain.
+you should enter(WAIT_DATA) here
 
-Sure, slightly poorer caller-side readability though but its fine with me, I'll
-do that.
+> +		pf_enter_vf_state(gt, vfid, XE_GT_SRIOV_STATE_SAVE_PROCESS_DATA);
 
-> I also wonder whether we couldn't get rid of this trait entirely by
-> leveragin `FromBytes` and `AsBytes`. Since the size of the type is
-> known, we could have read/write methods in Pramin that write its content
-> by using Io accessors of decreasing size (first 64-bit, then 32, etc)
-> until all the data is written.
+and don't re-enter(PROCESS_DATA) as we shouldn't be in both sub-states at the same time
 
-Ah great idea, I like this. Though per the other discussion with John on keeping
-it simple (not doing bulk I/O operations), maybe we wouldn't need a trait at
-all. Let me see.
+transition from WAIT to PROCESS shall be done in
 
-> 
->> +
->> +/// Macro to implement PraminNum trait for unsigned integer types.
->> +macro_rules! impl_pramin_unsigned_num {
->> +    ($bits:literal) => {
->> +        ::kernel::macros::paste! {
->> +            impl PraminNum for [<u $bits>] {
->> +                fn read_from_bar(bar: &Bar0, offset: usize) -> Result<Self> {
->> +                    bar.[<try_read $bits>](offset)
->> +                }
->> +
->> +                fn write_to_bar(self, bar: &Bar0, offset: usize) -> Result {
->> +                    bar.[<try_write $bits>](self, offset)
->> +                }
->> +            }
->> +        }
->> +    };
->> +}
->> +
->> +impl_pramin_unsigned_num!(8);
->> +impl_pramin_unsigned_num!(16);
->> +impl_pramin_unsigned_num!(32);
->> +impl_pramin_unsigned_num!(64);
->> +
->> +/// Direct VRAM access through PRAMIN window before page tables are set up.
->> +pub(crate) struct PraminVram<'a> {
-> 
-> Let's use the shorter name `Pramin` - the limitation to VRAM is a
-> reasonable one (since the CPU can access its own system memory), it is
-> not necessary to encode it into the name.
-Sure, sounds good.
+	pf_exit_vf_wait(gt, vf)
+	{
+		if (exit(WAIT))
+			enter(PROCESS_DATA)
+			queue
+	}
 
-> 
->> +    bar: &'a Bar0,
->> +    saved_window_addr: usize,
->> +}
->> +
->> +impl<'a> PraminVram<'a> {
->> +    /// Create a new PRAMIN VRAM accessor, saving current window state,
->> +    /// the state is restored when the accessor is dropped.
->> +    ///
->> +    /// The BAR0 window base must be 64KB aligned but provides 1MB of VRAM access.
->> +    /// Window is repositioned automatically when accessing data beyond 1MB boundaries.
->> +    pub(crate) fn new(bar: &'a Bar0) -> Self {
->> +        let saved_window_addr = Self::get_window_addr(bar);
->> +        Self {
->> +            bar,
->> +            saved_window_addr,
->> +        }
->> +    }
->> +
->> +    /// Set BAR0 window to point to specific FB region.
->> +    ///
->> +    /// # Arguments
->> +    ///
->> +    /// * `fb_offset` - VRAM byte offset where the window should be positioned.
->> +    ///                 Must be 64KB aligned (lower 16 bits zero).
-> 
-> Let's follow the rust doccomment guidelines for the arguments.
+called from xe_gt_sriov_pf_control_process_save_data()
 
-Ok, Sure.
-> 
->> +    fn set_window_addr(&self, fb_offset: usize) -> Result {
->> +        // FB offset must be 64KB aligned (hardware requirement for window_base field)
->> +        // Once positioned, the window provides access to 1MB of VRAM through PRAMIN aperture
->> +        if fb_offset & 0xFFFF != 0 {
->> +            return Err(EINVAL);
->> +        }
-> 
-> Since this method is private and called from controlled contexts for
-> which `fb_offset` should always be valid, we can request callers to
-> give us a "window index" (e.g. the `window_base` of the
-> `NV_PBUS_BAR0_WINDOW` register) directly and remove this check. That
-> will also let us remove the impl block on `NV_PBUS_BAR0_WINDOW`.
-> 
+> +
+> +		return true;
+> +	}
+> +	pf_exit_vf_state(gt, vfid, XE_GT_SRIOV_STATE_SAVE_WAIT_DATA);
+> +
+> +	ret = pf_handle_vf_save_data(gt, vfid);
+> +	if (ret == -EAGAIN)
+> +		pf_enter_vf_state(gt, vfid, XE_GT_SRIOV_STATE_SAVE_PROCESS_DATA);
+> +	else if (ret)
+> +		pf_enter_vf_save_failed(gt, vfid);
+> +	else
+> +		pf_enter_vf_state(gt, vfid, XE_GT_SRIOV_STATE_SAVE_DATA_DONE);
+>  
+>  	return true;
+>  }
+> @@ -834,6 +909,7 @@ static bool pf_handle_vf_save(struct xe_gt *gt, unsigned int vfid)
+>  static bool pf_enter_vf_save_wip(struct xe_gt *gt, unsigned int vfid)
+>  {
+>  	if (pf_enter_vf_state(gt, vfid, XE_GT_SRIOV_STATE_SAVE_WIP)) {
+> +		pf_enter_vf_state(gt, vfid, XE_GT_SRIOV_STATE_SAVE_PROCESS_DATA);
+>  		pf_enter_vf_wip(gt, vfid);
+>  		pf_queue_vf(gt, vfid);
+>  		return true;
+> @@ -842,6 +918,36 @@ static bool pf_enter_vf_save_wip(struct xe_gt *gt, unsigned int vfid)
+>  	return false;
+>  }
+>  
+> +/**
+> + * xe_gt_sriov_pf_control_check_save_data_done() - Check if all save migration data was produced.
+> + * @gt: the &xe_gt
+> + * @vfid: the VF identifier
+> + *
+> + * This function is for PF only.
+> + *
+> + * Return: 0 on success or a negative error code on failure.
+> + */
+> +bool xe_gt_sriov_pf_control_check_save_data_done(struct xe_gt *gt, unsigned int vfid)
+> +{
+> +	return pf_check_vf_state(gt, vfid, XE_GT_SRIOV_STATE_SAVE_DATA_DONE);
+> +}
+> +
+> +/**
+> + * xe_gt_sriov_pf_control_process_save_data() - Queue VF save migration data processing.
+> + * @gt: the &xe_gt
+> + * @vfid: the VF identifier
+> + *
+> + * This function is for PF only.
+> + */
+> +void xe_gt_sriov_pf_control_process_save_data(struct xe_gt *gt, unsigned int vfid)
+> +{
+> +	if (xe_gt_sriov_pf_control_check_save_data_done(gt, vfid))
+> +		return;
+> +
+> +	if (pf_exit_vf_state(gt, vfid, XE_GT_SRIOV_STATE_SAVE_WAIT_DATA))
+> +		pf_queue_vf(gt, vfid);
 
-The tradeoff being it may complicated callers of the function that deal purely
-with addresses instead of window indices.
+this should wrapped into:
 
->> +    ///
->> +    /// The function automatically handles PRAMIN window repositioning when accessing
->> +    /// data that spans multiple 1MB windows.
-> 
-> Inversely, this large method is under-documented. Understanding what
-> `operation` is supposed to do would be helpful.
+	exit_vf_wait_data()
 
-I will skip these comments for now as we discussed dropping complexity in other
-thread, but thanks for the review on this. This function should be likely
-dropped in the next iteration.
+where actual transition to PROCESS will happen
 
->> +
->> +    /// Sets the window address from a framebuffer offset.
->> +    /// The fb_offset must be 64KB aligned (lower bits discared).
->> +    pub(crate) fn set_window_addr(self, fb_offset: usize) -> Self {
->> +        // Calculate window base (bits 39:16 of FB address)
->> +        // The total FB address is 40 bits, mask anything above. Since we are
->> +        // right shifting the offset by 16 bits, the mask is only 24 bits.
->> +        let mask = genmask_u32(0..=23) as usize;
->> +        let window_base = ((fb_offset >> 16) & mask) as u32;
->> +        self.set_window_base(window_base)
->> +    }
->> +}
-> 
-> If you work directly with `window_base` as suggested above, this impl
-> block can be dropped altogether.
-But it will complicate callers. That's the tradeoff. I prefer to keep caller
-side simple and abstract away complexity. But to your point, this is an internal
-API so I can probably code it both ways and see what it looks like.
+> +}
+> +
+>  /**
+>   * xe_gt_sriov_pf_control_trigger_save_vf() - Start an SR-IOV VF migration data save sequence.
+>   * @gt: the &xe_gt
+> @@ -887,19 +993,62 @@ int xe_gt_sriov_pf_control_trigger_save_vf(struct xe_gt *gt, unsigned int vfid)
+>   */
+>  int xe_gt_sriov_pf_control_finish_save_vf(struct xe_gt *gt, unsigned int vfid)
+>  {
+> -	if (!pf_expect_vf_state(gt, vfid, XE_GT_SRIOV_STATE_SAVED)) {
+> -		pf_enter_vf_mismatch(gt, vfid);
+> +	if (!pf_check_vf_state(gt, vfid, XE_GT_SRIOV_STATE_SAVE_DATA_DONE)) {
+> +		xe_gt_sriov_err(gt, "VF%u save is still in progress!\n", vfid);
+>  		return -EIO;
+>  	}
+>  
+>  	pf_expect_vf_state(gt, vfid, XE_GT_SRIOV_STATE_PAUSED);
+> +	pf_exit_vf_state(gt, vfid, XE_GT_SRIOV_STATE_SAVE_DATA_DONE);
+> +	pf_enter_vf_saved(gt, vfid);
+>  
+>  	return 0;
+>  }
+>  
+> +/**
+> + * DOC: The VF RESTORE state machine
+> + *
+> + * RESTORE extends the PAUSED state.
+> + *
+> + * The VF RESTORE state machine looks like::
+> + *
+> + *  ....PAUSED....................................................
+> + *  :                                                            :
+> + *  :     (O)<---------o                                         :
+> + *  :      |            \                                        :
+> + *  :    restore      (RESTORED)  (RESTORE_FAILED)               :
+> + *  :      |               ^           ^                         :
+> + *  :      |               |           |                         :
+> + *  :  ....V...............o...........o......RESTORE_WIP......  :
+> + *  :  :   |               |           |                      :  :
+> + *  :  :   |             empty         |                      :  :
+> + *  :  :   |               |           |                      :  :
+> + *  :  :   |               |           |                      :  :
+> + *  :  :   |           DATA_DONE       |                      :  :
+> + *  :  :   |               ^           |                      :  :
+> + *  :  :   |               |        error                     :  :
+> + *  :  :   |           trailer        /                       :  :
+> + *  :  :   |              /          /                        :  :
+> + *  :  :   |             /          /                         :  :
+> + *  :  :   |            /          /                          :  :
+> + *  :  :   o---------->PROCESS_DATA<----produce               :  :
+> + *  :  :                \                      \              :  :
+> + *  :  :                 \                      \             :  :
+> + *  :  :                  \                      \            :  :
+> + *  :  :                   ring_empty---->WAIT_DATA           :  :
+> + *  :  :                                                      :  :
+> + *  :  :......................................................:  :
+> + *  :............................................................:
+> + *
+> + * For the full state machine view, see `The VF state machine`_.
+> + */
+>  static void pf_exit_vf_restore_wip(struct xe_gt *gt, unsigned int vfid)
+>  {
+> -	pf_exit_vf_state(gt, vfid, XE_GT_SRIOV_STATE_RESTORE_WIP);
+> +	if (pf_exit_vf_state(gt, vfid, XE_GT_SRIOV_STATE_RESTORE_WIP)) {
+> +		pf_escape_vf_state(gt, vfid, XE_GT_SRIOV_STATE_RESTORE_PROCESS_DATA);
+> +		pf_escape_vf_state(gt, vfid, XE_GT_SRIOV_STATE_RESTORE_WAIT_DATA);
+> +		pf_escape_vf_state(gt, vfid, XE_GT_SRIOV_STATE_RESTORE_DATA_DONE);
+> +	}
+>  }
+>  
+>  static void pf_enter_vf_restored(struct xe_gt *gt, unsigned int vfid)
+> @@ -914,12 +1063,50 @@ static void pf_enter_vf_restored(struct xe_gt *gt, unsigned int vfid)
+>  	pf_expect_vf_state(gt, vfid, XE_GT_SRIOV_STATE_PAUSED);
+>  }
+>  
+> +static void pf_enter_vf_restore_failed(struct xe_gt *gt, unsigned int vfid)
+> +{
+> +	pf_enter_vf_state(gt, vfid, XE_GT_SRIOV_STATE_RESTORE_FAILED);
+> +	pf_exit_vf_wip(gt, vfid);
+> +}
+> +
+> +static int
 
-thanks,
+no need to split the line
 
- - Joel
+> +pf_handle_vf_restore_data(struct xe_gt *gt, unsigned int vfid)
+> +{
+> +	struct xe_sriov_migration_data *data = xe_gt_sriov_pf_migration_restore_consume(gt, vfid);
+> +
+> +	xe_gt_assert(gt, data);
+> +
+> +	xe_gt_sriov_notice(gt, "Skipping VF%u unknown data type: %d\n", vfid, data->type);
+> +
+> +	return 0;
+> +}
+> +
+>  static bool pf_handle_vf_restore(struct xe_gt *gt, unsigned int vfid)
+>  {
+> -	if (!pf_exit_vf_state(gt, vfid, XE_GT_SRIOV_STATE_RESTORE_WIP))
+> +	int ret;
+> +
+> +	if (!pf_exit_vf_state(gt, vfid, XE_GT_SRIOV_STATE_RESTORE_PROCESS_DATA))
+>  		return false;
+>  
+> -	pf_enter_vf_restored(gt, vfid);
+> +	pf_enter_vf_state(gt, vfid, XE_GT_SRIOV_STATE_RESTORE_WAIT_DATA);
 
+maybe you shouldn't enter(WAIT_DATA) here
+
+> +	if (xe_gt_sriov_pf_migration_ring_empty(gt, vfid)) {
+
+but here
+
+> +		if (pf_exit_vf_state(gt, vfid, XE_GT_SRIOV_STATE_RESTORE_DATA_DONE)) {
+
+hmm, there should be no direct transition from WAIT_DATA to DONE
+
+> +			pf_exit_vf_state(gt, vfid, XE_GT_SRIOV_STATE_RESTORE_WAIT_DATA);
+> +			pf_enter_vf_restored(gt, vfid);
+> +
+> +			return true;
+> +		}
+
+or just here
+
+> +
+> +		pf_enter_vf_state(gt, vfid, XE_GT_SRIOV_STATE_RESTORE_PROCESS_DATA);
+
+and transition back to PROCESS only on exit(WAIT) called below
+
+> +		return true;
+> +	}
+> +	pf_exit_vf_state(gt, vfid, XE_GT_SRIOV_STATE_RESTORE_WAIT_DATA);
+> +
+> +	ret = pf_handle_vf_restore_data(gt, vfid);
+> +	if (ret)
+> +		pf_enter_vf_restore_failed(gt, vfid);
+> +	else
+> +		pf_enter_vf_state(gt, vfid, XE_GT_SRIOV_STATE_RESTORE_PROCESS_DATA);
+>  
+>  	return true;
+>  }
+> @@ -927,6 +1114,7 @@ static bool pf_handle_vf_restore(struct xe_gt *gt, unsigned int vfid)
+>  static bool pf_enter_vf_restore_wip(struct xe_gt *gt, unsigned int vfid)
+>  {
+>  	if (pf_enter_vf_state(gt, vfid, XE_GT_SRIOV_STATE_RESTORE_WIP)) {
+> +		pf_enter_vf_state(gt, vfid, XE_GT_SRIOV_STATE_RESTORE_PROCESS_DATA);
+>  		pf_enter_vf_wip(gt, vfid);
+>  		pf_queue_vf(gt, vfid);
+>  		return true;
+> @@ -935,6 +1123,41 @@ static bool pf_enter_vf_restore_wip(struct xe_gt *gt, unsigned int vfid)
+>  	return false;
+>  }
+>  
+> +/**
+> + * xe_gt_sriov_pf_control_restore_data_done() - Indicate the end of VF migration data stream.
+> + * @gt: the &xe_gt
+> + * @vfid: the VF identifier
+> + *
+> + * This function is for PF only.
+> + *
+> + * Return: 0 on success or a negative error code on failure.
+> + */
+> +int xe_gt_sriov_pf_control_restore_data_done(struct xe_gt *gt, unsigned int vfid)
+> +{
+
+shouldn't we have additional state checks here?
+
+	expect(RESTORE_WIP)
+	expect(RESTORE_PROCESS_DATA) ?
+
+this one below just looks for one-time entry, but can we really enter anytime ?
+
+> +	if (!pf_enter_vf_state(gt, vfid, XE_GT_SRIOV_STATE_RESTORE_DATA_DONE)) {
+> +		pf_enter_vf_state_machine_bug(gt, vfid);
+> +		return -EIO;
+> +	}
+> +
+> +	return 0;
+> +}
+> +
+> +/**
+> + * xe_gt_sriov_pf_control_process_restore_data() - Queue VF restore migration data processing.
+> + * @gt: the &xe_gt
+> + * @vfid: the VF identifier
+> + *
+> + * This function is for PF only.
+> + */
+> +void xe_gt_sriov_pf_control_process_restore_data(struct xe_gt *gt, unsigned int vfid)
+> +{
+> +	if (!pf_expect_vf_state(gt, vfid, XE_GT_SRIOV_STATE_RESTORE_WIP))
+> +		pf_enter_vf_state_machine_bug(gt, vfid);
+> +
+> +	if (pf_exit_vf_state(gt, vfid, XE_GT_SRIOV_STATE_RESTORE_WAIT_DATA))
+> +		pf_queue_vf(gt, vfid);
+
+IMO the transition to PROCESS shall be also done as part of exit(WAIT_DATA)
+
+> +}
+> +
+>  /**
+>   * xe_gt_sriov_pf_control_trigger restore_vf() - Start an SR-IOV VF migration data restore sequence.
+>   * @gt: the &xe_gt
+> @@ -1000,11 +1223,9 @@ int xe_gt_sriov_pf_control_finish_restore_vf(struct xe_gt *gt, unsigned int vfid
+>  {
+>  	int ret;
+>  
+> -	if (pf_check_vf_state(gt, vfid, XE_GT_SRIOV_STATE_RESTORE_WIP)) {
+> -		ret = pf_wait_vf_restore_done(gt, vfid);
+> -		if (ret)
+> -			return ret;
+> -	}
+> +	ret = pf_wait_vf_restore_done(gt, vfid);
+> +	if (ret)
+> +		return ret;
+>  
+>  	if (!pf_expect_vf_state(gt, vfid, XE_GT_SRIOV_STATE_RESTORED)) {
+>  		pf_enter_vf_mismatch(gt, vfid);
+> @@ -1703,9 +1924,21 @@ static bool pf_process_vf_state_machine(struct xe_gt *gt, unsigned int vfid)
+>  	if (pf_exit_vf_pause_save_guc(gt, vfid))
+>  		return true;
+>  
+> +	if (pf_check_vf_state(gt, vfid, XE_GT_SRIOV_STATE_SAVE_WAIT_DATA)) {
+> +		xe_gt_sriov_dbg_verbose(gt, "VF%u in %s\n", vfid,
+> +					control_bit_to_string(XE_GT_SRIOV_STATE_SAVE_WAIT_DATA));
+> +		return false;
+> +	}
+> +
+>  	if (pf_handle_vf_save(gt, vfid))
+>  		return true;
+>  
+> +	if (pf_check_vf_state(gt, vfid, XE_GT_SRIOV_STATE_RESTORE_WAIT_DATA)) {
+> +		xe_gt_sriov_dbg_verbose(gt, "VF%u in %s\n", vfid,
+> +					control_bit_to_string(XE_GT_SRIOV_STATE_RESTORE_WAIT_DATA));
+> +		return false;
+> +	}
+> +
+>  	if (pf_handle_vf_restore(gt, vfid))
+>  		return true;
+>  
+> diff --git a/drivers/gpu/drm/xe/xe_gt_sriov_pf_control.h b/drivers/gpu/drm/xe/xe_gt_sriov_pf_control.h
+> index abc233f6302ed..6b1ab339e3b73 100644
+> --- a/drivers/gpu/drm/xe/xe_gt_sriov_pf_control.h
+> +++ b/drivers/gpu/drm/xe/xe_gt_sriov_pf_control.h
+> @@ -14,12 +14,14 @@ struct xe_gt;
+>  int xe_gt_sriov_pf_control_init(struct xe_gt *gt);
+>  void xe_gt_sriov_pf_control_restart(struct xe_gt *gt);
+>  
+> -bool xe_gt_sriov_pf_control_check_vf_data_wip(struct xe_gt *gt, unsigned int vfid);
+> -
+>  int xe_gt_sriov_pf_control_pause_vf(struct xe_gt *gt, unsigned int vfid);
+>  int xe_gt_sriov_pf_control_resume_vf(struct xe_gt *gt, unsigned int vfid);
+> +bool xe_gt_sriov_pf_control_check_save_data_done(struct xe_gt *gt, unsigned int vfid);
+> +void xe_gt_sriov_pf_control_process_save_data(struct xe_gt *gt, unsigned int vfid);
+>  int xe_gt_sriov_pf_control_trigger_save_vf(struct xe_gt *gt, unsigned int vfid);
+>  int xe_gt_sriov_pf_control_finish_save_vf(struct xe_gt *gt, unsigned int vfid);
+> +int xe_gt_sriov_pf_control_restore_data_done(struct xe_gt *gt, unsigned int vfid);
+> +void xe_gt_sriov_pf_control_process_restore_data(struct xe_gt *gt, unsigned int vfid);
+>  int xe_gt_sriov_pf_control_trigger_restore_vf(struct xe_gt *gt, unsigned int vfid);
+>  int xe_gt_sriov_pf_control_finish_restore_vf(struct xe_gt *gt, unsigned int vfid);
+>  int xe_gt_sriov_pf_control_stop_vf(struct xe_gt *gt, unsigned int vfid);
+> diff --git a/drivers/gpu/drm/xe/xe_gt_sriov_pf_control_types.h b/drivers/gpu/drm/xe/xe_gt_sriov_pf_control_types.h
+> index e113dc98b33ce..6e19a8ea88f0b 100644
+> --- a/drivers/gpu/drm/xe/xe_gt_sriov_pf_control_types.h
+> +++ b/drivers/gpu/drm/xe/xe_gt_sriov_pf_control_types.h
+> @@ -32,9 +32,15 @@
+>   * @XE_GT_SRIOV_STATE_PAUSE_FAILED: indicates that a VF pause operation has failed.
+>   * @XE_GT_SRIOV_STATE_PAUSED: indicates that the VF is paused.
+>   * @XE_GT_SRIOV_STATE_SAVE_WIP: indicates that VF save operation is in progress.
+> + * @XE_GT_SRIOV_STATE_SAVE_PROCESS_DATA: indicates that VF migration data is being produced.
+> + * @XE_GT_SRIOV_STATE_SAVE_WAIT_DATA: indicates that PF awaits for space in migration data ring.
+> + * @XE_GT_SRIOV_STATE_SAVE_DATA_DONE: indicates that all migration data was produced by Xe.
+>   * @XE_GT_SRIOV_STATE_SAVE_FAILED: indicates that VF save operation has failed.
+>   * @XE_GT_SRIOV_STATE_SAVED: indicates that VF data is saved.
+>   * @XE_GT_SRIOV_STATE_RESTORE_WIP: indicates that VF restore operation is in progress.
+> + * @XE_GT_SRIOV_STATE_RESTORE_PROCESS_DATA: indicates that VF migration data is being consumed.
+> + * @XE_GT_SRIOV_STATE_RESTORE_WAIT_DATA: indicates that PF awaits for data in migration data ring.
+> + * @XE_GT_SRIOV_STATE_RESTORE_DATA_DONE: indicates that all migration data was produced by the user.
+>   * @XE_GT_SRIOV_STATE_RESTORE_FAILED: indicates that VF restore operation has failed.
+>   * @XE_GT_SRIOV_STATE_RESTORED: indicates that VF data is restored.
+>   * @XE_GT_SRIOV_STATE_RESUME_WIP: indicates the a VF resume operation is in progress.
+> @@ -70,10 +76,16 @@ enum xe_gt_sriov_control_bits {
+>  	XE_GT_SRIOV_STATE_PAUSED,
+>  
+>  	XE_GT_SRIOV_STATE_SAVE_WIP,
+> +	XE_GT_SRIOV_STATE_SAVE_PROCESS_DATA,
+> +	XE_GT_SRIOV_STATE_SAVE_WAIT_DATA,
+> +	XE_GT_SRIOV_STATE_SAVE_DATA_DONE,
+>  	XE_GT_SRIOV_STATE_SAVE_FAILED,
+>  	XE_GT_SRIOV_STATE_SAVED,
+>  
+>  	XE_GT_SRIOV_STATE_RESTORE_WIP,
+> +	XE_GT_SRIOV_STATE_RESTORE_PROCESS_DATA,
+> +	XE_GT_SRIOV_STATE_RESTORE_WAIT_DATA,
+> +	XE_GT_SRIOV_STATE_RESTORE_DATA_DONE,
+>  	XE_GT_SRIOV_STATE_RESTORE_FAILED,
+>  	XE_GT_SRIOV_STATE_RESTORED,
+>  
+> diff --git a/drivers/gpu/drm/xe/xe_gt_sriov_pf_migration.c b/drivers/gpu/drm/xe/xe_gt_sriov_pf_migration.c
+> index ca28f45aaf481..b6ffd982d6007 100644
+> --- a/drivers/gpu/drm/xe/xe_gt_sriov_pf_migration.c
+> +++ b/drivers/gpu/drm/xe/xe_gt_sriov_pf_migration.c
+> @@ -7,6 +7,7 @@
+>  
+>  #include "abi/guc_actions_sriov_abi.h"
+>  #include "xe_bo.h"
+> +#include "xe_gt_sriov_pf_control.h"
+>  #include "xe_gt_sriov_pf_helpers.h"
+>  #include "xe_gt_sriov_pf_migration.h"
+>  #include "xe_gt_sriov_printk.h"
+> @@ -15,6 +16,17 @@
+>  #include "xe_sriov.h"
+>  #include "xe_sriov_pf_migration.h"
+>  
+> +#define XE_GT_SRIOV_PF_MIGRATION_RING_SIZE 5
+> +
+> +static struct xe_gt_sriov_migration_data *pf_pick_gt_migration(struct xe_gt *gt, unsigned int vfid)
+> +{
+> +	xe_gt_assert(gt, IS_SRIOV_PF(gt_to_xe(gt)));
+> +	xe_gt_assert(gt, vfid != PFID);
+> +	xe_gt_assert(gt, vfid <= xe_sriov_pf_get_totalvfs(gt_to_xe(gt)));
+> +
+> +	return &gt->sriov.pf.vfs[vfid].migration;
+> +}
+> +
+>  /* Return: number of dwords saved/restored/required or a negative error code on failure */
+>  static int guc_action_vf_save_restore(struct xe_guc *guc, u32 vfid, u32 opcode,
+>  				      u64 addr, u32 ndwords)
+> @@ -382,6 +394,162 @@ ssize_t xe_gt_sriov_pf_migration_write_guc_state(struct xe_gt *gt, unsigned int
+>  }
+>  #endif /* CONFIG_DEBUG_FS */
+>  
+> +/**
+> + * xe_gt_sriov_pf_migration_ring_empty() - Check if a migration ring is empty.
+> + * @gt: the &xe_gt
+> + * @vfid: the VF identifier
+> + *
+> + * Return: true if the ring is empty, otherwise false.
+> + */
+> +bool xe_gt_sriov_pf_migration_ring_empty(struct xe_gt *gt, unsigned int vfid)
+> +{
+> +	return ptr_ring_empty(&pf_pick_gt_migration(gt, vfid)->ring);
+> +}
+> +
+> +/**
+> + * xe_gt_sriov_pf_migration_ring_full() - Check if a migration ring is full.
+> + * @gt: the &xe_gt
+> + * @vfid: the VF identifier
+> + *
+> + * Return: true if the ring is full, otherwise false.
+> + */
+> +bool xe_gt_sriov_pf_migration_ring_full(struct xe_gt *gt, unsigned int vfid)
+> +{
+> +	return ptr_ring_full(&pf_pick_gt_migration(gt, vfid)->ring);
+> +}
+> +
+> +/**
+> + * xe_gt_sriov_pf_migration_save_produce() - Add VF save data packet to migration ring.
+> + * @gt: the &xe_gt
+> + * @vfid: the VF identifier
+> + * @data: &xe_sriov_migration_data packet
+> + *
+> + * Called by the save migration data producer (PF SR-IOV Control worker) when
+> + * processing migration data.
+> + * Wakes up the save migration data consumer (userspace), that is potentially
+> + * waiting for data when the ring is empty.
+> + *
+> + * Return: 0 on success or a negative error code on failure.
+> + */
+> +int xe_gt_sriov_pf_migration_save_produce(struct xe_gt *gt, unsigned int vfid,
+> +					  struct xe_sriov_migration_data *data)
+> +{
+> +	int ret;
+> +
+> +	ret = ptr_ring_produce(&pf_pick_gt_migration(gt, vfid)->ring, data);
+> +	if (ret)
+> +		return ret;
+> +
+> +	wake_up_all(xe_sriov_pf_migration_waitqueue(gt_to_xe(gt), vfid));
+> +
+> +	return 0;
+> +}
+> +
+> +/**
+> + * xe_gt_sriov_pf_migration_restore_consume() - Get VF restore data packet from migration ring.
+> + * @gt: the &xe_gt
+> + * @vfid: the VF identifier
+> + *
+> + * Called by the restore migration data consumer (PF SR-IOV Control worker) when
+> + * processing migration data.
+> + * Wakes up the restore migration data producer (userspace), that is
+> + * potentially waiting to add more data when the ring is full.
+> + *
+> + * Return: Pointer to &struct xe_sriov_migration_data on success,
+> + *	   NULL if ring is empty.
+> + */
+> +struct xe_sriov_migration_data *
+> +xe_gt_sriov_pf_migration_restore_consume(struct xe_gt *gt, unsigned int vfid)
+> +{
+> +	struct xe_gt_sriov_migration_data *migration = pf_pick_gt_migration(gt, vfid);
+> +	struct wait_queue_head *wq = xe_sriov_pf_migration_waitqueue(gt_to_xe(gt), vfid);
+> +	struct xe_sriov_migration_data *data;
+> +
+> +	data = ptr_ring_consume(&migration->ring);
+> +	if (data)
+> +		wake_up_all(wq);
+> +
+> +	return data;
+> +}
+> +
+> +/**
+> + * xe_gt_sriov_pf_migration_restore_produce() - Add VF restore data packet to migration ring.
+> + * @gt: the &xe_gt
+> + * @vfid: the VF identifier
+> + * @data: &xe_sriov_migration_data packet
+> + *
+> + * Called by the restore migration data producer (userspace) when processing
+> + * migration data.
+> + * If the ring is full, waits until there is space.
+> + * Queues the restore migration data consumer (PF SR-IOV Control worker), that
+> + * is potentially waiting for data when the ring is empty.
+> + *
+> + * Return: 0 on success or a negative error code on failure.
+> + */
+> +int xe_gt_sriov_pf_migration_restore_produce(struct xe_gt *gt, unsigned int vfid,
+> +					     struct xe_sriov_migration_data *data)
+> +{
+> +	struct wait_queue_head *wq = xe_sriov_pf_migration_waitqueue(gt_to_xe(gt), vfid);
+> +	struct xe_gt_sriov_migration_data *migration = pf_pick_gt_migration(gt, vfid);
+> +	int ret;
+> +
+> +	xe_gt_assert(gt, data->tile == gt->tile->id);
+> +	xe_gt_assert(gt, data->gt == gt->info.id);
+> +
+> +	while (1) {
+
+or for (;;)
+
+> +		ret = ptr_ring_produce(&migration->ring, data);
+> +		if (!ret)
+> +			break;
+> +
+> +		ret = wait_event_interruptible(*wq, !ptr_ring_full(&migration->ring));
+> +		if (ret)
+> +			return ret;
+> +	}
+> +
+> +	xe_gt_sriov_pf_control_process_restore_data(gt, vfid);
+> +
+> +	return 0;
+> +}
+> +
+> +/**
+> + * xe_gt_sriov_pf_migration_save_consume() - Get VF save data packet from migration ring.
+> + * @gt: the &xe_gt
+> + * @vfid: the VF identifier
+> + *
+> + * Called by the save migration data consumer (userspace) when
+> + * processing migration data.
+> + * Queues the save migration data producer (PF SR-IOV Control worker), that is
+> + * potentially waiting to add more data when the ring is full.
+> + *
+> + * Return: Pointer to &struct xe_sriov_migration_data on success,
+> + *	   NULL if ring is empty and there's no more data available,
+> + *	   ERR_PTR(-EAGAIN) if the ring is empty, but data is still produced.
+> + */
+> +struct xe_sriov_migration_data *
+> +xe_gt_sriov_pf_migration_save_consume(struct xe_gt *gt, unsigned int vfid)
+> +{
+> +	struct xe_gt_sriov_migration_data *migration = pf_pick_gt_migration(gt, vfid);
+> +	struct xe_sriov_migration_data *data;
+> +
+> +	data = ptr_ring_consume(&migration->ring);
+> +	if (data) {
+> +		xe_gt_sriov_pf_control_process_save_data(gt, vfid);
+> +		return data;
+> +	}
+> +
+> +	if (xe_gt_sriov_pf_control_check_save_data_done(gt, vfid))
+> +		return NULL;
+> +
+> +	return ERR_PTR(-EAGAIN);
+> +}
+> +
+> +static void action_ring_cleanup(struct drm_device *dev, void *arg)
+> +{
+> +	struct ptr_ring *r = arg;
+> +
+> +	ptr_ring_cleanup(r, NULL);
+> +}
+> +
+>  /**
+>   * xe_gt_sriov_pf_migration_init() - Initialize support for VF migration.
+>   * @gt: the &xe_gt
+> @@ -393,6 +561,7 @@ ssize_t xe_gt_sriov_pf_migration_write_guc_state(struct xe_gt *gt, unsigned int
+>  int xe_gt_sriov_pf_migration_init(struct xe_gt *gt)
+>  {
+>  	struct xe_device *xe = gt_to_xe(gt);
+> +	unsigned int n, totalvfs;
+>  	int err;
+>  
+>  	xe_gt_assert(gt, IS_SRIOV_PF(xe));
+> @@ -404,5 +573,19 @@ int xe_gt_sriov_pf_migration_init(struct xe_gt *gt)
+>  	if (err)
+>  		return err;
+>  
+> +	totalvfs = xe_sriov_pf_get_totalvfs(xe);
+> +	for (n = 1; n <= totalvfs; n++) {
+> +		struct xe_gt_sriov_migration_data *migration = pf_pick_gt_migration(gt, n);
+> +
+> +		err = ptr_ring_init(&migration->ring,
+> +				    XE_GT_SRIOV_PF_MIGRATION_RING_SIZE, GFP_KERNEL);
+> +		if (err)
+> +			return err;
+> +
+> +		err = drmm_add_action_or_reset(&xe->drm, action_ring_cleanup, &migration->ring);
+
+should we wait until drmm cleanup or devm cleanup ?
+
+
+> +		if (err)
+> +			return err;
+> +	}
+> +
+>  	return 0;
+>  }
+> diff --git a/drivers/gpu/drm/xe/xe_gt_sriov_pf_migration.h b/drivers/gpu/drm/xe/xe_gt_sriov_pf_migration.h
+> index 09faeae00ddbb..9e67f18ded205 100644
+> --- a/drivers/gpu/drm/xe/xe_gt_sriov_pf_migration.h
+> +++ b/drivers/gpu/drm/xe/xe_gt_sriov_pf_migration.h
+> @@ -9,11 +9,25 @@
+>  #include <linux/types.h>
+>  
+>  struct xe_gt;
+> +struct xe_sriov_migration_data;
+>  
+>  int xe_gt_sriov_pf_migration_init(struct xe_gt *gt);
+>  int xe_gt_sriov_pf_migration_save_guc_state(struct xe_gt *gt, unsigned int vfid);
+>  int xe_gt_sriov_pf_migration_restore_guc_state(struct xe_gt *gt, unsigned int vfid);
+>  
+> +bool xe_gt_sriov_pf_migration_ring_empty(struct xe_gt *gt, unsigned int vfid);
+> +bool xe_gt_sriov_pf_migration_ring_full(struct xe_gt *gt, unsigned int vfid);
+> +
+> +int xe_gt_sriov_pf_migration_save_produce(struct xe_gt *gt, unsigned int vfid,
+> +					  struct xe_sriov_migration_data *data);
+> +struct xe_sriov_migration_data *
+> +xe_gt_sriov_pf_migration_restore_consume(struct xe_gt *gt, unsigned int vfid);
+> +
+> +int xe_gt_sriov_pf_migration_restore_produce(struct xe_gt *gt, unsigned int vfid,
+> +					     struct xe_sriov_migration_data *data);
+> +struct xe_sriov_migration_data *
+> +xe_gt_sriov_pf_migration_save_consume(struct xe_gt *gt, unsigned int vfid);
+> +
+>  #ifdef CONFIG_DEBUG_FS
+>  ssize_t xe_gt_sriov_pf_migration_read_guc_state(struct xe_gt *gt, unsigned int vfid,
+>  						char __user *buf, size_t count, loff_t *pos);
+> diff --git a/drivers/gpu/drm/xe/xe_gt_sriov_pf_migration_types.h b/drivers/gpu/drm/xe/xe_gt_sriov_pf_migration_types.h
+> index 9d672feac5f04..84be6fac16c8b 100644
+> --- a/drivers/gpu/drm/xe/xe_gt_sriov_pf_migration_types.h
+> +++ b/drivers/gpu/drm/xe/xe_gt_sriov_pf_migration_types.h
+> @@ -7,6 +7,7 @@
+>  #define _XE_GT_SRIOV_PF_MIGRATION_TYPES_H_
+>  
+>  #include <linux/mutex.h>
+> +#include <linux/ptr_ring.h>
+>  #include <linux/types.h>
+>  
+>  /**
+> @@ -24,6 +25,16 @@ struct xe_gt_sriov_state_snapshot {
+>  	} guc;
+>  };
+>  
+> +/**
+> + * struct xe_gt_sriov_migration_data - GT-level per-VF migration data.
+> + *
+> + * Used by the PF driver to maintain per-VF migration data.
+> + */
+> +struct xe_gt_sriov_migration_data {
+> +	/** @ring: queue containing VF save / restore migration data */
+> +	struct ptr_ring ring;
+> +};
+> +
+>  /**
+>   * struct xe_gt_sriov_pf_migration - GT-level data.
+>   *
+> diff --git a/drivers/gpu/drm/xe/xe_gt_sriov_pf_types.h b/drivers/gpu/drm/xe/xe_gt_sriov_pf_types.h
+> index a64a6835ad656..812e74d3f8f80 100644
+> --- a/drivers/gpu/drm/xe/xe_gt_sriov_pf_types.h
+> +++ b/drivers/gpu/drm/xe/xe_gt_sriov_pf_types.h
+> @@ -33,6 +33,9 @@ struct xe_gt_sriov_metadata {
+>  
+>  	/** @snapshot: snapshot of the VF state data */
+>  	struct xe_gt_sriov_state_snapshot snapshot;
+> +
+> +	/** @migration: per-VF migration data. */
+> +	struct xe_gt_sriov_migration_data migration;
+>  };
+>  
+>  /**
+> diff --git a/drivers/gpu/drm/xe/xe_sriov_pf_migration.c b/drivers/gpu/drm/xe/xe_sriov_pf_migration.c
+> index 8c523c392f98b..eaf581317bdef 100644
+> --- a/drivers/gpu/drm/xe/xe_sriov_pf_migration.c
+> +++ b/drivers/gpu/drm/xe/xe_sriov_pf_migration.c
+> @@ -3,8 +3,36 @@
+>   * Copyright © 2025 Intel Corporation
+>   */
+>  
+> +#include <drm/drm_managed.h>
+> +
+> +#include "xe_device.h"
+> +#include "xe_gt_sriov_pf_control.h"
+> +#include "xe_gt_sriov_pf_migration.h"
+> +#include "xe_pm.h"
+>  #include "xe_sriov.h"
+> +#include "xe_sriov_pf_helpers.h"
+>  #include "xe_sriov_pf_migration.h"
+> +#include "xe_sriov_printk.h"
+> +
+> +static struct xe_sriov_pf_migration *pf_pick_migration(struct xe_device *xe, unsigned int vfid)
+> +{
+> +	xe_assert(xe, IS_SRIOV_PF(xe));
+> +	xe_assert(xe, vfid <= xe_sriov_pf_get_totalvfs(xe));
+> +
+> +	return &xe->sriov.pf.vfs[vfid].migration;
+> +}
+> +
+> +/**
+> + * xe_sriov_pf_migration_waitqueue - Get waitqueue for migration.
+> + * @xe: the &xe_device
+> + * @vfid: the VF identifier
+> + *
+> + * Return: pointer to the migration waitqueue.
+> + */
+> +wait_queue_head_t *xe_sriov_pf_migration_waitqueue(struct xe_device *xe, unsigned int vfid)
+> +{
+> +	return &pf_pick_migration(xe, vfid)->wq;
+> +}
+>  
+>  /**
+>   * xe_sriov_pf_migration_supported() - Check if SR-IOV VF migration is supported by the device
+> @@ -33,9 +61,124 @@ static bool pf_check_migration_support(struct xe_device *xe)
+>   */
+>  int xe_sriov_pf_migration_init(struct xe_device *xe)
+>  {
+> +	unsigned int n, totalvfs;
+> +
+>  	xe_assert(xe, IS_SRIOV_PF(xe));
+>  
+>  	xe->sriov.pf.migration.supported = pf_check_migration_support(xe);
+> +	if (!xe_sriov_pf_migration_supported(xe))
+> +		return 0;
+> +
+> +	totalvfs = xe_sriov_pf_get_totalvfs(xe);
+> +	for (n = 1; n <= totalvfs; n++) {
+> +		struct xe_sriov_pf_migration *migration = pf_pick_migration(xe, n);
+> +
+> +		init_waitqueue_head(&migration->wq);
+> +	}
+>  
+>  	return 0;
+>  }
+> +
+> +static bool pf_migration_data_ready(struct xe_device *xe, unsigned int vfid)
+> +{
+> +	struct xe_gt *gt;
+> +	u8 gt_id;
+> +
+> +	for_each_gt(gt, xe, gt_id) {
+> +		if (!xe_gt_sriov_pf_migration_ring_empty(gt, vfid) ||
+> +		    xe_gt_sriov_pf_control_check_save_data_done(gt, vfid))
+> +			return true;
+> +	}
+> +
+> +	return false;
+> +}
+> +
+> +static struct xe_sriov_migration_data *
+> +pf_migration_consume(struct xe_device *xe, unsigned int vfid)
+> +{
+> +	struct xe_sriov_migration_data *data;
+> +	struct xe_gt *gt;
+> +	u8 gt_id;
+> +	bool more_data = false;
+> +
+> +	for_each_gt(gt, xe, gt_id) {
+> +		data = xe_gt_sriov_pf_migration_save_consume(gt, vfid);
+> +		if (data && PTR_ERR(data) != EAGAIN)
+> +			return data;
+> +		if (PTR_ERR(data) == -EAGAIN)
+> +			more_data = true;
+> +	}
+> +
+> +	if (!more_data)
+> +		return NULL;
+> +
+> +	return ERR_PTR(-EAGAIN);
+> +}
+> +
+> +/**
+> + * xe_sriov_pf_migration_save_consume() - Consume a VF migration data packet from the device.
+> + * @xe: the &xe_device
+> + * @vfid: the VF identifier
+> + *
+> + * Called by the save migration data consumer (userspace) when
+> + * processing migration data.
+> + * If there is no migration data to process, wait until more data is available.
+> + *
+> + * Return: Pointer to &xe_sriov_migration_data on success,
+> + *	   NULL if ring is empty and no more migration data is expected,
+> + *	   ERR_PTR value in case of error.
+> + *
+> + * Return: 0 on success or a negative error code on failure.
+> + */
+> +struct xe_sriov_migration_data *
+> +xe_sriov_pf_migration_save_consume(struct xe_device *xe, unsigned int vfid)
+> +{
+> +	struct xe_sriov_pf_migration *migration = pf_pick_migration(xe, vfid);
+> +	struct xe_sriov_migration_data *data;
+> +	int ret;
+> +
+> +	xe_assert(xe, IS_SRIOV_PF(xe));
+> +
+> +	while (1) {
+> +		data = pf_migration_consume(xe, vfid);
+> +		if (PTR_ERR(data) != -EAGAIN)
+> +			goto out;
+
+just
+			break; ?
+
+> +
+> +		ret = wait_event_interruptible(migration->wq,
+> +					       pf_migration_data_ready(xe, vfid));
+> +		if (ret)
+> +			return ERR_PTR(ret);
+> +	}
+> +
+> +out:
+> +	return data;
+> +}
+> +
+> +/**
+> + * xe_sriov_pf_migration_restore_produce() - Produce a VF migration data packet to the device.
+> + * @xe: the &xe_device
+> + * @vfid: the VF identifier
+> + * @data: Pointer to &xe_sriov_migration_data
+> + *
+> + * Called by the restore migration data producer (userspace) when processing
+> + * migration data.
+> + * If the underlying data structure is full, wait until there is space.
+> + *
+> + * Return: 0 on success or a negative error code on failure.
+> + */
+> +int xe_sriov_pf_migration_restore_produce(struct xe_device *xe, unsigned int vfid,
+> +					  struct xe_sriov_migration_data *data)
+> +{
+> +	struct xe_gt *gt;
+> +
+> +	xe_assert(xe, IS_SRIOV_PF(xe));
+> +
+> +	gt = xe_device_get_gt(xe, data->gt);
+> +	if (!gt || data->tile != gt->tile->id) {
+> +		xe_sriov_err_ratelimited(xe, "VF%d Invalid GT - tile:%u, GT:%u\n",
+> +					 vfid, data->tile, data->gt);
+> +		return -EINVAL;
+> +	}
+> +
+> +	return xe_gt_sriov_pf_migration_restore_produce(gt, vfid, data);
+> +}
+> diff --git a/drivers/gpu/drm/xe/xe_sriov_pf_migration.h b/drivers/gpu/drm/xe/xe_sriov_pf_migration.h
+> index d2b4a24165438..df81a540c246a 100644
+> --- a/drivers/gpu/drm/xe/xe_sriov_pf_migration.h
+> +++ b/drivers/gpu/drm/xe/xe_sriov_pf_migration.h
+> @@ -7,10 +7,17 @@
+>  #define _XE_SRIOV_PF_MIGRATION_H_
+>  
+>  #include <linux/types.h>
+> +#include <linux/wait.h>
+>  
+>  struct xe_device;
+> +struct xe_sriov_migration_data;
+>  
+>  int xe_sriov_pf_migration_init(struct xe_device *xe);
+>  bool xe_sriov_pf_migration_supported(struct xe_device *xe);
+> +int xe_sriov_pf_migration_restore_produce(struct xe_device *xe, unsigned int vfid,
+> +					  struct xe_sriov_migration_data *data);
+> +struct xe_sriov_migration_data *
+> +xe_sriov_pf_migration_save_consume(struct xe_device *xe, unsigned int vfid);
+> +wait_queue_head_t *xe_sriov_pf_migration_waitqueue(struct xe_device *xe, unsigned int vfid);
+>  
+>  #endif
+> diff --git a/drivers/gpu/drm/xe/xe_sriov_pf_migration_types.h b/drivers/gpu/drm/xe/xe_sriov_pf_migration_types.h
+> index e69de29bb2d1d..2a45ee4e3ece8 100644
+> --- a/drivers/gpu/drm/xe/xe_sriov_pf_migration_types.h
+> +++ b/drivers/gpu/drm/xe/xe_sriov_pf_migration_types.h
+> @@ -0,0 +1,58 @@
+> +/* SPDX-License-Identifier: MIT */
+> +/*
+> + * Copyright © 2025 Intel Corporation
+> + */
+> +
+> +#ifndef _XE_SRIOV_PF_MIGRATION_TYPES_H_
+> +#define _XE_SRIOV_PF_MIGRATION_TYPES_H_
+> +
+> +#include <linux/types.h>
+> +#include <linux/wait.h>
+> +
+> +/**
+> + * struct xe_sriov_migration_data - Xe SR-IOV VF migration data packet
+> + */
+> +struct xe_sriov_migration_data {
+> +	/** @xe: Xe device */
+> +	struct xe_device *xe;
+> +	/** @vaddr: CPU pointer to payload data */
+> +	void *vaddr;
+> +	/** @remaining: payload data remaining */
+> +	size_t remaining;
+> +	/** @hdr_remaining: header data remaining */
+> +	size_t hdr_remaining;
+> +	union {
+> +		/** @bo: Buffer object with migration data */
+> +		struct xe_bo *bo;
+> +		/** @buff: Buffer with migration data */
+> +		void *buff;
+> +	};
+> +	__struct_group(xe_sriov_pf_migration_hdr, hdr, __packed,
+> +		/** @hdr.version: migration data protocol version */
+> +		u8 version;
+> +		/** @hdr.type: migration data type */
+> +		u8 type;
+> +		/** @hdr.tile: migration data tile id */
+> +		u8 tile;
+> +		/** @hdr.gt: migration data gt id */
+> +		u8 gt;
+> +		/** @hdr.flags: migration data flags */
+> +		u32 flags;
+> +		/** @hdr.offset: offset into the resource;
+> +		 * used when multiple packets of given type are used for migration
+> +		 */
+> +		u64 offset;
+> +		/** @hdr.size: migration data size  */
+> +		u64 size;
+> +	);
+> +};
+> +
+> +/**
+> + * struct xe_sriov_pf_migration - Per VF device-level migration related data
+> + */
+> +struct xe_sriov_pf_migration {
+> +	/** @wq: waitqueue used to avoid busy-waiting for snapshot production/consumption */
+> +	wait_queue_head_t wq;
+> +};
+> +
+> +#endif
+> diff --git a/drivers/gpu/drm/xe/xe_sriov_pf_types.h b/drivers/gpu/drm/xe/xe_sriov_pf_types.h
+> index 24d22afeececa..c92baaa1694ca 100644
+> --- a/drivers/gpu/drm/xe/xe_sriov_pf_types.h
+> +++ b/drivers/gpu/drm/xe/xe_sriov_pf_types.h
+> @@ -9,6 +9,7 @@
+>  #include <linux/mutex.h>
+>  #include <linux/types.h>
+>  
+> +#include "xe_sriov_pf_migration_types.h"
+>  #include "xe_sriov_pf_provision_types.h"
+>  #include "xe_sriov_pf_service_types.h"
+>  
+> @@ -18,6 +19,8 @@
+>  struct xe_sriov_metadata {
+>  	/** @version: negotiated VF/PF ABI version */
+>  	struct xe_sriov_pf_service_version version;
+> +	/** @migration: migration data */
+> +	struct xe_sriov_pf_migration migration;
+>  };
+>  
+>  /**
 
