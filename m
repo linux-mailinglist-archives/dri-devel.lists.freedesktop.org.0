@@ -2,169 +2,140 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id DDA66BFA367
-	for <lists+dri-devel@lfdr.de>; Wed, 22 Oct 2025 08:25:42 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id A878EBFA3BE
+	for <lists+dri-devel@lfdr.de>; Wed, 22 Oct 2025 08:32:15 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 67D7710E6B4;
-	Wed, 22 Oct 2025 06:25:38 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6E62F10E6B3;
+	Wed, 22 Oct 2025 06:32:12 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=Nvidia.com header.i=@Nvidia.com header.b="eyawHXWk";
+	dkim=pass (1024-bit key; unprotected) header.d=suse.de header.i=@suse.de header.b="gvhzxu2E";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="nwLCUWk+";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="CUeUacNR";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="mw9otv+D";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from BN1PR04CU002.outbound.protection.outlook.com
- (mail-eastus2azon11010065.outbound.protection.outlook.com [52.101.56.65])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8DB9810E6B3;
- Wed, 22 Oct 2025 06:25:36 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=GcxSEbUXvyk4yGR0O7561lv++1PaPTw0yOfmbXm+Z/lDOBPJOsC3pXGIVCYPv2sx4W+TuIY+cSV3qEoAnAX/AOdMt3Z8ziKZYhRxti0afSLuuaBdPfeMAGvD1EfSSd65kjNd+dIZvuG8yTtYa8lDB10PokmUd5I0fqWrMghpTLg6tEAemvuMzGnjvdWR9wY+KnInNegoenW3Fx+E5mLhp69k99fiYThFp7Wyt3B/PJZL5Hmp46Cx4McQVlxIYJNK3xrLBkYwuSYcRz7mQKNRhkwd4eOAGlaNTWnSs/NSzfphfUit04aqoitv84Tkr0NazqNlVvbTZ1gTInTeiLlhcg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=0z88HpzITfCFgDDqZkZftzgITp3XZ9Q0xKt1VyY40wY=;
- b=lii9hJ5+X5t2HH4cdDcTzbAfH4TlCcoyRcwTyzdeUIfkLdX4ODXg4OfoCgFSHT7F24Cyp5nuQ9j8f1ZpaVq8ivs7R72SFwYbrmURgA4+Dx3tQW+VLfK63qt3PcoIERv2QnY4gbD7XSohMYQVdYuMtdBvCSqZaeacNTBymvNqQx55ViQvRExCDOGij3c9IfD4xU7FeZMduIhD1VCD5KAphJrxV/M3SC7Lv5ZdNdrgnWpSUWnVCa8h0MjFUssOyHKXH6L/nxppJM5PxCxBsrxExAVFY6SRMlKdLtiGL4D4Rs9peJFE7ylumdQdatyLz4/v8Pv9IJ9cSxCPfu6IaQMH6A==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
- dkim=pass header.d=nvidia.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=0z88HpzITfCFgDDqZkZftzgITp3XZ9Q0xKt1VyY40wY=;
- b=eyawHXWk+kPuNANiMRwWog2MGF+HykoOSECf3o8cP7mDwJMjesekt4MiZY2hEImVV6izRvR57YNcBQEmSqloopvzuDMeBhPa2ZsTPqHl7T+nKbdoF0ITwCOolkLpInLVu9XUPP6fxdBYK9UArepB96h4HoPL1XBP+ufgTer95Zstk60u7IYdJCwEIuqI0Y5h+NYDWBqoSUl+QlIuFEX4gVxdekzVo/9AbflXVIz0XgQIFoApfhgQR02ZHxCb6+kylVtYounKUt16aT3cdFIiLpKnKraKeHDeT1X/xdQeIkIX7x+6JMCT8KsJoMdoOuIC5oY/3nroTbshhpnjXxh7rg==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nvidia.com;
-Received: from CH2PR12MB3990.namprd12.prod.outlook.com (2603:10b6:610:28::18)
- by SN7PR12MB8103.namprd12.prod.outlook.com (2603:10b6:806:355::5)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9228.17; Wed, 22 Oct
- 2025 06:25:31 +0000
-Received: from CH2PR12MB3990.namprd12.prod.outlook.com
- ([fe80::7de1:4fe5:8ead:5989]) by CH2PR12MB3990.namprd12.prod.outlook.com
- ([fe80::7de1:4fe5:8ead:5989%6]) with mapi id 15.20.9253.011; Wed, 22 Oct 2025
- 06:25:31 +0000
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
-Date: Wed, 22 Oct 2025 15:25:28 +0900
-Message-Id: <DDOMXDDVNHSE.1KA62KDD8JOZ3@nvidia.com>
-To: "Joel Fernandes" <joelagnelf@nvidia.com>,
- <linux-kernel@vger.kernel.org>, <rust-for-linux@vger.kernel.org>,
- <dri-devel@lists.freedesktop.org>, <dakr@kernel.org>, <acourbot@nvidia.com>
-Cc: "Alistair Popple" <apopple@nvidia.com>, "Miguel Ojeda"
- <ojeda@kernel.org>, "Alex Gaynor" <alex.gaynor@gmail.com>, "Boqun Feng"
- <boqun.feng@gmail.com>, "Gary Guo" <gary@garyguo.net>,
- <bjorn3_gh@protonmail.com>, "Benno Lossin" <lossin@kernel.org>, "Andreas
- Hindborg" <a.hindborg@kernel.org>, "Alice Ryhl" <aliceryhl@google.com>,
- "Trevor Gross" <tmgross@umich.edu>, "David Airlie" <airlied@gmail.com>,
- "Simona Vetter" <simona@ffwll.ch>, "Maarten Lankhorst"
- <maarten.lankhorst@linux.intel.com>, "Maxime Ripard" <mripard@kernel.org>,
- "Thomas Zimmermann" <tzimmermann@suse.de>, "John Hubbard"
- <jhubbard@nvidia.com>, "Timur Tabi" <ttabi@nvidia.com>,
- <joel@joelfernandes.org>, "Elle Rhumsaa" <elle@weathered-steel.dev>,
- "Daniel Almeida" <daniel.almeida@collabora.com>,
- <nouveau@lists.freedesktop.org>
-Subject: Re: [PATCH 2/7] gpu: nova-core: Add support to convert bitfield to
- underlying type
-From: "Alexandre Courbot" <acourbot@nvidia.com>
-X-Mailer: aerc 0.21.0-0-g5549850facc2
-References: <20251020185539.49986-1-joelagnelf@nvidia.com>
- <20251020185539.49986-3-joelagnelf@nvidia.com>
-In-Reply-To: <20251020185539.49986-3-joelagnelf@nvidia.com>
-X-ClientProxiedBy: TY4PR01CA0017.jpnprd01.prod.outlook.com
- (2603:1096:405:2bf::14) To CH2PR12MB3990.namprd12.prod.outlook.com
- (2603:10b6:610:28::18)
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7EF6410E6B3
+ for <dri-devel@lists.freedesktop.org>; Wed, 22 Oct 2025 06:32:10 +0000 (UTC)
+Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested)
+ by smtp-out1.suse.de (Postfix) with ESMTPS id 098112118C;
+ Wed, 22 Oct 2025 06:32:01 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1761114725; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=I4haBXcI59SAqclsFlKndkWFxtlb/fC3csAEbKP235w=;
+ b=gvhzxu2EkmhVF19mxvCt1LQQbF9t4ERmC+Igw7pNmPc3IRUcJHKnVUEeUPLCM9nElxwxBg
+ 4ZkQHdJa5u1ssX1XqXOMoWJpTWE6g+H+zLHKrQHVkCbapePsQrAuMGP7MYRqchxbPadowt
+ 0cxUR31HU0+OLOwPjOd+qwBUOK6DNkY=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1761114725;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=I4haBXcI59SAqclsFlKndkWFxtlb/fC3csAEbKP235w=;
+ b=nwLCUWk+uPFx5PrZy5tu37AfLyQ7pGFvedDUKUe7qO9teuOghO+ioHC3n4S7Tp3rC50lcW
+ QjSDIggVUSeQY7CQ==
+Authentication-Results: smtp-out1.suse.de;
+	none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1761114721; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=I4haBXcI59SAqclsFlKndkWFxtlb/fC3csAEbKP235w=;
+ b=CUeUacNRdOEKYKljuYscvyqQZSb+OCf3drIpIoYtzs8fB1gGjt7VWZTwS95xG3RjYe6UBc
+ n0SQCAfq/g1EcxfwisuntMl82Dz/DCy+3Rv8euJYt31i9WnbqEaJSn+QwN723zFc/TLd0e
+ 2CdeHvxAq5FZSogPrnyRiwwgI1FIS9Y=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1761114721;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=I4haBXcI59SAqclsFlKndkWFxtlb/fC3csAEbKP235w=;
+ b=mw9otv+Dp/g7c2K7qJceZZ4ZE/DKjz3yxBKL8mRojPo3JP7X/8FviGxprBBUgqAfnXBB0+
+ 6jJQsG9b/cqVhMDQ==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested)
+ by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id C79D613A29;
+ Wed, 22 Oct 2025 06:32:00 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+ by imap1.dmz-prg2.suse.org with ESMTPSA id /JFLL2B6+GjfXgAAD6G6ig
+ (envelope-from <tzimmermann@suse.de>); Wed, 22 Oct 2025 06:32:00 +0000
+Message-ID: <085bfefc-a0ab-4e28-be9d-23e92570376d@suse.de>
+Date: Wed, 22 Oct 2025 08:32:00 +0200
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: CH2PR12MB3990:EE_|SN7PR12MB8103:EE_
-X-MS-Office365-Filtering-Correlation-Id: e6a56f65-bbd0-424a-96db-08de1133ccfe
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
- ARA:13230040|366016|7416014|10070799003|1800799024|376014; 
-X-Microsoft-Antispam-Message-Info: =?utf-8?B?TnJuWjZSRmJ1b3V0RWEvcmpaaEZiSVJxWENkV0RKQ2t1ZDlOSnlwZnRUNG1l?=
- =?utf-8?B?UG9VbjMxSnZZcld2Ym1DRnN5K004UmwrdU1vQjVYQzFSeGNpS2taOStzbEpz?=
- =?utf-8?B?cFgwM09lQUJvdXVFakdvM1RVMEhCWmxMcGpuQlhRNEVmRndIRHZVUHFMK085?=
- =?utf-8?B?V3BKaDhVcnRzWDFYUWM5dHRPMEhpb2JndXhoT2pEb0hSZ01lWS9vUWVmZUxX?=
- =?utf-8?B?NU83Y1JOUEVFbGowUHRXdUVkWGpubDdmK1p5OE53QUlkZ2NUeHJ1cFY3Rit1?=
- =?utf-8?B?SjJNNTNIRUVtUjlGOVhCZXBhUC9hVjF0WHdFN1JHUkhvSE9VMFl3N3FOemgr?=
- =?utf-8?B?amxMQTQwQTFvNkdNR0FJcm42MGEzTFlCV0dXa2lZSGc5bml4OXhrWTV0Y1g2?=
- =?utf-8?B?dVkvRzQwL3hXeDZoV2hERjNsZ3ZCYll3UURhWm9lbHRSajRlZktTRmZQMTFy?=
- =?utf-8?B?V2x1VURQaHVHcmNXakZvK3RmSlM3b0J3dTM1WGNaNUlMRVd5TWtKaG14ZEx2?=
- =?utf-8?B?K3JFNnM3ZHNNSDBFZ2FXbkE2OTREbnVnbG5TZ2Naclp1SXgybUJZRkcvZU5T?=
- =?utf-8?B?RFdYOHJONjVpdDV1TlVFRVNpbDhjV2twZ3JvWUZMaHR4VWsvdFU3by8wa3RG?=
- =?utf-8?B?dXlNQVNFcG14amE4Y0ltNGZRVnZaaVBFVzU1SUV2Z0FCTzRIRHZYd3hqeG1X?=
- =?utf-8?B?ZlpzeTRFeTBkNzB5a3hPYldjL0RyMlh6RXRQeXdENzFuTndaZnpPWXlsK1pR?=
- =?utf-8?B?S1l5SzJ4WFFubmc1TGw2dFF6dm5saUZoQThrckhibTZrcVBKcjRlSkJobUlU?=
- =?utf-8?B?d1Vjc3p3ejR1dmFJUmZMVnZqakFiM2dRaFQwa3dUTjFsY09sWG5mbjJMclUz?=
- =?utf-8?B?SGR1SE9yay95QzRsWTdMYnNLckJUV3l0YnFkQ2liZVdYZk44Zkh4dG5xSllL?=
- =?utf-8?B?WjhBQS9rVVVSRTRDK3lUTEZIMDFDLzN3VG84STFmQlZLRVBOekx3b2cxbDJR?=
- =?utf-8?B?UDQ1Sjdvalg5RGkrS2hNcVE3RnMyMlhYV1Yza0U1VlVPN1pzMStydktQSHVk?=
- =?utf-8?B?eVUzVC9vRkw3U21UZEhxbUpjY3ZFWDJCNUVlMks2VTZOKzk4em13TW1SLzhs?=
- =?utf-8?B?a2dtN0NiMjZtdkNTMlpRUVVSM1A3bmNsYWRiVGwzeXZCWWtScm5IMmFCQ29l?=
- =?utf-8?B?ZlBjeEF0d0NRZjVkbWJkYkpCRzZOcjBnbjZRWWNOV2NVODlpemRCaGZudExB?=
- =?utf-8?B?blF2akQ3RXBXU1RkejkvRmRNVW9tQkJHN2l4MHdSeGVCbVdkYjkwMjAvNEMz?=
- =?utf-8?B?VEl2U1pvMTVFM0gyd0E3a09wM2wvSE0rd0Z0elRTNVpITmk5QVFHOTllNUx5?=
- =?utf-8?B?SHpKWitOaWdGay9YbnB1cTVFZkhpeDVob0VlVS95MDdjN21VNlowQ2I4dlNX?=
- =?utf-8?B?YWUrNEFNa2l3UzhISDdGM0lDTHVYRDhIanF6cHhRMks4YjJ3aEh4SUpPbjRG?=
- =?utf-8?B?RmlydWtKNFRpMnJBZkZJK1JkMkZUUmYrSjVoOUw3Y3greU5BVUoxY28rNnR4?=
- =?utf-8?B?ZXNOZHd1d1pMcEFiNE1FY2JNSG8vaHliWjJ1VHNqNjZnZWVIbzV3TEpxR011?=
- =?utf-8?B?ZGd2SHFaUmQzOW1mdG5pUlRPVUx3RUhqdE1pVjYrd01hc2QxR3dQSzJoY1FV?=
- =?utf-8?B?WGJXaWJnYnhHL29idDFDRTBtdHZxdFp2dUlBVUsxcmJwUWtuRUQ0YjhrcWh2?=
- =?utf-8?B?K3VmSUE0ZmlYOHVjQ0xGdjZFUkVNQWFrRktBVFRsaDJ6ZTZPZm1MUnNlZGRM?=
- =?utf-8?B?b1ZmcTg5eFpNbFFhL3I0b2QvdlZ4S1luYjVMQklGY2NOZzhON2llbUg1empq?=
- =?utf-8?B?WFlvQUtXYncrZG9JbmVkTWlRSDEyQXRaWGJCNzNVQXI4Q0V0TklydEF6b3c5?=
- =?utf-8?Q?+8qdeO4khspCfk90odcYYmQwkpbM/NBx?=
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:CH2PR12MB3990.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230040)(366016)(7416014)(10070799003)(1800799024)(376014); DIR:OUT;
- SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?M3pjYlFvNDF2NEZXaDZPalRwV1VOVU8wbzh4dGJQRGJjbFErWlhiTHMyY3I1?=
- =?utf-8?B?Y2JJVHo0bFMrUUl0V0phRUVXMWJQaEwyYXE4UHpIQkJqeDFkZzEzU1VFQkx0?=
- =?utf-8?B?dnZDQityLzB3ZS9nckdES0V4aDU2OWpmcUZnS0w1Qzk5Y21GSW9WdUM0Y0NS?=
- =?utf-8?B?K0t2MGt1eEVXdnY1ZjNKa2ppMFVuZWZhaHoxSEpyYWhTaWk3WkE1SHJ0YUJU?=
- =?utf-8?B?NnduUG1MQk9lSVA0bGhMM0Vxc3NKeU1FM2pUZUdGeUpWcFc0UHpPSzZwV2Qx?=
- =?utf-8?B?cXBzVHBCV2l3KzBLVHRpWmROVUpXZllaSjY4NmJ4M21RdXV3OGVQRVRKSkNG?=
- =?utf-8?B?cUR4am1vUktKRllYWXhoTHRoQjU2UHIweENVdzJCOFZQWU4rdCtuTC8rU2tO?=
- =?utf-8?B?dS9lNVRER0pMcUJxdmNpQUVxRlBsMUpqM2dZR0c1M3dIN2g5cWwzblhFN1FN?=
- =?utf-8?B?c05kOXhTdnFKMEM1Y0ZvNWZUUHp3T1M2ZnpLcy8xdTFObnpsRnh5WmtKdTEw?=
- =?utf-8?B?UVdRVGNSVmkwSTF6bFRxaFhUb3Vud3FyQVlYdmVQL2pYL20zVldBOURmZmFl?=
- =?utf-8?B?L240bEFOUWYzaCtwL0JVZFRxbGpKLzd2L1REUFArQ3N4YWV4U29ndFBGTG4y?=
- =?utf-8?B?WjRmZ2o0NUFYUjlKcnAwRDVNcXZlREVtSmZSQ2kwRjhKZy9CNytnSUYvVm1O?=
- =?utf-8?B?YXVMUGppNUN1L0pjaWtzWlFBZlBqVVIvcUJ5UFVFRWRNMmVDZWkranRUQU91?=
- =?utf-8?B?dEdXbGJoNWErQk5LN3NLZG9SKzg0L0FXVUZxc2ZacURUMStKa3NJdWR2Ukkw?=
- =?utf-8?B?bTJ2N25lTU1wcS81c2JTSVRsQXAyQjRiT2twc2UyblpRWmExUmIxUEtEeElv?=
- =?utf-8?B?Sjl5VklraFVNZ1o1R0FvRmp6RVZ2RE1WL3N3NnhRRHYvdXhHOGRLTHRBL1Mr?=
- =?utf-8?B?ZHRjdTkzMlMvc0h2Wkphdi90VU01SFdUbkJNTXY3NWthWGZscGJYV2VrenV1?=
- =?utf-8?B?QjhXd0ZmMTRGYkN4NWVRa2ZJcDFlOTlETnlzTS9JK3ZVbWNobnR0ZjJkVm1H?=
- =?utf-8?B?dGlUdjRHdC84UkwwaDhoTWVWQ01idHF6Tk55ZkJSOTFuYmlRM2NUQUF6WVB6?=
- =?utf-8?B?Tzh0K3pnWE1mYUdXZWxDVzBhYjc0MVIxQVg4Qll3eEFFY3lDV2l5c21XWVpQ?=
- =?utf-8?B?Y0tTMTV4TlQ1VTJ5VExZMDNXZ3ZwRE12ZEZQbURpVjZqYzQrL3A1NTVOcmNW?=
- =?utf-8?B?VUVubFV4UWx1N3N0OExOSUtGNWNqWHNNY05NUHVGSWI1UTRvSGlOUEZrVCs0?=
- =?utf-8?B?WEdGU1FHcHRzQUs2M2dZU1dlMkxubDdMWm5yN0pxN1k0UlFKMWR1Z0JBSGcr?=
- =?utf-8?B?ZFRGL1RidVM1cElvQTRhQ3YyRXFqd1V4MmVKSTlvUEgrZmc1Z25ReUtjZWFY?=
- =?utf-8?B?L3ZBQTBqbmNJSlp2VTh3YW9oU2JmVDRpYml4K3pUa3F1SXpqYUVVSG1PYVly?=
- =?utf-8?B?bUVOZldySHkvODhNRHU1K2JVdEJjODBVMDJhdXFPclpTNmN5YlV1ek1iZVpQ?=
- =?utf-8?B?REJiOE55ZFIzR3lHa0NEbkZnRUN2cmZmQmhDTnlka1hDRC9uWVZjRithQmVl?=
- =?utf-8?B?QWRVYldWRW9qTm5wK1ZhckJUMStsUEFEQ3A2N2RDdHA2VjdOd2RBcEFTWU5h?=
- =?utf-8?B?NEN0RWZBVVk5ZUdZc0FPQlVTUCtBTlBMZkVSWWxmY3ZDQ2dJdGhhTGtielU2?=
- =?utf-8?B?TE90L2dnWUw2NjRneWtPWGQ4Zm9VM1lZOWwwcjFaMXkrZVFmLzNLU0VGS2Yr?=
- =?utf-8?B?N1NaOStzdStMNVpoY3E5Y3RqZHlsc0VXdWF0WEUzaWthbXl6WmVaMVJpZWkr?=
- =?utf-8?B?dG1hVTFMWnFpVHlKYmpUNHQrQzF0RkZjMlQyOWhpb3NVS0I2SnRxSk90Z3Q1?=
- =?utf-8?B?eWljcFV2UU5pRVp6K2JSRjNyMzIwTHRMeGRaSzJ1eHRjVDVubzhiRFlFRXZl?=
- =?utf-8?B?Y1p0Q3JDUXFDSUNFbnNtY3J0S05aZmVlYk1hWkVQeFQ5akJtOGhyVTdKVWxT?=
- =?utf-8?B?UWd2aWJsZlNhbTU5YVNvM3lXbjJXMitZYmsySExGOXlTa0c5L2J4bFB5Y0U5?=
- =?utf-8?B?L29GSzVoSnplNmJkYUlReEpoYWFpTnNTV1lpS0VyRG9KZlh4Y20wYlVVZFZD?=
- =?utf-8?Q?TfmTSsmq9s6cPyKDDrnDAk/nMXUJXjZImzLffSwJ3xBe?=
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: e6a56f65-bbd0-424a-96db-08de1133ccfe
-X-MS-Exchange-CrossTenant-AuthSource: CH2PR12MB3990.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 22 Oct 2025 06:25:31.6197 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: BE/TJwRw/0LLF9/kn7KjbCWaLVLaz66V77+mVOqwA199t/LJ0jxZiY1JMzjXjbTPsMOHYG3TWW5UC/RARaVA0w==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SN7PR12MB8103
+User-Agent: Mozilla Thunderbird
+Subject: Re: [RFC][PATCH] drm/virtgpu: Make vblank event dependent on the host
+ resource
+To: Dmitry Osipenko <dmitry.osipenko@collabora.com>,
+ "Kasireddy, Vivek" <vivek.kasireddy@intel.com>,
+ "gurchetansingh@chromium.org" <gurchetansingh@chromium.org>,
+ "kraxel@redhat.com" <kraxel@redhat.com>,
+ "airlied@redhat.com" <airlied@redhat.com>
+Cc: "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+ "virtualization@lists.linux.dev" <virtualization@lists.linux.dev>
+References: <20251016145230.79270-1-tzimmermann@suse.de>
+ <IA0PR11MB7185A7BA7B8CEAC46CBC0922F8F6A@IA0PR11MB7185.namprd11.prod.outlook.com>
+ <21851b98-06ee-4e2c-8570-70e8a4fe5d86@suse.de>
+ <afc6ba14-cd95-49b9-89f5-e90fd19c8927@collabora.com>
+ <a2afbc13-0be6-46ef-a6da-9461fd30376b@collabora.com>
+ <126a0b10-a550-430c-a1b3-7e144461a0ff@suse.de>
+ <IA0PR11MB71850CA585D6E42C1E7217DDF8F3A@IA0PR11MB7185.namprd11.prod.outlook.com>
+ <c6b44524-4e44-46e8-89b4-8f90e074431b@collabora.com>
+Content-Language: en-US
+From: Thomas Zimmermann <tzimmermann@suse.de>
+Autocrypt: addr=tzimmermann@suse.de; keydata=
+ xsBNBFs50uABCADEHPidWt974CaxBVbrIBwqcq/WURinJ3+2WlIrKWspiP83vfZKaXhFYsdg
+ XH47fDVbPPj+d6tQrw5lPQCyqjwrCPYnq3WlIBnGPJ4/jreTL6V+qfKRDlGLWFjZcsrPJGE0
+ BeB5BbqP5erN1qylK9i3gPoQjXGhpBpQYwRrEyQyjuvk+Ev0K1Jc5tVDeJAuau3TGNgah4Yc
+ hdHm3bkPjz9EErV85RwvImQ1dptvx6s7xzwXTgGAsaYZsL8WCwDaTuqFa1d1jjlaxg6+tZsB
+ 9GluwvIhSezPgnEmimZDkGnZRRSFiGP8yjqTjjWuf0bSj5rUnTGiyLyRZRNGcXmu6hjlABEB
+ AAHNJ1Rob21hcyBaaW1tZXJtYW5uIDx0emltbWVybWFubkBzdXNlLmRlPsLAjgQTAQgAOAIb
+ AwULCQgHAgYVCgkICwIEFgIDAQIeAQIXgBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftODH
+ AAoJEGgNwR1TC3ojx1wH/0hKGWugiqDgLNXLRD/4TfHBEKmxIrmfu9Z5t7vwUKfwhFL6hqvo
+ lXPJJKQpQ2z8+X2vZm/slsLn7J1yjrOsoJhKABDi+3QWWSGkaGwRJAdPVVyJMfJRNNNIKwVb
+ U6B1BkX2XDKDGffF4TxlOpSQzdtNI/9gleOoUA8+jy8knnDYzjBNOZqLG2FuTdicBXblz0Mf
+ vg41gd9kCwYXDnD91rJU8tzylXv03E75NCaTxTM+FBXPmsAVYQ4GYhhgFt8S2UWMoaaABLDe
+ 7l5FdnLdDEcbmd8uLU2CaG4W2cLrUaI4jz2XbkcPQkqTQ3EB67hYkjiEE6Zy3ggOitiQGcqp
+ j//OwE0EWznS4AEIAMYmP4M/V+T5RY5at/g7rUdNsLhWv1APYrh9RQefODYHrNRHUE9eosYb
+ T6XMryR9hT8XlGOYRwKWwiQBoWSDiTMo/Xi29jUnn4BXfI2px2DTXwc22LKtLAgTRjP+qbU6
+ 3Y0xnQN29UGDbYgyyK51DW3H0If2a3JNsheAAK+Xc9baj0LGIc8T9uiEWHBnCH+RdhgATnWW
+ GKdDegUR5BkDfDg5O/FISymJBHx2Dyoklv5g4BzkgqTqwmaYzsl8UxZKvbaxq0zbehDda8lv
+ hFXodNFMAgTLJlLuDYOGLK2AwbrS3Sp0AEbkpdJBb44qVlGm5bApZouHeJ/+n+7r12+lqdsA
+ EQEAAcLAdgQYAQgAIAIbDBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftOH6AAoJEGgNwR1T
+ C3ojVSkIALpAPkIJPQoURPb1VWjh34l0HlglmYHvZszJWTXYwavHR8+k6Baa6H7ufXNQtThR
+ yIxJrQLW6rV5lm7TjhffEhxVCn37+cg0zZ3j7zIsSS0rx/aMwi6VhFJA5hfn3T0TtrijKP4A
+ SAQO9xD1Zk9/61JWk8OysuIh7MXkl0fxbRKWE93XeQBhIJHQfnc+YBLprdnxR446Sh8Wn/2D
+ Ya8cavuWf2zrB6cZurs048xe0UbSW5AOSo4V9M0jzYI4nZqTmPxYyXbm30Kvmz0rYVRaitYJ
+ 4kyYYMhuULvrJDMjZRvaNe52tkKAvMevcGdt38H4KSVXAylqyQOW5zvPc4/sq9c=
+In-Reply-To: <c6b44524-4e44-46e8-89b4-8f90e074431b@collabora.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Spam-Level: 
+X-Spamd-Result: default: False [-4.30 / 50.00]; BAYES_HAM(-3.00)[100.00%];
+ NEURAL_HAM_LONG(-1.00)[-1.000];
+ NEURAL_HAM_SHORT(-0.20)[-1.000]; MIME_GOOD(-0.10)[text/plain];
+ ARC_NA(0.00)[]; RCVD_VIA_SMTP_AUTH(0.00)[];
+ TO_DN_EQ_ADDR_SOME(0.00)[]; MIME_TRACE(0.00)[0:+];
+ RCPT_COUNT_SEVEN(0.00)[7]; MID_RHS_MATCH_FROM(0.00)[];
+ RCVD_TLS_ALL(0.00)[];
+ DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+ FROM_HAS_DN(0.00)[]; TO_DN_SOME(0.00)[];
+ FROM_EQ_ENVFROM(0.00)[]; TO_MATCH_ENVRCPT_ALL(0.00)[];
+ RCVD_COUNT_TWO(0.00)[2];
+ DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:mid,imap1.dmz-prg2.suse.org:helo]
+X-Spam-Flag: NO
+X-Spam-Score: -4.30
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -180,15 +151,106 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue Oct 21, 2025 at 3:55 AM JST, Joel Fernandes wrote:
-> To support the usecase where we read a register and write to another
-> with identical bit layout, add support to convert bitfield to underlying =
-type.
->
-> Another way to do this, is to read individual fields, on the caller
-> side, and write to the destination fields, but that is both cumbersome
-> and error-prone as new bits added in hardware may be missed.
+Hi
 
-Shouldn't the title be "Add support to convert bitfield FROM underlying
-type"? Since this adds a `From<storage> for Bitfield`.
+Am 22.10.25 um 07:37 schrieb Dmitry Osipenko:
+> On 10/22/25 08:02, Kasireddy, Vivek wrote:
+>> Hi Thomas,
+>>
+>>> Subject: Re: [RFC][PATCH] drm/virtgpu: Make vblank event dependent on
+>>> the host resource
+>>>
+>>>>> On 10/17/25 10:38, Thomas Zimmermann wrote:
+>>>>> ...
+>>>>>> There's little difference between the current event handling and the
+>>> one
+>>>>>> where no vblanks have been set up. I suspect that the vblank timer
+>>>>>> callback interferes with the locking in atomic_flush. That would also
+>>>>>> explain why the fps drop at no clear pattern.
+>>>>>>
+>>>>>> Could you please test the attached patch? It enables/disables the
+>>> vblank
+>>>>>> timer depending on the buffer resources; as you suggested
+>>> before.  Does
+>>>>>> this make a difference?
+>>>>> The attached patch doesn't work, please see the trace below.
+>>>>>
+>>>>> @Vivek Please clarify whether you only see frames drop with your
+>>>>> multi-gpu guest-blob setup or with a usual virgl too. I haven't noticed
+>>>>> problem with frames pacing for virgl and nctx modes yesterday, will
+>>>>> check again.
+>>>> On a second look, I now see that this RFC (not the attached) patch
+>>>> doesn't work properly with host blobs.
+>>>>
+>>>> I'm getting 100-150fps with this patch applied instead of expected
+>>>> 60fps. Without this RFC patch I'm getting constant 60fps with native
+>>>> context displaying host blobs.
+>>>>
+>>>> Not sure why guest blob would behave differently from the host blob.
+>>>> Suspect something if off with the prime sharing that Vivek uses in the
+>>>> vfio testing setup. I'd suggest to disable vblank timer only for guest
+>>>> blobs if no quick solution will be found.
+>>> After reading your reply and Vivek's new results, I'm confused now. Does
+>>> it work or is there another patch needed?
+>> Considering my use-case and Dmitry's virgl/venus/native context use-cases
+>> and the benefits offered by vblank timer in these different scenarios, I think
+>> the following patch should be sufficient for now:
+>>
+>> diff --git a/drivers/gpu/drm/virtio/virtgpu_display.c b/drivers/gpu/drm/virtio/virtgpu_display.c
+>> index e972d9b015a9..c1a8f88f0a20 100644
+>> --- a/drivers/gpu/drm/virtio/virtgpu_display.c
+>> +++ b/drivers/gpu/drm/virtio/virtgpu_display.c
+>> @@ -102,7 +102,11 @@ static void virtio_gpu_crtc_mode_set_nofb(struct drm_crtc *crtc)
+>>   static void virtio_gpu_crtc_atomic_enable(struct drm_crtc *crtc,
+>>                                            struct drm_atomic_state *state)
+>>   {
+>> -       drm_crtc_vblank_on(crtc);
+>> +       struct drm_device *dev = crtc->dev;
+>> +       struct virtio_gpu_device *vgdev = dev->dev_private;
+>> +
+>> +       if (!vgdev->has_resource_blob || vgdev->has_virgl_3d)
+>> +               drm_crtc_vblank_on(crtc);
+>>   }
+>>   
+>>   static void virtio_gpu_crtc_atomic_disable(struct drm_crtc *crtc,
+>> @@ -112,7 +116,8 @@ static void virtio_gpu_crtc_atomic_disable(struct drm_crtc *crtc,
+>>          struct virtio_gpu_device *vgdev = dev->dev_private;
+>>          struct virtio_gpu_output *output = drm_crtc_to_virtio_gpu_output(crtc);
+>>   
+>> -       drm_crtc_vblank_off(crtc);
+>> +       if (!vgdev->has_resource_blob || vgdev->has_virgl_3d)
+>> +               drm_crtc_vblank_off(crtc);
+
+That's what my latest patch did, but it tracks the GEM object directly. 
+Sending also requires the code in atomic_flush. Or no event will be send 
+if vblanks are off.
+
+Let me send another patch for testing.
+
+Best regards
+Thomas
+
+> I'm fine with this change. Will need a clarifying comment in the code.
+>
+> On the other hand, I tried with "-device virtio-vga,blob=true" and still
+> don't see problem with the incorrect frame rate.
+>
+> Vivek, could you please clarify whether you only seeing problem when
+> using prime sharing? I.e. whether you can reproduce the wrong fps by
+> running qemu casually without using vfio.
+>
+> Might test the vfio setup myself sometime later. It's a bit cumbersome
+> to set it up, will need to re-plug GPUs and etc, currently busy with
+> other stuff.
+>
+
+-- 
+--
+Thomas Zimmermann
+Graphics Driver Developer
+SUSE Software Solutions Germany GmbH
+Frankenstrasse 146, 90461 Nuernberg, Germany
+GF: Ivo Totev, Andrew Myers, Andrew McDonald, Boudien Moerman
+HRB 36809 (AG Nuernberg)
+
 
