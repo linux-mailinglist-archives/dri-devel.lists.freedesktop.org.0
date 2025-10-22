@@ -2,59 +2,41 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E4876BFB7E8
-	for <lists+dri-devel@lfdr.de>; Wed, 22 Oct 2025 12:58:39 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id D3DFBBFB7FA
+	for <lists+dri-devel@lfdr.de>; Wed, 22 Oct 2025 12:59:35 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 34EF810E745;
-	Wed, 22 Oct 2025 10:58:38 +0000 (UTC)
-Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="GpkCoBEW";
-	dkim-atps=neutral
+	by gabe.freedesktop.org (Postfix) with ESMTP id 83A7710E74C;
+	Wed, 22 Oct 2025 10:59:19 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4207610E745
- for <dri-devel@lists.freedesktop.org>; Wed, 22 Oct 2025 10:58:36 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1761130716; x=1792666716;
- h=message-id:date:mime-version:subject:to:cc:references:
- from:in-reply-to:content-transfer-encoding;
- bh=KiSPvaFbDnqDbnvCoziaMl9Sx2Ffy7oVubq6MTNhiUA=;
- b=GpkCoBEWTGGZPZRjuCjJeJg9rzyQXcGo0TzsySZeCKwbCLGOLN+MZFRS
- Tnv8PDN9j+aFEd34fnt5VzheU4eyGKi4zRuC7uzcz6gTNBVr8UD3aq0ql
- 8zdHskynKVdlSh4d/nwjSUud9u3uob0AKosISbJss+QYRdueXK6PqhAkt
- TKk+5X6vygGnFmLptF6Dr4E6A5KGNwg+oozcTPV7fuQBF82qE8Gh6a7MZ
- 4Ea6rqKIbd1iAJxoHDiEHaa9z2eJu26E7RF2P6DvW1ZsqKMDgcDJBOqPK
- slDFirlPyptyYu3FfxdgeUkWyUrJAv1BNW7O3YTEUdmRUGoZ2kVsihLln A==;
-X-CSE-ConnectionGUID: 064+i++HR6W5yp170LkoSQ==
-X-CSE-MsgGUID: IT2FBcrISlW1K0s4eBvXYg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11586"; a="62977407"
-X-IronPort-AV: E=Sophos;i="6.19,246,1754982000"; d="scan'208";a="62977407"
-Received: from orviesa003.jf.intel.com ([10.64.159.143])
- by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 22 Oct 2025 03:58:35 -0700
-X-CSE-ConnectionGUID: gQF47zjoR9aMzyZX1ZLb8g==
-X-CSE-MsgGUID: kM8Z3XCnTGyXW90xC8StvA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.19,246,1754982000"; d="scan'208";a="187882220"
-Received: from mfalkows-mobl.ger.corp.intel.com (HELO [10.246.17.115])
- ([10.246.17.115])
- by ORVIESA003-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 22 Oct 2025 03:58:35 -0700
-Message-ID: <2b468073-d886-417b-8006-9e9946511076@linux.intel.com>
-Date: Wed, 22 Oct 2025 12:58:32 +0200
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+ by gabe.freedesktop.org (Postfix) with ESMTP id E316510E74C
+ for <dri-devel@lists.freedesktop.org>; Wed, 22 Oct 2025 10:59:18 +0000 (UTC)
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+ by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id C4E651063;
+ Wed, 22 Oct 2025 03:59:10 -0700 (PDT)
+Received: from [10.57.33.187] (unknown [10.57.33.187])
+ by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 1EDBA3F59E;
+ Wed, 22 Oct 2025 03:59:15 -0700 (PDT)
+Message-ID: <cdb8495a-519e-469a-82e9-791094a81a52@arm.com>
+Date: Wed, 22 Oct 2025 11:59:14 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] accel/ivpu: Add support for Nova Lake's NPU
-To: Jeff Hugo <jeff.hugo@oss.qualcomm.com>, dri-devel@lists.freedesktop.org
-Cc: oded.gabbay@gmail.com, karol.wachowski@linux.intel.com, lizhi.hou@amd.com
-References: <20251021141948.2216735-1-maciej.falkowski@linux.intel.com>
- <0485ac05-38a7-49b1-8928-d3c4a42bf0d3@oss.qualcomm.com>
-Content-Language: en-US
-From: "Falkowski, Maciej" <maciej.falkowski@linux.intel.com>
-In-Reply-To: <0485ac05-38a7-49b1-8928-d3c4a42bf0d3@oss.qualcomm.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+Subject: Re: [PATCH] drm/panthor: Fix race with suspend during unplug
+To: Ketil Johnsen <ketil.johnsen@arm.com>,
+ Boris Brezillon <boris.brezillon@collabora.com>,
+ Liviu Dudau <liviu.dudau@arm.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Heiko Stuebner <heiko@sntech.de>
+Cc: Grant Likely <grant.likely@linaro.org>, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org
+References: <20251022103242.1083311-1-ketil.johnsen@arm.com>
+From: Steven Price <steven.price@arm.com>
+Content-Language: en-GB
+In-Reply-To: <20251022103242.1083311-1-ketil.johnsen@arm.com>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -71,23 +53,48 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 10/21/2025 4:52 PM, Jeff Hugo wrote:
+On 22/10/2025 11:32, Ketil Johnsen wrote:
+> There is a race between panthor_device_unplug() and
+> panthor_device_suspend() which can lead to IRQ handlers running on a
+> powered down GPU. This is how it can happen:
+> - unplug routine calls drm_dev_unplug()
+> - panthor_device_suspend() can now execute, and will skip a lot of
+>   important work because the device is currently marked as unplugged.
+> - IRQs will remain active in this case and IRQ handlers can therefore
+>   try to access a powered down GPU.
+> 
+> The fix is simply to take the PM ref in panthor_device_unplug() a
+> little bit earlier, before drm_dev_unplug().
+> 
+> Signed-off-by: Ketil Johnsen <ketil.johnsen@arm.com>
+> Fixes: 5fe909cae118a ("drm/panthor: Add the device logical block")
 
-> On 10/21/2025 8:19 AM, Maciej Falkowski wrote:
->> Add support for NPU6 generation that
->> will be present on Nova Lake CPUs.
->> As with previous generations, it maintains compatibility
->> so no bigger functional changes.
->
-> Looks like this got word wrapped early. Commit messages can go out to 
-> 75 columns if I recall correctly.
-Thanks, it will be corrected in v2.
+Reviewed-by: Steven Price <steven.price@arm.com>
 
-Best regards,
-Maciej
->
->>
->> Signed-off-by: Maciej Falkowski <maciej.falkowski@linux.intel.com>
->
-> With that,
-> Reviewed-by: Jeff Hugo <jeff.hugo@oss.qualcomm.com>
+> ---
+>  drivers/gpu/drm/panthor/panthor_device.c | 4 ++--
+>  1 file changed, 2 insertions(+), 2 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/panthor/panthor_device.c b/drivers/gpu/drm/panthor/panthor_device.c
+> index 81df49880bd87..962a10e00848e 100644
+> --- a/drivers/gpu/drm/panthor/panthor_device.c
+> +++ b/drivers/gpu/drm/panthor/panthor_device.c
+> @@ -83,6 +83,8 @@ void panthor_device_unplug(struct panthor_device *ptdev)
+>  		return;
+>  	}
+>  
+> +	drm_WARN_ON(&ptdev->base, pm_runtime_get_sync(ptdev->base.dev) < 0);
+> +
+>  	/* Call drm_dev_unplug() so any access to HW blocks happening after
+>  	 * that point get rejected.
+>  	 */
+> @@ -93,8 +95,6 @@ void panthor_device_unplug(struct panthor_device *ptdev)
+>  	 */
+>  	mutex_unlock(&ptdev->unplug.lock);
+>  
+> -	drm_WARN_ON(&ptdev->base, pm_runtime_get_sync(ptdev->base.dev) < 0);
+> -
+>  	/* Now, try to cleanly shutdown the GPU before the device resources
+>  	 * get reclaimed.
+>  	 */
+
