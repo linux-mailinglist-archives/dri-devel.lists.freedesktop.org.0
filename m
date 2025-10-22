@@ -2,77 +2,86 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 70AF7BFA2AD
-	for <lists+dri-devel@lfdr.de>; Wed, 22 Oct 2025 08:08:02 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 574F7BFA2A5
+	for <lists+dri-devel@lfdr.de>; Wed, 22 Oct 2025 08:07:47 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A617310E6B0;
-	Wed, 22 Oct 2025 06:07:54 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 74E2510E141;
+	Wed, 22 Oct 2025 06:07:44 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=ssn.edu.in header.i=@ssn.edu.in header.b="nLeIAYCW";
+	dkim=pass (2048-bit key; unprotected) header.d=googlemail.com header.i=@googlemail.com header.b="dK22UHSm";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pj1-f65.google.com (mail-pj1-f65.google.com
- [209.85.216.65])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2072A10E0A0
- for <dri-devel@lists.freedesktop.org>; Wed, 22 Oct 2025 04:31:16 +0000 (UTC)
-Received: by mail-pj1-f65.google.com with SMTP id
- 98e67ed59e1d1-33bc2178d6aso4454762a91.0
- for <dri-devel@lists.freedesktop.org>; Tue, 21 Oct 2025 21:31:16 -0700 (PDT)
+Received: from mail-wm1-f54.google.com (mail-wm1-f54.google.com
+ [209.85.128.54])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9B4F210E6A7
+ for <dri-devel@lists.freedesktop.org>; Wed, 22 Oct 2025 05:42:16 +0000 (UTC)
+Received: by mail-wm1-f54.google.com with SMTP id
+ 5b1f17b1804b1-471b80b994bso46539775e9.3
+ for <dri-devel@lists.freedesktop.org>; Tue, 21 Oct 2025 22:42:16 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=ssn.edu.in; s=ssn; t=1761107476; x=1761712276; darn=lists.freedesktop.org;
- h=mime-version:message-id:date:subject:cc:to:from:from:to:cc:subject
- :date:message-id:reply-to;
- bh=9f3uvbf2qrrt/ziC3rimn8Y/fAQpzGjeRz5deOCQI/U=;
- b=nLeIAYCWJMCvELcqPUPatUlD8UBrnz8WRQOjvXIWoWjuIOMJm4N0vPofCc3KDMG85V
- M4rJbx/WtPNUsduAKjK3yIQG0hJDNc4kDWAgqetS1qPil72V1Zc6A6szksKJ1XbkkSrJ
- RRcBbSoAyQ+qeKJKAnOGo57PhJuLE+TRZxLoo=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1761107476; x=1761712276;
- h=mime-version:message-id:date:subject:cc:to:from:x-gm-message-state
+ d=googlemail.com; s=20230601; t=1761111735; x=1761716535;
+ darn=lists.freedesktop.org; 
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
  :from:to:cc:subject:date:message-id:reply-to;
- bh=9f3uvbf2qrrt/ziC3rimn8Y/fAQpzGjeRz5deOCQI/U=;
- b=c/o6RI5IG0x2cSM4ugdMtRq/dSzG5NSIwupsgKbj3i29wucD/FNeS/Dt+r5K8VHkLH
- aqRep1XCc7OU2/4CgXUkNnSSBn8Vixyg5m5qsXi9WNRi8oB18m30sn6LQ+rukpJ6qWRP
- JpydytV3rweIceC7jdo+4BteWUtSOChG4W31P3NdMkHdjmVg7MbPLXxflPb8/LL/9Z/h
- eYliMH1VAfiZDWux8iRyRtw/fqkfctd516dX0rCQ2jI7hUyFKs1pHoq45K+ExSOH+GBX
- Xe80+LMjFCLpZAOAFiR1H53nfKTkTnpzU5A829PiE+dt7o8KM9E1oJlVJAr0WSu1fSfC
- EKGQ==
+ bh=qoA1WWVRov6H7a5xUEiwI5O5mAdzyiICIeuaq5U1Y4A=;
+ b=dK22UHSmpWlr9FojCbngvt4nTrH0gZ3hZYCdjdaEuS0OFXoEIV1ObR6XAMpPWYTYYm
+ qfxkUEVm+M6TYxd86laeSq9QvEQTYNf7dMi6+ODyvNql1Skay49sEquNe6+9+7NZWD8e
+ fnvpJwHCc143jItm/HD2/dMATw6HZ448rBKjh7oBuQ7rCKXMEQ5KHlSl0jqQkV0J/T/Y
+ XKHExqAiOEcKWO38S3cnwvKvAa7CCiSwCwJjo3bV4YqMeOvlsovwpmsYgaylHhHXhPBp
+ RmpdMMePX4K7hSzpgCqQC9eVuI8aE5WkZ11phLX6ZgeF81iWOOuVzS2GoZzcLrKfKbA0
+ e/PQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1761111735; x=1761716535;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=qoA1WWVRov6H7a5xUEiwI5O5mAdzyiICIeuaq5U1Y4A=;
+ b=vuK492lDMlpUlux75a2C+M5khjID3HUf1ocDd+9JIgiAEnaQz3TaoWHuLRRFkfu53T
+ Y7+0TXjWtkqiE4cmDpJ612mehStoN0pxbI+/SWOBltuhA6RXeQAh03wWOQ//2n8taVvO
+ F+z2tMLF1cEvCJQ3hnaBdqNv/0+h3q8ArdzQNQYK3qApzsWs92xQGBOKcB1cK9K0GMdk
+ p0yfpjpc5CSXT7fu6ev2Vbff6rP32ps7nRaUIMi9NSWt6ONmUS61brrBiDyy7wppCl6l
+ DHA/eyJHtrHvFoWVav7B7Y57Cd5SafkJDfiJRX/vzURwFNP1RISObXFHw61nOMrWa4Zp
+ xDhw==
 X-Forwarded-Encrypted: i=1;
- AJvYcCVQhn6/3bMkQZ7nXQcmLrSvn+uCWGCgVfOWVaAO2mjOBAMke/YTsgBK1cOfUmC8K3uSB3UCs/FE1P4=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YxK1DbogwIYDEJyxYtmVtBy+qqF+JX6Y2PeBAjlWOaKxlk1iD8G
- Lu874DdkhPE72SUfKHGd9BtRgO+jI9t9Pkc/QHD1KeBkNqwXdi+9Psu6OP5yzdg4HMzwmVSFzoy
- lBpw8OygMJN0bJ1Cuqwg26YaVku+ERqCrNghIRsZf1IV/zJ8Tvp3jasOBsgz1
-X-Gm-Gg: ASbGncvYlxDM+N3Nhq9RhDqKPj+8ESRXWx+kDoKviLL0oBdsUMwdxlJoRUFo56ZYIpq
- 1t0GRHQpuHbQuvcAuUwS8r8Nu27zpNQUuf6g5wpZpecasgNhoC8AR47FAOfzJtv4WS0lI6Kl88S
- 6IOWBQwtCZrjb8kOM5zZvqRpxoO8V4fmQGiXZHU8yug4/+7SbsE2ZnmXiMze/Z2TkGzXjuUO2iY
- poBgte0mPSTfNFqYjBQt2TWh3gyJwISlLHjFfyvTMS1hSnjX3J1/NG+j5INc9rft1n3fxipnVg6
- 3OmXVMT/eXjG/YA3v/enHNf6O8HgBR/nwiQxW3w/XLKuUCmRj6Jr5/TEuRvzJEUVisF2EUKkebo
- MwYAauFee5MeTa+8nTOm7COcdCelSx42Nehep6JlKOMIdNMgvGDNkKon4X7d1Q6LOKdXUbXP25X
- i5MDDyFsLVIGq2k+ToMiNfGnh1nrq5ooeghLpnIkcOdMOT6HxF0b2KyLz3BcqE7nGImPfGY7wsH
- Uhu9oBKWvyDqrU=
-X-Google-Smtp-Source: AGHT+IEd+bNYS6vl4w16DgOMSV/S7pPkiZN6xIuC+GDZaXXvAtfmV3zwE5YULJyf3rlJMlDMMOTqoQ==
-X-Received: by 2002:a17:902:ce0e:b0:273:c463:7b2c with SMTP id
- d9443c01a7336-290c9c89680mr216879095ad.3.1761107476259; 
- Tue, 21 Oct 2025 21:31:16 -0700 (PDT)
-Received: from biancaa-HP-Pavilion-Laptop-15-eg2xxx..
- ([2406:7400:1c3:33f3:2f80:d146:31b0:93aa])
+ AJvYcCUaNH2NZsvqkRUvnmYzsKHWYaBv8xn/oWI8jfxEViwnLK1BynxWISGZJ59TyT9lC63GebMR2wAiFNM=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YxNz6Gu+qg9qFr+sGCIGYHjsvEE5pF078cALl/BafIf39rTT59l
+ aaNW3B0di0YnhCiXifxFHupe7QS+t82CrrJ5UMXJB8ViB2CEEqqKWUo=
+X-Gm-Gg: ASbGncv1Y1a7XCM1Rw9joYfhjkmigIAipIJuYDclCWSnb/MPi+se+faUK05syXHuPaB
+ foW3JBFAncYVhIJxetsLol/Rd7hei4cSEMJs9kFeeWVRnC3+8Tw2esMMhQv8DqYJ9EaQUD9QgNv
+ 009eX25QlyxhP22I/G64DgmSDiTYfyFHU6BdtcsEIU12HIGygWPlPtceht0kxDdCxSrldW1sGNR
+ e1n3pFILiQu0iYRyDfsvPRByoscE2ME7nog/0Dbm+EjQDxQa4YrLqlu7UGM3WamDMDNfZewisr/
+ pi4aZB8RHkNHqnFgAT2GcpckTVrnJW/4WLh31Rh4M18ZEqIzYk0N8xZOEY1LZ247IUxvZ19NgE7
+ Dhz0L8msqKFAhOoO+dRdHRH0Gj6CMoAcDB+TioYXxzdwdI3aruktWqqBIKLqjhyRknjTzWugC7C
+ TzFN1DaSsNbK9qjImetTofTIGMEoylLVQFgd7evT+Eu7csh9U6JvQdlX2eFB1aaQ==
+X-Google-Smtp-Source: AGHT+IGWLldgO9eeUo0uqFHesf5QkUIf3hAgpxI4olpESlwkKLLpF1ZgmVauywZSpSoCic9nLf2kJg==
+X-Received: by 2002:a05:600c:470d:b0:471:7c8:ddf7 with SMTP id
+ 5b1f17b1804b1-471178a7447mr126370715e9.14.1761111734829; 
+ Tue, 21 Oct 2025 22:42:14 -0700 (PDT)
+Received: from [192.168.1.3] (p5b057850.dip0.t-ipconnect.de. [91.5.120.80])
  by smtp.gmail.com with ESMTPSA id
- d9443c01a7336-293113c1f4fsm2240455ad.116.2025.10.21.21.31.13
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 21 Oct 2025 21:31:15 -0700 (PDT)
-From: Biancaa Ramesh <biancaa2210329@ssn.edu.in>
-To: sumit.semwal@linaro.org
-Cc: christian.koenig@amd.com, linux-media@vger.kernel.org,
- dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org,
- linux-kernel@vger.kernel.org, lkp@intel.com,
- Biancaa Ramesh <biancaa2210329@ssn.edu.in>
-Subject: [PATCH v2] Signed-off-by: Biancaa Ramesh <biancaa2210329@ssn.edu.in>
-Date: Wed, 22 Oct 2025 10:01:07 +0530
-Message-ID: <20251022043108.7197-1-biancaa2210329@ssn.edu.in>
-X-Mailer: git-send-email 2.43.0
+ 5b1f17b1804b1-47496bf7137sm30354195e9.3.2025.10.21.22.42.14
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 21 Oct 2025 22:42:14 -0700 (PDT)
+Message-ID: <7015844a-7eca-469c-9115-b84183a94154@googlemail.com>
+Date: Wed, 22 Oct 2025 07:42:14 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset="US-ASCII"
+User-Agent: Betterbird (Windows)
+Subject: Re: [PATCH 6.12 020/136] drm/ast: Blank with VGACR17 sync enable,
+ always clear VGACRB6 sync off
+Content-Language: de-DE
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, stable@vger.kernel.org
+Cc: patches@lists.linux.dev, Thomas Zimmermann <tzimmermann@suse.de>,
+ Nick Bowler <nbowler@draconx.ca>, Douglas Anderson <dianders@chromium.org>,
+ Dave Airlie <airlied@redhat.com>, Jocelyn Falempe <jfalempe@redhat.com>,
+ dri-devel@lists.freedesktop.org
+References: <20251021195035.953989698@linuxfoundation.org>
+ <20251021195036.457336682@linuxfoundation.org>
+From: Peter Schneider <pschneider1968@googlemail.com>
+In-Reply-To: <20251021195036.457336682@linuxfoundation.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 X-Mailman-Approved-At: Wed, 22 Oct 2025 06:07:43 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -89,89 +98,38 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-dma-buf: improve dma_buf_show_fdinfo output
+Hi Greg,
 
-Improve the readability of /proc/<pid>/fdinfo output for DMA-BUF by
-including file flags and ensuring consistent format specifiers for size
-and other fields.
+Am 21.10.2025 um 21:50 schrieb Greg Kroah-Hartman:
+> 6.12-stable review patch.  If anyone has any objections, please let me know.
+> 
+> ------------------
+> 
+> From: Thomas Zimmermann <tzimmermann@suse.de>
+> 
+> commit 6f719373b943a955fee6fc2012aed207b65e2854 upstream.
+> 
+> Blank the display by disabling sync pulses with VGACR17<7>. Unblank
+> by reenabling them. This VGA setting should be supported by all Aspeed
+> hardware.
 
-This patch also fixes incorrect format specifiers and removes references
-to obsolete struct members (num_attachments and num_mappings) that no
-longer exist in the DMA-BUF framework.
+This patch breaks VGA output on my machine. I have already reported this regression against mainline 6.18-rc2, see here:
 
-Reported-by: kernel test robot <lkp@intel.com>
-Closes: https://lore.kernel.org/oe-kbuild-all/202510220802.svbgdYsJ-lkp@intel.com/
----
- drivers/dma-buf/dma-buf.c | 26 ++++++++++++--------------
- 1 file changed, 12 insertions(+), 14 deletions(-)
+https://lore.kernel.org/all/a40caf8e-58ad-4f9c-af7f-54f6f69c29bb@googlemail.com/
 
-diff --git a/drivers/dma-buf/dma-buf.c b/drivers/dma-buf/dma-buf.c
-index 1c0035601c4f..4541f8ec5d62 100644
---- a/drivers/dma-buf/dma-buf.c
-+++ b/drivers/dma-buf/dma-buf.c
-@@ -571,24 +571,22 @@ static long dma_buf_ioctl(struct file *file,
- 	}
- }
- 
--static void dma_buf_show_fdinfo(struct seq_file *s, struct file *f)
-+static void dma_buf_show_fdinfo(struct seq_file *s, struct file *file)
- {
--    struct dma_buf *dmabuf = f->private_data;
-+	struct dma_buf *dmabuf;
- 
--    if (!dmabuf)
--        return;
-+	dmabuf = file->private_data;
-+	if (!dmabuf)
-+		return;
- 
--    seq_printf(s, "flags:\t%lu\n", f->f_flags);
--    seq_printf(s, "size:\t%llu\n", dmabuf->size);
--    seq_printf(s, "count:\t%ld\n", file_count(dmabuf->file) - 1);
--    seq_printf(s, "attachments:\t%d\n", atomic_read(&dmabuf->num_attachments));
--    seq_printf(s, "mappings:\t%d\n", atomic_read(&dmabuf->num_mappings));
--    seq_printf(s, "exp_name:\t%s\n", dmabuf->exp_name ? dmabuf->exp_name : "N/A");
-+	seq_printf(s, "size:\t%zu\n", dmabuf->size);
-+	seq_printf(s, "count:\t%ld\n", file_count(dmabuf->file) - 1);
-+	seq_printf(s, "exp_name:\t%s\n", dmabuf->exp_name ? dmabuf->exp_name : "N/A");
- 
--    spin_lock(&dmabuf->name_lock);
--    if (dmabuf->name)
--        seq_printf(s, "name:\t%s\n", dmabuf->name);
--    spin_unlock(&dmabuf->name_lock);
-+	spin_lock(&dmabuf->name_lock);
-+	if (dmabuf->name)
-+		seq_printf(s, "name:\t%s\n", dmabuf->name);
-+	spin_unlock(&dmabuf->name_lock);
- }
- 
- 
--- 
-2.43.0
+When I revert this patch from 6.12.55-rc1, the issue goes away, just as in mainline. I'm still going to test 6.17.5-rc1 
+too and report back, but I guess it will be just the same.
 
+
+Beste Grüße,
+Peter Schneider
 
 -- 
-::DISCLAIMER::
+Climb the mountain not to plant your flag, but to embrace the challenge,
+enjoy the air and behold the view. Climb it so you can see the world,
+not so the world can see you.                    -- David McCullough Jr.
 
----------------------------------------------------------------------
-The 
-contents of this e-mail and any attachment(s) are confidential and
-intended 
-for the named recipient(s) only. Views or opinions, if any,
-presented in 
-this email are solely those of the author and may not
-necessarily reflect 
-the views or opinions of SSN Institutions (SSN) or its
-affiliates. Any form 
-of reproduction, dissemination, copying, disclosure,
-modification, 
-distribution and / or publication of this message without the
-prior written 
-consent of authorized representative of SSN is strictly
-prohibited. If you 
-have received this email in error please delete it and
-notify the sender 
-immediately.
----------------------------------------------------------------------
-Header of this mail should have a valid DKIM signature for the domain 
-ssn.edu.in <http://www.ssn.edu.in/>
+OpenPGP:  0xA3828BD796CCE11A8CADE8866E3A92C92C3FF244
+Download: https://www.peters-netzplatz.de/download/pschneider1968_pub.asc
+https://keys.mailvelope.com/pks/lookup?op=get&search=pschneider1968@googlemail.com
+https://keys.mailvelope.com/pks/lookup?op=get&search=pschneider1968@gmail.com
