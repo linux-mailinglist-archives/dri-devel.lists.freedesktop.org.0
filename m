@@ -2,75 +2,102 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 03EC7BFB9F9
-	for <lists+dri-devel@lfdr.de>; Wed, 22 Oct 2025 13:23:51 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id D816CBFBA62
+	for <lists+dri-devel@lfdr.de>; Wed, 22 Oct 2025 13:34:02 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 32DDB10E75D;
-	Wed, 22 Oct 2025 11:23:49 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B839510E75E;
+	Wed, 22 Oct 2025 11:33:59 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=ucw.cz header.i=@ucw.cz header.b="pqCbupnN";
+	dkim=pass (2048-bit key; secure) header.d=ziepe.ca header.i=@ziepe.ca header.b="VfuBTdU6";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from jabberwock.ucw.cz (jabberwock.ucw.cz [46.255.230.98])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 90A5710E75D;
- Wed, 22 Oct 2025 11:23:47 +0000 (UTC)
-Received: by jabberwock.ucw.cz (Postfix, from userid 1017)
- id 15D481C0088; Wed, 22 Oct 2025 13:23:45 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ucw.cz; s=gen1;
- t=1761132225;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=lJy21XbWgHp7MjGSXfr0/SiKeaKudWY5JLr70CDGgKg=;
- b=pqCbupnNygoqjhYdJh+SCZh/oNfOBS94VpWGG/hzyei2HcK3MabOx5SFCwkpVC61xwOs7u
- kBUNEPVa2OaVIxl0U8f+ElyReralUEauxeyeryR+9Oj0aktXucB7Nk4gKyZZy19G+bIB/Z
- IPRgNPTEJp/FXhjKBa218zWpoFhtef4=
-Date: Wed, 22 Oct 2025 13:23:44 +0200
-From: Pavel Machek <pavel@ucw.cz>
-To: Luca Weiss <luca.weiss@fairphone.com>
-Cc: barnabas.czeman@mainlining.org, Bjorn Andersson <andersson@kernel.org>,
- Michael Turquette <mturquette@baylibre.com>,
- Stephen Boyd <sboyd@kernel.org>, Rob Herring <robh@kernel.org>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>, Stephan Gerhold <stephan@gerhold.net>,
- Otto =?iso-8859-1?Q?Pfl=FCger?= <otto.pflueger@abscue.de>,
- Linus Walleij <linus.walleij@linaro.org>,
- Lee Jones <lee@kernel.org>, Joerg Roedel <joro@8bytes.org>,
- Will Deacon <will@kernel.org>, Robin Murphy <robin.murphy@arm.com>,
- Konrad Dybcio <konradybcio@kernel.org>, Sean Paul <sean@poorly.run>,
- Abhinav Kumar <quic_abhinavk@quicinc.com>,
- Marijn Suijten <marijn.suijten@somainline.org>,
+Received: from mail-qk1-f170.google.com (mail-qk1-f170.google.com
+ [209.85.222.170])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E275D10E75F
+ for <dri-devel@lists.freedesktop.org>; Wed, 22 Oct 2025 11:33:57 +0000 (UTC)
+Received: by mail-qk1-f170.google.com with SMTP id
+ af79cd13be357-88f239686f2so852006885a.0
+ for <dri-devel@lists.freedesktop.org>; Wed, 22 Oct 2025 04:33:57 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=ziepe.ca; s=google; t=1761132837; x=1761737637; darn=lists.freedesktop.org; 
+ h=in-reply-to:content-transfer-encoding:content-disposition
+ :mime-version:references:message-id:subject:cc:to:from:date:from:to
+ :cc:subject:date:message-id:reply-to;
+ bh=YzMuyf16b+hUTaqBectyipp8bmob3UCKigy6YT4wr2s=;
+ b=VfuBTdU6k4R5IT39g3jwXjx4co8d/kE4pSh/OUi3QthigDGGWzpibkru/QzhDu3jFX
+ Dw2mX2cFz2ioV9Vui57+qOhaNRmrnvPF2075kaJB+vVSzYWTpQ9mQvvH43UengjRi+FG
+ Ce3MR2SPF5zJPB6W8P54ILUxXH+9yyxNsxMmIVmzCdObwRcZ2o2jmxc5k/FdIbKXEe5N
+ WbOzTXMI8zlJscqJXiPdkEGmjXsbsAO7KE0L7/gk03R95J+UaAxVH4UG1spPIJQ9WevN
+ tWKUUrgXROYIzYbffRl3VanorfAVo+eqvj8d/bLPnr53GDepVZqc9Ij7B55Bwg7Zm20e
+ WS8Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1761132837; x=1761737637;
+ h=in-reply-to:content-transfer-encoding:content-disposition
+ :mime-version:references:message-id:subject:cc:to:from:date
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=YzMuyf16b+hUTaqBectyipp8bmob3UCKigy6YT4wr2s=;
+ b=vJxp5uJRitR1zBUT6dtR5RQS1L4wHqrg3MifzFfWw4GRI0eRcZGtuTQd+/mQcQ/BMt
+ bJsNCCdAVIdvcKNJlLflchmr/H/P5DzcFxUnY/XFT1dCX30XSgaFQPQiKjaIKu0BF7i5
+ 9WR+wzB+qHAoq35iIUu+Qh2py5b0ek7HyclLooZ+9/PgGM43bkPad9QPrWoceHlyVsPF
+ QyDmsfzLfUcd0wKxFc51RhP3tRVIw8DEq/g+wvInmI1XBE86Z5zsM6NIY2bRDn7ITA5V
+ 7GZ45tSokzuBRkQ7fyMPHxbgwiz538zZSGelF/wDdYwXGhACzE4A5B43QleBhM2dpUfj
+ dPIQ==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCVhIB/dqWHEpYscbQR+01Ks//+mg0bXf7nP4Fhw5w8CxI84CyZR5TZMWqwUXoZn6qmkRDTlwu4aXlk=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Yzu3UVFbmRZ6G6ASiei5qMvJ8750LeGYCvpKFxJnRnOEeHetLkU
+ TRFPA7YlyZh4Wq2ecK2gRou+OUp3x47iEMaTbMtGF9ZQ7WjtvsnL5zBeHY0julnG8Mk=
+X-Gm-Gg: ASbGncun+yq0rEdGoLoRoKKOJsdPIHrHirCFRx/F34r1LzXtulWBDHHaC2VYxIFMm2n
+ g+zKc4rMNXMtzZ9hFc8eCEneoBtgQFUb2YWe7u1TmU1nkhqWQt/khIOx5WnJKFLAFsYOY0Zz7D7
+ 3Pfa+Nq57FCSk/qflJRg9gfn+nHhwRKXFk6Q9qekOgyYsOIUfT4hjqFf32BUk38efZWgfQGRPeE
+ GhMF/iCiOJuBUXK8ZBtjhvHf0DXBhy0IAm0n2KpkzVrxighTIqtGoTeVTub46FNgig8s9U9eB25
+ VrulEZulqADceLYXBq/JzyH0qPd54B+TIz1+mJf/q6lM2x9rhIB1q1g/88Onj07uJWDV00esYNy
+ ddXopYEA9m29dcKz3/CzWKngESr0yGDCSr1S+1kBFvNX/I5EPSZwtb6fvsdZRB6GEBc7OJ+hUHF
+ i/hhC3kvLASbfTCPlZlEQx4Q5N4x6oMHz09KodEK+7Sbq0yw==
+X-Google-Smtp-Source: AGHT+IGcoJwXXqdtQtkm+G14JGdvXbaacdM5SDyQ7Xv4vGpp8puPf7A40E+xXVk1VpdF6uCqgx+zZQ==
+X-Received: by 2002:a05:620a:4694:b0:891:ef6d:5231 with SMTP id
+ af79cd13be357-891ef6d5476mr1901298585a.49.1761132836585; 
+ Wed, 22 Oct 2025 04:33:56 -0700 (PDT)
+Received: from ziepe.ca
+ (hlfxns017vw-47-55-120-4.dhcp-dynamic.fibreop.ns.bellaliant.net.
+ [47.55.120.4]) by smtp.gmail.com with ESMTPSA id
+ af79cd13be357-891cf0af3afsm962961585a.36.2025.10.22.04.33.55
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 22 Oct 2025 04:33:55 -0700 (PDT)
+Received: from jgg by wakko with local (Exim 4.97)
+ (envelope-from <jgg@ziepe.ca>) id 1vBX6J-000000011YP-0ehF;
+ Wed, 22 Oct 2025 08:33:55 -0300
+Date: Wed, 22 Oct 2025 08:33:55 -0300
+From: Jason Gunthorpe <jgg@ziepe.ca>
+To: =?utf-8?Q?Micha=C5=82?= Winiarski <michal.winiarski@intel.com>
+Cc: Christoph Hellwig <hch@infradead.org>,
+ Alex Williamson <alex.williamson@redhat.com>,
+ Lucas De Marchi <lucas.demarchi@intel.com>,
+ Thomas =?utf-8?Q?Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>, Yishai Hadas <yishaih@nvidia.com>,
+ Kevin Tian <kevin.tian@intel.com>, intel-xe@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, kvm@vger.kernel.org,
+ Matthew Brost <matthew.brost@intel.com>,
+ Michal Wajdeczko <michal.wajdeczko@intel.com>,
+ dri-devel@lists.freedesktop.org, Jani Nikula <jani.nikula@linux.intel.com>,
+ Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
+ Tvrtko Ursulin <tursulin@ursulin.net>,
  David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- Dmitry Baryshkov <lumag@kernel.org>,
- Adam Skladowski <a_skl39@protonmail.com>,
- Sireesh Kodali <sireeshkodali@protonmail.com>,
- Rob Clark <robin.clark@oss.qualcomm.com>,
- Abhinav Kumar <abhinav.kumar@linux.dev>,
- Jessica Zhang <jessica.zhang@oss.qualcomm.com>,
- Srinivas Kandagatla <srini@kernel.org>,
- linux-arm-msm@vger.kernel.org, linux-clk@vger.kernel.org,
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-gpio@vger.kernel.org, iommu@lists.linux.dev,
- dri-devel@lists.freedesktop.org, freedreno@lists.freedesktop.org,
- phone-devel@vger.kernel.org, ~postmarketos/upstreaming@lists.sr.ht,
- linux@mainlining.org, Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
-Subject: Re: [PATCH v7 6/6] arm64: dts: qcom: Add Xiaomi Redmi 3S
-Message-ID: <aPi+wIY/bUuZl9hv@duo.ucw.cz>
-References: <20250831-msm8937-v7-0-232a9fb19ab7@mainlining.org>
- <20250831-msm8937-v7-6-232a9fb19ab7@mainlining.org>
- <aNGLPdmOyh/pfroq@duo.ucw.cz>
- <97ee369f6ffbe42c72c57ebd72887b23@mainlining.org>
- <aNJKniJ46YuUsbQ+@duo.ucw.cz>
- <DD038IVOWESM.24X3EZZXH3UE@fairphone.com>
+ Lukasz Laguna <lukasz.laguna@intel.com>
+Subject: Re: [PATCH v2 26/26] vfio/xe: Add vendor-specific vfio_pci driver
+ for Intel graphics
+Message-ID: <20251022113355.GC21554@ziepe.ca>
+References: <20251021224133.577765-1-michal.winiarski@intel.com>
+ <20251021224133.577765-27-michal.winiarski@intel.com>
+ <aPiDwUn-D2_oyx2T@infradead.org>
+ <ilv4dmjtei7llmoamwdjb3eb32rowzg6lwpjhdtilouoi6hyop@xnpkhbezzbcv>
+ <aPib0tHn1yK9qx2x@infradead.org>
+ <4e6ctwhyax2v65mgj3pud5z3vz75yputis6oufju45iptzaypq@zaxo42l23o2r>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha1;
- protocol="application/pgp-signature"; boundary="afFovrNgGG7Vhs2p"
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <DD038IVOWESM.24X3EZZXH3UE@fairphone.com>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <4e6ctwhyax2v65mgj3pud5z3vz75yputis6oufju45iptzaypq@zaxo42l23o2r>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -86,93 +113,38 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+On Wed, Oct 22, 2025 at 11:12:05AM +0200, Michał Winiarski wrote:
+> On Wed, Oct 22, 2025 at 01:54:42AM -0700, Christoph Hellwig wrote:
+> > On Wed, Oct 22, 2025 at 10:52:34AM +0200, Michał Winiarski wrote:
+> > > On Wed, Oct 22, 2025 at 12:12:01AM -0700, Christoph Hellwig wrote:
+> > > > There is absolutely nothing vendor-specific here, it is a device variant
+> > > > driver.  In fact in Linux basically nothing is ever vendor specific,
+> > > > because vendor is not a concept that does matter in any practical sense
+> > > > except for tiny details like the vendor ID as one of the IDs to match
+> > > > on in device probing.
+> > > > 
+> > > > I have no idea why people keep trying to inject this term again and
+> > > > again.
+> > > 
+> > > Hi,
+> > > 
+> > > The reasoning was that in this case we're matching vendor ID + class
+> > > combination to match all Intel GPUs, and not just selected device ID,
+> > > but I get your point.
+> > 
+> > Which sounds like a really bad idea.  Is this going to work on i810
+> > devices?  Or the odd parts povervr based parts?
+> 
+> It's using .override_only = PCI_ID_F_VFIO_DRIVER_OVERRIDE, so it only
+> matters if the user was already planning to override the regular driver
+> with VFIO one (using driver_override sysfs).
+> So if it worked on i810 or other odd parts using regular vfio-pci, it
+> would work with xe-vfio-pci, as both are using the same underlying
+> functions provided by vfio-pci-core.
 
---afFovrNgGG7Vhs2p
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+I also would rather see you list the actual working PCI IDs :|
 
-Hi!
+Claiming all class devices for a vendor_id is something only DRM
+does..
 
-> On Tue Sep 23, 2025 at 9:22 AM CEST, Pavel Machek wrote:
-> > Hi!
-> >> > Hi!
-> >> >=20
-> >> > > +	led-controller@45 {
-> >> > > +		compatible =3D "awinic,aw2013";
-> >> > > +		reg =3D <0x45>;
-> >> > > +		#address-cells =3D <1>;
-> >> > > +		#size-cells =3D <0>;
-> >> > > +
-> >> > > +		vcc-supply =3D <&pm8937_l10>;
-> >> > > +		vio-supply =3D <&pm8937_l5>;
-> >> > > +
-> >> > > +		led@0 {
-> >> > > +			reg =3D <0>;
-> >> > > +			function =3D LED_FUNCTION_STATUS;
-> >> > > +			led-max-microamp =3D <5000>;
-> >> > > +			color =3D <LED_COLOR_ID_RED>;
-> >> > > +		};
-> >> > > +
-> >> > > +		led@1 {
-> >> > > +			reg =3D <1>;
-> >> > > +			function =3D LED_FUNCTION_STATUS;
-> >> > > +			led-max-microamp =3D <5000>;
-> >> > > +			color =3D <LED_COLOR_ID_GREEN>;
-> >> > > +		};
-> >> > > +
-> >> > > +		led@2 {
-> >> > > +			reg =3D <2>;
-> >> > > +			function =3D LED_FUNCTION_STATUS;
-> >> > > +			led-max-microamp =3D <5000>;
-> >> > > +			color =3D <LED_COLOR_ID_BLUE>;
-> >> > > +		};
-> >> > > +	};
-> >> > > +};
-> >> >=20
-> >> > That's single, 3-color LED, right? Please see LED multicolor support.
-> >> As far as i know aw2013 driver does not have multicolor support.
-> >> https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git/tr=
-ee/Documentation/devicetree/bindings/leds/leds-aw2013.yaml
-> >
-> > I believe that needs to be fixed before more bugs are added on top to
-> > work around that problem...
-> >
-> > ...and before that bug is cemented in the ABI.
->=20
-> Honestly I don't think it's reasonable to expect people contributing dts
-> to then first start patching existing LED drivers and adding support for
-> x y or z to it, and block dts addition on that.
-
-Well, the dts is wrong, it describes three leds when you only have
-one.
-
-> At least in postmarketOS the user space components we have (e.g.
-> feedbackd) detect the LED things (and most others) automatically since
-> various devices have various different setups. So once/if aw2013 gets
-> multicolor support, the dts can be updated without problems.
-
-> Sure, maybe today changing something on the N900 which would change
-> sysfs paths is not the best idea because people will probably have 10+
-> years of random shell scripts lying around, but nowadays we usually have
-> better ways of abstraction that can handle that.
-
-I'm pretty sure someone, somewhere will have shell scripts.
-
-BR,
-							Pavel
---=20
-I don't work for Nazis and criminals, and neither should you.
-Boycott Putin, Trump, Netanyahu and Musk!
-
---afFovrNgGG7Vhs2p
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iF0EABECAB0WIQRPfPO7r0eAhk010v0w5/Bqldv68gUCaPi+wAAKCRAw5/Bqldv6
-8k0GAJkB+A1MYLsaFrYi7NQtR20dd9gtSwCfTNIAA7o2+c88KcU2rXh0E4whh1s=
-=m2+z
------END PGP SIGNATURE-----
-
---afFovrNgGG7Vhs2p--
+Jason
