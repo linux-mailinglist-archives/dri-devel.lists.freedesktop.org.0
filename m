@@ -2,49 +2,118 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A5CF6BFD320
-	for <lists+dri-devel@lfdr.de>; Wed, 22 Oct 2025 18:28:49 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id E4077BFD377
+	for <lists+dri-devel@lfdr.de>; Wed, 22 Oct 2025 18:30:56 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E0EFB10E803;
-	Wed, 22 Oct 2025 16:28:47 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 07D6F10E807;
+	Wed, 22 Oct 2025 16:30:54 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="GTGJbVJu";
+	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="E6khpsQy";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from bali.collaboradmins.com (bali.collaboradmins.com
- [148.251.105.195])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8963910E803
- for <dri-devel@lists.freedesktop.org>; Wed, 22 Oct 2025 16:28:45 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1761150524;
- bh=Q+AaMNPpBhoLkNmasyi9CSyLqLYIfSX4ogAb6I43G9o=;
- h=From:To:Cc:Subject:Date:From;
- b=GTGJbVJu26FF6/CqoySvn2CI8miap0wKAjsoHPJupckC1VWqevAp95BsxYMyo7cGi
- szIqDIWyQnAi6gQT4S7BvyVWd/zMf3SzAQ000vLqMpIsf6EgetKFnf0dhvhHIbUbuN
- A9EKMGV57eL0jqCkTZq2kzwEpuu/+emqt03Le35b4lxbz71G1qtPPTJsZcwHHLVAOb
- wk13KryGJob+cBhIY4zZiyevTldFn6ipNrhXZIXBmrNr5hVwogVYjbEX4vOqKe2eFY
- ooTYA09QMa5RLj4+YZBmIzpORxbTETpPGtNz+SVGMHBxNHMc8j0eTqwJg+nKZ4HRQ0
- pmvPG11mZ9gqg==
-Received: from localhost.localdomain (unknown
- [IPv6:2a02:2f08:e41c:5800:ae0b:2cea:42d3:7552])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested) (Authenticated sender: mvlad)
- by bali.collaboradmins.com (Postfix) with ESMTPSA id D5A7117E108C;
- Wed, 22 Oct 2025 18:28:43 +0200 (CEST)
-From: Marius Vlad <marius.vlad@collabora.com>
-To: dri-devel@lists.freedesktop.org
-Cc: dmitry.baryshkov@oss.qualcomm.com, jani.nikula@linux.intel.com,
- ville.syrjala@linux.intel.com, tzimmermann@suse.de, simona.vetter@ffwll.ch,
- michel.daenzer@mailbox.org, derek.foreman@collabora.com,
- daniel.stone@collabora.com
-Subject: [PATCH v3] drm/connector: hdmi: Add a 'link bpc' property
-Date: Wed, 22 Oct 2025 19:28:43 +0300
-Message-ID: <20251022162843.1759-1-marius.vlad@collabora.com>
-X-Mailer: git-send-email 2.47.2
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
+ [205.220.168.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DEC4A10E807
+ for <dri-devel@lists.freedesktop.org>; Wed, 22 Oct 2025 16:30:52 +0000 (UTC)
+Received: from pps.filterd (m0279865.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 59MA8X3l002484
+ for <dri-devel@lists.freedesktop.org>; Wed, 22 Oct 2025 16:30:52 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+ cc:content-transfer-encoding:content-type:date:from:in-reply-to
+ :message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+ UVExzC/ZCldcYzHdZY/GkmSX7NUaqTgV3yEbwJDlx0c=; b=E6khpsQydcbAEi40
+ zoafvNR9ktTHOR8zf7JsDSjupDet2ik4ZOKBJIsEpZVztICNanQQLUxcxo5lZNLZ
+ FuBA7G1OlGkXlDALhK8uC9qyAqaSd4wp0SjY4ViiP2fdI9wJaz3zAhxWcusHNJT0
+ mERFRU+kG4v8Oj2ITg9nmOmxD/v7ylNhz3cx7pny/1cVhCm+I8BsVGbqR8Xpswf6
+ dDwC1TiL0wqS0I6Sc2uAb7fVg29N30DB+q6F8YTMvBT73SFDq3mSa3yGSy/xV+sR
+ 6jlvEBm0w79AcXVy1GSwtVLqfeSW+aMZ3fLBQzZ2Wvpt6VIejC6PUKjpuOi7HE/b
+ oQYSnw==
+Received: from mail-qv1-f70.google.com (mail-qv1-f70.google.com
+ [209.85.219.70])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 49w08wayy6-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
+ for <dri-devel@lists.freedesktop.org>; Wed, 22 Oct 2025 16:30:52 +0000 (GMT)
+Received: by mail-qv1-f70.google.com with SMTP id
+ 6a1803df08f44-87c19c8393dso23894726d6.0
+ for <dri-devel@lists.freedesktop.org>; Wed, 22 Oct 2025 09:30:52 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1761150651; x=1761755451;
+ h=content-transfer-encoding:in-reply-to:from:content-language
+ :references:cc:to:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=UVExzC/ZCldcYzHdZY/GkmSX7NUaqTgV3yEbwJDlx0c=;
+ b=j8T5+c57VBO+s28MNRvZz8/qmCYdkCNDLFEr+79wgV1ugTw9SEbpvCURSRvbPZ3ZQz
+ 3FOTVqrc4DqVpFQR8978/7WW1jmN5pHGRWJY/70jolO1JN2xoqHQ059U+2OI4yICn85h
+ ykUwxUTSumPXwuc+rdWipNn88zRa9/+tdloIv7xHfOlsSK9u0XKdvLNRcx4X2FaV1QmT
+ sypIcSFE4SUfGKV8PF5cPKwbKoCDthBKGXYGuHavi62gB0CpnqGa1Lk4oLn9c+JZkAhA
+ IadiTk1c5PGAoqC58Fca43p6dxbYC4xmGQNZVyjoaj1EKbUgpncr/Uw+bDvGLaAqnp2u
+ wYMg==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCWdHyPvxGp6MKfIMBbyOJnqcQYO+L6mvzW2LS8Nm3CY0LueN1OiyAZW7NcnB8IEPVnpOI6coCxQZ6Q=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Yy8q0TRFpNfjfDMhoRsBA0hDgzuBLCxqDRzwZsUjStfxbLM8XDu
+ V+znMTepPp/SDybATNBjI53u6N37jjkxXrb0i7GE2/TWn9VH2nFj2XTywUafzl6E8RHDfcCnLPW
+ X/jOOUZXVxBLQpIhsNvdrkcLd8kGElcfnPSu2DFY/4eXnueJJtLc/t5XojvUsjfyPtTwKRXo=
+X-Gm-Gg: ASbGnctjC2G1oxZ1qYiqDSm+8DbsKPZNfrhFtoKi5cb5+Ck0QrYK3NnplSXRvi/RxD0
+ NMLgDaQjQTcXU16Kn0Y5p62O/cU6CHviLjM8uYJYiDc0o99pN20x8mmNbrFkFpV8ujLxGoT3th7
+ zjkERYBWkeraf1vzAjaw3YcuSqPS6qhjarcEoI1sqKhddAoDkptjbC/JtWixnRvdLaUgA381Sgf
+ 7YVJe/RZf1lg9yFEHjRPT78GgDl9SD3wIBIBoXZ/bz0binQLQcLeUmvVnW10GnRkS0ohDRFrDid
+ Gb1OXMFUgjwikOr7/GMyCNuesalwbRC1MZTKz5TT7u66KAd2hQYyqpO7yCt/YTil3fGmdyBKyDd
+ ZcTI2VmwBj/bnLm1/QQXzWwAAl+/cHXWE2Fi1MDK+r6M3dFMcI7eib8d7
+X-Received: by 2002:a05:622a:199a:b0:4e8:a9f6:359 with SMTP id
+ d75a77b69052e-4ea1178251cmr64395051cf.10.1761150650917; 
+ Wed, 22 Oct 2025 09:30:50 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IEu5byM9VPY0GokSXOTKlkuO/ePXSQsQWPpLZUvvK8N8S7OzCxNnNQq8bwkQTgfXEaXa53r3Q==
+X-Received: by 2002:a05:622a:199a:b0:4e8:a9f6:359 with SMTP id
+ d75a77b69052e-4ea1178251cmr64394541cf.10.1761150650310; 
+ Wed, 22 Oct 2025 09:30:50 -0700 (PDT)
+Received: from [192.168.119.202] (078088045245.garwolin.vectranet.pl.
+ [78.88.45.245]) by smtp.gmail.com with ESMTPSA id
+ a640c23a62f3a-b65e83937a3sm1398041066b.23.2025.10.22.09.30.47
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 22 Oct 2025 09:30:49 -0700 (PDT)
+Message-ID: <8667f4c6-5d09-4ec0-96d3-d88c717a3d92@oss.qualcomm.com>
+Date: Wed, 22 Oct 2025 18:30:46 +0200
 MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] accel/qaic: Support the new READ_DATA implementation
+To: Jeff Hugo <jeff.hugo@oss.qualcomm.com>,
+ Youssef Samir <youssef.abdulrahman@oss.qualcomm.com>,
+ carl.vanderlip@oss.qualcomm.com, troy.hanson@oss.qualcomm.com,
+ zachary.mckevitt@oss.qualcomm.com
+Cc: ogabbay@kernel.org, lizhi.hou@amd.com, karol.wachowski@linux.intel.com,
+ linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ Carl Vanderlip <quic_carlv@quicinc.com>
+References: <20251007224045.605374-1-youssef.abdulrahman@oss.qualcomm.com>
+ <77abcd1d-ce69-42c8-9608-4a9557613d21@oss.qualcomm.com>
+ <0514142e-b3a7-4d44-8ef3-31b3ce1ebc4a@oss.qualcomm.com>
+Content-Language: en-US
+From: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
+In-Reply-To: <0514142e-b3a7-4d44-8ef3-31b3ce1ebc4a@oss.qualcomm.com>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
+X-Proofpoint-ORIG-GUID: ERRcAS7rgMpm2UX-IUai_yUu3CKFYbWq
+X-Proofpoint-GUID: ERRcAS7rgMpm2UX-IUai_yUu3CKFYbWq
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUxMDE5MDA5MCBTYWx0ZWRfXw2yYrruKpkIr
+ mJgMcGN39d7vPzgCPZGEBgomQ/ImyhH2Es8zlVcob1bO+LIe686Ly6yU1KBMKWfcX7qLqcqlcKR
+ UPmBn/LRk+2rwyVSAITvVxRNAsE2m1myVwtTKrQ0YS9b2md6/aI5mElU34DujxCV+1aU7EwO8sC
+ kYK8Q6vM59SUCS/UATLJupN692HevCQ7j5MQ7XWusCjxS6LboYMtxTY7ISL/hBsJgEegalw0woZ
+ xTbzENtY1+bjMFYcncjPiUYrrkzSe6WLXMij2h5maTm8FF/5NfUSfhz4W/LD6cOfzp4kpUo5pZM
+ AFVARuwXyRpGN9VcxbrTvkxHTsruddXCjR5j3tqF2IUMGopXTcFLX/VFD+Lzrr9XBNxCJXvCada
+ cNNLZMOlrl41bXQVODmlQjCHZXdhAA==
+X-Authority-Analysis: v=2.4 cv=V5NwEOni c=1 sm=1 tr=0 ts=68f906bc cx=c_pps
+ a=oc9J++0uMp73DTRD5QyR2A==:117 a=FpWmc02/iXfjRdCD7H54yg==:17
+ a=IkcTkHD0fZMA:10 a=x6icFKpwvdMA:10 a=VkNPw1HP01LnGYTKEx00:22
+ a=EUspDBNiAAAA:8 a=V4hQleJxWy1ojOnldBYA:9 a=3ZKOabzyN94A:10 a=QEXdDO2ut3YA:10
+ a=iYH6xdkBrDN1Jqds4HTS:22
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.9,FMLib:17.12.80.40
+ definitions=2025-10-22_07,2025-10-22_01,2025-03-28_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ bulkscore=0 malwarescore=0 adultscore=0 priorityscore=1501 lowpriorityscore=0
+ spamscore=0 suspectscore=0 clxscore=1015 phishscore=0 impostorscore=0
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.19.0-2510020000 definitions=main-2510190090
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -60,319 +129,36 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Derek Foreman <derek.foreman@collabora.com>
+On 10/22/25 6:28 PM, Jeff Hugo wrote:
+> On 10/22/2025 10:03 AM, Konrad Dybcio wrote:
+>> On 10/8/25 12:40 AM, Youssef Samir wrote:
+>>> From: Jeff Hugo <jeff.hugo@oss.qualcomm.com>
+>>>
+>>> AIC200 uses the newer "XBL" firmware implementation which changes the
+>>> expectations of how READ_DATA is performed. Larger data requests are
+>>> supported via streaming the data over the transport instead of requiring
+>>> a single transport transfer for everything.
+>>
+>> tldr just like reading/writing images in 'raw_mode' up until now?
+> 
+> I'm not sure I understand what you are asking here.
 
-Add a way to know the actual bpc of a running link.
+Sorry I confused sahara with firehose here.. The former doesn't have a
+notion of what I referred to
 
-Drivers might change the current bpc link value due to changes in mode
-line or refresh rates. An example can be found when switching the color
-output format, part of YUV420 fallback.
+> 
+> AIC100 is the "old" SBL architecture. When the "current" XBL architecture came about, quite a bit of the components were rewritten. It seems like a different interpretation of the Sahara spec was taken for the XBL implementation.
+> 
+> In both cases, the boot component that is driving the Sahara component in FW will want segment X of the elf for the next step of processing.
+> 
+> In SBL, the Sahara component would have a specific MTU and break up the request (segment X of the elf) into MTU sized read requests for the host. The MTU is negotiated with the transport (MHI). The Sahara component expects the entire read request to be satisfied in a single return from the transport - anything less is an error.
+> 
+> In XBL, the Sahara component would make a single read request to the host for the entire request from the boot component (segment X of the elf), and expects the underlying transport to shove up data until the entire read request is satisfied (Sahara will sit in a loop until it gets all of the data).
+> 
+> There is a bit of oddity because the Sahara spec says that the host can indicate an error by sending a packet that is anything other than the requested read size, but "packet" is not defined. The SBL interpretation is that a "packet" is the transport packet - aka the MHI transfer.  The XBL interpretation is that the packet is a "Sahara packet" which is decoupled from the transport.
+> 
+> In the end, we have two different Sahara implementations in FW with different expectations, and both need to be supported.
 
-This means we might be displaying a stale bpc value although it was
-modified for different reasons -- like a refresh rate or an output
-color format.
+Thanks
 
-Introduces a new property 'link bpc' that user-space can use to get the
-current bpc value of a running link while in the same time allow
-user-space to set-up bpc using 'max bpc' property.
-
-An implementation for Weston [1] and a simple test for i-g-t [2] have been added.
-
-Signed-off-by: Derek Foreman <derek.foreman@collabora.com>
-Signed-off-by: Marius Vlad <marius.vlad@collabora.com>
-
-[1] https://gitlab.freedesktop.org/wayland/weston/-/merge_requests/1850
-[2] https://lists.freedesktop.org/archives/igt-dev/2025-October/097061.html
-
-Signed-off-by: Marius Vlad <marius.vlad@collabora.com>
----
-
-v1:
-- https://lore.kernel.org/dri-devel/20250801101750.1726-1-marius.vlad@collabora.com/T/#u
-
-v2:
-- replace return with EBUSY if connector already exists (Dmitry)
-- add i-g-t test and an implementation for Weston (Dmitry)
-- re-wording patch description (Jani)
-- https://lore.kernel.org/dri-devel/20251006083043.3115-1-marius.vlad@collabora.com/
-
-v3:
-- remove VRR mention from commit description (Ville)
-- add DRM_MODE_PROP_IMMUTABLE to flags (Ville)
-- provide helpers functions for drivers to use (can be used by other
-  types of connectors, not just HDMI)
-- send uevent informating userspace when 'link bpc' connector state
-  changed (Daniel @ https://gitlab.freedesktop.org/wayland/weston/-/merge_requests/1850)
-- added missing doc entry
-
- .../gpu/drm/display/drm_hdmi_state_helper.c   |   3 +
- drivers/gpu/drm/drm_atomic_uapi.c             |   2 +
- drivers/gpu/drm/drm_connector.c               | 125 ++++++++++++++++++
- include/drm/drm_connector.h                   |  32 +++++
- 4 files changed, 162 insertions(+)
-
-diff --git a/drivers/gpu/drm/display/drm_hdmi_state_helper.c b/drivers/gpu/drm/display/drm_hdmi_state_helper.c
-index a561f124be99..a728b43bdf05 100644
---- a/drivers/gpu/drm/display/drm_hdmi_state_helper.c
-+++ b/drivers/gpu/drm/display/drm_hdmi_state_helper.c
-@@ -866,6 +866,9 @@ int drm_atomic_helper_connector_hdmi_check(struct drm_connector *connector,
- 		crtc_state->mode_changed = true;
- 	}
- 
-+	drm_connector_update_link_bpc_state(connector,
-+					    new_conn_state->hdmi.output_bpc);
-+
- 	return 0;
- }
- EXPORT_SYMBOL(drm_atomic_helper_connector_hdmi_check);
-diff --git a/drivers/gpu/drm/drm_atomic_uapi.c b/drivers/gpu/drm/drm_atomic_uapi.c
-index 85dbdaa4a2e2..ab43ffcc6c71 100644
---- a/drivers/gpu/drm/drm_atomic_uapi.c
-+++ b/drivers/gpu/drm/drm_atomic_uapi.c
-@@ -865,6 +865,8 @@ drm_atomic_connector_get_property(struct drm_connector *connector,
- 		*val = state->privacy_screen_sw_state;
- 	} else if (property == connector->broadcast_rgb_property) {
- 		*val = state->hdmi.broadcast_rgb;
-+	} else if (property == connector->link_bpc_property) {
-+		*val = state->link_bpc;
- 	} else if (connector->funcs->atomic_get_property) {
- 		return connector->funcs->atomic_get_property(connector,
- 				state, property, val);
-diff --git a/drivers/gpu/drm/drm_connector.c b/drivers/gpu/drm/drm_connector.c
-index 272d6254ea47..4eca0d9c0a97 100644
---- a/drivers/gpu/drm/drm_connector.c
-+++ b/drivers/gpu/drm/drm_connector.c
-@@ -87,6 +87,28 @@ struct drm_conn_prop_enum_list {
- 	struct ida ida;
- };
- 
-+static void
-+link_bpc_wq_callback(struct work_struct *work)
-+{
-+	struct delayed_work *dwork;
-+	struct link_bpc_wq *link_bpc;
-+	struct drm_connector *connector;
-+	struct drm_device *drm_dev;
-+
-+	dwork = to_delayed_work(work);
-+	link_bpc = container_of(dwork, struct link_bpc_wq, d_work);
-+	connector = container_of(link_bpc, struct drm_connector, link_bpc);
-+	drm_dev = connector->dev;
-+
-+	drm_modeset_lock(&drm_dev->mode_config.connection_mutex, NULL);
-+	mutex_lock(&connector->link_bpc.lock);
-+
-+	drm_connector_update_link_bpc_property(connector);
-+
-+	mutex_unlock(&connector->link_bpc.lock);
-+	drm_modeset_unlock(&drm_dev->mode_config.connection_mutex);
-+}
-+
- /*
-  * Connector and encoder types.
-  */
-@@ -292,6 +314,14 @@ static int drm_connector_init_only(struct drm_device *dev,
- 	connector->display_info.panel_orientation =
- 		DRM_MODE_PANEL_ORIENTATION_UNKNOWN;
- 
-+	mutex_init(&connector->link_bpc.lock);
-+	INIT_DELAYED_WORK(&connector->link_bpc.d_work, link_bpc_wq_callback);
-+	connector->link_bpc.wq = create_workqueue("link bpc workqueue");
-+	if (!connector->link_bpc.wq) {
-+		dev_err(dev->dev, "Failed to create work queue\n");
-+		return -ENOMEM;
-+	}
-+
- 	drm_connector_get_cmdline_mode(connector);
- 
- 	if (connector_type != DRM_MODE_CONNECTOR_VIRTUAL &&
-@@ -542,6 +572,85 @@ int drmm_connector_init(struct drm_device *dev,
- }
- EXPORT_SYMBOL(drmm_connector_init);
- 
-+/**
-+ * drm_connector_attach_link_bpc_property - create and attach 'link bpc' property
-+ * @connector: drm connector
-+ * @max_bpc: specify the upper limit, matching  that of 'max bpc' property
-+ *
-+ * Returns:
-+ * Zero on success, error code on failure.
-+ */
-+int
-+drm_connector_attach_link_bpc_property(struct drm_connector *connector,
-+				       unsigned int max_bpc)
-+{
-+	struct drm_device *dev = connector->dev;
-+	struct drm_property *prop;
-+
-+	if (connector->link_bpc_property)
-+		return -EBUSY;
-+
-+	prop = drm_property_create_range(dev, DRM_MODE_PROP_IMMUTABLE, "link bpc", 8, max_bpc);
-+	if (!prop)
-+		return -ENOMEM;
-+
-+	connector->link_bpc_property = prop;
-+
-+	drm_object_attach_property(&connector->base, prop, max_bpc);
-+
-+	return 0;
-+}
-+EXPORT_SYMBOL(drm_connector_attach_link_bpc_property);
-+
-+/**
-+ * drm_connector_update_link_bpc_property - update the 'link bpc' property of a connector
-+ * @connector: drm connector
-+ *
-+ * This sends a uevent to userspace to notify about the fact that 'link bpc'
-+ * has been updated.
-+ */
-+void
-+drm_connector_update_link_bpc_property(struct drm_connector *connector)
-+{
-+	struct drm_connector_state *state = connector->state;
-+
-+	if (!connector->link_bpc_property)
-+		return;
-+
-+	drm_dbg_kms(connector->dev, "[CONNECTOR:%d:%s] Setting state link bpc %u\n",
-+				     connector->base.id, connector->name, state->link_bpc);
-+	drm_object_property_set_value(&connector->base,
-+				      connector->link_bpc_property,
-+				      state->link_bpc);
-+
-+	drm_sysfs_connector_property_event(connector,
-+					   connector->link_bpc_property);
-+}
-+EXPORT_SYMBOL(drm_connector_update_link_bpc_property);
-+
-+/**
-+ * drm_connector_update_link_bpc_state - update the 'link bpc' connector state
-+ * @connector: drm connector
-+ * @val: new value for the 'link bpc' property
-+ *
-+ */
-+void
-+drm_connector_update_link_bpc_state(struct drm_connector *connector, u8 val)
-+{
-+	struct drm_connector_state *state = connector->state;
-+
-+	if (!connector->link_bpc_property)
-+		return;
-+
-+	if (state->link_bpc == val)
-+		return;
-+
-+	state->link_bpc = val;
-+	queue_delayed_work(connector->link_bpc.wq,
-+			   &connector->link_bpc.d_work, msecs_to_jiffies(1000));
-+}
-+EXPORT_SYMBOL(drm_connector_update_link_bpc_state);
-+
- /**
-  * drmm_connector_hdmi_init - Init a preallocated HDMI connector
-  * @dev: DRM device
-@@ -618,6 +727,10 @@ int drmm_connector_hdmi_init(struct drm_device *dev,
- 	drm_connector_attach_max_bpc_property(connector, 8, max_bpc);
- 	connector->max_bpc = max_bpc;
- 
-+	ret = drm_connector_attach_link_bpc_property(connector, max_bpc);
-+	if (ret)
-+		return ret;
-+
- 	if (max_bpc > 8)
- 		drm_connector_attach_hdr_output_metadata_property(connector);
- 
-@@ -802,6 +915,8 @@ void drm_connector_cleanup(struct drm_connector *connector)
- 	mutex_destroy(&connector->hdmi_audio.lock);
- 	mutex_destroy(&connector->hdmi.infoframes.lock);
- 	mutex_destroy(&connector->mutex);
-+	mutex_destroy(&connector->link_bpc.lock);
-+	destroy_workqueue(connector->link_bpc.wq);
- 
- 	memset(connector, 0, sizeof(*connector));
- 
-@@ -1699,6 +1814,16 @@ EXPORT_SYMBOL(drm_hdmi_connector_get_output_format_name);
-  *	drm_connector_attach_max_bpc_property() to create and attach the
-  *	property to the connector during initialization.
-  *
-+ * link bpc:
-+ *	This immutable range property can be used by userspace to determine the
-+ *	current link bit depth. Drivers can use
-+ *	drm_connector_attach_link_bpc_property() to create and attach the
-+ *	property to the connector during initialization and
-+ *	drm_connector_update_link_bpc_state() to update the property and to
-+ *	queue an uevent with the new 'link bpc' value.
-+ *	Userspace can determine if the driver made bpc modifications by
-+ *	checking 'max bpc' against the 'link bpc' property.
-+ *
-  * Connectors also have one standardized atomic property:
-  *
-  * CRTC_ID:
-diff --git a/include/drm/drm_connector.h b/include/drm/drm_connector.h
-index 8f34f4b8183d..678875b1441b 100644
---- a/include/drm/drm_connector.h
-+++ b/include/drm/drm_connector.h
-@@ -1132,6 +1132,11 @@ struct drm_connector_state {
- 	 */
- 	u8 max_bpc;
- 
-+	/*
-+	 * @link_bpc: Current link bpc
-+	 */
-+	u8 link_bpc;
-+
- 	/**
- 	 * @privacy_screen_sw_state: See :ref:`Standard Connector
- 	 * Properties<standard_connector_properties>`
-@@ -1882,6 +1887,16 @@ struct drm_connector_cec {
- 	void *data;
- };
- 
-+/*
-+ * struct link_bpc_wq - holds the necessary bits to queue uevents for
-+ * propagating 'link bpc' connector updates
-+ */
-+struct link_bpc_wq {
-+	struct workqueue_struct *wq;
-+	struct delayed_work d_work;
-+	struct mutex lock;
-+};
-+
- /**
-  * struct drm_connector - central DRM connector control structure
-  *
-@@ -2079,6 +2094,19 @@ struct drm_connector {
- 	 */
- 	struct drm_property *max_bpc_property;
- 
-+	/**
-+	 * @link_bpc_property: Current connector link bpc set by the driver
-+	 * This property can be used to store the current link bpc.
-+	 */
-+	struct drm_property *link_bpc_property;
-+
-+	/**
-+	 * @link_bpc_wq: workqueue for sending uevent to userspace with updated
-+	 * 'link bpc' value
-+	 */
-+	struct link_bpc_wq link_bpc;
-+
-+
- 	/** @privacy_screen: drm_privacy_screen for this connector, or NULL. */
- 	struct drm_privacy_screen *privacy_screen;
- 
-@@ -2488,6 +2516,10 @@ void drm_connector_attach_privacy_screen_provider(
- 	struct drm_connector *connector, struct drm_privacy_screen *priv);
- void drm_connector_update_privacy_screen(const struct drm_connector_state *connector_state);
- 
-+int drm_connector_attach_link_bpc_property(struct drm_connector *connector, unsigned int max_bpc);
-+void drm_connector_update_link_bpc_property(struct drm_connector *connector);
-+void drm_connector_update_link_bpc_state(struct drm_connector *connector, u8 val);
-+
- /**
-  * struct drm_tile_group - Tile group metadata
-  * @refcount: reference count
--- 
-2.47.2
-
+Konrad
