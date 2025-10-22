@@ -2,58 +2,43 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 06A2CBFC7C5
-	for <lists+dri-devel@lfdr.de>; Wed, 22 Oct 2025 16:24:59 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 950CDBFC864
+	for <lists+dri-devel@lfdr.de>; Wed, 22 Oct 2025 16:28:59 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1245510E7CA;
-	Wed, 22 Oct 2025 14:24:56 +0000 (UTC)
-Authentication-Results: gabe.freedesktop.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=igalia.com header.i=@igalia.com header.b="e0H6pJpj";
-	dkim-atps=neutral
+	by gabe.freedesktop.org (Postfix) with ESMTP id D357D10E037;
+	Wed, 22 Oct 2025 14:28:56 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from fanzine2.igalia.com (fanzine2.igalia.com [213.97.179.56])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 82A4410E7C8;
- Wed, 22 Oct 2025 14:24:51 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
- s=20170329;
- h=Content-Transfer-Encoding:Content-Type:In-Reply-To:From:
- References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender:Reply-To:
- Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
- Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
- List-Subscribe:List-Post:List-Owner:List-Archive;
- bh=sul5MNyOLZ4Sq6XICaXAZybizXHbk/dd1tfrb7pVu7k=; b=e0H6pJpj0iYPUbchMauQQRlbgz
- 4eq6DO5vU2h93BkJ8c/CsPdsJn+o69eFg9bjvv8ceOfwXIjddXgL7c8gC4DyufbrxJKXYX/zGHFgw
- DR1Tg8R48jfmNIqTmiqN0kMAKreovyMuDS4/fQ0tHcYr8y6I4KLC7aT9nb37pL9sgTvUPPtgR/ids
- VhzaOuF+Freg3IQ9ZjSJXWKqXhBxIWhJUd7h02pMXv69GKG9Iq77tYGLBK67yZ8ysJJU2dQZNDA20
- sGo11fEd2/uXZe2bKX9ELTCcF0b61p+9uWH+ycY6zedLVd6rWxIWJm+ReKDr6GAU7N7bDGgaHoeUu
- Dt/V37/g==;
-Received: from [90.242.12.242] (helo=[192.168.0.101])
- by fanzine2.igalia.com with esmtpsa 
- (Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_128_GCM:128) (Exim)
- id 1vBZlh-00D85V-Ci; Wed, 22 Oct 2025 16:24:49 +0200
-Message-ID: <c836e71d-9cde-4379-9905-0fd881a252dd@igalia.com>
-Date: Wed, 22 Oct 2025 15:24:48 +0100
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 2CD1410E037
+ for <dri-devel@lists.freedesktop.org>; Wed, 22 Oct 2025 14:28:56 +0000 (UTC)
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+ by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id EC4661063;
+ Wed, 22 Oct 2025 07:28:47 -0700 (PDT)
+Received: from [10.57.33.187] (unknown [10.57.33.187])
+ by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 555443F59E;
+ Wed, 22 Oct 2025 07:28:53 -0700 (PDT)
+Message-ID: <1cffaf6a-7e99-416f-af50-5659b1738af2@arm.com>
+Date: Wed, 22 Oct 2025 15:28:51 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 09/27] drm/sched: Add fair scheduling policy
-To: Danilo Krummrich <dakr@kernel.org>
-Cc: phasta@kernel.org, amd-gfx@lists.freedesktop.org,
- dri-devel@lists.freedesktop.org, kernel-dev@igalia.com,
- =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
- Matthew Brost <matthew.brost@intel.com>,
- Pierre-Eric Pelloux-Prayer <pierre-eric.pelloux-prayer@amd.com>
-References: <20251017133644.44747-1-tvrtko.ursulin@igalia.com>
- <20251017133644.44747-10-tvrtko.ursulin@igalia.com>
- <2f1eb1943d4d6a7185391e6d35e9c5d9818649da.camel@mailbox.org>
- <a6a6e8da-e1ae-44c4-a34f-c684a441ffca@igalia.com>
- <df3fa9d1893c3bd2a2b6de73613b26a3b8ed3d55.camel@mailbox.org>
- <c62693d0-f172-4b4f-b25c-6caef575bc2d@igalia.com>
- <DDOWNREZG1U8.HXMTNEYSFQHJ@kernel.org>
+Subject: Re: [PATCH v2] drm/panthor: Fix UAF race between device unplug and FW
+ event processing
+To: Boris Brezillon <boris.brezillon@collabora.com>
+Cc: Ketil Johnsen <ketil.johnsen@arm.com>, Liviu Dudau <liviu.dudau@arm.com>, 
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Heiko Stuebner <heiko@sntech.de>, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org
+References: <20251022103014.1082629-1-ketil.johnsen@arm.com>
+ <20251022143751.769c1f23@fedora>
+ <e257f8fe-fe9e-40bf-bd5a-6dad0c3d72e0@arm.com>
+ <20251022160033.2f645528@fedora>
+From: Steven Price <steven.price@arm.com>
 Content-Language: en-GB
-From: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
-In-Reply-To: <DDOWNREZG1U8.HXMTNEYSFQHJ@kernel.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+In-Reply-To: <20251022160033.2f645528@fedora>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -70,53 +55,155 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
-On 22/10/2025 15:03, Danilo Krummrich wrote:
-> On Wed Oct 22, 2025 at 3:50 PM CEST, Tvrtko Ursulin wrote:
->> Yes, for the case when entity joins the run-queue it can be the same
->> entity which is now the head of the queue, or it can be a different one.
->> Depends on the insertion position.
+On 22/10/2025 15:00, Boris Brezillon wrote:
+> On Wed, 22 Oct 2025 14:36:23 +0100
+> Steven Price <steven.price@arm.com> wrote:
+> 
+>> On 22/10/2025 13:37, Boris Brezillon wrote:
+>>> On Wed, 22 Oct 2025 12:30:13 +0200
+>>> Ketil Johnsen <ketil.johnsen@arm.com> wrote:
+>>>   
+>>>> The function panthor_fw_unplug() will free the FW memory sections.
+>>>> The problem is that there could still be pending FW events which are yet
+>>>> not handled at this point. process_fw_events_work() can in this case try
+>>>> to access said freed memory.
+>>>>
+>>>> This fix introduces a destroyed state for the panthor_scheduler object,
+>>>> and we check for this before processing FW events.
+>>>>
+>>>> Signed-off-by: Ketil Johnsen <ketil.johnsen@arm.com>
+>>>> Fixes: de85488138247 ("drm/panthor: Add the scheduler logical block")
+>>>> ---
+>>>> v2:
+>>>> - Followed Boris's advice and handle the race purely within the
+>>>>   scheduler block (by adding a destroyed state)
+>>>> ---
+>>>>  drivers/gpu/drm/panthor/panthor_sched.c | 15 ++++++++++++---
+>>>>  1 file changed, 12 insertions(+), 3 deletions(-)
+>>>>
+>>>> diff --git a/drivers/gpu/drm/panthor/panthor_sched.c b/drivers/gpu/drm/panthor/panthor_sched.c
+>>>> index 0cc9055f4ee52..4996f987b8183 100644
+>>>> --- a/drivers/gpu/drm/panthor/panthor_sched.c
+>>>> +++ b/drivers/gpu/drm/panthor/panthor_sched.c
+>>>> @@ -315,6 +315,13 @@ struct panthor_scheduler {
+>>>>  		 */
+>>>>  		struct list_head stopped_groups;
+>>>>  	} reset;
+>>>> +
+>>>> +	/**
+>>>> +	 * @destroyed: Scheduler object is (being) destroyed
+>>>> +	 *
+>>>> +	 * Normal scheduler operations should no longer take place.
+>>>> +	 */
+>>>> +	bool destroyed;  
+>>>
+>>> Do we really need a new field for that? Can't we just reset
+>>> panthor_device::scheduler to NULL early enough in the unplug path?
+>>> I guess it's not that simple if we have works going back to ptdev
+>>> and then dereferencing ptdev->scheduler, but I think it's also
+>>> fundamentally broken to have scheduler works active after the
+>>> scheduler teardown has started, so we might want to add some more
+>>> checks in the work callbacks too.
+>>>   
+>>>>  };
+>>>>  
+>>>>  /**
+>>>> @@ -1765,7 +1772,10 @@ static void process_fw_events_work(struct work_struct *work)
+>>>>  	u32 events = atomic_xchg(&sched->fw_events, 0);
+>>>>  	struct panthor_device *ptdev = sched->ptdev;
+>>>>  
+>>>> -	mutex_lock(&sched->lock);
+>>>> +	guard(mutex)(&sched->lock);
+>>>> +
+>>>> +	if (sched->destroyed)
+>>>> +		return;
+>>>>  
+>>>>  	if (events & JOB_INT_GLOBAL_IF) {
+>>>>  		sched_process_global_irq_locked(ptdev);
+>>>> @@ -1778,8 +1788,6 @@ static void process_fw_events_work(struct work_struct *work)
+>>>>  		sched_process_csg_irq_locked(ptdev, csg_id);
+>>>>  		events &= ~BIT(csg_id);
+>>>>  	}
+>>>> -
+>>>> -	mutex_unlock(&sched->lock);
+>>>>  }
+>>>>  
+>>>>  /**
+>>>> @@ -3882,6 +3890,7 @@ void panthor_sched_unplug(struct panthor_device *ptdev)
+>>>>  	cancel_delayed_work_sync(&sched->tick_work);
+>>>>  
+>>>>  	mutex_lock(&sched->lock);
+>>>> +	sched->destroyed = true;
+>>>>  	if (sched->pm.has_ref) {
+>>>>  		pm_runtime_put(ptdev->base.dev);
+>>>>  		sched->pm.has_ref = false;  
+>>>
+>>> Hm, I'd really like to see a cancel_work_sync(&sched->fw_events_work)
+>>> rather than letting the work execute after we've started tearing down
+>>> the scheduler object.
+>>>
+>>> If you follow my suggestion to reset the ptdev->scheduler field, I
+>>> guess something like that would do:
+>>>
+>>> void panthor_sched_unplug(struct panthor_device *ptdev)
+>>> {
+>>>         struct panthor_scheduler *sched = ptdev->scheduler;
+>>>
+>>> 	/* We want the schedu */
+>>> 	WRITE_ONCE(*ptdev->scheduler, NULL);
+>>>
+>>> 	cancel_work_sync(&sched->fw_events_work);
+>>>         cancel_delayed_work_sync(&sched->tick_work);
+>>>
+>>>         mutex_lock(&sched->lock);
+>>>         if (sched->pm.has_ref) {
+>>>                 pm_runtime_put(ptdev->base.dev);
+>>>                 sched->pm.has_ref = false;
+>>>         }
+>>>         mutex_unlock(&sched->lock);
+>>> }
+>>>
+>>> and
+>>>
+>>> void panthor_sched_report_fw_events(struct panthor_device *ptdev, u32 events) {
+>>> 	struct panthor_scheduler *sched = READ_ONCE(*ptdev->scheduler);
+>>>
+>>> 	/* Scheduler is not initialized, or it's gone. */
+>>>         if (!sched)
+>>>                 return;
+>>>
+>>>         atomic_or(events, &sched->fw_events);
+>>>         sched_queue_work(sched, fw_events);
+>>> }  
 >>
->> But for the case where entity is leaving the run queue it is always a
->> different entity and therefore a lock inversion. We have essentially this:
+>> Note there's also the path of panthor_mmu_irq_handler() calling
+>> panthor_sched_report_mmu_fault() which will need to READ_ONCE() as well
+>> to be safe.
+> 
+> This could be hidden behind a panthor_device_get_sched() helper, I
+> guess. Anyway, it's not so much that I'm against the addition of an
+> extra bool, but AFAICT, the problem is not entirely solved, as there
+> could be a pending work that gets executed after sched_unplug()
+> returns, and I adding this bool check just papers over the real bug
+> (which is that we never cancel the fw_event work).
+> 
 >>
->> lock entity
->> lock rq
->> remove entity from the rq
->> rq->prio = rq->head_entity->prio // different entity, unlocked read
->> unlock rq
->> unlock entity
+>> I agree having an extra bool is ugly, but it easier to reason about than
+>> the lock-free WRITE_ONCE/READ_ONCE dance. It worries me that this will
+>> be regressed in the future. I can't immediately see how to wrap this in
+>> a helper to ensure this is kept correct.
 > 
-> This sounds like it repeates the unclear locking situation that is also
-> documented for struct drm_sched_rq:
-> 
-> 	 * FIXME: Locking is very unclear for this. Writers are protected by
-> 	 * @lock, but readers are generally lockless and seem to just race with
-> 	 * not even a READ_ONCE.
-> 
-> This sounds pretty suspicious to me and I think it indicates a more fundamental
-> design issue that you now end up working around now.
+> Sure, but you're not really catching cases where the work runs after
+> the scheduler component has been unplugged in case someone forgot to
+> cancel some works. I think I'd rather identify those cases with a
+> kernel panic, than a random UAF when the work is being executed.
+> Ultimately, we should probably audit all works used in the driver, to
+> make sure they are properly cancelled at unplug() time by the relevant
+> <component>_unplug() functions.
 
-I'm afraid it is not nearly the same. Guarantee that entity->rq is 
-stable is a multi-step one which depends on the job queue being non 
-empty and the last submitted job not being signalled. That side even 
-includes a smp_rmb() in drm_sched_entity_select_rq(). Code which does 
-the suspicious unlocked entity->rq access therefore claims to be certain 
-one or both of those conditions must be true.
+Yes I agree, we should have a cancel_work_sync(&sched->fw_events_work)
+call somewhere on the unplug path. That needs to be after the job irq
+has been disabled which is currently done in panthor_fw_unplug().
 
-What I am doing here is way, way simpler and IMO should not 
-controversial. It is well defined that entities can only enter and exit 
-the run queue with the rq->lock held. Which the code path holds, and the 
-functions asserts for. So a lockless read of an integer is nowhere near 
-the complexities of the FIXME you quote.
-
-> I'd like to dig in a bit more, but unfortunately it's very unlikely I will have
-> the time to do this until after LPC.
-
-Should I interpret this as putting a blocker on the series until 
-effectively 2026?
-
-Regards,
-
-Tvrtko
-
+Thanks,
+Steve
