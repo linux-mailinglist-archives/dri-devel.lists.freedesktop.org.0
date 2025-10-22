@@ -2,63 +2,64 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7A794BFC76A
-	for <lists+dri-devel@lfdr.de>; Wed, 22 Oct 2025 16:22:25 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7662ABFC758
+	for <lists+dri-devel@lfdr.de>; Wed, 22 Oct 2025 16:22:17 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5BF3110E7C9;
-	Wed, 22 Oct 2025 14:22:23 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9B17910E7C7;
+	Wed, 22 Oct 2025 14:22:15 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="i1YsY41M";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="C0NPSBBF";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-f46.google.com (mail-wr1-f46.google.com
- [209.85.221.46])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6FED110E7C4
- for <dri-devel@lists.freedesktop.org>; Wed, 22 Oct 2025 14:21:53 +0000 (UTC)
-Received: by mail-wr1-f46.google.com with SMTP id
- ffacd0b85a97d-4270a3464caso2988306f8f.1
- for <dri-devel@lists.freedesktop.org>; Wed, 22 Oct 2025 07:21:53 -0700 (PDT)
+Received: from mail-wr1-f45.google.com (mail-wr1-f45.google.com
+ [209.85.221.45])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3302510E01F
+ for <dri-devel@lists.freedesktop.org>; Wed, 22 Oct 2025 14:21:55 +0000 (UTC)
+Received: by mail-wr1-f45.google.com with SMTP id
+ ffacd0b85a97d-426fd62bfeaso3182500f8f.2
+ for <dri-devel@lists.freedesktop.org>; Wed, 22 Oct 2025 07:21:55 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1761142912; x=1761747712; darn=lists.freedesktop.org;
+ d=gmail.com; s=20230601; t=1761142914; x=1761747714; darn=lists.freedesktop.org;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=wWzzLwH6jgxXjmQF82SSMCUND+xg2EriGxgvFhDvOZc=;
- b=i1YsY41MV9y/FKVaRyxmXeoymvWqemeY50PYDGm+njipEQ4GTSZyUmULJek3rmlpCH
- cPiPR8nC5v4Emr7NXgZvytHBiDy9+c2vbqzeRQZ+evIJ+53NbH1dy6Shse5ZeJIEWIhq
- 1ZQzK5bUjYA6Ei1Ws/L6GEzAR74CkB5IwpfkkZL4BB+3m6x3A2qW8fKN9w5y/qddBjpu
- 1/1bsP31iiosRDob7fqQ2ojjS34ePYBgB5QtAepsVoelLpKUP9dakRVd6GDh8enoc1So
- HlkLTg6/0RV6NqoMS4mFhxcKk+YCjxHLzr9GApx/6JGzmHLvbo24X9WxfVmjCKkv7CYh
- AaIQ==
+ bh=PAqyge5iPysoNexKPCog6vdhewd7fraGc+GRNda+uus=;
+ b=C0NPSBBFF971ryGbnf7DSW9PfHFu5n98mtUEz7lKrwPvB34a4dFEo6tB+heRx2Tbvb
+ 429NiQOSl+/oWQBtzRjdSZl02yAf/B2y0AZwdXUVq1xyO0lcK34vFz+otCPON2p97wlx
+ srvDKhMaqJGSDJwsGgf/AJ/7ATXYRYKcd1sLiUAneO7KYMJ3hfIy97EMl3Gn1qAajpNb
+ Boe/5tWElShaAwk7DW1pLCgan93CoWTe8679WaQkUtIpfgh7iLEJedTLmp4qbSANepVY
+ PWhZVo0garJdGJeECXXmJd8ySUNPBlmeWotojH4tLunbjHWIkVePD5taoD2AtwLuxqRR
+ pDDg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1761142912; x=1761747712;
+ d=1e100.net; s=20230601; t=1761142914; x=1761747714;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=wWzzLwH6jgxXjmQF82SSMCUND+xg2EriGxgvFhDvOZc=;
- b=QHGf/Dv5iJv3hPw0SQFNa9w1mgCrIEriNb7g/hsJbFlPAGzJXu+CFODsvJJN5eOv0U
- l2IDp3c6lnNb+jER5IEKMI4qvJBKRx8i6D7T41e1IyPojwB2Iaw4rRFIbF2nPEqj0EES
- o/hQH1syzNLEOdbQxoBFRLJWsMS1dB5qSbKlWNUoY6Zn8mGdveov6iIZt3iJZogOzZBg
- rWCMH4tUFq5d9PCnBMsRKtTXF452Pna11fpqm6LpyXLtlUvoWCFnRHikvyLdOmEKGzUz
- oU975ctNqKCO0y62X14iw/AZBFFqZzdD4xnzSSYk2vvyFoJ3oZkBHMNERhkQ7BnhLHLl
- xMhA==
-X-Gm-Message-State: AOJu0Yycrox8CO//TMEhkehg2bhEiGPKlVuFaTEFfD4J2pV9jHKBXFgE
- iWqvxQwIyToncGeNncN1vV/pguU/r/LHsShTriHyKdQ55uc+SHBQKaAl
-X-Gm-Gg: ASbGncsOMzjzuwZgI+m7anMQ08bw7yrz4wlP4sromgdSN+WLrc0+cSwiMWMi1Ua8m9r
- HWc+SWTGkG4Tecamo6MxMnPsSgrxWjIiNa0AA9OPnerXwi5ow5Ds8T9utZNtkFk8eH/5nSvF0Ug
- iwENYvDvJHJmclNUjFQWb5dbFJ907XVUoFVm7GtVh7eJxv0muyWxdwQ/iVcMNTAnVv7vD1/QcJt
- /wybZfhZttB5CLnZbft5r/0hfayla0AW3o00zFH8+dPwin9OQGAaTlilzg/PyDHxLEu0YEUGK/T
- bYHMO5++n0ok/8m5wTSi9S7MZDjxtnkdPtVwKoinkbFHoSrcn8THoPnPwsMNDELBZZHJ3gNKduT
- i8S0a4FeXa8QuTZcvCwTxUhSm6WgMzUQEPoR9Ob7pjY+yG+/ciqyO4d0usaAtLWQBhlY=
-X-Google-Smtp-Source: AGHT+IFxEX5dT11epaReQydShPRaD3ap7YNMoGZ00ekJglzcEJYx4BxQ7S6YQXgiTMxPpQinmI9SWQ==
-X-Received: by 2002:a05:6000:2087:b0:427:921:8985 with SMTP id
- ffacd0b85a97d-42709218a51mr12660456f8f.40.1761142911810; 
- Wed, 22 Oct 2025 07:21:51 -0700 (PDT)
+ bh=PAqyge5iPysoNexKPCog6vdhewd7fraGc+GRNda+uus=;
+ b=xLvQwFXAY7k2UjuP+1NlGNwF55Vs7kTv6qfylI+Nyx3o92yDY82mI1ZuSjcNU22DE/
+ 1p1mB86MBWy5T4XENIATS+eK3TEDBRmpYluTQ35n6gxlwyp721zmJHQCaWYI9WtlasrM
+ rVRSApAjPJr2z2pWwjW2V5xNHPt/sJJzFaoFI5BPbbqqylNJr8PyA0xniovl4rgsyqfD
+ Ch6m8Cx/1R5+7byiH18UEGGfBe4rmKAgKinSYnv4ulyDlLyHfsELYVfenuq4wpkxHIda
+ QyAZghDHrYjjFOYndvZ8nr2CJrWyN1yTniJC9q8pu1w2/OoIUPXqHTcBRTa2qKscQjSy
+ t1qg==
+X-Gm-Message-State: AOJu0YxCH7TPpq/QqC9EVJna3kUhYoOMNBNMubE3RwJu6D2uyspWcZol
+ viBKeTkfthy3Mo5xTU3bGbkzPgsh8OV5LwfXQXTRds//8Iagcr4IXLr2
+X-Gm-Gg: ASbGnculucR3O9zoSYtoxqPcTTM0M0YWyzSuirB0Krai5DersHXeOd+O3miwmYImpQR
+ 1N3MeaNSviHMIGRwnk9Vcq5hfor9cWYuzXZ86qDAThZUpgAVM94l0SDKFu2jfF48vwjt46tOyZG
+ FoD0L++pVYzcra5fxmdPp7DBY8Sr2KlZdTjyBRtP0I+9Bp5xRJdkY4zaHPQ03WNrrZ/b2hlRzSq
+ NIgkbYve/4juizN+R+zlCuXNLkClVMYyd95a1G2BWTqXbyp4OwiMTh0CEKwOkHBMDsI9wiBo521
+ 1ksjXfY3O2LddHP6IbKETKR/AFW5sW+E7ZyxNyTE3dsl+tjqlHCC96LzD21OOH9cF7POgdwo25P
+ 3TvOTvWSdexETf4ARCXFXgWEOx9V2LTulg4WLHQEIYt9GUYWi4bQCmLQXcDcOdNUD7qpt9BT/ZL
+ wobA==
+X-Google-Smtp-Source: AGHT+IGVyh/0Lq21fHxZjLwl88/dShL76QWY1ZVpGVbU3hFOea3guFlvCdv+uCzmXqru7Kjn7g1lZA==
+X-Received: by 2002:a05:6000:612:b0:426:dbee:3d06 with SMTP id
+ ffacd0b85a97d-42704d55398mr14180974f8f.22.1761142913609; 
+ Wed, 22 Oct 2025 07:21:53 -0700 (PDT)
 Received: from xeon.. ([188.163.112.61]) by smtp.gmail.com with ESMTPSA id
- ffacd0b85a97d-427ea5b3d4csm24803518f8f.19.2025.10.22.07.21.50
+ ffacd0b85a97d-427ea5b3d4csm24803518f8f.19.2025.10.22.07.21.52
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 22 Oct 2025 07:21:51 -0700 (PDT)
+ Wed, 22 Oct 2025 07:21:53 -0700 (PDT)
 From: Svyatoslav Ryhel <clamor95@gmail.com>
 To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
  Maxime Ripard <mripard@kernel.org>,
@@ -85,10 +86,10 @@ Cc: dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
  linux-tegra@vger.kernel.org, linux-kernel@vger.kernel.org,
  linux-media@vger.kernel.org, linux-clk@vger.kernel.org,
  linux-staging@lists.linux.dev
-Subject: [PATCH v5 16/23] staging: media: tegra-video: tegra20: adjust format
- align calculations
-Date: Wed, 22 Oct 2025 17:20:44 +0300
-Message-ID: <20251022142051.70400-17-clamor95@gmail.com>
+Subject: [PATCH v5 17/23] staging: media: tegra-video: tegra20: set VI HW
+ revision
+Date: Wed, 22 Oct 2025 17:20:45 +0300
+Message-ID: <20251022142051.70400-18-clamor95@gmail.com>
 X-Mailer: git-send-email 2.48.1
 In-Reply-To: <20251022142051.70400-1-clamor95@gmail.com>
 References: <20251022142051.70400-1-clamor95@gmail.com>
@@ -109,81 +110,27 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Expand supported formats structure with data_type and bit_width fields
-required for CSI support. Adjust tegra20_fmt_align by factoring out common
-bytesperline and sizeimage calculation logic shared by supported planar
-and non-planar formats and leaving planar-related correction under a
-switch.
+According to TRM Tegra20, Tegra30 and Tegra114 have VI revision 1,
+Tegra124 has revision 2 and Tegra210 has revision 3. Set correct revision
+in tegra20_vi_soc like tegra210 does.
 
 Signed-off-by: Svyatoslav Ryhel <clamor95@gmail.com>
-Reviewed-by: Mikko Perttunen <mperttunen@nvidia.com>
 ---
- drivers/staging/media/tegra-video/tegra20.c | 39 ++++++++++-----------
- 1 file changed, 19 insertions(+), 20 deletions(-)
+ drivers/staging/media/tegra-video/tegra20.c | 1 +
+ 1 file changed, 1 insertion(+)
 
 diff --git a/drivers/staging/media/tegra-video/tegra20.c b/drivers/staging/media/tegra-video/tegra20.c
-index 7c3ff843235d..ffaaa2bb8269 100644
+index ffaaa2bb8269..93105ed57ca7 100644
 --- a/drivers/staging/media/tegra-video/tegra20.c
 +++ b/drivers/staging/media/tegra-video/tegra20.c
-@@ -280,18 +280,13 @@ static void tegra20_fmt_align(struct v4l2_pix_format *pix, unsigned int bpp)
- 	pix->width  = clamp(pix->width,  TEGRA20_MIN_WIDTH,  TEGRA20_MAX_WIDTH);
- 	pix->height = clamp(pix->height, TEGRA20_MIN_HEIGHT, TEGRA20_MAX_HEIGHT);
- 
-+	pix->bytesperline = roundup(pix->width, 8) * bpp;
-+	pix->sizeimage = pix->bytesperline * pix->height;
-+
- 	switch (pix->pixelformat) {
--	case V4L2_PIX_FMT_UYVY:
--	case V4L2_PIX_FMT_VYUY:
--	case V4L2_PIX_FMT_YUYV:
--	case V4L2_PIX_FMT_YVYU:
--		pix->bytesperline = roundup(pix->width, 2) * 2;
--		pix->sizeimage = roundup(pix->width, 2) * 2 * pix->height;
--		break;
- 	case V4L2_PIX_FMT_YUV420:
- 	case V4L2_PIX_FMT_YVU420:
--		pix->bytesperline = roundup(pix->width, 8);
--		pix->sizeimage = roundup(pix->width, 8) * pix->height * 3 / 2;
-+		pix->sizeimage = pix->sizeimage * 3 / 2;
- 		break;
- 	}
- }
-@@ -576,20 +571,24 @@ static const struct tegra_vi_ops tegra20_vi_ops = {
- 	.vi_stop_streaming = tegra20_vi_stop_streaming,
- };
- 
--#define TEGRA20_VIDEO_FMT(MBUS_CODE, BPP, FOURCC)	\
--{							\
--	.code    = MEDIA_BUS_FMT_##MBUS_CODE,		\
--	.bpp     = BPP,					\
--	.fourcc  = V4L2_PIX_FMT_##FOURCC,		\
-+#define TEGRA20_VIDEO_FMT(DATA_TYPE, BIT_WIDTH, MBUS_CODE, BPP, FOURCC)	\
-+{									\
-+	.img_dt		= TEGRA_IMAGE_DT_##DATA_TYPE,			\
-+	.bit_width	= BIT_WIDTH,					\
-+	.code		= MEDIA_BUS_FMT_##MBUS_CODE,			\
-+	.bpp		= BPP,						\
-+	.fourcc		= V4L2_PIX_FMT_##FOURCC,			\
- }
- 
- static const struct tegra_video_format tegra20_video_formats[] = {
--	TEGRA20_VIDEO_FMT(UYVY8_2X8, 2, UYVY),
--	TEGRA20_VIDEO_FMT(VYUY8_2X8, 2, VYUY),
--	TEGRA20_VIDEO_FMT(YUYV8_2X8, 2, YUYV),
--	TEGRA20_VIDEO_FMT(YVYU8_2X8, 2, YVYU),
--	TEGRA20_VIDEO_FMT(UYVY8_2X8, 1, YUV420),
--	TEGRA20_VIDEO_FMT(UYVY8_2X8, 1, YVU420),
-+	/* YUV422 */
-+	TEGRA20_VIDEO_FMT(YUV422_8, 16, UYVY8_2X8, 2, UYVY),
-+	TEGRA20_VIDEO_FMT(YUV422_8, 16, VYUY8_2X8, 2, VYUY),
-+	TEGRA20_VIDEO_FMT(YUV422_8, 16, YUYV8_2X8, 2, YUYV),
-+	TEGRA20_VIDEO_FMT(YUV422_8, 16, YVYU8_2X8, 2, YVYU),
-+	/* YUV420P */
-+	TEGRA20_VIDEO_FMT(YUV422_8, 16, UYVY8_2X8, 1, YUV420),
-+	TEGRA20_VIDEO_FMT(YUV422_8, 16, UYVY8_2X8, 1, YVU420),
- };
- 
- const struct tegra_vi_soc tegra20_vi_soc = {
+@@ -596,6 +596,7 @@ const struct tegra_vi_soc tegra20_vi_soc = {
+ 	.nformats = ARRAY_SIZE(tegra20_video_formats),
+ 	.default_video_format = &tegra20_video_formats[0],
+ 	.ops = &tegra20_vi_ops,
++	.hw_revision = 1,
+ 	.vi_max_channels = 2, /* TEGRA_VI_OUT_1 and TEGRA_VI_OUT_2 */
+ 	.vi_max_clk_hz = 150000000,
+ 	.has_h_v_flip = true,
 -- 
 2.48.1
 
