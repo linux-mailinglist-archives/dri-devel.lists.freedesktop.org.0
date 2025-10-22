@@ -2,127 +2,127 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1087EBFCC5D
-	for <lists+dri-devel@lfdr.de>; Wed, 22 Oct 2025 17:07:51 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5025CBFCCBD
+	for <lists+dri-devel@lfdr.de>; Wed, 22 Oct 2025 17:13:34 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 001FE10E7E0;
-	Wed, 22 Oct 2025 15:07:47 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 925BC10E7E5;
+	Wed, 22 Oct 2025 15:13:32 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="VAMgLndq";
+	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="VesLKiOR";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
- [205.220.168.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1B0FB10E7DD
- for <dri-devel@lists.freedesktop.org>; Wed, 22 Oct 2025 15:07:47 +0000 (UTC)
-Received: from pps.filterd (m0279863.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 59M9SGQw020413
- for <dri-devel@lists.freedesktop.org>; Wed, 22 Oct 2025 15:07:46 GMT
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
+ [205.220.180.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 04F6F10E7E5
+ for <dri-devel@lists.freedesktop.org>; Wed, 22 Oct 2025 15:13:30 +0000 (UTC)
+Received: from pps.filterd (m0279872.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 59M7cMub012317
+ for <dri-devel@lists.freedesktop.org>; Wed, 22 Oct 2025 15:13:30 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
- cc:content-type:date:from:in-reply-to:message-id:mime-version
- :references:subject:to; s=qcppdkim1; bh=AizstXEr7j+qbEZcyP2bfp+P
- 4ZNYzI2uQPOCe7cb9eE=; b=VAMgLndq5aZabdDcknWnnVTZSyxEm3BZHhfkYEdy
- 8LbwqLs0IjtwkctqPa7y47YKvZo1zWhXPJW0IP6opR8rTmllLnwLMfx7UcLCvJeS
- EwQ3lRLiYfRg/yOYDCI+oUsAkmGmqdRVFZR9v57weOQvxjR9aZleUhi2aoR7JZT9
- 16/zxlyDDV0nBEgIOy5P1vUBA1TZeOlJ15dHPIsVdxyKSQX+ucwRYwRHrcv+fT7G
- e/8lpDtKqTNZ5ncYm+HQY0dkitQzRI94G9DIOnDS+r7AV2ZgN8XY0gB+tbZNXRRN
- 6to9VhqF823AB4K+14koNECPB4gi0jINzr0M29Bc8s198A==
-Received: from mail-vk1-f197.google.com (mail-vk1-f197.google.com
- [209.85.221.197])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 49v34453v2-1
+ cc:content-transfer-encoding:content-type:date:from:in-reply-to
+ :message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+ AtOPiC6l9BljB6aQ9rnOst9XuL/E0zhfUfs2IkZsLyo=; b=VesLKiORCVMrQ7GS
+ 14L63ABO0Np/2mo+V3ZHRiAAcI5h6Qo2xbbMhqTOTHZzUol66uQ+RzffZYpA7/ra
+ zAUo4MmZUiRwNnuF+JdbcWeXK/i+KJhUYfg6+mJjSF1o4vebYWuFAgFCg+zYlwpL
+ wk1L6Dd4gyCkGlPizScFg0RYu/erxPBtU/LtV/3IrsC42Djkr0BR2FWOPIEsTGtP
+ hC55ihaIUhzZmCmm0MczwdGSLUkv4BWeo+WdoXLwIp9t4siyvXmD0OfHYiSfYtsj
+ 0UxAzp1nJPotu4qrBl/CCwrF1PVaDwAIVE0b1ka+e3353q131VRCRS9TeT7ZFdmF
+ HvQ3/g==
+Received: from mail-qv1-f70.google.com (mail-qv1-f70.google.com
+ [209.85.219.70])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 49xhe0jy99-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
- for <dri-devel@lists.freedesktop.org>; Wed, 22 Oct 2025 15:07:46 +0000 (GMT)
-Received: by mail-vk1-f197.google.com with SMTP id
- 71dfb90a1353d-54a7c3c3157so3169479e0c.0
- for <dri-devel@lists.freedesktop.org>; Wed, 22 Oct 2025 08:07:46 -0700 (PDT)
+ for <dri-devel@lists.freedesktop.org>; Wed, 22 Oct 2025 15:13:29 +0000 (GMT)
+Received: by mail-qv1-f70.google.com with SMTP id
+ 6a1803df08f44-87c1d388a94so23022986d6.1
+ for <dri-devel@lists.freedesktop.org>; Wed, 22 Oct 2025 08:13:29 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1761145662; x=1761750462;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=AizstXEr7j+qbEZcyP2bfp+P4ZNYzI2uQPOCe7cb9eE=;
- b=nhFz6WraEYKebQizX+QVrFgbn65Bqz+MfF/8DkdqmBOmDE+eg/opIazwi2mFv1TIbg
- 2h6lz03Pt3I3BpphAxN49oRAOe/1Xfd0lgbw8fyTrOMnCvAZyZTo7KddccdsX3BowVjJ
- 1G4YA/p+rifRQJOmGjnaZQNgMdFlxCktKC+TLo79gchi5MXPeNaaUn8M6OWjCQvqSMrH
- xM+qudOMVu5YgsOAmRSMVXvYwLlBSQEdfsW/eqhQicrEpd5IaHTmH1s6Y8jmSPU/ESXz
- 8zdON7NuMGwppA5PnEn3CGF+/nroWbfEHOwpdcfOvwPQdyGT+qw1XoIDuZ9VwUZUiwHh
- Al7g==
+ d=1e100.net; s=20230601; t=1761146009; x=1761750809;
+ h=content-transfer-encoding:in-reply-to:from:content-language
+ :references:cc:to:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=AtOPiC6l9BljB6aQ9rnOst9XuL/E0zhfUfs2IkZsLyo=;
+ b=YnCZXvZHxAsIsTDhVoVZ2XzkQMRg5LQHvBe3XUUkmppWxOzHFFIT2HtzGzTCj9MQ/V
+ U/wqE7f0tQC+sKJk6aCpXf/oADRNw0VaZWO9KhR0MiMj8jZuNUDXIMM2C/n9n5AHqRYX
+ M+IEFunqU/A/x+bb0x9ekXs9+waOeSD634i57c3pz4iedh1fpsplFheUzdvr9LFecZGe
+ yL1emjvikw2qPixiwa6M+OvlkIqtcHoTUtHdT9gaTmpAVomLcvTrn4e2pXpJx7ma4Z99
+ Xx4A50KIbFTVi5IYyNpvrBwlpg1MEYv/Hb4fQiqw4c4RqTi2lGDk++v9vn4C8VzMjgvQ
+ yLIw==
 X-Forwarded-Encrypted: i=1;
- AJvYcCWgcTq1JkdZTOv7X7QlGFrQQsaSdP7fVVSXoLOIeia8FoeDWUElia3xtWgRXqgCSwHW51WwW0k3j1g=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YwiGupU33XfscREmJkbY/UFkQnXP9MxyXMqlIrV0EirbJLI7dIx
- XV2vrTFS8FG6upSAOc+ETAFCwvOdJhR8JYhGG7y6ZcsANGSbYDqNu7oqzPBnxv5XwxvBuIt0Eom
- EYTFnrRxBwowDci0Kw6TA9azwZGtuKWEg3pewoCt5LFegyUqJ8Y9mcmGGI7/bU2rEKsJ/7bg=
-X-Gm-Gg: ASbGncsePs74iS3YN3fTsJsn+ChqlYX38QP7zJ20PclY1JdqKwjCqShRFSlR0FnAl88
- qp92rhpvkzAiEOPMoQOOJUNuU3sPI8fN6szljijcgf8rkN/evp3IN/CA5rSnCHdvbDHZwMA8BeU
- OuyGHIskxYyaWIdm7d5wBUW7Ds+pE9h5I+hYQ1JddRAvUphrdzZ6IM9xKVqRKf6TKDTV1lcNF6B
- EyZPFGJKq2S3TjaV5igC7YeKqfmCQTtuB+KFHHsF8FbYQxJhh0RvIE5WLamo2FMvh13hWomit3b
- sbvypx4jOdlnXJPWoBeqJxcsSuXoJnNMB9lDCWccozpB4SEeWU21NnHKZiPAZJ5jdoKy+MXBrZG
- LhDOhRLi/bcDUCcwhev2yHmsoDqcSRyxTrP+QpQDlRsWJJPDoSrBWUUbx4eoapw8cI9Pjwz8inw
- HOpAmlRVdZ2T4=
-X-Received: by 2002:a05:6122:3412:b0:556:745f:6a06 with SMTP id
- 71dfb90a1353d-556745f6b89mr3111970e0c.10.1761145661938; 
- Wed, 22 Oct 2025 08:07:41 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IEFXovL3a0V22gWge+cpQKP3S8k4AeqKhy/tySq4N0wYr3JuPRxNPuz/9nahs3f/axhVrCdrQ==
-X-Received: by 2002:a05:6122:3412:b0:556:745f:6a06 with SMTP id
- 71dfb90a1353d-556745f6b89mr3111877e0c.10.1761145661262; 
- Wed, 22 Oct 2025 08:07:41 -0700 (PDT)
-Received: from umbar.lan
- (2001-14ba-a0c3-3a00-264b-feff-fe8b-be8a.rev.dnainternet.fi.
- [2001:14ba:a0c3:3a00:264b:feff:fe8b:be8a])
- by smtp.gmail.com with ESMTPSA id
- 38308e7fff4ca-377a9586b2dsm39381791fa.46.2025.10.22.08.07.38
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 22 Oct 2025 08:07:39 -0700 (PDT)
-Date: Wed, 22 Oct 2025 18:07:37 +0300
-From: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
-To: xiangxu.yin@oss.qualcomm.com
-Cc: Rob Clark <robin.clark@oss.qualcomm.com>,
+ AJvYcCWuF6v5AzJ+0oh72N3OtzOa1qrLLMBrIdd/oi5XxgmnahQqnudW3F26rNkhpjLMl7OQB/5VsYRQ+QY=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Yy8QeeqmThJNImvoS3MLSU5E7wNQErtEFCG76s2/7zhipAXReWS
+ JRoj+TpgbCej4Gy0uEdKkWq9umwc92nWDO2kB/vH5V0GRVJG0DxIK3+6bzfjwioakW/TkVpekU9
+ +26JtHiLdsDrIUNJu2jDqzPCdlF3n0MYHhVb8aOOIvknSj841L94igjyNa0nU+fgzdS90xH0=
+X-Gm-Gg: ASbGncvqC8G391PNx2eJ5jwcvXXpnycV/0rbPLK/1JWQdIexcemsVdzLkPsyeVn3TX9
+ RJaMzrjXd+eXOQKl7/NkwigSCoRgR9A/xtDHqXsdjD+eP9jT5vbAAN3cRLN7NC67Iea4OddUe6Z
+ y5yFU6yS/sfuGcosGIjrQQ2M/pnVhMMVQ5i2qTHqXl3N1P1Wec7bCnRrIiG6nLTIts1p537Q0Ax
+ v2IIy1096MmmwD3ahTAFgSvQ+K5PwFd/ICJVOPwCnfv/NqhWaE/Mt/YcumvPW7QRRmhAV8Jg6jq
+ t4bUGkvA5bHWw5y27lv8YKiETJLeK2rvZL7dZRiUT6kQx6BrjigeuX9J0T+A/H9NiOWNnTXgXxP
+ qPEbEzlCW5KiO6iynqdhXBLjTa6Jd5MpPOFEtRT0XT9peoxLDcLkgd24o
+X-Received: by 2002:a05:622a:199a:b0:4e8:a9f6:359 with SMTP id
+ d75a77b69052e-4ea1178251cmr61449911cf.10.1761146008747; 
+ Wed, 22 Oct 2025 08:13:28 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IEierfzFT+Ehux93IgCTLHvl2L0VFHL4qLUlUPHsnWhN8MQCEyk8V77qdJ6+vl24wozTMkFJw==
+X-Received: by 2002:a05:622a:199a:b0:4e8:a9f6:359 with SMTP id
+ d75a77b69052e-4ea1178251cmr61449171cf.10.1761146008174; 
+ Wed, 22 Oct 2025 08:13:28 -0700 (PDT)
+Received: from [192.168.119.202] (078088045245.garwolin.vectranet.pl.
+ [78.88.45.245]) by smtp.gmail.com with ESMTPSA id
+ a640c23a62f3a-b65eb036846sm1378295966b.54.2025.10.22.08.13.24
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 22 Oct 2025 08:13:27 -0700 (PDT)
+Message-ID: <44ff81bf-8970-475c-a4f5-c03220bc8c3f@oss.qualcomm.com>
+Date: Wed, 22 Oct 2025 17:13:24 +0200
+MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 1/6] drm/msm/a6xx: Add support for Adreno 612
+To: Akhil P Oommen <akhilpo@oss.qualcomm.com>,
+ Rob Clark <robin.clark@oss.qualcomm.com>, Sean Paul <sean@poorly.run>,
+ Konrad Dybcio <konradybcio@kernel.org>,
  Dmitry Baryshkov <lumag@kernel.org>,
  Abhinav Kumar <abhinav.kumar@linux.dev>,
- Jessica Zhang <jesszhan0024@gmail.com>, Sean Paul <sean@poorly.run>,
+ Jessica Zhang <jessica.zhang@oss.qualcomm.com>,
  Marijn Suijten <marijn.suijten@somainline.org>,
  David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
  Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
  Maxime Ripard <mripard@kernel.org>,
  Thomas Zimmermann <tzimmermann@suse.de>, Rob Herring <robh@kernel.org>,
  Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>, Bjorn Andersson <andersson@kernel.org>,
- Konrad Dybcio <konradybcio@kernel.org>, linux-arm-msm@vger.kernel.org,
- dri-devel@lists.freedesktop.org, freedreno@lists.freedesktop.org,
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
- fange.zhang@oss.qualcomm.com, yongxing.mou@oss.qualcomm.com,
- li.liu@oss.qualcomm.com
-Subject: Re: [PATCH v5 1/3] dt-bindings: display/msm: Add SM6150 DisplayPort
- controller
-Message-ID: <fh7daiy5p5taaz7ifymbivfktjqngs5oashhd3osrtzspsac2z@nswaeyh3kkhi>
-References: <20251021-add-displayport-support-to-qcs615-devicetree-v5-0-92f0f3bf469f@oss.qualcomm.com>
- <20251021-add-displayport-support-to-qcs615-devicetree-v5-1-92f0f3bf469f@oss.qualcomm.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20251021-add-displayport-support-to-qcs615-devicetree-v5-1-92f0f3bf469f@oss.qualcomm.com>
-X-Proofpoint-GUID: cehGR2Me_Mf_UOx5EBEf73dfdJI0EF5S
-X-Proofpoint-ORIG-GUID: cehGR2Me_Mf_UOx5EBEf73dfdJI0EF5S
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUxMDE4MDAyMyBTYWx0ZWRfX4dCQ1HvF54fO
- edM5IBW+ihdGDPfwTimeisU8ANrbd/Z0ITy6GszeZmwaffa2MkEJQ0thV9palwm2c/T3+ZoKp8L
- M22Pg2CjuKEy/Ir/8GqMRn7B+E4L6V4VnsUN0yfVKnExri3KHTcb6YmURvlBVQdH6/t/4qUeTlu
- ilYurL2qHLB/12qeh24bQt6yoGCWLKrYH3vPu18YyZg8z5VSxEn1kM7LkTBfC9m8zqvf6CZAo9M
- 470CbPihhzNCqRgfWuWKMt/GHrwpV2ZooTgvFAfWq2XZZExCrf1heFZCfs5GeDJZ6gfmklwbvHS
- 6fvVbKk7HmxdoMtlfWL1Eh5YRB8qaDV+x3Or5fjmhVxP5KOTCX9+0mGvFtHu9lZwPxZN29LkueC
- 0Crt2L2SZ+KxmWpCJZoiRAo02coNJw==
-X-Authority-Analysis: v=2.4 cv=E/vAZKdl c=1 sm=1 tr=0 ts=68f8f342 cx=c_pps
- a=JIY1xp/sjQ9K5JH4t62bdg==:117 a=xqWC_Br6kY4A:10 a=kj9zAlcOel0A:10
- a=x6icFKpwvdMA:10 a=VkNPw1HP01LnGYTKEx00:22 a=EUspDBNiAAAA:8
- a=I67Lji_zawwbCJgw2PAA:9 a=CjuIK1q_8ugA:10 a=tNoRWFLymzeba-QzToBc:22
+ Conor Dooley <conor+dt@kernel.org>, Bjorn Andersson <andersson@kernel.org>
+Cc: linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ freedreno@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ devicetree@vger.kernel.org, Jie Zhang <quic_jiezh@quicinc.com>
+References: <20251017-qcs615-spin-2-v1-0-0baa44f80905@oss.qualcomm.com>
+ <20251017-qcs615-spin-2-v1-1-0baa44f80905@oss.qualcomm.com>
+Content-Language: en-US
+From: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
+In-Reply-To: <20251017-qcs615-spin-2-v1-1-0baa44f80905@oss.qualcomm.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUxMDIxMDE2NyBTYWx0ZWRfX/vKYCMn09W8S
+ QcI1bhmpCFHWW4xQEnv+Dh2XyQmkoAQ4IUEO5GEJUuUWREaseEex+oi6WycXT6ajqm1wp+PYvMN
+ x1Rkza0KUYkFUq1G6V4ENT7iYgXR3PlWYNlPdku0pIXa9LziAITwuPjuvdTklyi+D+90iqjC+d/
+ RKsLhG0AhVK3Igc/X3ht1kui5Ad8M3q6BuKn2xSeHI1Rr4DcZoQRWr3rFKej8ZPiS0PC01X40O/
+ 2gi9oCZPAJUppHI2akNMQp/OZx71Ru+JzznT2wTsupqyV25AinzY7B0q+OrTrk+9je40vYgdaDJ
+ b648SiT9i7nJoghD4ZBEvZTdJmsgQNkIBJiEvnmjE5nDkSBXEHbUs6h2cmfR/U87MwRG0wfhh4x
+ yBdJ/uN+M7jLbBuneQsH/p0KTcIuqg==
+X-Proofpoint-ORIG-GUID: E2NUVr_vXDtBbEX6fTdQqUWh_jEUasiJ
+X-Authority-Analysis: v=2.4 cv=WYUBqkhX c=1 sm=1 tr=0 ts=68f8f499 cx=c_pps
+ a=oc9J++0uMp73DTRD5QyR2A==:117 a=FpWmc02/iXfjRdCD7H54yg==:17
+ a=IkcTkHD0fZMA:10 a=x6icFKpwvdMA:10 a=VkNPw1HP01LnGYTKEx00:22
+ a=COk6AnOGAAAA:8 a=EUspDBNiAAAA:8 a=NFg73xRieO-LzbxsZPIA:9 a=QEXdDO2ut3YA:10
+ a=iYH6xdkBrDN1Jqds4HTS:22 a=TjNXssC_j7lpFel5tvFf:22
+X-Proofpoint-GUID: E2NUVr_vXDtBbEX6fTdQqUWh_jEUasiJ
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.9,FMLib:17.12.80.40
  definitions=2025-10-22_06,2025-10-13_01,2025-03-28_01
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- impostorscore=0 spamscore=0 priorityscore=1501 bulkscore=0 suspectscore=0
- lowpriorityscore=0 clxscore=1015 adultscore=0 phishscore=0 malwarescore=0
- classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.19.0-2510020000 definitions=main-2510180023
+ suspectscore=0 adultscore=0 bulkscore=0 impostorscore=0 spamscore=0
+ priorityscore=1501 clxscore=1015 malwarescore=0 lowpriorityscore=0
+ phishscore=0 classifier=typeunknown authscore=0 authtc= authcc=
+ route=outbound adjust=0 reason=mlx scancount=1 engine=8.19.0-2510020000
+ definitions=main-2510210167
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -138,67 +138,119 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Oct 21, 2025 at 11:18:07AM +0800, Xiangxu Yin via B4 Relay wrote:
-> From: Xiangxu Yin <xiangxu.yin@oss.qualcomm.com>
+On 10/17/25 7:08 PM, Akhil P Oommen wrote:
+> From: Jie Zhang <quic_jiezh@quicinc.com>
 > 
-> SM6150 uses the same DisplayPort controller as SM8150, which is already
-> compatible with SM8350. Add the SM6150-specific compatible string and
-> update the binding example accordingly.
+> Add support for Adreno 612 GPU found in SM6150/QCS615 chipsets.
+> A612 falls under ADRENO_6XX_GEN1 family and is a cut down version
+> of A615 GPU.
 > 
-> Signed-off-by: Xiangxu Yin <xiangxu.yin@oss.qualcomm.com>
+> A612 has a new IP called Reduced Graphics Management Unit or RGMU
+> which is a small state machine which helps to toggle GX GDSC
+> (connected to CX rail) to implement IFPC feature. It doesn't support
+> any other features of a full fledged GMU like clock control, resource
+> voting to rpmh etc. So we need linux clock driver support like other
+> gmu-wrapper implementations to control gpu core clock and gpu GX gdsc.
+> This patch skips RGMU core initialization and act more like a
+> gmu-wrapper case.
+> 
+> Co-developed-by: Akhil P Oommen <akhilpo@oss.qualcomm.com>
+> Signed-off-by: Jie Zhang <quic_jiezh@quicinc.com>
+> Signed-off-by: Akhil P Oommen <akhilpo@oss.qualcomm.com>
 > ---
->  .../devicetree/bindings/display/msm/qcom,sm6150-mdss.yaml   | 13 ++++++++++++-
->  1 file changed, 12 insertions(+), 1 deletion(-)
-> 
-> diff --git a/Documentation/devicetree/bindings/display/msm/qcom,sm6150-mdss.yaml b/Documentation/devicetree/bindings/display/msm/qcom,sm6150-mdss.yaml
-> index 9ac24f99d3ada1c197c9654dc9babebccae972ed..89852af70de97a9025079107b838de578778c049 100644
-> --- a/Documentation/devicetree/bindings/display/msm/qcom,sm6150-mdss.yaml
-> +++ b/Documentation/devicetree/bindings/display/msm/qcom,sm6150-mdss.yaml
-> @@ -51,6 +51,16 @@ patternProperties:
->        compatible:
->          const: qcom,sm6150-dpu
+
+[...]
+
+> @@ -350,12 +350,18 @@ static const struct a6xx_gmu_oob_bits a6xx_gmu_oob_bits[] = {
+>  /* Trigger a OOB (out of band) request to the GMU */
+>  int a6xx_gmu_set_oob(struct a6xx_gmu *gmu, enum a6xx_gmu_oob_state state)
+>  {
+> +	struct a6xx_gpu *a6xx_gpu = container_of(gmu, struct a6xx_gpu, gmu);
+> +	struct adreno_gpu *adreno_gpu = &a6xx_gpu->base;
+>  	int ret;
+>  	u32 val;
+>  	int request, ack;
 >  
-> +  "^displayport-controller@[0-9a-f]+$":
-> +    type: object
-> +    additionalProperties: true
-> +    properties:
-> +      compatible:
-> +        items:
-> +          - const: qcom,sm6150-dp
-> +          - const: qcom,sm8150-dp
-> +          - const: qcom,sm8350-dp
+>  	WARN_ON_ONCE(!mutex_is_locked(&gmu->lock));
+>  
+> +	/* Skip OOB calls since RGMU is not enabled */
+
+"RGMU doesn't handle OOB calls"
+
+[...]
+
+> +int a6xx_rgmu_init(struct a6xx_gpu *a6xx_gpu, struct device_node *node)
+> +{
+> +	struct platform_device *pdev = of_find_device_by_node(node);
+> +	struct a6xx_gmu *gmu = &a6xx_gpu->gmu;
+> +	int ret;
 > +
->    "^dsi@[0-9a-f]+$":
->      type: object
->      additionalProperties: true
-> @@ -132,13 +142,14 @@ examples:
->                  port@0 {
->                    reg = <0>;
->                    dpu_intf0_out: endpoint {
-> +                    remote-endpoint = <&mdss_dp0_in>;
+> +	if (!pdev)
+> +		return -ENODEV;
+> +
+> +	gmu->dev = &pdev->dev;
+> +
+> +	ret = of_dma_configure(gmu->dev, node, true);
+> +	if (ret)
+> +		return ret;
+> +
+> +	pm_runtime_enable(gmu->dev);
+> +
+> +	/* Mark legacy for manual SPTPRAC control */
+> +	gmu->legacy = true;
+> +
+> +	/* RGMU requires clocks */
+> +	ret = devm_clk_bulk_get_all(gmu->dev, &gmu->clocks);
+> +	if (ret < 1)
+> +		return ret;
 
-Why?
+Simply add this clock detail to a6xx_gmu_wrapper_init and use _optional
 
->                    };
->                  };
->  
->                  port@1 {
->                    reg = <1>;
->                    dpu_intf1_out: endpoint {
-> -                      remote-endpoint = <&mdss_dsi0_in>;
-> +                    remote-endpoint = <&mdss_dsi0_in>;
+[...]
 
-Why?
+>  	/* Enable fault detection */
+>  	if (adreno_is_a730(adreno_gpu) ||
+> -	    adreno_is_a740_family(adreno_gpu))
+> +	    adreno_is_a740_family(adreno_gpu) || adreno_is_a612(adreno_gpu))
 
->                    };
->                  };
->              };
-> 
-> -- 
-> 2.34.1
-> 
-> 
+Sorting this would be neat
 
--- 
-With best wishes
-Dmitry
+[...]
+
+> +static int a6xx_rgmu_pm_resume(struct msm_gpu *gpu)
+> +{
+> +	struct adreno_gpu *adreno_gpu = to_adreno_gpu(gpu);
+> +	struct a6xx_gpu *a6xx_gpu = to_a6xx_gpu(adreno_gpu);
+> +	struct a6xx_gmu *gmu = &a6xx_gpu->gmu;
+> +	unsigned long freq = gpu->fast_rate;
+> +	struct dev_pm_opp *opp;
+> +	int ret;
+> +
+> +	gpu->needs_hw_init = true;
+> +
+> +	trace_msm_gpu_resume(0);
+> +
+> +	opp = dev_pm_opp_find_freq_ceil(&gpu->pdev->dev, &freq);
+> +	if (IS_ERR(opp))
+> +		return PTR_ERR(opp);
+> +
+> +	dev_pm_opp_put(opp);
+> +
+> +	/* Set the core clock and bus bw, having VDD scaling in mind */
+> +	dev_pm_opp_set_opp(&gpu->pdev->dev, opp);
+> +
+> +	pm_runtime_resume_and_get(gmu->dev);
+> +	pm_runtime_resume_and_get(gmu->gxpd);
+> +
+> +	ret = clk_bulk_prepare_enable(gmu->nr_clocks, gmu->clocks);
+> +	if (ret)
+> +		goto err_rpm_put;
+> +
+> +	ret = clk_bulk_prepare_enable(gpu->nr_clocks, gpu->grp_clks);
+> +	if (ret)
+> +		goto err_bulk_clk;
+
+Add this as-is to a6xx_pm_resume(), nr_clocks==0 is valid, similarly
+for _suspend
+
+Konrad
