@@ -2,114 +2,114 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1BECFBFD80C
-	for <lists+dri-devel@lfdr.de>; Wed, 22 Oct 2025 19:14:42 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id E567DBFD8B8
+	for <lists+dri-devel@lfdr.de>; Wed, 22 Oct 2025 19:22:34 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 066F810E80E;
-	Wed, 22 Oct 2025 17:14:39 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E078310E816;
+	Wed, 22 Oct 2025 17:22:31 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="dcfC7PHn";
+	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="kV3uDGCk";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
  [205.220.180.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 55FF510E80E
- for <dri-devel@lists.freedesktop.org>; Wed, 22 Oct 2025 17:14:37 +0000 (UTC)
-Received: from pps.filterd (m0279873.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 59MB1evs026868
- for <dri-devel@lists.freedesktop.org>; Wed, 22 Oct 2025 17:14:36 GMT
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2B4A910E81B
+ for <dri-devel@lists.freedesktop.org>; Wed, 22 Oct 2025 17:22:30 +0000 (UTC)
+Received: from pps.filterd (m0279871.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 59MBwVWY030208
+ for <dri-devel@lists.freedesktop.org>; Wed, 22 Oct 2025 17:22:29 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
  cc:content-transfer-encoding:content-type:date:from:in-reply-to
  :message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
- 3n7GuKanrjFBNn+S6EEEj55UDKDMqVUCfv5KZTHI70M=; b=dcfC7PHnQ57SVoYy
- 5d1E8fYZT5HTzt8RzOBJJnKF8vDcrQ7Az7FqhBpcmiN9++w6o6jpWN202ZEPKQvX
- px/aEbaUC2xuV+9jl25QCCp1xq3+/xN1GxA5TkiUwsYtjadptpbvu09aLxJai31Q
- ZQJK0ijKHwRvgtrfPByQvk1ypRK/nGw7/OgUKU8Hv24IdZiRO8HCfUdG+96tgS1w
- 1YGptPzr5X/OWZz7iejg0kiLzIJky5sx2KV5XC1iEPybkjJhJn6Nq5iy0z2Z7X8x
- 3wHfMo7DU6VicCs8kndTmKr9Daanju4X+P20sD47KoszzHnP3wTKDP6tOaT/7R43
- KwJ+gA==
-Received: from mail-qt1-f197.google.com (mail-qt1-f197.google.com
- [209.85.160.197])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 49v08pnqq9-1
+ voTjpZJScGbpaAh+LIIeJcD5hnR/2l86hSL4gjLUr2g=; b=kV3uDGCkQlEzVfmH
+ GHqRMCkeEJVe48Gsl4gm5a1eqh8ZBJRui9LL9BcSW2lMBA842rD9iaXdrX4C8kd4
+ J/HXdmG9BK+VWdUWOF+F8c+0CjPKHBMzN8oOZ8/CIreJ/NSwQZGX3ia3gROyB+gy
+ W6M2HS+AYRvsDrCxsbLq+YeYoHUNSFI7HfwDAv7Bl4s3L9j9FagqTmr7xWDD4mJc
+ JW1ZpehARakuTi15YMcQC8RxiXMV7LyTOeO8TnVKONImo5el6B2r9iAXblNp2twH
+ xKGa7WWyjifvzIQjsFhGHCb3MXSQlVSkF9mtRWhlH3aLbwxRyhrYnhy1miW0xcO2
+ Y2DZ3g==
+Received: from mail-pg1-f200.google.com (mail-pg1-f200.google.com
+ [209.85.215.200])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 49v2ge5g5r-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
- for <dri-devel@lists.freedesktop.org>; Wed, 22 Oct 2025 17:14:36 +0000 (GMT)
-Received: by mail-qt1-f197.google.com with SMTP id
- d75a77b69052e-4e8b86d977fso4827191cf.1
- for <dri-devel@lists.freedesktop.org>; Wed, 22 Oct 2025 10:14:36 -0700 (PDT)
+ for <dri-devel@lists.freedesktop.org>; Wed, 22 Oct 2025 17:22:29 +0000 (GMT)
+Received: by mail-pg1-f200.google.com with SMTP id
+ 41be03b00d2f7-b5529da7771so4268490a12.0
+ for <dri-devel@lists.freedesktop.org>; Wed, 22 Oct 2025 10:22:29 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1761153275; x=1761758075;
- h=content-transfer-encoding:in-reply-to:from:content-language
+ d=1e100.net; s=20230601; t=1761153748; x=1761758548;
+ h=content-transfer-encoding:in-reply-to:content-language:from
  :references:cc:to:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=3n7GuKanrjFBNn+S6EEEj55UDKDMqVUCfv5KZTHI70M=;
- b=sgy3K+f5CZNiW/JJ+o5oHF2jFBHxzWHdy9ePLZYWYCTjHNQLmvjKrz82gxTVTEcVwl
- /FqNVLBz9lErbY8VU2Oyk5kxRBErBRZmkdVuJ2XJKq0PV50E+u2vM05luZwd9bq2MFs1
- p0LNqgFlcT677cyUZGGDQv+Nk4t5rTzknSHKyq2va7HZRa++62kIafXW3Quq87I/+tWa
- udGbdhMbHRAJKlKdVRIL+qY1RPkeCMxv9pOxUfBEBdUIJCFscDan4xdH8e2pBGeJaRKp
- IH67NXFTvt6IuG5Y1anBAM8cLOlP73eAdWuZlFK9kJe1KAC0SjpjVbZczUhNNyDglVoL
- RwiA==
+ bh=voTjpZJScGbpaAh+LIIeJcD5hnR/2l86hSL4gjLUr2g=;
+ b=oPcAsBA5pGABcwumXUKXm+ztNJazYoPinnb+BzVjmcjg5QD/953fT3wUFYWIwJc4Ew
+ IftItSF6eNo0T0WY342aNmoyiDVACmvK6qbcNBEut0jBlhsSdCQo/lQOdQfc8o49zW+6
+ vfMZG7RFuUlu0vzO3cbQv3hQHTrjPcovzzNNxP/wzP9VX0X/R7crTU4NU0iyJpNZPtn5
+ ZxdP4x86IrYRNa33z5qt+Umme8IsvVttQ3hFjIfivwoGuA3GO8VD27X6M72OUSN/TemC
+ /EfqUnf6BNUQq+oxsL57xPX7UGf54slOC4WDKAf/gutZ5SPGir0/sXNSb7XGfvw4+6IL
+ z0zA==
 X-Forwarded-Encrypted: i=1;
- AJvYcCXpCHdJqdi67yzO7j1eJd0J+z7t+136ekFiJBelCdfRGpPzg533+hpMQDq70oAa2KxEJ3XsQ3s9cvw=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Yy9CaVIocfk8W4trAkDxgbFmDtS8MM5s4Rs5IH7ZVIos4/B44du
- r+9snz7QwNzY55vOKKvI/9JN8RXIRh4Oh81ETAVleh6LfXkuDDutLdFkrCwh5sKbjsPNdmL5Clb
- XKHfTEol75rwwvMZNAEa3P009X+PKeox4fTWEF2HRuNK7hYn97kc9BvW91QbhZIGq2SSsfGg=
-X-Gm-Gg: ASbGncvwymp/8LKiBR4JdMiOC1dz2XDicvD9PQkgWgt5vqdNwb21lnaL07dZQ0/L18E
- FbqRpx1YPvHWroCsKm8I+9GQ02XFiUbpNr+xbZPcyN4FS0OLhuYG2m1iFCOuR+EKYpMGeGkCkrA
- MIiYG8b10+feDFyZ8NUygRgE1ag3S/NT9cs89Q0wAZowFd9k0IvspQbJ7zMBbgPgSTosy2B2uGW
- TMp4f8OU/WtGcjGB3TuOzEhR/O8Qz9GK4mqcGXnYKTtyNgYIUURG0VEhjViFuNVxs8xm8Hyneu8
- Uksa0h67zsox9LHzOJrXX1dopYuMBUh6Qz2hka01I8gAqQwTnWAhZgN8p6YmwayGF2Ks7Zzs/cm
- I3+NEWgRI9pAhYoIHmyrES9BJMlpqOuhApZL9Zwg6QZGHD9r3APMw91Gr
-X-Received: by 2002:a05:622a:1492:b0:4b7:94af:2998 with SMTP id
- d75a77b69052e-4e89d2cb636mr181110621cf.6.1761153275299; 
- Wed, 22 Oct 2025 10:14:35 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IElUs2ccLws+09dJCicur/nb+FwFaszJn1D/TePDNT/7C+eYSqLSDOVvQDTj/XCFdnCKCnLTw==
-X-Received: by 2002:a05:622a:1492:b0:4b7:94af:2998 with SMTP id
- d75a77b69052e-4e89d2cb636mr181110211cf.6.1761153274818; 
- Wed, 22 Oct 2025 10:14:34 -0700 (PDT)
-Received: from [192.168.119.202] (078088045245.garwolin.vectranet.pl.
- [78.88.45.245]) by smtp.gmail.com with ESMTPSA id
- a640c23a62f3a-b65eb0365e1sm1394344166b.48.2025.10.22.10.14.33
+ AJvYcCXzpJ+reO3LZ4gJQ647Ierl8Ui448tbGHY7rnVRlUBLTH3iAcg1PDgjsE/xl0hvsqprW9/WYkTiGbQ=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YyeJHSOdO9QzsOEYuJw8oHLBFICiI6F4+adx4MM29klfUuIvGKO
+ a54cgXJ/HliE7gbbAgNqcg3E7++ZWR34hdN12GQhOiLruUmw+Igao41ZcqB8vNXz74v+ygTcmzz
+ /4V0tGMogywovv2+z1S+tby5O0OT4I8/UBUkvOq5TwgFwiyGrqPCclHVlYFRjxjUV2FljtSM=
+X-Gm-Gg: ASbGnctcTDGAe23CsSsrJb9xNr0qgf/RBE2i8EWSmOyHmUVTksew9WgRyKMNJswYcwJ
+ 4jzYeMUK1sz7ONuYVlqBPUFALcII3EWAE5el/g3O9szZkt056XH2srRl9Sw5Uc1W9zL0pdxgpBP
+ jLXpPCmPhEVgviuOCqxpydAyE17tqpq84wLXlgECR+fHIYnnVxg/xG23U6MAyd84cIe6LqC4/ky
+ /xG8rnle7YH/glPdDyfVxUWM3BvYiiidlKSF1w4BZ70OZvHAks5DO+9XJlXH1h1UAMUDupnJTIA
+ 7kBmS+niP5TkyenV5IoUU/Gm6n+mRjiNkG22wa7DJqFRyiyIZHlhgldeZB2gks/HR3pjoCeNYT2
+ YfGwxYkZtgQKr223mObhYOtcyAKv9IDkIh21JhxAXDS55drB5+ZcyFx9bTIJRGA==
+X-Received: by 2002:a17:902:d586:b0:269:8072:5be7 with SMTP id
+ d9443c01a7336-290cba419dfmr259563965ad.56.1761153748014; 
+ Wed, 22 Oct 2025 10:22:28 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IEUtnk/zARI/NFYLbVHaAKvyVscRFUT3H0jNKPi1KTDyIE2ZTjtsueDNfbPwZeS9DXYSJYTjQ==
+X-Received: by 2002:a17:902:d586:b0:269:8072:5be7 with SMTP id
+ d9443c01a7336-290cba419dfmr259563565ad.56.1761153747516; 
+ Wed, 22 Oct 2025 10:22:27 -0700 (PDT)
+Received: from [192.168.0.43] (ip68-107-70-201.sd.sd.cox.net. [68.107.70.201])
+ by smtp.gmail.com with ESMTPSA id
+ d9443c01a7336-292ffe67d03sm31383415ad.86.2025.10.22.10.22.26
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 22 Oct 2025 10:14:34 -0700 (PDT)
-Message-ID: <280f1e92-36a1-450b-b6df-b36c3aed3c1c@oss.qualcomm.com>
-Date: Wed, 22 Oct 2025 19:14:32 +0200
+ Wed, 22 Oct 2025 10:22:27 -0700 (PDT)
+Message-ID: <fd95a733-98c5-43d3-afd1-7052be02bcf4@oss.qualcomm.com>
+Date: Wed, 22 Oct 2025 10:22:25 -0700
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2] backlight: qcom-wled: fix unbalanced ovp irq enable
-To: foss@joelselvaraj.com, Lee Jones <lee@kernel.org>,
- Daniel Thompson <danielt@kernel.org>,
- Jingoo Han <jingoohan1@gmail.com>, Helge Deller <deller@gmx.de>
-Cc: linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org,
- linux-fbdev@vger.kernel.org, linux-kernel@vger.kernel.org
-References: <20251021-qcom-wled-fix-unbalanced-ovp-irq-enable-v2-1-7ff115b4ffe7@joelselvaraj.com>
+Subject: Re: [PATCH] accel/qaic: Fix comment
+To: Youssef Samir <youssef.abdulrahman@oss.qualcomm.com>,
+ jeff.hugo@oss.qualcomm.com, troy.hanson@oss.qualcomm.com,
+ zachary.mckevitt@oss.qualcomm.com
+Cc: ogabbay@kernel.org, lizhi.hou@amd.com, karol.wachowski@linux.intel.com,
+ linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org
+References: <20251022124107.3712466-1-youssef.abdulrahman@oss.qualcomm.com>
+From: Carl Vanderlip <carl.vanderlip@oss.qualcomm.com>
 Content-Language: en-US
-From: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
-In-Reply-To: <20251021-qcom-wled-fix-unbalanced-ovp-irq-enable-v2-1-7ff115b4ffe7@joelselvaraj.com>
+In-Reply-To: <20251022124107.3712466-1-youssef.abdulrahman@oss.qualcomm.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUxMDE4MDAwMCBTYWx0ZWRfX5oxLMxyaTIb6
- 5J2nnHgCOikbBx7lIQ/h7VeWNJC7n2+KvJRQ8dVIWGNgpeMB8GtoiDMo0KDLqtVKuQ6RVzq0gmg
- +phStCP6747mcV2JLncO7myMVUkz/4Jraf4aZWwYvHun98Bz9OCxwU38xo8bfVNHzuHUa6yirVY
- QPNLpf87SJzHrIDS29MKlVMfU2qTniP+P9646Vg93rmGn324+2ECh0S8lB4M6ifv7d+Jlsi/JaC
- udC7pMAFMQA466v/cRGdPwRSKwE7LuuU4IRVJTwnIK1qtGNdx6DG98iaj3S6OyzgVnqeyvyq4Oe
- lfBx55OOmtwSSx4HaTpCe5JE4sjoyHQbkDi636JXsEl5giwIdJ5JdmibylPjNQj2bSmySUBPFHQ
- KP/twNv7bQu/wMUwd2lo3ZvLKzbojg==
-X-Proofpoint-GUID: uVKGu4bnISZ_UJc5lpQLUy0IZVRPMSjv
-X-Authority-Analysis: v=2.4 cv=Up1u9uwB c=1 sm=1 tr=0 ts=68f910fc cx=c_pps
- a=EVbN6Ke/fEF3bsl7X48z0g==:117 a=FpWmc02/iXfjRdCD7H54yg==:17
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUxMDE4MDAyMCBTYWx0ZWRfX3NR3r+mOi49x
+ f8rFrvwd/9si/Jxm/tJvJ1IW7F2nGBqbEeYKc0wMMGn6toVUXWJxAHD8Tx1bc1NkhpDquQTbyQq
+ QOXnj8Vju7ctRIuCx2iBSF9HMp0mZLtrwZjROtK70iUtTLOvbyCn0z75WcefNhCxbarfu51T1Po
+ G+TKpnmO3I2efKnI35eQFiheUS6UPinM6NtdM2hLCcRJZyKrDg7dAn0AOQktwgv5Owbz4K+eLlC
+ h2lfPW2wMPAJE8aPw+qRW16UzpuUM7ZGEe4Vr6exPsqVEO5WWqlwj+CgsabW2knra83g+i1ZTGv
+ z1x6g6jg2xdC5EZKCK3uMAiJykj6KLDOZA9g2TEjl/r7tq6bin3SScUI3uqe+sSCsXZJQHZumNM
+ Tuv4Z2rA0VngHiPcajqwGkE0kj5IeQ==
+X-Authority-Analysis: v=2.4 cv=KqFAGGWN c=1 sm=1 tr=0 ts=68f912d5 cx=c_pps
+ a=oF/VQ+ItUULfLr/lQ2/icg==:117 a=5tLIbcgRqjftBxpLK6l6Jw==:17
  a=IkcTkHD0fZMA:10 a=x6icFKpwvdMA:10 a=VkNPw1HP01LnGYTKEx00:22
- a=WFa1dZBpAAAA:8 a=pW9aVPEJbd2O5lHr0_EA:9 a=QEXdDO2ut3YA:10
- a=a_PwQJl-kcHnX1M80qC6:22 a=MZguhEFr_PtxzKXayD1K:22
-X-Proofpoint-ORIG-GUID: uVKGu4bnISZ_UJc5lpQLUy0IZVRPMSjv
+ a=EUspDBNiAAAA:8 a=sS_EF5oJ7B5xURoN_h4A:9 a=QEXdDO2ut3YA:10
+ a=3WC7DwWrALyhR5TkjVHa:22
+X-Proofpoint-GUID: Qnf6cotXQktMzYTV-uJSPL3Sk5hbithb
+X-Proofpoint-ORIG-GUID: Qnf6cotXQktMzYTV-uJSPL3Sk5hbithb
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.9,FMLib:17.12.80.40
  definitions=2025-10-22_07,2025-10-22_01,2025-03-28_01
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- lowpriorityscore=0 adultscore=0 suspectscore=0 malwarescore=0 clxscore=1015
- impostorscore=0 bulkscore=0 priorityscore=1501 spamscore=0 phishscore=0
+ bulkscore=0 clxscore=1015 phishscore=0 malwarescore=0 impostorscore=0
+ lowpriorityscore=0 adultscore=0 priorityscore=1501 spamscore=0 suspectscore=0
  classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.19.0-2510020000 definitions=main-2510180000
+ reason=mlx scancount=1 engine=8.19.0-2510020000 definitions=main-2510180020
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -125,43 +125,15 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 10/21/25 8:53 PM, Joel Selvaraj via B4 Relay wrote:
-> From: Joel Selvaraj <foss@joelselvaraj.com>
+
+On 10/22/2025 5:41 AM, Youssef Samir wrote:
+> From: Aswin Venkatesan <aswivenk@qti.qualcomm.com>
 > 
-> In Xiaomi Poco F1 and at least few other devices, the qcom wled driver
-> triggers unbalanced ovp irq enable warning like the following during
-> boot up.
+> Replace the word "Qranium" with "qaic" in the function parameter description.
 > 
-> [    1.151677] ------------[ cut here ]------------
-> [    1.151680] Unbalanced enable for IRQ 176
-> [    1.151693] WARNING: CPU: 0 PID: 160 at kernel/irq/manage.c:774 __enable_irq+0x50/0x80
-> [    1.151710] Modules linked in:
-> [    1.151717] CPU: 0 PID: 160 Comm: kworker/0:11 Not tainted 5.17.0-sdm845 #4
-> [    1.151724] Hardware name: Xiaomi Pocophone F1 (DT)
-> [    1.151728] Workqueue: events wled_ovp_work
-> ...<snip>...
-> [    1.151833] Call trace:
-> [    1.151836]  __enable_irq+0x50/0x80
-> [    1.151841]  enable_irq+0x48/0xa0
-> [    1.151846]  wled_ovp_work+0x18/0x24
-> [    1.151850]  process_one_work+0x1d0/0x350
-> [    1.151858]  worker_thread+0x13c/0x460
-> [    1.151862]  kthread+0x110/0x114
-> [    1.151868]  ret_from_fork+0x10/0x20
-> [    1.151876] ---[ end trace 0000000000000000 ]---
-> 
-> Fix it by storing and checking the state of ovp irq before enabling and
-> disabling it.
-> 
-> Signed-off-by: Joel Selvaraj <foss@joelselvaraj.com>
+> Signed-off-by: Aswin Venkatesan <aswivenk@qti.qualcomm.com>
+> Signed-off-by: Youssef Samir <youssef.abdulrahman@oss.qualcomm.com>
 > ---
-> I was able to debug the issue a little further. This happens mainly because
-> devm_request_threaded_irq already enables the ovp irq during probe. Then ovp
-> work gets scheduled when update_status happens and in turn enables the irq again.
-> Tracking the status makes it easy to avoid the double irq enable. But I am
-> open to try a different approach if there is any suggestion.
 
-Would reverting this change and adding (| IRQF_NO_AUTOEN) to that call
-fix it?
 
-Konrad
+Reviewed-by: Carl Vanderlip <carl.vanderlip@oss.qualcomm.com>
