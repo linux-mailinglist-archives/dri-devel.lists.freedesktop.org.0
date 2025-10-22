@@ -2,42 +2,43 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D3DFBBFB7FA
-	for <lists+dri-devel@lfdr.de>; Wed, 22 Oct 2025 12:59:35 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 38EB3BFB84B
+	for <lists+dri-devel@lfdr.de>; Wed, 22 Oct 2025 13:02:50 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 83A7710E74C;
-	Wed, 22 Oct 2025 10:59:19 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4FA6D10E088;
+	Wed, 22 Oct 2025 11:02:47 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from foss.arm.com (foss.arm.com [217.140.110.172])
- by gabe.freedesktop.org (Postfix) with ESMTP id E316510E74C
- for <dri-devel@lists.freedesktop.org>; Wed, 22 Oct 2025 10:59:18 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTP id 374D910E088
+ for <dri-devel@lists.freedesktop.org>; Wed, 22 Oct 2025 11:02:46 +0000 (UTC)
 Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
- by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id C4E651063;
- Wed, 22 Oct 2025 03:59:10 -0700 (PDT)
-Received: from [10.57.33.187] (unknown [10.57.33.187])
- by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 1EDBA3F59E;
- Wed, 22 Oct 2025 03:59:15 -0700 (PDT)
-Message-ID: <cdb8495a-519e-469a-82e9-791094a81a52@arm.com>
-Date: Wed, 22 Oct 2025 11:59:14 +0100
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] drm/panthor: Fix race with suspend during unplug
-To: Ketil Johnsen <ketil.johnsen@arm.com>,
- Boris Brezillon <boris.brezillon@collabora.com>,
- Liviu Dudau <liviu.dudau@arm.com>,
+ by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id F30CD1C00
+ for <dri-devel@lists.freedesktop.org>; Wed, 22 Oct 2025 04:02:37 -0700 (PDT)
+Received: from e110455-lin.cambridge.arm.com (usa-sjc-imap-foss1.foss.arm.com
+ [10.121.207.14])
+ by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPA id 98B6F3F59E
+ for <dri-devel@lists.freedesktop.org>; Wed, 22 Oct 2025 04:02:45 -0700 (PDT)
+Date: Wed, 22 Oct 2025 12:02:34 +0100
+From: Liviu Dudau <liviu.dudau@arm.com>
+To: Ketil Johnsen <ketil.johnsen@arm.com>
+Cc: Boris Brezillon <boris.brezillon@collabora.com>,
+ Steven Price <steven.price@arm.com>,
  Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
  David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Heiko Stuebner <heiko@sntech.de>
-Cc: Grant Likely <grant.likely@linaro.org>, dri-devel@lists.freedesktop.org,
+ Heiko Stuebner <heiko@sntech.de>, dri-devel@lists.freedesktop.org,
  linux-kernel@vger.kernel.org
-References: <20251022103242.1083311-1-ketil.johnsen@arm.com>
-From: Steven Price <steven.price@arm.com>
-Content-Language: en-GB
-In-Reply-To: <20251022103242.1083311-1-ketil.johnsen@arm.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Subject: Re: [PATCH v2] drm/panthor: Fix UAF race between device unplug and
+ FW event processing
+Message-ID: <aPi5yi9oND0b-7g5@e110455-lin.cambridge.arm.com>
+References: <20251022103014.1082629-1-ketil.johnsen@arm.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20251022103014.1082629-1-ketil.johnsen@arm.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -53,48 +54,88 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 22/10/2025 11:32, Ketil Johnsen wrote:
-> There is a race between panthor_device_unplug() and
-> panthor_device_suspend() which can lead to IRQ handlers running on a
-> powered down GPU. This is how it can happen:
-> - unplug routine calls drm_dev_unplug()
-> - panthor_device_suspend() can now execute, and will skip a lot of
->   important work because the device is currently marked as unplugged.
-> - IRQs will remain active in this case and IRQ handlers can therefore
->   try to access a powered down GPU.
+On Wed, Oct 22, 2025 at 12:30:13PM +0200, Ketil Johnsen wrote:
+> The function panthor_fw_unplug() will free the FW memory sections.
+> The problem is that there could still be pending FW events which are yet
+> not handled at this point. process_fw_events_work() can in this case try
+> to access said freed memory.
 > 
-> The fix is simply to take the PM ref in panthor_device_unplug() a
-> little bit earlier, before drm_dev_unplug().
+> This fix introduces a destroyed state for the panthor_scheduler object,
+> and we check for this before processing FW events.
 > 
 > Signed-off-by: Ketil Johnsen <ketil.johnsen@arm.com>
-> Fixes: 5fe909cae118a ("drm/panthor: Add the device logical block")
+> Fixes: de85488138247 ("drm/panthor: Add the scheduler logical block")
 
-Reviewed-by: Steven Price <steven.price@arm.com>
+Reviewed-by: Liviu Dudau <liviu.dudau@arm.com>
+
+Best regards,
+Liviu
 
 > ---
->  drivers/gpu/drm/panthor/panthor_device.c | 4 ++--
->  1 file changed, 2 insertions(+), 2 deletions(-)
+> v2:
+> - Followed Boris's advice and handle the race purely within the
+>   scheduler block (by adding a destroyed state)
+> ---
+>  drivers/gpu/drm/panthor/panthor_sched.c | 15 ++++++++++++---
+>  1 file changed, 12 insertions(+), 3 deletions(-)
 > 
-> diff --git a/drivers/gpu/drm/panthor/panthor_device.c b/drivers/gpu/drm/panthor/panthor_device.c
-> index 81df49880bd87..962a10e00848e 100644
-> --- a/drivers/gpu/drm/panthor/panthor_device.c
-> +++ b/drivers/gpu/drm/panthor/panthor_device.c
-> @@ -83,6 +83,8 @@ void panthor_device_unplug(struct panthor_device *ptdev)
->  		return;
->  	}
->  
-> +	drm_WARN_ON(&ptdev->base, pm_runtime_get_sync(ptdev->base.dev) < 0);
+> diff --git a/drivers/gpu/drm/panthor/panthor_sched.c b/drivers/gpu/drm/panthor/panthor_sched.c
+> index 0cc9055f4ee52..4996f987b8183 100644
+> --- a/drivers/gpu/drm/panthor/panthor_sched.c
+> +++ b/drivers/gpu/drm/panthor/panthor_sched.c
+> @@ -315,6 +315,13 @@ struct panthor_scheduler {
+>  		 */
+>  		struct list_head stopped_groups;
+>  	} reset;
 > +
->  	/* Call drm_dev_unplug() so any access to HW blocks happening after
->  	 * that point get rejected.
->  	 */
-> @@ -93,8 +95,6 @@ void panthor_device_unplug(struct panthor_device *ptdev)
->  	 */
->  	mutex_unlock(&ptdev->unplug.lock);
+> +	/**
+> +	 * @destroyed: Scheduler object is (being) destroyed
+> +	 *
+> +	 * Normal scheduler operations should no longer take place.
+> +	 */
+> +	bool destroyed;
+>  };
 >  
-> -	drm_WARN_ON(&ptdev->base, pm_runtime_get_sync(ptdev->base.dev) < 0);
+>  /**
+> @@ -1765,7 +1772,10 @@ static void process_fw_events_work(struct work_struct *work)
+>  	u32 events = atomic_xchg(&sched->fw_events, 0);
+>  	struct panthor_device *ptdev = sched->ptdev;
+>  
+> -	mutex_lock(&sched->lock);
+> +	guard(mutex)(&sched->lock);
+> +
+> +	if (sched->destroyed)
+> +		return;
+>  
+>  	if (events & JOB_INT_GLOBAL_IF) {
+>  		sched_process_global_irq_locked(ptdev);
+> @@ -1778,8 +1788,6 @@ static void process_fw_events_work(struct work_struct *work)
+>  		sched_process_csg_irq_locked(ptdev, csg_id);
+>  		events &= ~BIT(csg_id);
+>  	}
 > -
->  	/* Now, try to cleanly shutdown the GPU before the device resources
->  	 * get reclaimed.
->  	 */
+> -	mutex_unlock(&sched->lock);
+>  }
+>  
+>  /**
+> @@ -3882,6 +3890,7 @@ void panthor_sched_unplug(struct panthor_device *ptdev)
+>  	cancel_delayed_work_sync(&sched->tick_work);
+>  
+>  	mutex_lock(&sched->lock);
+> +	sched->destroyed = true;
+>  	if (sched->pm.has_ref) {
+>  		pm_runtime_put(ptdev->base.dev);
+>  		sched->pm.has_ref = false;
+> -- 
+> 2.47.2
+> 
 
+-- 
+====================
+| I would like to |
+| fix the world,  |
+| but they're not |
+| giving me the   |
+ \ source code!  /
+  ---------------
+    ¯\_(ツ)_/¯
