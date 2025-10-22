@@ -2,107 +2,95 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1CC9EBFC6C2
-	for <lists+dri-devel@lfdr.de>; Wed, 22 Oct 2025 16:16:14 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 06D88BFC70D
+	for <lists+dri-devel@lfdr.de>; Wed, 22 Oct 2025 16:21:29 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BBCC710E7B1;
-	Wed, 22 Oct 2025 14:16:11 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C50E610E7B0;
+	Wed, 22 Oct 2025 14:21:25 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="d6NuJbze";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="du4kMYNZ";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
- [205.220.168.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8531310E7B0
- for <dri-devel@lists.freedesktop.org>; Wed, 22 Oct 2025 14:16:10 +0000 (UTC)
-Received: from pps.filterd (m0279864.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 59MAPJO8031255
- for <dri-devel@lists.freedesktop.org>; Wed, 22 Oct 2025 14:16:10 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
- cc:content-transfer-encoding:date:from:message-id:mime-version
- :subject:to; s=qcppdkim1; bh=zSVmBGXhp89LLakLqt63pmwsBW5eaBUwdfU
- ubrpC18w=; b=d6NuJbzeGuRwEx5D+DQ0dSfBwqu7MitpxAnOaIig2TtG1eaoXN6
- YhZW2P1WQymi9rPl/ajhMhAk6FSWpermj+WTT5GybauA/91sx6fyW/yDW9e1f1I8
- oEmEQNaKOaWCdcO+ZIn5zYLKHlA/RROsmgfqDt05n8jlo4AQNrSAN8cs5THG8L3j
- XnGcDQLjHSUI01dtVYcJg5GzchLWaXtMO6k62akzKWpHt0PoKNVntNmWLDMh39Py
- 446xVKp+yd/9mG00efBNaoD0kHW3TJKvhACaT/jPnbNg7oQm9HMHzLU5r+OxZ7eS
- 9+bi1U2hRclVX/zeDbZOIQlYf9DQ42hECSQ==
-Received: from mail-vk1-f199.google.com (mail-vk1-f199.google.com
- [209.85.221.199])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 49v42kcpup-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
- for <dri-devel@lists.freedesktop.org>; Wed, 22 Oct 2025 14:16:09 +0000 (GMT)
-Received: by mail-vk1-f199.google.com with SMTP id
- 71dfb90a1353d-556fd0bcc47so322966e0c.1
- for <dri-devel@lists.freedesktop.org>; Wed, 22 Oct 2025 07:16:09 -0700 (PDT)
+Received: from mail-wr1-f42.google.com (mail-wr1-f42.google.com
+ [209.85.221.42])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6C87E10E7B0
+ for <dri-devel@lists.freedesktop.org>; Wed, 22 Oct 2025 14:21:24 +0000 (UTC)
+Received: by mail-wr1-f42.google.com with SMTP id
+ ffacd0b85a97d-3ecde0be34eso672980f8f.1
+ for <dri-devel@lists.freedesktop.org>; Wed, 22 Oct 2025 07:21:24 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20230601; t=1761142883; x=1761747683; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=1avBMUdXWZmaUoFxmEEoaqQEQTtmqca+2N7SyFudkqM=;
+ b=du4kMYNZA/lWJ6ZIjvYbSYgZ77+5uM8+p5VJ3X5S6LyYwm9suuVftrRg4dg2ZyBIsm
+ 65qZDU+jvROs7rEMDH26WL3zPN4usGcR0DzitO7Zmalix84d+tIEFrrW4eE7+THni7DU
+ 7OeUJM6iCs/8+3e0c0owkdC4K8IAz0LIn3feOuY7hRc7P9OIMfLwagpQPs8y8sJHcnYC
+ 4huVCyavxb+kWT+NZ+OMl31ZblpqpO8017wOltZ06Q9xYG+Xyew5iG//ql5XK8Xs9V9M
+ dovdEx2aTnrMviefM8Kx826p0G+8fgB+dRPgtefPYYDp90o8PQSf6/0215fe/YFgBrVM
+ 0ZMQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1761142568; x=1761747368;
+ d=1e100.net; s=20230601; t=1761142883; x=1761747683;
  h=content-transfer-encoding:mime-version:message-id:date:subject:cc
  :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
  :reply-to;
- bh=zSVmBGXhp89LLakLqt63pmwsBW5eaBUwdfUubrpC18w=;
- b=usid3bAYCgUH3V16e9TT/sBjSSVU8bq3R6ySFwlEVE6yy95KZQb7ynW1cq9d5IcvMv
- bzBxmBx3dtcLt/+jAp9W4vJidtJeyQQJVfEWaUyaAmUZafEJIcZKtyQTa74SFmjWgufV
- bXPhp+GoszE0DWNDt9kZmdDi5QrnAsWU1is1kK8eiJyXllqLGRnCL/kAeBtvUFaXerc+
- 1BuS2tXATB9i+rbFGrskHdnZvgo2xJ5VPsTyVgEX8vcY/aHgmNW6iHbcJmhEPrar78QZ
- UFDU7LaV+gGYBpHh6MMI9wVNZWVfspjc0bhUt7gDoO1DjrbLEz0fmh6j5eLvn21RQam4
- XLTw==
-X-Forwarded-Encrypted: i=1;
- AJvYcCUiUl4cYuGqoyYYXJgM70BcbSMd/1uaoE0KkaaZP+eKik2zW4lU1Vgu8fz8PUeKxFTdmBK3SKfBqko=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YwZdBKI4Z8+30emJwuIKP87Ao4f1xX/e+BovAiKkgPtYiH8nTQv
- E8Cmp7jzJxWy/uyUlON6KTm/V2lh4LDJeMdSRfgVfxCNktr/i1D+5gQEwozrZdgAujFoENkWvL9
- C/+vT/XoHG+TAd1M7p4juH/rdRv/xYWSEU+9h9xQCwZVMAj4NjG53G0E75U7xYD7K4LKPzU8=
-X-Gm-Gg: ASbGncvjBxjpAjsNDYlBWKvJhd3TquFst+02fFm5f/e61l5wLMQUXftzU5m2XN9+IR3
- p7QIFi0aoT/WASpiD78FC2vK4mEHZbnNPqZuJ0WuUrUJAtDEi4Jpe50djqgqW/EozV/6TSsDEde
- d3pwNRuONOERZYF7DPBcqw1h5lUkAXGLAJIET+kHfNpFBlwx0uEvr25hTZAjQTtR32ecL69AUCp
- 0s4lDQTKimjyEbqs13T9Kzi+qnXGBiFiRhfN1ZIdGwhtJNTG52nj37qtebJi0HATBrNB+sFIj5u
- 9pA0cPvoI52WNNt/axVABEem7oh1D4yfXnUO2eww0eAZKCjcLTiYYNrZdYYSPV5sApKDjMPVJTK
- oRJVO2+RkZw5tZ9iCYQv9JM9yXYU1NInXBygguAU=
-X-Received: by 2002:a05:6123:e:b0:554:e726:7818 with SMTP id
- 71dfb90a1353d-556a1e67ce5mr587392e0c.2.1761142568467; 
- Wed, 22 Oct 2025 07:16:08 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IEDNbG74qQ/1QqT42r3mAqC8kCcPXgjlYDbBT6zot0YQc5vXp2D139VS2lNTvrDU3pbAJuVRQ==
-X-Received: by 2002:a05:6123:e:b0:554:e726:7818 with SMTP id
- 71dfb90a1353d-556a1e67ce5mr587323e0c.2.1761142568008; 
- Wed, 22 Oct 2025 07:16:08 -0700 (PDT)
-Received: from hu-yabdulra-ams.qualcomm.com ([212.136.9.4])
- by smtp.gmail.com with ESMTPSA id
- 4fb4d7f45d1cf-63c48ab5553sm12143412a12.16.2025.10.22.07.16.07
+ bh=1avBMUdXWZmaUoFxmEEoaqQEQTtmqca+2N7SyFudkqM=;
+ b=gEqJ42SU6RUiDCvUiM4aB1lOw6CsLC3aGynjv0uxHrKofPfu8z9EolYJ+p3QGIjbRk
+ FnZayFGBEodtF9aBHgvgz0qF7//SUtW+eKY33mJtIdklTaJqGx35+m6sFY1eTEcNsTer
+ BWVPh5XZkRYtedK93A9E1/QMxMcAMnm+nWBDt8p/n5gEYmmjtEelg2p0VVth6Vbc0lfJ
+ sOk+RlXzNARPTPXQt3YOpESFoixtt0K+lnL3EPeR/WAv0utocgtStRi9QrgYDHxEVv0P
+ mHHixrrj7aBaApXrKDo4y0oTOffHlmKQcdytl5JGgg3zvc00aqbhUMw/YXur09/jkxTY
+ QWKw==
+X-Gm-Message-State: AOJu0Yye41Nk5Ovcz1XTix5SjGaW4oPlfK0ixDiYYrj8RKI41jUicz6N
+ 5yiZSvuvOUbQyM9zLsecbd9yOZUEoU5lW3cOf8CqL26kjk7d2EnHsV5L
+X-Gm-Gg: ASbGncs5oYMSljOMEKDwRV2OchZWgvmSfx/tY8UXWuQ18IP6KEqsnXP24M0cMOmH/pk
+ 1bsBaqmdfFTX7JVFv7N2suQICAZ20tBPtmc9cFs+VRbx2iRSnCBHZowWx1zImoXJE0jTW0mXfXj
+ ikSQ4UvjzK2EX1Grv/53B7oTlp8xiW9IxWXF0xALyYnio5w+SJuO4tYjMpYJEKlzfjxzIQaLOPy
+ Vc7Ln67a7lqOVS2ZmXewOu8FT3nyRRqSGi75e2FASjaGZLN79k1AlwW/cuho7ZkS23aqtBha38U
+ XjQwjaA+sd357yGVYZz93k5jTmKcBFcG/RyjQ81ZMrSrDW0SPjtddlIBx6Y7l3ezv0Uw9DaKx5R
+ ivzhAYl/MyMCeLiFgsU7HVEpz9JB068fqFTalfFnA1Q5sxKOHylXq4Vry4Y6UfBfeK7E=
+X-Google-Smtp-Source: AGHT+IHhr40J7G357dorY7Ys4aV/f4VaCpjaK0a7rQ8N7yN/NLKDGy/LC+abGelcIoYIH1Dx+M00ng==
+X-Received: by 2002:a05:6000:2c01:b0:401:2cbf:ccad with SMTP id
+ ffacd0b85a97d-42856a6ac39mr1320405f8f.17.1761142882543; 
+ Wed, 22 Oct 2025 07:21:22 -0700 (PDT)
+Received: from xeon.. ([188.163.112.61]) by smtp.gmail.com with ESMTPSA id
+ ffacd0b85a97d-427ea5b3d4csm24803518f8f.19.2025.10.22.07.21.20
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 22 Oct 2025 07:16:07 -0700 (PDT)
-From: Youssef Samir <youssef.abdulrahman@oss.qualcomm.com>
-To: jeff.hugo@oss.qualcomm.com, carl.vanderlip@oss.qualcomm.com,
- troy.hanson@oss.qualcomm.com, zachary.mckevitt@oss.qualcomm.com
-Cc: ogabbay@kernel.org, lizhi.hou@amd.com, karol.wachowski@linux.intel.com,
- linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org
-Subject: [PATCH] accel/qaic: rename constant for clarity
-Date: Wed, 22 Oct 2025 16:16:06 +0200
-Message-ID: <20251022141606.3740470-1-youssef.abdulrahman@oss.qualcomm.com>
-X-Mailer: git-send-email 2.43.0
+ Wed, 22 Oct 2025 07:21:22 -0700 (PDT)
+From: Svyatoslav Ryhel <clamor95@gmail.com>
+To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
+ Simona Vetter <simona@ffwll.ch>, Rob Herring <robh@kernel.org>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>,
+ Thierry Reding <thierry.reding@gmail.com>,
+ Jonathan Hunter <jonathanh@nvidia.com>,
+ Sowjanya Komatineni <skomatineni@nvidia.com>,
+ Luca Ceresoli <luca.ceresoli@bootlin.com>,
+ Prashant Gaikwad <pgaikwad@nvidia.com>,
+ Michael Turquette <mturquette@baylibre.com>,
+ Stephen Boyd <sboyd@kernel.org>, Mikko Perttunen <mperttunen@nvidia.com>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Svyatoslav Ryhel <clamor95@gmail.com>,
+ =?UTF-8?q?Jonas=20Schw=C3=B6bel?= <jonasschwoebel@yahoo.de>,
+ Dmitry Osipenko <digetx@gmail.com>,
+ Charan Pedumuru <charan.pedumuru@gmail.com>,
+ Diogo Ivo <diogo.ivo@tecnico.ulisboa.pt>,
+ Aaron Kling <webgeek1234@gmail.com>, Arnd Bergmann <arnd@arndb.de>
+Cc: dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
+ linux-tegra@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-media@vger.kernel.org, linux-clk@vger.kernel.org,
+ linux-staging@lists.linux.dev
+Subject: [PATCH v5 00/23] tegra-video: add CSI support for Tegra20 and Tegra30
+Date: Wed, 22 Oct 2025 17:20:28 +0300
+Message-ID: <20251022142051.70400-1-clamor95@gmail.com>
+X-Mailer: git-send-email 2.48.1
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Proofpoint-GUID: eXnb0gSX2hYGMBRbplL5-MLFcnMYAc_N
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUxMDE4MDAzMSBTYWx0ZWRfX1qBpGQoXMCIL
- P8bYuNLSNCMzW7BqvM4dCyZweMt0Nlm/iay9H8woEvwIC51Ot0PGR+S3XUQ55OzLlBYlcEkACx2
- DRkgbH4xe28vrwtJlt08KfQEJmHKtVVW1pAfpPO5PSImzvbtpIjlP8J4hqRAMhSDsdkTDrDhCx4
- 4xENV+LepxUkc0rKVzBrl0ceeenRtxv7VsT6fRPDv3LEh9XWqDWAudYz0eYhNL35VbbBcb3OTQU
- e222vytgEemsgp25okGhGMEk7tzakLxlt6Ele1FRcUlF1dFWEdos8CiO3kULLhXKy6wF6uew+q+
- j8rxBhl/NVhoIE8neD59ZhJFW69N+5dWATmwXUM2WPQ+jlsDHFR+ePZlJq1CYrb/vg9bUylaZ7d
- CpoK40Va0/1tMdBJWrVFdEj7Xb4Oyw==
-X-Authority-Analysis: v=2.4 cv=QYNrf8bv c=1 sm=1 tr=0 ts=68f8e72a cx=c_pps
- a=+D9SDfe9YZWTjADjLiQY5g==:117 a=dNlqnMcrdpbb+gQrTujlOQ==:17
- a=x6icFKpwvdMA:10 a=VkNPw1HP01LnGYTKEx00:22 a=EUspDBNiAAAA:8
- a=jxz3m821_weTZxENAOYA:9 a=vmgOmaN-Xu0dpDh8OwbV:22
-X-Proofpoint-ORIG-GUID: eXnb0gSX2hYGMBRbplL5-MLFcnMYAc_N
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.9,FMLib:17.12.80.40
- definitions=2025-10-22_05,2025-10-13_01,2025-03-28_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- priorityscore=1501 phishscore=0 malwarescore=0 clxscore=1015 impostorscore=0
- spamscore=0 bulkscore=0 suspectscore=0 adultscore=0 lowpriorityscore=0
- classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.19.0-2510020000 definitions=main-2510180031
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -118,84 +106,122 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Troy Hanson <thanson@qti.qualcomm.com>
+Add support for MIPI CSI device found in Tegra20 and Tegra30 SoC along
+with a set of changes required for that.
 
-QAIC_MANAGE_EXT_MSG_LENGTH is ambiguous and has been confused with
-QAIC_MANAGE_MAX_MSG_LENGTH. Rename it to clarify it's a wire length.
-
-Signed-off-by: Troy Hanson <thanson@qti.qualcomm.com>
-Signed-off-by: Youssef Samir <youssef.abdulrahman@oss.qualcomm.com>
 ---
- drivers/accel/qaic/qaic_control.c | 14 +++++++-------
- 1 file changed, 7 insertions(+), 7 deletions(-)
+Changes in v2:
+- vi_sensor gated through csus
+- TEGRA30_CLK_CLK_MAX moved to clk-tegra30
+- adjusted commit titles and messages
+- clk_register_clkdev dropped from pad clock registration
+- removed tegra30-vi/vip and used tegra20 fallback
+- added separate csi schema for tegra20-csi and tegra30-csi
+- fixet number of VI channels
+- adjusted tegra_vi_out naming
+- fixed yuv_input_format to main_input_format
+- MIPI calibration refsctored for Tegra114+ and added support for
+  pre-Tegra114 to use CSI as a MIPI calibration device
+- switched ENOMEM to EBUSY
+- added check into tegra_channel_get_remote_csi_subdev
+- moved avdd-dsi-csi-supply into CSI
+- next_fs_sp_idx > next_fs_sp_value
+- removed host1x_syncpt_incr from framecounted syncpoint
+- csi subdev request moved before frame cycle
 
-diff --git a/drivers/accel/qaic/qaic_control.c b/drivers/accel/qaic/qaic_control.c
-index b86a8e48e731..079176013da5 100644
---- a/drivers/accel/qaic/qaic_control.c
-+++ b/drivers/accel/qaic/qaic_control.c
-@@ -30,7 +30,7 @@
- #define MANAGE_MAGIC_NUMBER		((__force __le32)0x43494151) /* "QAIC" in little endian */
- #define QAIC_DBC_Q_GAP			SZ_256
- #define QAIC_DBC_Q_BUF_ALIGN		SZ_4K
--#define QAIC_MANAGE_EXT_MSG_LENGTH	SZ_64K /* Max DMA message length */
-+#define QAIC_MANAGE_WIRE_MSG_LENGTH	SZ_64K /* Max DMA message length */
- #define QAIC_WRAPPER_MAX_SIZE		SZ_4K
- #define QAIC_MHI_RETRY_WAIT_MS		100
- #define QAIC_MHI_RETRY_MAX		20
-@@ -367,7 +367,7 @@ static int encode_passthrough(struct qaic_device *qdev, void *trans, struct wrap
- 	if (in_trans->hdr.len % 8 != 0)
- 		return -EINVAL;
- 
--	if (size_add(msg_hdr_len, in_trans->hdr.len) > QAIC_MANAGE_EXT_MSG_LENGTH)
-+	if (size_add(msg_hdr_len, in_trans->hdr.len) > QAIC_MANAGE_WIRE_MSG_LENGTH)
- 		return -ENOSPC;
- 
- 	trans_wrapper = add_wrapper(wrappers,
-@@ -495,7 +495,7 @@ static int encode_addr_size_pairs(struct dma_xfer *xfer, struct wrapper_list *wr
- 
- 	nents = sgt->nents;
- 	nents_dma = nents;
--	*size = QAIC_MANAGE_EXT_MSG_LENGTH - msg_hdr_len - sizeof(**out_trans);
-+	*size = QAIC_MANAGE_WIRE_MSG_LENGTH - msg_hdr_len - sizeof(**out_trans);
- 	for_each_sgtable_dma_sg(sgt, sg, i) {
- 		*size -= sizeof(*asp);
- 		/* Save 1K for possible follow-up transactions. */
-@@ -576,7 +576,7 @@ static int encode_dma(struct qaic_device *qdev, void *trans, struct wrapper_list
- 
- 	/* There should be enough space to hold at least one ASP entry. */
- 	if (size_add(msg_hdr_len, sizeof(*out_trans) + sizeof(struct wire_addr_size_pair)) >
--	    QAIC_MANAGE_EXT_MSG_LENGTH)
-+	    QAIC_MANAGE_WIRE_MSG_LENGTH)
- 		return -ENOMEM;
- 
- 	xfer = kmalloc(sizeof(*xfer), GFP_KERNEL);
-@@ -645,7 +645,7 @@ static int encode_activate(struct qaic_device *qdev, void *trans, struct wrapper
- 	msg = &wrapper->msg;
- 	msg_hdr_len = le32_to_cpu(msg->hdr.len);
- 
--	if (size_add(msg_hdr_len, sizeof(*out_trans)) > QAIC_MANAGE_MAX_MSG_LENGTH)
-+	if (size_add(msg_hdr_len, sizeof(*out_trans)) > QAIC_MANAGE_WIRE_MSG_LENGTH)
- 		return -ENOSPC;
- 
- 	if (!in_trans->queue_size)
-@@ -729,7 +729,7 @@ static int encode_status(struct qaic_device *qdev, void *trans, struct wrapper_l
- 	msg = &wrapper->msg;
- 	msg_hdr_len = le32_to_cpu(msg->hdr.len);
- 
--	if (size_add(msg_hdr_len, in_trans->hdr.len) > QAIC_MANAGE_MAX_MSG_LENGTH)
-+	if (size_add(msg_hdr_len, in_trans->hdr.len) > QAIC_MANAGE_WIRE_MSG_LENGTH)
- 		return -ENOSPC;
- 
- 	trans_wrapper = add_wrapper(wrappers, sizeof(*trans_wrapper));
-@@ -1052,7 +1052,7 @@ static void *msg_xfer(struct qaic_device *qdev, struct wrapper_list *wrappers, u
- 	init_completion(&elem.xfer_done);
- 	if (likely(!qdev->cntl_lost_buf)) {
- 		/*
--		 * The max size of request to device is QAIC_MANAGE_EXT_MSG_LENGTH.
-+		 * The max size of request to device is QAIC_MANAGE_WIRE_MSG_LENGTH.
- 		 * The max size of response from device is QAIC_MANAGE_MAX_MSG_LENGTH.
- 		 */
- 		out_buf = kmalloc(QAIC_MANAGE_MAX_MSG_LENGTH, GFP_KERNEL);
+Changes in v3:
+- tegra20 and tegra30 csi schema merged
+- removed unneeded properties and requirements from schema
+- improved vendor specific properties description
+- added tegra20 csus parent mux
+- improved commit descriptions
+- redesigned MIPI-calibration to expose less SoC related data into header
+- commit "staging: media: tegra-video: csi: add support for SoCs with integrated
+  MIPI calibration" dropped as unneeded
+- improved tegra_channel_get_remote_device_subdev logic
+- avdd-dsi-csi-supply moved from vi to csi for p2597 and p3450-0000
+- software syncpoint counters switched to direct reading
+- adjusted planar formats offset calculation
+
+Changes in v4:
+- removed ifdefs from tegra_mipi_driver
+- document Tegra132 MIPI calibration device
+- switched to use BIT macro in tegra114-mipi
+- pinctrl changes moved to a separate patch
+- ERESTARTSYS workaround preserved for now
+- tegra_mipi_add_provider replaced with devm_tegra_mipi_add_provider
+- reworked bytesperline and sizeimage calculaion
+
+Changes in v5:
+- dropped patch 1/24 of v4 since it was picked to pinctrl tree
+- added reasoning for tegra132 comaptible into commit desctiption
+- moved clocks into common section in tegra20-csi schema
+- added note regarding ERESTARTSYS
+---
+
+Svyatoslav Ryhel (23):
+  clk: tegra: set CSUS as vi_sensor's gate for Tegra20, Tegra30 and
+    Tegra114
+  dt-bindings: clock: tegra30: Add IDs for CSI pad clocks
+  clk: tegra30: add CSI pad clock gates
+  dt-bindings: display: tegra: document Tegra30 VI and VIP
+  staging: media: tegra-video: expand VI and VIP support to Tegra30
+  staging: media: tegra-video: vi: adjust get_selection op check
+  staging: media: tegra-video: vi: add flip controls only if no source
+    controls are provided
+  staging: media: tegra-video: csi: move CSI helpers to header
+  gpu: host1x: convert MIPI to use operation function pointers
+  dt-bindings: display: tegra: document Tegra132 MIPI calibration device
+  staging: media: tegra-video: vi: improve logic of source requesting
+  staging: media: tegra-video: csi: move avdd-dsi-csi-supply from VI to
+    CSI
+  arm64: tegra: move avdd-dsi-csi-supply into CSI node
+  staging: media: tegra-video: tegra20: set correct maximum width and
+    height
+  staging: media: tegra-video: tegra20: add support for second output of
+    VI
+  staging: media: tegra-video: tegra20: adjust format align calculations
+  staging: media: tegra-video: tegra20: set VI HW revision
+  staging: media: tegra-video: tegra20: increase maximum VI clock
+    frequency
+  staging: media: tegra-video: tegra20: expand format support with
+    RAW8/10 and YUV422/YUV420p 1X16
+  staging: media: tegra-video: tegra20: adjust luma buffer stride
+  dt-bindings: display: tegra: document Tegra20 and Tegra30 CSI
+  ARM: tegra: add CSI nodes for Tegra20 and Tegra30
+  staging: media: tegra-video: add CSI support for Tegra20 and Tegra30
+
+ .../display/tegra/nvidia,tegra114-mipi.yaml   |   1 +
+ .../display/tegra/nvidia,tegra20-csi.yaml     | 138 +++
+ .../display/tegra/nvidia,tegra20-vi.yaml      |  19 +-
+ .../display/tegra/nvidia,tegra20-vip.yaml     |   9 +-
+ arch/arm/boot/dts/nvidia/tegra20.dtsi         |  19 +-
+ arch/arm/boot/dts/nvidia/tegra30.dtsi         |  24 +-
+ .../arm64/boot/dts/nvidia/tegra210-p2597.dtsi |   4 +-
+ .../boot/dts/nvidia/tegra210-p3450-0000.dts   |   4 +-
+ drivers/clk/tegra/clk-tegra114.c              |   7 +-
+ drivers/clk/tegra/clk-tegra20.c               |  20 +-
+ drivers/clk/tegra/clk-tegra30.c               |  21 +-
+ drivers/gpu/drm/tegra/dsi.c                   |   1 +
+ drivers/gpu/host1x/Makefile                   |   1 +
+ drivers/gpu/host1x/mipi.c                     | 525 ++---------
+ drivers/gpu/host1x/tegra114-mipi.c            | 483 +++++++++++
+ drivers/staging/media/tegra-video/Makefile    |   1 +
+ drivers/staging/media/tegra-video/csi.c       |  70 +-
+ drivers/staging/media/tegra-video/csi.h       |  16 +
+ drivers/staging/media/tegra-video/tegra20.c   | 820 +++++++++++++++---
+ drivers/staging/media/tegra-video/vi.c        |  56 +-
+ drivers/staging/media/tegra-video/vi.h        |   6 +-
+ drivers/staging/media/tegra-video/video.c     |   8 +-
+ drivers/staging/media/tegra-video/vip.c       |   4 +-
+ include/dt-bindings/clock/tegra30-car.h       |   3 +-
+ include/linux/host1x.h                        |  10 -
+ include/linux/tegra-mipi-cal.h                |  57 ++
+ 26 files changed, 1657 insertions(+), 670 deletions(-)
+ create mode 100644 Documentation/devicetree/bindings/display/tegra/nvidia,tegra20-csi.yaml
+ create mode 100644 drivers/gpu/host1x/tegra114-mipi.c
+ create mode 100644 include/linux/tegra-mipi-cal.h
+
 -- 
-2.43.0
+2.48.1
 
