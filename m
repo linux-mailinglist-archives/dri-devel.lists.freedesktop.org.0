@@ -2,50 +2,51 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 56ADFBFE512
-	for <lists+dri-devel@lfdr.de>; Wed, 22 Oct 2025 23:30:14 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2A1B3BFE5D5
+	for <lists+dri-devel@lfdr.de>; Thu, 23 Oct 2025 00:04:21 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B796C10E1AC;
-	Wed, 22 Oct 2025 21:30:09 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1762310E19F;
+	Wed, 22 Oct 2025 22:04:17 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=Nvidia.com header.i=@Nvidia.com header.b="FWgtNXjy";
+	dkim=pass (2048-bit key; unprotected) header.d=Nvidia.com header.i=@Nvidia.com header.b="m7ZH17P/";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from MW6PR02CU001.outbound.protection.outlook.com
- (mail-westus2azon11012003.outbound.protection.outlook.com [52.101.48.3])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C1BB310E1AC;
- Wed, 22 Oct 2025 21:30:08 +0000 (UTC)
+ (mail-westus2azon11012012.outbound.protection.outlook.com [52.101.48.12])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 15C7810E043;
+ Wed, 22 Oct 2025 22:04:15 +0000 (UTC)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=hrRFT8wM03jzkAX1XyDUXdzrREQwwXtZDXPiqlP3nl4QOuy5hnaK6TCdp/WKqeKZLqBXYSxfEWU3Ruqbr3po/mhGNZjEp0+Kj7LXtV19S6G8TVKAR40UnxGxcMlVzamfvO2mkqCCspCdGHvjZp9++zjKjVAeGzC79xaWnJqGV6hVjZ80EkhgcOyCoX/3goDC3HJU05u79o9j3sPtCykfsEDjOPxidRwBqTXrpxTwk64o+JZWCrb5lX2ttElDv6fKpeYCIk6HfRhqW44UtA+wdX3/58yUFM57gNNLwC6eS1AtwTeoj2iyZHDEs0qEDtn4mTyuCCjv3IcYfevQuV7xSQ==
+ b=PIg0KoTnH7vxEv5+y4q+dB34CTpmhhs65F8iy6GuNaVHjknJAgN6pyFI5t368TCy7+tZEyYMfhytd/3YEuD6dPV8V0gmOVtZhJ33THUMppWQGEBNGvhMEEuvxitpTb2pbLZM+VhYVvJZtYo66S2l8W1r+RT2mZ3cEmrx0Lb/f1dBz+Q/hYh2f/8b0vgHXYoSNKNXf00gb8fqVejz4Q4mB39gKwF96LfwkLltawYwt+1BzAN0hVxUrdrHO2dlqV/Mx4yLIwJ7uOMYpkExVe8P1+JjXmrsy9XPMmIw/3gWIJ5OAngh+EHO2QIJliEHGC8CrGKJR09ZTANhvn00rPlRwg==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=TVpgDSGpBQcLx/mB3oaXgio7edZVApYfQVVVJDXtf6M=;
- b=FJEvqdGoCl29gEqD7IgK0hSX84AXDaxuWFBI1/xDak56K0/nQ91AsRuRC1bewV05ZR+0IQzl87UXEL4AS1o8Qz1ltkEoibyNZpoy46nV4lmX0JNcJUEkp00whawXj7R2Y5XkeBQKnVyEFk1OT3ETUpqeMlyLMkBF5hoY03NeooZxtJWgXEkit5xobUJmcgU2GTdAWf4bqIywuQKXrUNzvO8nbT+JSqxpDYXtXRCnKTxMPSki3fcl01cccmoAdOQaxdgeL+uWHtbdOyTAPfpja0vjtT4vbuYlqKT/ffK2F9fII4H7uB+2RNdNzszaIsNA6DugGLGQQbnimtrQ9FoBCg==
+ bh=13gNJqknYFcU1Pnm/4/n5Zkm/TJ7BKKv3KyYbKnKlJo=;
+ b=HmZuvh2cFjxS2HFTUpGU99X1O67d9W6RpuQzLoLjaxJDsTKo1Knu+J9/T8zyVhkzvU9/7xxuhM6ULmb+nLmYaQi3IxnMUSE0dZEJgc/1NhmZpjo54vpSBq4Y/YrG6S8ifV08eUlgNLLm2HQASK2SH7vlOG6QZTvxMuPzOcPJVC8q76W5nQxu9Iw4ldHGvkuW9dhPjwoGeIPxrfUIDgv71LG4FQmpuC/seruZBFGII4WixLpm9sHpKVr34ZenQLXDscrWBtnTUOl/3MqRmWTiVuFfg2Gcj7HkOkaT/avubcMFAXHDFThUaYj+gqVYT7p70D8+Rf3OC/B1ZrhgqvMi3g==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
  dkim=pass header.d=nvidia.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
  s=selector2;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=TVpgDSGpBQcLx/mB3oaXgio7edZVApYfQVVVJDXtf6M=;
- b=FWgtNXjys/REJDFI97CwhcEpG0oU809JNwPJJEXkcztnqCrlu17gEagBqPF/xYuWhKCbEwVApZJVoq9EVBzuN2OaT2KMPYmSMGyJsuDPOGV2OiCd3ppfcBYLLROcFcJ4gVZMaclpohs4J0ST7V4ZNt/JcLsUoNX07ffmavFnphk9UhZ5mkPm9rmQLJhp9e5U32ETwB4/Wb7EQ9A/CsJ4CCoX98TNRlXGOILBvmLwZ++ifIICkv3+fHKfRa8ApcdJY6C13RqRtA5xt/lHg38pQ+Sy6zXaiLsTVLiPtkpzDTQnCT5BoR+7ybC+XtppxPtY0/Sd16Ze7Sd6gw25rnSJ0Q==
+ bh=13gNJqknYFcU1Pnm/4/n5Zkm/TJ7BKKv3KyYbKnKlJo=;
+ b=m7ZH17P/olARzR8oCqUldF57SNBUT8lzk5YD5sOE+dgm/mlysTDEG9+Tbth2lSNnAczL+CiMl+jgBm792tXBd9+rTq02rXaFbkhteZ4m1EF9MJUyRWM9Bvav/IIiUuuBOHFXHRtVUoKe6Xi/tV0LP0+vYNFlJbxUfimEt33xddEiFPlJDZkA8nPZwCMijQWiDmFagXfIbJKMhP/k0/Z+tnIi1kJGZb3D5BpP329WzSfVNqyT0tqWmkVL0gs/+9QCnpaLioSLkjnoDnN48M2uyUX4ApGkkMiqJEJC0AFVTp1OV+O2B9kERJLSjXAwcmcGmMppURm59seNoYCdPSyYmg==
 Authentication-Results: dkim=none (message not signed)
  header.d=none;dmarc=none action=none header.from=nvidia.com;
 Received: from SN7PR12MB8059.namprd12.prod.outlook.com (2603:10b6:806:32b::7)
- by DS0PR12MB8561.namprd12.prod.outlook.com (2603:10b6:8:166::8) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9253.12; Wed, 22 Oct
- 2025 21:30:05 +0000
+ by DS0PR12MB8343.namprd12.prod.outlook.com (2603:10b6:8:fd::8) with
+ Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.9253.13; Wed, 22 Oct 2025 22:04:10 +0000
 Received: from SN7PR12MB8059.namprd12.prod.outlook.com
  ([fe80::4ee2:654e:1fe8:4b91]) by SN7PR12MB8059.namprd12.prod.outlook.com
  ([fe80::4ee2:654e:1fe8:4b91%2]) with mapi id 15.20.9228.015; Wed, 22 Oct 2025
- 21:30:05 +0000
-Message-ID: <3cc835b1-d9e6-4d91-a398-7ea9c8f4332a@nvidia.com>
-Date: Wed, 22 Oct 2025 17:30:02 -0400
+ 22:04:10 +0000
+Message-ID: <4b953fef-da09-4147-8a88-e16f326c7bdf@nvidia.com>
+Date: Wed, 22 Oct 2025 18:04:08 -0400
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 0/7] Pre-requisite patches for mm and irq in nova-core
+Subject: Re: [PATCH 6/7] nova-core: mm: Add support to use PRAMIN windows to
+ write to VRAM
 To: Alexandre Courbot <acourbot@nvidia.com>, linux-kernel@vger.kernel.org,
  rust-for-linux@vger.kernel.org, dri-devel@lists.freedesktop.org,
  dakr@kernel.org
@@ -61,105 +62,106 @@ Cc: Alistair Popple <apopple@nvidia.com>, Miguel Ojeda <ojeda@kernel.org>,
  joel@joelfernandes.org, Elle Rhumsaa <elle@weathered-steel.dev>,
  Daniel Almeida <daniel.almeida@collabora.com>, nouveau@lists.freedesktop.org
 References: <20251020185539.49986-1-joelagnelf@nvidia.com>
- <DDONM9Z1XF2T.32OBDFX7FONJY@nvidia.com>
+ <20251020185539.49986-7-joelagnelf@nvidia.com>
+ <DDOSD746PCSR.CNAYZSTFR9XR@nvidia.com>
 Content-Language: en-US
 From: Joel Fernandes <joelagnelf@nvidia.com>
-In-Reply-To: <DDONM9Z1XF2T.32OBDFX7FONJY@nvidia.com>
+In-Reply-To: <DDOSD746PCSR.CNAYZSTFR9XR@nvidia.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: MN0PR02CA0018.namprd02.prod.outlook.com
- (2603:10b6:208:530::13) To SN7PR12MB8059.namprd12.prod.outlook.com
+X-ClientProxiedBy: BLAP220CA0010.NAMP220.PROD.OUTLOOK.COM
+ (2603:10b6:208:32c::15) To SN7PR12MB8059.namprd12.prod.outlook.com
  (2603:10b6:806:32b::7)
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: SN7PR12MB8059:EE_|DS0PR12MB8561:EE_
-X-MS-Office365-Filtering-Correlation-Id: 85c1f8f3-c8c6-45da-07f2-08de11b22ada
+X-MS-TrafficTypeDiagnostic: SN7PR12MB8059:EE_|DS0PR12MB8343:EE_
+X-MS-Office365-Filtering-Correlation-Id: fde3e9ee-a78a-4813-b814-08de11b6edcb
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|366016|376014|1800799024|7416014;
-X-Microsoft-Antispam-Message-Info: =?utf-8?B?dTZic09Zb1NrT094V0NKMDJXVDlPK0hzVGNpSTNvNGVaZURpSmRyTDAvS2kr?=
- =?utf-8?B?TzRuNlRqeEZwdXJ6aXFzT3EwWHNPWjVWVlJLMW9nMVlwWkZjNDlVNXhGdEty?=
- =?utf-8?B?b3hUdjh6TFM4WlZYK2ZvNHBFOGF2WjEyNlk4dGFoSHNtMEw0OU9zYldKZXVD?=
- =?utf-8?B?b3BjNDhnRzhqRHRya1NIdzdNN3Q4cm13YllsWEpiSXNyQnJKOE1MbUFSbkxK?=
- =?utf-8?B?bVJ3WEdNSzIvb2VmdU9lU1BFZ2lRQkFNNnU5Qm1DYy9PQnZtbHFIalhOYTBi?=
- =?utf-8?B?YmdKbWZyaFZiL0FIbWJ5bmFONHMreHFrV0RrSGJDeHh3aHZVY3Bsd2hhaEts?=
- =?utf-8?B?bFVraFBxOTQ5MWNXSlZraDREK1NUVnNRajNyWXhrOHR6d284N1RzREwzajNB?=
- =?utf-8?B?NjB3YUM4eFdzVFl5MlFiejNRM3hvaVVCUmJrRFdxaHd5cFFkc3V6TVlVVUdF?=
- =?utf-8?B?YXMwTXRONkJyVDF2dnFxc3kxdjllQm40Um8rY2NJY3ZhcE1pNE9nSDRNZzVX?=
- =?utf-8?B?bHBXc1ZNdkhpSDJhZUxlV1pEUGorYnRZaWUzZ2ZOWEEvd2VNYnJiN2s5S1RD?=
- =?utf-8?B?bzNMSnkyYUxPdy8vRGxUWmY1RzFUR2FrL1hyNGY2bnBIZXpCenFLOHhMaURy?=
- =?utf-8?B?WkNKSFRmaUc4QkNCYkFxNGhtNXBlTkFuYVEvWmVUWWw2YmZ0MzFSZmduakE5?=
- =?utf-8?B?SE1TMlRKOVg0ZEM5ZnkzOUhvTzVpcFlnQjJpLzJXWlVPb2FYbmdkWDRDdlM2?=
- =?utf-8?B?cHE3YlhpbGVpc0djSy9FY0IzYTN0dk1VSnhjdktwbTB5SC8yN1RUL2ZSUi8x?=
- =?utf-8?B?eUluNE5IQ053L2lPZnZKTGhFSnRCbEVXdmFDNDVubmhERW1qdGNVcll1YSsz?=
- =?utf-8?B?SXFyeTJGb0FrN1U5MDdFTmt0b0VjdElHOFhEZGczVm5tOTFjSGI3bW5TdW82?=
- =?utf-8?B?R29SV3B1UUZNQU80VHNxZ1RDZTgwM0U2aCtMTWQxTTVpamRWZEoxWWFZMW5E?=
- =?utf-8?B?bm12SU53aE94c1RDYUp1R25YK3NyVmRnSkhWNWNCelBYR0JMU3lFQzFPb3dj?=
- =?utf-8?B?V0hOcGpaUU5TS1RFb2gzbitjUWJEbXNqQlJMbU9BeThYMTc1UkZ2WjU0VmJz?=
- =?utf-8?B?UEJoYWo5RGI5OGZ0UVQ5dFFKOFhKNFlVb05OSlorSERKUmI3c0lNbTFNRTdr?=
- =?utf-8?B?OHZxNmVqM1IxVjJ4V24xSk9mSHg0NGdQbHNGMGZuYTdrWVY4VitpYTFBNE96?=
- =?utf-8?B?ZTJQTWw0eXZQMTNsRERtakt0TVdUazlkdys1elN1N0RwRXhsWHArL3ZlcmMx?=
- =?utf-8?B?aUtpYkRnWXd2dURBQVhtZXk0bWlYR3h3YWFveVVjMUF3RURkbVJ2SlpQZmV6?=
- =?utf-8?B?cTF1ZGluTlFUd0NzdmhkbWZMQVBzbHdFbnQxcXRBWUZaYUdKbDRtU0tpS3FP?=
- =?utf-8?B?eUZ5L1Y0cXBqREkwbFh1bERmODkrUlNONzRQUi9tdWVRUHEvazhGa2dGYVNh?=
- =?utf-8?B?c3IrRlZJcmFCRXBRT2hNU2dnSTNSNVRyOFVpalZHWVhtSW1scWtiV3loVVJ1?=
- =?utf-8?B?bHJnN0ZHUXJ3ZTZRK3VwU052WWdYc1NRWk9pOUxVaStteGFqV1Q5d2ZxeUFn?=
- =?utf-8?B?a2JaanZWQ1I1K05CL1BneTB4RGhuZVRrL2JtNzBPT2o0RUZSYndWdXZ3K0Ra?=
- =?utf-8?B?ZG42ZU45d25LYlZkQityb1pmR1V6ZG1pTklkKzF4TUk0YXYxQ3ZaVTVXemw0?=
- =?utf-8?B?QW9YcjN3UmQ3elRickxYQUFId1E5Q3RzanhMMjAvMCtlWVAwUVF6YUtIbnk5?=
- =?utf-8?B?THNEWjBOUEhMM1huSG5KSjM0YzA4NlJpd0V3bG9MUDl0TjVZUk9HOXRDM0xT?=
- =?utf-8?B?cFVIcDBtUTQya3NzcCtkQ2RKN0tTcVdDRktKYUdyZVFYVTJyN0VXbzdXaUkz?=
- =?utf-8?Q?bi67uyVvpSQ+PdyjjJINL5dfL9uZnIHQ?=
+X-Microsoft-Antispam: BCL:0;ARA:13230040|1800799024|7416014|376014|366016;
+X-Microsoft-Antispam-Message-Info: =?utf-8?B?dDBaVGFFR0k3eUJIQnQ3dDRLNzBzeERWRi8rSG1jZWtobXJ6OUJldHVPYS9y?=
+ =?utf-8?B?WDNIQkU5bFFFZ0JQcHRWNzBXNENCNmlXc2IwditVTFhCT1doVE5vOHpzYkpL?=
+ =?utf-8?B?dVBxQk5VY09Ta21ldzZiTXJxdzM0TlZOZFUybUwvZCt4eUg3d084Z09GRzJS?=
+ =?utf-8?B?QjN4QllGcDlKdW5BbGdkZFVzTUxRaGVYb3NVVEhPNGFab1ptam4xMHlSaDZX?=
+ =?utf-8?B?NXZHVTJVbmYxK1hzZVpGaEwvdzRsdG5WdEhhR3QxN3pDNENYV1U0WWJVY1Rh?=
+ =?utf-8?B?c0JhQS9ON0FVMFB0NytRejdhcjkyYVFiQnRUaEo3NTBUSC9Ha3lDUjhGdlhk?=
+ =?utf-8?B?Y3BMY1Y2SDhNQnRhWnlWbDdIb2F3NUZ0NktheXRwUGFpU0FRZ3JlNGVYeWRU?=
+ =?utf-8?B?Y3VwN1Fyb0dUL3Q3L1dPT2lTT2x5MnNXR0xFand1cFlsSndSQkt1N3FibUNL?=
+ =?utf-8?B?azFVK0xNbWFkb3hQZXIxY2ZCeEwzczBFRDIyc0kzZHN5YTRVK3BOaDZCZHBZ?=
+ =?utf-8?B?cEJzVVNSem1KMDArMEoxR3NYTWRtZkpxaUVPYzhya3RHakJGTkhxWVZIeCtk?=
+ =?utf-8?B?bCtwQ21pM2UvRmc0NVNGK3ViNEs0bEJsOXdDZFV2MVB6RXUwWHFodjljZStT?=
+ =?utf-8?B?YWhRTzM4TEUxaTRhMWlxN0FIZFJDY0ZyT3lVcEZqdnJMTVRhbCthRXJTZ3Zm?=
+ =?utf-8?B?YUduS3l2L3hqZFRlVVZtaUtpVXBxbW42RXFRVHpJUEJxTHA1QWh0Ykp0WVh1?=
+ =?utf-8?B?TG5kZW1NamVNRFdCRFBCZTFGZGFsc1ozNy9Cb2h0M0JBSlFxRWJiQlZUMHVi?=
+ =?utf-8?B?eS9qaEl4akZMYUVYM2w1dkcvWnByVzhzYjVGRnpTS0JQRGhTZTZhMHpxbHEy?=
+ =?utf-8?B?WGVjbEN1QWtRUVNQb2kvckI1NFRQaGVIN2tteUlPd0s0cUhieCtJVFpHbVN3?=
+ =?utf-8?B?TngrbklqVmRBME5ud0RKVFdHQUZVTitaVjBSaUpnWTh5QUgvSDdZMG1IczY1?=
+ =?utf-8?B?THpwdk14L1Z2OFc2RmlNT0I3RGJvVStTQnE1S0gxbXBjQnNwZVBySThmMmNo?=
+ =?utf-8?B?bks0VWdsWlFGU2ZSUmd4KzhYemNrMGxnR1JEN3lyanJ0UjRvNHBTRldOc1g0?=
+ =?utf-8?B?MmJDTTY4ajRvS3lPVWo0WUNVUHRrVTU4cnpHTk5RVkJqUFgwb2Q4cDUvWXJG?=
+ =?utf-8?B?RVRQSUJrdVZQRzd3QUwyQTlRdmRPN05tNlllc2psYjhjUU1DN2doNm42RDBR?=
+ =?utf-8?B?SzA5dnEyWTJIMzhLcmhab25IdmliUkxnNlh2a05kVytJemRsQXQzbXFjNlVE?=
+ =?utf-8?B?NU9RbDBzQ0xXamtYUjRPV24zNkxub1ZBaTlSYVNDMVBJdnAraGtXQ0sySHN3?=
+ =?utf-8?B?eTlGcW44WkpZcnRONUZDZVJiQXZ6RU5GZVVsUEJnazdVNjFLSUFBd25PdEE5?=
+ =?utf-8?B?cnYwbTM2OThLS2g4bFZObEMyYWFCM1lVeGtESDdYbXFCZVJ0YS9PV3gybFBU?=
+ =?utf-8?B?bkRQMXNtZWZkRzF5cE1QTlM5UjN1eHZJOURMaktaMWhVUjhHc0x4aGRPWE43?=
+ =?utf-8?B?eVlJbEQxRzh4M3NVdXlwZm1jNndDNW9HaklJVXRIMERTQkc0d3dzSTR3RGVK?=
+ =?utf-8?B?RVlZRHRHNjZlVDNaZDRUbkFtNHg1UjRpSVJIKzZOdk9VMXUvN3pkdXNlM2Vt?=
+ =?utf-8?B?eDFZY1ExTFRMVW1SdHBBUTQ3TnJzTDZkb2oyU2ptSnhET3BTY3VURllyZTQ5?=
+ =?utf-8?B?Q01pRDhUaFlnRTRSdzFvNGRoY2JOeWRqZGZZaCtWc0wwOU5kQitZbXFjVDdW?=
+ =?utf-8?B?MnRuSkxqNWVBSExsUzBNNk1QNFdIUVNHRGRFN05ncXJpSVJ4UjhucjM5alpG?=
+ =?utf-8?B?MDNsOUY0VkxGVDIyd3JVekFPQjNBRU5PTHhCOHpHT0FJRTltQkoxRFlSekNv?=
+ =?utf-8?Q?bYRR8H5CGa+grFHWmpP1R0+3iQQXf1hK?=
 X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
  IPV:NLI; SFV:NSPM; H:SN7PR12MB8059.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230040)(366016)(376014)(1800799024)(7416014); DIR:OUT; SFP:1101; 
+ SFS:(13230040)(1800799024)(7416014)(376014)(366016); DIR:OUT; SFP:1101; 
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?d3Z2RmZFYWM2K0g5cXBFcnlDMjBoRkFEcXRnSEJTSmZ5czRkdzdrTklMb2NQ?=
- =?utf-8?B?VmZ5RTFsQXdyTXA4dEV5QndNZzlsMEtSVStuejhNU2NRT1duWitUbWJGOHZi?=
- =?utf-8?B?N2VRRVdOSEJDTHMwUFhNQjdHN3ZIN01INDV0Sko1RUNqVzBwNDR3Y2lxdysz?=
- =?utf-8?B?VTJXajVaQ0JndkJZUUQzam5uc0J4bmplejdjN2VSL0lIVjUxVTl5SW1UNkdQ?=
- =?utf-8?B?NmJLUUQraWJGMXJTRmp5YzF2NTFqaXh1cUIrdnRHWVNwaXBlUFRSVlJpVTdt?=
- =?utf-8?B?SkdxeHFsWUZNdW1GK056M1Vhc3UybDcwSFRjT1FZYWZEa3VsVE9OczdFNWZJ?=
- =?utf-8?B?RmZvQXhsek94ZlI2cGU2NUJCZkozTnFUMW9LTW5sMUo3bmFIUGkzMXBMdDlG?=
- =?utf-8?B?cTFuQTFMU1hDc0lzaHJDc2lBSU9YUnRuK3JkaEtUQUc5NHdxbzd0SkwvU3RQ?=
- =?utf-8?B?aVgrZnpsY0lOdlhPUjB6cHJZbjRlT1dpcFpKOTdSYWNWRURzRTExVlJjS2h4?=
- =?utf-8?B?U1hRZTJiLzJ3QytCUFpvcmVWYnBVcWxhTWxTbmMzd2RnWTl5WEIyRmxlakpK?=
- =?utf-8?B?aDZiRi9DV1RnR1J2S1VkcHQrUnFDaVNYd0toMkhiV3JlcHIwZ2E5eU8wZ2dF?=
- =?utf-8?B?S25yQndYTldXTDhVZWhLU3JtUjlNUEZxZmllejJySFk2VEZpSVE3dlBvQVVQ?=
- =?utf-8?B?YVhVTjFjdDV3TkhsTzdLcHM1QzlBNE9tSy9RTEtRdmw0dy9OUUc4eG9tVlZV?=
- =?utf-8?B?bUJyMGc1T2Y4aEhEdXVIQVVESmJOaUFKcjJMaVhaeXFUMDRMMlJHaWZIbXh5?=
- =?utf-8?B?Y05SMXV1Y0FMenQ2TEVBa2VrUmYzMkhrLzJEK3VDdkFSMXl0aGFTbFU2SCtP?=
- =?utf-8?B?a3JUQ1VZcytQU1NWUHAyVVpaK2sydlFNSytNdnNEczNsbFF2RHZhb1pub3R2?=
- =?utf-8?B?bHVWSVhwZkh1MU1BZTM0aHRLSGZaUHc1TEF6b0tEckNXZ2szYlhPL0VUczdx?=
- =?utf-8?B?MldGdDlNR3p1bk1XaXY4dnYwNW8rSkIrT3ZaYUkvLytKSHhKUVpZbEx5MEYy?=
- =?utf-8?B?ZkRvdWF0aTlYdjBjSGpHZmZ4OEE3QnpnMlpob01VSEU1eXlhaURDS2oyMHBL?=
- =?utf-8?B?RXN6VFRpY3lTZE5HcWlzVmRra3hpSEZ0Zk1kQkoyZVZ1c0dHS1QvT2FhM0pT?=
- =?utf-8?B?cGY3Q1J0cWhwZVFwRy9IbzBJcFVlMWxUR2ZuR2E0QXNVVmtOQncvYWVrQSs1?=
- =?utf-8?B?aGp1UTR4dHNNL2hjYURuOTV3emZ5RkIrWjV5TjlmSTRDYWg3UHROSXNJWTFh?=
- =?utf-8?B?dHp4SGZhaXBrTGRLNEtkaE02aHdxamtid3BMb0R4WEQzL0xJZmprbkR4OTRh?=
- =?utf-8?B?MmltZXFxdkR3WmQ1cGIxcVc3K21Ub0RMeUs0Y0x5MnBZMldlWDNHcCtobEYz?=
- =?utf-8?B?aHIwdGFuclNvOVFaZkRqWk5FM1kyYUMyY1NQd1pidmlQZEs5cDJlWC85dEtw?=
- =?utf-8?B?MnFTR3JkMWg1d3FTei9KVGtya0IvbDhiejU4TSs0Mmw0bDJQSi91OGVaQ3lU?=
- =?utf-8?B?R1BPaEZreUx0THIxbnlrOG5aZjBrQU4xZ2poSXpocTBRMlJFVEFhTE1lWFVM?=
- =?utf-8?B?TlJ6dzF4RDk5aEZNQ2FXQ3I5WHdNUXRKSHVmQXdmZTNFbStyMDhwNk96M0l3?=
- =?utf-8?B?SWRQK1hlQ1JlZSswVW5obkhzVHloZnJqQU1BYmVuN3QzNjA1SlRxVjUxR084?=
- =?utf-8?B?SjZjR0NCemtCWk5oQ1BBVVVlQW1GTzVDZEI2OFhlL3BpTkIycGNIdFBuSXN2?=
- =?utf-8?B?SkIzdG9pVzFnN1lWK0FlR0hUYUErMksvWDZwTTJwQVV0dTJha1F1M0pnV3RP?=
- =?utf-8?B?WityTFRoczNZbE5yUGVseElaWXhZdmg3ZVNwSDVIa1dXcHpFek1PZWlJQjVP?=
- =?utf-8?B?K3NCSFZpYi9EL2VGNjFTbVMvQUhaU2g0N202OHErRHdTM1diaG1hNWtXVGpB?=
- =?utf-8?B?RG5GNW9mZHBLTzNkSXhNd0ZFbkhlMVJxWHV6Z05QM2wrTU5aMTJXK0JzaEZG?=
- =?utf-8?B?d0JqQm1OZDdjOStsbTRwMDdQZE5FazhBOHZDZUFRNkc5N3p2Z1BGeFRvTGdq?=
- =?utf-8?Q?/SpsBhFTKk5lu1YeZKSDKH2i9?=
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?WVFLVVZWOWNtcFVhdGlvVFNPU2ZQdTB4dFAzTTZqTnJvMXorVDhMTEZZZGFP?=
+ =?utf-8?B?ejdkMktZUGRUUVUxZHN1ZzRlVEptVmtJVThpOVRzRVRhVmVKLzNhMlYrRzc3?=
+ =?utf-8?B?VEI2RkdzdFJwVmpYYWIzOWZNY0RNcXcxOTVDd09HNmxrUXh1Zk5tcGZmL3JC?=
+ =?utf-8?B?NG11ZSt4NHQvMEFWcmc2WkJrODRlVDExOVFxVFBKNDJMNXBPNDBiNlhPRmpX?=
+ =?utf-8?B?TGlkc3J5NmRIY3cyQ3U0VE91K2pDZksrd0RpSGhqQ2hwbmx0YkkreEtwaHhP?=
+ =?utf-8?B?R1JLQzBNelROZjdaMUhlTERTNFFuV3pVNW52Mm1qQXoyUWtMWUk1TVlCTWN5?=
+ =?utf-8?B?bjNyZkZWRXZ5Uk81czFOc2ZzalJjdFZtcHFHano4dHhycWV5Y3ljRGRvRHYw?=
+ =?utf-8?B?aURzMk1VUzc3VGllSDZyd3Bwb3ZteTIrM3B0SlI0V0s5eWE3aGJ4YkwxeUJK?=
+ =?utf-8?B?MUlQVlkzMlAwamg2NW9Gb3JOSC9ScGE0dVU0RytvL1VyOFRVNVlvZzBDTTBl?=
+ =?utf-8?B?S2hsTVdOeTFzUEMvWE4zazlrQjN2TDN1OXBOMVd3cG5GekVBa3M1ZStXQmVK?=
+ =?utf-8?B?UmdvczJXem9lOFkzMnVpRnF6UVpaN0kyOUZMRVR0ZlJnRUF3MzROU3hnczcw?=
+ =?utf-8?B?U1NLUGZzLzdMQ0tWbVZtYk9idTBvZ1V4SFdkMHlKVXhUUmUrOGZYeGdFc3FV?=
+ =?utf-8?B?RDRzbXpHdmZTa0w3SjFxb1dqTzB2Q0hQZ0JMQXBFNytEV1VUdEVJQmY2bnlV?=
+ =?utf-8?B?M00vNkRxRFg5Q3VadUJQTUNDV3VEZDZ6Vk1hd0hYZTFsdzJxaXJoTERZbEhh?=
+ =?utf-8?B?N01HLzU2YTFEbGJLTTFUUlFXd0twVnl4NXdCbmh0cWJQMVRMNjhlQ3ZjMU1V?=
+ =?utf-8?B?ek1FSytvZmdnc3QvOFhnRGJUVWpYdDRwYmJkU3A5VElkNWd4Z3FhMFZnVHl3?=
+ =?utf-8?B?STJSck0xSk0zRjAyeXNJSGJyeFpTcXlTOUIyKy92N3FCUGVzVXFVa01SdHBQ?=
+ =?utf-8?B?WmpOYWxzcWV6SlRjcTZ0TDJIK2JsamFxOEloOG1wRUw5aHJaNFQ1MkNtRnFG?=
+ =?utf-8?B?SndCMjNmc0t5Mk9ya08wU3lYeUQ4VWJacExwWitOTlllM2pIcEVDRC8reFNy?=
+ =?utf-8?B?c1B6bkFVaHpjTEoyUVRkU2FLL1JINzdPUVExeUxJREZMeWcxM3RrL0VDc3Fs?=
+ =?utf-8?B?aGw3cHlaMDZsRHp2R1hnOEwxaHZhWFVQSStlSm9rY29SWGYvM2NrL1haWjAv?=
+ =?utf-8?B?NHZXbWt4U2dwME4vdzhORmRhZXVjcEYyeHJjeVlIZFFJV1Y2UUFpVlE5Q3hw?=
+ =?utf-8?B?V2NNcFNST0VjbjgrMTJXM28rblBob1ZxRklSSEtPZm4vampDWFJseEV4VVZV?=
+ =?utf-8?B?ZFAwK0dTcW1BK1VZc1d4R0RIL0JPT0NMQVB4SjhNb1NmMkJWZnRBeUhCdDB5?=
+ =?utf-8?B?eUhvZlI1cjdMeE5tODd5Vi82MFEzN2pvZkZTVHpNSmZXK3phdDNRR2YzZS9k?=
+ =?utf-8?B?QURsQnF0Y0oxN3BBKzRaMW1ZQ3lsMlpyUzB4SnNHRTk0cGhzLzdpbzhlT0py?=
+ =?utf-8?B?dUpnb2hzejFkaDk3a3grc1JiZWxZcE9OZ1lad2J0SHpMWXV0dDVybkJFT016?=
+ =?utf-8?B?QVhSNlJQTWdZWTJwNWFqYU4zaEFjYWhNalprNjk0NFZ2K0hSUlAzZmxlenc2?=
+ =?utf-8?B?TzBUTkVSM0VlbHZaWFJuWTdWejVLQjdzTEVtQUJHZWtPdmZQbit4dVNpVEtZ?=
+ =?utf-8?B?aVJzZ09FQ1hGdExzZDdiRUM3V3B6cHRwb0FFa012cmpGU1I1V05UK0o0dmZY?=
+ =?utf-8?B?NVRMMmRZQlZ1K1lKYXRDcVA3Z0szM1V4RlRwVE14dDB6b2N0SllFSC9LdkxQ?=
+ =?utf-8?B?RDZPeXdUTDQ5eUV3Sjk3UmNobFUrSEwzRXllMzh5eVdrcVBQSWZNM1UrQ1Vr?=
+ =?utf-8?B?akJqbURPMTVhNmpVZUM3amlsRVZWb1JEbzZicnE3RVlpQ1p1WWg3NGl4UDRW?=
+ =?utf-8?B?eFNhTUF0OTVyY0lDc05sZlVBa2ZITjhBSFN2dldhSjI3aWkrelA5TGxhRExz?=
+ =?utf-8?B?TnRNbTVYblN2SnNDNDlsNlFsUmhLZUhyazNOeVZrMGtsdEUzVi9VWFZIVFc2?=
+ =?utf-8?Q?G+iiS0cqaDqV82bc8c+0pfCbP?=
 X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 85c1f8f3-c8c6-45da-07f2-08de11b22ada
+X-MS-Exchange-CrossTenant-Network-Message-Id: fde3e9ee-a78a-4813-b814-08de11b6edcb
 X-MS-Exchange-CrossTenant-AuthSource: SN7PR12MB8059.namprd12.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 22 Oct 2025 21:30:05.5578 (UTC)
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 22 Oct 2025 22:04:10.6355 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: 0/qNoFlcdDIZ85EBSw1iUUDSGtlsWriBUqFFQQiqcPrs2lPzDJ22R2TaOqRwx3JgiI5+7Y+wpUcTUUN9x1Jtpw==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DS0PR12MB8561
+X-MS-Exchange-CrossTenant-UserPrincipalName: 93Cr7muCdFoKV84Z/c08x1NawGDnUhIYsyt7DTP3Pl4mrItSihGok35/jPS0KxGB3zbOrIQv8N/aK7sqzl7gnw==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DS0PR12MB8343
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -177,92 +179,254 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 Hi Alex,
 
-On 10/22/2025 2:57 AM, Alexandre Courbot wrote:
+On 10/22/2025 6:41 AM, Alexandre Courbot wrote:
 > On Tue Oct 21, 2025 at 3:55 AM JST, Joel Fernandes wrote:
->> These patches have some prerequistes needed for nova-core as support is added
->> for memory management and interrupt handling. I rebased them on drm-rust-next
->> and would like them to be considered for the next merge window. I also included
->> a simple rust documentation patch fixing some issues I noticed while reading it :).
+>> Required for writing page tables directly to VRAM physical memory,
+>> before page tables and MMU are setup.
 >>
->> The series adds support for the PRAMIN aperture mechanism, which is a
->> prerequisite for virtual memory as it is required to boot strap virtual memory
->> (we cannot write to VRAM using virtual memory because we need to write page
->> tables to VRAM in the first place).
+>> Signed-off-by: Joel Fernandes <joelagnelf@nvidia.com>
+>> ---
+>>  drivers/gpu/nova-core/mm/mod.rs    |   3 +
+>>  drivers/gpu/nova-core/mm/pramin.rs | 241 +++++++++++++++++++++++++++++
+>>  drivers/gpu/nova-core/nova_core.rs |   1 +
+>>  drivers/gpu/nova-core/regs.rs      |  29 +++-
+>>  4 files changed, 273 insertions(+), 1 deletion(-)
+>>  create mode 100644 drivers/gpu/nova-core/mm/mod.rs
+>>  create mode 100644 drivers/gpu/nova-core/mm/pramin.rs
 >>
->> I also add page table related structures (mm/types.rs) using the bitfield
->> macro, which will be used for page table walking, memory mapping, etc. This is
->> currently unused code, because without physical memory allocation (using the
->> buddy allocator), we cannot use this code as page table pages need to be
->> allocated in the first place. However, I have included several examples in the
->> file about how these structures will be used. I have also simplified the code
->> keeping future additions to it for later.
->>
->> For interrupts, I only have added additional support for GSP's message queue
->> interrupt. I am working on adding support to the interrupt controller module
->> (VFN) which is the next thing for me to post after this series. I have it
->> prototyped and working, however I am currently making several changes to it
->> related to virtual functions. For now in this series, I just want to get the
->> GSP-specific patch out of the way, hence I am including it here.
->>
->> I also have added a patch for bitfield macro which constructs a bitfield struct
->> given its storage type. This is used in a later GSP interrupt patch in the
->> series to read from one register and write to another.
+>> diff --git a/drivers/gpu/nova-core/mm/mod.rs b/drivers/gpu/nova-core/mm/mod.rs
+>> new file mode 100644
+>> index 000000000000..54c7cd9416a9
+>> --- /dev/null
+>> +++ b/drivers/gpu/nova-core/mm/mod.rs
+>> @@ -0,0 +1,3 @@
+>> +// SPDX-License-Identifier: GPL-2.0
+>> +
+>> +pub(crate) mod pramin;
+>> diff --git a/drivers/gpu/nova-core/mm/pramin.rs b/drivers/gpu/nova-core/mm/pramin.rs
+>> new file mode 100644
+>> index 000000000000..4f4e1b8c0b9b
+>> --- /dev/null
+>> +++ b/drivers/gpu/nova-core/mm/pramin.rs
+>> @@ -0,0 +1,241 @@
+>> +// SPDX-License-Identifier: GPL-2.0
+>> +
+>> +//! Direct VRAM access through PRAMIN window before page tables are set up.
+>> +//! PRAMIN can also write to system memory, however for simplicty we only
 > 
-> So IIUC, this series contains the following:
+> s/simplicty/simplicity
+
+Ok.
+
+>> +//! support VRAM access.
+>> +//!
+>> +//! # Examples
+>> +//!
+>> +//! ## Writing u32 data to VRAM
+>> +//!
+>> +//! ```no_run
+>> +//! use crate::driver::Bar0;
+>> +//! use crate::mm::pramin::PraminVram;
+>> +//!
+>> +//! fn write_data_to_vram(bar: &Bar0) -> Result {
+>> +//!     let pramin = PraminVram::new(bar);
+>> +//!     // Write 4 32-bit words to VRAM at offset 0x10000
+>> +//!     let data: [u32; 4] = [0xDEADBEEF, 0xCAFEBABE, 0x12345678, 0x87654321];
+>> +//!     pramin.write::<u32>(0x10000, &data)?;
+>> +//!     Ok(())
+>> +//! }
+>> +//! ```
+>> +//!
+>> +//! ## Reading bytes from VRAM
+>> +//!
+>> +//! ```no_run
+>> +//! use crate::driver::Bar0;
+>> +//! use crate::mm::pramin::PraminVram;
+>> +//!
+>> +//! fn read_data_from_vram(bar: &Bar0, buffer: &mut KVec<u8>) -> Result {
+>> +//!     let pramin = PraminVram::new(bar);
+>> +//!     // Read a u8 from VRAM starting at offset 0x20000
+>> +//!     pramin.read::<u8>(0x20000, buffer)?;
+>> +//!     Ok(())
+>> +//! }
+>> +//! ```
+>> +
+>> +#![expect(dead_code)]
+>> +
+>> +use crate::driver::Bar0;
+>> +use crate::regs;
+>> +use core::mem;
+>> +use kernel::prelude::*;
+>> +
+>> +/// PRAMIN is a window into the VRAM (not a hardware block) that is used to access
+>> +/// the VRAM directly. These addresses are consistent across all GPUs.
+>> +const PRAMIN_BASE: usize = 0x700000; // PRAMIN is always at BAR0 + 0x700000
 > 
-> 1. Add PRAMIN support,
-> 2. Add Page mapping support, albeit this is unexercised until we have a
->    user (e.g. buddy allocator),
-> 3. Add Falcon interrupt support,
-> 4. Add missing bitfield functionality, albeit not used yet,
-> 5. Various documentation patches.
+> This definition looks like it could be an array of registers - that way
+> we could use its `BASE` associated constant and keep the hardware
+> offsets into the `regs` module.
 > 
-> This is a bit confusing, as there is close to no logical relationship or
-> dependency between these patches. I see potential for several different
-> submissions here:
+> Even if we don't use the array of registers for convenience, it is good
+> to have it defined in `regs` for consistency.
+
+Ok, I wanted to do that, but I thought since these are registers, it is weird to
+move it there.
+
+Also we need byte-level access, register macro is u32. I don't think we should
+overload regs.rs just to store magic numbers, these are not registers right? We
+have PRAM window configuration registers but that's different.
+
 > 
-> - The core documentation fix, as Miguel pointed out, since it should be
->   merged into the rust tree and not nova-core.
-> - The bitfield patch is a useful addition and should be sent separately.
-> - PRAMIN/Page mapping should come with code that exercices them, so
->   think they belong as the first patches of a series that ends with
->   basic memory allocation capabilities. But feel free to send a RFC if
->   you want early feedback.
+>> +const PRAMIN_SIZE: usize = 0x100000; // 1MB aperture - max access per window position
+> 
+> You can use `kernel::sizes::SZ_1M` here.
 
-Ah, so if we go with that - the mm patches here (Pramin and page structures
-types) will then have to wait till we have DRM buddy bindings or a DRM buddy
-written in rust (the latter of which I already have). That would be unfortunate
-because it will take more time up in the future to rebase. But RFC is a good
-idea too for just getting an advance review. I think we need to carefully choose
-RFC versus merging small (even if unused) patches (more below).
+Sure, will do.
 
-> - The falcon interrupts patch does not seem to be used by the last two
->   patches? I guess it belongs to the series that will add support for
->   the interrupt controller.
-No, it is independent. Yes this leads up to the interrupt handing feature, but
-just to emphasize a bit, the motivation was to "get small patches" in so that we
-don't need to do obvious things later (example, the VFN interrupt module is much
-more complex than this GSP patch yet both are needed for interrupt handling, so
-the GSP patch is a good candidate IMO for upstreaming in the next merge window).
-Having small patches merged reduces future burden on both reviewers and the
-developers. This is also not something new, for instance we don't have any users
-of the PCI MSI IRQ allocation bindings in rust/, yet we merged those. I think
-that is reasonable. RFC should be used too when it makes sense, but I think we
-should also look into merging things in chunks to avoid future review/rebase
-burden. There isn't one rule that fits all is my point, right? I mean just look
-at the attempted bitfield move too, Nova is the only user yet we will move it
-out. But one may ask why move it out until there are other users? It has to be
-on a case-by-case basis..
+>> +
+>> +/// Trait for types that can be read/written through PRAMIN.
+>> +pub(crate) trait PraminNum: Copy + Default + Sized {
+>> +    fn read_from_bar(bar: &Bar0, offset: usize) -> Result<Self>;
+>> +
+>> +    fn write_to_bar(self, bar: &Bar0, offset: usize) -> Result;
+>> +
+>> +    fn size_bytes() -> usize {
+>> +        mem::size_of::<Self>()
+>> +    }
+>> +
+>> +    fn alignment() -> usize {
+>> +        Self::size_bytes()
+>> +    }
+>> +}
+> 
+> Since this trait requires `Sized`, you can use `size_of` and `align_of`
+> directly, making the `size_bytes` and `alignment` methods redundant.
+> Only `write_to_bar` should remain.
 
-> - Other documentation patches belong to the series that introduces the
->   feature they document.
-Agreed with the splitting suggestions, I will split this series moving forward.
-But I may still push for merging small patches where it makes sense, if that's
-Ok with everyone.
+Sure, slightly poorer caller-side readability though but its fine with me, I'll
+do that.
 
-(I do feel the PRAMIN and GSP patch both do fall under the 'small patch' category)
+> I also wonder whether we couldn't get rid of this trait entirely by
+> leveragin `FromBytes` and `AsBytes`. Since the size of the type is
+> known, we could have read/write methods in Pramin that write its content
+> by using Io accessors of decreasing size (first 64-bit, then 32, etc)
+> until all the data is written.
+
+Ah great idea, I like this. Though per the other discussion with John on keeping
+it simple (not doing bulk I/O operations), maybe we wouldn't need a trait at
+all. Let me see.
+
+> 
+>> +
+>> +/// Macro to implement PraminNum trait for unsigned integer types.
+>> +macro_rules! impl_pramin_unsigned_num {
+>> +    ($bits:literal) => {
+>> +        ::kernel::macros::paste! {
+>> +            impl PraminNum for [<u $bits>] {
+>> +                fn read_from_bar(bar: &Bar0, offset: usize) -> Result<Self> {
+>> +                    bar.[<try_read $bits>](offset)
+>> +                }
+>> +
+>> +                fn write_to_bar(self, bar: &Bar0, offset: usize) -> Result {
+>> +                    bar.[<try_write $bits>](self, offset)
+>> +                }
+>> +            }
+>> +        }
+>> +    };
+>> +}
+>> +
+>> +impl_pramin_unsigned_num!(8);
+>> +impl_pramin_unsigned_num!(16);
+>> +impl_pramin_unsigned_num!(32);
+>> +impl_pramin_unsigned_num!(64);
+>> +
+>> +/// Direct VRAM access through PRAMIN window before page tables are set up.
+>> +pub(crate) struct PraminVram<'a> {
+> 
+> Let's use the shorter name `Pramin` - the limitation to VRAM is a
+> reasonable one (since the CPU can access its own system memory), it is
+> not necessary to encode it into the name.
+Sure, sounds good.
+
+> 
+>> +    bar: &'a Bar0,
+>> +    saved_window_addr: usize,
+>> +}
+>> +
+>> +impl<'a> PraminVram<'a> {
+>> +    /// Create a new PRAMIN VRAM accessor, saving current window state,
+>> +    /// the state is restored when the accessor is dropped.
+>> +    ///
+>> +    /// The BAR0 window base must be 64KB aligned but provides 1MB of VRAM access.
+>> +    /// Window is repositioned automatically when accessing data beyond 1MB boundaries.
+>> +    pub(crate) fn new(bar: &'a Bar0) -> Self {
+>> +        let saved_window_addr = Self::get_window_addr(bar);
+>> +        Self {
+>> +            bar,
+>> +            saved_window_addr,
+>> +        }
+>> +    }
+>> +
+>> +    /// Set BAR0 window to point to specific FB region.
+>> +    ///
+>> +    /// # Arguments
+>> +    ///
+>> +    /// * `fb_offset` - VRAM byte offset where the window should be positioned.
+>> +    ///                 Must be 64KB aligned (lower 16 bits zero).
+> 
+> Let's follow the rust doccomment guidelines for the arguments.
+
+Ok, Sure.
+> 
+>> +    fn set_window_addr(&self, fb_offset: usize) -> Result {
+>> +        // FB offset must be 64KB aligned (hardware requirement for window_base field)
+>> +        // Once positioned, the window provides access to 1MB of VRAM through PRAMIN aperture
+>> +        if fb_offset & 0xFFFF != 0 {
+>> +            return Err(EINVAL);
+>> +        }
+> 
+> Since this method is private and called from controlled contexts for
+> which `fb_offset` should always be valid, we can request callers to
+> give us a "window index" (e.g. the `window_base` of the
+> `NV_PBUS_BAR0_WINDOW` register) directly and remove this check. That
+> will also let us remove the impl block on `NV_PBUS_BAR0_WINDOW`.
+> 
+
+The tradeoff being it may complicated callers of the function that deal purely
+with addresses instead of window indices.
+
+>> +    ///
+>> +    /// The function automatically handles PRAMIN window repositioning when accessing
+>> +    /// data that spans multiple 1MB windows.
+> 
+> Inversely, this large method is under-documented. Understanding what
+> `operation` is supposed to do would be helpful.
+
+I will skip these comments for now as we discussed dropping complexity in other
+thread, but thanks for the review on this. This function should be likely
+dropped in the next iteration.
+
+>> +
+>> +    /// Sets the window address from a framebuffer offset.
+>> +    /// The fb_offset must be 64KB aligned (lower bits discared).
+>> +    pub(crate) fn set_window_addr(self, fb_offset: usize) -> Self {
+>> +        // Calculate window base (bits 39:16 of FB address)
+>> +        // The total FB address is 40 bits, mask anything above. Since we are
+>> +        // right shifting the offset by 16 bits, the mask is only 24 bits.
+>> +        let mask = genmask_u32(0..=23) as usize;
+>> +        let window_base = ((fb_offset >> 16) & mask) as u32;
+>> +        self.set_window_base(window_base)
+>> +    }
+>> +}
+> 
+> If you work directly with `window_base` as suggested above, this impl
+> block can be dropped altogether.
+But it will complicate callers. That's the tradeoff. I prefer to keep caller
+side simple and abstract away complexity. But to your point, this is an internal
+API so I can probably code it both ways and see what it looks like.
 
 thanks,
 
  - Joel
+
 
