@@ -2,85 +2,89 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2B1BFC00F46
-	for <lists+dri-devel@lfdr.de>; Thu, 23 Oct 2025 14:03:31 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id C57C6C00F71
+	for <lists+dri-devel@lfdr.de>; Thu, 23 Oct 2025 14:05:15 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4D85610E3DD;
-	Thu, 23 Oct 2025 12:03:29 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E140810E3E5;
+	Thu, 23 Oct 2025 12:05:13 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="aFVLfFI3";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="qV0epkhL";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CBB6910E3DD
- for <dri-devel@lists.freedesktop.org>; Thu, 23 Oct 2025 12:03:27 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1761221008; x=1792757008;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:in-reply-to;
- bh=erXucVQ3CkO8W6iJDjYjGvHlpSCK37tkrL/+XPfgexM=;
- b=aFVLfFI3ZdbePPH1Un1UL0a3xd5Vw2hEqQhL3ClV5DhfQ+JisxU19QzP
- Hxc77rTLTR3mEUxhi5YVOMnLMBimW6El2qycKylPYwYlhi6osgd+xvcLe
- yTLQ5vm0CXCZsHpv8o+3Cl+QhcqSiXW7xeY1rX0m06K/qkAqfKv8Z4HcD
- 8kO1uwbR8t5sGeO73RDls3MHFSSQC3GHPSckolChkQzGvhN0IXwp4HJUi
- rCCAs7GNC9mnSWp39ssYW7dQTk/9GriIUx+8ckO2vCEUa+vrowGw05QN9
- swgPf/hBnfqL2Y7xs9lyygKq0tbIMc8dPbSoGl8Xxs+U9xWQdqA6vBh3+ g==;
-X-CSE-ConnectionGUID: x2ZacaX6SSqq3ySNABqY2g==
-X-CSE-MsgGUID: Ppiv3WR/RbyzQmLrQc267w==
-X-IronPort-AV: E=McAfee;i="6800,10657,11586"; a="74824432"
-X-IronPort-AV: E=Sophos;i="6.19,249,1754982000"; d="scan'208";a="74824432"
-Received: from orviesa007.jf.intel.com ([10.64.159.147])
- by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 23 Oct 2025 05:03:28 -0700
-X-CSE-ConnectionGUID: 7DIzW9o6S2WE7ZvtBcvVQQ==
-X-CSE-MsgGUID: uCa4JL9CTiShx2sG80Yh6A==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.19,249,1754982000"; d="scan'208";a="184033253"
-Received: from bkammerd-mobl.amr.corp.intel.com (HELO kuha.fi.intel.com)
- ([10.124.221.165])
- by orviesa007.jf.intel.com with SMTP; 23 Oct 2025 05:03:17 -0700
-Received: by kuha.fi.intel.com (sSMTP sendmail emulation);
- Thu, 23 Oct 2025 15:03:16 +0300
-Date: Thu, 23 Oct 2025 15:03:16 +0300
-From: Heikki Krogerus <heikki.krogerus@linux.intel.com>
-To: Chaoyi Chen <chaoyi.chen@rock-chips.com>
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>,
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>, Vinod Koul <vkoul@kernel.org>,
- Kishon Vijay Abraham I <kishon@kernel.org>,
- Heiko Stuebner <heiko@sntech.de>, Sandy Huang <hjc@rock-chips.com>,
- Andy Yan <andy.yan@rock-chips.com>,
- Yubing Zhang <yubing.zhang@rock-chips.com>,
- Frank Wang <frank.wang@rock-chips.com>,
- Andrzej Hajda <andrzej.hajda@intel.com>,
- Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Amit Sunil Dhamne <amitsd@google.com>,
- Dragan Simic <dsimic@manjaro.org>, Johan Jonker <jbx6244@gmail.com>,
- Diederik de Haas <didi.debian@cknow.org>,
- Peter Robinson <pbrobinson@gmail.com>, linux-usb@vger.kernel.org,
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-phy@lists.infradead.org, linux-arm-kernel@lists.infradead.org,
- linux-rockchip@lists.infradead.org, dri-devel@lists.freedesktop.org
-Subject: Re: [PATCH v7 2/9] drm/bridge: Implement generic USB Type-C DP HPD
- bridge
-Message-ID: <aPoZhBdc1M6Qgfae@kuha.fi.intel.com>
-References: <20251023033009.90-1-kernel@airkyi.com>
- <20251023033009.90-3-kernel@airkyi.com>
- <aPnrKFWTvpuRTyhI@kuha.fi.intel.com>
- <14b8ac71-489b-4192-92d6-5f228ff3881d@rock-chips.com>
+Received: from mail-lj1-f171.google.com (mail-lj1-f171.google.com
+ [209.85.208.171])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C83AA10E3E5
+ for <dri-devel@lists.freedesktop.org>; Thu, 23 Oct 2025 12:05:12 +0000 (UTC)
+Received: by mail-lj1-f171.google.com with SMTP id
+ 38308e7fff4ca-378d50e1c82so8132321fa.3
+ for <dri-devel@lists.freedesktop.org>; Thu, 23 Oct 2025 05:05:12 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1761221111; x=1761825911; darn=lists.freedesktop.org;
+ h=cc:to:content-transfer-encoding:mime-version:message-id:date
+ :subject:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=BoEX23xd/nGNP6bsxFTl8PssrTkiP0VDDAlBt1h+gv4=;
+ b=qV0epkhLR9GxeBD//dbK7WpOlOJJYtbF/MrOlcnF4s38yamRQN1bSLOj6K7Jq64BVR
+ pDJ7e36x7HteCcwJAl5DeY9tx5F/Mrr8v1DLx2IMuoWZAOJIEr9B0pGBF1Z2+4YNgJm0
+ BLJZoVSW+ZCkCzBJWSePKO1rr+XnP6qzBB1deqfbAjj+vi/MO4GUe5MEP06EMTRmD9G8
+ NS8bLtjG2Sdu/JM5GSzHbnzmEJqPQyIjgxGmeG49YICt+Ocy6+gSeqtbC1FRPolfcpRR
+ 6eLcyJYIXhpRHIPytNzeEkFcyocZDwNI2f/HDRX1jadjnnCius5g9pMXR4cu/8UAf6qK
+ Fe4g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1761221111; x=1761825911;
+ h=cc:to:content-transfer-encoding:mime-version:message-id:date
+ :subject:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=BoEX23xd/nGNP6bsxFTl8PssrTkiP0VDDAlBt1h+gv4=;
+ b=YRIqB2kjQtUkR7tagkM1c6Fw2AlgElXubq2eo+ZLc34aJawrEUJ+cqsaGe9AouaTvK
+ FDTC77ABUWFBSpq7hMOtc5/FgrJ7D88vVwl64/21quF3Yb1YZx7IEEHiyT3Z6QbtCZxq
+ GRlat+aJg1GGuslN1e4t92j4DmlXCwlCUO/BocvIlkh3+1SEa/CIcRXUtjsGZd3mGE1v
+ GJ4vz6tAm6rPklsZADRhtMQLb1LgMAgHYZ2bZicmm0WuGjLcW+dMKi3HUumqPMCnhJ6o
+ 519aU08ibF74fiitgcyfAmgAo7jSrmhgZBB+vPXnoxKjC7JJKLE1vklNUSwFrjbZ8Lph
+ dAKw==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCVyHcB7sLvRvdTajC4VwpbWNd/c3sHY2dzj7WMrI55Iaoyv7HFSwyj+EfFx1gJX+qP9NmU5KOdzViI=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YzVIheMK643vTym/fFTAxNHa3FfF77X/fAUF80rM+nXlmdoxXhh
+ 1ImSdnP8suKRPC1PuOIDSL97RJ1fEaYV2zm6+s5Q8tv7KgXk9mq3j2FvKxPrCgS9+gI=
+X-Gm-Gg: ASbGnctIybdHkjiCs/J6WrPPMmndLVF2PYQNw3ZivP7lFS4KpKGlSzES6OOFJz7QDoH
+ sbqi4d+ur2OhqK1qz36O/Ehm+ycQoiGZLDFTMgClulS5gxLuseagALGNgggCheCl9XD2mkTCYpG
+ iAzs0aXE1bGuJNu1TieKfA/HfIe33q4uKdIRgKeiySdvrpDGXtxFLzFY1luS6QjMXeHfMJWMU+o
+ zZ9Y+PvBZcSRjBhCW+pIGwFo4aL7t/ynJGNeDMuY+Gw1oo4fzSsKFyJcVOBC5dV20C0HNDsbpUm
+ SS6s7BInk47NE+lhd0u74Om6izN/ylg7/rTjdYL3CtOF51tDdjdG7K+2a1Sj3hdxSoazGDsjAKQ
+ 7GYAXj9m3mPP823gjCv/EokjpELnrz56inwf4NS/O2wb0Sj1PnF0jccTGSO+adPzfOQvUFHlqbG
+ R6+2E4cdPvvyn1TmoG5XzsY5rtRrrRSXq9JmMJrU9doHa/
+X-Google-Smtp-Source: AGHT+IFYLbhLjOY2LMBy7lXUJqenzjQosnzEM8MW3QWTj8JugrqDJBsjM/ACbE4M/KUmHk97UAP8Nw==
+X-Received: by 2002:a05:651c:901:b0:36b:698b:1f00 with SMTP id
+ 38308e7fff4ca-37797815b55mr69910171fa.6.1761221110718; 
+ Thu, 23 Oct 2025 05:05:10 -0700 (PDT)
+Received: from [192.168.1.2] (c-92-34-217-190.bbcust.telenor.se.
+ [92.34.217.190]) by smtp.gmail.com with ESMTPSA id
+ 38308e7fff4ca-378d680322dsm4070701fa.47.2025.10.23.05.05.09
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 23 Oct 2025 05:05:10 -0700 (PDT)
+From: Linus Walleij <linus.walleij@linaro.org>
+Subject: [PATCH 0/4] drm: panel: Fix atomic helper-induced regressions
+Date: Thu, 23 Oct 2025 14:05:08 +0200
+Message-Id: <20251023-fix-mcde-drm-regression-v1-0-ed9a925db8c7@linaro.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <14b8ac71-489b-4192-92d6-5f228ff3881d@rock-chips.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAAAAAAAC/x2MzQqEMAwGX6XkvIE2sAf3VRYP3fRbzcEfUhBBf
+ Herx4GZOajCDZU+4SDHZtWWuUF6BdIxzwPYSmOSKO8URfhvO09awMUndgyOejesXdaoKvGXQa1
+ eHU19zt/+PC+uwVdVaQAAAA==
+X-Change-ID: 20251022-fix-mcde-drm-regression-c9ac0cc20bae
+To: Aradhya Bhatia <a-bhatia1@ti.com>, 
+ Stefan Hansson <newbyte@postmarketos.org>, 
+ Neil Armstrong <neil.armstrong@linaro.org>, 
+ Jessica Zhang <jessica.zhang@oss.qualcomm.com>, 
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
+ Dmitry Baryshkov <lumag@kernel.org>, 
+ Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>, 
+ dri-devel@lists.freedesktop.org
+Cc: Linus Walleij <linus.walleij@linaro.org>
+X-Mailer: b4 0.14.3
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -96,89 +100,65 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-> > > diff --git a/drivers/gpu/drm/bridge/Makefile b/drivers/gpu/drm/bridge/Makefile
-> > > index 245e8a27e3fc..e91736829167 100644
-> > > --- a/drivers/gpu/drm/bridge/Makefile
-> > > +++ b/drivers/gpu/drm/bridge/Makefile
-> > > @@ -1,6 +1,7 @@
-> > >   # SPDX-License-Identifier: GPL-2.0
-> > >   obj-$(CONFIG_DRM_AUX_BRIDGE) += aux-bridge.o
-> > >   obj-$(CONFIG_DRM_AUX_HPD_BRIDGE) += aux-hpd-bridge.o
-> > > +obj-$(CONFIG_DRM_AUX_TYPEC_DP_HPD_BRIDGE) += aux-hpd-typec-dp-bridge.o
-> > Instead, why not just make that a part of aux-hpd-bridge
-> > conditionally:
-> > 
-> > ifneq ($(CONFIG_TYPEC),)
-> >          aux-hpd-bridge-y        += aux-hpd-typec-dp-bridge.o
-> > endif
-> 
-> Oh, I did consider that! But I noticed that aux-hpd-bridge.c contains the
-> following statement module_auxiliary_driver(drm_aux_hpd_bridge_drv), which
-> already includes a module_init. In the newly added file, in order to call the
-> register function, another module_init was also added. If the two files are
-> each made into a module separately, would there be a problem?
+commit c9b1150a68d9362a0827609fc0dc1664c0d8bfe1
+"drm/atomic-helper: Re-order bridge chain pre-enable and post-disable"
+caused a series of regressions in all panels that send
+DSI commands in their .prepare() and .unprepare()
+callbacks.
 
-You would not call module_init() from the new file. Instead you would
-call drm_aux_hpd_typec_dp_bridge_init() and what ever directly from
-aux-hpd-bridge.c:
+As the CRTC is no longer online at bridge_pre_enable()
+and gone at brige_post_disable() which maps to the panel
+bridge .prepare()/.unprepare() callbacks, any CRTC that
+enable/disable the DSI transmitter in it's enable/disable
+callbacks will be unable to send any DSI commands in the
+.prepare() and .unprepare() callbacks.
 
-diff --git a/drivers/gpu/drm/bridge/aux-bridge.h b/drivers/gpu/drm/bridge/aux-bridge.h
-new file mode 100644
-index 000000000000..ae689a7778fa
---- /dev/null
-+++ b/drivers/gpu/drm/bridge/aux-hpd-bridge.h
-@@ -0,0 +1,13 @@
-+/* SPDX-License-Identifier: GPL-2.0-only */
-+#ifndef AUX_HPD_BRIDGE_H
-+#define AUX_HPD_BRIDGE_H
-+
-+#if IS_ENABLED(CONFIG_TYPEC)
-+int drm_aux_hpd_typec_dp_bridge_init(void);
-+void drm_aux_hpd_typec_dp_bridge_exit(void);
-+#else
-+static inline int drm_aux_hpd_typec_dp_bridge_init(void) { return 0; }
-+static inline void drm_aux_hpd_typec_dp_bridge_exit(void) { }
-+#endif /* IS_ENABLED(CONFIG_TYPEC) */
-+
-+#endif /* AUX_HPD_BRIDGE_H */
-diff --git a/drivers/gpu/drm/bridge/aux-hpd-bridge.c b/drivers/gpu/drm/bridge/aux-hpd-bridge.c
-index 2e9c702c7087..3578df1df78a 100644
---- a/drivers/gpu/drm/bridge/aux-hpd-bridge.c
-+++ b/drivers/gpu/drm/bridge/aux-hpd-bridge.c
-@@ -12,6 +12,8 @@
- #include <drm/drm_bridge.h>
- #include <drm/bridge/aux-bridge.h>
- 
-+#include "aux-hpd-bridge.h"
-+
- static DEFINE_IDA(drm_aux_hpd_bridge_ida);
- 
- struct drm_aux_hpd_bridge_data {
-@@ -190,9 +192,16 @@ static int drm_aux_hpd_bridge_probe(struct auxiliary_device *auxdev,
- 
-        auxiliary_set_drvdata(auxdev, data);
- 
-+       drm_aux_hpd_typec_dp_bridge_init();
-+
-        return devm_drm_bridge_add(data->dev, &data->bridge);
- }
- 
-+static void drm_aux_hpd_bridge_remove(struct auxiliary_device *auxdev)
-+{
-+       drm_aux_hpd_typec_dp_bridge_exit();
-+}
-+
- static const struct auxiliary_device_id drm_aux_hpd_bridge_table[] = {
-        { .name = KBUILD_MODNAME ".dp_hpd_bridge", .driver_data = DRM_MODE_CONNECTOR_DisplayPort, },
-        {},
-@@ -203,6 +212,7 @@ static struct auxiliary_driver drm_aux_hpd_bridge_drv = {
-        .name = "aux_hpd_bridge",
-        .id_table = drm_aux_hpd_bridge_table,
-        .probe = drm_aux_hpd_bridge_probe,
-+       .remove = drm_aux_hpd_bridge_remove,
- };
- module_auxiliary_driver(drm_aux_hpd_bridge_drv);
+This is also evident from device trees with the DSI
+inside the CRTC such as this:
 
+mcde@a0350000 {
+   status = "okay";
+   pinctrl-names = "default";
+   pinctrl-0 = <&dsi_default_mode>;
 
+   dsi@a0351000 {
+     panel {
+       compatible = "hydis,hva40wv1", "novatek,nt35510";
+       reg = <0>;
+       vdd-supply = <&ab8500_ldo_aux4_reg>;
+       vddi-supply = <&ab8500_ldo_aux6_reg>;
+    };
+  };
+};
+
+The panel is inside the DSI which is inside the CRTC
+(MCDE).
+
+This is in a way natural, so let's just fix it in all
+affected panel drivers that I know of and can test.
+Mostly Ux500 phones, and only those with the display
+directly on DSI (not e.g. using DPI and SPI).
+
+Other panel drivers may be affected.
+
+Signed-off-by: Linus Walleij <linus.walleij@linaro.org>
+---
+Linus Walleij (4):
+      drm: panel: nt355510: Move DSI commands to enable/disable
+      drm: panel: s6d16d0: Move DSI commands to enable/disable
+      drm: panel: nt35560: Move DSI commands to enable/disable
+      drm: panel: s6e63m0: Move DSI commands to enable/disable
+
+ drivers/gpu/drm/panel/panel-novatek-nt35510.c | 24 ++++++++++++------
+ drivers/gpu/drm/panel/panel-novatek-nt35560.c | 24 ++++++++++++------
+ drivers/gpu/drm/panel/panel-samsung-s6d16d0.c | 35 ++++++++++++---------------
+ drivers/gpu/drm/panel/panel-samsung-s6e63m0.c | 31 +++++++++---------------
+ 4 files changed, 61 insertions(+), 53 deletions(-)
+---
+base-commit: 6548d364a3e850326831799d7e3ea2d7bb97ba08
+change-id: 20251022-fix-mcde-drm-regression-c9ac0cc20bae
+
+Best regards,
 -- 
-heikki
+Linus Walleij <linus.walleij@linaro.org>
+
