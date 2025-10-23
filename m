@@ -2,84 +2,130 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id EB346BFFFE8
-	for <lists+dri-devel@lfdr.de>; Thu, 23 Oct 2025 10:45:44 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id CBB3AC0001B
+	for <lists+dri-devel@lfdr.de>; Thu, 23 Oct 2025 10:50:23 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0452010E8EF;
-	Thu, 23 Oct 2025 08:45:42 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0653C10E8F1;
+	Thu, 23 Oct 2025 08:50:21 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="Oq/SlVyp";
+	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="EZVvmyj4";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7ED0110E8EF
- for <dri-devel@lists.freedesktop.org>; Thu, 23 Oct 2025 08:45:40 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1761209140; x=1792745140;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:in-reply-to;
- bh=mska27xKT3EyztX10JDYKLSZS1LLb/NIROqYMNvXfP4=;
- b=Oq/SlVypXYrTUOOf07L0Ztw+1fVdpeduXbhUeP/7pd485N8MjrarIU4n
- dqSKLi4LJ1zDgARu1IAuAXUP32RaRxbVSDSvWGlW/NTvhzToN98A5wlxC
- iBtUK6ToZBFkpvby14rjNDQG/+JXiQ7UpuP/Mlj0CPZkW5mF5lW3vmJRp
- VaotNG4cJ/UjtcscpjEHKRrDCdDHIeAdgKQDA0z+iweCWqCrBNejQcA6C
- fV6PtyDdvShQX+j+XPHzo8RTMC6LdOIbIXgNwvDplA9aaY/SvV4F3YWKe
- vgPo00b+njhYtVwWGw1GQRoRZkdb6W5LcA0BDSFFm1/OmDpXg9N+frBR0 A==;
-X-CSE-ConnectionGUID: f2vKHkRdRd+ryjVHO25BXA==
-X-CSE-MsgGUID: CxKT4OxYTmy0uGmzezKyfw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11586"; a="63280770"
-X-IronPort-AV: E=Sophos;i="6.19,249,1754982000"; d="scan'208";a="63280770"
-Received: from orviesa007.jf.intel.com ([10.64.159.147])
- by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 23 Oct 2025 01:45:40 -0700
-X-CSE-ConnectionGUID: Ucc0EPCqSiCBkTSZJ6NNCw==
-X-CSE-MsgGUID: M6DulzDDRF26JDQ0xCqgcQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.19,249,1754982000"; d="scan'208";a="183995303"
-Received: from bkammerd-mobl.amr.corp.intel.com (HELO kuha.fi.intel.com)
- ([10.124.221.165])
- by orviesa007.jf.intel.com with SMTP; 23 Oct 2025 01:45:30 -0700
-Received: by kuha.fi.intel.com (sSMTP sendmail emulation);
- Thu, 23 Oct 2025 11:45:29 +0300
-Date: Thu, 23 Oct 2025 11:45:28 +0300
-From: Heikki Krogerus <heikki.krogerus@linux.intel.com>
-To: Chaoyi Chen <kernel@airkyi.com>
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>,
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>, Vinod Koul <vkoul@kernel.org>,
- Kishon Vijay Abraham I <kishon@kernel.org>,
- Heiko Stuebner <heiko@sntech.de>, Sandy Huang <hjc@rock-chips.com>,
- Andy Yan <andy.yan@rock-chips.com>,
- Yubing Zhang <yubing.zhang@rock-chips.com>,
- Frank Wang <frank.wang@rock-chips.com>,
- Andrzej Hajda <andrzej.hajda@intel.com>,
- Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>,
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
+ [205.220.168.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 52B6A10E8F1
+ for <dri-devel@lists.freedesktop.org>; Thu, 23 Oct 2025 08:50:20 +0000 (UTC)
+Received: from pps.filterd (m0279867.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 59N6takq019818
+ for <dri-devel@lists.freedesktop.org>; Thu, 23 Oct 2025 08:50:20 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+ cc:content-transfer-encoding:content-type:date:from:in-reply-to
+ :message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+ OMKnxUqr9ND8NblLPWP0eOPZ9cYwdnsAwoYbevDZ5+4=; b=EZVvmyj4uFp0R2fV
+ JeJ9KNrnXx/83rEAEnhbduhhXJ99Kz9VB4IwkB44smUXQJ61Ej3uHLYIhjIfg+Ka
+ o20JMyUGs7c0tnD/nCdncT1JC0H+FFnLrKXrVoSrAMx3CDt9ZOaUX9HNlkKRy1iO
+ BULRdNblK2EJ+nquSe8IbbkIivsTwtz+mWS+MP28n3A7Ep6uKFWOMSuwNLk5TAU7
+ k6g1juL89YU+pgWjffzdYbirvq7TA6Lv2le6RLIPepwMfPHEdyiOSU80GcNxDfAQ
+ wVL1P9MRhAmwWeSakT9qRIXYNQwbijIVCTFHgNyu9pRAkQzp5Kd0veskwt1eVe2o
+ DTFQYg==
+Received: from mail-pf1-f198.google.com (mail-pf1-f198.google.com
+ [209.85.210.198])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 49xkpsda7e-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
+ for <dri-devel@lists.freedesktop.org>; Thu, 23 Oct 2025 08:50:19 +0000 (GMT)
+Received: by mail-pf1-f198.google.com with SMTP id
+ d2e1a72fcca58-7a272da5676so209318b3a.1
+ for <dri-devel@lists.freedesktop.org>; Thu, 23 Oct 2025 01:50:19 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1761209417; x=1761814217;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to:subject
+ :user-agent:mime-version:date:message-id:x-gm-message-state:from:to
+ :cc:subject:date:message-id:reply-to;
+ bh=OMKnxUqr9ND8NblLPWP0eOPZ9cYwdnsAwoYbevDZ5+4=;
+ b=BAaOan2+Un4A+7/FhD+i/FGKbEmRsL1YFyAl0zzG9RpBUA3j41rKy+v4/AQO6gd9jY
+ xCeWuM8Fr/zO6qwRRXRISDFVQAUWyNHANjUc2D636UgPuqY1fbUmd+TTo2htqWCYKerl
+ 4bE5bwgPZLdt6gJVgcKkUYTJH7gpvekv0CFwYgDUqO1wQDkGSOPd1erq/EStnNFH3uSj
+ OswCeUqEw5HNo2SslXJfpiMTqkGkoeNOm6EPNBE8QXpFn4RGaBN6rJBOriv7DHbdQVqd
+ ky5DrmuzuZLHbrnhUVcG2rpTbrmX8hZfaG1t+Jl1sDOMuk8PGF294zOqfOi9swmppQ89
+ /Ing==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCXTMmVu6J8adpL+ScGTtGF48rL4KH88p/Ld63PMO25AhE7D7MNnZMRX4OdtCGWsTFxsEBOlpNpOpZU=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Yy25fClIHQIiTt1xByN64QPhqbEzHdwXX/2i/aG2hrM6Zf8yWvx
+ skcsXhEB2Ka99npNg7qhdjHBLe+4B108DYKaxqp2K6uD3X9SBHhEX+yqtpCYrO0t/NU2tohIzY1
+ b7iRscMe6z1h0oRNP+w5eclyDSFmax2HxjnGWwx0jeS/WUVNEgERV3KTSPXD2FTj15DdAO+w=
+X-Gm-Gg: ASbGncs7idy+OTHneEAQSon/91FxbYW+1DlCRihH7bctKB6IAvbWncA5vZAiTn6pyYz
+ koTxiFhBygdERP55qLtUI/hW45shs8m1dUNuw/74ppxCH6QEzcw/spuC3UjdXI6FhZzH+lgl6s1
+ uGbuiUXSvqJDpBlpV9Kqk8vb2LLhbP9Qd5rrgQ2KqKaGDLdL/fJH1hyat9mSp1ArbG1y6gHT4+U
+ 6qqVjff8x3sknWa69ImIzWLyAhZ+w/ivcWB7tX9eORJh7P63Nvcql0NeEdMSIuoheHwroGc1As6
+ I7/Z+6gK3EL30zyldOVljUwSDe9WyNiyOWSEu3AVwhS8B1Qs1Xql79tbYjbBB0Hj/M52vAH6xIW
+ asuNP/GBrFCqkvoJr0xcqAfyPouKQeGHFSaaoCSpp/AzPl/FRCuvvCY31JlvbxEYO5yvrrg==
+X-Received: by 2002:a05:6a20:d80a:b0:2b0:ff55:f838 with SMTP id
+ adf61e73a8af0-3393189436bmr6910790637.3.1761209417380; 
+ Thu, 23 Oct 2025 01:50:17 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IGMne+EgLkcUdrIkI1VqQAldalOI3LplCWH+quMwYft+tzjn4ldU/yUSpq3PbB/3w7ARbB6QA==
+X-Received: by 2002:a05:6a20:d80a:b0:2b0:ff55:f838 with SMTP id
+ adf61e73a8af0-3393189436bmr6910774637.3.1761209416844; 
+ Thu, 23 Oct 2025 01:50:16 -0700 (PDT)
+Received: from [10.133.33.163] (tpe-colo-wan-fw-bordernet.qualcomm.com.
+ [103.229.16.4]) by smtp.gmail.com with ESMTPSA id
+ d2e1a72fcca58-7a274a5fe26sm1800703b3a.2.2025.10.23.01.50.10
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 23 Oct 2025 01:50:16 -0700 (PDT)
+Message-ID: <d048a875-aaa7-4db2-9ef0-daab94bc123d@oss.qualcomm.com>
+Date: Thu, 23 Oct 2025 16:50:07 +0800
+MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v5 1/3] dt-bindings: display/msm: Add SM6150 DisplayPort
+ controller
+To: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
+Cc: Rob Clark <robin.clark@oss.qualcomm.com>,
+ Dmitry Baryshkov <lumag@kernel.org>, Abhinav Kumar
+ <abhinav.kumar@linux.dev>,
+ Jessica Zhang <jesszhan0024@gmail.com>, Sean Paul <sean@poorly.run>,
+ Marijn Suijten <marijn.suijten@somainline.org>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
  Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
  Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Amit Sunil Dhamne <amitsd@google.com>,
- Chaoyi Chen <chaoyi.chen@rock-chips.com>,
- Dragan Simic <dsimic@manjaro.org>, Johan Jonker <jbx6244@gmail.com>,
- Diederik de Haas <didi.debian@cknow.org>,
- Peter Robinson <pbrobinson@gmail.com>, linux-usb@vger.kernel.org,
+ Thomas Zimmermann <tzimmermann@suse.de>, Rob Herring <robh@kernel.org>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>, Bjorn Andersson <andersson@kernel.org>,
+ Konrad Dybcio <konradybcio@kernel.org>, linux-arm-msm@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, freedreno@lists.freedesktop.org,
  devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-phy@lists.infradead.org, linux-arm-kernel@lists.infradead.org,
- linux-rockchip@lists.infradead.org, dri-devel@lists.freedesktop.org
-Subject: Re: [PATCH v7 2/9] drm/bridge: Implement generic USB Type-C DP HPD
- bridge
-Message-ID: <aPnrKFWTvpuRTyhI@kuha.fi.intel.com>
-References: <20251023033009.90-1-kernel@airkyi.com>
- <20251023033009.90-3-kernel@airkyi.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20251023033009.90-3-kernel@airkyi.com>
+ fange.zhang@oss.qualcomm.com, yongxing.mou@oss.qualcomm.com,
+ li.liu@oss.qualcomm.com
+References: <20251021-add-displayport-support-to-qcs615-devicetree-v5-0-92f0f3bf469f@oss.qualcomm.com>
+ <20251021-add-displayport-support-to-qcs615-devicetree-v5-1-92f0f3bf469f@oss.qualcomm.com>
+ <fh7daiy5p5taaz7ifymbivfktjqngs5oashhd3osrtzspsac2z@nswaeyh3kkhi>
+ <8d4184a8-4e32-43ce-a487-a195e97fa874@oss.qualcomm.com>
+ <1a787fe1-20ba-42b7-a94e-cd1bf465f16f@oss.qualcomm.com>
+From: Xiangxu Yin <xiangxu.yin@oss.qualcomm.com>
+In-Reply-To: <1a787fe1-20ba-42b7-a94e-cd1bf465f16f@oss.qualcomm.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUxMDIxMDE5MCBTYWx0ZWRfX4gt6uIbbQwdl
+ n7QNuSE61agMw23tuv4+yLiskAk7Bv9hTTlE3oO75Fwxtqr/R2gb3A7Zgy6H49OMxKs2toHY1gi
+ LwdZyTzclXyXX5/6l9mGbhZo4PgpOLcsUjaN7CwWMjJafyPGsTL2NKKRVBA4lSC65Rc3Xw0UbaF
+ JC4EN31ge0QuqDbB+UWsKbkw5X8PlSB+eY0xUnAU12mSXHbS2Ot+Fr/wcQJssG4D/ItgRIBeQ4P
+ ShYt1UzhsokN9S2LkVWxNHEuY1zh2+lN9ur54e5mRptqIqMNlN9k4XEQ06W2BQyXffNOkr32k6s
+ L+CUwLTweO5sNuIVv91Gx2wbnxNsc2xI/5BbbV8kOcsOs7cexTJKRAqQsUTyePxqpTcnqe0GZs5
+ NbQgopTvyV3MrzIDxAJtorwRgDBaQw==
+X-Authority-Analysis: v=2.4 cv=FbM6BZ+6 c=1 sm=1 tr=0 ts=68f9ec4b cx=c_pps
+ a=m5Vt/hrsBiPMCU0y4gIsQw==:117 a=nuhDOHQX5FNHPW3J6Bj6AA==:17
+ a=IkcTkHD0fZMA:10 a=x6icFKpwvdMA:10 a=VkNPw1HP01LnGYTKEx00:22
+ a=EUspDBNiAAAA:8 a=Yf0QdHFY1VziTJGLG10A:9 a=3ZKOabzyN94A:10 a=QEXdDO2ut3YA:10
+ a=IoOABgeZipijB_acs4fv:22
+X-Proofpoint-GUID: -_budbAkY_hllHzLfOVm4qlGPRSxUBWv
+X-Proofpoint-ORIG-GUID: -_budbAkY_hllHzLfOVm4qlGPRSxUBWv
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.9,FMLib:17.12.80.40
+ definitions=2025-10-22_08,2025-10-22_01,2025-03-28_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ malwarescore=0 phishscore=0 bulkscore=0 lowpriorityscore=0 priorityscore=1501
+ suspectscore=0 spamscore=0 impostorscore=0 clxscore=1015 adultscore=0
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.19.0-2510020000 definitions=main-2510210190
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -95,68 +141,81 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Oct 23, 2025 at 11:30:02AM +0800, Chaoyi Chen wrote:
-> From: Chaoyi Chen <chaoyi.chen@rock-chips.com>
-> 
-> Several USB-C controller drivers have already implemented the DP HPD
-> bridge function provided by aux-hpd-bridge.c, but there are still
-> some USB-C controller driver that have not yet implemented it.
-> 
-> This patch implements a generic DP HPD bridge based on aux-hpd-bridge.c,
-> so that other USB-C controller drivers don't need to implement it again.
-> 
-> Signed-off-by: Chaoyi Chen <chaoyi.chen@rock-chips.com>
-> ---
->  drivers/gpu/drm/bridge/Kconfig                | 11 ++++
->  drivers/gpu/drm/bridge/Makefile               |  1 +
->  .../gpu/drm/bridge/aux-hpd-typec-dp-bridge.c  | 51 +++++++++++++++++++
->  3 files changed, 63 insertions(+)
->  create mode 100644 drivers/gpu/drm/bridge/aux-hpd-typec-dp-bridge.c
-> 
-> diff --git a/drivers/gpu/drm/bridge/Kconfig b/drivers/gpu/drm/bridge/Kconfig
-> index b9e0ca85226a..9f31540d3ad8 100644
-> --- a/drivers/gpu/drm/bridge/Kconfig
-> +++ b/drivers/gpu/drm/bridge/Kconfig
-> @@ -33,6 +33,17 @@ config DRM_AUX_HPD_BRIDGE
->  menu "Display Interface Bridges"
->  	depends on DRM && DRM_BRIDGE
->  
-> +config DRM_AUX_TYPEC_DP_HPD_BRIDGE
-> +	tristate "TypeC DP HPD bridge"
-> +	depends on DRM_BRIDGE && OF && TYPEC
-> +	select DRM_AUX_HPD_BRIDGE
-> +	help
-> +	  Simple USB Type-C DP bridge that terminates the bridge chain and
-> +	  provides HPD support.
-> +
-> +	  If the USB-C controller driver has not implemented this and you need
-> +	  the DP HPD support, say "Y" or "m" here.
 
-You don't need to depend on DRM_BRIDGE separately, but do you really
-need a separate module for this in the first place?
+On 10/23/2025 1:10 PM, Dmitry Baryshkov wrote:
+> On 23/10/2025 07:50, Xiangxu Yin wrote:
+>>
+>> On 10/22/2025 11:07 PM, Dmitry Baryshkov wrote:
+>>> On Tue, Oct 21, 2025 at 11:18:07AM +0800, Xiangxu Yin via B4 Relay wrote:
+>>>> From: Xiangxu Yin <xiangxu.yin@oss.qualcomm.com>
+>>>>
+>>>> SM6150 uses the same DisplayPort controller as SM8150, which is already
+>>>> compatible with SM8350. Add the SM6150-specific compatible string and
+>>>> update the binding example accordingly.
+>>>>
+>>>> Signed-off-by: Xiangxu Yin <xiangxu.yin@oss.qualcomm.com>
+>>>> ---
+>>>>   .../devicetree/bindings/display/msm/qcom,sm6150-mdss.yaml   | 13 ++++++++++++-
+>>>>   1 file changed, 12 insertions(+), 1 deletion(-)
+>>>>
+>>>> diff --git a/Documentation/devicetree/bindings/display/msm/qcom,sm6150-mdss.yaml b/Documentation/devicetree/bindings/display/msm/qcom,sm6150-mdss.yaml
+>>>> index 9ac24f99d3ada1c197c9654dc9babebccae972ed..89852af70de97a9025079107b838de578778c049 100644
+>>>> --- a/Documentation/devicetree/bindings/display/msm/qcom,sm6150-mdss.yaml
+>>>> +++ b/Documentation/devicetree/bindings/display/msm/qcom,sm6150-mdss.yaml
+>>>> @@ -51,6 +51,16 @@ patternProperties:
+>>>>         compatible:
+>>>>           const: qcom,sm6150-dpu
+>>>>   +  "^displayport-controller@[0-9a-f]+$":
+>>>> +    type: object
+>>>> +    additionalProperties: true
+>>>> +    properties:
+>>>> +      compatible:
+>>>> +        items:
+>>>> +          - const: qcom,sm6150-dp
+>>>> +          - const: qcom,sm8150-dp
+>>>> +          - const: qcom,sm8350-dp
+>>>> +
+>>>>     "^dsi@[0-9a-f]+$":
+>>>>       type: object
+>>>>       additionalProperties: true
+>>>> @@ -132,13 +142,14 @@ examples:
+>>>>                   port@0 {
+>>>>                     reg = <0>;
+>>>>                     dpu_intf0_out: endpoint {
+>>>> +                    remote-endpoint = <&mdss_dp0_in>;
+>>> Why?
+>>
+>>
+>> Oh, I think I misunderstood the “messed up indentation” comment from Krzysztof.
+>> It seems the two-space indentation under port@X and opp-x is the actual issue.
+>>
+>> However, that part was not introduced in this patch.
+>> I will split a separate patch to fix the indentation there.
+>
+> Note, you have two different chunks here. The first one is useless as it adds a graph arc to a node that is not a part of the example. 
+>
 
->  config DRM_CHIPONE_ICN6211
->  	tristate "Chipone ICN6211 MIPI-DSI/RGB Converter bridge"
->  	depends on OF
-> diff --git a/drivers/gpu/drm/bridge/Makefile b/drivers/gpu/drm/bridge/Makefile
-> index 245e8a27e3fc..e91736829167 100644
-> --- a/drivers/gpu/drm/bridge/Makefile
-> +++ b/drivers/gpu/drm/bridge/Makefile
-> @@ -1,6 +1,7 @@
->  # SPDX-License-Identifier: GPL-2.0
->  obj-$(CONFIG_DRM_AUX_BRIDGE) += aux-bridge.o
->  obj-$(CONFIG_DRM_AUX_HPD_BRIDGE) += aux-hpd-bridge.o
-> +obj-$(CONFIG_DRM_AUX_TYPEC_DP_HPD_BRIDGE) += aux-hpd-typec-dp-bridge.o
-
-Instead, why not just make that a part of aux-hpd-bridge
-conditionally:
-
-ifneq ($(CONFIG_TYPEC),)
-        aux-hpd-bridge-y        += aux-hpd-typec-dp-bridge.o
-endif
+You’re right, I verified with CHECK_DTBS and it passes without it,
+so I’ll drop it in the next version.
 
 
-thanks,
+>>
+>>
+>>>>                     };
+>>>>                   };
+>>>>                     port@1 {
+>>>>                     reg = <1>;
+>>>>                     dpu_intf1_out: endpoint {
+>>>> -                      remote-endpoint = <&mdss_dsi0_in>;
+>>>> +                    remote-endpoint = <&mdss_dsi0_in>;
+>>> Why?
+>>
+>>
+>> Ack.
+>
+> Use YAML coding style (two-space indentation). For DTS examples in the schema, preferred is four-space indentation. 
+>
 
--- 
-heikki
+Ok, will add a new subpatch to fix DTS example indentation.
+
+
