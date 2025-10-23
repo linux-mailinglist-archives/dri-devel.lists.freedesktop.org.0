@@ -2,118 +2,133 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 557DDBFF7E6
-	for <lists+dri-devel@lfdr.de>; Thu, 23 Oct 2025 09:20:24 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id C8A17BFFB5A
+	for <lists+dri-devel@lfdr.de>; Thu, 23 Oct 2025 09:51:21 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9713F10E895;
-	Thu, 23 Oct 2025 07:20:22 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 117B910E8BB;
+	Thu, 23 Oct 2025 07:51:19 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="YloXzBjR";
+	dkim=pass (1024-bit key; unprotected) header.d=suse.de header.i=@suse.de header.b="XdTyzEaC";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="2eaYDE6s";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="wpRNCXkM";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="yPd+PriJ";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
- [205.220.168.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BA7CB10E895
- for <dri-devel@lists.freedesktop.org>; Thu, 23 Oct 2025 07:20:21 +0000 (UTC)
-Received: from pps.filterd (m0279867.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 59N6YaMl018153
- for <dri-devel@lists.freedesktop.org>; Thu, 23 Oct 2025 07:20:21 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
- cc:content-transfer-encoding:content-type:date:from:in-reply-to
- :message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
- +bnwHS1/yOaQxHpzvdkz9xhr9di2Zfg0xQQ+FZkciYw=; b=YloXzBjRRk98phbn
- iH9My3iUv5EljDC3hFAScjp25dXc24XGB134wsy52DlpBXchuGKtJDfeR2V73VMG
- DJHwC0mHbFCM29XZaGPs+fyMwzB8xD6hG6BEqe3AONAGYS5v22xyKjBhOG+Yq/fU
- 7JMYuIO/Z5VcfmgCtqJ+o+vhDTEKfU08o+B9eps2C/qeP38F4LvsyOxBDjBfyVFR
- QDwtMptgH7zvFnWDPhD6D0oev/4lUfdIFg2qPoPBCH7l8uH8sTGgz2qzQstj0c1o
- Bukk5N3Zl4NTkPf2HaLAMEAcRpe4B94VKKSLmDo19tbJRdKpjRc7qWk4dT3ha7tL
- fIOWsA==
-Received: from mail-pj1-f69.google.com (mail-pj1-f69.google.com
- [209.85.216.69])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 49xkpsd13e-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
- for <dri-devel@lists.freedesktop.org>; Thu, 23 Oct 2025 07:20:21 +0000 (GMT)
-Received: by mail-pj1-f69.google.com with SMTP id
- 98e67ed59e1d1-32eddb7e714so468487a91.1
- for <dri-devel@lists.freedesktop.org>; Thu, 23 Oct 2025 00:20:21 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1761204020; x=1761808820;
- h=content-transfer-encoding:in-reply-to:from:content-language
- :references:cc:to:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=+bnwHS1/yOaQxHpzvdkz9xhr9di2Zfg0xQQ+FZkciYw=;
- b=PtusXhhgb20vdT6b8aobuzDA+OhdP09imebnVAO2tZTG1LETHoA96DoyLVedcp9N8z
- 3+3Qpkn+7dz0mRfzJs5q8vyfrA5IfKbN3gjDeZ8fNqv7kBYyIT3lCtk2bGtT8hTTC9DI
- mIAglWSWzxdtFgJ2CloZJyk4cyTBzgNz50F38xpOQu9FEgKLfy60kgROHqFt18aHK6y/
- WIbXTWNt7twLX9O5AY1Qjql8TCFitSx0LhJE77Qm4FErmoCuIXR0h/Vvv2nNer3EkpoY
- zJK2H9rWifc6YF6IKgWnuStjaFumynKBNmhVQWN0zULuAVqKXAzzgY71TPeUxOP94Vzp
- 56lg==
-X-Forwarded-Encrypted: i=1;
- AJvYcCU/McCoK/vRYuLpGxe6wyufuu4pJJrkfI67M7Y1U1EGMGMUM/wJbAtz3ipatPFGCBAJQjqi/5PQQlM=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YwQ19niKF5YnC2qV7CYV/l7Jgirih1yyiOutdKYM5eNANMA+Md/
- dtfv/LM6r4uua6ZV+DlYpGLPiaIRjoyk7CK07uSD34n4HnjDMRDIzNnNyhlyHqka/lwUkgu8E5i
- NKkOn+GHOjEGr5DmKEIHp+iUujq6r+nBhG02RvH3T/H76qTVlkiQ+L7MYIrI8jdgLKZ8BBrE=
-X-Gm-Gg: ASbGncuSJgyOdUqb8VHMm1DLdf1QiwanyfZb6SGf3s7jCzOe1GmVnOiLpRgED3fAmug
- NXG2bi81D3KVtpGi28jWwws26SKvTy+EGscIgsOfm5cqu5W0/JSNZyLSfxpg6Aw+ujKdJ8dml1d
- K+DbGKEeChf/JG52AIwdZZKIEslgiy7eoSDIpOcb1VNiRKxA4vB34jSbPCtxoqAObnEdKo68ZHM
- 2ROB94lQQOdFKB4JywfvOByV920XeV0i2MnTXUiC5XZxZq4U0v3cNVjLFgGtNcSTdvZzqVqjowO
- /7jF90NRdIBOdzdRo85EJsOxa7hMyNp5lAztv3klR1BYC2JF4Xo/Oz1Cmjp1GA+avoEnz/rqDlm
- aMNOERP9E/7FBMvqiq9No1fEeP5+V7Ns=
-X-Received: by 2002:a17:90b:1b41:b0:32d:f352:f764 with SMTP id
- 98e67ed59e1d1-33fafb97f5cmr1702627a91.2.1761204020236; 
- Thu, 23 Oct 2025 00:20:20 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IH2fcSY1TNJQstdN387DaRrxHE11mr6Jmptb5iITLfgYGoj08YKIaIx+q2b22NC4ilr2/vXKA==
-X-Received: by 2002:a17:90b:1b41:b0:32d:f352:f764 with SMTP id
- 98e67ed59e1d1-33fafb97f5cmr1702599a91.2.1761204019686; 
- Thu, 23 Oct 2025 00:20:19 -0700 (PDT)
-Received: from [10.204.86.125] ([202.46.23.25])
- by smtp.gmail.com with ESMTPSA id
- d2e1a72fcca58-7a274a9ceb8sm1525999b3a.21.2025.10.23.00.20.15
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 23 Oct 2025 00:20:19 -0700 (PDT)
-Message-ID: <75f6bbad-49a0-4a15-b976-a0450f66a4dc@oss.qualcomm.com>
-Date: Thu, 23 Oct 2025 12:50:13 +0530
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BA08810E8BB
+ for <dri-devel@lists.freedesktop.org>; Thu, 23 Oct 2025 07:51:16 +0000 (UTC)
+Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested)
+ by smtp-out2.suse.de (Postfix) with ESMTPS id 3FAA71F445;
+ Thu, 23 Oct 2025 07:51:07 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1761205871; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=ZMNp2nOpN1XxaXWWIFL4YPLeaCGKanFBJUZI99Z/v0g=;
+ b=XdTyzEaCWS2zDUF+Lc2f1sMTxgzmsaNZ1kUKT4/Pb/zBLpk0TQr10I6IHRM1AbWhbU8cy5
+ RylBGbm4crac9k/xtijILnx+xZiqSf/5MRN2a7UwYqk5Q1AUj3RN83wyAw9dUBJEzGhqwt
+ BMZOhRZf/cXFRGRguFKB+0wiNQwSUlQ=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1761205871;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=ZMNp2nOpN1XxaXWWIFL4YPLeaCGKanFBJUZI99Z/v0g=;
+ b=2eaYDE6sHgQ3vmkc91N7TQG0Njuto48D8QuSlVOEJnjoa4ZlL8p/yGpRXMomNlM30Jbj47
+ z/826XfdUCS3t8Cg==
+Authentication-Results: smtp-out2.suse.de;
+	none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1761205867; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=ZMNp2nOpN1XxaXWWIFL4YPLeaCGKanFBJUZI99Z/v0g=;
+ b=wpRNCXkMZioSnM/BRuZ8Segg7HdwttbAosM+ECful/zltkOGNtq6JjiOltm2M/T8bAlS6t
+ VpfcKJh8Vlw7IrTa4VnZuYuHMOe7nuLzyM4/Vk98UH1zLa5Dl6Vd+oSf/2Uov8Ch3Na4iJ
+ 2gnCg/WfF72yrUZq+QRnlE/GwMvjPOk=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1761205867;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=ZMNp2nOpN1XxaXWWIFL4YPLeaCGKanFBJUZI99Z/v0g=;
+ b=yPd+PriJqShk7m9RM9linS+Zc4AmVQZdPdbxBPyApa30REinu5jtEWyIi3E8TBGuvXqWbV
+ P5LmlRZW6EbXAaDg==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested)
+ by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id C893E13285;
+ Thu, 23 Oct 2025 07:51:06 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+ by imap1.dmz-prg2.suse.org with ESMTPSA id 94HPLmre+WhaYQAAD6G6ig
+ (envelope-from <tzimmermann@suse.de>); Thu, 23 Oct 2025 07:51:06 +0000
+Message-ID: <afefc748-c466-4697-b8e6-7791b9ebbfed@suse.de>
+Date: Thu, 23 Oct 2025 09:51:06 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 1/3] misc: fastrpc: Rename phys to dma_addr for clarity
-To: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
-Cc: kpallavi@qti.qualcomm.com, srini@kernel.org, amahesh@qti.qualcomm.com,
- arnd@arndb.de, gregkh@linuxfoundation.org, quic_bkumar@quicinc.com,
- ekansh.gupta@oss.qualcomm.com, linux-kernel@vger.kernel.org,
- quic_chennak@quicinc.com, dri-devel@lists.freedesktop.org,
- linux-arm-msm@vger.kernel.org, jingyi.wang@oss.qualcomm.com,
- aiqun.yu@oss.qualcomm.com, ktadakam@qti.qualcomm.com
-References: <20251015045702.3022060-1-kumari.pallavi@oss.qualcomm.com>
- <20251015045702.3022060-2-kumari.pallavi@oss.qualcomm.com>
- <svekpvatqpymzxprc5n2tlndqlwze3tj6kr3bzszjnoay7oulk@zslcxpsyuzdo>
+Subject: Re: [PATCH v3] drm/vblank: downgrade vblank wait timeout from WARN to
+ error
+To: Chintan Patel <chintanlike@gmail.com>, maarten.lankhorst@linux.intel.com, 
+ maxime.ripard@kernel.org, airlied@gmail.com, simona@ffwll.ch
+Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ syzbot+147ba789658184f0ce04@syzkaller.appspotmail.com
+References: <20251003032303.16518-1-chintanlike@gmail.com>
 Content-Language: en-US
-From: Kumari Pallavi <kumari.pallavi@oss.qualcomm.com>
-In-Reply-To: <svekpvatqpymzxprc5n2tlndqlwze3tj6kr3bzszjnoay7oulk@zslcxpsyuzdo>
+From: Thomas Zimmermann <tzimmermann@suse.de>
+Autocrypt: addr=tzimmermann@suse.de; keydata=
+ xsBNBFs50uABCADEHPidWt974CaxBVbrIBwqcq/WURinJ3+2WlIrKWspiP83vfZKaXhFYsdg
+ XH47fDVbPPj+d6tQrw5lPQCyqjwrCPYnq3WlIBnGPJ4/jreTL6V+qfKRDlGLWFjZcsrPJGE0
+ BeB5BbqP5erN1qylK9i3gPoQjXGhpBpQYwRrEyQyjuvk+Ev0K1Jc5tVDeJAuau3TGNgah4Yc
+ hdHm3bkPjz9EErV85RwvImQ1dptvx6s7xzwXTgGAsaYZsL8WCwDaTuqFa1d1jjlaxg6+tZsB
+ 9GluwvIhSezPgnEmimZDkGnZRRSFiGP8yjqTjjWuf0bSj5rUnTGiyLyRZRNGcXmu6hjlABEB
+ AAHNJ1Rob21hcyBaaW1tZXJtYW5uIDx0emltbWVybWFubkBzdXNlLmRlPsLAjgQTAQgAOAIb
+ AwULCQgHAgYVCgkICwIEFgIDAQIeAQIXgBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftODH
+ AAoJEGgNwR1TC3ojx1wH/0hKGWugiqDgLNXLRD/4TfHBEKmxIrmfu9Z5t7vwUKfwhFL6hqvo
+ lXPJJKQpQ2z8+X2vZm/slsLn7J1yjrOsoJhKABDi+3QWWSGkaGwRJAdPVVyJMfJRNNNIKwVb
+ U6B1BkX2XDKDGffF4TxlOpSQzdtNI/9gleOoUA8+jy8knnDYzjBNOZqLG2FuTdicBXblz0Mf
+ vg41gd9kCwYXDnD91rJU8tzylXv03E75NCaTxTM+FBXPmsAVYQ4GYhhgFt8S2UWMoaaABLDe
+ 7l5FdnLdDEcbmd8uLU2CaG4W2cLrUaI4jz2XbkcPQkqTQ3EB67hYkjiEE6Zy3ggOitiQGcqp
+ j//OwE0EWznS4AEIAMYmP4M/V+T5RY5at/g7rUdNsLhWv1APYrh9RQefODYHrNRHUE9eosYb
+ T6XMryR9hT8XlGOYRwKWwiQBoWSDiTMo/Xi29jUnn4BXfI2px2DTXwc22LKtLAgTRjP+qbU6
+ 3Y0xnQN29UGDbYgyyK51DW3H0If2a3JNsheAAK+Xc9baj0LGIc8T9uiEWHBnCH+RdhgATnWW
+ GKdDegUR5BkDfDg5O/FISymJBHx2Dyoklv5g4BzkgqTqwmaYzsl8UxZKvbaxq0zbehDda8lv
+ hFXodNFMAgTLJlLuDYOGLK2AwbrS3Sp0AEbkpdJBb44qVlGm5bApZouHeJ/+n+7r12+lqdsA
+ EQEAAcLAdgQYAQgAIAIbDBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftOH6AAoJEGgNwR1T
+ C3ojVSkIALpAPkIJPQoURPb1VWjh34l0HlglmYHvZszJWTXYwavHR8+k6Baa6H7ufXNQtThR
+ yIxJrQLW6rV5lm7TjhffEhxVCn37+cg0zZ3j7zIsSS0rx/aMwi6VhFJA5hfn3T0TtrijKP4A
+ SAQO9xD1Zk9/61JWk8OysuIh7MXkl0fxbRKWE93XeQBhIJHQfnc+YBLprdnxR446Sh8Wn/2D
+ Ya8cavuWf2zrB6cZurs048xe0UbSW5AOSo4V9M0jzYI4nZqTmPxYyXbm30Kvmz0rYVRaitYJ
+ 4kyYYMhuULvrJDMjZRvaNe52tkKAvMevcGdt38H4KSVXAylqyQOW5zvPc4/sq9c=
+In-Reply-To: <20251003032303.16518-1-chintanlike@gmail.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUxMDIxMDE5MCBTYWx0ZWRfX8/3H0gN4lCyh
- rn2BaWkw5rxLqtb9d+gP9AJBjifEcHwREho9t81UyXYHnmYesB0bpX780TAkFal5ImPN6VcXFPC
- 6/I+1DjxAjcLSHvlyknqtCTNpZFSfy0gD28EH+bYo7HmpZjlhazuTvxuNcsolwbSxwmhprJCaLV
- rIpXOeauoD8v3/0u208tQzwh0O96anh3UClBDk3Qz/l1gr8mAb83A3APpqECqDJtudzV5YKIRzF
- pZbjoQEOLBL8I2VHsSaBW09X84XqZDSNQ/Ys9UIsKJ4kND0tOTtuVEq6DlrcbCplOauZ/ftaEBv
- Mpow3NB7ZtSzaZD7ZTReeawLQ5NiKDttb3AvFpD25kuB6vuejsqqTdy5bmN/U/XV+wAonoPi8Mq
- tDpFneBtq6mfs2W8UpB0fADeks9zFw==
-X-Authority-Analysis: v=2.4 cv=FbM6BZ+6 c=1 sm=1 tr=0 ts=68f9d735 cx=c_pps
- a=vVfyC5vLCtgYJKYeQD43oA==:117 a=ZePRamnt/+rB5gQjfz0u9A==:17
- a=IkcTkHD0fZMA:10 a=x6icFKpwvdMA:10 a=VkNPw1HP01LnGYTKEx00:22
- a=VwQbUJbxAAAA:8 a=EUspDBNiAAAA:8 a=3sZQ8oCNBwzgLSnuaQIA:9 a=QEXdDO2ut3YA:10
- a=rl5im9kqc5Lf4LNbBjHf:22
-X-Proofpoint-GUID: HvYHbZamxdSw5cl7RIcDoxPBNeTHq1ez
-X-Proofpoint-ORIG-GUID: HvYHbZamxdSw5cl7RIcDoxPBNeTHq1ez
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.9,FMLib:17.12.80.40
- definitions=2025-10-22_08,2025-10-22_01,2025-03-28_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- malwarescore=0 phishscore=0 bulkscore=0 lowpriorityscore=0 priorityscore=1501
- suspectscore=0 spamscore=0 impostorscore=0 clxscore=1015 adultscore=0
- classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.19.0-2510020000 definitions=main-2510210190
+Content-Transfer-Encoding: 8bit
+X-Spamd-Result: default: False [-2.80 / 50.00]; BAYES_HAM(-3.00)[100.00%];
+ SUSPICIOUS_RECIPS(1.50)[]; NEURAL_HAM_LONG(-1.00)[-1.000];
+ NEURAL_HAM_SHORT(-0.20)[-1.000]; MIME_GOOD(-0.10)[text/plain];
+ RCPT_COUNT_SEVEN(0.00)[8];
+ FREEMAIL_TO(0.00)[gmail.com,linux.intel.com,kernel.org,ffwll.ch];
+ ARC_NA(0.00)[]; MIME_TRACE(0.00)[0:+];
+ RCVD_VIA_SMTP_AUTH(0.00)[];
+ TAGGED_RCPT(0.00)[147ba789658184f0ce04];
+ MID_RHS_MATCH_FROM(0.00)[]; FREEMAIL_ENVRCPT(0.00)[gmail.com];
+ DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+ FROM_EQ_ENVFROM(0.00)[]; FROM_HAS_DN(0.00)[];
+ TO_DN_SOME(0.00)[]; RCVD_TLS_ALL(0.00)[];
+ RCVD_COUNT_TWO(0.00)[2]; TO_MATCH_ENVRCPT_ALL(0.00)[];
+ DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo, suse.de:mid,
+ suse.de:email]
+X-Spam-Flag: NO
+X-Spam-Score: -2.80
+X-Spam-Level: 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -129,103 +144,74 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+Hi
+
+Am 03.10.25 um 05:23 schrieb Chintan Patel:
+> When wait_event_timeout() in drm_wait_one_vblank() times out, the
+> current WARN can cause unnecessary kernel panics in environments
+> with panic_on_warn set (e.g. CI, fuzzing). These timeouts can happen
+> under heavy scheduling pressure or in rare cases of delayed vblank
+> handling, and are not always a kernel bug.
+>
+> Replace the WARN with drm_err() messages that report the timeout
+> without crashing the system. Developers can still enable drm.debug
+> to diagnose genuine problems.
+>
+> Reported-by: syzbot+147ba789658184f0ce04@syzkaller.appspotmail.com
+> Closes: https://syzkaller.appspot.com/bug?extid=147ba789658184f0ce04
+> Tested-by: syzbot+147ba789658184f0ce04@syzkaller.appspotmail.com
+> Signed-off-by: Chintan Patel <chintanlike@gmail.com>
+
+ From my side
+
+Acked-by: Thomas Zimmermann <tzimmermann@suse.de>
+
+See [1] for another such report
+
+[1] 
+https://lore.kernel.org/virtualization/202510221555.8c60c069-lkp@intel.com/T/#u
+
+If there's also a way to raise priority of the vblank timer, we should 
+explore that as well.
+
+Best regards
+Thomas
+
+>
+> v2:
+>   - Drop unnecessary in-code comment (suggested by Thomas Zimmermann)
+>   - Remove else branch, only log timeout case
+>
+> v3:
+>   - Use drm_err() instead of drm_dbg_kms() (suggested by Ville Syrjälä)
+>   - Remove unnecessary curr = drm_vblank_count() (suggested by Thomas Zimmermann)
+>   - Fix commit message wording (“invalid userspace calls” → “delayed vblank handling”)
+> ---
+>   drivers/gpu/drm/drm_vblank.c | 3 ++-
+>   1 file changed, 2 insertions(+), 1 deletion(-)
+>
+> diff --git a/drivers/gpu/drm/drm_vblank.c b/drivers/gpu/drm/drm_vblank.c
+> index 46f59883183d..0664aea1b924 100644
+> --- a/drivers/gpu/drm/drm_vblank.c
+> +++ b/drivers/gpu/drm/drm_vblank.c
+> @@ -1305,7 +1305,8 @@ void drm_wait_one_vblank(struct drm_device *dev, unsigned int pipe)
+>   				 last != drm_vblank_count(dev, pipe),
+>   				 msecs_to_jiffies(100));
+>   
+> -	drm_WARN(dev, ret == 0, "vblank wait timed out on crtc %i\n", pipe);
+> +	if (!ret)
+> +		drm_err(dev, "vblank wait timed out on crtc %i\n", pipe);
+>   
+>   	drm_vblank_put(dev, pipe);
+>   }
+
+-- 
+--
+Thomas Zimmermann
+Graphics Driver Developer
+SUSE Software Solutions Germany GmbH
+Frankenstrasse 146, 90461 Nuernberg, Germany
+GF: Ivo Totev, Andrew Myers, Andrew McDonald, Boudien Moerman
+HRB 36809 (AG Nuernberg)
 
 
-On 10/15/2025 3:37 PM, Dmitry Baryshkov wrote:
-> On Wed, Oct 15, 2025 at 10:27:00AM +0530, Kumari Pallavi wrote:
->> Update all references of buf->phys and map->phys to buf->dma_addr and
->> map->dma_addr to accurately represent that these fields store DMA
->> addresses, not physical addresses. This change improves code clarity
->> and aligns with kernel conventions for dma_addr_t usage.
->>
->> Signed-off-by: Kumari Pallavi <kumari.pallavi@oss.qualcomm.com>
->> ---
->>   drivers/misc/fastrpc.c | 68 +++++++++++++++++++++---------------------
->>   1 file changed, 34 insertions(+), 34 deletions(-)
->>
->> diff --git a/drivers/misc/fastrpc.c b/drivers/misc/fastrpc.c
->> index 621bce7e101c..975be54a2491 100644
->> --- a/drivers/misc/fastrpc.c
->> +++ b/drivers/misc/fastrpc.c
->> @@ -194,7 +194,7 @@ struct fastrpc_buf {
->>   	struct dma_buf *dmabuf;
->>   	struct device *dev;
->>   	void *virt;
->> -	u64 phys;
->> +	u64 dma_addr;
-> 
-> If it is dma_addr, why isn't it dma_addr_t?
-> 
-
-While the field is named dma_addr, it is not strictly limited to holding 
-a DMA address.
-Based on historical behavior, when the FASTRPC_ATTR_SECUREMAP flag is 
-set, S2 mapping expects a physical address to be passed to the 
-qcom_scm_assign_mem() API.
-reference- 
-https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git/commit/drivers/misc/fastrpc.c?id=e90d911906196bf987492c94e38f10ca611dfd7b
-
-> 
->>   	u64 size;
->>   	/* Lock for dma buf attachments */
->>   	struct mutex lock;
->> @@ -217,7 +217,7 @@ struct fastrpc_map {
->>   	struct dma_buf *buf;
->>   	struct sg_table *table;
->>   	struct dma_buf_attachment *attach;
->> -	u64 phys;
->> +	u64 dma_addr;
-> 
-> And this one.
-> 
->>   	u64 size;
->>   	void *va;
->>   	u64 len;
->> @@ -406,12 +406,12 @@ static int __fastrpc_buf_alloc(struct fastrpc_user *fl, struct device *dev,
->>   
->>   	buf->fl = fl;
->>   	buf->virt = NULL;
->> -	buf->phys = 0;
->> +	buf->dma_addr = 0;
->>   	buf->size = size;
->>   	buf->dev = dev;
->>   	buf->raddr = 0;
->>   
->> -	buf->virt = dma_alloc_coherent(dev, buf->size, (dma_addr_t *)&buf->phys,
->> +	buf->virt = dma_alloc_coherent(dev, buf->size, (dma_addr_t *)&buf->dma_addr,
->>   				       GFP_KERNEL);
-> 
-> If it was dma_addr_t, you wouldn't have had to typecast here.
-> 
->>   	if (!buf->virt) {
->>   		mutex_destroy(&buf->lock);
->> @@ -437,7 +437,7 @@ static int fastrpc_buf_alloc(struct fastrpc_user *fl, struct device *dev,
->>   	buf = *obuf;
->>   
->>   	if (fl->sctx && fl->sctx->sid)
->> -		buf->phys += ((u64)fl->sctx->sid << 32);
->> +		buf->dma_addr += ((u64)fl->sctx->sid << 32);
->>   
->>   	return 0;
->>   }
->> @@ -682,7 +682,7 @@ static int fastrpc_dma_buf_attach(struct dma_buf *dmabuf,
->>   		return -ENOMEM;
->>   
->>   	ret = dma_get_sgtable(buffer->dev, &a->sgt, buffer->virt,
->> -			      FASTRPC_PHYS(buffer->phys), buffer->size);
->> +			      FASTRPC_PHYS(buffer->dma_addr), buffer->size);
-> 
-> FASTRPC_PHYS trunates addr to 32 bits. Is it expected? Is it a DMA
-> address on the  Linux or on the DSP side?
-> 
-
-Yes, it is expected as the device can address up to 32 bit memory range. 
-It is a DMA address on the Linux.
-
->>   	if (ret < 0) {
->>   		dev_err(buffer->dev, "failed to get scatterlist from DMA API\n");
->>   		kfree(a);
-> 
-
-Thanks,
-Pallavi
