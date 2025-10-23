@@ -2,138 +2,134 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id BD964C01346
-	for <lists+dri-devel@lfdr.de>; Thu, 23 Oct 2025 14:47:03 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 56058C01355
+	for <lists+dri-devel@lfdr.de>; Thu, 23 Oct 2025 14:47:42 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id F102E10E415;
-	Thu, 23 Oct 2025 12:47:01 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 97F3910E857;
+	Thu, 23 Oct 2025 12:47:40 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=suse.de header.i=@suse.de header.b="xCpHMp+R";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="81mpbfL3";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="T0zqnMWK";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="mRn5gSNW";
+	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="oFD+X7Il";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E8E6610E415
- for <dri-devel@lists.freedesktop.org>; Thu, 23 Oct 2025 12:47:00 +0000 (UTC)
-Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested)
- by smtp-out2.suse.de (Postfix) with ESMTPS id 8293C1F79D;
- Thu, 23 Oct 2025 12:46:51 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1761223615; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=66Z5CznZ7odjpwPMy4M1I/dek6aDfSMiPt+5W7PivNI=;
- b=xCpHMp+RuAbppEodJeitpWmIaGDRA6rWHttqmKBCGTLcKOrejYcXS+tx2Rj/Mvd+BRjXER
- Oj+vHDFDXZlq3i9yG+5gRO/jU/u96WVQgldJGyRF5FcCtWura/l9yjcML98Dhhc+KI5Cqh
- 2vVYU9oLbwpfsUJAxalhD469hRjzwcI=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1761223615;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=66Z5CznZ7odjpwPMy4M1I/dek6aDfSMiPt+5W7PivNI=;
- b=81mpbfL3PpOqyMoMpqNs13bqmkTHnCMEjAkz/kqsWDqcwJA3fvp7RdXk4s56IwItty6vqY
- CUaoWnNgg8oczADA==
-Authentication-Results: smtp-out2.suse.de;
-	none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1761223611; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=66Z5CznZ7odjpwPMy4M1I/dek6aDfSMiPt+5W7PivNI=;
- b=T0zqnMWKPN+hTPuXFrFPDXf4U34+Wu5qFmQHpGoFZiFvcj3hY+ksScfpGvbCNm0akoFBMC
- o9ss9ONT+iE2cJcHgFa8UeHUgqK/mdaaFNcCFAqqNdiMu8c0JvGy8ZEQt99hnRfgEK1bDd
- pExJ/SAAnEk6UR5JqsT4GYXgMBssD3M=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1761223611;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=66Z5CznZ7odjpwPMy4M1I/dek6aDfSMiPt+5W7PivNI=;
- b=mRn5gSNWAE9kBZeXYIQsOWXxBYdArcF9jAuyKnH0XzoW8vZKNq/o1wXwvID3srjLzIfNPp
- AEwwi2eCz3qvEiAA==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested)
- by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 29EDC13285;
- Thu, 23 Oct 2025 12:46:51 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
- by imap1.dmz-prg2.suse.org with ESMTPSA id yjSYB7sj+mibAgAAD6G6ig
- (envelope-from <tzimmermann@suse.de>); Thu, 23 Oct 2025 12:46:51 +0000
-Content-Type: multipart/mixed; boundary="------------W3Z0M8wWf0unhfX0d2zFxBG1"
-Message-ID: <329a9f97-dd66-49c2-bc42-470566d01539@suse.de>
-Date: Thu, 23 Oct 2025 14:46:50 +0200
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
+ [205.220.168.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3AD1710E857
+ for <dri-devel@lists.freedesktop.org>; Thu, 23 Oct 2025 12:47:39 +0000 (UTC)
+Received: from pps.filterd (m0279864.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 59N6PKSe025807
+ for <dri-devel@lists.freedesktop.org>; Thu, 23 Oct 2025 12:47:38 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+ cc:content-transfer-encoding:content-type:date:from:in-reply-to
+ :message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+ 24QeiCotR//tHfiqvQEewoseSxEQZNDe4+bx6DoDfNA=; b=oFD+X7IlT7PiQ6fW
+ 7Kb2nrR4H1OA9YoCEd/Hr0LKFRsr3rvNgJ8g6EUnK+NYCNrvdv2SyX1iAGl09b2J
+ RO7LZGq4udYxUFFIixoR+wO/Lhg3mNEGcbrDDLiGYnNPGD48BEbAn75hXE6Bq68x
+ eivPVbRXwh0yPdH0F+0JtAXNoTNcOt9DSNgA1sdWhfX1ehOsOfy7X6ZjvwMPcjwx
+ 3u55VdiVhqsGS+Ai3XVPffZMLU594uX50BYoFEIgMEMfFnsXyeQsAbpVq2IXNgRj
+ xZPzfBJLgYNGwP6dD6ITqv4Cvb1/AYgzJOJ8ZIZr9mkltEOS688xkeqLwy/jf9sn
+ 8Ml+oA==
+Received: from mail-qt1-f200.google.com (mail-qt1-f200.google.com
+ [209.85.160.200])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 49v42kg864-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
+ for <dri-devel@lists.freedesktop.org>; Thu, 23 Oct 2025 12:47:38 +0000 (GMT)
+Received: by mail-qt1-f200.google.com with SMTP id
+ d75a77b69052e-4e8b15de40fso35996541cf.1
+ for <dri-devel@lists.freedesktop.org>; Thu, 23 Oct 2025 05:47:38 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1761223657; x=1761828457;
+ h=content-transfer-encoding:in-reply-to:from:content-language
+ :references:cc:to:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=24QeiCotR//tHfiqvQEewoseSxEQZNDe4+bx6DoDfNA=;
+ b=FfYmUfwSogq8nx1jRIapy1yUIx41L1EB7sniNNJlGbipGTPtKMOvXs9yJI8t4OPFc/
+ kTFbp2EKxXse5EuHPwC+GPevF6MVvBFCnMUuR+vVAhBkhtvqIJ0DPGsoky89/S3Cl7gi
+ m3DjQjWzQvd9cR+uV3b4OSCwbqQz3eeCvYHpjrpgwMwslp9o2vhtnKY6gQr7E3p7JK5z
+ UVGWGRiga3inlofGyhWJQHVT/xsmPnyimZKCwaPLT4ArcEmDa6Du5Vmd5gr4mJ7IHdhS
+ tgCCZVaCmLeW08p1vzY2YTGv6EstHANTtDxbhGbNfC5Fq4YoOwhScX9sRPv+7bOBUN8d
+ dPdA==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCVyGVxhTCaV7WdAZAPcPVGEng0CYxFFmek94U4Foxt7yoUpIdvHaxbCC3WeevPiXXhFKgSx6O7mbFM=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Yx+FBqCe9WBzM0uluX5ZUrUwZQat+rHvdnF8HqWOTpFLxK9dIef
+ ERgkB7F2aXbrmmR/QUMc2ZxFYkD3DvuzU/1gVB2rd6F++CJmwdoqOky+tJpd0zWkvaz7XFkLzC1
+ f2E9S0Zb395FKlKyN5pUCE17W0sfzLQoQ2G5JABZ0AqaBIDnYggX5TIEmhblwwVRmyH2AESs=
+X-Gm-Gg: ASbGncu7XMBoiSyY6vkVVHP6Vx1PMDxLh43XzHLCrFFci+2kFT51PmJ5nlCsmMr+hlD
+ s37yo2ef8eN3CRY/ADKswYM3u87Yl1COUToAjNthDRbKfUzJLtr9PQEH3lBmylI8kFbERgZJNU9
+ oTcWAKCdDL7gzvbz5yRazoOtmUmYNY/ouxgoxdA7vB7OT5joJDAxSvZcx6tn/SB/zQsaRS/Ed8a
+ tpbuebn/Wx0fGu4Wwzul5tvAPI9HxTwmGkD1IkBDq6kVfnkoTth3ttSiGvMm2JOc0IMN45SPDYH
+ dVhEb5NOnHCc3Ve+IADA83z7eSMujPzocZZQ445DCiIC0YE0g3y3F1dGKA9WbgMdABDAegZWnp0
+ HTEHHUgLa/8W7vfgcm4NaaAf4gw==
+X-Received: by 2002:ac8:5883:0:b0:4e8:99b0:b35e with SMTP id
+ d75a77b69052e-4e89d263140mr293100711cf.30.1761223656896; 
+ Thu, 23 Oct 2025 05:47:36 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IGxStyuo5wBQVxSJ8+2cAD62zdY4gfTl+tKvmd0YRbr5e3lLNbpbu15fbW5YGeHHk5tbOiQIQ==
+X-Received: by 2002:ac8:5883:0:b0:4e8:99b0:b35e with SMTP id
+ d75a77b69052e-4e89d263140mr293100221cf.30.1761223656344; 
+ Thu, 23 Oct 2025 05:47:36 -0700 (PDT)
+Received: from [192.168.68.121] ([5.133.47.210])
+ by smtp.googlemail.com with ESMTPSA id
+ ffacd0b85a97d-429898ccd88sm4617224f8f.36.2025.10.23.05.47.34
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 23 Oct 2025 05:47:35 -0700 (PDT)
+Message-ID: <2ded2868-ae77-4c9d-9456-ac2af775a219@oss.qualcomm.com>
+Date: Thu, 23 Oct 2025 13:47:33 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [REGRESSION][BISECTED] Screen goes blank with ASpeed AST2300 in
- 6.18-rc2
-To: Peter Schneider <pschneider1968@googlemail.com>,
- regressions@lists.linux.dev, LKML <linux-kernel@vger.kernel.org>
-Cc: dri-devel@lists.freedesktop.org, stable@vger.kernel.org,
- jfalempe@redhat.com, airlied@redhat.com, dianders@chromium.org,
- nbowler@draconx.ca, Linus Torvalds <torvalds@linux-foundation.org>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Thorsten Leemhuis <regressions@leemhuis.info>
-References: <20251014084743.18242-1-tzimmermann@suse.de>
- <a40caf8e-58ad-4f9c-af7f-54f6f69c29bb@googlemail.com>
- <43992c88-3a3a-4855-9f46-27a7e5fdec2e@suse.de>
- <798ba37a-41d0-4953-b8f5-8fe6c00f8dd3@googlemail.com>
- <bf827c5c-c4dd-46f1-962d-3a8e2a0a7fdf@suse.de>
- <5f8fba3b-2ee1-4a02-9b41-e6e1de1a507a@googlemail.com>
- <e2462c92-4049-486b-92d7-e78aaec4b05d@suse.de>
- <3ca10b2e-fb9c-4495-9219-5e8537314751@googlemail.com>
+Subject: Re: [PATCH v2] drm/display: add hw_params callback function to
+ drm_connector_hdmi_audio_ops
+To: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>,
+ Srinivas Kandagatla <srinivas.kandagatla@oss.qualcomm.com>
+Cc: Srinivas Kandagatla <srini@kernel.org>,
+ Jianfeng Liu <liujianfeng1994@gmail.com>, Liam Girdwood
+ <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
+ Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
+ linux-arm-msm@vger.kernel.org, Xilin Wu <sophon@radxa.com>,
+ David Airlie <airlied@gmail.com>, Dmitry Baryshkov <lumag@kernel.org>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Simona Vetter <simona@ffwll.ch>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ linux-sound@vger.kernel.org,
+ Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+References: <20250925040530.20731-1-liujianfeng1994@gmail.com>
+ <46q2pje4hginnm2wld6ejyo36hfkmkzydaa4qggx47gd2p4q4z@q6vmomtgqihv>
+ <cc1afa21-8a66-4e0c-8fae-d0b07142b11d@kernel.org>
+ <rydatk4grelhg6w57wwkqafq5ghccnsuiwvfqvvdv7qum5dg5a@scoc76ni7hue>
+ <e69b23de-e9b6-4dfc-af01-7d2726dc23e4@oss.qualcomm.com>
+ <bnrpfijh4rljdzroduqncfygysvgblljlhdpvq7ubajlbbwvwd@ohdmpjvpzj33>
+ <f9c922f5-52af-45bb-a4ca-7ca80c0c3534@kernel.org>
+ <7fwfxr7zqsaudselhru3jtjc2f7pdjvlaj2b464vgdlqcrljek@asci6y3ghq63>
+ <jymgfmn5pje4qaslyaivzfm4m7ho774pid3uenj6yfrlrdk3ss@2nqojclepgsu>
+ <f1338318-0135-415e-ab65-482cef20f919@oss.qualcomm.com>
+ <zlu5x6v2xkum67prrtk26r7govenczuntjvlrflvdb6lpd2ssy@jgrnl6elophe>
 Content-Language: en-US
-From: Thomas Zimmermann <tzimmermann@suse.de>
-Autocrypt: addr=tzimmermann@suse.de; keydata=
- xsBNBFs50uABCADEHPidWt974CaxBVbrIBwqcq/WURinJ3+2WlIrKWspiP83vfZKaXhFYsdg
- XH47fDVbPPj+d6tQrw5lPQCyqjwrCPYnq3WlIBnGPJ4/jreTL6V+qfKRDlGLWFjZcsrPJGE0
- BeB5BbqP5erN1qylK9i3gPoQjXGhpBpQYwRrEyQyjuvk+Ev0K1Jc5tVDeJAuau3TGNgah4Yc
- hdHm3bkPjz9EErV85RwvImQ1dptvx6s7xzwXTgGAsaYZsL8WCwDaTuqFa1d1jjlaxg6+tZsB
- 9GluwvIhSezPgnEmimZDkGnZRRSFiGP8yjqTjjWuf0bSj5rUnTGiyLyRZRNGcXmu6hjlABEB
- AAHNJ1Rob21hcyBaaW1tZXJtYW5uIDx0emltbWVybWFubkBzdXNlLmRlPsLAjgQTAQgAOAIb
- AwULCQgHAgYVCgkICwIEFgIDAQIeAQIXgBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftODH
- AAoJEGgNwR1TC3ojx1wH/0hKGWugiqDgLNXLRD/4TfHBEKmxIrmfu9Z5t7vwUKfwhFL6hqvo
- lXPJJKQpQ2z8+X2vZm/slsLn7J1yjrOsoJhKABDi+3QWWSGkaGwRJAdPVVyJMfJRNNNIKwVb
- U6B1BkX2XDKDGffF4TxlOpSQzdtNI/9gleOoUA8+jy8knnDYzjBNOZqLG2FuTdicBXblz0Mf
- vg41gd9kCwYXDnD91rJU8tzylXv03E75NCaTxTM+FBXPmsAVYQ4GYhhgFt8S2UWMoaaABLDe
- 7l5FdnLdDEcbmd8uLU2CaG4W2cLrUaI4jz2XbkcPQkqTQ3EB67hYkjiEE6Zy3ggOitiQGcqp
- j//OwE0EWznS4AEIAMYmP4M/V+T5RY5at/g7rUdNsLhWv1APYrh9RQefODYHrNRHUE9eosYb
- T6XMryR9hT8XlGOYRwKWwiQBoWSDiTMo/Xi29jUnn4BXfI2px2DTXwc22LKtLAgTRjP+qbU6
- 3Y0xnQN29UGDbYgyyK51DW3H0If2a3JNsheAAK+Xc9baj0LGIc8T9uiEWHBnCH+RdhgATnWW
- GKdDegUR5BkDfDg5O/FISymJBHx2Dyoklv5g4BzkgqTqwmaYzsl8UxZKvbaxq0zbehDda8lv
- hFXodNFMAgTLJlLuDYOGLK2AwbrS3Sp0AEbkpdJBb44qVlGm5bApZouHeJ/+n+7r12+lqdsA
- EQEAAcLAdgQYAQgAIAIbDBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftOH6AAoJEGgNwR1T
- C3ojVSkIALpAPkIJPQoURPb1VWjh34l0HlglmYHvZszJWTXYwavHR8+k6Baa6H7ufXNQtThR
- yIxJrQLW6rV5lm7TjhffEhxVCn37+cg0zZ3j7zIsSS0rx/aMwi6VhFJA5hfn3T0TtrijKP4A
- SAQO9xD1Zk9/61JWk8OysuIh7MXkl0fxbRKWE93XeQBhIJHQfnc+YBLprdnxR446Sh8Wn/2D
- Ya8cavuWf2zrB6cZurs048xe0UbSW5AOSo4V9M0jzYI4nZqTmPxYyXbm30Kvmz0rYVRaitYJ
- 4kyYYMhuULvrJDMjZRvaNe52tkKAvMevcGdt38H4KSVXAylqyQOW5zvPc4/sq9c=
-In-Reply-To: <3ca10b2e-fb9c-4495-9219-5e8537314751@googlemail.com>
-X-Spamd-Result: default: False [-3.19 / 50.00]; BAYES_HAM(-3.00)[100.00%];
- MIME_BASE64_TEXT_BOGUS(1.00)[]; NEURAL_HAM_LONG(-1.00)[-1.000];
- NEURAL_HAM_SHORT(-0.19)[-0.953]; MIME_BASE64_TEXT(0.10)[];
- MIME_GOOD(-0.10)[multipart/mixed,text/plain,text/x-patch];
- ARC_NA(0.00)[];
- FREEMAIL_TO(0.00)[googlemail.com,lists.linux.dev,vger.kernel.org];
- MID_RHS_MATCH_FROM(0.00)[]; RCPT_COUNT_TWELVE(0.00)[12];
- MIME_TRACE(0.00)[0:+,1:+,2:+]; RCVD_VIA_SMTP_AUTH(0.00)[];
- FREEMAIL_ENVRCPT(0.00)[googlemail.com];
- DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
- FROM_EQ_ENVFROM(0.00)[]; FROM_HAS_DN(0.00)[];
- TO_DN_SOME(0.00)[]; RCVD_TLS_ALL(0.00)[];
- DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:mid,suse.de:email,imap1.dmz-prg2.suse.org:helo];
- RCVD_COUNT_TWO(0.00)[2]; TO_MATCH_ENVRCPT_ALL(0.00)[];
- HAS_ATTACHMENT(0.00)[]
-X-Spam-Flag: NO
-X-Spam-Score: -3.19
-X-Spam-Level: 
+From: Srinivas Kandagatla <srinivas.kandagatla@oss.qualcomm.com>
+In-Reply-To: <zlu5x6v2xkum67prrtk26r7govenczuntjvlrflvdb6lpd2ssy@jgrnl6elophe>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-Proofpoint-GUID: nvm-oGmiX7F-HoXcEbcaMiVBM-K4OGyS
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUxMDE4MDAzMSBTYWx0ZWRfX6JLXPHwP3enH
+ brnDkx0lUCmAcxN64t4CDYKzX/fLcM0UP6cli+X6pH5jJPN2ZIqD1dypbBn8LyXsQ3tekGuDk+C
+ lHobsdvf0DapNy2wdt5Ua1YKIRhPqTht/QUvUXtcv8vtkkmb+CRzEwZyUm2IPS+64RgrcsuWPGt
+ cdEDA7AWbTAWA8hvl6uQuu3dQPj9WkYOS8ZjCquRcP5D9C+4qTKxwXNCFl56SQhOH50Lo43RCU0
+ 9xGr+ZV7coiLMRk1dox4kjZZGTIWlOrsuAkElV6pyFZUIoCDmQyqAmaNVFWaonPVWL5LY86aoyQ
+ vusjoY2xxxGLjPXh2amCoVFqddl9x4gAMl5CDO/WQzafjS+0OynLAONZ8oxytq5if7mqiQ875P8
+ vo4XQSVhqnlPymHXb7+YefzyOF7mqQ==
+X-Authority-Analysis: v=2.4 cv=QYNrf8bv c=1 sm=1 tr=0 ts=68fa23ea cx=c_pps
+ a=JbAStetqSzwMeJznSMzCyw==:117 a=ZsC4DHZuhs/kKio7QBcDoQ==:17
+ a=IkcTkHD0fZMA:10 a=x6icFKpwvdMA:10 a=VkNPw1HP01LnGYTKEx00:22
+ a=pGLkceISAAAA:8 a=y3vTIzG8JlWF4sTvGw8A:9 a=QEXdDO2ut3YA:10
+ a=uxP6HrT_eTzRwkO_Te1X:22
+X-Proofpoint-ORIG-GUID: nvm-oGmiX7F-HoXcEbcaMiVBM-K4OGyS
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.9,FMLib:17.12.80.40
+ definitions=2025-10-23_01,2025-10-22_01,2025-03-28_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ priorityscore=1501 phishscore=0 malwarescore=0 clxscore=1015 impostorscore=0
+ spamscore=0 bulkscore=0 suspectscore=0 adultscore=0 lowpriorityscore=0
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.19.0-2510020000 definitions=main-2510180031
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -149,112 +145,149 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This is a multi-part message in MIME format.
---------------W3Z0M8wWf0unhfX0d2zFxBG1
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
 
-Hi
 
-Am 22.10.25 um 13:23 schrieb Peter Schneider:
-> Am 22.10.2025 um 12:20 schrieb Thomas Zimmermann:
->> Hi
+On 10/23/25 1:24 PM, Dmitry Baryshkov wrote:
+> On Thu, Oct 23, 2025 at 12:48:59PM +0100, Srinivas Kandagatla wrote:
 >>
->> Am 22.10.25 um 11:16 schrieb Peter Schneider:
->>> Am 22.10.2025 um 11:11 schrieb Thomas Zimmermann:
->>>> Hi
->>>>
->>>> Am 22.10.25 um 10:08 schrieb Peter Schneider:
+>>
+>> On 10/23/25 12:43 PM, Dmitry Baryshkov wrote:
+>>> On Sun, Oct 05, 2025 at 06:29:20PM +0300, Dmitry Baryshkov wrote:
+>>>> On Sat, Oct 04, 2025 at 02:16:08PM +0100, Srinivas Kandagatla wrote:
 >>>>>
->>>>> Your patch applied cleanly against 6.18-rc2 and the kernel built 
->>>>> fine, but unfortunately it did not solve the issue: my console 
->>>>> screen stays blank after booting. This is regardless whether I do 
->>>>> a soft reboot, press the reset button or power cycle and do a cold 
->>>>> boot. They are all the same.
+>>>>>
+>>>>> On 10/3/25 6:02 PM, Dmitry Baryshkov wrote:
+>>>>>> On Fri, Oct 03, 2025 at 05:35:16PM +0100, Srinivas Kandagatla wrote:
+>>>>>>>
+>>>>>>>
+>>>>>>> On 9/26/25 4:09 PM, Dmitry Baryshkov wrote:
+>>>>>>>> On Fri, Sep 26, 2025 at 11:30:26AM +0100, Srinivas Kandagatla wrote:
+>>>>>>>>>
+>>>>>>>>>
+>>>>>>>>> On 9/25/25 5:28 AM, Dmitry Baryshkov wrote:
+>>>>>>>>>> On Thu, Sep 25, 2025 at 12:05:09PM +0800, Jianfeng Liu wrote:
+>>>>>>>>>>> After reusing drm_hdmi_audio_* helpers and drm_bridge_connector
+>>>>>>>>>>> integration in drm/msm/dp, we have dropped msm_dp_audio_hw_params and
+>>>>>>>>>>> use msm_dp_audio_prepare instead. While userspace is still calling
+>>>>>>>>>>> hw_params to do audio initialization, and we get the following errors:
+>>>>>>>>>>>
+>>>>>>>>>>> q6apm-lpass-dais 3700000.remoteproc:glink-edge:gpr:service@1:bedais: q6apm_lpass_dai_prepare() started
+>>>>>>>>>>> q6apm-lpass-dais 3700000.remoteproc:glink-edge:gpr:service@1:bedais: q6apm_lpass_dai_prepare() started
+>>>>>>>>>>> q6apm-lpass-dais 3700000.remoteproc:glink-edge:gpr:service@1:bedais: q6apm_lpass_dai_prepare() started
+>>>>>>>>>>> hdmi-audio-codec hdmi-audio-codec.0.auto: hdmi_codec_hw_params() started
+>>>>>>>>>>> q6apm-lpass-dais 3700000.remoteproc:glink-edge:gpr:service@1:bedais: q6apm_lpass_dai_prepare() started
+>>>>>>>>>>> qcom-apm gprsvc:service:2:1: Error (1) Processing 0x01001002 cmd
+>>>>>>>>>>> qcom-apm gprsvc:service:2:1: DSP returned error[1001002] 1
+>>>>>>>>>>> q6apm-lpass-dais 3700000.remoteproc:glink-edge:gpr:service@1:bedais: Failed to start APM port 104
+>>>>>>>>>>> q6apm-lpass-dais 3700000.remoteproc:glink-edge:gpr:service@1:bedais: ASoC error (-22): at snd_soc_dai_prepare() on DISPLAY_PORT_RX_0
+>>>>>>>>>>> MultiMedia2 Playback: ASoC error (-22): at dpcm_run_update_startup() on MultiMedia2 Playback
+>>>>>>>>>>
+>>>>>>>>>> And a call to hdmi_codec_prepare() comes only at this place.
+>>>>>>>>>>
+>>>>>>>>>> Srini, Mark, when selecting to only implement .prepare for codec ops I
+>>>>>>>>>> was following the commit 2fef64eec23a ("ASoC: hdmi-codec: Add a prepare
+>>>>>>>>>> hook"), which documents that IEC958 status bit is set after
+>>>>>>>>>> .hw_params(), so it's only visible during .prepare(). Is it okay to
+>>>>>>>>>> implement both callbacks? Or should the audioreach DAI driver be fixed
+>>>>>>>>>> somehow instead (I suppose it assumes that the port is available after
+>>>>>>>>>> .hw_params(), not sure if that assumption is correct)?
+>>>>>>>>>>
+>>>>>>>>>>>
+>>>>>>>>>>> msm_dp_audio_prepare is not called because hdmi-codec driver only checks
+>>>>>>>>>>> and runs hw_params before q6apm_lpass_dai_prepare(). This commit will
+>>>>>>>>>>> add hw_params callback same as drm_connector_hdmi_audio_prepare, so that
+>>>>>>>>>>> hdmi-codec driver can work with userspace alsa.
+>>>>>>>>>>>
+>>>>>>>>>>> Tested with Radxa Dragon Q6A.
+>>>>>>>>>>>
+>>>>>>>>>>> Fixes: 98a8920e7b07 ("drm/msm/dp: reuse generic HDMI codec implementation")
+>>>>>>>>>>> Signed-off-by: Jianfeng Liu <liujianfeng1994@gmail.com>
+>>>>>>>>>>
+>>>>>>>>>> The patch LGTM, but I would wait for response from audio maintainers.
+>>>>>>>>>>
+>>>>>>>>>
+>>>>>>>>> The ordering matters in this case as we need clocks and audio
+>>>>>>>>> configuration on DP codec side to be setup before we start configuring
+>>>>>>>>> the dsp pipeline. Looks like that DSP is trying to setup DP endpoint
+>>>>>>>>> even before it is ready.
+>>>>>>>>>
+>>>>>>>>> q6apm prepare loads the dsp pipeline and starts configuring the
+>>>>>>>>> endpoints, if the DP endpoint is not ready dsp would throw an error.
+>>>>>>>>>
+>>>>>>>>> We might be able to pull in some dsp logs to confirm this, but I dont
+>>>>>>>>> have a setup that I can reproduce this issue.
+>>>>>>>>
+>>>>>>>> What would be your recommendation to proceed? Is it okay for the DAI
+>>>>>>>> driver to depend on the .hw_params enabling the clock? Also I see that
+>>>>>>>> the error regarding the clocks comes from .prepare callback too. What is
+>>>>>>>> the order of .prepare callbacks()? Can we influence it?
+>>>>>>>
+>>>>>>> prepare follows hw-params, and prepare can be called multiple times
+>>>>>>>
+>>>>>>> When you mean order of prepare callbacks, you mean w.r.t codec and dsp
+>>>>>>> backend dia link drivers ?
+>>>>>>
+>>>>>> Yes. Here we got a dependency from the cpu dai to be prepare()'d after
+>>>>>> the DP driver performs some actions, which were a part of hw_params()
+>>>>>> callback but were moved to be executed during prepare() callback.
+>>>>>>
+>>>>>> This leads me to two sets of questions:
+>>>>>> - In which order are those callbacks executed? Can we make the ASoC
+>>>>>>   enforce some order of DAI's prepare() callbacks?
+>>>>>>
+>>>>>> - More improtantly, isn't it a sympthom of DP driver (incorrectly)
+>>>>>>   performing too much in the .hw_params() / .prepare() callback? Should
+>>>>>>   we move some of the setup to the .audio_startup() instead? What is the
+>>>>>>   expected split between those callbacks?
+>>>>>
+>>>>> I have not looked at full dp sequences but, if prepare is the only place
+>>>>> when it enables the required clocks for audio block, then it is a
+>>>>> problem, we should do it early so that DSP can enable the required
+>>>>> configuration in prepare.
 >>>>
->>>> Just to be sure: you do see output at the early boot stages (BIOS, 
->>>> boot loader). It's at some later point during boot, the driver 
->>>> loads and the display blanks out?
+>>>> As I wrote, previously it was done as a part of hw_params, which is
+>>>> also not optimal as hdmi-codec clearly defines both callbacks as
+>>>> optional, requiring only one of them. Do you know, what is actually
+>>>> required on the DP side for the DSP to be able to preapre()?
 >>>
->>> Yes, that's correct.
+>>> Srinivas, did you have a chance to look at this? Or the .hw_prepare
+>>> ordering? I really don't want to land this fix only to face the same
+>>> issue because on some of the platforms .hw_prepare() callbacks will be
+>>> called in a different order.
 >>>
->>>> There's another patch attached. does this make a difference?
->>>
->>> Do I have to apply that against base 6.18-rc2 or against 6.18-rc2 + 
->>> your previous patch?
+>> Dmitry, few days back Krzysztof was enabling DP audio on T14s, and we
+>> have seen that the DSP is not happy and returning error 1 when we try to
+>> prepare the dp port. The exact reason is codec is not ready at that point.
 >>
->> Base 6.18-rc2. All the patches are against this.
->
-> So with this new patch against 6.18-rc2, I first got this build error:
->
->   CC [M]  drivers/gpu/drm/ast/ast_mode.o
-> drivers/gpu/drm/ast/ast_mode.c: In function 
-> ‘ast_crtc_helper_atomic_disable’:
-> drivers/gpu/drm/ast/ast_mode.c:857:12: error: unused variable 
-> ‘vgacr17’ [-Werror=unused-variable]
->   857 |         u8 vgacr17 = 0xff;
->       |            ^~~~~~~
-> cc1: all warnings being treated as errors
->
->
-> because I always do my kernel builds with CONFIG_WERROR=y. So then I 
-> commented out the now superfluous declaration in line 857 and the 
-> build succeeded. However, unfortunately the issue still persists. The 
-> screen still gets blanked on reboot (as clarified before, after 
-> BIOS/POST messages, Grub boot menu, initial boot messages).
+>>
+>> By adding this patch, Krzystof managed to get DP working.
+>> XElite platforms were working before 2fef64eec23a ("ASoC: hdmi-codec:
+>> Add a prepare) patch was merged, basically 2fef64eec23a broke what was
+>> working before.
+>>
+>> Am happy with this patch, better move to hw_params instead of prepare.
+> 
+> And I'm not happy with it :-)
+> 
+> hdmi-codec defines that one of the callbacks can be optional. We know
+> that at .hw_params time we don't have IEC 958 status bits, so we will be
+> programming incorrect audioframe.
+Your statement is contradicting with callbacks that are supported by
+hdmi-codec.
 
-I've been able to reproduce the problem with an AST2300 test system. The 
-attached patch fixes the problem for me. Can you please test and report 
-on the results?
+hdmi-codec uses IEC 958 status bits both in hw_params and prepare, if
+hw_params is not the right place, then that should be clarified and not
+correct for any of the codec drivers to use this callback.>
+> Should some bits of code be moved to .audio_enable isntead? If so, which
+> bits?
 
-Best regards
-Thomas
+I have not read the data sheet of msm dp block yet, but what it looks to
+me is the audio engine in the DP is powered off while dsp is trying to
+set it up.
 
+--srini>
+> I agree that there is a regression and that this patch fixes it. I argue
+> that the fix is incorrect.
 
->
-> Beste Grüße,
-> Peter Schneider
->
+> 
 
--- 
---
-Thomas Zimmermann
-Graphics Driver Developer
-SUSE Software Solutions Germany GmbH
-Frankenstrasse 146, 90461 Nuernberg, Germany
-GF: Ivo Totev, Andrew Myers, Andrew McDonald, Boudien Moerman
-HRB 36809 (AG Nuernberg)
-
-
---------------W3Z0M8wWf0unhfX0d2zFxBG1
-Content-Type: text/x-patch; charset=UTF-8;
- name="0001-ast-clear-preserved-bits-from-output-value.patch"
-Content-Disposition: attachment;
- filename="0001-ast-clear-preserved-bits-from-output-value.patch"
-Content-Transfer-Encoding: base64
-
-RnJvbSBiOWE5MGQ5ZWYyNjZkNWY5ZDNhZWI5NzBhZTM1ZTEwYjcxNmZjNDY2IE1vbiBTZXAg
-MTcgMDA6MDA6MDAgMjAwMQpGcm9tOiBUaG9tYXMgWmltbWVybWFubiA8dHppbW1lcm1hbm5A
-c3VzZS5kZT4KRGF0ZTogVGh1LCAyMyBPY3QgMjAyNSAxNDozMDoyOSArMDIwMApTdWJqZWN0
-OiBbUEFUQ0hdIGFzdDogY2xlYXIgcHJlc2VydmVkIGJpdHMgZnJvbSBvdXRwdXQgdmFsdWUK
-Ci0tLQogZHJpdmVycy9ncHUvZHJtL2FzdC9hc3RfZHJ2LmggfCA5ICsrKysrLS0tLQogMSBm
-aWxlIGNoYW5nZWQsIDUgaW5zZXJ0aW9ucygrKSwgNCBkZWxldGlvbnMoLSkKCmRpZmYgLS1n
-aXQgYS9kcml2ZXJzL2dwdS9kcm0vYXN0L2FzdF9kcnYuaCBiL2RyaXZlcnMvZ3B1L2RybS9h
-c3QvYXN0X2Rydi5oCmluZGV4IDdiZTM2YTM1OGU3NC4uNjAyYmZmN2Y5OGQ5IDEwMDY0NAot
-LS0gYS9kcml2ZXJzL2dwdS9kcm0vYXN0L2FzdF9kcnYuaAorKysgYi9kcml2ZXJzL2dwdS9k
-cm0vYXN0L2FzdF9kcnYuaApAQCAtMjk4LDEzICsyOTgsMTQgQEAgc3RhdGljIGlubGluZSB2
-b2lkIF9fYXN0X3dyaXRlOF9pKHZvaWQgX19pb21lbSAqYWRkciwgdTMyIHJlZywgdTggaW5k
-ZXgsIHU4IHZhbCkKIAlfX2FzdF93cml0ZTgoYWRkciwgcmVnICsgMSwgdmFsKTsKIH0KIAot
-c3RhdGljIGlubGluZSB2b2lkIF9fYXN0X3dyaXRlOF9pX21hc2tlZCh2b2lkIF9faW9tZW0g
-KmFkZHIsIHUzMiByZWcsIHU4IGluZGV4LCB1OCByZWFkX21hc2ssCitzdGF0aWMgaW5saW5l
-IHZvaWQgX19hc3Rfd3JpdGU4X2lfbWFza2VkKHZvaWQgX19pb21lbSAqYWRkciwgdTMyIHJl
-ZywgdTggaW5kZXgsIHU4IHByZXNlcnZlX21hc2ssCiAJCQkJCSB1OCB2YWwpCiB7Ci0JdTgg
-dG1wID0gX19hc3RfcmVhZDhfaV9tYXNrZWQoYWRkciwgcmVnLCBpbmRleCwgcmVhZF9tYXNr
-KTsKKwl1OCB0bXAgPSBfX2FzdF9yZWFkOF9pX21hc2tlZChhZGRyLCByZWcsIGluZGV4LCBw
-cmVzZXJ2ZV9tYXNrKTsKIAotCXRtcCB8PSB2YWw7Ci0JX19hc3Rfd3JpdGU4X2koYWRkciwg
-cmVnLCBpbmRleCwgdG1wKTsKKwl2YWwgJj0gfnByZXNlcnZlX21hc2s7CisKKwlfX2FzdF93
-cml0ZThfaShhZGRyLCByZWcsIGluZGV4LCB0bXAgfCB2YWwpOwogfQogCiBzdGF0aWMgaW5s
-aW5lIHUzMiBhc3RfcmVhZDMyKHN0cnVjdCBhc3RfZGV2aWNlICphc3QsIHUzMiByZWcpCi0t
-IAoyLjUxLjAKCg==
-
---------------W3Z0M8wWf0unhfX0d2zFxBG1--
