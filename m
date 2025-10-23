@@ -2,183 +2,117 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id AA0A9BFFCFA
-	for <lists+dri-devel@lfdr.de>; Thu, 23 Oct 2025 10:11:39 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id A42DDBFFD36
+	for <lists+dri-devel@lfdr.de>; Thu, 23 Oct 2025 10:17:58 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D5E2110E8D0;
-	Thu, 23 Oct 2025 08:11:37 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B46F410E8CE;
+	Thu, 23 Oct 2025 08:17:55 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="G17wCdyG";
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="TI2LtKEx";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4B99B10E8D0;
- Thu, 23 Oct 2025 08:11:37 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1761207097; x=1792743097;
- h=from:to:cc:subject:date:message-id:references:
- in-reply-to:content-transfer-encoding:mime-version;
- bh=wzKGICDjpBF+Fuy1lkrmOvyHGJZU+HrDlbJitaeuec0=;
- b=G17wCdyG5vrQkQnEtIHk0xtLGGTWSI4YNRI719HmVm0sFQlBsHiDmCtY
- U4tz8ceKqqpPBxLI+q5Z4srkuF+WqnjzepjkS7G++zs8wonSyvQ/v1vAs
- bI7uO0Y+gGqXFnm0nR1qpCDRniTyh0aQYiGlUgY7dEpbGfWqF75P8uhvr
- 0Gp+gr/sJwAf0wds/kUUYdiyc0StczAMAD8B8coRyS6UHm3c2UcYtImDF
- H8I1BMyLc7I4eSO4ktermwYuwtZ7o5qrH3HoEELw6Dz3nPCNHmr7M8mm+
- PPSy8bcEha8/Lur6B0DCqKr0SUkMuklxSqjIQPkFVJ7re8Am0DaDzIw5p A==;
-X-CSE-ConnectionGUID: DDb7/VqpRyyP0sOPdW2zfQ==
-X-CSE-MsgGUID: XpCaLdjFR3CV8x1GY+KsyQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11586"; a="73660585"
-X-IronPort-AV: E=Sophos;i="6.19,249,1754982000"; d="scan'208";a="73660585"
-Received: from fmviesa002.fm.intel.com ([10.60.135.142])
- by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 23 Oct 2025 01:11:37 -0700
-X-CSE-ConnectionGUID: bvwBifYkRJO/eu3Xq76J/Q==
-X-CSE-MsgGUID: miq6foAkR3afkeTSGaSOBA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.19,249,1754982000"; d="scan'208";a="207751208"
-Received: from fmsmsx903.amr.corp.intel.com ([10.18.126.92])
- by fmviesa002.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 23 Oct 2025 01:11:36 -0700
-Received: from FMSMSX901.amr.corp.intel.com (10.18.126.90) by
- fmsmsx903.amr.corp.intel.com (10.18.126.92) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.27; Thu, 23 Oct 2025 01:11:36 -0700
-Received: from fmsedg901.ED.cps.intel.com (10.1.192.143) by
- FMSMSX901.amr.corp.intel.com (10.18.126.90) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.27 via Frontend Transport; Thu, 23 Oct 2025 01:11:36 -0700
-Received: from BL2PR02CU003.outbound.protection.outlook.com (52.101.52.18) by
- edgegateway.intel.com (192.55.55.81) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.27; Thu, 23 Oct 2025 01:11:36 -0700
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=EV8WqQmgZV9pIFVXey4PwP4mhFQ9MZo41Cy2Nr18JRU5oCKe5hB8PvCKW3SK6uVCHqQP66iEAyvIw+jNIBX0mZCWVIvIPoajrX3FjAP/us0mU4s9HPwUTHuiGHsfu9nDoV0V9Rp2Tzw9yly/IfiBIjI6bkgk+AIrRw27O217xTSFsOuwtqS7qucT3gjl5zRU/GYOcYAAfNnZd0FffM+CWRmOxnATSXi0lYgNJRvgT1mjlgT0+EldMmFIokSFosHFPjmu6M29YU+wVhSrydsrtrsL2JVDDtTuXS9SRUHOGP2qaQ4aVpfFN3A+cZR3SF4dZUWMXIXe1OSMENUETLwm+g==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=rrul1wWSRv6VxC8Jj0guC2kbxRFh2hNuzoAcRIlsoZo=;
- b=B6wKYceDDCXbxRt68hAG1FkyCIrdCHpr1jJmU3yvG+bFEE6u+apKkrgoc87pAhVAGxRQj+2jiPqzOe1Cwk6kKw9CQjLcxVxOd29xxX5rtqQCvD+4z6u1ajG4Qw4PFb2M2ODp7FqXVtPWbDD9AWvsaq0mWN0K9oq9Qy8Bo07qL8aCNzVih8Be8DItFlc37OrPQEx85ft+YPkxywV4MFxl0dlxI/CGaEOvt5WuBjH2/NJIAYLRgJ42UJn7CxRvryPKtWHNYQ5jjOr8PfOmZSf5xBh68QuNc0gufbWIjc1fExJoG/WfTUT7mHIQ3MQXro/eDcinooZ1UEMCGMsDA/LQ3A==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
-Received: from DM3PPF208195D8D.namprd11.prod.outlook.com
- (2603:10b6:f:fc00::f13) by DM6PR11MB4595.namprd11.prod.outlook.com
- (2603:10b6:5:2ac::16) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9253.13; Thu, 23 Oct
- 2025 08:11:33 +0000
-Received: from DM3PPF208195D8D.namprd11.prod.outlook.com
- ([fe80::95c9:5973:5297:d3cc]) by DM3PPF208195D8D.namprd11.prod.outlook.com
- ([fe80::95c9:5973:5297:d3cc%4]) with mapi id 15.20.9253.011; Thu, 23 Oct 2025
- 08:11:33 +0000
-From: "Kandpal, Suraj" <suraj.kandpal@intel.com>
-To: "Shankar, Uma" <uma.shankar@intel.com>, "intel-gfx@lists.freedesktop.org"
- <intel-gfx@lists.freedesktop.org>, "intel-xe@lists.freedesktop.org"
- <intel-xe@lists.freedesktop.org>, "dri-devel@lists.freedesktop.org"
- <dri-devel@lists.freedesktop.org>
-CC: "Borah, Chaitanya Kumar" <chaitanya.kumar.borah@intel.com>,
- "ville.syrjala@linux.intel.com" <ville.syrjala@linux.intel.com>,
- "pekka.paalanen@collabora.com" <pekka.paalanen@collabora.com>,
- "contact@emersion.fr" <contact@emersion.fr>, "harry.wentland@amd.com"
- <harry.wentland@amd.com>, "mwen@igalia.com" <mwen@igalia.com>,
- "jadahl@redhat.com" <jadahl@redhat.com>, "sebastian.wick@redhat.com"
- <sebastian.wick@redhat.com>, "shashank.sharma@amd.com"
- <shashank.sharma@amd.com>, "Sharma, Swati2" <swati2.sharma@intel.com>,
- "alex.hung@amd.com" <alex.hung@amd.com>, "Shankar, Uma"
- <uma.shankar@intel.com>
-Subject: RE: [v5 04/24] drm: Add 1D LUT multi-segmented color op
-Thread-Topic: [v5 04/24] drm: Add 1D LUT multi-segmented color op
-Thread-Index: AQHb6zDcJKxGmhUz6USp5iPtIX2pGrTQEoqg
-Date: Thu, 23 Oct 2025 08:11:33 +0000
-Message-ID: <DM3PPF208195D8D1116619CBE818BC680C9E3F0A@DM3PPF208195D8D.namprd11.prod.outlook.com>
-References: <20250702091936.3004854-1-uma.shankar@intel.com>
- <20250702091936.3004854-5-uma.shankar@intel.com>
-In-Reply-To: <20250702091936.3004854-5-uma.shankar@intel.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=intel.com;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: DM3PPF208195D8D:EE_|DM6PR11MB4595:EE_
-x-ms-office365-filtering-correlation-id: 36eb4d2a-3333-495a-51d9-08de120bc75b
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;
- ARA:13230040|1800799024|7416014|376014|366016|38070700021; 
-x-microsoft-antispam-message-info: =?us-ascii?Q?WLXGt0pBmtnG1TpaWNMyAoZ+8Mrgjhg374BixK/0Yjr0yPfcdYEP4HnBbrGU?=
- =?us-ascii?Q?UQNSTtMEoYfbci9jzUt9xRaWAtz8Ic+MWqa2BRdNdQjDgFstnVVadtEyx/6V?=
- =?us-ascii?Q?HQugCVbVfEWDiHQ8jNC4nBGBP6R11kMRyPQoJXum1n1A6l0fh1twfB6MPNIB?=
- =?us-ascii?Q?Lqe9on7IXx8OG6b+jRi10GnKn4Xmq6zK/y4ufQzQ5eGCEL0qQbtvsmhLDA73?=
- =?us-ascii?Q?tk3cOCdwNHtJwZpZy5qr6GjzSNo2SrK3Wv9JhdL/hv8/f8RGjdO2zbmhX1P4?=
- =?us-ascii?Q?jA7GD7S8p1Wfmqv/irX/Hidwx4MZsstdiQ3W/1b1/bzVmLHWFN5pkUvt7WAk?=
- =?us-ascii?Q?A3me5dU/ofXRPVchL0YGQUPaWS3z7iNj/ZKAWdppC+daizQk4Js1YL73ted7?=
- =?us-ascii?Q?h/2ynOROsiG+EG9VTMeWGk2eWxsQ1IVgyZv7IyZb1GuReLFoIyZCrG66heZ1?=
- =?us-ascii?Q?7p6s4VwFqkhMt5LUwgKenC1+sIj1TfBVb4DNtualUC3LeY13CuxIf+ZDg19X?=
- =?us-ascii?Q?zUwccNFzJUs6iuUu5upgglckTSQ6sWk+NMiDNKGdje2hvCKugP2SRhiHrlhi?=
- =?us-ascii?Q?mFhhUsdCRe8bVRMU+LlrPT1ak8o/JS3FYNnK4PY/rLI9Lu3SRiJD0MFl/NGi?=
- =?us-ascii?Q?guoVxeFG4s1DtS/8IYw0drW1tbBnwndJbKxoRdQaQ3piwl3Kn57Ra3gwsYzF?=
- =?us-ascii?Q?frM7Z7aetlc5Lnd1MT/xELiFiFhivdHP2j7oFrqgaYBfaWF+WythCKsYuGHB?=
- =?us-ascii?Q?+ptajEPNVXFPrUbe4+Gc0mDZqAmCFD/RMvR91pQ5DFEODv4ABdZpOaDrjK2i?=
- =?us-ascii?Q?zSTOtTjLHXripcJHshIiTXYYgfDavq1Z5Ufsmo5LE9wybIgw2QQ4Dk8i+oAD?=
- =?us-ascii?Q?8ltDjOrg6ozSjOsquAMc0MQX5s0bMczrOpKOKahZpCpFcAs0nezpGEu/ks2M?=
- =?us-ascii?Q?Y6mTdvqIaX6v+dlaRnYf1qwLC7I8Yg65gOUM7bM72FfsGAfabjvMaN2TOG7Q?=
- =?us-ascii?Q?HpWgknfHpBS27XwMdwkjtPPOEvjxHulJBiFu8GQloKlM/406O8QBA4b0o8Zp?=
- =?us-ascii?Q?AxzjQ4Yl8E/yp19a+cmRql+DW5c7RzubZY/7Ew8CDs9USAG5n95hRPCtL9BO?=
- =?us-ascii?Q?wsjZcfXx1FIusn+XQYdS9JUmiu3T7foeWN1LOXbPSpx9bZSkPM/ZG+9CWQUc?=
- =?us-ascii?Q?LeqzSk7mmfIA4TeETVuaA/2VzDyu2Bg03D+N210ckdCg/md/D2VK0gNwf1I6?=
- =?us-ascii?Q?pgknN7bze2VQnhbO0LcBLnzoux7apujYBSEEHK4lolUo2WThvoBtuaKp3EbS?=
- =?us-ascii?Q?MS2vNExWPw6MgunFf/du4TyC61y8oUaUhWZSUtvDQS28sYvYA+FfMQCTNuwO?=
- =?us-ascii?Q?OPFlzCG229G1fpK8MK0j1Mu+mpft5t/VW2UzqeqvfI3JqtBfHff7ht9z90Qe?=
- =?us-ascii?Q?8DEijNTMt5O1dUiACuu7/a+x8EyO6Qwt6gUjsL7Db783IUeiT+9aXmQdg1T/?=
- =?us-ascii?Q?D+vfaWqgSCIAao4acvDJejfcRnjozfr0GmcN?=
-x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:DM3PPF208195D8D.namprd11.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230040)(1800799024)(7416014)(376014)(366016)(38070700021); DIR:OUT;
- SFP:1101; 
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?us-ascii?Q?GSyzALg1kE7KMG0A01d/WrR8ceM3NLOXIkq7pmoSgnzZb+gStcuF0sdlB370?=
- =?us-ascii?Q?d/LKZacBqe1eSkcpBty1fzSJ94cq3+VOdBqFYWzvtanjk+0Xcriv/8h37Ou+?=
- =?us-ascii?Q?tXLDHLkHmuY7gxbNgOJROWXi3QyVK8ugtzivLV6VtYYcA/A2r84fhS1Eiyiq?=
- =?us-ascii?Q?/nTsTyc+uh1u6U7Yh9MsGjyfh5jDXZ5HfOA2JNGB8jvOAAk4I7zmOMxVwnAW?=
- =?us-ascii?Q?v/lriBQEXfKShY64qdZ6RGFs9qioqWiIBCwjm1BKSMijF+YpA54Lht4TKQE1?=
- =?us-ascii?Q?5yISHvvIhPqSzDAkprkprl8neUM8z0yiyEsvEaAT+qNgYBZSmKz8OudJaM/I?=
- =?us-ascii?Q?aEs6FdiFXAX0HrwQhAct7JB/qREg/lY5UxWiNO/lhAa7R2aFk/PV9wivuYYA?=
- =?us-ascii?Q?qmyx7DDpxwF0gwEYCDzFj7WDrOBlUn1JpkZhmdSEcBhnJTaWSshBLNAs1nNp?=
- =?us-ascii?Q?8lgJpT8lCidP90R3+rp+cYR6qjzpiQE0Euu7MlLOn4yynoQr5GKkh6NYDa3J?=
- =?us-ascii?Q?MAQ2bKM5v42kwp+81z9Mz+bMxdvJ+iJUkYAPLZbY9xJUCE5CfQt5qYEBprSn?=
- =?us-ascii?Q?dhnDm0ugiN59BMbqiqrvepxLWFyzG5MNHPY5KWQv+k8TCvEjdEDcgEmSIGHe?=
- =?us-ascii?Q?iEUkGRoVpsxY2omfXSVd5fiTvBaieyTa9y86X7zMwjijv7RGzm3dVFBwSQFR?=
- =?us-ascii?Q?SghlzeID/Jo74OQSbFrF7hpHTYbrnzpIe1Ut7BymgOnKmXtjowjcWhIz8QVI?=
- =?us-ascii?Q?HLn5c+ZAx39wuQ9jofG0Wv1rkoCFl0bx66HerVOBcBQ8gIu2KZJ8fNx0wujR?=
- =?us-ascii?Q?60QHKr+HuJ4ORZ1nz+KUrUry9E6Yw1WjQZ0Fqsr23EGace3+TrDfHLE0Jvoe?=
- =?us-ascii?Q?HD4s5DCO+emXu+gXizdT1MDywwVTKDVc2RdpzLod7fbUni74S0HXbwomtG19?=
- =?us-ascii?Q?vW5sJWRqNMM56K7n8s76pVWFDjh7OfGEenBMZtyYhAGZvBVp1baQllZQBKEB?=
- =?us-ascii?Q?paSEkR+hCspGyg9+zzJ+1yFRc6+ZkYXuT51Fbz1mEZOagFwQmULm4ZD2W7nd?=
- =?us-ascii?Q?vH3mzlpTOj2JCzxFL6DAm4v+gS2CRaYQuEZkLCn2Ib+gbbtXObM/RFxF+nwv?=
- =?us-ascii?Q?1Jt41oNZHJ5OSMyKdRvu2WBtR+u4f1huVqhqnyCpJdG4gEFmjUSdM0pdJEbt?=
- =?us-ascii?Q?VhVmyGB2hy9JgLvGyJe/QADz5yrL5mxxi2xvpTxFxMUriApdG5pUASYfk6/j?=
- =?us-ascii?Q?V96k7vLHSv/VaE9BHM5IIaNX10qUEmc2McN4VC2lC04dYJMeOoblZFQyGRBa?=
- =?us-ascii?Q?jpumO2ixq4TSnRotFN3UEYx9ZKcjHNRrXS4UPgpxqSS3oMB0+9q+ENM4HPQd?=
- =?us-ascii?Q?cLqnGBaiYOzyQ96AmgbPfmDEVP2zjtUbjMRFODBSVcWE0K2YCOVTOltt9P+2?=
- =?us-ascii?Q?rRwysThIu+uN0numNk1HaaT1tAJvcst99nK6/BgsWgNTVZgTSQ3Fp3lp2R9w?=
- =?us-ascii?Q?XVzP1csUpPLX4KV0vPHh2KMSL9rz3EVy1Z9jI2mj+TPMlg566qmYZsfnN7Jh?=
- =?us-ascii?Q?xpRUEonN0ppPeplfFKRRLXv8yrcN8TjLfRWpgcO6?=
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
+ [205.220.180.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4635A10E37B
+ for <dri-devel@lists.freedesktop.org>; Thu, 23 Oct 2025 08:17:54 +0000 (UTC)
+Received: from pps.filterd (m0279868.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 59N7CKBQ006702
+ for <dri-devel@lists.freedesktop.org>; Thu, 23 Oct 2025 08:17:53 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+ cc:content-transfer-encoding:date:from:in-reply-to:message-id
+ :mime-version:references:subject:to; s=qcppdkim1; bh=lz1kHXEja+b
+ uOq/94C0iL55lIlNIfI1MxOrjNw7/YO0=; b=TI2LtKExfmLnBPlddJifEvDK4ah
+ khIdgPr37lPNt9gbWFPCf51cHyFjOWsJl/O2PRWuLMjciW1V+lyzmxzD5ZMIzJGQ
+ YKJCHU4UxdcbQt24TRzcPSD0xzgY3Q5kuObCKIIR0EIBYSWWZvTlfbUsbWMoSKiG
+ awrINv4k9v7kJMYFqXO8NyYUjetXKg7DUHCTsGCbm54nwIDgUjSOosbaWlyP7NB3
+ pgGF4Etuvn59WRlRgDfblzUDHPbq/rT+FLnCfbrbY7tDwnC4fHGpq3VjP5G7siUR
+ 3DLiyAar2BE8j2NgNavSj8rYtC508dCxkBlT9a4ENF4yaBlEA8MVrLJzSHA==
+Received: from mail-pf1-f198.google.com (mail-pf1-f198.google.com
+ [209.85.210.198])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 49v27j7h30-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
+ for <dri-devel@lists.freedesktop.org>; Thu, 23 Oct 2025 08:17:53 +0000 (GMT)
+Received: by mail-pf1-f198.google.com with SMTP id
+ d2e1a72fcca58-78038ed99d9so1105785b3a.2
+ for <dri-devel@lists.freedesktop.org>; Thu, 23 Oct 2025 01:17:53 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1761207472; x=1761812272;
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=lz1kHXEja+buOq/94C0iL55lIlNIfI1MxOrjNw7/YO0=;
+ b=rdimjjDvXq+oi6NH5Qubk2IObjQ1au/BQGtk13UDrGCxjMT0opl69YGYIuaIkPj5oN
+ XCitAIgiejHEkS34dQCaCSHeooxQpmWpjlSRmKncKzP269oCfHALjIKrmMNuxxEndJ/A
+ 1SpgWSBnYsZntJi6e5dM5CnJMvCAUKE0N+qsMgh+nF9v64PG3GmscyLxeiyfVaJzjyLp
+ a79wQGcUqaLEh9a1lGMMS0zDghOUXcF1GqwgHbAIpbQexPklTs6hmPbtKIVVQvj8vPwQ
+ QW8TJaRk3GtptPRS0A1tgXu8IPj2Q+clx7kBk9D2xNfnZ/TbXWYivwaIhVPmKFQMqIbx
+ +8vw==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCWrdbPxjFPdb+ZK6tROmbMy9y9QjmqzXcxkxVKDj5J971Dt0PKJd8RDHfeEMWnhTVn4Mgbx8OYgDkQ=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YydbbzBDVgCBGK60DsAk/5gNvwe88cBt6b/gV+1I8RMWYc9fmsd
+ vNAw3Vj7WdE1uAIcIVIkZ4vLDNRu7wIfFVAWHDvVAwihzKn4wqk2wJGTCm+bA9rZk6x59eC0ANy
+ 8eKyzGv0TkL5TogTsvzgI1m8SAmhXDg0klzampRklYwWw23Zkq3pjryR4zqQuJDIQu24zfK0=
+X-Gm-Gg: ASbGnctnq4pOCykqs9BQzYJqfwqs4MKONgIHwPzZqb18y5VxkdlPVTuAnVlbofloPr2
+ hHy7VmHC5UxzcCYeIfCEP+acMsB0jDsI4DldxcKLtdF8VqVhJ+0IE0/9B8N+H0R8ZUrtAG7VujE
+ d/WqIu+if24p/l0qayCRmnhxJo4hZJXObJmKNalggpIpBUZ/YIARmshohv1xbRiU0LUILBFr4iB
+ kF3sML9PxdxBjI6MGhfItqJlgreqgyBFsI5TW01l3mTRD6e+U07mRUWQK+SWnYOP/gFvy+ARlxd
+ OaZn3h66BUW3xdifkBiAuSfIhsbbZN43N+gWI7la+baefDv0b3az0N6vtMiQ3MuQr93ol5GIrOc
+ R7ck2bkOxA8bVysAFwTPqlgI1DdqZ6ryPs4CjYh9Hod5XQFRrrQ==
+X-Received: by 2002:a05:6a00:4f81:b0:7a1:373f:c216 with SMTP id
+ d2e1a72fcca58-7a220a9ded3mr29531187b3a.14.1761207471605; 
+ Thu, 23 Oct 2025 01:17:51 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IFp8zpx9j/Sn6QSnlYRNuEnR+/U77aCoIlwWaGJ5qaBx5l1S7e63z7GhP2jJKNH/fAFBybwTQ==
+X-Received: by 2002:a05:6a00:4f81:b0:7a1:373f:c216 with SMTP id
+ d2e1a72fcca58-7a220a9ded3mr29531138b3a.14.1761207471076; 
+ Thu, 23 Oct 2025 01:17:51 -0700 (PDT)
+Received: from yuanjiey.qualcomm.com (i-global254.qualcomm.com.
+ [199.106.103.254]) by smtp.gmail.com with ESMTPSA id
+ d2e1a72fcca58-7a274a9e907sm1711740b3a.27.2025.10.23.01.17.42
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 23 Oct 2025 01:17:50 -0700 (PDT)
+From: yuanjie yang <yuanjie.yang@oss.qualcomm.com>
+To: robin.clark@oss.qualcomm.com, lumag@kernel.org, abhinav.kumar@linux.dev,
+ sean@poorly.run, marijn.suijten@somainline.org, airlied@gmail.com,
+ simona@ffwll.ch, maarten.lankhorst@linux.intel.com, mripard@kernel.org,
+ tzimmermann@suse.de, robh@kernel.org, krzk+dt@kernel.org,
+ conor+dt@kernel.org, quic_mkrishn@quicinc.com, jonathan@marek.ca,
+ quic_khsieh@quicinc.com, neil.armstrong@linaro.org
+Cc: linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ freedreno@lists.freedesktop.org, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org, tingwei.zhang@oss.qualcomm.com,
+ aiqun.yu@oss.qualcomm.com, yongxing.mou@oss.qualcomm.com
+Subject: [PATCH 12/12] dt-bindings: display/msm: qcom,
+ kaanapali-mdss: Add Kaanapali
+Date: Thu, 23 Oct 2025 16:17:36 +0800
+Message-Id: <20251023081736.1251-1-yuanjie.yang@oss.qualcomm.com>
+X-Mailer: git-send-email 2.34.1
+In-Reply-To: <20251023075401.1148-1-yuanjie.yang@oss.qualcomm.com>
+References: <20251023075401.1148-1-yuanjie.yang@oss.qualcomm.com>
 MIME-Version: 1.0
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: DM3PPF208195D8D.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 36eb4d2a-3333-495a-51d9-08de120bc75b
-X-MS-Exchange-CrossTenant-originalarrivaltime: 23 Oct 2025 08:11:33.1570 (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 46c98d88-e344-4ed4-8496-4ed7712e255d
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: sVoCpgYj2tfamaO1yXqAdAJ0B692jNyp3U9DIJ7tIIdBGcySHm9aoNLIm4PF3m2tcOYNwKGrr6ND611kwrQB9Q==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM6PR11MB4595
-X-OriginatorOrg: intel.com
+Content-Transfer-Encoding: 8bit
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUxMDE4MDAxOCBTYWx0ZWRfXwyHoeS+4ZltM
+ umNKtHbrUMuOWIByM63J241xu/D9mMKW7z4bCj9SPqV3UMzXJ0FGWLlvw2Ev64yplpkC18TzRhE
+ OjI4R5z3kiF5arbO6vyVRi+o29EMr+vNA29WsPBl5+jOT/ypPuUOXFrGbtt9Jddxly31/R7g5BT
+ MVtSlr0cn2bYGLJZ1aE6NraVEgSU80Sjx76cEi0ft4z0+8TloKObcmXzW5aTCkNF+NcctDPaVUW
+ ZcD9uS+SOBTKXNJLrV3/EeQaMwzdxA8VFEAi9J1FcDJRwpw2xxS9Zfl+l2V0YF9Ib5pxfKv1j3v
+ FuCtmlxKCiKmewal+/WWTOivUIt1ofOnxo45NsHyMzxhxtwk0Zu7OBtREG3PJ86CrRF9NXxQdff
+ rwrldPtzJljAxuhFV7GSvntYSbb+Nw==
+X-Authority-Analysis: v=2.4 cv=G4UR0tk5 c=1 sm=1 tr=0 ts=68f9e4b1 cx=c_pps
+ a=m5Vt/hrsBiPMCU0y4gIsQw==:117 a=JYp8KDb2vCoCEuGobkYCKw==:17
+ a=x6icFKpwvdMA:10 a=VkNPw1HP01LnGYTKEx00:22 a=gEfo2CItAAAA:8 a=EUspDBNiAAAA:8
+ a=R7wmlHStZQC7fVxWcBoA:9 a=IoOABgeZipijB_acs4fv:22 a=sptkURWiP4Gy88Gu7hUp:22
+X-Proofpoint-GUID: g_ekVGvmNFZYytcXbe_0oStfmHAhq7i4
+X-Proofpoint-ORIG-GUID: g_ekVGvmNFZYytcXbe_0oStfmHAhq7i4
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.9,FMLib:17.12.80.40
+ definitions=2025-10-22_08,2025-10-22_01,2025-03-28_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ impostorscore=0 lowpriorityscore=0 malwarescore=0 bulkscore=0
+ priorityscore=1501 spamscore=0 suspectscore=0 adultscore=0 clxscore=1015
+ phishscore=0 classifier=typeunknown authscore=0 authtc= authcc=
+ route=outbound adjust=0 reason=mlx scancount=1 engine=8.19.0-2510020000
+ definitions=main-2510180018
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -194,110 +128,321 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-> Subject: [v5 04/24] drm: Add 1D LUT multi-segmented color op
->=20
-> From: Chaitanya Kumar Borah <chaitanya.kumar.borah@intel.com>
->=20
-> Add support for color ops that can be programmed by 1 dimensional multi
-> segmented Look Up Tables.
+From: Yuanjie Yang <yuanjie.yang@oss.qualcomm.com>
 
-I think let's just call it LUT here too that what we have mentioned across =
-the whole series
+Add MDSS/MDP display subsystem for Qualcomm Kaanapali.
 
->=20
-> v2: Fixed the documentation for Multi segmented lut (Dmitry)
+Signed-off-by: Yongxing Mou <yongxing.mou@oss.qualcomm.com>
+Signed-off-by: Yuanjie Yang <yuanjie.yang@oss.qualcomm.com>
+---
+ .../display/msm/qcom,kaanapali-mdss.yaml      | 298 ++++++++++++++++++
+ 1 file changed, 298 insertions(+)
+ create mode 100644 Documentation/devicetree/bindings/display/msm/qcom,kaanapali-mdss.yaml
 
-*LUT
-
-With that fixed,
-Reviewed-by: Suraj Kandpal <suraj.kandpal@intel.com>
-
->=20
-> Signed-off-by: Chaitanya Kumar Borah <chaitanya.kumar.borah@intel.com>
-> Signed-off-by: Uma Shankar <uma.shankar@intel.com>
-> ---
->  drivers/gpu/drm/drm_atomic.c      |  4 ++++
->  drivers/gpu/drm/drm_atomic_uapi.c |  3 +++
->  drivers/gpu/drm/drm_colorop.c     |  1 +
->  include/uapi/drm/drm_mode.h       | 10 ++++++++++
->  4 files changed, 18 insertions(+)
->=20
-> diff --git a/drivers/gpu/drm/drm_atomic.c b/drivers/gpu/drm/drm_atomic.c
-> index 3ab32fe7fe1c..71160a71f5a3 100644
-> --- a/drivers/gpu/drm/drm_atomic.c
-> +++ b/drivers/gpu/drm/drm_atomic.c
-> @@ -800,6 +800,10 @@ static void drm_atomic_colorop_print_state(struct
-> drm_printer *p,
->=20
-> drm_get_colorop_lut1d_interpolation_name(colorop->lut1d_interpolation));
->  		drm_printf(p, "\tdata blob id=3D%d\n", state->data ? state->data-
-> >base.id : 0);
->  		break;
-> +	case DRM_COLOROP_1D_LUT_MULTSEG:
-> +		drm_printf(p, "\thw cap blob id=3D%d\n", state->hw_caps ? state-
-> >hw_caps->base.id : 0);
-> +		drm_printf(p, "\tdata blob id=3D%d\n", state->data ? state->data-
-> >base.id : 0);
-> +		break;
->  	case DRM_COLOROP_CTM_3X4:
->  		drm_printf(p, "\tdata blob id=3D%d\n", state->data ? state->data-
-> >base.id : 0);
->  		break;
-> diff --git a/drivers/gpu/drm/drm_atomic_uapi.c
-> b/drivers/gpu/drm/drm_atomic_uapi.c
-> index 81a8da09fbfe..c59f6671b73d 100644
-> --- a/drivers/gpu/drm/drm_atomic_uapi.c
-> +++ b/drivers/gpu/drm/drm_atomic_uapi.c
-> @@ -723,6 +723,9 @@ static int drm_atomic_color_set_data_property(struct
-> drm_colorop *colorop,
->  		size =3D colorop->lut_size * colorop->lut_size * colorop->lut_size
-> *
->  		       sizeof(struct drm_color_lut_32);
->  		break;
-> +	case DRM_COLOROP_1D_LUT_MULTSEG:
-> +		elem_size =3D sizeof(struct drm_color_lut_32);
-> +		break;
->  	default:
->  		/* should never get here */
->  		return -EINVAL;
-> diff --git a/drivers/gpu/drm/drm_colorop.c b/drivers/gpu/drm/drm_colorop.=
-c
-> index 52c08d717944..97e9acbb0f2c 100644
-> --- a/drivers/gpu/drm/drm_colorop.c
-> +++ b/drivers/gpu/drm/drm_colorop.c
-> @@ -65,6 +65,7 @@
->  static const struct drm_prop_enum_list drm_colorop_type_enum_list[] =3D =
-{
->  	{ DRM_COLOROP_1D_CURVE, "1D Curve" },
->  	{ DRM_COLOROP_1D_LUT, "1D LUT" },
-> +	{ DRM_COLOROP_1D_LUT_MULTSEG, "1D LUT Multi Segmented" },
->  	{ DRM_COLOROP_CTM_3X4, "3x4 Matrix"},
->  	{ DRM_COLOROP_MULTIPLIER, "Multiplier"},
->  	{ DRM_COLOROP_3D_LUT, "3D LUT"},
-> diff --git a/include/uapi/drm/drm_mode.h b/include/uapi/drm/drm_mode.h
-> index dd223077f4e9..18e36cbe10f7 100644
-> --- a/include/uapi/drm/drm_mode.h
-> +++ b/include/uapi/drm/drm_mode.h
-> @@ -915,6 +915,16 @@ enum drm_colorop_type {
->  	 */
->  	DRM_COLOROP_1D_LUT,
->=20
-> +	/**
-> +	 * @DRM_COLOROP_1D_LUT_MULTSEG:
-> +	 *
-> +	 * A 1D LUT with multiple segments to cover the full color range with
-> non-uniformly
-> +	 * distributed &drm_color_lut entries, packed into a blob via the DATA
-> property.
-> +	 * The driver's expected LUT size and segmented capabilities are
-> advertised via the
-> +	 * HW_CAPS property.
-> +	 */
-> +	DRM_COLOROP_1D_LUT_MULTSEG,
-> +
->  	/**
->  	 * @DRM_COLOROP_CTM_3X4:
->  	 *
-> --
-> 2.42.0
+diff --git a/Documentation/devicetree/bindings/display/msm/qcom,kaanapali-mdss.yaml b/Documentation/devicetree/bindings/display/msm/qcom,kaanapali-mdss.yaml
+new file mode 100644
+index 000000000000..3006c0a69309
+--- /dev/null
++++ b/Documentation/devicetree/bindings/display/msm/qcom,kaanapali-mdss.yaml
+@@ -0,0 +1,298 @@
++# SPDX-License-Identifier: GPL-2.0-only OR BSD-2-Clause
++%YAML 1.2
++---
++$id: http://devicetree.org/schemas/display/msm/qcom,kaanapali-mdss.yaml#
++$schema: http://devicetree.org/meta-schemas/core.yaml#
++
++title: Qualcomm Kaanapali Display MDSS
++
++maintainers:
++  - Yongxing Mou <yongxing.mou@oss.qualcomm.com>
++
++description:
++  Kaanapali MSM Mobile Display Subsystem(MDSS), which encapsulates sub-blocks
++  like DPU display controller, DSI and DP interfaces etc.
++
++$ref: /schemas/display/msm/mdss-common.yaml#
++
++properties:
++  compatible:
++    const: qcom,kaanapali-mdss
++
++  clocks:
++    items:
++      - description: Display AHB
++      - description: Display hf AXI
++      - description: Display core
++      - description: Display AHB SWI
++
++  iommus:
++    maxItems: 1
++
++  interconnects:
++    items:
++      - description: Interconnect path from mdp0 port to the data bus
++      - description: Interconnect path from CPU to the reg bus
++
++  interconnect-names:
++    items:
++      - const: mdp0-mem
++      - const: cpu-cfg
++
++patternProperties:
++  "^display-controller@[0-9a-f]+$":
++    type: object
++    additionalProperties: true
++    properties:
++      compatible:
++        const: qcom,kaanapali-dpu
++
++  "^dsi@[0-9a-f]+$":
++    type: object
++    additionalProperties: true
++    properties:
++      compatible:
++        contains:
++          const: qcom,kaanapali-dsi-ctrl
++
++  "^phy@[0-9a-f]+$":
++    type: object
++    additionalProperties: true
++    properties:
++      compatible:
++        const: qcom,kaanapali-dsi-phy-3nm
++
++required:
++  - compatible
++
++unevaluatedProperties: false
++
++examples:
++  - |
++    #include <dt-bindings/clock/qcom,rpmh.h>
++    #include <dt-bindings/interconnect/qcom,icc.h>
++    #include <dt-bindings/interconnect/qcom,kaanapali-rpmh.h>
++    #include <dt-bindings/interrupt-controller/arm-gic.h>
++    #include <dt-bindings/phy/phy-qcom-qmp.h>
++    #include <dt-bindings/power/qcom,rpmhpd.h>
++
++    display-subsystem@9800000 {
++            compatible = "qcom,kaanapali-mdss";
++            reg = <0x09800000 0x1000>;
++            reg-names = "mdss";
++
++            interrupts = <GIC_SPI 83 IRQ_TYPE_LEVEL_HIGH>;
++
++            clocks = <&disp_cc_mdss_ahb_clk>,
++                     <&gcc_disp_hf_axi_clk>,
++                     <&disp_cc_mdss_mdp_clk>,
++                     <&disp_cc_mdss_ahb1_clk>;
++            resets = <&dispcc DISP_CC_MDSS_CORE_BCR>;
++
++            interconnects = <&mmss_noc MASTER_MDP QCOM_ICC_TAG_ALWAYS
++                             &mc_virt SLAVE_EBI1 QCOM_ICC_TAG_ALWAYS>,
++                            <&gem_noc MASTER_APPSS_PROC QCOM_ICC_TAG_ACTIVE_ONLY
++                             &config_noc SLAVE_DISPLAY_CFG QCOM_ICC_TAG_ACTIVE_ONLY>;
++            interconnect-names = "mdp0-mem",
++                                 "cpu-cfg";
++
++            power-domains = <&dispcc DISP_CC_MDSS_CORE_GDSC>;
++
++            iommus = <&apps_smmu 0x800 0x2>;
++
++            interrupt-controller;
++            #interrupt-cells = <1>;
++
++            #address-cells = <1>;
++            #size-cells = <1>;
++            ranges;
++
++            display-controller@9801000 {
++                compatible = "qcom,kaanapali-dpu";
++                reg = <0x09801000 0x1C8000>,
++                      <0x09B16000 0x3000>;
++                reg-names = "mdp",
++                            "vbif";
++
++                interrupts-extended = <&mdss 0>;
++
++                clocks = <&gcc_disp_hf_axi_clk>,
++                         <&disp_cc_mdss_ahb_clk>,
++                         <&disp_cc_mdss_mdp_lut_clk>,
++                         <&disp_cc_mdss_mdp_clk>,
++                         <&disp_cc_mdss_vsync_clk>;
++                clock-names = "nrt_bus",
++                              "iface",
++                              "lut",
++                              "core",
++                              "vsync";
++
++                assigned-clocks = <&disp_cc_mdss_vsync_clk>;
++                assigned-clock-rates = <19200000>;
++
++                operating-points-v2 = <&mdp_opp_table>;
++
++                power-domains = <&rpmhpd RPMHPD_MMCX>;
++
++                ports {
++                    #address-cells = <1>;
++                    #size-cells = <0>;
++
++                    port@0 {
++                        reg = <0>;
++
++                        dpu_intf1_out: endpoint {
++                            remote-endpoint = <&mdss_dsi0_in>;
++                        };
++                    };
++
++                    port@1 {
++                        reg = <1>;
++
++                        dpu_intf2_out: endpoint {
++                            remote-endpoint = <&mdss_dsi1_in>;
++                        };
++                    };
++                };
++
++                mdp_opp_table: opp-table {
++                    compatible = "operating-points-v2";
++
++                    opp-207000000 {
++                        opp-hz = /bits/ 64 <207000000>;
++                        required-opps = <&rpmhpd_opp_low_svs>;
++                    };
++
++                    opp-337000000 {
++                        opp-hz = /bits/ 64 <337000000>;
++                        required-opps = <&rpmhpd_opp_svs>;
++                    };
++
++                    opp-417000000 {
++                        opp-hz = /bits/ 64 <417000000>;
++                        required-opps = <&rpmhpd_opp_svs_l1>;
++                    };
++
++                    opp-532000000 {
++                        opp-hz = /bits/ 64 <532000000>;
++                        required-opps = <&rpmhpd_opp_nom>;
++                    };
++
++                    opp-600000000 {
++                        opp-hz = /bits/ 64 <600000000>;
++                        required-opps = <&rpmhpd_opp_nom_l1>;
++                    };
++
++                    opp-650000000 {
++                        opp-hz = /bits/ 64 <650000000>;
++                        required-opps = <&rpmhpd_opp_turbo>;
++                    };
++                };
++            };
++
++            dsi@ae94000 {
++                compatible = "qcom,kaanapali-dsi-ctrl", "qcom,mdss-dsi-ctrl";
++                reg = <0x09ac0000 0x500>;
++                reg-names = "dsi_ctrl";
++
++                interrupts-extended = <&mdss 4>;
++
++                clocks = <&disp_cc_mdss_byte0_clk>,
++                         <&disp_cc_mdss_byte0_intf_clk>,
++                         <&disp_cc_mdss_pclk0_clk>,
++                         <&disp_cc_mdss_esc0_clk>,
++                         <&disp_cc_mdss_ahb_clk>,
++                         <&gcc_disp_hf_axi_clk>,
++                         <&mdss_dsi0_phy 1>,
++                         <&mdss_dsi0_phy 0>,
++                         <&disp_cc_esync0_clk>,
++                         <&disp_cc_osc_clk>,
++                         <&disp_cc_mdss_byte0_clk_src>,
++                         <&disp_cc_mdss_pclk0_clk_src>;
++                clock-names = "byte",
++                              "byte_intf",
++                              "pixel",
++                              "core",
++                              "iface",
++                              "bus",
++                              "dsi_pll_pixel",
++                              "dsi_pll_byte",
++                              "esync",
++                              "osc",
++                              "byte_src",
++                              "pixel_src";
++
++                operating-points-v2 = <&mdss_dsi_opp_table>;
++
++                power-domains = <&rpmhpd RPMHPD_MMCX>;
++
++                phys = <&mdss_dsi0_phy>;
++                phy-names = "dsi";
++
++                vdda-supply = <&vreg_l3g_1p2>;
++
++                #address-cells = <1>;
++                #size-cells = <0>;
++
++                ports {
++                    #address-cells = <1>;
++                    #size-cells = <0>;
++
++                    port@0 {
++                        reg = <0>;
++
++                        mdss_dsi0_in: endpoint {
++                            remote-endpoint = <&dpu_intf1_out>;
++                        };
++                    };
++
++                    port@1 {
++                        reg = <1>;
++
++                        mdss_dsi0_out: endpoint {
++                            remote-endpoint = <&panel0_in>;
++                            data-lanes = <0 1 2 3>;
++                        };
++                    };
++                };
++
++                mdss_dsi_opp_table: opp-table {
++                    compatible = "operating-points-v2";
++
++                    opp-187500000 {
++                        opp-hz = /bits/ 64 <187500000>;
++                        required-opps = <&rpmhpd_opp_low_svs>;
++                    };
++
++                    opp-300000000 {
++                        opp-hz = /bits/ 64 <300000000>;
++                        required-opps = <&rpmhpd_opp_svs>;
++                    };
++
++                    opp-358000000 {
++                        opp-hz = /bits/ 64 <358000000>;
++                        required-opps = <&rpmhpd_opp_svs_l1>;
++                    };
++                };
++            };
++
++            mdss_dsi0_phy: phy@ae95000 {
++                compatible = "qcom,kaanapali-dsi-phy-3nm", "qcom,sm8750-dsi-phy-3nm";
++                reg = <0x09ac1000 0x200>,
++                      <0x09ac1200 0x280>,
++                      <0x09ac1500 0x400>;
++                reg-names = "dsi_phy",
++                            "dsi_phy_lane",
++                            "dsi_pll";
++
++                clocks = <&disp_cc_mdss_ahb_clk>,
++                         <&rpmhcc RPMH_CXO_CLK>;
++                clock-names = "iface",
++                              "ref";
++
++                vdds-supply = <&vreg_l3i_0p88>;
++
++                #clock-cells = <1>;
++                #phy-cells = <0>;
++            };
++        };
+-- 
+2.34.1
 
