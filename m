@@ -2,99 +2,199 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9BF01C03553
-	for <lists+dri-devel@lfdr.de>; Thu, 23 Oct 2025 22:12:56 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id DA285C03568
+	for <lists+dri-devel@lfdr.de>; Thu, 23 Oct 2025 22:15:32 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id F2F2D10E139;
-	Thu, 23 Oct 2025 20:12:53 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 04F0710E149;
+	Thu, 23 Oct 2025 20:15:30 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=broadcom.com header.i=@broadcom.com header.b="CALU6m/a";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="k+B2SH9w";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pj1-f100.google.com (mail-pj1-f100.google.com
- [209.85.216.100])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0380310E139
- for <dri-devel@lists.freedesktop.org>; Thu, 23 Oct 2025 20:12:52 +0000 (UTC)
-Received: by mail-pj1-f100.google.com with SMTP id
- 98e67ed59e1d1-33d463e79ddso1552701a91.0
- for <dri-devel@lists.freedesktop.org>; Thu, 23 Oct 2025 13:12:52 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1761250372; x=1761855172;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:dkim-signature:x-gm-message-state:from:to:cc:subject
- :date:message-id:reply-to;
- bh=BvjjhCKeuCJFP72GW8Uai/ICM1b1ebEnkdolGUgNHAw=;
- b=K6klFkiZ9fEq7Z4A3zCJ9t+HegGKku1V7HxXxpchWuEFF7rOXUuSiITPeJHpLz3vRv
- CJslKkNTSpkAMJQ3aQXxFlTrJ6PXKWsXfVG9h41ddiawJs/a+Y85vRxnRphdOZ88+P37
- tWz4SGIsEep5BX9+fcpu3OE6i5jPg1R0S4toF4eywosWMn3jJKUZbwOUFJsXAh7CeF2m
- dyw2BxGu6OYsWTV9KBSvOvaiGyX1O1yHZaIEGpuU3B9JN1Q1cLpZ2qCrCw6rvcav8wqb
- J6gmy+MMqO/Ur94pXJBUhXD8voF8aa3E7seAuoTaGpStDNZgUVA5euC8w4cloEuoeoPq
- XL7w==
-X-Forwarded-Encrypted: i=1;
- AJvYcCWIvVUXm1C9rlzkjF0nYKGVm4iF52v1DkPU70RYF3pZqmqdDsZ4E99BC9ixCKQ57/it0aEr33WDKIo=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YyPrJji8ApoOXtxXJrKUuP044F/vVVMvFHTGNDSSBBJ9G8ZLJ8V
- DmLPRWbZHsWefSaw5d6jqJeFoQaw7im/QsrrUkfK38sznmFGTKeO9aXrOTSqyqFE833AgEDmAMB
- ZZHz7J9GxZd95o9/39O3cHPMg1xxqfYsL4i7AfnMvt9K0q98kFwgMT2eUPx8vXykjt43G6s4B97
- W6VX6soFMhAe3qfR5E31BXFvi2Kwe4nDX4NPlZ6i/LdQZrmm1FPyMUVemWtCWGpf0xyqB6otmwJ
- AYGjmLi+HtopnLLNYNG
-X-Gm-Gg: ASbGnctCLVh4noPc+VkUpub46v5IZoDa6fm1PNBrCblM3I+jCt9iu11aZsjG4XWg8FQ
- CRVzqhQpVdGOOwdqq1X8bxdE4JTGzv5Iev3f79LSnVPkOzvTMPV5888u8b4nnbiyDJinRg5eN2Z
- TMEsfWAYVDf3+gb9m9VNvDQnethdGO5v5WJTpqu0/K37Jjpwxsi905T7MXW36PFEnM9hSKmf14P
- b1FocKQATZjad7nlcRPm9yIHdY+3MNuwCbJis8f9imhUw0oBCfN130qvZGhhQUkDA5e9Hw5a/gB
- FmcS7I5khHmOd0AVtQJEHTVSzuUr8wvbDezigiMDEi1Rl7FrKVKnfIgN5Zy7TpHQKXhlfxIeH7e
- wzX+Nt1PPl/VCoUBJnXFa6tiX+Rq0cT1x/TsLDmU1kXN6Xmxv48BPYQKvD/5ZVG9mOf5sCqJIZL
- iwHdWrxrh8Uw8er4ceuXGekdaQMnUUJ2U/RQ==
-X-Google-Smtp-Source: AGHT+IG5rdIvr/mKKEH4aasuP8oI9blrXviKJbgAVxlkpe6j9NBCdNkdP5x42KW/C3aOUSxv18XZhGaqbWBz
-X-Received: by 2002:a17:903:32c9:b0:265:604c:17e7 with SMTP id
- d9443c01a7336-290cbb49743mr302451775ad.60.1761250372291; 
- Thu, 23 Oct 2025 13:12:52 -0700 (PDT)
-Received: from smtp-us-east1-p01-i01-si01.dlp.protect.broadcom.com
- (address-144-49-247-102.dlp.protect.broadcom.com. [144.49.247.102])
- by smtp-relay.gmail.com with ESMTPS id
- d9443c01a7336-2946dde1106sm3268035ad.15.2025.10.23.13.12.51
- for <dri-devel@lists.freedesktop.org>
- (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
- Thu, 23 Oct 2025 13:12:52 -0700 (PDT)
-X-Relaying-Domain: broadcom.com
-X-CFilter-Loop: Reflected
-Received: by mail-wr1-f70.google.com with SMTP id
- ffacd0b85a97d-3ecdb10a612so720180f8f.2
- for <dri-devel@lists.freedesktop.org>; Thu, 23 Oct 2025 13:12:51 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=broadcom.com; s=google; t=1761250370; x=1761855170;
- darn=lists.freedesktop.org; 
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=BvjjhCKeuCJFP72GW8Uai/ICM1b1ebEnkdolGUgNHAw=;
- b=CALU6m/abxAaO3OmgInLXu1Ec3cOwsQaCaEhaiSzDrrcCrdJSgLmgp3sZuxdd0SGs0
- q87MuO8sNgeB9thxBEDv+snbeN0m7YX81I7jKY+4CTt68UHA5kQcJz43RO/Lcpd1x5Hc
- NpJEayezKGFnnrNJtkphyo1Rp/pHfFRPbDG1c=
-X-Forwarded-Encrypted: i=1;
- AJvYcCWHLV+PdBb04XYWIg2ZrYZbzg1sDLX0SnmTiquYaqG7wWfrOwcXGlCInr8NhZN5/TINa5jlCSAuHPE=@lists.freedesktop.org
-X-Received: by 2002:a05:6000:310d:b0:3fb:9950:b9eb with SMTP id
- ffacd0b85a97d-42704d90129mr14161479f8f.28.1761250370402; 
- Thu, 23 Oct 2025 13:12:50 -0700 (PDT)
-X-Received: by 2002:a05:6000:310d:b0:3fb:9950:b9eb with SMTP id
- ffacd0b85a97d-42704d90129mr14161465f8f.28.1761250369926; Thu, 23 Oct 2025
- 13:12:49 -0700 (PDT)
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 288CE10E143;
+ Thu, 23 Oct 2025 20:15:28 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1761250528; x=1792786528;
+ h=message-id:date:subject:to:cc:references:from:
+ in-reply-to:content-transfer-encoding:mime-version;
+ bh=hPfbhKEZBIyL1nU496gJ3nHoigG7mm4AcrB3VyyMVcw=;
+ b=k+B2SH9w0gCtWM3Ivbj7JzcGKyDTJUaEvGlfnuuwds20pVpkS1A/wRmp
+ Rb6pzSi9yn+FzCg2+X0LgPVRW2e42Q7AtnQgX9k6ke7uwfV3lwyTiC65a
+ CPQbcoEExExDD7i4Nb806662FzFcr656Jq9RJsT5u1znDOnbUG5f5/BHE
+ TgpXx5DgwQh7YBnLCDoKar1y+k8cakDX4QnEwpY5Km92fsenCwudW8DbU
+ KrF9XQfLTQkIyYAuTUHtmFarH1E+YbGJLzoUHdxz30xoObsC7e4h5ptVH
+ KYSZoXmOlBzGPVkseFv/FUInMBaWlNJSj9bUOOqy8OcaCKoTE4eyknGfT w==;
+X-CSE-ConnectionGUID: 0PCgTylQQeeazvhAdqaRTA==
+X-CSE-MsgGUID: St0DKCk/T8a5vXQi1k6YlA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11586"; a="63526320"
+X-IronPort-AV: E=Sophos;i="6.19,250,1754982000"; d="scan'208";a="63526320"
+Received: from fmviesa009.fm.intel.com ([10.60.135.149])
+ by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 23 Oct 2025 13:15:27 -0700
+X-CSE-ConnectionGUID: dRmjy88rTK2BJd+L5JnDDQ==
+X-CSE-MsgGUID: AbY/zILXTT+LRQFSp8Ws0A==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.19,250,1754982000"; d="scan'208";a="184729858"
+Received: from fmsmsx902.amr.corp.intel.com ([10.18.126.91])
+ by fmviesa009.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 23 Oct 2025 13:15:27 -0700
+Received: from FMSMSX902.amr.corp.intel.com (10.18.126.91) by
+ fmsmsx902.amr.corp.intel.com (10.18.126.91) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.2562.27; Thu, 23 Oct 2025 13:15:27 -0700
+Received: from fmsedg902.ED.cps.intel.com (10.1.192.144) by
+ FMSMSX902.amr.corp.intel.com (10.18.126.91) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.2562.27 via Frontend Transport; Thu, 23 Oct 2025 13:15:27 -0700
+Received: from MW6PR02CU001.outbound.protection.outlook.com (52.101.48.9) by
+ edgegateway.intel.com (192.55.55.82) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.2562.27; Thu, 23 Oct 2025 13:15:27 -0700
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=pp5BkMeOokINNpeZvm4g49TD6IzsRc9b46qEz9AZ3dT5VJKzxgfW6V+6LiQuRvwRe3HYhR90YCG+tD4a5cZ17SNGupIqmsJXLuS7aXcqXynT4r0oDnWAE+88pb3iVwy9GrU1mmD+nvp2Mjhwfwgeqc4GftMEP7XggnspirUN6d7OFDqO96ZlRQjRfoeMFrXCVjTnygx2XdNQHLVmdd65qApNFSQNFshUrZvJFhlC/LtP47mBYULSzW8dl2pS7y/pTjJ/PXcPbCZcAfaC6hGZgnCpcbZQaN9KkAlDWlmGiO63IO21s8q9vPNO7/jBy6A4QqHrwE6uDm9wFjWXEDxCIA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=zGeLMHY60u7lP6alhmA4giZnX5NoIE+isSCvYioAO9Y=;
+ b=rZdGNLvIC5SW8lq4D9/poXwWnbIo+f8j1lVZLn087l/whSwGRuaaXT9GROQgsORuKITZ1apYGF4YBsPg+av9QGboaY49lYklU8q6/pMG+Cuzj8l+i5oXaKFl7SzkVJpM3MeV2yI2g+GaVLpmaQ+sJDWdU0gvyeOswowhfiDwFJra8X5WcgHia6JXHhUh8j96NVP65ded88pxoUSTlhBcbPOWg/4+yDy7p/uwrVD/G7VttF+eBwynJD2/aVX0hW8KVynbDPet4L2UjI1IbTvtrN/qV9ttJJRns8ZA0qy+8KrXrrY8zgiPDxrhjF08XGFqhuEQtHuX4S01CEVyLYfiuQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=intel.com;
+Received: from MN0PR11MB6011.namprd11.prod.outlook.com (2603:10b6:208:372::6)
+ by CY8PR11MB7847.namprd11.prod.outlook.com (2603:10b6:930:7c::5) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9253.13; Thu, 23 Oct
+ 2025 20:15:17 +0000
+Received: from MN0PR11MB6011.namprd11.prod.outlook.com
+ ([fe80::bbbc:5368:4433:4267]) by MN0PR11MB6011.namprd11.prod.outlook.com
+ ([fe80::bbbc:5368:4433:4267%6]) with mapi id 15.20.9253.011; Thu, 23 Oct 2025
+ 20:15:17 +0000
+Message-ID: <37294c22-8f2f-4d14-9fcd-18730cc13564@intel.com>
+Date: Thu, 23 Oct 2025 22:15:10 +0200
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 24/26] drm/xe/pf: Enable SR-IOV VF migration for PTL
+ and BMG
+To: =?UTF-8?Q?Micha=C5=82_Winiarski?= <michal.winiarski@intel.com>, "Alex
+ Williamson" <alex.williamson@redhat.com>, Lucas De Marchi
+ <lucas.demarchi@intel.com>, =?UTF-8?Q?Thomas_Hellstr=C3=B6m?=
+ <thomas.hellstrom@linux.intel.com>, Rodrigo Vivi <rodrigo.vivi@intel.com>,
+ Jason Gunthorpe <jgg@ziepe.ca>, Yishai Hadas <yishaih@nvidia.com>, Kevin Tian
+ <kevin.tian@intel.com>, <intel-xe@lists.freedesktop.org>,
+ <linux-kernel@vger.kernel.org>, <kvm@vger.kernel.org>, Matthew Brost
+ <matthew.brost@intel.com>
+CC: <dri-devel@lists.freedesktop.org>, Jani Nikula
+ <jani.nikula@linux.intel.com>, Joonas Lahtinen
+ <joonas.lahtinen@linux.intel.com>, Tvrtko Ursulin <tursulin@ursulin.net>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, "Lukasz
+ Laguna" <lukasz.laguna@intel.com>
+References: <20251021224133.577765-1-michal.winiarski@intel.com>
+ <20251021224133.577765-25-michal.winiarski@intel.com>
+Content-Language: en-US
+From: Michal Wajdeczko <michal.wajdeczko@intel.com>
+In-Reply-To: <20251021224133.577765-25-michal.winiarski@intel.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
+X-ClientProxiedBy: VI1PR0902CA0059.eurprd09.prod.outlook.com
+ (2603:10a6:802:1::48) To MN0PR11MB6011.namprd11.prod.outlook.com
+ (2603:10b6:208:372::6)
 MIME-Version: 1.0
-References: <20250919032936.2267240-1-ryasuoka@redhat.com>
- <aPEFs0kYfXGZUHCA@zeus>
-In-Reply-To: <aPEFs0kYfXGZUHCA@zeus>
-From: Ian Forbes <ian.forbes@broadcom.com>
-Date: Thu, 23 Oct 2025 15:12:38 -0500
-X-Gm-Features: AWmQ_blwB_gCW_dFnQhGJNNmgUmY3G8S1CM4WFjSPbYzJfqKKWDZTnBoJ8EvTPw
-Message-ID: <CAO6MGtj5LCKBJfTETPb_dUBSVO3de8hZLUMSm5thyeMeY8bEXw@mail.gmail.com>
-Subject: Re: [PATCH drm-misc-next v3 0/1] add drm_panic_support for vmwgfx-stdu
-To: Ryosuke Yasuoka <ryasuoka@redhat.com>
-Cc: zack.rusin@broadcom.com, maarten.lankhorst@linux.intel.com, 
- mripard@kernel.org, tzimmermann@suse.de, airlied@gmail.com, simona@ffwll.ch, 
- jfalempe@redhat.com, bcm-kernel-feedback-list@broadcom.com, 
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org
-X-DetectorID-Processed: b00c1d49-9d2e-4205-b15f-d015386d3d5e
-Content-Type: multipart/signed; protocol="application/pkcs7-signature";
- micalg=sha-256; boundary="000000000000b696650641d90e47"
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: MN0PR11MB6011:EE_|CY8PR11MB7847:EE_
+X-MS-Office365-Filtering-Correlation-Id: b92c07bf-114d-4658-f598-08de1270e1b8
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+ ARA:13230040|376014|7416014|1800799024|366016|921020; 
+X-Microsoft-Antispam-Message-Info: =?utf-8?B?b3JheFNFa3c4bElmRHdiamRuR2ZSWER5TXpDdlVpcE03Zy9oUmdzYlJCZXND?=
+ =?utf-8?B?eXRSZ2RkN2YzRnZEVE52dFFaOTJONTRyUFpPV0Q2R256SmF3WW4wVmV3TjdO?=
+ =?utf-8?B?bEhwSTRJcjJnZkZUWlQyekZBUENNQmxCVjJsUDJZaFk5QzhCN2NodHRBTkc3?=
+ =?utf-8?B?UEplT0tiZzRLdlVHbDhYWlNPaVdWRUwyRlNBeGRUeFFUcDB2aGVmZGhzUERx?=
+ =?utf-8?B?eWpJaGtUTEV3a1ByRy94aHRqSTgxZGd0LzVvZlpXdDdqUzUyU3lubnZMZW85?=
+ =?utf-8?B?eWNudFlVN0Z6WnVWMDNTOXovdkh5S0NuZy9BLzNYVkUyQkFtN0JTc0ZmSjF4?=
+ =?utf-8?B?K3N6ZFdzd3VIRzltVFRHZWRRamJWNktpWHh3bDA4K1l2Y1hKMGRyY1NmMitp?=
+ =?utf-8?B?QWdVTlZKWGM2ZVBqTDI2dHJSNjk4SmNNUDVaM2ZGUEJwVmdMMStrUU90MDFH?=
+ =?utf-8?B?YWZhTHB2WVQ4d1BWU05uaW91U0FJT2dtOGtMMW5laDZYVThqRVRueEJNOE9E?=
+ =?utf-8?B?U0RYWEFndVk2VGJsMmM4Wk5ndmRhVVBxNUFwdVRVK25Dczk0WGgwS1BNd2xR?=
+ =?utf-8?B?YnRFWGtCOGhmUFZSeW5YYTFIUXVKMXBOK3hudzROMlFCOTJlcmVKMUd1WXZr?=
+ =?utf-8?B?dUJUQW8wTUFKdkRJb2RPeERMemJnOGFyNDVZbHNJY0pXQXBFRWluOXl2eHpp?=
+ =?utf-8?B?ZHQ0eUdJMnBuRU5KMTFkRG05Y1hodEY0WlZ4UHNzeXFOeDQ4VDBPSmg5eTF6?=
+ =?utf-8?B?S2o5MXpGNHpxVk5RL00xblN0a01zN1ExQW1PTnRBTzNuNmZ0RGZWVVZpVUwr?=
+ =?utf-8?B?USt0QmVWaGZlaTQ1OTVweFhPaThlRUNYYVZBdzlWRzVKajdIMTVidFdidzRR?=
+ =?utf-8?B?cGNIUzdDZDh1QVRoTGhJUjlFWm5zWEJMVVhrdXN6ZHBsT2g1QytmVTRiSmNF?=
+ =?utf-8?B?MDNCNEpoc1FiZG9wbTFmc1NnRWQxMC9RbUUyL2pHNzVheHgvNWNhcWVUUjhl?=
+ =?utf-8?B?Q3M4dlZhLzRoV05tRWdHTFp0eUtaSnArWFdaV0x5R010cythaHhEaysrczhF?=
+ =?utf-8?B?NjBHenR6YVNia3o5Y21XU0RPaTAxZVN0bkZWakpmaitXZ3NzQjd0SjB2b25p?=
+ =?utf-8?B?R01wSElKWkRQd3JoSHlIS3c2ejQxK2NZdEhuNm54Q1Y3RlhNcDhDazRXUUFT?=
+ =?utf-8?B?YXZGN3FNeCtlRm5OSnlHb3dqTWlBcVVpR3lOOTBoNmdUSE1QMUlYN1ZwSzdE?=
+ =?utf-8?B?Z1hQanVXNFhkRzU1SFJxYURweWNwN0ZFL1VkeU5rU0ZaWXJmME9xMzlIKzBt?=
+ =?utf-8?B?VEVubEJWMlRLYlkzMFZDK1BXYVE0WW1JZFJnNHdsYXR3Y0ZSeGtxaGhLNXcw?=
+ =?utf-8?B?SENqdEhYam8zb2d5VExxN0hCc2pmM2hLSlRNUmVPcXZQYXppdEMyN3l5ZFdR?=
+ =?utf-8?B?TndOUnd1ZTErRXFHaTBqd1UrWFAyRHVXOVhUWm12U2xXV3NJeXE4RHVBeGdo?=
+ =?utf-8?B?bGd6cnVocjB2cTJ3YXYxbmFwTUhsOFAvcCtXVWJYajlKeS8yUURpQythUEFX?=
+ =?utf-8?B?NGVyWkFXTFFYbjMxOWpZNEhxQWF5Sm96UTIzT2Z5NDJCVVhSVXBURzJ4cUw4?=
+ =?utf-8?B?WTNzRkxDVnZiNVMzQ0VYcHZManV1ZXAzN3UyWC9YRGRudW1tZjZpaE9UdC9D?=
+ =?utf-8?B?Q2pCTUEvem0rOTZ1WElHYkJtdE9sV21Gc3hpTzBEOUFGT0FRYTVpYW5VVzAv?=
+ =?utf-8?B?eCtCY1g2alZ5TUFUL2kvUnFXMTRweTV2ZHBkU2VieFNRYXV6bHRhai91OFlD?=
+ =?utf-8?B?dnovRUxXQ3RINTdXNXN0eUs5MW4vMUVTMFdScDFSVlgzRkEySVN3cmRTanVR?=
+ =?utf-8?B?Y2ZEUlJJb0dBYkVoMjZSbjZseW55RXkzV0JQL0hLSVFCTjlEK2h4d2FBRFlF?=
+ =?utf-8?B?L2w5cGRvRE1Ga3hzUEFxMnIwWG1Va1JOQWZoRWlZVEd4SFZvb09RNVRYMnVO?=
+ =?utf-8?Q?XDyOMc/7n7lNf5vzdSWEUgGIJTbWzg=3D?=
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:MN0PR11MB6011.namprd11.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230040)(376014)(7416014)(1800799024)(366016)(921020); DIR:OUT; SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?RjMvVDVTWnhCQ3BsKzVJMU4wMG5ZZ05Hb0hDYnF5cnRobUxacEdVTlE5SndM?=
+ =?utf-8?B?eEI4N1JaOXhkbndQbU5ha2pGSWRCRHFoOThzTWphZTJtZEM3WkNSenNqZUVM?=
+ =?utf-8?B?c2FsQVZ5U1JSN2UxTnNHVllaR3NlcTcxRFhkQndiaVFMVnJBK2tTbHZwNTNS?=
+ =?utf-8?B?S3NSamtPb01udllrRXZLMTFmQVdaM2FSUEh1dlFWV2FDR2RndUhpOXNiRngy?=
+ =?utf-8?B?K0pka09wVHBHVkx0enpXbDBSUUo3T0hXVEFneVpuQTRCS3dSdzd2bjVJQ3A3?=
+ =?utf-8?B?eE9vc3p1dy9HQ3h3eHBhd2xtWlBDeFhiNEZHUWlvZkFWV3pOMTAraGc0Njhq?=
+ =?utf-8?B?UGFUN1pXTXB4ZUNtWjVrak9XdVB6TE1sZ1AyVk9OUnpTMmNIUHBhZzdUdFFo?=
+ =?utf-8?B?bWFVZVEvMm00VGNKZE9qTGlTY1lLNWxTMm93NVZ4cW5idmpwL2Zza05pMGNI?=
+ =?utf-8?B?Q0NWY2tXUHJtZmptTmpjRjZlckF0OFRWc0Z2S0tuSHp2cUNvcy9zcDM2eGZt?=
+ =?utf-8?B?WVEvZVJoRDhvMStoVlZ6anJqR1dHcm04WG4xcnNqRXJYemorTFgwdlNld3pr?=
+ =?utf-8?B?YXY3b0ZlTEJtaCtRblg5R0hCOENNL0Urd0c2NUNBYktJTXdQaVFvbHZsWjBl?=
+ =?utf-8?B?YWZMVUE4cjU2WlZjQ0drb2ZHWGdFVDVnaXNaMFNZR2c2bHRWNjZJWjlQWktj?=
+ =?utf-8?B?bVpGc1FIT1FzQ0l5RzRodGptL05jYXB6aE1VNkh4RjY1ekJ0QXpDSVZ2VjFy?=
+ =?utf-8?B?azZxZ2kvalNSV1d2aEpWVmFiMERJaHU0YjBsdWpCR1dseUJNNGhuQ2VjQ3VI?=
+ =?utf-8?B?MmZUT0hmSEdsQ1RIdU9kcHVESU5mQkZFMXVrS2c0bkVOSlhPbHY4dzdLSlVq?=
+ =?utf-8?B?TGphVnhXLzFTQllzN2s1TzdWTGFJVjIzWEVXMmllWEE4UFdKdWNIbFo0QmJU?=
+ =?utf-8?B?ZHpXVW1TZkFDSEpHSk5IVXU2QXA1eVRzMjdXazhSYUVYblBhUStOZ20ySkhT?=
+ =?utf-8?B?ZzFkUFRPbWw1YW1NUXJ6Mytxd3JPYUdZa3Jsekd6L2Q4eGRJd2xiS2ZMNTl2?=
+ =?utf-8?B?ZVBPOWkyY3pVeDdXS1NQVGtVa1dQRUhIb0JsM2FjNzZtSDZMNnBOT0RBbmNC?=
+ =?utf-8?B?eTlMOHJXQWJVaXJiU3cvbFllZ3F4RGtSNjZ5cHV1dzBOWFdVMndnS1VhZm1P?=
+ =?utf-8?B?UVROSExDampONXYyMmZBM0VvbWJ3bUU3cFNYVms3NjUyWVhtZ2IxYUxKUnpJ?=
+ =?utf-8?B?dHgzWEZWU0YvRkpQVVBsZy9ITDU2SXh5TmNrSXc0OVE1RVFNM1ZTa2xMVDUy?=
+ =?utf-8?B?WU5LYWFUTzRTWUJyaTdmTW4wY1hqR3dZWGQ0Zk01QVE2K2psZzNLejFwMjBO?=
+ =?utf-8?B?Y3h4QmV2UTUxZ1VFY1FIUGdSL3p4dEl0bmlNRGVvc2JCS2c2ZFQwYnl1ZFNx?=
+ =?utf-8?B?eU4xUzE5NWNVODJjNC85NlZnWU4xYnBGT2FEK0FVY0YxSVhvdjlzeTBjOXdR?=
+ =?utf-8?B?VUovSHoxUmlsaldTNGZLWFR6NjcxYmsyL0F3OS96RVFOZlZOUWplVDBKeUVS?=
+ =?utf-8?B?ejdidlgrTmxrckVIS0VzVm8zZ1ZRNGtzOEQzZHBEY0hIV0Z2MjdBbjZsYUFs?=
+ =?utf-8?B?OHY5OFZQNytUQ0ZaZkFYMkFyZVJKKy9lTlBNaWhLR2hSd2dEL3FDWmFzZzZ1?=
+ =?utf-8?B?Q0VmRHBwTjUrajdJMElESFNwaXRLK2NOVzYxR3A2cVJLOTg3RERXS0JrQlJW?=
+ =?utf-8?B?Tms0Yk9JOGFNcHVmcTlWSHd1Vk9FSmtGOVNUdld1czFVdnEyTzFJVzJRamg4?=
+ =?utf-8?B?Q0o4ZXU4Qko4L1dQSjZiWW5pWitNcjV2WkFpTW5hNUZMYXo3TTdEZ2FlNll6?=
+ =?utf-8?B?M01OM2hSQVZhRTIyZDFraUFEdGdSQ3p3NmVMenhNMExIM1QwYzFIQUVqL0RQ?=
+ =?utf-8?B?N1VleVN5UmQ5MVNkUEZDU3liM3V5OUxaNmNaZExtcjMvZ3ZyTGFwTmJiVlJp?=
+ =?utf-8?B?ZUZLS04wM2pVTVQzSzhqL2psd28vWmFLWG0wQ3kxOE03WUtNTVRTRTZsRCtC?=
+ =?utf-8?B?NU5aSFZ2aFZabEpKWFg1U25wNFNNT2l3TW43MkxSRkRCUldvQjhJM1o1Q1ds?=
+ =?utf-8?B?MXlWZTV4bDdybEw4blZ4VHB4VjgrVWlFYWc2REZiak85RU53V3MyNHFHc0xH?=
+ =?utf-8?B?eUE9PQ==?=
+X-MS-Exchange-CrossTenant-Network-Message-Id: b92c07bf-114d-4658-f598-08de1270e1b8
+X-MS-Exchange-CrossTenant-AuthSource: MN0PR11MB6011.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 23 Oct 2025 20:15:16.9268 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: ZblUMdnp4JSFZQFx3AF0Y7/JaPMNGJoRr31ID6LBLx5Zdh6utGbG3BjK0cCUx4mrFX9lJYFY8NLa4qckBwgUhm+izDdqHuAH7VVw9IxQO74=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CY8PR11MB7847
+X-OriginatorOrg: intel.com
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -110,203 +210,130 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
---000000000000b696650641d90e47
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 
-If it doesn't work on vbox that's not really our problem. I've sent my
-version [1] that works on Workstation and ESXI.
-Since it has less code it has a much higher chance of succeeding in a
-panic situation which is what we care about.
-Feel free to add whatever tags you feel are appropriate on that patch revie=
-w.
 
-[1] https://lore.kernel.org/dri-devel/20251023200447.206834-1-ian.forbes@br=
-oadcom.com/T/#u
+On 10/22/2025 12:41 AM, Michał Winiarski wrote:
+> All of the necessary building blocks are now in place for PTL and BMG to
+> support SR-IOV VF migration.
+> Enable the feature without the need to pass feature enabling debug flags
+> for those platforms.
+> 
+> Signed-off-by: Michał Winiarski <michal.winiarski@intel.com>
+> ---
+>  drivers/gpu/drm/xe/xe_device.h             | 5 +++++
+>  drivers/gpu/drm/xe/xe_device_types.h       | 2 ++
+>  drivers/gpu/drm/xe/xe_pci.c                | 8 ++++++--
+>  drivers/gpu/drm/xe/xe_pci_types.h          | 1 +
+>  drivers/gpu/drm/xe/xe_sriov_pf_migration.c | 4 +++-
+>  5 files changed, 17 insertions(+), 3 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/xe/xe_device.h b/drivers/gpu/drm/xe/xe_device.h
+> index 32cc6323b7f64..0c4404c78227c 100644
+> --- a/drivers/gpu/drm/xe/xe_device.h
+> +++ b/drivers/gpu/drm/xe/xe_device.h
+> @@ -152,6 +152,11 @@ static inline bool xe_device_has_sriov(struct xe_device *xe)
+>  	return xe->info.has_sriov;
+>  }
+>  
+> +static inline bool xe_device_has_sriov_vf_migration(struct xe_device *xe)
+> +{
+> +	return xe->info.has_sriov_vf_migration;
+> +}
+> +
+>  static inline bool xe_device_has_msix(struct xe_device *xe)
+>  {
+>  	return xe->irq.msix.nvec > 0;
+> diff --git a/drivers/gpu/drm/xe/xe_device_types.h b/drivers/gpu/drm/xe/xe_device_types.h
+> index 02c04ad7296e4..8973e17b9a359 100644
+> --- a/drivers/gpu/drm/xe/xe_device_types.h
+> +++ b/drivers/gpu/drm/xe/xe_device_types.h
+> @@ -311,6 +311,8 @@ struct xe_device {
+>  		u8 has_range_tlb_inval:1;
+>  		/** @info.has_sriov: Supports SR-IOV */
+>  		u8 has_sriov:1;
+> +		/** @info.has_sriov_vf_migration: Supports SR-IOV VF migration */
+> +		u8 has_sriov_vf_migration:1;
+>  		/** @info.has_usm: Device has unified shared memory support */
+>  		u8 has_usm:1;
+>  		/** @info.has_64bit_timestamp: Device supports 64-bit timestamps */
+> diff --git a/drivers/gpu/drm/xe/xe_pci.c b/drivers/gpu/drm/xe/xe_pci.c
+> index c3136141a9536..d4f9ee9d020b2 100644
+> --- a/drivers/gpu/drm/xe/xe_pci.c
+> +++ b/drivers/gpu/drm/xe/xe_pci.c
+> @@ -362,6 +362,7 @@ static const struct xe_device_desc bmg_desc = {
+>  	.has_heci_cscfi = 1,
+>  	.has_late_bind = true,
+>  	.has_sriov = true,
+> +	.has_sriov_vf_migration = true,
+>  	.max_gt_per_tile = 2,
+>  	.needs_scratch = true,
+>  	.subplatforms = (const struct xe_subplatform_desc[]) {
+> @@ -378,6 +379,7 @@ static const struct xe_device_desc ptl_desc = {
+>  	.has_display = true,
+>  	.has_flat_ccs = 1,
+>  	.has_sriov = true,
+> +	.has_sriov_vf_migration = true,
+>  	.max_gt_per_tile = 2,
+>  	.needs_scratch = true,
+>  	.needs_shared_vf_gt_wq = true,
+> @@ -657,6 +659,7 @@ static int xe_info_init_early(struct xe_device *xe,
+>  	xe->info.has_pxp = desc->has_pxp;
+>  	xe->info.has_sriov = xe_configfs_primary_gt_allowed(to_pci_dev(xe->drm.dev)) &&
+>  		desc->has_sriov;
+> +	xe->info.has_sriov_vf_migration = desc->has_sriov_vf_migration;
+>  	xe->info.skip_guc_pc = desc->skip_guc_pc;
+>  	xe->info.skip_mtcfg = desc->skip_mtcfg;
+>  	xe->info.skip_pcode = desc->skip_pcode;
+> @@ -1020,9 +1023,10 @@ static int xe_pci_probe(struct pci_dev *pdev, const struct pci_device_id *ent)
+>  		xe_step_name(xe->info.step.media),
+>  		xe_step_name(xe->info.step.basedie));
+>  
+> -	drm_dbg(&xe->drm, "SR-IOV support: %s (mode: %s)\n",
+> +	drm_dbg(&xe->drm, "SR-IOV support: %s (mode: %s) (VF migration: %s)\n",
+>  		str_yes_no(xe_device_has_sriov(xe)),
+> -		xe_sriov_mode_to_string(xe_device_sriov_mode(xe)));
+> +		xe_sriov_mode_to_string(xe_device_sriov_mode(xe)),
+> +		str_yes_no(xe_device_has_sriov_vf_migration(xe)));
+>  
+>  	err = xe_pm_init_early(xe);
+>  	if (err)
+> diff --git a/drivers/gpu/drm/xe/xe_pci_types.h b/drivers/gpu/drm/xe/xe_pci_types.h
+> index a4451bdc79fb3..40f158b3ac890 100644
+> --- a/drivers/gpu/drm/xe/xe_pci_types.h
+> +++ b/drivers/gpu/drm/xe/xe_pci_types.h
+> @@ -48,6 +48,7 @@ struct xe_device_desc {
+>  	u8 has_mbx_power_limits:1;
+>  	u8 has_pxp:1;
+>  	u8 has_sriov:1;
+> +	u8 has_sriov_vf_migration:1;
+>  	u8 needs_scratch:1;
+>  	u8 skip_guc_pc:1;
+>  	u8 skip_mtcfg:1;
+> diff --git a/drivers/gpu/drm/xe/xe_sriov_pf_migration.c b/drivers/gpu/drm/xe/xe_sriov_pf_migration.c
+> index 88babec9c893e..a6cf3b57edba1 100644
+> --- a/drivers/gpu/drm/xe/xe_sriov_pf_migration.c
+> +++ b/drivers/gpu/drm/xe/xe_sriov_pf_migration.c
+> @@ -50,7 +50,9 @@ bool xe_sriov_pf_migration_supported(struct xe_device *xe)
+>  
+>  static bool pf_check_migration_support(struct xe_device *xe)
+>  {
+> -	/* XXX: for now this is for feature enabling only */
+> +	if (xe_device_has_sriov_vf_migration(xe))
+> +		return true;
 
-Ian,
+but from the PF POV, are there any differences in migration between platforms which already have .has_sriov flag?
 
-On Thu, Oct 16, 2025 at 9:48=E2=80=AFAM Ryosuke Yasuoka <ryasuoka@redhat.co=
-m> wrote:
->
-> On Fri, Sep 19, 2025 at 12:29:29PM +0900, Ryosuke Yasuoka wrote:
-> > Add drm_panic support for stdu in vmwgfx. This patch was tested in a VM
-> > with VMSVGA on Virtual Box.
-> >
-> > Based on the feedback for v2 patch, I've made the following updates in
-> > my v3 patch.
-> > - Use MEMREMAP_WB | MEMREMAP_DEC flags for memremap
-> > - Use vmw_priv->initial_height and initial_width for sb and VRAM
-> > - Move all panic related functions to the vmwgfx_kms.c file
-> > - Ensure if the current display unit is 0 in get_scanout_buffer()
-> >
-> > I did not apply all of Ian's feedback in this v3 patch for the reasons
-> > outlined below.
-> >
-> > > 1. You can call `vmw_kms_write_svga` directly in `panic_flush`. There
-> > > is no need to mark the buffer as dirty or send any commands.
-> >
-> > In my test environment (VirtualBox), the panic screen appears unstably
-> > without dirty command's submission. Without it, the screen sometimes
-> > appears immediately as expected, and at other times, there's a delay
-> > of 15 to 20 seconds. I've also observed that it sometimes only appears
-> > after switching between the VirtualBox console window and other windows=
-.
-> >
-> > With command submission, we can stably get a panic screen. Even if it
-> > fails, we may get the panic screen ultimately. Therefore, I think we
-> > should retain vmw_kms_panic_do_bo_dirty() to submit commands.
-> >
-> > > 2. The format should be hardcoded to RGB565 to minimize the risk of
-> > > overrunning VRAM. Adjust the pitch accordingly to 2x width.
-> >
-> > While it's possible to output the panic screen with RGB565 by adjusting
-> > pitch and width, and BPP on the (virtual) hardware side, this approach
-> > causes debugfs to fail. It appears that the BPP must be reset after the
-> > panic screen is displayed, and there is no way to wait for the screen
-> > to be fully displayed within the drm_panic handler code.
-> >
-> > In my test environment, as VRAM has enough space even when using
-> > XRGB8888 (32 bits), I think the risk of overruning VRAM is low. So I've
-> > kept the default format and CPP size.
-> >
-> > v1:
-> > https://lore.kernel.org/all/20250901083701.32365-1-ryasuoka@redhat.com/
-> >
-> > v2:
-> > https://lore.kernel.org/all/20250908141152.221291-2-ryasuoka@redhat.com=
-/
-> > - Map a scanout_buffer to VRAM in .get_scanout_buffer
-> > - And then write to VRAM directly using fifo in legacy mode to avoid
-> > allocations or command submissions.
-> >
-> >
-> > Ryosuke Yasuoka (1):
-> >   drm/vmwgfx: add drm_panic support for stdu mode
-> >
-> >  drivers/gpu/drm/vmwgfx/vmwgfx_drv.h  |   4 +
-> >  drivers/gpu/drm/vmwgfx/vmwgfx_kms.c  | 165 +++++++++++++++++++++++++++
-> >  drivers/gpu/drm/vmwgfx/vmwgfx_stdu.c |   2 +
-> >  3 files changed, 171 insertions(+)
-> >
-> >
-> > base-commit: d41c79838c47bc822534cd53628fe5e0f8ad2424
-> > --
-> > 2.51.0
->
-> Hi all,
->
-> This is a gentle reminder for this v3 patch.
-> I would appreciate any feedback when you have a chance.
->
-> Ian, your feedback on v1 and v2 were very helpful. I would appreciate it
-> if you could take another look when you have a moment.
->
-> Any comments are welcome.
->
-> Thank you
-> Ryosuke
->
+and on the VF side we decided just to rely on the xe_has_memirq() flag, maybe we can do the same her on PF side?
 
---000000000000b696650641d90e47
-Content-Type: application/pkcs7-signature; name="smime.p7s"
-Content-Transfer-Encoding: base64
-Content-Disposition: attachment; filename="smime.p7s"
-Content-Description: S/MIME Cryptographic Signature
+note that all pre-PTL platforms require .force_probe flag anyway,
+and that's we also enabled unconditional .has_sriov flag for them
 
-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
-V0fYJUiKJMCwvDmndOil8EtMA8j2T6taUZoQINiKQ0oDWgY6eYVv7AdPVIeOOs3noCyUL8AyA7Bl
-yoOPBB2/gk8VGcolEKgAAj+3hPbBF/d19x1bZzU3wABizBomVwykx5ms1nVXDbQajz8jqYECKWh9
-3OMo7BuC3TAClu5mLr2zs0Ccpp6NRRkjTF8WtCJ+jSnjFJGLAgMBAAGjggHYMIIB1DAOBgNVHQ8B
-Af8EBAMCBaAwgZMGCCsGAQUFBwEBBIGGMIGDMEYGCCsGAQUFBzAChjpodHRwOi8vc2VjdXJlLmds
-b2JhbHNpZ24uY29tL2NhY2VydC9nc2djY3I2c21pbWVjYTIwMjMuY3J0MDkGCCsGAQUFBzABhi1o
-dHRwOi8vb2NzcC5nbG9iYWxzaWduLmNvbS9nc2djY3I2c21pbWVjYTIwMjMwZQYDVR0gBF4wXDAJ
-BgdngQwBBQMBMAsGCSsGAQQBoDIBKDBCBgorBgEEAaAyCgMCMDQwMgYIKwYBBQUHAgEWJmh0dHBz
-Oi8vd3d3Lmdsb2JhbHNpZ24uY29tL3JlcG9zaXRvcnkvMAkGA1UdEwQCMAAwQQYDVR0fBDowODA2
-oDSgMoYwaHR0cDovL2NybC5nbG9iYWxzaWduLmNvbS9nc2djY3I2c21pbWVjYTIwMjMuY3JsMCIG
-A1UdEQQbMBmBF2lhbi5mb3JiZXNAYnJvYWRjb20uY29tMBMGA1UdJQQMMAoGCCsGAQUFBwMEMB8G
-A1UdIwQYMBaAFAApNp5ceroPry1QLdugI4UYsKCSMB0GA1UdDgQWBBSvJWzgGK7aSByS+CQVBVfM
-Xgm5azANBgkqhkiG9w0BAQsFAAOCAgEAfrWiLF3zrYq7D+KPNRaAP70FbxHeaiUfn27Hbu37Eefz
-xeJTcFZH04IEtXqpM3NWYZm4A/dFn/VQPbLCRaeXzpT2TESVH6EFY7BEF0rnSSlUbFyi000MnSH3
-h5m+MoyE+PzLqfzLBZS+EU/haCpPy6Nqhs3fPKG3w5VTnUPsAxXK7rSmkIDVNsvwRttuMq9KHJzH
-Bx51dP/z3mel4OuMjgrwHk5uNY1Sn1MZAUQztVUsWguyfoKcmhxXbBccR5DdEfBgDEbq8bicPQ3J
-kqEy1QZXJfHlJuAJIiEw7odGctwqLeGCU6cBLhnsg54ngjO3uYC6tIySul55MRxFKE8HIwIrx+D5
-2SwhDeVLZ8sTK40uPzW5xg5laOWVCvmy2b+cHCGzarUeIlYdtw0ejdH9Hbkm0G7IrDvjkhPa64gR
-6Q+m5CGRDk+8iWhieH6WFE4HL++BpZhoi+YsOkGU3DK0dA+pxQnXNcNw1s0eNbSUVwQzmlC4LqiK
-Gj5JV81HTPLhoAya57a9i28Fp5qHZiFnCq4HMvwiwY7IWe+UwUuueU199aTK80xNiS553vHc6FpI
-/vxGy+LveJqEtodfKqQKwDOVu//c1Lz3uergJHqFYTMykk5U95J3FG5q/7Mqe4RF6E9OgtuAJidS
-6Ca5anjLQ/qzIfTjoXX7TJSjPztehRQxggJXMIICUwIBATBiMFIxCzAJBgNVBAYTAkJFMRkwFwYD
-VQQKExBHbG9iYWxTaWduIG52LXNhMSgwJgYDVQQDEx9HbG9iYWxTaWduIEdDQyBSNiBTTUlNRSBD
-QSAyMDIzAgx2/5+PPF/QoW30N7swDQYJYIZIAWUDBAIBBQCggccwLwYJKoZIhvcNAQkEMSIEILwK
-q+o3rnSJM+at5TvoiyKUdvZFFeNneK4koKCKjoqXMBgGCSqGSIb3DQEJAzELBgkqhkiG9w0BBwEw
-HAYJKoZIhvcNAQkFMQ8XDTI1MTAyMzIwMTI1MFowXAYJKoZIhvcNAQkPMU8wTTALBglghkgBZQME
-ASowCwYJYIZIAWUDBAEWMAsGCWCGSAFlAwQBAjAKBggqhkiG9w0DBzALBgkqhkiG9w0BAQcwCwYJ
-YIZIAWUDBAIBMA0GCSqGSIb3DQEBAQUABIIBAG5kjOK8mVQWzgbKj2Bdi/Phz6H8Qtz5acoZn47G
-x5VuCpiRImy8rqpceLCTA8qAJgOPYl89Ia90WqjYgBQpx6bHodpQqAerWk3EMUMjCSDEu/e/bD65
-dzLg19OTyE+fLkE6PDa+IsZbd2Ldo/3XtSiZLQL9znOZkLjv3TVoxNm40QayZJKDNG4CwWbNQVih
-wdNm4YNvvHQuyz5vRI5/fhg7CqNVY6DCFPDWNRRD7NUD3paoGVRuFwUR5jh8M8nXfKdw15EfRvdD
-TqDlCBIvNolUZeeobMtmSRlRwgqkojOVCqjiLgIddMtQX3IzN6QE6R8Llr9CklXTkl+4duMNWcM=
---000000000000b696650641d90e47--
+
+btw, IIRC we also should check for min GuC version on PTL for proper CCS migration,
+IMO the PF shall reject VF migration on older GuC
+
+> +
+>  	return IS_ENABLED(CONFIG_DRM_XE_DEBUG);
+>  }
+>  
+
