@@ -2,66 +2,115 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id EECD6BFFEFE
-	for <lists+dri-devel@lfdr.de>; Thu, 23 Oct 2025 10:30:30 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id C75E6BFFE98
+	for <lists+dri-devel@lfdr.de>; Thu, 23 Oct 2025 10:27:33 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3656F10E8E0;
-	Thu, 23 Oct 2025 08:30:29 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0D98010E8D8;
+	Thu, 23 Oct 2025 08:27:30 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="RnOhYtQQ";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="uVNHDPOj";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1A32B10E8E1;
- Thu, 23 Oct 2025 08:30:26 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1761208226; x=1792744226;
- h=from:to:cc:subject:date:message-id:in-reply-to:
- references:mime-version:content-transfer-encoding;
- bh=D2mLtS3v+e8vdMQS8I8kZMXtCa2KbAnm2WIWXVwvtrk=;
- b=RnOhYtQQVAG/PU7K1XqMEemOLi+rS7VuKp8DQRkY4O9yNGxWJmfMq8Qz
- N3oFPfcWCC37KmZdIZyodthQALl9rlQW04/8RiWJ7fsaUvbtX7XIkarb4
- okZilPuaZkpPtIXBlrbBAkJfwlsjfb16pIONmvADU1ugVDgv/MBKMHXI5
- 3TFD0YTJlhf/DFXhhRsqQNuNbjGqCKTdZYFEcXG6OFpmXix4Y5J4KxhME
- 1rrZAYTfmZgDwmVcUwMiigfSdOEU3SW7BVFSJIj/gjiIgtfkV/hoWLBSk
- V/VdymuxU0X+k5Fzm/c89VekOQlxrJVI+Y4n8p/DWz8G6tnZeDMCoVDFj A==;
-X-CSE-ConnectionGUID: ZeS8HMfEQ9eEDJNjUAi2Tg==
-X-CSE-MsgGUID: veFysbGLTzCrvQ48vSCnTQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11586"; a="63264860"
-X-IronPort-AV: E=Sophos;i="6.19,249,1754982000"; d="scan'208";a="63264860"
-Received: from orviesa010.jf.intel.com ([10.64.159.150])
- by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 23 Oct 2025 01:30:26 -0700
-X-CSE-ConnectionGUID: YeCmWZL4T7SARVO/wwUOXQ==
-X-CSE-MsgGUID: 0R7S0ZHDSnGs0w8uLeDlyA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.19,249,1754982000"; d="scan'208";a="183319606"
-Received: from jkrzyszt-mobl2.ger.corp.intel.com ([10.245.244.189])
- by orviesa010-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 23 Oct 2025 01:30:22 -0700
-From: Janusz Krzysztofik <janusz.krzysztofik@linux.intel.com>
-To: intel-gfx@lists.freedesktop.org
-Cc: dri-devel@lists.freedesktop.org, Jani Nikula <jani.nikula@linux.intel.com>,
- Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>,
- Tvrtko Ursulin <tursulin@ursulin.net>,
- =?UTF-8?q?Thomas=20Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Krzysztof Niemiec <krzysztof.niemiec@intel.com>,
- Sebastian Brzezinka <sebastian.brzezinka@intel.com>,
- Andi Shyti <andi.shyti@kernel.org>,
- Janusz Krzysztofik <janusz.krzysztofik@linux.intel.com>
-Subject: [PATCH v3 3/3] drm/i915: Wait for page_sizes_gtt in gtt selftest on
- CHV/BXT+VTD
-Date: Thu, 23 Oct 2025 10:25:21 +0200
-Message-ID: <20251023082925.351307-8-janusz.krzysztofik@linux.intel.com>
-X-Mailer: git-send-email 2.51.0
-In-Reply-To: <20251023082925.351307-5-janusz.krzysztofik@linux.intel.com>
-References: <20251023082925.351307-5-janusz.krzysztofik@linux.intel.com>
+Received: from mail-wm1-f45.google.com (mail-wm1-f45.google.com
+ [209.85.128.45])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C116110E8D6
+ for <dri-devel@lists.freedesktop.org>; Thu, 23 Oct 2025 08:27:28 +0000 (UTC)
+Received: by mail-wm1-f45.google.com with SMTP id
+ 5b1f17b1804b1-47106fc51faso7875525e9.0
+ for <dri-devel@lists.freedesktop.org>; Thu, 23 Oct 2025 01:27:28 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1761208047; x=1761812847; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:in-reply-to:organization:autocrypt
+ :content-language:references:cc:to:subject:reply-to:from:user-agent
+ :mime-version:date:message-id:from:to:cc:subject:date:message-id
+ :reply-to; bh=o5NAC18QJKswT+g7496Z32PVkkCkiTwCQISpflqfju0=;
+ b=uVNHDPOj7l+r7wjVxk8dKTmotkwxywm+Pm1tz4oDkl1ayv6CkDhGbApmXxNij19Sf6
+ TqE0OwbYxBMI2kekkfvlkyFRDx/c3MgAh2lWI9JjpubF94vhxJUAcWo+4m/HgoTohEL8
+ pAHrzsnb8mxioMelKvunmmWAmbRTe5kWrutmQtlCWufZIF5eflt+ffr8yXN+97mM3Z+0
+ VNrlZZfLr1Xs2hkDuc+GaiEwA1Etvaa62e56b0I+sbUTm4MthyaNQDqYcnwYoWmyg8Xq
+ +d0UQ4lk+3Vy89hCBm6XvY5t0reFUTa4grWZ0zwn6HlA0hTA2IOvvcbOXqT4KRGzbGkq
+ kDKQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1761208047; x=1761812847;
+ h=content-transfer-encoding:in-reply-to:organization:autocrypt
+ :content-language:references:cc:to:subject:reply-to:from:user-agent
+ :mime-version:date:message-id:x-gm-message-state:from:to:cc:subject
+ :date:message-id:reply-to;
+ bh=o5NAC18QJKswT+g7496Z32PVkkCkiTwCQISpflqfju0=;
+ b=WbDABEnokD3dAm3jolACXmbm8063insCSLGmL+JtX19nkbg4RjP+Q/9oeZnLBjnelG
+ BoRYKnGAtj1xCDNV4YEn7aOOgXzdJ3ADzB5Hm6cJ7EO9spV60DC/EUrllei4iPg32ap6
+ AgK4cHLafym6440nmtUxQj8pCRHaczLmCCk842HH1H8KUBEbhTHJbeZM1psubYxihylw
+ kmL3BXEHWlRZ6jxQgMMXbT57+gBqH/iQtLdLyjxB1vyQhzwnmo1EulDudfaMwdkXSKCN
+ 3S8/u5oSdYbz4Z+vDEPfDe2LpGFo4oN38UhugXuGLkTRtdjSjVhq9PWdPZmprPtLZRIR
+ sMAg==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCVYGxxJ5lLblexHD3j/H0GmZWVewZ41RvpGwHdPx+tsdbJ6YIkxruKctbM6LqvBtGL9NTIT+TiOGhg=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YwSQKfG8acECQlygC7cSQ+oYhv7DwiaaI4yebyX80yUxEYl7irg
+ CbpEB/rjWbbXJoztBBEe37nlQs1nKElpxDzE1+b55lOVg6smWwwpoH/G2Nej/CqFWxs=
+X-Gm-Gg: ASbGncvLZOgDlpwNxzHcjOC+BuWoZTTLr+i+KKhYgAlQvIjNXHUzyAKQFe+IAcmdNqB
+ wdIxqDLoxkXrtKLrMWWonwa/+EUklhAe1z11qI7CSJhDRpDZQu9oiRT4Sx1muMmgD6M4vNUzt5T
+ nACXHrZfphEBre3CVaJc468QWEYfUTdqfm6oGPG1PaXKk4Km5soS7q8uYulhMF+nJJolOi2LAEZ
+ nccqbZaT7NQUCSkY+sVQ6GLxE+ObQ3wX3hjQSnIuLowGUZLoIaIs4vKO9QVdzo4/lKe9oQGf9V8
+ Mh4IwPyl9UHKQtARLSR4KeSmF87M2L9vRmfIhcHEEwIJKHGZm0CxhB9xBccbYwDYmPfBN3Wouf+
+ UzXTFQfcDIf/+sMtwNJjnyCOwuSYROm92wm1E5rzrfNNk/dNvd5vZCjQrXlyRKzg+Ldnld36xS4
+ FB9H8QZ3DqqOpNY7sliRSduI5acBbJvDdAgkWqwnm5WvBlIUVXwl/Y
+X-Google-Smtp-Source: AGHT+IEKr8axP45C8SAm3blZ9SD+S+XPhWTl1Qvfzhwa2h5mIngdJ9Be+l1Fru99wJnFHQOsUb8UpQ==
+X-Received: by 2002:a05:600c:34d0:b0:46d:cfc9:1d0f with SMTP id
+ 5b1f17b1804b1-471179067e6mr179978285e9.19.1761208047113; 
+ Thu, 23 Oct 2025 01:27:27 -0700 (PDT)
+Received: from ?IPV6:2a01:e0a:3d9:2080:4c73:a2de:56f0:4bfe?
+ ([2a01:e0a:3d9:2080:4c73:a2de:56f0:4bfe])
+ by smtp.gmail.com with ESMTPSA id
+ 5b1f17b1804b1-475c428ece8sm85423635e9.7.2025.10.23.01.27.26
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 23 Oct 2025 01:27:26 -0700 (PDT)
+Message-ID: <25e829f8-60b2-4b69-8d57-ded846b5206a@linaro.org>
+Date: Thu, 23 Oct 2025 10:27:26 +0200
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla Thunderbird
+From: Neil Armstrong <neil.armstrong@linaro.org>
+Subject: Re: [PATCH RFC RFT] drm/msm: adreno: attach the GMU device to a driver
+To: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>,
+ Rob Clark <robin.clark@oss.qualcomm.com>, Sean Paul <sean@poorly.run>,
+ Konrad Dybcio <konradybcio@kernel.org>, Dmitry Baryshkov <lumag@kernel.org>,
+ Abhinav Kumar <abhinav.kumar@linux.dev>,
+ Jessica Zhang <jessica.zhang@oss.qualcomm.com>,
+ Marijn Suijten <marijn.suijten@somainline.org>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>
+Cc: linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ freedreno@lists.freedesktop.org, linux-kernel@vger.kernel.org
+References: <20251022-topic-adreno-attach-gmu-to-driver-v1-1-999037f7c83e@linaro.org>
+ <5d6e7303-cc57-4a50-a9ad-b45d3c89d045@oss.qualcomm.com>
+Content-Language: en-US, fr
+Autocrypt: addr=neil.armstrong@linaro.org; keydata=
+ xsBNBE1ZBs8BCAD78xVLsXPwV/2qQx2FaO/7mhWL0Qodw8UcQJnkrWmgTFRobtTWxuRx8WWP
+ GTjuhvbleoQ5Cxjr+v+1ARGCH46MxFP5DwauzPekwJUD5QKZlaw/bURTLmS2id5wWi3lqVH4
+ BVF2WzvGyyeV1o4RTCYDnZ9VLLylJ9bneEaIs/7cjCEbipGGFlfIML3sfqnIvMAxIMZrvcl9
+ qPV2k+KQ7q+aXavU5W+yLNn7QtXUB530Zlk/d2ETgzQ5FLYYnUDAaRl+8JUTjc0CNOTpCeik
+ 80TZcE6f8M76Xa6yU8VcNko94Ck7iB4vj70q76P/J7kt98hklrr85/3NU3oti3nrIHmHABEB
+ AAHNKk5laWwgQXJtc3Ryb25nIDxuZWlsLmFybXN0cm9uZ0BsaW5hcm8ub3JnPsLAkQQTAQoA
+ OwIbIwULCQgHAwUVCgkICwUWAgMBAAIeAQIXgBYhBInsPQWERiF0UPIoSBaat7Gkz/iuBQJk
+ Q5wSAhkBAAoJEBaat7Gkz/iuyhMIANiD94qDtUTJRfEW6GwXmtKWwl/mvqQtaTtZID2dos04
+ YqBbshiJbejgVJjy+HODcNUIKBB3PSLaln4ltdsV73SBcwUNdzebfKspAQunCM22Mn6FBIxQ
+ GizsMLcP/0FX4en9NaKGfK6ZdKK6kN1GR9YffMJd2P08EO8mHowmSRe/ExAODhAs9W7XXExw
+ UNCY4pVJyRPpEhv373vvff60bHxc1k/FF9WaPscMt7hlkbFLUs85kHtQAmr8pV5Hy9ezsSRa
+ GzJmiVclkPc2BY592IGBXRDQ38urXeM4nfhhvqA50b/nAEXc6FzqgXqDkEIwR66/Gbp0t3+r
+ yQzpKRyQif3OwE0ETVkGzwEIALyKDN/OGURaHBVzwjgYq+ZtifvekdrSNl8TIDH8g1xicBYp
+ QTbPn6bbSZbdvfeQPNCcD4/EhXZuhQXMcoJsQQQnO4vwVULmPGgtGf8PVc7dxKOeta+qUh6+
+ SRh3vIcAUFHDT3f/Zdspz+e2E0hPV2hiSvICLk11qO6cyJE13zeNFoeY3ggrKY+IzbFomIZY
+ 4yG6xI99NIPEVE9lNBXBKIlewIyVlkOaYvJWSV+p5gdJXOvScNN1epm5YHmf9aE2ZjnqZGoM
+ Mtsyw18YoX9BqMFInxqYQQ3j/HpVgTSvmo5ea5qQDDUaCsaTf8UeDcwYOtgI8iL4oHcsGtUX
+ oUk33HEAEQEAAcLAXwQYAQIACQUCTVkGzwIbDAAKCRAWmrexpM/4rrXiB/sGbkQ6itMrAIfn
+ M7IbRuiSZS1unlySUVYu3SD6YBYnNi3G5EpbwfBNuT3H8//rVvtOFK4OD8cRYkxXRQmTvqa3
+ 3eDIHu/zr1HMKErm+2SD6PO9umRef8V82o2oaCLvf4WeIssFjwB0b6a12opuRP7yo3E3gTCS
+ KmbUuLv1CtxKQF+fUV1cVaTPMyT25Od+RC1K+iOR0F54oUJvJeq7fUzbn/KdlhA8XPGzwGRy
+ 4zcsPWvwnXgfe5tk680fEKZVwOZKIEuJC3v+/yZpQzDvGYJvbyix0lHnrCzq43WefRHI5XTT
+ QbM0WUIBIcGmq38+OgUsMYu4NzLu7uZFAcmp6h8g
+Organization: Linaro
+In-Reply-To: <5d6e7303-cc57-4a50-a9ad-b45d3c89d045@oss.qualcomm.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -74,43 +123,47 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Reply-To: Neil Armstrong <neil.armstrong@linaro.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-VMA pinning to GGTT is now commited asynchronously in CHV / BXT+VDT
-environments to avoid lock inversion among reservation_ww and cpu_hotplug
-locks, the latter acquired from stop_machine().  Then,
-vma->resource->page_sizes_gtt the test uses as shift count may still be
-not populated (equal 0) after i915_vma_pin() returns.  Wait for VMA bind
-completion in those cases to avoid shift-out-of-bounds kernel warnings and
-the test case failing with -EBADSLT.
+On 10/22/25 19:09, Konrad Dybcio wrote:
+> On 10/22/25 2:44 PM, Neil Armstrong wrote:
+>> Due to the sync_state is enabled by default in pmdomain & CCF since v6.17,
+>> the GCC and GPUCC sync_state would stay pending, leaving the resources in
+>> full performance:
+>> gcc-x1e80100 100000.clock-controller: sync_state() pending due to 3d6a000.gmu
+>> gpucc-x1e80100 3d90000.clock-controller: sync_state() pending due to 3d6a000.gmu
+> 
+> Does this *actually* cause any harm, by the way?
 
-v2: Explain why VMA pinning is commited asynchronously on CHV/BXT+VTD
-    (Krzysztof),
-  - use more precise wording in commit description.
+?
 
-Reviewed-by: Sebastian Brzezinka <sebastian.brzezinka@intel.com>
-Reviewed-by: Krzysztof Karas <krzysztof.karas@intel.com>
-Signed-off-by: Janusz Krzysztofik <janusz.krzysztofik@linux.intel.com>
----
- drivers/gpu/drm/i915/selftests/i915_gem_gtt.c | 4 ++++
- 1 file changed, 4 insertions(+)
+> 
+> For example on x1e, GMU refers to 2 GPU_CC GDSCs, GPU_CC refers
+> to a pair of GCC clocks and GCC refers to VDD_CX
+> 
+> and I see these prints, yet:
+> 
+> /sys/kernel/debug/pm_genpd/gpu_cx_gdsc/current_state:off-0
+> /sys/kernel/debug/pm_genpd/gpu_gx_gdsc/current_state:off-0
+> 
+> /sys/kernel/debug/pm_genpd/cx/current_state:on
+> /sys/kernel/debug/pm_genpd/cx/perf_state:256 # because of USB3 votes
+> 
+> I'm not super sure where that sync_state comes from either (maybe
+> dev_set_drv_sync_state in pmdomain/core?)
 
-diff --git a/drivers/gpu/drm/i915/selftests/i915_gem_gtt.c b/drivers/gpu/drm/i915/selftests/i915_gem_gtt.c
-index 7ab4c4e602648..0a86e48575394 100644
---- a/drivers/gpu/drm/i915/selftests/i915_gem_gtt.c
-+++ b/drivers/gpu/drm/i915/selftests/i915_gem_gtt.c
-@@ -1118,6 +1118,10 @@ static int misaligned_case(struct i915_address_space *vm, struct intel_memory_re
- 		goto err_put;
- 	}
- 
-+	/* make sure page_sizes_gtt has been populated before use */
-+	if (i915_is_ggtt(vm) && intel_vm_no_concurrent_access_wa(vm->i915))
-+		i915_vma_wait_for_bind(vma);
-+
- 	expected_vma_size = round_up(size, 1 << (ffs(vma->resource->page_sizes_gtt) - 1));
- 	expected_node_size = expected_vma_size;
- 
--- 
-2.51.0
+The way we handle the GMU so far is wrong, it abuses the driver model.
+
+And this is a symptom, whatever the impact it has, it needs to be fixed
+in a proper way.
+
+The sync_state is retained because the gmu device is never probed but
+has some clocks and power domains attached to it, which is clearly wrong.
+
+Neil
+
+> 
+> Konrad
 
