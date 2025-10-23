@@ -2,84 +2,67 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2B34DC00159
-	for <lists+dri-devel@lfdr.de>; Thu, 23 Oct 2025 11:04:50 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 04F71C00198
+	for <lists+dri-devel@lfdr.de>; Thu, 23 Oct 2025 11:06:49 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E2A3410E02F;
-	Thu, 23 Oct 2025 09:04:46 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6530510E1A7;
+	Thu, 23 Oct 2025 09:06:46 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="Mv7BkrUj";
+	dkim=pass (1024-bit key; unprotected) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="HJuEu9io";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C673D10E02F
- for <dri-devel@lists.freedesktop.org>; Thu, 23 Oct 2025 09:04:44 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1761210285; x=1792746285;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:in-reply-to;
- bh=q0bSQQY5SwYrEmcp4I13QmQfjO3pwF0ctbdE1M1LmXE=;
- b=Mv7BkrUjH2x/fESL1JdFHflSCduGNhB+h2o//c9ot0OC/JkrL9ur4ZHZ
- 5WvtGInSONw//P6E0NY3gWGDLEEoGZQlfQwRKK/HL4Pefw0KABZTKMlvR
- yn4Yyze9+YCXqNYp6sJ3qkkxE3JeFgUehtcyVv0+zryRT9g8uix0l25wP
- cv9Mi6No/nUPN8hITCiXA6hoBElxoEF37IGr6KWV7rP1Vq+N0Nwb0Wep1
- cQxfrhu9GNzy8PX9NSxSZOxQNur9HZBisW3zfm/fQ4ag5BXkBpBuLUzHT
- UvvX0U8taZqjifBtcZiN87QONU4AcIPnx/jjMzwlFafTeRxt0lJ9HeQgf Q==;
-X-CSE-ConnectionGUID: ql+79OhQQLmMBEn6rNpmTA==
-X-CSE-MsgGUID: xvpA0ZsGRvOMuPsRXZmcfA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11586"; a="86000465"
-X-IronPort-AV: E=Sophos;i="6.19,249,1754982000"; d="scan'208";a="86000465"
-Received: from orviesa009.jf.intel.com ([10.64.159.149])
- by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 23 Oct 2025 02:04:45 -0700
-X-CSE-ConnectionGUID: XCuwvFI+SqK9YXh418DnrA==
-X-CSE-MsgGUID: +Dw2Sy/hQ4+K8k1hORJSyA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.19,249,1754982000"; d="scan'208";a="183709423"
-Received: from bkammerd-mobl.amr.corp.intel.com (HELO kuha.fi.intel.com)
- ([10.124.221.165])
- by orviesa009.jf.intel.com with SMTP; 23 Oct 2025 02:04:35 -0700
-Received: by kuha.fi.intel.com (sSMTP sendmail emulation);
- Thu, 23 Oct 2025 12:04:33 +0300
-Date: Thu, 23 Oct 2025 12:04:33 +0300
-From: Heikki Krogerus <heikki.krogerus@linux.intel.com>
-To: Chaoyi Chen <kernel@airkyi.com>
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>,
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>, Vinod Koul <vkoul@kernel.org>,
- Kishon Vijay Abraham I <kishon@kernel.org>,
- Heiko Stuebner <heiko@sntech.de>, Sandy Huang <hjc@rock-chips.com>,
- Andy Yan <andy.yan@rock-chips.com>,
- Yubing Zhang <yubing.zhang@rock-chips.com>,
- Frank Wang <frank.wang@rock-chips.com>,
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
+ [213.167.242.64])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BB2BF10E1A7
+ for <dri-devel@lists.freedesktop.org>; Thu, 23 Oct 2025 09:06:43 +0000 (UTC)
+Received: from pendragon.ideasonboard.com (82-203-161-16.bb.dnainternet.fi
+ [82.203.161.16])
+ by perceval.ideasonboard.com (Postfix) with UTF8SMTPSA id 494FC4C7;
+ Thu, 23 Oct 2025 11:04:57 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+ s=mail; t=1761210297;
+ bh=xKFWE3FP8zQxD/fKvD/Su/ZNtr3Ujowi8h/zfAe1GQg=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=HJuEu9ioEFGCzueDKZ6jv6koSl/y7Hot56lpH2Up1vH0lU3Oq7SDd5ek3180SdnU6
+ tmFiLdIK58Z8yRjqO3zeMpRDXfxPETJEuy3Y0ZOiIS86jDQwSLC6ZwVv+YhuYn49QN
+ WXZ/t/dPj7RGbaBPLNYNoEfquKXZF6cdc6bl+1WI=
+Date: Thu, 23 Oct 2025 12:06:28 +0300
+From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To: Geert Uytterhoeven <geert@linux-m68k.org>
+Cc: "Lad, Prabhakar" <prabhakar.csengg@gmail.com>,
+ Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
+ Biju Das <biju.das.jz@bp.renesas.com>,
  Andrzej Hajda <andrzej.hajda@intel.com>,
- Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Neil Armstrong <neil.armstrong@linaro.org>,
+ Robert Foss <rfoss@kernel.org>, Jonas Karlman <jonas@kwiboo.se>,
+ Jernej Skrabec <jernej.skrabec@gmail.com>,
  Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
  Maxime Ripard <mripard@kernel.org>,
  Thomas Zimmermann <tzimmermann@suse.de>,
  David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Amit Sunil Dhamne <amitsd@google.com>,
- Chaoyi Chen <chaoyi.chen@rock-chips.com>,
- Dragan Simic <dsimic@manjaro.org>, Johan Jonker <jbx6244@gmail.com>,
- Diederik de Haas <didi.debian@cknow.org>,
- Peter Robinson <pbrobinson@gmail.com>, linux-usb@vger.kernel.org,
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-phy@lists.infradead.org, linux-arm-kernel@lists.infradead.org,
- linux-rockchip@lists.infradead.org, dri-devel@lists.freedesktop.org
-Subject: Re: [PATCH v7 1/9] usb: typec: Add notifier functions
-Message-ID: <aPnvoSRJefwDlpNO@kuha.fi.intel.com>
-References: <20251023033009.90-1-kernel@airkyi.com>
- <20251023033009.90-2-kernel@airkyi.com>
- <aPni4AeDaem_rfZH@kuha.fi.intel.com>
+ Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>,
+ Michael Turquette <mturquette@baylibre.com>,
+ Stephen Boyd <sboyd@kernel.org>, Magnus Damm <magnus.damm@gmail.com>,
+ dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
+ linux-clk@vger.kernel.org,
+ Fabrizio Castro <fabrizio.castro.jz@renesas.com>,
+ Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+Subject: Re: [PATCH v11 0/7] Add support for DU/DSI clocks and DSI driver
+ support for the Renesas RZ/V2H(P) SoC
+Message-ID: <20251023090628.GF727@pendragon.ideasonboard.com>
+References: <20251015192611.241920-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+ <CAMuHMdW1B7Yk1hUU9MSJsiL8wSmjAUGN7Qd_wgBHv8Ct=-wi4Q@mail.gmail.com>
+ <CA+V-a8uY11uWoQ_en5QC=W4HPHRwT6rKQQJ-knT8Gi-+czm05w@mail.gmail.com>
+ <20251021184502.GD19043@pendragon.ideasonboard.com>
+ <CAMuHMdUU-2ugmA-VcRuYOsriUKtAEQXmWEwJSwuCsSTa3ySTZg@mail.gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <aPni4AeDaem_rfZH@kuha.fi.intel.com>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <CAMuHMdUU-2ugmA-VcRuYOsriUKtAEQXmWEwJSwuCsSTa3ySTZg@mail.gmail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -95,34 +78,75 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Oct 23, 2025 at 11:10:20AM +0300, Heikki Krogerus wrote:
-> Hi,
+On Thu, Oct 23, 2025 at 10:20:41AM +0200, Geert Uytterhoeven wrote:
+> Hi Laurent,
 > 
-> > diff --git a/include/linux/usb/typec_notify.h b/include/linux/usb/typec_notify.h
-> > new file mode 100644
-> > index 000000000000..a3f1f3b3ae47
-> > --- /dev/null
-> > +++ b/include/linux/usb/typec_notify.h
-> > @@ -0,0 +1,17 @@
-> > +/* SPDX-License-Identifier: GPL-2.0 */
-> > +
-> > +#ifndef __USB_TYPEC_NOTIFY
-> > +#define __USB_TYPEC_NOTIFY
-> > +
-> > +#include <linux/notifier.h>
-> > +
-> > +enum usb_typec_event {
-> > +	TYPEC_ALTMODE_REGISTERED
-> > +};
+> On Tue, 21 Oct 2025 at 20:45, Laurent Pinchart
+> <laurent.pinchart@ideasonboard.com> wrote:
+> > On Tue, Oct 21, 2025 at 07:26:49PM +0100, Lad, Prabhakar wrote:
+> > > On Tue, Oct 21, 2025 at 11:26 AM Geert Uytterhoeven wrote:
+> > > > On Wed, 15 Oct 2025 at 21:26, Prabhakar <prabhakar.csengg@gmail.com> wrote:
+> > > > > This patch series adds DU/DSI clocks and provides support for the
+> > > > > MIPI DSI interface on the RZ/V2H(P) SoC.
+> > > > >
+> > > > > v10->v11:
+> > > > > - Split CPG_PLL_CLK1_K/M/PDIV macro change into separate patch
+> > > > > - Updated rzv2h_cpg_plldsi_div_determine_rate()
+> > > > >   while iterating over the divider table
+> > > > > - Added Acked-by tag from Tomi for patch 2/7 and 3/7
+> > > > > - Added Reviewed-by tag from Geert for patch 2/7 and 3/7
+> > > >
+> > > > I think this series is ready for merging.
+> > >
+> > > \o/
+> > >
+> > > > > Lad Prabhakar (7):
+> > > > >   clk: renesas: rzv2h-cpg: Add instance field to struct pll
+> > > > >   clk: renesas: rzv2h-cpg: Use GENMASK for PLL fields
+> > > > >   clk: renesas: rzv2h-cpg: Add support for DSI clocks
+> > > > >   clk: renesas: r9a09g057: Add clock and reset entries for DSI and LCDC
+> > > > >   dt-bindings: display: bridge: renesas,dsi: Document RZ/V2H(P) and
+> > > > >     RZ/V2N
+> > > > >   drm: renesas: rz-du: mipi_dsi: Add LPCLK clock support
+> > > > >   drm: renesas: rz-du: mipi_dsi: Add support for RZ/V2H(P) SoC
+> > > >
+> > > > As this touches both clk and drm, let's discuss the merge strategy.
+> > > > My proposal:
+> > > >   1. I queue patches 1-3 in an immutable branch with a signed tag,
+> > > >      to be used as a base for the remaining patches,
+> > > >   2. I queue patch 4 on top of 1 in renesas-clk for v6.19,
+> > > >   3. The DRM people queue patches 5-7 on top of 1.
+> > > >
+> > > > Does that sound fine for you?
+> > > Sounds good to me.
+> > >
+> > > Biju/Tomi, are you OK with the above?
+> >
+> > The plan seems good to me. Note that you won't be able to push this
+> > yourself to drm-misc as committers are limited to pushing linear
+> > branches. We need an ack from the drm-misc maintainers, and one of them
 > 
-> Don't you need to know when the altmode is removed?
+> Do you mean new commits must be in a single branch, or drm-misc
+> itself must be linear? In case of the former, 5-7 can be applied on top of
+> my immutable branch, without involving a merge?
 
-I noticed that you don't because drm_dp_hpd_bridge_register() is
-always resource managed. But I think you could still send an event
-also when the altmode is removed already now. That way it does not
-need to be separately added if and when it is needed.
+drm-misc must be linear, committers must rebase patches on the
+drm-misc-next branch before pushing.
 
-thanks,
+> > will need to merge the branch (either branch 1. as prepared by Geert, on
+> > top of which you can them push patches 5-7 yourself, or a branch you'll
+> > prepare on top of 1. with patches 5-7).
+> 
+> Note that another change to include/linux/clk/renesas.h,
+> and thus a dependency of drm on clk, is coming in
+> "[PATCH v3 0/2] Remove hard coded values for MIPI-DSI"
+> https://lore.kernel.org/20251022235903.1091453-1-chris.brandt@renesas.com
+> 
+> Would it be worthwhile to wait on/speed up review of the latter?
+
+Nobody will complain about reviews being sped up :-)
 
 -- 
-heikki
+Regards,
+
+Laurent Pinchart
