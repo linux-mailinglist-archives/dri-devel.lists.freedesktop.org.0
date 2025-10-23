@@ -2,64 +2,61 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E9612BFF7C4
-	for <lists+dri-devel@lfdr.de>; Thu, 23 Oct 2025 09:19:03 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7061FBFF7D1
+	for <lists+dri-devel@lfdr.de>; Thu, 23 Oct 2025 09:19:30 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 550B410E892;
-	Thu, 23 Oct 2025 07:19:01 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0817C10E893;
+	Thu, 23 Oct 2025 07:19:28 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="d3V4d8Ts";
+	dkim=pass (1024-bit key; unprotected) header.d=collabora.com header.i=dmitry.osipenko@collabora.com header.b="iKy0yYd5";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2A84010E88F;
- Thu, 23 Oct 2025 07:19:00 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1761203940; x=1792739940;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:in-reply-to;
- bh=Wdv4KhYwTEUc/LA/L05ZFeU6Lf3l77gTzl2aS1om74o=;
- b=d3V4d8Tso50YmS3UxjG1O+Fi7I+z/9dBoDy/bc+nOLS9w2o8BcTEQW3v
- rI9orz8cjmq+RPNqQNxZauBLvYrwmtgW7fXwxVzo8Y5zVuHcup6NcindU
- p9EESJbCUMKRzXeG7TNnwLru7NS5me62qgRFvGHYq690OpxUt3ViuqRr/
- Vq/6FFKGZjtHjJE7+eQpA4hoLcJnXlUKtyl+h0EkZFjcY0lacHD4Tgw4m
- d7KyRxk2eDFz62+PmDwQkVrgYto9esGr+QFK2Dvx5ka30I2SJ3XenXubW
- WHvRJ6K3XHH5SQK+7AP0uZqwv0urdBROR4FHVe4qNKM2udEfDABa64xTW Q==;
-X-CSE-ConnectionGUID: 8YiIzv56QWu/MXjQXHbXUg==
-X-CSE-MsgGUID: eZ/TwCx5RdyN1l+QTml+eA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11586"; a="63401987"
-X-IronPort-AV: E=Sophos;i="6.19,249,1754982000"; d="scan'208";a="63401987"
-Received: from fmviesa009.fm.intel.com ([10.60.135.149])
- by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 23 Oct 2025 00:19:00 -0700
-X-CSE-ConnectionGUID: CJfyOGOqQ6Sa/dhY/2ZvGw==
-X-CSE-MsgGUID: I8JKyANbTqWWDWeiP+PORg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.19,249,1754982000"; d="scan'208";a="184563304"
-Received: from lkp-server02.sh.intel.com (HELO 66d7546c76b2) ([10.239.97.151])
- by fmviesa009.fm.intel.com with ESMTP; 23 Oct 2025 00:18:57 -0700
-Received: from kbuild by 66d7546c76b2 with local (Exim 4.96)
- (envelope-from <lkp@intel.com>) id 1vBpb5-000D8v-0M;
- Thu, 23 Oct 2025 07:18:55 +0000
-Date: Thu, 23 Oct 2025 15:18:32 +0800
-From: kernel test robot <lkp@intel.com>
-To: Dan Carpenter <error27@gmail.com>, YiPeng Chai <YiPeng.Chai@amd.com>
-Cc: oe-kbuild-all@lists.linux.dev, Alex Deucher <alexander.deucher@amd.com>,
- Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Tao Zhou <tao.zhou1@amd.com>, Hawking Zhang <Hawking.Zhang@amd.com>,
- amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, kernel-janitors@vger.kernel.org
-Subject: Re: [PATCH next] drm/amd/ras: Fix memory corruption in
- ras_core_convert_timestamp_to_time()
-Message-ID: <202510231558.5UzBX0ox-lkp@intel.com>
-References: <aPi6I5z5oenppEuu@stanley.mountain>
+Received: from sender4-pp-f112.zoho.com (sender4-pp-f112.zoho.com
+ [136.143.188.112])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D147310E893
+ for <dri-devel@lists.freedesktop.org>; Thu, 23 Oct 2025 07:19:26 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; t=1761203954; cv=none; 
+ d=zohomail.com; s=zohoarc; 
+ b=bsCzS5MDHjxtBJy/3QQFflmrjRjP7+ij7mjvcpmJiVSO9IBjSQQM5C+NSbK6yoChcyE93a8+bTAr7+kIVJWRULaFPG11IwMZ3WWzoX6SRUIHDMxK/i5cFrX6ehbezhmHibQdMECFR8H03JqtHlDHDKEbPztexGSzIGjf9oMA6nk=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
+ s=zohoarc; t=1761203954;
+ h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To;
+ bh=SF5pybulDBHW18c8HlGOwb18Vw0zJMzWb3/sOP7yWg4=; 
+ b=K6gwCYSwTLEtYSOy4h2jFuHn+3XWcEyPbxPsb1wQlGLIbF5+/BgBuUMey41TiyBaXduGmi2nM8ks69qEK9ix1B5w2w2e+J3ILdm6WHoGf1PwON8jxd0fd0li8TCyDuIHDPiA8DlhlFW1pUeFUSkTQoNXINUVDOKyCp2tTWEgHdw=
+ARC-Authentication-Results: i=1; mx.zohomail.com;
+ dkim=pass  header.i=collabora.com;
+ spf=pass  smtp.mailfrom=dmitry.osipenko@collabora.com;
+ dmarc=pass header.from=<dmitry.osipenko@collabora.com>
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1761203954; 
+ s=zohomail; d=collabora.com; i=dmitry.osipenko@collabora.com; 
+ h=Message-ID:Date:Date:MIME-Version:Subject:Subject:To:To:Cc:Cc:References:From:From:In-Reply-To:Content-Type:Content-Transfer-Encoding:Message-Id:Reply-To;
+ bh=SF5pybulDBHW18c8HlGOwb18Vw0zJMzWb3/sOP7yWg4=;
+ b=iKy0yYd5IOtoKBRwSPCKhVi9FFId6Ye3aOop8qPa2+O2cHYN3UWhjtdHh4X1+yjG
+ Q0AJNOmzRt4ophYTGgJDDO6C9IjCLulhIKjVwwj6tAxj0imhEVNGEc4Noq3KBRtoIqL
+ 2Kp8ddw0qOQjca+mU5BsgLOAxGQn4mdxpS/Qhj0s=
+Received: by mx.zohomail.com with SMTPS id 1761203953036917.0062959568356;
+ Thu, 23 Oct 2025 00:19:13 -0700 (PDT)
+Message-ID: <40d18130-4aab-47ad-9ed4-00ff6f594cc3@collabora.com>
+Date: Thu, 23 Oct 2025 10:19:06 +0300
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <aPi6I5z5oenppEuu@stanley.mountain>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v1] drm/rockchip: Set VOP for the DRM DMA device
+To: Heiko Stuebner <heiko@sntech.de>, Sandy Huang <hjc@rock-chips.com>,
+ Andy Yan <andy.yan@rock-chips.com>, Robin Murphy <robin.murphy@arm.com>,
+ Sebastian Reichel <sebastian.reichel@collabora.com>,
+ Daniel Stone <daniels@collabora.com>
+Cc: kernel@collabora.com, linux-arm-kernel@lists.infradead.org,
+ linux-rockchip@lists.infradead.org, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org
+References: <20251022161948.199731-1-dmitry.osipenko@collabora.com>
+ <3705026.LM0AJKV5NW@phil>
+Content-Language: en-US
+From: Dmitry Osipenko <dmitry.osipenko@collabora.com>
+In-Reply-To: <3705026.LM0AJKV5NW@phil>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-ZohoMailClient: External
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -75,31 +72,43 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Dan,
+On 10/23/25 09:56, Heiko Stuebner wrote:
+> Hi Dmitry,
+> 
+> Am Mittwoch, 22. Oktober 2025, 18:19:48 Mitteleuropäische Sommerzeit schrieb Dmitry Osipenko:
+>> Use VOP for DMA operations performed by DRM core. Rockchip DRM driver
+>> is backed by a virtual device that isn't IOMMU-capable, while VOP is the
+>> actual display controller device backed by IOMMU. Fixes "swiotlb buffer
+>> is full" warning messages originated from GEM prime code paths.
+>>
+>> Note, that backporting is non-trivial as this depends on 143ec8d3f9396
+>> ("drm/prime: Support dedicated DMA device for dma-buf imports"), which
+>> landed in v6.16 and 421be3ee36a4 ("drm/rockchip: Refactor IOMMU
+>> initialisation"), which landed in v5.19.
+>>
+>> Reported-by: Daniel Stone <daniels@collabora.com>
+>> Fixes: 2048e3286f34 ("drm: rockchip: Add basic drm driver")
+>> Cc: stable@vger.kernel.org # v6.16+
+>> Reviewed-by: Sebastian Reichel <sebastian.reichel@collabora.com>
+>> Signed-off-by: Dmitry Osipenko <dmitry.osipenko@collabora.com>
+> 
+> just a process remark for now. This v1 so it definitly shouldn't come
+> with any Reviewed-by-s pre-applied, because this should happen in public.
+> 
+> It's not a huge issue here, because I do trust the people involved (you,
+> Sebastian, Daniel) and the change is small enough, but please for future
+> changes, let Review happen on the list, not on private channels.
+> 
+> 
+> Will look at the change itself when back home.
 
-kernel test robot noticed the following build errors:
+Thanks. I also felt uncomfortable adding r-b to v1. There was no much
+discussion on the change that you can find on [1] and the change is
+indeed small, so I just added the r-b. Should've linked it the patch.
 
-[auto build test ERROR on next-20251022]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Dan-Carpenter/drm-amd-ras-Fix-memory-corruption-in-ras_core_convert_timestamp_to_time/20251022-190512
-base:   next-20251022
-patch link:    https://lore.kernel.org/r/aPi6I5z5oenppEuu%40stanley.mountain
-patch subject: [PATCH next] drm/amd/ras: Fix memory corruption in ras_core_convert_timestamp_to_time()
-config: arm-randconfig-003-20251023 (https://download.01.org/0day-ci/archive/20251023/202510231558.5UzBX0ox-lkp@intel.com/config)
-compiler: arm-linux-gnueabi-gcc (GCC) 8.5.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251023/202510231558.5UzBX0ox-lkp@intel.com/reproduce)
-
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202510231558.5UzBX0ox-lkp@intel.com/
-
-All errors (new ones prefixed by >>, old ones prefixed by <<):
-
-WARNING: modpost: missing MODULE_DESCRIPTION() in arch/arm/probes/kprobes/test-kprobes.o
-ERROR: modpost: "__aeabi_uldivmod" [drivers/gpu/drm/amd/amdgpu/amdgpu.ko] undefined!
->> ERROR: modpost: "__aeabi_ldivmod" [drivers/gpu/drm/amd/amdgpu/amdgpu.ko] undefined!
+[1]
+https://gitlab.collabora.com/hardware-enablement/rockchip-3588/linux/-/issues/50
 
 -- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+Best regards,
+Dmitry
