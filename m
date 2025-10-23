@@ -2,77 +2,75 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C57C6C00F71
-	for <lists+dri-devel@lfdr.de>; Thu, 23 Oct 2025 14:05:15 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 12534C00F74
+	for <lists+dri-devel@lfdr.de>; Thu, 23 Oct 2025 14:05:19 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E140810E3E5;
-	Thu, 23 Oct 2025 12:05:13 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4161F10E3E6;
+	Thu, 23 Oct 2025 12:05:17 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="qV0epkhL";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="Vx4WN1ud";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lj1-f171.google.com (mail-lj1-f171.google.com
- [209.85.208.171])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C83AA10E3E5
- for <dri-devel@lists.freedesktop.org>; Thu, 23 Oct 2025 12:05:12 +0000 (UTC)
-Received: by mail-lj1-f171.google.com with SMTP id
- 38308e7fff4ca-378d50e1c82so8132321fa.3
- for <dri-devel@lists.freedesktop.org>; Thu, 23 Oct 2025 05:05:12 -0700 (PDT)
+Received: from mail-lj1-f177.google.com (mail-lj1-f177.google.com
+ [209.85.208.177])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id EF5EB10E3E6
+ for <dri-devel@lists.freedesktop.org>; Thu, 23 Oct 2025 12:05:13 +0000 (UTC)
+Received: by mail-lj1-f177.google.com with SMTP id
+ 38308e7fff4ca-378ddffb497so4318761fa.2
+ for <dri-devel@lists.freedesktop.org>; Thu, 23 Oct 2025 05:05:13 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1761221111; x=1761825911; darn=lists.freedesktop.org;
- h=cc:to:content-transfer-encoding:mime-version:message-id:date
- :subject:from:from:to:cc:subject:date:message-id:reply-to;
- bh=BoEX23xd/nGNP6bsxFTl8PssrTkiP0VDDAlBt1h+gv4=;
- b=qV0epkhLR9GxeBD//dbK7WpOlOJJYtbF/MrOlcnF4s38yamRQN1bSLOj6K7Jq64BVR
- pDJ7e36x7HteCcwJAl5DeY9tx5F/Mrr8v1DLx2IMuoWZAOJIEr9B0pGBF1Z2+4YNgJm0
- BLJZoVSW+ZCkCzBJWSePKO1rr+XnP6qzBB1deqfbAjj+vi/MO4GUe5MEP06EMTRmD9G8
- NS8bLtjG2Sdu/JM5GSzHbnzmEJqPQyIjgxGmeG49YICt+Ocy6+gSeqtbC1FRPolfcpRR
- 6eLcyJYIXhpRHIPytNzeEkFcyocZDwNI2f/HDRX1jadjnnCius5g9pMXR4cu/8UAf6qK
- Fe4g==
+ d=linaro.org; s=google; t=1761221112; x=1761825912; darn=lists.freedesktop.org;
+ h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
+ :mime-version:subject:date:from:from:to:cc:subject:date:message-id
+ :reply-to; bh=mPAe6rJSKdGLZTf//CNVsUeifZy5S1h66q+oaqtuUT4=;
+ b=Vx4WN1ud1xD8bWhcpB2jV4MoOKsXte3H9CbLlylif4GpVuld62noRgZ4PH7EPD04l4
+ MKwIWw2qoK4xntyg4BFO+4FXbgWmpBq9kWiAUUSLBmfkJyXHF2k3LXj84R6ZlxussBxC
+ CWt8lZ1RH/p7gCPDbQdR8d4irCnZ9nNDN9x5zJhGH6kPkaKkKMThKbGlUEiL7NK4BM84
+ 8s0ohZYBRIM3Zwv/Uo+Cku5CENkZNH8bkZI9ILa+BU/cba+mSEDZZhn90PVl5gNjZIOe
+ 6FL7VQoVIm12rmbArrhzmTbJM63qZiR1J3x/J5n/YNEs0UytVAwoBcnujZifiQxG1QPu
+ 5Ixw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1761221111; x=1761825911;
- h=cc:to:content-transfer-encoding:mime-version:message-id:date
- :subject:from:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=BoEX23xd/nGNP6bsxFTl8PssrTkiP0VDDAlBt1h+gv4=;
- b=YRIqB2kjQtUkR7tagkM1c6Fw2AlgElXubq2eo+ZLc34aJawrEUJ+cqsaGe9AouaTvK
- FDTC77ABUWFBSpq7hMOtc5/FgrJ7D88vVwl64/21quF3Yb1YZx7IEEHiyT3Z6QbtCZxq
- GRlat+aJg1GGuslN1e4t92j4DmlXCwlCUO/BocvIlkh3+1SEa/CIcRXUtjsGZd3mGE1v
- GJ4vz6tAm6rPklsZADRhtMQLb1LgMAgHYZ2bZicmm0WuGjLcW+dMKi3HUumqPMCnhJ6o
- 519aU08ibF74fiitgcyfAmgAo7jSrmhgZBB+vPXnoxKjC7JJKLE1vklNUSwFrjbZ8Lph
- dAKw==
+ d=1e100.net; s=20230601; t=1761221112; x=1761825912;
+ h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
+ :mime-version:subject:date:from:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=mPAe6rJSKdGLZTf//CNVsUeifZy5S1h66q+oaqtuUT4=;
+ b=aIsJZCdWYVSGv/4GSnyTyzDyfDLdiLIxdHFCLw4QpqwHwbYcjBFeFID8Ob+jztG5o7
+ cXDpDzXHUw79s+/37KCvRq+uwYyEqFJAH9RpJ/gc+IynzoUgzu9h52nx1NGP1MI30Qrz
+ BvxKUicskss3r00Er7LCN8jbXttIAlNlBcEye70Th2tJ4RARJTlBN49MMChw7LllVZ+D
+ +t94q4ZBFYR4Iia4WeR75POdiTkVa9Z7lOua9gJzsrsN9XpHkHojN9z5o2u2W3uQpclc
+ 8pQp1t1CakM++hIXhmV0HNHdZCpa2KTPcb7oP/SsaA2/dlCiSs+8zelxJjSN/WO21qvQ
+ gSPg==
 X-Forwarded-Encrypted: i=1;
- AJvYcCVyHcB7sLvRvdTajC4VwpbWNd/c3sHY2dzj7WMrI55Iaoyv7HFSwyj+EfFx1gJX+qP9NmU5KOdzViI=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YzVIheMK643vTym/fFTAxNHa3FfF77X/fAUF80rM+nXlmdoxXhh
- 1ImSdnP8suKRPC1PuOIDSL97RJ1fEaYV2zm6+s5Q8tv7KgXk9mq3j2FvKxPrCgS9+gI=
-X-Gm-Gg: ASbGnctIybdHkjiCs/J6WrPPMmndLVF2PYQNw3ZivP7lFS4KpKGlSzES6OOFJz7QDoH
- sbqi4d+ur2OhqK1qz36O/Ehm+ycQoiGZLDFTMgClulS5gxLuseagALGNgggCheCl9XD2mkTCYpG
- iAzs0aXE1bGuJNu1TieKfA/HfIe33q4uKdIRgKeiySdvrpDGXtxFLzFY1luS6QjMXeHfMJWMU+o
- zZ9Y+PvBZcSRjBhCW+pIGwFo4aL7t/ynJGNeDMuY+Gw1oo4fzSsKFyJcVOBC5dV20C0HNDsbpUm
- SS6s7BInk47NE+lhd0u74Om6izN/ylg7/rTjdYL3CtOF51tDdjdG7K+2a1Sj3hdxSoazGDsjAKQ
- 7GYAXj9m3mPP823gjCv/EokjpELnrz56inwf4NS/O2wb0Sj1PnF0jccTGSO+adPzfOQvUFHlqbG
- R6+2E4cdPvvyn1TmoG5XzsY5rtRrrRSXq9JmMJrU9doHa/
-X-Google-Smtp-Source: AGHT+IFYLbhLjOY2LMBy7lXUJqenzjQosnzEM8MW3QWTj8JugrqDJBsjM/ACbE4M/KUmHk97UAP8Nw==
-X-Received: by 2002:a05:651c:901:b0:36b:698b:1f00 with SMTP id
- 38308e7fff4ca-37797815b55mr69910171fa.6.1761221110718; 
- Thu, 23 Oct 2025 05:05:10 -0700 (PDT)
+ AJvYcCUZGSULFDLLU/UZcygobVpF70vHu7kn98M1UpUfrtWeCq21TkwXCsK8dCh/mGAcxV5+iqhAXpLlk8I=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Yxu4JAa4K1XeopO9YSqfw3HWAylfJb+SSDIhi9PM3mNjgm3vYmT
+ pZnFSvtWjZldsSiOx8dLJH0aHw9QHG7rViNCYyWuoKXo4XvbRXyhp4C0C+kr1rln3H4=
+X-Gm-Gg: ASbGncux6MLHIDBajlcmxStFNa+qT/BlrZ5e2WhkJghTvqm/W4r3HClqJVEj3JQVk11
+ i9Ksg9cJZLM8d6V6VKeT4W6wmP9q2rkszfiThCVWg9yKf67Ra07YLFPlxcEBifI58T+7RT8l5hg
+ 2nuoQU3LiKv8eNkljbxGZgRYmFpg7YE+5H/iJb1RbF3wDFlIUF5ULIqWckT2GzuWh/Vi2LY0WWo
+ 9NeRmOh1+GiO/E9jRa6V/p60L70nPF8TktwQ9bgNFtHkUucqfZNHWvjFQgaut9MVxIVk70LiI4z
+ cEibNSI8Vx4oQhfUNI3LO6MGurNS7haxWPQtceR/fysoDe7Sw0gMBBMkMzyZuqeF8e814j5RWkU
+ PIDF4IzhFg0aF2xW0loEbn+9+c/GuoKThlAo07JfG/kH3gXpgm9wzDxCD9DVixz8UH9VUqkkS7J
+ 2HR1flFnPZakXp7OdkszDMZA0qvq9lcezcbsGN646AP20NwgSiJswvImU=
+X-Google-Smtp-Source: AGHT+IFUTxn/igWyCFH+B2lyCUXMQTb27fqKt39Hf608m0w0Ao3XavukjGWpJEvaRdvNbfspIcWvEg==
+X-Received: by 2002:a05:651c:1142:b0:36b:693d:1244 with SMTP id
+ 38308e7fff4ca-37797a0904dmr62642991fa.30.1761221112237; 
+ Thu, 23 Oct 2025 05:05:12 -0700 (PDT)
 Received: from [192.168.1.2] (c-92-34-217-190.bbcust.telenor.se.
  [92.34.217.190]) by smtp.gmail.com with ESMTPSA id
- 38308e7fff4ca-378d680322dsm4070701fa.47.2025.10.23.05.05.09
+ 38308e7fff4ca-378d680322dsm4070701fa.47.2025.10.23.05.05.10
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 23 Oct 2025 05:05:10 -0700 (PDT)
+ Thu, 23 Oct 2025 05:05:11 -0700 (PDT)
 From: Linus Walleij <linus.walleij@linaro.org>
-Subject: [PATCH 0/4] drm: panel: Fix atomic helper-induced regressions
-Date: Thu, 23 Oct 2025 14:05:08 +0200
-Message-Id: <20251023-fix-mcde-drm-regression-v1-0-ed9a925db8c7@linaro.org>
+Date: Thu, 23 Oct 2025 14:05:09 +0200
+Subject: [PATCH 1/4] drm: panel: nt355510: Move DSI commands to enable/disable
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-X-B4-Tracking: v=1; b=H4sIAAAAAAAC/x2MzQqEMAwGX6XkvIE2sAf3VRYP3fRbzcEfUhBBf
- Herx4GZOajCDZU+4SDHZtWWuUF6BdIxzwPYSmOSKO8URfhvO09awMUndgyOejesXdaoKvGXQa1
- eHU19zt/+PC+uwVdVaQAAAA==
-X-Change-ID: 20251022-fix-mcde-drm-regression-c9ac0cc20bae
+Message-Id: <20251023-fix-mcde-drm-regression-v1-1-ed9a925db8c7@linaro.org>
+References: <20251023-fix-mcde-drm-regression-v1-0-ed9a925db8c7@linaro.org>
+In-Reply-To: <20251023-fix-mcde-drm-regression-v1-0-ed9a925db8c7@linaro.org>
 To: Aradhya Bhatia <a-bhatia1@ti.com>, 
  Stefan Hansson <newbyte@postmarketos.org>, 
  Neil Armstrong <neil.armstrong@linaro.org>, 
@@ -100,65 +98,79 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-commit c9b1150a68d9362a0827609fc0dc1664c0d8bfe1
-"drm/atomic-helper: Re-order bridge chain pre-enable and post-disable"
-caused a series of regressions in all panels that send
-DSI commands in their .prepare() and .unprepare()
-callbacks.
+Due to semantic changes in the bridge core, panels cannot send
+any DSI commands in the prepare/unprepare callbacks: there is
+no guarantee that the DSI transmitter is available at this
+point.
 
-As the CRTC is no longer online at bridge_pre_enable()
-and gone at brige_post_disable() which maps to the panel
-bridge .prepare()/.unprepare() callbacks, any CRTC that
-enable/disable the DSI transmitter in it's enable/disable
-callbacks will be unable to send any DSI commands in the
-.prepare() and .unprepare() callbacks.
+Tested on the Samsung Skomer (GT-S7710).
 
-This is also evident from device trees with the DSI
-inside the CRTC such as this:
-
-mcde@a0350000 {
-   status = "okay";
-   pinctrl-names = "default";
-   pinctrl-0 = <&dsi_default_mode>;
-
-   dsi@a0351000 {
-     panel {
-       compatible = "hydis,hva40wv1", "novatek,nt35510";
-       reg = <0>;
-       vdd-supply = <&ab8500_ldo_aux4_reg>;
-       vddi-supply = <&ab8500_ldo_aux6_reg>;
-    };
-  };
-};
-
-The panel is inside the DSI which is inside the CRTC
-(MCDE).
-
-This is in a way natural, so let's just fix it in all
-affected panel drivers that I know of and can test.
-Mostly Ux500 phones, and only those with the display
-directly on DSI (not e.g. using DPI and SPI).
-
-Other panel drivers may be affected.
-
+Cc: Aradhya Bhatia <a-bhatia1@ti.com>
+Fixes: c9b1150a68d9 ("drm/atomic-helper: Re-order bridge chain pre-enable and post-disable")
 Signed-off-by: Linus Walleij <linus.walleij@linaro.org>
 ---
-Linus Walleij (4):
-      drm: panel: nt355510: Move DSI commands to enable/disable
-      drm: panel: s6d16d0: Move DSI commands to enable/disable
-      drm: panel: nt35560: Move DSI commands to enable/disable
-      drm: panel: s6e63m0: Move DSI commands to enable/disable
+ drivers/gpu/drm/panel/panel-novatek-nt35510.c | 24 ++++++++++++++++--------
+ 1 file changed, 16 insertions(+), 8 deletions(-)
 
- drivers/gpu/drm/panel/panel-novatek-nt35510.c | 24 ++++++++++++------
- drivers/gpu/drm/panel/panel-novatek-nt35560.c | 24 ++++++++++++------
- drivers/gpu/drm/panel/panel-samsung-s6d16d0.c | 35 ++++++++++++---------------
- drivers/gpu/drm/panel/panel-samsung-s6e63m0.c | 31 +++++++++---------------
- 4 files changed, 61 insertions(+), 53 deletions(-)
----
-base-commit: 6548d364a3e850326831799d7e3ea2d7bb97ba08
-change-id: 20251022-fix-mcde-drm-regression-c9ac0cc20bae
+diff --git a/drivers/gpu/drm/panel/panel-novatek-nt35510.c b/drivers/gpu/drm/panel/panel-novatek-nt35510.c
+index 3189d89c7ca0..ecd3fb09f9fc 100644
+--- a/drivers/gpu/drm/panel/panel-novatek-nt35510.c
++++ b/drivers/gpu/drm/panel/panel-novatek-nt35510.c
+@@ -971,6 +971,13 @@ static int nt35510_power_off(struct nt35510 *nt)
+ }
+ 
+ static int nt35510_unprepare(struct drm_panel *panel)
++{
++	struct nt35510 *nt = panel_to_nt35510(panel);
++
++	return nt35510_power_off(nt);
++}
++
++static int nt35510_disable(struct drm_panel *panel)
+ {
+ 	struct nt35510 *nt = panel_to_nt35510(panel);
+ 	struct mipi_dsi_device *dsi = to_mipi_dsi_device(nt->dev);
+@@ -993,23 +1000,22 @@ static int nt35510_unprepare(struct drm_panel *panel)
+ 	/* Wait 4 frames, how much is that 5ms in the vendor driver */
+ 	usleep_range(5000, 10000);
+ 
+-	ret = nt35510_power_off(nt);
+-	if (ret)
+-		return ret;
+-
+ 	return 0;
+ }
+ 
+ static int nt35510_prepare(struct drm_panel *panel)
++{
++	struct nt35510 *nt = panel_to_nt35510(panel);
++
++	return nt35510_power_on(nt);
++}
++
++static int nt35510_enable(struct drm_panel *panel)
+ {
+ 	struct nt35510 *nt = panel_to_nt35510(panel);
+ 	struct mipi_dsi_device *dsi = to_mipi_dsi_device(nt->dev);
+ 	int ret;
+ 
+-	ret = nt35510_power_on(nt);
+-	if (ret)
+-		return ret;
+-
+ 	/* Exit sleep mode */
+ 	ret = mipi_dsi_dcs_exit_sleep_mode(dsi);
+ 	if (ret) {
+@@ -1078,6 +1084,8 @@ static int nt35510_get_modes(struct drm_panel *panel,
+ static const struct drm_panel_funcs nt35510_drm_funcs = {
+ 	.unprepare = nt35510_unprepare,
+ 	.prepare = nt35510_prepare,
++	.disable = nt35510_disable,
++	.enable = nt35510_enable,
+ 	.get_modes = nt35510_get_modes,
+ };
+ 
 
-Best regards,
 -- 
-Linus Walleij <linus.walleij@linaro.org>
+2.51.0
 
