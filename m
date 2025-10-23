@@ -2,42 +2,42 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id BE0B8BFF130
-	for <lists+dri-devel@lfdr.de>; Thu, 23 Oct 2025 06:08:20 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id B9D1EBFF13C
+	for <lists+dri-devel@lfdr.de>; Thu, 23 Oct 2025 06:08:22 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4F66A10E875;
-	Thu, 23 Oct 2025 04:08:10 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9BCF010E880;
+	Thu, 23 Oct 2025 04:08:16 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="HNPUfLlL";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="lQ0YnzAL";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 224D010E865;
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 493DC10E863;
  Thu, 23 Oct 2025 04:08:06 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
  t=1761192487; x=1792728487;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=X+jyQhAL1garEM/v4dWVjB27MltZCiKzUpXJKcqoGkI=;
- b=HNPUfLlL5oCZlX2opbsdXTCj2dEKJFSCos5n8CBf9eduSBD+RDTrDX6H
- dznQLFctv6iUKuxU3Re+/gFk18hwdPN6cLWScQHr03o1O/f0OchXXWk9T
- PUX93e8+moB1+DyRo385n6BMeF9nR7Xuq1bBhmRMgFaWBxi6v60Y89Uvy
- 4S+AcTOX7/YIziprllRYxlpClqXEMtZyonzsVj8YFMlLJp0Rz/FRkzVqz
- 5gxhuK97OiSytUQHLgeppf6rKZLPXw4d0AUz3zWylqkUrSahRGm57D2+E
- EkD18VrYxTJY8ZVbVxydh4fFJzqiP8CM7iILgmMcBxdTd8wiowJ/bBxp5 A==;
-X-CSE-ConnectionGUID: zszOD7MRQXCNpxA6vR3mcA==
-X-CSE-MsgGUID: tJfpSbo+SA6/vzp4iRbU7g==
-X-IronPort-AV: E=McAfee;i="6800,10657,11586"; a="63391288"
-X-IronPort-AV: E=Sophos;i="6.19,248,1754982000"; d="scan'208";a="63391288"
+ bh=vhb/X5yWlEuf59UUJffs44ZUtPBbcq/Pq+eukqzG1XY=;
+ b=lQ0YnzALkROa4KyK4R6uMp1s8fqLB9La3FBavxmyep7QKdLTeqnvpQBg
+ GLh8VHpvyzsLFkIa6SA/2WH2JvC6FRa0FFiCdTImdlFMZWDwJ1667CAYu
+ VQQPckchVV8yMyhd7wIGNbQpUV05liRSq/rdvWwwdXCXGlCB5+kIlERkS
+ aEXUcRMW6uToPMfoPL+wvQC/gjqzONWUrtaGwLDzfa7M8q7V4HdQOowr7
+ ngzzqMudtlezUM2NBTTmHbxLB1UYHIg0f1sMUjhzRf0wsKKHJKCnyzET2
+ bSg4W8oGN8+PrrHLZqWi+nG+GjFfD5MP18L8SlaZJHBpA3JOR/PLdpu4g A==;
+X-CSE-ConnectionGUID: pcWNc2lbQ/uPeTd1Z0MTwg==
+X-CSE-MsgGUID: s4gBeUeRTQq/VjdCoaUVmQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11586"; a="63391289"
+X-IronPort-AV: E=Sophos;i="6.19,248,1754982000"; d="scan'208";a="63391289"
 Received: from orviesa005.jf.intel.com ([10.64.159.145])
  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
  22 Oct 2025 21:08:05 -0700
-X-CSE-ConnectionGUID: XZ2xhH7uRA2uN73QCSrJqQ==
-X-CSE-MsgGUID: 2oJ9HcQyQfijabHmhl2BcA==
+X-CSE-ConnectionGUID: /jcOttF2QJWMYzPlXT32hQ==
+X-CSE-MsgGUID: pqg6hjhLSy2U6VOY+61JOg==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.19,248,1754982000"; d="scan'208";a="189175759"
+X-IronPort-AV: E=Sophos;i="6.19,248,1754982000"; d="scan'208";a="189175760"
 Received: from lstrano-desk.jf.intel.com ([10.54.39.91])
  by orviesa005-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
  22 Oct 2025 21:08:05 -0700
@@ -45,10 +45,9 @@ From: Matthew Brost <matthew.brost@intel.com>
 To: intel-xe@lists.freedesktop.org,
 	dri-devel@lists.freedesktop.org
 Cc: christian.koenig@amd.com
-Subject: [RFC PATCH 11/14] drm/xe: Disconnect the low hanging fences from Xe
- module
-Date: Wed, 22 Oct 2025 21:07:57 -0700
-Message-Id: <20251023040800.970283-12-matthew.brost@intel.com>
+Subject: [RFC PATCH 12/14] drm/xe: Drop HW fence slab
+Date: Wed, 22 Oct 2025 21:07:58 -0700
+Message-Id: <20251023040800.970283-13-matthew.brost@intel.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20251023040800.970283-1-matthew.brost@intel.com>
 References: <20251023040800.970283-1-matthew.brost@intel.com>
@@ -69,105 +68,104 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Preempt, tlb invalidation, and OA fences now use embedded fence lock.
+Helps with disconnecting fences from Xe module.
 
 Signed-off-by: Matthew Brost <matthew.brost@intel.com>
 ---
- drivers/gpu/drm/xe/xe_oa.c                  | 5 +----
- drivers/gpu/drm/xe/xe_preempt_fence.c       | 3 +--
- drivers/gpu/drm/xe/xe_preempt_fence_types.h | 2 --
- drivers/gpu/drm/xe/xe_tlb_inval.c           | 5 +----
- drivers/gpu/drm/xe/xe_tlb_inval_types.h     | 2 --
- 5 files changed, 3 insertions(+), 14 deletions(-)
+ drivers/gpu/drm/xe/xe_hw_fence.c | 25 ++-----------------------
+ drivers/gpu/drm/xe/xe_hw_fence.h |  3 ---
+ drivers/gpu/drm/xe/xe_module.c   |  5 -----
+ 3 files changed, 2 insertions(+), 31 deletions(-)
 
-diff --git a/drivers/gpu/drm/xe/xe_oa.c b/drivers/gpu/drm/xe/xe_oa.c
-index f901ba52b403..c8613bafb8db 100644
---- a/drivers/gpu/drm/xe/xe_oa.c
-+++ b/drivers/gpu/drm/xe/xe_oa.c
-@@ -111,8 +111,6 @@ struct xe_oa_config_bo {
- struct xe_oa_fence {
- 	/* @base: dma fence base */
- 	struct dma_fence base;
--	/* @lock: lock for the fence */
--	spinlock_t lock;
- 	/* @work: work to signal @base */
- 	struct delayed_work work;
- 	/* @cb: callback to schedule @work */
-@@ -1016,8 +1014,7 @@ static int xe_oa_emit_oa_config(struct xe_oa_stream *stream, struct xe_oa_config
- 	}
+diff --git a/drivers/gpu/drm/xe/xe_hw_fence.c b/drivers/gpu/drm/xe/xe_hw_fence.c
+index 3456bec93c70..5edcf057aceb 100644
+--- a/drivers/gpu/drm/xe/xe_hw_fence.c
++++ b/drivers/gpu/drm/xe/xe_hw_fence.c
+@@ -6,7 +6,6 @@
+ #include "xe_hw_fence.h"
  
- 	/* Point of no return: initialize and set fence to signal */
--	spin_lock_init(&ofence->lock);
--	dma_fence_init(&ofence->base, &xe_oa_fence_ops, &ofence->lock, 0, 0);
-+	dma_fence_init(&ofence->base, &xe_oa_fence_ops, NULL, 0, 0);
+ #include <linux/device.h>
+-#include <linux/slab.h>
  
- 	for (i = 0; i < stream->num_syncs; i++) {
- 		if (stream->syncs[i].flags & DRM_XE_SYNC_FLAG_SIGNAL)
-diff --git a/drivers/gpu/drm/xe/xe_preempt_fence.c b/drivers/gpu/drm/xe/xe_preempt_fence.c
-index 7f587ca3947d..75f433aee747 100644
---- a/drivers/gpu/drm/xe/xe_preempt_fence.c
-+++ b/drivers/gpu/drm/xe/xe_preempt_fence.c
-@@ -145,9 +145,8 @@ xe_preempt_fence_arm(struct xe_preempt_fence *pfence, struct xe_exec_queue *q,
+ #include "xe_bo.h"
+ #include "xe_device.h"
+@@ -16,28 +15,9 @@
+ #include "xe_map.h"
+ #include "xe_trace.h"
+ 
+-static struct kmem_cache *xe_hw_fence_slab;
+-
+-int __init xe_hw_fence_module_init(void)
+-{
+-	xe_hw_fence_slab = kmem_cache_create("xe_hw_fence",
+-					     sizeof(struct xe_hw_fence), 0,
+-					     SLAB_HWCACHE_ALIGN, NULL);
+-	if (!xe_hw_fence_slab)
+-		return -ENOMEM;
+-
+-	return 0;
+-}
+-
+-void xe_hw_fence_module_exit(void)
+-{
+-	rcu_barrier();
+-	kmem_cache_destroy(xe_hw_fence_slab);
+-}
+-
+ static struct xe_hw_fence *fence_alloc(void)
  {
- 	list_del_init(&pfence->link);
- 	pfence->q = xe_exec_queue_get(q);
--	spin_lock_init(&pfence->lock);
- 	dma_fence_init(&pfence->base, &preempt_fence_ops,
--		      &pfence->lock, context, seqno);
-+		       NULL, context, seqno);
- 
- 	return &pfence->base;
+-	return kmem_cache_zalloc(xe_hw_fence_slab, GFP_KERNEL);
++	return kzalloc(sizeof(struct xe_hw_fence), GFP_KERNEL);
  }
-diff --git a/drivers/gpu/drm/xe/xe_preempt_fence_types.h b/drivers/gpu/drm/xe/xe_preempt_fence_types.h
-index 312c3372a49f..b54b5c29b533 100644
---- a/drivers/gpu/drm/xe/xe_preempt_fence_types.h
-+++ b/drivers/gpu/drm/xe/xe_preempt_fence_types.h
-@@ -25,8 +25,6 @@ struct xe_preempt_fence {
- 	struct xe_exec_queue *q;
- 	/** @preempt_work: work struct which issues preemption */
- 	struct work_struct preempt_work;
--	/** @lock: dma-fence fence lock */
--	spinlock_t lock;
- 	/** @error: preempt fence is in error state */
- 	int error;
- };
-diff --git a/drivers/gpu/drm/xe/xe_tlb_inval.c b/drivers/gpu/drm/xe/xe_tlb_inval.c
-index 918a59e686ea..5c23e76b0241 100644
---- a/drivers/gpu/drm/xe/xe_tlb_inval.c
-+++ b/drivers/gpu/drm/xe/xe_tlb_inval.c
-@@ -133,7 +133,6 @@ int xe_gt_tlb_inval_init_early(struct xe_gt *gt)
- 	tlb_inval->seqno = 1;
- 	INIT_LIST_HEAD(&tlb_inval->pending_fences);
- 	spin_lock_init(&tlb_inval->pending_lock);
--	spin_lock_init(&tlb_inval->lock);
- 	INIT_DELAYED_WORK(&tlb_inval->fence_tdr, xe_tlb_inval_fence_timeout);
  
- 	err = drmm_mutex_init(&xe->drm, &tlb_inval->seqno_lock);
-@@ -420,10 +419,8 @@ void xe_tlb_inval_fence_init(struct xe_tlb_inval *tlb_inval,
- {
- 	xe_pm_runtime_get_noresume(tlb_inval->xe);
+ static void fence_free(struct rcu_head *rcu)
+@@ -45,8 +25,7 @@ static void fence_free(struct rcu_head *rcu)
+ 	struct xe_hw_fence *fence =
+ 		container_of(rcu, struct xe_hw_fence, dma.rcu);
  
--	spin_lock_irq(&tlb_inval->lock);
--	dma_fence_init(&fence->base, &inval_fence_ops, &tlb_inval->lock,
-+	dma_fence_init(&fence->base, &inval_fence_ops, NULL,
- 		       dma_fence_context_alloc(1), 1);
--	spin_unlock_irq(&tlb_inval->lock);
- 	INIT_LIST_HEAD(&fence->link);
- 	if (stack)
- 		set_bit(FENCE_STACK_BIT, &fence->base.flags);
-diff --git a/drivers/gpu/drm/xe/xe_tlb_inval_types.h b/drivers/gpu/drm/xe/xe_tlb_inval_types.h
-index 8f8b060e9005..80e893950099 100644
---- a/drivers/gpu/drm/xe/xe_tlb_inval_types.h
-+++ b/drivers/gpu/drm/xe/xe_tlb_inval_types.h
-@@ -104,8 +104,6 @@ struct xe_tlb_inval {
- 	struct delayed_work fence_tdr;
- 	/** @job_wq: schedules TLB invalidation jobs */
- 	struct workqueue_struct *job_wq;
--	/** @tlb_inval.lock: protects TLB invalidation fences */
--	spinlock_t lock;
- };
+-	if (!WARN_ON_ONCE(!fence))
+-		kmem_cache_free(xe_hw_fence_slab, fence);
++	kfree(fence);
+ }
  
- /**
+ static void hw_fence_irq_run_cb(struct irq_work *work)
+diff --git a/drivers/gpu/drm/xe/xe_hw_fence.h b/drivers/gpu/drm/xe/xe_hw_fence.h
+index f13a1c4982c7..96f34332fd8d 100644
+--- a/drivers/gpu/drm/xe/xe_hw_fence.h
++++ b/drivers/gpu/drm/xe/xe_hw_fence.h
+@@ -11,9 +11,6 @@
+ /* Cause an early wrap to catch wrapping errors */
+ #define XE_FENCE_INITIAL_SEQNO (-127)
+ 
+-int xe_hw_fence_module_init(void);
+-void xe_hw_fence_module_exit(void);
+-
+ void xe_hw_fence_irq_init(struct xe_hw_fence_irq *irq);
+ void xe_hw_fence_irq_finish(struct xe_hw_fence_irq *irq);
+ void xe_hw_fence_irq_run(struct xe_hw_fence_irq *irq);
+diff --git a/drivers/gpu/drm/xe/xe_module.c b/drivers/gpu/drm/xe/xe_module.c
+index d08338fc3bc1..32517bcd533c 100644
+--- a/drivers/gpu/drm/xe/xe_module.c
++++ b/drivers/gpu/drm/xe/xe_module.c
+@@ -12,7 +12,6 @@
+ 
+ #include "xe_drv.h"
+ #include "xe_configfs.h"
+-#include "xe_hw_fence.h"
+ #include "xe_pci.h"
+ #include "xe_pm.h"
+ #include "xe_observation.h"
+@@ -114,10 +113,6 @@ static const struct init_funcs init_funcs[] = {
+ 		.init = xe_configfs_init,
+ 		.exit = xe_configfs_exit,
+ 	},
+-	{
+-		.init = xe_hw_fence_module_init,
+-		.exit = xe_hw_fence_module_exit,
+-	},
+ 	{
+ 		.init = xe_sched_job_module_init,
+ 		.exit = xe_sched_job_module_exit,
 -- 
 2.34.1
 
