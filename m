@@ -2,133 +2,113 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C8A17BFFB5A
-	for <lists+dri-devel@lfdr.de>; Thu, 23 Oct 2025 09:51:21 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 93010BFFB8E
+	for <lists+dri-devel@lfdr.de>; Thu, 23 Oct 2025 09:55:00 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 117B910E8BB;
-	Thu, 23 Oct 2025 07:51:19 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 828FC10E032;
+	Thu, 23 Oct 2025 07:54:58 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=suse.de header.i=@suse.de header.b="XdTyzEaC";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="2eaYDE6s";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="wpRNCXkM";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="yPd+PriJ";
+	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="CUTK7RzH";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BA08810E8BB
- for <dri-devel@lists.freedesktop.org>; Thu, 23 Oct 2025 07:51:16 +0000 (UTC)
-Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested)
- by smtp-out2.suse.de (Postfix) with ESMTPS id 3FAA71F445;
- Thu, 23 Oct 2025 07:51:07 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1761205871; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=ZMNp2nOpN1XxaXWWIFL4YPLeaCGKanFBJUZI99Z/v0g=;
- b=XdTyzEaCWS2zDUF+Lc2f1sMTxgzmsaNZ1kUKT4/Pb/zBLpk0TQr10I6IHRM1AbWhbU8cy5
- RylBGbm4crac9k/xtijILnx+xZiqSf/5MRN2a7UwYqk5Q1AUj3RN83wyAw9dUBJEzGhqwt
- BMZOhRZf/cXFRGRguFKB+0wiNQwSUlQ=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1761205871;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=ZMNp2nOpN1XxaXWWIFL4YPLeaCGKanFBJUZI99Z/v0g=;
- b=2eaYDE6sHgQ3vmkc91N7TQG0Njuto48D8QuSlVOEJnjoa4ZlL8p/yGpRXMomNlM30Jbj47
- z/826XfdUCS3t8Cg==
-Authentication-Results: smtp-out2.suse.de;
-	none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1761205867; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=ZMNp2nOpN1XxaXWWIFL4YPLeaCGKanFBJUZI99Z/v0g=;
- b=wpRNCXkMZioSnM/BRuZ8Segg7HdwttbAosM+ECful/zltkOGNtq6JjiOltm2M/T8bAlS6t
- VpfcKJh8Vlw7IrTa4VnZuYuHMOe7nuLzyM4/Vk98UH1zLa5Dl6Vd+oSf/2Uov8Ch3Na4iJ
- 2gnCg/WfF72yrUZq+QRnlE/GwMvjPOk=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1761205867;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=ZMNp2nOpN1XxaXWWIFL4YPLeaCGKanFBJUZI99Z/v0g=;
- b=yPd+PriJqShk7m9RM9linS+Zc4AmVQZdPdbxBPyApa30REinu5jtEWyIi3E8TBGuvXqWbV
- P5LmlRZW6EbXAaDg==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested)
- by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id C893E13285;
- Thu, 23 Oct 2025 07:51:06 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
- by imap1.dmz-prg2.suse.org with ESMTPSA id 94HPLmre+WhaYQAAD6G6ig
- (envelope-from <tzimmermann@suse.de>); Thu, 23 Oct 2025 07:51:06 +0000
-Message-ID: <afefc748-c466-4697-b8e6-7791b9ebbfed@suse.de>
-Date: Thu, 23 Oct 2025 09:51:06 +0200
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
+ [205.220.168.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0C4F210E032
+ for <dri-devel@lists.freedesktop.org>; Thu, 23 Oct 2025 07:54:58 +0000 (UTC)
+Received: from pps.filterd (m0279863.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 59N6mTFV010383
+ for <dri-devel@lists.freedesktop.org>; Thu, 23 Oct 2025 07:54:57 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+ cc:content-transfer-encoding:date:from:message-id:mime-version
+ :subject:to; s=qcppdkim1; bh=6Lbr2daX8xkF/1kS4qxmCLzZgVGCm7zt4oN
+ vPQplLYA=; b=CUTK7RzHp3zeSX64hdZf5pRkit27f6Fg3hvjQ6pwjahf5nJU0Q3
+ 866HSTqEP/KN7IfKDfzodGaeuNyi38HOGKfYqQ4ecalAgRy47PeSI/PkFcTHMUA0
+ 7TXNc+Mng4TqQuvTTx2xM7+CJf4d0JgPI60MrQJEeTFYjqTCxYI78Yq8op3tUkVG
+ /dDtySRATizJW21IpdsxmE+/GuVGGyLkwXuD254m4RR4RaGU8OFc5V15iorQ7EkK
+ fTFWis5TCqSgLoSvuxidR+mtX2iAaC22V2hH5bBo+YrL4N5gO0bYYX8O6bwJ/H+C
+ YuQo8M4xeo6275K29vqyip7fSC0twyy0aug==
+Received: from mail-pl1-f200.google.com (mail-pl1-f200.google.com
+ [209.85.214.200])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 49v3447k29-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
+ for <dri-devel@lists.freedesktop.org>; Thu, 23 Oct 2025 07:54:57 +0000 (GMT)
+Received: by mail-pl1-f200.google.com with SMTP id
+ d9443c01a7336-290e4fade70so4808375ad.2
+ for <dri-devel@lists.freedesktop.org>; Thu, 23 Oct 2025 00:54:57 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1761206096; x=1761810896;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=6Lbr2daX8xkF/1kS4qxmCLzZgVGCm7zt4oNvPQplLYA=;
+ b=Zbp0mdsXBHoyY08FfWzPH9GVe8jLP2sUJPoODAyjBahGAPphvyDtCC2Yk/vcGng0lv
+ PAVcWCCtq2/CiXkjDy7QwLTHF+RvlUbME/GHWHySDxfB4qGpUgrnURTb5pWHTLQXVvAk
+ 4d+5jKG49bNfqS9zCk4OSLrcfeFdG02F+i+flZzmAl+xSYD9aMth3QLY2gdfxUnPy1wE
+ u0YuvPSSCSDu/xCs/Z7mSNNpEtXzGR6IfsUrVe5A3n7NLXfAg8X3W/kEQISAgrtyhMBl
+ thp20UKWrAmRjiuJ1IqEXztJpGj70OBIhUkaS3KW6d5V3XE44buEd1pxsgSLBxkFV9Bk
+ I2vQ==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCWqmOm1N8uQq/uZ6D1iY63UNxqeuLTgs50FcFlMlG+D34HQolGYg2+wqOoB6Gb6nWLnXYkwCRLKpyk=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YwvMKtIH10L07f56Zv3n2bfUOXItQIWP5g2HNRr5MNsmx4U2IkD
+ mcn2KociE63qdNDktbcQd+X9prN8lbaCeC4aZStg2IGS5HGzhVndp8iw1Urm+ewli3N3+dGr7q8
+ leo8m232uhGBJZeQazL0Li3uAksE0pBDgZAKwV3dHUb0114E32Pt5a+CLDKYDd4zXWAPuiUY=
+X-Gm-Gg: ASbGnct2nJRA3w4gmq66nuYAvrc3vlJsDXKRXzoUP9rWflmJ1J/j30Jnrrl5L/8MN00
+ /8CL90WfzOq/WZl1gPCKkgz9Wb4gc5YWToijLmcXqCJnLhGAJ9S81pz/vyanYzxfur/SMJQRGVY
+ xHIqeW2SKDvajA3ObmT6T+3rLPyEuDRCbzqHHwgURVW5A1KA0L0ttzIaH4KMoHY2an6RC7eedg8
+ Asb2RNLQc8d6xh/HcOAUFKD6YP6AAp8M3RsoqnI0rJV6zby+jCC56nuslSy6CMAG9JKae6f67wi
+ msrbm66JGXwYYdSoOTICKZxvnUgKFEmsDvmWvgLPnd5T+IDRBFfNER4Shi0iHSAmLCGteW4BfnR
+ Oj7l0OdW1nW3JBu+Q9YjV0Pv6oKhZHCbyPo0m63Cmu3o0+x0qSw==
+X-Received: by 2002:a17:902:f78f:b0:290:af0e:1183 with SMTP id
+ d9443c01a7336-290cb65c5e7mr246510565ad.51.1761206096466; 
+ Thu, 23 Oct 2025 00:54:56 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IGXkPk3uNLjCPJhL0E9s0WI1/sscyOiEu7tjyhLUec8kdLXEBCR1sYQQ35k5N1MZj1grhg5pg==
+X-Received: by 2002:a17:902:f78f:b0:290:af0e:1183 with SMTP id
+ d9443c01a7336-290cb65c5e7mr246510135ad.51.1761206096039; 
+ Thu, 23 Oct 2025 00:54:56 -0700 (PDT)
+Received: from yuanjiey.qualcomm.com (i-global254.qualcomm.com.
+ [199.106.103.254]) by smtp.gmail.com with ESMTPSA id
+ d9443c01a7336-2946e1231b0sm14371265ad.97.2025.10.23.00.54.47
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 23 Oct 2025 00:54:55 -0700 (PDT)
+From: yuanjie yang <yuanjie.yang@oss.qualcomm.com>
+To: robin.clark@oss.qualcomm.com, lumag@kernel.org, abhinav.kumar@linux.dev,
+ sean@poorly.run, marijn.suijten@somainline.org, airlied@gmail.com,
+ simona@ffwll.ch, maarten.lankhorst@linux.intel.com, mripard@kernel.org,
+ tzimmermann@suse.de, robh@kernel.org, krzk+dt@kernel.org,
+ conor+dt@kernel.org, quic_mkrishn@quicinc.com, jonathan@marek.ca,
+ quic_khsieh@quicinc.com, neil.armstrong@linaro.org
+Cc: linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ freedreno@lists.freedesktop.org, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org, tingwei.zhang@oss.qualcomm.com,
+ aiqun.yu@oss.qualcomm.com, yongxing.mou@oss.qualcomm.com
+Subject: [PATCH 00/12] drm/msm: Add support for Kaanapali
+Date: Thu, 23 Oct 2025 15:53:49 +0800
+Message-Id: <20251023075401.1148-1-yuanjie.yang@oss.qualcomm.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3] drm/vblank: downgrade vblank wait timeout from WARN to
- error
-To: Chintan Patel <chintanlike@gmail.com>, maarten.lankhorst@linux.intel.com, 
- maxime.ripard@kernel.org, airlied@gmail.com, simona@ffwll.ch
-Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- syzbot+147ba789658184f0ce04@syzkaller.appspotmail.com
-References: <20251003032303.16518-1-chintanlike@gmail.com>
-Content-Language: en-US
-From: Thomas Zimmermann <tzimmermann@suse.de>
-Autocrypt: addr=tzimmermann@suse.de; keydata=
- xsBNBFs50uABCADEHPidWt974CaxBVbrIBwqcq/WURinJ3+2WlIrKWspiP83vfZKaXhFYsdg
- XH47fDVbPPj+d6tQrw5lPQCyqjwrCPYnq3WlIBnGPJ4/jreTL6V+qfKRDlGLWFjZcsrPJGE0
- BeB5BbqP5erN1qylK9i3gPoQjXGhpBpQYwRrEyQyjuvk+Ev0K1Jc5tVDeJAuau3TGNgah4Yc
- hdHm3bkPjz9EErV85RwvImQ1dptvx6s7xzwXTgGAsaYZsL8WCwDaTuqFa1d1jjlaxg6+tZsB
- 9GluwvIhSezPgnEmimZDkGnZRRSFiGP8yjqTjjWuf0bSj5rUnTGiyLyRZRNGcXmu6hjlABEB
- AAHNJ1Rob21hcyBaaW1tZXJtYW5uIDx0emltbWVybWFubkBzdXNlLmRlPsLAjgQTAQgAOAIb
- AwULCQgHAgYVCgkICwIEFgIDAQIeAQIXgBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftODH
- AAoJEGgNwR1TC3ojx1wH/0hKGWugiqDgLNXLRD/4TfHBEKmxIrmfu9Z5t7vwUKfwhFL6hqvo
- lXPJJKQpQ2z8+X2vZm/slsLn7J1yjrOsoJhKABDi+3QWWSGkaGwRJAdPVVyJMfJRNNNIKwVb
- U6B1BkX2XDKDGffF4TxlOpSQzdtNI/9gleOoUA8+jy8knnDYzjBNOZqLG2FuTdicBXblz0Mf
- vg41gd9kCwYXDnD91rJU8tzylXv03E75NCaTxTM+FBXPmsAVYQ4GYhhgFt8S2UWMoaaABLDe
- 7l5FdnLdDEcbmd8uLU2CaG4W2cLrUaI4jz2XbkcPQkqTQ3EB67hYkjiEE6Zy3ggOitiQGcqp
- j//OwE0EWznS4AEIAMYmP4M/V+T5RY5at/g7rUdNsLhWv1APYrh9RQefODYHrNRHUE9eosYb
- T6XMryR9hT8XlGOYRwKWwiQBoWSDiTMo/Xi29jUnn4BXfI2px2DTXwc22LKtLAgTRjP+qbU6
- 3Y0xnQN29UGDbYgyyK51DW3H0If2a3JNsheAAK+Xc9baj0LGIc8T9uiEWHBnCH+RdhgATnWW
- GKdDegUR5BkDfDg5O/FISymJBHx2Dyoklv5g4BzkgqTqwmaYzsl8UxZKvbaxq0zbehDda8lv
- hFXodNFMAgTLJlLuDYOGLK2AwbrS3Sp0AEbkpdJBb44qVlGm5bApZouHeJ/+n+7r12+lqdsA
- EQEAAcLAdgQYAQgAIAIbDBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftOH6AAoJEGgNwR1T
- C3ojVSkIALpAPkIJPQoURPb1VWjh34l0HlglmYHvZszJWTXYwavHR8+k6Baa6H7ufXNQtThR
- yIxJrQLW6rV5lm7TjhffEhxVCn37+cg0zZ3j7zIsSS0rx/aMwi6VhFJA5hfn3T0TtrijKP4A
- SAQO9xD1Zk9/61JWk8OysuIh7MXkl0fxbRKWE93XeQBhIJHQfnc+YBLprdnxR446Sh8Wn/2D
- Ya8cavuWf2zrB6cZurs048xe0UbSW5AOSo4V9M0jzYI4nZqTmPxYyXbm30Kvmz0rYVRaitYJ
- 4kyYYMhuULvrJDMjZRvaNe52tkKAvMevcGdt38H4KSVXAylqyQOW5zvPc4/sq9c=
-In-Reply-To: <20251003032303.16518-1-chintanlike@gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-Spamd-Result: default: False [-2.80 / 50.00]; BAYES_HAM(-3.00)[100.00%];
- SUSPICIOUS_RECIPS(1.50)[]; NEURAL_HAM_LONG(-1.00)[-1.000];
- NEURAL_HAM_SHORT(-0.20)[-1.000]; MIME_GOOD(-0.10)[text/plain];
- RCPT_COUNT_SEVEN(0.00)[8];
- FREEMAIL_TO(0.00)[gmail.com,linux.intel.com,kernel.org,ffwll.ch];
- ARC_NA(0.00)[]; MIME_TRACE(0.00)[0:+];
- RCVD_VIA_SMTP_AUTH(0.00)[];
- TAGGED_RCPT(0.00)[147ba789658184f0ce04];
- MID_RHS_MATCH_FROM(0.00)[]; FREEMAIL_ENVRCPT(0.00)[gmail.com];
- DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
- FROM_EQ_ENVFROM(0.00)[]; FROM_HAS_DN(0.00)[];
- TO_DN_SOME(0.00)[]; RCVD_TLS_ALL(0.00)[];
- RCVD_COUNT_TWO(0.00)[2]; TO_MATCH_ENVRCPT_ALL(0.00)[];
- DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo, suse.de:mid,
- suse.de:email]
-X-Spam-Flag: NO
-X-Spam-Score: -2.80
-X-Spam-Level: 
+X-Proofpoint-GUID: s9gVRyYebdM6_fvwhXuuwW6_0tOsWcYU
+X-Proofpoint-ORIG-GUID: s9gVRyYebdM6_fvwhXuuwW6_0tOsWcYU
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUxMDE4MDAyMyBTYWx0ZWRfX/kgEAou28jpa
+ f699CiQ9JsPQgisQYc7Lr9xzekXFJZleRIycC/BkvVdH7cTs3wFsi1CWMorZjoVLZRxGTctiaNV
+ 7j6fciKyl50WoGD312QyuecsXUj84AJfWLmwQke22XR/6UC64OHtunm6lbumdEEcay5a1C789Mz
+ /Tjwtd7OBxoNrI73je9pKq/LQVdZf0mV8RR7Gobmn/4KWHFK3l9XyzFtij3YAn7Qoiljl0dKGmr
+ FUnEQIpOsTMoXFirESwzn+boWoDsFz7sUlPcxUDPMfUf1kJ0KVNO3UVVmwm1Ky1V6kz4Bsdes0e
+ +Yg/sSufGRq2/3Cz6vYGYMgllU7OSl6xeCGaAY66WQPio+vTi8FgJH5n5boyjWvk9ZzBhGIfG8Y
+ d1/iRpRLdxARggH8QDP/qb3A3I48TQ==
+X-Authority-Analysis: v=2.4 cv=E/vAZKdl c=1 sm=1 tr=0 ts=68f9df51 cx=c_pps
+ a=IZJwPbhc+fLeJZngyXXI0A==:117 a=JYp8KDb2vCoCEuGobkYCKw==:17
+ a=x6icFKpwvdMA:10 a=VkNPw1HP01LnGYTKEx00:22 a=qC_FGOx9AAAA:8 a=EUspDBNiAAAA:8
+ a=6eNNNA5uUPZGPwET1o8A:9 a=uG9DUKGECoFWVXl0Dc02:22 a=fsdK_YakeE02zTmptMdW:22
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.9,FMLib:17.12.80.40
+ definitions=2025-10-22_08,2025-10-22_01,2025-03-28_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ impostorscore=0 spamscore=0 priorityscore=1501 bulkscore=0 suspectscore=0
+ lowpriorityscore=0 clxscore=1011 adultscore=0 phishscore=0 malwarescore=0
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.19.0-2510020000 definitions=main-2510180023
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -144,74 +124,64 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi
+From: Yuanjie Yang <yuanjie.yang@oss.qualcomm.com>
 
-Am 03.10.25 um 05:23 schrieb Chintan Patel:
-> When wait_event_timeout() in drm_wait_one_vblank() times out, the
-> current WARN can cause unnecessary kernel panics in environments
-> with panic_on_warn set (e.g. CI, fuzzing). These timeouts can happen
-> under heavy scheduling pressure or in rare cases of delayed vblank
-> handling, and are not always a kernel bug.
->
-> Replace the WARN with drm_err() messages that report the timeout
-> without crashing the system. Developers can still enable drm.debug
-> to diagnose genuine problems.
->
-> Reported-by: syzbot+147ba789658184f0ce04@syzkaller.appspotmail.com
-> Closes: https://syzkaller.appspot.com/bug?extid=147ba789658184f0ce04
-> Tested-by: syzbot+147ba789658184f0ce04@syzkaller.appspotmail.com
-> Signed-off-by: Chintan Patel <chintanlike@gmail.com>
+The Kaanapali MDSS has some differences compared to the SM8750 MDSS:
+- DSI PHY/DSI base address have some changes.
+- DPU 13.0:
+  - SSPP layout has a great change.
+  - interrupt INTF layout has some changes.
 
- From my side
+This patchset contains DSI PHY, DSI Controller, DPU & MDSS bindings
+in addition to the driver changes.
 
-Acked-by: Thomas Zimmermann <tzimmermann@suse.de>
+We have already tested the display functionality using the Kaanapali-mtp
+device on the Kaanapali branch of kernel-qcom repository.
+Test command: "modetest -r -v"
+kernel-qcom repository: https://git.codelinaro.org/clo/linux-kernel/kernel-qcom/-/tree/kaanapali
 
-See [1] for another such report
+Signed-off-by: Yongxing Mou <yongxing.mou@oss.qualcomm.com>
+Signed-off-by: Yuanjie Yang <yuanjie.yang@oss.qualcomm.com>
+---
+Yuanjie Yang (12):
+  drm/msm/dsi/phy: Add support for Kaanapali
+  drm/msm/dpu: Add support for Kaanapali DPU
+  drm/msm/dpu: Compatible with Kaanapali interrupt register
+  drm/msm/mdss: Add support for Kaanapali
+  drm/msm/dsi: Add support for Kaanapali
+  drm/msm/dpu: Add Kaanapali SSPP sub-block support
+  drm/panel: Set sufficient voltage for panel nt37801
+  arm64: defconfig: Enable NT37801 DSI panel driver
+  dt-bindings: display/msm: qcom,kaanapali-dpu: Add Kaanapali
+  dt-bindings: display/msm: dsi-phy-7nm: Add Kaanapali DSi PHY
+  dt-bindings: display/msm: dsi-controller-main: Add Kaanapali
+  dt-bindings: display/msm: qcom,kaanapali-mdss: Add Kaanapali
 
-[1] 
-https://lore.kernel.org/virtualization/202510221555.8c60c069-lkp@intel.com/T/#u
-
-If there's also a way to raise priority of the vblank timer, we should 
-explore that as well.
-
-Best regards
-Thomas
-
->
-> v2:
->   - Drop unnecessary in-code comment (suggested by Thomas Zimmermann)
->   - Remove else branch, only log timeout case
->
-> v3:
->   - Use drm_err() instead of drm_dbg_kms() (suggested by Ville Syrjälä)
->   - Remove unnecessary curr = drm_vblank_count() (suggested by Thomas Zimmermann)
->   - Fix commit message wording (“invalid userspace calls” → “delayed vblank handling”)
-> ---
->   drivers/gpu/drm/drm_vblank.c | 3 ++-
->   1 file changed, 2 insertions(+), 1 deletion(-)
->
-> diff --git a/drivers/gpu/drm/drm_vblank.c b/drivers/gpu/drm/drm_vblank.c
-> index 46f59883183d..0664aea1b924 100644
-> --- a/drivers/gpu/drm/drm_vblank.c
-> +++ b/drivers/gpu/drm/drm_vblank.c
-> @@ -1305,7 +1305,8 @@ void drm_wait_one_vblank(struct drm_device *dev, unsigned int pipe)
->   				 last != drm_vblank_count(dev, pipe),
->   				 msecs_to_jiffies(100));
->   
-> -	drm_WARN(dev, ret == 0, "vblank wait timed out on crtc %i\n", pipe);
-> +	if (!ret)
-> +		drm_err(dev, "vblank wait timed out on crtc %i\n", pipe);
->   
->   	drm_vblank_put(dev, pipe);
->   }
+ .../display/msm/dsi-controller-main.yaml      |   2 +
+ .../bindings/display/msm/dsi-phy-7nm.yaml     |   1 +
+ .../display/msm/qcom,kaanapali-mdss.yaml      | 298 +++++++++++
+ .../bindings/display/msm/qcom,sm8650-dpu.yaml |   1 +
+ arch/arm64/configs/defconfig                  |   1 +
+ .../disp/dpu1/catalog/dpu_13_0_kaanapali.h    | 492 ++++++++++++++++++
+ .../gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c    |  44 ++
+ .../gpu/drm/msm/disp/dpu1/dpu_hw_catalog.h    |  29 +-
+ .../gpu/drm/msm/disp/dpu1/dpu_hw_interrupts.c |  89 +++-
+ drivers/gpu/drm/msm/disp/dpu1/dpu_hw_sspp.c   | 474 ++++++++++++++++-
+ drivers/gpu/drm/msm/disp/dpu1/dpu_hw_util.c   |  23 +
+ drivers/gpu/drm/msm/disp/dpu1/dpu_hw_util.h   |   4 +
+ drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c       |   1 +
+ drivers/gpu/drm/msm/dsi/dsi_cfg.c             |  13 +
+ drivers/gpu/drm/msm/dsi/dsi_cfg.h             |   1 +
+ drivers/gpu/drm/msm/dsi/phy/dsi_phy.c         |   2 +
+ drivers/gpu/drm/msm/dsi/phy/dsi_phy.h         |   1 +
+ drivers/gpu/drm/msm/dsi/phy/dsi_phy_7nm.c     |  23 +
+ drivers/gpu/drm/msm/msm_mdss.c                |  22 +
+ drivers/gpu/drm/panel/panel-novatek-nt37801.c |   5 +
+ include/linux/soc/qcom/ubwc.h                 |   1 +
+ 21 files changed, 1507 insertions(+), 20 deletions(-)
+ create mode 100644 Documentation/devicetree/bindings/display/msm/qcom,kaanapali-mdss.yaml
+ create mode 100644 drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_13_0_kaanapali.h
 
 -- 
---
-Thomas Zimmermann
-Graphics Driver Developer
-SUSE Software Solutions Germany GmbH
-Frankenstrasse 146, 90461 Nuernberg, Germany
-GF: Ivo Totev, Andrew Myers, Andrew McDonald, Boudien Moerman
-HRB 36809 (AG Nuernberg)
-
+2.34.1
 
