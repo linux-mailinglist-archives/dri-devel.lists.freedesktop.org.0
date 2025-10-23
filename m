@@ -2,56 +2,68 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0D560C00442
-	for <lists+dri-devel@lfdr.de>; Thu, 23 Oct 2025 11:34:58 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id BCE65C0045D
+	for <lists+dri-devel@lfdr.de>; Thu, 23 Oct 2025 11:35:54 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DD8CC10E3AD;
-	Thu, 23 Oct 2025 09:34:55 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D5B1610E3B2;
+	Thu, 23 Oct 2025 09:35:52 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="cwq2+jfM";
+	dkim=pass (1024-bit key; unprotected) header.d=ti.com header.i=@ti.com header.b="ycYUtHe8";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9B36D10E3B1;
- Thu, 23 Oct 2025 09:34:54 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by tor.source.kernel.org (Postfix) with ESMTP id A1D416060C;
- Thu, 23 Oct 2025 09:34:53 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1858DC4CEE7;
- Thu, 23 Oct 2025 09:34:53 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1761212093;
- bh=mR+72nkRkoEc8417A483lf3aWFt2rv61itovGOouSkc=;
- h=Date:From:Cc:To:In-Reply-To:References:Subject:From;
- b=cwq2+jfM+P75EiiRBPiwHlS5M3ARNoJAG/N8ngNp1bP5L1+yEm+CEl6QFxtqVjsBt
- QkNtNd8k2W7ZiQhn0AXObfuZ/ZDFgWkwRS+9lFMbVdex6IYH+NIrX6BJy3HjQwQuft
- 4NuuY1XHMFO5eD/l7OaDzkYZYZsNYDFJrbG2EgbQ8P92w8Zj3SOzdD5ickfSZEvbe6
- NDlW5xt84pFiuc3v/i1/EfcBIbMGTjE8mHZoxOtF6SXR0V7MN0ccayfBu9gA1aKOKv
- CiAqMdPoo6zjcDc6JlqgNsfDJcP+KGCylfOs4TbVqPkkXOQ84lCcRVJFsoI5GRc4S2
- f99S155wS32YQ==
-Date: Thu, 23 Oct 2025 04:34:51 -0500
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
+Received: from fllvem-ot04.ext.ti.com (fllvem-ot04.ext.ti.com [198.47.19.246])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4FD2110E3B2
+ for <dri-devel@lists.freedesktop.org>; Thu, 23 Oct 2025 09:35:52 +0000 (UTC)
+Received: from lelvem-sh01.itg.ti.com ([10.180.77.71])
+ by fllvem-ot04.ext.ti.com (8.15.2/8.15.2) with ESMTP id 59N9Z46O495866;
+ Thu, 23 Oct 2025 04:35:04 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
+ s=ti-com-17Q1; t=1761212104;
+ bh=3BZ/Pw5p7gUSP7C6Gq7z9L0Pemml3h4TZLYNOzw8Qhc=;
+ h=Date:Subject:To:CC:References:From:In-Reply-To;
+ b=ycYUtHe89cFtfiNd7ey6DVVPRMDmkAs6MWCSrsgUsC95kjqQ1Khj/QoZYRMzlQWYe
+ OWBSfTgF9r5QvQwXvviTsfqfLg7U6o6gw+owt9LvLNNdtcr+oQrgQbBkA7RijWbS4d
+ aCGVdMICWD7lKZblaBDoxtFInUJUIgiRNwUB+1Uc=
+Received: from DFLE203.ent.ti.com (dfle203.ent.ti.com [10.64.6.61])
+ by lelvem-sh01.itg.ti.com (8.18.1/8.18.1) with ESMTPS id 59N9Z3XD2614512
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=FAIL);
+ Thu, 23 Oct 2025 04:35:03 -0500
+Received: from DFLE215.ent.ti.com (10.64.6.73) by DFLE203.ent.ti.com
+ (10.64.6.61) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.20; Thu, 23 Oct
+ 2025 04:35:03 -0500
+Received: from lelvem-mr05.itg.ti.com (10.180.75.9) by DFLE215.ent.ti.com
+ (10.64.6.73) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.20 via Frontend
+ Transport; Thu, 23 Oct 2025 04:35:03 -0500
+Received: from [172.24.18.185] (lt9560gk3.dhcp.ti.com [172.24.18.185])
+ by lelvem-mr05.itg.ti.com (8.18.1/8.18.1) with ESMTP id 59N9Yua52645085;
+ Thu, 23 Oct 2025 04:34:56 -0500
+Message-ID: <f8285b3a-fe38-4f7b-aada-abbae105ab98@ti.com>
+Date: Thu, 23 Oct 2025 15:04:55 +0530
 MIME-Version: 1.0
-From: "Rob Herring (Arm)" <robh@kernel.org>
-Cc: dri-devel@lists.freedesktop.org, mripard@kernel.org, 
- linux-kernel@vger.kernel.org, aiqun.yu@oss.qualcomm.com, 
- marijn.suijten@somainline.org, abhinav.kumar@linux.dev, simona@ffwll.ch, 
- devicetree@vger.kernel.org, tingwei.zhang@oss.qualcomm.com, 
- krzk+dt@kernel.org, freedreno@lists.freedesktop.org, 
- neil.armstrong@linaro.org, quic_mkrishn@quicinc.com, 
- linux-arm-msm@vger.kernel.org, lumag@kernel.org, airlied@gmail.com, 
- sean@poorly.run, maarten.lankhorst@linux.intel.com, tzimmermann@suse.de, 
- jonathan@marek.ca, robin.clark@oss.qualcomm.com, quic_khsieh@quicinc.com, 
- conor+dt@kernel.org, yongxing.mou@oss.qualcomm.com
-To: yuanjie yang <yuanjie.yang@oss.qualcomm.com>
-In-Reply-To: <20251023081736.1251-1-yuanjie.yang@oss.qualcomm.com>
-References: <20251023075401.1148-1-yuanjie.yang@oss.qualcomm.com>
- <20251023081736.1251-1-yuanjie.yang@oss.qualcomm.com>
-Message-Id: <176121209123.1694835.2815069098750745260.robh@kernel.org>
-Subject: Re: [PATCH 12/12] dt-bindings: display/msm: qcom,kaanapali-mdss:
- Add Kaanapali
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH net-next v3 0/6] Add AF_XDP zero copy support
+To: Jakub Kicinski <kuba@kernel.org>
+CC: <horms@kernel.org>, <namcao@linutronix.de>, <jacob.e.keller@intel.com>,
+ <christian.koenig@amd.com>, <sumit.semwal@linaro.org>,
+ <sdf@fomichev.me>, <john.fastabend@gmail.com>, <hawk@kernel.org>,
+ <daniel@iogearbox.net>, <ast@kernel.org>, <pabeni@redhat.com>,
+ <edumazet@google.com>, <davem@davemloft.net>, <andrew+netdev@lunn.ch>,
+ <linaro-mm-sig@lists.linaro.org>, <dri-devel@lists.freedesktop.org>,
+ <linux-media@vger.kernel.org>, <bpf@vger.kernel.org>,
+ <linux-kernel@vger.kernel.org>, <netdev@vger.kernel.org>,
+ <linux-arm-kernel@lists.infradead.org>, <srk@ti.com>, Vignesh Raghavendra
+ <vigneshr@ti.com>, Roger Quadros <rogerq@kernel.org>, <danishanwar@ti.com>
+References: <20251014105613.2808674-1-m-malladi@ti.com>
+ <20251020174308.59b87130@kernel.org>
+Content-Language: en-US
+From: "Malladi, Meghana" <m-malladi@ti.com>
+In-Reply-To: <20251020174308.59b87130@kernel.org>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 7bit
+X-C2ProcessedOrg: 333ef613-75bf-4e12-a4b1-8e3623f5dcea
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -68,47 +80,26 @@ Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
-On Thu, 23 Oct 2025 16:17:36 +0800, yuanjie yang wrote:
-> From: Yuanjie Yang <yuanjie.yang@oss.qualcomm.com>
+
+On 10/21/2025 6:13 AM, Jakub Kicinski wrote:
+> On Tue, 14 Oct 2025 16:26:06 +0530 Meghana Malladi wrote:
+>> This series adds AF_XDP zero coppy support to icssg driver.
+>>
+>> Tests were performed on AM64x-EVM with xdpsock application [1].
+>>
+>> A clear improvement is seen Transmit (txonly) and receive (rxdrop)
+>> for 64 byte packets. 1500 byte test seems to be limited by line
+>> rate (1G link) so no improvement seen there in packet rate
+>>
+>> Having some issue with l2fwd as the benchmarking numbers show 0
+>> for 64 byte packets after forwading first batch packets and I am
+>> currently looking into it.
 > 
-> Add MDSS/MDP display subsystem for Qualcomm Kaanapali.
-> 
-> Signed-off-by: Yongxing Mou <yongxing.mou@oss.qualcomm.com>
-> Signed-off-by: Yuanjie Yang <yuanjie.yang@oss.qualcomm.com>
-> ---
->  .../display/msm/qcom,kaanapali-mdss.yaml      | 298 ++++++++++++++++++
->  1 file changed, 298 insertions(+)
->  create mode 100644 Documentation/devicetree/bindings/display/msm/qcom,kaanapali-mdss.yaml
-> 
+> This series stopped applying, could you please respin?
 
-My bot found errors running 'make dt_binding_check' on your patch:
+Yes, Thanks for the heads up.
 
-yamllint warnings/errors:
-
-dtschema/dtc warnings/errors:
-Documentation/devicetree/bindings/display/msm/qcom,kaanapali-mdss.example.dts:26:18: fatal error: dt-bindings/interconnect/qcom,kaanapali-rpmh.h: No such file or directory
-   26 |         #include <dt-bindings/interconnect/qcom,kaanapali-rpmh.h>
-      |                  ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-compilation terminated.
-make[2]: *** [scripts/Makefile.dtbs:132: Documentation/devicetree/bindings/display/msm/qcom,kaanapali-mdss.example.dtb] Error 1
-make[2]: *** Waiting for unfinished jobs....
-make[1]: *** [/builds/robherring/dt-review-ci/linux/Makefile:1528: dt_binding_check] Error 2
-make: *** [Makefile:248: __sub-make] Error 2
-
-doc reference errors (make refcheckdocs):
-
-See https://patchwork.ozlabs.org/project/devicetree-bindings/patch/20251023081736.1251-1-yuanjie.yang@oss.qualcomm.com
-
-The base for the series is generally the latest rc1. A different dependency
-should be noted in *this* patch.
-
-If you already ran 'make dt_binding_check' and didn't see the above
-error(s), then make sure 'yamllint' is installed and dt-schema is up to
-date:
-
-pip3 install dtschema --upgrade
-
-Please check and re-submit after running the above command yourself. Note
-that DT_SCHEMA_FILES can be set to your schema file to speed up checking
-your schema. However, it must be unset to test all examples with your schema.
+-- 
+Thanks,
+Meghana Malladi
 
