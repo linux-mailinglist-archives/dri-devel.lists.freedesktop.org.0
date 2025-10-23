@@ -2,34 +2,34 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6C818C01C4E
-	for <lists+dri-devel@lfdr.de>; Thu, 23 Oct 2025 16:30:46 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 084C7C01C56
+	for <lists+dri-devel@lfdr.de>; Thu, 23 Oct 2025 16:30:50 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1AE6010E906;
-	Thu, 23 Oct 2025 14:30:41 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B095E10E907;
+	Thu, 23 Oct 2025 14:30:45 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="cEhlRY9W";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="oaoMS5IW";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from sea.source.kernel.org (sea.source.kernel.org [172.234.252.31])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 683DD10E906
- for <dri-devel@lists.freedesktop.org>; Thu, 23 Oct 2025 14:30:39 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2238E10E907
+ for <dri-devel@lists.freedesktop.org>; Thu, 23 Oct 2025 14:30:42 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by sea.source.kernel.org (Postfix) with ESMTP id 11FA74AECE;
+ by sea.source.kernel.org (Postfix) with ESMTP id 0AD074AED7;
+ Thu, 23 Oct 2025 14:30:42 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7B0F4C4CEF7;
  Thu, 23 Oct 2025 14:30:39 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 69BA5C4CEF7;
- Thu, 23 Oct 2025 14:30:36 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1761229838;
- bh=8jWBZymH5QTt8c150L0evYjJSEI+8ji+eHa5bEcksMA=;
- h=From:To:Cc:Subject:Date:From;
- b=cEhlRY9W8CMoBk0eV/tNP9c2hNrAN096x+IHo5GrduYd6HotQae8LG1Hj/VeKVfoZ
- Fd09cm5dcFEk39eVzxRGWCcRwylvZdXHHbYBuRki1qK1GrLeqMvwJa1Gk1xabESEnM
- TeFd6DqMmPU4FTn5OFGDZGbdehdCAlFLGekTmld2f2vlofbjpa0mj1gwVh3LGXo1q0
- 0B5dcpLsR0cTmuPr8NMXQvG8G7Fz19gKgO0DeXHusa28AKmJo1j/3k3Z7eSr5RZIj5
- oqmS4k6CY0HokqQrlNOZOnM3Yl+UwkpKxdi3f1QUHJPOEXXJ0oAB7wV1H2ReDigN+C
- CyZ6GYeAtL27Q==
+ s=k20201202; t=1761229841;
+ bh=KKelnfCVSkqGfD/vx5rJBlReymKdSnPUEgmqAjBvnWQ=;
+ h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+ b=oaoMS5IWKn09HH1Iw8y4mS8NYzgZ+j+8ai1+ykb2cuEA9dKN6TRAp34bmiSZ2foYZ
+ kvkUd4x46kK5ITscsZGS2nxjTxYCWiPW3b0/sdQaV7PS4o0mNjyj8V+S75fOnRPIwl
+ GTlqompY+aSI5A+7rMfU41iuuW7epavWKCxwTTbKfNFqD/vOSHncyIAKZpH0l/cSWC
+ QbyNgQXgUn2gnnQz74o5cstNQJNrghrCGRNNdUB+oBspT3tPnSWsjtEjAi8oQKzhKG
+ SnjxNRRdQor6OV1otmPBktZvUruprJCzj7DIj4iLuPnf2YRjW3Fem69jfPoHdZM9i2
+ 1qX1nAqqb7Idg==
 From: Philipp Stanner <phasta@kernel.org>
 To: Matthew Brost <matthew.brost@intel.com>,
  Danilo Krummrich <dakr@kernel.org>, Philipp Stanner <phasta@kernel.org>,
@@ -38,10 +38,12 @@ To: Matthew Brost <matthew.brost@intel.com>,
  Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
 Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
  linux-media@vger.kernel.org
-Subject: [PATCH v2 0/4] Add TODO list (+ small docu change)
-Date: Thu, 23 Oct 2025 16:30:27 +0200
-Message-ID: <20251023143031.149496-2-phasta@kernel.org>
+Subject: [PATCH v2 1/4] drm/sched: Remove out of place resubmit docu
+Date: Thu, 23 Oct 2025 16:30:28 +0200
+Message-ID: <20251023143031.149496-3-phasta@kernel.org>
 X-Mailer: git-send-email 2.49.0
+In-Reply-To: <20251023143031.149496-2-phasta@kernel.org>
+References: <20251023143031.149496-2-phasta@kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -59,23 +61,44 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-drm_sched has so many problems that we should have our own TODO list for
-contributors who might wanna help.
+The documentation for drm_sched_backend_ops.run_job() details that that
+callback can be invoked multiple times by the deprecated function
+drm_sched_resubmit_jobs(). It also contains an unresolved TODO.
 
-Changes in v2:
-  - Add generic TODO list example that can stay in the file forever.
+It is not useful to document side effects of a different, deprecated
+function in the docu of run_job(): Existing users won't re-evaluate
+their usage  of the deprecated function by reading the non-deprecated
+one, and new users must not use the deprecated function in the first
+place.
 
-Philipp Stanner (4):
-  drm/sched: Remove out of place resubmit docu
-  drm/sched: Add a TODO list
-  drm/sched: Add TODO entry for resubmitting jobs
-  drm/sched: Add TODO entry for missing runqueue locks
+Remove the out of place documentation.
 
- drivers/gpu/drm/scheduler/TODO | 51 ++++++++++++++++++++++++++++++++++
- include/drm/gpu_scheduler.h    | 10 -------
- 2 files changed, 51 insertions(+), 10 deletions(-)
- create mode 100644 drivers/gpu/drm/scheduler/TODO
+Signed-off-by: Philipp Stanner <phasta@kernel.org>
+---
+ include/drm/gpu_scheduler.h | 10 ----------
+ 1 file changed, 10 deletions(-)
 
+diff --git a/include/drm/gpu_scheduler.h b/include/drm/gpu_scheduler.h
+index fb88301b3c45..9c629bbc0684 100644
+--- a/include/drm/gpu_scheduler.h
++++ b/include/drm/gpu_scheduler.h
+@@ -429,16 +429,6 @@ struct drm_sched_backend_ops {
+ 	 *
+ 	 * @sched_job: the job to run
+ 	 *
+-	 * The deprecated drm_sched_resubmit_jobs() (called by &struct
+-	 * drm_sched_backend_ops.timedout_job) can invoke this again with the
+-	 * same parameters. Using this is discouraged because it violates
+-	 * dma_fence rules, notably dma_fence_init() has to be called on
+-	 * already initialized fences for a second time. Moreover, this is
+-	 * dangerous because attempts to allocate memory might deadlock with
+-	 * memory management code waiting for the reset to complete.
+-	 *
+-	 * TODO: Document what drivers should do / use instead.
+-	 *
+ 	 * This method is called in a workqueue context - either from the
+ 	 * submit_wq the driver passed through drm_sched_init(), or, if the
+ 	 * driver passed NULL, a separate, ordered workqueue the scheduler
 -- 
 2.49.0
 
