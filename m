@@ -2,69 +2,57 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A3D9FC018AC
-	for <lists+dri-devel@lfdr.de>; Thu, 23 Oct 2025 15:52:06 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id DA0FBC0192D
+	for <lists+dri-devel@lfdr.de>; Thu, 23 Oct 2025 15:55:33 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id F3C2C10E0EA;
-	Thu, 23 Oct 2025 13:52:02 +0000 (UTC)
-Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="hcs0H9U+";
-	dkim-atps=neutral
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1112510E103;
+	Thu, 23 Oct 2025 13:55:31 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sea.source.kernel.org (sea.source.kernel.org [172.234.252.31])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4FC0910E04F
- for <dri-devel@lists.freedesktop.org>; Thu, 23 Oct 2025 13:52:02 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by sea.source.kernel.org (Postfix) with ESMTP id D69304ADE8;
- Thu, 23 Oct 2025 13:52:01 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 75F27C4CEE7;
- Thu, 23 Oct 2025 13:52:01 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1761227521;
- bh=TWwofATN6dvQVTmREPrumFtc6Yhov/qqrLEWPdQ7VWE=;
- h=Date:From:Cc:To:In-Reply-To:References:Subject:From;
- b=hcs0H9U+drZ+VNqvF8U2Kwq99Ui2p5nNjKuA91WsZov1i+kBVl15EzTLyENXbDfpA
- 56XoQ1X/1q03SzYaSQiYpOwwZvjFOoZAzE6FSZnLcc6db2TSHgvBGK6QtRgt8H8EcE
- tuuGj5sgNBdB5BmEyS1B6Zqop51UlsuJ8CMLAeD7eJvVELWZ+iKHvvwbmVyOI7THOK
- K0Fzt4YWNJC/T/oD4fe8Z23CrrXGLdAfwIp0Nxou9fKSNavi4eY28G3iKbmzqVqBPR
- o1lrvAKsHFctSr6lXXhtW/RhGaNy4jIQ6mqQMe6y+LO9L2nuIZ4DXl1y8j7JvToFgj
- PeTB9MTrUNjHA==
-Date: Thu, 23 Oct 2025 08:52:00 -0500
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+ by gabe.freedesktop.org (Postfix) with ESMTP id D15B410E103;
+ Thu, 23 Oct 2025 13:55:29 +0000 (UTC)
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+ by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 1DC531516;
+ Thu, 23 Oct 2025 06:55:21 -0700 (PDT)
+Received: from arm.com (usa-sjc-imap-foss1.foss.arm.com [10.121.207.14])
+ by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 59CF03F59E;
+ Thu, 23 Oct 2025 06:55:21 -0700 (PDT)
+Date: Thu, 23 Oct 2025 15:55:15 +0200
+From: Beata Michalska <beata.michalska@arm.com>
+To: Joel Fernandes <joelagnelf@nvidia.com>
+Cc: "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+ "rust-for-linux@vger.kernel.org" <rust-for-linux@vger.kernel.org>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+ "dakr@kernel.org" <dakr@kernel.org>,
+ Alexandre Courbot <acourbot@nvidia.com>,
+ Alistair Popple <apopple@nvidia.com>, Miguel Ojeda <ojeda@kernel.org>,
+ Alex Gaynor <alex.gaynor@gmail.com>,
+ Boqun Feng <boqun.feng@gmail.com>, Gary Guo <gary@garyguo.net>,
+ "bjorn3_gh@protonmail.com" <bjorn3_gh@protonmail.com>,
+ Benno Lossin <lossin@kernel.org>, Andreas Hindborg <a.hindborg@kernel.org>,
+ Alice Ryhl <aliceryhl@google.com>, Trevor Gross <tmgross@umich.edu>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ John Hubbard <jhubbard@nvidia.com>, Timur Tabi <ttabi@nvidia.com>,
+ "joel@joelfernandes.org" <joel@joelfernandes.org>,
+ Elle Rhumsaa <elle@weathered-steel.dev>, Yury Norov <yury.norov@gmail.com>,
+ Daniel Almeida <daniel.almeida@collabora.com>,
+ Andrea Righi <arighi@nvidia.com>,
+ "nouveau@lists.freedesktop.org" <nouveau@lists.freedesktop.org>
+Subject: Re: [PATCH v6 4/5] rust: Move register and bitfield macros out of Nova
+Message-ID: <aPozw8TGp85YdmNU@arm.com>
+References: <20251003154748.1687160-1-joelagnelf@nvidia.com>
+ <20251003154748.1687160-5-joelagnelf@nvidia.com>
+ <aPklNydcTdOeXtdU@arm.com>
+ <ACAA327A-AE2B-4D21-B8C5-C66BB5E09B7C@nvidia.com>
 MIME-Version: 1.0
-From: "Rob Herring (Arm)" <robh@kernel.org>
-Cc: Robert Foss <rfoss@kernel.org>, Maxime Ripard <mripard@kernel.org>, 
- Peter Robinson <pbrobinson@gmail.com>, 
- Heikki Krogerus <heikki.krogerus@linux.intel.com>, 
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
- Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>, 
- Andy Yan <andy.yan@rock-chips.com>, Jonas Karlman <jonas@kwiboo.se>, 
- Diederik de Haas <didi.debian@cknow.org>, David Airlie <airlied@gmail.com>, 
- Amit Sunil Dhamne <amitsd@google.com>, 
- Neil Armstrong <neil.armstrong@linaro.org>, 
- Chaoyi Chen <chaoyi.chen@rock-chips.com>, 
- Krzysztof Kozlowski <krzk+dt@kernel.org>, 
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
- Johan Jonker <jbx6244@gmail.com>, 
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>, 
- Jernej Skrabec <jernej.skrabec@gmail.com>, 
- Thomas Zimmermann <tzimmermann@suse.de>, Simona Vetter <simona@ffwll.ch>, 
- linux-arm-kernel@lists.infradead.org, Sandy Huang <hjc@rock-chips.com>, 
- linux-rockchip@lists.infradead.org, 
- Kishon Vijay Abraham I <kishon@kernel.org>, devicetree@vger.kernel.org, 
- Frank Wang <frank.wang@rock-chips.com>, linux-phy@lists.infradead.org, 
- Vinod Koul <vkoul@kernel.org>, Yubing Zhang <yubing.zhang@rock-chips.com>, 
- linux-usb@vger.kernel.org, Heiko Stuebner <heiko@sntech.de>, 
- Andrzej Hajda <andrzej.hajda@intel.com>, Dragan Simic <dsimic@manjaro.org>, 
- Conor Dooley <conor+dt@kernel.org>, dri-devel@lists.freedesktop.org, 
- linux-kernel@vger.kernel.org
-To: Chaoyi Chen <kernel@airkyi.com>
-In-Reply-To: <20251023033009.90-1-kernel@airkyi.com>
-References: <20251023033009.90-1-kernel@airkyi.com>
-Message-Id: <176122700874.2723312.9950829312401281316.robh@kernel.org>
-Subject: Re: [PATCH v7 0/9] Add Type-C DP support for RK3399 EVB IND board
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <ACAA327A-AE2B-4D21-B8C5-C66BB5E09B7C@nvidia.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -80,202 +68,630 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+On Wed, Oct 22, 2025 at 07:37:55PM +0000, Joel Fernandes wrote:
+> Hi Beata,
+> 
+> > On Oct 22, 2025, at 2:41 PM, Beata Michalska <beata.michalska@arm.com> wrote:
+> > 
+> > ﻿Hi Joel,
+> > 
+> > I know I'm chiming in a bit late, so apologies for that.
+> 
+> No problem.
+> 
+> > 
+> > The register! macro does seem to be a solid foundation for MMIO register
+> > definitions, thought there are few points that could be potentially
+> > [re]considered.
+> 
+> I agree. Just to clarify, Alexandre is the main developer of the register macro. I just
+> attempted to move the code and made some improvements :). I replied below:
+> 
+> > 
+> > The current design assumes a fixed, compile-time-known MMIO region size.
+> > It does not cover cases when the region size is known only at runtime.
+> > I do appreciate that in cases like that, we are loosing all the deliberate
+> > compile-time checks but it might be necessary to provide support for those as
+> > well (at some point at least).
+> 
+> Sure that could be useful if you have a use case.
+I guess everything that would use IoRequest::iomap(self), which generates
+Io<SIZE=0> which is a game over for the macro.
+> 
+> > 
+> > On the (potential) improvement side:
+> > 
+> > Allowing offsets to be expressions rather than literals would make the macro
+> > easier to use for regions defined at a fixed base offset, where subsequent
+> > offsets are derived from that base, i.e:
+> > 
+> > REG_1_BASE    -> 0x100
+> > REG_1_STATUS    -> REG_1_BASE + 0x0
+> > REG_1_CONTROL    -> REG_1_BASE + 0x04
+> 
+> This is already possible with the register macro using relative-registers (RegisterBase) right?
+Probably though the use case I had in mind is relative array of registers.
+It's fine to use the macro as is for few registers, having a significant number
+of those gets cumbersome though. Unless I am misreading things.
+> 
+> > ...
+> > 
+> > The alias mechanism is a nice touch. It might be worth allowing arrays of
+> > registers with explicit aliases to be defined in a single macro invocation,
+> > instead of repeating similar definitions, smth along the lines of:
+> > 
+> >  register!(
+> >      REG_STATUS @ 0x300[8; STRIDE] {
+> >          0:0 enabled as bool;
+> >          3:1 mode as u8;
+> >          7:4 flags as u8;
+> >      }
+> >      aliases {
+> >          REG_STATUS_ENABLED[0] {
+> >              0:0 enabled as bool;
+> >          }
+> >          REG_STATUS_MODE[0] {
+> >              3:1 mode as u8;
+> >          }
+> >          REG_STATUS_FLAGS[4] {
+> >              7:4 flags as u8;
+> >          }
+> >      }
+> 
+> The aliasing might be better do embed as syntax in the Bitfield itself,
+> instead of additional aliases{} blocks.
+> By the way, array of registers is also supported already as you may know.
+I was referring to aliasing having in mind array of registers.
 
-On Thu, 23 Oct 2025 11:30:00 +0800, Chaoyi Chen wrote:
-> From: Chaoyi Chen <chaoyi.chen@rock-chips.com>
 > 
-> This series focuses on adding Type-C DP support for USBDP PHY and DP
-> driver. The USBDP PHY and DP will perceive the changes in cable status
-> based on the USB PD and Type-C state machines provided by TCPM. Before
-> this, the USBDP PHY and DP controller of RK3399 sensed cable state
-> changes through extcon, and devices such as the RK3399 Gru-Chromebook
-> rely on them. This series should not break them.
+> >  );
+> > 
+> > 
+> > Finally, for runtime values such as indexes, it could be useful to verify once
+> > and then allow infallible reads/writes through some kind access token.
 > 
-> ====
-> 1. DisplayPort HPD status notify
-> 
-> Before v7, I implemented a variety of DP HPD status notify. However,
-> they all had various problems and it was difficult to become a generic
-> solution.
-> 
-> Under the guidance of Heikki and Dmitry, a decoupled notification
-> method between the TypeC and DRM subsystems was introduced in v7.
-> First, a notification is sent when TypeC registers a new altmode.
-> Then, a generic DP AUX HPD bridge is implemented on the DRM side.
-> 
-> That makes it redundant for each Type-C controller driver to implement
-> a similar DP AUX HPD bridge in embedded scenarios.
-> 
-> ====
-> 2. Altmode switching and orientation switching for USBDP PHY
-> 
-> For USB Type-C interfaces, an external Type-C controller chip assists
-> by detecting cable attachment, determining plug orientation, and
-> reporting USB PD message. The USB/DP combo PHY supports software
-> configurable pin mapping and DisplayPort lane assignment. Based on
-> these message, the combo PHY can perform both altmode switching and
-> orientation switching via software.
-> 
-> The RK3399 EVB IND board has a Type-C interface DisplayPort. It use
-> fusb302 chip as Type-C controller. The connection diagram is shown below:
-> 
-> fusb302 chip +---> USB2.0 PHY ----> DWC3 USB controller
->              |
->              +---> USB/DP PHY0 +--> CDN-DP controller
->                                |
->                                +--> DWC3 USB controller
-> 
-> ====
-> 3. Multiple bridge model for RK3399 CDN-DP
-> 
-> The RK3399 has two USB/DP combo PHY and one CDN-DP controller. And
-> the CDN-DP can be switched to output to one of the PHYs.
-> 
-> USB/DP PHY0 ---+
->                | <----> CDN-DP controller
-> USB/DP PHY1 ---+
-> 
-> In previous versions, if both PHY ports were connected to DP,
-> the CDN-DP driver would select the first PHY port for output.
-> 
-> On Dmitry's suggestion, we introduced a multi-bridge model to support
-> flexible selection of the output PHY port. For each PHY port, a
-> separate encoder and bridge are registered.
-> 
-> The change is based on the DRM AUX HPD bridge, rather than the
-> extcon approach. This requires the DT to correctly describe the
-> connections between the first bridge in bridge chain and DP
-> controller. And Once the first bridge is obtained, we can get the
-> last bridge corresponding to the USB-C connector, and then set the
-> DRM connector's fwnode to the corresponding one to enable HPD
-> notification.
-> 
-> ====
-> Patch1 add notifier functions for Type-C core.
-> Patch2 add generic USB Type-C DP HPD bridge.
-> Patch3 add new Type-C mode switch for RK3399 USBDP phy binding.
-> Patch4 add typec_mux and typec_switch for RK3399 USBDP PHY.
-> Patch5 add DRM AUX bridge support for RK3399 USBDP PHY.
-> Patch6 drops CDN-DP's extcon dependency when Type-C is present.
-> Patch7 add multiple bridges to support PHY port selection.
-> Patch8 add missing dp_out port for RK3399 CDN-DP.
-> Patch9 add Type-C DP support for RK3399 EVB IND board.
-> 
-> Changes in v7:
-> - Link to V6: https://lore.kernel.org/all/20251016022741.91-1-kernel@airkyi.com/
-> - Add notifier functions for Type-C core.
-> - Add generic USB Type-C DP HPD bridge.
-> 
-> Changes in v6:
-> - Link to V5: https://lore.kernel.org/all/20251011033233.97-1-kernel@airkyi.com/
-> - Fix depend in Kconfig.
-> - Check DP svid in tcphy_typec_mux_set().
-> - Remove mode setting in tcphy_orien_sw_set().
-> - Rename some variable names.
-> - Attach the DP bridge to the next bridge.
-> 
-> Changes in v5:
-> - Link to V4: https://lore.kernel.org/all/20250922012039.323-1-kernel@airkyi.com/
-> - Remove the calls related to `drm_aux_hpd_bridge_notify()`.
-> - Place the helper functions in the same compilation unit.
-> - Add more comments about parent device.
-> - Add DRM AUX bridge support for RK3399 USBDP PHY
-> - By parsing the HPD bridge chain, set the connector's of_node to the
-> of_node corresponding to the USB-C connector.
-> - Return EDID cache when other port is already enabled.
-> 
-> Changes in v4:
-> - Link to V3: https://lore.kernel.org/all/20250729090032.97-1-kernel@airkyi.com/
-> - Add default HPD device for DisplayPort altmode.
-> - Introduce multiple bridges for CDN-DP.
-> - ...
-> 
-> Changes in v3:
-> - Link to V2: https://lore.kernel.org/all/20250718062619.99-1-kernel@airkyi.com/
-> - Add more descriptions to clarify the role of the PHY in switching.
-> - Fix wrong vdo value.
-> - Fix port node in usb-c-connector.
-> 
-> Changes in v2:
-> - Link to V1: https://lore.kernel.org/all/20250715112456.101-1-kernel@airkyi.com/
-> - Reuse dp-port/usb3-port in rk3399-typec-phy binding.
-> - Fix compile error when CONFIG_TYPEC is not enabled.
-> - Notify DP HPD state by USB/DP PHY.
-> - Ignore duplicate HPD events.
-> - Add endpoint to link DP PHY and DP controller.
-> - Fix devicetree coding style.
-> 
-> Chaoyi Chen (9):
->   usb: typec: Add notifier functions
->   drm/bridge: Implement generic USB Type-C DP HPD bridge
->   dt-bindings: phy: rockchip: rk3399-typec-phy: Support mode-switch
->   phy: rockchip: phy-rockchip-typec: Add typec_mux/typec_switch support
->   phy: rockchip: phy-rockchip-typec: Add DRM AUX bridge
->   drm/rockchip: cdn-dp: Support handle lane info without extcon
->   drm/rockchip: cdn-dp: Add multiple bridges to support PHY port
->     selection
->   arm64: dts: rockchip: Add missing dp_out port for RK3399 CDN-DP
->   arm64: dts: rockchip: rk3399-evb-ind: Add support for DisplayPort
-> 
->  .../phy/rockchip,rk3399-typec-phy.yaml        |   6 +
->  arch/arm64/boot/dts/rockchip/rk3399-base.dtsi |  10 +-
->  .../boot/dts/rockchip/rk3399-evb-ind.dts      | 146 ++++++
->  drivers/gpu/drm/bridge/Kconfig                |  11 +
->  drivers/gpu/drm/bridge/Makefile               |   1 +
->  .../gpu/drm/bridge/aux-hpd-typec-dp-bridge.c  |  51 +++
->  drivers/gpu/drm/rockchip/cdn-dp-core.c        | 354 ++++++++++++---
->  drivers/gpu/drm/rockchip/cdn-dp-core.h        |  24 +-
->  drivers/phy/rockchip/Kconfig                  |   3 +
->  drivers/phy/rockchip/phy-rockchip-typec.c     | 420 +++++++++++++++++-
->  drivers/usb/typec/Makefile                    |   2 +-
->  drivers/usb/typec/class.c                     |   3 +
->  drivers/usb/typec/notify.c                    |  22 +
->  include/linux/usb/typec_notify.h              |  17 +
->  14 files changed, 987 insertions(+), 83 deletions(-)
->  create mode 100644 drivers/gpu/drm/bridge/aux-hpd-typec-dp-bridge.c
->  create mode 100644 drivers/usb/typec/notify.c
->  create mode 100644 include/linux/usb/typec_notify.h
-> 
-> --
-> 2.49.0
-> 
-> 
-> 
+> Why? The verification is already done at compile-time AFAICS.
+Well, that's the point. Those are runtime values, and as of now, the only
+support for those is for arrays of registers when one, when using try_xxx
+methods, ends up with check being performed each time the method is called.
 
-
-My bot found new DTB warnings on the .dts files added or changed in this
-series.
-
-Some warnings may be from an existing SoC .dtsi. Or perhaps the warnings
-are fixed by another series. Ultimately, it is up to the platform
-maintainer whether these warnings are acceptable or not. No need to reply
-unless the platform maintainer has comments.
-
-If you already ran DT checks and didn't see these error(s), then
-make sure dt-schema is up to date:
-
-  pip3 install dtschema --upgrade
-
-
-This patch series was applied (using b4) to base:
- Base: attempting to guess base-commit...
- Base: tags/v6.18-rc1-18-g924aa1d9e0ae (best guess, 9/11 blobs matched)
- Base: tags/v6.18-rc1-18-g924aa1d9e0ae (use --merge-base to override)
-
-If this is not the correct base, please add 'base-commit' tag
-(or use b4 which does this automatically)
-
-New warnings running 'make CHECK_DTBS=y for arch/arm64/boot/dts/rockchip/' for 20251023033009.90-1-kernel@airkyi.com:
-
-arch/arm64/boot/dts/rockchip/rk3399-evb-ind.dtb: syscon@ff770000 (rockchip,rk3399-grf): usb2phy@e450: 'port' does not match any of the regexes: '^pinctrl-[0-9]+$'
-	from schema $id: http://devicetree.org/schemas/soc/rockchip/grf.yaml
-arch/arm64/boot/dts/rockchip/rk3399-evb-ind.dtb: syscon@ff770000 (rockchip,rk3399-grf): usb2phy@e450: Unevaluated properties are not allowed ('port' was unexpected)
-	from schema $id: http://devicetree.org/schemas/soc/rockchip/grf.yaml
-arch/arm64/boot/dts/rockchip/rk3399-evb-ind.dtb: usb2phy@e450 (rockchip,rk3399-usb2phy): 'port' does not match any of the regexes: '^pinctrl-[0-9]+$'
-	from schema $id: http://devicetree.org/schemas/phy/rockchip,inno-usb2phy.yaml
-arch/arm64/boot/dts/rockchip/rk3399-evb-ind.dtb: /sound: failed to match any schema with compatible: ['rockchip,rk3399-gru-sound']
-
-
-
-
-
+---
+BR
+Beata
+> 
+> > That might make runtime-safe access patterns simpler and more efficient.
+> 
+> Because it is compile-time, it is already runtime efficient :)
+> 
+> > I'm still pondering on how that could look like though (implementation-wise)
+> 
+> Patches welcomed! For now this still lives in nova-core and Alex is working
+> on adding support for BoundedInt after which we can move it out.
+> 
+> Thanks,
+> 
+>  - Joel
+> 
+> 
+> > ---
+> > BR
+> > Beata
+> > 
+> >> On Fri, Oct 03, 2025 at 11:47:47AM -0400, Joel Fernandes wrote:
+> >> Out of broad need for the register and bitfield macros in Rust, move
+> >> them out of nova into the kernel crate. Several usecases need them (Nova
+> >> is already using these and Tyr developers said they need them).
+> >> 
+> >> bitfield moved into kernel crate - defines bitfields in Rust.
+> >> register moved into io module - defines hardware registers and accessors.
+> >> 
+> >> Reviewed-by: Alexandre Courbot <acourbot@nvidia.com>
+> >> Reviewed-by: Elle Rhumsaa <elle@weathered-steel.dev>
+> >> Signed-off-by: Joel Fernandes <joelagnelf@nvidia.com>
+> >> ---
+> >> drivers/gpu/nova-core/falcon.rs               |  2 +-
+> >> drivers/gpu/nova-core/falcon/gsp.rs           |  4 +-
+> >> drivers/gpu/nova-core/falcon/sec2.rs          |  2 +-
+> >> drivers/gpu/nova-core/nova_core.rs            |  3 -
+> >> drivers/gpu/nova-core/regs.rs                 |  6 +-
+> >> .../gpu/nova-core => rust/kernel}/bitfield.rs | 27 ++++-----
+> >> rust/kernel/io.rs                             |  1 +
+> >> .../macros.rs => rust/kernel/io/register.rs   | 58 ++++++++++---------
+> >> rust/kernel/lib.rs                            |  1 +
+> >> 9 files changed, 54 insertions(+), 50 deletions(-)
+> >> rename {drivers/gpu/nova-core => rust/kernel}/bitfield.rs (91%)
+> >> rename drivers/gpu/nova-core/regs/macros.rs => rust/kernel/io/register.rs (93%)
+> >> 
+> >> diff --git a/drivers/gpu/nova-core/falcon.rs b/drivers/gpu/nova-core/falcon.rs
+> >> index 37e6298195e4..a15fa98c8614 100644
+> >> --- a/drivers/gpu/nova-core/falcon.rs
+> >> +++ b/drivers/gpu/nova-core/falcon.rs
+> >> @@ -6,6 +6,7 @@
+> >> use hal::FalconHal;
+> >> use kernel::device;
+> >> use kernel::dma::DmaAddress;
+> >> +use kernel::io::register::RegisterBase;
+> >> use kernel::prelude::*;
+> >> use kernel::sync::aref::ARef;
+> >> use kernel::time::Delta;
+> >> @@ -14,7 +15,6 @@
+> >> use crate::driver::Bar0;
+> >> use crate::gpu::Chipset;
+> >> use crate::regs;
+> >> -use crate::regs::macros::RegisterBase;
+> >> use crate::util;
+> >> 
+> >> pub(crate) mod gsp;
+> >> diff --git a/drivers/gpu/nova-core/falcon/gsp.rs b/drivers/gpu/nova-core/falcon/gsp.rs
+> >> index f17599cb49fa..cd4960e997c8 100644
+> >> --- a/drivers/gpu/nova-core/falcon/gsp.rs
+> >> +++ b/drivers/gpu/nova-core/falcon/gsp.rs
+> >> @@ -1,9 +1,11 @@
+> >> // SPDX-License-Identifier: GPL-2.0
+> >> 
+> >> +use kernel::io::register::RegisterBase;
+> >> +
+> >> use crate::{
+> >>     driver::Bar0,
+> >>     falcon::{Falcon, FalconEngine, PFalcon2Base, PFalconBase},
+> >> -    regs::{self, macros::RegisterBase},
+> >> +    regs::self,
+> >> };
+> >> 
+> >> /// Type specifying the `Gsp` falcon engine. Cannot be instantiated.
+> >> diff --git a/drivers/gpu/nova-core/falcon/sec2.rs b/drivers/gpu/nova-core/falcon/sec2.rs
+> >> index 815786c8480d..81717868a8a8 100644
+> >> --- a/drivers/gpu/nova-core/falcon/sec2.rs
+> >> +++ b/drivers/gpu/nova-core/falcon/sec2.rs
+> >> @@ -1,7 +1,7 @@
+> >> // SPDX-License-Identifier: GPL-2.0
+> >> 
+> >> use crate::falcon::{FalconEngine, PFalcon2Base, PFalconBase};
+> >> -use crate::regs::macros::RegisterBase;
+> >> +use kernel::io::register::RegisterBase;
+> >> 
+> >> /// Type specifying the `Sec2` falcon engine. Cannot be instantiated.
+> >> pub(crate) struct Sec2(());
+> >> diff --git a/drivers/gpu/nova-core/nova_core.rs b/drivers/gpu/nova-core/nova_core.rs
+> >> index 112277c7921e..fffcaee2249f 100644
+> >> --- a/drivers/gpu/nova-core/nova_core.rs
+> >> +++ b/drivers/gpu/nova-core/nova_core.rs
+> >> @@ -2,9 +2,6 @@
+> >> 
+> >> //! Nova Core GPU Driver
+> >> 
+> >> -#[macro_use]
+> >> -mod bitfield;
+> >> -
+> >> mod dma;
+> >> mod driver;
+> >> mod falcon;
+> >> diff --git a/drivers/gpu/nova-core/regs.rs b/drivers/gpu/nova-core/regs.rs
+> >> index 206dab2e1335..1f08e6d4045a 100644
+> >> --- a/drivers/gpu/nova-core/regs.rs
+> >> +++ b/drivers/gpu/nova-core/regs.rs
+> >> @@ -4,15 +4,13 @@
+> >> // but are mapped to types.
+> >> #![allow(non_camel_case_types)]
+> >> 
+> >> -#[macro_use]
+> >> -pub(crate) mod macros;
+> >> -
+> >> use crate::falcon::{
+> >>     DmaTrfCmdSize, FalconCoreRev, FalconCoreRevSubversion, FalconFbifMemType, FalconFbifTarget,
+> >>     FalconModSelAlgo, FalconSecurityModel, PFalcon2Base, PFalconBase, PeregrineCoreSelect,
+> >> };
+> >> use crate::gpu::{Architecture, Chipset};
+> >> use kernel::prelude::*;
+> >> +use kernel::register;
+> >> 
+> >> // PMC
+> >> 
+> >> @@ -331,6 +329,7 @@ pub(crate) fn mem_scrubbing_done(self) -> bool {
+> >> 
+> >> pub(crate) mod gm107 {
+> >>     // FUSE
+> >> +    use kernel::register;
+> >> 
+> >>     register!(NV_FUSE_STATUS_OPT_DISPLAY @ 0x00021c04 {
+> >>         0:0     display_disabled as bool;
+> >> @@ -339,6 +338,7 @@ pub(crate) mod gm107 {
+> >> 
+> >> pub(crate) mod ga100 {
+> >>     // FUSE
+> >> +    use kernel::register;
+> >> 
+> >>     register!(NV_FUSE_STATUS_OPT_DISPLAY @ 0x00820c04 {
+> >>         0:0     display_disabled as bool;
+> >> diff --git a/drivers/gpu/nova-core/bitfield.rs b/rust/kernel/bitfield.rs
+> >> similarity index 91%
+> >> rename from drivers/gpu/nova-core/bitfield.rs
+> >> rename to rust/kernel/bitfield.rs
+> >> index cbedbb0078f6..09cd5741598c 100644
+> >> --- a/drivers/gpu/nova-core/bitfield.rs
+> >> +++ b/rust/kernel/bitfield.rs
+> >> @@ -9,7 +9,7 @@
+> >> /// # Syntax
+> >> ///
+> >> /// ```rust
+> >> -/// use nova_core::bitfield;
+> >> +/// use kernel::bitfield;
+> >> ///
+> >> /// #[derive(Debug, Clone, Copy, Default)]
+> >> /// enum Mode {
+> >> @@ -82,10 +82,11 @@
+> >> ///   the result.
+> >> /// - `as <type> ?=> <try_into_type>` calls `<try_into_type>`'s `TryFrom::<<type>>` implementation
+> >> ///   and returns the result. This is useful with fields for which not all values are valid.
+> >> +#[macro_export]
+> >> macro_rules! bitfield {
+> >>     // Main entry point - defines the bitfield struct with fields
+> >>     ($vis:vis struct $name:ident($storage:ty) $(, $comment:literal)? { $($fields:tt)* }) => {
+> >> -        bitfield!(@core $vis $name $storage $(, $comment)? { $($fields)* });
+> >> +        ::kernel::bitfield!(@core $vis $name $storage $(, $comment)? { $($fields)* });
+> >>     };
+> >> 
+> >>     // All rules below are helpers.
+> >> @@ -114,7 +115,7 @@ fn from(val: $name) -> $storage {
+> >>             }
+> >>         }
+> >> 
+> >> -        bitfield!(@fields_dispatcher $vis $name $storage { $($fields)* });
+> >> +        ::kernel::bitfield!(@fields_dispatcher $vis $name $storage { $($fields)* });
+> >>     };
+> >> 
+> >>     // Captures the fields and passes them to all the implementers that require field information.
+> >> @@ -130,7 +131,7 @@ fn from(val: $name) -> $storage {
+> >>         )*
+> >>     }
+> >>     ) => {
+> >> -        bitfield!(@field_accessors $vis $name $storage {
+> >> +        ::kernel::bitfield!(@field_accessors $vis $name $storage {
+> >>             $(
+> >>                 $hi:$lo $field as $type
+> >>                 $(?=> $try_into_type)?
+> >> @@ -139,8 +140,8 @@ fn from(val: $name) -> $storage {
+> >>             ;
+> >>             )*
+> >>         });
+> >> -        bitfield!(@debug $name { $($field;)* });
+> >> -        bitfield!(@default $name { $($field;)* });
+> >> +        ::kernel::bitfield!(@debug $name { $($field;)* });
+> >> +        ::kernel::bitfield!(@default $name { $($field;)* });
+> >>     };
+> >> 
+> >>     // Defines all the field getter/setter methods for `$name`.
+> >> @@ -155,13 +156,13 @@ fn from(val: $name) -> $storage {
+> >>         }
+> >>     ) => {
+> >>         $(
+> >> -            bitfield!(@check_field_bounds $hi:$lo $field as $type);
+> >> +            ::kernel::bitfield!(@check_field_bounds $hi:$lo $field as $type);
+> >>         )*
+> >> 
+> >>         #[allow(dead_code)]
+> >>         impl $name {
+> >>             $(
+> >> -            bitfield!(@field_accessor $vis $name $storage, $hi:$lo $field as $type
+> >> +            ::kernel::bitfield!(@field_accessor $vis $name $storage, $hi:$lo $field as $type
+> >>                 $(?=> $try_into_type)?
+> >>                 $(=> $into_type)?
+> >>                 $(, $comment)?
+> >> @@ -198,7 +199,7 @@ impl $name {
+> >>         @field_accessor $vis:vis $name:ident $storage:ty, $hi:tt:$lo:tt $field:ident as bool => $into_type:ty
+> >>             $(, $comment:literal)?;
+> >>     ) => {
+> >> -        bitfield!(
+> >> +        ::kernel::bitfield!(
+> >>             @leaf_accessor $vis $name $storage, $hi:$lo $field
+> >>             { |f| <$into_type>::from(if f != 0 { true } else { false }) }
+> >>             $into_type => $into_type $(, $comment)?;
+> >> @@ -209,7 +210,7 @@ impl $name {
+> >>     (
+> >>         @field_accessor $vis:vis $name:ident $storage:ty, $hi:tt:$lo:tt $field:ident as bool $(, $comment:literal)?;
+> >>     ) => {
+> >> -        bitfield!(@field_accessor $vis $name $storage, $hi:$lo $field as bool => bool $(, $comment)?;);
+> >> +        ::kernel::bitfield!(@field_accessor $vis $name $storage, $hi:$lo $field as bool => bool $(, $comment)?;);
+> >>     };
+> >> 
+> >>     // Catches the `?=>` syntax for non-boolean fields.
+> >> @@ -217,7 +218,7 @@ impl $name {
+> >>         @field_accessor $vis:vis $name:ident $storage:ty, $hi:tt:$lo:tt $field:ident as $type:tt ?=> $try_into_type:ty
+> >>             $(, $comment:literal)?;
+> >>     ) => {
+> >> -        bitfield!(@leaf_accessor $vis $name $storage, $hi:$lo $field
+> >> +        ::kernel::bitfield!(@leaf_accessor $vis $name $storage, $hi:$lo $field
+> >>             { |f| <$try_into_type>::try_from(f as $type) } $try_into_type =>
+> >>             ::core::result::Result<
+> >>                 $try_into_type,
+> >> @@ -231,7 +232,7 @@ impl $name {
+> >>         @field_accessor $vis:vis $name:ident $storage:ty, $hi:tt:$lo:tt $field:ident as $type:tt => $into_type:ty
+> >>             $(, $comment:literal)?;
+> >>     ) => {
+> >> -        bitfield!(@leaf_accessor $vis $name $storage, $hi:$lo $field
+> >> +        ::kernel::bitfield!(@leaf_accessor $vis $name $storage, $hi:$lo $field
+> >>             { |f| <$into_type>::from(f as $type) } $into_type => $into_type $(, $comment)?;);
+> >>     };
+> >> 
+> >> @@ -240,7 +241,7 @@ impl $name {
+> >>         @field_accessor $vis:vis $name:ident $storage:ty, $hi:tt:$lo:tt $field:ident as $type:tt
+> >>             $(, $comment:literal)?;
+> >>     ) => {
+> >> -        bitfield!(@field_accessor $vis $name $storage, $hi:$lo $field as $type => $type $(, $comment)?;);
+> >> +        ::kernel::bitfield!(@field_accessor $vis $name $storage, $hi:$lo $field as $type => $type $(, $comment)?;);
+> >>     };
+> >> 
+> >>     // Generates the accessor methods for a single field.
+> >> diff --git a/rust/kernel/io.rs b/rust/kernel/io.rs
+> >> index 03b467722b86..a79b603604b1 100644
+> >> --- a/rust/kernel/io.rs
+> >> +++ b/rust/kernel/io.rs
+> >> @@ -8,6 +8,7 @@
+> >> use crate::{bindings, build_assert, ffi::c_void};
+> >> 
+> >> pub mod mem;
+> >> +pub mod register;
+> >> pub mod resource;
+> >> 
+> >> pub use resource::Resource;
+> >> diff --git a/drivers/gpu/nova-core/regs/macros.rs b/rust/kernel/io/register.rs
+> >> similarity index 93%
+> >> rename from drivers/gpu/nova-core/regs/macros.rs
+> >> rename to rust/kernel/io/register.rs
+> >> index c0a5194e8d97..c24d956f122f 100644
+> >> --- a/drivers/gpu/nova-core/regs/macros.rs
+> >> +++ b/rust/kernel/io/register.rs
+> >> @@ -17,7 +17,8 @@
+> >> /// The `T` generic argument is used to distinguish which base to use, in case a type provides
+> >> /// several bases. It is given to the `register!` macro to restrict the use of the register to
+> >> /// implementors of this particular variant.
+> >> -pub(crate) trait RegisterBase<T> {
+> >> +pub trait RegisterBase<T> {
+> >> +    /// The base address for the register.
+> >>     const BASE: usize;
+> >> }
+> >> 
+> >> @@ -26,7 +27,7 @@ pub(crate) trait RegisterBase<T> {
+> >> ///
+> >> /// Example:
+> >> ///
+> >> -/// ```no_run
+> >> +/// ```ignore
+> >> /// register!(BOOT_0 @ 0x00000100, "Basic revision information about the GPU" {
+> >> ///    3:0     minor_revision as u8, "Minor revision of the chip";
+> >> ///    7:4     major_revision as u8, "Major revision of the chip";
+> >> @@ -39,7 +40,7 @@ pub(crate) trait RegisterBase<T> {
+> >> /// significant bits of the register. Each field can be accessed and modified using accessor
+> >> /// methods:
+> >> ///
+> >> -/// ```no_run
+> >> +/// ```ignore
+> >> /// // Read from the register's defined offset (0x100).
+> >> /// let boot0 = BOOT_0::read(&bar);
+> >> /// pr_info!("chip revision: {}.{}", boot0.major_revision(), boot0.minor_revision());
+> >> @@ -61,7 +62,7 @@ pub(crate) trait RegisterBase<T> {
+> >> /// It is also possible to create a alias register by using the `=> ALIAS` syntax. This is useful
+> >> /// for cases where a register's interpretation depends on the context:
+> >> ///
+> >> -/// ```no_run
+> >> +/// ```ignore
+> >> /// register!(SCRATCH @ 0x00000200, "Scratch register" {
+> >> ///    31:0     value as u32, "Raw value";
+> >> /// });
+> >> @@ -111,7 +112,7 @@ pub(crate) trait RegisterBase<T> {
+> >> /// this register needs to implement `RegisterBase<Base>`. Here is the above example translated
+> >> /// into code:
+> >> ///
+> >> -/// ```no_run
+> >> +/// ```ignore
+> >> /// // Type used to identify the base.
+> >> /// pub(crate) struct CpuCtlBase;
+> >> ///
+> >> @@ -162,7 +163,7 @@ pub(crate) trait RegisterBase<T> {
+> >> /// compile-time or runtime bound checking. Simply define their address as `Address[Size]`, and add
+> >> /// an `idx` parameter to their `read`, `write` and `alter` methods:
+> >> ///
+> >> -/// ```no_run
+> >> +/// ```ignore
+> >> /// # fn no_run() -> Result<(), Error> {
+> >> /// # fn get_scratch_idx() -> usize {
+> >> /// #   0x15
+> >> @@ -211,7 +212,7 @@ pub(crate) trait RegisterBase<T> {
+> >> /// Combining the two features described in the sections above, arrays of registers accessible from
+> >> /// a base can also be defined:
+> >> ///
+> >> -/// ```no_run
+> >> +/// ```ignore
+> >> /// # fn no_run() -> Result<(), Error> {
+> >> /// # fn get_scratch_idx() -> usize {
+> >> /// #   0x15
+> >> @@ -273,28 +274,29 @@ pub(crate) trait RegisterBase<T> {
+> >> /// # Ok(())
+> >> /// # }
+> >> /// ```
+> >> +#[macro_export]
+> >> macro_rules! register {
+> >>     // Creates a register at a fixed offset of the MMIO space.
+> >>     ($name:ident @ $offset:literal $(, $comment:literal)? { $($fields:tt)* } ) => {
+> >> -        bitfield!(pub(crate) struct $name(u32) $(, $comment)? { $($fields)* } );
+> >> +        ::kernel::bitfield!(pub(crate) struct $name(u32) $(, $comment)? { $($fields)* } );
+> >>         register!(@io_fixed $name @ $offset);
+> >>     };
+> >> 
+> >>     // Creates an alias register of fixed offset register `alias` with its own fields.
+> >>     ($name:ident => $alias:ident $(, $comment:literal)? { $($fields:tt)* } ) => {
+> >> -        bitfield!(pub(crate) struct $name(u32) $(, $comment)? { $($fields)* } );
+> >> +        ::kernel::bitfield!(pub(crate) struct $name(u32) $(, $comment)? { $($fields)* } );
+> >>         register!(@io_fixed $name @ $alias::OFFSET);
+> >>     };
+> >> 
+> >>     // Creates a register at a relative offset from a base address provider.
+> >>     ($name:ident @ $base:ty [ $offset:literal ] $(, $comment:literal)? { $($fields:tt)* } ) => {
+> >> -        bitfield!(pub(crate) struct $name(u32) $(, $comment)? { $($fields)* } );
+> >> +        ::kernel::bitfield!(pub(crate) struct $name(u32) $(, $comment)? { $($fields)* } );
+> >>         register!(@io_relative $name @ $base [ $offset ]);
+> >>     };
+> >> 
+> >>     // Creates an alias register of relative offset register `alias` with its own fields.
+> >>     ($name:ident => $base:ty [ $alias:ident ] $(, $comment:literal)? { $($fields:tt)* }) => {
+> >> -        bitfield!(pub(crate) struct $name(u32) $(, $comment)? { $($fields)* } );
+> >> +        ::kernel::bitfield!(pub(crate) struct $name(u32) $(, $comment)? { $($fields)* } );
+> >>         register!(@io_relative $name @ $base [ $alias::OFFSET ]);
+> >>     };
+> >> 
+> >> @@ -305,7 +307,7 @@ macro_rules! register {
+> >>         }
+> >>     ) => {
+> >>         static_assert!(::core::mem::size_of::<u32>() <= $stride);
+> >> -        bitfield!(pub(crate) struct $name(u32) $(, $comment)? { $($fields)* } );
+> >> +        ::kernel::bitfield!(pub(crate) struct $name(u32) $(, $comment)? { $($fields)* } );
+> >>         register!(@io_array $name @ $offset [ $size ; $stride ]);
+> >>     };
+> >> 
+> >> @@ -326,7 +328,7 @@ macro_rules! register {
+> >>             $(, $comment:literal)? { $($fields:tt)* }
+> >>     ) => {
+> >>         static_assert!(::core::mem::size_of::<u32>() <= $stride);
+> >> -        bitfield!(pub(crate) struct $name(u32) $(, $comment)? { $($fields)* } );
+> >> +        ::kernel::bitfield!(pub(crate) struct $name(u32) $(, $comment)? { $($fields)* } );
+> >>         register!(@io_relative_array $name @ $base [ $offset [ $size ; $stride ] ]);
+> >>     };
+> >> 
+> >> @@ -348,7 +350,7 @@ macro_rules! register {
+> >>         }
+> >>     ) => {
+> >>         static_assert!($idx < $alias::SIZE);
+> >> -        bitfield!(pub(crate) struct $name(u32) $(, $comment)? { $($fields)* } );
+> >> +        ::kernel::bitfield!(pub(crate) struct $name(u32) $(, $comment)? { $($fields)* } );
+> >>         register!(@io_relative $name @ $base [ $alias::OFFSET + $idx * $alias::STRIDE ] );
+> >>     };
+> >> 
+> >> @@ -357,7 +359,7 @@ macro_rules! register {
+> >>     // to avoid it being interpreted in place of the relative register array alias rule.
+> >>     ($name:ident => $alias:ident [ $idx:expr ] $(, $comment:literal)? { $($fields:tt)* }) => {
+> >>         static_assert!($idx < $alias::SIZE);
+> >> -        bitfield!(pub(crate) struct $name(u32) $(, $comment)? { $($fields)* } );
+> >> +        ::kernel::bitfield!(pub(crate) struct $name(u32) $(, $comment)? { $($fields)* } );
+> >>         register!(@io_fixed $name @ $alias::OFFSET + $idx * $alias::STRIDE );
+> >>     };
+> >> 
+> >> @@ -414,12 +416,12 @@ pub(crate) fn read<const SIZE: usize, T, B>(
+> >>                 base: &B,
+> >>             ) -> Self where
+> >>                 T: ::core::ops::Deref<Target = ::kernel::io::Io<SIZE>>,
+> >> -                B: crate::regs::macros::RegisterBase<$base>,
+> >> +                B: ::kernel::io::register::RegisterBase<$base>,
+> >>             {
+> >>                 const OFFSET: usize = $name::OFFSET;
+> >> 
+> >>                 let value = io.read32(
+> >> -                    <B as crate::regs::macros::RegisterBase<$base>>::BASE + OFFSET
+> >> +                    <B as ::kernel::io::register::RegisterBase<$base>>::BASE + OFFSET
+> >>                 );
+> >> 
+> >>                 Self(value)
+> >> @@ -435,13 +437,13 @@ pub(crate) fn write<const SIZE: usize, T, B>(
+> >>                 base: &B,
+> >>             ) where
+> >>                 T: ::core::ops::Deref<Target = ::kernel::io::Io<SIZE>>,
+> >> -                B: crate::regs::macros::RegisterBase<$base>,
+> >> +                B: ::kernel::io::register::RegisterBase<$base>,
+> >>             {
+> >>                 const OFFSET: usize = $name::OFFSET;
+> >> 
+> >>                 io.write32(
+> >>                     self.0,
+> >> -                    <B as crate::regs::macros::RegisterBase<$base>>::BASE + OFFSET
+> >> +                    <B as ::kernel::io::register::RegisterBase<$base>>::BASE + OFFSET
+> >>                 );
+> >>             }
+> >> 
+> >> @@ -455,7 +457,7 @@ pub(crate) fn alter<const SIZE: usize, T, B, F>(
+> >>                 f: F,
+> >>             ) where
+> >>                 T: ::core::ops::Deref<Target = ::kernel::io::Io<SIZE>>,
+> >> -                B: crate::regs::macros::RegisterBase<$base>,
+> >> +                B: ::kernel::io::register::RegisterBase<$base>,
+> >>                 F: ::core::ops::FnOnce(Self) -> Self,
+> >>             {
+> >>                 let reg = f(Self::read(io, base));
+> >> @@ -600,11 +602,11 @@ pub(crate) fn read<const SIZE: usize, T, B>(
+> >>                 idx: usize,
+> >>             ) -> Self where
+> >>                 T: ::core::ops::Deref<Target = ::kernel::io::Io<SIZE>>,
+> >> -                B: crate::regs::macros::RegisterBase<$base>,
+> >> +                B: ::kernel::io::register::RegisterBase<$base>,
+> >>             {
+> >>                 build_assert!(idx < Self::SIZE);
+> >> 
+> >> -                let offset = <B as crate::regs::macros::RegisterBase<$base>>::BASE +
+> >> +                let offset = <B as ::kernel::io::register::RegisterBase<$base>>::BASE +
+> >>                     Self::OFFSET + (idx * Self::STRIDE);
+> >>                 let value = io.read32(offset);
+> >> 
+> >> @@ -622,11 +624,11 @@ pub(crate) fn write<const SIZE: usize, T, B>(
+> >>                 idx: usize
+> >>             ) where
+> >>                 T: ::core::ops::Deref<Target = ::kernel::io::Io<SIZE>>,
+> >> -                B: crate::regs::macros::RegisterBase<$base>,
+> >> +                B: ::kernel::io::register::RegisterBase<$base>,
+> >>             {
+> >>                 build_assert!(idx < Self::SIZE);
+> >> 
+> >> -                let offset = <B as crate::regs::macros::RegisterBase<$base>>::BASE +
+> >> +                let offset = <B as ::kernel::io::register::RegisterBase<$base>>::BASE +
+> >>                     Self::OFFSET + (idx * Self::STRIDE);
+> >> 
+> >>                 io.write32(self.0, offset);
+> >> @@ -643,7 +645,7 @@ pub(crate) fn alter<const SIZE: usize, T, B, F>(
+> >>                 f: F,
+> >>             ) where
+> >>                 T: ::core::ops::Deref<Target = ::kernel::io::Io<SIZE>>,
+> >> -                B: crate::regs::macros::RegisterBase<$base>,
+> >> +                B: ::kernel::io::register::RegisterBase<$base>,
+> >>                 F: ::core::ops::FnOnce(Self) -> Self,
+> >>             {
+> >>                 let reg = f(Self::read(io, base, idx));
+> >> @@ -662,7 +664,7 @@ pub(crate) fn try_read<const SIZE: usize, T, B>(
+> >>                 idx: usize,
+> >>             ) -> ::kernel::error::Result<Self> where
+> >>                 T: ::core::ops::Deref<Target = ::kernel::io::Io<SIZE>>,
+> >> -                B: crate::regs::macros::RegisterBase<$base>,
+> >> +                B: ::kernel::io::register::RegisterBase<$base>,
+> >>             {
+> >>                 if idx < Self::SIZE {
+> >>                     Ok(Self::read(io, base, idx))
+> >> @@ -684,7 +686,7 @@ pub(crate) fn try_write<const SIZE: usize, T, B>(
+> >>                 idx: usize,
+> >>             ) -> ::kernel::error::Result where
+> >>                 T: ::core::ops::Deref<Target = ::kernel::io::Io<SIZE>>,
+> >> -                B: crate::regs::macros::RegisterBase<$base>,
+> >> +                B: ::kernel::io::register::RegisterBase<$base>,
+> >>             {
+> >>                 if idx < Self::SIZE {
+> >>                     Ok(self.write(io, base, idx))
+> >> @@ -707,7 +709,7 @@ pub(crate) fn try_alter<const SIZE: usize, T, B, F>(
+> >>                 f: F,
+> >>             ) -> ::kernel::error::Result where
+> >>                 T: ::core::ops::Deref<Target = ::kernel::io::Io<SIZE>>,
+> >> -                B: crate::regs::macros::RegisterBase<$base>,
+> >> +                B: ::kernel::io::register::RegisterBase<$base>,
+> >>                 F: ::core::ops::FnOnce(Self) -> Self,
+> >>             {
+> >>                 if idx < Self::SIZE {
+> >> diff --git a/rust/kernel/lib.rs b/rust/kernel/lib.rs
+> >> index fcffc3988a90..8f8260090c02 100644
+> >> --- a/rust/kernel/lib.rs
+> >> +++ b/rust/kernel/lib.rs
+> >> @@ -63,6 +63,7 @@
+> >> pub mod alloc;
+> >> #[cfg(CONFIG_AUXILIARY_BUS)]
+> >> pub mod auxiliary;
+> >> +pub mod bitfield;
+> >> pub mod bits;
+> >> #[cfg(CONFIG_BLOCK)]
+> >> pub mod block;
+> >> --
+> >> 2.34.1
+> >> 
+> >> 
