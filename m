@@ -2,87 +2,120 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D3BDEC00F7A
-	for <lists+dri-devel@lfdr.de>; Thu, 23 Oct 2025 14:05:23 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id D4773C00FB6
+	for <lists+dri-devel@lfdr.de>; Thu, 23 Oct 2025 14:07:29 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B0A5910E3E8;
-	Thu, 23 Oct 2025 12:05:20 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A509410E3EA;
+	Thu, 23 Oct 2025 12:07:27 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="ySKt7OTT";
+	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="ERRuSMqz";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lj1-f172.google.com (mail-lj1-f172.google.com
- [209.85.208.172])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E81CB10E3E7
- for <dri-devel@lists.freedesktop.org>; Thu, 23 Oct 2025 12:05:17 +0000 (UTC)
-Received: by mail-lj1-f172.google.com with SMTP id
- 38308e7fff4ca-378cfd75fb0so7852961fa.1
- for <dri-devel@lists.freedesktop.org>; Thu, 23 Oct 2025 05:05:17 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1761221116; x=1761825916; darn=lists.freedesktop.org;
- h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
- :mime-version:subject:date:from:from:to:cc:subject:date:message-id
- :reply-to; bh=DqelzF++SRo5yLaNXUQGPgYYMPiGFZi9g01t7Yxskpc=;
- b=ySKt7OTTTy+4kbI/B94G7meNWxd3C+ZDYer7RWenrye79vkiNiJzI6mgdRYx9ZV9bm
- 4NFC2pVvRoWrHPdkkR9IvsD5maHhqRoq6sUwsPhlqQ1Bi5bJALtkx4q8wKPVnlYoazip
- 19VCrOkqI6mfTkesJktMhNOLeQUqILMfXpCcp3Q2eESffbJ8xqj0USORL8HsLezRkuUe
- iKvBmLNou5dLMHPRujkLfk9gyXJxEBmJjYA9DiDYjucGmuiDzS5PpTJx2qAIN2jvL+pM
- ZJdS0bDemvUWINFdDriZGliye9rOAMvyaiRgmuPqjy1d0ZRlTk7LXqxmJPY5NeM3mA9R
- 47wQ==
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
+ [205.220.180.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3B0BB10E3EA
+ for <dri-devel@lists.freedesktop.org>; Thu, 23 Oct 2025 12:07:26 +0000 (UTC)
+Received: from pps.filterd (m0279869.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 59N7CFAT024844
+ for <dri-devel@lists.freedesktop.org>; Thu, 23 Oct 2025 12:07:25 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+ cc:content-type:date:from:in-reply-to:message-id:mime-version
+ :references:subject:to; s=qcppdkim1; bh=goeKdp/WYHhJWHlaAy8C59qV
+ Sxphru8lrJomaYpY0h0=; b=ERRuSMqzetasBthM5RxIR9p9b2FPm8/Zi9gQWLY0
+ SWJKLQH3qGe3Mq76R8uVPpVyCGW6AW4M+wZYJS71aQ53AZ+Nf/5DX9OLRbl5YVyW
+ 6qwP1S9MqpLVA0Twp8C7onzazAZ7yLPI4VIwdcN37Ve+vNEmQZhurqmqh7mpB45T
+ 2lSiqaiSCf7Uxy5HbdFZ4D2n9ujUKPqm0fjLd4M1R6tiEWB9MrI5FMxCphd0eb4+
+ 8Iq0Ow4f6r4c9YyLla5aA5Qj2ChVclZVYiHAdvpK8Ybxhcvi6xc4XhKNcT2x4pt3
+ jF8MdXeQ5d+4ji3YvPL4ROa5SEEAWvGxM48KJyDiXqbwFg==
+Received: from mail-ot1-f70.google.com (mail-ot1-f70.google.com
+ [209.85.210.70])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 49v1w88adn-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
+ for <dri-devel@lists.freedesktop.org>; Thu, 23 Oct 2025 12:07:25 +0000 (GMT)
+Received: by mail-ot1-f70.google.com with SMTP id
+ 46e09a7af769-7c2814222e1so3629328a34.1
+ for <dri-devel@lists.freedesktop.org>; Thu, 23 Oct 2025 05:07:25 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1761221116; x=1761825916;
- h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
- :mime-version:subject:date:from:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=DqelzF++SRo5yLaNXUQGPgYYMPiGFZi9g01t7Yxskpc=;
- b=bYottkDcxGeJwP7LBbTfHpDSHv7ix9cwomXefQjZN7CYvjymwJFF76nvdPqOSexnpZ
- ZNmavdcxcqkX7zugROtDSzyhJjpmvkG5Ar44EaqKoTzIbEiaHcnGOcFrkl95rmVl8kr/
- AQtO1bTh1lTvE5De7hVjcLFefCrp9uTJgBndGuRK4SMKSL1rFZSnRV9/o3SwESXS/fyD
- XjK8Zyqanr3QiGWAQ3qhNNrYiM7JqszsxlBaPJLp/LElR8NGrwDbrqj5m1AZIsZO281T
- HGWIdt6ViALJq+zZZmtBW58yVVM1FyjrwhAA+CEKXvdJHhbvOVvLnQMrDDK4IC3LIixL
- 7bZQ==
+ d=1e100.net; s=20230601; t=1761221244; x=1761826044;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=goeKdp/WYHhJWHlaAy8C59qVSxphru8lrJomaYpY0h0=;
+ b=AlDm56Au9NzMCmATikLX4PqNCRgdiOjYtmUcg735WOVbrNqwQcEq4PGQskvlImt0tl
+ 8UP3dy5xPNa9JamTTrrtz5wYRDd3UIBFa9hgpjVCT0EPOAvcphLZq/148zqyuam45qu1
+ 73+XVDE27QWe+J8PIdotkSge8UogfcEJs+OvdEuRnrqPmKuRNd2li6mxp8xb+11OCWyX
+ bncAjkFCyN3v5oh0aq/KWfI+XKt8ApZQXAlez73oAw16s67TuJnzShcg9DQhp9EsjbRS
+ kAt/nNA9zQ2ONzC0h65NYq4dUaK6p9a1TzZMIOaBtyYc4KiKD8TEVqx6mY8YUrkM9H4S
+ T6bA==
 X-Forwarded-Encrypted: i=1;
- AJvYcCXiRIqbVlKhGAiHuxVbeLmRjRCRxgqZiEzIw4bGFOLTJYZX1nixm19TBlhPbJQJ1GoqfTFaqdcN0eU=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Yw4q4m0N6ucLBY1ljw5ATx7Kim5geUi15M/uNRWfiSre1AJhMzp
- ouHOIasjrxiSj2YvovvkWUFQl4XoMYQxkvq8lKy0P0FXVHs8CdwcEaKbBZzPUWDVJf8=
-X-Gm-Gg: ASbGncusMCaQOC+t3na5T5haGTlxpwMu5OEmWXQR2sPAqUZP2QMt/ArMOrSvNz1bHaI
- j/jODmT+iaP8WeA7bdUL4LY3rPEaibOgu/YTq/ofMWSG9PSULmEuGvP1CuKbQCA6jRdBTzEyq9E
- D3xueYYHGoV79/9QvqgFg8HbkSv3cSYAKLFlqdTA6RbosvboRCpBiV8VWIk83+1I70uX7gyEW4Q
- RM1nY2/erM4xgM8wXeUOu13Dn3kuTLdomEyDkJlz6/mx/bYO434PtbumBog03k0aA9Ab15wGlzE
- UZwy17xxy3cL1J4MP1uFoGFpdpwwdmRvCnADYJOaQtX0yyPMdGCVYn/1p+t1OaFqxfL2IPdf1uf
- hpnScgCsM2tPhLnRPpzfDJNCxq7WuAucmOf+o4RNu0NCP+DIcmNh1Fh/nVYklkA0LYOAfgC851I
- F7CZHzUfO83x8TPPI12uDFBcb0tZmvHFC1j52LFJktEYdUJDYI/VEmFrg=
-X-Google-Smtp-Source: AGHT+IG1ThP/lu0Wv1TjprZcNt7QoYkjsETnejHt3qE3WqrgVRFV3YZFbFdBpYJFVeAX7eNU5ebG9Q==
-X-Received: by 2002:a2e:a916:0:b0:378:de30:74e6 with SMTP id
- 38308e7fff4ca-378de307629mr3482701fa.25.1761221116209; 
- Thu, 23 Oct 2025 05:05:16 -0700 (PDT)
-Received: from [192.168.1.2] (c-92-34-217-190.bbcust.telenor.se.
- [92.34.217.190]) by smtp.gmail.com with ESMTPSA id
- 38308e7fff4ca-378d680322dsm4070701fa.47.2025.10.23.05.05.15
+ AJvYcCWTazTruGHkHWlmT0HyZO83mdwIPKvC9b6CghLWFpqQhdZE0wOzgUEhXoil9FwUlY0Rb9epiqBfHIM=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Yy+rTcVAPUqlamGwfChgT3144F7GuS7gthq+h7ygGaipCj304T5
+ wE45tXMMXc3gA6Yu+lb23eMEq0LZDwcEQd1RXbmXe7iWBe7pTFYUng75Xe4YBnoBMtGSmsfeIGq
+ TuGxLfHbgOzs7D6tGde5DMNRAHwWXkjDCLt7CeGfeT+ElMmRFSaG0nxDgIGptJmuG1KdOOgM=
+X-Gm-Gg: ASbGncu3x8JDqurmTiZmOzCpZSP60DY2uBG/hsGVUitPvSvHnTlEat3/f4dLRVJuLtN
+ OXRTqE2CBA7FVPy9pACwLJE8jfWkudbdPVhQwMrEHZx8KQ5hCQF+zuZU9/sictTs1FZZw5q35v0
+ PXaSfLfreZCp7gds7Yvo7LzhIhlQjT19rCZIS1Uly1gdf7bpLkovGwGQqsAJrnpmOTm92gYEiwe
+ vAahaLvtmznSF2ZdY4dNx0sLq2zpC+Qu/hrNr1122JICiOYnZu25+AttTWQX9hLOjvEKiCnlpts
+ 8iKUUrzAW4BfLDrGPvrj9gI9oMxZ0hRTUJLvJW5kk7SB6GmvMTIxFrB4eL3ZtybwFS8GwURWiP/
+ e2mpSqk42uKqRqcQVUNLtrw6dJhcdQPiVp5lL7gkQ2GxH8rr5uRDI7Epn0jJYbviCxS+B+GPQ9K
+ T0Zk1cyHp4FeBS
+X-Received: by 2002:a05:6122:c457:10b0:54a:8deb:21a7 with SMTP id
+ 71dfb90a1353d-556a1fe00b0mr1375555e0c.4.1761220877840; 
+ Thu, 23 Oct 2025 05:01:17 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IGYxrTX1ih+hGngZciP+iHFYfeFoyaVhepsbpmQ8PJc+gldudoSg8FgGhwuto7pKkQZUsY/ew==
+X-Received: by 2002:a05:6122:c457:10b0:54a:8deb:21a7 with SMTP id
+ 71dfb90a1353d-556a1fe00b0mr1375509e0c.4.1761220877262; 
+ Thu, 23 Oct 2025 05:01:17 -0700 (PDT)
+Received: from umbar.lan
+ (2001-14ba-a0c3-3a00-264b-feff-fe8b-be8a.rev.dnainternet.fi.
+ [2001:14ba:a0c3:3a00:264b:feff:fe8b:be8a])
+ by smtp.gmail.com with ESMTPSA id
+ 38308e7fff4ca-378d66bbd08sm4052251fa.4.2025.10.23.05.01.16
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 23 Oct 2025 05:05:15 -0700 (PDT)
-From: Linus Walleij <linus.walleij@linaro.org>
-Date: Thu, 23 Oct 2025 14:05:12 +0200
-Subject: [PATCH 4/4] drm: panel: s6e63m0: Move DSI commands to enable/disable
+ Thu, 23 Oct 2025 05:01:16 -0700 (PDT)
+Date: Thu, 23 Oct 2025 15:01:14 +0300
+From: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
+To: yuanjie yang <yuanjie.yang@oss.qualcomm.com>
+Cc: robin.clark@oss.qualcomm.com, lumag@kernel.org, abhinav.kumar@linux.dev,
+ sean@poorly.run, marijn.suijten@somainline.org, airlied@gmail.com,
+ simona@ffwll.ch, maarten.lankhorst@linux.intel.com, mripard@kernel.org,
+ tzimmermann@suse.de, robh@kernel.org, krzk+dt@kernel.org,
+ conor+dt@kernel.org, quic_mkrishn@quicinc.com, jonathan@marek.ca,
+ quic_khsieh@quicinc.com, neil.armstrong@linaro.org,
+ linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ freedreno@lists.freedesktop.org, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org, tingwei.zhang@oss.qualcomm.com,
+ aiqun.yu@oss.qualcomm.com, yongxing.mou@oss.qualcomm.com
+Subject: Re: [PATCH 04/12] drm/msm/mdss: Add support for Kaanapali
+Message-ID: <7yrjpxx2uqb7ox6yk55hsdj2cgexvcoqjjutmhnjokciy7pnl4@a3zdvmn7wmto>
+References: <20251023075401.1148-1-yuanjie.yang@oss.qualcomm.com>
+ <20251023075401.1148-5-yuanjie.yang@oss.qualcomm.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20251023-fix-mcde-drm-regression-v1-4-ed9a925db8c7@linaro.org>
-References: <20251023-fix-mcde-drm-regression-v1-0-ed9a925db8c7@linaro.org>
-In-Reply-To: <20251023-fix-mcde-drm-regression-v1-0-ed9a925db8c7@linaro.org>
-To: Aradhya Bhatia <a-bhatia1@ti.com>, 
- Stefan Hansson <newbyte@postmarketos.org>, 
- Neil Armstrong <neil.armstrong@linaro.org>, 
- Jessica Zhang <jessica.zhang@oss.qualcomm.com>, 
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
- Dmitry Baryshkov <lumag@kernel.org>, 
- Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>, 
- dri-devel@lists.freedesktop.org
-Cc: Linus Walleij <linus.walleij@linaro.org>
-X-Mailer: b4 0.14.3
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20251023075401.1148-5-yuanjie.yang@oss.qualcomm.com>
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUxMDE4MDAxNSBTYWx0ZWRfX/5zoWh1FzR3e
+ WMVt15ilEuf7nQ6rgHM+pRL5X3MRFJY/GHAti+aSTGsXXPMfw70J8UyzsMDX9dC60QUXJ7LeGch
+ 4WWk0kczHI6ysTYNAmdO2O+EjP6IvZGrYBiCTyXy/32LzIGBU2jzNq+HnW/VLiv+mN6+V1zUapD
+ gX0DPB7zN151LSjpSPNEYRFTJ+qt1VCPaxhEHRwwT217hTnXibBaK5sHjB4jmgKI/CksnN8CPvJ
+ yRJOOdDDXFplqUSMyxxR8ThXQ+mIHMYGtJTe7igmX2XD62NkGXVbbKvA4DgJXxgSE6U6N5lOBhA
+ ILC8RQ5tzIbOxewsh9GujlDQma3F8STC43QvZSK2C3qPKIhheYE53OwpwP00JIROCmde23wVGkS
+ w1mJiFZLTvR/8NOJVBYcmgVdDKDZUg==
+X-Authority-Analysis: v=2.4 cv=bNUb4f+Z c=1 sm=1 tr=0 ts=68fa1a7d cx=c_pps
+ a=7uPEO8VhqeOX8vTJ3z8K6Q==:117 a=xqWC_Br6kY4A:10 a=kj9zAlcOel0A:10
+ a=x6icFKpwvdMA:10 a=VkNPw1HP01LnGYTKEx00:22 a=EUspDBNiAAAA:8
+ a=FJEgi42wPuteDVaKdBsA:9 a=CjuIK1q_8ugA:10 a=EXS-LbY8YePsIyqnH6vw:22
+X-Proofpoint-GUID: NaClVBDFkv5HEN2cLjAR6q0robMDskLd
+X-Proofpoint-ORIG-GUID: NaClVBDFkv5HEN2cLjAR6q0robMDskLd
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.9,FMLib:17.12.80.40
+ definitions=2025-10-22_08,2025-10-22_01,2025-03-28_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ bulkscore=0 phishscore=0 malwarescore=0 lowpriorityscore=0 clxscore=1015
+ priorityscore=1501 suspectscore=0 adultscore=0 spamscore=0 impostorscore=0
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.19.0-2510020000 definitions=main-2510180015
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -98,89 +131,88 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Due to semantic changes in the bridge core, panels cannot send
-any DSI commands in the prepare/unprepare callbacks: there is
-no guarantee that the DSI transmitter is available at this
-point.
+On Thu, Oct 23, 2025 at 03:53:53PM +0800, yuanjie yang wrote:
+> From: Yuanjie Yang <yuanjie.yang@oss.qualcomm.com>
+> 
+> Add mdss support for the Qualcomm Kaanapali platform.
+> 
+> Signed-off-by: Yongxing Mou <yongxing.mou@oss.qualcomm.com>
+> Signed-off-by: Yuanjie Yang <yuanjie.yang@oss.qualcomm.com>
+> ---
+>  drivers/gpu/drm/msm/msm_mdss.c | 22 ++++++++++++++++++++++
+>  include/linux/soc/qcom/ubwc.h  |  1 +
+>  2 files changed, 23 insertions(+)
 
-This will affect also SPI-based S6E63M0 displays, but that
-should be fine.
+Where can I find the UBWC config for Kaanapali?
 
-Tested on the Samsung Golden (GT-I8190).
+> 
+> diff --git a/drivers/gpu/drm/msm/msm_mdss.c b/drivers/gpu/drm/msm/msm_mdss.c
+> index 2d0e3e784c04..665751d2b999 100644
+> --- a/drivers/gpu/drm/msm/msm_mdss.c
+> +++ b/drivers/gpu/drm/msm/msm_mdss.c
+> @@ -243,6 +243,24 @@ static void msm_mdss_setup_ubwc_dec_50(struct msm_mdss *msm_mdss)
+>  	writel_relaxed(1, msm_mdss->mmio + REG_MDSS_UBWC_PREDICTION_MODE);
+>  }
+>  
+> +static void msm_mdss_setup_ubwc_dec_60(struct msm_mdss *msm_mdss)
+> +{
+> +	const struct qcom_ubwc_cfg_data *data = msm_mdss->mdss_data;
+> +	u32 value = MDSS_UBWC_STATIC_UBWC_SWIZZLE(data->ubwc_swizzle) |
+> +		    MDSS_UBWC_STATIC_HIGHEST_BANK_BIT(data->highest_bank_bit);
+> +
+> +	if (data->ubwc_bank_spread)
+> +		value |= MDSS_UBWC_STATIC_UBWC_BANK_SPREAD;
+> +
+> +	if (data->macrotile_mode)
+> +		value |= MDSS_UBWC_STATIC_MACROTILE_MODE;
+> +
+> +	writel_relaxed(value, msm_mdss->mmio + REG_MDSS_UBWC_STATIC);
+> +
+> +	writel_relaxed(5, msm_mdss->mmio + REG_MDSS_UBWC_CTRL_2);
+> +	writel_relaxed(1, msm_mdss->mmio + REG_MDSS_UBWC_PREDICTION_MODE);
+> +}
+> +
+>  static int msm_mdss_enable(struct msm_mdss *msm_mdss)
+>  {
+>  	int ret, i;
+> @@ -296,6 +314,9 @@ static int msm_mdss_enable(struct msm_mdss *msm_mdss)
+>  	case UBWC_5_0:
+>  		msm_mdss_setup_ubwc_dec_50(msm_mdss);
+>  		break;
+> +	case UBWC_6_0:
+> +		msm_mdss_setup_ubwc_dec_60(msm_mdss);
+> +		break;
+>  	default:
+>  		dev_err(msm_mdss->dev, "Unsupported UBWC decoder version %x\n",
+>  			msm_mdss->mdss_data->ubwc_dec_version);
+> @@ -552,6 +573,7 @@ static const struct msm_mdss_data data_153k6 = {
+>  };
+>  
+>  static const struct of_device_id mdss_dt_match[] = {
+> +	{ .compatible = "qcom,kaanapali-mdss", .data = &data_57k },
+>  	{ .compatible = "qcom,mdss", .data = &data_153k6 },
+>  	{ .compatible = "qcom,msm8998-mdss", .data = &data_76k8 },
+>  	{ .compatible = "qcom,qcm2290-mdss", .data = &data_76k8 },
+> diff --git a/include/linux/soc/qcom/ubwc.h b/include/linux/soc/qcom/ubwc.h
+> index 1ed8b1b16bc9..0a4edfe3d96d 100644
+> --- a/include/linux/soc/qcom/ubwc.h
+> +++ b/include/linux/soc/qcom/ubwc.h
+> @@ -52,6 +52,7 @@ struct qcom_ubwc_cfg_data {
+>  #define UBWC_4_0 0x40000000
+>  #define UBWC_4_3 0x40030000
+>  #define UBWC_5_0 0x50000000
+> +#define UBWC_6_0 0x60000000
 
-Cc: Aradhya Bhatia <a-bhatia1@ti.com>
-Fixes: c9b1150a68d9 ("drm/atomic-helper: Re-order bridge chain pre-enable and post-disable")
-Signed-off-by: Linus Walleij <linus.walleij@linaro.org>
----
- drivers/gpu/drm/panel/panel-samsung-s6e63m0.c | 31 +++++++++++----------------
- 1 file changed, 12 insertions(+), 19 deletions(-)
+This should be tied with the ubwc config changes as this chunk goes into
+a different subsystem.
 
-diff --git a/drivers/gpu/drm/panel/panel-samsung-s6e63m0.c b/drivers/gpu/drm/panel/panel-samsung-s6e63m0.c
-index ea241c89593b..7e000f30b124 100644
---- a/drivers/gpu/drm/panel/panel-samsung-s6e63m0.c
-+++ b/drivers/gpu/drm/panel/panel-samsung-s6e63m0.c
-@@ -508,32 +508,30 @@ static int s6e63m0_disable(struct drm_panel *panel)
- 	s6e63m0_dcs_write_seq_static(ctx, MIPI_DCS_ENTER_SLEEP_MODE);
- 	msleep(120);
- 
-+	s6e63m0_clear_error(ctx);
-+
- 	return 0;
- }
- 
- static int s6e63m0_unprepare(struct drm_panel *panel)
- {
- 	struct s6e63m0 *ctx = panel_to_s6e63m0(panel);
--	int ret;
- 
--	s6e63m0_clear_error(ctx);
-+	return s6e63m0_power_off(ctx);
-+}
- 
--	ret = s6e63m0_power_off(ctx);
--	if (ret < 0)
--		return ret;
-+static int s6e63m0_prepare(struct drm_panel *panel)
-+{
-+	struct s6e63m0 *ctx = panel_to_s6e63m0(panel);
- 
--	return 0;
-+	return s6e63m0_power_on(ctx);
- }
- 
--static int s6e63m0_prepare(struct drm_panel *panel)
-+static int s6e63m0_enable(struct drm_panel *panel)
- {
- 	struct s6e63m0 *ctx = panel_to_s6e63m0(panel);
- 	int ret;
- 
--	ret = s6e63m0_power_on(ctx);
--	if (ret < 0)
--		return ret;
--
- 	/* Magic to unlock level 2 control of the display */
- 	s6e63m0_dcs_write_seq_static(ctx, MCS_LEVEL_2_KEY, 0x5a, 0x5a);
- 	/* Magic to unlock MTP reading */
-@@ -547,15 +545,10 @@ static int s6e63m0_prepare(struct drm_panel *panel)
- 
- 	ret = s6e63m0_clear_error(ctx);
- 
--	if (ret < 0)
-+	if (ret < 0) {
- 		s6e63m0_unprepare(panel);
--
--	return ret;
--}
--
--static int s6e63m0_enable(struct drm_panel *panel)
--{
--	struct s6e63m0 *ctx = panel_to_s6e63m0(panel);
-+		return ret;
-+	}
- 
- 	s6e63m0_dcs_write_seq_static(ctx, MIPI_DCS_EXIT_SLEEP_MODE);
- 	msleep(120);
+>  
+>  #if IS_ENABLED(CONFIG_QCOM_UBWC_CONFIG)
+>  const struct qcom_ubwc_cfg_data *qcom_ubwc_config_get_data(void);
+> -- 
+> 2.34.1
+> 
 
 -- 
-2.51.0
-
+With best wishes
+Dmitry
