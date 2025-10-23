@@ -2,36 +2,40 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id CC056C00BA3
-	for <lists+dri-devel@lfdr.de>; Thu, 23 Oct 2025 13:29:55 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4AF6CC00BA6
+	for <lists+dri-devel@lfdr.de>; Thu, 23 Oct 2025 13:30:11 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 08F1E10E3CF;
-	Thu, 23 Oct 2025 11:29:52 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3669810E0DF;
+	Thu, 23 Oct 2025 11:30:09 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=rock-chips.com header.i=@rock-chips.com header.b="Xn4egCLA";
+	dkim=pass (1024-bit key; unprotected) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="IvhdcHew";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-m49196.qiye.163.com (mail-m49196.qiye.163.com
- [45.254.49.196])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 116A610E0DF
- for <dri-devel@lists.freedesktop.org>; Thu, 23 Oct 2025 11:29:49 +0000 (UTC)
-Received: from [172.16.12.149] (unknown [58.22.7.114])
- by smtp.qiye.163.com (Hmail) with ESMTP id 26f1ef09a;
- Thu, 23 Oct 2025 19:29:45 +0800 (GMT+08:00)
-Message-ID: <14b8ac71-489b-4192-92d6-5f228ff3881d@rock-chips.com>
-Date: Thu, 23 Oct 2025 19:29:44 +0800
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v7 2/9] drm/bridge: Implement generic USB Type-C DP HPD
- bridge
-To: Heikki Krogerus <heikki.krogerus@linux.intel.com>
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5C1BD10E0DF
+ for <dri-devel@lists.freedesktop.org>; Thu, 23 Oct 2025 11:30:07 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by tor.source.kernel.org (Postfix) with ESMTP id 17B0B63FD7;
+ Thu, 23 Oct 2025 11:30:06 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 513DEC4CEFF;
+ Thu, 23 Oct 2025 11:30:05 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+ s=korg; t=1761219005;
+ bh=XLkysNfegUvwyIevl1eKm/wT3mO3tDZSFi6ARpRRGTw=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=IvhdcHewmfHAjgrwZglSVd155WrxiM4g73D6cbuvPY3vsvdnXN/GwE22hcg1dgSUO
+ qAme1OOliteiwXZvpnXyYvTrfNY/wdnvvQGBd00WxFrDDlL+QyLaVIqWgYWo5LujOT
+ aHqV/8zJm7ZSt8TCRKT9z8UFhoNeAC6JKxf2hhcE=
+Date: Thu, 23 Oct 2025 13:29:58 +0200
+From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To: Chaoyi Chen <chaoyi.chen@rock-chips.com>
+Cc: Heikki Krogerus <heikki.krogerus@linux.intel.com>,
  Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>,
  Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
  Conor Dooley <conor+dt@kernel.org>, Vinod Koul <vkoul@kernel.org>,
- Kishon Vijay Abraham I <kishon@kernel.org>, Heiko Stuebner
- <heiko@sntech.de>, Sandy Huang <hjc@rock-chips.com>,
+ Kishon Vijay Abraham I <kishon@kernel.org>,
+ Heiko Stuebner <heiko@sntech.de>, Sandy Huang <hjc@rock-chips.com>,
  Andy Yan <andy.yan@rock-chips.com>,
  Yubing Zhang <yubing.zhang@rock-chips.com>,
  Frank Wang <frank.wang@rock-chips.com>,
@@ -40,33 +44,28 @@ Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
  Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
  Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>,
  Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
  David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
  Amit Sunil Dhamne <amitsd@google.com>,
- Chaoyi Chen <chaoyi.chen@rock-chips.com>, Dragan Simic <dsimic@manjaro.org>,
- Johan Jonker <jbx6244@gmail.com>, Diederik de Haas <didi.debian@cknow.org>,
+ Dragan Simic <dsimic@manjaro.org>, Johan Jonker <jbx6244@gmail.com>,
+ Diederik de Haas <didi.debian@cknow.org>,
  Peter Robinson <pbrobinson@gmail.com>, linux-usb@vger.kernel.org,
  devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
  linux-phy@lists.infradead.org, linux-arm-kernel@lists.infradead.org,
  linux-rockchip@lists.infradead.org, dri-devel@lists.freedesktop.org
+Subject: Re: [PATCH v7 1/9] usb: typec: Add notifier functions
+Message-ID: <2025102308-glorified-greedy-e41c@gregkh>
 References: <20251023033009.90-1-kernel@airkyi.com>
- <20251023033009.90-3-kernel@airkyi.com> <aPnrKFWTvpuRTyhI@kuha.fi.intel.com>
-Content-Language: en-US
-From: Chaoyi Chen <chaoyi.chen@rock-chips.com>
-In-Reply-To: <aPnrKFWTvpuRTyhI@kuha.fi.intel.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-HM-Tid: 0a9a10d4feb703abkunm0a84e08b197844
-X-HM-MType: 1
-X-HM-Spam-Status: e1kfGhgUHx5ZQUpXWQgPGg8OCBgUHx5ZQUlOS1dZFg8aDwILHllBWSg2Ly
- tZV1koWUFDSUNOT01LS0k3V1ktWUFJV1kPCRoVCBIfWUFZGRlLGlYYH0tDGUweS0xOGRlWFRQJFh
- oXVRMBExYaEhckFA4PWVdZGBILWUFZTkNVSUlVTFVKSk9ZV1kWGg8SFR0UWUFZT0tIVUpLSEpOTE
- 9VSktLVUpCS0tZBg++
-DKIM-Signature: a=rsa-sha256;
- b=Xn4egCLAu3OJU+toy3rICbQxQ7WpaviHfsRYKx2TYkWkGCOojJo3gWHnrtg3mYuaIWc++VhgE8ebvOe0CSUPcma62p2KNUiAi/LQ7C9eEfeRI3mnlAJdNEH/ey9A4NwJ3xVIRHGLZKH8ToMeIXkEdVQZGEx8EV2KgTrvu1XBgEs=;
- s=default; c=relaxed/relaxed; d=rock-chips.com; v=1; 
- bh=PV5L2/dVmRU/5ecTVqOwB2QqRRY2n4dnoFpehPZT1k0=;
- h=date:mime-version:subject:message-id:from;
+ <20251023033009.90-2-kernel@airkyi.com>
+ <aPni4AeDaem_rfZH@kuha.fi.intel.com>
+ <aPnvoSRJefwDlpNO@kuha.fi.intel.com>
+ <aPn4-S7upPOOtenr@kuha.fi.intel.com>
+ <9c52db41-14f3-41a8-9423-3efe604361aa@rock-chips.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <9c52db41-14f3-41a8-9423-3efe604361aa@rock-chips.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -82,75 +81,94 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Heikki,
+On Thu, Oct 23, 2025 at 07:21:31PM +0800, Chaoyi Chen wrote:
+> Hi Heikki,
+> 
+> On 10/23/2025 5:44 PM, Heikki Krogerus wrote:
+> > On Thu, Oct 23, 2025 at 12:04:44PM +0300, Heikki Krogerus wrote:
+> > > On Thu, Oct 23, 2025 at 11:10:20AM +0300, Heikki Krogerus wrote:
+> > > > Hi,
+> > > > 
+> > > > > diff --git a/include/linux/usb/typec_notify.h b/include/linux/usb/typec_notify.h
+> > > > > new file mode 100644
+> > > > > index 000000000000..a3f1f3b3ae47
+> > > > > --- /dev/null
+> > > > > +++ b/include/linux/usb/typec_notify.h
+> > > > > @@ -0,0 +1,17 @@
+> > > > > +/* SPDX-License-Identifier: GPL-2.0 */
+> > > > > +
+> > > > > +#ifndef __USB_TYPEC_NOTIFY
+> > > > > +#define __USB_TYPEC_NOTIFY
+> > > > > +
+> > > > > +#include <linux/notifier.h>
+> > > > > +
+> > > > > +enum usb_typec_event {
+> > > > > +	TYPEC_ALTMODE_REGISTERED
+> > > > > +};
+> > > > Don't you need to know when the altmode is removed?
+> > > I noticed that you don't because drm_dp_hpd_bridge_register() is
+> > > always resource managed. But I think you could still send an event
+> > > also when the altmode is removed already now. That way it does not
+> > > need to be separately added if and when it is needed.
+> > Hold on! Every bus has already a notifier chain. That's the one that
+> > we should also use. Sorry for not noticing that earlier.
+> > 
+> > So let's just export the bus type in this patch - you can then use
+> > bus_register_notifier() in your driver:
+> > 
+> > diff --git a/drivers/usb/typec/bus.c b/drivers/usb/typec/bus.c
+> > index a884cec9ab7e..65ded9e3cdaa 100644
+> > --- a/drivers/usb/typec/bus.c
+> > +++ b/drivers/usb/typec/bus.c
+> > @@ -547,3 +547,4 @@ const struct bus_type typec_bus = {
+> >          .probe = typec_probe,
+> >          .remove = typec_remove,
+> >   };
+> > +EXPORT_SYMBOL_GPL(typec_bus);
+> > diff --git a/drivers/usb/typec/bus.h b/drivers/usb/typec/bus.h
+> > index 643b8c81786d..af9edb3db9d0 100644
+> > --- a/drivers/usb/typec/bus.h
+> > +++ b/drivers/usb/typec/bus.h
+> > @@ -5,7 +5,6 @@
+> >   #include <linux/usb/typec_altmode.h>
+> > -struct bus_type;
+> >   struct typec_mux;
+> >   struct typec_retimer;
+> > @@ -28,7 +27,6 @@ struct altmode {
+> >   #define to_altmode(d) container_of(d, struct altmode, adev)
+> > -extern const struct bus_type typec_bus;
+> >   extern const struct device_type typec_altmode_dev_type;
+> >   #define is_typec_altmode(_dev_) (_dev_->type == &typec_altmode_dev_type)
+> > diff --git a/include/linux/usb/typec.h b/include/linux/usb/typec.h
+> > index 309251572e2e..c6fd46902fce 100644
+> > --- a/include/linux/usb/typec.h
+> > +++ b/include/linux/usb/typec.h
+> > @@ -20,12 +20,15 @@ struct typec_port;
+> >   struct typec_altmode_ops;
+> >   struct typec_cable_ops;
+> > +struct bus_type;
+> >   struct fwnode_handle;
+> >   struct device;
+> >   struct usb_power_delivery;
+> >   struct usb_power_delivery_desc;
+> > +extern const struct bus_type typec_bus;
+> > +
+> >   enum typec_port_type {
+> >          TYPEC_PORT_SRC,
+> >          TYPEC_PORT_SNK,
+> 
+> Thank you for your detailed explanation. I noticed that there is a device_register() action in typec_register_altmode(), so we can just take advantage of this.
+> 
+> 
+> Another thing is that we need to distinguish between different devices in the notifier callback, as typec_register_altmode()/typec_register_partner()/typec_register_plug()/typec_register_cable() may all register devices. Since the data passed in bus_notify() is struct device *dev, I think we can distinguish them through `dev->type.name`? We may already have such names, "typec_alternate_mode", "typec_partner", "typec_plug" in class.c . And then extract these names as macros and put them in the typec header file.
+> 
+> 
+> Or do you have any better ideas? Thank you.
 
-On 10/23/2025 4:45 PM, Heikki Krogerus wrote:
-> On Thu, Oct 23, 2025 at 11:30:02AM +0800, Chaoyi Chen wrote:
->> From: Chaoyi Chen <chaoyi.chen@rock-chips.com>
->>
->> Several USB-C controller drivers have already implemented the DP HPD
->> bridge function provided by aux-hpd-bridge.c, but there are still
->> some USB-C controller driver that have not yet implemented it.
->>
->> This patch implements a generic DP HPD bridge based on aux-hpd-bridge.c,
->> so that other USB-C controller drivers don't need to implement it again.
->>
->> Signed-off-by: Chaoyi Chen <chaoyi.chen@rock-chips.com>
->> ---
->>   drivers/gpu/drm/bridge/Kconfig                | 11 ++++
->>   drivers/gpu/drm/bridge/Makefile               |  1 +
->>   .../gpu/drm/bridge/aux-hpd-typec-dp-bridge.c  | 51 +++++++++++++++++++
->>   3 files changed, 63 insertions(+)
->>   create mode 100644 drivers/gpu/drm/bridge/aux-hpd-typec-dp-bridge.c
->>
->> diff --git a/drivers/gpu/drm/bridge/Kconfig b/drivers/gpu/drm/bridge/Kconfig
->> index b9e0ca85226a..9f31540d3ad8 100644
->> --- a/drivers/gpu/drm/bridge/Kconfig
->> +++ b/drivers/gpu/drm/bridge/Kconfig
->> @@ -33,6 +33,17 @@ config DRM_AUX_HPD_BRIDGE
->>   menu "Display Interface Bridges"
->>   	depends on DRM && DRM_BRIDGE
->>   
->> +config DRM_AUX_TYPEC_DP_HPD_BRIDGE
->> +	tristate "TypeC DP HPD bridge"
->> +	depends on DRM_BRIDGE && OF && TYPEC
->> +	select DRM_AUX_HPD_BRIDGE
->> +	help
->> +	  Simple USB Type-C DP bridge that terminates the bridge chain and
->> +	  provides HPD support.
->> +
->> +	  If the USB-C controller driver has not implemented this and you need
->> +	  the DP HPD support, say "Y" or "m" here.
-> You don't need to depend on DRM_BRIDGE separately, but do you really
-> need a separate module for this in the first place?
->
->>   config DRM_CHIPONE_ICN6211
->>   	tristate "Chipone ICN6211 MIPI-DSI/RGB Converter bridge"
->>   	depends on OF
->> diff --git a/drivers/gpu/drm/bridge/Makefile b/drivers/gpu/drm/bridge/Makefile
->> index 245e8a27e3fc..e91736829167 100644
->> --- a/drivers/gpu/drm/bridge/Makefile
->> +++ b/drivers/gpu/drm/bridge/Makefile
->> @@ -1,6 +1,7 @@
->>   # SPDX-License-Identifier: GPL-2.0
->>   obj-$(CONFIG_DRM_AUX_BRIDGE) += aux-bridge.o
->>   obj-$(CONFIG_DRM_AUX_HPD_BRIDGE) += aux-hpd-bridge.o
->> +obj-$(CONFIG_DRM_AUX_TYPEC_DP_HPD_BRIDGE) += aux-hpd-typec-dp-bridge.o
-> Instead, why not just make that a part of aux-hpd-bridge
-> conditionally:
->
-> ifneq ($(CONFIG_TYPEC),)
->          aux-hpd-bridge-y        += aux-hpd-typec-dp-bridge.o
-> endif
+Check based on the type itself, NOT on the type name, as all device
+types on a bus should be unique.  If the structure for that is not
+properly exported for you to use, just export it.
 
-Oh, I did consider that! But I noticed that aux-hpd-bridge.c contains the following statement module_auxiliary_driver(drm_aux_hpd_bridge_drv), which already includes a module_init. In the newly added file, in order to call the register function, another module_init was also added. If the two files are each made into a module separately, would there be a problem?
+thanks,
 
-
->
->
-> thanks,
->
--- 
-Best,
-Chaoyi
-
+greg k-h
