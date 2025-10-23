@@ -2,155 +2,149 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E0571C01A8A
-	for <lists+dri-devel@lfdr.de>; Thu, 23 Oct 2025 16:10:48 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id E1C29C01B57
+	for <lists+dri-devel@lfdr.de>; Thu, 23 Oct 2025 16:19:18 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 794D610E19C;
-	Thu, 23 Oct 2025 14:10:44 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A91B210E105;
+	Thu, 23 Oct 2025 14:19:15 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=amd.com header.i=@amd.com header.b="oKy91tTX";
+	dkim=pass (2048-bit key; unprotected) header.d=phytec.de header.i=@phytec.de header.b="eYa+S+Ub";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from CO1PR03CU002.outbound.protection.outlook.com
- (mail-westus2azon11010026.outbound.protection.outlook.com [52.101.46.26])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 235F910E19C;
- Thu, 23 Oct 2025 14:10:43 +0000 (UTC)
+Received: from GVXPR05CU001.outbound.protection.outlook.com
+ (mail-swedencentralazon11023082.outbound.protection.outlook.com
+ [52.101.83.82])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id EF9FC10E105
+ for <dri-devel@lists.freedesktop.org>; Thu, 23 Oct 2025 14:19:13 +0000 (UTC)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=VDHZtYtoVKfuyirOsSUH6UNM3R5mrs584yhGSXO6hTGvIZjgQoj/xhYnvSnccF88C32LjfmRD/Kmfk8N09uyIKs3pJEiw/VTSsECM1CpH8Sp9irR8D7BHjm8T0IrLBMOd7ZHT8Qa17x0pZjYQhilpm875XSRx7Ifvz+DsA9LQu7Tf37UUAQE84eS5XTcOvpd7kt1rTjW3fayR8xRNNuh06B16NFR3yMwnLl/bxvNL7C1KBdU0DlYqz7KIjEdiDFApTy9poWlAebuBtdgmKG9MZVjJk7COZGBvE4+ioW703Hwj6KTVvn1DpXqvKsuAzAHJxRBDiAtoycoCMAnLQQwRg==
+ b=Rj72Q4PZt3oAs6XR7+hkZMjHR/LA56axsAXiADjx3CO59Qv9gAN+Lh2Nlp+TMyvWjQuXgUtVRtMomCYr5C705MJ//JipAIJMmFOrj5294eR5tedylHuquPPYd5pJ/w3U1P5HczCCczmnHXlk4gVcACUqobudx+C9okQFLPNTUFlY1B2wy6YuCxrIfX16mHer+Vz/+GbGzYEwbnr4xSskFcMZShJitBEXCHwPDN79JRjLul+36nS67tkMFK9mv+SkTETIlupIn0NLg/LCSchvqqkQuSNLJUPDUAmeiAEYCSv1uov+pv8Jn13PTpN8yNW4Eg2sdUjFggxr9wN9EBqpgw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=2uODmwgjrjIln038UFiHo5xlYDljFXZY0obv4WnW88Y=;
- b=MSnhLqmpSxM58UIPkdG0ZoYa0b21b6kq70Cag3yUuoJllrpHOan+EV8EDC7Md6syuYovonuOVq6L8OcTDDC30vpLmEH1S0OYkAh16Sdrb7aZim0RAm2UIEz2yp9SkiLue9NolI0j20b6JGpao81K0DtM62GJ5gdgiHLILjmeHdbeUUp+uphgL8i5XKeIu+mZ+aRNsMUBR4B5UMVjPArAZ9M42qAPoq5/uFdwR2snHQYvW07F0E6JedPo6iM9dL5qQ/MYdHs0XbvK9B9nopj7Di8AdHxtlBvEweyvFIQis4SGuZGpesy6i4oZfOZ7JgFCmJkuxPsx02QDFuW+jPy4OQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
+ bh=twrMFMzUHlwWHmGhDEuhAJ2vxIzV1lEqXJIVNkFeL5E=;
+ b=SmCbv52McJ6oPRyubrFsbxSqStB05ib/ao2fPnIaUL/3JGqGXSKyyXHwUasThWVWkVA4uteJBUf1MgPUbUzh70xxfY3WkiKKDUvt8aDNhM4MHTZIMrJUwT+oG0mZVSGySMAiIBIfKaR48DvIwnP326swgM++z5l7YudZ87sS1Y496dh9KxepTFwJ4LIy3K5HLYHfMIkTv41qOMmfgC21t9z5cb6zlzAcdUkx50g9VZrnJICeEcd0ji6S8B2UtG9JVMwePx7hS3+Qd+4OLpw1GhOsWnpx6DfmwGIPH+2T/3VCvfAApbiPMcJIwnwpZhcEcookReUXG0WmRQAPToIxxw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=softfail (sender ip
+ is 91.26.50.189) smtp.rcpttodomain=gmail.com smtp.mailfrom=phytec.de;
+ dmarc=fail (p=quarantine sp=quarantine pct=100) action=quarantine
+ header.from=phytec.de; dkim=none (message not signed); arc=none (0)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=phytec.de; s=selector2;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=2uODmwgjrjIln038UFiHo5xlYDljFXZY0obv4WnW88Y=;
- b=oKy91tTXYt0+XN/2xKFN8eK7zyLAQ5QOH9+U67Mt8x0HwzJQMDK2QsSPpTaxiZzpmrU7E6VhAV6aNAJSYZUfuRaOQ6UEcGq9ywcB8QcZlmUs2oZnwqQubP11imMvwHaOLWytkT5xAVcbeKGMRbPsilVV/+koZm1o1v1hY7h7t40=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=amd.com;
-Received: from CO6PR12MB5427.namprd12.prod.outlook.com (2603:10b6:5:358::13)
- by SJ2PR12MB8034.namprd12.prod.outlook.com (2603:10b6:a03:4cb::8) with
- Microsoft SMTP Server (version=TLS1_2,
+ bh=twrMFMzUHlwWHmGhDEuhAJ2vxIzV1lEqXJIVNkFeL5E=;
+ b=eYa+S+Ub1xk6B8Co5ryciTH8iW/nh9F3zLNbBqArFbDZh5CM2TrbSGiETYjEN9//3y31T7HpsBGbON5gXOqOCSJea/2VRQwFc2DtMZvOOUTwhidT58kWqQZMhTh5Yj7b7NV2scH2zalh+o5Igkz6A1IdpjYaMa24neRrKEsc3ridf/mA26cE+gUMzDfyzozHgND4jGB0xmMAysrLMEvcgARfk6C4HTS+yLybEVRNvMv8rHFlXYAOkiYtDsZVCUrJ5Kw9L9K73gndtWQLcmQLnPXV8x9zymdkvHQbpQMdcVJGEZZOugzAmIIWTQu/DOwL7r68SgIIf2YyGLhgytyFbQ==
+Received: from AM0PR06CA0134.eurprd06.prod.outlook.com (2603:10a6:208:ab::39)
+ by AMBP195MB2858.EURP195.PROD.OUTLOOK.COM (2603:10a6:20b:6ae::14)
+ with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9253.12; Thu, 23 Oct
- 2025 14:10:40 +0000
-Received: from CO6PR12MB5427.namprd12.prod.outlook.com
- ([fe80::9e93:67dd:49ac:bc14]) by CO6PR12MB5427.namprd12.prod.outlook.com
- ([fe80::9e93:67dd:49ac:bc14%6]) with mapi id 15.20.9253.011; Thu, 23 Oct 2025
- 14:10:40 +0000
-Message-ID: <2d4cbf1e-f8f7-4f6e-9e7e-15fb05234248@amd.com>
-Date: Thu, 23 Oct 2025 10:09:56 -0400
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v6 1/1] drm/amd: Re-introduce property to control adaptive
- backlight modulation
-To: Mario Limonciello <superm1@kernel.org>, amd-gfx@lists.freedesktop.org
-Cc: Simon Ser <contact@emersion.fr>, Xaver Hugl <xaver.hugl@gmail.com>,
- dri-devel@lists.freedesktop.org, Leo Li <sunpeng.li@amd.com>,
- Mario Limonciello <mario.limonciello@amd.com>,
- Xaver Hugl <xaver.hugl@kde.org>
-References: <20250718192045.2091650-1-superm1@kernel.org>
- <20250718192045.2091650-2-superm1@kernel.org>
-Content-Language: en-US
-From: Harry Wentland <harry.wentland@amd.com>
-In-Reply-To: <20250718192045.2091650-2-superm1@kernel.org>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: BN9PR03CA0702.namprd03.prod.outlook.com
- (2603:10b6:408:ef::17) To CO6PR12MB5427.namprd12.prod.outlook.com
- (2603:10b6:5:358::13)
+ 2025 14:19:10 +0000
+Received: from AM4PEPF00027A5D.eurprd04.prod.outlook.com
+ (2603:10a6:208:ab:cafe::9b) by AM0PR06CA0134.outlook.office365.com
+ (2603:10a6:208:ab::39) with Microsoft SMTP Server (version=TLS1_3,
+ cipher=TLS_AES_256_GCM_SHA384) id 15.20.9253.13 via Frontend Transport; Thu,
+ 23 Oct 2025 14:19:10 +0000
+X-MS-Exchange-Authentication-Results: spf=softfail (sender IP is 91.26.50.189)
+ smtp.mailfrom=phytec.de;
+ dkim=none (message not signed)
+ header.d=none;dmarc=fail action=quarantine header.from=phytec.de;
+Received-SPF: SoftFail (protection.outlook.com: domain of transitioning
+ phytec.de discourages use of 91.26.50.189 as permitted sender)
+Received: from Postix.phytec.de (91.26.50.189) by
+ AM4PEPF00027A5D.mail.protection.outlook.com (10.167.16.69) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.9253.7 via Frontend Transport; Thu, 23 Oct 2025 14:19:10 +0000
+Received: from llp-jremmet.phytec.de (172.25.39.81) by Postix.phytec.de
+ (172.25.0.11) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.29; Thu, 23 Oct
+ 2025 16:19:09 +0200
+From: Jan Remmet <j.remmet@phytec.de>
+Date: Thu, 23 Oct 2025 16:18:48 +0200
+Subject: [PATCH v2] drm/bridge: ti-sn65dsi83: move clk setup to enable
 MIME-Version: 1.0
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Message-ID: <20251023-wip-j-remmet-phytec-de-bspimx8m-3801_peb-av-10_with_ac209-v2-1-10d79d13ea4a@phytec.de>
+X-B4-Tracking: v=1; b=H4sIAEc5+mgC/62OWwqDMBREtyL57i1Janz0q/soIjFe6y1EQyJRE
+ fdea7fQzzMwc2ZjAT1hYPdkYx4jBRqHA+QlYabXwwuB2oOZ5FLxUiqYycEbPFqLE7h+ndBAi9A
+ ER3YpLNwKLmqHDegIgtczTX2tjeQlcFXoBos0z03Gjn3nsaPldD+rg3sK0+jX80oU3/Qf1iiAQ
+ 5l2ZZfnCjGTj1/92iKr9n3/AAQP5mICAQAA
+X-Change-ID: 20250925-wip-j-remmet-phytec-de-bspimx8m-3801_peb-av-10_with_ac209-058abe8477c6
+To: Andrzej Hajda <andrzej.hajda@intel.com>, Neil Armstrong
+ <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>, Laurent Pinchart
+ <Laurent.pinchart@ideasonboard.com>, Jonas Karlman <jonas@kwiboo.se>, "Jernej
+ Skrabec" <jernej.skrabec@gmail.com>, Maarten Lankhorst
+ <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
+ Simona Vetter <simona@ffwll.ch>, Inki Dae <inki.dae@samsung.com>, Jagan Teki
+ <jagan@amarulasolutions.com>, Marek Szyprowski <m.szyprowski@samsung.com>,
+ Aradhya Bhatia <a-bhatia1@ti.com>, Aradhya Bhatia <aradhya.bhatia@linux.dev>, 
+ Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>, Devarsh Thakkar
+ <devarsht@ti.com>, Dmitry Baryshkov <lumag@kernel.org>, Alexander Sverdlin
+ <alexander.sverdlin@gmail.com>
+CC: <dri-devel@lists.freedesktop.org>, <linux-arm-kernel@lists.infradead.org>, 
+ <upstream@lists.phytec.de>
+X-Mailer: b4 0.14.2
+X-Originating-IP: [172.25.39.81]
+X-ClientProxiedBy: Postix.phytec.de (172.25.0.11) To Postix.phytec.de
+ (172.25.0.11)
+X-EOPAttributedMessage: 0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: CO6PR12MB5427:EE_|SJ2PR12MB8034:EE_
-X-MS-Office365-Filtering-Correlation-Id: 9bb6ed78-1445-46aa-879b-08de123df261
+X-MS-TrafficTypeDiagnostic: AM4PEPF00027A5D:EE_|AMBP195MB2858:EE_
+X-MS-Office365-Filtering-Correlation-Id: 450cad4e-6791-47f0-0683-08de123f2295
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|1800799024|366016|376014;
-X-Microsoft-Antispam-Message-Info: =?utf-8?B?SWxiUEVCTWNpbzg2WDdjYVJmeGZMbHFWSTJUWTY1NlRPOTRlOHY5dFJWNUxB?=
- =?utf-8?B?NGVhLzFMa3kwMFVsTjR6Q2s4b0xoOXY4djdVZ2lkQ01hcCtVSllaWVdwazli?=
- =?utf-8?B?a1pQN1h2c1VvM2VxZFpvS3hnRFFOWW13QU5XS3hQY2Fxd2ZZLytnc0VXWTdY?=
- =?utf-8?B?MGFodE1UUE1Pb2tZUHYzRjBuSmU3VjdxaElFS1lVbzM3amVYU0srZkVwTnFE?=
- =?utf-8?B?M0FnbUdsV3hJcG10YmtLZlA0WGF4WlVwbEpMQTBMVHFnVk5icklHdXcveFNr?=
- =?utf-8?B?bnpSZW1CUFh4STVDTTI1UjRXamo5ZEdqTmpTaXdIcXZJS0puMmtqME5ackJP?=
- =?utf-8?B?T3ZxRUVSL05MRjE4MW04T3NFQS9YTWJXelYvQXpYMG9Sc1NEN1gzNTFnRzd1?=
- =?utf-8?B?UzJxNUdRTkVaeGF3VFFaam45blJoZVBpV3JVY2hEdUl5Z0hKcytzVnliY21r?=
- =?utf-8?B?cUJZd1lmb280azFZajZnamFKODVkZk8wMUtlaDRQR0tJUDZ6RWNQWUZ1b1Fh?=
- =?utf-8?B?TWNJcGJ2bGQ2M1p0Wmptb2Jlb2JFQW1wYStjK1R6bi9TSFE4cDNrdFFjZmN6?=
- =?utf-8?B?cThlWXZJWFUyT1hJMWxUelpVdGJKWmR0aE55TkZiaTNjSzgxNzNkSW8vbjRF?=
- =?utf-8?B?NVNwMWJGSFQ0RHlkZG0yRlRKZ1JITjhJcjVEUDdBbGlJU2ZrZG1lSmk4YUVi?=
- =?utf-8?B?bkJqK3BnR0Y3S0NxbVlGSEoxbXBtdE1QcWdYMHlMcStCZ0VOVm5VTzhhWnVI?=
- =?utf-8?B?MHNUZEg0WnNtU3JpdlhKNmRKTHpEdnN3OVIvdkVXYnMwWHhoOWswNVY2bjBw?=
- =?utf-8?B?TFdJNi9pTXlCNWxuS1R2N2Y1Z25haFBSVmdQRUIzbVhBeEpMdWZjZFloL2FJ?=
- =?utf-8?B?dkpFRlYzWTVCc3l1cGFLNnNWNEZEMVZLUWxSVW8wMmpPLzBvWHpEYlEzZEVH?=
- =?utf-8?B?dUJRUE8rWTRnRVZMOHdEaTVPL1NKUkJ5QlFYc1dGYmU5R3E3WVhBWDdwR3NM?=
- =?utf-8?B?TTJzd3lZSjFvLzduaURsd3lYZ2pjdnVIOUp2aWt4WXBEaGxjUDNsR2hkV1pp?=
- =?utf-8?B?Z1NVUWFpUytFdFQ0R2FBVmpqN0gvSXNTUDEwMUN1TkluQm5kaFoxWkw5elFz?=
- =?utf-8?B?TXZ0blYwTGZnWWpXaDVCTFJYbSsxR0NjRDh2R09oR3d4MW44a25SQ2pTRVlu?=
- =?utf-8?B?Nndzb0ZqTHJoUGQxaFVmRTA3Ui9yZUxtWE1XMjNTM2JnN0xuTzdDaE5CZytJ?=
- =?utf-8?B?cE1neDY5SmhrMXdONlluTzlSMTJzY1FRdmVKUTN6TzRCQkppbzlCUUlaZzZ0?=
- =?utf-8?B?RUdSNDJRdS9Da2s2UzNaVkZUMGV3Tk05MnhFS0pOWGhIc0RFOXAxWUtRZjNF?=
- =?utf-8?B?bFBWVUN4MU9xOVdnRU5QS1JWZG1RRmFjZ2JMMGZYQm5JSm8renVOVnhIa3Uz?=
- =?utf-8?B?bmQra0gySEQyU2tMU243SnI0bmkyYVJzQ3J1TWtNSzdjajBxZUhLaWxEVEVl?=
- =?utf-8?B?OEcxUWRWWFAyNVp2cy8wUFphdHJRTVVqVUJva2hhMWFYUkFoWVhxbU1FWldz?=
- =?utf-8?B?Z1BtZE0yOUs2aDFtd2NrOXRob0hUZXRMVXRJbEtFSGJNbXFJMmMrN2x5OE1j?=
- =?utf-8?B?L3RGbjFmMmppOUlCWkY2aXUxRTNQaWdRZnBxMXlRYW8reGhDMDNXcXc5TEJi?=
- =?utf-8?B?YlYva3R6a0VvZHM3YlU1VE9FRHF4TDRrUUYxZkFESW9ZTnNFR21ObEd0c25B?=
- =?utf-8?B?VFliaGRKaU5jRERaaGVNNnhoZ1pDcm4wSENiK3J2cnBqa05KNTAyZkRBQlFW?=
- =?utf-8?B?bGdwMUs5czd4akMyeW1PeURwMUxoUnAyVVNXOGRJQ0pJbGs3VDY2QytuNnhx?=
- =?utf-8?B?YUZ3TDkrUUl5ak1pSDRYL2JvQ3ZnVVVFMC8wdWZUcVg2eHNtVFVuL0U5QlIy?=
- =?utf-8?Q?GXsri6+xpp3lk+DJbc+bTRZG2euIxm3L?=
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:CO6PR12MB5427.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230040)(1800799024)(366016)(376014); DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?L1YrdFY1SGpQNk1BOFZiem5ObFlIN1B3WEJ4enNKb3h2MlRkWmV2TWlDMmxn?=
- =?utf-8?B?V3pCUG51SUFCMFFpREhDYnBIZ0xPQ0VMMThqNm9iRDVvdGRYRk9CdWh0MEV5?=
- =?utf-8?B?VEU0R2dHTVVjOFEvb096bGVuWVM1RDdQbjBtQ0NSYWNDMkxUdUV4TiszcDAx?=
- =?utf-8?B?emRaUXVQTnhyOUJWak94VUdwbC9NNkFLZERBc0N2SGtmWXBWUFRodHQ3N2VZ?=
- =?utf-8?B?QkpVUnpaN2pLQmlIUEtDMzQvZFJBYThJUHlFME9kcEtEeERrTXk2c0JqZVh0?=
- =?utf-8?B?R05tQkVERzkwRUt2RU94Q2l2YU5BdTNDbWg1R1hGeDQxUktLSFFIb3hLeEFs?=
- =?utf-8?B?eEdrUGtodGpSemFJL3YyaDArN3Y4NWhKNFdzT2IyVXlSNVlCY1NVc0grTExh?=
- =?utf-8?B?VlY1WFNFQnk2NmxDYlpkS0Zqd01pcVVhZXg5WnNZTmJnK0V4WEVVdjc0NytX?=
- =?utf-8?B?eHlheFpoVDExV0FUQzBRdHBQek84cXFSakdkL1crZDJBYlBibHJMeERLTlJO?=
- =?utf-8?B?M0VnWGl3a1B4aW9ObUVMTytCSmJHYVdRRE9NcW0ySVhsaTFTQkUrUE9uT3l3?=
- =?utf-8?B?SFJpWDl2NnFYaHYrNUsyTkJzSGhxU3lTQS8xVlJ4akdSUEI5WWdKL2RCS3VJ?=
- =?utf-8?B?ZXY0WFhGZ3Y4dXRvenZJdTF1clpwcEU1R05BQThKOFFIVkVHWnFWRGM2VGda?=
- =?utf-8?B?NXh6S01OMjUxYzl6YTFzMGRWTXJ1bVUrQzhQYmRkWUdIRVI1WmVESGx6WFBv?=
- =?utf-8?B?TDJNU0RxakZPTGdkUWhsT3MzUTdTZXhqeHF1ZWVaaSs4TG9KYTBqM3dvUWxS?=
- =?utf-8?B?dGNISTJUMHd4K1RkV25qcDJ2dDd3SUwySzJjWUtiWmh0c0NiSHVSZXlCbnB5?=
- =?utf-8?B?MDh5MDNrcm9kSWozR3dXbWZieVAxb2EwcGRBMkVUS2orWlplOUs5MWc4ZDRY?=
- =?utf-8?B?SVJVT3lvaWZrcWRmSEVOcyt0TTV3cENiWWNiV3BJZFVTV3k1YS9kdWlNM3Zs?=
- =?utf-8?B?TjJ0Y0dwSGpnOVFUMXcvSXpZUmx1VEJtZVA0RUVkK1hVTUJDRkpKeDk5R01E?=
- =?utf-8?B?MUVLOUM1Q0Z3SEVnZlBTajhLY1Z1ZnNpMFh2ZnRuV0RsdU5Pd2JHRGpFZFE3?=
- =?utf-8?B?VjNqb3R3NnVtTHhsa1FncmNhZzFsTk1QaEtOa2xPQjFKSXU3T3FjaG9RMVBo?=
- =?utf-8?B?Z2UvVmgyZm90eHA4Mm4yaVNoRlZiS1FEQmJqbTEyQm5nMFo2UEwwb1JhcW1G?=
- =?utf-8?B?OXFGTEgwc0JIcUVMZnVLVW1IYnV6Qzd4cTJYVDkrdEQwQ2Vid3owVXlFZ2RV?=
- =?utf-8?B?N2F6aEFscnN5RjQrUjhBUGd2Z002U2lNZm1kRGgrall0d1dWbFdoMG93aEQr?=
- =?utf-8?B?cURmd0NHbWYxRHhJSDJGUDM2WTVxRmVFTnY2WjdqVnJ1WVlkaVN0aUlYVmhu?=
- =?utf-8?B?eXN1cjFDQldXS0F0dy93cnUvWWtsWHpYTmVZVkNHNmRFK3ZaNDlrdGRSbjZp?=
- =?utf-8?B?ckk0TWJSMXpxMmJnaXNuM0dRYm5QNkpsZHRKRGVaNXVhMGt0NmIyYVRDOU40?=
- =?utf-8?B?c1U4Q21DSkFROEcvVDV0WHdBSXRSdWxaTUUxWjNON0ZQUXE3elNaRlREcDF2?=
- =?utf-8?B?TlFPZ3UvL0syWXJqanlkVFhmOEMxM2RkZUFOT2kxOUZuZDJtSHhjTm5zLzI0?=
- =?utf-8?B?Zkk5UUN5WlFNRnJiNWc4cWV3VjVvT0tnaHNQckNQREFybExxaElXaTVJdVFP?=
- =?utf-8?B?Z2d5a3lkSURrVVRVL0Ira3ZxRXF4em1lUGlHRFRPdHVSdkl5S1llcnEvL05B?=
- =?utf-8?B?RlFBZ05IbE1kMmtnbHkwc1JDL3BsMlNhbU9vTURabGxNNjNPYTArNnh6SHpS?=
- =?utf-8?B?VVRrSFJtbnJSaVNKeTIzd2xMdDVDWHIyZWY0aERlNjBzeDdDK1VPZ2h0OHZL?=
- =?utf-8?B?dXl6K2M0eENOZ0NkOU43YjBhR1RyYlQ3anJKV2J4TW1OSGlHbDBQS0REVEFF?=
- =?utf-8?B?Z1IyVHMrQ3EzSWh3SDRVc2hHNmtTTTViVGNFRUtDTCtwNS9KdDdyVEJZTzNv?=
- =?utf-8?B?eVlsUzRnM01Yc0hsUlZzVVFpZHFiaFRPQStkNWJuRkJLRW85WkNVUUU4OTE3?=
- =?utf-8?Q?T3kC/8wp8BflbP0UC7/DJkp/n?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 9bb6ed78-1445-46aa-879b-08de123df261
-X-MS-Exchange-CrossTenant-AuthSource: CO6PR12MB5427.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 23 Oct 2025 14:10:40.3787 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: Xnkft/hd0Asz0qdrRl0ODRgdeudyomy61uccT2l+QY6cviuGaRZUV29ozWsQ8DUNorfTvN03kNkcjauMhW2Vxg==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SJ2PR12MB8034
+X-Microsoft-Antispam: BCL:0;
+ ARA:13230040|36860700013|82310400026|7416014|1800799024|376014|921020; 
+X-Microsoft-Antispam-Message-Info: =?utf-8?B?aVpEeXVha2xhTit3YUh0ZFBlUnJqQzJhZkRKUVp4MUNPbEtXVEpYNVZybHFG?=
+ =?utf-8?B?OVVndUxEM055eVh0WDdyTFNuM0l2WC9EWjVjdU4rSFNwSmNaeUpQb0R6WEYr?=
+ =?utf-8?B?Q3FHcDNqaklydG9KTnUvK0JhVlJQV3VYS1NJQTg4TFJuWTlNQkltdjBPOFIz?=
+ =?utf-8?B?WUkyTmVuNVJGUnVUZVFoaTN2QUtBZnpYb3ZweGxGQ1FkVW9JTEtDWG9tSy9Q?=
+ =?utf-8?B?SkFUazFpMkFZUThWTE9jbHNXRmVKOGhoOCt2bUYyUWRNWUw2K0QweVJPVzRG?=
+ =?utf-8?B?QlhqRFU5MDI5VU53cWQzY3JCd1VCd2xsOUUxN3g4VGcwWHZoeDVVWnFjcmpj?=
+ =?utf-8?B?dUVYRy8vdW1lVEtUSXY1Y1NHbWZQSUVxcmY0dmkvYWpkd1FZWWlyWkJpK1pG?=
+ =?utf-8?B?WnN6YThGK0xHZ3Q5Y3NGRGNXM1Z5NTlhelpta2htOGRZdE5QMmZ3ZWttanJ0?=
+ =?utf-8?B?T25WdS9VVmNKbDhpZmxhcm5PaEsvRGRpcndQekVOaEVVSExRUkQyY0h0Vmxx?=
+ =?utf-8?B?aHkrc0VxaDM0RVNrN1hscElCTEtlUmhReTR2b0cvam1jeXdOMzY1NDBhN3I2?=
+ =?utf-8?B?NG5acXNoQjJnNDk1bTJ4UzROSlFJSFpqdWtuQklZT1VvdHI5a2VreTFsdDFw?=
+ =?utf-8?B?dUxGeEFPWllrWEd3dURsZndyT05xMUsxWHhkSXNrd0xweTRqSUU5RlFTZk5Q?=
+ =?utf-8?B?UW5GU1c1dmV4anlTRzU4cFdXamo2QnhlUUtCNFIzQVQ4Z3NYZmVrak5kN0JR?=
+ =?utf-8?B?dXRTVUVIWXo4dmRFV0FBYUpYeWhyQ2V4M0sxZ1VMTGhZT0NUVjh4RWVIanB0?=
+ =?utf-8?B?OFZYa0d1NnFrWkRYaitycnN1YkFsMWp1cHo2bDNiNGRWSWxaaW9JZEcxUHBJ?=
+ =?utf-8?B?bDRaTUhDc2Q2ZnZHN0xJRGxXY3F6UzB2alVhNzl0elRmTHdGTEFzSXE0Q2xn?=
+ =?utf-8?B?T09hQ3ZCejJiQTN5aWkwZVhEMnVwd1F0MWE1M2YyUjRiT0VvcWNRb0w3SlQy?=
+ =?utf-8?B?VVdLZGR3TUU3ZUFkaG1WWG9tTEpXUy9TNW1FbStobnNjQmpxSHk3Y2lsaUJG?=
+ =?utf-8?B?UEtDMG5jclhwSk1TVjZadWRaNHdra0tvRUdIOS9pVk5QcEptNG9YbCs5N1ZN?=
+ =?utf-8?B?N0svSjlLYk82bUpQbGQ5M3hQa0t2elpiNmFLYko1QStScnB3S1VPc3ROUDhR?=
+ =?utf-8?B?dnNPdGpka2F2RThxZWZhUmFaTlloR0JweXphSHd4ZW94WWpMRno1Y1c0WjFB?=
+ =?utf-8?B?K3RFRGxCak1RcU1zQ0t6SW85Y3dwL0NDWDZTd2FtWWtvLzhOemN6b3lrK2VJ?=
+ =?utf-8?B?Q3plSkZxM0x6ZmlqdjJEclNFUkc1bjk3S2Foc3RvSFFQL2FqYjQrNVVycXhu?=
+ =?utf-8?B?OCtKNDNRWWhkeDdBMWp6VkdUbk0zcG90NE1jM1NyakNtMXMyY3ZlcHZqTGJV?=
+ =?utf-8?B?SWRXRExiUER0bVVpV1JPb0xWUFRmUGpwa0hhby9FMDRaOEN4bDRiTVpqWXpF?=
+ =?utf-8?B?dVpQMXlic2tpNDBoUWlxelM1UkNLREZxSlFZMUdsdGczQWhNcno1TEhZS21v?=
+ =?utf-8?B?NGwxcUppdHlPZFlDRlJLM0JSVDRXcEx3WUExeDVGdVhwK0UzdE9lSG0vT01z?=
+ =?utf-8?B?M0tNTm1EaVFrVzBiUCtUNmprNlpyVkNWemlXY2U0N2R5RmhBclEybHdwWVFl?=
+ =?utf-8?B?djA0UE03NTFOQ1hKQ1dEdnZoUnE3alZEYmlyQ3R1ZHUwdFhWY2xrd0xhdXZo?=
+ =?utf-8?B?MDJDNDVxb0tOR3ZJSDFzMEYwN0R4QjdGTG5pa29NVXhuZFlFWllUTjYrbjNv?=
+ =?utf-8?B?ZGpaelRzdlBCd1pYa0d0QzZJZUdIeDUxaHNPUzFSbWVyTmJoWXE2MGhDQmI2?=
+ =?utf-8?B?bEszMnJvY0xhcTR5dVg3VzBpVXVrOGxtOWxYcHVKNjNFazlOdVc4YVBXWEdD?=
+ =?utf-8?B?ZUVvUFhRaURvdEtpMUYrbzhUQ2wwY1JqenBqOEF4WDNLMTNNLzJKajZpM09D?=
+ =?utf-8?B?ejByVm1JMkpEaHMwaHVERzkzTWlRdEhFV2tJbHV6YkxTTC9HdStZZDgvaHpS?=
+ =?utf-8?B?dDRQWXhOKzVEdUVITXE1bWdFYjBiUEVxSmlSdXQzQVFndWdOSzM3TWp5TmNV?=
+ =?utf-8?B?a2FVQWFXa3JncThoNm1HNSsvK0gxakdWNm8yUDRITVRuS0pKL21JdkxyaHJ1?=
+ =?utf-8?B?TUE9PQ==?=
+X-Forefront-Antispam-Report: CIP:91.26.50.189; CTRY:DE; LANG:en; SCL:1; SRV:;
+ IPV:CAL; SFV:NSPM; H:Postix.phytec.de; PTR:InfoDomainNonexistent; CAT:NONE;
+ SFS:(13230040)(36860700013)(82310400026)(7416014)(1800799024)(376014)(921020);
+ DIR:OUT; SFP:1102; 
+X-OriginatorOrg: phytec.de
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 23 Oct 2025 14:19:10.5191 (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 450cad4e-6791-47f0-0683-08de123f2295
+X-MS-Exchange-CrossTenant-Id: e609157c-80e2-446d-9be3-9c99c2399d29
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=e609157c-80e2-446d-9be3-9c99c2399d29; Ip=[91.26.50.189];
+ Helo=[Postix.phytec.de]
+X-MS-Exchange-CrossTenant-AuthSource: AM4PEPF00027A5D.eurprd04.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: AMBP195MB2858
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -166,257 +160,102 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+Move enable PLL from pre_enable to sn65dsi83_atomic_pre_enable.
 
+The base clocks may not be ready when pre_enable is called.
 
-On 2025-07-18 15:20, Mario Limonciello wrote:
-> From: Mario Limonciello <mario.limonciello@amd.com>
-> 
-> commit 0887054d14ae2 ("drm/amd: Drop abm_level property") dropped the
-> abm level property in favor of sysfs control. Since then there have
-> been discussions that compositors showed an interest in modifying
-> a vendor specific property instead.
-> 
-> So re-introduce the abm level property, but with different semantics.
-> Rather than being an integer it's now an enum. One of the enum options
-> is 'sysfs', and that is because there is still a sysfs file for use by
-> userspace when the compositor doesn't support this property.
-> 
-> If usespace has not modified this property, the default value will
-> be for sysfs to control it. Once userspace has set the property stop
-> allowing sysfs control.
-> 
-> The property is only attached to non-OLED eDP panels.
-> 
-> Cc: Xaver Hugl <xaver.hugl@kde.org>
-> Signed-off-by: Mario Limonciello <mario.limonciello@amd.com>
-> ---
->  drivers/gpu/drm/amd/amdgpu/amdgpu_display.c   | 60 ++++++++++++++++++-
->  drivers/gpu/drm/amd/amdgpu/amdgpu_display.h   |  7 +++
->  drivers/gpu/drm/amd/amdgpu/amdgpu_mode.h      |  2 +
->  .../gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c | 39 +++++++++++-
->  .../gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.h |  1 +
->  5 files changed, 106 insertions(+), 3 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_display.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_display.c
-> index 35c778426a7c7..f061f63e31993 100644
-> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_display.c
-> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_display.c
-> @@ -1363,6 +1363,64 @@ static const struct drm_prop_enum_list amdgpu_dither_enum_list[] = {
->  	{ AMDGPU_FMT_DITHER_ENABLE, "on" },
->  };
->  
-> +/**
-> + * DOC: property for adaptive backlight modulation
-> + *
-> + * The 'adaptive backlight modulation' property is used for the compositor to
-> + * directly control the adaptive backlight modulation power savings feature
-> + * that is part of DCN hardware.
-> + *
-> + * The property will be attached specifically to eDP panels that support it.
-> + *
-> + * The property is by default set to 'sysfs' to allow the sysfs file 'panel_power_savings'
-> + * to be able to control it.
-> + * If set to 'off' the compositor will ensure it stays off.
-> + * The other values 'min', 'bias min', 'bias max', and 'max' will control the
-> + * intensity of the power savings.
-> + *
-> + * Modifying this value can have implications on color accuracy, so tread
-> + * carefully.
-> + */
-> +static int amdgpu_display_setup_abm_prop(struct amdgpu_device *adev)
-> +{
-> +	const struct drm_prop_enum_list props[] = {
-> +		{ ABM_SYSFS_CONTROL, "sysfs" },
-> +		{ ABM_LEVEL_OFF, "off" },
-> +		{ ABM_LEVEL_MIN, "min" },
-> +		{ ABM_LEVEL_BIAS_MIN, "bias min" },
-> +		{ ABM_LEVEL_BIAS_MAX, "bias max" },
-> +		{ ABM_LEVEL_MAX, "max" },
+commit c9b1150a68d9 ("drm/atomic-helper: Re-order bridge chain pre-enable
+		and post-disable") points out that pre_enable hook definition says that
+"The display pipe (i.e. clocks and timing signals) feeding this bridge
+will not yet be running when this callback is called".
 
-My only concern is that with these values we're locking ourselves
-specifically to ABM. But if userspace implements support one might
-want to use that support for other, similar panel power saving
-features, like some OLED power saving features.
+Signed-off-by: Jan Remmet <j.remmet@phytec.de>
+---
+commit c9b1150a68d9 ("drm/atomic-helper: Re-order bridge chain pre-enable
+and post-disable") caused our display [1] to flicker constantly.
 
-I was thinking a range property might work better and could see
-re-use in the future, but unfortunately it uses uints to specify
-the range, so we couldn't designate -1 for "sysfs".
+Our setup is
+i.MX8MM mxsfb -> samsung_dsim ->
+ sn65dsi83 (MIPI to LVDS) -> ETML1010G3DRA (display)
 
-Thoughts? Should we care? Can we avoid userspace needing code for
-a set of different panel power saving features, like
-- ABM
-- OLED power saving
-- <some Intel panel power saving feature>
-- <another NVidia panel power saving feature>
-- <other vendors panel power saving features>
+Reverting the commit [2] let the display work again.
+Only difference in clk_summary is the change of
+dsi_phy_ref from 72400000 (flickering) to 18100000 (working)
 
-If we made it more generic we could even move this to a common DRM
-property once other drivers have use for it.
+The same behavior can be seen with a ph128800t006-zhc01 display
+and dsi_phy_ref from 66500000 (flickering) to 16625000 (working)
 
-Harry
+The root cause seems to be that mxsfb_crtc_atomic_enable is called after
+samsung_dsim_atomic_pre_enable. This changes the parent clock after
+the PLL is already configured.
 
-> +	};
-> +	struct drm_property *prop;
-> +	int i;
-> +
-> +	if (!adev->dc_enabled)
-> +		return 0;
-> +
-> +	prop = drm_property_create(adev_to_drm(adev), DRM_MODE_PROP_ENUM,
-> +				"adaptive backlight modulation",
-> +				6);
-> +	if (!prop)
-> +		return -ENOMEM;
-> +
-> +	for (i = 0; i < ARRAY_SIZE(props); i++) {
-> +		int ret;
-> +
-> +		ret = drm_property_add_enum(prop, props[i].type,
-> +						props[i].name);
-> +
-> +		if (ret) {
-> +			drm_property_destroy(adev_to_drm(adev), prop);
-> +
-> +			return ret;
-> +		}
-> +	}
-> +
-> +	adev->mode_info.abm_level_property = prop;
-> +
-> +	return 0;
-> +}
-> +
->  int amdgpu_display_modeset_create_props(struct amdgpu_device *adev)
->  {
->  	int sz;
-> @@ -1409,7 +1467,7 @@ int amdgpu_display_modeset_create_props(struct amdgpu_device *adev)
->  					 "dither",
->  					 amdgpu_dither_enum_list, sz);
->  
-> -	return 0;
-> +	return amdgpu_display_setup_abm_prop(adev);
->  }
->  
->  void amdgpu_display_update_priority(struct amdgpu_device *adev)
-> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_display.h b/drivers/gpu/drm/amd/amdgpu/amdgpu_display.h
-> index dfa0d642ac161..2b1536a167527 100644
-> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_display.h
-> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_display.h
-> @@ -54,4 +54,11 @@ int amdgpu_display_resume_helper(struct amdgpu_device *adev);
->  int amdgpu_display_get_scanout_buffer(struct drm_plane *plane,
->  				      struct drm_scanout_buffer *sb);
->  
-> +#define ABM_SYSFS_CONTROL	-1
-> +#define ABM_LEVEL_OFF		0
-> +#define ABM_LEVEL_MIN		1
-> +#define ABM_LEVEL_BIAS_MIN	2
-> +#define ABM_LEVEL_BIAS_MAX	3
-> +#define ABM_LEVEL_MAX		4
-> +
->  #endif
-> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_mode.h b/drivers/gpu/drm/amd/amdgpu/amdgpu_mode.h
-> index 6da4f946cac00..169bc667572e2 100644
-> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_mode.h
-> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_mode.h
-> @@ -326,6 +326,8 @@ struct amdgpu_mode_info {
->  	struct drm_property *audio_property;
->  	/* FMT dithering */
->  	struct drm_property *dither_property;
-> +	/* Adaptive Backlight Modulation (power feature) */
-> +	struct drm_property *abm_level_property;
->  	/* hardcoded DFP edid from BIOS */
->  	const struct drm_edid *bios_hardcoded_edid;
->  
-> diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
-> index 928f61f972a1f..4025575d2f536 100644
-> --- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
-> +++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
-> @@ -5042,6 +5042,7 @@ static int initialize_plane(struct amdgpu_display_manager *dm,
->  static void setup_backlight_device(struct amdgpu_display_manager *dm,
->  				   struct amdgpu_dm_connector *aconnector)
->  {
-> +	struct amdgpu_dm_backlight_caps *caps;
->  	struct dc_link *link = aconnector->dc_link;
->  	int bl_idx = dm->num_of_edps;
->  
-> @@ -5061,6 +5062,13 @@ static void setup_backlight_device(struct amdgpu_display_manager *dm,
->  	dm->num_of_edps++;
->  
->  	update_connector_ext_caps(aconnector);
-> +	caps = &dm->backlight_caps[aconnector->bl_idx];
-> +
-> +	/* Only offer ABM property when non-OLED and user didn't turn off by module parameter */
-> +	if (!caps->ext_caps->bits.oled && amdgpu_dm_abm_level < 0)
-> +		drm_object_attach_property(&aconnector->base.base,
-> +					   dm->adev->mode_info.abm_level_property,
-> +					   ABM_SYSFS_CONTROL);
->  }
->  
->  static void amdgpu_set_panel_orientation(struct drm_connector *connector);
-> @@ -7122,6 +7130,20 @@ int amdgpu_dm_connector_atomic_set_property(struct drm_connector *connector,
->  	} else if (property == adev->mode_info.underscan_property) {
->  		dm_new_state->underscan_enable = val;
->  		ret = 0;
-> +	} else if (property == adev->mode_info.abm_level_property) {
-> +		switch (val) {
-> +		case ABM_SYSFS_CONTROL:
-> +			dm_new_state->abm_sysfs_forbidden = false;
-> +			break;
-> +		case ABM_LEVEL_OFF:
-> +			dm_new_state->abm_sysfs_forbidden = true;
-> +			dm_new_state->abm_level = ABM_LEVEL_IMMEDIATE_DISABLE;
-> +			break;
-> +		default:
-> +			dm_new_state->abm_sysfs_forbidden = true;
-> +			dm_new_state->abm_level = val;
-> +		};
-> +		ret = 0;
->  	}
->  
->  	return ret;
-> @@ -7164,6 +7186,13 @@ int amdgpu_dm_connector_atomic_get_property(struct drm_connector *connector,
->  	} else if (property == adev->mode_info.underscan_property) {
->  		*val = dm_state->underscan_enable;
->  		ret = 0;
-> +	} else if (property == adev->mode_info.abm_level_property) {
-> +		if (!dm_state->abm_sysfs_forbidden)
-> +			*val = ABM_SYSFS_CONTROL;
-> +		else
-> +			*val = (dm_state->abm_level != ABM_LEVEL_IMMEDIATE_DISABLE) ?
-> +				dm_state->abm_level : 0;
-> +		ret = 0;
->  	}
->  
->  	return ret;
-> @@ -7216,10 +7245,16 @@ static ssize_t panel_power_savings_store(struct device *device,
->  		return -EINVAL;
->  
->  	drm_modeset_lock(&dev->mode_config.connection_mutex, NULL);
-> -	to_dm_connector_state(connector->state)->abm_level = val ?:
-> -		ABM_LEVEL_IMMEDIATE_DISABLE;
-> +	if (to_dm_connector_state(connector->state)->abm_sysfs_forbidden)
-> +		ret = -EBUSY;
-> +	else
-> +		to_dm_connector_state(connector->state)->abm_level = val ?:
-> +			ABM_LEVEL_IMMEDIATE_DISABLE;
->  	drm_modeset_unlock(&dev->mode_config.connection_mutex);
->  
-> +	if (ret)
-> +		return ret;
-> +
->  	drm_kms_helper_hotplug_event(dev);
->  
->  	return count;
-> diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.h b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.h
-> index 0b964bfdd4a55..5a38373e054a8 100644
-> --- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.h
-> +++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.h
-> @@ -969,6 +969,7 @@ struct dm_connector_state {
->  	bool underscan_enable;
->  	bool freesync_capable;
->  	bool update_hdcp;
-> +	bool abm_sysfs_forbidden;
->  	uint8_t abm_level;
->  	int vcpi_slots;
->  	uint64_t pbn;
+According to the commit [2] pre_enable hooks should not rely on clocks.
+Both drivers used in our setup work with clocks in pre_enable.
+
+Moving the clock setup from pre_enable to enable fix the issue for
+our setup.
+
+Please note that I am not deeply familiar with the DRM subsystem internals,
+and there might be side effects of this change that I haven't considered.
+
+[1] arch/arm64/boot/dts/freescale/imx8mm-phyboard-polis-peb-av-10.dtso
+[2] https://lore.kernel.org/all/20250605171524.27222-4-aradhya.bhatia@linux.dev/
+---
+Changes in v2:
+- remove samsung_dsim patch
+- tested on top of https://lore.kernel.org/all/20250619-samsung-dsim-fix-v1-1-6b5de68fb115@ideasonboard.com/
+- Link to v1: https://lore.kernel.org/r/20250925-wip-j-remmet-phytec-de-bspimx8m-3801_peb-av-10_with_ac209-v1-0-94f9f775ee62@phytec.de
+---
+ drivers/gpu/drm/bridge/ti-sn65dsi83.c | 16 ++++++++--------
+ 1 file changed, 8 insertions(+), 8 deletions(-)
+
+diff --git a/drivers/gpu/drm/bridge/ti-sn65dsi83.c b/drivers/gpu/drm/bridge/ti-sn65dsi83.c
+index 033c44326552ab167d4e8d9b74957c585e4c6fb7..4cbdbafc3e85821ef6fcd9f74bf07faf6b9f84ff 100644
+--- a/drivers/gpu/drm/bridge/ti-sn65dsi83.c
++++ b/drivers/gpu/drm/bridge/ti-sn65dsi83.c
+@@ -474,7 +474,6 @@ static void sn65dsi83_atomic_pre_enable(struct drm_bridge *bridge,
+ 	struct drm_crtc *crtc;
+ 	bool lvds_format_24bpp;
+ 	bool lvds_format_jeida;
+-	unsigned int pval;
+ 	__le16 le16val;
+ 	u16 val;
+ 	int ret;
+@@ -614,6 +613,14 @@ static void sn65dsi83_atomic_pre_enable(struct drm_bridge *bridge,
+ 	regmap_write(ctx->regmap, REG_VID_CHA_VERTICAL_FRONT_PORCH,
+ 		     mode->vsync_start - mode->vdisplay);
+ 	regmap_write(ctx->regmap, REG_VID_CHA_TEST_PATTERN, 0x00);
++}
++
++static void sn65dsi83_atomic_enable(struct drm_bridge *bridge,
++				    struct drm_atomic_state *state)
++{
++	struct sn65dsi83 *ctx = bridge_to_sn65dsi83(bridge);
++	unsigned int pval;
++	int ret;
+ 
+ 	/* Enable PLL */
+ 	regmap_write(ctx->regmap, REG_RC_PLL_EN, REG_RC_PLL_EN_PLL_EN);
+@@ -633,13 +640,6 @@ static void sn65dsi83_atomic_pre_enable(struct drm_bridge *bridge,
+ 
+ 	/* Wait for 10ms after soft reset as specified in datasheet */
+ 	usleep_range(10000, 12000);
+-}
+-
+-static void sn65dsi83_atomic_enable(struct drm_bridge *bridge,
+-				    struct drm_atomic_state *state)
+-{
+-	struct sn65dsi83 *ctx = bridge_to_sn65dsi83(bridge);
+-	unsigned int pval;
+ 
+ 	/* Clear all errors that got asserted during initialization. */
+ 	regmap_read(ctx->regmap, REG_IRQ_STAT, &pval);
+
+---
+base-commit: 93213d0743010ac6a6a21e97e75c695a423b81b3
+change-id: 20250925-wip-j-remmet-phytec-de-bspimx8m-3801_peb-av-10_with_ac209-058abe8477c6
+
+Best regards,
+-- 
+Jan Remmet <j.remmet@phytec.de>
 
