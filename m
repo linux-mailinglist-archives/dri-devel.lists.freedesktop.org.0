@@ -2,71 +2,85 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 75B2EC004CF
-	for <lists+dri-devel@lfdr.de>; Thu, 23 Oct 2025 11:40:27 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id C4F2DC0054D
+	for <lists+dri-devel@lfdr.de>; Thu, 23 Oct 2025 11:44:41 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A4FBC10E1D9;
-	Thu, 23 Oct 2025 09:40:23 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 69BBD10E0BC;
+	Thu, 23 Oct 2025 09:44:38 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=ti.com header.i=@ti.com header.b="EyGFcKj/";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="D7gMHjC9";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from fllvem-ot04.ext.ti.com (fllvem-ot04.ext.ti.com [198.47.19.246])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C0B2110E3B8
- for <dri-devel@lists.freedesktop.org>; Thu, 23 Oct 2025 09:40:21 +0000 (UTC)
-Received: from fllvem-sh04.itg.ti.com ([10.64.41.54])
- by fllvem-ot04.ext.ti.com (8.15.2/8.15.2) with ESMTP id 59N9drvH496873;
- Thu, 23 Oct 2025 04:39:53 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
- s=ti-com-17Q1; t=1761212393;
- bh=jmSCzhQKvGeGnlyR78QWHTBOf5UIhs76QhMxp1+lLS0=;
- h=From:To:CC:Subject:Date:In-Reply-To:References;
- b=EyGFcKj/sDTaa8P2NoUrC7ZUi/b58ATCC2rGyvEX2kYkTWkoimUqOhfv5NzKqc7ip
- f5SsdH9ufcPYfUb2e+/eeiRNFGKlAweOZwSQDJi12jttN1JD+s7ILt0efmFs5X7A1/
- JAj22xjdT+TwpnlLlbdF4krwv+l4m8EyiKCG5oQ0=
-Received: from DFLE211.ent.ti.com (dfle211.ent.ti.com [10.64.6.69])
- by fllvem-sh04.itg.ti.com (8.18.1/8.18.1) with ESMTPS id 59N9drI12304343
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=FAIL);
- Thu, 23 Oct 2025 04:39:53 -0500
-Received: from DFLE209.ent.ti.com (10.64.6.67) by DFLE211.ent.ti.com
- (10.64.6.69) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.20; Thu, 23 Oct
- 2025 04:39:53 -0500
-Received: from fllvem-mr08.itg.ti.com (10.64.41.88) by DFLE209.ent.ti.com
- (10.64.6.67) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.20 via Frontend
- Transport; Thu, 23 Oct 2025 04:39:53 -0500
-Received: from fllv0122.itg.ti.com (fllv0122.itg.ti.com [10.247.120.72])
- by fllvem-mr08.itg.ti.com (8.18.1/8.18.1) with ESMTP id 59N9dqC8166235;
- Thu, 23 Oct 2025 04:39:52 -0500
-Received: from localhost (meghana-pc.dhcp.ti.com [10.24.69.13] (may be forged))
- by fllv0122.itg.ti.com (8.14.7/8.14.7) with ESMTP id 59N9dpcq014049;
- Thu, 23 Oct 2025 04:39:52 -0500
-From: Meghana Malladi <m-malladi@ti.com>
-To: <horms@kernel.org>, <namcao@linutronix.de>, <vadim.fedorenko@linux.dev>,
- <jacob.e.keller@intel.com>, <m-malladi@ti.com>,
- <christian.koenig@amd.com>, <sumit.semwal@linaro.org>,
- <sdf@fomichev.me>, <john.fastabend@gmail.com>, <hawk@kernel.org>,
- <daniel@iogearbox.net>, <ast@kernel.org>, <pabeni@redhat.com>,
- <kuba@kernel.org>, <edumazet@google.com>, <davem@davemloft.net>,
- <andrew+netdev@lunn.ch>
-CC: <linaro-mm-sig@lists.linaro.org>, <dri-devel@lists.freedesktop.org>,
- <linux-media@vger.kernel.org>, <bpf@vger.kernel.org>,
- <linux-kernel@vger.kernel.org>, <netdev@vger.kernel.org>,
- <linux-arm-kernel@lists.infradead.org>, <srk@ti.com>, Vignesh Raghavendra
- <vigneshr@ti.com>, Roger Quadros <rogerq@kernel.org>, <danishanwar@ti.com>
-Subject: [PATCH net-next v4 6/6] net: ti: icssg-prueth: Enable zero copy in
- XDP features
-Date: Thu, 23 Oct 2025 15:09:27 +0530
-Message-ID: <20251023093927.1878411-7-m-malladi@ti.com>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20251023093927.1878411-1-m-malladi@ti.com>
-References: <20251023093927.1878411-1-m-malladi@ti.com>
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7414810E0BC
+ for <dri-devel@lists.freedesktop.org>; Thu, 23 Oct 2025 09:44:37 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1761212678; x=1792748678;
+ h=date:from:to:cc:subject:message-id:references:
+ mime-version:in-reply-to;
+ bh=5x8jLsSxghG7IaRrLPPl0lFfXXLzEE7sGy+TAsSxs/Y=;
+ b=D7gMHjC9QJZkPcEehLGajenWIKg6nz5fvJkCe0o/A/t+xl7cTZSXv0uv
+ TNaudOoNaGKGS7nrOz9ndqWD3rwcYuXoVgpjH9Extp0V9acpUTk4hUPTd
+ 54458aO7kXVQUK71hIf8j+qmjonPXacFJ7V96ttwO+W+32Q56zV+aH678
+ FhchFn2Z06RiG+8m0vsx6OreKu7VmvQB8irNKaIR8ZjfSJ8oRd5yeLLti
+ S011ul0n+gtBiKKmbVAVclfI8KiRltrZZJA3tdcm0VlN7amijzgL4fY0c
+ hHI+tObYrdVed1qJ+o1kr7vdj5GUPQLVYuOJRBTOIdU/fWKXVoDU6T9YK Q==;
+X-CSE-ConnectionGUID: hFH0lMAORfKKs4FlKLWJjg==
+X-CSE-MsgGUID: v8B2CH36TD6ZeaGHxDc3gw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11586"; a="62586878"
+X-IronPort-AV: E=Sophos;i="6.19,249,1754982000"; d="scan'208";a="62586878"
+Received: from orviesa001.jf.intel.com ([10.64.159.141])
+ by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 23 Oct 2025 02:44:37 -0700
+X-CSE-ConnectionGUID: iLOeuevISgC6L9OMMBEeEA==
+X-CSE-MsgGUID: YhP6hwNSQqC/F6AV1drOTA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.19,249,1754982000"; d="scan'208";a="221305921"
+Received: from bkammerd-mobl.amr.corp.intel.com (HELO kuha.fi.intel.com)
+ ([10.124.221.165])
+ by orviesa001.jf.intel.com with SMTP; 23 Oct 2025 02:44:26 -0700
+Received: by kuha.fi.intel.com (sSMTP sendmail emulation);
+ Thu, 23 Oct 2025 12:44:25 +0300
+Date: Thu, 23 Oct 2025 12:44:25 +0300
+From: Heikki Krogerus <heikki.krogerus@linux.intel.com>
+To: Chaoyi Chen <kernel@airkyi.com>
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>,
+ Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>, Vinod Koul <vkoul@kernel.org>,
+ Kishon Vijay Abraham I <kishon@kernel.org>,
+ Heiko Stuebner <heiko@sntech.de>, Sandy Huang <hjc@rock-chips.com>,
+ Andy Yan <andy.yan@rock-chips.com>,
+ Yubing Zhang <yubing.zhang@rock-chips.com>,
+ Frank Wang <frank.wang@rock-chips.com>,
+ Andrzej Hajda <andrzej.hajda@intel.com>,
+ Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Amit Sunil Dhamne <amitsd@google.com>,
+ Chaoyi Chen <chaoyi.chen@rock-chips.com>,
+ Dragan Simic <dsimic@manjaro.org>, Johan Jonker <jbx6244@gmail.com>,
+ Diederik de Haas <didi.debian@cknow.org>,
+ Peter Robinson <pbrobinson@gmail.com>, linux-usb@vger.kernel.org,
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-phy@lists.infradead.org, linux-arm-kernel@lists.infradead.org,
+ linux-rockchip@lists.infradead.org, dri-devel@lists.freedesktop.org
+Subject: Re: [PATCH v7 1/9] usb: typec: Add notifier functions
+Message-ID: <aPn4-S7upPOOtenr@kuha.fi.intel.com>
+References: <20251023033009.90-1-kernel@airkyi.com>
+ <20251023033009.90-2-kernel@airkyi.com>
+ <aPni4AeDaem_rfZH@kuha.fi.intel.com>
+ <aPnvoSRJefwDlpNO@kuha.fi.intel.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-C2ProcessedOrg: 333ef613-75bf-4e12-a4b1-8e3623f5dcea
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <aPnvoSRJefwDlpNO@kuha.fi.intel.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -82,29 +96,91 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Enable the zero copy feature flag in xdp_set_features_flag()
-for a given ndev to get the AF-XDP zero copy support running
-for both Tx and Rx.
+On Thu, Oct 23, 2025 at 12:04:44PM +0300, Heikki Krogerus wrote:
+> On Thu, Oct 23, 2025 at 11:10:20AM +0300, Heikki Krogerus wrote:
+> > Hi,
+> > 
+> > > diff --git a/include/linux/usb/typec_notify.h b/include/linux/usb/typec_notify.h
+> > > new file mode 100644
+> > > index 000000000000..a3f1f3b3ae47
+> > > --- /dev/null
+> > > +++ b/include/linux/usb/typec_notify.h
+> > > @@ -0,0 +1,17 @@
+> > > +/* SPDX-License-Identifier: GPL-2.0 */
+> > > +
+> > > +#ifndef __USB_TYPEC_NOTIFY
+> > > +#define __USB_TYPEC_NOTIFY
+> > > +
+> > > +#include <linux/notifier.h>
+> > > +
+> > > +enum usb_typec_event {
+> > > +	TYPEC_ALTMODE_REGISTERED
+> > > +};
+> > 
+> > Don't you need to know when the altmode is removed?
+> 
+> I noticed that you don't because drm_dp_hpd_bridge_register() is
+> always resource managed. But I think you could still send an event
+> also when the altmode is removed already now. That way it does not
+> need to be separately added if and when it is needed.
 
-Signed-off-by: Meghana Malladi <m-malladi@ti.com>
----
- drivers/net/ethernet/ti/icssg/icssg_prueth.c | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+Hold on! Every bus has already a notifier chain. That's the one that
+we should also use. Sorry for not noticing that earlier.
 
-diff --git a/drivers/net/ethernet/ti/icssg/icssg_prueth.c b/drivers/net/ethernet/ti/icssg/icssg_prueth.c
-index 57a98ac0d303..c63970581332 100644
---- a/drivers/net/ethernet/ti/icssg/icssg_prueth.c
-+++ b/drivers/net/ethernet/ti/icssg/icssg_prueth.c
-@@ -1555,7 +1555,8 @@ static int prueth_netdev_init(struct prueth *prueth,
- 	xdp_set_features_flag(ndev,
- 			      NETDEV_XDP_ACT_BASIC |
- 			      NETDEV_XDP_ACT_REDIRECT |
--			      NETDEV_XDP_ACT_NDO_XMIT);
-+			      NETDEV_XDP_ACT_NDO_XMIT |
-+			      NETDEV_XDP_ACT_XSK_ZEROCOPY);
+So let's just export the bus type in this patch - you can then use
+bus_register_notifier() in your driver:
+
+diff --git a/drivers/usb/typec/bus.c b/drivers/usb/typec/bus.c
+index a884cec9ab7e..65ded9e3cdaa 100644
+--- a/drivers/usb/typec/bus.c
++++ b/drivers/usb/typec/bus.c
+@@ -547,3 +547,4 @@ const struct bus_type typec_bus = {
+        .probe = typec_probe,
+        .remove = typec_remove,
+ };
++EXPORT_SYMBOL_GPL(typec_bus);
+diff --git a/drivers/usb/typec/bus.h b/drivers/usb/typec/bus.h
+index 643b8c81786d..af9edb3db9d0 100644
+--- a/drivers/usb/typec/bus.h
++++ b/drivers/usb/typec/bus.h
+@@ -5,7 +5,6 @@
  
- 	netif_napi_add(ndev, &emac->napi_rx, icssg_napi_rx_poll);
- 	hrtimer_setup(&emac->rx_hrtimer, &emac_rx_timer_callback, CLOCK_MONOTONIC,
--- 
-2.43.0
+ #include <linux/usb/typec_altmode.h>
+ 
+-struct bus_type;
+ struct typec_mux;
+ struct typec_retimer;
+ 
+@@ -28,7 +27,6 @@ struct altmode {
+ 
+ #define to_altmode(d) container_of(d, struct altmode, adev)
+ 
+-extern const struct bus_type typec_bus;
+ extern const struct device_type typec_altmode_dev_type;
+ 
+ #define is_typec_altmode(_dev_) (_dev_->type == &typec_altmode_dev_type)
+diff --git a/include/linux/usb/typec.h b/include/linux/usb/typec.h
+index 309251572e2e..c6fd46902fce 100644
+--- a/include/linux/usb/typec.h
++++ b/include/linux/usb/typec.h
+@@ -20,12 +20,15 @@ struct typec_port;
+ struct typec_altmode_ops;
+ struct typec_cable_ops;
+ 
++struct bus_type;
+ struct fwnode_handle;
+ struct device;
+ 
+ struct usb_power_delivery;
+ struct usb_power_delivery_desc;
+ 
++extern const struct bus_type typec_bus;
++
+ enum typec_port_type {
+        TYPEC_PORT_SRC,
+        TYPEC_PORT_SNK,
 
+thanks,
+
+-- 
+heikki
