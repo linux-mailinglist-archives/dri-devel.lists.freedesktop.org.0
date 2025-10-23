@@ -2,60 +2,68 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0E577C00481
-	for <lists+dri-devel@lfdr.de>; Thu, 23 Oct 2025 11:37:09 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id E8019C004CC
+	for <lists+dri-devel@lfdr.de>; Thu, 23 Oct 2025 11:40:25 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3AF1810E109;
-	Thu, 23 Oct 2025 09:37:07 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8BBE810E1D8;
+	Thu, 23 Oct 2025 09:40:23 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="ge0qGqIr";
+	dkim=pass (1024-bit key; unprotected) header.d=ti.com header.i=@ti.com header.b="dSs1PRL+";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9915C10E109
- for <dri-devel@lists.freedesktop.org>; Thu, 23 Oct 2025 09:37:05 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1761212225; x=1792748225;
- h=from:to:subject:in-reply-to:references:date:message-id:
- mime-version; bh=Y2zd0++u4ourIn7hd78sKOaDEKqum2WybP9qDluYuJQ=;
- b=ge0qGqIrFuu1iU/VgikNaf5RYrzaQw+awhHJ9TZs4wz2+OAN21CuT7Zr
- ek4wWGyygffpRbCNCqqJuLsoTOiIbvXq3xeRBtpGNiDQHyzNm/0LhH7Ld
- ODM6XZ/040bjOTo8z5DnkQC9GnJMbCP0UuK/CfVNrB9CuhRs4h5mDSUu5
- Z+maNwArQZAOhzDBmMLLmNPYZsA89LqVrbfa/LS6f+zHrnKl7GhRNTf3C
- dWYtE0qS+669V2AbQ0FIJGpeK58dVRI9KIUt/RDH85BeB01JpOFla/bJx
- tRwL5Xl4Zvc4DE/Mfb4WKnMp3rf4zu7FMvrhkBWBGeS6Ao7nWwIptXgE5 A==;
-X-CSE-ConnectionGUID: M9pcXMpQTb+AHQ4M0rKOqw==
-X-CSE-MsgGUID: Yuf5kMstS42lSlF6JaOH9Q==
-X-IronPort-AV: E=McAfee;i="6800,10657,11586"; a="88843576"
-X-IronPort-AV: E=Sophos;i="6.19,249,1754982000"; d="scan'208";a="88843576"
-Received: from fmviesa004.fm.intel.com ([10.60.135.144])
- by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 23 Oct 2025 02:37:05 -0700
-X-CSE-ConnectionGUID: Aqyw46ikSHaGP4Gbg9EmUQ==
-X-CSE-MsgGUID: kCqc7+VmReux+yBhxYs4/g==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.19,249,1754982000"; d="scan'208";a="189377866"
-Received: from mwiniars-mobl.ger.corp.intel.com (HELO localhost)
- ([10.245.246.158])
- by fmviesa004-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 23 Oct 2025 02:37:03 -0700
-From: Jani Nikula <jani.nikula@intel.com>
-To: dri-devel@lists.freedesktop.org, maarten.lankhorst@linux.intel.com,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann
- <tzimmermann@suse.de>, David Airlie <airlied@redhat.com>,
- simona.vetter@ffwll.ch
-Subject: Re: [BUILD SUCCESS] LAST PATCH: [PATCH v2 3/3] drm/ttm: replace
- drm_print.h include with a forward declaration
-In-Reply-To: <202510231303.QVLtphRV-lkp@intel.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-References: <ceff40759aa88a019e72eb7dd6efdaa3206a984e.1761126446.git.jani.nikula@intel.com>
- <202510231303.QVLtphRV-lkp@intel.com>
-Date: Thu, 23 Oct 2025 12:37:00 +0300
-Message-ID: <1e706df8fdbd36b5997a7b7e854cdf3b17cb5e8a@intel.com>
+Received: from fllvem-ot03.ext.ti.com (fllvem-ot03.ext.ti.com [198.47.19.245])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1A20D10E3D2
+ for <dri-devel@lists.freedesktop.org>; Thu, 23 Oct 2025 09:40:20 +0000 (UTC)
+Received: from fllvem-sh03.itg.ti.com ([10.64.41.86])
+ by fllvem-ot03.ext.ti.com (8.15.2/8.15.2) with ESMTP id 59N9dZ3K1634291;
+ Thu, 23 Oct 2025 04:39:35 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
+ s=ti-com-17Q1; t=1761212375;
+ bh=+2sTzH7kdbEcHYB6Izf4x9K6nDDkAA7V9iOSFboW8dY=;
+ h=From:To:CC:Subject:Date;
+ b=dSs1PRL+s5A/cBFgdAuLHbuqtmfxN00LSnfXzmI4ic2UoRH3gKUFQpWrt559cwHBU
+ UhdZwvBVqCP0zYJuZlHqYayh+h6ig84qWglgB/cGuJ0b2UyOEiHeHKMOeNdituxra6
+ ZAJP5Bptjw6T45aCDs8QwjKncQ95PUrF5XXjE41k=
+Received: from DLEE209.ent.ti.com (dlee209.ent.ti.com [157.170.170.98])
+ by fllvem-sh03.itg.ti.com (8.18.1/8.18.1) with ESMTPS id 59N9dYkd2718845
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=FAIL);
+ Thu, 23 Oct 2025 04:39:34 -0500
+Received: from DLEE205.ent.ti.com (157.170.170.85) by DLEE209.ent.ti.com
+ (157.170.170.98) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.20; Thu, 23 Oct
+ 2025 04:39:34 -0500
+Received: from fllvem-mr07.itg.ti.com (10.64.41.89) by DLEE205.ent.ti.com
+ (157.170.170.85) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.20 via Frontend
+ Transport; Thu, 23 Oct 2025 04:39:34 -0500
+Received: from fllv0122.itg.ti.com (fllv0122.itg.ti.com [10.247.120.72])
+ by fllvem-mr07.itg.ti.com (8.18.1/8.18.1) with ESMTP id 59N9dY35146911;
+ Thu, 23 Oct 2025 04:39:34 -0500
+Received: from localhost (meghana-pc.dhcp.ti.com [10.24.69.13] (may be forged))
+ by fllv0122.itg.ti.com (8.14.7/8.14.7) with ESMTP id 59N9dXpw014003;
+ Thu, 23 Oct 2025 04:39:33 -0500
+From: Meghana Malladi <m-malladi@ti.com>
+To: <horms@kernel.org>, <namcao@linutronix.de>, <vadim.fedorenko@linux.dev>,
+ <jacob.e.keller@intel.com>, <m-malladi@ti.com>,
+ <christian.koenig@amd.com>, <sumit.semwal@linaro.org>,
+ <sdf@fomichev.me>, <john.fastabend@gmail.com>, <hawk@kernel.org>,
+ <daniel@iogearbox.net>, <ast@kernel.org>, <pabeni@redhat.com>,
+ <kuba@kernel.org>, <edumazet@google.com>, <davem@davemloft.net>,
+ <andrew+netdev@lunn.ch>
+CC: <linaro-mm-sig@lists.linaro.org>, <dri-devel@lists.freedesktop.org>,
+ <linux-media@vger.kernel.org>, <bpf@vger.kernel.org>,
+ <linux-kernel@vger.kernel.org>, <netdev@vger.kernel.org>,
+ <linux-arm-kernel@lists.infradead.org>, <srk@ti.com>, Vignesh Raghavendra
+ <vigneshr@ti.com>, Roger Quadros <rogerq@kernel.org>, <danishanwar@ti.com>
+Subject: [PATCH net-next v4 0/6] Add AF_XDP zero copy support
+Date: Thu, 23 Oct 2025 15:09:21 +0530
+Message-ID: <20251023093927.1878411-1-m-malladi@ti.com>
+X-Mailer: git-send-email 2.43.0
 MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 Content-Type: text/plain
+X-C2ProcessedOrg: 333ef613-75bf-4e12-a4b1-8e3623f5dcea
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -71,158 +79,53 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+This series adds AF_XDP zero coppy support to icssg driver.
 
-FYI, got build success from the build robot.
+Tests were performed on AM64x-EVM with xdpsock application [1].
 
-Ack to merge the lot?
+A clear improvement is seen Transmit (txonly) and receive (rxdrop)
+for 64 byte packets. 1500 byte test seems to be limited by line
+rate (1G link) so no improvement seen there in packet rate
 
-BR,
-Jani.
+Having some issue with l2fwd as the benchmarking numbers show 0
+for 64 byte packets after forwading first batch packets and I am
+currently looking into it.
+
+AF_XDP performance using 64 byte packets in Kpps.
+Benchmark:	XDP-SKB		XDP-Native	XDP-Native(ZeroCopy)
+rxdrop		259		462		645
+txonly		350		354		760
+l2fwd 		178		240		0
+
+AF_XDP performance using 1500 byte packets in Kpps.
+Benchmark:	XDP-SKB		XDP-Native	XDP-Native(ZeroCopy)
+rxdrop		82		82		82
+txonly		81		82		82
+l2fwd 		81		82		82
+
+[1]: https://github.com/xdp-project/bpf-examples/tree/master/AF_XDP-example
+
+v3: https://lore.kernel.org/all/20251014105613.2808674-1-m-malladi@ti.com/
+
+v4-v3:
+- Rebased to the latest tip
+
+Meghana Malladi (6):
+  net: ti: icssg-prueth: Add functions to create and destroy Rx/Tx
+    queues
+  net: ti: icssg-prueth: Add XSK pool helpers
+  net: ti: icssg-prueth: Add AF_XDP zero copy for TX
+  net: ti: icssg-prueth: Make emac_run_xdp function independent of page
+  net: ti: icssg-prueth: Add AF_XDP zero copy for RX
+  net: ti: icssg-prueth: Enable zero copy in XDP features
+
+ drivers/net/ethernet/ti/icssg/icssg_common.c | 471 ++++++++++++++++---
+ drivers/net/ethernet/ti/icssg/icssg_prueth.c | 394 +++++++++++++---
+ drivers/net/ethernet/ti/icssg/icssg_prueth.h |  25 +-
+ 3 files changed, 741 insertions(+), 149 deletions(-)
 
 
-On Thu, 23 Oct 2025, kernel test robot <lkp@intel.com> wrote:
-> url:    https://github.com/intel-lab-lkp/linux/commits/Jani-Nikula/drm-mm-replace-drm_print-h-include-with-a-forward-declaration/20251022-175031
-> base:   next-20251022
-> patch link:    https://lore.kernel.org/r/ceff40759aa88a019e72eb7dd6efdaa3206a984e.1761126446.git.jani.nikula%40intel.com
-> patch subject: [PATCH v2 3/3] drm/ttm: replace drm_print.h include with a forward declaration
->
-> [If your patch is applied to the wrong git tree, kindly drop us a note.
-> And when submitting patch, we suggest to use '--base' as documented in
-> https://git-scm.com/docs/git-format-patch#_base_tree_information]
->
-> elapsed time: 1181m
->
-> configs tested: 120
-> configs skipped: 3
->
-> The following configs have been built successfully.
-> More configs may be tested in the coming days.
->
-> tested configs:
-> alpha                             allnoconfig    gcc-15.1.0
-> alpha                            allyesconfig    gcc-15.1.0
-> arc                              allmodconfig    gcc-15.1.0
-> arc                               allnoconfig    gcc-15.1.0
-> arc                              allyesconfig    gcc-15.1.0
-> arc                   randconfig-001-20251022    gcc-13.4.0
-> arc                   randconfig-002-20251022    gcc-8.5.0
-> arm                              allmodconfig    gcc-15.1.0
-> arm                               allnoconfig    clang-22
-> arm                              allyesconfig    gcc-15.1.0
-> arm                           h3600_defconfig    gcc-15.1.0
-> arm                   randconfig-001-20251022    gcc-11.5.0
-> arm                   randconfig-002-20251022    gcc-10.5.0
-> arm                   randconfig-003-20251022    gcc-10.5.0
-> arm                   randconfig-004-20251022    clang-22
-> arm64                            allmodconfig    clang-19
-> arm64                             allnoconfig    gcc-15.1.0
-> arm64                 randconfig-001-20251022    gcc-9.5.0
-> arm64                 randconfig-002-20251022    clang-18
-> arm64                 randconfig-003-20251022    gcc-10.5.0
-> arm64                 randconfig-004-20251022    gcc-12.5.0
-> csky                              allnoconfig    gcc-15.1.0
-> csky                  randconfig-001-20251022    gcc-15.1.0
-> csky                  randconfig-002-20251022    gcc-11.5.0
-> hexagon                          allmodconfig    clang-17
-> hexagon                           allnoconfig    clang-22
-> hexagon                          allyesconfig    clang-22
-> hexagon               randconfig-001-20251022    clang-22
-> hexagon               randconfig-002-20251022    clang-22
-> i386                             allmodconfig    gcc-14
-> i386                              allnoconfig    gcc-14
-> i386                             allyesconfig    gcc-14
-> i386        buildonly-randconfig-001-20251022    clang-20
-> i386        buildonly-randconfig-002-20251022    clang-20
-> i386        buildonly-randconfig-003-20251022    gcc-14
-> i386        buildonly-randconfig-004-20251022    clang-20
-> i386        buildonly-randconfig-005-20251022    gcc-12
-> i386        buildonly-randconfig-006-20251022    gcc-14
-> i386                                defconfig    clang-20
-> loongarch                        allmodconfig    clang-19
-> loongarch                         allnoconfig    clang-22
-> loongarch             randconfig-001-20251022    gcc-12.5.0
-> loongarch             randconfig-002-20251022    gcc-15.1.0
-> m68k                             allmodconfig    gcc-15.1.0
-> m68k                              allnoconfig    gcc-15.1.0
-> m68k                             allyesconfig    gcc-15.1.0
-> m68k                         amcore_defconfig    gcc-15.1.0
-> microblaze                       allmodconfig    gcc-15.1.0
-> microblaze                        allnoconfig    gcc-15.1.0
-> microblaze                       allyesconfig    gcc-15.1.0
-> microblaze                          defconfig    gcc-15.1.0
-> mips                              allnoconfig    gcc-15.1.0
-> nios2                             allnoconfig    gcc-11.5.0
-> nios2                               defconfig    gcc-11.5.0
-> nios2                 randconfig-001-20251022    gcc-8.5.0
-> nios2                 randconfig-002-20251022    gcc-10.5.0
-> openrisc                          allnoconfig    gcc-15.1.0
-> openrisc                         allyesconfig    gcc-15.1.0
-> parisc                           allmodconfig    gcc-15.1.0
-> parisc                            allnoconfig    gcc-15.1.0
-> parisc                           allyesconfig    gcc-15.1.0
-> parisc                              defconfig    gcc-15.1.0
-> parisc                randconfig-001-20251022    gcc-13.4.0
-> parisc                randconfig-002-20251022    gcc-10.5.0
-> parisc64                            defconfig    gcc-15.1.0
-> powerpc                          allmodconfig    gcc-15.1.0
-> powerpc                           allnoconfig    gcc-15.1.0
-> powerpc                          allyesconfig    clang-22
-> powerpc                     asp8347_defconfig    clang-22
-> powerpc                     ep8248e_defconfig    gcc-15.1.0
-> powerpc               randconfig-001-20251022    gcc-8.5.0
-> powerpc               randconfig-002-20251022    gcc-8.5.0
-> powerpc               randconfig-003-20251022    gcc-8.5.0
-> powerpc                 xes_mpc85xx_defconfig    gcc-15.1.0
-> powerpc64             randconfig-001-20251022    gcc-8.5.0
-> powerpc64             randconfig-002-20251022    gcc-8.5.0
-> powerpc64             randconfig-003-20251022    clang-22
-> riscv                            allmodconfig    clang-22
-> riscv                             allnoconfig    gcc-15.1.0
-> riscv                            allyesconfig    clang-16
-> riscv                 randconfig-001-20251023    gcc-8.5.0
-> riscv                 randconfig-002-20251023    gcc-14.3.0
-> s390                             allmodconfig    clang-18
-> s390                              allnoconfig    clang-22
-> s390                             allyesconfig    gcc-15.1.0
-> s390                  randconfig-001-20251023    clang-19
-> s390                  randconfig-002-20251023    gcc-8.5.0
-> sh                               allmodconfig    gcc-15.1.0
-> sh                                allnoconfig    gcc-15.1.0
-> sh                               allyesconfig    gcc-15.1.0
-> sh                     magicpanelr2_defconfig    gcc-15.1.0
-> sh                            migor_defconfig    gcc-15.1.0
-> sh                    randconfig-001-20251023    gcc-15.1.0
-> sh                    randconfig-002-20251023    gcc-15.1.0
-> sparc                            allmodconfig    gcc-15.1.0
-> sparc                             allnoconfig    gcc-15.1.0
-> sparc                               defconfig    gcc-15.1.0
-> sparc                 randconfig-001-20251023    gcc-12.5.0
-> sparc                 randconfig-002-20251023    gcc-8.5.0
-> sparc64               randconfig-001-20251023    clang-22
-> sparc64               randconfig-002-20251023    gcc-8.5.0
-> um                               allmodconfig    clang-19
-> um                                allnoconfig    clang-22
-> um                               allyesconfig    gcc-14
-> um                    randconfig-001-20251023    gcc-13
-> um                    randconfig-002-20251023    gcc-14
-> x86_64                            allnoconfig    clang-20
-> x86_64                           allyesconfig    clang-20
-> x86_64      buildonly-randconfig-001-20251022    clang-20
-> x86_64      buildonly-randconfig-002-20251022    gcc-14
-> x86_64      buildonly-randconfig-003-20251022    gcc-14
-> x86_64      buildonly-randconfig-004-20251022    clang-20
-> x86_64      buildonly-randconfig-005-20251022    gcc-14
-> x86_64      buildonly-randconfig-006-20251022    gcc-14
-> x86_64                              defconfig    gcc-14
-> x86_64                          rhel-9.4-rust    clang-20
-> xtensa                            allnoconfig    gcc-15.1.0
-> xtensa                  audio_kc705_defconfig    gcc-15.1.0
-> xtensa                randconfig-001-20251023    gcc-8.5.0
-> xtensa                randconfig-002-20251023    gcc-13.4.0
->
-> --
-> 0-DAY CI Kernel Test Service
-> https://github.com/intel/lkp-tests/wiki
-
+base-commit: d550d63d0082268a31e93a10c64cbc2476b98b24
 -- 
-Jani Nikula, Intel
+2.43.0
+
