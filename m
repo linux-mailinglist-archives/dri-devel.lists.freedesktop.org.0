@@ -2,67 +2,67 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 53725C03707
-	for <lists+dri-devel@lfdr.de>; Thu, 23 Oct 2025 22:52:03 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id E5F45C0370A
+	for <lists+dri-devel@lfdr.de>; Thu, 23 Oct 2025 22:52:04 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 583B310E20F;
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5EBB410E940;
 	Thu, 23 Oct 2025 20:52:01 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="Wkjkww1U";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="BmPVfkkC";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ed1-f54.google.com (mail-ed1-f54.google.com
- [209.85.208.54])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0758510E950
- for <dri-devel@lists.freedesktop.org>; Thu, 23 Oct 2025 20:51:58 +0000 (UTC)
-Received: by mail-ed1-f54.google.com with SMTP id
- 4fb4d7f45d1cf-63c21467e5bso2269415a12.0
- for <dri-devel@lists.freedesktop.org>; Thu, 23 Oct 2025 13:51:57 -0700 (PDT)
+Received: from mail-ed1-f50.google.com (mail-ed1-f50.google.com
+ [209.85.208.50])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7984F10E20F
+ for <dri-devel@lists.freedesktop.org>; Thu, 23 Oct 2025 20:52:00 +0000 (UTC)
+Received: by mail-ed1-f50.google.com with SMTP id
+ 4fb4d7f45d1cf-63c11011e01so2183773a12.2
+ for <dri-devel@lists.freedesktop.org>; Thu, 23 Oct 2025 13:52:00 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1761252716; x=1761857516; darn=lists.freedesktop.org;
+ d=gmail.com; s=20230601; t=1761252719; x=1761857519; darn=lists.freedesktop.org;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=4UlHNTGv7yFHhaTac79ENYscEry1rz6cX/llqQj2Xi4=;
- b=Wkjkww1UxhS30n2haOpGjns/zW0hiNgbmiGv9KA4xiMT1wfE3WoAIyIbPxEcx918yB
- lKXjWnZyq4ByJR9jEADClBRdV6GXY7R8Cb8lmTo/+nAPHkJoDzKeu1g+6kql+gzwBRnb
- XOBFXr0anmEewdQBD4gEnsuduD9mbwtMEkkGVyx1FMS2x8hLQMaqnwAD4uM6KCgMRpjW
- 2mOiIAOWPaYfUPMVPcuqmuBstV25CHtj8G4UJnav4UY9eKnT5WU9RLMcRi9ZljqtSzQm
- rKEi8CDOiGzD8BcH7rarTwh/uvseu6sLNiuM/BX4PND8C9JAgL6doADfqr+ZAp3iox3I
- 2Pvg==
+ bh=UAPXNY+YzoexJ0d/TkSSgHS667VNidACYdJWMiQnzPM=;
+ b=BmPVfkkCZ2026DLOXWANitdPpdgbQaLf1l4ds+a+7jYMVRQUcdQLwZxY/ugWkun9Eg
+ uWnauuGoNL9T6Ux7LQgv8gZ3CiEtg/F7y9RVxCKwHZpjUHOGtqx7BUD9Xxw7sO3X9Vvq
+ LaJtHDvwsGuteZdUiiS/3znnQlunCf41nrzaVipl41xAmF9ksNa4cWYMqZ3ZT0pt2JEQ
+ D9gXiXEs3AoBJ5kZxbAXmqHj+U/XrtX50GZ93oPiR7ii9AWK116JXWgodjHKi/y2vfDv
+ 2VdrAB3P8U79n6FuMYjCOU409fTfehAT63wBfwSbWRjLFN05fwGExN4tVFfjFR0PchPM
+ QoPA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1761252716; x=1761857516;
+ d=1e100.net; s=20230601; t=1761252719; x=1761857519;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=4UlHNTGv7yFHhaTac79ENYscEry1rz6cX/llqQj2Xi4=;
- b=D3sjhn/IrYWHkPAmYETB/jKVcfKO43GvRApnqsh3vPM62iUt2JjPkEN7AbJkY3fDuu
- FSBo0NFhxC0GitQhn+0iKAaVJDHVmeaSegvHCekoC8Fya7lGvvmDHpewPpn+eJ/43xwP
- Xdw9p1dx7VoEtesERLN8h2qQRQoP+o9eOdA/AIM62Z8I4Xiu/GyioribKCXY7C0gOdpl
- BSSGlf8iBL92sv3fm3/sTnxbuUIT2ihNwiBejaX+4+SaY2NI86vE9mpqJLNBoc4zkkGc
- ydxhie42iFBP+supBEqllN6Jy2iVoqFhOVVgzRDeD9bPaBnpyy4BQrJdq301N8/tJFbm
- vrRQ==
+ bh=UAPXNY+YzoexJ0d/TkSSgHS667VNidACYdJWMiQnzPM=;
+ b=tR6/k3IW4qZcleq7BlLnbrSm1jYplIyBiTyy+G6vmyJDYt1GB8OlKh1L7gfXqNahQv
+ lNyfgGJYqmRAwFNBsQN8eUQivc3EtHZ6POZiDtkY1i80oJAsiwOidCqOk1ZebrOjZsiA
+ 4SBKQ+abkQ5/7HFiT+wW4xpWwRfvt0CnDD/PS2tCyEVWdhOI8K74zjW8+jEQOEqtnAO4
+ z4IdcumFuuYL7FFMhgBVUuHDJ/cEAafqtNdRr6IjRjOsIVJbVtUk/6JEDFxj+1+5apFh
+ 514g3M260FM6O1orDleai4aEn8PLzhYnO+2MAZDcRCUvFLR3mmqaModcUuk/WKEdrhKC
+ x3iQ==
 X-Forwarded-Encrypted: i=1;
- AJvYcCVvxDzfO0qznqeosf+dZl/xEfaOTi4kK/rpRMyOvJDaHAVryMH5/c5p8TrqXAcyn1SRt28ndbANc0c=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Yw8zoyFwy3euoqImG2hQc+QTt04yzqXeLZnm5NqZ5aAlU/vINMZ
- nMLghgKB0iCDRxE6xd9pFg3sWO/uQ3MIM4yEmkoKXfIILYHKue7g7c/o
-X-Gm-Gg: ASbGnct5iiIONlOFIuCdvrHjL5KRyvjZZdi/UpRbTm3pzV77bjBxLVjwbrrSpMfNe5t
- EYm96yFsUBRftrpD+2IeHctN0KATTknlJd/rWP3KqIZ01D5zrB6c67dpLIrMGk1yWoyRN1StO/t
- 4RhvsASkcIaqppVNPXbQo1mS2OJS2/E8sMxNxkCTQ0+GUushdqEnyPNT7IEyVJofRcbqQPXG7EB
- KZg/rqGoo/gOodZTAoaTdPpmCvatPPGCCoUjlto2PX8A2jUwuywQdRbzDg4fgNOuOeBFSHNUcKF
- ndyLmzdo1y200eX9/RU2ILre4fGEa7wJrXjcd6vKWIVhln067sNEv8iAZ24zClFFh7yUwQio3FC
- 2gphcR9897aaLrWVxsLMIzVtHwQ2uLxdL/TqGLOvwRW0nMNfqVbmqWJ1CCP8QIDv9rYqrDV0af6
- EkX2f037urjnbZDYj70g==
-X-Google-Smtp-Source: AGHT+IFX0S8naZatH+IeZ+gFwMfUpBUu0mzJ5xLs/IvrcDwpmdXZobGQxw0XYiP34F1iyLjV8n51aQ==
-X-Received: by 2002:a05:6402:50cb:b0:63b:ef0e:dfa7 with SMTP id
- 4fb4d7f45d1cf-63c1f62ccccmr27493360a12.6.1761252716410; 
- Thu, 23 Oct 2025 13:51:56 -0700 (PDT)
+ AJvYcCW7UTCKiE6UwJ/Uu9noL13u+w7FTPNJhX/N+vEk5UTCt4Y1x7kHmAftfsmAzMEoiWVki8j5DkePBr0=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YzyCS9ZR2lTNlzmwST0Tfy1JLUq2zWr+5wdAo1eOT8PskNhYrId
+ AzFZdvG0KAkV8dUCCh+xAxjPl0U6iqM7hg/MSz4R74kVQB+VJ77LT39R
+X-Gm-Gg: ASbGnct0Y+y/xw4j2MXKGdcocbGhHquMDmSos8yxxAuCfsnWugnInMNRyM74yo4RY4/
+ bnzPLd5x5nPYcojHYUE2RqFO6wOYeY+X37D+nVqLs6h4wk4mY5aJ54/FxglPNx/RxR7yB2jLEJg
+ xS09APxc0R7l86Edn5YN/sbigr7Ko9Iw0rPs+4E+YWqeMr/FTypYqODveB6w+1qPK9rTvtsTH4p
+ 36XTzaFrkCh/4I6+8RCEtRXcAm7mLRWXtTf+zOxbB2172SMb+jRgArMTA3yD5+LWMM1QcMSwJoT
+ ymm/nyMjPj8f1HgmgGgp4YBX5EjFai7ac4usaHeXrkZSIOjrPrFqanJYb8u2hMOcwH/fqoUJwf3
+ r57qzgLoVZV6tY6ZZ4oz4KORvA/sCpmHG49dH5f+xZEgnNmnu9h0iv/lXTDHf3kbctuhEpYcTy/
+ ESfALTkyXVszK2Z+9kHA==
+X-Google-Smtp-Source: AGHT+IFOkN+DkcmLNJzRNIqysto7sYM8LlsTGTSLlhGfULzr9KAi+B1XnIznbLvzFcpxukEGtb28dQ==
+X-Received: by 2002:a05:6402:51d1:b0:63c:3efe:d996 with SMTP id
+ 4fb4d7f45d1cf-63c3efeee79mr22748502a12.20.1761252718877; 
+ Thu, 23 Oct 2025 13:51:58 -0700 (PDT)
 Received: from archito ([2a01:e0a:acc:bb60:756b:64e3:20ef:1d08])
  by smtp.gmail.com with ESMTPSA id
- 4fb4d7f45d1cf-63e3ebb3299sm2564120a12.2.2025.10.23.13.51.55
+ 4fb4d7f45d1cf-63e3ebb3299sm2564120a12.2.2025.10.23.13.51.57
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 23 Oct 2025 13:51:56 -0700 (PDT)
+ Thu, 23 Oct 2025 13:51:58 -0700 (PDT)
 From: Daniel del Castillo <delcastillodelarosadaniel@gmail.com>
 To: Danilo Krummrich <dakr@kernel.org>,
  Alexandre Courbot <acourbot@nvidia.com>, David Airlie <airlied@gmail.com>,
@@ -76,10 +76,9 @@ Cc: nouveau@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
  Alice Ryhl <aliceryhl@google.com>, Trevor Gross <tmgross@umich.edu>,
  rust-for-linux@vger.kernel.org,
  Daniel del Castillo <delcastillodelarosadaniel@gmail.com>
-Subject: [PATCH v2 2/3] nova-core: Simplify `DmaObject::from_data` in
- nova-core/dma.rs
-Date: Thu, 23 Oct 2025 22:51:36 +0200
-Message-ID: <20251023205146.196042-2-delcastillodelarosadaniel@gmail.com>
+Subject: [PATCH v2 3/3] nova: Update the nova todo list
+Date: Thu, 23 Oct 2025 22:51:37 +0200
+Message-ID: <20251023205146.196042-3-delcastillodelarosadaniel@gmail.com>
 X-Mailer: git-send-email 2.51.1
 In-Reply-To: <20251023205146.196042-1-delcastillodelarosadaniel@gmail.com>
 References: <20251023205146.196042-1-delcastillodelarosadaniel@gmail.com>
@@ -100,47 +99,48 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This patch solves one of the existing mentions of COHA, a task
-in the Nova task list about improving the `CoherentAllocation` API.
-It uses the `write` method from `CoherentAllocation`.
+This small patch updates the nova todo list to
+remove some tasks that have been solved lately:
+* COHA is solved in this patch series
+* TRSM was solved recently [1]
+
+[1] https://lore.kernel.org/rust-for-linux/DCEJ9SV4LBJL.11EUZVXX6EB9H@nvidia.com/
 
 Signed-off-by: Daniel del Castillo <delcastillodelarosadaniel@gmail.com>
-
 ---
+ Documentation/gpu/nova/core/todo.rst | 19 -------------------
+ 1 file changed, 19 deletions(-)
 
-V1 -> V2: Split previous patch into two. One per reference to COHA.
-          Added more details in Safety comment. Let me know your thoughts
-          Kept the original map to avoid a temporary variable
----
- drivers/gpu/nova-core/dma.rs | 15 +++------------
- 1 file changed, 3 insertions(+), 12 deletions(-)
-
-diff --git a/drivers/gpu/nova-core/dma.rs b/drivers/gpu/nova-core/dma.rs
-index 94f44bcfd748..620d31078858 100644
---- a/drivers/gpu/nova-core/dma.rs
-+++ b/drivers/gpu/nova-core/dma.rs
-@@ -26,18 +26,9 @@ pub(crate) fn new(dev: &device::Device<device::Bound>, len: usize) -> Result<Sel
+diff --git a/Documentation/gpu/nova/core/todo.rst b/Documentation/gpu/nova/core/todo.rst
+index 48b20656dcb1..be8063030d44 100644
+--- a/Documentation/gpu/nova/core/todo.rst
++++ b/Documentation/gpu/nova/core/todo.rst
+@@ -44,25 +44,6 @@ automatically generates the corresponding mappings between a value and a number.
+ | Complexity: Beginner
+ | Link: https://docs.rs/num/latest/num/trait.FromPrimitive.html
  
-     pub(crate) fn from_data(dev: &device::Device<device::Bound>, data: &[u8]) -> Result<Self> {
-         Self::new(dev, data.len()).map(|mut dma_obj| {
--            // TODO[COHA]: replace with `CoherentAllocation::write()` once available.
--            // SAFETY:
--            // - `dma_obj`'s size is at least `data.len()`.
--            // - We have just created this object and there is no other user at this stage.
--            unsafe {
--                core::ptr::copy_nonoverlapping(
--                    data.as_ptr(),
--                    dma_obj.dma.start_ptr_mut(),
--                    data.len(),
--                );
--            }
+-Conversion from byte slices for types implementing FromBytes [TRSM]
+--------------------------------------------------------------------
 -
-+            // SAFETY: We have just allocated the DMA memory, we are the only users and
-+            // we haven't made the device aware of the handle yet.
-+            unsafe { dma_obj.write(data, 0)? }
-             dma_obj
-         })
-     }
+-We retrieve several structures from byte streams coming from the BIOS or loaded
+-firmware. At the moment converting the bytes slice into the proper type require
+-an inelegant `unsafe` operation; this will go away once `FromBytes` implements
+-a proper `from_bytes` method.
+-
+-| Complexity: Beginner
+-
+-CoherentAllocation improvements [COHA]
+---------------------------------------
+-
+-`CoherentAllocation` needs a safe way to write into the allocation, and to
+-obtain slices within the allocation.
+-
+-| Complexity: Beginner
+-| Contact: Abdiel Janulgue
+-
+ Generic register abstraction [REGA]
+ -----------------------------------
+ 
 -- 
 2.51.1
 
