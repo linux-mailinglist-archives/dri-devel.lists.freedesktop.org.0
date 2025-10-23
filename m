@@ -2,61 +2,85 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id F0966BFEDF6
-	for <lists+dri-devel@lfdr.de>; Thu, 23 Oct 2025 03:49:31 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id B70D8BFEFD5
+	for <lists+dri-devel@lfdr.de>; Thu, 23 Oct 2025 05:30:39 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A1F0C10E064;
-	Thu, 23 Oct 2025 01:49:28 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7254010E02A;
+	Thu, 23 Oct 2025 03:30:35 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=hugovil.com header.i=@hugovil.com header.b="G8tWGQrn";
+	dkim=pass (1024-bit key; unprotected) header.d=airkyi.com header.i=@airkyi.com header.b="N4TYT6P6";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail.hugovil.com (mail.hugovil.com [162.243.120.170])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9D86E10E064
- for <dri-devel@lists.freedesktop.org>; Thu, 23 Oct 2025 01:49:26 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=hugovil.com
- ; s=x;
- h=Subject:Content-Transfer-Encoding:Mime-Version:Message-Id:Cc:To:From
- :Date:subject:date:message-id:reply-to;
- bh=OurBdy+jJtwUOmUwZsoVEKYdpRuW3wucKK76RscZ9O8=; b=G8tWGQrnp/aEaUWdyVXhneQ+sf
- WbqCXP5oLrJT8Nqz8rZSLHb4vxvgVThzwaEolL0ieVfxPk8uU8njgf5e5eihfnI3L7vaPztelF7gQ
- no3lxubpPv4+VmQMHzrO6CPJETOBHQQ3oLelLkrYhmuqObZ6BXp7MC09eRMOga7G/cqw=;
-Received: from [70.80.174.168] (port=53296 helo=pettiford)
- by mail.hugovil.com with esmtpa (Exim 4.92)
- (envelope-from <hugo@hugovil.com>)
- id 1vBkRv-0004r9-0r; Wed, 22 Oct 2025 21:49:08 -0400
-Date: Wed, 22 Oct 2025 21:49:06 -0400
-From: Hugo Villeneuve <hugo@hugovil.com>
-To: Chris Brandt <chris.brandt@renesas.com>
-Cc: Geert Uytterhoeven <geert+renesas@glider.be>, Michael Turquette
- <mturquette@baylibre.com>, Stephen Boyd <sboyd@kernel.org>, Biju Das
- <biju.das.jz@bp.renesas.com>, Maarten Lankhorst
- <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>,
+Received: from bg5.exmail.qq.com (bg5.exmail.qq.com [43.154.209.5])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7A48A10E02A
+ for <dri-devel@lists.freedesktop.org>; Thu, 23 Oct 2025 03:30:33 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=airkyi.com;
+ s=altu2504; t=1761190221;
+ bh=Dtbx3rarF8kn4YpxAC+Adtk+rXiU66ifgaq+doAFZE4=;
+ h=From:To:Subject:Date:Message-Id;
+ b=N4TYT6P63Fn4nXj18V7fIIarwP8elNvCqhAvKaMDF+l5jQ/vot8Pv2EN6UsChWM3z
+ uG9lVi9aZQJImHsxZN/cIC0o16GeSpShiUheEcbiQz0HzIFWg7u8FEI/JvqMdRuTvN
+ yXL0oZUac5apDgQ7WEt5DBdXW+qPZ/5ynuiZOnEk=
+X-QQ-mid: esmtpsz16t1761190219t69ad2cef
+X-QQ-Originating-IP: o1+oH0WirnlwNNXKtoiqaKBE7L2lbT1X+eJ6n8Rf5ME=
+Received: from DESKTOP-8BT1A2O.localdomain ( [58.22.7.114])
+ by bizesmtp.qq.com (ESMTP) with 
+ id ; Thu, 23 Oct 2025 11:30:16 +0800 (CST)
+X-QQ-SSF: 0000000000000000000000000000000
+X-QQ-GoodBg: 0
+X-BIZMAIL-ID: 11365234591125768724
+From: Chaoyi Chen <kernel@airkyi.com>
+To: Heikki Krogerus <heikki.krogerus@linux.intel.com>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>,
+ Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>, Vinod Koul <vkoul@kernel.org>,
+ Kishon Vijay Abraham I <kishon@kernel.org>,
+ Heiko Stuebner <heiko@sntech.de>, Sandy Huang <hjc@rock-chips.com>,
+ Andy Yan <andy.yan@rock-chips.com>,
+ Yubing Zhang <yubing.zhang@rock-chips.com>,
+ Frank Wang <frank.wang@rock-chips.com>,
+ Andrzej Hajda <andrzej.hajda@intel.com>,
+ Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
  Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
- Simona Vetter <simona@ffwll.ch>, Hien Huynh <hien.huynh.px@renesas.com>,
- Nghia Vo <nghia.vo.zn@renesas.com>, linux-renesas-soc@vger.kernel.org,
- linux-clk@vger.kernel.org, dri-devel@lists.freedesktop.org
-Message-Id: <20251022214906.eaf123bd740ac9e396a65570@hugovil.com>
-In-Reply-To: <20251022235903.1091453-2-chris.brandt@renesas.com>
-References: <20251022235903.1091453-1-chris.brandt@renesas.com>
- <20251022235903.1091453-2-chris.brandt@renesas.com>
-X-Mailer: Sylpheed 3.8.0beta1 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
-Mime-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
-X-SA-Exim-Connect-IP: 70.80.174.168
-X-SA-Exim-Mail-From: hugo@hugovil.com
-X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on mail.hugovil.com
-X-Spam-Level: 
-X-Spam-Report: * -1.0 ALL_TRUSTED Passed through trusted hosts only via SMTP
- * -1.9 NICE_REPLY_A Looks like a legit reply (A)
-X-Spam-Status: No, score=-2.9 required=5.0 tests=ALL_TRUSTED,NICE_REPLY_A
- autolearn=ham autolearn_force=no version=3.4.2
-Subject: Re: [PATCH v3 1/2] clk: renesas: rzg2l: Remove DSI clock rate
- restrictions
-X-SA-Exim-Version: 4.2.1 (built Wed, 08 May 2019 21:11:16 +0000)
-X-SA-Exim-Scanned: Yes (on mail.hugovil.com)
+ Simona Vetter <simona@ffwll.ch>, Amit Sunil Dhamne <amitsd@google.com>,
+ Chaoyi Chen <chaoyi.chen@rock-chips.com>,
+ Dragan Simic <dsimic@manjaro.org>, Johan Jonker <jbx6244@gmail.com>,
+ Diederik de Haas <didi.debian@cknow.org>,
+ Peter Robinson <pbrobinson@gmail.com>
+Cc: linux-usb@vger.kernel.org, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-phy@lists.infradead.org,
+ linux-arm-kernel@lists.infradead.org, linux-rockchip@lists.infradead.org,
+ dri-devel@lists.freedesktop.org
+Subject: [PATCH v7 0/9] Add Type-C DP support for RK3399 EVB IND board
+Date: Thu, 23 Oct 2025 11:30:00 +0800
+Message-Id: <20251023033009.90-1-kernel@airkyi.com>
+X-Mailer: git-send-email 2.17.1
+X-QQ-SENDSIZE: 520
+Feedback-ID: esmtpsz:airkyi.com:qybglogicsvrsz:qybglogicsvrsz4a-0
+X-QQ-XMAILINFO: MMKcwIwa79XOAwiWHb/ZtDJyZTY3DvJHMSkX5tY++55NIyw5LItVD1wG
+ BLanQ7rDPIkX28Y/CtKig5ZA29YFSlLX+ZRHnMrRl44dEkI0aHCxt35OQiRq2CLO3wCykKm
+ n5wVrFhfmo39JushRPJP9xZPPuJgt1+qMoMR8UyhfpEhUnHJEzDvdDIufq67godRmHTKkiQ
+ ibnvjOddEoV6+hTQ1t5fIeobaC1sZi6c9i2EsrYBkeAftKr6ecxiNdyH5kn+zBDoC6R2cej
+ XXKwjF4wGt/OFzUz3Fkj5O1oBirQm3R8Y/2y2bHbWvPsd/M9aapHBxQd5Lsexu+hByhQPe7
+ Y4qSjHRW/dAhxqfgpFSlo/kDSeWf0t4/jpz8pc65yae6jFTRBs8cxWa9dblFU5QjHntFX1l
+ s+eICAoEAacMU5VfDIsFK7VkXlx3yBPt4VQrqcPBFspbw0K6FViduQIWNEIY0r1JJhM60jv
+ Uv/8ikMI7usLtG1OhuP30FrKswmxqI9U6DTAmQKVHNmuBshvCxvHKJOmF5Nv2LzNJI1gXO6
+ vLIyRRVG3XivJq6tqKDGVaVySPx4HB/bfW9rPjcbcEQoyUfmyEOsDwRg+pM4CSJlhuRgeUC
+ bV2Z2pgI8UB1FDlaVEUVN9lBAXppfe8XSj2tEDGA/outu+gt5/S5+U+gVpDIE5RT1JB3WHa
+ gYc6XzVuMpm6iUlK0mS0Fx4pvBi+3OYtEz3IgooxSWbiemWfYPKnHE9dkJ2x6HRS0uv1iua
+ 5qKB1YWz0V/RBy5EIXUdeG39zRGFIrBld2C35wRPZEO5iTHnVM71qouGHiKsFftbbEcvohp
+ e94eTFBEDDK1YDosnruRqJ1b4S//XXzN43YlV6UoHG3UYqH7uHz89yLJK86NGfXqRLxP17N
+ lV9iGF+ZxQHTD/32v5ATsCsaiAPQIfnCLDmToLIEBoPxcgv0v9BJgni/0yfr7j2qav3cuD6
+ u98mOqJaZFd49yvjK5nnsbwxg/1lVKdd8r8wx5eBjPyGfUv2eM/YwYM5rPfbsXFNGLROjLd
+ DS+kAQH7usnsmIghh0
+X-QQ-XMRINFO: NI4Ajvh11aEj8Xl/2s1/T8w=
+X-QQ-RECHKSPAM: 0
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -72,292 +96,160 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Chris,
+From: Chaoyi Chen <chaoyi.chen@rock-chips.com>
 
-On Wed, 22 Oct 2025 19:59:02 -0400
-Chris Brandt <chris.brandt@renesas.com> wrote:
+This series focuses on adding Type-C DP support for USBDP PHY and DP
+driver. The USBDP PHY and DP will perceive the changes in cable status
+based on the USB PD and Type-C state machines provided by TCPM. Before
+this, the USBDP PHY and DP controller of RK3399 sensed cable state
+changes through extcon, and devices such as the RK3399 Gru-Chromebook
+rely on them. This series should not break them.
 
-> Convert the limited MIPI clock calculations to a full range of settings
-> based on math including H/W limitation validation.
-> Since the required DSI division setting must be specified from external
-> sources before calculations, expose a new API to set it.
-> 
-> Signed-off-by: Chris Brandt <chris.brandt@renesas.com>
-> Signed-off-by: hienhuynh <hien.huynh.px@renesas.com>
-> Signed-off-by: Nghia Vo <nghia.vo.zn@renesas.com>
-> Reviewed-by: Biju Das <biju.das.jz@bp.renesas.com>
-> Tested-by: Biju Das <biju.das.jz@bp.renesas.com>
-> 
-> ---
-> v1->v2:
-> - Remove unnecessary parentheses
-> - Add target argument to new API
-> - DPI mode has more restrictions on DIV_A and DIV_B
-> 
-> v2->v3:
-> - Removed Empty lines (Hugo)
-> - Add dummy for compile-testing CONFIG_CLK_RZG2L=n case (Geert)
-> - Renamed label found_dsi_div to calc_pll_clk (Hugo)
-> - Renamed label found_clk to clk_valid (Hugo)
-> - Removed 'found' var because not needed
-> - Move 'foutpostdiv_rate =' after if(foutvco_rate > 1500000000) (Hugo)
-> - Move PLL5_TARGET_* for new API to renesas.h (Hugo,Geert)
-> - Convert #define macros PLL5_TARGET_* to enum (Geert)
-> - static {unsigned} int dsi_div_ab; (Geert)
-> - {unsigned} int a, b;  (Geert)
-> - Change "((1 << a) * (b + 1))" to "(b + 1) << a"  (Geert)
-> - Change "foutvco_rate = rate * (1 << xxx ) * ..." to " = rate * ... * << xxx (Geert)
-> - Move (u64) outside of modulo operation to avoid helper on 32-bit compiles (Geert)
-> - Change DIV_ROUND_CLOSEST_ULL() to DIV_ROUND_CLOSEST() (Geert)
-> - void rzg2l_cpg_dsi_div_set_divider({unsinged} int divider, int target)
-> - Change "dsi_div_ab = (1 << AAA) * (BBB + 1)" to " = (BBB + 1) << AAA (Geert)
-> - Added Reviewed-by and Tested-by (Biju)
-> ---
->  drivers/clk/renesas/rzg2l-cpg.c | 129 +++++++++++++++++++++++++++++---
->  include/linux/clk/renesas.h     |  11 +++
->  2 files changed, 130 insertions(+), 10 deletions(-)
-> 
-> diff --git a/drivers/clk/renesas/rzg2l-cpg.c b/drivers/clk/renesas/rzg2l-cpg.c
-> index 07909e80bae2..0e9362c2ca95 100644
-> --- a/drivers/clk/renesas/rzg2l-cpg.c
-> +++ b/drivers/clk/renesas/rzg2l-cpg.c
-> @@ -74,6 +74,19 @@
->  #define MSTOP_OFF(conf)		FIELD_GET(GENMASK(31, 16), (conf))
->  #define MSTOP_MASK(conf)	FIELD_GET(GENMASK(15, 0), (conf))
->  
-> +#define PLL5_FOUTVCO_MIN	800000000
-> +#define PLL5_FOUTVCO_MAX	3000000000
-> +#define PLL5_POSTDIV_MIN	1
-> +#define PLL5_POSTDIV_MAX	7
-> +#define PLL5_POSTDIV_DEF	1
-> +#define PLL5_REFDIV_MIN		1
-> +#define PLL5_REFDIV_MAX		2
-> +#define PLL5_REFDIV_DEF		1
-> +#define PLL5_INTIN_MIN		20
-> +#define PLL5_INTIN_MAX		320
-> +#define PLL5_INTIN_DEF		125
-> +#define PLL5_FRACIN_DEF		0
-> +
->  /**
->   * struct clk_hw_data - clock hardware data
->   * @hw: clock hw
-> @@ -129,6 +142,12 @@ struct rzg2l_pll5_param {
->  	u8 pl5_spread;
->  };
->  
-> +/* PLL5 output will be used for DPI or MIPI-DSI */
-> +static int dsi_div_target = PLL5_TARGET_DPI;
-> +
-> +/* Required division ratio for MIPI D-PHY clock changes depending on resolution and lanes. */
-> +static unsigned int dsi_div_ab;
-> +
->  struct rzg2l_pll5_mux_dsi_div_param {
->  	u8 clksrc;
->  	u8 dsi_div_a;
-> @@ -557,23 +576,104 @@ rzg2l_cpg_sd_mux_clk_register(const struct cpg_core_clk *core,
->  }
->  
->  static unsigned long
-> -rzg2l_cpg_get_foutpostdiv_rate(struct rzg2l_pll5_param *params,
-> +rzg2l_cpg_get_foutpostdiv_rate(struct rzg2l_cpg_priv *priv,
-> +			       struct rzg2l_pll5_param *params,
->  			       unsigned long rate)
->  {
->  	unsigned long foutpostdiv_rate, foutvco_rate;
-> +	u8 div = 1;
-> +	unsigned int a, b;
-> +
-> +	if (priv->mux_dsi_div_params.clksrc)
-> +		div = 2;
-> +
-> +	/* Calculate the DIV_DSI_A and DIV_DSI_B based on the final DIV DSI */
-> +	for (a = 0; a < 4; a++) {
-> +		if (dsi_div_target == PLL5_TARGET_DPI && a == 0)
-> +			continue;	/* 1/1 div not supported for DIV_DSI_A for DPI */
-> +
-> +		for (b = 0; b < 16; b++) {
-> +			if (dsi_div_target == PLL5_TARGET_DPI && b != 0)
-> +				continue;	/* Only 1/1 div supported for DIV_DSI_B in DPI */
->  
-> -	params->pl5_intin = rate / MEGA;
-> -	params->pl5_fracin = div_u64(((u64)rate % MEGA) << 24, MEGA);
-> -	params->pl5_refdiv = 2;
-> -	params->pl5_postdiv1 = 1;
-> -	params->pl5_postdiv2 = 1;
-> +			if ((b + 1) << a == dsi_div_ab) {
-> +				priv->mux_dsi_div_params.dsi_div_a = a;
-> +				priv->mux_dsi_div_params.dsi_div_b = b;
-> +
-> +				goto calc_pll_clk;
-> +			}
-> +		}
-> +	}
-> +
-> +calc_pll_clk:
-> +	/*
-> +	 * Below conditions must be set for PLL5 parameters:
-> +	 * - REFDIV must be between 1 and 2.
-> +	 * - POSTDIV1/2 must be between 1 and 7.
-> +	 * - INTIN must be between 20 and 320.
-> +	 * - FOUTVCO must be between 800MHz and 3000MHz.
-> +	 */
-> +	for (params->pl5_postdiv1 = PLL5_POSTDIV_MIN;
-> +	     params->pl5_postdiv1 < PLL5_POSTDIV_MAX + 1;
+====
+1. DisplayPort HPD status notify
 
-I think it would be easier to read/understand like this:
-    params->pl5_postdiv1 <= PLL5_POSTDIV_MAX;
+Before v7, I implemented a variety of DP HPD status notify. However,
+they all had various problems and it was difficult to become a generic
+solution.
 
-> +	     params->pl5_postdiv1++) {
-> +		for (params->pl5_postdiv2 = PLL5_POSTDIV_MIN;
-> +		     params->pl5_postdiv2 < PLL5_POSTDIV_MAX + 1;
+Under the guidance of Heikki and Dmitry, a decoupled notification
+method between the TypeC and DRM subsystems was introduced in v7.
+First, a notification is sent when TypeC registers a new altmode.
+Then, a generic DP AUX HPD bridge is implemented on the DRM side.
 
-Ditto
+That makes it redundant for each Type-C controller driver to implement
+a similar DP AUX HPD bridge in embedded scenarios.
 
-> +		     params->pl5_postdiv2++) {
-> +			foutvco_rate = rate * (priv->mux_dsi_div_params.dsi_div_b + 1) * div *
-> +				       params->pl5_postdiv1 * params->pl5_postdiv2 <<
-> +				       priv->mux_dsi_div_params.dsi_div_a;
-> +
-> +			if (foutvco_rate < PLL5_FOUTVCO_MIN + 1 ||
-> +			    foutvco_rate > PLL5_FOUTVCO_MAX - 1)
+====
+2. Altmode switching and orientation switching for USBDP PHY
 
-Similar:
+For USB Type-C interfaces, an external Type-C controller chip assists
+by detecting cable attachment, determining plug orientation, and
+reporting USB PD message. The USB/DP combo PHY supports software
+configurable pin mapping and DisplayPort lane assignment. Based on
+these message, the combo PHY can perform both altmode switching and
+orientation switching via software.
 
-    if (foutvco_rate <= PLL5_FOUTVCO_MIN ||
-        foutvco_rate >= PLL5_FOUTVCO_MAX)
+The RK3399 EVB IND board has a Type-C interface DisplayPort. It use
+fusb302 chip as Type-C controller. The connection diagram is shown below:
 
-etc...
+fusb302 chip +---> USB2.0 PHY ----> DWC3 USB controller
+             |
+             +---> USB/DP PHY0 +--> CDN-DP controller
+                               |
+                               +--> DWC3 USB controller
 
-> +				continue;
-> +
-> +			for (params->pl5_refdiv = PLL5_REFDIV_MIN;
-> +			     params->pl5_refdiv < PLL5_REFDIV_MAX + 1;
-> +			     params->pl5_refdiv++) {
-> +				params->pl5_intin = (foutvco_rate * params->pl5_refdiv) /
-> +						    (EXTAL_FREQ_IN_MEGA_HZ * MEGA);
-> +				if (params->pl5_intin < PLL5_INTIN_MIN + 1 ||
-> +				    params->pl5_intin > PLL5_INTIN_MAX - 1)
-> +					continue;
-> +				params->pl5_fracin = div_u64(((u64)
-> +						     (foutvco_rate * params->pl5_refdiv) %
-> +						     (EXTAL_FREQ_IN_MEGA_HZ * MEGA)) << 24,
-> +						     EXTAL_FREQ_IN_MEGA_HZ * MEGA);
-> +
-> +				params->pl5_fracin = div_u64((u64)
-> +						     ((foutvco_rate * params->pl5_refdiv) %
-> +						     (EXTAL_FREQ_IN_MEGA_HZ * MEGA)) << 24,
-> +						     EXTAL_FREQ_IN_MEGA_HZ * MEGA);
+====
+3. Multiple bridge model for RK3399 CDN-DP
 
-Remove second identical block?
+The RK3399 has two USB/DP combo PHY and one CDN-DP controller. And
+the CDN-DP can be switched to output to one of the PHYs.
 
-> +
-> +				goto clk_valid;
-> +			}
-> +		}
-> +	}
-> +
-> +	/* Set defaults since valid clock was not found */
-> +	params->pl5_intin = PLL5_INTIN_DEF;
-> +	params->pl5_fracin = PLL5_FRACIN_DEF;
-> +	params->pl5_refdiv = PLL5_REFDIV_DEF;
-> +	params->pl5_postdiv1 = PLL5_POSTDIV_DEF;
-> +	params->pl5_postdiv2 = PLL5_POSTDIV_DEF;
-> +
-> +clk_valid:
->  	params->pl5_spread = 0x16;
->  
->  	foutvco_rate = div_u64(mul_u32_u32(EXTAL_FREQ_IN_MEGA_HZ * MEGA,
->  					   (params->pl5_intin << 24) + params->pl5_fracin),
->  			       params->pl5_refdiv) >> 24;
-> -	foutpostdiv_rate = DIV_ROUND_CLOSEST_ULL(foutvco_rate,
-> -						 params->pl5_postdiv1 * params->pl5_postdiv2);
-> +
-> +	/* If foutvco is above 1.5GHz, change parent and recalculate */
-> +	if (priv->mux_dsi_div_params.clksrc && foutvco_rate > 1500000000) {
-> +		priv->mux_dsi_div_params.clksrc = 0;
-> +		dsi_div_ab *= 2;
-> +		dsi_div_target = PLL5_TARGET_DSI;	/* Assume MIPI-DSI */
-> +		return rzg2l_cpg_get_foutpostdiv_rate(priv, params, rate);
-> +	}
-> +
-> +	foutpostdiv_rate = DIV_ROUND_CLOSEST(foutvco_rate,
-> +					     params->pl5_postdiv1 * params->pl5_postdiv2);
->  
->  	return foutpostdiv_rate;
->  }
-> @@ -607,7 +707,7 @@ static unsigned long rzg2l_cpg_get_vclk_parent_rate(struct clk_hw *hw,
->  	struct rzg2l_pll5_param params;
->  	unsigned long parent_rate;
->  
-> -	parent_rate = rzg2l_cpg_get_foutpostdiv_rate(&params, rate);
-> +	parent_rate = rzg2l_cpg_get_foutpostdiv_rate(priv, &params, rate);
->  
->  	if (priv->mux_dsi_div_params.clksrc)
->  		parent_rate /= 2;
-> @@ -626,6 +726,13 @@ static int rzg2l_cpg_dsi_div_determine_rate(struct clk_hw *hw,
->  	return 0;
->  }
->  
-> +void rzg2l_cpg_dsi_div_set_divider(unsigned int divider, int target)
-> +{
-> +	dsi_div_ab = divider;
-> +	dsi_div_target = target;
-> +}
-> +EXPORT_SYMBOL_GPL(rzg2l_cpg_dsi_div_set_divider);
-> +
->  static int rzg2l_cpg_dsi_div_set_rate(struct clk_hw *hw,
->  				      unsigned long rate,
->  				      unsigned long parent_rate)
-> @@ -858,7 +965,7 @@ static int rzg2l_cpg_sipll5_set_rate(struct clk_hw *hw,
->  
->  	vclk_rate = rzg2l_cpg_get_vclk_rate(hw, rate);
->  	sipll5->foutpostdiv_rate =
-> -		rzg2l_cpg_get_foutpostdiv_rate(&params, vclk_rate);
-> +		rzg2l_cpg_get_foutpostdiv_rate(priv, &params, vclk_rate);
->  
->  	/* Put PLL5 into standby mode */
->  	writel(CPG_SIPLL5_STBY_RESETB_WEN, priv->base + CPG_SIPLL5_STBY);
-> @@ -948,6 +1055,8 @@ rzg2l_cpg_sipll5_register(const struct cpg_core_clk *core,
->  	priv->mux_dsi_div_params.clksrc = 1; /* Use clk src 1 for DSI */
->  	priv->mux_dsi_div_params.dsi_div_a = 1; /* Divided by 2 */
->  	priv->mux_dsi_div_params.dsi_div_b = 2; /* Divided by 3 */
-> +	dsi_div_ab = (priv->mux_dsi_div_params.dsi_div_b + 1) <<
-> +		     priv->mux_dsi_div_params.dsi_div_a;
->  
->  	return clk_hw->clk;
->  }
-> diff --git a/include/linux/clk/renesas.h b/include/linux/clk/renesas.h
-> index 0ebbe2f0b45e..f2edd1f4a6d9 100644
-> --- a/include/linux/clk/renesas.h
-> +++ b/include/linux/clk/renesas.h
-> @@ -16,6 +16,11 @@ struct device;
->  struct device_node;
->  struct generic_pm_domain;
->  
-> +enum {
-> +	PLL5_TARGET_DPI,
-> +	PLL5_TARGET_DSI
-> +};
-> +
->  void cpg_mstp_add_clk_domain(struct device_node *np);
->  #ifdef CONFIG_CLK_RENESAS_CPG_MSTP
->  int cpg_mstp_attach_dev(struct generic_pm_domain *unused, struct device *dev);
-> @@ -32,4 +37,10 @@ void cpg_mssr_detach_dev(struct generic_pm_domain *unused, struct device *dev);
->  #define cpg_mssr_attach_dev	NULL
->  #define cpg_mssr_detach_dev	NULL
->  #endif
-> +
-> +#ifdef CONFIG_CLK_RZG2L
-> +void rzg2l_cpg_dsi_div_set_divider(unsigned int divider, int target);
-> +#else
-> +#define rzg2l_cpg_dsi_div_set_divider	NULL
-> +#endif
->  #endif
-> -- 
-> 2.50.1
-> 
-> 
+USB/DP PHY0 ---+
+               | <----> CDN-DP controller
+USB/DP PHY1 ---+
 
+In previous versions, if both PHY ports were connected to DP,
+the CDN-DP driver would select the first PHY port for output.
 
--- 
-Hugo Villeneuve
+On Dmitry's suggestion, we introduced a multi-bridge model to support
+flexible selection of the output PHY port. For each PHY port, a
+separate encoder and bridge are registered.
+
+The change is based on the DRM AUX HPD bridge, rather than the
+extcon approach. This requires the DT to correctly describe the
+connections between the first bridge in bridge chain and DP
+controller. And Once the first bridge is obtained, we can get the
+last bridge corresponding to the USB-C connector, and then set the
+DRM connector's fwnode to the corresponding one to enable HPD
+notification.
+
+====
+Patch1 add notifier functions for Type-C core.
+Patch2 add generic USB Type-C DP HPD bridge.
+Patch3 add new Type-C mode switch for RK3399 USBDP phy binding.
+Patch4 add typec_mux and typec_switch for RK3399 USBDP PHY.
+Patch5 add DRM AUX bridge support for RK3399 USBDP PHY.
+Patch6 drops CDN-DP's extcon dependency when Type-C is present.
+Patch7 add multiple bridges to support PHY port selection.
+Patch8 add missing dp_out port for RK3399 CDN-DP.
+Patch9 add Type-C DP support for RK3399 EVB IND board.
+
+Changes in v7:
+- Link to V6: https://lore.kernel.org/all/20251016022741.91-1-kernel@airkyi.com/
+- Add notifier functions for Type-C core.
+- Add generic USB Type-C DP HPD bridge.
+
+Changes in v6:
+- Link to V5: https://lore.kernel.org/all/20251011033233.97-1-kernel@airkyi.com/
+- Fix depend in Kconfig.
+- Check DP svid in tcphy_typec_mux_set().
+- Remove mode setting in tcphy_orien_sw_set().
+- Rename some variable names.
+- Attach the DP bridge to the next bridge.
+
+Changes in v5:
+- Link to V4: https://lore.kernel.org/all/20250922012039.323-1-kernel@airkyi.com/
+- Remove the calls related to `drm_aux_hpd_bridge_notify()`.
+- Place the helper functions in the same compilation unit.
+- Add more comments about parent device.
+- Add DRM AUX bridge support for RK3399 USBDP PHY
+- By parsing the HPD bridge chain, set the connector's of_node to the
+of_node corresponding to the USB-C connector.
+- Return EDID cache when other port is already enabled.
+
+Changes in v4:
+- Link to V3: https://lore.kernel.org/all/20250729090032.97-1-kernel@airkyi.com/
+- Add default HPD device for DisplayPort altmode.
+- Introduce multiple bridges for CDN-DP.
+- ...
+
+Changes in v3:
+- Link to V2: https://lore.kernel.org/all/20250718062619.99-1-kernel@airkyi.com/
+- Add more descriptions to clarify the role of the PHY in switching.
+- Fix wrong vdo value.
+- Fix port node in usb-c-connector.
+
+Changes in v2:
+- Link to V1: https://lore.kernel.org/all/20250715112456.101-1-kernel@airkyi.com/
+- Reuse dp-port/usb3-port in rk3399-typec-phy binding.
+- Fix compile error when CONFIG_TYPEC is not enabled.
+- Notify DP HPD state by USB/DP PHY.
+- Ignore duplicate HPD events.
+- Add endpoint to link DP PHY and DP controller.
+- Fix devicetree coding style.
+
+Chaoyi Chen (9):
+  usb: typec: Add notifier functions
+  drm/bridge: Implement generic USB Type-C DP HPD bridge
+  dt-bindings: phy: rockchip: rk3399-typec-phy: Support mode-switch
+  phy: rockchip: phy-rockchip-typec: Add typec_mux/typec_switch support
+  phy: rockchip: phy-rockchip-typec: Add DRM AUX bridge
+  drm/rockchip: cdn-dp: Support handle lane info without extcon
+  drm/rockchip: cdn-dp: Add multiple bridges to support PHY port
+    selection
+  arm64: dts: rockchip: Add missing dp_out port for RK3399 CDN-DP
+  arm64: dts: rockchip: rk3399-evb-ind: Add support for DisplayPort
+
+ .../phy/rockchip,rk3399-typec-phy.yaml        |   6 +
+ arch/arm64/boot/dts/rockchip/rk3399-base.dtsi |  10 +-
+ .../boot/dts/rockchip/rk3399-evb-ind.dts      | 146 ++++++
+ drivers/gpu/drm/bridge/Kconfig                |  11 +
+ drivers/gpu/drm/bridge/Makefile               |   1 +
+ .../gpu/drm/bridge/aux-hpd-typec-dp-bridge.c  |  51 +++
+ drivers/gpu/drm/rockchip/cdn-dp-core.c        | 354 ++++++++++++---
+ drivers/gpu/drm/rockchip/cdn-dp-core.h        |  24 +-
+ drivers/phy/rockchip/Kconfig                  |   3 +
+ drivers/phy/rockchip/phy-rockchip-typec.c     | 420 +++++++++++++++++-
+ drivers/usb/typec/Makefile                    |   2 +-
+ drivers/usb/typec/class.c                     |   3 +
+ drivers/usb/typec/notify.c                    |  22 +
+ include/linux/usb/typec_notify.h              |  17 +
+ 14 files changed, 987 insertions(+), 83 deletions(-)
+ create mode 100644 drivers/gpu/drm/bridge/aux-hpd-typec-dp-bridge.c
+ create mode 100644 drivers/usb/typec/notify.c
+ create mode 100644 include/linux/usb/typec_notify.h
+
+--
+2.49.0
+
