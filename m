@@ -2,59 +2,60 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 44EF4C00291
-	for <lists+dri-devel@lfdr.de>; Thu, 23 Oct 2025 11:15:04 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 27AA6C00391
+	for <lists+dri-devel@lfdr.de>; Thu, 23 Oct 2025 11:22:22 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A023B10E3A0;
-	Thu, 23 Oct 2025 09:15:00 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id AE8B310E383;
+	Thu, 23 Oct 2025 09:22:18 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="B8hXX5Wu";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="Dhbv4mBE";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 58D8910E39B;
- Thu, 23 Oct 2025 09:14:59 +0000 (UTC)
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4667310E067;
+ Thu, 23 Oct 2025 09:22:17 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1761210899; x=1792746899;
+ t=1761211337; x=1792747337;
  h=from:to:cc:subject:in-reply-to:references:date:
  message-id:mime-version:content-transfer-encoding;
- bh=Vqadwd1I2CeWoBVNMzKv6Z1Yupb4AHkaifFRp8uiRYM=;
- b=B8hXX5WuNDErhv/oZubAoaPLBJ4iwRg3NN5LuFIdsf1rs32cxo8vpWPH
- YQDfVyipYgbr+dMsKCmI9NU0qlIImrgm8DHV3/JIeU3ev+L4EmGDrjLMK
- LPBuUjeOcG+1XeeeAQEHTxmxorIUs53Z0D/znFGJXTlCxUaTA0woeJUNV
- FolpEUm9ZZEosdGCrubDcP+AEaPYO8w3nlmd6SnTr9AWNOriFf1KPNQfe
- bj8Goti7XWjDG0VCRyTfyXRJRWvs+vmdlwZ57D6zAXg12IOE+gmgsG2Es
- cuk9wkNdgSJlCh2CgooziJw7PXLElAeqgb35U4wkWquDEm3qnmzjgHUoF A==;
-X-CSE-ConnectionGUID: 1TxN3bRHTyGXVbQ5dKqiuw==
-X-CSE-MsgGUID: IfnzNf0lRdK6k3GcGjM5yg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11586"; a="63470404"
-X-IronPort-AV: E=Sophos;i="6.19,249,1754982000"; d="scan'208";a="63470404"
-Received: from orviesa006.jf.intel.com ([10.64.159.146])
- by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 23 Oct 2025 02:14:58 -0700
-X-CSE-ConnectionGUID: VANhW/4JTwC/iSVr31uJJg==
-X-CSE-MsgGUID: LjsW2HyGQuyOI/7p7XWBQg==
+ bh=9V5ROWPr+FfUC8q31sjMllDis5EHGK2R6/fRx/RB9zE=;
+ b=Dhbv4mBErwWwmZ261m1fm2B3WNjP76SoXquy+tNkKn6BT+i9x++DoHDT
+ dlrG/3AmvouesIUXbarWRJJBpGIkIvFl5/j0IzEYbfRjDUGre0aIEJL3d
+ 8AZxVdONH2ulwhs7ZKQVEQUpKh9PdnrlWsI/S7X2b878n2Op+R7xwWhsd
+ JcMFEu9PiGdXh6qBhtdg/8tnnPDoMAo1jl1FzI6sbl4JrjJL7L0GypCaF
+ JvgoS6hEQiZDjD++9nPqGTsJWn+mAScGyyaQv3tq9KEt75uY1NRdHxnA/
+ FK1qcejOgRBbFWrh5Ox3qekCXNG+zosjUsBHcK3zZWHqJyw0e8YXGIi4a w==;
+X-CSE-ConnectionGUID: VR7eSEuOTHicoj2lrdbB5A==
+X-CSE-MsgGUID: +EIKjKmnRRqV132bAw1SDg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11586"; a="73666897"
+X-IronPort-AV: E=Sophos;i="6.19,249,1754982000"; d="scan'208";a="73666897"
+Received: from fmviesa007.fm.intel.com ([10.60.135.147])
+ by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 23 Oct 2025 02:22:17 -0700
+X-CSE-ConnectionGUID: 0F8T5DUQTQKV/1Y0R1JQew==
+X-CSE-MsgGUID: tX2PSKcxSM2iLwwsKSArAQ==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.19,249,1754982000"; d="scan'208";a="183281702"
+X-IronPort-AV: E=Sophos;i="6.19,249,1754982000"; d="scan'208";a="183810244"
 Received: from mwiniars-mobl.ger.corp.intel.com (HELO localhost)
  ([10.245.246.158])
- by orviesa006-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 23 Oct 2025 02:14:56 -0700
+ by fmviesa007-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 23 Oct 2025 02:22:14 -0700
 From: Jani Nikula <jani.nikula@linux.intel.com>
 To: Animesh Manna <animesh.manna@intel.com>,
  intel-gfx@lists.freedesktop.org, intel-xe@lists.freedesktop.org,
  dri-devel@lists.freedesktop.org
 Cc: Animesh Manna <animesh.manna@intel.com>, Jouni =?utf-8?Q?H=C3=B6gander?=
  <jouni.hogander@intel.com>
-Subject: Re: [PATCH 2/8] drm/i915/alpm: alpm_init() for DP2.1
-In-Reply-To: <20251023084147.572535-3-animesh.manna@intel.com>
+Subject: Re: [PATCH 3/8] drm/i915/alpm: Replace is_edp() with
+ alpm_is_possible()
+In-Reply-To: <20251023084147.572535-4-animesh.manna@intel.com>
 Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
 References: <20251023084147.572535-1-animesh.manna@intel.com>
- <20251023084147.572535-3-animesh.manna@intel.com>
-Date: Thu, 23 Oct 2025 12:14:53 +0300
-Message-ID: <fe6a48ba86619b390cc44f187bd00ccf976ec3df@intel.com>
+ <20251023084147.572535-4-animesh.manna@intel.com>
+Date: Thu, 23 Oct 2025 12:22:11 +0300
+Message-ID: <310f857615e378179fe25a6f39d62cfae8ca8fc9@intel.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
@@ -74,42 +75,91 @@ Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 On Thu, 23 Oct 2025, Animesh Manna <animesh.manna@intel.com> wrote:
-> Initialize mutex for DP2.1 alpm.
+> Add a separate alpm_is_possible() which will check for both edp and dp.
 
-Let's not do that for every detect cycle.
+AFAICT you're not ready to actually do ALPM for non-eDP at this point. I
+presume things will go bonkers if you run this commit.
 
-Perhaps intel_alpm_init() needs to be split to one-time init and sink
-specific init.
+You can add the helper, but keep the functionality unchanged until
+you've actually implemented ALPM for DP.
 
 BR,
 Jani.
-
 
 >
 > Cc: Jouni H=C3=B6gander <jouni.hogander@intel.com>
 > Signed-off-by: Animesh Manna <animesh.manna@intel.com>
 > ---
->  drivers/gpu/drm/i915/display/intel_dp.c | 6 +++++-
->  1 file changed, 5 insertions(+), 1 deletion(-)
+>  drivers/gpu/drm/i915/display/intel_alpm.c | 16 +++++++++++++---
+>  drivers/gpu/drm/i915/display/intel_alpm.h |  1 +
+>  2 files changed, 14 insertions(+), 3 deletions(-)
 >
-> diff --git a/drivers/gpu/drm/i915/display/intel_dp.c b/drivers/gpu/drm/i9=
-15/display/intel_dp.c
-> index 475518b4048b..3f9cbeb215ed 100644
-> --- a/drivers/gpu/drm/i915/display/intel_dp.c
-> +++ b/drivers/gpu/drm/i915/display/intel_dp.c
-> @@ -6073,8 +6073,12 @@ intel_dp_detect(struct drm_connector *_connector,
->  	if (ret =3D=3D 1)
->  		connector->base.epoch_counter++;
+> diff --git a/drivers/gpu/drm/i915/display/intel_alpm.c b/drivers/gpu/drm/=
+i915/display/intel_alpm.c
+> index 6372f533f65b..973791f8956c 100644
+> --- a/drivers/gpu/drm/i915/display/intel_alpm.c
+> +++ b/drivers/gpu/drm/i915/display/intel_alpm.c
+> @@ -41,6 +41,16 @@ bool intel_alpm_is_alpm_aux_less(struct intel_dp *inte=
+l_dp,
+>  		(crtc_state->has_lobf && intel_alpm_aux_less_wake_supported(intel_dp));
+>  }
+>=20=20
+> +bool intel_alpm_is_possible(struct intel_dp *intel_dp)
+> +{
+> +	struct intel_display *display =3D to_intel_display(intel_dp);
+> +
+> +	return (DISPLAY_VER(display) >=3D 12 && intel_dp->alpm_dpcd) ||
+> +	       (DISPLAY_VER(display) >=3D 35 &&
+> +		intel_dp->lttpr_common_caps[DP_LTTPR_ALPM_CAPABILITIES -
+> +					    DP_LT_TUNABLE_PHY_REPEATER_FIELD_DATA_STRUCTURE_REV]);
+> +}
+> +
+>  void intel_alpm_init(struct intel_dp *intel_dp)
+>  {
+>  	u8 dpcd;
+> @@ -265,7 +275,7 @@ void intel_alpm_lobf_compute_config(struct intel_dp *=
+intel_dp,
+>  	if (intel_dp->alpm.sink_alpm_error)
+>  		return;
 >=20=20
 > -	if (!intel_dp_is_edp(intel_dp))
-> +	if (!intel_dp_is_edp(intel_dp)) {
-> +		if (DISPLAY_VER(display) >=3D 35)
-> +			intel_alpm_init(intel_dp);
-> +
->  		intel_psr_init_dpcd(intel_dp);
-> +	}
+> +	if (!intel_alpm_is_possible(intel_dp))
+>  		return;
 >=20=20
->  	intel_dp_detect_dsc_caps(intel_dp, connector);
+>  	if (DISPLAY_VER(display) < 20)
+> @@ -416,7 +426,7 @@ void intel_alpm_pre_plane_update(struct intel_atomic_=
+state *state,
+>=20=20
+>  		intel_dp =3D enc_to_intel_dp(encoder);
+>=20=20
+> -		if (!intel_dp_is_edp(intel_dp))
+> +		if (!intel_alpm_is_possible(intel_dp))
+>  			continue;
+>=20=20
+>  		if (old_crtc_state->has_lobf) {
+> @@ -468,7 +478,7 @@ void intel_alpm_post_plane_update(struct intel_atomic=
+_state *state,
+>=20=20
+>  		intel_dp =3D enc_to_intel_dp(encoder);
+>=20=20
+> -		if (intel_dp_is_edp(intel_dp)) {
+> +		if (intel_alpm_is_possible(intel_dp)) {
+>  			intel_alpm_enable_sink(intel_dp, crtc_state);
+>  			intel_alpm_configure(intel_dp, crtc_state);
+>  		}
+> diff --git a/drivers/gpu/drm/i915/display/intel_alpm.h b/drivers/gpu/drm/=
+i915/display/intel_alpm.h
+> index 53599b464dea..0c9972faa2e0 100644
+> --- a/drivers/gpu/drm/i915/display/intel_alpm.h
+> +++ b/drivers/gpu/drm/i915/display/intel_alpm.h
+> @@ -15,6 +15,7 @@ struct intel_connector;
+>  struct intel_atomic_state;
+>  struct intel_crtc;
+>=20=20
+> +bool intel_alpm_is_possible(struct intel_dp *intel_dp);
+>  void intel_alpm_init(struct intel_dp *intel_dp);
+>  bool intel_alpm_compute_params(struct intel_dp *intel_dp,
+>  			       struct intel_crtc_state *crtc_state);
 
 --=20
 Jani Nikula, Intel
