@@ -2,96 +2,122 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 23F17BFFD93
-	for <lists+dri-devel@lfdr.de>; Thu, 23 Oct 2025 10:20:59 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2A825BFFDE4
+	for <lists+dri-devel@lfdr.de>; Thu, 23 Oct 2025 10:22:23 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id AA18510E0BB;
-	Thu, 23 Oct 2025 08:20:55 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4D12C10E8CD;
+	Thu, 23 Oct 2025 08:22:21 +0000 (UTC)
+Authentication-Results: gabe.freedesktop.org;
+	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="M3D/dYor";
+	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-vk1-f181.google.com (mail-vk1-f181.google.com
- [209.85.221.181])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 50D8410E0BB
- for <dri-devel@lists.freedesktop.org>; Thu, 23 Oct 2025 08:20:54 +0000 (UTC)
-Received: by mail-vk1-f181.google.com with SMTP id
- 71dfb90a1353d-557bf688086so49637e0c.1
- for <dri-devel@lists.freedesktop.org>; Thu, 23 Oct 2025 01:20:54 -0700 (PDT)
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
+ [205.220.168.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 95D4F10E8CD
+ for <dri-devel@lists.freedesktop.org>; Thu, 23 Oct 2025 08:22:19 +0000 (UTC)
+Received: from pps.filterd (m0279867.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 59N6tagO019818
+ for <dri-devel@lists.freedesktop.org>; Thu, 23 Oct 2025 08:22:19 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+ cc:content-transfer-encoding:content-type:date:from:in-reply-to
+ :message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+ 8FruMMDEn1euhlML1huGGXWeCVKOxK18le6bqpoMasM=; b=M3D/dYorK3RcIt7H
+ jJ55aYz/7RKPCryvULpMhjyJ9CHcFylvfk/9r8H9Tn2J8jtVr2TgatzdVW5ocAzz
+ KlFXjdcFtGC3bI4brJU+UxlgCUrsy5NCxQB6AFvK423OOVRf7+11JVVAhbuDANhJ
+ L2L0yPns8sRASb9lkySjZ9xkYdGQ37kadKwbrS0+vxDvNpJXaJq93zyvQhvMMlV2
+ Bzktpfq7R8KJtQyDbqDVqOjpjPsKyx+65fIbayk+NxEHOc+CbVMUjr0YnSCjgUfY
+ y/2yIXnKfwTbicUp8R09X6pNgtrzl6ZCx+riHFJkKiF4FLWyXcaqCqisfooJCSrT
+ FXqyfg==
+Received: from mail-qt1-f200.google.com (mail-qt1-f200.google.com
+ [209.85.160.200])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 49xkpsd7cn-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
+ for <dri-devel@lists.freedesktop.org>; Thu, 23 Oct 2025 08:22:19 +0000 (GMT)
+Received: by mail-qt1-f200.google.com with SMTP id
+ d75a77b69052e-4dd3c89ad67so513401cf.1
+ for <dri-devel@lists.freedesktop.org>; Thu, 23 Oct 2025 01:22:18 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1761207653; x=1761812453;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=ECYIxuT82Q/NafhPkuUWEytQEjZXJcXQfJX7HoJHHBY=;
- b=WoWpkWeg5UAiErmGOVy6OAZiScBhNaFnnxF2O7QQRQXBc2WeoOS9i9Km/GPGN5scZQ
- S9n8yixmjMnYcr8bD8LC/7X0r+ePcpbpGGk03ZrmYpJK2v/d/AkKeTwAZxpBosU5GEaq
- 5EvueAswOFlGxS5N5zyaQlS3vDXFWsq1+UbRuWv7SCFQhj9UYiOdTUWX7qg91DyPy4+4
- C/S3X/jZ+fMvD5x3IwrxCn8Y08TN6oLQBwJ4cEtn4xnC6Sl4hpFHzmsT3RXzRCVnjWk7
- 8vTczTi5KBUtZpC6XSx1RYTVwTnm/rvOIgB1dhEXeFYYGvG+w/j2f5ND772UkzehWJ9U
- kIfw==
+ d=1e100.net; s=20230601; t=1761207738; x=1761812538;
+ h=content-transfer-encoding:in-reply-to:from:content-language
+ :references:cc:to:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=8FruMMDEn1euhlML1huGGXWeCVKOxK18le6bqpoMasM=;
+ b=Z6N3DCRbIZLMNeR5naqZHBIB4FLJx7faFH16y/z8WwxM2HmNB3XZZzb5hnag1a3ynt
+ rASzOh9bHMWjtobaXYzF1WQtTaktctzsES1Ie3Lf4H/K3ke8y4LwX0eUTt0YBvrpG23s
+ Cwf572Iadt8enDk+Xniov8W4lgdPsGlZU968UzSLN+FizLGDRIkh7AolyfixtoCWvi7w
+ i0s4naPjHoJw6FyfqElwM+V/svJ0LLww8HV6FLwMeUwM0aQGidrjaTmYuqpQRITRITVV
+ Ye0IL7sgDJkT6tUKDXds0jESj6epBRhBRQHyGyIzZpN8OO0chTZ/oI4r2XxEAn9jIqb9
+ AlOA==
 X-Forwarded-Encrypted: i=1;
- AJvYcCXz0/yNGq9AKXccwpRkKpVvoW27QYLuyKdDYGgTXjCYnSQpzIpADJ5INBggsQvkKTbwwzdut4qOmF8=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Yx7BXgHNpLBvmEUgUatBBYQ8G8OKEiybF4VLp2zjl4MNZ1GaJj5
- rHla9LnqsiZZvddYqG7eVPr++0+dXsgSNgns5idZs/IUWmEZqrNPWMaSSQ8jq6sI
-X-Gm-Gg: ASbGncvfX/WpRCliDg9B4TOm521JawAqeWl12TrkULPEyKOiInPYVNbEPkjQg7moaMr
- xLDI7GMhPxK/vjuCGj64OZ35ylGEP12SXH4PuXGIhBGeTxKO7VF0H05RQHp7RIpHtM81LNMfTCv
- IAoz0eqp1OsBPBwRTeepzZCJFxTQdGtyMxxIi4gUPaGkWGgjgf+FHnKrw1sEAMnjmlOV9wV5Gaf
- 1Fc4yMGiDuA5KZPP2KOlrrKQfKs5UN+DYEXIyRh9Y81ZOsKwT+2fPjHfHKl2pTyJWLzvdNJpnUd
- Bg1j02fKUWeiqiGowwYOTJLWrC3jb0zL9UkAh5AfPOWE/w3/1IlWjg9qmN2/d+oyEG69O/7XAWZ
- XQq7oQmoM4Uo88IIt8bEPGPJHhox4/xuru0t6zD5hNKaQvuuBDeXTdKf9ujAxKY0dszoHickI8e
- 35MELNCPYcB/94cXFBCgBnK4hUjilenWyZpFIz0g==
-X-Google-Smtp-Source: AGHT+IHCZCbB7hm1rIDGgkPi+KAgJi6/H1KRyOE7X9cm75CQ1Rek7YvyH5V96qPqU6pSeMR44cYCbg==
-X-Received: by 2002:a05:6122:178b:b0:54c:da0:f734 with SMTP id
- 71dfb90a1353d-5564eca564bmr6387846e0c.0.1761207652941; 
- Thu, 23 Oct 2025 01:20:52 -0700 (PDT)
-Received: from mail-vs1-f42.google.com (mail-vs1-f42.google.com.
- [209.85.217.42]) by smtp.gmail.com with ESMTPSA id
- 71dfb90a1353d-557bef1ae0asm523714e0c.23.2025.10.23.01.20.52
- for <dri-devel@lists.freedesktop.org>
+ AJvYcCWz1jORj3hLHE9X4Vc/XrCypecsgLe3Kg1fs/LEG1t9s6RzLHXvhSLuyvqiDjapN8z3/qMctIpuY9k=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YwVDq3C7o5hp+GDJodwxztSL1a2JI9qw0Y2uF5t8ejeeebPOFhA
+ 8bwlbdUPuEN5LEweM1wovH0wY+E05i1kxRQrJ+afR2v38mEAzo+/BfOYJWDqHsTuRuTOpyLzMHs
+ nBJzXNntyXS/hY86xqdjMpSi8QLM3L0XbT9f/8D5tORkvA5huEqBv0wpGgkvT+BI3eliFL+g=
+X-Gm-Gg: ASbGncuMbYTL1BU8wgdIgC2gfGtjzadI1a9RludbaRtyBAxGjdYIcsyBNDckdCBVE+D
+ 1Zznt/7BJiL7S51lp/8HAC06oG7d4HtXxRLAh6GghlDF31q3BEpiWZmeX8qwK6ojsWxFPiXmNOV
+ yKWzysY3n0Dmb7w8TVsVISLG2QdHtvNW8ZOQvES+kgDAlDeFx6Dzccf/lOFmi4isrH5vtcqBhgD
+ gObBbNCw7YP8Mikv4bWxqdraQsk/nxss8+Z4HDfapc2yTqMQqjMHNg5eAGp5mW7ejmTk+UyPrnN
+ i7X/rb2WFf9uIrdCuBExc0XErDN0Uc3fJgooyVgBjrAow53Hb1dJ91zbhD/7eWFlA+gA1Lw6DT4
+ vSAnV8b+Dk04CJ+6KQ2HmSk3FRxuqTNGGCiNmT3cwoEmegpps5WcuT8/L
+X-Received: by 2002:a05:622a:20a:b0:4e8:9ed2:78fa with SMTP id
+ d75a77b69052e-4ea116a2337mr82965581cf.1.1761207737733; 
+ Thu, 23 Oct 2025 01:22:17 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IG2XIoSLrV1GTocr6bbATcJdQVR3JTJAVs0QtA04SjsNS+0NDII1q5KQNFmWxX0Qxq+jTp1XQ==
+X-Received: by 2002:a05:622a:20a:b0:4e8:9ed2:78fa with SMTP id
+ d75a77b69052e-4ea116a2337mr82965141cf.1.1761207737193; 
+ Thu, 23 Oct 2025 01:22:17 -0700 (PDT)
+Received: from [192.168.119.202] (078088045245.garwolin.vectranet.pl.
+ [78.88.45.245]) by smtp.gmail.com with ESMTPSA id
+ a640c23a62f3a-b6d51471c24sm157607666b.75.2025.10.23.01.22.13
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 23 Oct 2025 01:20:52 -0700 (PDT)
-Received: by mail-vs1-f42.google.com with SMTP id
- ada2fe7eead31-5d40e0106b6so278541137.2
- for <dri-devel@lists.freedesktop.org>; Thu, 23 Oct 2025 01:20:52 -0700 (PDT)
-X-Forwarded-Encrypted: i=1;
- AJvYcCXVJKr79UXZ+8qhlVoU0oD1d5/aHtXjlcKXrouGbLmGlgHrV4F10Z5FfkC2bZtcTnyTE3FVj5ClRBM=@lists.freedesktop.org
-X-Received: by 2002:a05:6102:5110:b0:5db:27e9:933e with SMTP id
- ada2fe7eead31-5db27e9988cmr1196188137.38.1761207652096; Thu, 23 Oct 2025
- 01:20:52 -0700 (PDT)
+ Thu, 23 Oct 2025 01:22:16 -0700 (PDT)
+Message-ID: <4f9573d3-41a4-4478-8c19-39716b29f587@oss.qualcomm.com>
+Date: Thu, 23 Oct 2025 10:22:12 +0200
 MIME-Version: 1.0
-References: <20251015192611.241920-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
- <CAMuHMdW1B7Yk1hUU9MSJsiL8wSmjAUGN7Qd_wgBHv8Ct=-wi4Q@mail.gmail.com>
- <CA+V-a8uY11uWoQ_en5QC=W4HPHRwT6rKQQJ-knT8Gi-+czm05w@mail.gmail.com>
- <20251021184502.GD19043@pendragon.ideasonboard.com>
-In-Reply-To: <20251021184502.GD19043@pendragon.ideasonboard.com>
-From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Thu, 23 Oct 2025 10:20:41 +0200
-X-Gmail-Original-Message-ID: <CAMuHMdUU-2ugmA-VcRuYOsriUKtAEQXmWEwJSwuCsSTa3ySTZg@mail.gmail.com>
-X-Gm-Features: AS18NWACo5Ab6gaObSrlb5u0ift86EnuHySc5nm6Ey8p5bDoFaPy9DC0cq8vSBg
-Message-ID: <CAMuHMdUU-2ugmA-VcRuYOsriUKtAEQXmWEwJSwuCsSTa3ySTZg@mail.gmail.com>
-Subject: Re: [PATCH v11 0/7] Add support for DU/DSI clocks and DSI driver
- support for the Renesas RZ/V2H(P) SoC
-To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc: "Lad, Prabhakar" <prabhakar.csengg@gmail.com>, 
- Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
- Biju Das <biju.das.jz@bp.renesas.com>, 
- Andrzej Hajda <andrzej.hajda@intel.com>,
- Neil Armstrong <neil.armstrong@linaro.org>, 
- Robert Foss <rfoss@kernel.org>, Jonas Karlman <jonas@kwiboo.se>, 
- Jernej Skrabec <jernej.skrabec@gmail.com>, 
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, 
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
- Simona Vetter <simona@ffwll.ch>, 
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>, 
- Michael Turquette <mturquette@baylibre.com>, Stephen Boyd <sboyd@kernel.org>, 
- Magnus Damm <magnus.damm@gmail.com>, dri-devel@lists.freedesktop.org, 
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
- linux-renesas-soc@vger.kernel.org, linux-clk@vger.kernel.org, 
- Fabrizio Castro <fabrizio.castro.jz@renesas.com>, 
- Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 07/12] drm/panel: Set sufficient voltage for panel nt37801
+To: yuanjie yang <yuanjie.yang@oss.qualcomm.com>, robin.clark@oss.qualcomm.com,
+ lumag@kernel.org, abhinav.kumar@linux.dev, sean@poorly.run,
+ marijn.suijten@somainline.org, airlied@gmail.com, simona@ffwll.ch,
+ maarten.lankhorst@linux.intel.com, mripard@kernel.org,
+ tzimmermann@suse.de, robh@kernel.org, krzk+dt@kernel.org,
+ conor+dt@kernel.org, quic_mkrishn@quicinc.com, jonathan@marek.ca,
+ quic_khsieh@quicinc.com, neil.armstrong@linaro.org
+Cc: linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ freedreno@lists.freedesktop.org, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org, tingwei.zhang@oss.qualcomm.com,
+ aiqun.yu@oss.qualcomm.com, yongxing.mou@oss.qualcomm.com
+References: <20251023075401.1148-1-yuanjie.yang@oss.qualcomm.com>
+ <20251023080609.1212-1-yuanjie.yang@oss.qualcomm.com>
+ <20251023080609.1212-2-yuanjie.yang@oss.qualcomm.com>
+Content-Language: en-US
+From: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
+In-Reply-To: <20251023080609.1212-2-yuanjie.yang@oss.qualcomm.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUxMDIxMDE5MCBTYWx0ZWRfX7/O127vlI65t
+ 7ZKoUFbdQ6zpE5vsmbCQRAYbyph6f4AZc3yrgCfMYtHyFLz/FGy4hiSjd1u0+R1qooBctPoK//a
+ fPF8mz6UngB+zEKcajU/tlB1jfTO21xVG55BinA8MU22NmehzVCxobRviHJ6VzoNvCvhwoP1wGl
+ phkY/j3BUcQL3+DjfjlI0z3K/j6BcnxP38Ll/dGriPHIn3IrR0JsEJ++qHs/v/ZXVBn6VFPc/wA
+ PkFQte2nZK3hFJolKVzdmuobRkDe3pKcKzUD9IXJCskhJ1FrNDfoa2B4EZ/EZ2rDXA6mpqT2jzM
+ ttQKbhya4lIQYKK6BOZ3gFdAgeHhqhCdsMXzHuaP7MvIP/Cl760Mmn/0u5zH3b7NORjxIJY5DkS
+ tDjNs7eQkd1KsoUTkrCd3SuVj8hPJA==
+X-Authority-Analysis: v=2.4 cv=FbM6BZ+6 c=1 sm=1 tr=0 ts=68f9e5bb cx=c_pps
+ a=JbAStetqSzwMeJznSMzCyw==:117 a=FpWmc02/iXfjRdCD7H54yg==:17
+ a=IkcTkHD0fZMA:10 a=x6icFKpwvdMA:10 a=VkNPw1HP01LnGYTKEx00:22
+ a=EUspDBNiAAAA:8 a=91DCyrf_GaaWAzlYtecA:9 a=QEXdDO2ut3YA:10
+ a=uxP6HrT_eTzRwkO_Te1X:22
+X-Proofpoint-GUID: 1d3vwwyorWRUBCjcvL5z3WJnitwQCUWw
+X-Proofpoint-ORIG-GUID: 1d3vwwyorWRUBCjcvL5z3WJnitwQCUWw
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.9,FMLib:17.12.80.40
+ definitions=2025-10-22_08,2025-10-22_01,2025-03-28_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ malwarescore=0 phishscore=0 bulkscore=0 lowpriorityscore=0 priorityscore=1501
+ suspectscore=0 spamscore=0 impostorscore=0 clxscore=1015 adultscore=0
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.19.0-2510020000 definitions=main-2510210190
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -107,81 +133,18 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Laurent,
+On 10/23/25 10:06 AM, yuanjie yang wrote:
+> From: Yuanjie Yang <yuanjie.yang@oss.qualcomm.com>
+> 
+> The NT37801 Sepc V1.0 chapter "5.7.1 Power On Sequence" states
+> VDDI=1.65V~1.95V, so set sufficient voltage for panel nt37801.
+> 
+> Signed-off-by: Yongxing Mou <yongxing.mou@oss.qualcomm.com>
+> Signed-off-by: Yuanjie Yang <yuanjie.yang@oss.qualcomm.com>
+> ---
 
-On Tue, 21 Oct 2025 at 20:45, Laurent Pinchart
-<laurent.pinchart@ideasonboard.com> wrote:
-> On Tue, Oct 21, 2025 at 07:26:49PM +0100, Lad, Prabhakar wrote:
-> > On Tue, Oct 21, 2025 at 11:26=E2=80=AFAM Geert Uytterhoeven wrote:
-> > > On Wed, 15 Oct 2025 at 21:26, Prabhakar <prabhakar.csengg@gmail.com> =
-wrote:
-> > > > This patch series adds DU/DSI clocks and provides support for the
-> > > > MIPI DSI interface on the RZ/V2H(P) SoC.
-> > > >
-> > > > v10->v11:
-> > > > - Split CPG_PLL_CLK1_K/M/PDIV macro change into separate patch
-> > > > - Updated rzv2h_cpg_plldsi_div_determine_rate()
-> > > >   while iterating over the divider table
-> > > > - Added Acked-by tag from Tomi for patch 2/7 and 3/7
-> > > > - Added Reviewed-by tag from Geert for patch 2/7 and 3/7
-> > >
-> > > I think this series is ready for merging.
-> >
-> > \o/
-> >
-> > > > Lad Prabhakar (7):
-> > > >   clk: renesas: rzv2h-cpg: Add instance field to struct pll
-> > > >   clk: renesas: rzv2h-cpg: Use GENMASK for PLL fields
-> > > >   clk: renesas: rzv2h-cpg: Add support for DSI clocks
-> > > >   clk: renesas: r9a09g057: Add clock and reset entries for DSI and =
-LCDC
-> > > >   dt-bindings: display: bridge: renesas,dsi: Document RZ/V2H(P) and
-> > > >     RZ/V2N
-> > > >   drm: renesas: rz-du: mipi_dsi: Add LPCLK clock support
-> > > >   drm: renesas: rz-du: mipi_dsi: Add support for RZ/V2H(P) SoC
-> > >
-> > > As this touches both clk and drm, let's discuss the merge strategy.
-> > > My proposal:
-> > >   1. I queue patches 1-3 in an immutable branch with a signed tag,
-> > >      to be used as a base for the remaining patches,
-> > >   2. I queue patch 4 on top of 1 in renesas-clk for v6.19,
-> > >   3. The DRM people queue patches 5-7 on top of 1.
-> > >
-> > > Does that sound fine for you?
-> > Sounds good to me.
-> >
-> > Biju/Tomi, are you OK with the above?
->
-> The plan seems good to me. Note that you won't be able to push this
-> yourself to drm-misc as committers are limited to pushing linear
-> branches. We need an ack from the drm-misc maintainers, and one of them
+This patch should have been sent separately as it's not at all
+related to extending the msm display driver to support Kaanapali
+*and* it goes through a different maintainer
 
-Do you mean new commits must be in a single branch, or drm-misc
-itself must be linear? In case of the former, 5-7 can be applied on top of
-my immutable branch, without involving a merge?
-
-> will need to merge the branch (either branch 1. as prepared by Geert, on
-> top of which you can them push patches 5-7 yourself, or a branch you'll
-> prepare on top of 1. with patches 5-7).
-
-Note that another change to include/linux/clk/renesas.h,
-and thus a dependency of drm on clk, is coming in
-"[PATCH v3 0/2] Remove hard coded values for MIPI-DSI"
-https://lore.kernel.org/20251022235903.1091453-1-chris.brandt@renesas.com
-
-Would it be worthwhile to wait on/speed up review of the latter?
-Thanks!
-
-Gr{oetje,eeting}s,
-
-                        Geert
-
---=20
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k=
-.org
-
-In personal conversations with technical people, I call myself a hacker. Bu=
-t
-when I'm talking to journalists I just say "programmer" or something like t=
-hat.
-                                -- Linus Torvalds
+Konrad
