@@ -2,64 +2,60 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 90B7BC0081B
-	for <lists+dri-devel@lfdr.de>; Thu, 23 Oct 2025 12:33:08 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id D0F36C009D2
+	for <lists+dri-devel@lfdr.de>; Thu, 23 Oct 2025 13:02:25 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 13E7110E3C7;
-	Thu, 23 Oct 2025 10:32:50 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DEFCC10E0CA;
+	Thu, 23 Oct 2025 11:02:22 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="e+UDP96w";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="Xa+Q+LF6";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from bali.collaboradmins.com (bali.collaboradmins.com
- [148.251.105.195])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0A70610E3BD
- for <dri-devel@lists.freedesktop.org>; Thu, 23 Oct 2025 10:32:48 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1761215566;
- bh=pshY6UD8UkjtnkzdR6DQu8EZEgj8tUqCQiyiG5CEPC0=;
- h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
- b=e+UDP96wsXrRefn9+r4v66E5EEWev8+78TXxxGBkWC91zFwEwMXoO46du0PRXrCtT
- Z1KpnNE2SuzchyAmauc0wkW72SQIlDJGnYjBByOtfYZpIne+qjyqc/Hoy2ordEkX1m
- DuEXoHBZcnd53nkNYB5+atAIccUZTFagsh8VGqkaMS0VxX873HgUiZPmi7lWwLXwg/
- UQayhlv75ZQOQxsmCTsJZB5BHfhwdIgdDPBq80HrqMqnPDOlm4wGYHQQBBK9SS+4bG
- ffm36TLa9J8BZu0LLyT6zgUU22y+gBO+Suqk1cqxOg+LReL0FYZQlGvXrRq8e0HkSu
- OKMd61yuB5QSA==
-Received: from yukiji.home (amontpellier-657-1-116-247.w83-113.abo.wanadoo.fr
- [83.113.51.247])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested) (Authenticated sender: laeyraud)
- by bali.collaboradmins.com (Postfix) with ESMTPSA id 06BD517E130E;
- Thu, 23 Oct 2025 12:32:45 +0200 (CEST)
-From: Louis-Alexis Eyraud <louisalexis.eyraud@collabora.com>
-Date: Thu, 23 Oct 2025 12:32:37 +0200
-Subject: [PATCH v11 11/11] drm/mediatek: mtk_hdmi_common: Defer probe when
- ddc i2c bus isn't available yet
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7BB6910E0CA
+ for <dri-devel@lists.freedesktop.org>; Thu, 23 Oct 2025 11:02:21 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1761217341; x=1792753341;
+ h=message-id:date:mime-version:subject:to:cc:references:
+ from:in-reply-to:content-transfer-encoding;
+ bh=B92ChVHMGDm6RF7ktK2il4b8SfeYp/DBDe8RLqOsk8A=;
+ b=Xa+Q+LF6RzE/1gALO+9gcgn3Wt0fJfIWkIUWZoC6UHYRyXJtyjLELjn2
+ +fN52Z0BEHVXj/SN8++HkgR7mvxJsr6e+nHWmRkjpMPgXoSbQkzrSXM8i
+ rSira3N4ZqRLLjErXMmiQzoFAythoQJ6bCyPVDpkZchHGKAMqzYyqMiiu
+ pnV4lMSSojAor7BXqSq2n3y3i6iCLMoMllvRWl3Ch6U81Ciu77FjRtcXv
+ OVEXEWkJK4BNjDendHhqfkqiBASPnDvQroId4pIRtelCh6Bw0NbORn2Io
+ KyYlBbOdjA37pQQhNO8dGWifhnyENE3vHtLMYg7dYwtGhwNo+cP13wM13 w==;
+X-CSE-ConnectionGUID: awqGmVOJQ2qnRXErSKt93g==
+X-CSE-MsgGUID: HAnpp6eHSRKPg4d3yj5ICA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11586"; a="67028841"
+X-IronPort-AV: E=Sophos;i="6.19,249,1754982000"; d="scan'208";a="67028841"
+Received: from fmviesa010.fm.intel.com ([10.60.135.150])
+ by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 23 Oct 2025 04:02:20 -0700
+X-CSE-ConnectionGUID: Ae+JYadPRseCWJhT6JHmKg==
+X-CSE-MsgGUID: cDfOV+OZRPGZbj/xnFTFew==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.19,249,1754982000"; d="scan'208";a="184903611"
+Received: from mfalkows-mobl.ger.corp.intel.com (HELO [10.246.17.115])
+ ([10.246.17.115])
+ by fmviesa010-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 23 Oct 2025 04:02:18 -0700
+Message-ID: <69ab183b-8661-4aac-91ab-97804685cecd@linux.intel.com>
+Date: Thu, 23 Oct 2025 13:02:12 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2] accel/ivpu: Add support for Nova Lake's NPU
+To: Jeff Hugo <jeff.hugo@oss.qualcomm.com>, dri-devel@lists.freedesktop.org
+Cc: oded.gabbay@gmail.com, karol.wachowski@linux.intel.com, lizhi.hou@amd.com
+References: <20251022105348.2237273-1-maciej.falkowski@linux.intel.com>
+ <1f024aa7-3daa-4e2a-8110-e1ac72817dfe@oss.qualcomm.com>
+Content-Language: en-US
+From: "Falkowski, Maciej" <maciej.falkowski@linux.intel.com>
+In-Reply-To: <1f024aa7-3daa-4e2a-8110-e1ac72817dfe@oss.qualcomm.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-Message-Id: <20251023-mediatek-drm-hdmi-v2-v11-11-7873ec4a1edf@collabora.com>
-References: <20251023-mediatek-drm-hdmi-v2-v11-0-7873ec4a1edf@collabora.com>
-In-Reply-To: <20251023-mediatek-drm-hdmi-v2-v11-0-7873ec4a1edf@collabora.com>
-To: Chun-Kuang Hu <chunkuang.hu@kernel.org>, 
- Philipp Zabel <p.zabel@pengutronix.de>, David Airlie <airlied@gmail.com>, 
- Simona Vetter <simona@ffwll.ch>, Matthias Brugger <matthias.bgg@gmail.com>, 
- AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, 
- CK Hu <ck.hu@mediatek.com>
-Cc: kernel@collabora.com, dri-devel@lists.freedesktop.org, 
- linux-mediatek@lists.infradead.org, linux-kernel@vger.kernel.org, 
- linux-arm-kernel@lists.infradead.org, Sjoerd Simons <sjoerd@collabora.com>, 
- Louis-Alexis Eyraud <louisalexis.eyraud@collabora.com>
-X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1761215558; l=1178;
- i=louisalexis.eyraud@collabora.com; s=20250113; h=from:subject:message-id;
- bh=XsbE4tQJMGMBoAPaEfkaTGz6CyRspYxpULZRAhEc9HA=;
- b=jHM0DXftZ9YMARvOzCYpGBWDuH2Gl+WcZOe8zgOOBXZj0LbZwiNoPP8jG7o0e7V6ye5TA6qQj
- Wu0IGEORKtODCLQe9XLRzDcChlVB5986WcjTgjzDojSzICaeSxWYlmv
-X-Developer-Key: i=louisalexis.eyraud@collabora.com; a=ed25519;
- pk=CHFBDB2Kqh4EHc6JIqFn69GhxJJAzc0Zr4e8QxtumuM=
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -75,32 +71,26 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Sjoerd Simons <sjoerd@collabora.com>
+On 10/22/2025 4:43 PM, Jeff Hugo wrote:
 
-The i2c adapter for ddc might not be available yet due to e.g. its
-module not yet being loaded. To handle that defer probing rather then
-returning a fatal error when probing.
+> On 10/22/2025 4:53 AM, Maciej Falkowski wrote:
+>> Add support for NPU6 generation that will be present on Nova Lake CPUs.
+>> As with previous generations, it maintains compatibility
+>> so no bigger functional changes apart from removing
+>> deprecated call to soc_cpu_drive() function.
+>>
+>> Quiescing TOP_MMIO in SOC_CPU_NOC as part of boot procedure is no longer
+>> needed starting from 60XX. Remove soc_cpu_drive() call from NPU6 onward.
+>>
+>> The VPU_CPU_NOC_QREQN, VPU_CPU_NOC_QACCEPTN, and VPU_CPU_NOC_QDENY
+>> registers are deprecated and non-functional on 60XX. They will be
+>> removed in future generations.
+>>
+>> Signed-off-by: Karol Wachowski <karol.wachowski@linux.intel.com>
+>> Signed-off-by: Maciej Falkowski <maciej.falkowski@linux.intel.com>
+>
+> Reviewed-by: Jeff Hugo <jeff.hugo@oss.qualcomm.com>
+Pushed to drm-misc-next.
 
-Signed-off-by: Sjoerd Simons <sjoerd@collabora.com>
-Signed-off-by: Louis-Alexis Eyraud <louisalexis.eyraud@collabora.com>
----
- drivers/gpu/drm/mediatek/mtk_hdmi_common.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
-diff --git a/drivers/gpu/drm/mediatek/mtk_hdmi_common.c b/drivers/gpu/drm/mediatek/mtk_hdmi_common.c
-index 9cd7add3dd949e2920c876f7bcf990350c42d215..73b1c012aaa8a27168867c515e1d006c88dfff54 100644
---- a/drivers/gpu/drm/mediatek/mtk_hdmi_common.c
-+++ b/drivers/gpu/drm/mediatek/mtk_hdmi_common.c
-@@ -319,7 +319,7 @@ static int mtk_hdmi_dt_parse_pdata(struct mtk_hdmi *hdmi, struct platform_device
- 	hdmi->ddc_adpt = of_find_i2c_adapter_by_node(i2c_np);
- 	of_node_put(i2c_np);
- 	if (!hdmi->ddc_adpt)
--		return dev_err_probe(dev, -EINVAL, "Failed to get ddc i2c adapter by node\n");
-+		return dev_err_probe(dev, -EPROBE_DEFER, "Failed to get ddc i2c adapter by node\n");
- 
- 	ret = mtk_hdmi_get_cec_dev(hdmi, dev, np);
- 	if (ret == -ENOTSUPP)
-
--- 
-2.51.0
-
+Best regards,
+Maciej
