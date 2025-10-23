@@ -2,82 +2,82 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B31C8C03BA6
-	for <lists+dri-devel@lfdr.de>; Fri, 24 Oct 2025 00:57:56 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 37A0EC03BBA
+	for <lists+dri-devel@lfdr.de>; Fri, 24 Oct 2025 00:59:47 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CED3B10E634;
-	Thu, 23 Oct 2025 22:57:53 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id F06B510E975;
+	Thu, 23 Oct 2025 22:59:43 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="VLbPC+fp";
+	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="SW34gp/f";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
  [205.220.180.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7D05810E975
- for <dri-devel@lists.freedesktop.org>; Thu, 23 Oct 2025 22:57:53 +0000 (UTC)
-Received: from pps.filterd (m0279872.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 59NDwJwR015917
- for <dri-devel@lists.freedesktop.org>; Thu, 23 Oct 2025 22:57:52 GMT
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2149810E97C
+ for <dri-devel@lists.freedesktop.org>; Thu, 23 Oct 2025 22:59:42 +0000 (UTC)
+Received: from pps.filterd (m0279869.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 59NF0LJG022503
+ for <dri-devel@lists.freedesktop.org>; Thu, 23 Oct 2025 22:59:41 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
  cc:content-transfer-encoding:content-type:date:from:in-reply-to
  :message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
- yqaz483n1KlNxsCkKCJ5vTgJQhaR4GIj6IStln/zk3U=; b=VLbPC+fpwkd+9Fkh
- +TB12p1c6fUHnVViku03JJypYW6sJS2Cn/JO9EBfHCt+RuOIozk/wV/M29BDrX3g
- 4SaUjT7jwFc53hi0AdTevzdTtpgWy7W+2OBUP04TexnxRTlM5NP4FWIbK+Dr/54i
- MAGNIl/WsBpVGV5jjpGGy1mLDHXiBmXsDcNWcXcNb5ygYS2FEoxxQ+AIoXBTnqGY
- 6QbjatJVoh3eLICt9B4WooFVi4r9uVvUzmFYDf5lsHm+CU7a/ox+/qLly6BXOG7S
- A3JZWhyaB9/0KV8hUMtsju9zoU5YswolLoK7JgjOtda7WoHySaDaloraKKPAQuWs
- yEtH7Q==
-Received: from mail-pl1-f198.google.com (mail-pl1-f198.google.com
- [209.85.214.198])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 49xhe0r433-1
+ 469MVkdM4tlBeR1KDgd7vEW2/LS3FomPXkmwr2wH4Xs=; b=SW34gp/f2bfuWLb5
+ btmLFbgoz/D4jEB1LvPR1PGuzlEe8Xa50DJiHXqMN1PXWwoEp570EAjzL/pvqf32
+ zRZSEtMzi/vMj+RA2lYepTaMGaHe0SuiBoUEELypApunGplBpHrMW5yvtlb4luH/
+ nUDEu7S2kEOmtBrIAzVzn4dnekeE6Mfd5BuJL9lgI611KYB1pzNqJwjG0elo4FDV
+ AQ3dp8YqG6PINCxfWcNICvSqtVquUxbaNBxTjZui6DRl5eiubzdj67H5T2nXH9GL
+ T3j7zWi0F49Urmr/5KognNXsMePFCV1Rd31Wke3Kx/jhJw5pAQTWVzb0EWAseFZr
+ 06d2dQ==
+Received: from mail-pl1-f199.google.com (mail-pl1-f199.google.com
+ [209.85.214.199])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 49v1w8a4t5-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
- for <dri-devel@lists.freedesktop.org>; Thu, 23 Oct 2025 22:57:52 +0000 (GMT)
-Received: by mail-pl1-f198.google.com with SMTP id
- d9443c01a7336-26983c4d708so10528875ad.3
- for <dri-devel@lists.freedesktop.org>; Thu, 23 Oct 2025 15:57:52 -0700 (PDT)
+ for <dri-devel@lists.freedesktop.org>; Thu, 23 Oct 2025 22:59:41 +0000 (GMT)
+Received: by mail-pl1-f199.google.com with SMTP id
+ d9443c01a7336-277f0ea6ee6so12421715ad.0
+ for <dri-devel@lists.freedesktop.org>; Thu, 23 Oct 2025 15:59:41 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1761260271; x=1761865071;
+ d=1e100.net; s=20230601; t=1761260380; x=1761865180;
  h=content-transfer-encoding:in-reply-to:from:content-language
  :references:cc:to:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=yqaz483n1KlNxsCkKCJ5vTgJQhaR4GIj6IStln/zk3U=;
- b=TBRfnNhJisy4rVjvmjII4M8Ndpk1PhfDazktMbP++8JLFDxuSPzH6Hym5lyK2o//ll
- k837YmU2o7xNaqHJnJRcX9Fg6J0U9P/1YvCKXzb6dmrP6xu/8k44Yen7Sa9OpLX5opfA
- y5X17Sl2cxM5YfRhgu23JgyhTPe1caKC984LxvwUfGuoA0QgnOlVjLax2WBS625+Uc4Z
- qFwHL5nIr8MucE3yFInB2oYOzlY7DyRsAsfCJjWZcSZ5N3p5QOmm2GFweMpFyOys8FSM
- 8UY2ZoqEHZyyqI6Iuw2lvt2pHrp2Q6hzQngrrgKf3LPdIPVq41lD5O+DGpWvwv7I7omd
- nkcQ==
+ bh=469MVkdM4tlBeR1KDgd7vEW2/LS3FomPXkmwr2wH4Xs=;
+ b=RuypuYHtP++f0AWQNU8q3n5wqrRKVzWfKCbFT6P/aDUFFj5ogA4IdNT2wXS9lGilsL
+ iFe9rGhFx2lelkvEO2SfAMVLUdapcBB7RqHv2pBPfW5zUPatSRYejjfUPVJE2t+LdVLN
+ zT2zUZOPoVT6nnd25mxsjki4ou/ZxXYlux3vgLAA6BoFBloQTr37z8s0+GAH0dZCFCQz
+ ICz2uD+bZAEmOUv8OxuWoRqwknbbKF6hPpHjcrt4zxtNkrbuSd1GzGX85v1DEhwNkJGa
+ Wn85rd3YvKN3nIcJei4Fj7TxpyqwMyke/ISnMeyjnkNmMzrmpp9lAYYoox/QA8zROks4
+ q/8w==
 X-Forwarded-Encrypted: i=1;
- AJvYcCWFeR0Mp5lv4zTpkonz2mVe+cHmgTmII6BaDado4YcZatDmFBjCSBE/nVjL8/N6Uqaks1YD5MfBn9s=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Yz7Xn2Y4LnIu5bf6oDqSTXIjJyR8vMwSnVXIbCIhsj+7WlvUav/
- damIqFk4vBxDIPcXIN1N9W9EUyhZez2iIoHrvnXCX3UxTOScf/spx/ip0aH4oJwQTN4akmtDnrx
- h44gBXPmSy+uDesVrIIWSURO2otvOgugKN4HSnQR4fJntYzmzsyeve0fBBBz+VnOjfAaOL8A=
-X-Gm-Gg: ASbGncs4tQF5HQGU7j/RIIajCdaJG2UcyZwXcAQ87GJXFeFrKvuaJALY9AR4Ovnqn72
- 02D5eiNU2XvW3Sw7EQJUqqkvcuyWwElxHH839cXKMCKXWEAy03QJLhcv8tiroXXo5mH1vaM9hR4
- pMFZhXLZph3la3Wp/kgBIjIOJt/1UhU20ieBCoFU7j4lvIR58mpxNB5FSi0RPYszcyc77MFo23w
- b/vYxbPre1IJKPJagYkzfMXFr5hKMFIDxC5a3K6a9KS4aIfnmScDW2Tb9DmUcP0YOvtt+wOXSFe
- LSmhX64VMn1BwFg2G04qjiEJfXNVqJLk09HcKZNxYmUYsOgXGdqrqirolYdPTpte16Ba1ERKQQ/
- qF91umH2U3tpZ4+wDwXClMXQ=
-X-Received: by 2002:a17:903:138a:b0:28e:c9f6:867b with SMTP id
- d9443c01a7336-290c9cd4adbmr305413325ad.23.1761260271037; 
- Thu, 23 Oct 2025 15:57:51 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IHh6V4ZfvJsZGGaazZtGFR+31ad7iDZirAZP401lR3dDyWD/UCXocgWwsTkcU7pnidQWx55TQ==
-X-Received: by 2002:a17:903:138a:b0:28e:c9f6:867b with SMTP id
- d9443c01a7336-290c9cd4adbmr305413105ad.23.1761260270488; 
- Thu, 23 Oct 2025 15:57:50 -0700 (PDT)
+ AJvYcCWWU70xRIZgdYRYHiiLq5K5MUntYRnNEePovofHjx79u1rY5OkSctckI77QH3L0F0V9gRdvxQ3KmVU=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YwlX205VozSlAwl8tqi7yJhcFIe7i7FXzw5k9KsiKXp813JU0Sc
+ nokjAMHb6etzNiOBsh6eqRmC80KiyeU8Pqndh+9r3w2FqpTv5/N92Ff7WC/sY8fSuKsgtxLw3JX
+ YAeeI4aHAgwIaqOyqLCf4xVx2VkCH4r/tXPZaW7rzUwnyG6fhQeNWq2tcVbGy1OQJcbsfkrE=
+X-Gm-Gg: ASbGnctvC+NyyKr2JPg377fUPwP0s0o4iSwFKOV2JVekktNwqHCSjtl0d33H8j+ItgR
+ h2nqqQdvcA8nkGncBsGL159o10Gj1NIoZB7ZwT3DHIdZTutQZFwpBCLmexmpV6KHC199eTQ9yCb
+ ydGyTOlkE6mXaN7QigHFP8jS+0RJ9velN7+YuwaydmHxcrxHZ6lIjECT+jsCTSKe59EqBPIf6ys
+ GpVZL797nLY7R+Fg3C3WsXxf4W3ChGJk692igcI0OKJB3kUoh4hIKaDNJN6hcaJvvpU6ylrdAPS
+ a+kW6Z3ivLCACxm7XXwNmoLtnwj3FwlopqkJyv8s7n8DwV5NPCxQDfqgDALyborGTlCKCOhyd4O
+ Lz+GhF6n1vS+lqFyRRjgdGdA=
+X-Received: by 2002:a17:903:2345:b0:28d:1815:6382 with SMTP id
+ d9443c01a7336-290cb65b674mr335551835ad.46.1761260379744; 
+ Thu, 23 Oct 2025 15:59:39 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IFJbBbKKW0DFk7iDHJKQ3h/G/P4s0gD6I2OLQk44UpbQebnNfbRHLEqoXFR2CkmDt6YK8syMA==
+X-Received: by 2002:a17:903:2345:b0:28d:1815:6382 with SMTP id
+ d9443c01a7336-290cb65b674mr335551455ad.46.1761260379120; 
+ Thu, 23 Oct 2025 15:59:39 -0700 (PDT)
 Received: from [192.168.1.5] ([106.222.232.102])
  by smtp.gmail.com with ESMTPSA id
- d9443c01a7336-2946ded7c8bsm34844225ad.22.2025.10.23.15.57.44
+ 41be03b00d2f7-b6cf4bb9259sm3169412a12.2.2025.10.23.15.59.32
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 23 Oct 2025 15:57:50 -0700 (PDT)
-Message-ID: <97aeb6a1-fda2-440f-b14b-2f3dbc2d7e8e@oss.qualcomm.com>
-Date: Fri, 24 Oct 2025 04:27:42 +0530
+ Thu, 23 Oct 2025 15:59:38 -0700 (PDT)
+Message-ID: <b7b1648f-91b5-4259-8d7d-6d4645f065c0@oss.qualcomm.com>
+Date: Fri, 24 Oct 2025 04:29:30 +0530
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
 Subject: Re: [PATCH 1/6] drm/msm/a6xx: Add support for Adreno 612
-To: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>,
+To: Dan Carpenter <dan.carpenter@linaro.org>, oe-kbuild@lists.linux.dev,
  Rob Clark <robin.clark@oss.qualcomm.com>, Sean Paul <sean@poorly.run>,
  Konrad Dybcio <konradybcio@kernel.org>,
  Dmitry Baryshkov <lumag@kernel.org>,
@@ -88,42 +88,41 @@ To: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>,
  Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
  Maxime Ripard <mripard@kernel.org>,
  Thomas Zimmermann <tzimmermann@suse.de>, Rob Herring <robh@kernel.org>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>, Bjorn Andersson <andersson@kernel.org>
-Cc: linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ Krzysztof Kozlowski <krzk@kernel.org>, Conor Dooley <conor+dt@kernel.org>,
+ Bjorn Andersson <andersson@kernel.org>
+Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
+ linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org,
  freedreno@lists.freedesktop.org, linux-kernel@vger.kernel.org,
  devicetree@vger.kernel.org, Jie Zhang <quic_jiezh@quicinc.com>
-References: <20251017-qcs615-spin-2-v1-0-0baa44f80905@oss.qualcomm.com>
- <20251017-qcs615-spin-2-v1-1-0baa44f80905@oss.qualcomm.com>
- <44ff81bf-8970-475c-a4f5-c03220bc8c3f@oss.qualcomm.com>
+References: <202510212140.4YWihsB7-lkp@intel.com>
 Content-Language: en-US
 From: Akhil P Oommen <akhilpo@oss.qualcomm.com>
-In-Reply-To: <44ff81bf-8970-475c-a4f5-c03220bc8c3f@oss.qualcomm.com>
+In-Reply-To: <202510212140.4YWihsB7-lkp@intel.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUxMDIxMDE2NyBTYWx0ZWRfX2cRqS5pfq4Sk
- sY/a6/iMZS8OZDt5xT7QqmuQr27wTwOGJA+Q/6snyVdB4bSpv6vaDhQtY0F5dgJqLVJw63/7njR
- lYrVnp2xX1Tgpjx6aXYN/D/dIczohgqOYP0j4jvp3CsblES40HcI/+FMvgswYpNKqn8G7vzyLvG
- xeclcRcmjWwty7D2H06YJK+K9Az1hWG1LSIu/HUvzRXKSdH5WpGmf5Agd6DSn1vWQrgEykvWe2a
- 0xGYoz6HoKYb27QHi+aLXbMA/bQQGi2o0CEp5MI1AqyUr2o7ZoERNQuDBbNRvNL2CcOjxTHEM0e
- dIN96zAs/ymQnmJj3HARctiP5vkx8q1plhO/wm6Hg0H3rN3ii5G8ps7oLeGpr2QpKikqouE+bTm
- 5FZqsAlet/XI4zCPr2n52qbCAfRkYw==
-X-Proofpoint-ORIG-GUID: RRNuDvEqp-sJMMKqGH7MK_30ARinMyTt
-X-Authority-Analysis: v=2.4 cv=WYUBqkhX c=1 sm=1 tr=0 ts=68fab2f0 cx=c_pps
- a=MTSHoo12Qbhz2p7MsH1ifg==:117 a=OORdEvYNKPdDRPFHMUl15A==:17
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUxMDE4MDAxNSBTYWx0ZWRfX67hy1cCN0tFa
+ QfjLIuSCmLjyDYAbxZgxkgB/VBCIrn/Hb7XAcvKDSbe3jmmXqPuFKoQ03zLJKP7u3/uLb9beVs0
+ QrXEH60oRKGd0QxsSWbsFZv1PefmHZQVxmz/a+hRjtY/VyxuI9BcpB5W1ZixxW8YPxBLs4TdA8x
+ SL9j34Zylv5FzgavkFNDzRZ5cOOP81NtsUMUW0kXTULVvB0xij1AtJWSx0vlGSv7EPfgcS8ZXPs
+ ZUor11U9SBXyPbybG0vKgM6ELyc0zzemuAZgjwjudkyalYRw1vVTxg/CbcHXvrqI7L38jTXCabW
+ rkAJ4vtm6MfAN7zev1L58GmKAddqQ6T8PYxVSSc7A0fhFLQvgs013kqepEh0vT4WMk5JvU/yJzN
+ cwz646NifN8pwlwpvU+yqK7gmFQQyg==
+X-Authority-Analysis: v=2.4 cv=bNUb4f+Z c=1 sm=1 tr=0 ts=68fab35d cx=c_pps
+ a=JL+w9abYAAE89/QcEU+0QA==:117 a=OORdEvYNKPdDRPFHMUl15A==:17
  a=IkcTkHD0fZMA:10 a=x6icFKpwvdMA:10 a=VkNPw1HP01LnGYTKEx00:22
- a=COk6AnOGAAAA:8 a=EUspDBNiAAAA:8 a=QKnce7zJJDl700h9doIA:9 a=QEXdDO2ut3YA:10
- a=GvdueXVYPmCkWapjIL-Q:22 a=TjNXssC_j7lpFel5tvFf:22
-X-Proofpoint-GUID: RRNuDvEqp-sJMMKqGH7MK_30ARinMyTt
+ a=NEAV23lmAAAA:8 a=VwQbUJbxAAAA:8 a=EUspDBNiAAAA:8 a=i3X5FwGiAAAA:8
+ a=QyXUC8HyAAAA:8 a=KKAkSRfTAAAA:8 a=IvkCWOmhgfTTPoLh6GMA:9 a=QEXdDO2ut3YA:10
+ a=324X-CrmTo6CU4MGRt3R:22 a=mmqRlSCDY2ywfjPLJ4af:22 a=cvBusfyB2V15izCimMoJ:22
+X-Proofpoint-GUID: grDvuedG1AdYGxKGeZl8j-reGopQqwFP
+X-Proofpoint-ORIG-GUID: grDvuedG1AdYGxKGeZl8j-reGopQqwFP
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.9,FMLib:17.12.80.40
  definitions=2025-10-23_03,2025-10-22_01,2025-03-28_01
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- suspectscore=0 adultscore=0 bulkscore=0 impostorscore=0 spamscore=0
- priorityscore=1501 clxscore=1015 malwarescore=0 lowpriorityscore=0
- phishscore=0 classifier=typeunknown authscore=0 authtc= authcc=
- route=outbound adjust=0 reason=mlx scancount=1 engine=8.19.0-2510020000
- definitions=main-2510210167
+ bulkscore=0 phishscore=0 malwarescore=0 lowpriorityscore=0 clxscore=1015
+ priorityscore=1501 suspectscore=0 adultscore=0 spamscore=0 impostorscore=0
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.19.0-2510020000 definitions=main-2510180015
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -139,137 +138,84 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 10/22/2025 8:43 PM, Konrad Dybcio wrote:
-> On 10/17/25 7:08 PM, Akhil P Oommen wrote:
->> From: Jie Zhang <quic_jiezh@quicinc.com>
->>
->> Add support for Adreno 612 GPU found in SM6150/QCS615 chipsets.
->> A612 falls under ADRENO_6XX_GEN1 family and is a cut down version
->> of A615 GPU.
->>
->> A612 has a new IP called Reduced Graphics Management Unit or RGMU
->> which is a small state machine which helps to toggle GX GDSC
->> (connected to CX rail) to implement IFPC feature. It doesn't support
->> any other features of a full fledged GMU like clock control, resource
->> voting to rpmh etc. So we need linux clock driver support like other
->> gmu-wrapper implementations to control gpu core clock and gpu GX gdsc.
->> This patch skips RGMU core initialization and act more like a
->> gmu-wrapper case.
->>
->> Co-developed-by: Akhil P Oommen <akhilpo@oss.qualcomm.com>
->> Signed-off-by: Jie Zhang <quic_jiezh@quicinc.com>
->> Signed-off-by: Akhil P Oommen <akhilpo@oss.qualcomm.com>
->> ---
+On 10/21/2025 7:45 PM, Dan Carpenter wrote:
+> Hi Akhil,
 > 
-> [...]
+> kernel test robot noticed the following build warnings:
 > 
->> @@ -350,12 +350,18 @@ static const struct a6xx_gmu_oob_bits a6xx_gmu_oob_bits[] = {
->>  /* Trigger a OOB (out of band) request to the GMU */
->>  int a6xx_gmu_set_oob(struct a6xx_gmu *gmu, enum a6xx_gmu_oob_state state)
->>  {
->> +	struct a6xx_gpu *a6xx_gpu = container_of(gmu, struct a6xx_gpu, gmu);
->> +	struct adreno_gpu *adreno_gpu = &a6xx_gpu->base;
->>  	int ret;
->>  	u32 val;
->>  	int request, ack;
->>  
->>  	WARN_ON_ONCE(!mutex_is_locked(&gmu->lock));
->>  
->> +	/* Skip OOB calls since RGMU is not enabled */
+> url:    https://github.com/intel-lab-lkp/linux/commits/Akhil-P-Oommen/drm-msm-a6xx-Add-support-for-Adreno-612/20251018-011020
+> base:   cb6649f6217c0331b885cf787f1d175963e2a1d2
+> patch link:    https://lore.kernel.org/r/20251017-qcs615-spin-2-v1-1-0baa44f80905%40oss.qualcomm.com
+> patch subject: [PATCH 1/6] drm/msm/a6xx: Add support for Adreno 612
+> config: powerpc-randconfig-r073-20251021 (https://download.01.org/0day-ci/archive/20251021/202510212140.4YWihsB7-lkp@intel.com/config)
+> compiler: clang version 16.0.6 (https://github.com/llvm/llvm-project 7cbf1a2591520c2491aa35339f227775f4d3adf6)
 > 
-> "RGMU doesn't handle OOB calls"
+> If you fix the issue in a separate patch/commit (i.e. not just a new version of
+> the same patch/commit), kindly add following tags
+> | Reported-by: kernel test robot <lkp@intel.com>
+> | Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
+> | Closes: https://lore.kernel.org/r/202510212140.4YWihsB7-lkp@intel.com/
+> 
+> smatch warnings:
+> drivers/gpu/drm/msm/adreno/a6xx_gpu.c:641 a6xx_set_hwcg() error: uninitialized symbol 'cgc_hyst'.
+> 
+> vim +/cgc_hyst +641 drivers/gpu/drm/msm/adreno/a6xx_gpu.c
+> 
+> 4b565ca5a2cbbbb Jordan Crouse  2018-08-06  600  static void a6xx_set_hwcg(struct msm_gpu *gpu, bool state)
+> 4b565ca5a2cbbbb Jordan Crouse  2018-08-06  601  {
+> 4b565ca5a2cbbbb Jordan Crouse  2018-08-06  602  	struct adreno_gpu *adreno_gpu = to_adreno_gpu(gpu);
+> 4b565ca5a2cbbbb Jordan Crouse  2018-08-06  603  	struct a6xx_gpu *a6xx_gpu = to_a6xx_gpu(adreno_gpu);
+> 4b565ca5a2cbbbb Jordan Crouse  2018-08-06  604  	struct a6xx_gmu *gmu = &a6xx_gpu->gmu;
+> b1c53a2a2d395d4 Jonathan Marek 2020-07-10  605  	const struct adreno_reglist *reg;
+> 4b565ca5a2cbbbb Jordan Crouse  2018-08-06  606  	unsigned int i;
+> 40c297eb245b1c9 Konrad Dybcio  2024-08-28  607  	u32 cgc_delay, cgc_hyst;
+> 51682bc4abf4b55 Konrad Dybcio  2024-08-28  608  	u32 val, clock_cntl_on;
+> 4b565ca5a2cbbbb Jordan Crouse  2018-08-06  609  
+> dff2f69f3e8a6ea Rob Clark      2024-06-18  610  	if (!(adreno_gpu->info->a6xx->hwcg || adreno_is_a7xx(adreno_gpu)))
+> b1c53a2a2d395d4 Jonathan Marek 2020-07-10  611  		return;
+> b1c53a2a2d395d4 Jonathan Marek 2020-07-10  612  
+> 66ffb9150b00f3f Jonathan Marek 2020-07-10  613  	if (adreno_is_a630(adreno_gpu))
+> 66ffb9150b00f3f Jonathan Marek 2020-07-10  614  		clock_cntl_on = 0x8aa8aa02;
+> 5cb9695ccef2305 Jie Zhang      2025-10-17  615  	else if (adreno_is_a610(adreno_gpu) || adreno_is_a612(adreno_gpu))
+> e7fc9398e608a7b Konrad Dybcio  2023-06-16  616  		clock_cntl_on = 0xaaa8aa82;
+> 18397519cb62248 Konrad Dybcio  2024-02-23  617  	else if (adreno_is_a702(adreno_gpu))
+> 18397519cb62248 Konrad Dybcio  2024-02-23  618  		clock_cntl_on = 0xaaaaaa82;
+> 66ffb9150b00f3f Jonathan Marek 2020-07-10  619  	else
+> 66ffb9150b00f3f Jonathan Marek 2020-07-10  620  		clock_cntl_on = 0x8aa8aa82;
+> 66ffb9150b00f3f Jonathan Marek 2020-07-10  621  
+> 5cb9695ccef2305 Jie Zhang      2025-10-17  622  	if (adreno_is_a612(adreno_gpu))
+> 5cb9695ccef2305 Jie Zhang      2025-10-17  623  		cgc_delay = 0x11;
+> 5cb9695ccef2305 Jie Zhang      2025-10-17  624  	else if (adreno_is_a615_family(adreno_gpu))
+> 5cb9695ccef2305 Jie Zhang      2025-10-17  625  		cgc_delay = 0x111;
+> 5cb9695ccef2305 Jie Zhang      2025-10-17  626  	else
+> 5cb9695ccef2305 Jie Zhang      2025-10-17  627  		cgc_delay = 0x10111;
+> 5cb9695ccef2305 Jie Zhang      2025-10-17  628  
+> 5cb9695ccef2305 Jie Zhang      2025-10-17  629  	if (adreno_is_a612(adreno_gpu))
+> 5cb9695ccef2305 Jie Zhang      2025-10-17  630  		cgc_hyst = 0x55;
+> 
+> Only initialized here and not on other paths.
+> 
+> 5cb9695ccef2305 Jie Zhang      2025-10-17  631  	else if (adreno_is_a615_family(adreno_gpu))
+> 5cb9695ccef2305 Jie Zhang      2025-10-17  632  		cgc_delay = 0x555;
+> 5cb9695ccef2305 Jie Zhang      2025-10-17  633  	else
+> 5cb9695ccef2305 Jie Zhang      2025-10-17  634  		cgc_delay = 0x5555;
 
-Technically RGMU can handle OOB calls. But we are not initializing rgmu.
-
-> 
-> [...]
-> 
->> +int a6xx_rgmu_init(struct a6xx_gpu *a6xx_gpu, struct device_node *node)
->> +{
->> +	struct platform_device *pdev = of_find_device_by_node(node);
->> +	struct a6xx_gmu *gmu = &a6xx_gpu->gmu;
->> +	int ret;
->> +
->> +	if (!pdev)
->> +		return -ENODEV;
->> +
->> +	gmu->dev = &pdev->dev;
->> +
->> +	ret = of_dma_configure(gmu->dev, node, true);
->> +	if (ret)
->> +		return ret;
->> +
->> +	pm_runtime_enable(gmu->dev);
->> +
->> +	/* Mark legacy for manual SPTPRAC control */
->> +	gmu->legacy = true;
->> +
->> +	/* RGMU requires clocks */
->> +	ret = devm_clk_bulk_get_all(gmu->dev, &gmu->clocks);
->> +	if (ret < 1)
->> +		return ret;
-> 
-> Simply add this clock detail to a6xx_gmu_wrapper_init and use _optional
-
-Hmm. It looks like devm_clk_bulk_get_all() returns 0 if there are no
-clocks. Will squash.
-
-> 
-> [...]
-> 
->>  	/* Enable fault detection */
->>  	if (adreno_is_a730(adreno_gpu) ||
->> -	    adreno_is_a740_family(adreno_gpu))
->> +	    adreno_is_a740_family(adreno_gpu) || adreno_is_a612(adreno_gpu))
-> 
-> Sorting this would be neat
-
-Ack
-
-> 
-> [...]
-> 
->> +static int a6xx_rgmu_pm_resume(struct msm_gpu *gpu)
->> +{
->> +	struct adreno_gpu *adreno_gpu = to_adreno_gpu(gpu);
->> +	struct a6xx_gpu *a6xx_gpu = to_a6xx_gpu(adreno_gpu);
->> +	struct a6xx_gmu *gmu = &a6xx_gpu->gmu;
->> +	unsigned long freq = gpu->fast_rate;
->> +	struct dev_pm_opp *opp;
->> +	int ret;
->> +
->> +	gpu->needs_hw_init = true;
->> +
->> +	trace_msm_gpu_resume(0);
->> +
->> +	opp = dev_pm_opp_find_freq_ceil(&gpu->pdev->dev, &freq);
->> +	if (IS_ERR(opp))
->> +		return PTR_ERR(opp);
->> +
->> +	dev_pm_opp_put(opp);
->> +
->> +	/* Set the core clock and bus bw, having VDD scaling in mind */
->> +	dev_pm_opp_set_opp(&gpu->pdev->dev, opp);
->> +
->> +	pm_runtime_resume_and_get(gmu->dev);
->> +	pm_runtime_resume_and_get(gmu->gxpd);
->> +
->> +	ret = clk_bulk_prepare_enable(gmu->nr_clocks, gmu->clocks);
->> +	if (ret)
->> +		goto err_rpm_put;
->> +
->> +	ret = clk_bulk_prepare_enable(gpu->nr_clocks, gpu->grp_clks);
->> +	if (ret)
->> +		goto err_bulk_clk;
-> 
-> Add this as-is to a6xx_pm_resume(), nr_clocks==0 is valid, similarly
-> for _suspend
-
-The other difference is a6xx_llc_activate/deactivate(). Looks to me that
-we can unconditionally add that too to a6xx_pm_resume().
+Aah! Looks like there is a copy-paste bug that missed my eyes. Thanks.
 
 -Akhil
 
+> 40c297eb245b1c9 Konrad Dybcio  2024-08-28  635  
+> af66706accdf5af Konrad Dybcio  2023-09-25  636  	gmu_write(&a6xx_gpu->gmu, REG_A6XX_GPU_GMU_AO_GMU_CGC_MODE_CNTL,
+> 51682bc4abf4b55 Konrad Dybcio  2024-08-28  637  			state ? adreno_gpu->info->a6xx->gmu_cgc_mode : 0);
+> af66706accdf5af Konrad Dybcio  2023-09-25  638  	gmu_write(&a6xx_gpu->gmu, REG_A6XX_GPU_GMU_AO_GMU_CGC_DELAY_CNTL,
+> 40c297eb245b1c9 Konrad Dybcio  2024-08-28  639  			state ? cgc_delay : 0);
+> af66706accdf5af Konrad Dybcio  2023-09-25  640  	gmu_write(&a6xx_gpu->gmu, REG_A6XX_GPU_GMU_AO_GMU_CGC_HYST_CNTL,
+> 40c297eb245b1c9 Konrad Dybcio  2024-08-28 @641  			state ? cgc_hyst : 0);
+>                                                                                 ^^^^^^^^
+> Uninitialized
 > 
-> Konrad
+> af66706accdf5af Konrad Dybcio  2023-09-25  642  
+> dff2f69f3e8a6ea Rob Clark      2024-06-18  643  	if (!adreno_gpu->info->a6xx->hwcg) {
+> d2bcca0ccccfa5e Neil Armstrong 2024-02-16  644  		gpu_write(gpu, REG_A7XX_RBBM_CLOCK_CNTL_GLOBAL, 1);
+> 
 
