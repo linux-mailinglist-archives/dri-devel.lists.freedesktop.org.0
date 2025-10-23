@@ -2,62 +2,68 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 821F7C006FF
-	for <lists+dri-devel@lfdr.de>; Thu, 23 Oct 2025 12:20:55 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id A07CDC007F8
+	for <lists+dri-devel@lfdr.de>; Thu, 23 Oct 2025 12:32:47 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2027310E3AC;
-	Thu, 23 Oct 2025 10:20:52 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0A05C10E3BA;
+	Thu, 23 Oct 2025 10:32:42 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="Bv5MAQ9P";
+	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="mA8ZWCBb";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A2DD410E3AC
- for <dri-devel@lists.freedesktop.org>; Thu, 23 Oct 2025 10:20:50 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1761214850; x=1792750850;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:in-reply-to;
- bh=scCpTlzLx7rJ8mnOnrRPfnAEvOTBIkLhLrus4KijGvY=;
- b=Bv5MAQ9P5Lzj/mX+lnW1mWZZUL/rYdq8znJhoqPb8UDXLsVgZoKYIbLK
- Vj0dtKmoF4+5oyUMjM1yMDkVqKs/ZS4deitWt3oeWUliCdSt9G8bpsUOg
- 80HTP21CU9Zbe7RCXL0GBHDVP/DCZy35SrBbpyTNQzCHaw0SQrNVk6IxU
- 0jy3ALkCQO/II4y5ce7sSDI7Q84fX+aFgy6/Yn7s1bj9FvLJ5zVOviT9M
- xhhOARAzYnSYF93m7ZVzO/tAslDj4FDvofvyTnWbHoK5mAhjDSSd/vjZI
- 5oWYlZHAQumw4F5L+PPOagIPbV7Akmkf0xxymPUEBPYI3z8BR9Accw8Rq w==;
-X-CSE-ConnectionGUID: byoO8pgPRNux27zPD0nyyw==
-X-CSE-MsgGUID: 1CxohIiXRNitfoRyY/0pHg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11531"; a="67217606"
-X-IronPort-AV: E=Sophos;i="6.17,312,1747724400"; d="scan'208";a="67217606"
-Received: from orviesa003.jf.intel.com ([10.64.159.143])
- by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 23 Oct 2025 03:20:50 -0700
-X-CSE-ConnectionGUID: AW8BzHGdT/SxkTvNGqye/Q==
-X-CSE-MsgGUID: kLN0X7pFRYqb7BCzQ9YXiw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.19,249,1754982000"; d="scan'208";a="188175344"
-Received: from lkp-server02.sh.intel.com (HELO 66d7546c76b2) ([10.239.97.151])
- by orviesa003.jf.intel.com with ESMTP; 23 Oct 2025 03:20:47 -0700
-Received: from kbuild by 66d7546c76b2 with local (Exim 4.96)
- (envelope-from <lkp@intel.com>) id 1vBsR0-000DLV-2m;
- Thu, 23 Oct 2025 10:20:43 +0000
-Date: Thu, 23 Oct 2025 18:20:02 +0800
-From: kernel test robot <lkp@intel.com>
-To: Youssef Samir <youssef.abdulrahman@oss.qualcomm.com>,
- jeff.hugo@oss.qualcomm.com, carl.vanderlip@oss.qualcomm.com,
- troy.hanson@oss.qualcomm.com, zachary.mckevitt@oss.qualcomm.com
-Cc: oe-kbuild-all@lists.linux.dev, ogabbay@kernel.org, lizhi.hou@amd.com,
- karol.wachowski@linux.intel.com, linux-arm-msm@vger.kernel.org,
- dri-devel@lists.freedesktop.org
-Subject: Re: [PATCH] accel/qaic: Add support for PM callbacks
-Message-ID: <202510231820.AMln6kY3-lkp@intel.com>
-References: <20251022204005.3888195-1-youssef.abdulrahman@oss.qualcomm.com>
+Received: from bali.collaboradmins.com (bali.collaboradmins.com
+ [148.251.105.195])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3C12310E3B8
+ for <dri-devel@lists.freedesktop.org>; Thu, 23 Oct 2025 10:32:40 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+ s=mail; t=1761215558;
+ bh=vZu1LLKF4a95t1p0RNphIUcu61Qm7JvYq4UIKqpTqQY=;
+ h=From:Subject:Date:To:Cc:From;
+ b=mA8ZWCBbYTbTvk6psal9OxsbjfhwtKqe/ps2c5KNcFeixdf8NUmaTfaq04oZFP1px
+ 96OwAfgPw21epBiqewf2MkdoHMHgvG4XJ5Sr3j6VzTAotf29y1/kVnrsOvy+HBy0KQ
+ PsHeRoyTBlA3ZZGnfoRHYDlXtU1n21wVq2tb+3s276djM8E85aARiZ0zRmMt+7EMJj
+ Rj1c9ATr5ExX7QMu2vx6npLqj1m6ywfaN2nZlu45ryz507Bn5U8YpgV0JLEWRnFUro
+ kwQ1AUgGFMG4avIg8G6r0V3sMFNVNJsZx+JAGslyZ3ITh2nnIinEvSgstfEXGvY2jL
+ IFfVLq/igA3hw==
+Received: from yukiji.home (amontpellier-657-1-116-247.w83-113.abo.wanadoo.fr
+ [83.113.51.247])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested) (Authenticated sender: laeyraud)
+ by bali.collaboradmins.com (Postfix) with ESMTPSA id 47D9E17E0CF8;
+ Thu, 23 Oct 2025 12:32:38 +0200 (CEST)
+From: Louis-Alexis Eyraud <louisalexis.eyraud@collabora.com>
+Subject: [PATCH v11 00/11] Add support for MT8195/88 HDMIv2 and DDCv2
+Date: Thu, 23 Oct 2025 12:32:26 +0200
+Message-Id: <20251023-mediatek-drm-hdmi-v2-v11-0-7873ec4a1edf@collabora.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20251022204005.3888195-1-youssef.abdulrahman@oss.qualcomm.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIADoE+mgC/22PzU7DMBCEXyXymY28blKZnngP1IPjrOMVcQy2i
+ YqqvDtOqISEOO7PzDdzF5kSUxaX5i4SrZw5LnVAfGqE9WaZCHisC6Gk6qWWZwg0sin0BmMK4Mf
+ AsCqwTmvX46C7XosqfU/k+Hb4vl7r7FIMUHwi82vWYY+yOylse8TuGRB23BwnjsZaz0tsR5oTT
+ Ut8sXGezRCTaW0MD0Cij8+at/xQxGAyQb0GLpdmoVuBnYJSncSewHMuMX0dRVeUh+TRSf/fqX6
+ BBIVktCKy6M5/Yly3bfsGB6hQCEEBAAA=
+X-Change-ID: 20250806-mediatek-drm-hdmi-v2-cf88f51b8458
+To: Chun-Kuang Hu <chunkuang.hu@kernel.org>, 
+ Philipp Zabel <p.zabel@pengutronix.de>, David Airlie <airlied@gmail.com>, 
+ Simona Vetter <simona@ffwll.ch>, Matthias Brugger <matthias.bgg@gmail.com>, 
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, 
+ CK Hu <ck.hu@mediatek.com>
+Cc: kernel@collabora.com, dri-devel@lists.freedesktop.org, 
+ linux-mediatek@lists.infradead.org, linux-kernel@vger.kernel.org, 
+ linux-arm-kernel@lists.infradead.org, 
+ Louis-Alexis Eyraud <louisalexis.eyraud@collabora.com>, 
+ Sjoerd Simons <sjoerd@collabora.com>
+X-Mailer: b4 0.14.2
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1761215558; l=10674;
+ i=louisalexis.eyraud@collabora.com; s=20250113; h=from:subject:message-id;
+ bh=vZu1LLKF4a95t1p0RNphIUcu61Qm7JvYq4UIKqpTqQY=;
+ b=PKB2+1OLyoT0WW1yIFFfxMK2ZsOqyZFIBXB0xIElu792FOfVxjrz+ONAQFBOmJtMRaGbG5mov
+ uMQxzgz577JDT+iwqjeRJm6TujStGNWW2ZGSjK/Ak+bimFLiFwqyvYc
+X-Developer-Key: i=louisalexis.eyraud@collabora.com; a=ed25519;
+ pk=CHFBDB2Kqh4EHc6JIqFn69GhxJJAzc0Zr4e8QxtumuM=
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -73,82 +79,215 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Youssef,
+This is a respin of AngeloGioacchino Del Regno's patch series, that adds
+the support of HDMIv2 and DDCv2 for MT8188 and MT8195 in mediatek-drm.
 
-kernel test robot noticed the following build warnings:
+Changes in v11:
+ - Rebased over next-20251023
+ - Resolved merge issues with next-20251023 for patch 4
+ - Added new "drm/mediatek: mtk_hdmi_common: Defer probe when ddc i2c bus
+   isn't available yet" to fix a probe issue when mtk_hdmi_v2 driver is
+   is enabled and built as module.
+ - Added new reviewed-by trailers
+ - Link to v10: https://lore.kernel.org/r/20250808-mediatek-drm-hdmi-v2-v10-0-21ea82eec1f6@collabora.com
 
-[auto build test WARNING on drm-misc/drm-misc-next]
-[also build test WARNING on drm-tip/drm-tip linus/master v6.18-rc2 next-20251023]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+Changes in v10:
+ - Rebased over next-20250807
+ - Dropped patches from v9 that have been already merged in a previous
+   merge window (1 to 14)
+ - Resolved merge issues with next-20250807 for patches 3, 4 and 9
+ - Added new "drm/mediatek: mtk_hdmi: Drop redundant clock retrieval in
+   mtk_hdmi_get_cec_dev" patch to fix an issue introduced by a previously
+   merged patch from this series
+ - Deleted mtk_hdmi.c.orig file added by "drm/mediatek: mtk_hdmi: Split driver
+   and add common probe function" patch
+ - Fixed in "drm/mediatek: Introduce HDMI/DDC v2 for MT8195/MT8188" patch
+   a bug about EDID reading not properly working in mtk_hdmi_ddc_v2 driver,
+   due to extra byte sent on i2c bus by mtk_ddc_wr_one function when the 
+   payload length is equal to 0
+ - Fixed format issues detected by checkpatch in "drm/mediatek: Introduce
+   HDMI/DDC v2 for MT8195/MT8188" patch
+ - Tested on Mediatek Genio 350, 510 and 1200-EVK boards
+ - Link to v9: https://lore.kernel.org/dri-devel/20250415104321.51149-1-angelogioacchino.delregno@collabora.com/
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Youssef-Samir/accel-qaic-Add-support-for-PM-callbacks/20251023-044052
-base:   git://anongit.freedesktop.org/drm/drm-misc drm-misc-next
-patch link:    https://lore.kernel.org/r/20251022204005.3888195-1-youssef.abdulrahman%40oss.qualcomm.com
-patch subject: [PATCH] accel/qaic: Add support for PM callbacks
-config: openrisc-allyesconfig (https://download.01.org/0day-ci/archive/20251023/202510231820.AMln6kY3-lkp@intel.com/config)
-compiler: or1k-linux-gcc (GCC) 15.1.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251023/202510231820.AMln6kY3-lkp@intel.com/reproduce)
+Changes in v9:
+ - Reordered patch from krzk as first as requested by CK
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202510231820.AMln6kY3-lkp@intel.com/
+Changes in v8:
+ - Dropped DPI patches as those have been applied in the previous merge window
+ - Changed description in mediatek,mt8195-hdmi.yaml as requested by CK
+ - Refactored function mtk_hdmi_v2_hw_gcp_avmute() to include contents
+   of, and delete, mtk_hdmi_v2_hw_reset_av_mute_regs() as requested by CK
+ - Expanded comment before enablement of HDCP reauthentication interrupt
+   to explain that the HW uses this internally as requested by CK
+ - Added comment in mtk_hdmi_v2_hpd_pord_status() explaining why there
+   are three states for cable detection as requested by CK
+ - Moved extra interrupts clearing from ISR to probe function and added
+   comments explaining the reason why those are being cleaned at probe
+   time, as requested by CK.
+ - Added support (and tested on MT8395/8195 and MT8390/8188) for output
+   in both YUV422 and YUV444 colorspaces other than RGB; please note that
+   RGB is still the default, and that the request for using any of the
+   YUV output formats depends on previous component(s) of the display
+   pipeline declaring support for those; should none of them declare any
+   support for YUV formats, only RGB will be available (no errors, the
+   additional ones will be simply ignored).
 
-All warnings (new ones prefixed by >>):
+Changes in v7:
+ - Split more patches as requested by CK
+ - Changed the order of the interlaced variable addition as requested
+ - Cleanups in DDCv2 as requested by CK
+ - Removed comment from
+   drm/mediatek: mtk_hdmi: Move output init to mtk_hdmi_register_audio_driver()
+   as that was forgotten from reintroduction of print in v5
+ - Some more small nitpicks as pointed out by CK here and there
 
->> drivers/accel/qaic/qaic_drv.c:724:12: warning: 'qaic_pm_resume' defined but not used [-Wunused-function]
-     724 | static int qaic_pm_resume(struct device *dev)
-         |            ^~~~~~~~~~~~~~
->> drivers/accel/qaic/qaic_drv.c:703:12: warning: 'qaic_pm_suspend' defined but not used [-Wunused-function]
-     703 | static int qaic_pm_suspend(struct device *dev)
-         |            ^~~~~~~~~~~~~~~
+Changes in v6:
+ - Split the TVD clock enable/disable calls in a different commit
+ - Changed `is_internal_hdmi` to two different variables, one for
+   DPI input clock from HDMI, and one for AFIFO 1T1P output and
+   conversion (mtk_dpi)
+   - Clarified why MT8195/88 HDMI-reserved DPI1 is different
+ - Moved `input_2p_en` bit to platform data to cleanup DPI vs DPINTF
+   - 1T2P enable bit is different between DPI and DPINTF, but usage
+     is actually the same
+ - Cleaned up headers inclusion in mtk_hdmi_v2.c, mtk_hdmi_ddc_v2.c
+   - Removed some unused headers, added missing bitfield.h header
+ - Split some prints cleanup commits as requested by CK
+ - Split the introduction of mtk_hdmi_conf as requested by CK
+ - Split commit to make CEC optional as requested by CK
+ - Reintroduced forgotten no_capture_mute in codec_pdata (mtk_hdmi_common)
+ - Reintroduced error print for audio clocks enablement failure (mtk_hdmi)
+ - Added cleanup syscon_regmap_lookup_by_phandle commit from Krzysztof K
 
+Changes in v5:
+ - Rebased over next-20250113
+ - Resolved merge issues with next-20250113
+ - Added bitfield.h inclusion in mtk_dpi in commit [02/33] to resolve
+   build issue from 0day CI
+ - Removed .atomic_check callback from mtk_hdmi_v2 as it is now part
+   of drm_bridge_connector as pointed out by Dmitry B
+ - Removed call to pm_runtime_disable() as the driver uses devm
+ - Tested again :-)
 
-vim +/qaic_pm_resume +724 drivers/accel/qaic/qaic_drv.c
+Changes in v4:
+ - DDCv2 binding erroneously dropped in v3 is included again (oops!)
+ - Added reference to dai-common.yaml in HDMIv2 binding
+ - Dropped pinctrl entries from HDMIv2 binding
+ - Fixed required list in HDMIv2 binding and changed node name to
+   'hdmi' instead of 'hdmi-tx'
+ - Fixed issue in mtk_hdmi derived from wrong commit splitting action
+   from version 3
+ - Exported necessary symbols and added namespaces for those
+ - Fixed module build for both HDMIv1 and HDMIv2
+ - Other cleanups
 
-   702	
- > 703	static int qaic_pm_suspend(struct device *dev)
-   704	{
-   705		struct qaic_device *qdev = pci_get_drvdata(to_pci_dev(dev));
-   706	
-   707		dev_dbg(dev, "Suspending..\n");
-   708		if (qaic_data_path_busy(qdev)) {
-   709			dev_dbg(dev, "Device's datapath is busy. Aborting suspend..\n");
-   710			return -EBUSY;
-   711		}
-   712		if (qaic_is_under_reset(qdev)) {
-   713			dev_dbg(dev, "Device is under reset. Aborting suspend..\n");
-   714			return -EBUSY;
-   715		}
-   716		qaic_mqts_ch_stop_timer(qdev->mqts_ch);
-   717		qaic_pci_reset_prepare(qdev->pdev);
-   718		pci_save_state(qdev->pdev);
-   719		pci_disable_device(qdev->pdev);
-   720		pci_set_power_state(qdev->pdev, PCI_D3hot);
-   721		return 0;
-   722	}
-   723	
- > 724	static int qaic_pm_resume(struct device *dev)
-   725	{
-   726		struct qaic_device *qdev = pci_get_drvdata(to_pci_dev(dev));
-   727		int ret;
-   728	
-   729		dev_dbg(dev, "Resuming..\n");
-   730		pci_set_power_state(qdev->pdev, PCI_D0);
-   731		pci_restore_state(qdev->pdev);
-   732		ret = pci_enable_device(qdev->pdev);
-   733		if (ret) {
-   734			dev_err(dev, "pci_enable_device failed on resume %d\n", ret);
-   735			return ret;
-   736		}
-   737		pci_set_master(qdev->pdev);
-   738		qaic_pci_reset_done(qdev->pdev);
-   739		return 0;
-   740	}
-   741	
+Changes in v3:
+ - Added hpd_enable() and hpd_disable() callbacks as suggested by Dmitry B
+ - Removed audio mute call in bridge_enable() as suggested by CK
+ - Reworked commonization commits for mtk_hdmi/mtk_hdmi_common and split
+   out debugfs/abist implementation as suggested by CK
+ - Removed .mode_valid() callback as it is now provided by the bridge
+   API in drm_bridge_connector_helper_funcs
+ - A bit of cleanups here and there
+ - Tested again on HW especially for new hpd_enable/disable callbacks.
 
+Changes in v2:
+ - Merged series "Add support for MT8195/8188 and Pattern Generator"
+   and "drm/mediatek: Add support for HDMIv2 and DDCv2 IPs" in one
+   as they are directly related, as requested by CK Hu
+ - More commonization: moved some audio functions to mtk_hdmi_common
+ - Fixed a bug in DDCv2 driver to allow sending a message with len=1
+ - Renamed some functions in HDMIv2 to consistently use the prefix
+   mtk_hdmi_v2_ across the driver
+ - Added .mode_valid() callback to HDMIv2
+ - Added .atomic_check() callback to HDMIv2
+ - Reordered drm_bridge_funcs in HDMIv2 driver
+ - Rewritten .edid_read() callback in HDMIv2 to move checking audio
+   availability to bridge_pre_enable() stage, and to stop using the
+   drm_edid_read_ddc() in favor of drm_edid_read()
+ - Added support for API provided HDMI Helpers
+ - Added .tmds_char_rate_valid() callback to HDMIv2 for HDMI helpers
+ - Added .hdmi_{read,write}_infoframe() callback to HDMIv2 for helpers
+ - Added support for Vendor infoframes in HDMIv2
+ - Added missing audio-dai-cells to HDMIv2 binding to fix check error
+ - Added more information to the HDMIv2 binding for clocks and PHY
+ - Added some comments to the HDMIv2 code to clarify why the controller
+   is preconfigured in bridge_pre_enable() instead of bridge_enable()
+ - Added a mention of the differences in HPD between v1 and v2 to the
+   commit introducing the v2 driver (v2 is not using CEC for HPD)
+ - ...and tested again on HW! :-)
+
+This series adds support for the HDMI-TX v2 Encoder and DDCv2, and for
+the direct connection DPI as found in MT8195, MT8188 and their variants.
+
+Tested on Genio 700 EVK:
+ - ABIST ON: ok, pattern generated internally from HDMI is shown on
+   HDMI screen at the correct resolution;
+ - ABIST OFF + DPI Pattern Generator ON: ok, pattern coming from DPI is
+   shown on HDMI screen at the correct resolution;
+ - Can negotiate up to 4k60
+
+and on MT8395 Radxa NIO 12L:
+ - ABIST ON: ok, pattern generated internally from HDMI is shown on
+   HDMI screen at the correct resolution;
+ - ABIST OFF + DPI Pattern Generator ON: ok, pattern coming from DPI is
+   shown on HDMI screen at the correct resolution;
+ - Dual screen usecase validated (DSI + HDMI 3840x2160p 60Hz)
+ - Can negotiate up to 4k60
+
+Please note that this submission does *not* include support for HDCP
+nor for CECv2, as I want this to be upstream before implementing
+additional features which are not strictly required for simple
+HDMI output.
+
+Bonus in this series is the addition of support for the Pattern Generator
+found in the DPI HW: since I needed this for debugging during development,
+I had to code in the actual support bits and it looked like a waste of
+time to just remove it.
+I instead decided to clean it up and upstream it, as this will anyway come
+handy for multiple things, of which the most important (imo) are:
+ - Adding support for new SoCs in the future will be less time consuming
+   as this driver already has the pattern generator in;
+ - CI Testing might be able to make use of this to validate that the
+   data that comes out is not garbled (so, to help testing display
+   support in an automated manner).
+
+--
+2.49.0
+
+---
+AngeloGioacchino Del Regno (9):
+      drm/mediatek: mtk_hdmi: Improve mtk_hdmi_get_all_clk() flexibility
+      drm/mediatek: mtk_hdmi: Add HDMI IP version configuration to pdata
+      drm/mediatek: mtk_hdmi: Split driver and add common probe function
+      drm/mediatek: mtk_hdmi_common: Make CEC support optional
+      drm/mediatek: mtk_hdmi_common: Assign DDC adapter pointer to bridge
+      drm/mediatek: mtk_hdmi_common: Add OP_HDMI if helper funcs assigned
+      drm/mediatek: mtk_hdmi_common: Add var to enable interlaced modes
+      drm/mediatek: Introduce HDMI/DDC v2 for MT8195/MT8188
+      drm/mediatek: mtk_hdmi_v2: Add debugfs ops and implement ABIST
+
+Louis-Alexis Eyraud (1):
+      drm/mediatek: mtk_hdmi: Drop redundant clock retrieval in mtk_hdmi_get_cec_dev
+
+Sjoerd Simons (1):
+      drm/mediatek: mtk_hdmi_common: Defer probe when ddc i2c bus isn't available yet
+
+ drivers/gpu/drm/mediatek/Kconfig            |   18 +-
+ drivers/gpu/drm/mediatek/Makefile           |    3 +
+ drivers/gpu/drm/mediatek/mtk_hdmi.c         |  539 +---------
+ drivers/gpu/drm/mediatek/mtk_hdmi_common.c  |  440 ++++++++
+ drivers/gpu/drm/mediatek/mtk_hdmi_common.h  |  198 ++++
+ drivers/gpu/drm/mediatek/mtk_hdmi_ddc_v2.c  |  395 +++++++
+ drivers/gpu/drm/mediatek/mtk_hdmi_regs_v2.h |  263 +++++
+ drivers/gpu/drm/mediatek/mtk_hdmi_v2.c      | 1521 +++++++++++++++++++++++++++
+ 8 files changed, 2858 insertions(+), 519 deletions(-)
+---
+base-commit: a92c761bcac3d5042559107fa7679470727a4bcb
+change-id: 20250806-mediatek-drm-hdmi-v2-cf88f51b8458
+
+Best regards,
 -- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+Louis-Alexis Eyraud <louisalexis.eyraud@collabora.com>
+
