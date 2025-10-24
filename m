@@ -2,154 +2,85 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 967E1C07095
-	for <lists+dri-devel@lfdr.de>; Fri, 24 Oct 2025 17:43:59 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id E4B67C070A1
+	for <lists+dri-devel@lfdr.de>; Fri, 24 Oct 2025 17:44:18 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 83A6910E200;
-	Fri, 24 Oct 2025 15:43:57 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id ECB5110E204;
+	Fri, 24 Oct 2025 15:44:16 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=amd.com header.i=@amd.com header.b="p5z+oZlg";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="IklG6q4h";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from CY7PR03CU001.outbound.protection.outlook.com
- (mail-westcentralusazon11010026.outbound.protection.outlook.com
- [40.93.198.26])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0948610E1AA;
- Fri, 24 Oct 2025 15:43:56 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=AW8tFmWy3Sd2fpqra/WaN7fsNem079cKsymdIp1zF1l4v05fsyoaYhxz4A2V1YSURY6zNgD6TUGKgkVK7LzYbxY33f7zhBG6jimHqGOvLDefhVytdqFLJjdTmqgzKkCyV7azkAK2rjQ+8hcihHdYN6rOQ+j1+f2K/G5vy2tsd37P64sneuYJx0SX2flEtcEVGrRwL6jn24BCBfQ66ZEK/8ESAXnAWAspJTUT0XBxLySgGVeziZyn+Tk21sZsgTEgO1DeInSy4SOd/hzd5BDJL4+JpugXrfkQIx3YiVivy2hOO4oqxAOnexFJgHf01xa2q299lepXOCYKpW8HgfCF+Q==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=ZabFzHQas5aDmfF6QrnKGxtEbsrQepISnJ5+lfknszw=;
- b=fmzf6UIfyPdV5+zq7FjswTidiqXGS9QYM63wrthiSdnuugd6EUobGqE0iLCupM35TBd9o7f5uZU/7y8YN7JwENoHLkD9d1ODbTfsnSl1zFcGWRsS2MlKfkBZxSQQdj+v4EuB5AKaUCsfKBe8bMaVdIrbY7Gu5zB8FhF2FQdkMZuv0VGjs4U1PEC/SDtSkP7br3fMzYy4X3us7foV9rZjWl03EE+kK+ZnAou/F/ABvJD6nBl7+P1oNoY9VqQvXBCox1mIquRbnsV3d1lHpmV1PvSkMByKwl0IrEvJ/TWxokEwAZUD1ltlQ66DiFKY9fSb7I3+CMRwSF04WvlbottRtQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=ZabFzHQas5aDmfF6QrnKGxtEbsrQepISnJ5+lfknszw=;
- b=p5z+oZlgJATGaMc4FIE83L+NQ11vJC9MLyYulY0u/UxjqfXW8H8fwj/nDLT3De6kWo+UitoKskvblVqsiPjEaT+/dheu8i1DGu41731JarqmNRrPQKPEIEmHhhywamOcMuOP+HdvbALsAitnlQECZufPpt5/LjrC+a8Jom16tR0=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=amd.com;
-Received: from MN0PR12MB6101.namprd12.prod.outlook.com (2603:10b6:208:3cb::10)
- by LV2PR12MB5727.namprd12.prod.outlook.com (2603:10b6:408:17d::7)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9253.13; Fri, 24 Oct
- 2025 15:43:52 +0000
-Received: from MN0PR12MB6101.namprd12.prod.outlook.com
- ([fe80::37ee:a763:6d04:81ca]) by MN0PR12MB6101.namprd12.prod.outlook.com
- ([fe80::37ee:a763:6d04:81ca%7]) with mapi id 15.20.9253.011; Fri, 24 Oct 2025
- 15:43:52 +0000
-Message-ID: <3792db59-7dc1-4e34-9436-84df4b6c3e10@amd.com>
-Date: Fri, 24 Oct 2025 10:43:50 -0500
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v1 1/3] platform/x86/amd/pmc: Add support for Van Gogh SoC
-To: Antheas Kapenekakis <lkml@antheas.dev>,
- Alex Deucher <alexander.deucher@amd.com>,
- Shyam Sundar S K <Shyam-sundar.S-k@amd.com>, Perry Yuan <perry.yuan@amd.com>
-Cc: amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, platform-driver-x86@vger.kernel.org
-References: <20251024152152.3981721-1-lkml@antheas.dev>
- <20251024152152.3981721-2-lkml@antheas.dev>
-Content-Language: en-US
-From: Mario Limonciello <mario.limonciello@amd.com>
-In-Reply-To: <20251024152152.3981721-2-lkml@antheas.dev>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: SA9PR13CA0126.namprd13.prod.outlook.com
- (2603:10b6:806:27::11) To MN0PR12MB6101.namprd12.prod.outlook.com
- (2603:10b6:208:3cb::10)
+Received: from mail-wm1-f53.google.com (mail-wm1-f53.google.com
+ [209.85.128.53])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C76E110E201
+ for <dri-devel@lists.freedesktop.org>; Fri, 24 Oct 2025 15:44:14 +0000 (UTC)
+Received: by mail-wm1-f53.google.com with SMTP id
+ 5b1f17b1804b1-47117e75258so16620965e9.2
+ for <dri-devel@lists.freedesktop.org>; Fri, 24 Oct 2025 08:44:14 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20230601; t=1761320653; x=1761925453; darn=lists.freedesktop.org;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+ bh=HyFrzmD5VGIhCjgUJBbHgOpCz5hf6OpkpWtoCO82QTo=;
+ b=IklG6q4hLglGbaC/NPf/LGOywzLjz9/DHVp3xwgdDL3pQ2N+IS3aGCrkiCekJm2cTk
+ c3W0WeMeC3J5IhiAd6lXzNRAKVAfBJOgxGfHAPkFh2MxGEZLIJGARqrQrFT1F+JIaJrO
+ PA+D4X22upyKxiEQ651wwJWPajR2YkN3kuR1PWdVsxonDCN49Md8/CMOZ/ilRVmDRSLF
+ vJGk4/J58SgsAKkyJf3h26gTwZ7R0eI9XJGwVzXwoXxqCfWXs7RiJAVwuJzN46fufqQ3
+ tL+/Ow7K6QjYZ1H51cphtg+TwteQ9ViDXDxLqJTdhH/kCeouDm2ULOG1N9IHnpaD3UdP
+ M3iw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1761320653; x=1761925453;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=HyFrzmD5VGIhCjgUJBbHgOpCz5hf6OpkpWtoCO82QTo=;
+ b=tQc1UzJDcunoL5BNqSo5XR5xo4dxY6sgj4AMoCj/TVPjNxccIx9Sqj8XFYim9GgA8a
+ nwXv+LK+aB3Gzn1HFfoEPjXqstecDftuEW2C3mvXvrSEH78tzhYgPXtvuoxyzjhobJW0
+ f4Mw9uX5rap224c8ElQUZN8W8YOdxxvECl+TAqRlRbu2jfMMCJkpyVxgFikfyuGduHD2
+ C24cTUAR4odSURAuKQxK1/xGuFMsr/jI+TYzG8uuAriFjEORkPILszfnPtAkqov93tWu
+ t/wAQa9btnVW1sFEjK8M0nSX9aSJWyd4mI8V74BPkmSJr3+aaHgCFMoYnqD/EEVh1r/h
+ 7xzg==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCXbHIBS+OlYWmIjL4KZSFebcPVjwYgXjUWS+43eVYzyUM8SRkHNaEpb1HBueaW/ICJTAk+NTnHMvr8=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Yw2iCZJ+ugsX1U7aFWC5be2yuw4ViT5ssKG530zKVij4Wn5IoLB
+ ep3+3j6Q3q+0VTeZeRTj9ZxrfjE1N3Stim2HZngG0lx4jyeUzVvEjdrz
+X-Gm-Gg: ASbGncufN3sgCS+xsuUdaR1TE9LZWIw3DAgE0bAQWvtJMcSbEKyfoETTj1tnMRcxI2c
+ CqBC+bcTccV5kNMX0MOJDSTUR+9hcVqC92ZLy6s+pPY0+TvHDg8epaal+s7bimhWVSe8mbYH12z
+ C1MXS7GLDst+JYy8JUODkzSGfpDcmdDoVQCvntD/lU4xl3rmpT3GtxqMjgQGFkHGj9XZWZVg8oa
+ Uu9jb/tqwK+K7spFMMXPcViJcaRwF8bdqvjvJUAMn1hk59EYh6NKsnUKv7EnZKD/Tz+MESQ7uZf
+ nbjTWKlMrArrojRIibdo+JYwvZjG6vIQg6AqN1F6NANYQGMDhdzBXAzFagaSiYXUTiQjBksxOrD
+ 7k42rp3279AENuitDDZVhs9vLlaie34fPc9tA9cdUwnDSkPPN+165XfYDwVm4jgrROuTuClC9+s
+ w4vS5aKHIOan2w/dSO6pJp
+X-Google-Smtp-Source: AGHT+IEubgG8lezOHzEid79A6EvcYG46QmDmuwMeFGV3CQH5ZDkGrXl7VIXkJVqTpBwwQDK5w3yMwQ==
+X-Received: by 2002:a5d:64c4:0:b0:428:3cd7:a340 with SMTP id
+ ffacd0b85a97d-4298a0a9602mr4884639f8f.35.1761320652968; 
+ Fri, 24 Oct 2025 08:44:12 -0700 (PDT)
+Received: from fedora ([37.29.213.75]) by smtp.gmail.com with ESMTPSA id
+ ffacd0b85a97d-429898ed13fsm9876155f8f.44.2025.10.24.08.44.10
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 24 Oct 2025 08:44:12 -0700 (PDT)
+Date: Fri, 24 Oct 2025 17:44:09 +0200
+From: =?iso-8859-1?Q?Jos=E9_Exp=F3sito?= <jose.exposito89@gmail.com>
+To: Louis Chauvet <louis.chauvet@bootlin.com>
+Cc: Haneen Mohammed <hamohammed.sa@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Melissa Wen <melissa.srw@gmail.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Jonathan Corbet <corbet@lwn.net>,
+ victoria@system76.com, sebastian.wick@redhat.com,
+ thomas.petazzoni@bootlin.com, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org
+Subject: Re: [PATCH 09/22] drm/vkms: Introduce config for plane format
+Message-ID: <aPueydZ1bdmEQ8VE@fedora>
+References: <20251018-vkms-all-config-v1-0-a7760755d92d@bootlin.com>
+ <20251018-vkms-all-config-v1-9-a7760755d92d@bootlin.com>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: MN0PR12MB6101:EE_|LV2PR12MB5727:EE_
-X-MS-Office365-Filtering-Correlation-Id: cc9783f4-2851-4248-2932-08de13142219
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|366016|376014|1800799024|7053199007;
-X-Microsoft-Antispam-Message-Info: =?utf-8?B?MDVaYmx6STlTSVRGTlQ3bUljbjlRNVNjWkNMZHQ5Qk9pNXVqd0c0VWxiRFJh?=
- =?utf-8?B?ZkVmWXlyYnRpQ2RHVy9zVFNtYUprYS8vOHJvMDZqYk1lajVLRFN4bEdSTk5V?=
- =?utf-8?B?UmZ3ME4yTGVPVndFU3o4MEpKb3dNcEVwNGtDMkw1eUgxTjNYUUtYVHJPTGpN?=
- =?utf-8?B?ZEdUYlViQW51cytPTUpSVmFaQ2h5OWFKS01BU2J3VW1FcVp1dzBSQ2w5SC9p?=
- =?utf-8?B?cDVGNWVrWU8rd05sN0FJZW1nckFCb1NTSUhwN0I3WmRFYzJoakZ2YUZBcWRT?=
- =?utf-8?B?OGFxSFY3OEhQaG1OUnc1S2hqYndyNnFxdnRMSXB1RW5QUjNpRWVqTEtVTFAw?=
- =?utf-8?B?R2tpL09KaGM3aENwQjFrN3hNVXR1TTQxOGpPS2lDMXJIbHRsK1JmVmhRR2to?=
- =?utf-8?B?dkd6bFFEVzFEZXlDUEZ5b1FwUlpZTUJyMUMwVUpkODJEMUVhOVdnWmRzajRy?=
- =?utf-8?B?TnBac1BqS2wvYVI5cEhjTjhCdjlIdXQzT2pSTjV1WjNpYUR1NjF3TTVQeHRV?=
- =?utf-8?B?R0tmSzlUc05vS3pXalkvNlgyK2xpUjh3VWVTd3ZBMm5oQU1DQTdJcEVzVzJH?=
- =?utf-8?B?U0JZYUsvZ2tBWC83VFdiT05RS0VRY2MxSi9sWXJ2aTR4S1NUN2p5SnMvTk16?=
- =?utf-8?B?Z1JCUnZhWUVXVjYwNUxtaGZoZGFLREVIb2NhRUt6YlBsbmY3M1ZkOHlmSTRE?=
- =?utf-8?B?SVJ4U1MwcmE3dWVhQVBOWjFiMHZ4VmFRSGRrNXlHWWRvTG56MFVnUE1jQlRl?=
- =?utf-8?B?VEJhNWRFMEk4aVpxNzVPdFlXMytqUEt2eGgvakNTUk96RWsxUXlrWVNPK3ND?=
- =?utf-8?B?eTltSytYVGhtZmtVYi9BNWZUY3VsNmZNOUFKRy9ObHY5OEZNOElKa0NpaGcv?=
- =?utf-8?B?WG9sY2FoRnQxTjdQWDF3Y1BBckhuRkcwM1hQWlQ0Y0VKazNlOVBqM3RmVHVL?=
- =?utf-8?B?N2NYaHpuU0RzRTZ3eTMzeWN0ZEJVeXRXUDdoTkVFMzRTb2tabXJNUEFxZ1JN?=
- =?utf-8?B?V1VQUzVDQmpRV2I5cFBRMkNqVTc2a1JKS3QvQzBXMmVZVzR4RFhQL1pvcFlC?=
- =?utf-8?B?QVN0UkR5Sk9yTm0wYU5LNEt0ZVZ4eU1remVNdy9nQnBqUkw5azk1M1RBUGI1?=
- =?utf-8?B?RWk5WFNSbjRVYUJ0clZBRWV1ejJWR1RzTGtKR2VkYlkrNlQ3VGRGUkpSTU9u?=
- =?utf-8?B?T0hqNzZjTy9LajV5bG5LMWx3SmJoeTEzNktCSUIrMWRCVFBNK2luVWVieFB6?=
- =?utf-8?B?QWFoOUptWFZKdUNFOWVhZDJ1UzRBb1hpL1BlVTEydkl2SmxSNklKK0hZL0gw?=
- =?utf-8?B?eG5vVllDSjZPbTBmQTJlWHNhUTR6Q2xscmlvbzRFT2U5OHdWQkQ1L2hEM25h?=
- =?utf-8?B?SWZqYnlrc1RlT0pVUzZFQjVYQlVydHAzSlFQNC9IR2ZIQlRQdXFCWVhrWksx?=
- =?utf-8?B?QlZiSm9HUDFKRitOZjk2T1JrQiszdkR2amJMbnY5TmZSdjZ1d1diUkd0d1Bi?=
- =?utf-8?B?bXdGWm1NcVR0MlpJK1hkaThGMEJDY0tWNWJpM085MzBLQnpuZlJqbU9RL3Y5?=
- =?utf-8?B?K2NlOTR2OFYyZXhKeUJwSlFQZlkxdXd3QUVyOFdSbnBoekV6WmZ0dDVBWlpD?=
- =?utf-8?B?UVRzVXBTUk1HNURtY01qeHlmZzNidVZkQjRTYnpmOHZZZlBTK0NBeHU3R0tu?=
- =?utf-8?B?SENKK2VWb0tzOFBtdDk5c3N5WHVFRVJxaUlUc0hOdEVyMDhsbXg5WnBHMWln?=
- =?utf-8?B?QmlybzJiNTJNN05UdXlZblJhZUJJTWdEcTNmNjRld1QrK1RuNU5ydjJNY0Iz?=
- =?utf-8?B?UDZFY20yRUVPUEZmUXpGc0twMjZGaUFPRmZ2aDBQSU11S3FZa3E5RjFucS9G?=
- =?utf-8?B?N3dOd1IyeEM5UUtsRGkyZFlhOVQyc3hPSFBHQ2xhaEorWFE9PQ==?=
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:MN0PR12MB6101.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230040)(366016)(376014)(1800799024)(7053199007); DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?S1Y5ZWh4QjVORDIzN01aSi9kTHJuNFdWOEJiT3A1Zy9YTWwzN1VkUVF1Vkxh?=
- =?utf-8?B?b01jSk5McjUvellVeUVkU3NuQzFBd1hoUi9EeEN5ejNVWVZ2Q2N6TVFWWHQ1?=
- =?utf-8?B?dE01YVh3ckVZQ21HVThnWTFYTnY3Qi8rUzY3cTRYVUFoSWVrdjhXV0R6MEdQ?=
- =?utf-8?B?cVlKQStXQnNaak9UaG1pNW1vVHRFeGtkK3pxVDFVc1czZVI0RWJIRmNiUXNM?=
- =?utf-8?B?K1BaY1d4d1IyWDJMZUdxNm5kUVBNQVN3VzlFVVAwQm55S3lIY1BqOXlhdjBJ?=
- =?utf-8?B?dHhMVmNsUjJVbFFKV21QczVUcWl5ZGJOamZ5dXZWT1RhL3JDWnVqbTJsV2NF?=
- =?utf-8?B?TWZiWVNnblM2UDhZZFRWcnc4eGhDWmFmMFhjZ0xSWnR4dmdjVVRqK3FSdDlE?=
- =?utf-8?B?UmdYU0tEM0lQNmVJOHhYeHRKVDFKN0Rqc0RFb1BMaVliQ2RrcGJHd2s4NVln?=
- =?utf-8?B?R1lXbXR1NU1ZUDN1ZU93Y3ZaaUJ0YTBmRTJleG90UjR4WU5yc2hua3BYVjlL?=
- =?utf-8?B?aHhvZ3licFZIZG9RQ3FqZTNaUiswSVhDb3JsN3J0bmQrZDBxQWZvTEJZc0x4?=
- =?utf-8?B?WXNHRGoxeHdEMXluZUJlU0JtUkhlQ2ZJQlIyU1k5STdxMlV6L21peEtsWDNG?=
- =?utf-8?B?TFRweXFyWW54TVE1MGpUZ21RTlg3R2F2d3VhUjJMNXZjODJZV1g5MlZKTmZy?=
- =?utf-8?B?T05aLzIrQnd2VUkrUkxjQUFiSzNON3FtcVI1bW9zMU1yZ2F6LzVCb1F6eXJl?=
- =?utf-8?B?SkZWZVJIOEpJNkN6bmVHdnY2RTYyeUlJdEZsS1VxcUJLRENKampkWUwzVFc4?=
- =?utf-8?B?WjlseHBSZmhjN1VzanRIazZhK3laV1VXMmtDek9QcmNWQTFRUXhhelBmN3Az?=
- =?utf-8?B?RVZ5TjBkZW5oQXR0L2lybnpSRXJsYTVDb0dGZ2NFZDV5cUR3dFBQaW5kaDF5?=
- =?utf-8?B?a2lVbTYraFFBd1lVVkh0eTRTRGgyWEhsbzd4cTZrZDVGSzFwd2tmbFpIdUhr?=
- =?utf-8?B?TEtRU3VOSDZ3QWVicEZIcit0Z0dVM1NqUThMVVBTS0JjbnEyTFhtVm5DY2hm?=
- =?utf-8?B?ZWp4VlRSQ0xJNEZwRGFqSUJDMHlMeUgzVFRVdVdZb21adnFtRkdDdjl5OU5s?=
- =?utf-8?B?QlZlTk9sUkZQT1E2dXZleEVQN0RQSGEwc2RCRVIzM05qblUxTS8vblIvV1Av?=
- =?utf-8?B?UU04bnV1dDVaeFh3bFZwUFFVcThuK0o2T1hITTI3ZEFvd1drYzd6NENCVFMy?=
- =?utf-8?B?RWJlUk1wRFFBOUMzOXV5cys3dGhyTy9uSmxQNXRGakR4b29WSCtMTVpjREZ2?=
- =?utf-8?B?aWJ4ektMWWhnY0hPVjJ1SkJ5M2FJZmtxeVYwTldYb0NkZStUcEVxTFhHdWRm?=
- =?utf-8?B?YXpMYmROWjNvOTFHQ3F1T1pPTVZKVmZ2Z1g5MzBibW90YlN0VFBSVllqMkV3?=
- =?utf-8?B?cElLVzJDcXpVYm9zd0l1YlFhazRwK0FPb0U0bHBsYmtjYWpsTkE3UmN4M1Fs?=
- =?utf-8?B?VWtzWVpSSjZBaVVPOXA4TUMxbXFSZFA2QU9HZm9TSWJWblNjN2t6Mk94dlUx?=
- =?utf-8?B?dFB1MWdaZ09mL2RhQ080aCtGNnQ5Q256dmdhSWY0TEo2TGVFbHBDZGk2Uzdh?=
- =?utf-8?B?dFdkT1NjdkJ5bWprZWk5TzAxNFQyZHdBWUtHY3Joc2lwY2VaVzRJUERUclZY?=
- =?utf-8?B?T3EwbkE2MThpRXlXTDcxUnNIWDJhbWlvcXl5Yk93MFdodXFjK3JSR05PRE1V?=
- =?utf-8?B?cUpYT0xHaXlmSUtncXNxaENhTC8zb2NJeXVKSjc2SWxaY2hwR0prbnRlREZV?=
- =?utf-8?B?ZWtvL0R3ZXozM0tiYjBEK2ZDNnpqWTF6TDFDZTNpNHFDSU03amdMQWp1cUhw?=
- =?utf-8?B?Z3AyNVVkNUZNSHlJdzNCRC9wandsS2RtU05jL1RuT3ZnczhWYTR3VFowb1dk?=
- =?utf-8?B?SGphc3VRVTltaENEWUNrWit0Y3lpbDV2UW1MZzlJaXZpdDc0MzF3Ui9iVTdY?=
- =?utf-8?B?M0wybmN3ZHpHOXFMSm1GM0p0YytkeFVqR1Jnbk90WlFUUEFER1BCNzJveEFD?=
- =?utf-8?B?R084dmRYN3hKUHRVU2lrdW1CeUl6L2hrWGNCcERMNnJrT3NEalExbURTMFdS?=
- =?utf-8?Q?APugZNl9y1yN8N9Y6CsVgIBDd?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: cc9783f4-2851-4248-2932-08de13142219
-X-MS-Exchange-CrossTenant-AuthSource: MN0PR12MB6101.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 24 Oct 2025 15:43:52.8104 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: zKr8nkhy18MP1WLvThOfSrWZaAQZIJGY4UW/e1f7EreIh8voVfn8AmekV4IQYn85JN0XOYxFpto4kqeCnhXD4A==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: LV2PR12MB5727
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20251018-vkms-all-config-v1-9-a7760755d92d@bootlin.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -165,67 +96,270 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
-
-On 10/24/2025 10:21 AM, Antheas Kapenekakis wrote:
-> The ROG Xbox Ally (non-X) SoC features a similar architecture to the
-> Steam Deck. While the Steam Deck supports S3 (s2idle causes a crash),
-> this support was dropped by the Xbox Ally which only S0ix suspend.
+On Sat, Oct 18, 2025 at 04:01:09AM +0200, Louis Chauvet wrote:
+> VKMS driver supports all the pixel formats for planes, but for testing it
+> can be useful to only advertise few of them. This new configuration
+> interface will allow configuring the pixel format per planes.
 > 
-> Since the handler is missing here, this causes the device to not suspend
-> and the AMD GPU driver to crash while trying to resume afterwards due to
-> a power hang.
-> 
-> Closes: https://gitlab.freedesktop.org/drm/amd/-/issues/4659
-> Signed-off-by: Antheas Kapenekakis <lkml@antheas.dev>
+> Signed-off-by: Louis Chauvet <louis.chauvet@bootlin.com>
 > ---
->   drivers/platform/x86/amd/pmc/pmc.c | 3 +++
->   drivers/platform/x86/amd/pmc/pmc.h | 1 +
->   2 files changed, 4 insertions(+)
+>  drivers/gpu/drm/vkms/vkms_config.c | 99 ++++++++++++++++++++++++++++++++++++++
+>  drivers/gpu/drm/vkms/vkms_config.h | 49 +++++++++++++++++++
+>  drivers/gpu/drm/vkms/vkms_plane.c  | 39 +--------------
+>  3 files changed, 150 insertions(+), 37 deletions(-)
 > 
-> diff --git a/drivers/platform/x86/amd/pmc/pmc.c b/drivers/platform/x86/amd/pmc/pmc.c
-> index bd318fd02ccf..cae3fcafd4d7 100644
-> --- a/drivers/platform/x86/amd/pmc/pmc.c
-> +++ b/drivers/platform/x86/amd/pmc/pmc.c
-> @@ -106,6 +106,7 @@ static void amd_pmc_get_ip_info(struct amd_pmc_dev *dev)
->   	switch (dev->cpu_id) {
->   	case AMD_CPU_ID_PCO:
->   	case AMD_CPU_ID_RN:
-> +	case AMD_CPU_ID_VG:
->   	case AMD_CPU_ID_YC:
->   	case AMD_CPU_ID_CB:
->   		dev->num_ips = 12;
-> @@ -517,6 +518,7 @@ static int amd_pmc_get_os_hint(struct amd_pmc_dev *dev)
->   	case AMD_CPU_ID_PCO:
->   		return MSG_OS_HINT_PCO;
->   	case AMD_CPU_ID_RN:
-> +	case AMD_CPU_ID_VG:
->   	case AMD_CPU_ID_YC:
->   	case AMD_CPU_ID_CB:
->   	case AMD_CPU_ID_PS:
-> @@ -717,6 +719,7 @@ static const struct pci_device_id pmc_pci_ids[] = {
->   	{ PCI_DEVICE(PCI_VENDOR_ID_AMD, AMD_CPU_ID_RV) },
->   	{ PCI_DEVICE(PCI_VENDOR_ID_AMD, AMD_CPU_ID_SP) },
->   	{ PCI_DEVICE(PCI_VENDOR_ID_AMD, AMD_CPU_ID_SHP) },
-> +	{ PCI_DEVICE(PCI_VENDOR_ID_AMD, AMD_CPU_ID_VG) },
->   	{ PCI_DEVICE(PCI_VENDOR_ID_AMD, PCI_DEVICE_ID_AMD_1AH_M20H_ROOT) },
->   	{ PCI_DEVICE(PCI_VENDOR_ID_AMD, PCI_DEVICE_ID_AMD_1AH_M60H_ROOT) },
->   	{ }
-> diff --git a/drivers/platform/x86/amd/pmc/pmc.h b/drivers/platform/x86/amd/pmc/pmc.h
-> index 62f3e51020fd..fe3f53eb5955 100644
-> --- a/drivers/platform/x86/amd/pmc/pmc.h
-> +++ b/drivers/platform/x86/amd/pmc/pmc.h
-> @@ -156,6 +156,7 @@ void amd_mp2_stb_deinit(struct amd_pmc_dev *dev);
->   #define AMD_CPU_ID_RN			0x1630
->   #define AMD_CPU_ID_PCO			AMD_CPU_ID_RV
->   #define AMD_CPU_ID_CZN			AMD_CPU_ID_RN
-> +#define AMD_CPU_ID_VG			0x1645
+> diff --git a/drivers/gpu/drm/vkms/vkms_config.c b/drivers/gpu/drm/vkms/vkms_config.c
+> index 8f00ca21ed6e..0b975a0d47aa 100644
+> --- a/drivers/gpu/drm/vkms/vkms_config.c
+> +++ b/drivers/gpu/drm/vkms/vkms_config.c
+> @@ -8,6 +8,42 @@
+>  
+>  #include "vkms_config.h"
+>  
+> +static const u32 vkms_supported_plane_formats[] = {
+> +	DRM_FORMAT_ARGB8888,
+> +	DRM_FORMAT_ABGR8888,
+> +	DRM_FORMAT_BGRA8888,
+> +	DRM_FORMAT_RGBA8888,
+> +	DRM_FORMAT_XRGB8888,
+> +	DRM_FORMAT_XBGR8888,
+> +	DRM_FORMAT_RGB888,
+> +	DRM_FORMAT_BGR888,
+> +	DRM_FORMAT_XRGB16161616,
+> +	DRM_FORMAT_XBGR16161616,
+> +	DRM_FORMAT_ARGB16161616,
+> +	DRM_FORMAT_ABGR16161616,
+> +	DRM_FORMAT_RGB565,
+> +	DRM_FORMAT_BGR565,
+> +	DRM_FORMAT_NV12,
+> +	DRM_FORMAT_NV16,
+> +	DRM_FORMAT_NV24,
+> +	DRM_FORMAT_NV21,
+> +	DRM_FORMAT_NV61,
+> +	DRM_FORMAT_NV42,
+> +	DRM_FORMAT_YUV420,
+> +	DRM_FORMAT_YUV422,
+> +	DRM_FORMAT_YUV444,
+> +	DRM_FORMAT_YVU420,
+> +	DRM_FORMAT_YVU422,
+> +	DRM_FORMAT_YVU444,
+> +	DRM_FORMAT_P010,
+> +	DRM_FORMAT_P012,
+> +	DRM_FORMAT_P016,
+> +	DRM_FORMAT_R1,
+> +	DRM_FORMAT_R2,
+> +	DRM_FORMAT_R4,
+> +	DRM_FORMAT_R8,
+> +};
+> +
+>  struct vkms_config *vkms_config_create(const char *dev_name)
+>  {
+>  	struct vkms_config *config;
+> @@ -435,6 +471,11 @@ struct vkms_config_plane *vkms_config_create_plane(struct vkms_config *config)
+>  	if (!plane_cfg)
+>  		return ERR_PTR(-ENOMEM);
+>  
+> +	if (vkms_config_plane_add_all_formats(plane_cfg)) {
+> +		kfree(plane_cfg);
+> +		return ERR_PTR(-ENOMEM);
+> +	}
+> +
+>  	plane_cfg->config = config;
+>  	vkms_config_plane_set_type(plane_cfg, DRM_PLANE_TYPE_OVERLAY);
+>  	vkms_config_plane_set_name(plane_cfg, NULL);
+> @@ -563,6 +604,64 @@ static struct vkms_config_plane *vkms_config_crtc_get_plane(const struct vkms_co
+>  	return NULL;
+>  }
+>  
+> +int __must_check vkms_config_plane_add_all_formats(struct vkms_config_plane *plane_cfg)
+> +{
+> +	u32 *ret = krealloc_array(plane_cfg->supported_formats,
+> +				  ARRAY_SIZE(vkms_supported_plane_formats),
+> +				  sizeof(uint32_t), GFP_KERNEL);
+> +	if (!ret)
+> +		return -ENOMEM;
+> +	plane_cfg->supported_formats = ret;
+> +
+> +	memcpy(plane_cfg->supported_formats, vkms_supported_plane_formats,
+> +	       sizeof(vkms_supported_plane_formats));
+> +	plane_cfg->supported_formats_count = ARRAY_SIZE(vkms_supported_plane_formats);
+> +	return 0;
+> +}
+> +
+> +int __must_check vkms_config_plane_add_format(struct vkms_config_plane *plane_cfg, u32 drm_format)
+> +{
+> +	bool found = false;
+> +
+> +	for (int i = 0; i < ARRAY_SIZE(vkms_supported_plane_formats); i++) {
+> +		if (vkms_supported_plane_formats[i] == drm_format)
+> +			found = true;
 
-Can you see if 0xF14 gives you a reasonable value for the idle mask if 
-you add it to amd_pmc_idlemask_read()?  Make a new define for it though, 
-it shouldn't use the same define as 0x1a platforms.
+Missing break?
 
->   #define AMD_CPU_ID_YC			0x14B5
->   #define AMD_CPU_ID_CB			0x14D8
->   #define AMD_CPU_ID_PS			0x14E8
-
+> +	}
+> +
+> +	if (!found)
+> +		return -EINVAL;
+> +	for (unsigned int i = 0; i < plane_cfg->supported_formats_count; i++) {
+> +		if (plane_cfg->supported_formats[i] == drm_format)
+> +			return 0;
+> +	}
+> +	u32 *new_ptr = krealloc_array(plane_cfg->supported_formats,
+> +				      plane_cfg->supported_formats_count + 1,
+> +				      sizeof(*plane_cfg->supported_formats), GFP_KERNEL);
+> +	if (!new_ptr)
+> +		return -ENOMEM;
+> +
+> +	plane_cfg->supported_formats = new_ptr;
+> +	plane_cfg->supported_formats[plane_cfg->supported_formats_count] = drm_format;
+> +	plane_cfg->supported_formats_count++;
+> +
+> +	return 0;
+> +}
+> +
+> +void vkms_config_plane_remove_all_formats(struct vkms_config_plane *plane_cfg)
+> +{
+> +	plane_cfg->supported_formats_count = 0;
+> +}
+> +
+> +void vkms_config_plane_remove_format(struct vkms_config_plane *plane_cfg, u32 drm_format)
+> +{
+> +	for (unsigned int i = 0; i < plane_cfg->supported_formats_count; i++) {
+> +		if (plane_cfg->supported_formats[i] == drm_format) {
+> +			plane_cfg->supported_formats[i] = plane_cfg->supported_formats[plane_cfg->supported_formats_count - 1];
+> +			plane_cfg->supported_formats_count--;
+> +		}
+> +	}
+> +}
+> +
+>  struct vkms_config_plane *vkms_config_crtc_primary_plane(const struct vkms_config *config,
+>  							 struct vkms_config_crtc *crtc_cfg)
+>  {
+> diff --git a/drivers/gpu/drm/vkms/vkms_config.h b/drivers/gpu/drm/vkms/vkms_config.h
+> index 8127e12f00dc..0b7067508e5f 100644
+> --- a/drivers/gpu/drm/vkms/vkms_config.h
+> +++ b/drivers/gpu/drm/vkms/vkms_config.h
+> @@ -62,6 +62,8 @@ struct vkms_config_plane {
+>  	unsigned int supported_color_encoding;
+>  	enum drm_color_range default_color_range;
+>  	unsigned int supported_color_range;
+> +	u32 *supported_formats;
+> +	unsigned int supported_formats_count;
+>  	struct xarray possible_crtcs;
+>  
+>  	/* Internal usage */
+> @@ -404,6 +406,53 @@ vkms_config_plane_set_supported_color_range(struct vkms_config_plane *plane_cfg,
+>  	plane_cfg->supported_color_range = supported_color_range;
+>  }
+>  
+> +static inline u32 *
+> +vkms_config_plane_get_supported_formats(struct vkms_config_plane *plane_cfg)
+> +{
+> +	return plane_cfg->supported_formats;
+> +}
+> +
+> +static inline unsigned int
+> +vkms_config_plane_get_supported_formats_count(struct vkms_config_plane *plane_cfg)
+> +{
+> +	return plane_cfg->supported_formats_count;
+> +}
+> +
+> +/** vkms_config_plane_add_format - Add a format to the list of supported format of a plane
+> + *
+> + * The passed drm_format can already be present in the list. This may fail if the allocation of a
+> + * bigger array fails.
+> + *
+> + * @plane_cfg: Plane to add the format to
+> + * @drm_format: Format to add to this plane
+> + *
+> + * Returns: 0 on success, -ENOMEM if array allocation fails, -EINVAL if the format is not supported
+> + * by VKMS
+> + */
+> +int __must_check vkms_config_plane_add_format(struct vkms_config_plane *plane_cfg, u32 drm_format);
+> +
+> +/**
+> + * vkms_config_plane_add_all_formats - Helper to quickly add all the supported formats
+> + * @plane_cfg: Plane to add the formats to
+> + *
+> + * Returns: 0 on success, -ENOMEM if array allocation fails, -EINVAL if the format is not supported
+> + * by VKMS
+> + */
+> +int __must_check vkms_config_plane_add_all_formats(struct vkms_config_plane *plane_cfg);
+> +
+> +/**
+> + * vkms_config_plane_remove_format - Remove a specific format from a plane
+> + * @plane_cfg: Plane to remove the format to
+> + * @drm_format: Format to remove
+> + */
+> +void vkms_config_plane_remove_format(struct vkms_config_plane *plane_cfg, u32 drm_format);
+> +
+> +/**
+> + * vkms_config_plane_remove_all_formats - Remove all formast from a plane
+> + * @plane_cfg: Plane to remove the formats from
+> + */
+> +void vkms_config_plane_remove_all_formats(struct vkms_config_plane *plane_cfg);
+> +
+>  /**
+>   * vkms_config_plane_set_name() - Set the plane name
+>   * @plane_cfg: Plane to set the name to
+> diff --git a/drivers/gpu/drm/vkms/vkms_plane.c b/drivers/gpu/drm/vkms/vkms_plane.c
+> index ab719da2ca0b..0414865915d8 100644
+> --- a/drivers/gpu/drm/vkms/vkms_plane.c
+> +++ b/drivers/gpu/drm/vkms/vkms_plane.c
+> @@ -14,42 +14,6 @@
+>  #include "vkms_formats.h"
+>  #include "vkms_config.h"
+>  
+> -static const u32 vkms_formats[] = {
+> -	DRM_FORMAT_ARGB8888,
+> -	DRM_FORMAT_ABGR8888,
+> -	DRM_FORMAT_BGRA8888,
+> -	DRM_FORMAT_RGBA8888,
+> -	DRM_FORMAT_XRGB8888,
+> -	DRM_FORMAT_XBGR8888,
+> -	DRM_FORMAT_RGB888,
+> -	DRM_FORMAT_BGR888,
+> -	DRM_FORMAT_XRGB16161616,
+> -	DRM_FORMAT_XBGR16161616,
+> -	DRM_FORMAT_ARGB16161616,
+> -	DRM_FORMAT_ABGR16161616,
+> -	DRM_FORMAT_RGB565,
+> -	DRM_FORMAT_BGR565,
+> -	DRM_FORMAT_NV12,
+> -	DRM_FORMAT_NV16,
+> -	DRM_FORMAT_NV24,
+> -	DRM_FORMAT_NV21,
+> -	DRM_FORMAT_NV61,
+> -	DRM_FORMAT_NV42,
+> -	DRM_FORMAT_YUV420,
+> -	DRM_FORMAT_YUV422,
+> -	DRM_FORMAT_YUV444,
+> -	DRM_FORMAT_YVU420,
+> -	DRM_FORMAT_YVU422,
+> -	DRM_FORMAT_YVU444,
+> -	DRM_FORMAT_P010,
+> -	DRM_FORMAT_P012,
+> -	DRM_FORMAT_P016,
+> -	DRM_FORMAT_R1,
+> -	DRM_FORMAT_R2,
+> -	DRM_FORMAT_R4,
+> -	DRM_FORMAT_R8,
+> -};
+> -
+>  static struct drm_plane_state *
+>  vkms_plane_duplicate_state(struct drm_plane *plane)
+>  {
+> @@ -226,7 +190,8 @@ struct vkms_plane *vkms_plane_init(struct vkms_device *vkmsdev,
+>  
+>  	plane = drmm_universal_plane_alloc(dev, struct vkms_plane, base, 0,
+>  					   &vkms_plane_funcs,
+> -					   vkms_formats, ARRAY_SIZE(vkms_formats),
+> +					   vkms_config_plane_get_supported_formats(config),
+> +					   vkms_config_plane_get_supported_formats_count(config),
+>  					   NULL, vkms_config_plane_get_type(config),
+>  					   vkms_config_plane_get_name(config));
+>  	if (IS_ERR(plane))
+> 
+> -- 
+> 2.51.0
+> 
