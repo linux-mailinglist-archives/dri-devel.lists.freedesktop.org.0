@@ -2,85 +2,86 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D3205C061A5
-	for <lists+dri-devel@lfdr.de>; Fri, 24 Oct 2025 13:53:33 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1F89DC061AF
+	for <lists+dri-devel@lfdr.de>; Fri, 24 Oct 2025 13:53:47 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E7A7310EA75;
-	Fri, 24 Oct 2025 11:53:30 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 480CC10EA88;
+	Fri, 24 Oct 2025 11:53:45 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="nmc+yckx";
+	dkim=pass (2048-bit key; unprotected) header.d=ursulin-net.20230601.gappssmtp.com header.i=@ursulin-net.20230601.gappssmtp.com header.b="ebmD13Ef";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-f45.google.com (mail-wm1-f45.google.com
- [209.85.128.45])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 73EBE10EA75
- for <dri-devel@lists.freedesktop.org>; Fri, 24 Oct 2025 11:53:29 +0000 (UTC)
-Received: by mail-wm1-f45.google.com with SMTP id
- 5b1f17b1804b1-471066cfc2aso17971145e9.0
- for <dri-devel@lists.freedesktop.org>; Fri, 24 Oct 2025 04:53:29 -0700 (PDT)
+Received: from mail-wm1-f41.google.com (mail-wm1-f41.google.com
+ [209.85.128.41])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8174810EA88
+ for <dri-devel@lists.freedesktop.org>; Fri, 24 Oct 2025 11:53:43 +0000 (UTC)
+Received: by mail-wm1-f41.google.com with SMTP id
+ 5b1f17b1804b1-475c1f433d8so16192675e9.3
+ for <dri-devel@lists.freedesktop.org>; Fri, 24 Oct 2025 04:53:43 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1761306808; x=1761911608; darn=lists.freedesktop.org;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
- bh=jGRrEw4wcXdorFwaqi+vw3qg5PJt2Z4q8H5R7THz1J8=;
- b=nmc+yckxgXqQR3wPSNglZltCN7NKzlGmXoSUlneU3Lk/1gPGaFlRTr0+cI5h8LOojD
- t4xn2ztlqlTLFGWtXMIYaByIczkENBgIEhPZi7IDjr8JNtTzfzgnid1iMh1vTdTkDOt7
- Rc3ZW4t9cwnvsnoM4IX0MdAatLSQlWeKjuWbSNrOrUQkLLlE9UgYduEBDuYooTEfM4bm
- h0WHKhZTgfDwaKgW5gxfSq5b9ehFrx1WYVFlORBbT1mR2ndvhghqX05hcjl8OkvSX0Mr
- +avepCNDddF9XrdKLK/cLzqSxFPdwTYgDWin6wncsrYaT8PD4H975QEBjEDFOvXs5CW5
- kPPw==
+ d=ursulin-net.20230601.gappssmtp.com; s=20230601; t=1761306822; x=1761911622;
+ darn=lists.freedesktop.org; 
+ h=content-transfer-encoding:in-reply-to:from:content-language
+ :references:to:subject:user-agent:mime-version:date:message-id:from
+ :to:cc:subject:date:message-id:reply-to;
+ bh=dLKkHxaaXLev4S7MszIKXrNS5/5lXSGaSbvt4iwt1po=;
+ b=ebmD13EfkCX39Ghz4zLg7WWeYCmGI8J+4nvPj3mdSB0aqEOdrt9WcKWhUjfV+B/63j
+ Qg9AfOhMiN1EXIVWPApdxTa61EoxFRHfhXbItLmdS9/XS7Ms4ILQjH65NE9y9r+8NsvC
+ vMuyCD6o9WwPr5+SB4VZPkEf4la4UPNSaRG+a6b2U/THasP00hvtYlt1ehjDk+FPG3zV
+ 9hmdvhbHp84OBHNhMRzVHlsgMA0TkFdOKo6TfUJ3gGnI3WfS2EhmC6OJHugVNC84fDHW
+ bNirNwCmp51NAh5yTTwq4fZUokxS4cybpkkn4igYeV3HEvHTXae3IeuLMJ4/vEBJEln2
+ Z77A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1761306808; x=1761911608;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=jGRrEw4wcXdorFwaqi+vw3qg5PJt2Z4q8H5R7THz1J8=;
- b=MvQcKx22ILcCBN9m9jjErsy9/G52SzmWNppZSBHNIJD+NEks7tjkMg9q7rRo+4bljA
- jiiLUYpGbzv4rBgo1UE3X7SZi5McCe9L14C++TnlEDNCjw2CMhWh1Y7meHlAGkPfDdZu
- Ra6P/O1bAoiv/ob1woQqx/rNxnVbatm2fQFjlZrAO15Ox1XZvbC71z4EWQE8ebLmfoba
- DjUqEKUpZpv3euNAx52LX87h0AVLPGAhNn6kOvaYbsmr4D2flQDbrOKeznUpZ2h7VohA
- GE1iD5SwNvVuIA+o/ydABKGdKOIfo04rJ8q4vfJHncYs26EaE2zS1nnRZKpEbaomtsi0
- aqPA==
+ d=1e100.net; s=20230601; t=1761306822; x=1761911622;
+ h=content-transfer-encoding:in-reply-to:from:content-language
+ :references:to:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=dLKkHxaaXLev4S7MszIKXrNS5/5lXSGaSbvt4iwt1po=;
+ b=ZcH1hh9l3ZfRB89gGzDtkqmHFqtTI2/S59xG1ybZ1TBxyCkpm2ukE0fmDsrvrB3cQv
+ vNmCcFaACkEP7uG4NXEZZkZZ/+OV6XklJpNyj5t/YkR5PWZsqT56X3fgqk0IfZPaD7A/
+ ofAW33Y4lkgD3ZiUIhzMxqJcfagNtZCsGOl731+/WaAiuUqmVgU3Mqq6xNVD1oeCLcxo
+ bXnHBUWxoon5MxWPrENJ0cLELPXb9tUVe2UNkqP6HRaJ5lXN1JtEKm6TOwJT3Aev9fLy
+ qym/zgufhgOu0CMIzAr/F+kgKEO+aWFuib3VqjGF7rTqHnbowlum0aRk4fcw5XO7GZt5
+ c47A==
 X-Forwarded-Encrypted: i=1;
- AJvYcCUxPPkvp1pD0hOZIdnQaTL42jf/DeZMedXRplBlr4Zf9Yv3fioVnB8WrdQ4RNe7LaEuACvy5QFvCSM=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Yy2zIkL5WU2ca6lEq1YdZ4yd+7GeRxj8nB9LPRLEqFKb9NE/Veu
- Epr1ufztT4vV/rybiwVTOKi7AEQd6VZQWAE6nZ5pxpoCX5izkxB1uehg
-X-Gm-Gg: ASbGncuMS5yoBmaGcA02HCVhRF7b5+4gWkDEjTMeola/8s5mxkGsNiKS9dcrVeFOebp
- SDOH+lJvIi7meWYDOzvDzc5KMw+GZyDHsptbe7rBwTa39ztL8/J6MDyg3u6wnSmlfEKTqJh6VtB
- Zy0RWwAXK4IHQ5Ffw9gyFfTwXT25j69WTF7ipTS3gVfaTfIlhKgRg+O1uTwdgE2jK3XZ0fftmtn
- GMOQYzNyn64rOga9Ei3AYx5NTug//YLUNnYmrInLwzAkWElduGNGd68mtKA7VBa90S/X6HA7Df0
- XpRhCySDCZ9TFtBzaHIu/QnIX84xoYJiAZi9UwDv9Fs6XT4TYFUJYN3ozjeaTtOyBfnB5QcEp57
- 7hao4QQ9x0vkLbEwHPnpeAxuzxsnNBoY8oHDEyuGS7C3sWhBszxsG9b/1MkxPD4HDdENqkrxnwl
- s=
-X-Google-Smtp-Source: AGHT+IH7HuFQMoipaAL9bwqFjfslgEwUXurZypDZoTSr0Qrn6+wEvE/TPAHcyLz7mEw9Bk37KsBong==
-X-Received: by 2002:a5d:5d82:0:b0:428:4004:8226 with SMTP id
- ffacd0b85a97d-4284004ab91mr13628155f8f.34.1761306807817; 
- Fri, 24 Oct 2025 04:53:27 -0700 (PDT)
-Received: from fedora ([37.29.213.75]) by smtp.gmail.com with ESMTPSA id
- ffacd0b85a97d-429897e77dasm8910351f8f.2.2025.10.24.04.53.26
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 24 Oct 2025 04:53:27 -0700 (PDT)
-Date: Fri, 24 Oct 2025 13:53:24 +0200
-From: =?iso-8859-1?Q?Jos=E9_Exp=F3sito?= <jose.exposito89@gmail.com>
-To: Louis Chauvet <louis.chauvet@bootlin.com>
-Cc: Haneen Mohammed <hamohammed.sa@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Melissa Wen <melissa.srw@gmail.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Jonathan Corbet <corbet@lwn.net>,
- victoria@system76.com, sebastian.wick@redhat.com,
- thomas.petazzoni@bootlin.com, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org
-Subject: Re: [PATCH 03/22] drm/vkms: Introduce config for plane rotation
-Message-ID: <aPtotO_FnA1i1AhX@fedora>
-References: <20251018-vkms-all-config-v1-0-a7760755d92d@bootlin.com>
- <20251018-vkms-all-config-v1-3-a7760755d92d@bootlin.com>
+ AJvYcCWbOdNBPhqfaOzzgooyaWS1srJhpnXmAkXfbrWjVM7Rq/b2doPkulhvWmlaOGNw31XDXHRZ8Fj+pQ0=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YzQhqTeLqxuCzNGL4Kb/psF2bsfWroKl2igy/WgKx2QoObKly0X
+ 8dKJW866GEvp9roH5R++3PZNYV3+NBE+TTmJq8Br2ssl3tldkljZrHdubWQHkvCktAg=
+X-Gm-Gg: ASbGncuZDRs6paDrdFFJFyrUB4J25NwrH2abxNAWlv9W8S/7R0P7eavfx1bfErHJm/i
+ Spc/sauPmi33z2cuzDnvQ6LtVAWhKRFcvHkU/+B3iS/C65CwvQdqvfO0rtwtiRiX8LRtZCoboT3
+ wLaYg95vBcgN1wfNwHNSQc0VUU45YXAz0dkKxQ6JUqI+dpTxWApcnFZmwlUj4CR2yjqipyzpYUV
+ J7RP9KFlOsKIKbIGbT5IzpG7A7dgvP48I7ErTCA+Aan06Vk4yWqZeEzCV3ItUdJSU/7pPN9U0s2
+ bESYd0H3h9oBOh7z7ketlbrJpVsevBpvmp9jSLp5a55YibZ0GSIytc9bTXdSPz9kwDbc+qtCnLD
+ GE6pere/jen5aVOb4K/u8WNXq54xNygQgiEyfD0nHrxl/ViWQn86JQT1YaV62It+wGi05FyBo7m
+ kbGtfnuoyM9fhTdec=
+X-Google-Smtp-Source: AGHT+IEHDNyAM/AY4b4niK5QxPDuQkNhY2BI2zlFLG8jhvTPww4hi6ttnOXH2lsTX1rfmST7yskKfQ==
+X-Received: by 2002:a05:600c:19d4:b0:46e:4a13:e6c6 with SMTP id
+ 5b1f17b1804b1-47117907234mr218064735e9.19.1761306821463; 
+ Fri, 24 Oct 2025 04:53:41 -0700 (PDT)
+Received: from [192.168.0.101] ([90.242.12.242])
+ by smtp.gmail.com with ESMTPSA id
+ ffacd0b85a97d-429898adc81sm8968280f8f.26.2025.10.24.04.53.40
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 24 Oct 2025 04:53:41 -0700 (PDT)
+Message-ID: <a1d6cf1f-02b6-4c89-84e2-4b2af39829ef@ursulin.net>
+Date: Fri, 24 Oct 2025 12:53:40 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20251018-vkms-all-config-v1-3-a7760755d92d@bootlin.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] drm/i915/dmabuf: Flush the cache in vmap
+To: Jocelyn Falempe <jfalempe@redhat.com>,
+ Jani Nikula <jani.nikula@linux.intel.com>,
+ Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>, David Airlie <airlied@gmail.com>,
+ Simona Vetter <simona@ffwll.ch>, Christian Brauner <brauner@kernel.org>,
+ Andi Shyti <andi.shyti@linux.intel.com>, intel-gfx@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org
+References: <20251024110432.1313391-1-jfalempe@redhat.com>
+Content-Language: en-GB
+From: Tvrtko Ursulin <tursulin@ursulin.net>
+In-Reply-To: <20251024110432.1313391-1-jfalempe@redhat.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -96,221 +97,42 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Sat, Oct 18, 2025 at 04:01:03AM +0200, Louis Chauvet wrote:
-> VKMS driver supports all the rotation on planes, but for testing it can be
-> useful to only advertise few of them. This new configuration interface
-> will allow configuring the rotation per planes.
+
+On 24/10/2025 12:04, Jocelyn Falempe wrote:
+> On a lenovo se100 server, when using i915 GPU for rendering, and the
+> ast driver for display, the graphic output is corrupted, and almost
+> unusable.
 > 
-> Signed-off-by: Louis Chauvet <louis.chauvet@bootlin.com>
+> Adding a clflush call in the vmap function fixes this issue
+> completely.
+
+AST is importing i915 allocated buffer in this use case, or how exactly 
+is the relationship?
+
+Wondering if some path is not calling dma_buf_begin/end_cpu_access().
+
+Regards,
+
+Tvrtko
+
+> 
+> Signed-off-by: Jocelyn Falempe <jfalempe@redhat.com>
 > ---
->  drivers/gpu/drm/vkms/vkms_config.c | 26 ++++++++++++++++++
->  drivers/gpu/drm/vkms/vkms_config.h | 54 ++++++++++++++++++++++++++++++++++++++
->  drivers/gpu/drm/vkms/vkms_plane.c  |  6 +++--
->  3 files changed, 84 insertions(+), 2 deletions(-)
+>   drivers/gpu/drm/i915/gem/i915_gem_dmabuf.c | 1 +
+>   1 file changed, 1 insertion(+)
 > 
-> diff --git a/drivers/gpu/drm/vkms/vkms_config.c b/drivers/gpu/drm/vkms/vkms_config.c
-> index ed172f800685..b8cabe6f6cf8 100644
-> --- a/drivers/gpu/drm/vkms/vkms_config.c
-> +++ b/drivers/gpu/drm/vkms/vkms_config.c
-> @@ -144,6 +144,22 @@ static bool valid_plane_number(const struct vkms_config *config)
->  	return true;
->  }
->  
-> +static bool valid_plane_properties(const struct vkms_config *config)
-> +{
-> +	struct drm_device *dev = config->dev ? &config->dev->drm : NULL;
-> +	struct vkms_config_plane *plane_cfg;
-> +
-> +	vkms_config_for_each_plane(config, plane_cfg) {
-> +		if ((vkms_config_plane_get_default_rotation(plane_cfg) &
-> +		     vkms_config_plane_get_supported_rotations(plane_cfg)) !=
-> +		    vkms_config_plane_get_default_rotation(plane_cfg)) {
-> +			drm_info(dev, "Configured default rotation is not supported by the plane\n");
-> +			return false;
-> +		}
-> +	}
-> +	return true;
-> +}
-> +
->  static bool valid_planes_for_crtc(const struct vkms_config *config,
->  				  struct vkms_config_crtc *crtc_cfg)
->  {
-> @@ -302,6 +318,9 @@ bool vkms_config_is_valid(const struct vkms_config *config)
->  {
->  	struct vkms_config_crtc *crtc_cfg;
->  
-> +	if (!valid_plane_properties(config))
-> +		return false;
-> +
-
-I think that it makes sense to check this after we are sure that the number
-of display pipeline items are correct and they are linked correctly, i.e., at
-the end of the function.
-
-Also, for testing purposes, it'd be usefull to have something like:
-
-vkms_config_for_each_plane(config, plane_cfg) {
-	if (!valid_plane_name(plane_cfg)
-		return false;
-
-	if (!valid_plane_rotation(plane_cfg)
-		return false;
-
-	// ...
-}
-
-This would allow us to have smaller functions and also write unit tests
-for them easily.
-
-What do you think?
-
->  	if (!valid_plane_number(config))
->  		return false;
->  
-> @@ -352,6 +371,10 @@ static int vkms_config_show(struct seq_file *m, void *data)
->  			   vkms_config_plane_get_type(plane_cfg));
->  		seq_printf(m, "\tname=%s\n",
->  			   vkms_config_plane_get_name(plane_cfg));
-> +		seq_printf(m, "\tsupported rotations: 0x%x\n",
-> +			   vkms_config_plane_get_supported_rotations(plane_cfg));
-> +		seq_printf(m, "\tdefault rotation: 0x%x\n",
-> +			   vkms_config_plane_get_default_rotation(plane_cfg));
->  	}
->  
->  	vkms_config_for_each_crtc(vkmsdev->config, crtc_cfg) {
-> @@ -393,6 +416,9 @@ struct vkms_config_plane *vkms_config_create_plane(struct vkms_config *config)
->  	plane_cfg->config = config;
->  	vkms_config_plane_set_type(plane_cfg, DRM_PLANE_TYPE_OVERLAY);
->  	vkms_config_plane_set_name(plane_cfg, NULL);
-> +	vkms_config_plane_set_supported_rotations(plane_cfg, DRM_MODE_ROTATE_MASK);
-> +	vkms_config_plane_set_default_rotation(plane_cfg, DRM_MODE_ROTATE_0);
-
-At the moment, drm_info returns this rotation for the default VKMS device:
-
-"rotation": bitmask {rotate-0, rotate-90, rotate-180, rotate-270, reflect-x, reflect-y} = (rotate-0)
-
-With this patch, this is returned:
-
-"rotation": bitmask {rotate-0, rotate-90, rotate-180, rotate-270} = (rotate-0)
-
-You need to add DRM_MODE_REFLECT_MASK to avoid changing the default device.
-
-Ideally, we should add an IGT test to make sure we don't change any value
-accidentally.
-
-> +
->  	xa_init_flags(&plane_cfg->possible_crtcs, XA_FLAGS_ALLOC);
->  
->  	list_add_tail(&plane_cfg->link, &config->planes);
-> diff --git a/drivers/gpu/drm/vkms/vkms_config.h b/drivers/gpu/drm/vkms/vkms_config.h
-> index b69c35097ba0..3c3cbefcc67f 100644
-> --- a/drivers/gpu/drm/vkms/vkms_config.h
-> +++ b/drivers/gpu/drm/vkms/vkms_config.h
-> @@ -39,6 +39,8 @@ struct vkms_config {
->   * @type: Type of the plane. The creator of configuration needs to ensures that
->   *        at least one primary plane is present.
->   * @possible_crtcs: Array of CRTCs that can be used with this plane
-> + * @default_rotation: Default rotation that should be used by this plane
-> + * @supported_rotation: Rotation that this plane will support
-
-Missing final s: @supported_rotations
-
->   * @plane: Internal usage. This pointer should never be considered as valid.
->   *         It can be used to store a temporary reference to a VKMS plane during
->   *         device creation. This pointer is not managed by the configuration and
-> @@ -50,6 +52,8 @@ struct vkms_config_plane {
->  
->  	const char *name;
->  	enum drm_plane_type type;
-> +	unsigned int default_rotation;
-> +	unsigned int supported_rotations;
->  	struct xarray possible_crtcs;
->  
->  	/* Internal usage */
-> @@ -290,6 +294,56 @@ vkms_config_plane_set_type(struct vkms_config_plane *plane_cfg,
->  	plane_cfg->type = type;
->  }
->  
-> +/**
-> + * vkms_config_plane_get_default_rotation() - Get the default rotation for a plane
-> + * @plane_cfg: Plane to get the default rotation from
-> + *
-> + * Returns:
-> + * The default rotation for the plane.
-> + */
-> +static inline unsigned int
-> +vkms_config_plane_get_default_rotation(struct vkms_config_plane *plane_cfg)
-> +{
-> +	return plane_cfg->default_rotation;
-> +}
-> +
-> +/**
-> + * vkms_config_plane_set_default_rotation() - Set the default rotation for a plane
-> + * @plane_cfg: Plane to set the default rotation to
-> + * @default_rotation: New default rotation for the plane
-> + */
-> +static inline void
-> +vkms_config_plane_set_default_rotation(struct vkms_config_plane *plane_cfg,
-> +				       unsigned int default_rotation)
-> +{
-> +	plane_cfg->default_rotation = default_rotation;
-> +}
-> +
-> +/**
-> + * vkms_config_plane_get_supported_rotations() - Get the supported rotations for a plane
-> + * @plane_cfg: Plane to get the supported rotations from
-> + *
-> + * Returns:
-> + * The supported rotations for the plane.
-> + */
-> +static inline unsigned int
-> +vkms_config_plane_get_supported_rotations(struct vkms_config_plane *plane_cfg)
-> +{
-> +	return plane_cfg->supported_rotations;
-> +}
-> +
-> +/**
-> + * vkms_config_plane_set_supported_rotations() - Set the supported rotations for a plane
-> + * @plane_cfg: Plane to set the supported rotations to
-> + * @supported_rotations: New supported rotations for the plane
-> + */
-> +static inline void
-> +vkms_config_plane_set_supported_rotations(struct vkms_config_plane *plane_cfg,
-> +					  unsigned int supported_rotations)
-> +{
-> +	plane_cfg->supported_rotations = supported_rotations;
-> +}
-> +
->  /**
->   * vkms_config_plane_set_name() - Set the plane name
->   * @plane_cfg: Plane to set the name to
-> diff --git a/drivers/gpu/drm/vkms/vkms_plane.c b/drivers/gpu/drm/vkms/vkms_plane.c
-> index 263376686794..6e6bfe1b7400 100644
-> --- a/drivers/gpu/drm/vkms/vkms_plane.c
-> +++ b/drivers/gpu/drm/vkms/vkms_plane.c
-> @@ -1,5 +1,6 @@
->  // SPDX-License-Identifier: GPL-2.0+
->  
-> +#include "vkms_config.h"
-
-This include is already present.
-
->  #include <linux/iosys-map.h>
->  
->  #include <drm/drm_atomic.h>
-> @@ -233,8 +234,9 @@ struct vkms_plane *vkms_plane_init(struct vkms_device *vkmsdev,
->  
->  	drm_plane_helper_add(&plane->base, &vkms_plane_helper_funcs);
->  
-> -	drm_plane_create_rotation_property(&plane->base, DRM_MODE_ROTATE_0,
-> -					   DRM_MODE_ROTATE_MASK | DRM_MODE_REFLECT_MASK);
-> +	drm_plane_create_rotation_property(&plane->base,
-> +					   vkms_config_plane_get_default_rotation(config),
-> +					   vkms_config_plane_get_supported_rotations(config));
->  
->  	drm_plane_create_color_properties(&plane->base,
->  					  BIT(DRM_COLOR_YCBCR_BT601) |
+> diff --git a/drivers/gpu/drm/i915/gem/i915_gem_dmabuf.c b/drivers/gpu/drm/i915/gem/i915_gem_dmabuf.c
+> index f4f1c979d1b9..f6a8c1cbe4d1 100644
+> --- a/drivers/gpu/drm/i915/gem/i915_gem_dmabuf.c
+> +++ b/drivers/gpu/drm/i915/gem/i915_gem_dmabuf.c
+> @@ -77,6 +77,7 @@ static int i915_gem_dmabuf_vmap(struct dma_buf *dma_buf,
+>   		return PTR_ERR(vaddr);
+>   
+>   	iosys_map_set_vaddr(map, vaddr);
+> +	drm_clflush_virt_range(vaddr, dma_buf->size);
+>   
+>   	return 0;
+>   }
 > 
-> -- 
-> 2.51.0
-> 
+> base-commit: 0790925dadad0997580df6e32cdccd54316807f2
+
