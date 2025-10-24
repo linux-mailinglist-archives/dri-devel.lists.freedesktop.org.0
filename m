@@ -2,85 +2,85 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4F683C05722
-	for <lists+dri-devel@lfdr.de>; Fri, 24 Oct 2025 11:56:48 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 366EEC05734
+	for <lists+dri-devel@lfdr.de>; Fri, 24 Oct 2025 11:57:23 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 49CC910EA0C;
-	Fri, 24 Oct 2025 09:56:45 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9ADA210EA0F;
+	Fri, 24 Oct 2025 09:57:20 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="hkvePpkV";
+	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="F9958Z30";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from us-smtp-delivery-124.mimecast.com
  (us-smtp-delivery-124.mimecast.com [170.10.133.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E4F5C10EA0C
- for <dri-devel@lists.freedesktop.org>; Fri, 24 Oct 2025 09:56:43 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 93FF710EA0F
+ for <dri-devel@lists.freedesktop.org>; Fri, 24 Oct 2025 09:57:19 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1761299803;
+ s=mimecast20190719; t=1761299838;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=KFdXG8UsUCKKwuBuj5kudW0rIy6xekadEYj183tppO8=;
- b=hkvePpkVEYDm2bP6pHm8cG7Z5Y+XW8EK8VUZMm5LVEtTIsWkDbAQaO0X6J/AJzUmki6Kok
- u6gID2+cvM09E8yakBc696vaaZruWTOs49ucTeLGtLjL29t0NhTl2dQrfy+t0byJx+gPiH
- nOgI/0yjveKbbhe0B9iDrTrkZo9JkaE=
-Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
- [209.85.128.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=EECPZ9d8E6GPLO4i/dKA5m4dqP651VCNME9poiUNpOs=;
+ b=F9958Z30q0/3e6wS87x5IcwJJKgbL122UPkU3uJNojD4eNfup4FrkAIWwdadKwkOBl+1Wu
+ zm5BjA8zXSv+mhTvH9I8c3s3XmXj7VVOUcJEJWqsn7LhGHllX6A8TmGmZVOiQbu/jr6+I6
+ 12jXO5EwwU3oQxvgHOOVeJwUF1pmAw8=
+Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
+ [209.85.128.71]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-338-wnPP2kCHNdGh5jtyz-ghlg-1; Fri, 24 Oct 2025 05:56:41 -0400
-X-MC-Unique: wnPP2kCHNdGh5jtyz-ghlg-1
-X-Mimecast-MFC-AGG-ID: wnPP2kCHNdGh5jtyz-ghlg_1761299800
-Received: by mail-wm1-f70.google.com with SMTP id
- 5b1f17b1804b1-471201dc0e9so11657445e9.2
- for <dri-devel@lists.freedesktop.org>; Fri, 24 Oct 2025 02:56:41 -0700 (PDT)
+ us-mta-94-OKHDMLebOqKV9OvvGfHx5Q-1; Fri, 24 Oct 2025 05:57:17 -0400
+X-MC-Unique: OKHDMLebOqKV9OvvGfHx5Q-1
+X-Mimecast-MFC-AGG-ID: OKHDMLebOqKV9OvvGfHx5Q_1761299836
+Received: by mail-wm1-f71.google.com with SMTP id
+ 5b1f17b1804b1-47113dcc1e0so11335185e9.3
+ for <dri-devel@lists.freedesktop.org>; Fri, 24 Oct 2025 02:57:16 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1761299800; x=1761904600;
+ d=1e100.net; s=20230601; t=1761299836; x=1761904636;
  h=mime-version:message-id:date:references:in-reply-to:subject:cc:to
  :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=KFdXG8UsUCKKwuBuj5kudW0rIy6xekadEYj183tppO8=;
- b=i/bkrUR1gxCisoQbA4d8W0oHj8sfRYFEQagNUs7nd03PxFf84cj+5FUicKs17ADN2q
- f0NJ8qeRiVCXsTRlgXELB4bWaimdM7hpJnTDqYum0F3si0t2mUwWE3t8Luwh2ZevBC2C
- 0zikbf9i0Z4JcbgyL4ASaunNPIh77kEQVURg+A9eUrdWgIupO1l72+9dCQdDYNy+nhVH
- gCB1MrZX5Eba6QM/zkbYGicxmuPLUTL73FnrCRLF/KK5l0EU04H6aLj7KK72qtDNhPTr
- x/gJZH5lyQWNrQoPN98F6+bIH4nDqr3zP19KL1g9snUmHlp6N9fvXQZ3AXoJ+nfyJqsT
- ja+g==
+ bh=EECPZ9d8E6GPLO4i/dKA5m4dqP651VCNME9poiUNpOs=;
+ b=F08e6hE64YwZKYq+rzxTRja/Ra2bG0/xLSDiHC20fZq/khqtUUIdPzFtRCFCelP0Ka
+ dFoPabcqlR9cXjlN/R1fQ94oW0/n1CaQFZNLW1nn32XRjgFPxjpy763Fb7EG3/NZDtu3
+ 5eE+4SSFaPjFTVu5KzRaYQ4mxnzuF3TZGRT7Jz4Om9kmw2a0sIQYRO6qYaltiR8hEjS7
+ srGzBB6PXZi9SqZPlBHIK0HN8NKt5vVticiSj2XD0b4M+Dk9VMhBs5mGYcWB/ux+WvB8
+ fBCTbBJDtuuVu71mm2hU0s78PqcczXm3+Ia9yXDPjXerKNTCh1QAvupY41BtvgrlYWB1
+ 1Zgw==
 X-Forwarded-Encrypted: i=1;
- AJvYcCXFY8gbftuD2oS2O3qOfUMO0vX2TDQ6X3v8+cLbWHd4M8jI/2N7YQPoKm8zxw7Ne3PTE8eXI+AFcTw=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YyP3IU03xnOlzepXRRrUTR0c++x0deel0iXAfV2FwG18rnBw/X0
- fxkgJNh9hqVc+SMTCC8knaJs33x+4Q+MT531LaakvBsfhmi1rdXWQDhlDQRGv/iaRpPw/MoFbPR
- 0mBmDV1B8X2SQHQ/tkHY8ewZVOktRwaPc/K6Bpjr8HBug2qbHNDR3cjRwhBIMCxSrWYUw0Q==
-X-Gm-Gg: ASbGncsUc/KLcBTCNuy/j5cC0aVbBY51kANL6lswnTjRz6T7tAmKwMzeTylhq87UkLD
- JheOlJh2gxaFWWHDQI0T4D+bDe6e8HGJ8MEec9NmJftKE4sBq6NuImll7Cv9tJYFJ8mr1dO5tjn
- dE5X0+5ZcZerXZBSbDTQ22cJ/k21wKToNdK80RqPiW73TWUsfewuka/Nyb3hwfEvMext4ApxN3N
- 76lKSTw8n3c9jvl2I9/RHzKaMGNQpEIc7S9drRMX7SvEj1mAIxfML8zNlkkbOtO5iV2wqLHdQ8m
- skyoH2EA3PyOfFR5Q8QtnFwVK6vdY2xq+PbNWIJpGCGyK9PSDqLVvlEXhwFznhdSYbIuajuNDw9
- g1u8Qcz+8jL+/eL0pNMrXFSeOhLGZSUT11HCLvZiCJDKXFpQqOim9rDAUvQ==
-X-Received: by 2002:a05:600d:4382:b0:475:d891:ec8c with SMTP id
- 5b1f17b1804b1-475d891ed03mr3176285e9.3.1761299800031; 
- Fri, 24 Oct 2025 02:56:40 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IHYFxEJ+9vf53evEcAEZdGSa/MAWvLHBF+QBptEwj6rOjmFDqkrATeIFVyZrNhoUbZizrVxrQ==
-X-Received: by 2002:a05:600d:4382:b0:475:d891:ec8c with SMTP id
- 5b1f17b1804b1-475d891ed03mr3176075e9.3.1761299799657; 
- Fri, 24 Oct 2025 02:56:39 -0700 (PDT)
+ AJvYcCVUwP/omqzwY5QMiYE0U+fZGJgYTHLk1+0brGThhbtkNjjyJ2nVxhle6NudoLV/dDx1XmFB8ZnQfQ8=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Ywl7eYO3Jj7t1RguFMfwFb2PYv0GfKmn6k+dqScKEWD9TrbCuHX
+ ZzZYR2vG8TK+WleqE6mNCuWLokeKg+zCgfFL1I4JPp5+k7JK2xMY+mmsezM94w2fpQo7Wti86+D
+ dPjeI5u4jxDMf/b9UtZ62xbBoO3jCOHMGYLRQ/PCb7NRcX9ggp2knnkzai96g1wTVayioVg==
+X-Gm-Gg: ASbGncvG4TamH3WPZWJwVSXYrane+4LfSExDAEQkfTdwHHfbzTSrOCg6ZXYpofj9oCB
+ DslP9u+mQ39pr9ZPmXoeIcHIJ1eWMWG2khTMA5Fr1DC3n1nWb7jtG+LraG8auWH5+zhcQqZ40Hw
+ X2INGd0CV8oHlRFHHSLgpau8kTBp6xBQxTKfZpT0WdgkL4XzPjIe4ZWK/EEvpCzjXgWLHhOBRpy
+ QtIi8aeU7IjF9Z7oYR1YAPTejCB/FSIl5U77gHlPlpaTU6rKWykEl3CiGKidNc7f7zc7Efc0DZB
+ 5ggOSt9bfvx705PIEhCLEavfer5JyLMMrt15ah/ZKfIul02CzujP+GuKZVmXBVwAMJyJkJzmiof
+ yh6pQu6NPRAX5tGT4ToomEv/mqJ+Tby83jym9yvofy9ewYO9SsPRPQq740Q==
+X-Received: by 2002:a05:600c:c16e:b0:46f:b43a:aef2 with SMTP id
+ 5b1f17b1804b1-475d30d20fbmr14523865e9.38.1761299835792; 
+ Fri, 24 Oct 2025 02:57:15 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IFi4kHieaFnLco9wucyoKPkPcEj2osPLAl9lyR18xfQ/pKl2+mHzfqAxTuZr5DT8hf24aXQRA==
+X-Received: by 2002:a05:600c:c16e:b0:46f:b43a:aef2 with SMTP id
+ 5b1f17b1804b1-475d30d20fbmr14523665e9.38.1761299835440; 
+ Fri, 24 Oct 2025 02:57:15 -0700 (PDT)
 Received: from localhost (62-151-111-63.jazzfree.ya.com. [62.151.111.63])
  by smtp.gmail.com with ESMTPSA id
- 5b1f17b1804b1-475cad4c81dsm83937215e9.0.2025.10.24.02.56.38
+ 5b1f17b1804b1-47496afd459sm84966385e9.1.2025.10.24.02.57.14
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 24 Oct 2025 02:56:39 -0700 (PDT)
+ Fri, 24 Oct 2025 02:57:14 -0700 (PDT)
 From: Javier Martinez Canillas <javierm@redhat.com>
 To: Thomas Zimmermann <tzimmermann@suse.de>, ardb@kernel.org, jonathan@marek.ca
 Cc: linux-efi@vger.kernel.org, dri-devel@lists.freedesktop.org,
  linux-kernel@vger.kernel.org, Thomas Zimmermann <tzimmermann@suse.de>
-Subject: Re: [PATCH 4/5] efi/libstub: gop: Add support for reading EDID
-In-Reply-To: <20251015160816.525825-5-tzimmermann@suse.de>
+Subject: Re: [PATCH 5/5] efi/libstub: x86: Store EDID in boot_params
+In-Reply-To: <20251015160816.525825-6-tzimmermann@suse.de>
 References: <20251015160816.525825-1-tzimmermann@suse.de>
- <20251015160816.525825-5-tzimmermann@suse.de>
-Date: Fri, 24 Oct 2025 11:56:38 +0200
-Message-ID: <87qzus8vxl.fsf@ocarina.mail-host-address-is-not-set>
+ <20251015160816.525825-6-tzimmermann@suse.de>
+Date: Fri, 24 Oct 2025 11:57:13 +0200
+Message-ID: <87o6pw8vwm.fsf@ocarina.mail-host-address-is-not-set>
 MIME-Version: 1.0
 X-Mimecast-Spam-Score: 0
-X-Mimecast-MFC-PROC-ID: 2Nuy24ztTGp-WXDsvLEgnlso9eyrWPG6hHSH5uiDb6Y_1761299800
+X-Mimecast-MFC-PROC-ID: TcYQppzg5Rb8SY3vja8GWd9b2RjkEJqpXb_TmLv4zFE_1761299836
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -100,37 +100,15 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 Thomas Zimmermann <tzimmermann@suse.de> writes:
 
-> Add support for EFI_EDID_DISCOVERED_PROTOCOL and EFI_EDID_ACTIVE_PROTOCOL
-> as defined in UEFI 2.8, sec 12.9. Define GUIDs and data structures in the
-> rsp header files.
+> Retrieve the GOP device's EDID information in the kernel's boot
+> parameters. Makes the data avaialble to kernel graphics code and
+> drives, such as efidrm.
 >
-> In the GOP setup function, read the EDID of the primary GOP device. First
-> try EFI_EDID_ACTIVE_PROTOCOL, which supports user-specified EDID data. Or
-> else try EFI_EDID_DISCOVERED_PROTOCOL, which returns the display device's
-> native EDID. If no EDID could be retrieved, clear the storage.
->
-> Rename efi_setup_gop() to efi_setup_graphics() to reflect the changes
-> Let callers pass an optional instance of struct edid_data, if they are
-> interested.
->
-> While screen_info and edid_info come from the same device handle, they
-> should be considered indendent data. The former refers to the graphics
-
-independent
-
-> mode, the latter refers to the display device. GOP devices might not
-> provide both.
+> With efidrm, the EDID is now also available to user-space compositors
+> via standard DRM interfaces.
 >
 > Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
 > ---
-
-[...]
-
-> +static void setup_edid_info(struct edid_info *edid, u32 gop_size_of_edid, u8 *gop_edid)
-> +{
-> +	if (!gop_edid || gop_size_of_edid < 128)
-
-Can you define a constant for 128 instead of having a magic number ?
 
 Reviewed-by: Javier Martinez Canillas <javierm@redhat.com>
 
