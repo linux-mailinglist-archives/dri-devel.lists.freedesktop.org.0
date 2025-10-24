@@ -2,36 +2,56 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 081F7C0501F
-	for <lists+dri-devel@lfdr.de>; Fri, 24 Oct 2025 10:16:12 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9A1D8C0502E
+	for <lists+dri-devel@lfdr.de>; Fri, 24 Oct 2025 10:16:32 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DA26D10E9FC;
-	Fri, 24 Oct 2025 08:16:09 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C9F1C10E9FD;
+	Fri, 24 Oct 2025 08:16:30 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=rock-chips.com header.i=@rock-chips.com header.b="g2jiBWJ+";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="g4iS8vy6";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-m1973191.qiye.163.com (mail-m1973191.qiye.163.com
- [220.197.31.91])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 82F3D10E9FC
- for <dri-devel@lists.freedesktop.org>; Fri, 24 Oct 2025 08:16:08 +0000 (UTC)
-Received: from [172.16.12.149] (unknown [58.22.7.114])
- by smtp.qiye.163.com (Hmail) with ESMTP id 270f3fb7d;
- Fri, 24 Oct 2025 16:16:01 +0800 (GMT+08:00)
-Message-ID: <836a096a-c6ed-4c9c-9de5-f8b0ee44fac3@rock-chips.com>
-Date: Fri, 24 Oct 2025 16:16:00 +0800
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v7 2/9] drm/bridge: Implement generic USB Type-C DP HPD
- bridge
-To: Heikki Krogerus <heikki.krogerus@linux.intel.com>
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 11D4910E9FD
+ for <dri-devel@lists.freedesktop.org>; Fri, 24 Oct 2025 08:16:29 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1761293789; x=1792829789;
+ h=date:from:to:cc:subject:message-id:references:
+ mime-version:in-reply-to;
+ bh=Y6hIryfME2/PZmCw4H4nq4PMUJueVx80pY8OjCr1KyY=;
+ b=g4iS8vy6q5JvMmzMps77tHvI90cEA4UYPIvl0SdkIAmyc/4CGdjeAts6
+ mqc+I5nZ5dAAjCFANskfCZv/Aomj7+74nngllAugfs5M8uS84buN/0q2k
+ 0RwJerjflp9EnA025DOiAs6P+DXQKnpssePSUD+rLJVBkVqJ7JkWSHTcD
+ R5Ux0FacINPl80akVR3pte8gyI+KkTb6HPQEyDFRLC0WWJaOqk0x6bq25
+ T/w0Pc6PIX7QcC+ZS4MH4v6v5lmDVrKqWbdcIDwAN3dcQQcAJkzdQDrEc
+ P2NcvujPA8r9NWSXtEZtvc97KGwRdJxNVjcZjm9c5V5mLbH2On9yKWjFX w==;
+X-CSE-ConnectionGUID: HQfG5ZEGRqeyb7wnzgvAFQ==
+X-CSE-MsgGUID: +RI31yihR5y4JFk5UuK+gA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11586"; a="74145051"
+X-IronPort-AV: E=Sophos;i="6.19,251,1754982000"; d="scan'208";a="74145051"
+Received: from fmviesa001.fm.intel.com ([10.60.135.141])
+ by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 24 Oct 2025 01:16:28 -0700
+X-CSE-ConnectionGUID: Chd3dXKyQl6vo1nUEb8nyA==
+X-CSE-MsgGUID: CnAOpA8XQ3utXO3rexXLig==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.19,251,1754982000"; d="scan'208";a="215297555"
+Received: from mjruhl-desk.amr.corp.intel.com (HELO kuha.fi.intel.com)
+ ([10.124.221.255])
+ by fmviesa001.fm.intel.com with SMTP; 24 Oct 2025 01:16:17 -0700
+Received: by kuha.fi.intel.com (sSMTP sendmail emulation);
+ Fri, 24 Oct 2025 11:16:16 +0300
+Date: Fri, 24 Oct 2025 11:16:16 +0300
+From: Heikki Krogerus <heikki.krogerus@linux.intel.com>
+To: Chaoyi Chen <kernel@airkyi.com>
 Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
  Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>,
  Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
  Conor Dooley <conor+dt@kernel.org>, Vinod Koul <vkoul@kernel.org>,
- Kishon Vijay Abraham I <kishon@kernel.org>, Heiko Stuebner
- <heiko@sntech.de>, Sandy Huang <hjc@rock-chips.com>,
+ Kishon Vijay Abraham I <kishon@kernel.org>,
+ Heiko Stuebner <heiko@sntech.de>, Sandy Huang <hjc@rock-chips.com>,
  Andy Yan <andy.yan@rock-chips.com>,
  Yubing Zhang <yubing.zhang@rock-chips.com>,
  Frank Wang <frank.wang@rock-chips.com>,
@@ -40,33 +60,25 @@ Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
  Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
  Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>,
  Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
  David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
  Amit Sunil Dhamne <amitsd@google.com>,
- Chaoyi Chen <chaoyi.chen@rock-chips.com>, Dragan Simic <dsimic@manjaro.org>,
- Johan Jonker <jbx6244@gmail.com>, Diederik de Haas <didi.debian@cknow.org>,
+ Chaoyi Chen <chaoyi.chen@rock-chips.com>,
+ Dragan Simic <dsimic@manjaro.org>, Johan Jonker <jbx6244@gmail.com>,
+ Diederik de Haas <didi.debian@cknow.org>,
  Peter Robinson <pbrobinson@gmail.com>, linux-usb@vger.kernel.org,
  devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
  linux-phy@lists.infradead.org, linux-arm-kernel@lists.infradead.org,
  linux-rockchip@lists.infradead.org, dri-devel@lists.freedesktop.org
+Subject: Re: [PATCH v7 1/9] usb: typec: Add notifier functions
+Message-ID: <aPs10Ay_cQ5TZ7nb@kuha.fi.intel.com>
 References: <20251023033009.90-1-kernel@airkyi.com>
- <20251023033009.90-3-kernel@airkyi.com> <aPsyPTTq3bD2mo87@kuha.fi.intel.com>
-Content-Language: en-US
-From: Chaoyi Chen <chaoyi.chen@rock-chips.com>
-In-Reply-To: <aPsyPTTq3bD2mo87@kuha.fi.intel.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-HM-Tid: 0a9a1549fc6403abkunm8ebff3a42f61fa
-X-HM-MType: 1
-X-HM-Spam-Status: e1kfGhgUHx5ZQUpXWQgPGg8OCBgUHx5ZQUlOS1dZFg8aDwILHllBWSg2Ly
- tZV1koWUFDSUNOT01LS0k3V1ktWUFJV1kPCRoVCBIfWUFZQklPSVZPGkoeGkMYTkNDH0lWFRQJFh
- oXVRMBExYaEhckFA4PWVdZGBILWUFZTkNVSUlVTFVKSk9ZV1kWGg8SFR0UWUFZT0tIVUpLSUJNS0
- pVSktLVUtZBg++
-DKIM-Signature: a=rsa-sha256;
- b=g2jiBWJ+5dWD89nwOEyvWd7ig8i9jlV3bsjkJAfzip9OCKfRVMZ7DwJm4SNDH65hPFNm/b8wbYa+2UzpdVOu94do1TGefahMmFST785Ic9q/7uVSPmL0w+k8+xHAmfVSu8VVKj0qOgXwm9Jo7p28h1IRDDdjnxmfKRmTfLl7vds=;
- s=default; c=relaxed/relaxed; d=rock-chips.com; v=1; 
- bh=ypCW1dxnbfwi7cFlpQlnKjE4aNK9rTR6Jockrm+i67Q=;
- h=date:mime-version:subject:message-id:from;
+ <20251023033009.90-2-kernel@airkyi.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20251023033009.90-2-kernel@airkyi.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -82,44 +94,29 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 10/24/2025 4:01 PM, Heikki Krogerus wrote:
+> +#include <linux/notifier.h>
+> +#include <linux/usb/typec_notify.h>
+> +
+> +static BLOCKING_NOTIFIER_HEAD(typec_notifier_list);
+> +
+> +int typec_register_notify(struct notifier_block *nb)
+> +{
+> +	return blocking_notifier_chain_register(&typec_notifier_list, nb);
+> +}
+> +EXPORT_SYMBOL_GPL(typec_register_notify);
+> +
+> +int typec_unregister_notify(struct notifier_block *nb)
+> +{
+> +	return blocking_notifier_chain_unregister(&typec_notifier_list, nb);
+> +}
+> +EXPORT_SYMBOL_GPL(typec_unregister_notify);
 
-> On Thu, Oct 23, 2025 at 11:30:02AM +0800, Chaoyi Chen wrote:
->> +static int drm_typec_bus_event(struct notifier_block *nb,
->> +			       unsigned long action, void *data)
->> +{
->> +	struct typec_altmode *alt = (struct typec_altmode *)data;
->> +
->> +	if (action != TYPEC_ALTMODE_REGISTERED)
->> +		goto done;
->> +
->> +	if (alt->svid != USB_TYPEC_DP_SID)
->> +		goto done;
->> +
->> +	/*
->> +	 * alt->dev.parent->parent : USB-C controller device
->> +	 * alt->dev.parent         : USB-C connector device
->> +	 */
->> +	drm_dp_hpd_bridge_register(alt->dev.parent->parent,
->> +				   to_of_node(alt->dev.parent->fwnode));
-> Okay, this explains it. So you do need the port altmode.
->
-> So you'll need to export the device types and check that the parent of
-> the altmode is the port instead of partner.
->
->          if (!is_typec_port(alt->dev.parent) || alt->svid != USB_TYPEC_DP_SID)
->                  return NOTIFY_DONE;
->
-> I think we might as well export all the types while at it. Check the
-> attachment.
+Better name these more clearly:
 
-Oh, I did miss the existence of partner. Thank you for your code!
+typec_altmode_register_notify()
+typec_altmode_unregister_notify()
 
+thanks,
 
->
-> thanks,
->
 -- 
-Best,
-Chaoyi
-
+heikki
