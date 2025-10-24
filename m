@@ -2,87 +2,81 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D579CC04AF1
-	for <lists+dri-devel@lfdr.de>; Fri, 24 Oct 2025 09:21:35 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id D895EC04B81
+	for <lists+dri-devel@lfdr.de>; Fri, 24 Oct 2025 09:29:56 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3239B10E9EA;
-	Fri, 24 Oct 2025 07:21:31 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 32B0710E9ED;
+	Fri, 24 Oct 2025 07:29:54 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="mBJtgOWp";
+	dkim=pass (2048-bit key; unprotected) header.d=ursulin-net.20230601.gappssmtp.com header.i=@ursulin-net.20230601.gappssmtp.com header.b="2bQQ8qkV";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-yx1-f41.google.com (mail-yx1-f41.google.com
- [74.125.224.41])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A93D610E9E0
- for <dri-devel@lists.freedesktop.org>; Fri, 24 Oct 2025 06:56:11 +0000 (UTC)
-Received: by mail-yx1-f41.google.com with SMTP id
- 956f58d0204a3-63e0dd765a0so1721155d50.3
- for <dri-devel@lists.freedesktop.org>; Thu, 23 Oct 2025 23:56:11 -0700 (PDT)
+Received: from mail-wr1-f44.google.com (mail-wr1-f44.google.com
+ [209.85.221.44])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7B01010E9EF
+ for <dri-devel@lists.freedesktop.org>; Fri, 24 Oct 2025 07:29:53 +0000 (UTC)
+Received: by mail-wr1-f44.google.com with SMTP id
+ ffacd0b85a97d-42421b1514fso1119608f8f.2
+ for <dri-devel@lists.freedesktop.org>; Fri, 24 Oct 2025 00:29:53 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1761288970; x=1761893770; darn=lists.freedesktop.org;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:sender:from:to:cc:subject:date:message-id
- :reply-to; bh=EnMPc7GyLpnggTRqyDCqIuoqTPnFNrDWKh++vNXuaoE=;
- b=mBJtgOWpPzcwq+BfNVwoTl2RCOLXak5wt2rcJ2c11ug6F7Ft2mTeoFjKTckO0tMafh
- 7c+YFUPMxxCzQBiEblsIZsYWORARyF3pbbotFbG2fbJAjKUbZ/Owj5wbC2l0t9baI/My
- NdXKP+18ktLdxr9NmxynYJJagjpnMgPaCflNxIZYijZ8mhmBI61gLX8d9OPLaAJ2kEnN
- gwUhXcJmTmoJb4LZTyjS4s2v841AHZk8biczD+iyAA4hTh8d9c7bseaAk2MNdwOh8Xh/
- /b+KVVmzfcKPMK0ZLzB1Sgv/WR61POVSiy3PRBwBqsc1dN3lQ4jeuu6/ffohexi2sjqc
- wcmA==
+ d=ursulin-net.20230601.gappssmtp.com; s=20230601; t=1761290992; x=1761895792;
+ darn=lists.freedesktop.org; 
+ h=content-transfer-encoding:in-reply-to:from:content-language
+ :references:cc:to:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=aF/u/q9kbdo6CwcaSzIK0ty5c6Xv+ybqJNfYM8rphuY=;
+ b=2bQQ8qkVbJ8IgFHVjYBTNh8aY5V+F5Qxpj/E3k6q1NhOqiojTePwP4tnn0q1RmxqIK
+ ubqq5EX7HkapNcBaMNTmBDkaR1El4Fbssbchlasu6Gu/v3T5Vm4UMZYEG6JMn9wwA1iw
+ MUUN6ub+8Fz07a//wBW+sUpBTz7XPFuWK1S6aadsf67aK/BNb74OsYJnjQKn/ufEDw9A
+ aujHXMvQg4HlYbjL8PAf8KcfjBO0f4l4DphxiA64oGOEM0pTiAfazbQow3Svn8SQvjZA
+ iJdWFHsnnDsx4GG8RoMxAlwr7L6chG+c1xBCEdbHD6FvsL6qNPfAgdQNlR6NiFlDppaX
+ 2v3Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1761288970; x=1761893770;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:sender:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=EnMPc7GyLpnggTRqyDCqIuoqTPnFNrDWKh++vNXuaoE=;
- b=OKFGBYPxTAMTj1TS6XxKNf4ojzVgt0zlTzKB4gjXdPgni9/lxYb+bd66gqvMbKo7+Q
- JAgQbNEiAjGtAYhseIMvgOuv8GXZ2cnRz0O2ioYOhLkVJpmpgA8D4oqH2cajskzQcxd2
- VHjG1vLDZ6tqYK+Edd8Uypa0UshdgydD37ENMbTPqA4YEc1pus9z6CUIYfBrb93Usu4F
- 00xPiSeAm3RSrA+jThCLyFewKO6xdBKOWbAnblxGwQev+lJ9LT3AVuXFoaNlcRNYCRQ0
- FZdSjzeb6wpYjS76Uaeo7OOouREWXKtVqUeu4FYSy+TTfDuTBgv8++QJF1indjc+k0b6
- thzA==
-X-Forwarded-Encrypted: i=1;
- AJvYcCUBOYWI08uNtfmagM/NWITa+fo7FdQmAR2eZRTN0qw5WJ6zTj6qYHDb7pR3SXS1BFzoRuUhAhKfH5w=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Yy5r7YrFRHxOuNdW/Ia/d93xyl0QrSkhSIOChvJkQUiXtEYIG8O
- x0SqQYo3E7vu+VtbPhihIJHv3nqQ5Xa9z6WJ7Ud4fvPSADnNGl1QiYYs
-X-Gm-Gg: ASbGncveTNjq2hb6vziybQMfXBBx2YTSv4MOTtpLjn3G03/kkeg3cx2XgTPMooFw7sS
- rDAt8H4kGHPyb1uep4PTM8F5zwlc58ATkibKZ/JrO5l6PHpvOx/CB9KXJ0KykTgg6RbRReCMshE
- um9nO+bhtmQ7gxVwoA6AXxaULb75gjp9FeE4ttA1zBdJXU34NmYrMrBkCaeRhMBSqziOJSGUF3V
- 4FasDtPHqaVFKL/YGdNpuVMCJt8ZsMu/+EqLBMiAikh9oF/7YMGvRCPEIrb+/fzEUl2P6RXL7V/
- dpRnKrlywfjm9NKBgTqcZPfy2Fgw6mnjiNA0ZLhprCyaZJ5PrdKcDIViaJgzS3d+/up8AZDC7i+
- ivEO8xeDKfdSz3xWbG9ewMDBL6g4f8QLS8m99z4SUvHJ8iUkDG03SIAlBBPx01Clr2rApRSf4Tm
- ZrZgsohDE+oxg=
-X-Google-Smtp-Source: AGHT+IGaO64whWfgi7ej0DT2Sa/HLiSjIz2GeQuUeokZCAtrzQ3ySNsQidcKfHEOIN9LKetFWMosJg==
-X-Received: by 2002:a05:690c:670b:b0:781:64f:2b15 with SMTP id
- 00721157ae682-7836d341ecdmr437476897b3.55.1761288969981; 
- Thu, 23 Oct 2025 23:56:09 -0700 (PDT)
-Received: from vps.qemfd.net (vps.qemfd.net. [173.230.130.29])
+ d=1e100.net; s=20230601; t=1761290992; x=1761895792;
+ h=content-transfer-encoding:in-reply-to:from:content-language
+ :references:cc:to:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=aF/u/q9kbdo6CwcaSzIK0ty5c6Xv+ybqJNfYM8rphuY=;
+ b=Nr/qp8Ph0F8ucwC1RNjcePTlSmlFsGXdanTSQd6k+Hq3NZlRNtkMDGUVvqwb10vWXH
+ QrkYE18ZPs5+LLlNLNlt5um7mNiePi4XG9ji3XNe29B6RyIQKYMg2PBkI6sJGRCvHMsL
+ okIN2YdagFgzgX3Dn8mxeRas2mBRyAEFIx5ypVTvGqTqIme9LGNmAc8QzEWNTs2SX2LL
+ jBbq5MGSXIfAckZ1SwmeeCXZRdwirS7AtyOBMiZK3EzDBh+NOhFV90bFrh8ZdaHcl+h4
+ p3f5ua/DpTwoqwQf/LNFtPRkCmJCi0XwzbPkosQ4JXMhR2BlxhxMObPbZceGvrgNnsmQ
+ kx7w==
+X-Gm-Message-State: AOJu0YwzqKAy5l99HfSs83pgb2zRRHtt56M0DwsK8v+qasXxpuUBQp3i
+ vWjUaAwgv4O/juMqgej8g+ahztflT5bBnP8mv7QUUp0SmF8gxdEHth5JdmpG6pzIxE8=
+X-Gm-Gg: ASbGncs9gA9jalrHqdqcC/FeexENF37WuAlRjnrtLUUexzUevcfM3qD3+yjaR4kiIpR
+ h/inlLFr5j+CZL0KJ0Q1bl7eEHPmobYaDGqT5SBzXLINrkKy8bghoJEtj0jacn+NBcE0+Zg7usa
+ FulMnafMVV15XQ7pwSJXx80WBhWXp3hnk5OCihXozsJvt+CiVJ0gw2m5LiW8AaGxDrrYF/RwuHN
+ b7UQje/JBPgaiEeDzVbXatN45DIYjkT8b5EdfsS0yBJJhogDAFcDdcWNdgQaSxDGDtlpXLPfsaj
+ T4kJQXPOmefbz+Dp2WPzaUFt57rSkCiWD7WbsarkCrqNGm4O7o8tQ10fZ2A/GQ32E9N7kcoY/6Q
+ McLtqlspqOxgHFXhj3kHOqN2YqjjkyokkY46QWS8jLCpBPlaX/J+gkV4XhR/+iUpHmtpVIvDwxk
+ B3BDHlrlpA9oBX56aGf+G7QT7A0g==
+X-Google-Smtp-Source: AGHT+IEu1zD0i6VYfaEoWTqQsLYOKir+KR+V+WwdpuYMDYKL6mx+z6MRmKD/LjQoCrHs35cjDrcY9g==
+X-Received: by 2002:a05:6000:2486:b0:425:7c1b:9344 with SMTP id
+ ffacd0b85a97d-429907091femr1119587f8f.15.1761290991721; 
+ Fri, 24 Oct 2025 00:29:51 -0700 (PDT)
+Received: from [192.168.0.101] ([90.242.12.242])
  by smtp.gmail.com with ESMTPSA id
- 00721157ae682-785cd70a030sm11319527b3.58.2025.10.23.23.56.07
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 23 Oct 2025 23:56:08 -0700 (PDT)
-Received: from schwarzgerat.orthanc (schwarzgerat.danknet [192.168.128.2])
- by vps.qemfd.net (Postfix) with ESMTP id 9A5A52B0F8;
- Fri, 24 Oct 2025 02:56:07 -0400 (EDT)
-Received: by schwarzgerat.orthanc (Postfix, from userid 1000)
- id 8D8EA600F3F; Fri, 24 Oct 2025 02:56:07 -0400 (EDT)
-Date: Fri, 24 Oct 2025 02:56:07 -0400
-From: nick black <nickblack@linux.com>
-To: Hans de Goede <hansg@kernel.org>
-Cc: Thomas Zimmermann <tzimmermann@suse.de>,
- Javier Martinez Canillas <javierm@redhat.com>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>
-Subject: Re: Adding EDID support to simpledrm on top of the EFI sysfb ?
-Message-ID: <20251024065607.GB3324796@schwarzgerat.orthanc>
-References: <301d7da1-5101-4f16-90cd-5bb4ac41c87b@kernel.org>
- <b99e3a32-6d3e-48a0-9936-a67999354a44@suse.de>
- <9eb60fce-b235-4dad-8672-1cc4e61309c5@kernel.org>
+ ffacd0b85a97d-429898adf78sm8327823f8f.32.2025.10.24.00.29.51
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 24 Oct 2025 00:29:51 -0700 (PDT)
+Message-ID: <67c24e3c-299d-44aa-af7b-7d45b7e3b391@ursulin.net>
+Date: Fri, 24 Oct 2025 08:29:50 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <9eb60fce-b235-4dad-8672-1cc4e61309c5@kernel.org>
-X-Mailman-Approved-At: Fri, 24 Oct 2025 07:21:29 +0000
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 02/15] dma-buf: rework stub fence initialisation
+To: =?UTF-8?Q?Christian_K=C3=B6nig?= <ckoenig.leichtzumerken@gmail.com>,
+ phasta@mailbox.org, alexdeucher@gmail.com, simona.vetter@ffwll.ch
+Cc: dri-devel@lists.freedesktop.org, amd-gfx@lists.freedesktop.org
+References: <20251013143502.1655-1-christian.koenig@amd.com>
+ <20251013143502.1655-3-christian.koenig@amd.com>
+Content-Language: en-GB
+From: Tvrtko Ursulin <tursulin@ursulin.net>
+In-Reply-To: <20251013143502.1655-3-christian.koenig@amd.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -98,16 +92,75 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hans de Goede left as an exercise for the reader:
-> Some distros are actively trying to move away from grub since
-> grub is quite a complex beast and they are trying to move to
-> something simpler like systemd-boot. As such it would be a good
-> idea IMHO if efidrm could directly get the EDID from EFI itself.
 
-I haven't used grub since at least 2019, preferring EFI boot 
-stub managed with efibootmgr (possibly moving to systemd-boot).
+On 13/10/2025 14:48, Christian König wrote:
+> Instead of doing this on the first call of the function just initialize
+> the stub fence during kernel load.
+> 
+> This has the clear advantage of lower overhead and also doesn't rely on
+> the ops to not be NULL any more.
+> 
+> Signed-off-by: Christian König <christian.koenig@amd.com>
+> ---
+>   drivers/dma-buf/dma-fence.c | 32 +++++++++++++++-----------------
+>   1 file changed, 15 insertions(+), 17 deletions(-)
+> 
+> diff --git a/drivers/dma-buf/dma-fence.c b/drivers/dma-buf/dma-fence.c
+> index f0539c73ed57..51ee13d005bc 100644
+> --- a/drivers/dma-buf/dma-fence.c
+> +++ b/drivers/dma-buf/dma-fence.c
+> @@ -121,29 +121,27 @@ static const struct dma_fence_ops dma_fence_stub_ops = {
+>   	.get_timeline_name = dma_fence_stub_get_name,
+>   };
+>   
+> +static int __init dma_fence_init_stub(void)
+> +{
+> +	dma_fence_init(&dma_fence_stub, &dma_fence_stub_ops,
+> +		       &dma_fence_stub_lock, 0, 0);
+> +
+> +	set_bit(DMA_FENCE_FLAG_ENABLE_SIGNAL_BIT,
+> +		&dma_fence_stub.flags);
+> +
+> +	dma_fence_signal_locked(&dma_fence_stub);
 
--- 
-nick black -=- https://nick-black.com
-to make an apple pie from scratch,
-you need first invent a universe.
+Kernel test robot reports lockdep_assert_held(fence->lock) inside here. 
+Probably just copy and paste error, at least I don't see a reason why 
+dma_fence_signal couldn't be called.
+
+Regards,
+
+Tvrtko
+
+> +	return 0;
+> +}
+> +subsys_initcall(dma_fence_init_stub);
+> +
+>   /**
+>    * dma_fence_get_stub - return a signaled fence
+>    *
+> - * Return a stub fence which is already signaled. The fence's
+> - * timestamp corresponds to the first time after boot this
+> - * function is called.
+> + * Return a stub fence which is already signaled. The fence's timestamp
+> + * corresponds to the initialisation time of the linux kernel.
+>    */
+>   struct dma_fence *dma_fence_get_stub(void)
+>   {
+> -	spin_lock(&dma_fence_stub_lock);
+> -	if (!dma_fence_stub.ops) {
+> -		dma_fence_init(&dma_fence_stub,
+> -			       &dma_fence_stub_ops,
+> -			       &dma_fence_stub_lock,
+> -			       0, 0);
+> -
+> -		set_bit(DMA_FENCE_FLAG_ENABLE_SIGNAL_BIT,
+> -			&dma_fence_stub.flags);
+> -
+> -		dma_fence_signal_locked(&dma_fence_stub);
+> -	}
+> -	spin_unlock(&dma_fence_stub_lock);
+> -
+>   	return dma_fence_get(&dma_fence_stub);
+>   }
+>   EXPORT_SYMBOL(dma_fence_get_stub);
+
