@@ -2,44 +2,87 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A63C0C05638
-	for <lists+dri-devel@lfdr.de>; Fri, 24 Oct 2025 11:43:17 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3559AC05690
+	for <lists+dri-devel@lfdr.de>; Fri, 24 Oct 2025 11:47:33 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 09A4810E100;
-	Fri, 24 Oct 2025 09:43:15 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 02CB510E3B3;
+	Fri, 24 Oct 2025 09:47:31 +0000 (UTC)
+Authentication-Results: gabe.freedesktop.org;
+	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="Tso8acEI";
+	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
- by gabe.freedesktop.org (Postfix) with ESMTP id 4ECA210E100
- for <dri-devel@lists.freedesktop.org>; Fri, 24 Oct 2025 09:43:13 +0000 (UTC)
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
- by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 038091516;
- Fri, 24 Oct 2025 02:43:05 -0700 (PDT)
-Received: from [10.1.37.17] (e122027.cambridge.arm.com [10.1.37.17])
- by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id F2AA83F63F;
- Fri, 24 Oct 2025 02:43:09 -0700 (PDT)
-Message-ID: <e74ec0b1-4975-4fd5-bb1a-4839c45987f7@arm.com>
-Date: Fri, 24 Oct 2025 10:43:08 +0100
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8D9BF10EA06
+ for <dri-devel@lists.freedesktop.org>; Fri, 24 Oct 2025 09:47:29 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1761299248;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=ArSephldfLwUPIZOEFTFAJsyT1UDLuvR2xDhoRsVk7I=;
+ b=Tso8acEImYW1u95sTyeLP3vnN4lU4WK0awg5YB9cU+S7D9IbVQRgGnlC0ksfHt9TcW/jlM
+ ghQltQOg9aTjjeCvXIcx6pOLIhyMDsWX24L3+zPHmNkOFhYw38R6K5eq5uXjsAeO64NIbH
+ W/ai1FnTEE9Aqg9fZIVxzxPdLzdX7e0=
+Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
+ [209.85.128.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-541-VVuZrMYmNWS_IVGPyUyoMg-1; Fri, 24 Oct 2025 05:47:27 -0400
+X-MC-Unique: VVuZrMYmNWS_IVGPyUyoMg-1
+X-Mimecast-MFC-AGG-ID: VVuZrMYmNWS_IVGPyUyoMg_1761299246
+Received: by mail-wm1-f70.google.com with SMTP id
+ 5b1f17b1804b1-47496b3c1dcso13073375e9.3
+ for <dri-devel@lists.freedesktop.org>; Fri, 24 Oct 2025 02:47:27 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1761299246; x=1761904046;
+ h=mime-version:message-id:date:references:in-reply-to:subject:cc:to
+ :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=ArSephldfLwUPIZOEFTFAJsyT1UDLuvR2xDhoRsVk7I=;
+ b=nerPOsTHoWBhvYgK49Gt+a95jnZIFOOr023oY4Q6SsC5LPV4izjMLuJKoa3sjPQacL
+ GI9kWmCzUMhVUqJmNIXlWKlGkB/tqJWfPG8NNlMjX3BEPWQiSEeEWWMqQNYs8XYj515V
+ Z+Sjf916nVpnLUARArTryHNNUq9ej1C6zd1o7iRWHfEl5M/0VMseJkdaQJcN+I9CJrQX
+ 9XdSIIfoAM2eh2bu9Zd8kRb2cBhTrKf+xDmD5+M4PQp97W/oHU0OM0nI8IN//MV0Bogd
+ Ll1mi6A8+gibyYcjzDmpvCD0thfvTTzXKdQruIlkBQGOqu/7mXoxbzmrnYTzVyXdlcp1
+ fUEg==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCW5kHsywQGOjo/zCIn4wqaow6v+o7CgontfEzo8OwRzAPhJoL13IcHIdNx+JnXnI82QFb8fpEAZ6ZM=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YwjNkhUD/5+BMgRID/j8f7GJAw3obNg+kzzbJE1of/URMPyCBMp
+ r6rAkCzGzecbSNdvCKsU4gBdsI+Vj79CsYHJCoRZcG5m/4yCkMGEIUTr+hM1nFNRRD3EbC/+hSc
+ ittMTMEn3LRT4B16xtDNRoY4fKqW+Pr2FbGZzFw9HUW+ObvFGpQr86O5G7Q16EJklowY6SQ==
+X-Gm-Gg: ASbGncvKWZKalKX+ZFzDprtnfIFGhkDIzL3RELVGDiuDAqVz9y5fzohShjuMwYS9QoG
+ hlP3YxazehBOBpnKjSE8VgdPr8/BjlclKJoaYF9YLxzvgquBKhuH4QYbu9LinoLc0HO0QbJk/qx
+ T/v5N6LEeR0i6V2MreCDN8EuRzLyMNIEZ6KI/sbhlAGiR5ZTPVIn7aSnV/v2p38wRIb1L8O2Sce
+ f8TgPfA2g7oHwy0D9B+1rzg0KR7oMYKb1iGJJiK0lLLZSlOuzDkcPPfRCdOjjX4a3ExLturJOXs
+ MTF/5EefAdn0eHqHZyrLgUP9J9MsI7xw5c3c/iV//GLHekjdo1V7FCyol97x6jrV+pL/oX/GGnb
+ kzy3Tb47Kv9kJmXRffQ8rlVp6L7nM6u1KsafTUrzXzWKJpdDkx7aP1IAwKg==
+X-Received: by 2002:a05:600c:628f:b0:46f:b32e:5292 with SMTP id
+ 5b1f17b1804b1-475d2e78ebcmr17248015e9.8.1761299246179; 
+ Fri, 24 Oct 2025 02:47:26 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IEvkiM5n2goHpw250gyY/q1kAO+69ianJVaDlPPHq7N60XvGZtLDRIfaJsJf8t7LldVbkuQMA==
+X-Received: by 2002:a05:600c:628f:b0:46f:b32e:5292 with SMTP id
+ 5b1f17b1804b1-475d2e78ebcmr17247715e9.8.1761299245713; 
+ Fri, 24 Oct 2025 02:47:25 -0700 (PDT)
+Received: from localhost (62-151-111-63.jazzfree.ya.com. [62.151.111.63])
+ by smtp.gmail.com with ESMTPSA id
+ ffacd0b85a97d-429898cce3bsm8302856f8f.38.2025.10.24.02.47.24
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 24 Oct 2025 02:47:25 -0700 (PDT)
+From: Javier Martinez Canillas <javierm@redhat.com>
+To: Thomas Zimmermann <tzimmermann@suse.de>, ardb@kernel.org, jonathan@marek.ca
+Cc: linux-efi@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, Thomas Zimmermann <tzimmermann@suse.de>
+Subject: Re: [PATCH 2/5] efi/libstub: gop: Find GOP handle instead of GOP data
+In-Reply-To: <20251015160816.525825-3-tzimmermann@suse.de>
+References: <20251015160816.525825-1-tzimmermann@suse.de>
+ <20251015160816.525825-3-tzimmermann@suse.de>
+Date: Fri, 24 Oct 2025 11:47:24 +0200
+Message-ID: <87wm4k8wcz.fsf@ocarina.mail-host-address-is-not-set>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v1 06/10] drm/panthor: Implement L2 power on/off via
- PWR_CONTROL
-To: Karunika Choo <karunika.choo@arm.com>, dri-devel@lists.freedesktop.org
-Cc: nd@arm.com, Boris Brezillon <boris.brezillon@collabora.com>,
- Liviu Dudau <liviu.dudau@arm.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- linux-kernel@vger.kernel.org
-References: <20251014094337.1009601-1-karunika.choo@arm.com>
- <20251014094337.1009601-7-karunika.choo@arm.com>
- <022e2ea5-74e3-4d53-9afe-8ead71853ee4@arm.com>
- <a9cd1999-12d9-41cf-aef6-a6c3f1f23e4c@arm.com>
-From: Steven Price <steven.price@arm.com>
-Content-Language: en-GB
-In-Reply-To: <a9cd1999-12d9-41cf-aef6-a6c3f1f23e4c@arm.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+X-Mimecast-Spam-Score: 0
+X-Mimecast-MFC-PROC-ID: gQ17hEYzpTM9_KSjjYPNg6CeknkctbOlYIIcNrDy7G0_1761299246
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -55,78 +98,86 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 23/10/2025 23:16, Karunika Choo wrote:
-> On 20/10/2025 11:50, Steven Price wrote:
->> On 14/10/2025 10:43, Karunika Choo wrote:
->>> This patch adds common helpers to issue power commands, poll
->>> transitions, and validate domain state, then wires them into the L2
->>> on/off paths.
->>>
->>> The L2 power-on sequence now delegates control of the SHADER and TILER
->>> domains to the MCU when allowed, while the L2 itself is never delegated.
->>> On power-off, dependent domains beneath the L2 are checked, and if
->>> necessary, retracted and powered down to maintain proper domain
->>> ordering.
->>>
->>> Signed-off-by: Karunika Choo <karunika.choo@arm.com>
->>> ---
-[...]
->>> +		u64 domain_ready = gpu_read64(ptdev, get_domain_ready_reg(child_domain));
->>> +
->>> +		if (domain_ready && (pwr_status & PWR_STATUS_DOMAIN_DELEGATED(child_domain))) {
->>> +			drm_warn(&ptdev->base,
->>> +				 "L2 power off: Delegated %s domain not powered down by MCU",
->>> +				 get_domain_name(child_domain));
->>> +			ret = retract_domain(ptdev, child_domain);
->>> +			if (ret) {
->>> +				drm_err(&ptdev->base, "Failed to retract %s domain",
->>> +					get_domain_name(child_domain));
->>> +				panthor_pwr_info_show(ptdev);
->>> +				return ret;
->>> +			}
->>> +		}
->>> +
->>> +		ret = panthor_pwr_domain_power_off(ptdev, child_domain, domain_ready,
->>> +						   PWR_TRANSITION_TIMEOUT_US);
->>> +		if (ret)
->>> +			return ret;
->>> +	}
->>> +
->>> +	return panthor_pwr_domain_power_off(ptdev, PWR_COMMAND_DOMAIN_L2,
->>> +					    ptdev->gpu_info.l2_present,
->>> +					    PWR_TRANSITION_TIMEOUT_US);
->>
->> Does this implicitly 'retract' the shader/tiler power domains? If so I
->> think it's worth a comment. Otherwise it looks like we don't actually
->> know the status of whether the shader/tiler power domains are retracted
->> or not.
->>
-> 
-> panthor_pwr_l2_power_off() will only retract the shader/tiler domains if
-> they have not been powered down by the MCU. In cases where the MCU did
-> power down these child domains, delegate_domain() will exit early as
-> they would already be delegated. I understand the ambiguity here,
-> hopefully it is somewhat acceptable.
+Thomas Zimmermann <tzimmermann@suse.de> writes:
 
-So my question was really how does the driver know whether the domains
-are delegated or not when this function returns?
+> The device handle of the GOP device is required to retrieve the
+> correct EDID data. Find the handle instead of the GOP data. Still
+> return the GOP data in the function arguments, as we already looked
+> it up.
+>
+> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
+> ---
+>  drivers/firmware/efi/libstub/gop.c | 27 +++++++++++++++++----------
+>  1 file changed, 17 insertions(+), 10 deletions(-)
+>
+> diff --git a/drivers/firmware/efi/libstub/gop.c b/drivers/firmware/efi/libstub/gop.c
+> index 3785fb4986b4..fd32be8dd146 100644
+> --- a/drivers/firmware/efi/libstub/gop.c
+> +++ b/drivers/firmware/efi/libstub/gop.c
+> @@ -402,12 +402,13 @@ setup_pixel_info(struct screen_info *si, u32 pixels_per_scan_line,
+>  	}
+>  }
+>  
+> -static efi_graphics_output_protocol_t *find_gop(unsigned long num,
+> -						const efi_handle_t handles[])
+> +static efi_handle_t find_handle_with_primary_gop(unsigned long num, const efi_handle_t handles[],
+> +						 efi_graphics_output_protocol_t **found_gop)
+>  {
+>  	efi_graphics_output_protocol_t *first_gop;
+> -	efi_handle_t h;
+> +	efi_handle_t h, first_gop_handle;
+>  
+> +	first_gop_handle = NULL;
+>  	first_gop = NULL;
+>
 
-I couldn't quite get my head around whether turning the L2 power domain
-off would implicitly 'retract' the shader/tiler power domains -
-obviously it forces them off which means the MCU doesn't have control.
-So retracting would make sense, but I couldn't see anything in the spec.
+I think the logic of this function could be simplified if you remove some
+of the variables. For example, I don't think you need a fist_gop variable
+anymore now that you are passing a found_gop variable as a function param.
 
-It would be good to have a comment explaining what the expected state is
-after this function (panthor_pwr_l2_power_off) returns. Is it unknown
-whether the shader/tiler are retracted, or is there something in the
-hardware which does this automatically so we know but don't have to
-manually retract? Presumably if we end up fully powering down the GPU
-that must effectively retract all domains (the GPU hardware is reset so
-it goes back to reset conditions).
+>  	for_each_efi_handle(h, handles, num) {
+> @@ -442,19 +443,25 @@ static efi_graphics_output_protocol_t *find_gop(unsigned long num,
+>  		 */
+>  		status = efi_bs_call(handle_protocol, h,
+>  				     &EFI_CONSOLE_OUT_DEVICE_GUID, &dummy);
+> -		if (status == EFI_SUCCESS)
+> -			return gop;
+> -
+> -		if (!first_gop)
+> +		if (status == EFI_SUCCESS) {
+> +			if (found_gop)
+> +				*found_gop = gop;
+> +			return h;
+> +		} else if (!first_gop_handle) {
+> +			first_gop_handle = h;
+>  			first_gop = gop;
 
-Sorry, it's a bit of a basic question but the spec is somewhat unhelpful
-on this point! (Or at least I haven't found a relevant statement).
+You can just assign *found_gop = gop here...
 
-Thanks,
-Steve
+> +		}
+>  	}
+>  
+> -	return first_gop;
+> +	if (found_gop)
+> +		*found_gop = first_gop;
+
+...and then this assignment won't be needed anynmore.
+
+> +	return first_gop_handle;
+
+Also, given that you are calling first_gop_handle to the variable to
+store the first gop handle, I would for consistency name the parameter
+fist_gop and just drop the local variable with the same name.
+
+But I agree with the general logic of the patch, so regardless of what
+you prefer to do:
+
+Reviewed-by: Javier Martinez Canillas <javierm@redhat.com>
+
+-- 
+Best regards,
+
+Javier Martinez Canillas
+Core Platforms
+Red Hat
 
