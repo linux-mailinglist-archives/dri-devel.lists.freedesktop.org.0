@@ -2,18 +2,18 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 15329C072C7
-	for <lists+dri-devel@lfdr.de>; Fri, 24 Oct 2025 18:08:37 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 985E3C072CD
+	for <lists+dri-devel@lfdr.de>; Fri, 24 Oct 2025 18:08:38 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9D78A10EAE4;
+	by gabe.freedesktop.org (Postfix) with ESMTP id B105110EAE9;
 	Fri, 24 Oct 2025 16:08:25 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=igalia.com header.i=@igalia.com header.b="sUU8yL+X";
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=igalia.com header.i=@igalia.com header.b="BGPlJPVd";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from fanzine2.igalia.com (fanzine2.igalia.com [213.97.179.56])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5D8DF10EAE5;
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D22C810EAD2;
  Fri, 24 Oct 2025 16:08:21 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
  s=20170329;
@@ -22,26 +22,26 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com;
  Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
  :Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
  List-Post:List-Owner:List-Archive;
- bh=Wi3oQzkwi9VKJoe3o79aWnD8S7zu2iBqaCzCfRofVgk=; b=sUU8yL+XZRBsbln3PdN55lwa2j
- dP5N6+fdAU37+xjBsc7o2AlakLSKZIe+HKsqmoQ6QxkDBc1Fi1T+4//HYOu6oAiisdleQoD6dpxpq
- EgpnkwaXH22NKN//RlzSZTOzozrWg+KzgykQk9K+J83HCeBew/WfsQqslPW+ijREv8hUAfgzXMcmR
- 0XULBsl0QgyavXf3EZR9L8oVHaiVBNsvPmRwpi202I6RImA5fvklYJF/zwpyramPfrc/h3bVZfo+r
- GRd1uOqVF7Inej8InJrR/E+TKkUXDVHf6epHcVszZjnG+Vr/bUs1a0WMEkgaCss63oDl7blzChc63
- Ivd6Z8Cg==;
+ bh=/X/pTpuALGmXBkE+yAfwIiRc3eccLTbeKv0kRJdkTYQ=; b=BGPlJPVdZ+sE68AVS/VDqdlwip
+ 7nNMEI4S9lE7WuZD09B7yh8LmHtvoMxcurtzFK6uuwDlS16Z4qi4DRIuPScguPZ/1AUtFyT5kQN+S
+ Jeg/PlY/W8jPMHvZCobuelb6mDufhXyCE5U+LLhGPiRl6+mNkd0ElLcTndQJMSiljvs3DXpNYGCt5
+ m9jZ/gAz1JgCzvDW2hMpjWmaPZD2M4eeK8lMNVrJVQ7pZtZ9UGsoG4AejqlaDYM83NoeCdw0NblUR
+ UQS0ooM9d41zxzQOKAqw1Wo4r9shOhuorqd63W6TgqYIPfwISIrt9EATqzHY5zPKky9/vJhrTp2BJ
+ NOTOz1Og==;
 Received: from [90.242.12.242] (helo=localhost)
  by fanzine2.igalia.com with esmtpsa 
  (Cipher TLS1.3:ECDHE_SECP256R1__RSA_PSS_RSAE_SHA256__AES_256_GCM:256) (Exim)
- id 1vCKKx-00Ep9y-BV; Fri, 24 Oct 2025 18:08:19 +0200
+ id 1vCKKy-00EpAC-20; Fri, 24 Oct 2025 18:08:20 +0200
 From: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
 To: amd-gfx@lists.freedesktop.org,
 	dri-devel@lists.freedesktop.org
 Cc: kernel-dev@igalia.com, Tvrtko Ursulin <tvrtko.ursulin@igalia.com>,
  Boris Brezillon <boris.brezillon@collabora.com>,
- Rob Herring <robh@kernel.org>, Steven Price <steven.price@arm.com>
-Subject: [PATCH v3 22/27] drm/panfrost: Remove drm_sched_init_args->num_rqs
+ Steven Price <steven.price@arm.com>, Liviu Dudau <liviu.dudau@arm.com>
+Subject: [PATCH v3 23/27] drm/panthor: Remove drm_sched_init_args->num_rqs
  usage
-Date: Fri, 24 Oct 2025 17:07:55 +0100
-Message-ID: <20251024160800.79836-23-tvrtko.ursulin@igalia.com>
+Date: Fri, 24 Oct 2025 17:07:56 +0100
+Message-ID: <20251024160800.79836-24-tvrtko.ursulin@igalia.com>
 X-Mailer: git-send-email 2.48.0
 In-Reply-To: <20251024160800.79836-1-tvrtko.ursulin@igalia.com>
 References: <20251024160800.79836-1-tvrtko.ursulin@igalia.com>
@@ -66,25 +66,40 @@ Remove member no longer used by the scheduler core.
 
 Signed-off-by: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
 Cc: Boris Brezillon <boris.brezillon@collabora.com>
-Cc: Rob Herring <robh@kernel.org>
+Cc: Steven Price <steven.price@arm.com>
+Cc: Liviu Dudau <liviu.dudau@arm.com>
 Cc: dri-devel@lists.freedesktop.org
 Reviewed-by: Steven Price <steven.price@arm.com>
+Reviewed-by: Liviu Dudau <liviu.dudau@arm.com>
 ---
- drivers/gpu/drm/panfrost/panfrost_job.c | 1 -
- 1 file changed, 1 deletion(-)
+ drivers/gpu/drm/panthor/panthor_mmu.c   | 1 -
+ drivers/gpu/drm/panthor/panthor_sched.c | 1 -
+ 2 files changed, 2 deletions(-)
 
-diff --git a/drivers/gpu/drm/panfrost/panfrost_job.c b/drivers/gpu/drm/panfrost/panfrost_job.c
-index 11894a6b9fcc..3ae43af02c7b 100644
---- a/drivers/gpu/drm/panfrost/panfrost_job.c
-+++ b/drivers/gpu/drm/panfrost/panfrost_job.c
-@@ -850,7 +850,6 @@ int panfrost_jm_init(struct panfrost_device *pfdev)
- {
- 	struct drm_sched_init_args args = {
- 		.ops = &panfrost_sched_ops,
--		.num_rqs = DRM_SCHED_PRIORITY_COUNT,
- 		.credit_limit = 2,
- 		.timeout = msecs_to_jiffies(JOB_TIMEOUT_MS),
- 		.dev = pfdev->base.dev,
+diff --git a/drivers/gpu/drm/panthor/panthor_mmu.c b/drivers/gpu/drm/panthor/panthor_mmu.c
+index 5bfdc0ebf8fb..2e3de7a817e4 100644
+--- a/drivers/gpu/drm/panthor/panthor_mmu.c
++++ b/drivers/gpu/drm/panthor/panthor_mmu.c
+@@ -2259,7 +2259,6 @@ panthor_vm_create(struct panthor_device *ptdev, bool for_mcu,
+ 	const struct drm_sched_init_args sched_args = {
+ 		.ops = &panthor_vm_bind_ops,
+ 		.submit_wq = ptdev->mmu->vm.wq,
+-		.num_rqs = 1,
+ 		.credit_limit = 1,
+ 		/* Bind operations are synchronous for now, no timeout needed. */
+ 		.timeout = MAX_SCHEDULE_TIMEOUT,
+diff --git a/drivers/gpu/drm/panthor/panthor_sched.c b/drivers/gpu/drm/panthor/panthor_sched.c
+index f5e01cb16cfc..5b95868169ac 100644
+--- a/drivers/gpu/drm/panthor/panthor_sched.c
++++ b/drivers/gpu/drm/panthor/panthor_sched.c
+@@ -3318,7 +3318,6 @@ group_create_queue(struct panthor_group *group,
+ 	struct drm_sched_init_args sched_args = {
+ 		.ops = &panthor_queue_sched_ops,
+ 		.submit_wq = group->ptdev->scheduler->wq,
+-		.num_rqs = 1,
+ 		/*
+ 		 * The credit limit argument tells us the total number of
+ 		 * instructions across all CS slots in the ringbuffer, with
 -- 
 2.48.0
 
