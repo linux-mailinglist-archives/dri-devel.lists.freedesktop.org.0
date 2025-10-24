@@ -2,58 +2,99 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5163DC05A9A
-	for <lists+dri-devel@lfdr.de>; Fri, 24 Oct 2025 12:49:54 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 501E8C05B69
+	for <lists+dri-devel@lfdr.de>; Fri, 24 Oct 2025 12:57:37 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 87C3F10EA5E;
-	Fri, 24 Oct 2025 10:49:52 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A012C10E056;
+	Fri, 24 Oct 2025 10:57:34 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="FQ09UUna";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="GUw1j4Za";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from bali.collaboradmins.com (bali.collaboradmins.com
- [148.251.105.195])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 386CE10EA5E
- for <dri-devel@lists.freedesktop.org>; Fri, 24 Oct 2025 10:49:51 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1761302989;
- bh=0xJzT9HOFA/wzQA9PIEVIRkd3/izvnGDUDaNuOAhYnU=;
- h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
- b=FQ09UUnaQFSpk/V8t8j35ER2UrKefovK8sNoJWCvS6uYsz6Skm1EmvT7vUyxeY7YI
- 1mI7vvm9vZ8SQt95xIPEBmbTSquqVhjZxAYJmG/FoBHMf9iiM6guG+SweRnu5i2/JX
- rV6evrk8W0nxyB4z3hzTowtUUzXhQF6H+NhLUzdZloAgiW6kucjWa7VNV8/vFhKHMs
- 3YPH/tHpQwY9TbDOWadlBpJeByS/3D8IZ48xF1w53QSh76ezSE+2rnuwOVfSF9i2WJ
- KPXLQfmHJJquA0Gz9a2b0DiGncrjF8vKMkYtGoLBEl1iYBkZiiIrMBj3oT/pmJx8JG
- dw6o0nWY2eE5g==
-Received: from fedora (unknown [IPv6:2a01:e0a:2c:6930:d919:a6e:5ea1:8a9f])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested) (Authenticated sender: bbrezillon)
- by bali.collaboradmins.com (Postfix) with ESMTPSA id 3FF2717E127F;
- Fri, 24 Oct 2025 12:49:49 +0200 (CEST)
-Date: Fri, 24 Oct 2025 12:49:41 +0200
-From: Boris Brezillon <boris.brezillon@collabora.com>
-To: Karunika Choo <karunika.choo@arm.com>
-Cc: dri-devel@lists.freedesktop.org, nd@arm.com, Steven Price
- <steven.price@arm.com>, Liviu Dudau <liviu.dudau@arm.com>, Maarten
- Lankhorst <maarten.lankhorst@linux.intel.com>, Maxime Ripard
- <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, David Airlie
- <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v1 03/10] drm/panthor: Introduce framework for
- architecture-specific features
-Message-ID: <20251024124941.124a50aa@fedora>
-In-Reply-To: <f2a05393-b3d4-47e2-be17-248880d97d49@arm.com>
-References: <20251014094337.1009601-1-karunika.choo@arm.com>
- <20251014094337.1009601-4-karunika.choo@arm.com>
- <20251024084327.3332d548@fedora>
- <f2a05393-b3d4-47e2-be17-248880d97d49@arm.com>
-Organization: Collabora
-X-Mailer: Claws Mail 4.3.1 (GTK 3.24.49; x86_64-redhat-linux-gnu)
+Received: from mail-lj1-f172.google.com (mail-lj1-f172.google.com
+ [209.85.208.172])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8B09210E056
+ for <dri-devel@lists.freedesktop.org>; Fri, 24 Oct 2025 10:57:33 +0000 (UTC)
+Received: by mail-lj1-f172.google.com with SMTP id
+ 38308e7fff4ca-3717780ea70so26692531fa.1
+ for <dri-devel@lists.freedesktop.org>; Fri, 24 Oct 2025 03:57:33 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20230601; t=1761303452; x=1761908252; darn=lists.freedesktop.org;
+ h=cc:to:content-transfer-encoding:mime-version:message-id:date
+ :subject:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=oLgGrwj2cvg8pbP9aZUjo9XHFc3IK9CECbX8yze6a+I=;
+ b=GUw1j4Zak6IzMrU8ky09y5TDX3PCd3pjPgDjLLAzJQJ2e9+o6CIIDBFmBolCxCslYQ
+ DEQvrrU1hy5MD6NFSBJV0wVm0+4cEyeRHIBY30dPoT02aeLDTYI9lwH5XLozBXcR+jw6
+ G0NWWXfdCWbYMSUbn8OrjkW+WE615ENKJDkXudRWDNr5R5eu6GVDhwg5DL3SXlrZyki1
+ wbN8Kozg6l6wDX2yqLgInNTRwYg/GwZItW4MN7Z3IemeN9xheOuG/PxgYkL4G9zEh+gF
+ c1s+L7L5leIxSUtRIwDi1FITvhGi+7vDEjN2n4l3WOEtiY9503w0AePeZ/TXtw4njPTj
+ +FDw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1761303452; x=1761908252;
+ h=cc:to:content-transfer-encoding:mime-version:message-id:date
+ :subject:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=oLgGrwj2cvg8pbP9aZUjo9XHFc3IK9CECbX8yze6a+I=;
+ b=Vt/1flBuTsnGr8XyVSzFLAaTBnJaVRaLfoclDUlRGab+o4R5kbpRVXmoguBH5wQXcS
+ 9uSKfMbluwUhhV1MGw1lZsWsGLfru6jIuWTgl8B2vJE/rJmsXGgSX8OnxXSeu5d48h/I
+ rG+UWhY4NBTUh+GOCz/qagoHYCJWGhtK8YNoVRq4Ud6OUoS2KlCj+x0m2xthOo6nQPk/
+ synCNOJ2s48+fSUO23tjDK4niNx+L1n8gF+OswchLXM/ShabhGP43+m3CV74YMuLd1OX
+ kJLchsQFYzD6plwr/7aXnFNIbQTiJSRonRY5XzIuf/QqRFzhHWlEpOuQC32/qMgIMjBS
+ KpKA==
+X-Gm-Message-State: AOJu0YwPWbeMHAyYVdnjZN9rPwdB/PBOUljywOWORDtdr9Q869e4xMOF
+ 5crgjycXB2ntQRu4QNI9rJvTr+n78cJd6ds2b5yDGjRDMnHGe7wuaqCv
+X-Gm-Gg: ASbGnct4x8Uoa9qYycvuP3dbSptpMeI0BjxeuBgNtWAeOMzXccGiCbcc0gqnlFxHbdi
+ d3IZXe+GQuVG2YrpUwj0LRRjrHLMo+sB7olAm3Qp7hWFCya2vABhn0mQpYUO7tB2jPgIaBifQcW
+ o446tC8Y2u+4CGSCubllDQveApRshpVz26WxhUjyZ7FcQt3k/M13BoQLb4IH/1XLkji0man5GLU
+ EnuPkdeFZmPed4E9IGMUYrrICEGllZdwjUOaCM+n3aqVtkXvofvhcjgtDdzhVQ/cQoUZwfXWDCD
+ qCw9o3XTOnzu3V6um6eJikLqE1OhOCbr8GZyV/Vb3ttmozacVT1fbU/7zMyJPAIssDXvvDKYxF1
+ gfuOyzpqF7wFtOq+nQWyCwjy4pLvYwFfi65IrsfNuvV6104CCiOmo9Fv5mjl2Q0ewCFtA+M/uEU
+ 13f4pxHXjJZDbqPHd/kQKVuDlaD5Yfg3MI1RQcrjGfmTkn
+X-Google-Smtp-Source: AGHT+IF5dJWz8eNNAmFHIgmHUtxjJ0+59k4uqUMNim6/zblOyHNP4qzO4SmxeZSF1EgjU9z1tA49IA==
+X-Received: by 2002:a05:651c:1a08:b0:336:df0e:f4ac with SMTP id
+ 38308e7fff4ca-377979febaemr74275511fa.25.1761303451403; 
+ Fri, 24 Oct 2025 03:57:31 -0700 (PDT)
+Received: from [192.168.1.168] (83-233-6-197.cust.bredband2.com.
+ [83.233.6.197]) by smtp.gmail.com with ESMTPSA id
+ 38308e7fff4ca-378d67db8fesm10375671fa.38.2025.10.24.03.57.30
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 24 Oct 2025 03:57:30 -0700 (PDT)
+From: Marcus Folkesson <marcus.folkesson@gmail.com>
+Subject: [PATCH 0/6] drm/sitronix/st7571: split up driver to support both
+ I2C and SPI
+Date: Fri, 24 Oct 2025 12:56:51 +0200
+Message-Id: <20251024-st7571-split-v1-0-d3092b98130f@gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAHNb+2gC/6tWKk4tykwtVrJSqFYqSi3LLM7MzwNyDHUUlJIzE
+ vPSU3UzU4B8JSMDI1NDAyMT3eISc1NzQ93igpzMEt1kc2OTJAMzQwOzRBMloJaCotS0zAqwcdG
+ xtbUAcxhRQl4AAAA=
+X-Change-ID: 20251024-st7571-split-c734b06106a4
+To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>
+Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org, 
+ Marcus Folkesson <marcus.folkesson@gmail.com>
+X-Mailer: b4 0.14.2
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1401;
+ i=marcus.folkesson@gmail.com; h=from:subject:message-id;
+ bh=R6v56paA/dEHvU/dNXKGIvdsjJizyetpWPpVvBUzIPQ=;
+ b=owEBbQKS/ZANAwAKAYiATm9ZXVIyAcsmYgBo+1t3aLKOO+EE32uhrK/QULQ+IkiU96FlJcBXr
+ G9PfzLvN3KJAjMEAAEKAB0WIQQFUaLotmy1TWTBLGWIgE5vWV1SMgUCaPtbdwAKCRCIgE5vWV1S
+ Mq/oEAC0bxr4XNigfBCApzjlC/u3jVIW4DTs1eik4K1b+1vDlJsLxlX6opIwqXPfn/GbJxT2xCS
+ cL6FTLqEdXyl1AwkCubT8KaG6Y5WC+H/L+qQkV2TF0BgZ72IzHs9rtrrYy1EYajHiVGa6dhUwed
+ CX1d2nCdoQd82NG5J2I44EA8oFzz/kJSA1eF7VKNVT2vbl5kTB1srZn3Gc/h9LTVAYQqPw0Bshe
+ y9eDd4QYvmHy/SqTGrrbyPckFZ6TonnBT2/3hpSdhwSisn0PmILXNhojBYg657dLUAbG7hpPM48
+ wurAeHTbqxpe7Av/De9qcghB+J/ijpPzO1DJqH/LxHzSdN8cUwS1k65WcCbYR1QeHDXqsLPJsL3
+ XGpanOvjF15LhnWu7yhbePNXxg/EsoU4NYD5IHjQgyEqPAy7kpl18diJDOrIk3F6NMpEm1NN/bI
+ bloy1y51PXJx0ZLhmo8iU44aCsYgOIa0/nkKhtfVHxjyVZEy7BmVZ68sxMsJMlCbhIyVKXdbvpR
+ pQ9slkxQ6W4MDzM+AHd580ws9tTOzfsWc0YcBsHQ+1evtBMJA+7XkSzZYhbVua4hKufqgCxhvq3
+ +tatrWsmf+zRTS398O23No/wT59+Pq44vvKzclc4957F8kVpf+x2qT8L1yGF35o9HEj40BBldBQ
+ i95D/ZvO0rZ5v9g==
+X-Developer-Key: i=marcus.folkesson@gmail.com; a=openpgp;
+ fpr=AB91D46C7E0F6E6FB2AB640EC0FE25D598F6C127
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -69,74 +110,35 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, 24 Oct 2025 10:26:16 +0100
-Karunika Choo <karunika.choo@arm.com> wrote:
+This series splits up the driver and finally implements
+support for ST7571/ST7561 connected to a SPI bus.
 
-> On 24/10/2025 07:43, Boris Brezillon wrote:
-> > On Tue, 14 Oct 2025 10:43:30 +0100
-> > Karunika Choo <karunika.choo@arm.com> wrote:
-> >  =20
-> >> Add a framework to support architecture-specific features. This allows
-> >> other parts of the driver to adjust their behaviour based on the featu=
-re
-> >> bits enabled for a given architecture. =20
-> >=20
-> > I'm not convinced we need this just yet. AFAICT, the only feature flag
-> > being added in this patchset is PANTHOR_HW_FEATURE_PWR_CONTROL, and
-> > most of this is abstracted away with function pointers already. The
-> > only part that tests this FEATURE_PWR_CONTROL flag is the
-> > initialization, which could very much be abstracted away with a
-> > function pointer (NULL meaning no PWR block present). There might be
-> > other use cases you're planning to use this for, so I'd like to hear
-> > about them to make my final opinion on that.
-> >  =20
->=20
-> I see your point =E2=80=94 the intent here is mainly to have the feature =
-flag
-> reflect hardware-level changes. In this series, for example, it
-> corresponds to the addition of the new PWR_CONTROL block.
+I've not tested the SPI interface myself as I lack HW, but the
+implementation should be okay from what I've read in the datasheet.
 
-Yes, but those are not really optional features. Those are functional
-changes that are usually done on major version changes. But let's say
-it was something done on a minor version change, it's still something
-that I think would be better off abstracted using a vtable of some
-sort, and have this vtable forked everytime a version changes requires
-something new.
+Signed-off-by: Marcus Folkesson <marcus.folkesson@gmail.com>
+---
+Marcus Folkesson (6):
+      drm/sitronix/st7571-i2c: rename 'struct drm_device' in st7571_device
+      drm/sitronix/st7571-i2c: add 'struct device' to st7571_device
+      drm/sitronix/st7571-i2c: move common structures to st7571.h
+      drm/sitronix/st7571-i2c: make probe independent of hw interface
+      drm/sitronix/st7571: split up the driver into a common and an i2c part
+      drm/sitronix/st7571-spi: add support for SPI interface
 
->=20
-> Another use case would be arch v11, where a new PRFCNT_FEATURES register
-> was introduced. In that case, we might want to adjust the
-> counters_per_block [1] value depending on that register=E2=80=99s value.
+ MAINTAINERS                           |    3 +
+ drivers/gpu/drm/sitronix/Kconfig      |   38 +-
+ drivers/gpu/drm/sitronix/Makefile     |    2 +
+ drivers/gpu/drm/sitronix/st7571-i2c.c | 1002 ++-------------------------------
+ drivers/gpu/drm/sitronix/st7571-spi.c |   75 +++
+ drivers/gpu/drm/sitronix/st7571.c     |  918 ++++++++++++++++++++++++++++++
+ drivers/gpu/drm/sitronix/st7571.h     |   91 +++
+ 7 files changed, 1160 insertions(+), 969 deletions(-)
+---
+base-commit: 7e73cefd2bede5408d1aeb6145261b62d85d23be
+change-id: 20251024-st7571-split-c734b06106a4
 
-Again, it looks like a property that can be determined at init time. For
-v10 it'd be hardcoded to X, and on v11+, you'd extract that from
-PERFCNT_FEATURES. I'm really not a huge fan of this feature flag
-pattern because it's very easy to forget to add/propagate one flag when
-adding support for new HW/flags. So I'd much rather rely on ">=3D X.Y"
-version checks in the init path, and for anything more involved or
-happening in some hot path, function based pointer specialization.
+Best regards,
+-- 
+Marcus Folkesson <marcus.folkesson@gmail.com>
 
->=20
-> I would also expect this mechanism to remain useful for future hardware
-> revisions, as it provides a clean way to describe architectural
-> differences without scattering version-specific checks throughout the
-> code, while still being lighter-weight than function pointers.
-
-Well, that's questionable. What I usually see in practice is the
-following pattern spreading over the code base:
-
-	if (SUPPORTS(OBSCURE_FEATURE_NAME)) {
-		// do stuff that are not obviously related to the
-		// feature flag name
-	}
-
-whereas, if we're having a model where the specialization is done high
-enough, you'd just end up with functions calling more specialized
-helpers:
-
-void do_something_for_v12()
-{
-	hw_block_a_do_y()
-	hw_block_b_do_x()
-	...
-}
