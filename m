@@ -2,69 +2,118 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 83738C03FD0
-	for <lists+dri-devel@lfdr.de>; Fri, 24 Oct 2025 03:05:47 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8BB3FC041F9
+	for <lists+dri-devel@lfdr.de>; Fri, 24 Oct 2025 04:32:51 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7176310E9B0;
-	Fri, 24 Oct 2025 01:05:45 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id EF88310E9B6;
+	Fri, 24 Oct 2025 02:32:47 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="HGKWwB6t";
+	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="ei+CveU6";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sea.source.kernel.org (sea.source.kernel.org [172.234.252.31])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 133FD10E9B0
- for <dri-devel@lists.freedesktop.org>; Fri, 24 Oct 2025 01:05:45 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by sea.source.kernel.org (Postfix) with ESMTP id B08134B1E0
- for <dri-devel@lists.freedesktop.org>; Fri, 24 Oct 2025 01:05:44 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 91065C4CEE7
- for <dri-devel@lists.freedesktop.org>; Fri, 24 Oct 2025 01:05:44 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1761267944;
- bh=N1UrWgOILBnRqswy5FEY5ciBzNaPxQL8l8pULuyWGhg=;
- h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
- b=HGKWwB6tqVCDNQXkwvia7WqSK/15ckYh/qWd3Bqmmto2uguzpJ5DdO5Bny5AY+3KW
- 8Fma3DgjHoMFdstMLz3B0aOCebGjG/4Y6N4ssIpvbTUjlmyJw7+i/7xnNnVFKz47/j
- HzPg79YwpJsxyCvZL+UP1ik9TlxeJbTsfdERAuO41OJHlPrmXgRSvSrO/j+njTN2l/
- bs7skxIy/eCmBoDFcn1F7tLlB+NY7utdoNR+IoTXFMBJH2Igg1yX91NEfGDE3qku69
- QWJLVGiD06AVYLc/W7FYIwt9AanVoHGHM/mRwKdkgSQadYKJs6M6MxZj+jsfyG3TqN
- hGmrNKilJawcg==
-Received: by mail-pl1-f179.google.com with SMTP id
- d9443c01a7336-29488933a91so5791815ad.2
- for <dri-devel@lists.freedesktop.org>; Thu, 23 Oct 2025 18:05:44 -0700 (PDT)
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
+ [205.220.168.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C56E610E9B6
+ for <dri-devel@lists.freedesktop.org>; Fri, 24 Oct 2025 02:32:46 +0000 (UTC)
+Received: from pps.filterd (m0279867.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 59NE6dlM015958
+ for <dri-devel@lists.freedesktop.org>; Fri, 24 Oct 2025 02:32:46 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+ cc:content-type:date:from:in-reply-to:message-id:mime-version
+ :references:subject:to; s=qcppdkim1; bh=K8n4jQJ0OSelSp8GbDvqIHis
+ YCrNm03CqsfjSom7lUs=; b=ei+CveU6DUojLyPgBThAtXMSMw1ukexnV7Y1Kbuv
+ /oKwWUCmC2Ig4HRts6V3s6+L7yzD1KSuChwZqPGWrnVttXdd2+s2xkMp23AM+N2b
+ hyBOULPPFdvIL+PJRqoyrOL8nuolzMNJzyEELU0S2c1oXgYJuRQjE+J5fTM0PXo3
+ GTQg6zmgbzpqBJW8aYZoS+84+8TdFn63ne/xLAqu9SyAXHoUlw7y7vRWdO2aKd6y
+ bVYOir0kZirfceU0onX6Uwy72XFyQma2jPraEj3lL5q8+WNoh+Vfogc9luDInfg9
+ 2+OCWBpbYTnHIi6I4wvOTFnXP1uZNByHgUKm44dArZ95JQ==
+Received: from mail-qt1-f198.google.com (mail-qt1-f198.google.com
+ [209.85.160.198])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 49xkpsg4uh-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
+ for <dri-devel@lists.freedesktop.org>; Fri, 24 Oct 2025 02:32:45 +0000 (GMT)
+Received: by mail-qt1-f198.google.com with SMTP id
+ d75a77b69052e-4e8916e8d4aso76831241cf.2
+ for <dri-devel@lists.freedesktop.org>; Thu, 23 Oct 2025 19:32:45 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1761273164; x=1761877964;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=K8n4jQJ0OSelSp8GbDvqIHisYCrNm03CqsfjSom7lUs=;
+ b=acvxiRfnDS9HxLehD2lAcKfM5Pt1y78LRTvy6I3glAJL6P9VNx4513u0tUibXqjRp/
+ G/R9bxY8LcWZcIg179SORI5tQArGJ+h2ufxIIvRa7aZuNcFP1MonI+9HZvjzcbBfN2Ow
+ GQFxuvdrPnzO7AAARWOVmUA7Yt/DPWgbnBbyfyQcjvkCZQ4JqwnzMZdP7eggC4GYRqwx
+ mjotLUPHNZFcQy2r8VdZWyAkowhqLiadj5/SKeiTXpJcHoMdPoDKWzV93247aIccTmuk
+ VPfob8iizqdzUgIa6zuBtN750H2VZ7hUIrzOguk0ABiLS67HBkZPr/zuIqC0xS1X6wdg
+ xukg==
 X-Forwarded-Encrypted: i=1;
- AJvYcCU8fZqvjPYdqK0ss/lwRz6VgUnPD6YTAmy8yvqRATZcqqXhaGcNdYqf1jiUQIpiwfDiCnhRzk5ZhbU=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Yz7WhHHtVEVl7J6x0XGDKzgEI5QCnZjy5Zbs6Aps+X0ny+U1iFA
- 6P5ASHQK6mn3aBZjrfvpx37zO515Ff22yYgxohhmXUOpUCM+NoYF+1bvjEPnu/SRTRRJDmxaVIm
- rYXSU0ifPwiYBDPBvd+n4oYABkfIZog==
-X-Google-Smtp-Source: AGHT+IHmHKlSVr/GzmP0xTu6cc4eOtrAqzAvhNJDZa7uOYCSe2OZrvM3vKi5tiykPb+LHZCxa5Phtk7WggV5xA2hEwk=
-X-Received: by 2002:a17:903:240d:b0:290:ac36:2ecd with SMTP id
- d9443c01a7336-290c9ca66famr334907535ad.14.1761267944170; Thu, 23 Oct 2025
- 18:05:44 -0700 (PDT)
+ AJvYcCXErhEMcrkGXt3ssSWxn9nHRX90SG3gFtBQDV/qwJx/HQPFdycFKqtDtwuYjA1xP4BEVwd1hrJ5uqQ=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YzFwskPyH2ufuDqaiO8clihSS1ZcyX80l7ukZjJrNmw7qbQ6Nh1
+ CXZyP8RMVUk3ctV2mGnZIPsyoTQMp/4yw4SwU5KOg+wMFziyMELRx3pqhKsPBD19l2eEPPMmkEC
+ Y/0qSed3fTJw3I/BG+LNo3LIOExOvVFejRBcgKUhmrtu5m4OLyLrwVWdwcZLum/o0RHOHrc8=
+X-Gm-Gg: ASbGncvDAwi+otwBcAHuk20zTMWZixwBUWuCVd++0MlXpTF8MzKZbPOH1pOAgXS0tSr
+ mPWSKwK6e/A/LDB4PxJNIm0uX7DmUjNnlUUzqVvVRPGomztpv0ly25gu1BFYb9qW67gSwRaCE/a
+ 3y3Hc3DYGZkzI3zBtvg9bFFOHW7MKW7RH0pRcdVKzGYYMoB6JLjcurN6q2EZ9rkfLqxwowqKZ+r
+ DBWXwTrtXprAMNXq7Y6PsrqEjLKN/3CALvTPIP86FCBdGhJViC1oLDwTcMttCYT1J2rHGk2TUbN
+ 5LYrvp0nb2y/LzRqTEIpY1p+Ckg7LCqOSm5XLCn8xHUMcI/MJxPCreq9ecGuWMWKOT9JKg/6oCF
+ nuX1yGlNj9kKHquUZ3Jjqtikv5fftlpECQuyJxnOoavJycBU3lPejhsSQCQ6f
+X-Received: by 2002:ac8:5a46:0:b0:4b3:3b2:2b4b with SMTP id
+ d75a77b69052e-4e89d0507eemr299680051cf.0.1761273164503; 
+ Thu, 23 Oct 2025 19:32:44 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IH8RJLrpZlLDIekUoulVf3HkGeQaD97twoWzv+nd9iE5tF9H+Ujsga2U2zLGTAjXkx/iNwf2w==
+X-Received: by 2002:ac8:5a46:0:b0:4b3:3b2:2b4b with SMTP id
+ d75a77b69052e-4e89d0507eemr299679691cf.0.1761273163987; 
+ Thu, 23 Oct 2025 19:32:43 -0700 (PDT)
+Received: from yuanjiey.ap.qualcomm.com (Global_NAT1_IAD_FW.qualcomm.com.
+ [129.46.232.65]) by smtp.gmail.com with ESMTPSA id
+ af79cd13be357-89c12056aefsm284098785a.48.2025.10.23.19.32.34
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 23 Oct 2025 19:32:43 -0700 (PDT)
+Date: Fri, 24 Oct 2025 10:32:31 +0800
+From: yuanjiey <yuanjie.yang@oss.qualcomm.com>
+To: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
+Cc: robin.clark@oss.qualcomm.com, lumag@kernel.org, abhinav.kumar@linux.dev,
+ sean@poorly.run, marijn.suijten@somainline.org, airlied@gmail.com,
+ simona@ffwll.ch, maarten.lankhorst@linux.intel.com, mripard@kernel.org,
+ tzimmermann@suse.de, robh@kernel.org, krzk+dt@kernel.org,
+ conor+dt@kernel.org, quic_mkrishn@quicinc.com, jonathan@marek.ca,
+ quic_khsieh@quicinc.com, neil.armstrong@linaro.org,
+ linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ freedreno@lists.freedesktop.org, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org, tingwei.zhang@oss.qualcomm.com,
+ aiqun.yu@oss.qualcomm.com, yongxing.mou@oss.qualcomm.com
+Subject: Re: [PATCH 00/12] drm/msm: Add support for Kaanapali
+Message-ID: <aPrlP+vtLTt/j23E@yuanjiey.ap.qualcomm.com>
+References: <20251023075401.1148-1-yuanjie.yang@oss.qualcomm.com>
+ <r6kjuxajnimaqazeimzc5gscv2qxudjzkyooxumzakjzojibbl@2jiw6duxfbtz>
 MIME-Version: 1.0
-References: <20251023-mediatek-drm-hdmi-v2-v11-0-7873ec4a1edf@collabora.com>
- <20251023-mediatek-drm-hdmi-v2-v11-9-7873ec4a1edf@collabora.com>
-In-Reply-To: <20251023-mediatek-drm-hdmi-v2-v11-9-7873ec4a1edf@collabora.com>
-From: Chun-Kuang Hu <chunkuang.hu@kernel.org>
-Date: Fri, 24 Oct 2025 01:05:32 +0000
-X-Gmail-Original-Message-ID: <CAAOTY_9o-hHv5Lrd+EKX_mN2PXDC+ifoxSsR6bf6oJdD=N=46A@mail.gmail.com>
-X-Gm-Features: AS18NWA5QC6YOHp_7gfEfZBp9DHUgi7nYNVLVto2zbyhAzsNc56vGLeJtuK6Umg
-Message-ID: <CAAOTY_9o-hHv5Lrd+EKX_mN2PXDC+ifoxSsR6bf6oJdD=N=46A@mail.gmail.com>
-Subject: Re: [PATCH v11 09/11] drm/mediatek: Introduce HDMI/DDC v2 for
- MT8195/MT8188
-To: Louis-Alexis Eyraud <louisalexis.eyraud@collabora.com>
-Cc: Chun-Kuang Hu <chunkuang.hu@kernel.org>,
- Philipp Zabel <p.zabel@pengutronix.de>, 
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
- Matthias Brugger <matthias.bgg@gmail.com>, 
- AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
- CK Hu <ck.hu@mediatek.com>, 
- kernel@collabora.com, dri-devel@lists.freedesktop.org, 
- linux-mediatek@lists.infradead.org, linux-kernel@vger.kernel.org, 
- linux-arm-kernel@lists.infradead.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <r6kjuxajnimaqazeimzc5gscv2qxudjzkyooxumzakjzojibbl@2jiw6duxfbtz>
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUxMDIxMDE5MCBTYWx0ZWRfXxA3oD3UOlqCy
+ w5E/3IUakIic+XdrnxjhqcCbprOsgEhltFUq58lcth/uDx3kzye38aVDf39NNEcAH2fzkKaN5AC
+ dxe8COxgGL5M564vo4yFhx178qE+dTAhjPqbmV59lgi4raQHkKu/HEQLCr+3XaGzGz5UTVducRO
+ tYgpAbETvqBxbhhgA1wW3Dv7qXnzbv80eAdWuWCZxuFbFtCddssDrx9WL7lXUcQJZ08RZQw2l6G
+ sHNP9MBfmtFTZNg1GCrpGeHOeTSPmVXuO3wANPOY4jNSo3RDJS/GDcYt2EL+Sman22C8TjSho7y
+ xSos9tnc+cHBSYBzmKVipdXW7t4tzhcxgj2VL/RRcozn5o0yplSdKqxpIM2CDLIjQwLUdj7sCwO
+ CQEgWsIRW3LXTwIDxrPg4igiYq6n2Q==
+X-Authority-Analysis: v=2.4 cv=FbM6BZ+6 c=1 sm=1 tr=0 ts=68fae54d cx=c_pps
+ a=mPf7EqFMSY9/WdsSgAYMbA==:117 a=C3Dk8TwHQYyIj7nOf9RCJw==:17
+ a=kj9zAlcOel0A:10 a=x6icFKpwvdMA:10 a=VkNPw1HP01LnGYTKEx00:22
+ a=qC_FGOx9AAAA:8 a=EUspDBNiAAAA:8 a=sB9pjYolMnSuqpLAuykA:9 a=CjuIK1q_8ugA:10
+ a=dawVfQjAaf238kedN5IG:22 a=fsdK_YakeE02zTmptMdW:22
+X-Proofpoint-GUID: v4FyL1ogLzVrBwfXyYW9t6PnxHYA-zQe
+X-Proofpoint-ORIG-GUID: v4FyL1ogLzVrBwfXyYW9t6PnxHYA-zQe
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.9,FMLib:17.12.80.40
+ definitions=2025-10-23_03,2025-10-22_01,2025-03-28_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ malwarescore=0 phishscore=0 bulkscore=0 lowpriorityscore=0 priorityscore=1501
+ suspectscore=0 spamscore=0 impostorscore=0 clxscore=1015 adultscore=0
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.19.0-2510020000 definitions=main-2510210190
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -80,84 +129,53 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi, Louis:
+On Thu, Oct 23, 2025 at 02:46:10PM +0300, Dmitry Baryshkov wrote:
+> On Thu, Oct 23, 2025 at 03:53:49PM +0800, yuanjie yang wrote:
+> > From: Yuanjie Yang <yuanjie.yang@oss.qualcomm.com>
+> > 
+> > The Kaanapali MDSS has some differences compared to the SM8750 MDSS:
+> > - DSI PHY/DSI base address have some changes.
+> > - DPU 13.0:
+> >   - SSPP layout has a great change.
+> >   - interrupt INTF layout has some changes.
+> > 
+> > This patchset contains DSI PHY, DSI Controller, DPU & MDSS bindings
+> > in addition to the driver changes.
+> > 
+> > We have already tested the display functionality using the Kaanapali-mtp
+> > device on the Kaanapali branch of kernel-qcom repository.
+> > Test command: "modetest -r -v"
+> > kernel-qcom repository: https://git.codelinaro.org/clo/linux-kernel/kernel-qcom/-/tree/kaanapali
+> > 
+> > Signed-off-by: Yongxing Mou <yongxing.mou@oss.qualcomm.com>
+> > Signed-off-by: Yuanjie Yang <yuanjie.yang@oss.qualcomm.com>
+> > ---
+> > Yuanjie Yang (12):
+> >   drm/msm/dsi/phy: Add support for Kaanapali
+> >   drm/msm/dpu: Add support for Kaanapali DPU
+> >   drm/msm/dpu: Compatible with Kaanapali interrupt register
+> >   drm/msm/mdss: Add support for Kaanapali
+> >   drm/msm/dsi: Add support for Kaanapali
+> >   drm/msm/dpu: Add Kaanapali SSPP sub-block support
+> >   drm/panel: Set sufficient voltage for panel nt37801
+> >   arm64: defconfig: Enable NT37801 DSI panel driver
+> >   dt-bindings: display/msm: qcom,kaanapali-dpu: Add Kaanapali
+> >   dt-bindings: display/msm: dsi-phy-7nm: Add Kaanapali DSi PHY
+> >   dt-bindings: display/msm: dsi-controller-main: Add Kaanapali
+> >   dt-bindings: display/msm: qcom,kaanapali-mdss: Add Kaanapali
 
-Louis-Alexis Eyraud <louisalexis.eyraud@collabora.com> =E6=96=BC 2025=E5=B9=
-=B410=E6=9C=8823=E6=97=A5
-=E9=80=B1=E5=9B=9B =E4=B8=8A=E5=8D=8810:32=E5=AF=AB=E9=81=93=EF=BC=9A
->
-> From: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com=
->
->
-> Add support for the newer HDMI-TX (Encoder) v2 and DDC v2 IPs
-> found in MediaTek's MT8195, MT8188 SoC and their variants, and
-> including support for display modes up to 4k60 and for HDMI
-> Audio, as per the HDMI 2.0 spec.
->
-> HDCP and CEC functionalities are also supported by this hardware,
-> but are not included in this commit and that also poses a slight
-> difference between the V2 and V1 controllers in how they handle
-> Hotplug Detection (HPD).
->
-> While the v1 controller was using the CEC controller to check
-> HDMI cable connection and disconnection, in this driver the v2
-> one does not.
->
-> This is due to the fact that on parts with v2 designs, like the
-> MT8195 SoC, there is one CEC controller shared between the HDMI
-> Transmitter (HDMI-TX) and Receiver (HDMI-RX): before eventually
-> adding support to use the CEC HW to wake up the HDMI controllers
-> it is necessary to have support for one TX, one RX *and* for both
-> at the same time.
->
-> Reviewed-by: CK Hu <ck.hu@mediatek.com>
-> Signed-off-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@coll=
-abora.com>
-> Signed-off-by: Louis-Alexis Eyraud <louisalexis.eyraud@collabora.com>
-> ---
->  drivers/gpu/drm/mediatek/Kconfig            |    7 +
->  drivers/gpu/drm/mediatek/Makefile           |    2 +
->  drivers/gpu/drm/mediatek/mtk_hdmi_common.c  |    4 +
->  drivers/gpu/drm/mediatek/mtk_hdmi_common.h  |    9 +
->  drivers/gpu/drm/mediatek/mtk_hdmi_ddc_v2.c  |  395 ++++++++
->  drivers/gpu/drm/mediatek/mtk_hdmi_regs_v2.h |  263 +++++
->  drivers/gpu/drm/mediatek/mtk_hdmi_v2.c      | 1398 +++++++++++++++++++++=
-++++++
->  7 files changed, 2078 insertions(+)
->
-> diff --git a/drivers/gpu/drm/mediatek/Kconfig b/drivers/gpu/drm/mediatek/=
-Kconfig
-> index 994b48b82d447c47391122e6ff2d139edb223536..c89ae4ed2c96123684ecd3573=
-14fa2d2ba5a4433 100644
-> --- a/drivers/gpu/drm/mediatek/Kconfig
-> +++ b/drivers/gpu/drm/mediatek/Kconfig
-> @@ -45,3 +45,10 @@ config DRM_MEDIATEK_HDMI
->         select DRM_MEDIATEK_HDMI_COMMON
->         help
->           DRM/KMS HDMI driver for Mediatek SoCs
-> +
-> +config DRM_MEDIATEK_HDMI_V2
-> +       tristate "DRM HDMI v2 IP support for MediaTek SoCs"
-> +       depends on DRM_MEDIATEK
-> +       select DRM_MEDIATEK_HDMI_COMMON
-> +       help
-> +         DRM/KMS HDMI driver for MediaTek SoCs with HDMIv2 IP
->
+OK, get it, will fix.
 
-The checkpatch show this warning. Maybe other old description just has
-one line, I think it's better to have more information.
-Please provide more information and I would modify this patch when I apply =
-it.
-
-WARNING: please write a help paragraph that fully describes the config
-symbol with at least 4 lines
-#54: FILE: drivers/gpu/drm/mediatek/Kconfig:49:
-+config DRM_MEDIATEK_HDMI_V2
-+    tristate "DRM HDMI v2 IP support for MediaTek SoCs"
-+    depends on DRM_MEDIATEK
-+    select DRM_MEDIATEK_HDMI_COMMON
-+    help
-+      DRM/KMS HDMI driver for MediaTek SoCs with HDMIv2 IP
-
-Regards,
-Chun-Kuang.
+Thanks,
+Yuanjie
+ 
+> The order is wrong:
+> 
+> - bindings
+> - driver changes
+> - DT changes
+> 
+> 
+> -- 
+> With best wishes
+> Dmitry
