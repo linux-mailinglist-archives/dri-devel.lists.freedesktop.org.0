@@ -2,72 +2,44 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 96414C0560E
-	for <lists+dri-devel@lfdr.de>; Fri, 24 Oct 2025 11:37:50 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id A63C0C05638
+	for <lists+dri-devel@lfdr.de>; Fri, 24 Oct 2025 11:43:17 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1392410E152;
-	Fri, 24 Oct 2025 09:37:38 +0000 (UTC)
-Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=0x0f.com header.i=@0x0f.com header.b="CqrVXt+A";
-	dkim-atps=neutral
+	by gabe.freedesktop.org (Postfix) with ESMTP id 09A4810E100;
+	Fri, 24 Oct 2025 09:43:15 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pl1-f180.google.com (mail-pl1-f180.google.com
- [209.85.214.180])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CD63910E152
- for <dri-devel@lists.freedesktop.org>; Fri, 24 Oct 2025 09:37:36 +0000 (UTC)
-Received: by mail-pl1-f180.google.com with SMTP id
- d9443c01a7336-290d4d421f6so16896225ad.2
- for <dri-devel@lists.freedesktop.org>; Fri, 24 Oct 2025 02:37:36 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=0x0f.com; s=google; t=1761298656; x=1761903456; darn=lists.freedesktop.org; 
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:from:to:cc:subject:date:message-id:reply-to;
- bh=TluK3MF0nWIoJUSNiEPuReJVhgVvccO24FAbWBod7M8=;
- b=CqrVXt+A0ZXI0z2cFW5sN28qU4BnM54dV7Prp+GgEuNGMUkcfZsJZHOHLi7wgtP7Pk
- KVFLwhMQLRLQOgLIZoPGQIIBT+n+wwAwDtp6m1p0leeEtnpPiu33oiPooLgsdhwVAyXy
- 5hveT2hpa4RE1nUZK5Bbh69cs7jhRzyBl4TPE=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1761298656; x=1761903456;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=TluK3MF0nWIoJUSNiEPuReJVhgVvccO24FAbWBod7M8=;
- b=qHTfv5ni46tNHZLwWNY5pKbsONUSo8yYyuKUnvgOkci1LU5t2T27Q+APwp2xIJ1H+N
- s99gaw6IritshiD3uG7lEbiFqtzFtbxgTFzdpVQwSCrBUA/6m9/gxJKxwGZkwBEqJrBW
- vK8xj0yVo+yOKCZ/Rj1DkZdSFO079j8jOZ+z5hz4zxrXEKrLihoecCoIRzY3taXDUf2z
- 61J54+vtwbLa0dLkEJzq7N3GrMAu9v1rPnbRzTJzNJKdnNJpfGlDiImSkwjoh3XNa7AJ
- 3VJrX4K/vyYGUTPA52QevrVR5/InQIxQF2Kx+/WWARDpRV+WEfetxAOPLQfcW/NVK9Dc
- cmWA==
-X-Gm-Message-State: AOJu0YyQR0ldCcR9ps3SrIWp9Zk+Gu/2/k4wzNlflXW5hfuM9AcZG/cr
- JGNd2JPugKjWkSSy5nSQTiWv85RpA+/CNbP6UDiNj6Mxlc2vCR3lkFnEt32O/PxSX+0=
-X-Gm-Gg: ASbGnctB/1NIwKlPtPjM46n5CJd5ByxOBtOJLl0W9/T3kWxIMZo3M0uaYmransIayle
- FwFxTl6jeH1XMJm44VZm5Q4zs8MD/dc7zAlr3xvBzOVzf2TK9sHANRCLb0ZuA3WZ/cPBz8Mhqrp
- foVN78G57uz5UBOYdaYvfe0lOK0u9YHcmxjEydr4bH93C8NCeUNaX5lVjexM6/B9H3+8ofzmZHl
- nyEhCfgceGb5vqKAwQBPqlQvUzq0nXjMZZs3rL3Bo4X7aDe9NffL8uTKFbr82afh+/VUhNw29+S
- 6/Jef2WoGfrfDQ6s24ZU6+a2K+x1umnQosVmpxX56E7GQJFbSBYVwO1L5ijo5xRLPxclFe9v8Iv
- XbzQnzng5T2pEr0qlgrFHcTnI163q5GQ3U5IoFnevWXVyThsS68ALwZ29rix6bn9hr4Bx6kY+If
- Wi+6LJmBq9W9SoI2tVgdLoa6ywsVKiO496a+oi6+JX3ssPjAv2s6LFnSZH2c75ag==
-X-Google-Smtp-Source: AGHT+IEKtLA3XRvvshIlIg79q8hd8Y4gzZ4mZdxItUorXlFdB2qoWeLIZZW4BUstYBazD2NVXVoh/g==
-X-Received: by 2002:a17:903:1a4c:b0:267:a1f1:9b23 with SMTP id
- d9443c01a7336-290c9cbb12bmr378539265ad.18.1761298656100; 
- Fri, 24 Oct 2025 02:37:36 -0700 (PDT)
-Received: from shiro (p1391188-ipxg00a01sizuokaden.shizuoka.ocn.ne.jp.
- [153.222.3.188]) by smtp.googlemail.com with ESMTPSA id
- d9443c01a7336-2946dda72d0sm49975485ad.16.2025.10.24.02.37.34
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 24 Oct 2025 02:37:35 -0700 (PDT)
-From: Daniel Palmer <daniel@0x0f.com>
-To: deller@gmx.de,
-	linux-fbdev@vger.kernel.org
-Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- Daniel Palmer <daniel@0x0f.com>
-Subject: [PATCH] fbdev: atyfb: Check if pll_ops->init_pll failed
-Date: Fri, 24 Oct 2025 18:37:15 +0900
-Message-ID: <20251024093715.4012119-1-daniel@0x0f.com>
-X-Mailer: git-send-email 2.51.0
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 4ECA210E100
+ for <dri-devel@lists.freedesktop.org>; Fri, 24 Oct 2025 09:43:13 +0000 (UTC)
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+ by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 038091516;
+ Fri, 24 Oct 2025 02:43:05 -0700 (PDT)
+Received: from [10.1.37.17] (e122027.cambridge.arm.com [10.1.37.17])
+ by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id F2AA83F63F;
+ Fri, 24 Oct 2025 02:43:09 -0700 (PDT)
+Message-ID: <e74ec0b1-4975-4fd5-bb1a-4839c45987f7@arm.com>
+Date: Fri, 24 Oct 2025 10:43:08 +0100
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v1 06/10] drm/panthor: Implement L2 power on/off via
+ PWR_CONTROL
+To: Karunika Choo <karunika.choo@arm.com>, dri-devel@lists.freedesktop.org
+Cc: nd@arm.com, Boris Brezillon <boris.brezillon@collabora.com>,
+ Liviu Dudau <liviu.dudau@arm.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ linux-kernel@vger.kernel.org
+References: <20251014094337.1009601-1-karunika.choo@arm.com>
+ <20251014094337.1009601-7-karunika.choo@arm.com>
+ <022e2ea5-74e3-4d53-9afe-8ead71853ee4@arm.com>
+ <a9cd1999-12d9-41cf-aef6-a6c3f1f23e4c@arm.com>
+From: Steven Price <steven.price@arm.com>
+Content-Language: en-GB
+In-Reply-To: <a9cd1999-12d9-41cf-aef6-a6c3f1f23e4c@arm.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -83,45 +55,78 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Actually check the return value from pll_ops->init_pll()
-as it can return an error.
+On 23/10/2025 23:16, Karunika Choo wrote:
+> On 20/10/2025 11:50, Steven Price wrote:
+>> On 14/10/2025 10:43, Karunika Choo wrote:
+>>> This patch adds common helpers to issue power commands, poll
+>>> transitions, and validate domain state, then wires them into the L2
+>>> on/off paths.
+>>>
+>>> The L2 power-on sequence now delegates control of the SHADER and TILER
+>>> domains to the MCU when allowed, while the L2 itself is never delegated.
+>>> On power-off, dependent domains beneath the L2 are checked, and if
+>>> necessary, retracted and powered down to maintain proper domain
+>>> ordering.
+>>>
+>>> Signed-off-by: Karunika Choo <karunika.choo@arm.com>
+>>> ---
+[...]
+>>> +		u64 domain_ready = gpu_read64(ptdev, get_domain_ready_reg(child_domain));
+>>> +
+>>> +		if (domain_ready && (pwr_status & PWR_STATUS_DOMAIN_DELEGATED(child_domain))) {
+>>> +			drm_warn(&ptdev->base,
+>>> +				 "L2 power off: Delegated %s domain not powered down by MCU",
+>>> +				 get_domain_name(child_domain));
+>>> +			ret = retract_domain(ptdev, child_domain);
+>>> +			if (ret) {
+>>> +				drm_err(&ptdev->base, "Failed to retract %s domain",
+>>> +					get_domain_name(child_domain));
+>>> +				panthor_pwr_info_show(ptdev);
+>>> +				return ret;
+>>> +			}
+>>> +		}
+>>> +
+>>> +		ret = panthor_pwr_domain_power_off(ptdev, child_domain, domain_ready,
+>>> +						   PWR_TRANSITION_TIMEOUT_US);
+>>> +		if (ret)
+>>> +			return ret;
+>>> +	}
+>>> +
+>>> +	return panthor_pwr_domain_power_off(ptdev, PWR_COMMAND_DOMAIN_L2,
+>>> +					    ptdev->gpu_info.l2_present,
+>>> +					    PWR_TRANSITION_TIMEOUT_US);
+>>
+>> Does this implicitly 'retract' the shader/tiler power domains? If so I
+>> think it's worth a comment. Otherwise it looks like we don't actually
+>> know the status of whether the shader/tiler power domains are retracted
+>> or not.
+>>
+> 
+> panthor_pwr_l2_power_off() will only retract the shader/tiler domains if
+> they have not been powered down by the MCU. In cases where the MCU did
+> power down these child domains, delegate_domain() will exit early as
+> they would already be delegated. I understand the ambiguity here,
+> hopefully it is somewhat acceptable.
 
-If the card's BIOS didn't run because it's not the primary VGA card
-the fact that the xclk source is unsupported is printed as shown
-below but the driver continues on regardless and on my machine causes
-a hard lock up.
+So my question was really how does the driver know whether the domains
+are delegated or not when this function returns?
 
-[   61.470088] atyfb 0000:03:05.0: enabling device (0080 -> 0083)
-[   61.476191] atyfb: using auxiliary register aperture
-[   61.481239] atyfb: 3D RAGE XL (Mach64 GR, PCI-33) [0x4752 rev 0x27]
-[   61.487569] atyfb: 512K SGRAM (1:1), 14.31818 MHz XTAL, 230 MHz PLL, 83 Mhz MCLK, 63 MHz XCLK
-[   61.496112] atyfb: Unsupported xclk source:  5.
+I couldn't quite get my head around whether turning the L2 power domain
+off would implicitly 'retract' the shader/tiler power domains -
+obviously it forces them off which means the MCU doesn't have control.
+So retracting would make sense, but I couldn't see anything in the spec.
 
-Fixes: 1da177e4c3f4 ("Linux-2.6.12-rc2")
-Signed-off-by: Daniel Palmer <daniel@0x0f.com>
----
- drivers/video/fbdev/aty/atyfb_base.c | 8 ++++++--
- 1 file changed, 6 insertions(+), 2 deletions(-)
+It would be good to have a comment explaining what the expected state is
+after this function (panthor_pwr_l2_power_off) returns. Is it unknown
+whether the shader/tiler are retracted, or is there something in the
+hardware which does this automatically so we know but don't have to
+manually retract? Presumably if we end up fully powering down the GPU
+that must effectively retract all domains (the GPU hardware is reset so
+it goes back to reset conditions).
 
-diff --git a/drivers/video/fbdev/aty/atyfb_base.c b/drivers/video/fbdev/aty/atyfb_base.c
-index 210fd3ac18a4..56ef1d88e003 100644
---- a/drivers/video/fbdev/aty/atyfb_base.c
-+++ b/drivers/video/fbdev/aty/atyfb_base.c
-@@ -2614,8 +2614,12 @@ static int aty_init(struct fb_info *info)
- 		pr_cont("\n");
- 	}
- #endif
--	if (par->pll_ops->init_pll)
--		par->pll_ops->init_pll(info, &par->pll);
-+	if (par->pll_ops->init_pll) {
-+		ret = par->pll_ops->init_pll(info, &par->pll);
-+		if (ret)
-+			return ret;
-+	}
-+
- 	if (par->pll_ops->resume_pll)
- 		par->pll_ops->resume_pll(info, &par->pll);
- 
--- 
-2.51.0
+Sorry, it's a bit of a basic question but the spec is somewhat unhelpful
+on this point! (Or at least I haven't found a relevant statement).
+
+Thanks,
+Steve
 
