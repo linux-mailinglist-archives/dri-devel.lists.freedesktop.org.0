@@ -2,18 +2,18 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 94522C072D0
-	for <lists+dri-devel@lfdr.de>; Fri, 24 Oct 2025 18:08:39 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id C2D4EC072B6
+	for <lists+dri-devel@lfdr.de>; Fri, 24 Oct 2025 18:08:33 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9779110EAC6;
-	Fri, 24 Oct 2025 16:08:25 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A09CE10EAF0;
+	Fri, 24 Oct 2025 16:08:24 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=igalia.com header.i=@igalia.com header.b="TtGVHV57";
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=igalia.com header.i=@igalia.com header.b="iD2YNzlS";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from fanzine2.igalia.com (fanzine2.igalia.com [213.97.179.56])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 29D5610EAD0;
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 905AB10EAC6;
  Fri, 24 Oct 2025 16:08:20 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
  s=20170329;
@@ -22,25 +22,26 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com;
  Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
  :Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
  List-Post:List-Owner:List-Archive;
- bh=XQJ/Az/VSv88y1BgCLcNqjv67/Kh0T6JPpRcE6EW2y0=; b=TtGVHV57mNIYfzcn5cJhTzv5CY
- M7A3AYO8jlTTjyRIJImfLiisq+jXF/RAkRyrMOjgJZSCP20cj6NzS8GIhHt9IQjZxs6KM6hMdZw/y
- Vq/HDuD/0wSWKjEWT9p/P1qb3DzGxWxwfsDGymQ0pX3GUdbnRHvy7EYPnnzv9l2y1H4guZGZa9XL7
- ymLB2uJWjKvEoZMjMnmukAV9xT8Yom/ni4bBshIiQNZW91yEzoqV71J78yhm5YPEQldPOfRCBywJQ
- 41uu3ZT+LMGpMr2XI4uifry+9jV9l03IUZC/DQm+bAFAevpvg1T75171jBPB+0tj/0QJUpPDK77dF
- hwevqiNQ==;
+ bh=u1pLd5zbnLq3vxr3JdzJVkZpiOg492v1Javh0g8O128=; b=iD2YNzlS8JfLkqcM70K6o8xnUZ
+ caYJSB35cqrLMuuGEHh0yjH/XoUiVPC0HphLlira3Ovx+21tcsxrkJRwaZs4ynDlYo8kCgkuvj6Zp
+ qwrSCNXcKUqBmls2bdBYofSbeb8W6HEwckXXL5eVRTnh7b2OvccyEheyHitk5E1Tgzyd959KSnA3m
+ UR1r90hrqYcG8hw4xuy3mexT6Y1/9lUaYemKc+dorFRRWR1/TcihToouYvAYKJ3PAcZ5BSo4tRvMg
+ IOH0IoeKAt1LGkqyosJd0r5gbQQWC308jeZf4/qQBXjkNdoHCk+xh2bvdhm2CUZhot1wtQwSoswCT
+ T/30YjfA==;
 Received: from [90.242.12.242] (helo=localhost)
  by fanzine2.igalia.com with esmtpsa 
  (Cipher TLS1.3:ECDHE_SECP256R1__RSA_PSS_RSAE_SHA256__AES_256_GCM:256) (Exim)
- id 1vCKKv-00Ep9Q-Rv; Fri, 24 Oct 2025 18:08:17 +0200
+ id 1vCKKw-00Ep9a-J7; Fri, 24 Oct 2025 18:08:18 +0200
 From: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
 To: amd-gfx@lists.freedesktop.org,
 	dri-devel@lists.freedesktop.org
 Cc: kernel-dev@igalia.com, Tvrtko Ursulin <tvrtko.ursulin@igalia.com>,
- Rob Clark <robin.clark@oss.qualcomm.com>, linux-arm-msm@vger.kernel.org,
- freedreno@lists.freedesktop.org
-Subject: [PATCH v3 20/27] drm/msm: Remove drm_sched_init_args->num_rqs usage
-Date: Fri, 24 Oct 2025 17:07:53 +0100
-Message-ID: <20251024160800.79836-21-tvrtko.ursulin@igalia.com>
+ Lyude Paul <lyude@redhat.com>, Danilo Krummrich <dakr@kernel.org>,
+ nouveau@lists.freedesktop.org
+Subject: [PATCH v3 21/27] drm/nouveau: Remove drm_sched_init_args->num_rqs
+ usage
+Date: Fri, 24 Oct 2025 17:07:54 +0100
+Message-ID: <20251024160800.79836-22-tvrtko.ursulin@igalia.com>
 X-Mailer: git-send-email 2.48.0
 In-Reply-To: <20251024160800.79836-1-tvrtko.ursulin@igalia.com>
 References: <20251024160800.79836-1-tvrtko.ursulin@igalia.com>
@@ -64,38 +65,26 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 Remove member no longer used by the scheduler core.
 
 Signed-off-by: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
-Cc: Rob Clark <robin.clark@oss.qualcomm.com>
-Cc: linux-arm-msm@vger.kernel.org
-Cc: freedreno@lists.freedesktop.org
+Cc: Lyude Paul <lyude@redhat.com>
+Cc: Danilo Krummrich <dakr@kernel.org>
+Cc: nouveau@lists.freedesktop.org
+Reviewed-by: Lyude Paul <lyude@redhat.com>
 ---
- drivers/gpu/drm/msm/msm_gem_vma.c    | 1 -
- drivers/gpu/drm/msm/msm_ringbuffer.c | 1 -
- 2 files changed, 2 deletions(-)
+ drivers/gpu/drm/nouveau/nouveau_sched.c | 1 -
+ 1 file changed, 1 deletion(-)
 
-diff --git a/drivers/gpu/drm/msm/msm_gem_vma.c b/drivers/gpu/drm/msm/msm_gem_vma.c
-index 8316af1723c2..478e31073c31 100644
---- a/drivers/gpu/drm/msm/msm_gem_vma.c
-+++ b/drivers/gpu/drm/msm/msm_gem_vma.c
-@@ -813,7 +813,6 @@ msm_gem_vm_create(struct drm_device *drm, struct msm_mmu *mmu, const char *name,
- 	if (!managed) {
- 		struct drm_sched_init_args args = {
- 			.ops = &msm_vm_bind_ops,
--			.num_rqs = 1,
- 			.credit_limit = 1,
- 			.timeout = MAX_SCHEDULE_TIMEOUT,
- 			.name = "msm-vm-bind",
-diff --git a/drivers/gpu/drm/msm/msm_ringbuffer.c b/drivers/gpu/drm/msm/msm_ringbuffer.c
-index b2f612e5dc79..f7f0312a7dc0 100644
---- a/drivers/gpu/drm/msm/msm_ringbuffer.c
-+++ b/drivers/gpu/drm/msm/msm_ringbuffer.c
-@@ -67,7 +67,6 @@ struct msm_ringbuffer *msm_ringbuffer_new(struct msm_gpu *gpu, int id,
- {
+diff --git a/drivers/gpu/drm/nouveau/nouveau_sched.c b/drivers/gpu/drm/nouveau/nouveau_sched.c
+index e60f7892f5ce..d00e0f8dcfda 100644
+--- a/drivers/gpu/drm/nouveau/nouveau_sched.c
++++ b/drivers/gpu/drm/nouveau/nouveau_sched.c
+@@ -407,7 +407,6 @@ nouveau_sched_init(struct nouveau_sched *sched, struct nouveau_drm *drm,
+ 	struct drm_sched_entity *entity = &sched->entity;
  	struct drm_sched_init_args args = {
- 		.ops = &msm_sched_ops,
+ 		.ops = &nouveau_sched_ops,
 -		.num_rqs = DRM_SCHED_PRIORITY_COUNT,
- 		.credit_limit = num_hw_submissions,
- 		.timeout = MAX_SCHEDULE_TIMEOUT,
- 		.dev = gpu->dev->dev,
+ 		.credit_limit = credit_limit,
+ 		.timeout = msecs_to_jiffies(NOUVEAU_SCHED_JOB_TIMEOUT_MS),
+ 		.name = "nouveau_sched",
 -- 
 2.48.0
 
