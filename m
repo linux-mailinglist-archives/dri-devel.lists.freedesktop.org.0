@@ -2,87 +2,171 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 63711C05F29
-	for <lists+dri-devel@lfdr.de>; Fri, 24 Oct 2025 13:29:17 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5763EC05F7D
+	for <lists+dri-devel@lfdr.de>; Fri, 24 Oct 2025 13:31:26 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 80FE610EA25;
-	Fri, 24 Oct 2025 11:29:12 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7B07A10EA33;
+	Fri, 24 Oct 2025 11:31:22 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="j6AcFzS/";
+	dkim=pass (2048-bit key; unprotected) header.d=Nvidia.com header.i=@Nvidia.com header.b="iZraHwwq";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-f46.google.com (mail-wr1-f46.google.com
- [209.85.221.46])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7766510EA25
- for <dri-devel@lists.freedesktop.org>; Fri, 24 Oct 2025 11:29:10 +0000 (UTC)
-Received: by mail-wr1-f46.google.com with SMTP id
- ffacd0b85a97d-426fc536b5dso1403688f8f.3
- for <dri-devel@lists.freedesktop.org>; Fri, 24 Oct 2025 04:29:10 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1761305349; x=1761910149; darn=lists.freedesktop.org;
- h=in-reply-to:content-transfer-encoding:content-disposition
- :mime-version:references:message-id:subject:cc:to:from:date:from:to
- :cc:subject:date:message-id:reply-to;
- bh=9xMJQfYM2b5QJELS93NnB9DkzeOAVYdK40Nq6yQs7Sw=;
- b=j6AcFzS/E8pmFl8GQ/Pk+nJwOBzIBhQcC9F9wQpNXAYShCCTVSOSfcK3TfsawUcA14
- 3u3BdLgoCZdZxVMY+LJNn+1k9hkN+jPVdTkTh7huxora/FkLdpmkEQKIaNU/ez48ma7l
- uZwVipned+G2NvZ2KkXZJmN3OCw/2XOyubnfKiDLftrsM3zSmp4vB9dlUSj4RHSXgC8C
- oRPqi5SQmgd3avYfCRqcCQLBHNbJgtI0I4i0raCN2iPdGhIXH3uBOV66XNliPnZseFa+
- xzjKsELgTLwwKPf75ZCZxyQgyANWyJ/u/qGeZ2U0qc8yZvRox5QDXmKVUm9XpsyVZxpN
- ej9g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1761305349; x=1761910149;
- h=in-reply-to:content-transfer-encoding:content-disposition
- :mime-version:references:message-id:subject:cc:to:from:date
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=9xMJQfYM2b5QJELS93NnB9DkzeOAVYdK40Nq6yQs7Sw=;
- b=jj/GvgQVyi2d8C97cxKAvGEvcsrp6CxROew98UkonAJqiWNFriGHmL9pLHi9Oj+lWY
- QWG1vwj67HynjGg94OoH+TzyJBzm5t3F+P2aFY/ZhDMBVXZJojd5wp1KqcAPWYukG1Fx
- zTDwa/8tV2A2id0yWGHv3nEPBo3UdD8twlAXVb3eSTUaZY/bnEyzWlc5XOAoFaKh0+8e
- LBWFuOXF00Y90UQOB8GHSAfaDFcVx5eh7pMepFiT4PL2w2XrMvGfFzLmZEo2B/li6qEj
- kwXh6V2qUOz7NdJG9VLspaMdcvJ9W+oyXv6aPQhhkQNMQ4FE80Ifg9mG3Sf3y/BS52yj
- xwuw==
-X-Forwarded-Encrypted: i=1;
- AJvYcCXtKd+/AhpcDyi7A5nNDLOK2Abco+GwOOoWWwKx9vkGfp4a5Y6sdOynw2IFbCltqtWY9ibJlvy+IgU=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YxEPcR6GhhGiGqbKDSphuPz7fbWV3L9gqOUXVe9smcIt6fEJIEO
- 1u2VmWBKPCNyPgyLu3WkLSrZK0y9P0MWZbMC1u40zTytCbtTxCgeIyyW
-X-Gm-Gg: ASbGncvPK0AwpEvVavvYGKCPeEP8FDk2jNj4OguNkfRWey5x+GuzW6b547KOEhtJq4g
- 0wy6reNUtIeG8k2PsjU5Krwmng2cyPgmqpp2xRlS1h5ZqtOc/RdumnUuq/rZfJz6a3PPB0YvQLa
- 9IuWqHwGN1lnIxjQMhXjcqE16HsJ9UkL8RpfO6RLupBEMpIM3edw7Mm7X/FUsi8zoRSdWGDZHDz
- Bw4OzJRU43147J2Nvc9WE6/tjjoY4YaSpxbS7y9L2hyflgaghuAsH/7gIZ0M8mt/6pIKrs5QgFs
- dYjM+o8mZYy0vQ6+cu/1eR1XVDXnI+BrxGEi8ziqBcgrkhSbEx753RQ+iHpp2uhkZlj8X27J0Vn
- bO8/Tfjo2u/Mve+S/Zo8yYdKBg9lzUW3NdZXWogMR9AUbzQ73MVagIcmzM16GudBFoKx+NaPifi
- Tz6ExV+qs0nQ==
-X-Google-Smtp-Source: AGHT+IEWS4OWz+EwzEUPz27QJ0JvgqtX6/43yqFialI1Uz7fDpRCKIWzIgPESbtf0+fCYUefY/LGGQ==
-X-Received: by 2002:a5d:5d87:0:b0:3ec:8c8:7b79 with SMTP id
- ffacd0b85a97d-4299075d0d3mr1818638f8f.61.1761305348844; 
- Fri, 24 Oct 2025 04:29:08 -0700 (PDT)
-Received: from fedora ([37.29.213.75]) by smtp.gmail.com with ESMTPSA id
- 5b1f17b1804b1-475c4369b33sm144041215e9.14.2025.10.24.04.29.06
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 24 Oct 2025 04:29:08 -0700 (PDT)
-Date: Fri, 24 Oct 2025 13:29:05 +0200
-From: =?iso-8859-1?Q?Jos=E9_Exp=F3sito?= <jose.exposito89@gmail.com>
-To: Dan Carpenter <dan.carpenter@linaro.org>
-Cc: Louis Chauvet <louis.chauvet@bootlin.com>,
- Haneen Mohammed <hamohammed.sa@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Melissa Wen <melissa.srw@gmail.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
- Luca Ceresoli <luca.ceresoli@bootlin.com>,
- Harry Wentland <harry.wentland@amd.com>,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- kernel-janitors@vger.kernel.org
-Subject: Re: [PATCH next] drm/vkms: Fix use after frees on error paths
-Message-ID: <aPtjAcNP3fuRNBs5@fedora>
-References: <aPtfy2jCI_kb3Df7@stanley.mountain>
+Received: from MW6PR02CU001.outbound.protection.outlook.com
+ (mail-westus2azon11012060.outbound.protection.outlook.com [52.101.48.60])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DD41210EA31;
+ Fri, 24 Oct 2025 11:31:20 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=twPrZV/NhRdr7MNrKW7vh6ccN3GphE+omKPfJ1Nba8uZoHWmLZbJc0CXpg44AQ0NEznCYm5GGhNyEIEqDX2TgN5K+OHtvyIRBXHcb7BbountJF4eDIYzP1iDWL77kdj6vWO4OOnXN9XkHPWLby4P/lBUblUdnuMwhfkE7PiE1LoM3d1+angjixk39uxyYm3t9MOS9JORz4WYjpzimoVWtkBBzOIcTBlksEuplzIZQ/rr/a+/w9pHuplJW5pzcr2aOmC2v8hPZ7MzbeULOGUWI+/AiZDUo+2gFhOphKjH2dSX1BLQns5LqxkcjqYajg8k/m5MbIdy5/42n0JLtgjhHw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=CX/UwW0JtNZOuWi7WgCmDttpC5DraAJLZACuvMHQyLM=;
+ b=sOjEKNIsnwMAuX9Tvl+zSn5qhyk6z3mRgw9OFSayMkDEiZxXnxjEiZ7qfELLhgmiJ8q3q+YHicg/VGZl0UVppZMdYSxkxpM0K8neeu8947QLm5kpEbJTCMoqFPZHn0kuYWkwz7xpcgcuzuBiE1E3daaW1mbPlHPbjk/FI/URV2izOZuoi6ZZU8BbX6Cmt1Bv39qclh2t8TTfmyP/HofOd2BphNavMvPRM4+5/WV7kn9dKdgj7HQFyo0SFP1Is6nwo4bmD8r0XZMc3rXra+0iPL1rViYDV6zT0j1AH3vwdCUZBQyr/0YgMNhxtQSbCn5niIopRanXyHQKXvbvUEJxkw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
+ dkim=pass header.d=nvidia.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=CX/UwW0JtNZOuWi7WgCmDttpC5DraAJLZACuvMHQyLM=;
+ b=iZraHwwqWdMPgxIdMUlRrglugHXFtNL7RUKJLXcJE3hxC9KPOuPI2oinTf3XjWVRs5B0Ug1j7jiKf37ia2o9nCoqWngwO/l/cf0dvE0KGy6vD8hBGu5mlFdc7Qo1K6GXmnkYmhMxwqLFU5Nv7ZlTwqToXEYBMViV9+uRLDLU40PhvKbWNvZGcgWseMRuBUhCwNtk/2ZtfujgQ1xYVqwDcwDVUpYcXk3tBokJZTKBiZ/V1yIM33jXxulsePV0PSngM2FsdJcrjuDXCbME1vtp6Pf9fw7rbz5GkQtjc824lYKRwB2qJgEGIHp+6i3fDnJ4qeFv9G3+w8R+IUTXBIO+Ow==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=nvidia.com;
+Received: from CH2PR12MB3990.namprd12.prod.outlook.com (2603:10b6:610:28::18)
+ by PH7PR12MB7872.namprd12.prod.outlook.com (2603:10b6:510:27c::11)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9253.13; Fri, 24 Oct
+ 2025 11:31:17 +0000
+Received: from CH2PR12MB3990.namprd12.prod.outlook.com
+ ([fe80::7de1:4fe5:8ead:5989]) by CH2PR12MB3990.namprd12.prod.outlook.com
+ ([fe80::7de1:4fe5:8ead:5989%6]) with mapi id 15.20.9253.011; Fri, 24 Oct 2025
+ 11:31:17 +0000
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Date: Fri, 24 Oct 2025 20:31:13 +0900
+Message-Id: <DDQIOKFEXK29.3FDIXOR8S1284@nvidia.com>
+From: "Alexandre Courbot" <acourbot@nvidia.com>
+To: "Joel Fernandes" <joelagnelf@nvidia.com>, "John Hubbard"
+ <jhubbard@nvidia.com>, <linux-kernel@vger.kernel.org>,
+ <rust-for-linux@vger.kernel.org>, <dri-devel@lists.freedesktop.org>,
+ <dakr@kernel.org>, <acourbot@nvidia.com>
+Cc: "Alistair Popple" <apopple@nvidia.com>, "Miguel Ojeda"
+ <ojeda@kernel.org>, "Alex Gaynor" <alex.gaynor@gmail.com>, "Boqun Feng"
+ <boqun.feng@gmail.com>, "Gary Guo" <gary@garyguo.net>,
+ <bjorn3_gh@protonmail.com>, "Benno Lossin" <lossin@kernel.org>, "Andreas
+ Hindborg" <a.hindborg@kernel.org>, "Alice Ryhl" <aliceryhl@google.com>,
+ "Trevor Gross" <tmgross@umich.edu>, "David Airlie" <airlied@gmail.com>,
+ "Simona Vetter" <simona@ffwll.ch>, "Maarten Lankhorst"
+ <maarten.lankhorst@linux.intel.com>, "Maxime Ripard" <mripard@kernel.org>,
+ "Thomas Zimmermann" <tzimmermann@suse.de>, "Timur Tabi" <ttabi@nvidia.com>,
+ <joel@joelfernandes.org>, "Elle Rhumsaa" <elle@weathered-steel.dev>,
+ "Daniel Almeida" <daniel.almeida@collabora.com>,
+ <nouveau@lists.freedesktop.org>
+Subject: Re: [PATCH 6/7] nova-core: mm: Add support to use PRAMIN windows to
+ write to VRAM
+X-Mailer: aerc 0.21.0-0-g5549850facc2
+References: <20251020185539.49986-1-joelagnelf@nvidia.com>
+ <20251020185539.49986-7-joelagnelf@nvidia.com>
+ <0cfdfc96-f98b-4ec1-9218-10f7344d6605@nvidia.com>
+ <a8eeccb7-9586-440f-a12a-e877a9197652@nvidia.com>
+In-Reply-To: <a8eeccb7-9586-440f-a12a-e877a9197652@nvidia.com>
+X-ClientProxiedBy: TY4P286CA0018.JPNP286.PROD.OUTLOOK.COM
+ (2603:1096:405:2b0::12) To CH2PR12MB3990.namprd12.prod.outlook.com
+ (2603:10b6:610:28::18)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <aPtfy2jCI_kb3Df7@stanley.mountain>
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: CH2PR12MB3990:EE_|PH7PR12MB7872:EE_
+X-MS-Office365-Filtering-Correlation-Id: e2b35252-c8ca-4908-2e26-08de12f0d86e
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+ ARA:13230040|10070799003|7416014|366016|376014|1800799024; 
+X-Microsoft-Antispam-Message-Info: =?utf-8?B?RXlpSWtENkRreHdyMTNJWjFzVUg5c3hhb0pnWXhmTEt4U3RhQzJKZmFQMndw?=
+ =?utf-8?B?NGMyV3Z6U1REKzJxR1Nqc1NFYnNLRVcyb0NETXRHaUZKNnNpY1p0QUErOTBy?=
+ =?utf-8?B?SXZDUnM5VENMUEpLQ1VrQ3V4bzlqMVJwQlNNTDNhTml5KzJpZVZIaFRPRSt0?=
+ =?utf-8?B?cGEwZU05SDIyV0YwUUtrb3pLVVhab05FckcyNExSTjdyczRKb0JqaFlhbWpG?=
+ =?utf-8?B?RjREd0dZMW1qb0ZWSUpxVFVGR3oxWVl0NGFQR3FlaVRGWTRSVElhMlFmMlJE?=
+ =?utf-8?B?eUplbXRZZDREYW1LVTJLYWg4Z2NmNGJLeGFwbmkyeUwvMkRQellYTHovSUl4?=
+ =?utf-8?B?eThqSjJpZUVRRjdkenJ0cXJBRjlkUnk0eXJJL1NDdVM2WlFZRktFRm9jeHZw?=
+ =?utf-8?B?d3hsVUI5UmEwY21JZ1V5d04xNnlaUU5Zck9DbzFZUVQ0T0taV2dwU1B3Vjhz?=
+ =?utf-8?B?NHV5anNuYkRVSTNXUlUxWEt0ZUhuUlNsWE1SZkJmcW52K0kwRGYrWFBMTUJQ?=
+ =?utf-8?B?UXZDM08rNklTdCtoakxZVDc3dHNPMDRuVFFLR01valhXT05TVkpWRW0rNllY?=
+ =?utf-8?B?ODJhSkV1eTZqWENyc2JCQ29LUVFvVkhoYWtlNW9JaGZwSG5BaTVJQnJzblFS?=
+ =?utf-8?B?YkM3S2FsVVFZajdIS3lodVUzU0dObG9vVmxCbS9DUnlSQXVlRlB3UDh1TGtT?=
+ =?utf-8?B?M1VBMjFESkIza1dZNHFad1I3ZDYyTVBpSmY1dUdISUQ1YTl2NkxzQ2tmanVo?=
+ =?utf-8?B?UTRWSVJEdHRLVjNlVEQvcUROZnRYWVdQYnJ2K1RhZVE4NC9RNkJUaU9Eb2Zz?=
+ =?utf-8?B?OW9YTW5NcCtURUZNYm01L1BaTVlMREE4enJZYjQvVFBFdS94a1NMbkgvQ1BH?=
+ =?utf-8?B?R1E1YU1tVDFDenplSEFVQldFbk80VnF5NmtUMzllbjZCemQyOVBpUnJRNTZz?=
+ =?utf-8?B?YmNreE5KdXFDbzBCakU5alZFSnFMdDNpZ3k5MFhxQTBkdEV1SUpLWC94SGtQ?=
+ =?utf-8?B?aGVoVmUyV1hmRHV6YytqRXAvSnk1eGZFMWpONElPS25Tanh2TU1TeHpxVGFh?=
+ =?utf-8?B?SFAwUGVsaEZncEVBWk9Vd2VXcy9yaG9LeTJ3cm5MSDlveUhzNDdZR3dYcGFz?=
+ =?utf-8?B?L1RPMzRjdVFpaytaNnBxU1hQWFdtaXhUc1FhcVRGMjM2UDgvQVBRYWh5NWdY?=
+ =?utf-8?B?d3BZL245MHo1YjVpNUNya29TaE9CQzVOemEwWUxUczU3cFA5dnpPc05tZGky?=
+ =?utf-8?B?NmFMVzM1TGR3aExaRm85dTlHcDI2Nm5sWFZ3U01mTEdsNVV1Z1B2UFVKNFly?=
+ =?utf-8?B?TjlzVlhuYmkzWGZDZ0R1UUt2amZjc3RrQ3hENmJEeHZIVXlLbXZobVg2alhX?=
+ =?utf-8?B?OUhXbkRHaEx5N1E5VUxzVkd1ODArUGNNeWNWMjBPODNhNDdVbVl4dlpJRnhh?=
+ =?utf-8?B?NHBZWmhpWGYzVXdVOGRic1FMNUlEZSsrcUNWRmZWZUFRcStjL01QTHBlN1hn?=
+ =?utf-8?B?RHdnUmN4R3I4ZHY1bzYvdGdlTVZZNks3RDBzRUxVeEFhTktxZTljSU80aHlB?=
+ =?utf-8?B?QnppM280OGFqWFRXQW56MHlzUWYzSWk2cXFnQ0lWSUhZWE14UmFWd3pqVHZT?=
+ =?utf-8?B?TGpjRDRCQ0s5empyeXpxRVVtdU9vRTJGczZiTklMNVVPdkZWUnhiVEdDeVZP?=
+ =?utf-8?B?QVdZQjN5L1Q5VWlQcm1IVkZ3NmhJTkhFcjY3MS9lNzdkSkRIQm5RVkp3MUl3?=
+ =?utf-8?B?cUs4dC9sK0FaNGY1SFZXQlE4SWN4NmNNQkRoY2t5YlpheGtWYkQ5bXkvQ1Y3?=
+ =?utf-8?B?WlpUM0Y5OFlwa1k2OTFBRWV3ajZZc2pkdzh3eENkUEJtbm1xUFhkQ096R0FF?=
+ =?utf-8?B?czhmRCtaT21WR2RIZjhpUDZzNGorVlhGUkUwamF6ZVpJQkphcUwreGlweE11?=
+ =?utf-8?Q?yFUobuoSrPqg2528yVnUVxmZF6j8rVPL?=
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:CH2PR12MB3990.namprd12.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230040)(10070799003)(7416014)(366016)(376014)(1800799024); DIR:OUT;
+ SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?ZHJXNTlLT1VHVE1FeXBDMFpsOWdVckdtU3M2c3Exd1V6cjBaNldqYWFFOGdN?=
+ =?utf-8?B?Zlg1RThodXo5UHhKQWRoVXozdElYamNyVEVkbkFTL1BlZ3FIV1lFYmFodFZh?=
+ =?utf-8?B?cDlMYkxHdWxmTUlLYVIrNW9FclkzMkc4b3QzV0pCdk1BRVNqdmd1dE9OZmtK?=
+ =?utf-8?B?dE1uRHFydGMyYkg0dUJLb1VIb1ZqOUtSUDJDTk42VU0yV2QyWEFlQm5ZMVl5?=
+ =?utf-8?B?aUk2Vzd6VmZxbCtZS3kxdk9sOUxSNytIc3N6emVyaDRTUURwNlBsSVhudkFJ?=
+ =?utf-8?B?cGZKVUEwcUZnUnJwQ3NnWUJnMlFPaFFLU05wUXhtbEFZQnVoZHRRN0ZwUUJ6?=
+ =?utf-8?B?UE5WMmpYd3Y1UUl5RHJ2SCthM29PRHJkaEdQYnp5aitrT0JKdFVrOTR6UmZr?=
+ =?utf-8?B?blVFNW9MbnpnTzVVSVM4enY4dmErMHdSY0RZMUxxZDd5RzVEK2k2ZHlOZUNv?=
+ =?utf-8?B?dVAwT0M3bjY2UldkRjV1SCtSYjZ1YnlhN0pMSXBsYk5idVEzWkVMdXRYbUZG?=
+ =?utf-8?B?anA1WmFscnR0MCtZQlVmMjZMNmsrOFcxbTN0bW9kSko4aVhVeTV0cXRsWGhx?=
+ =?utf-8?B?L3NQRjFQdXpMZVJrZXI3UDhrbU0rZkRCL0FqNnhKZTVLY01FbmJqN1BIWFlh?=
+ =?utf-8?B?cGdmZzZHREw0WEhvVUV5YlQzZUF4NkpwUVY3eDMycHdnS2tjclZ3RzRlT0JN?=
+ =?utf-8?B?dnhkNnF1dXN2Q1BmVHJYVzlwN0J4Mmkzb2tFTm1uYm5oNjNwblpuMm9ibHV3?=
+ =?utf-8?B?amRpZlNpZEh6aGIzUTVFRUxNQkU3dUhMejVDVUxkZVNjSS9NNVVvMXdSUnpH?=
+ =?utf-8?B?UXFFTFFFZUx0Wm9RUlowMHluVVRXYnRqVE5NWEhVZVhWSjJCRVY2S0FBMHFr?=
+ =?utf-8?B?U1g1MnhFQjVsNFMwV3J6YVZTQXMzK3lqTFVmM1lWdDdFRXA3Ukc5TjBUcDJT?=
+ =?utf-8?B?eGo2NVB2bThleDk3NkhKUE8xNVUweTdpdDBBOC9NWCtLaFJIMGprNlQ5MVNM?=
+ =?utf-8?B?YWFVeE1MR244RE82ZjhidTF1c09NVnFLb0lmc0xMSWt5SXBtM2diU2hISkky?=
+ =?utf-8?B?NW9aUWkwSkpmK2ZFV3hiWEpXLzhQYnRBdS9hekJvYWE5WlozNTVVa1A0UlEx?=
+ =?utf-8?B?Y3pydVhENWk3RGtoMXNjYVpkekZFTDNiZnpZTjI0RU1rT2J2L05nSVB5UzRG?=
+ =?utf-8?B?eVUzSjNVY01qVERqM0t6dEhtS0RPejBDb0dibXFndGtnVVJaOUYvNDJhNkV6?=
+ =?utf-8?B?aGdQRGpMMGQ3VFNveHdXclhuR0EwWXg3MUw2Q29jbEZyNmM2S2dxV2diY0hr?=
+ =?utf-8?B?U1dZSHNudnlicTl2czdsYWxEZ0RjZVZvK0ZRa2pNOXJLOHBlL29IM2Mwd0Zx?=
+ =?utf-8?B?TVNsZThiUHh5azZzUVVEOHNiQ1NSQzZYOEU0VWxyVHJmaUZSUnRqdFNiTVQ3?=
+ =?utf-8?B?cjZHK0FJYklybDNUQ25majJjb2JRL1AwZDlGUlRiWkFscDM3S3c1V1VOZ2xH?=
+ =?utf-8?B?d2VxZ1VEVk4zQXlCQ3Q2dVF1cncyZ0Y1OTRoTVE2UnQrZDlHRGJPb2FwSVZJ?=
+ =?utf-8?B?cVMyRDE0ZmU0WTh2SzVUZ0ZVNjJwS2RlOEJjUm1mQXRYRSszM29nTHp0bC91?=
+ =?utf-8?B?UjZiakdXaWtzb0szcFN3WVE4dmt4bSt6ZGxNZ0RtMGpLU0tyVGZuSm9KQWhD?=
+ =?utf-8?B?cVEvTHprZ2hKUVdoWmU0RCt2OGRsVlFTdHZtTFhGdndxYis3WWxRL2gwMmgx?=
+ =?utf-8?B?QkZqT1JIUmdSRk9iRXFZa0w5cjE1OWRIQjVUMWVuQUlCekJuYlR5dnBGRGV5?=
+ =?utf-8?B?RE0yTzFTazJPdXhkYVhDVTk4N1pWYUN0elZCZGV0UFZiM1ZmOGFhcjhyOFZG?=
+ =?utf-8?B?aFF3ZEhzVmxUa1VVdkhFOHZKSzVReTB2Y3M4THhWdS9oY2s5YkFFWjNRMVJH?=
+ =?utf-8?B?VVgzWHVEWVk2SzI0UXhSOUlPRlVFV2hUN1JHS3NHdDlHb1FXdEoyVVNFRmJ4?=
+ =?utf-8?B?TkFFSlAyK3NzbmJPbk1PTFhEcU1PZnBXMDZoSlFtR1VoVDhIZjBIaUlIdi9a?=
+ =?utf-8?B?QzdQZVJCbGRET245bDJ4eE1OVUFHcDlNaDBHL0IyUUlTMXZQVENjV2pMWmt4?=
+ =?utf-8?B?aWRIMHJqZEg2SVVEWWhEM1l4UWo5bi96YThaN1cvbk5MVC9vQUJ3YW1TVTJL?=
+ =?utf-8?Q?xILDuPleBgt6+8tfkwYXvEOkn9ToFxEM1MbFATBm/i0x?=
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: e2b35252-c8ca-4908-2e26-08de12f0d86e
+X-MS-Exchange-CrossTenant-AuthSource: CH2PR12MB3990.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 24 Oct 2025 11:31:16.8847 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: EIe+r+th4aeTE6oX4oqNvaz5B+denYyk9OhoIKwPgUK8vSjq6on+Vw3pWepR7tcda2zAcQwHjrum765mIs2orw==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH7PR12MB7872
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -98,124 +182,121 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, Oct 24, 2025 at 02:15:23PM +0300, Dan Carpenter wrote:
-> These error paths free a pointer and then dereference it on the next line
-> to get the error code.  Save the error code first and then free the
-> memory.
-> 
-> Fixes: 3e4d5b30d2b2 ("drm/vkms: Allow to configure multiple CRTCs via configfs")
-> Fixes: 2f1734ba271b ("drm/vkms: Allow to configure multiple planes via configfs")
-> Fixes: 67d8cf92e13e ("drm/vkms: Allow to configure multiple encoders via configfs")
-> Fixes: 272acbca96a3 ("drm/vkms: Allow to configure multiple connectors via configfs")
-> Fixes: 13fc9b9745cc ("drm/vkms: Add and remove VKMS instances via configfs")
-> Signed-off-by: Dan Carpenter <dan.carpenter@linaro.org>
+On Thu Oct 23, 2025 at 2:48 AM JST, Joel Fernandes wrote:
+<snip>
+>>> +        Ok(())
+>>> +    }
+>>> +
+>>> +    /// Get current BAR0 window offset.
+>>> +    ///
+>>> +    /// # Returns
+>>> +    ///
+>>> +    /// The byte offset in VRAM where the PRAMIN window is currently p=
+ositioned.
+>>> +    /// This offset is always 64KB aligned.
+>>> +    fn get_window_addr(bar: &Bar0) -> usize {
+>>> +        let window_reg =3D regs::NV_PBUS_BAR0_WINDOW::read(bar);
+>>> +        window_reg.get_window_addr()
+>>> +    }
+>>> +
+>>> +    /// Common logic for accessing VRAM data through PRAMIN with windo=
+wing.
+>>> +    ///
+>>> +    /// # Arguments
+>>> +    ///
+>>> +    /// * `fb_offset` - Starting byte offset in VRAM (framebuffer) whe=
+re access begins.
+>>> +    ///                 Must be aligned to `T::alignment()`.
+>>> +    /// * `num_items` - Number of items of type `T` to process.
+>>> +    /// * `operation` - Closure called for each item to perform the ac=
+tual read/write.
+>>> +    ///                 Takes two parameters:
+>>> +    ///                 - `data_idx`: Index of the item in the data ar=
+ray (0..num_items)
+>>> +    ///                 - `pramin_offset`: BAR0 offset in the PRAMIN a=
+perture to access
+>>> +    ///
+>>> +    /// The function automatically handles PRAMIN window repositioning=
+ when accessing
+>>> +    /// data that spans multiple 1MB windows.
+>>> +    fn access_vram<T: PraminNum, F>(
+>>> +        &self,
+>>> +        fb_offset: usize,
+>>> +        num_items: usize,
+>>> +        mut operation: F,
+>>> +    ) -> Result
+>>=20
+>> This is far too much functionality, and the code can be made much smalle=
+r
+>> and simpler.
+>> and still get what we need. Open RM only supplies small accessors
+>> (8 thru 64 bits wide), and no "bulk access". The calling code can loop i=
+f=20
+>> necessary.
+>
+> The code uses a sliding window approach to reposition the moving window,
+> abstracting away the details of the moving window from the caller. That
+> simplifies the callers a lot as they don't need to "loop" and know when t=
+o move
+> the window when they hit limits. They can also write to greater than 1MB.=
+ The
+> bulk of the logic is in this function and the surrounding code is mostly
+> wrappers, which part is complicated or that you did not understand?
+>
+> Just to note also, the PRAMIN moving window functionality in this patch a=
+llows
+> us to not need BAR2 to access VRAM for instance memory. That is a code
+> simplification then as we do not need code for BAR2 (the tradeoff being s=
+lightly
+> slower instance memory access). I confirmed with the team that this is al=
+so an
+> option. Abstracting the sliding window functionality becomes important th=
+en, so
+> I'd not vote for removing this functionality for that reason. And if we e=
+ver use
+> BAR2, having it is still useful because it allows us to have a fallback t=
+oo for
+> comparison/reference.
 
-Thanks for fixing this:
-Reviewed-by: José Expósito <jose.exposito89@gmail.com>
+Whether we want a sliding window mechanism or not, I think it is
+valuable to expose the PRAMIN functionality the way the hardware
+supports it (i.e. set base address and work with a fixed slice), and
+then build QoL features like the sliding window on top of it, through
+e.g. another type that wraps the basic PRAMIN one.
 
-> ---
->  drivers/gpu/drm/vkms/vkms_configfs.c | 20 +++++++++++++++-----
->  1 file changed, 15 insertions(+), 5 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/vkms/vkms_configfs.c b/drivers/gpu/drm/vkms/vkms_configfs.c
-> index 07ab794e1052..506666e21c91 100644
-> --- a/drivers/gpu/drm/vkms/vkms_configfs.c
-> +++ b/drivers/gpu/drm/vkms/vkms_configfs.c
-> @@ -204,6 +204,7 @@ static struct config_group *make_crtc_group(struct config_group *group,
->  {
->  	struct vkms_configfs_device *dev;
->  	struct vkms_configfs_crtc *crtc;
-> +	int ret;
->  
->  	dev = child_group_to_vkms_configfs_device(group);
->  
-> @@ -219,8 +220,9 @@ static struct config_group *make_crtc_group(struct config_group *group,
->  
->  		crtc->config = vkms_config_create_crtc(dev->config);
->  		if (IS_ERR(crtc->config)) {
-> +			ret = PTR_ERR(crtc->config);
->  			kfree(crtc);
-> -			return ERR_CAST(crtc->config);
-> +			return ERR_PTR(ret);
->  		}
->  
->  		config_group_init_type_name(&crtc->group, name, &crtc_item_type);
-> @@ -358,6 +360,7 @@ static struct config_group *make_plane_group(struct config_group *group,
->  {
->  	struct vkms_configfs_device *dev;
->  	struct vkms_configfs_plane *plane;
-> +	int ret;
->  
->  	dev = child_group_to_vkms_configfs_device(group);
->  
-> @@ -373,8 +376,9 @@ static struct config_group *make_plane_group(struct config_group *group,
->  
->  		plane->config = vkms_config_create_plane(dev->config);
->  		if (IS_ERR(plane->config)) {
-> +			ret = PTR_ERR(plane->config);
->  			kfree(plane);
-> -			return ERR_CAST(plane->config);
-> +			return ERR_PTR(ret);
->  		}
->  
->  		config_group_init_type_name(&plane->group, name, &plane_item_type);
-> @@ -472,6 +476,7 @@ static struct config_group *make_encoder_group(struct config_group *group,
->  {
->  	struct vkms_configfs_device *dev;
->  	struct vkms_configfs_encoder *encoder;
-> +	int ret;
->  
->  	dev = child_group_to_vkms_configfs_device(group);
->  
-> @@ -487,8 +492,9 @@ static struct config_group *make_encoder_group(struct config_group *group,
->  
->  		encoder->config = vkms_config_create_encoder(dev->config);
->  		if (IS_ERR(encoder->config)) {
-> +			ret = PTR_ERR(encoder->config);
->  			kfree(encoder);
-> -			return ERR_CAST(encoder->config);
-> +			return ERR_PTR(ret);
->  		}
->  
->  		config_group_init_type_name(&encoder->group, name,
-> @@ -637,6 +643,7 @@ static struct config_group *make_connector_group(struct config_group *group,
->  {
->  	struct vkms_configfs_device *dev;
->  	struct vkms_configfs_connector *connector;
-> +	int ret;
->  
->  	dev = child_group_to_vkms_configfs_device(group);
->  
-> @@ -652,8 +659,9 @@ static struct config_group *make_connector_group(struct config_group *group,
->  
->  		connector->config = vkms_config_create_connector(dev->config);
->  		if (IS_ERR(connector->config)) {
-> +			ret = PTR_ERR(connector->config);
->  			kfree(connector);
-> -			return ERR_CAST(connector->config);
-> +			return ERR_PTR(ret);
->  		}
->  
->  		config_group_init_type_name(&connector->group, name,
-> @@ -756,6 +764,7 @@ static struct config_group *make_device_group(struct config_group *group,
->  					      const char *name)
->  {
->  	struct vkms_configfs_device *dev;
-> +	int ret;
->  
->  	if (strcmp(name, DEFAULT_DEVICE_NAME) == 0)
->  		return ERR_PTR(-EINVAL);
-> @@ -766,8 +775,9 @@ static struct config_group *make_device_group(struct config_group *group,
->  
->  	dev->config = vkms_config_create(name);
->  	if (IS_ERR(dev->config)) {
-> +		ret = PTR_ERR(dev->config);
->  		kfree(dev);
-> -		return ERR_CAST(dev->config);
-> +		return ERR_PTR(ret);
->  	}
->  
->  	config_group_init_type_name(&dev->group, name, &device_item_type);
-> -- 
-> 2.51.0
-> 
+This would make the code easier to read, allow more flexibility for
+users (although in the case of PRAMIN we might not really need it), and
+matches what Rust does for e.g. `BufReader`, which consumes a basic reader
+and provide buffering for it.
+
+>
+>>=20
+>> We should do likewise, and avoid this.
+>>=20
+>> Then we can just create things such as write_u32() or write<u32>(), etc.
+>>=20
+>> And do we even *need* read?? I'm not sure we do.
+>
+> We do need reads as we walk through page tables structures. Note that the=
+ page
+> tables are partially allocated by the GSP.
+>
+>>=20
+>> This is hopefully showing the value of including the calling code, as
+>> a follow-on patch in the series.
+>
+> Unfortunately, there are too many dependencies as I mentioned in the cove=
+r
+> letter, so I would like to get functionality merged in stages. That's the
+> best way to make good progress IMO for nova-core. Of course, we have to c=
+areful
+> about design etc and I kept it as simple as possible out of that intentio=
+n. My
+> pramin patch was written 3-4 months ago now, so I'd like to not keep it t=
+oo
+> sitting comfortably in my tree. :). And this patch is critical for mm.
+
+Although we have neglected it lately, we could use our
+`nova-core-unstable` staging branch for that - IIRC the goal was also to
+keep track of pending patches and make sure they don't bitrot until they
+can be sent.
