@@ -2,65 +2,65 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A014FC0A089
-	for <lists+dri-devel@lfdr.de>; Sun, 26 Oct 2025 00:07:16 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id BBC85C0A088
+	for <lists+dri-devel@lfdr.de>; Sun, 26 Oct 2025 00:07:15 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4719F10E0E7;
+	by gabe.freedesktop.org (Postfix) with ESMTP id 40DBE10E0CD;
 	Sat, 25 Oct 2025 22:07:11 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=suse.com header.i=@suse.com header.b="V+zXCJiy";
+	dkim=pass (2048-bit key; unprotected) header.d=suse.com header.i=@suse.com header.b="VBG59XiK";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-f42.google.com (mail-wm1-f42.google.com
- [209.85.128.42])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C91D910EA0A
- for <dri-devel@lists.freedesktop.org>; Fri, 24 Oct 2025 09:52:18 +0000 (UTC)
-Received: by mail-wm1-f42.google.com with SMTP id
- 5b1f17b1804b1-47118259fd8so12413375e9.3
- for <dri-devel@lists.freedesktop.org>; Fri, 24 Oct 2025 02:52:18 -0700 (PDT)
+Received: from mail-wr1-f54.google.com (mail-wr1-f54.google.com
+ [209.85.221.54])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9415610EA0A
+ for <dri-devel@lists.freedesktop.org>; Fri, 24 Oct 2025 09:52:19 +0000 (UTC)
+Received: by mail-wr1-f54.google.com with SMTP id
+ ffacd0b85a97d-4298a028de6so1153399f8f.0
+ for <dri-devel@lists.freedesktop.org>; Fri, 24 Oct 2025 02:52:19 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=suse.com; s=google; t=1761299537; x=1761904337; darn=lists.freedesktop.org; 
+ d=suse.com; s=google; t=1761299538; x=1761904338; darn=lists.freedesktop.org; 
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=VB2JNLaaiAn3pH3zpI/FXAb8vE+Bng5cZSPLjc8q0bE=;
- b=V+zXCJiysBNp5alqX1lFup95JSevji8q8qoLn8WfvkRe/Gv8EYgKdOmKgCsAQ8De69
- VRoEsRXM894Nv+HG3j+nWRwqlYCMdhDIXUDeCj1wiAcolYFwkScrghToLyQ1+9PnMxZa
- SzRZp9WFxdHfUt8lvDU5gU9VCyCPHhLBMVraE0N20L7EXDRNETGByNTF/zUz+71U8e6E
- AVlSKXSLX7xS0ghLUm6xzgmUzjQ65xGCCK8BebGSwyEj/OcfVxtx3Aolnjr6b263bPJQ
- e60sfUwMaSKCOLZ6rOKQ0+LsA5xcjl9Yc7Z3VzW4188RrpOwUrZgnEddWsSOGFzKncQY
- 4yXw==
+ bh=dL6t4wl66/AcShNCdZ7n7LoevEBAIZyasNbsi4B8v3s=;
+ b=VBG59XiKoQkM0rSPp39V30GGDpkzuWYn1Cy3sE9HafcZcSehX6tioJ7hafD62d74oA
+ QplnJ1Tj10R4IlKB5+qGKRNrnvkUHYPazTI+ruHgNJ4GpqhUNnKU0R5e6kTJpU/3SXAs
+ w7AUPoATiyS17iFOofGgktn1UVxwRsOZoXlb1szHV7qmO+ZXO+Xm9mkElatpA/er8a4f
+ pCRTCQ2bcc6GiHwRFMHeMpuWYTn4QNDC6qpoKeYwXcYqI+dvHNkPnRh1sPiey9kdBRIf
+ J7JiCdLf6WPC9OoAjjhI4afi1bmxdRZMD/1MsLKgUl4qFzC0znd6+8mCbMvW31UXyPDQ
+ C+tA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1761299537; x=1761904337;
+ d=1e100.net; s=20230601; t=1761299538; x=1761904338;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=VB2JNLaaiAn3pH3zpI/FXAb8vE+Bng5cZSPLjc8q0bE=;
- b=tbgWdhwFRyQil8KSZB2wQDPkpYd86U03fpXTaQTBtYjwSHE4mY6IQVh3Ffc1lfR89L
- n+OBvOsKuI8KQ/dWWpgjks+Vz0ZwdtC6FiEmUQtglxndBp0QcFMWlZOVWqIFsF6dDmo5
- nDo5gMZIIek8hgQNyq+IsktLGN4pd82u0wMCt+swW5oBsOt9u44DXUtRu9hB68psCVvE
- MEdfD0VSN3KbVpDbzPnbu19hhgiCRIIn2rZjmcYlO1uFgsoM7wPZUwwSFyDM0BFLfgDc
- J5NARiU27lrBQ1p52WK/vIQogWKV1E3YMO8rlGg0sigtpTSWlDvwVuhn6psP1Crb5TOG
- ODkA==
+ bh=dL6t4wl66/AcShNCdZ7n7LoevEBAIZyasNbsi4B8v3s=;
+ b=tEnC5BwaXxpLvYkIwHJWfZrWJl5P60L4PhdygcTpRoblgtqpWKZRZFS1HWZVC2S+xM
+ vdFx1xS8yKPjPP8KX10OYFaDBr1/9/0vFfAvxnUkpvzU2kMSixs7mIbtdzR3Dtwx+Eu+
+ VgWNl03rNlzAAa8WqpU5GD4uz6RrQnRgqsmZGR2ErhtqGkh8f/z3EBX7s4N6KCrWH9Jn
+ uGgJBch3NtH3J/k+Tnxvz+ox9wntWrCHoALlm7Q2GER/ptkbIAI+Gu/Rqn7HNVONBrhe
+ Pxd5bDZn5odzBdAjkI0mGbApt4F+A3kUkIjeQ6scjJMp53e/XnLL8FFO8Zpx3NXuMKDe
+ g6KA==
 X-Forwarded-Encrypted: i=1;
- AJvYcCUJV1euRtjRtew/ca+O5WIaLC1QQsJ1o/2yXhzRjna7RS0b9eg5qwkLsz29EIHK6Nt0WjC47vv2zYM=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YxcMn8T2uhN94wQ2ZTDStT1m9wPoGhY8TJTH2cQ0d1wrvUdEBXK
- 3dcJg30ty6i1q2eo4TdpnTD5eX1tT4tXh3I+jh7/ecCoie9E3AWY6IwhUWe1yX708vw=
-X-Gm-Gg: ASbGncvhhz/Pa/yhA3YpQsp3jKmds9kA/LdB8KcJ54alxJ784GkeMZRuxcnCx+PNDgT
- hdbhVUVz3vcXlh+bIX7a4LDor7T0FQnWxY3mejxEBFrsZjkDstm8DJJISOXF7gPm6MaQG4L2Zf9
- iENigIYBywibAQy0v0+crh80A4yaSYrCOo18Vk57qbD4RhoaDGXv6z+GlTAe8V6FJqPf6Ltx2yf
- OoB5kqZo1mzVN9HmYtqWKJI9zp+h/nKiNckwG9CwTfwFQtdnze7pciFmzDH3+2S0K7eb2puD4pg
- itWI4Ct99RIvC6puV+fyXCizLQKJkaVySJB/hRAraVGwY6Bb95v1j1AmbuwHBT5aY867JyDtetc
- pU5hUfYaJEPBvCdb8z2CkzMqef5XhmqUWgzqHNCTUt7J5dhiSfUJzIK290kPwDwXi4JM8FYelN0
- 018IUiu91h65PsIuCARi/rPL/A
-X-Google-Smtp-Source: AGHT+IG9UrAVJY9k+lxCOX2VOATViY8kr0GIMVcZrOkxf6lTmiRwzoVcbu2hrw9RPBg1Zg3p5iG0BA==
-X-Received: by 2002:a05:600c:4448:b0:45d:e28c:875a with SMTP id
- 5b1f17b1804b1-47117912b0dmr203107995e9.31.1761299537249; 
- Fri, 24 Oct 2025 02:52:17 -0700 (PDT)
+ AJvYcCXzUrHnyBYxjdu8SvIm4mgdGDT0AKdOESrCvPFJMFcZ7c0ckDLPiI4cACJ59iaq9r7zgyGgDxixlg8=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YxQG3T+D0V88pE60QojnqkxhsPOafGWQlFxCze/5tV56K3JFFUX
+ Miz24qubUyR8+WXpXGgWzx57ASYZpVCQCuuhz/4AwSOEqnmYmoU+9PgKq0BdUd8UvCM=
+X-Gm-Gg: ASbGnctCAJH1797JLgmu9Pr2YOe62XCBqnjsdwzrwCgr2zEklaw4/npb8AOZQexS+wp
+ 6gUsjNERlqpL/yNIKx0xnzd3+2AuW52m8B1HzJgiGK/rNnLgkJ1EYgrAR4f4ZXG26a+dp4KtuDL
+ hKzLk8XIP7SDdDHfaRkkw+wRgNqLMsnWeVhttdzDRo05KhYciX6QqmXOed5lFHfJo4OBikQrzHS
+ Q3BSjvViCVA6GBFBtAT5N4Y/j782LRpHPDdJbytl9cnkS8zcTQSSi8ev6yrRYQXWEMwXoFs4nmS
+ KtuQj0pbtqru8dFT1Q+hXHu/RWjwvAzhJDFrV7Lk0YCtDpFK4Zge6Fea9gv+e+UxbtiCFo+HC9j
+ 2s4vkaaz5GiEXFYeEhSsbs+Ngd5BrCOaZLs3QiTongsChXyHqshWddkcnYK+xwZM16B294My5XJ
+ aVME/ktnmLFFJsPjVAp42/U/90
+X-Google-Smtp-Source: AGHT+IFQ9F5xlltb7vARep/Fm2WMuyxTknf+tJucO4GujtQcq6ALeTqrvlnlEwRyCUiBHpuH8ccDvw==
+X-Received: by 2002:a05:6000:2dc6:b0:3df:9ba8:21a3 with SMTP id
+ ffacd0b85a97d-4298f563076mr1617789f8f.18.1761299538086; 
+ Fri, 24 Oct 2025 02:52:18 -0700 (PDT)
 Received: from localhost.localdomain ([2a00:6d43:105:c401:e307:1a37:2e76:ce91])
  by smtp.gmail.com with ESMTPSA id
- ffacd0b85a97d-429897f57b7sm8402376f8f.16.2025.10.24.02.52.16
+ ffacd0b85a97d-429897f57b7sm8402376f8f.16.2025.10.24.02.52.17
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
  Fri, 24 Oct 2025 02:52:17 -0700 (PDT)
 From: Marco Crivellari <marco.crivellari@suse.com>
@@ -74,10 +74,9 @@ Cc: Tejun Heo <tj@kernel.org>, Lai Jiangshan <jiangshanlai@gmail.com>,
  Maciej Falkowski <maciej.falkowski@linux.intel.com>,
  Karol Wachowski <karol.wachowski@linux.intel.com>,
  Oded Gabbay <ogabbay@kernel.org>
-Subject: [PATCH 1/2] accel/ivpu: replace use of system_unbound_wq with
- system_dfl_wq
-Date: Fri, 24 Oct 2025 11:52:04 +0200
-Message-ID: <20251024095205.123123-2-marco.crivellari@suse.com>
+Subject: [PATCH 2/2] accel/ivpu: replace use of system_wq with system_percpu_wq
+Date: Fri, 24 Oct 2025 11:52:05 +0200
+Message-ID: <20251024095205.123123-3-marco.crivellari@suse.com>
 X-Mailer: git-send-email 2.51.0
 In-Reply-To: <20251024095205.123123-1-marco.crivellari@suse.com>
 References: <20251024095205.123123-1-marco.crivellari@suse.com>
@@ -107,32 +106,86 @@ again of WORK_CPU_UNBOUND.
 
 This lack of consistentcy cannot be addressed without refactoring the API.
 
-system_unbound_wq should be the default workqueue so as not to enforce
-locality constraints for random work whenever it's not required.
+system_wq should be the per-cpu workqueue, yet in this name nothing makes
+that clear, so replace system_wq with system_percpu_wq.
 
-Adding system_dfl_wq to encourage its use when unbound work should be used.
-
-The old system_unbound_wq will be kept for a few release cycles.
+The old wq (system_wq) will be kept for a few release cycles.
 
 Suggested-by: Tejun Heo <tj@kernel.org>
 Signed-off-by: Marco Crivellari <marco.crivellari@suse.com>
 ---
- drivers/accel/ivpu/ivpu_pm.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ drivers/accel/ivpu/ivpu_hw_btrs.c | 2 +-
+ drivers/accel/ivpu/ivpu_ipc.c     | 2 +-
+ drivers/accel/ivpu/ivpu_job.c     | 2 +-
+ drivers/accel/ivpu/ivpu_mmu.c     | 2 +-
+ drivers/accel/ivpu/ivpu_pm.c      | 2 +-
+ 5 files changed, 5 insertions(+), 5 deletions(-)
 
-diff --git a/drivers/accel/ivpu/ivpu_pm.c b/drivers/accel/ivpu/ivpu_pm.c
-index 475ddc94f1cf..ffa2ba7cafe2 100644
---- a/drivers/accel/ivpu/ivpu_pm.c
-+++ b/drivers/accel/ivpu/ivpu_pm.c
-@@ -186,7 +186,7 @@ void ivpu_pm_trigger_recovery(struct ivpu_device *vdev, const char *reason)
- 	if (atomic_cmpxchg(&vdev->pm->reset_pending, 0, 1) == 0) {
- 		ivpu_hw_diagnose_failure(vdev);
- 		ivpu_hw_irq_disable(vdev); /* Disable IRQ early to protect from IRQ storm */
--		queue_work(system_unbound_wq, &vdev->pm->recovery_work);
-+		queue_work(system_dfl_wq, &vdev->pm->recovery_work);
+diff --git a/drivers/accel/ivpu/ivpu_hw_btrs.c b/drivers/accel/ivpu/ivpu_hw_btrs.c
+index afdb3b2aa72a..27a345f3befe 100644
+--- a/drivers/accel/ivpu/ivpu_hw_btrs.c
++++ b/drivers/accel/ivpu/ivpu_hw_btrs.c
+@@ -673,7 +673,7 @@ bool ivpu_hw_btrs_irq_handler_lnl(struct ivpu_device *vdev, int irq)
+ 
+ 	if (REG_TEST_FLD(VPU_HW_BTRS_LNL_INTERRUPT_STAT, SURV_ERR, status)) {
+ 		ivpu_dbg(vdev, IRQ, "Survivability IRQ\n");
+-		queue_work(system_wq, &vdev->irq_dct_work);
++		queue_work(system_percpu_wq, &vdev->irq_dct_work);
  	}
+ 
+ 	if (REG_TEST_FLD(VPU_HW_BTRS_LNL_INTERRUPT_STAT, FREQ_CHANGE, status)) {
+diff --git a/drivers/accel/ivpu/ivpu_ipc.c b/drivers/accel/ivpu/ivpu_ipc.c
+index 5f00809d448a..1f13bf95b2b3 100644
+--- a/drivers/accel/ivpu/ivpu_ipc.c
++++ b/drivers/accel/ivpu/ivpu_ipc.c
+@@ -459,7 +459,7 @@ void ivpu_ipc_irq_handler(struct ivpu_device *vdev)
+ 		}
+ 	}
+ 
+-	queue_work(system_wq, &vdev->irq_ipc_work);
++	queue_work(system_percpu_wq, &vdev->irq_ipc_work);
  }
  
+ void ivpu_ipc_irq_work_fn(struct work_struct *work)
+diff --git a/drivers/accel/ivpu/ivpu_job.c b/drivers/accel/ivpu/ivpu_job.c
+index 060f1fc031d3..7a1f78b84b09 100644
+--- a/drivers/accel/ivpu/ivpu_job.c
++++ b/drivers/accel/ivpu/ivpu_job.c
+@@ -574,7 +574,7 @@ static int ivpu_job_signal_and_destroy(struct ivpu_device *vdev, u32 job_id, u32
+ 		 * status and ensure both are handled in the same way
+ 		 */
+ 		job->file_priv->has_mmu_faults = true;
+-		queue_work(system_wq, &vdev->context_abort_work);
++		queue_work(system_percpu_wq, &vdev->context_abort_work);
+ 		return 0;
+ 	}
+ 
+diff --git a/drivers/accel/ivpu/ivpu_mmu.c b/drivers/accel/ivpu/ivpu_mmu.c
+index 5ea010568faa..e1baf6b64935 100644
+--- a/drivers/accel/ivpu/ivpu_mmu.c
++++ b/drivers/accel/ivpu/ivpu_mmu.c
+@@ -970,7 +970,7 @@ void ivpu_mmu_irq_evtq_handler(struct ivpu_device *vdev)
+ 		}
+ 	}
+ 
+-	queue_work(system_wq, &vdev->context_abort_work);
++	queue_work(system_percpu_wq, &vdev->context_abort_work);
+ }
+ 
+ void ivpu_mmu_evtq_dump(struct ivpu_device *vdev)
+diff --git a/drivers/accel/ivpu/ivpu_pm.c b/drivers/accel/ivpu/ivpu_pm.c
+index ffa2ba7cafe2..0cff8f808429 100644
+--- a/drivers/accel/ivpu/ivpu_pm.c
++++ b/drivers/accel/ivpu/ivpu_pm.c
+@@ -226,7 +226,7 @@ void ivpu_start_job_timeout_detection(struct ivpu_device *vdev)
+ 	unsigned long timeout_ms = ivpu_tdr_timeout_ms ? ivpu_tdr_timeout_ms : vdev->timeout.tdr;
+ 
+ 	/* No-op if already queued */
+-	queue_delayed_work(system_wq, &vdev->pm->job_timeout_work, msecs_to_jiffies(timeout_ms));
++	queue_delayed_work(system_percpu_wq, &vdev->pm->job_timeout_work, msecs_to_jiffies(timeout_ms));
+ }
+ 
+ void ivpu_stop_job_timeout_detection(struct ivpu_device *vdev)
 -- 
 2.51.0
 
