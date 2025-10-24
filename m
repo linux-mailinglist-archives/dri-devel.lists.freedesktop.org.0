@@ -2,107 +2,86 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C3C86C076A3
-	for <lists+dri-devel@lfdr.de>; Fri, 24 Oct 2025 18:57:55 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id F1EBAC076EB
+	for <lists+dri-devel@lfdr.de>; Fri, 24 Oct 2025 19:02:51 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1CE7E10EB1B;
-	Fri, 24 Oct 2025 16:57:53 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3A2A1897C8;
+	Fri, 24 Oct 2025 17:02:44 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="A8ONhWE1";
+	dkim=temperror (0-bit key; unprotected) header.d=antheas.dev header.i=@antheas.dev header.b="Hga1rYyL";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
- [205.220.180.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id AFA5E10EB1B
- for <dri-devel@lists.freedesktop.org>; Fri, 24 Oct 2025 16:57:52 +0000 (UTC)
-Received: from pps.filterd (m0279871.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 59OCklaU004412
- for <dri-devel@lists.freedesktop.org>; Fri, 24 Oct 2025 16:57:52 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
- cc:content-transfer-encoding:date:from:message-id:mime-version
- :subject:to; s=qcppdkim1; bh=Y+9oqAefh+KN7qSLrQunsPCZJMm1uw9AiBh
- Vh9CSxHw=; b=A8ONhWE1adNTxzpHfBNanYtX2wBvQCRLUsmYTbHicFSfrQRTQjP
- jueSiIPF9r4Q7UADn5UWnxQgkaF1B5gZYPBF0HpFQO/OeDX1t/k0nxln5cPykRya
- SswpmSvoYtqeSZgjSZdUvChjW5KQ+2ZP5XkPmY2GVhCV3ZWgNBz5nCwpeUPmU38Z
- 2DJ3KPCNDx9QV/KQyI5rJTGAAq9Xe1IU4A6xi6PjWNnp7Vj5xws6ENFptdi0fSYM
- Kz47AqxP6uVztN8+gomPw9v4mOA8qeCMyGdZ+lVKO5czMLc32TMz/3jv5NQfZImb
- S13WfduQVzhgCVybzeL54OGesV7gKyrKjQA==
-Received: from mail-qt1-f198.google.com (mail-qt1-f198.google.com
- [209.85.160.198])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 49v2gecnb1-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
- for <dri-devel@lists.freedesktop.org>; Fri, 24 Oct 2025 16:57:51 +0000 (GMT)
-Received: by mail-qt1-f198.google.com with SMTP id
- d75a77b69052e-4eb7853480dso75393441cf.0
- for <dri-devel@lists.freedesktop.org>; Fri, 24 Oct 2025 09:57:51 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1761325071; x=1761929871;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=Y+9oqAefh+KN7qSLrQunsPCZJMm1uw9AiBhVh9CSxHw=;
- b=woUIBg9VIWMqQQuNurdHGsSOybj5/6PY7Zp1wjfnQyTWbwt5iK3G1ht7UpDWP/AE2L
- HpYdPzbgEGxfixUvAJEk5V1BXt8GnQVrx/7FHvcq7w9jydcZ6H1zMTEvyCmJHH9YodH4
- vBeyB55rbntay1gIObR2b/FhjkEsq2svc1T2fycOwQ9jnO+3/riSVzqMz1CfFW8+Yr70
- APuDGJHbCcGRbXQHP39BYx7ZBVKX1YV6MIaDsIlta52ezfl1PT4VMLev6HgJI0eNWV/0
- vpWrK8DwgA9IFiufwSL3U20vy82RKqkAbTVXW3nDJB2zG+7NZ0vaQSzw9VoKYPJzULco
- BgGg==
+Received: from relay13.grserver.gr (relay13.grserver.gr [178.156.171.147])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2588E897C8
+ for <dri-devel@lists.freedesktop.org>; Fri, 24 Oct 2025 17:02:43 +0000 (UTC)
+Received: from relay13 (localhost [127.0.0.1])
+ by relay13.grserver.gr (Proxmox) with ESMTP id 5410C5E5D6
+ for <dri-devel@lists.freedesktop.org>; Fri, 24 Oct 2025 20:02:42 +0300 (EEST)
+Received: from linux3247.grserver.gr (linux3247.grserver.gr [213.158.90.240])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested)
+ by relay13.grserver.gr (Proxmox) with ESMTPS id 224065E47C
+ for <dri-devel@lists.freedesktop.org>; Fri, 24 Oct 2025 20:02:41 +0300 (EEST)
+Received: from mail-lf1-f42.google.com (mail-lf1-f42.google.com
+ [209.85.167.42])
+ by linux3247.grserver.gr (Postfix) with ESMTPSA id 1B2D82008A3
+ for <dri-devel@lists.freedesktop.org>; Fri, 24 Oct 2025 20:02:40 +0300 (EEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=antheas.dev;
+ s=default; t=1761325360;
+ bh=gEpcV/HllkCVq7Z16MNUlS+YOxDPPWPkkI0cYqhx9mY=;
+ h=Received:From:Subject:To;
+ b=Hga1rYyL4gwGdOQGqaBjLVGb6EbCZZHU1kjyqQpdDIrF5EpKm6G5U6HWZTFcuzNNL
+ JydcKmjfdWN5OM7HNlTz0FXpj/GawISc+pj4Cr9d4oNL48QJ20OW4hHmqEFEm5VFRr
+ kUdS6advtCEnVHiBsc8+fhW2s8XeouhVIZ7B4nOPKytpY6NThVDmyJRM99Kf7sL48N
+ A+TxF5S1EmrYtNn2OnRfYjZgVsp6CDjkKJ3r7kO/a906qnvjs1Su+ez1BDekkQjGGC
+ yAMQ7SbLw+T7PLuFsWXEPgVEVU2Tm1PLg+a4Bv1c37iP0Df8AHW20y/PYwoHkqYe0y
+ ujCgj3jdzOmKw==
+Authentication-Results: linux3247.grserver.gr;
+ spf=pass (sender IP is 209.85.167.42) smtp.mailfrom=lkml@antheas.dev
+ smtp.helo=mail-lf1-f42.google.com
+Received-SPF: pass (linux3247.grserver.gr: connection is authenticated)
+Received: by mail-lf1-f42.google.com with SMTP id
+ 2adb3069b0e04-591ea9ccfc2so2979486e87.1
+ for <dri-devel@lists.freedesktop.org>;
+ Fri, 24 Oct 2025 10:02:40 -0700 (PDT)
 X-Forwarded-Encrypted: i=1;
- AJvYcCVJrO/wTYwfcXGvDJZQqpLUulOOoy21TIBI0F/FY9xxLSOe4DceX7jTt6V6t0Qj9Aq81bEKry4plgg=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YwTiVwD1kqaInQJR3vTT7ac1tCC2EyWC3dKSVv0FNcKswHG6R69
- t4UqdrEV9/FuPI+1JVMcb2HjUuDjAitSX3aUnHKW1H2wWEpyeAFjP8PqBv9vydjIQo8s3g/2HP6
- lWwURpuR3Oydv4CNDvstHpNIIZ1FkSqZTAO7WKHJW60Wj5xl1NH9UgTZX894hLM+arunSseU=
-X-Gm-Gg: ASbGncspMq2SW6kTzB8p69MwaWnt8bOSD8QlTIC43Rg+NYoSQtKOCNcnN1qw7va+S8q
- oS0XZlLY6fCFzMwfmhfbY0w9+v8SkhpdTSUV75zVOnE2t5B/LhI76YFFOMRdwJlF+NcL+Hgzmul
- c7x8r4L+0GO9esJfSDHFSGmAslNd75FXpxVV13Bk4aLqQgMp6GmApIR1YZYJykzhfvbjMDaHIUm
- rHtKIGBXBhXc1LvUvBhs67jc5XJq9Svl/hCPJ8YNl42C60F1kEBKDf3FAqtxQBdTMbCrnTAUALM
- 7FQMHerG/DBIaMU4/PyO8YRmGnc5W0NvLVw8SqvvdAyG4xs3I0Vq6hu86fl9BPqQQK2AOeis/v4
- AV4irCpOW+DnYA6/mcfOYZY/7weogX2XIMVV0w7k=
-X-Received: by 2002:ac8:590e:0:b0:4e8:a495:4752 with SMTP id
- d75a77b69052e-4e8a4954c39mr316455321cf.83.1761325070809; 
- Fri, 24 Oct 2025 09:57:50 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IEWfbWv9PlnchhJbCtZPrM04Bijjfjg28YOTLUgss64Wd9zIGhqWzXaKaJCXv5iWusGQphbSQ==
-X-Received: by 2002:ac8:590e:0:b0:4e8:a495:4752 with SMTP id
- d75a77b69052e-4e8a4954c39mr316455081cf.83.1761325070386; 
- Fri, 24 Oct 2025 09:57:50 -0700 (PDT)
-Received: from hu-yabdulra-ams.qualcomm.com ([212.136.9.4])
- by smtp.gmail.com with ESMTPSA id
- 4fb4d7f45d1cf-63e3ebcbcaasm4786602a12.10.2025.10.24.09.57.49
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 24 Oct 2025 09:57:50 -0700 (PDT)
-From: Youssef Samir <youssef.abdulrahman@oss.qualcomm.com>
-To: jeff.hugo@oss.qualcomm.com, carl.vanderlip@oss.qualcomm.com,
- troy.hanson@oss.qualcomm.com, zachary.mckevitt@oss.qualcomm.com
-Cc: ogabbay@kernel.org, lizhi.hou@amd.com, karol.wachowski@linux.intel.com,
- linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org
-Subject: [PATCH] accel/qaic: Fix typos in the documentation for qaic
-Date: Fri, 24 Oct 2025 18:57:49 +0200
-Message-ID: <20251024165749.821414-1-youssef.abdulrahman@oss.qualcomm.com>
-X-Mailer: git-send-email 2.43.0
+ AJvYcCUj1Mw2IGRq+ywbGeCgEuHDxFfLY6hT/Y55rZhcIjJcDWdFpDGtjuznUSG8y7uyISVjuPNHgts6HbY=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YxICdOXdeR6z7YI3EojbgCwfmqOBd6jf7uK33Mb0UwaH0iVB3nI
+ MBKmKExOpCgs4Wj/AYgrN1IhAmYgWInY/y2lfDdibLiv+vuE5bG1f0zxt1/f/4CD6vKoVB9hs6z
+ XmN1V/zgzzjLGSpTob1YLMKMB/4mPw7c=
+X-Google-Smtp-Source: AGHT+IEKrbCWuSYfAPJP4FkxTmteHnnI6gTvT9z5rV+Fp3wvMV/cQLvS3MdjFpKV8WdMVw+XDdwelcyJodCs7o5l9/c=
+X-Received: by 2002:a05:6512:33d4:b0:57c:4428:4f14 with SMTP id
+ 2adb3069b0e04-592fc1379fcmr1181236e87.24.1761325359526; Fri, 24 Oct 2025
+ 10:02:39 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUxMDE4MDAyMCBTYWx0ZWRfXxlfJOZ6UsBqU
- TMOpEbfCH988/rndV5K3KDSyQA3xOqbJ8KJqzBe2UiFdPq8u2OPkUq2pT1B+hIBsMQud587UweG
- P5zKZkAgUolBpKedG7b7LLibJxz6C5VJidcNllB29SFn/ftYEnkjpnvnbp3JK8sqJgf/BZMg6yQ
- x2puNFqh1xoaYOrQe0bjzErkdiAPyybqusJwWU3WuUjT1u2ZPnFNbSKzJJy3YHGDUMUEqd3JbD2
- Ss6eXt9gWD7aCgMpMt6G9w3F9q5y/3L5oVEwhaKXOWWE6lWuVskS9roC120SSECpvZ72wltD2O6
- izFNzbzv3RtwztXbDbR41kOGc074umizFuYTia4FRl1enwuFzQTrMIQvzjf+5R0NDY39+uUXK6E
- s4oQeD5dhRH7kQZdDT30S6ja7edVcg==
-X-Authority-Analysis: v=2.4 cv=KqFAGGWN c=1 sm=1 tr=0 ts=68fbb00f cx=c_pps
- a=mPf7EqFMSY9/WdsSgAYMbA==:117 a=dNlqnMcrdpbb+gQrTujlOQ==:17
- a=x6icFKpwvdMA:10 a=VkNPw1HP01LnGYTKEx00:22 a=COk6AnOGAAAA:8 a=EUspDBNiAAAA:8
- a=pRYst-cxp-SWPdbSSdgA:9 a=dawVfQjAaf238kedN5IG:22 a=TjNXssC_j7lpFel5tvFf:22
-X-Proofpoint-GUID: sQj6rr1rqEIZ-ecpHicbABk2whMsYIWo
-X-Proofpoint-ORIG-GUID: sQj6rr1rqEIZ-ecpHicbABk2whMsYIWo
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.9,FMLib:17.12.80.40
- definitions=2025-10-24_03,2025-10-22_01,2025-03-28_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- bulkscore=0 clxscore=1015 phishscore=0 malwarescore=0 impostorscore=0
- lowpriorityscore=0 adultscore=0 priorityscore=1501 spamscore=0 suspectscore=0
- classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.19.0-2510020000 definitions=main-2510180020
+References: <20251024152152.3981721-1-lkml@antheas.dev>
+ <20251024152152.3981721-4-lkml@antheas.dev>
+ <61da9864-b7c8-43f1-b437-36756077b545@amd.com>
+ <27439123-98aa-4096-a4e4-3c8eecb3aaca@amd.com>
+ <CAGwozwHAJAvgZEgn1M0ioRP4dT2urMUtQQzNXKXydu0ueoOzsA@mail.gmail.com>
+ <CAGwozwH+UneR7uB0h_yrEWTBM=-uHapmzL3JnmrJ8S2v5WQ2SQ@mail.gmail.com>
+ <d6f72b8f-1961-406a-aed8-5f4570ce98d1@amd.com>
+In-Reply-To: <d6f72b8f-1961-406a-aed8-5f4570ce98d1@amd.com>
+From: Antheas Kapenekakis <lkml@antheas.dev>
+Date: Fri, 24 Oct 2025 19:02:28 +0200
+X-Gmail-Original-Message-ID: <CAGwozwF7HBoX_hOgc5uKM1JeuFLD3anmQMQf8eqhxQBcK_9sHA@mail.gmail.com>
+X-Gm-Features: AWmQ_bljBDAjdQtCzD1QjfP5Tp0acAevQsmyEaeqADBBZ8vrysgtBsbkhNv-Txc
+Message-ID: <CAGwozwF7HBoX_hOgc5uKM1JeuFLD3anmQMQf8eqhxQBcK_9sHA@mail.gmail.com>
+Subject: Re: [PATCH v1 3/3] drm/amdgpu: only send the SMU RLC notification on
+ S3
+To: Mario Limonciello <mario.limonciello@amd.com>
+Cc: Alex Deucher <alexander.deucher@amd.com>,
+ Shyam Sundar S K <Shyam-sundar.S-k@amd.com>,
+ Perry Yuan <perry.yuan@amd.com>, amd-gfx@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ platform-driver-x86@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+X-PPP-Message-ID: <176132536034.2708871.14312948246875712599@linux3247.grserver.gr>
+X-PPP-Vhost: antheas.dev
+X-Virus-Scanned: clamav-milter 1.4.3 at linux3247.grserver.gr
+X-Virus-Status: Clean
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -118,50 +97,146 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Sourab Bera <quic_sourbera@quicinc.com>
+On Fri, 24 Oct 2025 at 18:52, Mario Limonciello
+<mario.limonciello@amd.com> wrote:
+>
+>
+>
+> On 10/24/2025 11:45 AM, Antheas Kapenekakis wrote:
+> > On Fri, 24 Oct 2025 at 18:24, Antheas Kapenekakis <lkml@antheas.dev> wrote:
+> >>
+> >> On Fri, 24 Oct 2025 at 18:20, Mario Limonciello
+> >> <mario.limonciello@amd.com> wrote:
+> >>>
+> >>>
+> >>>
+> >>> On 10/24/2025 10:54 AM, Mario Limonciello wrote:
+> >>>>
+> >>>>
+> >>>> On 10/24/2025 10:21 AM, Antheas Kapenekakis wrote:
+> >>>>> From: Alex Deucher <alexander.deucher@amd.com>
+> >>>>>
+> >>>>> For S0ix, the RLC is not powered down. Rework the Van Gogh logic to
+> >>>>> skip powering it down and skip part of post-init.
+> >>>>>
+> >>>>> Fixes: 8c4e9105b2a8 ("drm/amdgpu: optimize RLC powerdown notification
+> >>>>> on Vangogh")
+> >>>>> Closes: https://gitlab.freedesktop.org/drm/amd/-/issues/4659
+> >>>>> Signed-off-by: Alex Deucher <alexander.deucher@amd.com>
+> >>>>> Tested-by: Antheas Kapenekakis <lkml@antheas.dev>
+> >>>>> Signed-off-by: Antheas Kapenekakis <lkml@antheas.dev>
+> >>>>> ---
+> >>>>>    drivers/gpu/drm/amd/amdgpu/amdgpu_device.c       | 8 +++++---
+> >>>>>    drivers/gpu/drm/amd/pm/swsmu/amdgpu_smu.c        | 6 ++++++
+> >>>>>    drivers/gpu/drm/amd/pm/swsmu/smu11/vangogh_ppt.c | 3 +++
+> >>>>>    3 files changed, 14 insertions(+), 3 deletions(-)
+> >>>>>
+> >>>>> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_device.c b/drivers/gpu/
+> >>>>> drm/amd/amdgpu/amdgpu_device.c
+> >>>>> index 3d032c4e2dce..220b12d59795 100644
+> >>>>> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_device.c
+> >>>>> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_device.c
+> >>>>> @@ -5243,9 +5243,11 @@ int amdgpu_device_suspend(struct drm_device
+> >>>>> *dev, bool notify_clients)
+> >>>>>        if (amdgpu_sriov_vf(adev))
+> >>>>>            amdgpu_virt_release_full_gpu(adev, false);
+> >>>>> -    r = amdgpu_dpm_notify_rlc_state(adev, false);
+> >>>>> -    if (r)
+> >>>>> -        return r;
+> >>>>> +    if (!adev->in_s0ix) {
+> >>>>> +        r = amdgpu_dpm_notify_rlc_state(adev, false);
+> >>>>> +        if (r)
+> >>>>> +            return r;
+> >>>>> +    }
+> >>>>
+> >>>> Just FYI this is going to clash with my unwind failed suspend series [1].
+> >>>>
+> >>>> This is fine, just whichever "lands" first the other will need to rework
+> >>>> a little bit and I wanted to mention it.
+> >>>>
+> >>>> Link: https://lore.kernel.org/amd-gfx/20251023165243.317153-2-
+> >>>> mario.limonciello@amd.com/ [1]
+> >>>>
+> >>>> This does have me wondering though why amdgpu_dpm_notify_rlc_state() is
+> >>>> even in amdgpu_device_suspend()?  This is only used on Van Gogh.
+> >>>> Should we be pushing this deeper into amdgpu_device_ip_suspend_phase2()?
+> >>>>
+> >>>> Or should we maybe overhaul this to move the RLC notification into
+> >>>> a .set_mp1_state callback instead so it's more similar to all the other
+> >>>> ASICs?
+> >>>>
+> >>>
+> >>> My proposal as such is here:
+> >>>
+> >>> https://lore.kernel.org/amd-gfx/20251024161216.345691-1-mario.limonciello@amd.com/
+> >>>
+> >>> It would need some testing though to make sure it didn't break Steam
+> >>> Deck or Steam Deck OLED.
+> >>
+> >> I will give it a quick go on my OLED.
+> >
+> > Horribly broken. Did not enter S3 and when waking up fan maxed out and
+> > it bootlooped. Journalctl stops on suspend entry. It works on the Xbox
+> > ally though
+> >
+> > My series works on both
+>
+> OK.
+>
+> Can you try Alex's idea instead?  Just comment out the RLC notification
+> code in amdgpu_device_suspend().
+>
+> It's supposed to already be called in smu_disable_dpms() anyway.
 
-Fix typos in qaic.rst file.
+Yes, removing those lines works.
 
-Signed-off-by: Sourab Bera <quic_sourbera@quicinc.com>
-Signed-off-by: Youssef Samir <youssef.abdulrahman@oss.qualcomm.com>
----
- Documentation/accel/qaic/qaic.rst | 8 ++++----
- 1 file changed, 4 insertions(+), 4 deletions(-)
-
-diff --git a/Documentation/accel/qaic/qaic.rst b/Documentation/accel/qaic/qaic.rst
-index 018d6cc173d7..ef27e262cb91 100644
---- a/Documentation/accel/qaic/qaic.rst
-+++ b/Documentation/accel/qaic/qaic.rst
-@@ -36,7 +36,7 @@ polling mode and reenables the IRQ line.
- This mitigation in QAIC is very effective. The same lprnet usecase that
- generates 100k IRQs per second (per /proc/interrupts) is reduced to roughly 64
- IRQs over 5 minutes while keeping the host system stable, and having the same
--workload throughput performance (within run to run noise variation).
-+workload throughput performance (within run-to-run noise variation).
- 
- Single MSI Mode
- ---------------
-@@ -49,7 +49,7 @@ useful to be able to fall back to a single MSI when needed.
- To support this fallback, we allow the case where only one MSI is able to be
- allocated, and share that one MSI between MHI and the DBCs. The device detects
- when only one MSI has been configured and directs the interrupts for the DBCs
--to the interrupt normally used for MHI. Unfortunately this means that the
-+to the interrupt normally used for MHI. Unfortunately, this means that the
- interrupt handlers for every DBC and MHI wake up for every interrupt that
- arrives; however, the DBC threaded irq handlers only are started when work to be
- done is detected (MHI will always start its threaded handler).
-@@ -62,9 +62,9 @@ never disabled, allowing each new entry to the FIFO to trigger a new interrupt.
- Neural Network Control (NNC) Protocol
- =====================================
- 
--The implementation of NNC is split between the KMD (QAIC) and UMD. In general
-+The implementation of NNC is split between the KMD (QAIC) and UMD. In general,
- QAIC understands how to encode/decode NNC wire protocol, and elements of the
--protocol which require kernel space knowledge to process (for example, mapping
-+protocol which requires kernel space knowledge to process (for example, mapping
- host memory to device IOVAs). QAIC understands the structure of a message, and
- all of the transactions. QAIC does not understand commands (the payload of a
- passthrough transaction).
--- 
-2.43.0
+> >
+> >
+> >>
+> >>>>>        return 0;
+> >>>>>    }
+> >>>>> diff --git a/drivers/gpu/drm/amd/pm/swsmu/amdgpu_smu.c b/drivers/gpu/
+> >>>>> drm/amd/pm/swsmu/amdgpu_smu.c
+> >>>>> index fb8086859857..244b8c364d45 100644
+> >>>>> --- a/drivers/gpu/drm/amd/pm/swsmu/amdgpu_smu.c
+> >>>>> +++ b/drivers/gpu/drm/amd/pm/swsmu/amdgpu_smu.c
+> >>>>> @@ -2040,6 +2040,12 @@ static int smu_disable_dpms(struct smu_context
+> >>>>> *smu)
+> >>>>>            smu->is_apu && (amdgpu_in_reset(adev) || adev->in_s0ix))
+> >>>>>            return 0;
+> >>>>> +    /* vangogh s0ix */
+> >>>>> +    if ((amdgpu_ip_version(adev, MP1_HWIP, 0) == IP_VERSION(11, 5, 0) ||
+> >>>>> +         amdgpu_ip_version(adev, MP1_HWIP, 0) == IP_VERSION(11, 5,
+> >>>>> 2)) &&
+> >>>>> +        adev->in_s0ix)
+> >>>>> +        return 0;
+> >>>>> +
+> >>>>
+> >>>> How about for GPU reset, does PMFW handle this too?
+> >>>>
+> >>>>>        /*
+> >>>>>         * For gpu reset, runpm and hibernation through BACO,
+> >>>>>         * BACO feature has to be kept enabled.
+> >>>>> diff --git a/drivers/gpu/drm/amd/pm/swsmu/smu11/vangogh_ppt.c b/
+> >>>>> drivers/gpu/drm/amd/pm/swsmu/smu11/vangogh_ppt.c
+> >>>>> index 2c9869feba61..0708d0f0938b 100644
+> >>>>> --- a/drivers/gpu/drm/amd/pm/swsmu/smu11/vangogh_ppt.c
+> >>>>> +++ b/drivers/gpu/drm/amd/pm/swsmu/smu11/vangogh_ppt.c
+> >>>>> @@ -2217,6 +2217,9 @@ static int vangogh_post_smu_init(struct
+> >>>>> smu_context *smu)
+> >>>>>        uint32_t total_cu = adev->gfx.config.max_cu_per_sh *
+> >>>>>            adev->gfx.config.max_sh_per_se * adev-
+> >>>>>> gfx.config.max_shader_engines;
+> >>>>> +    if (adev->in_s0ix)
+> >>>>> +        return 0;
+> >>>>> +
+> >>>>>        /* allow message will be sent after enable message on Vangogh*/
+> >>>>>        if (smu_cmn_feature_is_enabled(smu, SMU_FEATURE_DPM_GFXCLK_BIT) &&
+> >>>>>                (adev->pg_flags & AMD_PG_SUPPORT_GFX_PG)) {
+> >>>>
+> >>>
+> >>>
+> >
+>
+>
 
