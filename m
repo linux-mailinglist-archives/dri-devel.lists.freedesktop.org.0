@@ -2,102 +2,84 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id AE019C084DB
-	for <lists+dri-devel@lfdr.de>; Sat, 25 Oct 2025 01:24:54 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7059DC08553
+	for <lists+dri-devel@lfdr.de>; Sat, 25 Oct 2025 01:40:40 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6D03810E05F;
-	Fri, 24 Oct 2025 23:24:51 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 01CA210E060;
+	Fri, 24 Oct 2025 23:40:37 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=collabora.com header.i=sebastian.reichel@collabora.com header.b="ht97i7wA";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="TapAQnrx";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sender4-pp-f112.zoho.com (sender4-pp-f112.zoho.com
- [136.143.188.112])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 63E2A10E05F
- for <dri-devel@lists.freedesktop.org>; Fri, 24 Oct 2025 23:24:50 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; t=1761348284; cv=none; 
- d=zohomail.com; s=zohoarc; 
- b=nUSq+eGpPsWaOR2huttk+9os9TV0P/OuWHFU6NnStHxF37O90E8m9egYW7m1k9Jw1NDIuz920n2tYs6WsuQCY/FCbIy00JDocA5vgUkzeHx04qDvThfwm7StoW5jgEQv+/v+lzoSjZEOm6vdG7tZnK+ELXs4V+k/MdWn1mB2XKw=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
- s=zohoarc; t=1761348284;
- h=Content-Type:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To;
- bh=TolhaGIsyaj1gVoV8dHb9QimZIX1Tzw1zXYiEcETqjM=; 
- b=A0dwAGofwe57t5FVZfHNsR7hNx84shoXZdrMW+KqP5m6oqZVC/8lLB1VIQXdxKVfuw165b/NdIOMZprW781T0fm1CLLhZzq9+XgJc70yZ+Id+45Bb1dioiPOt9j1MeAJe4g90yq6L9nEWurG4zqI4WaQtSbzMASjQyorgDXu2bw=
-ARC-Authentication-Results: i=1; mx.zohomail.com;
- dkim=pass  header.i=collabora.com;
- spf=pass  smtp.mailfrom=sebastian.reichel@collabora.com;
- dmarc=pass header.from=<sebastian.reichel@collabora.com>
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1761348284; 
- s=zohomail; d=collabora.com; i=sebastian.reichel@collabora.com;
- h=Date:Date:From:From:To:To:Cc:Cc:Subject:Subject:Message-ID:References:MIME-Version:Content-Type:In-Reply-To:Message-Id:Reply-To;
- bh=TolhaGIsyaj1gVoV8dHb9QimZIX1Tzw1zXYiEcETqjM=;
- b=ht97i7wAjMxWf17LAhpwrdlIDowY69CmFDI+cWK1dCeICyT7kM2V2Nfzc0bUF3IT
- cx7FDF0TNsOaG1Zy3zhRAk9YI53YYXgS12j/In+L0DpM82WJJfQx9v3atR58D4QsPB+
- X9mS+B6EX81ORNLumUxqPRhox7C2rKGQrWzj3yhc=
-Received: by mx.zohomail.com with SMTPS id 1761348279897500.52128589096606;
- Fri, 24 Oct 2025 16:24:39 -0700 (PDT)
-Received: by venus (Postfix, from userid 1000)
- id 476FE181935; Sat, 25 Oct 2025 01:24:06 +0200 (CEST)
-Date: Sat, 25 Oct 2025 01:24:06 +0200
-From: Sebastian Reichel <sebastian.reichel@collabora.com>
-To: "Rob Herring (Arm)" <robh@kernel.org>
-Cc: Krzysztof Kozlowski <krzk+dt@kernel.org>, 
- Conor Dooley <conor+dt@kernel.org>, Stephen Boyd <sboyd@kernel.org>, 
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Thomas Zimmermann <tzimmermann@suse.de>, 
- Andrzej Hajda <andrzej.hajda@intel.com>, Robert Foss <rfoss@kernel.org>,
- Vinod Koul <vkoul@kernel.org>, 
- Moritz Fischer <mdf@kernel.org>, Xu Yilun <yilun.xu@intel.com>, 
- Bartosz Golaszewski <brgl@bgdev.pl>, Guenter Roeck <linux@roeck-us.net>, 
- Andi Shyti <andi.shyti@kernel.org>, Jonathan Cameron <jic23@kernel.org>, 
- Dmitry Torokhov <dmitry.torokhov@gmail.com>, Georgi Djakov <djakov@kernel.org>,
- Thomas Gleixner <tglx@linutronix.de>, Joerg Roedel <joro@8bytes.org>, 
- Jassi Brar <jassisinghbrar@gmail.com>,
- Mauro Carvalho Chehab <mchehab@kernel.org>, 
- Lee Jones <lee@kernel.org>, Miquel Raynal <miquel.raynal@bootlin.com>, 
- Richard Weinberger <richard@nod.at>, Vignesh Raghavendra <vigneshr@ti.com>, 
- Andrew Lunn <andrew+netdev@lunn.ch>, "David S. Miller" <davem@davemloft.net>, 
- Eric Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>, 
- Paolo Abeni <pabeni@redhat.com>, Johannes Berg <johannes@sipsolutions.net>, 
- Krzysztof =?utf-8?Q?Wilczy=C5=84ski?= <kwilczynski@kernel.org>,
- Manivannan Sadhasivam <mani@kernel.org>, 
- Bjorn Helgaas <bhelgaas@google.com>, Kishon Vijay Abraham I <kishon@kernel.org>,
- Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <ukleinek@kernel.org>,
- Mark Brown <broonie@kernel.org>, 
- Mathieu Poirier <mathieu.poirier@linaro.org>,
- Philipp Zabel <p.zabel@pengutronix.de>, 
- Olivia Mackall <olivia@selenic.com>, Herbert Xu <herbert@gondor.apana.org.au>, 
- Daniel Lezcano <daniel.lezcano@linaro.org>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-clk@vger.kernel.org, 
- dri-devel@lists.freedesktop.org, linux-fbdev@vger.kernel.org,
- dmaengine@vger.kernel.org, 
- linux-fpga@vger.kernel.org, linux-gpio@vger.kernel.org,
- linux-hwmon@vger.kernel.org, 
- linux-i2c@vger.kernel.org, linux-iio@vger.kernel.org,
- linux-input@vger.kernel.org, 
- linux-pm@vger.kernel.org, iommu@lists.linux.dev, linux-media@vger.kernel.org, 
- linux-mtd@lists.infradead.org, netdev@vger.kernel.org,
- linux-wireless@vger.kernel.org, 
- linux-pci@vger.kernel.org, linux-phy@lists.infradead.org,
- linux-pwm@vger.kernel.org, 
- linux-remoteproc@vger.kernel.org, linux-crypto@vger.kernel.org,
- linux-sound@vger.kernel.org, linux-usb@vger.kernel.org
-Subject: Re: [PATCH] dt-bindings: Remove extra blank lines
-Message-ID: <god73pukywwznfyym7tym6m5k6fn3u7hwzj5gwhrxytt7oinfv@pokb4aos7pp6>
-References: <20251023143957.2899600-1-robh@kernel.org>
+Received: from mail-pl1-f180.google.com (mail-pl1-f180.google.com
+ [209.85.214.180])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A196810E060
+ for <dri-devel@lists.freedesktop.org>; Fri, 24 Oct 2025 23:40:35 +0000 (UTC)
+Received: by mail-pl1-f180.google.com with SMTP id
+ d9443c01a7336-29470bc80ceso28933505ad.1
+ for <dri-devel@lists.freedesktop.org>; Fri, 24 Oct 2025 16:40:35 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20230601; t=1761349235; x=1761954035; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:in-reply-to:from:content-language
+ :references:cc:to:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=qqP5SuAkGaJ6RG6hOh0SZayfv/af2QObYCkolbIehz8=;
+ b=TapAQnrxd2sobPN7DkYhre2QM0FPkINubEvmjzT+hNNAKA7VHw9WMP73j/QhhVi+U7
+ UuJbjrMgMWYsHMbrWw+TDF18JzG68AXEFySgMHxqRE9ScLDe5waJAs5my0Aj6sNxwX47
+ UXpB+Vs01J5UxFbtprbqRdMYndXxrj3JphAuJmD66b24Pkt21JYgyzCwh4NQygORS0pM
+ n53Jylx8f7PR9IAL1BNqJ2ACUjlrhoqZzKWM1GXUp3g3BkIisGU0iOwhf6VbjpzCaCMj
+ u7EIyEeLVCPo+R6vTsSlas0kZ80s2Qa4dawLr33JOQFHjbdmWZvlrG1RocUbpejO55RR
+ Itvw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1761349235; x=1761954035;
+ h=content-transfer-encoding:in-reply-to:from:content-language
+ :references:cc:to:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=qqP5SuAkGaJ6RG6hOh0SZayfv/af2QObYCkolbIehz8=;
+ b=R3Mf2PfJem1ONg1RnNbyYTNjJpA7SQozc6t1abbc85RiXXzJdB6LDnaQg2tLvdY/1p
+ enPCznvXCTPI+rcCHc+cWhd6CnxnX5+yuwx3IMvDzOxBoCywVMfU29GomZrbwaqdKGuD
+ m8sCqJ2E98z3lllprCAnfgtIIC+C2aQ6RtvVk2RqXJaFQDnt3a3bpLj2pVICRlncw95+
+ sTvN1rzGqoAIv0UM82g7+R7cfRLMNxBcoo54inKUBHfAMFT870BHXVkpdjkrE8F+Xf4f
+ hZr5cyxmZZOBlFkWDmwt+vLQyMu6Gcoiyyk7zSWjWRavCA4sN6rrjUydK5v+IUr0Yxxm
+ SxnQ==
+X-Gm-Message-State: AOJu0Ywm9+uUsVA1qnHbTId+Aul+IcFTYsxMfoTgmmbUiiveGXPzil8l
+ XgoODkvnJrQvODb82x2v5HmjZnyIwQC8W5tVYNQaMn2zyef46hGHVM/t
+X-Gm-Gg: ASbGnct2O9GiA8qMVH4q/J8nD+AuMxGtSdXF/sgrQRpFbo00PdsRe8S7YDEnAGH56MS
+ /tefS+vZaYnQcyyhXEs9J5BZiRaVVmUtZi/jhGukZNfZhcsyAJNuxlJmCwkrfELDybfeu5Gtljk
+ Tos4tyEoSbV2wruyCPY3qH5fp6Ey2Apw5lYWJoLeDwTx9oSxRX+je5G3OyKqasLVXRM2BfzMVyx
+ 5FzwtXagiS6g3BoSDYHhVjoc9G41fOE+bqURrWdJFAvz8O87lmcsNCXavzL3Ds4mqmSRmZXP3Vu
+ cQbU8g99RIVig11704vfsuG3y4PEF6cj/bBSw4DSRNOCHRSB5xiL1uRdYBigai2oH3dnL4g25ou
+ lGF/dvaepVMUZ5yMw3o9TIKPN29Sqjw+yhxVTEGjR7ZqjsdGTpQI+s2tbd6oZkEWqFYkFSDSwNT
+ 0O9DOUcyU8WL3IZHQuJFfRD2LWSXTubzWMg3sJJbvz68JSMi+oLIngjOCz9zA+
+X-Google-Smtp-Source: AGHT+IGmljlFqxKaoLUBNWWhhLXqxmD/AGAuAbaOp3NrSOLjBnaDmgbR1ag9luX/A0wo93vsh9u7Mg==
+X-Received: by 2002:a17:902:f705:b0:294:9132:75d2 with SMTP id
+ d9443c01a7336-294913289fcmr28727695ad.25.1761349235081; 
+ Fri, 24 Oct 2025 16:40:35 -0700 (PDT)
+Received: from ?IPV6:2601:1c0:5780:9200:47dc:e064:b621:fd5a?
+ ([2601:1c0:5780:9200:47dc:e064:b621:fd5a])
+ by smtp.gmail.com with ESMTPSA id
+ d9443c01a7336-29498d2789bsm4025335ad.62.2025.10.24.16.40.34
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 24 Oct 2025 16:40:34 -0700 (PDT)
+Message-ID: <f30cee98-1069-4f71-9aa9-613967f9922a@gmail.com>
+Date: Fri, 24 Oct 2025 16:40:34 -0700
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
- protocol="application/pgp-signature"; boundary="4uianbie6i5kbvu2"
-Content-Disposition: inline
-In-Reply-To: <20251023143957.2899600-1-robh@kernel.org>
-X-Zoho-Virus-Status: 1
-X-Zoho-Virus-Status: 1
-X-Zoho-AV-Stamp: zmail-av-1.4.3/261.330.82
-X-ZohoMailClient: External
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v3] drm/vblank: downgrade vblank wait timeout from WARN to
+ error
+To: Thomas Zimmermann <tzimmermann@suse.de>,
+ maarten.lankhorst@linux.intel.com, maxime.ripard@kernel.org,
+ airlied@gmail.com, simona@ffwll.ch
+Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ syzbot+147ba789658184f0ce04@syzkaller.appspotmail.com
+References: <20251003032303.16518-1-chintanlike@gmail.com>
+ <65f8a544-175a-4021-aa2a-9a9faf2f4254@suse.de>
+Content-Language: en-US
+From: Chintan Patel <chintanlike@gmail.com>
+In-Reply-To: <65f8a544-175a-4021-aa2a-9a9faf2f4254@suse.de>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -113,48 +95,59 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+Hi Thomas,
 
---4uianbie6i5kbvu2
-Content-Type: text/plain; protected-headers=v1; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-Subject: Re: [PATCH] dt-bindings: Remove extra blank lines
-MIME-Version: 1.0
+Thank you Thomas for suggestions!
 
-Hi,
+On 10/24/25 06:58, Thomas Zimmermann wrote:
+> Hi
+> 
+> Am 03.10.25 um 05:23 schrieb Chintan Patel:
+>> When wait_event_timeout() in drm_wait_one_vblank() times out, the
+>> current WARN can cause unnecessary kernel panics in environments
+>> with panic_on_warn set (e.g. CI, fuzzing). These timeouts can happen
+>> under heavy scheduling pressure or in rare cases of delayed vblank
+>> handling, and are not always a kernel bug.
+>>
+>> Replace the WARN with drm_err() messages that report the timeout
+>> without crashing the system. Developers can still enable drm.debug
+>> to diagnose genuine problems.
+>>
+>> Reported-by: syzbot+147ba789658184f0ce04@syzkaller.appspotmail.com
+>> Closes: https://syzkaller.appspot.com/bug?extid=147ba789658184f0ce04
+>> Tested-by: syzbot+147ba789658184f0ce04@syzkaller.appspotmail.com
+>> Signed-off-by: Chintan Patel <chintanlike@gmail.com>
+>>
+>> v2:
+>>   - Drop unnecessary in-code comment (suggested by Thomas Zimmermann)
+>>   - Remove else branch, only log timeout case
+>>
+>> v3:
+>>   - Use drm_err() instead of drm_dbg_kms() (suggested by Ville Syrjälä)
+>>   - Remove unnecessary curr = drm_vblank_count() (suggested by Thomas 
+>> Zimmermann)
+>>   - Fix commit message wording (“invalid userspace calls” → “delayed 
+>> vblank handling”)
+>> ---
+>>   drivers/gpu/drm/drm_vblank.c | 3 ++-
+>>   1 file changed, 2 insertions(+), 1 deletion(-)
+>>
+>> diff --git a/drivers/gpu/drm/drm_vblank.c b/drivers/gpu/drm/drm_vblank.c
+>> index 46f59883183d..0664aea1b924 100644
+>> --- a/drivers/gpu/drm/drm_vblank.c
+>> +++ b/drivers/gpu/drm/drm_vblank.c
+>> @@ -1305,7 +1305,8 @@ void drm_wait_one_vblank(struct drm_device *dev, 
+>> unsigned int pipe)
+>>                    last != drm_vblank_count(dev, pipe),
+>>                    msecs_to_jiffies(100));
+> 
+> Instead of replacing the drm_WARN(), could you please try to increase 
+> the timeout? Let's say 1000 msec to be on the safe side.
+> 
 
-On Thu, Oct 23, 2025 at 09:37:56AM -0500, Rob Herring (Arm) wrote:
-> Generally at most 1 blank line is the standard style for DT schema
-> files. Remove the few cases with more than 1 so that the yamllint check
-> for this can be enabled.
->=20
-> Signed-off-by: Rob Herring (Arm) <robh@kernel.org>
-> ---
->  .../devicetree/bindings/power/supply/mt6360_charger.yaml     | 1 -
->  .../bindings/power/supply/stericsson,ab8500-charger.yaml     | 1 -
+I tried it locally and also tested with syzbot after increasing the 
+timeout to 1000 msec. The issue no longer reproduces with this change.
 
-Acked-by: Sebastian Reichel <sebastian.reichel@collabora.com>
+I’ll send v4 shortly with the updated timeout.
 
--- Sebastian
 
---4uianbie6i5kbvu2
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAABCgAdFiEE72YNB0Y/i3JqeVQT2O7X88g7+poFAmj8CpEACgkQ2O7X88g7
-+pqEIQ//WxlORWTU9xe37JxSV9323KQXYJPU3wtmtK4U8OlNGoVKu9XeR3w5pitG
-uy2cIzo80EdVMKsq5GKcONqwht31w9+RJaWZmytnll9Wbe3eiW3Lu6Ymx2zopgcW
-OoRuaiPPQUqGdgt7+VKgNt+4kH1sX/ur8z/Zd1rUrK9Xkks09pdqcZ/wpjm6KlQw
-e7x03OaDQ5h17Cg56SgH7NwoYjoUXDuSEKoZDx4wv5DQWh171Ez0/tWvYwYxM7+a
-Pxqt+zTDC1hdh6j1CaiOuwNb7pbdfcOWS7WZC8BPHNYW3eqFk5OQg+tZwEgoK9zV
-GLO0FrPPimJLgL2mfnq5FP0SzYU7FNgJD6gD/qKPzjsQlFLnwn69QCH/nTA9J/ZT
-ajcxgv6FLs3R3CGRptDBEUPOXez3dJeMeaN7hNeoswZNAe9uw1irXmedEzxLDO7S
-8WDVz6MvUAXOdXEcI+pUvuYfGWPwuJHspOgPuOwzO2sqg212V3sScOGcATq2BTDD
-mpc8LtRdKoZ3vUS9cVLRxtqLo8YB5roCBg0HEOexrwJayA074TSteqXhF2LH7LOW
-IcSZ37y+8QgWjTO2aXsiLJjoK2PsOLnvKzBRD5aeLhMd4H1Lw1xCxi75ut/fJPUY
-MLaS7WMtq7TVMRxBrjz8kaiR4opj84mVIXbVgoiISYooEKbbdic=
-=pPcb
------END PGP SIGNATURE-----
-
---4uianbie6i5kbvu2--
