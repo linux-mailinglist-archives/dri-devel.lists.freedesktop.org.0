@@ -2,211 +2,130 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 82D87C05521
-	for <lists+dri-devel@lfdr.de>; Fri, 24 Oct 2025 11:27:14 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id C98ACC0554F
+	for <lists+dri-devel@lfdr.de>; Fri, 24 Oct 2025 11:28:32 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D72A510EA04;
-	Fri, 24 Oct 2025 09:27:04 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BFC4B10E9FF;
+	Fri, 24 Oct 2025 09:28:30 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=arm.com header.i=@arm.com header.b="R7JkveIo";
-	dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b="R7JkveIo";
+	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="QguF7XEk";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from GVXPR05CU001.outbound.protection.outlook.com
- (mail-swedencentralazon11013061.outbound.protection.outlook.com
- [52.101.83.61])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6B71810EA04
- for <dri-devel@lists.freedesktop.org>; Fri, 24 Oct 2025 09:27:03 +0000 (UTC)
-ARC-Seal: i=2; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=pass;
- b=gqou3HfXNtzsqew8hcNzEGJx2GJ3mySEO2DgINGTWO07HW3t4vUYyHbziydM3UzRmb0YapdH71n0c5+O2pAk7QW1SzAMqqjswQe7DOLzhCxX1KIernL6gZRTHNLa0aFMWC3XJZw1KCAtcqwm4qYaHFJo264NjGd2sc23vjpw9SY75hl6TnHFIcVcJer8Al1XIgK8KdzKfh3GKbJ1zG0dhU46YIfSimTg7wnkuMPRo5hxdJMBV5UugiYonKpRflrxpa5KgHSi+B5HCCvFgMHyDTZxYz67ukVtdC07WUq7+J3irXqUVfMZr8z71TJ9drYVSDYgOzWU5Bg1xEUzLU/NnA==
-ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=OlF0xYLfHFDB3KOua+sXt0KpsbSmf/gzY6+prpUZrWw=;
- b=I//Y2sg4nHz60xAabhIoqX3yu2lt1fCZUA+au0zkPCe6sDQUvj4WEAAik1WBe4DCvbmNnc15tftGJbGErSs4P3puqNZeRpWwGjGrbGAtHBFFIH58TTbkanNLce3kvgrClfEfNlqSgJPvBWqzexW55Gy1f4l7//JjhE08wOAApE3C1kXrGc7z5lauzxGV+M/SE+LmxgzbcN2w7SPcB+saSE2d9HFtPz6UcHuYA70BdNU6uovIARDPv/UTwakyf4/T6sSky+Zu/lCirkcbOYoz2IO+6VmWJsAr2Gmm6Vr8nP4mOODZHWLOq25vwXI3jhLyvUOMtdp0h0Nv0v60qjRz1g==
-ARC-Authentication-Results: i=2; mx.microsoft.com 1; spf=pass (sender ip is
- 4.158.2.129) smtp.rcpttodomain=collabora.com smtp.mailfrom=arm.com;
- dmarc=pass (p=none sp=none pct=100) action=none header.from=arm.com;
- dkim=pass (signature was verified) header.d=arm.com; arc=pass (0 oda=1 ltdi=1
- spf=[1,1,smtp.mailfrom=arm.com] dkim=[1,1,header.d=arm.com]
- dmarc=[1,1,header.from=arm.com])
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=arm.com; s=selector1; 
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=OlF0xYLfHFDB3KOua+sXt0KpsbSmf/gzY6+prpUZrWw=;
- b=R7JkveIo9Db0HQu5DKaFgziZZqB3XrEl+iQe2bhP1rCPnWKkUitBDf96IQhDezh+C4y2bwS759j05/Cj258/YFpYZFkV71IYqPuDDEM5QgXC12RbiuQNDje1TBlL7MH7DsmJCcntQM+s4lw09rdRTeT6VGsYbUY5ZP2jGxDry7w=
-Received: from AS4PR10CA0026.EURPRD10.PROD.OUTLOOK.COM (2603:10a6:20b:5d8::20)
- by PR3PR08MB5849.eurprd08.prod.outlook.com (2603:10a6:102:84::14)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9253.12; Fri, 24 Oct
- 2025 09:26:56 +0000
-Received: from AM2PEPF0001C715.eurprd05.prod.outlook.com
- (2603:10a6:20b:5d8:cafe::82) by AS4PR10CA0026.outlook.office365.com
- (2603:10a6:20b:5d8::20) with Microsoft SMTP Server (version=TLS1_3,
- cipher=TLS_AES_256_GCM_SHA384) id 15.20.9253.13 via Frontend Transport; Fri,
- 24 Oct 2025 09:26:56 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 4.158.2.129)
- smtp.mailfrom=arm.com; dkim=pass (signature was verified)
- header.d=arm.com;dmarc=pass action=none header.from=arm.com;
-Received-SPF: Pass (protection.outlook.com: domain of arm.com designates
- 4.158.2.129 as permitted sender) receiver=protection.outlook.com;
- client-ip=4.158.2.129; helo=outbound-uk1.az.dlp.m.darktrace.com; pr=C
-Received: from outbound-uk1.az.dlp.m.darktrace.com (4.158.2.129) by
- AM2PEPF0001C715.mail.protection.outlook.com (10.167.16.185) with Microsoft
- SMTP Server (version=TLS1_3, cipher=TLS_AES_256_GCM_SHA384) id 15.20.9253.7
- via Frontend Transport; Fri, 24 Oct 2025 09:26:55 +0000
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=nw09bRwkZ8P/Cylv3mbfcXDyyvwQU90cjf1NSKK8xiVZTAjjWPhCP9cud7VMRMT506WYI+eqxINFbddQgJ03iGmBxPOnp+xnffbJupiwRS3Vwukpn/7Hg1nxSF8jV1h+GC5A6RYlgjGPMfr0WXCVS8RhMBZqPj8d9wPgoYjm57AJ00hKk7dy3KmUwnZFI0mWkEECupfvUoTurEmSi2hPnykFpgv2PMCxtdmwxI76m3LrsfHy/8Gz6LfVgTDNG5h9CaDnEihZzlxifBJPNDXMz+Y7wtrP+z1QXDikq7UgvwH1oEPby2z2mcB81J1fe2fRXXZSL9Dpt1BxZwPYyt2SFg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=OlF0xYLfHFDB3KOua+sXt0KpsbSmf/gzY6+prpUZrWw=;
- b=SoFf4l6LYZJuG/OVJtj2xQQvm6dBWRfe7lgegz5ABQAqshQxa6mxaC2FkIBU1aX3WZ2kylwu24vdHBoRNoD6ZJyd+yfGqDUNJZVMqDaKmTsk/RqO74pHA53sBJRtZP8/Xj7JViqacjXlS5abga0A0+IsOMGRZtoMFDCJFvg/OE1swIIOW9JQUqHrxXMpFw2svQq0UF0N9u13hY/Acr0yk/xT43S+vf9axubXH7tfJ+l8Jv183TH8+cwhuZByTo7+MuwdkbBfiHEkQidbSTWS6zA8YujWssSWOOk5S5OLytKxTg5thR57sQS9WmPQiGm32dM1HulnrggK152ru67VUA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=arm.com; dmarc=pass action=none header.from=arm.com; dkim=pass
- header.d=arm.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=arm.com; s=selector1; 
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=OlF0xYLfHFDB3KOua+sXt0KpsbSmf/gzY6+prpUZrWw=;
- b=R7JkveIo9Db0HQu5DKaFgziZZqB3XrEl+iQe2bhP1rCPnWKkUitBDf96IQhDezh+C4y2bwS759j05/Cj258/YFpYZFkV71IYqPuDDEM5QgXC12RbiuQNDje1TBlL7MH7DsmJCcntQM+s4lw09rdRTeT6VGsYbUY5ZP2jGxDry7w=
-Authentication-Results-Original: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=arm.com;
-Received: from VI0PR08MB11200.eurprd08.prod.outlook.com
- (2603:10a6:800:257::18) by GVXPR08MB10687.eurprd08.prod.outlook.com
- (2603:10a6:150:15b::5) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9253.13; Fri, 24 Oct
- 2025 09:26:20 +0000
-Received: from VI0PR08MB11200.eurprd08.prod.outlook.com
- ([fe80::d594:64a:dfc:db74]) by VI0PR08MB11200.eurprd08.prod.outlook.com
- ([fe80::d594:64a:dfc:db74%7]) with mapi id 15.20.9253.011; Fri, 24 Oct 2025
- 09:26:19 +0000
-Message-ID: <f2a05393-b3d4-47e2-be17-248880d97d49@arm.com>
-Date: Fri, 24 Oct 2025 10:26:16 +0100
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v1 03/10] drm/panthor: Introduce framework for
- architecture-specific features
-Content-Language: en-GB
-To: Boris Brezillon <boris.brezillon@collabora.com>
-Cc: dri-devel@lists.freedesktop.org, nd@arm.com,
- Steven Price <steven.price@arm.com>, Liviu Dudau <liviu.dudau@arm.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
+ [205.220.180.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6A05F10EA05
+ for <dri-devel@lists.freedesktop.org>; Fri, 24 Oct 2025 09:28:29 +0000 (UTC)
+Received: from pps.filterd (m0279872.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 59O3GBFm022251
+ for <dri-devel@lists.freedesktop.org>; Fri, 24 Oct 2025 09:28:28 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+ cc:content-type:date:from:in-reply-to:message-id:mime-version
+ :references:subject:to; s=qcppdkim1; bh=zGkcT0F5HdfRvmdgOmrFrIfL
+ DkdtJXkgEZhfMIxuKyA=; b=QguF7XEkUeOh2E3pknh1RhOE8KhIQT1c2uP+IQ0G
+ zX/1juHpOOEgEAb2n5P9kAUK8s7h/r/ztfyqrAjbkoZDG/QlE2jUapvWcUZ7+01k
+ IpUUGvjz7ZBKuL/vEafSBXLPqVZcft/UJlDHrY8ogrgd3k31WJtotb9RXel5w+Nt
+ 0crZWgRXZMURhLZDg0xZO/c80EjdibmbPGGwqO2U6xm/OYF+YCV7jsFsFGDsE0y1
+ Sd5iNhe+3glckfGyogGvxX912c1IsECwYnzbfIdVZ5jeiv5/5N9uZFl1zWzeRAQi
+ OCxz2WyWH1NVxvk9mdU6hMl5AP8n8YOg7e4YzonE6ynTCQ==
+Received: from mail-qt1-f198.google.com (mail-qt1-f198.google.com
+ [209.85.160.198])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 49xhe0sh2t-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
+ for <dri-devel@lists.freedesktop.org>; Fri, 24 Oct 2025 09:28:28 +0000 (GMT)
+Received: by mail-qt1-f198.google.com with SMTP id
+ d75a77b69052e-4e89ed6e110so49581901cf.1
+ for <dri-devel@lists.freedesktop.org>; Fri, 24 Oct 2025 02:28:28 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1761298108; x=1761902908;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=zGkcT0F5HdfRvmdgOmrFrIfLDkdtJXkgEZhfMIxuKyA=;
+ b=OfEca7o6U7s+3BnBfiZvs/cHiUGH90FUhimIknoTC3AxPxeRbS08h5gRT52dilnmn3
+ soA5C5XXQBrquFcyR0EeMwcKwzPjqrnxiU79gpG7GmZeT9eCIwqhOLX89byXue+OwAEX
+ de841+11WpLuHkLBBHI0mk/hPPr3SR2s+ux/1JFNs9IWYhjGIqD9vL2j7qoiaDD6gSyN
+ 0OGDcAz2MGlgOt4WKjqMEz9RplJBCoUHt++cyK0jq0PUekVQ8Fmqao1F862ykWPIvRlf
+ cSREsRkILFvOxnvLhvTX56Kq3YPc/NAJ6Yn2AzW3Itxhf4CMLLiEdnFGnujVbzZ9wUUV
+ 1kRw==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCUPE+zgU7ouYZx6n6g81KPPvEsXKqDHQNIACkOb0wdhmhYxlFNNvxMLsnwEg6j883E53+t4DgsE9d4=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YwohVEktGGI3TLCU754kRTNiNylzVQWFm6XZO9niq4WEJZNwiOz
+ SBtwKzFkREj+kqz6K0pkMbPMooquo+zT3JlV46HriSWz9R/a6f18ysKCnZG4jnNRQJvy1kHBQED
+ nacwRzx3uI2TjCtxGgw9yECLJsOR/0rRrg9pyT4g7hwjkhMIbdf3oh6Zq/zxtj8OgKBznM+w=
+X-Gm-Gg: ASbGncvRypf42EV7jkpq7k1G1f1bI39tIi12OEGkly/ToO/qOdOoUsZcKykIS8LTISy
+ xCUHESFxOt6cRDRWjgOSFJ2gpsfKE8qFYEQg734R3fuJzXhc90zkAvVuy4LSWRHjX/2w4umVuf4
+ elFizLxb3KzmUjNwvXixGJERCYftx3nKc5p+yO++TkQzdYMLy1IM7tTB8XKEyrsyhpYnaBTHbmK
+ Quvh7rOjKzOQKVwvSXgvtPQdS327tpd6F2iZmu4CcAvInRMnECtIVH33ySM+nAyIxaQ74lgBSve
+ mR42sMbt0mX+4YqfwG5HteE0du2AtL1u1gPKYHkOMNibAHmhDY5V6BB6CZ7TgGRfW3l5sD9Howy
+ 23dWe4rGpZ5Xji4hxnhopV8uQjJP/kp/1zpgknhWjkXrdVrUcgGnot7YSQlmVZQTUf7Z5kIj9XW
+ cXeukjJeV38Jwn
+X-Received: by 2002:ac8:5881:0:b0:4e7:28c4:6492 with SMTP id
+ d75a77b69052e-4e89d2e9159mr345061891cf.35.1761298107563; 
+ Fri, 24 Oct 2025 02:28:27 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IGg7yl9p+wm1YmrVjaFh115CT4BHZ4Az1ybfHc7KF6ROWYFgbMv01hIcBHSAkMse1hgWxSIKg==
+X-Received: by 2002:ac8:5881:0:b0:4e7:28c4:6492 with SMTP id
+ d75a77b69052e-4e89d2e9159mr345061771cf.35.1761298107121; 
+ Fri, 24 Oct 2025 02:28:27 -0700 (PDT)
+Received: from umbar.lan
+ (2001-14ba-a0c3-3a00-264b-feff-fe8b-be8a.rev.dnainternet.fi.
+ [2001:14ba:a0c3:3a00:264b:feff:fe8b:be8a])
+ by smtp.gmail.com with ESMTPSA id
+ 2adb3069b0e04-592f4aded51sm1489790e87.23.2025.10.24.02.28.26
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 24 Oct 2025 02:28:26 -0700 (PDT)
+Date: Fri, 24 Oct 2025 12:28:24 +0300
+From: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
+To: Akhil P Oommen <akhilpo@oss.qualcomm.com>
+Cc: Krzysztof Kozlowski <krzk@kernel.org>, linux-arm-msm@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, freedreno@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, devicetree@vger.kernel.org,
+ Rob Clark <robin.clark@oss.qualcomm.com>, Sean Paul <sean@poorly.run>,
+ Konrad Dybcio <konradybcio@kernel.org>,
+ Dmitry Baryshkov <lumag@kernel.org>,
+ Abhinav Kumar <abhinav.kumar@linux.dev>,
+ Jessica Zhang <jessica.zhang@oss.qualcomm.com>,
+ Marijn Suijten <marijn.suijten@somainline.org>,
  David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- linux-kernel@vger.kernel.org
-References: <20251014094337.1009601-1-karunika.choo@arm.com>
- <20251014094337.1009601-4-karunika.choo@arm.com>
- <20251024084327.3332d548@fedora>
-From: Karunika Choo <karunika.choo@arm.com>
-In-Reply-To: <20251024084327.3332d548@fedora>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: LO2P265CA0451.GBRP265.PROD.OUTLOOK.COM
- (2603:10a6:600:e::31) To VI0PR08MB11200.eurprd08.prod.outlook.com
- (2603:10a6:800:257::18)
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, Rob Herring <robh@kernel.org>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>, Bjorn Andersson <andersson@kernel.org>
+Subject: Re: [PATCH 3/6] dt-bindings: display/msm/gmu: Document A612 RGMU
+Message-ID: <qcs6y22hozfmb2ipmahfw25m2xti2gr5kjn43c2woiueqe4xmd@ovnrhwibhhe2>
+References: <20251017-qcs615-spin-2-v1-0-0baa44f80905@oss.qualcomm.com>
+ <20251017-qcs615-spin-2-v1-3-0baa44f80905@oss.qualcomm.com>
+ <8f3f4874-2e82-473e-87bd-e3bd58089b90@kernel.org>
+ <181af756-09a1-4694-98c4-53cea556e172@oss.qualcomm.com>
+ <ff37b635-b3dc-4180-8eae-e798ef6ce55a@kernel.org>
+ <f677f8ee-d635-4131-8ee2-8ca6ead43095@oss.qualcomm.com>
 MIME-Version: 1.0
-X-MS-TrafficTypeDiagnostic: VI0PR08MB11200:EE_|GVXPR08MB10687:EE_|AM2PEPF0001C715:EE_|PR3PR08MB5849:EE_
-X-MS-Office365-Filtering-Correlation-Id: 6ce5df2d-0b4d-4d94-5941-08de12df7990
-X-LD-Processed: f34e5979-57d9-4aaa-ad4d-b122a662184d,ExtAddr,ExtAddr
-x-checkrecipientrouted: true
-NoDisclaimer: true
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam-Untrusted: BCL:0;ARA:13230040|376014|366016|1800799024;
-X-Microsoft-Antispam-Message-Info-Original: =?utf-8?B?eVg2Q1JxQi9IeE9OQjVHKzVpQUVJOGJWRnc4TmtsTVg0MGpQc0VlcENPbFIw?=
- =?utf-8?B?YVlJNi9vTHV3MmhNRThqNXhqbmxkeXFYWm5EMTZnVytZM093T21UY0NObWJ2?=
- =?utf-8?B?UFpBT3lrRjliZ3VXOGd2MEpUN1dIQ05lT2lpVzEzTGwwMFNBWW5HcGZuWmFG?=
- =?utf-8?B?TzJ2YkNkZ0ZTNm5FaEZBbEZRL29BTExkMTloNzZKajJtRk5mRFlxQUJHOFRI?=
- =?utf-8?B?cnhyV0xlQTIvLzVjNVd1M0RkOGs4blo5YldpcTVjWVdPWE9qdUN4S21vbzVT?=
- =?utf-8?B?dzJvNkNWSTVGUWgzZll5UnhvTWRjOFZsdUJlTHB5cWtaYjlGTTNQSnd5M1RC?=
- =?utf-8?B?cisvK21qRW1KS1YrTWhyUzVUM2F6V01meGRBWXBuM0Z0Vk5vUVZTSXBMSHJD?=
- =?utf-8?B?ZlBjMzRDci9OM1R1MUg4VVh6Rmc0bkg4UDJSMEtkd2JrTkY3Mm8zd25hV1Uw?=
- =?utf-8?B?VnJ3bGVjbXhDZUljbVdqb2dJdTY2T0VvV0ZHUXpNbU9Td1p6allKODRpTUFl?=
- =?utf-8?B?MEdXZzdub1BZMGc4OXkwLzdqRElYbVJUZWRZMmtPWDMyOFRXeFFFWDhUcGxl?=
- =?utf-8?B?SjJGQ1BYVDZQOXFWNWlua05SNk1VREtidSttQU02cFp2dHpQTXlkcmRJdW5s?=
- =?utf-8?B?SjJLdlZ6dUo5RDhWQ0VzSGY3VWdqQWVsRkFLVnF5TzVhempzVUdOcGdHSU5O?=
- =?utf-8?B?Kys5bDdxcWg3d2F1dzcvdG1IU0JZcTkwQWcvVm4xdlo5MnNrMzZST3FnTnN0?=
- =?utf-8?B?RC9KWXdxeEc3VjNVeTJYZ0x4RzZWMi9pNUtzSEpWUW9xM3cybll2L3l5am0w?=
- =?utf-8?B?aytZUm05bVJQYTR6WUFJT2RjdDZJUDh1WFBORE9NVU9lY3AxQXhSS1ZlMGlL?=
- =?utf-8?B?VS9jWlNBSXNWaS8rdzVoTHBrWkJhcnN1ZGg3REpyYnN3RkN4K0g5Qzh6c1Qz?=
- =?utf-8?B?WU5UeGg4N3hvYVBFMGN2TlpBeUFZeThweFVhWTJIajA2ZlBHaER5a0hValRC?=
- =?utf-8?B?MHZQNnZTMkRoK1lNd3BJUFdLZVpQcnJBNE0vWWNNY2tVRVl0cU5McGRSaklW?=
- =?utf-8?B?V2V0WmNRa1VVSXcvYnFHQnkvVWlNMXFuWG5xMXlUcHVWSjVwZXAzQ0RLRUVI?=
- =?utf-8?B?ZEtoTjArVThLMDZyekxvN1M1MWZFVGc4SkRLRnhnL1pqV3hZOVFHV2FxdExp?=
- =?utf-8?B?ZHdTV1RRUllaSTEzQjVzaDhocWNXSmUvb1FURjRVTE9pYU9tL21sSExsQ0s0?=
- =?utf-8?B?elFqdFpVRC9LSGMrQit4OFFadVBjSXFNMTBxVnVPL3pqRm9qVEpMMHN2c1FR?=
- =?utf-8?B?TitvSGVLcVlUbHF4Z1RoUkRCY2RFUkZVdkJRU3A4SGF5YmdyelhIUDdrVjNG?=
- =?utf-8?B?NUl0UWRERWdlQ1ZIS2dGcUxtYStkaDIrRzQrTWZreEtJSFJDd3FuQmZWUVJv?=
- =?utf-8?B?M2lObE5WOXJKRlhBUUVraVd2dFJzRlVUZU5pd0VNZnp5OFJROUpSczB1b0FI?=
- =?utf-8?B?ekJLK0Yyd3RvRHd2Q1VYS2ZLeG5Dci9BVTdTcThQc2Irb1FmdUZLUTRtZTQ4?=
- =?utf-8?B?ZFdDSElXRmhKcTE2ZDhGaEtpT0Y5SDZPM1pDb0lUbFJUY2ZleDdqK2JzbzVW?=
- =?utf-8?B?dnZEbTFrbjYzQ2FiNlk3YmhENnBaYUs4eEVTRCtMaUZYTmQ2RWdGWkRCVHdu?=
- =?utf-8?B?czZpZUJYQkl4TG4ra3V4YWZvZzNlaGlZRXU4K2tPbGw2aXd2RkQrdm5PNENK?=
- =?utf-8?B?d09pUERrN2JURFZ4aVBXeXZGNmtQZ012LytkMjkrckcxQ1BrZDhiNXpwMWdz?=
- =?utf-8?B?NnQwVDlmSVhSSElQQlBqSWVjWWE0ZUZpbE5pL0JUOTNDeEZ5S2diY3c3ZDgr?=
- =?utf-8?B?ODUyN1RVSGNqeHAvNVFvWUVxMkdnRnpMb0s4N2ZoYVRWOVFDWloxb2VSNHpk?=
- =?utf-8?B?cUV3S3dMTERiOFNscDBqaWdQSjBvamFVR2RmYUlmRVpWTmJQL1Zod1krWDRF?=
- =?utf-8?B?eDBCSEdaak93PT0=?=
-X-Forefront-Antispam-Report-Untrusted: CIP:255.255.255.255; CTRY:; LANG:en;
- SCL:1; SRV:; IPV:NLI; SFV:NSPM; H:VI0PR08MB11200.eurprd08.prod.outlook.com;
- PTR:; CAT:NONE; SFS:(13230040)(376014)(366016)(1800799024); DIR:OUT; SFP:1101;
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: GVXPR08MB10687
-X-EOPAttributedMessage: 0
-X-MS-Exchange-Transport-CrossTenantHeadersStripped: AM2PEPF0001C715.eurprd05.prod.outlook.com
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id-Prvs: 72253f8e-8d96-45e0-6b6f-08de12df63b0
-X-Microsoft-Antispam: BCL:0;
- ARA:13230040|1800799024|376014|36860700013|82310400026|14060799003|35042699022|13003099007;
-X-Microsoft-Antispam-Message-Info: =?utf-8?B?VjhhNExjeGFjSHlIRTBmRVhQUHFtTStXaFlEUHA0T0xmMjdYTWZtMjdRcTRJ?=
- =?utf-8?B?dnZ1OEYzYTBBYXpSUjN1bzRQVVJPTGdMMXFMZU5GS1IyTGl0QjEyUk9vMmlC?=
- =?utf-8?B?dE50THRlY0tXMTJZY3gzYVRabGE3WDRJb0FZbU5Kejc1SnUzV29LRnRIbm5j?=
- =?utf-8?B?dTNPVU4wcERUTThYaGFnT3JWSHgvS3FCdXBhRUJyRHlRbndrK2pyRFBtS1M0?=
- =?utf-8?B?R3pkckd1a1FWbUtqbUh2dXJINTBuaFZtT2NuVmJHVnorb0gxTEg2WEhZS1FJ?=
- =?utf-8?B?aHcrWW9lOHR1MXVsV0RqeVlDbStCUWppYm5iMXlzSlZCM3pkbEFiSnlzcTlj?=
- =?utf-8?B?M2VkcDczUHJOMHdlak5zMlU1azhJd1hCK1AwMi83ekxLdk9EY3R2SlFReGR3?=
- =?utf-8?B?YlQrRXZTOXhRY1FIRUNPTmtHQ0NBRFo2emQrdUErYjBaNTFjajRVQnhxNElo?=
- =?utf-8?B?WlZVYzZDMnQ2UmRlR1JDb2NBYnRhKzB3YXJYV0h1Y0tMNExzTncrR20xajdN?=
- =?utf-8?B?YUlFWWlaeUJ4QzdyTzB0UEN4T2VpZ2Z3OHBUcEwxTnM2VVZzTnlmdWtUc2Nr?=
- =?utf-8?B?OXR6S0htRVptOE56WGdMUjJ6bEVmcld1VGtOYm8wSEJuNk1EYnJ0Q3ZuK1Ez?=
- =?utf-8?B?UmlrVTcvMWh4dUJlMk15NnQzTUtQcVZPRThNbEx3THNFMSs2U0FVY3NyZVls?=
- =?utf-8?B?ejAzcDdrVi9vbG93TTdGcUdPc3c1Q1BPOWVtSUNPSlU5Ny95UzR5bXEyVHZD?=
- =?utf-8?B?Y25VZHFxNyt3aXAveUw5U0RaZXRkYzN5WDB1Y2RFZVcweGVOZUtmK0JWRzBU?=
- =?utf-8?B?QjBTemxGaHQ3T2VTSTdxQ1FsSm9pYTZ1c2hVdHkyMTFZb2VadGd5WjBwZTlE?=
- =?utf-8?B?QU1qbWE3VjJoNk5Kd2I1VEVpajVLb2NUZDViVUNMWnQyMEdUZkxNc1hkMm1W?=
- =?utf-8?B?N0V1YmltbFBxd1BLNHVGUVRzQXVsRFNSaEMvSVprc2IvdmdwZkRIdWxtaG92?=
- =?utf-8?B?bzJNdkM0ZVcxb3Z3TjNQOEJRTm1uQTJ5RFFBd3ZZN0Q4OXFEWmE2Y0pwUjNC?=
- =?utf-8?B?d1BXWXNmWEpHQkJIWTljWDR0UTRkWS9VcE1JU0N0SFBPSVJHZnpBa2kwYWVB?=
- =?utf-8?B?bVAyUHJYdURFdjRuRnIwYWtBQyszYlU1eWk0aC9lMFl4N3dmWU5teHMvUzZ2?=
- =?utf-8?B?TEcrVnFPMUJpVlZaOWRHQXR1elNtbjRleFQ1UmkweGUwRHBrSnVnTm56bEpT?=
- =?utf-8?B?L0ZRMU0xcnk1Skl4ei9PYVIrOUZpZmg2d0xlQnRyUFB0SlFJeFp5VTRuRGts?=
- =?utf-8?B?QThrTUQraHRsRTNmbGRucVc4NVo5RjRrRmVVditSQWNtNWUvUDl3M0hTb2Zw?=
- =?utf-8?B?eG1YeHhLVTJNUXhwbEkza3R2RlpkaVN3SlZqNjU5bXVtbWU2WkN3YzZWdDIr?=
- =?utf-8?B?Vm00SWZrbmFTSk5QOVZjajMyQWtDSnRkcTBTUjExc1M3WGdKVy9DS2t5M245?=
- =?utf-8?B?YnRtVmt0RlFxMmpiRWlxNEdGSnVyRmVyYkx2cUNNVldMV1pSWlZBTTRXM3Jx?=
- =?utf-8?B?UnJwQWdsSlllbUVmYUkwNTlPL09SaS9jYTliRlhML29hMTk2bENCQWR6ZEpz?=
- =?utf-8?B?bGUrNVYwdHdnYUJ3bXRvNkdnMktvNVN3S1RoVDdBRDY0ZVhUd2t1b0k3Zkhu?=
- =?utf-8?B?VHk1bDZxRDNBbGpDSXFJUjYyS2h0bHJFK3VPbkxwUmNNSXVmVnhqNm5GMC9D?=
- =?utf-8?B?M0xMQnRVaHFud3ZYTFo2WTB2d1RWQmR6a3hyNmg5RFJETk5vdUR4eDZ5RzZp?=
- =?utf-8?B?ZkgxOXhja0J1SW90aFEzT2ZhbU9nSEpnTnBLZ3Nidkt4L0haUFN2RHZBL0JV?=
- =?utf-8?B?ZnJCSFBDSFYzcVJWV3dRRzlHM3pUWGNWcDdkVm1JdXZOZnpIM2xNa0ZTMWhj?=
- =?utf-8?B?cDBUWnlQN2F6dzRZVFZtKy9aNTNIekdreUJLdUF1bkJMaEtabXN3UzFUcHNR?=
- =?utf-8?B?dEdoN281K0NHYTM1TDVOVEdPQTBlNVhSYnJQYWpFcWZDWUZBTDJDMXlMRkxh?=
- =?utf-8?B?VGtzaTdJR1FSaE5GZmpXdExYWlo4dTlHdWZyZzdNakQ4Yjl5NXkyb0RJN2o1?=
- =?utf-8?Q?aKb8=3D?=
-X-Forefront-Antispam-Report: CIP:4.158.2.129; CTRY:GB; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:outbound-uk1.az.dlp.m.darktrace.com;
- PTR:InfoDomainNonexistent; CAT:NONE;
- SFS:(13230040)(1800799024)(376014)(36860700013)(82310400026)(14060799003)(35042699022)(13003099007);
- DIR:OUT; SFP:1101; 
-X-OriginatorOrg: arm.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 24 Oct 2025 09:26:55.8620 (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 6ce5df2d-0b4d-4d94-5941-08de12df7990
-X-MS-Exchange-CrossTenant-Id: f34e5979-57d9-4aaa-ad4d-b122a662184d
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=f34e5979-57d9-4aaa-ad4d-b122a662184d; Ip=[4.158.2.129];
- Helo=[outbound-uk1.az.dlp.m.darktrace.com]
-X-MS-Exchange-CrossTenant-AuthSource: AM2PEPF0001C715.eurprd05.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PR3PR08MB5849
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <f677f8ee-d635-4131-8ee2-8ca6ead43095@oss.qualcomm.com>
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUxMDIxMDE2NyBTYWx0ZWRfX2q/0AgPJ9s++
+ +MMRUc5Lxu8zIMR2hjdYLOz42jziASktIQsqn3/0gfYVdCggRjZACGdt33/m0tvmm0JoXV1Wb9v
+ HCNInMopgySH2fuNVFLDkhpum8tN6EByJhZci/iSEGvOz61cElCce/5IYVCd9wDscUmMD2pF1Th
+ PZZl0AV9bdEvePHL/YLgqCHTjeOrgeso8LcHo1cpO7ivwmeT/AEOAzXkUW33QuywDS8g6ct36m8
+ mj7XE9RQh1aNOHVyOABW7LrD5xw/XWwS4eaRG85r1IizPp9qkH8MXl4qf4iRSQb0r1/73SKvHvq
+ DesvAeKz8Ix35Aj1ukWDUZFwON3zy0kAM+DRxm5HrB4QEptbWTCl3lkn5CeKOmxHwhH3Ooz/u54
+ yN8y1GSanNCAhWDV2N5parh4ywX66Q==
+X-Proofpoint-ORIG-GUID: NORWmdehNeqpK61-JAXv7kJnT52-9Ni0
+X-Authority-Analysis: v=2.4 cv=WYUBqkhX c=1 sm=1 tr=0 ts=68fb46bc cx=c_pps
+ a=mPf7EqFMSY9/WdsSgAYMbA==:117 a=xqWC_Br6kY4A:10 a=kj9zAlcOel0A:10
+ a=x6icFKpwvdMA:10 a=VkNPw1HP01LnGYTKEx00:22 a=EUspDBNiAAAA:8
+ a=QZfYkoQWqmGXo21g0SUA:9 a=CjuIK1q_8ugA:10 a=dawVfQjAaf238kedN5IG:22
+X-Proofpoint-GUID: NORWmdehNeqpK61-JAXv7kJnT52-9Ni0
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.9,FMLib:17.12.80.40
+ definitions=2025-10-24_01,2025-10-22_01,2025-03-28_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ suspectscore=0 adultscore=0 bulkscore=0 impostorscore=0 spamscore=0
+ priorityscore=1501 clxscore=1015 malwarescore=0 lowpriorityscore=0
+ phishscore=0 classifier=typeunknown authscore=0 authtc= authcc=
+ route=outbound adjust=0 reason=mlx scancount=1 engine=8.19.0-2510020000
+ definitions=main-2510210167
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -222,98 +141,72 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 24/10/2025 07:43, Boris Brezillon wrote:
-> On Tue, 14 Oct 2025 10:43:30 +0100
-> Karunika Choo <karunika.choo@arm.com> wrote:
+On Fri, Oct 24, 2025 at 04:33:28AM +0530, Akhil P Oommen wrote:
+> On 10/22/2025 12:49 AM, Krzysztof Kozlowski wrote:
+> > On 21/10/2025 17:51, Akhil P Oommen wrote:
+> >> On 10/19/2025 2:43 PM, Krzysztof Kozlowski wrote:
+> >>> On 17/10/2025 19:08, Akhil P Oommen wrote:
+> >>>> RGMU a.k.a Reduced Graphics Management Unit is a small state machine
+> >>>> with the sole purpose of providing IFPC (Inter Frame Power Collapse)
+> >>>> support. Compared to GMU, it doesn't manage GPU clock, voltage
+> >>>> scaling, bw voting or any other functionalities. All it does is detect
+> >>>> an idle GPU and toggle the GDSC switch. As it doesn't access DDR space,
+> >>>> it doesn't require iommu.
+> >>>>
+> >>>> So far, only Adreno 612 GPU has an RGMU core. Document RGMU in the GMU's
+> >>>> schema.
+> >>>>
+> >>>> Signed-off-by: Akhil P Oommen <akhilpo@oss.qualcomm.com>
+> >>>> ---
+> >>>>  .../devicetree/bindings/display/msm/gmu.yaml       | 98 +++++++++++++++++-----
+> >>>>  1 file changed, 79 insertions(+), 19 deletions(-)
+> >>>>
+> >>>> @@ -313,13 +360,26 @@ allOf:
+> >>>>            items:
+> >>>>              - const: gmu
+> >>>>      else:
+> >>>> -      required:
+> >>>> -        - clocks
+> >>>> -        - clock-names
+> >>>> -        - interrupts
+> >>>> -        - interrupt-names
+> >>>> -        - iommus
+> >>>> -        - operating-points-v2
+> >>>> +      if:
+> >>>> +        properties:
+> >>>> +          compatible:
+> >>>> +            contains:
+> >>>> +              const: qcom,adreno-rgmu
+> >>>> +      then:
+> >>>> +        required:
+> >>>> +          - clocks
+> >>>> +          - clock-names
+> >>>> +          - interrupts
+> >>>> +          - interrupt-names
+> >>>> +          - operating-points-v2
+> >>>> +      else:
+> >>>
+> >>> No. Don't nest multiple ifs.
+> >>
+> >> I guess we should split this. I will add a 'required' constraint to the
+> >> rgmu constraints above. And apply the below 'required' constraint
+> >> specifically to 'qcom,adreno-gmu' instead of the 'else' fallback case.
+> >>
+> >> Please let me know if you have any suggestion.
+> > 
+> > Maybe the binding is getting to complicated and RGMU should have its own.
 > 
->> Add a framework to support architecture-specific features. This allows
->> other parts of the driver to adjust their behaviour based on the feature
->> bits enabled for a given architecture.
+> There is just a single chipset with RGMU and we haven't seen another one
+> in the last 8 yrs. So it is very unlikely we will see another one again.
+> So I feel it is not worth splitting this file just for RGMU.
+
+I'd second the suggestion to split the RGMU schema. It's not about the
+number of platforms supported by the file. It's about the clarity. I
+think it would make the file easier to read.
+
 > 
-> I'm not convinced we need this just yet. AFAICT, the only feature flag
-> being added in this patchset is PANTHOR_HW_FEATURE_PWR_CONTROL, and
-> most of this is abstracted away with function pointers already. The
-> only part that tests this FEATURE_PWR_CONTROL flag is the
-> initialization, which could very much be abstracted away with a
-> function pointer (NULL meaning no PWR block present). There might be
-> other use cases you're planning to use this for, so I'd like to hear
-> about them to make my final opinion on that.
-> 
+> Let me send another revision and let's take a call after that.
 
-I see your point — the intent here is mainly to have the feature flag
-reflect hardware-level changes. In this series, for example, it
-corresponds to the addition of the new PWR_CONTROL block.
-
-Another use case would be arch v11, where a new PRFCNT_FEATURES register
-was introduced. In that case, we might want to adjust the
-counters_per_block [1] value depending on that register’s value.
-
-I would also expect this mechanism to remain useful for future hardware
-revisions, as it provides a clean way to describe architectural
-differences without scattering version-specific checks throughout the
-code, while still being lighter-weight than function pointers.
-
-[1] https://lore.kernel.org/dri-devel/cover.1753449448.git.lukas.zapolskas@arm.com/
-
-Kind regards,
-Karunika Choo
-
->>
->> Signed-off-by: Karunika Choo <karunika.choo@arm.com>
->> ---
->>  drivers/gpu/drm/panthor/panthor_hw.c |  5 +++++
->>  drivers/gpu/drm/panthor/panthor_hw.h | 18 ++++++++++++++++++
->>  2 files changed, 23 insertions(+)
->>
->> diff --git a/drivers/gpu/drm/panthor/panthor_hw.c b/drivers/gpu/drm/panthor/panthor_hw.c
->> index b6e7401327c3..34536526384d 100644
->> --- a/drivers/gpu/drm/panthor/panthor_hw.c
->> +++ b/drivers/gpu/drm/panthor/panthor_hw.c
->> @@ -186,3 +186,8 @@ int panthor_hw_init(struct panthor_device *ptdev)
->>  
->>  	return 0;
->>  }
->> +
->> +bool panthor_hw_has_feature(struct panthor_device *ptdev, enum panthor_hw_feature feature)
->> +{
->> +	return test_bit(feature, ptdev->hw->features);
->> +}
->> diff --git a/drivers/gpu/drm/panthor/panthor_hw.h b/drivers/gpu/drm/panthor/panthor_hw.h
->> index 39752de3e7ad..7a191e76aeec 100644
->> --- a/drivers/gpu/drm/panthor/panthor_hw.h
->> +++ b/drivers/gpu/drm/panthor/panthor_hw.h
->> @@ -4,14 +4,32 @@
->>  #ifndef __PANTHOR_HW_H__
->>  #define __PANTHOR_HW_H__
->>  
->> +#include <linux/types.h>
->> +
->>  struct panthor_device;
->>  
->> +/**
->> + * enum panthor_hw_feature - Bit position of each HW feature
->> + *
->> + * Used to define GPU specific features based on the GPU architecture ID.
->> + * New feature flags will be added with support for newer GPU architectures.
->> + */
->> +enum panthor_hw_feature {
->> +	/** @PANTHOR_HW_FEATURES_END: Must be last. */
->> +	PANTHOR_HW_FEATURES_END
->> +};
->> +
->> +
->>  /**
->>   * struct panthor_hw - GPU specific register mapping and functions
->>   */
->>  struct panthor_hw {
->> +	/** @features: Bitmap containing panthor_hw_feature */
->> +	DECLARE_BITMAP(features, PANTHOR_HW_FEATURES_END);
->>  };
->>  
->>  int panthor_hw_init(struct panthor_device *ptdev);
->>  
->> +bool panthor_hw_has_feature(struct panthor_device *ptdev, enum panthor_hw_feature feature);
->> +
->>  #endif /* __PANTHOR_HW_H__ */
-> 
-
+-- 
+With best wishes
+Dmitry
