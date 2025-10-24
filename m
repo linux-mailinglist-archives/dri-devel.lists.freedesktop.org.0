@@ -2,98 +2,46 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id EF7ABC064FD
-	for <lists+dri-devel@lfdr.de>; Fri, 24 Oct 2025 14:48:44 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 230F1C06633
+	for <lists+dri-devel@lfdr.de>; Fri, 24 Oct 2025 15:03:05 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9748610EA2C;
-	Fri, 24 Oct 2025 12:48:23 +0000 (UTC)
-Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="LdeW+ldM";
-	dkim-atps=neutral
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1359010E1F2;
+	Fri, 24 Oct 2025 13:03:00 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.133.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5E2D610EA2B
- for <dri-devel@lists.freedesktop.org>; Fri, 24 Oct 2025 12:48:21 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1761310100;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=+6TGhV5IlQELsTrMZxBTKRG5Lt7ZLw1MZtzj8DxcxOE=;
- b=LdeW+ldMyyg1BmeQ9mDqzWwUgKQ1LjmjHbEObJMYer1P0xwoGdhG8Utpcy2hOhSs1iSqqM
- XDNcR0kZ5ZoYuQHkf3f+ZVdz0D9HMA/+DFRKNyq1Rp/M30Fr2Fv56hdXpCLpu14J6QZSjM
- cDJZt2DrjU1uSPEmVMqEcqjL95EjztE=
-Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
- [209.85.128.70]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-294-SFm6QxiQOEmBpciyLi_m6w-1; Fri, 24 Oct 2025 08:48:18 -0400
-X-MC-Unique: SFm6QxiQOEmBpciyLi_m6w-1
-X-Mimecast-MFC-AGG-ID: SFm6QxiQOEmBpciyLi_m6w_1761310097
-Received: by mail-wm1-f70.google.com with SMTP id
- 5b1f17b1804b1-47114d373d5so15737795e9.1
- for <dri-devel@lists.freedesktop.org>; Fri, 24 Oct 2025 05:48:18 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1761310097; x=1761914897;
- h=content-transfer-encoding:in-reply-to:from:content-language
- :references:to:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=+6TGhV5IlQELsTrMZxBTKRG5Lt7ZLw1MZtzj8DxcxOE=;
- b=pR7jYhAkViZv9FyKbEPY0TTm0/632r+0myeiAICFsVG6csSrvGBgwoZ28Rhpv2xLUN
- 3dCWt7hFlP2zIIObaOvn+VpyTsZLeVJsHreBs4La3o0dW/MYlYtY3pC5mqASBsDdf8yH
- 5xe4uzTu5BAPu/kd60vEmRJ7X3oJW1AG4ePhEaJMzYo0hApRgOJ1H7bWLPrLvduXLKRh
- WBDGoMrPArIboHP+EDriGT418UtKilgSYXHmhOIoy8vL6otGkippBgud4nQvXICWkyUs
- Vqk7SvkPfbE98W/77M36UNh89mRstF142BGMFlZhH4+dJwivvzU07B2mqWgn4wz3WeRs
- wdtg==
-X-Forwarded-Encrypted: i=1;
- AJvYcCUS0E0dOOQKWfm/ILiMjSXGb5UzKA+DNSM0P6/VMjkKYI//73D0LTnCh1qJwkE+BfQGad60jS1VM8g=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Yz4fzpispLcC8lprZBii+HwRvfvcWM/StaVefSAukkMMJjgwkdT
- LXiDGQE1IsrEylcQRLbFHwkQmsA2F/liNGy4yzwk+qGv0AhbnO99hB6tvSsfZLBA+KBXev4yBcA
- 3nKH++YmByI+F/RDXhvyhF9NvfyTHsMuFgP0CHUT5IUsQF0qPVshQr8SlqpcxXXJ40yLRVQ==
-X-Gm-Gg: ASbGncuzD7O5SzpmgodEGvDE/Vv/n353n13S1uG036ftrbeJvXD+Zyf3i4SsPSUGpKS
- NO+OwzolKBdiTqZMvPVig0gPRQTSMG8/jKY+M1HVedRMOO50nYxiPitAMwNcB41HZO0u2rwdo41
- vfOVD0p/oDGojxvkZb12a9Du7oRomTMakIqMTeBubI5j1ra99aQG8LKwTXgu6vXW9awo65pteiz
- lcu1Nim66HX+LABa7pf4KhFaRX9623rda6e6bH4GAdq+Vi/tncTSO2ScqpJDzDl9768MVDncMLN
- PiVurqtueBN410h3Cx8XqNRAyIqdn6U0j8zT8d8eyafSkdKkzMLDZUN53XHbse+pWl6+FV/V40D
- 3ndJ4kR/WENeJYMZ4vxrY7W6TFZu/+cjw2NM9AKk=
-X-Received: by 2002:a05:600c:3b83:b0:46e:3d41:6001 with SMTP id
- 5b1f17b1804b1-47117925171mr291334695e9.34.1761310097404; 
- Fri, 24 Oct 2025 05:48:17 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IHma4ENcfhapm3NQDHuWp3ZmLE6iI4yMNu0GFFugQD+CGMylq7yIfZkYdcdg4YK2lzMVKW0KQ==
-X-Received: by 2002:a05:600c:3b83:b0:46e:3d41:6001 with SMTP id
- 5b1f17b1804b1-47117925171mr291334335e9.34.1761310096957; 
- Fri, 24 Oct 2025 05:48:16 -0700 (PDT)
-Received: from ?IPV6:2a01:e0a:c:37e0:8998:e0cf:68cc:1b62?
- ([2a01:e0a:c:37e0:8998:e0cf:68cc:1b62])
- by smtp.gmail.com with ESMTPSA id
- 5b1f17b1804b1-475caf4642fsm86047815e9.17.2025.10.24.05.48.16
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 24 Oct 2025 05:48:16 -0700 (PDT)
-Message-ID: <6757f62e-0b10-4fc5-a9cb-16006c723459@redhat.com>
-Date: Fri, 24 Oct 2025 14:48:15 +0200
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 1991010E1E0
+ for <dri-devel@lists.freedesktop.org>; Fri, 24 Oct 2025 13:02:58 +0000 (UTC)
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+ by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 7AA1A1515;
+ Fri, 24 Oct 2025 06:02:49 -0700 (PDT)
+Received: from [10.1.37.17] (e122027.cambridge.arm.com [10.1.37.17])
+ by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 091713F63F;
+ Fri, 24 Oct 2025 06:02:54 -0700 (PDT)
+Message-ID: <360b8654-01be-4f47-90eb-4fdb2055c653@arm.com>
+Date: Fri, 24 Oct 2025 14:02:52 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] drm/i915/dmabuf: Flush the cache in vmap
-To: Tvrtko Ursulin <tursulin@ursulin.net>,
- Jani Nikula <jani.nikula@linux.intel.com>,
- Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>, David Airlie <airlied@gmail.com>,
- Simona Vetter <simona@ffwll.ch>, Christian Brauner <brauner@kernel.org>,
- Andi Shyti <andi.shyti@linux.intel.com>, intel-gfx@lists.freedesktop.org,
- dri-devel@lists.freedesktop.org, =?UTF-8?Q?Michel_D=C3=A4nzer?=
- <mdaenzer@redhat.com>
-References: <20251024110432.1313391-1-jfalempe@redhat.com>
- <a1d6cf1f-02b6-4c89-84e2-4b2af39829ef@ursulin.net>
-From: Jocelyn Falempe <jfalempe@redhat.com>
-In-Reply-To: <a1d6cf1f-02b6-4c89-84e2-4b2af39829ef@ursulin.net>
-X-Mimecast-Spam-Score: 0
-X-Mimecast-MFC-PROC-ID: 39UB44hjwaJRTAfi-EYGqZ-2uk3OvWnGjCGXT118RgA_1761310097
-X-Mimecast-Originator: redhat.com
-Content-Language: en-US, fr
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Subject: Re: [PATCH v1 06/10] drm/panthor: Implement L2 power on/off via
+ PWR_CONTROL
+To: Karunika Choo <karunika.choo@arm.com>, dri-devel@lists.freedesktop.org
+Cc: nd@arm.com, Boris Brezillon <boris.brezillon@collabora.com>,
+ Liviu Dudau <liviu.dudau@arm.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ linux-kernel@vger.kernel.org
+References: <20251014094337.1009601-1-karunika.choo@arm.com>
+ <20251014094337.1009601-7-karunika.choo@arm.com>
+ <022e2ea5-74e3-4d53-9afe-8ead71853ee4@arm.com>
+ <a9cd1999-12d9-41cf-aef6-a6c3f1f23e4c@arm.com>
+ <e74ec0b1-4975-4fd5-bb1a-4839c45987f7@arm.com>
+ <65785979-5bb4-494c-ba25-d97fb0152075@arm.com>
+From: Steven Price <steven.price@arm.com>
+Content-Language: en-GB
+In-Reply-To: <65785979-5bb4-494c-ba25-d97fb0152075@arm.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -109,65 +57,152 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 24/10/2025 13:53, Tvrtko Ursulin wrote:
-> 
-> On 24/10/2025 12:04, Jocelyn Falempe wrote:
->> On a lenovo se100 server, when using i915 GPU for rendering, and the
->> ast driver for display, the graphic output is corrupted, and almost
->> unusable.
+On 24/10/2025 12:51, Karunika Choo wrote:
+> On 24/10/2025 10:43, Steven Price wrote:
+>> On 23/10/2025 23:16, Karunika Choo wrote:
+>>> On 20/10/2025 11:50, Steven Price wrote:
+>>>> On 14/10/2025 10:43, Karunika Choo wrote:
+>>>>> This patch adds common helpers to issue power commands, poll
+>>>>> transitions, and validate domain state, then wires them into the L2
+>>>>> on/off paths.
+>>>>>
+>>>>> The L2 power-on sequence now delegates control of the SHADER and TILER
+>>>>> domains to the MCU when allowed, while the L2 itself is never delegated.
+>>>>> On power-off, dependent domains beneath the L2 are checked, and if
+>>>>> necessary, retracted and powered down to maintain proper domain
+>>>>> ordering.
+>>>>>
+>>>>> Signed-off-by: Karunika Choo <karunika.choo@arm.com>
+>>>>> ---
+>> [...]
+>>>>> +		u64 domain_ready = gpu_read64(ptdev, get_domain_ready_reg(child_domain));
+>>>>> +
+>>>>> +		if (domain_ready && (pwr_status & PWR_STATUS_DOMAIN_DELEGATED(child_domain))) {
+>>>>> +			drm_warn(&ptdev->base,
+>>>>> +				 "L2 power off: Delegated %s domain not powered down by MCU",
+>>>>> +				 get_domain_name(child_domain));
+>>>>> +			ret = retract_domain(ptdev, child_domain);
+>>>>> +			if (ret) {
+>>>>> +				drm_err(&ptdev->base, "Failed to retract %s domain",
+>>>>> +					get_domain_name(child_domain));
+>>>>> +				panthor_pwr_info_show(ptdev);
+>>>>> +				return ret;
+>>>>> +			}
+>>>>> +		}
+>>>>> +
+>>>>> +		ret = panthor_pwr_domain_power_off(ptdev, child_domain, domain_ready,
+>>>>> +						   PWR_TRANSITION_TIMEOUT_US);
+>>>>> +		if (ret)
+>>>>> +			return ret;
+>>>>> +	}
+>>>>> +
+>>>>> +	return panthor_pwr_domain_power_off(ptdev, PWR_COMMAND_DOMAIN_L2,
+>>>>> +					    ptdev->gpu_info.l2_present,
+>>>>> +					    PWR_TRANSITION_TIMEOUT_US);
+>>>>
+>>>> Does this implicitly 'retract' the shader/tiler power domains? If so I
+>>>> think it's worth a comment. Otherwise it looks like we don't actually
+>>>> know the status of whether the shader/tiler power domains are retracted
+>>>> or not.
+>>>>
+>>>
+>>> panthor_pwr_l2_power_off() will only retract the shader/tiler domains if
+>>> they have not been powered down by the MCU. In cases where the MCU did
+>>> power down these child domains, delegate_domain() will exit early as
+>>> they would already be delegated. I understand the ambiguity here,
+>>> hopefully it is somewhat acceptable.
 >>
->> Adding a clflush call in the vmap function fixes this issue
->> completely.
-> 
-> AST is importing i915 allocated buffer in this use case, or how exactly 
-> is the relationship?
-
-I think it's mutter/gnome-shell who copy the buffer from i915 to ast, 
-here is the logs:
-
-gnome-shell[2079]: Failed to initialize accelerated iGPU/dGPU 
-framebuffer sharing: Do not want to use software renderer (llvmpipe 
-(LLVM 19.1.7, 256 bits)), falling back to CPU copy path
-gnome-shell[1533]: Created gbm renderer for '/dev/dri/card0'
-gnome-shell[1533]: GPU /dev/dri/card1 selected as primary
-
-card0 is ast and card1 is i915
-
-Do you think there is something missing in mutter?
-
-(Added Michel Dänzer that may know more about mutter).
-
--- 
-
-Jocelyn
-
-
-> 
-> Wondering if some path is not calling dma_buf_begin/end_cpu_access().
-> 
-> Regards,
-> 
-> Tvrtko
-> 
+>> So my question was really how does the driver know whether the domains
+>> are delegated or not when this function returns?
 >>
->> Signed-off-by: Jocelyn Falempe <jfalempe@redhat.com>
->> ---
->>   drivers/gpu/drm/i915/gem/i915_gem_dmabuf.c | 1 +
->>   1 file changed, 1 insertion(+)
+>> I couldn't quite get my head around whether turning the L2 power domain
+>> off would implicitly 'retract' the shader/tiler power domains -
+>> obviously it forces them off which means the MCU doesn't have control.
+>> So retracting would make sense, but I couldn't see anything in the spec.
 >>
->> diff --git a/drivers/gpu/drm/i915/gem/i915_gem_dmabuf.c b/drivers/gpu/ 
->> drm/i915/gem/i915_gem_dmabuf.c
->> index f4f1c979d1b9..f6a8c1cbe4d1 100644
->> --- a/drivers/gpu/drm/i915/gem/i915_gem_dmabuf.c
->> +++ b/drivers/gpu/drm/i915/gem/i915_gem_dmabuf.c
->> @@ -77,6 +77,7 @@ static int i915_gem_dmabuf_vmap(struct dma_buf 
->> *dma_buf,
->>           return PTR_ERR(vaddr);
->>       iosys_map_set_vaddr(map, vaddr);
->> +    drm_clflush_virt_range(vaddr, dma_buf->size);
->>       return 0;
->>   }
+>> It would be good to have a comment explaining what the expected state is
+>> after this function (panthor_pwr_l2_power_off) returns. Is it unknown
+>> whether the shader/tiler are retracted, or is there something in the
+>> hardware which does this automatically so we know but don't have to
+>> manually retract? Presumably if we end up fully powering down the GPU
+>> that must effectively retract all domains (the GPU hardware is reset so
+>> it goes back to reset conditions).
 >>
->> base-commit: 0790925dadad0997580df6e32cdccd54316807f2
+>> Sorry, it's a bit of a basic question but the spec is somewhat unhelpful
+>> on this point! (Or at least I haven't found a relevant statement).
+>>
 > 
+> Powering off the L2 does not automatically retract its child domains.
+> The above case is for handling the edge case where the MCU is hung and
+> is not able to power off the delegated domains, therefore the host needs
+> to take over and power them down before turning off the L2. Additionally,
+> like you have alluded to, powering off the GPU will inevitably reset all
+> of these states (retracting the child domains), necessitating a
+> re-delegation on L2 power on.
+> 
+> Therefore, the typical operation loop will be as follows:
+>  1. L2 power on
+>  2. Delegate Tiler/Shader
+>  <suspend>
+>  3. Halt MCU (should power down Tiler/Shader)
+>  4. L2 power off (no retract of Tiler/Shader)
+>  <resume>
+>  5. L2 power on (next resume)
+>  6. Delegate Tiler/Shader (skipped as already delegated)
+> 
+> If the MCU is hung:
+>  1. L2 power on
+>  2. Delegate Tiler/Shader
+>  <suspend>
+>  3. Halt MCU fails
+>  4. L2 power off (Retract and power off Shader/Tiler)
+>  <resume>
+>  5. L2 power on
+>  6. Delegate Tiler/Shader
+> 
+> If the GPU is turned off between suspend and resume:
+>  1. L2 power on
+>  2. Delegate Tiler/Shader
+>  <suspend>
+>  3. Halt MCU (should power down Tiler/Shader)
+>  4. L2 power off (no retract of Tiler/Shader)
+>  <GPU turned off>
+>  <resume>
+>  6. L2 power on
+>  7. Delegate Tiler/Shader
+
+Thanks for the explanation!
+
+> 
+> With the current implementation, we cannot expect it to be always
+> retracted on return of the function, but it does provide the
+> additional benefit that on resume we don't need to go through the
+> whole delegate cycle after powering up the L2, allowing us to
+> save some time there.
+> 
+> On the other hand, if we want to explicitly enforce that we retract on 
+> suspend, then we have to accept the additional cost to delegate the
+> domains on resume.
+
+No, there's no need to change it. But I think it's worth a comment that
+in the usual case (the MCU isn't hung) the shader/tiler are left
+delegated and the attempt to delegate them again will detect this and
+skip it.
+
+I think what mostly confused me is that delegate_domain() has the following:
+
+> +	if (pwr_status_reg & delegated_mask) {
+> +		drm_dbg(&ptdev->base, "%s domain already delegated",
+> +			get_domain_name(domain));
+> +		return 0;
+> +	}
+
+Although it's "drm_dbg" that message makes it seem like this is an
+unexpected situation. Whereas actually we would normally expect that to
+happen during a resume (as long as the GPU remains powered). With that
+in my head I then started to think that there might be something in the
+hardware causing an automatic "retract".
+
+Thanks,
+Steve
 
