@@ -2,74 +2,47 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0A1ACC04FE6
-	for <lists+dri-devel@lfdr.de>; Fri, 24 Oct 2025 10:12:57 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id C36AFC05019
+	for <lists+dri-devel@lfdr.de>; Fri, 24 Oct 2025 10:15:17 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 039EB10E1B2;
-	Fri, 24 Oct 2025 08:12:55 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BCC8410EA07;
+	Fri, 24 Oct 2025 08:15:14 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=rock-chips.com header.i=@rock-chips.com header.b="cbh7z5oM";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="gycaGLTb";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-m49195.qiye.163.com (mail-m49195.qiye.163.com
- [45.254.49.195])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B1DE410E1B2
- for <dri-devel@lists.freedesktop.org>; Fri, 24 Oct 2025 08:12:52 +0000 (UTC)
-Received: from [172.16.12.149] (unknown [58.22.7.114])
- by smtp.qiye.163.com (Hmail) with ESMTP id 270f1f398;
- Fri, 24 Oct 2025 16:12:48 +0800 (GMT+08:00)
-Message-ID: <9ec2189e-ec36-4cd8-9713-beb490b8297c@rock-chips.com>
-Date: Fri, 24 Oct 2025 16:12:47 +0800
+Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7EBEA10EA07
+ for <dri-devel@lists.freedesktop.org>; Fri, 24 Oct 2025 08:15:13 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by tor.source.kernel.org (Postfix) with ESMTP id 906806428F;
+ Fri, 24 Oct 2025 08:15:12 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id CB152C4CEF1;
+ Fri, 24 Oct 2025 08:15:09 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1761293712;
+ bh=49SlPs0GtTNvbbpkzvJqX5+myNBId64ehKG2ocaYIl8=;
+ h=From:To:Cc:Subject:Date:From;
+ b=gycaGLTbn6eObMR4+zP6K447DrVnmm//xfPqTnANoNvGwrN7uOq4biTY3s87P4KsY
+ R6wT6/KNbXzfDNOxMFiRY44io30OYQxVur1cJ6jfvDnz7hjKUUPqNQrUZgUrZ3DIrH
+ ndd16rjuRLzICCXNvRHz1AYqZG4p0125G2IvFig32VxhUa5LoFnpU+GcK52BN8w6b2
+ mKYAO9gY9okBDm4+rVCOFrQmtH/zz67CIab6usU7jg2XnBYciFWO8Q5MHo4loxq+G1
+ sL5XVRqCcj2Ptp2U0W+ohdhjCJ/7KF6ePpJVOK+K2N8MN6eQOoudADPUiJreQa9KuD
+ VdkywpXDWplGw==
+From: Philipp Stanner <phasta@kernel.org>
+To: Matthew Brost <matthew.brost@intel.com>,
+ Danilo Krummrich <dakr@kernel.org>, Philipp Stanner <phasta@kernel.org>,
+ =?UTF-8?q?Christian=20K=C3=B6nig?= <ckoenig.leichtzumerken@gmail.com>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>
+Cc: dri-devel@lists.freedesktop.org,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH] MAINTAINERS: Maintain spsc_queue through drm_sched
+Date: Fri, 24 Oct 2025 10:15:00 +0200
+Message-ID: <20251024081459.164634-2-phasta@kernel.org>
+X-Mailer: git-send-email 2.49.0
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v7 2/9] drm/bridge: Implement generic USB Type-C DP HPD
- bridge
-To: Heikki Krogerus <heikki.krogerus@linux.intel.com>
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>,
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>, Vinod Koul <vkoul@kernel.org>,
- Kishon Vijay Abraham I <kishon@kernel.org>, Heiko Stuebner
- <heiko@sntech.de>, Sandy Huang <hjc@rock-chips.com>,
- Andy Yan <andy.yan@rock-chips.com>,
- Yubing Zhang <yubing.zhang@rock-chips.com>,
- Frank Wang <frank.wang@rock-chips.com>,
- Andrzej Hajda <andrzej.hajda@intel.com>,
- Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Amit Sunil Dhamne <amitsd@google.com>, Dragan Simic <dsimic@manjaro.org>,
- Johan Jonker <jbx6244@gmail.com>, Diederik de Haas <didi.debian@cknow.org>,
- Peter Robinson <pbrobinson@gmail.com>, linux-usb@vger.kernel.org,
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-phy@lists.infradead.org, linux-arm-kernel@lists.infradead.org,
- linux-rockchip@lists.infradead.org, dri-devel@lists.freedesktop.org
-References: <20251023033009.90-1-kernel@airkyi.com>
- <20251023033009.90-3-kernel@airkyi.com> <aPnrKFWTvpuRTyhI@kuha.fi.intel.com>
- <14b8ac71-489b-4192-92d6-5f228ff3881d@rock-chips.com>
- <aPoZhBdc1M6Qgfae@kuha.fi.intel.com>
- <6f769567-b383-4c79-b441-3dd84f21cdae@rock-chips.com>
- <aPsse5qVL84XOj8w@kuha.fi.intel.com>
-Content-Language: en-US
-From: Chaoyi Chen <chaoyi.chen@rock-chips.com>
-In-Reply-To: <aPsse5qVL84XOj8w@kuha.fi.intel.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-HM-Tid: 0a9a1547081303abkunmae71b56b2f4984
-X-HM-MType: 1
-X-HM-Spam-Status: e1kfGhgUHx5ZQUpXWQgPGg8OCBgUHx5ZQUlOS1dZFg8aDwILHllBWSg2Ly
- tZV1koWUFDSUNOT01LS0k3V1ktWUFJV1kPCRoVCBIfWUFZQh9PTFYYHU8YGkNDQx0ZTx9WFRQJFh
- oXVRMBExYaEhckFA4PWVdZGBILWUFZTkNVSUlVTFVKSk9ZV1kWGg8SFR0UWUFZT0tIVUpLSEtNQk
- tVSktLVUpCWQY+
-DKIM-Signature: a=rsa-sha256;
- b=cbh7z5oMnHR/DLqyOIDZk4K7gXmeu0Z/ewCxVZLD2lfh51kbnP5gwdZNZ7a3inVN4NoC/E/hL4XmvOdj5FQ0/XmmJ78CkfSevEhzvOTjQ9VpmomjoQ1rpjyzol1iXhudUcEI++95744VHFl5SRJlcN0jA2NbRp7MwZ9xcoa3t1g=;
- s=default; c=relaxed/relaxed; d=rock-chips.com; v=1; 
- bh=k9PZlmFs4+G6V09YuUs38/TEsI+fOADgB825HrzHznU=;
- h=date:mime-version:subject:message-id:from;
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -85,29 +58,29 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 10/24/2025 3:36 PM, Heikki Krogerus wrote:
+Back in the day a specialized lockless queue was designed solely for the
+DRM GPU Scheduler: spsc_queue. This queue's only user is drm_sched, and
+there is no dedicated maintainer entry for the queue.
 
->> Another thing is that CONFIG_DRM_AUX_HPD_BRIDGE originally needed to be
->> selected by other modules. With this change, we also need to expose it in
->> Kconfig.
-> Sorry, I don't understand the problem here? What do you need to expose
-> in Kconfig?
+Add the spsc_queue header to the DRM GPU Scheduler MAINTAINERS' section.
 
-config DRM_AUX_HPD_BRIDGE
-     tristate
-     depends on DRM_BRIDGE && OF
-     select AUXILIARY_BUS
-     help
-       Simple bridge that terminates the bridge chain and provides HPD
-       support.
+Signed-off-by: Philipp Stanner <phasta@kernel.org>
+---
+ MAINTAINERS | 1 +
+ 1 file changed, 1 insertion(+)
 
-The tristate here is empty, so now it can only be selected by some TypeC controller drivers. I think it's not a big deal, just expose this item.
-
-
->
-> thanks,
->
+diff --git a/MAINTAINERS b/MAINTAINERS
+index 5889df9de210..efafe2b3517c 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -8580,6 +8580,7 @@ S:	Supported
+ T:	git https://gitlab.freedesktop.org/drm/misc/kernel.git
+ F:	drivers/gpu/drm/scheduler/
+ F:	include/drm/gpu_scheduler.h
++F:	include/drm/spsc_queue.h
+ 
+ DRM GPUVM
+ M:	Danilo Krummrich <dakr@kernel.org>
 -- 
-Best,
-Chaoyi
+2.49.0
 
