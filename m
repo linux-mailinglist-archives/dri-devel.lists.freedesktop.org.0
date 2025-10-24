@@ -2,59 +2,42 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9EDE4C0688D
-	for <lists+dri-devel@lfdr.de>; Fri, 24 Oct 2025 15:38:12 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 00A6AC068C0
+	for <lists+dri-devel@lfdr.de>; Fri, 24 Oct 2025 15:42:12 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id EBB9E10EA93;
-	Fri, 24 Oct 2025 13:38:09 +0000 (UTC)
-Authentication-Results: gabe.freedesktop.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=igalia.com header.i=@igalia.com header.b="UYP0YRo3";
-	dkim-atps=neutral
+	by gabe.freedesktop.org (Postfix) with ESMTP id 121CB10EA90;
+	Fri, 24 Oct 2025 13:42:11 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from fanzine2.igalia.com (fanzine2.igalia.com [213.97.179.56])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7CFA010EA93
- for <dri-devel@lists.freedesktop.org>; Fri, 24 Oct 2025 13:38:07 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
- s=20170329;
- h=Content-Transfer-Encoding:Content-Type:In-Reply-To:From:
- References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender:Reply-To:
- Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
- Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
- List-Subscribe:List-Post:List-Owner:List-Archive;
- bh=STvdtGwrlbRDAy5cjPU3q5DnAKLJycqH59lsV64gJ40=; b=UYP0YRo3qGyIl1x85VdifTZnfi
- xH3/nNPo9Xn9nSwlU1d9Vrs2FTfTQD7Hy+U1ZmaLC4LFLxeEDUHTEwowC3CKzpVeC9jtowU8wlqHt
- 9oX0QL7VHNKgZefAJbIKOClgRvUF5+c1jq4aljw/Sgn2UkcoQSVHG7kAQGFPfL22kY75jRHf9xijI
- L2OMg2R391QegKQxzQdtP3QevbiamtW48cfGlwfiftDjR3tlHXpr6t4KTvg7M5etU2ZrWkuaGW/EW
- fn7L94pqm8s1tRvKt1YWdvZ1nXeC5Bnwd9hAHSXQ+CeJv1jQI6xxC+ptd4h2FiLcOy5HSAHai2Xx7
- GszFH9bw==;
-Received: from [90.242.12.242] (helo=[192.168.0.101])
- by fanzine2.igalia.com with esmtpsa 
- (Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_128_GCM:128) (Exim)
- id 1vCHzL-00EmDz-G4; Fri, 24 Oct 2025 15:37:51 +0200
-Message-ID: <cefe8f07-68a3-4c93-ae46-ebb01ff6fa2c@igalia.com>
-Date: Fri, 24 Oct 2025 14:37:50 +0100
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 05C8610EA90
+ for <dri-devel@lists.freedesktop.org>; Fri, 24 Oct 2025 13:42:10 +0000 (UTC)
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+ by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id DE02F175A
+ for <dri-devel@lists.freedesktop.org>; Fri, 24 Oct 2025 06:42:01 -0700 (PDT)
+Received: from e110455-lin.cambridge.arm.com (usa-sjc-imap-foss1.foss.arm.com
+ [10.121.207.14])
+ by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPA id 7E8873F63F
+ for <dri-devel@lists.freedesktop.org>; Fri, 24 Oct 2025 06:42:09 -0700 (PDT)
+Date: Fri, 24 Oct 2025 14:41:57 +0100
+From: Liviu Dudau <liviu.dudau@arm.com>
+To: Ketil Johnsen <ketil.johnsen@arm.com>
+Cc: Boris Brezillon <boris.brezillon@collabora.com>,
+ Steven Price <steven.price@arm.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Heiko Stuebner <heiko@sntech.de>, Grant Likely <grant.likely@linaro.org>,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] drm/panthor: Fix race with suspend during unplug
+Message-ID: <aPuCJSsMSWxbLPn6@e110455-lin.cambridge.arm.com>
+References: <20251022103242.1083311-1-ketil.johnsen@arm.com>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] dma-fence: Correct return of dma_fence_driver_name()
-To: Danilo Krummrich <dakr@kernel.org>
-Cc: phasta@kernel.org, Sumit Semwal <sumit.semwal@linaro.org>,
- Gustavo Padovan <gustavo@padovan.org>,
- =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
- linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org
-References: <20251024075019.162351-2-phasta@kernel.org>
- <11b7a8a5-170f-4815-a8ac-5dba2d8e67a1@igalia.com>
- <5de88e79575e06c053f2d61f7bb58bf9cf5b556e.camel@mailbox.org>
- <1d0bbdcf-f4d6-49c0-bbdf-364c2af80868@igalia.com>
- <89812f66-25a6-4f9e-aa4f-74adbf116db8@kernel.org>
- <5640fbf1-7b8d-4537-9f1a-b401a7a4934b@igalia.com>
- <8cba66d2-9608-4a5c-a2af-6cc91f46a49f@kernel.org>
-Content-Language: en-GB
-From: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
-In-Reply-To: <8cba66d2-9608-4a5c-a2af-6cc91f46a49f@kernel.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20251022103242.1083311-1-ketil.johnsen@arm.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -70,45 +53,63 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
-On 24/10/2025 14:13, Danilo Krummrich wrote:
-> On 10/24/25 2:40 PM, Tvrtko Ursulin wrote:
->> You trim too much of the quote making it unclear if you read the whole story.
+On Wed, Oct 22, 2025 at 12:32:41PM +0200, Ketil Johnsen wrote:
+> There is a race between panthor_device_unplug() and
+> panthor_device_suspend() which can lead to IRQ handlers running on a
+> powered down GPU. This is how it can happen:
+> - unplug routine calls drm_dev_unplug()
+> - panthor_device_suspend() can now execute, and will skip a lot of
+>   important work because the device is currently marked as unplugged.
+> - IRQs will remain active in this case and IRQ handlers can therefore
+>   try to access a powered down GPU.
 > 
-> I'm well aware of the context.
-
-Good to know. I am coming from the angle that netiquette, at least in 
-the olden days, used to be that when you join an established thread you 
-don't trim too much of the context. For the benefit of people joining 
-the thread at that very point, especially when re-raising an argument 
-which has already been discussed.
-
->> If the driver isn't detached from the signalled fence then it is vulnerable to
->> use after free.
-> When someone just reads "detached-driver" is creates the impression that the
-> driver is unbound from its device, since this is what this term is usually used for.
+> The fix is simply to take the PM ref in panthor_device_unplug() a
+> little bit earlier, before drm_dev_unplug().
 > 
-> (And this is even the case you want to protect against, i.e. the string behind
-> the pointer returned by get_driver_name() has been freed.)
+> Signed-off-by: Ketil Johnsen <ketil.johnsen@arm.com>
+> Fixes: 5fe909cae118a ("drm/panthor: Add the device logical block")
 
-One of the cases just to be clear. The driver getting unbound from the 
-device is not *the* case.
+Reviewed-by: Liviu Dudau <liviu.dudau@arm.com>
 
-In fact with xe the bug was exploitable by just closing the render node 
-fd and then querying the fence. Hence detached in this context is more 
-than unbound or unloaded.
-> However, the condition that has changed when you print "driver-detached" is that
-> the fence has been signaled, independent of whether the driver has been detached
-> from the device.
+Best regards,
+Liviu
+
+> ---
+>  drivers/gpu/drm/panthor/panthor_device.c | 4 ++--
+>  1 file changed, 2 insertions(+), 2 deletions(-)
 > 
-> Now, you can argue that you mean "driver has been detached from the fence",
-> which means something along the lines of "the driver has no business with the
-> fence anymore", but this is not what people think of when they read
-> "detached-driver".Okay people. :)
+> diff --git a/drivers/gpu/drm/panthor/panthor_device.c b/drivers/gpu/drm/panthor/panthor_device.c
+> index 81df49880bd87..962a10e00848e 100644
+> --- a/drivers/gpu/drm/panthor/panthor_device.c
+> +++ b/drivers/gpu/drm/panthor/panthor_device.c
+> @@ -83,6 +83,8 @@ void panthor_device_unplug(struct panthor_device *ptdev)
+>  		return;
+>  	}
+>  
+> +	drm_WARN_ON(&ptdev->base, pm_runtime_get_sync(ptdev->base.dev) < 0);
+> +
+>  	/* Call drm_dev_unplug() so any access to HW blocks happening after
+>  	 * that point get rejected.
+>  	 */
+> @@ -93,8 +95,6 @@ void panthor_device_unplug(struct panthor_device *ptdev)
+>  	 */
+>  	mutex_unlock(&ptdev->unplug.lock);
+>  
+> -	drm_WARN_ON(&ptdev->base, pm_runtime_get_sync(ptdev->base.dev) < 0);
+> -
+>  	/* Now, try to cleanly shutdown the GPU before the device resources
+>  	 * get reclaimed.
+>  	 */
+> -- 
+> 2.47.2
+> 
 
-How about "unknown-driver", would that satisfy you?
-
-Regards,
-
-Tvrtko
-
+-- 
+====================
+| I would like to |
+| fix the world,  |
+| but they're not |
+| giving me the   |
+ \ source code!  /
+  ---------------
+    ¯\_(ツ)_/¯
