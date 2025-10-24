@@ -2,47 +2,48 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B0141C042E9
-	for <lists+dri-devel@lfdr.de>; Fri, 24 Oct 2025 04:56:25 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7BA84C04304
+	for <lists+dri-devel@lfdr.de>; Fri, 24 Oct 2025 04:57:40 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id ED24810E9BB;
-	Fri, 24 Oct 2025 02:56:23 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B541610E9BD;
+	Fri, 24 Oct 2025 02:57:38 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=collabora.com header.i=dmitry.osipenko@collabora.com header.b="amI7bFHU";
+	dkim=pass (1024-bit key; unprotected) header.d=collabora.com header.i=dmitry.osipenko@collabora.com header.b="HPQa/byz";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from sender4-pp-f112.zoho.com (sender4-pp-f112.zoho.com
  [136.143.188.112])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D743610E9BB
- for <dri-devel@lists.freedesktop.org>; Fri, 24 Oct 2025 02:56:22 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; t=1761274566; cv=none; 
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 191B910E9C2
+ for <dri-devel@lists.freedesktop.org>; Fri, 24 Oct 2025 02:57:37 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; t=1761274641; cv=none; 
  d=zohomail.com; s=zohoarc; 
- b=LJA2ABNV41zIY3utHxeq8c6PDeAXksAej7Mxxw2N+ycQpU6uQtaZntEDuBUgmClLmzBsxKDqKk16LXxqQXiHeamZ1pyaAWI0K1Ond+2Yt9IEH9U4REG5JNxSzS9NG4/Bu2K/jfYcYkLZ1VAmrRr0bKzFwiK4S9xs4LHO+XQZgPI=
+ b=OHeDXFLQLd4ABZUaREQfv34vbwFlv/QoFL3vUjbJ1uuq1X4rNQqWl0DrW81+Vs71i+7opJQrNVPdPhf50KvzZp8wunsHpH6mrK59ZaQuNhO8Y6SoWgGC0cS3Nkw89ExuJbc3CxtjqRedTfJe3jmcCjVMpHlOH/HfX5ag4ulFC5Q=
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
- s=zohoarc; t=1761274566;
+ s=zohoarc; t=1761274641;
  h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To;
- bh=/mv8dm4RzElIaT09+m1z1YwB5+HyUL5t0yLE2IDW2XI=; 
- b=leqjlDTdx0uKcdYzsAMonJsQjEFQE09fyKzgNFztJszE/hVLSOJhO4O9ZOgXXtEtplqVL5CC3RFr4QuahLniQ3oYS/ANZzyfKIcflSxHscNOKeFmZH8xT3A18wG9Jl4GPw5bmMca9ziUfTqFIGD0Gidxait6zpaEaCZOJtRbgdE=
+ bh=RDwnsfjW/wgiael2ow2RghCG8kQBpH9fQNlJhjxCDh8=; 
+ b=kdZV7SSy14xNM6dXs+K9Wstnn6fnseQOL03Dx/OHli5svnBE+VsFTSCkTX316w7nclhjwk99taANEvCfNoDtH7qAT7G61WUYqX7Rao6kLtt8oGzdCQQydSOzbOi1AC7kmFK0EiDLsJAvOaGaGHNKHFnARGRSe+VE+zRDIzD9AQE=
 ARC-Authentication-Results: i=1; mx.zohomail.com;
  dkim=pass  header.i=collabora.com;
  spf=pass  smtp.mailfrom=dmitry.osipenko@collabora.com;
  dmarc=pass header.from=<dmitry.osipenko@collabora.com>
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1761274566; 
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1761274641; 
  s=zohomail; d=collabora.com; i=dmitry.osipenko@collabora.com; 
- h=Message-ID:Date:Date:MIME-Version:Subject:Subject:To:To:Cc:Cc:References:From:From:In-Reply-To:Content-Type:Content-Transfer-Encoding:Message-Id:Reply-To;
- bh=/mv8dm4RzElIaT09+m1z1YwB5+HyUL5t0yLE2IDW2XI=;
- b=amI7bFHUiidcuH2K/kW1JLwQ5dw0JcJv4WxT96f2Wj1SStyAzux6JUjmVfoTDrYQ
- eEiH3NaUNSXohedGShradk5r62FADbIVIsTtfeoibZbWpN8vtZ3j1jYgEEKe8YFL5RK
- Q60Bsl2Z8JJ+iID3x64VpW6qfRnR28GjN/SbJBzM=
-Received: by mx.zohomail.com with SMTPS id 1761274563811118.4337829556714;
- Thu, 23 Oct 2025 19:56:03 -0700 (PDT)
-Message-ID: <8ac5053a-5f76-4145-a2f6-6bdd8316163e@collabora.com>
-Date: Fri, 24 Oct 2025 05:55:59 +0300
+ h=Message-ID:Date:Date:MIME-Version:Subject:Subject:From:From:To:To:Cc:Cc:References:In-Reply-To:Content-Type:Content-Transfer-Encoding:Message-Id:Reply-To;
+ bh=RDwnsfjW/wgiael2ow2RghCG8kQBpH9fQNlJhjxCDh8=;
+ b=HPQa/byzsHHFjn2EPp3hEvisHPnOr8HyvPz+17ExUCcORgF703hUIfVUAcD68+WU
+ x7EFEEhRXSQisp+2g3MfwcZ/WxnIhloxoUQj8G50Zdlg0N3vpDd46L4JXpD0Hv7umys
+ 2jDOw6yv9lc2n9Y1mJ9PBqsykoZamnWY0jqexhFw=
+Received: by mx.zohomail.com with SMTPS id 1761274639464460.8885606138539;
+ Thu, 23 Oct 2025 19:57:19 -0700 (PDT)
+Message-ID: <c5aa4544-9ff6-4669-b8d2-f8548c4c4eda@collabora.com>
+Date: Fri, 24 Oct 2025 05:57:16 +0300
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
 Subject: Re: [RFC][PATCH] drm/virtgpu: Make vblank event dependent on the host
  resource
+From: Dmitry Osipenko <dmitry.osipenko@collabora.com>
 To: "Kasireddy, Vivek" <vivek.kasireddy@intel.com>,
  Thomas Zimmermann <tzimmermann@suse.de>,
  "gurchetansingh@chromium.org" <gurchetansingh@chromium.org>,
@@ -60,9 +61,9 @@ References: <20251016145230.79270-1-tzimmermann@suse.de>
  <c6b44524-4e44-46e8-89b4-8f90e074431b@collabora.com>
  <84de3c82-638a-412c-8e25-9ff507d59400@suse.de>
  <IA0PR11MB7185DCAF9132F2CD92E42620F8F0A@IA0PR11MB7185.namprd11.prod.outlook.com>
+ <8ac5053a-5f76-4145-a2f6-6bdd8316163e@collabora.com>
 Content-Language: en-US
-From: Dmitry Osipenko <dmitry.osipenko@collabora.com>
-In-Reply-To: <IA0PR11MB7185DCAF9132F2CD92E42620F8F0A@IA0PR11MB7185.namprd11.prod.outlook.com>
+In-Reply-To: <8ac5053a-5f76-4145-a2f6-6bdd8316163e@collabora.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 X-ZohoMailClient: External
@@ -81,22 +82,26 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 10/23/25 09:22, Kasireddy, Vivek wrote:
-> Also, I think you might want to limit the plane sync to host mechanism to just guest
-> blobs only because based on what Dmitry said the vblank timer helps in virgl/venus/
-> native context use-cases. That is,
-> @@ -138,7 +140,7 @@ static int virtio_gpu_plane_atomic_check(struct drm_plane *plane,
->         for (i = 0; i < new_plane_state->fb->format->num_planes; ++i) {
->                 struct virtio_gpu_object *bo = gem_to_virtio_gpu_obj(new_plane_state->fb->obj[i]);
+On 10/24/25 05:55, Dmitry Osipenko wrote:
+> On 10/23/25 09:22, Kasireddy, Vivek wrote:
+>> Also, I think you might want to limit the plane sync to host mechanism to just guest
+>> blobs only because based on what Dmitry said the vblank timer helps in virgl/venus/
+>> native context use-cases. That is,
+>> @@ -138,7 +140,7 @@ static int virtio_gpu_plane_atomic_check(struct drm_plane *plane,
+>>         for (i = 0; i < new_plane_state->fb->format->num_planes; ++i) {
+>>                 struct virtio_gpu_object *bo = gem_to_virtio_gpu_obj(new_plane_state->fb->obj[i]);
+>>
+>> -               if (bo->host3d_blob || bo->guest_blob) {
+>> +               if (bo->guest_blob && !vgdev->has_virgl_3d) {
 > 
-> -               if (bo->host3d_blob || bo->guest_blob) {
-> +               if (bo->guest_blob && !vgdev->has_virgl_3d) {
+> Checking for obj->import_attach should be enough if it's only prime
+> sharing that doesn't work properly with vblank timer.
+> 
+> Please verify that only prime needs the workaround and send the updated
+> patch.
 
-Checking for obj->import_attach should be enough if it's only prime
-sharing that doesn't work properly with vblank timer.
-
-Please verify that only prime needs the workaround and send the updated
-patch.
+Don't forget to add clarifying comment to the code explaining the
+workaround.
 
 -- 
 Best regards,
