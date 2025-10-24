@@ -2,65 +2,85 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 32174C06F00
-	for <lists+dri-devel@lfdr.de>; Fri, 24 Oct 2025 17:22:05 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id EDE27C06F45
+	for <lists+dri-devel@lfdr.de>; Fri, 24 Oct 2025 17:25:52 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0681B89263;
-	Fri, 24 Oct 2025 15:22:02 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6A18B10E081;
+	Fri, 24 Oct 2025 15:25:49 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=temperror (0-bit key; unprotected) header.d=antheas.dev header.i=@antheas.dev header.b="XDDcaUw0";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="aKJ+ZZk6";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from relay10.grserver.gr (relay10.grserver.gr [37.27.248.198])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8B0B910EABC
- for <dri-devel@lists.freedesktop.org>; Fri, 24 Oct 2025 15:22:00 +0000 (UTC)
-Received: from relay10 (localhost.localdomain [127.0.0.1])
- by relay10.grserver.gr (Proxmox) with ESMTP id D0AF046309;
- Fri, 24 Oct 2025 18:21:58 +0300 (EEST)
-Received: from linux3247.grserver.gr (linux3247.grserver.gr [213.158.90.240])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested)
- by relay10.grserver.gr (Proxmox) with ESMTPS id 0B2BF4630C;
- Fri, 24 Oct 2025 18:21:58 +0300 (EEST)
-Received: from antheas-z13 (unknown
- [IPv6:2a05:f6c2:511b:0:8d8a:5967:d692:ea4e])
- by linux3247.grserver.gr (Postfix) with ESMTPSA id 1C73F1FF3B7;
- Fri, 24 Oct 2025 18:21:57 +0300 (EEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=antheas.dev;
- s=default; t=1761319317;
- bh=spsglYgimcjKwr6ZwOdpCum8Zdo4KCEeTND/G6yrqnM=; h=From:To:Subject;
- b=XDDcaUw0K6REBNmirYfF4dAK3CUohzCLdCrJBgWBS/udhsmWE8Xnj3RzNdksgZyVm
- wSgXcCYm2fjBlkW92DTl50ML5iAR9c+BPbQYF20OZaLxYU2FyK3b3Zx3fG6M086Eok
- JzrykDp/yg+6gUeTvHfkDQCW1OzTce0fJdECRTpCoXc709/XEp1t9/nwIqjSkMquhZ
- O6gE2D0WWCNdYbGyqkBadjdNb0aO9G0KJe3A0UZWvczuBKV9cA4cZ/gXONoWt0kP3A
- xPFVL0MsTInBSfwoaBL/1v+zkhvY9GHsKN/yXPh80LZF0lnTzDFnveeO5r3tpaUafv
- bSTa/gRivq1Qw==
-Authentication-Results: linux3247.grserver.gr;
- spf=pass (sender IP is 2a05:f6c2:511b:0:8d8a:5967:d692:ea4e)
- smtp.mailfrom=lkml@antheas.dev smtp.helo=antheas-z13
-Received-SPF: pass (linux3247.grserver.gr: connection is authenticated)
-From: Antheas Kapenekakis <lkml@antheas.dev>
-To: Alex Deucher <alexander.deucher@amd.com>,
- Shyam Sundar S K <Shyam-sundar.S-k@amd.com>,
- Mario Limonciello <mario.limonciello@amd.com>,
- Perry Yuan <perry.yuan@amd.com>
-Cc: amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, platform-driver-x86@vger.kernel.org,
- Antheas Kapenekakis <lkml@antheas.dev>
-Subject: [PATCH v1 3/3] drm/amdgpu: only send the SMU RLC notification on S3
-Date: Fri, 24 Oct 2025 17:21:52 +0200
-Message-ID: <20251024152152.3981721-4-lkml@antheas.dev>
-X-Mailer: git-send-email 2.51.0
-In-Reply-To: <20251024152152.3981721-1-lkml@antheas.dev>
-References: <20251024152152.3981721-1-lkml@antheas.dev>
+Received: from mail-wm1-f47.google.com (mail-wm1-f47.google.com
+ [209.85.128.47])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4BAE910E081
+ for <dri-devel@lists.freedesktop.org>; Fri, 24 Oct 2025 15:25:48 +0000 (UTC)
+Received: by mail-wm1-f47.google.com with SMTP id
+ 5b1f17b1804b1-475dae5d473so87045e9.2
+ for <dri-devel@lists.freedesktop.org>; Fri, 24 Oct 2025 08:25:48 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20230601; t=1761319547; x=1761924347; darn=lists.freedesktop.org;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+ bh=ypqIa5w6VQiQoM+Tw67e2xyPwM3Mkp0M4rGw2lAkqjc=;
+ b=aKJ+ZZk6scQnTq3ibvl3rOn55S55XycBi50GhlWtY5LH3qkikFZSDtDCEg2cn7D0Dv
+ miHSuJp1RurXg79GE1u2qlcn8ZdceuLrlZTGqwTAKucgnf8GKIBl4/aZbO/MU3BO/x24
+ tw96/uxUpPS1MDskiialoZB0hSuVclQf19Ezt12W5LjrfURAb0fc7UPLKdIPFRyeuGsX
+ tRFLRp0uqm4lB8VBrfhgpYkHvTLSyqMgLe2FwqZAg9LDUXzuSu3BYqSOGg6IFGSvNFeW
+ JjegYxg5wqEvoGr5TzcetlWz+JsnJwCl0EuZLWDnZE5St0CqQeGXHwU8/tOh0hr7/KHO
+ toGg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1761319547; x=1761924347;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=ypqIa5w6VQiQoM+Tw67e2xyPwM3Mkp0M4rGw2lAkqjc=;
+ b=KCWpNxzoR/r6KM9G91EK4d/io67tCcR5Dy8yuYhdnG5nfvYFyCo9/bGpP+B6Y1LQ/X
+ NSegavTY6GHQVD2zBbTGcYZBvwghnQrSZ4epvLXwGgIooHjmSHZCqjixf4tzNfTXKxyB
+ PQnitgbgt7H9Zv943ul5mnJ3n4bGVampo2oRHJMAJ3EMEmOD+MJHc6tOfIlCaD+a4aBd
+ liNMD2JXTgenhqm1cNazl28rR4+2o7YYVRAf2H3WeMLlmFWI5UHRxCv9eYpxSXJFAnpE
+ +0VhLD2VW2nfULD6Xycw5cKCYyAL4cOaOWbz1AD0hz6wJxtiGBQRJrl0DEVCHDx/Lo3x
+ ZTXg==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCV8EyXGrKPOCaLXhO4W+CSmcLaIsmjW+ULeSvFPhjquB85LzEFrlLOqcSDmnaBK1Hu5QhEhMmY7Lf4=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Yysi9+cqUBcCii2603wtFc54fSPorCNSiW3lCOYCHreRmGP4d0k
+ FkLGKnsYjqaIhGKP0ZBwoFGTO2SPyKPzpKnHxoSGhm57jtd2VTy/0T36
+X-Gm-Gg: ASbGncsm0PX2h0Q1Jg+oCRxG4YRCHL/1q2Mce8D3uWHnsq7BmMmU3b8eLMfHxD65C+G
+ uTLq/vTeEzSzcZn245BAl1JVkMHTzfG+8WFNKlCuLkocOxyi4aVKOmqXwEXo7f+l9FU1TMTJ+a6
+ KjUaVbmn7ktDeiDOVfttZ86iAl2zvDJOaqm0demWAc9sHcOiafDic0bF0TylClEHLhIS7dh4/QT
+ nyevNro7QG2N9PMj/6DQ30Bp19MlLlovml2DE+1yWzXW8pHoXXke1RLUD/09s4z9dTEjBOF6Gm3
+ PCbpLGzeMAn+64tACcaYDzIiCfVBE4QP2JvZ79pWETicS9bWX7aizSDR2e96zuLowfdjb4P2lIX
+ 6y/TKsAAUuGElBw8eo+bmP9CSAwh2s7WnQKeM173cUsHI0bJD6ouQnp2rLIp2S+6o9U2M9Y5J50
+ VW0yEjA1wBrWQsC4cvoHD3
+X-Google-Smtp-Source: AGHT+IH+9ceI5wAu8l/3wfsbGJD7MCuJ1USb4K1b4IDrZDz0mW503QMkS82KFPZH8fAPDDytSZwSNg==
+X-Received: by 2002:a05:600c:3b03:b0:468:86e0:de40 with SMTP id
+ 5b1f17b1804b1-4711786c6b9mr223889745e9.4.1761319546714; 
+ Fri, 24 Oct 2025 08:25:46 -0700 (PDT)
+Received: from fedora ([37.29.213.75]) by smtp.gmail.com with ESMTPSA id
+ 5b1f17b1804b1-47496d4b923sm83941545e9.14.2025.10.24.08.25.44
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 24 Oct 2025 08:25:46 -0700 (PDT)
+Date: Fri, 24 Oct 2025 17:25:43 +0200
+From: =?iso-8859-1?Q?Jos=E9_Exp=F3sito?= <jose.exposito89@gmail.com>
+To: Louis Chauvet <louis.chauvet@bootlin.com>
+Cc: Haneen Mohammed <hamohammed.sa@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Melissa Wen <melissa.srw@gmail.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Jonathan Corbet <corbet@lwn.net>,
+ victoria@system76.com, sebastian.wick@redhat.com,
+ thomas.petazzoni@bootlin.com, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org
+Subject: Re: [PATCH 07/22] drm/vkms: Introduce config for plane color range
+Message-ID: <aPuad03CDwb2PX5_@fedora>
+References: <20251018-vkms-all-config-v1-0-a7760755d92d@bootlin.com>
+ <20251018-vkms-all-config-v1-7-a7760755d92d@bootlin.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-PPP-Message-ID: <176131931758.2356119.11738767784012382444@linux3247.grserver.gr>
-X-PPP-Vhost: antheas.dev
-X-Virus-Scanned: clamav-milter 1.4.3 at linux3247.grserver.gr
-X-Virus-Status: Clean
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20251018-vkms-all-config-v1-7-a7760755d92d@bootlin.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -76,73 +96,135 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Alex Deucher <alexander.deucher@amd.com>
 
-For S0ix, the RLC is not powered down. Rework the Van Gogh logic to
-skip powering it down and skip part of post-init.
+On Sat, Oct 18, 2025 at 04:01:07AM +0200, Louis Chauvet wrote:
+> VKMS driver supports all the color range on planes, but for testing it can
+> be useful to only advertise few of them. This new configuration interface
+> will allow configuring the color range per planes.
+> 
+> Signed-off-by: Louis Chauvet <louis.chauvet@bootlin.com>
+> ---
+>  drivers/gpu/drm/vkms/vkms_config.c | 14 ++++++++++++++
+>  drivers/gpu/drm/vkms/vkms_config.h | 30 ++++++++++++++++++++++++++++++
+>  drivers/gpu/drm/vkms/vkms_plane.c  |  5 ++---
+>  3 files changed, 46 insertions(+), 3 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/vkms/vkms_config.c b/drivers/gpu/drm/vkms/vkms_config.c
+> index 5353719a476d..8f00ca21ed6e 100644
+> --- a/drivers/gpu/drm/vkms/vkms_config.c
+> +++ b/drivers/gpu/drm/vkms/vkms_config.c
+> @@ -163,6 +163,13 @@ static bool valid_plane_properties(const struct vkms_config *config)
+>  			drm_info(dev, "Configured default color encoding is not supported by the plane\n");
+>  			return false;
+>  		}
+> +
+> +		if ((BIT(vkms_config_plane_get_default_color_range(plane_cfg)) &
+> +		     vkms_config_plane_get_supported_color_range(plane_cfg)) !=
+> +		    BIT(vkms_config_plane_get_default_color_range(plane_cfg))) {
+> +			drm_info(dev, "Configured default color range is not supported by the plane\n");
+> +			return false;
+> +		}
+>  	}
+>  	return true;
+>  }
+> @@ -386,6 +393,10 @@ static int vkms_config_show(struct seq_file *m, void *data)
+>  			   vkms_config_plane_get_supported_color_encoding(plane_cfg));
+>  		seq_printf(m, "\tdefault color encoding: %d\n",
+>  			   vkms_config_plane_get_default_color_encoding(plane_cfg));
+> +		seq_printf(m, "\tsupported color range: 0x%x\n",
+> +			   vkms_config_plane_get_supported_color_range(plane_cfg));
+> +		seq_printf(m, "\tdefault color range: %d\n",
+> +			   vkms_config_plane_get_default_color_range(plane_cfg));
+>  	}
+>  
+>  	vkms_config_for_each_crtc(vkmsdev->config, crtc_cfg) {
+> @@ -433,6 +444,9 @@ struct vkms_config_plane *vkms_config_create_plane(struct vkms_config *config)
+>  							BIT(DRM_COLOR_YCBCR_BT709) |
+>  							BIT(DRM_COLOR_YCBCR_BT2020));
+>  	vkms_config_plane_set_default_color_encoding(plane_cfg, DRM_COLOR_YCBCR_BT601);
+> +	vkms_config_plane_set_supported_color_range(plane_cfg, BIT(DRM_COLOR_YCBCR_LIMITED_RANGE) |
+> +							       BIT(DRM_COLOR_YCBCR_FULL_RANGE));
+> +	vkms_config_plane_set_default_color_range(plane_cfg, DRM_COLOR_YCBCR_FULL_RANGE);
+>  
+>  	xa_init_flags(&plane_cfg->possible_crtcs, XA_FLAGS_ALLOC);
+>  
+> diff --git a/drivers/gpu/drm/vkms/vkms_config.h b/drivers/gpu/drm/vkms/vkms_config.h
+> index 11160c3c13bc..8127e12f00dc 100644
+> --- a/drivers/gpu/drm/vkms/vkms_config.h
+> +++ b/drivers/gpu/drm/vkms/vkms_config.h
+> @@ -47,6 +47,8 @@ struct vkms_config {
+>   *         must be managed by other means.
+>   * @default_color_encoding: Default color encoding that should be used by this plane
+>   * @supported_color_encoding: Color encoding that this plane will support
+> + * @default_color_range: Default color range that should be used by this plane
+> + * @supported_color_range: Color range that this plane will support
 
-Fixes: 8c4e9105b2a8 ("drm/amdgpu: optimize RLC powerdown notification on Vangogh")
-Closes: https://gitlab.freedesktop.org/drm/amd/-/issues/4659
-Signed-off-by: Alex Deucher <alexander.deucher@amd.com>
-Tested-by: Antheas Kapenekakis <lkml@antheas.dev>
-Signed-off-by: Antheas Kapenekakis <lkml@antheas.dev>
----
- drivers/gpu/drm/amd/amdgpu/amdgpu_device.c       | 8 +++++---
- drivers/gpu/drm/amd/pm/swsmu/amdgpu_smu.c        | 6 ++++++
- drivers/gpu/drm/amd/pm/swsmu/smu11/vangogh_ppt.c | 3 +++
- 3 files changed, 14 insertions(+), 3 deletions(-)
+Similar comment about using plural or singular in supported_*
+properties.
 
-diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_device.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_device.c
-index 3d032c4e2dce..220b12d59795 100644
---- a/drivers/gpu/drm/amd/amdgpu/amdgpu_device.c
-+++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_device.c
-@@ -5243,9 +5243,11 @@ int amdgpu_device_suspend(struct drm_device *dev, bool notify_clients)
- 	if (amdgpu_sriov_vf(adev))
- 		amdgpu_virt_release_full_gpu(adev, false);
- 
--	r = amdgpu_dpm_notify_rlc_state(adev, false);
--	if (r)
--		return r;
-+	if (!adev->in_s0ix) {
-+		r = amdgpu_dpm_notify_rlc_state(adev, false);
-+		if (r)
-+			return r;
-+	}
- 
- 	return 0;
- }
-diff --git a/drivers/gpu/drm/amd/pm/swsmu/amdgpu_smu.c b/drivers/gpu/drm/amd/pm/swsmu/amdgpu_smu.c
-index fb8086859857..244b8c364d45 100644
---- a/drivers/gpu/drm/amd/pm/swsmu/amdgpu_smu.c
-+++ b/drivers/gpu/drm/amd/pm/swsmu/amdgpu_smu.c
-@@ -2040,6 +2040,12 @@ static int smu_disable_dpms(struct smu_context *smu)
- 	    smu->is_apu && (amdgpu_in_reset(adev) || adev->in_s0ix))
- 		return 0;
- 
-+	/* vangogh s0ix */
-+	if ((amdgpu_ip_version(adev, MP1_HWIP, 0) == IP_VERSION(11, 5, 0) ||
-+	     amdgpu_ip_version(adev, MP1_HWIP, 0) == IP_VERSION(11, 5, 2)) &&
-+	    adev->in_s0ix)
-+		return 0;
-+
- 	/*
- 	 * For gpu reset, runpm and hibernation through BACO,
- 	 * BACO feature has to be kept enabled.
-diff --git a/drivers/gpu/drm/amd/pm/swsmu/smu11/vangogh_ppt.c b/drivers/gpu/drm/amd/pm/swsmu/smu11/vangogh_ppt.c
-index 2c9869feba61..0708d0f0938b 100644
---- a/drivers/gpu/drm/amd/pm/swsmu/smu11/vangogh_ppt.c
-+++ b/drivers/gpu/drm/amd/pm/swsmu/smu11/vangogh_ppt.c
-@@ -2217,6 +2217,9 @@ static int vangogh_post_smu_init(struct smu_context *smu)
- 	uint32_t total_cu = adev->gfx.config.max_cu_per_sh *
- 		adev->gfx.config.max_sh_per_se * adev->gfx.config.max_shader_engines;
- 
-+	if (adev->in_s0ix)
-+		return 0;
-+
- 	/* allow message will be sent after enable message on Vangogh*/
- 	if (smu_cmn_feature_is_enabled(smu, SMU_FEATURE_DPM_GFXCLK_BIT) &&
- 			(adev->pg_flags & AMD_PG_SUPPORT_GFX_PG)) {
--- 
-2.51.0
-
-
+>   */
+>  struct vkms_config_plane {
+>  	struct list_head link;
+> @@ -58,6 +60,8 @@ struct vkms_config_plane {
+>  	unsigned int supported_rotations;
+>  	enum drm_color_encoding default_color_encoding;
+>  	unsigned int supported_color_encoding;
+> +	enum drm_color_range default_color_range;
+> +	unsigned int supported_color_range;
+>  	struct xarray possible_crtcs;
+>  
+>  	/* Internal usage */
+> @@ -374,6 +378,32 @@ vkms_config_plane_set_supported_color_encoding(struct vkms_config_plane *plane_c
+>  	plane_cfg->supported_color_encoding = supported_color_encoding;
+>  }
+>  
+> +static inline enum drm_color_range
+> +vkms_config_plane_get_default_color_range(struct vkms_config_plane *plane_cfg)
+> +{
+> +	return plane_cfg->default_color_range;
+> +}
+> +
+> +static inline void
+> +vkms_config_plane_set_default_color_range(struct vkms_config_plane *plane_cfg,
+> +					  enum drm_color_range default_color_range)
+> +{
+> +	plane_cfg->default_color_range = default_color_range;
+> +}
+> +
+> +static inline unsigned int
+> +vkms_config_plane_get_supported_color_range(struct vkms_config_plane *plane_cfg)
+> +{
+> +	return plane_cfg->supported_color_range;
+> +}
+> +
+> +static inline void
+> +vkms_config_plane_set_supported_color_range(struct vkms_config_plane *plane_cfg,
+> +					    unsigned int supported_color_range)
+> +{
+> +	plane_cfg->supported_color_range = supported_color_range;
+> +}
+> +
+>  /**
+>   * vkms_config_plane_set_name() - Set the plane name
+>   * @plane_cfg: Plane to set the name to
+> diff --git a/drivers/gpu/drm/vkms/vkms_plane.c b/drivers/gpu/drm/vkms/vkms_plane.c
+> index 5869000415e4..ab719da2ca0b 100644
+> --- a/drivers/gpu/drm/vkms/vkms_plane.c
+> +++ b/drivers/gpu/drm/vkms/vkms_plane.c
+> @@ -240,10 +240,9 @@ struct vkms_plane *vkms_plane_init(struct vkms_device *vkmsdev,
+>  
+>  	drm_plane_create_color_properties(&plane->base,
+>  					  vkms_config_plane_get_supported_color_encoding(config),
+> -					  BIT(DRM_COLOR_YCBCR_LIMITED_RANGE) |
+> -					  BIT(DRM_COLOR_YCBCR_FULL_RANGE),
+> +					  vkms_config_plane_get_supported_color_range(config),
+>  					  vkms_config_plane_get_default_color_encoding(config),
+> -					  DRM_COLOR_YCBCR_FULL_RANGE);
+> +					  vkms_config_plane_get_default_color_range(config));
+>  
+>  	return plane;
+>  }
+> 
+> -- 
+> 2.51.0
+> 
