@@ -2,121 +2,85 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1B364C06D76
-	for <lists+dri-devel@lfdr.de>; Fri, 24 Oct 2025 17:01:14 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6DAEBC06E60
+	for <lists+dri-devel@lfdr.de>; Fri, 24 Oct 2025 17:14:28 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4C6B710EAB3;
-	Fri, 24 Oct 2025 15:01:12 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 41BA210EAB0;
+	Fri, 24 Oct 2025 15:14:25 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="zWkaqmbz";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="JA8kjrh3";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pg1-f171.google.com (mail-pg1-f171.google.com
- [209.85.215.171])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7A7DD10EAB3
- for <dri-devel@lists.freedesktop.org>; Fri, 24 Oct 2025 15:01:11 +0000 (UTC)
-Received: by mail-pg1-f171.google.com with SMTP id
- 41be03b00d2f7-b6cf07258e3so1708877a12.0
- for <dri-devel@lists.freedesktop.org>; Fri, 24 Oct 2025 08:01:11 -0700 (PDT)
+Received: from mail-wm1-f42.google.com (mail-wm1-f42.google.com
+ [209.85.128.42])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 21EB610EAB0
+ for <dri-devel@lists.freedesktop.org>; Fri, 24 Oct 2025 15:14:24 +0000 (UTC)
+Received: by mail-wm1-f42.google.com with SMTP id
+ 5b1f17b1804b1-4710665e7deso10733795e9.1
+ for <dri-devel@lists.freedesktop.org>; Fri, 24 Oct 2025 08:14:24 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1761318071; x=1761922871; darn=lists.freedesktop.org;
+ d=gmail.com; s=20230601; t=1761318863; x=1761923663; darn=lists.freedesktop.org;
  h=in-reply-to:content-disposition:mime-version:references:message-id
  :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
- bh=Ipd+fJKM54dwFhjqVqY2/vt0B0gPimIr32J295wlB+M=;
- b=zWkaqmbzqYarzOc062qAEh7sNdnJvOLLFhN74+8Qtmf/FdCA1R2sK8WF8LvISkNNSO
- iy1l2ujb+qwps44tIT/WCudsG7yTqGZOBoGN5G+d0GsdqVrH93/gB+bioEPToERvHVMs
- opbFyEXLzG+iD9RS1T4nfOzNe4+4oiD9+oaiWTPnXVBw7BGOlXLRCbYREy4RKzenIjuB
- VbdukbRvCCcOZnKlhXqImV9HEn70amR/I4bsfCqAi8I9IcGignWkrKWJ0aeNYK1KMaof
- +qman2LZBsOZOc4hxzOHvFzr4yhC4YyHRkQndjMXKY9RRn6jp+bZTho1+k6XFIQZuu5q
- fuCw==
+ bh=5Xb1iOk36N91mas4Cq5cRC/PrSP6DadKgPF6bPCQmBE=;
+ b=JA8kjrh354vZeCwl/w/sk0CZCzpNHuijSPLEEimcYHL7vWIijjVCTyH51p1yRXuwpv
+ tMD3vZv2gBOgv6Xxa+Rn6ZTHWZ0eCKaqM34nOHs3Og5e2HHe9/+7by50FJAeC9GHDQrH
+ b97NVnWNqCdDji2qlYrsx8AN3h6VgUtjXhaQc6c6Sod+6LxkvlVa+fnYxU8tZYV73a4t
+ ysEzOGq9F1YoDmgjrQs3GvlXgk58fopFqB1k1ahp983xONOXUGwgj3+Eir45QBCeWfja
+ 3zbb0dplWGXBEdc/K0e7+q5mblPCRF5HM9saXLR/dFEad3TIVT8Bs/XDKKawY9WLc6bj
+ Buig==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1761318071; x=1761922871;
+ d=1e100.net; s=20230601; t=1761318863; x=1761923663;
  h=in-reply-to:content-disposition:mime-version:references:message-id
  :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
  :message-id:reply-to;
- bh=Ipd+fJKM54dwFhjqVqY2/vt0B0gPimIr32J295wlB+M=;
- b=UnP68N9L8X/jDxXPWGNNjLSakSjS9mzV0e2MVkolcoWIVY3OCdNvXXE4jyWQ4Qly2j
- Nm11XxExELAZxnUUM5KdMYZajSNKkkw7DAHEzh8cJleah5KeTEYoQWx00LIBvo3+fcwd
- u9gYC6nWNxacG6XCXuNx5wfYdpJmmHxyoYZ3pSbpnURL/PEezHil2Mqd0UImhEamEK/x
- TaWhcbIG82Vhe2FV74bCRfsZt+vFUSpOBCELOQbDMQtQjn/6XXSZgYf6C/xQEelLzR2S
- qBNAtUTtDxmMBLhDl+HcKsy0o/qId9tdXSdr3gg+5guAArncABHmPj3lyl4xE8use2yp
- QmgA==
+ bh=5Xb1iOk36N91mas4Cq5cRC/PrSP6DadKgPF6bPCQmBE=;
+ b=VZPsAqxTab5f2JXYnOCbEVZC5EScSkONSfA4Kgv8P42e1RP0rdQ7FJVakz+qhdqlqw
+ zpNRyq8PMZR87OYSeAKUAN61eYpJU1aEiop6fz+0Q3TgAYx3/CoA9NFH0vCmsFAwc+z6
+ ZF6ofYqOekpb05WHzyIrMqD37ZfGkSIPOLnNFOoYQ9X5iJr7usGcLtU1IYsvFT6XLxeX
+ j6uw/q7N04Y+TvSFJbaTGq0mTOJkIW2wD+SXDqIQYjVfVi3bsE67UlMaCA18tGmj4bgI
+ c5J/JA9Fe1nKz2fwkPnZJ3qGalQSVTWBMpGS7kjjIzblN6BaVJrB+2/mQmCaSC3IviB4
+ 0lxA==
 X-Forwarded-Encrypted: i=1;
- AJvYcCU5Yh9K3zTNHe+G4nywbX54ah0daD/dqN2auR3+NQfvw9a5E6xgjtGT1zKPfmooVWk1kYaAEQj3sNM=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YwzOmlIOosKvSnkD5oyVwT3/vOSoE1Wj+BuK0RBYZD4iI9re0id
- dHJ8ce6DAczTcRMGkeUxPBSlmiHa40iLgPndnx3OpNJnPprAfFLVC94G8Bwu9EwcZQ8=
-X-Gm-Gg: ASbGncvM4ytHz1W+o5XWzVxw+L4KZAgg/BpFdDpKaXfs12yMt615R+/kEM5wAtbXqzx
- pvgC+CRMftJAoww90TXAKL/V8XL+Up03RvN9qCfFZzYoyCytc5KC+2XG9cQD51DRs/lSvWnFXYB
- CekRkeafZT5i9X3uOnB84mgHyU66zGjcL/0Z2R1gTo8xlDjAfKamA1bv2LlEKzOQLoGX/hq46ZN
- 6nX+3l+kJjKohhb70mIV+WbX9fCTUJ3svU5HPm1kUyza9zZea5tVTNk9j82ope6TnV71uFjN3xv
- 9Rnv1+t3YyO5dGZKWfz2/iyb8AetpmT+OeN1lN5s3wL/WwQ5NZKdyvsnc9myZ19BB8BoFyFCsNl
- P0a0kGLBJ4odR3BtcbPYdkKu/vRu7rihZIF0DgvoVn/p/YunJdHie90/GxllTPaMNsq7RuW8A1s
- 5cRZo=
-X-Google-Smtp-Source: AGHT+IHuDfyfb1rJHT8ZJBZDENWXEuZEgoATFw7kevTr6Wui6O5rdZfaFJ1o7hmkdy/EeXDSX0H8pg==
-X-Received: by 2002:a17:903:8c6:b0:28d:18fb:bb93 with SMTP id
- d9443c01a7336-290c9c8968cmr381787975ad.7.1761318070419; 
- Fri, 24 Oct 2025 08:01:10 -0700 (PDT)
-Received: from p14s ([2604:3d09:148c:c800:c4aa:f655:2dba:5bb5])
- by smtp.gmail.com with ESMTPSA id
- d9443c01a7336-2946e0f3794sm59537715ad.88.2025.10.24.08.01.06
+ AJvYcCVXc8HppyoaBjJoPBKA2bJXmeefw+6Ozq/7qH5SLhLDIXO8ydYtJhjlKj7auq9LeOgRrLUV7f1rBY4=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YwEG5U4FRO+auw1L3zIV9vVvkxlUiNKWmfakJcU90np4PjLbPkD
+ h5eHJAlTPicJd8B/8xPusKYPGMvCPe3WOEAtR8aE5YqSt9O2xt2H14ag
+X-Gm-Gg: ASbGncvTg7KFywzHvTvwZDb3lbvGQyULMdafqDTln2NH/uHMO69OSJBCleCJUriWWhr
+ pEr7gzjefQIlGeajtaDIXH2gZ6Styodebjk912NQceHTkcQDriqdjc49FgEctzVPILNbfLJutt+
+ iQ1iEPzLWOuDNSFCUEIVTjKCd+hjB1fbspRLa8NK/mUvkQx51XOggU2I9+gttVfJx2HZnVGw8fi
+ JJ5j0Y+xF4Cgtj2v5mMT5k70FwLMsIvhgIbFyDlP/Jc6I2mGdFqDVs1F6iCZGzDlhg+VgXM/kIq
+ YUZrTF59El+2FDaEozdkNFRaSexamcPxKxAp/RfXHBR48H+4VbEPw5EqfT2iVsdj5V2eyq1BAt+
+ OPkVBlC4gVZhqh/2Ezd4uuGxFav6Eh/zyBrKJNppfKIjBfZKtFcsT8ZwjP6jh5HEqGs/CEGJMff
+ TPbzc7pMtT2JFUQNEsIi7B
+X-Google-Smtp-Source: AGHT+IE4w//uQGSAi5tqfRdUfcGhOr1Jz/5zPaPVehBcOpQFdZyB7QRU2MAgBZyfmYynLj3u+5+sTw==
+X-Received: by 2002:a05:600c:1554:b0:46e:206a:78cc with SMTP id
+ 5b1f17b1804b1-475cb044e25mr59411265e9.28.1761318862319; 
+ Fri, 24 Oct 2025 08:14:22 -0700 (PDT)
+Received: from fedora ([37.29.213.75]) by smtp.gmail.com with ESMTPSA id
+ 5b1f17b1804b1-47496c14a26sm86965605e9.4.2025.10.24.08.14.20
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 24 Oct 2025 08:01:09 -0700 (PDT)
-Date: Fri, 24 Oct 2025 09:01:05 -0600
-From: Mathieu Poirier <mathieu.poirier@linaro.org>
-To: "Rob Herring (Arm)" <robh@kernel.org>
-Cc: Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>, Stephen Boyd <sboyd@kernel.org>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Fri, 24 Oct 2025 08:14:21 -0700 (PDT)
+Date: Fri, 24 Oct 2025 17:14:18 +0200
+From: =?iso-8859-1?Q?Jos=E9_Exp=F3sito?= <jose.exposito89@gmail.com>
+To: Louis Chauvet <louis.chauvet@bootlin.com>
+Cc: Haneen Mohammed <hamohammed.sa@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Melissa Wen <melissa.srw@gmail.com>,
  Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
  Thomas Zimmermann <tzimmermann@suse.de>,
- Andrzej Hajda <andrzej.hajda@intel.com>,
- Robert Foss <rfoss@kernel.org>, Vinod Koul <vkoul@kernel.org>,
- Moritz Fischer <mdf@kernel.org>, Xu Yilun <yilun.xu@intel.com>,
- Bartosz Golaszewski <brgl@bgdev.pl>, Guenter Roeck <linux@roeck-us.net>,
- Andi Shyti <andi.shyti@kernel.org>, Jonathan Cameron <jic23@kernel.org>,
- Dmitry Torokhov <dmitry.torokhov@gmail.com>,
- Georgi Djakov <djakov@kernel.org>, Thomas Gleixner <tglx@linutronix.de>,
- Joerg Roedel <joro@8bytes.org>, Jassi Brar <jassisinghbrar@gmail.com>,
- Mauro Carvalho Chehab <mchehab@kernel.org>, Lee Jones <lee@kernel.org>,
- Miquel Raynal <miquel.raynal@bootlin.com>,
- Richard Weinberger <richard@nod.at>, Vignesh Raghavendra <vigneshr@ti.com>,
- Andrew Lunn <andrew+netdev@lunn.ch>,
- "David S. Miller" <davem@davemloft.net>,
- Eric Dumazet <edumazet@google.com>,
- Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
- Johannes Berg <johannes@sipsolutions.net>,
- Krzysztof =?utf-8?Q?Wilczy=C5=84ski?= <kwilczynski@kernel.org>,
- Manivannan Sadhasivam <mani@kernel.org>,
- Bjorn Helgaas <bhelgaas@google.com>,
- Kishon Vijay Abraham I <kishon@kernel.org>,
- Sebastian Reichel <sre@kernel.org>,
- Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= <ukleinek@kernel.org>,
- Mark Brown <broonie@kernel.org>, Philipp Zabel <p.zabel@pengutronix.de>,
- Olivia Mackall <olivia@selenic.com>,
- Herbert Xu <herbert@gondor.apana.org.au>,
- Daniel Lezcano <daniel.lezcano@linaro.org>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-clk@vger.kernel.org, dri-devel@lists.freedesktop.org,
- linux-fbdev@vger.kernel.org, dmaengine@vger.kernel.org,
- linux-fpga@vger.kernel.org, linux-gpio@vger.kernel.org,
- linux-hwmon@vger.kernel.org, linux-i2c@vger.kernel.org,
- linux-iio@vger.kernel.org, linux-input@vger.kernel.org,
- linux-pm@vger.kernel.org, iommu@lists.linux.dev,
- linux-media@vger.kernel.org, linux-mtd@lists.infradead.org,
- netdev@vger.kernel.org, linux-wireless@vger.kernel.org,
- linux-pci@vger.kernel.org, linux-phy@lists.infradead.org,
- linux-pwm@vger.kernel.org, linux-remoteproc@vger.kernel.org,
- linux-crypto@vger.kernel.org, linux-sound@vger.kernel.org,
- linux-usb@vger.kernel.org
-Subject: Re: [PATCH] dt-bindings: Remove extra blank lines
-Message-ID: <aPuUseub-Z60hrOx@p14s>
-References: <20251023143957.2899600-1-robh@kernel.org>
+ David Airlie <airlied@gmail.com>, Jonathan Corbet <corbet@lwn.net>,
+ victoria@system76.com, sebastian.wick@redhat.com,
+ thomas.petazzoni@bootlin.com, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org
+Subject: Re: [PATCH 05/22] drm/vkms: Introduce config for plane color encoding
+Message-ID: <aPuXyp43xtlVUHTw@fedora>
+References: <20251018-vkms-all-config-v1-0-a7760755d92d@bootlin.com>
+ <20251018-vkms-all-config-v1-5-a7760755d92d@bootlin.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20251023143957.2899600-1-robh@kernel.org>
+In-Reply-To: <20251018-vkms-all-config-v1-5-a7760755d92d@bootlin.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -132,4 +96,148 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Reviewed-by: Mathieu Poirier <mathieu.poirier@linaro.org> # remoteproc
+On Sat, Oct 18, 2025 at 04:01:05AM +0200, Louis Chauvet wrote:
+> VKMS driver supports all the color encoding on planes, but for testing it
+> can be useful to only advertise few of them. This new configuration
+> interface will allow configuring the color encoding per planes.
+> 
+> Signed-off-by: Louis Chauvet <louis.chauvet@bootlin.com>
+> ---
+>  drivers/gpu/drm/vkms/vkms_config.c | 15 +++++++++++++++
+>  drivers/gpu/drm/vkms/vkms_config.h | 30 ++++++++++++++++++++++++++++++
+>  drivers/gpu/drm/vkms/vkms_plane.c  |  6 ++----
+>  3 files changed, 47 insertions(+), 4 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/vkms/vkms_config.c b/drivers/gpu/drm/vkms/vkms_config.c
+> index b8cabe6f6cf8..5353719a476d 100644
+> --- a/drivers/gpu/drm/vkms/vkms_config.c
+> +++ b/drivers/gpu/drm/vkms/vkms_config.c
+> @@ -156,6 +156,13 @@ static bool valid_plane_properties(const struct vkms_config *config)
+>  			drm_info(dev, "Configured default rotation is not supported by the plane\n");
+>  			return false;
+>  		}
+> +
+> +		if ((BIT(vkms_config_plane_get_default_color_encoding(plane_cfg)) &
+> +		     vkms_config_plane_get_supported_color_encoding(plane_cfg)) !=
+> +		    BIT(vkms_config_plane_get_default_color_encoding(plane_cfg))) {
+
+Could you document what kind of value should be stored when using
+vkms_config_plane_set_default_color_encoding(), please?
+
+I'm confused by the use of BIT() here but not in the next commit
+("drm/vkms: Introduce configfs for plane color encoding") during
+a similar validation.
+
+> +			drm_info(dev, "Configured default color encoding is not supported by the plane\n");
+> +			return false;
+> +		}
+>  	}
+>  	return true;
+>  }
+> @@ -375,6 +382,10 @@ static int vkms_config_show(struct seq_file *m, void *data)
+>  			   vkms_config_plane_get_supported_rotations(plane_cfg));
+>  		seq_printf(m, "\tdefault rotation: 0x%x\n",
+>  			   vkms_config_plane_get_default_rotation(plane_cfg));
+> +		seq_printf(m, "\tsupported color encoding: 0x%x\n",
+> +			   vkms_config_plane_get_supported_color_encoding(plane_cfg));
+> +		seq_printf(m, "\tdefault color encoding: %d\n",
+
+Is this one expressed in decimal rather than hex on purpose?
+
+> +			   vkms_config_plane_get_default_color_encoding(plane_cfg));
+>  	}
+>  
+>  	vkms_config_for_each_crtc(vkmsdev->config, crtc_cfg) {
+> @@ -418,6 +429,10 @@ struct vkms_config_plane *vkms_config_create_plane(struct vkms_config *config)
+>  	vkms_config_plane_set_name(plane_cfg, NULL);
+>  	vkms_config_plane_set_supported_rotations(plane_cfg, DRM_MODE_ROTATE_MASK);
+>  	vkms_config_plane_set_default_rotation(plane_cfg, DRM_MODE_ROTATE_0);
+> +	vkms_config_plane_set_supported_color_encoding(plane_cfg, BIT(DRM_COLOR_YCBCR_BT601) |
+> +							BIT(DRM_COLOR_YCBCR_BT709) |
+> +							BIT(DRM_COLOR_YCBCR_BT2020));
+> +	vkms_config_plane_set_default_color_encoding(plane_cfg, DRM_COLOR_YCBCR_BT601);
+>  
+>  	xa_init_flags(&plane_cfg->possible_crtcs, XA_FLAGS_ALLOC);
+>  
+> diff --git a/drivers/gpu/drm/vkms/vkms_config.h b/drivers/gpu/drm/vkms/vkms_config.h
+> index 3c3cbefcc67f..11160c3c13bc 100644
+> --- a/drivers/gpu/drm/vkms/vkms_config.h
+> +++ b/drivers/gpu/drm/vkms/vkms_config.h
+> @@ -45,6 +45,8 @@ struct vkms_config {
+>   *         It can be used to store a temporary reference to a VKMS plane during
+>   *         device creation. This pointer is not managed by the configuration and
+>   *         must be managed by other means.
+> + * @default_color_encoding: Default color encoding that should be used by this plane
+> + * @supported_color_encoding: Color encoding that this plane will support
+
+To be consistent with "supported_rotations", should this prop
+be "supported_color_encodings"?
+
+>   */
+>  struct vkms_config_plane {
+>  	struct list_head link;
+> @@ -54,6 +56,8 @@ struct vkms_config_plane {
+>  	enum drm_plane_type type;
+>  	unsigned int default_rotation;
+>  	unsigned int supported_rotations;
+> +	enum drm_color_encoding default_color_encoding;
+> +	unsigned int supported_color_encoding;
+>  	struct xarray possible_crtcs;
+>  
+>  	/* Internal usage */
+> @@ -344,6 +348,32 @@ vkms_config_plane_set_supported_rotations(struct vkms_config_plane *plane_cfg,
+>  	plane_cfg->supported_rotations = supported_rotations;
+>  }
+>  
+> +static inline enum drm_color_encoding
+> +vkms_config_plane_get_default_color_encoding(struct vkms_config_plane *plane_cfg)
+> +{
+> +	return plane_cfg->default_color_encoding;
+> +}
+> +
+> +static inline void
+> +vkms_config_plane_set_default_color_encoding(struct vkms_config_plane *plane_cfg,
+> +					     enum drm_color_encoding default_color_encoding)
+> +{
+> +	plane_cfg->default_color_encoding = default_color_encoding;
+> +}
+> +
+> +static inline unsigned int
+> +vkms_config_plane_get_supported_color_encoding(struct vkms_config_plane *plane_cfg)
+> +{
+> +	return plane_cfg->supported_color_encoding;
+> +}
+> +
+> +static inline void
+> +vkms_config_plane_set_supported_color_encoding(struct vkms_config_plane *plane_cfg,
+> +					       unsigned int supported_color_encoding)
+> +{
+> +	plane_cfg->supported_color_encoding = supported_color_encoding;
+> +}
+> +
+>  /**
+>   * vkms_config_plane_set_name() - Set the plane name
+>   * @plane_cfg: Plane to set the name to
+> diff --git a/drivers/gpu/drm/vkms/vkms_plane.c b/drivers/gpu/drm/vkms/vkms_plane.c
+> index 6e6bfe1b7400..5869000415e4 100644
+> --- a/drivers/gpu/drm/vkms/vkms_plane.c
+> +++ b/drivers/gpu/drm/vkms/vkms_plane.c
+> @@ -239,12 +239,10 @@ struct vkms_plane *vkms_plane_init(struct vkms_device *vkmsdev,
+>  					   vkms_config_plane_get_supported_rotations(config));
+>  
+>  	drm_plane_create_color_properties(&plane->base,
+> -					  BIT(DRM_COLOR_YCBCR_BT601) |
+> -					  BIT(DRM_COLOR_YCBCR_BT709) |
+> -					  BIT(DRM_COLOR_YCBCR_BT2020),
+> +					  vkms_config_plane_get_supported_color_encoding(config),
+>  					  BIT(DRM_COLOR_YCBCR_LIMITED_RANGE) |
+>  					  BIT(DRM_COLOR_YCBCR_FULL_RANGE),
+> -					  DRM_COLOR_YCBCR_BT601,
+> +					  vkms_config_plane_get_default_color_encoding(config),
+>  					  DRM_COLOR_YCBCR_FULL_RANGE);
+>  
+>  	return plane;
+> 
+> -- 
+> 2.51.0
+> 
