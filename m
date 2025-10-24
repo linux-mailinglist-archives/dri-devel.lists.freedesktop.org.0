@@ -2,83 +2,96 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0C40DC04B96
-	for <lists+dri-devel@lfdr.de>; Fri, 24 Oct 2025 09:31:21 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0A711C04C02
+	for <lists+dri-devel@lfdr.de>; Fri, 24 Oct 2025 09:36:50 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2674210E9F1;
-	Fri, 24 Oct 2025 07:31:19 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4758010E9F7;
+	Fri, 24 Oct 2025 07:36:48 +0000 (UTC)
+Authentication-Results: gabe.freedesktop.org;
+	dkim=pass (1024-bit key; unprotected) header.d=suse.de header.i=@suse.de header.b="D6tVIy6S";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="JOHy3KUp";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="VLE31Yl/";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="hqI9aCE7";
+	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ua1-f54.google.com (mail-ua1-f54.google.com
- [209.85.222.54])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BF7F610E9F1
- for <dri-devel@lists.freedesktop.org>; Fri, 24 Oct 2025 07:31:17 +0000 (UTC)
-Received: by mail-ua1-f54.google.com with SMTP id
- a1e0cc1a2514c-932c3aa32f3so857534241.2
- for <dri-devel@lists.freedesktop.org>; Fri, 24 Oct 2025 00:31:17 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1761291076; x=1761895876;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=gbjF3fYBru7mg7PwcFMgCH2adsCiWE8jEZcxNXnQxiE=;
- b=m06MILqDQ1J1AzJ8iL3x5+NuP32OtS1OUY4yuFKhwAPy1Rc8Cz3uXWjoACnPt2/RVB
- Gc50qxtFrzISw8fa+jdkGozLUkqq8JrY+KBHY7whCdRqljOkmv3AbRXlVu/hBWo5wYC8
- ICf6eYUUSchOu3uNVt1K5eXdE9PcsNp3DQf7pe3q1IFr+lbiPh7o5oMS1qcytUibRouc
- B2MVPMFNZGj3zlvZ7xzabVBsX9gaG1xlwKq9Nqzck+0eaCXE7TpNKr9ym5tSgA3fWMiB
- pOsgpMWkNwWl8ziywlfPcFBR6eZBLtBXJ97lAFkHRubdYeMlkXoZSg8YBGVWpNVVa6C+
- BUng==
-X-Forwarded-Encrypted: i=1;
- AJvYcCWgJlw7RItqWHTqNG2Vf4noCkjaJK83ZPB5yas9szV1xVyWnfhX1WUq+cAsLxm5yvkvmUiZ+ZWxBDQ=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YxHCV0DIzHmDyt1M+tvyG1NnECSarvv+NqhUknlU7yN5YJhV/j4
- WqVl4EcMOugfRG9zgMqhgD40bLJQoseSdKRFPNsNVhRxkXqCMjVMb335+H75b6Wl
-X-Gm-Gg: ASbGnctIpE28B9eZyIEeQ10zCdM8WPTqV04+jUeYXYvK3h45UiE0vnoAnOlF8BqAbQU
- u+DjumKmOeusRrDX9bjd6cFzxaQp4/gjVhB2A1reoXtUrI0rJxVL1nj04dDJQB4vV3iFkmPjEI9
- uDQww4nL/Q2lPy36qRNyqE51datGZkiHizZ4bGjTU1bxpZO+d5vf0AOiddX4NJNhvNxK4k89xw4
- DlXBFeAQLjB76uuiQi6J25z2vAd4C0kr5WT+xjrcge30SA6kKZhGsGlt6SXEJcFB/f1kMwmsdf9
- CLL6ALhZdw9rwL8uV93nSMXtwjuXW8kyWZ4mxJZ33NJOG4ARrY6kl3o6OfBKpWgmJIUptGGcgDI
- x/f58v5uYVMx9PFI/beNJbe30Nyw/1VyzHRcddsjrcr8k8Wva8ZfGNe6by74a7dcgito3TSR05x
- GxSoD9YXnS/Pn5kee3APVRH0KtnWevZPQHvCsfYQ==
-X-Google-Smtp-Source: AGHT+IH8pXXsnaJoF9z2wze8SgE++NvpbPrqRh0BP9HGgxK/nIUJIo0LKMAIsqSjmLoORsXfMnMPjw==
-X-Received: by 2002:a05:6102:c05:b0:5d6:6b7:844f with SMTP id
- ada2fe7eead31-5d7dd5eb810mr8502292137.31.1761291076343; 
- Fri, 24 Oct 2025 00:31:16 -0700 (PDT)
-Received: from mail-vs1-f41.google.com (mail-vs1-f41.google.com.
- [209.85.217.41]) by smtp.gmail.com with ESMTPSA id
- ada2fe7eead31-5db2c8165d5sm1802197137.8.2025.10.24.00.31.15
- for <dri-devel@lists.freedesktop.org>
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 24 Oct 2025 00:31:15 -0700 (PDT)
-Received: by mail-vs1-f41.google.com with SMTP id
- ada2fe7eead31-5db2d2030bbso753230137.1
- for <dri-devel@lists.freedesktop.org>; Fri, 24 Oct 2025 00:31:15 -0700 (PDT)
-X-Forwarded-Encrypted: i=1;
- AJvYcCUZfKnV7y1UIN7GWxzoStB3w14yLwBIYLZO6q1Fcl7Uec6ggltrn0dtE+IGgU15SwnwEi7zp+PN0Pc=@lists.freedesktop.org
-X-Received: by 2002:a05:6102:c08:b0:5db:2b3c:eb9e with SMTP id
- ada2fe7eead31-5db2b3cf1b1mr2162722137.37.1761291075525; Fri, 24 Oct 2025
- 00:31:15 -0700 (PDT)
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DE76C10E9F6
+ for <dri-devel@lists.freedesktop.org>; Fri, 24 Oct 2025 07:36:42 +0000 (UTC)
+Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested)
+ by smtp-out1.suse.de (Postfix) with ESMTPS id 73A8B211F4;
+ Fri, 24 Oct 2025 07:36:33 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1761291397; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version: content-transfer-encoding:content-transfer-encoding;
+ bh=IIjyVjTsKmTM3DyV9c7Fg0rxyqu0hiuVFiYvD0dfXfE=;
+ b=D6tVIy6Sl+g47+arCAzMfoRHzEfFWsyPJlxy4xiJ7Nfxvx3HlAjZMxiD8f6k0/+0Sr3nz0
+ L4EVvMxUys6n6k5VypDIiHoz+ASwssnWsyyMxiu1oHOD60zwWUFZtiTl663xNyAm1+VJrp
+ UeiZy7h847B2I6oredjgWnJAVlPsZgk=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1761291397;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version: content-transfer-encoding:content-transfer-encoding;
+ bh=IIjyVjTsKmTM3DyV9c7Fg0rxyqu0hiuVFiYvD0dfXfE=;
+ b=JOHy3KUp8++ANrU0aEgAIxgK/MY4CBMahUtgAxF2G9OETtpqAVTSJ9SBClr6rc1/Hxn1xE
+ +VOy3BuQYkOMgKAg==
+Authentication-Results: smtp-out1.suse.de;
+	none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1761291393; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version: content-transfer-encoding:content-transfer-encoding;
+ bh=IIjyVjTsKmTM3DyV9c7Fg0rxyqu0hiuVFiYvD0dfXfE=;
+ b=VLE31Yl/kUlNOdiCjxZQStbPyH9O9liLRgV66WFO3wI24Y1uDW8/IZhTGFEqOzx6AqiS6D
+ Goesecw+rQOxTPX+udBNvOHE6YSqX+hMJdj3uiepNAs24i662npBFUVpK5FlFehmsuRpHi
+ Il9TsudFwR+k10OJrV+39yZxTGaogRE=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1761291393;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version: content-transfer-encoding:content-transfer-encoding;
+ bh=IIjyVjTsKmTM3DyV9c7Fg0rxyqu0hiuVFiYvD0dfXfE=;
+ b=hqI9aCE7EEJplAXT4QORlZWHB9EbJggX2anJ866UAz7Np2Bv4cSWOJ1+InX5g/Vxp5Z+GW
+ HDokJdrR4xa3ZUAA==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested)
+ by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 2D625132C2;
+ Fri, 24 Oct 2025 07:36:33 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+ by imap1.dmz-prg2.suse.org with ESMTPSA id rizmCYEs+2iAIAAAD6G6ig
+ (envelope-from <tzimmermann@suse.de>); Fri, 24 Oct 2025 07:36:33 +0000
+From: Thomas Zimmermann <tzimmermann@suse.de>
+To: airlied@redhat.com, jfalempe@redhat.com, pschneider1968@googlemail.com,
+ airlied@gmail.com, simona@ffwll.ch
+Cc: dri-devel@lists.freedesktop.org, Thomas Zimmermann <tzimmermann@suse.de>,
+ Nick Bowler <nbowler@draconx.ca>, Douglas Anderson <dianders@chromium.org>,
+ stable@vger.kernel.org
+Subject: [PATCH] drm/ast: Clear preserved bits from register output value
+Date: Fri, 24 Oct 2025 09:35:53 +0200
+Message-ID: <20251024073626.129032-1-tzimmermann@suse.de>
+X-Mailer: git-send-email 2.51.0
 MIME-Version: 1.0
-References: <20251022235903.1091453-1-chris.brandt@renesas.com>
- <20251022235903.1091453-2-chris.brandt@renesas.com>
-In-Reply-To: <20251022235903.1091453-2-chris.brandt@renesas.com>
-From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Fri, 24 Oct 2025 09:31:04 +0200
-X-Gmail-Original-Message-ID: <CAMuHMdWONtGp=jdaDYzU1D4WO7KO-zU8zLX--5fQOAiKDpNw=g@mail.gmail.com>
-X-Gm-Features: AWmQ_bl2d7bwxn3o_AI0y5I2A2WSBvgxEYlOh2d7MohygC2Sb449e6tQyb1BgRI
-Message-ID: <CAMuHMdWONtGp=jdaDYzU1D4WO7KO-zU8zLX--5fQOAiKDpNw=g@mail.gmail.com>
-Subject: Re: [PATCH v3 1/2] clk: renesas: rzg2l: Remove DSI clock rate
- restrictions
-To: Chris Brandt <chris.brandt@renesas.com>
-Cc: Michael Turquette <mturquette@baylibre.com>,
- Stephen Boyd <sboyd@kernel.org>, Biju Das <biju.das.jz@bp.renesas.com>, 
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, 
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
- Simona Vetter <simona@ffwll.ch>, 
- Hien Huynh <hien.huynh.px@renesas.com>, Nghia Vo <nghia.vo.zn@renesas.com>, 
- Hugo Villeneuve <hugo@hugovil.com>, linux-renesas-soc@vger.kernel.org, 
- linux-clk@vger.kernel.org, dri-devel@lists.freedesktop.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
+X-Spamd-Result: default: False [-2.80 / 50.00]; BAYES_HAM(-3.00)[100.00%];
+ MID_CONTAINS_FROM(1.00)[]; NEURAL_HAM_LONG(-1.00)[-1.000];
+ R_MISSING_CHARSET(0.50)[]; NEURAL_HAM_SHORT(-0.20)[-0.995];
+ MIME_GOOD(-0.10)[text/plain]; RCPT_COUNT_SEVEN(0.00)[10];
+ ARC_NA(0.00)[]; MIME_TRACE(0.00)[0:+];
+ FREEMAIL_TO(0.00)[redhat.com,googlemail.com,gmail.com,ffwll.ch];
+ RCVD_VIA_SMTP_AUTH(0.00)[];
+ DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+ URIBL_BLOCKED(0.00)[imap1.dmz-prg2.suse.org:helo,suse.de:mid,suse.de:email,lists.freedesktop.org:email,draconx.ca:email,chromium.org:email];
+ FROM_EQ_ENVFROM(0.00)[]; FROM_HAS_DN(0.00)[];
+ TO_DN_SOME(0.00)[]; RCVD_TLS_ALL(0.00)[];
+ DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,suse.de:mid,suse.de:email];
+ RCVD_COUNT_TWO(0.00)[2]; TO_MATCH_ENVRCPT_ALL(0.00)[];
+ FREEMAIL_ENVRCPT(0.00)[gmail.com,googlemail.com]
+X-Spam-Flag: NO
+X-Spam-Score: -2.80
+X-Spam-Level: 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -94,83 +107,55 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Chris,
+Preserve the I/O register bits in __ast_write8_i_masked() as specified
+by preserve_mask. Accidentally OR-ing the output value into these will
+overwrite the register's previous settings.
 
-On Thu, 23 Oct 2025 at 01:59, Chris Brandt <chris.brandt@renesas.com> wrote:
-> Convert the limited MIPI clock calculations to a full range of settings
-> based on math including H/W limitation validation.
-> Since the required DSI division setting must be specified from external
-> sources before calculations, expose a new API to set it.
->
-> Signed-off-by: Chris Brandt <chris.brandt@renesas.com>
-> Signed-off-by: hienhuynh <hien.huynh.px@renesas.com>
-> Signed-off-by: Nghia Vo <nghia.vo.zn@renesas.com>
-> Reviewed-by: Biju Das <biju.das.jz@bp.renesas.com>
-> Tested-by: Biju Das <biju.das.jz@bp.renesas.com>
+Fixes display output on the AST2300, where the screen can go blank at
+boot. The driver's original commit 312fec1405dd ("drm: Initial KMS
+driver for AST (ASpeed Technologies) 2000 series (v2)") already added
+the broken code. Commit 6f719373b943 ("drm/ast: Blank with VGACR17 sync
+enable, always clear VGACRB6 sync off") triggered the bug.
 
-> v2->v3:
-> - Removed Empty lines (Hugo)
-> - Add dummy for compile-testing CONFIG_CLK_RZG2L=n case (Geert)
-> - Renamed label found_dsi_div to calc_pll_clk (Hugo)
-> - Renamed label found_clk to clk_valid (Hugo)
-> - Removed 'found' var because not needed
-> - Move 'foutpostdiv_rate =' after if(foutvco_rate > 1500000000) (Hugo)
-> - Move PLL5_TARGET_* for new API to renesas.h (Hugo,Geert)
-> - Convert #define macros PLL5_TARGET_* to enum (Geert)
-> - static {unsigned} int dsi_div_ab; (Geert)
-> - {unsigned} int a, b;  (Geert)
-> - Change "((1 << a) * (b + 1))" to "(b + 1) << a"  (Geert)
-> - Change "foutvco_rate = rate * (1 << xxx ) * ..." to " = rate * ... * << xxx (Geert)
-> - Move (u64) outside of modulo operation to avoid helper on 32-bit compiles (Geert)
-> - Change DIV_ROUND_CLOSEST_ULL() to DIV_ROUND_CLOSEST() (Geert)
-> - void rzg2l_cpg_dsi_div_set_divider({unsinged} int divider, int target)
-> - Change "dsi_div_ab = (1 << AAA) * (BBB + 1)" to " = (BBB + 1) << AAA (Geert)
-> - Added Reviewed-by and Tested-by (Biju)'
+Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
+Reported-by: Peter Schneider <pschneider1968@googlemail.com>
+Closes: https://lore.kernel.org/dri-devel/a40caf8e-58ad-4f9c-af7f-54f6f69c29bb@googlemail.com/
+Tested-by: Peter Schneider <pschneider1968@googlemail.com>
+Fixes: 6f719373b943 ("drm/ast: Blank with VGACR17 sync enable, always clear VGACRB6 sync off")
+Fixes: 312fec1405dd ("drm: Initial KMS driver for AST (ASpeed Technologies) 2000 series (v2)")
+Cc: Thomas Zimmermann <tzimmermann@suse.de>
+Cc: Nick Bowler <nbowler@draconx.ca>
+Cc: Douglas Anderson <dianders@chromium.org>
+Cc: Dave Airlie <airlied@redhat.com>
+Cc: Jocelyn Falempe <jfalempe@redhat.com>
+Cc: dri-devel@lists.freedesktop.org
+Cc: <stable@vger.kernel.org> # v3.5+
+---
+ drivers/gpu/drm/ast/ast_drv.h | 8 ++++----
+ 1 file changed, 4 insertions(+), 4 deletions(-)
 
-Thanks for the update!
-
-> --- a/include/linux/clk/renesas.h
-> +++ b/include/linux/clk/renesas.h
-> @@ -16,6 +16,11 @@ struct device;
->  struct device_node;
->  struct generic_pm_domain;
->
-> +enum {
-> +       PLL5_TARGET_DPI,
-> +       PLL5_TARGET_DSI
-> +};
-> +
->  void cpg_mstp_add_clk_domain(struct device_node *np);
->  #ifdef CONFIG_CLK_RENESAS_CPG_MSTP
->  int cpg_mstp_attach_dev(struct generic_pm_domain *unused, struct device *dev);
-> @@ -32,4 +37,10 @@ void cpg_mssr_detach_dev(struct generic_pm_domain *unused, struct device *dev);
->  #define cpg_mssr_attach_dev    NULL
->  #define cpg_mssr_detach_dev    NULL
->  #endif
-> +
-> +#ifdef CONFIG_CLK_RZG2L
-> +void rzg2l_cpg_dsi_div_set_divider(unsigned int divider, int target);
-> +#else
-> +#define rzg2l_cpg_dsi_div_set_divider  NULL
-
-static inline void rzg2l_cpg_dsi_div_set_divider(int divider, int target) { }
-
-For cpg_mssr_attach_dev and friends, NULL is suitable because these
-are only used to populate function pointers.
-
-> +#endif
-
-Blank line please.
-
->  #endif
-
-Gr{oetje,eeting}s,
-
-                        Geert
-
+diff --git a/drivers/gpu/drm/ast/ast_drv.h b/drivers/gpu/drm/ast/ast_drv.h
+index 7be36a358e74..787e38c6c17d 100644
+--- a/drivers/gpu/drm/ast/ast_drv.h
++++ b/drivers/gpu/drm/ast/ast_drv.h
+@@ -298,13 +298,13 @@ static inline void __ast_write8_i(void __iomem *addr, u32 reg, u8 index, u8 val)
+ 	__ast_write8(addr, reg + 1, val);
+ }
+ 
+-static inline void __ast_write8_i_masked(void __iomem *addr, u32 reg, u8 index, u8 read_mask,
++static inline void __ast_write8_i_masked(void __iomem *addr, u32 reg, u8 index, u8 preserve_mask,
+ 					 u8 val)
+ {
+-	u8 tmp = __ast_read8_i_masked(addr, reg, index, read_mask);
++	u8 tmp = __ast_read8_i_masked(addr, reg, index, preserve_mask);
+ 
+-	tmp |= val;
+-	__ast_write8_i(addr, reg, index, tmp);
++	val &= ~preserve_mask;
++	__ast_write8_i(addr, reg, index, tmp | val);
+ }
+ 
+ static inline u32 ast_read32(struct ast_device *ast, u32 reg)
 -- 
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+2.51.0
 
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
