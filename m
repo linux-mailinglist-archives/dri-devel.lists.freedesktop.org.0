@@ -2,83 +2,85 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3FEC7C054A3
-	for <lists+dri-devel@lfdr.de>; Fri, 24 Oct 2025 11:17:54 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 68B02C054B8
+	for <lists+dri-devel@lfdr.de>; Fri, 24 Oct 2025 11:19:46 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6CFE710EA00;
-	Fri, 24 Oct 2025 09:17:52 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 80D7710EA03;
+	Fri, 24 Oct 2025 09:19:43 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="JSsE+GCc";
+	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="AYobzKrN";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from us-smtp-delivery-124.mimecast.com
  (us-smtp-delivery-124.mimecast.com [170.10.129.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BBADF10EA00
- for <dri-devel@lists.freedesktop.org>; Fri, 24 Oct 2025 09:17:50 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 62A1D10EA03
+ for <dri-devel@lists.freedesktop.org>; Fri, 24 Oct 2025 09:19:42 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1761297469;
+ s=mimecast20190719; t=1761297581;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=MU97/68jphUz5YIXofcPtO7qat4c/oSr3H+jmWVEQI4=;
- b=JSsE+GCcCnG34942cV/JcIFEjRZs5ILFoZyv5SJMdC4P2rfUSR0M8x2jS8X9w/zTvqeT7W
- 0iMJ+UR9Jqa3nuUTqxLikJMAqTdx5PT0eVeR9DugCBgVx+uN28ZtgrpqS1Mr0ceiKK04cv
- jqAH3GX8hueYySr4NNcAaGP+7M2FLKo=
-Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
- [209.85.221.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=gjlhKf1lSLezGbueO5hgy+8/2iDTdqmHQ6e26A+MZvI=;
+ b=AYobzKrN9yVSMU1MoUKeMqkWGLsiaiZF0hYaVjycq8fGQORSDAEGGMio2OXyVlTj2mZeol
+ 3ewu/TuJb9QFZ3TeHQD2obrt7Fo4vOMXWvmJQHrcFOojusC4oDGdOdF2AOJAL1/Hbsb+hX
+ xBS5YZJaykdH39RRwgDdA4H3P1MB1OA=
+Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
+ [209.85.128.72]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-261-QVQTKKuEPQ-u7j4ozzS3uQ-1; Fri, 24 Oct 2025 05:17:47 -0400
-X-MC-Unique: QVQTKKuEPQ-u7j4ozzS3uQ-1
-X-Mimecast-MFC-AGG-ID: QVQTKKuEPQ-u7j4ozzS3uQ_1761297466
-Received: by mail-wr1-f70.google.com with SMTP id
- ffacd0b85a97d-428566218c6so1096110f8f.0
- for <dri-devel@lists.freedesktop.org>; Fri, 24 Oct 2025 02:17:47 -0700 (PDT)
+ us-mta-537-7s-uWVF4OIyk-36shl9JNQ-1; Fri, 24 Oct 2025 05:19:39 -0400
+X-MC-Unique: 7s-uWVF4OIyk-36shl9JNQ-1
+X-Mimecast-MFC-AGG-ID: 7s-uWVF4OIyk-36shl9JNQ_1761297578
+Received: by mail-wm1-f72.google.com with SMTP id
+ 5b1f17b1804b1-46eee58d405so10691715e9.1
+ for <dri-devel@lists.freedesktop.org>; Fri, 24 Oct 2025 02:19:39 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1761297466; x=1761902266;
+ d=1e100.net; s=20230601; t=1761297578; x=1761902378;
  h=mime-version:message-id:date:references:in-reply-to:subject:cc:to
  :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=MU97/68jphUz5YIXofcPtO7qat4c/oSr3H+jmWVEQI4=;
- b=aphH+MLuF/lFOtBetz0wUTC8qPzQLZg4pE6JqFRFVbmMWpkhZHXsN2U9lMSDl2wCk3
- 7BYAwp3CU7MtVdgH3uWLpKyxInGZPT8rThjp13bsk8bntpYwK6V4gkFpr8aUHiLGyEOA
- 9oX8gp+xRDTzHAfGH2hOqkDtCNju/F0jzo27KK+yQtt2crtphzXP4exP2QsEPxYGtw5I
- ExSTUIRpa3PkRclYyK86TcY7x6s2lUFeIUKoaB4K1RpPrKwch1ooyuU5pJ3MiYDaHI/C
- 0pxqJgqR1jlzi2+jvaVeP/PD3EDuogVtkG6Z+icEGp2o64mWxQhj/52CCapt+v4RLb3H
- bmbA==
-X-Gm-Message-State: AOJu0Yx9zWvSLH3EM7if6QNn2IH1uebmy01d//ai1PGngiZloVv0hHIz
- VodWLPq95Jl1oVCmqvSnnLs4RdK4dl2U2os4qe0+idZ0KizL5wjAPQ3VdBs4u2UVW03Q+lPeM4i
- +ix2Tl6vOVcyiiuZ6//SvGybAUCD506zc9qVXbCxWSaz/nsJfxk04uLUclWRRIBLHIBnHog==
-X-Gm-Gg: ASbGnctkIrdMKKDcyP6ew4nl6cIh2jCVmLHM4xGb/T0ak19QUnaw/9auHIjTku+ty6t
- aFgsG2ARC0KwE80c8/Zxf9K8p8X08V+gOq5Hwy5LILM7yarbXJU13Oa39er4wu8q+b1+2t4vk5X
- L/qQwE+y7P0pnrhy6hRd5sYACOpztnj+6U1ZfutOADhpQmPUOvjGl6SdiCJmIKl8GwZNiULSK4G
- q0D8QdemxG8ZptSkaIjCLFjHrEKBCu+yuGlqyR3zgpvQOzL20iBpJpU8B2aAZJQIumfAphtxGHO
- ckNGKPbo72Qh6ITfGqsSs7af0R06JMLbAH/rIQbRSLJjwsuOMY5/Vob8i618gNMGmluExKjomi/
- pGwAj8SdE3etg6hg+60q0C7ktx2uYuh0rXYstN6tSn0Z+kZiMXq5+7CsCHQ==
-X-Received: by 2002:a5d:5d13:0:b0:3e8:f67:894a with SMTP id
- ffacd0b85a97d-4298a0406e4mr4719768f8f.5.1761297466352; 
- Fri, 24 Oct 2025 02:17:46 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IErxNwAp3YJ46I0QMeE8v7bXn8RSjukbthJvAuSeXuGuGHCehJoQ3Vd8QggHmuf05ruIbYVYg==
-X-Received: by 2002:a5d:5d13:0:b0:3e8:f67:894a with SMTP id
- ffacd0b85a97d-4298a0406e4mr4719746f8f.5.1761297465958; 
- Fri, 24 Oct 2025 02:17:45 -0700 (PDT)
+ bh=gjlhKf1lSLezGbueO5hgy+8/2iDTdqmHQ6e26A+MZvI=;
+ b=CKq0iiHXyLBl7P5MeLaFVviJfb5k7P7JM7LvWWiafSCZE0odLTpGZjQRO3XzNjbUti
+ hxVfsFdeTfq2kvHgNt82DpgNSrEt5LNwQNEZmBHEWqD/2OaCzH2o9vujR1KmrX+9YmU7
+ NPb73gxu5DGm9eYyIkRg/8IocxVUO8r4hhwJ+jRiqICE+pi2nFI42CkkqK+sK8GOh300
+ 8T1PRjIif1dpKHk/7BR1DJ6kmTDOrbri8hpoHQDwZRuS6lhcnc25iaX+YoQt9pIJ93Zt
+ 77n7lir/qxL1G/SLxi1BEE9/ET2ZgUiuSVFYewREkV7sN6wpGGptABpHtT8WgLTYT/jw
+ 5StA==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCUyz+b8yePLSjbuecvXg7TM/heWoBePDU2FEjcLFDsqTJWNxyCIhxIR9eHPPDNi7P4oWCh8iVaY4S0=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YyTaI8K8nATcMw17gQyqdY8BQrtmcv0583SjQz9Z1gH8PbRrgOP
+ 1SIiRfZLXZHk+wEO9PrqHG6/9NxOkZfbKoiI0tGiB+4rXWgox0l4jKm2nJOW2HT0liikvw12bi0
+ xXtcPW0JcTu7mUCTN5y7uaRPCepro6/UvEuIQRhCKdfUWvvt2d8xRDlx0uvbcxwDHUos0hA==
+X-Gm-Gg: ASbGnctnTSaVxbAOCM3C8uBxxDHecPK5zynfyLCxxMQgMNxCT4jlHSbyEPT0ab5D+Vu
+ 0vebdxT3SS7w0Q3wHm7BKWggzsYtnKCzK9/ZBylAhqldPOILPfCYZmwy0/ibG4zZpirkpJWeFrN
+ G2XKuERHUYx1LcNSDo2L7bOdkfZarGSXn3xtbWaK8bD2W6w/kc3aQ4TdkKO3ejCCJI4UaiF/tER
+ xE+38YWdfyd0OKW65Ay+y9yM/PFDSHIBHzI/WoKhcK43OKF9FAgr1cSlAcE0xCF9WjpEkB1UcMy
+ nejLdpAPtfBF30ANelC+nZaEui7ZYNt/lmlIJqMSJPCjXtnQqTMB8tQF902vaw6wPrhaI0L611O
+ Z7Yv9OMkPhRAEg211BWfnEi9kOSHAVtn8xJChjsSYQ2G56FNuCcaMVDHgmw==
+X-Received: by 2002:a05:600c:820b:b0:471:1717:40a with SMTP id
+ 5b1f17b1804b1-471178a8245mr197432835e9.18.1761297578558; 
+ Fri, 24 Oct 2025 02:19:38 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IGPRojaApcfmKLinZI5+an6nxl1x1LRwFmTf1gBlrYMQPX1+RmkaC4nUCtM8shmyfMR6tCbSQ==
+X-Received: by 2002:a05:600c:820b:b0:471:1717:40a with SMTP id
+ 5b1f17b1804b1-471178a8245mr197432615e9.18.1761297578143; 
+ Fri, 24 Oct 2025 02:19:38 -0700 (PDT)
 Received: from localhost (62-151-111-63.jazzfree.ya.com. [62.151.111.63])
  by smtp.gmail.com with ESMTPSA id
- ffacd0b85a97d-42992e47f6asm42098f8f.33.2025.10.24.02.17.45
+ 5b1f17b1804b1-474949df22csm84324805e9.0.2025.10.24.02.19.37
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 24 Oct 2025 02:17:45 -0700 (PDT)
+ Fri, 24 Oct 2025 02:19:37 -0700 (PDT)
 From: Javier Martinez Canillas <javierm@redhat.com>
-To: Thomas Zimmermann <tzimmermann@suse.de>,
- maarten.lankhorst@linux.intel.com, mripard@kernel.org
-Cc: dri-devel@lists.freedesktop.org, Thomas Zimmermann <tzimmermann@suse.de>
-Subject: Re: [PATCH] drm/gem-atomic: Reset plane state to NULL if allocation
- failed
-In-Reply-To: <20251017091919.58770-1-tzimmermann@suse.de>
-References: <20251017091919.58770-1-tzimmermann@suse.de>
-Date: Fri, 24 Oct 2025 11:17:44 +0200
-Message-ID: <873478acav.fsf@ocarina.mail-host-address-is-not-set>
+To: Thomas Zimmermann <tzimmermann@suse.de>, ardb@kernel.org, jonathan@marek.ca
+Cc: linux-efi@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, Thomas Zimmermann <tzimmermann@suse.de>
+Subject: Re: [PATCH 1/5] efi: Fix trailing whitespace in header file
+In-Reply-To: <20251015160816.525825-2-tzimmermann@suse.de>
+References: <20251015160816.525825-1-tzimmermann@suse.de>
+ <20251015160816.525825-2-tzimmermann@suse.de>
+Date: Fri, 24 Oct 2025 11:19:36 +0200
+Message-ID: <87zf9g8xnb.fsf@ocarina.mail-host-address-is-not-set>
 MIME-Version: 1.0
 X-Mimecast-Spam-Score: 0
-X-Mimecast-MFC-PROC-ID: BvcXR5PpKHBfgEvoH5L0CTjT5A6DQT-tEFEJ1r8G1Zg_1761297466
+X-Mimecast-MFC-PROC-ID: IdQMObkxj3xWGkQfUmSlRB61jC84RuVH1vIrLz4CWQg_1761297578
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -98,8 +100,7 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 Thomas Zimmermann <tzimmermann@suse.de> writes:
 
-> Unconditionally reset plane->state to NULL if the allocation of the
-> shadow plane state fails. Avoids an invalid address in the field.
+> Resolve an issue with the coding style.
 >
 > Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
 > ---
