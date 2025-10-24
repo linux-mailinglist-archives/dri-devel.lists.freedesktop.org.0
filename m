@@ -2,127 +2,107 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E62B0C07682
-	for <lists+dri-devel@lfdr.de>; Fri, 24 Oct 2025 18:55:14 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id C3C86C076A3
+	for <lists+dri-devel@lfdr.de>; Fri, 24 Oct 2025 18:57:55 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0AF9810EB1F;
-	Fri, 24 Oct 2025 16:55:12 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1CE7E10EB1B;
+	Fri, 24 Oct 2025 16:57:53 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=amd.com header.i=@amd.com header.b="xwH/okcf";
+	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="A8ONhWE1";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from DM5PR21CU001.outbound.protection.outlook.com
- (mail-centralusazon11011044.outbound.protection.outlook.com [52.101.62.44])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DCD8610E21A
- for <dri-devel@lists.freedesktop.org>; Fri, 24 Oct 2025 16:55:10 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=bW+WovvTg/rGhmVnixdaD/CaEKFdwNYt8OjJdpbqGA8m8aDYUTgrL+waY+eqzGHHbrwjkRocfniP6bqb9xfO056RAd+bdVd4WuKxfGS/Vzn45DGd/rTf4n6ZVvmE02a/6GWXQF5Xki9zr/mB0FbVpFy6ODyxcayfynwHcQME0ZZ6LarXxk8GHwOxXNh0PKYqhnYhLClTwPc/e33FeReP/6BSwZ3V/F2AaT6RDWd2PGIwzKRNUXGF18GDdDin1BWqLTJ5/d2sFr64zwv/ORIYx4I3++IpWN4X2Ea26HAvPEiZrY+gMHy1/uZmwkgiFnLmkKQuy96kJtDRcEJD4WR+5Q==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=OnXaOJO3BLR8eVeFTPuHDjSeik4IxqG0cUqPEqc+Mtw=;
- b=AUO76nIOESbDW09QwBX7v0lNPactiuSUha7JflZKJKVVDIu3vFboHVfCG9AM1zQlpGZpnx/IaSoWP7Ox2YTuIB0v2L3kNY2QxvoSrPlKEEA/C1gpBusAdzmMXF9k1P2z7W2LMCt8HrNfUUujQV6DxbxbEihFXYK2AcEqCV/9KS87RwIxUMLd737ntyAeU2jZNLGayte/ikv5SOn2SZ45Z7uzLiwkdcZ5KQVc4RjW/c5sVr8hmyJGK7GKj4fHp18PmyVc/XD8RS/1YAzRh8LFuV3WiXrodNUrvE/Vy8j4fy4Xqcjs8kTdgbXrZQb+Tb5w7LhcWpMpe/MqX88jhyQk0A==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 165.204.84.17) smtp.rcpttodomain=kernel.org smtp.mailfrom=amd.com; dmarc=pass
- (p=quarantine sp=quarantine pct=100) action=none header.from=amd.com;
- dkim=none (message not signed); arc=none (0)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=OnXaOJO3BLR8eVeFTPuHDjSeik4IxqG0cUqPEqc+Mtw=;
- b=xwH/okcfMpbTlDYaA4aefeJeejKq3ThjoTLWMSH8qcw//9Xp885/qX+4oYFEgiw2tSBIgYaZ266cNod/IVyEqtoyH4zS/U0db46GccLPUSTwkwPfav3Euy+/QOsPrU/QOfny2eQ4qP2Sbz8PoD72t1rvCiDXs3VcpNjQ587bLQ4=
-Received: from CH2PR14CA0050.namprd14.prod.outlook.com (2603:10b6:610:56::30)
- by CH3PR12MB7548.namprd12.prod.outlook.com (2603:10b6:610:144::12)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9253.13; Fri, 24 Oct
- 2025 16:55:07 +0000
-Received: from CH3PEPF0000000B.namprd04.prod.outlook.com
- (2603:10b6:610:56:cafe::dd) by CH2PR14CA0050.outlook.office365.com
- (2603:10b6:610:56::30) with Microsoft SMTP Server (version=TLS1_3,
- cipher=TLS_AES_256_GCM_SHA384) id 15.20.9253.13 via Frontend Transport; Fri,
- 24 Oct 2025 16:55:07 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
- smtp.mailfrom=amd.com; dkim=none (message not signed)
- header.d=none;dmarc=pass action=none header.from=amd.com;
-Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
- 165.204.84.17 as permitted sender) receiver=protection.outlook.com;
- client-ip=165.204.84.17; helo=satlexmb07.amd.com; pr=C
-Received: from satlexmb07.amd.com (165.204.84.17) by
- CH3PEPF0000000B.mail.protection.outlook.com (10.167.244.38) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.9253.7 via Frontend Transport; Fri, 24 Oct 2025 16:55:06 +0000
-Received: from Satlexmb09.amd.com (10.181.42.218) by satlexmb07.amd.com
- (10.181.42.216) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.17; Fri, 24 Oct
- 2025 09:55:06 -0700
-Received: from satlexmb07.amd.com (10.181.42.216) by satlexmb09.amd.com
- (10.181.42.218) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.17; Fri, 24 Oct
- 2025 09:55:05 -0700
-Received: from xsjlizhih51.xilinx.com (10.180.168.240) by satlexmb07.amd.com
- (10.181.42.216) with Microsoft SMTP Server id 15.2.2562.17 via Frontend
- Transport; Fri, 24 Oct 2025 09:55:05 -0700
-From: Lizhi Hou <lizhi.hou@amd.com>
-To: <ogabbay@kernel.org>, <quic_jhugo@quicinc.com>,
- <maciej.falkowski@linux.intel.com>, <dri-devel@lists.freedesktop.org>
-CC: Lizhi Hou <lizhi.hou@amd.com>, <linux-kernel@vger.kernel.org>,
- <max.zhen@amd.com>, <sonal.santan@amd.com>, <mario.limonciello@amd.com>
-Subject: [PATCH] accel/amdxdna: Fix uninitialized return value
-Date: Fri, 24 Oct 2025 09:55:03 -0700
-Message-ID: <20251024165503.1548131-1-lizhi.hou@amd.com>
-X-Mailer: git-send-email 2.34.1
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
+ [205.220.180.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id AFA5E10EB1B
+ for <dri-devel@lists.freedesktop.org>; Fri, 24 Oct 2025 16:57:52 +0000 (UTC)
+Received: from pps.filterd (m0279871.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 59OCklaU004412
+ for <dri-devel@lists.freedesktop.org>; Fri, 24 Oct 2025 16:57:52 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+ cc:content-transfer-encoding:date:from:message-id:mime-version
+ :subject:to; s=qcppdkim1; bh=Y+9oqAefh+KN7qSLrQunsPCZJMm1uw9AiBh
+ Vh9CSxHw=; b=A8ONhWE1adNTxzpHfBNanYtX2wBvQCRLUsmYTbHicFSfrQRTQjP
+ jueSiIPF9r4Q7UADn5UWnxQgkaF1B5gZYPBF0HpFQO/OeDX1t/k0nxln5cPykRya
+ SswpmSvoYtqeSZgjSZdUvChjW5KQ+2ZP5XkPmY2GVhCV3ZWgNBz5nCwpeUPmU38Z
+ 2DJ3KPCNDx9QV/KQyI5rJTGAAq9Xe1IU4A6xi6PjWNnp7Vj5xws6ENFptdi0fSYM
+ Kz47AqxP6uVztN8+gomPw9v4mOA8qeCMyGdZ+lVKO5czMLc32TMz/3jv5NQfZImb
+ S13WfduQVzhgCVybzeL54OGesV7gKyrKjQA==
+Received: from mail-qt1-f198.google.com (mail-qt1-f198.google.com
+ [209.85.160.198])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 49v2gecnb1-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
+ for <dri-devel@lists.freedesktop.org>; Fri, 24 Oct 2025 16:57:51 +0000 (GMT)
+Received: by mail-qt1-f198.google.com with SMTP id
+ d75a77b69052e-4eb7853480dso75393441cf.0
+ for <dri-devel@lists.freedesktop.org>; Fri, 24 Oct 2025 09:57:51 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1761325071; x=1761929871;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=Y+9oqAefh+KN7qSLrQunsPCZJMm1uw9AiBhVh9CSxHw=;
+ b=woUIBg9VIWMqQQuNurdHGsSOybj5/6PY7Zp1wjfnQyTWbwt5iK3G1ht7UpDWP/AE2L
+ HpYdPzbgEGxfixUvAJEk5V1BXt8GnQVrx/7FHvcq7w9jydcZ6H1zMTEvyCmJHH9YodH4
+ vBeyB55rbntay1gIObR2b/FhjkEsq2svc1T2fycOwQ9jnO+3/riSVzqMz1CfFW8+Yr70
+ APuDGJHbCcGRbXQHP39BYx7ZBVKX1YV6MIaDsIlta52ezfl1PT4VMLev6HgJI0eNWV/0
+ vpWrK8DwgA9IFiufwSL3U20vy82RKqkAbTVXW3nDJB2zG+7NZ0vaQSzw9VoKYPJzULco
+ BgGg==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCVJrO/wTYwfcXGvDJZQqpLUulOOoy21TIBI0F/FY9xxLSOe4DceX7jTt6V6t0Qj9Aq81bEKry4plgg=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YwTiVwD1kqaInQJR3vTT7ac1tCC2EyWC3dKSVv0FNcKswHG6R69
+ t4UqdrEV9/FuPI+1JVMcb2HjUuDjAitSX3aUnHKW1H2wWEpyeAFjP8PqBv9vydjIQo8s3g/2HP6
+ lWwURpuR3Oydv4CNDvstHpNIIZ1FkSqZTAO7WKHJW60Wj5xl1NH9UgTZX894hLM+arunSseU=
+X-Gm-Gg: ASbGncspMq2SW6kTzB8p69MwaWnt8bOSD8QlTIC43Rg+NYoSQtKOCNcnN1qw7va+S8q
+ oS0XZlLY6fCFzMwfmhfbY0w9+v8SkhpdTSUV75zVOnE2t5B/LhI76YFFOMRdwJlF+NcL+Hgzmul
+ c7x8r4L+0GO9esJfSDHFSGmAslNd75FXpxVV13Bk4aLqQgMp6GmApIR1YZYJykzhfvbjMDaHIUm
+ rHtKIGBXBhXc1LvUvBhs67jc5XJq9Svl/hCPJ8YNl42C60F1kEBKDf3FAqtxQBdTMbCrnTAUALM
+ 7FQMHerG/DBIaMU4/PyO8YRmGnc5W0NvLVw8SqvvdAyG4xs3I0Vq6hu86fl9BPqQQK2AOeis/v4
+ AV4irCpOW+DnYA6/mcfOYZY/7weogX2XIMVV0w7k=
+X-Received: by 2002:ac8:590e:0:b0:4e8:a495:4752 with SMTP id
+ d75a77b69052e-4e8a4954c39mr316455321cf.83.1761325070809; 
+ Fri, 24 Oct 2025 09:57:50 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IEWfbWv9PlnchhJbCtZPrM04Bijjfjg28YOTLUgss64Wd9zIGhqWzXaKaJCXv5iWusGQphbSQ==
+X-Received: by 2002:ac8:590e:0:b0:4e8:a495:4752 with SMTP id
+ d75a77b69052e-4e8a4954c39mr316455081cf.83.1761325070386; 
+ Fri, 24 Oct 2025 09:57:50 -0700 (PDT)
+Received: from hu-yabdulra-ams.qualcomm.com ([212.136.9.4])
+ by smtp.gmail.com with ESMTPSA id
+ 4fb4d7f45d1cf-63e3ebcbcaasm4786602a12.10.2025.10.24.09.57.49
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 24 Oct 2025 09:57:50 -0700 (PDT)
+From: Youssef Samir <youssef.abdulrahman@oss.qualcomm.com>
+To: jeff.hugo@oss.qualcomm.com, carl.vanderlip@oss.qualcomm.com,
+ troy.hanson@oss.qualcomm.com, zachary.mckevitt@oss.qualcomm.com
+Cc: ogabbay@kernel.org, lizhi.hou@amd.com, karol.wachowski@linux.intel.com,
+ linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org
+Subject: [PATCH] accel/qaic: Fix typos in the documentation for qaic
+Date: Fri, 24 Oct 2025 18:57:49 +0200
+Message-ID: <20251024165749.821414-1-youssef.abdulrahman@oss.qualcomm.com>
+X-Mailer: git-send-email 2.43.0
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: CH3PEPF0000000B:EE_|CH3PR12MB7548:EE_
-X-MS-Office365-Filtering-Correlation-Id: 39ccb59b-6be4-4af1-4c51-08de131e15e1
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
- ARA:13230040|36860700013|1800799024|376014|82310400026; 
-X-Microsoft-Antispam-Message-Info: =?us-ascii?Q?7Oe2Asxu3ZQVCfNNPhBa7rEyDcTC+tF+iv2kFV4t9PI/SAsNrAJU3wP4K7/q?=
- =?us-ascii?Q?/0wcqZLobfaZTLSJZEfVygMy04Mfg47JP+mLB1HVBtImWSvAn2UdCWHvtsin?=
- =?us-ascii?Q?B1sA2YbT2h8KpMkTmnY6P40OKRuhV9Enh9iz1i3yEr6XGaALZfc3m/jHF9jQ?=
- =?us-ascii?Q?kvphndnef/xS3zjj0Z3K8SixJsi1HqFb8pU5rVqSGAQFj7vV1sVGaxd13JCP?=
- =?us-ascii?Q?Zb7eYUAtFS0UEZ8cHyOk5fVI1t8Xlr5aFoo+snrKBuOKx2NptnfDvf1Rb9P1?=
- =?us-ascii?Q?ORdhjjffgKGn7BxgjKbPcYyeTEfn6pmCMlLkgUXkjjOBbz1BJXLg0+qzpq8s?=
- =?us-ascii?Q?9i4lscRcf0BJniZ5WodOVb/s8ksQQmZytZeXQv+Vm8n51DcgS9dhUMpDwJA/?=
- =?us-ascii?Q?QYfK4G7/tyQjh9Dt7l2RLaZ/GkW6Il066Z/n6u5u/do6/2ov5qZ7VX2c96LD?=
- =?us-ascii?Q?S2Mf4qYOQFOSoPoLswxO2xS+w69FfIrc6053LJNuCf2E/5o8vG8mEzaS5jV/?=
- =?us-ascii?Q?1tYexlLTl1kiBFp/fb7t4SZT0UuNRPh0QKPXaRMMsaJpozLgE1xjbeU10Ani?=
- =?us-ascii?Q?joG7OM/7euGElluOCQAxc7QOBNGEFcTdg5q3yz0Yvji2H8uFSfIZJxYSFpiv?=
- =?us-ascii?Q?Q+VLwxCct4rVaUdCzmy+a4FxTsnIVBDBBvmIO651+hH9b/qUx3XswlaG+Ab0?=
- =?us-ascii?Q?qO1gPQlTTd8WbdN3ga2E1OTvfWyevu4InfYPO9tFEDhutfzqyjzePCGgMeCM?=
- =?us-ascii?Q?n+k91Px6RMlbsaLBfKgBly+cQThsod1EIXQsNg1oEg1EM8v2nG7Dc4e3iR9I?=
- =?us-ascii?Q?rBECo6zOl3w4U48fT2PmrDPquxuJKs2aeGb2FmwzRNVKcEQF5YKTSS2uTreT?=
- =?us-ascii?Q?UhDgSLOEbLibFSS4NlxDd93cQUeV0zsjEhR7xD8ZaiROjOJaZAe899vIFvYC?=
- =?us-ascii?Q?Xnp7pQXCpFS2qUJ+mP2QsR65MKzFDgxkBMkF1UmRREQi797WiLtnYJQx6Qjy?=
- =?us-ascii?Q?ggylL+MNFdJPJeNouKYSo0Bpo0Vp1mkxjv2+6Zf8LXWnFsbriM1jeIilPksH?=
- =?us-ascii?Q?4gj4028OSy1HUelrH++Z3sysRwvVf2gD0D1hdFvjnNZp/E/14zmRgVxSzNNb?=
- =?us-ascii?Q?7/X2tg8vtT88LNlo/A4/wh830VmvJaMp+nCGjtf+1qLtK34S5f1Xxf3MkCCb?=
- =?us-ascii?Q?OAjKktXJfVsqU7X2yQNemDvd33e5hsVN25CXaZYDnloFrliHXcGcNrKXqXL1?=
- =?us-ascii?Q?zaHx7O3BZpW0c+HC8Wjd9lCM2ZytKG9o8eMJp0VoCjoklskmtEiEcxA4eWE3?=
- =?us-ascii?Q?K2XlCS4+LYIn7nsKKtWIqZV8wAAPageWEp8f6k8YCDpqBlpQoRBIYgQf6VNW?=
- =?us-ascii?Q?iXPemNizi2v3KXgmPAj+pU7s1uCysxA2INVs6kpZkW55rUMnK/yV8hhQrEsf?=
- =?us-ascii?Q?J5q8rP6UFm4GVPLepvVU1r9FTBkwc1O6A/CqF5Xe/seWtR4CnIvCKV4hoyxC?=
- =?us-ascii?Q?yNWlr5ozyOGMtTo6q+9Rbc2IBaJJKBoCMGH2dclcRPuKsgSQ1vMC8oVd/YGK?=
- =?us-ascii?Q?JRb+Lt2xHd4NiP5L7Ns=3D?=
-X-Forefront-Antispam-Report: CIP:165.204.84.17; CTRY:US; LANG:en; SCL:1; SRV:;
- IPV:CAL; SFV:NSPM; H:satlexmb07.amd.com; PTR:InfoDomainNonexistent; CAT:NONE;
- SFS:(13230040)(36860700013)(1800799024)(376014)(82310400026); DIR:OUT;
- SFP:1101; 
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 24 Oct 2025 16:55:06.9689 (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 39ccb59b-6be4-4af1-4c51-08de131e15e1
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d; Ip=[165.204.84.17];
- Helo=[satlexmb07.amd.com]
-X-MS-Exchange-CrossTenant-AuthSource: CH3PEPF0000000B.namprd04.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CH3PR12MB7548
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUxMDE4MDAyMCBTYWx0ZWRfXxlfJOZ6UsBqU
+ TMOpEbfCH988/rndV5K3KDSyQA3xOqbJ8KJqzBe2UiFdPq8u2OPkUq2pT1B+hIBsMQud587UweG
+ P5zKZkAgUolBpKedG7b7LLibJxz6C5VJidcNllB29SFn/ftYEnkjpnvnbp3JK8sqJgf/BZMg6yQ
+ x2puNFqh1xoaYOrQe0bjzErkdiAPyybqusJwWU3WuUjT1u2ZPnFNbSKzJJy3YHGDUMUEqd3JbD2
+ Ss6eXt9gWD7aCgMpMt6G9w3F9q5y/3L5oVEwhaKXOWWE6lWuVskS9roC120SSECpvZ72wltD2O6
+ izFNzbzv3RtwztXbDbR41kOGc074umizFuYTia4FRl1enwuFzQTrMIQvzjf+5R0NDY39+uUXK6E
+ s4oQeD5dhRH7kQZdDT30S6ja7edVcg==
+X-Authority-Analysis: v=2.4 cv=KqFAGGWN c=1 sm=1 tr=0 ts=68fbb00f cx=c_pps
+ a=mPf7EqFMSY9/WdsSgAYMbA==:117 a=dNlqnMcrdpbb+gQrTujlOQ==:17
+ a=x6icFKpwvdMA:10 a=VkNPw1HP01LnGYTKEx00:22 a=COk6AnOGAAAA:8 a=EUspDBNiAAAA:8
+ a=pRYst-cxp-SWPdbSSdgA:9 a=dawVfQjAaf238kedN5IG:22 a=TjNXssC_j7lpFel5tvFf:22
+X-Proofpoint-GUID: sQj6rr1rqEIZ-ecpHicbABk2whMsYIWo
+X-Proofpoint-ORIG-GUID: sQj6rr1rqEIZ-ecpHicbABk2whMsYIWo
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.9,FMLib:17.12.80.40
+ definitions=2025-10-24_03,2025-10-22_01,2025-03-28_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ bulkscore=0 clxscore=1015 phishscore=0 malwarescore=0 impostorscore=0
+ lowpriorityscore=0 adultscore=0 priorityscore=1501 spamscore=0 suspectscore=0
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.19.0-2510020000 definitions=main-2510180020
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -138,39 +118,50 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-In aie2_get_hwctx_status() and aie2_query_ctx_status_array(), the
-functions could return an uninitialized value in some cases. Update them
-to always return 0. The amount of valid results is indicated by the
-returned buffer_size, element_size, and num_element fields.
+From: Sourab Bera <quic_sourbera@quicinc.com>
 
-Fixes: 2f509fe6a42c ("accel/amdxdna: Add ioctl DRM_IOCTL_AMDXDNA_GET_ARRAY")
-Signed-off-by: Lizhi Hou <lizhi.hou@amd.com>
+Fix typos in qaic.rst file.
+
+Signed-off-by: Sourab Bera <quic_sourbera@quicinc.com>
+Signed-off-by: Youssef Samir <youssef.abdulrahman@oss.qualcomm.com>
 ---
- drivers/accel/amdxdna/aie2_pci.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ Documentation/accel/qaic/qaic.rst | 8 ++++----
+ 1 file changed, 4 insertions(+), 4 deletions(-)
 
-diff --git a/drivers/accel/amdxdna/aie2_pci.c b/drivers/accel/amdxdna/aie2_pci.c
-index f48045318dc0..f1a8112b080f 100644
---- a/drivers/accel/amdxdna/aie2_pci.c
-+++ b/drivers/accel/amdxdna/aie2_pci.c
-@@ -822,7 +822,7 @@ static int aie2_get_hwctx_status(struct amdxdna_client *client,
- 	}
+diff --git a/Documentation/accel/qaic/qaic.rst b/Documentation/accel/qaic/qaic.rst
+index 018d6cc173d7..ef27e262cb91 100644
+--- a/Documentation/accel/qaic/qaic.rst
++++ b/Documentation/accel/qaic/qaic.rst
+@@ -36,7 +36,7 @@ polling mode and reenables the IRQ line.
+ This mitigation in QAIC is very effective. The same lprnet usecase that
+ generates 100k IRQs per second (per /proc/interrupts) is reduced to roughly 64
+ IRQs over 5 minutes while keeping the host system stable, and having the same
+-workload throughput performance (within run to run noise variation).
++workload throughput performance (within run-to-run noise variation).
  
- 	args->buffer_size -= (u32)(array_args.buffer - args->buffer);
--	return ret;
-+	return 0;
- }
+ Single MSI Mode
+ ---------------
+@@ -49,7 +49,7 @@ useful to be able to fall back to a single MSI when needed.
+ To support this fallback, we allow the case where only one MSI is able to be
+ allocated, and share that one MSI between MHI and the DBCs. The device detects
+ when only one MSI has been configured and directs the interrupts for the DBCs
+-to the interrupt normally used for MHI. Unfortunately this means that the
++to the interrupt normally used for MHI. Unfortunately, this means that the
+ interrupt handlers for every DBC and MHI wake up for every interrupt that
+ arrives; however, the DBC threaded irq handlers only are started when work to be
+ done is detected (MHI will always start its threaded handler).
+@@ -62,9 +62,9 @@ never disabled, allowing each new entry to the FIFO to trigger a new interrupt.
+ Neural Network Control (NNC) Protocol
+ =====================================
  
- static int aie2_get_info(struct amdxdna_client *client, struct amdxdna_drm_get_info *args)
-@@ -904,7 +904,7 @@ static int aie2_query_ctx_status_array(struct amdxdna_client *client,
- 	args->num_element = (u32)((array_args.buffer - args->buffer) /
- 				  args->element_size);
- 
--	return ret;
-+	return 0;
- }
- 
- static int aie2_get_array(struct amdxdna_client *client,
+-The implementation of NNC is split between the KMD (QAIC) and UMD. In general
++The implementation of NNC is split between the KMD (QAIC) and UMD. In general,
+ QAIC understands how to encode/decode NNC wire protocol, and elements of the
+-protocol which require kernel space knowledge to process (for example, mapping
++protocol which requires kernel space knowledge to process (for example, mapping
+ host memory to device IOVAs). QAIC understands the structure of a message, and
+ all of the transactions. QAIC does not understand commands (the payload of a
+ passthrough transaction).
 -- 
-2.34.1
+2.43.0
 
