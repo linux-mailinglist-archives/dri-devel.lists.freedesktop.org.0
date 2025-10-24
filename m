@@ -2,81 +2,121 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8EE1CC04AEE
-	for <lists+dri-devel@lfdr.de>; Fri, 24 Oct 2025 09:21:33 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 92D54C0471C
+	for <lists+dri-devel@lfdr.de>; Fri, 24 Oct 2025 08:08:58 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 34AA310E9E8;
-	Fri, 24 Oct 2025 07:21:30 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6B6A310E9D1;
+	Fri, 24 Oct 2025 06:08:55 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="GunBM+4O";
+	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="KEEy5YYW";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-il1-f181.google.com (mail-il1-f181.google.com
- [209.85.166.181])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5469A10E09A
- for <dri-devel@lists.freedesktop.org>; Fri, 24 Oct 2025 03:47:06 +0000 (UTC)
-Received: by mail-il1-f181.google.com with SMTP id
- e9e14a558f8ab-430cadec5deso15086045ab.1
- for <dri-devel@lists.freedesktop.org>; Thu, 23 Oct 2025 20:47:06 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1761277625; x=1761882425; darn=lists.freedesktop.org;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:from:to:cc:subject:date:message-id:reply-to;
- bh=BTRPcVehq1ZOZm7xL/IWpW023usBfc4VwA4QLz9tUds=;
- b=GunBM+4Ow6UbCYAmkVSXIvyfkn7B0ouyHUY7mPofDrY44TVn0u2sgrDgIvVe/aWdq9
- DhqzsB0FSslAlMgIcrsA9a65J+YmHZ1+eS4clv/1yVa2uSyBryR4qWtIxf0afTbmtQm/
- erCzWCs3/2Eu3DTRSQrNt0Ezb1UPcSwAh9+zTlU6MtfgJW/i6RYsL/Oo80klWZUH8pL5
- 0zWCYtcIrXWOojoq91/FqJBGOxMcy2rdU/fP6OuaDkCKwcHfrSku5NHRuklP4lCtox6c
- XpwVUKnrg4svWbvwt8ry6rcsy78I7jdrmYPZAtpyvyab2hJq9Cpbwyy7OTDllosuVu1y
- iHWg==
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
+ [205.220.168.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 51FFF10E995
+ for <dri-devel@lists.freedesktop.org>; Fri, 24 Oct 2025 06:08:54 +0000 (UTC)
+Received: from pps.filterd (m0279862.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 59O3FLTE022330
+ for <dri-devel@lists.freedesktop.org>; Fri, 24 Oct 2025 06:08:54 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+ cc:content-type:date:from:in-reply-to:message-id:mime-version
+ :references:subject:to; s=qcppdkim1; bh=5paQZUXoZhbSMdqEbr7oDMWv
+ 5wYg/eSHa84AvpMQ1gU=; b=KEEy5YYWmGISqZocseXqFvvaaUAPB1sOLO3rqjvo
+ KU2JgAV8n6Joarvt+LHc7yBgdWDf0m7m+vEWqORLJf1frTF3vDqE8P5zeMk/5X/w
+ HQVRqFAwnYc5vNQES9Iqf8gMP8C4QU2evE0EBL5HaP/16cECqMGIZfh7QDBs5C9z
+ wkIDgrgKOtaiBmghZxCT4Z0Ka6NJDAK64YoX5D+4QB01Opv4APoRwOxGU7wFlQyV
+ +VZElCAflFA3Qf7Rdn76yUIjBSREdea05oxzw4vYWrOBwkCuKKYCFFCBanWJSVxg
+ 35BlkTKW8mlwQcLetyJFcvBpWL/ec7QZzMZduNclkrT8Bw==
+Received: from mail-qv1-f69.google.com (mail-qv1-f69.google.com
+ [209.85.219.69])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 49y67qmxk5-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
+ for <dri-devel@lists.freedesktop.org>; Fri, 24 Oct 2025 06:08:53 +0000 (GMT)
+Received: by mail-qv1-f69.google.com with SMTP id
+ 6a1803df08f44-87c171369aaso53399966d6.0
+ for <dri-devel@lists.freedesktop.org>; Thu, 23 Oct 2025 23:08:53 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1761277625; x=1761882425;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=BTRPcVehq1ZOZm7xL/IWpW023usBfc4VwA4QLz9tUds=;
- b=u2DduUva8E0xdf+EVYh75l302izpqwqLlK+T/k8p5X98DA8f6+BJmpxEuWrDoOwLAb
- Jc/7m70witLE6BFidwqmea2W6NzJ8VTE2M5ce0f4jGk0Uvcj5gmH4CNBYzA45L9G3uc6
- ZOHG27p9oGlEzZ9TkjcfP2wWMRNv1ZOEfu7wsqroDskXBXbek0o0Vo+b8xmcnMYLMD+J
- TMzTQujjQ/8dCKh+L+qQz3CvZFMkNU8NhD3GO9ZsVRSHBkh7aUJVyUYZRd1bm4d2S314
- SPS13hHiURUzmVZ0AS8es1P+FvXdTjzDvRTwuW2gz58/9I6yslBDeVEi5YRslnm7IttW
- C6+w==
+ d=1e100.net; s=20230601; t=1761286132; x=1761890932;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=5paQZUXoZhbSMdqEbr7oDMWv5wYg/eSHa84AvpMQ1gU=;
+ b=BCAnVurIa58tK55glmi7fx9+sre+lOVrqkkFw9bPV7l897F1ecgRqe97HM9VduLmHB
+ KedPJs3+gJjHK4NitVloz3WJwFCmAZJbNc6QQgPwGecDWpfvbyR5xGREb9nNat7mArUH
+ KLaNgN8vZA2wtD/7t9tN9XopF9Zcr/diDi2W7JHnd2Y5n68gbCtKgkVh7g80GjZDl8VT
+ 0B7kYSr6wX19KWaWCDsCFwAnFK/FQd6BBkMy1y9OTKOTq+JtBss0lAOQYSSN5YYDVpXl
+ eTTpvdx/BU4kRoZTl2lNO/Z9CPPoEFEfsApmTYgG2iY0xFXcUMKlbJ+JV65eE1Qxoj/e
+ 2Azg==
 X-Forwarded-Encrypted: i=1;
- AJvYcCVPvLiKyL1rZXyGVuX1jtyQgVqFCGyjjubnJHH2Rw8mk89DyrT16uqYRv1mysOblYFN/bLiaXGS9Wk=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Yw5E9mg8X87c7+OJ8H6rgksdgln6k5fHrJaO6kWDj5fmhNR7Lof
- vjU6fIF5Mrihcder2r5ShC7hK2IRCKljAAn5nkRutZ6JPW+mjZ9n7UgM
-X-Gm-Gg: ASbGncsOTy3Nk9wd4pe9F5FSWUERtpp7rtzqebvrLlJPXDLAckWjsi0MUQP/rhU8dEC
- p8G+d5EelBzCCLehdRFp0c65ylXQhI+8KwlLcJYWF8s0zUAo9D3xjH7Xe0kb79+e2e5rwo3bDX1
- /Akb7M/ntJRyKrsAoJz3vJuMafeVN1dZAtT8gqWRGCWOkS3pCAh9NTQRB/ZwhASRBtbFeNG5GDe
- RGp/RXha+8++SQMfRUBNcwgvdQonaTiT7VG16WDt7DyE69TZla9C21Fr6YBfLCoEyh3v5VyeijR
- lkeqdsdWQzg2HR41XEXZnwmA6CRgoRqiIcNQ53jyMQPJcLRt9yJc353xLAngE5qdl1WnF4Br48g
- ujkxy2GqaBizNnXicdmkfWIR3AcsOz0/Jngy/iVadz2P+zyNgwo7tA6WdJOyOmQVo4LWkumiow4
- gXwh+V+M1li/wGGPunwu1u2f93zT+jC1QsilvwmyNRHATpkudilhKvFyB6qk+NyDgHFinSIWnyg
- L/888wL6B0YG14=
-X-Google-Smtp-Source: AGHT+IF4nK0dDcEQMxrByQtKSDL+Vtp/h2LVbn+x1BPoCFDYFALAcbNWnpX4PRVrQ+b7Q3SGYy2kzQ==
-X-Received: by 2002:a05:6e02:3e04:b0:430:c394:15a3 with SMTP id
- e9e14a558f8ab-430c528d628mr363410005ab.22.1761277625271; 
- Thu, 23 Oct 2025 20:47:05 -0700 (PDT)
-Received: from abc-virtual-machine.localdomain
- (c-76-150-86-52.hsd1.il.comcast.net. [76.150.86.52])
- by smtp.gmail.com with ESMTPSA id
- 8926c6da1cb9f-5abb4e4bbefsm1712310173.5.2025.10.23.20.47.04
+ AJvYcCW/gXBwwbnID5GPO6XIp4w8Lum4ks66G/odx5TEoaL24O5YyqaYt+HK+3hD+tPz006Ndr4O/bzZfI8=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Yyo0HOh8y6QORAwSmAmMDJQEAQMO4cGwze7+W+cPbk26RnsBQjQ
+ SKVi0wHZvXSfHdyUKdsaOJS46PYfYr5YOB/8nYbI9pSy2eEgy5t9RfzFGHJrSwVs/9z0LuXQJLj
+ zo8QUuCX+4elWVqJwTVQlFBUc4bTa8aRDAS4RxxUJ8uK+Uhi47oRmRc+OcwTXGDXGa2y7CRk=
+X-Gm-Gg: ASbGncu2gzg5EwNO2wBYqNT9aKvQ8DE2mcV74iS3uanUUs4MM7KAF5ME2DqhspbClu4
+ CvroK35lCYWvRD8RqrEQ8VPXhQPdDCmZXmnvy9R1OcKtOX6TgphNYj+1v4uOcgQgXwiTscDsuR2
+ EJOqUdsPmE/DH55baMz/YMyeGXtuEQkns2NTV3VBhBBNXlxRInXOlijBDy1A/VpzosM89mWxi8q
+ FzblzTSXvXbArzqsqLJ/0PBkKYqbHLFqJjx34Z+4AGt1V7eXA34ZSp4BHBVT7EaiW+4z29ITXKE
+ fLTSMLUsMpOCkpPrV7P6UdF+0+36mdxrrjCV9ce2AnoSgYTcxvIXt01u7yGbx1sU8CkF3xMFo/w
+ BlmrYzz8T3gwg7hIZCFyV0A4uuKJ1Zr7CwndVvVta5Xr43eCs1cy86NQCGzjy
+X-Received: by 2002:a05:6214:762:b0:78e:2582:fe4 with SMTP id
+ 6a1803df08f44-87fb41405f1mr18971316d6.30.1761286132457; 
+ Thu, 23 Oct 2025 23:08:52 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IFJfims6BmldfbNUzzEmlDV12NK3CNrXycYwMc9WdMoAhC7GnzxeZrG4DxKcu5+ArENqYaIDQ==
+X-Received: by 2002:a05:6214:762:b0:78e:2582:fe4 with SMTP id
+ 6a1803df08f44-87fb41405f1mr18970886d6.30.1761286131954; 
+ Thu, 23 Oct 2025 23:08:51 -0700 (PDT)
+Received: from yuanjiey.ap.qualcomm.com (Global_NAT1_IAD_FW.qualcomm.com.
+ [129.46.232.65]) by smtp.gmail.com with ESMTPSA id
+ 6a1803df08f44-87f9e7f52e1sm29575846d6.51.2025.10.23.23.08.43
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 23 Oct 2025 20:47:04 -0700 (PDT)
-From: Yuhao Jiang <danisjiang@gmail.com>
-To: Richard Henderson <richard.henderson@linaro.org>,
- Matt Turner <mattst88@gmail.com>, David Airlie <airlied@redhat.com>
-Cc: linux-alpha@vger.kernel.org, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, stable@vger.kernel.org,
- Yuhao Jiang <danisjiang@gmail.com>
-Subject: [PATCH] agp/alpha: fix out-of-bounds write with negative pg_start
-Date: Thu, 23 Oct 2025 22:47:01 -0500
-Message-Id: <20251024034701.1673459-1-danisjiang@gmail.com>
-X-Mailer: git-send-email 2.34.1
+ Thu, 23 Oct 2025 23:08:51 -0700 (PDT)
+Date: Fri, 24 Oct 2025 14:08:40 +0800
+From: yuanjiey <yuanjie.yang@oss.qualcomm.com>
+To: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
+Cc: robin.clark@oss.qualcomm.com, lumag@kernel.org, abhinav.kumar@linux.dev,
+ sean@poorly.run, marijn.suijten@somainline.org, airlied@gmail.com,
+ simona@ffwll.ch, maarten.lankhorst@linux.intel.com, mripard@kernel.org,
+ tzimmermann@suse.de, robh@kernel.org, krzk+dt@kernel.org,
+ conor+dt@kernel.org, quic_mkrishn@quicinc.com, jonathan@marek.ca,
+ quic_khsieh@quicinc.com, neil.armstrong@linaro.org,
+ linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ freedreno@lists.freedesktop.org, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org, tingwei.zhang@oss.qualcomm.com,
+ aiqun.yu@oss.qualcomm.com, yongxing.mou@oss.qualcomm.com
+Subject: Re: [PATCH 11/12] dt-bindings: display/msm: dsi-controller-main: Add
+ Kaanapali
+Message-ID: <aPsX6Fh0tiGuUox6@yuanjiey.ap.qualcomm.com>
+References: <20251023075401.1148-1-yuanjie.yang@oss.qualcomm.com>
+ <20251023080609.1212-1-yuanjie.yang@oss.qualcomm.com>
+ <20251023080609.1212-6-yuanjie.yang@oss.qualcomm.com>
+ <binhwh2sb72ipt2qhqdmnid2hygdnjx62mhzn2cl4v2do467gz@wkmsvroshkcu>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Mailman-Approved-At: Fri, 24 Oct 2025 07:21:29 +0000
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <binhwh2sb72ipt2qhqdmnid2hygdnjx62mhzn2cl4v2do467gz@wkmsvroshkcu>
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUxMDIyMDE2OCBTYWx0ZWRfXzCOvP6tBQrFX
+ ldXoXplZZn1TJIsNRqZD5xkB1pzPevaDuEO6YeM8t1Yd7uhMioZm093gH4//VEFcQxRz8b5LtT+
+ rcQ4bai7rCvDTZrvg6pLMWFn9argSqGYTtjrtp3Y/yQsJJJeUeCK2spzefHs3P4k6yI38zBuU3d
+ viKJ7RU0BgdwGad3zIX3TcDsNMUVpNR9/DttWl/EWucvJB0BVzmBdn9wirJoZUOqptkDIW9Sbm3
+ lr1v64xn83Y1XdnleSSfblP6qOjUKWJ00895AIjB378VPn2XpQ4HsVIc8mR5s5kQiSRGXUQ7qQJ
+ xjcf3CE05e88MkLzTM0XD3dX/90h8uld7xN83ACZxvXJ958IXrs9nai2Wpgx5/eqmoNIdS9cn+k
+ ORnBh5THaw1KAeZQVpRvfxZBy8QQ7w==
+X-Authority-Analysis: v=2.4 cv=LMRrgZW9 c=1 sm=1 tr=0 ts=68fb17f5 cx=c_pps
+ a=wEM5vcRIz55oU/E2lInRtA==:117 a=C3Dk8TwHQYyIj7nOf9RCJw==:17
+ a=kj9zAlcOel0A:10 a=x6icFKpwvdMA:10 a=VkNPw1HP01LnGYTKEx00:22
+ a=EUspDBNiAAAA:8 a=WIVAG7BfrJY6p4e7JxwA:9 a=CjuIK1q_8ugA:10
+ a=OIgjcC2v60KrkQgK7BGD:22
+X-Proofpoint-GUID: 5D0uCGPDFv5ri1Gkd07SBfpV1Rg0My8d
+X-Proofpoint-ORIG-GUID: 5D0uCGPDFv5ri1Gkd07SBfpV1Rg0My8d
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.9,FMLib:17.12.80.40
+ definitions=2025-10-23_03,2025-10-22_01,2025-03-28_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ suspectscore=0 clxscore=1015 priorityscore=1501 impostorscore=0 phishscore=0
+ bulkscore=0 malwarescore=0 adultscore=0 lowpriorityscore=0 spamscore=0
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.19.0-2510020000 definitions=main-2510220168
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -92,103 +132,55 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The code contains an out-of-bounds write vulnerability due to insufficient
-bounds validation. Negative pg_start values and integer overflow in
-pg_start+pg_count can bypass the existing bounds check.
+On Thu, Oct 23, 2025 at 03:16:11PM +0300, Dmitry Baryshkov wrote:
+> On Thu, Oct 23, 2025 at 04:06:08PM +0800, yuanjie yang wrote:
+> > From: Yuanjie Yang <yuanjie.yang@oss.qualcomm.com>
+> > 
+> > Add DSI Controller for Kaanapali.
+> 
+> Please say something more important here. Why do we need new compatible
+> for this platform, etc.
 
-For example, pg_start=-1 with page_count=1 produces a sum of 0, passing
-the check `(pg_start + page_count) > num_entries`, but later writes to
-ptes[-1]. Similarly, pg_start=LONG_MAX-5 with pg_count=10 overflows,
-bypassing the check.
+DSI Controller for Kaanapali have no significant diiference with previous version(SM8750).
+But some register change make it imcompatible with previous version(SM8750).
 
-Fix by explicitly rejecting negative pg_start and detecting overflow in
-alpha_core_agp_insert_memory, alpha_core_agp_remove_memory, iommu_release,
-iommu_bind, and iommu_unbind.
+I will give this reason in my next patch.
 
-Reported-by: Yuhao Jiang <danisjiang@gmail.com>
-Fixes: 1da177e4c3f4 ("Linux-2.6.12-rc2")
-Cc: stable@vger.kernel.org
-Signed-off-by: Yuhao Jiang <danisjiang@gmail.com>
----
- arch/alpha/kernel/pci_iommu.c | 17 ++++++++++++++++-
- drivers/char/agp/alpha-agp.c  | 13 ++++++++++++-
- 2 files changed, 28 insertions(+), 2 deletions(-)
+Thanks
+Yuanjie.
 
-diff --git a/arch/alpha/kernel/pci_iommu.c b/arch/alpha/kernel/pci_iommu.c
-index dc91de50f906..b6293dc66d45 100644
---- a/arch/alpha/kernel/pci_iommu.c
-+++ b/arch/alpha/kernel/pci_iommu.c
-@@ -859,6 +859,11 @@ iommu_release(struct pci_iommu_arena *arena, long pg_start, long pg_count)
  
- 	if (!arena) return -EINVAL;
- 
-+	if (pg_start < 0 || pg_start + pg_count > (arena->size >> PAGE_SHIFT))
-+		return -EINVAL;
-+	if (pg_start + pg_count < pg_start)
-+		return -EINVAL;
-+
- 	ptes = arena->ptes;
- 
- 	/* Make sure they're all reserved first... */
-@@ -879,7 +884,12 @@ iommu_bind(struct pci_iommu_arena *arena, long pg_start, long pg_count,
- 	long i, j;
- 
- 	if (!arena) return -EINVAL;
--	
-+
-+	if (pg_start < 0 || pg_start + pg_count > (arena->size >> PAGE_SHIFT))
-+		return -EINVAL;
-+	if (pg_start + pg_count < pg_start)
-+		return -EINVAL;
-+
- 	spin_lock_irqsave(&arena->lock, flags);
- 
- 	ptes = arena->ptes;
-@@ -907,6 +917,11 @@ iommu_unbind(struct pci_iommu_arena *arena, long pg_start, long pg_count)
- 
- 	if (!arena) return -EINVAL;
- 
-+	if (pg_start < 0 || pg_start + pg_count > (arena->size >> PAGE_SHIFT))
-+		return -EINVAL;
-+	if (pg_start + pg_count < pg_start)
-+		return -EINVAL;
-+
- 	p = arena->ptes + pg_start;
- 	for(i = 0; i < pg_count; i++)
- 		p[i] = IOMMU_RESERVED_PTE;
-diff --git a/drivers/char/agp/alpha-agp.c b/drivers/char/agp/alpha-agp.c
-index e1763ecb8111..e2ab959662f3 100644
---- a/drivers/char/agp/alpha-agp.c
-+++ b/drivers/char/agp/alpha-agp.c
-@@ -93,7 +93,9 @@ static int alpha_core_agp_insert_memory(struct agp_memory *mem, off_t pg_start,
- 
- 	temp = agp_bridge->current_size;
- 	num_entries = A_SIZE_FIX(temp)->num_entries;
--	if ((pg_start + mem->page_count) > num_entries)
-+	if (pg_start < 0 || (pg_start + mem->page_count) > num_entries)
-+		return -EINVAL;
-+	if ((pg_start + mem->page_count) < pg_start)
- 		return -EINVAL;
- 
- 	status = agp->ops->bind(agp, pg_start, mem);
-@@ -107,8 +109,17 @@ static int alpha_core_agp_remove_memory(struct agp_memory *mem, off_t pg_start,
- 					int type)
- {
- 	alpha_agp_info *agp = agp_bridge->dev_private_data;
-+	int num_entries;
-+	void *temp;
- 	int status;
- 
-+	temp = agp_bridge->current_size;
-+	num_entries = A_SIZE_FIX(temp)->num_entries;
-+	if (pg_start < 0 || (pg_start + mem->page_count) > num_entries)
-+		return -EINVAL;
-+	if ((pg_start + mem->page_count) < pg_start)
-+		return -EINVAL;
-+
- 	status = agp->ops->unbind(agp, pg_start, mem);
- 	alpha_core_agp_tlbflush(mem);
- 	return status;
--- 
-2.34.1
-
+> > 
+> > Signed-off-by: Yongxing Mou <yongxing.mou@oss.qualcomm.com>
+> > Signed-off-by: Yuanjie Yang <yuanjie.yang@oss.qualcomm.com>
+> > ---
+> >  .../devicetree/bindings/display/msm/dsi-controller-main.yaml    | 2 ++
+> >  1 file changed, 2 insertions(+)
+> > 
+> > diff --git a/Documentation/devicetree/bindings/display/msm/dsi-controller-main.yaml b/Documentation/devicetree/bindings/display/msm/dsi-controller-main.yaml
+> > index 4400d4cce072..536ebf331828 100644
+> > --- a/Documentation/devicetree/bindings/display/msm/dsi-controller-main.yaml
+> > +++ b/Documentation/devicetree/bindings/display/msm/dsi-controller-main.yaml
+> > @@ -15,6 +15,7 @@ properties:
+> >        - items:
+> >            - enum:
+> >                - qcom,apq8064-dsi-ctrl
+> > +              - qcom,kaanapali-dsi-ctrl
+> >                - qcom,msm8226-dsi-ctrl
+> >                - qcom,msm8916-dsi-ctrl
+> >                - qcom,msm8953-dsi-ctrl
+> > @@ -369,6 +370,7 @@ allOf:
+> >          compatible:
+> >            contains:
+> >              enum:
+> > +              - qcom,kaanapali-dsi-ctrl
+> >                - qcom,sm8750-dsi-ctrl
+> >      then:
+> >        properties:
+> > -- 
+> > 2.34.1
+> > 
+> 
+> -- 
+> With best wishes
+> Dmitry
