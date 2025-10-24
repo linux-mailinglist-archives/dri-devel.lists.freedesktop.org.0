@@ -2,71 +2,69 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 682C7C05A06
-	for <lists+dri-devel@lfdr.de>; Fri, 24 Oct 2025 12:39:32 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id DB333C05A8B
+	for <lists+dri-devel@lfdr.de>; Fri, 24 Oct 2025 12:49:06 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2F8AA10EA32;
-	Fri, 24 Oct 2025 10:39:28 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4AA6D10EA5B;
+	Fri, 24 Oct 2025 10:49:04 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="UYqJNxrP";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="nLgPo94p";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A1DF810EA4A;
- Fri, 24 Oct 2025 10:39:26 +0000 (UTC)
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B48D410EA5B
+ for <dri-devel@lists.freedesktop.org>; Fri, 24 Oct 2025 10:49:03 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1761302367; x=1792838367;
- h=from:date:to:cc:subject:in-reply-to:message-id:
- references:mime-version:content-id;
- bh=SRKpqs7p8PGtv14YGwum4fAb1Zzbp8J6idns3ccYONg=;
- b=UYqJNxrP93jaoiQH0CtHA/MTI51sLDbGCGJII2E0vkcxnGI06K5+6Del
- kTcGEY7w22KnudQjKFpHq/zQxHeJi4b920sUwrHVr9vh5GQBn52GGuzGx
- QY+PbEQrep/v+20RmfVcnp1d+7/iszV+bjq+nPWeJnwvLNL3FQxstwF00
- mwOTy/zYndeitlI4B6NptITEaLA3TdOwDheMteCdzelG39o1yEOSvnU6w
- xQilY1JBOS0OKGRckMi6slyPr+DLkd+34Xu7hO8/1xZGKtHz7ameu0AXr
- a0iDX16/k0ewW/mDA9h0atw09j6TFksRQYwyOJBqnfADI9RzgbUbcljyq w==;
-X-CSE-ConnectionGUID: 454chpIhRwWX7C2B9TfWuQ==
-X-CSE-MsgGUID: cVK/JzfhTD+hz+aCitoatg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11531"; a="63384795"
-X-IronPort-AV: E=Sophos;i="6.17,312,1747724400"; d="scan'208";a="63384795"
-Received: from fmviesa009.fm.intel.com ([10.60.135.149])
- by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 24 Oct 2025 03:39:26 -0700
-X-CSE-ConnectionGUID: hmXiIFeFQhStZZIY+yihLg==
-X-CSE-MsgGUID: 9rKxUU0iQBu3gyCS+BTRhg==
+ t=1761302944; x=1792838944;
+ h=message-id:date:mime-version:subject:to:cc:references:
+ from:in-reply-to:content-transfer-encoding;
+ bh=X4Lx1AN9vYSZaPB0jdVLFEPdmXgK7gQn/GI7ZLbgs/E=;
+ b=nLgPo94pgkuU19K/8fHfZFYsfIswXhUPKJxUfARbC9bymE+z0LQ7FHps
+ 3LaPRZe6WmC4nsOyJbEAdnmHGNZa28x6Pnc1KhfXGe1Z2Lm79tfApIvLO
+ AP0PvZnYB4OBXjbnZaskCjsVzLrRcheby1TkdfUlNOr7W/hnJNSY/Lpgs
+ 4IIWaDRtB6AgUTomNZ8STpsbMNdE6xAyT/Z8NBPyg/4b3W3A+1w167pqj
+ kRbna51QJpwplqTp5cjZCYv5iDXfT34VOtBZdCFDcmjoBQHoOWAlYgsZ9
+ RCMLClivFZu7RGRL4Lx+orgpUxocuQhD1jjzF7xlEF8F1VaUMo+is241H w==;
+X-CSE-ConnectionGUID: /nOhlqzNTUiOLnshBoSbnw==
+X-CSE-MsgGUID: hISOqo5CRXe8oce3+akLsg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11586"; a="74603175"
+X-IronPort-AV: E=Sophos;i="6.19,252,1754982000"; d="scan'208";a="74603175"
+Received: from fmviesa006.fm.intel.com ([10.60.135.146])
+ by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 24 Oct 2025 03:49:03 -0700
+X-CSE-ConnectionGUID: OcX6su+xR2uYN5Mf8fl0EQ==
+X-CSE-MsgGUID: nWp/NyGvTCC6Oowq+T7s4w==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.19,252,1754982000"; d="scan'208";a="184882780"
-Received: from ijarvine-mobl1.ger.corp.intel.com (HELO localhost)
- ([10.245.245.112])
- by fmviesa009-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 24 Oct 2025 03:39:18 -0700
-From: =?UTF-8?q?Ilpo=20J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>
-Date: Fri, 24 Oct 2025 13:39:15 +0300 (EEST)
-To: Bjorn Helgaas <helgaas@kernel.org>
-cc: Lucas De Marchi <lucas.demarchi@intel.com>, linux-pci@vger.kernel.org, 
- Bjorn Helgaas <bhelgaas@google.com>, 
- =?ISO-8859-2?Q?Krzysztof_Wilczy=F1ski?= <kw@linux.com>, 
- =?ISO-8859-15?Q?Christian_K=F6nig?= <christian.koenig@amd.com>, 
- =?ISO-8859-2?Q?Micha=B3_Winiarski?= <michal.winiarski@intel.com>, 
- Alex Deucher <alexander.deucher@amd.com>, amd-gfx@lists.freedesktop.org, 
- David Airlie <airlied@gmail.com>, dri-devel@lists.freedesktop.org, 
- intel-gfx@lists.freedesktop.org, intel-xe@lists.freedesktop.org, 
- Jani Nikula <jani.nikula@linux.intel.com>, 
- Joonas Lahtinen <joonas.lahtinen@linux.intel.com>, 
- Rodrigo Vivi <rodrigo.vivi@intel.com>, Simona Vetter <simona@ffwll.ch>, 
- Tvrtko Ursulin <tursulin@ursulin.net>, 
- "Michael J . Ruhl" <mjruhl@habana.ai>, 
- Andi Shyti <andi.shyti@linux.intel.com>, 
- LKML <linux-kernel@vger.kernel.org>
-Subject: Re: [PATCH v3 00/11] PCI: Resizable BAR improvements
-In-Reply-To: <20251023221323.GA1325049@bhelgaas>
-Message-ID: <468ebc86-25aa-a22f-a45c-6ec15faa5b09@linux.intel.com>
-References: <20251023221323.GA1325049@bhelgaas>
+X-IronPort-AV: E=Sophos;i="6.19,252,1754982000"; d="scan'208";a="184323445"
+Received: from kwachows-mobl.ger.corp.intel.com (HELO [10.246.16.157])
+ ([10.246.16.157])
+ by fmviesa006-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 24 Oct 2025 03:49:00 -0700
+Message-ID: <dc2662f4-98b5-4fc8-9ed7-5e4a88168f9a@linux.intel.com>
+Date: Fri, 24 Oct 2025 12:48:58 +0200
 MIME-Version: 1.0
-Content-Type: multipart/mixed; BOUNDARY="8323328-1816897247-1761300158=:1178"
-Content-ID: <50255ee2-82ed-c181-c05c-72f2a8f7243a@linux.intel.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 2/2] accel/ivpu: replace use of system_wq with
+ system_percpu_wq
+To: Marco Crivellari <marco.crivellari@suse.com>,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org
+Cc: Tejun Heo <tj@kernel.org>, Lai Jiangshan <jiangshanlai@gmail.com>,
+ Frederic Weisbecker <frederic@kernel.org>,
+ Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
+ Michal Hocko <mhocko@suse.com>,
+ Maciej Falkowski <maciej.falkowski@linux.intel.com>,
+ Oded Gabbay <ogabbay@kernel.org>
+References: <20251024095205.123123-1-marco.crivellari@suse.com>
+ <20251024095205.123123-3-marco.crivellari@suse.com>
+Content-Language: en-US
+From: Karol Wachowski <karol.wachowski@linux.intel.com>
+Organization: Intel Technology Poland sp. z o.o. - ul. Slowackiego 173, 80-298
+ Gdansk - KRS 101882 - NIP 957-07-52-316
+In-Reply-To: <20251024095205.123123-3-marco.crivellari@suse.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -82,150 +80,107 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-  This message is in MIME format.  The first part should be readable text,
-  while the remaining parts are likely unreadable without MIME-aware tools.
-
---8323328-1816897247-1761300158=:1178
-Content-Type: text/plain; CHARSET=ISO-8859-15
-Content-Transfer-Encoding: QUOTED-PRINTABLE
-Content-ID: <0a125242-ab0c-aae7-2380-e599003f1850@linux.intel.com>
-
-On Thu, 23 Oct 2025, Bjorn Helgaas wrote:
-
-> On Thu, Oct 23, 2025 at 05:02:42PM -0500, Lucas De Marchi wrote:
-> > On Thu, Oct 23, 2025 at 04:29:43PM -0500, Bjorn Helgaas wrote:
-> > > On Wed, Oct 22, 2025 at 04:33:20PM +0300, Ilpo J=E4rvinen wrote:
-> > > > pci.c has been used as catch everything that doesn't fits elsewhere
-> > > > within PCI core and thus resizable BAR code has been placed there a=
-s
-> > > > well. Move Resizable BAR related code to a newly introduced rebar.c=
- to
-> > > > reduce size of pci.c. After move, there are no pci_rebar_*() calls =
-from
-> > > > pci.c indicating this is indeed well-defined subset of PCI core.
-> > > >=20
-> > > > Endpoint drivers perform Resizable BAR related operations which cou=
-ld
-> > > > well be performed by PCI core to simplify driver-side code. This
-> > > > series adds a few new API functions to that effect and converts the
-> > > > drivers to use the new APIs (in separate patches).
-> > > >=20
-> > > > While at it, also convert BAR sizes bitmask to u64 as PCIe spec alr=
-eady
-> > > > specifies more sizes than what will fit u32 to make the API typing =
-more
-> > > > future-proof. The extra sizes beyond 128TB are not added at this po=
-int.
-> > > >=20
-> > > > Some parts of this are to be used by the resizable BAR changes into=
- the
-> > > > resource fitting/assingment logic but these seem to stand on their =
-own
-> > > > so sending these out now to reduce the size of the other patch seri=
-es.
-> > > >=20
-> > > > v3:
-> > > > - Rebased to solve minor conflicts
-> > > >=20
-> > > > v2: https://lore.kernel.org/linux-pci/20250915091358.9203-1-ilpo.ja=
-rvinen@linux.intel.com/
-> > > > - Kerneldoc:
-> > > >   - Improve formatting of errno returns
-> > > >   - Open "ctrl" -> "control"
-> > > >   - Removed mislead "bit" words (when referring to BAR size)
-> > > >   - Rewrote pci_rebar_get_possible_sizes() kernel doc to not claim =
-the
-> > > >     returned bitmask is defined in PCIe spec as the capability bits=
- now
-> > > >     span across two registers in the spec and are not continuous (w=
-e
-> > > >     don't support the second block of bits yet, but this API is exp=
-ected
-> > > >     to return the bits without the hole so it will not be matching =
-with
-> > > >     the spec layout).
-> > > > - Dropped superfluous zero check from pci_rebar_size_supported()
-> > > > - Small improvement to changelog of patch 7
-> > > >=20
-> > > > Ilpo J=E4rvinen (11):
-> > > >   PCI: Move Resizable BAR code into rebar.c
-> > > >   PCI: Cleanup pci_rebar_bytes_to_size() and move into rebar.c
-> > > >   PCI: Move pci_rebar_size_to_bytes() and export it
-> > > >   PCI: Improve Resizable BAR functions kernel doc
-> > > >   PCI: Add pci_rebar_size_supported() helper
-> > > >   drm/i915/gt: Use pci_rebar_size_supported()
-> > > >   drm/xe/vram: Use PCI rebar helpers in resize_vram_bar()
-> > > >   PCI: Add pci_rebar_get_max_size()
-> > > >   drm/xe/vram: Use pci_rebar_get_max_size()
-> > > >   drm/amdgpu: Use pci_rebar_get_max_size()
-> > > >   PCI: Convert BAR sizes bitmasks to u64
-> > > >=20
-> > > >  Documentation/driver-api/pci/pci.rst        |   3 +
-> > > >  drivers/gpu/drm/amd/amdgpu/amdgpu_device.c  |   8 +-
-> > > >  drivers/gpu/drm/i915/gt/intel_region_lmem.c |  10 +-
-> > > >  drivers/gpu/drm/xe/xe_vram.c                |  32 +-
-> > > >  drivers/pci/Makefile                        |   2 +-
-> > > >  drivers/pci/iov.c                           |   9 +-
-> > > >  drivers/pci/pci-sysfs.c                     |   2 +-
-> > > >  drivers/pci/pci.c                           | 145 ---------
-> > > >  drivers/pci/pci.h                           |   5 +-
-> > > >  drivers/pci/rebar.c                         | 314 ++++++++++++++++=
-++++
-> > > >  drivers/pci/setup-res.c                     |  78 -----
-> > > >  include/linux/pci.h                         |  15 +-
-> > > >  12 files changed, 350 insertions(+), 273 deletions(-)
-> > > >  create mode 100644 drivers/pci/rebar.c
-> > >=20
-> > > Applied to pci/rebar for v6.18, thanks, Ilpo!
-> >=20
-> > is this for v6.18 or it's a typo and it's going to v6.19?
->=20
-> Oops, sorry, I meant v6.19!  I still have v6.18 regressions top of
-> mind :)
->=20
-> > > If we have follow-on resource assignment changes that depend on these=
-,
-> > > maybe I'll rename the branch to be more generic before applying them.
-
-Okay.
-
-The bigger challenge, though, will be that it now seems I need to bite the=
-=20
-bullet and rework the BAR resizing functions to fix v6.18-rc & v6.15=20
-regressions which will touch pci_resize_resource() or more to be more=20
-precise, add pci_release_and_resize_resource() interface. I've been=20
-postponing this as it seems quite intrusive and the upcoming resource=20
-fitting improvements should make driver initiated BAR resize pretty=20
-unnecessary anyway. It seems the shortcut didn't work. :-(
-
-It will certainly conflict with the rebar.c move in this series. (I=20
-hopefully have the rework ready next week).
-
-And sure, I've resource assignment changes piling up as well here, just=20
-have been busy with handling all the regression so I've not gotten to=20
-submit some of those. Most of them shouldn't conflict with rebar.c code=20
-anyway (probably only adding a few new helpers for the max rebar changes=20
-will but with the current state of affairs with all these regressions on=20
-my plate, the max rebar changes themselves seems already tracking=20
-next-next instead of 6.19).
-
-> > > Also applied the drivers/gpu changes based on the acks.  I see the CI
-> > > merge failures since this series is based on v6.18-rc1; I assume the
-> > > CI applies to current linux-next or similar.  I'll check the conflict=
-s
-> >=20
-> > it tries on drm-tip that contains drm-xe-next going to v6.19. We have
-> > some changes there that conflict, but shouldn't be hard.
+On 10/24/2025 11:52 AM, Marco Crivellari wrote:
+> Currently if a user enqueue a work item using schedule_delayed_work() the
+> used wq is "system_wq" (per-cpu wq) while queue_delayed_work() use
+> WORK_CPU_UNBOUND (used when a cpu is not specified). The same applies to
+> schedule_work() that is using system_wq and queue_work(), that makes use
+> again of WORK_CPU_UNBOUND.
 >
-> > We also need https://lore.kernel.org/linux-pci/20250918-xe-pci-rebar-2-=
-v1-1-6c094702a074@intel.com/
-> > to actually fix the rebar in some cases. Could you take a look?
->=20
-> Will do.  Remind me again if I forget!
->=20
-> Bjorn
->=20
+> This lack of consistentcy cannot be addressed without refactoring the API.
+>
+> system_wq should be the per-cpu workqueue, yet in this name nothing makes
+> that clear, so replace system_wq with system_percpu_wq.
+>
+> The old wq (system_wq) will be kept for a few release cycles.
+>
+> Suggested-by: Tejun Heo <tj@kernel.org>
+> Signed-off-by: Marco Crivellari <marco.crivellari@suse.com>
+> ---
+>  drivers/accel/ivpu/ivpu_hw_btrs.c | 2 +-
+>  drivers/accel/ivpu/ivpu_ipc.c     | 2 +-
+>  drivers/accel/ivpu/ivpu_job.c     | 2 +-
+>  drivers/accel/ivpu/ivpu_mmu.c     | 2 +-
+>  drivers/accel/ivpu/ivpu_pm.c      | 2 +-
+>  5 files changed, 5 insertions(+), 5 deletions(-)
+>
+> diff --git a/drivers/accel/ivpu/ivpu_hw_btrs.c b/drivers/accel/ivpu/ivpu_hw_btrs.c
+> index afdb3b2aa72a..27a345f3befe 100644
+> --- a/drivers/accel/ivpu/ivpu_hw_btrs.c
+> +++ b/drivers/accel/ivpu/ivpu_hw_btrs.c
+> @@ -673,7 +673,7 @@ bool ivpu_hw_btrs_irq_handler_lnl(struct ivpu_device *vdev, int irq)
+>  
+>  	if (REG_TEST_FLD(VPU_HW_BTRS_LNL_INTERRUPT_STAT, SURV_ERR, status)) {
+>  		ivpu_dbg(vdev, IRQ, "Survivability IRQ\n");
+> -		queue_work(system_wq, &vdev->irq_dct_work);
+> +		queue_work(system_percpu_wq, &vdev->irq_dct_work);
+>  	}
+>  
+>  	if (REG_TEST_FLD(VPU_HW_BTRS_LNL_INTERRUPT_STAT, FREQ_CHANGE, status)) {
+> diff --git a/drivers/accel/ivpu/ivpu_ipc.c b/drivers/accel/ivpu/ivpu_ipc.c
+> index 5f00809d448a..1f13bf95b2b3 100644
+> --- a/drivers/accel/ivpu/ivpu_ipc.c
+> +++ b/drivers/accel/ivpu/ivpu_ipc.c
+> @@ -459,7 +459,7 @@ void ivpu_ipc_irq_handler(struct ivpu_device *vdev)
+>  		}
+>  	}
+>  
+> -	queue_work(system_wq, &vdev->irq_ipc_work);
+> +	queue_work(system_percpu_wq, &vdev->irq_ipc_work);
+>  }
+>  
+>  void ivpu_ipc_irq_work_fn(struct work_struct *work)
+> diff --git a/drivers/accel/ivpu/ivpu_job.c b/drivers/accel/ivpu/ivpu_job.c
+> index 060f1fc031d3..7a1f78b84b09 100644
+> --- a/drivers/accel/ivpu/ivpu_job.c
+> +++ b/drivers/accel/ivpu/ivpu_job.c
+> @@ -574,7 +574,7 @@ static int ivpu_job_signal_and_destroy(struct ivpu_device *vdev, u32 job_id, u32
+>  		 * status and ensure both are handled in the same way
+>  		 */
+>  		job->file_priv->has_mmu_faults = true;
+> -		queue_work(system_wq, &vdev->context_abort_work);
+> +		queue_work(system_percpu_wq, &vdev->context_abort_work);
+>  		return 0;
+>  	}
+>  
+> diff --git a/drivers/accel/ivpu/ivpu_mmu.c b/drivers/accel/ivpu/ivpu_mmu.c
+> index 5ea010568faa..e1baf6b64935 100644
+> --- a/drivers/accel/ivpu/ivpu_mmu.c
+> +++ b/drivers/accel/ivpu/ivpu_mmu.c
+> @@ -970,7 +970,7 @@ void ivpu_mmu_irq_evtq_handler(struct ivpu_device *vdev)
+>  		}
+>  	}
+>  
+> -	queue_work(system_wq, &vdev->context_abort_work);
+> +	queue_work(system_percpu_wq, &vdev->context_abort_work);
+>  }
+>  
+>  void ivpu_mmu_evtq_dump(struct ivpu_device *vdev)
+> diff --git a/drivers/accel/ivpu/ivpu_pm.c b/drivers/accel/ivpu/ivpu_pm.c
+> index ffa2ba7cafe2..0cff8f808429 100644
+> --- a/drivers/accel/ivpu/ivpu_pm.c
+> +++ b/drivers/accel/ivpu/ivpu_pm.c
+> @@ -226,7 +226,7 @@ void ivpu_start_job_timeout_detection(struct ivpu_device *vdev)
+>  	unsigned long timeout_ms = ivpu_tdr_timeout_ms ? ivpu_tdr_timeout_ms : vdev->timeout.tdr;
+>  
+>  	/* No-op if already queued */
+> -	queue_delayed_work(system_wq, &vdev->pm->job_timeout_work, msecs_to_jiffies(timeout_ms));
+> +	queue_delayed_work(system_percpu_wq, &vdev->pm->job_timeout_work, msecs_to_jiffies(timeout_ms));
+Thanks for the patch. Please fix the checkpatch warning: 
 
---=20
- i.
---8323328-1816897247-1761300158=:1178--
+WARNING: line length of 104 exceeds 100
+columns                                                                           
+#90: FILE:
+drivers/accel/ivpu/ivpu_pm.c:229:                                                                              
++       queue_delayed_work(system_percpu_wq,
+&vdev->pm->job_timeout_work, msecs_to_jiffies(timeout_ms));  
+>  }
+>  
+>  void ivpu_stop_job_timeout_detection(struct ivpu_device *vdev)
+
+Also there's a typo "consistentcy" -> "consistency" that can get fixed
+with together with that warning.
+
+Tested-by: Karol Wachowski <karol.wachowski@linux.intel.com>         
+
+
