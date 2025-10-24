@@ -2,82 +2,65 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 05CC7C05BD5
-	for <lists+dri-devel@lfdr.de>; Fri, 24 Oct 2025 13:00:34 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 66EA3C05C3E
+	for <lists+dri-devel@lfdr.de>; Fri, 24 Oct 2025 13:04:53 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4B2FF10EA74;
-	Fri, 24 Oct 2025 11:00:32 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6BF1410EA60;
+	Fri, 24 Oct 2025 11:04:50 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="OdwRwxL6";
+	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="Wv/LDqVF";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-f54.google.com (mail-wm1-f54.google.com
- [209.85.128.54])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4230D10EA74
- for <dri-devel@lists.freedesktop.org>; Fri, 24 Oct 2025 11:00:29 +0000 (UTC)
-Received: by mail-wm1-f54.google.com with SMTP id
- 5b1f17b1804b1-4710665e7deso9299235e9.1
- for <dri-devel@lists.freedesktop.org>; Fri, 24 Oct 2025 04:00:29 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1761303628; x=1761908428; darn=lists.freedesktop.org;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:from:to:cc:subject:date
- :message-id:reply-to;
- bh=S2DlPJEXE9bFCg3voEVGTmMxEdVMG5zLWK3yFZXX/LI=;
- b=OdwRwxL6WC+MG66Ezm3n32GyzjQ6yAYogQZOsPkfgJ/1g4w7odoHlhOnqC+/xPoBvJ
- 6V69XKUFNLYVRULnSce5Z1n83x3eld6DPvV5qeesgRiG+Q7HvLU+FL9HWnr0e1Drwva1
- miAeHt2qek3c+fi0anY06A4W7VYMCrpvwA/ACX+0QjJKRE+Sw5aKzfcdtzGbSJ5ULdIb
- Lt1E1LtsVWqeZRCN/s5YEeYT6Jho+b4RPDemxuLz2jfPmyilrwtZhj8aTXbkPMH+nuqE
- LhQDPyaSBlDMJWAsX+mfsg9v2h3AQNd1eq3pdPlys1QnfoHIpBnhKVZt46xo9VTQOQXm
- ikqQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1761303628; x=1761908428;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=S2DlPJEXE9bFCg3voEVGTmMxEdVMG5zLWK3yFZXX/LI=;
- b=qvBHENR9JPf1rsW+DYqOlrFwV0h/m15CjrpZuF2CqcpF27/ZBsdxJheA/Gj/jwGcpl
- N9WoUaTLxs3T3HzPfK9Hto0OwHvATskrHIyjXvloN5dVDVrNmDP54WLcbotXSDOiJ+Uc
- nAS7QduR1yPSmOywcPfB+R4n8XKErSpxDnnKh3CjJ8jLvQLItd1UxA+9d6er6bqXQEB6
- 5efV26d2M5Z+CXzxHx95cxAhS9asDLMy+NP+AJMCNoU+lsQ5AlfTwK2sPo1HAh3BaPMA
- hIruQHZUpzPrmZd6wxwVKHTnFjFof2NCeS1ErmQhbJD82aM5PJdRnAdscIGHatO9f4b4
- LoSA==
-X-Forwarded-Encrypted: i=1;
- AJvYcCUhybqDogl1IU1NsHdXX6rzvKFDTeMnCUNnqnZNS54l5tJcoGa4tboOI0HseMKqhhVagKsvHvk/d5U=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Yy2AFUmvpqFpm/nqDgNUeYwtlVT65pvgBXVjqKzIaFmhS9K5k7o
- MVspA2OVer8JVm+tQAlUGKyZBau9/myjKW75jnfVYncGrQjDqk2Gf4II
-X-Gm-Gg: ASbGncsS7iQFaCsFQcI2UljkUFvS408+KuXL+vAd+Skt1FZtP9bvYUItXB7lncMkarH
- j+Ace3XXZqtyiU1kgX5oiTFgw/T7zAUYUzJBBlgqqaHjs7kHiK0qu7NBR/igA37MvcezhxaoK68
- lospZKUYYejHFwfS/Lm+EKnFIgyeB9PS+PAAvLw+rD3vtI2qwBQVuv4N1ljP3GBjVy3d0FlF6UV
- kIBMdvxTb78K4hxiC4zcaPAFXCrKjXzPwTxpMdH7+UAsGHrtEJBc6y3419rSzbYKuLl0T8fz14z
- pkuyDcM9SWUxFCX1HxYjZaYHGQ/qLTxA2P1NWIefcwc1TRbmy5F9qH9lCHsG2WZdyQ3sqzLWitk
- IXV6Pk8GGo6Ffe/GWlSO2TJqhzW37SCtHUj/v4XefNB83ldfPTyBM8r0sJpV2TXIbYSCUA1JeXf
- NDaS18G6QFc3pyX1FxBN63
-X-Google-Smtp-Source: AGHT+IFDGexIqIJe+aeZRvtxTGvwmt0zUxNNK7H0pqVfPDQQTVgP3yUieL4uwsisR5iCtogwo4ejsQ==
-X-Received: by 2002:a05:600d:8303:b0:46e:396b:f5ae with SMTP id
- 5b1f17b1804b1-475d43c85bemr7875965e9.16.1761303626317; 
- Fri, 24 Oct 2025 04:00:26 -0700 (PDT)
-Received: from fedora ([37.29.213.75]) by smtp.gmail.com with ESMTPSA id
- 5b1f17b1804b1-475cae9253bsm82484615e9.1.2025.10.24.04.00.24
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 24 Oct 2025 04:00:25 -0700 (PDT)
-From: =?UTF-8?q?Jos=C3=A9=20Exp=C3=B3sito?= <jose.exposito89@gmail.com>
-To: louis.chauvet@bootlin.com
-Cc: hamohammed.sa@gmail.com, simona@ffwll.ch, melissa.srw@gmail.com,
- airlied@gmail.com, maarten.lankhorst@linux.intel.com, mripard@kernel.org,
- tzimmermann@suse.de, corbet@lwn.net, dri-devel@lists.freedesktop.org,
- linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
- =?UTF-8?q?Jos=C3=A9=20Exp=C3=B3sito?= <jose.exposito89@gmail.com>
-Subject: [PATCH 2/2] drm/vkms: Update testing with IGT IGT_DEVICE
-Date: Fri, 24 Oct 2025 13:00:05 +0200
-Message-ID: <20251024110014.4614-2-jose.exposito89@gmail.com>
-X-Mailer: git-send-email 2.51.0
-In-Reply-To: <20251024110014.4614-1-jose.exposito89@gmail.com>
-References: <20251024110014.4614-1-jose.exposito89@gmail.com>
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 223AF10EA60
+ for <dri-devel@lists.freedesktop.org>; Fri, 24 Oct 2025 11:04:49 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1761303888;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=UjE1Mjg91W4Uf0DMyiKLEw8GyhTeW/8xz6YJnQFglsI=;
+ b=Wv/LDqVFCbfPIc/8GfVxLNcqttRw8hUOKlDJjvmwu1QS6ngQUbKhMCBBdIy9H0bNCMtdPW
+ Q4I42ItB4yZfXaUzvwVLO3kaBdgurn46cgxxPi4883V3Q98uTLMm4M6lS/ncTKfayA0sUF
+ ZjtIOV51Ru2k9L9nK5mT27ubhzq4Ycg=
+Received: from mx-prod-mc-03.mail-002.prod.us-west-2.aws.redhat.com
+ (ec2-54-186-198-63.us-west-2.compute.amazonaws.com [54.186.198.63]) by
+ relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
+ cipher=TLS_AES_256_GCM_SHA384) id us-mta-613-gKdzyQggPCyGjxNqVMscBA-1; Fri,
+ 24 Oct 2025 07:04:43 -0400
+X-MC-Unique: gKdzyQggPCyGjxNqVMscBA-1
+X-Mimecast-MFC-AGG-ID: gKdzyQggPCyGjxNqVMscBA_1761303881
+Received: from mx-prod-int-03.mail-002.prod.us-west-2.aws.redhat.com
+ (mx-prod-int-03.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.12])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+ (No client certificate requested)
+ by mx-prod-mc-03.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS
+ id 4C5E41956052; Fri, 24 Oct 2025 11:04:41 +0000 (UTC)
+Received: from hydra.redhat.com (unknown [10.45.225.133])
+ by mx-prod-int-03.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP
+ id E93DA19560B5; Fri, 24 Oct 2025 11:04:36 +0000 (UTC)
+From: Jocelyn Falempe <jfalempe@redhat.com>
+To: Jani Nikula <jani.nikula@linux.intel.com>,
+ Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>,
+ Tvrtko Ursulin <tursulin@ursulin.net>, David Airlie <airlied@gmail.com>,
+ Simona Vetter <simona@ffwll.ch>, Christian Brauner <brauner@kernel.org>,
+ Andi Shyti <andi.shyti@linux.intel.com>, intel-gfx@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org
+Cc: Jocelyn Falempe <jfalempe@redhat.com>
+Subject: [PATCH] drm/i915/dmabuf: Flush the cache in vmap
+Date: Fri, 24 Oct 2025 13:04:15 +0200
+Message-ID: <20251024110432.1313391-1-jfalempe@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
+X-Scanned-By: MIMEDefang 3.0 on 10.30.177.12
+X-Mimecast-Spam-Score: 0
+X-Mimecast-MFC-PROC-ID: aYl561Mo161dFerOorqLiAhB2i487nxl0qWOYrObvqE_1761303881
+X-Mimecast-Originator: redhat.com
 Content-Transfer-Encoding: 8bit
+content-type: text/plain; charset="US-ASCII"; x-default=true
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -93,57 +76,32 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-VKMS is no longer in the platform bus, instead, it is in the faux bus.
+On a lenovo se100 server, when using i915 GPU for rendering, and the
+ast driver for display, the graphic output is corrupted, and almost
+unusable.
 
-In addition, when present, IGT picks hardware drivers instead of virtual
-drivers, like VKMS or vgem, if they are not forced.
+Adding a clflush call in the vmap function fixes this issue
+completely.
 
-Update the documentation to use IGT_FORCE_DRIVER instead of IGT_DEVICE.
-
-Signed-off-by: José Expósito <jose.exposito89@gmail.com>
+Signed-off-by: Jocelyn Falempe <jfalempe@redhat.com>
 ---
- Documentation/gpu/vkms.rst | 19 ++++++++-----------
- 1 file changed, 8 insertions(+), 11 deletions(-)
+ drivers/gpu/drm/i915/gem/i915_gem_dmabuf.c | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/Documentation/gpu/vkms.rst b/Documentation/gpu/vkms.rst
-index d8c445c417b7..1e79e62a6bc4 100644
---- a/Documentation/gpu/vkms.rst
-+++ b/Documentation/gpu/vkms.rst
-@@ -159,26 +159,23 @@ To return to graphical mode, do::
+diff --git a/drivers/gpu/drm/i915/gem/i915_gem_dmabuf.c b/drivers/gpu/drm/i915/gem/i915_gem_dmabuf.c
+index f4f1c979d1b9..f6a8c1cbe4d1 100644
+--- a/drivers/gpu/drm/i915/gem/i915_gem_dmabuf.c
++++ b/drivers/gpu/drm/i915/gem/i915_gem_dmabuf.c
+@@ -77,6 +77,7 @@ static int i915_gem_dmabuf_vmap(struct dma_buf *dma_buf,
+ 		return PTR_ERR(vaddr);
  
-   sudo systemctl isolate graphical.target
+ 	iosys_map_set_vaddr(map, vaddr);
++	drm_clflush_virt_range(vaddr, dma_buf->size);
  
--Once you are in text only mode, you can run tests using the --device switch
--or IGT_DEVICE variable to specify the device filter for the driver we want
--to test. IGT_DEVICE can also be used with the run-tests.sh script to run the
-+Once you are in text only mode, you can run tests using the IGT_FORCE_DRIVER
-+variable to specify the device filter for the driver we want to test.
-+IGT_FORCE_DRIVER can also be used with the run-tests.sh script to run the
- tests for a specific driver::
- 
--  sudo ./build/tests/<name of test> --device "sys:/sys/devices/platform/vkms"
--  sudo IGT_DEVICE="sys:/sys/devices/platform/vkms" ./build/tests/<name of test>
--  sudo IGT_DEVICE="sys:/sys/devices/platform/vkms" ./scripts/run-tests.sh -t <name of test>
-+  sudo IGT_FORCE_DRIVER="vkms" ./build/tests/<name of test>
-+  sudo IGT_FORCE_DRIVER="vkms" ./scripts/run-tests.sh -t <name of test>
- 
- For example, to test the functionality of the writeback library,
- we can run the kms_writeback test::
- 
--  sudo ./build/tests/kms_writeback --device "sys:/sys/devices/platform/vkms"
--  sudo IGT_DEVICE="sys:/sys/devices/platform/vkms" ./build/tests/kms_writeback
--  sudo IGT_DEVICE="sys:/sys/devices/platform/vkms" ./scripts/run-tests.sh -t kms_writeback
-+  sudo IGT_FORCE_DRIVER="vkms" ./build/tests/kms_writeback
-+  sudo IGT_FORCE_DRIVER="vkms" ./scripts/run-tests.sh -t kms_writeback
- 
- You can also run subtests if you do not want to run the entire test::
- 
--  sudo ./build/tests/kms_flip --run-subtest basic-plain-flip --device "sys:/sys/devices/platform/vkms"
--  sudo IGT_DEVICE="sys:/sys/devices/platform/vkms" ./build/tests/kms_flip --run-subtest basic-plain-flip
-+  sudo IGT_FORCE_DRIVER="vkms" ./build/tests/kms_flip --run-subtest basic-plain-flip
- 
- Testing With KUnit
- ==================
+ 	return 0;
+ }
+
+base-commit: 0790925dadad0997580df6e32cdccd54316807f2
 -- 
 2.51.0
 
