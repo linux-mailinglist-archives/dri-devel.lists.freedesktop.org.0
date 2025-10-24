@@ -2,123 +2,92 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 99919C066EE
-	for <lists+dri-devel@lfdr.de>; Fri, 24 Oct 2025 15:16:20 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6F7E5C066FD
+	for <lists+dri-devel@lfdr.de>; Fri, 24 Oct 2025 15:17:07 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 60D3A10EA81;
-	Fri, 24 Oct 2025 13:16:18 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9F4C910EA7E;
+	Fri, 24 Oct 2025 13:17:05 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="ibzR3Eme";
+	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="Xana0Y7a";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
- [205.220.180.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 563DA10EA81
- for <dri-devel@lists.freedesktop.org>; Fri, 24 Oct 2025 13:16:17 +0000 (UTC)
-Received: from pps.filterd (m0279871.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 59OCW9p5003650
- for <dri-devel@lists.freedesktop.org>; Fri, 24 Oct 2025 13:16:16 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
- cc:content-transfer-encoding:content-type:date:from:in-reply-to
- :message-id:mime-version:references:reply-to:subject:to; s=
- qcppdkim1; bh=byOciELpl5Z6xs5F1BjoX7m6FGuSIderWS7y2wVyB/I=; b=ib
- zR3Emew2haVfNCIxDbAhctoCb8qYx040joStYMcC9bNoRWVP0qbUQ/jo5f4b33yy
- 6fRO29Gtc39bZhSx7IzyCsNpfACWGt2QDB98AMIWpuK1ufR1Rk7tLqRfoIlpIuwr
- 6J0OcbtD2wvRmcb1VKee+8kEBp9XxKbyTJG/SUdxA1n9NWMImykuJvj5nRsT9YlX
- Y5EjzNdKGN0z8/K7ADOIDY01kUtlLIpfktdBFnODp8FmBUw2b0lTUa+uQ8+ItcBQ
- PpEIYphQjND7VEW3py2CMDdG84F0eVsxNT9mF/1ack+2iI5EBwoBqkIW6ehcE8e+
- PlX4GYmJGassNEiT0THQ==
-Received: from mail-oo1-f71.google.com (mail-oo1-f71.google.com
- [209.85.161.71])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 49v2gec39g-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
- for <dri-devel@lists.freedesktop.org>; Fri, 24 Oct 2025 13:16:16 +0000 (GMT)
-Received: by mail-oo1-f71.google.com with SMTP id
- 006d021491bc7-651ddb27e69so3432634eaf.3
- for <dri-devel@lists.freedesktop.org>; Fri, 24 Oct 2025 06:16:16 -0700 (PDT)
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4157010EA7E
+ for <dri-devel@lists.freedesktop.org>; Fri, 24 Oct 2025 13:17:04 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1761311823;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=ge4wmUcXTfZNuOeMfkfVL7HYbqF4GOnhAVQLb4Z8TRQ=;
+ b=Xana0Y7amuEqy9wJCtP60PGb9RGtbSslmgyTpUI8wI2Ps5kYjejDA/A7h9z/XamEWnWYRV
+ BzVVmC+lIuvV4vQHeJSThM1Tso7iZnEexwwVjOpE/OvEB23bXzukVU49wTQQzq1COCc+Zp
+ /0Db9S6c10W61eJ2EMvNQ/zHBs7NVBM=
+Received: from mail-yw1-f198.google.com (mail-yw1-f198.google.com
+ [209.85.128.198]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-670-rdLHygC5NfSXifIsuXyt6w-1; Fri, 24 Oct 2025 09:17:02 -0400
+X-MC-Unique: rdLHygC5NfSXifIsuXyt6w-1
+X-Mimecast-MFC-AGG-ID: rdLHygC5NfSXifIsuXyt6w_1761311821
+Received: by mail-yw1-f198.google.com with SMTP id
+ 00721157ae682-738a7fc9901so22838317b3.0
+ for <dri-devel@lists.freedesktop.org>; Fri, 24 Oct 2025 06:17:02 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1761311775; x=1761916575;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :reply-to:in-reply-to:references:mime-version:x-gm-message-state
- :from:to:cc:subject:date:message-id:reply-to;
- bh=byOciELpl5Z6xs5F1BjoX7m6FGuSIderWS7y2wVyB/I=;
- b=EB0HcfHJmnfE4orntY4HRKAAb2MlZg3UD4te8CpLWrnzBFI1RzIDeXUuSTlHrPrFQn
- 6bx0whW1uzYOMojiR0lwszEqfDySla+bJBGiLZ6klyo4TiBrPY4JEXdwlwvDd7uR5nRE
- X2lzfswDj0iHTIqVAYQp6jduY59hxZ5J7dLERUNgyMmXPJRAfH4eQSKqYg7kLfRewFMB
- 42uo3AQ8XQzFCxYSAdwqvwVkZvgHe6fZ2im+OC67goDZLOoZN/OcyojjvWa0DVW1Or0p
- QCo9WI9LgJ71C25CUUk19HACJ3AEJRIL52G7BFslzVRDmrgFyckwrMF6KQm9MHHU/AIU
- NJjg==
-X-Forwarded-Encrypted: i=1;
- AJvYcCVbkIJ+YIVcapXz1+DQeJXc0RWTcAwbGwhy0SBcNSQ6IWsVZoIEknB7mIUBIkTE+77HnIcNHb7Ou/0=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YxQgwJnbmqSLIx7GtSvYYy/+pM2fP/abv+hLzJSrFiAAYodX/YD
- H0/NAjgOnySEdVpUyoLTSCZglsXovyjK4801SD8wrXarJktU8hUTGIvRLbQKcRast7vPDm/5AnW
- HBs/UKbrJEKhrygffDHETsf5w9YzVM8c24H61Z/bhqaKfLeANpaIe2HTj4w/AGfZ/XGB6J7xSif
- IVSQ+yCqOK693/tpaHHwYItSe3ec1LjsxVGSwP2fbYlNHa7g==
-X-Gm-Gg: ASbGncvI+gaGHO3tj1x+VvUOZrubXeHI4AVDCjSZ4MpRv5n+3ZmaYs3AIAsnWeHxFhA
- kjO6VN0zWnGw0yoMDVO2h1GxkCHxylWD5TEfr+ZvmfQroXT7VGBq/jRHcsVGHhHu+3MBdiX4roY
- 0JE6EyUDFqrisMDB5mgjKJnzlJFGlPID5hvnJx1VoZROsQDtLYehX8nP+1Z1X5qrvZc07pAice7
- JyJs7vit7FEMOo=
-X-Received: by 2002:a05:6808:1a10:b0:438:2907:2eb2 with SMTP id
- 5614622812f47-443a2f1bd6amr12854269b6e.27.1761311775039; 
- Fri, 24 Oct 2025 06:16:15 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IH2CISebn1N5xd4PZByUVLyDXrr/11eYjZ+6T+XeX31Sqh8BXVvKthtYMmCCNr6jM2tfm7vhWAcoEANgO9/pjY=
-X-Received: by 2002:a05:6808:1a10:b0:438:2907:2eb2 with SMTP id
- 5614622812f47-443a2f1bd6amr12854248b6e.27.1761311774411; Fri, 24 Oct 2025
- 06:16:14 -0700 (PDT)
+ d=1e100.net; s=20230601; t=1761311821; x=1761916621;
+ h=cc:to:subject:message-id:date:mime-version:references:in-reply-to
+ :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=ge4wmUcXTfZNuOeMfkfVL7HYbqF4GOnhAVQLb4Z8TRQ=;
+ b=Od3qHPmvrQrieIFQp5pjtGyObtRtqzL/h/XlYRAYc7wr4bln6+k5+d3/pZ3nhsy0CP
+ oJzUbEvJ1gCHjDOhHBWCY4p1X5T/c88BOOMTIhqZIt8Gor5seWRg5uxPYT6P6rrpcfsi
+ u8w0oLAtYCWEZWgfCa5wPHwmB2wzw9l7eLAxuol7X5DpAe80ECgQolP42Xo20poUs+Ze
+ UKeB+bMHk4P3W58qr2SxbWscU/AEnK44KXWgB02A4NxCbidzLfVKIdwsHmFxZzH4pQPt
+ 5Qm2MObCZGfKuygsWEFKXNvndkg4jkgq6L/QfPLqA4xNkKMqCgSbaJzTKDGdd7s9e2hP
+ 1vuw==
+X-Gm-Message-State: AOJu0YySDJQhX1vtAfV3gl68PqDP4F0hRzT8iFTL2G/kVDk2dvBncbYS
+ k2LBqh6Xf7TGqepLnkbGInQSQ/Fh/XhCSZ1PGJTIIKhO7FCzdQHoy1kwCb/SUerlqDtA231+12/
+ b2TDGc2J3PFsSvRBu3i+0AQOLdkd9I0YxHKJBsVU6suSY6El4TptNshcNuFOMpx4+A1XJikSGax
+ DqkIooDiKCJNEbqi69gNbg4dtvkb1vbh043/OHWT/WVQpA
+X-Gm-Gg: ASbGncsX5cFap7ymU26bGOSNfsFfYKe9PJOlXxyDk70H96cdpOZ5aqbb6jzL5Rccp0v
+ XuXSyLbTuqnTqQbTBrYgMUUq3uFlyjEdfqLkJY59vDPRLuvHIv1XMc8+VMkA0uoKhW9IanB/LOv
+ tSFjk2C0UEGgnxUarfP3t0otlR1Wv41n9puRHEugIXPOsXVFxKeM7olQ==
+X-Received: by 2002:a05:690c:d84:b0:785:cbf4:72cd with SMTP id
+ 00721157ae682-785e006d977mr19287027b3.3.1761311821275; 
+ Fri, 24 Oct 2025 06:17:01 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IFw2pHpFwqrLR0jLivutX2xPOBZG6CgaJ2Z66kijd60YMdU40Jwv9xsb6JC8+9xUIZbekki8LE+Qe/CRsRCIP4=
+X-Received: by 2002:a05:690c:d84:b0:785:cbf4:72cd with SMTP id
+ 00721157ae682-785e006d977mr19286637b3.3.1761311820805; Fri, 24 Oct 2025
+ 06:17:00 -0700 (PDT)
+Received: from 753933720722 named unknown by gmailapi.google.com with
+ HTTPREST; Fri, 24 Oct 2025 06:16:59 -0700
+Received: from 753933720722 named unknown by gmailapi.google.com with
+ HTTPREST; Fri, 24 Oct 2025 06:16:59 -0700
+From: Sergio Lopez Pascual <slp@redhat.com>
+In-Reply-To: <9aa46e0e-5a10-47d5-815f-8e97d42fff94@collabora.com>
+References: <20250402-virtio-gpu-host-page-size-v2-0-0afdc8c16cb9@redhat.com>
+ <9aa46e0e-5a10-47d5-815f-8e97d42fff94@collabora.com>
 MIME-Version: 1.0
-References: <20251017-qcs615-spin-2-v1-0-0baa44f80905@oss.qualcomm.com>
- <20251017-qcs615-spin-2-v1-1-0baa44f80905@oss.qualcomm.com>
- <44ff81bf-8970-475c-a4f5-c03220bc8c3f@oss.qualcomm.com>
- <97aeb6a1-fda2-440f-b14b-2f3dbc2d7e8e@oss.qualcomm.com>
- <5e64c246-a424-42c9-b102-e1a2af579936@oss.qualcomm.com>
-In-Reply-To: <5e64c246-a424-42c9-b102-e1a2af579936@oss.qualcomm.com>
-From: Rob Clark <rob.clark@oss.qualcomm.com>
-Date: Fri, 24 Oct 2025 06:16:03 -0700
-X-Gm-Features: AWmQ_bn61rL8UkwSaP9vHSdM_zlnxFNoNmPvQunQe3sK6AVw6dJjnNBmKMTrbrw
-Message-ID: <CACSVV00vwbNtH47S_BVet7uP7u9t4RY=xTBn_r3u4sS91Y7Muw@mail.gmail.com>
-Subject: Re: [PATCH 1/6] drm/msm/a6xx: Add support for Adreno 612
-To: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
-Cc: Akhil P Oommen <akhilpo@oss.qualcomm.com>, Sean Paul <sean@poorly.run>,
- Konrad Dybcio <konradybcio@kernel.org>,
- Dmitry Baryshkov <lumag@kernel.org>,
- Abhinav Kumar <abhinav.kumar@linux.dev>,
- Jessica Zhang <jessica.zhang@oss.qualcomm.com>,
- Marijn Suijten <marijn.suijten@somainline.org>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, Rob Herring <robh@kernel.org>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>,
- Bjorn Andersson <andersson@kernel.org>, linux-arm-msm@vger.kernel.org,
- dri-devel@lists.freedesktop.org, freedreno@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, devicetree@vger.kernel.org,
- Jie Zhang <quic_jiezh@quicinc.com>
+Date: Fri, 24 Oct 2025 06:16:59 -0700
+X-Gm-Features: AS18NWCQd2MYruc2pY3CEbkCOWeEH2LhMemjFsj6NKnUIFE35JvS0VbBWCc5og8
+Message-ID: <CAAiTLFWCjKYSU1YaQHj1D5Xaj2e+P2OqUVt1NZQNkrHG+ypcXw@mail.gmail.com>
+Subject: Re: [PATCH v2 0/2] drm/virtio: introduce the HOST_PAGE_SIZE feature
+To: Dmitry Osipenko <dmitry.osipenko@collabora.com>,
+ David Airlie <airlied@redhat.com>, Gerd Hoffmann <kraxel@redhat.com>,
+ Gurchetan Singh <gurchetansingh@chromium.org>, 
+ Chia-I Wu <olvaffe@gmail.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
+ Simona Vetter <simona@ffwll.ch>, "Michael S. Tsirkin" <mst@redhat.com>,
+ Jason Wang <jasowang@redhat.com>, Xuan Zhuo <xuanzhuo@linux.alibaba.com>,
+ =?UTF-8?Q?Eugenio_P=C3=A9rez?= <eperezma@redhat.com>, 
+ Rob Clark <robdclark@gmail.com>
+Cc: dri-devel@lists.freedesktop.org, virtualization@lists.linux.dev, 
+ linux-kernel@vger.kernel.org
+X-Mimecast-Spam-Score: 0
+X-Mimecast-MFC-PROC-ID: CH_dEEN7ShnCKL1dByFMA8V1wWDaC4c1Fm9TKNNN5Vo_1761311821
+X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUxMDE4MDAyMCBTYWx0ZWRfX3KdPO3XPyOqp
- cz+kJs7nbyyY2gAY9FwNSF40J5Yi+O88YWNgn0REEqNFZrEug8ty7T/qFvNe7r7NL91w9No9ce0
- fhSgY1BgyRM7qB1uVKngkdxAl8pQv8ILVH1oWWXqMt5lz81TLA9gAnSG50GsMdMPVs3Mya8E7c1
- Ep1zHVBy8pQ4k3Wd4HO+A0JqxGAx85fIVPJOfhrWRZm+liEFfg4hRm2cydzfQECfyHCjFrN1JdU
- dj/vrgD6Y3t/XiFO92TxUo6lL88KYURczhKeSN3oZP2p5K9YVWvoj+qbImg8yCv//GxnyS1SUlr
- Rb0bHkrLULyNTc4r+e5NvZuPqwdaG9s7upC0hjqud/YFShaFhTsVK5bdSDDNHb+hX3sFsGAGzC8
- RmQFdcjbS4Oo6CxpE8Y3oylk3/KVhw==
-X-Authority-Analysis: v=2.4 cv=KqFAGGWN c=1 sm=1 tr=0 ts=68fb7c20 cx=c_pps
- a=V4L7fE8DliODT/OoDI2WOg==:117 a=IkcTkHD0fZMA:10 a=x6icFKpwvdMA:10
- a=VkNPw1HP01LnGYTKEx00:22 a=EUspDBNiAAAA:8 a=COk6AnOGAAAA:8
- a=gM72ra8ASCPjNpuaUpAA:9 a=QEXdDO2ut3YA:10 a=WZGXeFmKUf7gPmL3hEjn:22
- a=TjNXssC_j7lpFel5tvFf:22
-X-Proofpoint-GUID: mBpfMi8NIVmWPbemK_VNq4JoSQZ15-qh
-X-Proofpoint-ORIG-GUID: mBpfMi8NIVmWPbemK_VNq4JoSQZ15-qh
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.9,FMLib:17.12.80.40
- definitions=2025-10-24_02,2025-10-22_01,2025-03-28_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- bulkscore=0 clxscore=1015 phishscore=0 malwarescore=0 impostorscore=0
- lowpriorityscore=0 adultscore=0 priorityscore=1501 spamscore=0 suspectscore=0
- classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.19.0-2510020000 definitions=main-2510180020
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -131,74 +100,70 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Reply-To: rob.clark@oss.qualcomm.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, Oct 24, 2025 at 12:55=E2=80=AFAM Konrad Dybcio
-<konrad.dybcio@oss.qualcomm.com> wrote:
->
-> On 10/24/25 12:57 AM, Akhil P Oommen wrote:
-> > On 10/22/2025 8:43 PM, Konrad Dybcio wrote:
-> >> On 10/17/25 7:08 PM, Akhil P Oommen wrote:
-> >>> From: Jie Zhang <quic_jiezh@quicinc.com>
-> >>>
-> >>> Add support for Adreno 612 GPU found in SM6150/QCS615 chipsets.
-> >>> A612 falls under ADRENO_6XX_GEN1 family and is a cut down version
-> >>> of A615 GPU.
-> >>>
-> >>> A612 has a new IP called Reduced Graphics Management Unit or RGMU
-> >>> which is a small state machine which helps to toggle GX GDSC
-> >>> (connected to CX rail) to implement IFPC feature. It doesn't support
-> >>> any other features of a full fledged GMU like clock control, resource
-> >>> voting to rpmh etc. So we need linux clock driver support like other
-> >>> gmu-wrapper implementations to control gpu core clock and gpu GX gdsc=
-.
-> >>> This patch skips RGMU core initialization and act more like a
-> >>> gmu-wrapper case.
-> >>>
-> >>> Co-developed-by: Akhil P Oommen <akhilpo@oss.qualcomm.com>
-> >>> Signed-off-by: Jie Zhang <quic_jiezh@quicinc.com>
-> >>> Signed-off-by: Akhil P Oommen <akhilpo@oss.qualcomm.com>
-> >>> ---
-> >>
-> >> [...]
-> >>
-> >>> @@ -350,12 +350,18 @@ static const struct a6xx_gmu_oob_bits a6xx_gmu_=
-oob_bits[] =3D {
-> >>>  /* Trigger a OOB (out of band) request to the GMU */
-> >>>  int a6xx_gmu_set_oob(struct a6xx_gmu *gmu, enum a6xx_gmu_oob_state s=
-tate)
-> >>>  {
-> >>> +   struct a6xx_gpu *a6xx_gpu =3D container_of(gmu, struct a6xx_gpu, =
-gmu);
-> >>> +   struct adreno_gpu *adreno_gpu =3D &a6xx_gpu->base;
-> >>>     int ret;
-> >>>     u32 val;
-> >>>     int request, ack;
-> >>>
-> >>>     WARN_ON_ONCE(!mutex_is_locked(&gmu->lock));
-> >>>
-> >>> +   /* Skip OOB calls since RGMU is not enabled */
-> >>
-> >> "RGMU doesn't handle OOB calls"
-> >
-> > Technically RGMU can handle OOB calls. But we are not initializing rgmu=
-.
->
-> Oh, I glossed over that..
->
-> IIRC the reason we delayed 612 support in the past was to make sure
-> that the RGMU FW is consumed, so that runtime requirements don't
-> suddenly change one day.
->
-> If you have no interest/way in getting it wholly supported right now,
-> can you at least make sure that the driver requests the firmware and
-> exits if it's absent?
+Dmitry Osipenko <dmitry.osipenko@collabora.com> writes:
 
-adreno_load_gpu() calls adreno_load_fw() first thing, and will bail if
-gmu fw is missing.  (zap fw is a bit more awkward since that could
-come from dt or device table.)
+> On 4/2/25 20:45, Sergio Lopez wrote:
+>> There's an incresing number of machines supporting multiple page sizes
+>> and on these machines the host and a guest can be running, each one,
+>> with a different page size.
+>>
+>> For what pertains to virtio-gpu, this is not a problem if the page size
+>> of the guest happens to be bigger or equal than the host, but will
+>> potentially lead to failures in memory allocations and/or mappings
+>> otherwise.
+>>
+>> To improve this situation, we introduce here the HOST_PAGE_SIZE feature.
+>> This feature indicates that the host has an extended virtio_gpu_config
+>> structure that include it's own page size a new field.
+>>
+>> On the second commit, we also add a new param that can be read with
+>> VIRTGPU_GETPARAM by userspace applications running in the guest to
+>> obtain the host's page size and find out the right alignment to be used
+>> in shared memory allocations.
+>>
+>> There has been a discussion in virtio-comments about whether the
+>> information about alignment restrictions must be shared in a generic or
+>> in a device-specific way, favoring the latter:
+>>
+>> https://lore.kernel.org/virtio-comment/CY8PR12MB7195B5E575099CD9CA1F2F39DCAF2@CY8PR12MB7195.namprd12.prod.outlook.com/T/#t
+>>
+>> v2:
+>>  - Rebase on top of current upstream.
+>>  - Make a reference in the cover to the discussion about how device
+>>    page alignment restrictions should be shared with the driver.
+>>
+>> Signed-off-by: Sergio Lopez <slp@redhat.com>
+>> ---
+>> Sergio Lopez (2):
+>>       drm/virtio: introduce the HOST_PAGE_SIZE feature
+>>       drm/virtio: add VIRTGPU_PARAM_HOST_PAGE_SIZE to params
+>>
+>>  drivers/gpu/drm/virtio/virtgpu_drv.c   |  1 +
+>>  drivers/gpu/drm/virtio/virtgpu_drv.h   |  2 ++
+>>  drivers/gpu/drm/virtio/virtgpu_ioctl.c |  5 +++++
+>>  drivers/gpu/drm/virtio/virtgpu_kms.c   | 13 ++++++++++---
+>>  include/uapi/drm/virtgpu_drm.h         |  1 +
+>>  include/uapi/linux/virtio_gpu.h        |  5 +++++
+>>  6 files changed, 24 insertions(+), 3 deletions(-)
+>> ---
+>> base-commit: acc4d5ff0b61eb1715c498b6536c38c1feb7f3c1
+>> change-id: 20250402-virtio-gpu-host-page-size-282c99dfe44c
+>>
+>> Best regards,
+>
+> Hi Sergio,
+>
+> Curious if this feature still wanted. The protocol was updated many
+> months ago with the VIRTIO_GPU_F_BLOB_ALIGNMENT addition.
 
-BR,
--R
+Yes, we still need it to avoid having to carry downstream patches in
+Mesa with a hack to hardcoded the alignment.
+
+I'll prepare a new patch series (referencing this one) next week.
+
+Thanks,
+Sergio.
+
