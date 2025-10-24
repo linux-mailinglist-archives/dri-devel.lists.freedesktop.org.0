@@ -2,91 +2,58 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E089CC06A19
-	for <lists+dri-devel@lfdr.de>; Fri, 24 Oct 2025 16:11:48 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id AA4E2C06AA3
+	for <lists+dri-devel@lfdr.de>; Fri, 24 Oct 2025 16:17:37 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 89CAA10EA9E;
-	Fri, 24 Oct 2025 14:11:46 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 73F5A10E1F9;
+	Fri, 24 Oct 2025 14:17:35 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="BBL/0gMF";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="pL0WT0KQ";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from sea.source.kernel.org (sea.source.kernel.org [172.234.252.31])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5F96F10EA9E
- for <dri-devel@lists.freedesktop.org>; Fri, 24 Oct 2025 14:11:45 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A968010E1F9
+ for <dri-devel@lists.freedesktop.org>; Fri, 24 Oct 2025 14:17:34 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by sea.source.kernel.org (Postfix) with ESMTP id 148CC40553;
- Fri, 24 Oct 2025 14:11:45 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1996AC4CEF1;
- Fri, 24 Oct 2025 14:11:44 +0000 (UTC)
+ by sea.source.kernel.org (Postfix) with ESMTP id 5F9354540E;
+ Fri, 24 Oct 2025 14:17:34 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id AD95EC4CEF1;
+ Fri, 24 Oct 2025 14:17:32 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1761315104;
- bh=A2ibR8D3vX5O91d0A6dlXuJ33auKQkMfaPv3Zg/W9+8=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=BBL/0gMFAB6iXWn/03INztg9bjGFUFVZB5eEkShmlnZW6695iBe3ceBH7QqlkxLDu
- nF6DS3kY/hsSXGtbh3Nxk7Co4cRPzlPx//JB5m+xT2RmdIBEeH4YhCnuBClgHEkxOF
- TzjCuo9FD2PPHxhnIOKKdCZU0iw6F2v5AkruSO1vsmyNPpZgNlb1gVWIotAWmdcL7J
- nL2MB7mV5ifb7Y7EkH9R/jEE5kV0lq28zC2GmIJIniekDVOQ5pHjfExxhIYDXkYi3C
- 5YSx+ApTyOqtJhIHDgos29oXb9L0QedvgUuT2eYn42m4MNZNdNZMbKC3GqbYlOaYK4
- dqC39Qu5dgZDA==
-Date: Fri, 24 Oct 2025 19:41:40 +0530
-From: Vinod Koul <vkoul@kernel.org>
-To: "Rob Herring (Arm)" <robh@kernel.org>
-Cc: Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>, Stephen Boyd <sboyd@kernel.org>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- Andrzej Hajda <andrzej.hajda@intel.com>,
- Robert Foss <rfoss@kernel.org>, Moritz Fischer <mdf@kernel.org>,
- Xu Yilun <yilun.xu@intel.com>, Bartosz Golaszewski <brgl@bgdev.pl>,
- Guenter Roeck <linux@roeck-us.net>, Andi Shyti <andi.shyti@kernel.org>,
- Jonathan Cameron <jic23@kernel.org>,
- Dmitry Torokhov <dmitry.torokhov@gmail.com>,
- Georgi Djakov <djakov@kernel.org>, Thomas Gleixner <tglx@linutronix.de>,
- Joerg Roedel <joro@8bytes.org>, Jassi Brar <jassisinghbrar@gmail.com>,
- Mauro Carvalho Chehab <mchehab@kernel.org>, Lee Jones <lee@kernel.org>,
- Miquel Raynal <miquel.raynal@bootlin.com>,
- Richard Weinberger <richard@nod.at>, Vignesh Raghavendra <vigneshr@ti.com>,
- Andrew Lunn <andrew+netdev@lunn.ch>,
- "David S. Miller" <davem@davemloft.net>,
- Eric Dumazet <edumazet@google.com>,
- Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
- Johannes Berg <johannes@sipsolutions.net>,
- Krzysztof =?utf-8?Q?Wilczy=C5=84ski?= <kwilczynski@kernel.org>,
- Manivannan Sadhasivam <mani@kernel.org>,
- Bjorn Helgaas <bhelgaas@google.com>,
- Kishon Vijay Abraham I <kishon@kernel.org>,
- Sebastian Reichel <sre@kernel.org>,
- Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= <ukleinek@kernel.org>,
- Mark Brown <broonie@kernel.org>,
- Mathieu Poirier <mathieu.poirier@linaro.org>,
- Philipp Zabel <p.zabel@pengutronix.de>,
- Olivia Mackall <olivia@selenic.com>,
- Herbert Xu <herbert@gondor.apana.org.au>,
- Daniel Lezcano <daniel.lezcano@linaro.org>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-clk@vger.kernel.org, dri-devel@lists.freedesktop.org,
- linux-fbdev@vger.kernel.org, dmaengine@vger.kernel.org,
- linux-fpga@vger.kernel.org, linux-gpio@vger.kernel.org,
- linux-hwmon@vger.kernel.org, linux-i2c@vger.kernel.org,
- linux-iio@vger.kernel.org, linux-input@vger.kernel.org,
- linux-pm@vger.kernel.org, iommu@lists.linux.dev,
- linux-media@vger.kernel.org, linux-mtd@lists.infradead.org,
- netdev@vger.kernel.org, linux-wireless@vger.kernel.org,
- linux-pci@vger.kernel.org, linux-phy@lists.infradead.org,
- linux-pwm@vger.kernel.org, linux-remoteproc@vger.kernel.org,
- linux-crypto@vger.kernel.org, linux-sound@vger.kernel.org,
- linux-usb@vger.kernel.org
-Subject: Re: [PATCH] dt-bindings: Remove extra blank lines
-Message-ID: <aPuJHM6SRbMpAZ8t@vaman>
-References: <20251023143957.2899600-1-robh@kernel.org>
+ s=k20201202; t=1761315454;
+ bh=Ydi1aT2dMr4B5BaKBUc3yFTYNIR0YpQPCQqOfvnwZZg=;
+ h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+ b=pL0WT0KQo50WPj8SmgBn6sUVWhguKk2oWlfuNRLomYbA47LmbgyLEx8eom9k/xRKp
+ 19sET7pT3zwwAE6067SZ404DXcO9JKgRqw5oUpj2h4kzj4zzNZs7K9ECaP6+1h1hNI
+ dfBymU2ODF9fRw1hxmNh7kXUyHnC736BCTOFjGsxcCaDvnU9JhR4z8huHtUGYf/ePo
+ qJD5dotMsgwc7ytv9Z7q2438AnsB5LDd9L56QinK1e1T6zVJWVXYkgJv0RNOJr5ac+
+ a9zY7mBB6Cu8Q+4dZFrYrLalbVWx9VDg6q79l8GKyfSC1+sCMwX5ZRKkMzbLMef9Qk
+ 1JBMdwq4LeRtw==
+Message-ID: <b21ba8b4-a31f-44e5-a2da-ba585a93d3a6@kernel.org>
+Date: Fri, 24 Oct 2025 16:17:30 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20251023143957.2899600-1-robh@kernel.org>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] dma-fence: Correct return of dma_fence_driver_name()
+To: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
+Cc: phasta@kernel.org, Sumit Semwal <sumit.semwal@linaro.org>,
+ Gustavo Padovan <gustavo@padovan.org>,
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
+ linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org
+References: <20251024075019.162351-2-phasta@kernel.org>
+ <11b7a8a5-170f-4815-a8ac-5dba2d8e67a1@igalia.com>
+ <5de88e79575e06c053f2d61f7bb58bf9cf5b556e.camel@mailbox.org>
+ <1d0bbdcf-f4d6-49c0-bbdf-364c2af80868@igalia.com>
+ <89812f66-25a6-4f9e-aa4f-74adbf116db8@kernel.org>
+ <5640fbf1-7b8d-4537-9f1a-b401a7a4934b@igalia.com>
+ <8cba66d2-9608-4a5c-a2af-6cc91f46a49f@kernel.org>
+ <cefe8f07-68a3-4c93-ae46-ebb01ff6fa2c@igalia.com>
+From: Danilo Krummrich <dakr@kernel.org>
+Content-Language: en-US
+In-Reply-To: <cefe8f07-68a3-4c93-ae46-ebb01ff6fa2c@igalia.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -102,14 +69,28 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 23-10-25, 09:37, Rob Herring (Arm) wrote:
-> Generally at most 1 blank line is the standard style for DT schema
-> files. Remove the few cases with more than 1 so that the yamllint check
-> for this can be enabled.
-> 
-> Signed-off-by: Rob Herring (Arm) <robh@kernel.org>
+On 10/24/25 3:37 PM, Tvrtko Ursulin wrote:
+> Good to know. I am coming from the angle that netiquette, at least in the olden
+> days, used to be that when you join an established thread you don't trim too
+> much of the context. For the benefit of people joining the thread at that very
+> point, especially when re-raising an argument which has already been discussed.
 
-Acked-by: Vinod Koul <vkoul@kernel.org>
+I see it the opposite way, leaving too much context wastes people's time
+searching for the actual reply, see also [1].
 
--- 
-~Vinod
+If someone wants the full context, previously sent mails are always available.
+
+[1] https://subspace.kernel.org/etiquette.html#trim-your-quotes-when-replying
+
+>> Now, you can argue that you mean "driver has been detached from the fence",
+>> which means something along the lines of "the driver has no business with the
+>> fence anymore", but this is not what people think of when they read
+>> "detached-driver".Okay people. :)
+
+Not a big deal, but for you to note: Quite some of your replies I've received
+recently add text to the quoted parts, in this case the "Okay people. :)".
+
+> How about "unknown-driver", would that satisfy you?
+
+Honestly, the most accurate thing to say would be "fence-signaled", because
+that's the actual condition which causes the change.
