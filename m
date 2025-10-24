@@ -2,92 +2,99 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6F7E5C066FD
-	for <lists+dri-devel@lfdr.de>; Fri, 24 Oct 2025 15:17:07 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8C3E5C0684B
+	for <lists+dri-devel@lfdr.de>; Fri, 24 Oct 2025 15:33:35 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9F4C910EA7E;
-	Fri, 24 Oct 2025 13:17:05 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4765910EA9D;
+	Fri, 24 Oct 2025 13:33:32 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="Xana0Y7a";
+	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="I75JrVMx";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from us-smtp-delivery-124.mimecast.com
  (us-smtp-delivery-124.mimecast.com [170.10.133.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4157010EA7E
- for <dri-devel@lists.freedesktop.org>; Fri, 24 Oct 2025 13:17:04 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B6F4810EA90
+ for <dri-devel@lists.freedesktop.org>; Fri, 24 Oct 2025 13:33:30 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1761311823;
+ s=mimecast20190719; t=1761312809;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ to:to:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=ge4wmUcXTfZNuOeMfkfVL7HYbqF4GOnhAVQLb4Z8TRQ=;
- b=Xana0Y7amuEqy9wJCtP60PGb9RGtbSslmgyTpUI8wI2Ps5kYjejDA/A7h9z/XamEWnWYRV
- BzVVmC+lIuvV4vQHeJSThM1Tso7iZnEexwwVjOpE/OvEB23bXzukVU49wTQQzq1COCc+Zp
- /0Db9S6c10W61eJ2EMvNQ/zHBs7NVBM=
-Received: from mail-yw1-f198.google.com (mail-yw1-f198.google.com
- [209.85.128.198]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=F+x+TiexiDf9l6qnyPbPq6u8f0c2upmTFOS56HoG5Tg=;
+ b=I75JrVMxO1lWjLxLGVd9Ck9XHPIUMYet7Cs1v52vD5K9HotvJAE+Tf26O6UQTbwkBC09gr
+ Q4ni9nbO7JZaUFNCOXesFDCFleGu1kw4o+flgHCN8oz139Xvk6igHBXjveCUafnotl7f/T
+ wjZj3kSw3Qulb75OFdHlvRdPAPplnd0=
+Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
+ [209.85.128.72]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-670-rdLHygC5NfSXifIsuXyt6w-1; Fri, 24 Oct 2025 09:17:02 -0400
-X-MC-Unique: rdLHygC5NfSXifIsuXyt6w-1
-X-Mimecast-MFC-AGG-ID: rdLHygC5NfSXifIsuXyt6w_1761311821
-Received: by mail-yw1-f198.google.com with SMTP id
- 00721157ae682-738a7fc9901so22838317b3.0
- for <dri-devel@lists.freedesktop.org>; Fri, 24 Oct 2025 06:17:02 -0700 (PDT)
+ us-mta-652-dqV5md59NNuwuRTN0cntzA-1; Fri, 24 Oct 2025 09:33:27 -0400
+X-MC-Unique: dqV5md59NNuwuRTN0cntzA-1
+X-Mimecast-MFC-AGG-ID: dqV5md59NNuwuRTN0cntzA_1761312806
+Received: by mail-wm1-f72.google.com with SMTP id
+ 5b1f17b1804b1-47496b3c1dcso14796465e9.3
+ for <dri-devel@lists.freedesktop.org>; Fri, 24 Oct 2025 06:33:26 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1761311821; x=1761916621;
- h=cc:to:subject:message-id:date:mime-version:references:in-reply-to
- :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=ge4wmUcXTfZNuOeMfkfVL7HYbqF4GOnhAVQLb4Z8TRQ=;
- b=Od3qHPmvrQrieIFQp5pjtGyObtRtqzL/h/XlYRAYc7wr4bln6+k5+d3/pZ3nhsy0CP
- oJzUbEvJ1gCHjDOhHBWCY4p1X5T/c88BOOMTIhqZIt8Gor5seWRg5uxPYT6P6rrpcfsi
- u8w0oLAtYCWEZWgfCa5wPHwmB2wzw9l7eLAxuol7X5DpAe80ECgQolP42Xo20poUs+Ze
- UKeB+bMHk4P3W58qr2SxbWscU/AEnK44KXWgB02A4NxCbidzLfVKIdwsHmFxZzH4pQPt
- 5Qm2MObCZGfKuygsWEFKXNvndkg4jkgq6L/QfPLqA4xNkKMqCgSbaJzTKDGdd7s9e2hP
- 1vuw==
-X-Gm-Message-State: AOJu0YySDJQhX1vtAfV3gl68PqDP4F0hRzT8iFTL2G/kVDk2dvBncbYS
- k2LBqh6Xf7TGqepLnkbGInQSQ/Fh/XhCSZ1PGJTIIKhO7FCzdQHoy1kwCb/SUerlqDtA231+12/
- b2TDGc2J3PFsSvRBu3i+0AQOLdkd9I0YxHKJBsVU6suSY6El4TptNshcNuFOMpx4+A1XJikSGax
- DqkIooDiKCJNEbqi69gNbg4dtvkb1vbh043/OHWT/WVQpA
-X-Gm-Gg: ASbGncsX5cFap7ymU26bGOSNfsFfYKe9PJOlXxyDk70H96cdpOZ5aqbb6jzL5Rccp0v
- XuXSyLbTuqnTqQbTBrYgMUUq3uFlyjEdfqLkJY59vDPRLuvHIv1XMc8+VMkA0uoKhW9IanB/LOv
- tSFjk2C0UEGgnxUarfP3t0otlR1Wv41n9puRHEugIXPOsXVFxKeM7olQ==
-X-Received: by 2002:a05:690c:d84:b0:785:cbf4:72cd with SMTP id
- 00721157ae682-785e006d977mr19287027b3.3.1761311821275; 
- Fri, 24 Oct 2025 06:17:01 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IFw2pHpFwqrLR0jLivutX2xPOBZG6CgaJ2Z66kijd60YMdU40Jwv9xsb6JC8+9xUIZbekki8LE+Qe/CRsRCIP4=
-X-Received: by 2002:a05:690c:d84:b0:785:cbf4:72cd with SMTP id
- 00721157ae682-785e006d977mr19286637b3.3.1761311820805; Fri, 24 Oct 2025
- 06:17:00 -0700 (PDT)
-Received: from 753933720722 named unknown by gmailapi.google.com with
- HTTPREST; Fri, 24 Oct 2025 06:16:59 -0700
-Received: from 753933720722 named unknown by gmailapi.google.com with
- HTTPREST; Fri, 24 Oct 2025 06:16:59 -0700
-From: Sergio Lopez Pascual <slp@redhat.com>
-In-Reply-To: <9aa46e0e-5a10-47d5-815f-8e97d42fff94@collabora.com>
-References: <20250402-virtio-gpu-host-page-size-v2-0-0afdc8c16cb9@redhat.com>
- <9aa46e0e-5a10-47d5-815f-8e97d42fff94@collabora.com>
+ d=1e100.net; s=20230601; t=1761312806; x=1761917606;
+ h=content-transfer-encoding:in-reply-to:from:content-language
+ :references:to:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=F+x+TiexiDf9l6qnyPbPq6u8f0c2upmTFOS56HoG5Tg=;
+ b=hRlOX4sCwD4HftnxcJh5Y4G8nSSN/PROBoroHwDxP1Nj8yAQ0KQ+0L/iF9QSdOMXeU
+ 4eb3v18Gsp4hhroRcQs6fRJmSe55hnCuyU2PRIUptrPC89ojePgD3eEyBCSlggx+FHzA
+ 2Pd2vNxGf6M1oIUxJJbfsPMX1q6CmQ4PtJPOK8bRZAj0bWeJoIH9sHtBDw51/Kfg/v7f
+ k35LOK7zfa1wllUyg5Mz4pFZklBvBAoZjtQbODNAWRBHPZTmg0tGn89ASkQgNFmQc+YH
+ o/MapXslpOGFOG42gNmFsSA4tw11jr1kau7arF9k27s5hWF4TkEy8nHSFciE6A+xN49f
+ 0xXA==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCWKpfrdV7MRoIDITXqyorsURPX5p5Yst5jJBfgh6SwnqWp9oh39XEFi2fj58XGZEgKtOyVb8aS6ReE=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YwCEsYrmTsk+eUxBCUzh0fi0hCuPa2zYd3lFomoP/mwQ4Uj2qW6
+ 2RYcDwpMx5oXNO0ma3W+5ijcvaVPXAoJk5uzrmOKdbNvQdrgKhDXKkO+oRfpcRsAMJGf5mFmB0l
+ znbCkeLyLojV/+UoqZKXYnH/KDOTlgYhlBn221pjx2lPYzAyfKdWoAG2WmcScT6UtTn13Eg==
+X-Gm-Gg: ASbGncuFsrtQU2BILzz5UwIMLPAOK1WF4uUqycSYiLvcHcGe+5FFtUJPIK+PUakeSR/
+ WPQZpQNxkQxvN1BSH68s9I7bOS/ZIbA7q1Onu5+kp5qLxk+YS3vduvw1kKACtUuDvwD2jUlq89G
+ OPF1dpEFXP/s89mEWv7cEnA47RroILa7ftiRu5Vjm/n0feBijz7Kb9OmDwNw0gpkGTzDqF4Hzgx
+ I/hK3XRZXOH6JqFKLSgB3m7gGZX/QtnkLSl16BF1ZEs3aoj47K2MeLBBZtZWoXj7pifsimj5CDD
+ DAqkU3ldEp+Y/zLz7dheOTz60TShhcB/DkMnnnOk/yRRuQPHR98krAPWhRU84VPxkKlSnhFqKzE
+ fvGVdNohgh9m+UZYFusC1bLEeA2+Gnf4Fo+pIoL8=
+X-Received: by 2002:a05:600c:64c4:b0:46c:d476:52f3 with SMTP id
+ 5b1f17b1804b1-475d2ec55ddmr16703255e9.26.1761312805865; 
+ Fri, 24 Oct 2025 06:33:25 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IGIHFs7MkEeT0YgXw/w0Na/simByvLcRCnLTCfXPRaN5IcHwntLSKvoz6r3yKSEjdLSbP7ZSA==
+X-Received: by 2002:a05:600c:64c4:b0:46c:d476:52f3 with SMTP id
+ 5b1f17b1804b1-475d2ec55ddmr16702295e9.26.1761312804388; 
+ Fri, 24 Oct 2025 06:33:24 -0700 (PDT)
+Received: from ?IPV6:2a01:e0a:c:37e0:8998:e0cf:68cc:1b62?
+ ([2a01:e0a:c:37e0:8998:e0cf:68cc:1b62])
+ by smtp.gmail.com with ESMTPSA id
+ 5b1f17b1804b1-475caf15416sm92045805e9.10.2025.10.24.06.33.23
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 24 Oct 2025 06:33:23 -0700 (PDT)
+Message-ID: <5ae02bda-0732-4dd4-827e-9e2dac7ae6bd@redhat.com>
+Date: Fri, 24 Oct 2025 15:33:20 +0200
 MIME-Version: 1.0
-Date: Fri, 24 Oct 2025 06:16:59 -0700
-X-Gm-Features: AS18NWCQd2MYruc2pY3CEbkCOWeEH2LhMemjFsj6NKnUIFE35JvS0VbBWCc5og8
-Message-ID: <CAAiTLFWCjKYSU1YaQHj1D5Xaj2e+P2OqUVt1NZQNkrHG+ypcXw@mail.gmail.com>
-Subject: Re: [PATCH v2 0/2] drm/virtio: introduce the HOST_PAGE_SIZE feature
-To: Dmitry Osipenko <dmitry.osipenko@collabora.com>,
- David Airlie <airlied@redhat.com>, Gerd Hoffmann <kraxel@redhat.com>,
- Gurchetan Singh <gurchetansingh@chromium.org>, 
- Chia-I Wu <olvaffe@gmail.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
- Simona Vetter <simona@ffwll.ch>, "Michael S. Tsirkin" <mst@redhat.com>,
- Jason Wang <jasowang@redhat.com>, Xuan Zhuo <xuanzhuo@linux.alibaba.com>,
- =?UTF-8?Q?Eugenio_P=C3=A9rez?= <eperezma@redhat.com>, 
- Rob Clark <robdclark@gmail.com>
-Cc: dri-devel@lists.freedesktop.org, virtualization@lists.linux.dev, 
- linux-kernel@vger.kernel.org
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] drm/i915/dmabuf: Flush the cache in vmap
+To: Thomas Zimmermann <tzimmermann@suse.de>,
+ Tvrtko Ursulin <tursulin@ursulin.net>,
+ Jani Nikula <jani.nikula@linux.intel.com>,
+ Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>, David Airlie <airlied@gmail.com>,
+ Simona Vetter <simona@ffwll.ch>, Christian Brauner <brauner@kernel.org>,
+ Andi Shyti <andi.shyti@linux.intel.com>, intel-gfx@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org
+References: <20251024110432.1313391-1-jfalempe@redhat.com>
+ <a1d6cf1f-02b6-4c89-84e2-4b2af39829ef@ursulin.net>
+ <d123d897-8e65-417b-ad3f-40fe5b49f2b1@suse.de>
+From: Jocelyn Falempe <jfalempe@redhat.com>
+In-Reply-To: <d123d897-8e65-417b-ad3f-40fe5b49f2b1@suse.de>
 X-Mimecast-Spam-Score: 0
-X-Mimecast-MFC-PROC-ID: CH_dEEN7ShnCKL1dByFMA8V1wWDaC4c1Fm9TKNNN5Vo_1761311821
+X-Mimecast-MFC-PROC-ID: sKU90GdHPg1kuajLD5JN7N3_7KvgBSgLPCfmUSiGakQ_1761312806
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset="UTF-8"
+Content-Language: en-US, fr
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -103,67 +110,108 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Dmitry Osipenko <dmitry.osipenko@collabora.com> writes:
+On 24/10/2025 14:40, Thomas Zimmermann wrote:
+> Hi
+> 
+> Am 24.10.25 um 13:53 schrieb Tvrtko Ursulin:
+>>
+>> On 24/10/2025 12:04, Jocelyn Falempe wrote:
+>>> On a lenovo se100 server, when using i915 GPU for rendering, and the
+>>> ast driver for display, the graphic output is corrupted, and almost
+>>> unusable.
+>>>
+>>> Adding a clflush call in the vmap function fixes this issue
+>>> completely.
+>>
+>> AST is importing i915 allocated buffer in this use case, or how 
+>> exactly is the relationship?
+>>
+>> Wondering if some path is not calling dma_buf_begin/end_cpu_access().
+> 
+> Yes, ast doesn't call begin/end_cpu_access in [1].
+> 
+> Jocelyn, if that fixes the issue, feel free to send me a patch for review.
+> 
+> [1] https://elixir.bootlin.com/linux/v6.17.4/source/drivers/gpu/drm/ast/ 
+> ast_mode.c
 
-> On 4/2/25 20:45, Sergio Lopez wrote:
->> There's an incresing number of machines supporting multiple page sizes
->> and on these machines the host and a guest can be running, each one,
->> with a different page size.
->>
->> For what pertains to virtio-gpu, this is not a problem if the page size
->> of the guest happens to be bigger or equal than the host, but will
->> potentially lead to failures in memory allocations and/or mappings
->> otherwise.
->>
->> To improve this situation, we introduce here the HOST_PAGE_SIZE feature.
->> This feature indicates that the host has an extended virtio_gpu_config
->> structure that include it's own page size a new field.
->>
->> On the second commit, we also add a new param that can be read with
->> VIRTGPU_GETPARAM by userspace applications running in the guest to
->> obtain the host's page size and find out the right alignment to be used
->> in shared memory allocations.
->>
->> There has been a discussion in virtio-comments about whether the
->> information about alignment restrictions must be shared in a generic or
->> in a device-specific way, favoring the latter:
->>
->> https://lore.kernel.org/virtio-comment/CY8PR12MB7195B5E575099CD9CA1F2F39DCAF2@CY8PR12MB7195.namprd12.prod.outlook.com/T/#t
->>
->> v2:
->>  - Rebase on top of current upstream.
->>  - Make a reference in the cover to the discussion about how device
->>    page alignment restrictions should be shared with the driver.
->>
->> Signed-off-by: Sergio Lopez <slp@redhat.com>
->> ---
->> Sergio Lopez (2):
->>       drm/virtio: introduce the HOST_PAGE_SIZE feature
->>       drm/virtio: add VIRTGPU_PARAM_HOST_PAGE_SIZE to params
->>
->>  drivers/gpu/drm/virtio/virtgpu_drv.c   |  1 +
->>  drivers/gpu/drm/virtio/virtgpu_drv.h   |  2 ++
->>  drivers/gpu/drm/virtio/virtgpu_ioctl.c |  5 +++++
->>  drivers/gpu/drm/virtio/virtgpu_kms.c   | 13 ++++++++++---
->>  include/uapi/drm/virtgpu_drm.h         |  1 +
->>  include/uapi/linux/virtio_gpu.h        |  5 +++++
->>  6 files changed, 24 insertions(+), 3 deletions(-)
->> ---
->> base-commit: acc4d5ff0b61eb1715c498b6536c38c1feb7f3c1
->> change-id: 20250402-virtio-gpu-host-page-size-282c99dfe44c
->>
->> Best regards,
->
-> Hi Sergio,
->
-> Curious if this feature still wanted. The protocol was updated many
-> months ago with the VIRTIO_GPU_F_BLOB_ALIGNMENT addition.
+I tried the following patch, but that doesn't fix the graphical issue:
 
-Yes, we still need it to avoid having to carry downstream patches in
-Mesa with a hack to hardcoded the alignment.
+diff --git a/drivers/gpu/drm/ast/ast_mode.c b/drivers/gpu/drm/ast/ast_mode.c
+index b4e8edc7c767..e50f95a4c8a9 100644
+--- a/drivers/gpu/drm/ast/ast_mode.c
++++ b/drivers/gpu/drm/ast/ast_mode.c
+@@ -564,6 +564,7 @@ static void 
+ast_primary_plane_helper_atomic_update(struct drm_plane *plane,
+         struct drm_crtc_state *crtc_state = 
+drm_atomic_get_new_crtc_state(state, crtc);
+         struct drm_rect damage;
+         struct drm_atomic_helper_damage_iter iter;
++       int ret;
 
-I'll prepare a new patch series (referencing this one) next week.
+         if (!old_fb || (fb->format != old_fb->format) || 
+crtc_state->mode_changed) {
+                 struct ast_crtc_state *ast_crtc_state = 
+to_ast_crtc_state(crtc_state);
+@@ -572,11 +573,16 @@ static void 
+ast_primary_plane_helper_atomic_update(struct drm_plane *plane,
+                 ast_set_vbios_color_reg(ast, fb->format, 
+ast_crtc_state->vmode);
+         }
 
-Thanks,
-Sergio.
++       ret = drm_gem_fb_begin_cpu_access(fb, DMA_FROM_DEVICE);
++       pr_info("AST begin_cpu_access %d\n", ret);
++
+         drm_atomic_helper_damage_iter_init(&iter, old_plane_state, 
+plane_state);
+         drm_atomic_for_each_plane_damage(&iter, &damage) {
+                 ast_handle_damage(ast_plane, shadow_plane_state->data, 
+fb, &damage);
+         }
+
++       drm_gem_fb_end_cpu_access(fb, DMA_FROM_DEVICE);
++
+         /*
+          * Some BMCs stop scanning out the video signal after the driver
+          * reprogrammed the offset. This stalls display output for several
+
+
+
+Best regards,
+
+-- 
+
+Jocelyn
+
+> 
+> Best regards
+> Thomas
+> 
+>>
+>> Regards,
+>>
+>> Tvrtko
+>>
+>>>
+>>> Signed-off-by: Jocelyn Falempe <jfalempe@redhat.com>
+>>> ---
+>>>   drivers/gpu/drm/i915/gem/i915_gem_dmabuf.c | 1 +
+>>>   1 file changed, 1 insertion(+)
+>>>
+>>> diff --git a/drivers/gpu/drm/i915/gem/i915_gem_dmabuf.c b/drivers/ 
+>>> gpu/drm/i915/gem/i915_gem_dmabuf.c
+>>> index f4f1c979d1b9..f6a8c1cbe4d1 100644
+>>> --- a/drivers/gpu/drm/i915/gem/i915_gem_dmabuf.c
+>>> +++ b/drivers/gpu/drm/i915/gem/i915_gem_dmabuf.c
+>>> @@ -77,6 +77,7 @@ static int i915_gem_dmabuf_vmap(struct dma_buf 
+>>> *dma_buf,
+>>>           return PTR_ERR(vaddr);
+>>>         iosys_map_set_vaddr(map, vaddr);
+>>> +    drm_clflush_virt_range(vaddr, dma_buf->size);
+>>>         return 0;
+>>>   }
+>>>
+>>> base-commit: 0790925dadad0997580df6e32cdccd54316807f2
+>>
+> 
 
