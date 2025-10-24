@@ -2,149 +2,89 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1B154C06EBE
-	for <lists+dri-devel@lfdr.de>; Fri, 24 Oct 2025 17:18:08 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3B812C06ED0
+	for <lists+dri-devel@lfdr.de>; Fri, 24 Oct 2025 17:18:55 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5DEBC10EAB8;
-	Fri, 24 Oct 2025 15:18:05 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4281A10EABB;
+	Fri, 24 Oct 2025 15:18:53 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=suse.de header.i=@suse.de header.b="y4xVtONE";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="/KjazAUa";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="y4xVtONE";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="/KjazAUa";
+	dkim=pass (2048-bit key; unprotected) header.d=ursulin-net.20230601.gappssmtp.com header.i=@ursulin-net.20230601.gappssmtp.com header.b="P+8PcSce";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B701410EAB8
- for <dri-devel@lists.freedesktop.org>; Fri, 24 Oct 2025 15:18:04 +0000 (UTC)
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org
- [IPv6:2a07:de40:b281:104:10:150:64:97])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested)
- by smtp-out2.suse.de (Postfix) with ESMTPS id 5C3DE1F390;
- Fri, 24 Oct 2025 15:18:03 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1761319083; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=kR7eCX26wmhe7fEXjCQ977C/EdqSk0gScKjOl25qq4o=;
- b=y4xVtONERTYaLbYbmTxzVToegK8UypCIkn+ovgb32omTRp0nR91wMyjCmU06UfC7+7Qmqp
- D8eebbCa0UDK+tWkTj3AnXiMQtQIx3AtoYbv1gdzhl27CQ4hnyROdx7lBcbBHohQFg82F5
- TmjD2eGLs58yaU/IrT9vVkAT4bPBGC4=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1761319083;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=kR7eCX26wmhe7fEXjCQ977C/EdqSk0gScKjOl25qq4o=;
- b=/KjazAUabZTJtr9GlxHluGmNw+e5DhrKdC/WpbsjQ8O5xlUC7XRJDZ2zGQmWUzWtUYqe5F
- acwH5pXEB61IQ9Cg==
-Authentication-Results: smtp-out2.suse.de;
- dkim=pass header.d=suse.de header.s=susede2_rsa header.b=y4xVtONE;
- dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b="/KjazAUa"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1761319083; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=kR7eCX26wmhe7fEXjCQ977C/EdqSk0gScKjOl25qq4o=;
- b=y4xVtONERTYaLbYbmTxzVToegK8UypCIkn+ovgb32omTRp0nR91wMyjCmU06UfC7+7Qmqp
- D8eebbCa0UDK+tWkTj3AnXiMQtQIx3AtoYbv1gdzhl27CQ4hnyROdx7lBcbBHohQFg82F5
- TmjD2eGLs58yaU/IrT9vVkAT4bPBGC4=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1761319083;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=kR7eCX26wmhe7fEXjCQ977C/EdqSk0gScKjOl25qq4o=;
- b=/KjazAUabZTJtr9GlxHluGmNw+e5DhrKdC/WpbsjQ8O5xlUC7XRJDZ2zGQmWUzWtUYqe5F
- acwH5pXEB61IQ9Cg==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested)
- by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 1047C132C2;
- Fri, 24 Oct 2025 15:18:03 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
- by imap1.dmz-prg2.suse.org with ESMTPSA id F2UiAquY+2iacQAAD6G6ig
- (envelope-from <tzimmermann@suse.de>); Fri, 24 Oct 2025 15:18:03 +0000
-Message-ID: <8384a735-9d90-4817-86a6-7b7bae81b6e2@suse.de>
-Date: Fri, 24 Oct 2025 17:18:02 +0200
+Received: from mail-wm1-f45.google.com (mail-wm1-f45.google.com
+ [209.85.128.45])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6EDFC10EAB9
+ for <dri-devel@lists.freedesktop.org>; Fri, 24 Oct 2025 15:18:51 +0000 (UTC)
+Received: by mail-wm1-f45.google.com with SMTP id
+ 5b1f17b1804b1-475c696ab72so17549485e9.1
+ for <dri-devel@lists.freedesktop.org>; Fri, 24 Oct 2025 08:18:51 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=ursulin-net.20230601.gappssmtp.com; s=20230601; t=1761319130; x=1761923930;
+ darn=lists.freedesktop.org; 
+ h=content-transfer-encoding:in-reply-to:from:content-language
+ :references:to:subject:user-agent:mime-version:date:message-id:from
+ :to:cc:subject:date:message-id:reply-to;
+ bh=MkRTdZ2GEv0ZlkKAaEQ5zFizjOOe2ZScnJHP8Z7wHGE=;
+ b=P+8PcSceWoWV/7USZ7c8Ubzr0XkT+8CjMaAxAoj9x4Toum+wA2i9jJ36YPL8gnUlkR
+ +BBdxXbof09hKJl4/t91AymXi5cGr54y2UglldoVgSGKPH1S0JnHRENrZsyurBfzBFLu
+ T51NQd7Q3cS6Y+vuomk8mu5vfTrQwbq2tUJJ5LH/uQSdQoCP0AnqGdIS/IY2sdtpnf85
+ S20eYsaF7dcZTJA/bLShzWdE4N9AgsghVTJaOr+ajv+DkEPfKgx+pG4oiqr0OZwAsMiq
+ OL+T/tIpawQ+DK5V5LnVgtJkkeNJKTKgaMYm+mzghf0+9lG+lVOP9zsboeATCofjEHv0
+ 7d2A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1761319130; x=1761923930;
+ h=content-transfer-encoding:in-reply-to:from:content-language
+ :references:to:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=MkRTdZ2GEv0ZlkKAaEQ5zFizjOOe2ZScnJHP8Z7wHGE=;
+ b=HBNO0H4d/2pjZN3TKlKvHZPy1V2yZ9Ef/Fqcn5McP1iZXwML5ijhvt32HlrAza93hX
+ LRaLu8nC1N+oKuAE1eIO1cnrNLWCM8UQZGlVubioGc7fIypswhR24+QuZkycJSDIBL+1
+ xJ/sIOAw81hDd2awD6XhBwMSSizyeA+OWWO5kAKFIFts059W54EyiyI6apjFXgwxnj9C
+ 0P5bB5WJNOjOzGXbxmLGLak5ZLmlCPwlPqT2aVYmzItnvBRo3gK3oS4cQaTveXsBTyaH
+ zgY23S+677vOm4u38rVqdsjNDrMFgzW7g1rkxk6cO2Sf2PDikRdJOWTCoAx2Y3QDdlbv
+ Ygfw==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCW9D1oWJAlFMdaqSx3x+ffajJBk9vbNVIMk4D5VcaEfr1Q+HpaVGTuK98eK/pe2G1BLi22PW3MNxE4=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YwJv/RR4nN2RfIo9k2AailekR8FxPc93otYMV6zrEoA1Gsar5y6
+ +SC64irHi1J8aSR01MqtzHTDqzwPrLOycKcJJhZArLg4pEaPUOBJLagiD6MlBG+sZwU=
+X-Gm-Gg: ASbGnctMOSWMXEZvzttn3+2Nz8sj6elAUb8Lk3zeokMMVAuPNkI3pbZIRmMzdTn3TXj
+ 6yDuG74p+1ImzsWh32BYZPahqWeStoLawT7AKRwpxb/Q9M7ewa+bTBpLYeprZ3y66rzfFrBmqhW
+ tQlyOmgVuN514idwmh1u3w6/74RYpeZq+mfWNMrKAmCXJ13xDBkEr6TOWGq3mltD1L4ZU/EXuE/
+ 7UAoDJQbrell6Ap5LO3DDn4CGQjT3TLHbZlxp0cHt8FoE9QK+hI+4u+zmFYTikIdkCXhxwJNaxV
+ 8Pbu4l4oqLdxCdVL+cX7AMQcArXLoWZ4Tc2sw3NnIDFlZ8hesLnWLF9FnA7M7NuEMLxDX3++tTU
+ 5DcEDNolCQVouzSaHrxpvCZda40j8tFrmKJmWsXL59neh69F6PG483YzunL91sPNSWD5uFv7ZxP
+ ND1zbMa/mRbf312dc=
+X-Google-Smtp-Source: AGHT+IEPNA3Z+urJmbYTM1Gg//7eMp2xt/C5B/zXH8POZq5INB3NpCVxPvjzmA4XCZQv85HNhdX/qA==
+X-Received: by 2002:a05:600c:4e0f:b0:46f:b42e:e397 with SMTP id
+ 5b1f17b1804b1-475d30d8ae1mr27338785e9.40.1761319129636; 
+ Fri, 24 Oct 2025 08:18:49 -0700 (PDT)
+Received: from [192.168.0.101] ([90.242.12.242])
+ by smtp.gmail.com with ESMTPSA id
+ 5b1f17b1804b1-475c4369b5esm180672045e9.15.2025.10.24.08.18.48
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 24 Oct 2025 08:18:49 -0700 (PDT)
+Message-ID: <d7115122-1054-4f2d-8f50-a356e87d198b@ursulin.net>
+Date: Fri, 24 Oct 2025 16:18:48 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
 Subject: Re: [PATCH] drm/i915/dmabuf: Flush the cache in vmap
 To: Jocelyn Falempe <jfalempe@redhat.com>,
- Tvrtko Ursulin <tursulin@ursulin.net>,
  Jani Nikula <jani.nikula@linux.intel.com>,
  Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
  Rodrigo Vivi <rodrigo.vivi@intel.com>, David Airlie <airlied@gmail.com>,
  Simona Vetter <simona@ffwll.ch>, Christian Brauner <brauner@kernel.org>,
  Andi Shyti <andi.shyti@linux.intel.com>, intel-gfx@lists.freedesktop.org,
- dri-devel@lists.freedesktop.org
+ dri-devel@lists.freedesktop.org, =?UTF-8?Q?Michel_D=C3=A4nzer?=
+ <mdaenzer@redhat.com>
 References: <20251024110432.1313391-1-jfalempe@redhat.com>
  <a1d6cf1f-02b6-4c89-84e2-4b2af39829ef@ursulin.net>
- <d123d897-8e65-417b-ad3f-40fe5b49f2b1@suse.de>
- <5ae02bda-0732-4dd4-827e-9e2dac7ae6bd@redhat.com>
-Content-Language: en-US
-From: Thomas Zimmermann <tzimmermann@suse.de>
-Autocrypt: addr=tzimmermann@suse.de; keydata=
- xsBNBFs50uABCADEHPidWt974CaxBVbrIBwqcq/WURinJ3+2WlIrKWspiP83vfZKaXhFYsdg
- XH47fDVbPPj+d6tQrw5lPQCyqjwrCPYnq3WlIBnGPJ4/jreTL6V+qfKRDlGLWFjZcsrPJGE0
- BeB5BbqP5erN1qylK9i3gPoQjXGhpBpQYwRrEyQyjuvk+Ev0K1Jc5tVDeJAuau3TGNgah4Yc
- hdHm3bkPjz9EErV85RwvImQ1dptvx6s7xzwXTgGAsaYZsL8WCwDaTuqFa1d1jjlaxg6+tZsB
- 9GluwvIhSezPgnEmimZDkGnZRRSFiGP8yjqTjjWuf0bSj5rUnTGiyLyRZRNGcXmu6hjlABEB
- AAHNJ1Rob21hcyBaaW1tZXJtYW5uIDx0emltbWVybWFubkBzdXNlLmRlPsLAjgQTAQgAOAIb
- AwULCQgHAgYVCgkICwIEFgIDAQIeAQIXgBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftODH
- AAoJEGgNwR1TC3ojx1wH/0hKGWugiqDgLNXLRD/4TfHBEKmxIrmfu9Z5t7vwUKfwhFL6hqvo
- lXPJJKQpQ2z8+X2vZm/slsLn7J1yjrOsoJhKABDi+3QWWSGkaGwRJAdPVVyJMfJRNNNIKwVb
- U6B1BkX2XDKDGffF4TxlOpSQzdtNI/9gleOoUA8+jy8knnDYzjBNOZqLG2FuTdicBXblz0Mf
- vg41gd9kCwYXDnD91rJU8tzylXv03E75NCaTxTM+FBXPmsAVYQ4GYhhgFt8S2UWMoaaABLDe
- 7l5FdnLdDEcbmd8uLU2CaG4W2cLrUaI4jz2XbkcPQkqTQ3EB67hYkjiEE6Zy3ggOitiQGcqp
- j//OwE0EWznS4AEIAMYmP4M/V+T5RY5at/g7rUdNsLhWv1APYrh9RQefODYHrNRHUE9eosYb
- T6XMryR9hT8XlGOYRwKWwiQBoWSDiTMo/Xi29jUnn4BXfI2px2DTXwc22LKtLAgTRjP+qbU6
- 3Y0xnQN29UGDbYgyyK51DW3H0If2a3JNsheAAK+Xc9baj0LGIc8T9uiEWHBnCH+RdhgATnWW
- GKdDegUR5BkDfDg5O/FISymJBHx2Dyoklv5g4BzkgqTqwmaYzsl8UxZKvbaxq0zbehDda8lv
- hFXodNFMAgTLJlLuDYOGLK2AwbrS3Sp0AEbkpdJBb44qVlGm5bApZouHeJ/+n+7r12+lqdsA
- EQEAAcLAdgQYAQgAIAIbDBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftOH6AAoJEGgNwR1T
- C3ojVSkIALpAPkIJPQoURPb1VWjh34l0HlglmYHvZszJWTXYwavHR8+k6Baa6H7ufXNQtThR
- yIxJrQLW6rV5lm7TjhffEhxVCn37+cg0zZ3j7zIsSS0rx/aMwi6VhFJA5hfn3T0TtrijKP4A
- SAQO9xD1Zk9/61JWk8OysuIh7MXkl0fxbRKWE93XeQBhIJHQfnc+YBLprdnxR446Sh8Wn/2D
- Ya8cavuWf2zrB6cZurs048xe0UbSW5AOSo4V9M0jzYI4nZqTmPxYyXbm30Kvmz0rYVRaitYJ
- 4kyYYMhuULvrJDMjZRvaNe52tkKAvMevcGdt38H4KSVXAylqyQOW5zvPc4/sq9c=
-In-Reply-To: <5ae02bda-0732-4dd4-827e-9e2dac7ae6bd@redhat.com>
+ <6757f62e-0b10-4fc5-a9cb-16006c723459@redhat.com>
+Content-Language: en-GB
+From: Tvrtko Ursulin <tursulin@ursulin.net>
+In-Reply-To: <6757f62e-0b10-4fc5-a9cb-16006c723459@redhat.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-Rspamd-Queue-Id: 5C3DE1F390
-X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
-X-Spamd-Result: default: False [-4.51 / 50.00]; BAYES_HAM(-3.00)[100.00%];
- NEURAL_HAM_LONG(-1.00)[-1.000];
- R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
- NEURAL_HAM_SHORT(-0.20)[-1.000]; MIME_GOOD(-0.10)[text/plain];
- MX_GOOD(-0.01)[];
- URIBL_BLOCKED(0.00)[imap1.dmz-prg2.suse.org:helo,imap1.dmz-prg2.suse.org:rdns,suse.de:mid,suse.de:dkim,bootlin.com:url];
- FREEMAIL_TO(0.00)[redhat.com,ursulin.net,linux.intel.com,intel.com,gmail.com,ffwll.ch,kernel.org,lists.freedesktop.org];
- MIME_TRACE(0.00)[0:+]; FUZZY_RATELIMITED(0.00)[rspamd.com];
- ARC_NA(0.00)[]; TO_MATCH_ENVRCPT_ALL(0.00)[];
- DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
- FREEMAIL_ENVRCPT(0.00)[gmail.com]; DKIM_TRACE(0.00)[suse.de:+];
- TO_DN_SOME(0.00)[]; RCVD_COUNT_TWO(0.00)[2];
- FROM_EQ_ENVFROM(0.00)[]; FROM_HAS_DN(0.00)[];
- RCVD_TLS_ALL(0.00)[];
- DNSWL_BLOCKED(0.00)[2a07:de40:b281:106:10:150:64:167:received,2a07:de40:b281:104:10:150:64:97:from];
- RCPT_COUNT_SEVEN(0.00)[11]; MID_RHS_MATCH_FROM(0.00)[];
- RCVD_VIA_SMTP_AUTH(0.00)[];
- RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
- DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,
- imap1.dmz-prg2.suse.org:rdns, suse.de:mid, suse.de:dkim]
-X-Rspamd-Action: no action
-X-Spam-Flag: NO
-X-Spam-Score: -4.51
-X-Spam-Level: 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -160,105 +100,54 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi
 
-Am 24.10.25 um 15:33 schrieb Jocelyn Falempe:
-> On 24/10/2025 14:40, Thomas Zimmermann wrote:
->> Hi
+On 24/10/2025 13:48, Jocelyn Falempe wrote:
+> On 24/10/2025 13:53, Tvrtko Ursulin wrote:
 >>
->> Am 24.10.25 um 13:53 schrieb Tvrtko Ursulin:
+>> On 24/10/2025 12:04, Jocelyn Falempe wrote:
+>>> On a lenovo se100 server, when using i915 GPU for rendering, and the
+>>> ast driver for display, the graphic output is corrupted, and almost
+>>> unusable.
 >>>
->>> On 24/10/2025 12:04, Jocelyn Falempe wrote:
->>>> On a lenovo se100 server, when using i915 GPU for rendering, and the
->>>> ast driver for display, the graphic output is corrupted, and almost
->>>> unusable.
->>>>
->>>> Adding a clflush call in the vmap function fixes this issue
->>>> completely.
->>>
->>> AST is importing i915 allocated buffer in this use case, or how 
->>> exactly is the relationship?
->>>
->>> Wondering if some path is not calling dma_buf_begin/end_cpu_access().
+>>> Adding a clflush call in the vmap function fixes this issue
+>>> completely.
 >>
->> Yes, ast doesn't call begin/end_cpu_access in [1].
->>
->> Jocelyn, if that fixes the issue, feel free to send me a patch for 
->> review.
->>
->> [1] 
->> https://elixir.bootlin.com/linux/v6.17.4/source/drivers/gpu/drm/ast/ 
->> ast_mode.c
->
-> I tried the following patch, but that doesn't fix the graphical issue:
->
-> diff --git a/drivers/gpu/drm/ast/ast_mode.c 
-> b/drivers/gpu/drm/ast/ast_mode.c
-> index b4e8edc7c767..e50f95a4c8a9 100644
-> --- a/drivers/gpu/drm/ast/ast_mode.c
-> +++ b/drivers/gpu/drm/ast/ast_mode.c
-> @@ -564,6 +564,7 @@ static void 
-> ast_primary_plane_helper_atomic_update(struct drm_plane *plane,
->         struct drm_crtc_state *crtc_state = 
-> drm_atomic_get_new_crtc_state(state, crtc);
->         struct drm_rect damage;
->         struct drm_atomic_helper_damage_iter iter;
-> +       int ret;
->
->         if (!old_fb || (fb->format != old_fb->format) || 
-> crtc_state->mode_changed) {
->                 struct ast_crtc_state *ast_crtc_state = 
-> to_ast_crtc_state(crtc_state);
-> @@ -572,11 +573,16 @@ static void 
-> ast_primary_plane_helper_atomic_update(struct drm_plane *plane,
->                 ast_set_vbios_color_reg(ast, fb->format, 
-> ast_crtc_state->vmode);
->         }
->
-> +       ret = drm_gem_fb_begin_cpu_access(fb, DMA_FROM_DEVICE);
-> +       pr_info("AST begin_cpu_access %d\n", ret);
+>> AST is importing i915 allocated buffer in this use case, or how 
+>> exactly is the relationship?
+> 
+> I think it's mutter/gnome-shell who copy the buffer from i915 to ast, 
+> here is the logs:
+> 
+> gnome-shell[2079]: Failed to initialize accelerated iGPU/dGPU 
+> framebuffer sharing: Do not want to use software renderer (llvmpipe 
+> (LLVM 19.1.7, 256 bits)), falling back to CPU copy path
+> gnome-shell[1533]: Created gbm renderer for '/dev/dri/card0'
+> gnome-shell[1533]: GPU /dev/dri/card1 selected as primary
+> 
+> card0 is ast and card1 is i915
+> 
+> Do you think there is something missing in mutter?
 
-Presumably, you end up in [1]. I cannot find the cflush there or in [2]. 
-Maybe you need to add this call somewhere in there, similar to [3]. Just 
-guessing.
+No idea. I only notice that the log message "falling back to CPU copy 
+path" has been removed from the codebase in:
 
-Best regards
-Thomas
+commit d4e8cfa17a3a69965b9bd130ded46cf54a438908
+Author: Jonas Ådahl <jadahl@gmail.com>
+Date:   Wed May 5 15:53:59 2021 +0200
 
-[1] 
-https://elixir.bootlin.com/linux/v6.17.4/source/drivers/gpu/drm/i915/gem/i915_gem_dmabuf.c#L117
-[2] 
-https://elixir.bootlin.com/linux/v6.17.4/source/drivers/gpu/drm/i915/gem/i915_gem_domain.c#L493
-[3] 
-https://elixir.bootlin.com/linux/v6.17.4/source/drivers/gpu/drm/i915/gem/i915_gem_object.c#L509
+     renderer/native: Use MetaRenderDevice
 
-> +
->         drm_atomic_helper_damage_iter_init(&iter, old_plane_state, 
-> plane_state);
->         drm_atomic_for_each_plane_damage(&iter, &damage) {
->                 ast_handle_damage(ast_plane, shadow_plane_state->data, 
-> fb, &damage);
->         }
->
-> +       drm_gem_fb_end_cpu_access(fb, DMA_FROM_DEVICE);
-> +
->         /*
->          * Some BMCs stop scanning out the video signal after the driver
->          * reprogrammed the offset. This stalls display output for 
-> several
->
->
->
-> Best regards,
->
+     This replaces functionality that MetaRenderDevice and friends has
+     learned, e.g. buffer allocation, EGLDisplay creation, with the usage of
+     those helper objects. The main objective is to shrink
+     meta-renderer-native.c and by extension meta-onscreen-native.c, moving
+     its functionality into more isolated objects.
 
--- 
---
-Thomas Zimmermann
-Graphics Driver Developer
-SUSE Software Solutions Germany GmbH
-Frankenstrasse 146, 90461 Nuernberg, Germany
-GF: Ivo Totev, Andrew Myers, Andrew McDonald, Boudien Moerman
-HRB 36809 (AG Nuernberg)
+     Part-of: <https://gitlab.gnome.org/GNOME/mutter/-/merge_requests/1854>
 
+So long long time ago. Maybe worth trying with a newer version?
+
+Regards,
+
+Tvrtko
 
