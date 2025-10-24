@@ -2,92 +2,81 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6B645C072FB
-	for <lists+dri-devel@lfdr.de>; Fri, 24 Oct 2025 18:08:57 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id DECFFC07315
+	for <lists+dri-devel@lfdr.de>; Fri, 24 Oct 2025 18:09:06 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 79B5B10EAF3;
-	Fri, 24 Oct 2025 16:08:54 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 106F110EAD1;
+	Fri, 24 Oct 2025 16:09:05 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="Bum+Sa70";
+	dkim=temperror (0-bit key; unprotected) header.d=antheas.dev header.i=@antheas.dev header.b="N2VWvPMy";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B29A510EAD1
- for <dri-devel@lists.freedesktop.org>; Fri, 24 Oct 2025 16:08:50 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by tor.source.kernel.org (Postfix) with ESMTP id 6E3CA604D1;
- Fri, 24 Oct 2025 16:08:49 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1E711C4CEF7;
- Fri, 24 Oct 2025 16:08:35 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1761322129;
- bh=RFdw0+g6o/ZVSkbk/hwDX8wPQGif0Krg/jbYleduRas=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=Bum+Sa70whSA6rVYrWsUq1W2SBcB00ABYF6MmaIX4jt6NOXRn/VO3LPrKPlp7tEQn
- LVUQs76cq1kcY5lcEgs19PwSpo8oMyYiTW9xOrqCaaIDEzkJqDB1PqdnTBb5Ys/EWM
- 6XbYRBQVNVE8LiT5V16yg8m5t0XgBNBHOMepDM45CWpDyC1mSQWpBw6xP95b0axo8K
- NA2cP7b8OvsKFfe5pUP4/dgDUVuWlpDpwJQlSEI9Y1omjCjAndFoO7zt9q4pnUf7Vb
- YBP70aa0aEBdRs0SJ/0M137EcX6L4g5ukiFt2B+Bis0rPOx3aCxiC3p0zFoJ1dW+Dq
- Acucw6uwnLosQ==
-Date: Fri, 24 Oct 2025 17:08:33 +0100
-From: Lee Jones <lee@kernel.org>
-To: "Rob Herring (Arm)" <robh@kernel.org>
-Cc: Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>, Stephen Boyd <sboyd@kernel.org>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- Andrzej Hajda <andrzej.hajda@intel.com>,
- Robert Foss <rfoss@kernel.org>, Vinod Koul <vkoul@kernel.org>,
- Moritz Fischer <mdf@kernel.org>, Xu Yilun <yilun.xu@intel.com>,
- Bartosz Golaszewski <brgl@bgdev.pl>, Guenter Roeck <linux@roeck-us.net>,
- Andi Shyti <andi.shyti@kernel.org>, Jonathan Cameron <jic23@kernel.org>,
- Dmitry Torokhov <dmitry.torokhov@gmail.com>,
- Georgi Djakov <djakov@kernel.org>, Thomas Gleixner <tglx@linutronix.de>,
- Joerg Roedel <joro@8bytes.org>, Jassi Brar <jassisinghbrar@gmail.com>,
- Mauro Carvalho Chehab <mchehab@kernel.org>,
- Miquel Raynal <miquel.raynal@bootlin.com>,
- Richard Weinberger <richard@nod.at>, Vignesh Raghavendra <vigneshr@ti.com>,
- Andrew Lunn <andrew+netdev@lunn.ch>,
- "David S. Miller" <davem@davemloft.net>,
- Eric Dumazet <edumazet@google.com>,
- Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
- Johannes Berg <johannes@sipsolutions.net>,
- Krzysztof =?utf-8?Q?Wilczy=C5=84ski?= <kwilczynski@kernel.org>,
- Manivannan Sadhasivam <mani@kernel.org>,
- Bjorn Helgaas <bhelgaas@google.com>,
- Kishon Vijay Abraham I <kishon@kernel.org>,
- Sebastian Reichel <sre@kernel.org>,
- Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= <ukleinek@kernel.org>,
- Mark Brown <broonie@kernel.org>,
- Mathieu Poirier <mathieu.poirier@linaro.org>,
- Philipp Zabel <p.zabel@pengutronix.de>,
- Olivia Mackall <olivia@selenic.com>,
- Herbert Xu <herbert@gondor.apana.org.au>,
- Daniel Lezcano <daniel.lezcano@linaro.org>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-clk@vger.kernel.org, dri-devel@lists.freedesktop.org,
- linux-fbdev@vger.kernel.org, dmaengine@vger.kernel.org,
- linux-fpga@vger.kernel.org, linux-gpio@vger.kernel.org,
- linux-hwmon@vger.kernel.org, linux-i2c@vger.kernel.org,
- linux-iio@vger.kernel.org, linux-input@vger.kernel.org,
- linux-pm@vger.kernel.org, iommu@lists.linux.dev,
- linux-media@vger.kernel.org, linux-mtd@lists.infradead.org,
- netdev@vger.kernel.org, linux-wireless@vger.kernel.org,
- linux-pci@vger.kernel.org, linux-phy@lists.infradead.org,
- linux-pwm@vger.kernel.org, linux-remoteproc@vger.kernel.org,
- linux-crypto@vger.kernel.org, linux-sound@vger.kernel.org,
- linux-usb@vger.kernel.org
-Subject: Re: [PATCH] dt-bindings: Remove extra blank lines
-Message-ID: <20251024160833.GA2202059@google.com>
-References: <20251023143957.2899600-1-robh@kernel.org>
+Received: from relay12.grserver.gr (relay12.grserver.gr [88.99.38.195])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D156510EAD1
+ for <dri-devel@lists.freedesktop.org>; Fri, 24 Oct 2025 16:09:03 +0000 (UTC)
+Received: from relay12 (localhost [127.0.0.1])
+ by relay12.grserver.gr (Proxmox) with ESMTP id 2F9A1BD9E5
+ for <dri-devel@lists.freedesktop.org>; Fri, 24 Oct 2025 19:09:02 +0300 (EEST)
+Received: from linux3247.grserver.gr (linux3247.grserver.gr [213.158.90.240])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested)
+ by relay12.grserver.gr (Proxmox) with ESMTPS id 60F11BDAB2
+ for <dri-devel@lists.freedesktop.org>; Fri, 24 Oct 2025 19:09:01 +0300 (EEST)
+Received: from mail-lj1-f179.google.com (mail-lj1-f179.google.com
+ [209.85.208.179])
+ by linux3247.grserver.gr (Postfix) with ESMTPSA id D2867200A35
+ for <dri-devel@lists.freedesktop.org>; Fri, 24 Oct 2025 19:09:00 +0300 (EEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=antheas.dev;
+ s=default; t=1761322141;
+ bh=c6HxS6Zvm7NRv10KSWFGgdQGO5/rBFIB+mc4eI/omCg=;
+ h=Received:From:Subject:To;
+ b=N2VWvPMy5WWk5h+E/90v3LL/yF3BWhlMqBM6M8XbYvN9DhfiNy5iB9xBxklqGtWZY
+ ePnYdIvIaeqPcDZvlBsnhfYq+uy/6/O2XpMTS5Sx81xNW3FPuLi4YVxKQ9OhRQUUac
+ AQWpkysX0T4GqvE1/tkGMkze5PN3h9H13f5BTPttNciGI5C/zxBVd2vqpmk8eJA8U4
+ LFPFRXmenxlOUhnZQcKWjCDK4s614bpOYWqUD0QD+1AtzBvMY6gztNkp9Uck8L4qx1
+ bpzLDjOtqf0wbBCrqSy4n0EiSbox9g3+pP6N60b2K30PzV4CrMwSG5J/aP5bt++kBS
+ 3bkHUdFVOmOug==
+Authentication-Results: linux3247.grserver.gr;
+ spf=pass (sender IP is 209.85.208.179) smtp.mailfrom=lkml@antheas.dev
+ smtp.helo=mail-lj1-f179.google.com
+Received-SPF: pass (linux3247.grserver.gr: connection is authenticated)
+Received: by mail-lj1-f179.google.com with SMTP id
+ 38308e7fff4ca-3717780ea70so30695151fa.1
+ for <dri-devel@lists.freedesktop.org>;
+ Fri, 24 Oct 2025 09:09:00 -0700 (PDT)
+X-Forwarded-Encrypted: i=1;
+ AJvYcCV+H9E1vGTX92FOWYUxwZYJNwpA4GGuOEOZs5FZxS64LukmwYoSzVpEP+Ok7CCHKscJ8RvRtYybJ8o=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YyvPvkIkfE3g2P1YMlUwv6CzFAdPs2f0KPcA3L5Z+aqd3on6oxE
+ 5VJEjcucqKU0XfarTavZmnjJF9HJEpGbHCcbAzy5bAcKOwIgiuzGJhjPZO+J6dB7qDK0Tzg7Q9Y
+ kMADnhN48M2X0tu+EsuA2/b5haUEw8vM=
+X-Google-Smtp-Source: AGHT+IGrtGMUbTKY3EJtLEoExINvTxhF1uNJ6b9fMUw+NXU6QFCVEzK+bhBzwXzHYYPoTCBgDT/ICF7dvjwKtksorfc=
+X-Received: by 2002:a05:651c:1a08:b0:336:df0e:f4ac with SMTP id
+ 38308e7fff4ca-377979febaemr77151861fa.25.1761322140301; Fri, 24 Oct 2025
+ 09:09:00 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20251023143957.2899600-1-robh@kernel.org>
+References: <20251024152152.3981721-1-lkml@antheas.dev>
+ <20251024152152.3981721-2-lkml@antheas.dev>
+ <3792db59-7dc1-4e34-9436-84df4b6c3e10@amd.com>
+In-Reply-To: <3792db59-7dc1-4e34-9436-84df4b6c3e10@amd.com>
+From: Antheas Kapenekakis <lkml@antheas.dev>
+Date: Fri, 24 Oct 2025 18:08:49 +0200
+X-Gmail-Original-Message-ID: <CAGwozwFTDD2QrHy37axhanwQYv6ty9K_hfhxS05djKpv8HfY6g@mail.gmail.com>
+X-Gm-Features: AWmQ_bluSFRZs0j2QGdMRmJXJE4ND_MPKG9XbmD0AYwluvNUVV_Hqb-0t8edzEA
+Message-ID: <CAGwozwFTDD2QrHy37axhanwQYv6ty9K_hfhxS05djKpv8HfY6g@mail.gmail.com>
+Subject: Re: [PATCH v1 1/3] platform/x86/amd/pmc: Add support for Van Gogh SoC
+To: Mario Limonciello <mario.limonciello@amd.com>
+Cc: Alex Deucher <alexander.deucher@amd.com>,
+ Shyam Sundar S K <Shyam-sundar.S-k@amd.com>,
+ Perry Yuan <perry.yuan@amd.com>, amd-gfx@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ platform-driver-x86@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+X-PPP-Message-ID: <176132214105.2528009.14157154785230470999@linux3247.grserver.gr>
+X-PPP-Vhost: antheas.dev
+X-Virus-Scanned: clamav-milter 1.4.3 at linux3247.grserver.gr
+X-Virus-Status: Clean
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -103,135 +92,77 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, 23 Oct 2025, Rob Herring (Arm) wrote:
+On Fri, 24 Oct 2025 at 17:43, Mario Limonciello
+<mario.limonciello@amd.com> wrote:
+>
+>
+>
+> On 10/24/2025 10:21 AM, Antheas Kapenekakis wrote:
+> > The ROG Xbox Ally (non-X) SoC features a similar architecture to the
+> > Steam Deck. While the Steam Deck supports S3 (s2idle causes a crash),
+> > this support was dropped by the Xbox Ally which only S0ix suspend.
+> >
+> > Since the handler is missing here, this causes the device to not suspend
+> > and the AMD GPU driver to crash while trying to resume afterwards due to
+> > a power hang.
+> >
+> > Closes: https://gitlab.freedesktop.org/drm/amd/-/issues/4659
+> > Signed-off-by: Antheas Kapenekakis <lkml@antheas.dev>
+> > ---
+> >   drivers/platform/x86/amd/pmc/pmc.c | 3 +++
+> >   drivers/platform/x86/amd/pmc/pmc.h | 1 +
+> >   2 files changed, 4 insertions(+)
+> >
+> > diff --git a/drivers/platform/x86/amd/pmc/pmc.c b/drivers/platform/x86/amd/pmc/pmc.c
+> > index bd318fd02ccf..cae3fcafd4d7 100644
+> > --- a/drivers/platform/x86/amd/pmc/pmc.c
+> > +++ b/drivers/platform/x86/amd/pmc/pmc.c
+> > @@ -106,6 +106,7 @@ static void amd_pmc_get_ip_info(struct amd_pmc_dev *dev)
+> >       switch (dev->cpu_id) {
+> >       case AMD_CPU_ID_PCO:
+> >       case AMD_CPU_ID_RN:
+> > +     case AMD_CPU_ID_VG:
+> >       case AMD_CPU_ID_YC:
+> >       case AMD_CPU_ID_CB:
+> >               dev->num_ips = 12;
+> > @@ -517,6 +518,7 @@ static int amd_pmc_get_os_hint(struct amd_pmc_dev *dev)
+> >       case AMD_CPU_ID_PCO:
+> >               return MSG_OS_HINT_PCO;
+> >       case AMD_CPU_ID_RN:
+> > +     case AMD_CPU_ID_VG:
+> >       case AMD_CPU_ID_YC:
+> >       case AMD_CPU_ID_CB:
+> >       case AMD_CPU_ID_PS:
+> > @@ -717,6 +719,7 @@ static const struct pci_device_id pmc_pci_ids[] = {
+> >       { PCI_DEVICE(PCI_VENDOR_ID_AMD, AMD_CPU_ID_RV) },
+> >       { PCI_DEVICE(PCI_VENDOR_ID_AMD, AMD_CPU_ID_SP) },
+> >       { PCI_DEVICE(PCI_VENDOR_ID_AMD, AMD_CPU_ID_SHP) },
+> > +     { PCI_DEVICE(PCI_VENDOR_ID_AMD, AMD_CPU_ID_VG) },
+> >       { PCI_DEVICE(PCI_VENDOR_ID_AMD, PCI_DEVICE_ID_AMD_1AH_M20H_ROOT) },
+> >       { PCI_DEVICE(PCI_VENDOR_ID_AMD, PCI_DEVICE_ID_AMD_1AH_M60H_ROOT) },
+> >       { }
+> > diff --git a/drivers/platform/x86/amd/pmc/pmc.h b/drivers/platform/x86/amd/pmc/pmc.h
+> > index 62f3e51020fd..fe3f53eb5955 100644
+> > --- a/drivers/platform/x86/amd/pmc/pmc.h
+> > +++ b/drivers/platform/x86/amd/pmc/pmc.h
+> > @@ -156,6 +156,7 @@ void amd_mp2_stb_deinit(struct amd_pmc_dev *dev);
+> >   #define AMD_CPU_ID_RN                       0x1630
+> >   #define AMD_CPU_ID_PCO                      AMD_CPU_ID_RV
+> >   #define AMD_CPU_ID_CZN                      AMD_CPU_ID_RN
+> > +#define AMD_CPU_ID_VG                        0x1645
+>
+> Can you see if 0xF14 gives you a reasonable value for the idle mask if
+> you add it to amd_pmc_idlemask_read()?  Make a new define for it though,
+> it shouldn't use the same define as 0x1a platforms.
 
-> Generally at most 1 blank line is the standard style for DT schema
-> files. Remove the few cases with more than 1 so that the yamllint check
-> for this can be enabled.
-> 
-> Signed-off-by: Rob Herring (Arm) <robh@kernel.org>
-> ---
->  Documentation/devicetree/bindings/.yamllint                  | 2 +-
->  Documentation/devicetree/bindings/arm/psci.yaml              | 1 -
->  .../bindings/clock/allwinner,sun4i-a10-gates-clk.yaml        | 1 -
->  .../devicetree/bindings/clock/renesas,cpg-mssr.yaml          | 1 -
->  .../devicetree/bindings/clock/xlnx,clocking-wizard.yaml      | 1 -
->  .../display/allwinner,sun4i-a10-display-frontend.yaml        | 1 -
->  .../devicetree/bindings/display/allwinner,sun6i-a31-drc.yaml | 1 -
->  .../bindings/display/allwinner,sun8i-a83t-dw-hdmi.yaml       | 1 -
->  .../devicetree/bindings/display/amlogic,meson-vpu.yaml       | 1 -
->  .../devicetree/bindings/display/bridge/adi,adv7511.yaml      | 1 -
->  .../devicetree/bindings/display/bridge/lvds-codec.yaml       | 1 -
->  .../devicetree/bindings/display/bridge/toshiba,tc358767.yaml | 1 -
->  .../devicetree/bindings/display/ilitek,ili9486.yaml          | 1 -
->  Documentation/devicetree/bindings/display/msm/gpu.yaml       | 1 -
->  .../devicetree/bindings/display/panel/panel-timing.yaml      | 1 -
->  .../devicetree/bindings/display/panel/tpo,tpg110.yaml        | 1 -
->  .../devicetree/bindings/display/rockchip/rockchip,dw-dp.yaml | 1 -
->  .../devicetree/bindings/display/simple-framebuffer.yaml      | 1 -
->  .../devicetree/bindings/dma/snps,dma-spear1340.yaml          | 1 -
->  Documentation/devicetree/bindings/dma/stericsson,dma40.yaml  | 1 -
->  .../devicetree/bindings/dma/stm32/st,stm32-dma.yaml          | 1 -
->  Documentation/devicetree/bindings/edac/apm,xgene-edac.yaml   | 1 -
->  .../devicetree/bindings/firmware/qemu,fw-cfg-mmio.yaml       | 1 -
->  Documentation/devicetree/bindings/fpga/fpga-region.yaml      | 5 -----
->  .../devicetree/bindings/gpio/brcm,xgs-iproc-gpio.yaml        | 1 -
->  .../devicetree/bindings/gpio/fairchild,74hc595.yaml          | 1 -
->  Documentation/devicetree/bindings/hwmon/adi,ltc2947.yaml     | 1 -
->  Documentation/devicetree/bindings/hwmon/adi,max31827.yaml    | 1 -
->  Documentation/devicetree/bindings/hwmon/national,lm90.yaml   | 1 -
->  Documentation/devicetree/bindings/hwmon/ti,tmp513.yaml       | 1 -
->  Documentation/devicetree/bindings/hwmon/ti,tps23861.yaml     | 1 -
->  Documentation/devicetree/bindings/i2c/i2c-mux-gpmux.yaml     | 1 -
->  .../devicetree/bindings/i2c/realtek,rtl9301-i2c.yaml         | 1 -
->  Documentation/devicetree/bindings/i2c/tsd,mule-i2c-mux.yaml  | 2 --
->  Documentation/devicetree/bindings/iio/adc/adi,ad7380.yaml    | 1 -
->  Documentation/devicetree/bindings/iio/adc/adi,ad7606.yaml    | 1 -
->  Documentation/devicetree/bindings/iio/adc/adi,ad7949.yaml    | 1 -
->  Documentation/devicetree/bindings/iio/adc/adi,ade9000.yaml   | 1 -
->  .../devicetree/bindings/iio/adc/cosmic,10001-adc.yaml        | 1 -
->  Documentation/devicetree/bindings/iio/adc/st,stm32-adc.yaml  | 1 -
->  .../devicetree/bindings/iio/adc/x-powers,axp209-adc.yaml     | 1 -
->  .../devicetree/bindings/iio/afe/voltage-divider.yaml         | 1 -
->  .../devicetree/bindings/iio/frequency/adi,admv4420.yaml      | 1 -
->  .../devicetree/bindings/iio/pressure/murata,zpa2326.yaml     | 1 -
->  .../devicetree/bindings/iio/proximity/semtech,sx9324.yaml    | 1 -
->  .../devicetree/bindings/iio/temperature/adi,ltc2983.yaml     | 1 -
->  Documentation/devicetree/bindings/input/ti,drv266x.yaml      | 1 -
->  .../devicetree/bindings/interconnect/qcom,rpmh.yaml          | 1 -
->  .../devicetree/bindings/interrupt-controller/arm,gic-v3.yaml | 1 -
->  .../bindings/interrupt-controller/aspeed,ast2700-intc.yaml   | 1 -
->  .../bindings/interrupt-controller/fsl,vf610-mscm-ir.yaml     | 1 -
->  .../bindings/interrupt-controller/loongson,liointc.yaml      | 1 -
->  .../bindings/interrupt-controller/mediatek,mtk-cirq.yaml     | 1 -
->  .../bindings/interrupt-controller/mscc,ocelot-icpu-intr.yaml | 1 -
->  Documentation/devicetree/bindings/iommu/arm,smmu.yaml        | 4 ----
->  Documentation/devicetree/bindings/mailbox/arm,mhu.yaml       | 1 -
->  Documentation/devicetree/bindings/mailbox/arm,mhuv2.yaml     | 1 -
->  Documentation/devicetree/bindings/mailbox/mtk,adsp-mbox.yaml | 1 -
->  Documentation/devicetree/bindings/media/amphion,vpu.yaml     | 1 -
->  Documentation/devicetree/bindings/media/i2c/adi,adv7604.yaml | 2 --
->  .../devicetree/bindings/media/i2c/techwell,tw9900.yaml       | 1 -
->  Documentation/devicetree/bindings/media/nxp,imx8-jpeg.yaml   | 1 -
->  .../devicetree/bindings/media/qcom,sc8280xp-camss.yaml       | 1 -
->  .../bindings/media/samsung,exynos4212-fimc-is.yaml           | 1 -
->  .../devicetree/bindings/media/samsung,s5pv210-jpeg.yaml      | 1 -
->  Documentation/devicetree/bindings/media/st,stm32-dma2d.yaml  | 1 -
->  .../devicetree/bindings/media/video-interface-devices.yaml   | 4 ----
->  .../memory-controllers/qcom,ebi2-peripheral-props.yaml       | 1 -
+It does not work. Reports 0. I also tested the other ones, but the
+0x1a was the same as you said. All report 0x0.
 
->  Documentation/devicetree/bindings/mfd/stericsson,ab8500.yaml | 1 -
+Any idea why the OS hint only works 90% of the time?
 
-Acked-by: Lee Jones <lee@kernel.org>
+> >   #define AMD_CPU_ID_YC                       0x14B5
+> >   #define AMD_CPU_ID_CB                       0x14D8
+> >   #define AMD_CPU_ID_PS                       0x14E8
+>
+>
 
->  .../devicetree/bindings/mtd/amlogic,meson-nand.yaml          | 1 -
->  .../devicetree/bindings/mtd/marvell,nand-controller.yaml     | 1 -
->  Documentation/devicetree/bindings/mux/mux-controller.yaml    | 1 -
->  .../devicetree/bindings/net/allwinner,sun8i-a83t-emac.yaml   | 2 --
->  Documentation/devicetree/bindings/net/brcm,bcmgenet.yaml     | 1 -
->  .../devicetree/bindings/net/brcm,mdio-mux-iproc.yaml         | 1 -
->  .../devicetree/bindings/net/cortina,gemini-ethernet.yaml     | 1 -
->  Documentation/devicetree/bindings/net/fsl,gianfar.yaml       | 2 --
->  .../devicetree/bindings/net/mdio-mux-multiplexer.yaml        | 1 -
->  Documentation/devicetree/bindings/net/qcom,ipa.yaml          | 1 -
->  Documentation/devicetree/bindings/net/ti,cpsw-switch.yaml    | 1 -
->  .../devicetree/bindings/net/wireless/ti,wlcore.yaml          | 1 -
->  .../devicetree/bindings/pci/altr,pcie-root-port.yaml         | 1 -
->  Documentation/devicetree/bindings/pci/loongson.yaml          | 1 -
->  Documentation/devicetree/bindings/pci/rockchip-dw-pcie.yaml  | 1 -
->  .../devicetree/bindings/pci/starfive,jh7110-pcie.yaml        | 1 -
->  Documentation/devicetree/bindings/pci/versatile.yaml         | 1 -
->  .../bindings/phy/qcom,sc8280xp-qmp-usb3-uni-phy.yaml         | 1 -
->  .../devicetree/bindings/pinctrl/brcm,bcm21664-pinctrl.yaml   | 1 -
->  .../devicetree/bindings/pinctrl/fsl,imx9-pinctrl.yaml        | 1 -
->  .../devicetree/bindings/pinctrl/qcom,qcs404-pinctrl.yaml     | 1 -
->  .../bindings/pinctrl/qcom,sm6115-lpass-lpi-pinctrl.yaml      | 1 -
->  .../devicetree/bindings/pinctrl/qcom,sm6125-tlmm.yaml        | 1 -
->  .../devicetree/bindings/pinctrl/renesas,rza1-ports.yaml      | 3 ---
->  .../devicetree/bindings/pinctrl/starfive,jh7100-pinctrl.yaml | 1 -
->  .../devicetree/bindings/power/supply/mt6360_charger.yaml     | 1 -
->  .../bindings/power/supply/stericsson,ab8500-charger.yaml     | 1 -
->  .../devicetree/bindings/pwm/allwinner,sun4i-a10-pwm.yaml     | 1 -
->  .../bindings/regulator/richtek,rt6245-regulator.yaml         | 1 -
->  .../devicetree/bindings/remoteproc/ti,k3-r5f-rproc.yaml      | 2 --
->  Documentation/devicetree/bindings/reset/ti,sci-reset.yaml    | 1 -
->  .../bindings/rng/inside-secure,safexcel-eip76.yaml           | 2 --
->  .../devicetree/bindings/soc/fsl/cpm_qe/fsl,qe-muram.yaml     | 1 -
->  .../devicetree/bindings/soc/mediatek/mediatek,mutex.yaml     | 1 -
->  .../bindings/soc/microchip/atmel,at91rm9200-tcb.yaml         | 1 -
->  Documentation/devicetree/bindings/soc/rockchip/grf.yaml      | 1 -
->  Documentation/devicetree/bindings/soc/ti/ti,pruss.yaml       | 3 ---
->  Documentation/devicetree/bindings/sound/adi,adau1372.yaml    | 1 -
->  Documentation/devicetree/bindings/sound/adi,adau7118.yaml    | 1 -
->  .../devicetree/bindings/sound/rockchip,i2s-tdm.yaml          | 1 -
->  .../devicetree/bindings/sound/rockchip,rk3328-codec.yaml     | 2 +-
->  Documentation/devicetree/bindings/sound/samsung,tm2.yaml     | 1 -
->  .../devicetree/bindings/sound/ti,tlv320dac3100.yaml          | 1 -
->  Documentation/devicetree/bindings/sound/wlf,wm8903.yaml      | 1 -
->  .../devicetree/bindings/timer/nvidia,tegra-timer.yaml        | 1 -
->  .../devicetree/bindings/timer/nvidia,tegra186-timer.yaml     | 1 -
->  Documentation/devicetree/bindings/usb/qcom,pmic-typec.yaml   | 1 -
->  116 files changed, 2 insertions(+), 136 deletions(-)
-
--- 
-Lee Jones [李琼斯]
