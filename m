@@ -2,84 +2,56 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7059DC08553
-	for <lists+dri-devel@lfdr.de>; Sat, 25 Oct 2025 01:40:40 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5AEA7C085C2
+	for <lists+dri-devel@lfdr.de>; Sat, 25 Oct 2025 01:57:51 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 01CA210E060;
-	Fri, 24 Oct 2025 23:40:37 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 40F3510E20D;
+	Fri, 24 Oct 2025 23:57:48 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="TapAQnrx";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="Y8/vLx1A";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pl1-f180.google.com (mail-pl1-f180.google.com
- [209.85.214.180])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A196810E060
- for <dri-devel@lists.freedesktop.org>; Fri, 24 Oct 2025 23:40:35 +0000 (UTC)
-Received: by mail-pl1-f180.google.com with SMTP id
- d9443c01a7336-29470bc80ceso28933505ad.1
- for <dri-devel@lists.freedesktop.org>; Fri, 24 Oct 2025 16:40:35 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1761349235; x=1761954035; darn=lists.freedesktop.org;
- h=content-transfer-encoding:in-reply-to:from:content-language
- :references:cc:to:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=qqP5SuAkGaJ6RG6hOh0SZayfv/af2QObYCkolbIehz8=;
- b=TapAQnrxd2sobPN7DkYhre2QM0FPkINubEvmjzT+hNNAKA7VHw9WMP73j/QhhVi+U7
- UuJbjrMgMWYsHMbrWw+TDF18JzG68AXEFySgMHxqRE9ScLDe5waJAs5my0Aj6sNxwX47
- UXpB+Vs01J5UxFbtprbqRdMYndXxrj3JphAuJmD66b24Pkt21JYgyzCwh4NQygORS0pM
- n53Jylx8f7PR9IAL1BNqJ2ACUjlrhoqZzKWM1GXUp3g3BkIisGU0iOwhf6VbjpzCaCMj
- u7EIyEeLVCPo+R6vTsSlas0kZ80s2Qa4dawLr33JOQFHjbdmWZvlrG1RocUbpejO55RR
- Itvw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1761349235; x=1761954035;
- h=content-transfer-encoding:in-reply-to:from:content-language
- :references:cc:to:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=qqP5SuAkGaJ6RG6hOh0SZayfv/af2QObYCkolbIehz8=;
- b=R3Mf2PfJem1ONg1RnNbyYTNjJpA7SQozc6t1abbc85RiXXzJdB6LDnaQg2tLvdY/1p
- enPCznvXCTPI+rcCHc+cWhd6CnxnX5+yuwx3IMvDzOxBoCywVMfU29GomZrbwaqdKGuD
- m8sCqJ2E98z3lllprCAnfgtIIC+C2aQ6RtvVk2RqXJaFQDnt3a3bpLj2pVICRlncw95+
- sTvN1rzGqoAIv0UM82g7+R7cfRLMNxBcoo54inKUBHfAMFT870BHXVkpdjkrE8F+Xf4f
- hZr5cyxmZZOBlFkWDmwt+vLQyMu6Gcoiyyk7zSWjWRavCA4sN6rrjUydK5v+IUr0Yxxm
- SxnQ==
-X-Gm-Message-State: AOJu0Ywm9+uUsVA1qnHbTId+Aul+IcFTYsxMfoTgmmbUiiveGXPzil8l
- XgoODkvnJrQvODb82x2v5HmjZnyIwQC8W5tVYNQaMn2zyef46hGHVM/t
-X-Gm-Gg: ASbGnct2O9GiA8qMVH4q/J8nD+AuMxGtSdXF/sgrQRpFbo00PdsRe8S7YDEnAGH56MS
- /tefS+vZaYnQcyyhXEs9J5BZiRaVVmUtZi/jhGukZNfZhcsyAJNuxlJmCwkrfELDybfeu5Gtljk
- Tos4tyEoSbV2wruyCPY3qH5fp6Ey2Apw5lYWJoLeDwTx9oSxRX+je5G3OyKqasLVXRM2BfzMVyx
- 5FzwtXagiS6g3BoSDYHhVjoc9G41fOE+bqURrWdJFAvz8O87lmcsNCXavzL3Ds4mqmSRmZXP3Vu
- cQbU8g99RIVig11704vfsuG3y4PEF6cj/bBSw4DSRNOCHRSB5xiL1uRdYBigai2oH3dnL4g25ou
- lGF/dvaepVMUZ5yMw3o9TIKPN29Sqjw+yhxVTEGjR7ZqjsdGTpQI+s2tbd6oZkEWqFYkFSDSwNT
- 0O9DOUcyU8WL3IZHQuJFfRD2LWSXTubzWMg3sJJbvz68JSMi+oLIngjOCz9zA+
-X-Google-Smtp-Source: AGHT+IGmljlFqxKaoLUBNWWhhLXqxmD/AGAuAbaOp3NrSOLjBnaDmgbR1ag9luX/A0wo93vsh9u7Mg==
-X-Received: by 2002:a17:902:f705:b0:294:9132:75d2 with SMTP id
- d9443c01a7336-294913289fcmr28727695ad.25.1761349235081; 
- Fri, 24 Oct 2025 16:40:35 -0700 (PDT)
-Received: from ?IPV6:2601:1c0:5780:9200:47dc:e064:b621:fd5a?
- ([2601:1c0:5780:9200:47dc:e064:b621:fd5a])
- by smtp.gmail.com with ESMTPSA id
- d9443c01a7336-29498d2789bsm4025335ad.62.2025.10.24.16.40.34
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 24 Oct 2025 16:40:34 -0700 (PDT)
-Message-ID: <f30cee98-1069-4f71-9aa9-613967f9922a@gmail.com>
-Date: Fri, 24 Oct 2025 16:40:34 -0700
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3] drm/vblank: downgrade vblank wait timeout from WARN to
- error
-To: Thomas Zimmermann <tzimmermann@suse.de>,
- maarten.lankhorst@linux.intel.com, maxime.ripard@kernel.org,
- airlied@gmail.com, simona@ffwll.ch
-Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- syzbot+147ba789658184f0ce04@syzkaller.appspotmail.com
-References: <20251003032303.16518-1-chintanlike@gmail.com>
- <65f8a544-175a-4021-aa2a-9a9faf2f4254@suse.de>
-Content-Language: en-US
-From: Chintan Patel <chintanlike@gmail.com>
-In-Reply-To: <65f8a544-175a-4021-aa2a-9a9faf2f4254@suse.de>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id ADDD410E20D
+ for <dri-devel@lists.freedesktop.org>; Fri, 24 Oct 2025 23:57:47 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by tor.source.kernel.org (Postfix) with ESMTP id D0C50601F6;
+ Fri, 24 Oct 2025 23:57:46 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7FA10C4CEF5;
+ Fri, 24 Oct 2025 23:57:46 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1761350266;
+ bh=+Abpmx80dHyLdRXIXAEx6hgQNdKU00coHtI7fLEuwRc=;
+ h=Subject:From:In-Reply-To:References:Date:To:Cc:From;
+ b=Y8/vLx1ApQeihaTL0vL/8zWOEihCTuEGoaZgFduT4RNhnc0gkcmEktKHWb1v7k4gP
+ Z7q4hyFiNHqFqRxqCSp55q68nIF4B7a/NjFkCsTyR2KX8+qgx1VmMhQZt3oUzrLOPu
+ RCXGuL90yZFlUAeTOJs+Jid0eZsaHKmVF2JNYLtkweODLtrGnViQVxbjypZ8JzUoFe
+ HYCX5kyg2vWRYY16NA6ZjOUEhEQqMmGuswExSERftzPKLd6HmqJHOcqrECX8Gdv2/b
+ F5i00q9a+apdl1re7NxmwAwg3jIQe5GGm2zl7eKaPZU9jnZpK10Z1Z6ZuNNqarWPSn
+ nsaB3i2BEA1YQ==
+Received: from [10.30.226.235] (localhost [IPv6:::1])
+ by aws-us-west-2-korg-oddjob-rhel9-1.codeaurora.org (Postfix) with ESMTP id
+ 70E91380AA54; Fri, 24 Oct 2025 23:57:27 +0000 (UTC)
+Subject: Re: [PULL] drm-fixes for -rc3
+From: pr-tracker-bot@kernel.org
+In-Reply-To: <aPvojo5uhoAatX2Y@phenom.ffwll.local>
+References: <aPvojo5uhoAatX2Y@phenom.ffwll.local>
+X-PR-Tracked-List-Id: <linux-kernel.vger.kernel.org>
+X-PR-Tracked-Message-Id: <aPvojo5uhoAatX2Y@phenom.ffwll.local>
+X-PR-Tracked-Remote: https://gitlab.freedesktop.org/drm/kernel.git
+ tags/drm-fixes-2025-10-24
+X-PR-Tracked-Commit-Id: 18b1ce0b29c41833363b58ad030b76dabf984899
+X-PR-Merge-Tree: torvalds/linux.git
+X-PR-Merge-Refname: refs/heads/master
+X-PR-Merge-Commit-Id: 3d08a425d2f667edf9ab7f9c3d999c218a96ba6f
+Message-Id: <176135024595.4099580.14354874840145229936.pr-tracker-bot@kernel.org>
+Date: Fri, 24 Oct 2025 23:57:25 +0000
+To: Simona Vetter <simona.vetter@ffwll.ch>
+Cc: Linus Torvalds <torvalds@linux-foundation.org>,
+ LKML <linux-kernel@vger.kernel.org>,
+ DRI Development <dri-devel@lists.freedesktop.org>,
+ Dave Airlie <airlied@gmail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -95,59 +67,15 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Thomas,
+The pull request you sent on Fri, 24 Oct 2025 22:58:54 +0200:
 
-Thank you Thomas for suggestions!
+> https://gitlab.freedesktop.org/drm/kernel.git tags/drm-fixes-2025-10-24
 
-On 10/24/25 06:58, Thomas Zimmermann wrote:
-> Hi
-> 
-> Am 03.10.25 um 05:23 schrieb Chintan Patel:
->> When wait_event_timeout() in drm_wait_one_vblank() times out, the
->> current WARN can cause unnecessary kernel panics in environments
->> with panic_on_warn set (e.g. CI, fuzzing). These timeouts can happen
->> under heavy scheduling pressure or in rare cases of delayed vblank
->> handling, and are not always a kernel bug.
->>
->> Replace the WARN with drm_err() messages that report the timeout
->> without crashing the system. Developers can still enable drm.debug
->> to diagnose genuine problems.
->>
->> Reported-by: syzbot+147ba789658184f0ce04@syzkaller.appspotmail.com
->> Closes: https://syzkaller.appspot.com/bug?extid=147ba789658184f0ce04
->> Tested-by: syzbot+147ba789658184f0ce04@syzkaller.appspotmail.com
->> Signed-off-by: Chintan Patel <chintanlike@gmail.com>
->>
->> v2:
->>   - Drop unnecessary in-code comment (suggested by Thomas Zimmermann)
->>   - Remove else branch, only log timeout case
->>
->> v3:
->>   - Use drm_err() instead of drm_dbg_kms() (suggested by Ville Syrjälä)
->>   - Remove unnecessary curr = drm_vblank_count() (suggested by Thomas 
->> Zimmermann)
->>   - Fix commit message wording (“invalid userspace calls” → “delayed 
->> vblank handling”)
->> ---
->>   drivers/gpu/drm/drm_vblank.c | 3 ++-
->>   1 file changed, 2 insertions(+), 1 deletion(-)
->>
->> diff --git a/drivers/gpu/drm/drm_vblank.c b/drivers/gpu/drm/drm_vblank.c
->> index 46f59883183d..0664aea1b924 100644
->> --- a/drivers/gpu/drm/drm_vblank.c
->> +++ b/drivers/gpu/drm/drm_vblank.c
->> @@ -1305,7 +1305,8 @@ void drm_wait_one_vblank(struct drm_device *dev, 
->> unsigned int pipe)
->>                    last != drm_vblank_count(dev, pipe),
->>                    msecs_to_jiffies(100));
-> 
-> Instead of replacing the drm_WARN(), could you please try to increase 
-> the timeout? Let's say 1000 msec to be on the safe side.
-> 
+has been merged into torvalds/linux.git:
+https://git.kernel.org/torvalds/c/3d08a425d2f667edf9ab7f9c3d999c218a96ba6f
 
-I tried it locally and also tested with syzbot after increasing the 
-timeout to 1000 msec. The issue no longer reproduces with this change.
+Thank you!
 
-I’ll send v4 shortly with the updated timeout.
-
-
+-- 
+Deet-doot-dot, I am a bot.
+https://korg.docs.kernel.org/prtracker.html
