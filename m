@@ -2,88 +2,49 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B495FC04CD3
-	for <lists+dri-devel@lfdr.de>; Fri, 24 Oct 2025 09:43:56 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id C09D0C04D8D
+	for <lists+dri-devel@lfdr.de>; Fri, 24 Oct 2025 09:51:11 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id ECC6210E050;
-	Fri, 24 Oct 2025 07:43:53 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 75E5F10E9F0;
+	Fri, 24 Oct 2025 07:51:08 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="PwZYx6WA";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="dxp+Vwjx";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 016F410E050
- for <dri-devel@lists.freedesktop.org>; Fri, 24 Oct 2025 07:43:52 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1761291833; x=1792827833;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:content-transfer-encoding:in-reply-to;
- bh=7zI+yHusBy8iTPtjWgljU0yIp25yZuoATyi6HBS0Rz0=;
- b=PwZYx6WAWv2V5Ky8UJl6ZGJlBkjEYMMzfJAI6F1cuBBzvNxY/uMBsYYE
- lSFcyKtKQ9tbzDc07HZ+lvi0eDLv3+znzBCFEublDoKoI64VaMxGDoIFX
- zWJz+wJE/QCmyC5YlL3QX1nciCvSgStiBqw5Pt4DjwyRn7OlGbA9YQFnJ
- L9DIwpC0VKEbZqmWQuFHVgWeqVMFXsePTXenqtIby3yZ6LqHzYwQfhThn
- UuCs6gBlNcVEhYW4UdVpMYrYdAQ3Fy/E/9C+Tc8TGAJnI6PXvBxPeAc67
- Y+fhOXGwuBxjDbGqjCvIFa7JzdfG4xoqOIsOxhurpP9QWAVIxckdhtvaf g==;
-X-CSE-ConnectionGUID: 3v6gzYt2QwSaX9HyGoPyIg==
-X-CSE-MsgGUID: XPHbgb8lSQicgaYcEqc6gQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11586"; a="63376644"
-X-IronPort-AV: E=Sophos;i="6.19,251,1754982000"; d="scan'208";a="63376644"
-Received: from fmviesa005.fm.intel.com ([10.60.135.145])
- by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 24 Oct 2025 00:43:52 -0700
-X-CSE-ConnectionGUID: u3ao3ZWfTCKvdTwCgNOZbQ==
-X-CSE-MsgGUID: i6w9uVJtSDy1AqasQ83mFQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.19,251,1754982000"; d="scan'208";a="188756837"
-Received: from mjruhl-desk.amr.corp.intel.com (HELO kuha.fi.intel.com)
- ([10.124.221.255])
- by fmviesa005.fm.intel.com with SMTP; 24 Oct 2025 00:43:42 -0700
-Received: by kuha.fi.intel.com (sSMTP sendmail emulation);
- Fri, 24 Oct 2025 10:43:41 +0300
-Date: Fri, 24 Oct 2025 10:43:41 +0300
-From: Heikki Krogerus <heikki.krogerus@linux.intel.com>
-To: Chaoyi Chen <chaoyi.chen@rock-chips.com>
-Cc: Chaoyi Chen <kernel@airkyi.com>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>,
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>, Vinod Koul <vkoul@kernel.org>,
- Kishon Vijay Abraham I <kishon@kernel.org>,
- Heiko Stuebner <heiko@sntech.de>, Sandy Huang <hjc@rock-chips.com>,
- Andy Yan <andy.yan@rock-chips.com>,
- Yubing Zhang <yubing.zhang@rock-chips.com>,
- Frank Wang <frank.wang@rock-chips.com>,
- Andrzej Hajda <andrzej.hajda@intel.com>,
- Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Amit Sunil Dhamne <amitsd@google.com>,
- Dragan Simic <dsimic@manjaro.org>, Johan Jonker <jbx6244@gmail.com>,
- Diederik de Haas <didi.debian@cknow.org>,
- Peter Robinson <pbrobinson@gmail.com>, linux-usb@vger.kernel.org,
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-phy@lists.infradead.org, linux-arm-kernel@lists.infradead.org,
- linux-rockchip@lists.infradead.org, dri-devel@lists.freedesktop.org
-Subject: Re: [PATCH v7 1/9] usb: typec: Add notifier functions
-Message-ID: <aPsuLREPS_FEV3DS@kuha.fi.intel.com>
-References: <20251023033009.90-1-kernel@airkyi.com>
- <20251023033009.90-2-kernel@airkyi.com>
- <aPni4AeDaem_rfZH@kuha.fi.intel.com>
- <aPnvoSRJefwDlpNO@kuha.fi.intel.com>
- <aPn4-S7upPOOtenr@kuha.fi.intel.com>
- <3a24bd7f-c247-4541-8cf5-c1e66e2af5a0@rock-chips.com>
+Received: from sea.source.kernel.org (sea.source.kernel.org [172.234.252.31])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D7F1F10E198
+ for <dri-devel@lists.freedesktop.org>; Fri, 24 Oct 2025 07:51:06 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by sea.source.kernel.org (Postfix) with ESMTP id 59AC643E45;
+ Fri, 24 Oct 2025 07:51:06 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id CB5A6C4CEF1;
+ Fri, 24 Oct 2025 07:51:03 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1761292266;
+ bh=/eIIVwq/ALP8llik2NduZiThoe5CQyT9xK6kpQ9T/zk=;
+ h=From:To:Cc:Subject:Date:From;
+ b=dxp+Vwjxc0q/4xxNMbBSVe0wfjeBoUAgvvk4GO0J4BEjljt8FSBdlEzI27U7yFV7D
+ l3BgRq6oD7XxuKD72SAi6bNz3tno5IscDLL/U4Km4YAB2z67ipIpw2pYmWRiqS4BIO
+ 2z2MZCMEjdaIk3VMY+t8V0wlDEZ4jfl7Sa7BH9gfAR+g15wWUFi3pLySqaQOsDpTCP
+ sszrCbwAeLwdsko+M8aW4srtjpR8pwObW3ffVdKGKFMmmFXW2yhB3rqsc8nofiH35X
+ s0n6KHJ98UhXLF1rEsUMB5ztgp82Oph7EaENA1V9WUjXbJ0PKTKbtd6l8x6O3Xv3mg
+ 2Sq+UUqSeAgcQ==
+From: Philipp Stanner <phasta@kernel.org>
+To: Sumit Semwal <sumit.semwal@linaro.org>,
+ Gustavo Padovan <gustavo@padovan.org>,
+ =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
+ Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
+Cc: linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, Philipp Stanner <phasta@kernel.org>,
+ Danilo Krummrich <dakr@kernel.org>
+Subject: [PATCH] dma-fence: Correct return of dma_fence_driver_name()
+Date: Fri, 24 Oct 2025 09:50:18 +0200
+Message-ID: <20251024075019.162351-2-phasta@kernel.org>
+X-Mailer: git-send-email 2.49.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <3a24bd7f-c247-4541-8cf5-c1e66e2af5a0@rock-chips.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -99,27 +60,52 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-> I noticed the following statement in typec_register_altmode():
-> 
-> ```
-> 
->     /* The partners are bind to drivers */
->     if (is_typec_partner(parent))
->         alt->adev.dev.bus = &typec_bus;
-> 
-> ```
-> 
-> If the condition is not met, the bus will not be set, which means bus_notify()
-> won't be able to take effect. Did I miss something?
+To decouple the dma_fence_ops lifetime from dma_fences lifetime RCU
+support was added to said function, coupled with using the signaled bit
+to detect whether the fence_ops might be gone already.
 
-Right, that would be the condition that I was talking about. Only
-partner altmodes are used in the bus.
+When implementing that a wrong string was set as a default return
+parameter, indicating that every driver whose fence is already signalled
+must be detached, which is frankly wrong.
 
-Hold on! Do you need the port altmode instead of the partner altmode?
-If that's the case, then we can't use the bus notifier. So we'll need
-the separate notifier chain after all.
+Reported-by: Danilo Krummrich <dakr@kernel.org>
+Fixes: 506aa8b02a8d ("dma-fence: Add safe access helpers and document the rules")
+Signed-off-by: Philipp Stanner <phasta@kernel.org>
+---
+When this was merged, it sadly slipped by me. I think this entire RCU
+mechanism was / is an overengineered idea.
 
-Let me take a closer look at patch 2/9. Sorry about the hassle.
+If we look at who actually uses dma_fence_driver_name() and
+dma_fence_timeline_name() â€“ functions from which the largest share of
+the fence_ops vs. fence lifetime issue stems from â€“ we discover that
+there is a single user:
 
+i915.
+
+Isn't that driver even deprecated?
+
+I think the better thing to do is: remove these functions alltogether,
+or at least deprecate them. Then the only lifetime issue left so solve
+is the callback functions.
+
+P.
+---
+ drivers/dma-buf/dma-fence.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/drivers/dma-buf/dma-fence.c b/drivers/dma-buf/dma-fence.c
+index 3f78c56b58dc..1875a0abebd3 100644
+--- a/drivers/dma-buf/dma-fence.c
++++ b/drivers/dma-buf/dma-fence.c
+@@ -1111,7 +1111,7 @@ const char __rcu *dma_fence_driver_name(struct dma_fence *fence)
+ 	if (!test_bit(DMA_FENCE_FLAG_SIGNALED_BIT, &fence->flags))
+ 		return fence->ops->get_driver_name(fence);
+ 	else
+-		return "detached-driver";
++		return "driver-whose-fence-is-already-signalled";
+ }
+ EXPORT_SYMBOL(dma_fence_driver_name);
+ 
 -- 
-heikki
+2.49.0
+
