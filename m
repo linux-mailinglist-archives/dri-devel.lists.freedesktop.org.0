@@ -2,69 +2,58 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id DB333C05A8B
-	for <lists+dri-devel@lfdr.de>; Fri, 24 Oct 2025 12:49:06 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5163DC05A9A
+	for <lists+dri-devel@lfdr.de>; Fri, 24 Oct 2025 12:49:54 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4AA6D10EA5B;
-	Fri, 24 Oct 2025 10:49:04 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 87C3F10EA5E;
+	Fri, 24 Oct 2025 10:49:52 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="nLgPo94p";
+	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="FQ09UUna";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B48D410EA5B
- for <dri-devel@lists.freedesktop.org>; Fri, 24 Oct 2025 10:49:03 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1761302944; x=1792838944;
- h=message-id:date:mime-version:subject:to:cc:references:
- from:in-reply-to:content-transfer-encoding;
- bh=X4Lx1AN9vYSZaPB0jdVLFEPdmXgK7gQn/GI7ZLbgs/E=;
- b=nLgPo94pgkuU19K/8fHfZFYsfIswXhUPKJxUfARbC9bymE+z0LQ7FHps
- 3LaPRZe6WmC4nsOyJbEAdnmHGNZa28x6Pnc1KhfXGe1Z2Lm79tfApIvLO
- AP0PvZnYB4OBXjbnZaskCjsVzLrRcheby1TkdfUlNOr7W/hnJNSY/Lpgs
- 4IIWaDRtB6AgUTomNZ8STpsbMNdE6xAyT/Z8NBPyg/4b3W3A+1w167pqj
- kRbna51QJpwplqTp5cjZCYv5iDXfT34VOtBZdCFDcmjoBQHoOWAlYgsZ9
- RCMLClivFZu7RGRL4Lx+orgpUxocuQhD1jjzF7xlEF8F1VaUMo+is241H w==;
-X-CSE-ConnectionGUID: /nOhlqzNTUiOLnshBoSbnw==
-X-CSE-MsgGUID: hISOqo5CRXe8oce3+akLsg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11586"; a="74603175"
-X-IronPort-AV: E=Sophos;i="6.19,252,1754982000"; d="scan'208";a="74603175"
-Received: from fmviesa006.fm.intel.com ([10.60.135.146])
- by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 24 Oct 2025 03:49:03 -0700
-X-CSE-ConnectionGUID: OcX6su+xR2uYN5Mf8fl0EQ==
-X-CSE-MsgGUID: nWp/NyGvTCC6Oowq+T7s4w==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.19,252,1754982000"; d="scan'208";a="184323445"
-Received: from kwachows-mobl.ger.corp.intel.com (HELO [10.246.16.157])
- ([10.246.16.157])
- by fmviesa006-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 24 Oct 2025 03:49:00 -0700
-Message-ID: <dc2662f4-98b5-4fc8-9ed7-5e4a88168f9a@linux.intel.com>
-Date: Fri, 24 Oct 2025 12:48:58 +0200
+Received: from bali.collaboradmins.com (bali.collaboradmins.com
+ [148.251.105.195])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 386CE10EA5E
+ for <dri-devel@lists.freedesktop.org>; Fri, 24 Oct 2025 10:49:51 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+ s=mail; t=1761302989;
+ bh=0xJzT9HOFA/wzQA9PIEVIRkd3/izvnGDUDaNuOAhYnU=;
+ h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+ b=FQ09UUnaQFSpk/V8t8j35ER2UrKefovK8sNoJWCvS6uYsz6Skm1EmvT7vUyxeY7YI
+ 1mI7vvm9vZ8SQt95xIPEBmbTSquqVhjZxAYJmG/FoBHMf9iiM6guG+SweRnu5i2/JX
+ rV6evrk8W0nxyB4z3hzTowtUUzXhQF6H+NhLUzdZloAgiW6kucjWa7VNV8/vFhKHMs
+ 3YPH/tHpQwY9TbDOWadlBpJeByS/3D8IZ48xF1w53QSh76ezSE+2rnuwOVfSF9i2WJ
+ KPXLQfmHJJquA0Gz9a2b0DiGncrjF8vKMkYtGoLBEl1iYBkZiiIrMBj3oT/pmJx8JG
+ dw6o0nWY2eE5g==
+Received: from fedora (unknown [IPv6:2a01:e0a:2c:6930:d919:a6e:5ea1:8a9f])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested) (Authenticated sender: bbrezillon)
+ by bali.collaboradmins.com (Postfix) with ESMTPSA id 3FF2717E127F;
+ Fri, 24 Oct 2025 12:49:49 +0200 (CEST)
+Date: Fri, 24 Oct 2025 12:49:41 +0200
+From: Boris Brezillon <boris.brezillon@collabora.com>
+To: Karunika Choo <karunika.choo@arm.com>
+Cc: dri-devel@lists.freedesktop.org, nd@arm.com, Steven Price
+ <steven.price@arm.com>, Liviu Dudau <liviu.dudau@arm.com>, Maarten
+ Lankhorst <maarten.lankhorst@linux.intel.com>, Maxime Ripard
+ <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, David Airlie
+ <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v1 03/10] drm/panthor: Introduce framework for
+ architecture-specific features
+Message-ID: <20251024124941.124a50aa@fedora>
+In-Reply-To: <f2a05393-b3d4-47e2-be17-248880d97d49@arm.com>
+References: <20251014094337.1009601-1-karunika.choo@arm.com>
+ <20251014094337.1009601-4-karunika.choo@arm.com>
+ <20251024084327.3332d548@fedora>
+ <f2a05393-b3d4-47e2-be17-248880d97d49@arm.com>
+Organization: Collabora
+X-Mailer: Claws Mail 4.3.1 (GTK 3.24.49; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 2/2] accel/ivpu: replace use of system_wq with
- system_percpu_wq
-To: Marco Crivellari <marco.crivellari@suse.com>,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org
-Cc: Tejun Heo <tj@kernel.org>, Lai Jiangshan <jiangshanlai@gmail.com>,
- Frederic Weisbecker <frederic@kernel.org>,
- Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
- Michal Hocko <mhocko@suse.com>,
- Maciej Falkowski <maciej.falkowski@linux.intel.com>,
- Oded Gabbay <ogabbay@kernel.org>
-References: <20251024095205.123123-1-marco.crivellari@suse.com>
- <20251024095205.123123-3-marco.crivellari@suse.com>
-Content-Language: en-US
-From: Karol Wachowski <karol.wachowski@linux.intel.com>
-Organization: Intel Technology Poland sp. z o.o. - ul. Slowackiego 173, 80-298
- Gdansk - KRS 101882 - NIP 957-07-52-316
-In-Reply-To: <20251024095205.123123-3-marco.crivellari@suse.com>
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -80,107 +69,74 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 10/24/2025 11:52 AM, Marco Crivellari wrote:
-> Currently if a user enqueue a work item using schedule_delayed_work() the
-> used wq is "system_wq" (per-cpu wq) while queue_delayed_work() use
-> WORK_CPU_UNBOUND (used when a cpu is not specified). The same applies to
-> schedule_work() that is using system_wq and queue_work(), that makes use
-> again of WORK_CPU_UNBOUND.
->
-> This lack of consistentcy cannot be addressed without refactoring the API.
->
-> system_wq should be the per-cpu workqueue, yet in this name nothing makes
-> that clear, so replace system_wq with system_percpu_wq.
->
-> The old wq (system_wq) will be kept for a few release cycles.
->
-> Suggested-by: Tejun Heo <tj@kernel.org>
-> Signed-off-by: Marco Crivellari <marco.crivellari@suse.com>
-> ---
->  drivers/accel/ivpu/ivpu_hw_btrs.c | 2 +-
->  drivers/accel/ivpu/ivpu_ipc.c     | 2 +-
->  drivers/accel/ivpu/ivpu_job.c     | 2 +-
->  drivers/accel/ivpu/ivpu_mmu.c     | 2 +-
->  drivers/accel/ivpu/ivpu_pm.c      | 2 +-
->  5 files changed, 5 insertions(+), 5 deletions(-)
->
-> diff --git a/drivers/accel/ivpu/ivpu_hw_btrs.c b/drivers/accel/ivpu/ivpu_hw_btrs.c
-> index afdb3b2aa72a..27a345f3befe 100644
-> --- a/drivers/accel/ivpu/ivpu_hw_btrs.c
-> +++ b/drivers/accel/ivpu/ivpu_hw_btrs.c
-> @@ -673,7 +673,7 @@ bool ivpu_hw_btrs_irq_handler_lnl(struct ivpu_device *vdev, int irq)
->  
->  	if (REG_TEST_FLD(VPU_HW_BTRS_LNL_INTERRUPT_STAT, SURV_ERR, status)) {
->  		ivpu_dbg(vdev, IRQ, "Survivability IRQ\n");
-> -		queue_work(system_wq, &vdev->irq_dct_work);
-> +		queue_work(system_percpu_wq, &vdev->irq_dct_work);
->  	}
->  
->  	if (REG_TEST_FLD(VPU_HW_BTRS_LNL_INTERRUPT_STAT, FREQ_CHANGE, status)) {
-> diff --git a/drivers/accel/ivpu/ivpu_ipc.c b/drivers/accel/ivpu/ivpu_ipc.c
-> index 5f00809d448a..1f13bf95b2b3 100644
-> --- a/drivers/accel/ivpu/ivpu_ipc.c
-> +++ b/drivers/accel/ivpu/ivpu_ipc.c
-> @@ -459,7 +459,7 @@ void ivpu_ipc_irq_handler(struct ivpu_device *vdev)
->  		}
->  	}
->  
-> -	queue_work(system_wq, &vdev->irq_ipc_work);
-> +	queue_work(system_percpu_wq, &vdev->irq_ipc_work);
->  }
->  
->  void ivpu_ipc_irq_work_fn(struct work_struct *work)
-> diff --git a/drivers/accel/ivpu/ivpu_job.c b/drivers/accel/ivpu/ivpu_job.c
-> index 060f1fc031d3..7a1f78b84b09 100644
-> --- a/drivers/accel/ivpu/ivpu_job.c
-> +++ b/drivers/accel/ivpu/ivpu_job.c
-> @@ -574,7 +574,7 @@ static int ivpu_job_signal_and_destroy(struct ivpu_device *vdev, u32 job_id, u32
->  		 * status and ensure both are handled in the same way
->  		 */
->  		job->file_priv->has_mmu_faults = true;
-> -		queue_work(system_wq, &vdev->context_abort_work);
-> +		queue_work(system_percpu_wq, &vdev->context_abort_work);
->  		return 0;
->  	}
->  
-> diff --git a/drivers/accel/ivpu/ivpu_mmu.c b/drivers/accel/ivpu/ivpu_mmu.c
-> index 5ea010568faa..e1baf6b64935 100644
-> --- a/drivers/accel/ivpu/ivpu_mmu.c
-> +++ b/drivers/accel/ivpu/ivpu_mmu.c
-> @@ -970,7 +970,7 @@ void ivpu_mmu_irq_evtq_handler(struct ivpu_device *vdev)
->  		}
->  	}
->  
-> -	queue_work(system_wq, &vdev->context_abort_work);
-> +	queue_work(system_percpu_wq, &vdev->context_abort_work);
->  }
->  
->  void ivpu_mmu_evtq_dump(struct ivpu_device *vdev)
-> diff --git a/drivers/accel/ivpu/ivpu_pm.c b/drivers/accel/ivpu/ivpu_pm.c
-> index ffa2ba7cafe2..0cff8f808429 100644
-> --- a/drivers/accel/ivpu/ivpu_pm.c
-> +++ b/drivers/accel/ivpu/ivpu_pm.c
-> @@ -226,7 +226,7 @@ void ivpu_start_job_timeout_detection(struct ivpu_device *vdev)
->  	unsigned long timeout_ms = ivpu_tdr_timeout_ms ? ivpu_tdr_timeout_ms : vdev->timeout.tdr;
->  
->  	/* No-op if already queued */
-> -	queue_delayed_work(system_wq, &vdev->pm->job_timeout_work, msecs_to_jiffies(timeout_ms));
-> +	queue_delayed_work(system_percpu_wq, &vdev->pm->job_timeout_work, msecs_to_jiffies(timeout_ms));
-Thanks for the patch. Please fix the checkpatch warning: 
+On Fri, 24 Oct 2025 10:26:16 +0100
+Karunika Choo <karunika.choo@arm.com> wrote:
 
-WARNING: line length of 104 exceeds 100
-columns                                                                           
-#90: FILE:
-drivers/accel/ivpu/ivpu_pm.c:229:                                                                              
-+       queue_delayed_work(system_percpu_wq,
-&vdev->pm->job_timeout_work, msecs_to_jiffies(timeout_ms));  
->  }
->  
->  void ivpu_stop_job_timeout_detection(struct ivpu_device *vdev)
+> On 24/10/2025 07:43, Boris Brezillon wrote:
+> > On Tue, 14 Oct 2025 10:43:30 +0100
+> > Karunika Choo <karunika.choo@arm.com> wrote:
+> >  =20
+> >> Add a framework to support architecture-specific features. This allows
+> >> other parts of the driver to adjust their behaviour based on the featu=
+re
+> >> bits enabled for a given architecture. =20
+> >=20
+> > I'm not convinced we need this just yet. AFAICT, the only feature flag
+> > being added in this patchset is PANTHOR_HW_FEATURE_PWR_CONTROL, and
+> > most of this is abstracted away with function pointers already. The
+> > only part that tests this FEATURE_PWR_CONTROL flag is the
+> > initialization, which could very much be abstracted away with a
+> > function pointer (NULL meaning no PWR block present). There might be
+> > other use cases you're planning to use this for, so I'd like to hear
+> > about them to make my final opinion on that.
+> >  =20
+>=20
+> I see your point =E2=80=94 the intent here is mainly to have the feature =
+flag
+> reflect hardware-level changes. In this series, for example, it
+> corresponds to the addition of the new PWR_CONTROL block.
 
-Also there's a typo "consistentcy" -> "consistency" that can get fixed
-with together with that warning.
+Yes, but those are not really optional features. Those are functional
+changes that are usually done on major version changes. But let's say
+it was something done on a minor version change, it's still something
+that I think would be better off abstracted using a vtable of some
+sort, and have this vtable forked everytime a version changes requires
+something new.
 
-Tested-by: Karol Wachowski <karol.wachowski@linux.intel.com>         
+>=20
+> Another use case would be arch v11, where a new PRFCNT_FEATURES register
+> was introduced. In that case, we might want to adjust the
+> counters_per_block [1] value depending on that register=E2=80=99s value.
 
+Again, it looks like a property that can be determined at init time. For
+v10 it'd be hardcoded to X, and on v11+, you'd extract that from
+PERFCNT_FEATURES. I'm really not a huge fan of this feature flag
+pattern because it's very easy to forget to add/propagate one flag when
+adding support for new HW/flags. So I'd much rather rely on ">=3D X.Y"
+version checks in the init path, and for anything more involved or
+happening in some hot path, function based pointer specialization.
 
+>=20
+> I would also expect this mechanism to remain useful for future hardware
+> revisions, as it provides a clean way to describe architectural
+> differences without scattering version-specific checks throughout the
+> code, while still being lighter-weight than function pointers.
+
+Well, that's questionable. What I usually see in practice is the
+following pattern spreading over the code base:
+
+	if (SUPPORTS(OBSCURE_FEATURE_NAME)) {
+		// do stuff that are not obviously related to the
+		// feature flag name
+	}
+
+whereas, if we're having a model where the specialization is done high
+enough, you'd just end up with functions calling more specialized
+helpers:
+
+void do_something_for_v12()
+{
+	hw_block_a_do_y()
+	hw_block_b_do_x()
+	...
+}
