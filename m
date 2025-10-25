@@ -2,47 +2,47 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 297BEC0967B
-	for <lists+dri-devel@lfdr.de>; Sat, 25 Oct 2025 18:24:57 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 560C1C096B0
+	for <lists+dri-devel@lfdr.de>; Sat, 25 Oct 2025 18:25:48 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 48A3B10E313;
-	Sat, 25 Oct 2025 16:24:55 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 45F3010E30E;
+	Sat, 25 Oct 2025 16:25:46 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="ndwyeTnJ";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="Wwebvemk";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
- by gabe.freedesktop.org (Postfix) with ESMTPS id F02CB10E313;
- Sat, 25 Oct 2025 16:24:52 +0000 (UTC)
+Received: from sea.source.kernel.org (sea.source.kernel.org [172.234.252.31])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0A38210E30E
+ for <dri-devel@lists.freedesktop.org>; Sat, 25 Oct 2025 16:25:45 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by tor.source.kernel.org (Postfix) with ESMTP id 523D5602AD;
- Sat, 25 Oct 2025 16:24:52 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id CAB44C4CEFB;
- Sat, 25 Oct 2025 16:24:50 +0000 (UTC)
+ by sea.source.kernel.org (Postfix) with ESMTP id B84F743CBC;
+ Sat, 25 Oct 2025 16:25:44 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 77BBAC116C6;
+ Sat, 25 Oct 2025 16:25:43 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1761409492;
- bh=bwtiFccQsOoGsrSvgCkYaSrdPPeWEvE9ONY3v48TobM=;
+ s=k20201202; t=1761409544;
+ bh=3nf+//Stm69M+x9uv0iThLD5ExJm7xh8wwzcK3UUFGE=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=ndwyeTnJ+pK6cdGLOWutBQnHfcHi1vlkVysMHl1TjwsPUwHrRpsiqK4SET0ncxMIU
- Qho80/iPHxQ3mSK/pmig4VYIvY2Xbh1xHpTq+Bze5NK3q4J0jZcpZO27w65fCnnhQm
- Guoyuzf/HW5426HtOu9yA3kSz8Oax0AFisYiCqWv+kidF7lTL/oEnGOV0IemPGwQb4
- GYFBOWZOzcsXXUXS3p2cu4aj4yCrlzI4YvMGnDqvcod9VN1zyUZIReL3nNEJjYxs62
- zywUAwKtiMklAgd1apw/RGQPs0k/x33T/kzvfiPwwt1Ah/53lA09qRZg5KB+7pEdyV
- Gu2e8EPPSghDg==
+ b=Wwebvemk9hS7q0s3Ok7NYteIJPce/YWUsvRUMFeyo8wZScLV4F0n5MMOAYKZMY+bl
+ ZdvdAvGnx9spAG44Axzd3hhhTbD1fZfJ/LJQEVonSCV2NgFeN1WDqQO3E4cUN56NvG
+ 1k6X8DcLnYu2WgV0R6d9AnIdzFiNWfgie09XVB0okOgk71JbuB+nLGydIBTSbtykty
+ qYSn198NC2MzFS7FIoQQVoEuHird1Zgzhz6NYWDhg+Ijea5xXylH5DZnaloyiiCeiJ
+ 69Zc9o8pEpJ/z79eWw3oCIZDqR79se8YZwLE2SOmvsg/Hy8qdhUrPBfT8thbPzvbXc
+ qwrjwTdgx+Iuw==
 From: Sasha Levin <sashal@kernel.org>
 To: patches@lists.linux.dev,
 	stable@vger.kernel.org
-Cc: Jie Zhang <quic_jiezh@quicinc.com>,
- Akhil P Oommen <quic_akhilpo@quicinc.com>,
- Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
- Rob Clark <robin.clark@oss.qualcomm.com>, Sasha Levin <sashal@kernel.org>,
- lumag@kernel.org, linux-arm-msm@vger.kernel.org,
- dri-devel@lists.freedesktop.org, freedreno@lists.freedesktop.org
-Subject: [PATCH AUTOSEL 6.17] dt-bindings: display/msm/gmu: Update Adreno 623
- bindings
-Date: Sat, 25 Oct 2025 11:59:40 -0400
-Message-ID: <20251025160905.3857885-349-sashal@kernel.org>
+Cc: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
+ Aradhya Bhatia <aradhya.bhatia@linux.dev>,
+ Parth Pancholi <parth.pancholi@toradex.com>,
+ Jayesh Choudhary <j-choudhary@ti.com>, Devarsh Thakkar <devarsht@ti.com>,
+ Sasha Levin <sashal@kernel.org>, jyri.sarha@iki.fi,
+ dri-devel@lists.freedesktop.org
+Subject: [PATCH AUTOSEL 6.17-5.10] drm/tidss: Use the crtc_* timings when
+ programming the HW
+Date: Sat, 25 Oct 2025 11:59:48 -0400
+Message-ID: <20251025160905.3857885-357-sashal@kernel.org>
 X-Mailer: git-send-email 2.51.0
 In-Reply-To: <20251025160905.3857885-1-sashal@kernel.org>
 References: <20251025160905.3857885-1-sashal@kernel.org>
@@ -67,18 +67,20 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Jie Zhang <quic_jiezh@quicinc.com>
+From: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
 
-[ Upstream commit c2cc1e60c1afff4f23c22561b57a5d5157dde20d ]
+[ Upstream commit 478306edc23eec4f0ec24a46222485910c66212d ]
 
-Update Adreno 623's dt-binding to remove smmu_clk which is not required
-for this GMU.
+Use the crtc_* fields from drm_display_mode, instead of the "logical"
+fields. This shouldn't change anything in practice, but afaiu the crtc_*
+fields are the correct ones to use here.
 
-Signed-off-by: Jie Zhang <quic_jiezh@quicinc.com>
-Signed-off-by: Akhil P Oommen <quic_akhilpo@quicinc.com>
-Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-Patchwork: https://patchwork.freedesktop.org/patch/672455/
-Signed-off-by: Rob Clark <robin.clark@oss.qualcomm.com>
+Reviewed-by: Aradhya Bhatia <aradhya.bhatia@linux.dev>
+Tested-by: Parth Pancholi <parth.pancholi@toradex.com>
+Tested-by: Jayesh Choudhary <j-choudhary@ti.com>
+Reviewed-by: Devarsh Thakkar <devarsht@ti.com>
+Link: https://lore.kernel.org/r/20250723-cdns-dsi-impro-v5-3-e61cc06074c2@ideasonboard.com
+Signed-off-by: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
 
@@ -86,102 +88,112 @@ LLM Generated explanations, may be completely bogus:
 
 YES
 
-- What it fixes
-  - Corrects the GMU binding for Adreno 623 by removing an erroneous
-    “SMMU vote clock” requirement. Adreno 623 does not need (and DTS
-    does not provide) an `smmu_vote` clock, so the prior schema forced a
-    mismatch and dtbs_check failures/warnings.
-  - Aligns the binding with in-tree DTS for Adreno 623 (e.g., QCS8300),
-    which defines only GMU, CX, AXI, MEMNOC, AHB, and HUB clocks.
+Explanation
 
-- Specific code changes
-  - Adds a dedicated schema branch for `qcom,adreno-gmu-623.0` with
-    explicit registers and six clocks, notably without an SMMU vote
-    clock:
-    - Introduces the 623-specific conditional:
-      Documentation/devicetree/bindings/display/msm/gmu.yaml:121
-    - 623 clocks list (no smmu_vote):
-      Documentation/devicetree/bindings/display/msm/gmu.yaml:139
-    - 623 clock-names: `gmu`, `cxo`, `axi`, `memnoc`, `ahb`, `hub`:
-      Documentation/devicetree/bindings/display/msm/gmu.yaml:147
-  - Keeps SMMU vote clock only for other variants (635/660/663):
-    - Block for 635/660/663 explicitly lists “GPU SMMU vote clock” and
-      `smmu_vote`:
-      Documentation/devicetree/bindings/display/msm/gmu.yaml:176 and
-      Documentation/devicetree/bindings/display/msm/gmu.yaml:185
-  - This separation removes the incorrect inheritance of `smmu_vote` by
-    623 which previously happened when 623 was grouped with 635/660/663.
+What changed
+- drivers/gpu/drm/tidss/tidss_crtc.c:227 switches the pixel clock
+  programmed into the VP from `mode->clock * 1000` to `mode->crtc_clock
+  * 1000`. This ensures the CRTC gets the adjusted pixel rate after
+  encoder/bridge modifications.
+- drivers/gpu/drm/tidss/tidss_dispc.c updates all timing and size
+  programming to use `crtc_*` fields instead of the “logical” ones:
+  - Horizontal timings: `hfp/hsw/hbp` now computed from
+    `crtc_hsync_start/crtc_hsync_end/crtc_hdisplay/crtc_htotal`.
+  - Vertical timings: `vfp/vsw/vbp` now computed from
+    `crtc_vsync_start/crtc_vsync_end/crtc_vdisplay/crtc_vtotal`.
+  - Screen size register uses `crtc_hdisplay` and `crtc_vdisplay`.
+  - The register writes affected include DISPC_VP_TIMING_H,
+    DISPC_VP_TIMING_V, and DISPC_VP_SIZE_SCREEN.
 
-- Evidence DTS already matches this (demonstrating the prior schema was
-  wrong)
-  - QCS8300 GMU node uses six clocks (no `smmu_vote`): `gmu`, `cxo`,
-    `axi`, `memnoc`, `ahb`, `hub`:
-    arch/arm64/boot/dts/qcom/qcs8300.dtsi:4366
+Why it matters
+- In DRM, the `crtc_*` fields represent the timings and pixel rate that
+  the CRTC must actually program, after any adjustments by
+  encoders/bridges (e.g., DSI DPI conversions, double-clocking, pixel
+  repetition, burst modes).
+- Using the non-crtc (“logical”) mode values can mismatch the VP’s clock
+  and timing registers with the bridge’s expectations, causing real
+  failures: sync lost, blank display, or unstable output. TIDSS
+  explicitly handles sync-lost conditions elsewhere; wrong pixel
+  clock/timings are a common source of such issues.
+- The change aligns TIDSS with widespread practice across DRM drivers
+  and with cadence DSI programming, which already relies on `crtc_*` for
+  the DPI-to-DSI path. This improves correctness when using TIDSS with
+  DSI/LVDS bridges that adjust the mode.
 
-- Stable backport assessment
-  - Bug relevance: Yes — fixes dt-binding schema forcing an invalid
-    clock requirement, leading to dtbs_check issues for users building
-    DTs for Adreno 623 platforms.
-  - Size/scope: Small, contained to a single YAML schema file; no
-    driver/runtime changes.
-  - Risk/regression: Minimal. It only relaxes a wrong requirement for
-    623. Out-of-tree DTS that mistakenly provided `smmu_vote` for 623
-    would fail schema validation after this (those DTS are incorrect),
-    but kernel functionality is unaffected.
-  - No architectural churn, no features, and no cross-subsystem impact.
+Backport suitability
+- Bugfix: Corrects which mode members are used to program the hardware
+  (functional correctness for any pipeline that adjusts the CRTC mode).
+  It can solve user-visible issues (no display/sync lost) in such
+  configurations.
+- Small and contained: The diff is narrowly scoped to TIDSS VP clock and
+  timing programming; no architectural changes.
+- Low risk: Pure field substitution to the correct `crtc_*` members;
+  widely used pattern in other DRM drivers. No API changes or cross-
+  subsystem impact.
+- No feature additions: Behavior remains the same for pipelines where
+  `crtc_*` equals logical fields; improves only cases where they differ.
+- Stable policy fit: Important correctness fix with minimal regression
+  risk in a confined subsystem, and it does not touch core kernel or
+  unrelated code.
 
-Given it corrects a real schema bug affecting validation of in-tree DTS
-for Adreno 623, is small and low risk, and doesn’t alter runtime
-behavior, this is a good candidate for stable backport.
+Notes
+- Mode validation in TIDSS still checks the logical mode; while that’s
+  unchanged here, this patch alone is safe and beneficial. If needed,
+  further adjustments to validate the effective CRTC requirements can be
+  considered separately.
 
- .../devicetree/bindings/display/msm/gmu.yaml  | 34 +++++++++++++++++++
- 1 file changed, 34 insertions(+)
+ drivers/gpu/drm/tidss/tidss_crtc.c  |  2 +-
+ drivers/gpu/drm/tidss/tidss_dispc.c | 16 ++++++++--------
+ 2 files changed, 9 insertions(+), 9 deletions(-)
 
-diff --git a/Documentation/devicetree/bindings/display/msm/gmu.yaml b/Documentation/devicetree/bindings/display/msm/gmu.yaml
-index 4392aa7a4ffe2..afc1879357440 100644
---- a/Documentation/devicetree/bindings/display/msm/gmu.yaml
-+++ b/Documentation/devicetree/bindings/display/msm/gmu.yaml
-@@ -124,6 +124,40 @@ allOf:
-           contains:
-             enum:
-               - qcom,adreno-gmu-623.0
-+    then:
-+      properties:
-+        reg:
-+          items:
-+            - description: Core GMU registers
-+            - description: Resource controller registers
-+            - description: GMU PDC registers
-+        reg-names:
-+          items:
-+            - const: gmu
-+            - const: rscc
-+            - const: gmu_pdc
-+        clocks:
-+          items:
-+            - description: GMU clock
-+            - description: GPU CX clock
-+            - description: GPU AXI clock
-+            - description: GPU MEMNOC clock
-+            - description: GPU AHB clock
-+            - description: GPU HUB CX clock
-+        clock-names:
-+          items:
-+            - const: gmu
-+            - const: cxo
-+            - const: axi
-+            - const: memnoc
-+            - const: ahb
-+            - const: hub
-+
-+  - if:
-+      properties:
-+        compatible:
-+          contains:
-+            enum:
-               - qcom,adreno-gmu-635.0
-               - qcom,adreno-gmu-660.1
-               - qcom,adreno-gmu-663.0
+diff --git a/drivers/gpu/drm/tidss/tidss_crtc.c b/drivers/gpu/drm/tidss/tidss_crtc.c
+index a2f40a5c77030..17efd77ce7f23 100644
+--- a/drivers/gpu/drm/tidss/tidss_crtc.c
++++ b/drivers/gpu/drm/tidss/tidss_crtc.c
+@@ -225,7 +225,7 @@ static void tidss_crtc_atomic_enable(struct drm_crtc *crtc,
+ 	tidss_runtime_get(tidss);
+ 
+ 	r = dispc_vp_set_clk_rate(tidss->dispc, tcrtc->hw_videoport,
+-				  mode->clock * 1000);
++				  mode->crtc_clock * 1000);
+ 	if (r != 0)
+ 		return;
+ 
+diff --git a/drivers/gpu/drm/tidss/tidss_dispc.c b/drivers/gpu/drm/tidss/tidss_dispc.c
+index c0277fa36425e..3f6cff2ab1b29 100644
+--- a/drivers/gpu/drm/tidss/tidss_dispc.c
++++ b/drivers/gpu/drm/tidss/tidss_dispc.c
+@@ -1215,13 +1215,13 @@ void dispc_vp_enable(struct dispc_device *dispc, u32 hw_videoport,
+ 
+ 	dispc_set_num_datalines(dispc, hw_videoport, fmt->data_width);
+ 
+-	hfp = mode->hsync_start - mode->hdisplay;
+-	hsw = mode->hsync_end - mode->hsync_start;
+-	hbp = mode->htotal - mode->hsync_end;
++	hfp = mode->crtc_hsync_start - mode->crtc_hdisplay;
++	hsw = mode->crtc_hsync_end - mode->crtc_hsync_start;
++	hbp = mode->crtc_htotal - mode->crtc_hsync_end;
+ 
+-	vfp = mode->vsync_start - mode->vdisplay;
+-	vsw = mode->vsync_end - mode->vsync_start;
+-	vbp = mode->vtotal - mode->vsync_end;
++	vfp = mode->crtc_vsync_start - mode->crtc_vdisplay;
++	vsw = mode->crtc_vsync_end - mode->crtc_vsync_start;
++	vbp = mode->crtc_vtotal - mode->crtc_vsync_end;
+ 
+ 	dispc_vp_write(dispc, hw_videoport, DISPC_VP_TIMING_H,
+ 		       FLD_VAL(hsw - 1, 7, 0) |
+@@ -1263,8 +1263,8 @@ void dispc_vp_enable(struct dispc_device *dispc, u32 hw_videoport,
+ 		       FLD_VAL(ivs, 12, 12));
+ 
+ 	dispc_vp_write(dispc, hw_videoport, DISPC_VP_SIZE_SCREEN,
+-		       FLD_VAL(mode->hdisplay - 1, 11, 0) |
+-		       FLD_VAL(mode->vdisplay - 1, 27, 16));
++		       FLD_VAL(mode->crtc_hdisplay - 1, 11, 0) |
++		       FLD_VAL(mode->crtc_vdisplay - 1, 27, 16));
+ 
+ 	VP_REG_FLD_MOD(dispc, hw_videoport, DISPC_VP_CONTROL, 1, 0, 0);
+ }
 -- 
 2.51.0
 
