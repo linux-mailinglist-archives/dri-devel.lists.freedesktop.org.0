@@ -2,46 +2,45 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 01FDEC093CE
-	for <lists+dri-devel@lfdr.de>; Sat, 25 Oct 2025 18:15:18 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id D87ABC093D5
+	for <lists+dri-devel@lfdr.de>; Sat, 25 Oct 2025 18:15:21 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DE00E10E2A1;
-	Sat, 25 Oct 2025 16:15:14 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 046D810E2A7;
+	Sat, 25 Oct 2025 16:15:19 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="ej+8x8/Y";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="boY/eyXL";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sea.source.kernel.org (sea.source.kernel.org [172.234.252.31])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D0A7010E2A0;
- Sat, 25 Oct 2025 16:15:13 +0000 (UTC)
+Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 730BC10E2A7
+ for <dri-devel@lists.freedesktop.org>; Sat, 25 Oct 2025 16:15:17 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by sea.source.kernel.org (Postfix) with ESMTP id AE5B344F8D;
- Sat, 25 Oct 2025 16:15:13 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8EE70C4CEFB;
- Sat, 25 Oct 2025 16:15:12 +0000 (UTC)
+ by tor.source.kernel.org (Postfix) with ESMTP id 5E84B60590;
+ Sat, 25 Oct 2025 16:15:16 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 06A55C4CEFF;
+ Sat, 25 Oct 2025 16:15:14 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1761408913;
- bh=78ERbFKaeO0h6PkzV58N49XWB06R/jyEXp38t/OS7tw=;
+ s=k20201202; t=1761408916;
+ bh=fYpM4OCadbsv58G8fyRyUlNKco7Ezbjct5Df9ZTEAEI=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=ej+8x8/Y8+G0SLKDGSSSod+6qKvBWEOz3JNDqH/DIsM4OPnegVAE8PHpdjv1gHESJ
- XFdIRfHD1qXBAn9fG/rcwE0awD57lxGNYWmmJmiPfJVaDLdJCp41WGWR7cJYqbu1fj
- w766HjEXF9kPUJkK5U9Iy2Zx0HWkHpwcf7yKdlhFjKADX5KBgCw01ekXx5bugyRI2A
- vLsm89iBpFzSze7iW9+D4iybCD3BYQfdC/ALTG573AS8A4/GgZxMr79nBETN+HI8Lw
- mVpdX8GPgueKWyedKOkhEbRumitCPGSgMzM/IlUXYIh6Rn2ylBkLOhxdOMFggOneeX
- vTWaUJnz5EfCg==
+ b=boY/eyXLzOJqNlZwjV8nhMXM/nxfFGoDYYAGVcACMsUiPVyStbLlU/0BURTjrUUIB
+ xC9DLeHDN8xeNhD6prGYrqjDfOBtXkWc3cbEVUN1ZMmDI30LabSeMWP7aCH3KvAeTU
+ sn7Xyr/otCe0l+t8080LxIFrONppWZddyLiulMVF0o1rfoA9a2cbAAPpdUEVSzz71l
+ rCZ3a+dFppRYCidtx9Wuoaxzae4Q4URbmdqMTOgAWKHgbOLvTwwGDtpX+elwOHiwH2
+ eZxrnhzUSHnZvGZmyuq7erIQrUVbzI3PqpjyvbHDA7i4PwCTCSnCj7fyc87rebYjrl
+ k54M/nhUiRLiw==
 From: Sasha Levin <sashal@kernel.org>
 To: patches@lists.linux.dev,
 	stable@vger.kernel.org
-Cc: Antonino Maniscalco <antomani103@gmail.com>,
- Akhil P Oommen <akhilpo@oss.qualcomm.com>,
- Rob Clark <robin.clark@oss.qualcomm.com>, Sasha Levin <sashal@kernel.org>,
- linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org,
- freedreno@lists.freedesktop.org
-Subject: [PATCH AUTOSEL 6.17-5.15] drm/msm: make sure to not queue up recovery
- more than once
-Date: Sat, 25 Oct 2025 11:55:58 -0400
-Message-ID: <20251025160905.3857885-127-sashal@kernel.org>
+Cc: Karunika Choo <karunika.choo@arm.com>, Liviu Dudau <liviu.dudau@arm.com>,
+ Dennis Tsiang <dennis.tsiang@arm.com>, Steven Price <steven.price@arm.com>,
+ Sasha Levin <sashal@kernel.org>, boris.brezillon@collabora.com,
+ dri-devel@lists.freedesktop.org
+Subject: [PATCH AUTOSEL 6.17-6.12] drm/panthor: Serialize GPU cache flush
+ operations
+Date: Sat, 25 Oct 2025 11:56:00 -0400
+Message-ID: <20251025160905.3857885-129-sashal@kernel.org>
 X-Mailer: git-send-email 2.51.0
 In-Reply-To: <20251025160905.3857885-1-sashal@kernel.org>
 References: <20251025160905.3857885-1-sashal@kernel.org>
@@ -66,22 +65,22 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Antonino Maniscalco <antomani103@gmail.com>
+From: Karunika Choo <karunika.choo@arm.com>
 
-[ Upstream commit 10fb1b2fcaee5545a5e54db1ed4d7b15c2db50c8 ]
+[ Upstream commit e322a4844811b54477b7072eb40dc9e402a1725d ]
 
-If two fault IRQs arrive in short succession recovery work will be
-queued up twice.
+In certain scenarios, it is possible for multiple cache flushes to be
+requested before the previous one completes. This patch introduces the
+cache_flush_lock mutex to serialize these operations and ensure that
+any requested cache flushes are completed instead of dropped.
 
-When recovery runs a second time it may end up killing an unrelated
-context.
-
-Prevent this by masking off interrupts when triggering recovery.
-
-Signed-off-by: Antonino Maniscalco <antomani103@gmail.com>
-Reviewed-by: Akhil P Oommen <akhilpo@oss.qualcomm.com>
-Patchwork: https://patchwork.freedesktop.org/patch/670023/
-Signed-off-by: Rob Clark <robin.clark@oss.qualcomm.com>
+Reviewed-by: Liviu Dudau <liviu.dudau@arm.com>
+Co-developed-by: Dennis Tsiang <dennis.tsiang@arm.com>
+Signed-off-by: Dennis Tsiang <dennis.tsiang@arm.com>
+Signed-off-by: Karunika Choo <karunika.choo@arm.com>
+Reviewed-by: Steven Price <steven.price@arm.com>
+Signed-off-by: Steven Price <steven.price@arm.com>
+Link: https://lore.kernel.org/r/20250807162633.3666310-6-karunika.choo@arm.com
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
 
@@ -89,65 +88,133 @@ LLM Generated explanations, may be completely bogus:
 
 YES
 
-- What it fixes: Two fault IRQs arriving back-to-back can queue
-  `recover_work` twice; the second recovery may kill an unrelated
-  context. The change masks interrupts before queuing recovery so
-  subsequent fault IRQs don’t re-queue recovery.
-- Core change: In `drivers/gpu/drm/msm/adreno/a6xx_gpu.c:1821-1824`,
-  `a6xx_fault_detect_irq()` adds:
-  - `gpu_write(gpu, REG_A6XX_RBBM_INT_0_MASK, 0);` to mask all RBBM
-    interrupts before `kthread_queue_work(gpu->worker,
-    &gpu->recover_work);`
-  - This follows the hangcheck timer being disabled, ensuring no further
-    spurious recovery triggers while the first recovery proceeds.
-- Call path impact: `a6xx_irq()` invokes `a6xx_fault_detect_irq()` on
-  hang detect (`drivers/gpu/drm/msm/adreno/a6xx_gpu.c:1891-1900`). With
-  the new mask, subsequent IRQs won’t retrigger recovery for the same
-  incident.
-- Interrupts are safely restored: During recovery, the GPU is
-  reinitialized and interrupts are re-enabled in `a6xx_hw_init()` via
-  `REG_A6XX_RBBM_INT_0_MASK` (sets `A6XX_INT_MASK`/`A7XX_INT_MASK`) at
-  `drivers/gpu/drm/msm/adreno/a6xx_gpu.c:1410-1413`. `a6xx_recover()`
-  calls `msm_gpu_hw_init(gpu)` to perform this re-init
-  (`drivers/gpu/drm/msm/adreno/a6xx_gpu.c:1614`). Additionally, the top-
-  level wrapper brackets `hw_init` with `disable_irq/enable_irq`
-  (`drivers/gpu/drm/msm/msm_gpu.c:168-174`), so the flow cleanly unmasks
-  after reset.
-- Consistency with existing patterns: A similar mask-on-fault pattern
-  already exists for a7xx SW fuse violations
-  (`drivers/gpu/drm/msm/adreno/a6xx_gpu.c:1831-1834`), indicating this
-  is the established approach to prevent repeated fault handling.
-- Stable suitability:
-  - User-visible bugfix: Prevents erroneous second recovery that can
-    kill unrelated contexts.
-  - Small and contained: One register write in an error path; no ABI or
-    feature changes.
-  - Low regression risk: Interrupts are restored during the normal
-    recovery/reinit path; only affects a6xx hang/fault handling.
-  - No architectural churn, limited to DRM/MSM Adreno a6xx driver.
+Why this is a real bug that users can hit
+- Dropped flush requests: In the current code, if a cache flush is
+  already in progress, a second caller does not issue another flush and
+  simply waits for the first one to complete. See the conditional in
+  `drivers/gpu/drm/panthor/panthor_gpu.c:358` and command write at
+  `drivers/gpu/drm/panthor/panthor_gpu.c:360`. When
+  `GPU_IRQ_CLEAN_CACHES_COMPLETED` is set, the second call skips issuing
+  `GPU_FLUSH_CACHES(...)` and only waits for the existing flush to
+  finish. If new CPU writes requiring a flush occur between the first
+  flush’s command and the second caller’s request, those writes are not
+  covered by the first flush. The second caller returns success without
+  a flush that includes its writes. This is a correctness/coherency bug.
+- WARN indicates it was unintended: The code explicitly warns if a flush
+  is requested while one is pending (`drm_WARN_ON(...)` at
+  `drivers/gpu/drm/panthor/panthor_gpu.c:358`), which already signals
+  that concurrent callers were expected to be serialized at a higher
+  level. The fact this commit adds serialization in the driver indicates
+  concurrency can and does happen in practice.
 
-Conclusion: This is a minimal, targeted fix for a real correctness issue
-with low risk and clear recovery restore points, making it a good
-candidate for backporting to all supported stable kernels that include
-the a6xx driver.
+What the patch changes
+- Adds a dedicated mutex to serialize flush callers:
+  - New field `struct mutex cache_flush_lock` in `struct panthor_gpu`
+    (struct currently starts at
+    `drivers/gpu/drm/panthor/panthor_gpu.c:26`).
+  - Initializes it in `panthor_gpu_init()` alongside existing locks/wq
+    (near `drivers/gpu/drm/panthor/panthor_gpu.c:166` where
+    `spin_lock_init()` and `init_waitqueue_head()` are done).
+  - Wraps `panthor_gpu_flush_caches()` entry with
+    `guard(mutex)(&ptdev->gpu->cache_flush_lock);`, ensuring only one
+    caller issues a flush command and waits at a time (function starts
+    at `drivers/gpu/drm/panthor/panthor_gpu.c:350`).
+- Effectively guarantees that each flush request results in a hardware
+  flush. Without the mutex, concurrent callers can “piggyback” on a
+  previous flush and return without their own flush, losing the ordering
+  guarantee they expect.
 
- drivers/gpu/drm/msm/adreno/a6xx_gpu.c | 3 +++
- 1 file changed, 3 insertions(+)
+Scope and risk assessment
+- Small and contained: One file touched
+  (`drivers/gpu/drm/panthor/panthor_gpu.c`), adding a `struct mutex`
+  field, its init, and a single guard in one function. No ABI, uAPI, or
+  architectural changes.
+- Minimal regression risk: The function already sleeps
+  (`wait_event_timeout(...)` at
+  `drivers/gpu/drm/panthor/panthor_gpu.c:365`), so adding a mutex
+  doesn’t alter the sleepability requirements. The only in-tree caller
+  is from the scheduler path
+  (`drivers/gpu/drm/panthor/panthor_sched.c:2742`) under `sched->lock`,
+  not IRQ/atomic context.
+- Locking safety: The IRQ handler uses only the spinlock `reqs_lock`
+  (see `drivers/gpu/drm/panthor/panthor_gpu.c:156`-
+  `drivers/gpu/drm/panthor/panthor_gpu.c:167`) and doesn’t touch the new
+  mutex, so there’s no new lock inversion with the interrupt path. The
+  flush function’s existing spinlock section remains unchanged and still
+  protects `pending_reqs`.
+- Guard macro availability: This stable tree already uses `guard(mutex)`
+  widely (for example in `virt/lib/irqbypass.c:102` et al.), so the new
+  `guard(mutex)` in this driver is compatible. If needed for strict
+  include hygiene, `#include <linux/cleanup.h>` can be added, but
+  similar files compile without explicitly adding it.
 
-diff --git a/drivers/gpu/drm/msm/adreno/a6xx_gpu.c b/drivers/gpu/drm/msm/adreno/a6xx_gpu.c
-index 45dd5fd1c2bfc..f8992a68df7fb 100644
---- a/drivers/gpu/drm/msm/adreno/a6xx_gpu.c
-+++ b/drivers/gpu/drm/msm/adreno/a6xx_gpu.c
-@@ -1727,6 +1727,9 @@ static void a6xx_fault_detect_irq(struct msm_gpu *gpu)
- 	/* Turn off the hangcheck timer to keep it from bothering us */
- 	timer_delete(&gpu->hangcheck_timer);
+User impact and stable policy fit
+- Fixes a real concurrency/coherency bug affecting correctness: A later
+  flush request can be silently dropped, potentially leading to stale
+  data observed by the GPU and spurious faults or subtle rendering/data
+  corruption. This clearly affects users under certain timing
+  conditions.
+- No new features or behavior changes beyond making the existing API
+  reliable under concurrency.
+- Minimal risk, localized change in a driver subsystem.
+- Although the commit message doesn’t carry a “Fixes:” or “Cc:
+  stable@...” tag, it is a straightforward bug fix that meets stable
+  backport criteria.
+
+Cross-checks in the tree
+- Current implementation demonstrating the bug:
+  - Conditional suppression of a second flush:
+    `drivers/gpu/drm/panthor/panthor_gpu.c:358`
+  - Single flush command write:
+    `drivers/gpu/drm/panthor/panthor_gpu.c:360`
+  - Wait and timeout handling (unchanged by the patch): `drivers/gpu/drm
+    /panthor/panthor_gpu.c:365`-
+    `drivers/gpu/drm/panthor/panthor_gpu.c:375`
+- Only in-tree caller identified:
+  `drivers/gpu/drm/panthor/panthor_sched.c:2742`, but concurrency can
+  still arise across scheduler/reset/suspend sequences or multiple
+  threads.
+
+Conclusion
+- This is an important correctness fix with low risk and a small diff,
+  preventing flushed-from-under-you race conditions. It should be
+  backported to stable.
+
+ drivers/gpu/drm/panthor/panthor_gpu.c | 7 +++++++
+ 1 file changed, 7 insertions(+)
+
+diff --git a/drivers/gpu/drm/panthor/panthor_gpu.c b/drivers/gpu/drm/panthor/panthor_gpu.c
+index cb7a335e07d7c..030409371037b 100644
+--- a/drivers/gpu/drm/panthor/panthor_gpu.c
++++ b/drivers/gpu/drm/panthor/panthor_gpu.c
+@@ -35,6 +35,9 @@ struct panthor_gpu {
  
-+	/* Turn off interrupts to avoid triggering recovery again */
-+	gpu_write(gpu, REG_A6XX_RBBM_INT_0_MASK, 0);
+ 	/** @reqs_acked: GPU request wait queue. */
+ 	wait_queue_head_t reqs_acked;
 +
- 	kthread_queue_work(gpu->worker, &gpu->recover_work);
- }
++	/** @cache_flush_lock: Lock to serialize cache flushes */
++	struct mutex cache_flush_lock;
+ };
  
+ /**
+@@ -204,6 +207,7 @@ int panthor_gpu_init(struct panthor_device *ptdev)
+ 
+ 	spin_lock_init(&gpu->reqs_lock);
+ 	init_waitqueue_head(&gpu->reqs_acked);
++	mutex_init(&gpu->cache_flush_lock);
+ 	ptdev->gpu = gpu;
+ 	panthor_gpu_init_info(ptdev);
+ 
+@@ -353,6 +357,9 @@ int panthor_gpu_flush_caches(struct panthor_device *ptdev,
+ 	bool timedout = false;
+ 	unsigned long flags;
+ 
++	/* Serialize cache flush operations. */
++	guard(mutex)(&ptdev->gpu->cache_flush_lock);
++
+ 	spin_lock_irqsave(&ptdev->gpu->reqs_lock, flags);
+ 	if (!drm_WARN_ON(&ptdev->base,
+ 			 ptdev->gpu->pending_reqs & GPU_IRQ_CLEAN_CACHES_COMPLETED)) {
 -- 
 2.51.0
 
