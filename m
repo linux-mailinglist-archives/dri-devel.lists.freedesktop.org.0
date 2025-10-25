@@ -2,44 +2,44 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7C52FC092D8
+	by mail.lfdr.de (Postfix) with ESMTPS id 803ADC092D9
 	for <lists+dri-devel@lfdr.de>; Sat, 25 Oct 2025 18:09:33 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3751910E296;
-	Sat, 25 Oct 2025 16:09:19 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2EFC610E29A;
+	Sat, 25 Oct 2025 16:09:23 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="paFgYJh2";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="qi3c8lNP";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0E82E10E296
- for <dri-devel@lists.freedesktop.org>; Sat, 25 Oct 2025 16:09:18 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D968D10E296;
+ Sat, 25 Oct 2025 16:09:18 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by tor.source.kernel.org (Postfix) with ESMTP id B740D60296;
+ by tor.source.kernel.org (Postfix) with ESMTP id 26CE66021F;
+ Sat, 25 Oct 2025 16:09:18 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E02E0C113D0;
  Sat, 25 Oct 2025 16:09:16 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 93E32C4CEFB;
- Sat, 25 Oct 2025 16:09:15 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1761408556;
- bh=OqrbJ8RbJ7SKho0YqoWtttGsJjwLRA3hAIz9bXz8upU=;
+ s=k20201202; t=1761408557;
+ bh=Kj9CyqIl6bx7QyHTIuFylRaD3S93OlCZnDP02NYM0XM=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=paFgYJh2tMWYxUGAMCx2/+VWHh/fHgZu/FzI8+q8SXQrH81Y45FNbmaFK9E+FWwpX
- ne9ZNLzhxKWoTcoK0nXWaGiq2FOfOR9Fuv6eUTe2sffGRNfreAFgNjdXGFAFrmxlQ2
- SXyxG3xM+zcowkvcylOOGq9/PiNONTSwbWPMeEIP4/e42CcCHoN/KplKxyC4LvmJFP
- dXdmixOY89zB+a1trxEQ/3WRf4ocm1TpE2YvR2ufBWnBK590MW2sZkpi8bSAzHyhPJ
- V5JkbwNOo3Z/1tOx8QttjjKYmhUEE7nrlkKzEVaUhxF/xs6fsHtSKvjXFafUIM/200
- lXUmWCEIUBNuw==
+ b=qi3c8lNP7iXgsOybxTlplDHu1buo6IO8CNvbGUnAl3Fxd2EUZy69QsIsmNZ+vRAEI
+ OKyXNizTLnpq/2GEpn1srpJx2GlpI47rNsrDBaj3VgZl2XUOmJ3cTaM5SCKKD5X5Ee
+ kVIv3k6D2yBR8mo7SEWOviWkZMGTXrRiYnwRy9ZiohCfnG6ulWH6CaSM1wyf9gmrBK
+ xd31o8+UZP8yw0FJZ/ID0aokjPSApI2CiCHDOrRidfGjajyUfuL1t7zLB7XvXU9hPO
+ 2TrbdT+6H9QJtTnRUiaIJU074rkyiO4dg31EHKe5s+rJ+8ZzFxRNFYEVe/ds1aBC1F
+ Y1gtuEgygpWoQ==
 From: Sasha Levin <sashal@kernel.org>
 To: patches@lists.linux.dev,
 	stable@vger.kernel.org
-Cc: Christopher Orr <chris.orr@gmail.com>,
- Douglas Anderson <dianders@chromium.org>, Sasha Levin <sashal@kernel.org>,
- neil.armstrong@linaro.org, dri-devel@lists.freedesktop.org
-Subject: [PATCH AUTOSEL 6.17] drm/panel-edp: Add SHP LQ134Z1 panel for Dell
- XPS 9345
-Date: Sat, 25 Oct 2025 11:53:57 -0400
-Message-ID: <20251025160905.3857885-6-sashal@kernel.org>
+Cc: Akhil P Oommen <akhilpo@oss.qualcomm.com>,
+ Rob Clark <robin.clark@oss.qualcomm.com>, Sasha Levin <sashal@kernel.org>,
+ linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ freedreno@lists.freedesktop.org
+Subject: [PATCH AUTOSEL 6.17] drm/msm/a6xx: Switch to GMU AO counter
+Date: Sat, 25 Oct 2025 11:53:58 -0400
+Message-ID: <20251025160905.3857885-7-sashal@kernel.org>
 X-Mailer: git-send-email 2.51.0
 In-Reply-To: <20251025160905.3857885-1-sashal@kernel.org>
 References: <20251025160905.3857885-1-sashal@kernel.org>
@@ -64,40 +64,17 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Christopher Orr <chris.orr@gmail.com>
+From: Akhil P Oommen <akhilpo@oss.qualcomm.com>
 
-[ Upstream commit 754dbf164acd4d22dd7a5241b1880f54546d68f2 ]
+[ Upstream commit f195421318bd00151b3a111af6f315a25c3438a8 ]
 
-Introduce high-res OLED panel for the Dell XPS 9345
+CP_ALWAYS_ON counter falls under GX domain which is collapsed during
+IFPC. So switch to GMU_ALWAYS_ON counter for any CPU reads since it is
+not impacted by IFPC. Both counters are clocked by same xo clock source.
 
-These timings were selected based on Alex Vinarkskis' commit,
-(6b3815c6815f07acc7eeffa8ae734d1a1c0ee817) for the LQ134N1
-and seem to work fine for the high-res OLED panel on the 9345.
-
-The raw edid for this SHP panel is:
-
-00 ff ff ff ff ff ff 00 4d 10 8f 15 00 00 00 00
-2e 21 01 04 b5 1d 12 78 03 0f 95 ae 52 43 b0 26
-0f 50 54 00 00 00 01 01 01 01 01 01 01 01 01 01
-01 01 01 01 01 01 fd d7 00 a0 a0 40 fc 66 30 20
-36 00 20 b4 10 00 00 18 00 00 00 fd 00 1e 78 cc
-cc 38 01 0a 20 20 20 20 20 20 00 00 00 fe 00 43
-37 31 4d 31 81 4c 51 31 33 34 5a 31 00 00 00 00
-00 02 41 0c 32 01 01 00 00 0b 41 0a 20 20 01 ea
-
-70 20 79 02 00 20 00 13 8c 52 19 8f 15 00 00 00
-00 2e 17 07 4c 51 31 33 34 5a 31 21 00 1d 40 0b
-08 07 00 0a 40 06 88 e1 fa 51 3d a4 b0 66 62 0f
-02 45 54 d0 5f d0 5f 00 34 13 78 26 00 09 06 00
-00 00 00 00 41 00 00 22 00 14 d9 6f 08 05 ff 09
-9f 00 2f 00 1f 00 3f 06 5d 00 02 00 05 00 25 01
-09 d9 6f 08 d9 6f 08 1e 78 80 81 00 0b e3 05 80
-00 e6 06 05 01 6a 6a 39 00 00 00 00 00 00 58 90
-
-Signed-off-by: Christopher Orr <chris.orr@gmail.com>
-Reviewed-by: Douglas Anderson <dianders@chromium.org>
-Signed-off-by: Douglas Anderson <dianders@chromium.org>
-Link: https://lore.kernel.org/r/aJKvm3SlhLGHW4qn@jander
+Signed-off-by: Akhil P Oommen <akhilpo@oss.qualcomm.com>
+Patchwork: https://patchwork.freedesktop.org/patch/673373/
+Signed-off-by: Rob Clark <robin.clark@oss.qualcomm.com>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
 
@@ -105,88 +82,145 @@ LLM Generated explanations, may be completely bogus:
 
 YES
 
-- What changes: Adds a single EDID‑based quirk entry for the Sharp eDP
-  panel used in Dell XPS 13 9345 high‑res OLED:
-  `EDP_PANEL_ENTRY('S','H','P', 0x158f, &delay_200_500_p2e100,
-  "LQ134Z1")`, placed alongside existing SHP entries and using the same
-  delay profile as the related LQ134N1 panel. This goes into the
-  vendor/product‑sorted `edp_panels[]` table in
-  drivers/gpu/drm/panel/panel-edp.c:1859 and the SHP block around
-  drivers/gpu/drm/panel/panel-edp.c:2030. The delay profile referenced
-  is defined at drivers/gpu/drm/panel/panel-edp.c:1727.
+- Problem fixed
+  - The CP_ALWAYS_ON counter lives in the GPU GX power domain and
+    stops/gets reset during IFPC (inter‑frame power collapse). This
+    makes CPU-side reads unreliable or forces the driver to wake the GX
+    domain just to read a timestamp, which is fragile and power-
+    inefficient.
+  - The commit switches CPU reads to the GMU AO (always-on) counter,
+    which is not impacted by IFPC and is clocked from the same XO clock,
+    preserving timing semantics.
 
-- Why it matters (bugfix, not a feature):
-  - The edp_panel table drives panel power‑sequencing timings by EDID.
-    Unknown panels fall back to conservative timings via generic
-    detection (drivers/gpu/drm/panel/panel-edp.c:759) which sets only
-    unprepare/enable and notably does not set `prepare_to_enable`
-    (drivers/gpu/drm/panel/panel-edp.c:740). For this class of SHP
-    panels, the correct behavior requires a non‑zero `prepare_to_enable`
-    (100 ms).
-  - Power‑on sequencing uses `prepare_to_enable` to ensure the
-    backlight/enable step doesn’t occur too soon after prepare/HPD
-    (drivers/gpu/drm/panel/panel-edp.c:542). Without the EDID match and
-    the `p2e100` profile, the code won’t enforce this wait, which is
-    known to cause intermittent black screens/boot failures for the
-    closely related SHP LQ134N1 (added earlier in this file,
-    drivers/gpu/drm/panel/panel-edp.c:2030, by commit 6b3815c6815f). The
-    new entry applies the same proven sequencing to the high‑res OLED
-    variant (product ID 0x158f), preventing the same failure mode.
-  - In short: This is a quirk fix for a specific hardware panel ID that
-    makes the internal display reliably work on a common laptop variant;
-    without it, users can hit black screens or unreliable bring‑up.
+- What changed
+  - Added a safe 64-bit read helper for the GMU AO counter with a hi-lo-
+    hi read to avoid torn reads:
+    drivers/gpu/drm/msm/adreno/a6xx_gpu.c:19
+    - Reads `REG_A6XX_GMU_ALWAYS_ON_COUNTER_{H,L}` via `gmu_read()` and
+      rechecks the high word to ensure atomicity.
+  - Replaced CP counter reads in CPU-side tracepoints:
+    - a6xx_submit now traces with GMU AO:
+      drivers/gpu/drm/msm/adreno/a6xx_gpu.c:392
+    - a7xx_submit now traces with GMU AO:
+      drivers/gpu/drm/msm/adreno/a6xx_gpu.c:592
+  - Simplified timestamp retrieval to avoid waking GX or using OOB
+    votes:
+    - a6xx_gmu_get_timestamp now returns the GMU AO counter directly:
+      drivers/gpu/drm/msm/adreno/a6xx_gpu.c:2314
+    - This removes previous lock/OOB sequences to temporarily block IFPC
+      just to read `REG_A6XX_CP_ALWAYS_ON_COUNTER`.
+  - Importantly, GPU-side emissions that snapshot the CP always-on
+    counter via CP_REG_TO_MEM remain unchanged (they run when the GPU is
+    active and safe): for example the stats reads in submit paths still
+    use `REG_A6XX_CP_ALWAYS_ON_COUNTER` (e.g.,
+    drivers/gpu/drm/msm/adreno/a6xx_gpu.c:372-375).
 
-- Scope and risk:
-  - Minimal and contained: it only affects panels that present EDID
-    vendor "SHP" product 0x158f. It doesn’t change logic or touch other
-    devices or subsystems.
-  - Uses an existing, well‑tested delay profile
-    (`delay_200_500_p2e100`), already applied to other panels (e.g., SHP
-    LQ134N1 at drivers/gpu/drm/panel/panel-edp.c:2030, IVO panels at
-    drivers/gpu/drm/panel/panel-edp.c:1999–2000), further reducing risk.
-  - No architectural changes; only a single entry in a quirk table.
+- Why this is a good stable candidate
+  - Real bug impact: CPU reads of CP_ALWAYS_ON during IFPC can be stale,
+    zero, or require disruptive OOB votes that wake the domain; this can
+    cause incorrect timestamps (MSM_PARAM_TIMESTAMP), spurious power-
+    ups, and trace anomalies. Moving to GMU AO fixes this by design.
+  - Small, contained, and low risk:
+    - All changes are local to the MSM Adreno a6xx/a7xx driver and a
+      single source file.
+    - No ABI or feature changes; only the source of the timestamp for
+      CPU reads changes.
+    - The helper uses a standard hi-lo-hi pattern to ensure a correct
+      64-bit read.
+    - The GMU AO counter is already described in the hardware XML and
+      used elsewhere (e.g., other GMU counters), and the driver already
+      depends on GMU MMIO.
+  - Maintains timing consistency:
+    - Both CP_ALWAYS_ON and GMU_ALWAYS_ON are clocked from XO (19.2
+      MHz); userspace semantics are preserved. See the driver also
+      treating GMU counters as 19.2 MHz (e.g.,
+      drivers/gpu/drm/msm/adreno/a6xx_gpu.c:2361-2369).
 
-- Stable backport criteria:
-  - Fixes a real user‑visible malfunction (internal display not reliably
-    coming up) on supported hardware; not a feature.
-  - Change is tiny, targeted, and low risk; confined to DRM eDP panel
-    quirk table.
-  - No side effects beyond enabling correct sequencing on the matching
-    panel ID.
-  - While the commit message doesn’t include “Fixes:”/“Cc: stable”, the
-    technical nature (EDID quirk for correct power sequencing) and
-    precedent from the LQ134N1 entry demonstrate this is a classic
-    stable‑eligible panel quirk fix.
+- Side effects and regressions
+  - Positive: avoids GMU OOB perfcounter votes and GMU lock/handshake
+    just to read a timestamp, reducing the chance of deadlocks or long-
+    latency paths during IFPC.
+  - No architectural changes; no changes to command submission ordering
+    or power sequencing.
+  - Tracepoints now log the GMU AO value; this improves reliability
+    during IFPC without affecting functionality.
 
-Key code references:
-- New entry location (adjacent context): drivers/gpu/drm/panel/panel-
-  edp.c:2030
-- Delay profile used: drivers/gpu/drm/panel/panel-edp.c:1727
-- Fallback (no EDID match) lacks prepare_to_enable:
-  drivers/gpu/drm/panel/panel-edp.c:740, 759
-- Sequencing logic using prepare_to_enable: drivers/gpu/drm/panel/panel-
-  edp.c:542
-- Existing related SHP LQ134N1 entry (same delay):
-  drivers/gpu/drm/panel/panel-edp.c:2030
+- Dependencies present
+  - `gmu_read()` and the `REG_A6XX_GMU_ALWAYS_ON_COUNTER_{H,L}` macros
+    are already in-tree (drivers/gpu/drm/msm/adreno/a6xx_gmu.h:122 and
+    drivers/gpu/drm/msm/registers/adreno/a6xx_gmu.xml:131-132).
+  - The patch updates only `drivers/gpu/drm/msm/adreno/a6xx_gpu.c`, and
+    aligns with existing GMU usage patterns.
 
-Conclusion: Backporting this quirk yields a reliable, low‑risk fix for
-users of the Dell XPS 13 9345 high‑res OLED variant.
+Conclusion: This is a targeted, safe bug fix that improves timestamp
+reliability and avoids unnecessary power domain manipulations during
+IFPC. It meets stable backport criteria.
 
- drivers/gpu/drm/panel/panel-edp.c | 1 +
- 1 file changed, 1 insertion(+)
+ drivers/gpu/drm/msm/adreno/a6xx_gpu.c | 30 ++++++++++++++-------------
+ 1 file changed, 16 insertions(+), 14 deletions(-)
 
-diff --git a/drivers/gpu/drm/panel/panel-edp.c b/drivers/gpu/drm/panel/panel-edp.c
-index d0aa602ecc9de..a926f81f7a2e1 100644
---- a/drivers/gpu/drm/panel/panel-edp.c
-+++ b/drivers/gpu/drm/panel/panel-edp.c
-@@ -2035,6 +2035,7 @@ static const struct edp_panel_entry edp_panels[] = {
- 	EDP_PANEL_ENTRY('S', 'H', 'P', 0x1523, &delay_80_500_e50, "LQ140M1JW46"),
- 	EDP_PANEL_ENTRY('S', 'H', 'P', 0x153a, &delay_200_500_e50, "LQ140T1JH01"),
- 	EDP_PANEL_ENTRY('S', 'H', 'P', 0x154c, &delay_200_500_p2e100, "LQ116M1JW10"),
-+	EDP_PANEL_ENTRY('S', 'H', 'P', 0x158f, &delay_200_500_p2e100, "LQ134Z1"),
- 	EDP_PANEL_ENTRY('S', 'H', 'P', 0x1593, &delay_200_500_p2e100, "LQ134N1"),
+diff --git a/drivers/gpu/drm/msm/adreno/a6xx_gpu.c b/drivers/gpu/drm/msm/adreno/a6xx_gpu.c
+index 536da1acf615e..1e363af319488 100644
+--- a/drivers/gpu/drm/msm/adreno/a6xx_gpu.c
++++ b/drivers/gpu/drm/msm/adreno/a6xx_gpu.c
+@@ -16,6 +16,19 @@
  
- 	EDP_PANEL_ENTRY('S', 'T', 'A', 0x0004, &delay_200_500_e200, "116KHD024006"),
+ #define GPU_PAS_ID 13
+ 
++static u64 read_gmu_ao_counter(struct a6xx_gpu *a6xx_gpu)
++{
++	u64 count_hi, count_lo, temp;
++
++	do {
++		count_hi = gmu_read(&a6xx_gpu->gmu, REG_A6XX_GMU_ALWAYS_ON_COUNTER_H);
++		count_lo = gmu_read(&a6xx_gpu->gmu, REG_A6XX_GMU_ALWAYS_ON_COUNTER_L);
++		temp = gmu_read(&a6xx_gpu->gmu, REG_A6XX_GMU_ALWAYS_ON_COUNTER_H);
++	} while (unlikely(count_hi != temp));
++
++	return (count_hi << 32) | count_lo;
++}
++
+ static bool fence_status_check(struct msm_gpu *gpu, u32 offset, u32 value, u32 status, u32 mask)
+ {
+ 	/* Success if !writedropped0/1 */
+@@ -376,8 +389,7 @@ static void a6xx_submit(struct msm_gpu *gpu, struct msm_gem_submit *submit)
+ 	OUT_RING(ring, upper_32_bits(rbmemptr(ring, fence)));
+ 	OUT_RING(ring, submit->seqno);
+ 
+-	trace_msm_gpu_submit_flush(submit,
+-		gpu_read64(gpu, REG_A6XX_CP_ALWAYS_ON_COUNTER));
++	trace_msm_gpu_submit_flush(submit, read_gmu_ao_counter(a6xx_gpu));
+ 
+ 	a6xx_flush(gpu, ring);
+ }
+@@ -577,8 +589,7 @@ static void a7xx_submit(struct msm_gpu *gpu, struct msm_gem_submit *submit)
+ 	}
+ 
+ 
+-	trace_msm_gpu_submit_flush(submit,
+-		gpu_read64(gpu, REG_A6XX_CP_ALWAYS_ON_COUNTER));
++	trace_msm_gpu_submit_flush(submit, read_gmu_ao_counter(a6xx_gpu));
+ 
+ 	a6xx_flush(gpu, ring);
+ 
+@@ -2260,16 +2271,7 @@ static int a6xx_gmu_get_timestamp(struct msm_gpu *gpu, uint64_t *value)
+ 	struct adreno_gpu *adreno_gpu = to_adreno_gpu(gpu);
+ 	struct a6xx_gpu *a6xx_gpu = to_a6xx_gpu(adreno_gpu);
+ 
+-	mutex_lock(&a6xx_gpu->gmu.lock);
+-
+-	/* Force the GPU power on so we can read this register */
+-	a6xx_gmu_set_oob(&a6xx_gpu->gmu, GMU_OOB_PERFCOUNTER_SET);
+-
+-	*value = gpu_read64(gpu, REG_A6XX_CP_ALWAYS_ON_COUNTER);
+-
+-	a6xx_gmu_clear_oob(&a6xx_gpu->gmu, GMU_OOB_PERFCOUNTER_SET);
+-
+-	mutex_unlock(&a6xx_gpu->gmu.lock);
++	*value = read_gmu_ao_counter(a6xx_gpu);
+ 
+ 	return 0;
+ }
 -- 
 2.51.0
 
