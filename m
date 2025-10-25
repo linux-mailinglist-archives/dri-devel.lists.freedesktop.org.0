@@ -2,68 +2,70 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1C965C09866
-	for <lists+dri-devel@lfdr.de>; Sat, 25 Oct 2025 18:33:22 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 181FCC099BD
+	for <lists+dri-devel@lfdr.de>; Sat, 25 Oct 2025 18:40:58 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4C19810E32B;
-	Sat, 25 Oct 2025 16:33:20 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7BB4610E326;
+	Sat, 25 Oct 2025 16:40:54 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="idaOMRnd";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="Jp/T/nbk";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-qt1-f172.google.com (mail-qt1-f172.google.com
- [209.85.160.172])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BCF5F10E32B
- for <dri-devel@lists.freedesktop.org>; Sat, 25 Oct 2025 16:33:18 +0000 (UTC)
-Received: by mail-qt1-f172.google.com with SMTP id
- d75a77b69052e-4e8b4e4ce70so34775721cf.3
- for <dri-devel@lists.freedesktop.org>; Sat, 25 Oct 2025 09:33:18 -0700 (PDT)
+Received: from mail-qv1-f42.google.com (mail-qv1-f42.google.com
+ [209.85.219.42])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 30A0710E326
+ for <dri-devel@lists.freedesktop.org>; Sat, 25 Oct 2025 16:40:53 +0000 (UTC)
+Received: by mail-qv1-f42.google.com with SMTP id
+ 6a1803df08f44-87c237eca60so25682576d6.1
+ for <dri-devel@lists.freedesktop.org>; Sat, 25 Oct 2025 09:40:53 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1761409997; x=1762014797; darn=lists.freedesktop.org;
+ d=gmail.com; s=20230601; t=1761410452; x=1762015252; darn=lists.freedesktop.org;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
  bh=pQlnwek1lWpij8LeOBWh+sxDT7KmBEOhz8ZE1R1F1kI=;
- b=idaOMRndGsdNw/5vjSZPO6JSspD97XFCiArxBDawqg9jhzQ0yIQAIUtiAXB3y3+Ts2
- AYYa59jjIZUD/uCUPh1rZH0pC4LnvJeJN6eRXJ04WFWo0TQKr8rfrzxJukcVdxBfYC+0
- Phd4iYNZ8PQ8twmdy7sAhIkUuXuAdKjq6OkfULh6sK3WDmFChK+ZwU5xXUEGmZNY2mma
- pGwsjYBb49Y/LG4zkXyd6vsvkzRIpTHNDUUDJ+93AObxD6iDnzH+K9YNwlS/nP3lZRqg
- t0sX/i5Q/Fwpu+vWbqNK2aitSjSD7sOpgZlfgFH2z9ssf02i2RaFrlwsdxdYJ828mCh/
- pTjA==
+ b=Jp/T/nbkwGRp05CIYwdtHn45/2Zo9x9phA2OrsHY7X47RBBbfv+8iqWUYQox5uZQ4Z
+ EPYACDfIkWStZcne/HAACsdfu7DNibGmBdNe7xBCJWvKV8NH/N/idnwD3Tq7Cd9cR/tw
+ XHSBcKjz0A89YKr5Sj+8IpH2CNErDv7Qm0by2KJjTOYvjhNHexE27SiohYgHCoR2zp5E
+ 9+YKmTw6KPGW5G8hxtwW8m14/I3MpB+kz/lQCeSK+WWNh/ZaBQbJMgVdqP1TnctrcgPD
+ pWhFMYZpjnu4mu725PRtKNUyESbhRP/amkzOEMtrPxgnAnq0QrAEQ9P8n6XqUXGCMjKq
+ KdZg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1761409997; x=1762014797;
+ d=1e100.net; s=20230601; t=1761410452; x=1762015252;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
  bh=pQlnwek1lWpij8LeOBWh+sxDT7KmBEOhz8ZE1R1F1kI=;
- b=Qi+XgsjsNhrrdVIsmJomF6HT0S6+vr2uvXfZSsIQ7lkJ3xiYIYDt6qdG/TyEhKNSwb
- xvnQaA7OmyH429638COo+rYqTP3YjpR4iT08/7tF/Gm5gY/RYefefOGR5iRt5kX28S+b
- TNZXHiF4kdTdoxH3OIGINgTX6bAvn+XDSaH9I1NvVZxdlzbq6IWV++95kehonSzZscE9
- pB22YHpffJo9bxIExxZfx7lTwF/o4SRQt03Numher9GlB4GrDzQt/GrbX9vEGwnDH4Ju
- sd5gAXSxwjCsv7iReMTvOV5XteNqOjmP+Mtq0M0Yy/p0Jy+c6Try0/qbwJ7izT2rHywx
- XRyg==
+ b=oQo0hurm4uyStYhwCzTo6AZx5ik7YIlhdq6soWh11nvcKF5gH9mGEtuwzVHHTsQJmq
+ Wc+vGRI7Dw1bt6EwO3ajv39Aai05coaO8FbKN+MNRRo2hOYJwqiKMCz2MEvdxpyeXQA2
+ SgfIZd4dfbhZrya2KBi1eXxFAvlZtE+QMwx/xUH0+9AcPA0XwzOSqnISpnwFDNCu/DxL
+ ICbmoPkS5KAuVpMb2sr2N3CBB2k0LNYJKdW5SaCvaNHZKURs4aXN9+WWwmSUARWK39ld
+ mkOyTeMzhR4roAyeVe7GInRh59AVBKsajH/OLUR+VoW2ydnbCXSsTOl14T2SixmAzcQg
+ n5KQ==
 X-Forwarded-Encrypted: i=1;
- AJvYcCXfIInx5Yk4f63w37nEeJ8qQA+JqKMI20gp8sGotAOJPv8l/s3v+9h0rNb7+AYz+al4UWnCx2e1TWw=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YxkxTznz0geQcK3cL5ePvdzGuwQPa88Ez32Jx9wkHYIo4zllfyE
- UJccT9qjjEZa4v1iVJfJOQios9V2zvcK9T2QSQaD9SGAxw0VTMM6PI1/
-X-Gm-Gg: ASbGncvrPNf7XHp/V1jiliRXkPDJQdE0kWCPtsLJwe7BqaVrzf8n5HVhdT5dTkrBOMr
- 1KMx3ki1Sf5Co7fa2zFxOsWbh9vFv0Evrr+QpGruSoXU4t1knXlyI/XlZTq/ImcVVj7j748GaeM
- VOfjvbDPEIJHYBZS5ZucEAGXHkz2Pz2bKjoyH5icREHl4J9mxfFDIUIBJkkUB/K7v4UXH5gO7XV
- /r+yC1u/crDSfFhOhiT12/+5irZqd3oigulGYWypn2MW4z2QWv/X6Eamy7xSPpUPxpVZ4kGTU7i
- DDzXZJ4GHnoOJAXxarxQg8uqkTM+k4gvoVNOq0Su5fe6fHlqGKprrCx3jxGCBcyQQSVYod4ZdEQ
- PeM6FSWceqN0BPOGiNMpWGRese0uzzAXFhH+VqfSfcp0NAn+C/N9SPRPfLpMBOdK57iYBhIhc
-X-Google-Smtp-Source: AGHT+IHyRdZCFKENEK5U2sVSqsYLQGnrThog0TUtBDXhz5Rjdgg8+4ZbO+vQpnHhnn4XFJ14+JpZIQ==
-X-Received: by 2002:a05:622a:1817:b0:4b5:e8ae:2c4f with SMTP id
- d75a77b69052e-4eb943824a5mr76637061cf.51.1761409997366; 
- Sat, 25 Oct 2025 09:33:17 -0700 (PDT)
+ AJvYcCV/mKbF/SCsIS5HWcmNi4Bac/Sb2tlYMpI78yBJHdkYTqtqZUkIwpIrBzGlQ5LC4UnePhy4Pf8EdP4=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YwYong3d8+oz47wbM9NgEnpC3AeXBpAvz4t0/ou268Q+N2HCuDL
+ vTRKXE0/zBgG1WkfSGupQb7iCMP5jsiBwvZY3S/5vnG/59hDn0zAPjlz
+X-Gm-Gg: ASbGnctnDfYelzDdqvoGegoFyK8P9+1wdhq7RK7LTvFxPUK8fBDFwS+XtB04Y2TxzDv
+ zkEDGaTdG05kgb+WZvwwkgDohTu+uZwHocoeYiTWG8lq96gp6Y9W92hfweWY93U1xdxg/8pMOKQ
+ eJjhLoxBXX9djYda5SwJD/uk889f5FoO79airZyGVwlke/Y+hTvqH2xSUJPWA8KsUomUPDssoSw
+ IAL+2L1fmzeKGExywyCAhmVgzD+KqVuWIv0fMxNH7/apmtTmpb/YESKMJhhKnS8zu/1AVkf4Jsa
+ MRh2QUsWcGNzf//FvrhnxXGgXNIElPTQTF7wxyGbi8MZAdDCg7x/8zhd2mwsLZgcVzMjfSmdk1D
+ xrI4Xe+xM+jOC6bqspFSLiQzSlyc437PkgaztrFIUL5Z0x0QZl02tm2hh8D6WRTuGahwI2KxUrz
+ ScgCvv7FY=
+X-Google-Smtp-Source: AGHT+IHlyjol8Bie8F99hAjP80rz8ZMg2F2ufGY62yGvqxUFdDm1aK3+hSTgiT9hRW2DHU1QiGn1gA==
+X-Received: by 2002:ad4:5aae:0:b0:787:8e43:5761 with SMTP id
+ 6a1803df08f44-87fb6473b5fmr66116636d6.56.1761410451896; 
+ Sat, 25 Oct 2025 09:40:51 -0700 (PDT)
 Received: from localhost ([12.22.141.131]) by smtp.gmail.com with ESMTPSA id
- d75a77b69052e-4eba37b96d0sm15170181cf.6.2025.10.25.09.33.15
+ 6a1803df08f44-87fc49b98b0sm16464616d6.54.2025.10.25.09.40.51
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 25 Oct 2025 09:33:16 -0700 (PDT)
+ Sat, 25 Oct 2025 09:40:51 -0700 (PDT)
 From: "Yury Norov (NVIDIA)" <yury.norov@gmail.com>
-To: Linus Walleij <linus.walleij@linaro.org>, Lee Jones <lee@kernel.org>,
- linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
+To: Linus Torvalds <torvalds@linux-foundation.org>,
+ Linus Walleij <linus.walleij@linaro.org>,
+ Nicolas Frattaroli <nicolas.frattaroli@collabora.com>,
  Sandy Huang <hjc@rock-chips.com>,
  =?UTF-8?q?Heiko=20St=C3=BCbner?= <heiko@sntech.de>,
  Andy Yan <andy.yan@rock-chips.com>,
@@ -79,16 +81,17 @@ To: Linus Walleij <linus.walleij@linaro.org>, Lee Jones <lee@kernel.org>,
  Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
  Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
  "Yury Norov (NVIDIA)" <yury.norov@gmail.com>,
- dri-devel@lists.freedesktop.org, linux-rockchip@lists.infradead.org,
+ dri-devel@lists.freedesktop.org, linux-arm-kernel@lists.infradead.org,
+ linux-rockchip@lists.infradead.org, linux-kernel@vger.kernel.org,
  linux-media@vger.kernel.org, kernel@collabora.com,
  linux-mmc@vger.kernel.org, linux-sound@vger.kernel.org
-Cc: Linus Torvalds <torvalds@linux-foundation.org>
+Cc: Rasmus Villemoes <linux@rasmusvillemoes.dk>
 Subject: [PATCH 11/21] drivers: don't use GENMASK() in FIELD_PREP_WM16()
-Date: Sat, 25 Oct 2025 12:32:53 -0400
-Message-ID: <20251025163305.306787-4-yury.norov@gmail.com>
+Date: Sat, 25 Oct 2025 12:40:10 -0400
+Message-ID: <20251025164023.308884-12-yury.norov@gmail.com>
 X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20251025162858.305236-1-yury.norov@gmail.com>
-References: <20251025162858.305236-1-yury.norov@gmail.com>
+In-Reply-To: <20251025164023.308884-1-yury.norov@gmail.com>
+References: <20251025164023.308884-1-yury.norov@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
