@@ -2,83 +2,62 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 917E8C0A087
-	for <lists+dri-devel@lfdr.de>; Sun, 26 Oct 2025 00:07:15 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id C267EC0A10B
+	for <lists+dri-devel@lfdr.de>; Sun, 26 Oct 2025 01:22:33 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BB8E710E09D;
-	Sat, 25 Oct 2025 22:07:10 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 89AA910E00B;
+	Sat, 25 Oct 2025 23:22:24 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=suse.com header.i=@suse.com header.b="F2SmIfiK";
+	dkim=pass (2048-bit key; unprotected) header.d=fu-berlin.de header.i=@fu-berlin.de header.b="GY0G1YkT";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lj1-f176.google.com (mail-lj1-f176.google.com
- [209.85.208.176])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6F41B10E1F0
- for <dri-devel@lists.freedesktop.org>; Fri, 24 Oct 2025 12:58:43 +0000 (UTC)
-Received: by mail-lj1-f176.google.com with SMTP id
- 38308e7fff4ca-378cffe5e1aso22374561fa.2
- for <dri-devel@lists.freedesktop.org>; Fri, 24 Oct 2025 05:58:43 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=suse.com; s=google; t=1761310722; x=1761915522; darn=lists.freedesktop.org; 
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=zv16Kke8yqgjiJWpmjUKPrYOhlKmP4/uuWFc5yGXvxM=;
- b=F2SmIfiKZVTBWCKF2g/wIDomY134wb9GqRZUq+uTRfB1p7s59cHddiYZ8oPXYgaFD2
- H8EwVw3I2ZUXYAcyzvzPWgO/xJcI4jOrOA9SFuOeunA2bNWC/AgXNHWSeJVYjude9o2g
- hoRbQHjHF538q4kclHMq+zHBwnv34ow7yjmSvofClHijG0UkO+28l22dvdKBfyf8NAD3
- 2UzZKb5BvtBQ1auNCeg2CNNkAySAE/RLUCFvhYuwj7ggEo/5UAhs9sEWrFg7BvLJC+Zw
- 5EE1Oc2695CxZnUtkl3+/RdeLQlskkhfJeJrYhJ1Do5MeMWhNQ41/3+qPul+d5Ns+22z
- iyug==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1761310722; x=1761915522;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=zv16Kke8yqgjiJWpmjUKPrYOhlKmP4/uuWFc5yGXvxM=;
- b=OqWbRqRtndZ1vMBKnUGrQd/jwbMECQTAXf0puHesD4nMFRoSQceiauW07lym+0ctVK
- 2rL3udGfR0sLeTOFUul78js5PEyA8lvMFTJPvz3V4UOqvzGxd8+YVtmRKu6ziHlLy++J
- Sgwy/FzNnfL6To1ur3gXALxq9aH9WzHeU0LLV4V6Qef0YQhGMq6glRY8eaOtl18Rf0In
- 6koi1hYEFha7oVA54EAhZUPlEQFsoerElLdgHoYmllV9AFhdFmdSI9abO0thjvryh91P
- HtKpn0WO11mmYExpasu/tVpdP6Yvil/VjiFRO6BVxRftyW0laCIS8Q3MbaVL4cVwKjHz
- 2HSQ==
-X-Forwarded-Encrypted: i=1;
- AJvYcCWAcskFcQYRMeMMfWX4W2uvjE2OW5gvRUVPen+gVo+KdNNz3pgnCKNOJ88dGYO4kvlJVnzaaGMMjRg=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YxhVFu/6nkvI3Zz9J7Meu5cJI0pJ06+HqMoQ0MCEHLCLijDEAaw
- D5PGwzQ2PlCymQrlzMinTrobzexP9K8fS2opBm1HXPd6aL6s+gO4lekMmQGCMal0385+NHb1ehK
- YJod1L93T4vRpTmd/RbP+FYlhsUhBjK+a3uAI/gl7qA==
-X-Gm-Gg: ASbGncuhLtpb/7MEcJGWHIcufDiInvojNtEFr/Bf4TqOOIuR4qQ+F8bGOtEDYVO3Ta+
- 8ZEzf+Kug+Yj1RSGy5ico12ZYxC767unbQ+rYxVt7uf1b5/0ECbVKdAiVVRiFtYL29WUdSDjpd1
- FvVMiW9UEOLCBC6F9eln9OR/yIa7meuIKsuCGUxVRU2MmjiuEUN1kVU3+xnXvrdl1bwMugx/7Hy
- K9vXHxZ81A5h7AuXiBxU1FXCA4HVutd3qbIpoS+S6FB/50T4hWDb+7L5XOFmojRQa+cBvIcjyTm
- Q+SlmZpPbd1+/6MWKw==
-X-Google-Smtp-Source: AGHT+IHF9LkpNIRrlRpVu99l7ev0LdpwqQhfXRuIQZZ0ncl5gX4GTf5lVW8kJ+14MFqbskyOhZZ7aJPuqPi9SZUWgRk=
-X-Received: by 2002:a05:651c:556:b0:376:5027:7f37 with SMTP id
- 38308e7fff4ca-378e4518459mr6475001fa.41.1761310721630; Fri, 24 Oct 2025
- 05:58:41 -0700 (PDT)
-MIME-Version: 1.0
-References: <20251024095205.123123-1-marco.crivellari@suse.com>
- <20251024095205.123123-3-marco.crivellari@suse.com>
- <dc2662f4-98b5-4fc8-9ed7-5e4a88168f9a@linux.intel.com>
-In-Reply-To: <dc2662f4-98b5-4fc8-9ed7-5e4a88168f9a@linux.intel.com>
-From: Marco Crivellari <marco.crivellari@suse.com>
-Date: Fri, 24 Oct 2025 14:58:29 +0200
-X-Gm-Features: AWmQ_bkaAAD-el4jxtvs6F6wp2vtCaDr3ajdRFuMESUH0b5iIQ4HTA0RNeg3HAo
-Message-ID: <CAAofZF7FXixByyXm9fKo8aMjdD95wzaCanWbBV-cRzy5UYWTdg@mail.gmail.com>
-Subject: Re: [PATCH 2/2] accel/ivpu: replace use of system_wq with
- system_percpu_wq
-To: Karol Wachowski <karol.wachowski@linux.intel.com>
-Cc: linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org, 
- Tejun Heo <tj@kernel.org>, Lai Jiangshan <jiangshanlai@gmail.com>, 
- Frederic Weisbecker <frederic@kernel.org>,
- Sebastian Andrzej Siewior <bigeasy@linutronix.de>, 
- Michal Hocko <mhocko@suse.com>,
- Maciej Falkowski <maciej.falkowski@linux.intel.com>, 
- Oded Gabbay <ogabbay@kernel.org>
+X-Greylist: delayed 476 seconds by postgrey-1.36 at gabe;
+ Sat, 25 Oct 2025 23:22:22 UTC
+Received: from outpost1.zedat.fu-berlin.de (outpost1.zedat.fu-berlin.de
+ [130.133.4.66])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 24EA710E00B
+ for <dri-devel@lists.freedesktop.org>; Sat, 25 Oct 2025 23:22:22 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+ d=fu-berlin.de; s=fub01; h=MIME-Version:Content-Transfer-Encoding:
+ Content-Type:References:In-Reply-To:Date:Cc:To:From:Subject:Message-ID:From:
+ Reply-To:Subject:Date:Message-ID:To:Cc:MIME-Version:Content-Type:
+ Content-Transfer-Encoding:Content-ID:Content-Description:In-Reply-To:
+ References; bh=o+Qike691zJBF1RCaslWg3meFxGDo0KmJqy1XTllb5g=; t=1761434542;
+ x=1762039342; b=GY0G1YkTYDuH4de6pNz9Fy5QmqsMEaJyrVLFRN+gzVZDFF/uvrOBMm1MO505N
+ 5FEGNnHGPkGe98mXyQib9qKKqjHoLTM+ZKQ71q5Tvg65ivt3/xX8XC85IzfawLrGGyXyNnirfXUO9
+ pqtXKssaaqANPff5H+lpL6if1/SPRJOFPiLJtBO+YrbIJx92Z3QW5U3oqvYQ8UU/Htn1Zb3a/Bq7+
+ 1y8o6I+ZNO+UV3o8GfkwDl5UIPw4V28qFM4WvF0W3P+1uUh4wgsIAnAe4loqlARDGaQDbfP3wh+Xt
+ GNlD+OqsVVxAn+3xiWaAVz1P5jrhdgZQUnvU1WTkhNfRcFI0cw==;
+Received: from inpost2.zedat.fu-berlin.de ([130.133.4.69])
+ by outpost.zedat.fu-berlin.de (Exim 4.98) with esmtps (TLS1.3)
+ tls TLS_AES_256_GCM_SHA384
+ (envelope-from <glaubitz@zedat.fu-berlin.de>)
+ id 1vCnSq-00000002Ne2-2Pxv; Sun, 26 Oct 2025 01:14:24 +0200
+Received: from dynamic-089-012-087-223.89.12.pool.telefonica.de
+ ([89.12.87.223] helo=[192.168.178.50])
+ by inpost2.zedat.fu-berlin.de (Exim 4.98) with esmtpsa (TLS1.3)
+ tls TLS_AES_256_GCM_SHA384
+ (envelope-from <glaubitz@physik.fu-berlin.de>)
+ id 1vCnSq-00000003w6N-1Uqx; Sun, 26 Oct 2025 01:14:24 +0200
+Message-ID: <cee852ea863613abb7b3fe2a2ec3870abecb8b6c.camel@physik.fu-berlin.de>
+Subject: Re: [PATCH] fbdev/pvr2fb: Fix leftover reference to
+ ONCHIP_NR_DMA_CHANNELS
+From: John Paul Adrian Glaubitz <glaubitz@physik.fu-berlin.de>
+To: Florian Fuchs <fuchsfl@gmail.com>, Helge Deller <deller@gmx.de>, 
+ linux-fbdev@vger.kernel.org
+Cc: linux-kernel@vger.kernel.org, linux-sh@vger.kernel.org, 
+ dri-devel@lists.freedesktop.org
+Date: Sun, 26 Oct 2025 01:14:23 +0200
+In-Reply-To: <20251025223850.1056175-1-fuchsfl@gmail.com>
+References: <20251025223850.1056175-1-fuchsfl@gmail.com>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-X-Mailman-Approved-At: Sat, 25 Oct 2025 22:07:05 +0000
+User-Agent: Evolution 3.58.1 
+MIME-Version: 1.0
+X-Original-Sender: glaubitz@physik.fu-berlin.de
+X-Originating-IP: 89.12.87.223
+X-ZEDAT-Hint: PO
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -94,25 +73,46 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, Oct 24, 2025 at 12:49=E2=80=AFPM Karol Wachowski
-<karol.wachowski@linux.intel.com> wrote:
-> [...]
-> Thanks for the patch. Please fix the checkpatch warning:
->
-> WARNING: line length of 104 exceeds 100
-> columns
-> Also there's a typo "consistentcy" -> "consistency" that can get fixed
-> with together with that warning.
->
-> [...]
-> Tested-by: Karol Wachowski <karol.wachowski@linux.intel.com>
->
->
+Hi Florian,
 
-Hello Karol, thank you, I will fix both.
+On Sun, 2025-10-26 at 00:38 +0200, Florian Fuchs wrote:
+> Commit e24cca19babe ("sh: Kill off MAX_DMA_ADDRESS leftovers.") removed
+> the define ONCHIP_NR_DMA_CHANNELS. So that the leftover reference needs
+> to be replaced by CONFIG_NR_ONCHIP_DMA_CHANNELS to compile successfully
+> with CONFIG_PVR2_DMA enabled.
+>=20
+> Signed-off-by: Florian Fuchs <fuchsfl@gmail.com>
+> ---
+> Note: The fix has been compiled, and tested on real Dreamcast hardware,
+> with CONFIG_PVR2_DMA=3Dy.
+>=20
+>  drivers/video/fbdev/pvr2fb.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+>=20
+> diff --git a/drivers/video/fbdev/pvr2fb.c b/drivers/video/fbdev/pvr2fb.c
+> index cbdb1caf61bd..0b8d23c12b77 100644
+> --- a/drivers/video/fbdev/pvr2fb.c
+> +++ b/drivers/video/fbdev/pvr2fb.c
+> @@ -192,7 +192,7 @@ static unsigned long pvr2fb_map;
+> =20
+>  #ifdef CONFIG_PVR2_DMA
+>  static unsigned int shdma =3D PVR2_CASCADE_CHAN;
+> -static unsigned int pvr2dma =3D ONCHIP_NR_DMA_CHANNELS;
+> +static unsigned int pvr2dma =3D CONFIG_NR_ONCHIP_DMA_CHANNELS;
+>  #endif
+> =20
+>  static struct fb_videomode pvr2_modedb[] =3D {
+>=20
+> base-commit: 3a8660878839faadb4f1a6dd72c3179c1df56787
+
+Good catch, thanks for fixing this!
+
+Reviewed-by: John Paul Adrian Glaubitz <glaubitz@physik.fu-berlin.de>
+
+Adrian
 
 --=20
-
-Marco Crivellari
-
-L3 Support Engineer, Technology & Product
+ .''`.  John Paul Adrian Glaubitz
+: :' :  Debian Developer
+`. `'   Physicist
+  `-    GPG: 62FF 8A75 84E0 2956 9546  0006 7426 3B37 F5B5 F913
