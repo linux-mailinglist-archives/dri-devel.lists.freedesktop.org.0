@@ -2,62 +2,58 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C267EC0A10B
-	for <lists+dri-devel@lfdr.de>; Sun, 26 Oct 2025 01:22:33 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7BCC1C0A451
+	for <lists+dri-devel@lfdr.de>; Sun, 26 Oct 2025 09:00:19 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 89AA910E00B;
-	Sat, 25 Oct 2025 23:22:24 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 545B810E132;
+	Sun, 26 Oct 2025 08:00:17 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=fu-berlin.de header.i=@fu-berlin.de header.b="GY0G1YkT";
+	dkim=pass (1024-bit key; unprotected) header.d=linux.alibaba.com header.i=@linux.alibaba.com header.b="IWeO5BKP";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 476 seconds by postgrey-1.36 at gabe;
- Sat, 25 Oct 2025 23:22:22 UTC
-Received: from outpost1.zedat.fu-berlin.de (outpost1.zedat.fu-berlin.de
- [130.133.4.66])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 24EA710E00B
- for <dri-devel@lists.freedesktop.org>; Sat, 25 Oct 2025 23:22:22 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
- d=fu-berlin.de; s=fub01; h=MIME-Version:Content-Transfer-Encoding:
- Content-Type:References:In-Reply-To:Date:Cc:To:From:Subject:Message-ID:From:
- Reply-To:Subject:Date:Message-ID:To:Cc:MIME-Version:Content-Type:
- Content-Transfer-Encoding:Content-ID:Content-Description:In-Reply-To:
- References; bh=o+Qike691zJBF1RCaslWg3meFxGDo0KmJqy1XTllb5g=; t=1761434542;
- x=1762039342; b=GY0G1YkTYDuH4de6pNz9Fy5QmqsMEaJyrVLFRN+gzVZDFF/uvrOBMm1MO505N
- 5FEGNnHGPkGe98mXyQib9qKKqjHoLTM+ZKQ71q5Tvg65ivt3/xX8XC85IzfawLrGGyXyNnirfXUO9
- pqtXKssaaqANPff5H+lpL6if1/SPRJOFPiLJtBO+YrbIJx92Z3QW5U3oqvYQ8UU/Htn1Zb3a/Bq7+
- 1y8o6I+ZNO+UV3o8GfkwDl5UIPw4V28qFM4WvF0W3P+1uUh4wgsIAnAe4loqlARDGaQDbfP3wh+Xt
- GNlD+OqsVVxAn+3xiWaAVz1P5jrhdgZQUnvU1WTkhNfRcFI0cw==;
-Received: from inpost2.zedat.fu-berlin.de ([130.133.4.69])
- by outpost.zedat.fu-berlin.de (Exim 4.98) with esmtps (TLS1.3)
- tls TLS_AES_256_GCM_SHA384
- (envelope-from <glaubitz@zedat.fu-berlin.de>)
- id 1vCnSq-00000002Ne2-2Pxv; Sun, 26 Oct 2025 01:14:24 +0200
-Received: from dynamic-089-012-087-223.89.12.pool.telefonica.de
- ([89.12.87.223] helo=[192.168.178.50])
- by inpost2.zedat.fu-berlin.de (Exim 4.98) with esmtpsa (TLS1.3)
- tls TLS_AES_256_GCM_SHA384
- (envelope-from <glaubitz@physik.fu-berlin.de>)
- id 1vCnSq-00000003w6N-1Uqx; Sun, 26 Oct 2025 01:14:24 +0200
-Message-ID: <cee852ea863613abb7b3fe2a2ec3870abecb8b6c.camel@physik.fu-berlin.de>
-Subject: Re: [PATCH] fbdev/pvr2fb: Fix leftover reference to
- ONCHIP_NR_DMA_CHANNELS
-From: John Paul Adrian Glaubitz <glaubitz@physik.fu-berlin.de>
-To: Florian Fuchs <fuchsfl@gmail.com>, Helge Deller <deller@gmx.de>, 
- linux-fbdev@vger.kernel.org
-Cc: linux-kernel@vger.kernel.org, linux-sh@vger.kernel.org, 
- dri-devel@lists.freedesktop.org
-Date: Sun, 26 Oct 2025 01:14:23 +0200
-In-Reply-To: <20251025223850.1056175-1-fuchsfl@gmail.com>
-References: <20251025223850.1056175-1-fuchsfl@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.58.1 
+X-Greylist: delayed 303 seconds by postgrey-1.36 at gabe;
+ Sun, 26 Oct 2025 08:00:15 UTC
+Received: from out30-130.freemail.mail.aliyun.com
+ (out30-130.freemail.mail.aliyun.com [115.124.30.130])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 13B0F10E132
+ for <dri-devel@lists.freedesktop.org>; Sun, 26 Oct 2025 08:00:14 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linux.alibaba.com; s=default;
+ t=1761465612; h=Message-ID:Date:MIME-Version:Subject:To:From:Content-Type;
+ bh=gbW6lsAeQnITBSvhA7va7FPK1N1OCTuc7ZM09ubMnwE=;
+ b=IWeO5BKP6yJYFscM9YXY3r/tbr5pI71MDjHBkAdgzNB7Q4iG3MrK0ptFkkvhAMmFhm2zvOmQeHQxjBfftV5i4lyFMvQQKPnwi5GU3p3/OaDEHR+tUB/lRVhuA4Un5qf6Ucn8TivJdyxwNTjV4PkPtQNsXFkLdKG+KuRCHJiyzm0=
+Received: from 30.246.176.102(mailfrom:xueshuai@linux.alibaba.com
+ fp:SMTPD_---0Wqyle5w_1761465304 cluster:ay36) by smtp.aliyun-inc.com;
+ Sun, 26 Oct 2025 15:55:06 +0800
+Message-ID: <3db524e7-b6ce-4652-8420-fdb4639ac73a@linux.alibaba.com>
+Date: Sun, 26 Oct 2025 15:55:04 +0800
 MIME-Version: 1.0
-X-Original-Sender: glaubitz@physik.fu-berlin.de
-X-Originating-IP: 89.12.87.223
-X-ZEDAT-Hint: PO
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v5 9/9] vfio/pci: Add dma-buf export support for MMIO
+ regions
+To: Jason Gunthorpe <jgg@nvidia.com>, Leon Romanovsky <leon@kernel.org>
+Cc: Alex Williamson <alex.williamson@redhat.com>,
+ Leon Romanovsky <leonro@nvidia.com>,
+ Andrew Morton <akpm@linux-foundation.org>,
+ Bjorn Helgaas <bhelgaas@google.com>,
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
+ dri-devel@lists.freedesktop.org, iommu@lists.linux.dev,
+ Jens Axboe <axboe@kernel.dk>, Joerg Roedel <joro@8bytes.org>,
+ kvm@vger.kernel.org, linaro-mm-sig@lists.linaro.org,
+ linux-block@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-media@vger.kernel.org, linux-mm@kvack.org, linux-pci@vger.kernel.org,
+ Logan Gunthorpe <logang@deltatee.com>,
+ Marek Szyprowski <m.szyprowski@samsung.com>,
+ Robin Murphy <robin.murphy@arm.com>, Sumit Semwal <sumit.semwal@linaro.org>,
+ Vivek Kasireddy <vivek.kasireddy@intel.com>, Will Deacon <will@kernel.org>
+References: <cover.1760368250.git.leon@kernel.org>
+ <72ecaa13864ca346797e342d23a7929562788148.1760368250.git.leon@kernel.org>
+ <20251022125012.GB244727@nvidia.com>
+From: Shuai Xue <xueshuai@linux.alibaba.com>
+In-Reply-To: <20251022125012.GB244727@nvidia.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -73,46 +69,53 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Florian,
 
-On Sun, 2025-10-26 at 00:38 +0200, Florian Fuchs wrote:
-> Commit e24cca19babe ("sh: Kill off MAX_DMA_ADDRESS leftovers.") removed
-> the define ONCHIP_NR_DMA_CHANNELS. So that the leftover reference needs
-> to be replaced by CONFIG_NR_ONCHIP_DMA_CHANNELS to compile successfully
-> with CONFIG_PVR2_DMA enabled.
->=20
-> Signed-off-by: Florian Fuchs <fuchsfl@gmail.com>
-> ---
-> Note: The fix has been compiled, and tested on real Dreamcast hardware,
-> with CONFIG_PVR2_DMA=3Dy.
->=20
->  drivers/video/fbdev/pvr2fb.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
->=20
-> diff --git a/drivers/video/fbdev/pvr2fb.c b/drivers/video/fbdev/pvr2fb.c
-> index cbdb1caf61bd..0b8d23c12b77 100644
-> --- a/drivers/video/fbdev/pvr2fb.c
-> +++ b/drivers/video/fbdev/pvr2fb.c
-> @@ -192,7 +192,7 @@ static unsigned long pvr2fb_map;
-> =20
->  #ifdef CONFIG_PVR2_DMA
->  static unsigned int shdma =3D PVR2_CASCADE_CHAN;
-> -static unsigned int pvr2dma =3D ONCHIP_NR_DMA_CHANNELS;
-> +static unsigned int pvr2dma =3D CONFIG_NR_ONCHIP_DMA_CHANNELS;
->  #endif
-> =20
->  static struct fb_videomode pvr2_modedb[] =3D {
->=20
-> base-commit: 3a8660878839faadb4f1a6dd72c3179c1df56787
 
-Good catch, thanks for fixing this!
+在 2025/10/22 20:50, Jason Gunthorpe 写道:
+> On Mon, Oct 13, 2025 at 06:26:11PM +0300, Leon Romanovsky wrote:
+>> From: Leon Romanovsky <leonro@nvidia.com>
+>>
+>> Add support for exporting PCI device MMIO regions through dma-buf,
+>> enabling safe sharing of non-struct page memory with controlled
+>> lifetime management. This allows RDMA and other subsystems to import
+>> dma-buf FDs and build them into memory regions for PCI P2P operations.
+>>
+>> The implementation provides a revocable attachment mechanism using
+>> dma-buf move operations. MMIO regions are normally pinned as BARs
+>> don't change physical addresses, but access is revoked when the VFIO
+>> device is closed or a PCI reset is issued. This ensures kernel
+>> self-defense against potentially hostile userspace.
+> 
+> Let's enhance this:
+> 
+> Currently VFIO can take MMIO regions from the device's BAR and map
+> them into a PFNMAP VMA with special PTEs. This mapping type ensures
+> the memory cannot be used with things like pin_user_pages(), hmm, and
+> so on. In practice only the user process CPU and KVM can safely make
+> use of these VMA. When VFIO shuts down these VMAs are cleaned by
+> unmap_mapping_range() to prevent any UAF of the MMIO beyond driver
+> unbind.
+> 
+> However, VFIO type 1 has an insecure behavior where it uses
+> follow_pfnmap_*() to fish a MMIO PFN out of a VMA and program it back
+> into the IOMMU. This has a long history of enabling P2P DMA inside
+> VMs, but has serious lifetime problems by allowing a UAF of the MMIO
+> after the VFIO driver has been unbound.
 
-Reviewed-by: John Paul Adrian Glaubitz <glaubitz@physik.fu-berlin.de>
+Hi, Jason,
 
-Adrian
+Can you elaborate on this more?
 
---=20
- .''`.  John Paul Adrian Glaubitz
-: :' :  Debian Developer
-`. `'   Physicist
-  `-    GPG: 62FF 8A75 84E0 2956 9546  0006 7426 3B37 F5B5 F913
+ From my understanding of the VFIO type 1 implementation:
+
+- When a device is opened through VFIO type 1, it increments the
+   device->refcount
+- During unbind, the driver waits for this refcount to drop to zero via
+   wait_for_completion(&device->comp)
+- This should prevent the unbind() from completing while the device is
+   still in use
+
+Given this refcount mechanism, I do not figure out how the UAF can
+occur.
+
+Thanks.
