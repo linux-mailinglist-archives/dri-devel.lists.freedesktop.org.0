@@ -2,74 +2,74 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 38F09C0AF4D
-	for <lists+dri-devel@lfdr.de>; Sun, 26 Oct 2025 18:40:14 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 732EBC0AF47
+	for <lists+dri-devel@lfdr.de>; Sun, 26 Oct 2025 18:40:13 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 67E2F10E380;
+	by gabe.freedesktop.org (Postfix) with ESMTP id 40C9710E06D;
 	Sun, 26 Oct 2025 17:40:10 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="ptabKna2";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="bX+/6uGA";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail-lf1-f49.google.com (mail-lf1-f49.google.com
  [209.85.167.49])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1E67110E380
- for <dri-devel@lists.freedesktop.org>; Sun, 26 Oct 2025 17:40:07 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 39B3410E374
+ for <dri-devel@lists.freedesktop.org>; Sun, 26 Oct 2025 17:40:08 +0000 (UTC)
 Received: by mail-lf1-f49.google.com with SMTP id
- 2adb3069b0e04-592f5736693so4006221e87.1
- for <dri-devel@lists.freedesktop.org>; Sun, 26 Oct 2025 10:40:07 -0700 (PDT)
+ 2adb3069b0e04-59093250aabso4447434e87.2
+ for <dri-devel@lists.freedesktop.org>; Sun, 26 Oct 2025 10:40:08 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1761500405; x=1762105205; darn=lists.freedesktop.org;
+ d=linaro.org; s=google; t=1761500406; x=1762105206; darn=lists.freedesktop.org;
  h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
  :mime-version:subject:date:from:from:to:cc:subject:date:message-id
- :reply-to; bh=PT2hY47s1RjHjMjR+FqOEH03YMoMMWni/+Svf2+bi04=;
- b=ptabKna2mJu1H/nWeWa62PLeLzoiXEU2JerEfPiuNAMpKxdvonWJxoKhxrkLmM5wPQ
- UlOe4tJ2gsNMn9sHZQGcoDa+ClG6ZL+VESebTgALDwlPCu63WgUPxyVL/UcF3SkpN3XP
- lxiSuvIiNnZwPP/xJWOzXtwRCXGB1NkzW/neUa+xVNKwXKuKQZoQgf9wwT+rnMf6U9Eo
- 8Smj1oEU87FrOrQ9w6YWVkB3bcClOeTeqKfqu8xkKKODfAkIwO0+k5IU0QcyMMwENw8u
- hvWuall0un0NORXHAGR5vA4sPuyWDxnPouJ++eeTqoUoS52M13sVWTV06rV7HlsmnL5Y
- cIQw==
+ :reply-to; bh=DqelzF++SRo5yLaNXUQGPgYYMPiGFZi9g01t7Yxskpc=;
+ b=bX+/6uGAci0QxXtdFAEvlsfXRgk2vpkR4+biZfIQnu5mWIDiVyVzU+nPJ3fCU/eErO
+ MID85UenLzb1qfhODDzc0uuJCF15Es0/YyO9RhnrFOV9lbjUNdackIX0ote6PMH+yN5q
+ sGmkxk+rH/UpDhazdnWGQz9ficu9E7rVw5j8KGQACnoyQKJhSrcRYAuzxf8AJkr3eZ0F
+ fiHEEPXvuHyQk51Nm42oTCZd6/UBcnA2ndKZ4x/4UmmgACYSXzcozDWc8iby8oMOFZW4
+ hT+WhTNNlNoDrzG3jZxe2sbwoPRp7mdexa3MJLvtqn4MXbsLkm6VOEedVprSS5Y4+zqB
+ O4jQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1761500405; x=1762105205;
+ d=1e100.net; s=20230601; t=1761500406; x=1762105206;
  h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
  :mime-version:subject:date:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=PT2hY47s1RjHjMjR+FqOEH03YMoMMWni/+Svf2+bi04=;
- b=eSzmQizsPshZyX40Ur7w7SdXFBBfeWQT70HfWGae+3JDHNnwar1fgTvRc4A4cXhs5L
- FaEQMKNkxJMdSaNBb2N0JLyw1LhjGvXTOEq9mGed67V0zNd2THGEjhJp3LOndkJzHi5V
- ZJZOiN9/9HVBvcDg0u8vDXceje9AMSfX67Bgmy76jdRSP9XUYKmZZh4G1svzfRcwM+h2
- 4zqAJcKlBHgvASu7LKAh1d51vAYfxiwOjg7iVW5Y2WyLEr8oBHwrePnTpxfUNFNYz6ou
- x+BEVGWu0fRX7+hvW2JcuktFEdWExDZOknWT9t1uqaRIUsevQd/afiN3H0unbdaAeVuD
- cAFA==
+ bh=DqelzF++SRo5yLaNXUQGPgYYMPiGFZi9g01t7Yxskpc=;
+ b=Nt6p/RL+eOqrYPdOYAawP56FXaw2pHxY3y8dQMouqvYd2P7OL2fIJHSKXqusWqYG3V
+ 5SL5VAKe6B54SlXX+k0mw3kkZcwzX4Dq68Fa0BUfBqpUcRUt/XofAIDTdLhnJJ0DusbU
+ 4HCnAFAXwIa2EJNNniTr2+bvrYbzJl2pjg3gi2nFUDUU4w6ZX47bXn4fn7AWMJpfWsuG
+ ItENDeBdYQOQNALWZjZEV2+rZn4SSrdtHtrZwEJilPqj+9lXPIO8g5BLPSddNlPlmgXH
+ xX4L/QyfX+abYwQWmu681DLCNVjSVtVjbLNiTbuFZAVqjws032uTlsoK3LFTjb9CKSmo
+ g8qg==
 X-Forwarded-Encrypted: i=1;
- AJvYcCVvUS6DR2qEqc57JP0FG6Cqop0gQ5cQW3kLpzMR1icYkvwk5ASB1pnlty4nGb8qM5xi/KlAo2FPeeo=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YyDe5rMyuhIbvRw7yEqflgkf9Txx/+27I095+167JkppsSPZNNl
- k0FhxqtK657qIoqeUHZUYI5tpdn+O99h1HpBovPUBtlUohRaRiYhscViDXYFd97Ggd8=
-X-Gm-Gg: ASbGnct8w5ASa04bHT9Bob9myikcpSSiT1Bwe+3yPhoEwaDOcDk1FCLnw8x3fxJXnkq
- Mv1SuM/16njWQ7y1HYnh1grDi4UnfuoWKoI4Zwn8eGRa9BzgoQ1RqHsKZf2e8Vp02h+r2+KpEbI
- Q+ZM2BrPUUqRAn6mf8di99wb3y4RaafjCUnGdeNBrSeps7cTIBfPotqaGliYzxEovzGItTPse3t
- oD4nPlh9kAd4swOrGNtsQxwY4UVVXclsJJLraUGtKYCaGcOGKoxIiq7r4LDLQCEfLhs/LKoTbHv
- OsnfEeRzysWepW2TJpSJmwMsGriKxChhtjhwWOHRpWtL9qk3pw6vCLXhc/xtCp62cXXn87G06+W
- l4U3knfx1RcjoM6cMBX+Xo00roNqXpBfOD3nfzrYSNumdicuI1bCjik8g+WUkQ4mc9LTc7Qj+aW
- /tw4hnPYXITNKajoEoZIP7QchJdTWSVgeol3PJP9uVpHZJ1llcsc0QOKdsieMiiwFtGQ==
-X-Google-Smtp-Source: AGHT+IHHYkOSRLQTcu4pKXAB6vP6lq14xe8rGXzjr9k/3hlfRzAUy3gSbW6FpnfCWeD0/i3DIqOFzA==
-X-Received: by 2002:a05:6512:318d:b0:57f:7baa:b9bf with SMTP id
- 2adb3069b0e04-592fc9fe79fmr2179687e87.23.1761500405345; 
- Sun, 26 Oct 2025 10:40:05 -0700 (PDT)
+ AJvYcCVojcsXv1qhJCxR5SCQ35dFChZ7vkd5yHkP7/sBAaLey1zo//inNmNj+PKgVpWP922y7F3SmRDw8Qc=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YxajLDSsOnD0JuI+4KxbaRcjqh30y6kAaFk32u9jBF2znxlv1kM
+ RZ8lsSSFHRsuxO2vuv7TSkjAG2MrznDF7yYChyTJyoo8K01TTmnvyBCz6Dz1UDvBo4o=
+X-Gm-Gg: ASbGncuB/r3jdN4SHc4dzolboHsNqQL26+c+ZyN7CCNOzZofBY/kz52hOaZSVIPFg5T
+ vCNbyAbmvlu9Bv+wHrCW8ZmUo7M/4xy86dR2fjar/fXbanogqAYZue9+XizHKQFKzmvig19Hn7z
+ Bh2rRZU/YZ+Om0BtJjUiRSCnQ7U2JZSe/8P/vQat5DTzFk73+Ye1RZ1S0LGy8t0OQNis2mcqKPT
+ 86zrWZcPmVRePn9UaCFbt3E1q/zaRsrorSWysnTRQB4MIxkjGkjuqDssiSgc3KctZ5QZjGChd8Q
+ LKMj5s/g5JV9Y53XA9d+VE7mb0FU9c8rXSRJ1sSIkkkUKzrZq9czjKxrkXylA9cw6iSr5rMwUsU
+ JqSiVCYhDvxSXxeix7vWKjHAT9pRAovAsJpBV6GNk9hr1l6f4msrapadDPxzPQsZkb1h5MMf0Cu
+ JjrAR5tga35NoHRFqHZK3VqFdycgeHIRo9Xa6N9O68I71Y
+X-Google-Smtp-Source: AGHT+IEMhWnR4EQWyNaDnu2tIAdXlAiRd0g3riTQZUyWbx/MeRWkSvSchp9xQYNIdZqK3kyP28DnTA==
+X-Received: by 2002:a05:6512:4012:b0:592:f31d:da18 with SMTP id
+ 2adb3069b0e04-592f31ddc4cmr5017094e87.14.1761500406536; 
+ Sun, 26 Oct 2025 10:40:06 -0700 (PDT)
 Received: from [192.168.1.2] (c-92-34-217-190.bbcust.telenor.se.
  [92.34.217.190]) by smtp.gmail.com with ESMTPSA id
- 2adb3069b0e04-59301f41bf3sm1713620e87.20.2025.10.26.10.40.04
+ 2adb3069b0e04-59301f41bf3sm1713620e87.20.2025.10.26.10.40.05
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 26 Oct 2025 10:40:04 -0700 (PDT)
+ Sun, 26 Oct 2025 10:40:05 -0700 (PDT)
 From: Linus Walleij <linus.walleij@linaro.org>
-Date: Sun, 26 Oct 2025 18:40:02 +0100
-Subject: [PATCH v2 3/4] drm: panel: nt35560: Move DSI commands to
+Date: Sun, 26 Oct 2025 18:40:03 +0100
+Subject: [PATCH v2 4/4] drm: panel: s6e63m0: Move DSI commands to
  enable/disable
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20251026-fix-mcde-drm-regression-v2-3-8d799e488cf9@linaro.org>
+Message-Id: <20251026-fix-mcde-drm-regression-v2-4-8d799e488cf9@linaro.org>
 References: <20251026-fix-mcde-drm-regression-v2-0-8d799e488cf9@linaro.org>
 In-Reply-To: <20251026-fix-mcde-drm-regression-v2-0-8d799e488cf9@linaro.org>
 To: Aradhya Bhatia <a-bhatia1@ti.com>, 
@@ -104,79 +104,83 @@ any DSI commands in the prepare/unprepare callbacks: there is
 no guarantee that the DSI transmitter is available at this
 point.
 
+This will affect also SPI-based S6E63M0 displays, but that
+should be fine.
+
+Tested on the Samsung Golden (GT-I8190).
+
 Cc: Aradhya Bhatia <a-bhatia1@ti.com>
 Fixes: c9b1150a68d9 ("drm/atomic-helper: Re-order bridge chain pre-enable and post-disable")
 Signed-off-by: Linus Walleij <linus.walleij@linaro.org>
 ---
- drivers/gpu/drm/panel/panel-novatek-nt35560.c | 24 +++++++++++++++++-------
- 1 file changed, 17 insertions(+), 7 deletions(-)
+ drivers/gpu/drm/panel/panel-samsung-s6e63m0.c | 31 +++++++++++----------------
+ 1 file changed, 12 insertions(+), 19 deletions(-)
 
-diff --git a/drivers/gpu/drm/panel/panel-novatek-nt35560.c b/drivers/gpu/drm/panel/panel-novatek-nt35560.c
-index 561e6643dcbb..b0b11d3e26fe 100644
---- a/drivers/gpu/drm/panel/panel-novatek-nt35560.c
-+++ b/drivers/gpu/drm/panel/panel-novatek-nt35560.c
-@@ -278,16 +278,18 @@ static void nt35560_power_off(struct nt35560 *nt)
- }
+diff --git a/drivers/gpu/drm/panel/panel-samsung-s6e63m0.c b/drivers/gpu/drm/panel/panel-samsung-s6e63m0.c
+index ea241c89593b..7e000f30b124 100644
+--- a/drivers/gpu/drm/panel/panel-samsung-s6e63m0.c
++++ b/drivers/gpu/drm/panel/panel-samsung-s6e63m0.c
+@@ -508,32 +508,30 @@ static int s6e63m0_disable(struct drm_panel *panel)
+ 	s6e63m0_dcs_write_seq_static(ctx, MIPI_DCS_ENTER_SLEEP_MODE);
+ 	msleep(120);
  
- static int nt35560_prepare(struct drm_panel *panel)
-+{
-+	struct nt35560 *nt = panel_to_nt35560(panel);
++	s6e63m0_clear_error(ctx);
 +
-+	return nt35560_power_on(nt);
-+}
-+
-+static int nt35560_enable(struct drm_panel *panel)
- {
- 	struct nt35560 *nt = panel_to_nt35560(panel);
- 	struct mipi_dsi_multi_context dsi_ctx = {
- 		.dsi = to_mipi_dsi_device(nt->dev)
- 	};
--	int ret;
--
--	ret = nt35560_power_on(nt);
--	if (ret)
--		return ret;
- 
- 	nt35560_read_id(&dsi_ctx);
- 
-@@ -317,7 +319,7 @@ static int nt35560_prepare(struct drm_panel *panel)
- 	return dsi_ctx.accum_err;
- }
- 
--static int nt35560_unprepare(struct drm_panel *panel)
-+static int nt35560_disable(struct drm_panel *panel)
- {
- 	struct nt35560 *nt = panel_to_nt35560(panel);
- 	struct mipi_dsi_multi_context dsi_ctx = {
-@@ -332,12 +334,18 @@ static int nt35560_unprepare(struct drm_panel *panel)
- 
- 	msleep(85);
- 
-+	return 0;
-+}
-+
-+static int nt35560_unprepare(struct drm_panel *panel)
-+{
-+	struct nt35560 *nt = panel_to_nt35560(panel);
-+
- 	nt35560_power_off(nt);
- 
  	return 0;
  }
  
--
- static int nt35560_get_modes(struct drm_panel *panel,
- 			     struct drm_connector *connector)
+ static int s6e63m0_unprepare(struct drm_panel *panel)
  {
-@@ -369,6 +377,8 @@ static int nt35560_get_modes(struct drm_panel *panel,
- static const struct drm_panel_funcs nt35560_drm_funcs = {
- 	.unprepare = nt35560_unprepare,
- 	.prepare = nt35560_prepare,
-+	.enable = nt35560_enable,
-+	.disable = nt35560_disable,
- 	.get_modes = nt35560_get_modes,
- };
+ 	struct s6e63m0 *ctx = panel_to_s6e63m0(panel);
+-	int ret;
  
+-	s6e63m0_clear_error(ctx);
++	return s6e63m0_power_off(ctx);
++}
+ 
+-	ret = s6e63m0_power_off(ctx);
+-	if (ret < 0)
+-		return ret;
++static int s6e63m0_prepare(struct drm_panel *panel)
++{
++	struct s6e63m0 *ctx = panel_to_s6e63m0(panel);
+ 
+-	return 0;
++	return s6e63m0_power_on(ctx);
+ }
+ 
+-static int s6e63m0_prepare(struct drm_panel *panel)
++static int s6e63m0_enable(struct drm_panel *panel)
+ {
+ 	struct s6e63m0 *ctx = panel_to_s6e63m0(panel);
+ 	int ret;
+ 
+-	ret = s6e63m0_power_on(ctx);
+-	if (ret < 0)
+-		return ret;
+-
+ 	/* Magic to unlock level 2 control of the display */
+ 	s6e63m0_dcs_write_seq_static(ctx, MCS_LEVEL_2_KEY, 0x5a, 0x5a);
+ 	/* Magic to unlock MTP reading */
+@@ -547,15 +545,10 @@ static int s6e63m0_prepare(struct drm_panel *panel)
+ 
+ 	ret = s6e63m0_clear_error(ctx);
+ 
+-	if (ret < 0)
++	if (ret < 0) {
+ 		s6e63m0_unprepare(panel);
+-
+-	return ret;
+-}
+-
+-static int s6e63m0_enable(struct drm_panel *panel)
+-{
+-	struct s6e63m0 *ctx = panel_to_s6e63m0(panel);
++		return ret;
++	}
+ 
+ 	s6e63m0_dcs_write_seq_static(ctx, MIPI_DCS_EXIT_SLEEP_MODE);
+ 	msleep(120);
 
 -- 
 2.51.0
