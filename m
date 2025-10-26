@@ -2,58 +2,56 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7BCC1C0A451
-	for <lists+dri-devel@lfdr.de>; Sun, 26 Oct 2025 09:00:19 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0AC6CC0A478
+	for <lists+dri-devel@lfdr.de>; Sun, 26 Oct 2025 09:13:23 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 545B810E132;
-	Sun, 26 Oct 2025 08:00:17 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E7A3710E044;
+	Sun, 26 Oct 2025 08:13:19 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=linux.alibaba.com header.i=@linux.alibaba.com header.b="IWeO5BKP";
+	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="RE6XywIx";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 303 seconds by postgrey-1.36 at gabe;
- Sun, 26 Oct 2025 08:00:15 UTC
-Received: from out30-130.freemail.mail.aliyun.com
- (out30-130.freemail.mail.aliyun.com [115.124.30.130])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 13B0F10E132
- for <dri-devel@lists.freedesktop.org>; Sun, 26 Oct 2025 08:00:14 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linux.alibaba.com; s=default;
- t=1761465612; h=Message-ID:Date:MIME-Version:Subject:To:From:Content-Type;
- bh=gbW6lsAeQnITBSvhA7va7FPK1N1OCTuc7ZM09ubMnwE=;
- b=IWeO5BKP6yJYFscM9YXY3r/tbr5pI71MDjHBkAdgzNB7Q4iG3MrK0ptFkkvhAMmFhm2zvOmQeHQxjBfftV5i4lyFMvQQKPnwi5GU3p3/OaDEHR+tUB/lRVhuA4Un5qf6Ucn8TivJdyxwNTjV4PkPtQNsXFkLdKG+KuRCHJiyzm0=
-Received: from 30.246.176.102(mailfrom:xueshuai@linux.alibaba.com
- fp:SMTPD_---0Wqyle5w_1761465304 cluster:ay36) by smtp.aliyun-inc.com;
- Sun, 26 Oct 2025 15:55:06 +0800
-Message-ID: <3db524e7-b6ce-4652-8420-fdb4639ac73a@linux.alibaba.com>
-Date: Sun, 26 Oct 2025 15:55:04 +0800
+Received: from bali.collaboradmins.com (bali.collaboradmins.com
+ [148.251.105.195])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9E28710E044
+ for <dri-devel@lists.freedesktop.org>; Sun, 26 Oct 2025 08:13:18 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+ s=mail; t=1761466397;
+ bh=od6ChUUR+8/ACM0Q9cUVA9gbg9IV6GRMIjrKhyw5AEU=;
+ h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+ b=RE6XywIxAuMfSxG2mdTNpFGV7lCjjogAjgW/ix07HTwa0yNzBAIkKCcpJNJDui3zr
+ lZIt53PM35whuJSlW+PJ93j5sqGESA9+8H/S97Fs5sErzRkmGzVLi97Gt3VZf1PBLz
+ LPGAw7pxkNUJWcY7uYb4ZlosjcHhhViwJLjqxtSvRi/eshzghMSw+HQi3ww+Rsm0nw
+ fvNsSbk/xdje8+y2YTfwP+EnguDXdCzYVH1y0LgbF59HAtZ4oIZ+E20MpQBiilBh7v
+ E7oToM/7EgQ9qHdi/pl4potkuXC8rYP5qhnWVqrRlNhCfI+EtCD3OEpZN5aMZ9rQYf
+ awzAu1o5Vfopw==
+Received: from fedora (unknown [IPv6:2a01:e0a:2c:6930:d919:a6e:5ea1:8a9f])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested) (Authenticated sender: bbrezillon)
+ by bali.collaboradmins.com (Postfix) with ESMTPSA id 8473617E126B;
+ Sun, 26 Oct 2025 09:13:16 +0100 (CET)
+Date: Sun, 26 Oct 2025 09:13:10 +0100
+From: Boris Brezillon <boris.brezillon@collabora.com>
+To: Karunika Choo <karunika.choo@arm.com>
+Cc: dri-devel@lists.freedesktop.org, nd@arm.com, Steven Price
+ <steven.price@arm.com>, Liviu Dudau <liviu.dudau@arm.com>, Maarten
+ Lankhorst <maarten.lankhorst@linux.intel.com>, Maxime Ripard
+ <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, David Airlie
+ <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2 3/8] drm/panthor: Introduce panthor_pwr API and power
+ control framework
+Message-ID: <20251026091310.4046f061@fedora>
+In-Reply-To: <20251024202117.3241292-4-karunika.choo@arm.com>
+References: <20251024202117.3241292-1-karunika.choo@arm.com>
+ <20251024202117.3241292-4-karunika.choo@arm.com>
+Organization: Collabora
+X-Mailer: Claws Mail 4.3.1 (GTK 3.24.49; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v5 9/9] vfio/pci: Add dma-buf export support for MMIO
- regions
-To: Jason Gunthorpe <jgg@nvidia.com>, Leon Romanovsky <leon@kernel.org>
-Cc: Alex Williamson <alex.williamson@redhat.com>,
- Leon Romanovsky <leonro@nvidia.com>,
- Andrew Morton <akpm@linux-foundation.org>,
- Bjorn Helgaas <bhelgaas@google.com>,
- =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
- dri-devel@lists.freedesktop.org, iommu@lists.linux.dev,
- Jens Axboe <axboe@kernel.dk>, Joerg Roedel <joro@8bytes.org>,
- kvm@vger.kernel.org, linaro-mm-sig@lists.linaro.org,
- linux-block@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-media@vger.kernel.org, linux-mm@kvack.org, linux-pci@vger.kernel.org,
- Logan Gunthorpe <logang@deltatee.com>,
- Marek Szyprowski <m.szyprowski@samsung.com>,
- Robin Murphy <robin.murphy@arm.com>, Sumit Semwal <sumit.semwal@linaro.org>,
- Vivek Kasireddy <vivek.kasireddy@intel.com>, Will Deacon <will@kernel.org>
-References: <cover.1760368250.git.leon@kernel.org>
- <72ecaa13864ca346797e342d23a7929562788148.1760368250.git.leon@kernel.org>
- <20251022125012.GB244727@nvidia.com>
-From: Shuai Xue <xueshuai@linux.alibaba.com>
-In-Reply-To: <20251022125012.GB244727@nvidia.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -69,53 +67,31 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
-
-在 2025/10/22 20:50, Jason Gunthorpe 写道:
-> On Mon, Oct 13, 2025 at 06:26:11PM +0300, Leon Romanovsky wrote:
->> From: Leon Romanovsky <leonro@nvidia.com>
->>
->> Add support for exporting PCI device MMIO regions through dma-buf,
->> enabling safe sharing of non-struct page memory with controlled
->> lifetime management. This allows RDMA and other subsystems to import
->> dma-buf FDs and build them into memory regions for PCI P2P operations.
->>
->> The implementation provides a revocable attachment mechanism using
->> dma-buf move operations. MMIO regions are normally pinned as BARs
->> don't change physical addresses, but access is revoked when the VFIO
->> device is closed or a PCI reset is issued. This ensures kernel
->> self-defense against potentially hostile userspace.
+On Fri, 24 Oct 2025 21:21:12 +0100
+Karunika Choo <karunika.choo@arm.com> wrote:
+> diff --git a/drivers/gpu/drm/panthor/panthor_hw.c b/drivers/gpu/drm/panthor/panthor_hw.c
+> index 092962db5ccd..09aef34a6ce7 100644
+> --- a/drivers/gpu/drm/panthor/panthor_hw.c
+> +++ b/drivers/gpu/drm/panthor/panthor_hw.c
+> @@ -192,3 +192,8 @@ int panthor_hw_init(struct panthor_device *ptdev)
 > 
-> Let's enhance this:
+>  	return 0;
+>  }
+> +
+> +bool panthor_hw_has_pwr_ctrl(struct panthor_device *ptdev)
+> +{
+> +	return GPU_ARCH_MAJOR(ptdev->gpu_info.gpu_id) >= 14;
+> +}
+> diff --git a/drivers/gpu/drm/panthor/panthor_hw.h b/drivers/gpu/drm/panthor/panthor_hw.h
+> index 2665d6dde2e3..4c71f27d1c0b 100644
+> --- a/drivers/gpu/drm/panthor/panthor_hw.h
+> +++ b/drivers/gpu/drm/panthor/panthor_hw.h
+> @@ -32,4 +32,6 @@ struct panthor_hw {
 > 
-> Currently VFIO can take MMIO regions from the device's BAR and map
-> them into a PFNMAP VMA with special PTEs. This mapping type ensures
-> the memory cannot be used with things like pin_user_pages(), hmm, and
-> so on. In practice only the user process CPU and KVM can safely make
-> use of these VMA. When VFIO shuts down these VMAs are cleaned by
-> unmap_mapping_range() to prevent any UAF of the MMIO beyond driver
-> unbind.
+>  int panthor_hw_init(struct panthor_device *ptdev);
 > 
-> However, VFIO type 1 has an insecure behavior where it uses
-> follow_pfnmap_*() to fish a MMIO PFN out of a VMA and program it back
-> into the IOMMU. This has a long history of enabling P2P DMA inside
-> VMs, but has serious lifetime problems by allowing a UAF of the MMIO
-> after the VFIO driver has been unbound.
+> +bool panthor_hw_has_pwr_ctrl(struct panthor_device *ptdev);
 
-Hi, Jason,
+Let's make this a static inline function so the compiler can inline its
+content at compile time.
 
-Can you elaborate on this more?
-
- From my understanding of the VFIO type 1 implementation:
-
-- When a device is opened through VFIO type 1, it increments the
-   device->refcount
-- During unbind, the driver waits for this refcount to drop to zero via
-   wait_for_completion(&device->comp)
-- This should prevent the unbind() from completing while the device is
-   still in use
-
-Given this refcount mechanism, I do not figure out how the UAF can
-occur.
-
-Thanks.
