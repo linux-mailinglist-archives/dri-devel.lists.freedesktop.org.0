@@ -2,83 +2,137 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C6791C0A757
-	for <lists+dri-devel@lfdr.de>; Sun, 26 Oct 2025 13:39:43 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 707F4C0A85F
+	for <lists+dri-devel@lfdr.de>; Sun, 26 Oct 2025 13:56:45 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 73A0B10E0BE;
-	Sun, 26 Oct 2025 12:39:41 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4C39310E062;
+	Sun, 26 Oct 2025 12:56:42 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="JJzDq2EB";
+	dkim=pass (2048-bit key; secure) header.d=gmx.de header.i=natalie.vock@gmx.de header.b="ZYv1kfvC";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pj1-f65.google.com (mail-pj1-f65.google.com
- [209.85.216.65])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B4F6210E0BE
- for <dri-devel@lists.freedesktop.org>; Sun, 26 Oct 2025 12:39:40 +0000 (UTC)
-Received: by mail-pj1-f65.google.com with SMTP id
- 98e67ed59e1d1-33d463e79ddso4621577a91.0
- for <dri-devel@lists.freedesktop.org>; Sun, 26 Oct 2025 05:39:40 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1761482380; x=1762087180; darn=lists.freedesktop.org;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:from:to:cc:subject:date
- :message-id:reply-to;
- bh=Pc+8fpZOB5I/9IvnLSdfW8KMO+SGqBBnbxkKuG1XOSQ=;
- b=JJzDq2EBgTvXwJaVtwZe8sut9y3Bhmlv57i6Y4qRRgesSEp/o4vyvlmtXjJcqFaYKe
- sUG+jqXQ1lp6O5qRnjR2aslnadIB54c3L3bh46DZcFe7C8+YOQNYrwM+skEQJNTzlMAX
- pSL1bWJn8uGupGIBnLzDPJQc02rBdncayItGTZJSnKOyLV6kCETb4EtOoWf8LOyh9NPe
- cxkkMUWdMyKNzXPXYv2ttMOShvxM3Em3jqYub4oU7xIP04A1wxDpeT8quVRtqdKqNFNj
- 3ShETAOSpAPgz1OtgJLnNMa6pSyvGxZ1rSKc7oyV//JXkiIdU7pPfnYhg7jE1O/FMSoh
- 7y+A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1761482380; x=1762087180;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=Pc+8fpZOB5I/9IvnLSdfW8KMO+SGqBBnbxkKuG1XOSQ=;
- b=Vqc6k4P7TKd6tyt/F3PdC3Za5LaZ5W7BQkzSLLKTHFIPFmYqydtQhEG46M5mfncea4
- taoiSqq7Z7+J5Fwpn490bDY3lPw9Gb9rti838v5U7uWt1P0T4636X/qHCtFtxYsQUdi1
- J7goKK+38yMwgvLiivwmZXjPymB//BLd3ChRBB4Q0CNTK8rujY52eHoXFaK0LGdN6Jua
- HEr+M4y0z5RF1xpR3tV+PDguIy5w+ToadjiIQhLJ7IfMHwVQAP4hjisLxQyhF07f4DBP
- txUY7UES4PM1xTkkunfwrVBONIHVDHCt2VABcfOMpy6GAYxtWAswMrAPy9ZJBwZwv6lN
- FSeg==
-X-Gm-Message-State: AOJu0YzEa02THaqTib5RwyTHs3YkVTG74fWNhsxsHtcQ8kY5/+ml1/dP
- vA/IQfilp8TAGIxKR3ULdxkzyQEla5JZJ1OuVul0bHbZfZAmJY6Incs+
-X-Gm-Gg: ASbGnctZjmkn/CHTFqpecnZDQu8gISKFgT1Hip04ZDKSkqjqFqxkoTHitiU9x6e3BIS
- p1u3yfP7DEEOZmEm+Omc1y6dvQEStohsvoNC4z7hbz0fx7Pa8K8mGObea7BAqF6preIgEqEVWq7
- x3A+hn2znL36PuM0jvIhoSWwrCJkF+gVfPbw2EPN/vtpvbykC4eVQrW5wv83xW8dXujdmgY5RkX
- wxngfXx4L8IyPu/AEOOyLWiuRHlGk8nK/+tvsGC1NLAATD0jW8Y2nHBE450+rJsHy0Bf5mP1nJZ
- Nh0xmY76kInWvQdvb1X7RMbQR7xQPSN0jsR+RnDcyHeuheNzkH8j5B7cfG0jUPW8+UYuuh2rCAm
- 8tRLEOeMnYHNgPfrzc0vTqsoEXgyYD+8q27PQvjgGjAOmeUO/Gn9Jxl9cfNZFTDWrdZ2mKyyK96
- YE80XDA/g=
-X-Google-Smtp-Source: AGHT+IGbEnhg+iqvnLt2VCyWD8A5caky1VSS2V4/9SPR42mdqdV8DyNJUXIvLsgDMXvYzzIglugRTA==
-X-Received: by 2002:a17:90b:5386:b0:32e:9281:7c7b with SMTP id
- 98e67ed59e1d1-33bcf85da05mr35598257a91.3.1761482379901; 
- Sun, 26 Oct 2025 05:39:39 -0700 (PDT)
-Received: from VM-0-14-ubuntu.. ([43.134.26.72])
- by smtp.gmail.com with ESMTPSA id
- 98e67ed59e1d1-33fed7d2869sm5119634a91.7.2025.10.26.05.39.36
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 26 Oct 2025 05:39:39 -0700 (PDT)
-From: Junjie Cao <caojunjie650@gmail.com>
-To: Lee Jones <lee@kernel.org>, Daniel Thompson <danielt@kernel.org>,
- Jingoo Han <jingoohan1@gmail.com>, Pavel Machek <pavel@kernel.org>,
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>, Helge Deller <deller@gmx.de>
-Cc: dri-devel@lists.freedesktop.org, linux-leds@vger.kernel.org,
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-fbdev@vger.kernel.org, Junjie Cao <caojunjie650@gmail.com>,
- Pengyu Luo <mitltlatltl@gmail.com>
-Subject: [PATCH 2/2] backlight: aw99706: Add support for Awinic AW99706
- backlight
-Date: Sun, 26 Oct 2025 20:39:23 +0800
-Message-ID: <20251026123923.1531727-3-caojunjie650@gmail.com>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20251026123923.1531727-1-caojunjie650@gmail.com>
-References: <20251026123923.1531727-1-caojunjie650@gmail.com>
+Received: from mout.gmx.net (mout.gmx.net [212.227.15.15])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9865D10E062
+ for <dri-devel@lists.freedesktop.org>; Sun, 26 Oct 2025 12:56:39 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmx.de;
+ s=s31663417; t=1761483378; x=1762088178; i=natalie.vock@gmx.de;
+ bh=b9pOLJD8s2D1NEIJCyFpXAgrTZKXeobbnooSip1UEzc=;
+ h=X-UI-Sender-Class:Message-ID:Date:MIME-Version:Subject:To:Cc:
+ References:From:In-Reply-To:Content-Type:
+ Content-Transfer-Encoding:cc:content-transfer-encoding:
+ content-type:date:from:message-id:mime-version:reply-to:subject:
+ to;
+ b=ZYv1kfvC78ccAh94JJZuS0UiaQ23qJSUQjmEWIZ+Bb9nqoOTwt9IGhYt1rTOe7IA
+ R7qJg8Pq5MA741qpNrsq6mFYwxRMd2NNGLRGhwoR8ftfW+CNG6j34Hi1ml/rVB1Tp
+ W9nIOrYjvyNeqITb4WUiNkJVQw6dEIkpLP/qwPEAn0trbuTn/v6DJ9DDEM30cU+an
+ i3p6SXBAtr56awfwVb2M1t226GMvgNl0GUbUV9FW5a1Ao33dxTor5g+sGhiWzcvV+
+ VciEPI7bORdu8U6fz501RBslbOm/uwoZU9o53XgShFIdn103oDp+75xM4vRAzn+uJ
+ JMY7edtj/fChWImi6A==
+X-UI-Sender-Class: 724b4f7f-cbec-4199-ad4e-598c01a50d3a
+Received: from [192.168.0.3] ([109.91.201.165]) by mail.gmx.net (mrgmx004
+ [212.227.17.190]) with ESMTPSA (Nemesis) id 1N0X8o-1uGtvS04BQ-00smwy; Sun, 26
+ Oct 2025 13:56:18 +0100
+Message-ID: <bb112ec0-e920-4f23-9bb8-16b591eae128@gmx.de>
+Date: Sun, 26 Oct 2025 13:56:16 +0100
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 4/5] drm/ttm: Be more aggressive when allocating below
+ protection limit
+To: Maarten Lankhorst <dev@lankhorst.se>, Maxime Ripard <mripard@kernel.org>, 
+ Tejun Heo <tj@kernel.org>, Johannes Weiner <hannes@cmpxchg.org>,
+ =?UTF-8?Q?Michal_Koutn=C3=BD?= <mkoutny@suse.com>,
+ Christian Koenig <christian.koenig@amd.com>, Huang Rui <ray.huang@amd.com>,
+ Matthew Auld <matthew.auld@intel.com>,
+ Matthew Brost <matthew.brost@intel.com>,
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
+ Simona Vetter <simona@ffwll.ch>
+Cc: cgroups@vger.kernel.org, dri-devel@lists.freedesktop.org
+References: <20251015-dmemcg-aggressive-protect-v2-0-36644fb4e37f@gmx.de>
+ <20251015-dmemcg-aggressive-protect-v2-4-36644fb4e37f@gmx.de>
+ <1ebc018f-fee0-4813-8e2e-7a704d3334b0@lankhorst.se>
+Content-Language: en-US
+From: Natalie Vock <natalie.vock@gmx.de>
+In-Reply-To: <1ebc018f-fee0-4813-8e2e-7a704d3334b0@lankhorst.se>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: quoted-printable
+X-Provags-ID: V03:K1:xqoCqlL5agbLgr2mY0SY4z5gPs1TCgFEhr4e0urgBt1mw+RzAWH
+ vA2ucUYxkEivtE566WXw6SGOR0WLgVZJJIRvRJwWMnZN2013khCF7W4z4AM2hS+j7xm9Ru5
+ 2nUXpgoMG0iYxkPzqe5Faz9LmmM2ZyYn7joMjQhSdIQcIA1wc2YgVsuQ91HOvE+E25J3fs7
+ WDCZcKmkYZatqecKpA75A==
+X-Spam-Flag: NO
+UI-OutboundReport: notjunk:1;M01:P0:49hikTeLkB0=;XxnU9XNN7nX/bYTp78vpdFf9HeW
+ t4px3hihf0W2oMSF+NyVUs0Za0TPZrc5iSXsiwHeyxOnMAOMiOlwkvWqGCXMn/IPK7oMGs3sK
+ LOG7Cn90NVYDWd0Jtk7reH4KYdXJr/juRZpNXHOXBY7WIBKmsXau1HqOPeAQRj2594ycifaAP
+ Of4SFPLpl4NV08H41kmJI3c4c5lxdqSXJWP7xO8da6zFbCUPgdcBf4UgO/rCGO/TNfnUG6dBi
+ R3asnmzfWt3Sqrsvm3f4KnBLe0lTYwMteInewsuziLn27L/aBIk9PsEAQsqZNQ8bfrf8tDaCn
+ 4DsrdiiimRHHWKdb5cjGGJdcEAkXbnWbHbFQRqBDFg5mHphJLY4z9iVZhBbGbql2rzKura+9r
+ 9LRNM4ilCbv7nm2vhlsCEvkRRklc4oXTOaTXtFVrgy17kwOF3EcjHpJRmXdw8FTQPljIiIsLp
+ Gg6GxWQLOITmTFSOXoqDUCv0Sqtz/Xi8JJDvaYMWfE1ptcG2trQMmjbDnBxUKZ9Ugln8SyGrY
+ O0xCMJ+nA9mj6ntqWElwYc44sfd13OpzzJWrXrrPZG7vHR2c1gQjKW/+NiGSm2omZIsjOa94F
+ w9DW33s0v0DmQAZqIkA9JDrC2EiWkNeI3UVfHwbejIK5nAbgPzBTSy8EHTHJkoRDYUmc1FJ7G
+ /j8+Q1c7fSf/2oEZzYreyVIZM70gr1QcLPIzAiJmr55CnFVSuU1VeiJKrCf9NosOHoJIeVtHN
+ X7PEWNmqi//4YQbd/xmN8yPa6G3mXIDo/fs+5OfcfhtLK1hBqyj1hi+7v3O0mC6fz5PQZzgtA
+ 07z2OuGgn8B7AsExtYikEdlKC4dxK8237UN8HmInH39o2CbG/hp98h2lRXiM/s7xIQzHjCPBH
+ 6eWpRO6pn+NlSu6zyNSomtx5gq4Us3UEkj0xh6PMHAf6LNu1tm1qWfjKZBHJi6vuAvxZ6Y/Yc
+ 7LTx2U6MqrlrAcpKNpLsjEsi3gWUG2HucTmFtGHQI1bd4KSGHwLs2kqkvgY6zgt4enOjQocyR
+ zs7E+hdy96Xqa1WrRjZs0GOSW8NSXdg52lNTxcjitcTQXuOOYtSlNGIe3BmWI0wSVFo5tbJSn
+ zYJhArZIO6Y2ZiCmBCdrbqQA5Nu4EqQUL2dtmP3QUpWdV4c4n7/WAQ5IBaiHyhU+ltW90cxlk
+ bYTRoDQS1fN4kqH1+oPlR/9E0wNHnhcThIFyrAwIsNXKuPeyshkAd6VyN5pTFBBaXe7oCYzj3
+ o+XjQsb47us/L7ysL/+tTRf4flf1ipLJngm80zjDBB2xxrxX4AYv40lwYkGi6zYWgsPSZd8RM
+ 7XbErQ3qchfQKBhv9zUZ9jzOA8iQoBCMBcBoDPjF73I3w4wzTtUlrsyhMFnZKcRCXtMDG49J4
+ JMxwrrXdX5oE8yvL8RuleeKGojz72Ok9PhIguD9GQmc/eMViU+UGXQpUA8ndCnJBiw7yvgd8S
+ m3Rd7zw9PCO2CI8R1Vy75HvCl5/Iv7/lPCs6PqCzwOatixVaczjb3YPRNvZhosbyR5WaCSMkS
+ pb3EErZm3to0UtA8DJwxrlH9N93x369oca8TBuSHpAxKhgUaR1aSp7bhpHIshBOhvTqWMxlsM
+ oDRlMf45mvxgui92wooz8cQfuNYudTWZ+iMrFZwLh4Crp6A9AvHGSunkVn2q3WtP8Cx+N25xW
+ uUVODEu3ow2imsWtYWi4AizgtISPhT6Ig6NrelgoEvNigXrgEM1KdVYGi6setC32cMs8LH4Da
+ M9dQLfhW5auiZpRwtuEQtqjtVTUF+dPnur8DwFP+EHXQBnDu/pbMxvZ3u63N5hwFzO9G4/nNq
+ pYe/DgY1HzDzFoR/9IAK2G1ijzpsWGUK3X382qMS54O/TWTWkQuz8QMwSty5X0DWeT7wzePXj
+ Jk6SEf8JpdMZlVV2w2dc+dn2xMfj7yOmEV5vVmYGrbOhEnzCcG8JJPZCAEaE46SJIMAcBkVwH
+ mofEUB2gCFpdADH3q7iVoEMX73QzuBmDXBn+WMFvle+COKtkxyIFgzm3pgROKYQ3ljErWw4r5
+ JpW9ej2wRPLSgmGnW7SAUDoSVZ2gzdECjMbozYZ+t0D/PW+F/UQomUUikVvRbR7zG9KhR+C5N
+ tjeOvoGw/GAO4+kF/5u6XO5nCa8bYp6jwlZj3P/6YAWNUCcd0G5dU/+ESVJLulnfC0M+XQ9Pt
+ Ito1GmjzCnXfbd1mtiqPaGgBOAOQwpcEgpa/yvBLiEFemnJ5ZeO8V9mzl0mPH98SbD1TJxw5N
+ 75P/yrOQjBBpJsF3/2WY7uQUlmQqruaNG008idZxDla3yb/AMt5xXLiydsqoeA5FMZNsvD1Io
+ efBm27Mf/llwCSFU2UiXDcsYZ3+0KCM/HB3+yX//PRSFkL2x6eO2Vg6lLiRmbpJswaFWWyJhz
+ WdAC565uGHdDeHSn4spcJHfR69P5N6j4PMDcR0ZuMhnBT//LCMdcAYwrm3wZgSZhQaL/22DEs
+ MDD3UhYYmmxNwggWx0uusFmrdldPPJtECNjo7oJXs9AvB5D7JJuZhzqcrfL4Uhg6x1ZzuKZgv
+ 0jd8l/+f7bGMHbdokEsr1KhrnksT1U48HLuGYNsgFW7hk92TuSLV7/Hc5PlveRsmOkqutqklC
+ B1xiQ/ELPsvH4XMaLQjPkhfceY+7Cis8FAhzk5Ee4LLYRAFaoV3v8yWEhGl7ASlilffEwk0Z/
+ /vE0jcPXt9SSj3l8xOXdCX9a2jxMjnPA7chq+1E6HpS5i6IIkhsi+Fs/HQgzojX/mt66WXK6b
+ spt7beNa7dJHbVvIptwFNhLd5rqFyHKdc3PeGzXxl9fYQvAyK5vYC/tPxqH/mQBNc4A35ztnq
+ wnm27DPTSu02s3y8HB7EGp6rfqF4yqc8xZSRURbl1zGY0H6IWo2Shk5HPpQ0wyO3QQIjMUBcF
+ G3Bantp6MaaSe8keZx8TBRND4BVWpKzInYrRuSj/za9mOmQrcXdS/gA1bJEE0+uGMUcfz6HEs
+ VMiN0qHH8fWV6m66YzkEWzLgTuVhs1HRaXUzjQ54BE6OKgEe5vhdD1dUTHkVP09xRGvkjW0yi
+ 2BuBXryTzNvxoP7I1ojBXh1J4C//M/XHBrGhk7txWRRZBX09ERpw5iw3X/086ezfq0WzdRvIj
+ 4o0jcf6t9kmvSfl6wfaW9YRkWCVm50uBFFqLq1NYH2PWCuqgD5JdvLIEL2YJT4If+Ml2W4kib
+ czX27QcukDrfpKj3emkNDJqq7yIr/fiH7CnBWTT9Mx7IuDWWQwn5GZCcG3rYHqNqypEFmzjyy
+ 2BXEqqBrhFqw5orqyRrJ1TvoRvb5LUtIQWFyhCGmDFQGEyfHJDk9dyYNxBo1MV4/cJHNSz5xX
+ +Nu/+vITWJrNnCnq/xuQNokaSJX56MeROHSVd0QBLZzr5gYbg5aOY/+xW8RfFr5nHuoJApego
+ 187RSWQbkWC77VpTBpIM4qCQjBueoMdaIGaRMF+dswOc14jSBoqqvVWnYEhfXwYugfXdoHost
+ odro03m610midGPYJI0gwTQ0ldmpjMRjuRftPUYUie0DSESRV/KAyiWefCMEPfLlunoWBOfVN
+ 6D1yMT597Ymd3BcQIHPgB2aR7fDcAkMGNxYd7TfvfTkiXrsMcTk7jgQb5tjhgYWotfaFZbL71
+ 2RDIekiUsHfNidF7R90WOOratB2OZbb8Oiyv7ClF9NZbxL7mU6Rtqjasij6L2WtXaTm4WsW/V
+ K5myRYC8guNdyLutzFiJfe3O7LXUSj4GkEc7dZALynnvt+8QkqpT/Elsq4NfOj1S1awn547hz
+ FiMNUQ+0JuuKVa0MdvBiE5RFp/XS3iqJj2TZON+s96n+3qI4DWG6x7RlpxSnuMt5JAdoVouZ+
+ lR/HQyYtPOnjYY3kvuOL2qpfa8lk5uItXDaEzY22BlB1p7rXtXI1aM7pzcQoNv3lOpjw9ThlX
+ W/Mo1upA4jfRgisbqIC/M2eaMqin1TXhzlVcT/6kSCwWhBwbup2rEpozqZbHNsM7IV/Z4uvw0
+ 1mMG1J0T+vh35V5KfMF5jB3UCy2YaYE2eEAqjun2figi6IrZlnYXShB52FSTuWgMpopqHuL+a
+ 8+Qq5uXTJmGE1XgdT5IV8+I+r53AU2a9xC9w8URPJBzSI44O7wGT9hF/F41yIi3wJba+hPBxs
+ s/UuQXcua85L+sMHT7fp0kGVBEmEkPAByiFn2Iy7BApecfF+Kgcc1lflzWUqcDNVsv9XHlK11
+ TEYQRg4Ozgdpxqh7ldEVaCFtqRxFNpxXwmKS/qvR1w14flrbL2XCGL+aAFS2G4vWdhNBBxKtA
+ aI0GFIcs1Kydu/O1as2X+7/82c2lpn3Vceol7iYiMgnHwxIm8iLNKc2+0maK08p6qLv3YlZB4
+ xXBK/+M3IpTmJs6wtHyeCZOeMZAZAJRn+Pb3E/Ud8D5SDYsCdxb83quuDozYUJu+P/XMyqzd0
+ nTH35maMBMS6a4wsecaDdXuNy4f2eoMZ0hm/Q1WuwMhgp/3HerhAB5FdSMwmESkCoTcldOdnT
+ YJoKJEbvPII7xBILq9DMKLWk/czGrHyczxLDSsmFjqD20Lz1aZ7MUhqnzcf23bA3cu40/b7oM
+ F0MoNNSVEkKsBUwKjUo9Ps5tK3uxZiuX0nxgjqM1wWqxiAG/ApTYik3EQytEwhvIunmdY1xrx
+ 8yOc9ZctdARnvoKlpytCYQdnon6OYakaZ3VXay9gbgIfLwXOlp2kBNmvKLQpLl/2hNNXnCkBt
+ t6jG11wNSMIIoR9qSRyyKeHHpj1qPze/1vonOLJn81+pXjKXOtVZJpNTqFeRIbAm/uZGyTevy
+ /lvXn3GiROgXEx3yODwDgP5fMNs5Lkd/+lcFdkVRoAmZvsLXbYQU+4oobSb9+yAezYwlRzcO+
+ OFowz3BQJZ4hh+G5adcEkpyEI+I1hdW/U1s6m1Vtg0lNUQ3FrFN5oMTij2Q2XrD8hU3UDI46j
+ 6N6aeA7VEMQz60DzgUwv4oMyrIxUtk+wborwDmjwjjQOm6/UUaQt+3T4VEcQ9Cj9s/VpbQhUy
+ cxC4efMyZGQPHwCDMYRrmrfuLpKg/02cHAZxkOZNw5f88Ik5a6X1BjoLAh3xybLH+b9BWSglY
+ EvTEQKUUbyOr7B5YxHrEOsScWCjBuHkHZB68Q0EzegMVTDwSRg0qxtps6JWMeMCoCP9GA==
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -94,580 +148,281 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Add support for Awinic AW99706 backlight, which can be found in
-tablet and notebook backlight, one case is the Lenovo Legion Y700
-Gen4. This driver refers to the official datasheets and android
-driver, they can be found in [1].
+Hi,
 
-[1] https://www.awinic.com/en/productDetail/AW99706QNR
+On 10/24/25 14:14, Maarten Lankhorst wrote:
+> Hey,
+>=20
+> Den 2025-10-15 kl. 15:57, skrev Natalie Vock:
+>> When the cgroup's memory usage is below the low/min limit and allocatio=
+n
+>> fails, try evicting some unprotected buffers to make space. Otherwise,
+>> application buffers may be forced to go into GTT even though usage is
+>> below the corresponding low/min limit, if other applications filled VRA=
+M
+>> with their allocations first.
+>>
+>> Signed-off-by: Natalie Vock <natalie.vock@gmx.de>
+>> ---
+>>   drivers/gpu/drm/ttm/ttm_bo.c       | 43 ++++++++++++++++++++++++++++-=
+=2D----
+>>   drivers/gpu/drm/ttm/ttm_resource.c | 48 +++++++++++++++++++++++++++--=
+=2D--------
+>>   include/drm/ttm/ttm_resource.h     |  6 ++++-
+>>   3 files changed, 76 insertions(+), 21 deletions(-)
+>>
+>> diff --git a/drivers/gpu/drm/ttm/ttm_bo.c b/drivers/gpu/drm/ttm/ttm_bo.=
+c
+>> index 829d99479883594f8be5b9ceed4cc53c4864ace5..7f7872ab2090cc8db188e08=
+ddfdcd12fe924f743 100644
+>> --- a/drivers/gpu/drm/ttm/ttm_bo.c
+>> +++ b/drivers/gpu/drm/ttm/ttm_bo.c
+>> @@ -490,8 +490,12 @@ int ttm_bo_evict_first(struct ttm_device *bdev, st=
+ruct ttm_resource_manager *man
+>>   }
+>>  =20
+>>   struct ttm_bo_alloc_state {
+>> +	/** @charge_pool: The memory pool the resource is charged to */
+>> +	struct dmem_cgroup_pool_state *charge_pool;
+>>   	/** @limit_pool: Which pool limit we should test against */
+>>   	struct dmem_cgroup_pool_state *limit_pool;
+>> +	/** @only_evict_unprotected: If eviction should be restricted to unpr=
+otected BOs */
+>> +	bool only_evict_unprotected;
+> I'm not entirely sure we should put 'low' and 'min' limits together here=
+.
 
-Signed-off-by: Pengyu Luo <mitltlatltl@gmail.com>
-Signed-off-by: Junjie Cao <caojunjie650@gmail.com>
----
- MAINTAINERS                       |   6 +
- drivers/video/backlight/Kconfig   |   8 +
- drivers/video/backlight/Makefile  |   1 +
- drivers/video/backlight/aw99706.c | 503 ++++++++++++++++++++++++++++++
- 4 files changed, 518 insertions(+)
- create mode 100644 drivers/video/backlight/aw99706.c
+I think putting 'low' and 'min' together here is accurate. When the=20
+allocation is covered by the 'low' limit, but not the 'min' limit, we=20
+should evict only allocations that are covered by neither (which is what=
+=20
+this flag controls).
 
-diff --git a/MAINTAINERS b/MAINTAINERS
-index 5ea78444f..cef23fcaa 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -4132,6 +4132,12 @@ S:	Maintained
- F:	Documentation/devicetree/bindings/iio/adc/avia-hx711.yaml
- F:	drivers/iio/adc/hx711.c
- 
-+AWINIC AW99706 WLED BACKLIGHT DRIVER
-+M:	Junjie Cao <caojunjie650@gmail.com>
-+S:	Maintained
-+F:	Documentation/devicetree/bindings/leds/backlight/awinic,aw99706.yaml
-+F:	drivers/video/backlight/aw99706.c
-+
- AX.25 NETWORK LAYER
- L:	linux-hams@vger.kernel.org
- S:	Orphan
-diff --git a/drivers/video/backlight/Kconfig b/drivers/video/backlight/Kconfig
-index d9374d208..35c7bfad0 100644
---- a/drivers/video/backlight/Kconfig
-+++ b/drivers/video/backlight/Kconfig
-@@ -156,6 +156,14 @@ config BACKLIGHT_ATMEL_LCDC
- 	  If in doubt, it's safe to enable this option; it doesn't kick
- 	  in unless the board's description says it's wired that way.
- 
-+config BACKLIGHT_AW99706
-+	tristate "Backlight Driver for Awinic AW99706"
-+	depends on I2C
-+	select REGMAP_I2C
-+	help
-+	  If you have a LCD backlight connected to the WLED output of AW99706
-+	  WLED output, say Y here to enable this driver.
-+
- config BACKLIGHT_EP93XX
- 	tristate "Cirrus EP93xx Backlight Driver"
- 	depends on FB_EP93XX
-diff --git a/drivers/video/backlight/Makefile b/drivers/video/backlight/Makefile
-index dfbb169bf..a5d62b018 100644
---- a/drivers/video/backlight/Makefile
-+++ b/drivers/video/backlight/Makefile
-@@ -25,6 +25,7 @@ obj-$(CONFIG_BACKLIGHT_ADP8870)		+= adp8870_bl.o
- obj-$(CONFIG_BACKLIGHT_APPLE)		+= apple_bl.o
- obj-$(CONFIG_BACKLIGHT_APPLE_DWI)	+= apple_dwi_bl.o
- obj-$(CONFIG_BACKLIGHT_AS3711)		+= as3711_bl.o
-+obj-$(CONFIG_BACKLIGHT_AW99706)		+= aw99706.o
- obj-$(CONFIG_BACKLIGHT_BD6107)		+= bd6107.o
- obj-$(CONFIG_BACKLIGHT_CLASS_DEVICE)	+= backlight.o
- obj-$(CONFIG_BACKLIGHT_DA903X)		+= da903x_bl.o
-diff --git a/drivers/video/backlight/aw99706.c b/drivers/video/backlight/aw99706.c
-new file mode 100644
-index 000000000..8dafdea45
---- /dev/null
-+++ b/drivers/video/backlight/aw99706.c
-@@ -0,0 +1,503 @@
-+// SPDX-License-Identifier: GPL-2.0
-+/*
-+ * aw99706 - Backlight driver for the AWINIC AW99706
-+ *
-+ * Copyright (C) 2025 Junjie Cao <caojunjie650@gmail.com>
-+ * Copyright (C) 2025 Pengyu Luo <mitltlatltl@gmail.com>
-+ *
-+ * Based on vendor driver:
-+ * Copyright (c) 2023 AWINIC Technology CO., LTD
-+ */
-+
-+#include <linux/backlight.h>
-+#include <linux/bitfield.h>
-+#include <linux/delay.h>
-+#include <linux/gpio.h>
-+#include <linux/i2c.h>
-+#include <linux/kernel.h>
-+#include <linux/module.h>
-+#include <linux/regmap.h>
-+
-+#define AW99706_MAX_BRT_LVL		4095
-+#define AW99706_REG_MAX			0x1F
-+#define AW99706_ID			0x07
-+
-+/* registers list */
-+#define AW99706_CFG0_REG			0x00
-+#define AW99706_DIM_MODE_MASK			GENMASK(1, 0)
-+
-+#define AW99706_CFG1_REG			0x01
-+#define AW99706_SW_FREQ_MASK			GENMASK(3, 0)
-+#define AW99706_SW_ILMT_MASK			GENMASK(5, 4)
-+
-+#define AW99706_CFG2_REG			0x02
-+#define AW99706_ILED_MAX_MASK			GENMASK(6, 0)
-+#define AW99706_UVLOSEL_MASK			BIT(7)
-+
-+#define AW99706_CFG3_REG			0x03
-+#define AW99706_CFG4_REG			0x04
-+#define AW99706_BRT_MSB_MASK			GENMASK(3, 0)
-+
-+#define AW99706_CFG5_REG			0x05
-+#define AW99706_BRT_LSB_MASK			GENMASK(7, 0)
-+
-+#define AW99706_CFG6_REG			0x06
-+#define AW99706_FADE_TIME_MASK			GENMASK(2, 0)
-+#define AW99706_SLOPE_TIME_MASK			GENMASK(5, 3)
-+#define AW99706_RAMP_CTL_MASK			GENMASK(7, 6)
-+
-+#define AW99706_CFG7_REG			0x07
-+#define AW99706_BRT_MODE_MASK			GENMASK(1, 0)
-+
-+#define AW99706_CFG8_REG			0x08
-+#define AW99706_ONOFF_TIME_MASK			GENMASK(2, 0)
-+
-+#define AW99706_CFG9_REG			0x09
-+#define AW99706_CFGA_REG			0x0A
-+#define AW99706_CFGB_REG			0x0B
-+#define AW99706_CFGC_REG			0x0C
-+#define AW99706_CFGD_REG			0x0D
-+#define AW99706_FLAG_REG			0x10
-+#define AW99706_BACKLIGHT_EN_MASK		BIT(7)
-+
-+#define AW99706_CHIPID_REG			0x11
-+#define AW99706_LED_OPEN_FLAG_REG		0x12
-+#define AW99706_LED_SHORT_FLAG_REG		0x13
-+#define AW99706_MTPLDOSEL_REG			0x1E
-+#define AW99706_MTPRUN_REG			0x1F
-+
-+#define RESV	0
-+
-+/* Boost switching frequency table, in kHz */
-+static const u32 aw99706_sw_freq_tbl[] = {
-+	RESV, RESV, RESV, RESV, 300, 400, 500, 600,
-+	660, 750, 850, 1000, 1200, 1330, 1500, 1700
-+};
-+
-+/* Switching current limitation table, in mA */
-+static const u32 aw99706_sw_ilmt_tbl[] = {
-+	1500, 2000, 2500, 3000
-+};
-+
-+/* ULVO threshold table, in mV */
-+static const u32 aw99706_ulvo_thres_tbl[] = {
-+	2200, 5000
-+};
-+
-+/* Fade In/Out time table, in us */
-+static const u32 aw99706_fade_time_tbl[] = {
-+	8, 16, 32, 64, 128, 256, 512, 1024
-+};
-+
-+/* Slope time table, in ms */
-+static const u32 aw99706_slopetime_tbl[] = {
-+	8, 24, 48, 96, 200, 300, 400, 500
-+};
-+
-+/* Turn on/off time table, in ns */
-+static const u32 aw99706_onoff_time_tbl[] = {
-+	RESV, 250, 500, 1000, 2000, 4000, 8000, 16000
-+};
-+
-+struct aw99706_device {
-+	struct i2c_client *client;
-+	struct device *dev;
-+	struct regmap *regmap;
-+	struct backlight_device *bl_dev;
-+	struct gpio_desc *hwen_gpio;
-+	bool bl_enable;
-+};
-+
-+enum reg_access {
-+	REG_NONE_ACCESS	= 0,
-+	REG_RD_ACCESS	= 1,
-+	REG_WR_ACCESS	= 2,
-+};
-+
-+struct aw99706_reg {
-+	u8 defval;
-+	u8 access;
-+};
-+
-+const struct aw99706_reg aw99706_regs[AW99706_REG_MAX + 1] = {
-+	[AW99706_CFG0_REG]		= {0x65, REG_RD_ACCESS | REG_WR_ACCESS},
-+	[AW99706_CFG1_REG]		= {0x39, REG_RD_ACCESS | REG_WR_ACCESS},
-+	[AW99706_CFG2_REG]		= {0x1e, REG_RD_ACCESS | REG_WR_ACCESS},
-+	[AW99706_CFG3_REG]		= {0x04, REG_RD_ACCESS | REG_WR_ACCESS},
-+	[AW99706_CFG4_REG]		= {0x00, REG_RD_ACCESS | REG_WR_ACCESS},
-+	[AW99706_CFG5_REG]		= {0x00, REG_RD_ACCESS | REG_WR_ACCESS},
-+	[AW99706_CFG6_REG]		= {0xa9, REG_RD_ACCESS | REG_WR_ACCESS},
-+	[AW99706_CFG7_REG]		= {0x04, REG_RD_ACCESS | REG_WR_ACCESS},
-+	[AW99706_CFG8_REG]		= {0x0c, REG_RD_ACCESS | REG_WR_ACCESS},
-+	[AW99706_CFG9_REG]		= {0x4b, REG_RD_ACCESS | REG_WR_ACCESS},
-+	[AW99706_CFGA_REG]		= {0x72, REG_RD_ACCESS | REG_WR_ACCESS},
-+	[AW99706_CFGB_REG]		= {0x01, REG_RD_ACCESS | REG_WR_ACCESS},
-+	[AW99706_CFGC_REG]		= {0x6c, REG_RD_ACCESS | REG_WR_ACCESS},
-+	[AW99706_CFGD_REG]		= {0xfe, REG_RD_ACCESS | REG_WR_ACCESS},
-+	[AW99706_FLAG_REG]		= {0x00, REG_RD_ACCESS},
-+	[AW99706_CHIPID_REG]		= {AW99706_ID, REG_RD_ACCESS},
-+	[AW99706_LED_OPEN_FLAG_REG]	= {0x00, REG_RD_ACCESS},
-+	[AW99706_LED_SHORT_FLAG_REG]	= {0x00, REG_RD_ACCESS},
-+
-+	/*
-+	 * Write bit is dropped here, writing BIT(0) to MTPLDOSEL will unlock
-+	 * Multi-time Programmable (MTP).
-+	 */
-+	[AW99706_MTPLDOSEL_REG]		= {0x00, REG_RD_ACCESS},
-+	[AW99706_MTPRUN_REG]		= {0x00, REG_NONE_ACCESS},
-+};
-+
-+static bool aw99706_readable_reg(struct device *dev, unsigned int reg)
-+{
-+	return aw99706_regs[reg].access & REG_RD_ACCESS;
-+}
-+
-+static bool aw99706_writeable_reg(struct device *dev, unsigned int reg)
-+{
-+	return aw99706_regs[reg].access & REG_WR_ACCESS;
-+}
-+
-+static inline int aw99706_i2c_read(struct aw99706_device *aw, u8 reg,
-+				   unsigned int *val)
-+{
-+	return regmap_read(aw->regmap, reg, val);
-+}
-+
-+static inline int aw99706_i2c_write(struct aw99706_device *aw, u8 reg, u8 val)
-+{
-+	return regmap_write(aw->regmap, reg, val);
-+}
-+
-+static inline int aw99706_i2c_update_bits(struct aw99706_device *aw, u8 reg,
-+					  u8 mask, u8 val)
-+{
-+	return regmap_update_bits(aw->regmap, reg, mask, val);
-+}
-+
-+struct aw99706_dt_prop {
-+	const char * const name;
-+	const u32 * const lookup_tbl;
-+	u8 tbl_size;
-+	u8 reg;
-+	u8 mask;
-+	u8 val;
-+	u32 raw_val;
-+};
-+
-+static struct aw99706_dt_prop aw99706_dt_props[] = {
-+	{
-+		"awinic,dim-mode", NULL,
-+		0,
-+		AW99706_CFG0_REG, AW99706_DIM_MODE_MASK
-+	},
-+	{
-+		"awinic,sw-freq", aw99706_sw_freq_tbl,
-+		ARRAY_SIZE(aw99706_sw_freq_tbl),
-+		AW99706_CFG1_REG, AW99706_SW_FREQ_MASK
-+	},
-+	{
-+		"awinic,sw-ilmt", aw99706_sw_ilmt_tbl,
-+		ARRAY_SIZE(aw99706_sw_ilmt_tbl),
-+		AW99706_CFG1_REG, AW99706_SW_ILMT_MASK
-+	},
-+	{
-+		"awinic,iled-max", NULL,
-+		0,
-+		AW99706_CFG2_REG, AW99706_ILED_MAX_MASK
-+
-+	},
-+	{
-+		"awinic,uvlo-thres", aw99706_ulvo_thres_tbl,
-+		ARRAY_SIZE(aw99706_ulvo_thres_tbl),
-+		AW99706_CFG2_REG, AW99706_UVLOSEL_MASK
-+	},
-+	{
-+		"awinic,fade-time", aw99706_fade_time_tbl,
-+		ARRAY_SIZE(aw99706_fade_time_tbl),
-+		AW99706_CFG6_REG, AW99706_FADE_TIME_MASK
-+	},
-+	{
-+		"awinic,slope-time", aw99706_slopetime_tbl,
-+		ARRAY_SIZE(aw99706_slopetime_tbl),
-+		AW99706_CFG6_REG, AW99706_SLOPE_TIME_MASK
-+	},
-+	{
-+		"awinic,ramp-ctl", NULL,
-+		0,
-+		AW99706_CFG6_REG, AW99706_RAMP_CTL_MASK
-+	},
-+	{
-+		"awinic,brt-mode", NULL,
-+		0,
-+		AW99706_CFG7_REG, AW99706_BRT_MODE_MASK
-+	},
-+	{
-+		"awinic,onoff-time", aw99706_onoff_time_tbl,
-+		ARRAY_SIZE(aw99706_onoff_time_tbl),
-+		AW99706_CFG8_REG, AW99706_ONOFF_TIME_MASK
-+	},
-+};
-+
-+static int aw99706_lookup(const u32 * const tbl, int size, u32 val)
-+{
-+	int i;
-+
-+	for (i = 0; i < size; i++)
-+		if (tbl[i] == val)
-+			return i;
-+
-+	return -1;
-+}
-+
-+static inline void aw99706_prop_set_default(struct aw99706_dt_prop *prop)
-+{
-+	prop->val = prop->mask & aw99706_regs[prop->reg].defval;
-+}
-+
-+static void aw99706_dt_property_convert(struct aw99706_dt_prop *prop)
-+{
-+	unsigned int val, shift;
-+
-+	if (prop->lookup_tbl) {
-+		val = aw99706_lookup(prop->lookup_tbl, prop->tbl_size,
-+				     prop->raw_val);
-+		if (val < 0) {
-+			aw99706_prop_set_default(prop);
-+			return;
-+		}
-+
-+	} else {
-+		val = prop->raw_val;
-+	}
-+
-+	shift = ffs(prop->mask) - 1;
-+	val <<= shift;
-+	prop->val = prop->mask & val;
-+}
-+
-+static void aw99706_dt_parse(struct aw99706_device *aw)
-+{
-+	struct aw99706_dt_prop *prop;
-+	int ret, i;
-+
-+	for (i = 0; i < ARRAY_SIZE(aw99706_dt_props); i++) {
-+		prop = &aw99706_dt_props[i];
-+		ret = device_property_read_u32(aw->dev, prop->name,
-+					       &prop->raw_val);
-+		if (ret < 0) {
-+			dev_warn(aw->dev, "Missing property %s: %d\n",
-+				 prop->name, ret);
-+
-+			aw99706_prop_set_default(prop);
-+		} else {
-+			aw99706_dt_property_convert(prop);
-+		}
-+	}
-+
-+	/* This property requires a long linear array, using formula for now */
-+	aw99706_dt_props[3].val = (aw99706_dt_props[3].raw_val - 5000) / 500;
-+}
-+
-+static int aw99706_hw_init(struct aw99706_device *aw)
-+{
-+	int ret, i;
-+
-+	gpiod_set_value_cansleep(aw->hwen_gpio, 1);
-+
-+	for (i = 0; i < ARRAY_SIZE(aw99706_dt_props); i++) {
-+		ret = aw99706_i2c_update_bits(aw, aw99706_dt_props[i].reg,
-+					      aw99706_dt_props[i].mask,
-+					      aw99706_dt_props[i].val);
-+		if (ret < 0) {
-+			dev_err(aw->dev, "Failed to write init data %d\n", ret);
-+			return ret;
-+		}
-+	}
-+
-+	return 0;
-+}
-+
-+static int aw99706_bl_enable(struct aw99706_device *aw, bool en)
-+{
-+	int ret;
-+	u8 val;
-+
-+	FIELD_MODIFY(AW99706_BACKLIGHT_EN_MASK, &val, en);
-+	ret = aw99706_i2c_update_bits(aw, AW99706_CFGD_REG,
-+				      AW99706_BACKLIGHT_EN_MASK, val);
-+	if (ret)
-+		dev_err(aw->dev, "Failed to enable backlight!\n");
-+
-+	return ret;
-+}
-+
-+static int aw99706_backlight_switch(struct aw99706_device *aw, u32 brt_lvl)
-+{
-+	bool bl_enable_now = !!brt_lvl;
-+	int ret = 0;
-+
-+	if (aw->bl_enable != bl_enable_now) {
-+		aw->bl_enable = bl_enable_now;
-+		ret = aw99706_bl_enable(aw, bl_enable_now);
-+	}
-+
-+	return ret;
-+}
-+
-+static int aw99706_update_brightness(struct aw99706_device *aw, u32 brt_lvl)
-+{
-+	int ret;
-+
-+	ret = aw99706_i2c_write(aw, AW99706_CFG4_REG,
-+				(brt_lvl >> 8) & AW99706_BRT_MSB_MASK);
-+	if (ret < 0)
-+		return ret;
-+
-+	ret = aw99706_i2c_write(aw, AW99706_CFG5_REG,
-+				brt_lvl & AW99706_BRT_LSB_MASK);
-+	if (ret < 0)
-+		return ret;
-+
-+	return aw99706_backlight_switch(aw, brt_lvl);
-+}
-+
-+static int aw99706_bl_update_status(struct backlight_device *bl)
-+{
-+	struct aw99706_device *aw = bl_get_data(bl);
-+
-+	return aw99706_update_brightness(aw, bl->props.brightness);
-+}
-+
-+static const struct backlight_ops aw99706_bl_ops = {
-+	.options = BL_CORE_SUSPENDRESUME,
-+	.update_status = aw99706_bl_update_status,
-+};
-+
-+static const struct regmap_config aw99706_regmap_config = {
-+	.reg_bits = 8,
-+	.val_bits = 8,
-+	.max_register = AW99706_REG_MAX,
-+	.writeable_reg = aw99706_writeable_reg,
-+	.readable_reg = aw99706_readable_reg,
-+};
-+
-+static int aw99706_chip_id_read(struct aw99706_device *aw)
-+{
-+	int ret;
-+	unsigned int val;
-+
-+	ret = aw99706_i2c_read(aw, AW99706_CHIPID_REG, &val);
-+	if (ret < 0)
-+		return ret;
-+
-+	return val;
-+}
-+
-+static int aw99706_probe(struct i2c_client *client)
-+{
-+	struct device *dev = &client->dev;
-+	struct aw99706_device *aw;
-+	struct backlight_device *bl_dev;
-+	struct backlight_properties props = {};
-+	int ret = 0;
-+
-+	aw = devm_kzalloc(dev, sizeof(*aw), GFP_KERNEL);
-+	if (!aw)
-+		return -ENOMEM;
-+
-+	aw->client = client;
-+	aw->dev = dev;
-+	i2c_set_clientdata(client, aw);
-+
-+	aw->regmap = devm_regmap_init_i2c(client, &aw99706_regmap_config);
-+	if (IS_ERR(aw->regmap))
-+		return dev_err_probe(dev, PTR_ERR(aw->regmap),
-+				     "Failed to init regmap\n");
-+
-+	ret = aw99706_chip_id_read(aw);
-+	if (ret != AW99706_ID)
-+		return dev_err_probe(dev, ret,
-+				     "Failed to validate chip id\n");
-+
-+	aw99706_dt_parse(aw);
-+
-+	aw->hwen_gpio = devm_gpiod_get(aw->dev, "enable", GPIOD_OUT_LOW);
-+	if (IS_ERR(aw->hwen_gpio))
-+		return dev_err_probe(dev, PTR_ERR(aw->hwen_gpio),
-+				     "Failed to get enable gpio\n");
-+
-+	ret = aw99706_hw_init(aw);
-+	if (ret < 0)
-+		return dev_err_probe(dev, ret,
-+				     "Failed to initialize the chip\n");
-+
-+	props.type = BACKLIGHT_RAW;
-+	props.brightness = AW99706_MAX_BRT_LVL >> 1;
-+	props.max_brightness = AW99706_MAX_BRT_LVL;
-+	props.scale = BACKLIGHT_SCALE_LINEAR;
-+
-+	bl_dev = devm_backlight_device_register(dev, "aw99706-backlight", dev,
-+						aw, &aw99706_bl_ops, &props);
-+	if (IS_ERR(bl_dev))
-+		return dev_err_probe(dev, PTR_ERR(bl_dev),
-+				     "Failed to register backlight!\n");
-+
-+	aw->bl_dev = bl_dev;
-+
-+	return 0;
-+}
-+
-+static void aw99706_remove(struct i2c_client *client)
-+{
-+	struct aw99706_device *aw = i2c_get_clientdata(client);
-+
-+	aw99706_update_brightness(aw, 0);
-+
-+	msleep(50);
-+
-+	gpiod_set_value_cansleep(aw->hwen_gpio, 0);
-+}
-+
-+static int aw99706_suspend(struct device *dev)
-+{
-+	struct aw99706_device *aw = dev_get_drvdata(dev);
-+
-+	return aw99706_update_brightness(aw, 0);
-+}
-+
-+static int aw99706_resume(struct device *dev)
-+{
-+	struct aw99706_device *aw = dev_get_drvdata(dev);
-+
-+	return aw99706_hw_init(aw);
-+}
-+
-+static SIMPLE_DEV_PM_OPS(aw99706_pm_ops, aw99706_suspend, aw99706_resume);
-+
-+static const struct i2c_device_id aw99706_ids[] = {
-+	{ "aw99706" },
-+	{ }
-+};
-+MODULE_DEVICE_TABLE(i2c, aw99706_ids);
-+
-+static const struct of_device_id aw99706_match_table[] = {
-+	{ .compatible = "awinic,aw99706", },
-+	{ }
-+};
-+MODULE_DEVICE_TABLE(of, aw99706_match_table);
-+
-+static struct i2c_driver aw99706_i2c_driver = {
-+	.probe = aw99706_probe,
-+	.remove = aw99706_remove,
-+	.id_table = aw99706_ids,
-+	.driver = {
-+		.name = "aw99706",
-+		.of_match_table = aw99706_match_table,
-+		.pm = &aw99706_pm_ops,
-+	},
-+};
-+
-+module_i2c_driver(aw99706_i2c_driver);
-+
-+MODULE_LICENSE("GPL v2");
-+MODULE_DESCRIPTION("BackLight driver for aw99706");
--- 
-2.51.1.dirty
+However maybe we should allow evicting allocations covered by 'low' when=
+=20
+the new allocation is covered by 'min' in ttm_resource_alloc_at_place=20
+down below (because 'min' is a stronger guarantee). We could do this=20
+simply by setting 'only_evict_unprotected' to false, since memory=20
+covered by 'min' can never get evicted anyway.
+
+>>   };
+>>  =20
+>>   /**
+>> @@ -546,7 +550,7 @@ static s64 ttm_bo_evict_cb(struct ttm_lru_walk *wal=
+k, struct ttm_buffer_object *
+>>   	evict_walk->evicted++;
+>>   	if (evict_walk->res)
+>>   		lret =3D ttm_resource_alloc(evict_walk->evictor, evict_walk->place,
+>> -					  evict_walk->res, NULL);
+>> +					  evict_walk->res, evict_walk->alloc_state->charge_pool);
+>>   	if (lret =3D=3D 0)
+>>   		return 1;
+>>   out:
+>> @@ -589,7 +593,7 @@ static int ttm_bo_evict_alloc(struct ttm_device *bd=
+ev,
+>>   	lret =3D ttm_lru_walk_for_evict(&evict_walk.walk, bdev, man, 1);
+>>  =20
+>>   	/* One more attempt if we hit low limit? */
+>> -	if (!lret && evict_walk.hit_low) {
+>> +	if (!lret && evict_walk.hit_low && !state->only_evict_unprotected) {
+>>   		evict_walk.try_low =3D true;
+>>   		lret =3D ttm_lru_walk_for_evict(&evict_walk.walk, bdev, man, 1);
+>>   	}
+>> @@ -610,7 +614,8 @@ static int ttm_bo_evict_alloc(struct ttm_device *bd=
+ev,
+>>   	} while (!lret && evict_walk.evicted);
+>>  =20
+>>   	/* We hit the low limit? Try once more */
+>> -	if (!lret && evict_walk.hit_low && !evict_walk.try_low) {
+>> +	if (!lret && evict_walk.hit_low && !evict_walk.try_low &&
+>> +			!state->only_evict_unprotected) {
+>>   		evict_walk.try_low =3D true;
+>>   		goto retry;
+>>   	}
+>> @@ -719,20 +724,40 @@ static int ttm_bo_alloc_at_place(struct ttm_buffe=
+r_object *bo,
+>>   				 struct ttm_resource **res,
+>>   				 struct ttm_bo_alloc_state *alloc_state)
+>>   {
+>> -	bool may_evict;
+>> +	bool may_evict, is_protected =3D false;
+>>   	int ret;
+>>  =20
+>>   	may_evict =3D (force_space && place->mem_type !=3D TTM_PL_SYSTEM);
+>> +	ret =3D ttm_resource_try_charge(bo, place, &alloc_state->charge_pool,
+>> +				      force_space ? &alloc_state->limit_pool : NULL);
+>> +	if (ret) {
+>> +		/*
+>> +		 * -EAGAIN means the charge failed, which we treat like an
+>> +		 * allocation failure. Allocation failures are indicated
+>> +		 * by -ENOSPC, so return that instead.
+>> +		 */
+>> +		if (ret =3D=3D -EAGAIN && !may_evict)
+>> +			ret =3D -ENOSPC;
+>> +		return ret;
+>> +	}
+>>  =20
+>> -	ret =3D ttm_resource_alloc(bo, place, res,
+>> -				 force_space ? &alloc_state->limit_pool : NULL);
+>> +	is_protected =3D dmem_cgroup_below_min(NULL, alloc_state->charge_pool=
+) ||
+>> +		       dmem_cgroup_below_low(NULL, alloc_state->charge_pool);
+>> +	ret =3D ttm_resource_alloc(bo, place, res, alloc_state->charge_pool);
+>> +	alloc_state->only_evict_unprotected =3D !may_evict && is_protected;
+>=20
+> This probably deserves a comment to explaing it's ok if we haven't hit l=
+ow/min yet to evict from
+> those cgroups that did those limits already. It took me a bit of time to=
+ understand the idea.
+
+Yeah, that's a bit non-obvious. I'll add a comment.
+
+Thanks,
+Natalie
+
+>=20
+>>  =20
+>>   	if (ret) {
+>> -		if ((ret =3D=3D -ENOSPC || ret =3D=3D -EAGAIN) && may_evict)
+>> +		if ((ret =3D=3D -ENOSPC || ret =3D=3D -EAGAIN) &&
+>> +				(may_evict || is_protected))
+>>   			ret =3D -EBUSY;
+>>   		return ret;
+>>   	}
+>>  =20
+>> +	/*
+>> +	 * Ownership of charge_pool has been transferred to the TTM resource,
+>> +	 * don't make the caller think we still hold a reference to it.
+>> +	 */
+>> +	alloc_state->charge_pool =3D NULL;
+>>   	return 0;
+>>   }
+>>  =20
+>> @@ -787,6 +812,7 @@ static int ttm_bo_alloc_resource(struct ttm_buffer_=
+object *bo,
+>>   				res, &alloc_state);
+>>  =20
+>>   		if (ret =3D=3D -ENOSPC) {
+>> +			dmem_cgroup_pool_state_put(alloc_state.charge_pool);
+>>   			dmem_cgroup_pool_state_put(alloc_state.limit_pool);
+>>   			continue;
+>>   		} else if (ret =3D=3D -EBUSY) {
+>> @@ -796,11 +822,14 @@ static int ttm_bo_alloc_resource(struct ttm_buffe=
+r_object *bo,
+>>   			dmem_cgroup_pool_state_put(alloc_state.limit_pool);
+>>  =20
+>>   			if (ret) {
+>> +				dmem_cgroup_pool_state_put(
+>> +						alloc_state.charge_pool);
+>>   				if (ret !=3D -ENOSPC && ret !=3D -EBUSY)
+>>   					return ret;
+>>   				continue;
+>>   			}
+>>   		} else if (ret) {
+>> +			dmem_cgroup_pool_state_put(alloc_state.charge_pool);
+>>   			dmem_cgroup_pool_state_put(alloc_state.limit_pool);
+>>   			return ret;
+>>   		}
+>> diff --git a/drivers/gpu/drm/ttm/ttm_resource.c b/drivers/gpu/drm/ttm/t=
+tm_resource.c
+>> index e2c82ad07eb44b5e88bf5b5db1ef54dd6d27823b..fcfa8b51b033745f46a01e4=
+0a9dc83e0c69165fc 100644
+>> --- a/drivers/gpu/drm/ttm/ttm_resource.c
+>> +++ b/drivers/gpu/drm/ttm/ttm_resource.c
+>> @@ -372,30 +372,52 @@ void ttm_resource_fini(struct ttm_resource_manage=
+r *man,
+>>   }
+>>   EXPORT_SYMBOL(ttm_resource_fini);
+>>  =20
+>> +/**
+>> + * ttm_resource_try_charge - charge a resource manager's cgroup pool
+>> + * @bo: buffer for which an allocation should be charged
+>> + * @place: where the allocation is attempted to be placed
+>> + * @ret_pool: on charge success, the pool that was charged
+>> + * @ret_limit_pool: on charge failure, the pool responsible for the fa=
+ilure
+>> + *
+>> + * Should be used to charge cgroups before attempting resource allocat=
+ion.
+>> + * When charging succeeds, the value of ret_pool should be passed to
+>> + * ttm_resource_alloc.
+>> + *
+>> + * Returns: 0 on charge success, negative errno on failure.
+>> + */
+>> +int ttm_resource_try_charge(struct ttm_buffer_object *bo,
+>> +			    const struct ttm_place *place,
+>> +			    struct dmem_cgroup_pool_state **ret_pool,
+>> +			    struct dmem_cgroup_pool_state **ret_limit_pool)
+>> +{
+>> +	struct ttm_resource_manager *man =3D
+>> +		ttm_manager_type(bo->bdev, place->mem_type);
+>> +
+>> +	if (!man->cg) {
+>> +		*ret_pool =3D NULL;
+>> +		if (ret_limit_pool)
+>> +			*ret_limit_pool =3D NULL;
+>> +		return 0;
+>> +	}
+>> +
+>> +	return dmem_cgroup_try_charge(man->cg, bo->base.size, ret_pool,
+>> +				      ret_limit_pool);
+>> +}
+>> +
+>>   int ttm_resource_alloc(struct ttm_buffer_object *bo,
+>>   		       const struct ttm_place *place,
+>>   		       struct ttm_resource **res_ptr,
+>> -		       struct dmem_cgroup_pool_state **ret_limit_pool)
+>> +		       struct dmem_cgroup_pool_state *charge_pool)
+>>   {
+>>   	struct ttm_resource_manager *man =3D
+>>   		ttm_manager_type(bo->bdev, place->mem_type);
+>> -	struct dmem_cgroup_pool_state *pool =3D NULL;
+>>   	int ret;
+>>  =20
+>> -	if (man->cg) {
+>> -		ret =3D dmem_cgroup_try_charge(man->cg, bo->base.size, &pool, ret_li=
+mit_pool);
+>> -		if (ret)
+>> -			return ret;
+>> -	}
+>> -
+>>   	ret =3D man->func->alloc(man, bo, place, res_ptr);
+>> -	if (ret) {
+>> -		if (pool)
+>> -			dmem_cgroup_uncharge(pool, bo->base.size);
+>> +	if (ret)
+>>   		return ret;
+>> -	}
+>>  =20
+>> -	(*res_ptr)->css =3D pool;
+>> +	(*res_ptr)->css =3D charge_pool;
+>>  =20
+>>   	spin_lock(&bo->bdev->lru_lock);
+>>   	ttm_resource_add_bulk_move(*res_ptr, bo);
+>> diff --git a/include/drm/ttm/ttm_resource.h b/include/drm/ttm/ttm_resou=
+rce.h
+>> index e52bba15012f78e352f392232ac2e89a83afd311..3aef7efdd7cfb8fd93071db=
+85e632b975b53cf81 100644
+>> --- a/include/drm/ttm/ttm_resource.h
+>> +++ b/include/drm/ttm/ttm_resource.h
+>> @@ -442,10 +442,14 @@ void ttm_resource_init(struct ttm_buffer_object *=
+bo,
+>>   void ttm_resource_fini(struct ttm_resource_manager *man,
+>>   		       struct ttm_resource *res);
+>>  =20
+>> +int ttm_resource_try_charge(struct ttm_buffer_object *bo,
+>> +			    const struct ttm_place *place,
+>> +			    struct dmem_cgroup_pool_state **ret_pool,
+>> +			    struct dmem_cgroup_pool_state **ret_limit_pool);
+>>   int ttm_resource_alloc(struct ttm_buffer_object *bo,
+>>   		       const struct ttm_place *place,
+>>   		       struct ttm_resource **res,
+>> -		       struct dmem_cgroup_pool_state **ret_limit_pool);
+>> +		       struct dmem_cgroup_pool_state *charge_pool);
+>>   void ttm_resource_free(struct ttm_buffer_object *bo, struct ttm_resou=
+rce **res);
+>>   bool ttm_resource_intersects(struct ttm_device *bdev,
+>>   			     struct ttm_resource *res,
+>>
+>=20
 
