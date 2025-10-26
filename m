@@ -2,98 +2,169 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8565FC0A8AE
-	for <lists+dri-devel@lfdr.de>; Sun, 26 Oct 2025 14:48:10 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id BC961C0AA90
+	for <lists+dri-devel@lfdr.de>; Sun, 26 Oct 2025 15:39:43 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A6CD310E082;
-	Sun, 26 Oct 2025 13:48:07 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B6D1810E07E;
+	Sun, 26 Oct 2025 14:39:39 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="C1MXHRQJ";
+	dkim=pass (2048-bit key; unprotected) header.d=Nvidia.com header.i=@Nvidia.com header.b="dEf5b4iw";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1631C10E082
- for <dri-devel@lists.freedesktop.org>; Sun, 26 Oct 2025 13:48:06 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by tor.source.kernel.org (Postfix) with ESMTP id 3FF1260347;
- Sun, 26 Oct 2025 13:48:05 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C0F40C4CEE7;
- Sun, 26 Oct 2025 13:48:01 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1761486484;
- bh=QxwFEGcFdqak6PqJdPwRvuA7i8QFC3oJHkPgIhhgBTs=;
- h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
- b=C1MXHRQJEVTicVDnSU1cDUl02GuDH4SM9rQA7xRPQ9+gz3LjG1Ny6Xf9oCgncX+FA
- nEw3M4RCcqxXSVLxxsU8x9J3djbru7GKIQvkC9hO2YiT2N7SiPXyXerPOoJBCa1+mM
- D2DYrlDPwoLyMU80vnSSSwWWkW649QmrWMPw+HLpc6HDxZSB71yjtgboJmPRSEMpQY
- Qrgfb36UE71EMcPxsVyLtgAI1HctKOMlrwrwHJhAOXFt9Q+vN9BZSZC55NPpzy65/0
- D7JckiZDbr+1iY9MIS6yzw7NaYoemTKxC9FkI3Jx13E65OTtPPH6Q2NUluITr8iWAg
- RTuWaZ4vGlUgg==
-Message-ID: <c17c10d4-cc1f-46fd-8719-e7bb9ffa91ba@kernel.org>
-Date: Sun, 26 Oct 2025 14:47:59 +0100
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 1/2] dt-bindings: leds: backlight: Add Awinic AW99706
- backlight
-To: Junjie Cao <caojunjie650@gmail.com>, Lee Jones <lee@kernel.org>,
- Daniel Thompson <danielt@kernel.org>, Jingoo Han <jingoohan1@gmail.com>,
- Pavel Machek <pavel@kernel.org>, Rob Herring <robh@kernel.org>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
- <conor+dt@kernel.org>, Helge Deller <deller@gmx.de>
-Cc: dri-devel@lists.freedesktop.org, linux-leds@vger.kernel.org,
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-fbdev@vger.kernel.org
-References: <20251026123923.1531727-1-caojunjie650@gmail.com>
- <20251026123923.1531727-2-caojunjie650@gmail.com>
-From: Krzysztof Kozlowski <krzk@kernel.org>
-Content-Language: en-US
-Autocrypt: addr=krzk@kernel.org; keydata=
- xsFNBFVDQq4BEAC6KeLOfFsAvFMBsrCrJ2bCalhPv5+KQF2PS2+iwZI8BpRZoV+Bd5kWvN79
- cFgcqTTuNHjAvxtUG8pQgGTHAObYs6xeYJtjUH0ZX6ndJ33FJYf5V3yXqqjcZ30FgHzJCFUu
- JMp7PSyMPzpUXfU12yfcRYVEMQrmplNZssmYhiTeVicuOOypWugZKVLGNm0IweVCaZ/DJDIH
- gNbpvVwjcKYrx85m9cBVEBUGaQP6AT7qlVCkrf50v8bofSIyVa2xmubbAwwFA1oxoOusjPIE
- J3iadrwpFvsZjF5uHAKS+7wHLoW9hVzOnLbX6ajk5Hf8Pb1m+VH/E8bPBNNYKkfTtypTDUCj
- NYcd27tjnXfG+SDs/EXNUAIRefCyvaRG7oRYF3Ec+2RgQDRnmmjCjoQNbFrJvJkFHlPeHaeS
- BosGY+XWKydnmsfY7SSnjAzLUGAFhLd/XDVpb1Een2XucPpKvt9ORF+48gy12FA5GduRLhQU
- vK4tU7ojoem/G23PcowM1CwPurC8sAVsQb9KmwTGh7rVz3ks3w/zfGBy3+WmLg++C2Wct6nM
- Pd8/6CBVjEWqD06/RjI2AnjIq5fSEH/BIfXXfC68nMp9BZoy3So4ZsbOlBmtAPvMYX6U8VwD
- TNeBxJu5Ex0Izf1NV9CzC3nNaFUYOY8KfN01X5SExAoVTr09ewARAQABzSVLcnp5c3p0b2Yg
- S296bG93c2tpIDxrcnprQGtlcm5lbC5vcmc+wsGVBBMBCgA/AhsDBgsJCAcDAgYVCAIJCgsE
- FgIDAQIeAQIXgBYhBJvQfg4MUfjVlne3VBuTQ307QWKbBQJoF1BKBQkWlnSaAAoJEBuTQ307
- QWKbHukP/3t4tRp/bvDnxJfmNdNVn0gv9ep3L39IntPalBFwRKytqeQkzAju0whYWg+R/rwp
- +r2I1Fzwt7+PTjsnMFlh1AZxGDmP5MFkzVsMnfX1lGiXhYSOMP97XL6R1QSXxaWOpGNCDaUl
- ajorB0lJDcC0q3xAdwzRConxYVhlgmTrRiD8oLlSCD5baEAt5Zw17UTNDnDGmZQKR0fqLpWy
- 786Lm5OScb7DjEgcA2PRm17st4UQ1kF0rQHokVaotxRM74PPDB8bCsunlghJl1DRK9s1aSuN
- hL1Pv9VD8b4dFNvCo7b4hfAANPU67W40AaaGZ3UAfmw+1MYyo4QuAZGKzaP2ukbdCD/DYnqi
- tJy88XqWtyb4UQWKNoQqGKzlYXdKsldYqrLHGoMvj1UN9XcRtXHST/IaLn72o7j7/h/Ac5EL
- 8lSUVIG4TYn59NyxxAXa07Wi6zjVL1U11fTnFmE29ALYQEXKBI3KUO1A3p4sQWzU7uRmbuxn
- naUmm8RbpMcOfa9JjlXCLmQ5IP7Rr5tYZUCkZz08LIfF8UMXwH7OOEX87Y++EkAB+pzKZNNd
- hwoXulTAgjSy+OiaLtuCys9VdXLZ3Zy314azaCU3BoWgaMV0eAW/+gprWMXQM1lrlzvwlD/k
- whyy9wGf0AEPpLssLVt9VVxNjo6BIkt6d1pMg6mHsUEVzsFNBFVDXDQBEADNkrQYSREUL4D3
- Gws46JEoZ9HEQOKtkrwjrzlw/tCmqVzERRPvz2Xg8n7+HRCrgqnodIYoUh5WsU84N03KlLue
- MNsWLJBvBaubYN4JuJIdRr4dS4oyF1/fQAQPHh8Thpiz0SAZFx6iWKB7Qrz3OrGCjTPcW6ei
- OMheesVS5hxietSmlin+SilmIAPZHx7n242u6kdHOh+/SyLImKn/dh9RzatVpUKbv34eP1wA
- GldWsRxbf3WP9pFNObSzI/Bo3kA89Xx2rO2roC+Gq4LeHvo7ptzcLcrqaHUAcZ3CgFG88CnA
- 6z6lBZn0WyewEcPOPdcUB2Q7D/NiUY+HDiV99rAYPJztjeTrBSTnHeSBPb+qn5ZZGQwIdUW9
- YegxWKvXXHTwB5eMzo/RB6vffwqcnHDoe0q7VgzRRZJwpi6aMIXLfeWZ5Wrwaw2zldFuO4Dt
- 91pFzBSOIpeMtfgb/Pfe/a1WJ/GgaIRIBE+NUqckM+3zJHGmVPqJP/h2Iwv6nw8U+7Yyl6gU
- BLHFTg2hYnLFJI4Xjg+AX1hHFVKmvl3VBHIsBv0oDcsQWXqY+NaFahT0lRPjYtrTa1v3tem/
- JoFzZ4B0p27K+qQCF2R96hVvuEyjzBmdq2esyE6zIqftdo4MOJho8uctOiWbwNNq2U9pPWmu
- 4vXVFBYIGmpyNPYzRm0QPwARAQABwsF8BBgBCgAmAhsMFiEEm9B+DgxR+NWWd7dUG5NDfTtB
- YpsFAmgXUF8FCRaWWyoACgkQG5NDfTtBYptO0w//dlXJs5/42hAXKsk+PDg3wyEFb4NpyA1v
- qmx7SfAzk9Hf6lWwU1O6AbqNMbh6PjEwadKUk1m04S7EjdQLsj/MBSgoQtCT3MDmWUUtHZd5
- RYIPnPq3WVB47GtuO6/u375tsxhtf7vt95QSYJwCB+ZUgo4T+FV4hquZ4AsRkbgavtIzQisg
- Dgv76tnEv3YHV8Jn9mi/Bu0FURF+5kpdMfgo1sq6RXNQ//TVf8yFgRtTUdXxW/qHjlYURrm2
- H4kutobVEIxiyu6m05q3e9eZB/TaMMNVORx+1kM3j7f0rwtEYUFzY1ygQfpcMDPl7pRYoJjB
- dSsm0ZuzDaCwaxg2t8hqQJBzJCezTOIkjHUsWAK+tEbU4Z4SnNpCyM3fBqsgYdJxjyC/tWVT
- AQ18NRLtPw7tK1rdcwCl0GFQHwSwk5pDpz1NH40e6lU+NcXSeiqkDDRkHlftKPV/dV+lQXiu
- jWt87ecuHlpL3uuQ0ZZNWqHgZoQLXoqC2ZV5KrtKWb/jyiFX/sxSrodALf0zf+tfHv0FZWT2
- zHjUqd0t4njD/UOsuIMOQn4Ig0SdivYPfZukb5cdasKJukG1NOpbW7yRNivaCnfZz6dTawXw
- XRIV/KDsHQiyVxKvN73bThKhONkcX2LWuD928tAR6XMM2G5ovxLe09vuOzzfTWQDsm++9UKF a/A=
-In-Reply-To: <20251026123923.1531727-2-caojunjie650@gmail.com>
-Content-Type: text/plain; charset=UTF-8
+Received: from CH1PR05CU001.outbound.protection.outlook.com
+ (mail-northcentralusazon11010055.outbound.protection.outlook.com
+ [52.101.193.55])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0E0E910E066;
+ Sun, 26 Oct 2025 14:39:37 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=FcQtt9PaXF3hnkMhCnfJ3F7uve4WC2tbHv4HvHmLEzKKSMPQ7Dks7FDqrOc1GjsEKyQEMFJdD9qLerEHNKMB58/J5fNpRZ88liM/TZemif1qS2ceYkDLHUHldn3eNn9C0QxVJu7GKaltqthFxKQKaBWDDyMpnfxbOel9mevGayVsiAbTVFmZmwA0VaTPzTsgFU7v6KxqIHMpptME7sq4I++TbNLNivfjh0dQNB/1T8eiBUMzp6QeV/H8PSgx/lOIJbMtmIU84JwoB6p9vvVUkb0eke6t1mH3cIr0qeS7b/X92ySElvVqKKU1dkl+AdKveumjE0qup5a1ztposnLQJA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=9nh8oyPiztPhLI92s3w0fFoN4/nq3yZg9f0k7buHATI=;
+ b=bRU6MwR36/OUgkdPnoPgREBlw2LYt/kLK2KWJdDTvLdCKqY4f8w6dwGkX4u9baHi7+bkTiTmiAcFnynNs1S9Xe781mOlexiogK1xo8V9Wljmewm4bGeHX5Q8Jer7J14DIS7qRaJd/jj3+DaaDqC35Va0noqbXqgVH6w330/IKmNt2mdAG2dctwotYhXnoFdNzwQUjYvucQ0pQR7U09uDc7jzEQ5Hit0q2pM3Ji1P016tnv7p17C73CUha8IphPFQfGm42wJbV1nVreo1ZZsrsPByE6G/QqUZrX/n4eTCPaEmtLtMNQqjIpeY9NeAfOhvkMXp06OL7mI35TR8ZSjSuQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
+ dkim=pass header.d=nvidia.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=9nh8oyPiztPhLI92s3w0fFoN4/nq3yZg9f0k7buHATI=;
+ b=dEf5b4iwbyMwWRR+KHBued6duod7BuAAQYb8OYEXMP++Eylrwquf9+e1iZkCPEHH9JwIaMijEnKBzJMEuOFGFH/WHo80BWYpAbG0dJqox9SS6Fomzgenl9b1tG2Hz7rQv/MMEO8WCe5BLYTY1Z8aUHnA+f9S4FFBMqxOYevhBIOXEbPMHyf0J7tVzs+jodHtCnOtKSHaHRxEn/kaUx3IJOXr1rw/TSObLwBsR394mgkxY8QhkO9F3aZWnwn6kB9dkUBXg2LEUx+YKHo8usp+5UXktv9dXP8ZN2DzWI1438DlWHHfA1bvra90A8P/cPJG3j/5Qmpr6FNLS2LKfpFhhA==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=nvidia.com;
+Received: from MN2PR12MB3997.namprd12.prod.outlook.com (2603:10b6:208:161::11)
+ by CH2PR12MB4168.namprd12.prod.outlook.com (2603:10b6:610:a8::7) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9253.12; Sun, 26 Oct
+ 2025 14:39:33 +0000
+Received: from MN2PR12MB3997.namprd12.prod.outlook.com
+ ([fe80::d161:329:fdd3:e316]) by MN2PR12MB3997.namprd12.prod.outlook.com
+ ([fe80::d161:329:fdd3:e316%4]) with mapi id 15.20.9253.017; Sun, 26 Oct 2025
+ 14:39:33 +0000
+From: Alexandre Courbot <acourbot@nvidia.com>
+Subject: [PATCH 0/7] gpu: nova-core: remove use of `as` for integer conversions
+Date: Sun, 26 Oct 2025 23:39:05 +0900
+Message-Id: <20251026-nova-as-v1-0-60c78726462d@nvidia.com>
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAIky/mgC/6tWKk4tykwtVrJSqFYqSi3LLM7MzwNyDHUUlJIzE
+ vPSU3UzU4B8JSMDI1NDAyMj3bz8skTdxGJdi9TkVBNDEyMLc6NEJaDqgqLUtMwKsEnRsbW1ABu
+ otqJZAAAA
+X-Change-ID: 20251022-nova-as-8ece4142872a
+To: Alice Ryhl <aliceryhl@google.com>, David Airlie <airlied@gmail.com>, 
+ Simona Vetter <simona@ffwll.ch>, Miguel Ojeda <ojeda@kernel.org>, 
+ Alex Gaynor <alex.gaynor@gmail.com>, Boqun Feng <boqun.feng@gmail.com>, 
+ Gary Guo <gary@garyguo.net>, 
+ =?utf-8?q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>, 
+ Benno Lossin <lossin@kernel.org>, Andreas Hindborg <a.hindborg@kernel.org>, 
+ Trevor Gross <tmgross@umich.edu>
+Cc: John Hubbard <jhubbard@nvidia.com>, Alistair Popple <apopple@nvidia.com>, 
+ Joel Fernandes <joelagnelf@nvidia.com>, Timur Tabi <ttabi@nvidia.com>, 
+ Edwin Peer <epeer@nvidia.com>, nouveau@lists.freedesktop.org, 
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org, 
+ rust-for-linux@vger.kernel.org, Danilo Krummrich <dakr@kernel.org>, 
+ Alexandre Courbot <acourbot@nvidia.com>
+X-Mailer: b4 0.14.3
+X-ClientProxiedBy: TY1PR01CA0183.jpnprd01.prod.outlook.com (2603:1096:403::13)
+ To BY5PR12MB3986.namprd12.prod.outlook.com
+ (2603:10b6:a03:195::27)
+MIME-Version: 1.0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: MN2PR12MB3997:EE_|CH2PR12MB4168:EE_
+X-MS-Office365-Filtering-Correlation-Id: 12e3dfc5-7a75-45fe-5cbf-08de149d794a
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+ ARA:13230040|376014|1800799024|10070799003|7416014|366016|921020; 
+X-Microsoft-Antispam-Message-Info: =?utf-8?B?NTN0ZGVoeVhnbUMvMzJWTG1Hby9xTkdEUWNEOWg2S1UxZTdMQ1cwWEZjRmYw?=
+ =?utf-8?B?VlBHdnZCdXJtQTNkelQ0QWFlKytINjB4RGNwVFp2Zi84akJYbFRpcjlLckg2?=
+ =?utf-8?B?alFsWHk2akRxdjBmd2w4RnMxVERqWnBiZmgwUzl3QlBhTnYrc0M5U3poQ0Rr?=
+ =?utf-8?B?NFNlTXgwM1R2a0tIUXN5cXBLM2syN1d4UElLYTZOckkxOGlGc2ZvcEtMMGZy?=
+ =?utf-8?B?MFMvRnEzS01QQXpqdlROSk5OcjhlUDkxbmpvcDVqSzlMdWJlMEdDSk1lWUta?=
+ =?utf-8?B?dVp0ajJjT3RNTWJCb3JLYXdHU04wK2hCWUtQd2pUdWhPMG5yMzRIUkQ5R0to?=
+ =?utf-8?B?czVMMWlIYndJSlBPKzM5ZGZ4MkJ0dlN0N1EyMkZZU0hyS3hldDMyeTcrZUVI?=
+ =?utf-8?B?MGNwSkllREI4S051WHF6c3FZYzUxcVZNWmdaeU9ERTFuMjMyclNSVmIyRkNI?=
+ =?utf-8?B?dURIczBQZGdDa1dnUlpaRDZ3WXIxeFBKQ3UycVdYd2pQd3pzM3B2MjF4clFn?=
+ =?utf-8?B?WEVsS0R6bU9WY1VhUkpJeTdPRmVONGNwNEJ6QmxMbnBVTS9uZG1haFp5N1Bu?=
+ =?utf-8?B?RjlDQ1BhNnJyVXBTTWdaK0VQdmVtcEU3VEVzMHk4MGtPcENONHpiTFVBRTdx?=
+ =?utf-8?B?MnB3VUh5aGtjUDNCL3IrYnpTektXM1JRZm1QRDMxcnQzRTJhSkRCWkw4VXFs?=
+ =?utf-8?B?L2FlWUkvVTFwNkNCSkIycnpLVG8veUtXWHozY3M3NWprbVh0R3BERVBINE92?=
+ =?utf-8?B?cnBHTTRBd1N2Wk9Ncjhpb0VWUmdRajJEY2todklkS3J1dTBxM0sxM3N3V1RI?=
+ =?utf-8?B?UE9FUHZRbVhiWWVmalNyVWphUE12TXhKNTJ1U3pyTVJPWjhhUGMwZVJTK0FO?=
+ =?utf-8?B?aXIzUHZadHRnQVZyZXJEZ1UvVjhzakdBR2krZ1JwWjI3eHQ3dzZ2WWRnWXlL?=
+ =?utf-8?B?V1VWQndJL1lSY2psS0QvQ2ZFTDlwT213bEVWK3AxV0IvZmorREQwbGV0UENH?=
+ =?utf-8?B?NnUxbWFGc2Z6RTlORnJ0RmNEd1diRTMrR1dWRnExLy9QM3N4a1RUTjMzMzdq?=
+ =?utf-8?B?UEphRGRXUE8vbG9DUmJKVE8xVjU2TGJhTEJoNkwzSzlLc2M4dFNQRTcvVXFF?=
+ =?utf-8?B?dGZKNWQyaE1aSkZrY3FqRzBMWk45ZFdxempkZXNBRlBuSW41b3dCRVcya0c4?=
+ =?utf-8?B?Nm5MbmNQaUlFdVlnWnhUZ3lmUVA0bnhreFVWbXY5OUY0S1BLOS96ZzdJTndn?=
+ =?utf-8?B?Zkx3bXpycEFiWjBiQ0hJRzB5VnhkbDl0WEdiU0NtOW15QUVvN2JIK2l1WmN2?=
+ =?utf-8?B?NVU0empyOXVyWXFBVEZJVmJHaWxUbVpDdGFkelZPbXU0YkovT21HcCtRbDl5?=
+ =?utf-8?B?ZnhibVdVdEZFMkNxL0E2cnRqMHg2NGovOXJBWm81VEtuZjZLOGYwYmVSQWNv?=
+ =?utf-8?B?MGp0b3hCcXliUnYxR3ZIL3B1dGhPVDcwcG1sdXlDYTBMY2h6UUV1SGVvQS9y?=
+ =?utf-8?B?RUVMVmIrVnJYQk9KbEsxKzN3QTFJSys0U1dyajNEcGlKUXBXeWVmWGNmczJL?=
+ =?utf-8?B?TnQvOGZkUkR6NDZKenRBWk5KeXBKK1R1U05TamlreUhBZmF0eWVzZ2JYanN1?=
+ =?utf-8?B?K2NsSVFkT1VKRTdjU3ZWWHhYSGREQW05bE5pdFhOM25OZC9nVzJwRnlkNkNN?=
+ =?utf-8?B?Ymw5aEJ6eXdhaTZRMFJKZWtLUnpGVTRCaE1XTTl2cDY3ajdURWN4d3NTQUdV?=
+ =?utf-8?B?cjFISnRhOXNZUERSVGY1cTRtZUR5cnk5QW9hY0hPRkZsRmVQWG1EaEhnWE1G?=
+ =?utf-8?B?YlM0eXFhVjNTSUhtbUtoNlBKMDFqRE5Ea1JhckpYWFdRME1ydENPbm9xcUdT?=
+ =?utf-8?B?WUgybHdGWGtEakNxZHhXR0RUdVdQU25CK2ZYeGRtUW9hRFpRK3NaY0hHcjVj?=
+ =?utf-8?B?UUxnUGRZZEZOL0NUeVBWODY0V3BWQ25LR0cwTTUzZGVIYkF6U3F3QU1MU3pH?=
+ =?utf-8?B?b3FmRWltbUQyUWxkK1RXRFBqb1hhQVBNOHc5U3pvVi9VUko1ZkY3U0pkRjZF?=
+ =?utf-8?Q?PUpNBp?=
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:MN2PR12MB3997.namprd12.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230040)(376014)(1800799024)(10070799003)(7416014)(366016)(921020);
+ DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?WFJDSW1HTzYwcVgzbW84NWE2dTFaWGlKTmZUdC8xcGhzSzQ0TUdxOG5wZm5F?=
+ =?utf-8?B?TUhYblhjWmJHQ2VQeDhRWVgyQy9NMWFnV2J3UHVxOHdOb2E2OFpmam5mekN0?=
+ =?utf-8?B?eVU0RHU0VS9FWnNDR3c2S0dyc1gxT3R4aVVxcDdETXVxLzAxeE85WXNtTFdn?=
+ =?utf-8?B?Mk5JRDhxMnZLc1k0Q0FVR3ZLNFFQZVl6cDd1WThwbGtrY0ZSV0JVTEtZK3Er?=
+ =?utf-8?B?YmFwVUx2SnFqWGlQaXBxVGhwZk9QbDlwcnRPWmhXaVAyaVdpeGhUTlpCaGlI?=
+ =?utf-8?B?b2Z3OFMrdXRIT200TnBsZlFKWUFmTGtVaE5VRlYwdzUzYW1EQmlXQUpJWDRH?=
+ =?utf-8?B?akViOVhCWDBPR0pzY1F3dGU1bkVEVFlPelNGdXoxbWVWQndBWWNKb3dNRlgx?=
+ =?utf-8?B?Uk1oRTRRY1UycmlDYXZQZ1U5OUpJY1FmZ2padlpYSktYZHErTDNBMXpQSmNj?=
+ =?utf-8?B?YS85TklSWXJLbEFzM1ZZYlNPbDJwRjVNVEVZNzdEVUE1M2wrQmgyTnhiT0Vr?=
+ =?utf-8?B?R0xkYmNPcVZhY2xuVm1MN0RVaG5tUmdHUHRoZ1EwWDlpY1h0Sjlka2lzSy9U?=
+ =?utf-8?B?Q2RVdDdONldzN3ZVeXo0L25yYTlhWWZvakt2V1J5QkdaZ3JvWUlaUnhNNFVC?=
+ =?utf-8?B?Y09xOVZzVGNidTBndXN1ZkI1N21qcTN1WnpKUUhkbmRnQWlTT3NBVTVJR3Jn?=
+ =?utf-8?B?bzZkVlVPcHZlc003VWh1ZHR5bmI0ZExMTC93MS9lKzI4S2xYR1NBZ09TZ2hB?=
+ =?utf-8?B?Q2V3QWZuVkNHRGpESUloM3BnZzRPVXIzRkttMVdnTTg0ZVZuY3prOVFwMFlZ?=
+ =?utf-8?B?bXJNb0FDcWNvODNYV3d1Uy83RjByY25rQXQ3aUlNRmFuL1RaVWJMemRyWkRK?=
+ =?utf-8?B?Q2pwVDBqTXdYRXE2eUlJTjNMdTBLczU2cWtxcWFqVGt6K0pKZ1NmWnR3YmpJ?=
+ =?utf-8?B?L3UxWHc2SkJsUngzcVFPTFBlUm5NaVUycjZMZEJtbTcwSldKNS9EemlvcVN1?=
+ =?utf-8?B?eE1LRjRQeU1BYWxuenlXcXNOdDVDcE5mMmdWdDZjOERNT2drQVBOT1JiRlZr?=
+ =?utf-8?B?Tldub2lnazlBN3FoazdidnZYNVJWSU94cUtjZlprNlE3c1FCSkdBb2xGLzNW?=
+ =?utf-8?B?VVJiRU4rUnlzSFJMNTZLNGc2RjV0VkJxaDVEbWxQYk1iUGVtRHYwN0xMaVJL?=
+ =?utf-8?B?SThQM3JrbWVWMHVVMkxaa2U4MjJuNUNPbm9EdDQ1eFFhTENOTkVTOVNDdTE2?=
+ =?utf-8?B?N1JoT0R3eGlEWXFmSDIrWFpZVUdJMkxLOFhha01penVvbVZLRlJlVmRmT3BC?=
+ =?utf-8?B?Y290MVVMaVpPV0ZpOEU1WnJWaVFVRDlqdnpHQkNuM1VVSXBJQjJuOGVBQW9K?=
+ =?utf-8?B?OVB0bEo4cS9yUWxZMnczQzRPZUlwaFNaMVJwaXhJM0plOUVqYlo5K2FRRG1l?=
+ =?utf-8?B?aDhHMXV6VG1MRWdMWXRGMzBJVnlyOFByWFRFVzBjMXV0VkxCWTk0Y3o5NFd3?=
+ =?utf-8?B?RGgyYnJrR1BDZGpCZDllWEdndUJ5NWJpbVRZSjVvdWNENjBPOE9jVGtDSURP?=
+ =?utf-8?B?VmNSWXJhOWp0ZzVDTVNxc3VRL1AzZWxoRCtON2gzdnJuMjIxM3ZkUkFtS0Mz?=
+ =?utf-8?B?WjJWZGxGNkliWEhoUFVVSGQ5LzgwQVd2MDY2WFVlRFZ6alNXb3ZjU3Ntb281?=
+ =?utf-8?B?N0lCQ1JrNzRNK0M1bnBLaVlzWmk5aVhCUkJoNXdPUkFCUmRqSTZnZUdjVldw?=
+ =?utf-8?B?RVNLNlF3cDMwYlQ1aUJpcEthOE1Gb0FtQ29oN0NKdDZtdi95YkxuSi90cHlm?=
+ =?utf-8?B?TVorVDQ1dy9YOWQwbys0Q3FoWUllWk9ibjZKbjJCdzkxMmRnbGI0bDZIZFc4?=
+ =?utf-8?B?UnZnck44QVFXQ0xWRzZydGFka09EZVNpUmRxeTBaSXRMSUhrVWZLUVA1amNw?=
+ =?utf-8?B?THFvUlBBTldxR0p0d0hKZVpFYncyaG1BVmhHajVLNjZxWTNTeUtaM1hVT01H?=
+ =?utf-8?B?SDZ1b08yQzBDdWhBblVvNC9zZ1htb0t0Y2FBUllJNy9CR1QxV1hwZGtDTEhm?=
+ =?utf-8?B?V3kwZ2tDR0NRZnZvby9rQlBvVlVEMlRweUIzUVFPZjJJTUMzbEgyZHFaSXlQ?=
+ =?utf-8?B?bCt5V3ZnQnNoc0RFMnlKUDJNSG1Jdnc1VWZYY0VIOE9xOFZjUVZBenZZN2Rx?=
+ =?utf-8?Q?97YUM/4zPwoj6fBNR1AzpfqdhKopLCNfzn6NOHS0DowM?=
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 12e3dfc5-7a75-45fe-5cbf-08de149d794a
+X-MS-Exchange-CrossTenant-AuthSource: BY5PR12MB3986.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 26 Oct 2025 14:39:33.1733 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: 6gYfs3a/tcTarwF+qo9oxrjOMHjfwYXmhLNQWA+KLDAjL1mZ1p4LwahzcM9XEXLYlBb80f3jexa6wrYGKsc5DA==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CH2PR12MB4168
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -109,133 +180,75 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 26/10/2025 13:39, Junjie Cao wrote:
-> +
-> +  reg:
-> +    maxItems: 1
-> +
-> +  enable-gpios:
-> +    description: GPIO to use to enable/disable the backlight (HWEN pin).
-> +    maxItems: 1
-> +
-> +  awinic,dim-mode:
-> +    $ref: /schemas/types.yaml#/definitions/uint32
-> +    description: >
-> +      Select dimming mode of the device.
-> +        0 = Bypass mode.
-> +        1 = DC mode.
-> +        2 = MIX mode.
-> +        3 = MIX-26k.
-> +    enum: [0, 1, 2, 3]
-> +    default: 1
-> +
-> +  awinic,sw-freq:
+Using the `as` operator for integer conversions is discouraged, as it
+silently strips data if the destination type is smaller than the source.
+Many such conversions can be replaced with `from`/`into` or (when
+justified) `try_from`/`try_into`, but these traits cannot unfortunately
+cover all conversions satisfyingly.
 
-Please use proper units, see:
-https://github.com/devicetree-org/dt-schema/blob/main/dtschema/schemas/property-units.yaml
-and other examples
+There is for instance the case of converting a `usize` to `u64`, which,
+in the case of the kernel today, is completely lossless but cannot be
+done because the Rust standard library does not provide a `From`
+implementation for conversions that are not future-proof.
 
-Same everywhere else.
+Still, in the kernel it is very practical to be able to perform such
+conversions when they are safe to do for the current build target.
 
+This patchset tries to eradicate the use of `as` in nova-core, by using
+existing means and introducing new ones.
 
-> +    $ref: /schemas/types.yaml#/definitions/uint32
-> +    description: Boost switching frequency in kHz.
-> +    enum: [300, 400, 500, 600, 660, 750, 850, 1000, 1200, 1330, 1500, 1700]
-> +    default: 750
-> +
-> +  awinic,sw-ilmt:
-> +    $ref: /schemas/types.yaml#/definitions/uint32
-> +    description: Switching current limitation in mA.
-> +    enum: [1500, 2000, 2500, 3000]
-> +    default: 3000
-> +
-> +  awinic,iled-max:
-> +    $ref: /schemas/types.yaml#/definitions/uint32
-> +    description: Maximum LED current setting in uA.
-> +    minimum: 5000
-> +    maximum: 50000
-> +    multipleOf: 500
-> +    default: 20000
-> +
-> +  awinic,uvlo-thres:
-> +    $ref: /schemas/types.yaml#/definitions/uint32
-> +    description: UVLO(Under Voltage Lock Out) in mV.
-> +    enum: [2200, 5000]
-> +    default: 2200
-> +
-> +  awinic,fade-time:
-> +    $ref: /schemas/types.yaml#/definitions/uint32
-> +    description: Fade In/Out Time(per step) in us.
-> +    enum: [8, 16, 32, 64, 128, 256, 512, 1024]
+The first 4 patches use the already-available `From` and `TryFrom` trait
+where it is possible or advisable.
 
-Why would this be fixed setting? This really looks like runtime, drop.
+The fifth patch introduces a new module that proposes conversion
+functions for those that are infallible under the current build target.
+This is done through a set of const functions, and the `FromAs` and
+`IntoAs` extension traits which, as their names lightly suggest, offer
+conversion for those types on which the `as` operator can be used
+losslessly.
 
-> +    default: 16
-> +
-> +  awinic,slope-time:
-> +    $ref: /schemas/types.yaml#/definitions/uint32
-> +    description: Slope time in ms.
+This new module is put to use in the sixth patch.
 
-Slope of what?
+The idea was first suggested by Danilo, and I hope I captured it
+properly. :)
 
-> +    enum: [8, 24, 48, 96, 200, 300, 400, 500]
-> +    default: 300
-> +
-> +  awinic,ramp-ctl:
-> +    $ref: /schemas/types.yaml#/definitions/uint32
-> +    description: >
-> +      Select ramp control and filter of the device.
-> +        0 = Fade in/fade out.
-> +        1 = Light filter.
-> +        2 = Medium filter.
-> +        3 = Heavy filter.
-> +    enum: [0, 1, 2, 3]
-> +    default: 2
-> +
-> +  awinic,brt-mode:
-> +    $ref: /schemas/types.yaml#/definitions/uint32
-> +    description: >
-> +      Select brightness control of the device.
-> +        0 = PWM.
-> +        1 = IIC.
-> +        2 = IIC x PWM.
-> +        3 = IIC x PWM(P-ramp).
-> +    enum: [0, 1, 2, 3]
-> +    default: 1
-> +
-> +  awinic,onoff-time:
-> +    $ref: /schemas/types.yaml#/definitions/uint32
-> +    description: Turn on/off time(per step) in ns.
-> +    enum: [250, 500, 1000, 2000, 4000, 8000, 16000]
+As Danilo suggested, this could eventually find its place in the kernel
+crate if the implementation is deemed to be fit, but for now let's
+review and let it mature in nova-core.
 
-Not a DT property.
+Suggested-by: Danilo Krummrich <dakr@kernel.org>
+Link: https://lore.kernel.org/rust-for-linux/DDK4KADWJHMG.1FUPL3SDR26XF@kernel.org/
+Signed-off-by: Alexandre Courbot <acourbot@nvidia.com>
+---
+Alexandre Courbot (7):
+      gpu: nova-core: replace `as` with `from` conversions where possible
+      gpu: nova-core: vbios: remove unneeded u8 conversions
+      gpu: nova-core: vbios: add conversion to u8 for BiosImageType
+      gpu: nova-core: use `try_from` instead of `as` for u32 conversions
+      gpu: nova-core: add extra conversion functions and traits
+      gpu: nova-core: replace use of `as` with functions from `num`
+      gpu: nova-core: justify remaining uses of `as`
 
-> +    default: 2000
-> +
-> +required:
-> +  - compatible
-> +  - reg
-> +  - enable-gpios
-> +
-> +unevaluatedProperties: false
-> +
-> +examples:
-> +  - |
-> +    #include <dt-bindings/gpio/gpio.h>
-> +
-> +    i2c {
-> +        #address-cells = <1>;
-> +        #size-cells = <0>;
-> +
-> +        aw99706@76 {
-> +            compatible = "awinic,aw99706";
-> +            reg = <0x76>;
-> +            enable-gpios = <&tlmm 88 GPIO_ACTIVE_HIGH>;
-
-Where are other properties from common.yaml? Looks like you re-invented
-some parts.
-
-
+ drivers/gpu/nova-core/falcon.rs           |   9 +-
+ drivers/gpu/nova-core/falcon/hal/ga102.rs |   6 +-
+ drivers/gpu/nova-core/fb.rs               |   7 +-
+ drivers/gpu/nova-core/fb/hal/ga100.rs     |   4 +
+ drivers/gpu/nova-core/fb/hal/tu102.rs     |  16 ++-
+ drivers/gpu/nova-core/firmware.rs         |   7 +-
+ drivers/gpu/nova-core/firmware/booter.rs  |  31 +++---
+ drivers/gpu/nova-core/firmware/fwsec.rs   |  23 ++---
+ drivers/gpu/nova-core/firmware/gsp.rs     |   5 +-
+ drivers/gpu/nova-core/firmware/riscv.rs   |   7 +-
+ drivers/gpu/nova-core/nova_core.rs        |   1 +
+ drivers/gpu/nova-core/num.rs              | 159 ++++++++++++++++++++++++++++++
+ drivers/gpu/nova-core/regs.rs             |   5 +-
+ drivers/gpu/nova-core/vbios.rs            |  60 ++++++-----
+ 14 files changed, 261 insertions(+), 79 deletions(-)
+---
+base-commit: ca16b15e78f4dee1631c0a68693f5e7d9b3bb3ec
+change-id: 20251022-nova-as-8ece4142872a
 
 Best regards,
-Krzysztof
+-- 
+Alexandre Courbot <acourbot@nvidia.com>
+
