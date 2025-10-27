@@ -2,72 +2,72 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8104FC0C39C
-	for <lists+dri-devel@lfdr.de>; Mon, 27 Oct 2025 09:06:32 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id B58FCC0C39F
+	for <lists+dri-devel@lfdr.de>; Mon, 27 Oct 2025 09:06:33 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4033610E344;
-	Mon, 27 Oct 2025 08:06:29 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3F91310E347;
+	Mon, 27 Oct 2025 08:06:30 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="jBwUNIa/";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="mmBi6vaM";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-f52.google.com (mail-lf1-f52.google.com
- [209.85.167.52])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4724510E340
- for <dri-devel@lists.freedesktop.org>; Mon, 27 Oct 2025 08:06:27 +0000 (UTC)
-Received: by mail-lf1-f52.google.com with SMTP id
- 2adb3069b0e04-592fcf7a1ceso3300393e87.1
- for <dri-devel@lists.freedesktop.org>; Mon, 27 Oct 2025 01:06:27 -0700 (PDT)
+Received: from mail-lf1-f45.google.com (mail-lf1-f45.google.com
+ [209.85.167.45])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9C3DF10E344
+ for <dri-devel@lists.freedesktop.org>; Mon, 27 Oct 2025 08:06:28 +0000 (UTC)
+Received: by mail-lf1-f45.google.com with SMTP id
+ 2adb3069b0e04-592f7e50da2so4747660e87.0
+ for <dri-devel@lists.freedesktop.org>; Mon, 27 Oct 2025 01:06:28 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1761552386; x=1762157186; darn=lists.freedesktop.org;
+ d=gmail.com; s=20230601; t=1761552387; x=1762157187; darn=lists.freedesktop.org;
  h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
  :mime-version:subject:date:from:from:to:cc:subject:date:message-id
- :reply-to; bh=cLWjaKLx+X0gG/JQr9xbszcB6rfPVQrK0WJygsJNUrg=;
- b=jBwUNIa/OvuIz5+M9urqhKBHzUN/sOtfc+ijcPVaejUyamRIG5x4gAPEy3lnPb+0JU
- x36u97CUOPUg7D1XBM9f5TXr9OG4U2MNP7Af1aSz9pmRa3CYluXj5Jw6cdGCEnzcV0pr
- n+GXw+b6haPKWE9rUeeNi+9tTq0bSH0uWnkpcAJnkq4cLvjjOjuBIoonEP+nw3bPkzOa
- ZluvBN6Z0MIMClms3BkQ3PI67c2zY9FeLCPcKtn91/xN4yBUFG9QakVKl36D6GPDpHoE
- NBfd0elL7kKLYQkV5nzOxJadY20L/6xe4wE67aDRYErJE4wPRJ2QwU/2HpasZBL4sa/Y
- fvTQ==
+ :reply-to; bh=mG4iS2woxPf+3BthpgnKFGsPtU8cg+2wLUJdaVgtpEs=;
+ b=mmBi6vaMJJ61JT+KX9L9Jr3wU36JZj83Mx+XlEMYhacjKEoy51HHmZSVwtmHJB0nk5
+ F8krTFTcjINLFOxog8CmM7Ber8TdL/cp9tqifuLTmWzEie7TDBPGjQl9B1jOloK8H7K4
+ lE+Nn1Gxi60YyVgKSUGyZYwMs91cqtyiN9pXXC3FCLMmav08oND66URqN8Oo8SVBQPo2
+ fALwe1CJYYbvdJrwSO/8GmKRvQbGBbATu66sRe+4Mt5wRl8aELsZgKO81aWDzUHiu05c
+ ealP4pPoNfF0ZezLPebsLTxmIlCV7U4CleTxbI+CpPuwx4vW0T9clFr6D32BvX2jKLTi
+ wKbA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1761552386; x=1762157186;
+ d=1e100.net; s=20230601; t=1761552387; x=1762157187;
  h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
  :mime-version:subject:date:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=cLWjaKLx+X0gG/JQr9xbszcB6rfPVQrK0WJygsJNUrg=;
- b=XUgMMpZVJws2GO4y2B/KC+bXkGrkHQfd49pupe9WHtfAkYpEVW50Cksq/osdYzXCP1
- juXhEqDXyfYIBDzPH2OJ6wPf3L6yZGV2I7AUw7an3vS7VlpGSu9+p71DbwbTLtMhZWix
- 2w9OZfFt2kbLkqTwMEGIDF/srlwRxFff6C5BVktHBWGx2uWRchZs6opO1cIlobcbqSc/
- x6NBXcdldJFI26KvgGAwT8K8W9KA2XcsHr5yHAGKVeakY/lEtNjT7bgslZJWkWSxb6Rr
- TSI5KIRKkdBCQ2HN0lXl/DUeisKq1+umiCmAoVfwAZNamW2bKA934No1fE4FDfGMpAYF
- RpUw==
-X-Gm-Message-State: AOJu0YwQ4jrHXGQvqvd7xzsFuspTE4sTbyaH4t+s6J3OqXr6k1N9TpZZ
- d/Qv8c4sY4CA4X9IHTH6ZE0DhG1WMrrxYkZyryjzv2+UaeFKkNngi40l
-X-Gm-Gg: ASbGncuhmh0IuCTYgkqKB/SLVNkLNoLjCPElUKcpLYS6/MXsD6QBLtM3D4hhxo0FpgM
- MxZS0wQ5afbHj3ZrpPYs7a3nuSu7tq5PPGpKyCUDbv/Z3O00gqmxEYNwaKaK4Y3Ib4otUbZcbd2
- 5Ut5t8k/X4Y6MsZyJ8f3CNhnneae2LTk6BIU9iXsjQ9mo/FB498m0HcwxMXE+Bhyz2EVVwEQz9u
- QSF1tYPeFwVlmsoGL5Ti3emEV8epNYreg6zE6JXLborOl82TEDncktUm/4VLT+JM2vpXh10bc9Y
- fxsmrE2jNhGEZ5SaiYktuSimznVIEAl5rS+sKnjyL06SMlgoIn/JQrcXQCFH70QTLue0gxb+zGV
- rt2xHZ34jTF6xLYLCNa1dU/j4UOIZi8q5oooFSJ+wnYaVSBYZnFWZIiy0YVt8iUXPaAfRYbtck8
- WEGqx2aEfve1M2He+NxaHIXp7gcqQg6E5+oMUY1w4pCTyy
-X-Google-Smtp-Source: AGHT+IH+aurWn18ayRrtNiWRdLqqMj+bLFYNr4oOdYqVnH8OIs+weAOzhle/Vj0N0XuWicoeo8Ozrg==
-X-Received: by 2002:a05:6512:acc:b0:591:c8d7:c047 with SMTP id
- 2adb3069b0e04-592fc9d4f1dmr3044117e87.2.1761552385274; 
- Mon, 27 Oct 2025 01:06:25 -0700 (PDT)
+ bh=mG4iS2woxPf+3BthpgnKFGsPtU8cg+2wLUJdaVgtpEs=;
+ b=LuH2xFzwYENQWTVOdM5mDDk00rUde3faolHfD96UBewedKHOVsNVY92tPkMqdzIMrG
+ 9Zrunn/JKsHSDszaHvfIVuYiyOnpLXg6XUSR9wZExYZBRPjmJXlHwFDHC/K5XRIdhZQB
+ BJRIwK0dgPalYNHZzFV0YQe1UqZabht0GicPq+neBwlI06N3jxVNNm2VvDvCzz96M98T
+ Om+KtxUOLHTzDqNbwLyqpMEcfPhplnIrh6VanSTE/iv0dExk2gUzYOvQ7iRnpxMM7JM6
+ TPnlzYfp9Dw9HEIeNb/gtUMYZKe2L0M73/TzrMGQxlsDK9ZfXlGUKuRm/h8kjB/7VeeJ
+ 3XIg==
+X-Gm-Message-State: AOJu0YxislrQQzNsNHa/5xHOwsLMJqavvUwiiLHmWVZrzHhXLNj8EkRl
+ B/ka4usWaQRrqx5hWicikSqrroyOdVEhvultf70M4Kh7QfRGkqItBu54
+X-Gm-Gg: ASbGnctlTpLPqaFwX/Q91G3EF0MAWjKPbxo0MhEDXyoJp2Tnh11SLgdOsnDUXNIh6Dk
+ h/kg5rMfl8RGxioyqde8NfHtpyFB5Adbz0Fiozbe++3ul7984iwO/zxt/n/0HtMO3hl/g98VumJ
+ EXbCycyLKXHa0j390R6RY9AzcOfZiB3Snf2Voggg5Cs0PXy/czQt8k409/AJLjceWQFjhsYYDya
+ KSJoUOJZjrba8ts5n8NB6h2nqgHiKp1KBzbxTcYFkGhx4HWQkhpLHyy1eo5MPtMsdh65wQ4W8tv
+ A75BOjbbUnDbQlN501wPNUtvwl3PKG5Ux6ex7NV8EnxMpmFtHxMayeqh77EapuiHr6VJ/PkJacj
+ 5eCG0OElIcHi3YWYe2sF6JYt6UxrbunRRjaDPM7yh3JkZlRjXJSBjD7Ma/AcK2vriPN9ov+dOt8
+ D+krvE7EyI9NF7yCzHgwYPJqW/hzTAnxgL7KqM/I5fBSBz
+X-Google-Smtp-Source: AGHT+IE7lymUIggT5POZWMrgs3TqPtDu6HHycwtT2bdPZdUD1qE3qAPOhZ/+mLdtO5qNpBF5VygU1g==
+X-Received: by 2002:a05:6512:b26:b0:593:7bc:970a with SMTP id
+ 2adb3069b0e04-59307bc976bmr964639e87.3.1761552386680; 
+ Mon, 27 Oct 2025 01:06:26 -0700 (PDT)
 Received: from [192.168.1.168] (83-233-6-197.cust.bredband2.com.
  [83.233.6.197]) by smtp.gmail.com with ESMTPSA id
- 2adb3069b0e04-59301f41ce8sm2210689e87.6.2025.10.27.01.06.23
+ 2adb3069b0e04-59301f41ce8sm2210689e87.6.2025.10.27.01.06.25
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 27 Oct 2025 01:06:24 -0700 (PDT)
+ Mon, 27 Oct 2025 01:06:25 -0700 (PDT)
 From: Marcus Folkesson <marcus.folkesson@gmail.com>
-Date: Mon, 27 Oct 2025 09:05:42 +0100
-Subject: [PATCH v2 2/6] drm/sitronix/st7571-i2c: add 'struct device' to
- st7571_device
+Date: Mon, 27 Oct 2025 09:05:43 +0100
+Subject: [PATCH v2 3/6] drm/sitronix/st7571-i2c: move common structures to
+ st7571.h
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20251027-st7571-split-v2-2-8352fb278d21@gmail.com>
+Content-Transfer-Encoding: 8bit
+Message-Id: <20251027-st7571-split-v2-3-8352fb278d21@gmail.com>
 References: <20251027-st7571-split-v2-0-8352fb278d21@gmail.com>
 In-Reply-To: <20251027-st7571-split-v2-0-8352fb278d21@gmail.com>
 To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
@@ -76,21 +76,21 @@ To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
 Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org, 
  Marcus Folkesson <marcus.folkesson@gmail.com>
 X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=openpgp-sha256; l=4484;
+X-Developer-Signature: v=1; a=openpgp-sha256; l=7890;
  i=marcus.folkesson@gmail.com; h=from:subject:message-id;
- bh=LfOcWsXvHf24Rmlqiz3/HxiBo5dw0vDuG1TwXuVbpUw=;
- b=owEBbQKS/ZANAwAKAYiATm9ZXVIyAcsmYgBo/yfjwDnLYpkefFw8wspv86ZqWh7GZDBsJdLoT
- Um3JTZAYAiJAjMEAAEKAB0WIQQFUaLotmy1TWTBLGWIgE5vWV1SMgUCaP8n4wAKCRCIgE5vWV1S
- MtmTEACeFpCAFkUknPDpaoEYTuORZ3YCKbfDe6m73afchsg9qwSwf4jAQOXZB8KnpLOT4rc9kgC
- qmIS6JpWGJqAwi/uSGVC9cWTF+BZlnlXV2vIo5MPoISAwAgRuiZ3ZqViR4SHH+yB8/OZk8pREln
- 3/Y8u8epGhjB7Y4d84JBvv7cD6JfZLDQUT4itSQSw4r8mccksim6hHd4hFNNCoU0LHQtKNL+gaK
- oBz9lRN2504QKfzGpBAZlTJJ+Pxhd8ZepPIkyY1UQTVnrVgvraam/bkq4SZ2IT3RtHt4VofU9sZ
- xqbqvAdH77PJkdRa/83x/8DrOTQqkFfTrxNJFtkfSB/kmpH1CSysZux8QhwFIc1+D/PJk0fROR9
- QujMlPCQHzFL0w15eoKa86244QWm2GY0DS4gc8jDYNeVggUqrs8Ccx7lm4vCuZzLyObDwbG48jB
- S6NzG5nD1lZwXNwP/ElhygkM3xUomK3ewmjcdzfc91eMpLGCrK7pbSYXW5GWLRvLV5uuJj2KaWG
- 001oroV8d+vRP6n1/LInvl1bj6HScsZ4E5vRC4PeQHlDg8/5xw39pXN80NYPsyT1l5vRWtxPiD/
- 1TNeL7xXLVb77nSCGhGIoBO1bQOu9HGxBGRD7zyv++c9N+6GDZEON72aPtrXGgWDq2FosKv7bBU
- Dc3zQQLkA8W+Mbw==
+ bh=oj5JSSIwffzeqzrjLvw57GX1wzHco1M6GQyX3QdaS3o=;
+ b=owEBbQKS/ZANAwAKAYiATm9ZXVIyAcsmYgBo/yfotsdwL2JDtbBx3/1RqTJkbA+8FY1KPli9n
+ I/PzE9iU3yJAjMEAAEKAB0WIQQFUaLotmy1TWTBLGWIgE5vWV1SMgUCaP8n6AAKCRCIgE5vWV1S
+ MpvLD/92QqkcZ6aKJTaa83b4u4tqUaO7+BeNnR3XmC3/Kr1Jy4fUBqtKwFIMPLzpeTjvrkUOUZz
+ 7jX+Gor6w+iiYjZumiEON/PPrRnNUVcCAOdSPpismXuRysLUKXCVB3i4bPs0WEAznRYQ4WsmijS
+ dMKVBa5As70LmSeolYw8Rly/1e9Ip/Hg6GcHwdwKfnAxdvLblV/oiwEifTQG2953043a1IeLavI
+ WO11TU3SH5qoZW9IyuBEF9Mh9ionSPLoXUHvuyfmg4Qs8fNzaTuafwA98NclvjqdrnIA+TQ+M1q
+ S2efMRXlaOUu0jk9bx2v4gxnNMHcJenEFeq579DkC4i3H8wOMWclmgNDYj4g6v1PF/qA8FOLGzg
+ wlJ1oQx7pBErIb9UbL+O4LTmqKjgQxpS1mQNsCfXgL+c/qpeFrYQWpOLHCcF8P/5rrcxpESRv8Y
+ OT5dR28uAJbZgwpbD5YVnC9sH0QqNojluHEbE36flV7UyS6fI+ngS9IC1IUSyXdz9DdI/gJQV8+
+ mSgofGp9osVCY0mcmsptYI1Y/Z+v19U5YwBqX8x8dEgL91sPvVOEaprVkvSDj77uDO2YiSNRvz9
+ s+lO9u3GDcYPpxNs7nGHnsNTTv6h2/Q9eHCGnsarlDzahslrNBm57pXI4GQ2ba71qEFM5qCg9PD
+ 8RA4/YvhX7srcXQ==
 X-Developer-Key: i=marcus.folkesson@gmail.com; a=openpgp;
  fpr=AB91D46C7E0F6E6FB2AB640EC0FE25D598F6C127
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -108,132 +108,251 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Keep a copy of the device structure instead of referring to i2c_client.
-This is a preparation step to separate the generic part from all i2c
-stuff.
+Move all structures that will be common for all interfaces (SPI/I2C) to
+a separate header file.
 
 Signed-off-by: Marcus Folkesson <marcus.folkesson@gmail.com>
 ---
- drivers/gpu/drm/sitronix/st7571-i2c.c | 30 ++++++++++++++++--------------
- 1 file changed, 16 insertions(+), 14 deletions(-)
+ MAINTAINERS                           |   1 +
+ drivers/gpu/drm/sitronix/st7571-i2c.c |  91 +---------------------------
+ drivers/gpu/drm/sitronix/st7571.h     | 108 ++++++++++++++++++++++++++++++++++
+ 3 files changed, 111 insertions(+), 89 deletions(-)
 
+diff --git a/MAINTAINERS b/MAINTAINERS
+index cc8a7f3f1dabaf402b21f767ecb093a31ade248f..2814faae61eceecae1bccaaf92010e22dca81376 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -8083,6 +8083,7 @@ S:	Maintained
+ F:	Documentation/devicetree/bindings/display/sitronix,st7567.yaml
+ F:	Documentation/devicetree/bindings/display/sitronix,st7571.yaml
+ F:	drivers/gpu/drm/sitronix/st7571-i2c.c
++F:	drivers/gpu/drm/sitronix/st7571.h
+ 
+ DRM DRIVER FOR SITRONIX ST7701 PANELS
+ M:	Jagan Teki <jagan@amarulasolutions.com>
 diff --git a/drivers/gpu/drm/sitronix/st7571-i2c.c b/drivers/gpu/drm/sitronix/st7571-i2c.c
-index 71814a3eb93b7adf554da082a0237da371e5f5b5..2b52919d7dd434bb16aa66274eae8730649f62f1 100644
+index 2b52919d7dd434bb16aa66274eae8730649f62f1..af27658a5e152534d445bc623893eee6b3ca00d5 100644
 --- a/drivers/gpu/drm/sitronix/st7571-i2c.c
 +++ b/drivers/gpu/drm/sitronix/st7571-i2c.c
-@@ -113,6 +113,7 @@ struct st7571_panel_format {
+@@ -35,6 +35,8 @@
+ #include <video/display_timing.h>
+ #include <video/of_display_timing.h>
  
- struct st7571_device {
- 	struct drm_device drm;
++#include "st7571.h"
++
+ #define ST7571_COMMAND_MODE			(0x00)
+ #define ST7571_DATA_MODE			(0x40)
+ 
+@@ -78,95 +80,6 @@
+ #define DRIVER_MAJOR 1
+ #define DRIVER_MINOR 0
+ 
+-enum st7571_color_mode {
+-	ST7571_COLOR_MODE_GRAY = 0,
+-	ST7571_COLOR_MODE_BLACKWHITE = 1,
+-};
+-
+-struct st7571_device;
+-
+-struct st7571_panel_constraints {
+-	u32 min_nlines;
+-	u32 max_nlines;
+-	u32 min_ncols;
+-	u32 max_ncols;
+-	bool support_grayscale;
+-};
+-
+-struct st7571_panel_data {
+-	int (*init)(struct st7571_device *st7571);
+-	int (*parse_dt)(struct st7571_device *st7571);
+-	struct st7571_panel_constraints constraints;
+-};
+-
+-struct st7571_panel_format {
+-	void (*prepare_buffer)(struct st7571_device *st7571,
+-			       const struct iosys_map *vmap,
+-			       struct drm_framebuffer *fb,
+-			       struct drm_rect *rect,
+-			       struct drm_format_conv_state *fmtcnv_state);
+-	int (*update_rect)(struct drm_framebuffer *fb, struct drm_rect *rect);
+-	enum st7571_color_mode mode;
+-	const u8 nformats;
+-	const u32 formats[];
+-};
+-
+-struct st7571_device {
+-	struct drm_device drm;
+-	struct device *dev;
+-
+-	struct drm_plane primary_plane;
+-	struct drm_crtc crtc;
+-	struct drm_encoder encoder;
+-	struct drm_connector connector;
+-
+-	struct drm_display_mode mode;
+-
+-	const struct st7571_panel_format *pformat;
+-	const struct st7571_panel_data *pdata;
+-	struct i2c_client *client;
+-	struct gpio_desc *reset;
+-	struct regmap *regmap;
+-
+-	/*
+-	 * Depending on the hardware design, the acknowledge signal may be hard to
+-	 * recognize as a valid logic "0" level.
+-	 * Therefor, ignore NAK if possible to stay compatible with most hardware designs
+-	 * and off-the-shelf panels out there.
+-	 *
+-	 * From section 6.4 MICROPOCESSOR INTERFACE section in the datasheet:
+-	 *
+-	 * "By connecting SDA_OUT to SDA_IN externally, the SDA line becomes fully
+-	 * I2C interface compatible.
+-	 * Separating acknowledge-output from serial data
+-	 * input is advantageous for chip-on-glass (COG) applications. In COG
+-	 * applications, the ITO resistance and the pull-up resistor will form a
+-	 * voltage  divider, which affects acknowledge-signal level. Larger ITO
+-	 * resistance will raise the acknowledged-signal level and system cannot
+-	 * recognize this level as a valid logic “0” level. By separating SDA_IN from
+-	 * SDA_OUT, the IC can be used in a mode that ignores the acknowledge-bit.
+-	 * For applications which check acknowledge-bit, it is necessary to minimize
+-	 * the ITO resistance of the SDA_OUT trace to guarantee a valid low level."
+-	 *
+-	 */
+-	bool ignore_nak;
+-
+-	bool grayscale;
+-	bool inverted;
+-	u32 height_mm;
+-	u32 width_mm;
+-	u32 startline;
+-	u32 nlines;
+-	u32 ncols;
+-	u32 bpp;
+-
+-	/* Intermediate buffer in LCD friendly format */
+-	u8 *hwbuf;
+-
+-	/* Row of (transformed) pixels ready to be written to the display */
+-	u8 *row;
+-};
+-
+ static inline struct st7571_device *drm_to_st7571(struct drm_device *drm)
+ {
+ 	return container_of(drm, struct st7571_device, drm);
+diff --git a/drivers/gpu/drm/sitronix/st7571.h b/drivers/gpu/drm/sitronix/st7571.h
+new file mode 100644
+index 0000000000000000000000000000000000000000..c6fd6f1d3aa33d6b43330ce8f2cb2d3f2321b29b
+--- /dev/null
++++ b/drivers/gpu/drm/sitronix/st7571.h
+@@ -0,0 +1,108 @@
++/* SPDX-License-Identifier: GPL-2.0-or-later */
++/*
++ * Header file for:
++ * Driver for Sitronix ST7571, a 4 level gray scale dot matrix LCD controller
++ *
++ * Copyright (C) 2025 Marcus Folkesson <marcus.folkesson@gmail.com>
++ */
++
++#ifndef __ST7571_H__
++#define __ST7571_H__
++
++#include <drm/drm_connector.h>
++#include <drm/drm_crtc.h>
++#include <drm/drm_drv.h>
++#include <drm/drm_encoder.h>
++
++#include <linux/regmap.h>
++
++enum st7571_color_mode {
++	ST7571_COLOR_MODE_GRAY = 0,
++	ST7571_COLOR_MODE_BLACKWHITE = 1,
++};
++
++struct st7571_device;
++
++struct st7571_panel_constraints {
++	u32 min_nlines;
++	u32 max_nlines;
++	u32 min_ncols;
++	u32 max_ncols;
++	bool support_grayscale;
++};
++
++struct st7571_panel_data {
++	int (*init)(struct st7571_device *st7571);
++	int (*parse_dt)(struct st7571_device *st7571);
++	struct st7571_panel_constraints constraints;
++};
++
++struct st7571_panel_format {
++	void (*prepare_buffer)(struct st7571_device *st7571,
++			       const struct iosys_map *vmap,
++			       struct drm_framebuffer *fb,
++			       struct drm_rect *rect,
++			       struct drm_format_conv_state *fmtcnv_state);
++	int (*update_rect)(struct drm_framebuffer *fb, struct drm_rect *rect);
++	enum st7571_color_mode mode;
++	const u8 nformats;
++	const u32 formats[];
++};
++
++struct st7571_device {
++	struct drm_device drm;
 +	struct device *dev;
- 
- 	struct drm_plane primary_plane;
- 	struct drm_crtc crtc;
-@@ -741,7 +742,7 @@ static const struct regmap_config st7571_regmap_config = {
- 
- static int st7571_validate_parameters(struct st7571_device *st7571)
- {
--	struct device *dev = st7571->dev.dev;
-+	struct device *dev = st7571->dev;
- 	const struct st7571_panel_constraints *constraints = &st7571->pdata->constraints;
- 
- 	if (st7571->width_mm  == 0) {
-@@ -781,7 +782,7 @@ static int st7571_validate_parameters(struct st7571_device *st7571)
- 
- static int st7567_parse_dt(struct st7571_device *st7567)
- {
--	struct device *dev = &st7567->client->dev;
-+	struct device *dev = st7567->dev;
- 	struct device_node *np = dev->of_node;
- 	struct display_timing dt;
- 	int ret;
-@@ -808,7 +809,7 @@ static int st7567_parse_dt(struct st7571_device *st7567)
- 
- static int st7571_parse_dt(struct st7571_device *st7571)
- {
--	struct device *dev = &st7571->client->dev;
-+	struct device *dev = st7571->dev;
- 	struct device_node *np = dev->of_node;
- 	struct display_timing dt;
- 	int ret;
-@@ -943,9 +944,10 @@ static int st7571_probe(struct i2c_client *client)
- 		return PTR_ERR(st7571);
- 
- 	drm = &st7571->drm;
-+	st7571->dev = &client->dev;
- 	st7571->client = client;
- 	i2c_set_clientdata(client, st7571);
--	st7571->pdata = device_get_match_data(&client->dev);
-+	st7571->pdata = device_get_match_data(st7571->dev);
- 
- 	ret = st7571->pdata->parse_dt(st7571);
- 	if (ret)
-@@ -966,20 +968,20 @@ static int st7571_probe(struct i2c_client *client)
- 	if (i2c_check_functionality(client->adapter, I2C_FUNC_PROTOCOL_MANGLING))
- 		st7571->ignore_nak = true;
- 
--	st7571->regmap = devm_regmap_init(&client->dev, &st7571_regmap_bus,
-+	st7571->regmap = devm_regmap_init(st7571->dev, &st7571_regmap_bus,
- 					  client, &st7571_regmap_config);
- 	if (IS_ERR(st7571->regmap)) {
--		return dev_err_probe(&client->dev, PTR_ERR(st7571->regmap),
-+		return dev_err_probe(st7571->dev, PTR_ERR(st7571->regmap),
- 				     "Failed to initialize regmap\n");
- 	}
- 
--	st7571->hwbuf = devm_kzalloc(&client->dev,
-+	st7571->hwbuf = devm_kzalloc(st7571->dev,
- 				     (st7571->nlines * st7571->ncols * st7571->bpp) / 8,
- 				     GFP_KERNEL);
- 	if (!st7571->hwbuf)
- 		return -ENOMEM;
- 
--	st7571->row = devm_kzalloc(&client->dev,
-+	st7571->row = devm_kzalloc(st7571->dev,
- 				   (st7571->ncols * st7571->bpp),
- 				   GFP_KERNEL);
- 	if (!st7571->row)
-@@ -987,34 +989,34 @@ static int st7571_probe(struct i2c_client *client)
- 
- 	ret = st7571_mode_config_init(st7571);
- 	if (ret)
--		return dev_err_probe(&client->dev, ret,
-+		return dev_err_probe(st7571->dev, ret,
- 				     "Failed to initialize mode config\n");
- 
- 	ret = st7571_plane_init(st7571, st7571->pformat);
- 	if (ret)
--		return dev_err_probe(&client->dev, ret,
-+		return dev_err_probe(st7571->dev, ret,
- 				     "Failed to initialize primary plane\n");
- 
- 	ret = st7571_crtc_init(st7571);
- 	if (ret < 0)
--		return dev_err_probe(&client->dev, ret,
-+		return dev_err_probe(st7571->dev, ret,
- 				     "Failed to initialize CRTC\n");
- 
- 	ret = st7571_encoder_init(st7571);
- 	if (ret < 0)
--		return dev_err_probe(&client->dev, ret,
-+		return dev_err_probe(st7571->dev, ret,
- 				     "Failed to initialize encoder\n");
- 
- 	ret = st7571_connector_init(st7571);
- 	if (ret < 0)
--		return dev_err_probe(&client->dev, ret,
-+		return dev_err_probe(st7571->dev, ret,
- 				     "Failed to initialize connector\n");
- 
- 	drm_mode_config_reset(drm);
- 
- 	ret = drm_dev_register(drm, 0);
- 	if (ret)
--		return dev_err_probe(&client->dev, ret,
-+		return dev_err_probe(st7571->dev, ret,
- 				     "Failed to register DRM device\n");
- 
- 	drm_client_setup(drm, NULL);
++
++	struct drm_plane primary_plane;
++	struct drm_crtc crtc;
++	struct drm_encoder encoder;
++	struct drm_connector connector;
++
++	struct drm_display_mode mode;
++
++	const struct st7571_panel_format *pformat;
++	const struct st7571_panel_data *pdata;
++	struct i2c_client *client;
++	struct gpio_desc *reset;
++	struct regmap *regmap;
++
++	/*
++	 * Depending on the hardware design, the acknowledge signal may be hard to
++	 * recognize as a valid logic "0" level.
++	 * Therefor, ignore NAK if possible to stay compatible with most hardware designs
++	 * and off-the-shelf panels out there.
++	 *
++	 * From section 6.4 MICROPOCESSOR INTERFACE section in the datasheet:
++	 *
++	 * "By connecting SDA_OUT to SDA_IN externally, the SDA line becomes fully
++	 * I2C interface compatible.
++	 * Separating acknowledge-output from serial data
++	 * input is advantageous for chip-on-glass (COG) applications. In COG
++	 * applications, the ITO resistance and the pull-up resistor will form a
++	 * voltage  divider, which affects acknowledge-signal level. Larger ITO
++	 * resistance will raise the acknowledged-signal level and system cannot
++	 * recognize this level as a valid logic “0” level. By separating SDA_IN from
++	 * SDA_OUT, the IC can be used in a mode that ignores the acknowledge-bit.
++	 * For applications which check acknowledge-bit, it is necessary to minimize
++	 * the ITO resistance of the SDA_OUT trace to guarantee a valid low level."
++	 *
++	 */
++	bool ignore_nak;
++
++	bool grayscale;
++	bool inverted;
++	u32 height_mm;
++	u32 width_mm;
++	u32 startline;
++	u32 nlines;
++	u32 ncols;
++	u32 bpp;
++
++	/* Intermediate buffer in LCD friendly format */
++	u8 *hwbuf;
++
++	/* Row of (transformed) pixels ready to be written to the display */
++	u8 *row;
++};
++
++#endif /* __ST7571_H__ */
 
 -- 
 2.50.1
