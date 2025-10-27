@@ -2,78 +2,69 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3E9B0C0F26D
-	for <lists+dri-devel@lfdr.de>; Mon, 27 Oct 2025 17:05:00 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id CB858C0F2BB
+	for <lists+dri-devel@lfdr.de>; Mon, 27 Oct 2025 17:08:43 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 188FE10E4DB;
-	Mon, 27 Oct 2025 16:04:58 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 69C9010E4F3;
+	Mon, 27 Oct 2025 16:08:41 +0000 (UTC)
+Authentication-Results: gabe.freedesktop.org;
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="bg1mmsGy";
+	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-f42.google.com (mail-lf1-f42.google.com
- [209.85.167.42])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5013510E4E4
- for <dri-devel@lists.freedesktop.org>; Mon, 27 Oct 2025 16:04:57 +0000 (UTC)
-Received: by mail-lf1-f42.google.com with SMTP id
- 2adb3069b0e04-58d29830058so5571514e87.0
- for <dri-devel@lists.freedesktop.org>; Mon, 27 Oct 2025 09:04:57 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1761581093; x=1762185893;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :reply-to:in-reply-to:references:mime-version:x-gm-message-state
- :from:to:cc:subject:date:message-id:reply-to;
- bh=aBt+IECqNVtAsegMkIX7fm58vbKYt/6Urfpjeenw3Ow=;
- b=gKMi1qkiphOIsZifevCvwXsY8r4SdKBveimd4tdajEd/qodSRAldJD0KvOPlq4MKrI
- R3SEu34pNfeEemMlqNjvQe/erkfja+/mZRrliIQkp+HYngjtJ6O55fAQxkRDQqRsmtH+
- aHedp/LeQ4ouxOfpKlI+KwbA1eXusgGKVBrEsIwhdQgL3usEJHJXC390lzIwHMg56a0e
- G3h68xuH3mf7Z+zHcb32t40dB0BS3tHrtPAjldhHB/RFiFRiZgsk627GVqctj/h1iXSV
- QiOr7jcK+w7Vy4YaPr+lnlRx9rgzm6YDsm9I76gVcsi4XCWGDRsmSATHEUgW8vWa5CkQ
- FgzQ==
-X-Forwarded-Encrypted: i=1;
- AJvYcCVUf2BilnLkgYsRiFCTwtwy12nhd8LBya4z080qY6g9eovebsC250MOYHBo0EH5rQTJof4zvLbBEvY=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YzMnRn4bxcQDy6YiYCzDVWYGEE4l67BlRaxl4S4hBKlndD+fpCU
- 3nuIkUTmx2HtHyJIXKzlNFnc2mJ3q4SrP+eL3xqflXAybxlSzevtZqIPUCImXrD1c0Q=
-X-Gm-Gg: ASbGncua81OQ8Xe5LvjKKxNmGwxDBWXF/3FqVpi17NiKeid8dPVOkzq4WchayKJalSP
- Nm1i5jMWL8eyfibI8qpuidi2wew5zqQAIpeEx9SZNEaWIq5F7U9ZATa9ENZCo2eHQHRv2P5YpKk
- 2YObL7u/HUloBykpaBOXmU0+0kMxfJB1IbmskDnZXxzWs6AHsoP+4hF8umChlT3GyRPuoUI5yRc
- peydV1mOC6VAittQPaBuXkPciQqU3r7oaVot6KxDwAdOfNKKRcG+wpkOOTP12kxUnJGcUEUhYJK
- 6MRxmOU7I9WibcpXK3bPNVcg/qDEuLL1qwZXzVK1bua6q6MJ0C9yCpHg+bHHlRrcEDSgnkG3VBP
- FQrDrPNKmeflA6hgGCszLONnIK+sJrB8gRL6fRfekg68dNcmrL7fW13m8ldo2qL1fPvaCPlv0dk
- 0r2e8qZDQ7IPH0r6DClUymbNep1ozZOqJdWopctYJRTNY=
-X-Google-Smtp-Source: AGHT+IGLOt6uee2vyfM/cYGz57A49CSih8EMJIdzTcxLcO8E5A767YJJeyyn+IOJWDBIr+R9c71TqA==
-X-Received: by 2002:a05:6512:ad4:b0:592:f8c0:c917 with SMTP id
- 2adb3069b0e04-5930e99bc0emr166993e87.10.1761581093004; 
- Mon, 27 Oct 2025 09:04:53 -0700 (PDT)
-Received: from mail-lj1-f172.google.com (mail-lj1-f172.google.com.
- [209.85.208.172]) by smtp.gmail.com with ESMTPSA id
- 2adb3069b0e04-59301f5f98esm2388817e87.57.2025.10.27.09.04.52
- for <dri-devel@lists.freedesktop.org>
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 27 Oct 2025 09:04:52 -0700 (PDT)
-Received: by mail-lj1-f172.google.com with SMTP id
- 38308e7fff4ca-378cfbf83f2so53504311fa.1
- for <dri-devel@lists.freedesktop.org>; Mon, 27 Oct 2025 09:04:52 -0700 (PDT)
-X-Forwarded-Encrypted: i=1;
- AJvYcCXw681Jz2NJUYFnmKsdqwuqCV01DS/Axu5zNNPsu+pxGPqO7nifof+Sy9ZWiZPlgwZeMu0OWI247ho=@lists.freedesktop.org
-X-Received: by 2002:a05:651c:222c:b0:378:d499:d34d with SMTP id
- 38308e7fff4ca-379076d8741mr539671fa.15.1761581092345; Mon, 27 Oct 2025
- 09:04:52 -0700 (PDT)
+Received: from sea.source.kernel.org (sea.source.kernel.org [172.234.252.31])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1B87010E4E5
+ for <dri-devel@lists.freedesktop.org>; Mon, 27 Oct 2025 16:08:40 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by sea.source.kernel.org (Postfix) with ESMTP id C966D44964;
+ Mon, 27 Oct 2025 16:08:39 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 73763C4CEF1;
+ Mon, 27 Oct 2025 16:08:33 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1761581319;
+ bh=0qurQEcCeZYwnzmNk0lbdUhOqCeujh+OZZ7pr7d4vWA=;
+ h=Date:From:Subject:To:Cc:References:In-Reply-To:From;
+ b=bg1mmsGyeYPsovM1F0Tq4nEw20gfWYynK3MHZ7jxJuJY17d7vtN6CIx7db4Q3pvu5
+ puDkrsmy7UcPEk9/YB9PY1gbwXT9eHUKLt4fqTnuARzUokgMvBXp2IvGAA4vzj5Sjn
+ ggpK0qqihbpjmlAHkS/EKn6i9xM7FjMcUh8ZH9w6ID6+7zhXwRu/w4riSqFJIp5FRJ
+ 4c7MNB+jl1JZX2epbGuIhYgMCi/XcJC60t7eXSh355R7OW0zbj/JHyr8tZ8eEKvTfn
+ XI+W5Dl/UOIJ8BCWaWyuRpmuNy65UCSNiIDMfZNNOkm3rPwdCSkAxCcrGp9djd/z++
+ 66WZ+4huDCMXw==
+Message-ID: <7c5a1a6e-cad2-46c3-b5cd-3e92ca6d99a7@kernel.org>
+Date: Mon, 27 Oct 2025 17:08:31 +0100
 MIME-Version: 1.0
-References: <20251012192330.6903-1-jernej.skrabec@gmail.com>
- <20251012192330.6903-9-jernej.skrabec@gmail.com>
-In-Reply-To: <20251012192330.6903-9-jernej.skrabec@gmail.com>
-From: Chen-Yu Tsai <wens@csie.org>
-Date: Tue, 28 Oct 2025 00:04:38 +0800
-X-Gmail-Original-Message-ID: <CAGb2v668p+GOAA=Kgr6dhbkJb33artbPnYsiwEygq7O+92sovQ@mail.gmail.com>
-X-Gm-Features: AWmQ_bm99AcS6yMWuT9w2DAubuMwkVTQftsOHcXhHkfhxsBt-ffhIxUo7tu2w44
-Message-ID: <CAGb2v668p+GOAA=Kgr6dhbkJb33artbPnYsiwEygq7O+92sovQ@mail.gmail.com>
-Subject: Re: [PATCH 08/30] drm/sun4i: ui layer: Write attributes in one go
-To: Jernej Skrabec <jernej.skrabec@gmail.com>
-Cc: mripard@kernel.org, maarten.lankhorst@linux.intel.com, tzimmermann@suse.de,
- airlied@gmail.com, simona@ffwll.ch, samuel@sholland.org, 
- dri-devel@lists.freedesktop.org, linux-arm-kernel@lists.infradead.org, 
- linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla Thunderbird
+From: Hans Verkuil <hverkuil+cisco@kernel.org>
+Subject: Re: [PATCH v5 00/23] tegra-video: add CSI support for Tegra20 and
+ Tegra30
+To: Svyatoslav Ryhel <clamor95@gmail.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>, Thierry Reding
+ <thierry.reding@gmail.com>, Jonathan Hunter <jonathanh@nvidia.com>,
+ Sowjanya Komatineni <skomatineni@nvidia.com>,
+ Luca Ceresoli <luca.ceresoli@bootlin.com>,
+ Prashant Gaikwad <pgaikwad@nvidia.com>,
+ Michael Turquette <mturquette@baylibre.com>, Stephen Boyd
+ <sboyd@kernel.org>, Mikko Perttunen <mperttunen@nvidia.com>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ =?UTF-8?Q?Jonas_Schw=C3=B6bel?= <jonasschwoebel@yahoo.de>,
+ Dmitry Osipenko <digetx@gmail.com>,
+ Charan Pedumuru <charan.pedumuru@gmail.com>,
+ Diogo Ivo <diogo.ivo@tecnico.ulisboa.pt>, Aaron Kling
+ <webgeek1234@gmail.com>, Arnd Bergmann <arnd@arndb.de>
+Cc: dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
+ linux-tegra@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-media@vger.kernel.org, linux-clk@vger.kernel.org,
+ linux-staging@lists.linux.dev
+References: <20251022142051.70400-1-clamor95@gmail.com>
+Content-Language: en-US, nl
+In-Reply-To: <20251022142051.70400-1-clamor95@gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -86,131 +77,152 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Reply-To: wens@csie.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Oct 13, 2025 at 3:23=E2=80=AFAM Jernej Skrabec <jernej.skrabec@gmai=
-l.com> wrote:
->
-> It turns out that none of the UI channel registers were meant to be
-> read. Mostly it works fine but sometimes it returns incorrect values.
->
-> Rework UI layer code to write all registers in one go to avoid reads.
->
-> This rework will also allow proper code separation.
->
-> Signed-off-by: Jernej Skrabec <jernej.skrabec@gmail.com>
+Hi Svyatoslav,
 
-Reviewed-by: Chen-Yu Tsai <wens@kernel.org>
+On 22/10/2025 16:20, Svyatoslav Ryhel wrote:
+> Add support for MIPI CSI device found in Tegra20 and Tegra30 SoC along
+> with a set of changes required for that.
 
+Other than patch 06/23 that looked iffy (although the original code was iffy as
+already), for which I posted a review, this series looks almost ready.
+
+Should the clk patches be merged together with the media patches? Or can those
+go in via the clk subsystem? If it is the latter, then I'll need an Acked-by from the
+clk subsystem maintainer.
+
+Regarding the bindings: all except 21/23 are Acked.
+
+I have one question regarding testing: in the past I tested this driver with a
+Jetson TX1 devkit and a camera sensor. One of the main reasons this driver is still
+in staging is that I never got that to work reliably: after 10-30 minutes it would
+lose sync and streaming would stop.
+
+Unfortunately I never had the time to dig deeper into that.
+
+So have you tested this with a camera sensor? And if so, does it stream reliably?
+I.e. just let it stream for 24 hours and see if that works.
+
+If it is reliable for you, then I think this driver should be moved to drivers/media.
+
+Regards,
+
+	Hans
+
+> 
 > ---
->  drivers/gpu/drm/sun4i/sun8i_ui_layer.c | 50 +++++++++-----------------
->  1 file changed, 16 insertions(+), 34 deletions(-)
->
-> diff --git a/drivers/gpu/drm/sun4i/sun8i_ui_layer.c b/drivers/gpu/drm/sun=
-4i/sun8i_ui_layer.c
-> index 12c83c54f9bc..8634d2ee613a 100644
-> --- a/drivers/gpu/drm/sun4i/sun8i_ui_layer.c
-> +++ b/drivers/gpu/drm/sun4i/sun8i_ui_layer.c
-> @@ -25,25 +25,27 @@
->  #include "sun8i_ui_scaler.h"
->  #include "sun8i_vi_scaler.h"
->
-> -static void sun8i_ui_layer_update_alpha(struct sun8i_mixer *mixer, int c=
-hannel,
-> -                                       int overlay, struct drm_plane *pl=
-ane)
-> +static void sun8i_ui_layer_update_attributes(struct sun8i_mixer *mixer,
-> +                                            int channel, int overlay,
-> +                                            struct drm_plane *plane)
->  {
-> -       u32 mask, val, ch_base;
-> +       struct drm_plane_state *state =3D plane->state;
-> +       const struct drm_format_info *fmt;
-> +       u32 val, ch_base, hw_fmt;
->
->         ch_base =3D sun8i_channel_base(mixer, channel);
-> +       fmt =3D state->fb->format;
-> +       sun8i_mixer_drm_format_to_hw(fmt->format, &hw_fmt);
->
-> -       mask =3D SUN8I_MIXER_CHAN_UI_LAYER_ATTR_ALPHA_MODE_MASK |
-> -               SUN8I_MIXER_CHAN_UI_LAYER_ATTR_ALPHA_MASK;
-> -
-> -       val =3D SUN8I_MIXER_CHAN_UI_LAYER_ATTR_ALPHA(plane->state->alpha =
->> 8);
-> -
-> -       val |=3D (plane->state->alpha =3D=3D DRM_BLEND_ALPHA_OPAQUE) ?
-> +       val =3D SUN8I_MIXER_CHAN_UI_LAYER_ATTR_ALPHA(state->alpha >> 8);
-> +       val |=3D (state->alpha =3D=3D DRM_BLEND_ALPHA_OPAQUE) ?
+> Changes in v2:
+> - vi_sensor gated through csus
+> - TEGRA30_CLK_CLK_MAX moved to clk-tegra30
+> - adjusted commit titles and messages
+> - clk_register_clkdev dropped from pad clock registration
+> - removed tegra30-vi/vip and used tegra20 fallback
+> - added separate csi schema for tegra20-csi and tegra30-csi
+> - fixet number of VI channels
+> - adjusted tegra_vi_out naming
+> - fixed yuv_input_format to main_input_format
+> - MIPI calibration refsctored for Tegra114+ and added support for
+>   pre-Tegra114 to use CSI as a MIPI calibration device
+> - switched ENOMEM to EBUSY
+> - added check into tegra_channel_get_remote_csi_subdev
+> - moved avdd-dsi-csi-supply into CSI
+> - next_fs_sp_idx > next_fs_sp_value
+> - removed host1x_syncpt_incr from framecounted syncpoint
+> - csi subdev request moved before frame cycle
+> 
+> Changes in v3:
+> - tegra20 and tegra30 csi schema merged
+> - removed unneeded properties and requirements from schema
+> - improved vendor specific properties description
+> - added tegra20 csus parent mux
+> - improved commit descriptions
+> - redesigned MIPI-calibration to expose less SoC related data into header
+> - commit "staging: media: tegra-video: csi: add support for SoCs with integrated
+>   MIPI calibration" dropped as unneeded
+> - improved tegra_channel_get_remote_device_subdev logic
+> - avdd-dsi-csi-supply moved from vi to csi for p2597 and p3450-0000
+> - software syncpoint counters switched to direct reading
+> - adjusted planar formats offset calculation
+> 
+> Changes in v4:
+> - removed ifdefs from tegra_mipi_driver
+> - document Tegra132 MIPI calibration device
+> - switched to use BIT macro in tegra114-mipi
+> - pinctrl changes moved to a separate patch
+> - ERESTARTSYS workaround preserved for now
+> - tegra_mipi_add_provider replaced with devm_tegra_mipi_add_provider
+> - reworked bytesperline and sizeimage calculaion
+> 
+> Changes in v5:
+> - dropped patch 1/24 of v4 since it was picked to pinctrl tree
+> - added reasoning for tegra132 comaptible into commit desctiption
+> - moved clocks into common section in tegra20-csi schema
+> - added note regarding ERESTARTSYS
+> ---
+> 
+> Svyatoslav Ryhel (23):
+>   clk: tegra: set CSUS as vi_sensor's gate for Tegra20, Tegra30 and
+>     Tegra114
+>   dt-bindings: clock: tegra30: Add IDs for CSI pad clocks
+>   clk: tegra30: add CSI pad clock gates
+>   dt-bindings: display: tegra: document Tegra30 VI and VIP
+>   staging: media: tegra-video: expand VI and VIP support to Tegra30
+>   staging: media: tegra-video: vi: adjust get_selection op check
+>   staging: media: tegra-video: vi: add flip controls only if no source
+>     controls are provided
+>   staging: media: tegra-video: csi: move CSI helpers to header
+>   gpu: host1x: convert MIPI to use operation function pointers
+>   dt-bindings: display: tegra: document Tegra132 MIPI calibration device
+>   staging: media: tegra-video: vi: improve logic of source requesting
+>   staging: media: tegra-video: csi: move avdd-dsi-csi-supply from VI to
+>     CSI
+>   arm64: tegra: move avdd-dsi-csi-supply into CSI node
+>   staging: media: tegra-video: tegra20: set correct maximum width and
+>     height
+>   staging: media: tegra-video: tegra20: add support for second output of
+>     VI
+>   staging: media: tegra-video: tegra20: adjust format align calculations
+>   staging: media: tegra-video: tegra20: set VI HW revision
+>   staging: media: tegra-video: tegra20: increase maximum VI clock
+>     frequency
+>   staging: media: tegra-video: tegra20: expand format support with
+>     RAW8/10 and YUV422/YUV420p 1X16
+>   staging: media: tegra-video: tegra20: adjust luma buffer stride
+>   dt-bindings: display: tegra: document Tegra20 and Tegra30 CSI
+>   ARM: tegra: add CSI nodes for Tegra20 and Tegra30
+>   staging: media: tegra-video: add CSI support for Tegra20 and Tegra30
+> 
+>  .../display/tegra/nvidia,tegra114-mipi.yaml   |   1 +
+>  .../display/tegra/nvidia,tegra20-csi.yaml     | 138 +++
+>  .../display/tegra/nvidia,tegra20-vi.yaml      |  19 +-
+>  .../display/tegra/nvidia,tegra20-vip.yaml     |   9 +-
+>  arch/arm/boot/dts/nvidia/tegra20.dtsi         |  19 +-
+>  arch/arm/boot/dts/nvidia/tegra30.dtsi         |  24 +-
+>  .../arm64/boot/dts/nvidia/tegra210-p2597.dtsi |   4 +-
+>  .../boot/dts/nvidia/tegra210-p3450-0000.dts   |   4 +-
+>  drivers/clk/tegra/clk-tegra114.c              |   7 +-
+>  drivers/clk/tegra/clk-tegra20.c               |  20 +-
+>  drivers/clk/tegra/clk-tegra30.c               |  21 +-
+>  drivers/gpu/drm/tegra/dsi.c                   |   1 +
+>  drivers/gpu/host1x/Makefile                   |   1 +
+>  drivers/gpu/host1x/mipi.c                     | 525 ++---------
+>  drivers/gpu/host1x/tegra114-mipi.c            | 483 +++++++++++
+>  drivers/staging/media/tegra-video/Makefile    |   1 +
+>  drivers/staging/media/tegra-video/csi.c       |  70 +-
+>  drivers/staging/media/tegra-video/csi.h       |  16 +
+>  drivers/staging/media/tegra-video/tegra20.c   | 820 +++++++++++++++---
+>  drivers/staging/media/tegra-video/vi.c        |  56 +-
+>  drivers/staging/media/tegra-video/vi.h        |   6 +-
+>  drivers/staging/media/tegra-video/video.c     |   8 +-
+>  drivers/staging/media/tegra-video/vip.c       |   4 +-
+>  include/dt-bindings/clock/tegra30-car.h       |   3 +-
+>  include/linux/host1x.h                        |  10 -
+>  include/linux/tegra-mipi-cal.h                |  57 ++
+>  26 files changed, 1657 insertions(+), 670 deletions(-)
+>  create mode 100644 Documentation/devicetree/bindings/display/tegra/nvidia,tegra20-csi.yaml
+>  create mode 100644 drivers/gpu/host1x/tegra114-mipi.c
+>  create mode 100644 include/linux/tegra-mipi-cal.h
+> 
 
-Changing "plane->state" to "state" made the diff somewhat harder to read.
-
->                 SUN8I_MIXER_CHAN_UI_LAYER_ATTR_ALPHA_MODE_PIXEL :
->                 SUN8I_MIXER_CHAN_UI_LAYER_ATTR_ALPHA_MODE_COMBINED;
-> +       val |=3D hw_fmt << SUN8I_MIXER_CHAN_UI_LAYER_ATTR_FBFMT_OFFSET;
-> +       val |=3D SUN8I_MIXER_CHAN_UI_LAYER_ATTR_EN;
->
-> -       regmap_update_bits(mixer->engine.regs,
-> -                          SUN8I_MIXER_CHAN_UI_LAYER_ATTR(ch_base, overla=
-y),
-> -                          mask, val);
-> +       regmap_write(mixer->engine.regs,
-> +                    SUN8I_MIXER_CHAN_UI_LAYER_ATTR(ch_base, overlay), va=
-l);
->  }
->
->  static void sun8i_ui_layer_update_coord(struct sun8i_mixer *mixer, int c=
-hannel,
-> @@ -111,24 +113,6 @@ static void sun8i_ui_layer_update_coord(struct sun8i=
-_mixer *mixer, int channel,
->         }
->  }
->
-> -static void sun8i_ui_layer_update_formats(struct sun8i_mixer *mixer, int=
- channel,
-> -                                         int overlay, struct drm_plane *=
-plane)
-> -{
-> -       struct drm_plane_state *state =3D plane->state;
-> -       const struct drm_format_info *fmt;
-> -       u32 val, ch_base, hw_fmt;
-> -
-> -       ch_base =3D sun8i_channel_base(mixer, channel);
-> -
-> -       fmt =3D state->fb->format;
-> -       sun8i_mixer_drm_format_to_hw(fmt->format, &hw_fmt);
-> -
-> -       val =3D hw_fmt << SUN8I_MIXER_CHAN_UI_LAYER_ATTR_FBFMT_OFFSET;
-> -       regmap_update_bits(mixer->engine.regs,
-> -                          SUN8I_MIXER_CHAN_UI_LAYER_ATTR(ch_base, overla=
-y),
-> -                          SUN8I_MIXER_CHAN_UI_LAYER_ATTR_FBFMT_MASK, val=
-);
-> -}
-> -
->  static void sun8i_ui_layer_update_buffer(struct sun8i_mixer *mixer, int =
-channel,
->                                          int overlay, struct drm_plane *p=
-lane)
->  {
-> @@ -220,12 +204,10 @@ static void sun8i_ui_layer_atomic_update(struct drm=
-_plane *plane,
->         if (!new_state->crtc || !new_state->visible)
->                 return;
->
-> +       sun8i_ui_layer_update_attributes(mixer, layer->channel,
-> +                                        layer->overlay, plane);
->         sun8i_ui_layer_update_coord(mixer, layer->channel,
->                                     layer->overlay, plane);
-> -       sun8i_ui_layer_update_alpha(mixer, layer->channel,
-> -                                   layer->overlay, plane);
-> -       sun8i_ui_layer_update_formats(mixer, layer->channel,
-> -                                     layer->overlay, plane);
->         sun8i_ui_layer_update_buffer(mixer, layer->channel,
->                                      layer->overlay, plane);
->  }
-> --
-> 2.51.0
->
->
