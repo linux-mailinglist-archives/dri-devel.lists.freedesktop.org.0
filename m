@@ -2,126 +2,168 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9EAB2C0D7B3
-	for <lists+dri-devel@lfdr.de>; Mon, 27 Oct 2025 13:22:12 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 30C64C0D7E0
+	for <lists+dri-devel@lfdr.de>; Mon, 27 Oct 2025 13:24:46 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D427610E465;
-	Mon, 27 Oct 2025 12:22:10 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CC31910E464;
+	Mon, 27 Oct 2025 12:24:42 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="mBs6Fgk9";
+	dkim=pass (2048-bit key; unprotected) header.d=Nvidia.com header.i=@Nvidia.com header.b="QiZG5RtZ";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
- [205.220.168.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5C9A610E464
- for <dri-devel@lists.freedesktop.org>; Mon, 27 Oct 2025 12:22:10 +0000 (UTC)
-Received: from pps.filterd (m0279862.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id
- 59R8gUSs1052123
- for <dri-devel@lists.freedesktop.org>; Mon, 27 Oct 2025 12:22:10 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
- cc:content-type:date:from:in-reply-to:message-id:mime-version
- :references:subject:to; s=qcppdkim1; bh=Psg+67BfDLKR1waGwn5a3FoQ
- zpaxCzLH0+T9U8DBvbg=; b=mBs6Fgk95ffbn4ieruXYrS9Ov7pW4DuApfupuktD
- bX+M9/sG7KIZXUhn+qqhj100+ee+Iv5KD2GbjThnS4Yhp53XXfxDuex4rPALtaIj
- Fcpz1NKhX3QA1O75SAhUAC1YG399L0jTTLEXYrBLQ4XQGFwktwrkPkKVQrsF6vkA
- gzXRTmfqrUQvFbCLXpbqm5K//BKz0vLluu/2Srtx/T1Bin3VOpkZGJRg+5u1Mgv2
- hXcpprUqVZT4lrMiXbNwjpCWqxOHJwO6pS5wDPUIYgF7a2A/lQq/U4jFsGqEUitM
- oAte68UO9chMnRCUZy5W/CTreeeuHk3HxAiuT5CutnrrGQ==
-Received: from mail-qt1-f200.google.com (mail-qt1-f200.google.com
- [209.85.160.200])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4a1ud1swqr-1
- (version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
- for <dri-devel@lists.freedesktop.org>; Mon, 27 Oct 2025 12:22:09 +0000 (GMT)
-Received: by mail-qt1-f200.google.com with SMTP id
- d75a77b69052e-4e8a89c9750so141751501cf.0
- for <dri-devel@lists.freedesktop.org>; Mon, 27 Oct 2025 05:22:09 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1761567729; x=1762172529;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=Psg+67BfDLKR1waGwn5a3FoQzpaxCzLH0+T9U8DBvbg=;
- b=p7EuUYusqo+ai7fJkfkq5Lu4v04nl9Vxjr/gnCqWpT3wBK4sZviN1lsDCebcIxr4wI
- IleoCGlsjPx/EAQNto1ThI4iZQRkaeZo/9LZg9SHRhvJjOm+phZJLlp2oS+aMDX6esNF
- MKXXbVtlGL79kjTeN3WzL0wfw1yjMIxaNDHiN49qoeNevXF0/VOs03hmruMDQEfW2Vvw
- /+kF0Urnsb8EfsNom9Aw3rv+7fGDLxUG2k07N9YuQcrS37jX6506+w4pU4W6qWZ1xY1U
- LKf0r6gKWbEYaQR+wghe5KsXiMGJKsGFu2psbPLeX0BJEAoyUImoC7+ZoyHTWTOS4yqY
- DOAw==
-X-Forwarded-Encrypted: i=1;
- AJvYcCVOWJZrhdOWoKU7XckY8uL179YvWspnqGRgs925Wd6UurAZpq+YwEB5xzG/R1X5PQ+3dlb+IlK3sd0=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YwMl2V0UbDQD6qbbM4KPYOoiAnL4JEC0pDBDShxYwyTm2Ct4C41
- 8Bmb/bsJlZK8gJs4Rj3qsM11RCVdypf9AKth+LpfLfTH++FYaLuVZeSFgIwFr+Tu5h39t2E2n9U
- B1ovD6qmsrGDvy5qgK3/2p2/NSj13yvX4XiZaTccOLDECvnOrus8EvgBTXSTdFfKpZCEhZI8=
-X-Gm-Gg: ASbGncsUZjr0NdeOiQyNdYipH4e8O0nog54ol2kls4ympkSvuhVTH1vCHMSSbvPNJoo
- 4HBK7789TjK/IZPjwDThLlplasGhzgW4SG5sa5JQVMkBlpHIQGRN860o0T65gawiHutOw9uwJ3o
- Sb4GnPMegnfVVyN1qieSUurD8fAY53TG0nf7FoPUBNcrBhEYUvmBl8eDo3DvHP7DxwE1xVWraDB
- 1KJn1P6yjZ/fLI6S/XN2HqzpVoDwa0B4E0uCk56nxcGWvtgQfR5e0cuH/t5KNiLcmCx6UkA8Td0
- 0wLoOw8qzThbYebhCPj6hD9cv+Miw8z/Pq/sA0GTLTZbNvzqUvpL/BlgApGc/jEWBUBS7CCfo2S
- JUqlc63XVshP91zRqXCt9PM4q/oLRd1LGdbgHRbJ3hBQ9gqLny+jT071aCP9Vn6arP8nVnPAH/K
- eUL2sE2Qr82Rm/
-X-Received: by 2002:a05:622a:2291:b0:4ec:f017:9e2c with SMTP id
- d75a77b69052e-4ecf017a075mr61636211cf.35.1761567728681; 
- Mon, 27 Oct 2025 05:22:08 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IEGYgD/La2Tib5FQl2fihboVZ7Zt1I5VSs9oXv2jbhiaDS8YaEpcF2SppZieSQXcjQmVktSMA==
-X-Received: by 2002:a05:622a:2291:b0:4ec:f017:9e2c with SMTP id
- d75a77b69052e-4ecf017a075mr61634961cf.35.1761567727214; 
- Mon, 27 Oct 2025 05:22:07 -0700 (PDT)
-Received: from umbar.lan
- (2001-14ba-a0c3-3a00-264b-feff-fe8b-be8a.rev.dnainternet.fi.
- [2001:14ba:a0c3:3a00:264b:feff:fe8b:be8a])
- by smtp.gmail.com with ESMTPSA id
- 38308e7fff4ca-378ee0c342csm19672521fa.26.2025.10.27.05.22.06
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 27 Oct 2025 05:22:06 -0700 (PDT)
-Date: Mon, 27 Oct 2025 14:22:04 +0200
-From: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
-To: yuanjiey <yuanjie.yang@oss.qualcomm.com>
-Cc: robin.clark@oss.qualcomm.com, lumag@kernel.org, abhinav.kumar@linux.dev,
- sean@poorly.run, marijn.suijten@somainline.org, airlied@gmail.com,
- simona@ffwll.ch, maarten.lankhorst@linux.intel.com, mripard@kernel.org,
- tzimmermann@suse.de, robh@kernel.org, krzk+dt@kernel.org,
- conor+dt@kernel.org, quic_mkrishn@quicinc.com, jonathan@marek.ca,
- quic_khsieh@quicinc.com, neil.armstrong@linaro.org,
- linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org,
- freedreno@lists.freedesktop.org, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org, tingwei.zhang@oss.qualcomm.com,
- aiqun.yu@oss.qualcomm.com, yongxing.mou@oss.qualcomm.com
-Subject: Re: [PATCH 07/12] drm/panel: Set sufficient voltage for panel nt37801
-Message-ID: <4bnvh2ydtrmejknzpsxoalxoyjpq5g5cjbrico5ezbek24r52s@u5zy6ekh6lps>
-References: <20251023075401.1148-1-yuanjie.yang@oss.qualcomm.com>
- <20251023080609.1212-1-yuanjie.yang@oss.qualcomm.com>
- <20251023080609.1212-2-yuanjie.yang@oss.qualcomm.com>
- <zxofh6bwee3vjjlntlfqy7yg2iu2mipjvl7s5bcm6gbh233cjq@nuicjojawd2d>
- <aPsWEhM7i+gDjXE0@yuanjiey.ap.qualcomm.com>
+Received: from CH4PR04CU002.outbound.protection.outlook.com
+ (mail-northcentralusazon11013009.outbound.protection.outlook.com
+ [40.107.201.9])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8A51E10E464;
+ Mon, 27 Oct 2025 12:24:41 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=zQU70yElwglC7nH5JVI4ZjocWHhM/3gLyECWO0ypSCfNE0nKdiPiEHspAzALw/r3p6YYaAK1qrtyjJKRQCReQbTPDNRuJCP2qlw4GuDhwSzCbS5YH15xS8SIWwrspcnVnvwbo2dvbpcAkOrhjYDIRnzeYP2WvTiLiZmswQRMBIqq/huxkI5zQPVgzamfF/bJG2CyQieF5YYHyD3kC9aFlDJNv6tNMQHykQyKx2PTiMd+7NELQKml8IDDkSP197e1OU7cRBdeQEwjYfGqUiPOvwUQtiyGG1Vr9nt/lZb4JwoZR0qJieAz0KSB7UF5VtOrSlaBu8QUkJkh2pTF0Tpevg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=pJ3cbXcLiNbX+ehGbCsCLR045v1UwFiZ8onxuE+URpw=;
+ b=xtZy57yRaR78QoS6iTJp3qTMSihCuHO+a9S++srFvsxPoJFWlkTk3ykJlfjfjMKqQ6/tswKKnRIfyW12oc8chRldCAc4ZDrrbLqD/jqciBMe7zEPIrRQSlsX520wvG5qHoQdq86xdN/WEuFroo8p8d2PC7dbtOlHq02D5SRweVABSGM5MZYVAq1o02kYnT4FQXKFHmaIxDVadJvt3haUoNlyvUBF1pcYxqEo5yRvO9hTC2xKWdyvZdmMquQIxfXITW+Qq2U9HupY/07c6sZtcR4AGs/JzFgBqphasV5H9KeK0QhyM7IIYccs+eDAPFXHoUbQO9RmhCzaDhs21mfftQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
+ dkim=pass header.d=nvidia.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=pJ3cbXcLiNbX+ehGbCsCLR045v1UwFiZ8onxuE+URpw=;
+ b=QiZG5RtZ0IQJhKPWGqFTng12V8cQpPzFKJlCQP8pTkPaIKfYQubxdkupTKEqjx6cCXo5elY9YBTRJ7s158wXN87b2YA3wDMaTuMrVowdKxBVN8DOuJQekxHI+iD/1os+fhpS6yiUsv3tbcHOAiaGWrLnKOZwp3VlED3Sg3evhazGByAoaKJ55uYwkD8PvvToZyLNOsqLlEJVcvWMw981NeAEX33LH48me+hqadlIyansFz25tQh0BgwGJ8/oHDXVHy8ITSkOFdtnrG8d06V9zeS6jIZjjzNXZHvte/JLigjoLBWTCekobIrddyYInuatZRAejynQ+OkO82ECAOUK/Q==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=nvidia.com;
+Received: from CH2PR12MB3990.namprd12.prod.outlook.com (2603:10b6:610:28::18)
+ by IA1PR12MB7711.namprd12.prod.outlook.com (2603:10b6:208:421::12)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9253.18; Mon, 27 Oct
+ 2025 12:24:37 +0000
+Received: from CH2PR12MB3990.namprd12.prod.outlook.com
+ ([fe80::7de1:4fe5:8ead:5989]) by CH2PR12MB3990.namprd12.prod.outlook.com
+ ([fe80::7de1:4fe5:8ead:5989%6]) with mapi id 15.20.9253.017; Mon, 27 Oct 2025
+ 12:24:37 +0000
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Date: Mon, 27 Oct 2025 21:24:34 +0900
+Message-Id: <DDT3P1OF2JD9.2PS7PL80L5KWQ@nvidia.com>
+Cc: "Alice Ryhl" <aliceryhl@google.com>, "David Airlie" <airlied@gmail.com>,
+ "Simona Vetter" <simona@ffwll.ch>, "Miguel Ojeda" <ojeda@kernel.org>, "Alex
+ Gaynor" <alex.gaynor@gmail.com>, "Boqun Feng" <boqun.feng@gmail.com>, "Gary
+ Guo" <gary@garyguo.net>, =?utf-8?q?Bj=C3=B6rn_Roy_Baron?=
+ <bjorn3_gh@protonmail.com>, "Benno Lossin" <lossin@kernel.org>, "Andreas
+ Hindborg" <a.hindborg@kernel.org>, "Trevor Gross" <tmgross@umich.edu>,
+ "John Hubbard" <jhubbard@nvidia.com>, "Alistair Popple"
+ <apopple@nvidia.com>, "Joel Fernandes" <joelagnelf@nvidia.com>, "Timur
+ Tabi" <ttabi@nvidia.com>, "Edwin Peer" <epeer@nvidia.com>,
+ <nouveau@lists.freedesktop.org>, <dri-devel@lists.freedesktop.org>,
+ <linux-kernel@vger.kernel.org>, <rust-for-linux@vger.kernel.org>, "Nouveau"
+ <nouveau-bounces@lists.freedesktop.org>
+Subject: Re: [PATCH 0/7] gpu: nova-core: remove use of `as` for integer
+ conversions
+From: "Alexandre Courbot" <acourbot@nvidia.com>
+To: "Danilo Krummrich" <dakr@kernel.org>, "Alexandre Courbot"
+ <acourbot@nvidia.com>
+X-Mailer: aerc 0.21.0-0-g5549850facc2
+References: <20251026-nova-as-v1-0-60c78726462d@nvidia.com>
+ <c64447d9-3e9f-40d4-944c-327f3f7e26ba@kernel.org>
+In-Reply-To: <c64447d9-3e9f-40d4-944c-327f3f7e26ba@kernel.org>
+X-ClientProxiedBy: TYCP286CA0310.JPNP286.PROD.OUTLOOK.COM
+ (2603:1096:400:38b::7) To CH2PR12MB3990.namprd12.prod.outlook.com
+ (2603:10b6:610:28::18)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <aPsWEhM7i+gDjXE0@yuanjiey.ap.qualcomm.com>
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUxMDI3MDExNSBTYWx0ZWRfXzPy69SSkBDXS
- NQe0beL/WZ5jAATJBVh5/9aWEXJjFZEG+OCCMiM8vf9OnneYmTwnPGs9M4v1DXerQrYZrher59b
- x5RPXsyR5futMFSM61TByApFgUdRaxQF2U0jCOkwfcqhboV5D/aR+B0D/LJD4qoKGwquUR239x7
- vkc7ZxsUF8CJTNnCCytkM1ZPtiL4ob2M8qSRBPuQXIWaheG4VlmfebfNpEDxzZLSYggNMRjO0O7
- HrWniDIC5/kJUnmrG17fKF94W8RhtB1+0i/f0RyE3exXxafr+qbVj1N43KNG6werkuCFejKXL9e
- pE2C2vs6kJoQnuTyqruPGKnSW6GgPmMlL2P1YY1Wt7oUYO4K4r5qAYGsNqx4HZ3PZHlJIySjKZE
- 0V6hLj6kV/af/Idprr8Wm0AKEgV2Og==
-X-Proofpoint-GUID: gAeS-ehbCY0x9bq6ojKwaD4gKA0gAB3N
-X-Proofpoint-ORIG-GUID: gAeS-ehbCY0x9bq6ojKwaD4gKA0gAB3N
-X-Authority-Analysis: v=2.4 cv=UqNu9uwB c=1 sm=1 tr=0 ts=68ff63f1 cx=c_pps
- a=JbAStetqSzwMeJznSMzCyw==:117 a=xqWC_Br6kY4A:10 a=kj9zAlcOel0A:10
- a=x6icFKpwvdMA:10 a=VkNPw1HP01LnGYTKEx00:22 a=e5mUnYsNAAAA:8 a=EUspDBNiAAAA:8
- a=UzKOEE2XrYQWi1Oh8k0A:9 a=CjuIK1q_8ugA:10 a=uxP6HrT_eTzRwkO_Te1X:22
- a=Vxmtnl_E_bksehYqCbjh:22
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.9,FMLib:17.12.80.40
- definitions=2025-10-27_05,2025-10-22_01,2025-03-28_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- phishscore=0 clxscore=1015 spamscore=0 bulkscore=0 adultscore=0
- priorityscore=1501 lowpriorityscore=0 malwarescore=0 impostorscore=0
- suspectscore=0 classifier=typeunknown authscore=0 authtc= authcc=
- route=outbound adjust=0 reason=mlx scancount=1 engine=8.22.0-2510020000
- definitions=main-2510270115
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: CH2PR12MB3990:EE_|IA1PR12MB7711:EE_
+X-MS-Office365-Filtering-Correlation-Id: 02590572-a059-4c3e-e85f-08de1553cb6d
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+ ARA:13230040|7416014|376014|10070799003|366016|1800799024; 
+X-Microsoft-Antispam-Message-Info: =?utf-8?B?ODNOd2diMVA4ajBEcng5VnVvdTk4YzFpcm5yZ0pZVUhoRis1bEo0a2VrKzhC?=
+ =?utf-8?B?dGcwYWh4cEhqSE43d004RzlsS2V3bVBuS0dVUStRS3BWSklXRC9JS0JXMEls?=
+ =?utf-8?B?dnNsVGM5SnBkQkFjanB0UHp0RUJwdFQrZ0dHQ2dqeUptQU5VTjI0UkU2azIx?=
+ =?utf-8?B?RlQ3RkJlb1liY0hGaTlWbUhEWGxBalZkbVBjRnNpVlNhWStQb05DN3A5K2Ew?=
+ =?utf-8?B?czV5cE4vQzRIRUFWbTZWY3UvVExQcmNvcW1JSHJrdWJFUXV5Q2hYQ3VpV1pW?=
+ =?utf-8?B?TndkYTJLeDFXeHllaEJYMm94czFZZHlRTnhPYVpzcUEzZk9CRldjZVNYWjJI?=
+ =?utf-8?B?bVEzOTlJOEhHSzFTZklFa1FsaWt6MjFsckhJVklwTGE0YWlxc1RhTjZjbXdX?=
+ =?utf-8?B?bWY0dTlCVkxKcmpxaVpPNG5HTDNLQk1semkyelRwWnpiUnpUWS9uYTdJbThV?=
+ =?utf-8?B?Qkh1andQVXNoMzFnMnRiZHJKd1hpVEJmc04yc1lqcmQvbmxBYUtqeERzTmpx?=
+ =?utf-8?B?WmZRbWUxRmphUmd4b3M0QllYQlFCUE1vNWRKbktxYVRsVDh3eklCUkVWNXNt?=
+ =?utf-8?B?MkhNbWxZeXY0VmlQRTVYa0Z4MWx4eDJvRjk2OEYwR0FhNU14U0ZtSkpGUnc4?=
+ =?utf-8?B?MWcyL2tHRjllallFQWZrRTl4VlNCTmpLV3IwTzBvV25LTjAvS1VuajdaUG0v?=
+ =?utf-8?B?azlvUlE2S3lFWmFHdTFsczlId1BreHpNNnlDbUpCcllMalhyUU54V0hIVXRV?=
+ =?utf-8?B?cWk3aFBPUjFIM3d3bTNJMFdEWXUwZGZiemdNM3dIVTBmMFFoY1ljT1l1dkVp?=
+ =?utf-8?B?OHNualdFM3Y0b1FBTXJHRU1laDRYaVpsZzc1Ui9Pc2x4MWovak1RQjhyS2ZC?=
+ =?utf-8?B?MnJ5Ny9raGk4bmJldXZRUXBsWXhtSGJFN3VBMnlJUHFPNUtJeU5zM1liVWNH?=
+ =?utf-8?B?VS9zYnpXMFEweGpZc2krUG54NkFITUdyNDROZzNxeWJZOE1KV2pRN3VDbXpU?=
+ =?utf-8?B?emdQekdyVkREc2RZKzJHc1ppUytRQ0tHVDgzbU82VG9QWHZSeXgwaEl1RGRx?=
+ =?utf-8?B?ZzVHMEJhQ2RxYnlZN01YRjRkTldYblNmVUJ4UEN6U3VqeGQ2M2dHdmIwT0Ru?=
+ =?utf-8?B?MG9rYzRFcE5wSEFmaS9rKytNN0RwblJUVmlRNHdsUVlmdVJRbHVMQms3T0Iy?=
+ =?utf-8?B?dUFYajY4cjhxUCt1MzM3MTNVUDlScjA4RGZDaVhzNFJlY042dUZja0ZBL0JM?=
+ =?utf-8?B?RGhaenhOdExQTzJsd0lDSE9lSGV1SWdzdFVRVU82RGJndGJ1NGdJUDdyUm9B?=
+ =?utf-8?B?dVk5SStCL1NOL25hQ05KUXdzNjhCcmFwL2J5VWJ5SVNycUxvSjNONnFhMlI4?=
+ =?utf-8?B?VXlsdG1CTThVM2REQ2JjNlhZZjRJcmFjWE5sMFFGODZqa21hZ21jckx2R2xW?=
+ =?utf-8?B?UjNaTVlsaGNtekFjSzZBT2lZamorQit2VjJoSVpWNllvSTJIeUF4Z0FLVTF6?=
+ =?utf-8?B?SGFDUlp0QWszR2VnSUMxSDlOUGIwbGVoZ0VKQU5xUUgzSno2NHFtcTBPRzJy?=
+ =?utf-8?B?MXlTb2dncHcxZGwvcGV2aDFvcnlNWCsrQXg2N3pXcWVSS1VLNG9IcFVkVTE3?=
+ =?utf-8?B?dXVWZHdjeWp1bWdmM0NoV3ZwWnRDUUlpUDNLbzZWRldHUkpMSjBvZGZJY2xq?=
+ =?utf-8?B?ZlJNWWVUVHdHU2QvV2VrUjAvNXl0c3d4VG1MQkI2OGhuN0RCbVZzN2czK1JI?=
+ =?utf-8?B?QVRWc0l3ZWtuMmNMQXZsUzBNcTl5b1B4djV1Y05aWnNFclorOFNHVE1aZ28w?=
+ =?utf-8?B?ZDBhdGNKQzlPdjF0b1Uvb0hjOEpiejZvQlZjVHFpOUZhNHJ0V2pHaGRqZlEy?=
+ =?utf-8?B?VE43UmNUNzJKRFZHUHduT0NsT05vOUZiYTNXY3hsSUtiNGdzUDFPUnNUZzg3?=
+ =?utf-8?Q?r1y7HSgawaE6E3WNTWK9Rg5NRmySa4Fd?=
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:CH2PR12MB3990.namprd12.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230040)(7416014)(376014)(10070799003)(366016)(1800799024); DIR:OUT;
+ SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?QVBiYTdMUkRmcng4RHVkU3BmZndkMzJWM0dtNVV0SExjK0dlOE5CeFJPZnJF?=
+ =?utf-8?B?WlppZHpJRXV2cGtVZjVVdnJJNG1yL2ZaZ0JxVHRnakxoL0x0MjZ4SzJvZy9q?=
+ =?utf-8?B?KzM5emg2YzZSdGtzQXFNMUVCdmU4ZklSYm9rbkxQRnQ2VFg0ZXdidkpWd3RF?=
+ =?utf-8?B?K1JyclhNUmwyTHd3U1BJYzV5ZGg2UjdhYXJQWGNqUXB2MDduR0NCQmNmR3R3?=
+ =?utf-8?B?a3o5QVZ5SndFcXA0ZUMzcDBVdm5mTEx2aElGbjh2K0ROcjZDWXNSMml6Q0dE?=
+ =?utf-8?B?TUgvVjBjWlFZZ2FQbEt0UGl4MjhjdmR0ampNWDc3VWZXMGdHYlo3V3BoNVRz?=
+ =?utf-8?B?REs3a2J0T01WRXNtcnFlcytHTjQrOXhoVEpzemxISkRqa29scFdITG9FWFVT?=
+ =?utf-8?B?Z3ZrWjdLZm8xVjNKOUtweTI4TFhyQ0ZIUXAzQUVsa3Y2VGE0Sld6WVBFYmRz?=
+ =?utf-8?B?a2lNTkIyWmVDSUpwMHVSZHk0c2pkKzdKSFlacEVvR0h0Qk9YTC9FVHMrSDZY?=
+ =?utf-8?B?cXZCNTNvYTNDTUhJd2J3azRTbUhjclhPVTZrOVNnNzZLZ21TSG95cE9lUmZF?=
+ =?utf-8?B?RjRKdEVhM3AvM0c0emM5NzhlSVVpR0xjdFpUMzNPZnJ3alpJbjJFRW10aUtz?=
+ =?utf-8?B?b2RJd0RhWEkvQ3dMa0NxYVhPbVBQSnN2eHNvKzBybHN6Snh5NE9xNkkvUkNU?=
+ =?utf-8?B?NGNES0g1ZW9HSW56SWk5bGhRTGNSR015UVQvWHNWcDk1MWZscHNsZXdiWmlj?=
+ =?utf-8?B?UHZxeGF6WWdqY1NoRllBNnR4RVNQRmY4MzR1bkRrRE9lU1V0QVNUeVp3M2xu?=
+ =?utf-8?B?cGlrZDBMa3ZUbm9jeEd6azNnWCtvOCtJaWJoNTQ2N251YVZkUk1LNkRORCtK?=
+ =?utf-8?B?c0hwOURPOTRHSXZOTnBzRmxmZUlkUndLVXJlQXFUWmpiUlBhaHVLem8zUWFw?=
+ =?utf-8?B?NGQyRHdVN3ZVNFdTejVydCtMdGRzRzNZRE5DUlF1N2FoYy9CZU16d1E0WmUr?=
+ =?utf-8?B?YlpuRmw2cjV1eEtwTVlMR0p4czBXbnk3c2F2RlpnaVJueEViNFBTQkhLN2xR?=
+ =?utf-8?B?aDF3eVlmbHJuTzNGQ3htZUdXZm1sUTZEcWVTODJqRGhjUWQyWXVFbmxvRnpQ?=
+ =?utf-8?B?RFZjTnZzUHZsZGtqTlVkTW5FWEtYeEFGVzFyQ2NlaHNWMkRmRncrNkkrQU5C?=
+ =?utf-8?B?aTdlTFc3Vm9XKzRDMWlhRGZvdlk4MTZVUHVIWlRBTXhybERKR1M2OURrNFZS?=
+ =?utf-8?B?TlNDV2RTMzQzTkc3ZXI2OUJDYnVRd0QxZ2NUS3BIcjY2ZTEzYmFoUjJXZGxv?=
+ =?utf-8?B?cTFBZklxL1BaZER6UDkrSFlqKzhPQi9OdGJIWW9lcHlNS3lVd3JjL3ZYbTVK?=
+ =?utf-8?B?NTlOYXpCRU9Sa2NsejFXcXFQRzNWakI5c2Zicjd1S2pCT2JqTjg2QVJQL1Rz?=
+ =?utf-8?B?UzkrMXdpUnRhUit1WThKYjB4b1J3cDloR3NySTlyOGtPclVhdFA0bUI5VmVl?=
+ =?utf-8?B?N2hxakF3Ti9tZ1c2c1l3b2tsVVd4VG1mUlQ4Q2FtNWRxdFVMR0xUNEVuSHV3?=
+ =?utf-8?B?T1lWZlNBWmJPRW9HbWpQSGdZb2RHWitBRmpRUDh3elQ2YXZra1FEby9PRXl2?=
+ =?utf-8?B?b00zeHEyVWVNWFEwRzVjZ2xrRkFkWDFPUlluZEJ0NWJoeGlIZ3NZR2lHZnFq?=
+ =?utf-8?B?cUhnVk05NVp4TDVMUDAzVG9TakV0anRWbzQ1UUVhOFg1cnhHWml3bVhZYXJY?=
+ =?utf-8?B?WTZiYzdkRFJ6VE9HNFRXbFNWZjFzR0tNZGlVL3NuYmEwYWEwN0hNSlVjendr?=
+ =?utf-8?B?T2VIb3FGend0Nm02c25TVWEyZWlCUUVPcHdtdHViSnpMUzNKS0JtV1RCL3Bz?=
+ =?utf-8?B?N0tNRDFZQWJ1ZHVFbEZvS2JQejJEV004cTdhT2FqTDdTalB0ZEhVdTVna2dZ?=
+ =?utf-8?B?ejF0elFlZVZOc2FTN0ZMYmtHYzQvdTJmUjVhOUFrK2FBZkVqekI0Vjd5Q1Ns?=
+ =?utf-8?B?NmhTNzhlcHlQaFJNV3FoeXhEcmtXRGdrSHhFZEExdmFkcDFEc3NmQlRxTFRz?=
+ =?utf-8?B?WFZGVEhzT1V3dG9rRlZJcjBRUmVkbGwvbE9XamNNZGlMOThGM2Z6UzhKN0tD?=
+ =?utf-8?B?YjQ0Tk0zdFNNNDVFV0NOWE03MGtWMDhOdFI0Z1BZWjMxaWk5NEQ5ZVR4T2Yx?=
+ =?utf-8?Q?BPRNdFQ4MLcI5igo71Ol92REepwl/iuT80j/KktrwZcr?=
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 02590572-a059-4c3e-e85f-08de1553cb6d
+X-MS-Exchange-CrossTenant-AuthSource: CH2PR12MB3990.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 27 Oct 2025 12:24:37.4205 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: /S33MLqU0++XUsB8ApFeSyi8bc5MEwpMBRPN+aUoPEfppxKui6OHRgYyoUmmWtJga1eb6At9VGuKrWxRq2WN8Q==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: IA1PR12MB7711
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -137,75 +179,45 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, Oct 24, 2025 at 02:00:50PM +0800, yuanjiey wrote:
-> On Thu, Oct 23, 2025 at 03:14:38PM +0300, Dmitry Baryshkov wrote:
-> > On Thu, Oct 23, 2025 at 04:06:04PM +0800, yuanjie yang wrote:
-> > > From: Yuanjie Yang <yuanjie.yang@oss.qualcomm.com>
-> > > 
-> > > The NT37801 Sepc V1.0 chapter "5.7.1 Power On Sequence" states
-> > > VDDI=1.65V~1.95V, so set sufficient voltage for panel nt37801.
-> > > 
-> > > Signed-off-by: Yongxing Mou <yongxing.mou@oss.qualcomm.com>
-> > > Signed-off-by: Yuanjie Yang <yuanjie.yang@oss.qualcomm.com>
-> > > ---
-> > >  drivers/gpu/drm/panel/panel-novatek-nt37801.c | 5 +++++
-> > >  1 file changed, 5 insertions(+)
-> > > 
-> > > diff --git a/drivers/gpu/drm/panel/panel-novatek-nt37801.c b/drivers/gpu/drm/panel/panel-novatek-nt37801.c
-> > > index d6a37d7e0cc6..7eda16e0c1f9 100644
-> > > --- a/drivers/gpu/drm/panel/panel-novatek-nt37801.c
-> > > +++ b/drivers/gpu/drm/panel/panel-novatek-nt37801.c
-> > > @@ -267,6 +267,11 @@ static int novatek_nt37801_probe(struct mipi_dsi_device *dsi)
-> > >  	if (ret < 0)
-> > >  		return ret;
-> > >  
-> > > +	ret = regulator_set_voltage(ctx->supplies[0].consumer,
-> > > +				    1650000, 1950000);
-> > 
-> > This should be done in the DT. Limit the voltage per the user.
-> Two reason:
-> 1.
-> I see https://patchwork.freedesktop.org/patch/354612/
-> 
-> panel panel-novatek-nt35510.c also use regulator_set_voltage set right voltage,
-> so I do the same work.
+On Mon Oct 27, 2025 at 12:35 AM JST, Danilo Krummrich wrote:
+> On 10/26/25 3:39 PM, Alexandre Courbot wrote:
+>> This patchset tries to eradicate the use of `as` in nova-core, by using
+>> existing means and introducing new ones.
+>
+> Thanks a lot for working on this cleanup!
+>> The first 4 patches use the already-available `From` and `TryFrom` trait
+>> where it is possible or advisable.
+>>=20
+>> The fifth patch introduces a new module that proposes conversion
+>> functions for those that are infallible under the current build target.
+>> This is done through a set of const functions, and the `FromAs` and
+>> `IntoAs` extension traits which, as their names lightly suggest, offer
+>> conversion for those types on which the `as` operator can be used
+>> losslessly.
+>>=20
+>> This new module is put to use in the sixth patch.
+>>=20
+>> The idea was first suggested by Danilo, and I hope I captured it
+>> properly. :)
+>
+> Yes, this is what I thought of.
 
-Please look for the majority rather than the exceptions. Out of all
-panel drivers only two set the voltage directly.
+Great!
 
-> 
-> 2.     Kaanapali vddio regulator:
-> 
-> 		vreg_l12b_1p8: ldo12 {
-> 			regulator-name = "vreg_l12b_1p8";
-> 			regulator-min-microvolt = <1200000>;
-> 			regulator-max-microvolt = <1800000>;
-> 
-> 	Voltage is from 1.2~.1.8 V , So I can not set it 1.65~1.95 V from DT(1.95V is beyond the allowed range).
-> 	So I use regulator_set_voltage to set voltage, and regulator_set_voltage will choose the appropriate voltage.
+>> As Danilo suggested, this could eventually find its place in the kernel
+>> crate if the implementation is deemed to be fit, but for now let's
+>> review and let it mature in nova-core.
+>
+> Yeah, I think this approach makes sense. Though, I think we want to move =
+this to
+> the kernel crate sooner than later, it's definitely something we want for=
+ core
+> code and other drivers as well.
+>
+> Depending on the initial feedback, it might even make sense to do it righ=
+t away.
 
-DT has to list the voltage values that work for the devices on that
-particular platform. So, ldo12 should be listing 1.64 - 1.8 V.
-
-> 
-> 
-> Thanks,
-> Yuanjie
-> 
-> > > +	if (ret < 0)
-> > > +		return ret;
-> > > +
-> > >  	ctx->reset_gpio = devm_gpiod_get(dev, "reset", GPIOD_OUT_LOW);
-> > >  	if (IS_ERR(ctx->reset_gpio))
-> > >  		return dev_err_probe(dev, PTR_ERR(ctx->reset_gpio),
-> > > -- 
-> > > 2.34.1
-> > > 
-> > 
-> > -- 
-> > With best wishes
-> > Dmitry
-
--- 
-With best wishes
-Dmitry
+Moving to the kernel crate sounds good to me, but this work has been
+initiated from the Nova GSP boot series and is now a dependency of it -
+so taking it through another tree than `drm-rust` would delay the GSP
+boot some more.
