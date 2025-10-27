@@ -2,64 +2,59 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B3650C0EC8E
-	for <lists+dri-devel@lfdr.de>; Mon, 27 Oct 2025 16:04:25 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9555BC0EC9A
+	for <lists+dri-devel@lfdr.de>; Mon, 27 Oct 2025 16:05:20 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D708310E4D2;
-	Mon, 27 Oct 2025 15:04:23 +0000 (UTC)
-Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="UXuiiI+Y";
-	dkim-atps=neutral
+	by gabe.freedesktop.org (Postfix) with ESMTP id C418910E4CB;
+	Mon, 27 Oct 2025 15:05:18 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5C49A10E4D2;
- Mon, 27 Oct 2025 15:04:22 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1761577462; x=1793113462;
- h=from:date:to:cc:subject:in-reply-to:message-id:
- references:mime-version:content-id;
- bh=Oyvud8Xrb31jPdkUgL/nSFBCVRBEWFiP8+m62AJySW8=;
- b=UXuiiI+YHMUuxEHRISGkXmHuvoC3/N44Fowoq95Dhblb0cNJqjNXZNnI
- 9pt/5mt6jFqIgfmoj5rxOT3N7VPztm542kIODwfD1o0Ipe2qUHveEt+hH
- EqCXm4w+p9fi8X2K1ZxZS4O5aWHk2mQk7asKSln8gBSytM+xCuhyzle8D
- fr8MEnNZuhAcoaro3IXNvQrWoJ7x5Jii2MqFwVYhv8GTWKinppa6bcG5L
- 1VjA8o6Pg6z33RL6mNmjxJVW1bhqEz8NwlkP9l24RBVcTZXKK58oWdeP1
- i4ZqQ0sASVTYgYq8ccQjGb/8N+oFjJAvW9hkdRQ92YL/GREp1dCLmeJOZ Q==;
-X-CSE-ConnectionGUID: xuMT/2cdQ7m/xYwg1M9NKw==
-X-CSE-MsgGUID: cd0Bz5lzQP2FuK/wI1x0fw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11586"; a="63565648"
-X-IronPort-AV: E=Sophos;i="6.19,259,1754982000"; d="scan'208";a="63565648"
-Received: from orviesa007.jf.intel.com ([10.64.159.147])
- by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 27 Oct 2025 08:04:22 -0700
-X-CSE-ConnectionGUID: 8+IRZ5reQvGEkYVV6ZajvA==
-X-CSE-MsgGUID: Of8F0flcS4i+xSIy6S8wgA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.19,259,1754982000"; d="scan'208";a="184960852"
-Received: from ijarvine-mobl1.ger.corp.intel.com (HELO localhost)
- ([10.245.244.41])
- by orviesa007-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 27 Oct 2025 08:04:15 -0700
-From: =?UTF-8?q?Ilpo=20J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>
-Date: Mon, 27 Oct 2025 17:04:11 +0200 (EET)
-To: Bjorn Helgaas <helgaas@kernel.org>
-cc: Lucas De Marchi <lucas.demarchi@intel.com>, intel-xe@lists.freedesktop.org,
- linux-pci@vger.kernel.org, dri-devel@lists.freedesktop.org, 
- Icenowy Zheng <uwu@icenowy.me>, Vivian Wang <wangruikang@iscas.ac.cn>, 
- =?ISO-8859-15?Q?Thomas_Hellstr=F6m?= <thomas.hellstrom@linux.intel.com>, 
- Rodrigo Vivi <rodrigo.vivi@intel.com>, Bjorn Helgaas <bhelgaas@google.com>, 
- Simon Richter <Simon.Richter@hogyros.de>, 
- LKML <linux-kernel@vger.kernel.org>, stable@vger.kernel.org
-Subject: Re: [PATCH 1/2] PCI: Release BAR0 of an integrated bridge to allow
- GPU BAR resize
-In-Reply-To: <20251024224401.GA1371085@bhelgaas>
-Message-ID: <5fa35d10-e3c6-9661-9287-47ebdcaca0d1@linux.intel.com>
-References: <20251024224401.GA1371085@bhelgaas>
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 58D6010E4CB;
+ Mon, 27 Oct 2025 15:05:17 +0000 (UTC)
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+ by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 18DB4169E;
+ Mon, 27 Oct 2025 08:05:09 -0700 (PDT)
+Received: from arm.com (usa-sjc-imap-foss1.foss.arm.com [10.121.207.14])
+ by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 31C583F673;
+ Mon, 27 Oct 2025 08:05:11 -0700 (PDT)
+Date: Mon, 27 Oct 2025 16:05:11 +0100
+From: Beata Michalska <beata.michalska@arm.com>
+To: Danilo Krummrich <dakr@kernel.org>
+Cc: Joel Fernandes <joelagnelf@nvidia.com>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+ "rust-for-linux@vger.kernel.org" <rust-for-linux@vger.kernel.org>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+ Alexandre Courbot <acourbot@nvidia.com>,
+ Alistair Popple <apopple@nvidia.com>, Miguel Ojeda <ojeda@kernel.org>,
+ Alex Gaynor <alex.gaynor@gmail.com>,
+ Boqun Feng <boqun.feng@gmail.com>, Gary Guo <gary@garyguo.net>,
+ "bjorn3_gh@protonmail.com" <bjorn3_gh@protonmail.com>,
+ Benno Lossin <lossin@kernel.org>, Andreas Hindborg <a.hindborg@kernel.org>,
+ Alice Ryhl <aliceryhl@google.com>, Trevor Gross <tmgross@umich.edu>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ John Hubbard <jhubbard@nvidia.com>, Timur Tabi <ttabi@nvidia.com>,
+ "joel@joelfernandes.org" <joel@joelfernandes.org>,
+ Elle Rhumsaa <elle@weathered-steel.dev>, Yury Norov <yury.norov@gmail.com>,
+ Daniel Almeida <daniel.almeida@collabora.com>,
+ Andrea Righi <arighi@nvidia.com>,
+ "nouveau@lists.freedesktop.org" <nouveau@lists.freedesktop.org>
+Subject: Re: [PATCH v6 4/5] rust: Move register and bitfield macros out of Nova
+Message-ID: <aP-KJ0bGAWO7AVO_@arm.com>
+References: <20251003154748.1687160-1-joelagnelf@nvidia.com>
+ <20251003154748.1687160-5-joelagnelf@nvidia.com>
+ <aPklNydcTdOeXtdU@arm.com>
+ <ACAA327A-AE2B-4D21-B8C5-C66BB5E09B7C@nvidia.com>
+ <aPozw8TGp85YdmNU@arm.com>
+ <47d6ab72-1526-457d-990a-928088ba7022@nvidia.com>
+ <aP82DHvLC7zAEojN@arm.com> <DDT0JTP91GO3.1EHF6L8MX4I3T@kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/mixed; BOUNDARY="8323328-1098205246-1761576381=:970"
-Content-ID: <9d0e426b-9aa1-0ef7-b2f1-bd48534fcf9a@linux.intel.com>
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <DDT0JTP91GO3.1EHF6L8MX4I3T@kernel.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -75,155 +70,43 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-  This message is in MIME format.  The first part should be readable text,
-  while the remaining parts are likely unreadable without MIME-aware tools.
+On Mon, Oct 27, 2025 at 10:56:41AM +0100, Danilo Krummrich wrote:
+> On Mon Oct 27, 2025 at 10:06 AM CET, Beata Michalska wrote:
+> > It's more theoretical at this point, but there are drivers that do rely on
+> > information from either DT or ACPI tables for the base address and size of the
+> > MMIO region: anything that uses devm_platform_ioremap_resource() or
+> > devm_platform_ioremap_resource_byname() I guess.
+> 
+> Don't get confused, those are two different things: The size of the MMIO region
+> (or a PCI BAR) and the const SIZE generic in Io<SIZE> are two different things.
+> 
+> The former is the actual size of an MMIO region, whereas the latter is the
+> minimum size requested by a driver for proper operation.
+> 
+> For instance, let's assume your driver requests ten contiguous 32-bit registers
+> starting at offset zero of an MMIO region.
+> 
+> In this case you can call req.iomap_sized<0x28>(), because you know that your
+> driver is not able to properly work without an MMIO region with at least a width
+> of 0x28 bytes.
+> 
+> The actual size of the MMIO region returned by req.iomap_sized<0x28>() may
+> indeed be smaller or larger than that, depending on what is defined in the DT,
+> ACPI or PCI BAR.
+> 
+> If smaller than the const SIZE generic, the call to req.iomap_sized<0x28>() will
+> fail, otherwise it will be successful. The actual size of the MMIO region is not
+> influenced by the const SIZE generic.
+I appreciate the explanation.
+I think my confusion here comes from the fact that I was assuming there is an
+intent to accommodate different MMIO regions sizes for various device revisions,
+and not expecting all drivers to explicitly call the iomap_sized in all cases.
+My bad then.
+Again, thanks for clarifying that.
 
---8323328-1098205246-1761576381=:970
-Content-Type: text/plain; CHARSET=ISO-8859-15
-Content-Transfer-Encoding: QUOTED-PRINTABLE
-Content-ID: <3bac46db-7de1-f5bc-b075-6d9ffad99397@linux.intel.com>
 
-On Fri, 24 Oct 2025, Bjorn Helgaas wrote:
-> On Thu, Sep 18, 2025 at 01:58:56PM -0700, Lucas De Marchi wrote:
-> > From: Ilpo J=E4rvinen <ilpo.jarvinen@linux.intel.com>
-> >=20
-> > Resizing BAR to a larger size has to release upstream bridge windows in
-> > order make the bridge windows larger as well (and to potential relocate
-> > them into a larger free block within iomem space). Some GPUs have an
-> > integrated PCI switch that has BAR0. The resource allocation assigns
-> > space for that BAR0 as it does for any resource.
-> >=20
-> > An extra resource on a bridge will pin its upstream bridge window in
-> > place which prevents BAR resize for anything beneath that bridge.
-> >=20
-> > Nothing in the pcieport driver provided by PCI core, which typically is
-> > the driver bound to these bridges, requires that BAR0. Because of that,
-> > releasing the extra BAR does not seem to have notable downsides but
-> > comes with a clear upside.
-> >=20
-> > Therefore, release BAR0 of such switches using a quirk and clear its
-> > flags to prevent any new invocation of the resource assignment
-> > algorithm from assigning the resource again.
-> >=20
-> > Due to other siblings within the PCI hierarchy of all the devices
-> > integrated into the GPU, some other devices may still have to be
-> > manually removed before the resize is free of any bridge window pins.
-> > Such siblings can be released through sysfs to unpin windows while
-> > leaving access to GPU's sysfs entries required for initiating the
-> > resize operation, whereas removing the topmost bridge this quirk
-> > targets would result in removing the GPU device as well so no manual
-> > workaround for this problem exists.
-> >=20
-> > Reported-by: Lucas De Marchi <lucas.demarchi@intel.com>
-> > Link: https://lore.kernel.org/linux-pci/fl6tx5ztvttg7txmz2ps7oyd745wg3l=
-wcp3h7esmvnyg26n44y@owo2ojiu2mov/
-> > Link: https://lore.kernel.org/intel-xe/20250721173057.867829-1-uwu@icen=
-owy.me/
-> > Signed-off-by: Ilpo J=E4rvinen <ilpo.jarvinen@linux.intel.com>
-> > Cc: <stable@vger.kernel.org> # v6.12+
-> > Signed-off-by: Lucas De Marchi <lucas.demarchi@intel.com>
-> > ---
-> >=20
-> > Remarks from Ilpo: this feels quite hacky to me and I'm working towards=
- a
-> > better solution which is to consider Resizable BAR maximum size the
-> > resource fitting algorithm. But then, I don't expect the better solutio=
-n
-> > to be something we want to push into stable due to extremely invasive
-> > dependencies. So maybe consider this an interim/legacy solution to the
-> > resizing problem and remove it once the algorithmic approach works (or
-> > more precisely retain it only in the old kernel versions).
-> > ---
-> >  drivers/pci/quirks.c | 23 +++++++++++++++++++++++
-> >  1 file changed, 23 insertions(+)
-> >=20
-> > diff --git a/drivers/pci/quirks.c b/drivers/pci/quirks.c
-> > index d97335a401930..9b1c08de3aa89 100644
-> > --- a/drivers/pci/quirks.c
-> > +++ b/drivers/pci/quirks.c
-> > @@ -6338,3 +6338,26 @@ static void pci_mask_replay_timer_timeout(struct=
- pci_dev *pdev)
-> >  DECLARE_PCI_FIXUP_FINAL(PCI_VENDOR_ID_GLI, 0x9750, pci_mask_replay_tim=
-er_timeout);
-> >  DECLARE_PCI_FIXUP_FINAL(PCI_VENDOR_ID_GLI, 0x9755, pci_mask_replay_tim=
-er_timeout);
-> >  #endif
-> > +
-> > +/*
-> > + * PCI switches integrated into Intel Arc GPUs have BAR0 that prevents
-> > + * resizing the BARs of the GPU device due to that bridge BAR0 pinning=
- the
-> > + * bridge window it's under in place. Nothing in pcieport requires tha=
-t
-> > + * BAR0.
-> > + *
-> > + * Release and disable BAR0 permanently by clearing its flags to preve=
-nt
-> > + * anything from assigning it again.
->=20
-> Does "disabling BAR0" actually work?  This quirk keeps the PCI core
-> from assigning resources to the BAR, but I don't think we have a way
-> to actually disable an individual BAR, do we?
+---
+Best Regards
+Beata
 
-No, we don't and that was just sloppy wording from me. The same problem
-applies to any other non-assigned BAR resource, they too are there with
-a dangling address that could conflict.
 
-> I think the only control is PCI_COMMAND_MEMORY, and the bridge must
-> have PCI_COMMAND_MEMORY enabled so memory accesses to downstream
-> devices work.
->=20
-> No matter what we do to the struct resource, the hardware BAR still
-> contains some address, and the bridge will decode any accesses that
-> match the address in the BAR.
->=20
-> Maybe we could effectively disable the BAR by setting it to some
-> impossible address, i.e., something outside both the upstream and
-> downstream bridge windows so memory accesses could never be routed to
-> it?
-
-I'm not entire sure how one should acquire address outside of the valid=20
-address ranges? Is the resource-to-bus mapping even valid outside a=20
-window?
-
-Perhaps find either min(start address) or max(end address) over all
-windows as those boundary addresses should be still mappable and place=20
-the BAR right below or above either of those by subtracting the resource=20
-size or adding +1). How does that approach sound?
-
-(There could be cases where a simple approach like that fails when both=20
-ends of the range are in use but then I wouldn't want to over-engineer the=
-=20
-approach at this point unless we know there are such problematic cases
-in practice.)
-
-It would be nice to do it eventually for any non-assigned BAR but it=20
-requires preserving those res->flags (for non-window resources too) in=20
-order to know which of them are even even usable as BARs.
-
---=20
- i.
-
-> > + */
-> > +static void pci_release_bar0(struct pci_dev *pdev)
-> > +{
-> > +=09struct resource *res =3D pci_resource_n(pdev, 0);
-> > +
-> > +=09if (!res->parent)
-> > +=09=09return;
-> > +
-> > +=09pci_release_resource(pdev, 0);
-> > +=09res->flags =3D 0;
-> > +}
-> > +DECLARE_PCI_FIXUP_ENABLE(PCI_VENDOR_ID_INTEL, 0x4fa0, pci_release_bar0=
-);
-> > +DECLARE_PCI_FIXUP_ENABLE(PCI_VENDOR_ID_INTEL, 0x4fa1, pci_release_bar0=
-);
-> > +DECLARE_PCI_FIXUP_ENABLE(PCI_VENDOR_ID_INTEL, 0xe2ff, pci_release_bar0=
-);
-> >=20
-> > --=20
-> > 2.50.1
-> >=20
->=20
---8323328-1098205246-1761576381=:970--
