@@ -2,60 +2,39 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 42494C0E371
-	for <lists+dri-devel@lfdr.de>; Mon, 27 Oct 2025 15:00:58 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 45B49C0E3B3
+	for <lists+dri-devel@lfdr.de>; Mon, 27 Oct 2025 15:04:44 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 32FB810E4B0;
-	Mon, 27 Oct 2025 14:00:54 +0000 (UTC)
-Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="KSINh/R2";
-	dkim-atps=neutral
+	by gabe.freedesktop.org (Postfix) with ESMTP id D964610E4A8;
+	Mon, 27 Oct 2025 14:04:41 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sea.source.kernel.org (sea.source.kernel.org [172.234.252.31])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7FFC510E4B5
- for <dri-devel@lists.freedesktop.org>; Mon, 27 Oct 2025 14:00:53 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by sea.source.kernel.org (Postfix) with ESMTP id 3BD81432CC;
- Mon, 27 Oct 2025 14:00:53 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id CAAF4C4CEF1;
- Mon, 27 Oct 2025 14:00:52 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1761573653;
- bh=cI5UkVL9m1fqP/3JizSr2bZRNqQZcgW7vO6CVyE+9Wo=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=KSINh/R2b6K7gZt5irOCjtem5/v7uYotuid7sjdJj8puKg2oqclwuQ7a9Zy9NzEKz
- xTX3fdgYsaqv2duSGgpPY845Yd6q2Cq10b9O6brBVkSPds6exrqdKbTcc0+E8Q2yRi
- vBUy79UV6ckACiS7f2ZAGNwWbsrY8ITNuQGrhwS7PuAee6Fg+XGPIsMOP3NdCw+ZVC
- rUqLESPU0DSewSjl2kW16iHsA9x2m5rY94hisKWwHsB2dgKG6hkfEAgRguDLbgSAQj
- MW61LctI+aeC/FAS8H/Wb61Ri5NgOBZwddAp8IpFZ7KtHUS80QI/qQ1Ww47gdqPMjU
- OcdCbE16Ja+Fg==
-Date: Mon, 27 Oct 2025 09:00:50 -0500
-From: "Rob Herring (Arm)" <robh@kernel.org>
-To: David Heidelberg <david@ixit.cz>
-Cc: Simona Vetter <simona@ffwll.ch>, Jessica Zhang <jesszhan0024@gmail.com>,
- Sam Ravnborg <sam@ravnborg.org>, Conor Dooley <conor+dt@kernel.org>,
- Maxime Ripard <mripard@kernel.org>,
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 5857410E4A8
+ for <dri-devel@lists.freedesktop.org>; Mon, 27 Oct 2025 14:04:40 +0000 (UTC)
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+ by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 28304169E;
+ Mon, 27 Oct 2025 07:04:32 -0700 (PDT)
+Received: from e120398-lin.trondheim.arm.com (e120398-lin.trondheim.arm.com
+ [10.40.16.110])
+ by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 4B6973F63F;
+ Mon, 27 Oct 2025 07:04:37 -0700 (PDT)
+From: Ketil Johnsen <ketil.johnsen@arm.com>
+To: Boris Brezillon <boris.brezillon@collabora.com>,
+ Steven Price <steven.price@arm.com>, Liviu Dudau <liviu.dudau@arm.com>,
  Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- linux-kernel@vger.kernel.org,
- Bjorn Andersson <andersson@kernel.org>, devicetree@vger.kernel.org,
- Thomas Zimmermann <tzimmermann@suse.de>,
- Neil Armstrong <neil.armstrong@linaro.org>,
- Konrad Dybcio <konradybcio@kernel.org>,
- dri-devel@lists.freedesktop.org, phone-devel@vger.kernel.org,
- Thierry Reding <thierry.reding@gmail.com>,
- Casey Connolly <casey.connolly@linaro.org>,
- linux-arm-msm@vger.kernel.org, David Airlie <airlied@gmail.com>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>
-Subject: Re: [PATCH v5 1/6] dt-bindings: panel: Add Samsung S6E3FC2X01 DDIC
- with panel
-Message-ID: <176157364786.341627.9808596288039785278.robh@kernel.org>
-References: <20251023-s6e3fc2x01-v5-0-8f8852e67417@ixit.cz>
- <20251023-s6e3fc2x01-v5-1-8f8852e67417@ixit.cz>
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
+ Simona Vetter <simona@ffwll.ch>, Heiko Stuebner <heiko@sntech.de>
+Cc: Ketil Johnsen <ketil.johnsen@arm.com>, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org
+Subject: [PATCH v3] drm/panthor: Fix UAF race between device unplug and FW
+ event processing
+Date: Mon, 27 Oct 2025 15:02:15 +0100
+Message-ID: <20251027140217.121274-1-ketil.johnsen@arm.com>
+X-Mailer: git-send-email 2.43.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20251023-s6e3fc2x01-v5-1-8f8852e67417@ixit.cz>
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -71,23 +50,39 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+The function panthor_fw_unplug() will free the FW memory sections.
+The problem is that there could still be pending FW events which are yet
+not handled at this point. process_fw_events_work() can in this case try
+to access said freed memory.
 
-On Thu, 23 Oct 2025 22:24:25 +0200, David Heidelberg wrote:
-> Basic description for S6E3FC2X01 DDIC with attached panel AMS641RW.
-> 
-> Samsung AMS641RW is 6.41 inch, 1080x2340 pixels, 19.5:9 ratio panel
-> 
-> This panel has three supplies, while panel-simple-dsi is limited to one.
-> There is no user of this compatible, nor the compatible make sense.
-> Remove it from simple DSI panel definitions.
-> 
-> Signed-off-by: David Heidelberg <david@ixit.cz>
-> ---
->  .../bindings/display/panel/panel-simple-dsi.yaml   |  3 -
->  .../bindings/display/panel/samsung,s6e3fc2x01.yaml | 81 ++++++++++++++++++++++
->  MAINTAINERS                                        |  5 ++
->  3 files changed, 86 insertions(+), 3 deletions(-)
-> 
+Simply call disable_work_sync() to both drain and prevent future
+invocation of process_fw_events_work().
 
-Reviewed-by: Rob Herring (Arm) <robh@kernel.org>
+Signed-off-by: Ketil Johnsen <ketil.johnsen@arm.com>
+Fixes: de85488138247 ("drm/panthor: Add the scheduler logical block")
+---
+v2:
+- Followed Boris's advice and handle the race purely within the
+  scheduler block (by adding a destroyed state)
+
+v3:
+- New approach, one single call to disable_work_sync()
+---
+ drivers/gpu/drm/panthor/panthor_sched.c | 1 +
+ 1 file changed, 1 insertion(+)
+
+diff --git a/drivers/gpu/drm/panthor/panthor_sched.c b/drivers/gpu/drm/panthor/panthor_sched.c
+index 0cc9055f4ee52..b7595beaa0205 100644
+--- a/drivers/gpu/drm/panthor/panthor_sched.c
++++ b/drivers/gpu/drm/panthor/panthor_sched.c
+@@ -3880,6 +3880,7 @@ void panthor_sched_unplug(struct panthor_device *ptdev)
+ 	struct panthor_scheduler *sched = ptdev->scheduler;
+ 
+ 	cancel_delayed_work_sync(&sched->tick_work);
++	disable_work_sync(&sched->fw_events_work);
+ 
+ 	mutex_lock(&sched->lock);
+ 	if (sched->pm.has_ref) {
+-- 
+2.47.2
 
