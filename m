@@ -2,80 +2,55 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0EB01C0C62E
-	for <lists+dri-devel@lfdr.de>; Mon, 27 Oct 2025 09:45:39 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 84769C0C655
+	for <lists+dri-devel@lfdr.de>; Mon, 27 Oct 2025 09:46:37 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D87C210E395;
-	Mon, 27 Oct 2025 08:45:36 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BFB3B10E396;
+	Mon, 27 Oct 2025 08:46:35 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="WuFlvHcr";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="dt0s5VNY";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pf1-f181.google.com (mail-pf1-f181.google.com
- [209.85.210.181])
- by gabe.freedesktop.org (Postfix) with ESMTPS id EE55110E395
- for <dri-devel@lists.freedesktop.org>; Mon, 27 Oct 2025 08:45:35 +0000 (UTC)
-Received: by mail-pf1-f181.google.com with SMTP id
- d2e1a72fcca58-7a26b9a936aso2527439b3a.0
- for <dri-devel@lists.freedesktop.org>; Mon, 27 Oct 2025 01:45:35 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1761554735; x=1762159535; darn=lists.freedesktop.org;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:from:to:cc:subject:date:message-id:reply-to;
- bh=DU0KscrGihyZoXJMago0IWkiGUoidqfLwL76Wss1j/4=;
- b=WuFlvHcrG85pRXijK+GCzpQqnZxrNIvqxV/h+Cf28Ha5qz81xWiuTzjhBB/UixHr/M
- IWl/qCKXxbXzfTqLx9mBqjg23URuza0c89nJJ11gibzZdpqo6M1Ns4YhpgJSMycr0xPY
- M4SIHQcIlJk9HdwyVEtebNPHrK5Edo5hrjkkeOkUSguLNoppcvTye7/icEM3jgwh1bDX
- 2wHmmUiRMD/+cKZRqZGmSh8CpucD0y2BbQ1F6jCtNGgRnXv5KdBgH4Cj0e6XjaZwbTwW
- pV6NVsjL6XJsw1uG2rdYLPEDjG+OE9+z+ZBvgYe/OZ7IzBx+PDpLFYoRi9hemtZfS5za
- 1HWQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1761554735; x=1762159535;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=DU0KscrGihyZoXJMago0IWkiGUoidqfLwL76Wss1j/4=;
- b=JtqL5vqa9V07+LyLoAdHAgJ6GvyJBDd8b9TZ4Y5t/kWIek90QKw0kIYWAH9zW5FaXt
- qSNo4cRlmdh2hHzehCZbOb86g0qaaxd0hI+p1AJa2goEUVvIpfHIldf1YAAkztM5b6ea
- t3PGw2wACvTvdBezyFSYN27hQvLsqzoyABQlbTxPh0oPKLTeTBdxOn+Rln03UXL8HnnI
- dVuHbB/YMPTMyFQG2qmth8X71wVGPbOVc0llA47HIZXNbosROHrmO8azolko8X7N35FG
- ExHDFQInukzlKqJOWv8Rtn5qMxMozRJcGJwq2Jh6Zhe7s6y0vXdUEtKfOiaMIXTyVrrI
- 9D6w==
-X-Forwarded-Encrypted: i=1;
- AJvYcCU2UDXSrnyzeJFvx5UWRUyHOyJfcgr9ycJ6SasILFvQ7jibVr4aCif/uhDH781h5/34BAcXZc4FsZc=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YwJoPri23PWmBfYzupD7ljr9VCySo2YNgOiW60RGK59u7KTdkEZ
- OVUlPC2F6l7kI/qIUwBX87CVh9nONrHvSoGlL6x9NFRXR63KMyxliwaA
-X-Gm-Gg: ASbGncsB0JxJtLdbtqqy0RJKrPMCYhLTehoZN6OrVaLOPTf9krrOTdRnmIF6oS1fB42
- 0yIyYWXkHiFr4B+hafzPZyrKvoeoT+YnhbXhAmvA4+eX4gjLDkreZx49Ib6KvOQCDE2tqDY8Dr8
- ddsOYc/bwdnZgSohqsj8sE6zgAKzCmFtQn6Znenb4CYsKTp+RetCslz7K5zfUBXgBLNhe+J8/lo
- Eq+vskHByPPiF2dZ3GXD9xMacVDYA1oQeCYEEYHYF4HMpMVNRVSx4rXAAR0603aOEANLqL4scX4
- 1q6UQYcgjzkTXWEWdH3GsG4k48jfGD7CfraQKALaXipZ0kNvkODrz0AzBRmZVLCNBNhsuJ8uk7O
- mo5EduDcSfh+h6QZHO5NVzvWf5dGCo7jAqpTmDw4WwZA0xrP8u81tW0TwJN9JV6Kk2kx8NGZ+Lm
- XJJ42CKdAtRw4H87Bw7qzwrBy2TeDex06q
-X-Google-Smtp-Source: AGHT+IFlSNyx/m40xKYC6OWXlqmRmI+SM7/L6vothAHVO/hXw1MzPva0O5TbGE0SIfNFUBdqckDGkQ==
-X-Received: by 2002:a05:6a00:2d1d:b0:7a2:73a9:96c with SMTP id
- d2e1a72fcca58-7a273a90b4cmr13811317b3a.3.1761554735303; 
- Mon, 27 Oct 2025 01:45:35 -0700 (PDT)
-Received: from localhost.localdomain ([124.77.218.104])
- by smtp.googlemail.com with ESMTPSA id
- d2e1a72fcca58-7a41404dddcsm7300209b3a.38.2025.10.27.01.45.31
- (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
- Mon, 27 Oct 2025 01:45:34 -0700 (PDT)
-From: Miaoqian Lin <linmq006@gmail.com>
-To: Thierry Reding <thierry.reding@gmail.com>,
- Mikko Perttunen <mperttunen@nvidia.com>, David Airlie <airlied@gmail.com>,
- Simona Vetter <simona@ffwll.ch>, Jonathan Hunter <jonathanh@nvidia.com>,
- Dmitry Osipenko <digetx@gmail.com>, dri-devel@lists.freedesktop.org,
- linux-tegra@vger.kernel.org, linux-kernel@vger.kernel.org
-Cc: linmq006@gmail.com,
-	stable@vger.kernel.org
-Subject: [PATCH] drm/tegra: Fix reference count leak in tegra_dc_couple
-Date: Mon, 27 Oct 2025 16:45:18 +0800
-Message-Id: <20251027084519.80009-1-linmq006@gmail.com>
-X-Mailer: git-send-email 2.39.5 (Apple Git-154)
+Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CFF3510E396
+ for <dri-devel@lists.freedesktop.org>; Mon, 27 Oct 2025 08:46:33 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by tor.source.kernel.org (Postfix) with ESMTP id 0F0E5605EC;
+ Mon, 27 Oct 2025 08:46:33 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B0EB5C4CEF1;
+ Mon, 27 Oct 2025 08:46:32 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1761554792;
+ bh=wTUNdqGBpFLAqiC7mukUvqvsS+BTDhCzY1pxtj3ZT3Q=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=dt0s5VNYVtFTxxZdebEu+wKIca0D1Ze4EZoEcMsN2ivUAm2TfO72ZubXUw0jLcV+k
+ ttk9Uyqkpzz9NMVJDfFB1HBDV5CHEOrkYDIY9JwILAhRw41CJd61jD4IqiQs8SCieq
+ tUe6aUFzt3TrPhY2MQkRv6tvTxbYLWTXcg7RdsrGAiYHpaiYEOVxP5z1Tn/uCYxGfn
+ PWDYzzB731kl2WjwgXbHDpsbEeDP16k056V8RIBxxjXc0JILBQdc6eI5nU8i69KT0I
+ V6k/tatFDFQI7cAjjbzTHGO4A+CNPmm7a2kjpSO/23nFA50A88c9bFexEJsObjbOdh
+ gZPxuHnKPX1uw==
+Received: from johan by xi.lan with local (Exim 4.98.2)
+ (envelope-from <johan@kernel.org>) id 1vDIs7-000000000O1-3kBX;
+ Mon, 27 Oct 2025 09:46:35 +0100
+Date: Mon, 27 Oct 2025 09:46:35 +0100
+From: Johan Hovold <johan@kernel.org>
+To: Thorsten Leemhuis <regressions@leemhuis.info>
+Cc: ninelore <9l@9lo.re>, "stable@vger.kernel.org" <stable@vger.kernel.org>,
+ "regressions@lists.linux.dev" <regressions@lists.linux.dev>,
+ "chunkuang.hu@kernel.org" <chunkuang.hu@kernel.org>,
+ "p.zabel@pengutronix.de" <p.zabel@pengutronix.de>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+ "linux-mediatek@lists.infradead.org" <linux-mediatek@lists.infradead.org>
+Subject: Re: [REGRESSION] 6.16 fae58d0155 prevents boot of google-tomato
+ (mt8195)
+Message-ID: <aP8xa3EBtAH6P9Rh@hovoldconsulting.com>
+References: <QwcOPAuQZfqo0I9EwUu4tVCuhXRvtfAgFZ7Hq896xRKosseOz3wvuKJFV1YLUTTTwMANMW6bZPUfLwXQPPgBFiYEzKUjMGZ5D56349pz4m8=@9lo.re>
+ <26bc2a33-2a45-468c-a3c1-6ef2ed414f44@leemhuis.info>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <26bc2a33-2a45-468c-a3c1-6ef2ed414f44@leemhuis.info>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -91,32 +66,32 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The driver_find_device() function returns a device with its reference
-count incremented. The caller is responsible for calling put_device()
-to release this reference when done. Fix this leak by adding the missing
-put_device() call.
+On Tue, Sep 16, 2025 at 01:54:54PM +0200, Thorsten Leemhuis wrote:
+> On 16.09.25 01:22, ninelore wrote:
 
-Found via static analysis.
+> > starting with the bisected commit
+> > fae58d0155a979a8c414bbc12db09dd4b2f910d0 ("[v2] drm/mediatek: Fix
+> > device/node reference count leaks in mtk_drm_get_all_drm_priv") on
+> > 6.16.y my chromebook codenamed google-tomato with the SoC MT8195
+> > seems to hang while initializing drm. Kernel messages over serial
+> > show CPU stalls some minutes later. I am attaching the full kernel
+> > logs below.
+> > 
+> > This issue is present in 6.16.7, however not in v6.17-rc6
+> 
+> A problem caused by the upstream commit of the change you mentioned
+> above was fixed for v6.17-rc6, see 4de37a48b6b58f ("drm/mediatek: fix
+> potential OF node use-after-free") or
+> https://lore.kernel.org/all/20250829090345.21075-2-johan@kernel.org/
+> 
+> I wonder if that might fix your problem. It's currently scheduled to be
+> included in the next 6.16.y release.
 
-Fixes: f68ba6912bd2 ("drm/tegra: dc: Link DC1 to DC0 on Tegra20")
-Cc: stable@vger.kernel.org
-Signed-off-by: Miaoqian Lin <linmq006@gmail.com>
----
- drivers/gpu/drm/tegra/dc.c | 1 +
- 1 file changed, 1 insertion(+)
+This is a regression in 6.17-rc4 and the offending commit has indeed
+been backported to the stable trees.
 
-diff --git a/drivers/gpu/drm/tegra/dc.c b/drivers/gpu/drm/tegra/dc.c
-index 59d5c1ba145a..6c84bd69b11f 100644
---- a/drivers/gpu/drm/tegra/dc.c
-+++ b/drivers/gpu/drm/tegra/dc.c
-@@ -3148,6 +3148,7 @@ static int tegra_dc_couple(struct tegra_dc *dc)
- 		dc->client.parent = &parent->client;
- 
- 		dev_dbg(dc->dev, "coupled to %s\n", dev_name(companion));
-+		put_device(companion);
- 	}
- 
- 	return 0;
--- 
-2.39.5 (Apple Git-154)
+A fix for the regression has been sitting here for a few weeks now:
 
+	https://lore.kernel.org/lkml/20251006093937.27869-1-johan@kernel.org/
+
+Johan
