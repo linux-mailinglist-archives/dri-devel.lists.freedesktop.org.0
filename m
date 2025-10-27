@@ -2,64 +2,102 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1B309C0B922
-	for <lists+dri-devel@lfdr.de>; Mon, 27 Oct 2025 02:09:08 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7EECBC0B9F1
+	for <lists+dri-devel@lfdr.de>; Mon, 27 Oct 2025 02:50:29 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1DE7510E322;
-	Mon, 27 Oct 2025 01:09:05 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BE1BE10E0AE;
+	Mon, 27 Oct 2025 01:50:25 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=yeah.net header.i=@yeah.net header.b="NsIBY0WA";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="eGh8KZyF";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 670 seconds by postgrey-1.36 at gabe;
- Mon, 27 Oct 2025 01:09:02 UTC
-Received: from mail-m16.yeah.net (mail-m16.yeah.net [220.197.32.19])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7E17B10E322
- for <dri-devel@lists.freedesktop.org>; Mon, 27 Oct 2025 01:09:02 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yeah.net;
- s=s110527; h=Date:From:To:Subject:Message-ID:MIME-Version:
- Content-Type; bh=PpsDspoPGuFN+kp23Nw2bUNjubccczLt1s7VeJsKJOk=;
- b=NsIBY0WA+Au1ix8V6Sl8Z5MmPiwBy52G8n0Qe/AeNT7C3G/kQd8avI0eZY253p
- PIn35Kfwc4n8VZusktlXchPO5r4Yde1LqxFSHfyzcyEv9brPQmgAj1xiFcSK4c2z
- MUkTcily0JRut8Ib72/ddchydzz22+pB7stQ4u2MtlY18=
-Received: from dragon (unknown [])
- by gzsmtp2 (Coremail) with SMTP id Ms8vCgD3H1lkw_5o1DK6AA--.23343S3;
- Mon, 27 Oct 2025 08:57:10 +0800 (CST)
-Date: Mon, 27 Oct 2025 08:57:08 +0800
-From: Shawn Guo <shawnguo2@yeah.net>
-To: Marek Vasut <marek.vasut@mailbox.org>
-Cc: linux-arm-kernel@lists.infradead.org,
- Boris Brezillon <boris.brezillon@collabora.com>,
- Conor Dooley <conor+dt@kernel.org>, David Airlie <airlied@gmail.com>,
- Fabio Estevam <festevam@gmail.com>,
- "Jiyu Yang (OSS)" <jiyu.yang@oss.nxp.com>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Liviu Dudau <liviu.dudau@arm.com>,
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id EE20D10E0AE
+ for <dri-devel@lists.freedesktop.org>; Mon, 27 Oct 2025 01:50:23 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1761529824; x=1793065824;
+ h=date:from:to:cc:subject:message-id:references:
+ mime-version:in-reply-to;
+ bh=T3pkaI/GJuOsGFoVg5/R4SNriMbvV6bNB454qQaWZQ8=;
+ b=eGh8KZyF3XNe+RFOMymhBNZHWav5SMty52zqCNFPzFdn2ZV+OGYudH7d
+ aVNjV3NJVoUQbVH95r3G6+Q1X3lW/+9Kb+giK8mRJ3dddGCEOV4OJ260/
+ vWwQQpAEoTo7CroR9wXzCesXplvVMjSrNG0/QtK44S1o+cOtwuR3H1q3t
+ WbtTkwDWNfN3XknfqMD0/JJK1hFbIEQs2zcGrm6QHxwj6KcO033ErKLKI
+ 9SnZnQZSD9cnvOnvutvdHfdyEtyR/M9ubO7Jt8VZ+09/b2F3nD3OC2J2r
+ W36HpQn+bLym7ZsduQ7P7vWOJgVvWqy0uKrWmPCyYTARJjFB2HTGPSaHF A==;
+X-CSE-ConnectionGUID: KU5z0mYHT+Cd4S57f0oeZA==
+X-CSE-MsgGUID: MWj4Gn/pSHqxcHZrAALrRg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11531"; a="67438867"
+X-IronPort-AV: E=Sophos;i="6.17,312,1747724400"; d="scan'208";a="67438867"
+Received: from orviesa003.jf.intel.com ([10.64.159.143])
+ by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 26 Oct 2025 18:50:24 -0700
+X-CSE-ConnectionGUID: RqD3PVgcSpO3hdFc8HdBsw==
+X-CSE-MsgGUID: bAZX7S5kQLGkCNKy4yStdQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.19,257,1754982000"; d="scan'208";a="188967609"
+Received: from yilunxu-optiplex-7050.sh.intel.com (HELO localhost)
+ ([10.239.159.165])
+ by orviesa003.jf.intel.com with ESMTP; 26 Oct 2025 18:50:09 -0700
+Date: Mon, 27 Oct 2025 09:36:28 +0800
+From: Xu Yilun <yilun.xu@linux.intel.com>
+To: "Rob Herring (Arm)" <robh@kernel.org>
+Cc: Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>, Stephen Boyd <sboyd@kernel.org>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
  Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Pengutronix Kernel Team <kernel@pengutronix.de>,
- Philipp Zabel <p.zabel@pengutronix.de>, Rob Herring <robh@kernel.org>,
- Sascha Hauer <s.hauer@pengutronix.de>,
- Sebastian Reichel <sre@kernel.org>, Shawn Guo <shawnguo@kernel.org>,
- Simona Vetter <simona@ffwll.ch>, Steven Price <steven.price@arm.com>,
  Thomas Zimmermann <tzimmermann@suse.de>,
- Xianzhong Li <xianzhong.li@nxp.com>, devicetree@vger.kernel.org,
- dri-devel@lists.freedesktop.org, imx@lists.linux.dev
-Subject: Re: [PATCH v3 2/2] arm64: dts: imx95: Describe Mali G310 GPU
-Message-ID: <aP7DZCMk1pQ7wsFo@dragon>
-References: <20250925203938.169880-1-marek.vasut@mailbox.org>
- <20250925203938.169880-2-marek.vasut@mailbox.org>
- <ba95487c-ada7-48a4-90b7-fd99a0278f51@mailbox.org>
+ Andrzej Hajda <andrzej.hajda@intel.com>,
+ Robert Foss <rfoss@kernel.org>, Vinod Koul <vkoul@kernel.org>,
+ Moritz Fischer <mdf@kernel.org>, Xu Yilun <yilun.xu@intel.com>,
+ Bartosz Golaszewski <brgl@bgdev.pl>, Guenter Roeck <linux@roeck-us.net>,
+ Andi Shyti <andi.shyti@kernel.org>, Jonathan Cameron <jic23@kernel.org>,
+ Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+ Georgi Djakov <djakov@kernel.org>, Thomas Gleixner <tglx@linutronix.de>,
+ Joerg Roedel <joro@8bytes.org>, Jassi Brar <jassisinghbrar@gmail.com>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>, Lee Jones <lee@kernel.org>,
+ Miquel Raynal <miquel.raynal@bootlin.com>,
+ Richard Weinberger <richard@nod.at>, Vignesh Raghavendra <vigneshr@ti.com>,
+ Andrew Lunn <andrew+netdev@lunn.ch>,
+ "David S. Miller" <davem@davemloft.net>,
+ Eric Dumazet <edumazet@google.com>,
+ Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+ Johannes Berg <johannes@sipsolutions.net>,
+ Krzysztof =?utf-8?Q?Wilczy=C5=84ski?= <kwilczynski@kernel.org>,
+ Manivannan Sadhasivam <mani@kernel.org>,
+ Bjorn Helgaas <bhelgaas@google.com>,
+ Kishon Vijay Abraham I <kishon@kernel.org>,
+ Sebastian Reichel <sre@kernel.org>,
+ Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <ukleinek@kernel.org>,
+ Mark Brown <broonie@kernel.org>,
+ Mathieu Poirier <mathieu.poirier@linaro.org>,
+ Philipp Zabel <p.zabel@pengutronix.de>,
+ Olivia Mackall <olivia@selenic.com>,
+ Herbert Xu <herbert@gondor.apana.org.au>,
+ Daniel Lezcano <daniel.lezcano@linaro.org>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-clk@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ linux-fbdev@vger.kernel.org, dmaengine@vger.kernel.org,
+ linux-fpga@vger.kernel.org, linux-gpio@vger.kernel.org,
+ linux-hwmon@vger.kernel.org, linux-i2c@vger.kernel.org,
+ linux-iio@vger.kernel.org, linux-input@vger.kernel.org,
+ linux-pm@vger.kernel.org, iommu@lists.linux.dev,
+ linux-media@vger.kernel.org, linux-mtd@lists.infradead.org,
+ netdev@vger.kernel.org, linux-wireless@vger.kernel.org,
+ linux-pci@vger.kernel.org, linux-phy@lists.infradead.org,
+ linux-pwm@vger.kernel.org, linux-remoteproc@vger.kernel.org,
+ linux-crypto@vger.kernel.org, linux-sound@vger.kernel.org,
+ linux-usb@vger.kernel.org
+Subject: Re: [PATCH] dt-bindings: Remove extra blank lines
+Message-ID: <aP7MnJ8mIlZhT//S@yilunxu-OptiPlex-7050>
+References: <20251023143957.2899600-1-robh@kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <ba95487c-ada7-48a4-90b7-fd99a0278f51@mailbox.org>
-X-CM-TRANSID: Ms8vCgD3H1lkw_5o1DK6AA--.23343S3
-X-Coremail-Antispam: 1Uf129KBjDUn29KB7ZKAUJUUUUU529EdanIXcx71UUUUU7v73
- VFW2AGmfu7bjvjm3AaLaJ3UbIYCTnIWIevJa73UjIFyTuYvjxU0NtxDUUUU
-X-Originating-IP: [117.80.155.87]
-X-CM-SenderInfo: pvkd40hjxrjqh1hdxhhqhw/1tbiCwHzZWj+vk4QWwAAsx
+In-Reply-To: <20251023143957.2899600-1-robh@kernel.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -75,14 +113,15 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Sat, Oct 11, 2025 at 12:53:29PM +0200, Marek Vasut wrote:
-> On 9/25/25 10:38 PM, Marek Vasut wrote:
-> > The instance of the GPU populated in i.MX95 is the G310, describe this
-> > GPU in the DT. Include dummy GPU voltage regulator and OPP tables.
-> Is there still anything that should be changed with this patchset, or can it
-> be applied ?
+On Thu, Oct 23, 2025 at 09:37:56AM -0500, Rob Herring (Arm) wrote:
+> Generally at most 1 blank line is the standard style for DT schema
+> files. Remove the few cases with more than 1 so that the yamllint check
+> for this can be enabled.
+> 
+> Signed-off-by: Rob Herring (Arm) <robh@kernel.org>
 
-I'm waiting binding change to be applied first.  Or is it already done?
+[...]
 
-Shawn
+>  Documentation/devicetree/bindings/fpga/fpga-region.yaml      | 5 -----
 
+Acked-by: Xu Yilun <yilun.xu@intel.com>
