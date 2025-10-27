@@ -2,76 +2,76 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D152BC0D6AA
-	for <lists+dri-devel@lfdr.de>; Mon, 27 Oct 2025 13:10:59 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0C898C0D6B6
+	for <lists+dri-devel@lfdr.de>; Mon, 27 Oct 2025 13:11:13 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 121B710E467;
-	Mon, 27 Oct 2025 12:10:55 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CD69910E461;
+	Mon, 27 Oct 2025 12:11:10 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=suse.de header.i=@suse.de header.b="TeLzVa1v";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="L8dOOwcw";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="TeLzVa1v";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="L8dOOwcw";
+	dkim=pass (1024-bit key; unprotected) header.d=suse.de header.i=@suse.de header.b="MHXBLG5/";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="yXGuubzW";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="MHXBLG5/";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="yXGuubzW";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 19C2A10E459
- for <dri-devel@lists.freedesktop.org>; Mon, 27 Oct 2025 12:10:53 +0000 (UTC)
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2848410E46B
+ for <dri-devel@lists.freedesktop.org>; Mon, 27 Oct 2025 12:11:04 +0000 (UTC)
 Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org
  [IPv6:2a07:de40:b281:104:10:150:64:97])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
  (No client certificate requested)
- by smtp-out1.suse.de (Postfix) with ESMTPS id D3A11218A2;
- Mon, 27 Oct 2025 12:10:51 +0000 (UTC)
+ by smtp-out2.suse.de (Postfix) with ESMTPS id 226701F453;
+ Mon, 27 Oct 2025 12:10:52 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1761567051; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ t=1761567052; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=8d8vIImL1SvhMJ6ofAE/j4MkiTVYQCi01LRAS+O28hU=;
- b=TeLzVa1vioDoR2zjovHE/0HsD/WPVfJyx47RMIsRDEKxfzVv5hrEewiZZcJRctq1FtX4hU
- 3evu8bdzFYxjrktQu7T2iPHtBzSbSd/LngQ9RxMz+Q5jNs4m7tYCUM8JAi+g5MNi5RvQLa
- mWA8o8iE7vSdubMaaQqHouBQj4j7Gtc=
+ bh=Ud+O/mYO/723z44g4yMa01+RDpwHIvjqK/vZRNLqXCY=;
+ b=MHXBLG5/N3NW9L2KZeCYr3T57Q93xUqJnnZMWZfX3jHPIeMf7Wr5q5HvpaaAGXtDwxoOfZ
+ ZzTeL4itwrIwO0Lkokutu+CYyPyUjg4LhYYfsFDsApIuRaZO7l+lAh/elGCPRKzmXxmvpW
+ JeKR0Ja+//uOkM/e82bxRUd7NYrb7Uw=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1761567051;
+ s=susede2_ed25519; t=1761567052;
  h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=8d8vIImL1SvhMJ6ofAE/j4MkiTVYQCi01LRAS+O28hU=;
- b=L8dOOwcwcNOQywi/FAp+DHm5thIf4I2nq+taPpozPC33NjMaCVaVQZncj30jSxJJPIeFFT
- KZL/krgNQUPUhZCg==
-Authentication-Results: smtp-out1.suse.de;
- dkim=pass header.d=suse.de header.s=susede2_rsa header.b=TeLzVa1v;
- dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=L8dOOwcw
+ bh=Ud+O/mYO/723z44g4yMa01+RDpwHIvjqK/vZRNLqXCY=;
+ b=yXGuubzWR8LvJPFxBKRM6aPpJGKJXa/jG3q4LijulcK6FUm64vAzRYiAYdu/UaRet7EWU6
+ 1rt0sb+rqZDCZVCQ==
+Authentication-Results: smtp-out2.suse.de;
+ dkim=pass header.d=suse.de header.s=susede2_rsa header.b="MHXBLG5/";
+ dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=yXGuubzW
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1761567051; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ t=1761567052; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=8d8vIImL1SvhMJ6ofAE/j4MkiTVYQCi01LRAS+O28hU=;
- b=TeLzVa1vioDoR2zjovHE/0HsD/WPVfJyx47RMIsRDEKxfzVv5hrEewiZZcJRctq1FtX4hU
- 3evu8bdzFYxjrktQu7T2iPHtBzSbSd/LngQ9RxMz+Q5jNs4m7tYCUM8JAi+g5MNi5RvQLa
- mWA8o8iE7vSdubMaaQqHouBQj4j7Gtc=
+ bh=Ud+O/mYO/723z44g4yMa01+RDpwHIvjqK/vZRNLqXCY=;
+ b=MHXBLG5/N3NW9L2KZeCYr3T57Q93xUqJnnZMWZfX3jHPIeMf7Wr5q5HvpaaAGXtDwxoOfZ
+ ZzTeL4itwrIwO0Lkokutu+CYyPyUjg4LhYYfsFDsApIuRaZO7l+lAh/elGCPRKzmXxmvpW
+ JeKR0Ja+//uOkM/e82bxRUd7NYrb7Uw=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1761567051;
+ s=susede2_ed25519; t=1761567052;
  h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=8d8vIImL1SvhMJ6ofAE/j4MkiTVYQCi01LRAS+O28hU=;
- b=L8dOOwcwcNOQywi/FAp+DHm5thIf4I2nq+taPpozPC33NjMaCVaVQZncj30jSxJJPIeFFT
- KZL/krgNQUPUhZCg==
+ bh=Ud+O/mYO/723z44g4yMa01+RDpwHIvjqK/vZRNLqXCY=;
+ b=yXGuubzWR8LvJPFxBKRM6aPpJGKJXa/jG3q4LijulcK6FUm64vAzRYiAYdu/UaRet7EWU6
+ 1rt0sb+rqZDCZVCQ==
 Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
  (No client certificate requested)
- by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 92F9C13A9A;
+ by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id DA42213AAB;
  Mon, 27 Oct 2025 12:10:51 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
- by imap1.dmz-prg2.suse.org with ESMTPSA id WG6yIkth/2gDAwAAD6G6ig
+ by imap1.dmz-prg2.suse.org with ESMTPSA id KNP4M0th/2gDAwAAD6G6ig
  (envelope-from <tzimmermann@suse.de>); Mon, 27 Oct 2025 12:10:51 +0000
 From: Thomas Zimmermann <tzimmermann@suse.de>
 To: jfalempe@redhat.com, javierm@redhat.com, rrameshbabu@nvidia.com,
@@ -79,10 +79,9 @@ To: jfalempe@redhat.com, javierm@redhat.com, rrameshbabu@nvidia.com,
  airlied@gmail.com
 Cc: dri-devel@lists.freedesktop.org,
 	Thomas Zimmermann <tzimmermann@suse.de>
-Subject: [PATCH v2 3/7] drm/client: Inline drm_client_buffer_addfb() and
- _rmfb()
-Date: Mon, 27 Oct 2025 13:09:14 +0100
-Message-ID: <20251027121042.143588-4-tzimmermann@suse.de>
+Subject: [PATCH v2 4/7] drm/client: Deprecate struct drm_client_buffer.gem
+Date: Mon, 27 Oct 2025 13:09:15 +0100
+Message-ID: <20251027121042.143588-5-tzimmermann@suse.de>
 X-Mailer: git-send-email 2.51.1
 In-Reply-To: <20251027121042.143588-1-tzimmermann@suse.de>
 References: <20251027121042.143588-1-tzimmermann@suse.de>
@@ -90,7 +89,7 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-Spam-Level: 
 X-Spam-Flag: NO
-X-Rspamd-Queue-Id: D3A11218A2
+X-Rspamd-Queue-Id: 226701F453
 X-Rspamd-Action: no action
 X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
 X-Spamd-Result: default: False [-3.01 / 50.00]; BAYES_HAM(-3.00)[100.00%];
@@ -98,19 +97,21 @@ X-Spamd-Result: default: False [-3.01 / 50.00]; BAYES_HAM(-3.00)[100.00%];
  R_MISSING_CHARSET(0.50)[]; NEURAL_HAM_SHORT(-0.20)[-1.000];
  R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
  MIME_GOOD(-0.10)[text/plain]; MX_GOOD(-0.01)[];
- RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from]; 
+ TO_MATCH_ENVRCPT_ALL(0.00)[]; ARC_NA(0.00)[];
  DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
  FREEMAIL_TO(0.00)[redhat.com,nvidia.com,linux.intel.com,kernel.org,valla.it,gmail.com];
- FUZZY_RATELIMITED(0.00)[rspamd.com]; MIME_TRACE(0.00)[0:+];
- ARC_NA(0.00)[]; TO_DN_SOME(0.00)[]; RCVD_COUNT_TWO(0.00)[2];
- TO_MATCH_ENVRCPT_ALL(0.00)[]; FROM_HAS_DN(0.00)[];
+ MIME_TRACE(0.00)[0:+]; FUZZY_RATELIMITED(0.00)[rspamd.com];
+ TO_DN_SOME(0.00)[];
+ RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from]; 
+ RCVD_TLS_ALL(0.00)[]; DKIM_TRACE(0.00)[suse.de:+];
+ RCVD_COUNT_TWO(0.00)[2]; FROM_EQ_ENVFROM(0.00)[];
+ FROM_HAS_DN(0.00)[];
+ SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
+ DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:rdns,imap1.dmz-prg2.suse.org:helo,suse.de:dkim,suse.de:mid,suse.de:email];
  RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
  RCPT_COUNT_SEVEN(0.00)[9];
- DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:rdns,imap1.dmz-prg2.suse.org:helo,suse.de:dkim,suse.de:mid,suse.de:email];
- FROM_EQ_ENVFROM(0.00)[]; RCVD_VIA_SMTP_AUTH(0.00)[];
- RCVD_TLS_ALL(0.00)[]; DKIM_TRACE(0.00)[suse.de:+];
- SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
- FREEMAIL_ENVRCPT(0.00)[gmail.com]
+ R_RATELIMIT(0.00)[to_ip_from(RLo585esf9b7txaosbn5shab9z)];
+ RCVD_VIA_SMTP_AUTH(0.00)[]; FREEMAIL_ENVRCPT(0.00)[gmail.com]
 X-Spam-Score: -3.01
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -127,178 +128,120 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Creating and deleting a client buffer always creates and deletes
-the underlying DRM framebuffer. Inline the helper functions into
-their callers.
+The client buffer's framebuffer holds a reference and pointer on
+each of its GEM buffer objects. Thus the field gem in the client-
+buffer struct is not necessary. Deprecated the field and convert
+the client-buffer helpers to use the framebuffer's objects.
 
-With the _addfb code being inlined into drm_client_buffer_create(),
-clean up the function's error rollback to release the framebuffer's
-handle and GEM buffer object as needed.
+In drm_client_buffer_delete(), do a possible vunmap before releasing
+the framebuffer. Otherwise we'd eventually release the framebuffer
+before unmaping its buffer objects.
 
-Move the _rmfb code into drm_client_buffer_delete() rather than its
-current location in drm_client_framebuffer_delete(). The former is
-now the inverse of drm_client_buffer_create(). Makes no difference
-for cleaning up. Also prepares for the removal of
-drm_client_framebuffer_delete().
+v2:
+- avoid dependency on CONFIG_DRM_KMS_HELPER
 
 Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
 Reviewed-by: Jocelyn Falempe <jfalempe@redhat.com>
 ---
- drivers/gpu/drm/drm_client.c | 93 ++++++++++++++++--------------------
- 1 file changed, 40 insertions(+), 53 deletions(-)
+ drivers/gpu/drm/drm_client.c | 20 ++++++++++++--------
+ include/drm/drm_client.h     |  9 +++------
+ 2 files changed, 15 insertions(+), 14 deletions(-)
 
 diff --git a/drivers/gpu/drm/drm_client.c b/drivers/gpu/drm/drm_client.c
-index 5ad82ab8b15f..c4db4fc7ba69 100644
+index c4db4fc7ba69..0aa56c4b912b 100644
 --- a/drivers/gpu/drm/drm_client.c
 +++ b/drivers/gpu/drm/drm_client.c
-@@ -178,6 +178,13 @@ EXPORT_SYMBOL(drm_client_release);
+@@ -17,6 +17,7 @@
+ #include <drm/drm_fourcc.h>
+ #include <drm/drm_framebuffer.h>
+ #include <drm/drm_gem.h>
++#include <drm/drm_gem_framebuffer_helper.h>
+ #include <drm/drm_mode.h>
+ #include <drm/drm_print.h>
+ 
+@@ -178,17 +179,17 @@ EXPORT_SYMBOL(drm_client_release);
  
  static void drm_client_buffer_delete(struct drm_client_buffer *buffer)
  {
-+	int ret;
-+
-+	ret = drm_mode_rmfb(buffer->client->dev, buffer->fb->base.id, buffer->client->file);
-+	if (ret)
-+		drm_err(buffer->client->dev,
-+			"Error removing FB:%u (%d)\n", buffer->fb->base.id, ret);
-+
- 	if (buffer->gem) {
- 		drm_gem_vunmap(buffer->gem, &buffer->map);
- 		drm_gem_object_put(buffer->gem);
-@@ -190,8 +197,21 @@ static struct drm_client_buffer *
- drm_client_buffer_create(struct drm_client_dev *client, u32 width, u32 height,
- 			 u32 format, u32 handle, u32 pitch)
- {
-+	struct drm_mode_fb_cmd2 fb_req = {
-+		.width = width,
-+		.height = height,
-+		.pixel_format = format,
-+		.handles = {
-+			handle,
-+		},
-+		.pitches = {
-+			pitch,
-+		},
-+	};
-+	struct drm_device *dev = client->dev;
- 	struct drm_client_buffer *buffer;
- 	struct drm_gem_object *obj;
-+	struct drm_framebuffer *fb;
++	struct drm_gem_object *gem = buffer->fb->obj[0];
  	int ret;
  
- 	buffer = kzalloc(sizeof(*buffer), GFP_KERNEL);
-@@ -206,10 +226,30 @@ drm_client_buffer_create(struct drm_client_dev *client, u32 width, u32 height,
- 		goto err_delete;
- 	}
++	drm_gem_vunmap(gem, &buffer->map);
++
+ 	ret = drm_mode_rmfb(buffer->client->dev, buffer->fb->base.id, buffer->client->file);
+ 	if (ret)
+ 		drm_err(buffer->client->dev,
+ 			"Error removing FB:%u (%d)\n", buffer->fb->base.id, ret);
  
-+	ret = drm_mode_addfb2(dev, &fb_req, client->file);
-+	if (ret)
-+		goto err_drm_gem_object_put;
-+
-+	fb = drm_framebuffer_lookup(dev, client->file, fb_req.fb_id);
-+	if (drm_WARN_ON(dev, !fb)) {
-+		ret = -ENOENT;
-+		goto err_drm_mode_rmfb;
-+	}
-+
-+	/* drop the reference we picked up in framebuffer lookup */
-+	drm_framebuffer_put(fb);
-+
-+	strscpy(fb->comm, client->name, TASK_COMM_LEN);
-+
- 	buffer->gem = obj;
-+	buffer->fb = fb;
+-	if (buffer->gem) {
+-		drm_gem_vunmap(buffer->gem, &buffer->map);
+-		drm_gem_object_put(buffer->gem);
+-	}
++	drm_gem_object_put(buffer->gem);
  
- 	return buffer;
- 
-+err_drm_mode_rmfb:
-+	drm_mode_rmfb(dev, fb_req.fb_id, client->file);
-+err_drm_gem_object_put:
-+	drm_gem_object_put(obj);
- err_delete:
  	kfree(buffer);
- 	return ERR_PTR(ret);
-@@ -323,51 +363,6 @@ void drm_client_buffer_vunmap(struct drm_client_buffer *buffer)
+ }
+@@ -278,7 +279,7 @@ drm_client_buffer_create(struct drm_client_dev *client, u32 width, u32 height,
+ int drm_client_buffer_vmap_local(struct drm_client_buffer *buffer,
+ 				 struct iosys_map *map_copy)
+ {
+-	struct drm_gem_object *gem = buffer->gem;
++	struct drm_gem_object *gem = buffer->fb->obj[0];
+ 	struct iosys_map *map = &buffer->map;
+ 	int ret;
+ 
+@@ -307,7 +308,7 @@ EXPORT_SYMBOL(drm_client_buffer_vmap_local);
+  */
+ void drm_client_buffer_vunmap_local(struct drm_client_buffer *buffer)
+ {
+-	struct drm_gem_object *gem = buffer->gem;
++	struct drm_gem_object *gem = buffer->fb->obj[0];
+ 	struct iosys_map *map = &buffer->map;
+ 
+ 	drm_gem_vunmap_locked(gem, map);
+@@ -338,9 +339,10 @@ EXPORT_SYMBOL(drm_client_buffer_vunmap_local);
+ int drm_client_buffer_vmap(struct drm_client_buffer *buffer,
+ 			   struct iosys_map *map_copy)
+ {
++	struct drm_gem_object *gem = buffer->fb->obj[0];
+ 	int ret;
+ 
+-	ret = drm_gem_vmap(buffer->gem, &buffer->map);
++	ret = drm_gem_vmap(gem, &buffer->map);
+ 	if (ret)
+ 		return ret;
+ 	*map_copy = buffer->map;
+@@ -359,7 +361,9 @@ EXPORT_SYMBOL(drm_client_buffer_vmap);
+  */
+ void drm_client_buffer_vunmap(struct drm_client_buffer *buffer)
+ {
+-	drm_gem_vunmap(buffer->gem, &buffer->map);
++	struct drm_gem_object *gem = buffer->fb->obj[0];
++
++	drm_gem_vunmap(gem, &buffer->map);
  }
  EXPORT_SYMBOL(drm_client_buffer_vunmap);
  
--static void drm_client_buffer_rmfb(struct drm_client_buffer *buffer)
--{
--	int ret;
--
--	if (!buffer->fb)
--		return;
--
--	ret = drm_mode_rmfb(buffer->client->dev, buffer->fb->base.id, buffer->client->file);
--	if (ret)
--		drm_err(buffer->client->dev,
--			"Error removing FB:%u (%d)\n", buffer->fb->base.id, ret);
--
--	buffer->fb = NULL;
--}
--
--static int drm_client_buffer_addfb(struct drm_client_buffer *buffer,
--				   u32 width, u32 height, u32 format,
--				   u32 handle, u32 pitch)
--{
--	struct drm_client_dev *client = buffer->client;
--	struct drm_mode_fb_cmd2 fb_req = { };
--	int ret;
--
--	fb_req.width = width;
--	fb_req.height = height;
--	fb_req.pixel_format = format;
--	fb_req.handles[0] = handle;
--	fb_req.pitches[0] = pitch;
--
--	ret = drm_mode_addfb2(client->dev, &fb_req, client->file);
--	if (ret)
--		return ret;
--
--	buffer->fb = drm_framebuffer_lookup(client->dev, buffer->client->file, fb_req.fb_id);
--	if (WARN_ON(!buffer->fb))
--		return -ENOENT;
--
--	/* drop the reference we picked up in framebuffer lookup */
--	drm_framebuffer_put(buffer->fb);
--
--	strscpy(buffer->fb->comm, client->name, TASK_COMM_LEN);
--
--	return 0;
--}
--
- /**
-  * drm_client_framebuffer_create - Create a client framebuffer
-  * @client: DRM client
-@@ -405,11 +400,6 @@ drm_client_framebuffer_create(struct drm_client_dev *client, u32 width, u32 heig
- 		goto err_drm_mode_destroy_dumb;
- 	}
+diff --git a/include/drm/drm_client.h b/include/drm/drm_client.h
+index c674464f7e74..b01fc2a21f09 100644
+--- a/include/drm/drm_client.h
++++ b/include/drm/drm_client.h
+@@ -176,12 +176,9 @@ struct drm_client_buffer {
+ 	/**
+ 	 * @gem: GEM object backing this buffer
+ 	 *
+-	 * FIXME: The dependency on GEM here isn't required, we could
+-	 * convert the driver handle to a dma-buf instead and use the
+-	 * backend-agnostic dma-buf vmap support instead. This would
+-	 * require that the handle2fd prime ioctl is reworked to pull the
+-	 * fd_install step out of the driver backend hooks, to make that
+-	 * final step optional for internal users.
++	 * FIXME: The DRM framebuffer holds a reference on its GEM
++	 * buffer objects. Do not use this field in new code and
++	 * update existing users.
+ 	 */
+ 	struct drm_gem_object *gem;
  
--	ret = drm_client_buffer_addfb(buffer, width, height, format,
--				      dumb_args.handle, dumb_args.pitch);
--	if (ret)
--		goto err_drm_client_buffer_delete;
--
- 	/*
- 	 * The handle is only needed for creating the framebuffer, destroy it
- 	 * again to solve a circular dependency should anybody export the GEM
-@@ -420,8 +410,6 @@ drm_client_framebuffer_create(struct drm_client_dev *client, u32 width, u32 heig
- 
- 	return buffer;
- 
--err_drm_client_buffer_delete:
--	drm_client_buffer_delete(buffer);
- err_drm_mode_destroy_dumb:
- 	drm_mode_destroy_dumb(client->dev, dumb_args.handle, client->file);
- 	return ERR_PTR(ret);
-@@ -437,7 +425,6 @@ void drm_client_framebuffer_delete(struct drm_client_buffer *buffer)
- 	if (!buffer)
- 		return;
- 
--	drm_client_buffer_rmfb(buffer);
- 	drm_client_buffer_delete(buffer);
- }
- EXPORT_SYMBOL(drm_client_framebuffer_delete);
 -- 
 2.51.1
 
