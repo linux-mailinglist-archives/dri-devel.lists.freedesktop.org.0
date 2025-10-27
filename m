@@ -2,40 +2,41 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 29876C10DF6
-	for <lists+dri-devel@lfdr.de>; Mon, 27 Oct 2025 20:23:18 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 51ABFC10FA6
+	for <lists+dri-devel@lfdr.de>; Mon, 27 Oct 2025 20:28:17 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E5E5510E175;
-	Mon, 27 Oct 2025 19:23:13 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4DF6110E558;
+	Mon, 27 Oct 2025 19:28:14 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="gPKiTO1A";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="tw6IvwQz";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
- by gabe.freedesktop.org (Postfix) with ESMTPS id AC1D610E175;
- Mon, 27 Oct 2025 19:23:12 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 06D7210E552;
+ Mon, 27 Oct 2025 19:28:12 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by tor.source.kernel.org (Postfix) with ESMTP id CBAA761F54;
- Mon, 27 Oct 2025 19:23:11 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 75D93C4CEFD;
- Mon, 27 Oct 2025 19:23:07 +0000 (UTC)
+ by tor.source.kernel.org (Postfix) with ESMTP id 334B961FE8;
+ Mon, 27 Oct 2025 19:28:12 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id BC92DC4CEF1;
+ Mon, 27 Oct 2025 19:28:07 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1761592991;
- bh=uTrTMXHYa+MgSvqmFyrlRj8NJs2QdjeXyKWclcED2Jk=;
- h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
- b=gPKiTO1ACxs53vukMNDQBgl5Tpn58gtc7ZA/bo7QiutJ9EJ1KdJDmYZNzHP5Jje1f
- FvmbqPdOQIqPlxjgPg9DthVjs2cWm9w/DFxYC/q5ExXXESZPE8RHkqxTSpnbWiTldi
- tJynXMecooAAP6UEX2seGq4S4YmUQ1k99QqgqxRhAXnonv61mmdtLEaajKU9c2D/vK
- fuLCH0jZDmtNcxn0SoYecODCR50z7QONE59ii/Bt4wwpr/ffReJV2IMeRPIm0y8Ce/
- CorwtOEyXKF6Wiy6qagSF89e9oV9uAJuosnoAIA+IMYBQy6JF3gMbRSB0KRUwJ6B7U
- lkfJDU892oOcw==
-Message-ID: <10945c03-8642-4c19-b0ed-ffb20c075291@kernel.org>
-Date: Mon, 27 Oct 2025 20:23:05 +0100
+ s=k20201202; t=1761593291;
+ bh=mEn8TJATXk1tz9tGLRPYHPHeXgwksh2Kb5KZxPPolWk=;
+ h=Date:Subject:From:To:Cc:References:In-Reply-To:From;
+ b=tw6IvwQzmD6dYwYnVSFb/aYd1E87zUZ5c1HSqHGuVhjyX94xKCZ4BeLSAXYr7SZW9
+ zc9gJur4jQ46Dy9Ml1fHpklJ6vjZNSBG1wziev3FvZPUACkLcHgsuDDnrDrQfiEF7G
+ 9CI7y6R2YryeCqsvaFCJOmUTn0qnoXQNshG47ilhWRd9bXV7Qm0gBwnf8ZEODH0wp6
+ HDm8hjNoSEKY9O9GkHfbBq7q7qOS4UZbF1prymxsTsEvDeo6Y3677FYVSOwRPw+rIN
+ RKtTon5ikS7MfjgKfP8Gq9RW3gbzZVYseq8rbIYnxaBFUo9uLxl8djumfmseBXXmNW
+ Lw+Ubom2a0vug==
+Message-ID: <4ec735c2-d0cc-43ad-8184-b30359c8d570@kernel.org>
+Date: Mon, 27 Oct 2025 20:28:06 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
 Subject: Re: [PATCH v2 5/7] gpu: nova-core: add extra integer conversion
  functions and traits
+From: Danilo Krummrich <dakr@kernel.org>
 To: Joel Fernandes <joelagnelf@nvidia.com>
 Cc: Alexandre Courbot <acourbot@nvidia.com>, Alice Ryhl
  <aliceryhl@google.com>, David Airlie <airlied@gmail.com>,
@@ -51,9 +52,9 @@ Cc: Alexandre Courbot <acourbot@nvidia.com>, Alice Ryhl
 References: <20251027-nova-as-v2-0-a26bd1d067a4@nvidia.com>
  <20251027-nova-as-v2-5-a26bd1d067a4@nvidia.com>
  <c94dd17e-0e81-47cc-9482-e8743d3bc68f@nvidia.com>
-From: Danilo Krummrich <dakr@kernel.org>
+ <10945c03-8642-4c19-b0ed-ffb20c075291@kernel.org>
 Content-Language: en-US
-In-Reply-To: <c94dd17e-0e81-47cc-9482-e8743d3bc68f@nvidia.com>
+In-Reply-To: <10945c03-8642-4c19-b0ed-ffb20c075291@kernel.org>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -71,9 +72,17 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 10/27/25 8:09 PM, Joel Fernandes wrote:
-> Why not just implement `From` and `Into` for the types missing it then, with
-> adequate comments about why such conversions are Ok for the kernel, instead of
-> introducing a new trait? This is exactly what `From`/`Into` is for right?
+On 10/27/25 8:23 PM, Danilo Krummrich wrote:
+> On 10/27/25 8:09 PM, Joel Fernandes wrote:
+>> Why not just implement `From` and `Into` for the types missing it then, with
+>> adequate comments about why such conversions are Ok for the kernel, instead of
+>> introducing a new trait? This is exactly what `From`/`Into` is for right?
+> 
+> https://doc.rust-lang.org/reference/items/implementations.html#r-items.impl.trait.orphan-rule.intro
 
-https://doc.rust-lang.org/reference/items/implementations.html#r-items.impl.trait.orphan-rule.intro
+(Sorry, I didn't mean to send the link without additional comment.)
+
+We can't do this due to the orphan rule, but even if we could I think a separate
+trait indicating the reason for the conversions to be valid is a good thing.
+
+- Danilo
