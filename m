@@ -2,119 +2,66 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 83823C0E17F
-	for <lists+dri-devel@lfdr.de>; Mon, 27 Oct 2025 14:38:23 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1E68BC0E1A6
+	for <lists+dri-devel@lfdr.de>; Mon, 27 Oct 2025 14:40:03 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A718C10E494;
-	Mon, 27 Oct 2025 13:38:21 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5081710E4A2;
+	Mon, 27 Oct 2025 13:40:01 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="AMgqTSsl";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="FbYgLpwt";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
- [205.220.180.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 16E9010E4A1
- for <dri-devel@lists.freedesktop.org>; Mon, 27 Oct 2025 13:38:21 +0000 (UTC)
-Received: from pps.filterd (m0279871.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id
- 59RBJe5s2546590
- for <dri-devel@lists.freedesktop.org>; Mon, 27 Oct 2025 13:38:20 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
- cc:content-transfer-encoding:content-type:date:from:in-reply-to
- :message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
- nlqNAIoTMPpjwqW+Bc96s3wX/9oSlIUuj/zs6ZRUaZI=; b=AMgqTSslhd3ndFOt
- dqaVTSoL9I0Zfjiaw8wgPnHdQHVb0/F5h87o/XiWWAoBiDz+LQfBn4koPhk41kVg
- nmXaJIjUB9k1d+TxZn4KW5VaLDHR1BAWdz6AmQbj6O33EFRrOjHwePLeznR/va0Q
- iVL063UKzUq1hnh86qwdKmwsbe33i7CqOp3la95J3+H57hCZkeAUQGINL7l8A9uH
- Sa2/U9m96B0ooVBVl0sbMowjZBT3TD+kJkuqtjWgiKjUv6ZVmHHaT53aeWKo2EZ7
- PJP1OSpcP9nalsnDkDpaTZtIqC1wnaBeheHY/UAWuy7gIBG/Rf0DkVu3yvGm6SAV
- tyP1yg==
-Received: from mail-qk1-f199.google.com (mail-qk1-f199.google.com
- [209.85.222.199])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4a27s2gby9-1
- (version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
- for <dri-devel@lists.freedesktop.org>; Mon, 27 Oct 2025 13:38:20 +0000 (GMT)
-Received: by mail-qk1-f199.google.com with SMTP id
- af79cd13be357-8a4f7e885c9so30014085a.0
- for <dri-devel@lists.freedesktop.org>; Mon, 27 Oct 2025 06:38:20 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1761572300; x=1762177100;
- h=content-transfer-encoding:in-reply-to:from:content-language
- :references:cc:to:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=nlqNAIoTMPpjwqW+Bc96s3wX/9oSlIUuj/zs6ZRUaZI=;
- b=IRtvP80ajTY0ZN1DwrcfFsMNuFBifpj87RVW+U6w39now900mV2qIha4Bfbj5nzqUN
- RAJ+MKWKOPzKNeVrlI3LWGntWmpFy4tVZK5vb8YemAQ0dsihEtia65EuE+0gElQ8wgLy
- uN9uk5jugU1iagL/0V6jgnafXkNntvkCnzgJlT8nXPpt3rCeZgKHJ0R1sSgC+kWWdQvL
- XFgtIFXc95F9N/eGz0zQwxBguOO0STWqxahcMpXhjUJS73FU6loue4QJGSvp+CqC2tXt
- Bibw8pBcfERti6SztYfe3sj1Gt//Ys+D+XFVqQbRiYxaxzgkgbq6OJQYMMbMbAr1E3cd
- pRTQ==
-X-Forwarded-Encrypted: i=1;
- AJvYcCWwSViTbytKnX6Ughl74Ftf71r/yj9Q9xFpOA+n3sllD9yO4t5nQOd34caRql/X1mOow+XuFUsu2fk=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YwKMcLC1Eqc7yc9FeNhXQV0jLSa2TsQMgolP/eI4xPsBJXJJalg
- /eJY0HJwxv1jUe6uob5htmcTdlyWWVOanZdd00nCDU4FVpcNJQQXoVC8EvpH+w53SaG57cj27pE
- FydyO6owZWJHekR4+Ko7IZDiTO9kc3DxkSaHTHWFLMpps/4zXEsab+a9hVoclM8UyUgJlx+s=
-X-Gm-Gg: ASbGncsLnisZmPbHD936F8QSd2lDn7QI0cg63xgJ6hUrmVpgRRDjC7z8s3bfVHNy+aU
- O6RTjeRZ0R8Lllodfds1KUuFUarzUrDcP5A0EUg5zSMa7AQpgwdQvY5ZeKRBbqJ6pl/vz7x5lgm
- bJ5mw1s0NwQlvk8hd99XVN6Bih4CWDo7DbzHayw0ha8LKhn7SH9wRYHhvlUA8ZSKQGsd4hOnoAb
- Yu2pkOIFZOceOOgNdInJ3BmsEll/t4/yHGXL6qs5yhMDYqPu2TUMAEqpqyNQMw2ynFTzaNoWKHQ
- kEfsjNVrKLTLWw9YDixB1tfEny6jYthct9t2Q0abNvrqSTr01W8WRBJ4SxflMYntycAFG5I3d6Z
- 2jPx+tOxwUIomViLhTCYoIa2O0jJMHxvXdqtRWFG/VnNQaEXDSTyOh+ku
-X-Received: by 2002:ac8:5e10:0:b0:4ec:fc4d:372f with SMTP id
- d75a77b69052e-4ecfc4d794amr21511151cf.10.1761572299593; 
- Mon, 27 Oct 2025 06:38:19 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IGM17AQ/vx93xjYF+FCEIiTUB1Xqjgbo4dv3HEB6b+9AnxRB7kb74w76dLXL0z+Y2f1ynGSYw==
-X-Received: by 2002:ac8:5e10:0:b0:4ec:fc4d:372f with SMTP id
- d75a77b69052e-4ecfc4d794amr21510891cf.10.1761572299193; 
- Mon, 27 Oct 2025 06:38:19 -0700 (PDT)
-Received: from [192.168.119.202] (078088045245.garwolin.vectranet.pl.
- [78.88.45.245]) by smtp.gmail.com with ESMTPSA id
- a640c23a62f3a-b6d85398463sm747816466b.34.2025.10.27.06.38.17
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 27 Oct 2025 06:38:18 -0700 (PDT)
-Message-ID: <490a7cd8-b093-4f25-9c9b-85a3c2d86a6c@oss.qualcomm.com>
-Date: Mon, 27 Oct 2025 14:38:16 +0100
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B087510E4A2
+ for <dri-devel@lists.freedesktop.org>; Mon, 27 Oct 2025 13:40:00 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1761572401; x=1793108401;
+ h=from:to:cc:subject:date:message-id:mime-version:
+ content-transfer-encoding;
+ bh=eIacE2e3q/S4trwRdeKOUlRNlNjdA7RrNxsf2diA+sc=;
+ b=FbYgLpwt/GkhIcy0tQK9s8RH8AAJ7k2XEumLEn2XcQkOENor8mZ0sReY
+ 53+ej08up/JG1glpmRKZr3YSdCXNP/e2DzTWDa+sW9sZ4ky4MBuEcTffg
+ 9C8p4TUBBH3B9daLWoXoZrtsngHTzOc2+l9xbdKx7DiPJwh1z7+8h+ovh
+ fiBnVSt2t0YDvssXIgmXduC1pC8nLSAZUhDrfOHvkNJrfxk3uKCBgkN0P
+ ylqJ4lP4ruGL80nFK5H8Mnx3JqRuZNfIMMMPdLPq5IgUwBJVoDGxCbPiG
+ fY+whSxGtx72YEhgDWEOVnfaEQydto+WFDYBfJt5YJ1e4Q0QFjFU1wWcS Q==;
+X-CSE-ConnectionGUID: e32GxmlBRp6dmogwjZz0Gg==
+X-CSE-MsgGUID: qNINJWu2QpKbIOwi7QKiiQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11586"; a="63685170"
+X-IronPort-AV: E=Sophos;i="6.19,258,1754982000"; d="scan'208";a="63685170"
+Received: from orviesa007.jf.intel.com ([10.64.159.147])
+ by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 27 Oct 2025 06:40:00 -0700
+X-CSE-ConnectionGUID: 0JIet4aKSVec22ZabxDyyg==
+X-CSE-MsgGUID: GLRohp87TsCQmPDZHSdcKQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.19,258,1754982000"; d="scan'208";a="184940846"
+Received: from klitkey1-mobl1.ger.corp.intel.com (HELO kekkonen.fi.intel.com)
+ ([10.245.244.31])
+ by orviesa007-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 27 Oct 2025 06:39:58 -0700
+Received: from punajuuri.localdomain (unknown [192.168.240.130])
+ by kekkonen.fi.intel.com (Postfix) with ESMTP id 641B511FADA;
+ Mon, 27 Oct 2025 15:39:56 +0200 (EET)
+Received: from sailus by punajuuri.localdomain with local (Exim 4.98.2)
+ (envelope-from <sakari.ailus@linux.intel.com>)
+ id 1vDNS0-00000001eKx-1VSf; Mon, 27 Oct 2025 15:39:56 +0200
+Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park,
+ 6 krs, Bertel Jungin Aukio 5, 02600 Espoo
+From: Sakari Ailus <sakari.ailus@linux.intel.com>
+To: dri-devel@lists.freedesktop.org
+Cc: Maciej Falkowski <maciej.falkowski@linux.intel.com>,
+ Karol Wachowski <karol.wachowski@linux.intel.com>,
+ Oded Gabbay <ogabbay@kernel.org>
+Subject: [PATCH 1/1] accel/ivpu: Remove redundant pm_runtime_mark_last_busy()
+ calls
+Date: Mon, 27 Oct 2025 15:39:56 +0200
+Message-ID: <20251027133956.393375-1-sakari.ailus@linux.intel.com>
+X-Mailer: git-send-email 2.47.3
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] drm/msm/dpu: drop dpu_hw_dsc_destroy() prototype
-To: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>,
- Rob Clark <robin.clark@oss.qualcomm.com>, Dmitry Baryshkov
- <lumag@kernel.org>, Abhinav Kumar <abhinav.kumar@linux.dev>,
- Jessica Zhang <jesszhan0024@gmail.com>, Sean Paul <sean@poorly.run>,
- Marijn Suijten <marijn.suijten@somainline.org>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>
-Cc: linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org,
- freedreno@lists.freedesktop.org, linux-kernel@vger.kernel.org
-References: <20251027-dpu-drop-dsc-destroy-v1-1-968128de4bf6@oss.qualcomm.com>
-Content-Language: en-US
-From: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
-In-Reply-To: <20251027-dpu-drop-dsc-destroy-v1-1-968128de4bf6@oss.qualcomm.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Proofpoint-ORIG-GUID: HP-gjM_RMEc0xgqZDsmq37HrNO7TxY7n
-X-Proofpoint-GUID: HP-gjM_RMEc0xgqZDsmq37HrNO7TxY7n
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUxMDI3MDEyNyBTYWx0ZWRfX5OaTroZnQ2Oy
- VAacgD6JDcBFalBhf6EK7oe4gDX92BEN02a9F6kG9VXARM7sbYBD60FrMyOXvsyiNL8MdQ3baKB
- hgbpZZf4nRkC3zgOg82nIfrHBHWRJVQkrQKwBhAEwz4+1jOsd3aoszL4BexoVUO3oXiHj/nFvWP
- jaazYZ6Y/APYEB749oxNuxqh+jjymwy4mdoiWzcCjbO4JpaEwm0AhgQ51XIMCJ4i4w/DPvWlKrR
- pYadm/x048MvZh9g/PNYijW0iLT6N9yWeD3AZbxCjuw7Nhw9xiez/JBvqpauszEvtzJrEr+y+xs
- x9YZQY6JfTBEgzTi2ZTlKIy+i4vYDnVeonOecoh4ZvF4KIaaz6OhyTLrP++T8FMp2QMN+1RbFqY
- fvIA4z2GlK9+6bmCN/TxofVbjifRWg==
-X-Authority-Analysis: v=2.4 cv=R60O2NRX c=1 sm=1 tr=0 ts=68ff75cc cx=c_pps
- a=HLyN3IcIa5EE8TELMZ618Q==:117 a=FpWmc02/iXfjRdCD7H54yg==:17
- a=IkcTkHD0fZMA:10 a=x6icFKpwvdMA:10 a=VkNPw1HP01LnGYTKEx00:22
- a=EUspDBNiAAAA:8 a=S0UzETgM28_sssm6r9IA:9 a=QEXdDO2ut3YA:10
- a=bTQJ7kPSJx9SKPbeHEYW:22
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.9,FMLib:17.12.80.40
- definitions=2025-10-27_05,2025-10-22_01,2025-03-28_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- priorityscore=1501 lowpriorityscore=0 phishscore=0 bulkscore=0
- impostorscore=0 clxscore=1015 spamscore=0 adultscore=0 malwarescore=0
- suspectscore=0 classifier=typeunknown authscore=0 authtc= authcc=
- route=outbound adjust=0 reason=mlx scancount=1 engine=8.22.0-2510020000
- definitions=main-2510270127
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -130,16 +77,49 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 10/27/25 2:35 PM, Dmitry Baryshkov wrote:
-> The commit a106ed98af68 ("drm/msm/dpu: use devres-managed allocation for
-> HW blocks") dropped all dpu_hw_foo_destroy() functions, but the
-> prototype for dpu_hw_dsc_destroy() was omitted. Drop it now to clean up
-> the header.
-> 
-> Fixes: a106ed98af68 ("drm/msm/dpu: use devres-managed allocation for HW blocks")
-> Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
-> ---
+pm_runtime_put_autosuspend(), pm_runtime_put_sync_autosuspend(),
+pm_runtime_autosuspend() and pm_request_autosuspend() now include a call
+to pm_runtime_mark_last_busy(). Remove the now-reduntant explicit call to
+pm_runtime_mark_last_busy().
 
-Reviewed-by: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
+Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
+Reviewed-by: Jacek Lawrynowicz <jacek.lawrynowicz@linux.intel.com>
+---
+ drivers/accel/ivpu/ivpu_job.c | 1 -
+ drivers/accel/ivpu/ivpu_pm.c  | 2 --
+ 2 files changed, 3 deletions(-)
 
-Konrad
+diff --git a/drivers/accel/ivpu/ivpu_job.c b/drivers/accel/ivpu/ivpu_job.c
+index ba4535a75aa7..4eb7287cd083 100644
+--- a/drivers/accel/ivpu/ivpu_job.c
++++ b/drivers/accel/ivpu/ivpu_job.c
+@@ -1114,6 +1114,5 @@ void ivpu_context_abort_work_fn(struct work_struct *work)
+ 	mutex_unlock(&vdev->submitted_jobs_lock);
+ 
+ runtime_put:
+-	pm_runtime_mark_last_busy(vdev->drm.dev);
+ 	pm_runtime_put_autosuspend(vdev->drm.dev);
+ }
+diff --git a/drivers/accel/ivpu/ivpu_pm.c b/drivers/accel/ivpu/ivpu_pm.c
+index 63c95307faa1..fe6f93af6ab0 100644
+--- a/drivers/accel/ivpu/ivpu_pm.c
++++ b/drivers/accel/ivpu/ivpu_pm.c
+@@ -359,7 +359,6 @@ int ivpu_rpm_get(struct ivpu_device *vdev)
+ 
+ void ivpu_rpm_put(struct ivpu_device *vdev)
+ {
+-	pm_runtime_mark_last_busy(vdev->drm.dev);
+ 	pm_runtime_put_autosuspend(vdev->drm.dev);
+ }
+ 
+@@ -428,7 +427,6 @@ void ivpu_pm_enable(struct ivpu_device *vdev)
+ 	struct device *dev = vdev->drm.dev;
+ 
+ 	pm_runtime_allow(dev);
+-	pm_runtime_mark_last_busy(dev);
+ 	pm_runtime_put_autosuspend(dev);
+ }
+ 
+-- 
+2.47.3
+
