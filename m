@@ -2,122 +2,127 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 64AD0C0DF8E
-	for <lists+dri-devel@lfdr.de>; Mon, 27 Oct 2025 14:20:32 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1187EC0DF99
+	for <lists+dri-devel@lfdr.de>; Mon, 27 Oct 2025 14:20:40 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 13A6B10E492;
-	Mon, 27 Oct 2025 13:20:29 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2426710E489;
+	Mon, 27 Oct 2025 13:20:37 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="dwIVjq4x";
+	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="AsJIKiYD";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
- [205.220.180.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 785CB10E494
- for <dri-devel@lists.freedesktop.org>; Mon, 27 Oct 2025 13:20:27 +0000 (UTC)
-Received: from pps.filterd (m0279870.ppops.net [127.0.0.1])
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
+ [205.220.168.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3245510E489
+ for <dri-devel@lists.freedesktop.org>; Mon, 27 Oct 2025 13:20:35 +0000 (UTC)
+Received: from pps.filterd (m0279863.ppops.net [127.0.0.1])
  by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id
- 59R9tWJK1504060
- for <dri-devel@lists.freedesktop.org>; Mon, 27 Oct 2025 13:20:26 GMT
+ 59R8VuAS1049326
+ for <dri-devel@lists.freedesktop.org>; Mon, 27 Oct 2025 13:20:34 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
- cc:content-type:date:from:in-reply-to:message-id:mime-version
- :references:subject:to; s=qcppdkim1; bh=2Kj22k9fvRGgrx/wBkPeuGzy
- xbWnEzFTmd7/uwZJCyo=; b=dwIVjq4xhUDZCJzwxE3ZOMyH4nR3tEZKNUzWKmWL
- BYF30w9mq6/zytpBeT8+02bz/FS6qUpm4ueaf7G7rKzX8cU6PsdcM8fHy43ppRLJ
- AlBbhSFJVYTtNJ29IByKTesZUlRG0/qIyvj1sJdOxmNQbhyjF/SDaPp/Oqkl8TYs
- vQsup9ySY1bW1uZkN51tYm4sUEzLERKGquf9TAtH9oc9krrbewD6ICg9L5WCq3cj
- /STxRRCRouQWW5O/ZeFAq2QwbPl7iYvlctf51PLeIEqNHVl8TUqRg26zp9kfpXCd
- 56FxdozwSlcDrWxog7nosV2lKd8dQZCFMvkaQIAqu+THdA==
-Received: from mail-qt1-f199.google.com (mail-qt1-f199.google.com
- [209.85.160.199])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4a20pnskpy-1
+ cc:content-transfer-encoding:content-type:date:from:in-reply-to
+ :message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+ kSYlZ3f9vesYlsVsHAw5CyHtqlY6CNOY4YSlAreQ86A=; b=AsJIKiYDX7kcD3co
+ 6PZLgnIqmYG/LL/pHgMcBHT11BIh91Z7LYbNNQVvHu1xWRSw9gAunsQTONhVfDwI
+ ITR3u+nNFYJQFCLvkVCrb6paN8FYonx2DUFv1g1Czkct8v0KAiO8XONyMF7fnsbz
+ bgM59tHq1ZtXmxOjyBs3HZtPCLMOQVtASfBQpiLu0/cXQvd82j97EleYA1WIkqOh
+ YEH2ZAgVbLmTReh+l2cfNS6e+V98JwfuPaYXrMPluj3X+l7XbY+3jfWLI5qq8LEY
+ fS7a8JfwR/0Ap/7UuEI/O97HALdCarFl/ym+Vd8dUHAzbHbrI64IzCIQNIxGGg2Y
+ /aFgKg==
+Received: from mail-qv1-f72.google.com (mail-qv1-f72.google.com
+ [209.85.219.72])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4a0ps14mjk-1
  (version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
- for <dri-devel@lists.freedesktop.org>; Mon, 27 Oct 2025 13:20:26 +0000 (GMT)
-Received: by mail-qt1-f199.google.com with SMTP id
- d75a77b69052e-4e8a387d01bso219187191cf.3
- for <dri-devel@lists.freedesktop.org>; Mon, 27 Oct 2025 06:20:26 -0700 (PDT)
+ for <dri-devel@lists.freedesktop.org>; Mon, 27 Oct 2025 13:20:34 +0000 (GMT)
+Received: by mail-qv1-f72.google.com with SMTP id
+ 6a1803df08f44-87c28cecb4cso19271046d6.0
+ for <dri-devel@lists.freedesktop.org>; Mon, 27 Oct 2025 06:20:34 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1761571225; x=1762176025;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=2Kj22k9fvRGgrx/wBkPeuGzyxbWnEzFTmd7/uwZJCyo=;
- b=r6VVATvvrET7Nbm243/u53f9eMP88US3wf6FeNcCC1GT7bQ/mBwlvofLgZUfS4Yma7
- zb2w+D3UUVMrwPl8yPeczLzUSk9bQPtkYqAuT+H9V323caL757cTxuxKJvdC6N2UHjwS
- 42E76owS1vPjY3yu9Yl6UwE+iLULHqtCW6Vt7j2vthDF6J3pzi86TUOg83EAC8BXFZnB
- IhEeS3kdbSoAvBtVZtg7afQ+S+wpANy3/QWu4G3QngJIRDF6nr4OEzllqvic36PiZI8Z
- AHTbM/OJRemgDYwjaYRbnXIzqyXSsmC5BJPO2blxM3Tk+GBdsLj1WHN5YRMHy3YajxnE
- AWFA==
+ d=1e100.net; s=20230601; t=1761571234; x=1762176034;
+ h=content-transfer-encoding:in-reply-to:from:content-language
+ :references:cc:to:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=kSYlZ3f9vesYlsVsHAw5CyHtqlY6CNOY4YSlAreQ86A=;
+ b=U7FkwYnd1BlVHMbGOPXRhNb5fJicBJCPO7AsQws3R8X0XzzxmU47kmPx7PZXUyoGs2
+ u5k1IiE8aD8MekcHwoAQzDbEeVfdnHxjOopR/vni2jXrWhtEGvY430tVaoHXlJqno59H
+ cH+RHWL+0KE127NEbnCP0QPrBfJCV729FM/ASx3WVfXOhrfv+imVZJl74AN7X/CaXBPR
+ BTaI4nKxefi949FYFu96K7COvQVYPP4n5YtMTva8E6TnCb+3oGrFLW+wat1H+f2eV33d
+ vkGUKxubiEILpZ18IibdWUmMWiUlxxieihL1zymcY2bnYhT9ouRn9VPOmiSxqBfqYDbm
+ briQ==
 X-Forwarded-Encrypted: i=1;
- AJvYcCU2fJRz+CV6ofe7lt77Wt8QwNQIiszmKlNwbPIJZWZAr8QgmMzQ2q5PMs+F7n1aU8h1kp2wzj4fNeA=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YzIV8Nw1zkFf012YpgW8G4wIIybauRvPsdz17Y8K9iUKwzY7tZW
- jIyHkckxDzS6G5kW6cP+9TmG3OGP9t2gPV1vB6IiR0A0yq9yLPhP0pCCieD45O8StINn3NQhyqE
- xlO6MUFVQjFHj/Ue9t18NMWiaCY23CHrGtfQXGGLCq2ZLFuY4IdpT9uDKgjuKJ0HMmtRIMDg=
-X-Gm-Gg: ASbGncs87cwX4Oo/GSYrLY/GTA7jD4jE+K/bBEu/ezOpRU0tWIlT505boWJD+gvEZH/
- DMztjScnT0DThtTNm8lDQJQQLPIWcjyEdXsql/CcJ2MonRrfThjVqi4A0l8wRo2ZqdEavPq1HOZ
- 8eQ/kSaUsO1A6uJlyff6WOn6nOWRWYYSVrCEU/KilQ4YpXX24hzbw7ccO6Gc6k36cK/evDQ15Uy
- vh/lqGme/B0dRvsZItZTRaPdmgI13upT+XvqgnOz5ylM8PgWJ67m/D52vFW9kaSvxqT8b/hv975
- +h5U7mUIEmakwB8ungztVIjiI80y9/sp/QAiYaxyGCVoEr/r37/BOY7zDl+HHeqMnMBXO5pi/m5
- 2oAhQ4CEeGqD7+eyk0Br0PrUCtIBb1KoasOknRiyFSG6NNLVTVdq9cU5P+4QRqqY4GByr/znQBz
- YiAmGJf2Iaidfg
-X-Received: by 2002:a05:622a:1a94:b0:4eb:9c80:f68e with SMTP id
- d75a77b69052e-4eb9c80fb64mr120719701cf.35.1761571225590; 
- Mon, 27 Oct 2025 06:20:25 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IEHBc2C7TR7QhTEGEcw9us4tkFC7f4Ut/FGoqtIIC79l1JnmcHizx0ypgFkWMXTqqEaPMgwhw==
-X-Received: by 2002:a05:622a:1a94:b0:4eb:9c80:f68e with SMTP id
- d75a77b69052e-4eb9c80fb64mr120717821cf.35.1761571223545; 
- Mon, 27 Oct 2025 06:20:23 -0700 (PDT)
-Received: from umbar.lan
- (2001-14ba-a0c3-3a00-264b-feff-fe8b-be8a.rev.dnainternet.fi.
- [2001:14ba:a0c3:3a00:264b:feff:fe8b:be8a])
- by smtp.gmail.com with ESMTPSA id
- 38308e7fff4ca-378ee09213fsm19983561fa.1.2025.10.27.06.20.22
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 27 Oct 2025 06:20:22 -0700 (PDT)
-Date: Mon, 27 Oct 2025 15:20:21 +0200
-From: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
-To: Neil Armstrong <neil.armstrong@linaro.org>
-Cc: Rob Clark <robin.clark@oss.qualcomm.com>,
- Dmitry Baryshkov <lumag@kernel.org>,
- Abhinav Kumar <abhinav.kumar@linux.dev>,
- Jessica Zhang <jessica.zhang@oss.qualcomm.com>,
- Sean Paul <sean@poorly.run>,
- Marijn Suijten <marijn.suijten@somainline.org>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
- linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org,
- freedreno@lists.freedesktop.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] drm/msm: dsi: fix PLL init in bonded mode
-Message-ID: <wg6ncd4zyoh3lrrxtpjm6bup7ymyy3v3notzvvdssoptveblxq@4g4shyi2xqar>
-References: <20251027-topic-sm8x50-fix-dsi-bonded-v1-1-a477cd3f907d@linaro.org>
+ AJvYcCURYh+w6ist0xOO0hsxYKMlo+ATnrej8nFQngdeJlEeUqYBNS47StqKQMORAMxrL2trvLhjiKqwov8=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YyVCrziT73wJVQOoX5tfIc2slkUAZrJnwSHzci5l14b88ZbfnJ3
+ UHWVSEh5ShoG0YpytOkSje/D7/qVtCRsUMpjtbeG14mCKGzcJp2ZLsW1EHdILSSnUpJJhuQptUS
+ GsGSFnpvPO2rtDskRRyePLOULHsR2bu/6qMglQCQ+M/HiFzmScZSQu1pEe+6ellgsDasavgU=
+X-Gm-Gg: ASbGncsTMi6omQ8tAbdSEumIXmJOnaaI5M2jgsthia867QVMTU2/8iL5Z9grhdtJOHH
+ KG7I+WL9pv1ZGcw52bB8Hi2NN60uZomNTE7SkFAWySzCL2C+VQI3fLv0hRmGn9dSxun+++4eob2
+ Ryj381ncrmB+W/JXwCaDcE4knB47vDMyHYQHLgeuoEqaLftP1LOXrI5R8KTlYgSr3yENnqUJLtX
+ G0UsnHLIsR5jNpMFHqBQxf1v57VRWtbuk+bEsxrkXMKuLXKA3Y2pP4owvAGeI7GghuHFgav+fJs
+ shFnm8tsI2mDLVhBrCrEMeXrfqji7Ps2MI3wqdTK1qohkhfCirw+yTN8n/BQZJw43/TR9O1n3jO
+ JXmzg1uQOOEnqdHnzX0PB579JaNKeghKWCDzmbYAZktqRzLn3tW4T6+Mt
+X-Received: by 2002:a05:622a:5c8:b0:4b7:9ae7:4cdd with SMTP id
+ d75a77b69052e-4ea1177c842mr202134921cf.8.1761571232035; 
+ Mon, 27 Oct 2025 06:20:32 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IEdz/wQ0BK9pQjwusme3Hz0+MCw4EcI0EDUElKxUQ9hHLgGZIHDtysKRoKXFj8XSgwXP6Dm/A==
+X-Received: by 2002:a05:622a:5c8:b0:4b7:9ae7:4cdd with SMTP id
+ d75a77b69052e-4ea1177c842mr202133331cf.8.1761571229943; 
+ Mon, 27 Oct 2025 06:20:29 -0700 (PDT)
+Received: from [192.168.119.202] (078088045245.garwolin.vectranet.pl.
+ [78.88.45.245]) by smtp.gmail.com with ESMTPSA id
+ 4fb4d7f45d1cf-63e7ef95d5bsm6279668a12.16.2025.10.27.06.20.27
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 27 Oct 2025 06:20:29 -0700 (PDT)
+Message-ID: <0291d0f2-483f-48d8-8c75-f1bbcd1ab18f@oss.qualcomm.com>
+Date: Mon, 27 Oct 2025 14:20:26 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20251027-topic-sm8x50-fix-dsi-bonded-v1-1-a477cd3f907d@linaro.org>
-X-Proofpoint-GUID: Jro85xtxYpoybRZnIQIcdbRTAyqQdVYD
-X-Proofpoint-ORIG-GUID: Jro85xtxYpoybRZnIQIcdbRTAyqQdVYD
-X-Authority-Analysis: v=2.4 cv=A+xh/qWG c=1 sm=1 tr=0 ts=68ff719a cx=c_pps
- a=WeENfcodrlLV9YRTxbY/uA==:117 a=xqWC_Br6kY4A:10 a=kj9zAlcOel0A:10
- a=x6icFKpwvdMA:10 a=VkNPw1HP01LnGYTKEx00:22 a=VwQbUJbxAAAA:8 a=KKAkSRfTAAAA:8
- a=EUspDBNiAAAA:8 a=kAMrfz4tof1vowKnfp0A:9 a=CjuIK1q_8ugA:10
- a=kacYvNCVWA4VmyqE58fU:22 a=cvBusfyB2V15izCimMoJ:22
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUxMDI3MDEyNCBTYWx0ZWRfX0ztvhmfzLJ+D
- PRbGuBxAp632w3jHk0aYc6qt4MQvbOfkH/ZdcqZH9hn95uuHV69fOUYP0nXWQWb6o66cn2h6ckG
- WhR8FJ1N0NpTFKV/iXTi0/s0WGdRhcGBHtvf9f8/CM2w05HehvREthJkpEFmrvLx3TAbuBkGNX2
- l5wYce9Hwi8zRt0sqJ7L7aUVqiikbbPe8wGgqsn2RYu92lh7K/dXNix1ih0CnMTYY2rwXUQWcGo
- E2HJbvsLTBg317pgQekjytzr9M6T/Y2+aKAjeH3dGyIYOaobEP8tRd2nQC8zN5qyXdXIfNwbiXr
- Z6Va+Crah8+g8fg7GWaSbSgDFR3kHC1FdP8I2xjW4dI/Vxm9k5QCbEuu9qmqEG4r/pye2h7YFBh
- JsdJt0tgpQQoNjJr5ijPkYRm6Kll5A==
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 01/12] drm/msm/dsi/phy: Add support for Kaanapali
+To: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>,
+ yuanjiey <yuanjie.yang@oss.qualcomm.com>
+Cc: robin.clark@oss.qualcomm.com, lumag@kernel.org, abhinav.kumar@linux.dev,
+ sean@poorly.run, marijn.suijten@somainline.org, airlied@gmail.com,
+ simona@ffwll.ch, maarten.lankhorst@linux.intel.com, mripard@kernel.org,
+ tzimmermann@suse.de, robh@kernel.org, krzk+dt@kernel.org,
+ conor+dt@kernel.org, quic_mkrishn@quicinc.com, jonathan@marek.ca,
+ quic_khsieh@quicinc.com, neil.armstrong@linaro.org,
+ linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ freedreno@lists.freedesktop.org, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org, tingwei.zhang@oss.qualcomm.com,
+ aiqun.yu@oss.qualcomm.com, yongxing.mou@oss.qualcomm.com
+References: <20251023075401.1148-1-yuanjie.yang@oss.qualcomm.com>
+ <20251023075401.1148-2-yuanjie.yang@oss.qualcomm.com>
+ <omlhiywjr46ik6bj2aiutgcf4aifen4vsvtlut7b44ayu4g4vl@zn4u3zkf6cqx>
+ <ad906eb5-c08f-4b66-9e37-aaba99889ad4@oss.qualcomm.com>
+ <aPryORKIuSwtXpon@yuanjiey.ap.qualcomm.com>
+ <einog245dsbqtx3by2cojyzmyctk2fffpwndwoe24puwqq4fta@cu6iiidxqgr4>
+Content-Language: en-US
+From: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
+In-Reply-To: <einog245dsbqtx3by2cojyzmyctk2fffpwndwoe24puwqq4fta@cu6iiidxqgr4>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-Authority-Analysis: v=2.4 cv=Ju78bc4C c=1 sm=1 tr=0 ts=68ff71a2 cx=c_pps
+ a=7E5Bxpl4vBhpaufnMqZlrw==:117 a=FpWmc02/iXfjRdCD7H54yg==:17
+ a=IkcTkHD0fZMA:10 a=x6icFKpwvdMA:10 a=VkNPw1HP01LnGYTKEx00:22
+ a=EUspDBNiAAAA:8 a=NCk8XzW7qX7BC1ZPH1kA:9 a=QEXdDO2ut3YA:10
+ a=pJ04lnu7RYOZP9TFuWaZ:22
+X-Proofpoint-ORIG-GUID: h1aGGRK0VtbtDQSG9y6WBJbSGBtFaQJb
+X-Proofpoint-GUID: h1aGGRK0VtbtDQSG9y6WBJbSGBtFaQJb
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUxMDI3MDEyNCBTYWx0ZWRfX+JNFCKliatl1
+ HZHqGh+EP98xzqsnN6iaS2kgLK8gSlAevuChyFOvSO5mx2zL9xloQzfjKZ7vfwjfCz3r6MFgjiw
+ gWsyW2TaNOhkltr7gnZ40asOpebX1crS4joZ/qiGedfXMF0J88NVXjAqVUtLkvdTbdBdfg+Ta6/
+ OR9hvOM9uwYVI7E7u4F5qcJ3Uv5eH44ml221Kb5Ex3ejktzD8rUc2SxxXZLUArcJ9+tnAJQFGnX
+ WaAoDXhVtrJKLNx6fJryh2oh/m2SyioKtnc4H5oo2aLOMsmf/V4g2qsU6vZaMAVrYA3OVTsFeW7
+ ztvWJMYndf+3ySkN9lu/EWF0um4wsYzGgxXN3TydXOL+Txze6mRoe+X6Qo87YRBL1qMGPHcRQvm
+ slnU7yzfjM+22nki3xgR0YFRNDHJGQ==
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.9,FMLib:17.12.80.40
  definitions=2025-10-27_05,2025-10-22_01,2025-03-28_01
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- priorityscore=1501 lowpriorityscore=0 clxscore=1015 suspectscore=0
- spamscore=0 bulkscore=0 adultscore=0 impostorscore=0 phishscore=0
- malwarescore=0 classifier=typeunknown authscore=0 authtc= authcc=
- route=outbound adjust=0 reason=mlx scancount=1 engine=8.22.0-2510020000
- definitions=main-2510270124
+ malwarescore=0 phishscore=0 priorityscore=1501 spamscore=0 bulkscore=0
+ adultscore=0 clxscore=1015 impostorscore=0 lowpriorityscore=0 suspectscore=0
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.22.0-2510020000 definitions=main-2510270124
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -133,42 +138,49 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Oct 27, 2025 at 02:09:48PM +0100, Neil Armstrong wrote:
-> When in bonded DSI mode, only one PLL in one DSI PHY is used for both
-> DSI PHYs, meaning that parents of the secondary DSI PHY will use the
-> primary DSI PHY PLL as parent.
+On 10/27/25 2:14 PM, Dmitry Baryshkov wrote:
+> On Fri, Oct 24, 2025 at 11:27:53AM +0800, yuanjiey wrote:
+>> On Thu, Oct 23, 2025 at 02:02:45PM +0200, Konrad Dybcio wrote:
+>>> On 10/23/25 1:48 PM, Dmitry Baryshkov wrote:
+>>>> On Thu, Oct 23, 2025 at 03:53:50PM +0800, yuanjie yang wrote:
+>>>>> From: Yuanjie Yang <yuanjie.yang@oss.qualcomm.com>
+>>>>>
+>>>>> Add DSI PHY support for the Kaanapali platform.
+>>>>>
+>>>>> Signed-off-by: Yongxing Mou <yongxing.mou@oss.qualcomm.com>
+>>>>> Signed-off-by: Yuanjie Yang <yuanjie.yang@oss.qualcomm.com>
+>>>>> ---
+>>>
+>>> [...]
+>>>
+>>>>> +	.io_start = { 0x9ac1000, 0xae97000 },
+>>>>
+>>>> These two addresses are very strange. Would you care to explain? Other
+>>>> than that there is no difference from SM8750 entry.
+>>>
+>>> They're correct.
+>>> Although they correspond to DSI_0 and DSI_2..
+>>>
+>>> Yuanjie, none of the DSI patches mention that v2.10.0 is packed with
+>>> new features. Please provide some more context and how that impacts
+>>> the hw description.
+>>
+>> Thanks for your reminder.
+>>
+>> Correct here:
+>> io_start = { 0x9ac1000, 0x9ac4000 }  DSI_Phy0 DSI_phy1
+>>
+>> And v2.10.0 no clearly meaningful changes compared to v2.9.0.
+>> just some register address change.
 > 
-> In this case the primary DSI PHY PLL will be set even if the primary
-> DSI PHY is not yet enabled. The DSI PHY code has support for this
-> particular use-case and will handle the fact the PLL was already
-> set when initializing the primary DSI PHY.
-> 
-> By introducing a protected variable pll_enable_cnt in the commit
-> cb55f39bf7b1 ("drm/msm/dsi/phy: Fix reading zero as PLL rates when unprepared"),
-> this variable is only initially set to 1 when the DSI PHY is initialized
-> making it impossible to set the PLL before, breaking the bonded DSI
-> use case by returning 0 when setting the PLL from the secondary DSI
-> PHY driver and skipping the correct clocks initialization.
-> 
-> But since it was already possible to set the PLL without enabling
-> the DSI PHY, just drop the pll_enable_cnt setting from the PHY
-> enable/disable and simply increment/decrement the pll_enable_cnt
-> variable from the dsi_pll_enable/disable_pll_bias to make sure any
-> PLL operation is done with the PLL BIAS enabled.
-> 
-> Fixes: cb55f39bf7b1 ("drm/msm/dsi/phy: Fix reading zero as PLL rates when unprepared")
-> Closes: https://lore.kernel.org/all/50a49d72-2b1e-471d-b0c4-d5a0b38b2a21@linaro.org/
-> Tested-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-> Signed-off-by: Neil Armstrong <neil.armstrong@linaro.org>
-> ---
->  drivers/gpu/drm/msm/dsi/phy/dsi_phy.h     |  1 -
->  drivers/gpu/drm/msm/dsi/phy/dsi_phy_7nm.c | 18 ++----------------
->  2 files changed, 2 insertions(+), 17 deletions(-)
-> 
+> Addition of DSI2 is a meaningful change, which needs to be handled both
+> in the core and in the DSI / DSI PHY drivers.
 
-Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
+DSI2 was introduced in 8750 already, but it was done without any
+fanfare..
 
+I see a diagram that shows an XBAR with inputs from DSI0 and DSI2,
+and an output to DSI0_PHY (same thing on kaanapali - meaning this
+patch is potentially wrong and should ref DSI1_PHY instead?)
 
--- 
-With best wishes
-Dmitry
+Konrad
