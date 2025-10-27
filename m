@@ -2,71 +2,117 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 985DAC0FCC1
-	for <lists+dri-devel@lfdr.de>; Mon, 27 Oct 2025 18:54:26 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id D715AC0FD30
+	for <lists+dri-devel@lfdr.de>; Mon, 27 Oct 2025 19:01:54 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C407E10E53E;
-	Mon, 27 Oct 2025 17:54:24 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6B32910E539;
+	Mon, 27 Oct 2025 18:01:49 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=ti.com header.i=@ti.com header.b="DfT9TLL1";
+	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="CgdEEbJU";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from lelvem-ot01.ext.ti.com (lelvem-ot01.ext.ti.com [198.47.23.234])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 19B2510E53E
- for <dri-devel@lists.freedesktop.org>; Mon, 27 Oct 2025 17:54:24 +0000 (UTC)
-Received: from lelvem-sh02.itg.ti.com ([10.180.78.226])
- by lelvem-ot01.ext.ti.com (8.15.2/8.15.2) with ESMTP id 59RHrssW2479401;
- Mon, 27 Oct 2025 12:53:54 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
- s=ti-com-17Q1; t=1761587634;
- bh=gFyTNoE2X2hQrZXZgQ1MBu5TC8MY83aQCzpJALZfkd4=;
- h=Date:Subject:To:CC:References:From:In-Reply-To;
- b=DfT9TLL1J4E5CSALY/kZQMoepMNVcrZdFJ8G15x4Q9Um4UiFHL4anwgTSzoDcKX1P
- 2AOpvzY1e81vSYXz2PEnEreCy/rByPtzdWqPFQattLfXetkj1E4vOmFbyZxBqFzc6A
- HnYhVaehSyU5gmGxes8Pgh7UejjHh3LcA0DPOZgY=
-Received: from DLEE212.ent.ti.com (dlee212.ent.ti.com [157.170.170.114])
- by lelvem-sh02.itg.ti.com (8.18.1/8.18.1) with ESMTPS id 59RHrrD81816199
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=FAIL);
- Mon, 27 Oct 2025 12:53:53 -0500
-Received: from DLEE214.ent.ti.com (157.170.170.117) by DLEE212.ent.ti.com
- (157.170.170.114) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.20; Mon, 27 Oct
- 2025 12:53:53 -0500
-Received: from lelvem-mr06.itg.ti.com (10.180.75.8) by DLEE214.ent.ti.com
- (157.170.170.117) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.20 via Frontend
- Transport; Mon, 27 Oct 2025 12:53:53 -0500
-Received: from [10.249.128.221] ([10.249.128.221])
- by lelvem-mr06.itg.ti.com (8.18.1/8.18.1) with ESMTP id 59RHriYB1061461;
- Mon, 27 Oct 2025 12:53:45 -0500
-Message-ID: <dcf71d6b-f453-425f-a49e-2408d0caad20@ti.com>
-Date: Mon, 27 Oct 2025 23:23:44 +0530
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
+ [205.220.168.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id EC5B810E539
+ for <dri-devel@lists.freedesktop.org>; Mon, 27 Oct 2025 18:01:47 +0000 (UTC)
+Received: from pps.filterd (m0279867.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id
+ 59RE4WZv3018367
+ for <dri-devel@lists.freedesktop.org>; Mon, 27 Oct 2025 18:01:47 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+ cc:content-transfer-encoding:content-type:date:from:in-reply-to
+ :message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+ gfPIAz0ykJxRgruBtAUTEx9o9evpUFrEKqo1tOgYr2k=; b=CgdEEbJUCEs473C5
+ d1c4UGXtjhqwhxB5CtiJh8vrnXA0M+BhZf3l5j0dLCg82hKBgypYZcewv+sDlG9d
+ MXp1Nm7aZq21JtVnNheQBXaaJZY8YSYRzXC97Mq4crJy6w+Rqxtl6EMUuFOKJhTR
+ Kq6MhM5zONXFAUiyjps7n5rGxRke7U15apr7xdJAfBIvibyWM/FZkpknuMDFjMka
+ FAJ1K2Ri+iupc8JURTjScai8CHDO+hfEl9eSJO1SQEsExC+bFhufHzdBPW0NZ6IJ
+ lfCFlRjNyHFF9DkNfPUjRKklyYV9cwSsQlJHBmCdGxp+R3lnIG/gV4qdfEkO5hcz
+ Sami4w==
+Received: from mail-pg1-f198.google.com (mail-pg1-f198.google.com
+ [209.85.215.198])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4a2a6a8tx3-1
+ (version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
+ for <dri-devel@lists.freedesktop.org>; Mon, 27 Oct 2025 18:01:46 +0000 (GMT)
+Received: by mail-pg1-f198.google.com with SMTP id
+ 41be03b00d2f7-b6ceba8968dso3615485a12.2
+ for <dri-devel@lists.freedesktop.org>; Mon, 27 Oct 2025 11:01:46 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1761588106; x=1762192906;
+ h=content-transfer-encoding:in-reply-to:from:content-language
+ :references:cc:to:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=gfPIAz0ykJxRgruBtAUTEx9o9evpUFrEKqo1tOgYr2k=;
+ b=n+dhqZhpr6amArxpF+ycmRl6wq2uqY6UhgYp8TnQrNnfOuJD5UmlAWq3MXGurjmmPp
+ x5XH88UhZR1UEmk3aJ/zS6rAWuN2XsIOEdxwfne9Jro7JTTWGZ/PckH8ay6YdgfjNHhp
+ JVGUhtQdk4Zr+C4+y+v00BtdzsACTbDDJmzhvZRXZ5fF90jlR7R2LeyLYt+B8HUMNs8x
+ KvTswtxg02iCBrwZBklCg08X/dnAvqdVqfYu36BkatDipihe06wPPeM2Z5xXB/xHtXb8
+ 35D8lScdOuHWAbZUCcYNwUHAb5P31WDBgIga1VqKxa8u/59F8DqgsJJLZ03CJ5FPgBPA
+ JFgQ==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCXRYkDni15QZ6xLU/XOnXqoqx+ybrY39zliU1yG6OJiO8JfWqwxOQUGCHUGVT74FQYK4ajDdkDNKlg=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YyNZ48t75bA19BKqOBdX7F3yfLZRO7Ly0yDB5Y8y6o5j3lFF6Ig
+ hTAQwQRvIH1PfAV0EQjkNNAuaiV1AJ5ZH46HB8vzYavKT7Pf+97O/iVYqSqXY2W0mowsLHtL8lN
+ ckI7vICkUxaqrZzLmTlXkqzj2y2EOaFgDk5pMU6d0sPDdXodWODecSqJxkJfa3OOvgXEJvQ4=
+X-Gm-Gg: ASbGnct01QSDRDHGpBqpBvUDinSB2BKnfqVjES9UfJEbqy8r9oHJTXM3z/DyE2DUBPX
+ hkjwTWMRhZFc7AdGH/U3dfr/TpMAvMa8M5yZ7WNm2rEuGhgdjmaYvA9cfYPLWCuhkWo56sMsKmw
+ Ct+z1gKZUebaHIkJnF5GP/rmpOKdxLN/QwsQ7J9PxiIpxNPyYIe0lxP6yH0LPp0ujZCFqeyXljl
+ uYZNe4oMHOYpZbKcHdFZI0mpJtxTWY32w5WO9SYqb33bU3jeRGOx2DNavRZAYTWYkxv6HOnpbqU
+ rXZsxWjRI5PftcW3tEPOhFKjkLHANy6x2eYDBY3gJtLd50z202rY3dYeE+Nwc64loCWyc4LIc4n
+ RWRnPk/s7xkM7qo1djiSw7F9Dp+sDYljy0prOTtp3zsDrJVwy6EF3
+X-Received: by 2002:a17:902:ea04:b0:290:94ed:184c with SMTP id
+ d9443c01a7336-294cb3b9d6bmr9729415ad.15.1761588105947; 
+ Mon, 27 Oct 2025 11:01:45 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IEDJ4c2LPoDw7uJI7bAxqFS10F7ZY7lTryaN9QQDR+vt8dbcxZVVBo5JKZYFPDu9xFxUVPrlg==
+X-Received: by 2002:a17:902:ea04:b0:290:94ed:184c with SMTP id
+ d9443c01a7336-294cb3b9d6bmr9728885ad.15.1761588105368; 
+ Mon, 27 Oct 2025 11:01:45 -0700 (PDT)
+Received: from [10.226.59.182] (i-global254.qualcomm.com. [199.106.103.254])
+ by smtp.gmail.com with ESMTPSA id
+ d9443c01a7336-29498cf35a5sm87962395ad.18.2025.10.27.11.01.43
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 27 Oct 2025 11:01:44 -0700 (PDT)
+Message-ID: <4f77d8a2-cbbd-4e4c-b58c-ae213b0fd01e@oss.qualcomm.com>
+Date: Mon, 27 Oct 2025 12:01:41 -0600
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 0/4] drm/tidss: Fixes data edge sampling
-To: Louis Chauvet <louis.chauvet@bootlin.com>, Jyri Sarha <jyri.sarha@iki.fi>, 
- Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>, Maarten Lankhorst
- <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Rob Herring <robh@kernel.org>, "Krzysztof Kozlowski" <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>, "Sam Ravnborg" <sam@ravnborg.org>,
- Benoit Parrot <bparrot@ti.com>, Lee Jones <lee@kernel.org>,
- Nishanth Menon <nm@ti.com>, Vignesh Raghavendra <vigneshr@ti.com>,
- Tero Kristo <kristo@kernel.org>, "Thakkar, Devarsh" <devarsht@ti.com>
-CC: <thomas.petazzoni@bootlin.com>, Jyri Sarha <jsarha@ti.com>, Tomi Valkeinen
- <tomi.valkeinen@ti.com>,
- <dri-devel@lists.freedesktop.org>, <devicetree@vger.kernel.org>,
- <linux-kernel@vger.kernel.org>, <linux-arm-kernel@lists.infradead.org>,
- <stable@vger.kernel.org>
-References: <20250730-fix-edge-handling-v1-0-1bdfb3fe7922@bootlin.com>
+Subject: Re: [PATCH v2] accel/qaic: Update the sahara image table for AIC200
+To: Youssef Samir <youssef.abdulrahman@oss.qualcomm.com>,
+ carl.vanderlip@oss.qualcomm.com, troy.hanson@oss.qualcomm.com,
+ zachary.mckevitt@oss.qualcomm.com
+Cc: ogabbay@kernel.org, lizhi.hou@amd.com, karol.wachowski@linux.intel.com,
+ linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ Zack McKevitt <zmckevit@qti.qualcomm.com>,
+ Aswin Venkatesan <aswivenk@qti.qualcomm.com>
+References: <20251017173432.1207656-1-youssef.abdulrahman@oss.qualcomm.com>
 Content-Language: en-US
-From: Swamil Jain <s-jain1@ti.com>
-In-Reply-To: <20250730-fix-edge-handling-v1-0-1bdfb3fe7922@bootlin.com>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
+From: Jeff Hugo <jeff.hugo@oss.qualcomm.com>
+In-Reply-To: <20251017173432.1207656-1-youssef.abdulrahman@oss.qualcomm.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-X-C2ProcessedOrg: 333ef613-75bf-4e12-a4b1-8e3623f5dcea
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUxMDI3MDE2NyBTYWx0ZWRfX1RXG8ZuQukBh
+ h1yzStuJ18B7wGKXrNIZX4yL9O3UlIdIx6R0fQmLdb0dDa37pejN1bp7E4EkUvuyHONMLWqpYPE
+ p9IXYzv++RIUxQxl3NUkp8rbV/2QwUqEhP64uyOuvIqjSvTZhLu2BF1OEEIVwG7LNF2sc1MkQqS
+ Ug0BHvD1gqRDMa//TzkO/dnln4dfFU3WbAgy5VcRJWeSqKlIUsSOoI0xSyqx3xD0GSyQJNzP3lv
+ Fhss2NpHCWg1yy49aGnpqp41V+TwDLW7wSdMegzBpeYNrhOSmC0nytb3A71z8c2ldoqF9pLMKD9
+ 0GFmjSdm5+qf3un/xflMMWnfOqMtpVPP2dk0ybg4nmHpY5S//gZinOuZ4HkhuvHHvAfgf698C2V
+ vNX8nhTkt5EoYHgWxJXhYn8Iz2iD1Q==
+X-Proofpoint-ORIG-GUID: 1Mzxt_Q0DDVGWYvmuJZtCCQ-tx6GbBV5
+X-Proofpoint-GUID: 1Mzxt_Q0DDVGWYvmuJZtCCQ-tx6GbBV5
+X-Authority-Analysis: v=2.4 cv=A6Jh/qWG c=1 sm=1 tr=0 ts=68ffb38b cx=c_pps
+ a=Qgeoaf8Lrialg5Z894R3/Q==:117 a=JYp8KDb2vCoCEuGobkYCKw==:17
+ a=IkcTkHD0fZMA:10 a=x6icFKpwvdMA:10 a=VkNPw1HP01LnGYTKEx00:22
+ a=COk6AnOGAAAA:8 a=EUspDBNiAAAA:8 a=QoCwUzDOKqydt9tafI0A:9 a=QEXdDO2ut3YA:10
+ a=zZCYzV9kfG8A:10 a=x9snwWr2DeNwDh03kgHS:22 a=TjNXssC_j7lpFel5tvFf:22
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.9,FMLib:17.12.80.40
+ definitions=2025-10-27_07,2025-10-22_01,2025-03-28_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ impostorscore=0 malwarescore=0 suspectscore=0 lowpriorityscore=0 bulkscore=0
+ clxscore=1015 priorityscore=1501 spamscore=0 adultscore=0 phishscore=0
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.22.0-2510020000 definitions=main-2510270167
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -82,44 +128,22 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Louis,
+On 10/17/2025 11:34 AM, Youssef Samir wrote:
+> From: Youssef Samir <quic_yabdulra@quicinc.com>
+> 
+> Update the Sahara image table for the AIC200 to add entries for:
+> - qupv3fw.elf at id 54
+> - xbl_config.elf at id 38
+> - tz_qti_config.mbn at id 76
+> And move pvs.bin to id 78 to avoid firmware conflict.
+> 
+> Co-developed-by: Zack McKevitt <zmckevit@qti.qualcomm.com>
+> Signed-off-by: Zack McKevitt <zmckevit@qti.qualcomm.com>
+> Co-developed-by: Aswin Venkatesan <aswivenk@qti.qualcomm.com>
+> Signed-off-by: Aswin Venkatesan <aswivenk@qti.qualcomm.com>
+> Signed-off-by: Youssef Samir <quic_yabdulra@quicinc.com>
+> Signed-off-by: Youssef Samir <youssef.abdulrahman@oss.qualcomm.com>
 
-On 30-07-2025 22:32, Louis Chauvet wrote:
-> Currently the driver only configure the data edge sampling partially. The
-> AM62 require it to be configured in two distincts registers: one in tidss
-> and one in the general device registers.
-> 
-> Introduce a new dt property to link the proper syscon node from the main
-> device registers into the tidss driver.
-> 
-> Fixes: 32a1795f57ee ("drm/tidss: New driver for TI Keystone platform Display SubSystem")
-> ---
+Pushed to drm-misc-next.
 
-We are planning to re-spin the series with a v2.
-If you have any concerns please inform.
-
-Regards,
-Swamil
-
-> Cc: stable@vger.kernel.org
-> 
-> Signed-off-by: Louis Chauvet <louis.chauvet@bootlin.com>
-> 
-> ---
-> Louis Chauvet (4):
->        dt-bindings: display: ti,am65x-dss: Add clk property for data edge synchronization
->        dt-bindings: mfd: syscon: Add ti,am625-dss-clk-ctrl
->        arm64: dts: ti: k3-am62-main: Add tidss clk-ctrl property
->        drm/tidss: Fix sampling edge configuration
-> 
->   .../devicetree/bindings/display/ti/ti,am65x-dss.yaml       |  6 ++++++
->   Documentation/devicetree/bindings/mfd/syscon.yaml          |  3 ++-
->   arch/arm64/boot/dts/ti/k3-am62-main.dtsi                   |  6 ++++++
->   drivers/gpu/drm/tidss/tidss_dispc.c                        | 14 ++++++++++++++
->   4 files changed, 28 insertions(+), 1 deletion(-)
-> ---
-> base-commit: 85c23f28905cf20a86ceec3cfd7a0a5572c9eb13
-> change-id: 20250730-fix-edge-handling-9123f7438910
-> 
-> Best regards,
-
+-Jeff
