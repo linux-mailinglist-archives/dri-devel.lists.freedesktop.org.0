@@ -2,83 +2,76 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2E141C0C5A1
-	for <lists+dri-devel@lfdr.de>; Mon, 27 Oct 2025 09:43:18 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id A7601C0C5CE
+	for <lists+dri-devel@lfdr.de>; Mon, 27 Oct 2025 09:43:59 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 61F0210E392;
-	Mon, 27 Oct 2025 08:43:16 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C798710E404;
+	Mon, 27 Oct 2025 08:43:57 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="YaXlnRhW";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="TYx4aSvo";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pg1-f172.google.com (mail-pg1-f172.google.com
- [209.85.215.172])
- by gabe.freedesktop.org (Postfix) with ESMTPS id EC76810E392
- for <dri-devel@lists.freedesktop.org>; Mon, 27 Oct 2025 08:43:15 +0000 (UTC)
-Received: by mail-pg1-f172.google.com with SMTP id
- 41be03b00d2f7-b6271ea3a6fso2946843a12.0
- for <dri-devel@lists.freedesktop.org>; Mon, 27 Oct 2025 01:43:15 -0700 (PDT)
+Received: from mail-pl1-f182.google.com (mail-pl1-f182.google.com
+ [209.85.214.182])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1A02D10E3AB
+ for <dri-devel@lists.freedesktop.org>; Mon, 27 Oct 2025 08:43:57 +0000 (UTC)
+Received: by mail-pl1-f182.google.com with SMTP id
+ d9443c01a7336-290ab379d48so40144625ad.2
+ for <dri-devel@lists.freedesktop.org>; Mon, 27 Oct 2025 01:43:57 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1761554595; x=1762159395; darn=lists.freedesktop.org;
+ d=gmail.com; s=20230601; t=1761554636; x=1762159436; darn=lists.freedesktop.org;
  h=content-transfer-encoding:mime-version:message-id:date:subject:cc
  :to:from:from:to:cc:subject:date:message-id:reply-to;
- bh=UHwoqgImEy7LQLhZWFXUDhaPJoy+ecZ3A4KynxwsxS0=;
- b=YaXlnRhWFRkMBouS/ZhKj2LVBH0xwoxZ86drbN4tNsDg6J64z0dCXqbAaUOwTbid4Z
- xx5z2qjyu8KBFjd0j9L1FbvFiF6cKAk8DDxsD5gyTVSwC6o+jItKlOucXFKQIIqYkgH2
- kPSF9APizHmBcOlr/Ct0M3J8fHqr6rH/oSPAMxT3+5iHf+Bl0PPLdKX+Rlter3VO/c43
- vScm7+55TS84N2nmQfSQxlkQklT1avnoZla6EQ/Rc0w0oQ+zUAmj3jsOlE+klxPz7jx5
- CNqQPNWY7u++XQYfT7K7yzhelyhdAIcdOKWnOykgcTtorl97zf4uvwKYd5EeXhNnG7vt
- hebQ==
+ bh=3XdBHtrgp03ghVnsbwdnfe2LK03D2az8OLXtLHgvnDs=;
+ b=TYx4aSvo99Ds9k3Dh9WJyt5ZQYfknOHNlAbdvA8ciSjQC47NrA4d1AhBcK4WYZ9Eey
+ LFns8W51/l0q7thiOLbytufmTzA+vhaCqXATUL0FbWgazsOzYIpT65aAd+R7TAiMvzc4
+ iTii0Jxq2MS98NylqErq44vzxgQJgBQinZx3H2YjEiYAw2xToiC+p5Ia8G8Vjcx+9M+J
+ HORZ03hcs5PYnodWW+jrdqsjAMG21vUTcnCkiZ8x5kn3/xCbFRpVOs2sicmEpxdYS9Nk
+ rjaXONejgj2wRlqNZIQWL1B9oRQeCkhfAuGij4sWAixtJAyeMTzXVNmkTBxcjIL93Zns
+ ZAIw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1761554595; x=1762159395;
+ d=1e100.net; s=20230601; t=1761554636; x=1762159436;
  h=content-transfer-encoding:mime-version:message-id:date:subject:cc
  :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
  :reply-to;
- bh=UHwoqgImEy7LQLhZWFXUDhaPJoy+ecZ3A4KynxwsxS0=;
- b=mg/O6J4HCkLV2YS71fk2FnJ1eVIP9ElXnpKV7cCgQSWPWtFjy556RBIzdx9hCJyHe/
- ucmrmWdIoRw28FJ6OdHYPh1d3C9SBKFXxSD7VZVL4h0wSerDNILxk5MdI1byOyIZiclW
- WZ7+FTmDPPXKCYhziG0MwrdOd3zLY6DXM+mRQl1SJuXkkmF9P3l8IGhdlo0ekNjTfC07
- /0I4Tm50OXdvIM3JAFseEDL9S+HZhjw/5xRSepGTsUKyHoAv7pmWvaOFyAqSwMzj/NV2
- sF9l6sjJhgEcBACZ4sxKlIYgH3lrCyrP+OhBOB+UFEyHo7hpn4gMwymEyBvsyLWjVunt
- rNAw==
+ bh=3XdBHtrgp03ghVnsbwdnfe2LK03D2az8OLXtLHgvnDs=;
+ b=JYzuPgRmO5CiKr64YITOl3UhpHln5nfCH4mq6iYYUzaBEMFWbYZWQo2cEmWJDcnBbz
+ rv24iaW6DcUKxUJ3zKYjpf23G7FG7TvZmtzqGbcnwxXr6bpBMB4B/cBCLT/vuKwsLOSF
+ pYVGx494qj5rcCY5SUd1gsXd6wfnpPfXniQhNYu/jQksldP2xEyKf5IAnAQh7RwJydoY
+ k3/c0tQC2znuvYrFDQ8LgBmhZpwoq39zHylQs72sv6ceuCW/tHJ2VQjiI14eVyIqzwcO
+ XSK7tH6IqWilMtdhDwEYVooQO2hpLy3kUgNS39q8+1ucPQY6eWHJPnVhRJ4hZifsVG9l
+ bipA==
 X-Forwarded-Encrypted: i=1;
- AJvYcCWDbL1yU3zTK/VOxPBUDaZQnZ+6tIU9qUl4kpFUrhZAf3oCIkVDwvC5/8yaJs/oQCBmuuPdflMlVlk=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YxGO3FPLGx2V826m8bepQlZKYIvyemeaKFjG6xgb1DNIeiRjYch
- HqGdje43p7P2p5/qAYQud1h6Io4WBEClq2woF5BAU7pOaCH4PBdy+ma6
-X-Gm-Gg: ASbGncvQccn/7ugTXOov5HS0g+mc2G/4xSluLJC8Ffk+tBkMM/C3Wc8cRTR2RXx6oaQ
- h+1GSqeleQlKDWtzlm9bVAXdI6fsPt1gkKkl8iXauB1YZJepZV78KbAj5Dw+DpYY0o4XSVWjdZ3
- M9tHIhxTcX9b1Or0EEiGrG6XnQboFFYZp13Itd4eOkOEm1MS5/C27jcaG5pzLT4dSFBIRApFdG5
- UNTBKcd/Wgv6c0SNeDhoK0IpFM6F4HN9YywK9B0VmjLQzzn/PXLgagp6G+tkk5VWKKsFFWGWKrx
- AGxh0iOgN/Fqhd/X0D57PvkGqRTuxE/gHqDB/qF3dELRMPlduoXa9asJcmZwuAKpGq3h3XFGLAd
- 5wi/E6aXBcKmU+54c6Xras74K4P0HaPSJfFel3j3ehXXX4Wv2SyEuXQiC14yG5wBAzVTsghW2GQ
- RPHjUpUmVy6JHMH9Jivh4QF+o7P3IChhfpejT+jJQxcH0=
-X-Google-Smtp-Source: AGHT+IHwgVcslq+1mjD8C6Vh5GqRLux2tDGUe1R/TUV71B2G9ynp6h0rzEeVb0xZxIg7lRsdj6RNXQ==
-X-Received: by 2002:a17:903:247:b0:294:c189:68dd with SMTP id
- d9443c01a7336-294c1896977mr7969545ad.44.1761554595286; 
- Mon, 27 Oct 2025 01:43:15 -0700 (PDT)
+ AJvYcCX0h4Dy1Z5Gg1WFz7KVPYYF5uvaKT2o8H3JXtklNxZwyDSodanRfZuuWj8PYxxHyZ04znEIkjRQmJ8=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Yw6vMC5vRBy/HtllzfhAph2ngawAcVJNH+STrLXjSERpGCLtAVS
+ yDjyskloADR1RLs2cX6/TswlOa3h5iwm4KyFxbjKJeOmDHR0aiggXF77QgUwqZJd2dPv7g==
+X-Gm-Gg: ASbGnctCNvsn5Deml0xEQAa6O7+jUhqk5vhYRh6FFSmA+CBxpgvyJbeuQL9Xc+bc7BU
+ HaDwTpEACIDI4IYk6lFs8NfBi7XTdXJlhHFXBTv6cbsl+m/paJrCjs6uQwoTw85IJBvG0yL4Go1
+ gZiaN0qwG3kf+gCDqwamO9gFDyNhkQshYFUKhAaMc8h7tyU5WueHHRP9Pfo1J20aQSaIV0PC0CV
+ XwQK2jglsr/bEahEJ1Bf+F5YNl1NCL3Loz1p6e57a2Sh1M62QKmoO9HrYm7fpvchWyBXchdkMmc
+ iTcqZU8eexPOuPGjQqlOdKydw4kesrUXPVwAKyIskTgvArd0lDNdi/JMuiGdwXVnDTbraVXJZu+
+ MoWkysLqakjqdEnJHcHcxnWRt3Bpbh6x8HwKIuNHnFxmkHCbfrBo9/J5J/KyTddZeLbpCnHu9Ok
+ GXQNgyP6Eu8MhD8DNNiCQZGe7P/MR0DaqE
+X-Google-Smtp-Source: AGHT+IHJsL6+kpoPk8x1PWb0mqg3iHOZS6wR/zv/DBqOZ8GMqq9D0VqdZrEygNgekK2sc9hwLF1zkA==
+X-Received: by 2002:a17:902:c952:b0:290:a3ba:1a8b with SMTP id
+ d9443c01a7336-29465525229mr183633555ad.24.1761554636181; 
+ Mon, 27 Oct 2025 01:43:56 -0700 (PDT)
 Received: from localhost.localdomain ([124.77.218.104])
  by smtp.googlemail.com with ESMTPSA id
- d9443c01a7336-29498e3d2aasm75349815ad.88.2025.10.27.01.43.11
+ d9443c01a7336-29498e4349fsm73037945ad.107.2025.10.27.01.43.53
  (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
- Mon, 27 Oct 2025 01:43:14 -0700 (PDT)
+ Mon, 27 Oct 2025 01:43:55 -0700 (PDT)
 From: Miaoqian Lin <linmq006@gmail.com>
-To: Neil Armstrong <neil.armstrong@linaro.org>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
- Simona Vetter <simona@ffwll.ch>, Kevin Hilman <khilman@baylibre.com>,
- Jerome Brunet <jbrunet@baylibre.com>,
- Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
- Nicolas Belin <nbelin@baylibre.com>,
- Jagan Teki <jagan@amarulasolutions.com>, dri-devel@lists.freedesktop.org,
- linux-amlogic@lists.infradead.org, linux-arm-kernel@lists.infradead.org,
+To: Helge Deller <deller@gmx.de>, Paul Mackerras <paulus@ozlabs.org>,
+ Benjamin Herrenschmidt <benh@kernel.crashing.org>,
+ linux-fbdev@vger.kernel.org, dri-devel@lists.freedesktop.org,
  linux-kernel@vger.kernel.org
 Cc: linmq006@gmail.com,
 	stable@vger.kernel.org
-Subject: [PATCH] drm/meson: Fix reference count leak in meson_encoder_dsi_probe
-Date: Mon, 27 Oct 2025 16:42:58 +0800
-Message-Id: <20251027084258.79180-1-linmq006@gmail.com>
+Subject: [PATCH] video: valkyriefb: Fix reference count leak in valkyriefb_init
+Date: Mon, 27 Oct 2025 16:43:37 +0800
+Message-Id: <20251027084340.79419-1-linmq006@gmail.com>
 X-Mailer: git-send-email 2.39.5 (Apple Git-154)
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
@@ -97,29 +90,37 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The of_graph_get_remote_node() function returns a device node with its
+The of_find_node_by_name() function returns a device tree node with its
 reference count incremented. The caller is responsible for calling
 of_node_put() to release this reference when done.
 
-Fixes: 42dcf15f901c ("drm/meson: add DSI encoder")
+Found via static analysis.
+
+Fixes: cc5d0189b9ba ("[PATCH] powerpc: Remove device_node addrs/n_addr")
 Cc: stable@vger.kernel.org
 Signed-off-by: Miaoqian Lin <linmq006@gmail.com>
 ---
- drivers/gpu/drm/meson/meson_encoder_dsi.c | 1 +
- 1 file changed, 1 insertion(+)
+ drivers/video/fbdev/valkyriefb.c | 2 ++
+ 1 file changed, 2 insertions(+)
 
-diff --git a/drivers/gpu/drm/meson/meson_encoder_dsi.c b/drivers/gpu/drm/meson/meson_encoder_dsi.c
-index 6c6624f9ba24..01edf46e30d0 100644
---- a/drivers/gpu/drm/meson/meson_encoder_dsi.c
-+++ b/drivers/gpu/drm/meson/meson_encoder_dsi.c
-@@ -121,6 +121,7 @@ int meson_encoder_dsi_probe(struct meson_drm *priv)
- 	}
+diff --git a/drivers/video/fbdev/valkyriefb.c b/drivers/video/fbdev/valkyriefb.c
+index 91d070ef6989..6ff059ee1694 100644
+--- a/drivers/video/fbdev/valkyriefb.c
++++ b/drivers/video/fbdev/valkyriefb.c
+@@ -329,11 +329,13 @@ static int __init valkyriefb_init(void)
  
- 	meson_encoder_dsi->next_bridge = of_drm_find_bridge(remote);
-+	of_node_put(remote);
- 	if (!meson_encoder_dsi->next_bridge)
- 		return dev_err_probe(priv->dev, -EPROBE_DEFER,
- 				     "Failed to find DSI transceiver bridge\n");
+ 		if (of_address_to_resource(dp, 0, &r)) {
+ 			printk(KERN_ERR "can't find address for valkyrie\n");
++			of_node_put(dp);
+ 			return 0;
+ 		}
+ 
+ 		frame_buffer_phys = r.start;
+ 		cmap_regs_phys = r.start + 0x304000;
++		of_node_put(dp);
+ 	}
+ #endif /* ppc (!CONFIG_MAC) */
+ 
 -- 
 2.39.5 (Apple Git-154)
 
