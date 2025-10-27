@@ -2,129 +2,70 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 87486C0D79F
-	for <lists+dri-devel@lfdr.de>; Mon, 27 Oct 2025 13:21:05 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id C851DC0D7B0
+	for <lists+dri-devel@lfdr.de>; Mon, 27 Oct 2025 13:21:39 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id AE46810E460;
-	Mon, 27 Oct 2025 12:21:03 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0926910E462;
+	Mon, 27 Oct 2025 12:21:38 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="Mh4W2s9i";
+	dkim=pass (1024-bit key; unprotected) header.d=collabora.com header.i=nicolas.frattaroli@collabora.com header.b="kDy9KX24";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
- [205.220.180.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D637A10E460
- for <dri-devel@lists.freedesktop.org>; Mon, 27 Oct 2025 12:21:02 +0000 (UTC)
-Received: from pps.filterd (m0279870.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id
- 59RAAAbD1502840
- for <dri-devel@lists.freedesktop.org>; Mon, 27 Oct 2025 12:21:01 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
- content-transfer-encoding:content-type:date:from:in-reply-to
- :message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
- aP4mxhUOOvb5sFzTA2872hnI8+YOJ+Fa/nda32UGswI=; b=Mh4W2s9iCZTmOG/W
- eiIFJyfeRI84xvhv9CLFGqr7pVww6ukMC+1WntxshoS2QBlBGiyNzZQbab4vU03T
- x2NhEP65/wuehfB0uS64BV2OCCbF+Hp7LTcMjY1KdVxzSDNJkzoKQby8spZ/jNIl
- 0Iti/RVC0Af7lX8O450WcUbVPfcXp0OqV9iW4hhffprkXvBlFnmw4nNzinVVT9xf
- AFeisaiUmfGxGbNFKWpgdhJYKxwHABwUXwJ/FAIeXCF3X0DKKJ099YkRBbt10l3C
- LcwEdhew1qtui/XWreVyqvweyydqcBYpFXIzvDDD/zu04WvPLn3k5hY+GrUH5sQl
- Ab9riQ==
-Received: from mail-qt1-f197.google.com (mail-qt1-f197.google.com
- [209.85.160.197])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4a20pnsepe-1
- (version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
- for <dri-devel@lists.freedesktop.org>; Mon, 27 Oct 2025 12:21:01 +0000 (GMT)
-Received: by mail-qt1-f197.google.com with SMTP id
- d75a77b69052e-4eced2a52ceso5922471cf.0
- for <dri-devel@lists.freedesktop.org>; Mon, 27 Oct 2025 05:21:01 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1761567661; x=1762172461;
- h=content-transfer-encoding:in-reply-to:from:content-language
- :references:to:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=aP4mxhUOOvb5sFzTA2872hnI8+YOJ+Fa/nda32UGswI=;
- b=E3Xkjl9381CVdY90rrRLYsAJoSOjOB1NVh6lfXPYrZ/HXguG5Ms7eDg0o3IzEHxDJs
- AbL8W/yrgzxMw5Z4tzU4o5+6RiZWk70+nigLKkCuM8TxO4ungfV61sgzMIap0YIKGisl
- CID8k0SXPVRdFGzxLvPZKo3AdBGW7bnX8gBaoZykly+GbdMDrtkc5FTiR1KeMj4+Tran
- NmzXRQDEaBsZ+a1+pHjUpCUX5E0hs4S2KvZo0buJvAjPrBbjfYG1ye49ONwctlb6SQ+o
- xmDyBRYnlLiRT+VuKIDxs6YIksy5dsNSLbNP3YB7JWcXcSPg1qwrzJFT0bQRQJxkXpBO
- MEZA==
-X-Forwarded-Encrypted: i=1;
- AJvYcCUnpocsYbveVxyEj26TfEVy2NPh9yi9so7jvA1vet7NaewWAYoDe0iRaw5WH0dMmEMeTxVvaWhu4zs=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YyEPhA7jeqZhWip4KwYwI8VnWmmJxZjvDt09CB78u17qYmx04UP
- roZTUfwDRoGqT3Cm1MIyLxzjZAstV/UOkWQ3rICp1JsacP849HtFTgdsYmkvTMx6RjnolMb+kYB
- PKtuQzQgpm6sZdOGwrhrX6UXepqU4z3A3+H+eXjyYf61XmrHe3KGXV4LcB5dHMp9aKEySbS8=
-X-Gm-Gg: ASbGncunGevwjKhG93MOqWx400SbHUZsgHn6p1ymkxzKbSeLb38WxL1VlEIm7f46TFc
- 5JtCHqYm4g6lejQJAZ/POnQwSfho+/aeOP1tbNk4w5AmbJHg1QMEii44+b2L/ahlqY9K73yBS8K
- XX21FPkQzYg6F2B/YB4RVAMvPX17mopP3nx0R3u7cZ09Zn3e/w4VcSYFeRXoHlTpma2lEpogZUX
- ERBuBpGvfnQa0UPjsJBMQCW9D94FjnSVMHVsnpdpqxGfDk7joaHH+SizyCn0g9fqoXM7KCmmFIQ
- 3cyRSUfnKrdWLqJx1Mg1jZPS+RuBP5hyQyEkfAZKBF5Eujt407k674DdnYHZCFOWUmyHtLdDZD2
- 5LHE/NB3g9P3/bzV3F7V+L65kBwLB21wSScgfDvZeMShzxh0YOdta3819
-X-Received: by 2002:a05:622a:289:b0:4ec:ed46:ab6d with SMTP id
- d75a77b69052e-4eced46b36dmr54348761cf.9.1761567660975; 
- Mon, 27 Oct 2025 05:21:00 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IE/Ymwp4j4U76wtRZGQW8EHbN2uGqMPPJ/w80E3/mCrIAWR0RdpJNVmK9Zxy1Lr+Yj9F1bPnQ==
-X-Received: by 2002:a05:622a:289:b0:4ec:ed46:ab6d with SMTP id
- d75a77b69052e-4eced46b36dmr54348351cf.9.1761567660538; 
- Mon, 27 Oct 2025 05:21:00 -0700 (PDT)
-Received: from [192.168.119.202] (078088045245.garwolin.vectranet.pl.
- [78.88.45.245]) by smtp.gmail.com with ESMTPSA id
- a640c23a62f3a-b6d853f9a0fsm746527466b.50.2025.10.27.05.20.57
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 27 Oct 2025 05:21:00 -0700 (PDT)
-Message-ID: <51da0617-db4f-4c6f-9f46-0492e49c9a2f@oss.qualcomm.com>
-Date: Mon, 27 Oct 2025 13:20:56 +0100
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 2/2] arm64: dts: qcom: x1e78100-t14s: Add audio playback
- over DisplayPort
-To: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
- Rob Clark <robin.clark@oss.qualcomm.com>, Dmitry Baryshkov
- <lumag@kernel.org>, Abhinav Kumar <abhinav.kumar@linux.dev>,
- Jessica Zhang <jessica.zhang@oss.qualcomm.com>,
- Sean Paul <sean@poorly.run>,
- Marijn Suijten <marijn.suijten@somainline.org>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+Received: from sender4-pp-f112.zoho.com (sender4-pp-f112.zoho.com
+ [136.143.188.112])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A749D10E462
+ for <dri-devel@lists.freedesktop.org>; Mon, 27 Oct 2025 12:21:36 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; t=1761567688; cv=none; 
+ d=zohomail.com; s=zohoarc; 
+ b=B37m3tRXg9231oauumFgq3IS919cZOBg5SjkoJsfAAEv3xg7NZzheR2/o1Z6DWXuET3Phh+B65kMnrMCibaDLL47gqWercUuzNjDdQ/QEDk4PDMfokyzUxleEz3k8oEQQE8eM/LGA6cXBQj3Z5m2bCDyEdLFNH72QNvwSyqfTHs=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
+ s=zohoarc; t=1761567688;
+ h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To;
+ bh=JzOl43h72qIg903VcLgPPqEaQOxJyebUM6Y8SFlK3FI=; 
+ b=PHxByQ8byaqaWcg7cDcy7ZXDXysm3SbInlN64ODpr8FHXGPi7kW3HXHt+zOniUMSCoQtu7DUByVBCUDCbhdmo00hUk8zNn6A7YdjO/9J7MEh1bEETNOogOlizsXIBRbcRpyX3gSWzK3sSO0p/n4fuKKbZFBpqUY9Cjzvie0NDxU=
+ARC-Authentication-Results: i=1; mx.zohomail.com;
+ dkim=pass  header.i=collabora.com;
+ spf=pass  smtp.mailfrom=nicolas.frattaroli@collabora.com;
+ dmarc=pass header.from=<nicolas.frattaroli@collabora.com>
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1761567688; 
+ s=zohomail; d=collabora.com; i=nicolas.frattaroli@collabora.com;
+ h=From:From:To:To:Cc:Cc:Subject:Subject:Date:Date:Message-ID:In-Reply-To:References:MIME-Version:Content-Transfer-Encoding:Content-Type:Message-Id:Reply-To;
+ bh=JzOl43h72qIg903VcLgPPqEaQOxJyebUM6Y8SFlK3FI=;
+ b=kDy9KX2417EVcr5ZvR/y8uZmt2IgIbpSIydVjZEiNT4mUYn+LTARqHpo2PI9/c+O
+ XrqA+KwqLPKUa7++D+dlwBTP8fipyA2OMRQQKoikyQmHtIagGSU4zKzvjDMhQPiCI7W
+ A4THQcscyFyTp2lEGrAOYogNvIgC0YM8dyTtux88=
+Received: by mx.zohomail.com with SMTPS id 1761567685152749.0643459384486;
+ Mon, 27 Oct 2025 05:21:25 -0700 (PDT)
+From: Nicolas Frattaroli <nicolas.frattaroli@collabora.com>
+To: Linus Torvalds <torvalds@linux-foundation.org>,
+ Linus Walleij <linus.walleij@linaro.org>, Sandy Huang <hjc@rock-chips.com>,
+ Heiko =?UTF-8?B?U3TDvGJuZXI=?= <heiko@sntech.de>,
+ Andy Yan <andy.yan@rock-chips.com>,
  Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, Rob Herring <robh@kernel.org>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>, Bjorn Andersson <andersson@kernel.org>,
- Konrad Dybcio <konradybcio@kernel.org>,
- Kuogee Hsieh <quic_khsieh@quicinc.com>, linux-arm-msm@vger.kernel.org,
- dri-devel@lists.freedesktop.org, freedreno@lists.freedesktop.org,
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
-References: <20251021111050.28554-3-krzysztof.kozlowski@linaro.org>
- <20251021111050.28554-4-krzysztof.kozlowski@linaro.org>
-Content-Language: en-US
-From: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
-In-Reply-To: <20251021111050.28554-4-krzysztof.kozlowski@linaro.org>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Proofpoint-GUID: JKFHJU7wdt-nwok96L6dKfdZg257QjhW
-X-Proofpoint-ORIG-GUID: JKFHJU7wdt-nwok96L6dKfdZg257QjhW
-X-Authority-Analysis: v=2.4 cv=A+xh/qWG c=1 sm=1 tr=0 ts=68ff63ad cx=c_pps
- a=EVbN6Ke/fEF3bsl7X48z0g==:117 a=FpWmc02/iXfjRdCD7H54yg==:17
- a=IkcTkHD0fZMA:10 a=x6icFKpwvdMA:10 a=VkNPw1HP01LnGYTKEx00:22
- a=KKAkSRfTAAAA:8 a=PIn3yDVZNjJHwrb619wA:9 a=QEXdDO2ut3YA:10
- a=a_PwQJl-kcHnX1M80qC6:22 a=cvBusfyB2V15izCimMoJ:22
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUxMDI3MDExNCBTYWx0ZWRfX2zUMdDeIC7t/
- wy/A558Whci5f9+JzXTuMp1EBLNzWIqGq8hB1ifdltqPyLNXa2DB3Ik273D1OdolXjEQFBwqQ4l
- PsouYXH3EDd3MT5YSR+1IDKYq/o0GUdupujLStjaCRM9drfHwYubAN/GxaecWTWd9Ta+Cv+nPHS
- EhWY9GcTKJdk6wLFrZezowhuei9Q/rsB9YtqdHgdQaoX1XrMfUkDx7F3NHDv08TylnvKzRr2d7c
- VqY+VXMCRDDL0jOz+/aRa9GkRwcPyAbbYQtxDqFlUd27wkSHS1RgyxZkC8Vv1dkhkUewJg3E9zy
- mkLWNCt0h9d7DNVjcGQKWHTnW61nQweXwspL02aWvhhPwyKM2OxHDqrYxGPB013kxTT1XtXkmGg
- Sl0yL6mxtQfuAfJ0+QhNfFhopjoMyA==
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.9,FMLib:17.12.80.40
- definitions=2025-10-27_05,2025-10-22_01,2025-03-28_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- priorityscore=1501 lowpriorityscore=0 clxscore=1015 suspectscore=0
- spamscore=0 bulkscore=0 adultscore=0 impostorscore=0 phishscore=0
- malwarescore=0 classifier=typeunknown authscore=0 authtc= authcc=
- route=outbound adjust=0 reason=mlx scancount=1 engine=8.22.0-2510020000
- definitions=main-2510270114
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Shreeya Patel <shreeya.patel@collabora.com>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>,
+ Jaehoon Chung <jh80.chung@samsung.com>, Ulf Hansson <ulf.hansson@linaro.org>, 
+ Nicolas Frattaroli <frattaroli.nicolas@gmail.com>,
+ Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
+ Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
+ "Yury Norov (NVIDIA)" <yury.norov@gmail.com>,
+ dri-devel@lists.freedesktop.org, linux-arm-kernel@lists.infradead.org,
+ linux-rockchip@lists.infradead.org, linux-kernel@vger.kernel.org,
+ linux-media@vger.kernel.org, kernel@collabora.com, linux-mmc@vger.kernel.org, 
+ linux-sound@vger.kernel.org, "Yury Norov (NVIDIA)" <yury.norov@gmail.com>
+Cc: Rasmus Villemoes <linux@rasmusvillemoes.dk>
+Subject: Re: [PATCH 11/21] drivers: don't use GENMASK() in FIELD_PREP_WM16()
+Date: Mon, 27 Oct 2025 13:21:15 +0100
+Message-ID: <2824034.mvXUDI8C0e@workhorse>
+In-Reply-To: <20251025164023.308884-12-yury.norov@gmail.com>
+References: <20251025164023.308884-1-yury.norov@gmail.com>
+ <20251025164023.308884-12-yury.norov@gmail.com>
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="utf-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -140,24 +81,128 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 10/21/25 1:10 PM, Krzysztof Kozlowski wrote:
-> Add necessary DAI links and DAI name prefixes to enable audio playback
-> over USB/DisplayPort and HDMI.  The HDMI port is not yet enabled, but it
-> should carry respective DAI name prefix regardless.
+On Saturday, 25 October 2025 18:40:10 Central European Standard Time Yury Norov (NVIDIA) wrote:
+> Recently added FIELD_PREP_WM16() in a few places uses GENMASK. It's
+> confusing and may mislead readers. Switch to BITS() or FIRST_BITS()
+> as appropriate.
 > 
-> Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-> 
+> Suggested-by: Linus Torvalds <torvalds@linux-foundation.org>
+> Link: https://lore.kernel.org/all/CAHk-=whoOUsqPKb7OQwhQf9H_3=5sXGPJrDbfQfwLB3Bi13tcQ@mail.gmail.com/
+> Signed-off-by: Yury Norov (NVIDIA) <yury.norov@gmail.com>
 > ---
+>  drivers/gpu/drm/rockchip/rockchip_lvds.h             | 2 +-
+>  drivers/gpu/drm/rockchip/rockchip_vop2_reg.c         | 4 ++--
+>  drivers/media/platform/synopsys/hdmirx/snps_hdmirx.h | 4 ++--
+>  drivers/mmc/host/dw_mmc-rockchip.c                   | 4 ++--
+>  drivers/soc/rockchip/grf.c                           | 4 ++--
+>  sound/soc/rockchip/rockchip_i2s_tdm.h                | 2 +-
+>  6 files changed, 10 insertions(+), 10 deletions(-)
 > 
-> ALSA UCM and audioreach topology will follow up as well.
-> ---
+> diff --git a/drivers/gpu/drm/rockchip/rockchip_lvds.h b/drivers/gpu/drm/rockchip/rockchip_lvds.h
+> index 2d92447d819b..e79e6031be59 100644
+> --- a/drivers/gpu/drm/rockchip/rockchip_lvds.h
+> +++ b/drivers/gpu/drm/rockchip/rockchip_lvds.h
+> @@ -115,7 +115,7 @@
+>  #define   PX30_LVDS_INVERT_DCLK(val)		FIELD_PREP_WM16(BIT(5), (val))
+>  
+>  #define PX30_LVDS_GRF_PD_VO_CON1		0x438
+> -#define   PX30_LVDS_FORMAT(val)			FIELD_PREP_WM16(GENMASK(14, 13), (val))
+> +#define   PX30_LVDS_FORMAT(val)			FIELD_PREP_WM16(BITS(13, 14), (val))
+>  #define   PX30_LVDS_MODE_EN(val)		FIELD_PREP_WM16(BIT(12), (val))
+>  #define   PX30_LVDS_MSBSEL(val)			FIELD_PREP_WM16(BIT(11), (val))
+>  #define   PX30_LVDS_P2S_EN(val)			FIELD_PREP_WM16(BIT(6), (val))
+> diff --git a/drivers/gpu/drm/rockchip/rockchip_vop2_reg.c b/drivers/gpu/drm/rockchip/rockchip_vop2_reg.c
+> index 38c49030c7ab..438fea5f6f6d 100644
+> --- a/drivers/gpu/drm/rockchip/rockchip_vop2_reg.c
+> +++ b/drivers/gpu/drm/rockchip/rockchip_vop2_reg.c
+> @@ -1698,7 +1698,7 @@ static unsigned long rk3588_set_intf_mux(struct vop2_video_port *vp, int id, u32
+>  		val = rk3588_get_hdmi_pol(polflags);
+>  		regmap_write(vop2->vop_grf, RK3588_GRF_VOP_CON2, FIELD_PREP_WM16(BIT(1), 1));
+>  		regmap_write(vop2->vo1_grf, RK3588_GRF_VO1_CON0,
+> -			     FIELD_PREP_WM16(GENMASK(6, 5), val));
+> +			     FIELD_PREP_WM16(BITS(5, 6), val));
+>  		break;
+>  	case ROCKCHIP_VOP2_EP_HDMI1:
+>  		div &= ~RK3588_DSP_IF_EDP_HDMI1_DCLK_DIV;
+> @@ -1711,7 +1711,7 @@ static unsigned long rk3588_set_intf_mux(struct vop2_video_port *vp, int id, u32
+>  		val = rk3588_get_hdmi_pol(polflags);
+>  		regmap_write(vop2->vop_grf, RK3588_GRF_VOP_CON2, FIELD_PREP_WM16(BIT(4), 1));
+>  		regmap_write(vop2->vo1_grf, RK3588_GRF_VO1_CON0,
+> -			     FIELD_PREP_WM16(GENMASK(8, 7), val));
+> +			     FIELD_PREP_WM16(BITS(7, 8), val));
+>  		break;
+>  	case ROCKCHIP_VOP2_EP_EDP0:
+>  		div &= ~RK3588_DSP_IF_EDP_HDMI0_DCLK_DIV;
+> diff --git a/drivers/media/platform/synopsys/hdmirx/snps_hdmirx.h b/drivers/media/platform/synopsys/hdmirx/snps_hdmirx.h
+> index b13f58e31944..14df3f53ff8f 100644
+> --- a/drivers/media/platform/synopsys/hdmirx/snps_hdmirx.h
+> +++ b/drivers/media/platform/synopsys/hdmirx/snps_hdmirx.h
+> @@ -12,8 +12,8 @@
+>  #include <linux/bitops.h>
+>  #include <linux/hw_bitfield.h>
+>  
+> -#define UPDATE(x, h, l)		FIELD_PREP(GENMASK((h), (l)), (x))
+> -#define HIWORD_UPDATE(v, h, l)	FIELD_PREP_WM16(GENMASK((h), (l)), (v))
+> +#define UPDATE(x, h, l)		FIELD_PREP(BITS((l), (h)), (x))
+> +#define HIWORD_UPDATE(v, h, l)	FIELD_PREP_WM16(BITS((l), (h)), (v))
+>  
+>  /* SYS_GRF */
+>  #define SYS_GRF_SOC_CON1			0x0304
+> diff --git a/drivers/mmc/host/dw_mmc-rockchip.c b/drivers/mmc/host/dw_mmc-rockchip.c
+> index 82dd906bb002..7fac1a7281bf 100644
+> --- a/drivers/mmc/host/dw_mmc-rockchip.c
+> +++ b/drivers/mmc/host/dw_mmc-rockchip.c
+> @@ -148,10 +148,10 @@ static int rockchip_mmc_set_internal_phase(struct dw_mci *host, bool sample, int
+>  
+>  	if (sample)
+>  		mci_writel(host, TIMING_CON1,
+> -			   FIELD_PREP_WM16(GENMASK(11, 1), raw_value));
+> +			   FIELD_PREP_WM16(BITS(1, 11), raw_value));
+>  	else
+>  		mci_writel(host, TIMING_CON0,
+> -			   FIELD_PREP_WM16(GENMASK(11, 1), raw_value));
+> +			   FIELD_PREP_WM16(BITS(1, 11), raw_value));
+>  
+>  	dev_dbg(host->dev, "set %s_phase(%d) delay_nums=%u actual_degrees=%d\n",
+>  		sample ? "sample" : "drv", degrees, delay_num,
+> diff --git a/drivers/soc/rockchip/grf.c b/drivers/soc/rockchip/grf.c
+> index 344870da7675..89fd4a4c69eb 100644
+> --- a/drivers/soc/rockchip/grf.c
+> +++ b/drivers/soc/rockchip/grf.c
+> @@ -125,8 +125,8 @@ static const struct rockchip_grf_info rk3566_pipegrf __initconst = {
+>  #define RK3576_SYSGRF_SOC_CON1		0x0004
+>  
+>  static const struct rockchip_grf_value rk3576_defaults_sys_grf[] __initconst = {
+> -	{ "i3c0 weakpull", RK3576_SYSGRF_SOC_CON1, FIELD_PREP_WM16_CONST(GENMASK(7, 6), 3) },
+> -	{ "i3c1 weakpull", RK3576_SYSGRF_SOC_CON1, FIELD_PREP_WM16_CONST(GENMASK(9, 8), 3) },
+> +	{ "i3c0 weakpull", RK3576_SYSGRF_SOC_CON1, FIELD_PREP_WM16_CONST(BITS(6, 7), 3) },
+> +	{ "i3c1 weakpull", RK3576_SYSGRF_SOC_CON1, FIELD_PREP_WM16_CONST(BITS(8, 9), 3) },
+>  };
+>  
+>  static const struct rockchip_grf_info rk3576_sysgrf __initconst = {
+> diff --git a/sound/soc/rockchip/rockchip_i2s_tdm.h b/sound/soc/rockchip/rockchip_i2s_tdm.h
+> index 0171e05ee886..eee6db372ee7 100644
+> --- a/sound/soc/rockchip/rockchip_i2s_tdm.h
+> +++ b/sound/soc/rockchip/rockchip_i2s_tdm.h
+> @@ -287,7 +287,7 @@ enum {
+>  #define I2S_TDM_RXCR	(0x0034)
+>  #define I2S_CLKDIV	(0x0038)
+>  
+> -#define HIWORD_UPDATE(v, h, l)	(FIELD_PREP_WM16_CONST(GENMASK((h), (l)), (v)))
+> +#define HIWORD_UPDATE(v, h, l)	(FIELD_PREP_WM16_CONST(BITS((l), (h)), (v)))
+>  
+>  /* PX30 GRF CONFIGS */
+>  #define PX30_I2S0_CLK_IN_SRC_FROM_TX		HIWORD_UPDATE(1, 13, 12)
+> 
 
-[...]
+Reviewed-by: Nicolas Frattaroli <nicolas.frattaroli@collabora.com>
 
->  &mdss_dp0 {
-> +	sound-name-prefix = "DisplayPort0";
+I made sure there were no accidental changes introduced by the
+swapping of values, so in terms of correctness, this appears
+all good to me.
 
-We should probably push this into SoC dtsi since #sound-dai-cells
-is there
+Kind regards,
+Nicolas Frattaroli
 
-Konrad
+
+
