@@ -2,73 +2,72 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B80DDC0EBB5
-	for <lists+dri-devel@lfdr.de>; Mon, 27 Oct 2025 16:00:03 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 70FA2C0EB87
+	for <lists+dri-devel@lfdr.de>; Mon, 27 Oct 2025 15:59:52 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C06CE10E4D6;
-	Mon, 27 Oct 2025 15:00:01 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A5BFB10E4C6;
+	Mon, 27 Oct 2025 14:59:50 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="clh4dMgr";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="aPi5h3Y0";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-f54.google.com (mail-wr1-f54.google.com
- [209.85.221.54])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A431410E4CB
- for <dri-devel@lists.freedesktop.org>; Mon, 27 Oct 2025 14:59:43 +0000 (UTC)
-Received: by mail-wr1-f54.google.com with SMTP id
- ffacd0b85a97d-3ece1102998so3424017f8f.2
- for <dri-devel@lists.freedesktop.org>; Mon, 27 Oct 2025 07:59:43 -0700 (PDT)
+Received: from mail-wm1-f42.google.com (mail-wm1-f42.google.com
+ [209.85.128.42])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 31F5510E4DF
+ for <dri-devel@lists.freedesktop.org>; Mon, 27 Oct 2025 14:59:46 +0000 (UTC)
+Received: by mail-wm1-f42.google.com with SMTP id
+ 5b1f17b1804b1-471b80b994bso67383855e9.3
+ for <dri-devel@lists.freedesktop.org>; Mon, 27 Oct 2025 07:59:46 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1761577182; x=1762181982; darn=lists.freedesktop.org;
+ d=linaro.org; s=google; t=1761577185; x=1762181985; darn=lists.freedesktop.org;
  h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
  :mime-version:subject:date:from:from:to:cc:subject:date:message-id
- :reply-to; bh=qz/PnsLNKphGj4wu5t6w0DkX4PTYLFQZn42Nmg+SPjs=;
- b=clh4dMgrCrN29AS6w/B8ENiHJ58tt4mgvHbXcsi6Vp1lxIkak1qtNfKCfg1Gjvx0QZ
- tuO96pCw8Y9LJgyyDRQSZtSNK0TziL+VJnuukiDEVDvA5ma4e+FExptxaNo15ERbm068
- HB8X1oZb2DLBYKixbbEYBU4ZUl78v7phzfSE8XDnq2VNRRyZJISLU7g+tWPXQ2t8HTuR
- ZJS9Yq9sJ3SnseO1LTu15Jl6M1F4BksV3QIDtYgkg1ctkugDHTpwA8RY3/IsHywn9Ro2
- o8WmPXXrpSykBDVbA09IsjvULF7jtAPdW2pWXFIjxQ+Zs0ny0ZwmRNDYEuNtLm6egqOv
- kFYQ==
+ :reply-to; bh=AqsKQ8///0zondjUQyLirrRSCHthDErDWugJZ18wpKg=;
+ b=aPi5h3Y0DoP7hWCTaCLogFMnYMs0ZXVEtNh2LmUoNv698KzdHnuGegI09WWK6WS1Zb
+ cGmhjyTjkEUGdTUKy6f0t19gq2mCASrtd8CjgO0NriiUWyq2smjFmsGk2XXwWlFMOdjK
+ T2JdzQxWCLBUMuf1g5IP3VoZ/p4KAlkplihepvSMcwHtKtB0RJ1xTRYrM+ncVQF1tPHt
+ FHl2fInSgPLVrJUEOI1gBTfdHXEHswRHOy4Zl7ySFpyzet9P9mgEC0xZb69i9zH/lAw8
+ vrwbReouaQTM9sk7P5C/6sIKGsIiNdT9t4l0Cf76gj5qeHFqVSr67ifwAUFuiKrv7VbH
+ h4yA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1761577182; x=1762181982;
+ d=1e100.net; s=20230601; t=1761577185; x=1762181985;
  h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
  :mime-version:subject:date:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=qz/PnsLNKphGj4wu5t6w0DkX4PTYLFQZn42Nmg+SPjs=;
- b=iIt8QxUS1ucbq31Xr0pV3S5hYhMIUe0oRlPIxL7h6rxq4Og4wfV3Xu2dt9N+bAks7Z
- 4fuNpXo282PRydszegYOi58NC4/+cg6+UliohfmU7pHyJu8yhY7jYgAVhEKP/xB9o+Va
- p1P91XXwXfrnkKQU8e0nAXA4qXmabjYLJp2k+yEyBs+w2aYxGUJFnlBFYkTcA4TdR0oK
- /u2rbZrc5EUeW2n5CgvC1CkS0YK+f4GtIFY+AR1PWPVztUyjwpOVtUUwRTtJCfuKymvA
- X8LHqQdWtnDUjKoiXvIRsw8+ekvb1dWwAtSW+ClqJzk+z/8Vq1CcAkqdH7HRaXV8t8ax
- zPlQ==
+ bh=AqsKQ8///0zondjUQyLirrRSCHthDErDWugJZ18wpKg=;
+ b=cpXcBGoTG3zSW8TuiTVDuZGPWqhHkIg4FOyl40lb1QDCrSJECrboVmK/sbWCDpBeei
+ rbDvzM0qre4AgjC8MFlvpNJ1wSAI4gRUSWWkdR5PylZ0ZXpMsSx79FCFx+IcD2MjXmss
+ 3dIU1SzIvrqTbOOYF2ENgIdt91Tf6PRXFs4+pKUj0qPGcJItDbk2UVL57LXDP4LRmTNK
+ PPn4+8RF8bKV/MdUOEgSUrWi+lFu6AcNSXZOh5QwH0jHFOgrJMK7A/CFlNP5x8dLey7Q
+ +OiLyDySK+VSOIAxd4BqI1O/eV/ljnxJ7M52JF8XOVaPZv0gcm9Buy0UwrzkgCFIHYvF
+ beGg==
 X-Forwarded-Encrypted: i=1;
- AJvYcCXMZrMeUUEiJCk/FOXqVgr5d8ZHmFuHlQC+wSRKG+lbP/hEF+VqJVGxzzVjV56BELVlD9qCZQK2oYg=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YzyaLQzpUO6DAPH32xLCQA+AF+G5L0/NjcThE52OuKVtVLrzJmy
- uRN0w2Sx+Ko7XTvObCZbztkZsS9ZpkNiz6hKhKQhz83vrk/D0NobCSIr1xD9ON9Ngxk=
-X-Gm-Gg: ASbGnctlBtn1QxTVa0coF8sOZJp5CFlFBP6x7JdYyZ25jwAJdD4buOanpP30ie0QqQN
- 8ftO/ac/IdgurUqy7wMD2RLANphxJQ8CsojRAJogjtgBvruik5AejA7WlCoiRjEjeMgsjBf5Iev
- SknHvvfoxlS7S5UJQPl3njQO7TN/Hp/nyycjws2kPmVMm1SpaZr2I/BtmqR+UZ6YSbVZqa60dE/
- jqFuY9i9nBAH5pN2mfM+1OlSrJWaE4s8Gdk/npcqymkVgpoqlQouuOjbvGPXwfjm9GawSG0mHrr
- LSr975Fx63VIkDlK//tD8mpLq6TXlCfBnnc6MlQbT7O53OK0h5vSvX7EH1Sk23fqOgruDlBL8vW
- W82gsY+vys6dx4YyQQFZ0xG5YyUNEERQIl+tMMFM+RdrjTUzflOwF5aKpT0ZBuJqy6LTVOT1XDf
- 134ZHRy90JoqnGQ2e0Ae0=
-X-Google-Smtp-Source: AGHT+IHZ1yK3U3yLoTg48R/GGPo48EabRX1eTv4WbvErGehFypuSM3j72H7Y4kWByXl9POqbwjJEhA==
-X-Received: by 2002:a05:6000:2913:b0:427:526:1684 with SMTP id
- ffacd0b85a97d-429a7e52f6bmr21760f8f.25.1761577182057; 
- Mon, 27 Oct 2025 07:59:42 -0700 (PDT)
+ AJvYcCUCae6KYeSj2pCdfYK6VH+ew+VaGCBl5sPByxcJH/ERQpnDbvujNjxc1x90TyoZIxT6A3WKj0wFZes=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YxOG02MLQon/dCwCsTe0GgOHnieSg1GqhSfumNQDzV7mjY3foMO
+ ZsaXR1O76dFkVwKEGoqOREl1KdKKLSnvW+RvbUSisOl25cbnEvPu/qPMLfKnPRdET2k=
+X-Gm-Gg: ASbGnctrTLj3V8zfOEZjQ+d1NDzjsDlD8Pmdu2/DwxlxBj+A9d+aWiK7JV5Ng0YTSPk
+ SBToRAoXJ8qyOeHysrbJTLUBr5y03xBPitKYQzwwtGn92g2E7bl9ZDMLi9omAv0YXXU+rfukNcB
+ ICDVb7FOLSBHcxb9wYh0yq6sAYr8Okc/WuOpo+fYRHyqjdeQs5Pu4CU278qNjqCc1NYmy5wVDJ/
+ gMncDkz4zVB9JsoDKrhIvOkKCLgLZiuzm8k8jlFHlyDQp+ju/Gnb/57UnzjEY00kOuV2viNFj8J
+ EheK2HMSNgP0ATmpGooCkt6D+zs8ywcu9Uh+NV4FRRXG3w0MERD3BTNx3ogzcnsdR8l0265TWNN
+ lNT8FTnb3Ku8bT4pLUyn/QPS3mhQBuiXW/Z9pru0F8uL5NRhuvYp1jcAC6TCZmP21Ii8edQHemx
+ Y+2bLdzFzu
+X-Google-Smtp-Source: AGHT+IFO7Got2ubevHRfgj5QqQ+su96RPdM4Gxx2kUrMjZfw7k7B7E+Ut+HnbXiTZsiZtBSeBGG6RA==
+X-Received: by 2002:a05:600c:83c3:b0:475:de68:3c2e with SMTP id
+ 5b1f17b1804b1-475de683d45mr63857665e9.40.1761577184642; 
+ Mon, 27 Oct 2025 07:59:44 -0700 (PDT)
 Received: from hackbox.lan ([86.121.7.169]) by smtp.gmail.com with ESMTPSA id
- ffacd0b85a97d-429952df682sm14624801f8f.43.2025.10.27.07.59.39
+ ffacd0b85a97d-429952df682sm14624801f8f.43.2025.10.27.07.59.42
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 27 Oct 2025 07:59:41 -0700 (PDT)
+ Mon, 27 Oct 2025 07:59:43 -0700 (PDT)
 From: Abel Vesa <abel.vesa@linaro.org>
-Date: Mon, 27 Oct 2025 16:59:20 +0200
-Subject: [PATCH v3 3/7] dt-bindings: display: msm: Document the Glymur
- DiplayPort controller
+Date: Mon, 27 Oct 2025 16:59:21 +0200
+Subject: [PATCH v3 4/7] drm/msm/mdss: Add Glymur device configuration
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20251027-glymur-display-v3-3-aa13055818ac@linaro.org>
+Message-Id: <20251027-glymur-display-v3-4-aa13055818ac@linaro.org>
 References: <20251027-glymur-display-v3-0-aa13055818ac@linaro.org>
 In-Reply-To: <20251027-glymur-display-v3-0-aa13055818ac@linaro.org>
 To: Rob Clark <robin.clark@oss.qualcomm.com>, 
@@ -88,23 +87,22 @@ To: Rob Clark <robin.clark@oss.qualcomm.com>,
 Cc: linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org, 
  freedreno@lists.freedesktop.org, devicetree@vger.kernel.org, 
  linux-kernel@vger.kernel.org, Abel Vesa <abel.vesa@linaro.org>, 
- Krzysztof Kozlowski <krzk@kernel.org>
+ Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
 X-Mailer: b4 0.15-dev-dedf8
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1535; i=abel.vesa@linaro.org; 
- h=from:subject:message-id;
- bh=MdFy/rEtddPgNfs1nNoPDNK3EzZtOK6/402QnuCksD4=; 
- b=owEBbQKS/ZANAwAKARtfRMkAlRVWAcsmYgBo/4jPJrs6Mwp34I2Ad0O3U77kUDk5w/G3R8kzf
- 3wInFUrPCeJAjMEAAEKAB0WIQRO8+4RTnqPKsqn0bgbX0TJAJUVVgUCaP+IzwAKCRAbX0TJAJUV
- VkAtD/9nAvhuxwMJ3BBEh2tiRZWzt90TFdkB5yBTJWcG6+7Q0LBRD/olmatidL6r/FQunDmcTWM
- sCbv+VJT5Voj6Bta7FooqGBd7sBQTY9cNaZOTJboyf8bfXClhizkT6WrBVJybhtbLLVmi0yvUcV
- B9EBoZ3fxJHUUH/P88q4jkk/4reIEhxN8uqCN5f+iA3c9dU1JYzx6pJXJouGJTaMUYBs+5685w1
- Tdzwcw7dHa7t8QGEfYxlzDKHt5gRTGYfQyvVd9dBsa6ytuMWj5DfE5B6KpP4JDZN7X6GJGlOQAJ
- veD6SaN8w+waDj6ubGo6iV+zrgkCOwkkwVrS/S0rc9cN73+33ftalWvYIpZhmrjqh6EKKrU8SNM
- /7u7w1E2+j16HzlLCtuw+zP+/nDGPnzMJhiyJvOcC+2bmRoLrH22+tZnsNfSUz/LedVG1/fRpsV
- M/eagK1ys58BZrCCvwPJyIE8etDROmJ9+HGSScm1BueZlIK5IotiwN+4jBNUgfxDYtLFUZfPakf
- Rpl9TnNAEE0qjCofLK7gzk3DerpjtMzhdt8TV5m2QbhAzh1BYxr0cek7eRpIXb2tby00u3IKgXx
- 2lDq0Sp2y2TQnrXi3QH1ITp0PgHKNqvOaH+jlYEMkmyBaDXCSZT8fa+NxenrkFd1NCS54C/7Bw1
- NOYUMCsivtUcn5g==
+X-Developer-Signature: v=1; a=openpgp-sha256; l=961; i=abel.vesa@linaro.org;
+ h=from:subject:message-id; bh=m/Ryf+3/Ba7bj8cfGk0q+ZCXj08lxgpxWe3j8JBvzwU=;
+ b=owEBbQKS/ZANAwAKARtfRMkAlRVWAcsmYgBo/4jQBp5H4dDRTqI5TaS3RfQjAj9H1dixDkmAz
+ ixmM0LiGYeJAjMEAAEKAB0WIQRO8+4RTnqPKsqn0bgbX0TJAJUVVgUCaP+I0AAKCRAbX0TJAJUV
+ VsLgD/9+wwEnPPeWGdL3dWWtgOTfnTcC8jpTFqVVENytsh45QdKu9O+0P/fh1WSXFMjpsRrAbs6
+ WKbRfNOvZ03Kmw/sVbytPerJ64AkkPGZlGirnte7kXlFkveP0Ecghp2yBfQG2QC09wehxpJz2v/
+ PlHSdIQ/2SFYE6cqk5A+Pcf24WkliOJ2qsLI7DORwwZzSD3ThX7woyimkMSVzC1ircRJTIMpeDw
+ QlGQUFaTPTuXH+NK1Nr9k86yqaTUACN0Taao4LLRtu9IbruWMZn30BCWHAgdm1+TTpLKVZtSUpL
+ y9DPFsoqv08g04uof6sf+iKJ2s6ipoYUHFZESnu8PbB5fV1Zyjuf3mNbC+wbNuZG3XTZN+T8G6g
+ rGIQ118FHxRuUOjcr6FlAacjRo+Ja0vq6LSAemYm++pPa3pAR+ArtAvSpq1IFj17O3J90rSZH/K
+ zCNy2Hc32837x3/jwgJm2T59ASUNXnJMMyhUiFCkWWsjIsPFMY6Yih++ai84+ft64EQZUa1w7AL
+ 2mjbDUYfKDEL1CsNDfoKPsUVkPc4D/ILE6LTsQBfr3DLIsbME7fgIh6UPnemG/pSpud0TKg5k38
+ yDSl2yyq9Tubt7bwohbnH6rADGfrdlFjIVjkbMmmhTXD0HBdncIrt3bCJeHJm2diXhvfrVdQYeF
+ iYhgQ0RhQ/2E6sg==
 X-Developer-Key: i=abel.vesa@linaro.org; a=openpgp;
  fpr=6AFF162D57F4223A8770EF5AF7BF214136F41FAE
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -122,44 +120,26 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Document the DisplayPort controller found in the Qualcomm Glymur SoC.
-There are 4 controllers and their new core revision is different when
-compared to all previous platforms, therefore being incompatible.
+Add Mobile Display Subsystem (MDSS) support for the Glymur platform.
 
-Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
 Signed-off-by: Abel Vesa <abel.vesa@linaro.org>
 ---
- Documentation/devicetree/bindings/display/msm/dp-controller.yaml | 3 +++
- 1 file changed, 3 insertions(+)
+ drivers/gpu/drm/msm/msm_mdss.c | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/Documentation/devicetree/bindings/display/msm/dp-controller.yaml b/Documentation/devicetree/bindings/display/msm/dp-controller.yaml
-index aeb4e4f36044a0ff1e78ad47b867e232b21df509..26f5043748c166aa44be4e62445a63106edf9578 100644
---- a/Documentation/devicetree/bindings/display/msm/dp-controller.yaml
-+++ b/Documentation/devicetree/bindings/display/msm/dp-controller.yaml
-@@ -18,6 +18,7 @@ properties:
-   compatible:
-     oneOf:
-       - enum:
-+          - qcom,glymur-dp
-           - qcom,sa8775p-dp
-           - qcom,sc7180-dp
-           - qcom,sc7280-dp
-@@ -195,6 +196,7 @@ allOf:
-           compatible:
-             contains:
-               enum:
-+                - qcom,glymur-dp
-                 - qcom,sa8775p-dp
-                 - qcom,x1e80100-dp
-       then:
-@@ -239,6 +241,7 @@ allOf:
-             enum:
-               # these platforms support 2 streams MST on some interfaces,
-               # others are SST only
-+              - qcom,glymur-dp
-               - qcom,sc8280xp-dp
-               - qcom,x1e80100-dp
-     then:
+diff --git a/drivers/gpu/drm/msm/msm_mdss.c b/drivers/gpu/drm/msm/msm_mdss.c
+index 2d0e3e784c044db8ac0c478446d211a982cf0350..60bd6af83a8846f2ad751ea625a20e419c80638b 100644
+--- a/drivers/gpu/drm/msm/msm_mdss.c
++++ b/drivers/gpu/drm/msm/msm_mdss.c
+@@ -553,6 +553,7 @@ static const struct msm_mdss_data data_153k6 = {
+ 
+ static const struct of_device_id mdss_dt_match[] = {
+ 	{ .compatible = "qcom,mdss", .data = &data_153k6 },
++	{ .compatible = "qcom,glymur-mdss", .data = &data_57k },
+ 	{ .compatible = "qcom,msm8998-mdss", .data = &data_76k8 },
+ 	{ .compatible = "qcom,qcm2290-mdss", .data = &data_76k8 },
+ 	{ .compatible = "qcom,sa8775p-mdss", .data = &data_74k },
 
 -- 
 2.48.1
