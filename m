@@ -2,83 +2,55 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 72CDCC0C576
-	for <lists+dri-devel@lfdr.de>; Mon, 27 Oct 2025 09:39:51 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 05513C0C589
+	for <lists+dri-devel@lfdr.de>; Mon, 27 Oct 2025 09:41:18 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4DB3A10E04B;
-	Mon, 27 Oct 2025 08:39:49 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 232CB10E393;
+	Mon, 27 Oct 2025 08:41:15 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="lJgzi/rB";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="rufVP4OS";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ua1-f49.google.com (mail-ua1-f49.google.com
- [209.85.222.49])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B47E910E04B
- for <dri-devel@lists.freedesktop.org>; Mon, 27 Oct 2025 08:39:48 +0000 (UTC)
-Received: by mail-ua1-f49.google.com with SMTP id
- a1e0cc1a2514c-932bcc0bcf3so3367894241.3
- for <dri-devel@lists.freedesktop.org>; Mon, 27 Oct 2025 01:39:48 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1761554387; x=1762159187; darn=lists.freedesktop.org;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=LVeKWq/PUcnanhtRemidmBBr9Q1nvH92bMeb25iRoXU=;
- b=lJgzi/rB/QSERFPWF1wSAnvubAlpBXLZvjVrDlzComPwQdwVt14ZJkUprf/DsQZbHR
- R7cKUU2+ulZ2bGnPupU0O+wNI+kfe2nmWwE2+cIH4uP928+JfSYFD6KAdnm1eOEDyg9o
- QyPs0+DG226M1duEaTu8RtiBM1qZ3A/dFA/lW8/3tqRmNUiMNaur12lGOtJtbJRb6cxb
- qoCiW3vxW1a/icbwTgneoNaZa8vTJcMhRnhnH/C+wpfuIQaTELSfLaJrjIiYBMwJCyeO
- +3LhZVF39OsbpQlbAuV+K06qf35FImAAjhlU92Bpwxpx+v1HfUODdHaW0sOE6eDMvPkp
- o2hA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1761554387; x=1762159187;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=LVeKWq/PUcnanhtRemidmBBr9Q1nvH92bMeb25iRoXU=;
- b=tTFzm1/D5cbjCCwjFfqbLkmtkmdz2eJkaX5XNYf2WOeb0lr1lzbPwjnhR+5++6kmVw
- XNeAIFs8HMkSZpzfZxjwMlS5/GwE9NrMg5i8J0AsM1eC5zmdEcM0SJ9GcFEhph9ZIYPr
- Tbi+Bq+I20eUhUeENtL0xqsaEGq1FoQ3I90j2GZJkCZlR5BAtya4aC7N8DnUKAzojt0b
- iPEaX45RB7GaxbY9eCut4fkkQ0E0kY525pFqpWtfsUMmZa/atP0l0XeYLjiinubhDIQ3
- ihyyoq+EQh5WDy+Wb2D+xDvBhCrFZFhf4OxRF9G3P34pI70iaNDfjxTUKYpYrqv67Un+
- NRqA==
-X-Forwarded-Encrypted: i=1;
- AJvYcCXUMQ8+aMtmR65zOOzYP+BEK/bmuuJ9Mapgje60WrMHc8YWW0mfdjXZMkEHZ/gPRIbrUAAoY/zBoUU=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YxIgqVfO7D67fNHka2NCn0HhfvcxuY3tOW7OhYNvv8eOIujQ8zg
- xHSSH+93L8w3wUu8u5s0BOYSvn8eg8Lg6VMJiykidw6S9bM1Q6hhjWUX5gbEPcs/HcJ6/7Y3s5n
- 4vUO24zJhrv7rPUsbXJgV7oo/3A9Deo4=
-X-Gm-Gg: ASbGnctnwRDeuePp1QX55bX6mjseNULgbUINTm8cbZQDsF0gA2m6UQYaQBB0ycYuepJ
- JhRmfjDO3A03PNYLei4ZZnMmhPByv92Wbwhz9zy7na+zgXnsnRnsrIVUY09QWYsuAbXxlAItF3w
- HV/smAK9Jvicj+iKm0FFoD6O6kku2dFaG8ksavqCuMwySGE6q/Xp2wNJp4ZPdXEm6EN68cC9doo
- XlVymr84/aLpectRaNTpZzD/5nTnLNkRwRvkpP/REjX+0sn7rzSu14MlTK2R0BtdjEqM1eLAYPB
- jIgciUp+94attYAywKYX6RaHiMxi
-X-Google-Smtp-Source: AGHT+IEkfcnfwuZO4D0yfhhVNz9QlAgJOdxgTLgX5eJlebMGNCREbWZ6shn+IJkJKUDrSiC1zFgV5M2F8naNthKSkC4=
-X-Received: by 2002:a05:6102:4421:b0:5d6:254f:4e24 with SMTP id
- ada2fe7eead31-5d7dd5ea5f5mr13446335137.32.1761554387168; Mon, 27 Oct 2025
- 01:39:47 -0700 (PDT)
+Received: from sea.source.kernel.org (sea.source.kernel.org [172.234.252.31])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0042E10E393
+ for <dri-devel@lists.freedesktop.org>; Mon, 27 Oct 2025 08:41:13 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by sea.source.kernel.org (Postfix) with ESMTP id D1FA54185D;
+ Mon, 27 Oct 2025 08:41:13 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id ADEC6C4CEF1;
+ Mon, 27 Oct 2025 08:41:13 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1761554473;
+ bh=p7L1ppdjpTPK5vdV3Mi+mMZfy8PqxfrJ0ZCIY6BoM3Q=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=rufVP4OSJtQ3/mqTsI9HPHrUO+OB+vlQGbAQqIDt1z1/AZr7oI74LCqffPdj8vLew
+ JW1i1LFS8BrXSqZRhEm8DGIdLLQVtvMjlTR4+W3Nd5kmSFHSa0+5cnJLiMCDqe1zZi
+ BZNURd+k0QiE1zTDpsPp4znfOXhDST9Y3ZAdAzHCG4QUeEz2dKvoj2FRR+7KtARw0K
+ x93tfow3vIZdl4w3bnKt+Aq0n8eljgp5LLbcx8nSChwFpPFXxJxXmmuBeEl5qZ6Ewt
+ QStYGjeV2llAJvn5SGcXYs1zeEWXAMkH7z30MF1MUyoV1y4kbm/N2jrDV4GJAx84ZL
+ F0pZYbv/EemuQ==
+Received: from johan by xi.lan with local (Exim 4.98.2)
+ (envelope-from <johan@kernel.org>) id 1vDImy-000000000Gc-2Ow9;
+ Mon, 27 Oct 2025 09:41:16 +0100
+Date: Mon, 27 Oct 2025 09:41:16 +0100
+From: Johan Hovold <johan@kernel.org>
+To: Chun-Kuang Hu <chunkuang.hu@kernel.org>,
+ Philipp Zabel <p.zabel@pengutronix.de>
+Cc: David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Matthias Brugger <matthias.bgg@gmail.com>,
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+ CK Hu <ck.hu@mediatek.com>, Ma Ke <make24@iscas.ac.cn>,
+ Sjoerd Simons <sjoerd@collabora.com>,
+ dri-devel@lists.freedesktop.org, linux-mediatek@lists.infradead.org,
+ linux-kernel@vger.kernel.org, stable@vger.kernel.org
+Subject: Re: [PATCH] drm/mediatek: fix device use-after-free on unbind
+Message-ID: <aP8wLMrFTsJI-Lr3@hovoldconsulting.com>
+References: <20251006093937.27869-1-johan@kernel.org>
 MIME-Version: 1.0
-References: <20251020053523.731353-1-uwu@icenowy.me>
- <dff6216d-b4a4-4d5d-89e3-e393dc018dec@amd.com>
-In-Reply-To: <dff6216d-b4a4-4d5d-89e3-e393dc018dec@amd.com>
-From: Han Gao <rabenda.cn@gmail.com>
-Date: Mon, 27 Oct 2025 16:39:35 +0800
-X-Gm-Features: AWmQ_bmwtlbQuKUnS-IuTkyrp0egdh5iciKLYtYyF5wyQpHkC3GNMn5GWoRJOw8
-Message-ID: <CAAT7Ki8e8vUeiLVt+j=f6=aB_JyEOwE2HhPn+xH1TPC_NYec8Q@mail.gmail.com>
-Subject: Re: [PATCH v2] drm/ttm: add pgprot handling for RISC-V
-To: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
-Cc: Icenowy Zheng <uwu@icenowy.me>, Huang Rui <ray.huang@amd.com>, 
- Matthew Auld <matthew.auld@intel.com>, Matthew Brost <matthew.brost@intel.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, 
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
- Simona Vetter <simona@ffwll.ch>, 
- Paul Walmsley <paul.walmsley@sifive.com>, Palmer Dabbelt <palmer@dabbelt.com>, 
- Albert Ou <aou@eecs.berkeley.edu>, Alexandre Ghiti <alex@ghiti.fr>,
- dri-devel@lists.freedesktop.org, 
- linux-kernel@vger.kernel.org, linux-riscv@lists.infradead.org, 
- Vivian Wang <wangruikang@iscas.ac.cn>, Inochi Amaoto <inochiama@gmail.com>, 
- Yao Zi <ziyao@disroot.org>
-Content-Type: multipart/alternative; boundary="0000000000007ff32c06421fd73d"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20251006093937.27869-1-johan@kernel.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -94,135 +66,36 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
---0000000000007ff32c06421fd73d
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Hi Chun-Kuang,
 
-Tested on sophgo sg2042/sophgo sg2044/ultrarisc dp1000.
+On Mon, Oct 06, 2025 at 11:39:37AM +0200, Johan Hovold wrote:
+> A recent change fixed device reference leaks when looking up drm
+> platform device driver data during bind() but failed to remove a partial
+> fix which had been added by commit 80805b62ea5b ("drm/mediatek: Fix
+> kobject put for component sub-drivers").
+> 
+> This results in a reference imbalance on component bind() failures and
+> on unbind() which could lead to a user-after-free.
+> 
+> Make sure to only drop the references after retrieving the driver data
+> by effectively reverting the previous partial fix.
+> 
+> Note that holding a reference to a device does not prevent its driver
+> data from going away so there is no point in keeping the reference.
+> 
+> Fixes: 1f403699c40f ("drm/mediatek: Fix device/node reference count leaks in mtk_drm_get_all_drm_priv")
+> Reported-by: Sjoerd Simons <sjoerd@collabora.com>
+> Link: https://lore.kernel.org/r/20251003-mtk-drm-refcount-v1-1-3b3f2813b0db@collabora.com
+> Cc: stable@vger.kernel.org
+> Cc: Ma Ke <make24@iscas.ac.cn>
+> Cc: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+> Signed-off-by: Johan Hovold <johan@kernel.org>
 
-On Mon, Oct 27, 2025 at 15:57 Christian K=C3=B6nig <christian.koenig@amd.co=
-m>
-wrote:
+This patch fixes a regression in 6.17-rc4 that apparently breaks boot
+for some users. To make things worse, the offending commit was also
+backported to the stable trees.
 
->
->
-> On 10/20/25 07:35, Icenowy Zheng wrote:
-> > The RISC-V Svpbmt privileged extension provides support for overriding
-> > page memory coherency attributes, and, along with vendor extensions lik=
-e
-> > Xtheadmae, supports pgprot_{writecombine,noncached} on RISC-V.
-> >
-> > Adapt the codepath that maps ttm_write_combined to pgprot_writecombine
-> > and ttm_noncached to pgprot_noncached to RISC-V, to allow proper page
-> > access attributes.
-> >
-> > Signed-off-by: Icenowy Zheng <uwu@icenowy.me>
-> > Tested-by: Han Gao <rabenda.cn@gmail.com>
-> > ---
-> > Changes in v2:
-> > - Added Han Gao's test tag.
-> >
-> >  drivers/gpu/drm/ttm/ttm_module.c | 3 ++-
-> >  1 file changed, 2 insertions(+), 1 deletion(-)
-> >
-> > diff --git a/drivers/gpu/drm/ttm/ttm_module.c
-> b/drivers/gpu/drm/ttm/ttm_module.c
-> > index b3fffe7b5062a..aa137ead5cc59 100644
-> > --- a/drivers/gpu/drm/ttm/ttm_module.c
-> > +++ b/drivers/gpu/drm/ttm/ttm_module.c
-> > @@ -74,7 +74,8 @@ pgprot_t ttm_prot_from_caching(enum ttm_caching
-> caching, pgprot_t tmp)
-> >  #endif /* CONFIG_UML */
-> >  #endif /* __i386__ || __x86_64__ */
-> >  #if defined(__ia64__) || defined(__arm__) || defined(__aarch64__) || \
-> > -     defined(__powerpc__) || defined(__mips__) || defined(__loongarch_=
-_)
-> > +     defined(__powerpc__) || defined(__mips__) ||
-> defined(__loongarch__) || \
-> > +     defined(__riscv)
->
-> Looks reasonable, but does that work on all RISC-V variants?
->
-> And while at it maybe please fix the indentation, using a tab here is
-> probably not very adequate. In other words make the defined() match the o=
-ne
-> on the first line.
->
-> Regards,
-> Christian.
->
-> >       if (caching =3D=3D ttm_write_combined)
-> >               tmp =3D pgprot_writecombine(tmp);
-> >       else
->
->
+You need to get this one into mainline as soon as possible, that is,
+this week and into 6.18-rc4.
 
---0000000000007ff32c06421fd73d
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"auto">Tested on sophgo sg2042/sophgo sg2044/ultrarisc dp1000.</=
-div><div><br><div class=3D"gmail_quote gmail_quote_container"><div dir=3D"l=
-tr" class=3D"gmail_attr">On Mon, Oct 27, 2025 at 15:57 Christian K=C3=B6nig=
- &lt;<a href=3D"mailto:christian.koenig@amd.com">christian.koenig@amd.com</=
-a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0 =
-0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex"><br>
-<br>
-On 10/20/25 07:35, Icenowy Zheng wrote:<br>
-&gt; The RISC-V Svpbmt privileged extension provides support for overriding=
-<br>
-&gt; page memory coherency attributes, and, along with vendor extensions li=
-ke<br>
-&gt; Xtheadmae, supports pgprot_{writecombine,noncached} on RISC-V.<br>
-&gt; <br>
-&gt; Adapt the codepath that maps ttm_write_combined to pgprot_writecombine=
-<br>
-&gt; and ttm_noncached to pgprot_noncached to RISC-V, to allow proper page<=
-br>
-&gt; access attributes.<br>
-&gt; <br>
-&gt; Signed-off-by: Icenowy Zheng &lt;<a href=3D"mailto:uwu@icenowy.me" tar=
-get=3D"_blank">uwu@icenowy.me</a>&gt;<br>
-&gt; Tested-by: Han Gao &lt;<a href=3D"mailto:rabenda.cn@gmail.com" target=
-=3D"_blank">rabenda.cn@gmail.com</a>&gt;<br>
-&gt; ---<br>
-&gt; Changes in v2:<br>
-&gt; - Added Han Gao&#39;s test tag.<br>
-&gt; <br>
-&gt;=C2=A0 drivers/gpu/drm/ttm/ttm_module.c | 3 ++-<br>
-&gt;=C2=A0 1 file changed, 2 insertions(+), 1 deletion(-)<br>
-&gt; <br>
-&gt; diff --git a/drivers/gpu/drm/ttm/ttm_module.c b/drivers/gpu/drm/ttm/tt=
-m_module.c<br>
-&gt; index b3fffe7b5062a..aa137ead5cc59 100644<br>
-&gt; --- a/drivers/gpu/drm/ttm/ttm_module.c<br>
-&gt; +++ b/drivers/gpu/drm/ttm/ttm_module.c<br>
-&gt; @@ -74,7 +74,8 @@ pgprot_t ttm_prot_from_caching(enum ttm_caching cach=
-ing, pgprot_t tmp)<br>
-&gt;=C2=A0 #endif /* CONFIG_UML */<br>
-&gt;=C2=A0 #endif /* __i386__ || __x86_64__ */<br>
-&gt;=C2=A0 #if defined(__ia64__) || defined(__arm__) || defined(__aarch64__=
-) || \<br>
-&gt; -=C2=A0 =C2=A0 =C2=A0defined(__powerpc__) || defined(__mips__) || defi=
-ned(__loongarch__)<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0defined(__powerpc__) || defined(__mips__) || defi=
-ned(__loongarch__) || \<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0defined(__riscv)<br>
-<br>
-Looks reasonable, but does that work on all RISC-V variants?<br>
-<br>
-And while at it maybe please fix the indentation, using a tab here is proba=
-bly not very adequate. In other words make the defined() match the one on t=
-he first line.<br>
-<br>
-Regards,<br>
-Christian.<br>
-<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0if (caching =3D=3D ttm_write_combined)<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0tmp =3D pgprot_w=
-ritecombine(tmp);<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0else<br>
-<br>
-</blockquote></div></div>
-
---0000000000007ff32c06421fd73d--
+Johan
