@@ -2,56 +2,56 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5E82EC0FBB3
-	for <lists+dri-devel@lfdr.de>; Mon, 27 Oct 2025 18:43:52 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id AE84FC0FBD7
+	for <lists+dri-devel@lfdr.de>; Mon, 27 Oct 2025 18:45:32 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 767EE10E52B;
-	Mon, 27 Oct 2025 17:43:50 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id EA11910E532;
+	Mon, 27 Oct 2025 17:45:30 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="cjJgdn31";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="Cj14kJH+";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D662210E52B
- for <dri-devel@lists.freedesktop.org>; Mon, 27 Oct 2025 17:43:49 +0000 (UTC)
+Received: from sea.source.kernel.org (sea.source.kernel.org [172.234.252.31])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7CEC610E532
+ for <dri-devel@lists.freedesktop.org>; Mon, 27 Oct 2025 17:45:29 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by tor.source.kernel.org (Postfix) with ESMTP id 086346146B
- for <dri-devel@lists.freedesktop.org>; Mon, 27 Oct 2025 17:43:49 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A94BDC4AF09
- for <dri-devel@lists.freedesktop.org>; Mon, 27 Oct 2025 17:43:48 +0000 (UTC)
+ by sea.source.kernel.org (Postfix) with ESMTP id 47ED5460D2
+ for <dri-devel@lists.freedesktop.org>; Mon, 27 Oct 2025 17:45:29 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2BD8CC16AAE
+ for <dri-devel@lists.freedesktop.org>; Mon, 27 Oct 2025 17:45:29 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1761587028;
- bh=nS2ceydtY7arO53figgNl3Skob7MFYJcnB/okNLIQQo=;
+ s=k20201202; t=1761587129;
+ bh=upm4Fx4Zyity5YEegKY8XfpMcrJf2ls4KbygxA0gOhs=;
  h=References:In-Reply-To:Reply-To:From:Date:Subject:To:Cc:From;
- b=cjJgdn31XIKVTvn/EQRmDwJvDk+eUYujuuM1rf4nIDHf8QMPJnsaHb8ZwxrF2X4w7
- FN0rCQrr22UjMCXMMgvOCfwTtIIaq8QQuJHGtcJtp1zYhWg7OlI7c3y7HLJAE9kgPt
- vQYvgjVvfu1tubtbxXnq+MD4JJDp/ev7VlBbHkVjeKVBPME8BlPWj8AA403wkDCBDb
- D5NU2EANOWv/4e4ipiDfu3b2owrASECX4K6qOre8VZbpFj9Y2Xdym8XURQurHZFHg6
- Fhl3bvO0LfuVtgI5uP+4Du5TuyeHhVsjdV9i9H+HE0oDjHCEtkR5OMQnFDjdmxDloj
- pDnqcStXCz6/Q==
-Received: by mail-lj1-f175.google.com with SMTP id
- 38308e7fff4ca-378d50162e0so57553701fa.2
- for <dri-devel@lists.freedesktop.org>; Mon, 27 Oct 2025 10:43:48 -0700 (PDT)
+ b=Cj14kJH+FRFQaq800dK+D2JysmG7w5AjqVnjQRupPGzirc9wn/yrC5Rcfe1Hx+95T
+ 8iu2ONvQEsgLyKRwOVIy65cPnLYM87isb/TqYx6dNp2YI5CFb7lGyM6HHqrPsp5fZu
+ 2b7feUFVAi8CrHg+TlVk+BlhzGBH4hQDO+RpV6FmDilwGj+/wpIUbRhOcaIcKMcFpV
+ ayfn++vB+0q1DQxHh1Yasy9l4D+BMOzs5zMCMbQF/j9d5I4hsR3Zz/Wse260cUKvCO
+ U7I0mY2P44ao6p/8ZDTqX3bF2L7mwgtBxky0EyTZVZJr2jU/xeXuJ1sBzpvidAmMXO
+ JI3WWuk0m5LVQ==
+Received: by mail-lj1-f178.google.com with SMTP id
+ 38308e7fff4ca-378f010bf18so21931451fa.1
+ for <dri-devel@lists.freedesktop.org>; Mon, 27 Oct 2025 10:45:29 -0700 (PDT)
 X-Forwarded-Encrypted: i=1;
- AJvYcCUTtxk4woGhwq15D8VlVjXk+x/oQEseRcH2SN0y1sQbLgWvBOqJKwwMHXAYNQS5In+VN/VYjMAkyZw=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YwSuHGWkWhlVIAJAMLwYSc4p+8yRPmCXZA1dXO+ex6iPBEDzoQE
- /D6YzyQP4Ky2RDw9wS1O2YU4wxVFng8FQ3y9R6VdVN08AhvErKXLA4S0KiHi+/F07RInrhbw9JL
- OUMMh87IOQFWv7wIEgowz+stfz0h6hLs=
-X-Google-Smtp-Source: AGHT+IFUgpNOk2/lm1vINh6P/T+9hrDdSIGL0HQ0DNlL7efemsNxiG/a9dBuTEttStk6lJAJUQFTUsvRn5K8JymcC2E=
-X-Received: by 2002:a05:651c:4112:20b0:378:de30:74e6 with SMTP id
- 38308e7fff4ca-3790774baa7mr1284371fa.25.1761587027036; Mon, 27 Oct 2025
- 10:43:47 -0700 (PDT)
+ AJvYcCXBlCv6dHM5XAoOPEccG0k2sS9N++3OGmSN25zZnBpRTUdc1nY4NYEUK+/HydqGmYXcSuFmO8qHCRQ=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YzCEc6qEHcPls3BWGYOb56OfPEqJ1+i+sbozdIrnz/TbqJ+NBYp
+ fNY/53IibIIKQHT26m9PJffVLzwdydsazPgKcVR4QwhndeufMlqpwX+6K+wLxIj+cOLZTs8Anns
+ yWGXf5few3jQA7F4D80/0xfVOm2YXU3w=
+X-Google-Smtp-Source: AGHT+IFjlWIjfh9UvXhgPZoLIWaWRXGD/zpbLYult3MgsNK73imA2OTtKPUOEvbbhsWdoXcemdcDtRY3/9kK67MPTXU=
+X-Received: by 2002:a05:651c:1585:b0:378:cd2b:5040 with SMTP id
+ 38308e7fff4ca-37907cb3b9cmr967131fa.21.1761587127507; Mon, 27 Oct 2025
+ 10:45:27 -0700 (PDT)
 MIME-Version: 1.0
 References: <20251012192330.6903-1-jernej.skrabec@gmail.com>
- <20251012192330.6903-17-jernej.skrabec@gmail.com>
-In-Reply-To: <20251012192330.6903-17-jernej.skrabec@gmail.com>
+ <20251012192330.6903-18-jernej.skrabec@gmail.com>
+In-Reply-To: <20251012192330.6903-18-jernej.skrabec@gmail.com>
 From: Chen-Yu Tsai <wens@kernel.org>
-Date: Tue, 28 Oct 2025 01:43:34 +0800
-X-Gmail-Original-Message-ID: <CAGb2v6545EkcOCXYj2GzVNh0NK2CzqLEgHA+3yA0WcHu9jDiMw@mail.gmail.com>
-X-Gm-Features: AWmQ_bl_-VKJDXdC4sK8FJlKiPnwMqUHPzZ_DuY_Cd04DihfBUomCFRnXNe5gis
-Message-ID: <CAGb2v6545EkcOCXYj2GzVNh0NK2CzqLEgHA+3yA0WcHu9jDiMw@mail.gmail.com>
-Subject: Re: [PATCH 16/30] drm/sun4i: ui_layer: use layer struct instead of
+Date: Tue, 28 Oct 2025 01:45:14 +0800
+X-Gmail-Original-Message-ID: <CAGb2v66KBHkZZEkORAyFO5LPqSChBm8mUFS6bgiRZopze7JuKQ@mail.gmail.com>
+X-Gm-Features: AWmQ_bmRMHRbSFfLfGrgGggasJXji4AX31snSt1AiPTxbTOpwyHoYhtiWgiL24Q
+Message-ID: <CAGb2v66KBHkZZEkORAyFO5LPqSChBm8mUFS6bgiRZopze7JuKQ@mail.gmail.com>
+Subject: Re: [PATCH 17/30] drm/sun4i: vi_layer: use layer struct instead of
  multiple args
 To: Jernej Skrabec <jernej.skrabec@gmail.com>
 Cc: mripard@kernel.org, maarten.lankhorst@linux.intel.com, tzimmermann@suse.de,
@@ -81,6 +81,8 @@ l.com> wrote:
 >
 > This change is equally a cleanup (less arguments) and preparation for
 > DE33 separate plane driver. It will introduce additional register space.
+>
+> No functional changes.
 >
 > Signed-off-by: Jernej Skrabec <jernej.skrabec@gmail.com>
 
