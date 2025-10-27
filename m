@@ -2,98 +2,127 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 98F6FC0DF0E
-	for <lists+dri-devel@lfdr.de>; Mon, 27 Oct 2025 14:15:14 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 35197C0DEE5
+	for <lists+dri-devel@lfdr.de>; Mon, 27 Oct 2025 14:14:50 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0527610E496;
-	Mon, 27 Oct 2025 13:15:06 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5BAD810E48D;
+	Mon, 27 Oct 2025 13:14:47 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="C5JTx+DC";
+	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="pjh+2Rii";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7C22410E48A;
- Mon, 27 Oct 2025 13:15:04 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1761570905; x=1793106905;
- h=from:to:cc:subject:date:message-id:in-reply-to:
- references:mime-version:content-transfer-encoding;
- bh=0xbOnABFx4yaNxMOaQqBF3f8SvG8AUnBGKWAFQjol5Y=;
- b=C5JTx+DCTdTCa2yeeJcUt1jQLym1eIX0kfJLP19/e+qerhLUH+KrcJKM
- IxZRcQfBqwv+hdB5bioANFEjyqbYj4G3/BwX+8cxVwEGIaN2QuGKa76AO
- YZuGlENm9BAIDK8/d1CgjXgGxMD+65h6ukWnUA2u9WRkOxFcY0L5yxZe2
- FXfIxhg+5c80fkU2OVtmBKiN78G+gDR8qz9naJA7xsYUxNR1Ued9wPzKC
- An+rCoqZrSEI3PfTXDBxJIQVN5B/y4CB1P5HxbreNUa29qGJsme0Gb2Hu
- nV3b1YCmWvOzdANdeRRynWzdM4d4jCvzyu+BdTvZucq1u1hJ1FAryCjAx w==;
-X-CSE-ConnectionGUID: fM5Z0umSQk+Nl9UfXGMrpg==
-X-CSE-MsgGUID: IsFdC2YQQimhFWTDkRz5Mg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11586"; a="73936330"
-X-IronPort-AV: E=Sophos;i="6.19,258,1754982000"; d="scan'208";a="73936330"
-Received: from orviesa003.jf.intel.com ([10.64.159.143])
- by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 27 Oct 2025 06:15:04 -0700
-X-CSE-ConnectionGUID: x3PgRH6oTZi6rfcuPXi6rQ==
-X-CSE-MsgGUID: Gms1rF0DRLWrbp92MMt7og==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.19,258,1754982000"; d="scan'208";a="189078446"
-Received: from klitkey1-mobl1.ger.corp.intel.com (HELO kekkonen.fi.intel.com)
- ([10.245.244.31])
- by ORVIESA003-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 27 Oct 2025 06:14:54 -0700
-Received: from punajuuri.localdomain (unknown [192.168.240.130])
- by kekkonen.fi.intel.com (Postfix) with ESMTP id BCA5E121EF1;
- Mon, 27 Oct 2025 15:14:51 +0200 (EET)
-Received: from sailus by punajuuri.localdomain with local (Exim 4.98.2)
- (envelope-from <sakari.ailus@linux.intel.com>)
- id 1vDN3Y-00000001dzn-31Ja; Mon, 27 Oct 2025 15:14:40 +0200
-Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park,
- 6 krs, Bertel Jungin Aukio 5, 02600 Espoo
-From: Sakari Ailus <sakari.ailus@linux.intel.com>
-To: dri-devel@lists.freedesktop.org
-Cc: Alex Deucher <alexander.deucher@amd.com>,
- =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Felix Kuehling <Felix.Kuehling@amd.com>,
- Kenneth Feng <kenneth.feng@amd.com>, Lyude Paul <lyude@redhat.com>,
- Danilo Krummrich <dakr@kernel.org>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- Mario Limonciello <mario.limonciello@amd.com>,
- Alex Hung <alex.hung@amd.com>, Antonio Quartulli <antonio@mandelbit.com>,
- Pratap Nirujogi <pratap.nirujogi@amd.com>, Lijo Lazar <lijo.lazar@amd.com>,
- Dmitry Baryshkov <lumag@kernel.org>,
- Srinivasan Shanmugam <srinivasan.shanmugam@amd.com>,
- Yang Wang <kevinyang.wang@amd.com>, Sunil Khatri <sunil.khatri@amd.com>,
- Jesse Zhang <jesse.zhang@amd.com>,
- =?UTF-8?q?Ville=20Syrj=C3=A4l=C3=A4?= <ville.syrjala@linux.intel.com>,
- Liviu Dudau <liviu.dudau@arm.com>,
- Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
- Hawking Zhang <Hawking.Zhang@amd.com>,
- Vitaly Prosyak <vitaly.prosyak@amd.com>, Arnd Bergmann <arnd@arndb.de>,
- Thomas Gleixner <tglx@linutronix.de>, Ingo Molnar <mingo@kernel.org>,
- Liao Yuanhong <liaoyuanhong@vivo.com>,
- Rodrigo Siqueira <siqueira@igalia.com>, Prike Liang <Prike.Liang@amd.com>,
- Shashank Sharma <shashank.sharma@amd.com>,
- Arunpravin Paneer Selvam <Arunpravin.PaneerSelvam@amd.com>,
- Tao Zhou <tao.zhou1@amd.com>, YiPeng Chai <YiPeng.Chai@amd.com>,
- ganglxie <ganglxie@amd.com>, Xiang Liu <xiang.liu@amd.com>,
- Victor Skvortsov <victor.skvortsov@amd.com>, Ce Sun <cesun102@amd.com>,
- Dave Airlie <airlied@redhat.com>, Jani Nikula <jani.nikula@intel.com>,
- "Gustavo A. R. Silva" <gustavoars@kernel.org>,
- Imre Deak <imre.deak@intel.com>, Ben Skeggs <bskeggs@nvidia.com>,
- nouveau@lists.freedesktop.org, amd-gfx@lists.freedesktop.org
-Subject: [PATCH 3/3] drm/radeon: Remove redundant pm_runtime_mark_last_busy()
- calls
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
+ [205.220.168.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9DC8E10E48A
+ for <dri-devel@lists.freedesktop.org>; Mon, 27 Oct 2025 13:14:45 +0000 (UTC)
+Received: from pps.filterd (m0279862.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id
+ 59R8sVP71090823
+ for <dri-devel@lists.freedesktop.org>; Mon, 27 Oct 2025 13:14:45 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+ cc:content-type:date:from:in-reply-to:message-id:mime-version
+ :references:subject:to; s=qcppdkim1; bh=nFyzKi5bv7XzhZEu4Cpk+WRY
+ 5dnAaHHoSnvN/ez9mr0=; b=pjh+2RiiyRIkOe3N+YJqN3TwoEj4CEejkjcAuiqg
+ eTNuHP0Os9Sz7E6MkyxZ7yPTKOTbVK6TAJMmFrSCsjvC860dongX6tGYnABRWVzS
+ wVYrnEqc9vFYFjjDuuYVIAXx3SVif6ZwmvJZwqvxE86/Q+LwSCYANe3T68ptbJrP
+ v9lVlF5LWEBQm6lIWoPKAyuai8LKrkTxNuw7UizS7jBGk/ZKo45otfCbUXpxU3Tx
+ gUH9KaOaJxEuNcrJ1+4zX1LQ3jHNlREa7Xz7JO3+5YVL/1GoYjbUcLmhYHDcpiBZ
+ Eb1JL06WICkHrog0IZHMk4odthMZx6HQNWiniq32TGyhow==
+Received: from mail-qt1-f200.google.com (mail-qt1-f200.google.com
+ [209.85.160.200])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4a1ud1t2f2-1
+ (version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
+ for <dri-devel@lists.freedesktop.org>; Mon, 27 Oct 2025 13:14:45 +0000 (GMT)
+Received: by mail-qt1-f200.google.com with SMTP id
+ d75a77b69052e-4e8916e8d4aso45558241cf.2
+ for <dri-devel@lists.freedesktop.org>; Mon, 27 Oct 2025 06:14:44 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1761570884; x=1762175684;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=nFyzKi5bv7XzhZEu4Cpk+WRY5dnAaHHoSnvN/ez9mr0=;
+ b=fmWTod+Rc47Ylx/zlSuWA4mV19ALuvEpqzfgS+ZIwhhPfdymPl/W2W24YJQwPE1N3b
+ 1ZLLSZUo43H767iMeIfjbY6jmmgshm1CGcwTN+YF41xzz2Tys/uOVe2KZZ34cMZlxbLp
+ coZHoOXgW6npg73WKiMxAvy21bqtCvtFkO8tSpFwiia7Np7mdlwHb0VKIbAGNs2Z2aAL
+ jJ02JYd7KIjxVnl62uAzMgsV6sMDnLSoxkUFDyvoxLMzNdidoGEkKU8/qIrBSpHCuo4r
+ Uhn7zcu3w6q14lmghoBoy/w7srEV8Mg24e692LcQ+CmaQd3Rtpg3nlctPuH0U29A+2lR
+ DBeg==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCVNHvADB2IQHuW9qAWWxtzjP4lXmfj8eNEXpH6/qQrrQSZYU9HdLaD5EuAvFgCGUacw8vlFOPGUXzw=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YxIwgG8vRM5jwaStFsi3l3G3DNsZHSeRmZM8l0K6sd0kDpAMOrJ
+ 0pFawjXoi7t6kVVKhK0zF8FMpdWxg+XYvFKOkquIUN1+kfYKpe8HKyTPkVb2zQ4RyDh4pQp9k0C
+ bIJdh1HE7OzqWy8GjoOtyxHlRKvVAjhN3yH3oQlzyoHF8ez7GGQmFcGMEfHHH7hgmXbrtVH4=
+X-Gm-Gg: ASbGncvS7YO5agy4AXfKBdA9wNstchNI2oBlmWtFEv53oF38ytdAA25JX3MgNAmf9bx
+ D1ZCcq4LIOZAlH6FysGY2B5bqa8BzSLy1GCbeDRXog0In+teBPnr+JfNaWh5vDfalM1XUL/jCUc
+ /j96XnyghwzSqaC4birl8umLtcph7i5yUIXZNfoXP5ADBlofH4jVJgGne4z+TdqjH44zbC83MWJ
+ fxohzOwe84OZdCK9Xymzx6tSZs/Huu1XiDy16TbaH3ytZRMoR0buwwQpI4+ZLo8F8b1bqcWu8YD
+ IaEwB5P2tWQ9xmPfF8jQfxnbliLetNSqCqGhcbfrDCk+tolXarIyes+H7YUq5KJdEM1JROOXClM
+ J6HoVD5fUMIOEnG84kEAJqKFrUhtRYTB1gB+ympSaiqvDQV5D6Rs135E7jnULKiclo8uZx0GneH
+ v3/Fi/aX9r45te
+X-Received: by 2002:a05:622a:1b28:b0:4ec:ef85:cfbd with SMTP id
+ d75a77b69052e-4ecef85d368mr61632221cf.80.1761570884068; 
+ Mon, 27 Oct 2025 06:14:44 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IGvwWHynaMcFsCoJT3Ymx6akKgKGq+AVYZliRWBvt3fl/sJ+nyNZdGM11CdtSCxGsRp/Z4JPA==
+X-Received: by 2002:a05:622a:1b28:b0:4ec:ef85:cfbd with SMTP id
+ d75a77b69052e-4ecef85d368mr61631541cf.80.1761570883540; 
+ Mon, 27 Oct 2025 06:14:43 -0700 (PDT)
+Received: from umbar.lan
+ (2001-14ba-a0c3-3a00-264b-feff-fe8b-be8a.rev.dnainternet.fi.
+ [2001:14ba:a0c3:3a00:264b:feff:fe8b:be8a])
+ by smtp.gmail.com with ESMTPSA id
+ 38308e7fff4ca-378ee0a5655sm19154971fa.21.2025.10.27.06.14.42
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 27 Oct 2025 06:14:42 -0700 (PDT)
 Date: Mon, 27 Oct 2025 15:14:40 +0200
-Message-ID: <20251027131440.392052-3-sakari.ailus@linux.intel.com>
-X-Mailer: git-send-email 2.47.3
-In-Reply-To: <20251027131440.392052-1-sakari.ailus@linux.intel.com>
-References: <20251027131440.392052-1-sakari.ailus@linux.intel.com>
+From: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
+To: yuanjiey <yuanjie.yang@oss.qualcomm.com>
+Cc: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>,
+ robin.clark@oss.qualcomm.com, lumag@kernel.org,
+ abhinav.kumar@linux.dev, sean@poorly.run,
+ marijn.suijten@somainline.org, airlied@gmail.com, simona@ffwll.ch,
+ maarten.lankhorst@linux.intel.com, mripard@kernel.org,
+ tzimmermann@suse.de, robh@kernel.org, krzk+dt@kernel.org,
+ conor+dt@kernel.org, quic_mkrishn@quicinc.com, jonathan@marek.ca,
+ quic_khsieh@quicinc.com, neil.armstrong@linaro.org,
+ linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ freedreno@lists.freedesktop.org, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org, tingwei.zhang@oss.qualcomm.com,
+ aiqun.yu@oss.qualcomm.com, yongxing.mou@oss.qualcomm.com
+Subject: Re: [PATCH 01/12] drm/msm/dsi/phy: Add support for Kaanapali
+Message-ID: <einog245dsbqtx3by2cojyzmyctk2fffpwndwoe24puwqq4fta@cu6iiidxqgr4>
+References: <20251023075401.1148-1-yuanjie.yang@oss.qualcomm.com>
+ <20251023075401.1148-2-yuanjie.yang@oss.qualcomm.com>
+ <omlhiywjr46ik6bj2aiutgcf4aifen4vsvtlut7b44ayu4g4vl@zn4u3zkf6cqx>
+ <ad906eb5-c08f-4b66-9e37-aaba99889ad4@oss.qualcomm.com>
+ <aPryORKIuSwtXpon@yuanjiey.ap.qualcomm.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <aPryORKIuSwtXpon@yuanjiey.ap.qualcomm.com>
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUxMDI3MDEyMyBTYWx0ZWRfXxso4qSy/rnEo
+ EcslWYaJCPg+9+C32Lnmn2QvK0jgh4I9H4e7RG0ZTRO3NttDVwphxFfCET+hwb3VGi3PfMmgxxk
+ ne0d3fjgEogkEJV4/kKWOtDLIIoY5Uz0COfbPtTO7GJPKFxlQjPcV5St4vsLQs+x9dWEDPO5c1R
+ 6CBFiSyV6SO3m5V3JyZCYdSMfBJhNl1dV9D6Ki/IeWsQSqpBdtKthGMfIh+jf5l71B+y71vqcro
+ 8KjRxpN31+v+TJt85N19CxPm6zuBXb8Yir9xdpQdVJUMJRc2FtVeohBrmdTebqheliRiE+ZW10G
+ 4vh0eEyFCsy4VZHNcCVxIMMHLDx8aaLD9ZxxMKYXiG34TXqWxJAOmTTOSrpRanZjr4kNfYhyYoe
+ Ell7+otSbYtkiG+d76NWnEieMI53iw==
+X-Proofpoint-GUID: rl3vTZ36bptu_AbhulX5bx02SXucq__a
+X-Proofpoint-ORIG-GUID: rl3vTZ36bptu_AbhulX5bx02SXucq__a
+X-Authority-Analysis: v=2.4 cv=UqNu9uwB c=1 sm=1 tr=0 ts=68ff7045 cx=c_pps
+ a=JbAStetqSzwMeJznSMzCyw==:117 a=xqWC_Br6kY4A:10 a=kj9zAlcOel0A:10
+ a=x6icFKpwvdMA:10 a=VkNPw1HP01LnGYTKEx00:22 a=EUspDBNiAAAA:8
+ a=ACmnMjwJHZESoQLvWlYA:9 a=CjuIK1q_8ugA:10 a=uxP6HrT_eTzRwkO_Te1X:22
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.9,FMLib:17.12.80.40
+ definitions=2025-10-27_05,2025-10-22_01,2025-03-28_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ phishscore=0 clxscore=1015 spamscore=0 bulkscore=0 adultscore=0
+ priorityscore=1501 lowpriorityscore=0 malwarescore=0 impostorscore=0
+ suspectscore=0 classifier=typeunknown authscore=0 authtc= authcc=
+ route=outbound adjust=0 reason=mlx scancount=1 engine=8.22.0-2510020000
+ definitions=main-2510270123
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -109,186 +138,49 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-pm_runtime_put_autosuspend(), pm_runtime_put_sync_autosuspend(),
-pm_runtime_autosuspend() and pm_request_autosuspend() now include a call
-to pm_runtime_mark_last_busy(). Remove the now-reduntant explicit call to
-pm_runtime_mark_last_busy().
+On Fri, Oct 24, 2025 at 11:27:53AM +0800, yuanjiey wrote:
+> On Thu, Oct 23, 2025 at 02:02:45PM +0200, Konrad Dybcio wrote:
+> > On 10/23/25 1:48 PM, Dmitry Baryshkov wrote:
+> > > On Thu, Oct 23, 2025 at 03:53:50PM +0800, yuanjie yang wrote:
+> > >> From: Yuanjie Yang <yuanjie.yang@oss.qualcomm.com>
+> > >>
+> > >> Add DSI PHY support for the Kaanapali platform.
+> > >>
+> > >> Signed-off-by: Yongxing Mou <yongxing.mou@oss.qualcomm.com>
+> > >> Signed-off-by: Yuanjie Yang <yuanjie.yang@oss.qualcomm.com>
+> > >> ---
+> > 
+> > [...]
+> > 
+> > >> +	.io_start = { 0x9ac1000, 0xae97000 },
+> > > 
+> > > These two addresses are very strange. Would you care to explain? Other
+> > > than that there is no difference from SM8750 entry.
+> > 
+> > They're correct.
+> > Although they correspond to DSI_0 and DSI_2..
+> > 
+> > Yuanjie, none of the DSI patches mention that v2.10.0 is packed with
+> > new features. Please provide some more context and how that impacts
+> > the hw description.
+> 
+> Thanks for your reminder.
+> 
+> Correct here:
+> io_start = { 0x9ac1000, 0x9ac4000 }  DSI_Phy0 DSI_phy1
+> 
+> And v2.10.0 no clearly meaningful changes compared to v2.9.0.
+> just some register address change.
 
-Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
----
- drivers/gpu/drm/radeon/radeon_acpi.c       |  1 -
- drivers/gpu/drm/radeon/radeon_connectors.c | 20 +++++---------------
- drivers/gpu/drm/radeon/radeon_display.c    |  2 --
- drivers/gpu/drm/radeon/radeon_drv.c        |  2 --
- drivers/gpu/drm/radeon/radeon_fbdev.c      |  2 --
- drivers/gpu/drm/radeon/radeon_kms.c        |  4 ----
- 6 files changed, 5 insertions(+), 26 deletions(-)
+Addition of DSI2 is a meaningful change, which needs to be handled both
+in the core and in the DSI / DSI PHY drivers.
 
-diff --git a/drivers/gpu/drm/radeon/radeon_acpi.c b/drivers/gpu/drm/radeon/radeon_acpi.c
-index 22ce61bdfc06..08f8ba4fd148 100644
---- a/drivers/gpu/drm/radeon/radeon_acpi.c
-+++ b/drivers/gpu/drm/radeon/radeon_acpi.c
-@@ -408,7 +408,6 @@ static int radeon_atif_handler(struct radeon_device *rdev,
- 			pm_runtime_get_sync(rdev_to_drm(rdev)->dev);
- 			/* Just fire off a uevent and let userspace tell us what to do */
- 			drm_helper_hpd_irq_event(rdev_to_drm(rdev));
--			pm_runtime_mark_last_busy(rdev_to_drm(rdev)->dev);
- 			pm_runtime_put_autosuspend(rdev_to_drm(rdev)->dev);
- 		}
- 	}
-diff --git a/drivers/gpu/drm/radeon/radeon_connectors.c b/drivers/gpu/drm/radeon/radeon_connectors.c
-index 9f6a3df951ba..012d8b2295b8 100644
---- a/drivers/gpu/drm/radeon/radeon_connectors.c
-+++ b/drivers/gpu/drm/radeon/radeon_connectors.c
-@@ -875,10 +875,8 @@ radeon_lvds_detect(struct drm_connector *connector, bool force)
- 
- 	radeon_connector_update_scratch_regs(connector, ret);
- 
--	if (!drm_kms_helper_is_poll_worker()) {
--		pm_runtime_mark_last_busy(connector->dev->dev);
-+	if (!drm_kms_helper_is_poll_worker())
- 		pm_runtime_put_autosuspend(connector->dev->dev);
--	}
- 
- 	return ret;
- }
-@@ -1066,10 +1064,8 @@ radeon_vga_detect(struct drm_connector *connector, bool force)
- 	radeon_connector_update_scratch_regs(connector, ret);
- 
- out:
--	if (!drm_kms_helper_is_poll_worker()) {
--		pm_runtime_mark_last_busy(connector->dev->dev);
-+	if (!drm_kms_helper_is_poll_worker())
- 		pm_runtime_put_autosuspend(connector->dev->dev);
--	}
- 
- 	return ret;
- }
-@@ -1154,10 +1150,8 @@ radeon_tv_detect(struct drm_connector *connector, bool force)
- 		ret = radeon_connector_analog_encoder_conflict_solve(connector, encoder, ret, false);
- 	radeon_connector_update_scratch_regs(connector, ret);
- 
--	if (!drm_kms_helper_is_poll_worker()) {
--		pm_runtime_mark_last_busy(connector->dev->dev);
-+	if (!drm_kms_helper_is_poll_worker())
- 		pm_runtime_put_autosuspend(connector->dev->dev);
--	}
- 
- 	return ret;
- }
-@@ -1402,10 +1396,8 @@ radeon_dvi_detect(struct drm_connector *connector, bool force)
- 	}
- 
- exit:
--	if (!drm_kms_helper_is_poll_worker()) {
--		pm_runtime_mark_last_busy(connector->dev->dev);
-+	if (!drm_kms_helper_is_poll_worker())
- 		pm_runtime_put_autosuspend(connector->dev->dev);
--	}
- 
- 	return ret;
- }
-@@ -1714,10 +1706,8 @@ radeon_dp_detect(struct drm_connector *connector, bool force)
- 	}
- 
- out:
--	if (!drm_kms_helper_is_poll_worker()) {
--		pm_runtime_mark_last_busy(connector->dev->dev);
-+	if (!drm_kms_helper_is_poll_worker())
- 		pm_runtime_put_autosuspend(connector->dev->dev);
--	}
- 
- 	return ret;
- }
-diff --git a/drivers/gpu/drm/radeon/radeon_display.c b/drivers/gpu/drm/radeon/radeon_display.c
-index 351b9dfcdad8..35fb99bcd9a7 100644
---- a/drivers/gpu/drm/radeon/radeon_display.c
-+++ b/drivers/gpu/drm/radeon/radeon_display.c
-@@ -644,8 +644,6 @@ radeon_crtc_set_config(struct drm_mode_set *set,
- 		if (crtc->enabled)
- 			active = true;
- 
--	pm_runtime_mark_last_busy(dev->dev);
--
- 	rdev = dev->dev_private;
- 	/* if we have active crtcs and we don't have a power ref,
- 	   take the current one */
-diff --git a/drivers/gpu/drm/radeon/radeon_drv.c b/drivers/gpu/drm/radeon/radeon_drv.c
-index 88e821d67af7..d0af0cef178a 100644
---- a/drivers/gpu/drm/radeon/radeon_drv.c
-+++ b/drivers/gpu/drm/radeon/radeon_drv.c
-@@ -477,7 +477,6 @@ static int radeon_pmops_runtime_idle(struct device *dev)
- 		}
- 	}
- 
--	pm_runtime_mark_last_busy(dev);
- 	pm_runtime_autosuspend(dev);
- 	/* we don't want the main rpm_idle to call suspend - we want to autosuspend */
- 	return 1;
-@@ -499,7 +498,6 @@ long radeon_drm_ioctl(struct file *filp,
- 
- 	ret = drm_ioctl(filp, cmd, arg);
- 
--	pm_runtime_mark_last_busy(dev->dev);
- 	pm_runtime_put_autosuspend(dev->dev);
- 	return ret;
- }
-diff --git a/drivers/gpu/drm/radeon/radeon_fbdev.c b/drivers/gpu/drm/radeon/radeon_fbdev.c
-index 4df6c9167bf0..c2cfe2d7915f 100644
---- a/drivers/gpu/drm/radeon/radeon_fbdev.c
-+++ b/drivers/gpu/drm/radeon/radeon_fbdev.c
-@@ -154,7 +154,6 @@ static int radeon_fbdev_fb_open(struct fb_info *info, int user)
- 	return 0;
- 
- err_pm_runtime_mark_last_busy:
--	pm_runtime_mark_last_busy(rdev_to_drm(rdev)->dev);
- 	pm_runtime_put_autosuspend(rdev_to_drm(rdev)->dev);
- 	return ret;
- }
-@@ -164,7 +163,6 @@ static int radeon_fbdev_fb_release(struct fb_info *info, int user)
- 	struct drm_fb_helper *fb_helper = info->par;
- 	struct radeon_device *rdev = fb_helper->dev->dev_private;
- 
--	pm_runtime_mark_last_busy(rdev_to_drm(rdev)->dev);
- 	pm_runtime_put_autosuspend(rdev_to_drm(rdev)->dev);
- 
- 	return 0;
-diff --git a/drivers/gpu/drm/radeon/radeon_kms.c b/drivers/gpu/drm/radeon/radeon_kms.c
-index 645e33bf7947..3144890b6007 100644
---- a/drivers/gpu/drm/radeon/radeon_kms.c
-+++ b/drivers/gpu/drm/radeon/radeon_kms.c
-@@ -170,7 +170,6 @@ int radeon_driver_load_kms(struct drm_device *dev, unsigned long flags)
- 		pm_runtime_set_autosuspend_delay(dev->dev, 5000);
- 		pm_runtime_set_active(dev->dev);
- 		pm_runtime_allow(dev->dev);
--		pm_runtime_mark_last_busy(dev->dev);
- 		pm_runtime_put_autosuspend(dev->dev);
- 	}
- 
-@@ -677,7 +676,6 @@ int radeon_driver_open_kms(struct drm_device *dev, struct drm_file *file_priv)
- 		file_priv->driver_priv = fpriv;
- 	}
- 
--	pm_runtime_mark_last_busy(dev->dev);
- 	pm_runtime_put_autosuspend(dev->dev);
- 	return 0;
- 
-@@ -687,7 +685,6 @@ int radeon_driver_open_kms(struct drm_device *dev, struct drm_file *file_priv)
- 	kfree(fpriv);
- 
- err_suspend:
--	pm_runtime_mark_last_busy(dev->dev);
- 	pm_runtime_put_autosuspend(dev->dev);
- 	return r;
- }
-@@ -737,7 +734,6 @@ void radeon_driver_postclose_kms(struct drm_device *dev,
- 		kfree(fpriv);
- 		file_priv->driver_priv = NULL;
- 	}
--	pm_runtime_mark_last_busy(dev->dev);
- 	pm_runtime_put_autosuspend(dev->dev);
- }
- 
+> 
+> Thanks,
+> Yuanjie
+>  
+> > Konrad
+
 -- 
-2.47.3
-
+With best wishes
+Dmitry
