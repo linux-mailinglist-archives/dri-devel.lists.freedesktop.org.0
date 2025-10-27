@@ -2,55 +2,66 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 926D1C0E6F6
-	for <lists+dri-devel@lfdr.de>; Mon, 27 Oct 2025 15:31:48 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 623D8C0E826
+	for <lists+dri-devel@lfdr.de>; Mon, 27 Oct 2025 15:44:54 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1D6E110E4BC;
-	Mon, 27 Oct 2025 14:31:45 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4BDF110E4C0;
+	Mon, 27 Oct 2025 14:44:52 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="JFCRzvik";
+	dkim=pass (1024-bit key; unprotected) header.d=collabora.com header.i=nicolas.frattaroli@collabora.com header.b="N30VL9c6";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from bali.collaboradmins.com (bali.collaboradmins.com
- [148.251.105.195])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1A7C310E4BC
- for <dri-devel@lists.freedesktop.org>; Mon, 27 Oct 2025 14:31:43 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1761575501;
- bh=VdWLvlec4owgKSLuZPZ5AeOCOOq3PaC0ucUYJYVqsAU=;
- h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
- b=JFCRzvikkg0zalCE058zIPnyylLwZMQ3GhgSH4FDe8dgcbDs5qmsiaTXnogTsic+Y
- +r0H2l5aXJb7jTXzKKU/q20dlfSxuWKEDyPDiABiFABOVYt7x9J3Qvm4lVbc2FxUsg
- PZbxPxmi0kXgVWeygww0Try/IDhuip8Pk22enS1mJv8xMsT2hdzWUc9ZPihm0rSykC
- Lzy/0r5OjDpA663JCCu70T+MmydQlONWeKIWWAwha2Qy0+pBsEuhIchRT1rn5+TU7m
- 0Jg9rcrhkK84Bmgc0TXU//vyFNv38903TU5Z/g2nqsDDz2Ywesmy8D77gYRbZIId/J
- 9M0Jp0i7UoljQ==
-Received: from fedora (unknown [IPv6:2a01:e0a:2c:6930:d919:a6e:5ea1:8a9f])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested) (Authenticated sender: bbrezillon)
- by bali.collaboradmins.com (Postfix) with ESMTPSA id 3ED3F17E12D5;
- Mon, 27 Oct 2025 15:31:41 +0100 (CET)
-Date: Mon, 27 Oct 2025 15:31:30 +0100
-From: Boris Brezillon <boris.brezillon@collabora.com>
-To: Ketil Johnsen <ketil.johnsen@arm.com>
-Cc: Steven Price <steven.price@arm.com>, Liviu Dudau <liviu.dudau@arm.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Maxime Ripard
- <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, David Airlie
- <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, Heiko Stuebner
- <heiko@sntech.de>, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v3] drm/panthor: Fix UAF race between device unplug and
- FW event processing
-Message-ID: <20251027153130.2e9ccee2@fedora>
-In-Reply-To: <20251027140217.121274-1-ketil.johnsen@arm.com>
-References: <20251027140217.121274-1-ketil.johnsen@arm.com>
-Organization: Collabora
-X-Mailer: Claws Mail 4.3.1 (GTK 3.24.49; x86_64-redhat-linux-gnu)
+Received: from sender4-pp-f112.zoho.com (sender4-pp-f112.zoho.com
+ [136.143.188.112])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1B06110E4C0
+ for <dri-devel@lists.freedesktop.org>; Mon, 27 Oct 2025 14:44:51 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; t=1761576285; cv=none; 
+ d=zohomail.com; s=zohoarc; 
+ b=lTdsw6N0xXzLaD7EGlrs5qL1gxQ9UlbOmXohNYZ3AC4eLnaugKEnyGo1TOnpCjCG86bUCp0eUf3BdyR5rjGWyvmMq7YriKxAUPztPE+wAyx+fMnNHr86Pjf2GWZ20hgHLFwAKwRfOsniymnVswG3vr49JxhvZ5ZajK2uKhLIn2E=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
+ s=zohoarc; t=1761576285;
+ h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To;
+ bh=oZrYDMRouHneyMB8tCbVdocN1AD7BicDvh/8ht3WR5s=; 
+ b=Lnr+Ef4UoyA4ERzapTmeBqzezUXDR3B2t5E7t98SCs8NMYgCpZbwAkT07XAzUhrpZtJrtqlL/yTJyo2R0z+XViCHDvjCTMa8mOYyoZOo70Ow6yvfGb1p7U7KtKyiaWij3wh8uzojttrkJ2FiPrJ3kR1Ow9tk6tPVUlxTi+uBSGE=
+ARC-Authentication-Results: i=1; mx.zohomail.com;
+ dkim=pass  header.i=collabora.com;
+ spf=pass  smtp.mailfrom=nicolas.frattaroli@collabora.com;
+ dmarc=pass header.from=<nicolas.frattaroli@collabora.com>
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1761576285; 
+ s=zohomail; d=collabora.com; i=nicolas.frattaroli@collabora.com;
+ h=From:From:To:To:Cc:Cc:Subject:Subject:Date:Date:Message-ID:In-Reply-To:References:MIME-Version:Content-Transfer-Encoding:Content-Type:Message-Id:Reply-To;
+ bh=oZrYDMRouHneyMB8tCbVdocN1AD7BicDvh/8ht3WR5s=;
+ b=N30VL9c61TjBWFtJhsGNPVwxmPGVzLfWFgwLLqwfVBxi7qKWkCPuX4j5zewqOCFR
+ f7nZDE+KZvLLtnG9IMnVcRm3n6Ie80e4Z9957oSqiWS69rk0MuSFgGCnihbQD1O/c5a
+ xOgFW3e1SfIUIbseUZPFo7MlAKJ+sgOBZmtPj22w=
+Received: by mx.zohomail.com with SMTPS id 176157628274924.30349710427663;
+ Mon, 27 Oct 2025 07:44:42 -0700 (PDT)
+From: Nicolas Frattaroli <nicolas.frattaroli@collabora.com>
+To: Marek Szyprowski <m.szyprowski@samsung.com>,
+ Naresh Kamboju <naresh.kamboju@linaro.org>,
+ Andrzej Hajda <andrzej.hajda@intel.com>,
+ Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>,
+ Luca Ceresoli <luca.ceresoli@bootlin.com>
+Cc: Hui Pu <Hui.Pu@gehealthcare.com>,
+ Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ Luca Ceresoli <luca.ceresoli@bootlin.com>
+Subject: Re: [PATCH v2 0/3] drm/display: bridge_connector: get/put the stored
+ bridges: fix NULL pointer regression
+Date: Mon, 27 Oct 2025 15:44:33 +0100
+Message-ID: <5954683.DvuYhMxLoT@workhorse>
+In-Reply-To: <20251017-drm-bridge-alloc-getput-bridge-connector-fix-hdmi_cec-v2-0-667abf6d47c0@bootlin.com>
+References: <20251017-drm-bridge-alloc-getput-bridge-connector-fix-hdmi_cec-v2-0-667abf6d47c0@bootlin.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="utf-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -66,48 +77,55 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, 27 Oct 2025 15:02:15 +0100
-Ketil Johnsen <ketil.johnsen@arm.com> wrote:
-
-> The function panthor_fw_unplug() will free the FW memory sections.
-> The problem is that there could still be pending FW events which are yet
-> not handled at this point. process_fw_events_work() can in this case try
-> to access said freed memory.
+On Friday, 17 October 2025 18:15:03 Central European Standard Time Luca Ceresoli wrote:
+> A patch of mine recently merged in drm-misc-next [1] has a NULL pointer
+> deref regression (reported here [2] and here [3]). Being in lack of a quick
+> fix, I sent a revert proposal [4].
 > 
-> Simply call disable_work_sync() to both drain and prevent future
-> invocation of process_fw_events_work().
+> The revert proposal has no answers currenty, and in the meanwhile I have a
+> patch that implements the original idea but without the same bug. So here's
+> a v2 series with:
 > 
-> Signed-off-by: Ketil Johnsen <ketil.johnsen@arm.com>
-> Fixes: de85488138247 ("drm/panthor: Add the scheduler logical block")
-
-Reviewed-by: Boris Brezillon <boris.brezillon@collabora.com>
-
-Would you mind sending a patch on top of this one turning all
-cancel_[delayed_]work_sync() happening in the unplug path int
-disable_[delayed_]work_sync(), so we're sure we won't face other "work
-in queued after being cancelled" issues in the future.
-
+>  - the same revert patch
+>  - the original patch but rewritten without the same bug (and even simpler)
+> 
+> Also the re-written patch is now split in two for clarity because it was
+> doing two somewhat different things.
+> 
+> [1] https://lore.kernel.org/all/20250926-drm-bridge-alloc-getput-bridge-connector-v2-1-138b4bb70576@bootlin.com/
+> [2] https://lore.kernel.org/lkml/336fbfdd-c424-490e-b5d1-8ee84043dc80@samsung.com/
+> [3] https://lore.kernel.org/lkml/CA+G9fYuKHp3QgPKjgFY3TfkDdh5Vf=Ae5pCW+eU41Bu=D7th2g@mail.gmail.com/
+> [4] https://lore.kernel.org/lkml/20251016-drm-bridge-alloc-getput-bridge-connector-fix-hdmi_cec-v1-1-81d6984c5361@bootlin.com/
+> 
+> Signed-off-by: Luca Ceresoli <luca.ceresoli@bootlin.com>
 > ---
-> v2:
-> - Followed Boris's advice and handle the race purely within the
->   scheduler block (by adding a destroyed state)
+> Changes in v2:
+> - No changes to the revert patch
+> - Added the (corrected) patch introducing the same feature as the original
+>   buggy patch, and also split it in two fir clarity
+> - Link to v1: https://lore.kernel.org/r/20251016-drm-bridge-alloc-getput-bridge-connector-fix-hdmi_cec-v1-1-81d6984c5361@bootlin.com
 > 
-> v3:
-> - New approach, one single call to disable_work_sync()
 > ---
->  drivers/gpu/drm/panthor/panthor_sched.c | 1 +
->  1 file changed, 1 insertion(+)
+> Luca Ceresoli (3):
+>       Revert "drm/display: bridge_connector: get/put the stored bridges"
+>       drm/display: bridge_connector: get/put the stored bridges
+>       drm/display: bridge_connector: get/put the panel_bridge
 > 
-> diff --git a/drivers/gpu/drm/panthor/panthor_sched.c b/drivers/gpu/drm/panthor/panthor_sched.c
-> index 0cc9055f4ee52..b7595beaa0205 100644
-> --- a/drivers/gpu/drm/panthor/panthor_sched.c
-> +++ b/drivers/gpu/drm/panthor/panthor_sched.c
-> @@ -3880,6 +3880,7 @@ void panthor_sched_unplug(struct panthor_device *ptdev)
->  	struct panthor_scheduler *sched = ptdev->scheduler;
->  
->  	cancel_delayed_work_sync(&sched->tick_work);
-> +	disable_work_sync(&sched->fw_events_work);
->  
->  	mutex_lock(&sched->lock);
->  	if (sched->pm.has_ref) {
+>  drivers/gpu/drm/display/drm_bridge_connector.c | 92 +++++++++++---------------
+>  1 file changed, 39 insertions(+), 53 deletions(-)
+> ---
+> base-commit: 84a0a3f014cda68ff10b8517d09e9f0c1cd942a2
+> change-id: 20251016-drm-bridge-alloc-getput-bridge-connector-fix-hdmi_cec-9a429ddb48e2
+> 
+> Best regards,
+> 
+
+Tested-by: Nicolas Frattaroli <nicolas.frattaroli@collabora.com>
+
+Fixes a null pointer dereference on boot on my Radxa ROCK 5T
+(RK3588) that's present in next-20251027.
+
+Kind regards,
+Nicolas Frattaroli
+
 
