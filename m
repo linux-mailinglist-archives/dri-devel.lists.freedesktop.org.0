@@ -2,102 +2,58 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7EECBC0B9F1
-	for <lists+dri-devel@lfdr.de>; Mon, 27 Oct 2025 02:50:29 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 064E3C0BB9E
+	for <lists+dri-devel@lfdr.de>; Mon, 27 Oct 2025 04:14:39 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BE1BE10E0AE;
-	Mon, 27 Oct 2025 01:50:25 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B8BAC10E03C;
+	Mon, 27 Oct 2025 03:14:20 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="eGh8KZyF";
+	dkim=pass (1024-bit key; unprotected) header.d=qq.com header.i=@qq.com header.b="okDcDPrG";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
- by gabe.freedesktop.org (Postfix) with ESMTPS id EE20D10E0AE
- for <dri-devel@lists.freedesktop.org>; Mon, 27 Oct 2025 01:50:23 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1761529824; x=1793065824;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:in-reply-to;
- bh=T3pkaI/GJuOsGFoVg5/R4SNriMbvV6bNB454qQaWZQ8=;
- b=eGh8KZyF3XNe+RFOMymhBNZHWav5SMty52zqCNFPzFdn2ZV+OGYudH7d
- aVNjV3NJVoUQbVH95r3G6+Q1X3lW/+9Kb+giK8mRJ3dddGCEOV4OJ260/
- vWwQQpAEoTo7CroR9wXzCesXplvVMjSrNG0/QtK44S1o+cOtwuR3H1q3t
- WbtTkwDWNfN3XknfqMD0/JJK1hFbIEQs2zcGrm6QHxwj6KcO033ErKLKI
- 9SnZnQZSD9cnvOnvutvdHfdyEtyR/M9ubO7Jt8VZ+09/b2F3nD3OC2J2r
- W36HpQn+bLym7ZsduQ7P7vWOJgVvWqy0uKrWmPCyYTARJjFB2HTGPSaHF A==;
-X-CSE-ConnectionGUID: KU5z0mYHT+Cd4S57f0oeZA==
-X-CSE-MsgGUID: MWj4Gn/pSHqxcHZrAALrRg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11531"; a="67438867"
-X-IronPort-AV: E=Sophos;i="6.17,312,1747724400"; d="scan'208";a="67438867"
-Received: from orviesa003.jf.intel.com ([10.64.159.143])
- by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 26 Oct 2025 18:50:24 -0700
-X-CSE-ConnectionGUID: RqD3PVgcSpO3hdFc8HdBsw==
-X-CSE-MsgGUID: bAZX7S5kQLGkCNKy4yStdQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.19,257,1754982000"; d="scan'208";a="188967609"
-Received: from yilunxu-optiplex-7050.sh.intel.com (HELO localhost)
- ([10.239.159.165])
- by orviesa003.jf.intel.com with ESMTP; 26 Oct 2025 18:50:09 -0700
-Date: Mon, 27 Oct 2025 09:36:28 +0800
-From: Xu Yilun <yilun.xu@linux.intel.com>
-To: "Rob Herring (Arm)" <robh@kernel.org>
-Cc: Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>, Stephen Boyd <sboyd@kernel.org>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- Andrzej Hajda <andrzej.hajda@intel.com>,
- Robert Foss <rfoss@kernel.org>, Vinod Koul <vkoul@kernel.org>,
- Moritz Fischer <mdf@kernel.org>, Xu Yilun <yilun.xu@intel.com>,
- Bartosz Golaszewski <brgl@bgdev.pl>, Guenter Roeck <linux@roeck-us.net>,
- Andi Shyti <andi.shyti@kernel.org>, Jonathan Cameron <jic23@kernel.org>,
- Dmitry Torokhov <dmitry.torokhov@gmail.com>,
- Georgi Djakov <djakov@kernel.org>, Thomas Gleixner <tglx@linutronix.de>,
- Joerg Roedel <joro@8bytes.org>, Jassi Brar <jassisinghbrar@gmail.com>,
- Mauro Carvalho Chehab <mchehab@kernel.org>, Lee Jones <lee@kernel.org>,
- Miquel Raynal <miquel.raynal@bootlin.com>,
- Richard Weinberger <richard@nod.at>, Vignesh Raghavendra <vigneshr@ti.com>,
- Andrew Lunn <andrew+netdev@lunn.ch>,
- "David S. Miller" <davem@davemloft.net>,
- Eric Dumazet <edumazet@google.com>,
- Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
- Johannes Berg <johannes@sipsolutions.net>,
- Krzysztof =?utf-8?Q?Wilczy=C5=84ski?= <kwilczynski@kernel.org>,
- Manivannan Sadhasivam <mani@kernel.org>,
- Bjorn Helgaas <bhelgaas@google.com>,
- Kishon Vijay Abraham I <kishon@kernel.org>,
- Sebastian Reichel <sre@kernel.org>,
- Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <ukleinek@kernel.org>,
- Mark Brown <broonie@kernel.org>,
- Mathieu Poirier <mathieu.poirier@linaro.org>,
- Philipp Zabel <p.zabel@pengutronix.de>,
- Olivia Mackall <olivia@selenic.com>,
- Herbert Xu <herbert@gondor.apana.org.au>,
- Daniel Lezcano <daniel.lezcano@linaro.org>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-clk@vger.kernel.org, dri-devel@lists.freedesktop.org,
- linux-fbdev@vger.kernel.org, dmaengine@vger.kernel.org,
- linux-fpga@vger.kernel.org, linux-gpio@vger.kernel.org,
- linux-hwmon@vger.kernel.org, linux-i2c@vger.kernel.org,
- linux-iio@vger.kernel.org, linux-input@vger.kernel.org,
- linux-pm@vger.kernel.org, iommu@lists.linux.dev,
- linux-media@vger.kernel.org, linux-mtd@lists.infradead.org,
- netdev@vger.kernel.org, linux-wireless@vger.kernel.org,
- linux-pci@vger.kernel.org, linux-phy@lists.infradead.org,
- linux-pwm@vger.kernel.org, linux-remoteproc@vger.kernel.org,
- linux-crypto@vger.kernel.org, linux-sound@vger.kernel.org,
- linux-usb@vger.kernel.org
-Subject: Re: [PATCH] dt-bindings: Remove extra blank lines
-Message-ID: <aP7MnJ8mIlZhT//S@yilunxu-OptiPlex-7050>
-References: <20251023143957.2899600-1-robh@kernel.org>
+Received: from out162-62-57-49.mail.qq.com (out162-62-57-49.mail.qq.com
+ [162.62.57.49])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C39CC10E337
+ for <dri-devel@lists.freedesktop.org>; Mon, 27 Oct 2025 03:14:17 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qq.com; s=s201512;
+ t=1761534843; bh=stzLUCzkNul917MZrE2iPdNYMyfJtsDmIaIrJi019dU=;
+ h=From:To:Subject:Date;
+ b=okDcDPrG1ewZPUgEjwrBWKfewB1702pgoqKtdwjsLkzth6z2JDIaDgj/iFsB3kges
+ OHGGlneO1c7dO2RhOQmG3EKUKMZlzK6/FNb/+B5CTL6P4JT8tm2/Ma+6dS04/IJMWb
+ FYZvAlgv492o6YOp3aDrHptrrqcLlsprLZhihLBA=
+Received: from localhost.localdomain ([116.128.244.169])
+ by newxmesmtplogicsvrszb20-0.qq.com (NewEsmtp) with SMTP
+ id 1EF3064E; Mon, 27 Oct 2025 11:07:47 +0800
+X-QQ-mid: xmsmtpt1761534467txd3bei18
+Message-ID: <tencent_5382628D577DA53322CAA700F6308AB29006@qq.com>
+X-QQ-XMAILINFO: M2Ecasen3dvfUnuLHJcpGs0/zjsVt6LcyzyKl40UA6rlGsaXEZ9r3hGPJPtBum
+ pfuwQiLtchCkCVmniWk3SJ9itZq/ecyq7UzZQwfK9X5IN37LGDZaUCBtiUTBcVpljWuqT+J2H2mM
+ iSuCQH5B8ikIDypFINTNiYkuLE0NPxZTCuR0wzdTGkGGHtvrD/gBTYPUDcU9cEW4P5Drf8MGSQvb
+ 8cM6qWKY2Pw597xNhvIb9P3KABzo7Q3cPjvG5shtuvW/ca1CwNPxkpI3zx9wq8BPdJMh5pSFFGPX
+ Wl7ziDgIt22hQihVYBbB2yHgHz2vG2B4xYxL15AEF4IzAIvsz3eMqGDSJrZos4m3QqW1ZxE1mYw0
+ KFHi2wgKj7j6Yn2uSwj5a9GjzPL0XmowHnc/ZY7epx+PqWmdErlf2Wf4qwFyuIqWON1gQKvTb+Su
+ cGOjS4VcppaEVGurqC2hsd0h4w+O9yRSjudst+DP7qBuTVeKXJOF8KJ+RMB/IzNS+t/1ZmkeUNKi
+ GoHTSX5l9TZYqimqMGjSagSSNStKsakF7eROxeA3nmokFAdrKL2/c6jP8q1ukb237q30CTyF3Rd3
+ fYiApVxszuH8Q2NOZZdkLV48jYo9Omd5/449KpYGIFnh7lIM5f+AhVkti+7TxSK6hkVL5ukVX5b0
+ I481ITJxhUswc9wCWSHUUT3oYtX344tSYXt1mwMu/MSxD+66jk66PGhqh71xTgNBFJiisB+joXbz
+ oDiPXzKVKYtVat4gWH9ZoKqZcacKJa/urRKiB7bfUg3QIycVBE0jUrqtfRotamkFbnk16P1/ixOa
+ JJFeqZOndzcg7h1JKgJdlljwf13ahlGF6Q/HobfTCZvrKhlfPKYQqdeG944Z18y2xGXyiQ1k7kMI
+ 9W/VbLPZoDnpRJlYLANUEAmaMhEMO6wPrJV9ROJ6SIkKnpSrII7ZDnfjHu9cRwqRIiPG/EEB0kEZ
+ 8wtWVnV8r7ReD1Qkf1lg==
+X-QQ-XMRINFO: OWPUhxQsoeAVDbp3OJHYyFg=
+From: 2564278112@qq.com
+To: lyude@redhat.com, dakr@kernel.org, maarten.lankhorst@linux.intel.com,
+ mripard@kernel.org, tzimmermann@suse.de, airlie@gmail.com, simona@ffwll.ch,
+ dri-devel@lists.freedesktop.org, nouveau@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, jiangwang@kylinos.cn
+Subject: [PATCH] drm/nouveau: Resolve the issue of VGA not being recognized or
+ disconnected
+Date: Mon, 27 Oct 2025 11:07:42 +0800
+X-OQ-MSGID: <20251027030742.69802-1-2564278112@qq.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20251023143957.2899600-1-robh@kernel.org>
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -113,15 +69,30 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Oct 23, 2025 at 09:37:56AM -0500, Rob Herring (Arm) wrote:
-> Generally at most 1 blank line is the standard style for DT schema
-> files. Remove the few cases with more than 1 so that the yamllint check
-> for this can be enabled.
-> 
-> Signed-off-by: Rob Herring (Arm) <robh@kernel.org>
+From: Wang Jiang <jiangwang@kylinos.cn>
 
-[...]
+When using the GT730, I found that the VGA could recognize when it was plugged in,
+but could not detect when it was disconnected.
+The reason is that the polled flag for the connector is missing DRM_CONNECTOR_POLL_DISCONNECT.
 
->  Documentation/devicetree/bindings/fpga/fpga-region.yaml      | 5 -----
+Signed-off-by: Wang Jiang <jiangwang@kylinos.cn>
+---
+ drivers/gpu/drm/nouveau/nouveau_connector.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-Acked-by: Xu Yilun <yilun.xu@intel.com>
+diff --git a/drivers/gpu/drm/nouveau/nouveau_connector.c b/drivers/gpu/drm/nouveau/nouveau_connector.c
+index 63621b1510f6..dfff01edf65a 100644
+--- a/drivers/gpu/drm/nouveau/nouveau_connector.c
++++ b/drivers/gpu/drm/nouveau/nouveau_connector.c
+@@ -1421,7 +1421,7 @@ nouveau_connector_create(struct drm_device *dev, int index)
+ 	connector->doublescan_allowed = false;
+ 
+ 	drm_connector_helper_add(connector, &nouveau_connector_helper_funcs);
+-	connector->polled = DRM_CONNECTOR_POLL_CONNECT;
++	connector->polled = DRM_CONNECTOR_POLL_CONNECT | DRM_CONNECTOR_POLL_DISCONNECT;
+ 
+ 	if (nvif_object_constructed(&nv_connector->conn.object)) {
+ 		ret = nvif_conn_event_ctor(&nv_connector->conn, "kmsHotplug",
+-- 
+2.25.1
+
