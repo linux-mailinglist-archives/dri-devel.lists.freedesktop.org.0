@@ -2,77 +2,75 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C34DAC0EB6A
-	for <lists+dri-devel@lfdr.de>; Mon, 27 Oct 2025 15:59:41 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9F099C0EB72
+	for <lists+dri-devel@lfdr.de>; Mon, 27 Oct 2025 15:59:44 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5465410E4C4;
-	Mon, 27 Oct 2025 14:59:38 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CD65110E4C7;
+	Mon, 27 Oct 2025 14:59:42 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="UvwsmZvg";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="VJlhuof0";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-f50.google.com (mail-wm1-f50.google.com
- [209.85.128.50])
- by gabe.freedesktop.org (Postfix) with ESMTPS id EAA8F10E4C4
- for <dri-devel@lists.freedesktop.org>; Mon, 27 Oct 2025 14:59:36 +0000 (UTC)
-Received: by mail-wm1-f50.google.com with SMTP id
- 5b1f17b1804b1-471b80b994bso67380945e9.3
- for <dri-devel@lists.freedesktop.org>; Mon, 27 Oct 2025 07:59:36 -0700 (PDT)
+Received: from mail-wm1-f53.google.com (mail-wm1-f53.google.com
+ [209.85.128.53])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 51ACB10E4C6
+ for <dri-devel@lists.freedesktop.org>; Mon, 27 Oct 2025 14:59:39 +0000 (UTC)
+Received: by mail-wm1-f53.google.com with SMTP id
+ 5b1f17b1804b1-47114a40161so53780825e9.3
+ for <dri-devel@lists.freedesktop.org>; Mon, 27 Oct 2025 07:59:39 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1761577175; x=1762181975; darn=lists.freedesktop.org;
- h=cc:to:content-transfer-encoding:mime-version:message-id:date
- :subject:from:from:to:cc:subject:date:message-id:reply-to;
- bh=NW0g4MULUKaMYiJnLBpd0Ri5YM5rWj5Eltx5XndG2Gs=;
- b=UvwsmZvgR+8kZPgWaz7vyL7guyk7VNvXOgIaKb8uvRiFLuXkDS8Mwkki+CxG7IJKpU
- V981M8dLRuVvpTZRpkvO11DoxyzrRLNu9Uvw+s/X/j20xD4gOXD75vfEO9atScRDbLTO
- Jbijza/r2IGbz2LChRz5omw21igFIWA0LmzWhpicXklUDQahP9YOtDWXX1C1sRWDpf7z
- MOONdohrqf3pQvbffsP/j/Iw7dbYxQnaW9DQgAexeNC6r+ee65HogRQNjVz7EH0HyDNL
- 0Qy78CdU7j1+GTHW33JI5ww3mGonNA+LkDLZwq9SzSPBoosdSLZV7FLLQpZ1AlqqkywE
- G9zQ==
+ d=linaro.org; s=google; t=1761577178; x=1762181978; darn=lists.freedesktop.org;
+ h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
+ :mime-version:subject:date:from:from:to:cc:subject:date:message-id
+ :reply-to; bh=NZ+Ywiph/7WahU1SOFkWTRgUz00UbT1lmnLBy9g4gbA=;
+ b=VJlhuof0ECk1OA3p/aPfXBhFNY6kxXSbYOkYMDHJmSOzBphtwZen00G2fy+4kH8Q9q
+ hX3DTwv7yrlU4HrweR8WbbPKaB0zITH0WnVjRRm1KxmCmekvxoKIZJfGw39Kh6pC0UHN
+ X1y9wCi685GEeS9SeFiJ6Ae3qu2d86neAJW+7sjjQyl9NceGJnr+jCTnFa0fQrcHbDDM
+ co2oFbDemEW1PryjwaSITC+ivOuYC3ytCQew839r9dte9CByGqBsbAibiCYANxQXxv7G
+ 6YkVRDjfGDsBDdMcXaQMV4DfE5am7FGUZ/T2RcVN4TI4M2L0OnCsMnLmOPNMgADFK/9K
+ pgsw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1761577175; x=1762181975;
- h=cc:to:content-transfer-encoding:mime-version:message-id:date
- :subject:from:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=NW0g4MULUKaMYiJnLBpd0Ri5YM5rWj5Eltx5XndG2Gs=;
- b=YDoXveaFitRHo4EcJ8sLD9xpbRngHCiEllIRWbl1WdfDaE7p+3JX5XSk3fUfjnZaTW
- +fw6vAZ7eIfUUHBXom2QVpK0drp7NHrT/OVY22xk+3keEPEarx+Rat8oHUWxxZQwwE8N
- 5z6p41XuyTJblBGHLgItKYxmHEzJu7gHzCOVVTMcO8uUug8cCD2LoSwQ4KUsdHfiEs0o
- QJQ8kRBvLU2w6t2CSfnqiaqnJv5eIu+H7ygwxvj4IhFEvEp7ex+a6HOdM3nRgIaJ8Ay6
- PEb6d68RkAEROANGsk1A/s7G93sXE19NczHJHjT+uqQqvNftle/4cedSubhqoOCPxd7y
- 8NcQ==
+ d=1e100.net; s=20230601; t=1761577178; x=1762181978;
+ h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
+ :mime-version:subject:date:from:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=NZ+Ywiph/7WahU1SOFkWTRgUz00UbT1lmnLBy9g4gbA=;
+ b=AnpUnfzm6M9cCdwsI+L7ZZwccaV/C8qzROnppNx2dmlTDq9Rw85+kBCfXAxnBfFfdx
+ cqZnO+vxjDiMoJIe9HPGRBkw2jOF1l6ML5PrQJUSovMsHBLANELW+Qp8s9mUmGnb+CBX
+ b3O8n8piHWQdgvxIuAQ+4qktZf8kUO2UoBd0e9G12KYz4W5/BtOiQ3NkZPHThVnMPd9s
+ KlJfX0Ia510h/38++gbUP6UAeCsevH5U1zrSh8+koRocYh2X0JNM/MCmXXd8C0LMh9LG
+ I9wQEw0r1lrGeQKiSVlk3UNp3O7kU1XwFmaQFHQfE6nwwH1sTlRN85TbG4bwCjBWTmFQ
+ ZWEQ==
 X-Forwarded-Encrypted: i=1;
- AJvYcCVxvSb04vkmiC18hQ8juL9qNO7aRq0ALI+beoC0h7Fho1sO7qFIkBlgvN4jQ1Sp/syZmG4Nwk3Wh48=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Yys/J64K5XvdJKATz6YhYC2pQcTlJ3uzDJDDuKE31y0XMHw37yr
- mhgnCicOCG+OMmG41cmCpKaUpaMiP14jlQpLokiC/rdeeP74xd/G6ZecWoXzAyhTVJk=
-X-Gm-Gg: ASbGncsxPx6jWTW5cysbsj9MFihyUNBes58WaatIREuju9d+Hf6EWemYxqt+eBmdfCc
- 0tFm9snsn0rSY2P58Iw8453jejpPULcetBcj7W9qC4mYen7MTXIaCMRL2CHiFYcp11ACZj9vnbv
- AsLJulX9BIIT177ug7Yfw/9QLSchiPNyUMDQTwmmjICNxQQZz0e5JvybdvOy4cfxfLmuMe8iyEB
- 1or0nrdyF/Tq92B/Op0yiFo2oLbR/+/nDVSPB//CUtxvvfDn6g3vq065H25YMXY+eylxDxU8kJv
- LDitktxtC/MQ+9Zic31UB28nSS/NT4YYXyI1QgQZjouI6CAgCVKk5K4kCj4zoSZ1SIzpkbEXdf6
- S97HtpDN/6wEipnWtoCstItpnyphVCjMMeIrRB1wDabQFEqUZHl907EkJLI7EZ8NEzWqWIpcMuR
- KKebmHAmhz
-X-Google-Smtp-Source: AGHT+IEaQneBk0C8dLzRUnxt31IA4a5BDhI6aZOrP71p5Fx9l+6YUOmnTLZBOBxL2PTxl1832j9iLQ==
-X-Received: by 2002:a05:600c:34c4:b0:477:171f:65f with SMTP id
- 5b1f17b1804b1-477171f0938mr4731325e9.38.1761577175395; 
- Mon, 27 Oct 2025 07:59:35 -0700 (PDT)
+ AJvYcCXSG87IqSGWXreVtv+xrvqK7yc8v6q4wAHR0vJxdN4/QRNrz07+5ZH7FMdfyZZGEsstjOND4bLEztw=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YxTvTvSTJc+NlmNOisz1vhbJButJY67Z3E9pEoZssMAmUPo7Tdo
+ FBj3E0Bs81iSabNqdStKEASSzv+gs7uZyk1Eb/Frc02xiOXj07Khh+oEFzhaNMvy/CM=
+X-Gm-Gg: ASbGncuM94dvam2L+pIptVWDDWfgQ+KRmMN4Ju417obC3znLtj+7Mev6PjdFypyo+lk
+ jwtnIg3aOo2akOvITHUXHUB7obV3fX+Di76ysLDCfxlp4byOvabn2+8oKEXz6Xz+a2+xdynyQuV
+ QIfrxqxEMDlEoFaTgP+0kHscZnZpotl9K/MKEX9PnFswzdFb5x6x4W2IW+/x17MFCzkNptdMR2N
+ bl5Ru6szHqBjsjx0JhZm3vw+4k2DTmtAhIeLgRDyKwrpsJSA4LRCj0xpqJmtjaTTksqW5YIjKOZ
+ j+H7P2Vt00OW5bBtxuOt8ZAfVXiNbWXz9BqLF+UMtzip3fGg535N8xNRXFW75QA3wHmqFQ2Z1Bz
+ mDhBiYF3mgrSEJ7VRm/b0DCCp6XuQY/cDI091b/WX5gXrE51bTPXzwP6JEMdSdsISdSyb3NZkvw
+ ==
+X-Google-Smtp-Source: AGHT+IFFpEGha6SAhr77dustt6OPIPitY9NLPaaDTkQ/S0rygb9WS5dQwu5JIBs72ZfhYJ1f3jP1sg==
+X-Received: by 2002:a05:600c:548d:b0:46e:436c:2191 with SMTP id
+ 5b1f17b1804b1-47117903f96mr296592605e9.25.1761577177686; 
+ Mon, 27 Oct 2025 07:59:37 -0700 (PDT)
 Received: from hackbox.lan ([86.121.7.169]) by smtp.gmail.com with ESMTPSA id
- ffacd0b85a97d-429952df682sm14624801f8f.43.2025.10.27.07.59.33
+ ffacd0b85a97d-429952df682sm14624801f8f.43.2025.10.27.07.59.35
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 27 Oct 2025 07:59:34 -0700 (PDT)
+ Mon, 27 Oct 2025 07:59:36 -0700 (PDT)
 From: Abel Vesa <abel.vesa@linaro.org>
-Subject: [PATCH v3 0/7] drm/msm: Add display support for Glymur platform
-Date: Mon, 27 Oct 2025 16:59:17 +0200
-Message-Id: <20251027-glymur-display-v3-0-aa13055818ac@linaro.org>
+Date: Mon, 27 Oct 2025 16:59:18 +0200
+Subject: [PATCH v3 1/7] dt-bindings: display: msm: Document the Glymur
+ Mobile Display SubSystem
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-X-B4-Tracking: v=1; b=H4sIAMWI/2gC/2XM0QqCMBTG8VeRXbfYOVNyXfUe0cVymx4wJ1uNR
- Hz3plBQXX4f/H8zizaQjexYzCzYRJH8kIfcFazp9NBaTiZvhgIroUDwtp9uj8ANxbHXEwc0UGu
- 8mkMJLEdjsI6eG3i+5N1RvPswbX6C9X1T8Esl4IIbqUDLUqJCe+pp0MHvfWjZaiX89CCg/Osx9
- 84pWVl0dd1UX/2yLC+vRk6p7QAAAA==
-X-Change-ID: 20250910-glymur-display-12d18a2bd741
+Message-Id: <20251027-glymur-display-v3-1-aa13055818ac@linaro.org>
+References: <20251027-glymur-display-v3-0-aa13055818ac@linaro.org>
+In-Reply-To: <20251027-glymur-display-v3-0-aa13055818ac@linaro.org>
 To: Rob Clark <robin.clark@oss.qualcomm.com>, 
  Dmitry Baryshkov <lumag@kernel.org>, 
  Abhinav Kumar <abhinav.kumar@linux.dev>, 
@@ -90,24 +88,23 @@ To: Rob Clark <robin.clark@oss.qualcomm.com>,
 Cc: linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org, 
  freedreno@lists.freedesktop.org, devicetree@vger.kernel.org, 
  linux-kernel@vger.kernel.org, Abel Vesa <abel.vesa@linaro.org>, 
- Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>, 
  Krzysztof Kozlowski <krzk@kernel.org>
 X-Mailer: b4 0.15-dev-dedf8
-X-Developer-Signature: v=1; a=openpgp-sha256; l=2209; i=abel.vesa@linaro.org; 
+X-Developer-Signature: v=1; a=openpgp-sha256; l=9606; i=abel.vesa@linaro.org; 
  h=from:subject:message-id;
- bh=eDQhQASOEmRkcfF1cnh05g0ZSLG33Cazfq+HFLkLeDs=; 
- b=owEBbQKS/ZANAwAKARtfRMkAlRVWAcsmYgBo/4jL4e2P0M+fEJRpcgfUYt16mHELFJZJztSOL
- H5lBOKx5SOJAjMEAAEKAB0WIQRO8+4RTnqPKsqn0bgbX0TJAJUVVgUCaP+IywAKCRAbX0TJAJUV
- VsFfEAC7FmOy5w629PPMnlYGOFdHi2vJe6IBqwe/XMzgVyHN6nqMBH4VKVuJWuqEIlCZXYin6i1
- qFByl4U3Bu3WpLYhlyWU2Oyb1Q0kIhVPpnYiSfjUtVPKKKrGrPxcLQXaj54P6ulqwh4dE6FQL4j
- FPmwZw1xotu9jIYmdKEgQpzDkZBgPu/hfMptiKHN7s8nTF5BxTvdqvkcMKjLJTMPqqjqLNWOfTx
- MzwCTH8bohm+AjllsfN0rtejPO3I0/I5vXQ0UxgnYm1RhWsji4FpZA+gNS4EimDdotp2ds3Pmu9
- 2sIuL/QG2kO7x+tsj9GugfUbUaeynxaVLm+MR9j0F1GVT9tdvlVR5a5o1KCviKcuZ519grI3iTJ
- T9ZmDXNt+MSv3blgzpkP7mgQFZ/rWqwJvwsNjzdvKLARgWuCpUmOWVV/zJzK2KCQOCK6LW3XPjo
- kECMxjfouAxQAIzc5TJ0waCWuPnLK+LUVOnFW0eS6vEDXuhCPuXdKhI/c18+pVNN9IVnM4g8592
- 7CNNu1KDOxu3ILGiUPOek81NTRII9//VhsqTt8jHhR27Z/D5ysUPVMmnlQgpabVtd6EJC7+wYZK
- 57U4rCzSbhvKZHBkzIUNkfWaP5asFUIz2+Gq4cIHWLr0m2wndOk6KoUBZzHUZQW/UvVa6xAcl+U
- LLklForAsQbzbTA==
+ bh=Six70z1/X+dxSTC5ydzInJn0GmeZ2UN+GtGlSXt3f5k=; 
+ b=owEBbQKS/ZANAwAKARtfRMkAlRVWAcsmYgBo/4jMIj09GsCJG8FJ4eBmdSKtQtCJtyAqs/nmf
+ FB0sI7y8WmJAjMEAAEKAB0WIQRO8+4RTnqPKsqn0bgbX0TJAJUVVgUCaP+IzAAKCRAbX0TJAJUV
+ VjZnD/oDthzgV6l4RoyONyfXJ/eiWkj4rViBoJRc07vjah5WvON2hzlgI39TjAD7nnh+XhhyK5d
+ uqZm2rOw0D74Hyt6Mr+4ADYfkwZlwp53MrizG42xPsmJvfeDdLYbFw5zuIpXE9SfwoyCvMrvESs
+ IGnARvvSWzhxBXHZu0gAn+GTjT3PVLOtt6hgr137RTD/xpGEHS8tRQntAweOClARINg1/sTCTi2
+ WeIt7GTlT3M5YctCMaR32h54a6Ntd++S1l2m0ZIvceoqat+yowJimhAj32Pdin+atLmw8cX5EPQ
+ SdiFWxxHEgCL56QW6U8+F8z2zY1eyQNAL1iIjBCE5RXrUCsXkrXmPk9Pui7clgQsDlZn0FBRaUn
+ 278yE493Ti9BFyLcywYljBbByLcfAA0P4Ppwkx9bNYvomkp0lxgRCtwy+LcZYHhvrFie4njePjL
+ kOAHFxpzr/dmLRECo2CnkapPxi1w4SJZhO/h52k8bbfzZyRnQ9pbz5HJsCf6jRoQlsfWpSQDVoF
+ CalkQmxJ/FhavWfkl5v8SMH592TcqNZqNS0k8XOCe/HSl43/AhN9qstvqXyL/PWLwqW4zo8IWas
+ ujUKkx9pu008gaaWa8DnryDI8By2jqY78WT0dPQNBFAf9+gRmp5AEYSdc9KJF4YapZpbmyJ1Pv1
+ civz/s1wZgJrGzQ==
 X-Developer-Key: i=abel.vesa@linaro.org; a=openpgp;
  fpr=6AFF162D57F4223A8770EF5AF7BF214136F41FAE
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -125,54 +122,287 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The Glymur MDSS is based on the one found in SM8750, with 2 minor number
-version bump.
+The MDSS/MDP display subsystem found on Glymur platform is 2 minor version
+increase compared to SM8750, which makes it incompatible with all previous
+platforms. So document it.
 
+Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 Signed-off-by: Abel Vesa <abel.vesa@linaro.org>
 ---
-Changes in v3:
- - Re-worded first commit in order to better suggest the incompatiblity
-   with previous platforms.
- - Picked up Krzysztof R-b tag for 1st patch.
- - Picked up Dmitry's R-b tag for 7th patch.
- - Link to v2: https://lore.kernel.org/r/20251014-glymur-display-v2-0-ff935e2f88c5@linaro.org
+ .../bindings/display/msm/qcom,glymur-mdss.yaml     | 264 +++++++++++++++++++++
+ 1 file changed, 264 insertions(+)
 
-Changes in v2:
- - Picked-up Krzysztof's and Dmitry's R-b tags.
- - Fixed the bindings check reported by Rob.
- - Fixed indentation reported by Krzysztof.
- - Re-worded the commits to better explain the incompatibility
-   with previous platforms.
- - Add the UBWC config patch, as suggested by Dmitry.
- - Link to v1: https://lore.kernel.org/r/20250911-glymur-display-v1-0-d391a343292e@linaro.org
+diff --git a/Documentation/devicetree/bindings/display/msm/qcom,glymur-mdss.yaml b/Documentation/devicetree/bindings/display/msm/qcom,glymur-mdss.yaml
+new file mode 100644
+index 0000000000000000000000000000000000000000..2329ed96e6cb37bf63a686e966aa81e690fc5dcd
+--- /dev/null
++++ b/Documentation/devicetree/bindings/display/msm/qcom,glymur-mdss.yaml
+@@ -0,0 +1,264 @@
++# SPDX-License-Identifier: GPL-2.0-only OR BSD-2-Clause
++%YAML 1.2
++---
++$id: http://devicetree.org/schemas/display/msm/qcom,glymur-mdss.yaml#
++$schema: http://devicetree.org/meta-schemas/core.yaml#
++
++title: Qualcomm Glymur Display MDSS
++
++maintainers:
++  - Abel Vesa <abel.vesa@linaro.org>
++
++description:
++  Glymur MSM Mobile Display Subsystem(MDSS), which encapsulates sub-blocks like
++  DPU display controller, DP interfaces, etc.
++
++$ref: /schemas/display/msm/mdss-common.yaml#
++
++properties:
++  compatible:
++    const: qcom,glymur-mdss
++
++  clocks:
++    items:
++      - description: Display AHB
++      - description: Display hf AXI
++      - description: Display core
++
++  iommus:
++    maxItems: 1
++
++  interconnects:
++    items:
++      - description: Interconnect path from mdp0 port to the data bus
++      - description: Interconnect path from CPU to the reg bus
++
++  interconnect-names:
++    items:
++      - const: mdp0-mem
++      - const: cpu-cfg
++
++patternProperties:
++  "^display-controller@[0-9a-f]+$":
++    type: object
++    additionalProperties: true
++    properties:
++      compatible:
++        const: qcom,glymur-dpu
++
++  "^displayport-controller@[0-9a-f]+$":
++    type: object
++    additionalProperties: true
++    properties:
++      compatible:
++        const: qcom,glymur-dp
++
++  "^phy@[0-9a-f]+$":
++    type: object
++    additionalProperties: true
++    properties:
++      compatible:
++        const: qcom,glymur-dp-phy
++
++required:
++  - compatible
++
++unevaluatedProperties: false
++
++examples:
++  - |
++    #include <dt-bindings/clock/qcom,rpmh.h>
++    #include <dt-bindings/interconnect/qcom,icc.h>
++    #include <dt-bindings/interconnect/qcom,glymur-rpmh.h>
++    #include <dt-bindings/interrupt-controller/arm-gic.h>
++    #include <dt-bindings/phy/phy-qcom-qmp.h>
++    #include <dt-bindings/power/qcom,rpmhpd.h>
++
++    display-subsystem@ae00000 {
++            compatible = "qcom,glymur-mdss";
++            reg = <0x0ae00000 0x1000>;
++            reg-names = "mdss";
++
++            interrupts = <GIC_SPI 83 IRQ_TYPE_LEVEL_HIGH>;
++
++            clocks = <&dispcc_ahb_clk>,
++                     <&gcc_disp_hf_axi_clk>,
++                     <&dispcc_mdp_clk>;
++            clock-names = "bus", "nrt_bus", "core";
++
++            interconnects = <&mmss_noc MASTER_MDP QCOM_ICC_TAG_ALWAYS
++                             &mc_virt SLAVE_EBI1 QCOM_ICC_TAG_ALWAYS>,
++                            <&hsc_noc MASTER_APPSS_PROC QCOM_ICC_TAG_ACTIVE_ONLY
++                             &config_noc SLAVE_DISPLAY_CFG QCOM_ICC_TAG_ACTIVE_ONLY>;
++            interconnect-names = "mdp0-mem",
++                                 "cpu-cfg";
++
++            resets = <&disp_cc_mdss_core_bcr>;
++
++            power-domains = <&mdss_gdsc>;
++
++            iommus = <&apps_smmu 0x1c00 0x2>;
++
++            interrupt-controller;
++            #interrupt-cells = <1>;
++
++            #address-cells = <1>;
++            #size-cells = <1>;
++            ranges;
++
++            display-controller@ae01000 {
++                compatible = "qcom,glymur-dpu";
++                reg = <0x0ae01000 0x8f000>,
++                      <0x0aeb0000 0x2008>;
++                reg-names = "mdp", "vbif";
++
++                clocks = <&gcc_axi_clk>,
++                         <&dispcc_ahb_clk>,
++                         <&dispcc_mdp_lut_clk>,
++                         <&dispcc_mdp_clk>,
++                         <&dispcc_mdp_vsync_clk>;
++                clock-names = "nrt_bus",
++                              "iface",
++                              "lut",
++                              "core",
++                              "vsync";
++
++                assigned-clocks = <&dispcc_mdp_vsync_clk>;
++                assigned-clock-rates = <19200000>;
++
++                operating-points-v2 = <&mdp_opp_table>;
++                power-domains = <&rpmhpd RPMHPD_MMCX>;
++
++                interrupt-parent = <&mdss>;
++                interrupts = <0>;
++
++                ports {
++                    #address-cells = <1>;
++                    #size-cells = <0>;
++
++                    port@0 {
++                        reg = <0>;
++                        dpu_intf1_out: endpoint {
++                            remote-endpoint = <&dsi0_in>;
++                        };
++                    };
++
++                    port@1 {
++                        reg = <1>;
++                        dpu_intf2_out: endpoint {
++                            remote-endpoint = <&dsi1_in>;
++                        };
++                    };
++                };
++
++                mdp_opp_table: opp-table {
++                    compatible = "operating-points-v2";
++
++                    opp-200000000 {
++                        opp-hz = /bits/ 64 <200000000>;
++                        required-opps = <&rpmhpd_opp_low_svs>;
++                    };
++
++                    opp-325000000 {
++                        opp-hz = /bits/ 64 <325000000>;
++                        required-opps = <&rpmhpd_opp_svs>;
++                    };
++
++                    opp-375000000 {
++                        opp-hz = /bits/ 64 <375000000>;
++                        required-opps = <&rpmhpd_opp_svs_l1>;
++                    };
++
++                    opp-514000000 {
++                        opp-hz = /bits/ 64 <514000000>;
++                        required-opps = <&rpmhpd_opp_nom>;
++                    };
++                };
++            };
++
++            displayport-controller@ae90000 {
++                compatible = "qcom,glymur-dp";
++                reg = <0xae90000 0x200>,
++                      <0xae90200 0x200>,
++                      <0xae90400 0x600>,
++                      <0xae91000 0x400>,
++                      <0xae91400 0x400>;
++
++                interrupt-parent = <&mdss>;
++                interrupts = <12>;
++
++                clocks = <&dispcc_mdss_ahb_clk>,
++                         <&dispcc_dptx0_aux_clk>,
++                         <&dispcc_dptx0_link_clk>,
++                         <&dispcc_dptx0_link_intf_clk>,
++                         <&dispcc_dptx0_pixel0_clk>,
++                         <&dispcc_dptx0_pixel1_clk>;
++                clock-names = "core_iface",
++                              "core_aux",
++                              "ctrl_link",
++                              "ctrl_link_iface",
++                              "stream_pixel",
++                              "stream_1_pixel";
++
++                assigned-clocks = <&dispcc_mdss_dptx0_link_clk_src>,
++                                  <&dispcc_mdss_dptx0_pixel0_clk_src>,
++                                  <&dispcc_mdss_dptx0_pixel1_clk_src>;
++                assigned-clock-parents = <&usb_1_ss0_qmpphy QMP_USB43DP_DP_LINK_CLK>,
++                                         <&usb_1_ss0_qmpphy QMP_USB43DP_DP_VCO_DIV_CLK>,
++                                         <&usb_1_ss0_qmpphy QMP_USB43DP_DP_VCO_DIV_CLK>;
++
++                operating-points-v2 = <&mdss_dp0_opp_table>;
++
++                power-domains = <&rpmhpd RPMHPD_MMCX>;
++
++                phys = <&usb_1_ss0_qmpphy QMP_USB43DP_DP_PHY>;
++                phy-names = "dp";
++
++                #sound-dai-cells = <0>;
++
++                ports {
++                    #address-cells = <1>;
++                    #size-cells = <0>;
++
++                    port@0 {
++                        reg = <0>;
++
++                        mdss_dp0_in: endpoint {
++                          remote-endpoint = <&mdss_intf0_out>;
++                        };
++                    };
++
++                    port@1 {
++                        reg = <1>;
++
++                        mdss_dp0_out: endpoint {
++                        };
++                    };
++                };
++
++                mdss_dp0_opp_table: opp-table {
++                    compatible = "operating-points-v2";
++
++                    opp-160000000 {
++                        opp-hz = /bits/ 64 <160000000>;
++                        required-opps = <&rpmhpd_opp_low_svs>;
++                    };
++
++                    opp-270000000 {
++                        opp-hz = /bits/ 64 <270000000>;
++                        required-opps = <&rpmhpd_opp_svs>;
++                    };
++
++                    opp-540000000 {
++                        opp-hz = /bits/ 64 <540000000>;
++                        required-opps = <&rpmhpd_opp_svs_l1>;
++                    };
++
++                    opp-810000000 {
++                        opp-hz = /bits/ 64 <810000000>;
++                        required-opps = <&rpmhpd_opp_nom>;
++                    };
++                };
++            };
++        };
++...
 
----
-Abel Vesa (7):
-      dt-bindings: display: msm: Document the Glymur Mobile Display SubSystem
-      dt-bindings: display: msm: Document the Glymur Display Processing Unit
-      dt-bindings: display: msm: Document the Glymur DiplayPort controller
-      drm/msm/mdss: Add Glymur device configuration
-      drm/msm/dpu: Add support for Glymur
-      drm/msm/dp: Add support for Glymur
-      soc: qcom: ubwc: Add configuration Glymur platform
-
- .../bindings/display/msm/dp-controller.yaml        |   3 +
- .../bindings/display/msm/qcom,glymur-mdss.yaml     | 264 ++++++++++
- .../bindings/display/msm/qcom,sm8650-dpu.yaml      |   1 +
- .../drm/msm/disp/dpu1/catalog/dpu_12_2_glymur.h    | 541 +++++++++++++++++++++
- drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c     |   1 +
- drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.h     |   1 +
- drivers/gpu/drm/msm/disp/dpu1/dpu_hw_mdss.h        |   6 +
- drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c            |   1 +
- drivers/gpu/drm/msm/dp/dp_display.c                |   9 +
- drivers/gpu/drm/msm/msm_mdss.c                     |   1 +
- drivers/soc/qcom/ubwc_config.c                     |  12 +
- 11 files changed, 840 insertions(+)
----
-base-commit: 8fec172c82c2b5f6f8e47ab837c1dc91ee3d1b87
-change-id: 20250910-glymur-display-12d18a2bd741
-
-Best regards,
 -- 
-Abel Vesa <abel.vesa@linaro.org>
+2.48.1
 
