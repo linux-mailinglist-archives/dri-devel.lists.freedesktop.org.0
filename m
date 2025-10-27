@@ -2,60 +2,64 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 37786C0E224
-	for <lists+dri-devel@lfdr.de>; Mon, 27 Oct 2025 14:45:54 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 70ADAC0E2F3
+	for <lists+dri-devel@lfdr.de>; Mon, 27 Oct 2025 14:54:56 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8247010E16B;
-	Mon, 27 Oct 2025 13:45:39 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BCD9310E06C;
+	Mon, 27 Oct 2025 13:54:53 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; secure) header.d=mailbox.org header.i=@mailbox.org header.b="ojxWCtje";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="Av7EdndH";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mout-p-101.mailbox.org (mout-p-101.mailbox.org [80.241.56.151])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 47AB810E16B
- for <dri-devel@lists.freedesktop.org>; Mon, 27 Oct 2025 13:45:38 +0000 (UTC)
-Received: from smtp2.mailbox.org (smtp2.mailbox.org [10.196.197.2])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested)
- by mout-p-101.mailbox.org (Postfix) with ESMTPS id 4cwFBl1FbMz9stG;
- Mon, 27 Oct 2025 14:45:35 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org;
- s=mail20150812; t=1761572735;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=BnB21FDiwxmVcyKyiTqv1p4dgJtK06tH8IXDXJKcNbc=;
- b=ojxWCtjeIWSwCsxtp3H318kobeaHbB3qtciVrqHeFsWcYY4bsMiJARvSkLRHQgLjAx/HdX
- D4k9MgsLuD4kc81TXybRsvYu/ITfDKmsad/7VCdb+60DWL65gqWE4S+7r4j3cEqZaDtAtf
- uAryfWhx97Hbe9yLTQ5WdL9feFmoYAXvTAbEjo3mBV1k35m9e/qsrx4xSRc/O0i5jvWeMy
- r131ei0P2sj1jEw/jkpxe3CKskYMQecvyPSvek7htctvwnlX6ShSYP92KcvqWYtdMOnv8+
- lB7INreFeFvgUOd8nV9VCxbMCeqAcyVZIGH1iCNCq8cOFUTLPHl7c46LwOnJiw==
-Message-ID: <59645a9a-69f3-4a81-8983-1594956958ea@mailbox.org>
-Date: Mon, 27 Oct 2025 14:45:30 +0100
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B500310E06C
+ for <dri-devel@lists.freedesktop.org>; Mon, 27 Oct 2025 13:54:52 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1761573293; x=1793109293;
+ h=message-id:date:mime-version:subject:to:cc:references:
+ from:in-reply-to:content-transfer-encoding;
+ bh=hj5GdA8M90iaMIRtUEi+JTcmlnAi36XCqohD895Rv2I=;
+ b=Av7EdndHEuxA14cQRUcJ0wDsqcUThDTg34ZD+pbelunWTg3oknswFfFL
+ PyPNMsvHBWl1t86gsqfNFlle2PauNlsSjIwzOKyBt9mlCIvJwPpTYRBaG
+ IEfk0H80vn+yJY5IYrYLOqOqO8TpjLBCXxF4+fg6T3PKbzzGQDsTEQxYu
+ +aJnNkMNXufGn4xGpropgIpY9AWiWzBfSDLc6uDxBWK0LNze3Mzk4eBxc
+ nLBeFambxyXMwoV5aEzE0EZvR9ZDO3Tq+ifKw5Y8k+yerwYhdPl183GMb
+ 0P7tOMrew+gJhf2N1N7jmgrdYu/ibaoAGA39EtJgSTSGH5gCMFTsSwuxh g==;
+X-CSE-ConnectionGUID: ipu2elFeTnyI35Pu73Em3g==
+X-CSE-MsgGUID: T0YaxhWBTLCUZDKwST8eTw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11531"; a="67486131"
+X-IronPort-AV: E=Sophos;i="6.17,312,1747724400"; d="scan'208";a="67486131"
+Received: from fmviesa010.fm.intel.com ([10.60.135.150])
+ by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 27 Oct 2025 06:54:52 -0700
+X-CSE-ConnectionGUID: a9My5zK5Q2uFvguq7roqvA==
+X-CSE-MsgGUID: mzWKqT19Rg6bKubUbjcy8Q==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.19,259,1754982000"; d="scan'208";a="185807837"
+Received: from kwachows-mobl.ger.corp.intel.com (HELO [10.245.81.7])
+ ([10.245.81.7])
+ by fmviesa010-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 27 Oct 2025 06:54:51 -0700
+Message-ID: <2dae873e-7b98-4d36-8c9e-4c263f561818@linux.intel.com>
+Date: Mon, 27 Oct 2025 14:54:44 +0100
 MIME-Version: 1.0
-Subject: Re: [PATCH v3 00/11] drm/rcar-du: dsi: Convert register bits to
- BIT()/GENMASK() macros
-To: dri-devel@lists.freedesktop.org,
- Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>
-Cc: David Airlie <airlied@gmail.com>,
- Geert Uytterhoeven <geert+renesas@glider.be>,
- Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
- Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Magnus Damm <magnus.damm@gmail.com>, Maxime Ripard <mripard@kernel.org>,
- Simona Vetter <simona@ffwll.ch>, Thomas Zimmermann <tzimmermann@suse.de>,
- linux-renesas-soc@vger.kernel.org
-References: <20251005030355.202242-1-marek.vasut+renesas@mailbox.org>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 1/1] accel/ivpu: Remove redundant
+ pm_runtime_mark_last_busy() calls
+To: Sakari Ailus <sakari.ailus@linux.intel.com>,
+ dri-devel@lists.freedesktop.org
+Cc: Maciej Falkowski <maciej.falkowski@linux.intel.com>,
+ Oded Gabbay <ogabbay@kernel.org>
+References: <20251027133956.393375-1-sakari.ailus@linux.intel.com>
 Content-Language: en-US
-From: Marek Vasut <marek.vasut@mailbox.org>
-In-Reply-To: <20251005030355.202242-1-marek.vasut+renesas@mailbox.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+From: Karol Wachowski <karol.wachowski@linux.intel.com>
+Organization: Intel Technology Poland sp. z o.o. - ul. Slowackiego 173, 80-298
+ Gdansk - KRS 101882 - NIP 957-07-52-316
+In-Reply-To: <20251027133956.393375-1-sakari.ailus@linux.intel.com>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
-X-MBO-RS-META: 3cfnicdoe113ynxgenp1tw58wqeu4ww3
-X-MBO-RS-ID: 6bf091ff043e94b4015
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -71,28 +75,48 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 10/5/25 5:02 AM, Marek Vasut wrote:
-> Convert register bits to BIT() macro and bitfields to GENMASK()/FIELD_PREP() macros.
-> Most of this patchset is boring mechanical conversion.
-> 
-> Noteworthy patches are 6 and 7 , those introduce handling of DSI mode flags
-> and convert use of DRM_MODE_FLAG_P.SYNC into DRM_MODE_FLAG_N.SYNC, but that
-> should not have any adverse effect on existing hardware.
-> 
-> Marek Vasut (11):
->    drm/rcar-du: dsi: Fix missing parameter in RXSETR_...EN macros
->    drm/rcar-du: dsi: Document TXVMSETR PIXWDTH as bitfield
->    drm/rcar-du: dsi: Document PHTR TESTDOUT as bitfield
->    drm/rcar-du: dsi: Deduplicate mipi_dsi_pixel_format_to_bpp() usage
->    drm/rcar-du: dsi: Clean up VCLKSET register macros
->    drm/rcar-du: dsi: Clean up CLOCKSET1 CLKINSEL macros
->    drm/rcar-du: dsi: Clean up TXVMPSPHSETR DT macros
->    drm/rcar-du: dsi: Respect DSI mode flags
->    drm/rcar-du: dsi: Clean up handling of DRM mode flags
->    drm/rcar-du: dsi: Convert register bits to BIT() macro
->    drm/rcar-du: dsi: Convert register bitfields to GENMASK() macro
-> 
->   .../gpu/drm/renesas/rcar-du/rcar_mipi_dsi.c   |  50 ++-
->   .../drm/renesas/rcar-du/rcar_mipi_dsi_regs.h  | 387 +++++++++---------
->   2 files changed, 237 insertions(+), 200 deletions(-)
-How can we proceed with this series ?
+On 10/27/2025 2:39 PM, Sakari Ailus wrote:
+> pm_runtime_put_autosuspend(), pm_runtime_put_sync_autosuspend(),
+> pm_runtime_autosuspend() and pm_request_autosuspend() now include a call
+> to pm_runtime_mark_last_busy(). Remove the now-reduntant explicit call to
+> pm_runtime_mark_last_busy().
+>
+> Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
+> Reviewed-by: Jacek Lawrynowicz <jacek.lawrynowicz@linux.intel.com>
+> ---
+>  drivers/accel/ivpu/ivpu_job.c | 1 -
+>  drivers/accel/ivpu/ivpu_pm.c  | 2 --
+>  2 files changed, 3 deletions(-)
+>
+> diff --git a/drivers/accel/ivpu/ivpu_job.c b/drivers/accel/ivpu/ivpu_job.c
+> index ba4535a75aa7..4eb7287cd083 100644
+> --- a/drivers/accel/ivpu/ivpu_job.c
+> +++ b/drivers/accel/ivpu/ivpu_job.c
+> @@ -1114,6 +1114,5 @@ void ivpu_context_abort_work_fn(struct work_struct *work)
+>  	mutex_unlock(&vdev->submitted_jobs_lock);
+>  
+>  runtime_put:
+> -	pm_runtime_mark_last_busy(vdev->drm.dev);
+>  	pm_runtime_put_autosuspend(vdev->drm.dev);
+>  }
+> diff --git a/drivers/accel/ivpu/ivpu_pm.c b/drivers/accel/ivpu/ivpu_pm.c
+> index 63c95307faa1..fe6f93af6ab0 100644
+> --- a/drivers/accel/ivpu/ivpu_pm.c
+> +++ b/drivers/accel/ivpu/ivpu_pm.c
+> @@ -359,7 +359,6 @@ int ivpu_rpm_get(struct ivpu_device *vdev)
+>  
+>  void ivpu_rpm_put(struct ivpu_device *vdev)
+>  {
+> -	pm_runtime_mark_last_busy(vdev->drm.dev);
+>  	pm_runtime_put_autosuspend(vdev->drm.dev);
+>  }
+>  
+> @@ -428,7 +427,6 @@ void ivpu_pm_enable(struct ivpu_device *vdev)
+>  	struct device *dev = vdev->drm.dev;
+>  
+>  	pm_runtime_allow(dev);
+> -	pm_runtime_mark_last_busy(dev);
+>  	pm_runtime_put_autosuspend(dev);
+>  }
+Reviewed-by: Karol Wachowski <karol.wachowski@linux.intel.com>
+>  
