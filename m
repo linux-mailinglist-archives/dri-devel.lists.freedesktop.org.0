@@ -2,88 +2,114 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8115CC0E9EA
-	for <lists+dri-devel@lfdr.de>; Mon, 27 Oct 2025 15:52:37 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id C34DAC0EB6A
+	for <lists+dri-devel@lfdr.de>; Mon, 27 Oct 2025 15:59:41 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id AFC1110E4BF;
-	Mon, 27 Oct 2025 14:52:35 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5465410E4C4;
+	Mon, 27 Oct 2025 14:59:38 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="Dqz8otKG";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="UvwsmZvg";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-f51.google.com (mail-wm1-f51.google.com
- [209.85.128.51])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BE57710E4BF
- for <dri-devel@lists.freedesktop.org>; Mon, 27 Oct 2025 14:52:34 +0000 (UTC)
-Received: by mail-wm1-f51.google.com with SMTP id
- 5b1f17b1804b1-4711b95226dso59296605e9.0
- for <dri-devel@lists.freedesktop.org>; Mon, 27 Oct 2025 07:52:34 -0700 (PDT)
+Received: from mail-wm1-f50.google.com (mail-wm1-f50.google.com
+ [209.85.128.50])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id EAA8F10E4C4
+ for <dri-devel@lists.freedesktop.org>; Mon, 27 Oct 2025 14:59:36 +0000 (UTC)
+Received: by mail-wm1-f50.google.com with SMTP id
+ 5b1f17b1804b1-471b80b994bso67380945e9.3
+ for <dri-devel@lists.freedesktop.org>; Mon, 27 Oct 2025 07:59:36 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1761576753; x=1762181553; darn=lists.freedesktop.org;
- h=in-reply-to:content-transfer-encoding:content-disposition
- :mime-version:references:message-id:subject:cc:to:from:date:from:to
- :cc:subject:date:message-id:reply-to;
- bh=CG2tkvlUbIfjNpzMGKRkYn92mrYl4xnwnC80WC0Ss5I=;
- b=Dqz8otKG3qoWMmQzcCaPIZQycB46NHSGWW47M+7sUKF6Ym4RxTN3qdTRFpu8Al1ibg
- 64GgfzjJRqZMAAwEpYSHfmWirL8THC6bTMDt+TygElXcD0Wq52VEUFgx4f3MgNu3YU7p
- BNPK9BLC85rGETEFPNz81yONGNbEaoQUoshcVs/8sl5LI/IcUKzHUlQjnE85h388cuLd
- +bz0dsgrOpExNs9C5IKMuLKkNAjm/WYMuCcTQICs/H/vbK7jFEh0xdVF9m/zNjdfczNJ
- CbDM0xlaDg5qBtjKU1F5hKzmpLitCHsyXa+u5vcjSF3PDBBbqsMDqOA+0daHP0HDBAk3
- 35CA==
+ d=linaro.org; s=google; t=1761577175; x=1762181975; darn=lists.freedesktop.org;
+ h=cc:to:content-transfer-encoding:mime-version:message-id:date
+ :subject:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=NW0g4MULUKaMYiJnLBpd0Ri5YM5rWj5Eltx5XndG2Gs=;
+ b=UvwsmZvgR+8kZPgWaz7vyL7guyk7VNvXOgIaKb8uvRiFLuXkDS8Mwkki+CxG7IJKpU
+ V981M8dLRuVvpTZRpkvO11DoxyzrRLNu9Uvw+s/X/j20xD4gOXD75vfEO9atScRDbLTO
+ Jbijza/r2IGbz2LChRz5omw21igFIWA0LmzWhpicXklUDQahP9YOtDWXX1C1sRWDpf7z
+ MOONdohrqf3pQvbffsP/j/Iw7dbYxQnaW9DQgAexeNC6r+ee65HogRQNjVz7EH0HyDNL
+ 0Qy78CdU7j1+GTHW33JI5ww3mGonNA+LkDLZwq9SzSPBoosdSLZV7FLLQpZ1AlqqkywE
+ G9zQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1761576753; x=1762181553;
- h=in-reply-to:content-transfer-encoding:content-disposition
- :mime-version:references:message-id:subject:cc:to:from:date
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=CG2tkvlUbIfjNpzMGKRkYn92mrYl4xnwnC80WC0Ss5I=;
- b=BVEVXCsu9ialITJ1Vjkpx5VlB799MsICjoOG55c73YtlNcNVGJk4n5mlqqpwxygc+m
- mnGHL0gV+9PIVqQ6VAyaqwoh4hgLD6koSFgyOIUdZ2/9Cpl039RUvynY9s5itHA3nhdV
- scPu+nZNLGpP1UblnrXYqmK1O8J4C9LZDawwQ5cS5Vy3riV80v8R3344RjQQRnouylk1
- 787pgR2Prl16jb5br0Ok96HZBkhhrboNmweagxueOpY2kxEURCQbLTElRhjKLnuHKhHZ
- sSc21BmUdC4cffHlVDzEHQ6rukCi3pERQkhIKsQorr7sb3onuOWRwWxMDM1My5NYsDs+
- Uw7w==
+ d=1e100.net; s=20230601; t=1761577175; x=1762181975;
+ h=cc:to:content-transfer-encoding:mime-version:message-id:date
+ :subject:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=NW0g4MULUKaMYiJnLBpd0Ri5YM5rWj5Eltx5XndG2Gs=;
+ b=YDoXveaFitRHo4EcJ8sLD9xpbRngHCiEllIRWbl1WdfDaE7p+3JX5XSk3fUfjnZaTW
+ +fw6vAZ7eIfUUHBXom2QVpK0drp7NHrT/OVY22xk+3keEPEarx+Rat8oHUWxxZQwwE8N
+ 5z6p41XuyTJblBGHLgItKYxmHEzJu7gHzCOVVTMcO8uUug8cCD2LoSwQ4KUsdHfiEs0o
+ QJQ8kRBvLU2w6t2CSfnqiaqnJv5eIu+H7ygwxvj4IhFEvEp7ex+a6HOdM3nRgIaJ8Ay6
+ PEb6d68RkAEROANGsk1A/s7G93sXE19NczHJHjT+uqQqvNftle/4cedSubhqoOCPxd7y
+ 8NcQ==
 X-Forwarded-Encrypted: i=1;
- AJvYcCVEt2kX/NjiZfrzwCgHaXiC59v1NBE6rWCIJ1/TFD3OFCWG+Co6Gorh6utgD/diKrkslR7AbSbIR14=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Yyu4yUSvjTzL7043zdlI6rYzkhZJQ/Az32zOKOcHjzgWdup60zp
- 0pj7wWwFgcn5KcSpGLfIgerls4oMCEYuxGM+IsxRI+3Df2yDqyEqqSnv
-X-Gm-Gg: ASbGncu9FgHJ5sSBEKXNgLskKGWfUFSGEqLB/ZKlfzuepxNTnZJ0dldwjphtgJwmfuF
- 0d6T24RLdAWXa6vZttDH8yIjMfM3HLUs2WaEXS951xlufDN2XX/YB3P51xZv9ofYOkNfKR3XICO
- j353tw//Z0x1QdafTjeu1hJbGidrjLOOxp/jiws9TFQrJJC6JaenNhU6dEhNAJ4dzKdvhOGrXBS
- ypGO8LsqvacGBssgRiM6AdpGBVQMoNuViFJeLGHJ6qL6qnC9jyVjAMIWVDFdg0mlaWY3e28Xvhr
- I4PTCp8ieT0ETjzqQYkZZGSwb2aJR+Ka0PHWYXU1vRLDpze+axXV+ajwkr7Ry+gK0gEfGrJ5xoU
- 8ertuThOhpbnoY/srM8QBEF2TY0b/YFuaN9YNMdo005puWfVvHjxKe4qrs+omxAA2GQakv/Uo+Q
- ==
-X-Google-Smtp-Source: AGHT+IHjBgSezOajtNnHj2arl75lAB5ScyHP+2SpFJAW6GyFs1n32z2GEG9yrr0CCn8Kd71lNpl3yg==
-X-Received: by 2002:a05:600c:3e07:b0:471:c04:a352 with SMTP id
- 5b1f17b1804b1-4711787674fmr278303415e9.4.1761576752971; 
- Mon, 27 Oct 2025 07:52:32 -0700 (PDT)
-Received: from fedora ([94.73.38.14]) by smtp.gmail.com with ESMTPSA id
- 5b1f17b1804b1-475dd042499sm140814925e9.8.2025.10.27.07.52.32
+ AJvYcCVxvSb04vkmiC18hQ8juL9qNO7aRq0ALI+beoC0h7Fho1sO7qFIkBlgvN4jQ1Sp/syZmG4Nwk3Wh48=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Yys/J64K5XvdJKATz6YhYC2pQcTlJ3uzDJDDuKE31y0XMHw37yr
+ mhgnCicOCG+OMmG41cmCpKaUpaMiP14jlQpLokiC/rdeeP74xd/G6ZecWoXzAyhTVJk=
+X-Gm-Gg: ASbGncsxPx6jWTW5cysbsj9MFihyUNBes58WaatIREuju9d+Hf6EWemYxqt+eBmdfCc
+ 0tFm9snsn0rSY2P58Iw8453jejpPULcetBcj7W9qC4mYen7MTXIaCMRL2CHiFYcp11ACZj9vnbv
+ AsLJulX9BIIT177ug7Yfw/9QLSchiPNyUMDQTwmmjICNxQQZz0e5JvybdvOy4cfxfLmuMe8iyEB
+ 1or0nrdyF/Tq92B/Op0yiFo2oLbR/+/nDVSPB//CUtxvvfDn6g3vq065H25YMXY+eylxDxU8kJv
+ LDitktxtC/MQ+9Zic31UB28nSS/NT4YYXyI1QgQZjouI6CAgCVKk5K4kCj4zoSZ1SIzpkbEXdf6
+ S97HtpDN/6wEipnWtoCstItpnyphVCjMMeIrRB1wDabQFEqUZHl907EkJLI7EZ8NEzWqWIpcMuR
+ KKebmHAmhz
+X-Google-Smtp-Source: AGHT+IEaQneBk0C8dLzRUnxt31IA4a5BDhI6aZOrP71p5Fx9l+6YUOmnTLZBOBxL2PTxl1832j9iLQ==
+X-Received: by 2002:a05:600c:34c4:b0:477:171f:65f with SMTP id
+ 5b1f17b1804b1-477171f0938mr4731325e9.38.1761577175395; 
+ Mon, 27 Oct 2025 07:59:35 -0700 (PDT)
+Received: from hackbox.lan ([86.121.7.169]) by smtp.gmail.com with ESMTPSA id
+ ffacd0b85a97d-429952df682sm14624801f8f.43.2025.10.27.07.59.33
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 27 Oct 2025 07:52:32 -0700 (PDT)
-Date: Mon, 27 Oct 2025 15:52:30 +0100
-From: =?iso-8859-1?Q?Jos=E9_Exp=F3sito?= <jose.exposito89@gmail.com>
-To: Louis Chauvet <louis.chauvet@bootlin.com>
-Cc: Haneen Mohammed <hamohammed.sa@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Melissa Wen <melissa.srw@gmail.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Jonathan Corbet <corbet@lwn.net>,
- victoria@system76.com, sebastian.wick@redhat.com,
- thomas.petazzoni@bootlin.com, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org
-Subject: Re: [PATCH 20/22] drm/vkms: Store the enabled/disabled status for
- connector
-Message-ID: <aP-HLjiHzs2v5F8-@fedora>
-References: <20251018-vkms-all-config-v1-0-a7760755d92d@bootlin.com>
- <20251018-vkms-all-config-v1-20-a7760755d92d@bootlin.com>
+ Mon, 27 Oct 2025 07:59:34 -0700 (PDT)
+From: Abel Vesa <abel.vesa@linaro.org>
+Subject: [PATCH v3 0/7] drm/msm: Add display support for Glymur platform
+Date: Mon, 27 Oct 2025 16:59:17 +0200
+Message-Id: <20251027-glymur-display-v3-0-aa13055818ac@linaro.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20251018-vkms-all-config-v1-20-a7760755d92d@bootlin.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAMWI/2gC/2XM0QqCMBTG8VeRXbfYOVNyXfUe0cVymx4wJ1uNR
+ Hz3plBQXX4f/H8zizaQjexYzCzYRJH8kIfcFazp9NBaTiZvhgIroUDwtp9uj8ANxbHXEwc0UGu
+ 8mkMJLEdjsI6eG3i+5N1RvPswbX6C9X1T8Esl4IIbqUDLUqJCe+pp0MHvfWjZaiX89CCg/Osx9
+ 84pWVl0dd1UX/2yLC+vRk6p7QAAAA==
+X-Change-ID: 20250910-glymur-display-12d18a2bd741
+To: Rob Clark <robin.clark@oss.qualcomm.com>, 
+ Dmitry Baryshkov <lumag@kernel.org>, 
+ Abhinav Kumar <abhinav.kumar@linux.dev>, 
+ Jessica Zhang <jessica.zhang@oss.qualcomm.com>, Sean Paul <sean@poorly.run>, 
+ Marijn Suijten <marijn.suijten@somainline.org>, 
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
+ Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+ Conor Dooley <conor+dt@kernel.org>, 
+ Neil Armstrong <neil.armstrong@linaro.org>, 
+ Kuogee Hsieh <quic_khsieh@quicinc.com>, 
+ Bjorn Andersson <andersson@kernel.org>, 
+ Konrad Dybcio <konradybcio@kernel.org>
+Cc: linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org, 
+ freedreno@lists.freedesktop.org, devicetree@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, Abel Vesa <abel.vesa@linaro.org>, 
+ Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>, 
+ Krzysztof Kozlowski <krzk@kernel.org>
+X-Mailer: b4 0.15-dev-dedf8
+X-Developer-Signature: v=1; a=openpgp-sha256; l=2209; i=abel.vesa@linaro.org; 
+ h=from:subject:message-id;
+ bh=eDQhQASOEmRkcfF1cnh05g0ZSLG33Cazfq+HFLkLeDs=; 
+ b=owEBbQKS/ZANAwAKARtfRMkAlRVWAcsmYgBo/4jL4e2P0M+fEJRpcgfUYt16mHELFJZJztSOL
+ H5lBOKx5SOJAjMEAAEKAB0WIQRO8+4RTnqPKsqn0bgbX0TJAJUVVgUCaP+IywAKCRAbX0TJAJUV
+ VsFfEAC7FmOy5w629PPMnlYGOFdHi2vJe6IBqwe/XMzgVyHN6nqMBH4VKVuJWuqEIlCZXYin6i1
+ qFByl4U3Bu3WpLYhlyWU2Oyb1Q0kIhVPpnYiSfjUtVPKKKrGrPxcLQXaj54P6ulqwh4dE6FQL4j
+ FPmwZw1xotu9jIYmdKEgQpzDkZBgPu/hfMptiKHN7s8nTF5BxTvdqvkcMKjLJTMPqqjqLNWOfTx
+ MzwCTH8bohm+AjllsfN0rtejPO3I0/I5vXQ0UxgnYm1RhWsji4FpZA+gNS4EimDdotp2ds3Pmu9
+ 2sIuL/QG2kO7x+tsj9GugfUbUaeynxaVLm+MR9j0F1GVT9tdvlVR5a5o1KCviKcuZ519grI3iTJ
+ T9ZmDXNt+MSv3blgzpkP7mgQFZ/rWqwJvwsNjzdvKLARgWuCpUmOWVV/zJzK2KCQOCK6LW3XPjo
+ kECMxjfouAxQAIzc5TJ0waCWuPnLK+LUVOnFW0eS6vEDXuhCPuXdKhI/c18+pVNN9IVnM4g8592
+ 7CNNu1KDOxu3ILGiUPOek81NTRII9//VhsqTt8jHhR27Z/D5ysUPVMmnlQgpabVtd6EJC7+wYZK
+ 57U4rCzSbhvKZHBkzIUNkfWaP5asFUIz2+Gq4cIHWLr0m2wndOk6KoUBZzHUZQW/UvVa6xAcl+U
+ LLklForAsQbzbTA==
+X-Developer-Key: i=abel.vesa@linaro.org; a=openpgp;
+ fpr=6AFF162D57F4223A8770EF5AF7BF214136F41FAE
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -99,154 +125,54 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Sat, Oct 18, 2025 at 04:01:20AM +0200, Louis Chauvet wrote:
-> In order to prepare for dynamic connector configuration, we need to store
-> if a connector is dynamic and if it is enabled.
-> 
-> The two new vkms_config_connector fields will helps for that.
-> 
-> Co-developed-by: José Expósito <jose.exposito89@gmail.com>
-> Signed-off-by: José Expósito <jose.exposito89@gmail.com>
-> Signed-off-by: Louis Chauvet <louis.chauvet@bootlin.com>
-> ---
->  drivers/gpu/drm/vkms/tests/vkms_config_test.c |  4 ++
->  drivers/gpu/drm/vkms/vkms_config.c            |  2 +
->  drivers/gpu/drm/vkms/vkms_config.h            | 66 +++++++++++++++++++++++++++
->  3 files changed, 72 insertions(+)
-> 
-> diff --git a/drivers/gpu/drm/vkms/tests/vkms_config_test.c b/drivers/gpu/drm/vkms/tests/vkms_config_test.c
-> index d1e380da31ff..f4b5f8f59fab 100644
-> --- a/drivers/gpu/drm/vkms/tests/vkms_config_test.c
-> +++ b/drivers/gpu/drm/vkms/tests/vkms_config_test.c
-> @@ -192,6 +192,10 @@ static void vkms_config_test_default_config(struct kunit *test)
->  				0);
->  		KUNIT_EXPECT_EQ(test, vkms_config_connector_get_edid_enabled(connector_cfg),
->  				false);
-> +		KUNIT_EXPECT_EQ(test, vkms_config_connector_is_enabled(connector_cfg),
-> +				true);
-> +		KUNIT_EXPECT_EQ(test, vkms_config_connector_is_dynamic(connector_cfg),
-> +				false);
+The Glymur MDSS is based on the one found in SM8750, with 2 minor number
+version bump.
 
-I missed this in other reviews, but you can use KUNIT_EXPECT_TRUE/FALSE instead.
+Signed-off-by: Abel Vesa <abel.vesa@linaro.org>
+---
+Changes in v3:
+ - Re-worded first commit in order to better suggest the incompatiblity
+   with previous platforms.
+ - Picked up Krzysztof R-b tag for 1st patch.
+ - Picked up Dmitry's R-b tag for 7th patch.
+ - Link to v2: https://lore.kernel.org/r/20251014-glymur-display-v2-0-ff935e2f88c5@linaro.org
 
->  	}
->  
->  	KUNIT_EXPECT_TRUE(test, vkms_config_is_valid(config));
-> diff --git a/drivers/gpu/drm/vkms/vkms_config.c b/drivers/gpu/drm/vkms/vkms_config.c
-> index 56e2082b91c9..fd724ae2ebc9 100644
-> --- a/drivers/gpu/drm/vkms/vkms_config.c
-> +++ b/drivers/gpu/drm/vkms/vkms_config.c
-> @@ -773,6 +773,8 @@ struct vkms_config_connector *vkms_config_create_connector(struct vkms_config *c
->  	connector_cfg->status = connector_status_connected;
->  	vkms_config_connector_set_type(connector_cfg, DRM_MODE_CONNECTOR_VIRTUAL);
->  	vkms_config_connector_set_supported_colorspaces(connector_cfg, 0);
-> +	vkms_config_connector_set_dynamic(connector_cfg, false);
-> +	vkms_config_connector_set_enabled(connector_cfg, true);
->  	xa_init_flags(&connector_cfg->possible_encoders, XA_FLAGS_ALLOC);
->  
->  	list_add_tail(&connector_cfg->link, &config->connectors);
-> diff --git a/drivers/gpu/drm/vkms/vkms_config.h b/drivers/gpu/drm/vkms/vkms_config.h
-> index eaf76a58aab6..6716b5a85f0d 100644
-> --- a/drivers/gpu/drm/vkms/vkms_config.h
-> +++ b/drivers/gpu/drm/vkms/vkms_config.h
-> @@ -128,6 +128,8 @@ struct vkms_config_encoder {
->   * @link: Link to the others connector in vkms_config
->   * @type: Store the type of connector using DRM_MODE_CONNECTOR_* values
->   * @config: The vkms_config this connector belongs to
-> + * @dynamic: Store if a connector should be created with drm_connector_dynamic_init
-> + * @enabled: If @dynamic, this means that the correct is currently registered in drm
->   * @status: Status (connected, disconnected...) of the connector
->   * @edid: Stores the current EDID
->   * @edid_len: Current EDID length
-> @@ -142,6 +144,8 @@ struct vkms_config_connector {
->  	struct vkms_config *config;
->  
->  	int type;
-> +	bool enabled;
-> +	bool dynamic;
+Changes in v2:
+ - Picked-up Krzysztof's and Dmitry's R-b tags.
+ - Fixed the bindings check reported by Rob.
+ - Fixed indentation reported by Krzysztof.
+ - Re-worded the commits to better explain the incompatibility
+   with previous platforms.
+ - Add the UBWC config patch, as suggested by Dmitry.
+ - Link to v1: https://lore.kernel.org/r/20250911-glymur-display-v1-0-d391a343292e@linaro.org
 
-In this patch we could also log this in vkms_config_show().
+---
+Abel Vesa (7):
+      dt-bindings: display: msm: Document the Glymur Mobile Display SubSystem
+      dt-bindings: display: msm: Document the Glymur Display Processing Unit
+      dt-bindings: display: msm: Document the Glymur DiplayPort controller
+      drm/msm/mdss: Add Glymur device configuration
+      drm/msm/dpu: Add support for Glymur
+      drm/msm/dp: Add support for Glymur
+      soc: qcom: ubwc: Add configuration Glymur platform
 
->  	enum drm_connector_status status;
->  	u32 supported_colorspaces;
->  	bool edid_enabled;
-> @@ -185,6 +189,24 @@ struct vkms_config_connector {
->  #define vkms_config_for_each_connector(config, connector_cfg) \
->  	list_for_each_entry((connector_cfg), &(config)->connectors, link)
->  
-> +/**
-> + * vkms_config_for_each_connector_static - Iterate over the static vkms_config connectors
-> + * @config: &struct vkms_config pointer
-> + * @connector_cfg: &struct vkms_config_connector pointer used as cursor
-> + */
-> +#define vkms_config_for_each_connector_static(config, connector_cfg) \
-> +	vkms_config_for_each_connector((config), (connector_cfg)) \
-> +		if (!(connector_cfg)->dynamic)
-> +
-> +/**
-> + * vkms_config_for_each_connector_dynamic - Iterate over the dynamic vkms_config connectors
-> + * @config: &struct vkms_config pointer
-> + * @connector_cfg: &struct vkms_config_connector pointer used as cursor
-> + */
-> +#define vkms_config_for_each_connector_dynamic(config, connector_cfg) \
-> +	vkms_config_for_each_connector((config), (connector_cfg)) \
-> +		if ((connector_cfg)->dynamic)
-> +
->  /**
->   * vkms_config_plane_for_each_possible_crtc - Iterate over the vkms_config_plane
->   * possible CRTCs
-> @@ -441,6 +463,50 @@ vkms_config_connector_set_type(struct vkms_config_connector *connector_cfg,
->  	connector_cfg->type = type;
->  }
->  
-> +/**
-> + * vkms_config_connector_set_enabled() - If the connector is part of the device
-> + * @crtc_cfg: Target connector
-> + * @enabled: Add or remove the connector
-> + */
-> +static inline void
-> +vkms_config_connector_set_enabled(struct vkms_config_connector *connector_cfg,
-> +				  bool enabled)
-> +{
-> +	connector_cfg->enabled = enabled;
-> +}
-> +
-> +/**
-> + * vkms_config_connector_is_enabled() - If the connector is part of the device
-> + * @connector_cfg: The connector
-> + */
-> +static inline bool
-> +vkms_config_connector_is_enabled(struct vkms_config_connector *connector_cfg)
-> +{
-> +	return connector_cfg->enabled;
-> +}
-> +
-> +/**
-> + * vkms_config_connector_set_dynamic() - If the connector is dynamic
-> + * @crtc_cfg: Target connector
-> + * @enabled: Enable or disable the dynamic status
-> + */
-> +static inline void
-> +vkms_config_connector_set_dynamic(struct vkms_config_connector *connector_cfg,
-> +				  bool dynamic)
-> +{
-> +	connector_cfg->dynamic = dynamic;
-> +}
-> +
-> +/**
-> + * vkms_config_connector_is_enabled() - If the connector is dynamic
-> + * @connector_cfg: The connector
-> + */
-> +static inline bool
-> +vkms_config_connector_is_dynamic(struct vkms_config_connector *connector_cfg)
-> +{
-> +	return connector_cfg->dynamic;
-> +}
-> +
->  /*
->   * vkms_config_plane_get_default_rotation() - Get the default rotation for a plane
->   * @plane_cfg: Plane to get the default rotation from
-> 
-> -- 
-> 2.51.0
-> 
+ .../bindings/display/msm/dp-controller.yaml        |   3 +
+ .../bindings/display/msm/qcom,glymur-mdss.yaml     | 264 ++++++++++
+ .../bindings/display/msm/qcom,sm8650-dpu.yaml      |   1 +
+ .../drm/msm/disp/dpu1/catalog/dpu_12_2_glymur.h    | 541 +++++++++++++++++++++
+ drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c     |   1 +
+ drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.h     |   1 +
+ drivers/gpu/drm/msm/disp/dpu1/dpu_hw_mdss.h        |   6 +
+ drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c            |   1 +
+ drivers/gpu/drm/msm/dp/dp_display.c                |   9 +
+ drivers/gpu/drm/msm/msm_mdss.c                     |   1 +
+ drivers/soc/qcom/ubwc_config.c                     |  12 +
+ 11 files changed, 840 insertions(+)
+---
+base-commit: 8fec172c82c2b5f6f8e47ab837c1dc91ee3d1b87
+change-id: 20250910-glymur-display-12d18a2bd741
+
+Best regards,
+-- 
+Abel Vesa <abel.vesa@linaro.org>
+
