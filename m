@@ -2,64 +2,62 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 714B4C0F940
-	for <lists+dri-devel@lfdr.de>; Mon, 27 Oct 2025 18:15:17 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 00583C0F914
+	for <lists+dri-devel@lfdr.de>; Mon, 27 Oct 2025 18:14:25 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7273B10E506;
-	Mon, 27 Oct 2025 17:15:15 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6371E10E14F;
+	Mon, 27 Oct 2025 17:14:23 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="HqZr+eK4";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="nCiqRJDA";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from sea.source.kernel.org (sea.source.kernel.org [172.234.252.31])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BEF0110E506
- for <dri-devel@lists.freedesktop.org>; Mon, 27 Oct 2025 17:15:11 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1C7C310E160;
+ Mon, 27 Oct 2025 17:14:21 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by sea.source.kernel.org (Postfix) with ESMTP id A2ABC45F24
- for <dri-devel@lists.freedesktop.org>; Mon, 27 Oct 2025 17:15:11 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 88288C16AAE
- for <dri-devel@lists.freedesktop.org>; Mon, 27 Oct 2025 17:15:11 +0000 (UTC)
+ by sea.source.kernel.org (Postfix) with ESMTP id A5A21440DA;
+ Mon, 27 Oct 2025 17:14:20 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id DFB6DC4CEF1;
+ Mon, 27 Oct 2025 17:14:18 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1761585311;
- bh=n10NlR5AQZVuyebRk7B2SUL8HffpvVGuK0dPunXc6Is=;
- h=References:In-Reply-To:Reply-To:From:Date:Subject:To:Cc:From;
- b=HqZr+eK4r0DzyGqvmeYi5mqxzyyqHWBykNMpoMfE03X5z6pt5O8eOzMRYd9U8ZUQh
- eYITan5jDOYW+kPveVqXTdkK4/68+CF7oh5DF96MzpETlIk0uh4aLwwmhsahp6rIJn
- hb9MZzElerUW3qdZGtZinkVPXmRKFFox7+oXIB2S4M/pqJ4Ql57IqzMoKRgUaT6FkK
- jOYZyLvn00EyjpiJgUwyHOibmTJxoa1uwMGwn7D4dhkQA2/m62ejGggHXJUpSlXPII
- kuefpXpMvSLts30670r1p/D5DybsVniH/C5X0jaqa2xC7Rx2pLw3QgoPR/rDlC8ft3
- 9Jha6fJS1+a+A==
-Received: by mail-io1-f46.google.com with SMTP id
- ca18e2360f4ac-940d25b807bso199554539f.1
- for <dri-devel@lists.freedesktop.org>; Mon, 27 Oct 2025 10:15:11 -0700 (PDT)
-X-Forwarded-Encrypted: i=1;
- AJvYcCWwvOTU3X2v38w/JMPZuHdMPOX1W09XFs+E7ztUn01luYL5hw9MPcV138F1vf3lfTEHiz6e1y/jEpk=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Yxxxd8YK19QtggO49hrEjdjvOnm0T5iSmqpi2/kG+6TR7o/Vr3H
- iuWx6Pb4/wE0ED8YeEtbqRW56z9lQQlviO3wxSz78ivyZiTLm5RPQkZ32EjpBhpPSm8/uR4AHkQ
- VcFSDeMik09HTOGj/+5HFFB8sN5tGF74=
-X-Google-Smtp-Source: AGHT+IHX7Cu0cAsXytC3RTDyLGsbQ6D3nuir1yy3lnzLJPUDYwnFPuEpRZmXHsx20REcyJQHIoGh74zShF/YlLRFw2s=
-X-Received: by 2002:a05:6e02:1686:b0:430:a4ba:d098 with SMTP id
- e9e14a558f8ab-4320f6e72b5mr13684325ab.14.1761585309545; Mon, 27 Oct 2025
- 10:15:09 -0700 (PDT)
+ s=k20201202; t=1761585260;
+ bh=riL/1ZLw+rZSAzmG3LWiquvYVubXh4lPo2gMuGTnZhY=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=nCiqRJDA+4na9AVF0xFYjv6wnEWRHoQPE+dft2faZhJ63T6bpbH3T7/P7P2CP1ptH
+ ibAvGV3SZKL2+jereFKam6Uhk+MeqCT54fH5vgyTDRnHVPH8sOAhMI8VrotdngPsQ8
+ MmasD/CkXAAIEh0BPlq8efTYyN398eGNq/1gxjQ6koLjidYgy5GwE8PkVyFXdPLvC6
+ UnJjQUOnVJurn1sRi3mWnnyI+4x42aiWa5+no/2eStIhgZNbgVaO2t3xPFh5iVPkkc
+ aFpMszJ1c+sf/S0kFumGn4PI3EFNRKgx2+QtplTloxwFflMZF6LPCIfzSSMwCwvsil
+ d6hOlrNPl3CHQ==
+Date: Mon, 27 Oct 2025 12:17:13 -0500
+From: Bjorn Andersson <andersson@kernel.org>
+To: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
+Cc: Abel Vesa <abel.vesa@linaro.org>, 
+ Rob Clark <robin.clark@oss.qualcomm.com>, Dmitry Baryshkov <lumag@kernel.org>, 
+ Abhinav Kumar <abhinav.kumar@linux.dev>,
+ Jessica Zhang <jessica.zhang@oss.qualcomm.com>, 
+ Sean Paul <sean@poorly.run>, Marijn Suijten <marijn.suijten@somainline.org>, 
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, 
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, 
+ Simona Vetter <simona@ffwll.ch>, Rob Herring <robh@kernel.org>, 
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
+ Neil Armstrong <neil.armstrong@linaro.org>,
+ Kuogee Hsieh <quic_khsieh@quicinc.com>, 
+ Konrad Dybcio <konradybcio@kernel.org>, linux-arm-msm@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, 
+ freedreno@lists.freedesktop.org, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2 7/7] soc: qcom: ubwc: Add configuration Glymur platform
+Message-ID: <ump2gq7hta5dzul7bwjmb45dtrxezkbticdwis7opl2drmnuyz@wwlanncd6xlb>
+References: <20251014-glymur-display-v2-0-ff935e2f88c5@linaro.org>
+ <20251014-glymur-display-v2-7-ff935e2f88c5@linaro.org>
+ <7dxq62ltoeerb4g2fgchb2hd7eomvlexfgyvamxsuuirblavtn@4bg3dy2bukdq>
 MIME-Version: 1.0
-References: <20251012192330.6903-1-jernej.skrabec@gmail.com>
- <20251012192330.6903-14-jernej.skrabec@gmail.com>
-In-Reply-To: <20251012192330.6903-14-jernej.skrabec@gmail.com>
-From: Chen-Yu Tsai <wens@kernel.org>
-Date: Tue, 28 Oct 2025 01:14:55 +0800
-X-Gmail-Original-Message-ID: <CAGb2v654iKx+2_GrFAJYF0VGXSd=ssxE6UYpN3jSAspEC9t3LQ@mail.gmail.com>
-X-Gm-Features: AWmQ_bldcoQqUG3m9k_m37cYhHNBmzCyQWdekxIPdWuxn4IqUUTfMQc9GRDtYCo
-Message-ID: <CAGb2v654iKx+2_GrFAJYF0VGXSd=ssxE6UYpN3jSAspEC9t3LQ@mail.gmail.com>
-Subject: Re: [PATCH 13/30] drm/sun4i: de2/de3: Move plane type determination
- to mixer
-To: Jernej Skrabec <jernej.skrabec@gmail.com>
-Cc: mripard@kernel.org, maarten.lankhorst@linux.intel.com, tzimmermann@suse.de,
- airlied@gmail.com, simona@ffwll.ch, samuel@sholland.org, 
- dri-devel@lists.freedesktop.org, linux-arm-kernel@lists.infradead.org, 
- linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <7dxq62ltoeerb4g2fgchb2hd7eomvlexfgyvamxsuuirblavtn@4bg3dy2bukdq>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -72,20 +70,30 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Reply-To: wens@kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Oct 13, 2025 at 3:24=E2=80=AFAM Jernej Skrabec <jernej.skrabec@gmai=
-l.com> wrote:
->
-> Plane type determination logic inside layer init functions doesn't allow
-> index register to be repurposed to plane sequence, which it almost is.
->
-> So move out the logic to mixer, which allows furter rework for DE33
+On Mon, Oct 27, 2025 at 02:29:01PM +0200, Dmitry Baryshkov wrote:
+> On Tue, Oct 14, 2025 at 03:38:32PM +0300, Abel Vesa wrote:
+> > Describe the Universal Bandwidth Compression (UBWC) configuration
+> > for the new Glymur platform.
+> > 
+> > Signed-off-by: Abel Vesa <abel.vesa@linaro.org>
+> > ---
+> >  drivers/soc/qcom/ubwc_config.c | 12 ++++++++++++
+> >  1 file changed, 12 insertions(+)
+> > 
+> 
+> Bjorn, do you indent to pick up this patch on your own or would you ack
+> merging it through the drm/msm tree?
+> 
 
-                                               ^ further
+As there's no dependencies between the trees, I can pick these through
+the qcom tree now.
 
-Otherwise,
+Regards,
+Bjorn
 
-Reviewed-by: Chen-Yu Tsai <wens@kernel.org>
+> -- 
+> With best wishes
+> Dmitry
