@@ -2,28 +2,28 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A7A65C0F321
-	for <lists+dri-devel@lfdr.de>; Mon, 27 Oct 2025 17:14:24 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3575BC0F334
+	for <lists+dri-devel@lfdr.de>; Mon, 27 Oct 2025 17:14:35 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DF2F510E4E3;
-	Mon, 27 Oct 2025 16:14:22 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3E7F610E4ED;
+	Mon, 27 Oct 2025 16:14:33 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=arm.com header.i=@arm.com header.b="k6JpCrob";
-	dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b="k6JpCrob";
+	dkim=pass (1024-bit key; unprotected) header.d=arm.com header.i=@arm.com header.b="GrNZmB+F";
+	dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b="GrNZmB+F";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from DU2PR03CU002.outbound.protection.outlook.com
- (mail-northeuropeazon11011046.outbound.protection.outlook.com [52.101.65.46])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2E51910E4E3
- for <dri-devel@lists.freedesktop.org>; Mon, 27 Oct 2025 16:14:22 +0000 (UTC)
+Received: from AS8PR04CU009.outbound.protection.outlook.com
+ (mail-westeuropeazon11011021.outbound.protection.outlook.com [52.101.70.21])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 24F0A10E4EB
+ for <dri-devel@lists.freedesktop.org>; Mon, 27 Oct 2025 16:14:24 +0000 (UTC)
 ARC-Seal: i=2; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=pass;
- b=N6lYQVXa5jcUen1zAbbfCDc1XKixGWCTbRc/kYnNX+lUBp2iOFCrVOSe9WRcxxf2t2qfn+vlumLAJIFonProBM7Yi3A3CThA9P5z7enigE4oKSi+PRA7KU4g6hygd/Z2Oe5cMLlAjkScirlTaO7gEgOs0JytE6blNTDYg2DTZ2y1kOMvNfEV7tY53AfWmv5dKXCdfrHeL05+PLCKUzmkCJ+hQl0vE1pb7J+NwkGBoMaKOBucMTUYVWohKaND/Wc9y+Jbzc8wtmosSlhY7Lz26xopyDTS6wli/nhktja9ut0QA+RGv5vKe3G/yc+GL3WbSoDf70DHMjUAAR5EO1GCSQ==
+ b=OsbrpS0ZjWdklABzlFLHpJVX0WSEXD7HTr2hqZxJmBy8hrL4gJf01rmKlDWqHrlJlvnHWOMy5LNk5PwFqvT3acjG+CL5frY/+lbg0kx5DgXUaJvTa/tbjx5ZBnrCpNwocPe0ubEC+4wasJGKJ3vF4QtTLP2FVcpUYFzqE84PndZ3ViLWfoMnOwmsK0WzdK7rq2SZguLCNSWYqqi7AEnk3pt79SWA3ZvTGuM05yRqT2elyJD0hsdPka3IhrpjV0C1xB8taMZkfgJmvFlS4jYW9+nto9PB0ufWtB4hcDojwts1FfE8glGB98JnDXph4/TngyY8ajYOYldW7nS8bDVmcg==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=ozDzbfHWgGM8qt8AgjuEX/zyXFbmgyzZqizAiek7F1Y=;
- b=Cx7ltorEHBWrk7RLpW4qct+zDxGhXURph8ggiSXYH0IeAjrPKt9xTQpkciwuXzWBTxvopyZtUlFdcdWRxBh69rlN7JRpJuvwiYaQ3zFy25yoWC9AhjGno+zeN5x9F+A6e6Q4FzmRfHiC9p8YohZEXWmTroC4dJhXpxl6QYWwAq3PsyucUrekQk/Y4Q0+PJ1l7CWFYGOXanJPUO1EbC3vb60Tv4zz9MSu8P0JUIFmOkOCm33RrZuivcKxsyM1hpcElMkVFNuGoz6Js3vXj4I/EC2Lwd9gnGqtsuBRLuT2saph8BRJNqgmL+xvxrPAPtJiT/bfTaF7JaeH3eiqtuTKdg==
+ bh=8Jmrw0tdQkdM1p238HpCwZlvslKvE5rn8wqJ1rtx4Nk=;
+ b=Se8IAzHXBbu6FvpVkr/G720ecfDq2kEaypencFjKI9VbTqOUdqdCjopBCVXoM6rnFrlwkjWG/9W7tjb/Y9UJ4NdzLNrusK/ba6vYVo5IUhOeUAJQ6QiORsVdw0AfDOCA/p8XU1e1L7g1tGWH3LLA322qxoRlgk0wjMoKcscfAFt0Lb/Zf/CfpDjaVcMSgxIz1SlT4rNYkSLdNf7EJ0r1eHCte///x6qnXABzK+kkeL966YBbf6pzgObudOEBbpmHFcmVINutFqXoQXVXFFW+D/EcZChPd8q7PyoG+D1NGNK64iYqD38uYWETcz262IwupcIz24GdeCsi+7GL0cLQNg==
 ARC-Authentication-Results: i=2; mx.microsoft.com 1; spf=pass (sender ip is
  4.158.2.129) smtp.rcpttodomain=lists.freedesktop.org smtp.mailfrom=arm.com;
  dmarc=pass (p=none sp=none pct=100) action=none header.from=arm.com;
@@ -32,18 +32,18 @@ ARC-Authentication-Results: i=2; mx.microsoft.com 1; spf=pass (sender ip is
  dmarc=[1,1,header.from=arm.com])
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=arm.com; s=selector1; 
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=ozDzbfHWgGM8qt8AgjuEX/zyXFbmgyzZqizAiek7F1Y=;
- b=k6JpCrobrdUJPQrGv5wgBwqqlci/SP5rSfm/7u2jD2iME0cuPBf+rPlihMeYg300HLGRZ4jC1NrbNbNHUN4gduNUQIfZw8+Fh3hVwlGSkFtMQn/WkOplG8ysWPy+hToyyAO4IDBekMEO8WZ+w/v4A/jSdn+e4aHqOV7e9q1QQrY=
-Received: from DUZPR01CA0318.eurprd01.prod.exchangelabs.com
- (2603:10a6:10:4ba::7) by AS8PR08MB6165.eurprd08.prod.outlook.com
- (2603:10a6:20b:29a::20) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9253.19; Mon, 27 Oct
- 2025 16:14:15 +0000
-Received: from DU6PEPF0000B61C.eurprd02.prod.outlook.com
- (2603:10a6:10:4ba:cafe::9a) by DUZPR01CA0318.outlook.office365.com
- (2603:10a6:10:4ba::7) with Microsoft SMTP Server (version=TLS1_3,
+ bh=8Jmrw0tdQkdM1p238HpCwZlvslKvE5rn8wqJ1rtx4Nk=;
+ b=GrNZmB+FLt+WeDd5A/0Yrj0CFy4oRr35F6g3Uqra5pwdDc+SS+G2J/6eYAv633nCCE+2SYgEAx6su2SxyddRKb6rmRl8ZbenomscJuYQLUJHChcZxV5F5rckX9uksqthFgekEqtdlja5OaJV4YOphLTKhhazM2Hvg3wjq4Tfyfg=
+Received: from PR0P264CA0154.FRAP264.PROD.OUTLOOK.COM (2603:10a6:100:1b::22)
+ by DB9PR08MB11242.eurprd08.prod.outlook.com (2603:10a6:10:5de::14) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9253.13; Mon, 27 Oct
+ 2025 16:14:17 +0000
+Received: from AM4PEPF00025F95.EURPRD83.prod.outlook.com
+ (2603:10a6:100:1b:cafe::6c) by PR0P264CA0154.outlook.office365.com
+ (2603:10a6:100:1b::22) with Microsoft SMTP Server (version=TLS1_3,
  cipher=TLS_AES_256_GCM_SHA384) id 15.20.9253.18 via Frontend Transport; Mon,
- 27 Oct 2025 16:15:16 +0000
+ 27 Oct 2025 16:14:17 +0000
 X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 4.158.2.129)
  smtp.mailfrom=arm.com; dkim=pass (signature was verified)
  header.d=arm.com;dmarc=pass action=none header.from=arm.com;
@@ -51,34 +51,34 @@ Received-SPF: Pass (protection.outlook.com: domain of arm.com designates
  4.158.2.129 as permitted sender) receiver=protection.outlook.com;
  client-ip=4.158.2.129; helo=outbound-uk1.az.dlp.m.darktrace.com; pr=C
 Received: from outbound-uk1.az.dlp.m.darktrace.com (4.158.2.129) by
- DU6PEPF0000B61C.mail.protection.outlook.com (10.167.8.135) with Microsoft
- SMTP Server (version=TLS1_3, cipher=TLS_AES_256_GCM_SHA384) id 15.20.9275.10
- via Frontend Transport; Mon, 27 Oct 2025 16:14:15 +0000
+ AM4PEPF00025F95.mail.protection.outlook.com (10.167.16.4) with Microsoft SMTP
+ Server (version=TLS1_3, cipher=TLS_AES_256_GCM_SHA384) id 15.20.9298.0 via
+ Frontend Transport; Mon, 27 Oct 2025 16:14:16 +0000
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=TFoki/jsmmL5iZnxriQFMIUofgsipgHQoysWysSPqjBSOTLbnJkWhoqNDMFsBpcOnz1D+gYCGYQi4LuYdvzEGmreDMjEefBkaAnLDhHpPWWvu+M1zXxfnXEmTDZLPRD+GuvpI0SJT+incA9H6LqOOMacgXQPlAxAN2oWrcmV0a9koSwRTdZiw422Ny4dtNF9cGo0XlEsEGq+fmJa+mobtJmh0hfPkA6JzieFS1y6tKmWjQgj/GnP/7AZIMwhYNay0Qyv2rtfoLdGJYSODV4Hld5brLLlTQRNT5rRjWxGy/6G5U1/F5sWYyDcwoxvh1VOUdm72JG2Wz1eYs/AMMw6/g==
+ b=uFXrJ0/QmRl/VjjTS2EtJBewaz/eBw/sYdKTHZUymlThnG/+Sl3erkpcC39kWzwRncJuQRZmBk0mJlXMJJmM52fCf6DH54P+YBxzfzNhM9ir4t40GOFrMaU1jSce7Dt7lTAxxTM3meRkykpcTWnkg7x3YjDQK+673T+t37fRSOgcXm8D6LHpSuNZQ1LVlakYbU1ay0Q8TMg+5puDaLELoWUjUjVGNBZv4EKegUXoruN9iPr85ecumBFosER7NaPI4IFYnWL9neuD1tJ5ty8R1mMmd3Fwfh6VQTI6o8YecxeOKrgAjma4kZeRM5x7b0miSdSS0VWTJmPJR2jslUwiMw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=ozDzbfHWgGM8qt8AgjuEX/zyXFbmgyzZqizAiek7F1Y=;
- b=EzGcqeqCcmLGvDyhg4E1ONnPGEahKJ8JZiHFAbsuRFOyL9CmtDB/9n/FVfn08CrdI7+jIyAVHhzZOYWVjuAomSLeOY7K0f9X2avbGll8p94NV2YVn3Daj4K2qHkLNGa3VFtvbcNNE4mgYZBwlnx4QR9Kx+wpbG90gKnsxLiTgS+6tYZFUtoaPdFWT/hTik3bGOEgiJEuY19/Y8pXfld5EwrmJWU9d5+j8yauJijikzvmHvUIgQK9myjHXDH9BBouVIaHAlcpXfNl0Nz2XTCV+GQmgRlrWWeHzN7jMDqJylWboW3x6z736OCicNdS6pSH6jdZVXtCtxE94hbX63iUKg==
+ bh=8Jmrw0tdQkdM1p238HpCwZlvslKvE5rn8wqJ1rtx4Nk=;
+ b=qRGPc6bLU1RzI2cDUy2djrhmNW4KiqGzIcUjKXngXjBcIHZXKCkb8uj7TWS39ntO5R5Tl2c3lM1yl+8mm2Yut67stWhTo+IRi3BHBHkXZYhXnBizG+8fPA7svR40vSPaahbAOeWuvVlnV3zxE7HAhsMqIgKvvvXLCcb+Hfj/i1cDhgNezJO2OjVWvMJjpXVKaYwWrIWKJ8cQyVahRjL3HeBtDSk6X88ItJB0zOZa6kvovByFkcZLIfB0svGTnvOxkBtteD7wkmQL0Q1Ogh2p8p8YR/+lyNtAkCF8b3FGO0yNwMPSnAw8jOEDkbNelss4JgKPDZu9IrpvcQTkWhV22w==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=arm.com; dmarc=pass action=none header.from=arm.com; dkim=pass
  header.d=arm.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=arm.com; s=selector1; 
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=ozDzbfHWgGM8qt8AgjuEX/zyXFbmgyzZqizAiek7F1Y=;
- b=k6JpCrobrdUJPQrGv5wgBwqqlci/SP5rSfm/7u2jD2iME0cuPBf+rPlihMeYg300HLGRZ4jC1NrbNbNHUN4gduNUQIfZw8+Fh3hVwlGSkFtMQn/WkOplG8ysWPy+hToyyAO4IDBekMEO8WZ+w/v4A/jSdn+e4aHqOV7e9q1QQrY=
+ bh=8Jmrw0tdQkdM1p238HpCwZlvslKvE5rn8wqJ1rtx4Nk=;
+ b=GrNZmB+FLt+WeDd5A/0Yrj0CFy4oRr35F6g3Uqra5pwdDc+SS+G2J/6eYAv633nCCE+2SYgEAx6su2SxyddRKb6rmRl8ZbenomscJuYQLUJHChcZxV5F5rckX9uksqthFgekEqtdlja5OaJV4YOphLTKhhazM2Hvg3wjq4Tfyfg=
 Authentication-Results-Original: dkim=none (message not signed)
  header.d=none;dmarc=none action=none header.from=arm.com;
 Received: from VI0PR08MB11200.eurprd08.prod.outlook.com
- (2603:10a6:800:257::18) by DB4PR08MB9335.eurprd08.prod.outlook.com
- (2603:10a6:10:3f4::10) with Microsoft SMTP Server (version=TLS1_2,
+ (2603:10a6:800:257::18) by GV1PR08MB8498.eurprd08.prod.outlook.com
+ (2603:10a6:150:82::9) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9253.17; Mon, 27 Oct
- 2025 16:13:42 +0000
+ 2025 16:13:44 +0000
 Received: from VI0PR08MB11200.eurprd08.prod.outlook.com
  ([fe80::d594:64a:dfc:db74]) by VI0PR08MB11200.eurprd08.prod.outlook.com
  ([fe80::d594:64a:dfc:db74%7]) with mapi id 15.20.9253.017; Mon, 27 Oct 2025
- 16:13:42 +0000
+ 16:13:44 +0000
 From: Karunika Choo <karunika.choo@arm.com>
 To: dri-devel@lists.freedesktop.org
 Cc: nd@arm.com, Boris Brezillon <boris.brezillon@collabora.com>,
@@ -87,104 +87,103 @@ Cc: nd@arm.com, Boris Brezillon <boris.brezillon@collabora.com>,
  Maxime Ripard <mripard@kernel.org>,
  Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
  Simona Vetter <simona@ffwll.ch>, linux-kernel@vger.kernel.org
-Subject: [PATCH v3 3/8] drm/panthor: Introduce panthor_pwr API and power
- control framework
-Date: Mon, 27 Oct 2025 16:13:29 +0000
-Message-ID: <20251027161334.854650-4-karunika.choo@arm.com>
+Subject: [PATCH v3 4/8] drm/panthor: Implement L2 power on/off via PWR_CONTROL
+Date: Mon, 27 Oct 2025 16:13:30 +0000
+Message-ID: <20251027161334.854650-5-karunika.choo@arm.com>
 X-Mailer: git-send-email 2.49.0
 In-Reply-To: <20251027161334.854650-1-karunika.choo@arm.com>
 References: <20251027161334.854650-1-karunika.choo@arm.com>
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain
-X-ClientProxiedBy: LNXP265CA0014.GBRP265.PROD.OUTLOOK.COM
- (2603:10a6:600:5e::26) To VI0PR08MB11200.eurprd08.prod.outlook.com
+X-ClientProxiedBy: LO4P302CA0002.GBRP302.PROD.OUTLOOK.COM
+ (2603:10a6:600:2c2::8) To VI0PR08MB11200.eurprd08.prod.outlook.com
  (2603:10a6:800:257::18)
 MIME-Version: 1.0
-X-MS-TrafficTypeDiagnostic: VI0PR08MB11200:EE_|DB4PR08MB9335:EE_|DU6PEPF0000B61C:EE_|AS8PR08MB6165:EE_
-X-MS-Office365-Filtering-Correlation-Id: 55729f41-32a8-448c-8eae-08de1573dfc4
+X-MS-TrafficTypeDiagnostic: VI0PR08MB11200:EE_|GV1PR08MB8498:EE_|AM4PEPF00025F95:EE_|DB9PR08MB11242:EE_
+X-MS-Office365-Filtering-Correlation-Id: 66c901b8-8ad8-430c-cd49-08de1573e0a5
 X-LD-Processed: f34e5979-57d9-4aaa-ad4d-b122a662184d,ExtAddr,ExtAddr
 x-checkrecipientrouted: true
 NoDisclaimer: true
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam-Untrusted: BCL:0;ARA:13230040|376014|1800799024|366016;
-X-Microsoft-Antispam-Message-Info-Original: =?us-ascii?Q?DRkI6jO5q/9yVlPfRoGmII+DBHA6DEOsSurKHekm20qRzacaXBCdcdkpUZ2+?=
- =?us-ascii?Q?ZunKM8+EqqFx26oS9o+95C2y3ufC7OUGCCrSoXCA+u0gowyVERMJxp6EX3Bb?=
- =?us-ascii?Q?QuyXEFjKPGC/Tkj9TYdHJl+4h9be/FB5e6Z7sii4XzshDZ+J0sxBbWvDoJ3h?=
- =?us-ascii?Q?N4p4Iq+XweAMuoU1qT2QK+cMu81a9r3FTPCRlTDxZUf+d0WpbHPaOmyXKElT?=
- =?us-ascii?Q?14b7/Uu/GZzDo0mcKEUyhaE1d3NIRI02wjE5ii0IlZJSDheFdskHqN5yAtjG?=
- =?us-ascii?Q?wdJFp1YTt3yj6tQGbmBV0Co33dTzJFsIDevUCRoFCN09aPKLtYK7MRIaTA72?=
- =?us-ascii?Q?v3KC5WmVGjucsgTXxCILKC1Gz/WA1RV8bM+0TYtyD7y16TspcxngA4EUq/Qr?=
- =?us-ascii?Q?SuKFwN/IXae8t62vpPnFO4Lf5w8I4CVHnhpvHqkKvXB4PBtrhldFZj6asgxD?=
- =?us-ascii?Q?iTcP+W4CGisbjYxwsZct0sGfZWe4fTDBM1bqny3l1a2slbwdqex/tcLhXysI?=
- =?us-ascii?Q?NgsyiiQBm44kBX7qog4YLmdngQXVvnh2/6I+dS1O3S/NmE+RSezJ5t7tT/1W?=
- =?us-ascii?Q?UTBFBpPt8h30+1Z1tKCuN4l4rE3dUTTmjy6/cJIJJwV0xqM2mph4bwyoavAe?=
- =?us-ascii?Q?o+3Y/XMU5S2DeIqfAUyCtp8d8ehVOOH8jwn4RJ6JVMJdL3Hv3uD/nrhmZZOC?=
- =?us-ascii?Q?kEl4Q1vhiXrEgt7qJKqcwTytKBAUH3lEwWoK9ELTjpbneK3dm+CtFgzKzu0V?=
- =?us-ascii?Q?c2SetId9iJHBRTLMRfUhQ+Ga2FYyNWR7meExFSx6c3NlGEWWPh3Po5pNDVzD?=
- =?us-ascii?Q?RKqk0UQ9uG3joIc/9xz/zVXTd6GxW8O+nWiytVTM8/vyTMsOEr005BVMKeak?=
- =?us-ascii?Q?L4HkapYFmoglnc1Mc8pLiRKhPbV9Cc9tGL8cgA8qT6jdYzW8NUC3AWVyXBRz?=
- =?us-ascii?Q?fgUZ+83np8GzM0IjLa1ZvS2dWF2quQ2/ell0TOYkGvhJoCUX+reIip+Uv+k3?=
- =?us-ascii?Q?n63c2U93YuGZnx3pJCGdotTcrKrT9JTuAI+M4Wfm9jDn2R3NIQ76DPbSVrKd?=
- =?us-ascii?Q?J+/Qb7kHF6B1EbtcPQNk/4aDrKMqJo33u2/aYJFZbTUMDIjutd4bX+zX4z0Z?=
- =?us-ascii?Q?2MqhF2ZzI+cFwEJFXCaGfF0VOfxBvRVCzbdmhq8fJWaWskVx8mCi/cBfV5TP?=
- =?us-ascii?Q?3BxFlyO7P69VsEd6xrWixD32ySP9f0cfykPej8rq7Ph94ZlzqomRz9iqJqRJ?=
- =?us-ascii?Q?H6WC5FdwKxGqiBSeuZ8OaeNmLiVo4inXzjbbkN4A1b4/RfNQb4qT+I2fNAWd?=
- =?us-ascii?Q?2W/MMj9mZz0fyy/7Q9p84hNLNXVxp/TjduVVHzd4RnyAhjSgR/Yn24gyh1kA?=
- =?us-ascii?Q?JEI4ydgSvpmk48MTTd6VbG5BXW89kj/ZK5dwjoZV4S7Sh1OvlsPSeS7icqYm?=
- =?us-ascii?Q?ose93spOk36hAZ04FROArLbzrkz6QJUZ?=
+X-Microsoft-Antispam-Untrusted: BCL:0;ARA:13230040|1800799024|376014|366016;
+X-Microsoft-Antispam-Message-Info-Original: =?us-ascii?Q?C6viH1CLaKUOSXOZm8jTxCY/9wmZQEf6NIs/sbe1foUegs/y+1+D5vXv4Klh?=
+ =?us-ascii?Q?5DtxRezs3US+WRPCVvM2TpxSNXZ2XH6ms234MI6Daop9WjfXK6SWNZLgC+0u?=
+ =?us-ascii?Q?kDPN4JeNQxtK1FLMA8fz+Lfm5HttdRgAc14IjpEnT+VKVeq0IVa7s6C7kxZO?=
+ =?us-ascii?Q?re6uo8jxfhtTvrZd+2OxlFnCI8LZA8xPAsKyKE+OtayZTfnD1S22zhX/Zm8+?=
+ =?us-ascii?Q?XBnyBsDY0FvDzT11Ng3JsLDtb550NKbiHOFtASf1rukPWmzu9dxp5BmduUOS?=
+ =?us-ascii?Q?Q1Z5XWCpj/7tAEA4vLNyBFqKXFFKUxAJjW7g+jfGQsL3OhvHHciOWH7o+RMg?=
+ =?us-ascii?Q?PmKfWWks+G1X9f5FFlUr3oNMExA89zs//fmIllqQkODzb4sLdHGGkmHhZQ3Z?=
+ =?us-ascii?Q?SYEsONBFQdW2wWnLdC3fadSxBJrVWMnebzWipQV2NFE3Ya378biXT4Eoz3Yo?=
+ =?us-ascii?Q?A4eVQpF4kawsO//Tmgt6BHphWVRJJWyN2wDBAu3anrZW3IHkx7iZPUXvAfcr?=
+ =?us-ascii?Q?zLr4uVThotqZvyyCzofF+3YlvJbTprWxGhP/kloeI1psznVd3vgwqZ6zYBQf?=
+ =?us-ascii?Q?DHASb6r18fXwAqpGFWiMKAlw2b1GUb8LC5fbrNKCu5JwgI2wS9YuxBhW6Bos?=
+ =?us-ascii?Q?JC/PRl6qGRwf/UcNWtwEbg6RS7pHYmowNHO7Fux4zygynW8h81CMn3kZ6MYK?=
+ =?us-ascii?Q?iLPEnxu8xuvWoln7FTVTVL3ip1mHBxu+JqOzVoSdk+z74Y3QR+23NYaMS3Fn?=
+ =?us-ascii?Q?SiyvYhSWSkNijS35rFQ2C2M6SG2sqDeIu0KVM4uiCaWg/pUZo1hVcwp5Mjzs?=
+ =?us-ascii?Q?3A/iKI7KTWYJHgpa5Www/xkZV9yJ9e8C/xdWCl75H+0atm+trmhPAwqIWUrS?=
+ =?us-ascii?Q?6mJfo5gSq/CmZ5S5+VTWtdZpjJbMDGIvxOe8+wOCAx+JvWg/GBKgVrH0g5Hc?=
+ =?us-ascii?Q?PPFzTc7JqGmqizmoUa9Ia1afdRO8GKNKmFWJcO0kBwOlu2zfMyLINasSlNgr?=
+ =?us-ascii?Q?oIz8Qcht2uhffVb0MmxxupDQ5jlviJ0Riwvp5XD+ta5b0qNV/OFqrT2rIr7q?=
+ =?us-ascii?Q?KtwaQuDIDjRCLXt5wXdPtlomKzoUVfR0EaiUiF7rJ5aSas2+/JtjzfxRSSrU?=
+ =?us-ascii?Q?OLrI6aSF94Kx/QanSRe/P5RkxJV5gwpzSUadWFKXi7La/dRHm9OrA7DzRYFU?=
+ =?us-ascii?Q?TuPnvclj7mK5laE3wBmgsm25X98ofCtIpDoD2PCb8jl3HQcp+qiIW4IUrkrX?=
+ =?us-ascii?Q?w+uEy4ClMOJS5tBjyJt+nty7IicoMsfn1HivY3+I5FfYxK/zf+fAqqeoh4fR?=
+ =?us-ascii?Q?pQk2LYMIO/9Q0sz6eK/X6iddHnJ+guWqPiCeuhN44gdMSiX3yBAK32Iv68u6?=
+ =?us-ascii?Q?7ECUYUTJNcrJG60nQ2QFlybT7goajGgffRua6nv2NSnFHob1106L+ePNdBaJ?=
+ =?us-ascii?Q?ABeSO8AVwf8qlriC+RSIcISdO2+LoW44?=
 X-Forefront-Antispam-Report-Untrusted: CIP:255.255.255.255; CTRY:; LANG:en;
  SCL:1; SRV:; IPV:NLI; SFV:NSPM; H:VI0PR08MB11200.eurprd08.prod.outlook.com;
- PTR:; CAT:NONE; SFS:(13230040)(376014)(1800799024)(366016); DIR:OUT; SFP:1101;
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DB4PR08MB9335
+ PTR:; CAT:NONE; SFS:(13230040)(1800799024)(376014)(366016); DIR:OUT; SFP:1101;
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: GV1PR08MB8498
 X-EOPAttributedMessage: 0
-X-MS-Exchange-Transport-CrossTenantHeadersStripped: DU6PEPF0000B61C.eurprd02.prod.outlook.com
+X-MS-Exchange-Transport-CrossTenantHeadersStripped: AM4PEPF00025F95.EURPRD83.prod.outlook.com
 X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id-Prvs: 06d68a33-10e6-4d93-c09b-08de1573cc1c
+X-MS-Office365-Filtering-Correlation-Id-Prvs: 6e8fa215-1176-461e-27ae-08de1573ccf3
 X-Microsoft-Antispam: BCL:0;
- ARA:13230040|1800799024|36860700013|35042699022|14060799003|82310400026|376014;
-X-Microsoft-Antispam-Message-Info: =?us-ascii?Q?oRWQ3jmutYcUZMwAgtWJQOQtoRO7b2UQlVGurrYOdWq5REZUnCeEBUn24MH0?=
- =?us-ascii?Q?VNZkxC24gHjFHjY+KMSQdQtbpkWaRaDEkyBhva0MemeRoahlbyakAX91CEF3?=
- =?us-ascii?Q?UML1wOsh6B+Oxj60wzuP2kiyTfa7V7D7G0HI0t7VcuKrJl2w7YAPhED3Qewl?=
- =?us-ascii?Q?oFUE2KcDtSVJmT1XEhLx1Zd0OdAau8qFhuMpePtw3AtHq3jviVpzbL1+9GEu?=
- =?us-ascii?Q?gpBSxjkvPpLC4wX1ruT8s9DV70LqFu+NtPeSmoWaboYw8JzR4DFslKA+2Zt5?=
- =?us-ascii?Q?BEcbF/EtoFO2wBjrASLuXUtK86PsBDP3TmRNtkF3FUJdkF7Jerw6m1MUA6aL?=
- =?us-ascii?Q?hC86zBYIL+ureGui1PL2Rwj+fvN7cRvNcQXWPIU5CFgwpXP8n4qzMMykJqoa?=
- =?us-ascii?Q?BpOIcTJrE/w4nZiGIdCBBwndQHDbjJkk9j2LzcjxPlYmMo/b0W6JKXvKWJjP?=
- =?us-ascii?Q?KaY6n0VJeH3RWAma3lIxoIBUjt7Z9D1DShbUKTuqrFq1d+SLpdi+I3SW0q7d?=
- =?us-ascii?Q?tmUZvtzQaL3XE65l4j8ovQ6txzealhB9fQMHnB3k0TeVcR4xm0qWYfWEny2G?=
- =?us-ascii?Q?5IF2IjSs8JfYXjcUYGTOysSezYdLbx6StNLiao53M+PiIyGshIp42P/iN5Zz?=
- =?us-ascii?Q?48iPLWLo8yQAhH0yjPzvVI37oZtArFLjYSDE+o6TgCGNMfmybQmBBKhLWxvR?=
- =?us-ascii?Q?RLVJlnHcwN+HiuJLySEq96TdQR4WqBuu/tuqH8WpzcAsPOvDaDvhIEE0NI0/?=
- =?us-ascii?Q?sb1pwNnzQHtTM2ST2K1pGHYKIso4iw51SRHs9gcNTDO1TJhTPCX7lAnWf4/7?=
- =?us-ascii?Q?+5cN/NTF8zzx3eAADYduCkBsRjwCX2CDSBWtXmyyMwLFLwuKHO/mvGGj80IJ?=
- =?us-ascii?Q?7rd2z0DarlGQUyPKrxns3CukKVq677sb7KCRMNKWdGLi2OLgdYEDxL7HJTzz?=
- =?us-ascii?Q?Dod1+CRFtJFN3D4wxCwjmYVA17qroD9yV/MYAh5XghNADRJLth4fTLSMgWXD?=
- =?us-ascii?Q?+i/onZZOa4beeAoPxl/89aH6Nwin54GlK81HB6Vxmq3ATgeD4O2m8UQSFuvX?=
- =?us-ascii?Q?oubCKbNYal5vFu9ncDW+CIeIwgtbORvkLjsy+sJM2j6WPrQDCw4rTwpLWxoe?=
- =?us-ascii?Q?Y0KRuS4E8qHfw7+gqLYiOGyWUGqx26hbgAc9EsH8i8hOmWtFun/zfleV7345?=
- =?us-ascii?Q?4I8JoFU2RrpkH1U3FAR07r70kkpQ+mmdsYBdCXiTxZZObPLVPZNDx1chUTwv?=
- =?us-ascii?Q?UEM2bZBvlGdWb2U5u7TS9PVyjYcm9Vfr9O/ynr2QjtDxjzK2PZIy+dzC/KMp?=
- =?us-ascii?Q?fliclewQ89VR/Ng0hb+zcX2cfl3yBvVMDREcn4ZI2W9k2uh/fs5yo8yzMzF4?=
- =?us-ascii?Q?sLTEx/sDmAO3MQnNelNWrqKQhE0juvJHsZ8/167jDV0s64w+woyw59Lcf48E?=
- =?us-ascii?Q?j0r4acFdPMaLW1CqfDtFtVGRxzIEJW3dUsccUrsDAPcMaNcgajvnqvp5P586?=
- =?us-ascii?Q?9jlkxt11AB5et8ZjfpwtjQxYyzLJ7fsItVNjF3t+lii/Aa64tFFcrjzVi8y3?=
- =?us-ascii?Q?TfuZONT38xdUpstdz2M=3D?=
+ ARA:13230040|82310400026|14060799003|35042699022|36860700013|1800799024|376014;
+X-Microsoft-Antispam-Message-Info: =?us-ascii?Q?zlCLXmrnxWl5x9+mMqYxze5QNqqXT/49ZIUaJUAG4LdThwVZYlPW5r9Ug46i?=
+ =?us-ascii?Q?GGocdfYhBUVrDBj50NquMaYUoqpcJpruNl6i72Kj+scFstP/EcHWelSLkY8j?=
+ =?us-ascii?Q?UI4CrjJnpFNsLSFBeF4/eI2yOwdN7SbDNoCZxsMl2w05ZqJc/bdLRqus7O25?=
+ =?us-ascii?Q?qUQJIFTjKn/pMzlRa8pKaPl0xlRBezUMuP+hcjfeth7LxUVCypnCU1Gi/6d2?=
+ =?us-ascii?Q?zjT7oEQf5No3QUVlv72BCvbEQB5+HGXvCP3Z/bQX+wO1Pfl8OSVajJunIZaB?=
+ =?us-ascii?Q?lMWHNR6uQxlNjwvcajFfX3ua8tsEvXDZQ1ew6ATei0525YjE19H8gOmuVklw?=
+ =?us-ascii?Q?YwjMzBExalzyd6NFc9HcF3JR94iS9Qadpmf/k9UOxwZcvn1NhtZmlf2NvfrC?=
+ =?us-ascii?Q?0Kea+EaUGH4DQTtZvBVcSnrdJ35H8+FSdOsKC3kNA1f5wKSliZfa/vC0Rkh6?=
+ =?us-ascii?Q?tpfCWbsR+LWJg7u4uR+MKGJNHke1vLP+n97GXmJKqBQ/t0hx1w3JgJ8wP4yZ?=
+ =?us-ascii?Q?tw1Azr6/KoDPNT0bUBTzjFSkF5rCgTr64Af4zFnXDzWxt5HoMBFODecC7E2q?=
+ =?us-ascii?Q?UQ5ZpfVt6h1IJsX75bXSX5oToKspfrDmi0/UJRalpEb5u+bNQ6y/rZHEkyoW?=
+ =?us-ascii?Q?J7CVUWQLSiGmE042DMUqKfgDMbELBK9FQzhtCt3tP305MajAj8M5VXm+9TtC?=
+ =?us-ascii?Q?s70u5xrX2gkpVqjURes9LE5bWHYj2xJlF1ZJ1y3+T5Lzh3MLiWpz8r0F+Z9L?=
+ =?us-ascii?Q?t6yJJnG/aI6H5XsQP6NCt9JqALSYMM1dux95QzYehU7BtUK2ZAsYi5/hnHNk?=
+ =?us-ascii?Q?aMSbB3e8KzAKOnqzvayWESbBQ1Rl3Te5DTrTJmdFEzfKbJSt68XJ5CWH66t+?=
+ =?us-ascii?Q?tJk2yq+uets8VDWkDcdIT/PQp0tQSOj2e6nNkxepFuMsP39Y9bgnG4eA9W7J?=
+ =?us-ascii?Q?r5PbS0d8BsuDAti4UI66uG9I8SfkY4de7j1unnkhYmMVFoM0qhFHYYsU+3A2?=
+ =?us-ascii?Q?WvZwtOtEd4HL5ODlr5IzXJRewPpsIwJ4Sl7Jo0tIIDMQ9YkDKoDJgGSepfOG?=
+ =?us-ascii?Q?QXJhZKDbFsBnWQTXiS6hXAt915CQZ8ov7E9IZRH3NvJ48/WnTMTupKAzTxtH?=
+ =?us-ascii?Q?qtWaQx/tnlVt6drRqfsFUUL9mtHSPsXuxH1Wrr4MUW+g+dZfNy2DKTkxASNv?=
+ =?us-ascii?Q?SBMTUMUhRsmpmsdDLhkpSj1paT8dJnbS0kzdLOGUjK2EX1L2ZoumPFiiRL4B?=
+ =?us-ascii?Q?Dulal0e0vrVcpVHtBqLEZpTZSfCuEaC/hS1ZVu48T+aWyVmTAQAlegKXA+zl?=
+ =?us-ascii?Q?rahWj2fwOYIYwD4EcrNf4bB7AEA1/DSV1SVPu49xTZyLEwKfR9PDEedetIRZ?=
+ =?us-ascii?Q?DsPwn+PPsYYfMuhqgPjeMXdKCgWV7ApJ4tEf6U/TZ2o7IFJ3QZLKJfTr13Zz?=
+ =?us-ascii?Q?GXmiJ4SHZ84g9lHEOy7L4qNe/5ZSuqPztjiyRKX2Wqyn6lds/tcMLFzv0yMA?=
+ =?us-ascii?Q?//2sBLbO7GE8fEwpBtfm9n3DbkQuoZJlWSjQ4VmZOBzTP3fJwPGMs4WDawdu?=
+ =?us-ascii?Q?HCInQhtQFTchIvOkm8M=3D?=
 X-Forefront-Antispam-Report: CIP:4.158.2.129; CTRY:GB; LANG:en; SCL:1; SRV:;
  IPV:NLI; SFV:NSPM; H:outbound-uk1.az.dlp.m.darktrace.com;
  PTR:InfoDomainNonexistent; CAT:NONE;
- SFS:(13230040)(1800799024)(36860700013)(35042699022)(14060799003)(82310400026)(376014);
+ SFS:(13230040)(82310400026)(14060799003)(35042699022)(36860700013)(1800799024)(376014);
  DIR:OUT; SFP:1101; 
 X-OriginatorOrg: arm.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 27 Oct 2025 16:14:15.1648 (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 55729f41-32a8-448c-8eae-08de1573dfc4
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 27 Oct 2025 16:14:16.6601 (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 66c901b8-8ad8-430c-cd49-08de1573e0a5
 X-MS-Exchange-CrossTenant-Id: f34e5979-57d9-4aaa-ad4d-b122a662184d
 X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=f34e5979-57d9-4aaa-ad4d-b122a662184d; Ip=[4.158.2.129];
  Helo=[outbound-uk1.az.dlp.m.darktrace.com]
-X-MS-Exchange-CrossTenant-AuthSource: DU6PEPF0000B61C.eurprd02.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthSource: AM4PEPF00025F95.EURPRD83.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Anonymous
 X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AS8PR08MB6165
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DB9PR08MB11242
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -200,416 +199,475 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Add the new panthor_pwr module, which provides basic power control
-management for Mali-G1 GPUs. The initial implementation includes
-infrastructure for initializing the PWR_CONTROL block, requesting and
-handling its IRQ, and checking for PWR_CONTROL support based on GPU
-architecture.
+This patch adds common helpers to issue power commands, poll
+transitions, and validate domain state, then wires them into the L2
+on/off paths.
 
-The patch also integrates panthor_pwr with the device lifecycle (init,
-suspend, resume, and unplug) through the new API functions. It also
-registers the IRQ handler under the 'gpu' IRQ as the PWR_CONTROL block
-is located within the GPU_CONTROL block.
+The L2 power-on sequence now delegates control of the SHADER and TILER
+domains to the MCU when allowed, while the L2 itself is never delegated.
+On power-off, dependent domains beneath the L2 are checked, and if
+necessary, retracted and powered down to maintain proper domain
+ordering.
 
 Signed-off-by: Karunika Choo <karunika.choo@arm.com>
 ---
-v3:
- * Turned panthor_hw_has_pwr_ctrl() into a static inline function.
 v2:
- * Removed stub functions.
- * Updated BIT() definitions for 64-bit fields to use BIT_U64() to
-   address kernel test robot warnings for 32-bit systems.
- * Moved GPU_FEATURES_RAY_TRAVERSAL definition to the next patch where
-   it is being used.
- * Drop the use of feature bits in favour of a function that performs a
-   GPU_ARCH_MAJOR check instead.
+ * Updated GENMASK to GENMASK_U64 to address kernel test robot warnings
+   for 32-bit systems.
+ * Removed panthor_pwr_read_status() in favour of a simple gpu_read64()
+   operation on the PWR_STATUS register.
+ * Renamed panthor_pwr_info_show() to panthor_pwr_debug_info_show() for
+   more clarity.
+ * Added additional WARN_ON for an invalid domain when requesting power
+   domain transition.
+ * Made panthor_pwr_domain_transition()'s expected val logic more
+   readable and clearer.
+ * Wait on domain power transition instead of failing the operation.
+ * Fixed inconsistent error return value vs kerneldoc.
+ * Removed confusing drm_dbg in delegate_domain() in favor of a comment.
+ * Add unwind to panthor_pwr_delegate_domains().
+ * Moved child domain handling logic from panthor_pwr_l2_power_off()
+   into panthor_pwr_domain_force_off().
+ * Added additional clarification regarding delegation and retraction of
+   power domains.
+ * Minor formatting and readability changes and remove unnecessary
+   checks.
 ---
- drivers/gpu/drm/panthor/Makefile         |   1 +
- drivers/gpu/drm/panthor/panthor_device.c |  14 ++-
- drivers/gpu/drm/panthor/panthor_device.h |   4 +
- drivers/gpu/drm/panthor/panthor_hw.c     |   1 -
- drivers/gpu/drm/panthor/panthor_hw.h     |   6 ++
- drivers/gpu/drm/panthor/panthor_pwr.c    | 120 +++++++++++++++++++++++
- drivers/gpu/drm/panthor/panthor_pwr.h    |  17 ++++
- drivers/gpu/drm/panthor/panthor_regs.h   |  78 +++++++++++++++
- 8 files changed, 239 insertions(+), 2 deletions(-)
- create mode 100644 drivers/gpu/drm/panthor/panthor_pwr.c
- create mode 100644 drivers/gpu/drm/panthor/panthor_pwr.h
+ drivers/gpu/drm/panthor/panthor_pwr.c  | 378 +++++++++++++++++++++++++
+ drivers/gpu/drm/panthor/panthor_pwr.h  |   4 +
+ drivers/gpu/drm/panthor/panthor_regs.h |   1 +
+ 3 files changed, 383 insertions(+)
 
-diff --git a/drivers/gpu/drm/panthor/Makefile b/drivers/gpu/drm/panthor/Makefile
-index 02db21748c12..753a32c446df 100644
---- a/drivers/gpu/drm/panthor/Makefile
-+++ b/drivers/gpu/drm/panthor/Makefile
-@@ -10,6 +10,7 @@ panthor-y := \
- 	panthor_heap.o \
- 	panthor_hw.o \
- 	panthor_mmu.o \
-+	panthor_pwr.o \
- 	panthor_sched.o
-
- obj-$(CONFIG_DRM_PANTHOR) += panthor.o
-diff --git a/drivers/gpu/drm/panthor/panthor_device.c b/drivers/gpu/drm/panthor/panthor_device.c
-index 847dea458682..d3e16da0b24e 100644
---- a/drivers/gpu/drm/panthor/panthor_device.c
-+++ b/drivers/gpu/drm/panthor/panthor_device.c
-@@ -20,6 +20,7 @@
- #include "panthor_gpu.h"
- #include "panthor_hw.h"
- #include "panthor_mmu.h"
-+#include "panthor_pwr.h"
- #include "panthor_regs.h"
- #include "panthor_sched.h"
-
-@@ -102,6 +103,7 @@ void panthor_device_unplug(struct panthor_device *ptdev)
- 	panthor_fw_unplug(ptdev);
- 	panthor_mmu_unplug(ptdev);
- 	panthor_gpu_unplug(ptdev);
-+	panthor_pwr_unplug(ptdev);
-
- 	pm_runtime_dont_use_autosuspend(ptdev->base.dev);
- 	pm_runtime_put_sync_suspend(ptdev->base.dev);
-@@ -249,10 +251,14 @@ int panthor_device_init(struct panthor_device *ptdev)
- 	if (ret)
- 		goto err_rpm_put;
-
--	ret = panthor_gpu_init(ptdev);
-+	ret = panthor_pwr_init(ptdev);
- 	if (ret)
- 		goto err_rpm_put;
-
-+	ret = panthor_gpu_init(ptdev);
-+	if (ret)
-+		goto err_unplug_pwr;
-+
- 	ret = panthor_gpu_coherency_init(ptdev);
- 	if (ret)
- 		goto err_unplug_gpu;
-@@ -293,6 +299,9 @@ int panthor_device_init(struct panthor_device *ptdev)
- err_unplug_gpu:
- 	panthor_gpu_unplug(ptdev);
-
-+err_unplug_pwr:
-+	panthor_pwr_unplug(ptdev);
-+
- err_rpm_put:
- 	pm_runtime_put_sync_suspend(ptdev->base.dev);
- 	return ret;
-@@ -446,6 +455,7 @@ static int panthor_device_resume_hw_components(struct panthor_device *ptdev)
- {
- 	int ret;
-
-+	panthor_pwr_resume(ptdev);
- 	panthor_gpu_resume(ptdev);
- 	panthor_mmu_resume(ptdev);
-
-@@ -455,6 +465,7 @@ static int panthor_device_resume_hw_components(struct panthor_device *ptdev)
-
- 	panthor_mmu_suspend(ptdev);
- 	panthor_gpu_suspend(ptdev);
-+	panthor_pwr_suspend(ptdev);
- 	return ret;
- }
-
-@@ -568,6 +579,7 @@ int panthor_device_suspend(struct device *dev)
- 		panthor_fw_suspend(ptdev);
- 		panthor_mmu_suspend(ptdev);
- 		panthor_gpu_suspend(ptdev);
-+		panthor_pwr_suspend(ptdev);
- 		drm_dev_exit(cookie);
- 	}
-
-diff --git a/drivers/gpu/drm/panthor/panthor_device.h b/drivers/gpu/drm/panthor/panthor_device.h
-index f8e37a24d081..5afa9fdfbc31 100644
---- a/drivers/gpu/drm/panthor/panthor_device.h
-+++ b/drivers/gpu/drm/panthor/panthor_device.h
-@@ -30,6 +30,7 @@ struct panthor_job;
- struct panthor_mmu;
- struct panthor_fw;
- struct panthor_perfcnt;
-+struct panthor_pwr;
- struct panthor_vm;
- struct panthor_vm_pool;
-
-@@ -125,6 +126,9 @@ struct panthor_device {
- 	/** @hw: GPU-specific data. */
- 	struct panthor_hw *hw;
-
-+	/** @pwr: Power control management data. */
-+	struct panthor_pwr *pwr;
-+
- 	/** @gpu: GPU management data. */
- 	struct panthor_gpu *gpu;
-
-diff --git a/drivers/gpu/drm/panthor/panthor_hw.c b/drivers/gpu/drm/panthor/panthor_hw.c
-index ed0ebd53f4ba..1041201d83e5 100644
---- a/drivers/gpu/drm/panthor/panthor_hw.c
-+++ b/drivers/gpu/drm/panthor/panthor_hw.c
-@@ -4,7 +4,6 @@
- #include "panthor_device.h"
- #include "panthor_gpu.h"
- #include "panthor_hw.h"
--#include "panthor_regs.h"
-
- #define GPU_PROD_ID_MAKE(arch_major, prod_major) \
- 	(((arch_major) << 24) | (prod_major))
-diff --git a/drivers/gpu/drm/panthor/panthor_hw.h b/drivers/gpu/drm/panthor/panthor_hw.h
-index 64616caa6f05..56c68c1e9c26 100644
---- a/drivers/gpu/drm/panthor/panthor_hw.h
-+++ b/drivers/gpu/drm/panthor/panthor_hw.h
-@@ -5,6 +5,7 @@
- #define __PANTHOR_HW_H__
-
- #include "panthor_device.h"
-+#include "panthor_regs.h"
-
- /**
-  * struct panthor_hw_ops - HW operations that are specific to a GPU
-@@ -47,4 +48,9 @@ static inline void panthor_hw_l2_power_off(struct panthor_device *ptdev)
- 	ptdev->hw->ops.l2_power_off(ptdev);
- }
-
-+static inline bool panthor_hw_has_pwr_ctrl(struct panthor_device *ptdev)
-+{
-+	return GPU_ARCH_MAJOR(ptdev->gpu_info.gpu_id) >= 14;
-+}
-+
- #endif /* __PANTHOR_HW_H__ */
 diff --git a/drivers/gpu/drm/panthor/panthor_pwr.c b/drivers/gpu/drm/panthor/panthor_pwr.c
-new file mode 100644
-index 000000000000..da64fe006a8b
---- /dev/null
+index da64fe006a8b..cd529660a276 100644
+--- a/drivers/gpu/drm/panthor/panthor_pwr.c
 +++ b/drivers/gpu/drm/panthor/panthor_pwr.c
-@@ -0,0 +1,120 @@
-+// SPDX-License-Identifier: GPL-2.0 or MIT
-+/* Copyright 2025 ARM Limited. All rights reserved. */
+@@ -23,6 +23,14 @@
+ 	 PWR_IRQ_COMMAND_NOT_ALLOWED | \
+ 	 PWR_IRQ_COMMAND_INVALID)
+
++#define PWR_ALL_CORES_MASK		GENMASK_U64(63, 0)
 +
-+#include <linux/platform_device.h>
-+#include <linux/interrupt.h>
-+#include <linux/iopoll.h>
-+#include <linux/wait.h>
++#define PWR_DOMAIN_MAX_BITS		16
 +
-+#include <drm/drm_managed.h>
++#define PWR_TRANSITION_TIMEOUT_US	(2ULL * USEC_PER_SEC)
 +
-+#include "panthor_device.h"
-+#include "panthor_hw.h"
-+#include "panthor_pwr.h"
-+#include "panthor_regs.h"
++#define PWR_RETRACT_TIMEOUT_US		(2ULL * USEC_PER_MSEC)
 +
-+#define PWR_INTERRUPTS_MASK \
-+	(PWR_IRQ_POWER_CHANGED_SINGLE | \
-+	 PWR_IRQ_POWER_CHANGED_ALL | \
-+	 PWR_IRQ_DELEGATION_CHANGED | \
-+	 PWR_IRQ_RESET_COMPLETED | \
-+	 PWR_IRQ_RETRACT_COMPLETED | \
-+	 PWR_IRQ_INSPECT_COMPLETED | \
-+	 PWR_IRQ_COMMAND_NOT_ALLOWED | \
-+	 PWR_IRQ_COMMAND_INVALID)
-+
-+/**
-+ * struct panthor_pwr - PWR_CONTROL block management data.
-+ */
-+struct panthor_pwr {
-+	/** @irq: PWR irq. */
-+	struct panthor_irq irq;
-+
-+	/** @reqs_lock: Lock protecting access to pending_reqs. */
-+	spinlock_t reqs_lock;
-+
-+	/** @pending_reqs: Pending PWR requests. */
-+	u32 pending_reqs;
-+
-+	/** @reqs_acked: PWR request wait queue. */
-+	wait_queue_head_t reqs_acked;
-+};
-+
-+static void panthor_pwr_irq_handler(struct panthor_device *ptdev, u32 status)
+ /**
+  * struct panthor_pwr - PWR_CONTROL block management data.
+  */
+@@ -59,6 +67,323 @@ static void panthor_pwr_irq_handler(struct panthor_device *ptdev, u32 status)
+ }
+ PANTHOR_IRQ_HANDLER(pwr, PWR, panthor_pwr_irq_handler);
+
++static void panthor_pwr_write_command(struct panthor_device *ptdev, u32 command, u64 args)
 +{
-+	spin_lock(&ptdev->pwr->reqs_lock);
-+	gpu_write(ptdev, PWR_INT_CLEAR, status);
++	if (args)
++		gpu_write64(ptdev, PWR_CMDARG, args);
 +
-+	if (unlikely(status & PWR_IRQ_COMMAND_NOT_ALLOWED))
-+		drm_err(&ptdev->base, "PWR_IRQ: COMMAND_NOT_ALLOWED");
++	gpu_write(ptdev, PWR_COMMAND, command);
++}
 +
-+	if (unlikely(status & PWR_IRQ_COMMAND_INVALID))
-+		drm_err(&ptdev->base, "PWR_IRQ: COMMAND_INVALID");
-+
-+	if (status & ptdev->pwr->pending_reqs) {
-+		ptdev->pwr->pending_reqs &= ~status;
-+		wake_up_all(&ptdev->pwr->reqs_acked);
++static const char *get_domain_name(u8 domain)
++{
++	switch (domain) {
++	case PWR_COMMAND_DOMAIN_L2:
++		return "L2";
++	case PWR_COMMAND_DOMAIN_TILER:
++		return "Tiler";
++	case PWR_COMMAND_DOMAIN_SHADER:
++		return "Shader";
++	case PWR_COMMAND_DOMAIN_BASE:
++		return "Base";
++	case PWR_COMMAND_DOMAIN_STACK:
++		return "Stack";
 +	}
-+	spin_unlock(&ptdev->pwr->reqs_lock);
-+}
-+PANTHOR_IRQ_HANDLER(pwr, PWR, panthor_pwr_irq_handler);
-+
-+void panthor_pwr_unplug(struct panthor_device *ptdev)
-+{
-+	unsigned long flags;
-+
-+	if (!ptdev->pwr)
-+		return;
-+
-+	/* Make sure the IRQ handler is not running after that point. */
-+	panthor_pwr_irq_suspend(&ptdev->pwr->irq);
-+
-+	/* Wake-up all waiters. */
-+	spin_lock_irqsave(&ptdev->pwr->reqs_lock, flags);
-+	ptdev->pwr->pending_reqs = 0;
-+	wake_up_all(&ptdev->pwr->reqs_acked);
-+	spin_unlock_irqrestore(&ptdev->pwr->reqs_lock, flags);
++	return "Unknown";
 +}
 +
-+int panthor_pwr_init(struct panthor_device *ptdev)
++static u32 get_domain_base(u8 domain)
 +{
-+	struct panthor_pwr *pwr;
-+	int err, irq;
++	switch (domain) {
++	case PWR_COMMAND_DOMAIN_L2:
++		return PWR_L2_PRESENT;
++	case PWR_COMMAND_DOMAIN_TILER:
++		return PWR_TILER_PRESENT;
++	case PWR_COMMAND_DOMAIN_SHADER:
++		return PWR_SHADER_PRESENT;
++	case PWR_COMMAND_DOMAIN_BASE:
++		return PWR_BASE_PRESENT;
++	case PWR_COMMAND_DOMAIN_STACK:
++		return PWR_STACK_PRESENT;
++	}
++	return 0;
++}
 +
-+	if (!panthor_hw_has_pwr_ctrl(ptdev))
-+		return 0;
++static u32 get_domain_ready_reg(u32 domain)
++{
++	return get_domain_base(domain) + (PWR_L2_READY - PWR_L2_PRESENT);
++}
 +
-+	pwr = drmm_kzalloc(&ptdev->base, sizeof(*pwr), GFP_KERNEL);
-+	if (!pwr)
-+		return -ENOMEM;
++static u32 get_domain_pwrtrans_reg(u32 domain)
++{
++	return get_domain_base(domain) + (PWR_L2_PWRTRANS - PWR_L2_PRESENT);
++}
 +
-+	spin_lock_init(&pwr->reqs_lock);
-+	init_waitqueue_head(&pwr->reqs_acked);
-+	ptdev->pwr = pwr;
++static bool is_valid_domain(u32 domain)
++{
++	return get_domain_base(domain) != 0;
++}
 +
-+	irq = platform_get_irq_byname(to_platform_device(ptdev->base.dev), "gpu");
-+	if (irq < 0)
-+		return irq;
++static bool has_rtu(struct panthor_device *ptdev)
++{
++	return ptdev->gpu_info.gpu_features & GPU_FEATURES_RAY_TRAVERSAL;
++}
 +
-+	err = panthor_request_pwr_irq(ptdev, &pwr->irq, irq, PWR_INTERRUPTS_MASK);
-+	if (err)
-+		return err;
++static u8 get_domain_subdomain(struct panthor_device *ptdev, u32 domain)
++{
++	if ((domain == PWR_COMMAND_DOMAIN_SHADER) && has_rtu(ptdev))
++		return PWR_COMMAND_SUBDOMAIN_RTU;
 +
 +	return 0;
 +}
 +
-+void panthor_pwr_suspend(struct panthor_device *ptdev)
++static int panthor_pwr_domain_wait_transition(struct panthor_device *ptdev, u32 domain,
++					      u32 timeout_us)
 +{
-+	if (!ptdev->pwr)
-+		return;
++	u32 pwrtrans_reg = get_domain_pwrtrans_reg(domain);
++	u64 val;
++	int ret = 0;
 +
-+	panthor_pwr_irq_suspend(&ptdev->pwr->irq);
++	ret = gpu_read64_poll_timeout(ptdev, pwrtrans_reg, val, !(PWR_ALL_CORES_MASK & val), 100,
++				      timeout_us);
++	if (ret) {
++		drm_err(&ptdev->base, "%s domain power in transition, pwrtrans(0x%llx)",
++			get_domain_name(domain), val);
++		return ret;
++	}
++
++	return 0;
 +}
 +
-+void panthor_pwr_resume(struct panthor_device *ptdev)
++static void panthor_pwr_debug_info_show(struct panthor_device *ptdev)
 +{
++	drm_info(&ptdev->base, "GPU_FEATURES:    0x%016llx", gpu_read64(ptdev, GPU_FEATURES));
++	drm_info(&ptdev->base, "PWR_STATUS:      0x%016llx", gpu_read64(ptdev, PWR_STATUS));
++	drm_info(&ptdev->base, "L2_PRESENT:      0x%016llx", gpu_read64(ptdev, PWR_L2_PRESENT));
++	drm_info(&ptdev->base, "L2_PWRTRANS:     0x%016llx", gpu_read64(ptdev, PWR_L2_PWRTRANS));
++	drm_info(&ptdev->base, "L2_READY:        0x%016llx", gpu_read64(ptdev, PWR_L2_READY));
++	drm_info(&ptdev->base, "TILER_PRESENT:   0x%016llx", gpu_read64(ptdev, PWR_TILER_PRESENT));
++	drm_info(&ptdev->base, "TILER_PWRTRANS:  0x%016llx", gpu_read64(ptdev, PWR_TILER_PWRTRANS));
++	drm_info(&ptdev->base, "TILER_READY:     0x%016llx", gpu_read64(ptdev, PWR_TILER_READY));
++	drm_info(&ptdev->base, "SHADER_PRESENT:  0x%016llx", gpu_read64(ptdev, PWR_SHADER_PRESENT));
++	drm_info(&ptdev->base, "SHADER_PWRTRANS: 0x%016llx", gpu_read64(ptdev, PWR_SHADER_PWRTRANS));
++	drm_info(&ptdev->base, "SHADER_READY:    0x%016llx", gpu_read64(ptdev, PWR_SHADER_READY));
++}
++
++static int panthor_pwr_domain_transition(struct panthor_device *ptdev, u32 cmd, u32 domain,
++					 u64 mask, u32 timeout_us)
++{
++	u32 ready_reg = get_domain_ready_reg(domain);
++	u32 pwr_cmd = PWR_COMMAND_DEF(cmd, domain, get_domain_subdomain(ptdev, domain));
++	u64 expected_val = 0;
++	u64 val;
++	int ret = 0;
++
++	if (drm_WARN_ON(&ptdev->base, !is_valid_domain(domain)))
++		return -EINVAL;
++
++	switch (cmd) {
++	case PWR_COMMAND_POWER_DOWN:
++		expected_val = 0;
++		break;
++	case PWR_COMMAND_POWER_UP:
++		expected_val = mask;
++		break;
++	default:
++		drm_err(&ptdev->base, "Invalid power domain transition command (0x%x)", cmd);
++		return -EINVAL;
++	}
++
++	ret = panthor_pwr_domain_wait_transition(ptdev, domain, timeout_us);
++	if (ret)
++		return ret;
++
++	/* domain already in target state, return early */
++	if ((gpu_read64(ptdev, ready_reg) & mask) == expected_val)
++		return 0;
++
++	panthor_pwr_write_command(ptdev, pwr_cmd, mask);
++
++	ret = gpu_read64_poll_timeout(ptdev, ready_reg, val, (mask & val) == expected_val, 100,
++				      timeout_us);
++	if (ret) {
++		drm_err(&ptdev->base,
++			"timeout waiting on %s power domain transition, cmd(0x%x), arg(0x%llx)",
++			get_domain_name(domain), pwr_cmd, mask);
++		panthor_pwr_debug_info_show(ptdev);
++		return ret;
++	}
++
++	return 0;
++}
++
++#define panthor_pwr_domain_power_off(__ptdev, __domain, __mask, __timeout_us)            \
++	panthor_pwr_domain_transition(__ptdev, PWR_COMMAND_POWER_DOWN, __domain, __mask, \
++				      __timeout_us)
++
++#define panthor_pwr_domain_power_on(__ptdev, __domain, __mask, __timeout_us) \
++	panthor_pwr_domain_transition(__ptdev, PWR_COMMAND_POWER_UP, __domain, __mask, __timeout_us)
++
++/**
++ * retract_domain() - Retract control of a domain from MCU
++ * @ptdev: Device.
++ * @domain: Domain to retract the control
++ *
++ * Retracting L2 domain is not expected since it won't be delegated.
++ *
++ * Return: 0 on success or retracted already.
++ *         -EPERM if domain is L2.
++ *         A negative error code otherwise.
++ */
++static int retract_domain(struct panthor_device *ptdev, u32 domain)
++{
++	const u32 pwr_cmd = PWR_COMMAND_DEF(PWR_COMMAND_RETRACT, domain, 0);
++	const u64 pwr_status = gpu_read64(ptdev, PWR_STATUS);
++	const u64 delegated_mask = PWR_STATUS_DOMAIN_DELEGATED(domain);
++	const u64 allow_mask = PWR_STATUS_DOMAIN_ALLOWED(domain);
++	u64 val;
++	int ret;
++
++	if (drm_WARN_ON(&ptdev->base, domain == PWR_COMMAND_DOMAIN_L2))
++		return -EPERM;
++
++	ret = gpu_read64_poll_timeout(ptdev, PWR_STATUS, val, !(PWR_STATUS_RETRACT_PENDING & val),
++				      0, PWR_RETRACT_TIMEOUT_US);
++	if (ret) {
++		drm_err(&ptdev->base, "%s domain retract pending", get_domain_name(domain));
++		return ret;
++	}
++
++	if (!(pwr_status & delegated_mask)) {
++		drm_dbg(&ptdev->base, "%s domain already retracted", get_domain_name(domain));
++		return 0;
++	}
++
++	panthor_pwr_write_command(ptdev, pwr_cmd, 0);
++
++	/*
++	 * On successful retraction
++	 * allow-flag will be set with delegated-flag being cleared.
++	 */
++	ret = gpu_read64_poll_timeout(ptdev, PWR_STATUS, val,
++				      ((delegated_mask | allow_mask) & val) == allow_mask, 10,
++				      PWR_TRANSITION_TIMEOUT_US);
++	if (ret) {
++		drm_err(&ptdev->base, "Retracting %s domain timeout, cmd(0x%x)",
++			get_domain_name(domain), pwr_cmd);
++		return ret;
++	}
++
++	return 0;
++}
++
++/**
++ * delegate_domain() - Delegate control of a domain to MCU
++ * @ptdev: Device.
++ * @domain: Domain to delegate the control
++ *
++ * Delegating L2 domain is prohibited.
++ *
++ * Return:
++ * *       0 on success or delegated already.
++ * *       -EPERM if domain is L2.
++ * *       A negative error code otherwise.
++ */
++static int delegate_domain(struct panthor_device *ptdev, u32 domain)
++{
++	const u32 pwr_cmd = PWR_COMMAND_DEF(PWR_COMMAND_DELEGATE, domain, 0);
++	const u64 pwr_status = gpu_read64(ptdev, PWR_STATUS);
++	const u64 allow_mask = PWR_STATUS_DOMAIN_ALLOWED(domain);
++	const u64 delegated_mask = PWR_STATUS_DOMAIN_DELEGATED(domain);
++	u64 val;
++	int ret;
++
++	if (drm_WARN_ON(&ptdev->base, domain == PWR_COMMAND_DOMAIN_L2))
++		return -EPERM;
++
++	/* Already delegated, exit early */
++	if (pwr_status & delegated_mask)
++		return 0;
++
++	/* Check if the command is allowed before delegating. */
++	if (!(pwr_status & allow_mask)) {
++		drm_warn(&ptdev->base, "Delegating %s domain not allowed", get_domain_name(domain));
++		return -EPERM;
++	}
++
++	ret = panthor_pwr_domain_wait_transition(ptdev, domain, PWR_TRANSITION_TIMEOUT_US);
++	if (ret)
++		return ret;
++
++	panthor_pwr_write_command(ptdev, pwr_cmd, 0);
++
++	/*
++	 * On successful delegation
++	 * allow-flag will be cleared with delegated-flag being set.
++	 */
++	ret = gpu_read64_poll_timeout(ptdev, PWR_STATUS, val,
++				      ((delegated_mask | allow_mask) & val) == delegated_mask,
++				      10, PWR_TRANSITION_TIMEOUT_US);
++	if (ret) {
++		drm_err(&ptdev->base, "Delegating %s domain timeout, cmd(0x%x)",
++			get_domain_name(domain), pwr_cmd);
++		return ret;
++	}
++
++	return 0;
++}
++
++static int panthor_pwr_delegate_domains(struct panthor_device *ptdev)
++{
++	int ret;
++
 +	if (!ptdev->pwr)
++		return 0;
++
++	ret = delegate_domain(ptdev, PWR_COMMAND_DOMAIN_SHADER);
++	if (ret)
++		return ret;
++
++	ret = delegate_domain(ptdev, PWR_COMMAND_DOMAIN_TILER);
++	if (ret)
++		goto err_retract_shader;
++
++	return 0;
++
++err_retract_shader:
++	retract_domain(ptdev, PWR_COMMAND_DOMAIN_SHADER);
++
++	return ret;
++}
++
++/**
++ * panthor_pwr_domain_force_off - Forcefully power down a domain.
++ * @ptdev: Device.
++ * @domain: Domain to forcefully power down.
++ *
++ * This function will attempt to retract and power off the requested power
++ * domain. However, if retraction fails, the operation is aborted. If power off
++ * fails, the domain will remain retracted and under the host control.
++ *
++ * Return: 0 on success or a negative error code on failure.
++ */
++static int panthor_pwr_domain_force_off(struct panthor_device *ptdev, u32 domain)
++{
++	const u64 domain_ready = gpu_read64(ptdev, get_domain_ready_reg(domain));
++	int ret;
++
++	/* Domain already powered down, early exit. */
++	if (!domain_ready)
++		return 0;
++
++	/* Domain has to be in host control to issue power off command. */
++	ret = retract_domain(ptdev, domain);
++	if (ret)
++		return ret;
++
++	return panthor_pwr_domain_power_off(ptdev, domain, domain_ready, PWR_TRANSITION_TIMEOUT_US);
++}
++
+ void panthor_pwr_unplug(struct panthor_device *ptdev)
+ {
+ 	unsigned long flags;
+@@ -103,6 +428,59 @@ int panthor_pwr_init(struct panthor_device *ptdev)
+ 	return 0;
+ }
+
++void panthor_pwr_l2_power_off(struct panthor_device *ptdev)
++{
++	const u64 l2_allow_mask = PWR_STATUS_DOMAIN_ALLOWED(PWR_COMMAND_DOMAIN_L2);
++	const u64 pwr_status = gpu_read64(ptdev, PWR_STATUS);
++
++	/* Abort if L2 power off constraints are not satisfied */
++	if (!(pwr_status & l2_allow_mask)) {
++		drm_warn(&ptdev->base, "Power off L2 domain not allowed");
++		return;
++	}
++
++	/* It is expected that when halting the MCU, it would power down its
++	 * delegated domains. However, an unresponsive or hung MCU may not do
++	 * so, which is why we need to check and retract the domains back into
++	 * host control to be powered down in the right order before powering
++	 * down the L2.
++	 */
++	if (panthor_pwr_domain_force_off(ptdev, PWR_COMMAND_DOMAIN_TILER))
 +		return;
 +
-+	panthor_pwr_irq_resume(&ptdev->pwr->irq, PWR_INTERRUPTS_MASK);
++	if (panthor_pwr_domain_force_off(ptdev, PWR_COMMAND_DOMAIN_SHADER))
++		return;
++
++	panthor_pwr_domain_power_off(ptdev, PWR_COMMAND_DOMAIN_L2, ptdev->gpu_info.l2_present,
++				     PWR_TRANSITION_TIMEOUT_US);
 +}
++
++int panthor_pwr_l2_power_on(struct panthor_device *ptdev)
++{
++	const u32 pwr_status = gpu_read64(ptdev, PWR_STATUS);
++	const u32 l2_allow_mask = PWR_STATUS_DOMAIN_ALLOWED(PWR_COMMAND_DOMAIN_L2);
++	int ret;
++
++	if ((pwr_status & l2_allow_mask) == 0) {
++		drm_warn(&ptdev->base, "Power on L2 domain not allowed");
++		return -EPERM;
++	}
++
++	ret = panthor_pwr_domain_power_on(ptdev, PWR_COMMAND_DOMAIN_L2, ptdev->gpu_info.l2_present,
++					  PWR_TRANSITION_TIMEOUT_US);
++	if (ret)
++		return ret;
++
++	/* Delegate control of the shader and tiler power domains to the MCU as
++	 * it can better manage which shader/tiler cores need to be powered up
++	 * or can be powered down based on currently running jobs.
++	 *
++	 * If the shader and tiler domains are already delegated to the MCU,
++	 * this call would just return early.
++	 */
++	return panthor_pwr_delegate_domains(ptdev);
++}
++
+ void panthor_pwr_suspend(struct panthor_device *ptdev)
+ {
+ 	if (!ptdev->pwr)
 diff --git a/drivers/gpu/drm/panthor/panthor_pwr.h b/drivers/gpu/drm/panthor/panthor_pwr.h
-new file mode 100644
-index 000000000000..b325e5b7eba3
---- /dev/null
+index b325e5b7eba3..3c834059a860 100644
+--- a/drivers/gpu/drm/panthor/panthor_pwr.h
 +++ b/drivers/gpu/drm/panthor/panthor_pwr.h
-@@ -0,0 +1,17 @@
-+/* SPDX-License-Identifier: GPL-2.0 or MIT */
-+/* Copyright 2025 ARM Limited. All rights reserved. */
+@@ -10,6 +10,10 @@ void panthor_pwr_unplug(struct panthor_device *ptdev);
+
+ int panthor_pwr_init(struct panthor_device *ptdev);
+
++void panthor_pwr_l2_power_off(struct panthor_device *ptdev);
 +
-+#ifndef __PANTHOR_PWR_H__
-+#define __PANTHOR_PWR_H__
++int panthor_pwr_l2_power_on(struct panthor_device *ptdev);
 +
-+struct panthor_device;
-+
-+void panthor_pwr_unplug(struct panthor_device *ptdev);
-+
-+int panthor_pwr_init(struct panthor_device *ptdev);
-+
-+void panthor_pwr_suspend(struct panthor_device *ptdev);
-+
-+void panthor_pwr_resume(struct panthor_device *ptdev);
-+
-+#endif /* __PANTHOR_PWR_H__ */
+ void panthor_pwr_suspend(struct panthor_device *ptdev);
+
+ void panthor_pwr_resume(struct panthor_device *ptdev);
 diff --git a/drivers/gpu/drm/panthor/panthor_regs.h b/drivers/gpu/drm/panthor/panthor_regs.h
-index 8bee76d01bf8..5469eec02178 100644
+index 5469eec02178..18702d7001e2 100644
 --- a/drivers/gpu/drm/panthor/panthor_regs.h
 +++ b/drivers/gpu/drm/panthor/panthor_regs.h
-@@ -205,4 +205,82 @@
- #define CSF_DOORBELL(i)					(0x80000 + ((i) * 0x10000))
- #define CSF_GLB_DOORBELL_ID				0
+@@ -72,6 +72,7 @@
 
-+/* PWR Control registers */
-+
-+#define PWR_CONTROL_BASE				0x800
-+#define PWR_CTRL_REG(x)					(PWR_CONTROL_BASE + (x))
-+
-+#define PWR_INT_RAWSTAT					PWR_CTRL_REG(0x0)
-+#define PWR_INT_CLEAR					PWR_CTRL_REG(0x4)
-+#define PWR_INT_MASK					PWR_CTRL_REG(0x8)
-+#define PWR_INT_STAT					PWR_CTRL_REG(0xc)
-+#define   PWR_IRQ_POWER_CHANGED_SINGLE			BIT(0)
-+#define   PWR_IRQ_POWER_CHANGED_ALL			BIT(1)
-+#define   PWR_IRQ_DELEGATION_CHANGED			BIT(2)
-+#define   PWR_IRQ_RESET_COMPLETED			BIT(3)
-+#define   PWR_IRQ_RETRACT_COMPLETED			BIT(4)
-+#define   PWR_IRQ_INSPECT_COMPLETED			BIT(5)
-+#define   PWR_IRQ_COMMAND_NOT_ALLOWED			BIT(30)
-+#define   PWR_IRQ_COMMAND_INVALID			BIT(31)
-+
-+#define PWR_STATUS					PWR_CTRL_REG(0x20)
-+#define   PWR_STATUS_ALLOW_L2				BIT_U64(0)
-+#define   PWR_STATUS_ALLOW_TILER			BIT_U64(1)
-+#define   PWR_STATUS_ALLOW_SHADER			BIT_U64(8)
-+#define   PWR_STATUS_ALLOW_BASE				BIT_U64(14)
-+#define   PWR_STATUS_ALLOW_STACK			BIT_U64(15)
-+#define   PWR_STATUS_DOMAIN_ALLOWED(x)			BIT_U64(x)
-+#define   PWR_STATUS_DELEGATED_L2			BIT_U64(16)
-+#define   PWR_STATUS_DELEGATED_TILER			BIT_U64(17)
-+#define   PWR_STATUS_DELEGATED_SHADER			BIT_U64(24)
-+#define   PWR_STATUS_DELEGATED_BASE			BIT_U64(30)
-+#define   PWR_STATUS_DELEGATED_STACK			BIT_U64(31)
-+#define   PWR_STATUS_DELEGATED_SHIFT			16
-+#define   PWR_STATUS_DOMAIN_DELEGATED(x)		BIT_U64((x) + PWR_STATUS_DELEGATED_SHIFT)
-+#define   PWR_STATUS_ALLOW_SOFT_RESET			BIT_U64(33)
-+#define   PWR_STATUS_ALLOW_FAST_RESET			BIT_U64(34)
-+#define   PWR_STATUS_POWER_PENDING			BIT_U64(41)
-+#define   PWR_STATUS_RESET_PENDING			BIT_U64(42)
-+#define   PWR_STATUS_RETRACT_PENDING			BIT_U64(43)
-+#define   PWR_STATUS_INSPECT_PENDING			BIT_U64(44)
-+
-+#define PWR_COMMAND					PWR_CTRL_REG(0x28)
-+#define   PWR_COMMAND_POWER_UP				0x10
-+#define   PWR_COMMAND_POWER_DOWN			0x11
-+#define   PWR_COMMAND_DELEGATE				0x20
-+#define   PWR_COMMAND_RETRACT				0x21
-+#define   PWR_COMMAND_RESET_SOFT			0x31
-+#define   PWR_COMMAND_RESET_FAST			0x32
-+#define   PWR_COMMAND_INSPECT				0xF0
-+#define   PWR_COMMAND_DOMAIN_L2				0
-+#define   PWR_COMMAND_DOMAIN_TILER			1
-+#define   PWR_COMMAND_DOMAIN_SHADER			8
-+#define   PWR_COMMAND_DOMAIN_BASE			14
-+#define   PWR_COMMAND_DOMAIN_STACK			15
-+#define   PWR_COMMAND_SUBDOMAIN_RTU			BIT(0)
-+#define   PWR_COMMAND_DEF(cmd, domain, subdomain)	\
-+	(((subdomain) << 16) | ((domain) << 8) | (cmd))
-+
-+#define PWR_CMDARG					PWR_CTRL_REG(0x30)
-+
-+#define PWR_L2_PRESENT					PWR_CTRL_REG(0x100)
-+#define PWR_L2_READY					PWR_CTRL_REG(0x108)
-+#define PWR_L2_PWRTRANS					PWR_CTRL_REG(0x110)
-+#define PWR_L2_PWRACTIVE				PWR_CTRL_REG(0x118)
-+#define PWR_TILER_PRESENT				PWR_CTRL_REG(0x140)
-+#define PWR_TILER_READY					PWR_CTRL_REG(0x148)
-+#define PWR_TILER_PWRTRANS				PWR_CTRL_REG(0x150)
-+#define PWR_TILER_PWRACTIVE				PWR_CTRL_REG(0x158)
-+#define PWR_SHADER_PRESENT				PWR_CTRL_REG(0x200)
-+#define PWR_SHADER_READY				PWR_CTRL_REG(0x208)
-+#define PWR_SHADER_PWRTRANS				PWR_CTRL_REG(0x210)
-+#define PWR_SHADER_PWRACTIVE				PWR_CTRL_REG(0x218)
-+#define PWR_BASE_PRESENT				PWR_CTRL_REG(0x380)
-+#define PWR_BASE_READY					PWR_CTRL_REG(0x388)
-+#define PWR_BASE_PWRTRANS				PWR_CTRL_REG(0x390)
-+#define PWR_BASE_PWRACTIVE				PWR_CTRL_REG(0x398)
-+#define PWR_STACK_PRESENT				PWR_CTRL_REG(0x3c0)
-+#define PWR_STACK_READY					PWR_CTRL_REG(0x3c8)
-+#define PWR_STACK_PWRTRANS				PWR_CTRL_REG(0x3d0)
-+
- #endif
+ #define GPU_FEATURES					0x60
+ #define   GPU_FEATURES_RAY_INTERSECTION			BIT(2)
++#define   GPU_FEATURES_RAY_TRAVERSAL			BIT(5)
+
+ #define GPU_TIMESTAMP_OFFSET				0x88
+ #define GPU_CYCLE_COUNT					0x90
 --
 2.49.0
 
