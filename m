@@ -2,91 +2,128 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3CC9FC0E4BC
-	for <lists+dri-devel@lfdr.de>; Mon, 27 Oct 2025 15:14:01 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id DA6A3C0E630
+	for <lists+dri-devel@lfdr.de>; Mon, 27 Oct 2025 15:24:21 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7E1F210E4B8;
-	Mon, 27 Oct 2025 14:13:59 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7E09A10E4C1;
+	Mon, 27 Oct 2025 14:24:18 +0000 (UTC)
+Authentication-Results: gabe.freedesktop.org;
+	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="IgWOyT3I";
+	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-vs1-f50.google.com (mail-vs1-f50.google.com
- [209.85.217.50])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 612BB10E4B8
- for <dri-devel@lists.freedesktop.org>; Mon, 27 Oct 2025 14:13:58 +0000 (UTC)
-Received: by mail-vs1-f50.google.com with SMTP id
- ada2fe7eead31-5db24071011so5212174137.1
- for <dri-devel@lists.freedesktop.org>; Mon, 27 Oct 2025 07:13:58 -0700 (PDT)
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
+ [205.220.180.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A28FF10E4C0
+ for <dri-devel@lists.freedesktop.org>; Mon, 27 Oct 2025 14:24:17 +0000 (UTC)
+Received: from pps.filterd (m0279873.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id
+ 59RDh7Ix2961876
+ for <dri-devel@lists.freedesktop.org>; Mon, 27 Oct 2025 14:24:16 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+ cc:content-type:date:from:in-reply-to:message-id:mime-version
+ :references:subject:to; s=qcppdkim1; bh=Z22q11bJjODxBoHmYKUh4Hk9
+ cf6IJGKHIianKI9ipUY=; b=IgWOyT3IN8iuBQVuTPSWo9K6Tf208zO9kvOf4adB
+ UToFUTwzGTlrjU5UB526DTG2nFzeOSCjkiGNtZnNj4e6LJ4rZ5mSNC6QztUtFaEf
+ Edmo4Z1QU11fLYwU+se2aRcon45fGDI511m3erRxjdLW/qpahw+tgJsxfVQ1Blvu
+ BIMwYIi2wS8ahyoObhGc/6NRVnRZtQhALrXDOL7VNHae6mEEN1yFdWpumWSGV/2y
+ cO4oy1zkIKB3h5+G8utP0k+USpd0WeOuEjjKveWGMkxwR2Vhr2GBuyklVOmw6VFm
+ k0VuXFDwnNnfjinAuWzmERHiCsfm6ahMmVz0rkBoJFTd6A==
+Received: from mail-qt1-f200.google.com (mail-qt1-f200.google.com
+ [209.85.160.200])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4a29v9r48g-1
+ (version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
+ for <dri-devel@lists.freedesktop.org>; Mon, 27 Oct 2025 14:24:16 +0000 (GMT)
+Received: by mail-qt1-f200.google.com with SMTP id
+ d75a77b69052e-4ecfa212e61so33368831cf.1
+ for <dri-devel@lists.freedesktop.org>; Mon, 27 Oct 2025 07:24:16 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1761574436; x=1762179236;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=JyGCp9ASaMEVdd7OGwSr0N7G26LNgplWkJBV0Rgw9hw=;
- b=DU/9co+fQqPZx5EZjW59kVD9eEMiLIzMD8gQ8mhMN72QmHOXjc417XyOnhvSBCJBP7
- y6WNYFCGIfixCSITbnFrUwXmCzg906lkX674MxkQvAeyxltkFOTtuvAnyHm5F8mo5d0t
- Ba110LX4vvQsHL2pYMI+RkAGugsOBrpDwqkF6IMu/LRykIp58Ph1ZshPrwZ0r2wqEHdg
- tz1P17/lCfE6rrBMbG0JX08NrBh8nCqsNixPRHb8KrmGg1yYH3Fwr+mXcptBXCiFOe50
- e7OQR1Rz48RiLnNbh8N9Exr1wJByVSO8dUBNUi9SDuobwjhSFumHPS/LZZpdW2/r0U+e
- 1JCA==
+ d=1e100.net; s=20230601; t=1761575056; x=1762179856;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=Z22q11bJjODxBoHmYKUh4Hk9cf6IJGKHIianKI9ipUY=;
+ b=tMmdE9p49icLu7kmaEBdUeuVWv1jQVPm+PAT1TVQaw90ZgQp+lYRPkzsPMIpqYD2YT
+ LOeYyudLq5F/WgHA/CVtr9sbi8PyI37zQ8F8UhGs41BVX579Q03R19olizdYqkeOq2yj
+ BmBl4+QcTKHbpfovH3wGonKDrSsQiABECAQILe7s8PL74MvTZEaLtVr4rGqe+eY7RngF
+ WnZbSb7Je1hVz68do45YVnsy50SWN832e0SFp2SEHsG9mmxWBGUr9lJ1WIt7akaMg7sc
+ okoVtS7XKYIPpXMnYCU20cMERjOvTdEHNLgGzqvJXt6wQJRRaktOtL8hBrG1sVb64Mw9
+ Dkkg==
 X-Forwarded-Encrypted: i=1;
- AJvYcCX4rFN+vdJCFWCHgKYDZFwJHFAGkmmy8XusOauPPqfn+T6QTWi0frX9yMJP1hUyNF/nO3bgiLReigw=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YwxXtSQYp/lcIDz+BoRcIgVXB7288AvwTDtdeSSfpCI+ULvmxdY
- 1HYNYawwkHcOyYG1eh24aE9SyxhQQXWB5RYaE4LQLZ9Uus5zlgdUHWzS9p8/OIAr
-X-Gm-Gg: ASbGncvKP4zH0kwoLO5xfwAD7QWqIp7YwSkqfMoQCy1ddiFwfuTcMZ43EwmsfmaU9Zj
- 3Yy3u6MrtWaPoBsC+heqS/Sds4ahp5tx7wVSE1sP24V5HDcoyZwOIJQXrp68bpAg68zAi3PqdsN
- TqvI7oscntil5QZmR2lUB4KBEnU0MiLUgbvdfQ7bpPqn/nx+jdauZaHtEjcjfi0etjSjvOqg1/E
- h7EspePp17TJ9MR0ELZJd2aQCYW/zX/6CXRl2JHzeMCwJZTRPq4/Nc6ZStIJdH69jNNUgfuUZKl
- /them47Zt93U7PNrzKv8vMPN8EfT5fRqimJ3mIm/Qg6VNVSjoY6sP+OeDxwjyiIG4kXuQ8bHuDG
- b/O/xnwMUnApaKUFjJS9nCANoh1EILm06PSBNScP3NH82inpi6TeVktirupnp499SRV6iCzXgWc
- dv++g2bDkOtt2eZkcNex4qUhYwuBXlbe8vFu+hcCUgHq7x+bb5
-X-Google-Smtp-Source: AGHT+IEUw+6oLR9aeqlOiKmEa/qwyutgmaeVdn9Kg0X0s1pJF6CD759AUaEdDs1qPPhmCXNv4G/P+g==
-X-Received: by 2002:a05:6102:418d:b0:5db:2ffb:5dd2 with SMTP id
- ada2fe7eead31-5db7bd83ed8mr170728137.1.1761574436365; 
- Mon, 27 Oct 2025 07:13:56 -0700 (PDT)
-Received: from mail-vs1-f51.google.com (mail-vs1-f51.google.com.
- [209.85.217.51]) by smtp.gmail.com with ESMTPSA id
- ada2fe7eead31-5db4e5023acsm2715939137.5.2025.10.27.07.13.55
- for <dri-devel@lists.freedesktop.org>
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 27 Oct 2025 07:13:55 -0700 (PDT)
-Received: by mail-vs1-f51.google.com with SMTP id
- ada2fe7eead31-5db2dc4e42dso4857985137.1
- for <dri-devel@lists.freedesktop.org>; Mon, 27 Oct 2025 07:13:55 -0700 (PDT)
-X-Forwarded-Encrypted: i=1;
- AJvYcCXEgSLoEBZxyaghJOKq3tN3OT+dYsCbdUnVdBuVhCYoayORWynXm26EBgBm6o0IqpGnWF84d2+vIUw=@lists.freedesktop.org
-X-Received: by 2002:a67:e443:0:b0:59e:73d5:8b57 with SMTP id
- ada2fe7eead31-5db3e22dde3mr3134960137.16.1761574434833; Mon, 27 Oct 2025
- 07:13:54 -0700 (PDT)
-MIME-Version: 1.0
-References: <20251022033847.471106-1-marek.vasut+renesas@mailbox.org>
- <6bc264c2-0c1c-492b-ba58-8c7609cfc565@imgtec.com>
-In-Reply-To: <6bc264c2-0c1c-492b-ba58-8c7609cfc565@imgtec.com>
-From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Mon, 27 Oct 2025 15:13:43 +0100
-X-Gmail-Original-Message-ID: <CAMuHMdXyrkDuciWUxpSM746mL67KaZvcwzFVLLMj=NmqNXdg0Q@mail.gmail.com>
-X-Gm-Features: AWmQ_bkADagh4uPO_Rn8vJHrRcLCHt41Yo3zGWeig4Q4PkqMqdfqLZfmPk9_Qcg
-Message-ID: <CAMuHMdXyrkDuciWUxpSM746mL67KaZvcwzFVLLMj=NmqNXdg0Q@mail.gmail.com>
-Subject: Re: [PATCH v3 1/3] dt-bindings: gpu: img,powervr-rogue: Document
- GX6250 GPU in Renesas R-Car M3-W/M3-W+
-To: Matt Coster <Matt.Coster@imgtec.com>
-Cc: Marek Vasut <marek.vasut+renesas@mailbox.org>, 
- Conor Dooley <conor.dooley@microchip.com>, Adam Ford <aford173@gmail.com>, 
- Conor Dooley <conor+dt@kernel.org>, David Airlie <airlied@gmail.com>, 
- Frank Binns <Frank.Binns@imgtec.com>, Alessio Belle <Alessio.Belle@imgtec.com>,
- Alexandru Dadu <Alexandru.Dadu@imgtec.com>,
- Geert Uytterhoeven <geert+renesas@glider.be>, 
- Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>, 
+ AJvYcCUnVPAMRH07v1q0Wz5cCZOgqayasvo6On7fCFOO00vqpcqdNuNUvCHTICGqV0zqGY015t3QalB9quQ=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YwjQOsfU5QJO/KN/4bzMdSGx6yF+fbQHdsCuHt0Wro5BY1t3y7q
+ sDNrk7mY7ove/rOn6CyiIQOnfNI8hjteljoOTgCFs5kD35EKGsBptCE+6OxMcdn2+oLK/e/s/4j
+ Zp+vyfM/wpgfb9cyZ3xl7138FtZgizvU4ZtsucCDwshnPIeXXSWdydYG7lPK/L81SCcTta8E=
+X-Gm-Gg: ASbGncsaszTD62u2JIv1fD5kkOV7SLdf5+NyTy3Rz98/qq59vFnA+s0RbuGKP8qEBbp
+ k/r1347LenrhnJQ9a10xSnxqrCDwavYJEGC17sM0vclrMVumfgpRfv1rufnI1Q3E/2xEA8T/J4Q
+ 39GYb4JezzEozwCssk2M26snHtMsGJOlb5UW4v5Cn6bD1lVkudOZ4YBBicqAJPfnhe1Jpzc7fGl
+ vnTvgZte4657wZyIJLHW1FwEDaxv+DXED/nrwz8gDkukArq9uIZkBmLkvdp5hBAVRSy6vufIlJM
+ sYeushpweIaCmS+jChuUWAIzsSR7LW5UeyQebyRhVDuxIUtCMNZuospKLmGitG+498wPIFbBhdF
+ e3FJVKCrz4SajyMseTbOAVgwOcctNlFroGbPHkQJnsZoRr+f06Yhkk7BuI0WmVc3LUormpPH64W
+ zlJvGvChn54p63
+X-Received: by 2002:ac8:5ac2:0:b0:4b4:906b:d05d with SMTP id
+ d75a77b69052e-4eb92c5efbfmr144865301cf.29.1761575055878; 
+ Mon, 27 Oct 2025 07:24:15 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IHedx+dtjFeyY8ERWvJ3HADlgp6xnamk0D1DPH/Gu8IaWETgNF+9zta9rUpjvduSYCDstnPbQ==
+X-Received: by 2002:ac8:5ac2:0:b0:4b4:906b:d05d with SMTP id
+ d75a77b69052e-4eb92c5efbfmr144864781cf.29.1761575055300; 
+ Mon, 27 Oct 2025 07:24:15 -0700 (PDT)
+Received: from umbar.lan
+ (2001-14ba-a0c3-3a00-264b-feff-fe8b-be8a.rev.dnainternet.fi.
+ [2001:14ba:a0c3:3a00:264b:feff:fe8b:be8a])
+ by smtp.gmail.com with ESMTPSA id
+ 38308e7fff4ca-378ee0e0246sm20252481fa.49.2025.10.27.07.24.14
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 27 Oct 2025 07:24:14 -0700 (PDT)
+Date: Mon, 27 Oct 2025 16:24:12 +0200
+From: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
+To: david@ixit.cz
+Cc: Neil Armstrong <neil.armstrong@linaro.org>,
  Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Magnus Damm <magnus.damm@gmail.com>, 
- Maxime Ripard <mripard@kernel.org>, Rob Herring <robh@kernel.org>,
- Simona Vetter <simona@ffwll.ch>, Thomas Zimmermann <tzimmermann@suse.de>, 
- "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>, 
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>, 
- "linux-arm-kernel@lists.infradead.org" <linux-arm-kernel@lists.infradead.org>, 
- "linux-renesas-soc@vger.kernel.org" <linux-renesas-soc@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>,
+ Thierry Reding <thierry.reding@gmail.com>, Sam Ravnborg <sam@ravnborg.org>,
+ Bjorn Andersson <andersson@kernel.org>,
+ Konrad Dybcio <konradybcio@kernel.org>,
+ Casey Connolly <casey.connolly@linaro.org>,
+ Jessica Zhang <jesszhan0024@gmail.com>,
+ dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+ phone-devel@vger.kernel.org
+Subject: Re: [PATCH v5 2/6] drm/panel: Add Samsung S6E3FC2X01 DDIC with
+ AMS641RW panel
+Message-ID: <62nvrszyslvmjwhsw2hrtqjny47o6eoz7wrixbgga5gpwjcorl@bhme3j25ywvs>
+References: <20251023-s6e3fc2x01-v5-0-8f8852e67417@ixit.cz>
+ <20251023-s6e3fc2x01-v5-2-8f8852e67417@ixit.cz>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20251023-s6e3fc2x01-v5-2-8f8852e67417@ixit.cz>
+X-Proofpoint-GUID: RzbndGDAL9SZqhkBBxqHIGtt4W87d4UA
+X-Authority-Analysis: v=2.4 cv=D/VK6/Rj c=1 sm=1 tr=0 ts=68ff8090 cx=c_pps
+ a=JbAStetqSzwMeJznSMzCyw==:117 a=xqWC_Br6kY4A:10 a=kj9zAlcOel0A:10
+ a=x6icFKpwvdMA:10 a=VkNPw1HP01LnGYTKEx00:22 a=WFa1dZBpAAAA:8 a=bBqXziUQAAAA:8
+ a=EUspDBNiAAAA:8 a=5iTMaUzIoB_AQxUztnYA:9 a=CjuIK1q_8ugA:10
+ a=uxP6HrT_eTzRwkO_Te1X:22 a=MZguhEFr_PtxzKXayD1K:22 a=BjKv_IHbNJvPKzgot4uq:22
+X-Proofpoint-ORIG-GUID: RzbndGDAL9SZqhkBBxqHIGtt4W87d4UA
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUxMDI3MDEzNCBTYWx0ZWRfX5fqXsYRoLXdk
+ ilczAQw+uWfLkS4xwAPZwSuCKLFk9ZzXgxs56OHM3HYqRyJ86Ys014b/7D76wU8GQVVUED/2wI1
+ dOr4JZT1Nr28iwFhyzfXL08pKBnOHNXDgqwGTvTeZ4hQp6obfaaaoSXKmK8DvLpJPIIDF8Ompcm
+ mNZTodUIYE8FL4+WiUCDN+kl2Z7regHXI7WUR2hszK2ai94c4WoghqNouryGJ3q36phPEQ3oT80
+ T0kal/sb19rKrJkXSBzU+8PcpH/gl+kwMGnh6Ym1awy0Yqy5rh/FCl7QmlUaDXVfTbOYjhUG601
+ edISZlj4AceC1ynJ0GPjTTKovwlZdEQTmJw88ufdlPt3RJuzZGx7NxAH856Ax8+Z7af+k+n8mhX
+ frN62n7Z8uejdxGbfxeKL/LjDas0fQ==
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.9,FMLib:17.12.80.40
+ definitions=2025-10-27_06,2025-10-22_01,2025-03-28_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ phishscore=0 bulkscore=0 impostorscore=0 malwarescore=0 lowpriorityscore=0
+ suspectscore=0 spamscore=0 adultscore=0 clxscore=1015 priorityscore=1501
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.22.0-2510020000 definitions=main-2510270134
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -102,43 +139,38 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Matt,
+On Thu, Oct 23, 2025 at 10:24:26PM +0200, David Heidelberg via B4 Relay wrote:
+> From: David Heidelberg <david@ixit.cz>
+> 
+> Add panel driver used in the OnePlus 6T.
+> 
+> No datasheet, based mostly on EDK2 init sequence and the downstream driver.
+> 
+> Note: This driver doesn't use previously mentioned "samsung,s6e3fc2x01"
+> by OnePlus 6T device-tree.
+> The reason is because DDIC itself without knowing the panel type used
+> with it will not give the driver enough information about the panel used,
+> as the panel cannot be autodetected.
+> While would be more practical to support the original compatible,
+> I would like to avoid it, to prevent confusing devs upstreaming DDICs.
+> 
+> Based on work of:
+>   Casey Connolly <casey@connolly.tech>
+>   Joel Selvaraj <foss@joelselvaraj.com>
+>   Nia Espera <a5b6@riseup.net>
+> 
+> Signed-off-by: David Heidelberg <david@ixit.cz>
+> ---
+>  MAINTAINERS                                      |   1 +
+>  drivers/gpu/drm/panel/Kconfig                    |  13 +
+>  drivers/gpu/drm/panel/Makefile                   |   1 +
+>  drivers/gpu/drm/panel/panel-samsung-s6e3fc2x01.c | 385 +++++++++++++++++++++++
+>  4 files changed, 400 insertions(+)
+> 
 
-On Mon, 27 Oct 2025 at 15:08, Matt Coster <Matt.Coster@imgtec.com> wrote:
-> Apologies for the delayed response, I was on holiday for the rest of
-> last week =E2=80=93 I'll apply this to drm-misc-next now.
->
-> On 22/10/2025 04:37, Marek Vasut wrote:
-> > Document Imagination Technologies PowerVR Rogue GX6250 BNVC 4.45.2.58
-> > present in Renesas R-Car R8A77960 M3-W and R8A77961 M3-W+ SoC.
-> >
-> > Acked-by: Conor Dooley <conor.dooley@microchip.com>
-> > Signed-off-by: Marek Vasut <marek.vasut+renesas@mailbox.org>
->
-> Reviewed-by: Matt Coster <matt.coster@imgtec.com>
+Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
 
-Thanks!
 
-> And just to keep the test bot happy:
->
-> Reported-by: kernel test robot <lkp@intel.com>
-> Closes: https://lore.kernel.org/oe-kbuild-all/202510242309.6p5FyVLQ-lkp@i=
-ntel.com/
-> Closes: https://lore.kernel.org/oe-kbuild-all/202510250550.66T4zLPd-lkp@i=
-ntel.com/
-
-FTR, none of the 3 lines above should be added to the actual commit.
-
-Gr{oetje,eeting}s,
-
-                        Geert
-
---=20
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k=
-.org
-
-In personal conversations with technical people, I call myself a hacker. Bu=
-t
-when I'm talking to journalists I just say "programmer" or something like t=
-hat.
-                                -- Linus Torvalds
+-- 
+With best wishes
+Dmitry
