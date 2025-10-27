@@ -2,106 +2,158 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 904DAC0C408
-	for <lists+dri-devel@lfdr.de>; Mon, 27 Oct 2025 09:12:58 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id A5B9BC0C475
+	for <lists+dri-devel@lfdr.de>; Mon, 27 Oct 2025 09:22:58 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 53ED910E35A;
-	Mon, 27 Oct 2025 08:12:54 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 42E2210E35B;
+	Mon, 27 Oct 2025 08:22:55 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=suse.de header.i=@suse.de header.b="SSxlLkNf";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="kTZaCj6p";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="Y891gA6B";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="o3F2/LXl";
+	dkim=pass (1024-bit key; unprotected) header.d=amd.com header.i=@amd.com header.b="YHhbwfVu";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6296E10E35B
- for <dri-devel@lists.freedesktop.org>; Mon, 27 Oct 2025 08:12:52 +0000 (UTC)
-Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested)
- by smtp-out1.suse.de (Postfix) with ESMTPS id EAE0E21903;
- Mon, 27 Oct 2025 08:12:50 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1761552771; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version: content-transfer-encoding:content-transfer-encoding;
- bh=oaIYY61zIJJU/OezQlKKqsHdBy/GoI1TUvv82e5rkwo=;
- b=SSxlLkNf9cq/o2lgDnUPZmZjZCz9MoW5d1rXdJOtsX++aOKXP6Pjkoj6uTueNEBIhloxQz
- aE+E107+hu1rR7tEPz29aqUqFuvMtJFPwTDZ4behx1xkJWhy13lUEJJbGFDrAdKg3CADZU
- vDGEDE8PxSkpskt/4+WNWgP4eebVOfQ=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1761552771;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version: content-transfer-encoding:content-transfer-encoding;
- bh=oaIYY61zIJJU/OezQlKKqsHdBy/GoI1TUvv82e5rkwo=;
- b=kTZaCj6p5iO43pSUMr2nu4NikmXn2gjFoP804coQDbRLhrmf+fEo978xctIGp5asZ7u6sG
- sGht42RwWkC0mLAA==
-Authentication-Results: smtp-out1.suse.de;
-	none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1761552770; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version: content-transfer-encoding:content-transfer-encoding;
- bh=oaIYY61zIJJU/OezQlKKqsHdBy/GoI1TUvv82e5rkwo=;
- b=Y891gA6BnHseB5hBqEfETO41zyIJft6Xlxh1mJsLA6AUx+CKeUbL9U42yXR2zMqYyMhcYN
- jvHWioP2Z6+VuYHE0Lgy1irhU9wcRa4+S2/yd86humZ6I3nHxJcq8tWCqe2aUNfUtQsBCO
- mMQ18EIbAWMSiVY1QGS5sTiqDCBqo+o=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1761552770;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version: content-transfer-encoding:content-transfer-encoding;
- bh=oaIYY61zIJJU/OezQlKKqsHdBy/GoI1TUvv82e5rkwo=;
- b=o3F2/LXliEbhhcsygTDRbIEOjOFOcIx2tQYGqvbN2299Qr57kaE33L0OoSL+SP/nSO+Nah
- pFzJuJffUVzxKRCA==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested)
- by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 3437613693;
- Mon, 27 Oct 2025 08:12:50 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
- by imap1.dmz-prg2.suse.org with ESMTPSA id 7TCMC4Ip/2jKDwAAD6G6ig
- (envelope-from <tzimmermann@suse.de>); Mon, 27 Oct 2025 08:12:50 +0000
-From: Thomas Zimmermann <tzimmermann@suse.de>
-To: javierm@redhat.com, airlied@gmail.com, simona@ffwll.ch,
- linux@armlinux.org.uk, maarten.lankhorst@linux.intel.com,
- mripard@kernel.org, inki.dae@samsung.com, sw0312.kim@samsung.com,
- kyungmin.park@samsung.com, patrik.r.jakobsson@gmail.com,
- jani.nikula@linux.intel.com, rodrigo.vivi@intel.com,
- robin.clark@oss.qualcomm.com, lumag@kernel.org, abhinav.kumar@linux.dev,
- sean@poorly.run, marijn.suijten@somainline.org,
- tomi.valkeinen@ideasonboard.com, alexander.deucher@amd.com,
- christian.koenig@amd.com, thierry.reding@gmail.com, mperttunen@nvidia.com,
- jonathanh@nvidia.com
-Cc: dri-devel@lists.freedesktop.org, intel-gfx@lists.freedesktop.org,
- intel-xe@lists.freedesktop.org, linux-arm-msm@vger.kernel.org,
- freedreno@lists.freedesktop.org, amd-gfx@lists.freedesktop.org,
- linux-tegra@vger.kernel.org, Thomas Zimmermann <tzimmermann@suse.de>
-Subject: [PATCH v2] drm/fb-helper: Allocate and release fb_info in single place
-Date: Mon, 27 Oct 2025 09:12:17 +0100
-Message-ID: <20251027081245.80262-1-tzimmermann@suse.de>
-X-Mailer: git-send-email 2.51.1
-MIME-Version: 1.0
+Received: from PH8PR06CU001.outbound.protection.outlook.com
+ (mail-westus3azon11012052.outbound.protection.outlook.com [40.107.209.52])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BB81710E35B;
+ Mon, 27 Oct 2025 08:22:54 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=Yt+wUzqpm72kxyQ6IKQETTqEdvGyxHzu6RX28xZQ3bYXs0REjQwO7v72jTCrO9n+eKnQKRTLleJED8xgnuun94IJAmO0Yiaz8TH0/9vNhRREOvG684Vrqua/5aFsqQP7aqzywyaAePX/wl4BGBwNzkxNsoj+2FtzKa+0bVdz1j90nM0RgtfzTEgyE6Y5M/Dsk5q+2yn5VWvSUAhtKzsS97sUhWTp//lVaWKCTyS3T4D+t2dDaBWZT5q1bUaqiYyXbuOEW8HCkOjJ1I2lkE2PE1X2dFjPXhGn/mbM13zDyoJ9wogiL3sychqd12tWUcrQ1NgYITHmvXMjXm/dOYwesg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=uLePMk/EX5FCB4kr6byVLw2eofio8THh6iXYHPyi15I=;
+ b=Wg3KIBhEY9QrWLHzP8aoOG2UAQ/KZ40YIZo+Z/nswzE67Uk8K++H3Sog4jCpoFfWXJub9jtOU01Bc+FsZJZXgDERC5Cq0VJVUI+HUkq7jmO9vzWdT9RrGFlsB4L8HcM06MJ1gRhMYDof/W/OlwBcLkRR27a2Gquu6RcLYrug01RnUeOBSJYc+piCLyQ4lSfgzncclUSeQmiWFpDagTujFfjxUKblsT0IWJgiEQdS6XbIeVQMVRYy4chYxu1AeAcNs7z9IjQKcXDHRMhrLZdT4lcUBsEV2nV9NhWgwTdb2xmCXp6lfpMo0IepTK5NCs4mG8323ILghJUE5qmsICT5xw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=uLePMk/EX5FCB4kr6byVLw2eofio8THh6iXYHPyi15I=;
+ b=YHhbwfVugMeoo8PMEaeurxdIw5a6PtWhyp8RjRzIgiZkTgsMGExhAaVCH2BkmZLPQA5SiwKTlWbbvNCsWNZICmpI6l/cwlNjm6bP1o04NIHS8bLeLzpIUSDvCt72sjCuZ/d0Fe1Cjvvyj+5trX/kXVl2vK1kg9N411+b9Z+TRyA=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=amd.com;
+Received: from BL1PR12MB5176.namprd12.prod.outlook.com (2603:10b6:208:311::19)
+ by SN7PR12MB6958.namprd12.prod.outlook.com (2603:10b6:806:262::15)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9253.18; Mon, 27 Oct
+ 2025 08:22:50 +0000
+Received: from BL1PR12MB5176.namprd12.prod.outlook.com
+ ([fe80::ed5b:dd2f:995a:bcf4]) by BL1PR12MB5176.namprd12.prod.outlook.com
+ ([fe80::ed5b:dd2f:995a:bcf4%6]) with mapi id 15.20.9253.017; Mon, 27 Oct 2025
+ 08:22:50 +0000
+Message-ID: <058eda7c-ab93-40a5-b387-54f7a18f3922@amd.com>
+Date: Mon, 27 Oct 2025 13:52:43 +0530
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v1 1/3] platform/x86/amd/pmc: Add support for Van Gogh SoC
+To: Mario Limonciello <mario.limonciello@amd.com>,
+ Antheas Kapenekakis <lkml@antheas.dev>
+Cc: Alex Deucher <alexander.deucher@amd.com>, Perry Yuan
+ <perry.yuan@amd.com>, amd-gfx@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ platform-driver-x86@vger.kernel.org, Sanket Goswami <Sanket.Goswami@amd.com>
+References: <20251024152152.3981721-1-lkml@antheas.dev>
+ <20251024152152.3981721-2-lkml@antheas.dev>
+ <3792db59-7dc1-4e34-9436-84df4b6c3e10@amd.com>
+ <CAGwozwFTDD2QrHy37axhanwQYv6ty9K_hfhxS05djKpv8HfY6g@mail.gmail.com>
+ <2684d3ab-d7cf-4eab-acd4-91bdd5debb6b@amd.com>
+Content-Language: en-US
+From: Shyam Sundar S K <Shyam-sundar.S-k@amd.com>
+In-Reply-To: <2684d3ab-d7cf-4eab-acd4-91bdd5debb6b@amd.com>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Spamd-Result: default: False [-1.30 / 50.00]; BAYES_HAM(-3.00)[100.00%];
- SUSPICIOUS_RECIPS(1.50)[]; NEURAL_HAM_LONG(-1.00)[-1.000];
- MID_CONTAINS_FROM(1.00)[]; R_MISSING_CHARSET(0.50)[];
- NEURAL_HAM_SHORT(-0.20)[-1.000]; MIME_GOOD(-0.10)[text/plain];
- ARC_NA(0.00)[]; RCVD_VIA_SMTP_AUTH(0.00)[];
- FUZZY_RATELIMITED(0.00)[rspamd.com];
- DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,suse.de:mid,suse.de:email];
- RCPT_COUNT_TWELVE(0.00)[31]; MIME_TRACE(0.00)[0:+];
- TO_DN_SOME(0.00)[]; RCVD_TLS_ALL(0.00)[]; TAGGED_RCPT(0.00)[];
- FREEMAIL_TO(0.00)[redhat.com,gmail.com,ffwll.ch,armlinux.org.uk,linux.intel.com,kernel.org,samsung.com,intel.com,oss.qualcomm.com,linux.dev,poorly.run,somainline.org,ideasonboard.com,amd.com,nvidia.com];
- RCVD_COUNT_TWO(0.00)[2]; TO_MATCH_ENVRCPT_ALL(0.00)[];
- FROM_HAS_DN(0.00)[]; FROM_EQ_ENVFROM(0.00)[];
- R_RATELIMIT(0.00)[to_ip_from(RLq3cifbxyhc6qbbynzfc6amns)];
- DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
- FREEMAIL_ENVRCPT(0.00)[gmail.com]
-X-Spam-Flag: NO
-X-Spam-Score: -1.30
-X-Spam-Level: 
+X-ClientProxiedBy: PN2PR01CA0240.INDPRD01.PROD.OUTLOOK.COM
+ (2603:1096:c01:eb::17) To BL1PR12MB5176.namprd12.prod.outlook.com
+ (2603:10b6:208:311::19)
+MIME-Version: 1.0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: BL1PR12MB5176:EE_|SN7PR12MB6958:EE_
+X-MS-Office365-Filtering-Correlation-Id: 7d268300-b42f-4fbb-570d-08de1532048d
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;ARA:13230040|1800799024|376014|366016|7053199007;
+X-Microsoft-Antispam-Message-Info: =?utf-8?B?QitiNVN5NWtYcHArSFRWSjdDN1NhZmRsakVHVTNUb3JNNGp0YS9tVjZFY1Rq?=
+ =?utf-8?B?amdBRklHNWFZRyttQXhwREJHVkdLTUxwTE1ZMEJ0ZHNyU2cxYThSNEpUbkFv?=
+ =?utf-8?B?NTU4ckFDbmxXb3IzOXY4dUF6Tk82VERIZ3ZkSkt0NFdFNW4wVCt5Y0lRbWt4?=
+ =?utf-8?B?dWlHWGhvM2tRR3FDcnZabXd2VlBoT3Z3cC9rMlVRUHFJcEN4NFptVUdxdWl1?=
+ =?utf-8?B?TjArRlRKYmxWYlpiM2szRXRUQUN5K0pJTmtuanc1STJseXBrS0lQZTNlRnZy?=
+ =?utf-8?B?WExvZFFMeXJPQzI3VXVzUlVJK3Z4Tm1rR0RwQ3lWV08rd251R0dRVmFLbm9s?=
+ =?utf-8?B?dWtpNFlzR24xUnUzV2s2Qmw4c0kwSlY3TGpvZFdONmRSNkl0dlovNGhnSDE5?=
+ =?utf-8?B?VjRHMWE0eHNZcmVLWDdlWFJkZmZ1bUk1SGhaaTNDZXJsWWNVbzZIVHJPY2Jy?=
+ =?utf-8?B?MGxxV1RpSnJEZEl2cWdRYnVwSW1IeUxCTnBmMHFJRmo5MUdQazBjaDlTUVc1?=
+ =?utf-8?B?anJxUUFlMnZORFcrQVpFTHRVcVFJQmFBYWpKa1hoL20zaFpLT0U2TFNMV2c1?=
+ =?utf-8?B?Tk40NUZYak1GTHRyS1M0UXgzYnFCZnRpNGlUK080ejIxV1NQS0k4ckNVTThI?=
+ =?utf-8?B?cFI3RzV4cm1uLzlmeGh3RzBXQjNVcUpJRnh3MXlHcVBUVzhYZVI1K25Obm9i?=
+ =?utf-8?B?V21xTFNJNnNZR1pXSEhXd1hsQVBwS01MWGJYNjNKZElFdDZOVFJxQlVxTXdZ?=
+ =?utf-8?B?MTNjNld2TU1DWGRtWTUzVkZ2b1djQTd2bHhCN0I1R291TkhTVUNlM281aGtP?=
+ =?utf-8?B?ck9GTXB0TVUyTTd3eHdUNkkyVFhTOEVKMUdVRUVUOFBxTzhzZXhjS2JvQUY5?=
+ =?utf-8?B?RHo0ckMrdG81VURqVm5RTFI2Q2NpK08vT2ZPR2dGQ0F3WjZZdFJEcWZieElR?=
+ =?utf-8?B?RUdCTStwL3JWVHZJNzlMKzdKUkRZKzJYNkJYQ3VtWk5zN2drNUNSS1F5ZWk0?=
+ =?utf-8?B?WmJwSVY4TjlHNFIyREFzbU53aXlNUEhKU1htM0VaUWltOEFLVXBuWjRyUW11?=
+ =?utf-8?B?VXl0WkNMZXpUYTZyRHhyQnBIR3gwbklHdS8zcXJPbEV1d05PWnJRY0FWSWdu?=
+ =?utf-8?B?SkdJZXh1dFY4YjgyakQycFZEVDNTSFdoa0grdUh4dHJVY1lIVm5HTGpyQ2Ni?=
+ =?utf-8?B?OC9LbTRqVzJUU0UzbnZ1VFUvbmNwMXNSS1VUTlUyS1RtaW1qQlBiR2x6OS94?=
+ =?utf-8?B?NUxabWxjU1Fnem5tcGEyL01oelZrWXIzSkJ2MjEzOC9OR3RuQWpWNlEyWENG?=
+ =?utf-8?B?MmpjaC84MVlORXJJaFhIZlRZRStDMXhsL1pXK3I0Z21qQjlYcUN4ZjBYWUpG?=
+ =?utf-8?B?elJZOERZWUdQaTVKNmNTOE1tS2FpQW83RjZGVU1HMjRBZ0YrTUp4dDF4cEpB?=
+ =?utf-8?B?QW1KaEQzalEySUpSSVJHUGFqU0xjNG9jdnZGUUxhOHRzOXRIc201WmVDWlJB?=
+ =?utf-8?B?NTBnNmRMV0J6eEdjaEhPaGFETGhiQk5RdGhDZXVqdFIzWmJmeFJZUVppY29K?=
+ =?utf-8?B?MDZuc042cmlBZ3dLREtRSWZweHpmblRhVGVraDg5UUhWQkx6RVh5aGE3V01Q?=
+ =?utf-8?B?ZkdxZTczQW9iYkIrM3FibUxidUVOV3F1L2NNUGdFVUJnU1dXTjNiakhyb3E3?=
+ =?utf-8?B?MFo0djEvUXNza0RxcWhDV1pkVjdmODQxK05uRGY5cXhkb3g3aUFVQmJyaGxj?=
+ =?utf-8?B?RFFEaVBNTm5RVGFYWisrVkY3SWE3Z0NvY25FaHJQelhtZW5qZllCVFhOVmtu?=
+ =?utf-8?B?dHhNYlhKOUVGZUw2NElWQ25qeHkrMGFVNS9XdFVZcGdKN2cxRS96bnlGN1NF?=
+ =?utf-8?B?TStlS3BmbS80WHNqS0ttR05YVW5pNVBnWGpmRGF2Unk2VGx3OHFzQVllT21G?=
+ =?utf-8?Q?So1fQ+vvibVipAYXlS8zuHc5KUty8PVH?=
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:BL1PR12MB5176.namprd12.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230040)(1800799024)(376014)(366016)(7053199007); DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?M1VLaWRvZG5yY1Q2NkVyaGkwS0VIZ0o4TE9aWGhFYmM2RzBtTXk2M29nZjNV?=
+ =?utf-8?B?MHdnTGJJY1dFdi8vc3Zoc0RqVkJiS1l4amxYQUw1c1F0MkRvTGw2akl5cmxS?=
+ =?utf-8?B?M3plcWE2OEhlZWs5cC9VT1kzSE5md3RzaFJBRTArTzd3djV2ekxsNEhjVmp6?=
+ =?utf-8?B?cU1xMmVKZWtvdTJhVXRSRXU5RGxMWUlXWk52a3N5Zkh2S1VRUUUvY1NPcUg5?=
+ =?utf-8?B?Qmw5dUl2Y0tqWlNaWGFuVHA2bkw4VSt4QjNCQ0orSUZycXJzQmpOVmxqdUZ5?=
+ =?utf-8?B?YnBpS2trWDdKTlhCdURxLzU2MTJrWmNnZ0RWUkpRK05FRUk3TmlSZURsMGlT?=
+ =?utf-8?B?K2x0VU5iSDJvTEVSTy9SSUI3djRCZWtmQWhrRmh5ZjF4dVYvQlZ4ZW82Z0tq?=
+ =?utf-8?B?R1pQdENNTUYzV2FOWHhmbjkwT0VrSEN3U3B0VTcrODgxVXNlVHAzSXNMOGdX?=
+ =?utf-8?B?Z2NqS2hsei9ML3ZNamdxaW5XOHRpTVpvY2JJV1FDMENYaHF2aElNQXp4Vlp4?=
+ =?utf-8?B?L3hqQVhYMk5HLzVPdjdJS2wyTXc4Z2Y3T2ZHZFV1aTVUVkZWSDdydUlpYjlo?=
+ =?utf-8?B?M0JCU3dNL29Samp1bnRUNVpDRXp0SUpxS25nWHYrTlo0RGt3TlRMbWI4YWpK?=
+ =?utf-8?B?V2xyYjU1SldkNXFHR1I2T0hqK0M3cytRZTNHVnpJMFBiY3lTWldxcytjZ0l2?=
+ =?utf-8?B?ZlZDS1ZDdWp4Q3ArWDNkOXhibDNKZjlSdW1hWFdwNnFNNUFxWUtKbmVwVjZh?=
+ =?utf-8?B?dXNUQXRUcGZPUlBzdDlKMjJTaE5tUzlZMDhjVU41anM4dS90ZjY2SE1IcHNT?=
+ =?utf-8?B?cDVSVWNYK0ZmL0pKb09iMFc3ZHJGRnY5MDk0clVnNTVPLzdpWkw2WTVINjVi?=
+ =?utf-8?B?dk1LZzZuWDBKS2JjNEduNlp0YzJHQ3RDWTc3VTlzMndFUU5KUzg3OU55ZlNU?=
+ =?utf-8?B?dlVpR0NoNGo0aTBZK0E4VFVIOWp0a2xudkJGTXIvZ1Y5RU1Wek9NcC9JVytX?=
+ =?utf-8?B?TmJhOHkzbEJLTU9lZnBsT0ZWaW5xdDBFTUpMbUhLUWNJTzlNai9pMmgvazA0?=
+ =?utf-8?B?dDVGY1NORU4wK201L0JQZFcwSElRejU2VU81K0psMVFBdy9SUWdrSkx4NUJX?=
+ =?utf-8?B?bXlvdFBUUlRvVEdrVFNqZnpWclNYb21GTFBGaTVhME9rdnNZYytXbS9XWWpv?=
+ =?utf-8?B?TCtEb29YUmJlWlRaU0g3Y2FDd0k1VUlBd0NLVHJ0Y3c0MmdhZWo3NEJoZHpS?=
+ =?utf-8?B?WHZXQnhlUGQvTFRLcFpoOVZGQVAzQ1o3WU5mWmlUUU55UVNWTzVsWU5XTHVJ?=
+ =?utf-8?B?WSsycU9WRmY1OWRaTkgrcEJjV3ltZ3FQMkxyclBLdzhjUGIwR0xrN1NtajBP?=
+ =?utf-8?B?SWZIWmVOVjM3MDVLdzdqK2dUNDBrNzZKNnQ0VzNCZTJ4UWR0T0Y2M250RHlE?=
+ =?utf-8?B?Y01rbStJQzVtTnA5cXBEUWh0Ukkzc2pPM1BZNVBQWkhISktORmVEQmEyWFRI?=
+ =?utf-8?B?WS9wT1kyZUtDS1VhN0ZjbmV5M0JqU3FJUVhWN2RlOGpvbEx1ZS8wQm9VNXVa?=
+ =?utf-8?B?TDg3M3pYallIRnMvYSt5T1kzL1ovRThuYjhVSkJ1VjUvREJxejJTdFAxWS90?=
+ =?utf-8?B?aCtnOVdtOGJjek5ySmpRZlF4QmgvWEhhYWlPUWhOWmQwM3hJZFlwRkpIdW1M?=
+ =?utf-8?B?ZWgyMEZuc21XdVk0WE40dk9qc1NCMC9HSUFFaE1vUm02WG5NUHo3NHg3U0Vj?=
+ =?utf-8?B?ak1QcnB2S2hLTExwZ2VVZUQvM1E4bVN4U3dNLzlTVVpmZEJlK0pyY3RacGVs?=
+ =?utf-8?B?RjZhUi9SSDhwK2pjTnZRWWVLT2tTT3VNbjRNcFducDlWRlhEc1lOZXNVRlJl?=
+ =?utf-8?B?dGdXMVE1WFl0ZVNlQmtBNXF2Y0RsSjdOb1BsdWdLUnB4T3lXenQrNVM0UjVO?=
+ =?utf-8?B?elQrTHRTb3ZpeFpZNlFQWW5pWXlYQUpEdUo5ZU0zdFBnbnJjWnc2ZWJidCt5?=
+ =?utf-8?B?eExoOE8ycUQrclQrUkRKdThnSHE5Wkx5eklBM1BoQXhIcWhYeE5jWFZEL1E3?=
+ =?utf-8?B?emhzZnozQktkNDczSG5HVTQ4RmZSTFN3RnhLN2xxL1JOZG1Xa0JZb2xpY20w?=
+ =?utf-8?Q?4SxqmG1bhKI0qHQkYTzGNhkN5?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 7d268300-b42f-4fbb-570d-08de1532048d
+X-MS-Exchange-CrossTenant-AuthSource: BL1PR12MB5176.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 27 Oct 2025 08:22:50.6448 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: pm3kbb7GUp9rpVq/tUDnTSGbnHI1UvaQ+azYeF8R1hC3oeEz4BKQy77SYrPsogMjXIPtfy9pzxoiLm1Eg5d4bw==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SN7PR12MB6958
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -117,541 +169,130 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Move the calls to drm_fb_helper_alloc_info() from drivers into a
-single place in fbdev helpers. Allocates struct fb_info for a new
-framebuffer device. Then call drm_fb_helper_single_fb_probe() to
-create an fbdev screen buffer. Also release the instance on errors
-by calling drm_fb_helper_release_info().
 
-Simplifies the code and fixes the error cleanup for some of the
-drivers.
 
-Regular release of the struct fb_info instance still happens in
-drm_fb_helper_fini() as before.
+On 10/24/2025 22:02, Mario Limonciello wrote:
+> 
+> 
+> On 10/24/2025 11:08 AM, Antheas Kapenekakis wrote:
+>> On Fri, 24 Oct 2025 at 17:43, Mario Limonciello
+>> <mario.limonciello@amd.com> wrote:
+>>>
+>>>
+>>>
+>>> On 10/24/2025 10:21 AM, Antheas Kapenekakis wrote:
+>>>> The ROG Xbox Ally (non-X) SoC features a similar architecture to the
+>>>> Steam Deck. While the Steam Deck supports S3 (s2idle causes a crash),
+>>>> this support was dropped by the Xbox Ally which only S0ix suspend.
+>>>>
+>>>> Since the handler is missing here, this causes the device to not
+>>>> suspend
+>>>> and the AMD GPU driver to crash while trying to resume afterwards
+>>>> due to
+>>>> a power hang.
+>>>>
+>>>> Closes: https://gitlab.freedesktop.org/drm/amd/-/issues/4659
+>>>> Signed-off-by: Antheas Kapenekakis <lkml@antheas.dev>
+>>>> ---
+>>>>    drivers/platform/x86/amd/pmc/pmc.c | 3 +++
+>>>>    drivers/platform/x86/amd/pmc/pmc.h | 1 +
+>>>>    2 files changed, 4 insertions(+)
+>>>>
+>>>> diff --git a/drivers/platform/x86/amd/pmc/pmc.c b/drivers/
+>>>> platform/x86/amd/pmc/pmc.c
+>>>> index bd318fd02ccf..cae3fcafd4d7 100644
+>>>> --- a/drivers/platform/x86/amd/pmc/pmc.c
+>>>> +++ b/drivers/platform/x86/amd/pmc/pmc.c
+>>>> @@ -106,6 +106,7 @@ static void amd_pmc_get_ip_info(struct
+>>>> amd_pmc_dev *dev)
+>>>>        switch (dev->cpu_id) {
+>>>>        case AMD_CPU_ID_PCO:
+>>>>        case AMD_CPU_ID_RN:
+>>>> +     case AMD_CPU_ID_VG:
+>>>>        case AMD_CPU_ID_YC:
+>>>>        case AMD_CPU_ID_CB:
+>>>>                dev->num_ips = 12;
+>>>> @@ -517,6 +518,7 @@ static int amd_pmc_get_os_hint(struct
+>>>> amd_pmc_dev *dev)
+>>>>        case AMD_CPU_ID_PCO:
+>>>>                return MSG_OS_HINT_PCO;
+>>>>        case AMD_CPU_ID_RN:
+>>>> +     case AMD_CPU_ID_VG:
+>>>>        case AMD_CPU_ID_YC:
+>>>>        case AMD_CPU_ID_CB:
+>>>>        case AMD_CPU_ID_PS:
+>>>> @@ -717,6 +719,7 @@ static const struct pci_device_id
+>>>> pmc_pci_ids[] = {
+>>>>        { PCI_DEVICE(PCI_VENDOR_ID_AMD, AMD_CPU_ID_RV) },
+>>>>        { PCI_DEVICE(PCI_VENDOR_ID_AMD, AMD_CPU_ID_SP) },
+>>>>        { PCI_DEVICE(PCI_VENDOR_ID_AMD, AMD_CPU_ID_SHP) },
+>>>> +     { PCI_DEVICE(PCI_VENDOR_ID_AMD, AMD_CPU_ID_VG) },
+>>>>        { PCI_DEVICE(PCI_VENDOR_ID_AMD,
+>>>> PCI_DEVICE_ID_AMD_1AH_M20H_ROOT) },
+>>>>        { PCI_DEVICE(PCI_VENDOR_ID_AMD,
+>>>> PCI_DEVICE_ID_AMD_1AH_M60H_ROOT) },
+>>>>        { }
+>>>> diff --git a/drivers/platform/x86/amd/pmc/pmc.h b/drivers/
+>>>> platform/x86/amd/pmc/pmc.h
+>>>> index 62f3e51020fd..fe3f53eb5955 100644
+>>>> --- a/drivers/platform/x86/amd/pmc/pmc.h
+>>>> +++ b/drivers/platform/x86/amd/pmc/pmc.h
+>>>> @@ -156,6 +156,7 @@ void amd_mp2_stb_deinit(struct amd_pmc_dev *dev);
+>>>>    #define AMD_CPU_ID_RN                       0x1630
+>>>>    #define AMD_CPU_ID_PCO                      AMD_CPU_ID_RV
+>>>>    #define AMD_CPU_ID_CZN                      AMD_CPU_ID_RN
+>>>> +#define AMD_CPU_ID_VG                        0x1645
+>>>
+>>> Can you see if 0xF14 gives you a reasonable value for the idle mask if
+>>> you add it to amd_pmc_idlemask_read()?  Make a new define for it
+>>> though,
+>>> it shouldn't use the same define as 0x1a platforms.
+>>
+>> It does not work. Reports 0. I also tested the other ones, but the
+>> 0x1a was the same as you said. All report 0x0.
+> 
+> It's possible the platform doesn't report an idle mask.
+> 
+> 0xF14 is where I would have expected it to report.
+> 
+> Shyam - can you look into this to see if it's in a different place
+> than 0xF14 for Van Gogh?
 
-v2:
-- remove error rollback in driver implementations (kernel test robot)
-- initialize info in TTM implementation (kernel test robot)
+Van Gogh is before Cezzane? I am bit surprised that pmc is getting
+loaded there.
 
-Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
----
- drivers/gpu/drm/armada/armada_fbdev.c      | 12 +------
- drivers/gpu/drm/drm_fb_helper.c            | 39 +++++++---------------
- drivers/gpu/drm/drm_fbdev_dma.c            | 12 ++-----
- drivers/gpu/drm/drm_fbdev_shmem.c          | 12 ++-----
- drivers/gpu/drm/drm_fbdev_ttm.c            | 12 ++-----
- drivers/gpu/drm/exynos/exynos_drm_fbdev.c  |  9 +----
- drivers/gpu/drm/gma500/fbdev.c             | 12 +------
- drivers/gpu/drm/i915/display/intel_fbdev.c |  9 +----
- drivers/gpu/drm/msm/msm_fbdev.c            |  9 +----
- drivers/gpu/drm/omapdrm/omap_fbdev.c       |  9 +----
- drivers/gpu/drm/radeon/radeon_fbdev.c      | 13 +-------
- drivers/gpu/drm/tegra/fbdev.c              |  9 +----
- include/drm/drm_fb_helper.h                | 12 -------
- 13 files changed, 26 insertions(+), 143 deletions(-)
+Antheas - what is the output of
 
-diff --git a/drivers/gpu/drm/armada/armada_fbdev.c b/drivers/gpu/drm/armada/armada_fbdev.c
-index 22e2081bfa04..601b2aad243b 100644
---- a/drivers/gpu/drm/armada/armada_fbdev.c
-+++ b/drivers/gpu/drm/armada/armada_fbdev.c
-@@ -43,10 +43,10 @@ int armada_fbdev_driver_fbdev_probe(struct drm_fb_helper *fbh,
- 				    struct drm_fb_helper_surface_size *sizes)
- {
- 	struct drm_device *dev = fbh->dev;
-+	struct fb_info *info = fbh->info;
- 	struct drm_mode_fb_cmd2 mode;
- 	struct armada_framebuffer *dfb;
- 	struct armada_gem_object *obj;
--	struct fb_info *info;
- 	int size, ret;
- 	void *ptr;
- 
-@@ -90,12 +90,6 @@ int armada_fbdev_driver_fbdev_probe(struct drm_fb_helper *fbh,
- 	if (IS_ERR(dfb))
- 		return PTR_ERR(dfb);
- 
--	info = drm_fb_helper_alloc_info(fbh);
--	if (IS_ERR(info)) {
--		ret = PTR_ERR(info);
--		goto err_fballoc;
--	}
--
- 	info->fbops = &armada_fb_ops;
- 	info->fix.smem_start = obj->phys_addr;
- 	info->fix.smem_len = obj->obj.size;
-@@ -111,8 +105,4 @@ int armada_fbdev_driver_fbdev_probe(struct drm_fb_helper *fbh,
- 		(unsigned long long)obj->phys_addr);
- 
- 	return 0;
--
-- err_fballoc:
--	dfb->fb.funcs->destroy(&dfb->fb);
--	return ret;
- }
-diff --git a/drivers/gpu/drm/drm_fb_helper.c b/drivers/gpu/drm/drm_fb_helper.c
-index 53e9dc0543de..dd80f5c5feec 100644
---- a/drivers/gpu/drm/drm_fb_helper.c
-+++ b/drivers/gpu/drm/drm_fb_helper.c
-@@ -495,20 +495,7 @@ int drm_fb_helper_init(struct drm_device *dev,
- }
- EXPORT_SYMBOL(drm_fb_helper_init);
- 
--/**
-- * drm_fb_helper_alloc_info - allocate fb_info and some of its members
-- * @fb_helper: driver-allocated fbdev helper
-- *
-- * A helper to alloc fb_info and the member cmap. Called by the driver
-- * within the struct &drm_driver.fbdev_probe callback function. Drivers do
-- * not need to release the allocated fb_info structure themselves, this is
-- * automatically done when calling drm_fb_helper_fini().
-- *
-- * RETURNS:
-- * fb_info pointer if things went okay, pointer containing error code
-- * otherwise
-- */
--struct fb_info *drm_fb_helper_alloc_info(struct drm_fb_helper *fb_helper)
-+static struct fb_info *drm_fb_helper_alloc_info(struct drm_fb_helper *fb_helper)
- {
- 	struct device *dev = fb_helper->dev->dev;
- 	struct fb_info *info;
-@@ -535,17 +522,8 @@ struct fb_info *drm_fb_helper_alloc_info(struct drm_fb_helper *fb_helper)
- 	framebuffer_release(info);
- 	return ERR_PTR(ret);
- }
--EXPORT_SYMBOL(drm_fb_helper_alloc_info);
- 
--/**
-- * drm_fb_helper_release_info - release fb_info and its members
-- * @fb_helper: driver-allocated fbdev helper
-- *
-- * A helper to release fb_info and the member cmap.  Drivers do not
-- * need to release the allocated fb_info structure themselves, this is
-- * automatically done when calling drm_fb_helper_fini().
-- */
--void drm_fb_helper_release_info(struct drm_fb_helper *fb_helper)
-+static void drm_fb_helper_release_info(struct drm_fb_helper *fb_helper)
- {
- 	struct fb_info *info = fb_helper->info;
- 
-@@ -558,7 +536,6 @@ void drm_fb_helper_release_info(struct drm_fb_helper *fb_helper)
- 		fb_dealloc_cmap(&info->cmap);
- 	framebuffer_release(info);
- }
--EXPORT_SYMBOL(drm_fb_helper_release_info);
- 
- /**
-  * drm_fb_helper_unregister_info - unregister fb_info framebuffer device
-@@ -1809,6 +1786,11 @@ __drm_fb_helper_initial_config_and_unlock(struct drm_fb_helper *fb_helper)
- 	height = dev->mode_config.max_height;
- 
- 	drm_client_modeset_probe(&fb_helper->client, width, height);
-+
-+	info = drm_fb_helper_alloc_info(fb_helper);
-+	if (IS_ERR(info))
-+		return PTR_ERR(info);
-+
- 	ret = drm_fb_helper_single_fb_probe(fb_helper);
- 	if (ret < 0) {
- 		if (ret == -EAGAIN) {
-@@ -1817,13 +1799,12 @@ __drm_fb_helper_initial_config_and_unlock(struct drm_fb_helper *fb_helper)
- 		}
- 		mutex_unlock(&fb_helper->lock);
- 
--		return ret;
-+		goto err_drm_fb_helper_release_info;
- 	}
- 	drm_setup_crtcs_fb(fb_helper);
- 
- 	fb_helper->deferred_setup = false;
- 
--	info = fb_helper->info;
- 	info->var.pixclock = 0;
- 
- 	/* Need to drop locks to avoid recursive deadlock in
-@@ -1846,6 +1827,10 @@ __drm_fb_helper_initial_config_and_unlock(struct drm_fb_helper *fb_helper)
- 	mutex_unlock(&kernel_fb_helper_lock);
- 
- 	return 0;
-+
-+err_drm_fb_helper_release_info:
-+	drm_fb_helper_release_info(fb_helper);
-+	return ret;
- }
- 
- /**
-diff --git a/drivers/gpu/drm/drm_fbdev_dma.c b/drivers/gpu/drm/drm_fbdev_dma.c
-index c6196293e424..442d964039b7 100644
---- a/drivers/gpu/drm/drm_fbdev_dma.c
-+++ b/drivers/gpu/drm/drm_fbdev_dma.c
-@@ -268,9 +268,9 @@ int drm_fbdev_dma_driver_fbdev_probe(struct drm_fb_helper *fb_helper,
- {
- 	struct drm_client_dev *client = &fb_helper->client;
- 	struct drm_device *dev = fb_helper->dev;
-+	struct fb_info *info = fb_helper->info;
- 	struct drm_client_buffer *buffer;
- 	struct drm_framebuffer *fb;
--	struct fb_info *info;
- 	u32 format;
- 	struct iosys_map map;
- 	int ret;
-@@ -300,12 +300,6 @@ int drm_fbdev_dma_driver_fbdev_probe(struct drm_fb_helper *fb_helper,
- 	fb_helper->buffer = buffer;
- 	fb_helper->fb = fb;
- 
--	info = drm_fb_helper_alloc_info(fb_helper);
--	if (IS_ERR(info)) {
--		ret = PTR_ERR(info);
--		goto err_drm_client_buffer_vunmap;
--	}
--
- 	drm_fb_helper_fill_info(info, fb_helper, sizes);
- 
- 	if (fb->funcs->dirty)
-@@ -313,12 +307,10 @@ int drm_fbdev_dma_driver_fbdev_probe(struct drm_fb_helper *fb_helper,
- 	else
- 		ret = drm_fbdev_dma_driver_fbdev_probe_tail(fb_helper, sizes);
- 	if (ret)
--		goto err_drm_fb_helper_release_info;
-+		goto err_drm_client_buffer_vunmap;
- 
- 	return 0;
- 
--err_drm_fb_helper_release_info:
--	drm_fb_helper_release_info(fb_helper);
- err_drm_client_buffer_vunmap:
- 	fb_helper->fb = NULL;
- 	fb_helper->buffer = NULL;
-diff --git a/drivers/gpu/drm/drm_fbdev_shmem.c b/drivers/gpu/drm/drm_fbdev_shmem.c
-index 51573058df6f..2190e2230b83 100644
---- a/drivers/gpu/drm/drm_fbdev_shmem.c
-+++ b/drivers/gpu/drm/drm_fbdev_shmem.c
-@@ -134,10 +134,10 @@ int drm_fbdev_shmem_driver_fbdev_probe(struct drm_fb_helper *fb_helper,
- {
- 	struct drm_client_dev *client = &fb_helper->client;
- 	struct drm_device *dev = fb_helper->dev;
-+	struct fb_info *info = fb_helper->info;
- 	struct drm_client_buffer *buffer;
- 	struct drm_gem_shmem_object *shmem;
- 	struct drm_framebuffer *fb;
--	struct fb_info *info;
- 	u32 format;
- 	struct iosys_map map;
- 	int ret;
-@@ -167,12 +167,6 @@ int drm_fbdev_shmem_driver_fbdev_probe(struct drm_fb_helper *fb_helper,
- 	fb_helper->buffer = buffer;
- 	fb_helper->fb = fb;
- 
--	info = drm_fb_helper_alloc_info(fb_helper);
--	if (IS_ERR(info)) {
--		ret = PTR_ERR(info);
--		goto err_drm_client_buffer_vunmap;
--	}
--
- 	drm_fb_helper_fill_info(info, fb_helper, sizes);
- 
- 	info->fbops = &drm_fbdev_shmem_fb_ops;
-@@ -193,12 +187,10 @@ int drm_fbdev_shmem_driver_fbdev_probe(struct drm_fb_helper *fb_helper,
- 	info->fbdefio = &fb_helper->fbdefio;
- 	ret = fb_deferred_io_init(info);
- 	if (ret)
--		goto err_drm_fb_helper_release_info;
-+		goto err_drm_client_buffer_vunmap;
- 
- 	return 0;
- 
--err_drm_fb_helper_release_info:
--	drm_fb_helper_release_info(fb_helper);
- err_drm_client_buffer_vunmap:
- 	fb_helper->fb = NULL;
- 	fb_helper->buffer = NULL;
-diff --git a/drivers/gpu/drm/drm_fbdev_ttm.c b/drivers/gpu/drm/drm_fbdev_ttm.c
-index ccf460fbc1f0..3a06c2b59a8d 100644
---- a/drivers/gpu/drm/drm_fbdev_ttm.c
-+++ b/drivers/gpu/drm/drm_fbdev_ttm.c
-@@ -174,8 +174,8 @@ int drm_fbdev_ttm_driver_fbdev_probe(struct drm_fb_helper *fb_helper,
- {
- 	struct drm_client_dev *client = &fb_helper->client;
- 	struct drm_device *dev = fb_helper->dev;
-+	struct fb_info *info = fb_helper->info;
- 	struct drm_client_buffer *buffer;
--	struct fb_info *info;
- 	size_t screen_size;
- 	void *screen_buffer;
- 	u32 format;
-@@ -203,12 +203,6 @@ int drm_fbdev_ttm_driver_fbdev_probe(struct drm_fb_helper *fb_helper,
- 		goto err_drm_client_framebuffer_delete;
- 	}
- 
--	info = drm_fb_helper_alloc_info(fb_helper);
--	if (IS_ERR(info)) {
--		ret = PTR_ERR(info);
--		goto err_vfree;
--	}
--
- 	drm_fb_helper_fill_info(info, fb_helper, sizes);
- 
- 	info->fbops = &drm_fbdev_ttm_fb_ops;
-@@ -225,12 +219,10 @@ int drm_fbdev_ttm_driver_fbdev_probe(struct drm_fb_helper *fb_helper,
- 	info->fbdefio = &fb_helper->fbdefio;
- 	ret = fb_deferred_io_init(info);
- 	if (ret)
--		goto err_drm_fb_helper_release_info;
-+		goto err_vfree;
- 
- 	return 0;
- 
--err_drm_fb_helper_release_info:
--	drm_fb_helper_release_info(fb_helper);
- err_vfree:
- 	vfree(screen_buffer);
- err_drm_client_framebuffer_delete:
-diff --git a/drivers/gpu/drm/exynos/exynos_drm_fbdev.c b/drivers/gpu/drm/exynos/exynos_drm_fbdev.c
-index a3bd21a827ad..539ce0a87886 100644
---- a/drivers/gpu/drm/exynos/exynos_drm_fbdev.c
-+++ b/drivers/gpu/drm/exynos/exynos_drm_fbdev.c
-@@ -57,18 +57,11 @@ static int exynos_drm_fbdev_update(struct drm_fb_helper *helper,
- 				   struct drm_fb_helper_surface_size *sizes,
- 				   struct exynos_drm_gem *exynos_gem)
- {
--	struct fb_info *fbi;
-+	struct fb_info *fbi = helper->info;
- 	struct drm_framebuffer *fb = helper->fb;
- 	unsigned int size = fb->width * fb->height * fb->format->cpp[0];
- 	unsigned long offset;
- 
--	fbi = drm_fb_helper_alloc_info(helper);
--	if (IS_ERR(fbi)) {
--		DRM_DEV_ERROR(to_dma_dev(helper->dev),
--			      "failed to allocate fb info.\n");
--		return PTR_ERR(fbi);
--	}
--
- 	fbi->fbops = &exynos_drm_fb_ops;
- 
- 	drm_fb_helper_fill_info(fbi, helper, sizes);
-diff --git a/drivers/gpu/drm/gma500/fbdev.c b/drivers/gpu/drm/gma500/fbdev.c
-index bc92fa24a1e2..c26926babc2a 100644
---- a/drivers/gpu/drm/gma500/fbdev.c
-+++ b/drivers/gpu/drm/gma500/fbdev.c
-@@ -108,7 +108,7 @@ int psb_fbdev_driver_fbdev_probe(struct drm_fb_helper *fb_helper,
- 	struct drm_device *dev = fb_helper->dev;
- 	struct drm_psb_private *dev_priv = to_drm_psb_private(dev);
- 	struct pci_dev *pdev = to_pci_dev(dev->dev);
--	struct fb_info *info;
-+	struct fb_info *info = fb_helper->info;
- 	struct drm_framebuffer *fb;
- 	struct drm_mode_fb_cmd2 mode_cmd = { };
- 	int size;
-@@ -167,12 +167,6 @@ int psb_fbdev_driver_fbdev_probe(struct drm_fb_helper *fb_helper,
- 	fb_helper->funcs = &psb_fbdev_fb_helper_funcs;
- 	fb_helper->fb = fb;
- 
--	info = drm_fb_helper_alloc_info(fb_helper);
--	if (IS_ERR(info)) {
--		ret = PTR_ERR(info);
--		goto err_drm_framebuffer_unregister_private;
--	}
--
- 	info->fbops = &psb_fbdev_fb_ops;
- 
- 	/* Accessed stolen memory directly */
-@@ -196,10 +190,6 @@ int psb_fbdev_driver_fbdev_probe(struct drm_fb_helper *fb_helper,
- 
- 	return 0;
- 
--err_drm_framebuffer_unregister_private:
--	drm_framebuffer_unregister_private(fb);
--	drm_framebuffer_cleanup(fb);
--	kfree(fb);
- err_drm_gem_object_put:
- 	drm_gem_object_put(obj);
- 	return ret;
-diff --git a/drivers/gpu/drm/i915/display/intel_fbdev.c b/drivers/gpu/drm/i915/display/intel_fbdev.c
-index e5449c41cfa1..9cd03e2adeb2 100644
---- a/drivers/gpu/drm/i915/display/intel_fbdev.c
-+++ b/drivers/gpu/drm/i915/display/intel_fbdev.c
-@@ -267,8 +267,8 @@ int intel_fbdev_driver_fbdev_probe(struct drm_fb_helper *helper,
- 	struct intel_display *display = to_intel_display(helper->dev);
- 	struct intel_fbdev *ifbdev = to_intel_fbdev(helper);
- 	struct intel_framebuffer *fb = ifbdev->fb;
-+	struct fb_info *info = helper->info;
- 	struct ref_tracker *wakeref;
--	struct fb_info *info;
- 	struct i915_vma *vma;
- 	unsigned long flags = 0;
- 	bool prealloc = false;
-@@ -318,13 +318,6 @@ int intel_fbdev_driver_fbdev_probe(struct drm_fb_helper *helper,
- 		goto out_unlock;
- 	}
- 
--	info = drm_fb_helper_alloc_info(helper);
--	if (IS_ERR(info)) {
--		drm_err(display->drm, "Failed to allocate fb_info (%pe)\n", info);
--		ret = PTR_ERR(info);
--		goto out_unpin;
--	}
--
- 	helper->funcs = &intel_fb_helper_funcs;
- 	helper->fb = &fb->base;
- 
-diff --git a/drivers/gpu/drm/msm/msm_fbdev.c b/drivers/gpu/drm/msm/msm_fbdev.c
-index aad6fb77f0de..fd19995b12b5 100644
---- a/drivers/gpu/drm/msm/msm_fbdev.c
-+++ b/drivers/gpu/drm/msm/msm_fbdev.c
-@@ -91,9 +91,9 @@ int msm_fbdev_driver_fbdev_probe(struct drm_fb_helper *helper,
- {
- 	struct drm_device *dev = helper->dev;
- 	struct msm_drm_private *priv = dev->dev_private;
-+	struct fb_info *fbi = helper->info;
- 	struct drm_framebuffer *fb = NULL;
- 	struct drm_gem_object *bo;
--	struct fb_info *fbi = NULL;
- 	uint64_t paddr;
- 	uint32_t format;
- 	int ret, pitch;
-@@ -126,13 +126,6 @@ int msm_fbdev_driver_fbdev_probe(struct drm_fb_helper *helper,
- 		goto fail;
- 	}
- 
--	fbi = drm_fb_helper_alloc_info(helper);
--	if (IS_ERR(fbi)) {
--		DRM_DEV_ERROR(dev->dev, "failed to allocate fb info\n");
--		ret = PTR_ERR(fbi);
--		goto fail;
--	}
--
- 	DBG("fbi=%p, dev=%p", fbi, dev);
- 
- 	helper->funcs = &msm_fbdev_helper_funcs;
-diff --git a/drivers/gpu/drm/omapdrm/omap_fbdev.c b/drivers/gpu/drm/omapdrm/omap_fbdev.c
-index b5df2923d2a6..c4671ab87f9c 100644
---- a/drivers/gpu/drm/omapdrm/omap_fbdev.c
-+++ b/drivers/gpu/drm/omapdrm/omap_fbdev.c
-@@ -153,9 +153,9 @@ int omap_fbdev_driver_fbdev_probe(struct drm_fb_helper *helper,
- 	struct drm_device *dev = helper->dev;
- 	struct omap_drm_private *priv = dev->dev_private;
- 	struct omap_fbdev *fbdev = priv->fbdev;
-+	struct fb_info *fbi = helper->info;
- 	struct drm_framebuffer *fb = NULL;
- 	union omap_gem_size gsize;
--	struct fb_info *fbi = NULL;
- 	struct drm_mode_fb_cmd2 mode_cmd = {0};
- 	struct drm_gem_object *bo;
- 	dma_addr_t dma_addr;
-@@ -224,13 +224,6 @@ int omap_fbdev_driver_fbdev_probe(struct drm_fb_helper *helper,
- 		goto fail;
- 	}
- 
--	fbi = drm_fb_helper_alloc_info(helper);
--	if (IS_ERR(fbi)) {
--		dev_err(dev->dev, "failed to allocate fb info\n");
--		ret = PTR_ERR(fbi);
--		goto fail;
--	}
--
- 	DBG("fbi=%p, dev=%p", fbi, dev);
- 
- 	helper->funcs = &omap_fbdev_helper_funcs;
-diff --git a/drivers/gpu/drm/radeon/radeon_fbdev.c b/drivers/gpu/drm/radeon/radeon_fbdev.c
-index 4df6c9167bf0..1b469b2b4b04 100644
---- a/drivers/gpu/drm/radeon/radeon_fbdev.c
-+++ b/drivers/gpu/drm/radeon/radeon_fbdev.c
-@@ -204,7 +204,7 @@ int radeon_fbdev_driver_fbdev_probe(struct drm_fb_helper *fb_helper,
- 	struct radeon_device *rdev = fb_helper->dev->dev_private;
- 	const struct drm_format_info *format_info;
- 	struct drm_mode_fb_cmd2 mode_cmd = { };
--	struct fb_info *info;
-+	struct fb_info *info = fb_helper->info;
- 	struct drm_gem_object *gobj;
- 	struct radeon_bo *rbo;
- 	struct drm_framebuffer *fb;
-@@ -245,13 +245,6 @@ int radeon_fbdev_driver_fbdev_probe(struct drm_fb_helper *fb_helper,
- 	fb_helper->funcs = &radeon_fbdev_fb_helper_funcs;
- 	fb_helper->fb = fb;
- 
--	/* okay we have an object now allocate the framebuffer */
--	info = drm_fb_helper_alloc_info(fb_helper);
--	if (IS_ERR(info)) {
--		ret = PTR_ERR(info);
--		goto err_drm_framebuffer_unregister_private;
--	}
--
- 	info->fbops = &radeon_fbdev_fb_ops;
- 
- 	/* radeon resume is fragile and needs a vt switch to help it along */
-@@ -277,10 +270,6 @@ int radeon_fbdev_driver_fbdev_probe(struct drm_fb_helper *fb_helper,
- 
- 	return 0;
- 
--err_drm_framebuffer_unregister_private:
--	fb_helper->fb = NULL;
--	drm_framebuffer_unregister_private(fb);
--	drm_framebuffer_cleanup(fb);
- err_kfree:
- 	kfree(fb);
- err_radeon_fbdev_destroy_pinned_object:
-diff --git a/drivers/gpu/drm/tegra/fbdev.c b/drivers/gpu/drm/tegra/fbdev.c
-index 91aece6f34e0..8f40882aa76e 100644
---- a/drivers/gpu/drm/tegra/fbdev.c
-+++ b/drivers/gpu/drm/tegra/fbdev.c
-@@ -73,10 +73,10 @@ int tegra_fbdev_driver_fbdev_probe(struct drm_fb_helper *helper,
- 	struct tegra_drm *tegra = helper->dev->dev_private;
- 	struct drm_device *drm = helper->dev;
- 	struct drm_mode_fb_cmd2 cmd = { 0 };
-+	struct fb_info *info = helper->info;
- 	unsigned int bytes_per_pixel;
- 	struct drm_framebuffer *fb;
- 	unsigned long offset;
--	struct fb_info *info;
- 	struct tegra_bo *bo;
- 	size_t size;
- 	int err;
-@@ -97,13 +97,6 @@ int tegra_fbdev_driver_fbdev_probe(struct drm_fb_helper *helper,
- 	if (IS_ERR(bo))
- 		return PTR_ERR(bo);
- 
--	info = drm_fb_helper_alloc_info(helper);
--	if (IS_ERR(info)) {
--		dev_err(drm->dev, "failed to allocate framebuffer info\n");
--		drm_gem_object_put(&bo->gem);
--		return PTR_ERR(info);
--	}
--
- 	fb = tegra_fb_alloc(drm,
- 			    drm_get_format_info(drm, cmd.pixel_format, cmd.modifier[0]),
- 			    &cmd, &bo, 1);
-diff --git a/include/drm/drm_fb_helper.h b/include/drm/drm_fb_helper.h
-index c1d38d54a112..2faf8aaf98dc 100644
---- a/include/drm/drm_fb_helper.h
-+++ b/include/drm/drm_fb_helper.h
-@@ -256,8 +256,6 @@ int drm_fb_helper_check_var(struct fb_var_screeninfo *var,
- 
- int drm_fb_helper_restore_fbdev_mode_unlocked(struct drm_fb_helper *fb_helper);
- 
--struct fb_info *drm_fb_helper_alloc_info(struct drm_fb_helper *fb_helper);
--void drm_fb_helper_release_info(struct drm_fb_helper *fb_helper);
- void drm_fb_helper_unregister_info(struct drm_fb_helper *fb_helper);
- void drm_fb_helper_fill_info(struct fb_info *info,
- 			     struct drm_fb_helper *fb_helper,
-@@ -340,16 +338,6 @@ drm_fb_helper_restore_fbdev_mode_unlocked(struct drm_fb_helper *fb_helper)
- 	return 0;
- }
- 
--static inline struct fb_info *
--drm_fb_helper_alloc_info(struct drm_fb_helper *fb_helper)
--{
--	return NULL;
--}
--
--static inline void drm_fb_helper_release_info(struct drm_fb_helper *fb_helper)
--{
--}
--
- static inline void drm_fb_helper_unregister_info(struct drm_fb_helper *fb_helper)
- {
- }
+#lspci -s 00:00.0
 
-base-commit: c03916cb446b6eefe91538599775bb54bf98238c
--- 
-2.51.1
+0xF14 index is meant for 1Ah (i.e. Strix and above)
+
+> 
+>>
+>> Any idea why the OS hint only works 90% of the time?
+
+What is the output of amd_pmc_dump_registers() when 10% of the time
+when the OS_HINT is not working?
+
+What I can surmise is, though pmc driver is sending the hint PMFW is
+not taking any action (since the support in FW is missing)
+
+> 
+> If we get the idle mask reporting working we would have a better idea
+> if that is what is reported wrong.
+> 
+
+IIRC, The concept of idlemask came only after cezzane that too after a
+certain PMFW version. So I am not sure if idlemask actually exists.
+
+
+> If I was to guess though; maybe GFX is still active.
+> 
+> Depending upon what's going wrong smu_fw_info might have some more
+> information too.
+
+That's a good point to try it out.
+
+Thanks,
+Shyam
 
