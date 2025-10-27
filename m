@@ -2,53 +2,54 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0F1AFC0E143
-	for <lists+dri-devel@lfdr.de>; Mon, 27 Oct 2025 14:36:26 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id CCB96C0E156
+	for <lists+dri-devel@lfdr.de>; Mon, 27 Oct 2025 14:36:51 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3B18210E49C;
-	Mon, 27 Oct 2025 13:36:24 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0D5AA10E4A0;
+	Mon, 27 Oct 2025 13:36:50 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="Xbruydx+";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="AXFmk6M9";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CCE1F10E49C
- for <dri-devel@lists.freedesktop.org>; Mon, 27 Oct 2025 13:36:22 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A8E1210E4A0
+ for <dri-devel@lists.freedesktop.org>; Mon, 27 Oct 2025 13:36:48 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by tor.source.kernel.org (Postfix) with ESMTP id C4AD360623;
- Mon, 27 Oct 2025 13:36:21 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 72AEDC4CEF1;
- Mon, 27 Oct 2025 13:36:21 +0000 (UTC)
+ by tor.source.kernel.org (Postfix) with ESMTP id 2984A6026C;
+ Mon, 27 Oct 2025 13:36:48 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id CF7D0C4CEF1;
+ Mon, 27 Oct 2025 13:36:47 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1761572181;
- bh=9gkc51HKyIGzpsiSokYYslNBHWpyEyG9Ffyln4h27oA=;
+ s=k20201202; t=1761572207;
+ bh=GY/aL2AMd0H3eUL8uupIyL85eFW25cFDmkyRed3//1M=;
  h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=Xbruydx+db5r1jHlh07/my5RnAn05zlmS3pRDwbS+gXzLEA8b1WQQanvl1YEwX325
- 2FZbYXimrbVzYfBsaF8iLvTFMB+2bMXHdU1j8qLjAHB4+K1gljpiyWtm33dNQz4OYs
- unyTvaOe/ni42NafFcE/X3x8dOXb63CVxC9AnLpIaygx2Jcdb8lJoXag+Dd3mfSvL0
- FD/bCgCsiR5nCbrBxYH164GRfSyvOKlD0M1jTsmq4wYRBoGtjOP3eKYH0IhQbMtg6l
- RKpcblsgG6XTgu5hSaTLhD4S6kIuI5k8FhHlp/yZHKPDZqQmHY6A1Fd4Bb77yycmjT
- cIMfb4kTs55AQ==
+ b=AXFmk6M9lLvDV7HCzeNoS9jNleVWkInzV6Qgo+oLrGiYl74g7CS/7xZaFm8NZ2xXk
+ xoLNIf8/uKJwtKKScYkc+pXJx3BdX8txLtv2taSHsUWLW+GfHXtpgtpNkQWseuc6AU
+ PCLO9QrjPBVBISy6+ouKzYa+sR02/SCC9nEPWgY4iDG7VLGUDvcW3ax8GXyN16Gmnz
+ JSAxaeFHuPh+BXgWHyexxFNsG99gLbSn+sygaXO565Sv4EdOBwsvvYIIHyqtB4PaET
+ b3fAc8ftulXe55pClawDKlvoF9yhGV+aPhoxN55prclePimbVIU9QWIoSYPDVoJ3Zc
+ XiGZMgJc3Ftnw==
 Received: from johan by xi.lan with local (Exim 4.98.2)
- (envelope-from <johan@kernel.org>) id 1vDNOb-000000000IK-0dDL;
- Mon, 27 Oct 2025 14:36:25 +0100
-Date: Mon, 27 Oct 2025 14:36:25 +0100
+ (envelope-from <johan@kernel.org>) id 1vDNP1-000000000J0-1NJ5;
+ Mon, 27 Oct 2025 14:36:51 +0100
+Date: Mon, 27 Oct 2025 14:36:51 +0100
 From: Johan Hovold <johan@kernel.org>
 To: Philipp Zabel <p.zabel@pengutronix.de>
 Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
  Maxime Ripard <mripard@kernel.org>,
  Thomas Zimmermann <tzimmermann@suse.de>,
  David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- dri-devel@lists.freedesktop.org, imx@lists.linux.dev,
- linux-kernel@vger.kernel.org, stable@vger.kernel.org
-Subject: Re: [PATCH] drm/imx/tve: fix probe device leak
-Message-ID: <aP91WYeEEvEFIrfe@hovoldconsulting.com>
-References: <20250923151346.17512-1-johan@kernel.org>
+ Sascha Hauer <s.hauer@pengutronix.de>,
+ Fabio Estevam <festevam@gmail.com>, dri-devel@lists.freedesktop.org,
+ imx@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 0/4] drm/imx: drop unused module aliases
+Message-ID: <aP91c2uZN7fBxtAv@hovoldconsulting.com>
+References: <20250924092643.26113-1-johan@kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250923151346.17512-1-johan@kernel.org>
+In-Reply-To: <20250924092643.26113-1-johan@kernel.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -64,16 +65,11 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Sep 23, 2025 at 05:13:46PM +0200, Johan Hovold wrote:
-> Make sure to drop the reference taken to the DDC device during probe on
-> probe failure (e.g. probe deferral) and on driver unbind.
-> 
-> Fixes: fcbc51e54d2a ("staging: drm/imx: Add support for Television Encoder (TVEv2)")
-> Cc: stable@vger.kernel.org	# 3.10
-> Cc: Philipp Zabel <p.zabel@pengutronix.de>
-> Signed-off-by: Johan Hovold <johan@kernel.org>
-> ---
+On Wed, Sep 24, 2025 at 11:26:39AM +0200, Johan Hovold wrote:
+> When fixing up a device reference leak in the tve drivers I noticed it
+> had an unused platform alias. This series drops unused aliases from the
+> imx drm drivers.
 
-Can this one be picked up for 6.19?
+Can these be picked up for 6.19?
 
 Johan
