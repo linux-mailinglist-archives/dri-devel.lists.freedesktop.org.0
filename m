@@ -2,69 +2,70 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9970CC0F015
-	for <lists+dri-devel@lfdr.de>; Mon, 27 Oct 2025 16:39:52 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id D4DA5C0F051
+	for <lists+dri-devel@lfdr.de>; Mon, 27 Oct 2025 16:44:42 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id EF12E10E4D8;
-	Mon, 27 Oct 2025 15:39:48 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2C50310E01F;
+	Mon, 27 Oct 2025 15:44:40 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; secure) header.d=mailbox.org header.i=@mailbox.org header.b="tam5WpRc";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="cfetCQx8";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mout-p-101.mailbox.org (mout-p-101.mailbox.org [80.241.56.151])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2DA9610E4D8
- for <dri-devel@lists.freedesktop.org>; Mon, 27 Oct 2025 15:39:44 +0000 (UTC)
-Received: from smtp102.mailbox.org (smtp102.mailbox.org [10.196.197.102])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested)
- by mout-p-101.mailbox.org (Postfix) with ESMTPS id 4cwHkP0p64z9ssx;
- Mon, 27 Oct 2025 16:39:41 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org;
- s=mail20150812; t=1761579581;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=6/ET+471hNYv512nd52lPnng3Az3u5HXWsjlK/2SSkU=;
- b=tam5WpRc+zzWVZV4PbTXOzPSo3dL811nvFxYUwwU/uZDmSL/DXOsQncZ3r2ldGd0sZIYYx
- BLThdTJMrogxTkEJCimnO3hExPdrcoorOr/mSfghdXJ/FBeilKM9xzLMTzstRB4TltLD1A
- z+UNT5uK50CGJJ7bsGCARHVGRPOiULBWIP/FmBpnaJdclKOJ7ksmvqITgk3DNtyST0rcKW
- eOH0CyDJNwimw8PnQcrOSAGzlf6g0qDrLgnJw7f4wr3cVCiZPLUl+eIMTlhyssOZ6AyhUc
- 2nJZRHrWOpMQ6pqApTB2D+bG2JrfC5lBcRe6KhsUDhGrchpniBFyjWJkRagZhQ==
-Message-ID: <86de57c6-94e9-43b7-8e6a-d301ce73b0ba@mailbox.org>
-Date: Mon, 27 Oct 2025 16:39:33 +0100
+Received: from sea.source.kernel.org (sea.source.kernel.org [172.234.252.31])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2480610E01F
+ for <dri-devel@lists.freedesktop.org>; Mon, 27 Oct 2025 15:44:39 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by sea.source.kernel.org (Postfix) with ESMTP id CC6844524C;
+ Mon, 27 Oct 2025 15:44:38 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 772A3C4CEF1;
+ Mon, 27 Oct 2025 15:44:32 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1761579878;
+ bh=irqrm6uQuxnVppFGPRLF54t+DGlSHlPLRooV9JCjiDQ=;
+ h=Date:From:Subject:To:Cc:References:In-Reply-To:From;
+ b=cfetCQx8JQRMhmIHEBzrut79SMh/LybtoUNESImySCl7bpvPebEdWExqAU9utDIcP
+ X+2whTajAST3e+zKA79i59PzYOmSOf4DPFQLPYV3f8sVr0CErTzqjJkBwbgAMlZMR5
+ LTZWdv5h4L+HwMLvr4tM0n9avVnL4JwpUP+LtIDsRNTq99YLISW8vdBWbfUkjtGJto
+ ncnL1ag8wQa7zB+Ey6BTPsCUgh7xVQsaCW1IFKOiLJ3GBNm3R0enr7EKKaDOdC7aQf
+ KlRDC0kBM10OWUzN3COVPVf9LA2dqO3zwCETrcgd/ETa3X4aeqhw6lEA6owWPlP2nL
+ ot8Yg9ZrNSixw==
+Message-ID: <bd6262c6-a31c-43a6-8ec5-2735fb2fe0d2@kernel.org>
+Date: Mon, 27 Oct 2025 16:44:30 +0100
 MIME-Version: 1.0
-Subject: Re: [PATCH v3 1/3] dt-bindings: gpu: img,powervr-rogue: Document
- GX6250 GPU in Renesas R-Car M3-W/M3-W+
-To: Matt Coster <Matt.Coster@imgtec.com>
-Cc: Conor Dooley <conor.dooley@microchip.com>, Adam Ford
- <aford173@gmail.com>, Conor Dooley <conor+dt@kernel.org>,
- David Airlie <airlied@gmail.com>, Frank Binns <Frank.Binns@imgtec.com>,
- Alessio Belle <Alessio.Belle@imgtec.com>,
- Alexandru Dadu <Alexandru.Dadu@imgtec.com>,
- Geert Uytterhoeven <geert+renesas@glider.be>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>,
+User-Agent: Mozilla Thunderbird
+From: Hans Verkuil <hverkuil+cisco@kernel.org>
+Subject: Re: [PATCH v5 06/23] staging: media: tegra-video: vi: adjust
+ get_selection op check
+To: Svyatoslav Ryhel <clamor95@gmail.com>,
  Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Magnus Damm <magnus.damm@gmail.com>, Maxime Ripard <mripard@kernel.org>,
- Rob Herring <robh@kernel.org>, Simona Vetter <simona@ffwll.ch>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
- "linux-arm-kernel@lists.infradead.org"
- <linux-arm-kernel@lists.infradead.org>,
- "linux-renesas-soc@vger.kernel.org" <linux-renesas-soc@vger.kernel.org>
-References: <20251022033847.471106-1-marek.vasut+renesas@mailbox.org>
- <6bc264c2-0c1c-492b-ba58-8c7609cfc565@imgtec.com>
-Content-Language: en-US
-From: Marek Vasut <marek.vasut@mailbox.org>
-In-Reply-To: <6bc264c2-0c1c-492b-ba58-8c7609cfc565@imgtec.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-MBO-RS-ID: 0afc5b27525a69b226e
-X-MBO-RS-META: dd664fa9dm8z1eoh4j8a8wtz7xqgzsi8
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>, Thierry Reding
+ <thierry.reding@gmail.com>, Jonathan Hunter <jonathanh@nvidia.com>,
+ Sowjanya Komatineni <skomatineni@nvidia.com>,
+ Luca Ceresoli <luca.ceresoli@bootlin.com>,
+ Prashant Gaikwad <pgaikwad@nvidia.com>,
+ Michael Turquette <mturquette@baylibre.com>, Stephen Boyd
+ <sboyd@kernel.org>, Mikko Perttunen <mperttunen@nvidia.com>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ =?UTF-8?Q?Jonas_Schw=C3=B6bel?= <jonasschwoebel@yahoo.de>,
+ Dmitry Osipenko <digetx@gmail.com>,
+ Charan Pedumuru <charan.pedumuru@gmail.com>,
+ Diogo Ivo <diogo.ivo@tecnico.ulisboa.pt>, Aaron Kling
+ <webgeek1234@gmail.com>, Arnd Bergmann <arnd@arndb.de>
+Cc: dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
+ linux-tegra@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-media@vger.kernel.org, linux-clk@vger.kernel.org,
+ linux-staging@lists.linux.dev
+References: <20251022142051.70400-1-clamor95@gmail.com>
+ <20251022142051.70400-7-clamor95@gmail.com>
+Content-Language: en-US, nl
+In-Reply-To: <20251022142051.70400-7-clamor95@gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -80,11 +81,52 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 10/27/25 3:08 PM, Matt Coster wrote:
-> Hi Marek,
+Hi Svyatoslav,
 
-Hello Matt,
+On 22/10/2025 16:20, Svyatoslav Ryhel wrote:
+> Get_selection operation may be implemented only for sink pad and may
+> return error code. Set try_crop to 0 instead of returning error.
 
-> Apologies for the delayed response, I was on holiday for the rest of
-> last week – I'll apply this to drm-misc-next now.
-No worries. Thank you for your help !
+Can you mention why try_crop is set to 0 instead of returning an error?
+
+That would be good to have in the commit log. And in fact, it's not
+clear to me either why you want this.
+
+> 
+> Signed-off-by: Svyatoslav Ryhel <clamor95@gmail.com>
+> ---
+>  drivers/staging/media/tegra-video/vi.c | 8 ++------
+>  1 file changed, 2 insertions(+), 6 deletions(-)
+> 
+> diff --git a/drivers/staging/media/tegra-video/vi.c b/drivers/staging/media/tegra-video/vi.c
+> index 7c44a3448588..856b7c18b551 100644
+> --- a/drivers/staging/media/tegra-video/vi.c
+> +++ b/drivers/staging/media/tegra-video/vi.c
+> @@ -476,15 +476,11 @@ static int __tegra_channel_try_format(struct tegra_vi_channel *chan,
+>  	fse.code = fmtinfo->code;
+>  	ret = v4l2_subdev_call(subdev, pad, enum_frame_size, sd_state, &fse);
+>  	if (ret) {
+> -		if (!v4l2_subdev_has_op(subdev, pad, get_selection)) {
+> +		if (!v4l2_subdev_has_op(subdev, pad, get_selection) ||
+> +		    v4l2_subdev_call(subdev, pad, get_selection, NULL, &sdsel)) {
+>  			try_crop->width = 0;
+>  			try_crop->height = 0;
+
+This looks all a bit magical. Which subdev is queried here? I.e. what is the corresponding
+subdev driver that implements get_selection?
+
+>  		} else {
+> -			ret = v4l2_subdev_call(subdev, pad, get_selection,
+> -					       NULL, &sdsel);
+> -			if (ret)
+> -				return -EINVAL;
+> -
+>  			try_crop->width = sdsel.r.width;
+>  			try_crop->height = sdsel.r.height;
+>  		}
+
+It looks odd (esp. setting try_crop to 0), and I wonder if this code path has been tested.
+
+Regards,
+
+	Hans
