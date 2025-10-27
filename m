@@ -2,76 +2,77 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A7601C0C5CE
-	for <lists+dri-devel@lfdr.de>; Mon, 27 Oct 2025 09:43:59 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0EB01C0C62E
+	for <lists+dri-devel@lfdr.de>; Mon, 27 Oct 2025 09:45:39 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C798710E404;
-	Mon, 27 Oct 2025 08:43:57 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D87C210E395;
+	Mon, 27 Oct 2025 08:45:36 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="TYx4aSvo";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="WuFlvHcr";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pl1-f182.google.com (mail-pl1-f182.google.com
- [209.85.214.182])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1A02D10E3AB
- for <dri-devel@lists.freedesktop.org>; Mon, 27 Oct 2025 08:43:57 +0000 (UTC)
-Received: by mail-pl1-f182.google.com with SMTP id
- d9443c01a7336-290ab379d48so40144625ad.2
- for <dri-devel@lists.freedesktop.org>; Mon, 27 Oct 2025 01:43:57 -0700 (PDT)
+Received: from mail-pf1-f181.google.com (mail-pf1-f181.google.com
+ [209.85.210.181])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id EE55110E395
+ for <dri-devel@lists.freedesktop.org>; Mon, 27 Oct 2025 08:45:35 +0000 (UTC)
+Received: by mail-pf1-f181.google.com with SMTP id
+ d2e1a72fcca58-7a26b9a936aso2527439b3a.0
+ for <dri-devel@lists.freedesktop.org>; Mon, 27 Oct 2025 01:45:35 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1761554636; x=1762159436; darn=lists.freedesktop.org;
+ d=gmail.com; s=20230601; t=1761554735; x=1762159535; darn=lists.freedesktop.org;
  h=content-transfer-encoding:mime-version:message-id:date:subject:cc
  :to:from:from:to:cc:subject:date:message-id:reply-to;
- bh=3XdBHtrgp03ghVnsbwdnfe2LK03D2az8OLXtLHgvnDs=;
- b=TYx4aSvo99Ds9k3Dh9WJyt5ZQYfknOHNlAbdvA8ciSjQC47NrA4d1AhBcK4WYZ9Eey
- LFns8W51/l0q7thiOLbytufmTzA+vhaCqXATUL0FbWgazsOzYIpT65aAd+R7TAiMvzc4
- iTii0Jxq2MS98NylqErq44vzxgQJgBQinZx3H2YjEiYAw2xToiC+p5Ia8G8Vjcx+9M+J
- HORZ03hcs5PYnodWW+jrdqsjAMG21vUTcnCkiZ8x5kn3/xCbFRpVOs2sicmEpxdYS9Nk
- rjaXONejgj2wRlqNZIQWL1B9oRQeCkhfAuGij4sWAixtJAyeMTzXVNmkTBxcjIL93Zns
- ZAIw==
+ bh=DU0KscrGihyZoXJMago0IWkiGUoidqfLwL76Wss1j/4=;
+ b=WuFlvHcrG85pRXijK+GCzpQqnZxrNIvqxV/h+Cf28Ha5qz81xWiuTzjhBB/UixHr/M
+ IWl/qCKXxbXzfTqLx9mBqjg23URuza0c89nJJ11gibzZdpqo6M1Ns4YhpgJSMycr0xPY
+ M4SIHQcIlJk9HdwyVEtebNPHrK5Edo5hrjkkeOkUSguLNoppcvTye7/icEM3jgwh1bDX
+ 2wHmmUiRMD/+cKZRqZGmSh8CpucD0y2BbQ1F6jCtNGgRnXv5KdBgH4Cj0e6XjaZwbTwW
+ pV6NVsjL6XJsw1uG2rdYLPEDjG+OE9+z+ZBvgYe/OZ7IzBx+PDpLFYoRi9hemtZfS5za
+ 1HWQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1761554636; x=1762159436;
+ d=1e100.net; s=20230601; t=1761554735; x=1762159535;
  h=content-transfer-encoding:mime-version:message-id:date:subject:cc
  :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
  :reply-to;
- bh=3XdBHtrgp03ghVnsbwdnfe2LK03D2az8OLXtLHgvnDs=;
- b=JYzuPgRmO5CiKr64YITOl3UhpHln5nfCH4mq6iYYUzaBEMFWbYZWQo2cEmWJDcnBbz
- rv24iaW6DcUKxUJ3zKYjpf23G7FG7TvZmtzqGbcnwxXr6bpBMB4B/cBCLT/vuKwsLOSF
- pYVGx494qj5rcCY5SUd1gsXd6wfnpPfXniQhNYu/jQksldP2xEyKf5IAnAQh7RwJydoY
- k3/c0tQC2znuvYrFDQ8LgBmhZpwoq39zHylQs72sv6ceuCW/tHJ2VQjiI14eVyIqzwcO
- XSK7tH6IqWilMtdhDwEYVooQO2hpLy3kUgNS39q8+1ucPQY6eWHJPnVhRJ4hZifsVG9l
- bipA==
+ bh=DU0KscrGihyZoXJMago0IWkiGUoidqfLwL76Wss1j/4=;
+ b=JtqL5vqa9V07+LyLoAdHAgJ6GvyJBDd8b9TZ4Y5t/kWIek90QKw0kIYWAH9zW5FaXt
+ qSNo4cRlmdh2hHzehCZbOb86g0qaaxd0hI+p1AJa2goEUVvIpfHIldf1YAAkztM5b6ea
+ t3PGw2wACvTvdBezyFSYN27hQvLsqzoyABQlbTxPh0oPKLTeTBdxOn+Rln03UXL8HnnI
+ dVuHbB/YMPTMyFQG2qmth8X71wVGPbOVc0llA47HIZXNbosROHrmO8azolko8X7N35FG
+ ExHDFQInukzlKqJOWv8Rtn5qMxMozRJcGJwq2Jh6Zhe7s6y0vXdUEtKfOiaMIXTyVrrI
+ 9D6w==
 X-Forwarded-Encrypted: i=1;
- AJvYcCX0h4Dy1Z5Gg1WFz7KVPYYF5uvaKT2o8H3JXtklNxZwyDSodanRfZuuWj8PYxxHyZ04znEIkjRQmJ8=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Yw6vMC5vRBy/HtllzfhAph2ngawAcVJNH+STrLXjSERpGCLtAVS
- yDjyskloADR1RLs2cX6/TswlOa3h5iwm4KyFxbjKJeOmDHR0aiggXF77QgUwqZJd2dPv7g==
-X-Gm-Gg: ASbGnctCNvsn5Deml0xEQAa6O7+jUhqk5vhYRh6FFSmA+CBxpgvyJbeuQL9Xc+bc7BU
- HaDwTpEACIDI4IYk6lFs8NfBi7XTdXJlhHFXBTv6cbsl+m/paJrCjs6uQwoTw85IJBvG0yL4Go1
- gZiaN0qwG3kf+gCDqwamO9gFDyNhkQshYFUKhAaMc8h7tyU5WueHHRP9Pfo1J20aQSaIV0PC0CV
- XwQK2jglsr/bEahEJ1Bf+F5YNl1NCL3Loz1p6e57a2Sh1M62QKmoO9HrYm7fpvchWyBXchdkMmc
- iTcqZU8eexPOuPGjQqlOdKydw4kesrUXPVwAKyIskTgvArd0lDNdi/JMuiGdwXVnDTbraVXJZu+
- MoWkysLqakjqdEnJHcHcxnWRt3Bpbh6x8HwKIuNHnFxmkHCbfrBo9/J5J/KyTddZeLbpCnHu9Ok
- GXQNgyP6Eu8MhD8DNNiCQZGe7P/MR0DaqE
-X-Google-Smtp-Source: AGHT+IHJsL6+kpoPk8x1PWb0mqg3iHOZS6wR/zv/DBqOZ8GMqq9D0VqdZrEygNgekK2sc9hwLF1zkA==
-X-Received: by 2002:a17:902:c952:b0:290:a3ba:1a8b with SMTP id
- d9443c01a7336-29465525229mr183633555ad.24.1761554636181; 
- Mon, 27 Oct 2025 01:43:56 -0700 (PDT)
+ AJvYcCU2UDXSrnyzeJFvx5UWRUyHOyJfcgr9ycJ6SasILFvQ7jibVr4aCif/uhDH781h5/34BAcXZc4FsZc=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YwJoPri23PWmBfYzupD7ljr9VCySo2YNgOiW60RGK59u7KTdkEZ
+ OVUlPC2F6l7kI/qIUwBX87CVh9nONrHvSoGlL6x9NFRXR63KMyxliwaA
+X-Gm-Gg: ASbGncsB0JxJtLdbtqqy0RJKrPMCYhLTehoZN6OrVaLOPTf9krrOTdRnmIF6oS1fB42
+ 0yIyYWXkHiFr4B+hafzPZyrKvoeoT+YnhbXhAmvA4+eX4gjLDkreZx49Ib6KvOQCDE2tqDY8Dr8
+ ddsOYc/bwdnZgSohqsj8sE6zgAKzCmFtQn6Znenb4CYsKTp+RetCslz7K5zfUBXgBLNhe+J8/lo
+ Eq+vskHByPPiF2dZ3GXD9xMacVDYA1oQeCYEEYHYF4HMpMVNRVSx4rXAAR0603aOEANLqL4scX4
+ 1q6UQYcgjzkTXWEWdH3GsG4k48jfGD7CfraQKALaXipZ0kNvkODrz0AzBRmZVLCNBNhsuJ8uk7O
+ mo5EduDcSfh+h6QZHO5NVzvWf5dGCo7jAqpTmDw4WwZA0xrP8u81tW0TwJN9JV6Kk2kx8NGZ+Lm
+ XJJ42CKdAtRw4H87Bw7qzwrBy2TeDex06q
+X-Google-Smtp-Source: AGHT+IFlSNyx/m40xKYC6OWXlqmRmI+SM7/L6vothAHVO/hXw1MzPva0O5TbGE0SIfNFUBdqckDGkQ==
+X-Received: by 2002:a05:6a00:2d1d:b0:7a2:73a9:96c with SMTP id
+ d2e1a72fcca58-7a273a90b4cmr13811317b3a.3.1761554735303; 
+ Mon, 27 Oct 2025 01:45:35 -0700 (PDT)
 Received: from localhost.localdomain ([124.77.218.104])
  by smtp.googlemail.com with ESMTPSA id
- d9443c01a7336-29498e4349fsm73037945ad.107.2025.10.27.01.43.53
+ d2e1a72fcca58-7a41404dddcsm7300209b3a.38.2025.10.27.01.45.31
  (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
- Mon, 27 Oct 2025 01:43:55 -0700 (PDT)
+ Mon, 27 Oct 2025 01:45:34 -0700 (PDT)
 From: Miaoqian Lin <linmq006@gmail.com>
-To: Helge Deller <deller@gmx.de>, Paul Mackerras <paulus@ozlabs.org>,
- Benjamin Herrenschmidt <benh@kernel.crashing.org>,
- linux-fbdev@vger.kernel.org, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org
+To: Thierry Reding <thierry.reding@gmail.com>,
+ Mikko Perttunen <mperttunen@nvidia.com>, David Airlie <airlied@gmail.com>,
+ Simona Vetter <simona@ffwll.ch>, Jonathan Hunter <jonathanh@nvidia.com>,
+ Dmitry Osipenko <digetx@gmail.com>, dri-devel@lists.freedesktop.org,
+ linux-tegra@vger.kernel.org, linux-kernel@vger.kernel.org
 Cc: linmq006@gmail.com,
 	stable@vger.kernel.org
-Subject: [PATCH] video: valkyriefb: Fix reference count leak in valkyriefb_init
-Date: Mon, 27 Oct 2025 16:43:37 +0800
-Message-Id: <20251027084340.79419-1-linmq006@gmail.com>
+Subject: [PATCH] drm/tegra: Fix reference count leak in tegra_dc_couple
+Date: Mon, 27 Oct 2025 16:45:18 +0800
+Message-Id: <20251027084519.80009-1-linmq006@gmail.com>
 X-Mailer: git-send-email 2.39.5 (Apple Git-154)
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
@@ -90,37 +91,32 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The of_find_node_by_name() function returns a device tree node with its
-reference count incremented. The caller is responsible for calling
-of_node_put() to release this reference when done.
+The driver_find_device() function returns a device with its reference
+count incremented. The caller is responsible for calling put_device()
+to release this reference when done. Fix this leak by adding the missing
+put_device() call.
 
 Found via static analysis.
 
-Fixes: cc5d0189b9ba ("[PATCH] powerpc: Remove device_node addrs/n_addr")
+Fixes: f68ba6912bd2 ("drm/tegra: dc: Link DC1 to DC0 on Tegra20")
 Cc: stable@vger.kernel.org
 Signed-off-by: Miaoqian Lin <linmq006@gmail.com>
 ---
- drivers/video/fbdev/valkyriefb.c | 2 ++
- 1 file changed, 2 insertions(+)
+ drivers/gpu/drm/tegra/dc.c | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/drivers/video/fbdev/valkyriefb.c b/drivers/video/fbdev/valkyriefb.c
-index 91d070ef6989..6ff059ee1694 100644
---- a/drivers/video/fbdev/valkyriefb.c
-+++ b/drivers/video/fbdev/valkyriefb.c
-@@ -329,11 +329,13 @@ static int __init valkyriefb_init(void)
+diff --git a/drivers/gpu/drm/tegra/dc.c b/drivers/gpu/drm/tegra/dc.c
+index 59d5c1ba145a..6c84bd69b11f 100644
+--- a/drivers/gpu/drm/tegra/dc.c
++++ b/drivers/gpu/drm/tegra/dc.c
+@@ -3148,6 +3148,7 @@ static int tegra_dc_couple(struct tegra_dc *dc)
+ 		dc->client.parent = &parent->client;
  
- 		if (of_address_to_resource(dp, 0, &r)) {
- 			printk(KERN_ERR "can't find address for valkyrie\n");
-+			of_node_put(dp);
- 			return 0;
- 		}
- 
- 		frame_buffer_phys = r.start;
- 		cmap_regs_phys = r.start + 0x304000;
-+		of_node_put(dp);
+ 		dev_dbg(dc->dev, "coupled to %s\n", dev_name(companion));
++		put_device(companion);
  	}
- #endif /* ppc (!CONFIG_MAC) */
  
+ 	return 0;
 -- 
 2.39.5 (Apple Git-154)
 
