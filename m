@@ -2,56 +2,56 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id CBA67C0FC43
-	for <lists+dri-devel@lfdr.de>; Mon, 27 Oct 2025 18:49:36 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9C031C0FC73
+	for <lists+dri-devel@lfdr.de>; Mon, 27 Oct 2025 18:51:00 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0951910E53A;
-	Mon, 27 Oct 2025 17:49:34 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C210310E537;
+	Mon, 27 Oct 2025 17:50:58 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="QCZeA/46";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="QX85SV5I";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 273E510E543
- for <dri-devel@lists.freedesktop.org>; Mon, 27 Oct 2025 17:49:32 +0000 (UTC)
+Received: from sea.source.kernel.org (sea.source.kernel.org [172.234.252.31])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 69EDD10E537
+ for <dri-devel@lists.freedesktop.org>; Mon, 27 Oct 2025 17:50:57 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by tor.source.kernel.org (Postfix) with ESMTP id 5273C6147D
- for <dri-devel@lists.freedesktop.org>; Mon, 27 Oct 2025 17:49:31 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id EA9F3C19423
- for <dri-devel@lists.freedesktop.org>; Mon, 27 Oct 2025 17:49:30 +0000 (UTC)
+ by sea.source.kernel.org (Postfix) with ESMTP id 2D3714613C
+ for <dri-devel@lists.freedesktop.org>; Mon, 27 Oct 2025 17:50:57 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0DC7FC4AF0B
+ for <dri-devel@lists.freedesktop.org>; Mon, 27 Oct 2025 17:50:57 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1761587371;
+ s=k20201202; t=1761587457;
  bh=jc/356FpIO5fq3wbVBLhYJF7QyfRlww33yCqXERm6yM=;
  h=References:In-Reply-To:Reply-To:From:Date:Subject:To:Cc:From;
- b=QCZeA/46aNC46Zyq3ct1c+oD9mKTL+B9dRwtAlaNovacqBG5F4WahIvB1DsTB1Vu4
- yndEirqDSXI3CyHqUq/OlsjcvelXE+dTfJk/2pFEEmOY/nAc57OU8w7KyvQKkIgNiz
- ea8VUPJu0Pm3HXibBhkAGvcbEcLdlJD14bcrR3hqXWOYtBAhKXanDLpMTMUeCRc6EK
- oUEiOQQeRTwnq82cqfFV7zzElGKdE8xOTlc00KE6FCBOfp8rLu9e7Fhxp2ZTsW450x
- iNdSKwmDyAGKMSTxmsKFSoaD/snKr5amwSbQyVIZNZa42i2Gj0vyEnr6bGe3sfoQB6
- RcpIcTQyxd+iA==
-Received: by mail-lj1-f180.google.com with SMTP id
- 38308e7fff4ca-378cfbf83f2so54766641fa.1
- for <dri-devel@lists.freedesktop.org>; Mon, 27 Oct 2025 10:49:30 -0700 (PDT)
+ b=QX85SV5IPfGzOsBynpyHwugp0CyyVgKShCIr1Q7lnl8ZklOUGkFlOBFSI3nTLg6ke
+ 9ertPoek6SjQirRqvnVzkKMldV1MdeybOpXHGbkwvNOGArQhDZ8j+P9JxYNn8lu8Qj
+ 7eKET5JcnhsKQcC6BGqI8hs/20lU8/T9dTksPA/K9Mglk/SbLStYe4qfDVJgH6p1MR
+ iubxIkr7EgXHfMYBH5y6ivTOPe9YPaZSwBsc7kZ4zcsFa8sVisBEgvUru5dZNdkBAQ
+ pPtjP+qGBaSnuJC8BXvLVHeXqKPzT12/1o1WVtLvEvWF52VA5X1r+vJFynid+XEQES
+ 3UJ1dApDTm3xA==
+Received: by mail-io1-f41.google.com with SMTP id
+ ca18e2360f4ac-92790f12293so228211239f.2
+ for <dri-devel@lists.freedesktop.org>; Mon, 27 Oct 2025 10:50:57 -0700 (PDT)
 X-Forwarded-Encrypted: i=1;
- AJvYcCWF2RiF2pbFfBFCysYnDuZ2VSl1BLDkLQfFC/rU6Cx9dhv4RJhkaS03+bsD3CLGr4kxsCe5JTn+3so=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Yy18UnfYnK1H3eYLd5Ck4dyyHt2YEscs3QOViRWeflF93JuZYkq
- 0TDW1DxG5+0sbp+jmwAe/JFWDLFGELnUUNwEaVYMzxFGl30yCRwuk2KY+NdsF/cR6Bir80MpehP
- GUU6h/k5POrRPCVXHQu3OhS5auGNyvq8=
-X-Google-Smtp-Source: AGHT+IGvL3+rmUcT/vmlGB6JqgMLiakuW0wtgocLdITSs5J6YhIhu+bJ3QUjjP/Dh4NLN0bmdcv0CpnIkj1evrKbsNk=
-X-Received: by 2002:a05:651c:234c:10b0:378:e097:e16e with SMTP id
- 38308e7fff4ca-3790777de3cmr1218271fa.36.1761587369224; Mon, 27 Oct 2025
- 10:49:29 -0700 (PDT)
+ AJvYcCVZMdwS7SzaT6jLKnNFtkh4zh30WSZcXg3qFU/JdIHNSEV36CEwJR/FRM7ibfakEvVlZtvF1SwSskk=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YyTjsduSFXfox98pyIIDy41jGEqKnZWG6l2a9g7HyZs5uD/x2P4
+ 7cer7D3PXqjrZxmdMnnctps7811A4oefnEez5EGsdoQsMtt3FCJKyq3HUquWeq/BCmUUKWL/Vrt
+ XEg+4MjKncVY+d7MO7DK/csbMi5E7nlk=
+X-Google-Smtp-Source: AGHT+IGnc89exOTZE3mKHcEYS+jts1LyngerTZI24ol1+00dieJ+BnfWVo6DyciMsJbIRCI98YsRjlcZ+jytqeDhnWA=
+X-Received: by 2002:a05:6e02:1c06:b0:42e:d74:7260 with SMTP id
+ e9e14a558f8ab-4320f866607mr12752885ab.29.1761587456395; Mon, 27 Oct 2025
+ 10:50:56 -0700 (PDT)
 MIME-Version: 1.0
 References: <20251012192330.6903-1-jernej.skrabec@gmail.com>
- <20251012192330.6903-19-jernej.skrabec@gmail.com>
-In-Reply-To: <20251012192330.6903-19-jernej.skrabec@gmail.com>
+ <20251012192330.6903-20-jernej.skrabec@gmail.com>
+In-Reply-To: <20251012192330.6903-20-jernej.skrabec@gmail.com>
 From: Chen-Yu Tsai <wens@kernel.org>
-Date: Tue, 28 Oct 2025 01:49:15 +0800
-X-Gmail-Original-Message-ID: <CAGb2v65aY11Hi5JN1PEMyFCoYK9Z11V=xYXLcSLqQizwdVOarA@mail.gmail.com>
-X-Gm-Features: AWmQ_bkqzQW934j8vgxNIiz1K6pixo4CW7R1IQZPgknoWpc_MwhACwyMTj6ZI0U
-Message-ID: <CAGb2v65aY11Hi5JN1PEMyFCoYK9Z11V=xYXLcSLqQizwdVOarA@mail.gmail.com>
-Subject: Re: [PATCH 18/30] drm/sun4i: ui_scaler: use layer instead of mixer
+Date: Tue, 28 Oct 2025 01:50:21 +0800
+X-Gmail-Original-Message-ID: <CAGb2v67mHaxFAZ_OtPoOfoKbV8x7EFCAmhiq7D0NY0zdRZ627w@mail.gmail.com>
+X-Gm-Features: AWmQ_blzThNj1vSmpmbdGuHWVfAbSef_0wIVgxBtON1FA8iGGT9ZN-SnXracJEg
+Message-ID: <CAGb2v67mHaxFAZ_OtPoOfoKbV8x7EFCAmhiq7D0NY0zdRZ627w@mail.gmail.com>
+Subject: Re: [PATCH 19/30] drm/sun4i: vi_scaler: use layer instead of mixer
  for args
 To: Jernej Skrabec <jernej.skrabec@gmail.com>
 Cc: mripard@kernel.org, maarten.lankhorst@linux.intel.com, tzimmermann@suse.de,
