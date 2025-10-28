@@ -2,63 +2,78 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 579B1C12C8B
-	for <lists+dri-devel@lfdr.de>; Tue, 28 Oct 2025 04:40:53 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 237B9C12CB5
+	for <lists+dri-devel@lfdr.de>; Tue, 28 Oct 2025 04:44:30 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 90CC010E31B;
-	Tue, 28 Oct 2025 03:40:51 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id AB17210E1C8;
+	Tue, 28 Oct 2025 03:44:26 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=ti.com header.i=@ti.com header.b="hgdIxuB+";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="D065HO0C";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from lelvem-ot02.ext.ti.com (lelvem-ot02.ext.ti.com [198.47.23.235])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9433C10E31B
- for <dri-devel@lists.freedesktop.org>; Tue, 28 Oct 2025 03:40:50 +0000 (UTC)
-Received: from fllvem-sh03.itg.ti.com ([10.64.41.86])
- by lelvem-ot02.ext.ti.com (8.15.2/8.15.2) with ESMTP id 59S3eDtn1417761;
- Mon, 27 Oct 2025 22:40:13 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
- s=ti-com-17Q1; t=1761622813;
- bh=9iqKGNULG93Mahxgc9Y04ieslV3U/KXOSXDAHgNKDxc=;
- h=From:To:CC:Subject:Date:In-Reply-To:References;
- b=hgdIxuB+bMM1XuZrg35gGM2fr1MqhmhQ1nelSPtg7ezxQJ2ilWBqXxM/2Ml3nDnWp
- UC+lKR0x4PwHJf3hdcLC+XfDWr1Gv7pFG6nMxrkMUqN1BRKbMG++3KskpN7ea8wrng
- /o9XWMQAtzDuEj/0nvo0qzeeidd0AuQX2dSufa2A=
-Received: from DLEE200.ent.ti.com (dlee200.ent.ti.com [157.170.170.75])
- by fllvem-sh03.itg.ti.com (8.18.1/8.18.1) with ESMTPS id 59S3eD3m1803495
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=FAIL);
- Mon, 27 Oct 2025 22:40:13 -0500
-Received: from DLEE208.ent.ti.com (157.170.170.97) by DLEE200.ent.ti.com
- (157.170.170.75) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.20; Mon, 27 Oct
- 2025 22:40:12 -0500
-Received: from lelvem-mr05.itg.ti.com (10.180.75.9) by DLEE208.ent.ti.com
- (157.170.170.97) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.20 via Frontend
- Transport; Mon, 27 Oct 2025 22:40:12 -0500
-Received: from a0512632.dhcp.ti.com (a0512632.dhcp.ti.com [172.24.233.20])
- by lelvem-mr05.itg.ti.com (8.18.1/8.18.1) with ESMTP id 59S3dxWU1685770;
- Mon, 27 Oct 2025 22:40:08 -0500
-From: Swamil Jain <s-jain1@ti.com>
-To: <aradhya.bhatia@linux.dev>, <devarsht@ti.com>, <mripard@kernel.org>,
- <tomi.valkeinen@ideasonboard.com>, <jyri.sarha@iki.fi>,
- <maarten.lankhorst@linux.intel.com>, <simona@ffwll.ch>,
- <airlied@gmail.com>, <tzimmermann@suse.de>, <h-shenoy@ti.com>
-CC: <praneeth@ti.com>, <u-kumar1@ti.com>, <vigneshr@ti.com>,
- <dri-devel@lists.freedesktop.org>, <linux-kernel@vger.kernel.org>,
- <s-jain1@ti.com>
-Subject: [RESEND PATCH v7 2/2] drm/tidss: Move OLDI mode validation to OLDI
- bridge mode_valid hook
-Date: Tue, 28 Oct 2025 09:09:58 +0530
-Message-ID: <20251028033958.369100-3-s-jain1@ti.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20251028033958.369100-1-s-jain1@ti.com>
-References: <20251028033958.369100-1-s-jain1@ti.com>
+Received: from mail-pf1-f177.google.com (mail-pf1-f177.google.com
+ [209.85.210.177])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C101E10E1C8
+ for <dri-devel@lists.freedesktop.org>; Tue, 28 Oct 2025 03:44:24 +0000 (UTC)
+Received: by mail-pf1-f177.google.com with SMTP id
+ d2e1a72fcca58-7a28226dd13so4209140b3a.3
+ for <dri-devel@lists.freedesktop.org>; Mon, 27 Oct 2025 20:44:24 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20230601; t=1761623064; x=1762227864; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=w0JrnIhlm/tyRktTDJR6cB/aVJVLzjS3bo23HpgjFIA=;
+ b=D065HO0CmP5FhtF2Kz9yiShtMRBqk04eaiuJmWijCLIPOGfBFOUFrz1hWF3x+/MZQY
+ gahyEnuebL9S33rtg1N++9sh+KNTLzgVwwC3vLmRJ5cWkYQPLkwk4kpfhCT5KhYp/amn
+ Vak+IWnCSRGek5c+DM3AzygDMoB9vW5UcfYcsRZ+Q2L9LgU+W2wXJ5fC6jeSUtO5LgYy
+ ES6KQqBPYTXnjfYsB+ONIkLvLZKbcTK4hkqWOt/9pv8JzFQ/6+Mii3QAyKbjIK+SkR94
+ W6o05lKRPVWP5hfMQgSpXeeqfjDVUYRmOpQjqipxP/N2xNbmq/EryPm9DtJTwMl1tMJY
+ Y0rg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1761623064; x=1762227864;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=w0JrnIhlm/tyRktTDJR6cB/aVJVLzjS3bo23HpgjFIA=;
+ b=CvsBue+i9WMZI8QxAqXDaBmqy8GFI99Ff/tGblOV3NblK7WgEutdUb2wCsc5Yse6rM
+ sjVIF67vG64XoiymRoqzNPI5mN9XGT/dBty5ddeBaQBmk+t75Wxcy2FiAg0b6eZ80d8d
+ 8qA1u0hA8N6I1oGBFD75SXOSCvKhdyMpSEdIDh6W8l19l3H0ErSvwxYYmG1cSmZ4vnRd
+ p7LvStwK5SK7OEMVUcVlOmPC+CTnC5QXNXAiNmaiIajJHDtlR85DL7xknlic0cVqSZMX
+ LYp5qrgCP6vev7nDHGJagsJztQAuf3UW1yE/DPXppQCb9Rxlqaoq17ijoqtz4Mxyv4+f
+ dO2A==
+X-Gm-Message-State: AOJu0YxEgaDeqG4K8D0Fc/UjArF6fbgQoairYtk+b3bNX+XVq9Fwv3GM
+ N3mDnCM0Hj/P7N4IRdPD01IsySgiRdzsl5SCNTeem2lkj+QXVRwrPBEX
+X-Gm-Gg: ASbGncu7BMlGuaDbBU96en2fyhzD1wycYZhZsOxjJQ0yYZFz2azNRyic4012FnH6XSU
+ UPW8+5mo6Ey/7CJZ+pHNIp+j7xU9jAJ9B85JzaiXSBIPzbd9RlInKtUno3sScfxbrc8j9jhXgoA
+ 1gp4AGM38IrSYVSd97SnVs8ID/tmPmkklVVI4+h9mCTaoTnnb+bkmp98PoXZ+3KHeh+K6n6koub
+ CbOKLVKfp1nHRa6bnEhgPOo20yI+eq+fHVtvUpBCvMgQmjp1OOMEhDFGdGcJxlEgH8ScDf5yPdE
+ a0c3dx1JSt9yCJ3EbSVAZNfcZIcYu4jy/j3MIe+2ZGHfpJwMDc+QsZcp7G66xo6ypdbmKn899z+
+ ojOF6MmqH23cC2RL0mZco3EyL8hPCTc5GXFR3JEVRX5SP1Y+tNiyPc2VPEry/3geMuQI0330xHW
+ Eto17UmQNEuVVUXYkEl3XitUzMngHlpPtV
+X-Google-Smtp-Source: AGHT+IEt1om1kfGFI7LBBAzYyTXzZGznvpM+rLoorZyrqYnofQVBvIAI1Vb9MVfEwmR1vGMeyTbZqg==
+X-Received: by 2002:a05:6a20:7343:b0:341:3b91:69d1 with SMTP id
+ adf61e73a8af0-344d1da82demr2405551637.5.1761623064155; 
+ Mon, 27 Oct 2025 20:44:24 -0700 (PDT)
+Received: from cmpatel-home.hsd1.or.comcast.net
+ ([2601:1c0:5780:9200:7eda:5d15:414e:cb9e])
+ by smtp.gmail.com with ESMTPSA id
+ 41be03b00d2f7-b712f0c0b1asm8946849a12.32.2025.10.27.20.44.23
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 27 Oct 2025 20:44:23 -0700 (PDT)
+From: Chintan Patel <chintanlike@gmail.com>
+To: maarten.lankhorst@linux.intel.com, maxime.ripard@kernel.org,
+ tzimmermann@suse.de, airlied@gmail.com, simona@ffwll.ch
+Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ syzbot+147ba789658184f0ce04@syzkaller.appspotmail.com,
+ Chintan Patel <chintanlike@gmail.com>
+Subject: [PATCH v4] drm/vblank: Increase timeout in drm_wait_one_vblank()
+Date: Mon, 27 Oct 2025 20:43:37 -0700
+Message-ID: <20251028034337.6341-1-chintanlike@gmail.com>
+X-Mailer: git-send-email 2.43.0
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-C2ProcessedOrg: 333ef613-75bf-4e12-a4b1-8e3623f5dcea
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -74,116 +89,47 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Jayesh Choudhary <j-choudhary@ti.com>
+Currently, wait_event_timeout() in drm_wait_one_vblank() uses a 100ms
+timeout. Under heavy scheduling pressure or rare delayed vblank
+handling, this can trigger WARNs unnecessarily.
 
-After integrating OLDI support[0], it is necessary to identify which VP
-instances use OLDI, since the OLDI driver owns the video port clock
-(as a serial clock). Clock operations on these VPs must be delegated to
-the OLDI driver, not handled by the TIDSS driver. This issue also
-emerged in upstream discussions when DSI-related clock management was
-attempted in the TIDSS driver[1].
+Increase the timeout to 1000ms to reduce spurious WARNs, while still
+catching genuine issues.
 
-To address this, add an 'is_ext_vp_clk' array to the 'tidss_device'
-structure, marking a VP as 'true' during 'tidss_oldi_init()' and as
-'false' during 'tidss_oldi_deinit()'. TIDSS then uses 'is_ext_vp_clk'
-to skip clock validation checks in 'dispc_vp_mode_valid()' for VPs
-under OLDI control.
+Reported-by: syzbot+147ba789658184f0ce04@syzkaller.appspotmail.com
+Closes: https://syzkaller.appspot.com/bug?extid=147ba789658184f0ce04
+Tested-by: syzbot+147ba789658184f0ce04@syzkaller.appspotmail.com
+Signed-off-by: Chintan Patel <chintanlike@gmail.com>
 
-Since OLDI uses the DSS VP clock directly as a serial interface and
-manages its own rate, mode validation should be implemented in the OLDI
-bridge's 'mode_valid' hook. This patch adds that logic, ensuring proper
-delegation and avoiding spurious clock handling in the TIDSS driver.
+v2:
+ - Dropped unnecessary in-code comment (suggested by Thomas Zimmermann)
+ - Removed else branch, only log timeout case
 
-[0]: https://lore.kernel.org/all/20250528122544.817829-1-aradhya.bhatia@linux.dev/
-[1]: https://lore.kernel.org/all/DA6TT575Z82D.3MPK8HG5GRL8U@kernel.org/
+v3:
+ - Replaced drm_dbg_kms()/manual logging with drm_err() (suggested by Ville Syrjälä)
+ - Removed unnecessary curr = drm_vblank_count() (suggested by Thomas Zimmermann)
+ - Fixed commit message wording ("invalid userspace calls" → "delayed vblank handling")
 
-Fixes: 7246e0929945 ("drm/tidss: Add OLDI bridge support")
-Tested-by: Michael Walle <mwalle@kernel.org>
-Reviewed-by: Devarsh Thakkar <devarsht@ti.com>
-Signed-off-by: Jayesh Choudhary <j-choudhary@ti.com>
-Signed-off-by: Swamil Jain <s-jain1@ti.com>
+v4:
+ - Keep the original drm_WARN() to catch genuine kernel issues
+ - Increased timeout from 100ms → 1000ms to reduce spurious WARNs (suggested by Thomas Zimmermann)
 ---
- drivers/gpu/drm/tidss/tidss_dispc.c |  2 ++
- drivers/gpu/drm/tidss/tidss_drv.h   |  2 ++
- drivers/gpu/drm/tidss/tidss_oldi.c  | 21 +++++++++++++++++++++
- 3 files changed, 25 insertions(+)
+ drivers/gpu/drm/drm_vblank.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/gpu/drm/tidss/tidss_dispc.c b/drivers/gpu/drm/tidss/tidss_dispc.c
-index 07731b02490f..0c3337a7b163 100644
---- a/drivers/gpu/drm/tidss/tidss_dispc.c
-+++ b/drivers/gpu/drm/tidss/tidss_dispc.c
-@@ -1315,6 +1315,8 @@ static int check_pixel_clock(struct dispc_device *dispc,
- {
- 	unsigned long round_clock;
+diff --git a/drivers/gpu/drm/drm_vblank.c b/drivers/gpu/drm/drm_vblank.c
+index 46f59883183d..f779103b261b 100644
+--- a/drivers/gpu/drm/drm_vblank.c
++++ b/drivers/gpu/drm/drm_vblank.c
+@@ -1303,7 +1303,7 @@ void drm_wait_one_vblank(struct drm_device *dev, unsigned int pipe)
  
-+	if (dispc->tidss->is_ext_vp_clk[hw_videoport])
-+		return 0;
- 	round_clock = clk_round_rate(dispc->vp_clk[hw_videoport], clock);
- 	/*
- 	 * To keep the check consistent with dispc_vp_set_clk_rate(), we
-diff --git a/drivers/gpu/drm/tidss/tidss_drv.h b/drivers/gpu/drm/tidss/tidss_drv.h
-index 84454a4855d1..e1c1f41d8b4b 100644
---- a/drivers/gpu/drm/tidss/tidss_drv.h
-+++ b/drivers/gpu/drm/tidss/tidss_drv.h
-@@ -24,6 +24,8 @@ struct tidss_device {
+ 	ret = wait_event_timeout(vblank->queue,
+ 				 last != drm_vblank_count(dev, pipe),
+-				 msecs_to_jiffies(100));
++				 msecs_to_jiffies(1000));
  
- 	const struct dispc_features *feat;
- 	struct dispc_device *dispc;
-+	bool is_ext_vp_clk[TIDSS_MAX_PORTS];
-+
+ 	drm_WARN(dev, ret == 0, "vblank wait timed out on crtc %i\n", pipe);
  
- 	unsigned int num_crtcs;
- 	struct drm_crtc *crtcs[TIDSS_MAX_PORTS];
-diff --git a/drivers/gpu/drm/tidss/tidss_oldi.c b/drivers/gpu/drm/tidss/tidss_oldi.c
-index 7688251beba2..d1a5fdac93ff 100644
---- a/drivers/gpu/drm/tidss/tidss_oldi.c
-+++ b/drivers/gpu/drm/tidss/tidss_oldi.c
-@@ -309,6 +309,24 @@ static u32 *tidss_oldi_atomic_get_input_bus_fmts(struct drm_bridge *bridge,
- 	return input_fmts;
- }
- 
-+static enum drm_mode_status
-+tidss_oldi_mode_valid(struct drm_bridge *bridge,
-+		      const struct drm_display_info *info,
-+		      const struct drm_display_mode *mode)
-+{
-+	struct tidss_oldi *oldi = drm_bridge_to_tidss_oldi(bridge);
-+	unsigned long round_clock;
-+
-+	round_clock = clk_round_rate(oldi->serial, mode->clock * 7 * 1000);
-+	/*
-+	 * To keep the check consistent with dispc_vp_set_clk_rate(),
-+	 * we use the same 5% check here.
-+	 */
-+	if (dispc_pclk_diff(mode->clock * 7 * 1000, round_clock) > 5)
-+		return -EINVAL;
-+	return 0;
-+}
-+
- static const struct drm_bridge_funcs tidss_oldi_bridge_funcs = {
- 	.attach	= tidss_oldi_bridge_attach,
- 	.atomic_pre_enable = tidss_oldi_atomic_pre_enable,
-@@ -317,6 +335,7 @@ static const struct drm_bridge_funcs tidss_oldi_bridge_funcs = {
- 	.atomic_duplicate_state = drm_atomic_helper_bridge_duplicate_state,
- 	.atomic_destroy_state = drm_atomic_helper_bridge_destroy_state,
- 	.atomic_reset = drm_atomic_helper_bridge_reset,
-+	.mode_valid = tidss_oldi_mode_valid,
- };
- 
- static int get_oldi_mode(struct device_node *oldi_tx, int *companion_instance)
-@@ -430,6 +449,7 @@ void tidss_oldi_deinit(struct tidss_device *tidss)
- 	for (int i = 0; i < tidss->num_oldis; i++) {
- 		if (tidss->oldis[i]) {
- 			drm_bridge_remove(&tidss->oldis[i]->bridge);
-+			tidss->is_ext_vp_clk[tidss->oldis[i]->parent_vp] = false;
- 			tidss->oldis[i] = NULL;
- 		}
- 	}
-@@ -580,6 +600,7 @@ int tidss_oldi_init(struct tidss_device *tidss)
- 		oldi->bridge.timings = &default_tidss_oldi_timings;
- 
- 		tidss->oldis[tidss->num_oldis++] = oldi;
-+		tidss->is_ext_vp_clk[oldi->parent_vp] = true;
- 		oldi->tidss = tidss;
- 
- 		drm_bridge_add(&oldi->bridge);
+-- 
+2.43.0
+
