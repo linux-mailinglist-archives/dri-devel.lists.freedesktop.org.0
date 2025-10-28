@@ -2,68 +2,92 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0294BC15570
-	for <lists+dri-devel@lfdr.de>; Tue, 28 Oct 2025 16:08:30 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 56B85C1559B
+	for <lists+dri-devel@lfdr.de>; Tue, 28 Oct 2025 16:12:51 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 06D7F10E5EB;
-	Tue, 28 Oct 2025 15:08:18 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D3B1410E5E2;
+	Tue, 28 Oct 2025 15:12:45 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="fbKhzdPg";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="FukL4cc6";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sea.source.kernel.org (sea.source.kernel.org [172.234.252.31])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B54B310E5DE
- for <dri-devel@lists.freedesktop.org>; Tue, 28 Oct 2025 15:08:16 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by sea.source.kernel.org (Postfix) with ESMTP id 2977C48EF3;
- Tue, 28 Oct 2025 15:08:16 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2FD92C4CEE7;
- Tue, 28 Oct 2025 15:08:09 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1761664096;
- bh=nC5h8Ln9RiB4A32t/cW1wNQwvbwaWDrUshVJEGXjFc8=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=fbKhzdPgXB6ebEOtYoiN0anfPBW7d1hKD0//YiiPI3FuBSIyfyD9VBl77gtua8cu8
- 4RwdhGEvDTAaZY7L/D+CCB6bRrc951CgS4CC9y/yCrA119TKIAnFWCAyyKa+9nbsYt
- v8rzUMm76rCFx3tTG/fndXoJh9ZtnTiDirpoj+GLgGU/rySShcDsHGryvdZBMWH/xO
- A9ji6Y6VaBlnxY14gXdiBqRaOIn7+otKFBPj45AapTN2uMOG3uLJKQyMHQl+pDfCKB
- YU9uZftiy3bTTLXxX1hQJzLT077SVX7AKputTk8wfh1XIADHdDmTS9uX7yIPLkzLvb
- LztIRjbGUtr8A==
-Date: Tue, 28 Oct 2025 15:08:06 +0000
-From: Mark Brown <broonie@kernel.org>
-To: Cristian Ciocaltea <cristian.ciocaltea@collabora.com>
-Cc: Sandy Huang <hjc@rock-chips.com>,
- Heiko =?iso-8859-1?Q?St=FCbner?= <heiko@sntech.de>,
- Andy Yan <andy.yan@rock-chips.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Andrzej Hajda <andrzej.hajda@intel.com>,
- Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
- Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>,
- Catalin Marinas <catalin.marinas@arm.com>,
- Will Deacon <will@kernel.org>, kernel@collabora.com,
- dri-devel@lists.freedesktop.org, linux-arm-kernel@lists.infradead.org,
- linux-rockchip@lists.infradead.org, linux-kernel@vger.kernel.org,
- Algea Cao <algea.cao@rock-chips.com>,
- Derek Foreman <derek.foreman@collabora.com>,
- Daniel Stone <daniels@collabora.com>, Aishwarya.TCV@arm.com
-Subject: Re: [PATCH v4 0/6] Add HDMI CEC support to Rockchip RK3588/RK3576 SoCs
-Message-ID: <5678895e-2647-42db-b3f0-86a21b9bc225@sirena.org.uk>
-References: <20250903-rk3588-hdmi-cec-v4-0-fa25163c4b08@collabora.com>
- <6f3f126d-72c1-48cb-a9c8-8d354af2a3d5@sirena.org.uk>
- <410fa913-e86b-4ffd-9d79-ce804f0271ff@collabora.com>
- <63003a7e-8d3d-433a-8a44-54fe8740bc3a@collabora.com>
+Received: from mail-pl1-f172.google.com (mail-pl1-f172.google.com
+ [209.85.214.172])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B835F10E5E2
+ for <dri-devel@lists.freedesktop.org>; Tue, 28 Oct 2025 15:12:44 +0000 (UTC)
+Received: by mail-pl1-f172.google.com with SMTP id
+ d9443c01a7336-28d18e933a9so8332495ad.3
+ for <dri-devel@lists.freedesktop.org>; Tue, 28 Oct 2025 08:12:44 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20230601; t=1761664364; x=1762269164; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=5snQUvhRWkb9C2jeab2EsORSQy/NoakHLRvzEAR046k=;
+ b=FukL4cc6FuL+wglYe9k3OxWIgW+PfCksR0a+z1H8YU1zoHee44E8ogQoasMD0sFf8t
+ EVb1FIXWjJqllJ9fQNlfVw+PTw1AGaZcqyCm/Xa35bMmLCL1aLt34CJUqG1+ynIf/uK8
+ IqG+dKsPO3VK0zNrfCF2KNEaukxNfLwIUjp8uLu3lJjkRGiZ4ifXWEueE3aoaCbjoQe6
+ htjNU58myKGIHvpxZAEc0EI1f/G6wQRUiPqS7GgP+aEl6xhnl6PlV3jMalUvtADAoDQn
+ i0HbiwSZ8TqW61DtAPW6Qcn2JNcGYTUgl7oDh1N0tt7NRMpzW75Pyvqk4xJ2kFKuiPVN
+ Kzhg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1761664364; x=1762269164;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=5snQUvhRWkb9C2jeab2EsORSQy/NoakHLRvzEAR046k=;
+ b=BSO15nk3vG1jUXu3N90kWSxdtdyDkBNhNxqxd5BzK6M/rUQfElZuz9FhXe+GP/6nJA
+ Nm1V2S8hrhcTZTaT4xVtVOk8+GxCTmkPqq0mzEhJpMf3ahshrOthw0YEml7AUZ62EOXL
+ woWGh6J/0XkKqx7BPJ/P3ZrXgj+vUvMiKflXVun81NeZbNNh4wTgh/f8GUKaK5Pcid63
+ ur0ZMUuvFlYnD1xtwYyoacbIbGAoLm1B9AOfetB2/89jGO/Hh7CWmnSi9C7Mh3EO4Duw
+ 5Ka7oaTY8i6t/ncR5+1rZXjQSVXAxD8Tu5W/lTssrzn9qF3Jyhttm8MWZwJq0UykXdQb
+ j5wA==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCVP/hKXGz4UfQvRKfNCWGj78XviN9QXwA1oEol7oO6YPcyPrW1m7MWSbdMtiFFz8WMpl2HwDDQO7Ys=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YyE+0NChLSecrmFN74gQh2vYx8nmIIt5xMG5bk/dof8NIGzF3O9
+ Q3mLnC7NW9TK7vEAgZFZlKsY2MUyY2XMvFPaQUabu2wub0JOLmylNSiEuf29dQYc1ylApqK/gdg
+ 2TwFLeQ5jI4mlTLM3TyLZl4jMm6iyWk8=
+X-Gm-Gg: ASbGncu4CabJ/bTtLret0PnY5gzItOJAj7BhyEkcfoMmkq+7l5Cm+fJNleCf5TeFltn
+ sKsGuyaWMG+l6IMuN3g15DN2pgjmn0WHxbIyvq431vYmXDadFqyGQEEHs/fNJbS/mP7Wc14ZnHo
+ bSXlqNySkqKbloZt/gtEo4hMlXousycCIHuaKy8CkCJceQgFTci7V5v2z47nZ0Fxqlt59EgS5Yq
+ e/fCvONA71DGuRicAj7AnLdYwfqq2swqZZvXZD2crQaEPGI//+kaZkQ+417DsJLl/kemgi1H8eq
+ tJnau9yr1tZIhlCuvofy2bvn0MdVsFXCtjHiEkpt+SfsUe/frA6Psjs9Z4l89NUdCIuXT0aP9e1
+ T41I=
+X-Google-Smtp-Source: AGHT+IFYPGiAfq6Bkpv4VIZbnQ2eB25p+ZAfZMrF5Pziev/2opSXlTlA+Qb2DBeslIA+t2R0h3bM5akBnOcG/++7Z0U=
+X-Received: by 2002:a17:903:8cb:b0:27e:da7d:32d2 with SMTP id
+ d9443c01a7336-294cb500277mr27314415ad.7.1761664364153; Tue, 28 Oct 2025
+ 08:12:44 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
- protocol="application/pgp-signature"; boundary="hHHi8VVPfq5V2b8D"
-Content-Disposition: inline
-In-Reply-To: <63003a7e-8d3d-433a-8a44-54fe8740bc3a@collabora.com>
-X-Cookie: Your canceled check is your receipt.
+References: <20251026-nova-as-v1-0-60c78726462d@nvidia.com>
+ <20251026-nova-as-v1-5-60c78726462d@nvidia.com>
+ <CANiq72mgoW_TyWf9Nv=5t3Qij_dsDjicNpGsa=F1t+sg23vxSA@mail.gmail.com>
+ <de796658-ed1d-41f1-b153-f3d1089656ba@nvidia.com>
+ <DDU1AQDW78QI.1CBHEW03926H0@nvidia.com>
+In-Reply-To: <DDU1AQDW78QI.1CBHEW03926H0@nvidia.com>
+From: Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
+Date: Tue, 28 Oct 2025 16:12:32 +0100
+X-Gm-Features: AWmQ_bma5_85Uxd8PIaUq6SaqwUjakaAH7XUFCSDVLctaYXwoFO8A3BqGERgpOk
+Message-ID: <CANiq72nbYiwFO6Vqc+yoW1-qT_uMN-CftgOpPe8Mqn56b1Fq9g@mail.gmail.com>
+Subject: Re: [PATCH 5/7] gpu: nova-core: add extra conversion functions and
+ traits
+To: Alexandre Courbot <acourbot@nvidia.com>
+Cc: John Hubbard <jhubbard@nvidia.com>, Alice Ryhl <aliceryhl@google.com>, 
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Miguel Ojeda <ojeda@kernel.org>, 
+ Alex Gaynor <alex.gaynor@gmail.com>, Boqun Feng <boqun.feng@gmail.com>, 
+ Gary Guo <gary@garyguo.net>,
+ =?UTF-8?Q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>, 
+ Benno Lossin <lossin@kernel.org>, Andreas Hindborg <a.hindborg@kernel.org>, 
+ Trevor Gross <tmgross@umich.edu>, Alistair Popple <apopple@nvidia.com>, 
+ Joel Fernandes <joelagnelf@nvidia.com>, Timur Tabi <ttabi@nvidia.com>,
+ Edwin Peer <epeer@nvidia.com>, 
+ nouveau@lists.freedesktop.org, dri-devel@lists.freedesktop.org, 
+ linux-kernel@vger.kernel.org, rust-for-linux@vger.kernel.org, 
+ Danilo Krummrich <dakr@kernel.org>, Matthew Wilcox <willy@infradead.org>, 
+ Nouveau <nouveau-bounces@lists.freedesktop.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -79,33 +103,38 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+On Tue, Oct 28, 2025 at 3:44=E2=80=AFPM Alexandre Courbot <acourbot@nvidia.=
+com> wrote:
+>
+> intent with the latter was to say "I would normally have done an `as`,
+> but instead here is a method that attests that this operations is indeed
+> lossless and safe".
 
---hHHi8VVPfq5V2b8D
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+Yeah, so you want that, when we see `_as`, we are reminded that this
+is the equivalent but lossless of that, which sounds OK. Though I
+wouldn't say "I would normally have done ...", but rather turn it
+around and say "Since we want to avoid `as`, here is a method ...".
 
-On Tue, Oct 28, 2025 at 04:57:03PM +0200, Cristian Ciocaltea wrote:
+Now, I suggested a change because typically I would expect names to
+mention what they are about/do, rather than how they are implemented.
+The implementation in this case also doesn't say much, i.e. a type
+cast expression can be used for many things, and worse, the operator
+may or may not be lossless, so it isn't a big hint.
 
-> This seems to have been already addressed:
+But, yeah, I understand that you want to evoke the relationship above.
 
-> https://lore.kernel.org/all/20251017-drm-bridge-alloc-getput-bridge-connector-fix-hdmi_cec-v2-0-667abf6d47c0@bootlin.com/
+I also suggested it because when I wrote the message I was thinking
+about the `cfg`s message, i.e. most of these depend on the
+architecture, and thus having an `arch` or similar does evoke a
+"careful, my code may not be portable anymore".
 
-Ah, good.  Hopefully that lands soon, do you have any idea what's
-holding it up?
+On the other hand, it is true that the `u32_as_usize` case will most
+likely always be available, in practice, unlike the others. So an
+`arch` for that one isn't great (but I guess it could still matter for
+someone wanting to reuse the code in a different project/domain).
 
---hHHi8VVPfq5V2b8D
-Content-Type: application/pgp-signature; name="signature.asc"
+In any case, personally I don't mind it too much either way --
+whatever looks best for most.
 
------BEGIN PGP SIGNATURE-----
-
-iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmkA3FYACgkQJNaLcl1U
-h9AVOQf/TT3cHQKKcbpTXY1jqeGzTtOf4Q+lasiQNfgPQnTeq/V2uYagmZRlgVFc
-9SDXeRkcFN/u7GiPt9+nQ4tWJaWkAV3BOnqPndzPF4mCtBqDuI68jq1wdjnY2ILB
-ptsrNz1xkUu+oJlsPWALqlSsQHWGNsYENLDExWjs4/MkM45mOHEH2b/jPAoD4GTT
-lmp2TmEYZ03SR8wl362H8XVg8GAHFZLVVdetTwdB3TknjZf5aJD8L3cf0uSqkufw
-3lk0lx+xFMh6hk3IBLAiuqdhVMDEkUaSEpgy5lHGhpSraZYjJ6cvcyV/s8m7lGl4
-s9ZOEfXvUgqO8XcY36AaBaNolFqsSw==
-=AwHR
------END PGP SIGNATURE-----
-
---hHHi8VVPfq5V2b8D--
+Cheers,
+Miguel
