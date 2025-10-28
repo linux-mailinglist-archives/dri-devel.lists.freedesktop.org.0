@@ -2,78 +2,57 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 237B9C12CB5
-	for <lists+dri-devel@lfdr.de>; Tue, 28 Oct 2025 04:44:30 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 32C4CC12CF1
+	for <lists+dri-devel@lfdr.de>; Tue, 28 Oct 2025 04:48:35 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id AB17210E1C8;
-	Tue, 28 Oct 2025 03:44:26 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 028D610E02A;
+	Tue, 28 Oct 2025 03:48:32 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="D065HO0C";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="r+LlHi1D";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pf1-f177.google.com (mail-pf1-f177.google.com
- [209.85.210.177])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C101E10E1C8
- for <dri-devel@lists.freedesktop.org>; Tue, 28 Oct 2025 03:44:24 +0000 (UTC)
-Received: by mail-pf1-f177.google.com with SMTP id
- d2e1a72fcca58-7a28226dd13so4209140b3a.3
- for <dri-devel@lists.freedesktop.org>; Mon, 27 Oct 2025 20:44:24 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1761623064; x=1762227864; darn=lists.freedesktop.org;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:from:to:cc:subject:date:message-id:reply-to;
- bh=w0JrnIhlm/tyRktTDJR6cB/aVJVLzjS3bo23HpgjFIA=;
- b=D065HO0CmP5FhtF2Kz9yiShtMRBqk04eaiuJmWijCLIPOGfBFOUFrz1hWF3x+/MZQY
- gahyEnuebL9S33rtg1N++9sh+KNTLzgVwwC3vLmRJ5cWkYQPLkwk4kpfhCT5KhYp/amn
- Vak+IWnCSRGek5c+DM3AzygDMoB9vW5UcfYcsRZ+Q2L9LgU+W2wXJ5fC6jeSUtO5LgYy
- ES6KQqBPYTXnjfYsB+ONIkLvLZKbcTK4hkqWOt/9pv8JzFQ/6+Mii3QAyKbjIK+SkR94
- W6o05lKRPVWP5hfMQgSpXeeqfjDVUYRmOpQjqipxP/N2xNbmq/EryPm9DtJTwMl1tMJY
- Y0rg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1761623064; x=1762227864;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=w0JrnIhlm/tyRktTDJR6cB/aVJVLzjS3bo23HpgjFIA=;
- b=CvsBue+i9WMZI8QxAqXDaBmqy8GFI99Ff/tGblOV3NblK7WgEutdUb2wCsc5Yse6rM
- sjVIF67vG64XoiymRoqzNPI5mN9XGT/dBty5ddeBaQBmk+t75Wxcy2FiAg0b6eZ80d8d
- 8qA1u0hA8N6I1oGBFD75SXOSCvKhdyMpSEdIDh6W8l19l3H0ErSvwxYYmG1cSmZ4vnRd
- p7LvStwK5SK7OEMVUcVlOmPC+CTnC5QXNXAiNmaiIajJHDtlR85DL7xknlic0cVqSZMX
- LYp5qrgCP6vev7nDHGJagsJztQAuf3UW1yE/DPXppQCb9Rxlqaoq17ijoqtz4Mxyv4+f
- dO2A==
-X-Gm-Message-State: AOJu0YxEgaDeqG4K8D0Fc/UjArF6fbgQoairYtk+b3bNX+XVq9Fwv3GM
- N3mDnCM0Hj/P7N4IRdPD01IsySgiRdzsl5SCNTeem2lkj+QXVRwrPBEX
-X-Gm-Gg: ASbGncu7BMlGuaDbBU96en2fyhzD1wycYZhZsOxjJQ0yYZFz2azNRyic4012FnH6XSU
- UPW8+5mo6Ey/7CJZ+pHNIp+j7xU9jAJ9B85JzaiXSBIPzbd9RlInKtUno3sScfxbrc8j9jhXgoA
- 1gp4AGM38IrSYVSd97SnVs8ID/tmPmkklVVI4+h9mCTaoTnnb+bkmp98PoXZ+3KHeh+K6n6koub
- CbOKLVKfp1nHRa6bnEhgPOo20yI+eq+fHVtvUpBCvMgQmjp1OOMEhDFGdGcJxlEgH8ScDf5yPdE
- a0c3dx1JSt9yCJ3EbSVAZNfcZIcYu4jy/j3MIe+2ZGHfpJwMDc+QsZcp7G66xo6ypdbmKn899z+
- ojOF6MmqH23cC2RL0mZco3EyL8hPCTc5GXFR3JEVRX5SP1Y+tNiyPc2VPEry/3geMuQI0330xHW
- Eto17UmQNEuVVUXYkEl3XitUzMngHlpPtV
-X-Google-Smtp-Source: AGHT+IEt1om1kfGFI7LBBAzYyTXzZGznvpM+rLoorZyrqYnofQVBvIAI1Vb9MVfEwmR1vGMeyTbZqg==
-X-Received: by 2002:a05:6a20:7343:b0:341:3b91:69d1 with SMTP id
- adf61e73a8af0-344d1da82demr2405551637.5.1761623064155; 
- Mon, 27 Oct 2025 20:44:24 -0700 (PDT)
-Received: from cmpatel-home.hsd1.or.comcast.net
- ([2601:1c0:5780:9200:7eda:5d15:414e:cb9e])
- by smtp.gmail.com with ESMTPSA id
- 41be03b00d2f7-b712f0c0b1asm8946849a12.32.2025.10.27.20.44.23
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 27 Oct 2025 20:44:23 -0700 (PDT)
-From: Chintan Patel <chintanlike@gmail.com>
-To: maarten.lankhorst@linux.intel.com, maxime.ripard@kernel.org,
- tzimmermann@suse.de, airlied@gmail.com, simona@ffwll.ch
-Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- syzbot+147ba789658184f0ce04@syzkaller.appspotmail.com,
- Chintan Patel <chintanlike@gmail.com>
-Subject: [PATCH v4] drm/vblank: Increase timeout in drm_wait_one_vblank()
-Date: Mon, 27 Oct 2025 20:43:37 -0700
-Message-ID: <20251028034337.6341-1-chintanlike@gmail.com>
-X-Mailer: git-send-email 2.43.0
+Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 406FC10E57B;
+ Tue, 28 Oct 2025 03:48:30 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by tor.source.kernel.org (Postfix) with ESMTP id 20E0860298;
+ Tue, 28 Oct 2025 03:48:29 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2741AC4CEE7;
+ Tue, 28 Oct 2025 03:48:27 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1761623308;
+ bh=F9PEdAfzgWQQ2Eeck3XTAAh60sY+/GKtfF7NT+YXA9k=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=r+LlHi1DRjrYdeHjbmQptIeHgcr+h+3w70uVuYEPJGPrY4kRuE4Afm1cwWeN17Ni6
+ IABr8PF3+vkXuiicY7YlxBsudMRGr6JUVREv4e2Z+ouddyWJCC9UNFN5LtV9jm+QLU
+ +CYLaW7XWhQKux0MzE9HXbpzqwFx70xulmvMKLOFD4sNLFNDUh9gYLTLpFmrbmX9AO
+ h0LGzo7sj/QQz430yP8rbrguggjQBsur4KRWQqRPEnvgfDyQ0px7BbYYyhsIW//bVN
+ G/JiIFDV+D0+dvFICRAVgdqEjRUhe5n77ARIKYdvU1u3IwTYdHw2wI7C9NvqCts/Xj
+ YbEd4ytzBVAFg==
+Date: Mon, 27 Oct 2025 22:51:23 -0500
+From: Bjorn Andersson <andersson@kernel.org>
+To: yuanjie yang <yuanjie.yang@oss.qualcomm.com>
+Cc: robin.clark@oss.qualcomm.com, lumag@kernel.org, 
+ abhinav.kumar@linux.dev, sean@poorly.run, marijn.suijten@somainline.org, 
+ airlied@gmail.com, simona@ffwll.ch, maarten.lankhorst@linux.intel.com, 
+ mripard@kernel.org, tzimmermann@suse.de, robh@kernel.org, krzk+dt@kernel.org, 
+ conor+dt@kernel.org, quic_mkrishn@quicinc.com, jonathan@marek.ca, 
+ quic_khsieh@quicinc.com, neil.armstrong@linaro.org,
+ linux-arm-msm@vger.kernel.org, 
+ dri-devel@lists.freedesktop.org, freedreno@lists.freedesktop.org,
+ devicetree@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, tingwei.zhang@oss.qualcomm.com,
+ aiqun.yu@oss.qualcomm.com, yongxing.mou@oss.qualcomm.com
+Subject: Re: [PATCH 08/12] arm64: defconfig: Enable NT37801 DSI panel driver
+Message-ID: <wuh7agcgg6spghilnx4amqukaaydj25u7kbdiod7fl6pu2ulvm@pmosyuo43cyw>
+References: <20251023075401.1148-1-yuanjie.yang@oss.qualcomm.com>
+ <20251023080609.1212-1-yuanjie.yang@oss.qualcomm.com>
+ <20251023080609.1212-3-yuanjie.yang@oss.qualcomm.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20251023080609.1212-3-yuanjie.yang@oss.qualcomm.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -89,47 +68,43 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Currently, wait_event_timeout() in drm_wait_one_vblank() uses a 100ms
-timeout. Under heavy scheduling pressure or rare delayed vblank
-handling, this can trigger WARNs unnecessarily.
+On Thu, Oct 23, 2025 at 04:06:05PM +0800, yuanjie yang wrote:
+> From: Yuanjie Yang <yuanjie.yang@oss.qualcomm.com>
+> 
+> Build the NT37801 DSI panel driver as module.
+> 
+> Signed-off-by: Yongxing Mou <yongxing.mou@oss.qualcomm.com>
+> Signed-off-by: Yuanjie Yang <yuanjie.yang@oss.qualcomm.com>
 
-Increase the timeout to 1000ms to reduce spurious WARNs, while still
-catching genuine issues.
+You (Yuanjie) authored the patch, but forgot to sign-off, then Yongxing
+provided certificate of origin, then you provide certificate of origin
+and send it to list?
 
-Reported-by: syzbot+147ba789658184f0ce04@syzkaller.appspotmail.com
-Closes: https://syzkaller.appspot.com/bug?extid=147ba789658184f0ce04
-Tested-by: syzbot+147ba789658184f0ce04@syzkaller.appspotmail.com
-Signed-off-by: Chintan Patel <chintanlike@gmail.com>
+Please correct.
 
-v2:
- - Dropped unnecessary in-code comment (suggested by Thomas Zimmermann)
- - Removed else branch, only log timeout case
+Also, all other patches in this series are merged by DRM maintainers,
+while I'm supposed to merge this one. Please send it separately, once
+it's ready to be merged.
 
-v3:
- - Replaced drm_dbg_kms()/manual logging with drm_err() (suggested by Ville Syrjälä)
- - Removed unnecessary curr = drm_vblank_count() (suggested by Thomas Zimmermann)
- - Fixed commit message wording ("invalid userspace calls" → "delayed vblank handling")
+Thanks,
+Bjorn
 
-v4:
- - Keep the original drm_WARN() to catch genuine kernel issues
- - Increased timeout from 100ms → 1000ms to reduce spurious WARNs (suggested by Thomas Zimmermann)
----
- drivers/gpu/drm/drm_vblank.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
-diff --git a/drivers/gpu/drm/drm_vblank.c b/drivers/gpu/drm/drm_vblank.c
-index 46f59883183d..f779103b261b 100644
---- a/drivers/gpu/drm/drm_vblank.c
-+++ b/drivers/gpu/drm/drm_vblank.c
-@@ -1303,7 +1303,7 @@ void drm_wait_one_vblank(struct drm_device *dev, unsigned int pipe)
- 
- 	ret = wait_event_timeout(vblank->queue,
- 				 last != drm_vblank_count(dev, pipe),
--				 msecs_to_jiffies(100));
-+				 msecs_to_jiffies(1000));
- 
- 	drm_WARN(dev, ret == 0, "vblank wait timed out on crtc %i\n", pipe);
- 
--- 
-2.43.0
-
+> ---
+>  arch/arm64/configs/defconfig | 1 +
+>  1 file changed, 1 insertion(+)
+> 
+> diff --git a/arch/arm64/configs/defconfig b/arch/arm64/configs/defconfig
+> index 8cfb5000fa8e..537a065db11c 100644
+> --- a/arch/arm64/configs/defconfig
+> +++ b/arch/arm64/configs/defconfig
+> @@ -945,6 +945,7 @@ CONFIG_DRM_PANEL_SITRONIX_ST7703=m
+>  CONFIG_DRM_PANEL_STARTEK_KD070FHFID015=m
+>  CONFIG_DRM_PANEL_TRULY_NT35597_WQXGA=m
+>  CONFIG_DRM_PANEL_VISIONOX_VTDR6130=m
+> +CONFIG_DRM_PANEL_NOVATEK_NT37801=m
+>  CONFIG_DRM_DISPLAY_CONNECTOR=m
+>  CONFIG_DRM_FSL_LDB=m
+>  CONFIG_DRM_ITE_IT6263=m
+> -- 
+> 2.34.1
+> 
