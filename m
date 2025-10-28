@@ -2,112 +2,86 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 38838C13945
-	for <lists+dri-devel@lfdr.de>; Tue, 28 Oct 2025 09:43:05 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 009A0C13A1C
+	for <lists+dri-devel@lfdr.de>; Tue, 28 Oct 2025 09:55:28 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0DC6F10E5BC;
-	Tue, 28 Oct 2025 08:43:02 +0000 (UTC)
-Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="ByPbBEfO";
-	dkim-atps=neutral
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9924310E0A7;
+	Tue, 28 Oct 2025 08:55:26 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-f54.google.com (mail-wr1-f54.google.com
- [209.85.221.54])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 68EF110E5C1
- for <dri-devel@lists.freedesktop.org>; Tue, 28 Oct 2025 08:43:01 +0000 (UTC)
-Received: by mail-wr1-f54.google.com with SMTP id
- ffacd0b85a97d-3ee64bc6b85so5802183f8f.3
- for <dri-devel@lists.freedesktop.org>; Tue, 28 Oct 2025 01:43:01 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1761640980; x=1762245780; darn=lists.freedesktop.org;
- h=content-transfer-encoding:in-reply-to:organization:autocrypt
- :content-language:references:cc:to:subject:reply-to:from:user-agent
- :mime-version:date:message-id:from:to:cc:subject:date:message-id
- :reply-to; bh=6NXCKjRFgrYiAfp2xjDLu8YxTLQNZXtyNLdLhXM4zbE=;
- b=ByPbBEfO97FnI20xy2XKXscbVO76xPm8W844JDKtbB3ivcov7E3/4tGiivXPOsPRRV
- F6MeId4PLWF5O2oGrON18djYXlvPDym2WVG6rtyPseqXKedn2iaDOs/I6ZS28uCNpLw/
- 3azQcFQkdrCvEkAhzyg2ldEbfJNOSV3tLhe1Il7pOTNwlDpmr0AYKJzrQQakAF44cTOm
- l/iBwVO/RFbDvh0DqNNq7i1fK9ty9dCQM5ysN/YBoDxWyeFUvpy3QAdhcq2kk1xuURkQ
- cJV6Ub9o46SSGscXNtyltviQ0dtPFOIyPc9wysJQ4yQMb8FJbkYg3PgokidQ2ohbJpXA
- LoUw==
+Received: from mail-ej1-f51.google.com (mail-ej1-f51.google.com
+ [209.85.218.51])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D0F1610E0A7
+ for <dri-devel@lists.freedesktop.org>; Tue, 28 Oct 2025 08:55:24 +0000 (UTC)
+Received: by mail-ej1-f51.google.com with SMTP id
+ a640c23a62f3a-b6d4e44c54aso992908066b.2
+ for <dri-devel@lists.freedesktop.org>; Tue, 28 Oct 2025 01:55:24 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1761640980; x=1762245780;
- h=content-transfer-encoding:in-reply-to:organization:autocrypt
- :content-language:references:cc:to:subject:reply-to:from:user-agent
- :mime-version:date:message-id:x-gm-message-state:from:to:cc:subject
- :date:message-id:reply-to;
- bh=6NXCKjRFgrYiAfp2xjDLu8YxTLQNZXtyNLdLhXM4zbE=;
- b=epy3vOscGqLxofG5UYlCKYhPMVkAB9IiZqV7/mIgTVoW7nUieZtN03AlC46jSHbKFh
- qeTZvGYr1fr/0p5fd2zRpt5k/N4ms812nLWh8H3Rh4gMFI1nGi0WYsXZ9AazeEmZe0cD
- zs8TDVONw+/7ZvJHSK6vdUG3tXgDrSkXCmqE4xc3omNW7NvKvztmReA/NTkn7jfDwE+7
- P/CfmQuHztcfMOCm7+E8l3r6BaLusLPScw7gc0lGKJQM3wRd59osizQ6xQSF8lAKK4RR
- I7vTmKCenkQme3TmiKUq40mIOCXSxmncZdOja+Bp+OolYd/e5sx1/lLpCE8nnrDFiI7R
- NsdA==
+ d=1e100.net; s=20230601; t=1761641721; x=1762246521;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=sgSr1Sq3rmkvSifWsaqV5UJXWYKlFIY0mGeJWjM3fUg=;
+ b=QUtNlRS7djWzQGc0KLLEadjKcxVRe16mNSl0SHoQf4zporILsdpB9ZTb0mt2pvnZk5
+ SXnLkguiByrczJ03pbk3NzXo0dS853Ghiclt9Yd66Tq9/uMG5M7eWX9ur05QdXTU4IDr
+ K6GA0gNbJgkCJOw5NJqFugfidDJF5EQIHWRPq9xDY2cgR8Qvv9WbbGeD0C4r0MXCpZYq
+ hJO6Xxt9AWA5VaAsQxgq/wC/uW0v8/G3N+9Ry5teZuFFdzI+QEhW1cvrXxqd06UZrtde
+ W9dqPyw+ZFN+/hAmsW6WWc+CjdQo1ZjtIAD/8IN9tDxOCoKb/ZiyAzec/nKfuC3XFnFU
+ SZ8g==
 X-Forwarded-Encrypted: i=1;
- AJvYcCXDC9jdPd9qg0UX/WbI4tozTDtyKrLHH+iKvsrI4x5PplaotSBhwdJ2uUDaSWqwbRzPTPuL8nu6u/Q=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YynFhBi6YUNR7+P1LBXHwrVWgI9AN2R/mrfvFTaLOxEWdzbhX3s
- MmXLlJ2ET5JPgNE46KcjBrFJMF1rMCXgZFFqdjYefFWedZ05V5dDFjEItAHe3VKquUo=
-X-Gm-Gg: ASbGncujX+Hj3rfrTt3gXCqBj1xDhxko+mDyfdrDd0yKg+Bpbuj5zxQQ2voeaTm+/v3
- Rdl2/yrpxCSxrk2C02EInbcAp+hpC0ywwgJBh5cXQtMLKGFYbHIGejFlsvat1H2AjSBwJpRcKYO
- /RPONeNzf0WLclGc7gTPD6gf9wO0PBOW+nufiwDIu19b6lOfa6yh30Izf1ONYkv7CL+wmivXS1I
- in/ghc9qHoErMtPxYSpZ+OQXeoi45CvBhcpHLfmtOa/fG0SauTleIjTXzp90S6PV/pfncP1Hh5C
- znzVWUz1RXJpkp5rRGV7fBf97oiI7ba2XWiWB8kyj8MmfqLYJK/Ru9J1jvca0FC5eV8ZctVjdi9
- lIWTO8aIHy/qJ8iaN0iXL6M8W0nOSLNgL2WBSYmWb8zNSV1SnIbAPDGRUgEcXQP6m4Wb21/bdqN
- l1iOT/Yzzi1oa0KzdWPrqW2XVl2bo5Rx7XD7/Izevo1qLDnefz8w==
-X-Google-Smtp-Source: AGHT+IGO/CrRm+czlEY/95+Qqx9U6VFPdwHdnit4aNOq5qYQYeiVQ3qkFspoLXuMWyUgnNASWVZ6rg==
-X-Received: by 2002:a05:6000:1861:b0:427:928:787f with SMTP id
- ffacd0b85a97d-429a7e4ee59mr1933860f8f.21.1761640979509; 
- Tue, 28 Oct 2025 01:42:59 -0700 (PDT)
-Received: from ?IPV6:2a01:e0a:cad:2140:ebe6:df10:d28d:aa5?
- ([2a01:e0a:cad:2140:ebe6:df10:d28d:aa5])
- by smtp.gmail.com with ESMTPSA id
- ffacd0b85a97d-429952e2e06sm19118388f8f.46.2025.10.28.01.42.58
+ AJvYcCXc7Q09OCwO7MY+zyO7riC0gNlJUsMnFk4yLjkX/pn5N4iJoNDaSdwQT3pJfs7zgaBqTe60D4gMVuw=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YzIUrsvBU8L4UIUNjWYyvp4T9k1BJ0JjprWeLxBeRjOYEDoC7HV
+ 5FAiuoY25ppkSG6gPrdP3EEmEZ2ZsdHELmZ9oUJPhJ3745GaVxKrJJV8tqI6j/kstcc=
+X-Gm-Gg: ASbGncsUaTC2KePU2gnodyHxzAQyxoFs+K8AK0ddgjIPLWbJB2GjMvIlqt8j4nZxGvg
+ EC0XavBGPSWQf0Y/f+S+iAL/r5xThC19RiX2HjRwVMRqhHhxpv2crnppv0A3C2+/el7YUg6RfeM
+ xtgo7+oBiTA6TqB8TxKG5VpxfDuA1KO1ThEBQZpOAn++K3N+Y00eDF0JuM5I+b6alCvbpv8bvRp
+ 0oGcSLb21ZL4pJsiJBajh74SrR+WSv178NtpMCvqLBbC/uvNRB+zyyr8CMM8AlU7QgsctmZJEg8
+ ysfCZMtEuZqtbGhWk7XPTXLletASYlUiGGOo2eXjh46evAFZ3vkqE49ucSewGjSp/tbUbmM96Rz
+ Lb2d/EJH+7rxAZZiUR1oJcYzlQwiv1PD10FdtAufO58li66PH2txdV8JYt+3yHKqOP/b810do7u
+ VJtUHFX41JMcOQG7B7ZpKGiZwmEMV3USpaXDv4/A==
+X-Google-Smtp-Source: AGHT+IEsKz8MpKz0cGfmmGbP/77AzQAiBjnyGVpuezSmUqpcAep90k7F0u05pM3K3mYlInq9CqD6lQ==
+X-Received: by 2002:a17:906:38d4:b0:b6d:7843:11c6 with SMTP id
+ a640c23a62f3a-b6dba49bb25mr224148766b.25.1761641720598; 
+ Tue, 28 Oct 2025 01:55:20 -0700 (PDT)
+Received: from mail-ej1-f50.google.com (mail-ej1-f50.google.com.
+ [209.85.218.50]) by smtp.gmail.com with ESMTPSA id
+ 4fb4d7f45d1cf-63e7efb818esm8026139a12.24.2025.10.28.01.55.15
+ for <dri-devel@lists.freedesktop.org>
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 28 Oct 2025 01:42:59 -0700 (PDT)
-Message-ID: <6381550a-4c1a-429d-b6c1-8c7ae77bf325@linaro.org>
-Date: Tue, 28 Oct 2025 09:42:57 +0100
+ Tue, 28 Oct 2025 01:55:18 -0700 (PDT)
+Received: by mail-ej1-f50.google.com with SMTP id
+ a640c23a62f3a-b6d4e44c54aso992889766b.2
+ for <dri-devel@lists.freedesktop.org>; Tue, 28 Oct 2025 01:55:15 -0700 (PDT)
+X-Forwarded-Encrypted: i=1;
+ AJvYcCVXlk/4IjtJ/TTpxs/m2h7ujW94BiZiJEaNv4QmnRaZ5CPe6P8kDKjbyy9SuyFKhUAl1NUNNGJwp9I=@lists.freedesktop.org
+X-Received: by 2002:a17:906:ee89:b0:b6d:7b77:ff33 with SMTP id
+ a640c23a62f3a-b6dba4871fbmr312874166b.19.1761641715408; Tue, 28 Oct 2025
+ 01:55:15 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-From: neil.armstrong@linaro.org
-Subject: Re: [PATCH v2] drm/msm/dpu: Filter modes based on adjusted mode clock
-To: Jessica Zhang <jessica.zhang@oss.qualcomm.com>,
- Rob Clark <robdclark@gmail.com>, Dmitry Baryshkov <lumag@kernel.org>,
- Sean Paul <sean@poorly.run>, Marijn Suijten <marijn.suijten@somainline.org>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>
-Cc: Abhinav Kumar <quic_abhinavk@quicinc.com>, linux-arm-msm@vger.kernel.org, 
- dri-devel@lists.freedesktop.org, freedreno@lists.freedesktop.org,
- linux-kernel@vger.kernel.org
-References: <20250506-filter-modes-v2-1-c20a0b7aa241@oss.qualcomm.com>
-Content-Language: en-US, fr
-Autocrypt: addr=neil.armstrong@linaro.org; keydata=
- xsBNBE1ZBs8BCAD78xVLsXPwV/2qQx2FaO/7mhWL0Qodw8UcQJnkrWmgTFRobtTWxuRx8WWP
- GTjuhvbleoQ5Cxjr+v+1ARGCH46MxFP5DwauzPekwJUD5QKZlaw/bURTLmS2id5wWi3lqVH4
- BVF2WzvGyyeV1o4RTCYDnZ9VLLylJ9bneEaIs/7cjCEbipGGFlfIML3sfqnIvMAxIMZrvcl9
- qPV2k+KQ7q+aXavU5W+yLNn7QtXUB530Zlk/d2ETgzQ5FLYYnUDAaRl+8JUTjc0CNOTpCeik
- 80TZcE6f8M76Xa6yU8VcNko94Ck7iB4vj70q76P/J7kt98hklrr85/3NU3oti3nrIHmHABEB
- AAHNKk5laWwgQXJtc3Ryb25nIDxuZWlsLmFybXN0cm9uZ0BsaW5hcm8ub3JnPsLAkQQTAQoA
- OwIbIwULCQgHAwUVCgkICwUWAgMBAAIeAQIXgBYhBInsPQWERiF0UPIoSBaat7Gkz/iuBQJk
- Q5wSAhkBAAoJEBaat7Gkz/iuyhMIANiD94qDtUTJRfEW6GwXmtKWwl/mvqQtaTtZID2dos04
- YqBbshiJbejgVJjy+HODcNUIKBB3PSLaln4ltdsV73SBcwUNdzebfKspAQunCM22Mn6FBIxQ
- GizsMLcP/0FX4en9NaKGfK6ZdKK6kN1GR9YffMJd2P08EO8mHowmSRe/ExAODhAs9W7XXExw
- UNCY4pVJyRPpEhv373vvff60bHxc1k/FF9WaPscMt7hlkbFLUs85kHtQAmr8pV5Hy9ezsSRa
- GzJmiVclkPc2BY592IGBXRDQ38urXeM4nfhhvqA50b/nAEXc6FzqgXqDkEIwR66/Gbp0t3+r
- yQzpKRyQif3OwE0ETVkGzwEIALyKDN/OGURaHBVzwjgYq+ZtifvekdrSNl8TIDH8g1xicBYp
- QTbPn6bbSZbdvfeQPNCcD4/EhXZuhQXMcoJsQQQnO4vwVULmPGgtGf8PVc7dxKOeta+qUh6+
- SRh3vIcAUFHDT3f/Zdspz+e2E0hPV2hiSvICLk11qO6cyJE13zeNFoeY3ggrKY+IzbFomIZY
- 4yG6xI99NIPEVE9lNBXBKIlewIyVlkOaYvJWSV+p5gdJXOvScNN1epm5YHmf9aE2ZjnqZGoM
- Mtsyw18YoX9BqMFInxqYQQ3j/HpVgTSvmo5ea5qQDDUaCsaTf8UeDcwYOtgI8iL4oHcsGtUX
- oUk33HEAEQEAAcLAXwQYAQIACQUCTVkGzwIbDAAKCRAWmrexpM/4rrXiB/sGbkQ6itMrAIfn
- M7IbRuiSZS1unlySUVYu3SD6YBYnNi3G5EpbwfBNuT3H8//rVvtOFK4OD8cRYkxXRQmTvqa3
- 3eDIHu/zr1HMKErm+2SD6PO9umRef8V82o2oaCLvf4WeIssFjwB0b6a12opuRP7yo3E3gTCS
- KmbUuLv1CtxKQF+fUV1cVaTPMyT25Od+RC1K+iOR0F54oUJvJeq7fUzbn/KdlhA8XPGzwGRy
- 4zcsPWvwnXgfe5tk680fEKZVwOZKIEuJC3v+/yZpQzDvGYJvbyix0lHnrCzq43WefRHI5XTT
- QbM0WUIBIcGmq38+OgUsMYu4NzLu7uZFAcmp6h8g
-Organization: Linaro
-In-Reply-To: <20250506-filter-modes-v2-1-c20a0b7aa241@oss.qualcomm.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+References: <20250926-drm-bridge-alloc-getput-bridge-connector-v2-1-138b4bb70576@bootlin.com>
+In-Reply-To: <20250926-drm-bridge-alloc-getput-bridge-connector-v2-1-138b4bb70576@bootlin.com>
+From: Geert Uytterhoeven <geert@linux-m68k.org>
+Date: Tue, 28 Oct 2025 09:55:02 +0100
+X-Gmail-Original-Message-ID: <CAMuHMdW=zEi4XjG2Qrvj=jCa9LPBRU7HBTwEQVbe0zoz5mV_XA@mail.gmail.com>
+X-Gm-Features: AWmQ_bkdfJ6sxxwu_pnYfZtG1vuGmDjY7HjwwEBTeHE2OWnxEnhaAiEho61lejE
+Message-ID: <CAMuHMdW=zEi4XjG2Qrvj=jCa9LPBRU7HBTwEQVbe0zoz5mV_XA@mail.gmail.com>
+Subject: Re: [PATCH v2] drm/display: bridge_connector: get/put the stored
+ bridges
+To: Luca Ceresoli <luca.ceresoli@bootlin.com>
+Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, 
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
+ Simona Vetter <simona@ffwll.ch>, Andrzej Hajda <andrzej.hajda@intel.com>,
+ Neil Armstrong <neil.armstrong@linaro.org>, 
+ Robert Foss <rfoss@kernel.org>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>, 
+ Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
+ Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>,
+ Hui Pu <Hui.Pu@gehealthcare.com>, 
+ Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org, 
+ Linux-Renesas <linux-renesas-soc@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -120,232 +94,183 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Reply-To: Neil Armstrong <neil.armstrong@linaro.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 5/7/25 03:38, Jessica Zhang wrote:
-> Filter out modes that have a clock rate greater than the max core clock
-> rate when adjusted for the perf clock factor
-> 
-> This is especially important for chipsets such as QCS615 that have lower
-> limits for the MDP max core clock.
-> 
-> Since the core CRTC clock is at least the mode clock (adjusted for the
-> perf clock factor) [1], the modes supported by the driver should be less
-> than the max core clock rate.
-> 
-> [1] https://elixir.bootlin.com/linux/v6.12.4/source/drivers/gpu/drm/msm/disp/dpu1/dpu_core_perf.c#L83
-> 
-> Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-> Signed-off-by: Jessica Zhang <jessica.zhang@oss.qualcomm.com>
-> ---
-> Changes in v2:
-> - *crtc_clock -> *mode_clock (Dmitry)
-> - Changed adjusted_mode_clk check to use multiplication (Dmitry)
-> - Switch from quic_* email to OSS email
-> - Link to v1: https://lore.kernel.org/lkml/20241212-filter-mode-clock-v1-1-f4441988d6aa@quicinc.com/
-> ---
->   drivers/gpu/drm/msm/disp/dpu1/dpu_core_perf.c | 35 ++++++++++++++++++---------
->   drivers/gpu/drm/msm/disp/dpu1/dpu_core_perf.h |  3 +++
->   drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c      | 12 +++++++++
->   3 files changed, 39 insertions(+), 11 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_core_perf.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_core_perf.c
-> index 0fb5789c60d0..13cc658065c5 100644
-> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_core_perf.c
-> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_core_perf.c
-> @@ -31,6 +31,26 @@ enum dpu_perf_mode {
->   	DPU_PERF_MODE_MAX
->   };
->   
-> +/**
-> + * dpu_core_perf_adjusted_mode_clk - Adjust given mode clock rate according to
-> + *   the perf clock factor.
-> + * @crtc_clk_rate - Unadjusted mode clock rate
-> + * @perf_cfg: performance configuration
-> + */
-> +u64 dpu_core_perf_adjusted_mode_clk(u64 mode_clk_rate,
-> +				    const struct dpu_perf_cfg *perf_cfg)
-> +{
-> +	u32 clk_factor;
-> +
-> +	clk_factor = perf_cfg->clk_inefficiency_factor;
-> +	if (clk_factor) {
-> +		mode_clk_rate *= clk_factor;
-> +		do_div(mode_clk_rate, 100);
-> +	}
-> +
-> +	return mode_clk_rate;
-> +}
-> +
->   /**
->    * _dpu_core_perf_calc_bw() - to calculate BW per crtc
->    * @perf_cfg: performance configuration
-> @@ -75,28 +95,21 @@ static u64 _dpu_core_perf_calc_clk(const struct dpu_perf_cfg *perf_cfg,
->   	struct drm_plane *plane;
->   	struct dpu_plane_state *pstate;
->   	struct drm_display_mode *mode;
-> -	u64 crtc_clk;
-> -	u32 clk_factor;
-> +	u64 mode_clk;
->   
->   	mode = &state->adjusted_mode;
->   
-> -	crtc_clk = (u64)mode->vtotal * mode->hdisplay * drm_mode_vrefresh(mode);
-> +	mode_clk = (u64)mode->vtotal * mode->hdisplay * drm_mode_vrefresh(mode);
->   
->   	drm_atomic_crtc_for_each_plane(plane, crtc) {
->   		pstate = to_dpu_plane_state(plane->state);
->   		if (!pstate)
->   			continue;
->   
-> -		crtc_clk = max(pstate->plane_clk, crtc_clk);
-> -	}
-> -
-> -	clk_factor = perf_cfg->clk_inefficiency_factor;
-> -	if (clk_factor) {
-> -		crtc_clk *= clk_factor;
-> -		do_div(crtc_clk, 100);
-> +		mode_clk = max(pstate->plane_clk, mode_clk);
->   	}
->   
-> -	return crtc_clk;
-> +	return dpu_core_perf_adjusted_mode_clk(mode_clk, perf_cfg);
->   }
->   
->   static struct dpu_kms *_dpu_crtc_get_kms(struct drm_crtc *crtc)
-> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_core_perf.h b/drivers/gpu/drm/msm/disp/dpu1/dpu_core_perf.h
-> index d2f21d34e501..3740bc97422c 100644
-> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_core_perf.h
-> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_core_perf.h
-> @@ -54,6 +54,9 @@ struct dpu_core_perf {
->   	u32 fix_core_ab_vote;
->   };
->   
-> +u64 dpu_core_perf_adjusted_mode_clk(u64 clk_rate,
-> +				    const struct dpu_perf_cfg *perf_cfg);
-> +
->   int dpu_core_perf_crtc_check(struct drm_crtc *crtc,
->   		struct drm_crtc_state *state);
->   
-> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c
-> index 0714936d8835..5e3c34fed63b 100644
-> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c
-> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c
-> @@ -1501,6 +1501,7 @@ static enum drm_mode_status dpu_crtc_mode_valid(struct drm_crtc *crtc,
->   						const struct drm_display_mode *mode)
->   {
->   	struct dpu_kms *dpu_kms = _dpu_crtc_get_kms(crtc);
-> +	u64 adjusted_mode_clk;
->   
->   	/* if there is no 3d_mux block we cannot merge LMs so we cannot
->   	 * split the large layer into 2 LMs, filter out such modes
-> @@ -1508,6 +1509,17 @@ static enum drm_mode_status dpu_crtc_mode_valid(struct drm_crtc *crtc,
->   	if (!dpu_kms->catalog->caps->has_3d_merge &&
->   	    mode->hdisplay > dpu_kms->catalog->caps->max_mixer_width)
->   		return MODE_BAD_HVALUE;
-> +
-> +	adjusted_mode_clk = dpu_core_perf_adjusted_mode_clk(mode->clock,
-> +							    dpu_kms->perf.perf_cfg);
-> +
-> +	/*
-> +	 * The given mode, adjusted for the perf clock factor, should not exceed
-> +	 * the max core clock rate
-> +	 */
-> +	if (dpu_kms->perf.max_core_clk_rate < adjusted_mode_clk * 1000)
-> +		return MODE_CLOCK_HIGH;
+Hi Luca,
 
-This test doesn't take in account if the mode is for a bonded DSI mode, which
-is the same mode on 2 interfaces doubled, but it's valid since we could literally
-set both modes separately. In bonded DSI this mode_clk must be again divided bv 2
-in addition to the fix:
-https://lore.kernel.org/linux-arm-msm/20250923-modeclk-fix-v2-1-01fcd0b2465a@oss.qualcomm.com/
+On Sun, 28 Sept 2025 at 16:25, Luca Ceresoli <luca.ceresoli@bootlin.com> wrote:
+> drm_bridge_connector_init() takes eight pointers to various bridges, some
+> of which can be identical, and stores them in pointers inside struct
+> drm_bridge_connector. Get a reference to each of the taken bridges and put
+> it on cleanup.
+>
+> This is tricky because the pointers are currently stored directly in the
+> drm_bridge_connector in the loop, but there is no nice and clean way to put
+> those pointers on error return paths. To overcome this, store all pointers
+> in temporary local variables with a cleanup action, and only on success
+> copy them into struct drm_bridge_connector (getting another ref while
+> copying).
+>
+> Additionally four of these pointers (edid, hpd, detect and modes) can be
+> written in multiple loop iterations, in order to eventually store the last
+> matching bridge. However, when one of those pointers is overwritten, we
+> need to put the reference that we got during the previous assignment. Add a
+> drm_bridge_put() before writing them to handle this.
+>
+> Finally, there is also a function-local panel_bridge pointer taken inside
+> the loop and used after the loop. Use a cleanup action as well to ensure it
+> is put on return.
+>
+> Signed-off-by: Luca Ceresoli <luca.ceresoli@bootlin.com>
 
-I'm trying to find a correct way to handle that, I have tried that:
-===========================><========================================
-diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c
-index 48c3aef1cfc2..6aa5db1996e3 100644
---- a/drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c
-+++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c
-@@ -1684,8 +1684,10 @@ static int dpu_crtc_atomic_check(struct drm_crtc *crtc,
-  static enum drm_mode_status dpu_crtc_mode_valid(struct drm_crtc *crtc,
-  						const struct drm_display_mode *mode)
-  {
-+	struct drm_encoder *encoder = get_encoder_from_crtc(crtc);
-  	struct dpu_kms *dpu_kms = _dpu_crtc_get_kms(crtc);
-  	u64 adjusted_mode_clk;
-+	unsigned int intfs;
+Thanks for your patch, which is now commit 2be300f9a0b6f6b0
+("drm/display: bridge_connector: get/put the stored bridges")
+in drm-misc/drm-misc-next.
 
-  	/* if there is no 3d_mux block we cannot merge LMs so we cannot
-  	 * split the large layer into 2 LMs, filter out such modes
-@@ -1700,12 +1702,18 @@ static enum drm_mode_status dpu_crtc_mode_valid(struct drm_crtc *crtc,
-  	if (dpu_kms->catalog->caps->has_3d_merge)
-  		adjusted_mode_clk /= 2;
+FTR, this causes the following crash on Koelsch (R-Car M2-W):
 
-+	intfs = dpu_encoder_get_intf_count(encoder);
-+	if (intfs)
-+		adjusted_mode_clk /= intfs;
-+
-  	/*
-  	 * The given mode, adjusted for the perf clock factor, should not exceed
-  	 * the max core clock rate
-  	 */
-diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c
-index 3dd202e0ce94..862239b7d4bc 100644
---- a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c
-+++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c
-@@ -2892,6 +2892,23 @@ enum dpu_intf_mode dpu_encoder_get_intf_mode(struct drm_encoder *encoder)
-  	return INTF_MODE_NONE;
-  }
+    Unable to handle kernel NULL pointer dereference at virtual
+address 00000050 when read
+    [00000050] *pgd=00000000
+    Internal error: Oops: 5 [#1] SMP ARM
+    CPU: 1 UID: 0 PID: 12 Comm: kworker/u8:0 Not tainted
+6.17.0-rc6-shmobile-01124-g2be300f9a0b6 #2283 NONE
+    Hardware name: Generic R-Car Gen2 (Flattened Device Tree)
+    Workqueue: events_unbound deferred_probe_work_func
+    PC is at drm_bridge_connector_hdmi_cec_init+0x8/0x24
+    LR is at drmm_connector_hdmi_cec_register+0x104/0x1a8
+    pc : [<c0507240>]    lr : [<c051460c>]    psr: 60000013
+    sp : f0849c50  ip : 00000000  fp : 00000008
+    r10: c1f865c8  r9 : c1f84820  r8 : c1d32ecc
+    r7 : c1e4a980  r6 : c1f94000  r5 : c1d32840  r4 : c0a97930
+    r3 : c0507238  r2 : c151e040  r1 : c1d32840  r0 : 00000000
+    Flags: nZCv  IRQs on  FIQs on  Mode SVC_32  ISA ARM  Segment none
+    Control: 10c5387d  Table: 4000406a  DAC: 00000051
+    Register r0 information: NULL pointer
+    Register r1 information: slab kmalloc-2k start c1d32800 pointer
+offset 64 size 2048
+    Register r2 information: slab task_struct start c151e040 pointer
+offset 0 size 2240
+    Register r3 information: non-slab/vmalloc memory
+    Register r4 information: non-slab/vmalloc memory
+    Register r5 information: slab kmalloc-2k start c1d32800 pointer
+offset 64 size 2048
+    Register r6 information: slab kmalloc-1k start c1f94000 pointer
+offset 0 size 1024
+    Register r7 information: slab kmalloc-64 start c1e4a980 pointer
+offset 0 size 64
+    Register r8 information: slab kmalloc-2k start c1d32800 pointer
+offset 1740 size 2048
+    Register r9 information: slab kmalloc-1k start c1f84800 pointer
+offset 32 size 1024
+    Register r10 information: slab kmalloc-1k start c1f86400 pointer
+offset 456 size 1024
+    Register r11 information: non-paged memory
+    Register r12 information: NULL pointer
+    Process kworker/u8:0 (pid: 12, stack limit = 0x(ptrval))
+    Stack: (0xf0849c50 to 0xf084a000)
+    9c40:                                     00000003 00000011
+00000001 00000000
+    9c60: 00000049 00000000 00000000 00000000 00000000 00000000
+00000000 00000000
+    9c80: 00000000 00000000 00000000 00000000 00000000 00000000
+00000000 a8bfa8e4
+    9ca0: c1d32840 c1d32840 c1f865c8 c1f865c8 00000000 c1d32840
+00000000 c0507ba0
+    9cc0: c1f84820 00000011 00000001 00000002 00000001 00000008
+c04fba80 c204800c
+    9ce0: 00000dc0 00000000 c1f865c8 c1f865c8 c1f865c8 00000000
+c1f865c8 c1f865c8
+    9d00: 00000000 c1f865c8 00000000 a8bfa8e4 c1e42a00 00000000
+00000000 c2048000
+    9d20: c1f865c8 c1e42a00 c204800c c0c66958 ef7f7b44 c0517ab4
+00000000 00000000
+    9d40: c2048000 00000000 00000000 c204b000 ef7f0794 00000000
+00000000 c0518ab8
+    9d60: 00000000 00000000 01ffffff 00000000 c204800c ef7f0214
+f0f40000 c204f000
+    9d80: 00000000 00000000 ef7f0794 c2081f80 c0c7a60d c052d728
+c1588c10 a0000013
+    9da0: c2081fc0 c052d780 f0f40000 c2081fc0 00040000 c1588c10
+f0f40000 c03f57f4
+    9dc0: c0c4fe58 feb00000 c1588c10 c16683c0 00000000 a8bfa8e4
+00000000 00000000
+    9de0: c2048000 c204800c c1588c00 00000000 c1588c10 00000000
+c0fe8e30 c0517818
+    9e00: c1588c10 c0fe8670 c0fe8670 00000000 00000005 c140ed0d
+61c88647 c052c148
+    9e20: 00000000 c1588c10 c0fe8670 c052a118 c1588c10 c0fe8670
+f0849ecc c1588c10
+    9e40: 00000005 c052a3e8 c0fe8670 c1588c10 c10773d0 c10773d8
+f0849ecc c1588c10
+    9e60: 00000005 61c88647 c0fe8e30 c052a490 00000001 c0fe8670
+f0849ecc c1588c10
+    9e80: c102fc00 c052a568 00000000 c14ac400 f0849ecc c052a510
+c102fc00 c05287fc
+    9ea0: c140ed0d c14ac46c c1594db8 a8bfa8e4 c1588c10 c1588c10
+c14ac400 00000001
+    9ec0: c1588c54 c0529f80 c1588c10 c1588c10 00000001 a8bfa8e4
+c14ac400 c1588c10
+    9ee0: c14ac400 c1588c10 00000000 c05290f4 c1588c10 c0fe8e10
+c0fe8e68 00000000
+    9f00: c102fc00 c0529b3c c1496180 c140ed00 c1406600 c0fe8e2c
+c102fc00 c01414ac
+    9f20: 00000002 a8bfa8e4 c151e040 c151e040 c1406620 c1406600
+c140665c c1496180
+    9f40: c1406620 c1406600 c140665c c151e040 c14961ac c1030120
+c0f03d00 c014173c
+    9f60: 00000000 c151e040 c1496400 c1494140 00000001 00000000
+c01415cc c1496180
+    9f80: 00000000 c01498cc c1494140 a8bfa8e4 c1494140 c014976c
+00000000 00000000
+    9fa0: 00000000 00000000 00000000 c010014c 00000000 00000000
+00000000 00000000
+    9fc0: 00000000 00000000 00000000 00000000 00000000 00000000
+00000000 00000000
+    9fe0: 00000000 00000000 00000000 00000000 00000013 00000000
+00000000 00000000
+    Call trace:
+     drm_bridge_connector_hdmi_cec_init from
+drmm_connector_hdmi_cec_register+0x104/0x1a8
+     drmm_connector_hdmi_cec_register from drm_bridge_connector_init+0x4d8/0x5e8
+     drm_bridge_connector_init from rcar_du_encoder_init+0x1e4/0x240
+     rcar_du_encoder_init from rcar_du_modeset_init+0x4f0/0x640
+     rcar_du_modeset_init from rcar_du_probe+0xe0/0x164
+     rcar_du_probe from platform_probe+0x58/0x90
+     platform_probe from really_probe+0x128/0x28c
+     really_probe from __driver_probe_device+0x16c/0x18c
+     __driver_probe_device from driver_probe_device+0x3c/0xbc
+     driver_probe_device from __device_attach_driver+0x58/0xbc
+     __device_attach_driver from bus_for_each_drv+0xc0/0xd4
+     bus_for_each_drv from __device_attach+0xec/0x154
+     __device_attach from bus_probe_device+0x2c/0x84
+     bus_probe_device from deferred_probe_work_func+0x80/0x98
+     deferred_probe_work_func from process_scheduled_works+0x1bc/0x2dc
+     process_scheduled_works from worker_thread+0x170/0x208
+     worker_thread from kthread+0x160/0x1fc
+     kthread from ret_from_fork+0x14/0x28
+    Exception stack(0xf0849fb0 to 0xf0849ff8)
+    9fa0:                                     00000000 00000000
+00000000 00000000
+    9fc0: 00000000 00000000 00000000 00000000 00000000 00000000
+00000000 00000000
+    9fe0: 00000000 00000000 00000000 00000000 00000013 00000000
+    Code: e49de004 e12fff1c e1a01000 e59006c8 (e5903050)
+    ---[ end trace 0000000000000000 ]---
 
-+/**
-+ * dpu_encoder_get_intf_count - get interface count of the given encoder
-+ * @encoder: Pointer to drm encoder object
-+ */
-+unsigned int dpu_encoder_get_intf_count(struct drm_encoder *encoder)
-+{
-+	struct dpu_encoder_virt *dpu_enc = NULL;
-+
-+	if (!encoder) {
-+		DPU_ERROR("invalid encoder\n");
-+		return 0;
-+	}
-+	dpu_enc = to_dpu_encoder_virt(encoder);
-+
-+	return dpu_enc->num_phys_encs;
-+}
-+
-  /**
-   * dpu_encoder_helper_get_cwb_mask - get CWB blocks mask for the DPU encoder
-   * @phys_enc: Pointer to physical encoder structure
-diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.h b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.h
-index ca1ca2e51d7e..f10ad297b379 100644
---- a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.h
-+++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.h
-@@ -58,6 +58,8 @@ int dpu_encoder_wait_for_tx_complete(struct drm_encoder *drm_encoder);
+Applying "[PATCH v2 0/3] drm/display: bridge_connector: get/put the
+stored bridges: fix NULL pointer regression"[1] fixes the issue.
 
-  enum dpu_intf_mode dpu_encoder_get_intf_mode(struct drm_encoder *encoder);
+[1] https://lore.kernel.org/20251017-drm-bridge-alloc-getput-bridge-connector-fix-hdmi_cec-v2-0-667abf6d47c0@bootlin.com/
 
-+unsigned int dpu_encoder_get_intf_count(struct drm_encoder *encoder);
-+
-  void dpu_encoder_virt_runtime_resume(struct drm_encoder *encoder);
+Gr{oetje,eeting}s,
 
-  uint32_t dpu_encoder_get_clones(struct drm_encoder *drm_enc);
-====================================><========================================
+                        Geert
 
-But this doesn't work since the crtc hasn't been associated to the encoder yet....
+-- 
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
 
-Neil
-
-> +
->   	/*
->   	 * max crtc width is equal to the max mixer width * 2 and max height is 4K
->   	 */
-> 
-> ---
-> base-commit: db76003ade5953d4a83c2bdc6e15c2d1c33e7350
-> change-id: 20250506-filter-modes-c60b4332769f
-> 
-> Best regards,
-
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
