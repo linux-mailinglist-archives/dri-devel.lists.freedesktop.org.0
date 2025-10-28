@@ -2,78 +2,65 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B4786C1442E
-	for <lists+dri-devel@lfdr.de>; Tue, 28 Oct 2025 12:06:27 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id C357CC144F6
+	for <lists+dri-devel@lfdr.de>; Tue, 28 Oct 2025 12:16:26 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B4C5C10E386;
-	Tue, 28 Oct 2025 11:06:24 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 85D9310E38D;
+	Tue, 28 Oct 2025 11:16:22 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="Pz/LzL+J";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="hhuKsopp";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pl1-f177.google.com (mail-pl1-f177.google.com
- [209.85.214.177])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BAAEF10E386
- for <dri-devel@lists.freedesktop.org>; Tue, 28 Oct 2025 11:06:23 +0000 (UTC)
-Received: by mail-pl1-f177.google.com with SMTP id
- d9443c01a7336-29490944023so40011045ad.3
- for <dri-devel@lists.freedesktop.org>; Tue, 28 Oct 2025 04:06:23 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1761649583; x=1762254383; darn=lists.freedesktop.org;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=iUWmP3PhZ8tlgKqgNEzC2Ad8cbsR84+pstOsL3UQMkk=;
- b=Pz/LzL+JL6fOJyV27fsEeQE6kcxTblmmwMjjWJABiF21o39CWBsccSJ4OdQnn0nNRs
- 9ziE2g8CQT6U4Tv7PhPySwN4ilI3Ip9tftAgKvpLfT1fD3BgSgr526iQcDn9Q+5grDwI
- PKGYKVrzD6Y9VjObpgSNcr+qtGYYePK1gY5fxhW0lulHMV/9PRkugYR7D1OCMs59K+xh
- qGVm4Oi7dEXGZI+B7FR2FausuHU50rwtrXpCbRX0CIqJS9i7rv6QShr1cIK5jbXbF/pe
- aRJirnASKYp/I5Lvy9C13oh9CUCL0RtLdE1SKVu7t2nxy510ogHZzSviPdhCA1Ypsq5c
- GeNw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1761649583; x=1762254383;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=iUWmP3PhZ8tlgKqgNEzC2Ad8cbsR84+pstOsL3UQMkk=;
- b=PLDPgpf0wyu8GjbhptFMyme30U/KrUlFWuL7+UtXZXAegi/JMekK6Rh8dcYXlw4vyp
- sG01MfYRzlfvjNcdZp1TF38a2yGqkSBYJsYhJNKXPnW+kYRD0FTbXpBXfnJ0+IDQrQQW
- GZLvnnsIme2izjJOmHgj9c3Goxq6J+Ja0qVeKxwnZSUM90xFxBT5xAlpPNY+wsDPOPP0
- l5f9qTKF5xKzdwK3NjF9boQgirAeB5rrUwSZ8AyknG0RcRTdGLq6yg9ieWWNoy0FNUQq
- Kr3DSJbdlmmmCR7/aZJDVhI5YCxvOs7FVBZoPo8WpR2WH5Am80iZtHLS4TCIdBdHu/YN
- fsMg==
-X-Forwarded-Encrypted: i=1;
- AJvYcCVOl0OqvOeciIfLvdh32X3qug6LoNEGOs7fJanADxSmLrf/aruANsYJEk34giUmoAX2qTuPzeARvTw=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YyDEDZgqGBt2tKu8qWcZZeMGGlKs7OdxIkUcqjxHXaCUbPyt/DV
- sfUXX0oDKeSWHG8jk8RLobU6EJv/RUf3r9LioKQr36gGalifLDw0uHPJSvAtBTRZxZ3MPd1mxhs
- tjVK2ZihSb6nCKbbmVml+G81eimS+yws=
-X-Gm-Gg: ASbGncu5vEy62NHziVAJZm+JEyOjOLZ6IuUf7O7+dDHoy/nZy+keFBuf5C2RioXNjNo
- BG7JGZJfib6b4xITI0ZxLdh4p0MT5cWBqDWKuIvUvfpDl2d+nkNF0Bmo4jbbYwpZAZghRs2GbNj
- 96oVIudVejkDO23n5OVtPO3lwzNcqvzpkryFwGikCpG35Ff1oDrkDhyCEP8q67oZDF0JUq5o86k
- vGz7Yhctsd8WCUCa79GSDoLHutFYr4KtCkC0dOqYJE32jUwy+spMcvH7tPf+M3bO9e4PGaab+JS
- ktr0CbR5K2Dl1v8rhnnAteDXocflcnOfUyG2jT3TB5uZTM/JVjTLUMkAdALY01aGImK8EPubs0b
- Tjpo=
-X-Google-Smtp-Source: AGHT+IF7FNORVzgaeQ1govCGZtEXJ05FSICIDDXxzpekPFmsjSkXmOeYH2v4GP77oi5zhp/UIA8gm9W95L73ZNdDHns=
-X-Received: by 2002:a17:902:cec7:b0:283:c950:a76f with SMTP id
- d9443c01a7336-294cb67398fmr45724665ad.43.1761649583232; Tue, 28 Oct 2025
- 04:06:23 -0700 (PDT)
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C195710E1D9;
+ Tue, 28 Oct 2025 11:16:20 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1761650181; x=1793186181;
+ h=date:from:to:cc:subject:message-id:mime-version;
+ bh=dI1rzBa7ds/3W/v9SECEKeI/r7j/lqEjo7QIszR9sKU=;
+ b=hhuKsoppiRuJapuNsVv+UD9PPJ5gMr1zGeOzJM8u9dvdvPXGi/XRDI8B
+ VQ+2rQRmBsAq9WTCr1PjTZR0nPLWfZZ0jxhL2VGH98V5ilLpmtIbs5tQC
+ geJRUq7D8lEwpPdY9ZUazhKtogxn6wgDfqSFwifK1aVpoOSlFgoTlu4pF
+ fTi9EF6OVQ/apBZ7ToUOaJDmQmkS4busApvIMA4FFvorWaJEZ7iXJJB7L
+ SltIDjv+o9NO7wCp9MeFRcuSeWRsuLe2nIE8T9oxkiIm46S688kHOgA5B
+ kbtXGRT/RsIuiuYRZ6fwQuVtOLO+VSMel3ZCvpTh6MEGxHpciCc9zTC5q g==;
+X-CSE-ConnectionGUID: fQzq2dg6TIOqj/lDomvOYg==
+X-CSE-MsgGUID: WvivcIPBSniXosheg6PQog==
+X-IronPort-AV: E=McAfee;i="6800,10657,11586"; a="51320065"
+X-IronPort-AV: E=Sophos;i="6.19,261,1754982000"; d="scan'208";a="51320065"
+Received: from orviesa009.jf.intel.com ([10.64.159.149])
+ by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 28 Oct 2025 04:16:20 -0700
+X-CSE-ConnectionGUID: ryapZbfhREixWD+l6PxmzQ==
+X-CSE-MsgGUID: qow/7ryiSx+k3eS+STijjg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.19,261,1754982000"; d="scan'208";a="184948414"
+Received: from klitkey1-mobl1.ger.corp.intel.com (HELO fedora)
+ ([10.245.244.149])
+ by orviesa009-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 28 Oct 2025 04:16:16 -0700
+Date: Tue, 28 Oct 2025 12:16:06 +0100
+From: Thomas Hellstrom <thomas.hellstrom@linux.intel.com>
+To: Dave Airlie <airlied@gmail.com>, Simona Vetter <simona.vetter@ffwll.ch>
+Cc: Jani Nikula <jani.nikula@linux.intel.com>,
+ Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
+ Tvrtko Ursulin <tursulin@ursulin.net>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas =?iso-8859-1?Q?Hellstr=F6m?= <thomas.hellstrom@linux.intel.com>,
+ Oded Gabbay <ogabbay@kernel.org>,
+ Lucas De Marchi <lucas.demarchi@intel.com>,
+ dri-devel@lists.freedesktop.org, intel-gfx@lists.freedesktop.org,
+ intel-xe@lists.freedesktop.org, dim-tools@lists.freedesktop.org
+Subject: [PULL] drm-xe-next
+Message-ID: <aQCl9uJxN6CWJ8Vg@fedora>
 MIME-Version: 1.0
-References: <20250928054913.7871-1-opensource206@gmail.com>
- <CABQX2QMgZ0VGQ+-RhF0suTyL9qkU1Hf5V7g2jvPQ+CwTEidZKQ@mail.gmail.com>
-In-Reply-To: <CABQX2QMgZ0VGQ+-RhF0suTyL9qkU1Hf5V7g2jvPQ+CwTEidZKQ@mail.gmail.com>
-From: opensource india <opensource206@gmail.com>
-Date: Tue, 28 Oct 2025 16:36:12 +0530
-X-Gm-Features: AWmQ_blOzU8MNjg24AK7wPsDJ9kJPnWwRA7YFclINRCUysc4TIihhoHenBhIG7M
-Message-ID: <CAKPKb8_tHVEFrkWHF3ycuDXOCJ9-qr64_sii9O4bcUiu4uuvRQ@mail.gmail.com>
-Subject: Re: [PATCH] drm/vmwgfx: Replace schedule() with schedule_hrtimeout()
- in fallback wait
-To: Zack Rusin <zack.rusin@broadcom.com>
-Cc: maarten.lankhorst@linux.intel.com, mripard@kernel.org, tzimmermann@suse.de,
- airlied@gmail.com, simona@ffwll.ch, bcm-kernel-feedback-list@broadcom.com, 
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -89,36 +76,172 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Zack Rusin,
+Hi Dave, Simona!
 
-On Mon, Oct 20, 2025 at 9:48=E2=80=AFAM Zack Rusin <zack.rusin@broadcom.com=
-> wrote:
->
+This weeks drm-xe-next PR.
 
-> I don't remember exactly the schedule family of functions but isn't
-> schedule_hrtimeout leaving the task in a running state? In general it
-> looks like with the patch the task's current state doesn't match what
-> was expected, plus I'm not sure if I quite get why the uninterruptible
-> non-lazy case is being replaced with a lazy wait of NSEC_PER_MSEC's.
-> It'd be great if you could explain a little bit better what you're
-> doing here because the commit message is missing an explanation for
-> either of those.
->
-> z
+drm-xe-next-2025-10-28:
+Driver Changes:
+More xe3p support (Harish, Brian, Balasubramani, Matt Roper)
+Make panic support work on VRAM for display (Maarten)
+Fix stolen size check (Shuicheng)
+xe_pci_test update (Gustavo)
+VF migration updates (Tomasz)
+A couple of fixes around allocation and PM references (Matt Brost)
+Migration update for the MEM_COPY instruction (Matt Auld)
+Initial CRI support (Balasubramani, Matt Roper)
+Use SVM range helpers in PT layer (Matt Brost)
+Drop MAX_GT_TYPE_CHARS constant (Matt Roper)
+Fix spelling and typos (Sanjay)
+Fix VF FLR synchronization between all GTs (Michal)
+Add a Workaround (Nitin)
+Access VF's register using dedicated MMIO view (Michal)
+The following changes since commit d104d7ea864c1b9d8ffb3d93a58d49f9395be670:
 
-Thank you for checking the patch.
+  drm/xe/xe3p: Add xe3p EU stall data format (2025-10-18 19:45:14 -0700)
 
-The existing code does not specify any fixed wait time during the
-fence wait. It simply invokes schedule(),
-which means the task can be rescheduled immediately to check the fence
-status again.
+are available in the Git repository at:
 
-By using the high-resolution timer family of functions, we can specify
-an explicit sleep duration.
-In this patch, the sleep time is set to 1 ms, ensuring that the fence
-status is checked at fixed 1 ms intervals.
+  https://gitlab.freedesktop.org/drm/xe/kernel.git tags/drm-xe-next-2025-10-28
 
-This approach allows the CPU to be released to other tasks for a
-deterministic period,
-thereby reducing unnecessary CPU wakeups while maintaining timely
-fence checks(FIXME expected the same).
+for you to fetch changes up to 4504e780689245f01bee6ee4c19c74051bd87593:
+
+  drm/xe/pf: Access VF's register using dedicated MMIO view (2025-10-27 17:22:18 +0100)
+
+----------------------------------------------------------------
+Driver Changes:
+More xe3p support (Harish, Brian, Balasubramani, Matt Roper)
+Make panic support work on VRAM for display (Maarten)
+Fix stolen size check (Shuicheng)
+xe_pci_test update (Gustavo)
+VF migration updates (Tomasz)
+A couple of fixes around allocation and PM references (Matt Brost)
+Migration update for the MEM_COPY instruction (Matt Auld)
+Initial CRI support (Balasubramani, Matt Roper)
+Use SVM range helpers in PT layer (Matt Brost)
+Drop MAX_GT_TYPE_CHARS constant (Matt Roper)
+Fix spelling and typos (Sanjay)
+Fix VF FLR synchronization between all GTs (Michal)
+Add a Workaround (Nitin)
+Access VF's register using dedicated MMIO view (Michal)
+
+----------------------------------------------------------------
+Balasubramani Vivekanandan (2):
+      drm/xe/xe3p_lpm: Add special check in Media GT for Main GAMCTRL
+      drm/xe/cri: Add CRI platform definition
+
+Brian Welty (1):
+      drm/xe/xe3p_lpm: Configure MAIN_GAMCTRL_QUEUE_SELECT
+
+Gustavo Sousa (2):
+      drm/xe/tests/pci: Convert GT count check to general device check
+      drm/xe/tests/pci: Check dma_mask_size, va_bits and vm_max_level
+
+Maarten Lankhorst (2):
+      drm/xe: Extract xe_bo_is_visible_vram
+      drm/xe/display: Make panic support work on vram.
+
+Matt Roper (4):
+      drm/xe/cri: Setup MOCS table
+      drm/xe/xe3p_xpc: Treat all PSMI MCR ranges as "INSTANCE0"
+      drm/xe/xe3p_xpc: Add MCR steering for NODE and L3BANK ranges
+      drm/xe/configfs: Drop MAX_GT_TYPE_CHARS constant
+
+Matthew Auld (7):
+      drm/xe/migrate: fix offset and len check
+      drm/xe/migrate: rework size restrictions for sram pte emit
+      drm/xe/migrate: fix chunk handling for 2M page emit
+      drm/xe/migrate: fix batch buffer sizing
+      drm/xe/migrate: trim batch buffer sizing
+      drm/xe/migrate: support MEM_COPY instruction
+      drm/xe/migrate: skip bounce buffer path on xe2
+
+Matthew Brost (4):
+      drm/xe: Check return value of GGTT workqueue allocation
+      drm/xe: Do not wake device during a GT reset
+      drm/xe: Avoid PM wake reference during VF migration
+      drm/xe: Use SVM range helpers in PT layer
+
+Michal Wajdeczko (2):
+      drm/xe/pf: Fix VF FLR synchronization between all GTs
+      drm/xe/pf: Access VF's register using dedicated MMIO view
+
+Nitin Gote (1):
+      drm/xe/xe3: Add WA_14024681466 for Xe3_LPG
+
+Sanjay Yadav (1):
+      drm/xe: Fix spelling and typos across Xe driver files
+
+Shuicheng Lin (1):
+      drm/xe: Fix stolen size check to allow equal WOPCM size
+
+Tomasz Lis (4):
+      drm/xe/vf: Revert logic of vf.migration.enabled
+      drm/xe/vf: Fix GuC FW check for VF migration support
+      drm/xe: Assert that VF will never use fixed placement of BOs
+      drm/xe/vf: Do not disable VF migration on ATS-M
+
+ drivers/gpu/drm/xe/display/xe_panic.c             |  50 +++++---
+ drivers/gpu/drm/xe/instructions/xe_gpu_commands.h |   6 +
+ drivers/gpu/drm/xe/regs/xe_gt_regs.h              |  10 ++
+ drivers/gpu/drm/xe/tests/xe_pci_test.c            |  16 ++-
+ drivers/gpu/drm/xe/xe_bo.c                        |  29 ++++-
+ drivers/gpu/drm/xe/xe_bo.h                        |   1 +
+ drivers/gpu/drm/xe/xe_bo_doc.h                    |   8 +-
+ drivers/gpu/drm/xe/xe_configfs.c                  |   5 +-
+ drivers/gpu/drm/xe/xe_device.c                    |   2 +-
+ drivers/gpu/drm/xe/xe_device_types.h              |  10 +-
+ drivers/gpu/drm/xe/xe_exec.c                      |   2 +-
+ drivers/gpu/drm/xe/xe_force_wake_types.h          |   4 +-
+ drivers/gpu/drm/xe/xe_ggtt.c                      |   3 +
+ drivers/gpu/drm/xe/xe_gt.c                        |  19 ++--
+ drivers/gpu/drm/xe/xe_gt_freq.c                   |   2 +-
+ drivers/gpu/drm/xe/xe_gt_mcr.c                    |  35 +++---
+ drivers/gpu/drm/xe/xe_gt_sriov_pf.c               |  36 ++----
+ drivers/gpu/drm/xe/xe_gt_sriov_pf_control.c       |   2 +
+ drivers/gpu/drm/xe/xe_gt_sriov_vf.c               |   7 +-
+ drivers/gpu/drm/xe/xe_gt_topology.c               |   7 ++
+ drivers/gpu/drm/xe/xe_gt_topology.h               |   2 +
+ drivers/gpu/drm/xe/xe_gt_types.h                  |   9 +-
+ drivers/gpu/drm/xe/xe_guc.c                       |  46 ++++++++
+ drivers/gpu/drm/xe/xe_guc.h                       |   1 +
+ drivers/gpu/drm/xe/xe_guc_ads.c                   |   6 +-
+ drivers/gpu/drm/xe/xe_guc_ads_types.h             |   2 +-
+ drivers/gpu/drm/xe/xe_guc_ct_types.h              |   2 +-
+ drivers/gpu/drm/xe/xe_guc_fwif.h                  |   1 +
+ drivers/gpu/drm/xe/xe_guc_log_types.h             |   2 +-
+ drivers/gpu/drm/xe/xe_guc_submit.c                |   2 +-
+ drivers/gpu/drm/xe/xe_guc_tlb_inval.c             |   2 +-
+ drivers/gpu/drm/xe/xe_map.h                       |   4 +-
+ drivers/gpu/drm/xe/xe_migrate.c                   | 132 ++++++++++++++++++----
+ drivers/gpu/drm/xe/xe_migrate_doc.h               |   2 +-
+ drivers/gpu/drm/xe/xe_mmio.c                      |  29 +++++
+ drivers/gpu/drm/xe/xe_mmio.h                      |   4 +
+ drivers/gpu/drm/xe/xe_mocs.c                      |  26 +++++
+ drivers/gpu/drm/xe/xe_pci.c                       |  20 ++++
+ drivers/gpu/drm/xe/xe_pci_types.h                 |   1 +
+ drivers/gpu/drm/xe/xe_platform_types.h            |   1 +
+ drivers/gpu/drm/xe/xe_pm.c                        |   2 +-
+ drivers/gpu/drm/xe/xe_preempt_fence_types.h       |   2 +-
+ drivers/gpu/drm/xe/xe_pt.c                        |  28 ++---
+ drivers/gpu/drm/xe/xe_range_fence.h               |   4 +-
+ drivers/gpu/drm/xe/xe_sched_job.c                 |   6 +-
+ drivers/gpu/drm/xe/xe_sched_job.h                 |  12 +-
+ drivers/gpu/drm/xe/xe_sched_job_types.h           |   2 +-
+ drivers/gpu/drm/xe/xe_sriov_vf.c                  |  39 +++----
+ drivers/gpu/drm/xe/xe_sriov_vf.h                  |   1 +
+ drivers/gpu/drm/xe/xe_sriov_vf_ccs.c              |  46 +++++++-
+ drivers/gpu/drm/xe/xe_sriov_vf_types.h            |   6 +-
+ drivers/gpu/drm/xe/xe_svm.c                       |   2 +-
+ drivers/gpu/drm/xe/xe_tlb_inval.h                 |   2 +-
+ drivers/gpu/drm/xe/xe_ttm_stolen_mgr.c            |   2 +-
+ drivers/gpu/drm/xe/xe_ttm_vram_mgr_types.h        |   4 +-
+ drivers/gpu/drm/xe/xe_uc_fw_types.h               |   6 +-
+ drivers/gpu/drm/xe/xe_uc_types.h                  |   2 +-
+ drivers/gpu/drm/xe/xe_validation.h                |   6 +-
+ drivers/gpu/drm/xe/xe_vm.c                        |  10 +-
+ drivers/gpu/drm/xe/xe_vm_doc.h                    |   8 +-
+ drivers/gpu/drm/xe/xe_vm_types.h                  |   4 +-
+ drivers/gpu/drm/xe/xe_wa.c                        |   4 +
+ include/drm/intel/pciids.h                        |   4 +
+ 63 files changed, 534 insertions(+), 216 deletions(-)
