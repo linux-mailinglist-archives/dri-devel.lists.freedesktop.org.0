@@ -2,80 +2,76 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0FAE4C16946
-	for <lists+dri-devel@lfdr.de>; Tue, 28 Oct 2025 20:16:23 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 58BDBC169A1
+	for <lists+dri-devel@lfdr.de>; Tue, 28 Oct 2025 20:25:18 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6CBC910E648;
-	Tue, 28 Oct 2025 19:16:21 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A21D110E08D;
+	Tue, 28 Oct 2025 19:25:12 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="jMU6VmCp";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="HRSQf8Mh";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-f42.google.com (mail-wr1-f42.google.com
- [209.85.221.42])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B087A10E645
- for <dri-devel@lists.freedesktop.org>; Tue, 28 Oct 2025 19:16:19 +0000 (UTC)
-Received: by mail-wr1-f42.google.com with SMTP id
- ffacd0b85a97d-4285169c005so3025075f8f.0
- for <dri-devel@lists.freedesktop.org>; Tue, 28 Oct 2025 12:16:19 -0700 (PDT)
+Received: from mail-pg1-f176.google.com (mail-pg1-f176.google.com
+ [209.85.215.176])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D535F10E08C
+ for <dri-devel@lists.freedesktop.org>; Tue, 28 Oct 2025 19:25:11 +0000 (UTC)
+Received: by mail-pg1-f176.google.com with SMTP id
+ 41be03b00d2f7-b6cdba2663dso4600217a12.2
+ for <dri-devel@lists.freedesktop.org>; Tue, 28 Oct 2025 12:25:11 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1761678978; x=1762283778; darn=lists.freedesktop.org;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:from:to:cc:subject:date
- :message-id:reply-to;
- bh=6Nm3E4MKpYHM3eDwwralpb5B+mems99sHN7CXPQYlpw=;
- b=jMU6VmCpjbzViWJJudES8hQ6kVG/3pshg/hTSojmHtqETNb5CXoZauHv6VQK60OJDK
- VyfdaZeB5Rdcw2OTAdfrZ8V3vN1DiTTIgOEdkzw4QlhOqGHuqU8j0TbxrjNhTg+k1OBS
- j6P0nW8MiAw9ZpG3yLsWRa486y+VmNWqrr82L3TSRD+Yq9O2udFCLZM1tgxb2yj6Llbt
- p5sh5j4QdgfXfuURdtxglg4y1uzYmO/LGaO1HBfwtTAdEBhbL23EgUL9//giAM+GpkWu
- r6tEtBPKUijNk5K4Mgx4phItwTe7rHc2Xy+ga0aaqxiMYTq5s650GS+rv6yovuafeh9h
- QiBw==
+ d=gmail.com; s=20230601; t=1761679511; x=1762284311; darn=lists.freedesktop.org;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date:message-id:reply-to;
+ bh=Y5IJin9cX8JhcYXZyyZU8pCrwryCs7+KxdDf2J6OLVE=;
+ b=HRSQf8Mh4rjaVOiGeVqtGd3NIhiuz11d2oD+OwrJzNuNg12mh9W6FvgQFJMsRKUFfu
+ gNLnwt3szLHaMK5ecKEU2cRlaHU9hKjwhvoXMWBCUmKK4zhJAVS1OM/npsCxxKcsht5g
+ MWlQP7Z3vY2QGIQ+FoVQGuBhzDdsob1QM6KBywcNVCAjwuRc/MZzj82K+I39aCGvl4Hw
+ oCZ4BFKnjpZCm+qM8Dp7t3aRdz1qxdpjONo4a3k072Wp4sRj5m4xKhvyJKMOFgO5P/wO
+ J1r22KD6ApsgoQzmRlekrQribWJvxTY7Due19v2uSLxmvVP/JInKpFLDWWVT5lZLqCSS
+ f2lA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1761678978; x=1762283778;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=6Nm3E4MKpYHM3eDwwralpb5B+mems99sHN7CXPQYlpw=;
- b=lq+u4K1AUFQ/bkbAFig+FHGNGzW58yI1hdTz2ymnNrAFk08qnRrGSy3B5aJ5eSehne
- wZWHc8qiFel246DioNCOfukVgVtA0WZzXLuc+FdsrR6BwIb+GciL2UoyMkUXF9PmRkVq
- JsyY5xrO3iTE8Q+VqIm4OhYbGFLfhWluuvReqSsfkXTYnNY3bxifTqLPyTC76qfEez32
- fGC2MBP8xCx4JS1E7YPsqTZMcbm1D/LboUCe7DbcftFBKan8fDk2HPii4/3o33LE2dA1
- jqFZWZbIvjC6eihR4zl8KMJ9Q149MjYSoy4RStjh4CRwWGxNMLPes229HxJ5ACE2Jdfc
- S97w==
+ d=1e100.net; s=20230601; t=1761679511; x=1762284311;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=Y5IJin9cX8JhcYXZyyZU8pCrwryCs7+KxdDf2J6OLVE=;
+ b=qcymbHPPej8DoYKYVZh/OohAHXg9sFVCDBP0Eo9F5vk8eP/RlR6QsplEOGYh7+R2n9
+ 06XzVjYq3+uEO0xXo1qllMi1Wi1curwbTrljJOR+YO8wJF/Ywp2se0O3b+vkCDo6bQtv
+ CqWa3tsDkK+6qD4dJsC8kSgCjniMHc9WJZkij/3vU9mrFQXYf4Lb2ECFWyhWffmJzMPp
+ vFB9Ul1cXihZqePGxCgJ+HPpSjjxtspRpZM/AxQYsjSBHAbpMetVhMnDQHxhWlBTBmsq
+ +vRA0Ro5RKYXQdkVHu24bPeyJCcvthXZAuC47J4U6Usjaj6VSUprT9To3vbb2eE2M4TY
+ cFSA==
 X-Forwarded-Encrypted: i=1;
- AJvYcCVfkRoIGpdrquZ3kV2aOVyiCMdBE/eRp+cvJTKbmxCLDCLSJPkI3m2YkHk6ei98vG8lQcj0MRQTq7g=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Yyq0yWP8t6h2vvqsXKieeGR3XsT82m9hX+t0CoCgiBwCHSpqCD6
- xDD60NKoAlVXM0jA+vlhlt5tGMruLMDvK7Ntv77E01P5dlek3+93srV/
-X-Gm-Gg: ASbGnctyIvuFXTD5uSKl30Druw8SHPRE2zgIlG5rL5rDP2J7BG0NPw9xb+nnYJHBd17
- Dpxtw1DCFlnMA5uFJuycI1MQuHfDdroUYrdcgsg+nBPkvyIzz8H1ic4BLCLXK4XgIpfr3XtfuIk
- rUBYUbI1A4VMhtxZ1N2wDSnbmFWSxcdcl/dPPTje5oc81ck3uLYGLD+CM5h5xygRe/J1iguTBjn
- uZdD5/EYgAqYfRTOWEATdzA8m5of1IQP60oo0AL3bdITdd2SG23pVIew3xiMCJC2+PBKXzs8XcQ
- dTFOZ9trp0KvSyVb1EYM+X8ICV1D/Ca4IOwg9BCtc2inguLqns0UMBlJeZt4zVNWEZmP2mW78oK
- kPm56Jf1v3CtWCczdnv9JX9BpA/KjaFU4NJ8I4ustpTAtKpECFLWYcWpErivZeKMa2mXoS4aUWA
- x/+jNIep4x7+epOJE/73JAqDIlCJF27NJBhmWsrBLL5vngQV5GNGSY+DpHXkM=
-X-Google-Smtp-Source: AGHT+IHffoMv5k0CgidXAMVyKRHrRcXi4iDRyKmMUzXSwiqt2PVTWsko8mfU0XNy6JLFIyM8tRxTSQ==
-X-Received: by 2002:a05:6000:26d0:b0:3e9:2fea:6795 with SMTP id
- ffacd0b85a97d-429aefcaa41mr153239f8f.53.1761678977999; 
- Tue, 28 Oct 2025 12:16:17 -0700 (PDT)
-Received: from dell (229.red-88-1-12.dynamicip.rima-tde.net. [88.1.12.229])
- by smtp.gmail.com with ESMTPSA id
- ffacd0b85a97d-429952cbb2bsm22256326f8f.13.2025.10.28.12.16.17
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 28 Oct 2025 12:16:17 -0700 (PDT)
-From: Javier Garcia <rampxxxx@gmail.com>
-To: deller@gmx.de
-Cc: linux-fbdev@vger.kernel.org, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, shuah@kernel.org,
- Javier Garcia <rampxxxx@gmail.com>
-Subject: [PATCH v2] fbdev: vga16fb: Request memory region.
-Date: Tue, 28 Oct 2025 20:16:15 +0100
-Message-ID: <20251028191615.2765711-1-rampxxxx@gmail.com>
-X-Mailer: git-send-email 2.50.1
-In-Reply-To: <6c565f4c-ef05-45f2-9a82-cbba4a11cc07@gmx.de>
-References: <6c565f4c-ef05-45f2-9a82-cbba4a11cc07@gmx.de>
+ AJvYcCXEqnyyYD4Vjgyyp/UJ8vZINcEPTkr0wl2auMIiTDbhfhy8w5Uy9Ahf/BKKn/0C7P8RQH2eCXGsHCs=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YyuH8865+QNuscibJS/VS5vlMpNKsTnKdewg9s5ATzuZgVAi89c
+ kCHJ/6hco9u5jLoQ7Xz8Yut+1CM/+VCx6mjxP6/uU52TpcpA61Wc/UXXdtajzQSWhALec/4+H07
+ 9vgrFin4eQ99VHk0OVMmTn5/l5sVRfks=
+X-Gm-Gg: ASbGnctpfwBdRXjTXLpFaOqTv221FXj21sloH00avtXOuKVXzHNmQvMsik3aaZMjIPw
+ WYVx/LTZYvFJCQTzWpJG8CTA+XcojcWigMxU9CI+j3vSsWtg9/eTjFBxsObczXFMqVT+PC6fiHB
+ PKQsvbgNf16XHkMU94/kGZwg9bTsEy3ODG1Y5sJ++8PFxhB2nZTEOu1SH99tWg+MUlUjIc14N5m
+ gtopvFz78F+CajE/S7G6S50cTBxk2YogmpbRkb7IQrkwETFfSaLK5fFJ4YKdUwleNXFndtOyw==
+X-Google-Smtp-Source: AGHT+IEyq9cVrd23ipRbhNl+XyOP85YlFgKWSefkr0K5LFZIlwwI05WPv7r7FptUh1BaWj4DzK3lj0msK8ATld89AEU=
+X-Received: by 2002:a17:902:cec3:b0:24c:cc32:788b with SMTP id
+ d9443c01a7336-294dedf48b1mr3682125ad.3.1761679510799; Tue, 28 Oct 2025
+ 12:25:10 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <CACRbrPGvLP5LANXuFi6z0S7XMbAG4X5y2YOLBDxfOVtfGGqiKQ@mail.gmail.com>
+ <CAPM=9twtwNGjEXBv1Yj6vNLfEMPxuMgepOkhBKQYYtm0cmc45Q@mail.gmail.com>
+ <54375f5e6c5290aa218812c489ffe88e594217bd@intel.com>
+ <CACRbrPHM=8DmTD2Wg__fBDpawuugA9C+CNr8-W8BJOnZfmobdA@mail.gmail.com>
+ <a7d53f43e0c9d4c697946ecec31c9441df540a47@intel.com>
+In-Reply-To: <a7d53f43e0c9d4c697946ecec31c9441df540a47@intel.com>
+From: =?UTF-8?Q?Tiago_Martins_Ara=C3=BAjo?= <tiago.martins.araujo@gmail.com>
+Date: Tue, 28 Oct 2025 20:25:00 +0100
+X-Gm-Features: AWmQ_bmdWYr7uBfo0xixBLEjoRJX3gtz0BIfuFq46xmjZBI2QQoXAUiah1dVL14
+Message-ID: <CACRbrPEDJa_mMTrB3aGtEsmF4+_XZCrpmRj2TgA2hnhUhroNNw@mail.gmail.com>
+Subject: Re: DisplayID checksum validation blocking hardware capabilities -
+ CSO T3 panel
+To: Jani Nikula <jani.nikula@linux.intel.com>
+Cc: Dave Airlie <airlied@gmail.com>, dri-devel@lists.freedesktop.org,
+ simona@ffwll.ch, mpearson-lenovo@squebb.ca
+Content-Type: multipart/alternative; boundary="000000000000730a9806423cf912"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -91,56 +87,249 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This patch reserve and release VGA memory region.
+--000000000000730a9806423cf912
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-This align with Documentation/drm/todo.rst
-"Request memory regions in all fbdev drivers"
+I'm glad to see there are more reports about this problem. Let me know if
+need my getting info about this monitor, or testing anything.
 
-I've tested with 32bits kernel and qemu.
+Thanks for looking into this.
 
-Signed-off-by: Javier Garcia <rampxxxx@gmail.com>
----
-v1 -> v2:
-      * Add release in vga16fb_remove , thanks Helge Deller.
-      * v1 https://lore.kernel.org/lkml/20251016171845.1397153-1-rampxxxx@gmail.com/
+Tiago Martins Ara=C3=BAjo
 
- drivers/video/fbdev/vga16fb.c | 9 +++++++++
- 1 file changed, 9 insertions(+)
+On Tue, Oct 28, 2025, 20:08 Jani Nikula <jani.nikula@linux.intel.com> wrote=
+:
 
-diff --git a/drivers/video/fbdev/vga16fb.c b/drivers/video/fbdev/vga16fb.c
-index eedab14c7d51..208e3eefb3ff 100644
---- a/drivers/video/fbdev/vga16fb.c
-+++ b/drivers/video/fbdev/vga16fb.c
-@@ -1319,6 +1319,11 @@ static int vga16fb_probe(struct platform_device *dev)
- 	if (ret)
- 		return ret;
- 
-+	if (!request_mem_region(vga16fb_fix.smem_start, vga16fb_fix.smem_len,
-+				"vga16b")) {
-+		dev_err(&dev->dev,"vga16b: cannot reserve video memory at 0x%lx\n",
-+		       vga16fb_fix.smem_start);
-+	}
- 	printk(KERN_DEBUG "vga16fb: initializing\n");
- 	info = framebuffer_alloc(sizeof(struct vga16fb_par), &dev->dev);
- 
-@@ -1398,6 +1403,8 @@ static int vga16fb_probe(struct platform_device *dev)
-  err_ioremap:
- 	framebuffer_release(info);
-  err_fb_alloc:
-+	release_mem_region(vga16fb_fix.smem_start,
-+		    vga16fb_fix.smem_len);
- 	return ret;
- }
- 
-@@ -1407,6 +1414,8 @@ static void vga16fb_remove(struct platform_device *dev)
- 
- 	if (info)
- 		unregister_framebuffer(info);
-+	release_mem_region(vga16fb_fix.smem_start,
-+		    vga16fb_fix.smem_len);
- }
- 
- static const struct platform_device_id vga16fb_driver_id_table[] = {
--- 
-2.50.1
+> On Mon, 15 Sep 2025, Tiago Martins Ara=C3=BAjo <tiago.martins.araujo@gmai=
+l.com>
+> wrote:
+> >> That's not the complete EDID data, though. It's missing 6*16 bytes. If
+> >> you go by the hex offsets, 0x100 does not follow 0x090.
+> >
+> >>  please grab the EDID from sysfs.
+> >
+> > Fresh from my terminal:
+> > =E2=9E=9C  ~ cat /sys/class/drm/card1-eDP-1/edid | edid-decode
+> > edid-decode (hex):
+> >
+> > 00 ff ff ff ff ff ff 00 0e 6f 16 14 00 00 00 00
+> > 00 20 01 04 b5 1e 13 78 03 21 15 a8 53 49 9c 25
+> > 0f 50 54 00 00 00 01 01 01 01 01 01 01 01 01 01
+> > 01 01 01 01 01 01 ce 87 40 a0 b0 08 6a 70 30 20
+> > 36 00 2d bc 10 00 00 18 00 00 00 fd 00 28 78 e5
+> > e5 46 01 0a 20 20 20 20 20 20 00 00 00 fe 00 43
+> > 53 4f 54 20 54 33 0a 20 20 20 20 20 00 00 00 fe
+> > 00 4d 4e 45 30 30 37 5a 41 31 2d 35 0a 20 01 af
+> >
+> > 70 13 79 00 00 03 01 14 9a 0f 01 05 3f 0b 9f 00
+> > 2f 00 1f 00 07 07 69 00 02 00 05 00 00 00 00 00
+> > 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+> > 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+> > 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+> > 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+> > 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+> > 00 00 00 00 00 00 00 00 00 00 00 00 00 00 f0 98
+> >
+> > ----------------
+> >
+> > Block 0, Base EDID:
+> >   EDID Structure Version & Revision: 1.4
+> >   Vendor & Product Identification:
+> >     Manufacturer: CSO
+> >     Model: 5142
+> >     Made in: 2022
+> >   Basic Display Parameters & Features:
+> >     Digital display
+> >     Bits per primary color channel: 10
+> >     DisplayPort interface
+> >     Maximum image size: 30 cm x 19 cm
+> >     Gamma: 2.20
+> >     Supported color formats: RGB 4:4:4
+> >     First detailed timing includes the native pixel format and preferre=
+d
+> > refresh rate
+> >     Display supports continuous frequencies
+> >   Color Characteristics:
+> >     Red  : 0.6562, 0.3261
+> >     Green: 0.2851, 0.6103
+> >     Blue : 0.1445, 0.0595
+> >     White: 0.3134, 0.3291
+> >   Established Timings I & II: none
+> >   Standard Timings: none
+> >   Detailed Timing Descriptors:
+> >     DTD 1:  2880x1800   60.000966 Hz  16:10   114.362 kHz    347.660000
+> MHz
+> > (301 mm x 188 mm)
+> >                  Hfront   48 Hsync  32 Hback   80 Hpol N
+> >                  Vfront    3 Vsync   6 Vback   97 Vpol N
+> >     Display Range Limits:
+> >       Monitor ranges (Range Limits Only): 40-120 Hz V, 229-229 kHz H, m=
+ax
+> > dotclock 700 MHz
+> >     Alphanumeric Data String: 'CSOT T3'
+> >     Alphanumeric Data String: 'MNE007ZA1-5'
+> >   Extension blocks: 1
+> > Checksum: 0xaf
+> >
+> > ----------------
+> >
+> > Block 1, DisplayID Extension Block:
+> >   Version: 1.3
+> >   Extension Count: 0
+> >   Display Product Type: Extension Section
+> >   Video Timing Modes Type 1 - Detailed Timings Data Block:
+> >     DTD:  2880x1800  120.000207 Hz  16:10   228.720 kHz    695.310000 M=
+Hz
+> > (aspect 16:10, no 3D stereo)
+> >                Hfront   48 Hsync  32 Hback   80 Hpol N
+> >                Vfront    3 Vsync   6 Vback   97 Vpol N
+> >   Checksum: 0xf0 (should be 0xf8)
+> > Checksum: 0x98
+>
+> There's an i915 bug report [1] on what is likely a similar Lenovo model
+> to yours, with the same display, but with an Intel GPU.
+>
+> I looked at adding an EDID quirk for this, but actually passing the
+> information all the way down to the DisplayID checksum validation is
+> going to be annoying. :(
+>
+>
+> BR,
+> Jani.
+>
+> [1] https://gitlab.freedesktop.org/drm/i915/kernel/-/issues/14703
+>
+>
+> --
+> Jani Nikula, Intel
+>
 
+--000000000000730a9806423cf912
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"auto"><div>I&#39;m glad to see there are more reports about thi=
+s problem. Let me know if need my getting info about this monitor, or testi=
+ng anything.</div><div dir=3D"auto"><br></div><div dir=3D"auto">Thanks for =
+looking into this.</div><div><br></div><div data-smartmail=3D"gmail_signatu=
+re">Tiago Martins Ara=C3=BAjo<br></div></div><br><div class=3D"gmail_quote =
+gmail_quote_container"><div dir=3D"ltr" class=3D"gmail_attr">On Tue, Oct 28=
+, 2025, 20:08 Jani Nikula &lt;<a href=3D"mailto:jani.nikula@linux.intel.com=
+">jani.nikula@linux.intel.com</a>&gt; wrote:<br></div><blockquote class=3D"=
+gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-=
+left:1ex">On Mon, 15 Sep 2025, Tiago Martins Ara=C3=BAjo &lt;<a href=3D"mai=
+lto:tiago.martins.araujo@gmail.com" target=3D"_blank" rel=3D"noreferrer">ti=
+ago.martins.araujo@gmail.com</a>&gt; wrote:<br>
+&gt;&gt; That&#39;s not the complete EDID data, though. It&#39;s missing 6*=
+16 bytes. If<br>
+&gt;&gt; you go by the hex offsets, 0x100 does not follow 0x090.<br>
+&gt;<br>
+&gt;&gt;=C2=A0 please grab the EDID from sysfs.<br>
+&gt;<br>
+&gt; Fresh from my terminal:<br>
+&gt; =E2=9E=9C=C2=A0 ~ cat /sys/class/drm/card1-eDP-1/edid | edid-decode<br=
+>
+&gt; edid-decode (hex):<br>
+&gt;<br>
+&gt; 00 ff ff ff ff ff ff 00 0e 6f 16 14 00 00 00 00<br>
+&gt; 00 20 01 04 b5 1e 13 78 03 21 15 a8 53 49 9c 25<br>
+&gt; 0f 50 54 00 00 00 01 01 01 01 01 01 01 01 01 01<br>
+&gt; 01 01 01 01 01 01 ce 87 40 a0 b0 08 6a 70 30 20<br>
+&gt; 36 00 2d bc 10 00 00 18 00 00 00 fd 00 28 78 e5<br>
+&gt; e5 46 01 0a 20 20 20 20 20 20 00 00 00 fe 00 43<br>
+&gt; 53 4f 54 20 54 33 0a 20 20 20 20 20 00 00 00 fe<br>
+&gt; 00 4d 4e 45 30 30 37 5a 41 31 2d 35 0a 20 01 af<br>
+&gt;<br>
+&gt; 70 13 79 00 00 03 01 14 9a 0f 01 05 3f 0b 9f 00<br>
+&gt; 2f 00 1f 00 07 07 69 00 02 00 05 00 00 00 00 00<br>
+&gt; 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00<br>
+&gt; 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00<br>
+&gt; 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00<br>
+&gt; 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00<br>
+&gt; 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00<br>
+&gt; 00 00 00 00 00 00 00 00 00 00 00 00 00 00 f0 98<br>
+&gt;<br>
+&gt; ----------------<br>
+&gt;<br>
+&gt; Block 0, Base EDID:<br>
+&gt;=C2=A0 =C2=A0EDID Structure Version &amp; Revision: 1.4<br>
+&gt;=C2=A0 =C2=A0Vendor &amp; Product Identification:<br>
+&gt;=C2=A0 =C2=A0 =C2=A0Manufacturer: CSO<br>
+&gt;=C2=A0 =C2=A0 =C2=A0Model: 5142<br>
+&gt;=C2=A0 =C2=A0 =C2=A0Made in: 2022<br>
+&gt;=C2=A0 =C2=A0Basic Display Parameters &amp; Features:<br>
+&gt;=C2=A0 =C2=A0 =C2=A0Digital display<br>
+&gt;=C2=A0 =C2=A0 =C2=A0Bits per primary color channel: 10<br>
+&gt;=C2=A0 =C2=A0 =C2=A0DisplayPort interface<br>
+&gt;=C2=A0 =C2=A0 =C2=A0Maximum image size: 30 cm x 19 cm<br>
+&gt;=C2=A0 =C2=A0 =C2=A0Gamma: 2.20<br>
+&gt;=C2=A0 =C2=A0 =C2=A0Supported color formats: RGB 4:4:4<br>
+&gt;=C2=A0 =C2=A0 =C2=A0First detailed timing includes the native pixel for=
+mat and preferred<br>
+&gt; refresh rate<br>
+&gt;=C2=A0 =C2=A0 =C2=A0Display supports continuous frequencies<br>
+&gt;=C2=A0 =C2=A0Color Characteristics:<br>
+&gt;=C2=A0 =C2=A0 =C2=A0Red=C2=A0 : 0.6562, 0.3261<br>
+&gt;=C2=A0 =C2=A0 =C2=A0Green: 0.2851, 0.6103<br>
+&gt;=C2=A0 =C2=A0 =C2=A0Blue : 0.1445, 0.0595<br>
+&gt;=C2=A0 =C2=A0 =C2=A0White: 0.3134, 0.3291<br>
+&gt;=C2=A0 =C2=A0Established Timings I &amp; II: none<br>
+&gt;=C2=A0 =C2=A0Standard Timings: none<br>
+&gt;=C2=A0 =C2=A0Detailed Timing Descriptors:<br>
+&gt;=C2=A0 =C2=A0 =C2=A0DTD 1:=C2=A0 2880x1800=C2=A0 =C2=A060.000966 Hz=C2=
+=A0 16:10=C2=A0 =C2=A0114.362 kHz=C2=A0 =C2=A0 347.660000 MHz<br>
+&gt; (301 mm x 188 mm)<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 Hfront=
+=C2=A0 =C2=A048 Hsync=C2=A0 32 Hback=C2=A0 =C2=A080 Hpol N<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 Vfront=
+=C2=A0 =C2=A0 3 Vsync=C2=A0 =C2=A06 Vback=C2=A0 =C2=A097 Vpol N<br>
+&gt;=C2=A0 =C2=A0 =C2=A0Display Range Limits:<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0Monitor ranges (Range Limits Only): 40-120 H=
+z V, 229-229 kHz H, max<br>
+&gt; dotclock 700 MHz<br>
+&gt;=C2=A0 =C2=A0 =C2=A0Alphanumeric Data String: &#39;CSOT T3&#39;<br>
+&gt;=C2=A0 =C2=A0 =C2=A0Alphanumeric Data String: &#39;MNE007ZA1-5&#39;<br>
+&gt;=C2=A0 =C2=A0Extension blocks: 1<br>
+&gt; Checksum: 0xaf<br>
+&gt;<br>
+&gt; ----------------<br>
+&gt;<br>
+&gt; Block 1, DisplayID Extension Block:<br>
+&gt;=C2=A0 =C2=A0Version: 1.3<br>
+&gt;=C2=A0 =C2=A0Extension Count: 0<br>
+&gt;=C2=A0 =C2=A0Display Product Type: Extension Section<br>
+&gt;=C2=A0 =C2=A0Video Timing Modes Type 1 - Detailed Timings Data Block:<b=
+r>
+&gt;=C2=A0 =C2=A0 =C2=A0DTD:=C2=A0 2880x1800=C2=A0 120.000207 Hz=C2=A0 16:1=
+0=C2=A0 =C2=A0228.720 kHz=C2=A0 =C2=A0 695.310000 MHz<br>
+&gt; (aspect 16:10, no 3D stereo)<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 Hfront=C2=A0 =
+=C2=A048 Hsync=C2=A0 32 Hback=C2=A0 =C2=A080 Hpol N<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 Vfront=C2=A0 =
+=C2=A0 3 Vsync=C2=A0 =C2=A06 Vback=C2=A0 =C2=A097 Vpol N<br>
+&gt;=C2=A0 =C2=A0Checksum: 0xf0 (should be 0xf8)<br>
+&gt; Checksum: 0x98<br>
+<br>
+There&#39;s an i915 bug report [1] on what is likely a similar Lenovo model=
+<br>
+to yours, with the same display, but with an Intel GPU.<br>
+<br>
+I looked at adding an EDID quirk for this, but actually passing the<br>
+information all the way down to the DisplayID checksum validation is<br>
+going to be annoying. :(<br>
+<br>
+<br>
+BR,<br>
+Jani.<br>
+<br>
+[1] <a href=3D"https://gitlab.freedesktop.org/drm/i915/kernel/-/issues/1470=
+3" rel=3D"noreferrer noreferrer" target=3D"_blank">https://gitlab.freedeskt=
+op.org/drm/i915/kernel/-/issues/14703</a><br>
+<br>
+<br>
+-- <br>
+Jani Nikula, Intel<br>
+</blockquote></div>
+
+--000000000000730a9806423cf912--
