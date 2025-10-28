@@ -2,131 +2,113 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 91197C15A5A
-	for <lists+dri-devel@lfdr.de>; Tue, 28 Oct 2025 17:01:28 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id B1455C15A6F
+	for <lists+dri-devel@lfdr.de>; Tue, 28 Oct 2025 17:02:33 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BB60010E604;
-	Tue, 28 Oct 2025 16:01:24 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4E02A10E5FD;
+	Tue, 28 Oct 2025 16:02:20 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=suse.de header.i=@suse.de header.b="RPMsIXb/";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="wUUN12Tp";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="RPMsIXb/";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="wUUN12Tp";
+	dkim=fail reason="signature verification failed" (1024-bit key; unprotected) header.d=antispam.mailspamprotection.com header.i=@antispam.mailspamprotection.com header.b="R0SBADWC";
+	dkim=fail reason="signature verification failed" (1024-bit key; unprotected) header.d=valla.it header.i=@valla.it header.b="LAjIXLYA";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3964710E600
- for <dri-devel@lists.freedesktop.org>; Tue, 28 Oct 2025 16:01:23 +0000 (UTC)
-Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested)
- by smtp-out2.suse.de (Postfix) with ESMTPS id 7A9371F46E;
- Tue, 28 Oct 2025 16:01:21 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1761667281; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=hskSQxZPdvYKtusvQB3i69fDhctjWbZa4oSKWlxpjfM=;
- b=RPMsIXb/AR28O3Z65oZMxNXA9YFHGvAJHHpsDTsXJJw3v+GZ47QCViItCx0b27uU5TWqks
- WgnIlevz2VB08pUOpwSoM31Z1rbFndaYffWaLcodZxjnGZtiUo3nrTnZxatu+/OPb8S832
- WeIsPQYjElboqVTHsqqIbJ7xVGTYctQ=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1761667281;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=hskSQxZPdvYKtusvQB3i69fDhctjWbZa4oSKWlxpjfM=;
- b=wUUN12TpTdJUMckj4GEAjvOpUY/Tir563Q1XYPPame5Ew3qggt5NbAlt5S6yCYnaPMz0NL
- znj3ml/K//uFt+Dw==
-Authentication-Results: smtp-out2.suse.de;
-	none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1761667281; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=hskSQxZPdvYKtusvQB3i69fDhctjWbZa4oSKWlxpjfM=;
- b=RPMsIXb/AR28O3Z65oZMxNXA9YFHGvAJHHpsDTsXJJw3v+GZ47QCViItCx0b27uU5TWqks
- WgnIlevz2VB08pUOpwSoM31Z1rbFndaYffWaLcodZxjnGZtiUo3nrTnZxatu+/OPb8S832
- WeIsPQYjElboqVTHsqqIbJ7xVGTYctQ=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1761667281;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=hskSQxZPdvYKtusvQB3i69fDhctjWbZa4oSKWlxpjfM=;
- b=wUUN12TpTdJUMckj4GEAjvOpUY/Tir563Q1XYPPame5Ew3qggt5NbAlt5S6yCYnaPMz0NL
- znj3ml/K//uFt+Dw==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested)
- by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 41D7F13A7D;
- Tue, 28 Oct 2025 16:01:21 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
- by imap1.dmz-prg2.suse.org with ESMTPSA id mWxRDtHoAGmPewAAD6G6ig
- (envelope-from <tzimmermann@suse.de>); Tue, 28 Oct 2025 16:01:21 +0000
-Message-ID: <26c7b1b5-cf9e-4d46-8796-b18329c46c61@suse.de>
-Date: Tue, 28 Oct 2025 17:01:20 +0100
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] drm/ast: Handle framebuffer from dma-buf
-To: Jocelyn Falempe <jfalempe@redhat.com>,
+Received: from delivery.antispam.mailspamprotection.com
+ (delivery.antispam.mailspamprotection.com [185.56.87.12])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DBE9910E5FD
+ for <dri-devel@lists.freedesktop.org>; Tue, 28 Oct 2025 16:02:18 +0000 (UTC)
+ARC-Seal: i=1; cv=none; a=rsa-sha256;
+ d=outgoing.instance-europe-west4-4wj9.prod.antispam.mailspamprotection.com;
+ s=arckey; t=1761667338; 
+ b=PqZ6o0VOiUA2Lo3abifWLsqNcXQrFKMzeeA9cjO9DKOwxA5V1qjbWND8uTOhNokfVkHknEKcKO
+ C+e5Bw6GkaVPkyVzvEvtyw4IiYUb+J3hFBM8pHf7Y+eO1eUDB3AKstU9M7FpA1qOn3lkhExNnp
+ 0ffENRy6Rd0anTOBKy+yLSHMeTPl8w7rr7+uk/3NCEV6/Toc7aKA3owvMWPF6bxsUEdGlOzNMu
+ IUYhoSeJt4DMr5xQT3RoeRFQzCaZP1q7xVovxgM9GahQfUjxp6lBCdgZX3r58CznbprvqSBTPp
+ Xg9+acpfivZuRM9GXRQEiRSFCJMDlyjYvnZAnPswUNNPzw==;
+ARC-Authentication-Results: i=1;
+ outgoing.instance-europe-west4-4wj9.prod.antispam.mailspamprotection.com;
+ smtp.remote-ip=35.214.173.214; 
+ iprev=pass (214.173.214.35.bc.googleusercontent.com)
+ smtp.remote-ip=35.214.173.214; 
+ auth=pass (LOGIN) smtp.auth=esm19.siteground.biz;
+ dkim=pass header.d=valla.it header.s=default header.a=rsa-sha256;
+ arc=none
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed;
+ d=outgoing.instance-europe-west4-4wj9.prod.antispam.mailspamprotection.com;
+ s=arckey; t=1761667338; 
+ bh=OZ0ZtiH9Ffd/H3YhMXhZvm8XE+UAipi6AHVisU+hxWU=;
+ h=Content-Type:MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:
+ To:From:DKIM-Signature:DKIM-Signature;
+ b=jiGWydqE0t6IWP8znV8qIbTP0AYfqJOQZmwlD5bmyVEK7w13b/p8zEccL6V+UbsD+dRo15qF1C
+ e6+ccH+hGBdpPcsDqBKD0/g+StkwcKoU92x07bqfHv3bOyqjNhMJN12xA3OrgacIIaUiDXPNJN
+ SraZrL4/GgZnMw8d8kZzLQIpzOekebI/Wz1SZDgCcmLKn43ECY/AR83Xd6JIg2M7CtBCa9STYv
+ 7dYye9PQxMTlfN5iIeiYaxThPcQ35JUDQ3u1Rq0FcE9K9fkTqOdSREYzEgFsm9TcRSsF82KI23
+ hVF0L3lKYkzdsTG56S1X8rhmS65HZbWVsm3UZnySeEBBtg==;
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+ d=antispam.mailspamprotection.com; s=default; h=CFBL-Feedback-ID:CFBL-Address
+ :Content-Type:MIME-Version:Message-ID:Date:Subject:Cc:To:From:Reply-To:
+ List-Unsubscribe:Content-Transfer-Encoding;
+ bh=nFXGsd0wvJCB2aoq6ydUjxoEpP8AS5JY0g0UJ7Jo4rk=; b=R0SBADWC4VK6Hisq6MebjVpjEi
+ 0odXcFdi6CIGG9IqRln4RnC5vAKtwlMpm0GPgseI12sF6fqfHcMYT32LzYyzWStB7tywlMCGlmwpu
+ rH9aKBOCtIs3VKqwFE13ZaCzb4MlMFYWbdZ0L2RSGEyhtkJQk25v9gzQypRJ2UscDuQc=;
+Received: from 214.173.214.35.bc.googleusercontent.com ([35.214.173.214]
+ helo=esm19.siteground.biz)
+ by instance-europe-west4-4wj9.prod.antispam.mailspamprotection.com with
+ esmtpsa (TLS1.3) tls TLS_AES_256_GCM_SHA384 (Exim 4.98.1)
+ (envelope-from <francesco@valla.it>) id 1vDm9G-0000000F3wb-1R0u
+ for dri-devel@lists.freedesktop.org; Tue, 28 Oct 2025 16:02:16 +0000
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=valla.it;
+ s=default; h=Date:Subject:Cc:To:From:list-help:list-unsubscribe:
+ list-subscribe:list-post:list-owner:list-archive;
+ bh=nFXGsd0wvJCB2aoq6ydUjxoEpP8AS5JY0g0UJ7Jo4rk=; b=LAjIXLYAuKe+nn91fplPC8zwte
+ Ub+TSBb3J+TqyLvVF4RU3DTnoGllzWP9T+jeUeALMF3MBgHttDcK3t6DYSFJnb/+D3Bp41AiTeG1l
+ xWRwKT05PmIKAGN487/QO54yYlwiqTgVuLa29SgACOLG1ZQO7W3YCgvCS2xQGS4abhg0=;
+Received: from [87.17.42.198] (port=63724 helo=fedora.localnet)
+ by esm19.siteground.biz with esmtpsa  (TLS1.3) tls TLS_AES_256_GCM_SHA384
+ (Exim 4.98.1) (envelope-from <francesco@valla.it>)
+ id 1vDm8f-000000009YH-2cLa; Tue, 28 Oct 2025 16:01:37 +0000
+From: Francesco Valla <francesco@valla.it>
+To: Liu Ying <victor.liu@nxp.com>, Marek Vasut <marex@denx.de>,
+ Andrzej Hajda <andrzej.hajda@intel.com>,
+ Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>,
  Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Dave Airlie <airlied@redhat.com>,
- Simona Vetter <simona@ffwll.ch>, dri-devel@lists.freedesktop.org
-References: <20251028144226.171593-1-jfalempe@redhat.com>
- <99f8a5f0-c650-485c-aef6-e8f1a89598fe@redhat.com>
-Content-Language: en-US
-From: Thomas Zimmermann <tzimmermann@suse.de>
-Autocrypt: addr=tzimmermann@suse.de; keydata=
- xsBNBFs50uABCADEHPidWt974CaxBVbrIBwqcq/WURinJ3+2WlIrKWspiP83vfZKaXhFYsdg
- XH47fDVbPPj+d6tQrw5lPQCyqjwrCPYnq3WlIBnGPJ4/jreTL6V+qfKRDlGLWFjZcsrPJGE0
- BeB5BbqP5erN1qylK9i3gPoQjXGhpBpQYwRrEyQyjuvk+Ev0K1Jc5tVDeJAuau3TGNgah4Yc
- hdHm3bkPjz9EErV85RwvImQ1dptvx6s7xzwXTgGAsaYZsL8WCwDaTuqFa1d1jjlaxg6+tZsB
- 9GluwvIhSezPgnEmimZDkGnZRRSFiGP8yjqTjjWuf0bSj5rUnTGiyLyRZRNGcXmu6hjlABEB
- AAHNJ1Rob21hcyBaaW1tZXJtYW5uIDx0emltbWVybWFubkBzdXNlLmRlPsLAjgQTAQgAOAIb
- AwULCQgHAgYVCgkICwIEFgIDAQIeAQIXgBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftODH
- AAoJEGgNwR1TC3ojx1wH/0hKGWugiqDgLNXLRD/4TfHBEKmxIrmfu9Z5t7vwUKfwhFL6hqvo
- lXPJJKQpQ2z8+X2vZm/slsLn7J1yjrOsoJhKABDi+3QWWSGkaGwRJAdPVVyJMfJRNNNIKwVb
- U6B1BkX2XDKDGffF4TxlOpSQzdtNI/9gleOoUA8+jy8knnDYzjBNOZqLG2FuTdicBXblz0Mf
- vg41gd9kCwYXDnD91rJU8tzylXv03E75NCaTxTM+FBXPmsAVYQ4GYhhgFt8S2UWMoaaABLDe
- 7l5FdnLdDEcbmd8uLU2CaG4W2cLrUaI4jz2XbkcPQkqTQ3EB67hYkjiEE6Zy3ggOitiQGcqp
- j//OwE0EWznS4AEIAMYmP4M/V+T5RY5at/g7rUdNsLhWv1APYrh9RQefODYHrNRHUE9eosYb
- T6XMryR9hT8XlGOYRwKWwiQBoWSDiTMo/Xi29jUnn4BXfI2px2DTXwc22LKtLAgTRjP+qbU6
- 3Y0xnQN29UGDbYgyyK51DW3H0If2a3JNsheAAK+Xc9baj0LGIc8T9uiEWHBnCH+RdhgATnWW
- GKdDegUR5BkDfDg5O/FISymJBHx2Dyoklv5g4BzkgqTqwmaYzsl8UxZKvbaxq0zbehDda8lv
- hFXodNFMAgTLJlLuDYOGLK2AwbrS3Sp0AEbkpdJBb44qVlGm5bApZouHeJ/+n+7r12+lqdsA
- EQEAAcLAdgQYAQgAIAIbDBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftOH6AAoJEGgNwR1T
- C3ojVSkIALpAPkIJPQoURPb1VWjh34l0HlglmYHvZszJWTXYwavHR8+k6Baa6H7ufXNQtThR
- yIxJrQLW6rV5lm7TjhffEhxVCn37+cg0zZ3j7zIsSS0rx/aMwi6VhFJA5hfn3T0TtrijKP4A
- SAQO9xD1Zk9/61JWk8OysuIh7MXkl0fxbRKWE93XeQBhIJHQfnc+YBLprdnxR446Sh8Wn/2D
- Ya8cavuWf2zrB6cZurs048xe0UbSW5AOSo4V9M0jzYI4nZqTmPxYyXbm30Kvmz0rYVRaitYJ
- 4kyYYMhuULvrJDMjZRvaNe52tkKAvMevcGdt38H4KSVXAylqyQOW5zvPc4/sq9c=
-In-Reply-To: <99f8a5f0-c650-485c-aef6-e8f1a89598fe@redhat.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Spamd-Result: default: False [-4.30 / 50.00]; BAYES_HAM(-3.00)[100.00%];
- NEURAL_HAM_LONG(-1.00)[-1.000];
- NEURAL_HAM_SHORT(-0.20)[-1.000]; MIME_GOOD(-0.10)[text/plain];
- FROM_HAS_DN(0.00)[];
- DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
- FUZZY_RATELIMITED(0.00)[rspamd.com]; ARC_NA(0.00)[];
- TO_DN_SOME(0.00)[]; MIME_TRACE(0.00)[0:+];
- TO_MATCH_ENVRCPT_ALL(0.00)[]; RCVD_TLS_ALL(0.00)[];
- RCVD_VIA_SMTP_AUTH(0.00)[]; FROM_EQ_ENVFROM(0.00)[];
- RCPT_COUNT_FIVE(0.00)[6]; RCVD_COUNT_TWO(0.00)[2];
- MID_RHS_MATCH_FROM(0.00)[];
- DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo, suse.de:mid,
- suse.de:email]
-X-Spam-Flag: NO
-X-Spam-Score: -4.30
-X-Spam-Level: 
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ Alexander Stein <alexander.stein@ew.tq-group.com>
+Cc: Fabian Pflug <f.pflug@pengutronix.de>, dri-devel@lists.freedesktop.org,
+ imx@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] drm/bridge: ldb: add support for an external bridge
+Date: Tue, 28 Oct 2025 17:01:24 +0100
+Message-ID: <2860884.vuYhMxLoTh@fedora>
+In-Reply-To: <1944228.tdWV9SEqCh@steina-w>
+References: <20251028-imx93_ldb_bridge-v1-1-fca2e7d60e0a@valla.it>
+ <1944228.tdWV9SEqCh@steina-w>
+MIME-Version: 1.0
+Content-Type: multipart/signed; boundary="nextPart5090209.OV4Wx5bFTl";
+ micalg="pgp-sha512"; protocol="application/pgp-signature"
+X-AntiAbuse: This header was added to track abuse,
+ please include it with any abuse report
+X-AntiAbuse: Primary Hostname - esm19.siteground.biz
+X-AntiAbuse: Original Domain - lists.freedesktop.org
+X-AntiAbuse: Originator/Caller UID/GID - [47 12] / [47 12]
+X-AntiAbuse: Sender Address Domain - valla.it
+X-Source: 
+X-Source-Args: 
+X-Source-Dir: 
+X-SGantispam-id: f1c04a5ec7258d140d08597da0069ce2
+AntiSpam-DLS: false
+AntiSpam-DLSP: 
+AntiSpam-DLSRS: 
+AntiSpam-TS: 1.0
+CFBL-Address: feedback@antispam.mailspamprotection.com; report=arf
+CFBL-Feedback-ID: 1vDm9G-0000000F3wb-1R0u-feedback@antispam.mailspamprotection.com
+Authentication-Results: outgoing.instance-europe-west4-4wj9.prod.antispam.mailspamprotection.com; 
+ iprev=pass (214.173.214.35.bc.googleusercontent.com)
+ smtp.remote-ip=35.214.173.214; 
+ auth=pass (LOGIN) smtp.auth=esm19.siteground.biz;
+ dkim=pass header.d=valla.it header.s=default header.a=rsa-sha256;
+ arc=none
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -142,92 +124,139 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Jocelyn
+--nextPart5090209.OV4Wx5bFTl
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="utf-8"; protected-headers="v1"
+From: Francesco Valla <francesco@valla.it>
+Date: Tue, 28 Oct 2025 17:01:24 +0100
+Message-ID: <2860884.vuYhMxLoTh@fedora>
+In-Reply-To: <1944228.tdWV9SEqCh@steina-w>
+MIME-Version: 1.0
 
-Am 28.10.25 um 15:49 schrieb Jocelyn Falempe:
-> On 28/10/2025 15:42, Jocelyn Falempe wrote:
->> In the atomic update callback, ast should call
->> drm_gem_fb_begin_cpu_access() to make sure it can read the
->> framebuffer from the CPU, otherwise the data might not be there due
->> to cache, and synchronization.
->>
->> Tested on a Lenovo SE100, while rendering on the ArrowLake GPU with
->> i915 driver, and using ast for display.
->
-> I sent this patch a bit too fast, my mistake below:>
->> Suggested-by: Thomas Zimmermann <tzimmermann@suse.de>
->> Signed-off-by: Jocelyn Falempe <jfalempe@redhat.com>
->> ---
->>   drivers/gpu/drm/ast/ast_mode.c | 6 ++++++
->>   1 file changed, 6 insertions(+)
->>
->> diff --git a/drivers/gpu/drm/ast/ast_mode.c 
->> b/drivers/gpu/drm/ast/ast_mode.c
->> index 9ce874dba69c..68da4544d92d 100644
->> --- a/drivers/gpu/drm/ast/ast_mode.c
->> +++ b/drivers/gpu/drm/ast/ast_mode.c
->> @@ -556,11 +556,17 @@ static void 
->> ast_primary_plane_helper_atomic_update(struct drm_plane *plane,
->>           ast_set_vbios_color_reg(ast, fb->format, 
->> ast_crtc_state->vmode);
->>       }
->>   +    /* if the buffer comes from another device */
->> +    if (!drm_gem_fb_begin_cpu_access(fb, DMA_FROM_DEVICE))
->> +        return;
->> +
->
-> Sorry, there is a typo here, it should be:
->
-> if (drm_gem_fb_begin_cpu_access(fb, DMA_FROM_DEVICE))
->     return;
->
->> drm_atomic_helper_damage_iter_init(&iter, old_plane_state, plane_state);
->>       drm_atomic_for_each_plane_damage(&iter, &damage) {
->>           ast_handle_damage(ast_plane, shadow_plane_state->data, fb, 
->> &damage);
->>       }
->>   +    drm_gem_fb_end_cpu_access(fb, DMA_FROM_DEVICE);
->> +
+Hi,
 
-Thanks for posting this. I know that you follow the common code from 
-other drivers, but I think we should change the pattern a bit. The code 
-in _begin_cpu_access() might fail for whatever reason, but that does not 
-affect the rest of the plane update.
+On Tuesday, 28 October 2025 at 13:27:37 Alexander Stein <alexander.stein@ew.tq-group.com> wrote:
+> Hi Francesco,
+> 
+> Am Dienstag, 28. Oktober 2025, 13:12:29 CET schrieb Francesco Valla:
+> > One option for the LVDS port of the LDB is to be connected to an
+> > additional bridge, such as a LVDS to HDMI converter. Add support for
+> > such case, along with the direct connection to a panel.
+> > 
+> > Signed-off-by: Francesco Valla <francesco@valla.it>
+> > ---
+> > I was trying to add display support for the i.MX93 FRDM on top of the
+> > patch sent some time ago by Fabian Pflug [1], using some of the work
+> > already done by Alexander Stein but not yet merged [2], but then I
+> > noticed that the support for LVDS-HDMI converter bridges was missing
+> > from the LDB driver already present for the i.MX93.
+> > 
+> > Not a fail of the driver itself, obviously, but I wonder if/how the
+> > existing i.MX8MP setups (e.g.: [3]), which use the same driver, work
+> > correclty. Unfortunately I don't have the i.MX8MP hardware to test them.
+> > 
+> > Anyhow, a patch for such setup is attached; it was tested on the i.MX93
+> > FRDM using [1] and [2] plus some more devicetree modifications.
+> > 
+> > [1] https://lore.kernel.org/all/20251022-fpg-nxp-imx93-frdm-v3-1-03ec40a1ccc0@pengutronix.de
+> > [2] https://lore.kernel.org/all/20250304154929.1785200-1-alexander.stein@ew.tq-group.com
+> > [3] https://elixir.bootlin.com/linux/v6.17.5/source/arch/arm64/boot/dts/freescale/imx8mp-evk-lvds0-imx-dlvds-hdmi-channel0.dtso
+> > 
+> > Regards,
+> > Francesco
+> > ---
+> >  drivers/gpu/drm/bridge/fsl-ldb.c | 26 +++++++++++++++++---------
+> >  1 file changed, 17 insertions(+), 9 deletions(-)
+> > 
+> > diff --git a/drivers/gpu/drm/bridge/fsl-ldb.c b/drivers/gpu/drm/bridge/fsl-ldb.c
+> > index 5c3cf37200bcee1db285c97e2b463c9355ee6acb..fad436f2e0bfac8b42096a6fcd0022da0f35284e 100644
+> > --- a/drivers/gpu/drm/bridge/fsl-ldb.c
+> > +++ b/drivers/gpu/drm/bridge/fsl-ldb.c
+> > @@ -294,7 +294,6 @@ static int fsl_ldb_probe(struct platform_device *pdev)
+> >  	struct device *dev = &pdev->dev;
+> >  	struct device_node *panel_node;
+> >  	struct device_node *remote1, *remote2;
+> > -	struct drm_panel *panel;
+> >  	struct fsl_ldb *fsl_ldb;
+> >  	int dual_link;
+> >  
+> > @@ -335,15 +334,24 @@ static int fsl_ldb_probe(struct platform_device *pdev)
+> >  		fsl_ldb_is_dual(fsl_ldb) ? "dual-link mode" :
+> >  		fsl_ldb->ch0_enabled ? "channel 0" : "channel 1");
+> >  
+> > -	panel = of_drm_find_panel(panel_node);
+> > -	of_node_put(panel_node);
+> > -	if (IS_ERR(panel))
+> > -		return PTR_ERR(panel);
+> > -
+> > -	fsl_ldb->panel_bridge = devm_drm_panel_bridge_add(dev, panel);
+> > -	if (IS_ERR(fsl_ldb->panel_bridge))
+> > -		return PTR_ERR(fsl_ldb->panel_bridge);
+> > +	/* First try to get an additional bridge, if not found go for a panel */
+> > +	fsl_ldb->panel_bridge = of_drm_find_bridge(panel_node);
+> > +	if (fsl_ldb->panel_bridge) {
+> > +		of_node_put(panel_node);
+> > +	} else {
+> > +		struct drm_panel *panel;
+> >  
+> > +		panel = of_drm_find_panel(panel_node);
+> > +		of_node_put(panel_node);
+> > +		if (IS_ERR(panel))
+> > +			return dev_err_probe(dev, PTR_ERR(panel),
+> > +					     "Failed to find panel");
+> > +
+> > +		fsl_ldb->panel_bridge = devm_drm_panel_bridge_add(dev, panel);
+> > +		if (IS_ERR(fsl_ldb->panel_bridge))
+> > +			return dev_err_probe(dev, PTR_ERR(fsl_ldb->panel_bridge),
+> > +					     "Failed to add panel bridge");
+> > +	}
+> 
+> Without looking into the details this somehow looks similar to
+> drm_of_find_panel_or_bridge(), or drmm_of_get_bridge for the managed variant.
+> 
+> Best regards,
+> Alexander
+> 
+> >  
+> >  	if (fsl_ldb_is_dual(fsl_ldb)) {
+> >  		struct device_node *port1, *port2;
+> > 
+> > ---
+> > base-commit: fd57572253bc356330dbe5b233c2e1d8426c66fd
+> > change-id: 20251028-imx93_ldb_bridge-3c011e7856dc
+> > 
+> > Best regards,
+> > 
+> 
+> 
+> 
 
-How about
+Well, I did not know of devm_drm_of_get_bridge(), and unfortunately the
+driver I checked (Samsung DSIM) has not yet been updated to use it.
+Sorry for the noise.
 
-if (_begin_cpu_access() == 0)
-     for_each_damage {
-         handle_damage()
-     }
-     _end_cpu_access()
-}
+I'll wait for more feedback (if any) and then send a v2 - which looks
+much cleaner now.
 
-and then continue with the rest of the helper? Even if the damage update 
-doesn't happen, the driver would still program changes of the 
-framebuffer pitch.
+Thank you!
 
-There's no easy way of keeping the damage information across display 
-updates AFAIK. But the problem might be transient, while a failed update 
-of the framebuffer pitch can be permanent.
+Regards,
+Francesco
 
-Best regards
-Thomas
+--nextPart5090209.OV4Wx5bFTl
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: This is a digitally signed message part.
+Content-Transfer-Encoding: 7Bit
 
->>       /*
->>        * Some BMCs stop scanning out the video signal after the driver
->>        * reprogrammed the offset. This stalls display output for several
->>
->> base-commit: 4f9ffd2c80a2fa09dcc8dfa0482cb7e0fb6fcf6c
->
+-----BEGIN PGP SIGNATURE-----
 
--- 
---
-Thomas Zimmermann
-Graphics Driver Developer
-SUSE Software Solutions Germany GmbH
-Frankenstrasse 146, 90461 Nuernberg, Germany
-GF: Ivo Totev, Andrew Myers, Andrew McDonald, Boudien Moerman
-HRB 36809 (AG Nuernberg)
+iHUEABYKAB0WIQRUrtjevJ039mawAeLir2xSXEi5AAUCaQDo1AAKCRDir2xSXEi5
+AA83AP0VODlMOPiFo+Etj7oaFVsgFDTnwBhEX54ICokuPyWjewEA/RnsnW2CT6zy
+NlUewINvfCea60Pz3od7UPV/AbPhvgg=
+=eIuv
+-----END PGP SIGNATURE-----
+
+--nextPart5090209.OV4Wx5bFTl--
+
 
 
