@@ -2,86 +2,57 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 06CC1C13204
-	for <lists+dri-devel@lfdr.de>; Tue, 28 Oct 2025 07:24:34 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5CBFAC133C4
+	for <lists+dri-devel@lfdr.de>; Tue, 28 Oct 2025 08:06:12 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BEEDD10E590;
-	Tue, 28 Oct 2025 06:24:30 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4AD6410E591;
+	Tue, 28 Oct 2025 07:06:09 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="V4qJFehr";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="R85wpByX";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pf1-f174.google.com (mail-pf1-f174.google.com
- [209.85.210.174])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 63F7C10E055
- for <dri-devel@lists.freedesktop.org>; Tue, 28 Oct 2025 06:24:29 +0000 (UTC)
-Received: by mail-pf1-f174.google.com with SMTP id
- d2e1a72fcca58-7a435a3fc57so1744210b3a.1
- for <dri-devel@lists.freedesktop.org>; Mon, 27 Oct 2025 23:24:29 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1761632669; x=1762237469; darn=lists.freedesktop.org;
- h=content-transfer-encoding:in-reply-to:from:content-language
- :references:cc:to:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=xdmp4Me7wQgWGSINcaaO6DB12X776uykd1AanqKsIrg=;
- b=V4qJFehr1PrGDxH8p8HE48UBi2HjA9QXNTsOKO91VO01Te9UDJJcAdSFPGIm1vU+Od
- S65dqmK2Fa0qKm2mzHcY95YV7CWaeUU8sIvzyt648eUHpSaT+kDn4UXJqUsyxgTKD1F1
- 9djl3/Ftf4ujx0Tbex8Q1WVp16Z6XuCa+d5aTm2uikMETY0wIJmrBMwdD6g8yZaLBzbl
- i5tQKHjq38xo/VN4avygPr89uBRZwekarVCO2ooAwXOAf8+Y32k2or7TI/f4bBJ7Mzf6
- nnsPS+2DtbWGWyqYsmsUOLukigRyJW3F1HZl+6IO43JOut8qDEyWyrpBD7VUQ4mkDp1M
- 0P3w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1761632669; x=1762237469;
- h=content-transfer-encoding:in-reply-to:from:content-language
- :references:cc:to:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=xdmp4Me7wQgWGSINcaaO6DB12X776uykd1AanqKsIrg=;
- b=r63ukMBTzQkzrw3byJUUqTLpceF59t/fp6Q3iBVxy+PYjAUzBhOXqhDyVMh/KwtefV
- pWdEqIdvgu1rtecALpPVBje0n3+gGLZcYtXs/rqFqm3hUnqDhki2ANvVxI2OXwkctNEm
- 5N6afBUaOWJwXIP6StEljIZKTD+CNFF7+HWZDewFHNNa0BxNA3CtiENEpOO+HIEwzbKn
- 2SCniOhodPgzfpJGsPamdyb4hst9DD0RvLi8Fl6uf/9hFibkDCZJKdcgDXa2bO7cUwl9
- jJESz2FOtME50/cybyg/ND2eV0UoT6hAo7RfTnZopGZE+l38mA3e52zuaHPNRwy3nGZu
- PbFg==
-X-Forwarded-Encrypted: i=1;
- AJvYcCX5syVp3+TBlB2A7/NhfFqs79DCJ3YlqPn2rTLoJBSJwUOtX8P/XK3YQCW88iP1T5FvTyokpfQjSlA=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YzBJCmiIs88IxzDVEypd7xJGZwYhjW/x9S0wr1W/T62Iv9ggu5M
- qEqONhbXvPyOGt4NAmEl8cujNmD00pyT3eEwVluuJ85ZBBBsyge8g4BiaTIGGA==
-X-Gm-Gg: ASbGncsJJwqdgOVcABxRP8cGMrp4dFhrSIWyn0Vm6KMvBDz+HckHezZQ+GmoRYuJygx
- VnI8Ir7ycKHcJak/6baCldrP392nQWnvXjS+fbtYlmnDy8lmz+7IW08+Ab/iTBRvyXIPOGyzeEg
- 4Fsx0LscuepvfMfZEac15/Wdpyc84lVgO4UhgxA8C5vRdEQZq5yfJ8XJKrXOfyUSwNUxuyvLrIy
- 9dEMyeJkPSGNGeggd8W9d+RDRljrthCt2Kg9L3vJ/iq4UQInbjvtH/5W1PUVa5uBpEWDoyUX7uo
- pvG1eTWrvcxZCTGnpLdMhvPel9YR10jGW5w35c5Cyk1C+Nh/xuzKSZhuH8C6EQqMco9wQz+MRAl
- FKxcCdR5OCFaOvQO8JBNhJBPkJ+gzFBIELn/TB7WeKBjULNN9ckKasqYuCbXfaum8DIeTCOB+fY
- ZnahGCNXuiYAy7xTOFYJUgvHAtu8NVjO6W3lJLkfDvT5U8zTPePy4eJQ==
-X-Google-Smtp-Source: AGHT+IGv+D4wp24FT68CnJLR5oLyMpLV/E78aYjMLl1V6sgXD7UwHIdmxv8JaQ7oQ0PzT0e74dyMKQ==
-X-Received: by 2002:a05:6a21:9989:b0:334:8239:56c9 with SMTP id
- adf61e73a8af0-344d3e45ee7mr3169929637.49.1761632668919; 
- Mon, 27 Oct 2025 23:24:28 -0700 (PDT)
-Received: from ?IPV6:2600:8802:702:7400:1c69:7897:d90:375b?
- ([2600:8802:702:7400:1c69:7897:d90:375b])
- by smtp.gmail.com with ESMTPSA id
- 41be03b00d2f7-b7128e41a2esm9174084a12.22.2025.10.27.23.24.27
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 27 Oct 2025 23:24:28 -0700 (PDT)
-Message-ID: <49308ca0-ebd1-4915-9ef4-0a5e31793da4@gmail.com>
-Date: Mon, 27 Oct 2025 23:24:27 -0700
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1B4CF10E591
+ for <dri-devel@lists.freedesktop.org>; Tue, 28 Oct 2025 07:06:07 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1761635168; x=1793171168;
+ h=from:to:cc:subject:date:message-id:mime-version:
+ content-transfer-encoding;
+ bh=s+yIBaxq//NJzDGtESEXpnyHPOzzSVH+5S18OraXSeg=;
+ b=R85wpByXsaqSWvpJId0cU30+cdSzhM11RG+F0zwVbr0vwE9P68iUtUZQ
+ 5cI0VjKHOhec0GjB00+GLpZHIGzUUcvwZ6b3iPl1Xbywt+fB/Dvib0WtX
+ rURq25fdQglw8AnQS3nwph+2Hd31lfCIRQtcjgjdUC4ISfUM2PAUmSOVt
+ CQp1W7OG22vihjakO4E/NAkelo1la7kN8ddAGsmjWGIyCUzRub/upGBre
+ fM9AICPNMtDx0x3P7ZYZDXqlYy3IIrR7JhEBu7WqpumH0kpJJVEn0Mn3O
+ vQ4pO9YWp7bZilbHu81eTd4mjOmDtz/g0yLPhuLdXJRwQ+HPrgUinhIVh A==;
+X-CSE-ConnectionGUID: TB5/edf+SPW2BtvS/bp+SA==
+X-CSE-MsgGUID: PlquBva1Rjq67cptWXIEfw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11586"; a="75172183"
+X-IronPort-AV: E=Sophos;i="6.19,260,1754982000"; d="scan'208";a="75172183"
+Received: from orviesa001.jf.intel.com ([10.64.159.141])
+ by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 28 Oct 2025 00:06:07 -0700
+X-CSE-ConnectionGUID: JW/G51PbSomvAhWXLJncYQ==
+X-CSE-MsgGUID: lK4sAQYMQ1WJRUUseIK4kQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.19,260,1754982000"; d="scan'208";a="222475873"
+Received: from pl-npu-pc-kwachow.igk.intel.com ([10.91.220.239])
+ by smtpauth.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 28 Oct 2025 00:06:05 -0700
+From: Karol Wachowski <karol.wachowski@linux.intel.com>
+To: dri-devel@lists.freedesktop.org
+Cc: oded.gabbay@gmail.com, jeff.hugo@oss.qualcomm.com,
+ maciej.falkowski@linux.intel.com, lizhi.hou@amd.com,
+ Tomasz Rusinowicz <tomasz.rusinowicz@intel.com>,
+ Karol Wachowski <karol.wachowski@linux.intel.com>
+Subject: [PATCH] accel/ivpu: Fix race condition when unbinding BOs
+Date: Tue, 28 Oct 2025 08:05:59 +0100
+Message-ID: <20251028070559.135097-1-karol.wachowski@linux.intel.com>
+X-Mailer: git-send-email 2.43.0
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] drm/msm/dpu: drop dpu_hw_dsc_destroy() prototype
-To: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>,
- Rob Clark <robin.clark@oss.qualcomm.com>, Dmitry Baryshkov
- <lumag@kernel.org>, Abhinav Kumar <abhinav.kumar@linux.dev>,
- Sean Paul <sean@poorly.run>, Marijn Suijten <marijn.suijten@somainline.org>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>
-Cc: linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org,
- freedreno@lists.freedesktop.org, linux-kernel@vger.kernel.org
-References: <20251027-dpu-drop-dsc-destroy-v1-1-968128de4bf6@oss.qualcomm.com>
-Content-Language: en-US
-From: Jessica Zhang <jesszhan0024@gmail.com>
-In-Reply-To: <20251027-dpu-drop-dsc-destroy-v1-1-968128de4bf6@oss.qualcomm.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -97,42 +68,45 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 10/27/2025 6:35 AM, Dmitry Baryshkov wrote:
-> The commit a106ed98af68 ("drm/msm/dpu: use devres-managed allocation for
-> HW blocks") dropped all dpu_hw_foo_destroy() functions, but the
-> prototype for dpu_hw_dsc_destroy() was omitted. Drop it now to clean up
-> the header.
-> 
-> Fixes: a106ed98af68 ("drm/msm/dpu: use devres-managed allocation for HW blocks")
-> Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
+From: Tomasz Rusinowicz <tomasz.rusinowicz@intel.com>
 
-Reviewed-by: Jessica Zhang <jesszhan0024@gmail.com>
+Fix 'Memory manager not clean during takedown' warning that occurs
+when ivpu_gem_bo_free() removes the BO from the BOs list before it
+gets unmapped. Then file_priv_unbind() triggers a warning in
+drm_mm_takedown() during context teardown.
 
-> ---
->   drivers/gpu/drm/msm/disp/dpu1/dpu_hw_dsc.h | 6 ------
->   1 file changed, 6 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_dsc.h b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_dsc.h
-> index b7013c9822d23238eb5411a5e284bb072ecc3395..cc7cc6f6f7cda639b30bad7632c6e73aacedfcb8 100644
-> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_dsc.h
-> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_dsc.h
-> @@ -71,12 +71,6 @@ struct dpu_hw_dsc *dpu_hw_dsc_init_1_2(struct drm_device *dev,
->   				       const struct dpu_dsc_cfg *cfg,
->   				       void __iomem *addr);
->   
-> -/**
-> - * dpu_hw_dsc_destroy - destroys dsc driver context
-> - * @dsc:   Pointer to dsc driver context returned by dpu_hw_dsc_init
-> - */
-> -void dpu_hw_dsc_destroy(struct dpu_hw_dsc *dsc);
-> -
->   static inline struct dpu_hw_dsc *to_dpu_hw_dsc(struct dpu_hw_blk *hw)
->   {
->   	return container_of(hw, struct dpu_hw_dsc, base);
-> 
-> ---
-> base-commit: fe45352cd106ae41b5ad3f0066c2e54dbb2dfd70
-> change-id: 20251027-dpu-drop-dsc-destroy-a1265a9b8d99
-> 
-> Best regards,
+Protect the unmapping sequence with bo_list_lock to ensure the BO is
+always fully unmapped when removed from the list. This ensures the BO
+is either fully unmapped at context teardown time or present on the
+list and unmapped by file_priv_unbind().
+
+Signed-off-by: Tomasz Rusinowicz <tomasz.rusinowicz@intel.com>
+Signed-off-by: Karol Wachowski <karol.wachowski@linux.intel.com>
+---
+ drivers/accel/ivpu/ivpu_gem.c | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
+
+diff --git a/drivers/accel/ivpu/ivpu_gem.c b/drivers/accel/ivpu/ivpu_gem.c
+index e7277e02840a..516e2b05c089 100644
+--- a/drivers/accel/ivpu/ivpu_gem.c
++++ b/drivers/accel/ivpu/ivpu_gem.c
+@@ -318,7 +318,6 @@ static void ivpu_gem_bo_free(struct drm_gem_object *obj)
+ 
+ 	mutex_lock(&vdev->bo_list_lock);
+ 	list_del(&bo->bo_list_node);
+-	mutex_unlock(&vdev->bo_list_lock);
+ 
+ 	drm_WARN_ON(&vdev->drm, !drm_gem_is_imported(&bo->base.base) &&
+ 		    !dma_resv_test_signaled(obj->resv, DMA_RESV_USAGE_READ));
+@@ -329,6 +328,8 @@ static void ivpu_gem_bo_free(struct drm_gem_object *obj)
+ 	ivpu_bo_unbind_locked(bo);
+ 	ivpu_bo_unlock(bo);
+ 
++	mutex_unlock(&vdev->bo_list_lock);
++
+ 	drm_WARN_ON(&vdev->drm, bo->mmu_mapped);
+ 	drm_WARN_ON(&vdev->drm, bo->ctx);
+ 
+-- 
+2.43.0
 
