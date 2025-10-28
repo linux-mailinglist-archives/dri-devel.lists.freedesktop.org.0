@@ -2,113 +2,70 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 28563C15753
-	for <lists+dri-devel@lfdr.de>; Tue, 28 Oct 2025 16:30:24 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3EFDFC157CF
+	for <lists+dri-devel@lfdr.de>; Tue, 28 Oct 2025 16:35:24 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 45F4610E5EC;
-	Tue, 28 Oct 2025 15:30:21 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7444A10E5EE;
+	Tue, 28 Oct 2025 15:35:21 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="R830riAp";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="JGxEJAQM";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pl1-f175.google.com (mail-pl1-f175.google.com
- [209.85.214.175])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A0B5310E5F0
- for <dri-devel@lists.freedesktop.org>; Tue, 28 Oct 2025 15:30:20 +0000 (UTC)
-Received: by mail-pl1-f175.google.com with SMTP id
- d9443c01a7336-29245cb814cso13009525ad.1
- for <dri-devel@lists.freedesktop.org>; Tue, 28 Oct 2025 08:30:20 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1761665420; x=1762270220; darn=lists.freedesktop.org;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=GU545h0UxlVJamlV0/7LOnQgXwKoelV+QGdHxwAxcNA=;
- b=R830riApsJqx7dKmEP0vOE0u//DLosbAYMrmjXMSSaX2yqmRO222wqJSEybt7I7JvB
- mornCjq64jfMkCwW2XrfQH7um4vA9swDigroEilnr008gMpjjVtRFgvPKy4wyhZkOUgg
- l3zMRvBV1AdHoWeg7+kzcRdxsG8BTxSa4IRLyJsEs9Ader9f1Er1NQjY+YEr6bYTUjH4
- hWgsAskCYAUXtkpRhLaXdslyeYoNCq2oNWPN/YRnO9L5sg/E1BFZ7PGJCcvCLNLyARiG
- 7864+AgIP6MDgFbHP0yTv49tS002zqYO54yI6k/mEepLFVQE7J6eSpUGu1wUYAulXMkB
- 3sTw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1761665420; x=1762270220;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=GU545h0UxlVJamlV0/7LOnQgXwKoelV+QGdHxwAxcNA=;
- b=OZ60mOQiv6x8FB/bmq9XPocdydZXcYm7e63+TAy3q6vYWGqQb5A0BprzJTygBGrx4k
- ru/EAgaNLGwTqHeTRSlv2JlK8LKY0nRLNur/0sJPF8jlGhbledtMF0HkwoplqdTvRF/j
- wZ+fDhh7XcKNYBD39w8jMc8C79TTLieneRBsW4bQrBycrL2mxPk0VxC4a4yi7IgJx6Q3
- wAZsNVm8VtBDXw/P+ERhYTrZB10C8ccCwrvua/NtAXdrhJp+ByL6qCW9LKPQwQJQf9Dg
- TtdPEwzY+Pv2KAoSJ2plvW+0sbOEcBAKfobsQma+qbKA3oMS/den/ur5qyXM0cmSu4f5
- dNnw==
-X-Forwarded-Encrypted: i=1;
- AJvYcCWWjjRS6pKdrGT2xzZUo5FPGbLfkku8zxbo8Di0qhvB2aXgFm0EUiYDzgPd+iK+HNS9t5M1tiKJJGo=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YzeuG0m8haakt4F7z7pAnv43ZD8lxgH4V30DBh0KRu+CHoQH3Tb
- o+yghSpEv42brEVg01uJtoxJA2I+oL22ygeVB/1nAXPZ2FcicDPccwsV2+GZgvY3cGpQ9FdKEtp
- Ah5fQvMIybrMmBfBjrRyEZAJlGkrcjuA=
-X-Gm-Gg: ASbGncseWvCbJs4YleH0eMu90mS7Nd1TQBQTpWdIkh/r3on25/mOquFMi5u6sfW7or9
- TNMQZgkJxwM58zAzO+lqp62BKOH2A/Sq6q+vO07dKmH5+ivtCDdiOkLtshcGDHWeiBJLcHhwbhS
- kwI/Fgigj6YwRCGinUgz8yK1BQNUUmeiTmxz7WF9N7b0ptPcHDBxaRq3GHg9otZrCjOFaKSPCHP
- NXrlhJEvqPFKjeLpY6ySy6B6lkaquEtDD9j3Kr6gdmZuJ0m9NHREj9eH5rivVkX/kOi154=
-X-Google-Smtp-Source: AGHT+IH1NwzGJN2z+on5azvAQa1FpSSlFCFhj4kyylslIqUi4Y52PNSsLYzjUWQOuPPOI6wCUuiAXNWbucUTHtnJIGk=
-X-Received: by 2002:a17:903:2305:b0:275:c066:33dd with SMTP id
- d9443c01a7336-294cb511248mr24557615ad.10.1761665419571; Tue, 28 Oct 2025
- 08:30:19 -0700 (PDT)
+Received: from sea.source.kernel.org (sea.source.kernel.org [172.234.252.31])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A4D2D10E5EE
+ for <dri-devel@lists.freedesktop.org>; Tue, 28 Oct 2025 15:35:20 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by sea.source.kernel.org (Postfix) with ESMTP id 61D3A40669;
+ Tue, 28 Oct 2025 15:35:20 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8BF3FC4CEE7;
+ Tue, 28 Oct 2025 15:35:14 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1761665720;
+ bh=idLuRWoO+38vK6VRnFxiDUoDHFUs+D0A09Hb5MHGJrA=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=JGxEJAQMRAoubDH7yBud7nIGS2ACn25Z+fPf0wgYi87/LQq+3Mft4971TG3JdvGJZ
+ S02RRI+YPvB0Y978BvnLdGQ/h8yqR6Ss3Qee6PjNLc9vuiKZ5e5vaP34ouiEpIayua
+ BZwZ91iaLAZVj1u4xWnKFEFFiKarFCIbdweVC/DQ6AdApS2sg9vsXO+POiPfaCss0g
+ GOwKF7vKNKpu6spb36aJ0TJQRDlsAQgelhAEL34MeC0z4bAnV8XdjG2W3qpy33D917
+ seipQ2KgA8N1N+XV9/MitQ2UPPsRx/SNhwIdz8aY5in3awlN2+2K225/MT8Gn/8o64
+ mryuNFfc5QVQw==
+Date: Tue, 28 Oct 2025 15:35:11 +0000
+From: Mark Brown <broonie@kernel.org>
+To: Cristian Ciocaltea <cristian.ciocaltea@collabora.com>
+Cc: Sandy Huang <hjc@rock-chips.com>,
+ Heiko =?iso-8859-1?Q?St=FCbner?= <heiko@sntech.de>,
+ Andy Yan <andy.yan@rock-chips.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Andrzej Hajda <andrzej.hajda@intel.com>,
+ Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
+ Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Catalin Marinas <catalin.marinas@arm.com>,
+ Will Deacon <will@kernel.org>, kernel@collabora.com,
+ dri-devel@lists.freedesktop.org, linux-arm-kernel@lists.infradead.org,
+ linux-rockchip@lists.infradead.org, linux-kernel@vger.kernel.org,
+ Algea Cao <algea.cao@rock-chips.com>,
+ Derek Foreman <derek.foreman@collabora.com>,
+ Daniel Stone <daniels@collabora.com>, Aishwarya.TCV@arm.com
+Subject: Re: [PATCH v4 0/6] Add HDMI CEC support to Rockchip RK3588/RK3576 SoCs
+Message-ID: <21eb9cb1-18b2-4cad-9422-c8e995183d53@sirena.org.uk>
+References: <20250903-rk3588-hdmi-cec-v4-0-fa25163c4b08@collabora.com>
+ <6f3f126d-72c1-48cb-a9c8-8d354af2a3d5@sirena.org.uk>
+ <410fa913-e86b-4ffd-9d79-ce804f0271ff@collabora.com>
+ <63003a7e-8d3d-433a-8a44-54fe8740bc3a@collabora.com>
+ <5678895e-2647-42db-b3f0-86a21b9bc225@sirena.org.uk>
+ <13c3810b-8197-4a42-9089-d20a78b8126f@collabora.com>
 MIME-Version: 1.0
-References: <20251027131440.392052-1-sakari.ailus@linux.intel.com>
- <BL1PR12MB514490DCB870F296D1554C14F7FCA@BL1PR12MB5144.namprd12.prod.outlook.com>
- <aP_fiCX8Cli2KL7s@kekkonen.localdomain>
-In-Reply-To: <aP_fiCX8Cli2KL7s@kekkonen.localdomain>
-From: Alex Deucher <alexdeucher@gmail.com>
-Date: Tue, 28 Oct 2025 11:30:07 -0400
-X-Gm-Features: AWmQ_bkm5HQ45hrCvDDX3GYRAHA6_LouxAkr9B3CFX_zUGIW50pl-J-PIvTWgDI
-Message-ID: <CADnq5_Pic5fsaG9WyxdNH2W0Cm1A5ZZjVqfjLnYza2Bt1EzfoA@mail.gmail.com>
-Subject: Re: [PATCH 1/3] drm/amd: Remove redundant pm_runtime_mark_last_busy()
- calls
-To: Sakari Ailus <sakari.ailus@linux.intel.com>
-Cc: "Deucher, Alexander" <Alexander.Deucher@amd.com>, 
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>, 
- "Koenig, Christian" <Christian.Koenig@amd.com>,
- David Airlie <airlied@gmail.com>, 
- Simona Vetter <simona@ffwll.ch>, "Kuehling, Felix" <Felix.Kuehling@amd.com>, 
- "Feng, Kenneth" <Kenneth.Feng@amd.com>, Lyude Paul <lyude@redhat.com>, 
- Danilo Krummrich <dakr@kernel.org>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
- "Limonciello, Mario" <Mario.Limonciello@amd.com>, "Hung,
- Alex" <Alex.Hung@amd.com>, 
- Antonio Quartulli <antonio@mandelbit.com>, "Nirujogi,
- Pratap" <Pratap.Nirujogi@amd.com>, 
- "Lazar, Lijo" <Lijo.Lazar@amd.com>, Dmitry Baryshkov <lumag@kernel.org>, 
- "SHANMUGAM, SRINIVASAN" <SRINIVASAN.SHANMUGAM@amd.com>, "Wang,
- Yang(Kevin)" <KevinYang.Wang@amd.com>, 
- "Khatri, Sunil" <Sunil.Khatri@amd.com>, "Zhang,
- Jesse(Jie)" <Jesse.Zhang@amd.com>, 
- =?UTF-8?B?VmlsbGUgU3lyasOkbMOk?= <ville.syrjala@linux.intel.com>, 
- Liviu Dudau <liviu.dudau@arm.com>, 
- Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>, 
- "Zhang, Hawking" <Hawking.Zhang@amd.com>, "Prosyak,
- Vitaly" <Vitaly.Prosyak@amd.com>, 
- Arnd Bergmann <arnd@arndb.de>, Thomas Gleixner <tglx@linutronix.de>,
- Ingo Molnar <mingo@kernel.org>, 
- Liao Yuanhong <liaoyuanhong@vivo.com>, Rodrigo Siqueira <siqueira@igalia.com>, 
- "Liang, Prike" <Prike.Liang@amd.com>, "Sharma,
- Shashank" <Shashank.Sharma@amd.com>, 
- "Paneer Selvam, Arunpravin" <Arunpravin.PaneerSelvam@amd.com>, "Zhou1,
- Tao" <Tao.Zhou1@amd.com>, 
- "Chai, Thomas" <YiPeng.Chai@amd.com>, "Xie, Patrick" <Gangliang.Xie@amd.com>, 
- "Liu, Xiang(Dean)" <Xiang.Liu@amd.com>, "Skvortsov,
- Victor" <Victor.Skvortsov@amd.com>, 
- "Sun, Ce(Overlord)" <Ce.Sun@amd.com>, Dave Airlie <airlied@redhat.com>,
- Jani Nikula <jani.nikula@intel.com>, 
- "Gustavo A. R. Silva" <gustavoars@kernel.org>, Imre Deak <imre.deak@intel.com>,
- Ben Skeggs <bskeggs@nvidia.com>, 
- "nouveau@lists.freedesktop.org" <nouveau@lists.freedesktop.org>, 
- "amd-gfx@lists.freedesktop.org" <amd-gfx@lists.freedesktop.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: multipart/signed; micalg=pgp-sha512;
+ protocol="application/pgp-signature"; boundary="Lf6kj6LVwO02h80q"
+Content-Disposition: inline
+In-Reply-To: <13c3810b-8197-4a42-9089-d20a78b8126f@collabora.com>
+X-Cookie: Your canceled check is your receipt.
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -124,101 +81,43 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Oct 27, 2025 at 5:16=E2=80=AFPM Sakari Ailus
-<sakari.ailus@linux.intel.com> wrote:
->
-> Hi Alexander,
->
-> On Mon, Oct 27, 2025 at 03:52:28PM +0000, Deucher, Alexander wrote:
-> > [Public]
-> >
-> > > -----Original Message-----
-> > > From: Sakari Ailus <sakari.ailus@linux.intel.com>
-> > > Sent: Monday, October 27, 2025 9:15 AM
-> > > To: dri-devel@lists.freedesktop.org
-> > > Cc: Deucher, Alexander <Alexander.Deucher@amd.com>; Koenig, Christian
-> > > <Christian.Koenig@amd.com>; David Airlie <airlied@gmail.com>; Simona =
-Vetter
-> > > <simona@ffwll.ch>; Kuehling, Felix <Felix.Kuehling@amd.com>; Feng, Ke=
-nneth
-> > > <Kenneth.Feng@amd.com>; Lyude Paul <lyude@redhat.com>; Danilo Krummri=
-ch
-> > > <dakr@kernel.org>; Maarten Lankhorst <maarten.lankhorst@linux.intel.c=
-om>;
-> > > Maxime Ripard <mripard@kernel.org>; Thomas Zimmermann
-> > > <tzimmermann@suse.de>; Limonciello, Mario <Mario.Limonciello@amd.com>=
-;
-> > > Hung, Alex <Alex.Hung@amd.com>; Antonio Quartulli <antonio@mandelbit.=
-com>;
-> > > Nirujogi, Pratap <Pratap.Nirujogi@amd.com>; Lazar, Lijo <Lijo.Lazar@a=
-md.com>;
-> > > Dmitry Baryshkov <lumag@kernel.org>; SHANMUGAM, SRINIVASAN
-> > > <SRINIVASAN.SHANMUGAM@amd.com>; Wang, Yang(Kevin)
-> > > <KevinYang.Wang@amd.com>; Khatri, Sunil <Sunil.Khatri@amd.com>; Zhang=
-,
-> > > Jesse(Jie) <Jesse.Zhang@amd.com>; Ville Syrj=C3=A4l=C3=A4 <ville.syrj=
-ala@linux.intel.com>;
-> > > Liviu Dudau <liviu.dudau@arm.com>; Laurent Pinchart
-> > > <laurent.pinchart+renesas@ideasonboard.com>; Zhang, Hawking
-> > > <Hawking.Zhang@amd.com>; Prosyak, Vitaly <Vitaly.Prosyak@amd.com>; Ar=
-nd
-> > > Bergmann <arnd@arndb.de>; Thomas Gleixner <tglx@linutronix.de>; Ingo =
-Molnar
-> > > <mingo@kernel.org>; Liao Yuanhong <liaoyuanhong@vivo.com>; Rodrigo Si=
-queira
-> > > <siqueira@igalia.com>; Liang, Prike <Prike.Liang@amd.com>; Sharma, Sh=
-ashank
-> > > <Shashank.Sharma@amd.com>; Paneer Selvam, Arunpravin
-> > > <Arunpravin.PaneerSelvam@amd.com>; Zhou1, Tao <Tao.Zhou1@amd.com>;
-> > > Chai, Thomas <YiPeng.Chai@amd.com>; Xie, Patrick <Gangliang.Xie@amd.c=
-om>;
-> > > Liu, Xiang(Dean) <Xiang.Liu@amd.com>; Skvortsov, Victor
-> > > <Victor.Skvortsov@amd.com>; Sun, Ce(Overlord) <Ce.Sun@amd.com>; Dave
-> > > Airlie <airlied@redhat.com>; Jani Nikula <jani.nikula@intel.com>; Gus=
-tavo A. R.
-> > > Silva <gustavoars@kernel.org>; Imre Deak <imre.deak@intel.com>; Ben S=
-keggs
-> > > <bskeggs@nvidia.com>; nouveau@lists.freedesktop.org; amd-
-> > > gfx@lists.freedesktop.org
-> > > Subject: [PATCH 1/3] drm/amd: Remove redundant pm_runtime_mark_last_b=
-usy()
-> > > calls
-> > >
-> > > pm_runtime_put_autosuspend(), pm_runtime_put_sync_autosuspend(),
-> > > pm_runtime_autosuspend() and pm_request_autosuspend() now include a c=
-all to
-> > > pm_runtime_mark_last_busy(). Remove the now-reduntant explicit call t=
-o
-> > > pm_runtime_mark_last_busy().
-> >
-> >
-> > Typo: should be "now-redundant"
->
-> Oops. You're first one to notice, in fact.
->
-> >
-> > >
-> > > Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
-> >
-> > Patches 1, 3 are:
-> > Acked-by: Alex Deucher <alexander.deucher@amd.com>
-> >
-> > When did mark_last_busy get pulled into the other runtime_pm functions?
-> > Did you want me to pick these up or did you want to send them via some
-> > other tree?
->
-> Yes, please merge these.
 
-Applied.  Thanks!
+--Lf6kj6LVwO02h80q
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-Alex
+On Tue, Oct 28, 2025 at 05:24:42PM +0200, Cristian Ciocaltea wrote:
+> On 10/28/25 5:08 PM, Mark Brown wrote:
+> > On Tue, Oct 28, 2025 at 04:57:03PM +0200, Cristian Ciocaltea wrote:
 
->
-> pm_runtime_mark_last_busy() has been part of autosuspend related function=
-s
-> since commit 18c1fe53d186867243f4cf17f4eef60737a16c4c, i.e. v6.17.
->
-> --
-> Kind regards,
->
-> Sakari Ailus
+> >> This seems to have been already addressed:
+
+> >> https://lore.kernel.org/all/20251017-drm-bridge-alloc-getput-bridge-connector-fix-hdmi_cec-v2-0-667abf6d47c0@bootlin.com/
+
+> > Ah, good.  Hopefully that lands soon, do you have any idea what's
+> > holding it up?
+
+> I guess it's just the complexity, since that is part of a larger work concerning DRM bridges:
+
+> https://lore.kernel.org/all/20250926-drm-bridge-alloc-getput-bridge-connector-v2-1-138b4bb70576@bootlin.com/
+
+Oh dear, I'll perhaps follow up there - sometimes this breaks boot
+entirely depending on which way we hit the issue so at least getting the
+revert in would be good.
+
+--Lf6kj6LVwO02h80q
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmkA4q4ACgkQJNaLcl1U
+h9Cw9Qf/biFN62QMrYgXYDbDsegoqDqqsXcMbeehM/Q3ysme4lJKK5trLO/dF7Tx
+AQavE6VnzV0RUdLDEI58E+gA4bQGo+Ox5jnuocJ6P9xN9Bkb1lalO2qQ4WFNWAom
+Tn7WNQxynhmHv55tadxwM7oz/24FsvaI5u5y9CY4TlI7KSPhlps7npoBBusvGZkW
+RHf2O6oHFI9ARVozT57pYoSmiaaa/F7Kf6JBO9okHu6fouEEWBRDnaaXkDt+ooSF
+g7/E8yU8MyapkQCuWdOTsV8DXr0qucasdaAfODubHxv3Y9nRjYt0tL0pyvXKUvCc
+irvr/g+8r0jxqUIgrCg2LbfnyEWDWg==
+=4VOq
+-----END PGP SIGNATURE-----
+
+--Lf6kj6LVwO02h80q--
