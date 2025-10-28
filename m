@@ -2,130 +2,185 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 149BDC12E84
-	for <lists+dri-devel@lfdr.de>; Tue, 28 Oct 2025 06:07:06 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id B2C44C12EAE
+	for <lists+dri-devel@lfdr.de>; Tue, 28 Oct 2025 06:14:19 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4E9AC10E351;
-	Tue, 28 Oct 2025 05:07:04 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 601AC10E317;
+	Tue, 28 Oct 2025 05:14:16 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="n4xIB97U";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="ePlB0ys3";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
- [205.220.180.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5F7EE10E317
- for <dri-devel@lists.freedesktop.org>; Tue, 28 Oct 2025 05:07:03 +0000 (UTC)
-Received: from pps.filterd (m0279873.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id
- 59S1FNdo2961876
- for <dri-devel@lists.freedesktop.org>; Tue, 28 Oct 2025 05:07:02 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
- cc:content-transfer-encoding:content-type:date:from:in-reply-to
- :message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
- MZNW1TFGtDAWcNhp/IoE4ZPcy7N00ZT6ylN3xTPhhGE=; b=n4xIB97U2mqcnhkU
- 6P5VQ680nYuUHSx4WyZJFu3ysqwpt53eRQ8DrqX3jqRyrNL36EJN+/CDWef59N7X
- Y0JookWEvHRpWEuPjg5mMwYtF3fKZghUYNSmibXPyGBwl6+ByAyess6X+KhSNk8s
- gELQfjF0aR8g0RKNWqrklLqhcvKAgteY0m8Dz6ZOnY7E77yclRr/YuE8ObqddpGC
- jwaM0LYqHwbKvWPtCV7cI5gs9bLpsp+JenjXIX5D1K+8b7uZgomAmIvaFN/QJb7n
- sMS6SrsGu7ejRLHV8lgyC4AVvYSa22bhWO3qBvoRsD1cZbAF2e12v8Y+IQYkWDCA
- x8bh8Q==
-Received: from mail-pl1-f198.google.com (mail-pl1-f198.google.com
- [209.85.214.198])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4a29v9tfg5-1
- (version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
- for <dri-devel@lists.freedesktop.org>; Tue, 28 Oct 2025 05:07:02 +0000 (GMT)
-Received: by mail-pl1-f198.google.com with SMTP id
- d9443c01a7336-2728a359f2aso18475945ad.3
- for <dri-devel@lists.freedesktop.org>; Mon, 27 Oct 2025 22:07:02 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1761628021; x=1762232821;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to:subject
- :user-agent:mime-version:date:message-id:x-gm-message-state:from:to
- :cc:subject:date:message-id:reply-to;
- bh=MZNW1TFGtDAWcNhp/IoE4ZPcy7N00ZT6ylN3xTPhhGE=;
- b=A7SBVs1k19eIDU6+qj3PFqcJVwjzJnK7TI1g4HBYkFa12IDIgAS91KLhdMeu/1hLNa
- TbtJ3P1PIZNR3DO+j4wXmrABMAWvTAN/IJZI3FRYXm+JZDw//SlSWnzeqrnuCDJHCS11
- e3ESvMdkyjHCwliObgFcSV+nk5btArh9NJiJSGnuJNFNmlMw+0n3SAAaAaEKkmvJgRLY
- /HxyM6bzhQH9p7ujYjQqqZx2wxt4UfyhEo9kfhxK8iNkf7KMOu616caf8Gd1Oj11+xF1
- Em6Doz0fIGCjz6crlbbDg8s0HLrj/qsIKk9evN+xPb6xhACIg9UdOwy9AqUgWX2bT2z6
- 7YRw==
-X-Forwarded-Encrypted: i=1;
- AJvYcCXLTSh/mJML+iTf7T8cDtdP/ZU3en35wPdSI+tOg5zKtYfRm+4MUBWoZ2pinyk+hnD4J+XOzgkMBFo=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YzLByE7D6+b97Tb+XMc8h2m3Yrgkj64BlP+3HwRtgEilfSRysjq
- Py98kpc0WvaVONeVzpGDMo6blDYzOQbbZmyAubsehpWJaxL2aPnXgN05Xa17DHVpp/cr9+x6pbV
- OWQI2Q9kSdz1QPZmKfSDtLwYKmBlgvf0Zsm0Lw9RCPxylAP8+VYlaQt14UZ3Z1CI64dTJ6QQ=
-X-Gm-Gg: ASbGncvBHbFnSRg6hfObC1ExKjjfxLJmpFDuuaK2BnJLSiZT6ixQPfExgNShYj4+J6H
- FP/ejoFaGUp0m9JvuaVZnrO+Hy9pmyB6oztp7fuD1ti8avysuM11zUo2Oq0iJr57N3F/WhxytLn
- 5iv1ghz0Ak+VauIEc/AhYCWZdxGX2Af2GCISlduHHER/jheZ0MB/CbxcrvbSAn6Z0lH2z9v9Mwo
- pITkE8RT3G7UBz+IhK99iC2yBYcOElQFskIgFjPdH6X1VHyOTs5xiIADz9QVT80EF+AXAK0JH89
- V3acHanqr/Jqx8fzMQ1pj7biZN22GTFQzBCYhXWgCT36MJd6nQ1eJnnUwg10tYwJZmwBEhQYBP0
- hVYVkRpg2/Zi0qN10ciI8i9+VdXPwfjYTwLYh0QTMXWr7aluqmJ/bSjE7xw==
-X-Received: by 2002:a17:903:1905:b0:290:c5c5:57eb with SMTP id
- d9443c01a7336-294cb37baf2mr13570685ad.3.1761628021344; 
- Mon, 27 Oct 2025 22:07:01 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IGIHYfyFAfOxSLKOcwg5AGIho0OEXAci87txVeGZ9/S1disJk2HryFaJBGudHTWVhJDhYB5lg==
-X-Received: by 2002:a17:903:1905:b0:290:c5c5:57eb with SMTP id
- d9443c01a7336-294cb37baf2mr13570515ad.3.1761628020813; 
- Mon, 27 Oct 2025 22:07:00 -0700 (PDT)
-Received: from [10.133.33.251] (tpe-colo-wan-fw-bordernet.qualcomm.com.
- [103.229.16.4]) by smtp.gmail.com with ESMTPSA id
- d9443c01a7336-29498d0ac07sm101578395ad.43.2025.10.27.22.06.54
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 27 Oct 2025 22:07:00 -0700 (PDT)
-Message-ID: <207641b8-c272-46d5-a459-eb720a4b94a6@oss.qualcomm.com>
-Date: Tue, 28 Oct 2025 13:06:52 +0800
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 755E910E301;
+ Tue, 28 Oct 2025 05:14:15 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1761628455; x=1793164455;
+ h=from:to:cc:subject:date:message-id:references:
+ in-reply-to:content-transfer-encoding:mime-version;
+ bh=qvYMw3vitE3Yt2Rw99datmPhnz54KWYla0X+2kYjhAY=;
+ b=ePlB0ys3KxPXQbGF90AFy5u/dpIhGWEeQMXHSwk03mLJL1EPaQeX4InC
+ rxlIVnOxm04XpXtDnmfJPmwnSxoVzcdSjIbcVuQIPAIHP7aEEqLYpt8uN
+ 9huAUcAhJ7CnzgHwArrbjm1YG5hpbJ9Rj9fImjuvhcAeHJ94P3H6vrQWS
+ xo9ee1313hDRUGpYzBdzC/zpNIrJxOH7aWx0vVrXbTP3IAWewvlWIwFac
+ FtbeqKhSpPawG8AoWYDnDSdj2lVx2NujeZN2pbf2UGHZQc59qSCFCM+au
+ 9bcqXHLXRvOq8r3/a2l4JLbJxQHX6h0XuKR+KmcdsZLSbSd3ZPwImCr7v Q==;
+X-CSE-ConnectionGUID: Zbb0BnfMRBiC57rdw4jvdQ==
+X-CSE-MsgGUID: lx2TYOnmR5e2+25r31WZEQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11586"; a="62750461"
+X-IronPort-AV: E=Sophos;i="6.19,260,1754982000"; d="scan'208";a="62750461"
+Received: from fmviesa004.fm.intel.com ([10.60.135.144])
+ by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 27 Oct 2025 22:14:08 -0700
+X-CSE-ConnectionGUID: taqFy6feR32NGBA019WPCg==
+X-CSE-MsgGUID: jKfENlYSTyCoCSRNhGTeGQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.19,260,1754982000"; d="scan'208";a="190444006"
+Received: from orsmsx902.amr.corp.intel.com ([10.22.229.24])
+ by fmviesa004.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 27 Oct 2025 22:14:05 -0700
+Received: from ORSMSX903.amr.corp.intel.com (10.22.229.25) by
+ ORSMSX902.amr.corp.intel.com (10.22.229.24) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.2562.27; Mon, 27 Oct 2025 22:13:56 -0700
+Received: from ORSEDG902.ED.cps.intel.com (10.7.248.12) by
+ ORSMSX903.amr.corp.intel.com (10.22.229.25) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.2562.27 via Frontend Transport; Mon, 27 Oct 2025 22:13:56 -0700
+Received: from PH0PR06CU001.outbound.protection.outlook.com (40.107.208.23) by
+ edgegateway.intel.com (134.134.137.112) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.2562.27; Mon, 27 Oct 2025 22:13:56 -0700
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=tkKGBLD8oWKVUQpTdoD6LWCUcet3LRlqVH1IKtz5LkwdsH1ULUoNcJ5BlUi/xGtj4huY4aLPOW3KJXz/UqnrD6ACriVka/LKpSR3JnYiQQPJ0/k8Qo+6+ukXUJrUKZnRDQeQphy/SzR5F9o2+r68xe/GKThpvJJkQFMfvgGPl7x7JdXPYFwexMS8vEMeZyEJatnd13VRdxNbsgZ9EWIx/jbG3A5fjZJiIt0EIzXq54p7J/gQRItb/AyfuEQqd+WDQ9yIksovnds5wePgPWgJNrh0PxLa/SO+NAuxtb5qitAI/c4dmFmEagOzW2YzAQ0JV+4QFd4clyonLjSG3eJPpw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=P674ZFyr3lyNmm+azc6SFsmjpEU4D3MMSKabhqS1li0=;
+ b=fYBxGCzfjcW28/xzB4budKtwyscv5RWKAGsJONPpzMz7k0nPT8w5gNKRZCd+ff8IlMLS1IaP3TAqHrH4PzWu8/A/rUCSxFGns6MBFgkKfh6KTXGqefRddPdHCfrRPu3TV1VtbCx4RT0r3+ZHE3L/nT8wbvOVeD8LcUmR+m3KCzfdIUgW68a4etIMhlYN3CJBAtYoop5SAArcsqdJyw0KzJ/Hx1fOhiYg/N1JVBf0LfN/4mMk7oL9FwfmMTOt5WAyKUsUNLekPiRvwo0nBnTSnZBgTYsI2N/sg0puRFyBzVZUjcbCXoHjKYIPUMRscGV9+MS7UReTqSqfpKdcm1rDzw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
+Received: from DM3PPF208195D8D.namprd11.prod.outlook.com
+ (2603:10b6:f:fc00::f13) by SJ0PR11MB5166.namprd11.prod.outlook.com
+ (2603:10b6:a03:2d8::5) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9253.19; Tue, 28 Oct
+ 2025 05:13:54 +0000
+Received: from DM3PPF208195D8D.namprd11.prod.outlook.com
+ ([fe80::95c9:5973:5297:d3cc]) by DM3PPF208195D8D.namprd11.prod.outlook.com
+ ([fe80::95c9:5973:5297:d3cc%4]) with mapi id 15.20.9253.017; Tue, 28 Oct 2025
+ 05:13:54 +0000
+From: "Kandpal, Suraj" <suraj.kandpal@intel.com>
+To: "Shankar, Uma" <uma.shankar@intel.com>, "intel-gfx@lists.freedesktop.org"
+ <intel-gfx@lists.freedesktop.org>, "intel-xe@lists.freedesktop.org"
+ <intel-xe@lists.freedesktop.org>, "dri-devel@lists.freedesktop.org"
+ <dri-devel@lists.freedesktop.org>
+CC: "Borah, Chaitanya Kumar" <chaitanya.kumar.borah@intel.com>,
+ "ville.syrjala@linux.intel.com" <ville.syrjala@linux.intel.com>,
+ "pekka.paalanen@collabora.com" <pekka.paalanen@collabora.com>,
+ "contact@emersion.fr" <contact@emersion.fr>, "harry.wentland@amd.com"
+ <harry.wentland@amd.com>, "mwen@igalia.com" <mwen@igalia.com>,
+ "jadahl@redhat.com" <jadahl@redhat.com>, "sebastian.wick@redhat.com"
+ <sebastian.wick@redhat.com>, "shashank.sharma@amd.com"
+ <shashank.sharma@amd.com>, "Sharma, Swati2" <swati2.sharma@intel.com>,
+ "alex.hung@amd.com" <alex.hung@amd.com>, "Shankar, Uma"
+ <uma.shankar@intel.com>
+Subject: RE: [v5 11/24] drm/i915/color: Add and attach COLORPIPELINE plane
+ property
+Thread-Topic: [v5 11/24] drm/i915/color: Add and attach COLORPIPELINE plane
+ property
+Thread-Index: AQHb6zDziftNpqPVL0ejmaToJdsRLbTXu28w
+Date: Tue, 28 Oct 2025 05:13:54 +0000
+Message-ID: <DM3PPF208195D8DB02B13BC6F33E064A0E4E3FDA@DM3PPF208195D8D.namprd11.prod.outlook.com>
+References: <20250702091936.3004854-1-uma.shankar@intel.com>
+ <20250702091936.3004854-12-uma.shankar@intel.com>
+In-Reply-To: <20250702091936.3004854-12-uma.shankar@intel.com>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=intel.com;
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: DM3PPF208195D8D:EE_|SJ0PR11MB5166:EE_
+x-ms-office365-filtering-correlation-id: 983784d7-14a5-4bc6-72c3-08de15e0ca20
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;
+ ARA:13230040|7416014|376014|1800799024|366016|38070700021; 
+x-microsoft-antispam-message-info: =?us-ascii?Q?TWBTCvAnMbfP01Ti2jILUfO9lhhDdOp5Eoo/6bA3uF9SPq65OcBTLbxLy6+m?=
+ =?us-ascii?Q?nif82Hy3DmbPTiuz5+PMElLBwHjjn6HmYBGyJm0vq6K6M3HWjBSzy0sMc7q3?=
+ =?us-ascii?Q?IPcOFpkjW8oZk7hqhsxGAFjqfiFoXVdRp0hCtelCeqd/xYgOMLJQAo5sXI4E?=
+ =?us-ascii?Q?Q8u5V+n9wC5IAyJvZK56vGcyy3SMCZwwJYQ0j28Tkekkhh3dCPiwe/mwHJU5?=
+ =?us-ascii?Q?V5Deh9LWcGzM2Z1HRwocgcYYJEngiMLq7Y9vp/+A2+Kkt0mTjNBSK99oF8Yu?=
+ =?us-ascii?Q?KFzwuV1uspe+E0bU7nvWxzNHbc7ExM3jv5H92mF5cuK1gtmyvqD1e2oIUSyq?=
+ =?us-ascii?Q?DQG/O4rwtRXzvciql5MEVGzNLP1Hi+PQniyJuEeMJ62dkDSE2vcHVFRMwnYo?=
+ =?us-ascii?Q?nT/LdTA+4zFzxvwi8Asg/e9md1+Goh83KZIzPS6Jgig6k4OE4FQSqL1VlY8c?=
+ =?us-ascii?Q?VQcXskqhpbA7yklSPKm27tZrIORyVgSCrGLWWdvb2BDTFsg4sXTzLn6PBFEw?=
+ =?us-ascii?Q?8oaH8olo59WFc6BV7vi3C/OcH6q/PYAgtTJ5t6FvoBfJO0D3Wsyuiy/7I0z1?=
+ =?us-ascii?Q?jamoOec/7Qfspdf18O7nTy8YSOFXVz5vATJUUhniid7JvRZmkwWYQEVt/ccK?=
+ =?us-ascii?Q?nEorHBg5Api5/B+FPd/S7+UM0QNQLj0Nd/W/fH3svNX9BykVRLIRUWxVH2UD?=
+ =?us-ascii?Q?XGJrm/CHkaXmtxDrpgxrt1XeXU3nhjgr7KC5UEm0rsy0Yh6rXIpVX/9Acut4?=
+ =?us-ascii?Q?AeUyfHs0bmJaxsWKpW2R+XNIaZ/o52MlgTd0yJhbXxgNlUk9o/FllIhjljcn?=
+ =?us-ascii?Q?aEj+a31XnvMYaphg3VNLKoxRgpDd1rJ9jPH5r+4Vj09NZdFe3Rb/61T3Aq5E?=
+ =?us-ascii?Q?2S2V2uqCu0A5VZzbNlyaVjlZrTwc7vAYejmgSGTntmIo2QGvGJHF7+M2yFt3?=
+ =?us-ascii?Q?snPM9pUD8XOCjIJ2slFL/b05P6FBSC5ef8X8EcSm7+y+c15g6D28xknTnJoZ?=
+ =?us-ascii?Q?81gT2ZlRNI1EjEgZ5EJspii1tti2zme5L7D3zf4XJ07YIOQz+8xj2d/TMpSS?=
+ =?us-ascii?Q?UFTD3Wtev/xT9fzO/YR/i6gQcF3yVCZDV6DVWyoMTqO8D2r68qJAKkxqihBE?=
+ =?us-ascii?Q?azIueiok87SoN4ey0EUp1NbxTPd7eu/ksAezcw4rN+fG0j6TW2KLR0TbZKR1?=
+ =?us-ascii?Q?TddOoegDKGBRaBojG5O9YmeI3wLuyuDHJq0YRp/mNhBkZzb7T+0VBWYwJzAj?=
+ =?us-ascii?Q?KZRJTEVp9ZqjTZAwVZ3I9WGJQH+qmDVnIU9UpFuu7qnl1ZITkjtfZb5XzI5S?=
+ =?us-ascii?Q?6E1vkFSXoCqO4OB2CmFmZ6Wqfa09P6fLDpCwI+Yccrh7u+ud8CnjUbuiGmRF?=
+ =?us-ascii?Q?PryfprgXEm+pE2+LJIaidUMJ1QGixM503G7DmzpkDX6olANo0T2kvXehBSj3?=
+ =?us-ascii?Q?hU6bVr+0gwYgnvBGNd0GOZNrtqegAFcej6sPgOACRp1n/WROLe0VWxEJSw3S?=
+ =?us-ascii?Q?CexV23xEziMvVppVVa/xjxW4eka1S2sQ7ZMz?=
+x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:DM3PPF208195D8D.namprd11.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230040)(7416014)(376014)(1800799024)(366016)(38070700021); DIR:OUT;
+ SFP:1101; 
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: =?us-ascii?Q?GMXbLT/b+/2w9mXFZuVoCFRwG8J8Z1464LKybjt/AjPguZTevYP2K8xJwjA3?=
+ =?us-ascii?Q?ZkywPTfEOYo/eEB69ukUeEnGD/0GlLa1t969QJuZj4vK4u7nurMWq5XnyUtY?=
+ =?us-ascii?Q?+Syisjo0pYWZX3hlZl1Bo854XNBUWqrsnh9RdaLpzrp8mCGLQW5m3DA+k+65?=
+ =?us-ascii?Q?AU5gY0D1FwAGafDyoplLDAm1i8sVLPIfFdvzPHxlf/EKLIFVQrdyJmF6/Y56?=
+ =?us-ascii?Q?yyjvpFsxN0pHvA0tBJY2lzU20LMW6K4ArAf3s9I9VlOn1OKSxL8Uhoi12T0A?=
+ =?us-ascii?Q?ot+42oS3gE5O1w1p0L57rgGkjCcIVQyY6K6iwsQjafThkhrvtSpd5G+xAGb8?=
+ =?us-ascii?Q?OTDbcNTEW28NxIBKTzanNUV52sxF1yQsD5+BhXlEFAMb8OiP/yIap2Q4QXVw?=
+ =?us-ascii?Q?/uWWOKvbQzAe+AgVB7Wa5REj5tWE87ULZMuUNetiCRLnyFXzl59sgoWMh9vD?=
+ =?us-ascii?Q?5WmIiwjX5nN5JrmZNzOI6ePPzNpeILIEcxe2hpbAfUi3wr5+/3FmPKLAykqz?=
+ =?us-ascii?Q?ejoAYbZtIRxzBx+DFRDf9IkuHDaKWJeJ7bd1EHu9la96ed7PUWU71f/H/YdY?=
+ =?us-ascii?Q?WdrX8wcDcwJWjeZ3Ksk6hsvMfHEEYzPs5HAQPgPKckyBqWPndl5emlJk+24Q?=
+ =?us-ascii?Q?rAxSBC8DktdhcENSZ1rxYt20JJDDO/cEnmL4p+WSj6Q7DzPfgNUIqbxXPzt1?=
+ =?us-ascii?Q?FqNauWAxGfmVn/ouUdP97OYbQImTsMpkxCa68VPr3iv6dqdfm8PMTYhLVBrY?=
+ =?us-ascii?Q?+5y7N96anZVGa9/n9HdekC9gSO6v5LegSOngB5JVHrLNOt2kiYcr/bhDs6Hw?=
+ =?us-ascii?Q?rr/N2R7FWJtnpHC6W72x2KPnemUTAHhdsN/fr3Jn+R6ctkawYczoPIA9Sh4v?=
+ =?us-ascii?Q?CKx8Qh3AN4xIxh08STsMZqeJuMULT6aK+Ys0+e57Nt6wqsfR42m/4ZMDALar?=
+ =?us-ascii?Q?I16x74I61wGxI1ifJHyHOTnlbwLfgcliFaWyDs1JsNvSEEE6cFgpOIDLWnpA?=
+ =?us-ascii?Q?AiVJMw2pId/w1sCnw7T8PTQwiUaEIyHUjtPFOJtdF7h+IzgFNXt47Nc28RBk?=
+ =?us-ascii?Q?+tFboOpCj5W+7vQGugsoeWns+LdkwYLURrfG4+h2IfuxqHnbn0jplXOMARpz?=
+ =?us-ascii?Q?5npQJ3i5drBOe0TBdfnREmbbDqG42BVxd8oFAhL93pSERLtWaPpYVXMKxD5Z?=
+ =?us-ascii?Q?oFnKpAdcu2TWIYLVXHNlakG+69hBt+90QodxK3/EDCkD+vb9JjJrmxhWZ0nE?=
+ =?us-ascii?Q?5ZTb/OkvGqVRS1Sarpa4DQZK3VctJMLfEZQxtLJE4UKIPHpQplYBmTc3tvEp?=
+ =?us-ascii?Q?m1ZjaGu7TYbdwfflTKoDodyFTkbj/ldRO7DeNsXu0mqV03gxMspHoH7OPB8+?=
+ =?us-ascii?Q?0yHSDrAi2BzYp4QuUyh2ngOp86A6H/FFb1HwzG7NkqcI0I4L8f2+6LqDYqe/?=
+ =?us-ascii?Q?LYcxrR00HMqR5VFrO7UBfnpm0mwlMB2piFUuCof+Mzingu73ILJQAUa6edfq?=
+ =?us-ascii?Q?mb77USAjYM8syWM4td017BvbtGKSs8/GituF1cm08i6/bxNZ8/TWIX9a6B09?=
+ =?us-ascii?Q?SmoRF5X00F23rjW7VsvLHpKBc9ezraYTdbJCc21s?=
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v6 1/4] dt-bindings: display: msm: Add SM6150 DisplayPort
- controller
-To: Rob Herring <robh@kernel.org>
-Cc: Rob Clark <robin.clark@oss.qualcomm.com>,
- Dmitry Baryshkov <lumag@kernel.org>, Abhinav Kumar
- <abhinav.kumar@linux.dev>,
- Jessica Zhang <jesszhan0024@gmail.com>, Sean Paul <sean@poorly.run>,
- Marijn Suijten <marijn.suijten@somainline.org>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
- <conor+dt@kernel.org>, Bjorn Andersson <andersson@kernel.org>,
- Konrad Dybcio <konradybcio@kernel.org>, linux-arm-msm@vger.kernel.org,
- dri-devel@lists.freedesktop.org, freedreno@lists.freedesktop.org,
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
- fange.zhang@oss.qualcomm.com, yongxing.mou@oss.qualcomm.com,
- li.liu@oss.qualcomm.com
-References: <20251024-add-displayport-support-to-qcs615-devicetree-v6-0-c4316975dd0e@oss.qualcomm.com>
- <20251024-add-displayport-support-to-qcs615-devicetree-v6-1-c4316975dd0e@oss.qualcomm.com>
- <20251027152647.GA915648-robh@kernel.org>
-From: Xiangxu Yin <xiangxu.yin@oss.qualcomm.com>
-In-Reply-To: <20251027152647.GA915648-robh@kernel.org>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-Proofpoint-GUID: LyM4xRCv44NBeoJNUpxYYmiNjeuTVFnb
-X-Authority-Analysis: v=2.4 cv=D/VK6/Rj c=1 sm=1 tr=0 ts=69004f76 cx=c_pps
- a=MTSHoo12Qbhz2p7MsH1ifg==:117 a=nuhDOHQX5FNHPW3J6Bj6AA==:17
- a=IkcTkHD0fZMA:10 a=x6icFKpwvdMA:10 a=VkNPw1HP01LnGYTKEx00:22
- a=gEfo2CItAAAA:8 a=EUspDBNiAAAA:8 a=z2EatxdDDGNeVA2bIAQA:9 a=PRpDppDLrCsA:10
- a=3ZKOabzyN94A:10 a=QEXdDO2ut3YA:10 a=GvdueXVYPmCkWapjIL-Q:22
- a=sptkURWiP4Gy88Gu7hUp:22
-X-Proofpoint-ORIG-GUID: LyM4xRCv44NBeoJNUpxYYmiNjeuTVFnb
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUxMDI4MDA0MyBTYWx0ZWRfXyvbCA0sDoQau
- 7pA+yP4yMcftjadulbaX+penz4RVig2YMWQiEt7PMLMfOai1fLklGtzmwPOcsZ8WPtSg4zSf6Hu
- T17CEWAWc5XNr4R/cN9avFTbeOm/92fmWMKubeSKVwocHHVfKsDF/SaV9YufCSW1x6wpu5NiMYq
- /mKxGKeKbjmJmXmq/vPCKUAYbozll8RmH21lPus9rjrAjX+QgV5VTVjEIUQ9TkL0QDbsMCgmuTe
- 60v9ve0LZXh8gb0iSYi6DsLU8Pr2gJbFJ5BmBi63EW02ms0nVD202kSpBZu/jITuHPvcKfPnpfa
- 7x5v1KZPpju3jiTvCu7bbE92oKPTLLKE9bZJju4KTbKC2O8RwSS46yS9WHKhyQJfqIMl5j4s8lw
- w9b3HzXtx8WP22okAV20qmur64YaQA==
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.9,FMLib:17.12.80.40
- definitions=2025-10-28_02,2025-10-22_01,2025-03-28_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- phishscore=0 bulkscore=0 impostorscore=0 malwarescore=0 lowpriorityscore=0
- suspectscore=0 spamscore=0 adultscore=0 clxscore=1015 priorityscore=1501
- classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.22.0-2510020000 definitions=main-2510280043
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: DM3PPF208195D8D.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 983784d7-14a5-4bc6-72c3-08de15e0ca20
+X-MS-Exchange-CrossTenant-originalarrivaltime: 28 Oct 2025 05:13:54.1086 (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: jkdvRXxlbbnZG+9EyyYUGk9U6JU8e9n1nY+xEAiqmmvJNfYRSbmIKWG5B8MpKNXPAZ7q2yPoPhycyf805gk4XQ==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SJ0PR11MB5166
+X-OriginatorOrg: intel.com
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -141,57 +196,111 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+> Subject: [v5 11/24] drm/i915/color: Add and attach COLORPIPELINE plane
+> property
+>=20
+> From: Chaitanya Kumar Borah <chaitanya.kumar.borah@intel.com>
+>=20
+> Add supported color pipelines and attach it to plane.
+>=20
+> Signed-off-by: Chaitanya Kumar Borah <chaitanya.kumar.borah@intel.com>
+> Signed-off-by: Uma Shankar <uma.shankar@intel.com>
+> ---
+>  drivers/gpu/drm/i915/display/intel_color.c | 42 ++++++++++++++++++++++
+> drivers/gpu/drm/i915/display/intel_color.h |  3 ++
+>  2 files changed, 45 insertions(+)
+>=20
+> diff --git a/drivers/gpu/drm/i915/display/intel_color.c
+> b/drivers/gpu/drm/i915/display/intel_color.c
+> index 90ac6530d1a5..363c9590c5c1 100644
+> --- a/drivers/gpu/drm/i915/display/intel_color.c
+> +++ b/drivers/gpu/drm/i915/display/intel_color.c
+> @@ -4050,6 +4050,48 @@ int intel_plane_tf_pipeline_init(struct drm_plane
+> *plane, struct drm_prop_enum_l
+>  	return 0;
+>  }
+>=20
+> +int intel_plane_color_init(struct drm_plane *plane) {
 
-On 10/27/2025 11:26 PM, Rob Herring wrote:
-> On Fri, Oct 24, 2025 at 01:21:01PM +0800, Xiangxu Yin wrote:
->> SM6150 uses the same DisplayPort controller as SM8150, which is already
->> compatible with SM8350. Add the SM6150-specific compatible string and
->> update the binding example accordingly.
->>
->> Signed-off-by: Xiangxu Yin <xiangxu.yin@oss.qualcomm.com>
->> ---
->>  .../devicetree/bindings/display/msm/qcom,sm6150-mdss.yaml      | 10 ++++++++++
->>  1 file changed, 10 insertions(+)
->>
->> diff --git a/Documentation/devicetree/bindings/display/msm/qcom,sm6150-mdss.yaml b/Documentation/devicetree/bindings/display/msm/qcom,sm6150-mdss.yaml
->> index 9ac24f99d3ada1c197c9654dc9babebccae972ed..ba0dea2edea98cee0826cf38b3f33361666e004a 100644
->> --- a/Documentation/devicetree/bindings/display/msm/qcom,sm6150-mdss.yaml
->> +++ b/Documentation/devicetree/bindings/display/msm/qcom,sm6150-mdss.yaml
->> @@ -51,6 +51,16 @@ patternProperties:
->>        compatible:
->>          const: qcom,sm6150-dpu
->>  
->> +  "^displayport-controller@[0-9a-f]+$":
->> +    type: object
->> +    additionalProperties: true
->> +    properties:
->> +      compatible:
->> +        items:
->> +          - const: qcom,sm6150-dp
->> +          - const: qcom,sm8150-dp
->> +          - const: qcom,sm8350-dp
-> The actual schema will check the order. Here, just:
->
-> compatible:
->   contains:
->     const: qcom,sm6150-dp
+Again need to rethink the name here
 
+> +	struct drm_device *dev =3D plane->dev;
+> +	struct intel_display *display =3D to_intel_display(dev);
+> +	struct drm_property *prop;
+> +	struct drm_prop_enum_list pipelines[MAX_COLOR_PIPELINES];
+> +	int len =3D 0;
+> +	int ret;
+> +
+> +	/* Currently expose pipeline only for HDR planes*/
 
-My initial plan was to use only `qcom,sm6150-dp` with `contains` as suggested.
+Missed a blank space at the end
 
-But when I tried that, CHECK_DTBS schema check failed:
-‘displayport-controller@ae90000:compatible: ['qcom,sm6150-dp', 'qcom,sm8150-dp', 'qcom,sm8350-dp'] is too long
-from schema $id: http://devicetree.org/schemas/display/msm/qcom,sm6150-mdss.yaml’‘
+> +	if (!icl_is_hdr_plane(display, to_intel_plane(plane)->id))
+> +		return 0;
+> +
+> +	/* Add "Bypass" (i.e. NULL) pipeline */
+> +	pipelines[len].type =3D 0;
+> +	pipelines[len].name =3D "Bypass";
+> +	len++;
+> +
+> +	/* Add pipeline consisting of transfer functions */
+> +	ret =3D intel_plane_tf_pipeline_init(plane, &pipelines[len]);
+> +	if (ret)
+> +		return ret;
+> +	len++;
+> +
+> +	/* Create COLOR_PIPELINE property and attach */
+> +	prop =3D drm_property_create_enum(dev, DRM_MODE_PROP_ATOMIC,
+> +					"COLOR_PIPELINE",
+> +					pipelines, len);
+> +	if (!prop)
+> +		return -ENOMEM;
+> +
+> +	plane->color_pipeline_property =3D prop;
+> +
+> +	drm_object_attach_property(&plane->base, prop, 0);
+> +
+> +	/* TODO check if needed */
+> +	if (plane->state)
+> +		plane->state->color_pipeline =3D NULL;
+> +
+> +	return 0;
+> +}
+> +
+>  void intel_color_crtc_init(struct intel_crtc *crtc)  {
+>  	struct intel_display *display =3D to_intel_display(crtc); diff --git
+> a/drivers/gpu/drm/i915/display/intel_color.h
+> b/drivers/gpu/drm/i915/display/intel_color.h
+> index ce9db761c6e2..c2561b86bb26 100644
+> --- a/drivers/gpu/drm/i915/display/intel_color.h
+> +++ b/drivers/gpu/drm/i915/display/intel_color.h
+> @@ -18,6 +18,8 @@ struct drm_plane;
+>  struct drm_prop_enum_list;
+>  enum intel_color_block;
+>=20
+> +#define MAX_COLOR_PIPELINES 5
 
-So, I have added all.
+Here I see you will be initializing a max of 3 pipelines if I am not wrong =
+the number should reflect that so maybe
+3
 
+Regards,
+Suraj Kandpal
 
->
->> +
->>    "^dsi@[0-9a-f]+$":
->>      type: object
->>      additionalProperties: true
->>
->> -- 
->> 2.34.1
->>
+> +
+>  void intel_color_init_hooks(struct intel_display *display);  int
+> intel_color_init(struct intel_display *display);  void intel_color_crtc_i=
+nit(struct
+> intel_crtc *crtc); @@ -46,5 +48,6 @@ void intel_color_assert_luts(const s=
+truct
+> intel_crtc_state *crtc_state);  struct intel_plane_colorop
+> *intel_colorop_alloc(void);  struct intel_plane_colorop
+> *intel_plane_colorop_create(enum intel_color_block id);  int
+> intel_plane_tf_pipeline_init(struct drm_plane *plane, struct
+> drm_prop_enum_list *list);
+> +int intel_plane_color_init(struct drm_plane *plane);
+>=20
+>  #endif /* __INTEL_COLOR_H__ */
+> --
+> 2.42.0
+
