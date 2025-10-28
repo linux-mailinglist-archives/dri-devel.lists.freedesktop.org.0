@@ -2,34 +2,34 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B177CC14F33
-	for <lists+dri-devel@lfdr.de>; Tue, 28 Oct 2025 14:46:16 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id B5DB9C14F36
+	for <lists+dri-devel@lfdr.de>; Tue, 28 Oct 2025 14:46:20 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CE3D310E3FF;
-	Tue, 28 Oct 2025 13:46:14 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D877E10E3F2;
+	Tue, 28 Oct 2025 13:46:18 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="nbIWaBei";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="Zx7oSTRF";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from sea.source.kernel.org (sea.source.kernel.org [172.234.252.31])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D1CEA10E3FB
- for <dri-devel@lists.freedesktop.org>; Tue, 28 Oct 2025 13:46:13 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0E15210E3F2
+ for <dri-devel@lists.freedesktop.org>; Tue, 28 Oct 2025 13:46:17 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by sea.source.kernel.org (Postfix) with ESMTP id 9499248E48;
+ by sea.source.kernel.org (Postfix) with ESMTP id E953248E71;
+ Tue, 28 Oct 2025 13:46:16 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0478FC4CEF7;
  Tue, 28 Oct 2025 13:46:13 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9D961C4CEFD;
- Tue, 28 Oct 2025 13:46:10 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1761659173;
- bh=LlBb+fjEXY7pk5bLYeRPSGKs235lp02bYGC9Yerww5s=;
- h=From:To:Cc:Subject:Date:From;
- b=nbIWaBeiEYMseuyMZPlLpTCcCAWZ+d4qj/0opPJvaTB2UecTlKEnY6AYxodojKA0d
- aFE6qBst7TuCBV7AxhcfHz30XbTxNSxPDF1JGJ2UWSOkwyxUFP1SXCpRUYMylpbOuJ
- 5Q0smUVG9B+sThYBACe8XjEpLS71QsDLltnxN9+fU/KVq6DPtDYzjBHcfHj+ckGLOn
- cAX2xGsD+u8ObwTRKPDjk2BDQON/feCriS2me2CXM8oLBAIz4JfZW11p1NvXZPtENZ
- 505iBHXpxsc41AfzpS3FSrLENLGuL/fQ7ale6Tpvo10kZtnJi15LyJM7GJsKtD0qfU
- md7OiTlGssrqA==
+ s=k20201202; t=1761659176;
+ bh=w7f3xidSiMuMp3mDXJlUUc5D0wccUhU3tupiMlxaRc0=;
+ h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+ b=Zx7oSTRFwurmTdWXau1Z5IYE1gJR/tV9SO4p/Ycxp5J5gqUa4EVZiXTDQw7EMmww0
+ fJ7GOUecF3mfVIVyQvXD/Gn/rJ+UH6togC0DNUVAEc6v6Bdwm0TbtjyJkGmx2EC1Yx
+ e4Pb6WKzbseYp8fk0qIdvvJ7n7qR7sU0hZqco4RKlUyDLBlRJOmmGxAPQqfW67/7bc
+ W09jBQgot9r1DgricVqPjJ/MIM+WgBCtsNyGvo/q+//c54kQdrV++ZDInpwlxDchbR
+ EkidB072S6NQlCijuPnBx8TeEivoLS9NLH6vPrIf1JlN9NuAlS0U4XnJVQHir6lN9l
+ BISEH5KanAWQw==
 From: Philipp Stanner <phasta@kernel.org>
 To: Matthew Brost <matthew.brost@intel.com>,
  Danilo Krummrich <dakr@kernel.org>, Philipp Stanner <phasta@kernel.org>,
@@ -40,12 +40,13 @@ To: Matthew Brost <matthew.brost@intel.com>,
  Simona Vetter <simona@ffwll.ch>, tursulin@ursulin.net
 Cc: dri-devel@lists.freedesktop.org,
 	linux-kernel@vger.kernel.org
-Subject: [PATCH 0/2] drm/sched: Document potential forever-hang
-Date: Tue, 28 Oct 2025 14:46:00 +0100
-Message-ID: <20251028134602.94125-2-phasta@kernel.org>
+Subject: [PATCH 1/2] drm/sched: Fix comment in drm_sched_run_job_work()
+Date: Tue, 28 Oct 2025 14:46:01 +0100
+Message-ID: <20251028134602.94125-3-phasta@kernel.org>
 X-Mailer: git-send-email 2.49.0
+In-Reply-To: <20251028134602.94125-2-phasta@kernel.org>
+References: <20251028134602.94125-2-phasta@kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -62,20 +63,38 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-While implementing a similar feature for drm_jobqueue I was looking for
-inspiration in drm_sched and found this problem here. Now I have two
-problems instead of one ^^'
+drm_sched_run_job_work() contains a comment which explains that an
+entity being NULL means that there is no more work to do. It can,
+however, also mean that there is work, but the scheduler doesn't have
+enough credits to process the jobs right now.
 
-Anyways, this is not a huge issue since it's unlikely to occur – but we
-should document it.
+Provide this detail in the comment.
 
-Philipp Stanner (2):
-  drm/sched: Fix comment in drm_sched_run_job_work()
-  drm/sched: Add FIXME detailing potential hang
+Signed-off-by: Philipp Stanner <phasta@kernel.org>
+---
+ drivers/gpu/drm/scheduler/sched_main.c | 9 +++++++--
+ 1 file changed, 7 insertions(+), 2 deletions(-)
 
- drivers/gpu/drm/scheduler/sched_main.c | 19 +++++++++++++++++--
- 1 file changed, 17 insertions(+), 2 deletions(-)
-
+diff --git a/drivers/gpu/drm/scheduler/sched_main.c b/drivers/gpu/drm/scheduler/sched_main.c
+index c39f0245e3a9..492e8af639db 100644
+--- a/drivers/gpu/drm/scheduler/sched_main.c
++++ b/drivers/gpu/drm/scheduler/sched_main.c
+@@ -1237,8 +1237,13 @@ static void drm_sched_run_job_work(struct work_struct *w)
+ 
+ 	/* Find entity with a ready job */
+ 	entity = drm_sched_select_entity(sched);
+-	if (!entity)
+-		return;	/* No more work */
++	if (!entity) {
++		/*
++		 * Either no more work to do, or the next ready job needs more
++		 * credits than the scheduler has currently available.
++		 */
++		return;
++	}
+ 
+ 	sched_job = drm_sched_entity_pop_job(entity);
+ 	if (!sched_job) {
 -- 
 2.49.0
 
