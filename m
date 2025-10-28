@@ -2,53 +2,69 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4918FC1624A
-	for <lists+dri-devel@lfdr.de>; Tue, 28 Oct 2025 18:29:06 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 602A3C162F8
+	for <lists+dri-devel@lfdr.de>; Tue, 28 Oct 2025 18:36:14 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3648710E624;
-	Tue, 28 Oct 2025 17:29:02 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0292510E62A;
+	Tue, 28 Oct 2025 17:36:10 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="CN1ejqL1";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="Q6gDxIn+";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
- [213.167.242.64])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 782F110E625
- for <dri-devel@lists.freedesktop.org>; Tue, 28 Oct 2025 17:29:00 +0000 (UTC)
-Received: from [192.168.88.20] (91-158-153-178.elisa-laajakaista.fi
- [91.158.153.178])
- by perceval.ideasonboard.com (Postfix) with ESMTPSA id 2C85EE77;
- Tue, 28 Oct 2025 18:27:10 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
- s=mail; t=1761672430;
- bh=kvCaVxU1ELq1lPUuwkUP04tYtGpS5sdCXONZfIGMmCI=;
- h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
- b=CN1ejqL13IPGxh4mjjRRw44+4531n7VBYtCO1ErJMxulfL2GAlBRym02qBaHB+nc0
- YlzMwTWETUWejYWYrj2Ou45lh93O2X0KWAgD+uRw14yrsNzv1/wEgmrEA0F/zkY5TO
- Si2U39gMIET0Is4R+KMxHBgnQ0jBTGEhENjzCMjs=
-Message-ID: <bff68fb9-d826-4d5e-8896-13cc62d40093@ideasonboard.com>
-Date: Tue, 28 Oct 2025 19:28:56 +0200
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 003D510E61E;
+ Tue, 28 Oct 2025 17:36:07 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1761672968; x=1793208968;
+ h=from:to:cc:subject:date:message-id:mime-version:
+ content-transfer-encoding;
+ bh=sUfBrDVJ4zXpZdE0zhHIkQbFjQ1mRcyzdpcim/n0mKU=;
+ b=Q6gDxIn+xSWXpqSQb+4IURICp8WrMScnY0Hq7uhZs9dAm0Ko+uRzUcGZ
+ aL5yTGpgIqzTHRs4uDepCgDpdjcBDHLuKvQtBJjdcNWQg9PVr/1MFJyM1
+ cSJqLxdtydECoiBzTPFULSJvXDR3i9J0dVCjIJt5ppmuC58jYo7Z7BZxp
+ A+Gi0pK3Zf90q1KBd1axfK1WuOwMwIkcAC8kwjKiM0LYtsaOJshANJLWs
+ 7k0eNdkIMdhbkUVlDLsRPyU3GJ3ENCZEe/KpXue60T3hJGHVOBHgIkQns
+ 3Umo0cSUVdDnXVbLUScTQ+I8DcpSdl2QHLA6EYLvWFK+qGCfcZLT/hNSU Q==;
+X-CSE-ConnectionGUID: CY1Tsdy8RNW5lT/wD5xanA==
+X-CSE-MsgGUID: CiLfZPbXRQmTzcjo+zhO6A==
+X-IronPort-AV: E=McAfee;i="6800,10657,11586"; a="74072258"
+X-IronPort-AV: E=Sophos;i="6.19,261,1754982000"; d="scan'208";a="74072258"
+Received: from orviesa006.jf.intel.com ([10.64.159.146])
+ by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 28 Oct 2025 10:36:07 -0700
+X-CSE-ConnectionGUID: Adp4jPrPQ4W1wxsZqchBjQ==
+X-CSE-MsgGUID: x7jx+FshTVaDlbRqAYf7RQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.19,261,1754982000"; d="scan'208";a="184594646"
+Received: from ijarvine-mobl1.ger.corp.intel.com (HELO localhost)
+ ([10.245.244.182])
+ by orviesa006-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 28 Oct 2025 10:36:01 -0700
+From: =?UTF-8?q?Ilpo=20J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>
+To: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
+ Simon Richter <Simon.Richter@hogyros.de>,
+ Lucas De Marchi <lucas.demarchi@intel.com>,
+ Alex Deucher <alexander.deucher@amd.com>, amd-gfx@lists.freedesktop.org,
+ Bjorn Helgaas <bhelgaas@google.com>, David Airlie <airlied@gmail.com>,
+ dri-devel@lists.freedesktop.org, intel-gfx@lists.freedesktop.org,
+ intel-xe@lists.freedesktop.org, Jani Nikula <jani.nikula@linux.intel.com>,
+ Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
+ linux-pci@vger.kernel.org, Rodrigo Vivi <rodrigo.vivi@intel.com>,
+ Simona Vetter <simona@ffwll.ch>, Tvrtko Ursulin <tursulin@ursulin.net>,
+ =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
+ =?UTF-8?q?Thomas=20Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>,
+ =?UTF-8?q?Micha=C5=82=20Winiarski?= <michal.winiarski@intel.com>
+Cc: linux-kernel@vger.kernel.org,
+ =?UTF-8?q?Ilpo=20J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>
+Subject: [PATCH 0/9] PCI: BAR resizing fix/rework
+Date: Tue, 28 Oct 2025 19:35:42 +0200
+Message-Id: <20251028173551.22578-1-ilpo.jarvinen@linux.intel.com>
+X-Mailer: git-send-email 2.39.5
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 00/11] drm/rcar-du: dsi: Convert register bits to
- BIT()/GENMASK() macros
-To: Marek Vasut <marek.vasut+renesas@mailbox.org>,
- dri-devel@lists.freedesktop.org
-Cc: David Airlie <airlied@gmail.com>,
- Geert Uytterhoeven <geert+renesas@glider.be>,
- Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
- Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Magnus Damm <magnus.damm@gmail.com>, Maxime Ripard <mripard@kernel.org>,
- Simona Vetter <simona@ffwll.ch>, Thomas Zimmermann <tzimmermann@suse.de>,
- linux-renesas-soc@vger.kernel.org
-References: <20251005030355.202242-1-marek.vasut+renesas@mailbox.org>
-From: Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>
-Content-Language: en-US
-In-Reply-To: <20251005030355.202242-1-marek.vasut+renesas@mailbox.org>
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -64,52 +80,92 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,
+Simon and Alex, could you please test if this series eliminates the
+claim conflicts and makes the BAR resize either succeed or not break
+things while rolling back resource changes? It should be tested without
+other fix patches (from me; if you need some random unrelated fix,
+that's okay).
 
-On 05/10/2025 06:02, Marek Vasut wrote:
-> Convert register bits to BIT() macro and bitfields to GENMASK()/FIELD_PREP() macros.
-> Most of this patchset is boring mechanical conversion.
-> 
-> Noteworthy patches are 6 and 7 , those introduce handling of DSI mode flags
-> and convert use of DRM_MODE_FLAG_P.SYNC into DRM_MODE_FLAG_N.SYNC, but that
-> should not have any adverse effect on existing hardware.
+Hi all,
 
-After the few minor comments I sent resolved, for the series:
+Thanks to issue reports from Simon Richter and Alex Bennée, I
+discovered BAR resize rollback can corrupt the resource tree. As fixing
+corruption requires avoiding overlapping resource assignments, the
+correct fix can unfortunately results in worse user experience, what
+appeared to be "working" previously might no longer do so. Thus, I had
+to do a larger rework to pci_resize_resource() in order to properly
+restore resource states as it was prior to BAR resize.
 
-Reviewed-by: Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>
+This rework has been on my TODO list anyway but it wasn't the highest
+prio item until pci_resize_resource() started to cause regressions due
+to other resource assignment algorithm changes.
 
- Tomi
+BAR resize rollback does not always restore BAR resources as they were
+before the resize operation was started. Currently, when
+pci_resize_resource() call is made by a driver, the driver must release
+device resource prior to the call. This is a design flaw in
+pci_resize_resource() API as PCI core cannot then save the state of
+those resources from what it was prior to release so it could restore
+them later if the BAR size change has to be rolled back.
+
+PCI core's BAR resize operation doesn't even attempt to restore the
+device resources currently when rolling back BAR resize operation. If
+the normal resource assignment algorithm assigned those resources, then
+device resources might be assigned after pci_resize_resource() call but
+that could also trigger the resource tree corruption issue so what
+appeared to an user as "working" might be a corrupted state.
+
+With the new pci_resize_resource() interface, the driver calling
+pci_resize_resource() should no longer release the device resources.
+
+I've added WARN_ON_ONCE() to pick up similar bugs that cause resource
+tree corruption. At least in my tests all looked clear on that front
+after this series.
+
+I was a bit on the edge how to split this series. Between patches 1 and
+5-8, there might be cases where user experience is made worse if only
+part of the series are applied. But at the same time I was hesitant to
+merge all those changes together either as the changes way easier to
+understand when split properly. Personally I think BAR resize rollback
+code has not really functioned okay prior to series at all because
+touching an assigned resource on the rollback path is a bug, plain and
+simple. If that got things "working" it's still a bad bug (that one can
+get lucky and corruption results in non-corrupted numbers doesn't make
+it any better). If those patches need to be merged into one, just let
+me know and I can rearrange the patch order to make it easier.
+
+This series will conflict what's in pci/rebar and likely with some xe
+changes from Lucas De Marchi that might also be rendered in part
+unnecessary due to pci_resize_resource() API change. My suggestion is
+that this series takes precedence over what's in pci/rebar to make
+things easier for stable people (I can rebase the pci/rebar patches on
+top of these so feel free to drop those other patches, if needed).
 
 
-> Marek Vasut (11):
->   drm/rcar-du: dsi: Fix missing parameter in RXSETR_...EN macros
->   drm/rcar-du: dsi: Document TXVMSETR PIXWDTH as bitfield
->   drm/rcar-du: dsi: Document PHTR TESTDOUT as bitfield
->   drm/rcar-du: dsi: Deduplicate mipi_dsi_pixel_format_to_bpp() usage
->   drm/rcar-du: dsi: Clean up VCLKSET register macros
->   drm/rcar-du: dsi: Clean up CLOCKSET1 CLKINSEL macros
->   drm/rcar-du: dsi: Clean up TXVMPSPHSETR DT macros
->   drm/rcar-du: dsi: Respect DSI mode flags
->   drm/rcar-du: dsi: Clean up handling of DRM mode flags
->   drm/rcar-du: dsi: Convert register bits to BIT() macro
->   drm/rcar-du: dsi: Convert register bitfields to GENMASK() macro
-> 
->  .../gpu/drm/renesas/rcar-du/rcar_mipi_dsi.c   |  50 ++-
->  .../drm/renesas/rcar-du/rcar_mipi_dsi_regs.h  | 387 +++++++++---------
->  2 files changed, 237 insertions(+), 200 deletions(-)
-> 
-> ---
-> Cc: David Airlie <airlied@gmail.com>
-> Cc: Geert Uytterhoeven <geert+renesas@glider.be>
-> Cc: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
-> Cc: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
-> Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
-> Cc: Magnus Damm <magnus.damm@gmail.com>
-> Cc: Maxime Ripard <mripard@kernel.org>
-> Cc: Simona Vetter <simona@ffwll.ch>
-> Cc: Thomas Zimmermann <tzimmermann@suse.de>
-> Cc: Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>
-> Cc: dri-devel@lists.freedesktop.org
-> Cc: linux-renesas-soc@vger.kernel.org
-> 
+Ilpo Järvinen (9):
+  PCI: Prevent resource tree corruption when BAR resize fails
+  PCI/IOV: Adjust ->barsz[] when changing BAR size
+  PCI: Change pci_dev variable from 'bridge' to 'dev'
+  PCI: Try BAR resize even when no window was released
+  PCI: Fix restoring BARs on BAR resize rollback path
+  drm/xe: Remove driver side BAR release before resize
+  drm/i915: Remove driver side BAR release before resize
+  drm/amdgpu: Remove driver side BAR release before resize
+  PCI: Prevent restoring assigned resources
+
+ drivers/gpu/drm/amd/amdgpu/amdgpu_device.c  |   8 +-
+ drivers/gpu/drm/i915/gt/intel_region_lmem.c |  12 --
+ drivers/gpu/drm/xe/xe_vram.c                |   3 -
+ drivers/pci/iov.c                           |  15 +--
+ drivers/pci/pci-sysfs.c                     |  15 +--
+ drivers/pci/pci.c                           |   4 +
+ drivers/pci/pci.h                           |   8 +-
+ drivers/pci/setup-bus.c                     | 119 ++++++++++++++------
+ drivers/pci/setup-res.c                     |  30 ++---
+ 9 files changed, 108 insertions(+), 106 deletions(-)
+
+
+base-commit: 3a8660878839faadb4f1a6dd72c3179c1df56787
+-- 
+2.39.5
 
