@@ -2,75 +2,79 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 61041C17593
-	for <lists+dri-devel@lfdr.de>; Wed, 29 Oct 2025 00:30:29 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0A930C1759C
+	for <lists+dri-devel@lfdr.de>; Wed, 29 Oct 2025 00:30:38 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 727F310E04E;
-	Tue, 28 Oct 2025 23:30:16 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 593B510E6AB;
+	Tue, 28 Oct 2025 23:30:26 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; secure) header.d=mailbox.org header.i=@mailbox.org header.b="AM4QN+XU";
-	dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b="CnP6OexP";
+	dkim=pass (2048-bit key; secure) header.d=mailbox.org header.i=@mailbox.org header.b="HwYQN4J/";
+	dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b="m4rSyYMH";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mout-p-102.mailbox.org (mout-p-102.mailbox.org [80.241.56.152])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 47ED510E04E
- for <dri-devel@lists.freedesktop.org>; Tue, 28 Oct 2025 23:30:14 +0000 (UTC)
+Received: from mout-p-202.mailbox.org (mout-p-202.mailbox.org [80.241.56.172])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 63EEA10E6AB
+ for <dri-devel@lists.freedesktop.org>; Tue, 28 Oct 2025 23:30:17 +0000 (UTC)
 Received: from smtp102.mailbox.org (smtp102.mailbox.org
  [IPv6:2001:67c:2050:b231:465::102])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
  (No client certificate requested)
- by mout-p-102.mailbox.org (Postfix) with ESMTPS id 4cx66r54d4z9t3f;
- Wed, 29 Oct 2025 00:30:12 +0100 (CET)
+ by mout-p-202.mailbox.org (Postfix) with ESMTPS id 4cx66v1fVwz9tQr;
+ Wed, 29 Oct 2025 00:30:15 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org;
- s=mail20150812; t=1761694212;
+ s=mail20150812; t=1761694215;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:
- content-transfer-encoding:content-transfer-encoding;
- bh=IVXmSERoMI/GZWJakZVcaW0xPhsNvN3gsUyKubEtizY=;
- b=AM4QN+XUlrMp9hwMsAlP6cfup8GDXbO5y/71B/5fFUUZ6S46KrWP0pSQ9Hcse+m8xl8Ifr
- 6KS1ItzC+OItW/Ut3L+bBc2o6YhVlhIsAKSTxLfOsNjIiYPW3VZ81jETtT/UERJpIIAh/M
- AAt2hJ9npP028p64+EEMzQOBoYFaJIy3duUOlXhX1XZBEaI8tFgqHJm+wgWO1iOluPlpKR
- mxe4DZovURzyChGtzdht8YUx1gwGnxR30pVutfT8G+up8/4I8VksBecNiEHiIv1JLEVSdT
- vWOnhPbTxTywMCs7s/GSgmDIuoNkLG0dUjEYaWOGffRtQXQ8il3PSuRPyqqHcw==
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=mAbwK7Q2HinPATBiXxg8SGPb+FOJdhY/KzzDIEF4H94=;
+ b=HwYQN4J/EfPi4mk6WKzFVpQO7eCVLE9MFYKFMg/iT/oEydXgC+rmwx2TXH7cgY4g5E4XKN
+ Jh2W4bfA0VdJOjsUvZjhzIVRAWyxDL1K9/LbF25wwaTtdHNB/z4Rj9YPnuQrke004zN5Bf
+ Vnn9l3xUTlGObaXYT4PGKxjoA+AzVD2LtxGfrRon11q7HH1KOurAk3rL5ZZR+7CMjNg7U5
+ 59zDD5oPTV8Q7Ywk4lFdkerOLflWfAOWbeXR2hEiATJZ82FJa5S5WWzNYUxSdQZVLFUGXO
+ F5PZqwoHd+sKk3liGSYT1GziGLh1M/bIjB0VYTRxkduhWeO442+2XFTjPwKfXw==
 Authentication-Results: outgoing_mbo_mout;
- dkim=pass header.d=mailbox.org header.s=mail20150812 header.b=CnP6OexP;
+ dkim=pass header.d=mailbox.org header.s=mail20150812 header.b=m4rSyYMH;
  spf=pass (outgoing_mbo_mout: domain of marek.vasut+renesas@mailbox.org
  designates 2001:67c:2050:b231:465::102 as permitted sender)
  smtp.mailfrom=marek.vasut+renesas@mailbox.org
 From: Marek Vasut <marek.vasut+renesas@mailbox.org>
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org;
- s=mail20150812; t=1761694210;
+ s=mail20150812; t=1761694213;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:
- content-transfer-encoding:content-transfer-encoding;
- bh=IVXmSERoMI/GZWJakZVcaW0xPhsNvN3gsUyKubEtizY=;
- b=CnP6OexPAgdI9aCBAZ7z0rpMwdLajSYcpPrkJaNT+z4dViXXN5ZNVrPvZtfnvOKLQOBE2i
- suPj09oMm58sgPAvLVdmVq1UzsQh7V1AIzeTUATjlCS4IQYeWe20/5tvFwDmSvfEj5l9aj
- ucaJI8KEL2miUzeZ2D3TWYgKWBWD05yoj6kgngI6orCgoROX2mUQBDibQ/6p50nE9z1a2N
- ABEhARsyOGYJvQl8p4j8I5fLBGlC4E2LGfVP1s/JZoDTe7Ikb82RQWMUkfBCuP3Ml2vD9M
- SL+AP/+55ZmXdEbtqjSzkhHqPqO1hmmPvqwWyUs3P1LjvBzF0iEIB8TfRCPbhQ==
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=mAbwK7Q2HinPATBiXxg8SGPb+FOJdhY/KzzDIEF4H94=;
+ b=m4rSyYMHusHLdmWi+HQTp+gak4oVZ5q1aPKIVOXrVRMM1TN/HOhGau0px2z6sTlCoI3PQO
+ o9WD7lcAVlXkR2Oe2ccq54BLGH4XebBwqm+P7sQ6wbxNf4RqN4hHMn4bgdyBJ5mA0dfr6z
+ U+iHOkmL9121JzoUswmQL+mZzErduzk/Idg3hIMuCz5a3AAm+DPntH3IcLXsCNEK5/llNs
+ npQhTW8q9pR0dCh/0S0BWeGmt90VuhA7MVdDeGly/B+GgRWfLmSXQGzXmzIKdPQLs29VK2
+ kN466wv7LAGvXbU5K5pWHVfe7tghs0V0rL3uEOOLVxq207mTf4jzFzPIEhg2Jw==
 To: dri-devel@lists.freedesktop.org
 Cc: Marek Vasut <marek.vasut+renesas@mailbox.org>,
+ Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
+ Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>,
  David Airlie <airlied@gmail.com>,
  Geert Uytterhoeven <geert+renesas@glider.be>,
  Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
- Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
  Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
  Magnus Damm <magnus.damm@gmail.com>, Maxime Ripard <mripard@kernel.org>,
  Simona Vetter <simona@ffwll.ch>, Thomas Zimmermann <tzimmermann@suse.de>,
- Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>,
  linux-renesas-soc@vger.kernel.org
-Subject: [PATCH v4 00/11] drm/rcar-du: dsi: Convert register bits to
- BIT()/GENMASK() macros
-Date: Wed, 29 Oct 2025 00:28:10 +0100
-Message-ID: <20251028232959.109936-1-marek.vasut+renesas@mailbox.org>
+Subject: [PATCH v4 01/11] drm/rcar-du: dsi: Fix missing parameter in
+ RXSETR_...EN macros
+Date: Wed, 29 Oct 2025 00:28:11 +0100
+Message-ID: <20251028232959.109936-2-marek.vasut+renesas@mailbox.org>
+In-Reply-To: <20251028232959.109936-1-marek.vasut+renesas@mailbox.org>
+References: <20251028232959.109936-1-marek.vasut+renesas@mailbox.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-MBO-RS-META: rgpp5wccc3ojt99ot8g9rocfb7t5dh8f
-X-MBO-RS-ID: 6d346328a035b757927
-X-Rspamd-Queue-Id: 4cx66r54d4z9t3f
+X-MBO-RS-META: 6s5abxewwyb8to7h31pnjxpp9h1yime6
+X-MBO-RS-ID: 0c87285623d8c4a7625
+X-Rspamd-Queue-Id: 4cx66v1fVwz9tQr
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -86,30 +90,14 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Convert register bits to BIT() macro and bitfields to GENMASK()/FIELD_PREP() macros.
-Most of this patchset is boring mechanical conversion.
+The RXSETR_CRCEN(n) and RXSETR_ECCEN(n) macros both take parameter (n),
+add the missing macro parameter. Neither of those macros is used by the
+driver, so for now the bug is harmless.
 
-Noteworthy patches are 8 and 9 , those introduce handling of DSI mode flags
-and convert use of DRM_MODE_FLAG_P.SYNC into DRM_MODE_FLAG_N.SYNC, but that
-should not have any adverse effect on existing hardware.
-
-Marek Vasut (11):
-  drm/rcar-du: dsi: Fix missing parameter in RXSETR_...EN macros
-  drm/rcar-du: dsi: Document TXVMSETR PIXWDTH as bitfield
-  drm/rcar-du: dsi: Document PHTR TESTDOUT as bitfield
-  drm/rcar-du: dsi: Deduplicate mipi_dsi_pixel_format_to_bpp() usage
-  drm/rcar-du: dsi: Clean up VCLKSET register macros
-  drm/rcar-du: dsi: Clean up CLOCKSET1 CLKINSEL macros
-  drm/rcar-du: dsi: Clean up TXVMPSPHSETR DT macros
-  drm/rcar-du: dsi: Respect DSI mode flags
-  drm/rcar-du: dsi: Clean up handling of DRM mode flags
-  drm/rcar-du: dsi: Convert register bits to BIT() macro
-  drm/rcar-du: dsi: Convert register bitfields to GENMASK() macro
-
- .../gpu/drm/renesas/rcar-du/rcar_mipi_dsi.c   |  50 ++-
- .../drm/renesas/rcar-du/rcar_mipi_dsi_regs.h  | 387 +++++++++---------
- 2 files changed, 237 insertions(+), 200 deletions(-)
-
+Fixes: 685e8dae19df ("drm/rcar-du: dsi: Implement DSI command support")
+Reviewed-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
+Reviewed-by: Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>
+Signed-off-by: Marek Vasut <marek.vasut+renesas@mailbox.org>
 ---
 Cc: David Airlie <airlied@gmail.com>
 Cc: Geert Uytterhoeven <geert+renesas@glider.be>
@@ -123,7 +111,29 @@ Cc: Thomas Zimmermann <tzimmermann@suse.de>
 Cc: Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>
 Cc: dri-devel@lists.freedesktop.org
 Cc: linux-renesas-soc@vger.kernel.org
+---
+V2: Add RB from Laurent
+V3: No change
+V4: Add RB from Tomi
+---
+ drivers/gpu/drm/renesas/rcar-du/rcar_mipi_dsi_regs.h | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
+diff --git a/drivers/gpu/drm/renesas/rcar-du/rcar_mipi_dsi_regs.h b/drivers/gpu/drm/renesas/rcar-du/rcar_mipi_dsi_regs.h
+index 76521276e2af8..dd871e17dcf53 100644
+--- a/drivers/gpu/drm/renesas/rcar-du/rcar_mipi_dsi_regs.h
++++ b/drivers/gpu/drm/renesas/rcar-du/rcar_mipi_dsi_regs.h
+@@ -50,8 +50,8 @@
+ #define TXCMPPD3R			0x16c
+ 
+ #define RXSETR				0x200
+-#define RXSETR_CRCEN			(((n) & 0xf) << 24)
+-#define RXSETR_ECCEN			(((n) & 0xf) << 16)
++#define RXSETR_CRCEN(n)			(((n) & 0xf) << 24)
++#define RXSETR_ECCEN(n)			(((n) & 0xf) << 16)
+ #define RXPSETR				0x210
+ #define RXPSETR_LPPDACC			(1 << 0)
+ #define RXPSR				0x220
 -- 
 2.51.0
 
