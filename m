@@ -2,63 +2,56 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D56BBC14804
-	for <lists+dri-devel@lfdr.de>; Tue, 28 Oct 2025 13:02:16 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8F7ECC14948
+	for <lists+dri-devel@lfdr.de>; Tue, 28 Oct 2025 13:20:50 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id EC52610E3A4;
-	Tue, 28 Oct 2025 12:02:14 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9B54910E3AE;
+	Tue, 28 Oct 2025 12:20:45 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="SwZX30kq";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="eEaefMRg";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sea.source.kernel.org (sea.source.kernel.org [172.234.252.31])
- by gabe.freedesktop.org (Postfix) with ESMTPS id AA97310E3A7
- for <dri-devel@lists.freedesktop.org>; Tue, 28 Oct 2025 12:02:13 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by sea.source.kernel.org (Postfix) with ESMTP id 71695432BF;
- Tue, 28 Oct 2025 12:02:13 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A9F27C4CEE7;
- Tue, 28 Oct 2025 12:02:12 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1761652933;
- bh=mZf/YKmsAob1fECJczEmiCct9PI3ELB+8/2Zjo1x01o=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=SwZX30kqTRxKywW3JAgQpZq9YEFkCs4mbYnsls8E10OCO8sCik7skaC6kTTCKlfog
- IAGPeflZVG4EU9joGw/E4TiGl7RA8FEFNbJr5eZDvYRVR5AqDOAKiVBJ3RW9NglqMt
- YrKtMpdU8ZM7ej9CU2ASIMTiUtmkgbi/4YlElhPAm8ukENsd2Q5yb9qGC57bQdTv87
- kSyfTWb41F+rhshf2CL1q0957AOwBmoHWs/npuXlrXKWFgxS/IeSKCP1J/gK/MKvkJ
- lcPBPR7SnFgSuuCKpUntaxB+uWX3d7haPhR2st8URjXBigR+NbHjYiQJL0WRxmtmiQ
- /cOOFozsC/eiA==
-Date: Tue, 28 Oct 2025 14:02:07 +0200
-From: Leon Romanovsky <leon@kernel.org>
-To: David Matlack <dmatlack@google.com>
-Cc: Alex Williamson <alex.williamson@redhat.com>,
- Jason Gunthorpe <jgg@nvidia.com>,
- Andrew Morton <akpm@linux-foundation.org>,
- Bjorn Helgaas <bhelgaas@google.com>,
- Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
- dri-devel@lists.freedesktop.org, iommu@lists.linux.dev,
- Jens Axboe <axboe@kernel.dk>, Joerg Roedel <joro@8bytes.org>,
- kvm@vger.kernel.org, linaro-mm-sig@lists.linaro.org,
- linux-block@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-media@vger.kernel.org, linux-mm@kvack.org,
- linux-pci@vger.kernel.org, Logan Gunthorpe <logang@deltatee.com>,
- Marek Szyprowski <m.szyprowski@samsung.com>,
- Robin Murphy <robin.murphy@arm.com>,
- Sumit Semwal <sumit.semwal@linaro.org>,
- Vivek Kasireddy <vivek.kasireddy@intel.com>, Will Deacon <will@kernel.org>
-Subject: Re: [PATCH v5 9/9] vfio/pci: Add dma-buf export support for MMIO
- regions
-Message-ID: <20251028120207.GQ12554@unreal>
-References: <cover.1760368250.git.leon@kernel.org>
- <72ecaa13864ca346797e342d23a7929562788148.1760368250.git.leon@kernel.org>
- <CALzav=cj_g8ndvbWdm=dukW+37cDh04k1n7ssFrDG+dN3D+cbw@mail.gmail.com>
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 97A9710E3AE;
+ Tue, 28 Oct 2025 12:20:44 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1761654044; x=1793190044;
+ h=from:to:cc:subject:date:message-id:mime-version:
+ content-transfer-encoding;
+ bh=NCSAkXI3uLBuB+/XhE+vgelYdx3oM3FjmRUsBGQCUxU=;
+ b=eEaefMRgoNvAtX5WkiO6MC2ski4mIC5z75500e/EbtswePTZYogBxr8K
+ SbS2qKzaeNcqpYxwz0t+iGDP/XYzehF1zl214WGGMnjOf4ZtOseYsRgHf
+ tG6fzmXDm8BG+nDFTMFIubE9OMJ6kW3ISS0SrFrgNbC7qhJhkbwiLg32a
+ LVz6y2YQHncBt/sZn+hvMOcn7BkuyrwQQQi65jred9rcyIl7zXSVAJIQN
+ qNj+2EfI2iYXklLj6jkY95i/skxce4kEdK2dGUw+/QqGBald0F4XoEKlr
+ ekwesfHuJT8A7PGX9NqPSFfqLpKMf6aC4RRxIufNxF1M5V+7a19u1b2tj A==;
+X-CSE-ConnectionGUID: W9Grvhw0TGaqtHK+63NqrA==
+X-CSE-MsgGUID: NafmGB+STTyI7JHlvlvkuQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11586"; a="75198260"
+X-IronPort-AV: E=Sophos;i="6.19,261,1754982000"; d="scan'208";a="75198260"
+Received: from fmviesa003.fm.intel.com ([10.60.135.143])
+ by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 28 Oct 2025 05:20:44 -0700
+X-CSE-ConnectionGUID: YTTtL8DpTQOd+bIFjFcZqw==
+X-CSE-MsgGUID: lYUkfHDzRoe35mCIEDi+cA==
+X-ExtLoop1: 1
+Received: from srr4-3-linux-103-aknautiy.iind.intel.com ([10.223.34.160])
+ by fmviesa003-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 28 Oct 2025 05:20:42 -0700
+From: Ankit Nautiyal <ankit.k.nautiyal@intel.com>
+To: intel-gfx@lists.freedesktop.org, intel-xe@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org
+Cc: nemesa.garg@intel.com,
+	Ankit Nautiyal <ankit.k.nautiyal@intel.com>
+Subject: [RESEND 00/10] Introduce drm sharpness property
+Date: Tue, 28 Oct 2025 17:37:36 +0530
+Message-ID: <20251028120747.3027332-1-ankit.k.nautiyal@intel.com>
+X-Mailer: git-send-email 2.45.2
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <CALzav=cj_g8ndvbWdm=dukW+37cDh04k1n7ssFrDG+dN3D+cbw@mail.gmail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -74,47 +67,83 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Oct 27, 2025 at 04:13:05PM -0700, David Matlack wrote:
-> On Mon, Oct 13, 2025 at 8:44 AM Leon Romanovsky <leon@kernel.org> wrote:
-> >
-> > From: Leon Romanovsky <leonro@nvidia.com>
-> >
-> > Add support for exporting PCI device MMIO regions through dma-buf,
-> > enabling safe sharing of non-struct page memory with controlled
-> > lifetime management. This allows RDMA and other subsystems to import
-> > dma-buf FDs and build them into memory regions for PCI P2P operations.
-> 
-> > +/**
-> > + * Upon VFIO_DEVICE_FEATURE_GET create a dma_buf fd for the
-> > + * regions selected.
-> > + *
-> > + * open_flags are the typical flags passed to open(2), eg O_RDWR, O_CLOEXEC,
-> > + * etc. offset/length specify a slice of the region to create the dmabuf from.
-> > + * nr_ranges is the total number of (P2P DMA) ranges that comprise the dmabuf.
-> > + *
-> > + * Return: The fd number on success, -1 and errno is set on failure.
-> > + */
-> > +#define VFIO_DEVICE_FEATURE_DMA_BUF 11
-> > +
-> > +struct vfio_region_dma_range {
-> > +       __u64 offset;
-> > +       __u64 length;
-> > +};
-> > +
-> > +struct vfio_device_feature_dma_buf {
-> > +       __u32   region_index;
-> > +       __u32   open_flags;
-> > +       __u32   flags;
-> > +       __u32   nr_ranges;
-> > +       struct vfio_region_dma_range dma_ranges[];
-> > +};
-> 
-> This uAPI would be a good candidate for a VFIO selftest. You can test
-> that it returns an error when it's supposed to, and a valid fd when
-> it's supposed to. And once the iommufd importer side is ready, we can
-> extend the test and verify that the fd can be mapped into iommufd.
+This is a resend of the patch series [1] originally submitted by
+Nemesa Garg <nemesa.garg@intel.com> to:
+- intel-gfx@lists.freedesktop.org
+- dri-devel@lists.freedesktop.org
+- intel-xe@lists.freedesktop.org
 
-No problem, I'll add such test, but let's focus on making sure that this
-series is accepted first.
+One of the patches was missed by Patchwork, which caused the xe CI to skip
+running tests for the full series. To ensure proper CI coverage and
+results, I’ve applied the series on top of the latest tree and regenerated
+it using `git format-patch`.
 
-Thanks
+[1] https://patchwork.freedesktop.org/series/138754/
+
+
+--- Original cover letter follows ---
+
+Many a times images are blurred or upscaled content is also not as
+crisp as original rendered image. Traditional sharpening techniques often
+apply a uniform level of enhancement across entire image, which sometimes
+result in over-sharpening of some areas and potential loss of natural details.
+
+Intel has come up with Display Engine based adaptive sharpening filter
+with minimal power and performance impact. From LNL onwards, the Display
+hardware can use one of the pipe scaler for adaptive sharpness filter.
+This can be used for both gaming and non-gaming use cases like photos,
+image viewing. It works on a region of pixels depending on the tap size.
+
+This is an attempt to introduce an adaptive sharpness solution which
+helps in improving the image quality. For this new CRTC property is added.
+The user can set this property with desired sharpness strength value with
+0-255. A value of 1 representing minimum sharpening strength and 255
+representing maximum sharpness strength. A strength value of 0 means no
+sharpening or sharpening feature disabled.
+It works on a region of pixels depending on the tap size. The coefficients
+are used to generate an alpha value which is used to blend the sharpened
+image to original image.
+
+Middleware MR link: https://gitlab.gnome.org/GNOME/mutter/-/merge_requests/3665
+IGT patchwork link: https://patchwork.freedesktop.org/series/130218/
+
+Continuing discussions from:  https://patchwork.freedesktop.org/series/129888/
+
+https://invent.kde.org/plasma/kwin/-/merge_requests/7689
+Got ack from kwin maintainer on the UAPI patch.
+
+Nemesa Garg (10):
+  drm/drm_crtc: Introduce sharpness strength property
+  drm/i915/display: Introduce HAS_CASF for sharpness support
+  drm/i915/display: Add CASF strength and winsize
+  drm/i915/display: Add filter lut values
+  drm/i915/display: Compute the scaler coefficients
+  drm/i915/display: Add and compute scaler parameter
+  drm/i915/display: Configure the second scaler
+  drm/i915/display: Set and get the casf config
+  drm/i915/display: Enable/disable casf
+  drm/i915/display: Expose sharpness strength property
+
+ drivers/gpu/drm/drm_atomic_uapi.c             |   4 +
+ drivers/gpu/drm/drm_crtc.c                    |  35 +++
+ drivers/gpu/drm/i915/Makefile                 |   1 +
+ drivers/gpu/drm/i915/display/intel_casf.c     | 293 ++++++++++++++++++
+ drivers/gpu/drm/i915/display/intel_casf.h     |  22 ++
+ .../gpu/drm/i915/display/intel_casf_regs.h    |  33 ++
+ drivers/gpu/drm/i915/display/intel_crtc.c     |   3 +
+ .../drm/i915/display/intel_crtc_state_dump.c  |   5 +
+ drivers/gpu/drm/i915/display/intel_display.c  |  37 ++-
+ .../drm/i915/display/intel_display_device.h   |   1 +
+ .../drm/i915/display/intel_display_types.h    |  15 +
+ drivers/gpu/drm/i915/display/skl_scaler.c     |  91 +++++-
+ drivers/gpu/drm/i915/display/skl_scaler.h     |   2 +
+ drivers/gpu/drm/xe/Makefile                   |   1 +
+ include/drm/drm_crtc.h                        |  18 ++
+ 15 files changed, 548 insertions(+), 13 deletions(-)
+ create mode 100644 drivers/gpu/drm/i915/display/intel_casf.c
+ create mode 100644 drivers/gpu/drm/i915/display/intel_casf.h
+ create mode 100644 drivers/gpu/drm/i915/display/intel_casf_regs.h
+
+-- 
+2.45.2
+
