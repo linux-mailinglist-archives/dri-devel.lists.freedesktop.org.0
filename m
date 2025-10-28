@@ -2,79 +2,78 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E224FC12560
-	for <lists+dri-devel@lfdr.de>; Tue, 28 Oct 2025 01:51:38 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 06643C1281C
+	for <lists+dri-devel@lfdr.de>; Tue, 28 Oct 2025 02:14:54 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4CD0E10E009;
-	Tue, 28 Oct 2025 00:51:35 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A283A10E1C6;
+	Tue, 28 Oct 2025 01:14:50 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="gTCZSRoC";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="WvoY0LFz";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 12E6010E009;
- Tue, 28 Oct 2025 00:51:34 +0000 (UTC)
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9062C10E1C4;
+ Tue, 28 Oct 2025 01:14:48 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1761612694; x=1793148694;
+ t=1761614089; x=1793150089;
  h=date:from:to:cc:subject:message-id:references:
  content-transfer-encoding:in-reply-to:mime-version;
- bh=Q8JIR8s5kxHLchA07az5WPQm84bRJUI3tZff+uicnyE=;
- b=gTCZSRoCHh7kqjrrhcprhHASz4kYa9d+Aku3fI6grE9wZ72Z+rvZypmz
- HOBtfIPo2u5Z6WG/in/Sq/KjpRB8657anIzTWn8ulTSn0acJrkRuKSD8k
- lV4N/biw8LSd6nV0d+GYfZEJ2wlxm0QJdjlAOaFk/eINwfOFH09QaBxsi
- HowTyRJkkgsJoQqYlynxZxHlQKRRRjpE4ic3u85tU+C0fWFrR/7sVOFvL
- G9/fyB1HBF4ztVNWh60DGiXpeHZ1z3lvFN7c2XYIZWS3jWEZfOwSdz3cC
- f4knQUSgYUKSDZdAXNCRXVn5MkjljglV7eogyef9GRGqokydzSQugO3mL A==;
-X-CSE-ConnectionGUID: FOq2DkNOQWmcI3GD7yezOQ==
-X-CSE-MsgGUID: q1BAMqajSIuAbSwYc1QPRg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11586"; a="51279710"
-X-IronPort-AV: E=Sophos;i="6.19,260,1754982000"; d="scan'208";a="51279710"
-Received: from fmviesa004.fm.intel.com ([10.60.135.144])
- by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 27 Oct 2025 17:51:34 -0700
-X-CSE-ConnectionGUID: UcgOMfMOSU6Ik0XBChTd3g==
-X-CSE-MsgGUID: aMnfmrZ9RxCAxGubNNaI9Q==
+ bh=p6OXMnLsVCJK/mCKaRlomJK6tUnnDxsE4xO909BNxzw=;
+ b=WvoY0LFzXQBt2SU01p0Y7eanlsiNB6o/4FhIeAZHAkOk+VhoFFpikMHs
+ f/BMcDEVnKN52I7aSI12peC0VXFl75RAJTm9RajQd5838CEMRK+b7j/p8
+ xgxRCSjvDOasXb0K1rV8XbeJd0d7INMgfzfGdEzA28iNtAwv1Vc525KyG
+ NbDmsRAiQu9KwdUvUUXgJjrPV6kApJzFdlBJskB8szgvb//dZkUoB1mIi
+ Xmep+LgBVFbx4A+LjoyxrTam1bm0B8XxTZKLkjUgRJmM7E2fMJhWBkbfX
+ MayIMk/SMdiCWjw40MSFz4hencbqAyt3P33kZVQviqshUi+1BOUQDzv8Q Q==;
+X-CSE-ConnectionGUID: N2DJtn8oQjG0y2q7M033KA==
+X-CSE-MsgGUID: 4ITdbOlLTXuKAThSdPp40Q==
+X-IronPort-AV: E=McAfee;i="6800,10657,11586"; a="63594334"
+X-IronPort-AV: E=Sophos;i="6.19,260,1754982000"; d="scan'208";a="63594334"
+Received: from fmviesa003.fm.intel.com ([10.60.135.143])
+ by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 27 Oct 2025 18:14:48 -0700
+X-CSE-ConnectionGUID: qxdinH1ASJ2X5mFv4FbacQ==
+X-CSE-MsgGUID: vk5u6p1PQeC79S8tVW0gNA==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.19,260,1754982000"; d="scan'208";a="190398766"
-Received: from fmsmsx901.amr.corp.intel.com ([10.18.126.90])
- by fmviesa004.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 27 Oct 2025 17:51:33 -0700
-Received: from FMSMSX902.amr.corp.intel.com (10.18.126.91) by
- fmsmsx901.amr.corp.intel.com (10.18.126.90) with Microsoft SMTP Server
+Received: from orsmsx902.amr.corp.intel.com ([10.22.229.24])
+ by fmviesa003.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 27 Oct 2025 18:14:47 -0700
+Received: from ORSMSX903.amr.corp.intel.com (10.22.229.25) by
+ ORSMSX902.amr.corp.intel.com (10.22.229.24) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.27; Mon, 27 Oct 2025 17:51:32 -0700
-Received: from fmsedg901.ED.cps.intel.com (10.1.192.143) by
- FMSMSX902.amr.corp.intel.com (10.18.126.91) with Microsoft SMTP Server
+ 15.2.2562.27; Mon, 27 Oct 2025 18:14:47 -0700
+Received: from ORSEDG901.ED.cps.intel.com (10.7.248.11) by
+ ORSMSX903.amr.corp.intel.com (10.22.229.25) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.27 via Frontend Transport; Mon, 27 Oct 2025 17:51:32 -0700
-Received: from CH1PR05CU001.outbound.protection.outlook.com (52.101.193.7) by
- edgegateway.intel.com (192.55.55.81) with Microsoft SMTP Server
+ 15.2.2562.27 via Frontend Transport; Mon, 27 Oct 2025 18:14:47 -0700
+Received: from BL2PR02CU003.outbound.protection.outlook.com (52.101.52.43) by
+ edgegateway.intel.com (134.134.137.111) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.27; Mon, 27 Oct 2025 17:51:32 -0700
+ 15.2.2562.27; Mon, 27 Oct 2025 18:14:46 -0700
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=pomKS2Mu25w+muoTtkzgwijtbSgQCDcDnVfh8T93qHLAhSLA+PwCl8jq9TpSSQUIgzepYlbIfRpp+OCutLVP9RCiEEq4Qig4Yy8Vt9aXboy48ph5Wk2DiUTFPFqimFVwc5+PsDWNEjPce+cfSiCErcBri/QUbYlE4zlfGacYzgCUKHJevorB11X8VNKYfVUfpokFvQxKClBSMJLQip9edoJZshIXb+qo8QkuaUsW2pRhmkFK6icccfIpFfbRhZVGbI6L4XMw8Bk9j5ebNOtbb8X+qqIzuha0hJZFN/t4t7V/CqQ3lvt6c8Tbw8w7eiVgr/0eZlzAGs2hAVq0EJEAcQ==
+ b=tG9p3hAXK8GfUUyqSFiXN2sCbPl2fvoWcziptJ5tY8KAJEqUrl3gY6wy9/16eFv7WACCWOi9sLGNPzrwc6xmQXcY5RzzCbe5CDIX0+Tsih+z2B1cVcXoJ6FkMvAuy+HV459sUAuhHEu5v6R/ES7ALmKdrufdt0HQJrsGi4HK7Xz+lrvuxsQvfVaBRQlujzD8z+VA3kSZt+rMEg8V5iKPvfG5P72vtWLX9v2Jr3GKl3BymV9DRnYUAmuJuPtlQ4v0/oEafcXYs0JHbskZAygpRvFO/Doc8FasYnwbgIeeFfskTziUav+EH6GxHgoLpS6AWG3u1s2oK1rLtugnX5LE3A==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=RcwYEM6e0Amt2Iaxv0/wFOoxkwtoS9bfd1zYkXrpDtc=;
- b=Fp+Dfvi3jr8zh6+2RtJJPL7v6ea8D3VTEbImTgRLpmN7GKxAO+urUIsi5ad5OBWFlB77Fr/zro6I+P8ui/L6FzIKvDs8ckgqwwdOPVecz4EPrYqy6AccDtSI56fahDWT4MdvkvADUBUqfgcNfG9NtKlx6TpWjkUgIoolDUZnhbuF83afGaMeLrUc/kVbZMWW/3FDcivr2tyjFhJEAhWky3UKpPqpTb+98u3mc2vmMgvfV8vKhPSWYDRtIUay7/aq+s9/4qTlEPBjzo9sa8E37xDOpUnV61b5gcdzluQWAjPiY10li8iXOPer1no0sDku50X52bJQaoWOHehb4C1j1A==
+ bh=C1KtCuMHKB0f8EMZNPC4KPUElLupgpBPWXdxNWhrMqU=;
+ b=a4HZq47tOcRkpYDuAwzvFVbVVO6+im+Vqi+2npwgsqgk69CJfBd/Hnr4/ewRoqD90rdyt5N4FUDkqSgmMf2/AlPpRpyvE24OJbnQ5dPH6rZy7Rb3zTFTDgSQweTvPVY7RNtSFW/HW2xkVaaAsrJXTSBOdLjFwnFkuJ/33IqGik1QhvtreIqZpt1GXjx0kjK3TGoB8tlK+sB3FccEMmVWyUfi97IOop+7j59dRw8L3/El26PjI3Lbsxx1jnY9vrBwUZ2MHdTvCEgY04PkfnHtg6koBI1bIGENwHVS7b7Enis9az8xRmg2uby6mudg2WauhDzU0wdAo9Zk91HFp4QXmg==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
  dkim=pass header.d=intel.com; arc=none
 Authentication-Results: dkim=none (message not signed)
  header.d=none;dmarc=none action=none header.from=intel.com;
 Received: from PH7PR11MB6522.namprd11.prod.outlook.com (2603:10b6:510:212::12)
- by SA1PR11MB8811.namprd11.prod.outlook.com (2603:10b6:806:467::18)
+ by MN2PR11MB4647.namprd11.prod.outlook.com (2603:10b6:208:262::10)
  with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9253.19; Tue, 28 Oct
- 2025 00:51:24 +0000
+ 2025 01:14:38 +0000
 Received: from PH7PR11MB6522.namprd11.prod.outlook.com
  ([fe80::9e94:e21f:e11a:332]) by PH7PR11MB6522.namprd11.prod.outlook.com
  ([fe80::9e94:e21f:e11a:332%3]) with mapi id 15.20.9253.017; Tue, 28 Oct 2025
- 00:51:24 +0000
-Date: Mon, 27 Oct 2025 17:51:21 -0700
+ 01:14:38 +0000
+Date: Mon, 27 Oct 2025 18:14:35 -0700
 From: Matthew Brost <matthew.brost@intel.com>
 To: Thomas =?iso-8859-1?Q?Hellstr=F6m?= <thomas.hellstrom@linux.intel.com>
 CC: <intel-xe@lists.freedesktop.org>, <dri-devel@lists.freedesktop.org>,
@@ -83,110 +82,108 @@ CC: <intel-xe@lists.freedesktop.org>, <dri-devel@lists.freedesktop.org>,
  =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>, <dakr@kernel.org>,
  "Mrozek, Michal" <michal.mrozek@intel.com>, Joonas Lahtinen
  <joonas.lahtinen@linux.intel.com>
-Subject: Re: [PATCH 12/15] drm/xe/uapi: Extend the madvise functionality to
- support foreign pagemap placement for svm
-Message-ID: <aQATic22rh2DWJhZ@lstrano-desk.jf.intel.com>
+Subject: Re: [PATCH 13/15] drm/xe: Support pcie p2p dma as a fast interconnect
+Message-ID: <aQAY+6HMwB+KzjvY@lstrano-desk.jf.intel.com>
 References: <20251025120412.12262-1-thomas.hellstrom@linux.intel.com>
- <20251025120412.12262-13-thomas.hellstrom@linux.intel.com>
+ <20251025120412.12262-14-thomas.hellstrom@linux.intel.com>
 Content-Type: text/plain; charset="utf-8"
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20251025120412.12262-13-thomas.hellstrom@linux.intel.com>
-X-ClientProxiedBy: MW3PR05CA0023.namprd05.prod.outlook.com
- (2603:10b6:303:2b::28) To PH7PR11MB6522.namprd11.prod.outlook.com
+In-Reply-To: <20251025120412.12262-14-thomas.hellstrom@linux.intel.com>
+X-ClientProxiedBy: MW3PR05CA0011.namprd05.prod.outlook.com
+ (2603:10b6:303:2b::16) To PH7PR11MB6522.namprd11.prod.outlook.com
  (2603:10b6:510:212::12)
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: PH7PR11MB6522:EE_|SA1PR11MB8811:EE_
-X-MS-Office365-Filtering-Correlation-Id: c1f3c49f-cc22-4c21-3751-08de15bc1eb8
+X-MS-TrafficTypeDiagnostic: PH7PR11MB6522:EE_|MN2PR11MB4647:EE_
+X-MS-Office365-Filtering-Correlation-Id: b642fbe0-da23-4200-e362-08de15bf5d3a
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
  ARA:13230040|376014|7416014|1800799024|366016|7053199007; 
-X-Microsoft-Antispam-Message-Info: =?utf-8?B?aUJqNUgvK2lrRnBDZmZOaThWbHdIMWZtclFRZVFjMW16M2w3SDJlOURLRkE5?=
- =?utf-8?B?L3gvN2d2M2ZzUm5aTHFVRjk2OWh2UXdhVEhMdFpOd09hcXZzcTJxNDZVdWIz?=
- =?utf-8?B?dmRCR01YWmhPOWkxSnVOa1BjTHZDTmxaY0xyVDgzU1RqaUJPQUY5Q29heTdD?=
- =?utf-8?B?akMzekYvMUFFSmdxQjdFNktKWHhZdnFGdWtnTHB4a1Z2eWhQODVhRGxIU3ZD?=
- =?utf-8?B?NlhjcFdnR0l0RDMrNFdQV0twM1NzcGQrT3RnQkpVWEd4WXA4aDVkRUkrc1pM?=
- =?utf-8?B?WHlReWN2SUZsc3oyQ3d2T1lPOGJ5U0lqMlBXWDR3YzJnRFVUVHV0bHJCZlg3?=
- =?utf-8?B?Z3pLNWVab2txU21zQmlVTGFjeTBmU2VzVEltb3lEQmg5UkpPS21KTlBPSHI1?=
- =?utf-8?B?QWZxU3lKaytnTjhpZlhIYjVTMlcwTllJS1NHSEJtajBibU9zVkxiUlI1OFVO?=
- =?utf-8?B?WHliaElXdE5rMXV4OWQxU0pONnFFVGsrRGIyOEk1ZHlDWXAvTTArNWM2ck9P?=
- =?utf-8?B?M0JKTUgwa2hoczh6TkpUay96MitHRytmNVlaVGVqUkh3OHBwaUZqOWRBeXhB?=
- =?utf-8?B?YmNxTTBDL3NLSWtoUi95bWVUdE11MjNWV2Z6RkN3azNCb0xVSWp0NEZTTWhQ?=
- =?utf-8?B?Ung2OFFuZ3JOUFBmam4yZnptOFN1MHJnWnRxWDBmY0hJNHY1WGFLWU4wYkM3?=
- =?utf-8?B?M3AvVCtRcW5IaEJ3SUNSR0thaUd2cWJUMmsxM3dTQmp1eEswTHFhU0xTK1hm?=
- =?utf-8?B?WXVqZTNIVHZTM1F5bTRhelhKKzliR3BWSUozL3ZYRlB1Y3c2cjVZWUZYYkF6?=
- =?utf-8?B?cDlINGNYbTdhZS9EL1dnNXdxMTkxUGNpUzlRSUFxczRGa3JUSWhld3ZrK0Fr?=
- =?utf-8?B?UGR4ODd5ak1sdjdzeG5rRlMrU21BdGh4L3BQTmtPYzNCczV4bndMcUpCSEhP?=
- =?utf-8?B?Q3hWOHRKZmNhdVVkc0V5QndDZWljQjJIZVRkREZVMEE0bFZJU0NKV05RSy9L?=
- =?utf-8?B?ZjhxSDIyUXN1YXkrVEZrTGJIM051d25QNlVlWEFWcVpLTHVSWDMvN3lZUG1G?=
- =?utf-8?B?dmNrbnNtNm1NZXFvYjdyRCtFcHpoMlArK0VhY1NMUmZZa2dLcy9aSjN5S0lE?=
- =?utf-8?B?enRCZ0FkUDEzRys1VHFYaG83b1VPOGNSOC9reGNKOC9zbVNiVzBuQmlnQTBU?=
- =?utf-8?B?Y3QwRFpUU2hXRjV0VXFQYWJMQUFqOHhRazhpeTBnUEh4R2JtU2FMMTZDdHZi?=
- =?utf-8?B?Z0NaTk5WTnJKaDF2c21QZ1NXVkZNMlFvYUI3L0ZiYmxtbThLSXRLMWpNNng5?=
- =?utf-8?B?eGFPUHVrTVgySFRNd2NsYzZsRnZyOUlXdVdFbWtYdEFvWnRYMUZSdXY2NEkx?=
- =?utf-8?B?UENEcmJxOE5qOHZ6OCs0TDZ4OG5yVXZLZXhEMktnRDA5MUNHZFMxeTZ4ZDFz?=
- =?utf-8?B?Uk5KZ0JjQUxZUm40eEpNVU9JQTE2bDNFVzFTOHhBSE55M285NWVXK0NEcGx3?=
- =?utf-8?B?eC9rcDdmMXJ3Y2M1Y0NUNGhUNjh6bExZRlV4OHJpaVJmZDE1WmRUS1p3aDdU?=
- =?utf-8?B?QmI3emM2M04zWEFtOW9MYjBpQ0tWa3BUM3ZnQy80cU5FWnVVZWYweE0za202?=
- =?utf-8?B?YTNnUWJmdHZZWXhjbnA5YThkM0taYjh4TUtlSE9GampNUTdHZ0REeHd0cits?=
- =?utf-8?B?SkExUHpKcE81WUdXNDVWMUZNcjlKaklnQ3F5VnBtcFQ4VzkrbFQrMXJUUzY3?=
- =?utf-8?B?K05TcUhWbXZkTXVFUHRIUFd0bTZKRllnWk9Obk85Z0RjMWpUQllPcDl1TGla?=
- =?utf-8?B?K0ZVdUl6aVEwY1N3VlVUV0VRUGNudFdtVkY4R3loRnhyUjRzTGR5OTJhN1da?=
- =?utf-8?B?WE1Ic2tuRHlzaWZGQkRSeDZ4VjlVYnJ1SEIrMGZrK0JxNW0wVThkUlRFQUVz?=
- =?utf-8?Q?aTUWS+lYVk344+PtTY81T06uxFPF8pAq?=
+X-Microsoft-Antispam-Message-Info: =?utf-8?B?Q1c5T2NQMlVnVEJ5Nk5weUJZYkhzdlpKY3orYlZkUmNSQjY4aGVGREttTE43?=
+ =?utf-8?B?YmxaWFRCNmJuc0hMWGEyS1RIRFdEVC9pQkw4R1JXQXczNmRJWkRoVXU1Rjls?=
+ =?utf-8?B?NWlIL2ZNMUZLTVpJNXVZekxMRGNTcnp1NGZKejRvNUhrTk1INGNWb2pJeFRQ?=
+ =?utf-8?B?N201c3lBazhtOHpUanY1eU5ZUDU3dUVETE1iRC9CM0JkVDhKdmNEdSt4Rzdv?=
+ =?utf-8?B?dHZXRFp6SUhYTnRyQTdZVS81ZG1GbElJWGhPaDB6RDJiZDZYU3R1R1hwR1hX?=
+ =?utf-8?B?cjN4TTUrWmJVUENwT3NuUk1IVkhxa2NyYlZJdzRqZjF1TzdUY3RVVmt5NzJR?=
+ =?utf-8?B?Z255YzlsR05IeWZBWVZrRVYydUFHUE1kREJCckErRXk3ZnFUS0lyeGZIbXNr?=
+ =?utf-8?B?MlZOYnNlcjNVS0l6ZjFSQ1BONTlEcG5HaEtnNFJvNGFoM3U5dmoyMFYrWTky?=
+ =?utf-8?B?b3YrcU5jYUlTVi9iQkY2dDRFVWtwYTRkeFB2VlZNdVpPUjlJVDFRRDdrUkQy?=
+ =?utf-8?B?VTYzZDNPRHIyMWJmMmNaT05BYzBMV05QcnNudWEzWHlmT0ljaTc3T0JhRFpJ?=
+ =?utf-8?B?S2YyMmRoNHh0ZDBIeS9Zd3dBZTUzR2FqME9qODdpeFZ2ZERwUUkyaUJwdCtr?=
+ =?utf-8?B?ektZdXRpQ245dEdDN1VYU1RYREVQSUppeWZzYlFkczBrYzNqekZleWZTWm12?=
+ =?utf-8?B?VjhNNTZOcUVHeFVUeEhna2VadWg1dmtCZUhvdWNGb29BL0FvQ3BhTVQ1cmdN?=
+ =?utf-8?B?R1l3UDgrajdPb3JrVWpQRGwyUlZ0OXJUYjNhOUFBdlczMldjQXl0bmJVbm1P?=
+ =?utf-8?B?RlhQUnRqZG41aXRVbkMydytIaHhQTG02Vk1hMzlWWFhCejFmYyt3UnpVVDJx?=
+ =?utf-8?B?bVp0dU5IbVZvNHNrUlhIMVNkZ2UxdmlSTXJ5Nk4wb25KVktlZmVZclVhcTk3?=
+ =?utf-8?B?MmhxazdsZ3ZKckw1bVhjL1Mrd1hZTDJtTVZLdzJUMEc2eDBSOG40L3dxWlk4?=
+ =?utf-8?B?U1ZBNWZIaFArWUJSRE9oNDNIUFRXZ1hyNUNmdlZBTmJKNFBPQWc3K05pd011?=
+ =?utf-8?B?ak9qYnFmbHFKb1E1TDFqYk9EenRKaGV1MTB3WTRvSHNaQ1hjaEdhN3A4R3JI?=
+ =?utf-8?B?TVE0UVRvLzZnL1JQM29vSjhmN1hvL3AvMXlVZ281ZjRMMEV1NnpNckxDK2I0?=
+ =?utf-8?B?REVPRkEydlNXQ1BEdERqcGM4Zkp1Uk9udUcwSmFyOFFJSEtuNFZDaUF3Qm1C?=
+ =?utf-8?B?V2NxbnpLc0hTclBKMWlFUjBYUnUxZUxLbGNIdjJ2bnFsTkdzTnRnMlhTQzFF?=
+ =?utf-8?B?VmErNEQ3ZHpRSDY4VW9yRWFKWmVXdUlMNlFpT3g5dW9VVWMyNUc5WXkzWEJi?=
+ =?utf-8?B?K2c2ZjhFNlR4WmtWZGhkRytsZjJFR3JHOEVnNkloa0lFTThxamJDdWZKOTlP?=
+ =?utf-8?B?VUlWLzQySTFsR1Q5eE1oYU5uSUFadEhtcTgwWnc0SXdXcGFXZ1laTWkyMEFI?=
+ =?utf-8?B?Tk9mKzMzZ09zbTJnWXNsemprY0UxL0VJdnRVZ1IyS1NIZnFFeFFJa0EzNDBw?=
+ =?utf-8?B?cWxJajZFU3IvN2dwYTNGM0NFZUhCZC9Tbmg1T2xqVnpJR3BXYjR5WnZwc1RJ?=
+ =?utf-8?B?QWpOZUNoUWttaEZWUHVZcExUeGFGYzJYak1aU1NrQmdoMk0rNm9HOGhpZEtG?=
+ =?utf-8?B?YnFRMzRaNEc3NW9ubS8rNUhudWlPYlRxekR0WHp2WDR3bHNaUS9UT1o5WWFh?=
+ =?utf-8?B?RmpNUXVJdmI5RlhTZ09sZjhoYVpKMHd1YWxhaWJIRGxHYityUXI3MUozSFZj?=
+ =?utf-8?B?SS92WWh4NmtKWWtDckVrVmNMK2djVDQ4Y2RTaHlkcVFXR1hwMGZyektRMDZq?=
+ =?utf-8?B?Mis1aWM4UzZHQzU5alZxT2V4NjdpcTRHMTZ5STlpcS9qR3c9PQ==?=
 X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
  IPV:NLI; SFV:NSPM; H:PH7PR11MB6522.namprd11.prod.outlook.com; PTR:; CAT:NONE;
  SFS:(13230040)(376014)(7416014)(1800799024)(366016)(7053199007); DIR:OUT;
  SFP:1101; 
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?NjdrVDF5ckdwYTdnYWtzKzdZTlpyemxLUG9lTm94dGxXWDFad1U0Ny9NOU5r?=
- =?utf-8?B?OTN6dmlPWGUxc0FnL1ZoTXRkOUpWS3NJZms1QitzQzYrVmdZVjFZdTU1MTlB?=
- =?utf-8?B?QzZYTmN0MFNJUG9TOW9zZFEvNEkyZGloQllDNmt6QjE1UmVHRDEzM2J0R0tv?=
- =?utf-8?B?eUsxQ29EYjNHZVR4QXE0Z3dQQWNlM0d4ZkszVGhLeFRacnhwK0hHUnRWbE5R?=
- =?utf-8?B?REVGaTVMaFhSMUI4b0l4VXByendaaGMvbmNQU3RLWnEzcFRzVVRHZ25JaFVU?=
- =?utf-8?B?L1FWN2pYUTB2NG1neWdsNWt1eFpxazdkQTNZM1NiZ3dwamRrNHpLQ1V4WldV?=
- =?utf-8?B?VnJtdkZhQlFiTDcxd05IUWlEbndSRm8zakVNZlVBVDFGSzJ2Nzl0TlMzVlNL?=
- =?utf-8?B?YjNiT0ZEc2VhdlNQU0hlYlg4V0dLcC8zKzJpcjdpNHU1ayt6cjVZZmdQWFFk?=
- =?utf-8?B?YnhneTd3TnBaUlU5MXVSZS9ESGxIKytHMGFRRlVBV2N2YW1mcytWNUJabkRZ?=
- =?utf-8?B?Qnd3T1BSNG0zM2VUWjdDbjhSTk1nRVZSa0hxNWJHVjg0UkFYaER5czI0clU0?=
- =?utf-8?B?L0RHU3VBSWlwNEN0MEpTcGxXQ3FwN2hWRVZXdVRIYXdEZ2Nyd0FSSjgxVTJo?=
- =?utf-8?B?dG1wL2N4bXlwN3FpcDk3OVB1NDBuZWZ5a1dFVGhZU052RGhQSHJVWnN2d2dk?=
- =?utf-8?B?bG90emJuOFd5TE5FazFzR3B6K0x4bU52aWRzYnFpczV4YlJscDZEYk84TTln?=
- =?utf-8?B?Y3lRTmJkeGZoZXNESFIwRVBIRDRxbkpFTzkvQXBDNGxnWGlybmNvZWk4SDFW?=
- =?utf-8?B?aThVV3dRUEo3NHlWRStjeC9iMitaUW9zU2liVVd0dURFSWIvK1RJeUJvc2gr?=
- =?utf-8?B?NnlKT3hkdWE0UmZBM1BPR28zUkJIOGlSd0FsenVUMVUzTmc0L0VGcHZQMVJP?=
- =?utf-8?B?U2J5MHJ1YU1YMVA5NG16L0JwT29FdmJOQkhoS1k5OTVFOGg1WWFnU1N6M1Q1?=
- =?utf-8?B?ZnJGUkhFRHlJT0QyZnd4UEVMdVlWNEZrQ2FxK1VHNkFRWnNFUXlHMjBYV1dn?=
- =?utf-8?B?OUNYcDBsZzVlcmdOWENEK1U5TFRvWDJldi9HL21CUThGUE9YYmNFQjF3cEsx?=
- =?utf-8?B?NTRzK2NFMG5zM2tndzdrVW0rbVVPbHEvdFpqSVJTZ0FCNXp5WmlYL3o2WTd5?=
- =?utf-8?B?cG1iZGgzYmZoWHA0cVdqSkdxMTNpOFVwQmdJTTBWTStVZnR6VEtoUlJDMXlY?=
- =?utf-8?B?NjRvU2NaQnZyVzMydDRyd1JsalFMUHNxa1o0ZFdPellFUWp1bk1TajlXWFVW?=
- =?utf-8?B?VzNaeHlVTDRxL1JqQm5peHVmM2ZOcnEzR2E5RWhBaVVkUEFwOW1CY0g1VE83?=
- =?utf-8?B?WUlNekJIYmFJdkl4eTZLT3NpWGN1NUNiMTQvZjM3OW5PV3FWVy82dThtN0Nr?=
- =?utf-8?B?Nm4vM2hiWURtUG5UMjM5bCtCMDJmZDVydFMzVGJoeEFuaE16dXZoQ1VPTVly?=
- =?utf-8?B?R1RQdnhpWEQ4Ni9uUTBxcFY0R3VMTTNIcnZvSzFQUndkWWpZQ29XekNNRVRU?=
- =?utf-8?B?dVliM2p0SE0wcWJMOG44UGtza3d6dHBxa0dHTHJBcjUzdDIyV2FsWG1ZWkxK?=
- =?utf-8?B?VVF5R0JiWE9MMjhEU1AydG1QNnJTcDBaM2ZVMkRlK3ZqUFE3MkV3TkdDaEZt?=
- =?utf-8?B?SEk1cjRaSFE4bndSLzFmdXJ6TUJJMDRnRmJZTC9wYys1THdlQzRTdkg2Q3VI?=
- =?utf-8?B?czYybkM5VG9XWFJ4SThya1lhMzhqc1FsSmV5eDJTZGcwaEFCNmVZZTIzcW1o?=
- =?utf-8?B?amowYUdEejVjQW1ick11YjR2RkZpQXBLelpkeGdOZEo2VEtTRFAwSjBFOGpo?=
- =?utf-8?B?cEdrMkUwdjl4VzZ0aXRyREU2Sys0cHoyNzhqSC9IU0NVWFBRWUxPcElVWUdV?=
- =?utf-8?B?UTJERkNreUphOWNMbUJFT1IzSmIxYmNpQ0gwWjZQQ21qTWd6dlp4elhwekc3?=
- =?utf-8?B?S1NPcnRlWlhVLzc1cnZFUDRBV1Z0MURLNDFBUlRnZW5IbnhEZ3FPK2k2MHky?=
- =?utf-8?B?ZFA2L0pTbXVxOGwwNDBlWUlmMXRtV1NDQ3gzTW9mMlRVUFJTMnlkYzJvektB?=
- =?utf-8?B?eUZqc0xYNkpqUnBRTnhJTXpvUjlxMkRYNllvMHRnMXNTUlFjUkVEcUlhbEwz?=
- =?utf-8?B?Unc9PQ==?=
-X-MS-Exchange-CrossTenant-Network-Message-Id: c1f3c49f-cc22-4c21-3751-08de15bc1eb8
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?S200aTZmMFJrNlJjZmNPdzhwbUVKdXMxV08vN1Jnd0pvNDFsNXdCaFU4amZk?=
+ =?utf-8?B?VkRiSHFpOHlRNU9taGFVNnhROW90Z01BRGF0Z0VsNXdjVmlyOENCN0RlNm1k?=
+ =?utf-8?B?RHlwVXdoNlBOd25wMzNQa3JCNS9YdnpnRk8wN2VpOXNRVW5paE1DVlNsaDd2?=
+ =?utf-8?B?M1d4ekFoZkhBUHFqUC9PTUpjclBjL25XQllNcUUrcXNGby91U2dGVDBnc3Qw?=
+ =?utf-8?B?QmNkcjg2QWVUVlBNbEp4QTBvTmdSSkY3TUtBRGI3MEpQRUt4Mnhzcm1aNEUz?=
+ =?utf-8?B?OEhFZGNQZFhtbURjM3pIaXV4ZnBoOGg4bWRGNGdKTmtjWkJrWmtyUWliMnVp?=
+ =?utf-8?B?WUpzRTZvTWdEcGVvejZHVHBoOXBXWWpMV3dvMGF5ZUxvSzJYVDVIWWRyVlV2?=
+ =?utf-8?B?Z01mRE1ibzU3c3hZVHBiUzVyN2krb2NvMy93LzRYejFmVWt1Ni9kZUh0Y0w0?=
+ =?utf-8?B?L0FOTlpKN3ZlcHZENzVJOVhLcFJibnoxTDhSVnRSajRTdXpjeHpKSnk3M0ll?=
+ =?utf-8?B?dUtsWVdlQVFOOEJOd0dENk0yazd1YTJrVERYeEhxVzhlWUo0L1g0bFpFcHI4?=
+ =?utf-8?B?NTFXbWlnR2k1Yk1EQ05uTzlDVnZKT3pLZkgzNWZvWVBLYnAyanpRSjlGcjZr?=
+ =?utf-8?B?cFg2NE8zczc4NDFLeGdwTnNVQzhDdkdyS2t6ZDd6OGEvWDliSTV5ajdBNmEx?=
+ =?utf-8?B?TVNRb1BoZmFqUzVoMjFwSHJGbVFDU3FjNUwwaloxTmNEak1rcXFjL0kyZExr?=
+ =?utf-8?B?akJTdlVTandwK2hFd3NLb0lLT0lKVTVOR3JnTmVtU0x1Tk5lU0gwMHk2aFN6?=
+ =?utf-8?B?b1QxUGtoV3VoYlEzcjlIMU5hdVZqbXdoQXAwOERsVm5vaS9vMGwyVThSRGpi?=
+ =?utf-8?B?RXVhM0FMZVM2QlFnTXZFeGw2U2VjSWM4dzE1QjByV3lpTWVGYWp5QmJKVndU?=
+ =?utf-8?B?RUUzdGhmaFp3eWFPTExWY1FqSlNyVWt0b1d6SDdtcUpLK1QzTCttakJHQ2pI?=
+ =?utf-8?B?MXBubCtEWFFSdlM0VnAzYnMxU3lNVndqYmpjMUt1bTU3YVZBRjVWRzVBbnFV?=
+ =?utf-8?B?NnRJS1I4M01ZRzZPQzlnVXdhT25Pc3EzcWJ1b1V0TjlnalgvVXZCZGNNc2Zw?=
+ =?utf-8?B?MEhHWmtFOHl3QmplalJOUU01SnVzS1NVUUNydG5ESTJKTEdmZlYyUDNLbDRJ?=
+ =?utf-8?B?SmY4MjArZ0JzOHl6c0d5blpJMEwyN2xveUt2eTU5QTkvcmFrYkNaclNBVk1G?=
+ =?utf-8?B?VTZLSDFvZC8xTWsvems1dXZXNWhWZitOR0w0bEdhSUREd0pXaFgyTFdsc0Vu?=
+ =?utf-8?B?R3FQcDQ3VzZKUEhvTE8yWmFmb2dhMmt4d0hhYjd2bEVOZW9nSC8xV2N1ZE42?=
+ =?utf-8?B?clBkbXhUZHpJTS85dVRzK1lxbUpNZjlkSFZMSXE3SVRMR2lnQlJzRTVPZTNv?=
+ =?utf-8?B?QjExcld3U28xeUhkYmNyeXBNQ3UvYmd4cnIwbFFtdjVwVnhUd0MrdUVPOWxh?=
+ =?utf-8?B?Sk5mWTVyTTVLa0luT0w3STB4MHlkSHR4d2ZOSXkxZE1HRkxYb3crOUtSZ1hT?=
+ =?utf-8?B?RG5tekhWVEtCcEE5cWZjSlpQcTk5ZlBEYUJ6U0l0V0FVYmoxQ2ZtMlBUd05D?=
+ =?utf-8?B?Ri9TdFNmK0I0ZXBnVU90Q1dmZVBEek9NUTZidVgzWjg1Y1lVRlJhdVoxU3ZC?=
+ =?utf-8?B?VXphdzIzWlJBWHpzVWgyY0NSa2xiRjBRWTFFMGc3M3pLQTRXVFhHNWZLcHR3?=
+ =?utf-8?B?b2hMTjAxUEZ4RzM5VlEvVVVvYUVRNGFaWjZhcEZ0bngxZlZYVmZTK1F2a0F5?=
+ =?utf-8?B?SVI2bENFSC94NkFRTFlNS0FuQlRIaXFQVjB5VWdPeUwwY2R1cG1ZdVVOaXMr?=
+ =?utf-8?B?dDhuMmRDQzFPaTl6SHk2VktPZ29hbjlNT1A0WitUTkNSZkpJWDZEV1ZFNnph?=
+ =?utf-8?B?VGRKSjVKQTR4emFWbTJ5UjdpR0FKekcxS012bVR3anY3cDRlQytKdmpnWldk?=
+ =?utf-8?B?MittMHhrSWExWkhkWURTTTRVVldPbmlCOG9MT3hyYUZJV1YrWHpkYkV5bzhS?=
+ =?utf-8?B?WjdiRFpQSE5rNy9Mb1JXcVVJQWdEUWg4RWFVcGtIa3ZOcXJoUFNqQTFoUlFC?=
+ =?utf-8?B?Y3ZFK1kzVUNDZTJWcnpFOS9VaG93TTNNNjBJaFUrNjFzWUFPaWFaTjhBN0VV?=
+ =?utf-8?B?QVE9PQ==?=
+X-MS-Exchange-CrossTenant-Network-Message-Id: b642fbe0-da23-4200-e362-08de15bf5d3a
 X-MS-Exchange-CrossTenant-AuthSource: PH7PR11MB6522.namprd11.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 28 Oct 2025 00:51:24.8045 (UTC)
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 28 Oct 2025 01:14:38.2043 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: YO2wMu2zSdsiS+tQ4iWAN4YRAPtC4L90y0fw9+YfyebgzCB3MdnrgAw8HKNXAm6SI0eo2oF81tyqtjIXC2/pFg==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA1PR11MB8811
+X-MS-Exchange-CrossTenant-UserPrincipalName: 1mnf0aMM5KoG1h1mSwk87pW484l/ApGJDbgR5LA4gYHlxuDLhV4yYA9pRahH7L2bz6OSB57AhuIr9/V4L4Xeng==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MN2PR11MB4647
 X-OriginatorOrg: intel.com
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -203,395 +200,136 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Sat, Oct 25, 2025 at 02:04:09PM +0200, Thomas Hellström wrote:
-> Use fds to represent pagemaps on foreign or local devices.
-> The underlying files are opened at madvise() time and remain open
-> as long as there are remaining madvises pointing to the
-> foreign pagemap.
+On Sat, Oct 25, 2025 at 02:04:10PM +0200, Thomas Hellström wrote:
+> Mimic the dma-buf method using dma_[map|unmap]_resource to map
+> for pcie-p2p dma.
 > 
-> Extend the madvise preferred_location UAPI to support the region
-> instance to identify the foreign placement.
+> There's an ongoing area of work upstream to sort out how this best
+> should be done. One method proposed is to add an additional
+> pci_p2p_dma_pagemap aliasing the device_private pagemap and use
+> the corresponding pci_p2p_dma_pagemap page as input for
+> dma_map_page(). However, that would incur double the amount of
+> memory and latency to set up the drm_pagemap and given the huge
+> amount of memory present on modern GPUs, that would really not work.
+> Hence the simple approach used in this patch.
 > 
 > Signed-off-by: Thomas Hellström <thomas.hellstrom@linux.intel.com>
 > ---
->  drivers/gpu/drm/xe/xe_device.c     | 14 ++++++
->  drivers/gpu/drm/xe/xe_device.h     |  2 +
->  drivers/gpu/drm/xe/xe_svm.c        | 73 ++++++++++++++++++++++++++++++
->  drivers/gpu/drm/xe/xe_svm.h        |  7 +++
->  drivers/gpu/drm/xe/xe_vm_madvise.c | 72 ++++++++++++++++++++++++-----
->  include/uapi/drm/xe_drm.h          |  4 +-
->  6 files changed, 159 insertions(+), 13 deletions(-)
+>  drivers/gpu/drm/xe/xe_svm.c | 44 ++++++++++++++++++++++++++++++++++---
+>  drivers/gpu/drm/xe/xe_svm.h |  1 +
+>  2 files changed, 42 insertions(+), 3 deletions(-)
 > 
-> diff --git a/drivers/gpu/drm/xe/xe_device.c b/drivers/gpu/drm/xe/xe_device.c
-> index ad004aab67ce..1a7502e4fc3e 100644
-> --- a/drivers/gpu/drm/xe/xe_device.c
-> +++ b/drivers/gpu/drm/xe/xe_device.c
-> @@ -372,6 +372,20 @@ static const struct file_operations xe_driver_fops = {
->  	.fop_flags = FOP_UNSIGNED_OFFSET,
->  };
->  
-> +/**
-> + * xe_is_xe_file() - Is the file an xe device file?
-> + * @file: The file.
-> + *
-> + * Checks whether the file is opened against
-> + * an xe device.
-> + *
-> + * Return: %true if an xe file, %false if not.
-> + */
-> +bool xe_is_xe_file(const struct file *file)
-> +{
-> +	return file->f_op == &xe_driver_fops;
-> +}
-> +
->  static struct drm_driver driver = {
->  	/* Don't use MTRRs here; the Xserver or userspace app should
->  	 * deal with them for Intel hardware.
-> diff --git a/drivers/gpu/drm/xe/xe_device.h b/drivers/gpu/drm/xe/xe_device.h
-> index 32cc6323b7f6..475e2245c955 100644
-> --- a/drivers/gpu/drm/xe/xe_device.h
-> +++ b/drivers/gpu/drm/xe/xe_device.h
-> @@ -195,6 +195,8 @@ void xe_file_put(struct xe_file *xef);
->  
->  int xe_is_injection_active(void);
->  
-> +bool xe_is_xe_file(const struct file *file);
-> +
->  /*
->   * Occasionally it is seen that the G2H worker starts running after a delay of more than
->   * a second even after being queued and activated by the Linux workqueue subsystem. This
 > diff --git a/drivers/gpu/drm/xe/xe_svm.c b/drivers/gpu/drm/xe/xe_svm.c
-> index 36a6ac293e71..9dd96dad2cca 100644
+> index 9dd96dad2cca..9814f95cb212 100644
 > --- a/drivers/gpu/drm/xe/xe_svm.c
 > +++ b/drivers/gpu/drm/xe/xe_svm.c
-> @@ -1763,6 +1763,73 @@ int xe_pagemap_cache_create(struct xe_tile *tile)
->  	return 0;
+> @@ -3,6 +3,8 @@
+>   * Copyright © 2024 Intel Corporation
+>   */
+>  
+> +#include <linux/pci-p2pdma.h>
+> +
+>  #include <drm/drm_drv.h>
+>  #include <drm/drm_managed.h>
+>  #include <drm/drm_pagemap.h>
+> @@ -442,6 +444,24 @@ static u64 xe_page_to_dpa(struct page *page)
+>  	return dpa;
 >  }
 >  
-> +static struct drm_pagemap *xe_devmem_open(struct xe_device *xe, u32 region_instance)
+> +static u64 xe_page_to_pcie(struct page *page)
 > +{
-> +	u32 tile_id = region_instance - 1;
-> +	struct xe_pagemap *xpagemap;
-> +	struct xe_vram_region *vr;
+> +	struct xe_pagemap *xpagemap = xe_page_to_pagemap(page);
+> +	struct xe_vram_region *vr = xe_pagemap_to_vr(xpagemap);
+> +	u64 hpa_base = xpagemap->hpa_base;
+> +	u64 ioaddr;
+> +	u64 pfn = page_to_pfn(page);
+> +	u64 offset;
 > +
-> +	if (tile_id >= xe->info.tile_count)
-> +		return ERR_PTR(-ENOENT);
+> +	xe_assert(vr->xe, is_device_private_page(page));
+> +	xe_assert(vr->xe, (pfn << PAGE_SHIFT) >= hpa_base);
 > +
-> +	if (!((BIT(tile_id) << 1) & xe->info.mem_region_mask))
-> +		return ERR_PTR(-ENOENT);
+> +	offset = (pfn << PAGE_SHIFT) - hpa_base;
+> +	ioaddr = vr->io_start + offset;
 > +
-> +	vr = xe_tile_to_vr(&xe->tiles[tile_id]);
-> +	xpagemap = xe_pagemap_find_or_create(xe, vr->dpagemap_cache, vr);
-
-This is from a different patch, but I was trying to trace where the
-reference drop to the drm_pagemap in xe_madvise_details_fini comes from.
-I figured out it was from the function above, but I didn’t see anything
-in the kernel documentation for xe_pagemap_find_or_create indicating
-that it takes a reference to the drm_pagemap.
-
-I’d suggest adding that for completeness.
-
-
-> +	if (IS_ERR(xpagemap))
-> +		return ERR_CAST(xpagemap);
-> +
-> +	return &xpagemap->dpagemap;
+> +	return ioaddr;
 > +}
 > +
-> +/**
-> + * xe_drm_pagemap_from_fd() - Return a drm_pagemap pointer from a
-> + * (file_descriptor, region_instance) pair.
-> + * @fd: An fd opened against an xe device.
-> + * @region_instance: The region instance representing the device memory
-> + * on the opened xe device.
-> + *
-> + * Opens a struct drm_pagemap pointer on the
-> + * indicated device and region_instance.
-> + *
-> + * Return: A reference-counted struct drm_pagemap pointer on success,
-> + * negative error pointer on failure.
-> + */
-> +struct drm_pagemap *xe_drm_pagemap_from_fd(int fd, u32 region_instance)
-> +{
-> +	struct drm_pagemap *dpagemap;
-> +	struct file *file;
-> +	struct drm_file *fpriv;
-> +	struct drm_device *drm;
-> +	int idx;
-> +
-> +	if (fd <= 0)
-> +		return ERR_PTR(-EINVAL);
-> +
-> +	file = fget(fd);
-> +	if (!file)
-> +		return ERR_PTR(-ENOENT);
-> +
-> +	if (!xe_is_xe_file(file)) {
-> +		dpagemap = ERR_PTR(-ENOENT);
-> +		goto out;
-> +	}
-> +
-> +	fpriv = file->private_data;
-> +	drm = fpriv->minor->dev;
-> +	if (!drm_dev_enter(drm, &idx)) {
-> +		dpagemap = ERR_PTR(-ENODEV);
-> +		goto out;
-> +	}
-> +
-> +	dpagemap = xe_devmem_open(to_xe_device(drm), region_instance);
-> +	drm_dev_exit(idx);
-> +out:
-> +	fput(file);
-> +	return dpagemap;
-> +}
-> +
->  #else
+>  enum xe_svm_copy_dir {
+>  	XE_SVM_COPY_TO_VRAM,
+>  	XE_SVM_COPY_TO_SRAM,
+> @@ -793,7 +813,10 @@ static bool xe_has_interconnect(struct drm_pagemap_peer *peer1,
+>  	struct device *dev1 = xe_peer_to_dev(peer1);
+>  	struct device *dev2 = xe_peer_to_dev(peer2);
 >  
->  int xe_pagemap_shrinker_create(struct xe_device *xe)
-> @@ -1786,6 +1853,12 @@ struct drm_pagemap *xe_vma_resolve_pagemap(struct xe_vma *vma, struct xe_tile *t
->  {
->  	return NULL;
->  }
+> -	return dev1 == dev2;
+> +	if (dev1 == dev2)
+> +		return true;
 > +
-> +struct drm_pagemap *xe_drm_pagemap_from_fd(int fd, u32 region_instance)
-> +{
-> +	return ERR_PTR(-ENOENT);
-> +}
-> +
->  #endif
->  
->  /**
-> diff --git a/drivers/gpu/drm/xe/xe_svm.h b/drivers/gpu/drm/xe/xe_svm.h
-> index c7027facf6e9..7cd7932f56c8 100644
-> --- a/drivers/gpu/drm/xe/xe_svm.h
-> +++ b/drivers/gpu/drm/xe/xe_svm.h
-> @@ -187,6 +187,8 @@ int xe_pagemap_shrinker_create(struct xe_device *xe);
->  
->  int xe_pagemap_cache_create(struct xe_tile *tile);
->  
-> +struct drm_pagemap *xe_drm_pagemap_from_fd(int fd, u32 region_instance);
-> +
->  #else
->  #include <linux/interval_tree.h>
->  #include "xe_vm.h"
-> @@ -378,6 +380,11 @@ static inline int xe_pagemap_cache_create(struct xe_tile *tile)
->  	return 0;
+> +	return pci_p2pdma_distance(to_pci_dev(dev1), dev2, true) >= 0;
 >  }
 >  
-> +static inline struct drm_pagemap *xe_drm_pagemap_from_fd(int fd, u32 region_instance)
-> +{
-> +	return ERR_PTR(-ENOENT);
-> +}
-> +
->  #define xe_svm_range_has_dma_mapping(...) false
->  #endif /* CONFIG_DRM_XE_GPUSVM */
->  
-> diff --git a/drivers/gpu/drm/xe/xe_vm_madvise.c b/drivers/gpu/drm/xe/xe_vm_madvise.c
-> index d6f47c8e146d..d03d052fcc44 100644
-> --- a/drivers/gpu/drm/xe/xe_vm_madvise.c
-> +++ b/drivers/gpu/drm/xe/xe_vm_madvise.c
-> @@ -22,6 +22,19 @@ struct xe_vmas_in_madvise_range {
->  	bool has_svm_userptr_vmas;
->  };
->  
-> +/**
-> + * struct xe_madvise_details - Argument to madvise_funcs
-> + * @dpagemap: Reference-counted pointer to a struct drm_pagemap.
-> + *
-> + * The madvise IOCTL handler may, in addition to the user-space
-> + * args, have additional info to pass into the madvise_func that
-> + * handles the madvise type. Use a struct_xe_madvise_details
-> + * for that and extend the struct as necessary.
-> + */
-> +struct xe_madvise_details {
-> +	struct drm_pagemap *dpagemap;
-> +};
-> +
->  static int get_vmas(struct xe_vm *vm, struct xe_vmas_in_madvise_range *madvise_range)
->  {
->  	u64 addr = madvise_range->addr;
-> @@ -74,7 +87,8 @@ static int get_vmas(struct xe_vm *vm, struct xe_vmas_in_madvise_range *madvise_r
->  
->  static void madvise_preferred_mem_loc(struct xe_device *xe, struct xe_vm *vm,
->  				      struct xe_vma **vmas, int num_vmas,
-> -				      struct drm_xe_madvise *op)
-> +				      struct drm_xe_madvise *op,
-> +				      struct xe_madvise_details *details)
->  {
->  	int i;
->  
-> @@ -96,14 +110,18 @@ static void madvise_preferred_mem_loc(struct xe_device *xe, struct xe_vm *vm,
->  			 * is of no use and can be ignored.
->  			 */
->  			loc->migration_policy = op->preferred_mem_loc.migration_policy;
-> +			drm_pagemap_put(loc->dpagemap);
->  			loc->dpagemap = NULL;
-> +			if (details->dpagemap)
-> +				loc->dpagemap = drm_pagemap_get(details->dpagemap);
->  		}
->  	}
->  }
->  
->  static void madvise_atomic(struct xe_device *xe, struct xe_vm *vm,
->  			   struct xe_vma **vmas, int num_vmas,
-> -			   struct drm_xe_madvise *op)
-> +			   struct drm_xe_madvise *op,
-> +			   struct xe_madvise_details *details)
->  {
->  	struct xe_bo *bo;
->  	int i;
-> @@ -144,7 +162,8 @@ static void madvise_atomic(struct xe_device *xe, struct xe_vm *vm,
->  
->  static void madvise_pat_index(struct xe_device *xe, struct xe_vm *vm,
->  			      struct xe_vma **vmas, int num_vmas,
-> -			      struct drm_xe_madvise *op)
-> +			      struct drm_xe_madvise *op,
-> +			      struct xe_madvise_details *details)
->  {
->  	int i;
->  
-> @@ -162,7 +181,8 @@ static void madvise_pat_index(struct xe_device *xe, struct xe_vm *vm,
->  
->  typedef void (*madvise_func)(struct xe_device *xe, struct xe_vm *vm,
->  			     struct xe_vma **vmas, int num_vmas,
-> -			     struct drm_xe_madvise *op);
-> +			     struct drm_xe_madvise *op,
-> +			     struct xe_madvise_details *details);
->  
->  static const madvise_func madvise_funcs[] = {
->  	[DRM_XE_MEM_RANGE_ATTR_PREFERRED_LOC] = madvise_preferred_mem_loc,
-> @@ -250,9 +270,6 @@ static bool madvise_args_are_sane(struct xe_device *xe, const struct drm_xe_madv
->  				     DRM_XE_MIGRATE_ONLY_SYSTEM_PAGES))
->  			return false;
->  
-> -		if (XE_IOCTL_DBG(xe, args->preferred_mem_loc.pad))
-> -			return false;
-> -
+>  static DRM_PAGEMAP_OWNER_LIST_DEFINE(xe_owner_list);
+> @@ -1530,13 +1553,27 @@ xe_drm_pagemap_device_map(struct drm_pagemap *dpagemap,
 
-Should we still reject region_instance if fd <=0 ?
-
->  		if (XE_IOCTL_DBG(xe, args->preferred_mem_loc.reserved))
->  			return false;
->  		break;
-> @@ -296,6 +313,31 @@ static bool madvise_args_are_sane(struct xe_device *xe, const struct drm_xe_madv
->  	return true;
->  }
->  
-> +static int xe_madvise_details_init(struct xe_device *xe, const struct drm_xe_madvise *args,
-> +				   struct xe_madvise_details *details)
-> +{
-> +	memset(details, 0, sizeof(*details));
-> +
-> +	if (args->type == DRM_XE_MEM_RANGE_ATTR_PREFERRED_LOC) {
-> +		int fd = args->preferred_mem_loc.devmem_fd;
-> +
-> +		if (fd <= 0)
-> +			return 0;
-> +
-
-I think you need to santize 'args->preferred_mem_loc.region_instance'
-somewhere and reject 0 (system memory) or xe_devmem_open is blow up as
-tile_id will be -1 in that function.
-
-> +		details->dpagemap = xe_drm_pagemap_from_fd(args->preferred_mem_loc.devmem_fd,
-> +							   args->preferred_mem_loc.region_instance);
-
-You have local fd varibale here, but don't use it. Should we also have
-local region_instance to avoid bigs wraps?
-
-> +		if (XE_IOCTL_DBG(xe, IS_ERR(details->dpagemap)))
-> +			return PTR_ERR(details->dpagemap);
-> +	}
-> +
-> +	return 0;
-> +}
-> +
-> +static void xe_madvise_details_fini(struct xe_madvise_details *details)
-> +{
-> +	drm_pagemap_put(details->dpagemap);
-> +}
-> +
->  static bool check_bo_args_are_sane(struct xe_vm *vm, struct xe_vma **vmas,
->  				   int num_vmas, u32 atomic_val)
->  {
-> @@ -349,6 +391,7 @@ int xe_vm_madvise_ioctl(struct drm_device *dev, void *data, struct drm_file *fil
->  	struct drm_xe_madvise *args = data;
->  	struct xe_vmas_in_madvise_range madvise_range = {.addr = args->start,
->  							 .range =  args->range, };
-> +	struct xe_madvise_details details;
->  	struct xe_vm *vm;
->  	struct drm_exec exec;
->  	int err, attr_type;
-> @@ -373,13 +416,17 @@ int xe_vm_madvise_ioctl(struct drm_device *dev, void *data, struct drm_file *fil
->  		goto unlock_vm;
->  	}
->  
-> -	err = xe_vm_alloc_madvise_vma(vm, args->start, args->range);
-> +	err = xe_madvise_details_init(xe, args, &details);
->  	if (err)
->  		goto unlock_vm;
->  
-> +	err = xe_vm_alloc_madvise_vma(vm, args->start, args->range);
-> +	if (err)
-> +		goto madv_fini;
-> +
->  	err = get_vmas(vm, &madvise_range);
->  	if (err || !madvise_range.num_vmas)
-> -		goto unlock_vm;
-> +		goto madv_fini;
->  
->  	if (madvise_range.has_bo_vmas) {
->  		if (args->type == DRM_XE_MEM_RANGE_ATTR_ATOMIC) {
-> @@ -387,7 +434,7 @@ int xe_vm_madvise_ioctl(struct drm_device *dev, void *data, struct drm_file *fil
->  						    madvise_range.num_vmas,
->  						    args->atomic.val)) {
->  				err = -EINVAL;
-> -				goto unlock_vm;
-> +				goto madv_fini;
->  			}
->  		}
->  
-> @@ -413,7 +460,8 @@ int xe_vm_madvise_ioctl(struct drm_device *dev, void *data, struct drm_file *fil
->  	}
->  
->  	attr_type = array_index_nospec(args->type, ARRAY_SIZE(madvise_funcs));
-> -	madvise_funcs[attr_type](xe, vm, madvise_range.vmas, madvise_range.num_vmas, args);
-> +	madvise_funcs[attr_type](xe, vm, madvise_range.vmas, madvise_range.num_vmas, args,
-> +				 &details);
->  
->  	err = xe_vm_invalidate_madvise_range(vm, args->start, args->start + args->range);
->  
-> @@ -425,6 +473,8 @@ int xe_vm_madvise_ioctl(struct drm_device *dev, void *data, struct drm_file *fil
->  		drm_exec_fini(&exec);
->  	kfree(madvise_range.vmas);
->  	madvise_range.vmas = NULL;
-> +madv_fini:
-> +	xe_madvise_details_fini(&details);
->  unlock_vm:
->  	up_write(&vm->lock);
->  put_vm:
-> diff --git a/include/uapi/drm/xe_drm.h b/include/uapi/drm/xe_drm.h
-> index 47853659a705..c79de1019816 100644
-> --- a/include/uapi/drm/xe_drm.h
-> +++ b/include/uapi/drm/xe_drm.h
-> @@ -2079,8 +2079,8 @@ struct drm_xe_madvise {
->  			/** @preferred_mem_loc.migration_policy: Page migration policy */
->  			__u16 migration_policy;
->  
-> -			/** @preferred_mem_loc.pad : MBZ */
-> -			__u16 pad;
-> +			/** @preferred_mem_loc.region_instance : Region instance */
-> +			__u16 region_instance;
-
-I'd mention here this field is only relavent if devmem_fd > 0, perhaps a
-little more for its usage. Also perhaps system_memory regions are not
-allowed (assuming we land on that).
+This relates to my comment here [1]. Perhaps this is where we should
+build in the “map for atomic” logic and route it through get_pages? I
+think that could work quite nicely and wouldn’t require an additional
+“do these two page maps support atomics?” check.
+What do you think?
 
 Matt
 
+[1] https://patchwork.freedesktop.org/patch/683511/?series=156525&rev=1#comment_1255409
+
+>  		addr = xe_page_to_dpa(page);
+>  		prot = XE_INTERCONNECT_VRAM;
+>  	} else {
+> -		addr = DMA_MAPPING_ERROR;
+> -		prot = 0;
+> +		addr = dma_map_resource(dev,
+> +					xe_page_to_pcie(page),
+> +					PAGE_SIZE << order, dir,
+> +					DMA_ATTR_SKIP_CPU_SYNC);
+> +		prot = XE_INTERCONNECT_P2P;
+>  	}
 >  
->  			/** @preferred_mem_loc.reserved : Reserved */
->  			__u64 reserved;
+>  	return drm_pagemap_addr_encode(addr, prot, order, dir);
+>  }
+>  
+> +static void xe_drm_pagemap_device_unmap(struct drm_pagemap *dpagemap,
+> +					struct device *dev,
+> +					struct drm_pagemap_addr addr)
+> +{
+> +	if (addr.proto != XE_INTERCONNECT_P2P)
+> +		return;
+> +
+> +	dma_unmap_resource(dev, addr.addr, PAGE_SIZE << addr.order,
+> +			   addr.dir, DMA_ATTR_SKIP_CPU_SYNC);
+> +}
+> +
+>  static void xe_pagemap_destroy_work(struct work_struct *work)
+>  {
+>  	struct xe_pagemap *xpagemap = container_of(work, typeof(*xpagemap), destroy_work);
+> @@ -1573,6 +1610,7 @@ static void xe_pagemap_destroy(struct drm_pagemap *dpagemap, bool from_atomic_or
+>  
+>  static const struct drm_pagemap_ops xe_drm_pagemap_ops = {
+>  	.device_map = xe_drm_pagemap_device_map,
+> +	.device_unmap = xe_drm_pagemap_device_unmap,
+>  	.populate_mm = xe_drm_pagemap_populate_mm,
+>  	.destroy = xe_pagemap_destroy,
+>  };
+> diff --git a/drivers/gpu/drm/xe/xe_svm.h b/drivers/gpu/drm/xe/xe_svm.h
+> index 7cd7932f56c8..f5ed48993b6d 100644
+> --- a/drivers/gpu/drm/xe/xe_svm.h
+> +++ b/drivers/gpu/drm/xe/xe_svm.h
+> @@ -13,6 +13,7 @@
+>  #include <drm/drm_pagemap_util.h>
+>  
+>  #define XE_INTERCONNECT_VRAM DRM_INTERCONNECT_DRIVER
+> +#define XE_INTERCONNECT_P2P (XE_INTERCONNECT_VRAM + 1)
+>  
+>  struct drm_device;
+>  struct drm_file;
 > -- 
 > 2.51.0
 > 
