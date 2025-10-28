@@ -2,185 +2,112 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 76F78C138C7
-	for <lists+dri-devel@lfdr.de>; Tue, 28 Oct 2025 09:31:30 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 38838C13945
+	for <lists+dri-devel@lfdr.de>; Tue, 28 Oct 2025 09:43:05 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5D8A810E5BB;
-	Tue, 28 Oct 2025 08:31:25 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0DC6F10E5BC;
+	Tue, 28 Oct 2025 08:43:02 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="LWXfd3Gj";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="ByPbBEfO";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6967110E5B5;
- Tue, 28 Oct 2025 08:31:24 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1761640284; x=1793176284;
- h=from:to:cc:subject:date:message-id:references:
- in-reply-to:content-transfer-encoding:mime-version;
- bh=GrgvHKitdlf8zgLT2xtl5erARCsphGn02h5z4dKplW8=;
- b=LWXfd3Gj/VExs8dSWzmeu9jr9VbIiEqBCzq+xWuheuF4ncDvsKlyHZ11
- 8VufvN3E3VrCgQPTkWrlGoVjTJjBv9+U2fGZPuhI06wdRU5CVvPV+mJ0b
- XYdgyFqsSpoEAL4dVyMjF/RDST2UnxnygnTLFGb22yJjVBcYYbGa2IeJw
- VPArbjY0YxYEFpqgt/gxhxYHPuydYR3BH5ALbeXDabu+vvvpe9ZBfWzAu
- gUVLjRIB9H52uETH0QmsmNcXBU7O21jCFzYNoCwgoVBv5fhWrBTrYS9w+
- M6asO+sfBnN42yCcGhtVDDEyanowpu9+Pn7R/EbvpnpKfSIgPan4BKpQ7 w==;
-X-CSE-ConnectionGUID: +YTUu67DSGqHEFUXqAM5tA==
-X-CSE-MsgGUID: m7eGz2Z7TneORggTrVF2nA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11586"; a="75180374"
-X-IronPort-AV: E=Sophos;i="6.19,261,1754982000"; d="scan'208";a="75180374"
-Received: from orviesa002.jf.intel.com ([10.64.159.142])
- by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 28 Oct 2025 01:31:24 -0700
-X-CSE-ConnectionGUID: R64iRNPZQgK1ZIIfdvs8HA==
-X-CSE-MsgGUID: 4jUI0VNUSNaTxp6J/KN5Hg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.19,261,1754982000"; d="scan'208";a="215941534"
-Received: from orsmsx902.amr.corp.intel.com ([10.22.229.24])
- by orviesa002.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 28 Oct 2025 01:31:25 -0700
-Received: from ORSMSX903.amr.corp.intel.com (10.22.229.25) by
- ORSMSX902.amr.corp.intel.com (10.22.229.24) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.27; Tue, 28 Oct 2025 01:31:23 -0700
-Received: from ORSEDG901.ED.cps.intel.com (10.7.248.11) by
- ORSMSX903.amr.corp.intel.com (10.22.229.25) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.27 via Frontend Transport; Tue, 28 Oct 2025 01:31:23 -0700
-Received: from CO1PR03CU002.outbound.protection.outlook.com (52.101.46.55) by
- edgegateway.intel.com (134.134.137.111) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.27; Tue, 28 Oct 2025 01:31:23 -0700
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=QoEaoqqo9KzlvcNJCrb+gWTdEkL6NATCfNTePWoTXMqccNux8u27KwLQRAK8KlulKTMNDGsycv5OKi6E75NtLeIVwGBz2KA9PQhjE2IoCe86xw2UffSZI3niZv3YMshjcU+o2z+ZVEaRic7LWnAL/1BSOjZudQLStEl05MUaGhn5UxTS9vZncQ/7QZ5Mazy2P4rNsn6hGYlXGovpghccDPNu/WxWhmtLmoz8uRp+8QJmxUAR1Lj02BT+DSGyqz297zM1ZCBxnD0ZFvfEvd9XbszEu2Q5fmb/DkVeE0unP3/opq28t6eSH0RAPCHXDYnx+P85pgv6GaL/rkVJV1jaKQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=24G+LCCuHKqC8U6aosOdno/XFeX93/gNAw9EsC/wNK0=;
- b=a42Ngi5vQRu/fy0/Z/LcYGpLuKlnq2tRAtC8QUPuZwvOF1J7ChMipHjAQd9FstyuZnNm3AITuvcmo3kbS+IE/gqzsFHc0x4qr89WdcqJkIlWdZVd9UvFBgmkHk6aG7jrD1V0QiW5j8eNIdDMt/Tj3dNOZsfRfBE0N1GuTGvE2pMTiUTdk75t5uferZqS/N+SjJeJQCUCQDYVOl1LNFtWpQZZAEL0NCgl6ohuqd8F1p7JexasMAUfm/NB3a33pb7vEPAUwSavteCgkhVOohSpqThc3AolLP+WmEksdlJI0cPOeHNab/+TlBA6O90ROs9C/xi6Z5eJUYIFatDFDZ/QYA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
-Received: from DM3PPF208195D8D.namprd11.prod.outlook.com
- (2603:10b6:f:fc00::f13) by LV3PR11MB8505.namprd11.prod.outlook.com
- (2603:10b6:408:1b7::21) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9275.12; Tue, 28 Oct
- 2025 08:31:21 +0000
-Received: from DM3PPF208195D8D.namprd11.prod.outlook.com
- ([fe80::95c9:5973:5297:d3cc]) by DM3PPF208195D8D.namprd11.prod.outlook.com
- ([fe80::95c9:5973:5297:d3cc%4]) with mapi id 15.20.9275.011; Tue, 28 Oct 2025
- 08:31:21 +0000
-From: "Kandpal, Suraj" <suraj.kandpal@intel.com>
-To: "Shankar, Uma" <uma.shankar@intel.com>, "intel-gfx@lists.freedesktop.org"
- <intel-gfx@lists.freedesktop.org>, "intel-xe@lists.freedesktop.org"
- <intel-xe@lists.freedesktop.org>, "dri-devel@lists.freedesktop.org"
- <dri-devel@lists.freedesktop.org>
-CC: "Borah, Chaitanya Kumar" <chaitanya.kumar.borah@intel.com>,
- "ville.syrjala@linux.intel.com" <ville.syrjala@linux.intel.com>,
- "pekka.paalanen@collabora.com" <pekka.paalanen@collabora.com>,
- "contact@emersion.fr" <contact@emersion.fr>, "harry.wentland@amd.com"
- <harry.wentland@amd.com>, "mwen@igalia.com" <mwen@igalia.com>,
- "jadahl@redhat.com" <jadahl@redhat.com>, "sebastian.wick@redhat.com"
- <sebastian.wick@redhat.com>, "shashank.sharma@amd.com"
- <shashank.sharma@amd.com>, "Sharma, Swati2" <swati2.sharma@intel.com>,
- "alex.hung@amd.com" <alex.hung@amd.com>, "Shankar, Uma"
- <uma.shankar@intel.com>
-Subject: RE: [v5 23/24] drm/i915/color: Create color pipeline with
- multisegmented LUT
-Thread-Topic: [v5 23/24] drm/i915/color: Create color pipeline with
- multisegmented LUT
-Thread-Index: AQHb6zEBUF+1zXDggEyBLteX5jbWErTX8/OA
-Date: Tue, 28 Oct 2025 08:31:21 +0000
-Message-ID: <DM3PPF208195D8D852D93A4290286B5EE98E3FDA@DM3PPF208195D8D.namprd11.prod.outlook.com>
-References: <20250702091936.3004854-1-uma.shankar@intel.com>
- <20250702091936.3004854-24-uma.shankar@intel.com>
-In-Reply-To: <20250702091936.3004854-24-uma.shankar@intel.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=intel.com;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: DM3PPF208195D8D:EE_|LV3PR11MB8505:EE_
-x-ms-office365-filtering-correlation-id: 8d452fd1-8f55-48ca-ddbb-08de15fc5fbe
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;
- ARA:13230040|376014|7416014|366016|1800799024|38070700021|7053199007; 
-x-microsoft-antispam-message-info: =?us-ascii?Q?fZ+4AvPx9XCSYlPEz5bzNgFM2KVwCqdTAIsq4IAyC9j/LcGsdB1YmHJ3lhrg?=
- =?us-ascii?Q?BdNg0EdcLZu3lP8xmhOuP+EwWxMUU/xaX4MGZh5vsPKAkIH2jWG+p027Tm9C?=
- =?us-ascii?Q?fd2YCE1UibPWLxBJ1wLP+klQwAYvUJb5Z1Y+zr2Nn82XbzEln6AvU8g4N79e?=
- =?us-ascii?Q?FgZQoV3TLptxLePzSStBL+gqHXtaA3s7t3yJRUvbd9eXz+v78LkTjYAGKBqY?=
- =?us-ascii?Q?dcR+glNEtAxwuVPP50qVxU48adXgEf+m22nVhWQwbl7I4Svwnv7V7LMRGQ1s?=
- =?us-ascii?Q?TiMG3P9+RSn+z91vVhk2slKI3piN1BTTJspv6T4A4AaxoRIQ6H4vAJVYaHKd?=
- =?us-ascii?Q?yIp5QaEL/2SwP0HVJuk/mpBanQoJDDzkvvvVtw1qJU7bTGWSZNEt6UWH93yB?=
- =?us-ascii?Q?g6//JqWNBLPQiPWZRJpSTvqqsuXqVyUbwNDMFindUMdPNO8bEb/PQbRRLQPT?=
- =?us-ascii?Q?fyQnVKo/+XxDmKLGc99BHvtc0DDNicIdSId/Rg2dwa6AloxNvGSCiJd5igqC?=
- =?us-ascii?Q?3dztaJOvMoyaTIKCkylMLUkLfaToN3aPwEh5mwYk5hpmXA6zcTtETqpuKGq4?=
- =?us-ascii?Q?xKb27uZqGuC/tZ1F07Zjh2T8ag/rRtS0nHSC6aMNoSXIu1Hf+KBPlvZe1h67?=
- =?us-ascii?Q?cSO1mZfCiI/jDBS6aDTRYx1a9mYbo6ZDOZGg5sdbtHeGKGyUYcf2r9s3Fuim?=
- =?us-ascii?Q?K69OZM4u5N6jz7NOcXBmasp0NiAjeAO8GA5nX10LXy/y1s0h+ouN+xsiOFFf?=
- =?us-ascii?Q?sDWMHYRk8ECbcO60y3EDWNc86BZ2UeQmsvzeSlcppBooKjiXqq0WP2EXS4tQ?=
- =?us-ascii?Q?u9yoPPbhJ9EPiDyKX1jdAeMFBVUl8dgO2oYGAyffZE1eqi85W5bs4X0QJ5rf?=
- =?us-ascii?Q?oKFAcNxqpAQDqzgytGlUxedK5R88bueL9wJJjLNPf+11J/5iibTblq6ODM5l?=
- =?us-ascii?Q?7xdV9GNvGUgI9PsjHik18rkNnXumZ+VTzC8vIztXpXdnDjtxeO3Gy3on5t6l?=
- =?us-ascii?Q?jy1QaBlhoFv3vexv/5rAqyGo3fUMWClGH2O7hFLfOH35zIeEaELLnSWq9z7g?=
- =?us-ascii?Q?sQf+oO8yfc794+zPvA3d9f+poIKrROO6SFsyVhVHXKKyIzX/c7IGSmxNBm4g?=
- =?us-ascii?Q?izfa4OikbP0zT7ofLdQmZAWbXLP+TK7OCzwcr4AQong8TEKBRfFqVrhAb5Pn?=
- =?us-ascii?Q?cqDPIkojx8QBrqkOuSB5Na83j7Q7Coyf+19sjl2pDMsAWoaACd6kQc+I4p8W?=
- =?us-ascii?Q?qYALWvgT53Gi66vK7g7X2IRKBNuDiO/+ADg3d1PRUjC8ycQ1+K0HBZApBLXJ?=
- =?us-ascii?Q?gL0hA6uPVrd3ZSR0kg3Bt9XGHYb1mOjuVoCtoshltWLZO8crWl+HP3rU/zvD?=
- =?us-ascii?Q?0IMVOUbrH+jUqdG8rNdEmVlfE5t1HbUi1pXWrjksqXfqic+S8Xz8VtTkan3K?=
- =?us-ascii?Q?KR4uWDCjEOaqCip7XnMs/iID0ah/uPamZgVncA1OdLx7DfKg4RyA8XFkZWNY?=
- =?us-ascii?Q?W8l4mlaLdfukMmDNgb3oJ/Kt8PEYufFtC7/1?=
-x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:DM3PPF208195D8D.namprd11.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230040)(376014)(7416014)(366016)(1800799024)(38070700021)(7053199007);
- DIR:OUT; SFP:1101; 
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?us-ascii?Q?3lEZOdnYqkLvhaYSQYKGBV/qzbIEbUSQ5uJ2kpjt8R71VV13qJxpYFcrrp2D?=
- =?us-ascii?Q?+5ZoYM3BJ3fMmoPkFGXJKJLjYdmN6l7Z1WyrtBqgpjyap70NeJpUuy6PB6MG?=
- =?us-ascii?Q?g5Z+fN4O+wmC2HYUlrlEJSjRKw8TcubOlNkE6CJhVz/PaYYMv0wXU6nHMiDU?=
- =?us-ascii?Q?M9i/YHtMx7VzLJQI0C40mT9mpxmI89NnoUX21hMvt7XhN1h0bD1kp3miPGRJ?=
- =?us-ascii?Q?ZLYHBcwJoNcO698/uk5mIBOpppfbnBMTl2SkioOsbViRej7xCNTKkzFCDvGR?=
- =?us-ascii?Q?3x/f5yt+C/R1M3A75VHGLC8klqqaRjWEMYCreBNwOZTCQqTPmk+oXb0+EN2F?=
- =?us-ascii?Q?QcF+9wj72oFU8bNCIPKabCjI/r2xAd//1LoZAperUolJP66JmruhOPWqXPPr?=
- =?us-ascii?Q?2ygUR8HfEP8ZGx1BJgnL4XnBIA1SyriF93tuNBBpRnNWsAKIBCzRY8mGW9PG?=
- =?us-ascii?Q?UvjER3k5X/263llB4olwbjtglFrAmAbCxy0pNmGCWQQgBEikuQOohqkrSHu5?=
- =?us-ascii?Q?V/CDkj2mGYpU+LEnh5f0v1R/L8rjphG4OjCO+mtyE1tlu4SSPs2tDCw7FRWi?=
- =?us-ascii?Q?LC5U+igwsJe0IE4QSTlzWlM7W3FwFOLrz/CYKFFFZuWlhs1k3qavXb5EVfRV?=
- =?us-ascii?Q?4Vu3WEy+dBZRYIFSFJEbREGPQF9D8qUTSFyeG3tjWWy8rZT5EfdteHXaTCg9?=
- =?us-ascii?Q?Dhez3cm3osG7Yg8Qn5IUe6XJS9mMahr+dMfwxS6gulSadgn8/OZM4R+yCn1E?=
- =?us-ascii?Q?uf2F5+6NM1yUd2QBBH9XfiPG3mH6zisBlGrtjpxP80ke6OVAoPEtrdzQ6Jql?=
- =?us-ascii?Q?geYNlsL7YC91JSavqdTjRWFT/ngl96OsZAoIZta033VlF257wUNHUrhcFhzz?=
- =?us-ascii?Q?6LPH2VJE9FQrSWwP0MZcYoTWs2yJnROuBttwwbdRkv3DOqEuBsg4rRsDRQm7?=
- =?us-ascii?Q?winTsNODEQL42GQxbkvMqH/DmkvMNiuJa8X81l0jlUcZEUdxZOG0qb2I8L4Z?=
- =?us-ascii?Q?X1bJe4arWhePFLLCrOn1qcLDq1iz3vUUey4P6V1ohJeykhfqmXT7DjhFRhba?=
- =?us-ascii?Q?DLX8yeCT8DFcenhSOlz8aZVHWOTwGlHQ7ieBzDAkeLjIMJDAodv1tiIJKRt1?=
- =?us-ascii?Q?dIb4sQL1qZkvDoWwa8Y3Q+qaCNUSXv9Pev9H8DVfJzs9JLfU9TJEUFWIElJe?=
- =?us-ascii?Q?rOkdDLO8l3U7jog4WlM+g8RctyjM5ldzfh66luXSLtWXJ+w8pspqdR6jMP57?=
- =?us-ascii?Q?RC/AJTS4rXJHsdyO77bgYyLpB8Dw21b5Jtp9TAdCdLMG+cTFZdr//9cl614P?=
- =?us-ascii?Q?vmQu4d7Yb4WsmaYQFcPWHeuG5Hc05keD88LyBk5F5d1tyzoblRLGFlGDv5YO?=
- =?us-ascii?Q?aAcx9lJ1P78LQaiMm6p5SGkrR+YwzBGTDMCQ9dbiJGt7TEdsgi6sgsb4rA4B?=
- =?us-ascii?Q?5cL6I040/4af+KFa0/2RXoIQP/+XDBFfV53M6mAwZvcHbvjWZ94sp8pE7VS7?=
- =?us-ascii?Q?usYhmDtC4QSQAXuOiykl4yyE+aySusnS+wUffkj35/AJzGp44AmLMY8Zpoop?=
- =?us-ascii?Q?+yHnVSkXvl22wIb1UemLEXT5VdMmZ0o0z9ZJRWrQ?=
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+Received: from mail-wr1-f54.google.com (mail-wr1-f54.google.com
+ [209.85.221.54])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 68EF110E5C1
+ for <dri-devel@lists.freedesktop.org>; Tue, 28 Oct 2025 08:43:01 +0000 (UTC)
+Received: by mail-wr1-f54.google.com with SMTP id
+ ffacd0b85a97d-3ee64bc6b85so5802183f8f.3
+ for <dri-devel@lists.freedesktop.org>; Tue, 28 Oct 2025 01:43:01 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1761640980; x=1762245780; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:in-reply-to:organization:autocrypt
+ :content-language:references:cc:to:subject:reply-to:from:user-agent
+ :mime-version:date:message-id:from:to:cc:subject:date:message-id
+ :reply-to; bh=6NXCKjRFgrYiAfp2xjDLu8YxTLQNZXtyNLdLhXM4zbE=;
+ b=ByPbBEfO97FnI20xy2XKXscbVO76xPm8W844JDKtbB3ivcov7E3/4tGiivXPOsPRRV
+ F6MeId4PLWF5O2oGrON18djYXlvPDym2WVG6rtyPseqXKedn2iaDOs/I6ZS28uCNpLw/
+ 3azQcFQkdrCvEkAhzyg2ldEbfJNOSV3tLhe1Il7pOTNwlDpmr0AYKJzrQQakAF44cTOm
+ l/iBwVO/RFbDvh0DqNNq7i1fK9ty9dCQM5ysN/YBoDxWyeFUvpy3QAdhcq2kk1xuURkQ
+ cJV6Ub9o46SSGscXNtyltviQ0dtPFOIyPc9wysJQ4yQMb8FJbkYg3PgokidQ2ohbJpXA
+ LoUw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1761640980; x=1762245780;
+ h=content-transfer-encoding:in-reply-to:organization:autocrypt
+ :content-language:references:cc:to:subject:reply-to:from:user-agent
+ :mime-version:date:message-id:x-gm-message-state:from:to:cc:subject
+ :date:message-id:reply-to;
+ bh=6NXCKjRFgrYiAfp2xjDLu8YxTLQNZXtyNLdLhXM4zbE=;
+ b=epy3vOscGqLxofG5UYlCKYhPMVkAB9IiZqV7/mIgTVoW7nUieZtN03AlC46jSHbKFh
+ qeTZvGYr1fr/0p5fd2zRpt5k/N4ms812nLWh8H3Rh4gMFI1nGi0WYsXZ9AazeEmZe0cD
+ zs8TDVONw+/7ZvJHSK6vdUG3tXgDrSkXCmqE4xc3omNW7NvKvztmReA/NTkn7jfDwE+7
+ P/CfmQuHztcfMOCm7+E8l3r6BaLusLPScw7gc0lGKJQM3wRd59osizQ6xQSF8lAKK4RR
+ I7vTmKCenkQme3TmiKUq40mIOCXSxmncZdOja+Bp+OolYd/e5sx1/lLpCE8nnrDFiI7R
+ NsdA==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCXDC9jdPd9qg0UX/WbI4tozTDtyKrLHH+iKvsrI4x5PplaotSBhwdJ2uUDaSWqwbRzPTPuL8nu6u/Q=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YynFhBi6YUNR7+P1LBXHwrVWgI9AN2R/mrfvFTaLOxEWdzbhX3s
+ MmXLlJ2ET5JPgNE46KcjBrFJMF1rMCXgZFFqdjYefFWedZ05V5dDFjEItAHe3VKquUo=
+X-Gm-Gg: ASbGncujX+Hj3rfrTt3gXCqBj1xDhxko+mDyfdrDd0yKg+Bpbuj5zxQQ2voeaTm+/v3
+ Rdl2/yrpxCSxrk2C02EInbcAp+hpC0ywwgJBh5cXQtMLKGFYbHIGejFlsvat1H2AjSBwJpRcKYO
+ /RPONeNzf0WLclGc7gTPD6gf9wO0PBOW+nufiwDIu19b6lOfa6yh30Izf1ONYkv7CL+wmivXS1I
+ in/ghc9qHoErMtPxYSpZ+OQXeoi45CvBhcpHLfmtOa/fG0SauTleIjTXzp90S6PV/pfncP1Hh5C
+ znzVWUz1RXJpkp5rRGV7fBf97oiI7ba2XWiWB8kyj8MmfqLYJK/Ru9J1jvca0FC5eV8ZctVjdi9
+ lIWTO8aIHy/qJ8iaN0iXL6M8W0nOSLNgL2WBSYmWb8zNSV1SnIbAPDGRUgEcXQP6m4Wb21/bdqN
+ l1iOT/Yzzi1oa0KzdWPrqW2XVl2bo5Rx7XD7/Izevo1qLDnefz8w==
+X-Google-Smtp-Source: AGHT+IGO/CrRm+czlEY/95+Qqx9U6VFPdwHdnit4aNOq5qYQYeiVQ3qkFspoLXuMWyUgnNASWVZ6rg==
+X-Received: by 2002:a05:6000:1861:b0:427:928:787f with SMTP id
+ ffacd0b85a97d-429a7e4ee59mr1933860f8f.21.1761640979509; 
+ Tue, 28 Oct 2025 01:42:59 -0700 (PDT)
+Received: from ?IPV6:2a01:e0a:cad:2140:ebe6:df10:d28d:aa5?
+ ([2a01:e0a:cad:2140:ebe6:df10:d28d:aa5])
+ by smtp.gmail.com with ESMTPSA id
+ ffacd0b85a97d-429952e2e06sm19118388f8f.46.2025.10.28.01.42.58
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 28 Oct 2025 01:42:59 -0700 (PDT)
+Message-ID: <6381550a-4c1a-429d-b6c1-8c7ae77bf325@linaro.org>
+Date: Tue, 28 Oct 2025 09:42:57 +0100
 MIME-Version: 1.0
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: DM3PPF208195D8D.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 8d452fd1-8f55-48ca-ddbb-08de15fc5fbe
-X-MS-Exchange-CrossTenant-originalarrivaltime: 28 Oct 2025 08:31:21.5249 (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 46c98d88-e344-4ed4-8496-4ed7712e255d
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: yWIrbQyRvjdeR9rfkd+vgTfhVyRGwnI80B/Wcwgv3Kfz+k/+sf2PDAanHzCR56/feSMW8Oj60ddKeAMEj+0Ebg==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: LV3PR11MB8505
-X-OriginatorOrg: intel.com
+User-Agent: Mozilla Thunderbird
+From: neil.armstrong@linaro.org
+Subject: Re: [PATCH v2] drm/msm/dpu: Filter modes based on adjusted mode clock
+To: Jessica Zhang <jessica.zhang@oss.qualcomm.com>,
+ Rob Clark <robdclark@gmail.com>, Dmitry Baryshkov <lumag@kernel.org>,
+ Sean Paul <sean@poorly.run>, Marijn Suijten <marijn.suijten@somainline.org>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>
+Cc: Abhinav Kumar <quic_abhinavk@quicinc.com>, linux-arm-msm@vger.kernel.org, 
+ dri-devel@lists.freedesktop.org, freedreno@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org
+References: <20250506-filter-modes-v2-1-c20a0b7aa241@oss.qualcomm.com>
+Content-Language: en-US, fr
+Autocrypt: addr=neil.armstrong@linaro.org; keydata=
+ xsBNBE1ZBs8BCAD78xVLsXPwV/2qQx2FaO/7mhWL0Qodw8UcQJnkrWmgTFRobtTWxuRx8WWP
+ GTjuhvbleoQ5Cxjr+v+1ARGCH46MxFP5DwauzPekwJUD5QKZlaw/bURTLmS2id5wWi3lqVH4
+ BVF2WzvGyyeV1o4RTCYDnZ9VLLylJ9bneEaIs/7cjCEbipGGFlfIML3sfqnIvMAxIMZrvcl9
+ qPV2k+KQ7q+aXavU5W+yLNn7QtXUB530Zlk/d2ETgzQ5FLYYnUDAaRl+8JUTjc0CNOTpCeik
+ 80TZcE6f8M76Xa6yU8VcNko94Ck7iB4vj70q76P/J7kt98hklrr85/3NU3oti3nrIHmHABEB
+ AAHNKk5laWwgQXJtc3Ryb25nIDxuZWlsLmFybXN0cm9uZ0BsaW5hcm8ub3JnPsLAkQQTAQoA
+ OwIbIwULCQgHAwUVCgkICwUWAgMBAAIeAQIXgBYhBInsPQWERiF0UPIoSBaat7Gkz/iuBQJk
+ Q5wSAhkBAAoJEBaat7Gkz/iuyhMIANiD94qDtUTJRfEW6GwXmtKWwl/mvqQtaTtZID2dos04
+ YqBbshiJbejgVJjy+HODcNUIKBB3PSLaln4ltdsV73SBcwUNdzebfKspAQunCM22Mn6FBIxQ
+ GizsMLcP/0FX4en9NaKGfK6ZdKK6kN1GR9YffMJd2P08EO8mHowmSRe/ExAODhAs9W7XXExw
+ UNCY4pVJyRPpEhv373vvff60bHxc1k/FF9WaPscMt7hlkbFLUs85kHtQAmr8pV5Hy9ezsSRa
+ GzJmiVclkPc2BY592IGBXRDQ38urXeM4nfhhvqA50b/nAEXc6FzqgXqDkEIwR66/Gbp0t3+r
+ yQzpKRyQif3OwE0ETVkGzwEIALyKDN/OGURaHBVzwjgYq+ZtifvekdrSNl8TIDH8g1xicBYp
+ QTbPn6bbSZbdvfeQPNCcD4/EhXZuhQXMcoJsQQQnO4vwVULmPGgtGf8PVc7dxKOeta+qUh6+
+ SRh3vIcAUFHDT3f/Zdspz+e2E0hPV2hiSvICLk11qO6cyJE13zeNFoeY3ggrKY+IzbFomIZY
+ 4yG6xI99NIPEVE9lNBXBKIlewIyVlkOaYvJWSV+p5gdJXOvScNN1epm5YHmf9aE2ZjnqZGoM
+ Mtsyw18YoX9BqMFInxqYQQ3j/HpVgTSvmo5ea5qQDDUaCsaTf8UeDcwYOtgI8iL4oHcsGtUX
+ oUk33HEAEQEAAcLAXwQYAQIACQUCTVkGzwIbDAAKCRAWmrexpM/4rrXiB/sGbkQ6itMrAIfn
+ M7IbRuiSZS1unlySUVYu3SD6YBYnNi3G5EpbwfBNuT3H8//rVvtOFK4OD8cRYkxXRQmTvqa3
+ 3eDIHu/zr1HMKErm+2SD6PO9umRef8V82o2oaCLvf4WeIssFjwB0b6a12opuRP7yo3E3gTCS
+ KmbUuLv1CtxKQF+fUV1cVaTPMyT25Od+RC1K+iOR0F54oUJvJeq7fUzbn/KdlhA8XPGzwGRy
+ 4zcsPWvwnXgfe5tk680fEKZVwOZKIEuJC3v+/yZpQzDvGYJvbyix0lHnrCzq43WefRHI5XTT
+ QbM0WUIBIcGmq38+OgUsMYu4NzLu7uZFAcmp6h8g
+Organization: Linaro
+In-Reply-To: <20250506-filter-modes-v2-1-c20a0b7aa241@oss.qualcomm.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -193,324 +120,232 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Reply-To: Neil Armstrong <neil.armstrong@linaro.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
-
-> -----Original Message-----
-> From: dri-devel <dri-devel-bounces@lists.freedesktop.org> On Behalf Of Um=
-a
-> Shankar
-> Sent: Wednesday, July 2, 2025 2:50 PM
-> To: intel-gfx@lists.freedesktop.org; intel-xe@lists.freedesktop.org; dri-
-> devel@lists.freedesktop.org
-> Cc: Borah, Chaitanya Kumar <chaitanya.kumar.borah@intel.com>;
-> ville.syrjala@linux.intel.com; pekka.paalanen@collabora.com;
-> contact@emersion.fr; harry.wentland@amd.com; mwen@igalia.com;
-> jadahl@redhat.com; sebastian.wick@redhat.com;
-> shashank.sharma@amd.com; Sharma, Swati2 <swati2.sharma@intel.com>;
-> alex.hung@amd.com; Shankar, Uma <uma.shankar@intel.com>
-> Subject: [v5 23/24] drm/i915/color: Create color pipeline with
-> multisegmented LUT
->=20
-> From: Chaitanya Kumar Borah <chaitanya.kumar.borah@intel.com>
->=20
-> Add a color pipeline with three colorops in the sequence
->=20
-> 	1D LUT MULTSEG - CTM - 1D LUT MULTSEG
->=20
-> This pipeline can be used to do any color space conversion or HDR tone
-> mapping
->=20
-> Signed-off-by: Uma Shankar <uma.shankar@intel.com>
-> Signed-off-by: Chaitanya Kumar Borah <chaitanya.kumar.borah@intel.com>
+On 5/7/25 03:38, Jessica Zhang wrote:
+> Filter out modes that have a clock rate greater than the max core clock
+> rate when adjusted for the perf clock factor
+> 
+> This is especially important for chipsets such as QCS615 that have lower
+> limits for the MDP max core clock.
+> 
+> Since the core CRTC clock is at least the mode clock (adjusted for the
+> perf clock factor) [1], the modes supported by the driver should be less
+> than the max core clock rate.
+> 
+> [1] https://elixir.bootlin.com/linux/v6.12.4/source/drivers/gpu/drm/msm/disp/dpu1/dpu_core_perf.c#L83
+> 
+> Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+> Signed-off-by: Jessica Zhang <jessica.zhang@oss.qualcomm.com>
 > ---
->  drivers/gpu/drm/i915/display/intel_color.c | 185 +++++++++++++++++++++
->  drivers/gpu/drm/i915/display/intel_color.h |   1 +
->  2 files changed, 186 insertions(+)
->=20
-> diff --git a/drivers/gpu/drm/i915/display/intel_color.c
-> b/drivers/gpu/drm/i915/display/intel_color.c
-> index 689bc4f4ce25..cf2e1e3653b2 100644
-> --- a/drivers/gpu/drm/i915/display/intel_color.c
-> +++ b/drivers/gpu/drm/i915/display/intel_color.c
-> @@ -4311,6 +4311,139 @@ static const struct intel_color_funcs
-> ilk_color_funcs =3D {
->  	.get_config =3D ilk_get_config,
->  };
->=20
-> +static const struct drm_color_lut_range xelpd_degamma_hdr[] =3D {
-> +	/* segment 1 */
-> +	{
-> +		.flags =3D
-> (DRM_COLOROP_1D_LUT_MULTSEG_REFLECT_NEGATIVE |
-> +			  DRM_COLOROP_1D_LUT_MULTSEG_INTERPOLATE
-> |
+> Changes in v2:
+> - *crtc_clock -> *mode_clock (Dmitry)
+> - Changed adjusted_mode_clk check to use multiplication (Dmitry)
+> - Switch from quic_* email to OSS email
+> - Link to v1: https://lore.kernel.org/lkml/20241212-filter-mode-clock-v1-1-f4441988d6aa@quicinc.com/
+> ---
+>   drivers/gpu/drm/msm/disp/dpu1/dpu_core_perf.c | 35 ++++++++++++++++++---------
+>   drivers/gpu/drm/msm/disp/dpu1/dpu_core_perf.h |  3 +++
+>   drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c      | 12 +++++++++
+>   3 files changed, 39 insertions(+), 11 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_core_perf.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_core_perf.c
+> index 0fb5789c60d0..13cc658065c5 100644
+> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_core_perf.c
+> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_core_perf.c
+> @@ -31,6 +31,26 @@ enum dpu_perf_mode {
+>   	DPU_PERF_MODE_MAX
+>   };
+>   
+> +/**
+> + * dpu_core_perf_adjusted_mode_clk - Adjust given mode clock rate according to
+> + *   the perf clock factor.
+> + * @crtc_clk_rate - Unadjusted mode clock rate
+> + * @perf_cfg: performance configuration
+> + */
+> +u64 dpu_core_perf_adjusted_mode_clk(u64 mode_clk_rate,
+> +				    const struct dpu_perf_cfg *perf_cfg)
+> +{
+> +	u32 clk_factor;
 > +
-> DRM_COLOROP_1D_LUT_MULTSEG_SINGLE_CHANNEL |
-> +
-> DRM_COLOROP_1D_LUT_MULTSEG_NON_DECREASING),
-> +		.count =3D 128,
-> +		.start =3D 0, .end =3D (1 << 24) - 1,
-> +		.norm_factor =3D (1 << 24),
-> +		.precision =3D {
-> +			.intp =3D 0,
-> +			.fracp =3D 24,
-> +		},
-> +	},
-> +	/* segment 2 */
-> +	{
-> +		.flags =3D
-> (DRM_COLOROP_1D_LUT_MULTSEG_REFLECT_NEGATIVE |
-> +			  DRM_COLOROP_1D_LUT_MULTSEG_INTERPOLATE
-> |
-> +
-> DRM_COLOROP_1D_LUT_MULTSEG_SINGLE_CHANNEL |
-> +
-> DRM_COLOROP_1D_LUT_MULTSEG_NON_DECREASING),
-> +		.count =3D 1,
-> +		.start =3D (1 << 24), .end =3D (1 << 24),
-> +		.norm_factor =3D (1 << 24),
-> +		.precision =3D {
-> +			.intp =3D 3,
-> +			.fracp =3D 24,
-> +		},
-> +	},
-> +	/* Segment 3 */
-> +	{
-> +		.flags =3D
-> (DRM_COLOROP_1D_LUT_MULTSEG_REFLECT_NEGATIVE |
-> +			  DRM_COLOROP_1D_LUT_MULTSEG_INTERPOLATE
-> |
-> +
-> DRM_COLOROP_1D_LUT_MULTSEG_SINGLE_CHANNEL |
-> +
-> DRM_COLOROP_1D_LUT_MULTSEG_NON_DECREASING),
-> +		.count =3D 1,
-> +		.start =3D 3 * (1 << 24), .end =3D 3 * (1 << 24),
-> +		.norm_factor =3D (1 << 24),
-> +		.precision =3D {
-> +			.intp =3D 3,
-> +			.fracp =3D 24,
-> +		},
-> +	},
-> +	/* Segment 4 */
-> +	{
-> +		.flags =3D
-> (DRM_COLOROP_1D_LUT_MULTSEG_REFLECT_NEGATIVE |
-> +			  DRM_COLOROP_1D_LUT_MULTSEG_INTERPOLATE
-> |
-> +
-> DRM_COLOROP_1D_LUT_MULTSEG_SINGLE_CHANNEL |
-> +
-> DRM_COLOROP_1D_LUT_MULTSEG_NON_DECREASING),
-> +		.count =3D 1,
-> +		.start =3D 7 * (1 << 24), .end =3D 7 * (1 << 24),
-> +		.norm_factor =3D (1 << 24),
-> +		.precision =3D {
-> +			.intp =3D 3,
-> +			.fracp =3D 24,
-> +		},
+> +	clk_factor = perf_cfg->clk_inefficiency_factor;
+> +	if (clk_factor) {
+> +		mode_clk_rate *= clk_factor;
+> +		do_div(mode_clk_rate, 100);
 > +	}
-> +};
 > +
-> +/* FIXME input bpc? */
-> +static const struct drm_color_lut_range xelpd_gamma_hdr[] =3D {
-> +	/* segment 1 */
-> +	{
-> +		.flags =3D
-> (DRM_COLOROP_1D_LUT_MULTSEG_REFLECT_NEGATIVE |
-> +			  DRM_COLOROP_1D_LUT_MULTSEG_INTERPOLATE
-> |
-> +
-> DRM_COLOROP_1D_LUT_MULTSEG_SINGLE_CHANNEL |
-> +
-> DRM_COLOROP_1D_LUT_MULTSEG_NON_DECREASING),
-> +		.count =3D 9,
-> +		.start =3D 0, .end =3D 8,
-> +		.norm_factor =3D 8 * 32,
-> +		.precision =3D {
-> +			.intp =3D 0,
-> +			.fracp =3D 24,
-> +		},
-> +	},
-> +	/* segment 2 */
-> +	{
-> +		.flags =3D
-> (DRM_COLOROP_1D_LUT_MULTSEG_REFLECT_NEGATIVE |
-> +			  DRM_COLOROP_1D_LUT_MULTSEG_INTERPOLATE
-> |
-> +
-> DRM_COLOROP_1D_LUT_MULTSEG_SINGLE_CHANNEL |
-> +
-> DRM_COLOROP_1D_LUT_MULTSEG_NON_DECREASING),
-> +		.count =3D 30,
-> +		.start =3D 8 * 2, .end =3D 8 * (32 - 1),
-> +		.norm_factor =3D 8 * 32,
-> +		.precision =3D {
-> +			.intp =3D 0,
-> +			.fracp =3D 24,
-> +		},
-> +	},
-> +	/* segment 3 */
-> +	{
-> +		.flags =3D
-> (DRM_COLOROP_1D_LUT_MULTSEG_REFLECT_NEGATIVE |
-> +			  DRM_COLOROP_1D_LUT_MULTSEG_INTERPOLATE
-> |
-> +
-> DRM_COLOROP_1D_LUT_MULTSEG_SINGLE_CHANNEL |
-> +
-> DRM_COLOROP_1D_LUT_MULTSEG_NON_DECREASING),
-> +		.count =3D 1,
-> +		.start =3D 8 * 32, .end =3D 8 * 32,
-> +		.norm_factor =3D 8 * 32,
-> +		.precision =3D {
-> +			.intp =3D 3,
-> +			.fracp =3D 24,
-> +		},
-> +	},
-> +	/* segment 4 */
-> +	{
-> +		.flags =3D
-> (DRM_COLOROP_1D_LUT_MULTSEG_REFLECT_NEGATIVE |
-> +			  DRM_COLOROP_1D_LUT_MULTSEG_INTERPOLATE
-> |
-> +
-> DRM_COLOROP_1D_LUT_MULTSEG_SINGLE_CHANNEL |
-> +
-> DRM_COLOROP_1D_LUT_MULTSEG_NON_DECREASING),
-> +		.count =3D 1,
-> +		.start =3D 3 * 8 * 32, .end =3D 3 * 8 * 32,
-> +		.norm_factor =3D 8 * 32,
-> +		.precision =3D {
-> +			.intp =3D 3,
-> +			.fracp =3D 24,
-> +		},
-> +	},
-> +	/* segment 5 */
-> +	{
-> +		.flags =3D
-> (DRM_COLOROP_1D_LUT_MULTSEG_REFLECT_NEGATIVE |
-> +			  DRM_COLOROP_1D_LUT_MULTSEG_INTERPOLATE
-> |
-> +
-> DRM_COLOROP_1D_LUT_MULTSEG_SINGLE_CHANNEL |
-> +
-> DRM_COLOROP_1D_LUT_MULTSEG_NON_DECREASING),
-> +		.count =3D 1,
-> +		.start =3D 7 * 8 * 32, .end =3D 7 * 8 * 32,
-> +		.norm_factor =3D 8 * 32,
-> +		.precision =3D {
-> +			.intp =3D 3,
-> +			.fracp =3D 24,
-> +		},
-> +	},
-> +};
-> +
->  /* TODO: Move to another file */
->  static void
->  intel_color_load_plane_csc_matrix(struct intel_dsb *dsb, @@ -4424,6
-> +4557,52 @@ int intel_plane_tf_pipeline_init(struct drm_plane *plane, str=
-uct
-> drm_prop_enum_l
->  	return 0;
->  }
->=20
-> +int intel_plane_tf_multseg_pipeline_init(struct drm_plane *plane,
-> +struct drm_prop_enum_list *list) {
-
-Need to rethink the name
-
-Regards,
-Suraj Kandpal
-
-> +	struct intel_plane_colorop *colorop;
-> +	struct drm_device *dev =3D plane->dev;
-> +	int ret;
-> +	struct drm_colorop *prev_op;
-> +
-> +	colorop =3D intel_plane_colorop_create(CB_PLANE_PRE_CSC_LUT);
-> +
-> +	ret =3D drm_plane_colorop_curve_1d_lut_multseg_init(dev, &colorop-
-> >base,
-> +							  plane,
-> xelpd_degamma_hdr,
-> +
-> sizeof(xelpd_degamma_hdr),
-> +
-> DRM_COLOROP_FLAG_ALLOW_BYPASS);
-> +	if (ret)
-> +		return ret;
-> +
-> +	list->type =3D colorop->base.base.id;
-> +	list->name =3D kasprintf(GFP_KERNEL, "Color Pipeline %d",
-> +colorop->base.base.id);
-> +
-> +	/* TODO: handle failures and clean up*/
-> +	prev_op =3D &colorop->base;
-> +
-> +	colorop =3D intel_plane_colorop_create(CB_PLANE_CSC);
-> +
-> +	ret =3D drm_plane_colorop_ctm_3x4_init(dev, &colorop->base, plane,
-> +
-> DRM_COLOROP_FLAG_ALLOW_BYPASS);
-> +	if (ret)
-> +		return ret;
-> +
-> +	drm_colorop_set_next_property(prev_op, &colorop->base);
-> +
-> +	prev_op =3D &colorop->base;
-> +
-> +	colorop =3D intel_plane_colorop_create(CB_PLANE_POST_CSC_LUT);
-> +	ret =3D drm_plane_colorop_curve_1d_lut_multseg_init(dev, &colorop-
-> >base,
-> +							  plane,
-> xelpd_gamma_hdr,
-> +
-> sizeof(xelpd_gamma_hdr),
-> +
-> DRM_COLOROP_FLAG_ALLOW_BYPASS);
-> +	if (ret)
-> +		return ret;
-> +
-> +	drm_colorop_set_next_property(prev_op, &colorop->base);
-> +
-> +	return 0;
+> +	return mode_clk_rate;
 > +}
 > +
->  int intel_plane_color_init(struct drm_plane *plane)  {
->  	struct drm_device *dev =3D plane->dev;
-> @@ -4448,6 +4627,12 @@ int intel_plane_color_init(struct drm_plane
-> *plane)
->  		return ret;
->  	len++;
->=20
-> +	/* Create Pipeline with Multi-segmented LUT */
-> +	ret =3D intel_plane_tf_multseg_pipeline_init(plane, &pipelines[len]);
-> +	if (ret)
-> +		return ret;
-> +	len++;
+>   /**
+>    * _dpu_core_perf_calc_bw() - to calculate BW per crtc
+>    * @perf_cfg: performance configuration
+> @@ -75,28 +95,21 @@ static u64 _dpu_core_perf_calc_clk(const struct dpu_perf_cfg *perf_cfg,
+>   	struct drm_plane *plane;
+>   	struct dpu_plane_state *pstate;
+>   	struct drm_display_mode *mode;
+> -	u64 crtc_clk;
+> -	u32 clk_factor;
+> +	u64 mode_clk;
+>   
+>   	mode = &state->adjusted_mode;
+>   
+> -	crtc_clk = (u64)mode->vtotal * mode->hdisplay * drm_mode_vrefresh(mode);
+> +	mode_clk = (u64)mode->vtotal * mode->hdisplay * drm_mode_vrefresh(mode);
+>   
+>   	drm_atomic_crtc_for_each_plane(plane, crtc) {
+>   		pstate = to_dpu_plane_state(plane->state);
+>   		if (!pstate)
+>   			continue;
+>   
+> -		crtc_clk = max(pstate->plane_clk, crtc_clk);
+> -	}
+> -
+> -	clk_factor = perf_cfg->clk_inefficiency_factor;
+> -	if (clk_factor) {
+> -		crtc_clk *= clk_factor;
+> -		do_div(crtc_clk, 100);
+> +		mode_clk = max(pstate->plane_clk, mode_clk);
+>   	}
+>   
+> -	return crtc_clk;
+> +	return dpu_core_perf_adjusted_mode_clk(mode_clk, perf_cfg);
+>   }
+>   
+>   static struct dpu_kms *_dpu_crtc_get_kms(struct drm_crtc *crtc)
+> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_core_perf.h b/drivers/gpu/drm/msm/disp/dpu1/dpu_core_perf.h
+> index d2f21d34e501..3740bc97422c 100644
+> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_core_perf.h
+> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_core_perf.h
+> @@ -54,6 +54,9 @@ struct dpu_core_perf {
+>   	u32 fix_core_ab_vote;
+>   };
+>   
+> +u64 dpu_core_perf_adjusted_mode_clk(u64 clk_rate,
+> +				    const struct dpu_perf_cfg *perf_cfg);
 > +
->  	/* Create COLOR_PIPELINE property and attach */
->  	prop =3D drm_property_create_enum(dev,
-> DRM_MODE_PROP_ATOMIC,
->  					"COLOR_PIPELINE",
-> diff --git a/drivers/gpu/drm/i915/display/intel_color.h
-> b/drivers/gpu/drm/i915/display/intel_color.h
-> index 420d596dbbae..1808b64a6903 100644
-> --- a/drivers/gpu/drm/i915/display/intel_color.h
-> +++ b/drivers/gpu/drm/i915/display/intel_color.h
-> @@ -52,4 +52,5 @@ int intel_plane_tf_pipeline_init(struct drm_plane
-> *plane, struct drm_prop_enum_l  int intel_plane_color_init(struct drm_pla=
-ne
-> *plane);  void intel_color_plane_program_pipeline(struct intel_dsb *dsb,
->  					const struct intel_plane_state
-> *plane_state);
-> +int intel_plane_tf_multseg_pipeline_init(struct drm_plane *plane,
-> +struct drm_prop_enum_list *list);
->  #endif /* __INTEL_COLOR_H__ */
-> --
-> 2.42.0
+>   int dpu_core_perf_crtc_check(struct drm_crtc *crtc,
+>   		struct drm_crtc_state *state);
+>   
+> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c
+> index 0714936d8835..5e3c34fed63b 100644
+> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c
+> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c
+> @@ -1501,6 +1501,7 @@ static enum drm_mode_status dpu_crtc_mode_valid(struct drm_crtc *crtc,
+>   						const struct drm_display_mode *mode)
+>   {
+>   	struct dpu_kms *dpu_kms = _dpu_crtc_get_kms(crtc);
+> +	u64 adjusted_mode_clk;
+>   
+>   	/* if there is no 3d_mux block we cannot merge LMs so we cannot
+>   	 * split the large layer into 2 LMs, filter out such modes
+> @@ -1508,6 +1509,17 @@ static enum drm_mode_status dpu_crtc_mode_valid(struct drm_crtc *crtc,
+>   	if (!dpu_kms->catalog->caps->has_3d_merge &&
+>   	    mode->hdisplay > dpu_kms->catalog->caps->max_mixer_width)
+>   		return MODE_BAD_HVALUE;
+> +
+> +	adjusted_mode_clk = dpu_core_perf_adjusted_mode_clk(mode->clock,
+> +							    dpu_kms->perf.perf_cfg);
+> +
+> +	/*
+> +	 * The given mode, adjusted for the perf clock factor, should not exceed
+> +	 * the max core clock rate
+> +	 */
+> +	if (dpu_kms->perf.max_core_clk_rate < adjusted_mode_clk * 1000)
+> +		return MODE_CLOCK_HIGH;
+
+This test doesn't take in account if the mode is for a bonded DSI mode, which
+is the same mode on 2 interfaces doubled, but it's valid since we could literally
+set both modes separately. In bonded DSI this mode_clk must be again divided bv 2
+in addition to the fix:
+https://lore.kernel.org/linux-arm-msm/20250923-modeclk-fix-v2-1-01fcd0b2465a@oss.qualcomm.com/
+
+I'm trying to find a correct way to handle that, I have tried that:
+===========================><========================================
+diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c
+index 48c3aef1cfc2..6aa5db1996e3 100644
+--- a/drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c
++++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c
+@@ -1684,8 +1684,10 @@ static int dpu_crtc_atomic_check(struct drm_crtc *crtc,
+  static enum drm_mode_status dpu_crtc_mode_valid(struct drm_crtc *crtc,
+  						const struct drm_display_mode *mode)
+  {
++	struct drm_encoder *encoder = get_encoder_from_crtc(crtc);
+  	struct dpu_kms *dpu_kms = _dpu_crtc_get_kms(crtc);
+  	u64 adjusted_mode_clk;
++	unsigned int intfs;
+
+  	/* if there is no 3d_mux block we cannot merge LMs so we cannot
+  	 * split the large layer into 2 LMs, filter out such modes
+@@ -1700,12 +1702,18 @@ static enum drm_mode_status dpu_crtc_mode_valid(struct drm_crtc *crtc,
+  	if (dpu_kms->catalog->caps->has_3d_merge)
+  		adjusted_mode_clk /= 2;
+
++	intfs = dpu_encoder_get_intf_count(encoder);
++	if (intfs)
++		adjusted_mode_clk /= intfs;
++
+  	/*
+  	 * The given mode, adjusted for the perf clock factor, should not exceed
+  	 * the max core clock rate
+  	 */
+diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c
+index 3dd202e0ce94..862239b7d4bc 100644
+--- a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c
++++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c
+@@ -2892,6 +2892,23 @@ enum dpu_intf_mode dpu_encoder_get_intf_mode(struct drm_encoder *encoder)
+  	return INTF_MODE_NONE;
+  }
+
++/**
++ * dpu_encoder_get_intf_count - get interface count of the given encoder
++ * @encoder: Pointer to drm encoder object
++ */
++unsigned int dpu_encoder_get_intf_count(struct drm_encoder *encoder)
++{
++	struct dpu_encoder_virt *dpu_enc = NULL;
++
++	if (!encoder) {
++		DPU_ERROR("invalid encoder\n");
++		return 0;
++	}
++	dpu_enc = to_dpu_encoder_virt(encoder);
++
++	return dpu_enc->num_phys_encs;
++}
++
+  /**
+   * dpu_encoder_helper_get_cwb_mask - get CWB blocks mask for the DPU encoder
+   * @phys_enc: Pointer to physical encoder structure
+diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.h b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.h
+index ca1ca2e51d7e..f10ad297b379 100644
+--- a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.h
++++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.h
+@@ -58,6 +58,8 @@ int dpu_encoder_wait_for_tx_complete(struct drm_encoder *drm_encoder);
+
+  enum dpu_intf_mode dpu_encoder_get_intf_mode(struct drm_encoder *encoder);
+
++unsigned int dpu_encoder_get_intf_count(struct drm_encoder *encoder);
++
+  void dpu_encoder_virt_runtime_resume(struct drm_encoder *encoder);
+
+  uint32_t dpu_encoder_get_clones(struct drm_encoder *drm_enc);
+====================================><========================================
+
+But this doesn't work since the crtc hasn't been associated to the encoder yet....
+
+Neil
+
+> +
+>   	/*
+>   	 * max crtc width is equal to the max mixer width * 2 and max height is 4K
+>   	 */
+> 
+> ---
+> base-commit: db76003ade5953d4a83c2bdc6e15c2d1c33e7350
+> change-id: 20250506-filter-modes-c60b4332769f
+> 
+> Best regards,
 
