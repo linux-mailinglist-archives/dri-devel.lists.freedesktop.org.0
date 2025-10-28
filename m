@@ -2,80 +2,74 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 59B22C1EA09
-	for <lists+dri-devel@lfdr.de>; Thu, 30 Oct 2025 07:50:44 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7A6D4C1F102
+	for <lists+dri-devel@lfdr.de>; Thu, 30 Oct 2025 09:48:58 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A0DAA10E038;
-	Thu, 30 Oct 2025 06:50:41 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8A54910E8EE;
+	Thu, 30 Oct 2025 08:48:48 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=rock-chips.com header.i=@rock-chips.com header.b="aQQwn+va";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="d8sqBFvX";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-m49209.qiye.163.com (mail-m49209.qiye.163.com
- [45.254.49.209])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 65FFC10E038
- for <dri-devel@lists.freedesktop.org>; Thu, 30 Oct 2025 06:50:39 +0000 (UTC)
-Received: from [172.16.12.149] (unknown [58.22.7.114])
- by smtp.qiye.163.com (Hmail) with ESMTP id 27bf20e38;
- Thu, 30 Oct 2025 14:50:33 +0800 (GMT+08:00)
-Message-ID: <e2fcc437-0650-4fdf-bb75-3463a80299fe@rock-chips.com>
-Date: Thu, 30 Oct 2025 14:50:33 +0800
+Received: from mail-lf1-f47.google.com (mail-lf1-f47.google.com
+ [209.85.167.47])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8588610E696
+ for <dri-devel@lists.freedesktop.org>; Tue, 28 Oct 2025 22:54:21 +0000 (UTC)
+Received: by mail-lf1-f47.google.com with SMTP id
+ 2adb3069b0e04-592f1f75c46so1047237e87.0
+ for <dri-devel@lists.freedesktop.org>; Tue, 28 Oct 2025 15:54:21 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20230601; t=1761692060; x=1762296860; darn=lists.freedesktop.org;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date:message-id:reply-to;
+ bh=aisF7ddVD9IhLbWjOfio7/ZCoiJu6awZBLaswdfgm+o=;
+ b=d8sqBFvXP2wKZC4v6AV/Ms0Fy6029aNqSMcjm4CY5prp2FH3jgDvuyYc48C4H6fBs+
+ UZeygGPLfDVxXyY9oT/84YWbE1YZjZlTXCORnwC4mjuclfFITJSFN8Vz+R5H9QAfv9wM
+ 6A7Q+e906BQqra1mlymYKTdzYkzvbs1giXomlhtylGZIrTMfMPEHLWFHvbgA5G0iJMST
+ F7+OjemrL+AY1SrCF9xYER6wV0rQbLH77Dmbrmwxl+G5vXQ7Uq2tQZQmsR8zkuZCa/L1
+ ZktNAGKofjNjieXhNtVZxNWze+05++TRYk1WHkImMiQnqUuRmWmF0SqyxGFQiYKSdqBW
+ 1vwg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1761692060; x=1762296860;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=aisF7ddVD9IhLbWjOfio7/ZCoiJu6awZBLaswdfgm+o=;
+ b=NUCWNerrPMdOGLsMdRQOv62Vmto4RKgn0U1huA31iiIA4F0Rc0B1AY96Z+tUThz0Qv
+ MbTk+7oxipguIxIuTpsx6G7hyCL7O+3qOx2ZVSbH4tZdqxftOEbGECUSfsFQZVtcFcJJ
+ EmHOOxunkwnyYz5p00DyuIyXmV47s+SHSWOYCn+PC075thzlmQt8JULaA/8VWkqCbd5T
+ wYA4PEGS2xOlxvq4iujYHfrzwB6qUGwAl7ITx78cJ8RffMJYvckSkhxNp2dfGYCadAnR
+ ykcMJKqNno0hrCaGLaDEVP/gUBAYU8cKaiq+FIG/pNRlxc+q1fAmD1cJE6n6TgVPJAyH
+ aXUg==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCWU/rO2llo/JZK8bS6xc0C3fSvCGnn7PRUcuzQoNnHEpkmDF7kZyEccZvC3OsRRDaVqmoD2AqV0vss=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YxCpt9Zm2UlEpqI9SeVmjEkyJT5/sFX6GiGsaElAtgWGswZKdka
+ IGN37kARRbAQHL8bljpUCX8zQQw9RJa4FW/o8TCM40TtbXAfNgrtDUuuUgkPxA/Cy3f9hdrI6GY
+ RQl6OyK69Ds7Y0i5DN7GInKjBKKLnsRD++i3A+qE86VCGQM9R4X0Vc4b86CqQLBcx1mROqfA=
+X-Gm-Gg: ASbGncsycFnQm7uWvKvGM2pFJmr3in0VPzw9ted/t6RoTaE7GQz31+kxEw/ZXzSCS/c
+ VmWNPNeHfHqRGqHfK+fsuPlOqzpxp9hoBs59EOceZO5HsNeEp0+T4j/FwkklKOAoNx+Pipw8+hv
+ FeOLYUMs4nxTsJ4kQpNlgD2N9G59RiQRHNq0xPT8SYIXW5yk39wXY1s+km82Jvq34ocCctaN0Uk
+ 1MYIKiRNVTeMVVQNulaTN/FgI+qRz+eRlAiaGRRIZa+bhIj2H6tbV7FPX5u5GZk2JrfI/JNuSAV
+ w8yaMz6xQ7CUBu4N3TLmKRFwsEqX
+X-Google-Smtp-Source: AGHT+IGPblBkUhbF/C9fqA11UgoH3h3R0ywcPNKBX+oOHXySvsyd9xDFkvLlcgwY4yy3GlrK2Te1o4JriZX9QRldC+ybIzGZxz1m8djJ
+X-Received: by 2002:a05:6512:3f0e:b0:57d:720:9eb0 with SMTP id
+ 2adb3069b0e04-594128e00b4mr202617e87.10.1761692059550; Tue, 28 Oct 2025
+ 15:54:19 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v8 10/10] arm64: dts: rockchip: rk3399-evb-ind: Add
- support for DisplayPort
-To: Peter Chen <hzpeterchen@gmail.com>
-Cc: Chaoyi Chen <kernel@airkyi.com>,
- Heikki Krogerus <heikki.krogerus@linux.intel.com>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>,
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>, Vinod Koul <vkoul@kernel.org>,
- Kishon Vijay Abraham I <kishon@kernel.org>, Heiko Stuebner
- <heiko@sntech.de>, Sandy Huang <hjc@rock-chips.com>,
- Andy Yan <andy.yan@rock-chips.com>,
- Yubing Zhang <yubing.zhang@rock-chips.com>,
- Frank Wang <frank.wang@rock-chips.com>,
- Andrzej Hajda <andrzej.hajda@intel.com>,
- Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Amit Sunil Dhamne <amitsd@google.com>, Dragan Simic <dsimic@manjaro.org>,
- Johan Jonker <jbx6244@gmail.com>, Diederik de Haas <didi.debian@cknow.org>,
- Peter Robinson <pbrobinson@gmail.com>, linux-usb@vger.kernel.org,
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-phy@lists.infradead.org, linux-arm-kernel@lists.infradead.org,
- linux-rockchip@lists.infradead.org, dri-devel@lists.freedesktop.org
-References: <20251029071435.88-1-kernel@airkyi.com>
- <20251029071435.88-11-kernel@airkyi.com>
- <CAL411-o6mF71oBeRsJ-OPZNbLegn4iJ_ELN9xVdppTM3ssUPOw@mail.gmail.com>
- <cc8b583a-77ec-4a7f-97cc-2d148f7fee9f@rock-chips.com>
- <e0c5bda3-7428-49e0-9955-fa23f1e4f35d@rock-chips.com>
- <CAL411-oXfvp-iqN+uRmFHijdmW=1omKwozKOoZ2shxukMHmwPg@mail.gmail.com>
- <C6253E8254C80B0F+839b71d0-1bd8-40b7-9515-7ce4a1eb8673@airkyi.com>
- <CAL411-pULVu4AYybW9oW7kmr4M_kJhdytgBjLPb4y6w_2dj+0w@mail.gmail.com>
- <7853bbf0-34e5-4880-a2f4-2d73f25cd5e6@rock-chips.com>
- <CAL411-rFK0o_cxBO_yJFHWurGFKxZGxw6=kpqxRipMetJskTaQ@mail.gmail.com>
-Content-Language: en-US
-From: Chaoyi Chen <chaoyi.chen@rock-chips.com>
-In-Reply-To: <CAL411-rFK0o_cxBO_yJFHWurGFKxZGxw6=kpqxRipMetJskTaQ@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-HM-Tid: 0a9a33e1e5d603abkunm4fdeafe247c99d
-X-HM-MType: 1
-X-HM-Spam-Status: e1kfGhgUHx5ZQUpXWQgPGg8OCBgUHx5ZQUlOS1dZFg8aDwILHllBWSg2Ly
- tZV1koWUFDSUNOT01LS0k3V1ktWUFJV1kPCRoVCBIfWUFZQhoeTlZCTEtOQ0pKTk1CSUNWFRQJFh
- oXVRMBExYaEhckFA4PWVdZGBILWUFZTkNVSUlVTFVKSk9ZV1kWGg8SFR0UWUFZT0tIVUpLSEpOTE
- 5VSktLVUpCS0tZBg++
-DKIM-Signature: a=rsa-sha256;
- b=aQQwn+vaju0fkVYqlzGfwsD04Z6mA/IUGFwt2/LybJDUI6VkbH4gPP3HejyR9GH2oDyovSq2B+HP/lZguM+2DXuCAwhyjbvdkv8Sy0w8O/SXgQZqRujAaeLAQmJ0w9DPTEMHz7SyhBw9i5kJ4Bq+y9Ft8urfVEBjRCZLvy8wSI0=;
- s=default; c=relaxed/relaxed; d=rock-chips.com; v=1; 
- bh=sctOfaMCaVQx0TE/izjuKTlWuoHc1phPG68ypDI+DRY=;
- h=date:mime-version:subject:message-id:from;
+References: <20251019183508.20804-1-mercmerc961@gmail.com>
+ <9e81bc14-39e6-419b-bb4f-67d8d2701025@gmx.de>
+In-Reply-To: <9e81bc14-39e6-419b-bb4f-67d8d2701025@gmx.de>
+From: merc merc <mercmerc961@gmail.com>
+Date: Wed, 29 Oct 2025 04:24:06 +0530
+X-Gm-Features: AWmQ_bnALF3VwLS9EVWSPODKqgy5w4OBK67jqykUHiHsz9xC96QNeUTkY0GV4vo
+Message-ID: <CALLCVzXLhSwJ9a1z+LP8Lr0k6-dYsmmA1yT7d+TQJAzJon=HoQ@mail.gmail.com>
+Subject: Re: [PATCH] video: fb: Fix typo in comment
+To: deller@gmx.de
+Cc: linux-fbdev@vger.kernel.org, dri-devel@lists.freedesktop.org, 
+ linux-kernel@vger.kernel.org
+Content-Type: multipart/alternative; boundary="00000000000069c62a06423fe511"
+X-Mailman-Approved-At: Thu, 30 Oct 2025 08:48:47 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -91,208 +85,68 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 10/30/2025 2:13 PM, Peter Chen wrote:
+--00000000000069c62a06423fe511
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-> On Thu, Oct 30, 2025 at 11:14 AM Chaoyi Chen <chaoyi.chen@rock-chips.com> wrote:
->> On 10/30/2025 10:50 AM, Peter Chen wrote:
->>
->>>>> Okay.  My question is basic: USB2 PHY supplies DP/DM, and the DP/DM is
->>>>> short for Type-C connector,
->>>>> and no control is needed for Type-C application.
->>>>> Why is there a remote-endpoint connection between USB2 PHY and Type-C connector?
->>>>    From the perspective of Type-C, this should not be added.  Is the approach in v2 correct [0] ?
->>>>
->>> Have you tried debugging based on upstream code?
->> Yes, I have tried both the v2 and v8 approaches, and both can work.
->>
->>
->>> v2 is correct, but the dts needs to improve.
->>> - There is a remote-endpoint connection for USB role switch between
->>> Type-C connector
->>> device and USB controller device
->>> - There is a remote-endpoint connection for orientation and lane configuration
->>> between Type-C connector device and USB/DP PHY device.
->> In v8 patch5, we implemented typec_mux and typec_switch in the USB/DP PHY.
->>
->> I think the current remote-endpoint connections are all child node of the USB/DP PHY. That is:
->>
->>
->> &tcphy0_dp {
->>       mode-switch;
->>       ...
->> };
->>
->>
->> &tcphy0_usb3 {
->>       orientation-switch;
->>       ...
->> };
->>
->>
->> Does this still need to be improved? Thank you.
->>
-> Hi Chaoyi,
+=F0=9F=92=96
+
+merc reacted via Gmail
+<https://www.google.com/gmail/about/?utm_source=3Dgmail-in-product&utm_medi=
+um=3Det&utm_campaign=3Demojireactionemail#app>
+
+On Wed, Oct 29, 2025, 02:42 Helge Deller <deller@gmx.de> wrote:
+
+> On 10/19/25 20:35, PIYUSH CHOUDHARY wrote:
+> > Fix typo: "verical" -> "vertical" in macro description
+> >
+> > Signed-off-by: PIYUSH CHOUDHARY <mercmerc961@gmail.com>
+> > ---
+> >   include/uapi/linux/fb.h | 2 +-
+> >   1 file changed, 1 insertion(+), 1 deletion(-)
 >
-> There are two questions I have still not seen the answer to:
-> - Why USB2 PHY is related to your Type-C patch?
-
-I was just following other people's approach. Sorry, this should be removed from the dts.
-
-
-> - How does the USB role switch event notify the USB controller driver, eg dwc3?
-
-Sorry, I misunderstood what you said before. There is indeed a missing usb-role-switch now. I referred to the approach in rk3588-evb1-v10.dts. Is the following way of writing correct?
-
-&usbc_connector {
-     ports {
-         #address-cells = <1>;
-         #size-cells = <0>;
-
-         port@0 {
-             reg = <0>;
-
-             usbc_orien_sw: endpoint {
-                 remote-endpoint = <&tcphy0_typec_orien_sw>;
-             };
-         };
-
-         port@1 {
-             reg = <1>;
-
-             usbc_role_sw: endpoint {
-                 remote-endpoint = <&dwc3_0_role_switch>;
-             };
-         };
-
-
-         port@2 {
-             reg = <2>;
-
-             usbc_dp: endpoint {
-                 remote-endpoint = <&tcphy0_typec_dp>;
-             };
-         };
-     };
-};
-
-&usbdrd_dwc3_0 {
-     status = "okay";
-     usb-role-switch;
-
-     port {
-         #address-cells = <1>;
-         #size-cells = <0>;
-         dwc3_0_role_switch: endpoint@0 {
-             reg = <0>;
-             remote-endpoint = <&usbc_role_sw>;
-         };
-     };
-};
-
-&tcphy0_usb3 {
-     orientation-switch;
-
-     port {
-         tcphy0_typec_orien_sw: endpoint {
-             remote-endpoint = <&usbc_orien_sw>;
-         };
-     };
-};
-
-&tcphy0_dp {
-     mode-switch;
-
-     port {
-         #address-cells = <1>;
-         #size-cells = <0>;
-
-         tcphy0_typec_dp: endpoint@0 {
-             reg = <0>;
-             remote-endpoint = <&usbc_dp>;
-         };
-     };
-};
-
-
-> Peter
->>> Peter
->>>
->>>> [0]: https://lore.kernel.org/all/20250715112456.101-6-kernel@airkyi.com/
->>>>
->>>> Or is the following approach correct?
->>>>
->>>>
->>>> port@0 {
->>>>        reg = <0>;
->>>>
->>>>        usbc_hs: endpoint {
->>>>            remote-endpoint = <&tcphy0>;
->>>>        };
->>>> };
->>>>
->>>> port@1 {
->>>>        reg = <1>;
->>>>
->>>>        usbc_ss: endpoint {
->>>>            remote-endpoint = <&tcphy0>;
->>>>        };
->>>> };
->>>>
->>>> port@2 {
->>>>        reg = <2>;
->>>>
->>>>        usbc_dp: endpoint {
->>>>            remote-endpoint = <&tcphy0_typec_dp>;
->>>>        };
->>>> };
->>>>
->>>>
->>>>>>>>> +                               port@1 {
->>>>>>>>> +                                       reg = <1>;
->>>>>>>>> +
->>>>>>>>> +                                       usbc_ss: endpoint {
->>>>>>>>> + remote-endpoint = <&tcphy0_typec_ss>;
->>>>>>>>> +                                       };
->>>>>>>>> +                               };
->>>>>>>>> +
->>>>>>>>> +                               port@2 {
->>>>>>>>> +                                       reg = <2>;
->>>>>>>>> +
->>>>>>>>> +                                       usbc_dp: endpoint {
->>>>>>>>> + remote-endpoint = <&tcphy0_typec_dp>;
->>>>>>>>> +                                       };
->>>>>>>>> +                               };
->>>>>>>>> +                       };
->>>>>>>>> +               };
->>>>>>>>> +       };
->>>>>>>>> +};
->>>>>>>>> +
->>>>>>>> .....
->>>>>>>>>      &u2phy0 {
->>>>>>>>>             status = "okay";
->>>>>>>>> +
->>>>>>>>> +       port {
->>>>>>>>> +               u2phy0_typec_hs: endpoint {
->>>>>>>>> +                       remote-endpoint = <&usbc_hs>;
->>>>>>>>> +               };
->>>>>>>>> +       };
->>>>>>>>>      };
->>>>>>>>>
->>>>>>>> There is no switch and mux, how to co-work with Type-C?
->>>>>>> I checked the phy-rockchip-inno-usb2.c but did not find any switch or mux. Does this mean that we need to implement them? Thank you.
->>>>>> Wait a minute, actually we have multiple hardware interfaces, one of which is Type-C, eventually connected to USBDPPHY, and the other is micro-usb connected to U2PHY.
->>>>> I assume the Micro-USB connector does not use Type-C/PD IC, is it
->>>>> right? Does it relate to this patch?
->>>>>
->>>>> Best regards,
->>>>> Peter
->>>>>
->> --
->> Best,
->> Chaoyi
->>
+> applied.
 >
--- 
-Best,
-Chaoyi
+> Thanks!
+> Helge
+>
 
+--00000000000069c62a06423fe511
+Content-Type: text/vnd.google.email-reaction+json; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+{
+  "emoji": "=F0=9F=92=96",
+  "version": 1
+}
+--00000000000069c62a06423fe511
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div><p style=3D"font-size:50px;margin-top:0;margin-bottom:0">=F0=9F=92=96<=
+/p><p style=3D"margin-top:10px;margin-bottom:0">merc reacted via <a style=
+=3D"color:unset;text-decoration:underline" href=3D"https://www.google.com/g=
+mail/about/?utm_source=3Dgmail-in-product&amp;utm_medium=3Det&amp;utm_campa=
+ign=3Demojireactionemail#app">Gmail</a></p></div><br><div class=3D"gmail_qu=
+ote gmail_quote_container"><div dir=3D"ltr" class=3D"gmail_attr">On Wed, Oc=
+t 29, 2025, 02:42 Helge Deller &lt;<a href=3D"mailto:deller@gmx.de">deller@=
+gmx.de</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"m=
+argin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex">On 10/19/25 2=
+0:35, PIYUSH CHOUDHARY wrote:<br>
+&gt; Fix typo: &quot;verical&quot; -&gt; &quot;vertical&quot; in macro desc=
+ription<br>
+&gt; <br>
+&gt; Signed-off-by: PIYUSH CHOUDHARY &lt;<a href=3D"mailto:mercmerc961@gmai=
+l.com" target=3D"_blank" rel=3D"noreferrer">mercmerc961@gmail.com</a>&gt;<b=
+r>
+&gt; ---<br>
+&gt;=C2=A0 =C2=A0include/uapi/linux/fb.h | 2 +-<br>
+&gt;=C2=A0 =C2=A01 file changed, 1 insertion(+), 1 deletion(-)<br>
+<br>
+applied.<br>
+<br>
+Thanks!<br>
+Helge<br>
+</blockquote></div>
+
+--00000000000069c62a06423fe511--
