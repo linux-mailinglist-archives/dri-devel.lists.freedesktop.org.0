@@ -2,64 +2,64 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6678EC13785
-	for <lists+dri-devel@lfdr.de>; Tue, 28 Oct 2025 09:12:56 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id D8B65C137CA
+	for <lists+dri-devel@lfdr.de>; Tue, 28 Oct 2025 09:16:58 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id EFE6210E5A8;
-	Tue, 28 Oct 2025 08:12:52 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D98A310E5A9;
+	Tue, 28 Oct 2025 08:16:55 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="bIvMNA6N";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="i/wiHxGv";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4D1F989FF7;
- Tue, 28 Oct 2025 08:12:51 +0000 (UTC)
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B1CCA10E032;
+ Tue, 28 Oct 2025 08:16:53 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1761639172; x=1793175172;
+ t=1761639414; x=1793175414;
  h=from:to:cc:subject:date:message-id:references:
  in-reply-to:content-transfer-encoding:mime-version;
- bh=KMPi9ejhgd8zczkQ+8kFv5cjrNOVqy2Lb1B+Evoee5Q=;
- b=bIvMNA6NkXJnBb2lRwekZyxDaiL9eBir5oFsOi3iZuJP4fYR8BJpmeqo
- 0D2yDwLcM03SVSRp+d151/K5taa9K4iaxLNbJsfHZoHA+vkXJIxdbfoMG
- pdf0Jovd6unlMZ4rsa+f3z+1fb4Olx8u92bBdBmTIKb72quSsUHvuqVr1
- ISDsBk8hMzGNLDhjeNEUk65OjA2T2QsIEhe6XBRTAtLbZxMudlviLq3h/
- LdavxQgQLM50YMf+K9V1P5vf3iwSxOFi8tkU1jbyCDsjTfGGJj6zfbsZS
- RpFzuEg2jwwNtu/DBFZOseElZS4bJhRFk5HsfiKEsU/ChBTjl5bNmSK4J Q==;
-X-CSE-ConnectionGUID: nZAeUAYTSdWu37ZoC9MRSw==
-X-CSE-MsgGUID: aTt9LjNWRd+zYgxC/uSUcA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11586"; a="74019079"
-X-IronPort-AV: E=Sophos;i="6.19,261,1754982000"; d="scan'208";a="74019079"
-Received: from fmviesa006.fm.intel.com ([10.60.135.146])
- by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 28 Oct 2025 01:12:51 -0700
-X-CSE-ConnectionGUID: c00jorkdRsaIv4eHqHH5Bg==
-X-CSE-MsgGUID: OhgMoPaqR8qAcO+VwZROpw==
+ bh=bIQzvC/OQeBL1GtmQ2nO+R9mgKSPlG+SpqB2d+aD/DE=;
+ b=i/wiHxGvmdlUJpdkBTnvOENe18odKBRyuIEXRTLwzpyhigwEQV3+9jIV
+ vHDFZAyI5JPywn2ab80xsnYUeqHtVDsM3N0Ww98D5neGDQ3Q5SRC78A+t
+ ShAz5WX6GK4cN2kbKbkMOMBgvbXfSWxy3+aRcSP9ltTPCa2ab63JjX590
+ mM+XRFvb4SgSsMUmmK+if29pWxeTh6tWek8OiFM05W55wFyIdaboJbush
+ GAl5MVBx6mQd4YPnTxEZBf24B+LhZj/E8ZPTeBJDHE9iclAp62U/i2310
+ 7GyBdQ9FcSGX2lCDdB9xRLUYB+tybY1P0HroLN0FCSHufu7ddAkymoG9S A==;
+X-CSE-ConnectionGUID: XLIszpV3Rfa0ei4jdqGipw==
+X-CSE-MsgGUID: eU0BeyBqT+SeO0u9UD9EtA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11586"; a="67375610"
+X-IronPort-AV: E=Sophos;i="6.19,261,1754982000"; d="scan'208";a="67375610"
+Received: from orviesa004.jf.intel.com ([10.64.159.144])
+ by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 28 Oct 2025 01:16:53 -0700
+X-CSE-ConnectionGUID: XkQgI6xyRtWrgMXpCT5nGQ==
+X-CSE-MsgGUID: 5YjLeY8mSC+/GTx2M4oXWA==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.19,261,1754982000"; d="scan'208";a="185172399"
-Received: from fmsmsx901.amr.corp.intel.com ([10.18.126.90])
- by fmviesa006.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 28 Oct 2025 01:12:50 -0700
-Received: from FMSMSX901.amr.corp.intel.com (10.18.126.90) by
- fmsmsx901.amr.corp.intel.com (10.18.126.90) with Microsoft SMTP Server
+X-IronPort-AV: E=Sophos;i="6.19,261,1754982000"; d="scan'208";a="189593146"
+Received: from orsmsx902.amr.corp.intel.com ([10.22.229.24])
+ by orviesa004.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 28 Oct 2025 01:16:52 -0700
+Received: from ORSMSX903.amr.corp.intel.com (10.22.229.25) by
+ ORSMSX902.amr.corp.intel.com (10.22.229.24) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.27; Tue, 28 Oct 2025 01:12:49 -0700
-Received: from fmsedg903.ED.cps.intel.com (10.1.192.145) by
- FMSMSX901.amr.corp.intel.com (10.18.126.90) with Microsoft SMTP Server
+ 15.2.2562.27; Tue, 28 Oct 2025 01:16:51 -0700
+Received: from ORSEDG902.ED.cps.intel.com (10.7.248.12) by
+ ORSMSX903.amr.corp.intel.com (10.22.229.25) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.27 via Frontend Transport; Tue, 28 Oct 2025 01:12:49 -0700
-Received: from DM1PR04CU001.outbound.protection.outlook.com (52.101.61.42) by
- edgegateway.intel.com (192.55.55.83) with Microsoft SMTP Server
+ 15.2.2562.27 via Frontend Transport; Tue, 28 Oct 2025 01:16:51 -0700
+Received: from PH8PR06CU001.outbound.protection.outlook.com (40.107.209.39) by
+ edgegateway.intel.com (134.134.137.112) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.27; Tue, 28 Oct 2025 01:12:49 -0700
+ 15.2.2562.27; Tue, 28 Oct 2025 01:16:51 -0700
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=WGEatDMG5FjFdtyHPnT4AQQKO++znSEA2sNA3vE9eiomh0old+a2Oq8Eh1AwMWC/A954+gtgZS13FR9xxIuFI8rR2KmYjT9j8JHPmkQ8di2lUgrllJckvYJwTWp5gomUpNK3nVwz0xGmWVwsYHdiTdgrZWHGS8iltfZNpQkOh/lRyaQAYi2A1FdrZYdmkAudGJOagMks/4Yn+ce6rawBKX50iqXZG0GWGLznNj709Tzz/9ycYeL4EZ1B9uCovi65UbQzEmHrrUP1yNHHSLA0jYvThPgs2ueTsdVgTfOFbVe1crHC9QFaQMoVSiKf9u+NFQbyQyQCwa6HKxqqglnoRA==
+ b=gyCORNAE/my9XJSGYNcB6EMO1hQlCqzW5OVmKKAIn7770DbcqUZ9DYVNOc+h7ebo/GhU3ljoOFkyMJAZirp2MgBFJ8gaULLfsaX5mL1zRyAiZf7L5TQ78JbW5+lZ7oh3f+b2aS7A8IIbMXpyBzu7NJeosxkm2q6sB9xyXzwkBZH+UZyfV8bz9N+tzVY8SzssPLxdZzMFXNPvM4v3jdnfvY/FQNo/6oGxfxYvdKds2sbxBx/2+nHvlTukdMuCOZAAfQVQSmGQpgFHpMBw/8n2Sf1+feQ0GVQHac4udQoh9LJTs0kuhS/dl2evPa7aXWwjQQ9ZsZv6VcZpx/MD6GwQlQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=0frqWw8BGwybqlpx+neZUThE5OogHexK3vBjvChlGtk=;
- b=xz/m5gdlZS5CBQr5iIEtOXb2bj4UwchfrtCO9WnNXP1UDJzPOZgywHrYblKVQ6Sl21c4F1gAgDGpPVZ1ILvtGpyEqCLjBfck14gDM9v5KnutGJO4B+XtiKawLnr5t9Agf5iFoENkLC/hQ8tM552tYT4WEOn5yd2PF5bTnXyxjDk7MDj0bbhlZamH6/nHBRwIZqfSufTQGv5a+KVP5cnIz1UwLuaPz+xkKfoczmvA+CcK+oOwnQQgt62KWMAzdwcKASk1azZjFzgvvCUmFgDGzo1t5MEkgwn38z6wfmw5FtIYf8JRnGtpRQn9dlhyx8KBM2PDUvAz7vwXmeX9E+cW2Q==
+ bh=FJvc7fCz0gIZ5mpUUM+bzLl5zKSCWN8qiV66vOGg/2E=;
+ b=G941QluC4HESSQRj4EWYgYNitKtUzAf9Ff9SmLfukFVhngYRTe6hoCa4jZ/WIiOjajf8KW1n2I/2UlFTcDc8wTkl+K47RFV6svkzpsgIPtUc3V1DYhe068htI68/3AqJ5mf8fz7TnvVFqzGsMcCyi3wmS/4zgsB+VIa2Ui4NeKjCGa11llQgwoQIlxkF0h8qHT6thuLeZFLxBhe/4EzFaVzlRZj1kziyDA7LzZ0nb4EK0ZOH4/ugolqhXztc3iCG3gEvoR5LaLvseEdbO5v2HrpKfhziVVcGznUQqJEwoX47C/FB/HunXpZ/zJyJtyGnP4mIvdf3Zmi2Wqju1ITheA==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
  dkim=pass header.d=intel.com; arc=none
@@ -67,14 +67,13 @@ Received: from DM3PPF208195D8D.namprd11.prod.outlook.com
  (2603:10b6:f:fc00::f13) by DS0PR11MB8136.namprd11.prod.outlook.com
  (2603:10b6:8:159::5) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9253.18; Tue, 28 Oct
- 2025 08:12:42 +0000
+ 2025 08:16:49 +0000
 Received: from DM3PPF208195D8D.namprd11.prod.outlook.com
  ([fe80::95c9:5973:5297:d3cc]) by DM3PPF208195D8D.namprd11.prod.outlook.com
  ([fe80::95c9:5973:5297:d3cc%4]) with mapi id 15.20.9275.011; Tue, 28 Oct 2025
- 08:12:42 +0000
+ 08:16:49 +0000
 From: "Kandpal, Suraj" <suraj.kandpal@intel.com>
-To: "Kandpal, Suraj" <suraj.kandpal@intel.com>, "Shankar, Uma"
- <uma.shankar@intel.com>, "intel-gfx@lists.freedesktop.org"
+To: "Shankar, Uma" <uma.shankar@intel.com>, "intel-gfx@lists.freedesktop.org"
  <intel-gfx@lists.freedesktop.org>, "intel-xe@lists.freedesktop.org"
  <intel-xe@lists.freedesktop.org>, "dri-devel@lists.freedesktop.org"
  <dri-devel@lists.freedesktop.org>
@@ -88,15 +87,16 @@ CC: "Borah, Chaitanya Kumar" <chaitanya.kumar.borah@intel.com>,
  <shashank.sharma@amd.com>, "Sharma, Swati2" <swati2.sharma@intel.com>,
  "alex.hung@amd.com" <alex.hung@amd.com>, "Shankar, Uma"
  <uma.shankar@intel.com>
-Subject: RE: [v5 12/24] drm/i915/color: Add framework to program CSC
-Thread-Topic: [v5 12/24] drm/i915/color: Add framework to program CSC
-Thread-Index: AQHb6zD3hlSVzdqpU0+RorebNVCgNbTX7K2ggAAB8VA=
-Date: Tue, 28 Oct 2025 08:12:42 +0000
-Message-ID: <DM3PPF208195D8D2955A727287B465E3434E3FDA@DM3PPF208195D8D.namprd11.prod.outlook.com>
+Subject: RE: [v5 16/24] drm/i915/color: Add plane CTM callback for D13 and
+ beyond
+Thread-Topic: [v5 16/24] drm/i915/color: Add plane CTM callback for D13 and
+ beyond
+Thread-Index: AQHb6zD3tumfrE6fgUmah1+IrW966rTX7+SA
+Date: Tue, 28 Oct 2025 08:16:49 +0000
+Message-ID: <DM3PPF208195D8D9984BB3FD920ACDF0A5FE3FDA@DM3PPF208195D8D.namprd11.prod.outlook.com>
 References: <20250702091936.3004854-1-uma.shankar@intel.com>
- <20250702091936.3004854-13-uma.shankar@intel.com>
- <DM3PPF208195D8D76C03AC663B7B0B9465BE3FDA@DM3PPF208195D8D.namprd11.prod.outlook.com>
-In-Reply-To: <DM3PPF208195D8D76C03AC663B7B0B9465BE3FDA@DM3PPF208195D8D.namprd11.prod.outlook.com>
+ <20250702091936.3004854-17-uma.shankar@intel.com>
+In-Reply-To: <20250702091936.3004854-17-uma.shankar@intel.com>
 Accept-Language: en-US
 Content-Language: en-US
 X-MS-Has-Attach: 
@@ -105,80 +105,80 @@ authentication-results: dkim=none (message not signed)
  header.d=none;dmarc=none action=none header.from=intel.com;
 x-ms-publictraffictype: Email
 x-ms-traffictypediagnostic: DM3PPF208195D8D:EE_|DS0PR11MB8136:EE_
-x-ms-office365-filtering-correlation-id: 291f7f96-2d76-4257-31c9-08de15f9c4ab
+x-ms-office365-filtering-correlation-id: 9ae1e3b8-cec7-49a6-ac74-08de15fa582a
 x-ms-exchange-senderadcheck: 1
 x-ms-exchange-antispam-relay: 0
 x-microsoft-antispam: BCL:0;
  ARA:13230040|376014|7416014|1800799024|366016|7053199007|38070700021; 
-x-microsoft-antispam-message-info: =?us-ascii?Q?1xVJOrzLOdJZZg0kFWitsU9maZ77qcMexrwevtQQVBF53pV/pyg2eI6P9J1r?=
- =?us-ascii?Q?J7t6oMmbpXuc81kLsx4xHX4tArNKD8S/zWUcNN9aPaOtnONep0slWHUKLv7X?=
- =?us-ascii?Q?vDv4riGjj9qfoxRwcUmDu9YQGZD0k9gLHVJYT1n85qNY1nTeBo+upH0e6RL5?=
- =?us-ascii?Q?7cW7M4oXD6Yxu0qxH77qsY7FkaxeoBWi05hXkHiYbev1L1iGW5oZaurSpsER?=
- =?us-ascii?Q?NPADt31s5DuwcPCN4LSIHvP4FZTv2R3tF68dlo9zmSPDL9z4akGcVSfbtXCW?=
- =?us-ascii?Q?pUD+uqeCtDN6VnLKErOseBNG6k+iK6GUQu15fd4v3mfMVxmu7kL1CGO2GBM5?=
- =?us-ascii?Q?Uf7OLNISzgIMh4lNt0BM81/IAnWhoN4418PrixgI8dqPDDjgpYRjTbRuR945?=
- =?us-ascii?Q?L3MHnNpTMfyaW3n/Ij5bNosB3Ilh53iQPdFF6LIuBTIyweKHgM+nAoxh6y7i?=
- =?us-ascii?Q?klDQDVr2rFGat9FkJUGtJIe4Dwx5yKhW3/j9bS6VHstiMZ2Bp1Jk7t4DFlgM?=
- =?us-ascii?Q?477xST0h1rcCIQlKoF9Z0PF7ZQo1EDkOMGm026MNM9dDVaUitvQkGmafpJak?=
- =?us-ascii?Q?ffA0dY+W1fgcFkEKP/WmFSbJtUW6P9Ead2Q1/bYMfILgjFz0mLIsplYEQZZ7?=
- =?us-ascii?Q?EbYk5xApebM8KUSfHeQ2No8t0bs/uQF6Ge8CHzuvADiqoo7mX4Jw/0TW6qJN?=
- =?us-ascii?Q?f93Amjzxm+RPH0xex1I9kQPluzueHolml9246mndhlLWqYewydaN1RQ+WFAe?=
- =?us-ascii?Q?xtWnSduPXyAv5BvAJZwHSXczdRDKUr8MSUz+G1ojGgQAeezZqvloMdt2Ltxn?=
- =?us-ascii?Q?TO4u1lGNfpriqBAy9/pXUcA5UO9TMk2P+qoNIXXXxge8EEVsVzZBo6LwRMCZ?=
- =?us-ascii?Q?nfSXZyG3y5wApYqFeWstm/vm+hexXUwnp83zsTXB/qBLUiTJjnTdjmY765dN?=
- =?us-ascii?Q?yMbHHRf2J/IGVqmfqsdnzwTguaFjDVXr1O4/Av3Bk0p9Yi36qB6HE5cG1jzj?=
- =?us-ascii?Q?5TfONXg0D4TvLimmYDDWFP5KmjAEQyCW0XAbApoYNYt9Ro+c5V7gSMQC1wVy?=
- =?us-ascii?Q?KE0EfWNH91haru5VSCvFiHj1lNAW1d5Hthmkj48BQ0S7vNOIqZWTfGLp6/em?=
- =?us-ascii?Q?c83PtcZlJXchKuPfj51XMOcc0HOjibc+sVSnAj9eEihCexK7evBu7i0qatST?=
- =?us-ascii?Q?B1RAmgfIXWjOJmWXunpfxwMqfcIji9v/zbmx32FYe68H+WSaOpmrucva50/j?=
- =?us-ascii?Q?qwC13XkhTeaEotgHk2ligqCtGnAWBWZpXGQvukZGGIDWT1PBIdvBVso7vhSY?=
- =?us-ascii?Q?RxxTkgDI+ODrt8pA6/9/FCfpTPl+sFRNUmdy+EgNExXA0b0Atoik9KaQqBlk?=
- =?us-ascii?Q?oBfh4q9kRvbxjo/LiQvfk9o9lXer3oR1I4rdqTnBdc5MXXJxgdcf//sUHiDx?=
- =?us-ascii?Q?kjzG860z/kszo1DbolrxG27gZ1AN4o3Rj2b0rFlPzN8F/A1MFembvVyMud4k?=
- =?us-ascii?Q?2UJz0VX7kp3jn3fW4Yg+4vWoAoIOtbr6dSxi?=
+x-microsoft-antispam-message-info: =?us-ascii?Q?ro7xJGZNHXei5sdJB7SqDPXWhvcRmtmGseQGUhpKD0r6C/hpp6+GESvKwbiC?=
+ =?us-ascii?Q?7RT3o+CyAKl3Qjc6NZXU3A6u6rUeiXPRrrloxCflnXnHHa0k5xiKrt2bOOAm?=
+ =?us-ascii?Q?ClWJb3zUjbeX6/kZCjyzJDqx7ys3HuP6UQatMe54TmX6/JULtZLrR2jKSRO5?=
+ =?us-ascii?Q?NM88ujOrsI9PWPLiYDDZMSSuH9hTQe+kevTOIWuRdIw0EbD+7szWTbNDH6M4?=
+ =?us-ascii?Q?FmzK+ATEBvOA/GH4BuJQQKdr8AqS5/34vQXqfU8OUc7C4CXR38mBRarPlNc1?=
+ =?us-ascii?Q?7445RvHZ6FqXgDlU6gZ+xn2wBG9FzleQxcksN1ncLutDgb4TXunhJNwLFi41?=
+ =?us-ascii?Q?UFDCY5vRE3a4bm7bay1qQMBZhv5u/eTW9gPxAnFwzUK0D8C1TWswjlcBgHtv?=
+ =?us-ascii?Q?m9s+UirSC1F1hbcVDGDF4WBntpP66Js4xUWKp/lkzYz33/g3Y51GadqpUhhv?=
+ =?us-ascii?Q?0AMR6Kyb5+FfqQdSinbT7dX8zgpK95AUq0Nz114FuvDbsJPstXwaKIK6RQFz?=
+ =?us-ascii?Q?ZkasNVlUoVyQVTVWiDAcS+8u7waSBjYIICe3eMU5MEjqvTIQx73xeCitERnz?=
+ =?us-ascii?Q?bPOJMJcBVABM9gwqJVHHQAydyynEcp3Pfh3h1gQu6LQe8PqHqC5X52Zo9ooy?=
+ =?us-ascii?Q?W4Ri+zJW6BIXzFbqZ1mIQe5/Go4TXj3gbc50RC9XRVI1Qdvv4GYgej/3Pc4B?=
+ =?us-ascii?Q?aLwufP5bAidetljFIXCFeOl0lzavS9uKyrZZb+EvP2H4tF0TmoQXSMP3acd5?=
+ =?us-ascii?Q?msQtGMTWe9HoyBxIyIAv426OolYMTbSJlRvs+Tg3RP1DZie50yL4iK1s3Qa4?=
+ =?us-ascii?Q?PAd4CWg8rN6s0yEttGnKktUJOnauaT7t4UfG92BiNNx274oAudvVQWg4J47h?=
+ =?us-ascii?Q?W8lfV98YN+UBirII0QjSpFE3NZd8FePJKYJpE9eoCvL9CJ9bPTT6e9ek9Rla?=
+ =?us-ascii?Q?DUxAD3Z920qSho6CmT4La2lxfff8ZF7hXk9ojSZlSUT23M6RbFRCB1wBekbs?=
+ =?us-ascii?Q?Y0+Im+yxbOqKC8ytpNWvrlnIUXZKJ0dqjpLmstA8V39OMIbWMrksn5Qg//FE?=
+ =?us-ascii?Q?wtdtRxOxrqosHqP8BdauCoNJqd7xJFQCXhJZRc85Dlsheu/iw5gLDZ9VNT7U?=
+ =?us-ascii?Q?cCN/MJuCMOQrPzRppEJWIPFMIJ3Cv4QKm5lD1QIR589GKz5fan/ltg3dsf81?=
+ =?us-ascii?Q?ygJmBW2v1NxFrgiqICFE4ErOg6LHKo2PJl/ZeCJylTBksJYgS7HORSCnyS32?=
+ =?us-ascii?Q?iLkX5Jkc42NfMHEny0IznENi7FJpQSWNJnU8ep4n+OyCZnoxkQzPs9DbbyGW?=
+ =?us-ascii?Q?yg4CN6KbjsVG2r5MJRtWQQVyxJM81uEaO2vTjJNSkyo6OoklNJ9ra6pZV1kA?=
+ =?us-ascii?Q?Gpi3540DLPADr8OtMZ3xH1U+0qcFpJsW04yFXlfJM9P+gmFfx6RAvoefY91m?=
+ =?us-ascii?Q?yBYWW2egvI84IOaJmOPJ40p1e6KAm1W0by/OgS3oMa220+m8EK/V20+J5sZ2?=
+ =?us-ascii?Q?St+zAII9zwF6Uehg/nVB8luel0Dkt5tUotFJ?=
 x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
  IPV:NLI; SFV:NSPM; H:DM3PPF208195D8D.namprd11.prod.outlook.com; PTR:; CAT:NONE;
  SFS:(13230040)(376014)(7416014)(1800799024)(366016)(7053199007)(38070700021);
  DIR:OUT; SFP:1101; 
 x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?us-ascii?Q?ML95dt4airQ68TA2aM6k21QVftZSSFya0p/3uuXz083swcHSYCORDVj3FR1U?=
- =?us-ascii?Q?8RYrPjfgXPoe+IChL60dAnE9Mmb0H+qpUZ3pacb/Pvvz1NATnJDb+SpOnOqy?=
- =?us-ascii?Q?jkiNXNdeM67QCdCZBPXxvv2ju9n8GJUAQNTvbQlGmHZyGwRqvrfKNuGBnk9C?=
- =?us-ascii?Q?SOcX3moSHAnuVMTJ6FGnw71CSN74WZ2EIC5ZouQb/fqIVOvvGVyoCl74L6Fi?=
- =?us-ascii?Q?n67srqfNr3vS+8RmX9UyMRbXg+0oA5K02J4xbbCRjvw3vwoY4UW8qbKjEhkI?=
- =?us-ascii?Q?frM0eylVDVLq9tMfz7tqSZLbn0VE8ydakU9mUp5Sqn6KYeIuHCc+Hw2mU+T2?=
- =?us-ascii?Q?unU4RD0cIGdmOpEW9IxPeV4zSt53Yg27OSTxYBO/oXKUG948vFHcpGT26Khz?=
- =?us-ascii?Q?oNYp+QeAPMOTCON/cpqLJXDLtdQCwD6gjnxuzxwMH6x7Mkv0aAyFLSfd9xsG?=
- =?us-ascii?Q?eOz09OOsK13G000RggBfwoRDRrPGW56wo24DPPEKHmwLFR/0zOiJuwZTxVnS?=
- =?us-ascii?Q?e0bvD5p77EQmyZEVDdwvPtz1LxDloj3TWbqtuaGDjba6QpO6xJHsmogtM4mz?=
- =?us-ascii?Q?QYIkVKn8tjEumMVF2cMUNtmusDFiKzxpKFe2Ak4a7UATn8bXGWpJB/NFkeUM?=
- =?us-ascii?Q?oTIAV7xkg2dT2f8LZ4JV4dSkcuBR7Ge65qjw/Zs+lq7YnyWHv9fy8AsA2wNu?=
- =?us-ascii?Q?aeiPOgtFWtapkoi5jqDWOoGXnBgqv+I30rKnMgb7Q/KbXJv45RO0diskYEvZ?=
- =?us-ascii?Q?mot7Xb/JcJM7SYEACshpeoNBv3Yq7B6DImJS8OA7pi5BcDpVcGHTa16Ff24i?=
- =?us-ascii?Q?GF0b+hXssX2tzVopUwdamJsXqRFKEkKXN+5FRz46lrY9NEoYkkwKFPFfGNmy?=
- =?us-ascii?Q?omzlhxZygvJ+TNmqmTsfavJN104nxWAfahPP2VsBLrawk+QpfoOUJ7z7pp16?=
- =?us-ascii?Q?wHuPS27aWIAiyz/bsU8xgBso9zvvaUBDgWbmvHE3HbPxg2BoCPIyyAlQhjxL?=
- =?us-ascii?Q?mQBJNL+hxszOaADRIFUJKpLKmNtdKTFwczjb5PISiG4t6b+apJEe1cM0TXzk?=
- =?us-ascii?Q?hReO5fBM6pD9qDnxp+6UCGksCWtJz0JNZP9nLamRgn01m4vloF/sx2sSnKBK?=
- =?us-ascii?Q?tjb6sNROlaexmL/HT/j6ObU5Ztii5WCJMPxcoI72a2MapkUVSMKf015s8Hih?=
- =?us-ascii?Q?DlUootB0rJQzhqZFLZ1VcGxi7LuB9+GJq2aN2PnZS6pnbgvhcoqPnz7B/R/Y?=
- =?us-ascii?Q?nxLFGZ7m5TDHdQke9rMkqp2SpQcClszM2nUiRvAxm+ZSZThSG9Zw+Flsq3Q8?=
- =?us-ascii?Q?uMJnQ7uCmgrQjPLrFE9Z5+xx+aGNTrBa8N26LhxXPE7m7nDO9MJmV/rYn/YH?=
- =?us-ascii?Q?KBlcX22o9KPJ+yvaimlcU+tbLlHcM0XaPFCIq7Q0f1f+bGLVr7av3obeo/rr?=
- =?us-ascii?Q?3KKEmdKh2cB3DwDpwHjOyAMWL9vKcth9SPoRLNtlsVxqX+i4KhBqF4KHNYOh?=
- =?us-ascii?Q?EFgJj5+MTKyt/BO4Prw2fVwPjKwblISGG72vzctnai8W14/Y3HZYKkoAbN4L?=
- =?us-ascii?Q?3eZ68kk/CrXZoSq3YqQuSPhnakxN5Bef8+ipVfDx?=
+x-ms-exchange-antispam-messagedata-0: =?us-ascii?Q?ZMCtSrNgBvrf2z+1CKma76MzEd1NsxJOgg4y/tPI24L/MlfChf2aGH32bVK7?=
+ =?us-ascii?Q?cpszapFvL79D6j2ezKaxc3+AkyFSkg3CbUi5r5fuTf3N1Bp2Y+nAhU8ZOw4v?=
+ =?us-ascii?Q?EKyfT6J2sv6js/B2YF02WiklLTUVFRGOmYnaqqII7ESAbo+J+f23qEa2rPog?=
+ =?us-ascii?Q?IIth68ArP8Rt786alQ9y53LPwilrBAhW2BUuXZl7cFnKxZqlCBFCGWYMtifB?=
+ =?us-ascii?Q?SN+LY5Dgw5YQVCtynKPOUQ4H9Uu4PwhQT74xIOvFfLWy0bRWBX6qS6MmDLtH?=
+ =?us-ascii?Q?ueHarqpxFW5FKDMH5sC7FkHmXR5lu/ciWCZA0HA86O6e+523+8njBdU/N/Ug?=
+ =?us-ascii?Q?VGgc2s2AS4thp2pf9R27H8wWOD3+MPQx2l4QOM5N1uAG2rInkwnlIomrH3on?=
+ =?us-ascii?Q?gJm91MDzVPz6991ljNOH2WiBwQsza5Flsj9ScIGQvNnDVs00DmVhyrZFj0cg?=
+ =?us-ascii?Q?GZSETSknyyzMYvxct6M662UBJzi5jii2kPQ68p3i+vM1e6R6qNCpScV9ZzhT?=
+ =?us-ascii?Q?iTcw580MP2ImkT4AKNsYE9qxjNPA74OUOUqz4GV7rjHQDQ1UJK3OLoiTsyzJ?=
+ =?us-ascii?Q?SNZrd/qKsX019vA2q7nd6xDklG/eq8jXTK9+2qAHfyfffpEzO2EUEoDk+Z4J?=
+ =?us-ascii?Q?+K51Fs3csdWwZj+deu2WR9PunfGGd+VbKuotQ38ymtjraT8Og0XJqyuH33Ty?=
+ =?us-ascii?Q?qVpq3GFAIkDH2nGEl+msgANwsljWOmJuNFgbhuLXJ2RK6OeypK5XZZPpzX5z?=
+ =?us-ascii?Q?X1Eme8kOtR2VQDWe1efUp9wl+Vmbze1+I8cVLV5WQ6K7bLUxpQuEOcgxisXy?=
+ =?us-ascii?Q?kyFwvYapYcUGcqv8TkIKGmH6ZO+zz+IxyysCtFF+L9mdNNvu0VOMfPwf5D0T?=
+ =?us-ascii?Q?OOCz4W/AJjvtINHiy4RS168ki9OR+0E+CIR42txlmeLRYkgUo2fK36jGQZYr?=
+ =?us-ascii?Q?tWCDFqAErKwSPsR0XY2/2+27Asc8mzN3uT7oPM2hY1GtWBw5D3i0TM2oJNh+?=
+ =?us-ascii?Q?UO5QdDZlCo8QVFVvFHM8X4umz3WnxF/i68oYL59aST1lqqS2MxUDfKbz8Wc+?=
+ =?us-ascii?Q?16Wy8x7c6mvtfcPomw54Flx9wf0pljOeLvocN+HqY2jt8gzsixuQJ2Mh3szb?=
+ =?us-ascii?Q?cMu7GAoG/0rtZ8F0iFaR65qEtACIMVn0D1DVOgZ/mNzI243N6HaoouMCb06h?=
+ =?us-ascii?Q?5DoGCKx3j78mO8qd74Qljf/Q0oNqLX+ZgVPCquEAbeold7F8B1ySnpzQrPt8?=
+ =?us-ascii?Q?bVJZgqA4P/W232hYhd4DxJzMYPMwxN268J7B434txDl9x8b/hQ7oaMvIm3Y4?=
+ =?us-ascii?Q?qLU6v6W6RjSRnrOAcChrUUPPafBE/tZ9K8VEb2h8xvv6j/SdTFvdbL10w9Eh?=
+ =?us-ascii?Q?7yEKJ0oSCaqy6ObEfJ67hNYrIEZB1PT8qZk7OynFSIqJVldy8lk1KekXSDpS?=
+ =?us-ascii?Q?FKO+mQiCTgRUijR9FXTk38GF0IiH/z+idBtZmtkNC/pc/l70w/0rWpdzkSZ4?=
+ =?us-ascii?Q?Od8/IAckvLqJp9dvCUk+QmpRyZmDZJMtla28++Jz2QBWpWDN4tma+k0RiZzp?=
+ =?us-ascii?Q?iER1mHvRn2QlLZuTKEz0lsXn1VrcqqJaZ0c3F07r?=
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: quoted-printable
 MIME-Version: 1.0
 X-MS-Exchange-CrossTenant-AuthAs: Internal
 X-MS-Exchange-CrossTenant-AuthSource: DM3PPF208195D8D.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 291f7f96-2d76-4257-31c9-08de15f9c4ab
-X-MS-Exchange-CrossTenant-originalarrivaltime: 28 Oct 2025 08:12:42.3256 (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 9ae1e3b8-cec7-49a6-ac74-08de15fa582a
+X-MS-Exchange-CrossTenant-originalarrivaltime: 28 Oct 2025 08:16:49.7997 (UTC)
 X-MS-Exchange-CrossTenant-fromentityheader: Hosted
 X-MS-Exchange-CrossTenant-id: 46c98d88-e344-4ed4-8496-4ed7712e255d
 X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: ymnwr4M0kOZVr3sbbjwPkDbeHoYFaKGdLHl+cD49F1Y1g/Pgtm0R8c28HHw4O1JJiPEi7zD3q6vwEOBZd+2hkQ==
+X-MS-Exchange-CrossTenant-userprincipalname: rgxBbYSbzLDG/gfYhGFteXJcmrDHMLMqbruvjRexSzscYuCe882ooSLhSRyQWqXuUElM1xn4OnHcrOceLrdTNg==
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: DS0PR11MB8136
 X-OriginatorOrg: intel.com
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -199,192 +199,157 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
 > -----Original Message-----
-> From: Intel-xe <intel-xe-bounces@lists.freedesktop.org> On Behalf Of
-> Kandpal, Suraj
-> Sent: Tuesday, October 28, 2025 1:40 PM
-> To: Shankar, Uma <uma.shankar@intel.com>; intel-gfx@lists.freedesktop.org=
-;
-> intel-xe@lists.freedesktop.org; dri-devel@lists.freedesktop.org
+> From: dri-devel <dri-devel-bounces@lists.freedesktop.org> On Behalf Of Um=
+a
+> Shankar
+> Sent: Wednesday, July 2, 2025 2:49 PM
+> To: intel-gfx@lists.freedesktop.org; intel-xe@lists.freedesktop.org; dri-
+> devel@lists.freedesktop.org
 > Cc: Borah, Chaitanya Kumar <chaitanya.kumar.borah@intel.com>;
 > ville.syrjala@linux.intel.com; pekka.paalanen@collabora.com;
 > contact@emersion.fr; harry.wentland@amd.com; mwen@igalia.com;
 > jadahl@redhat.com; sebastian.wick@redhat.com;
 > shashank.sharma@amd.com; Sharma, Swati2 <swati2.sharma@intel.com>;
 > alex.hung@amd.com; Shankar, Uma <uma.shankar@intel.com>
-> Subject: RE: [v5 12/24] drm/i915/color: Add framework to program CSC
+> Subject: [v5 16/24] drm/i915/color: Add plane CTM callback for D13 and
+> beyond
 >=20
-> > Subject: [v5 12/24] drm/i915/color: Add framework to program CSC
-> >
-> > From: Chaitanya Kumar Borah <chaitanya.kumar.borah@intel.com>
-> >
-> > Add framework to program CSC. It enables copying of matrix from uapi
-> > to intel plane state. Also adding helper functions which will
-> > eventually program values to hardware.
-> >
-> > Signed-off-by: Chaitanya Kumar Borah <chaitanya.kumar.borah@intel.com>
-> > Signed-off-by: Uma Shankar <uma.shankar@intel.com>
-> > ---
-> >  drivers/gpu/drm/i915/display/intel_color.c    | 14 +++++++
-> >  drivers/gpu/drm/i915/display/intel_color.h    |  4 +-
-> >  .../drm/i915/display/intel_display_types.h    |  1 +
-> >  drivers/gpu/drm/i915/display/intel_plane.c    | 39 +++++++++++++++++++
-> >  4 files changed, 57 insertions(+), 1 deletion(-)
-> >
-> > diff --git a/drivers/gpu/drm/i915/display/intel_color.c
-> > b/drivers/gpu/drm/i915/display/intel_color.c
-> > index 363c9590c5c1..7c53572f729b 100644
-> > --- a/drivers/gpu/drm/i915/display/intel_color.c
-> > +++ b/drivers/gpu/drm/i915/display/intel_color.c
-> > @@ -3967,6 +3967,20 @@ static const struct intel_color_funcs
-> > ilk_color_funcs =3D {  };
-> >
-> >  /* TODO: Move to another file */
-> > +static void
-> > +intel_color_load_plane_csc_matrix(struct intel_dsb *dsb,
-> > +				  const struct intel_plane_state *plane_state)
-> > {
-> > +	/* CTM programming */
+> Add callback for setting CTM block in platforms D13 and beyond
 >=20
-> Add TODO
+> v2:
+> - Add dsb support
+> - Pass plane_state as we are now doing a uapi to hw state copy
+> - Add support for 3x4 matrix
 >=20
-> > +}
-> > +
-> > +void intel_color_plane_program_pipeline(struct intel_dsb *dsb,
-> > +					const struct intel_plane_state
-> > *plane_state) {
-> > +	if (plane_state->hw.ctm)
-> > +		intel_color_load_plane_csc_matrix(dsb, plane_state); }
-> > +
+> Signed-off-by: Chaitanya Kumar Borah <chaitanya.kumar.borah@intel.com>
+> Signed-off-by: Uma Shankar <uma.shankar@intel.com>
+> ---
+>  drivers/gpu/drm/i915/display/intel_color.c | 96 ++++++++++++++++++++++
+>  1 file changed, 96 insertions(+)
+>=20
+> diff --git a/drivers/gpu/drm/i915/display/intel_color.c
+> b/drivers/gpu/drm/i915/display/intel_color.c
+> index dcf7cfa722ef..25b992939e42 100644
+> --- a/drivers/gpu/drm/i915/display/intel_color.c
+> +++ b/drivers/gpu/drm/i915/display/intel_color.c
+> @@ -3846,6 +3846,101 @@ static void icl_read_luts(struct intel_crtc_state
+> *crtc_state)
+>  	}
+>  }
+>=20
+> +static void
+> +xelpd_load_plane_csc_matrix(struct intel_dsb *dsb,
+> +			    const struct intel_plane_state *plane_state) {
+> +	struct intel_display *display =3D to_intel_display(plane_state);
+> +	const struct drm_plane_state *state =3D &plane_state->uapi;
+> +	enum pipe pipe =3D to_intel_plane(state->plane)->pipe;
+> +	enum plane_id plane =3D to_intel_plane(state->plane)->id;
+> +	const struct drm_property_blob *blob =3D plane_state->hw.ctm;
+> +	struct drm_color_ctm_3x4 *ctm;
+> +	const u64 *input;
+> +	u16 coeffs[9] =3D {};
+> +	int i, j;
+> +
+> +	if (!icl_is_hdr_plane(display, plane) || !blob)
+> +		return;
+> +
+> +	ctm =3D blob->data;
+> +	input =3D ctm->matrix;
+> +
+> +	/*
+> +	 * Convert fixed point S31.32 input to format supported by the
+> +	 * hardware.
+> +	 */
+> +	for (i =3D 0, j =3D 0; i < ARRAY_SIZE(coeffs); i++) {
+> +		u64 abs_coeff =3D ((1ULL << 63) - 1) & input[j];
+> +
+> +		/*
+> +		 * Clamp input value to min/max supported by
+> +		 * hardware.
+> +		 */
+> +		abs_coeff =3D clamp_val(abs_coeff, 0, CTM_COEFF_4_0 - 1);
+> +
+> +		/* sign bit */
+> +		if (CTM_COEFF_NEGATIVE(input[j]))
+> +			coeffs[i] |=3D 1 << 15;
+> +
+> +		if (abs_coeff < CTM_COEFF_0_125)
+> +			coeffs[i] |=3D (3 << 12) |
+> +				      ILK_CSC_COEFF_FP(abs_coeff, 12);
+> +		else if (abs_coeff < CTM_COEFF_0_25)
+> +			coeffs[i] |=3D (2 << 12) |
+> +				      ILK_CSC_COEFF_FP(abs_coeff, 11);
+> +		else if (abs_coeff < CTM_COEFF_0_5)
+> +			coeffs[i] |=3D (1 << 12) |
+> +				      ILK_CSC_COEFF_FP(abs_coeff, 10);
+> +		else if (abs_coeff < CTM_COEFF_1_0)
+> +			coeffs[i] |=3D ILK_CSC_COEFF_FP(abs_coeff, 9);
+> +		else if (abs_coeff < CTM_COEFF_2_0)
+> +			coeffs[i] |=3D (7 << 12) |
+> +				      ILK_CSC_COEFF_FP(abs_coeff, 8);
+> +		else
+> +			coeffs[i] |=3D (6 << 12) |
+> +				      ILK_CSC_COEFF_FP(abs_coeff, 7);
+> +
+> +		/* Skip postoffs */
+> +		if (!((j + 2) % 4))
+> +			j +=3D 2;
+> +		else
+> +			j++;
+> +	}
+> +
+> +	intel_de_write_dsb(display, dsb, PLANE_CSC_COEFF(pipe, plane, 0),
+> +			   coeffs[0] << 16 | coeffs[1]);
+> +	intel_de_write_dsb(display, dsb, PLANE_CSC_COEFF(pipe, plane, 1),
+> +			   coeffs[2] << 16);
+> +
+> +	intel_de_write_dsb(display, dsb, PLANE_CSC_COEFF(pipe, plane, 2),
+> +			   coeffs[3] << 16 | coeffs[4]);
+> +	intel_de_write_dsb(display, dsb, PLANE_CSC_COEFF(pipe, plane, 3),
+> +			   coeffs[5] << 16);
+> +
+> +	intel_de_write_dsb(display, dsb, PLANE_CSC_COEFF(pipe, plane, 4),
+> +			   coeffs[6] << 16 | coeffs[7]);
+> +	intel_de_write_dsb(display, dsb, PLANE_CSC_COEFF(pipe, plane, 5),
+> +			   coeffs[8] << 16);
+> +
+> +	intel_de_write_dsb(display, dsb, PLANE_CSC_PREOFF(pipe, plane, 0),
+> 0);
+> +	intel_de_write_dsb(display, dsb, PLANE_CSC_PREOFF(pipe, plane, 1),
+> 0);
+> +	intel_de_write_dsb(display, dsb, PLANE_CSC_PREOFF(pipe, plane, 2),
+> 0);
+> +
+> +	/*
+> +	 * Conversion from S31.32 to S0.12. BIT[12] is the signed but
 
-Also the functions above introduced seem to be out of place introduce them =
-later where they are used.
+You mean bit*
 
 Regards,
 Suraj Kandpal
 
-> >  struct intel_plane_colorop *intel_colorop_alloc(void)  {
-> >  	struct intel_plane_colorop *colorop; diff --git
-> > a/drivers/gpu/drm/i915/display/intel_color.h
-> > b/drivers/gpu/drm/i915/display/intel_color.h
-> > index c2561b86bb26..420d596dbbae 100644
-> > --- a/drivers/gpu/drm/i915/display/intel_color.h
-> > +++ b/drivers/gpu/drm/i915/display/intel_color.h
-> > @@ -13,6 +13,7 @@ struct intel_crtc_state;  struct intel_crtc;  struct
-> > intel_display;  struct intel_dsb;
-> > +struct intel_plane_state;
-> >  struct drm_property_blob;
-> >  struct drm_plane;
-> >  struct drm_prop_enum_list;
-> > @@ -49,5 +50,6 @@ struct intel_plane_colorop
-> > *intel_colorop_alloc(void); struct intel_plane_colorop
-> > *intel_plane_colorop_create(enum intel_color_block id);  int
-> > intel_plane_tf_pipeline_init(struct drm_plane *plane, struct
-> > drm_prop_enum_list *list);  int intel_plane_color_init(struct
-> > drm_plane *plane);
-> > -
-> > +void intel_color_plane_program_pipeline(struct intel_dsb *dsb,
-> > +					const struct intel_plane_state
-> > *plane_state);
-> >  #endif /* __INTEL_COLOR_H__ */
-> > diff --git a/drivers/gpu/drm/i915/display/intel_display_types.h
-> > b/drivers/gpu/drm/i915/display/intel_display_types.h
-> > index 4b5124a08cc9..c709df0cea9e 100644
-> > --- a/drivers/gpu/drm/i915/display/intel_display_types.h
-> > +++ b/drivers/gpu/drm/i915/display/intel_display_types.h
-> > @@ -634,6 +634,7 @@ struct intel_plane_state {
-> >  		enum drm_color_encoding color_encoding;
-> >  		enum drm_color_range color_range;
-> >  		enum drm_scaling_filter scaling_filter;
-> > +		struct drm_property_blob *ctm;
-> >  	} hw;
-> >
-> >  	struct i915_vma *ggtt_vma;
-> > diff --git a/drivers/gpu/drm/i915/display/intel_plane.c
-> > b/drivers/gpu/drm/i915/display/intel_plane.c
-> > index 36fb07471deb..cc8f3e15c82e 100644
-> > --- a/drivers/gpu/drm/i915/display/intel_plane.c
-> > +++ b/drivers/gpu/drm/i915/display/intel_plane.c
-> > @@ -380,6 +380,43 @@ intel_plane_copy_uapi_plane_damage(struct
-> > intel_plane_state *new_plane_state,
-> >  		*damage =3D drm_plane_state_src(&new_uapi_plane_state-
-> > >uapi);
-> >  }
-> >
-> > +static void
-> > +intel_plane_colorop_replace_blob(struct intel_plane_state *plane_state=
-,
-> > +				 struct intel_plane_colorop *intel_colorop,
-> > +				 struct drm_property_blob *blob)
-> > +{
-> > +	if (intel_colorop->id =3D=3D CB_PLANE_CSC)
-> > +		drm_property_replace_blob(&plane_state->hw.ctm, blob); }
-> > +
-> > +static void
-> > +intel_plane_copy_uapi_to_hw_state_color(struct intel_plane_state
+> +	 */
+> +	intel_de_write_dsb(display, dsb,
+> +			   PLANE_CSC_POSTOFF(pipe, plane, 0),
+> +			   ctm_to_twos_complement(input[3], 0, 12));
+> +	intel_de_write_dsb(display, dsb,
+> +			   PLANE_CSC_POSTOFF(pipe, plane, 1),
+> +			   ctm_to_twos_complement(input[7], 0, 12));
+> +	intel_de_write_dsb(display, dsb,
+> +			   PLANE_CSC_POSTOFF(pipe, plane, 2),
+> +			   ctm_to_twos_complement(input[11], 0, 12)); }
+> +
+>  static const struct intel_color_funcs chv_color_funcs =3D {
+>  	.color_check =3D chv_color_check,
+>  	.color_commit_arm =3D i9xx_color_commit_arm, @@ -3904,6 +3999,7
+> @@ static const struct intel_color_funcs xelpd_color_funcs =3D {
+>  	.lut_equal =3D icl_lut_equal,
+>  	.read_csc =3D icl_read_csc,
+>  	.get_config =3D skl_get_config,
+> +	.load_plane_csc_matrix =3D xelpd_load_plane_csc_matrix,
+>  };
 >=20
-> This should be intel_plane_color_copy_uapi_to_hw_state
->=20
-> > *plane_state,
-> > +					const struct intel_plane_state
-> > *from_plane_state,
-> > +					struct intel_crtc *crtc)
-> > +{
-> > +	struct drm_colorop *iter_colorop, *colorop;
-> > +	struct drm_colorop_state *new_colorop_state;
-> > +	struct drm_atomic_state *state =3D plane_state->uapi.state;
-> > +	struct intel_plane_colorop *intel_colorop;
-> > +	struct drm_property_blob *blob;
-> > +	int i =3D 0;
-> > +
-> > +	iter_colorop =3D plane_state->uapi.color_pipeline;
-> > +
-> > +	while (iter_colorop) {
-> > +		for_each_new_colorop_in_state(state, colorop,
-> > new_colorop_state, i) {
-> > +			if (new_colorop_state->colorop =3D=3D iter_colorop) {
-> > +				blob =3D new_colorop_state->bypass ? NULL :
-> > new_colorop_state->data;
-> > +				intel_colorop =3D
-> > to_intel_plane_colorop(colorop);
-> > +
-> > 	intel_plane_colorop_replace_blob(plane_state,
-> > +
-> > intel_colorop,
-> > +								 blob);
->=20
-> A break here why keep iterating if you have found what you are looking fo=
-r I
-> think I am seeing more and more reason to have a separate file as Jani ha=
-d
-> said Called intel_plane_color.c
->=20
-> Regards,
-> Suraj Kandpal
-> > +			}
-> > +		}
-> > +		iter_colorop =3D iter_colorop->next;
-> > +	}
-> > +}
-> > +
-> >  void intel_plane_copy_uapi_to_hw_state(struct intel_plane_state
-> > *plane_state,
-> >  				       const struct intel_plane_state
-> *from_plane_state,
-> >  				       struct intel_crtc *crtc)
-> > @@ -408,6 +445,8 @@ void intel_plane_copy_uapi_to_hw_state(struct
-> > intel_plane_state *plane_state,
-> >
-> >  	plane_state->uapi.src =3D drm_plane_state_src(&from_plane_state-
-> > >uapi);
-> >  	plane_state->uapi.dst =3D drm_plane_state_dest(&from_plane_state-
-> > >uapi);
-> > +
-> > +	intel_plane_copy_uapi_to_hw_state_color(plane_state,
-> > from_plane_state,
-> > +crtc);
-> >  }
-> >
-> >  void intel_plane_copy_hw_state(struct intel_plane_state *plane_state,
-> > --
-> > 2.42.0
+>  static const struct intel_color_funcs icl_color_funcs =3D {
+> --
+> 2.42.0
 
