@@ -2,113 +2,43 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B1455C15A6F
-	for <lists+dri-devel@lfdr.de>; Tue, 28 Oct 2025 17:02:33 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 109A0C15B89
+	for <lists+dri-devel@lfdr.de>; Tue, 28 Oct 2025 17:16:34 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4E02A10E5FD;
-	Tue, 28 Oct 2025 16:02:20 +0000 (UTC)
-Authentication-Results: gabe.freedesktop.org;
-	dkim=fail reason="signature verification failed" (1024-bit key; unprotected) header.d=antispam.mailspamprotection.com header.i=@antispam.mailspamprotection.com header.b="R0SBADWC";
-	dkim=fail reason="signature verification failed" (1024-bit key; unprotected) header.d=valla.it header.i=@valla.it header.b="LAjIXLYA";
-	dkim-atps=neutral
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5ADBF10E5F8;
+	Tue, 28 Oct 2025 16:16:31 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from delivery.antispam.mailspamprotection.com
- (delivery.antispam.mailspamprotection.com [185.56.87.12])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DBE9910E5FD
- for <dri-devel@lists.freedesktop.org>; Tue, 28 Oct 2025 16:02:18 +0000 (UTC)
-ARC-Seal: i=1; cv=none; a=rsa-sha256;
- d=outgoing.instance-europe-west4-4wj9.prod.antispam.mailspamprotection.com;
- s=arckey; t=1761667338; 
- b=PqZ6o0VOiUA2Lo3abifWLsqNcXQrFKMzeeA9cjO9DKOwxA5V1qjbWND8uTOhNokfVkHknEKcKO
- C+e5Bw6GkaVPkyVzvEvtyw4IiYUb+J3hFBM8pHf7Y+eO1eUDB3AKstU9M7FpA1qOn3lkhExNnp
- 0ffENRy6Rd0anTOBKy+yLSHMeTPl8w7rr7+uk/3NCEV6/Toc7aKA3owvMWPF6bxsUEdGlOzNMu
- IUYhoSeJt4DMr5xQT3RoeRFQzCaZP1q7xVovxgM9GahQfUjxp6lBCdgZX3r58CznbprvqSBTPp
- Xg9+acpfivZuRM9GXRQEiRSFCJMDlyjYvnZAnPswUNNPzw==;
-ARC-Authentication-Results: i=1;
- outgoing.instance-europe-west4-4wj9.prod.antispam.mailspamprotection.com;
- smtp.remote-ip=35.214.173.214; 
- iprev=pass (214.173.214.35.bc.googleusercontent.com)
- smtp.remote-ip=35.214.173.214; 
- auth=pass (LOGIN) smtp.auth=esm19.siteground.biz;
- dkim=pass header.d=valla.it header.s=default header.a=rsa-sha256;
- arc=none
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed;
- d=outgoing.instance-europe-west4-4wj9.prod.antispam.mailspamprotection.com;
- s=arckey; t=1761667338; 
- bh=OZ0ZtiH9Ffd/H3YhMXhZvm8XE+UAipi6AHVisU+hxWU=;
- h=Content-Type:MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:
- To:From:DKIM-Signature:DKIM-Signature;
- b=jiGWydqE0t6IWP8znV8qIbTP0AYfqJOQZmwlD5bmyVEK7w13b/p8zEccL6V+UbsD+dRo15qF1C
- e6+ccH+hGBdpPcsDqBKD0/g+StkwcKoU92x07bqfHv3bOyqjNhMJN12xA3OrgacIIaUiDXPNJN
- SraZrL4/GgZnMw8d8kZzLQIpzOekebI/Wz1SZDgCcmLKn43ECY/AR83Xd6JIg2M7CtBCa9STYv
- 7dYye9PQxMTlfN5iIeiYaxThPcQ35JUDQ3u1Rq0FcE9K9fkTqOdSREYzEgFsm9TcRSsF82KI23
- hVF0L3lKYkzdsTG56S1X8rhmS65HZbWVsm3UZnySeEBBtg==;
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
- d=antispam.mailspamprotection.com; s=default; h=CFBL-Feedback-ID:CFBL-Address
- :Content-Type:MIME-Version:Message-ID:Date:Subject:Cc:To:From:Reply-To:
- List-Unsubscribe:Content-Transfer-Encoding;
- bh=nFXGsd0wvJCB2aoq6ydUjxoEpP8AS5JY0g0UJ7Jo4rk=; b=R0SBADWC4VK6Hisq6MebjVpjEi
- 0odXcFdi6CIGG9IqRln4RnC5vAKtwlMpm0GPgseI12sF6fqfHcMYT32LzYyzWStB7tywlMCGlmwpu
- rH9aKBOCtIs3VKqwFE13ZaCzb4MlMFYWbdZ0L2RSGEyhtkJQk25v9gzQypRJ2UscDuQc=;
-Received: from 214.173.214.35.bc.googleusercontent.com ([35.214.173.214]
- helo=esm19.siteground.biz)
- by instance-europe-west4-4wj9.prod.antispam.mailspamprotection.com with
- esmtpsa (TLS1.3) tls TLS_AES_256_GCM_SHA384 (Exim 4.98.1)
- (envelope-from <francesco@valla.it>) id 1vDm9G-0000000F3wb-1R0u
- for dri-devel@lists.freedesktop.org; Tue, 28 Oct 2025 16:02:16 +0000
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=valla.it;
- s=default; h=Date:Subject:Cc:To:From:list-help:list-unsubscribe:
- list-subscribe:list-post:list-owner:list-archive;
- bh=nFXGsd0wvJCB2aoq6ydUjxoEpP8AS5JY0g0UJ7Jo4rk=; b=LAjIXLYAuKe+nn91fplPC8zwte
- Ub+TSBb3J+TqyLvVF4RU3DTnoGllzWP9T+jeUeALMF3MBgHttDcK3t6DYSFJnb/+D3Bp41AiTeG1l
- xWRwKT05PmIKAGN487/QO54yYlwiqTgVuLa29SgACOLG1ZQO7W3YCgvCS2xQGS4abhg0=;
-Received: from [87.17.42.198] (port=63724 helo=fedora.localnet)
- by esm19.siteground.biz with esmtpsa  (TLS1.3) tls TLS_AES_256_GCM_SHA384
- (Exim 4.98.1) (envelope-from <francesco@valla.it>)
- id 1vDm8f-000000009YH-2cLa; Tue, 28 Oct 2025 16:01:37 +0000
-From: Francesco Valla <francesco@valla.it>
-To: Liu Ying <victor.liu@nxp.com>, Marek Vasut <marex@denx.de>,
- Andrzej Hajda <andrzej.hajda@intel.com>,
- Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>,
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+ by gabe.freedesktop.org (Postfix) with ESMTP id C970210E5F8
+ for <dri-devel@lists.freedesktop.org>; Tue, 28 Oct 2025 16:16:29 +0000 (UTC)
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+ by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id A3B621692
+ for <dri-devel@lists.freedesktop.org>; Tue, 28 Oct 2025 09:16:21 -0700 (PDT)
+Received: from e110455-lin.cambridge.arm.com (usa-sjc-imap-foss1.foss.arm.com
+ [10.121.207.14])
+ by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPA id 394203F63F
+ for <dri-devel@lists.freedesktop.org>; Tue, 28 Oct 2025 09:16:29 -0700 (PDT)
+Date: Tue, 28 Oct 2025 16:16:27 +0000
+From: Liviu Dudau <liviu.dudau@arm.com>
+To: Karunika Choo <karunika.choo@arm.com>
+Cc: dri-devel@lists.freedesktop.org, nd@arm.com,
+ Boris Brezillon <boris.brezillon@collabora.com>,
+ Steven Price <steven.price@arm.com>,
  Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- Alexander Stein <alexander.stein@ew.tq-group.com>
-Cc: Fabian Pflug <f.pflug@pengutronix.de>, dri-devel@lists.freedesktop.org,
- imx@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] drm/bridge: ldb: add support for an external bridge
-Date: Tue, 28 Oct 2025 17:01:24 +0100
-Message-ID: <2860884.vuYhMxLoTh@fedora>
-In-Reply-To: <1944228.tdWV9SEqCh@steina-w>
-References: <20251028-imx93_ldb_bridge-v1-1-fca2e7d60e0a@valla.it>
- <1944228.tdWV9SEqCh@steina-w>
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v3 1/8] drm/panthor: Add arch-specific panthor_hw binding
+Message-ID: <aQDsW3xf2NNUvBN-@e110455-lin.cambridge.arm.com>
+References: <20251027161334.854650-1-karunika.choo@arm.com>
+ <20251027161334.854650-2-karunika.choo@arm.com>
 MIME-Version: 1.0
-Content-Type: multipart/signed; boundary="nextPart5090209.OV4Wx5bFTl";
- micalg="pgp-sha512"; protocol="application/pgp-signature"
-X-AntiAbuse: This header was added to track abuse,
- please include it with any abuse report
-X-AntiAbuse: Primary Hostname - esm19.siteground.biz
-X-AntiAbuse: Original Domain - lists.freedesktop.org
-X-AntiAbuse: Originator/Caller UID/GID - [47 12] / [47 12]
-X-AntiAbuse: Sender Address Domain - valla.it
-X-Source: 
-X-Source-Args: 
-X-Source-Dir: 
-X-SGantispam-id: f1c04a5ec7258d140d08597da0069ce2
-AntiSpam-DLS: false
-AntiSpam-DLSP: 
-AntiSpam-DLSRS: 
-AntiSpam-TS: 1.0
-CFBL-Address: feedback@antispam.mailspamprotection.com; report=arf
-CFBL-Feedback-ID: 1vDm9G-0000000F3wb-1R0u-feedback@antispam.mailspamprotection.com
-Authentication-Results: outgoing.instance-europe-west4-4wj9.prod.antispam.mailspamprotection.com; 
- iprev=pass (214.173.214.35.bc.googleusercontent.com)
- smtp.remote-ip=35.214.173.214; 
- auth=pass (LOGIN) smtp.auth=esm19.siteground.biz;
- dkim=pass header.d=valla.it header.s=default header.a=rsa-sha256;
- arc=none
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20251027161334.854650-2-karunika.choo@arm.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -124,139 +54,192 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
---nextPart5090209.OV4Wx5bFTl
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="utf-8"; protected-headers="v1"
-From: Francesco Valla <francesco@valla.it>
-Date: Tue, 28 Oct 2025 17:01:24 +0100
-Message-ID: <2860884.vuYhMxLoTh@fedora>
-In-Reply-To: <1944228.tdWV9SEqCh@steina-w>
-MIME-Version: 1.0
+Hello,
 
-Hi,
-
-On Tuesday, 28 October 2025 at 13:27:37 Alexander Stein <alexander.stein@ew.tq-group.com> wrote:
-> Hi Francesco,
+On Mon, Oct 27, 2025 at 04:13:27PM +0000, Karunika Choo wrote:
+> This patch adds the framework for binding to a specific panthor_hw
+> structure based on the architecture major value parsed from the GPU_ID
+> register. This is in preparation of enabling architecture-specific
+> behaviours based on GPU_ID. As such, it also splits the GPU_ID register
+> read operation into its own helper function.
 > 
-> Am Dienstag, 28. Oktober 2025, 13:12:29 CET schrieb Francesco Valla:
-> > One option for the LVDS port of the LDB is to be connected to an
-> > additional bridge, such as a LVDS to HDMI converter. Add support for
-> > such case, along with the direct connection to a panel.
-> > 
-> > Signed-off-by: Francesco Valla <francesco@valla.it>
-> > ---
-> > I was trying to add display support for the i.MX93 FRDM on top of the
-> > patch sent some time ago by Fabian Pflug [1], using some of the work
-> > already done by Alexander Stein but not yet merged [2], but then I
-> > noticed that the support for LVDS-HDMI converter bridges was missing
-> > from the LDB driver already present for the i.MX93.
-> > 
-> > Not a fail of the driver itself, obviously, but I wonder if/how the
-> > existing i.MX8MP setups (e.g.: [3]), which use the same driver, work
-> > correclty. Unfortunately I don't have the i.MX8MP hardware to test them.
-> > 
-> > Anyhow, a patch for such setup is attached; it was tested on the i.MX93
-> > FRDM using [1] and [2] plus some more devicetree modifications.
-> > 
-> > [1] https://lore.kernel.org/all/20251022-fpg-nxp-imx93-frdm-v3-1-03ec40a1ccc0@pengutronix.de
-> > [2] https://lore.kernel.org/all/20250304154929.1785200-1-alexander.stein@ew.tq-group.com
-> > [3] https://elixir.bootlin.com/linux/v6.17.5/source/arch/arm64/boot/dts/freescale/imx8mp-evk-lvds0-imx-dlvds-hdmi-channel0.dtso
-> > 
-> > Regards,
-> > Francesco
-> > ---
-> >  drivers/gpu/drm/bridge/fsl-ldb.c | 26 +++++++++++++++++---------
-> >  1 file changed, 17 insertions(+), 9 deletions(-)
-> > 
-> > diff --git a/drivers/gpu/drm/bridge/fsl-ldb.c b/drivers/gpu/drm/bridge/fsl-ldb.c
-> > index 5c3cf37200bcee1db285c97e2b463c9355ee6acb..fad436f2e0bfac8b42096a6fcd0022da0f35284e 100644
-> > --- a/drivers/gpu/drm/bridge/fsl-ldb.c
-> > +++ b/drivers/gpu/drm/bridge/fsl-ldb.c
-> > @@ -294,7 +294,6 @@ static int fsl_ldb_probe(struct platform_device *pdev)
-> >  	struct device *dev = &pdev->dev;
-> >  	struct device_node *panel_node;
-> >  	struct device_node *remote1, *remote2;
-> > -	struct drm_panel *panel;
-> >  	struct fsl_ldb *fsl_ldb;
-> >  	int dual_link;
-> >  
-> > @@ -335,15 +334,24 @@ static int fsl_ldb_probe(struct platform_device *pdev)
-> >  		fsl_ldb_is_dual(fsl_ldb) ? "dual-link mode" :
-> >  		fsl_ldb->ch0_enabled ? "channel 0" : "channel 1");
-> >  
-> > -	panel = of_drm_find_panel(panel_node);
-> > -	of_node_put(panel_node);
-> > -	if (IS_ERR(panel))
-> > -		return PTR_ERR(panel);
-> > -
-> > -	fsl_ldb->panel_bridge = devm_drm_panel_bridge_add(dev, panel);
-> > -	if (IS_ERR(fsl_ldb->panel_bridge))
-> > -		return PTR_ERR(fsl_ldb->panel_bridge);
-> > +	/* First try to get an additional bridge, if not found go for a panel */
-> > +	fsl_ldb->panel_bridge = of_drm_find_bridge(panel_node);
-> > +	if (fsl_ldb->panel_bridge) {
-> > +		of_node_put(panel_node);
-> > +	} else {
-> > +		struct drm_panel *panel;
-> >  
-> > +		panel = of_drm_find_panel(panel_node);
-> > +		of_node_put(panel_node);
-> > +		if (IS_ERR(panel))
-> > +			return dev_err_probe(dev, PTR_ERR(panel),
-> > +					     "Failed to find panel");
-> > +
-> > +		fsl_ldb->panel_bridge = devm_drm_panel_bridge_add(dev, panel);
-> > +		if (IS_ERR(fsl_ldb->panel_bridge))
-> > +			return dev_err_probe(dev, PTR_ERR(fsl_ldb->panel_bridge),
-> > +					     "Failed to add panel bridge");
-> > +	}
+> This framework allows a single panthor_hw structure to be shared across
+> multiple architectures should there be minimal changes between them via
+> the arch_min and arch_max field of the panthor_hw_entry structure,
+> instead of duplicating the structure across multiple architectures.
 > 
-> Without looking into the details this somehow looks similar to
-> drm_of_find_panel_or_bridge(), or drmm_of_get_bridge for the managed variant.
+> Signed-off-by: Karunika Choo <karunika.choo@arm.com>
+> ---
+> v2:
+>  * merged GPU_ID refactoring patch with the arch-specific panthor_hw
+>    binding patch (PATCH 01/10 and PATCH 02/10 in v1).
+> ---
+>  drivers/gpu/drm/panthor/panthor_device.h |  4 ++
+>  drivers/gpu/drm/panthor/panthor_hw.c     | 65 +++++++++++++++++++++++-
+>  drivers/gpu/drm/panthor/panthor_hw.h     |  6 +++
+>  3 files changed, 74 insertions(+), 1 deletion(-)
 > 
-> Best regards,
-> Alexander
+> diff --git a/drivers/gpu/drm/panthor/panthor_device.h b/drivers/gpu/drm/panthor/panthor_device.h
+> index a764111359d2..1457c1255f1f 100644
+> --- a/drivers/gpu/drm/panthor/panthor_device.h
+> +++ b/drivers/gpu/drm/panthor/panthor_device.h
+> @@ -26,6 +26,7 @@ struct panthor_device;
+>  struct panthor_gpu;
+>  struct panthor_group_pool;
+>  struct panthor_heap_pool;
+> +struct panthor_hw;
+>  struct panthor_job;
+>  struct panthor_mmu;
+>  struct panthor_fw;
+> @@ -122,6 +123,9 @@ struct panthor_device {
+>  	/** @csif_info: Command stream interface information. */
+>  	struct drm_panthor_csif_info csif_info;
 > 
-> >  
-> >  	if (fsl_ldb_is_dual(fsl_ldb)) {
-> >  		struct device_node *port1, *port2;
-> > 
-> > ---
-> > base-commit: fd57572253bc356330dbe5b233c2e1d8426c66fd
-> > change-id: 20251028-imx93_ldb_bridge-3c011e7856dc
-> > 
-> > Best regards,
-> > 
+> +	/** @hw: GPU-specific data. */
+> +	struct panthor_hw *hw;
+> +
+>  	/** @gpu: GPU management data. */
+>  	struct panthor_gpu *gpu;
 > 
+> diff --git a/drivers/gpu/drm/panthor/panthor_hw.c b/drivers/gpu/drm/panthor/panthor_hw.c
+> index 4f2858114e5e..b6e7401327c3 100644
+> --- a/drivers/gpu/drm/panthor/panthor_hw.c
+> +++ b/drivers/gpu/drm/panthor/panthor_hw.c
+> @@ -8,6 +8,28 @@
+>  #define GPU_PROD_ID_MAKE(arch_major, prod_major) \
+>  	(((arch_major) << 24) | (prod_major))
 > 
+> +/** struct panthor_hw_entry - HW arch major to panthor_hw binding entry */
+> +struct panthor_hw_entry {
+> +	/** @arch_min: Minimum supported architecture major value (inclusive) */
+> +	u8 arch_min;
+> +
+> +	/** @arch_max: Maximum supported architecture major value (inclusive) */
+> +	u8 arch_max;
+
+I'm not a big fan of this [min, max] range definition. I would expect that,
+unless a new panthor_hw_entry is defined, the one covering arch X will also
+cover arch X+1 automatically. With the current implementation we will have
+to add a patch extending arch_max for an existing panthor_hw_entry when a new
+GPU architecture is released that is compatible with the previous one at the
+panthor_hw level *and backport the patch* for older kernels if they can
+support that hardware.
+
+My suggestion is to drop this structure entirely and change panthor_hw_bind_device()
+to a cascade of if()s starting with the latest arch to have a struct panthor_hw
+defined. For this patch the function will actually just set ptdev->hw to panthor_hw_arch_v10
+without any ifs.
+
+Also (this is my personal preference) I would merge patch 1/8 and 2/8 so that we
+don't have just empty structures defined.
+
+Best regards,
+Liviu
+
+> +
+> +	/** @hwdev: Pointer to panthor_hw structure */
+> +	struct panthor_hw *hwdev;
+> +};
+> +
+> +static struct panthor_hw panthor_hw_arch_v10 = {};
+> +
+> +static struct panthor_hw_entry panthor_hw_match[] = {
+> +	{
+> +		.arch_min = 10,
+> +		.arch_max = 13,
+> +		.hwdev = &panthor_hw_arch_v10,
+> +	},
+> +};
+> +
+>  static char *get_gpu_model_name(struct panthor_device *ptdev)
+>  {
+>  	const u32 gpu_id = ptdev->gpu_info.gpu_id;
+> @@ -62,7 +84,6 @@ static void panthor_gpu_info_init(struct panthor_device *ptdev)
+>  {
+>  	unsigned int i;
+> 
+> -	ptdev->gpu_info.gpu_id = gpu_read(ptdev, GPU_ID);
+>  	ptdev->gpu_info.csf_id = gpu_read(ptdev, GPU_CSF_ID);
+>  	ptdev->gpu_info.gpu_rev = gpu_read(ptdev, GPU_REVID);
+>  	ptdev->gpu_info.core_features = gpu_read(ptdev, GPU_CORE_FEATURES);
+> @@ -117,8 +138,50 @@ static void panthor_hw_info_init(struct panthor_device *ptdev)
+>  		 ptdev->gpu_info.tiler_present);
+>  }
+> 
+> +static int panthor_hw_bind_device(struct panthor_device *ptdev)
+> +{
+> +	struct panthor_hw *hdev = NULL;
+> +	const u32 arch_major = GPU_ARCH_MAJOR(ptdev->gpu_info.gpu_id);
+> +	int i = 0;
+> +
+> +	for (i = 0; i < ARRAY_SIZE(panthor_hw_match); i++) {
+> +		struct panthor_hw_entry *entry = &panthor_hw_match[i];
+> +
+> +		if (arch_major >= entry->arch_min && arch_major <= entry->arch_max) {
+> +			hdev = entry->hwdev;
+> +			break;
+> +		}
+> +	}
+> +
+> +	if (!hdev)
+> +		return -EOPNOTSUPP;
+> +
+> +	ptdev->hw = hdev;
+> +
+> +	return 0;
+> +}
+> +
+> +static int panthor_hw_gpu_id_init(struct panthor_device *ptdev)
+> +{
+> +	ptdev->gpu_info.gpu_id = gpu_read(ptdev, GPU_ID);
+> +	if (!ptdev->gpu_info.gpu_id)
+> +		return -ENXIO;
+> +
+> +	return 0;
+> +}
+> +
+>  int panthor_hw_init(struct panthor_device *ptdev)
+>  {
+> +	int ret = 0;
+> +
+> +	ret = panthor_hw_gpu_id_init(ptdev);
+> +	if (ret)
+> +		return ret;
+> +
+> +	ret = panthor_hw_bind_device(ptdev);
+> +	if (ret)
+> +		return ret;
+> +
+>  	panthor_hw_info_init(ptdev);
+> 
+>  	return 0;
+> diff --git a/drivers/gpu/drm/panthor/panthor_hw.h b/drivers/gpu/drm/panthor/panthor_hw.h
+> index 0af6acc6aa6a..39752de3e7ad 100644
+> --- a/drivers/gpu/drm/panthor/panthor_hw.h
+> +++ b/drivers/gpu/drm/panthor/panthor_hw.h
+> @@ -6,6 +6,12 @@
+> 
+>  struct panthor_device;
+> 
+> +/**
+> + * struct panthor_hw - GPU specific register mapping and functions
+> + */
+> +struct panthor_hw {
+> +};
+> +
+>  int panthor_hw_init(struct panthor_device *ptdev);
+> 
+>  #endif /* __PANTHOR_HW_H__ */
+> --
+> 2.49.0
 > 
 
-Well, I did not know of devm_drm_of_get_bridge(), and unfortunately the
-driver I checked (Samsung DSIM) has not yet been updated to use it.
-Sorry for the noise.
-
-I'll wait for more feedback (if any) and then send a v2 - which looks
-much cleaner now.
-
-Thank you!
-
-Regards,
-Francesco
-
---nextPart5090209.OV4Wx5bFTl
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: This is a digitally signed message part.
-Content-Transfer-Encoding: 7Bit
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYKAB0WIQRUrtjevJ039mawAeLir2xSXEi5AAUCaQDo1AAKCRDir2xSXEi5
-AA83AP0VODlMOPiFo+Etj7oaFVsgFDTnwBhEX54ICokuPyWjewEA/RnsnW2CT6zy
-NlUewINvfCea60Pz3od7UPV/AbPhvgg=
-=eIuv
------END PGP SIGNATURE-----
-
---nextPart5090209.OV4Wx5bFTl--
-
-
-
+-- 
+====================
+| I would like to |
+| fix the world,  |
+| but they're not |
+| giving me the   |
+ \ source code!  /
+  ---------------
+    ¯\_(ツ)_/¯
