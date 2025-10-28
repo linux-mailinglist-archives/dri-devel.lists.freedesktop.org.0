@@ -2,62 +2,57 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 70E8CC13AC2
-	for <lists+dri-devel@lfdr.de>; Tue, 28 Oct 2025 10:03:11 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 50925C13B5E
+	for <lists+dri-devel@lfdr.de>; Tue, 28 Oct 2025 10:09:09 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3611F10E5C4;
-	Tue, 28 Oct 2025 09:03:06 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0573210E5C9;
+	Tue, 28 Oct 2025 09:09:06 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="q/qUlU0Z";
+	dkim=pass (1024-bit key; unprotected) header.d=yeah.net header.i=@yeah.net header.b="mJLRAgOB";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sea.source.kernel.org (sea.source.kernel.org [172.234.252.31])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4944510E5C4
- for <dri-devel@lists.freedesktop.org>; Tue, 28 Oct 2025 09:03:05 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by sea.source.kernel.org (Postfix) with ESMTP id 1B10A41986;
- Tue, 28 Oct 2025 09:03:05 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6594EC4CEE7;
- Tue, 28 Oct 2025 09:03:04 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1761642185;
- bh=WPuS1p03nJA56MEoRrTM+Ywn8nh+8dI3UapF3Ehxvpo=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=q/qUlU0ZPopjFTMLx4zYjlF2i9nz19usJHFqW8oZoBpQsXaVLIIUPFiJtVNUGvcem
- I6BMGesn8kLn2u8QrlcyfeImFZsBa0ksoziH8pqUYlvqfaOzbgk/ciUEd5x5ScVIiT
- 6w1qAqNZVYtyb3R0ugjvBwgciveN84SPJuqnFi034iKCf1LEBRHgfZF8W76nAMcjhp
- Ol9yO16MLt0ZNc+N76hYogP/ewRNr1sCWlzoddDUoUOqow/VezgwJi/hkJ68iD6dHW
- UUL3zgb6LlJjtJi6p7arEfOAdzC4OgV3L9FMXSc3xw3DRMkpmNA7iV0Lde+fivLLdF
- hA2OqtsnlbRuA==
-Date: Tue, 28 Oct 2025 10:03:02 +0100
-From: Krzysztof Kozlowski <krzk@kernel.org>
-To: Josua Mayer <josua@solid-run.com>
-Cc: Rob Herring <robh@kernel.org>, 
- Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
- Shawn Guo <shawnguo@kernel.org>, Neil Armstrong <neil.armstrong@linaro.org>, 
- Jessica Zhang <jessica.zhang@oss.qualcomm.com>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
- Dmitry Torokhov <dmitry.torokhov@gmail.com>,
- Sascha Hauer <s.hauer@pengutronix.de>, 
- Pengutronix Kernel Team <kernel@pengutronix.de>,
- Fabio Estevam <festevam@gmail.com>, Jon Nettleton <jon@solid-run.com>,
- Mikhail Anikin <mikhail.anikin@solid-run.com>, 
- Yazan Shhady <yazan.shhady@solid-run.com>, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org, 
- dri-devel@lists.freedesktop.org, linux-input@vger.kernel.org,
- imx@lists.linux.dev, linux-arm-kernel@lists.infradead.org
-Subject: Re: [PATCH 02/10] dt-bindings: display: panel: ronbo,rb070d30: add
- port property
-Message-ID: <20251028-premium-sunfish-of-feminism-2bc6ab@kuoka>
-References: <20251027-imx8mp-hb-iiot-v1-0-683f86357818@solid-run.com>
- <20251027-imx8mp-hb-iiot-v1-2-683f86357818@solid-run.com>
+Received: from mail-m16.yeah.net (mail-m16.yeah.net [1.95.21.15])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 35D6B10E5C1
+ for <dri-devel@lists.freedesktop.org>; Tue, 28 Oct 2025 09:09:02 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yeah.net;
+ s=s110527; h=Date:From:To:Subject:Message-ID:MIME-Version:
+ Content-Type; bh=WaTABlPQzql62JP4bYpGFB1GN/KGFtKB/QnUa6OyJ+E=;
+ b=mJLRAgOBFmbF4UXSo3Qm6FPpTQs8JJU8wIFm7iGmahKNMDfFafS2NaRysmcHWa
+ c8NiIPAv/k9sNdIJDaFtj+1k5XDbw7Mg3OFeFAbOQz4s3DxWQpNYZoMj8xZl3jCt
+ 7WImln7p/K3KCn4IAmqZQKXCN+G1FpLsBEc+lhPdVs0Lc=
+Received: from dragon (unknown [])
+ by gzsmtp2 (Coremail) with SMTP id Ms8vCgDXf10BiABp90vTAA--.48036S3;
+ Tue, 28 Oct 2025 17:08:20 +0800 (CST)
+Date: Tue, 28 Oct 2025 17:08:17 +0800
+From: Shawn Guo <shawnguo2@yeah.net>
+To: Rain Yang <jiyu.yang@oss.nxp.com>
+Cc: airlied@gmail.com, boris.brezillon@collabora.com, conor+dt@kernel.org,
+ devicetree@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ festevam@gmail.com, imx@lists.linux.dev, kernel@pengutronix.de,
+ krzk+dt@kernel.org, linux-arm-kernel@lists.infradead.org,
+ liviu.dudau@arm.com, maarten.lankhorst@linux.intel.com,
+ marek.vasut@mailbox.org, mripard@kernel.org, p.zabel@pengutronix.de,
+ robh@kernel.org, s.hauer@pengutronix.de, shawnguo@kernel.org,
+ simona@ffwll.ch, sre@kernel.org, steven.price@arm.com,
+ tzimmermann@suse.de, xianzhong.li@nxp.com
+Subject: Re: [PATCH v3 2/2] arm64: dts: imx95: Describe Mali G310 GPU
+Message-ID: <aQCIAfyUC6N5y2fB@dragon>
+References: <20250925203938.169880-1-marek.vasut@mailbox.org>
+ <20250925203938.169880-2-marek.vasut@mailbox.org>
+ <ba95487c-ada7-48a4-90b7-fd99a0278f51@mailbox.org>
+ <aP7DZCMk1pQ7wsFo@dragon> <aQB88c_AEC1RAZtH@oss.nxp.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20251027-imx8mp-hb-iiot-v1-2-683f86357818@solid-run.com>
+In-Reply-To: <aQB88c_AEC1RAZtH@oss.nxp.com>
+X-CM-TRANSID: Ms8vCgDXf10BiABp90vTAA--.48036S3
+X-Coremail-Antispam: 1Uf129KBjvdXoWrtrWrAFyUKr1kGw4UJw1xGrg_yoWkAFb_uF
+ 4UCrs7Aw42gryUtFZ3CF4q9ryvkw15Jry3uw15JFnrZ34DAa48Ca9IkrWxZa4rCrWDArn8
+ tF98XryYkr4IvjkaLaAFLSUrUUUUjb8apTn2vfkv8UJUUUU8Yxn0WfASr-VFAUDa7-sFnT
+ 9fnUUvcSsGvfC2KfnxnUUI43ZEXa7IU1qQ6JUUUUU==
+X-Originating-IP: [117.80.155.87]
+X-CM-SenderInfo: pvkd40hjxrjqh1hdxhhqhw/1tbiNwV94mkAiAXl5gAA3K
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -73,29 +68,29 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Oct 27, 2025 at 06:48:11PM +0100, Josua Mayer wrote:
-> port property is used for linking dsi ports with dsi panels.
-> Add port property to ronbo dsi panel binding.
+On Tue, Oct 28, 2025 at 04:21:05PM +0800, Rain Yang wrote:
+> On Mon, Oct 27, 2025 at 08:57:08AM +0800, Shawn Guo wrote:
+> >On Sat, Oct 11, 2025 at 12:53:29PM +0200, Marek Vasut wrote:
+> >> On 9/25/25 10:38 PM, Marek Vasut wrote:
+> >> > The instance of the GPU populated in i.MX95 is the G310, describe this
+> >> > GPU in the DT. Include dummy GPU voltage regulator and OPP tables.
+> >> Is there still anything that should be changed with this patchset, or can it
+> >> be applied ?
+> >
+> >I'm waiting binding change to be applied first.  Or is it already done?
+> >
+> >Shawn
+> >
+> Hi Shawn,
+> It might be better for Marek to remove the always-on GPUAPB clock from the DTS, given that
+> it's an SCMI protocol clock and the kernel expects it to be available during operations.
 > 
-> Signed-off-by: Josua Mayer <josua@solid-run.com>
-> ---
->  Documentation/devicetree/bindings/display/panel/ronbo,rb070d30.yaml | 1 +
->  1 file changed, 1 insertion(+)
+> Also, the gpu_fix_reg appears unnecessary for the driver and could be removed[1].
 > 
-> diff --git a/Documentation/devicetree/bindings/display/panel/ronbo,rb070d30.yaml b/Documentation/devicetree/bindings/display/panel/ronbo,rb070d30.yaml
-> index 04f86e0cbac91..a2dc67a87fa3b 100644
-> --- a/Documentation/devicetree/bindings/display/panel/ronbo,rb070d30.yaml
-> +++ b/Documentation/devicetree/bindings/display/panel/ronbo,rb070d30.yaml
-> @@ -13,6 +13,7 @@ properties:
->    compatible:
->      const: ronbo,rb070d30
->  
-> +  port: true
+> [1] https://cgit.freedesktop.org/drm/drm-misc/commit/?id=a8cb5ca53690aa809f4f65e14192753073e61a71,
+> https://cgit.freedesktop.org/drm/drm-misc/commit/?id=02df3543f3e0ea572e2c739605ebd6c20e1149c4
 
-Port is never the second property. Please look at other bindings.
+Ah, sorry! I did not know we haven't reached agreement on the change.
 
-Also, missing blank line and missing top-level ref for panel-common.
-
-Best regards,
-Krzysztof
+Shawn
 
