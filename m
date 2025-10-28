@@ -2,54 +2,86 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7A539C14B0D
-	for <lists+dri-devel@lfdr.de>; Tue, 28 Oct 2025 13:48:39 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 64CDCC14B4C
+	for <lists+dri-devel@lfdr.de>; Tue, 28 Oct 2025 13:51:23 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B1F7910E3C1;
-	Tue, 28 Oct 2025 12:48:34 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7604910E3CB;
+	Tue, 28 Oct 2025 12:51:20 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="h35QI2uU";
+	dkim=pass (2048-bit key; unprotected) header.d=riscstar-com.20230601.gappssmtp.com header.i=@riscstar-com.20230601.gappssmtp.com header.b="dLHzmAVj";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sea.source.kernel.org (sea.source.kernel.org [172.234.252.31])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 719AD10E3C1
- for <dri-devel@lists.freedesktop.org>; Tue, 28 Oct 2025 12:48:33 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by sea.source.kernel.org (Postfix) with ESMTP id 5579B4824A;
- Tue, 28 Oct 2025 12:48:33 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3AED9C116B1;
- Tue, 28 Oct 2025 12:48:32 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1761655713;
- bh=avd0F83+zxE6J+9blLWXYv/bBGe3sqPsSFHEyIZLGhw=;
- h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=h35QI2uUmLOP27G6T1p/yAwMZnwUULhJSlVovt9ZWrgd/A1Ku3Vh4a8ab1TxB5+wm
- F5byYxJnmzeZTFHB8+ZEMsV27XLLk6lFk6kh7UkFyE7vCyLTNwUc+fEuqZ8HYHULXg
- zmSN39C8D3QYgyqn73/bZzzt8/JI/ikskDfRtm6YybNY2uhk0HHh0LlAQN2n7XcV1n
- Fx9ERua4edF57oexcU2y8HWImQlWTqDBQrGiGgEdmoD7HqrMugo/5drk4ZhJ7A7Izd
- KtaO7ONjQBPAuh0Zbce42rMSegZLuy/Iz//nGIYlBHvpJm1cFdzetXw/77bcDjxNgf
- yv/sX6xz6BOjg==
-From: Sasha Levin <sashal@kernel.org>
-To: patches@lists.linux.dev,
-	stable@vger.kernel.org
-Cc: Jocelyn Falempe <jfalempe@redhat.com>,
- Javier Martinez Canillas <javierm@redhat.com>,
- Sasha Levin <sashal@kernel.org>, maarten.lankhorst@linux.intel.com,
- mripard@kernel.org, tzimmermann@suse.de, dri-devel@lists.freedesktop.org
-Subject: [PATCH AUTOSEL 6.17-6.12] drm/panic: Fix divide by 0 if the screen
- width < font width
-Date: Tue, 28 Oct 2025 08:48:09 -0400
-Message-ID: <20251028124815.1058740-9-sashal@kernel.org>
-X-Mailer: git-send-email 2.51.0
-In-Reply-To: <20251028124815.1058740-1-sashal@kernel.org>
-References: <20251028124815.1058740-1-sashal@kernel.org>
+Received: from mail-wm1-f47.google.com (mail-wm1-f47.google.com
+ [209.85.128.47])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D42C010E3CB
+ for <dri-devel@lists.freedesktop.org>; Tue, 28 Oct 2025 12:51:18 +0000 (UTC)
+Received: by mail-wm1-f47.google.com with SMTP id
+ 5b1f17b1804b1-4711b95226dso74369185e9.0
+ for <dri-devel@lists.freedesktop.org>; Tue, 28 Oct 2025 05:51:18 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=riscstar-com.20230601.gappssmtp.com; s=20230601; t=1761655877; x=1762260677;
+ darn=lists.freedesktop.org; 
+ h=in-reply-to:content-transfer-encoding:content-disposition
+ :mime-version:references:message-id:subject:cc:to:from:date:from:to
+ :cc:subject:date:message-id:reply-to;
+ bh=a2I4ejkEHJFUuiRyo4e3fbDozENBl6FYPGmLOAYLdDw=;
+ b=dLHzmAVje6+5VCYd2kbn+DxcejRM8ldhdTw/Xo1arWDXH1oWuVakdJWpXy1W+x2UfV
+ wuEifKOr1uQ4f2QAuf3l5lVxXms4tzTxEbjpROxTHENNDik/O/wJIWJFGfZXjCQ7Rdwd
+ 17R3BGIBHho+s1Xfu1ZazNfN6gyBwn5YGr/fqgtBHiYfiGI08AC+izUzy/f0Vc+ovIDm
+ /8JzXHGrsdAvVUWRmEHYWEOAt2CvBCmNSWv9o5H9BpCZvjlBVfdF5Swaqx0XgumHXKDR
+ GJUS+9V0fRz52Z0E7r72KIloU8GV93b7k5/SH3FyRXQuUgwL40IcVdlrjNU2/rnlewlh
+ rk5g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1761655877; x=1762260677;
+ h=in-reply-to:content-transfer-encoding:content-disposition
+ :mime-version:references:message-id:subject:cc:to:from:date
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=a2I4ejkEHJFUuiRyo4e3fbDozENBl6FYPGmLOAYLdDw=;
+ b=v/DInjhpQrI+mlMxB2tmbHDJWByrRvGvHC0c7zn+OUCztNpoQ4cu3wVgrsoagVmBXU
+ ZY/w6i2zwuxaDZLyxkC0/oRjVwJo6kt7EG7wcbZI07al+EroKgaq+C9J4t2P9SUO3IMY
+ sM0ubMaDt/NqvLYdX0VTnJKoYT458C/7k16DeUvTJuO5yjdzLZQv4dRwuAlTrBgvAGba
+ DLR/Jnot7OKTWIioCkbgBIHoFXbUsvWvT4MAnN5JjFZIuc+5t/6VOsiSOIdavf0+t3CC
+ 37adOvW6X+C9MNlXW1qyWmbW2kAeHL6xK1h1EAILF4WuYUhaVuqwWxtsUZRxtek/+DtA
+ VgKw==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCWw/wiouZjENaywWDjNFL8I8WgM/miKb+XwyTGsUzXBEObVR8mTDPCp46dicL33N2e8lEaQoq8kBQQ=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YxaaR01CdHr2GZBFmK8ioiX0eMCX33iBuVIyrL/QOg6OFsiFf/3
+ qfAmDC4uDkwONB25w8IX1j6N7SrfstRkocixpTyEsX5AVjSOOGX8G9wV02G3YZbCQ0g=
+X-Gm-Gg: ASbGncs0RGe84z/faQbuX+FUacWVBqCaCjg8LY2faAW+VglfATYMIRruQZz2JFQ1Z0N
+ Uy3fqG5n0tgCFtIq0v9Xsd/F9iSgfFtHLTEHxA+h+12Pclik27P7cTRgSQHh6hV0ol0pmbEEMj3
+ mlkdS4HsBHMK2CtSd/evjV+GH/cNmkBxdpW6ybT/R6Pxl1PtvNMdj0L5XU38kHhdfQWPRmf9AmE
+ XwzWdTo2cKU09Qs1BSftPH8r4+b4c6ORGHFEsrhbJBjYux4knLL1fK944Zq9dvR7htbzMQW3MJ6
+ Bx7ZrGa8yCUScXaB+OZ/uSpg1iQ/vN1nFyHz0eZzf5G18TqKBW/J8E0RxjHpPVQ/ElzKOabdBxi
+ ckfHN8ibIbEMVndCoV16mP09F+PxA9xMmjYUdUbp+fvp1KWUKB0zJovZT8Zfoo3k94j3mWOAtht
+ 6QyOPWFHqjq1w0+j5afEZxKN5V1a0lQvDSp62QGWES58dwMfj8M0Xom30G0bg=
+X-Google-Smtp-Source: AGHT+IGj17wXVLJVImH23lwqcOG2/t4wVchddocpSe5VZMuncdh0FaPOQTztffjz3tOnEKdIdlVmpA==
+X-Received: by 2002:a05:600c:6218:b0:45b:47e1:ef6d with SMTP id
+ 5b1f17b1804b1-4771d043763mr5450425e9.36.1761655876812; 
+ Tue, 28 Oct 2025 05:51:16 -0700 (PDT)
+Received: from aspen.lan
+ (aztw-34-b2-v4wan-166919-cust780.vm26.cable.virginm.net. [82.37.195.13])
+ by smtp.gmail.com with ESMTPSA id
+ 5b1f17b1804b1-47718ffa42bsm19014515e9.4.2025.10.28.05.51.15
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 28 Oct 2025 05:51:16 -0700 (PDT)
+Date: Tue, 28 Oct 2025 12:52:09 +0000
+From: Daniel Thompson <daniel@riscstar.com>
+To: Daniel Thompson <danielt@kernel.org>
+Cc: duje.mihanovic@skole.hr, Lee Jones <lee@kernel.org>,
+ Jingoo Han <jingoohan1@gmail.com>, Helge Deller <deller@gmx.de>,
+ Randy Dunlap <rdunlap@infradead.org>,
+ dri-devel@lists.freedesktop.org, linux-fbdev@vger.kernel.org,
+ linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] backlight: ktd2801: depend on GPIOLIB
+Message-ID: <aQC8eZhHIueu7Ub8@aspen.lan>
+References: <20250411-ktd-fix-v1-1-e7425d273268@skole.hr>
+ <aQC1iJlm2jS479_0@aspen.lan>
 MIME-Version: 1.0
-X-stable: review
-X-Patchwork-Hint: Ignore
-X-stable-base: Linux 6.17.5
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
+In-Reply-To: <aQC1iJlm2jS479_0@aspen.lan>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -65,171 +97,21 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Jocelyn Falempe <jfalempe@redhat.com>
+On Tue, Oct 28, 2025 at 12:22:37PM +0000, Daniel Thompson wrote:
+> On Fri, Apr 11, 2025 at 07:22:18PM +0200, Duje Mihanović via B4 Relay wrote:
+> > From: Duje Mihanović <duje.mihanovic@skole.hr>
+> >
+> > The ExpressWire library used by the driver depends on GPIOLIB, and by
+> > extension the driver does as well. This is not reflected in the driver's
+> > Kconfig entry, potentially causing Kconfig warnings. Fix this by adding
+> > the dependency.
+> >
+> > Link: https://lore.kernel.org/all/5cf231e1-0bba-4595-9441-46acc5255512@infradead.org
+> > Signed-off-by: Duje Mihanović <duje.mihanovic@skole.hr>
+>
+> Reviewed-by: Daniel Thompson (RISCstar) <danielt@kernel.org>
 
-[ Upstream commit 2e337dd278c6c38982b520c309f36e0f88696e6e ]
+Ignore this... I opened up my mailbox with the sort order reversed!
 
-In the unlikely case that the screen is tiny, and smaller than the
-font width, it leads to a divide by 0:
 
-draw_line_with_wrap()
-chars_per_row = sb->width / font->width = 0
-line_wrap.len = line->len % chars_per_row;
-
-This will trigger a divide by 0
-
-Reviewed-by: Javier Martinez Canillas <javierm@redhat.com>
-Link: https://lore.kernel.org/r/20251009122955.562888-6-jfalempe@redhat.com
-Signed-off-by: Jocelyn Falempe <jfalempe@redhat.com>
-Signed-off-by: Sasha Levin <sashal@kernel.org>
----
-
-LLM Generated explanations, may be completely bogus:
-
-Based on my comprehensive analysis of the Linux kernel repository using
-multiple tools, here is my assessment:
-
-## **Backport Status: YES**
-
-### Analysis Summary
-
-I used the following tools and methods to analyze this commit:
-1. **git log/show**: To examine commit history, dates, and affected
-   versions
-2. **Read tool**: To examine the actual code and understand the bug
-   context
-3. **Grep tool**: To trace function calls and usage patterns
-4. **git tag analysis**: To determine version impact (v6.11 through
-   v6.17 affected)
-
-### Detailed Findings
-
-#### 1. **Bug Severity - HIGH PRIORITY**
-- **Type**: Divide-by-zero crash in kernel panic handler
-- **Location**: `drivers/gpu/drm/drm_panic.c:479` and `484`
-- **Call chain discovered**:
-  - `drm_panic()` (panic callback) →
-  - `draw_panic_plane()` →
-  - `draw_panic_dispatch()` →
-  - `draw_panic_static_kmsg()` →
-  - `draw_line_with_wrap()` (where crash occurs at lines 479 and 484)
-
-**Critical Impact**: When a kernel panic occurs, the system attempts to
-display panic information on screen. If `sb->width < font->width`, then
-`chars_per_row = sb->width / font->width = 0`, leading to `line_wrap.len
-= line->len % 0` which triggers a divide-by-zero exception **during
-panic handling**. This prevents users from seeing any panic information.
-
-#### 2. **Scope Analysis - SMALL AND CONTAINED**
-- **Files changed**: 1 file (`drivers/gpu/drm/drm_panic.c`)
-- **Lines changed**: 1 line (adding condition `|| font->width >
-  sb->width`)
-- **Change type**: Defensive check only, no behavioral changes to normal
-  path
-- **Fix location**: Line 523, adding early return condition
-
-#### 3. **Version Impact - SIGNIFICANT RANGE**
-- **Introduced in**: v6.11 (commit `54034bebb22fd`, June 2024 -
-  "drm/panic: Add a kmsg panic screen")
-- **Affected versions**: v6.11, v6.12, v6.13, v6.14, v6.15, v6.16, v6.17
-- **Fixed in**: v6.18-rc3 (October 2025)
-- **Backport target**: All stable trees from v6.11 onwards
-
-#### 4. **Risk Assessment - MINIMAL**
-- **Risk of regression**: Very low - only adds a safety check
-- **Side effects**: None - function returns early if condition met
-- **Testing**: The fix prevents a crash path; no valid use case affected
-- **Font width range**: 4-16 pixels (from my analysis of `lib/fonts/`)
-- **Trigger condition**: Screen width < 4 pixels (extremely rare but
-  possible with embedded/weird displays)
-
-#### 5. **Subsystem Context - MATURING FEATURE**
-My analysis revealed:
-- **drm/panic introduced**: v6.10 (April 2024) - relatively new
-  subsystem
-- **Bug count**: Found 23 "drm/panic: Fix" commits since June 2024
-- **Pattern**: This is part of ongoing stabilization of a new feature
-- **Similar fixes**: Multiple other drawing/bounds checking fixes in
-  same timeframe
-
-#### 6. **Stable Tree Compliance - MEETS ALL CRITERIA**
-✅ **Fixes a real bug**: Divide-by-zero crash
-✅ **Small change**: 1-line modification
-✅ **Low regression risk**: Only adds defensive check
-✅ **No new features**: Pure bug fix
-✅ **No architectural changes**: Localized to one function
-✅ **Already reviewed**: Has Reviewed-by tag from Javier Martinez
-Canillas
-❌ **Missing stable tag**: No "Cc: stable@vger.kernel.org" (but this
-doesn't disqualify it)
-
-### Code-Specific Analysis
-
-**Original vulnerable code** (line 479):
-```c
-int chars_per_row = sb->width / font->width;  // Can be 0!
-```
-
-**Crash trigger** (line 484):
-```c
-line_wrap.len = line->len % chars_per_row;  // Divide by 0 if
-chars_per_row == 0
-```
-
-**Fix applied** (line 523):
-```c
-- if (!font)
-+       if (!font || font->width > sb->width)
-                return;
-```
-
-This simple check prevents entering the drawing code path when the
-screen is too narrow, avoiding the divide-by-zero entirely.
-
-### Recommendation Rationale
-
-Despite the "unlikely" scenario mentioned in the commit message, this
-should be backported because:
-
-1. **Critical code path**: Occurs during panic handling when system
-   stability is already compromised
-2. **Clean fix**: Minimal, obvious, and safe change
-3. **Subsystem maturity**: drm/panic is new and actively being
-   stabilized with multiple fixes
-4. **No downsides**: Zero risk of breaking working configurations
-5. **Completeness**: Part of a series of drawing boundary fixes that
-   should all be backported together
-
-The commit follows the stable kernel rule: "It must fix a real bug that
-bothers people" - while rare, a crash during panic display is a serious
-issue that prevents debugging.
-
-### Similar Commits for Reference
-Other drm/panic fixes from same timeframe that should also be
-considered:
-- `a119caf6af5ed`: "Fix 24bit pixel crossing page boundaries"
-- `16ded1e690422`: "Fix drawing the logo on a small narrow screen"
-- `e9b36fe063004`: "Fix kmsg text drawing rectangle"
-
-**CONCLUSION**: This commit should be backported to all stable trees
-containing the drm/panic kmsg screen feature (v6.11+).
-
- drivers/gpu/drm/drm_panic.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
-diff --git a/drivers/gpu/drm/drm_panic.c b/drivers/gpu/drm/drm_panic.c
-index ea6a64e5ddd76..4c994656ea1ab 100644
---- a/drivers/gpu/drm/drm_panic.c
-+++ b/drivers/gpu/drm/drm_panic.c
-@@ -520,7 +520,7 @@ static void draw_panic_static_kmsg(struct drm_scanout_buffer *sb)
- 	struct drm_panic_line line;
- 	int yoffset;
- 
--	if (!font)
-+	if (!font || font->width > sb->width)
- 		return;
- 
- 	yoffset = sb->height - font->height - (sb->height % font->height) / 2;
--- 
-2.51.0
-
+Daniel.
