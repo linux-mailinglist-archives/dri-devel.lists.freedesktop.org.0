@@ -2,92 +2,83 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 16281C1311F
-	for <lists+dri-devel@lfdr.de>; Tue, 28 Oct 2025 07:07:27 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 03616C1314C
+	for <lists+dri-devel@lfdr.de>; Tue, 28 Oct 2025 07:09:38 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3C75C10E589;
-	Tue, 28 Oct 2025 06:07:25 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id EE1C410E58B;
+	Tue, 28 Oct 2025 06:09:34 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="m9ydgKiH";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="ewKEmkQ1";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pg1-f181.google.com (mail-pg1-f181.google.com
- [209.85.215.181])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E2E9610E047
- for <dri-devel@lists.freedesktop.org>; Tue, 28 Oct 2025 06:07:23 +0000 (UTC)
-Received: by mail-pg1-f181.google.com with SMTP id
- 41be03b00d2f7-b6cf3174ca4so3802225a12.2
- for <dri-devel@lists.freedesktop.org>; Mon, 27 Oct 2025 23:07:23 -0700 (PDT)
+Received: from mail-pf1-f176.google.com (mail-pf1-f176.google.com
+ [209.85.210.176])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id AEAFE10E58B
+ for <dri-devel@lists.freedesktop.org>; Tue, 28 Oct 2025 06:09:33 +0000 (UTC)
+Received: by mail-pf1-f176.google.com with SMTP id
+ d2e1a72fcca58-7a1603a098eso3299232b3a.1
+ for <dri-devel@lists.freedesktop.org>; Mon, 27 Oct 2025 23:09:33 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1761631643; x=1762236443; darn=lists.freedesktop.org;
- h=content-transfer-encoding:in-reply-to:from:content-language
- :references:cc:to:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=X3Mi6dBwQl7K+tk271ylyIVMo6R3DpX7lq7cC7Ipe/g=;
- b=m9ydgKiHXm78/2bJRidrhZlR1ys0v568yK9z9FSgrVfePpHSDQ6xMBHNyB7++XKhLf
- vIl2+VmoalKMXqYg5LAUU0bPERduYVhR3+HiDpvdjrFyy25vtwSQTl26AoWVXEML67oB
- oOdUrpXoWT+q9vertB71Dl0IBGagSJcZcisZDaguDWWLU3npVgRlqhjKGsge7i5kPCR+
- Ku9qNWOPJOC3kQpzTXs0f6WLrN6rD+RcaJ1wTfX7+Fjjb4WanWkQH140LPEbXJ+RNQHv
- tNoGwQgD4bmSC33SOL8Ma54yo9qvGM9baimqfXNs3LkxbJuXwpjwcrRUSm/HCbLebTOD
- CcOQ==
+ d=gmail.com; s=20230601; t=1761631773; x=1762236573; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=ZxCaZgetgi7vR+cOn85gSzckFRkwOHE6DdvavzMKaQo=;
+ b=ewKEmkQ1nSC9MniTKx/fI9xJnu/bN2WvdZ58Jmc4DfKz6LlEVJhs5R7kwtpkdono88
+ 1KwgnR+CtT5m1kxmK0jeU5xk/MfEFlyXMptj25qUqbJkj9dUI2qWYOS894cIDtCVhtJz
+ e2FhudAD15GHDyZ3Vx/iR3ACSfSBmiRdUWcmI/1NJmsaE81P4mpv1jlxs9R0MfVgApQv
+ Of/4P29uwB0lY5o0/p7IQNm/zPY/q8qP44La/V1d4WQjWcy8SN6dxF2OoDiF8cW1jHti
+ fPWS9OX7aJ4ksyDObrq/T4Kpap3kmREiVKL9OuKfD8aHfkfbI2t/IjoKH89rnkITOwAg
+ vRFg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1761631643; x=1762236443;
- h=content-transfer-encoding:in-reply-to:from:content-language
- :references:cc:to:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=X3Mi6dBwQl7K+tk271ylyIVMo6R3DpX7lq7cC7Ipe/g=;
- b=FQiq8LKCfaIlnq31NKzQdSiitQPT9ifRb9f4OiAv8StMISz1/talKsAePURtKvGOFP
- vnwFH1g79kDX0KC5qv530cMO0qD1DJ2Fno1awLEMQQ7C7GGpiXioXNnbg8xMpbo1Y1uV
- sol4pOsNBgeb+XmzOc9vAqjMgcwM7qAXAmzGMjM1/oG0djGSZ95GzCg13lEheV5y3Tlj
- 4HJ2zFJdBPSw3wsHhoT0GDxlsfv8XcMEYLvHz8CDAiHJuUbOfKt7bBilLAT/fNV6pz0/
- Gt2bJ/PQMoiT/KqiYdZQg70/5os4sHxbsTzOFCl0/LoBcx29/UCiYfKFNiE6cKiKgtK9
- SysQ==
+ d=1e100.net; s=20230601; t=1761631773; x=1762236573;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=ZxCaZgetgi7vR+cOn85gSzckFRkwOHE6DdvavzMKaQo=;
+ b=Lk2OQFuw5bQb5mEXbHsIaF+kHZ2giIeWbZUz3V6SG+SWCp1/ZrrDr5NrzPKIHN+Vdk
+ hAvnWAL8rhrnBQWdyzXfkoB83dZGUp1bXpukLKH0spEIz+5bGOxcO5UwumrEKbvPFCXN
+ bFCFQlU5haMZ5pCPLSVVqsbE98MMuTCx72KgvZSPkJAmLvppwu0ryC/JUtBZX3LTaXqL
+ jZO+Cfc0X51DRBDHwJamQCiAZ9bChljqzT0NOC+e2vLlPEETO+dXmazE4PvwNUlDBQY4
+ W9tFutcaMalNxdegLSppSys1zzn4LsJyaTIXIriXSDHOUXeECRwvfX2EZ7KkELnbHrQT
+ f6Lg==
 X-Forwarded-Encrypted: i=1;
- AJvYcCVSo0j/nv6D2/QGMH8SOZcW8Z4/HeuGrf4eL3Xwklnc074N40teWV3XN1TYNlJ0do49rVPZgRJTy/Q=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YxmIuMsjXIqJh0CXhCrdSH2RGMj3Ze7T3Qx1+0s3P5sdz//E37d
- VYVd5iHlytCt9T8XgF+JZ62dTNnP+o04w3gUg2fmFeGLuAt5ftrCCLry
-X-Gm-Gg: ASbGncuBaXjmg7l/pKKrzJSJxWLdhsUZDEx7laRXGLdgaBr83q4dZuAF9CDi0T31K5V
- HeitD+CxOoX+L3BjWI32MZgXPxSZkKCKh2qkuZ+x721IeYqPCg0hdqyp0+EM59gcl8T8u/QKljy
- xa1Yk0tBXwxRl2MZ7LFGHOOcWz8RwKm2x3boSLSR33OpHFq1TwD669KaL0+//X3vbqOVzHVNKHP
- wgSkKbWX/rA3CgnYHbxxRAhG4Inxi25QVq2WwI4Ro1OE7kuFjfhQ/f2fBhA/VIhC0FFOf4ORDBs
- f6/+Ug4F48IoOLhoPCf9jx+JU9QK76cYGayEPOkE8JEMhtgH8/XvzjkEk4h6+n37hWIrrMUYaxs
- xArBn/5a60vlZ58HlfqPXj8xr44KphTEtAjFpuhV1jvFC/QQ7BHRE629oA7UlN62vvweJ1Eco/s
- +3DDgon0fg0fquysh97FTODZScA0KNqMTvVjj4exfJrxFLOOXc347ugQ==
-X-Google-Smtp-Source: AGHT+IEqDKe28CM1wcw1T5jIas5LPW4A4iQTrqZvLc/K2EgN8TV441SShFqZjxfapz7ZcPNUWZg1Vg==
-X-Received: by 2002:a17:902:c945:b0:265:47:a7b0 with SMTP id
- d9443c01a7336-294cb37b969mr24029555ad.10.1761631643254; 
- Mon, 27 Oct 2025 23:07:23 -0700 (PDT)
-Received: from ?IPV6:2600:8802:702:7400:1c69:7897:d90:375b?
- ([2600:8802:702:7400:1c69:7897:d90:375b])
- by smtp.gmail.com with ESMTPSA id
- 41be03b00d2f7-b71268bfaa1sm9237607a12.7.2025.10.27.23.07.20
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 27 Oct 2025 23:07:22 -0700 (PDT)
-Message-ID: <a4a7f1c9-1817-4092-9ab1-07209bb44125@gmail.com>
-Date: Mon, 27 Oct 2025 23:07:20 -0700
+ AJvYcCV/JF2ykDvk6zK0Gdrq4GOfq6SeaD/YSsdsSvuJ8kGiONLV87a//VBh2q4TcLSnvEINvnuizLYXMq8=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YzA9nxebm8Y2CJ62ckfTUNp0PlcgHoYT3wgGj/4v3dcRjGtzTA4
+ hDQlhWRVw/AYc1jE5ZZOAqsCpZF0fFwb5sPNWKG7i6SRe6N+es6X/yJM
+X-Gm-Gg: ASbGncvgSYZfTarp0iULgiGW5fsVJ8vg2jHVVNXKlHjAru9OnTmApdg8M/XmsOHvfJe
+ c8/ERtycYS6erjxBIpY/xoW+oyE7qaF1zTrfyjmX3/6gRPYeYQzkij8ilAAeS1OjimUHsMmqzQd
+ X3O5fwxWdlIfHeN7UcLkXQALyRIVihLHFrqAWmkWrMtAKp1D6Jr02HgtMgIxL/B5AaKTqaxab0y
+ gCfVwcyG1rq96dI5tX2JbFX29gE/0EWlN2MCnhp9u64i0G+2p2Zb79Wfc57veE+1koLxuXJhB7l
+ TqgMlOwUV+XEWiouZmTs7pRHHX5ZY7DlpVayW15qeIjbJiIGfc9gKiHgwVq0ygvGEYOygHa2rqW
+ Zk80xi/p5opAvRV4FEuwj0uuU4eIV+9wZ3yzOR66wFKE/sJcnnK+7G9se3fOcb+VVbsHEiXVeX0
+ YcwhKUrv0FrnATsNz9SE3dhw==
+X-Google-Smtp-Source: AGHT+IH1+F3wRNfLwu/JVjiQE8TzFdjDfCqQgZpgSMYvuq3FzyuWy/Ro1wdBKzwG6QcCND8qtflldg==
+X-Received: by 2002:a05:6a20:158a:b0:341:c255:7148 with SMTP id
+ adf61e73a8af0-344d345618bmr3246377637.28.1761631773211; 
+ Mon, 27 Oct 2025 23:09:33 -0700 (PDT)
+Received: from localhost.localdomain ([124.77.218.104])
+ by smtp.googlemail.com with ESMTPSA id
+ 41be03b00d2f7-b71268bd810sm9382533a12.6.2025.10.27.23.09.30
+ (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
+ Mon, 27 Oct 2025 23:09:32 -0700 (PDT)
+From: Miaoqian Lin <linmq006@gmail.com>
+To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
+ Simona Vetter <simona@ffwll.ch>,
+ "benjamin.gaignard@linaro.org" <benjamin.gaignard@linaro.org>,
+ Philippe Cornu <philippe.cornu@st.com>, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org
+Cc: linmq006@gmail.com,
+	stable@vger.kernel.org
+Subject: [PATCH] drm/of: Fix device node reference leak in
+ drm_of_panel_bridge_remove
+Date: Tue, 28 Oct 2025 14:09:18 +0800
+Message-Id: <20251028060918.65688-1-linmq006@gmail.com>
+X-Mailer: git-send-email 2.39.5 (Apple Git-154)
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 03/12] drm/msm/dpu: Compatible with Kaanapali interrupt
- register
-To: yuanjie yang <yuanjie.yang@oss.qualcomm.com>,
- robin.clark@oss.qualcomm.com, lumag@kernel.org, abhinav.kumar@linux.dev,
- sean@poorly.run, marijn.suijten@somainline.org, airlied@gmail.com,
- simona@ffwll.ch, maarten.lankhorst@linux.intel.com, mripard@kernel.org,
- tzimmermann@suse.de, robh@kernel.org, krzk+dt@kernel.org,
- conor+dt@kernel.org, quic_mkrishn@quicinc.com, jonathan@marek.ca,
- quic_khsieh@quicinc.com, neil.armstrong@linaro.org
-Cc: linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org,
- freedreno@lists.freedesktop.org, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org, tingwei.zhang@oss.qualcomm.com,
- aiqun.yu@oss.qualcomm.com, yongxing.mou@oss.qualcomm.com
-References: <20251023075401.1148-1-yuanjie.yang@oss.qualcomm.com>
- <20251023075401.1148-4-yuanjie.yang@oss.qualcomm.com>
-Content-Language: en-US
-From: Jessica Zhang <jesszhan0024@gmail.com>
-In-Reply-To: <20251023075401.1148-4-yuanjie.yang@oss.qualcomm.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -103,143 +94,33 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 10/23/2025 12:53 AM, yuanjie yang wrote:
-> From: Yuanjie Yang <yuanjie.yang@oss.qualcomm.com>
+of_graph_get_remote_node() returns a device node
+with its reference count incremented. The caller is responsible for
+releasing this reference when the node is no longer needed.
 
-Hi Yuanjie,
+Add of_node_put(remote) to fix the reference leak.
 
-Can you reword the commit message title to be more clear on what this 
-patch *does*? "Compatible with Kaanapali interrupt register" is vague.
+Found via static analysis.
 
-Something like "Add interrupt registers for DPU 13.x" is a complete 
-sentence and makes it clear that you're adding interrupt registers.
+Fixes: c70087e8f16f ("drm/drm_of: add drm_of_panel_bridge_remove function")
+Cc: stable@vger.kernel.org
+Signed-off-by: Miaoqian Lin <linmq006@gmail.com>
+---
+ include/drm/drm_of.h | 1 +
+ 1 file changed, 1 insertion(+)
 
-Thanks,
+diff --git a/include/drm/drm_of.h b/include/drm/drm_of.h
+index 7f0256dae3f1..5940b1cd542b 100644
+--- a/include/drm/drm_of.h
++++ b/include/drm/drm_of.h
+@@ -171,6 +171,7 @@ static inline int drm_of_panel_bridge_remove(const struct device_node *np,
+ 		return -ENODEV;
+ 
+ 	bridge = of_drm_find_bridge(remote);
++	of_node_put(remote);
+ 	drm_panel_bridge_remove(bridge);
+ 
+ 	return 0;
+-- 
+2.39.5 (Apple Git-154)
 
-Jessica Zhang
-
-> 
-> DPU version 13 introduces changes to the interrupt register
-> layout. Update the driver to support these modifications for
-> proper interrupt handling.
-> 
-> Signed-off-by: Yongxing Mou <yongxing.mou@oss.qualcomm.com>
-> Signed-off-by: Yuanjie Yang <yuanjie.yang@oss.qualcomm.com>
-> ---
->   .../gpu/drm/msm/disp/dpu1/dpu_hw_interrupts.c | 89 ++++++++++++++++++-
->   1 file changed, 88 insertions(+), 1 deletion(-)
-> 
-> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_interrupts.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_interrupts.c
-> index 49bd77a755aa..8d265581f6ec 100644
-> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_interrupts.c
-> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_interrupts.c
-> @@ -40,6 +40,15 @@
->   #define MDP_INTF_REV_7xxx_INTR_TEAR_STATUS(intf)	(MDP_INTF_REV_7xxx_TEAR_OFF(intf) + 0x004)
->   #define MDP_INTF_REV_7xxx_INTR_TEAR_CLEAR(intf)		(MDP_INTF_REV_7xxx_TEAR_OFF(intf) + 0x008)
->   
-> +#define MDP_INTF_REV_13xx_OFF(intf)			(0x18D000 + 0x1000 * (intf))
-> +#define MDP_INTF_REV_13xx_INTR_EN(intf)			(MDP_INTF_REV_13xx_OFF(intf) + 0x1c0)
-> +#define MDP_INTF_REV_13xx_INTR_STATUS(intf)		(MDP_INTF_REV_13xx_OFF(intf) + 0x1c4)
-> +#define MDP_INTF_REV_13xx_INTR_CLEAR(intf)		(MDP_INTF_REV_13xx_OFF(intf) + 0x1c8)
-> +#define MDP_INTF_REV_13xx_TEAR_OFF(intf)		(0x18D800 + 0x1000 * (intf))
-> +#define MDP_INTF_REV_13xx_INTR_TEAR_EN(intf)		(MDP_INTF_REV_13xx_TEAR_OFF(intf) + 0x000)
-> +#define MDP_INTF_REV_13xx_INTR_TEAR_STATUS(intf)	(MDP_INTF_REV_13xx_TEAR_OFF(intf) + 0x004)
-> +#define MDP_INTF_REV_13xx_INTR_TEAR_CLEAR(intf)		(MDP_INTF_REV_13xx_TEAR_OFF(intf) + 0x008)
-> +
->   /**
->    * struct dpu_intr_reg - array of DPU register sets
->    * @clr_off:	offset to CLEAR reg
-> @@ -199,6 +208,82 @@ static const struct dpu_intr_reg dpu_intr_set_7xxx[] = {
->   	},
->   };
->   
-> +/*
-> + * dpu_intr_set_13xx -  List of DPU interrupt registers for DPU >= 13.0
-> + */
-> +static const struct dpu_intr_reg dpu_intr_set_13xx[] = {
-> +	[MDP_SSPP_TOP0_INTR] = {
-> +		INTR_CLEAR,
-> +		INTR_EN,
-> +		INTR_STATUS
-> +	},
-> +	[MDP_SSPP_TOP0_INTR2] = {
-> +		INTR2_CLEAR,
-> +		INTR2_EN,
-> +		INTR2_STATUS
-> +	},
-> +	[MDP_SSPP_TOP0_HIST_INTR] = {
-> +		HIST_INTR_CLEAR,
-> +		HIST_INTR_EN,
-> +		HIST_INTR_STATUS
-> +	},
-> +	[MDP_INTF0_INTR] = {
-> +		MDP_INTF_REV_13xx_INTR_CLEAR(0),
-> +		MDP_INTF_REV_13xx_INTR_EN(0),
-> +		MDP_INTF_REV_13xx_INTR_STATUS(0)
-> +	},
-> +	[MDP_INTF1_INTR] = {
-> +		MDP_INTF_REV_13xx_INTR_CLEAR(1),
-> +		MDP_INTF_REV_13xx_INTR_EN(1),
-> +		MDP_INTF_REV_13xx_INTR_STATUS(1)
-> +	},
-> +	[MDP_INTF1_TEAR_INTR] = {
-> +		MDP_INTF_REV_13xx_INTR_TEAR_CLEAR(1),
-> +		MDP_INTF_REV_13xx_INTR_TEAR_EN(1),
-> +		MDP_INTF_REV_13xx_INTR_TEAR_STATUS(1)
-> +	},
-> +	[MDP_INTF2_INTR] = {
-> +		MDP_INTF_REV_13xx_INTR_CLEAR(2),
-> +		MDP_INTF_REV_13xx_INTR_EN(2),
-> +		MDP_INTF_REV_13xx_INTR_STATUS(2)
-> +	},
-> +	[MDP_INTF2_TEAR_INTR] = {
-> +		MDP_INTF_REV_13xx_INTR_TEAR_CLEAR(2),
-> +		MDP_INTF_REV_13xx_INTR_TEAR_EN(2),
-> +		MDP_INTF_REV_13xx_INTR_TEAR_STATUS(2)
-> +	},
-> +	[MDP_INTF3_INTR] = {
-> +		MDP_INTF_REV_13xx_INTR_CLEAR(3),
-> +		MDP_INTF_REV_13xx_INTR_EN(3),
-> +		MDP_INTF_REV_13xx_INTR_STATUS(3)
-> +	},
-> +	[MDP_INTF4_INTR] = {
-> +		MDP_INTF_REV_13xx_INTR_CLEAR(4),
-> +		MDP_INTF_REV_13xx_INTR_EN(4),
-> +		MDP_INTF_REV_13xx_INTR_STATUS(4)
-> +	},
-> +	[MDP_INTF5_INTR] = {
-> +		MDP_INTF_REV_13xx_INTR_CLEAR(5),
-> +		MDP_INTF_REV_13xx_INTR_EN(5),
-> +		MDP_INTF_REV_13xx_INTR_STATUS(5)
-> +	},
-> +	[MDP_INTF6_INTR] = {
-> +		MDP_INTF_REV_13xx_INTR_CLEAR(6),
-> +		MDP_INTF_REV_13xx_INTR_EN(6),
-> +		MDP_INTF_REV_13xx_INTR_STATUS(6)
-> +	},
-> +	[MDP_INTF7_INTR] = {
-> +		MDP_INTF_REV_13xx_INTR_CLEAR(7),
-> +		MDP_INTF_REV_13xx_INTR_EN(7),
-> +		MDP_INTF_REV_13xx_INTR_STATUS(7)
-> +	},
-> +	[MDP_INTF8_INTR] = {
-> +		MDP_INTF_REV_13xx_INTR_CLEAR(8),
-> +		MDP_INTF_REV_13xx_INTR_EN(8),
-> +		MDP_INTF_REV_13xx_INTR_STATUS(8)
-> +	},
-> +};
-> +
->   #define DPU_IRQ_MASK(irq_idx)	(BIT(DPU_IRQ_BIT(irq_idx)))
->   
->   static inline bool dpu_core_irq_is_valid(unsigned int irq_idx)
-> @@ -507,7 +592,9 @@ struct dpu_hw_intr *dpu_hw_intr_init(struct drm_device *dev,
->   	if (!intr)
->   		return ERR_PTR(-ENOMEM);
->   
-> -	if (m->mdss_ver->core_major_ver >= 7)
-> +	if (m->mdss_ver->core_major_ver >= 13)
-> +		intr->intr_set = dpu_intr_set_13xx;
-> +	else if (m->mdss_ver->core_major_ver >= 7)
->   		intr->intr_set = dpu_intr_set_7xxx;
->   	else
->   		intr->intr_set = dpu_intr_set_legacy;
