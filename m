@@ -2,66 +2,67 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D3102C15486
-	for <lists+dri-devel@lfdr.de>; Tue, 28 Oct 2025 15:57:11 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7602EC154A1
+	for <lists+dri-devel@lfdr.de>; Tue, 28 Oct 2025 15:58:42 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D53CB10E0C2;
-	Tue, 28 Oct 2025 14:57:07 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7382610E0EE;
+	Tue, 28 Oct 2025 14:58:35 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="VUmkSaoK";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="fKpHJDLw";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from bali.collaboradmins.com (bali.collaboradmins.com
- [148.251.105.195])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6A6E210E0C2
- for <dri-devel@lists.freedesktop.org>; Tue, 28 Oct 2025 14:57:06 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1761663424;
- bh=pRY4+GGhGf/5nLNZrRYoTRzXWCb0qRy5AHjVl+G2awk=;
- h=Date:Subject:From:To:Cc:References:In-Reply-To:From;
- b=VUmkSaoKTS+yPKGuGBcHWonNmB2/Ng+5wsj2Anc+azB5ShC5mZQOL/6/TF73VN2Po
- vKvHn1Jdx3EIMnm+NgAKueYwBaYSbvg+Z4K5yAVq0E8zbXHxzgi7GjJXOhTV88wqiw
- bFoshICpvlhba+h6cRZKSdBC2AnpVZm5LsXP3FyCDs0R9MdnXMo+fiEp3A5kSjK8Nu
- K/WBIKc4F4A07dZtENez/rMgd8tj5Go7tD8nr4Ho2PfTg80yQbkiJno/we/Z0X+4Yx
- QXhAKVBuyphmdyyiAZA78AWxYIlsgiOHW05+MufYz5POsFyiW0AlG/8pH8uZ6Kgie6
- +NXOdd6K4u7Bg==
-Received: from [192.168.1.90] (unknown [82.79.138.145])
- (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested) (Authenticated sender: cristicc)
- by bali.collaboradmins.com (Postfix) with ESMTPSA id 04CD317E139C;
- Tue, 28 Oct 2025 15:57:03 +0100 (CET)
-Message-ID: <63003a7e-8d3d-433a-8a44-54fe8740bc3a@collabora.com>
-Date: Tue, 28 Oct 2025 16:57:03 +0200
+Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E474210E0EE
+ for <dri-devel@lists.freedesktop.org>; Tue, 28 Oct 2025 14:58:33 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by tor.source.kernel.org (Postfix) with ESMTP id E4CB162002
+ for <dri-devel@lists.freedesktop.org>; Tue, 28 Oct 2025 14:58:32 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 93632C116D0
+ for <dri-devel@lists.freedesktop.org>; Tue, 28 Oct 2025 14:58:32 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1761663512;
+ bh=fgrnGbqm4nMPYm0YFueCTLn38xVSXMpZjjfyexFg4zU=;
+ h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+ b=fKpHJDLw+LdcON/i87zMt8WeFuLsLOkXCh8EaH+KceiRe9xB3NmNNEipNh06u89Qy
+ AbqjbUQwBsH4cwpPlCHdRBkk9PFn/7DfhwH4wDXKj9w6C1tZEt3y3ZUiJWCH/WFiNw
+ wuRNVHBpYpGjfgPS0713G9KL2KmLK817qGbDZUlo8sOcLtxCp2aLJQGxChIquDiQcy
+ fj2U9lW2HSHWHA2eEH71FCQ37XgLZAwhPofn7BzXS5LFcnE+bQasacaEn/LkVXHexC
+ GPwoVTWQz66mefaw9y9zjwlCNXEP4ixcVgZvMvMMxqtbsTY46dce7rKzABe6widukp
+ ht3DHx+N8Nl9w==
+Received: by mail-pl1-f171.google.com with SMTP id
+ d9443c01a7336-26e68904f0eso65576735ad.0
+ for <dri-devel@lists.freedesktop.org>; Tue, 28 Oct 2025 07:58:32 -0700 (PDT)
+X-Forwarded-Encrypted: i=1;
+ AJvYcCVQENe5g9zyDU0pxzh8c1Mo0yRR6DiJGYw6zZHio8FMw0zcJUDZNfGclLzadcQDRZTBpN7BJHkfb/k=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YyXS8Mg7SYFd1qVW83evbZYHKFvQ4PCxsMMbmIWcsOLpNiBxIpe
+ RffB7KBeYa3PUwtjdB/itFtiCLhfMHpKLWxZ5jsXdXdP9T+aiUnsg9a0OV9KWHUKS6LGBTpeUPt
+ 5Cc1pcZqqklae1+8rmCRRcnf3fsBiCQ==
+X-Google-Smtp-Source: AGHT+IHme6RPgheMLj6a7fR8+m2u2gZ6x3MVu+ulovS2o0skDQiD/daH6FArZWmguxDIJ5KfNDpOra+vAhdzzjURlKs=
+X-Received: by 2002:a17:902:dac4:b0:294:63ea:b570 with SMTP id
+ d9443c01a7336-294cb65f622mr46857375ad.48.1761663512099; Tue, 28 Oct 2025
+ 07:58:32 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v4 0/6] Add HDMI CEC support to Rockchip RK3588/RK3576 SoCs
-From: Cristian Ciocaltea <cristian.ciocaltea@collabora.com>
-To: Mark Brown <broonie@kernel.org>
-Cc: Sandy Huang <hjc@rock-chips.com>, =?UTF-8?Q?Heiko_St=C3=BCbner?=
- <heiko@sntech.de>, Andy Yan <andy.yan@rock-chips.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Andrzej Hajda <andrzej.hajda@intel.com>,
- Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
- Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>,
- Catalin Marinas <catalin.marinas@arm.com>, Will Deacon <will@kernel.org>,
- kernel@collabora.com, dri-devel@lists.freedesktop.org,
- linux-arm-kernel@lists.infradead.org, linux-rockchip@lists.infradead.org,
- linux-kernel@vger.kernel.org, Algea Cao <algea.cao@rock-chips.com>,
- Derek Foreman <derek.foreman@collabora.com>,
- Daniel Stone <daniels@collabora.com>, Aishwarya.TCV@arm.com
-References: <20250903-rk3588-hdmi-cec-v4-0-fa25163c4b08@collabora.com>
- <6f3f126d-72c1-48cb-a9c8-8d354af2a3d5@sirena.org.uk>
- <410fa913-e86b-4ffd-9d79-ce804f0271ff@collabora.com>
-Content-Language: en-US
-In-Reply-To: <410fa913-e86b-4ffd-9d79-ce804f0271ff@collabora.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+References: <20251006093937.27869-1-johan@kernel.org>
+In-Reply-To: <20251006093937.27869-1-johan@kernel.org>
+From: Chun-Kuang Hu <chunkuang.hu@kernel.org>
+Date: Tue, 28 Oct 2025 14:58:18 +0000
+X-Gmail-Original-Message-ID: <CAAOTY_9rf948byRD3_cCeXREeLt2jXHL2CZPAEUUvAVgJc3dBA@mail.gmail.com>
+X-Gm-Features: AWmQ_bnhgsaxyx7-K3gUASFOVVQcGX3sTjPCy2q_RVuuZkcZXgMfDZNuqSDRMTE
+Message-ID: <CAAOTY_9rf948byRD3_cCeXREeLt2jXHL2CZPAEUUvAVgJc3dBA@mail.gmail.com>
+Subject: Re: [PATCH] drm/mediatek: fix device use-after-free on unbind
+To: Johan Hovold <johan@kernel.org>
+Cc: Chun-Kuang Hu <chunkuang.hu@kernel.org>,
+ Philipp Zabel <p.zabel@pengutronix.de>, 
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
+ Matthias Brugger <matthias.bgg@gmail.com>, 
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+ CK Hu <ck.hu@mediatek.com>, 
+ Ma Ke <make24@iscas.ac.cn>, Sjoerd Simons <sjoerd@collabora.com>, 
+ dri-devel@lists.freedesktop.org, linux-mediatek@lists.infradead.org, 
+ linux-kernel@vger.kernel.org, stable@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -77,52 +78,81 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 10/28/25 2:42 PM, Cristian Ciocaltea wrote:
-> Hi Mark,
-> 
-> On 10/28/25 2:38 PM, Mark Brown wrote:
->> On Wed, Sep 03, 2025 at 09:50:58PM +0300, Cristian Ciocaltea wrote:
->>> The first patch in the series implements the CEC capability of the
->>> Synopsys DesignWare HDMI QP TX controller found in RK3588 & RK3576 Socs.
->>> This is based on the downstream code, but rewritten on top of the CEC
->>> helpers added recently to the DRM HDMI connector framework.
->>
->> For the past couple of weeks we've been seeing various instability with
->> the graphics drivers on the Rock 5B in -next, the most common system is
->> that we get faults in code that looks suspiciously relevant to this
->> series:
->>
->> <6>[   17.353368] rockchip-drm display-subsystem: bound fdd90000.vop (ops vop2_component_ops [rockchipdrm])
->> <6>[   17.355237] dwhdmiqp-rockchip fde80000.hdmi: registered DesignWare HDMI QP I2C bus driver
->> / # <1>[   17.357803] Unable to handle kernel NULL pointer dereference at virtual address 0000000000000098
->>
->> ...
->>
->> <4>[   17.372390] Hardware name: Radxa ROCK 5B (DT)
->>
->> ...
->>
->> <4>[   17.382082] Call trace:
->> <4>[   17.382317]  drm_bridge_connector_hdmi_cec_init+0x8/0x38 [drm_display_helper] (P)
->> <4>[   17.383003]  drm_bridge_connector_init+0x658/0x678 [drm_display_helper]
->> <4>[   17.383612]  dw_hdmi_qp_rockchip_bind+0x35c/0x4d8 [rockchipdrm]
->> <4>[   17.384159]  component_bind_all+0x118/0x248
->> <4>[   17.384550]  rockchip_drm_bind+0xb4/0x20c [rockchipdrm]
->> <4>[   17.385034]  try_to_bring_up_aggregate_device+0x164/0x1d0
->> <4>[   17.385528]  component_master_add_with_match+0xc4/0x104
->> <4>[   17.386008]  rockchip_drm_platform_probe+0x1f8/0x31c [rockchipdrm]
->>
->> (from today's -next, 
->>
->> Unfortunately we haven't managed to point at a specific commit, it looks
->> like this might be triggered by multiple serieses interacting with each
->> other.  I'm not sure what other information might be useful here?
-> 
-> Thanks for reporting, I will investigate.
+Johan Hovold <johan@kernel.org> =E6=96=BC 2025=E5=B9=B410=E6=9C=886=E6=97=
+=A5 =E9=80=B1=E4=B8=80 =E4=B8=8A=E5=8D=889:48=E5=AF=AB=E9=81=93=EF=BC=9A
+>
+> A recent change fixed device reference leaks when looking up drm
+> platform device driver data during bind() but failed to remove a partial
+> fix which had been added by commit 80805b62ea5b ("drm/mediatek: Fix
+> kobject put for component sub-drivers").
+>
+> This results in a reference imbalance on component bind() failures and
+> on unbind() which could lead to a user-after-free.
+>
+> Make sure to only drop the references after retrieving the driver data
+> by effectively reverting the previous partial fix.
+>
+> Note that holding a reference to a device does not prevent its driver
+> data from going away so there is no point in keeping the reference.
 
-This seems to have been already addressed:
+Applied to mediatek-drm-fixes [1], thanks.
 
-https://lore.kernel.org/all/20251017-drm-bridge-alloc-getput-bridge-connector-fix-hdmi_cec-v2-0-667abf6d47c0@bootlin.com/
-> Regards,
-> Cristian
+[1] https://git.kernel.org/pub/scm/linux/kernel/git/chunkuang.hu/linux.git/=
+log/?h=3Dmediatek-drm-fixes
 
+Regards,
+Chun-Kuang.
+
+>
+> Fixes: 1f403699c40f ("drm/mediatek: Fix device/node reference count leaks=
+ in mtk_drm_get_all_drm_priv")
+> Reported-by: Sjoerd Simons <sjoerd@collabora.com>
+> Link: https://lore.kernel.org/r/20251003-mtk-drm-refcount-v1-1-3b3f2813b0=
+db@collabora.com
+> Cc: stable@vger.kernel.org
+> Cc: Ma Ke <make24@iscas.ac.cn>
+> Cc: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+> Signed-off-by: Johan Hovold <johan@kernel.org>
+> ---
+>  drivers/gpu/drm/mediatek/mtk_drm_drv.c | 10 ----------
+>  1 file changed, 10 deletions(-)
+>
+> diff --git a/drivers/gpu/drm/mediatek/mtk_drm_drv.c b/drivers/gpu/drm/med=
+iatek/mtk_drm_drv.c
+> index 384b0510272c..a94c51a83261 100644
+> --- a/drivers/gpu/drm/mediatek/mtk_drm_drv.c
+> +++ b/drivers/gpu/drm/mediatek/mtk_drm_drv.c
+> @@ -686,10 +686,6 @@ static int mtk_drm_bind(struct device *dev)
+>         for (i =3D 0; i < private->data->mmsys_dev_num; i++)
+>                 private->all_drm_private[i]->drm =3D NULL;
+>  err_put_dev:
+> -       for (i =3D 0; i < private->data->mmsys_dev_num; i++) {
+> -               /* For device_find_child in mtk_drm_get_all_priv() */
+> -               put_device(private->all_drm_private[i]->dev);
+> -       }
+>         put_device(private->mutex_dev);
+>         return ret;
+>  }
+> @@ -697,18 +693,12 @@ static int mtk_drm_bind(struct device *dev)
+>  static void mtk_drm_unbind(struct device *dev)
+>  {
+>         struct mtk_drm_private *private =3D dev_get_drvdata(dev);
+> -       int i;
+>
+>         /* for multi mmsys dev, unregister drm dev in mmsys master */
+>         if (private->drm_master) {
+>                 drm_dev_unregister(private->drm);
+>                 mtk_drm_kms_deinit(private->drm);
+>                 drm_dev_put(private->drm);
+> -
+> -               for (i =3D 0; i < private->data->mmsys_dev_num; i++) {
+> -                       /* For device_find_child in mtk_drm_get_all_priv(=
+) */
+> -                       put_device(private->all_drm_private[i]->dev);
+> -               }
+>                 put_device(private->mutex_dev);
+>         }
+>         private->mtk_drm_bound =3D false;
+> --
+> 2.49.1
+>
