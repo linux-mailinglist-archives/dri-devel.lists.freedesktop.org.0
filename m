@@ -2,82 +2,82 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E06D0C156F6
-	for <lists+dri-devel@lfdr.de>; Tue, 28 Oct 2025 16:27:12 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id B362AC156FC
+	for <lists+dri-devel@lfdr.de>; Tue, 28 Oct 2025 16:27:17 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id EFD0210E5ED;
-	Tue, 28 Oct 2025 15:27:10 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0A03110E5EA;
+	Tue, 28 Oct 2025 15:27:16 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="pFzvOHuh";
+	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="BVMbOC9D";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
  [205.220.168.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0E21E10E5EA
- for <dri-devel@lists.freedesktop.org>; Tue, 28 Oct 2025 15:27:09 +0000 (UTC)
-Received: from pps.filterd (m0279863.ppops.net [127.0.0.1])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 12A9A10E5EA
+ for <dri-devel@lists.freedesktop.org>; Tue, 28 Oct 2025 15:27:14 +0000 (UTC)
+Received: from pps.filterd (m0279862.ppops.net [127.0.0.1])
  by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id
- 59SEnvJT1886891
- for <dri-devel@lists.freedesktop.org>; Tue, 28 Oct 2025 15:27:08 GMT
+ 59SEnkt51936769
+ for <dri-devel@lists.freedesktop.org>; Tue, 28 Oct 2025 15:27:13 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
  cc:content-transfer-encoding:content-type:date:from:in-reply-to
  :message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
- SgQcI6nkUnBLoLSFlYf5nq81TfhQzj6LqBeVf4PPgVk=; b=pFzvOHuh4nCGHeWN
- /GU7fuhzd72e7qhZ0GRl2PfyS1MvWyuzvWKsVs7NTplKuxYIZgbPWlzZFXNpfwPn
- n3gVhWsWzrZbRmgiIShuRgD0WoFNUTUigMC3QQxAfulytvvnm4MmKOKGpPKCd6wJ
- seNnKMS4KWXJr+oJUwjXzqb+rqasuWGSNo72QTY5qrfw2+CthmxaTZYdO8W1IWUq
- MQOKfSfX4+Fr2pIvuy57fbAcPv4jaixzDDDASfM3bJa8AuSwaiI1Lbm9i8yx37uq
- sBhtfhYVp8Jszvgnd6lPnW/jkZWxSvCDGqZCdqiM0UmA/2TIb5g7I1tsPIg7Qs6T
- vOIFQg==
-Received: from mail-pl1-f199.google.com (mail-pl1-f199.google.com
- [209.85.214.199])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4a2njrt4st-1
+ UGyfXeVKPbjgWlb4WeAZcL6J+OWf0aILgFM3g8oL4Ko=; b=BVMbOC9D3sepW2Gz
+ QyriUPQIx6YZ6mfqu0R1PdP/cL6ilQ8O4sCloBogVKj6tivSpKqc0oongrCfRTQU
+ ocpuN3XQFe9IB99fZEqxSiTeBsrA0nrLVJshw/d0DNtRvRrZw4NSDu+ULWp/aGcA
+ MHKGBk4WhzYAlAFVUdfzZ/TF0vwYI0l34er+RN+5qhgTkxdA0HUZkVZA0WoSqio8
+ rMWsTqon1Xxm/CfIszUik6zce/LcppHe/HzE4vU0fIwcubkYf/r9dkrrqNQpNjp2
+ zLLxPbY3H5bBMs7XgUS9ygtqJyLUalKWttOOTQu7bGFL/NnOCsGiDZhhSZlQYUau
+ kYhTzQ==
+Received: from mail-pl1-f197.google.com (mail-pl1-f197.google.com
+ [209.85.214.197])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4a2pjf9x9d-1
  (version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
- for <dri-devel@lists.freedesktop.org>; Tue, 28 Oct 2025 15:27:08 +0000 (GMT)
-Received: by mail-pl1-f199.google.com with SMTP id
- d9443c01a7336-294baa12981so24608805ad.1
- for <dri-devel@lists.freedesktop.org>; Tue, 28 Oct 2025 08:27:08 -0700 (PDT)
+ for <dri-devel@lists.freedesktop.org>; Tue, 28 Oct 2025 15:27:13 +0000 (GMT)
+Received: by mail-pl1-f197.google.com with SMTP id
+ d9443c01a7336-28c58e009d1so130925365ad.3
+ for <dri-devel@lists.freedesktop.org>; Tue, 28 Oct 2025 08:27:13 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1761665228; x=1762270028;
+ d=1e100.net; s=20230601; t=1761665233; x=1762270033;
  h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
  :mime-version:subject:date:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=SgQcI6nkUnBLoLSFlYf5nq81TfhQzj6LqBeVf4PPgVk=;
- b=hSQdA94mzGb5HCDppzh4kK5r0W2yoobbtzWwjg9jQqm3avcBZu75om+a4PPRohBbpM
- BXymwBqhFVzhTW3h3l+cQNp1eiOWdYALFP3eVI4aCTPqJEGU8fOFY1ZC6L3eecughFOT
- AZwEYoNSRQP8ke2oh0/H8spCxgKhaT/TyJcnP4r53mJVAuAl/sve+0s9IzDdct91ZghK
- S1CHMEhqOfJShqTKzLyHdMp3XpZCqGswlRXm3JjEjHb9pZ4kKJLzKriO114O0wxSIPNp
- OHCcF6N45yU3V5XEQn5H9bQhCGFQi/JxCl1M7WKafmnba/rS45qTB9V2urBFWo4Nw5iN
- Oa6w==
-X-Gm-Message-State: AOJu0YwQfMYqPr9NOULqDsJiuvrZUj0VIktKnxk0TGE21U9NZjXtR3X1
- bOKRE5YPgmR1QiCtvtIyK6nNxJ1pnQub5p7TYqAjDU6ZbGN3RNF7y6Hbnguuy5UA/pNMuldj7zk
- im/lx3dyJcFnFLK++lK6y8Th03wtjdIHfdkIq+6u2G6R+fgSGiSebidPOvNDqknh0lxEx4BE=
-X-Gm-Gg: ASbGnct7CZwkShJMRHTIi+J//vE++wO48QWIgSw5CXKXVhL1NRT7trYGjw4/kZIPdQl
- VBXkE7OEhyuyhJK/9GzHBdzRM7s/SrlUcRDf395RITW1xEmdBWAqS4T+nmEvbyWpS/zIhzDjkml
- WKNq3gZ5wSuKp2FTuFLkW+8aWzk/T3EOuXS1EMTfdRz1xy5XM3FFgiPwjpElyM/r8cB60cSHASh
- JdfNvpwyytVk540EgGfKOM2iZ/WmB839wme4ZQCIYDohkd1ojMzkG4pbk++QJRw2JrgDs5caMov
- m59G00Po1RTCDsNJnvpQhrjXQ21iOWP14Yx5VgFz5OcnDl9aZ52oaRLbCNhIbXlmk6ECrXcGZ1h
- ad+Vndo0PWu2OOSMQAJQVEd+pjnxl7qc6qGo=
-X-Received: by 2002:a17:903:1c8:b0:267:8049:7c87 with SMTP id
- d9443c01a7336-294cc70eccbmr43094205ad.14.1761665227284; 
- Tue, 28 Oct 2025 08:27:07 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IHr3oiAmNZooz/nfH0CRpP85CU5ciJ7wKCzEgD0BM8YcfRozU3AQY5O8zEhnyFkgZ8zfF4Sig==
-X-Received: by 2002:a17:903:1c8:b0:267:8049:7c87 with SMTP id
- d9443c01a7336-294cc70eccbmr43093825ad.14.1761665226706; 
- Tue, 28 Oct 2025 08:27:06 -0700 (PDT)
+ bh=UGyfXeVKPbjgWlb4WeAZcL6J+OWf0aILgFM3g8oL4Ko=;
+ b=d2chRH9trVjQChhsJqNz8xd6LRKBTSPzynLiti5j1vNbaE5H5YvAYNy6jpuFAHS1j4
+ PSliA78ghU0V0dZ9/0sMpYE2+FESyT/B8PsiAHCj++X+4mtCbc+6xtgYuPgsOvRkus2g
+ Ju8/TSaVxUwIHdomPBazVn5gWi75rmoyWyrSj8A9GWb+eljTvTmmuhJvUylYB1i/VrUQ
+ 2iy4FH3hUDkJOivgW2U1qhbTHUIbWrFQj9IU1J7Wk+FcAycrVPvQ3ZxaR2Uu3zB/UbGR
+ MCb5qKEsbTdgzpKayAmr4PFRj61h4XZz4cXdUajSQ/lsTvebziKsTxf8NpfSGFPNPPqj
+ n8lw==
+X-Gm-Message-State: AOJu0YzSRAiwZVuxoDu6PHKWja87I0JNqpG5bXeiIWm1Gz2i1qdgv4Uh
+ VY+RMYVj9V7Y8ZYKfBu+VfqzjsIdLRNmDJvU8XUYLObu2ZbNRV3xFhI4WMZjmZ0DnLrtuVCxLd+
+ c5vuOK3pokggtGiYDRdLncg19VhhNFdVClHjpGddA56iYOD8X8A1IpaI5UZlN5z0FK3tueK8=
+X-Gm-Gg: ASbGncvZadJZBjWhJlplJZlVrSDkBlbhEa91X2gpCf8wNkGcg4IBuwzJlHXf0o/NhD6
+ l3oNfOI+o467kGhkgOr1RaMAv/BrsVatqLDok1l1LDQxviL3KR/qRjULkAlykMG9VrdpGqyCS44
+ Sv47KlmMEdPeenHmTcUrhf3XXmEFkgciD1U+vJAuumkRsHMu8CV9KuxxoKFsiV3RJsl9RqIv1xr
+ 5Mltp8Jlm1y9+gZt9EIgzR6H15DHaoAwR/b/NG+LYsTnWwGJIoAmnwAHaoU0LOJlcaQRXZK1tVN
+ hHVbRtxDC95TlGBn1+PE5U3AqcSFx5QK9tCOffT9Dk6oUOFCNS0zeS3nqQ1IIc0BHr4e2bxHNfP
+ 9Rj/tVaybxOpvRTh0ZBMw2X487kWD3T494Es=
+X-Received: by 2002:a17:903:1a07:b0:294:cc1d:e2b3 with SMTP id
+ d9443c01a7336-294cc1deb8fmr41726775ad.38.1761665232863; 
+ Tue, 28 Oct 2025 08:27:12 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IE14cBnmetdTEvip2AiuMPqbNocEUBhwvIQ30b1DCC6u6VkGqRobEtLNnL3qD4nV422vPonug==
+X-Received: by 2002:a17:903:1a07:b0:294:cc1d:e2b3 with SMTP id
+ d9443c01a7336-294cc1deb8fmr41726245ad.38.1761665232393; 
+ Tue, 28 Oct 2025 08:27:12 -0700 (PDT)
 Received: from hu-vvalluru-hyd.qualcomm.com ([202.46.22.19])
  by smtp.gmail.com with ESMTPSA id
- d9443c01a7336-29498e4113fsm119490755ad.90.2025.10.28.08.27.01
+ d9443c01a7336-29498e4113fsm119490755ad.90.2025.10.28.08.27.07
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 28 Oct 2025 08:27:06 -0700 (PDT)
+ Tue, 28 Oct 2025 08:27:12 -0700 (PDT)
 From: Prahlad Valluru <venkata.valluru@oss.qualcomm.com>
-Date: Tue, 28 Oct 2025 20:56:49 +0530
-Subject: [PATCH 1/2] dt-bindings: dp-connector: describe enable gpio
+Date: Tue, 28 Oct 2025 20:56:50 +0530
+Subject: [PATCH 2/2] drm: bridge: add enable gpio for display-connector
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20251028-enable-gpio-dp-connector-v1-1-2babdf1d2289@oss.qualcomm.com>
+Message-Id: <20251028-enable-gpio-dp-connector-v1-2-2babdf1d2289@oss.qualcomm.com>
 References: <20251028-enable-gpio-dp-connector-v1-0-2babdf1d2289@oss.qualcomm.com>
 In-Reply-To: <20251028-enable-gpio-dp-connector-v1-0-2babdf1d2289@oss.qualcomm.com>
 To: David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
@@ -94,36 +94,35 @@ Cc: dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
  linux-kernel@vger.kernel.org,
  Prahlad Valluru <venkata.valluru@oss.qualcomm.com>
 X-Mailer: b4 0.14.3
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1761665215; l=951;
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1761665215; l=1210;
  i=venkata.valluru@oss.qualcomm.com; s=20251028; h=from:subject:message-id;
- bh=HIse2/6LjXjNvqZLf8SY4sWJTdhbA7cCdS1xQrYMFgU=;
- b=q0dbkVCREQhWewqq8/EKUDSgVvCuBEABQSzKjyuiLuCHJTRuASfPE1UfYiG3XGad8+8c19CTg
- CG2gaZhBbFlA8k1HaBK2J9OLlFQ1dZyrE3JE7nzag9kJemdz+dLXLc2
+ bh=HYWjIFO0ntFquQpHN0l24OI9KvjX8KR7IgwrgsomREE=;
+ b=kZQ9dNvz5d07r2JVyT+l2SWfzUBeDR2/1r/VFgKtBPVDb02OA9jts1ZxG7kCK/+gfgkviLY6x
+ tisl04gG8v4DpK/GIpDS7QDZ7hU6OoMaoKF1xlsuWnAogLAJTOP8PYh
 X-Developer-Key: i=venkata.valluru@oss.qualcomm.com; a=ed25519;
  pk=KEpJdy7/I8HDmNSf6B83x+sFHUNr+mjMNJ2qe4G/zXI=
-X-Authority-Analysis: v=2.4 cv=dqvWylg4 c=1 sm=1 tr=0 ts=6900e0cc cx=c_pps
- a=JL+w9abYAAE89/QcEU+0QA==:117 a=fChuTYTh2wq5r3m49p7fHw==:17
+X-Authority-Analysis: v=2.4 cv=Ut9u9uwB c=1 sm=1 tr=0 ts=6900e0d1 cx=c_pps
+ a=cmESyDAEBpBGqyK7t0alAg==:117 a=fChuTYTh2wq5r3m49p7fHw==:17
  a=IkcTkHD0fZMA:10 a=x6icFKpwvdMA:10 a=VkNPw1HP01LnGYTKEx00:22
- a=EUspDBNiAAAA:8 a=PexBTdYITyibd1_YPJUA:9 a=QEXdDO2ut3YA:10
- a=324X-CrmTo6CU4MGRt3R:22
-X-Proofpoint-GUID: cLhcD8bmX1np-5YI-6avkmwC0K6yUNfG
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUxMDI4MDEzMCBTYWx0ZWRfX0vj0sLeid/WZ
- pyvjlYbgnUiQyeSOmeuNjdyxNVWGRJoQ11kURn9i7/7qTFEgJM45tYnV96dJCb8Sv8X10gAD8Tv
- MmIBsFGmY93AxLXCMh3U7m5SY2u0pRhMYrQKkDhWsEU/msT38SO78VOs24ylBfPOFEdcWRdaWhC
- bkfj3AZ9Ci4ivgILbBvty5G4qpXFoUj5+w5vdzOQK4FDoT1UUg9DNo7MQl0xSfSQLd7GnOD2Vk+
- Vy99aPf9bsipCakORBuirjyp3NHE1yuhRhkKIfr/DsUAMsuryBuWQZzsY9ONJdMO135CEu4RuGL
- A4toe/KIHuRi2wQ7h65pu/yt3SS4WdpF9iL2Q4FQASG4/0sJQCK/8XwsrNGYvh7gGYqrnnlm9GF
- CQ0sID2ad07N4+aAkQwt6euINcGwTA==
-X-Proofpoint-ORIG-GUID: cLhcD8bmX1np-5YI-6avkmwC0K6yUNfG
+ a=EUspDBNiAAAA:8 a=aOUc1jQm1-AEEL6HbbgA:9 a=QEXdDO2ut3YA:10
+ a=1OuFwYUASf3TG4hYMiVC:22
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUxMDI4MDEzMCBTYWx0ZWRfXxiefeIBRIpGy
+ gnjkNPR1JRNnnkG1xLSKEELTxxOh8EXQ/F1RUdV4qkuMU2DCku6EpKcmljMknKdvEQp4YNT+5/p
+ ShDPxy00+2RR0Fc0CLwH7b5AYlWyboX/4vheeOnPnGbFZAlXeNqVdRwkrNvKqkIDDO3azSYdzkP
+ q18NMDMn7h9Py4C9WaI5S6rkbdA0exkBQN2uJ7+NjYW8FwqtCftBJqMxlmMqqWS5T39EzbmtwQj
+ WKuiT8KiahRWIo1FfUEjGDxCQ7eKBFOhTpH1hxKNFYHlkz/U9H3M1fIG1G58xQJA7U/XgDN5QCY
+ BlU0Hk7H38XW1/O388YZyHkTvGqglfezYs3vviX7CC2YHP51UhFz0/fXrbtGddU8pCK9aTQn+iJ
+ 38Ie5UIK2k8kcCg/n2A1bQFYYPAoZw==
+X-Proofpoint-GUID: RA8SGlF5rOsLlxh5PuEcHJyW1rXwp8tC
+X-Proofpoint-ORIG-GUID: RA8SGlF5rOsLlxh5PuEcHJyW1rXwp8tC
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.9,FMLib:17.12.80.40
  definitions=2025-10-28_05,2025-10-22_01,2025-03-28_01
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- phishscore=0 clxscore=1011 impostorscore=0 priorityscore=1501
- lowpriorityscore=0 bulkscore=0 spamscore=0 suspectscore=0 malwarescore=0
- adultscore=0 classifier=typeunknown authscore=0 authtc= authcc=
- route=outbound adjust=0 reason=mlx scancount=1 engine=8.22.0-2510020000
- definitions=main-2510280130
+ lowpriorityscore=0 priorityscore=1501 spamscore=0 adultscore=0 bulkscore=0
+ clxscore=1011 impostorscore=0 suspectscore=0 phishscore=0 malwarescore=0
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.22.0-2510020000 definitions=main-2510280130
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -139,30 +138,39 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-In some cases, dp-connector need a gpio for
-connector to be enabled. Currently, there is no such
-entry so, add enable-gpios for such cases.
+In some cases, need gpio to be set for the connector
+enable. Add optional enable gpio to display-connector.
 
 Signed-off-by: Prahlad Valluru <venkata.valluru@oss.qualcomm.com>
 ---
- Documentation/devicetree/bindings/display/connector/dp-connector.yaml | 4 ++++
- 1 file changed, 4 insertions(+)
+ drivers/gpu/drm/bridge/display-connector.c | 7 +++++++
+ 1 file changed, 7 insertions(+)
 
-diff --git a/Documentation/devicetree/bindings/display/connector/dp-connector.yaml b/Documentation/devicetree/bindings/display/connector/dp-connector.yaml
-index 1f2b449dc910..e703b19b7168 100644
---- a/Documentation/devicetree/bindings/display/connector/dp-connector.yaml
-+++ b/Documentation/devicetree/bindings/display/connector/dp-connector.yaml
-@@ -20,6 +20,10 @@ properties:
-       - full-size
-       - mini
+diff --git a/drivers/gpu/drm/bridge/display-connector.c b/drivers/gpu/drm/bridge/display-connector.c
+index e9f16dbc9535..52f5e4175e64 100644
+--- a/drivers/gpu/drm/bridge/display-connector.c
++++ b/drivers/gpu/drm/bridge/display-connector.c
+@@ -21,6 +21,7 @@ struct display_connector {
+ 	struct drm_bridge	bridge;
  
-+  enable-gpios:
-+    description: A GPIO line connected to enable connector
-+    maxItems: 1
+ 	struct gpio_desc	*hpd_gpio;
++	struct gpio_desc	*enable_gpio;
+ 	int			hpd_irq;
+ 
+ 	struct regulator	*supply;
+@@ -298,6 +299,12 @@ static int display_connector_probe(struct platform_device *pdev)
+ 					     "Unable to retrieve HPD GPIO\n");
+ 
+ 		conn->hpd_irq = gpiod_to_irq(conn->hpd_gpio);
 +
-   hpd-gpios:
-     description: A GPIO line connected to HPD
-     maxItems: 1
++		conn->enable_gpio = devm_gpiod_get_optional(&pdev->dev, "enable",
++							 GPIOD_OUT_HIGH);
++		if (IS_ERR(conn->enable_gpio))
++			return dev_err_probe(&pdev->dev, PTR_ERR(conn->enable_gpio),
++					     "Unable to retrieve enable GPIO\n");
+ 	} else {
+ 		conn->hpd_irq = -EINVAL;
+ 	}
 
 -- 
 2.34.1
