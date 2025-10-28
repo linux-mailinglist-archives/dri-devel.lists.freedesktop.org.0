@@ -2,95 +2,66 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4282FC13CAA
-	for <lists+dri-devel@lfdr.de>; Tue, 28 Oct 2025 10:27:15 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 988A2C13D28
+	for <lists+dri-devel@lfdr.de>; Tue, 28 Oct 2025 10:32:12 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8FE2B10E07D;
-	Tue, 28 Oct 2025 09:27:12 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6E24510E369;
+	Tue, 28 Oct 2025 09:32:09 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="CEdcStGx";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="H/aKstAz";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.133.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6FF0D10E07D
- for <dri-devel@lists.freedesktop.org>; Tue, 28 Oct 2025 09:27:11 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1761643630;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=vMgKcmUijk5xAxok1rWDuN0GhFwUXgOZN19QAh1dZS4=;
- b=CEdcStGxI66s/8dix/isCvBYGEzTCWlXYs7svh8aHNigfGEiM6vSXAwI7bP22sOGGVBpVl
- u9vPzcaIOJ94EhIMsxwEr8UHQsacP3yOIKvTYiEoefuxZOkT1u4w1c3zXfo6BON46TWOU7
- UNDuerzXY0b1bMZe5YJKIuyA8cQ+Ehk=
-Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
- [209.85.128.70]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-606-nAeJCfUIOQGM96zPQLiGLg-1; Tue, 28 Oct 2025 05:27:09 -0400
-X-MC-Unique: nAeJCfUIOQGM96zPQLiGLg-1
-X-Mimecast-MFC-AGG-ID: nAeJCfUIOQGM96zPQLiGLg_1761643628
-Received: by mail-wm1-f70.google.com with SMTP id
- 5b1f17b1804b1-4710d174c31so53665195e9.0
- for <dri-devel@lists.freedesktop.org>; Tue, 28 Oct 2025 02:27:08 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1761643628; x=1762248428;
- h=mime-version:user-agent:content-transfer-encoding:references
- :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
- :from:to:cc:subject:date:message-id:reply-to;
- bh=vMgKcmUijk5xAxok1rWDuN0GhFwUXgOZN19QAh1dZS4=;
- b=Q1tSKopVNrksXAg+vUEOAOEuA8axdMTjgtQaGJ/0JyJ9jIALQFWq4x9KJrtEX2vKBm
- c2t7ic9/nxta0sG5Lph0ze32QeBi2I36/Afz1r1rbHVNbGP5+YfL/JxVWrau7bJs7iuu
- 5eqO9kWDCvs2P3buta2mJcomMpNMd2vPGoIfylobuyIt3dUapOypx8WkukX8sq7Aw+ZL
- egPeXVxF8wVk9kkof24mjnkvipcfgKVW+TyDP8Td1q7uAQLhVEZAtLeb6Ry2PzFouad0
- UnhtY+HLM24TIQhRgPWBHG98PUatTlUuq37wLYHfhU+aVhRUhGObnJZzQguLtP2x26VZ
- VB1w==
-X-Forwarded-Encrypted: i=1;
- AJvYcCW3XBFh5i+vFs/lBGESD+MCKVTJn5zqxWbcPhBiIyEr8LUCuP5uZjkwPEi3EvepR0SbwNUFDzQB4xA=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YwvD4Bmuwnmz4ZDxQZE+6fcKxp+bhtZsYrVobr8r8ipICHrrwi4
- +VtevzaiVUsllPbUxwG3qUi+ZRBJMCpL3wi3FFiwr0pMgGjCc9c85HJf+mBjO+MYRjoC1HTBloH
- abAb0IBst6hShgpyJPjNeGIe9VGsHY74NYwBkp+Q8QkmPgdx1Vh4fDcnPpKyDgLy5DyO3uA==
-X-Gm-Gg: ASbGnctdkCi3waTrPaKt1RH9bcqZjs6jdwKB+3r9kqH4rpR4FkOqN4y8GDIC3igqcUc
- yneu6G0BAZV9DcYWGy7gCOqkfrsRR1Ww81Rywx0s0lKzQfZVwDPeNrhg7BWEhL2PPVeMbo1CHpy
- QfzyudFrVVlckOoBXLa59Jout5f23xmAOqyHpxYlVq/oFUKB3sFJAj7ma/Vfubyab7i+GlbHJUc
- R0GgwZhOdGYgeKuIpMVOZ22vQ4Fw42lYA4owHLntnDFMC7x9XFz5SlkwxH0PzUYaR995mfTHYIr
- TOe9lP+9Y2xRzVrnptg43jZzyzuFNc7XadUnHiH6hrr6EMoXsZ4M0tIVM5NxHURmswYoYNmYVgb
- ivEOUw090inJz2BxX954a5VlhWw==
-X-Received: by 2002:a05:600d:4382:b0:475:da13:257c with SMTP id
- 5b1f17b1804b1-47718fc881dmr9599615e9.27.1761643627772; 
- Tue, 28 Oct 2025 02:27:07 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IG9RzPzsWtqqUXoRcJrXn1UN+3rD5haW59x9hIYul5AJHvof/tfSMf4EIcxnGzRQ1Zzzg8sdw==
-X-Received: by 2002:a05:600d:4382:b0:475:da13:257c with SMTP id
- 5b1f17b1804b1-47718fc881dmr9599455e9.27.1761643627335; 
- Tue, 28 Oct 2025 02:27:07 -0700 (PDT)
-Received: from [10.200.68.138] (nat-pool-muc-u.redhat.com. [149.14.88.27])
- by smtp.gmail.com with ESMTPSA id
- ffacd0b85a97d-429952b79absm19048542f8f.3.2025.10.28.02.27.06
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 28 Oct 2025 02:27:06 -0700 (PDT)
-Message-ID: <d4b7c1635aee89c49416e26ef482238f4ee1fafe.camel@redhat.com>
-Subject: Re: [RFC PATCH 3/3] drm/sched: Prevent adding dependencies to an
- armed job
-From: Philipp Stanner <pstanner@redhat.com>
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C5A0F10E16F;
+ Tue, 28 Oct 2025 09:32:07 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1761643928; x=1793179928;
+ h=message-id:subject:from:to:cc:date:in-reply-to:
+ references:content-transfer-encoding:mime-version;
+ bh=tyEiIw2eCE1DsRgeyZ/v5JNXeV+VdmLvevcbCCwDgCA=;
+ b=H/aKstAzSCrq1TQ8GbTDw7sev1AkWT0XFNZ+/CvJmuW48Cgxy8Bas3ko
+ KCgKlhZVnm6jHgpiIYlWjqujU0GnGZ9JD+vzFm3rkcFJZWaOEykOSIeP0
+ h8MGZxXkyN4PF7LJq1rRhRhPE3iH98Lq0fwAffCZjwCbchcYs+PRVEL8u
+ O+yk/B2KupYKe+i/kmWbrq3Ul5d9VQRUl5sV9V25BRbQ/LF4Otc+hq1Pz
+ 3vgVR4aBLW9uylQm9iRH3dYAt/M9GVt6Yo03cjdaf1CdCmw2JgysBtsnQ
+ iY6CzrfJUks7SEtRgaGhLr0xlBNIzqbUAAB11d3/dtCHEJt5NCnnyCjYZ w==;
+X-CSE-ConnectionGUID: CQim1L3zRUKJfEZOUmfiUg==
+X-CSE-MsgGUID: Dc1C/l8NSOezSNAXnwsyiw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11586"; a="74858338"
+X-IronPort-AV: E=Sophos;i="6.19,261,1754982000"; d="scan'208";a="74858338"
+Received: from orviesa005.jf.intel.com ([10.64.159.145])
+ by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 28 Oct 2025 02:32:07 -0700
+X-CSE-ConnectionGUID: eRAA4ipNSbSJnc2i1qOXeQ==
+X-CSE-MsgGUID: +pi+YC/tQImBkD6vmwROPg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.19,261,1754982000"; d="scan'208";a="190421250"
+Received: from klitkey1-mobl1.ger.corp.intel.com (HELO [10.245.244.149])
+ ([10.245.244.149])
+ by orviesa005-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 28 Oct 2025 02:32:04 -0700
+Message-ID: <2af4eb56c3f53573c8d1580608e5f300268dd282.camel@linux.intel.com>
+Subject: Re: [PATCH 13/15] drm/xe: Support pcie p2p dma as a fast interconnect
+From: Thomas =?ISO-8859-1?Q?Hellstr=F6m?= <thomas.hellstrom@linux.intel.com>
 To: Matthew Brost <matthew.brost@intel.com>
 Cc: intel-xe@lists.freedesktop.org, dri-devel@lists.freedesktop.org, 
- linux-kernel@vger.kernel.org, jiangshanlai@gmail.com, tj@kernel.org, 
- simona.vetter@ffwll.ch, christian.koenig@amd.com, dakr@kernel.org
-Date: Tue, 28 Oct 2025 10:27:06 +0100
-In-Reply-To: <aP+kJeOEghD+sEsg@lstrano-desk.jf.intel.com>
-References: <20251021213952.746900-1-matthew.brost@intel.com>
- <20251021213952.746900-4-matthew.brost@intel.com>
- <537bdebf2112a080ae92526ecfa41d63668d90a3.camel@redhat.com>
- <aP+kJeOEghD+sEsg@lstrano-desk.jf.intel.com>
-User-Agent: Evolution 3.52.4 (3.52.4-2.fc40)
-MIME-Version: 1.0
-X-Mimecast-Spam-Score: 0
-X-Mimecast-MFC-PROC-ID: axYC26ja4AEulFORq6-COlWRry36VCXyeuQtQrO9LTU_1761643628
-X-Mimecast-Originator: redhat.com
+ himal.prasad.ghimiray@intel.com, apopple@nvidia.com, airlied@gmail.com,
+ Simona Vetter <simona.vetter@ffwll.ch>, felix.kuehling@amd.com, Christian
+ =?ISO-8859-1?Q?K=F6nig?=	 <christian.koenig@amd.com>, dakr@kernel.org,
+ "Mrozek, Michal"	 <michal.mrozek@intel.com>, Joonas Lahtinen
+ <joonas.lahtinen@linux.intel.com>
+Date: Tue, 28 Oct 2025 10:32:02 +0100
+In-Reply-To: <aQAY+6HMwB+KzjvY@lstrano-desk.jf.intel.com>
+References: <20251025120412.12262-1-thomas.hellstrom@linux.intel.com>
+ <20251025120412.12262-14-thomas.hellstrom@linux.intel.com>
+ <aQAY+6HMwB+KzjvY@lstrano-desk.jf.intel.com>
+Organization: Intel Sweden AB, Registration Number: 556189-6027
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.54.3 (3.54.3-2.fc41) 
+MIME-Version: 1.0
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -106,44 +77,167 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, 2025-10-27 at 09:56 -0700, Matthew Brost wrote:
-> On Mon, Oct 27, 2025 at 12:13:58PM +0100, Philipp Stanner wrote:
-> > I've got a kernel.org addr by now by the way
+On Mon, 2025-10-27 at 18:14 -0700, Matthew Brost wrote:
+> On Sat, Oct 25, 2025 at 02:04:10PM +0200, Thomas Hellstr=C3=B6m wrote:
+> > Mimic the dma-buf method using dma_[map|unmap]_resource to map
+> > for pcie-p2p dma.
 > >=20
-> > On Tue, 2025-10-21 at 14:39 -0700, Matthew Brost wrote:
-> > > According to the DMA scheduler documentation, once a job is armed, it
-> > > must be pushed. Drivers should avoid calling the failing code path th=
-at
-> > > attempts to add dependencies after a job has been armed.
-> > >=20
+> > There's an ongoing area of work upstream to sort out how this best
+> > should be done. One method proposed is to add an additional
+> > pci_p2p_dma_pagemap aliasing the device_private pagemap and use
+> > the corresponding pci_p2p_dma_pagemap page as input for
+> > dma_map_page(). However, that would incur double the amount of
+> > memory and latency to set up the drm_pagemap and given the huge
+> > amount of memory present on modern GPUs, that would really not
+> > work.
+> > Hence the simple approach used in this patch.
 > >=20
-> > Why is that a "failing code path"?
+> > Signed-off-by: Thomas Hellstr=C3=B6m <thomas.hellstrom@linux.intel.com>
+> > ---
+> > =C2=A0drivers/gpu/drm/xe/xe_svm.c | 44
+> > ++++++++++++++++++++++++++++++++++---
+> > =C2=A0drivers/gpu/drm/xe/xe_svm.h |=C2=A0 1 +
+> > =C2=A02 files changed, 42 insertions(+), 3 deletions(-)
 > >=20
+> > diff --git a/drivers/gpu/drm/xe/xe_svm.c
+> > b/drivers/gpu/drm/xe/xe_svm.c
+> > index 9dd96dad2cca..9814f95cb212 100644
+> > --- a/drivers/gpu/drm/xe/xe_svm.c
+> > +++ b/drivers/gpu/drm/xe/xe_svm.c
+> > @@ -3,6 +3,8 @@
+> > =C2=A0 * Copyright =C2=A9 2024 Intel Corporation
+> > =C2=A0 */
+> > =C2=A0
+> > +#include <linux/pci-p2pdma.h>
+> > +
+> > =C2=A0#include <drm/drm_drv.h>
+> > =C2=A0#include <drm/drm_managed.h>
+> > =C2=A0#include <drm/drm_pagemap.h>
+> > @@ -442,6 +444,24 @@ static u64 xe_page_to_dpa(struct page *page)
+> > =C2=A0	return dpa;
+> > =C2=A0}
+> > =C2=A0
+> > +static u64 xe_page_to_pcie(struct page *page)
+> > +{
+> > +	struct xe_pagemap *xpagemap =3D xe_page_to_pagemap(page);
+> > +	struct xe_vram_region *vr =3D xe_pagemap_to_vr(xpagemap);
+> > +	u64 hpa_base =3D xpagemap->hpa_base;
+> > +	u64 ioaddr;
+> > +	u64 pfn =3D page_to_pfn(page);
+> > +	u64 offset;
+> > +
+> > +	xe_assert(vr->xe, is_device_private_page(page));
+> > +	xe_assert(vr->xe, (pfn << PAGE_SHIFT) >=3D hpa_base);
+> > +
+> > +	offset =3D (pfn << PAGE_SHIFT) - hpa_base;
+> > +	ioaddr =3D vr->io_start + offset;
+> > +
+> > +	return ioaddr;
+> > +}
+> > +
+> > =C2=A0enum xe_svm_copy_dir {
+> > =C2=A0	XE_SVM_COPY_TO_VRAM,
+> > =C2=A0	XE_SVM_COPY_TO_SRAM,
+> > @@ -793,7 +813,10 @@ static bool xe_has_interconnect(struct
+> > drm_pagemap_peer *peer1,
+> > =C2=A0	struct device *dev1 =3D xe_peer_to_dev(peer1);
+> > =C2=A0	struct device *dev2 =3D xe_peer_to_dev(peer2);
+> > =C2=A0
+> > -	return dev1 =3D=3D dev2;
+> > +	if (dev1 =3D=3D dev2)
+> > +		return true;
+> > +
+> > +	return pci_p2pdma_distance(to_pci_dev(dev1), dev2, true)
+> > >=3D 0;
+> > =C2=A0}
+> > =C2=A0
+> > =C2=A0static DRM_PAGEMAP_OWNER_LIST_DEFINE(xe_owner_list);
+> > @@ -1530,13 +1553,27 @@ xe_drm_pagemap_device_map(struct
+> > drm_pagemap *dpagemap,
 >=20
-> I noticed this after I sent - it should something like:
->=20
-> 'avoid calling a possible failing code path, which allocates memory.'
->=20
-> I can make this a bit more clear.
->=20
-> > The issue with adding callbacks is that adding them to an already
-> > signaled fence is a bad idea. I'm not sure if it's illegal, though.
-> > dma_fence_add_cb() merely returns an error then, but the driver could
-> > in priniciple then execute its cb code itself.
-> >=20
-> > And even if we agree that this is a hard rule that must be followed,
-> > then drm_sched_job_arm() *might* not be the right place, because just
-> > because a job is armed doesn't mean that its fence is about to get
-> > signaled. drm_sched_entity_push_job() would be the critical place.
-> >=20
->=20
-> I think this break our rule once arm is called, push must be called as
-> adding dependencies can possibly fail. This rule is called out in your
-> documentation patch too. I've seen 2 driver posted in the past year add
-> dependencies after arming, so I figured lets catch this misuse in the
-> scheduler.
+> This relates to my comment here [1]. Perhaps this is where we should
+> build in the =E2=80=9Cmap for atomic=E2=80=9D logic and route it through =
+get_pages? I
+> think that could work quite nicely and wouldn=E2=80=99t require an additi=
+onal
+> =E2=80=9Cdo these two page maps support atomics?=E2=80=9D check.
+> What do you think?
 
-We can establish that as a rule, I'm OK with that.
+I think initially we should just make sure we use a local dpagemap for
+atomic. When we implement atomic-supporting fast interconnects we could
+look at something like this. In the migrate code we could easily
+migrate what's needed to migrate for atomic support. For get_pages(),
+we also need a check, but wouldn't it then be sufficient to verify that
+all pages in a range are from the same dpagemap, like we do today and
+in addition verify that the dpagemap in question supports atomic
+operations?
 
-P.
+/Thomas
+
+
+>=20
+> Matt
+>=20
+> [1]
+> https://patchwork.freedesktop.org/patch/683511/?series=3D156525&rev=3D1#c=
+omment_1255409
+>=20
+> > =C2=A0		addr =3D xe_page_to_dpa(page);
+> > =C2=A0		prot =3D XE_INTERCONNECT_VRAM;
+> > =C2=A0	} else {
+> > -		addr =3D DMA_MAPPING_ERROR;
+> > -		prot =3D 0;
+> > +		addr =3D dma_map_resource(dev,
+> > +					xe_page_to_pcie(page),
+> > +					PAGE_SIZE << order, dir,
+> > +					DMA_ATTR_SKIP_CPU_SYNC);
+> > +		prot =3D XE_INTERCONNECT_P2P;
+> > =C2=A0	}
+> > =C2=A0
+> > =C2=A0	return drm_pagemap_addr_encode(addr, prot, order, dir);
+> > =C2=A0}
+> > =C2=A0
+> > +static void xe_drm_pagemap_device_unmap(struct drm_pagemap
+> > *dpagemap,
+> > +					struct device *dev,
+> > +					struct drm_pagemap_addr
+> > addr)
+> > +{
+> > +	if (addr.proto !=3D XE_INTERCONNECT_P2P)
+> > +		return;
+> > +
+> > +	dma_unmap_resource(dev, addr.addr, PAGE_SIZE <<
+> > addr.order,
+> > +			=C2=A0=C2=A0 addr.dir, DMA_ATTR_SKIP_CPU_SYNC);
+> > +}
+> > +
+> > =C2=A0static void xe_pagemap_destroy_work(struct work_struct *work)
+> > =C2=A0{
+> > =C2=A0	struct xe_pagemap *xpagemap =3D container_of(work,
+> > typeof(*xpagemap), destroy_work);
+> > @@ -1573,6 +1610,7 @@ static void xe_pagemap_destroy(struct
+> > drm_pagemap *dpagemap, bool from_atomic_or
+> > =C2=A0
+> > =C2=A0static const struct drm_pagemap_ops xe_drm_pagemap_ops =3D {
+> > =C2=A0	.device_map =3D xe_drm_pagemap_device_map,
+> > +	.device_unmap =3D xe_drm_pagemap_device_unmap,
+> > =C2=A0	.populate_mm =3D xe_drm_pagemap_populate_mm,
+> > =C2=A0	.destroy =3D xe_pagemap_destroy,
+> > =C2=A0};
+> > diff --git a/drivers/gpu/drm/xe/xe_svm.h
+> > b/drivers/gpu/drm/xe/xe_svm.h
+> > index 7cd7932f56c8..f5ed48993b6d 100644
+> > --- a/drivers/gpu/drm/xe/xe_svm.h
+> > +++ b/drivers/gpu/drm/xe/xe_svm.h
+> > @@ -13,6 +13,7 @@
+> > =C2=A0#include <drm/drm_pagemap_util.h>
+> > =C2=A0
+> > =C2=A0#define XE_INTERCONNECT_VRAM DRM_INTERCONNECT_DRIVER
+> > +#define XE_INTERCONNECT_P2P (XE_INTERCONNECT_VRAM + 1)
+> > =C2=A0
+> > =C2=A0struct drm_device;
+> > =C2=A0struct drm_file;
+> > --=20
+> > 2.51.0
+> >=20
 
