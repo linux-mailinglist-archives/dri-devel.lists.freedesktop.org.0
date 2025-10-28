@@ -2,66 +2,66 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id ABD7DC14BE0
-	for <lists+dri-devel@lfdr.de>; Tue, 28 Oct 2025 14:02:24 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0B885C14BDD
+	for <lists+dri-devel@lfdr.de>; Tue, 28 Oct 2025 14:02:22 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BEDF910E3D1;
+	by gabe.freedesktop.org (Postfix) with ESMTP id B646B10E3CF;
 	Tue, 28 Oct 2025 13:02:19 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=ibm.com header.i=@ibm.com header.b="BdygRNTl";
+	dkim=pass (2048-bit key; unprotected) header.d=ibm.com header.i=@ibm.com header.b="ZkAz/WyP";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mx0b-001b2d01.pphosted.com (mx0b-001b2d01.pphosted.com
  [148.163.158.5])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6A30A10E3CF
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6E2A210E3D1
  for <dri-devel@lists.freedesktop.org>; Tue, 28 Oct 2025 13:02:18 +0000 (UTC)
-Received: from pps.filterd (m0353725.ppops.net [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 59S41AJ5019381;
- Tue, 28 Oct 2025 13:01:59 GMT
+Received: from pps.filterd (m0356516.ppops.net [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 59S1XMAL006945;
+ Tue, 28 Oct 2025 13:02:00 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=cc
  :content-transfer-encoding:date:from:in-reply-to:message-id
- :mime-version:references:subject:to; s=pp1; bh=+oHSK3Wn0f9C36Iap
- LRaRQi98NQen+5vx+thDJ3dB1o=; b=BdygRNTld3droNAcxcRkNVzezz3YSaotl
- tc101bYpC35KLz6GGndl9JWrswb8t4WJzj8B9y2F+e0QRWLJeWURs11TOcnk9h38
- P4Y7fu+VVZ1c6Ib1Cr/lp65nKsF9kdnPZgxHRYHgUZ5cxLvi/IhfUAfNSCDboSHP
- XU+R0hN+Gl7v9VXxotnRjWhEVVWaJCbpNCuyvq+8EM9pA27Er4HYaZgTRk8mY3HF
- XhTY6BryWOchXHZkVnCuU7dtvVx7qupv8KfWbeEaegyVZq+I5LT40ZAuPAp/HBUf
- 4lmjLxJGUnWCZjS63Le7i4IOvcnn+WPb7N4fejg4eGj8QxKObnHmg==
+ :mime-version:references:subject:to; s=pp1; bh=8zwaRUNSyGimNNs5q
+ 83h32soN7BNO+JqHU2+rsr4bU0=; b=ZkAz/WyPyVMHNioPXbmgvZxofsv7Dcr7X
+ RlpDAtRariZrotrUaanDh6HjATMKK0cRWrVMIggfuKLpCY9Ggm9o6/FYsKTtkXQj
+ fG36sWGQFPE/OugQt2bcpNrpq9njK0EZccanE/GOWu8mL0oSdZkHYIgnVTeSE67c
+ 4P91UwfAeQJ9nj4r1xI3/6Rrjfztnb4cphxUTgI77EpKpJbVPHCSgnltl/9ExOLI
+ RqXPLV4OMzLqEjo7Rb7pLt9UTi8+Fa9RD79GkoRuDziuOgcgd8j7JUwdAqXg1Krv
+ IZxzze4ay43bwJYmgntiX37su/j2D9RxxbofLUj1DEZ32pA21d09g==
 Received: from pps.reinject (localhost [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 4a0mys3vwn-1
+ by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 4a0kytbya0-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Tue, 28 Oct 2025 13:02:00 +0000 (GMT)
+Received: from m0356516.ppops.net (m0356516.ppops.net [127.0.0.1])
+ by pps.reinject (8.18.1.12/8.18.0.8) with ESMTP id 59SD1xIg026569;
+ Tue, 28 Oct 2025 13:01:59 GMT
+Received: from ppma23.wdc07v.mail.ibm.com
+ (5d.69.3da9.ip4.static.sl-reverse.com [169.61.105.93])
+ by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 4a0kytby9w-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
  Tue, 28 Oct 2025 13:01:59 +0000 (GMT)
-Received: from m0353725.ppops.net (m0353725.ppops.net [127.0.0.1])
- by pps.reinject (8.18.1.12/8.18.0.8) with ESMTP id 59SD1w1A002820;
+Received: from pps.filterd (ppma23.wdc07v.mail.ibm.com [127.0.0.1])
+ by ppma23.wdc07v.mail.ibm.com (8.18.1.2/8.18.1.2) with ESMTP id 59SC3nZL030454;
  Tue, 28 Oct 2025 13:01:58 GMT
-Received: from ppma22.wdc07v.mail.ibm.com
- (5c.69.3da9.ip4.static.sl-reverse.com [169.61.105.92])
- by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 4a0mys3vwh-1
+Received: from smtprelay02.fra02v.mail.ibm.com ([9.218.2.226])
+ by ppma23.wdc07v.mail.ibm.com (PPS) with ESMTPS id 4a1acjtqms-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 28 Oct 2025 13:01:58 +0000 (GMT)
-Received: from pps.filterd (ppma22.wdc07v.mail.ibm.com [127.0.0.1])
- by ppma22.wdc07v.mail.ibm.com (8.18.1.2/8.18.1.2) with ESMTP id 59SBii72022886;
- Tue, 28 Oct 2025 13:01:57 GMT
-Received: from smtprelay01.fra02v.mail.ibm.com ([9.218.2.227])
- by ppma22.wdc07v.mail.ibm.com (PPS) with ESMTPS id 4a198xjust-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 28 Oct 2025 13:01:57 +0000
+ Tue, 28 Oct 2025 13:01:58 +0000
 Received: from smtpav04.fra02v.mail.ibm.com (smtpav04.fra02v.mail.ibm.com
  [10.20.54.103])
- by smtprelay01.fra02v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 59SD1pYn59769092
+ by smtprelay02.fra02v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ 59SD1qeR41091434
  (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Tue, 28 Oct 2025 13:01:51 GMT
+ Tue, 28 Oct 2025 13:01:52 GMT
 Received: from smtpav04.fra02v.mail.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id BE2F420043;
- Tue, 28 Oct 2025 13:01:51 +0000 (GMT)
+ by IMSVA (Postfix) with ESMTP id 8933820043;
+ Tue, 28 Oct 2025 13:01:52 +0000 (GMT)
 Received: from smtpav04.fra02v.mail.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 0898820040;
+ by IMSVA (Postfix) with ESMTP id C9BAC2004B;
  Tue, 28 Oct 2025 13:01:51 +0000 (GMT)
 Received: from p-imbrenda.boeblingen.de.ibm.com (unknown [9.155.209.42])
  by smtpav04.fra02v.mail.ibm.com (Postfix) with ESMTP;
- Tue, 28 Oct 2025 13:01:50 +0000 (GMT)
+ Tue, 28 Oct 2025 13:01:51 +0000 (GMT)
 From: Claudio Imbrenda <imbrenda@linux.ibm.com>
 To: akpm@linux-foundation.org
 Cc: balbirs@nvidia.com, borntraeger@de.ibm.com, david@redhat.com,
@@ -77,36 +77,38 @@ Cc: balbirs@nvidia.com, borntraeger@de.ibm.com, david@redhat.com,
  kvm@vger.kernel.org, linux-s390@vger.kernel.org,
  linux-next@vger.kernel.org, hca@linux.ibm.com, gor@linux.ibm.com,
  agordeev@linux.ibm.com
-Subject: [PATCH v1 0/1] KVM: s390: Fix missing present bit for gmap puds
-Date: Tue, 28 Oct 2025 14:01:49 +0100
-Message-ID: <20251028130150.57379-1-imbrenda@linux.ibm.com>
+Subject: [PATCH v1 1/1] KVM: s390: Fix missing present bit for gmap puds
+Date: Tue, 28 Oct 2025 14:01:50 +0100
+Message-ID: <20251028130150.57379-2-imbrenda@linux.ibm.com>
 X-Mailer: git-send-email 2.51.0
-In-Reply-To: <d4a09cc8-84b2-42a8-bd03-7fa3adee4a99@linux.ibm.com>
+In-Reply-To: <20251028130150.57379-1-imbrenda@linux.ibm.com>
 References: <d4a09cc8-84b2-42a8-bd03-7fa3adee4a99@linux.ibm.com>
+ <20251028130150.57379-1-imbrenda@linux.ibm.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-TM-AS-GCONF: 00
-X-Proofpoint-ORIG-GUID: 1IWaxgKcCbAX9g5eiUEXUSG6dBW8TC1L
-X-Authority-Analysis: v=2.4 cv=ct2WUl4i c=1 sm=1 tr=0 ts=6900bec7 cx=c_pps
- a=5BHTudwdYE3Te8bg5FgnPg==:117 a=5BHTudwdYE3Te8bg5FgnPg==:17
- a=x6icFKpwvdMA:10 a=VkNPw1HP01LnGYTKEx00:22 a=MufDUWcMhQhyWPk8zPQA:9
- a=nl4s5V0KI7Kw-pW0DWrs:22 a=pHzHmUro8NiASowvMSCR:22 a=xoEH_sTeL_Rfw54TyV31:22
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUxMDI1MDAxMCBTYWx0ZWRfX6Uvt5YQT4Rzu
- Tqc2flA5F4AywAliJ9GXPbqvkkbBuJVPyZyvNiaY7+M/pj+XSET0R0dwD2xHsc/WXb13c/R1Cjn
- Za5QtJZlG6ZTkuvrx43BGLO82Woudw/pHuSQXcaRwmg3Lw6YmJ7sjZu5i0MK7ctxfkxJQxK66mJ
- iUydtgZhoO7Sehzgvtxrb+VHYtsVaadTSVdkAjgZhCQLbaYmjKzlt8/gcOrHOVpevOPP57IYzLv
- 6mfnnQJISIym2RFVnBtG8szVTssvL9luBu3qa2k8x1JLhes6sA8bMrPqrgAWSPManWYziIlF/Fw
- EzpQvpBrq58QOph5lnVIGQDcv/K9ufmZ2IfgUocUxknLybmR07ddRAZKMUmknhiqTzbK3UaP5f7
- DrTdt7VhqVn6zRemDJJ7w1VsUWz37w==
-X-Proofpoint-GUID: 2WzbgKRyldG4biHvk5FucE2LQMmFKT8t
+X-Proofpoint-ORIG-GUID: mgW0Se2eCcEagXlixqJWxYsPb3M4yIqu
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUxMDI1MDAwMSBTYWx0ZWRfX4ZPTxHz/nLjF
+ xkLcDvlI0MfdXrWHGjpk2MYUj2e8AaTxwoDyM1Ws6z/WBWDhYLgkvh9kctwGm0SDzI32XpEAiYS
+ RQ1fmrQK5Y2aL5tkqPQ7tEvO+pEczIbhyBdfaV3gIJZZkX4+8Ffk9doHY3sWRSO5MOR9maXFMU0
+ T9xnvsQ6c9m3/Ms/xlhZ0vrTptEPB7T8yLvX2x/xM2CbUsCBHjc+pKjXkeP42FdVB9Jqt6H3uta
+ 6pt/EN4f+k7djdTI2PI6eXURgjLw+RBVUIqwvJB+qrrl8j72/zWp7+hzGrIZvG2IxCLWp422HvL
+ QMRzdYDo9Xz55+bqz1e9SlLuy4ToJ+49gefMqwNQP8QMhS34YL+EU0H/0uMxomQ9DS3cJ/2Dhne
+ T7DFNb7p0KLKf5uHvKVu/3TVN0Et5g==
+X-Proofpoint-GUID: jMVslQxQ5HRWocHTW0PkeXw2KfmAEMfx
+X-Authority-Analysis: v=2.4 cv=FaE6BZ+6 c=1 sm=1 tr=0 ts=6900bec8 cx=c_pps
+ a=3Bg1Hr4SwmMryq2xdFQyZA==:117 a=3Bg1Hr4SwmMryq2xdFQyZA==:17
+ a=x6icFKpwvdMA:10 a=VkNPw1HP01LnGYTKEx00:22 a=VwQbUJbxAAAA:8 a=VnNF1IyMAAAA:8
+ a=7fxA7ORCVWHQiGjyanUA:9 a=nl4s5V0KI7Kw-pW0DWrs:22 a=pHzHmUro8NiASowvMSCR:22
+ a=xoEH_sTeL_Rfw54TyV31:22
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.9,FMLib:17.12.80.40
  definitions=2025-10-28_04,2025-10-22_01,2025-03-28_01
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- bulkscore=0 phishscore=0 lowpriorityscore=0 impostorscore=0 malwarescore=0
- spamscore=0 adultscore=0 priorityscore=1501 clxscore=1015 suspectscore=0
+ phishscore=0 malwarescore=0 suspectscore=0 lowpriorityscore=0 adultscore=0
+ impostorscore=0 priorityscore=1501 clxscore=1015 bulkscore=0 spamscore=0
  classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.19.0-2510020000 definitions=main-2510250010
+ reason=mlx scancount=1 engine=8.19.0-2510020000 definitions=main-2510250001
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -122,21 +124,40 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This patch solves the issue uncovered by patch caf527048be8
-("mm/huge_memory: add device-private THP support to PMD operations"),
-which is at the moment in -next.
+For hugetlbs, gmap puds have the present bit set. For normal puds
+(which point to ptes), the bit is not set. This is in contrast to the
+normal userspace puds, which always have the bit set for present pmds.
 
-@Andrew: do you think it's possible to squeeze this patch in -next
-_before_ the patches that introduce the issue? This will guarantee that
-the patch is merged first, and will not break bisections once merged.
+This causes issues when ___pte_offset_map() is modified to only check
+for the present bit.
 
+The solution to the problem is simply to always set the present bit for
+present gmap pmds.
 
-Claudio Imbrenda (1):
-  KVM: s390: Fix missing present bit for gmap puds
-
+Signed-off-by: Claudio Imbrenda <imbrenda@linux.ibm.com>
+Link: https://lore.kernel.org/lkml/20251017144924.10034-1-borntraeger@linux.ibm.com/
+Tested-by: Christian Borntraeger <borntraeger@linux.ibm.com>
+Acked-by: Christian Borntraeger <borntraeger@linux.ibm.com>
+---
  arch/s390/mm/gmap.c | 5 +++--
  1 file changed, 3 insertions(+), 2 deletions(-)
 
+diff --git a/arch/s390/mm/gmap.c b/arch/s390/mm/gmap.c
+index 8ff6bba107e8..22c448b32340 100644
+--- a/arch/s390/mm/gmap.c
++++ b/arch/s390/mm/gmap.c
+@@ -599,8 +599,9 @@ int __gmap_link(struct gmap *gmap, unsigned long gaddr, unsigned long vmaddr)
+ 					| _SEGMENT_ENTRY_GMAP_UC
+ 					| _SEGMENT_ENTRY;
+ 			} else
+-				*table = pmd_val(*pmd) &
+-					_SEGMENT_ENTRY_HARDWARE_BITS;
++				*table = (pmd_val(*pmd) &
++					_SEGMENT_ENTRY_HARDWARE_BITS)
++					| _SEGMENT_ENTRY;
+ 		}
+ 	} else if (*table & _SEGMENT_ENTRY_PROTECT &&
+ 		   !(pmd_val(*pmd) & _SEGMENT_ENTRY_PROTECT)) {
 -- 
 2.51.0
 
