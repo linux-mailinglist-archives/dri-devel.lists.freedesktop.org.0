@@ -2,65 +2,49 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0D821C14A89
-	for <lists+dri-devel@lfdr.de>; Tue, 28 Oct 2025 13:38:42 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id DD494C14A95
+	for <lists+dri-devel@lfdr.de>; Tue, 28 Oct 2025 13:39:43 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 914D010E3D0;
-	Tue, 28 Oct 2025 12:38:39 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 04E9B10E3BE;
+	Tue, 28 Oct 2025 12:39:42 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="EwQ6yHAd";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="tQu52Bpm";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 16EF110E5DC
- for <dri-devel@lists.freedesktop.org>; Tue, 28 Oct 2025 12:38:38 +0000 (UTC)
+Received: from sea.source.kernel.org (sea.source.kernel.org [172.234.252.31])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D899710E3BE
+ for <dri-devel@lists.freedesktop.org>; Tue, 28 Oct 2025 12:39:40 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by tor.source.kernel.org (Postfix) with ESMTP id 371A661F8D;
- Tue, 28 Oct 2025 12:38:37 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id CEF00C4CEE7;
- Tue, 28 Oct 2025 12:38:31 +0000 (UTC)
+ by sea.source.kernel.org (Postfix) with ESMTP id 89089418EE;
+ Tue, 28 Oct 2025 12:39:40 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A81AAC4CEE7;
+ Tue, 28 Oct 2025 12:39:38 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1761655116;
- bh=Sgz9LM+rIzEejdNuUc0XX3Frhog1qNK56KvIynP1aZE=;
+ s=k20201202; t=1761655180;
+ bh=6MD0sthR182nStMxcccxrkgtZws4XvRSBv3yo0xYeUA=;
  h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=EwQ6yHAd1upusPVwE5p+extaxEraz/6D8uln43vA20qkPH8j3iCntKEBGAaVql/8Q
- 8Gy+UemAF2VbganZ3h9uwOojrtdW9/p/ZsfZWUHKLmRC2cUOVkXeHglFajnxSjcrYN
- /mNFBPFkbx/fNUMxCUwVgKp3Ds5a2jMjHw4j9oUx8Kw+BPhmWADMdwEhfWOUQMQ80h
- mB+YHWfKzYHYzNt4tjHZPJW2yCsBQejaO/xw6r/H8odaXC9erZ4H1bc6f6foMwvNci
- 21ZeNhAPIdCYn72cAS/vENim2yYkoK0h5pntciSTo1F1t8M/iW/QQjEBoBrDOXp2+z
- zoKiEZKXcxa0w==
-Date: Tue, 28 Oct 2025 12:38:28 +0000
-From: Mark Brown <broonie@kernel.org>
-To: Cristian Ciocaltea <cristian.ciocaltea@collabora.com>
-Cc: Sandy Huang <hjc@rock-chips.com>,
- Heiko =?iso-8859-1?Q?St=FCbner?= <heiko@sntech.de>,
- Andy Yan <andy.yan@rock-chips.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Andrzej Hajda <andrzej.hajda@intel.com>,
- Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
- Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>,
- Catalin Marinas <catalin.marinas@arm.com>,
- Will Deacon <will@kernel.org>, kernel@collabora.com,
- dri-devel@lists.freedesktop.org, linux-arm-kernel@lists.infradead.org,
- linux-rockchip@lists.infradead.org, linux-kernel@vger.kernel.org,
- Algea Cao <algea.cao@rock-chips.com>,
- Derek Foreman <derek.foreman@collabora.com>,
- Daniel Stone <daniels@collabora.com>, Aishwarya.TCV@arm.com
-Subject: Re: [PATCH v4 0/6] Add HDMI CEC support to Rockchip RK3588/RK3576 SoCs
-Message-ID: <6f3f126d-72c1-48cb-a9c8-8d354af2a3d5@sirena.org.uk>
-References: <20250903-rk3588-hdmi-cec-v4-0-fa25163c4b08@collabora.com>
+ b=tQu52BpmKIJ4y5/J+HudOPWYMPnBQ8O5RJPqxC8zWA2XAMkqt80DX0w5FroCxN97K
+ F3hreKWsd7kHK5s4LMjxCn+8a2SyINQgpkwrMtUYhln3ZRx/3ytNG/S0whWtDzZIOR
+ LuzoBOWezS8yZdIP9MQEPXhNtVnQAqjNmHnr902jNnNx3Mb7aFKui+/MuTtJQ708Xb
+ iQqvZubrXNFumDRqUWrkCckeIkgoILYM8QmMwhwIwmMSwQf9oCO4GpeV478VAUPuK5
+ 7bpDfkNH5HfpeOGhtJZW7w29iX2ZDqTfYLLDWQy0q7cgBonIpqVmOF+h8tdq2RdUHS
+ ZPy8GBRbeLRAw==
+Date: Tue, 28 Oct 2025 12:40:30 +0000
+From: Daniel Thompson <danielt@kernel.org>
+To: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
+Cc: foss@joelselvaraj.com, Lee Jones <lee@kernel.org>,
+ Jingoo Han <jingoohan1@gmail.com>, Helge Deller <deller@gmx.de>,
+ linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ linux-fbdev@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2] backlight: qcom-wled: fix unbalanced ovp irq enable
+Message-ID: <aQC5vsJzeA-cPdKd@aspen.lan>
+References: <20251021-qcom-wled-fix-unbalanced-ovp-irq-enable-v2-1-7ff115b4ffe7@joelselvaraj.com>
+ <280f1e92-36a1-450b-b6df-b36c3aed3c1c@oss.qualcomm.com>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
- protocol="application/pgp-signature"; boundary="A23rxmyNw6MilB90"
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250903-rk3588-hdmi-cec-v4-0-fa25163c4b08@collabora.com>
-X-Cookie: 40 isn't old.  If you're a tree.
+In-Reply-To: <280f1e92-36a1-450b-b6df-b36c3aed3c1c@oss.qualcomm.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -76,67 +60,52 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+On Wed, Oct 22, 2025 at 07:14:32PM +0200, Konrad Dybcio wrote:
+> On 10/21/25 8:53 PM, Joel Selvaraj via B4 Relay wrote:
+> > From: Joel Selvaraj <foss@joelselvaraj.com>
+> >
+> > In Xiaomi Poco F1 and at least few other devices, the qcom wled driver
+> > triggers unbalanced ovp irq enable warning like the following during
+> > boot up.
+> >
+> > [    1.151677] ------------[ cut here ]------------
+> > [    1.151680] Unbalanced enable for IRQ 176
+> > [    1.151693] WARNING: CPU: 0 PID: 160 at kernel/irq/manage.c:774 __enable_irq+0x50/0x80
+> > [    1.151710] Modules linked in:
+> > [    1.151717] CPU: 0 PID: 160 Comm: kworker/0:11 Not tainted 5.17.0-sdm845 #4
+> > [    1.151724] Hardware name: Xiaomi Pocophone F1 (DT)
+> > [    1.151728] Workqueue: events wled_ovp_work
+> > ...<snip>...
+> > [    1.151833] Call trace:
+> > [    1.151836]  __enable_irq+0x50/0x80
+> > [    1.151841]  enable_irq+0x48/0xa0
+> > [    1.151846]  wled_ovp_work+0x18/0x24
+> > [    1.151850]  process_one_work+0x1d0/0x350
+> > [    1.151858]  worker_thread+0x13c/0x460
+> > [    1.151862]  kthread+0x110/0x114
+> > [    1.151868]  ret_from_fork+0x10/0x20
+> > [    1.151876] ---[ end trace 0000000000000000 ]---
+> >
+> > Fix it by storing and checking the state of ovp irq before enabling and
+> > disabling it.
+> >
+> > Signed-off-by: Joel Selvaraj <foss@joelselvaraj.com>
+> > ---
+> > I was able to debug the issue a little further. This happens mainly because
+> > devm_request_threaded_irq already enables the ovp irq during probe. Then ovp
+> > work gets scheduled when update_status happens and in turn enables the irq again.
+> > Tracking the status makes it easy to avoid the double irq enable. But I am
+> > open to try a different approach if there is any suggestion.
+>
+> Would reverting this change and adding (| IRQF_NO_AUTOEN) to that call
+> fix it?
 
---A23rxmyNw6MilB90
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+I'd definitely favour trying an alternative approach.
 
-On Wed, Sep 03, 2025 at 09:50:58PM +0300, Cristian Ciocaltea wrote:
-> The first patch in the series implements the CEC capability of the
-> Synopsys DesignWare HDMI QP TX controller found in RK3588 & RK3576 Socs.
-> This is based on the downstream code, but rewritten on top of the CEC
-> helpers added recently to the DRM HDMI connector framework.
+wled_[disable|enable]_ovp_irq() do hide "unbalanced enable/disable"
+warnings but they will not nest correctly. That put things are high risk
+of bugs (even if there are no bugs now it makes maintaining this driver
+"high risk" in the future).
 
-For the past couple of weeks we've been seeing various instability with
-the graphics drivers on the Rock 5B in -next, the most common system is
-that we get faults in code that looks suspiciously relevant to this
-series:
 
-<6>[   17.353368] rockchip-drm display-subsystem: bound fdd90000.vop (ops v=
-op2_component_ops [rockchipdrm])
-<6>[   17.355237] dwhdmiqp-rockchip fde80000.hdmi: registered DesignWare HD=
-MI QP I2C bus driver
-/ # <1>[   17.357803] Unable to handle kernel NULL pointer dereference at v=
-irtual address 0000000000000098
-
-=2E..
-
-<4>[   17.372390] Hardware name: Radxa ROCK 5B (DT)
-
-=2E..
-
-<4>[   17.382082] Call trace:
-<4>[   17.382317]  drm_bridge_connector_hdmi_cec_init+0x8/0x38 [drm_display=
-_helper] (P)
-<4>[   17.383003]  drm_bridge_connector_init+0x658/0x678 [drm_display_helpe=
-r]
-<4>[   17.383612]  dw_hdmi_qp_rockchip_bind+0x35c/0x4d8 [rockchipdrm]
-<4>[   17.384159]  component_bind_all+0x118/0x248
-<4>[   17.384550]  rockchip_drm_bind+0xb4/0x20c [rockchipdrm]
-<4>[   17.385034]  try_to_bring_up_aggregate_device+0x164/0x1d0
-<4>[   17.385528]  component_master_add_with_match+0xc4/0x104
-<4>[   17.386008]  rockchip_drm_platform_probe+0x1f8/0x31c [rockchipdrm]
-
-(from today's -next,=20
-
-Unfortunately we haven't managed to point at a specific commit, it looks
-like this might be triggered by multiple serieses interacting with each
-other.  I'm not sure what other information might be useful here?
-
---A23rxmyNw6MilB90
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmkAuUQACgkQJNaLcl1U
-h9AC5Af9Gsb4c9sm1p8qLFIcW6aNDsp2F5861XAQCPph+mfIxTF3n6q/jQj+eH9b
-/cUphOwQBRLk3Fw4QeeqaFrdnJ0iB0wTMqmI5G9O1qhAPxNN5bT3KpnJr98CRDho
-GRIy4XrxxbNA2JaKX1J8lLkSdacR1Yb5hbcUqH4a2cwpbxWhod9+wkupjvzIwuRg
-hA8sU1Wyn/d5MvG5W9oTBwPpwuyFDUlk8cKs9zpY0pKUw0TEt6+GXAjLitxraUJ3
-SC5uzQI1896NYBjZ+mH11kVTb3TtIqmNn5DL3UkmXBQF+px6Am8U8jSb08GMVuiB
-dOojB0KL8DVxYUUnxdeQFnBNT46FKw==
-=38PJ
------END PGP SIGNATURE-----
-
---A23rxmyNw6MilB90--
+Daniel.
