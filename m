@@ -2,157 +2,87 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 50B1FC146C2
-	for <lists+dri-devel@lfdr.de>; Tue, 28 Oct 2025 12:43:06 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id A4733C1477D
+	for <lists+dri-devel@lfdr.de>; Tue, 28 Oct 2025 12:52:14 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D3E9B10E38A;
-	Tue, 28 Oct 2025 11:43:03 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7AC0510E39A;
+	Tue, 28 Oct 2025 11:52:11 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=Nvidia.com header.i=@Nvidia.com header.b="pXVrDHCB";
+	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="jEGEwemJ";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from BN1PR04CU002.outbound.protection.outlook.com
- (mail-eastus2azon11010029.outbound.protection.outlook.com [52.101.56.29])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E228510E38A;
- Tue, 28 Oct 2025 11:43:01 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=fcyazG8uCx57fRprOWm5JZWMblY3WMuPMqPNN1J/kdczIPMlYvP5tM5z9xn8zv3XhPONea/oowyt5lQvhcPTtiC+y0iYCV5ankYp4PZmqN0qZvq3NWWqCytRx0+ljBOteFLMK5ygYEfAeeL+t9C4qydzd3w59sS4xXcwsfehmk0k4geip6yl9epWKMA4/sPgB0/xFafq+KWIvIiTxtCoqLPiFVaqR5yMvzpVAulm5j8v/dofdteeDkTAt/sAc4n8xJ1jjUUV41ocVm0fZWNQ4IyTRZDlFEgupyXJIkQtG2a0+HOqvJebVl/PgfFB4BFQptxOPD811H68Ck2K0fugHw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=fj8cF77kCFzYN9FB5bnj3n2JWZ0DU7jV4gab6q3FYW8=;
- b=yNGNueA0ACxqICTNikPVcGnL602XvWbSIa1G/tmGFSlgnSQepGEVQnJB4vpgX1RC96IaCoh3A+eBO5N/YgWAaJEV/7NVP8jKxfzu9bDPkN2mVJUwzrFcvRWNbX9pmuQx4+xIfI2YpO7/7jdU6ngbpTL4R8l1gbX7sGhWcKtdo6epXs0nqMrd0IR0Gi48Eto7NQy0FQo3JsSil3HuMyujyKtwM4ZZy90RlDWhtrrTRc2ynxu2xMYXVkAa56Tch/iQSP/xzrdYZ/7nRTpfPOkSLyfreAcjaJWV3XYP4f5Tk8JYpI1eSWF0yzVxictTt2DVI5CGHW1EE0194o6qVdmhIQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
- dkim=pass header.d=nvidia.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=fj8cF77kCFzYN9FB5bnj3n2JWZ0DU7jV4gab6q3FYW8=;
- b=pXVrDHCBVxTx80g2zY+PtXB1fZyVMhiCRO9iki2VtN2D1fG24fJMBSS43aVpsopdtlqP65rMDKUZaTJgwQlua03Rva1B5kfQSrxRI3nE8FSybSuzXuVRx9r0Z9hqahQSkpP0slkCGDThyryXXt6bIE3bQsEJJZKIu0zqH4Fxcl9qP1I4lwHlvD8BnIVuFunbdK6LxXcuDf+0IEEVUMtzLYleYlN8jTKqY/TaqYWcAJI0/OwyMKtVeOzqRe0ybp0OZ0u+HWC1+8eJWMuk9eOu3wKPwUpQHCHvT9vYLioJ+0weq0wEGndb0g57kAVTtwPXiCxGqn7LI8qOgGEQgmwcIQ==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nvidia.com;
-Received: from CH2PR12MB3990.namprd12.prod.outlook.com (2603:10b6:610:28::18)
- by MW3PR12MB4459.namprd12.prod.outlook.com (2603:10b6:303:56::22)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9228.13; Tue, 28 Oct
- 2025 11:42:58 +0000
-Received: from CH2PR12MB3990.namprd12.prod.outlook.com
- ([fe80::7de1:4fe5:8ead:5989]) by CH2PR12MB3990.namprd12.prod.outlook.com
- ([fe80::7de1:4fe5:8ead:5989%6]) with mapi id 15.20.9253.017; Tue, 28 Oct 2025
- 11:42:58 +0000
-Content-Type: text/plain; charset=UTF-8
-Date: Tue, 28 Oct 2025 20:42:54 +0900
-Message-Id: <DDTXFOUXB38J.1EGUX4U5V0TQL@nvidia.com>
-Cc: <nouveau@lists.freedesktop.org>, <dri-devel@lists.freedesktop.org>,
- <rust-for-linux@vger.kernel.org>, "Nouveau"
- <nouveau-bounces@lists.freedesktop.org>
-Subject: Re: [PATCH 2/2] drm: nova: select NOVA_CORE
-From: "Alexandre Courbot" <acourbot@nvidia.com>
-To: "Danilo Krummrich" <dakr@kernel.org>, <aliceryhl@google.com>,
- <acourbot@nvidia.com>, <jhubbard@nvidia.com>
-Content-Transfer-Encoding: quoted-printable
-X-Mailer: aerc 0.21.0-0-g5549850facc2
-References: <20251028110058.340320-1-dakr@kernel.org>
- <20251028110058.340320-2-dakr@kernel.org>
-In-Reply-To: <20251028110058.340320-2-dakr@kernel.org>
-X-ClientProxiedBy: TYCP286CA0369.JPNP286.PROD.OUTLOOK.COM
- (2603:1096:405:79::13) To CH2PR12MB3990.namprd12.prod.outlook.com
- (2603:10b6:610:28::18)
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CE07410E39A
+ for <dri-devel@lists.freedesktop.org>; Tue, 28 Oct 2025 11:52:10 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1761652329;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=aYlm/9W4kQf1dlluWkpL7o6LFKc+F6jXn2CnWZOeTzo=;
+ b=jEGEwemJ3L3ozn0BDMZbKo8F/EnMH0JR6MkqE+BKsEffWHhUGJlvCYOqmfX4nwmDKhLQH0
+ fNMac3NyvM7M3MJD0KkuczEIHhGW1+RPyZXLo4bMcPZwUztBVgWq12k8bzFZsld4yMhXcL
+ PT0vXqsHovtBQV+PrnSo/P4gZOS7XQI=
+Received: from mail-pf1-f199.google.com (mail-pf1-f199.google.com
+ [209.85.210.199]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-395-BqUuFdTRPh-W3nIlyb6Rfw-1; Tue, 28 Oct 2025 07:52:07 -0400
+X-MC-Unique: BqUuFdTRPh-W3nIlyb6Rfw-1
+X-Mimecast-MFC-AGG-ID: BqUuFdTRPh-W3nIlyb6Rfw_1761652327
+Received: by mail-pf1-f199.google.com with SMTP id
+ d2e1a72fcca58-7a2885329beso3011335b3a.0
+ for <dri-devel@lists.freedesktop.org>; Tue, 28 Oct 2025 04:52:07 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1761652326; x=1762257126;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=aYlm/9W4kQf1dlluWkpL7o6LFKc+F6jXn2CnWZOeTzo=;
+ b=tJfZytaRCWlVhLxOgbXwPuQt7iLiiUm9IGluiPXTLJZKJ95+LR1F2DmpqAo7wDK5fy
+ F+y9UfLvJy6q7o7Nh7JeGoA0NwPIVEqViSRFFybVY420g5Ys+igSMmNI5RP+M027w/zc
+ Y3t74qtm0cJZGDM4XbKIZUa2TBWAbEp4CgzZdnAnwpO7R9dHTYJDbCEgX2fGM6GsB9N7
+ AZzp99sR1x+EWuI6itxXSj5LH/0kQJS1UPC+8gNiwZKz0a4VibxWy9kUvWdJHXk3dNkh
+ GcI0KOZGV8RdyCCHB0kePHrMFpj7reAaTk03yQ6XYKVUBiTmMHb/t1oD3WXl/rO0es1L
+ N8ag==
+X-Gm-Message-State: AOJu0Yy9t/ItBSkIv3RI/sNFYIe4FxSiCZtW1N0leZQbLhy+e3erUBo7
+ ev21P4b4asYjRDQb22bTZbkcgSVTn8p9L7zGEcHefzux9Xzc6DUXLmGtNVziNWUcld2AcJ4JPL+
+ Ygkt4X4678Dl/teK7p5CKlw1VAJ58CHDAa1KYn9VOtzWhzuFYwIT7H4NsGzEJQxHkI+sQMSwZ6Q
+ fplfc8
+X-Gm-Gg: ASbGncuCz0c9PjNr4mqMXAR5LONr8TiSpcJ+sXF8NG0BiEvCai6u+zEq/7wuBH1JgQE
+ Zrb20eF4kfaGTijQUO3fVG/iW0Xg2bwvS/IG7rPwra0zwIl/93NIyvLSzyS6M4Et37/0uutSqnf
+ sE5YAlgH536F9wwlWnVnTEOxf4DRkHZi2FPpLFA0CrjFPWsIk89FaX7oedP1duUgFzCd1M8nITH
+ md0imZ5oIDi02vmV4Z+Ad+rKrz2WcDy3Y7E7e5mYv3CD1Pp0zQXTdQ0AFMhTfwrEf4RRUh2O9SV
+ T8OsR1xLYgIGnWkX+zSeYidfrKI7rrvdYt4Z/ZQwpO6ZSUiFwIY8BtqnIp4eq5aO7vZsSQ==
+X-Received: by 2002:a05:6a00:190d:b0:7a2:7f45:5898 with SMTP id
+ d2e1a72fcca58-7a442e0f8ddmr3638662b3a.3.1761652326401; 
+ Tue, 28 Oct 2025 04:52:06 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IGS4dyGEhrQjTsdoZZ200tdaWVCARKXkcuIoCe5yxPfzqYFEFwid6K9pGHnnpa5iBTfhZhu7g==
+X-Received: by 2002:a05:6a00:190d:b0:7a2:7f45:5898 with SMTP id
+ d2e1a72fcca58-7a442e0f8ddmr3638638b3a.3.1761652325941; 
+ Tue, 28 Oct 2025 04:52:05 -0700 (PDT)
+Received: from zeus ([2405:6580:83a0:7600:6e93:a15a:9134:ae1f])
+ by smtp.gmail.com with ESMTPSA id
+ d2e1a72fcca58-7a41402e554sm11362178b3a.18.2025.10.28.04.52.03
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 28 Oct 2025 04:52:05 -0700 (PDT)
+Date: Tue, 28 Oct 2025 20:51:54 +0900
+From: Ryosuke Yasuoka <ryasuoka@redhat.com>
+To: Ian Forbes <ian.forbes@broadcom.com>
+Cc: dri-devel@lists.freedesktop.org, bcm-kernel-feedback-list@broadcom.com,
+ zack.rusin@broadcom.com, maaz.mombasawala@broadcom.com, jfalempe@redhat.com
+Subject: Re: [PATCH] drm/vmwgfx: Add drm_panic support
+Message-ID: <aQCuQITy-z8aMDE-@zeus>
+References: <20251023200447.206834-1-ian.forbes@broadcom.com>
+ <b4c069b6-b932-45a9-a681-f661bb0a89cf@redhat.com>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: CH2PR12MB3990:EE_|MW3PR12MB4459:EE_
-X-MS-Office365-Filtering-Correlation-Id: 47ec0ccb-557b-44da-a028-08de1617241b
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
- ARA:13230040|1800799024|366016|10070799003|376014|7053199007; 
-X-Microsoft-Antispam-Message-Info: =?utf-8?B?eUlLWmRaYjN6WWJKZ3ZEb0tSOGllcTE1UTEvazY2cmlub2U1UlAyYmxqZitu?=
- =?utf-8?B?TnkrV090emdHWmRkdFp4enJwMWM2ZmJ3L0NpK3JVNjJZYUV4Y3hPY1NJK2tE?=
- =?utf-8?B?NkR3WWUxSFR4RGhmSURtSGVmU1Bwc0pJeVFEdGtIU0x2RW5ZTlluMEZWdHRD?=
- =?utf-8?B?SDZ4bzVldTV3dFdTb3kwN0M1YnV0T2NnaC9oMXd3NUVld1dCUDFPVHNoWlQ5?=
- =?utf-8?B?cU9teWM3ODBmcFQveHg3SzdjU0p6ZU4rV2JxM3NOOXAvaG9BL2oyd3dFMlgv?=
- =?utf-8?B?bm9xUmYwL0w3Q1UxUW1PZDJhMGdtZ1Jia1lXUnlUSGdvOVF4OTdsZno2L2dr?=
- =?utf-8?B?dGxvenF6NUgwelkrZnZhZVZtU1Z6MkJPYU9PKzJ4d2N6SjdjNGlKeDNYZjJi?=
- =?utf-8?B?dU9PUTE1VDVKTlg2TldiNi8zRE04TVE3ZG1KMEFzYklVcE9KU2ozSW9YK0lZ?=
- =?utf-8?B?eWxtc0IvZThOejB2dGdhUE1Ca05TRUpZejVxbzJIK3R3YWFqdXViRkdMeGx0?=
- =?utf-8?B?NDROQW0vTUZiTWx0bmZ0YkN2OE85bFJGKzZ2Y1BlN0lxUkZaeWx2SkVYVkxE?=
- =?utf-8?B?TVdYekFvZmZmREJYYWswMERFRENsS2wxYjBQbXd1bm91dnFCRGs3djNCdmJJ?=
- =?utf-8?B?dStEWkZ0SE5uL1M0eUdWbmI0M1RCT2ZqVThmR2lEVExqQmUwd2oxbWlwdnVy?=
- =?utf-8?B?WWlqL00zK2xvTS9YNkY4bnRFVTN2Q3Q5QmI4UWhhZTFncTA2NStFbWduK2Qz?=
- =?utf-8?B?STZKTjNaTm1nbjZ6bDZvWG5zbnZGalN1M0d5c2NNTXJ0bGdLeFA4ZzA4aDZY?=
- =?utf-8?B?ZmV2M3JpTTZSbllQbU5zeWtLTWJ0RHYxRVRQaW9KSjczd1ZBdVE5RmJKbDA0?=
- =?utf-8?B?U2R2Z2ZaQUY1NzhJNmZMOXVRS0RoQlB6N3VGMXp4My81NGZiRTkyOEhLVzlT?=
- =?utf-8?B?MlZTVis3R1dHUnRkTTJ5UC9vcld0Ym1wY1kzM3FLaHNmUlZyZGl5Yk1TUFcy?=
- =?utf-8?B?ZThVTDErbHFybGhwaG1zdW1RTllKQWVkRkhsZ3JNUHQ4QWRzRWJQRVZpWGEz?=
- =?utf-8?B?SVc3eVpyUm4ycDAvV2JtUmJsN0J4UEFVdWE4UEFUMDBCa3pyQ1ZXNEl5TWNF?=
- =?utf-8?B?dFdCRmFSa0k2Sy9taVIzVU56YU92VDJiZUVpdnNwbGQ3YjZ2ZzAwc3JHMU9o?=
- =?utf-8?B?RlE4c1lHSWovL2s1R3J6VGJ5ZExGVzB4OFRRUngxQmtLM0tiWk9BL0pNNWJE?=
- =?utf-8?B?V3NISFV3YjN6d3R6ZjFsMDlYd0xndm5TMUN6Y2JWblhOUDkxUjZzS3FsZk9C?=
- =?utf-8?B?Z3hLc3hveldYQ2oxT3c3ZTc1MlNZdUVnRmVCNk1EK2ZWQ3c1b3Y2Rys4aWt0?=
- =?utf-8?B?N2pvRUJrbjc2eFl5Z3VrbCtvVEE4RkgyZndDall3bjZTT0tzdmVuSGdXOGE2?=
- =?utf-8?B?VENYdnFxRm8veEtEdnZpOTBtVDNtYWRNK0J4dzA4bk9iZkNNbnpZK09UZW16?=
- =?utf-8?B?VVBTSXBZQnNhRTR6NndXSS9BQktPSXZkY0Ntc3NpclNIaEdHTzlZOCtlbDZm?=
- =?utf-8?B?Skg3TmQzYzdwTXcwYnd4VXZFdWhQaWRUd2NONzlMOGJBM1MzUXBaQ1dhbHZK?=
- =?utf-8?B?djJ3MU92TEphaWVWYys2REw5eWJSU1ZHdFFLWkZ3eDVoMHJ2LzYrREJ0cEY4?=
- =?utf-8?B?WkwxTHRiK1Buamp2Y3M1NXVkcmsza0RoNEdVWHR1ZzRPUXpqUFdiLytmSFlv?=
- =?utf-8?B?UlowV2RGT2pIY0FIWHVuc3R4dFk3VUM3aVM3YlpGY2o0TzM0MjVGQlpPZklU?=
- =?utf-8?B?YUtlbC92MmxNM0ZMcm1tU3lGanB0UWtvcWNNOHZsR2RpTFB1YkhyTEk4TW94?=
- =?utf-8?B?bTJOMVZRbFp3MExpTDVPcVpHbDIreWc1MFNYaWwxOXNPTFdWWnZDVnc2VVdz?=
- =?utf-8?Q?MxYDe9YXXYlDJOXfNI+QfYxg68MRrMn1?=
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:CH2PR12MB3990.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230040)(1800799024)(366016)(10070799003)(376014)(7053199007); DIR:OUT;
- SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?WDJMQzlwM3lPOC9WNEl0eHgzRjlwT0M3UXVKelN0SDI0SHlkQWlvRHUrbXZN?=
- =?utf-8?B?cWtoVTFXTmx2T0xTNW9KUnpETWM5MU1HQ2IxcFJhQ1JEY0luRnNkc2ZUM29x?=
- =?utf-8?B?YjRUbFRqbCtxR0dLb0NacFZQYjBxZ09WNFNRRTVPc2NuVkVEd0YvQVA0b25w?=
- =?utf-8?B?WGpuaHNON1JSVXJSQkFqQWk4M2swLzJJbzdWWnRyajJCWDNUSTNOTHUwZTZH?=
- =?utf-8?B?OGhCY0pmOHMyWXVMMDUrSzExNmJZb1JmRllLZTlZRXZUUWZzdkRpblVnSWUy?=
- =?utf-8?B?elJzTG5ScWlYdTR4OXQyTjZoRldhNUpjSWlNa1FHb3ArUkkvS3Q3ZDhmK1dN?=
- =?utf-8?B?SjdXejEzbVRqQng0VG1ZYTRWYnVoa2xITGkyZHc4T3pzSzJKVnZzRTNWZFJL?=
- =?utf-8?B?cUZ1TWlmS0FwbE5Sd1phN25IMVg0bWFubHJOM2plb1Z3TjkwbE1hRitsTlR3?=
- =?utf-8?B?aFMzeUJrcXhEQ3p1ejRiR01JOFd4dU1wMVNTSmNIRHZUckFtRjNTZU1LQldY?=
- =?utf-8?B?NFhPell5Y1FNRGRJU2pZeTZ5TTBDYlF3MFhjR1d6S3BuOWRMUm5GTmRpTFcz?=
- =?utf-8?B?TXovbkZEZVg5U1ZKRDRnY1NxTFRuOER5dmk0OUY1WXhnVDkyRTNISVVZQzMz?=
- =?utf-8?B?YktldmM3dEpqa01NU0Q1NGZNeUlvNm1XYzRRMGxFa2Y3eFhhWlcxeW8xYWkw?=
- =?utf-8?B?MHZiQ1ptR0V3UGlyMWUxSDFZUS9nS2dLcFVMeC9zbm9oRUptOUp2SThsUGhm?=
- =?utf-8?B?THMvY2huUG1CQWthNGg0Qk9hdk5aM0lOTkFxamRlSHJBNmtDU3BlNDZqcHNo?=
- =?utf-8?B?bi8rZjh3Tzc5QVhZQkVXUktaR05FaEhWcDgySEhKUmRpK1dpYWYyWFh6RG9j?=
- =?utf-8?B?b3phNTFUY2IydTlueG41RENMdjA0bXF1dnRmUEpTb0VhWVRSUmlyWXVqdSs1?=
- =?utf-8?B?S2Z2SjUyYWh3YXVQSDBZUm51aUN4VlY0QTRGSy9FUEh5MGZnWmhDNEVKOHZK?=
- =?utf-8?B?eFNJdlhpdTlFTkRVdmN2SThtaFlEVjQycTRONzJvendoMWtHN0hFK3NvT3FM?=
- =?utf-8?B?ZnNkUHJQWGlTTUgxdGgzWmxFVTd3N0hoRVRkRHBhMENjTlNNanRzL3FYSExL?=
- =?utf-8?B?UGthZHQwUzFleFRNWWFtb2lqMmV0SnRhTHdpdnp2di9Ea0xkVW8wakFGZzA4?=
- =?utf-8?B?YmcvNnJpRUZrRko1UGJYYXdRb05URWl4ZUJJYTFIODVrVmdtMDB1L2pib0JE?=
- =?utf-8?B?RVhDOHFheSt0WkZ6dGl5SURJUk5VTDR4VDJEQkQ3NmIrTW8xTGRFOEhBN0Jy?=
- =?utf-8?B?eUVnMXlPejhvaXhHY1ViVUJtTjJWWnVpaDVaMzAvQ2lmTml2bUcrOVMxYnJn?=
- =?utf-8?B?Z3VRYXdRWWZzVVZkKzJhZjRRZjcvSERRcitDQXpmQXdQVUhXOWplRjBubVhJ?=
- =?utf-8?B?b3ZDTUdHaVNiWkswM2loR1RpMjdoV21Dcy9hZjM2amF3UVkyZVd4S1p2ODNW?=
- =?utf-8?B?eWNZRk1zeEhVKzFlNHBVSUQzeDFNZWdybVpyRzdsQjRMbUFmNkhUK01HLzFr?=
- =?utf-8?B?UXh3UHhKcW1HeHRTWkxnMlBmOUZ5akdobitueUg0YVdsMVM2aURxdG1HbzhG?=
- =?utf-8?B?aHFXYnkrNW1EOC9aM29xZVBEUlo4cDZwRGUrRVdNaHdTbGgvUUhoYURwNHZj?=
- =?utf-8?B?SHYwU3RmT3l1UVpqRGFwNDVhWFN4R0xEZE5nNEI3aEFic0ZzTTJkTDBvYWxp?=
- =?utf-8?B?Sk5mYnFrREF4Y09ZQlBDQi8ycDJEd25aYVZLdnJ6eWVqcnpKb3Q5MWVxL2Ja?=
- =?utf-8?B?QitKdUZSZ1lMMmVzZnZNbnF1NHZrdkRnMHhWUTJDMUFGcmJ3YXJyd2cyVlJF?=
- =?utf-8?B?NC9SRDhIVlZ3dWUvZHkxb1ZKYkpZSnRxY2RlL3BnaXBlVGZTWEVSUmp6ZGw5?=
- =?utf-8?B?dE1KMGoyUi9VRTZpY1IvQXBUUWV6dksyZithZUJnMjUxcnRTR0FOQ2xJVk5Q?=
- =?utf-8?B?R1BqK3M4S1FjanZwVFVRYzBDREdKR1VWRUIreWFHRVI0N0RDV1BwRkpBMlBN?=
- =?utf-8?B?a3B6MGI1UHBpOWNVQktlSExoeWVRR1NMeGZrTlhzSHdFMEc5NVY3UHEza0Zh?=
- =?utf-8?B?RXVqaGJhRVVCNWxrNTVoQzQ3M2tVMjFhaU9FNi9TTTlibnVGVVV0VFNSRHQ4?=
- =?utf-8?Q?hkNGJujk4bvhkKnIpUaQchW/F2r1awMJ4BnN53itkVAr?=
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 47ec0ccb-557b-44da-a028-08de1617241b
-X-MS-Exchange-CrossTenant-AuthSource: CH2PR12MB3990.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 28 Oct 2025 11:42:58.0299 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: i4a1+AV0UtJFCTKGoQk+LIAUpq3HnMUBoOEIm1Nei5BjDNL8D9AFo3D5oAgrKCJP4S5G7yg5ApjnxTZqfMjRxg==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MW3PR12MB4459
+In-Reply-To: <b4c069b6-b932-45a9-a681-f661bb0a89cf@redhat.com>
+X-Mimecast-Spam-Score: 0
+X-Mimecast-MFC-PROC-ID: mTyyUKfk_6tOoJyYVk5Jralx91z-4yHj0tn6cEPPBgs_1761652327
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -168,11 +98,112 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue Oct 28, 2025 at 8:00 PM JST, Danilo Krummrich wrote:
-> The nova-drm driver does not provide any value without nova-core being
-> selected as well, hence select NOVA_CORE.
->
-> Fixes: cdeaeb9dd762 ("drm: nova-drm: add initial driver skeleton")
-> Signed-off-by: Danilo Krummrich <dakr@kernel.org>
+On Mon, Oct 27, 2025 at 02:56:21PM +0100, Jocelyn Falempe wrote:
+> On 23/10/2025 22:04, Ian Forbes wrote:
+> > Sets up VRAM as the scanout buffer then switches to legacy mode.
+> 
+> Thank you and Ryosuke for working on drm_panic support on vmwgfx.
+> For the use of the drm_panic API, it looks good to me.
+> 
+> Acked-by: Jocelyn Falempe <jfalempe@redhat.com>
+> > 
+> > Suggested-by: Ryosuke Yasuoka <ryasuoka@redhat.com>
+> > Signed-off-by: Ian Forbes <ian.forbes@broadcom.com>
+> > ---
+> >   drivers/gpu/drm/vmwgfx/vmwgfx_kms.c  | 33 ++++++++++++++++++++++++++++
+> >   drivers/gpu/drm/vmwgfx/vmwgfx_kms.h  |  5 +++++
+> >   drivers/gpu/drm/vmwgfx/vmwgfx_stdu.c |  2 ++
+> >   3 files changed, 40 insertions(+)
+> > 
+> > diff --git a/drivers/gpu/drm/vmwgfx/vmwgfx_kms.c b/drivers/gpu/drm/vmwgfx/vmwgfx_kms.c
+> > index 54ea1b513950..4ff4ae041236 100644
+> > --- a/drivers/gpu/drm/vmwgfx/vmwgfx_kms.c
+> > +++ b/drivers/gpu/drm/vmwgfx/vmwgfx_kms.c
+> > @@ -20,6 +20,7 @@
+> >   #include <drm/drm_rect.h>
+> >   #include <drm/drm_sysfs.h>
+> >   #include <drm/drm_edid.h>
+> > +#include <drm/drm_panic.h>
+> >   void vmw_du_init(struct vmw_display_unit *du)
+> >   {
+> > @@ -2022,3 +2023,35 @@ bool vmw_user_object_is_null(struct vmw_user_object *uo)
+> >   {
+> >   	return !uo->buffer && !uo->surface;
+> >   }
+> > +
+> > +int
+> > +vmw_get_scanout_buffer(struct drm_plane *plane, struct drm_scanout_buffer *sb)
+> > +{
+> > +	void  *vram;
+> > +	struct vmw_private *vmw_priv = container_of(plane->dev, struct vmw_private, drm);
+> > +
+> > +	// Only call on the primary display
+> > +	if (container_of(plane, struct vmw_display_unit, primary)->unit != 0)
+> > +		return -EINVAL;
+> > +
+> > +	vram = memremap(vmw_priv->vram_start, vmw_priv->vram_size,
+> > +			MEMREMAP_WB | MEMREMAP_DEC);
+> > +	if (!vram)
+> > +		return -ENOMEM;
+> > +
+> > +	sb->map[0].vaddr = vram;
+> > +	sb->format = drm_format_info(DRM_FORMAT_RGB565);
 
-Reviewed-by: Alexandre Courbot <acourbot@nvidia.com>
+Let me confirm whether debugfs feature works correctly. As I mentioned
+in my original patch [1], modifying this format will allow to display
+the panic screen by debugfs only one time. In your environment, can you
+trigger panic screen by debugfs multiple times?
+
+> > +	sb->width  = vmw_priv->initial_width;
+> > +	sb->height = vmw_priv->initial_height;
+> > +	sb->pitch[0] = sb->width * 2;
+> > +	return 0;
+> > +}
+> > +
+> > +void vmw_panic_flush(struct drm_plane *plane)
+> > +{
+> > +	struct vmw_private *vmw_priv = container_of(plane->dev, struct vmw_private, drm);
+> > +
+> > +	vmw_kms_write_svga(vmw_priv,
+> > +			   vmw_priv->initial_width, vmw_priv->initial_height,
+> > +			   vmw_priv->initial_width * 2, 16, 16);
+
+vmw_kms_write_svga() calls vmw_write() which locks spin lock. Since
+these functions are called in panic handler, we should avoid them. You
+can find some idea in my original patch [1]!
+
+[1] https://lore.kernel.org/all/20250919032936.2267240-1-ryasuoka@redhat.com/
+
+Thank you
+Ryosuke
+
+> > +}
+> > diff --git a/drivers/gpu/drm/vmwgfx/vmwgfx_kms.h b/drivers/gpu/drm/vmwgfx/vmwgfx_kms.h
+> > index 445471fe9be6..8e37561cd527 100644
+> > --- a/drivers/gpu/drm/vmwgfx/vmwgfx_kms.h
+> > +++ b/drivers/gpu/drm/vmwgfx/vmwgfx_kms.h
+> > @@ -500,6 +500,11 @@ int vmw_kms_stdu_readback(struct vmw_private *dev_priv,
+> >   int vmw_du_helper_plane_update(struct vmw_du_update_plane *update);
+> > +struct drm_scanout_buffer;
+> > +
+> > +int vmw_get_scanout_buffer(struct drm_plane *pl, struct drm_scanout_buffer *sb);
+> > +void vmw_panic_flush(struct drm_plane *plane);
+> > +
+> >   /**
+> >    * vmw_du_translate_to_crtc - Translate a rect from framebuffer to crtc
+> >    * @state: Plane state.
+> > diff --git a/drivers/gpu/drm/vmwgfx/vmwgfx_stdu.c b/drivers/gpu/drm/vmwgfx/vmwgfx_stdu.c
+> > index 20aab725e53a..37cb742ba1d9 100644
+> > --- a/drivers/gpu/drm/vmwgfx/vmwgfx_stdu.c
+> > +++ b/drivers/gpu/drm/vmwgfx/vmwgfx_stdu.c
+> > @@ -1506,6 +1506,8 @@ drm_plane_helper_funcs vmw_stdu_primary_plane_helper_funcs = {
+> >   	.atomic_update = vmw_stdu_primary_plane_atomic_update,
+> >   	.prepare_fb = vmw_stdu_primary_plane_prepare_fb,
+> >   	.cleanup_fb = vmw_stdu_primary_plane_cleanup_fb,
+> > +	.get_scanout_buffer = vmw_get_scanout_buffer,
+> > +	.panic_flush = vmw_panic_flush,
+> >   };
+> >   static const struct drm_crtc_helper_funcs vmw_stdu_crtc_helper_funcs = {
+> 
+> 
+
