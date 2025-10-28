@@ -2,132 +2,128 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9720CC16C80
-	for <lists+dri-devel@lfdr.de>; Tue, 28 Oct 2025 21:30:37 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0BC77C16CE3
+	for <lists+dri-devel@lfdr.de>; Tue, 28 Oct 2025 21:39:14 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9315910E65F;
-	Tue, 28 Oct 2025 20:30:34 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 04B3210E128;
+	Tue, 28 Oct 2025 20:39:11 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; secure) header.d=web.de header.i=markus.elfring@web.de header.b="UlcBCkhE";
+	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="oAqeAVnG";
+	dkim=pass (2048-bit key; unprotected) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="NWw/uozZ";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mout.web.de (mout.web.de [212.227.15.3])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D387C10E65F
- for <dri-devel@lists.freedesktop.org>; Tue, 28 Oct 2025 20:30:32 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=web.de;
- s=s29768273; t=1761683425; x=1762288225; i=markus.elfring@web.de;
- bh=DdMrjaycl5Rs8nmPFl2T7+j6J1/i4k2BgwnqAEmpOrc=;
- h=X-UI-Sender-Class:Message-ID:Date:MIME-Version:To:Cc:References:
- Subject:From:In-Reply-To:Content-Type:Content-Transfer-Encoding:
- cc:content-transfer-encoding:content-type:date:from:message-id:
- mime-version:reply-to:subject:to;
- b=UlcBCkhEnBsWMIyqODhf6HdylnKyOk80VcaESo2jSlRZZ2Lylb44pMSOhJI0JqHs
- etL94HqLgmpADDcs54YRRxy8SbFEbcOE6mDWAEex79iXVTkX2P3lmiN6Z4hVQQar3
- +ooIfSxRaUSFWyGQXTJPPpl8TobSQqud1Bsnc0Dd6U9VSXADEX1kdVTItnOiCCgag
- g6QbPg96sCCf6xQzP93JlKb8IqHi9C8ITjWAoHng3LsUHwHYouJ2ZgudjOJeS+z5K
- /BH0ckyLqwPzoKXmUtpRj9/93xoiwV+fdGcUcIViXl8WFv+gYkmLwzbMtZiaBON1C
- iLE0KNZQItAP36+F0g==
-X-UI-Sender-Class: 814a7b36-bfc1-4dae-8640-3722d8ec6cd6
-Received: from [192.168.178.29] ([94.31.69.187]) by smtp.web.de (mrweb006
- [213.165.67.108]) with ESMTPSA (Nemesis) id 1M76XT-1vLptO3JGB-00B2jn; Tue, 28
- Oct 2025 21:30:25 +0100
-Message-ID: <b7a2ac2a-53c3-49ce-862d-eaba86f0b298@web.de>
-Date: Tue, 28 Oct 2025 21:30:22 +0100
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
+ [205.220.180.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id AA63B10E128
+ for <dri-devel@lists.freedesktop.org>; Tue, 28 Oct 2025 20:39:09 +0000 (UTC)
+Received: from pps.filterd (m0279873.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id
+ 59SJlSam2616118
+ for <dri-devel@lists.freedesktop.org>; Tue, 28 Oct 2025 20:39:08 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+ cc:content-transfer-encoding:content-type:date:from:in-reply-to
+ :message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+ 4PBeAoboq9UeaJ4TKCXDk+7vPZjcuQg/yJtVUFLA2u4=; b=oAqeAVnGEy6xWI47
+ /VUThAOpL6bmU5eIa913LpTkx6u+H9ozsZ8hLzAKAgDwbG30xxZM/kFg0bwKmdOX
+ nIy7HEwzYhQvp5hn84feeXlJBgIVL8jLo3hiMQ/CxyJumy//1fpJSOGsMBovkvc6
+ OH5hXhdTpBCKhShlP2n0ew3g1/J4HUNOubF7RyAUTVjq92PtLbv2/As7LVqprz8L
+ /GrgmhjijUfeBZ9WwkunXInQ8dUu+vcJgr6EIsp4WGsEqGTsER/3IQJ5fOHjWUuW
+ u7X3XtwRlwgrBvlL99pd1mraGasWVqzq9OhEPcxChSDgAuE31iV2KH/cgNaZgSRH
+ KvOAyQ==
+Received: from mail-pf1-f199.google.com (mail-pf1-f199.google.com
+ [209.85.210.199])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4a34a0g3y8-1
+ (version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
+ for <dri-devel@lists.freedesktop.org>; Tue, 28 Oct 2025 20:39:08 +0000 (GMT)
+Received: by mail-pf1-f199.google.com with SMTP id
+ d2e1a72fcca58-7a27ab05999so4124770b3a.3
+ for <dri-devel@lists.freedesktop.org>; Tue, 28 Oct 2025 13:39:08 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=oss.qualcomm.com; s=google; t=1761683948; x=1762288748;
+ darn=lists.freedesktop.org; 
+ h=content-transfer-encoding:in-reply-to:from:content-language
+ :references:cc:to:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=4PBeAoboq9UeaJ4TKCXDk+7vPZjcuQg/yJtVUFLA2u4=;
+ b=NWw/uozZYDSGWlXPjjJ+pwvEBVvCvKG73/gDXgWn/uuOVyp2JA00RyhJw4q7+pvuCY
+ FHFQ+dx23yrmV2+GySy+UhNKTSvfDPemfcHS87PMKbLXSg7HaxXF0cxXZmjzFsV+VJPH
+ +0fcpNoEzG46AUGkCVPkeif+ADX3aLCvYhn3hLSbWDtD01wbBUzO62vWbcI2RxdnpR2F
+ 9qQ7YoDmFnG6zb8wb0XyLy7zJb5E66CNmplB9/+R/HpcpI1vP4ShO3EcwHtXt4Rpy8Oe
+ MtNeFmSxpPQKqmEbH5FZOF10Q5HY86V4psixWo3w5uTSzN99AjMHDordN8HR5HBv3LyD
+ gDEw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1761683948; x=1762288748;
+ h=content-transfer-encoding:in-reply-to:from:content-language
+ :references:cc:to:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=4PBeAoboq9UeaJ4TKCXDk+7vPZjcuQg/yJtVUFLA2u4=;
+ b=jwtl2QMf+0H8nKBCozwQb65UTmHhIbV+kGQgcliINxFZdxdFy0aA8MU9VGyoNLqYPR
+ KQrl+HwD9Oh/ylYZhicFoXco0jvatDtemBJC2/pbrlSLLirkVV1pG0Q0Iv4ESnHhSw2w
+ CUOLxx3pN0mrBqo9StZAEk/RBnoI91RXc2mhdoG7wCABrKavCpuXVXYas2Huc6XUvD3o
+ V/5zKj/iDGy6fiZz2BxEWUFZJhkNNOSFBhy1aDIc4Wbhj7ymZVOErWObWcg+H2sPdkaK
+ kgTj87WVrXPIn5nJAcm2NWaxhLHLJ+jtfvR6zqUv5L9VL9pNvJs4KP4k3HY3I/Fd4UdQ
+ DauQ==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCUMH0EZYg8nBWjrvUbm3aR8fzRpN5yl4iVi3YiDtFuE9CoYjUWu5As3NrUrXI/O0hjwztMFLbrqvRw=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YzfKB4CzGEwTyWHjnCxVK5Np0/jxCdei49s/wcdClJEP2pHOzSM
+ 9/N9FwB8m2o4ZRGFiP7NfT55cyIjh7GwBs/mD68HII+0JxtsrgVLsLbGfzxgKq2BZwjAh31QpFq
+ 01Eyn4+WeLJ+l5eTkV3m9WBjvlC3+a5ziRb4JFGFb1NIncodgCKxZTO9OvNzuN9m9yDnsB/U=
+X-Gm-Gg: ASbGncv7ZaCrwscYpGrm+OIKxPSm0dJ5BG5PCgvwqQ8iArlGFDjILa31/+qQCnWJGfk
+ j9E1xFaMdgJckgvZbW4ceE7R9/KwQ/MXVSX4Vm0hTZqtjoFD8gJmxhKBVEgmJdjcirlTGB/zQ2s
+ wbWpaxNTnvwxjB+pUAde/fOSwHFo4czXs9jmstb2Rt7163g1GXX54qxXi2Qswpu41+40aZ95cqR
+ 1baJ1YsTPTu4+CYZws9dPCqLmmpGlGi8hDoC+axZaNv+U61SdlK4Z/u9AtHoRlJgJ7ArThVm/4m
+ 4RIzZMFbl6ztGpPpTnlCvgsbSsDvydq4R7kfCNb5c1+sQNOiAMUfZP8GdJprQrbBRhPhVSpFCrj
+ sVt01hDUMoV+zbnTfh4FHFCLl9uEmXl+U1Y54SzK79pOqjS0/5yt7
+X-Received: by 2002:a05:6a20:12c9:b0:340:fce2:a152 with SMTP id
+ adf61e73a8af0-34653e276bfmr392753637.55.1761683947668; 
+ Tue, 28 Oct 2025 13:39:07 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IGG9pjjJFU5TgOTjqaMB/ulvnETMuGQ2QAkJ78A8X9VmkGLrNzq9jWZufiAfTv1VlFMsmZodw==
+X-Received: by 2002:a05:6a20:12c9:b0:340:fce2:a152 with SMTP id
+ adf61e73a8af0-34653e276bfmr392722637.55.1761683947164; 
+ Tue, 28 Oct 2025 13:39:07 -0700 (PDT)
+Received: from [10.226.59.182] (i-global254.qualcomm.com. [199.106.103.254])
+ by smtp.gmail.com with ESMTPSA id
+ d2e1a72fcca58-7a41408ef94sm12656167b3a.68.2025.10.28.13.39.06
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 28 Oct 2025 13:39:06 -0700 (PDT)
+Message-ID: <e18e73eb-79f8-4e23-9223-6a5ddbfe77ae@oss.qualcomm.com>
+Date: Tue, 28 Oct 2025 14:39:05 -0600
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-To: Lizhi Hou <lizhi.hou@amd.com>, dri-devel@lists.freedesktop.org,
- Jeffrey Hugo <quic_jhugo@quicinc.com>,
- Maciej Falkowski <maciej.falkowski@linux.intel.com>,
- Oded Gabbay <ogabbay@kernel.org>
-Cc: LKML <linux-kernel@vger.kernel.org>,
- Mario Limonciello <mario.limonciello@amd.com>, Max Zhen <max.zhen@amd.com>,
- Sonal Santan <sonal.santan@amd.com>
-References: <20251028175452.2329497-1-lizhi.hou@amd.com>
-Subject: Re: [PATCH] accel/amdxdna: Fix incorrect command state for timed out
- job
-Content-Language: en-GB, de-DE
-From: Markus Elfring <Markus.Elfring@web.de>
-In-Reply-To: <20251028175452.2329497-1-lizhi.hou@amd.com>
-Content-Type: text/plain; charset=UTF-8
+Subject: Re: [PATCH] accel/ivpu: Add support for userptr buffer objects
+To: Karol Wachowski <karol.wachowski@linux.intel.com>,
+ dri-devel@lists.freedesktop.org
+Cc: oded.gabbay@gmail.com, maciej.falkowski@linux.intel.com, lizhi.hou@amd.com,
+ Jacek Lawrynowicz <jacek.lawrynowicz@linux.intel.com>
+References: <20251028070624.135142-1-karol.wachowski@linux.intel.com>
+Content-Language: en-US
+From: Jeff Hugo <jeff.hugo@oss.qualcomm.com>
+In-Reply-To: <20251028070624.135142-1-karol.wachowski@linux.intel.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-X-Provags-ID: V03:K1:QwcS455MG8q2z88fDEKRwpC9wkA+7XEsmIrDO9pzbIqg+wFr1/h
- XGbzjEGZcFLUA06uPjiOniuuQ1q1ZK5KJPEKdpiG2p7jdSNZ+9R8Q0mEH4yIwAWNpGUSiNX
- 2nMdJz8oYfBu5HcLwF3LzhNRksQKceJdxBfLfhMtLycNGYCNEmJP6XO0+arA42zMhLCOI/2
- 6x+EWnTNIOIPudCVXjQkQ==
-X-Spam-Flag: NO
-UI-OutboundReport: notjunk:1;M01:P0:48vK4V+LRzo=;Kj+76tulifBfiLCdw+QyRrDrGrE
- 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
- bgsDQ==
+X-Authority-Analysis: v=2.4 cv=HvZ72kTS c=1 sm=1 tr=0 ts=690129ec cx=c_pps
+ a=WW5sKcV1LcKqjgzy2JUPuA==:117 a=JYp8KDb2vCoCEuGobkYCKw==:17
+ a=IkcTkHD0fZMA:10 a=x6icFKpwvdMA:10 a=s4-Qcg_JpJYA:10
+ a=VkNPw1HP01LnGYTKEx00:22 a=QyXUC8HyAAAA:8 a=on8cqEdgRNrYzwZKkhAA:9
+ a=QEXdDO2ut3YA:10 a=OpyuDcXvxspvyRM73sMx:22
+X-Proofpoint-GUID: 4QRWZruG9is6x-MbQcHgRNlqcISd_U40
+X-Proofpoint-ORIG-GUID: 4QRWZruG9is6x-MbQcHgRNlqcISd_U40
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUxMDI4MDE3NCBTYWx0ZWRfX3npRBzif0LCG
+ izro9JJdvrHNli21NpwyZGm+x6SfWY1mt8s9G4n7nAOe9Kzw8FrDT0cYM9VUdBh+v6HSFlO3sD3
+ IYH1OHIiOHbOJFHEsqrqIKX2q0jceDituZUDh4wKWjY2l0UzZzQlSyf2Dw+PtjwSKJcPhHqN9sJ
+ bCzsZE6gS7c9zmIJes7KLpDa+/lp+UvU9POW0cdG3H1elaJJh3g/8ugnyJbpQ5BqRHAbo6wOidl
+ y/b+geCif6qPNdF/ysLnHYZsQMh6HmqBEL0wY7I4Wr2KCdt7dbJDCEL4goxTU2JHV1KVXwGjbvb
+ Ii3tExbBhcVXbai2m04WNyCD8gYrGi7qiOc28fL6CblRsIoBW53uzklCnJOWF8NjFoeSbLC8YhQ
+ /oQi+RgJJnTHk4BOZEDsEoNoKgh55A==
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.9,FMLib:17.12.80.40
+ definitions=2025-10-28_08,2025-10-22_01,2025-03-28_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ clxscore=1015 priorityscore=1501 malwarescore=0 adultscore=0 impostorscore=0
+ lowpriorityscore=0 phishscore=0 bulkscore=0 spamscore=0 suspectscore=0
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.22.0-2510240001 definitions=main-2510280174
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -143,12 +139,97 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-> When a command times out, mark it as ERT_CMD_STATE_TIMEOUT. Any other
-> commands that are canceled due to this timeout should be marked as
-> ERT_CMD_STATE_ABORT.
+On 10/28/2025 1:06 AM, Karol Wachowski wrote:
+> From: Jacek Lawrynowicz <jacek.lawrynowicz@linux.intel.com>
+> 
+> Add support for creating buffer objects from user pointers
+> in the Intel NPU driver.
 
-Would it become helpful to use additional labels for the same state settings?
-https://elixir.bootlin.com/linux/v6.18-rc3/source/drivers/accel/amdxdna/aie2_ctx.c#L197-L226
+This feels redundant. $SUBJECT already mentions adding the support, and 
+in the Intel NPU driver is a given.
 
-Regards,
-Markus
+> Introduce a new ioctl `drm_ivpu_bo_create_from_userptr` that allows
+> users to create a GEM buffer object from a user pointer to a memory region.
+> The user pointer must be page-aligned and the memory region must remain
+> valid for the lifetime of the buffer object.
+
+This seems good, but perhaps incomplete. Why do this? What benifit would 
+this new IOCTL give the user? Increases performance when the user has a 
+specific usecase?
+
+> diff --git a/drivers/accel/ivpu/ivpu_gem_userptr.c b/drivers/accel/ivpu/ivpu_gem_userptr.c
+> new file mode 100644
+> index 000000000000..c5b64e0f2b13
+> --- /dev/null
+> +++ b/drivers/accel/ivpu/ivpu_gem_userptr.c
+> @@ -0,0 +1,207 @@
+> +// SPDX-License-Identifier: GPL-2.0-only
+> +/*
+> + * Copyright (C) 2020-2025 Intel Corporation
+> + */
+> +
+> +#include <linux/dma-buf.h>
+> +#include <linux/err.h>
+> +#include <linux/highmem.h>
+> +#include <linux/mm.h>
+> +#include <linux/mman.h>
+> +#include <linux/scatterlist.h>
+> +#include <linux/slab.h>
+> +#include <linux/capability.h>
+> +
+> +#include <drm/drm_device.h>
+> +#include <drm/drm_file.h>
+> +#include <drm/drm_gem.h>
+> +
+> +#include "ivpu_drv.h"
+> +#include "ivpu_gem.h"
+> +
+> +#define IVPU_BO_USERPTR_MAX_SIZE (4ULL * SZ_1G)
+
+Is this not the same as SZ_4G?
+
+> +/**
+> + * struct drm_ivpu_bo_create_from_userptr - Create dma-buf from user pointer
+> + *
+> + * Create a GEM buffer object from a user pointer to a memory region.
+> + */
+> +struct drm_ivpu_bo_create_from_userptr {
+> +	/** @user_ptr: User pointer to memory region (must be page aligned) */
+> +	__u64 user_ptr;
+> +
+> +	/** @size: Size of the memory region in bytes (must be page aligned) */
+
+Mention max size?
+
+> +	__u64 size;
+> +
+> +	/**
+> +	 * @flags:
+> +	 *
+> +	 * Supported flags:
+> +	 *
+> +	 * %DRM_IVPU_BO_HIGH_MEM:
+> +	 *
+> +	 * Allocate VPU address from >4GB range.
+> +	 *
+> +	 * %DRM_IVPU_BO_DMA_MEM:
+> +	 *
+> +	 * Allocate from DMA memory range accessible by hardware DMA.
+> +	 *
+> +	 * %DRM_IVPU_BO_READ_ONLY:
+> +	 *
+> +	 * Allocate as a read-only buffer object.
+> +	 */
+> +	__u32 flags;
+> +
+> +	/** @handle: Returned GEM object handle */
+> +	__u32 handle;
+> +
+> +	/** @vpu_addr: Returned VPU virtual address */
+> +	__u64 vpu_addr;
+> +};
+> +
+>   /**
+>    * struct drm_ivpu_bo_info - Query buffer object info
+>    */
+
