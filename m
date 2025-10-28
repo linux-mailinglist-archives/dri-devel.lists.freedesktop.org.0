@@ -2,67 +2,169 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7602EC154A1
-	for <lists+dri-devel@lfdr.de>; Tue, 28 Oct 2025 15:58:42 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id B3B2BC1554A
+	for <lists+dri-devel@lfdr.de>; Tue, 28 Oct 2025 16:07:52 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7382610E0EE;
-	Tue, 28 Oct 2025 14:58:35 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9BF7D10E5D1;
+	Tue, 28 Oct 2025 15:07:48 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="fKpHJDLw";
+	dkim=pass (2048-bit key; unprotected) header.d=Nvidia.com header.i=@Nvidia.com header.b="dk/uBsRb";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E474210E0EE
- for <dri-devel@lists.freedesktop.org>; Tue, 28 Oct 2025 14:58:33 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by tor.source.kernel.org (Postfix) with ESMTP id E4CB162002
- for <dri-devel@lists.freedesktop.org>; Tue, 28 Oct 2025 14:58:32 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 93632C116D0
- for <dri-devel@lists.freedesktop.org>; Tue, 28 Oct 2025 14:58:32 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1761663512;
- bh=fgrnGbqm4nMPYm0YFueCTLn38xVSXMpZjjfyexFg4zU=;
- h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
- b=fKpHJDLw+LdcON/i87zMt8WeFuLsLOkXCh8EaH+KceiRe9xB3NmNNEipNh06u89Qy
- AbqjbUQwBsH4cwpPlCHdRBkk9PFn/7DfhwH4wDXKj9w6C1tZEt3y3ZUiJWCH/WFiNw
- wuRNVHBpYpGjfgPS0713G9KL2KmLK817qGbDZUlo8sOcLtxCp2aLJQGxChIquDiQcy
- fj2U9lW2HSHWHA2eEH71FCQ37XgLZAwhPofn7BzXS5LFcnE+bQasacaEn/LkVXHexC
- GPwoVTWQz66mefaw9y9zjwlCNXEP4ixcVgZvMvMMxqtbsTY46dce7rKzABe6widukp
- ht3DHx+N8Nl9w==
-Received: by mail-pl1-f171.google.com with SMTP id
- d9443c01a7336-26e68904f0eso65576735ad.0
- for <dri-devel@lists.freedesktop.org>; Tue, 28 Oct 2025 07:58:32 -0700 (PDT)
-X-Forwarded-Encrypted: i=1;
- AJvYcCVQENe5g9zyDU0pxzh8c1Mo0yRR6DiJGYw6zZHio8FMw0zcJUDZNfGclLzadcQDRZTBpN7BJHkfb/k=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YyXS8Mg7SYFd1qVW83evbZYHKFvQ4PCxsMMbmIWcsOLpNiBxIpe
- RffB7KBeYa3PUwtjdB/itFtiCLhfMHpKLWxZ5jsXdXdP9T+aiUnsg9a0OV9KWHUKS6LGBTpeUPt
- 5Cc1pcZqqklae1+8rmCRRcnf3fsBiCQ==
-X-Google-Smtp-Source: AGHT+IHme6RPgheMLj6a7fR8+m2u2gZ6x3MVu+ulovS2o0skDQiD/daH6FArZWmguxDIJ5KfNDpOra+vAhdzzjURlKs=
-X-Received: by 2002:a17:902:dac4:b0:294:63ea:b570 with SMTP id
- d9443c01a7336-294cb65f622mr46857375ad.48.1761663512099; Tue, 28 Oct 2025
- 07:58:32 -0700 (PDT)
+Received: from SN4PR2101CU001.outbound.protection.outlook.com
+ (mail-southcentralusazon11012013.outbound.protection.outlook.com
+ [40.93.195.13])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 62FD110E063;
+ Tue, 28 Oct 2025 15:07:46 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=dU7J2z0U6kO+TPqiHfcTYMC3maS93mjkyY1O/ttWn7omqMi5LGYZY6eZ9nq5mzPB8E2swZLbIW8j+m8EmLKsPmocJGfF27tIhZoPnbUjxbsLccvj6w300PgXIvSEj+YFHlNvQkqM0qlNI2xlBBlmXC+iyRZW0GBmqEqQ+nH1d0Rt228aGtu7pRIQ76FkpKpIUEXhkietNPF/zSgE55E9PfURMChn0DLGylpQd1WWP6QVv3cJ28J+EVWY8HuQ/EvwhqvOOMk0POMCGUNdMA/RChMBTPiw7jrZzyPTYb8+L6gg/E9gkTwN6T0fYxT45lVni0kbGPhXVYNH4pU2DhbFxg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=k5zzltTgxY+mtKvdRJOX5QwZ2ki4ND2m3qfdysxuN3c=;
+ b=EPztZ2Kq4iZUIU9rYpFPA+9xJMC+KHNspKvnM0I1tGjkrjuIlTvcK9NBP2/let1QUXP8xOcG2oNOCOG8+ggz4AKYkKavM6G5DzdZJVlFsaNsqlnV4Co6SyJlDWBjbqj0kZcHnXTgFv21jrOJC6cAMXUdDr9R8Tr4nocFxz0yPEeNNVuG3T03Z7za/l7Vtk4biu906S0e8B1a0k2To0A8ng+CAoIj5/MRFOVeBBlh3IDOBoR854zYyaQAzz3xwWNHmYDPCu76UyVnxq7rMC/0cFW4g3JAvsqh37GCEvWTRjpuAMn4i4ipvQoz9yPpUM6zUa2ckElEiiPVNnL6pLxf6g==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
+ dkim=pass header.d=nvidia.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=k5zzltTgxY+mtKvdRJOX5QwZ2ki4ND2m3qfdysxuN3c=;
+ b=dk/uBsRbqFBCMZ0546Z5ZK/oKOIDKfvrKR31DFinVb4dvL9P7we7gu4gH363dt9FHsKgqNPa1NAjVTBqxDDwc6fPj3Y/xs9RXx6o2hpijBb9OSUS38duolmcM0p+RL0zQLWVuo/SPoQI3URlew0HiF5ncC05VEhDmEy1ocMGxMQPJVSqqsGtzC35FUpdxHVpwy4D1T7t8oNqRZ+HHOdr68iOQnun8+3HI6YydAzpMQQcnoJO9ghOqRz96hHYc8IptyXapuNTvwlHf8FoxXNDneENpBB4ni7Mu+RfdnS/vfaXkmh9Ox8Ao49TOCG4qvhPCOUtQm9g2Sztu6sWMDOH+Q==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=nvidia.com;
+Received: from CH2PR12MB3990.namprd12.prod.outlook.com (2603:10b6:610:28::18)
+ by CYYPR12MB8924.namprd12.prod.outlook.com (2603:10b6:930:bd::5) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9275.12; Tue, 28 Oct
+ 2025 15:07:40 +0000
+Received: from CH2PR12MB3990.namprd12.prod.outlook.com
+ ([fe80::7de1:4fe5:8ead:5989]) by CH2PR12MB3990.namprd12.prod.outlook.com
+ ([fe80::7de1:4fe5:8ead:5989%6]) with mapi id 15.20.9253.017; Tue, 28 Oct 2025
+ 15:07:40 +0000
+From: Alexandre Courbot <acourbot@nvidia.com>
+Subject: [PATCH 0/5] gpu: nova-core: leverage FromBytes for VBIOS
+ structures
+Date: Wed, 29 Oct 2025 00:07:35 +0900
+Message-Id: <20251029-nova-vbios-frombytes-v1-0-ac441ebc1de3@nvidia.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIADjcAGkC/x3MQQrDIBBA0auEWXdAhZTQq5QuHDMms4gGp0iDe
+ PdIl2/xfwPlIqzwmhoUrqKS04B9TBB2nzZGWYfBGTdb4xZMuXqsJFkxlnzQ9WVFJhOInt5Fa2G
+ kZ+Eov//2/en9Bnk8Ht1mAAAA
+X-Change-ID: 20251028-nova-vbios-frombytes-eb0cbb6a2f11
+To: Miguel Ojeda <ojeda@kernel.org>, Alex Gaynor <alex.gaynor@gmail.com>, 
+ Boqun Feng <boqun.feng@gmail.com>, Gary Guo <gary@garyguo.net>, 
+ =?utf-8?q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>, 
+ Benno Lossin <lossin@kernel.org>, Andreas Hindborg <a.hindborg@kernel.org>, 
+ Alice Ryhl <aliceryhl@google.com>, Trevor Gross <tmgross@umich.edu>, 
+ Danilo Krummrich <dakr@kernel.org>, David Airlie <airlied@gmail.com>, 
+ Simona Vetter <simona@ffwll.ch>
+Cc: John Hubbard <jhubbard@nvidia.com>, Alistair Popple <apopple@nvidia.com>, 
+ Joel Fernandes <joelagnelf@nvidia.com>, Timur Tabi <ttabi@nvidia.com>, 
+ Edwin Peer <epeer@nvidia.com>, rust-for-linux@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, nouveau@lists.freedesktop.org, 
+ dri-devel@lists.freedesktop.org, Alexandre Courbot <acourbot@nvidia.com>
+X-Mailer: b4 0.14.3
+X-ClientProxiedBy: TY4P301CA0064.JPNP301.PROD.OUTLOOK.COM
+ (2603:1096:405:36a::16) To CH2PR12MB3990.namprd12.prod.outlook.com
+ (2603:10b6:610:28::18)
 MIME-Version: 1.0
-References: <20251006093937.27869-1-johan@kernel.org>
-In-Reply-To: <20251006093937.27869-1-johan@kernel.org>
-From: Chun-Kuang Hu <chunkuang.hu@kernel.org>
-Date: Tue, 28 Oct 2025 14:58:18 +0000
-X-Gmail-Original-Message-ID: <CAAOTY_9rf948byRD3_cCeXREeLt2jXHL2CZPAEUUvAVgJc3dBA@mail.gmail.com>
-X-Gm-Features: AWmQ_bnhgsaxyx7-K3gUASFOVVQcGX3sTjPCy2q_RVuuZkcZXgMfDZNuqSDRMTE
-Message-ID: <CAAOTY_9rf948byRD3_cCeXREeLt2jXHL2CZPAEUUvAVgJc3dBA@mail.gmail.com>
-Subject: Re: [PATCH] drm/mediatek: fix device use-after-free on unbind
-To: Johan Hovold <johan@kernel.org>
-Cc: Chun-Kuang Hu <chunkuang.hu@kernel.org>,
- Philipp Zabel <p.zabel@pengutronix.de>, 
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
- Matthias Brugger <matthias.bgg@gmail.com>, 
- AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
- CK Hu <ck.hu@mediatek.com>, 
- Ma Ke <make24@iscas.ac.cn>, Sjoerd Simons <sjoerd@collabora.com>, 
- dri-devel@lists.freedesktop.org, linux-mediatek@lists.infradead.org, 
- linux-kernel@vger.kernel.org, stable@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: CH2PR12MB3990:EE_|CYYPR12MB8924:EE_
+X-MS-Office365-Filtering-Correlation-Id: bb640f6f-fbc7-4872-bf19-08de1633bd03
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+ ARA:13230040|10070799003|366016|1800799024|376014|7416014|921020; 
+X-Microsoft-Antispam-Message-Info: =?utf-8?B?TkorRHdsRnZVRmJWMnM0OUVNSldLdTRvbGY4R0lGNUp2MlhWT3pFYk52VVdj?=
+ =?utf-8?B?c0xEK2F2VnZLbzdOYkF6dkhZRlZNSWxXMHpPTWJWNDhrcHZDZVk4SGlJMTIz?=
+ =?utf-8?B?b01Jdlk0RXlFN0JodjR2dytPcE8zbFB2SWdsOVRNYXJ3M1ArT3R2c290aUpu?=
+ =?utf-8?B?MXBxd1g5bmllQVBXa3FmYmh4Q21tazlkSUxxZWlxd25xK2NuQ0JNUmRtQkJG?=
+ =?utf-8?B?UkNoVnJ0dmJPeDh3ZVc3WG8xb3Q3ZGxsbDFXVDlpK1BQaFBUK2tPNk1NWmNu?=
+ =?utf-8?B?RlJwZERqNktaZTVzVjhNSU9pR3BidUxVNk5uY093MUFMMnBXV05STEY1ZTF6?=
+ =?utf-8?B?YkVRUXVndEtmK250b05JRkFUeGVidGFad2xOQlNQQjZQMkRjODFLenF2NGpY?=
+ =?utf-8?B?RjM4V1MzdTM0UzhmVWN5N1hlWERZZGY1Vm5Oa01kcVJUa2s5UHc1NURkbGpE?=
+ =?utf-8?B?V0svNFFUcjB6NGtzNkVVSUtTNlNFdysyZi9JMCtSdmRxc242WkhkQ2tGTEhN?=
+ =?utf-8?B?YndZV2txVVgrUWdqM0NYa1NaR0ZaSjZsaVVQdWFXQVpOQi9aNzl4SWw0a2U0?=
+ =?utf-8?B?ZUFpeVAvWTFlVWpLSks5VHFkMGJZZTR0a2RYZTJJY2dPb3dObGZhTjc5cEZr?=
+ =?utf-8?B?bEM0VE42MTFTMFBncmdaVFdQangweENDUm41UndPK2h6NmRPbHlnWTJrMUQy?=
+ =?utf-8?B?ZmV3UXkvVUg0eGRtU0VTcENXOGd5V3FlL3lxZUNwdVM3NWJ2L0FUQ3MzMkRO?=
+ =?utf-8?B?NnpyQzVSZDZLZk81bzZIYmRmM0RaS3hCNDU2ZGtra3AwNmg2dWloMHhhWUtJ?=
+ =?utf-8?B?aENCUENqUnBMLzRDOHhnRzRrdXI3R29pNEREWG5OVThyYnlBN1FOa1JsSVZC?=
+ =?utf-8?B?WUk2Qi9uTlo4SmFTc1dvclYzTmZtcmRuMGFLNmk3eHJDT1RvT1FnUjdHaGpL?=
+ =?utf-8?B?Qy8rVDdmaU1tQ1VPQ2ZLUTU4Y0dSYld4b3BIS2E5WVJWRzFjbjhHNGluSzI2?=
+ =?utf-8?B?NEEzckg1R1V6NFRER3dNYVZhZDFpY1I0dDdpeEUwTzdXTXBGY0J2bldaTis2?=
+ =?utf-8?B?VFVzS0FNSjVIaVV5ZHYzNzRrU0FpM1JYSmVWUTJiQ2FvY25MV3ZhMW5DZnZN?=
+ =?utf-8?B?cnlhSTJuQjBDZTZoRXRtdVFVd1R4eXBBQTlpRVdHU3poT2U0M2xxMXlZcm01?=
+ =?utf-8?B?dk5SS1Q3bEppSHFpYVd5SWFoS0tFSjFsVDZCdjBPOUNRbUNtYjlZQlV5Y2ZZ?=
+ =?utf-8?B?ZytocVZwbllWN25ISko4TkxjVkJ1bE8yTHpVWi9qajJXdllwNXg2UG9ocml3?=
+ =?utf-8?B?Uis0TTQrYlIvNmVJS0s2RUpnSU9pSmt2UWR2djFjMWVuYUo1MjZsajlub1E4?=
+ =?utf-8?B?MkNEUnRWVWhpaXhlQ3hNbmJnLzhKOWNQZUdCWmtmOW9hL1hKMFhOcWtRNlEw?=
+ =?utf-8?B?Y2g2M2hCekhScUlESTdlU3NKcXd0VEc3VG9uNW5XYW9NQ25vdTROQ1NhNnhQ?=
+ =?utf-8?B?Mi94akJ6b3ErdnhkbWFSK1Y0Sm03MjV1aENuQWdhMDZvYlMzQUQ2TXhhMDBB?=
+ =?utf-8?B?MExWUEM3Z25pUHFRZ2cyQlJ0cGFVVVJBNm9KajQ1aWZja0IzcTMzK2pkTkwv?=
+ =?utf-8?B?TzBPeTZOSkl4OXlDRlpIQVJhdlBlVXE4T3NCWGNmRWVkVm56S0JtLys4RlVo?=
+ =?utf-8?B?elArYk9pSDZLZnhJaXhSUUJNREFod1gzci9ld2xNOFcyUHRsaVZQTERUem1y?=
+ =?utf-8?B?K2JmK21heFBqWk9GK1JNM0pIcmlmNDl3S0VWS2R5V1poWVkwYk9kM0RxSk9v?=
+ =?utf-8?B?L3pENVR4Uk1tN3RJYkhsQWRyYXc0RithZDdZbUdjd3JKR0drUy9QemlFNW5p?=
+ =?utf-8?B?NmVtdDVacnFLUksrTHZ5bVZ3OEdCTVpZYldxcnlpOVd1VFRpaVNVbWZlL1J1?=
+ =?utf-8?B?OFBmZHVSUTVjanBvaUgyS1B1VFV6alJBNmZXL3dRSWpLQVJtVzZaZ3hUck8z?=
+ =?utf-8?B?YWRLcEs4TnFvUHNNSDB5VzNnMHJtSUVDWVp2YjJ2L3g5Y2YxM0lqTTU2dXRM?=
+ =?utf-8?Q?ZXQG0X?=
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:CH2PR12MB3990.namprd12.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230040)(10070799003)(366016)(1800799024)(376014)(7416014)(921020);
+ DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?ZDJSMWU5bVliYUhkcWlPRUVBNlhEYmNZK29oLytGVm5qdDA1Q0dLYXp2RGNi?=
+ =?utf-8?B?ajNQMWZKckRNNzlxTkM4bU5xa2JLdjd5aHpyK1JGVkNaWHgrQVFxNys1OFg0?=
+ =?utf-8?B?MjhVRGZTMGQvY2w2ZGJUdGpqVkowdTJqdFNEbWVBR2cvUERuNG1RVzJYNE5I?=
+ =?utf-8?B?QlFNMzdDekhqbkp4TkhQOWtWNzIxUEs1WnBMVkswYzU2TXdpU2ZoMnFlT0JU?=
+ =?utf-8?B?OUhHUVp1ZXBXOE9ibEpXTWR1N0hIRnVUaTIzMFpka200QXEzZUdQNCtYbmF3?=
+ =?utf-8?B?a0crMmpsZHhWb1dJZGVWaWVWV1BTb0RLcm1ldHZkbEVweEJFbmdHQWM0RnRh?=
+ =?utf-8?B?ekpUUU1ZWGd1K1R2ZFNmVkxsRHk5d1pNZDU0cUN1L1JKWXh1K0VGYlhrRjMz?=
+ =?utf-8?B?d2lYNmlMT1BYeVlqeDFTMCtza2JnTzNWbXByVkJjbFNpZndhSGw4Mk95Wkk4?=
+ =?utf-8?B?L1k5MUZPc3VYVjhVUTZXYllocFNKbExFT3dzTUxFSVN1alk3QndxTzd0aHpw?=
+ =?utf-8?B?R0lwbzhzNHNWVUMxdHVpakQzU1h4YjdXYWU2MW15VWZKT1FxVHZJVzVUYUNY?=
+ =?utf-8?B?RWc0ZmFjamNmd1hMdTRFY0ZwZDNyRi81T0h0YzNNYnNkL2d6SHVKUWxvYjVl?=
+ =?utf-8?B?am94djl4ZlJDODRlL1BBbGdqUDFpaGpZZGczMjVSV1RIWXNJQzVUcW5UL0Jj?=
+ =?utf-8?B?cXk4dndSNFoyVWlsa1BmelhYYWl2TGNFRVlqaWFpRVg0SEJ6U1hjdDFTaHM1?=
+ =?utf-8?B?MmNtN1dyK2x5OUN3ZTFYQlZqNHpRMklVOG5aT2xnOE94Qm94MHErWXFKc3hB?=
+ =?utf-8?B?WHNxU3UyMTlwVmtuaEJYTDF1dDBKS1hEY0JyUXJWWFVaSFlBQVRka0pNZE5k?=
+ =?utf-8?B?YXFEWlg2OU5Yc0d4TmtPRTh6RHBVQWh6QU9hOWN3ZS9uQjF0aDZzaHJhSVU2?=
+ =?utf-8?B?Q2NPMzJMZVRVb3Q2RWVreWRTK2ZQYU9oZTJyMDZyVzVObThCTW5uR01menZP?=
+ =?utf-8?B?Q2ZvL1hiNThXRW5zYUNPQnZ5RmYxQUVqNUVTNG9FSmU3SUNDNW5GYzZ2NDJj?=
+ =?utf-8?B?VlRocXgrSmV5d1A3MGk1UHUvbUV5STk1YkJMUFIzdkxudHlsMTc1TlZKWngr?=
+ =?utf-8?B?WEd0d3JhMTJWdmtJOGNoQm5IRUl1aFJ2RHZpSktBelA1RTRZbHhnRXh5d3p3?=
+ =?utf-8?B?NUtHRzJHdGgzRHlZVm1DbG9wSU15TWlweDhHOU1DZGlISDBZZUptRktYY1Fh?=
+ =?utf-8?B?cnMraVVtTVh5Sjg5R3BFQlpZV1dkQVRGaWVPTHZZOFZnakNZbVJRNXE1VWtF?=
+ =?utf-8?B?SHB3QS9TUW1tT0hVV213dTBoZjRrRDl0Mmk0KytldGttYkZGcDJycUpMYzdh?=
+ =?utf-8?B?YkhzdGJVcmo0M0tjcGd1UUtaSG93Wk0xS0tVcmJLNjNFdW5LSlloTDdGTC9x?=
+ =?utf-8?B?VFJUaTVqemJ3bXVaMWNrZGVOd3lDZW1heTBMa0JzbzhGcm9rcHJSMFluUEQ4?=
+ =?utf-8?B?dWVvM1IveGZtY2xBKzFnR0hmUlV5MVpWU29CcVNkdk9jbTR6eVpFajVkMmZR?=
+ =?utf-8?B?MTRuUDdMUE1Ba3ZHcnB1RnlHTnBmVDhKZFJXa2Q1YkdadlpaY29Samk5aHRV?=
+ =?utf-8?B?SGhRRjhWTzZ0aTBrcnJKT1l0WUIzRDdvTFpXcmpORjltbXRHdlg3YnlEZ0RW?=
+ =?utf-8?B?ZllEVEt2eS95bmV4Q0UwQ2tvZjU4WXhjSTVhMzFwdUtDbm9nTng1VjV1Nm1B?=
+ =?utf-8?B?a0cyYjRKVmwwUFpzMUFaZUpPUHpJQk1majF1d3g0dHZBUVhwVnhiRXpiMHVT?=
+ =?utf-8?B?cVRlTHpJR2ZqNjhqRHpiaGsxdncvUk56S2tBSEJBd0UvOSt0VER2TXAxUHF4?=
+ =?utf-8?B?UTJhVjVWNXdXWUN6aXBzWVU2cWY0QlJiWEM4bnFKVkFJY05EYm9sbXh6a2FG?=
+ =?utf-8?B?dWJWMVpqd1hpUVhMS0NGSW80ejFVRUhRL1EzZ3diV1dhT1Zpc1pwV0pGUmZs?=
+ =?utf-8?B?cVA5TG5iWTJGYytwVUNMNjc1NFhlcUQyN1lGSlVUR3Jsc21BMkcyMFFGeVo5?=
+ =?utf-8?B?UU9uVUhXcThqU2d2RHRpcm56WXJkWVF5b1BqZzYyTS9zTjY1cGJzdkVtZ0l4?=
+ =?utf-8?B?dThGNFVqR3BERmJFeXZLN1grbUhSTEVSWENCakVTazJEUTNVRDN4OTdQOTM3?=
+ =?utf-8?Q?smNYvzwa6zNrvTBL31Sm+of1CHNXPRwXE0hXwpuaA2vX?=
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: bb640f6f-fbc7-4872-bf19-08de1633bd03
+X-MS-Exchange-CrossTenant-AuthSource: CH2PR12MB3990.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 28 Oct 2025 15:07:40.5617 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: WNsEeDgog9x6ksOTKR1Q6rJTDNRvZES+D89Kmj2Z0JSMfchigNvyX/QjIBM9pew1aRK8Y3r615HaoyEai5ci4A==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CYYPR12MB8924
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -78,81 +180,49 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Johan Hovold <johan@kernel.org> =E6=96=BC 2025=E5=B9=B410=E6=9C=886=E6=97=
-=A5 =E9=80=B1=E4=B8=80 =E4=B8=8A=E5=8D=889:48=E5=AF=AB=E9=81=93=EF=BC=9A
->
-> A recent change fixed device reference leaks when looking up drm
-> platform device driver data during bind() but failed to remove a partial
-> fix which had been added by commit 80805b62ea5b ("drm/mediatek: Fix
-> kobject put for component sub-drivers").
->
-> This results in a reference imbalance on component bind() failures and
-> on unbind() which could lead to a user-after-free.
->
-> Make sure to only drop the references after retrieving the driver data
-> by effectively reverting the previous partial fix.
->
-> Note that holding a reference to a device does not prevent its driver
-> data from going away so there is no point in keeping the reference.
+This series spawns from the discussion in [1], where it was noticed that
+several structures of the VBIOS could just be read using `FromBytes`
+instead of being built manually.
 
-Applied to mediatek-drm-fixes [1], thanks.
+While implementing it, I also noticed that we were repeating the
+following pattern quite a bit in the code:
 
-[1] https://git.kernel.org/pub/scm/linux/kernel/git/chunkuang.hu/linux.git/=
-log/?h=3Dmediatek-drm-fixes
+    slice
+        .get(..size_of::<TargetType>())
+        .and_then(TargetType::from_bytes_copy)
 
-Regards,
-Chun-Kuang.
+... which begs for dedicated methods doing this in the `FromBytes`
+trait. This is what the first patch does, taking inspiration from a
+similar feature in the `zerocopy` crate.
 
->
-> Fixes: 1f403699c40f ("drm/mediatek: Fix device/node reference count leaks=
- in mtk_drm_get_all_drm_priv")
-> Reported-by: Sjoerd Simons <sjoerd@collabora.com>
-> Link: https://lore.kernel.org/r/20251003-mtk-drm-refcount-v1-1-3b3f2813b0=
-db@collabora.com
-> Cc: stable@vger.kernel.org
-> Cc: Ma Ke <make24@iscas.ac.cn>
-> Cc: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
-> Signed-off-by: Johan Hovold <johan@kernel.org>
-> ---
->  drivers/gpu/drm/mediatek/mtk_drm_drv.c | 10 ----------
->  1 file changed, 10 deletions(-)
->
-> diff --git a/drivers/gpu/drm/mediatek/mtk_drm_drv.c b/drivers/gpu/drm/med=
-iatek/mtk_drm_drv.c
-> index 384b0510272c..a94c51a83261 100644
-> --- a/drivers/gpu/drm/mediatek/mtk_drm_drv.c
-> +++ b/drivers/gpu/drm/mediatek/mtk_drm_drv.c
-> @@ -686,10 +686,6 @@ static int mtk_drm_bind(struct device *dev)
->         for (i =3D 0; i < private->data->mmsys_dev_num; i++)
->                 private->all_drm_private[i]->drm =3D NULL;
->  err_put_dev:
-> -       for (i =3D 0; i < private->data->mmsys_dev_num; i++) {
-> -               /* For device_find_child in mtk_drm_get_all_priv() */
-> -               put_device(private->all_drm_private[i]->dev);
-> -       }
->         put_device(private->mutex_dev);
->         return ret;
->  }
-> @@ -697,18 +693,12 @@ static int mtk_drm_bind(struct device *dev)
->  static void mtk_drm_unbind(struct device *dev)
->  {
->         struct mtk_drm_private *private =3D dev_get_drvdata(dev);
-> -       int i;
->
->         /* for multi mmsys dev, unregister drm dev in mmsys master */
->         if (private->drm_master) {
->                 drm_dev_unregister(private->drm);
->                 mtk_drm_kms_deinit(private->drm);
->                 drm_dev_put(private->drm);
-> -
-> -               for (i =3D 0; i < private->data->mmsys_dev_num; i++) {
-> -                       /* For device_find_child in mtk_drm_get_all_priv(=
-) */
-> -                       put_device(private->all_drm_private[i]->dev);
-> -               }
->                 put_device(private->mutex_dev);
->         }
->         private->mtk_drm_bound =3D false;
-> --
-> 2.49.1
->
+The remaining patches leverage these new methods to simplify the VBIOS
+code a bit, accordingly.
+
+If patch 1 is deemed a valid idea, I hope we can merge it into the DRM
+tree along with the rest of this series.
+
+The base for this work is `drm-rust-next`, with [2] applied.
+
+[1] https://lore.kernel.org/rust-for-linux/DDTRW1P2I4PB.10ZTZDY95JBC5@nvidia.com/
+[2] https://lore.kernel.org/rust-for-linux/20251026-nova-as-v1-1-60c78726462d@nvidia.com/
+
+Signed-off-by: Alexandre Courbot <acourbot@nvidia.com>
+---
+Alexandre Courbot (5):
+      rust: transmute: add `from_bytes_prefix` family of methods
+      gpu: nova-core: vbios: use FromBytes for PmuLookupTable header
+      gpu: nova-core: vbios: use FromBytes for PcirStruct
+      gpu: nova-core: vbios: use FromBytes for BitHeader
+      gpu: nova-core: vbios: use FromBytes for NpdeStruct
+
+ drivers/gpu/nova-core/vbios.rs | 137 ++++++++++++++++-------------------------
+ rust/kernel/transmute.rs       |  60 ++++++++++++++++++
+ 2 files changed, 113 insertions(+), 84 deletions(-)
+---
+base-commit: 639291d7c30cec5cf0d9a79371021c2e4404cfc9
+change-id: 20251028-nova-vbios-frombytes-eb0cbb6a2f11
+
+Best regards,
+-- 
+Alexandre Courbot <acourbot@nvidia.com>
+
