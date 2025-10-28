@@ -2,63 +2,156 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A5B26C14FF9
-	for <lists+dri-devel@lfdr.de>; Tue, 28 Oct 2025 14:56:56 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 689B8C15033
+	for <lists+dri-devel@lfdr.de>; Tue, 28 Oct 2025 14:59:15 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8ADC410E3FC;
-	Tue, 28 Oct 2025 13:56:54 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 01E1910E406;
+	Tue, 28 Oct 2025 13:59:12 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="NDdLExho";
+	dkim=pass (1024-bit key; unprotected) header.d=amd.com header.i=@amd.com header.b="WWyxexrW";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5C1A510E3FB;
- Tue, 28 Oct 2025 13:56:52 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1761659813; x=1793195813;
- h=from:to:cc:subject:date:message-id:in-reply-to:
- references:mime-version:content-transfer-encoding;
- bh=dDVVR8SYyoolEVQoZTXi8NUZUymEyiYHzmsYx/kAFis=;
- b=NDdLExhouQvRocAH0AimCHsVGRPi9mTRSPllgdeYZ09crxVmjXk1W33F
- IxwX88kkNtIxzToXInMWlUp9uF8vVLiroZcktFdiWlGncbkxd17Bb66Uq
- 3S0V6rxYst7pem7rHu5LUAlCLgI/Eyc7y1Ku0E5aOa28JH/mh3LDpo8S2
- NqjMD0h9X149ZO/MldQUqboKl5zbFvBZiOdMkeFE0IFzb7RLEi/SEqq/R
- n6KMfla4NGB4P5kjANdJFnUvdnGGXvem+MhbZlmPYdIrZOsaroBVzU39Y
- DVLBD2QfpEtocwpn8Kv4guF309HRLEJQnz3lBBaMxAswzQkOoXSHGvfAV Q==;
-X-CSE-ConnectionGUID: lL58ouHzRC2axIzrTWT9wg==
-X-CSE-MsgGUID: slxGPACxSgSSNgyFsGLHxw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11586"; a="63908526"
-X-IronPort-AV: E=Sophos;i="6.19,261,1754982000"; d="scan'208";a="63908526"
-Received: from orviesa003.jf.intel.com ([10.64.159.143])
- by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 28 Oct 2025 06:56:53 -0700
-X-CSE-ConnectionGUID: YpCa3ZVMRhWUYdp1/KerpA==
-X-CSE-MsgGUID: rJayKFrUTz2cZa1r7W1yhQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.19,261,1754982000"; d="scan'208";a="189406379"
-Received: from jkrzyszt-mobl2.ger.corp.intel.com ([10.245.246.100])
- by ORVIESA003-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 28 Oct 2025 06:56:51 -0700
-From: Janusz Krzysztofik <janusz.krzysztofik@linux.intel.com>
-To: igt-dev@lists.freedesktop.org,
- Christian =?UTF-8?B?S8O2bmln?= <christian.koenig@amd.com>
-Cc: Kamil Konieczny <kamil.konieczny@linux.intel.com>,
- Chris Wilson <chris.p.wilson@linux.intel.com>,
- dri-devel@lists.freedesktop.org, Rodrigo Vivi <rodrigo.vivi@intel.com>
-Subject: Re: [PATCH i-g-t v3] tests/syncobj_timeline: Exercise signaling of
- awaited points
-Date: Tue, 28 Oct 2025 14:56:47 +0100
-Message-ID: <1838875.VLH7GnMWUR@jkrzyszt-mobl2.ger.corp.intel.com>
-Organization: Intel Technology Poland sp. z o.o. - ul. Slowackiego 173,
- 80-298 Gdansk - KRS 101882 - NIP 957-07-52-316
-In-Reply-To: <091ded65-cfac-4215-a6aa-a8d7c0fe05af@amd.com>
-References: <20251007152315.3403250-2-janusz.krzysztofik@linux.intel.com>
- <091ded65-cfac-4215-a6aa-a8d7c0fe05af@amd.com>
+Received: from PH8PR06CU001.outbound.protection.outlook.com
+ (mail-westus3azon11012008.outbound.protection.outlook.com [40.107.209.8])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1381310E3FB;
+ Tue, 28 Oct 2025 13:59:11 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=LslehMp9OOWi2FQ2P22I1Xk9H5TO0pzvMcH6vm5lOwx1tbyF1ZA5j9+oXJ8G0a3dQaOGZoUi/6J/IkEYrNPc6g5sGfu6cERTYl0dpPgM8F1b/IrjHy2UYo+qO9+EnXJ5U82PQikk4jiSvAIMH/vwMZTO7eSJXRyCS5Tyf05g8RTrNlJd8EiMD+NWd7yhw8Zte+kUjHbM8pfHokRPilj5octCUsp2mqv7sGUXlsW5v02lrMnUgy+CMzgnjJC81Cbyw7qGaDu1nOW79TGZTR0zkl43OTTbLR3C09GY/Z/OySIksLl86tuUSBzE5bg1rHtUqebp/KyJyySyBn1voL4OWQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=6Rd2Gno2NwHM3qO6D0XF0R4JwBU6Ha+Lh+hA87Eg3GA=;
+ b=iON3Ch7ZvcIiKU7+6FvjPux31SlibUMFH0r/qVRBpnB2RhofvbruKSKwLUGjOuxirr1lR37r5L3YGv+Iiwng+KDfxaFUiyv+ggjlQpxVQ9TbeE+q7XdRwWGE9IbTT6iAGQ80e793KRFkLHusDWN99VkoYP40xK6hGANZjYqgOLHW6fyBD5W0VHYIiGijDKxSCPPRU68e41A6yDlx0iqW03a8dm/CMMUTob2cxRw6uR4+kEfQihHCyYSJDrSUpCJtBmF9lSge/zI+orIRtLz0nnH/yW9sotXJxUsnDhBV23fMtv3DqXi5wT/9GEEO9MPvPEGr4YALl5ONHU4rOCabBA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=6Rd2Gno2NwHM3qO6D0XF0R4JwBU6Ha+Lh+hA87Eg3GA=;
+ b=WWyxexrW0NONmw259XQC1QDN7JyjEJk/PCI8Qc9x7NIrLyndJ6LTz9E1sUfjJ+l83zxfqizEjLyeH+8I8mA9GcrdJTNnO0R5QqntAXJNEPKBIk7bOOoTz4VKE1KJxZg9dOfjQx2ivhAMVbbA7cy+UALVxREPkhFR8MmTyWpu9qo=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=amd.com;
+Received: from PH7PR12MB5685.namprd12.prod.outlook.com (2603:10b6:510:13c::22)
+ by BN5PR12MB9511.namprd12.prod.outlook.com (2603:10b6:408:2a9::14)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9253.19; Tue, 28 Oct
+ 2025 13:59:04 +0000
+Received: from PH7PR12MB5685.namprd12.prod.outlook.com
+ ([fe80::46fb:96f2:7667:7ca5]) by PH7PR12MB5685.namprd12.prod.outlook.com
+ ([fe80::46fb:96f2:7667:7ca5%4]) with mapi id 15.20.9253.017; Tue, 28 Oct 2025
+ 13:59:04 +0000
+Message-ID: <61c5edcb-2b22-4583-9138-c117bea7a9b3@amd.com>
+Date: Tue, 28 Oct 2025 14:58:57 +0100
+User-Agent: Mozilla Thunderbird
+Subject: Re: [RFC 1/8] dma-buf: Add support for map/unmap APIs for
+ interconnects
+To: Vivek Kasireddy <vivek.kasireddy@intel.com>,
+ dri-devel@lists.freedesktop.org, intel-xe@lists.freedesktop.org,
+ linux-media@vger.kernel.org, linaro-mm-sig@lists.linaro.org
+Cc: Jason Gunthorpe <jgg@nvidia.com>, Sumit Semwal <sumit.semwal@linaro.org>, 
+ =?UTF-8?Q?Thomas_Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>,
+ Simona Vetter <simona.vetter@ffwll.ch>
+References: <20251014071243.811884-1-vivek.kasireddy@intel.com>
+ <20251014071243.811884-2-vivek.kasireddy@intel.com>
+Content-Language: en-US
+From: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
+In-Reply-To: <20251014071243.811884-2-vivek.kasireddy@intel.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-ClientProxiedBy: BN9PR03CA0640.namprd03.prod.outlook.com
+ (2603:10b6:408:13b::15) To PH7PR12MB5685.namprd12.prod.outlook.com
+ (2603:10b6:510:13c::22)
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset="utf-8"
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: PH7PR12MB5685:EE_|BN5PR12MB9511:EE_
+X-MS-Office365-Filtering-Correlation-Id: 1352b08f-4efe-4d92-1ac9-08de162a2776
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;ARA:13230040|1800799024|366016|376014|7053199007;
+X-Microsoft-Antispam-Message-Info: =?utf-8?B?V2xSTWlrN3JxZWQyM0RtblE4QnNreU9BVmY3Y1hzdHQ3bW5xY0Zwd1hBc1Jr?=
+ =?utf-8?B?aXhsM0RWcjNRZ2JGTDkrbkxnRlI4d2R1MytVZzVUTFp5dS9lTmZucHVyVWFh?=
+ =?utf-8?B?ZmFDTDM3MFFoRVJQbVJjazRYYkhZVmhoRjBaakVhT1Y0d3djUkRHblZEWHJB?=
+ =?utf-8?B?S1VoN21RTWJhZldjaGJVYzF5TXRYcWt4OG9JSkh2bDZDOHpXR2g2dlk4T1Fj?=
+ =?utf-8?B?KzBna1FTa1V0Y3NQajNobGtGcy9pM0NBS0d4dFVrMVQ5c0RLZzRJd0UxSGVO?=
+ =?utf-8?B?TkVZSEF1eGZ4cVlKN2txdDB2NHNTNWVCd3JPdGhLbTVZYlNDQjM4b3N1QlR6?=
+ =?utf-8?B?V1VDbTVGZHJYV3gvMzdmRDFpUldva3F5R0xsUmphd2kzaXpnVmM5aDhjV3JY?=
+ =?utf-8?B?Wk0xNldsemRmTHU1RkM4WEJ1V3A2SmdNVjlYcW1mU3JMYk1qUVBHM3JpQzRR?=
+ =?utf-8?B?WDZqbFFQUUFRdmlVNHk5Qm9MR3UvakwwMEZzYmtxYzFxTHVEZGwwcEpzc3FT?=
+ =?utf-8?B?cGIyTzRMVmRYS25MeExtcWtOcHBrNStveks5NGtRZkpGeU42bEFMQmJINm1L?=
+ =?utf-8?B?VTFJRkdmQ25Sek5pa0hiYmNjcmU4QjdIUHBwY3pVZUVUdkV4YzMvOVJuSzlN?=
+ =?utf-8?B?UG5zWmFZS0txUi9NcGlNZnZFTjUyS1pjYUJJcFcvVFVtZVlDd0lPUmdab292?=
+ =?utf-8?B?ckRlZFFyWkovT0NnQ2Nud1RDUGNqdnR2MTk4dHpNMFlaUDJVK2dBcXA5eVI0?=
+ =?utf-8?B?ckJQVlYvS2syQkNJbEN4dXF2T2RaSkUxWGFWQXhucS9NR1kyQW5lUVhsR3pV?=
+ =?utf-8?B?czZUZk5FRWlIOXFEU2dmSENMSlQ1MTUvNzljQ3NhWWhidEdZdnNiZE1KTzd4?=
+ =?utf-8?B?b25idGxZM0Ntb2lweXNWZWxldDVNVCt2NC92SFgzK2tGYmU1YTltOStWYW13?=
+ =?utf-8?B?YWQwRm5kbHdRdHEwTEQ5T3FQSWJ4MTBpdTVZTDIxZGs1ZmhkQjl6MTNpMVU3?=
+ =?utf-8?B?N2tCYWtoVEwyYnhZUkx3emNSVjBSMXdOaGxNc2tGK3RxOFZ3TDJmQk9weEpK?=
+ =?utf-8?B?WHlHaUtVanZwblNqREI5ZVlpa2dlalVFMWhRclBpTVdUTmN0cDdUTHhjbldG?=
+ =?utf-8?B?OXFaWjR6U3VHTzEyWDZuUHc1WTJqMHNpV0hsTzRXMUtSVm1KQTFzb215Z1Nn?=
+ =?utf-8?B?Nzhmb3pRVDU1ZkJEdmFZZTBydWZXbGlFNS91OFFqWUFVRkJXekxEM3NqL1Fu?=
+ =?utf-8?B?KzBLcWgySktOdEFtY2llN3BDWTIrNUViV1VMTUk5aVNwWUE3OFdsYVNjTTdD?=
+ =?utf-8?B?RUlPK0pRMkFMdFZaQ0ZuRCtFb2EzdU9kT0YzTmVYczhxVHJLbEw5cWxGak54?=
+ =?utf-8?B?K1NEcnZ0cW1oTXJobVJVdzI0aHdUSFhIVEhRcTZrMENXUWRKQkRFbVl6RXla?=
+ =?utf-8?B?MzF4dW51V1JmZVQvZVQxZGtPMmxnSjh3TG9Wb0Y0dHBseVBVVjAzbXh0WjY0?=
+ =?utf-8?B?UHBubldLUkUxZEpaTDlDTHVHVGdBaFhPVnV3VjVacUZLTkxzRTMveS9oYnpP?=
+ =?utf-8?B?SXoxMTBGbE9Vak51QzllSFFxLzdwNWN6Y0pGNHBGOUFqWXcvTzR5VEhJdlBN?=
+ =?utf-8?B?SS81OTk4d1BBZmQxK2k4MkRHWUEvZFNZTk83UDMwaHkxblFIbGExOHgza3Vu?=
+ =?utf-8?B?MmE2MGg3ZExDU0N1NUN3T0dOSUQ0TWIrd3o5a1lCOFlnZ3VtRDZGbmNjOVI4?=
+ =?utf-8?B?SFpQMjZlZlVpcXBtaHNhSmhyd2Zzb0FLMzhpdFFJZ3V2TEFPQnZvUnlscTZV?=
+ =?utf-8?B?L1V0T3FRZytlTlV2Y2FudEduKy82bjJBRU4vbkdXVlNCY3YwRTdGYmhESzJj?=
+ =?utf-8?B?Z01BdnFCeFphS0xMWFNpWk0xb2pxSS8zQ2pYekxiN1I4Y0RScjFzWGVTNDBl?=
+ =?utf-8?Q?wnaKZStPjKa4eaOa3ERODGQShVD9uQo5?=
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:PH7PR12MB5685.namprd12.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230040)(1800799024)(366016)(376014)(7053199007); DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?MnNOMzFaYVdjSk1rdmpQT1dqbUxCV3lXWGFubVRUcWF0TnFOWkFGTVIyM2tE?=
+ =?utf-8?B?ajc3Y2NIaDlzOWw4bFdyVkxsTzM2a2xWZ1ltT0x2ci8reTV3L2NoUkFmZ1py?=
+ =?utf-8?B?bHV0czRuMUNIdFZDRExuMWtabExkZHg4QzYyVUtZZnkxdlY4UXhjRHcyNWVU?=
+ =?utf-8?B?SmJlcUxlKzl5QXhYUUpMWDBhd25UVytNdC9iY2lIWDU1MXZ5dHk5Q3dOM0ty?=
+ =?utf-8?B?ZUF5OGRSUnNuVSsvK21nNVlTeEhDTnprRDh4bUl3ZnFvQkI3Wkh1dCtENU5M?=
+ =?utf-8?B?UFNzeGZoTEt0dEs5QlN2cUpkWi8rY0k5TndsNzBKc294OTZVUjlNRFgrc2NH?=
+ =?utf-8?B?KzEyY0hocnhDdlpSWU80WlY2MmZxR1BaTlZnVHRTV1VIemFhZ3JxaEpnZjkx?=
+ =?utf-8?B?VjcrQWJveEtDbEZtUGw5bWVoRzhnN09jTU1QUHRQNjV0MjJKOXpLK0JZeGRC?=
+ =?utf-8?B?L1pIbnJ6R05QazgzeXorVjVYQmF2VzR2em96UlpscGZuSldsaGRwcEpzOWRm?=
+ =?utf-8?B?dnA1QytNaW9Ea0x6TEZpRGRRa0M2djBkemNnTlYyQjNrYmtXdFhlT1d2Z1Qy?=
+ =?utf-8?B?VEVKQlJlcGsxSk5kMEQxaUpUMzZVMXJ3WDF6Nm5vek1aL0lXdUtORlVCTFdN?=
+ =?utf-8?B?VHVIRzM2R3F5RkhLdGdCTEp5eWFOelozTk5LV3NLcUlIMWV0TUhQTENqRitM?=
+ =?utf-8?B?Vk01S0R4VmtONUtyYlpsdnFpSW5TQndtQ0FBeDNXRFFVMk82UXNhRVR0TGhS?=
+ =?utf-8?B?V0txSUtmdXVmTnhNY01ma2dYTHVWRlQ4a3NJenFRaENVQjFGN0tpTUY4Zk1l?=
+ =?utf-8?B?b0d3YjlZRWk5M3VLVVR2Y1JpUy9McmhpUEY3akJqdk9GaWZ5L3RsNEZjdEtn?=
+ =?utf-8?B?RmVZOEhaV1hGd3hEeHBYR3FUY1NQbWYwQ09KNHRwYitSemNVMVQrZlhublVE?=
+ =?utf-8?B?QloyQjEzcDI0dmpzdHhtMUlUVGxjTjNkZEluRGdGWlZueTBEeVNXQjJvVllo?=
+ =?utf-8?B?bDE5emRJRE9RZ3FHNlJFM1l5N0hTWTN4ZnN1TkVFMm1naFdidEpCUDh4c3Ir?=
+ =?utf-8?B?dWQybEFIcGh1RzZtL2FBQ3kzTnp0S3k1TisxY0ZUMjVsRXIwVUs0S0ViNGo3?=
+ =?utf-8?B?c3d1YlZFZnhKb25MOW15TFFmd3BnNmFnVFU1VTJWNDBhOTlZZjZqVmZtUlhE?=
+ =?utf-8?B?dmdyN0JsRmZINVpXYXZGeDBGeXUrQzl2cUhxTFJnMmozaVJVRWZwVkQzMmxD?=
+ =?utf-8?B?ZXRVVW9TcDd4Yy9GTThvd0ZxYVZXZVpxdFhQVHNMc1QzR3lzbVBEV3JPQTNm?=
+ =?utf-8?B?WmdSTlM2RzYyUC9CQnNUTjFUMjNQVWg0bndjVXNHRldyV0xGS0JnRVpIZFdz?=
+ =?utf-8?B?U1N5V0ttc2RXTFE3ZUJiTXFubXE0cWVMWG5aQkd1NC92Tm5yTVltVXdTNE5O?=
+ =?utf-8?B?b0JjdzNFQ0tBdDQwWGRiRy9iNUJyelZqUGgxbU5WQXJLYnEvbW03SEt1TGVV?=
+ =?utf-8?B?RnZJVEtWKzJCaytGdGV5by9VS2tsWFNqOWgxZVVaYlIxdWpjNC9iMVJ5ZDJE?=
+ =?utf-8?B?WnNZaExnRWgzM0crTDFBV0tTQ3RzcEloL2ZGVWdaRG5tWHFJS2dXeWRKekR0?=
+ =?utf-8?B?Q3VQMksyL3NueHZGRXZhcUdFMUY4eWFyeXV4TmhUOUlLcjQ5ODBycEphb2tD?=
+ =?utf-8?B?bTFUd0JiNDlyY1RmVmgzV09XS3prdUx6MWI3L3QvR20xSnl1U3FOWHkzcFcv?=
+ =?utf-8?B?QjBTeElYU1FFRDJHb0lRNkhHNjZWaGVuWEc0R0c0M0w4WmxrVHE2enZybHIr?=
+ =?utf-8?B?Ym42blJ5d1BiR2IzWm4xeWllYVVYMGsvdHQwWUtjdk9hYmtTRGFRa2RsZEh4?=
+ =?utf-8?B?dUY4VUhXZ1ZFMmFQWUxnMUZFd0FnRzdOd1l0ZnVaMkx1cjNmQ2JwWGE0MGY2?=
+ =?utf-8?B?K0RhMDJxWHhNSVMwZEpGSGl2RUJWRldubnRwZHM2a0c5Qk0rd0NIeFpUZmtn?=
+ =?utf-8?B?bTU5L0tlVlEvZ09RcW9HdTI5UnNMVTcwRktLUjk0VzVjSmhxZWttWE5na3VZ?=
+ =?utf-8?B?RDR6NmxkODVFQmp3SC8rVFJxUXVweWVXRWdnNGhpWjEyajJIQVdDN1RIVjRt?=
+ =?utf-8?Q?igwg2Hl8+4d16ABAuAIyn/pBW?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 1352b08f-4efe-4d92-1ac9-08de162a2776
+X-MS-Exchange-CrossTenant-AuthSource: PH7PR12MB5685.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 28 Oct 2025 13:59:04.1795 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: Kg3DVKegoVcey6UDSeiZfFPHXf4HjzALbx27nvjvuR6ZPfuZd2lTh3U5xVeEitEe
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BN5PR12MB9511
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -74,509 +167,201 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tuesday, 7 October 2025 17:40:27 CET Christian K=C3=B6nig wrote:
-> On 07.10.25 17:14, Janusz Krzysztofik wrote:
-> > CI reports kernel soft lockups when running a wait_backward test case of
-> > igt@dmabuf@all-tests@dma_fence_chain selftest on less powerful machines.
-> > A kernel fix has been developed that has proven to resolve the issue, b=
-ut
-> > it hasn't been accepted upstream, with a recommendation for dropping th=
-at
-> > test case as a "nonsense"[1].
-> >=20
-> > Before we decide to take that path, try to implement the problematic te=
-st
-> > case in user space as an IGT subtest.  Since no kernel uAPIs have been
-> > found that allow strict reimplementation of exact algorithm of the
-> > problematic test case, where every link of a dma-fence chain is signaled
-> > one by one from a loop running in kernel space, provide two approximate
-> > variants, one that signals each fence with an individual system call, a=
-nd
-> > one that depends on vgem fences being signaled automatically on their
-> > consecutive expiry under presumably the same schedule as they were
-> > created.
->=20
-> VGEM is not much better than sw_sync. You would need to reproduce the iss=
-ue=20
-an real HW to actually have some issue here.
+On 10/14/25 09:08, Vivek Kasireddy wrote:
+> For the map operation, the dma-buf core will create an xarray but
+> the exporter is expected to populate it with the interconnect
+> specific addresses. And, similarly for unmap, the exporter is
+> expected to cleanup the individual entries of the xarray.
+> 
+> Cc: Jason Gunthorpe <jgg@nvidia.com>
+> Cc: Christian Koenig <christian.koenig@amd.com>
+> Cc: Sumit Semwal <sumit.semwal@linaro.org>
+> Cc: Thomas Hellström <thomas.hellstrom@linux.intel.com>
+> Cc: Simona Vetter <simona.vetter@ffwll.ch>
+> Signed-off-by: Vivek Kasireddy <vivek.kasireddy@intel.com>
+> ---
+>  drivers/dma-buf/dma-buf.c            | 68 ++++++++++++++++++++++++++++
+>  include/linux/dma-buf-interconnect.h | 29 ++++++++++++
+>  include/linux/dma-buf.h              | 11 +++++
+>  3 files changed, 108 insertions(+)
+>  create mode 100644 include/linux/dma-buf-interconnect.h
+> 
+> diff --git a/drivers/dma-buf/dma-buf.c b/drivers/dma-buf/dma-buf.c
+> index 2bcf9ceca997..162642bd53e8 100644
+> --- a/drivers/dma-buf/dma-buf.c
+> +++ b/drivers/dma-buf/dma-buf.c
+> @@ -1612,6 +1612,74 @@ void dma_buf_vunmap_unlocked(struct dma_buf *dmabuf, struct iosys_map *map)
+>  }
+>  EXPORT_SYMBOL_NS_GPL(dma_buf_vunmap_unlocked, "DMA_BUF");
+>  
+> +struct dma_buf_ranges *
+> +dma_buf_map_interconnect(struct dma_buf_attachment *attach)
+> +{
+> +	const struct dma_buf_interconnect_ops *ic_ops;
+> +	struct dma_buf *dmabuf = attach->dmabuf;
+> +	struct dma_buf_ranges *ranges;
+> +	int ret;
+> +
+> +	might_sleep();
+> +
+> +	if (WARN_ON(!attach || !attach->dmabuf))
+> +		return ERR_PTR(-EINVAL);
+> +
+> +	if (!dma_buf_attachment_is_dynamic(attach))
+> +		return ERR_PTR(-EINVAL);
+> +
+> +	if (!attach->allow_ic)
+> +		return ERR_PTR(-EOPNOTSUPP);
+> +
+> +	dma_resv_assert_held(attach->dmabuf->resv);
+> +
+> +	ic_ops = dmabuf->ops->interconnect_ops;
+> +	if (!ic_ops || !ic_ops->map_interconnect)
+> +		return ERR_PTR(-EINVAL);
+> +
+> +	ranges = kzalloc(sizeof(*ranges), GFP_KERNEL);
+> +	if (!ranges)
+> +		return ERR_PTR(-ENOMEM);
+> +
+> +	xa_init(&ranges->ranges);
+> +	ret = ic_ops->map_interconnect(attach, ranges);
+> +	if (ret)
+> +		goto err_free_ranges;
+> +
+> +	return ranges;
+> +
+> +err_free_ranges:
+> +	xa_destroy(&ranges->ranges);
+> +	kfree(ranges);
+> +	return ERR_PTR(ret);
+> +}
+> +EXPORT_SYMBOL_NS_GPL(dma_buf_map_interconnect, "DMA_BUF");
+> +
+> +void dma_buf_unmap_interconnect(struct dma_buf_attachment *attach,
+> +				struct dma_buf_ranges *ranges)
+> +{
+> +	const struct dma_buf_interconnect_ops *ic_ops;
+> +	struct dma_buf *dmabuf = attach->dmabuf;
+> +
+> +	if (WARN_ON(!attach || !attach->dmabuf || !ranges))
+> +		return;
+> +
+> +	if (!attach->allow_ic)
+> +		return;
+> +
+> +	ic_ops = dmabuf->ops->interconnect_ops;
+> +	if (!ic_ops || !ic_ops->unmap_interconnect)
+> +		return;
+> +
+> +	dma_resv_assert_held(attach->dmabuf->resv);
+> +
+> +	ic_ops->unmap_interconnect(attach, ranges);
+> +
+> +	xa_destroy(&ranges->ranges);
+> +	kfree(ranges);
+> +}
+> +EXPORT_SYMBOL_NS_GPL(dma_buf_unmap_interconnect, "DMA_BUF");
+> +
+>  #ifdef CONFIG_DEBUG_FS
+>  static int dma_buf_debug_show(struct seq_file *s, void *unused)
+>  {
+> diff --git a/include/linux/dma-buf-interconnect.h b/include/linux/dma-buf-interconnect.h
+> new file mode 100644
+> index 000000000000..17504dea9691
+> --- /dev/null
+> +++ b/include/linux/dma-buf-interconnect.h
+> @@ -0,0 +1,29 @@
+> +/* SPDX-License-Identifier: MIT */
+> +
+> +#ifndef __DMA_BUF_INTERCONNECT_H__
+> +#define __DMA_BUF_INTERCONNECT_H__
+> +
+> +#include <linux/xarray.h>
+> +
+> +struct dma_buf_attachment;
+> +
+> +struct dma_buf_ranges {
+> +	struct xarray ranges;
+> +	unsigned int nranges;
+> +};
 
-Reproducing the issue (soft lockups) is not my goal.  My goal is to *avoid*=
-=20
-those soft lockups while preserving the scope of conformance testing.  If t=
-hat=20
-can't be achieved by making the scenario of the failing selftest *more=20
-realistic* via inserting cond_resched() into the loop, and that test case=20
-*must be dropped* from the selftest for that reason, then I'm just trying t=
-o=20
-re-implement the scenario in user space, as close as possible to the origin=
-al=20
-one which also didn't use a real HW.
+Hui? How is that supposed to work? Should the exporter fill in the xarray with values?
 
-> Signaling fences in reverse is just a completely unrealistic use case.
+That clearly needs more description.
 
-That's a corner case of random ordering, then possible in real use cases, I=
-=20
-believe, and it still should be covered with conformance testing.
+And IIRC xarray can only contain pointers because the lower bits are used for internal handling.
 
-Either we take this path, or we get back to a discussion on how to avoid so=
-ft=20
-lockups in the selftest, other than disarming the test case by dropping ste=
-ps=20
-that contribute to those soft lockups while still being legitimate, even if=
-=20
-not very typical.
+Some kind of iterator like interface would be preferred where you have first and next callbacks.
 
-Thanks,
-Janusz
+> +
+> +enum dma_buf_interconnect_type {
+> +	DMA_BUF_INTERCONNECT_NONE = 0,
 
+Let's start with a DMA_BUF_DMA_ADDR type.
 
->=20
-> Regards,
-> Christian.
->=20
-> >=20
-> > For more comprehensive testing, also implement the _forward and _random
-> > scenarios from the original selftest, as well as simplified variants th=
-at
-> > don't enable signaling on each link of the dma-fence chain.
-> >=20
-> > v3: Skip if CPU is not powerful enough for setting up all timeline poin=
-ts
-> >     before vgem fences start to expire,
-> >   - also skip if CPU is not powerful enough to signal all vgem fences
-> >     before they start to expire automatically when signaling manually,
-> >   - fail autoexpire variants if vgem fences don't start to expire in 10=
-s,
-> >   - wait virtually infinitely for last timeline point being signaled, l=
-et
-> >     igt_runner unlikely kill the test and report timeout if per test
-> >     timeout expires first.
-> > v2: Fix incorrectly calculated backward ordering of syncobj points,
-> >   - replace problematic sw_sync timeline points with vgem object fences,
-> >   - drop wait-all subtest variants, those add no value over enable-all,
-> >   - to simplify the code, enable signaling of each point, if requested,
-> >     right after it is added to the syncobj timeline.
-> >=20
-> > [1] https://lore.kernel.org/dri-devel/20250814094824.217142-6-janusz.kr=
-zysztofik@linux.intel.com/
-> >=20
-> > Signed-off-by: Janusz Krzysztofik <janusz.krzysztofik@linux.intel.com>
-> > ---
-> >  tests/syncobj_timeline.c | 287 +++++++++++++++++++++++++++++++++++++++
-> >  1 file changed, 287 insertions(+)
-> >=20
-> > diff --git a/tests/syncobj_timeline.c b/tests/syncobj_timeline.c
-> > index a77896ec1d..7c17c2eacd 100644
-> > --- a/tests/syncobj_timeline.c
-> > +++ b/tests/syncobj_timeline.c
-> > @@ -27,9 +27,14 @@
-> >  #include <unistd.h>
-> >  #include <time.h>
-> >  #include <sys/ioctl.h>
-> > +#include <sys/param.h>
-> >  #include <pthread.h>
-> >  #include <signal.h>
-> > +
-> > +#include "dmabuf_sync_file.h"
-> >  #include "drm.h"
-> > +#include "igt_vgem.h"
-> > +
-> >  /**
-> >   * TEST: syncobj timeline
-> >   * Description: Tests for the drm timeline sync object API
-> > @@ -427,6 +432,42 @@
-> >   *
-> >   * SUBTEST: wait-zero-handles
-> >   * Description: Verifies that waiting on an empty list of syncobj hand=
-les=20
-is accepted
-> > + *
-> > + * SUBTEST: stress-wait-last-signal-forward
-> > + * Description: Signals each fence of a large timeline while another=20
-thread is waiting on that timeline
-> > + *
-> > + * SUBTEST: stress-wait-last-signal-backward
-> > + * Description: Signals each fence of a large timeline in reverse orde=
-r=20
-while another thread is waiting on that timeline
-> > + *
-> > + * SUBTEST: stress-wait-last-signal-random
-> > + * Description: Signals each fence of a large timeline in random order=
-=20
-while another thread is waiting on that timeline
-> > + *
-> > + * SUBTEST: stress-wait-last-signal-all-forward
-> > + * Description: Signals all fences of a large timeline while another=20
-thread is waiting on that timeline
-> > + *
-> > + * SUBTEST: stress-wait-last-signal-all-backward
-> > + * Description: Signals all fences of a large reverse ordered timeline=
-=20
-while another thread is waiting on that timeline
-> > + *
-> > + * SUBTEST: stress-wait-last-signal-all-random
-> > + * Description: Signals all fences of a large randomly ordered timelin=
-e=20
-while another thread is waiting on that timeline
-> > + *
-> > + * SUBTEST: stress-enable-all-signal-forward
-> > + * Description: Signals each fence of a large timeline with signaling=
-=20
-enabled on each point while another thread is waiting on that timeline
-> > + *
-> > + * SUBTEST: stress-enable-all-signal-backward
-> > + * Description: Signals each fence of a large timeline in reversed ord=
-er=20
-with signaling enabled on each point while another thread is waiting on tha=
-t=20
-timeline
-> > + *
-> > + * SUBTEST: stress-enable-all-signal-random
-> > + * Description: Signals each fence of a large timeline in random order=
-=20
-with signaling enabled on each point while another thread is waiting on tha=
-t=20
-timeline
-> > + *
-> > + * SUBTEST: stress-enable-all-signal-all-forward
-> > + * Description: Signals all fences of a large timeline with signaling=
-=20
-enabled on each point while another thread is waiting on that timeline
-> > + *
-> > + * SUBTEST: stress-enable-all-signal-all-backward
-> > + * Description: Signals all fences of a large reversed ordered timelin=
-e=20
-with signaling enabled on each point while another thread is waiting on tha=
-t=20
-timeline
-> > + *
-> > + * SUBTEST: stress-enable-all-signal-all-random
-> > + * Description: Signals all fences of a large randomly ordered timelin=
-e=20
-with signaling enabled on each point while another thread is waiting on tha=
-t=20
-timeline
-> >   */
-> > =20
-> >  IGT_TEST_DESCRIPTION("Tests for the drm timeline sync object API");
-> > @@ -1675,6 +1716,236 @@ test_32bits_limit(int fd)
-> >  	close(timeline);
-> >  }
-> > =20
-> > +#define STRESS_FLAGS_ENABLE_ALL		(0x1 << 0)
-> > +#define STRESS_FLAGS_SIGNAL_ALL		(STRESS_FLAGS_ENABLE_ALL <<=20
-1)
-> > +#define STRESS_FLAGS_SIGNAL_BACKWARD	(STRESS_FLAGS_SIGNAL_ALL <<=20
-1)
-> > +#define STRESS_FLAGS_SIGNAL_RANDOM	(STRESS_FLAGS_SIGNAL_BACKWARD << 1)
-> > +
-> > +const char *stress_descriptions[] =3D {
-> > +	/* stress-wait-last-signal-forward */
-> > +	[0] =3D
-> > +		"Signals each fence of a large timeline while another=20
-thread is waiting on that timeline",
-> > +	/* stress-wait-last-signal-backward */
-> > +	[STRESS_FLAGS_SIGNAL_BACKWARD] =3D
-> > +		"Signals each fence of a large timeline in reverse order=20
-while another thread is waiting on that timeline",
-> > +	/* stress-wait-last-signal-random */
-> > +	[STRESS_FLAGS_SIGNAL_RANDOM] =3D
-> > +		"Signals each fence of a large timeline in random order=20
-while another thread is waiting on that timeline",
-> > +	/* stress-wait-last-signal-all-forward */
-> > +	[STRESS_FLAGS_SIGNAL_ALL] =3D
-> > +		"Signals all fences of a large timeline while another=20
-thread is waiting on that timeline",
-> > +	/* stress-wait-last-signal-all-backward */
-> > +	[STRESS_FLAGS_SIGNAL_ALL | STRESS_FLAGS_SIGNAL_BACKWARD] =3D
-> > +		"Signals all fences of a large reverse ordered timeline=20
-while another thread is waiting on that timeline",
-> > +	/* stress-wait-last-signal-all-random */
-> > +	[STRESS_FLAGS_SIGNAL_ALL | STRESS_FLAGS_SIGNAL_RANDOM] =3D
-> > +		"Signals all fences of a large randomly ordered timeline=20
-while another thread is waiting on that timeline",
-> > +	/* stress-enable-all-signal-forward */
-> > +	[STRESS_FLAGS_ENABLE_ALL] =3D
-> > +		"Signals each fence of a large timeline with signaling=20
-enabled on each point while another thread is waiting on that timeline",
-> > +	/* stress-enable-all-signal-backward */
-> > +	[STRESS_FLAGS_ENABLE_ALL | STRESS_FLAGS_SIGNAL_BACKWARD] =3D
-> > +		"Signals each fence of a large timeline in reversed order=20
-with signaling enabled on each point while another thread is waiting on tha=
-t=20
-timeline",
-> > +	/* stress-enable-all-signal-random */
-> > +	[STRESS_FLAGS_ENABLE_ALL | STRESS_FLAGS_SIGNAL_RANDOM] =3D
-> > +		"Signals each fence of a large timeline in random order=20
-with signaling enabled on each point while another thread is waiting on tha=
-t=20
-timeline",
-> > +	/* stress-enable-all-signal-all-forward */
-> > +	[STRESS_FLAGS_ENABLE_ALL | STRESS_FLAGS_SIGNAL_ALL] =3D
-> > +		"Signals all fences of a large timeline with signaling=20
-enabled on each point while another thread is waiting on that timeline",
-> > +	/* stress-enable-all-signal-all-backward */
-> > +	[STRESS_FLAGS_ENABLE_ALL | STRESS_FLAGS_SIGNAL_ALL |=20
-STRESS_FLAGS_SIGNAL_BACKWARD] =3D
-> > +		"Signals all fences of a large reversed ordered timeline=20
-with signaling enabled on each point while another thread is waiting on tha=
-t=20
-timeline",
-> > +	/* stress-enable-all-signal-all-random */
-> > +	[STRESS_FLAGS_ENABLE_ALL | STRESS_FLAGS_SIGNAL_ALL |=20
-STRESS_FLAGS_SIGNAL_RANDOM] =3D
-> > +		"Signals all fences of a large randomly ordered timeline=20
-with signaling enabled on each point while another thread is waiting on tha=
-t=20
-timeline",
-> > +};
-> > +
-> > +#define TL_LENGTH 4096
-> > +
-> > +struct stress_timeline {
-> > +	int fd;
-> > +	int vgem;
-> > +	int dmabuf;
-> > +	int sync_file;
-> > +	uint32_t syncobj;
-> > +	uint32_t tmp_syncobj;
-> > +	struct vgem_bo *vgem_bos;
-> > +	uint32_t *vgem_fences;
-> > +	uint64_t *order;
-> > +	uint64_t length;
-> > +	unsigned int flags;
-> > +};
-> > +
-> > +static void stress_init(int fd, struct stress_timeline **timeline,=20
-unsigned int flags)
-> > +{
-> > +	struct stress_timeline *tl;
-> > +	int i, err =3D -ETIME;
-> > +	uint64_t point;
-> > +
-> > +	tl =3D calloc(TL_LENGTH, sizeof(*tl));
-> > +	igt_assert(tl);
-> > +	*timeline =3D tl;
-> > +
-> > +	tl->fd =3D fd;
-> > +	tl->length =3D TL_LENGTH;
-> > +	tl->flags =3D flags;
-> > +	tl->dmabuf =3D -1;
-> > +	tl->sync_file =3D -1;
-> > +
-> > +	tl->vgem =3D drm_open_driver(DRIVER_VGEM);
-> > +	tl->syncobj =3D syncobj_create(fd, 0);
-> > +
-> > +	tl->vgem_bos =3D calloc(tl->length, sizeof(*tl->vgem_bos));
-> > +	igt_assert(tl->vgem_bos);
-> > +	for (i =3D 0; i < tl->length; i++) {
-> > +		tl->vgem_bos[i].width =3D 1;
-> > +		tl->vgem_bos[i].height =3D 1;
-> > +		tl->vgem_bos[i].bpp =3D 4;
-> > +	}
-> > +
-> > +	tl->vgem_fences =3D calloc(tl->length, sizeof(*tl->vgem_fences));
-> > +	igt_assert(tl->vgem_fences);
-> > +
-> > +	tl->order =3D calloc(tl->length, sizeof(*tl->order));
-> > +	igt_assert(tl->order);
-> > +	for (i =3D 0; i < tl->length; i++)
-> > +		tl->order[i] =3D flags & STRESS_FLAGS_SIGNAL_BACKWARD ? tl-
->length - 1 - i : i;
-> > +	if (flags & STRESS_FLAGS_SIGNAL_RANDOM)
-> > +		igt_permute_array(tl->order, tl->length,=20
-igt_exchange_int64);
-> > +
-> > +	for (i =3D 0; i < tl->length; i++) {
-> > +		vgem_create(tl->vgem, &tl->vgem_bos[i]);
-> > +		tl->vgem_fences[i] =3D vgem_fence_attach(tl->vgem, &tl-
->vgem_bos[i], 0);
-> > +	}
-> > +
-> > +	for (point =3D 1; point <=3D tl->length; point++) {
-> > +		bool busy;
-> > +
-> > +		i =3D tl->order[point - 1];
-> > +		tl->dmabuf =3D prime_handle_to_fd(tl->vgem, tl-
->vgem_bos[i].handle);
-> > +		igt_assert_fd(tl->dmabuf);
-> > +
-> > +		tl->sync_file =3D dmabuf_export_sync_file(tl->dmabuf,=20
-DMA_BUF_SYNC_RW);
-> > +		igt_assert_fd(tl->sync_file);
-> > +		close(tl->dmabuf);
-> > +		tl->dmabuf =3D -1;
-> > +
-> > +		busy =3D sync_file_busy(tl->sync_file);
-> > +		if (busy) {
-> > +			tl->tmp_syncobj =3D syncobj_create(fd, 0);
-> > +			syncobj_import_sync_file(fd, tl->tmp_syncobj,=20
-tl->sync_file);
-> > +		}
-> > +		close(tl->sync_file);
-> > +		tl->sync_file =3D -1;
-> > +		if (igt_debug_on(!busy)) {
-> > +			err =3D 0;
-> > +			break;
-> > +		}
-> > +
-> > +		syncobj_binary_to_timeline(fd, tl->syncobj, point, tl-
->tmp_syncobj);
-> > +		syncobj_destroy(fd, tl->tmp_syncobj);
-> > +		tl->tmp_syncobj =3D 0;
-> > +
-> > +		if (flags & STRESS_FLAGS_ENABLE_ALL) {
-> > +			err =3D syncobj_timeline_wait_err(tl->fd, &tl-
->syncobj, &point,
-> > +							1, 0,=20
-0);
-> > +			if (igt_debug_on(err !=3D -ETIME))
-> > +				break;
-> > +		}
-> > +	}
-> > +
-> > +	igt_require_f(err =3D=3D -ETIME,
-> > +		      "CPU power sufficient for setting up still %ld=20
-timeline points before vgem fences start to expire\n",
-> > +		      tl->length - point + 1);
-> > +}
-> > +
-> > +static void test_stress_enable_wait_signal(int fd, struct stress_timel=
-ine=20
-**timeline,
-> > +					   unsigned int flags)
-> > +{
-> > +	struct stress_timeline *tl;
-> > +	int64_t dt;
-> > +
-> > +	stress_init(fd, timeline, flags);
-> > +	tl =3D *timeline;
-> > +
-> > +	if (flags & STRESS_FLAGS_SIGNAL_ALL) {
-> > +		/* store current time in case vgem fences already started=20
-to expire */
-> > +		dt =3D -gettime_ns();
-> > +
-> > +		/* wait for expiry of the first vgem fence */
-> > +		tl->dmabuf =3D prime_handle_to_fd(tl->vgem, tl-
->vgem_bos[0].handle);
-> > +		igt_assert_fd(tl->dmabuf);
-> > +
-> > +		tl->sync_file =3D dmabuf_export_sync_file(tl->dmabuf,=20
-DMA_BUF_SYNC_RW);
-> > +		igt_assert_fd(tl->sync_file);
-> > +
-> > +		igt_set_timeout(11, "vgem fence should expire=20
-automatically in 10 seconds but it hasn't");
-> > +		while (sync_file_busy(tl->sync_file))
-> > +			dt =3D -gettime_ns();
-> > +		igt_reset_timeout();
-> > +	} else {
-> > +		int i;
-> > +
-> > +		dt =3D -gettime_ns();
-> > +		for (i =3D 0; i < tl->length; i++) {
-> > +			igt_require_f(!__vgem_fence_signal(tl->vgem, tl-
->vgem_fences[i]),
-> > +				      "CPU power sufficient for=20
-manually signaling still %ld vgem fences before they start to expire=20
-automatically\n",
-> > +				      tl->length - i);
-> > +		}
-> > +	}
-> > +	/* wait for the last point of the timeline being signaled */
-> > +	igt_assert_eq(syncobj_timeline_wait_err(tl->fd, &tl->syncobj, &tl-
->length, 1,
-> > +						MAX(600 *=20
-NSECS_PER_SEC - dt, gettime_ns()), 0), 0);
-> > +	dt +=3D gettime_ns();
-> > +
-> > +	igt_info("%s: %ld signals in %ld ns\n", __func__, tl->length, dt);
-> > +}
-> > +
-> > +static void stress_cleanup(struct stress_timeline *timeline)
-> > +{
-> > +	int i;
-> > +
-> > +	if (!timeline)
-> > +		return;
-> > +
-> > +	if (timeline->order)
-> > +		free(timeline->order);
-> > +
-> > +	if (timeline->sync_file >=3D 0)
-> > +		igt_warn_on(close(timeline->sync_file));
-> > +
-> > +	if (timeline->dmabuf >=3D 0)
-> > +		igt_warn_on(close(timeline->dmabuf));
-> > +
-> > +	if (timeline->vgem_fences) {
-> > +		for (i =3D 0; i < timeline->length; i++)
-> > +			if (timeline->vgem_fences[i])
-> > +			=09
-igt_ignore_warn(__vgem_fence_signal(timeline->vgem,
-> > +							=09
-    timeline->vgem_fences[i]));
-> > +
-> > +		free(timeline->vgem_fences);
-> > +	}
-> > +
-> > +	if (timeline->vgem_bos) {
-> > +		for (i =3D 0; i < timeline->length; i++)
-> > +			if (timeline->vgem_bos[i].handle)
-> > +				gem_close(timeline->vgem, timeline-
->vgem_bos[i].handle);
-> > +
-> > +		free(timeline->vgem_bos);
-> > +	}
-> > +
-> > +	if (timeline->vgem >=3D 0)
-> > +		igt_warn_on(close(timeline->vgem));
-> > +
-> > +	if (timeline->tmp_syncobj)
-> > +		syncobj_destroy(timeline->fd, timeline->tmp_syncobj);
-> > +
-> > +	if (timeline->syncobj)
-> > +		syncobj_destroy(timeline->fd, timeline->syncobj);
-> > +
-> > +	free(timeline);
-> > +}
-> > +
-> >  static bool
-> >  has_syncobj_timeline_wait(int fd)
-> >  {
-> > @@ -1934,6 +2205,22 @@ igt_main
-> >  	igt_subtest("32bits-limit")
-> >  		test_32bits_limit(fd);
-> > =20
-> > +	for (unsigned int flags =3D 0;
-> > +	     flags < (STRESS_FLAGS_SIGNAL_BACKWARD |=20
-STRESS_FLAGS_SIGNAL_RANDOM); flags++) {
-> > +		struct stress_timeline *timeline =3D NULL;
-> > +
-> > +		igt_describe(stress_descriptions[flags]);
-> > +		igt_subtest_f("stress-%s-signal%s-%s",
-> > +			      (flags & STRESS_FLAGS_ENABLE_ALL) ?=20
-"enable-all" : "wait-last",
-> > +			      (flags & STRESS_FLAGS_SIGNAL_ALL) ? "-all"=20
-: "",
-> > +			      (flags & STRESS_FLAGS_SIGNAL_RANDOM) ?=20
-"random" :
-> > +			      (flags & STRESS_FLAGS_SIGNAL_BACKWARD) ?=20
-"backward" : "forward")
-> > +			test_stress_enable_wait_signal(fd, &timeline,=20
-flags);
-> > +
-> > +		igt_fixture
-> > +			stress_cleanup(READ_ONCE(timeline));
-> > +	}
-> > +
-> >  	igt_fixture {
-> >  		drm_close_driver(fd);
-> >  	}
->=20
->=20
+> +};
+> +
+> +struct dma_buf_interconnect {
+> +	enum dma_buf_interconnect_type type;
+> +};
+> +
+> +struct dma_buf_interconnect_ops {
+> +	int (*map_interconnect)(struct dma_buf_attachment *attach,
+> +				struct dma_buf_ranges *ranges);
+> +	void (*unmap_interconnect)(struct dma_buf_attachment *attach,
+> +				   struct dma_buf_ranges *ranges);
+> +};
 
+Please put those directly into the dma_buf_ops structure, I don't really see a value in separating them.
 
+Additional to that I'm not sure if the "interconnect" is a good naming, essentially we want to use the new mapping functions to replace the sg_table as well.
 
+Regards,
+Christian.
+
+> +#endif
+> diff --git a/include/linux/dma-buf.h b/include/linux/dma-buf.h
+> index d58e329ac0e7..db91c67c00d6 100644
+> --- a/include/linux/dma-buf.h
+> +++ b/include/linux/dma-buf.h
+> @@ -23,6 +23,8 @@
+>  #include <linux/dma-fence.h>
+>  #include <linux/wait.h>
+>  
+> +#include <linux/dma-buf-interconnect.h>
+> +
+>  struct device;
+>  struct dma_buf;
+>  struct dma_buf_attachment;
+> @@ -276,6 +278,8 @@ struct dma_buf_ops {
+>  
+>  	int (*vmap)(struct dma_buf *dmabuf, struct iosys_map *map);
+>  	void (*vunmap)(struct dma_buf *dmabuf, struct iosys_map *map);
+> +
+> +	const struct dma_buf_interconnect_ops *interconnect_ops;
+>  };
+>  
+>  /**
+> @@ -502,7 +506,9 @@ struct dma_buf_attachment {
+>  	struct device *dev;
+>  	struct list_head node;
+>  	bool peer2peer;
+> +	bool allow_ic;
+>  	const struct dma_buf_attach_ops *importer_ops;
+> +	struct dma_buf_interconnect interconnect;
+>  	void *importer_priv;
+>  	void *priv;
+>  };
+> @@ -589,6 +595,11 @@ struct sg_table *dma_buf_map_attachment(struct dma_buf_attachment *,
+>  					enum dma_data_direction);
+>  void dma_buf_unmap_attachment(struct dma_buf_attachment *, struct sg_table *,
+>  				enum dma_data_direction);
+> +
+> +struct dma_buf_ranges *dma_buf_map_interconnect(struct dma_buf_attachment *);
+> +void dma_buf_unmap_interconnect(struct dma_buf_attachment *,
+> +				struct dma_buf_ranges *);
+> +
+>  void dma_buf_move_notify(struct dma_buf *dma_buf);
+>  int dma_buf_begin_cpu_access(struct dma_buf *dma_buf,
+>  			     enum dma_data_direction dir);
 
