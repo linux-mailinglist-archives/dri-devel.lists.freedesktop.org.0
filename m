@@ -2,54 +2,107 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 05F4EC161B1
-	for <lists+dri-devel@lfdr.de>; Tue, 28 Oct 2025 18:19:55 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 77969C161E4
+	for <lists+dri-devel@lfdr.de>; Tue, 28 Oct 2025 18:23:21 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8750A10E61A;
-	Tue, 28 Oct 2025 17:19:50 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BFA9B10E61D;
+	Tue, 28 Oct 2025 17:23:19 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="WZB0Vgti";
+	dkim=fail reason="signature verification failed" (1024-bit key; unprotected) header.d=antispam.mailspamprotection.com header.i=@antispam.mailspamprotection.com header.b="LVB6rG45";
+	dkim=fail reason="signature verification failed" (1024-bit key; unprotected) header.d=valla.it header.i=@valla.it header.b="XLe2i88A";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
- [213.167.242.64])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 10C9710E61A
- for <dri-devel@lists.freedesktop.org>; Tue, 28 Oct 2025 17:19:49 +0000 (UTC)
-Received: from [192.168.88.20] (91-158-153-178.elisa-laajakaista.fi
- [91.158.153.178])
- by perceval.ideasonboard.com (Postfix) with ESMTPSA id BD405E77;
- Tue, 28 Oct 2025 18:17:58 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
- s=mail; t=1761671879;
- bh=rozXxNS8mX4eTCpT7j98yacmLPk7DwfKXcRX3sfR5PM=;
- h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
- b=WZB0VgtiNGkPrxGJpfeVBVjh7KA5MR8+mCecfG3KN7Oq+oIHwgHP4zVDK2FOjjRXY
- hDqcv1hwV66Wzsz8aWwegEyrtwoYZeC0PJ4gZx7EiLAkELVVSu4iuYCifkka8iOoeG
- lh/5TG2dGEcUGXH2ToO86zydSocK+Rk+98CxKSnQ=
-Message-ID: <af50732c-07d1-4f03-a9d4-dcbf4bbf6582@ideasonboard.com>
-Date: Tue, 28 Oct 2025 19:19:44 +0200
+Received: from delivery.antispam.mailspamprotection.com
+ (delivery.antispam.mailspamprotection.com [185.56.87.9])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 60A7710E61D
+ for <dri-devel@lists.freedesktop.org>; Tue, 28 Oct 2025 17:23:18 +0000 (UTC)
+ARC-Seal: i=1; cv=none; a=rsa-sha256;
+ d=outgoing.instance-europe-west4-wk75.prod.antispam.mailspamprotection.com;
+ s=arckey; t=1761672198; 
+ b=evSHalewSnebQdAUL1d9tUKcmT6lodNRlFxeOdtlzgU8HVW8IAd69irGvIxi5cKF0Hms2zXt5u
+ NxvCnjjtKGeJbaZOULYZD3IxaxVtXe5hlA760ylgVxqCy+lJrcIeUC3lI4g6eCseeKeKEisdus
+ sHcN4jm1gonL6cqY1FGYCyVZukTN0RSTGbsvBmUlLrYqQ0MJ4wmzcmZNjs6ca9vbFjDpkpVjDS
+ u2AJaAFO7S945W3ytw5Ssp6qJ8mrSr96qXA8ydXChF/zUe3oGXWwqzbK/b9VoindScL1pJ1wrS
+ X0WGr4GSOWYYbI6tgYoLsl3Znz63f6AJbB+zPfHUG9Tx7Q==;
+ARC-Authentication-Results: i=1;
+ outgoing.instance-europe-west4-wk75.prod.antispam.mailspamprotection.com;
+ smtp.remote-ip=35.214.173.214; 
+ iprev=pass (214.173.214.35.bc.googleusercontent.com)
+ smtp.remote-ip=35.214.173.214; 
+ auth=pass (LOGIN) smtp.auth=esm19.siteground.biz;
+ dkim=pass header.d=valla.it header.s=default header.a=rsa-sha256;
+ arc=none
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed;
+ d=outgoing.instance-europe-west4-wk75.prod.antispam.mailspamprotection.com;
+ s=arckey; t=1761672198; 
+ bh=RiTiTrl0HYEWtgY4FBzhdPmiZHnwQxqjPsKJEPG7L4M=;
+ h=Content-Type:MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:
+ To:From:DKIM-Signature:DKIM-Signature;
+ b=AGlCmu1hOlwUOthzVJT9th2z0OtLBOFiwAe5+ieyM09gAi1XM+f/fBGTB70zxpTnKyXYvvUaLp
+ fCb7ASoD2b7GJPGGHsfe0TGJzf4IwTHP1C26fiIGLKIoS4Zxi7sZ6Wi0qg3PZ0taQ6Uh9uVh7J
+ Yp/VWT78tfZnvJbixjrvxgFRkl56q/V36PVTjL+vqEFFmDM5WBPS4tCcRAW4uq0sogXQztwKp7
+ Ma/BAsULblwW2mAZCZP5xxPfDceOJFXmnYUvqJRtR8HcHWVz4b1S91YCUS//zWioCzP7APaS6O
+ UzynGcH5uril048Vc0UPVRLp40ktSlvas4e2tg58jr57WQ==;
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+ d=antispam.mailspamprotection.com; s=default; h=CFBL-Feedback-ID:CFBL-Address
+ :Content-Type:MIME-Version:Message-ID:Date:Subject:Cc:To:From:Reply-To:
+ List-Unsubscribe:Content-Transfer-Encoding;
+ bh=9JwxXEaEqb9a7wi2MEdjTjYEfLT4+t6vV4untZNyr04=; b=LVB6rG45w2s8RmrfmxynDWYi74
+ /ogcst/yYtwUZgJMIUyLGUEDx3wOsHe4pdQwsfF3K9xj53neC13B0YtRz7+Cy8ELvDv+7HH1aHJLQ
+ z33Gh21lpKEfH2wnIrtWlfHcwqrhlGNxtqhHW1GSQchkGpG+AZEOl3EkepWIp0ao2Mf0=;
+Received: from 214.173.214.35.bc.googleusercontent.com ([35.214.173.214]
+ helo=esm19.siteground.biz)
+ by instance-europe-west4-wk75.prod.antispam.mailspamprotection.com with
+ esmtpsa (TLS1.3) tls TLS_AES_256_GCM_SHA384 (Exim 4.98.1)
+ (envelope-from <francesco@valla.it>) id 1vDnPd-0000000Eche-2dJD
+ for dri-devel@lists.freedesktop.org; Tue, 28 Oct 2025 17:23:15 +0000
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=valla.it;
+ s=default; h=Date:Subject:Cc:To:From:list-help:list-unsubscribe:
+ list-subscribe:list-post:list-owner:list-archive;
+ bh=9JwxXEaEqb9a7wi2MEdjTjYEfLT4+t6vV4untZNyr04=; b=XLe2i88ANne9sCX4LlvCqac7Ay
+ j+BVBKGWK/xTA9Klt1qaVJ31iL8GrzOPPqmfiV8lBY8/1GfS5uGHs22HcFMYcOZh0EniuIzx0wfZa
+ z5lEo/bga/D9GRbuNKYxNmOHTC5F+Zte7uMaJ9BeGESQNrF8l6xMPBucNHr2eC0u/UsU=;
+Received: from [87.17.42.198] (port=59488 helo=fedora.localnet)
+ by esm19.siteground.biz with esmtpsa  (TLS1.3) tls TLS_AES_256_GCM_SHA384
+ (Exim 4.98.1) (envelope-from <francesco@valla.it>)
+ id 1vDnPL-000000007R6-40zY; Tue, 28 Oct 2025 17:22:56 +0000
+From: Francesco Valla <francesco@valla.it>
+To: jfalempe@redhat.com, javierm@redhat.com, rrameshbabu@nvidia.com,
+ maarten.lankhorst@linux.intel.com, mripard@kernel.org, airlied@gmail.com,
+ Thomas Zimmermann <tzimmermann@suse.de>
+Cc: dri-devel@lists.freedesktop.org, Thomas Zimmermann <tzimmermann@suse.de>
+Subject: Re: [PATCH v2 0/7] drm/client: Simply client-buffer interface and
+ implementation
+Date: Tue, 28 Oct 2025 18:22:35 +0100
+Message-ID: <2663948.XAFRqVoOGU@fedora>
+In-Reply-To: <20251027121042.143588-1-tzimmermann@suse.de>
+References: <20251027121042.143588-1-tzimmermann@suse.de>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 03/11] drm/rcar-du: dsi: Document PHTR TESTDOUT as
- bitfield
-To: Marek Vasut <marek.vasut+renesas@mailbox.org>,
- dri-devel@lists.freedesktop.org
-Cc: David Airlie <airlied@gmail.com>,
- Geert Uytterhoeven <geert+renesas@glider.be>,
- Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
- Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Magnus Damm <magnus.damm@gmail.com>, Maxime Ripard <mripard@kernel.org>,
- Simona Vetter <simona@ffwll.ch>, Thomas Zimmermann <tzimmermann@suse.de>,
- linux-renesas-soc@vger.kernel.org
-References: <20251005030355.202242-1-marek.vasut+renesas@mailbox.org>
- <20251005030355.202242-4-marek.vasut+renesas@mailbox.org>
-From: Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>
-Content-Language: en-US
-In-Reply-To: <20251005030355.202242-4-marek.vasut+renesas@mailbox.org>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: multipart/signed; boundary="nextPart3747005.dWV9SEqChM";
+ micalg="pgp-sha512"; protocol="application/pgp-signature"
+X-AntiAbuse: This header was added to track abuse,
+ please include it with any abuse report
+X-AntiAbuse: Primary Hostname - esm19.siteground.biz
+X-AntiAbuse: Original Domain - lists.freedesktop.org
+X-AntiAbuse: Originator/Caller UID/GID - [47 12] / [47 12]
+X-AntiAbuse: Sender Address Domain - valla.it
+X-Source: 
+X-Source-Args: 
+X-Source-Dir: 
+X-SGantispam-id: 452725858c9394f726f5520df6e59154
+AntiSpam-DLS: false
+AntiSpam-DLSP: 
+AntiSpam-DLSRS: 
+AntiSpam-TS: 1.0
+CFBL-Address: feedback@antispam.mailspamprotection.com; report=arf
+CFBL-Feedback-ID: 1vDnPd-0000000Eche-2dJD-feedback@antispam.mailspamprotection.com
+Authentication-Results: outgoing.instance-europe-west4-wk75.prod.antispam.mailspamprotection.com; 
+ iprev=pass (214.173.214.35.bc.googleusercontent.com)
+ smtp.remote-ip=35.214.173.214; 
+ auth=pass (LOGIN) smtp.auth=esm19.siteground.biz;
+ dkim=pass header.d=valla.it header.s=default header.a=rsa-sha256;
+ arc=none
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -65,64 +118,77 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+--nextPart3747005.dWV9SEqChM
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="utf-8"; protected-headers="v1"
+From: Francesco Valla <francesco@valla.it>
+Date: Tue, 28 Oct 2025 18:22:35 +0100
+Message-ID: <2663948.XAFRqVoOGU@fedora>
+In-Reply-To: <20251027121042.143588-1-tzimmermann@suse.de>
+References: <20251027121042.143588-1-tzimmermann@suse.de>
+MIME-Version: 1.0
 
+Hi Thomas,
 
-On 05/10/2025 06:02, Marek Vasut wrote:
-> The register PHTR bitfield TESTDOUT is not a single bit, but a
-> bitfield. Add a MASK macro and a _TEST bitfield value, which is
-> used by the driver to poll for completion. No functional change.
+On Monday, 27 October 2025 at 13:09:11 Thomas Zimmermann <tzimmermann@suse.de> wrote:
+> Streamline the client-buffer code and remove the drm_client_framebuffer_
+> functions. Makes the code easier to work with.
 > 
-> Signed-off-by: Marek Vasut <marek.vasut+renesas@mailbox.org>
-> ---
-> Cc: David Airlie <airlied@gmail.com>
-> Cc: Geert Uytterhoeven <geert+renesas@glider.be>
-> Cc: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
-> Cc: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
-> Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
-> Cc: Magnus Damm <magnus.damm@gmail.com>
-> Cc: Maxime Ripard <mripard@kernel.org>
-> Cc: Simona Vetter <simona@ffwll.ch>
-> Cc: Thomas Zimmermann <tzimmermann@suse.de>
-> Cc: Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>
-> Cc: dri-devel@lists.freedesktop.org
-> Cc: linux-renesas-soc@vger.kernel.org
-> ---
-> V3: New patch
-> ---
->  drivers/gpu/drm/renesas/rcar-du/rcar_mipi_dsi.c      | 4 ++--
->  drivers/gpu/drm/renesas/rcar-du/rcar_mipi_dsi_regs.h | 3 ++-
->  2 files changed, 4 insertions(+), 3 deletions(-)
+> Also prepares for importing non-dumb-buffer objects. Most of the in-
+> kernel clients will use dumb-buffer allocation. In the case of the
+> per-driver fbdev_probe code, the client buffer can also wrap an object
+> that comes from a different memory region; for example gma500's stolen
+> memory area. This functionality is required to move forward with the
+> various per-driver implementations of fbdev_probe within the overall
+> DRM-client framework.
 > 
-> diff --git a/drivers/gpu/drm/renesas/rcar-du/rcar_mipi_dsi.c b/drivers/gpu/drm/renesas/rcar-du/rcar_mipi_dsi.c
-> index 5c73a513f678e..c24721a1eddf2 100644
-> --- a/drivers/gpu/drm/renesas/rcar-du/rcar_mipi_dsi.c
-> +++ b/drivers/gpu/drm/renesas/rcar-du/rcar_mipi_dsi.c
-> @@ -316,8 +316,8 @@ rcar_mipi_dsi_post_init_phtw_v4h(struct rcar_mipi_dsi *dsi,
->  		WRITE_PHTW(0x01020100, 0x00000180);
->  
->  		ret = read_poll_timeout(rcar_mipi_dsi_read, status,
-> -					status & PHTR_TEST, 2000, 10000, false,
-> -					dsi, PHTR);
-> +					status & PHTR_TESTDOUT_TEST,
-> +					2000, 10000, false, dsi, PHTR);
->  		if (ret < 0) {
->  			dev_err(dsi->dev, "failed to test PHTR\n");
->  			return ret;
-> diff --git a/drivers/gpu/drm/renesas/rcar-du/rcar_mipi_dsi_regs.h b/drivers/gpu/drm/renesas/rcar-du/rcar_mipi_dsi_regs.h
-> index b8a719a13c006..90e8e3de3e580 100644
-> --- a/drivers/gpu/drm/renesas/rcar-du/rcar_mipi_dsi_regs.h
-> +++ b/drivers/gpu/drm/renesas/rcar-du/rcar_mipi_dsi_regs.h
-> @@ -293,7 +293,8 @@
->  #define PHTW_TESTDIN_CODE(x)		(((x) & 0xff) << 0)
->  
->  #define PHTR				0x1038
-> -#define PHTR_TEST			(1 << 16)
-> +#define PHTW_TESTDOUT			(0xff << 16)
+> Tested with efidrm and virtio-gpu on Virt I/O hardware.
+> 
+> v2:
+> - fix possible NULL-pointer deref in delete
+> - avoid dependency on KMS helpers
+> 
+> Thomas Zimmermann (7):
+>   drm/client: Remove pitch from struct drm_client_buffer
+>   drm/client: Move dumb-buffer handling to
+>     drm_client_framebuffer_create()
+>   drm/client: Inline drm_client_buffer_addfb() and _rmfb()
+>   drm/client: Deprecate struct drm_client_buffer.gem
+>   drm/client: Remove drm_client_framebuffer_delete()
+>   drm/client: Create client buffers with drm_client_buffer_create_dumb()
+>   drm/client: Flush client buffers with drm_client_buffer_sync()
+> 
+>  drivers/gpu/drm/clients/drm_log.c |  10 +-
+>  drivers/gpu/drm/drm_client.c      | 193 ++++++++++++++----------------
+>  drivers/gpu/drm/drm_fbdev_dma.c   |   8 +-
+>  drivers/gpu/drm/drm_fbdev_shmem.c |   6 +-
+>  drivers/gpu/drm/drm_fbdev_ttm.c   |  10 +-
+>  include/drm/drm_client.h          |  20 +---
+>  6 files changed, 114 insertions(+), 133 deletions(-)
+> 
+> 
+> base-commit: c03916cb446b6eefe91538599775bb54bf98238c
+> 
 
-Should this be PHTR_TESTDOUT?
+Tested-by: Francesco Valla <francesco@valla.it>
 
-> +#define PHTR_TESTDOUT_TEST		(1 << 16)
->  
->  #define PHTC				0x103c
->  #define PHTC_TESTCLR			(1 << 0)
+Tested on a NXP i.MX93 FRDM.
+
+
+--nextPart3747005.dWV9SEqChM
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: This is a digitally signed message part.
+Content-Transfer-Encoding: 7Bit
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYKAB0WIQRUrtjevJ039mawAeLir2xSXEi5AAUCaQD72wAKCRDir2xSXEi5
+AAdCAQDFad/Nl7/ulfN9eE3hlQEWmARDrQbCXipNwzoIHce+SwEA2lZhglJ9Fw3y
+PV1EmVP5hb4z5xFtlqpaayQjkzk6kAA=
+=vcEy
+-----END PGP SIGNATURE-----
+
+--nextPart3747005.dWV9SEqChM--
+
+
 
