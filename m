@@ -2,41 +2,41 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2A06BC15F4B
+	by mail.lfdr.de (Postfix) with ESMTPS id 4903CC15F4D
 	for <lists+dri-devel@lfdr.de>; Tue, 28 Oct 2025 17:52:46 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E6F9F8912D;
-	Tue, 28 Oct 2025 16:52:31 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7FBF310E60D;
+	Tue, 28 Oct 2025 16:52:40 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="FyxCSJc9";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="Ip0BS9gM";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from sea.source.kernel.org (sea.source.kernel.org [172.234.252.31])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A01108912D
- for <dri-devel@lists.freedesktop.org>; Tue, 28 Oct 2025 16:52:30 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C97A710E60A
+ for <dri-devel@lists.freedesktop.org>; Tue, 28 Oct 2025 16:52:38 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by sea.source.kernel.org (Postfix) with ESMTP id 508A949012
- for <dri-devel@lists.freedesktop.org>; Tue, 28 Oct 2025 16:52:30 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 35546C116D0
- for <dri-devel@lists.freedesktop.org>; Tue, 28 Oct 2025 16:52:30 +0000 (UTC)
+ by sea.source.kernel.org (Postfix) with ESMTP id B041544A90
+ for <dri-devel@lists.freedesktop.org>; Tue, 28 Oct 2025 16:52:38 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 8E9D5C4CEE7
+ for <dri-devel@lists.freedesktop.org>; Tue, 28 Oct 2025 16:52:38 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1761670350;
- bh=c5eMrwks1J2l4Hvh4GAUoq15SWCDCNgqaK4QCJY68Us=;
+ s=k20201202; t=1761670358;
+ bh=BuDKDRRq2AYJtuJuIk7t3GPDdGCSrMKzvJBBQEHSdi0=;
  h=From:To:Subject:Date:In-Reply-To:References:From;
- b=FyxCSJc9XfYUNOr6wEbPRj6snU5aM+wDgfIJw3SBVYhgyiBzNwSrfA/vGg3911Oqu
- oNrl9aYw/KaH/NwACTFFxvxqS3nDIldGnMD2NBXa9hKlH2rhnGlj7WYUKxXI1WT/IA
- yENjb/Hp25XUsI5lUq1MnViUdH+EjVBsVTVPEic2+BzDSrydUwkJACaEmFiWXot1lT
- A3pK94p98352v+aebiulrbf5FCZ7hXDoykHMC0+OC0c9O3gTmIG6HEVINzMsZYTDXL
- 6mv181Dp6jPZWzi6nXQu4OTPTUh2GNySa755k4iYnJz+mm6G17MFrVPji9vb2w2ORj
- 1QumPH9iWlfsg==
+ b=Ip0BS9gMgkDnXbfr0RDtyUEsn0DMeSOoNdXXBxiatHtCooPIDqL3jdZDeUYYqPgoD
+ 6xG0UH2Llev82XiYyDNN9cdoT4gPxSJltv81H8WRmPe3MEgYW3y8vji0ueDJtUCaHU
+ qQpM5R827NWtIi8JXutTLxp5cKjVSBozg8L1BWAZCoNyGpEMIGi/ZBgksqg+JJIEd8
+ 5FwykTmf/W5i+VBFYB21JhRoMokKRqmaUed1K5gTvVJPWyl2qvtl0gq64o10K6fR9X
+ T37uPvHv8QsuuCPiEzU50M/OuzgNpzQ6yX8L/G0Ej18asO7HzATHjUTtJIOlZ9FFe2
+ jqzPUdZT2MZMw==
 Received: by aws-us-west-2-korg-bugzilla-1.web.codeaurora.org (Postfix,
- from userid 48) id 2B3E3C3279F; Tue, 28 Oct 2025 16:52:30 +0000 (UTC)
+ from userid 48) id 883E9C41613; Tue, 28 Oct 2025 16:52:38 +0000 (UTC)
 From: bugzilla-daemon@kernel.org
 To: dri-devel@lists.freedesktop.org
 Subject: [Bug 211189] vgaarb overrides boot device unexpectedly with Intel
  and discrete AMDGPU
-Date: Tue, 28 Oct 2025 16:52:29 +0000
+Date: Tue, 28 Oct 2025 16:52:38 +0000
 X-Bugzilla-Reason: None
 X-Bugzilla-Type: changed
 X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
@@ -47,12 +47,12 @@ X-Bugzilla-Keywords:
 X-Bugzilla-Severity: normal
 X-Bugzilla-Who: mario.limonciello@amd.com
 X-Bugzilla-Status: RESOLVED
-X-Bugzilla-Resolution: CODE_FIX
+X-Bugzilla-Resolution: UNREPRODUCIBLE
 X-Bugzilla-Priority: P1
 X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
 X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: bug_status cc resolution
-Message-ID: <bug-211189-2300-d3fXo0G6uj@https.bugzilla.kernel.org/>
+X-Bugzilla-Changed-Fields: resolution
+Message-ID: <bug-211189-2300-lwSkcLxqwA@https.bugzilla.kernel.org/>
 In-Reply-To: <bug-211189-2300@https.bugzilla.kernel.org/>
 References: <bug-211189-2300@https.bugzilla.kernel.org/>
 Content-Type: text/plain; charset="UTF-8"
@@ -81,9 +81,7 @@ Mario Limonciello (AMD) (mario.limonciello@amd.com) changed:
 
            What    |Removed                     |Added
 ----------------------------------------------------------------------------
-             Status|NEW                         |RESOLVED
-                 CC|                            |mario.limonciello@amd.com
-         Resolution|---                         |CODE_FIX
+         Resolution|CODE_FIX                    |UNREPRODUCIBLE
 
 --=20
 You may reply to this email to add a comment.
