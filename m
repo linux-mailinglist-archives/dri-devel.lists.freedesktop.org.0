@@ -2,196 +2,54 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 12022C16087
-	for <lists+dri-devel@lfdr.de>; Tue, 28 Oct 2025 18:04:06 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id D4D83C160AF
+	for <lists+dri-devel@lfdr.de>; Tue, 28 Oct 2025 18:05:26 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2768A10E612;
-	Tue, 28 Oct 2025 17:04:00 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3D56510E60A;
+	Tue, 28 Oct 2025 17:05:25 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="dwoOdW5j";
+	dkim=pass (1024-bit key; unprotected) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="B+nth2tu";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6B25210E60A;
- Tue, 28 Oct 2025 17:03:58 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1761671039; x=1793207039;
- h=date:from:to:cc:subject:message-id:references:
- content-transfer-encoding:in-reply-to:mime-version;
- bh=RJJT2Fl+RWBY+6I6t8da+enwV9NjNLsnZ8x6nac84Ho=;
- b=dwoOdW5jeKwd0CqCCbAr9QhzYXIymygB+JQRMEvhCe+2H0VktJ6CqwMx
- 0MHVLcQBWfW8fLiJCI6ZJaVJAq4VG/SCqUkAdBSvnIkPzQ6r5l1i8UjVj
- x+PaIRhlVgnPgxMjscnWYy5EFcKNk78PQgydf9DsMYgx+wjbOMPibQ9RK
- 8c4/OJbf/t6J0MZwnluuhyj01CsDyw1tJlA3Xbr6fBbvhsHcAptpPvvXF
- Ri7EO6t030t0muJthBVrws2NM2TL7seOMqEE+aQhiHY6Tf8lF7M5MQTNZ
- wD9sFb+lkyqIAFJq4dlmzIG9EmqrsIzoPUR0KesamV6HRECjtYB1Lvpk6 g==;
-X-CSE-ConnectionGUID: z9fgTd7LTWi50cYt1msvoQ==
-X-CSE-MsgGUID: IShYhzJCQMyTE0S/a7zElw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11586"; a="63665853"
-X-IronPort-AV: E=Sophos;i="6.19,261,1754982000"; d="scan'208";a="63665853"
-Received: from orviesa009.jf.intel.com ([10.64.159.149])
- by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 28 Oct 2025 10:03:58 -0700
-X-CSE-ConnectionGUID: 1slJf5NOQASDYvHcT++n4w==
-X-CSE-MsgGUID: RcaJEW7YRI6NxpUIsatKYQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.19,261,1754982000"; d="scan'208";a="185041334"
-Received: from orsmsx903.amr.corp.intel.com ([10.22.229.25])
- by orviesa009.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 28 Oct 2025 10:03:58 -0700
-Received: from ORSMSX903.amr.corp.intel.com (10.22.229.25) by
- ORSMSX903.amr.corp.intel.com (10.22.229.25) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.27; Tue, 28 Oct 2025 10:03:52 -0700
-Received: from ORSEDG903.ED.cps.intel.com (10.7.248.13) by
- ORSMSX903.amr.corp.intel.com (10.22.229.25) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.27 via Frontend Transport; Tue, 28 Oct 2025 10:03:52 -0700
-Received: from DM1PR04CU001.outbound.protection.outlook.com (52.101.61.27) by
- edgegateway.intel.com (134.134.137.113) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.27; Tue, 28 Oct 2025 10:03:50 -0700
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=N127v/XcRQwTEJBIajFuhJ0uALrdMs731VJKp+Rr8G0HU+XjsEvQnKKIxS+tzb+wrew2OUHhdC/dHzQpgYXXsz96K43cC5y0rnNX918IQFTYvPx0hmDgXQJMHswGu8r21T84IrQsLkIarPHVRzNo2v/cm2Dd0DGe55JoVXyME7yX94M31b1jU32d1O+TgqtncDxhZ/IZMlsaiYcGQQa5K+kw0WkL5tjS6APsf9MAemkZMGB4uepIfoWHfaif1lS/c31wY211MNZmEn9lHMQhsrwo21maRrFTWH5NCLHLOajr6GY5Fn/0WonQUjjat/kzd2JC4TAg9zU5du4o6RkDCQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=67hGUHkX1HovuWgp4MOQlitPLap2NsHKR4ZGIVw7LjU=;
- b=cXktKHmlVJvC7UWN2FEgTO1IhCJOlkrRA8a552gwh0YCkNUPT17XBmqiZzFO2JcKMCAVIuTUR24Mt0FgbWqaJl+peL+vftPFWluA3+SRd9KFeR3PAXsWypS3rO9WCzF2S5isftc5o1azysuLmJWCUVOmzd0DD6GNgyGLPRi9fQ4r5htRy1jjU/BC+a5DGdwZ8//fG7mlXaptRndqYielC3kg3ilIHthKYyvwELFM7qiXVMEEXakzhfZRWrDQ4gWFlD2wxmdIlmB3dGcUlOHpRBEki2T2n+QkWBOT19aYIkertTYtmtepIk6GL42dKY4Mb76K9hGkFwPbanj1VwBcHA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=intel.com;
-Received: from DM4PR11MB5373.namprd11.prod.outlook.com (2603:10b6:5:394::7) by
- PH0PR11MB7635.namprd11.prod.outlook.com (2603:10b6:510:28e::14) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9253.18; Tue, 28 Oct
- 2025 17:03:47 +0000
-Received: from DM4PR11MB5373.namprd11.prod.outlook.com
- ([fe80::927a:9c08:26f7:5b39]) by DM4PR11MB5373.namprd11.prod.outlook.com
- ([fe80::927a:9c08:26f7:5b39%5]) with mapi id 15.20.9275.011; Tue, 28 Oct 2025
- 17:03:47 +0000
-Date: Tue, 28 Oct 2025 18:03:44 +0100
-From: =?utf-8?Q?Micha=C5=82?= Winiarski <michal.winiarski@intel.com>
-To: Michal Wajdeczko <michal.wajdeczko@intel.com>
-CC: Alex Williamson <alex.williamson@redhat.com>, Lucas De Marchi
- <lucas.demarchi@intel.com>, Thomas =?utf-8?Q?Hellstr=C3=B6m?=
- <thomas.hellstrom@linux.intel.com>, Rodrigo Vivi <rodrigo.vivi@intel.com>,
- Jason Gunthorpe <jgg@ziepe.ca>, Yishai Hadas <yishaih@nvidia.com>, Kevin Tian
- <kevin.tian@intel.com>, <intel-xe@lists.freedesktop.org>,
- <linux-kernel@vger.kernel.org>, <kvm@vger.kernel.org>, Matthew Brost
- <matthew.brost@intel.com>, <dri-devel@lists.freedesktop.org>, Jani Nikula
- <jani.nikula@linux.intel.com>, Joonas Lahtinen
- <joonas.lahtinen@linux.intel.com>, Tvrtko Ursulin <tursulin@ursulin.net>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, "Lukasz
- Laguna" <lukasz.laguna@intel.com>
-Subject: Re: [PATCH v2 16/26] drm/xe/pf: Add helpers for VF GGTT migration
- data handling
-Message-ID: <yuus76pxd2kcgkr2neoruxa3l24qudl6sezuq3tt5ctc5skter@67vmtfsgvolk>
-References: <20251021224133.577765-1-michal.winiarski@intel.com>
- <20251021224133.577765-17-michal.winiarski@intel.com>
- <92122385-b328-4e96-8f2f-525dff69e3f2@intel.com>
-Content-Type: text/plain; charset="utf-8"
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <92122385-b328-4e96-8f2f-525dff69e3f2@intel.com>
-X-ClientProxiedBy: BE1P281CA0286.DEUP281.PROD.OUTLOOK.COM
- (2603:10a6:b10:8a::13) To DM4PR11MB5373.namprd11.prod.outlook.com
- (2603:10b6:5:394::7)
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
+ [213.167.242.64])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C006710E60A
+ for <dri-devel@lists.freedesktop.org>; Tue, 28 Oct 2025 17:05:23 +0000 (UTC)
+Received: from [192.168.88.20] (91-158-153-178.elisa-laajakaista.fi
+ [91.158.153.178])
+ by perceval.ideasonboard.com (Postfix) with ESMTPSA id 1D40AAD0;
+ Tue, 28 Oct 2025 18:03:33 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+ s=mail; t=1761671013;
+ bh=kkppzk8321aC2pZGF/Q7CmPed5ZyAWvNr5FDmpSMHEI=;
+ h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+ b=B+nth2tuqFE5vfUWAUDp9/+d525AFMDA5iWAUbKcxzBD4IcNHx7W5m6WNBTAN9tNq
+ QA6BsU5wkMiblUqENaTbpoXf6eUI3SIIa5840khSAM0DkcGeTucr1lOrvzhBc6AXa8
+ LMEG1ez8w/1p+ckrcId1Op7UERRlWolxoRneGhGU=
+Message-ID: <03d5bdcb-eb48-4544-9fe6-68cdcbfecbf5@ideasonboard.com>
+Date: Tue, 28 Oct 2025 19:05:18 +0200
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: DM4PR11MB5373:EE_|PH0PR11MB7635:EE_
-X-MS-Office365-Filtering-Correlation-Id: 2e92bc77-afc2-4ce2-36a1-08de1643f5b5
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|1800799024|366016|376014|7416014;
-X-Microsoft-Antispam-Message-Info: =?utf-8?B?ZlNNZ3diVllaeDVPUHVCTW84Q29keU8rWjljcjJTYS9BbG1Wclhkc0Q4Z2JH?=
- =?utf-8?B?OXN2T1Z6aEc2Q2hiNFhVbkdsUUlUQmZLSCtXL3krcCtiOHdWUnJoa0RSTGxH?=
- =?utf-8?B?QUZ6eWhSRzR3U3MyOXZTUE02WU1kTHlocDl2V0orS0R2K2FiOXZhQnNhUkw4?=
- =?utf-8?B?S05EN0E5bTZjaTgwNUxtbEtUeVRXQ2xVOGp4SXAvVWNrVHh4OThsOEpoMFNH?=
- =?utf-8?B?Um5DcmV6U2JId2o2am55UHJkTE5pWWZWWGxwSHZBKy9vQUppajl0b1VvNHUr?=
- =?utf-8?B?VmdFYWQyQi9iQmVaRUNzZXVxUWxSU1dTWFhQR08wd1FGTm8xZjFTZEdTVDVZ?=
- =?utf-8?B?ZUdqWWhaTGkrb203bXpYNUlTS0R5QkFKM2E4U1hQMC93enJuR1hmZG9ZWlg4?=
- =?utf-8?B?aEkrb3NpS0dLRm5sdGF4QjVGNS9HTlQ2aWtPcW5sZ0JNOGQ2b0hkbXNGUm5J?=
- =?utf-8?B?WFBZa1YrYXBLOVdpM25vZVdjS05lcVJzTGtsVEZWbWcwMnR3S2VNQWpMNFBH?=
- =?utf-8?B?bmJrOTdqVXEzNmhPem44ejlMSU9oSW4xcjFCdzJvTlV5R2pRUWhuWUEzVnls?=
- =?utf-8?B?MUpJK245THBmektjWXdFWmRzR2FoRzlFR3pCNUdjSEVNTklERTRpUklmaVpo?=
- =?utf-8?B?cXdUYUErb3Z2TVlEVlJ6eWZHWEkvRmROaGNnY0NsYjNULy9CcEV2dmtRYmJ4?=
- =?utf-8?B?ZHZmaithdm9FRUZWN21TMmtCWHA4ai9xeWFQNFZ6K2NLSjRpU0JIRzVSNytu?=
- =?utf-8?B?Mm16Qi8zNWtYMklFU0o5c3JFck95MnluS0FGNGU0Q2ZyNUl4elhCVXhFSldT?=
- =?utf-8?B?TUFOdnhGYTlRR3BtY1pCNVRQVjNaeUdRU01xK1hKWEhxNGYza1E1WXl3dTF1?=
- =?utf-8?B?MmRqNmRHWHdRSWowMHZ3ZlpTRkROUXdhZlVXUHkydkx6dVpBRUpibnVXQ0hv?=
- =?utf-8?B?KzduVkcxakJEekhTTjYvUEJ5Szlzd0hTMWp2SkJVYUlKV0tIZWhoM3VxQXc1?=
- =?utf-8?B?SURibFpiWXR2TEtkMmlkd3ZxamhjcUF5MTkveFdMUlRId3JvWXRGcWpWZmtQ?=
- =?utf-8?B?MkgyeDZlWE9lN2wzc3YwanpHVExlejBDbStIdGczK1l0dGxLVTloTmZ2SWV4?=
- =?utf-8?B?eEJDM05pOFBDYWMrRGhadVRhdVhRbitVRmozelhRcDRrTzRUZXppMEZZZGt3?=
- =?utf-8?B?b0xtQTFwc1pQRldDN1hZdmRTd1ZaYXdCV3FodWVDaVRrdUV3VmhtdzFoOE01?=
- =?utf-8?B?Uys4ejVsSGtwR0YrdUFNRmNYYm43cDhpSG9JNFN6R2QzNmxEU3FmVU83cWNz?=
- =?utf-8?B?N0FFbitFc25NSWswL1F2UTVkUzZMQnpOd1BZd1UxSDBJbG0vMitaMUFjYWhQ?=
- =?utf-8?B?VGNsbTB4Y29EVWJZazB5OW1aUHdmcHJRckJrTU5uNUZsL1ZjZE9mQVpDMUM5?=
- =?utf-8?B?aUVoVXNha28yZ2dLM2REZTVMQkFIVnprTzFHRkp3bDdtSHJ4UVNlRHJ2SUlT?=
- =?utf-8?B?Y1U2Yks5U0ZEMXpUNmx4N3dNWmFEUERGWHUxc09TSm1SVXhTb0RjTVlEajlU?=
- =?utf-8?B?QmdCbDBFR1dHQWZYc3oxTGdJR2ZDQW5rMEN5U2tZRXJpSFBFelRGOWh4V2hm?=
- =?utf-8?B?dXFoUXNpTzFNQ2RoTnFoYzBieHdvNnMwWmorT3RzUkFjcU95RDJsdGhuKzVJ?=
- =?utf-8?B?Z1podVlRaW1kSzd4OWhZUnZCRTZsbGFtRUNIVTFoaHhDSXhIT2oxTHJzajBS?=
- =?utf-8?B?aDhQNVE1MEdEQ0tzRjJHeW1xNEhWV2ovUUxXUlNxNXZBK2lUWlRXQmJuR0dt?=
- =?utf-8?B?dmZBcUdFYUZsMk9WN0x6dHozS2pCOWx1VENLY1pYVGpTdzNnU2REYXNsbDFR?=
- =?utf-8?B?VHJtTldPZmVQblJwdXFQTWZmTzR0MkFGaU5lMjYzcXhBeDdvQXpTQWdvS2dk?=
- =?utf-8?Q?MPJo5HD4+r1GqsMo8cSExevNUVVpg1GC?=
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:DM4PR11MB5373.namprd11.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230040)(1800799024)(366016)(376014)(7416014); DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?YkIyUEFrN1grR1BpTE82RmVOMTQ2YzJkVURWTmhtTG5pN1pYYytyRU8rR29o?=
- =?utf-8?B?VmNiWktXK1RER25OWE4wZUYxQlYyRmRhQW03WVRwMm9ZK2dPVStDZmdjdVNJ?=
- =?utf-8?B?SWFuRnNGOEZjMEtTSjBDeERHT3ZEeDlVVEdPaVRES3dzSml4eEkwTThPV1VI?=
- =?utf-8?B?cklESVlpSUV3a0pJbnQ4dUZWRS9QNHpJWGwvUUxIb2Ewem13MDRwZGNzNlhH?=
- =?utf-8?B?L1FuS3pna1BWTUFFNXg3VWtjbnhncDlEdytJUDVTZFdOMExqV251bnJoTjRk?=
- =?utf-8?B?MkNHK2taZDViT2EvVk5yYTNpMEFsMEcwdXBsM2xtaUxPS3FodHBPbnRJWGlS?=
- =?utf-8?B?SkpPenBrYkM2RmZLQVRaSVNuK29neE1xN3I1MEtJalVVeWhreDc3UlZyeDFp?=
- =?utf-8?B?WEFybHdsdDRiUjRnNXVJeENXVjA4KzZjdUdnS0ZtbFgrc2NLc3dxdU5ZVzFU?=
- =?utf-8?B?blMrQzU4THVqNTk1UHlyYkZaU01ZcnJMOVdOaXFPa21DRCtmRGZSdzZ4WlZm?=
- =?utf-8?B?dUVjT29hd1pDcnZYQTFjS3dObEQxcnNnT2MyTnY0VWFhVDdoWUtWVjNMQWVv?=
- =?utf-8?B?Rm8vNVpvM2d6NlFLbU92akk1cWFyQXl4aWdMSjNzeUQ1L2ZwMWFod255S1pU?=
- =?utf-8?B?ak5idGVITVI4QzhQa2tML2Mwc3l5dEFyWHZIUk9YZklXNysyY2I5ZmwwTVN4?=
- =?utf-8?B?NkxYR01uYjkzbVhQcGd4YlNYV0lOL0Q0Ti91ODdLeEdTSU9EVzZFenU4ZkFQ?=
- =?utf-8?B?MDdWOEZaTGZyNlVFeGxZV1NtOG90eUFpSUh6TDN0ZW1tUng1bWJyem9oSG0x?=
- =?utf-8?B?UUJSbGlrNmEyUjZrVTdDc0JRWDF4VlcxWFZhTTNYek9jTTJDU0dXbzJzNVVX?=
- =?utf-8?B?WTVSdHFKeFNpOXdiS081Z2dYS085cjNWWm1yVVRZbUFxeG80R05YYlRkR3Zt?=
- =?utf-8?B?TEh2Tk1LU0JISTJtVHg5R1FiL3BTNWU0Z0tkenNDNEVWdnc1andnUERCZmhY?=
- =?utf-8?B?eC8xODRHSzJYRUdYbU45UDNzUGtQU1RwMFVjcUoxNXM0ZVRqQ1dFcDVxNnA0?=
- =?utf-8?B?czBKZFFRUmUzTnhrZXdsRElsbTh6MlliRWQ0bnVjSGZySHhtUTBHZzRjeWlo?=
- =?utf-8?B?MS9pQmY0dVJRZi8vRCtlSFBlUTlWVERrMjMvVE5RMWNLNE1aTXhYaXFNUjRU?=
- =?utf-8?B?MDV4TldnUS9Pemc5ZjMwcnVDV3U1b2ljdVFnQXZUUVRqb1dWeFVCSmdybXBI?=
- =?utf-8?B?RjIyYzErTk5jVmJNL29oWDErSDFQTEwrZmRhUzZDaW52K1QweEFvYmJqMlpN?=
- =?utf-8?B?cnBEQnhNV2JRcDExbW9JM1hMaHBWamEzVkZXMlkxYVhVWnVMZFRTdUJFMnlU?=
- =?utf-8?B?dDZVRG54NWE2S0lqYVNSS05Md0hZSkhQWEJvVkRMZ1M4MFA2VFIyNElHR0Rs?=
- =?utf-8?B?U01HcnJGVXl5aWR2bHk2VlQrc05ENnc2M3B1a1dpZFZlNy9wWVdFQ0hCdzNI?=
- =?utf-8?B?K21EK2Q0aUYzRmg1eFhCMVplSkNnMTdxWnd2V2hIWnYwZ0NIVFlwTEhpbWI2?=
- =?utf-8?B?eGI0TktvcWQwRitJblpULzUrUDlzT3VuS1RxZEpCVXZDcHZGTUlaNzZNaEJR?=
- =?utf-8?B?TUh2VDNoeElTRzNYYi9ycnVJWjFwVldYd2p2RFVUQWdWdE5xdlBwemhLYnRE?=
- =?utf-8?B?dFN3eVZ6bjNkQUV5ZzhVNnZjektyRVJCUXdMVnhZWjZVTTRtYnVIZ2dPQzJU?=
- =?utf-8?B?Mm0vTjc5bmprQXY2Z2JJdXJpdmlFYUxaczB2bG1vS2toQzRqZUgvMVZkT3E4?=
- =?utf-8?B?T1RCVVRmQ01TRzlKSlNXaTcrUU0wckZOS2pVQzJUSUNpS0xzdnR2WlgrL0JD?=
- =?utf-8?B?Uk03TCswemtYT0tMVTVjM1hmU0FTWFcwMm8vMURsMzROOTRRVTlXbEcwOENa?=
- =?utf-8?B?cHozTG1tb3c5UjRpWnhKN2wybXlHNVUzdjJBdURMMDRmWUR1b05ucWxOV1NY?=
- =?utf-8?B?b0RzZmQ3czB1QzQ0UFpDc0FMbkZGUURISTFCVyt0RHNRNklZRlU3ZnpzT1pu?=
- =?utf-8?B?dktxZlZSNXZVNUJtOHJjWTlPYlZvYWRKMFV3YlpsaXgzaFBmOHBhaTZ1ektU?=
- =?utf-8?B?QW5nR0ZIbC9yZFcvREZMNFJ1OEkzb2tYVTBtaHlXa3FxektycjkzaEwvZGl2?=
- =?utf-8?B?TXc9PQ==?=
-X-MS-Exchange-CrossTenant-Network-Message-Id: 2e92bc77-afc2-4ce2-36a1-08de1643f5b5
-X-MS-Exchange-CrossTenant-AuthSource: DM4PR11MB5373.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 28 Oct 2025 17:03:47.8219 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: ObM8uwTGb8n8Qcj9c/hpxyKMgvDrHW0CJUJ5zjt7USBR67ekpjEnekvU4C/J8RCKAwC9FhtsvZGmlRIZ+ywVlvRAMlHu6MTPAJTamIDV3t4=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH0PR11MB7635
-X-OriginatorOrg: intel.com
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v3 11/11] drm/rcar-du: dsi: Convert register bitfields to
+ GENMASK() macro
+To: Marek Vasut <marek.vasut+renesas@mailbox.org>,
+ dri-devel@lists.freedesktop.org
+Cc: David Airlie <airlied@gmail.com>,
+ Geert Uytterhoeven <geert+renesas@glider.be>,
+ Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
+ Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Magnus Damm <magnus.damm@gmail.com>, Maxime Ripard <mripard@kernel.org>,
+ Simona Vetter <simona@ffwll.ch>, Thomas Zimmermann <tzimmermann@suse.de>,
+ linux-renesas-soc@vger.kernel.org
+References: <20251005030355.202242-1-marek.vasut+renesas@mailbox.org>
+ <20251005030355.202242-12-marek.vasut+renesas@mailbox.org>
+From: Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>
+Content-Language: en-US
+In-Reply-To: <20251005030355.202242-12-marek.vasut+renesas@mailbox.org>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -207,323 +65,274 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Oct 23, 2025 at 11:50:28PM +0200, Michal Wajdeczko wrote:
-> 
-> 
-> On 10/22/2025 12:41 AM, Michał Winiarski wrote:
-> > In an upcoming change, the VF GGTT migration data will be handled as
-> > part of VF control state machine. Add the necessary helpers to allow the
-> > migration data transfer to/from the HW GGTT resource.
-> > 
-> > Signed-off-by: Michał Winiarski <michal.winiarski@intel.com>
-> > ---
-> >  drivers/gpu/drm/xe/xe_ggtt.c               | 100 +++++++++++++++++++++
-> >  drivers/gpu/drm/xe/xe_ggtt.h               |   3 +
-> >  drivers/gpu/drm/xe/xe_ggtt_types.h         |   2 +
-> >  drivers/gpu/drm/xe/xe_gt_sriov_pf_config.c |  44 +++++++++
-> >  drivers/gpu/drm/xe/xe_gt_sriov_pf_config.h |   5 ++
-> >  5 files changed, 154 insertions(+)
-> > 
-> > diff --git a/drivers/gpu/drm/xe/xe_ggtt.c b/drivers/gpu/drm/xe/xe_ggtt.c
-> > index 40680f0c49a17..99fe891c7939e 100644
-> > --- a/drivers/gpu/drm/xe/xe_ggtt.c
-> > +++ b/drivers/gpu/drm/xe/xe_ggtt.c
-> > @@ -151,6 +151,14 @@ static void xe_ggtt_set_pte_and_flush(struct xe_ggtt *ggtt, u64 addr, u64 pte)
-> >  	ggtt_update_access_counter(ggtt);
-> >  }
-> >  
-> > +static u64 xe_ggtt_get_pte(struct xe_ggtt *ggtt, u64 addr)
-> > +{
-> > +	xe_tile_assert(ggtt->tile, !(addr & XE_PTE_MASK));
-> > +	xe_tile_assert(ggtt->tile, addr < ggtt->size);
-> > +
-> > +	return readq(&ggtt->gsm[addr >> XE_PTE_SHIFT]);
-> > +}
-> > +
-> >  static void xe_ggtt_clear(struct xe_ggtt *ggtt, u64 start, u64 size)
-> >  {
-> >  	u16 pat_index = tile_to_xe(ggtt->tile)->pat.idx[XE_CACHE_WB];
-> > @@ -233,16 +241,19 @@ void xe_ggtt_might_lock(struct xe_ggtt *ggtt)
-> >  static const struct xe_ggtt_pt_ops xelp_pt_ops = {
-> >  	.pte_encode_flags = xelp_ggtt_pte_flags,
-> >  	.ggtt_set_pte = xe_ggtt_set_pte,
-> > +	.ggtt_get_pte = xe_ggtt_get_pte,
-> >  };
-> >  
-> >  static const struct xe_ggtt_pt_ops xelpg_pt_ops = {
-> >  	.pte_encode_flags = xelpg_ggtt_pte_flags,
-> >  	.ggtt_set_pte = xe_ggtt_set_pte,
-> > +	.ggtt_get_pte = xe_ggtt_get_pte,
-> >  };
-> >  
-> >  static const struct xe_ggtt_pt_ops xelpg_pt_wa_ops = {
-> >  	.pte_encode_flags = xelpg_ggtt_pte_flags,
-> >  	.ggtt_set_pte = xe_ggtt_set_pte_and_flush,
-> > +	.ggtt_get_pte = xe_ggtt_get_pte,
-> >  };
-> >  
-> >  static void __xe_ggtt_init_early(struct xe_ggtt *ggtt, u32 reserved)
-> > @@ -912,6 +923,22 @@ static void xe_ggtt_assign_locked(struct xe_ggtt *ggtt, const struct drm_mm_node
-> >  	xe_ggtt_invalidate(ggtt);
-> >  }
-> >  
-> > +/**
-> > + * xe_ggtt_pte_size() - Convert GGTT VMA size to page table entries size.
-> > + * @ggtt: the &xe_ggtt
-> > + * @size: GGTT VMA size in bytes
-> > + *
-> > + * Return: GGTT page table entries size in bytes.
-> > + */
-> > +size_t xe_ggtt_pte_size(struct xe_ggtt *ggtt, size_t size)
-> 
-> passing ggtt just for assert seems overkill
-> 
-> > +{
-> > +	struct xe_device __maybe_unused *xe = tile_to_xe(ggtt->tile);
-> 
-> we try to avoid __maybe_unused 
-> 
-> if you need xe/tile/gt just in the assert, then put to_xe/tile/gt inside it
+Hi,
 
-It will go away after restructuring it to pass the node instead.
+On 05/10/2025 06:02, Marek Vasut wrote:
+> Convert register bitfields to GENMASK() macro where applicable.
+> Use FIELD_PREP() throughout the driver.
+> 
+> Signed-off-by: Marek Vasut <marek.vasut+renesas@mailbox.org>
+> ---
+> Cc: David Airlie <airlied@gmail.com>
+> Cc: Geert Uytterhoeven <geert+renesas@glider.be>
+> Cc: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
+> Cc: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
+> Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
+> Cc: Magnus Damm <magnus.damm@gmail.com>
+> Cc: Maxime Ripard <mripard@kernel.org>
+> Cc: Simona Vetter <simona@ffwll.ch>
+> Cc: Thomas Zimmermann <tzimmermann@suse.de>
+> Cc: Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>
+> Cc: dri-devel@lists.freedesktop.org
+> Cc: linux-renesas-soc@vger.kernel.org
+> ---
+> V2: No change
+> V3: Use GENMASK_U32() and inline FIELD_PREP()
+> ---
+>  .../drm/renesas/rcar-du/rcar_mipi_dsi_regs.h  | 118 +++++++++++-------
+>  1 file changed, 70 insertions(+), 48 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/renesas/rcar-du/rcar_mipi_dsi_regs.h b/drivers/gpu/drm/renesas/rcar-du/rcar_mipi_dsi_regs.h
+> index 431a107ba54d8..79684184b3b0b 100644
+> --- a/drivers/gpu/drm/renesas/rcar-du/rcar_mipi_dsi_regs.h
+> +++ b/drivers/gpu/drm/renesas/rcar-du/rcar_mipi_dsi_regs.h
+> @@ -13,7 +13,7 @@
+>  #define LINKSR_HSBUSY			BIT_U32(0)
+>  
+>  #define TXSETR				0x100
+> -#define TXSETR_LANECNT_MASK		GENMASK(1, 0)
+> +#define TXSETR_LANECNT_MASK		GENMASK_U32(1, 0)
+>  
+>  /*
+>   * DSI Command Transfer Registers
+> @@ -40,18 +40,22 @@
+>  #define TXCMADDRSET0R			0x140
+>  #define TXCMPHDR			0x150
+>  #define TXCMPHDR_FMT			BIT_U32(24)	/* 0:SP 1:LP */
+> -#define TXCMPHDR_VC(n)			(((n) & 0x3) << 22)
+> -#define TXCMPHDR_DT(n)			(((n) & 0x3f) << 16)
+> -#define TXCMPHDR_DATA1(n)		(((n) & 0xff) << 8)
+> -#define TXCMPHDR_DATA0(n)		(((n) & 0xff) << 0)
+> +#define TXCMPHDR_VC_MASK		GENMASK_U32(23, 22)
+> +#define TXCMPHDR_VC(n)			FIELD_PREP(TXCMPHDR_VC_MASK, (n))
+> +#define TXCMPHDR_DT_MASK		GENMASK_U32(21, 16)
+> +#define TXCMPHDR_DT(n)			FIELD_PREP(TXCMPHDR_DT_MASK, (n))
+> +#define TXCMPHDR_DATA1_MASK		GENMASK_U32(15, 8)
+> +#define TXCMPHDR_DATA1(n)		FIELD_PREP(TXCMPHDR_DATA1_MASK, (n))
+> +#define TXCMPHDR_DATA0_MASK		GENMASK_U32(7, 0)
+> +#define TXCMPHDR_DATA0(n)		FIELD_PREP(TXCMPHDR_DATA0_MASK, (n))
+>  #define TXCMPPD0R			0x160
+>  #define TXCMPPD1R			0x164
+>  #define TXCMPPD2R			0x168
+>  #define TXCMPPD3R			0x16c
+>  
+>  #define RXSETR				0x200
+> -#define RXSETR_CRCEN(n)			(((n) & 0xf) << 24)
+> -#define RXSETR_ECCEN(n)			(((n) & 0xf) << 16)
+> +#define RXSETR_CRCEN_MASK		GENMASK_U32(27, 24)
+> +#define RXSETR_ECCEN_MASK		GENMASK_U32(19, 16)
+>  #define RXPSETR				0x210
+>  #define RXPSETR_LPPDACC			BIT_U32(0)
+>  #define RXPSR				0x220
+> @@ -107,21 +111,21 @@
+>  #define RXPIER_BTAREQEND		BIT_U32(0)
+>  #define RXPADDRSET0R			0x230
+>  #define RXPSIZESETR			0x238
+> -#define RXPSIZESETR_SIZE(n)		(((n) & 0xf) << 3)
+> +#define RXPSIZESETR_SIZE_MASK		GENMASK_U32(6, 3)
+>  #define RXPHDR				0x240
+>  #define RXPHDR_FMT			BIT_U32(24)	/* 0:SP 1:LP */
+> -#define RXPHDR_VC(n)			(((n) & 0x3) << 22)
+> -#define RXPHDR_DT(n)			(((n) & 0x3f) << 16)
+> -#define RXPHDR_DATA1(n)			(((n) & 0xff) << 8)
+> -#define RXPHDR_DATA0(n)			(((n) & 0xff) << 0)
+> +#define RXPHDR_VC_MASK			GENMASK_U32(23, 22)
+> +#define RXPHDR_DT_MASK			GENMASK_U32(21, 16)
+> +#define RXPHDR_DATA1_MASK		GENMASK_U32(15, 8)
+> +#define RXPHDR_DATA0_MASK		GENMASK_U32(7, 0)
+>  #define RXPPD0R				0x250
+>  #define RXPPD1R				0x254
+>  #define RXPPD2R				0x258
+>  #define RXPPD3R				0x25c
+>  #define AKEPR				0x300
+> -#define AKEPR_VC(n)			(((n) & 0x3) << 22)
+> -#define AKEPR_DT(n)			(((n) & 0x3f) << 16)
+> -#define AKEPR_ERRRPT(n)			(((n) & 0xffff) << 0)
+> +#define AKEPR_VC_MASK			GENMASK_U32(23, 22)
+> +#define AKEPR_DT_MASK			GENMASK_U32(21, 16)
+> +#define AKEPR_ERRRPT_MASK		GENMASK_U32(15, 0)
+>  #define RXRESPTOSETR			0x400
+>  #define TACR				0x500
+>  #define TASR				0x510
+> @@ -142,7 +146,7 @@
+>  #define TXVMSETR			0x180
+>  #define TXVMSETR_SYNSEQ_EVENTS		BIT_U32(16) /* 0:Pulses 1:Events */
+>  #define TXVMSETR_VSTPM			BIT_U32(15)
+> -#define TXVMSETR_PIXWDTH_MASK		GENMASK(10, 8)
+> +#define TXVMSETR_PIXWDTH_MASK		GENMASK_U32(10, 8)
+>  #define TXVMSETR_PIXWDTH		BIT_U32(8) /* Only allowed value */
+>  #define TXVMSETR_VSEN			BIT_U32(4)
+>  #define TXVMSETR_HFPBPEN		BIT_U32(2)
+> @@ -174,32 +178,40 @@
+>  #define TXVMVPRMSET0R_HSPOL_LOW		BIT_U32(17) /* 0:High 1:Low */
+>  #define TXVMVPRMSET0R_VSPOL_LOW		BIT_U32(16) /* 0:High 1:Low */
+>  #define TXVMVPRMSET0R_CSPC_YCbCr	BIT_U32(4) /* 0:RGB 1:YCbCr */
+> -#define TXVMVPRMSET0R_BPP_MASK		GENMASK(2, 0)
+> +#define TXVMVPRMSET0R_BPP_MASK		GENMASK_U32(2, 0)
+>  #define TXVMVPRMSET0R_BPP_16		FIELD_PREP(TXVMVPRMSET0R_BPP_MASK, 0)
+>  #define TXVMVPRMSET0R_BPP_18		FIELD_PREP(TXVMVPRMSET0R_BPP_MASK, 1)
+>  #define TXVMVPRMSET0R_BPP_24		FIELD_PREP(TXVMVPRMSET0R_BPP_MASK, 2)
+>  
+>  #define TXVMVPRMSET1R			0x1d4
+> -#define TXVMVPRMSET1R_VACTIVE(x)	(((x) & 0x7fff) << 16)
+> -#define TXVMVPRMSET1R_VSA(x)		(((x) & 0xfff) << 0)
+> +#define TXVMVPRMSET1R_VACTIVE_MASK	GENMASK_U32(30, 16)
+> +#define TXVMVPRMSET1R_VACTIVE(n)	FIELD_PREP(TXVMVPRMSET1R_VACTIVE_MASK, (n))
+> +#define TXVMVPRMSET1R_VSA_MASK		GENMASK_U32(11, 0)
+> +#define TXVMVPRMSET1R_VSA(n)		FIELD_PREP(TXVMVPRMSET1R_VSA_MASK, (n))
+>  
+>  #define TXVMVPRMSET2R			0x1d8
+> -#define TXVMVPRMSET2R_VFP(x)		(((x) & 0x1fff) << 16)
+> -#define TXVMVPRMSET2R_VBP(x)		(((x) & 0x1fff) << 0)
+> +#define TXVMVPRMSET2R_VFP_MASK		GENMASK_U32(28, 16)
+> +#define TXVMVPRMSET2R_VFP(n)		FIELD_PREP(TXVMVPRMSET2R_VFP_MASK, (n))
+> +#define TXVMVPRMSET2R_VBP_MASK		GENMASK_U32(12, 0)
+> +#define TXVMVPRMSET2R_VBP(n)		FIELD_PREP(TXVMVPRMSET2R_VBP_MASK, (n))
+>  
+>  #define TXVMVPRMSET3R			0x1dc
+> -#define TXVMVPRMSET3R_HACTIVE(x)	(((x) & 0x7fff) << 16)
+> -#define TXVMVPRMSET3R_HSA(x)		(((x) & 0xfff) << 0)
+> +#define TXVMVPRMSET3R_HACTIVE_MASK	GENMASK_U32(30, 16)
+> +#define TXVMVPRMSET3R_HACTIVE(n)	FIELD_PREP(TXVMVPRMSET3R_HACTIVE_MASK, (n))
+> +#define TXVMVPRMSET3R_HSA_MASK		GENMASK_U32(11, 0)
+> +#define TXVMVPRMSET3R_HSA(n)		FIELD_PREP(TXVMVPRMSET3R_HSA_MASK, (n))
+>  
+>  #define TXVMVPRMSET4R			0x1e0
+> -#define TXVMVPRMSET4R_HFP(x)		(((x) & 0x1fff) << 16)
+> -#define TXVMVPRMSET4R_HBP(x)		(((x) & 0x1fff) << 0)
+> +#define TXVMVPRMSET4R_HFP_MASK		GENMASK_U32(28, 16)
+> +#define TXVMVPRMSET4R_HFP(n)		FIELD_PREP(TXVMVPRMSET4R_HFP_MASK, (n))
+> +#define TXVMVPRMSET4R_HBP_MASK		GENMASK_U32(12, 0)
+> +#define TXVMVPRMSET4R_HBP(n)		FIELD_PREP(TXVMVPRMSET4R_HBP_MASK, (n))
+>  
+>  /*
+>   * PHY-Protocol Interface (PPI) Registers
+>   */
+>  #define PPISETR				0x700
+> -#define PPISETR_DLEN_MASK		GENMASK(3, 0)
+> +#define PPISETR_DLEN_MASK		GENMASK_U32(3, 0)
+>  #define PPISETR_CLEN			BIT_U32(8)
+>  
+>  #define PPICLCR				0x710
+> @@ -221,49 +233,52 @@
+>  #define PPIDL0SR_STPST			BIT_U32(6)
+>  
+>  #define PPIDLSR				0x760
+> -#define PPIDLSR_STPST			GENMASK(3, 0)
+> +#define PPIDLSR_STPST			GENMASK_U32(3, 0)
+>  
+>  /*
+>   * Clocks registers
+>   */
+>  #define LPCLKSET			0x1000
+>  #define LPCLKSET_CKEN			BIT_U32(8)
+> -#define LPCLKSET_LPCLKDIV(x)		(((x) & 0x3f) << 0)
+> +#define LPCLKSET_LPCLKDIV_MASK		GENMASK_U32(5, 0)
+>  
+>  #define CFGCLKSET			0x1004
+>  #define CFGCLKSET_CKEN			BIT_U32(8)
+> -#define CFGCLKSET_CFGCLKDIV(x)		(((x) & 0x3f) << 0)
+> +#define CFGCLKSET_CFGCLKDIV_MASK	GENMASK_U32(5, 0)
+>  
+>  #define DOTCLKDIV			0x1008
+>  #define DOTCLKDIV_CKEN			BIT_U32(8)
+> -#define DOTCLKDIV_DOTCLKDIV(x)		(((x) & 0x3f) << 0)
+> +#define DOTCLKDIV_DOTCLKDIV_MASK	GENMASK_U32(5, 0)
+>  
+>  #define VCLKSET				0x100c
+>  #define VCLKSET_CKEN			BIT_U32(16)
+>  #define VCLKSET_COLOR_YCC		BIT_U32(8) /* 0:RGB 1:YCbCr */
+> -#define VCLKSET_DIV_V3U(x)		(((x) & 0x3) << 4)
+> -#define VCLKSET_DIV_V4H(x)		(((x) & 0x7) << 4)
+> -#define VCLKSET_BPP_MASK		GENMASK(3, 2)
+> +#define VCLKSET_DIV_V3U_MASK		GENMASK_U32(5, 4)
+> +#define VCLKSET_DIV_V3U(n)		FIELD_PREP(VCLKSET_DIV_V3U_MASK, (n))
+> +#define VCLKSET_DIV_V4H_MASK		GENMASK_U32(6, 4)
+> +#define VCLKSET_DIV_V4H(n)		FIELD_PREP(VCLKSET_DIV_V4H_MASK, (n))
+> +#define VCLKSET_BPP_MASK		GENMASK_U32(3, 2)
+>  #define VCLKSET_BPP_16			FIELD_PREP(VCLKSET_BPP_MASK, 0)
+>  #define VCLKSET_BPP_18			FIELD_PREP(VCLKSET_BPP_MASK, 1)
+>  #define VCLKSET_BPP_18L			FIELD_PREP(VCLKSET_BPP_MASK, 2)
+>  #define VCLKSET_BPP_24			FIELD_PREP(VCLKSET_BPP_MASK, 3)
+> -#define VCLKSET_LANE(x)			(((x) & 0x3) << 0)
+> +#define VCLKSET_LANE_MASK		GENMASK_U32(1, 0)
+> +#define VCLKSET_LANE(n)			FIELD_PREP(VCLKSET_LANE_MASK, (n))
+>  
+>  #define VCLKEN				0x1010
+>  #define VCLKEN_CKEN			BIT_U32(0)
+>  
+>  #define PHYSETUP			0x1014
+> -#define PHYSETUP_HSFREQRANGE(x)		(((x) & 0x7f) << 16)
+> -#define PHYSETUP_HSFREQRANGE_MASK	GENMASK(22, 16)
+> -#define PHYSETUP_CFGCLKFREQRANGE(x)	(((x) & 0x3f) << 8)
+> +#define PHYSETUP_HSFREQRANGE_MASK	GENMASK_U32(22, 16)
+> +#define PHYSETUP_HSFREQRANGE(n)		FIELD_PREP(PHYSETUP_HSFREQRANGE_MASK, (n))
+> +#define PHYSETUP_CFGCLKFREQRANGE_MASK	GENMASK_U32(13, 8)
+>  #define PHYSETUP_SHUTDOWNZ		BIT_U32(1)
+>  #define PHYSETUP_RSTZ			BIT_U32(0)
+>  
+>  #define CLOCKSET1			0x101c
+>  #define CLOCKSET1_LOCK_PHY		BIT_U32(17)
+>  #define CLOCKSET1_CLKSEL		BIT_U32(8)
+> -#define CLOCKSET1_CLKINSEL_MASK		GENMASK(3, 2)
+> +#define CLOCKSET1_CLKINSEL_MASK		GENMASK_U32(3, 2)
+>  #define CLOCKSET1_CLKINSEL_EXTAL	FIELD_PREP(CLOCKSET1_CLKINSEL_MASK, 0)
+>  #define CLOCKSET1_CLKINSEL_DIG		FIELD_PREP(CLOCKSET1_CLKINSEL_MASK, 1)
+>  #define CLOCKSET1_CLKINSEL_DU		FIELD_PREP(CLOCKSET1_CLKINSEL_MASK, 2)
+> @@ -271,24 +286,31 @@
+>  #define CLOCKSET1_UPDATEPLL		BIT_U32(0)
+>  
+>  #define CLOCKSET2			0x1020
+> -#define CLOCKSET2_M(x)			(((x) & 0xfff) << 16)
+> -#define CLOCKSET2_VCO_CNTRL(x)		(((x) & 0x3f) << 8)
+> -#define CLOCKSET2_N(x)			(((x) & 0xf) << 0)
+> +#define CLOCKSET2_M_MASK		GENMASK_U32(27, 16)
+> +#define CLOCKSET2_M(n)			FIELD_PREP(CLOCKSET2_M_MASK, (n))
+> +#define CLOCKSET2_VCO_CNTRL_MASK	GENMASK_U32(13, 8)
+> +#define CLOCKSET2_VCO_CNTRL(n)		FIELD_PREP(CLOCKSET2_VCO_CNTRL_MASK, (n))
+> +#define CLOCKSET2_N_MASK		GENMASK_U32(3, 0)
+> +#define CLOCKSET2_N(n)			FIELD_PREP(CLOCKSET2_N_MASK, (n))
+>  
+>  #define CLOCKSET3			0x1024
+> -#define CLOCKSET3_PROP_CNTRL(x)		(((x) & 0x3f) << 24)
+> -#define CLOCKSET3_INT_CNTRL(x)		(((x) & 0x3f) << 16)
+> -#define CLOCKSET3_CPBIAS_CNTRL(x)	(((x) & 0x7f) << 8)
+> -#define CLOCKSET3_GMP_CNTRL(x)		(((x) & 0x3) << 0)
+> +#define CLOCKSET3_PROP_CNTRL_MASK	GENMASK_U32(29, 24)
+> +#define CLOCKSET3_PROP_CNTRL(n)	FIELD_PREP(CLOCKSET3_PROP_CNTRL_MASK, (n))
+> +#define CLOCKSET3_INT_CNTRL_MASK	GENMASK_U32(21, 16)
+> +#define CLOCKSET3_INT_CNTRL(n)		FIELD_PREP(CLOCKSET3_INT_CNTRL_MASK, (n))
+> +#define CLOCKSET3_CPBIAS_CNTRL_MASK	GENMASK_U32(14, 8)
+> +#define CLOCKSET3_CPBIAS_CNTRL(n)	FIELD_PREP(CLOCKSET3_CPBIAS_CNTRL_MASK, (n))
+> +#define CLOCKSET3_GMP_CNTRL_MASK	GENMASK_U32(1, 0)
+> +#define CLOCKSET3_GMP_CNTRL(n)		FIELD_PREP(CLOCKSET3_GMP_CNTRL_MASK, (n))
+>  
+>  #define PHTW				0x1034
+>  #define PHTW_DWEN			BIT_U32(24)
+> -#define PHTW_TESTDIN_DATA(x)		(((x) & 0xff) << 16)
+> +#define PHTW_TESTDIN_DATA_MASK		GENMASK_U32(23, 16)
+>  #define PHTW_CWEN			BIT_U32(8)
+> -#define PHTW_TESTDIN_CODE(x)		(((x) & 0xff) << 0)
+> +#define PHTW_TESTDIN_CODE_MASK		GENMASK_U32(15, 0)
 
-> 
-> > +
-> > +	xe_assert(xe, size % XE_PAGE_SIZE == 0);
-> > +
-> > +	return size / XE_PAGE_SIZE * sizeof(u64);
-> > +}
-> > +
-> >  /**
-> >   * xe_ggtt_assign - assign a GGTT region to the VF
-> >   * @node: the &xe_ggtt_node to update
-> > @@ -927,6 +954,79 @@ void xe_ggtt_assign(const struct xe_ggtt_node *node, u16 vfid)
-> >  	xe_ggtt_assign_locked(node->ggtt, &node->base, vfid);
-> >  	mutex_unlock(&node->ggtt->lock);
-> >  }
-> > +
-> > +/**
-> > + * xe_ggtt_node_save() - Save a &xe_ggtt_node to a buffer.
-> > + * @node: the &xe_ggtt_node to be saved
-> > + * @dst: destination buffer
-> > + * @size: destination buffer size in bytes
-> > + *
-> > + * Return: 0 on success or a negative error code on failure.
-> > + */
-> > +int xe_ggtt_node_save(struct xe_ggtt_node *node, void *dst, size_t size)
-> > +{
-> > +	struct xe_ggtt *ggtt;
-> > +	u64 start, end;
-> > +	u64 *buf = dst;
-> > +
-> > +	if (!node)
-> > +		return -ENOENT;
-> > +
-> > +	guard(mutex)(&node->ggtt->lock);
-> > +
-> > +	ggtt = node->ggtt;
-> > +	start = node->base.start;
-> > +	end = start + node->base.size - 1;
-> > +
-> > +	if (xe_ggtt_pte_size(ggtt, node->base.size) > size)
-> > +		return -EINVAL;
-> > +
-> > +	while (start < end) {
-> > +		*buf++ = ggtt->pt_ops->ggtt_get_pte(ggtt, start) & ~GGTT_PTE_VFID;
-> 
-> up to this point function is generic, non-IOV, so maybe leave PTEs as-is and do not sanitize VFID ?
-> 
-> or, similar to node_load(), also pass vfid to enforce additional checks ?
-> 
-> 	pte = ggtt->pt_ops->ggtt_get_pte(ggtt, start);
-> 	if (vfid != u64_get_bits(pte, GGTT_PTE_VFID))
-> 		return -EPERM;
-> 
-> then optionally sanitize using:
-> 
-> 	*buf++ = u64_replace_bits(pte, 0, GGTT_PTE_VFID);
-> 
+Is PHTW_TESTDIN_CODE_MASK correct?
 
-I'll go with check & sanitize.
+ Tomi
 
-> 
-> 
-> > +		start += XE_PAGE_SIZE;
-> > +	}
-> > +
-> > +	return 0;
-> > +}
-> > +
-> > +/**
-> > + * xe_ggtt_node_load() - Load a &xe_ggtt_node from a buffer.
-> > + * @node: the &xe_ggtt_node to be loaded
-> > + * @src: source buffer
-> > + * @size: source buffer size in bytes
-> > + * @vfid: VF identifier
-> > + *
-> > + * Return: 0 on success or a negative error code on failure.
-> > + */
-> > +int xe_ggtt_node_load(struct xe_ggtt_node *node, const void *src, size_t size, u16 vfid)
-> > +{
-> > +	u64 vfid_pte = xe_encode_vfid_pte(vfid);
-> > +	const u64 *buf = src;
-> > +	struct xe_ggtt *ggtt;
-> > +	u64 start, end;
-> > +
-> > +	if (!node)
-> > +		return -ENOENT;
-> > +
-> > +	guard(mutex)(&node->ggtt->lock);
-> > +
-> > +	ggtt = node->ggtt;
-> > +	start = node->base.start;
-> > +	end = start + size - 1;
-> > +
-> > +	if (xe_ggtt_pte_size(ggtt, node->base.size) != size)
-> > +		return -EINVAL;
-> > +
-> > +	while (start < end) {
-> > +		ggtt->pt_ops->ggtt_set_pte(ggtt, start, (*buf & ~GGTT_PTE_VFID) | vfid_pte);
-> 
-> 		pte = u64_replace_bits(*buf++, vfid, GGTT_PTE_VFID));
-> 		ggtt_set_pte(ggtt, start, pte);
-> 
+>  #define PHTR				0x1038
+> -#define PHTW_TESTDOUT			GENMASK(23, 16)
+> +#define PHTW_TESTDOUT			GENMASK_U32(23, 16)
+>  #define PHTR_TESTDOUT_TEST		BIT_U32(16)
+>  
+>  #define PHTC				0x103c
 
-Ok.
-
-> > +		start += XE_PAGE_SIZE;
-> > +		buf++;
-> > +	}
-> > +	xe_ggtt_invalidate(ggtt);
-> > +
-> > +	return 0;
-> > +}
-> > +
-> >  #endif
-> >  
-> >  /**
-> > diff --git a/drivers/gpu/drm/xe/xe_ggtt.h b/drivers/gpu/drm/xe/xe_ggtt.h
-> > index 75fc7a1efea76..5f55f80fe3adc 100644
-> > --- a/drivers/gpu/drm/xe/xe_ggtt.h
-> > +++ b/drivers/gpu/drm/xe/xe_ggtt.h
-> > @@ -42,7 +42,10 @@ int xe_ggtt_dump(struct xe_ggtt *ggtt, struct drm_printer *p);
-> >  u64 xe_ggtt_print_holes(struct xe_ggtt *ggtt, u64 alignment, struct drm_printer *p);
-> >  
-> >  #ifdef CONFIG_PCI_IOV
-> > +size_t xe_ggtt_pte_size(struct xe_ggtt *ggtt, size_t size);
-> 
-> this could be generic (non PCI-IOV only) inline helper or macro here or in .c
-> 
-> 	size_t to_xe_ggtt_pt_size(size_t size);
-> 
-> and then more elegant solution would be to expose
-> 
-> 	size_t xe_ggtt_node_pt_size(const struct xe_ggtt_node *node);
-> 
-> and yes, that would require to additionally expose something from gt_sriov_pf_config
-> as migration code doesn't have access to this node,
-> 
-> but maybe xe_gt_sriov_pf_config_ggtt_save() can be updated to also support 'query' mode?
-> 
-> 	size_t xe_gt_sriov_pf_config_ggtt_save(gt, vfid, buf, size) -> bytes saved
-> 	size_t xe_gt_sriov_pf_config_ggtt_save(gt, vfid, NULL, 0) -> size to be saved
-
-Ok.
-I'll go with passing NULL and 0 to query.
-
-Thanks,
--Michał
-
-> 
-> 
-> >  void xe_ggtt_assign(const struct xe_ggtt_node *node, u16 vfid);
-> > +int xe_ggtt_node_save(struct xe_ggtt_node *node, void *dst, size_t size);
-> > +int xe_ggtt_node_load(struct xe_ggtt_node *node, const void *src, size_t size, u16 vfid);
-> >  #endif
-> >  
-> >  #ifndef CONFIG_LOCKDEP
-> > diff --git a/drivers/gpu/drm/xe/xe_ggtt_types.h b/drivers/gpu/drm/xe/xe_ggtt_types.h
-> > index c5e999d58ff2a..dacd796f81844 100644
-> > --- a/drivers/gpu/drm/xe/xe_ggtt_types.h
-> > +++ b/drivers/gpu/drm/xe/xe_ggtt_types.h
-> > @@ -78,6 +78,8 @@ struct xe_ggtt_pt_ops {
-> >  	u64 (*pte_encode_flags)(struct xe_bo *bo, u16 pat_index);
-> >  	/** @ggtt_set_pte: Directly write into GGTT's PTE */
-> >  	void (*ggtt_set_pte)(struct xe_ggtt *ggtt, u64 addr, u64 pte);
-> > +	/** @ggtt_get_pte: Directly read from GGTT's PTE */
-> > +	u64 (*ggtt_get_pte)(struct xe_ggtt *ggtt, u64 addr);
-> >  };
-> >  
-> >  #endif
-> > diff --git a/drivers/gpu/drm/xe/xe_gt_sriov_pf_config.c b/drivers/gpu/drm/xe/xe_gt_sriov_pf_config.c
-> > index c0c0215c07036..c857879e28fe5 100644
-> > --- a/drivers/gpu/drm/xe/xe_gt_sriov_pf_config.c
-> > +++ b/drivers/gpu/drm/xe/xe_gt_sriov_pf_config.c
-> > @@ -726,6 +726,50 @@ int xe_gt_sriov_pf_config_set_fair_ggtt(struct xe_gt *gt, unsigned int vfid,
-> >  	return xe_gt_sriov_pf_config_bulk_set_ggtt(gt, vfid, num_vfs, fair);
-> >  }
-> >  
-> > +/**
-> > + * xe_gt_sriov_pf_config_ggtt_save() - Save a VF provisioned GGTT data into a buffer.
-> > + * @gt: the &xe_gt
-> > + * @vfid: VF identifier (can't be 0)
-> > + * @buf: the GGTT data destination buffer
-> > + * @size: the size of the buffer
-> > + *
-> > + * This function can only be called on PF.
-> > + *
-> > + * Return: 0 on success or a negative error code on failure.
-> > + */
-> > +int xe_gt_sriov_pf_config_ggtt_save(struct xe_gt *gt, unsigned int vfid,
-> > +				    void *buf, size_t size)
-> > +{
-> > +	xe_gt_assert(gt, IS_SRIOV_PF(gt_to_xe(gt)));
-> > +	xe_gt_assert(gt, vfid);
-> > +
-> > +	guard(mutex)(xe_gt_sriov_pf_master_mutex(gt));
-> > +
-> > +	return xe_ggtt_node_save(pf_pick_vf_config(gt, vfid)->ggtt_region, buf, size);
-> > +}
-> > +
-> > +/**
-> > + * xe_gt_sriov_pf_config_ggtt_restore() - Restore a VF provisioned GGTT data from a buffer.
-> > + * @gt: the &xe_gt
-> > + * @vfid: VF identifier (can't be 0)
-> > + * @buf: the GGTT data source buffer
-> > + * @size: the size of the buffer
-> > + *
-> > + * This function can only be called on PF.
-> > + *
-> > + * Return: 0 on success or a negative error code on failure.
-> > + */
-> > +int xe_gt_sriov_pf_config_ggtt_restore(struct xe_gt *gt, unsigned int vfid,
-> > +				       const void *buf, size_t size)
-> > +{
-> > +	xe_gt_assert(gt, IS_SRIOV_PF(gt_to_xe(gt)));
-> > +	xe_gt_assert(gt, vfid);
-> > +
-> > +	guard(mutex)(xe_gt_sriov_pf_master_mutex(gt));
-> > +
-> > +	return xe_ggtt_node_load(pf_pick_vf_config(gt, vfid)->ggtt_region, buf, size, vfid);
-> > +}
-> > +
-> >  static u32 pf_get_min_spare_ctxs(struct xe_gt *gt)
-> >  {
-> >  	/* XXX: preliminary */
-> > diff --git a/drivers/gpu/drm/xe/xe_gt_sriov_pf_config.h b/drivers/gpu/drm/xe/xe_gt_sriov_pf_config.h
-> > index 513e6512a575b..6916b8f58ebf2 100644
-> > --- a/drivers/gpu/drm/xe/xe_gt_sriov_pf_config.h
-> > +++ b/drivers/gpu/drm/xe/xe_gt_sriov_pf_config.h
-> > @@ -61,6 +61,11 @@ ssize_t xe_gt_sriov_pf_config_save(struct xe_gt *gt, unsigned int vfid, void *bu
-> >  int xe_gt_sriov_pf_config_restore(struct xe_gt *gt, unsigned int vfid,
-> >  				  const void *buf, size_t size);
-> >  
-> > +int xe_gt_sriov_pf_config_ggtt_save(struct xe_gt *gt, unsigned int vfid,
-> > +				    void *buf, size_t size);
-> > +int xe_gt_sriov_pf_config_ggtt_restore(struct xe_gt *gt, unsigned int vfid,
-> > +				       const void *buf, size_t size);
-> > +
-> >  bool xe_gt_sriov_pf_config_is_empty(struct xe_gt *gt, unsigned int vfid);
-> >  
-> >  int xe_gt_sriov_pf_config_init(struct xe_gt *gt);
-> 
