@@ -2,48 +2,78 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B1DF5C143C3
-	for <lists+dri-devel@lfdr.de>; Tue, 28 Oct 2025 12:01:22 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id B4786C1442E
+	for <lists+dri-devel@lfdr.de>; Tue, 28 Oct 2025 12:06:27 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2E25A10E383;
-	Tue, 28 Oct 2025 11:01:17 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B4C5C10E386;
+	Tue, 28 Oct 2025 11:06:24 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="pQAFDGVJ";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="Pz/LzL+J";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sea.source.kernel.org (sea.source.kernel.org [172.234.252.31])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 755A510E37A;
- Tue, 28 Oct 2025 11:01:13 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by sea.source.kernel.org (Postfix) with ESMTP id 5DC7E4322D;
- Tue, 28 Oct 2025 11:01:13 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9EF27C4CEF7;
- Tue, 28 Oct 2025 11:01:11 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1761649273;
- bh=joNqstAaux1Uvo9uDnCaO8dixJ1y2Pgk6LVKAnRsZX4=;
- h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=pQAFDGVJ1y4A3KKufiPbMhU/SUwTsMc61uR+qjG39F+0j4aaYttRmAnp7me2xMcqu
- Qkl+LW69LZWorBe55LroyroUwBZqJ3SBUr45t3o/gbpAwRcI5haW5bjXpzer33Y+wF
- NW7e7Hl1cCnqDYEzntkDzfqZhrq+/zHZIqLGgwbMaUnYNYzDeaUVj4yJ1jbX/l8+r5
- mt85/0b4Pq3fGu75TuA1+TIYhWpfwLkKhteVURZfq83jy8YIBxRbYJ6O3ZL/FL+IOU
- /pk7FqNl3zy5sZqJYRhoR7tj7Xjlb0EexQoW88WaUcXVBB5GxOlyi2Qs5uVxfW7IXE
- jPURASoIkmKsg==
-From: Danilo Krummrich <dakr@kernel.org>
-To: aliceryhl@google.com,
-	acourbot@nvidia.com,
-	jhubbard@nvidia.com
-Cc: nouveau@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- rust-for-linux@vger.kernel.org, Danilo Krummrich <dakr@kernel.org>
-Subject: [PATCH 2/2] drm: nova: select NOVA_CORE
-Date: Tue, 28 Oct 2025 12:00:53 +0100
-Message-ID: <20251028110058.340320-2-dakr@kernel.org>
-X-Mailer: git-send-email 2.51.0
-In-Reply-To: <20251028110058.340320-1-dakr@kernel.org>
-References: <20251028110058.340320-1-dakr@kernel.org>
+Received: from mail-pl1-f177.google.com (mail-pl1-f177.google.com
+ [209.85.214.177])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BAAEF10E386
+ for <dri-devel@lists.freedesktop.org>; Tue, 28 Oct 2025 11:06:23 +0000 (UTC)
+Received: by mail-pl1-f177.google.com with SMTP id
+ d9443c01a7336-29490944023so40011045ad.3
+ for <dri-devel@lists.freedesktop.org>; Tue, 28 Oct 2025 04:06:23 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20230601; t=1761649583; x=1762254383; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=iUWmP3PhZ8tlgKqgNEzC2Ad8cbsR84+pstOsL3UQMkk=;
+ b=Pz/LzL+JL6fOJyV27fsEeQE6kcxTblmmwMjjWJABiF21o39CWBsccSJ4OdQnn0nNRs
+ 9ziE2g8CQT6U4Tv7PhPySwN4ilI3Ip9tftAgKvpLfT1fD3BgSgr526iQcDn9Q+5grDwI
+ PKGYKVrzD6Y9VjObpgSNcr+qtGYYePK1gY5fxhW0lulHMV/9PRkugYR7D1OCMs59K+xh
+ qGVm4Oi7dEXGZI+B7FR2FausuHU50rwtrXpCbRX0CIqJS9i7rv6QShr1cIK5jbXbF/pe
+ aRJirnASKYp/I5Lvy9C13oh9CUCL0RtLdE1SKVu7t2nxy510ogHZzSviPdhCA1Ypsq5c
+ GeNw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1761649583; x=1762254383;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=iUWmP3PhZ8tlgKqgNEzC2Ad8cbsR84+pstOsL3UQMkk=;
+ b=PLDPgpf0wyu8GjbhptFMyme30U/KrUlFWuL7+UtXZXAegi/JMekK6Rh8dcYXlw4vyp
+ sG01MfYRzlfvjNcdZp1TF38a2yGqkSBYJsYhJNKXPnW+kYRD0FTbXpBXfnJ0+IDQrQQW
+ GZLvnnsIme2izjJOmHgj9c3Goxq6J+Ja0qVeKxwnZSUM90xFxBT5xAlpPNY+wsDPOPP0
+ l5f9qTKF5xKzdwK3NjF9boQgirAeB5rrUwSZ8AyknG0RcRTdGLq6yg9ieWWNoy0FNUQq
+ Kr3DSJbdlmmmCR7/aZJDVhI5YCxvOs7FVBZoPo8WpR2WH5Am80iZtHLS4TCIdBdHu/YN
+ fsMg==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCVOl0OqvOeciIfLvdh32X3qug6LoNEGOs7fJanADxSmLrf/aruANsYJEk34giUmoAX2qTuPzeARvTw=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YyDEDZgqGBt2tKu8qWcZZeMGGlKs7OdxIkUcqjxHXaCUbPyt/DV
+ sfUXX0oDKeSWHG8jk8RLobU6EJv/RUf3r9LioKQr36gGalifLDw0uHPJSvAtBTRZxZ3MPd1mxhs
+ tjVK2ZihSb6nCKbbmVml+G81eimS+yws=
+X-Gm-Gg: ASbGncu5vEy62NHziVAJZm+JEyOjOLZ6IuUf7O7+dDHoy/nZy+keFBuf5C2RioXNjNo
+ BG7JGZJfib6b4xITI0ZxLdh4p0MT5cWBqDWKuIvUvfpDl2d+nkNF0Bmo4jbbYwpZAZghRs2GbNj
+ 96oVIudVejkDO23n5OVtPO3lwzNcqvzpkryFwGikCpG35Ff1oDrkDhyCEP8q67oZDF0JUq5o86k
+ vGz7Yhctsd8WCUCa79GSDoLHutFYr4KtCkC0dOqYJE32jUwy+spMcvH7tPf+M3bO9e4PGaab+JS
+ ktr0CbR5K2Dl1v8rhnnAteDXocflcnOfUyG2jT3TB5uZTM/JVjTLUMkAdALY01aGImK8EPubs0b
+ Tjpo=
+X-Google-Smtp-Source: AGHT+IF7FNORVzgaeQ1govCGZtEXJ05FSICIDDXxzpekPFmsjSkXmOeYH2v4GP77oi5zhp/UIA8gm9W95L73ZNdDHns=
+X-Received: by 2002:a17:902:cec7:b0:283:c950:a76f with SMTP id
+ d9443c01a7336-294cb67398fmr45724665ad.43.1761649583232; Tue, 28 Oct 2025
+ 04:06:23 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20250928054913.7871-1-opensource206@gmail.com>
+ <CABQX2QMgZ0VGQ+-RhF0suTyL9qkU1Hf5V7g2jvPQ+CwTEidZKQ@mail.gmail.com>
+In-Reply-To: <CABQX2QMgZ0VGQ+-RhF0suTyL9qkU1Hf5V7g2jvPQ+CwTEidZKQ@mail.gmail.com>
+From: opensource india <opensource206@gmail.com>
+Date: Tue, 28 Oct 2025 16:36:12 +0530
+X-Gm-Features: AWmQ_blOzU8MNjg24AK7wPsDJ9kJPnWwRA7YFclINRCUysc4TIihhoHenBhIG7M
+Message-ID: <CAKPKb8_tHVEFrkWHF3ycuDXOCJ9-qr64_sii9O4bcUiu4uuvRQ@mail.gmail.com>
+Subject: Re: [PATCH] drm/vmwgfx: Replace schedule() with schedule_hrtimeout()
+ in fallback wait
+To: Zack Rusin <zack.rusin@broadcom.com>
+Cc: maarten.lankhorst@linux.intel.com, mripard@kernel.org, tzimmermann@suse.de,
+ airlied@gmail.com, simona@ffwll.ch, bcm-kernel-feedback-list@broadcom.com, 
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -59,27 +89,36 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The nova-drm driver does not provide any value without nova-core being
-selected as well, hence select NOVA_CORE.
+Hi Zack Rusin,
 
-Fixes: cdeaeb9dd762 ("drm: nova-drm: add initial driver skeleton")
-Signed-off-by: Danilo Krummrich <dakr@kernel.org>
----
- drivers/gpu/drm/nova/Kconfig | 1 +
- 1 file changed, 1 insertion(+)
+On Mon, Oct 20, 2025 at 9:48=E2=80=AFAM Zack Rusin <zack.rusin@broadcom.com=
+> wrote:
+>
 
-diff --git a/drivers/gpu/drm/nova/Kconfig b/drivers/gpu/drm/nova/Kconfig
-index 2a70aac64d7e..3e637ad7b5ba 100644
---- a/drivers/gpu/drm/nova/Kconfig
-+++ b/drivers/gpu/drm/nova/Kconfig
-@@ -5,6 +5,7 @@ config DRM_NOVA
- 	depends on PCI
- 	depends on RUST
- 	select AUXILIARY_BUS
-+	select NOVA_CORE
- 	default n
- 	help
- 	  Choose this if you want to build the Nova DRM driver for Nvidia
--- 
-2.51.0
+> I don't remember exactly the schedule family of functions but isn't
+> schedule_hrtimeout leaving the task in a running state? In general it
+> looks like with the patch the task's current state doesn't match what
+> was expected, plus I'm not sure if I quite get why the uninterruptible
+> non-lazy case is being replaced with a lazy wait of NSEC_PER_MSEC's.
+> It'd be great if you could explain a little bit better what you're
+> doing here because the commit message is missing an explanation for
+> either of those.
+>
+> z
 
+Thank you for checking the patch.
+
+The existing code does not specify any fixed wait time during the
+fence wait. It simply invokes schedule(),
+which means the task can be rescheduled immediately to check the fence
+status again.
+
+By using the high-resolution timer family of functions, we can specify
+an explicit sleep duration.
+In this patch, the sleep time is set to 1 ms, ensuring that the fence
+status is checked at fixed 1 ms intervals.
+
+This approach allows the CPU to be released to other tasks for a
+deterministic period,
+thereby reducing unnecessary CPU wakeups while maintaining timely
+fence checks(FIXME expected the same).
