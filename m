@@ -2,44 +2,44 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 54632C14092
-	for <lists+dri-devel@lfdr.de>; Tue, 28 Oct 2025 11:16:49 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 79553C14095
+	for <lists+dri-devel@lfdr.de>; Tue, 28 Oct 2025 11:16:54 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2616810E373;
-	Tue, 28 Oct 2025 10:16:47 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9E78310E377;
+	Tue, 28 Oct 2025 10:16:52 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=bootlin.com header.i=@bootlin.com header.b="YbyV++KO";
+	dkim=pass (2048-bit key; unprotected) header.d=bootlin.com header.i=@bootlin.com header.b="VUKNk8bO";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtpout-02.galae.net (smtpout-02.galae.net [185.246.84.56])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3931610E373
- for <dri-devel@lists.freedesktop.org>; Tue, 28 Oct 2025 10:16:41 +0000 (UTC)
+Received: from smtpout-03.galae.net (smtpout-03.galae.net [185.246.85.4])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7730910E376
+ for <dri-devel@lists.freedesktop.org>; Tue, 28 Oct 2025 10:16:46 +0000 (UTC)
 Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
- by smtpout-02.galae.net (Postfix) with ESMTPS id 2B49B1A16F9;
- Tue, 28 Oct 2025 10:16:40 +0000 (UTC)
+ by smtpout-03.galae.net (Postfix) with ESMTPS id EDC9B4E41393;
+ Tue, 28 Oct 2025 10:16:44 +0000 (UTC)
 Received: from mail.galae.net (mail.galae.net [212.83.136.155])
- by smtpout-01.galae.net (Postfix) with ESMTPS id F2594606AB;
- Tue, 28 Oct 2025 10:16:39 +0000 (UTC)
+ by smtpout-01.galae.net (Postfix) with ESMTPS id BDB38606AB;
+ Tue, 28 Oct 2025 10:16:44 +0000 (UTC)
 Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon)
- with ESMTPSA id 90C931179B15C; Tue, 28 Oct 2025 11:16:36 +0100 (CET)
+ with ESMTPSA id 67CE91179B16F; Tue, 28 Oct 2025 11:16:39 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
- t=1761646599; h=from:subject:date:message-id:to:cc:mime-version:content-type:
+ t=1761646603; h=from:subject:date:message-id:to:cc:mime-version:content-type:
  content-transfer-encoding:in-reply-to:references;
- bh=CO/6DLIe3Dzo5sLr1BlifC8tEkQKj1yPrLzvRzKt3Ik=;
- b=YbyV++KO4+DwHAdTVhCxcflDWiuRKIdQt5d1HcQr6CNNpdcOlgaoa2TIVAlQweaH7UjzYU
- f8BUKzoVhX14m8VrKcl3Zzqy2KhCzw7wloKeODQcEUOryY0v4E5iedzB/DIR2uB7ExIlrb
- g7tk/YO1v6Fve3kkx6wKEgz61HjNq6DLBSfRx3HyFTBaPyn7ZzFMZKlAGmGBXYzXq4J5ne
- +BJXEoUYjx/jvlCvfW6hRIIH0VTy1jm6F4yV2lS5dUMmmY8PYiU8zWTLN4hosQhWdIeI2u
- UGpX/FS++4VqeG1nz79rGspLn2FICI9GW08WU4uMoZELB8GEvz1cJpAyhSYBWA==
+ bh=Aqs+sfSmiPEHQh8G/sn7Sqo6VRtZAC2XPw+ZTvejj+4=;
+ b=VUKNk8bOKU9dg6anXLvRhKDRhB6uty6Eg/UxHEma4KiWOpJGR2lg44OvHVfRRZrP2RYFa4
+ eFxE1qC9b7edsKUAh5rN4bJo+rDYqBllggWSWcJzprbp0Pw+d+VoiB+RL6UcIzvNSPDwwD
+ ZRll/uWUjDYDDK8Dvtvr9rlJ43422ae3JXq339d/v8emcPN0G5lVwbKkcrMGe/rIDRqmva
+ JGQfqkG6Cz+JnlHKc/ahmJBD5aeIWohTjVy/qYHLkUJSkWjmGaCJs3wBMfb1fH3tBmDQmK
+ JugyOW5FZzwNgDLwezbWKWTCxe8RXmLlKJcOJpBnk/JLTZeHS9+BN7BV6GsYww==
 From: Luca Ceresoli <luca.ceresoli@bootlin.com>
-Date: Tue, 28 Oct 2025 11:15:44 +0100
-Subject: [PATCH v3 3/6] drm/bridge: document that adding a bridge is
- mandatory before attach
+Date: Tue, 28 Oct 2025 11:15:45 +0100
+Subject: [PATCH v3 4/6] drm/bridge: add warning for bridges attached
+ without being added
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20251028-b4-drm-bridge-alloc-add-before-attach-v3-3-bb8611acbbfb@bootlin.com>
+Message-Id: <20251028-b4-drm-bridge-alloc-add-before-attach-v3-4-bb8611acbbfb@bootlin.com>
 References: <20251028-b4-drm-bridge-alloc-add-before-attach-v3-0-bb8611acbbfb@bootlin.com>
 In-Reply-To: <20251028-b4-drm-bridge-alloc-add-before-attach-v3-0-bb8611acbbfb@bootlin.com>
 To: Alain Volmat <alain.volmat@foss.st.com>, 
@@ -73,31 +73,45 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-At the moment it's not documented that you need to add a bridge before
-attaching it. Clarify that.
+DRM bridges must be added before they are attached. Add a warning to catch
+violations.
+
+The warning is based on the bridge not being part of any list, so it will
+trigger if the bridge is being attached without ever having been added.
+
+It won't catch cases of bridges attached after having been added and then
+removed, because in that case the bridge will be in
+bridge_lingering_list. However such a case is both more demanding to detect
+and less likely to happen, so it can be left unchecked, at least for now.
 
 Suggested-by: Maxime Ripard <mripard@kernel.org>
 Link: https://lore.kernel.org/all/20250709-sophisticated-loon-of-rain-6ccdd8@houat/
 Reviewed-by: Raphael Gallais-Pou <rgallaispou@gmail.com>
 Signed-off-by: Luca Ceresoli <luca.ceresoli@bootlin.com>
+
+---
+
+Changes in v3:
+- added 'Suggested-by: Maxime Ripard' which was missing in v1 and v2 by
+  mistake
 ---
  drivers/gpu/drm/drm_bridge.c | 3 +++
  1 file changed, 3 insertions(+)
 
 diff --git a/drivers/gpu/drm/drm_bridge.c b/drivers/gpu/drm/drm_bridge.c
-index 53e7ece36dd940aabd1c0880f296fce7224a12ac..1246a52f8767b52c5f10139aa897824b3c2f28da 100644
+index 1246a52f8767b52c5f10139aa897824b3c2f28da..6dba601a056bb3cff8b8dd5b1ec46299235b2d85 100644
 --- a/drivers/gpu/drm/drm_bridge.c
 +++ b/drivers/gpu/drm/drm_bridge.c
-@@ -422,6 +422,9 @@ static bool drm_bridge_is_atomic(struct drm_bridge *bridge)
-  * If non-NULL the previous bridge must be already attached by a call to this
-  * function.
-  *
-+ * The bridge to be attached must have been previously added by
-+ * drm_bridge_add().
-+ *
-  * Note that bridges attached to encoders are auto-detached during encoder
-  * cleanup in drm_encoder_cleanup(), so drm_bridge_attach() should generally
-  * *not* be balanced with a drm_bridge_detach() in driver code.
+@@ -441,6 +441,9 @@ int drm_bridge_attach(struct drm_encoder *encoder, struct drm_bridge *bridge,
+ 	if (!encoder || !bridge)
+ 		return -EINVAL;
+ 
++	if (list_empty(&bridge->list))
++		DRM_WARN("Missing drm_bridge_add() before attach\n");
++
+ 	drm_bridge_get(bridge);
+ 
+ 	if (previous && (!previous->dev || previous->encoder != encoder)) {
 
 -- 
 2.51.0
