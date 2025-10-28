@@ -2,46 +2,49 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6EF68C16E31
-	for <lists+dri-devel@lfdr.de>; Tue, 28 Oct 2025 22:12:51 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id BB6B7C16E61
+	for <lists+dri-devel@lfdr.de>; Tue, 28 Oct 2025 22:15:17 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 355F510E143;
-	Tue, 28 Oct 2025 21:12:48 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id AA12010E1EA;
+	Tue, 28 Oct 2025 21:15:14 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; secure) header.d=gmx.de header.i=deller@gmx.de header.b="syYrNjEY";
+	dkim=pass (2048-bit key; secure) header.d=gmx.de header.i=deller@gmx.de header.b="ZSylgAtc";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mout.gmx.net (mout.gmx.net [212.227.17.21])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 15DD510E143
- for <dri-devel@lists.freedesktop.org>; Tue, 28 Oct 2025 21:12:46 +0000 (UTC)
+Received: from mout.gmx.net (mout.gmx.net [212.227.17.20])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6EE1910E1EA
+ for <dri-devel@lists.freedesktop.org>; Tue, 28 Oct 2025 21:15:12 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmx.de;
- s=s31663417; t=1761685959; x=1762290759; i=deller@gmx.de;
- bh=3NqD6sQdAtc/r/zkMijw+9xchBXUUtHVXaeJWtjm+c0=;
+ s=s31663417; t=1761686110; x=1762290910; i=deller@gmx.de;
+ bh=MbSuqvYTWyysj/QidqqkZwh+9BWIHr/TunCLSDd8ZQU=;
  h=X-UI-Sender-Class:Message-ID:Date:MIME-Version:Subject:To:Cc:
  References:From:In-Reply-To:Content-Type:
  Content-Transfer-Encoding:cc:content-transfer-encoding:
  content-type:date:from:message-id:mime-version:reply-to:subject:
  to;
- b=syYrNjEYlbU7DxsVL5cnys4FITu4EFAUHS1C5MZ/fWBwX40oM58twzBXc7GAFN94
- 9vtOLO6yfqoolLqIgHcG8zSYs1jmNDfcAVH+uLnnwNA8nvtUa13+hbYORXwYZgtZ0
- qlqdIEvdQMn5Xxrul2O5pGaKwK69tTVT2PPYJOeTm8qExMlXSHUlvbbAKnzO9tngy
- BgorJBpwLKy6SN+Skx1uLXVNLWZVbyvJBAHUU1W6tA7OOiw/pqVQHNsprMFixEn9Z
- fD3j7/nVZQSeqnxII0U99Gjp3v1my8GN7YEOkrnTq60SpVpI8DEpwNlbFwQeBlQop
- XtQyYBIiEJm0dwfcsQ==
+ b=ZSylgAtcRM9n4ETOclWB90Benf3+Zx8vYffW9TjjjsyeDHRBVBF/ATU3p/i9YmCd
+ /lDKQo5gtUg94xq8cWFC5IPsvfXyBkfVUpGQfNDth/yGvcjxdIVFgaivSWIpP3CHe
+ KBO8f8UpshdpCmJCIvFl5J4s3owi9D7PMIQalKB76o91Nghckus16CuddyENsawUL
+ BK2s14HdbNaVkn8pL/+Rv+3YeHhVXIi9S4G/E9+MXA9xrjXGyZYLfF2lI9+9Yr+gH
+ 3klie7lC/XqcA9HHHMBwXBP/0en5fttLr+kNvN20/fsRHAFnMOvaZIYunllq98iKy
+ mBW8cpl0o6VNachQ3Q==
 X-UI-Sender-Class: 724b4f7f-cbec-4199-ad4e-598c01a50d3a
-Received: from [192.168.20.55] ([109.250.50.74]) by mail.gmx.net (mrgmx105
- [212.227.17.168]) with ESMTPSA (Nemesis) id 1MLzBp-1vVFFm2q6D-00IiFX; Tue, 28
- Oct 2025 22:12:39 +0100
-Message-ID: <9e81bc14-39e6-419b-bb4f-67d8d2701025@gmx.de>
-Date: Tue, 28 Oct 2025 22:12:38 +0100
+Received: from [192.168.20.55] ([109.250.50.74]) by mail.gmx.net (mrgmx104
+ [212.227.17.168]) with ESMTPSA (Nemesis) id 1MxUrx-1wBAsZ3CiP-00sxeT; Tue, 28
+ Oct 2025 22:15:10 +0100
+Message-ID: <1e872104-e744-45f9-b2f3-8007fb818b05@gmx.de>
+Date: Tue, 28 Oct 2025 22:15:06 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] video: fb: Fix typo in comment
-To: PIYUSH CHOUDHARY <mercmerc961@gmail.com>
-Cc: linux-fbdev@vger.kernel.org, dri-devel@lists.freedesktop.org,
+Subject: Re: [PATCH] video: valkyriefb: Fix reference count leak in
+ valkyriefb_init
+To: Miaoqian Lin <linmq006@gmail.com>, Paul Mackerras <paulus@ozlabs.org>,
+ Benjamin Herrenschmidt <benh@kernel.crashing.org>,
+ linux-fbdev@vger.kernel.org, dri-devel@lists.freedesktop.org,
  linux-kernel@vger.kernel.org
-References: <20251019183508.20804-1-mercmerc961@gmail.com>
+Cc: stable@vger.kernel.org
+References: <20251027084340.79419-1-linmq006@gmail.com>
 Content-Language: en-US
 From: Helge Deller <deller@gmx.de>
 Autocrypt: addr=deller@gmx.de; keydata=
@@ -87,85 +90,85 @@ Autocrypt: addr=deller@gmx.de; keydata=
  FwRDcGV6nxanxZGKEkSHHOm8jHwvQWvPP73pvuPBEPtKGLzbgd7OOcGZWtq2hNC6cRtsRdDx
  4TAGMCz4j238m+2mdbdhRh3iBnWT5yPFfnv/2IjFAk+sdix1Mrr+LIDF++kiekeq0yUpDdc4
  ExBy2xf6dd+tuFFBp3/VDN4U0UfG4QJ2fg19zE5Z8dS4jGIbLg==
-In-Reply-To: <20251019183508.20804-1-mercmerc961@gmail.com>
+In-Reply-To: <20251027084340.79419-1-linmq006@gmail.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: quoted-printable
-X-Provags-ID: V03:K1:oQuDQB1onN+CNMAHfFQxqVkvqoJNGeLLNZIdIA9Z8G+fIzcAgBQ
- pJ6VgGsVzVbOsry+3Ad9R9vJHGL+oH3PGbRrm9HFot8jv9aUmPU12s7JcSHfOOMIwwa2lQp
- 8d5wgky9hoVavahspBBq5shrbRug14vLxjWvH7PKITjaOyK0epyElanNn83fo8z6kOle+OE
- +2suwqMuWpGLlQLsjnZzA==
+X-Provags-ID: V03:K1:rWqTqucdygaqtmK0fPiWZJuXQNe9Ki5Xytp2RsfKGoLXOyJ5iLM
+ jDfRACRx6gavtWMhZ1mkZx15YQNHeL/M9wbczz542sFpGb4RAZ/iQrO6TvfZWkWCFI+kyC3
+ Vt7eVY7Mg7sHW3Qcm8pzgf+e9ZeBR4Fx085HTRSY9b3e4Ai2nvxMGDStQSYQxcknwY60X04
+ caSsCLWdRw+m6ibxb8kCg==
 X-Spam-Flag: NO
-UI-OutboundReport: notjunk:1;M01:P0:1begAWGVgWg=;UZhCi6z0t07ZuIMgp5KOdRE4aIk
- 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
- xzq9oNlKwJt0Y89hpp7OX7jQXcjrA+MF/kI=
+UI-OutboundReport: notjunk:1;M01:P0:k4rWfg6ov4s=;2Mzdh9JwF5zLFHyqzp5fIFnmKah
+ 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
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -181,13 +184,19 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 10/19/25 20:35, PIYUSH CHOUDHARY wrote:
-> Fix typo: "verical" -> "vertical" in macro description
+On 10/27/25 09:43, Miaoqian Lin wrote:
+> The of_find_node_by_name() function returns a device tree node with its
+> reference count incremented. The caller is responsible for calling
+> of_node_put() to release this reference when done.
 >=20
-> Signed-off-by: PIYUSH CHOUDHARY <mercmerc961@gmail.com>
+> Found via static analysis.
+>=20
+> Fixes: cc5d0189b9ba ("[PATCH] powerpc: Remove device_node addrs/n_addr")
+> Cc: stable@vger.kernel.org
+> Signed-off-by: Miaoqian Lin <linmq006@gmail.com>
 > ---
->   include/uapi/linux/fb.h | 2 +-
->   1 file changed, 1 insertion(+), 1 deletion(-)
+>   drivers/video/fbdev/valkyriefb.c | 2 ++
+>   1 file changed, 2 insertions(+)
 
 applied.
 
