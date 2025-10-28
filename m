@@ -2,117 +2,74 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 689B4C14C13
-	for <lists+dri-devel@lfdr.de>; Tue, 28 Oct 2025 14:06:29 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 05AB6C14C31
+	for <lists+dri-devel@lfdr.de>; Tue, 28 Oct 2025 14:07:49 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A0A9810E3D7;
-	Tue, 28 Oct 2025 13:06:27 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 090F889065;
+	Tue, 28 Oct 2025 13:07:47 +0000 (UTC)
+Authentication-Results: gabe.freedesktop.org;
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="YBCkvKCf";
+	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from TYPPR03CU001.outbound.protection.outlook.com
- (mail-japaneastazolkn19012062.outbound.protection.outlook.com [52.103.43.62])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E4D0A10E3BE;
- Tue, 28 Oct 2025 12:37:01 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=wc4Q2zv6i/MSHogqNteWeo3Gn39JopYxAoB2tS7LWTWaJ7FAaqb9YFwMpbSo6MkUauP8CTivp3K3UKgWGJgpYDc7U35Ujs9wzhHCQJwKNn6F3u43yM7lRfJvKJ4HaWmLBRIlK5pXVyZXGw0SzGM8sAEWvOKsQis9QEibPui+YXzvY3akJskimNOGXTr75jF/Z7Qu63q7JWHUZkKJG57swqMyoPiGQbTyyuHPse4KS/XMCEng6cLFTEO0b3XjP2RG2z92SNxQ4YOHBqMtxdHgTZfR2En+EG2LkIrZtJfXnOc1we/EvKRbI4qx/CdXvP6NZiowPHevZAMjolrKDPbBMQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=BtfCMPonMQnZTfsWU/6SNbxFTo/0NcddAbicn0/c52k=;
- b=kbOn7dRUiQXDXs9O3MutccMMGkqSjUXwNUEFSPtSJIW2QltUkVd9tfQNHdm5zeeFBge++ctruHDqAT1cZrJCsip2D/FHS6WYaTjqD7iszPQMRq3HXwPCYRVbDkO2bAB473C1AO/MqN7Xs5QV1mTFfFaUHCOX3kpCM4dDFrvpBWF/0jq6PrjDCuy8Zd7FDmT9BWmdI39WLs8ftkiVorRIH7lQhYC3ZdOhwfJ+nusTHuY4FAE3FzlklGLis2HOluxSyUdUYvb7jnaS/3JpXgjNVMbW7ZWaf9OMuWZDZREnIwOOHDg1SuDw/h1x15q+A7poiieiU4DEwFMDAkD+IpgDRw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=none; dmarc=none;
- dkim=none; arc=none
-Received: from TYUPR06MB6099.apcprd06.prod.outlook.com (2603:1096:400:356::8)
- by SEZPR06MB5607.apcprd06.prod.outlook.com (2603:1096:101:9a::9) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9275.13; Tue, 28 Oct
- 2025 12:36:56 +0000
-Received: from TYUPR06MB6099.apcprd06.prod.outlook.com
- ([fe80::2223:6c27:d5c2:aa47]) by TYUPR06MB6099.apcprd06.prod.outlook.com
- ([fe80::2223:6c27:d5c2:aa47%5]) with mapi id 15.20.9253.017; Tue, 28 Oct 2025
- 12:36:56 +0000
-From: Teguh Sobirin <teguh@sobir.in>
-To: Rob Clark <robin.clark@oss.qualcomm.com>,
- Dmitry Baryshkov <lumag@kernel.org>,
- Abhinav Kumar <abhinav.kumar@linux.dev>,
- Jessica Zhang <jesszhan0024@gmail.com>, Sean Paul <sean@poorly.run>,
- Marijn Suijten <marijn.suijten@somainline.org>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>
-Cc: linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org,
- freedreno@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- Teguh Sobirin <teguh@sobir.in>
-Subject: [PATCH] drm/msm/dpu: Set vsync source irrespective of mdp top support
-Date: Tue, 28 Oct 2025 20:36:35 +0800
-Message-ID: <TYUPR06MB6099CBBE5090DB12A2C187E3DDFDA@TYUPR06MB6099.apcprd06.prod.outlook.com>
-X-Mailer: git-send-email 2.34.1
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-ClientProxiedBy: PH8PR05CA0017.namprd05.prod.outlook.com
- (2603:10b6:510:2cc::29) To TYUPR06MB6099.apcprd06.prod.outlook.com
- (2603:1096:400:356::8)
-X-Microsoft-Original-Message-ID: <20251028123635.3523769-1-teguh@sobir.in>
+Received: from mail-pl1-f178.google.com (mail-pl1-f178.google.com
+ [209.85.214.178])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 437C089065
+ for <dri-devel@lists.freedesktop.org>; Tue, 28 Oct 2025 13:07:46 +0000 (UTC)
+Received: by mail-pl1-f178.google.com with SMTP id
+ d9443c01a7336-26816246a0aso10294865ad.2
+ for <dri-devel@lists.freedesktop.org>; Tue, 28 Oct 2025 06:07:46 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20230601; t=1761656866; x=1762261666; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=6kvzS0/jSIy7CDl/mEGjuYynAGZ6vcbGIPlikYvSXkM=;
+ b=YBCkvKCftRK4OvpDPWm6f36zIkrv190xauG8SwQvKKspm8dBkAayIsYeiSUUucsNa0
+ eea84RDzE+p+YjlzADj7l5UZ5VIFF9fiFpY/D7lHaO8FYYeiQfmSleagqJUjSledi+4p
+ AkxCBUOHzHn3K+1Iut4hCiuZ5qQXlrG2qAklsdH9l+f5n2vxuxzbKCFzvZ97/wJcDj64
+ gv1I/2dM3220v9BRpvrJ1ie3UAb1tzgYKgGzsLx9jTYU0jKT0WckhE+pT9FGGUm17d6l
+ xP40p7PulP3LH+OHu4OcUwwboPkFacmHLj/m1mQAa8zXXJcFyTq65nqf+s0GHHC8+5mM
+ MISA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1761656866; x=1762261666;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=6kvzS0/jSIy7CDl/mEGjuYynAGZ6vcbGIPlikYvSXkM=;
+ b=NZnV8Hno50DFbNmAUmkfjyAH7efF9M+EQefT+xAOxGVm09jR0vxNw4bs+BHtUN2ePn
+ RmlIKCE9gBuamxOchiGPdKCh7loCGF2pZOpuMWGsj5qzeLZ1ASTMtJxH6wiKnZzMFQRn
+ 18fMVohqBS1+Rt+JxEtSPWJSJ5Y6Yn3hj6JeBipqRHkEQcq23Qlkk37luC4sruMxBfhv
+ JFOh7TTG2xzy3hgHnXaQOlL0YtJrdeMqRJtAyd4P/JIQlrd1ybFutBKh4DH3cxjVTXg/
+ sHBYN6s+x2u2liswmZIv8gY41BbpAHZkLaVwkzPLyGOmSP+YAtKRmIDhn6KspoGHYPDZ
+ 0ceA==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCVe9/rgXtmTNQ4FwwiF5Bl/hAwv9rS4tf+X1bfm624Hg3D4mIDQTB2NlbHJ9SUFZI+k0ZpCSztPbkQ=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YxbAOzEq+0ZU8kPeUmYs8BATjxLu1T0ZoKmd8gHtgNymM7AdsTT
+ gj0LNqT7wxqnsUnzqecV4mwo9xUFO91o7rDHoevT2x2OS6YGFNiu8UqqNpD6KTfw/QouBv0hLly
+ /UTRmVMDCwElnHRPTcF69g+ZE8Toqx/M=
+X-Gm-Gg: ASbGncs96YZmSl/RVHuPjumeoq07ZvSu7xBeJ7iSTQ9nE2M0HVPHeROZrdzOvKqJhb3
+ HtUTReiFI5gs1gcXSkrXPMPUn8skT/5HQpd30e0tr1Nk7i2jmE4qhsXIT12VcM/N4lcKVLhPCZ8
+ 3YR4YzGiQfZdgtqVHQg3EKFpV0qARV1dEyVwMO6zWnhVJ2oKj8+K4YGigNfG4A1Nd9Ysu/ojXiP
+ Bx8Uo68AYBgLm1htK9a5RTfHCtuLt6NET8Hpu03TwLkyccLph4KmH7rRtmW
+X-Google-Smtp-Source: AGHT+IFxqJ0chO5N9XUwGQoqrk97DLRJnC2zIK5W6KD8ZUigUW1gpwg1opbzCq548Dcjj2W9P+eH+mWhJO2vg0k2Mks=
+X-Received: by 2002:a17:903:3c4d:b0:27e:eee6:6df2 with SMTP id
+ d9443c01a7336-294cb3e8bb7mr23787505ad.7.1761656865668; Tue, 28 Oct 2025
+ 06:07:45 -0700 (PDT)
 MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: TYUPR06MB6099:EE_|SEZPR06MB5607:EE_
-X-MS-Office365-Filtering-Correlation-Id: 88b8274f-45ab-49a1-410a-08de161eadca
-X-Microsoft-Antispam: BCL:0;
- ARA:14566002|19110799012|5072599009|461199028|5062599005|23021999003|8060799015|15080799012|41001999006|3412199025|440099028|39105399003|40105399003|41105399003|1710799026;
-X-Microsoft-Antispam-Message-Info: =?us-ascii?Q?0KkIK1Rggj8CeZCNOlhABX9edZrEWeu6zkYfn61L0bcAsSUQH1P32ZtlMU52?=
- =?us-ascii?Q?zHUnUkfhdk9Rb0oCL1u0e1V/0z88B3GdXl/WeZ+Suzn1huqCUaP0VXVJLJh6?=
- =?us-ascii?Q?DN83ZpT2yRZn147m6lIvVqhAkMvDl7WVSPNMcailSMPgw5U8u+GLh4tel/Y3?=
- =?us-ascii?Q?fPNnEpYciK8+hCReC9610uuo+8BRT6ftLZqOLJbzJpiC46RuVd7eeMdN8fKm?=
- =?us-ascii?Q?HnTEHLSxVOM8URb8gb5vhajcLBHZhBx3ie3FSL1KXVvJ85czQH8+N91fy50y?=
- =?us-ascii?Q?y3B+LP9/Y6un6FxjzDQDJW3KY2oiMDZ58DEiP5bZYep8h2BMgJtg9HNat3MJ?=
- =?us-ascii?Q?5ZezXX5dG8WU3gNS43mQUAKe4oZsVV0KVMTwAQYVItn/LQvJAIX1d16B9PsN?=
- =?us-ascii?Q?Zv+fzaZP33lgDoYbhMm7X2BBo6TgZXEazWvZKaEZcfXukQmwYRNTv2wHd3iN?=
- =?us-ascii?Q?+eUkakxrP5N/YqKmijw8KJpdAumsreKfR8rTKlbs247htZILhaAEVoRwJZHR?=
- =?us-ascii?Q?nZRjclbhzMCgHaIgg2KD/dHUKxLGJyUomks1CNnHRn51sSDHTHaBjQRZnrNR?=
- =?us-ascii?Q?bYUhjEHz9i89urqDWmFKXDZ5FdDFHh0/qZy2MK6GLaOj28/5v74EgUd6l9TD?=
- =?us-ascii?Q?C8lQShHbhYg7dFIoDJrIqJxpOd8v6nQs5lNU5jSm4S12jpavujqQidkSIVnT?=
- =?us-ascii?Q?kW2DQPDlbos3OCgwTdmjlEjgN2WDiGZ7BWYOSe3jaV8IJzyy4EWGdG2Klm4v?=
- =?us-ascii?Q?vzcmV0WNaiLUSetNl0wfqh9OiiW6w7PbaqiT6P+LwQR1sFI+jYmehMaPRnuu?=
- =?us-ascii?Q?Ox0N8Y10KhaeBorzkA8eN1CR3icVuUeUIg2k/gORkIfmwKSh1NREZDFE2Tyc?=
- =?us-ascii?Q?Ex44gR/eltGnJ/7YgRMERsxYLl1rUqDoeRGl7FSn4JCVPO5C8msIIX6Nk3Dp?=
- =?us-ascii?Q?e3QM8vVKFYOV7WuN4+JXD6eWsDQD1FJM4re+ZD/JjR+Ux0AR1D6QYqVJNBT/?=
- =?us-ascii?Q?uHJkK+IKSNkD67yHITjZC6TK+PbXcpgUvD92I7LfPkBzG7htCuIdYEBArnSb?=
- =?us-ascii?Q?VMJGSDwbZSjJwKeqDM4icuJ+aTYoP9ouU+i7g9TYJ2z4wetMN51cIjG9U2aU?=
- =?us-ascii?Q?O9jK7DPlDRO4tXZivLUJFkEVAgdRCo0Qttzqnhs5KP1HYIbYaZtQ5ZkmrIZV?=
- =?us-ascii?Q?wmI+tu2PUuTlbgBr1Ybv0F8ay3fkQERnJcUQ5V8A66ENynvYIb5Mqa1V2qF6?=
- =?us-ascii?Q?zP6HSnrvLrytxdobq8yjezZ+k8p4uGgiSS2YUP2JNmR7h0FKuiSAHlH0pQBx?=
- =?us-ascii?Q?bCA=3D?=
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?TFqIriSk0PXiLFrg8W/nNwBdaXYN2sc45gebu0SEIC2aLQOccg4QOZdbQxae?=
- =?us-ascii?Q?b37vbcAhKjzuy1pIBUiOQG6ZvkJULf5ZwPJ5T5jZMTJJHBzs+wxkogAZjSwA?=
- =?us-ascii?Q?sJP29KPQ/w/Cb4hDBonn7lcIyMRaEQ28JzBhUIl4zMCnezYgupbDRPCRMz/B?=
- =?us-ascii?Q?YRtXuq/eSLTojWDZ2SNGCn6GdiOQtthqF+egaxT7mOR1vlLBO74m8zJIwfQm?=
- =?us-ascii?Q?Y4aGr0zNLciDDiWnAgKOkfBMkCLxpUjRTvZOzHibdKAM/J32KsuMm3PpRkk+?=
- =?us-ascii?Q?2ua/WDXLAwR//luWPWnfRnv+6YmZGDAwjm8wz89Ih9qbPgiaGwv2sdpD2xZm?=
- =?us-ascii?Q?dpc/J3wIkUKFcvHoTobPdg1E/oyU26hBUiCsgS2G3ZNHXBKzJocQ01yfMqhQ?=
- =?us-ascii?Q?CC3Dl8pm/ZbR5kRovr71YHT/zJoYYuVCItM/bCq/psu1x8ATEYJMVytY4fAV?=
- =?us-ascii?Q?yKuG9oHroqF0pbVNR8FDpjRjiL1jp4ICOBy4FNzkCiFXgb1GxFL6GV00hupp?=
- =?us-ascii?Q?/YIc7jv702wxeq16ZGj7Q51ixk+hRgk/MyXP24+Lf+0C8crvW/hPpwoUgKjv?=
- =?us-ascii?Q?alja9Q58Im5VAhg90MTbLhlruJoz3U4+Soxt/HV3nQOvBePt7NHn30wWa2hy?=
- =?us-ascii?Q?zOJoOAh4I3pOyDo03DG5ukjPMGz/cjWZI3aTjpU1h878c4TyWAsKtZmzqIi2?=
- =?us-ascii?Q?rXHdZ6Rmh3fcykqtQhmuYrTOtVz/yAvz2oXNTp6t//SQx3aQUc1/cFVE+sj0?=
- =?us-ascii?Q?dgc5EpCggikwpSO7VGdqKBDS6PrMcZa4H3/RpoD4AZn8K0XeSQTLbaagUKKx?=
- =?us-ascii?Q?D6S+3QnUdhc6DXhjzNJeY1TgAQdlmmWzwX6KXjJxUV+p8YV9/GbZTaSVleNy?=
- =?us-ascii?Q?iAx4KiGrzBw4fISua6uC1XFQu9g9M7x7Gcd3BJZyXfOYUXkPoyjbkhTiUdjS?=
- =?us-ascii?Q?PHV1Zi/SMGY9plEb1JWsF1t7Ecd6E8x1mnmptAdi8GosOOsrmg+iHvUqbB2y?=
- =?us-ascii?Q?gAqxL+Yvoh1QVjP3Z8lYX/5YEVSzGi2dXsYMP8EIkjZqU0H3JNOOAwlnxjj0?=
- =?us-ascii?Q?sgnNapbts8RI5EwTjIY3DOZDQ9LLW6pHyil7tBjsoizXFRJYSlX+3cuGarSB?=
- =?us-ascii?Q?ZyP9w6xQ1GizRPPo4uCEv7H/Fig22CvJyJKJUEF8CJ3wSp+GfMYXkzPR6eHx?=
- =?us-ascii?Q?WAfO9EJAKVvRdjU3zYFj3UU56FQgxrJc30e5Yw=3D=3D?=
-X-OriginatorOrg: sct-15-20-8534-20-msonline-outlook-6a509.templateTenant
-X-MS-Exchange-CrossTenant-Network-Message-Id: 88b8274f-45ab-49a1-410a-08de161eadca
-X-MS-Exchange-CrossTenant-AuthSource: TYUPR06MB6099.apcprd06.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 28 Oct 2025 12:36:56.1972 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 84df9e7f-e9f6-40af-b435-aaaaaaaaaaaa
-X-MS-Exchange-CrossTenant-RMS-PersistedConsumerOrg: 00000000-0000-0000-0000-000000000000
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SEZPR06MB5607
-X-Mailman-Approved-At: Tue, 28 Oct 2025 13:06:26 +0000
+References: <20251015140128.1470-1-christian.koenig@amd.com>
+ <f60185e4a4b8622c866965ec30c90edca0c53b40.camel@mailbox.org>
+In-Reply-To: <f60185e4a4b8622c866965ec30c90edca0c53b40.camel@mailbox.org>
+From: Alex Deucher <alexdeucher@gmail.com>
+Date: Tue, 28 Oct 2025 09:07:34 -0400
+X-Gm-Features: AWmQ_bkiqjte5rzt7mxtUKn9Dq_tMumK7m2vzUO-oO6IFvVugOoF3l7P815Tebo
+Message-ID: <CADnq5_PUrPE8q8JD=pVZZYpxJuqovMbD5UcSR9m4E0nPTK=-ZA@mail.gmail.com>
+Subject: Re: [PATCH] drm/sched: avoid killing parent entity on child SIGKILL v3
+To: phasta@kernel.org
+Cc: =?UTF-8?Q?Christian_K=C3=B6nig?= <ckoenig.leichtzumerken@gmail.com>, 
+ dakr@kernel.org, matthew.brost@intel.com, dri-devel@lists.freedesktop.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -128,56 +85,74 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Move the loop over phys_encs outside the
-hw_mdptop->ops.setup_vsync_source block.
-This way, vsync_sel() is called for each interface.
+Looks like this hasn't landed yet.  Can someone push this?
 
-This change ensures TE vsync selection works
-even if setup_vsync_source is not implemented.
+Alex
 
-Signed-off-by: Teguh Sobirin <teguh@sobir.in>
----
- drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c | 22 +++++++++------------
- 1 file changed, 9 insertions(+), 13 deletions(-)
-
-diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c
-index 258edaa18fc0..f36c5c7924a3 100644
---- a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c
-+++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c
-@@ -784,24 +784,20 @@ static void _dpu_encoder_update_vsync_source(struct dpu_encoder_virt *dpu_enc,
- 		return;
- 	}
- 
-+	/* Set vsync source irrespective of mdp top support */
-+	vsync_cfg.vsync_source = disp_info->vsync_source;
-+
- 	if (hw_mdptop->ops.setup_vsync_source) {
- 		for (i = 0; i < dpu_enc->num_phys_encs; i++)
- 			vsync_cfg.ppnumber[i] = dpu_enc->hw_pp[i]->idx;
-+	}
- 
--		vsync_cfg.pp_count = dpu_enc->num_phys_encs;
--		vsync_cfg.frame_rate = drm_mode_vrefresh(&dpu_enc->base.crtc->state->adjusted_mode);
--
--		vsync_cfg.vsync_source = disp_info->vsync_source;
--
--		hw_mdptop->ops.setup_vsync_source(hw_mdptop, &vsync_cfg);
--
--		for (i = 0; i < dpu_enc->num_phys_encs; i++) {
--			phys_enc = dpu_enc->phys_encs[i];
-+	for (i = 0; i < dpu_enc->num_phys_encs; i++) {
-+		phys_enc = dpu_enc->phys_encs[i];
- 
--			if (phys_enc->has_intf_te && phys_enc->hw_intf->ops.vsync_sel)
--				phys_enc->hw_intf->ops.vsync_sel(phys_enc->hw_intf,
--						vsync_cfg.vsync_source);
--		}
-+		if (phys_enc->has_intf_te && phys_enc->hw_intf->ops.vsync_sel)
-+			phys_enc->hw_intf->ops.vsync_sel(phys_enc->hw_intf,
-+					vsync_cfg.vsync_source);
- 	}
- }
- 
--- 
-2.34.1
-
+On Fri, Oct 17, 2025 at 2:18=E2=80=AFAM Philipp Stanner <phasta@mailbox.org=
+> wrote:
+>
+> On Wed, 2025-10-15 at 16:01 +0200, Christian K=C3=B6nig wrote:
+> > From: David Rosca <david.rosca@amd.com>
+> >
+> > The DRM scheduler tracks who last uses an entity and when that process
+> > is killed blocks all further submissions to that entity.
+> >
+> > The problem is that we didn't track who initially created an entity, so
+> > when a process accidently leaked its file descriptor to a child and
+> > that child got killed, we killed the parent's entities.
+> >
+> > Avoid that and instead initialize the entities last user on entity
+> > creation. This also allows to drop the extra NULL check.
+> >
+> > v2: still use cmpxchg
+> > v3: improve the commit message
+> >
+> > Signed-off-by: David Rosca <david.rosca@amd.com>
+> > Signed-off-by: Christian K=C3=B6nig <christian.koenig@amd.com>
+> > Closes: https://gitlab.freedesktop.org/drm/amd/-/issues/4568
+> > Reviewed-by: Alex Deucher <alexander.deucher@amd.com>
+> > CC: stable@vger.kernel.org
+>
+> Acked-by: Philipp Stanner <phasta@kernel.org>
+>
+>
+> Fire at will, Christian. Maybe optionally with the commit message nits
+> twirked in we discussed before.
+>
+>
+> P.
+>
+> > ---
+> >  drivers/gpu/drm/scheduler/sched_entity.c | 3 ++-
+> >  1 file changed, 2 insertions(+), 1 deletion(-)
+> >
+> > diff --git a/drivers/gpu/drm/scheduler/sched_entity.c b/drivers/gpu/drm=
+/scheduler/sched_entity.c
+> > index 5a4697f636f2..3e2f83dc3f24 100644
+> > --- a/drivers/gpu/drm/scheduler/sched_entity.c
+> > +++ b/drivers/gpu/drm/scheduler/sched_entity.c
+> > @@ -70,6 +70,7 @@ int drm_sched_entity_init(struct drm_sched_entity *en=
+tity,
+> >       entity->guilty =3D guilty;
+> >       entity->num_sched_list =3D num_sched_list;
+> >       entity->priority =3D priority;
+> > +     entity->last_user =3D current->group_leader;
+> >       /*
+> >        * It's perfectly valid to initialize an entity without having a =
+valid
+> >        * scheduler attached. It's just not valid to use the scheduler b=
+efore it
+> > @@ -302,7 +303,7 @@ long drm_sched_entity_flush(struct drm_sched_entity=
+ *entity, long timeout)
+> >
+> >       /* For a killed process disallow further enqueueing of jobs. */
+> >       last_user =3D cmpxchg(&entity->last_user, current->group_leader, =
+NULL);
+> > -     if ((!last_user || last_user =3D=3D current->group_leader) &&
+> > +     if (last_user =3D=3D current->group_leader &&
+> >           (current->flags & PF_EXITING) && (current->exit_code =3D=3D S=
+IGKILL))
+> >               drm_sched_entity_kill(entity);
+> >
+>
