@@ -2,167 +2,141 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 05DD0C16EE9
-	for <lists+dri-devel@lfdr.de>; Tue, 28 Oct 2025 22:23:37 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 24D5EC16EF2
+	for <lists+dri-devel@lfdr.de>; Tue, 28 Oct 2025 22:23:50 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1160410E665;
-	Tue, 28 Oct 2025 21:23:33 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4B4DB10E667;
+	Tue, 28 Oct 2025 21:23:48 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=Nvidia.com header.i=@Nvidia.com header.b="n+ocqqM4";
+	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="G7nBaMX2";
+	dkim=pass (2048-bit key; unprotected) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="OKdBPkeC";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from CO1PR03CU002.outbound.protection.outlook.com
- (mail-westus2azon11010069.outbound.protection.outlook.com [52.101.46.69])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E9F7E10E665
- for <dri-devel@lists.freedesktop.org>; Tue, 28 Oct 2025 21:23:31 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=TPcIh77+ZpQChORaYZkC5DEAfyj5rx9AKZnezG49uTFWVOpH7bQDkueD1Yo+beynt7vlNTAOGRKDRz+kv8PDRLI4rG6TIdj3DJXvzL6Bgf4DB7ojLWj75MAPphSWJMz3wO5bTYk12MN1ofOmzrP7yN8+9K44M+d6hd3WwX0E4zAvhTme13UkyjCNeKVhhaNhPDMe2vtcEfYB3gzvk5jS6mQ3FJJ8YpMfkzXArO1d9lmxrflisR1solgX3//huWQlck9XORQkBkM1hghY7u0b+VupDDjYjC6FhaKE879c+izA3ilZOxfpll6damtfGd7ZcLQ75BqbsO0xpm/QlgUe5A==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=R9WDKCHuAleYKQeynNeCgByQt36+WltB2uEoMzrv/as=;
- b=V+FepL1jGabsqhjItFXbfvXMFllxfSBO8iJXT5bCY8zkQ/XsRkJ8wOiKOQw5wjlgzlbmpH7tkXdAY9mkvqWq77lZG6zt0i07tN3X/s+PflPnqIe6f1VSBda4P4MLRDZLcj1lVf8xjjojF4cLIm98i2r8WrIb9/NA4Zzr4hAAKn+b7k/kd8HZy4rjx1vC+mcrnW5b7x4rKugUoD2ZcBPOSkKt9NOlNq53MassxuX6Scc78L1k3kC3yga3nRlrOAqcC6vlCRhyJHSk5ZY9AlbdtVwDrB5wp6l1aGEqYt9zdcXP7/p1VoOO7mezS+k3THC2sv+tgiqEycECEQUIAQpvhg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
- dkim=pass header.d=nvidia.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=R9WDKCHuAleYKQeynNeCgByQt36+WltB2uEoMzrv/as=;
- b=n+ocqqM40HLcXY/kyteV0MiZeoeW0tmAJ1hWGsStieD8eCGYvQL+Yol972VFlN4qievuMXHUyaCvkBS5TLp0Gl/673TGY3ILtvv6IckkEP+iJ8q+1MY2c+7QCiZEVIYcP+9cm2GStNZjIduP7LJEGvuceVMzknR8JqONz9tuDX3Z2cbMtUP5cKfykgIDSrPPtE6uew5L1nr7UYzwoqldB2UDl4AOffDUBcjn/VZKenYv3z65TXZqdFMxRp0Im7Jf1qFqgRVOuJ8LNi1sBOfwFQQXGFnWQUKqpkRQrqZNbDgDl22/tilP4b2Hx9tBNS4RMWx0uT7VOpaXYNXQIxZmvA==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nvidia.com;
-Received: from PH8PR12MB7277.namprd12.prod.outlook.com (2603:10b6:510:223::13)
- by DM4PR12MB7600.namprd12.prod.outlook.com (2603:10b6:8:108::5) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9275.12; Tue, 28 Oct
- 2025 21:23:29 +0000
-Received: from PH8PR12MB7277.namprd12.prod.outlook.com
- ([fe80::3a4:70ea:ff05:1251]) by PH8PR12MB7277.namprd12.prod.outlook.com
- ([fe80::3a4:70ea:ff05:1251%7]) with mapi id 15.20.9275.011; Tue, 28 Oct 2025
- 21:23:29 +0000
-Message-ID: <99fd44ff-85bb-4892-90f3-381843feccab@nvidia.com>
-Date: Wed, 29 Oct 2025 08:23:20 +1100
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v1 1/1] KVM: s390: Fix missing present bit for gmap puds
-To: Claudio Imbrenda <imbrenda@linux.ibm.com>, akpm@linux-foundation.org
-Cc: borntraeger@de.ibm.com, david@redhat.com, Liam.Howlett@oracle.com,
- airlied@gmail.com, apopple@nvidia.com, baohua@kernel.org,
- baolin.wang@linux.alibaba.com, byungchul@sk.com, dakr@kernel.org,
- dev.jain@arm.com, dri-devel@lists.freedesktop.org,
- francois.dugast@intel.com, gourry@gourry.net, joshua.hahnjy@gmail.com,
- linux-kernel@vger.kernel.org, linux-mm@kvack.org,
- lorenzo.stoakes@oracle.com, lyude@redhat.com, matthew.brost@intel.com,
- mpenttil@redhat.com, npache@redhat.com, osalvador@suse.de, rakie.kim@sk.com,
- rcampbell@nvidia.com, ryan.roberts@arm.com, simona@ffwll.ch,
- ying.huang@linux.alibaba.com, ziy@nvidia.com, kvm@vger.kernel.org,
- linux-s390@vger.kernel.org, linux-next@vger.kernel.org, hca@linux.ibm.com,
- gor@linux.ibm.com, agordeev@linux.ibm.com
-References: <d4a09cc8-84b2-42a8-bd03-7fa3adee4a99@linux.ibm.com>
- <20251028130150.57379-1-imbrenda@linux.ibm.com>
- <20251028130150.57379-2-imbrenda@linux.ibm.com>
-Content-Language: en-US
-From: Balbir Singh <balbirs@nvidia.com>
-In-Reply-To: <20251028130150.57379-2-imbrenda@linux.ibm.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: BYAPR08CA0049.namprd08.prod.outlook.com
- (2603:10b6:a03:117::26) To PH8PR12MB7277.namprd12.prod.outlook.com
- (2603:10b6:510:223::13)
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
+ [205.220.180.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7734C10E666
+ for <dri-devel@lists.freedesktop.org>; Tue, 28 Oct 2025 21:23:43 +0000 (UTC)
+Received: from pps.filterd (m0279870.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id
+ 59SJlNk22502832
+ for <dri-devel@lists.freedesktop.org>; Tue, 28 Oct 2025 21:23:42 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+ cc:content-transfer-encoding:content-type:date:from:in-reply-to
+ :message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+ 7WqiEnjAgMfmsuJ0ixstPssdOKbvkewqIqpstd+r89s=; b=G7nBaMX2wopTqieT
+ FOuyo9eyoR2LoFSFbXdxnJSnyIK/gpHEg0nKoO8jmyBe2pEvVkBYmhBo5bd8vMg8
+ srXwJ9KT7g1LW1oWa2JfIcip74CVBe6NhZ1PH1SywrMmz6sN+8MaLUH8J0Z3S19b
+ vqSIboFmODQRGPBMXEo6hWW1N+bfyLZKP08rHjCvkkRsp5jaIrsIK9VZHy6a6HKk
+ AJ7DrYyPJOGUZZnywXiLqhyeCVokPe/+P5zcOx8UJ0tBgUu9Emm+EVHhIdFKPIHP
+ AtQ5lzY3Z9c8XzMd3OtsN9+HX+wq6tdFYSnjTGlmYEManY6r5bgK0zYqjT76F36W
+ c2y2+Q==
+Received: from mail-qt1-f200.google.com (mail-qt1-f200.google.com
+ [209.85.160.200])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4a34a1g735-1
+ (version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
+ for <dri-devel@lists.freedesktop.org>; Tue, 28 Oct 2025 21:23:42 +0000 (GMT)
+Received: by mail-qt1-f200.google.com with SMTP id
+ d75a77b69052e-4eceefa36d0so107097181cf.1
+ for <dri-devel@lists.freedesktop.org>; Tue, 28 Oct 2025 14:23:42 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=oss.qualcomm.com; s=google; t=1761686622; x=1762291422;
+ darn=lists.freedesktop.org; 
+ h=in-reply-to:content-transfer-encoding:content-disposition
+ :mime-version:references:message-id:subject:cc:to:from:date:from:to
+ :cc:subject:date:message-id:reply-to;
+ bh=7WqiEnjAgMfmsuJ0ixstPssdOKbvkewqIqpstd+r89s=;
+ b=OKdBPkeCb6Qg0szW62N7PcKcAofYH1k794jjzL7zH4nVTq/jqZpQy0YjsIqAmjVKtm
+ u5V2ZaSzrWjqyVWMmeOnRvdQukT9j4wh/7sVp82fwlp/YV8STgrMC3eEJ+UHBlPkVGCQ
+ QQL93su+byZN0iJ9n9OcMhHPsXqQl+AXTejsuKEYvk85i6uTQdNrxrh0+7zw7ZokrIMT
+ fKXBkj14UReTR9xVlCtPL04SDIW2Bh5Dm/mD5SxeShLppGkqIKSOM5uKrVKzhz58xiDo
+ Er9mc7v3+DUCiRZ0UDp6yO69ET4W6BJn+z7ZLbsz5szuzvOoybaYJ68KUxOutIgqKsdR
+ fXaw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1761686622; x=1762291422;
+ h=in-reply-to:content-transfer-encoding:content-disposition
+ :mime-version:references:message-id:subject:cc:to:from:date
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=7WqiEnjAgMfmsuJ0ixstPssdOKbvkewqIqpstd+r89s=;
+ b=M8TkshyUJXRbS9O5vJsHB/nLpWH9Fn6H8NxClBMBvsEi0iXVztadKgo4zvOa41GQRG
+ 2B3anY5a4WpzCWo1MiSajU8ne0WHm9/Z4fM4hTmF5H+BldEmlXvQmUpWE8zNTKXXr/3/
+ boBQ2ui+dBIMZJxKmXsIav22u3224PL7Zs/9q/vUfG+iCTBQupznH9pBnJa0uWmFDk3E
+ 1KWrYV3mV8gRpRqafQX+yFGaYjjNAjiCe6suqCyFvdY2EfMIA6kkgNc6KurP4anSciC1
+ GXBMDGPWWEJQR51Y10BqBZL7BvPFkL69/m6tIApe3tfjkuNLkjMui/5H2BobzIfTrkZ8
+ bVkQ==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCUGzpCQV6DTnaQNWSGuEcAO6lb34+1uRB6MukAHnAM7EzKF9stjQc9GHOZoP9kKrw+BP0My0C+X2NY=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YyETtrLHieElxI15AzRrA8tzFvXpcC8SSjCoI+h45byl5/KREDE
+ xodOj0ajRhwHIv7dI3m04eHd9GfGHYg02fT1ofkDUkhOXPzOUaH0MgJYG0hKqauJpSnNQEyUmSG
+ E4e9SYU4j/GERbDmCDGmtQbFqkXGk1Ob1j9ilEjUk6nAvOqQDpxaXqSD9lapfTli745P32rI=
+X-Gm-Gg: ASbGnctX2SAv5Eda3aGeJYUvdcuQbGdXRA9AzMu7IA9riPJ8MrjzYMintUTKOaB0X93
+ ZNdYWCXYEcwUvna2XSaJ+WCWdfIrYaUxskWdb7uiRtiZznyhb1ZFh/954lZGzTBnD4wU6FYsEcm
+ Emk4ZBW881hlp46J0IvZ7ox964Gd8bKSMEoa7j7DzTaY7KkW08nguAx4ikrvE6+M0unhcAxBmBe
+ cY5fJ9UYrp4gEqcoSzlN7vCWjESm5CkEIZoOr8JzOrfYDhgYZ0Yzwb5MLCX+NWnAVS2h2JTD5Ed
+ xEF/9UTrP+rFnM+XMSs24wd26R40zptcRfiwdk935V4cPRNkf+oTUm4QATz8ltvhzhgfywZhNAi
+ OSFr+YKEQCRQKowwb95EUafqEQ6jiySbAuPwe+4P8s2Vu2mWYUI19oA8i6RwDgTCE4fs4A7n0Aj
+ dLXR21ZHXa2OJv
+X-Received: by 2002:a05:622a:4a13:b0:4e8:afdb:6f56 with SMTP id
+ d75a77b69052e-4ed15c4caa1mr10464061cf.74.1761686621624; 
+ Tue, 28 Oct 2025 14:23:41 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IFIxBrdIO7mfWQKtvDvRPRtB9L8H/kLm56MKcuYi7AAbrvZ0yHrj06ejtcwIC3X95uJDXxrIg==
+X-Received: by 2002:a05:622a:4a13:b0:4e8:afdb:6f56 with SMTP id
+ d75a77b69052e-4ed15c4caa1mr10463691cf.74.1761686621070; 
+ Tue, 28 Oct 2025 14:23:41 -0700 (PDT)
+Received: from umbar.lan
+ (2001-14ba-a0c3-3a00-264b-feff-fe8b-be8a.rev.dnainternet.fi.
+ [2001:14ba:a0c3:3a00:264b:feff:fe8b:be8a])
+ by smtp.gmail.com with ESMTPSA id
+ 2adb3069b0e04-59301f749easm3402826e87.89.2025.10.28.14.23.40
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 28 Oct 2025 14:23:40 -0700 (PDT)
+Date: Tue, 28 Oct 2025 23:23:38 +0200
+From: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
+To: federico@izzo.pro
+Cc: Rob Clark <robin.clark@oss.qualcomm.com>,
+ Dmitry Baryshkov <lumag@kernel.org>,
+ Abhinav Kumar <abhinav.kumar@linux.dev>,
+ Jessica Zhang <jesszhan0024@gmail.com>, Sean Paul <sean@poorly.run>,
+ Marijn Suijten <marijn.suijten@somainline.org>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ freedreno@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ phone-devel@vger.kernel.org, ~postmarketos/upstreaming@lists.sr.ht,
+ nicola@corna.info, David Heidelberg <david@ixit.cz>,
+ Guido =?utf-8?Q?G=C3=BCnther?= <agx@sigxcpu.org>
+Subject: Re: [PATCH v3] drm/msm/dpu: Add DSPP GC driver to provide GAMMA_LUT
+ DRM property
+Message-ID: <gmk7aho74xb2wwlc27t6qaozfnqsjjyccmzm5moe53tyzuwm4o@ri7cfoqz23ks>
+References: <20251019-dpu-add-dspp-gc-driver-v3-1-840491934e56@izzo.pro>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: PH8PR12MB7277:EE_|DM4PR12MB7600:EE_
-X-MS-Office365-Filtering-Correlation-Id: ce87335c-3917-4235-e086-08de16683ce7
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
- ARA:13230040|7416014|10070799003|376014|366016|1800799024|7053199007; 
-X-Microsoft-Antispam-Message-Info: =?utf-8?B?VFhZSi9XalM2N1ZhWFJ4K2NsZ2JReWVDY0tlcVdXTWFyaHIxQitObWJKRGhI?=
- =?utf-8?B?b1pJYkEzYzVQdjBuVktLaExPZVgyWUlwc0NYcDJGcHE2N1QvczVucUdqanVN?=
- =?utf-8?B?ZHZsL0JWdEhjTzRjakx4TzY4eUNnYmdsVG1GWmZwRDJublVPSmNia1hEYXJH?=
- =?utf-8?B?OG9URW9UUTdxM2tHbENKTXpTNTUxVE53ako2MXcxK1Rzb3RhdnN6UEN3ek9E?=
- =?utf-8?B?NlAxeVRUM2xTNEt0dDF5eTA4UTRPTlhnc2ttOFd3SkxaVno2enZsNFU2YU42?=
- =?utf-8?B?TVdWcXVKQjVjd2dLUzMraVdlUWd1MWVvL1NtVGVTdXYxYjRsYTBvbHl2RXM2?=
- =?utf-8?B?aytMVHZ3dWhnT0ZyWWtFeUlRZDBwZ1RGRnZXNzBtcEhta2hYZ1pKS29Hb0Ry?=
- =?utf-8?B?TXA3MFpwdE9JaDQwRHhUeGFOWHR0QzVYOURlWk9DM04yNVZCVWdLaVNpMzUv?=
- =?utf-8?B?M1pmZFM1aTZGUWQ4U01EVzN1Y1ZURFppOGlldkc0MUFUbHRtNXd1YzBRd1NR?=
- =?utf-8?B?dFVrL1I1S3UvU2pWRlB4eGNIbUowM0NFMGVhRE1HS1ZGTmNYRGpFS3ZyWHQ0?=
- =?utf-8?B?ZmVLdVpIbnRydXdpT0daRE9kdUF5T0Y0bnRHclBYY2lEbHZuZlhqRjY5SEla?=
- =?utf-8?B?TmlEa2RySXZtTDAyVHZRemEwN2RGdmhpSlBTOWdEemc0U3JTdGNrUVBGMU56?=
- =?utf-8?B?cGJUd2gyWmtDQ0h4MEViZWRQT2pZbDF4VkVzMVpCSElPM1RXbi8ydG9LazVW?=
- =?utf-8?B?VFJhTEpweHZlUU94TUZRWTR2ZW02ZmgrZnN6Ylg4TjdycFE4VEdlWnk0eEtp?=
- =?utf-8?B?QmE3TjNPNmliN1EzYWY2bVljT2hNeXVuU3pGanlXcnhSOUlEZUdrYTh4TGVB?=
- =?utf-8?B?RU1uN1ZBQWJYTTk2ZFdSdTFhSTBEUE5wMGlpOEF6QVdCQ3JQQmdQQlRISVU4?=
- =?utf-8?B?WnRwMnpNNUM2VFhUaklkR3hIbi9ibjdyR3FiRWVnWm5MaVRCOG5kUVMwUFpq?=
- =?utf-8?B?NWcxajNydVAvckd5VzVZZjR0WGFFWEFHajFMcFArYUxMLyt6YnRYTFcvT3dD?=
- =?utf-8?B?V0lmdzN5NVliVWtpRkxqaSs0WkRLSTg2ditmSzIyNnZoSTdjd1kvWllpRUk2?=
- =?utf-8?B?OW15ejh1QjYxeXhkeFBvSzZ4Qml3QXIzalJBRlB1SjBmaVZLOHNNM3RObVMx?=
- =?utf-8?B?WE9rYU5EVHl1Smp2ck9xMmMyQTQ0THZRWjM0ekVCZzNLZVBLYTBsL0tpZkNE?=
- =?utf-8?B?Rmp4cldoRjgvMW50eHhEVWJHQ0UzUklQMmZyOTNINE9XS3ZjaDVVemU2a3hB?=
- =?utf-8?B?TlpKSmFaNUVUMjlPNVUwTUFnM1RIYW11NEpnOU5uQW9qQklWWEpRbkgxdUM4?=
- =?utf-8?B?bWdOVnVjUzUxMVNpMk94dzBRTnZYMlpPMlBBaFpsNzNKWXg5NWMwUzZLZnFS?=
- =?utf-8?B?WXgwb25YdUdTSW9iaHFuMDloMWNzUStqa0Y3VnQ3T3dxRHNZZGxRUHFCc2ts?=
- =?utf-8?B?bTdhMW50b25UZU9vaHh0cmRhTnJSQllsNklMZDJRV3l4WjlpaGhaOGl2YVBz?=
- =?utf-8?B?a3p5c25rOC9vV1lmaTF0M2FRZDMydWIxalhXNlIyeWdDSkV6MVZ5bjMxZWlB?=
- =?utf-8?B?UzAzNzB5N0drQjBRMjRmcGc1ZjNobThrR1ZnTmI4Wk4rcFMzb3Y2OFo5cDd6?=
- =?utf-8?B?dVZaTWdJcUhsNy9HR1pvVlE4SUh6T05kYnVtZVByMGhDaWFaMUtUYndBY2k1?=
- =?utf-8?B?Tks2a05jZzM1Y0xCL1ZnVzM1c3IwMXBQNysyZ1NaRWpGL1RYNE9wRkZNVHg5?=
- =?utf-8?B?eFdFNDJQYlZzanpyeTkyR1NqYzJHR3h4c0F4MStmQmJzcWlLb1RBT0hidi9X?=
- =?utf-8?B?WXJWZCtySXppejltSVRHbmpFZWFMNEkyMCt1SzdzaXUzZ2JESVJ0SjlRajBL?=
- =?utf-8?Q?toxLO/Hwmsb37pV52ZSDAZAwp8TD8Ogf?=
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:PH8PR12MB7277.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230040)(7416014)(10070799003)(376014)(366016)(1800799024)(7053199007);
- DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?QnBhRHBTcnpoRWNPd3RUU0FIY0thdWJaWG11RGFaUVhsN29jbnZtVWxTaytD?=
- =?utf-8?B?aHArTEJBeC92cUExU0dTK0xWWWJ3cFg5QUlEWUFZaWtHb3lKN0xJd2t0LzZD?=
- =?utf-8?B?bXV0U290U0c1UUFVVytHSGhtNWY4TGJPK0lnR0NEMGRSYVFMUC8vQzl6TlBs?=
- =?utf-8?B?eTJMbWdTV1JpVzZPS2h5b24zUEIvamNTMVpDWFByYTJBVmFSVG5vRng1cUx4?=
- =?utf-8?B?akJCR24ySUlqZG15RHpKQkdtdTlncGxiZTdadmRneDE2ejNseVJRL1htVHdQ?=
- =?utf-8?B?MDNzSHlTMkJOMWVScmxvWkZ0a0V1enY4K2ZDZTB1QlRIU1p4REtoZ1ZTV1NI?=
- =?utf-8?B?R1lxMVNJS3ArYmNMakR5WnJudGRldzU1U1hBbVBOa1JQTUx3MG9JNTBwc28r?=
- =?utf-8?B?ZVc0ODgzMzNDdUpIRkVIdW9pL1A1VXQ5eWlhN296OXNDdHUyVEpiYWluUDNz?=
- =?utf-8?B?bE5vSHJrRWN2ckw0cExpb0NqRkd3SUoxa0NnV3Q2dlA1Qll3elR0T0l6RnhS?=
- =?utf-8?B?ZXVFamxZakdFNk5wT3A1dW92KzFta0VuSS94ZlBoUlpSQUgwTjMwaS9RSkVW?=
- =?utf-8?B?TmE2bDVieGhHaHh4L0RMMDdWVHZaR2F4Um4vUUN0Y3k0QlFKRzYxSC9CWlh0?=
- =?utf-8?B?NEZuQW5UVkU3TXR6VVlaMkgzR0tHOWU1MHVEdTNOTjh3TjBCbHRCZDJpU2Fx?=
- =?utf-8?B?OXBlaWVKbDZkSlBsMTFYRXVWcms1eE9XK3Iwam1uc1VMQitwQ2JrZkZVZSsv?=
- =?utf-8?B?cFFjdU9wU3lKTGRHUCsvNnhHR2hBeXNoUG9XRkt1dVMwSGJzRW1PQ01hQ1oy?=
- =?utf-8?B?ODZiMmt2dSt2andtak1NQ3lON1R0c3N6Qm4zMWYwam9Bb0hhc012dmp3QzB6?=
- =?utf-8?B?ZlFNRnZycDJoQU1PMDA5UFpOT3JxOEZMWnFjSWVMb1BPS1F2TGUzT052T0dE?=
- =?utf-8?B?c3E0V09OOTlvWCtRdWdXSkNxOUsra0xKMVV5b0t6VkMxYllBS1hwb3ZmRENJ?=
- =?utf-8?B?VlJCUFlGOHEySXZNUUk1Y2txa3MxSktjd0JTRGtHQUQvVHlHL3NrMHUvOU8y?=
- =?utf-8?B?eGpPdjY4NHk0aHdpcDlKSGtPYUhGMW5MT0dsZkZCWnM2aStNU2RNaU9sR1NM?=
- =?utf-8?B?U0hmNkk4Y3k4Znk3cS9ZT1FsUnNhbWxkVEdPRHFXUlpXTjRCQlViMUhzcWtB?=
- =?utf-8?B?MExKWWZZOXlUTmR3bzhISkZZNC8wd2dKWW9OZFRFTXFiRVYyVWN4WjFxcUhM?=
- =?utf-8?B?MjBFWXZrblExbzUrT0NaRFE4aE5ucUJRSVFuT0RNK09NbC95YzE2cFpram0w?=
- =?utf-8?B?a3NqMDQyZkVVOHArZDlSakZKY2RjMDNjZnhnY1o4ZUhlV2pkeGZnK1U3NG1u?=
- =?utf-8?B?d1NyeHQzN1RneUJqQTFGcXMxYzZNRkc4ZGQycjQ1MUlSNWFhVGEyZ21DSzN3?=
- =?utf-8?B?YnBmSnhxQVpnREhjeUs0dW5JVGJPTVdTbVNpTDU3R2JmUjFMYWl1UzlSZkNP?=
- =?utf-8?B?MDRpZzR1QTR3bWZYbm5jK2cyY2M5ak9SNnJobktuQmNrK2x2M09vL0pJbFVL?=
- =?utf-8?B?QW1aVlRzcXAvQWVqNlhEWWVPUmRMWDNmTWxmcitNc0lDdTc5VEU5WEVBNUNj?=
- =?utf-8?B?MEZKUlJxRGNOL1RXb2FHUmdGUXdBQTJvN1NjbnN3TVNLS3hHcHNlZ1hGb0lN?=
- =?utf-8?B?czc5d1BWdURZR09EbzJONSsxclJtU0VmSEVhTnc0ZjF6YnhIMjMwaGVkL2tP?=
- =?utf-8?B?UHFTTkVxNDJ4Sk05RWVNQmFBeklUN2xWemNmSHE3S21IV0RjY1RiV0RKUVhs?=
- =?utf-8?B?N0R1UG9SSjY1Q2hkQkFuaUNDYVNoUVdhWlJkUWV0b1NWQVN3OC9GejZnNWFo?=
- =?utf-8?B?QWpNblVtV3VGTWppUVFyWkxmL3E4RFBSM0lUMGtmcms5Z3pQSEJBUkRPZTFB?=
- =?utf-8?B?YlVrek5zK3BROVZIRFhmMzFVNWVKZnF1OVJ1TmJ1dFhLSlg5azFqbFN4YVhS?=
- =?utf-8?B?ZytkdklpOUZ4MnVtTWlQYnhmR3JSdFY4aGU4RmMxWUlpTU8xVTVubHgxSnFT?=
- =?utf-8?B?TTBwTzAvaWZWSzU0bWpDaFBKVmVPdjVESzRCRVJCaTVHaWkyK0tQSTRFWWtn?=
- =?utf-8?B?RjNmQjUrUGRKYytRU1Z0Vms5aEFTMXhOZ3VRa1ZGRFEwWU1yQThWaS9WYkh2?=
- =?utf-8?Q?SOrK9iSyiDeHIaFSpit/QEQz7rTTJig9DD8RGfuysOln?=
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: ce87335c-3917-4235-e086-08de16683ce7
-X-MS-Exchange-CrossTenant-AuthSource: PH8PR12MB7277.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 28 Oct 2025 21:23:28.9238 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: L9GAiXpl8wbEPMYkMosIeP7gqRCsQ4FFf7pFf6gfbEdiMj48+dPcSaDcH14yJNVSvCMgM+YetsE5ssg7O3cPZA==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM4PR12MB7600
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20251019-dpu-add-dspp-gc-driver-v3-1-840491934e56@izzo.pro>
+X-Authority-Analysis: v=2.4 cv=dbiNHHXe c=1 sm=1 tr=0 ts=6901345e cx=c_pps
+ a=JbAStetqSzwMeJznSMzCyw==:117 a=xqWC_Br6kY4A:10 a=8nJEP1OIZ-IA:10
+ a=x6icFKpwvdMA:10 a=s4-Qcg_JpJYA:10 a=VkNPw1HP01LnGYTKEx00:22
+ a=p0WdMEafAAAA:8 a=VwQbUJbxAAAA:8 a=ze386MxoAAAA:8 a=EUspDBNiAAAA:8
+ a=WrUPyqytC3nuxuxCNLkA:9 a=3ZKOabzyN94A:10 a=wPNLvfGTeEIA:10
+ a=uxP6HrT_eTzRwkO_Te1X:22 a=iBZjaW-pnkserzjvUTHh:22 a=poXaRoVlC6wW9_mwW8W4:22
+ a=pHzHmUro8NiASowvMSCR:22 a=n87TN5wuljxrRezIQYnT:22
+X-Proofpoint-ORIG-GUID: -y6iLmI15kLxgio7ZUECb3jWt_W_NgTU
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUxMDI4MDE4MCBTYWx0ZWRfXz13s6sk7N2bg
+ JBf/mSQ5dZekBBpc5i8H0fEKq8MaPU85coHv00uteTrjXuAX+jnYUS97UYxsKQ68EeuogCC7uaV
+ Z3ud3UZDK4C2cjXj10kuRBtndxI5I/d8QLINmv7lEUk4K5lvUp+cNc5eN0nhJItyTgRKIXE6uND
+ hR26YihMw6kPKzHfOqFtH84plH2/6RvyfRtE5nzaF4jiHTWJDPyR23eiQETNQ4tR2kCHnswovkN
+ PrYPxb9yweRsRMvo8tiWuV1+2U24hhm8VTflrQP7DtXc1Ce2IpsONqR2S56soGKLADwg8xwAd8Z
+ UXKmGXDWuDQKv3qgPBY9UQLrGnDhjVQbJ16RbG40ilB5FNeR2ASYNi7TwKtdi7F8fM1g7B5ZLzE
+ eX8U2x2BfRQ+IzL4ADDM/rFiv9ZoOA==
+X-Proofpoint-GUID: -y6iLmI15kLxgio7ZUECb3jWt_W_NgTU
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.9,FMLib:17.12.80.40
+ definitions=2025-10-28_08,2025-10-22_01,2025-03-28_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ spamscore=0 suspectscore=0 lowpriorityscore=0 impostorscore=0 adultscore=0
+ malwarescore=0 bulkscore=0 priorityscore=1501 clxscore=1015 phishscore=0
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.22.0-2510240001 definitions=main-2510280180
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -178,40 +152,64 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 10/29/25 00:01, Claudio Imbrenda wrote:
-> For hugetlbs, gmap puds have the present bit set. For normal puds
-> (which point to ptes), the bit is not set. This is in contrast to the
-> normal userspace puds, which always have the bit set for present pmds.
+On Sun, Oct 19, 2025 at 12:06:32PM +0200, Federico Amedeo Izzo via B4 Relay wrote:
+> From: Federico Amedeo Izzo <federico@izzo.pro>
 > 
-> This causes issues when ___pte_offset_map() is modified to only check
-> for the present bit.
+> Add support for DSPP GC block in DPU driver for Qualcomm SoCs.
+> Expose the GAMMA_LUT DRM property, which is needed to enable
+> night light and basic screen color calibration.
 > 
-> The solution to the problem is simply to always set the present bit for
-> present gmap pmds.
+> I used LineageOS downstream kernel as a reference and found the LUT
+> format by trial-and-error on OnePlus 6.
 > 
-> Signed-off-by: Claudio Imbrenda <imbrenda@linux.ibm.com>
-> Link: https://lore.kernel.org/lkml/20251017144924.10034-1-borntraeger@linux.ibm.com/
-> Tested-by: Christian Borntraeger <borntraeger@linux.ibm.com>
-> Acked-by: Christian Borntraeger <borntraeger@linux.ibm.com>
+> Tested on oneplus-enchilada (sdm845-mainline 6.16-dev) and xiaomi-tissot
+> (msm8953-mainline 6.12/main).
+> 
+> Tested-by: David Heidelberg <david@ixit.cz>  # Pixel 3 (next-20251018)
+> Tested-by: Guido Günther <agx@sigxcpu.org> # on sdm845-shift-axolotl
+> Signed-off-by: Federico Amedeo Izzo <federico@izzo.pro>
 > ---
->  arch/s390/mm/gmap.c | 5 +++--
->  1 file changed, 3 insertions(+), 2 deletions(-)
+> DRM GAMMA_LUT support was missing on sdm845 and other Qualcomm SoCs using
+> DPU for CRTC. This is needed in userspace to enable features like Night
+> Light or basic color calibration.
 > 
-> diff --git a/arch/s390/mm/gmap.c b/arch/s390/mm/gmap.c
-> index 8ff6bba107e8..22c448b32340 100644
-> --- a/arch/s390/mm/gmap.c
-> +++ b/arch/s390/mm/gmap.c
-> @@ -599,8 +599,9 @@ int __gmap_link(struct gmap *gmap, unsigned long gaddr, unsigned long vmaddr)
->  					| _SEGMENT_ENTRY_GMAP_UC
->  					| _SEGMENT_ENTRY;
->  			} else
-> -				*table = pmd_val(*pmd) &
-> -					_SEGMENT_ENTRY_HARDWARE_BITS;
-> +				*table = (pmd_val(*pmd) &
-> +					_SEGMENT_ENTRY_HARDWARE_BITS)
-> +					| _SEGMENT_ENTRY;
->  		}
->  	} else if (*table & _SEGMENT_ENTRY_PROTECT &&
->  		   !(pmd_val(*pmd) & _SEGMENT_ENTRY_PROTECT)) {
+> I wrote this driver to enable Night Light on OnePlus 6, and after the
+> driver was working I found out it applies to the 29 different Qualcomm SoCs
+> that use the DPU display engine, including X1E for laptops.
+> 
+> I used the LineageOS downstream kernel as reference and found the correct 
+> LUT format by trial-and-error on OnePlus 6.
+> 
+> This was my first Linux driver and it's been a great learning
+> experience.
+> 
+> The patch was reviewed by postmarketOS contributors here: 
+> https://gitlab.com/sdm845-mainline/linux/-/merge_requests/137
+> During review the patch was tested successfully on hamoa (X1E).
+> ---
+> Changes in v3:
+> - Remove memset() after kzalloc() in dpu_crtc.c
+> - Simplify error messages in dpu_crtc.c and dpu_hw_dspp.c
+> - Use 0 for DPU_REG_WRITE() instead of reg = 0 in dpu_hw_dspp.c
+> - Link to v2: https://lore.kernel.org/r/20251019-dpu-add-dspp-gc-driver-v2-1-30c8cb79cb17@izzo.pro
+> 
+> Changes in v2:
+> - Fix gc register .len and .version in dpu_hw_catalog.c
+> - Apply coding style suggestions
+> - Link to v1: https://lore.kernel.org/r/20251018-dpu-add-dspp-gc-driver-v1-1-ed0369214252@izzo.pro
+> ---
+>  drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c       | 86 +++++++++++++++++++++-----
+>  drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c |  4 ++
+>  drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.h |  4 ++
+>  drivers/gpu/drm/msm/disp/dpu1/dpu_hw_ctl.c     |  3 +
+>  drivers/gpu/drm/msm/disp/dpu1/dpu_hw_dspp.c    | 54 ++++++++++++++++
+>  drivers/gpu/drm/msm/disp/dpu1/dpu_hw_dspp.h    | 26 ++++++++
+>  6 files changed, 163 insertions(+), 14 deletions(-)
+> 
 
-Acked-by: Balbir Singh <balbirs@nvidia.com>
+Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
+
+
+-- 
+With best wishes
+Dmitry
