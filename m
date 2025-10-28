@@ -2,101 +2,57 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 53F7CC159E2
-	for <lists+dri-devel@lfdr.de>; Tue, 28 Oct 2025 16:56:04 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 67D09C15A1B
+	for <lists+dri-devel@lfdr.de>; Tue, 28 Oct 2025 16:58:59 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 745C110E111;
-	Tue, 28 Oct 2025 15:56:00 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C55AB10E5FC;
+	Tue, 28 Oct 2025 15:58:47 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="aE57Sjfw";
+	dkim=pass (1024-bit key; unprotected) header.d=collabora.com header.i=dmitry.osipenko@collabora.com header.b="OjmQQZVE";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sea.source.kernel.org (sea.source.kernel.org [172.234.252.31])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4E25010E111
- for <dri-devel@lists.freedesktop.org>; Tue, 28 Oct 2025 15:55:59 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by sea.source.kernel.org (Postfix) with ESMTP id E978C436A5;
- Tue, 28 Oct 2025 15:55:58 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 89B29C4CEE7;
- Tue, 28 Oct 2025 15:55:54 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1761666958;
- bh=cU/PeOwj5k03/U4uRx5SjV/yGhN6HbfEQK/qeG4WHgs=;
- h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
- b=aE57Sjfw/aZ5tCp3xEAhR1mBAdEv/JIiiMGegAaLKz8FB0dxSGNlu0JEI11Svd0ke
- iCQdjFYzBIq3pXZFRtJUFh10ghpIJuC6fy3DhakiWViktwj6gWu/2+DCNw23y5ZBr9
- pax9LqjpaYr/Wy42jBJDzy9aJt4Vdbfh6nvICzptSVxFZjzpf5Tm0CPPaMUHBFcVmC
- pxOTfeaLc4johMiYJmq4/QyskJR+PBVYyB1Yb7+n5fXgcDnWMQRw6CByeNOhlpzTAk
- 55HBb588fhBYieHM21TDsRWKRvNtn0Ztz1oY09N6N7F4xP6EDbz0MbJKbWmlXERMUL
- hjSwmDPkNVkjA==
-Message-ID: <81303e16-8499-4de8-ae7a-c92e8ccbd68a@kernel.org>
-Date: Tue, 28 Oct 2025 16:55:52 +0100
+Received: from sender4-pp-f112.zoho.com (sender4-pp-f112.zoho.com
+ [136.143.188.112])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D4D9210E5FC
+ for <dri-devel@lists.freedesktop.org>; Tue, 28 Oct 2025 15:58:46 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; t=1761667118; cv=none; 
+ d=zohomail.com; s=zohoarc; 
+ b=iijX9Izz0uG8wktjqRaepdAW7Voi45MDynx6tzFeVUWXux7/lNY7KUdKek282mPagZ4l3rlmtl5Nwflquwx68RbQhBNp/UomEdBE7pZzLPJi8pRa1EFvHWg47JiDeu2hO1v9QlWXtONjG2NeOMeNUpO/9JkZY0xbedZnCbSS/cM=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
+ s=zohoarc; t=1761667118;
+ h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To;
+ bh=efnwSCEsXITjibbdoGIyNdBFDpkKA+IsZHmoTSS+4Cg=; 
+ b=UQNjv/HZUj/DOb+mENrPNtI29zga+jU0eIpKQHKxIeaGX99kIdE0c5aLjBJZllg9LC067lAKemqGmlt1cB6+qFyjecIOqCVCSo94ETsFcqarHOiO5fVYcRkKuNg/WKD8pgkruPsJ7DIQVqDNiQJGtQ+sOw+eLDqypyEGjwxQQ30=
+ARC-Authentication-Results: i=1; mx.zohomail.com;
+ dkim=pass  header.i=collabora.com;
+ spf=pass  smtp.mailfrom=dmitry.osipenko@collabora.com;
+ dmarc=pass header.from=<dmitry.osipenko@collabora.com>
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1761667118; 
+ s=zohomail; d=collabora.com; i=dmitry.osipenko@collabora.com; 
+ h=Message-ID:Date:Date:MIME-Version:Subject:Subject:To:To:Cc:Cc:References:From:From:In-Reply-To:Content-Type:Content-Transfer-Encoding:Message-Id:Reply-To;
+ bh=efnwSCEsXITjibbdoGIyNdBFDpkKA+IsZHmoTSS+4Cg=;
+ b=OjmQQZVE4SdKQtG7N+LPM4dW+IHd1vQSLhb/k66m+8bni9RGgP/VklwABYTxQwby
+ 1ujDiyMw6Ejcx7UE+4hqI7TAl59OIrORkmMjmL8cowueAl8PmxLbkDFp6RW3CMoZ/3q
+ oh9HUoKE2g1LyMALzqrnyIVbamgcVt3qvlFwSUag=
+Received: by mx.zohomail.com with SMTPS id 1761667115040634.8837214497644;
+ Tue, 28 Oct 2025 08:58:35 -0700 (PDT)
+Message-ID: <1e4a29e7-bf98-4193-962a-66fd251e2c72@collabora.com>
+Date: Tue, 28 Oct 2025 18:58:28 +0300
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 1/2] dt-bindings: dp-connector: describe enable gpio
-To: Prahlad Valluru <venkata.valluru@oss.qualcomm.com>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>, Tomi Valkeinen <tomi.valkeinen@ti.com>,
- Andrzej Hajda <andrzej.hajda@intel.com>,
- Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>
-Cc: dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org
-References: <20251028-enable-gpio-dp-connector-v1-0-2babdf1d2289@oss.qualcomm.com>
- <20251028-enable-gpio-dp-connector-v1-1-2babdf1d2289@oss.qualcomm.com>
-From: Krzysztof Kozlowski <krzk@kernel.org>
+Subject: Re: [PATCH v4] drm/virtgpu: Make vblank event dependent on the
+ external sync
+To: Thomas Zimmermann <tzimmermann@suse.de>, vivek.kasireddy@intel.com,
+ gurchetansingh@chromium.org, kraxel@redhat.com, airlied@redhat.com
+Cc: dri-devel@lists.freedesktop.org, virtualization@lists.linux.dev
+References: <20251027095550.110562-1-tzimmermann@suse.de>
 Content-Language: en-US
-Autocrypt: addr=krzk@kernel.org; keydata=
- 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 a/A=
-In-Reply-To: <20251028-enable-gpio-dp-connector-v1-1-2babdf1d2289@oss.qualcomm.com>
+From: Dmitry Osipenko <dmitry.osipenko@collabora.com>
+In-Reply-To: <20251027095550.110562-1-tzimmermann@suse.de>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
+X-ZohoMailClient: External
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -112,13 +68,56 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 28/10/2025 16:26, Prahlad Valluru wrote:
-> In some cases, dp-connector need a gpio for
-> connector to be enabled. Currently, there is no such
+On 10/27/25 12:52, Thomas Zimmermann wrote:
+> For each plane, store the buffer object's sync status in the state
+> of the plane's respective CRTC. During the CRTC's atomic flush,
+> ignore the vblank timer if any of the CRTC's plane's buffer object
+> is synchronized to an external source. Instead send the vblank event
+> immediately. Avoids corner cases where a vblank event happens too
+> late for the next frame to be page flipped in time.
+> 
+> Exporters of GEM objects sometimes interfere with the vblank timer;
+> resulting in framerate drops. Hence detect this case and handle it
+> as outlined above.
+> 
+> The vblank timer is still active and fires in regular intervals
+> according to the guest display refresh. This rate limits clients
+> that only wait for the next vblank to occur, such as fbcon. These
+> clients would otherwise produce a very high number of frames per
+> second.
+> 
+> v4:
+> - only handle imported GEM buffer objects (Dmitri, Vivek)
+> - fix test for plane visibility (Vivek)
+> - always enable vblank timer to make waiting clients happy
+> v3:
+> - disable vblank unconditionally
+> - compute status on each commit
+> v2:
+> - enable/disable vblank timer according to buffer setup
+> 
+> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
+> ---
+> This patch was previously called "drm/virtgpu: Make vblank event
+> dependent on the host resource". Earlier versions where meant for
+> testing, rather than being merged. See [1] for a discussion of when
+> the fixed problem happens.
+> 
+> [1] https://lore.kernel.org/dri-devel/20251016145230.79270-1-
+> tzimmermann@suse.de/
+> ---
+>  drivers/gpu/drm/virtio/virtgpu_display.c | 67 ++++++++++++++++++++++--
+>  drivers/gpu/drm/virtio/virtgpu_drv.h     | 15 ++++++
+>  drivers/gpu/drm/virtio/virtgpu_plane.c   | 28 +++++++++-
+>  3 files changed, 104 insertions(+), 6 deletions(-)
 
-In what cases? Please describe the hardware because I am surprised to
-see that connector need to be enabled. Seems like you are solving
-completely different problem.
+No problems spotted. I'd only extended comment in the code explicitly
+stating that drm_gem_is_imported() is the workaround, might edit it on
+applying. Will wait for Vivek's feedback. Thanks.
 
+Reviewed-by: Dmitry Osipenko <dmitry.osipenko@collabora.com>
+Tested-by: Dmitry Osipenko <dmitry.osipenko@collabora.com>
+
+-- 
 Best regards,
-Krzysztof
+Dmitry
