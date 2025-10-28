@@ -2,128 +2,132 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id BB2E1C16C5C
-	for <lists+dri-devel@lfdr.de>; Tue, 28 Oct 2025 21:28:26 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9720CC16C80
+	for <lists+dri-devel@lfdr.de>; Tue, 28 Oct 2025 21:30:37 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1764510E11F;
-	Tue, 28 Oct 2025 20:28:25 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9315910E65F;
+	Tue, 28 Oct 2025 20:30:34 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="hvjRUy3/";
-	dkim=pass (2048-bit key; unprotected) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="cUVNrISf";
+	dkim=pass (2048-bit key; secure) header.d=web.de header.i=markus.elfring@web.de header.b="UlcBCkhE";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
- [205.220.168.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4DD6F10E11F
- for <dri-devel@lists.freedesktop.org>; Tue, 28 Oct 2025 20:28:24 +0000 (UTC)
-Received: from pps.filterd (m0279863.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id
- 59SJllD22524097
- for <dri-devel@lists.freedesktop.org>; Tue, 28 Oct 2025 20:28:24 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
- cc:content-transfer-encoding:content-type:date:from:in-reply-to
- :message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
- 39F+4wX7/vZJCdod1X2FVuwp5OFLEREjUNLwgk9n3lQ=; b=hvjRUy3/OFB6RhdY
- ilyE2VH6s04IKSwsS9A+62NyBWMmqUmi2wmtl59JeR+rEVCpCNfcH27C7PjwEASD
- J1DbOzbrRtP9IDNs6ayjG4HvuNpeCK3X+4tFDk886TZBXwwFlhYTCfRSSDu32hdZ
- FMRHwhYKVFBAFGt3FwP54VPir78/+tfixHenYsyBCTuLnh6Pf/9AXHPQ3KNsYKqQ
- 0hdf9eiLwLzTQc4eKbIPUnKjYNzcRg32SgawSvMlvI7hUxHbcy44VUU39FTvkXK9
- szNsusPwSRVmk4l8/6dDdz86RytuF+80iXIOx5krQfTiOhZrgDNnUWtuRDknjpHu
- ed6jAA==
-Received: from mail-pg1-f198.google.com (mail-pg1-f198.google.com
- [209.85.215.198])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4a34a1r3qr-1
- (version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
- for <dri-devel@lists.freedesktop.org>; Tue, 28 Oct 2025 20:28:23 +0000 (GMT)
-Received: by mail-pg1-f198.google.com with SMTP id
- 41be03b00d2f7-b62ebb4e7c7so5022484a12.3
- for <dri-devel@lists.freedesktop.org>; Tue, 28 Oct 2025 13:28:23 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=oss.qualcomm.com; s=google; t=1761683303; x=1762288103;
- darn=lists.freedesktop.org; 
- h=content-transfer-encoding:in-reply-to:from:content-language
- :references:cc:to:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=39F+4wX7/vZJCdod1X2FVuwp5OFLEREjUNLwgk9n3lQ=;
- b=cUVNrISfXX8Orz5wZ1XFMkocn3rHpLaiTggCLCXmCK1kupQ/8UBwBkEReDUkDZsPJy
- eIooQHzfnZ+/dlMn59D0JwH3W5Jpvv0KLfVMTzd36Xp+Nx5lPn8dxvHtn2PQ+b7hrXVC
- m7I6kuu93IgK078FwLgO0GbODS9wWZtCfqDjF5e0CijuNJeSPRYo/xcbV2Z4SykeAR64
- JzCZ3O2AUEXDtzl+ei8bcK0KPXlhqA24la2+qRREVPiEG1Gj9vD3yMzMwMl0PSyJCgn9
- bGlTFgNDHZkz2CS19R01QedW+tY0d7gKB8e7uvTZLnyuqAMGHmIYN4kw8UlOFL9GtFvI
- zDJQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1761683303; x=1762288103;
- h=content-transfer-encoding:in-reply-to:from:content-language
- :references:cc:to:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=39F+4wX7/vZJCdod1X2FVuwp5OFLEREjUNLwgk9n3lQ=;
- b=cILmLoH2xWHDQ2JDMuxlF+yC1qexKvvXuShQYxWrGCSOy2CDIWChMds/963J/54wId
- nmwAeiCztMz6G2RhDLkiMODaX5OjrWLWskKh5bAiYasuWUQ2xJpufDa/z2ADwZghAIEb
- B+ZRojHUeEUlBq7h0bRi7ZamdP5S9wU34meX+ocfuzKV9bFKEIFz1NlNwVnjzEeB7L7j
- CztQ3zZqAlhEUndp9Abhpw9V3iEZUicm+lcxexTyECFFLbJIyVvEmMr3cN4th9+QhqOY
- eBREnwySpr3di5ftJBtF/WgLARmKSVnXMHyg/2dViALdlYudMAbhHdtgK8vLiw/NPXP8
- v1tw==
-X-Forwarded-Encrypted: i=1;
- AJvYcCU9e+r5URMT4Y6Xy7NCKnJXxSWV0aIouzLrCYMCyyrYGJeMh+OHMa7QwzDt5VY8mZPcrLJmdq5bx5A=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YwJJRWehrak6GPrtgvpuQcX3+/OhaLYjkGnsumpJVQHSneie3p4
- PVGDx9GUXyFgo1u6GqHnAuiFkRo/lI1iexemvfpNTgifLDcucr7yffuu9TNFgSUfgwIlnm23gtk
- eY2Eln75WHoM4L6jub2GAQcn0JIInTIQV2H+iX4O32hQ2sSqi1VJ1+Ax7iTXW2PmaQU1uh7I=
-X-Gm-Gg: ASbGnctMbLSexFJdZ5Gz6cpHHcEozAwnZDVnTKlTVEGXVo8T2+2z4okt4NN5ZdgJVIi
- 3LD20SbD159XUS91VtKTpheITFva40pBjjUc1E/KqnkQRc03D3dJNtW26cCGJmJngFWtOUuGBHd
- UnfzdQ3Pyp8lG1VDzK+HRj14/nCYwbdJu+m2Ozfe7piZzE11AB/udaRcbgm+pIGcO3upVQMdBtE
- kFpamQ4TexkV3YsDiD1JK12jeVPqalLWh8kq3cDOOC5r22d3Il9Y7jD1RL4vQzmUKMMparMm5N0
- oaEyro69gmhet/oJbpUK8g6cFI6Sem1IGuulW+NuVFBwSoH/LcrMIeSqoDfkGPfoeUvORIBwgS6
- Yt8pmpJFjnp9wTHrSrfaxHPPUwHeXuqv5k+gagGT5tEl69eg11m/5
-X-Received: by 2002:a17:903:234d:b0:290:7e29:f59f with SMTP id
- d9443c01a7336-294dee60875mr5842355ad.27.1761683303139; 
- Tue, 28 Oct 2025 13:28:23 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IF+oY+KTZdLdnMK/py0cYeuH9Wttgce2ckBjFlqNYISBlvh0qxfcOnniR28w3lwyQobo3evCQ==
-X-Received: by 2002:a17:903:234d:b0:290:7e29:f59f with SMTP id
- d9443c01a7336-294dee60875mr5842155ad.27.1761683302665; 
- Tue, 28 Oct 2025 13:28:22 -0700 (PDT)
-Received: from [10.226.59.182] (i-global254.qualcomm.com. [199.106.103.254])
- by smtp.gmail.com with ESMTPSA id
- d9443c01a7336-29498d230c5sm126776955ad.47.2025.10.28.13.28.21
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 28 Oct 2025 13:28:22 -0700 (PDT)
-Message-ID: <2a11acc6-28c6-401d-a5c4-d18e75b128d1@oss.qualcomm.com>
-Date: Tue, 28 Oct 2025 14:28:21 -0600
+Received: from mout.web.de (mout.web.de [212.227.15.3])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D387C10E65F
+ for <dri-devel@lists.freedesktop.org>; Tue, 28 Oct 2025 20:30:32 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=web.de;
+ s=s29768273; t=1761683425; x=1762288225; i=markus.elfring@web.de;
+ bh=DdMrjaycl5Rs8nmPFl2T7+j6J1/i4k2BgwnqAEmpOrc=;
+ h=X-UI-Sender-Class:Message-ID:Date:MIME-Version:To:Cc:References:
+ Subject:From:In-Reply-To:Content-Type:Content-Transfer-Encoding:
+ cc:content-transfer-encoding:content-type:date:from:message-id:
+ mime-version:reply-to:subject:to;
+ b=UlcBCkhEnBsWMIyqODhf6HdylnKyOk80VcaESo2jSlRZZ2Lylb44pMSOhJI0JqHs
+ etL94HqLgmpADDcs54YRRxy8SbFEbcOE6mDWAEex79iXVTkX2P3lmiN6Z4hVQQar3
+ +ooIfSxRaUSFWyGQXTJPPpl8TobSQqud1Bsnc0Dd6U9VSXADEX1kdVTItnOiCCgag
+ g6QbPg96sCCf6xQzP93JlKb8IqHi9C8ITjWAoHng3LsUHwHYouJ2ZgudjOJeS+z5K
+ /BH0ckyLqwPzoKXmUtpRj9/93xoiwV+fdGcUcIViXl8WFv+gYkmLwzbMtZiaBON1C
+ iLE0KNZQItAP36+F0g==
+X-UI-Sender-Class: 814a7b36-bfc1-4dae-8640-3722d8ec6cd6
+Received: from [192.168.178.29] ([94.31.69.187]) by smtp.web.de (mrweb006
+ [213.165.67.108]) with ESMTPSA (Nemesis) id 1M76XT-1vLptO3JGB-00B2jn; Tue, 28
+ Oct 2025 21:30:25 +0100
+Message-ID: <b7a2ac2a-53c3-49ce-862d-eaba86f0b298@web.de>
+Date: Tue, 28 Oct 2025 21:30:22 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] accel/ivpu: Fix race condition when unbinding BOs
-To: Karol Wachowski <karol.wachowski@linux.intel.com>,
- dri-devel@lists.freedesktop.org
-Cc: oded.gabbay@gmail.com, maciej.falkowski@linux.intel.com, lizhi.hou@amd.com,
- Tomasz Rusinowicz <tomasz.rusinowicz@intel.com>
-References: <20251028070559.135097-1-karol.wachowski@linux.intel.com>
-Content-Language: en-US
-From: Jeff Hugo <jeff.hugo@oss.qualcomm.com>
-In-Reply-To: <20251028070559.135097-1-karol.wachowski@linux.intel.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+To: Lizhi Hou <lizhi.hou@amd.com>, dri-devel@lists.freedesktop.org,
+ Jeffrey Hugo <quic_jhugo@quicinc.com>,
+ Maciej Falkowski <maciej.falkowski@linux.intel.com>,
+ Oded Gabbay <ogabbay@kernel.org>
+Cc: LKML <linux-kernel@vger.kernel.org>,
+ Mario Limonciello <mario.limonciello@amd.com>, Max Zhen <max.zhen@amd.com>,
+ Sonal Santan <sonal.santan@amd.com>
+References: <20251028175452.2329497-1-lizhi.hou@amd.com>
+Subject: Re: [PATCH] accel/amdxdna: Fix incorrect command state for timed out
+ job
+Content-Language: en-GB, de-DE
+From: Markus Elfring <Markus.Elfring@web.de>
+In-Reply-To: <20251028175452.2329497-1-lizhi.hou@amd.com>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
-X-Proofpoint-GUID: 3h4o7QI4-dYGzAO6wCMnJOBOFAejtHWj
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUxMDI4MDE3MSBTYWx0ZWRfXxnjEIs+VQDl+
- 8a+1flnB5ogGsQQWZMz2sOY8mieHspUc8n7pd5leDDepgNC6wH+UPXClclvPKljSB15SomAUqBf
- Hx810SKzLO5Jj5rUUujn9QK08H1siJ1Cs3zNlmeUK1cVEKQeeLp9wquk+LCSE3gNSN+xR1EgDed
- fyVEutzzdz1+up03j4G6vlTkEk8Bkp0vY/i98kYf/OTUI+lXZGsS4XY26KuwyiMoYB410sModmq
- qieCvMyuID1IrmvW59ZUa9esYlOxoIUR9kHTzWKhV1GgsFQTdF+05N94IwHBTpkN/VD/UyQZyeg
- ZTzEr/ktLYRcuTzrcGX4f7xYLKJscg4xelTbmyOQ+e/1F6EpI4Jl3b83zAffYaJRDoFb1+mLVLL
- CXYqXOJWd7AFNd4L3Ej7Yib/+xTzHg==
-X-Proofpoint-ORIG-GUID: 3h4o7QI4-dYGzAO6wCMnJOBOFAejtHWj
-X-Authority-Analysis: v=2.4 cv=UObQ3Sfy c=1 sm=1 tr=0 ts=69012767 cx=c_pps
- a=Qgeoaf8Lrialg5Z894R3/Q==:117 a=JYp8KDb2vCoCEuGobkYCKw==:17
- a=IkcTkHD0fZMA:10 a=x6icFKpwvdMA:10 a=s4-Qcg_JpJYA:10
- a=VkNPw1HP01LnGYTKEx00:22 a=QyXUC8HyAAAA:8 a=I6CEikiqoV9Z9warEy4A:9
- a=QEXdDO2ut3YA:10 a=x9snwWr2DeNwDh03kgHS:22
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.9,FMLib:17.12.80.40
- definitions=2025-10-28_07,2025-10-22_01,2025-03-28_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- clxscore=1015 malwarescore=0 phishscore=0 bulkscore=0 priorityscore=1501
- spamscore=0 impostorscore=0 adultscore=0 lowpriorityscore=0 suspectscore=0
- classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.22.0-2510240001 definitions=main-2510280171
+X-Provags-ID: V03:K1:QwcS455MG8q2z88fDEKRwpC9wkA+7XEsmIrDO9pzbIqg+wFr1/h
+ XGbzjEGZcFLUA06uPjiOniuuQ1q1ZK5KJPEKdpiG2p7jdSNZ+9R8Q0mEH4yIwAWNpGUSiNX
+ 2nMdJz8oYfBu5HcLwF3LzhNRksQKceJdxBfLfhMtLycNGYCNEmJP6XO0+arA42zMhLCOI/2
+ 6x+EWnTNIOIPudCVXjQkQ==
+X-Spam-Flag: NO
+UI-OutboundReport: notjunk:1;M01:P0:48vK4V+LRzo=;Kj+76tulifBfiLCdw+QyRrDrGrE
+ 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
+ bgsDQ==
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -139,21 +143,12 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 10/28/2025 1:05 AM, Karol Wachowski wrote:
-> From: Tomasz Rusinowicz <tomasz.rusinowicz@intel.com>
-> 
-> Fix 'Memory manager not clean during takedown' warning that occurs
-> when ivpu_gem_bo_free() removes the BO from the BOs list before it
-> gets unmapped. Then file_priv_unbind() triggers a warning in
-> drm_mm_takedown() during context teardown.
-> 
-> Protect the unmapping sequence with bo_list_lock to ensure the BO is
-> always fully unmapped when removed from the list. This ensures the BO
-> is either fully unmapped at context teardown time or present on the
-> list and unmapped by file_priv_unbind().
-> 
+> When a command times out, mark it as ERT_CMD_STATE_TIMEOUT. Any other
+> commands that are canceled due to this timeout should be marked as
+> ERT_CMD_STATE_ABORT.
 
-Should this have a Fixes tag? Sounds like just a splat, but a user 
-visible one perhaps.
+Would it become helpful to use additional labels for the same state settings?
+https://elixir.bootlin.com/linux/v6.18-rc3/source/drivers/accel/amdxdna/aie2_ctx.c#L197-L226
 
--Jeff
+Regards,
+Markus
