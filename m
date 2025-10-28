@@ -2,46 +2,46 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2B424C162FE
-	for <lists+dri-devel@lfdr.de>; Tue, 28 Oct 2025 18:36:24 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 853BFC16304
+	for <lists+dri-devel@lfdr.de>; Tue, 28 Oct 2025 18:36:37 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1D0E410E62D;
-	Tue, 28 Oct 2025 17:36:22 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DD89310E62B;
+	Tue, 28 Oct 2025 17:36:34 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="NzTyO4Su";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="KZYCFVZa";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B998F10E61F;
- Tue, 28 Oct 2025 17:36:20 +0000 (UTC)
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2322610E629;
+ Tue, 28 Oct 2025 17:36:33 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1761672981; x=1793208981;
+ t=1761672993; x=1793208993;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=bZ8RzX3XhmEbNTDlxF5oMlGveV2u4y/v84rMSalX5XY=;
- b=NzTyO4Sut8rt1Pk8Iz9hNdLZZ4Lp/5aqlDJchDH1N3pBT/FK7XgOoXPW
- eYqKjxP8jZros+Hb4QeWNUNffjcAHsRWgEeAxQK5olCu83p99x5al8MFt
- vfu99sV1o9TtZqg3uEUbVSqkiH7+Knu7iJD9YutOMFpMH6OAIxGOHQ2FJ
- SW/A5HhEhoVOQNMtbF8EYSAqAWsEDGbI84NIlWzoOVAPibbOOrvSp+tME
- ZxYRUNZsQmo8kMxI6x197bOl48BdtCmWizB922grwniCaAh1Pyzg8t+ZQ
- NTMFCq+qevrq8vYdTyDIkdFkcEqhiuuAg/WR6iC+kmZFkfidlq/tD3UOM g==;
-X-CSE-ConnectionGUID: rUT7G5yBSOCW2552dtZcDw==
-X-CSE-MsgGUID: hHGFkSiIRoahHmknRvIESA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11586"; a="74901438"
-X-IronPort-AV: E=Sophos;i="6.19,261,1754982000"; d="scan'208";a="74901438"
-Received: from orviesa005.jf.intel.com ([10.64.159.145])
- by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 28 Oct 2025 10:36:20 -0700
-X-CSE-ConnectionGUID: TkYtyQbvR7qXL+36gyfpQg==
-X-CSE-MsgGUID: uP1tK2S7QiS2CwBKUQKvLw==
+ bh=0f8W0WS6inYfd0WkJ0SCn94YCCu0EJVcm13WAGscUSY=;
+ b=KZYCFVZamEhFHtv4NUUCSGBl9pGK/i1PJMcpp2qpyEXni/fA8p+Upwxc
+ cRDCUZREdR9CrQouK5rc8eBnjwchZbyWV4Vfhwjj6WH1vWenhIstOsYk6
+ FtOPvhdGMiSjnDrYAOaX7oVhC8UskR0YEYXttcMd3U5zLA75aTRtJqYEq
+ cbMP73YFot5AmTR4x1LRhmkN86L+TYfdyhPIG7fR1ZzYhuPv07urDmvzG
+ B4XgAWMPM59K9hrA6IAC0Pa1uhm/vJKs1un4D4ht+kxOOh487hvbuGqi5
+ WJ2D5Y+wKbSlDUn+FZh4y5mCERDyIfgZE4Ln7QNepyGi2mnaD+cJWDbZ9 Q==;
+X-CSE-ConnectionGUID: Dq+4vKcARFmLf5WPXWZLIA==
+X-CSE-MsgGUID: OO9gSMXDRsm8E8zDy6nGvw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11586"; a="63932188"
+X-IronPort-AV: E=Sophos;i="6.19,261,1754982000"; d="scan'208";a="63932188"
+Received: from orviesa004.jf.intel.com ([10.64.159.144])
+ by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 28 Oct 2025 10:36:33 -0700
+X-CSE-ConnectionGUID: fPiIVu8uQjeY/dUHTMbs1A==
+X-CSE-MsgGUID: hGQY3DAKR4OnG7nLFGuSzQ==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.19,261,1754982000"; d="scan'208";a="190548630"
+X-IronPort-AV: E=Sophos;i="6.19,261,1754982000"; d="scan'208";a="189730127"
 Received: from ijarvine-mobl1.ger.corp.intel.com (HELO localhost)
  ([10.245.244.182])
- by orviesa005-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 28 Oct 2025 10:36:13 -0700
+ by orviesa004-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 28 Oct 2025 10:36:26 -0700
 From: =?UTF-8?q?Ilpo=20J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>
 To: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
  Simon Richter <Simon.Richter@hogyros.de>,
@@ -58,10 +58,9 @@ To: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
  =?UTF-8?q?Micha=C5=82=20Winiarski?= <michal.winiarski@intel.com>,
  linux-kernel@vger.kernel.org
 Cc: =?UTF-8?q?Ilpo=20J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>
-Subject: [PATCH 1/9] PCI: Prevent resource tree corruption when BAR resize
- fails
-Date: Tue, 28 Oct 2025 19:35:43 +0200
-Message-Id: <20251028173551.22578-2-ilpo.jarvinen@linux.intel.com>
+Subject: [PATCH 2/9] PCI/IOV: Adjust ->barsz[] when changing BAR size
+Date: Tue, 28 Oct 2025 19:35:44 +0200
+Message-Id: <20251028173551.22578-3-ilpo.jarvinen@linux.intel.com>
 X-Mailer: git-send-email 2.39.5
 In-Reply-To: <20251028173551.22578-1-ilpo.jarvinen@linux.intel.com>
 References: <20251028173551.22578-1-ilpo.jarvinen@linux.intel.com>
@@ -83,59 +82,138 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-pbus_reassign_bridge_resources() saves bridge windows into the saved
-list before attempting to adjust resource assignments to perform a BAR
-resize operation. If resource adjustments cannot be completed fully,
-rollback is attempted by restoring the resource from the saved list.
+pci_rebar_set_size() adjusts BAR size for both normal and IOV BARs. The
+struct pci_srvio keeps a cached copy of BAR size in unit of
+resource_size_t in ->barsz[] which is not adjusted by
+pci_rebar_set_size() but by pci_iov_resource_set_size().
+pci_iov_resource_set_size() is called also from
+pci_resize_resource_set_size().
 
-The rollback, however, does not check whether the resources it restores were
-assigned by the partial resize attempt. If restore changes addresses of the
-resource, it can result in corrupting the resource tree.
+The current arrangement is problematic once BAR resize algorithm starts
+to roll back changes properly in case of a failure. The normal resource
+fitting algorithm rolls back resource size using the struct
+pci_dev_resource easily but having to call also
+pci_resize_resource_set_size() or pci_iov_resource_set_size() to roll
+back BAR size would be an extra burden, whereas combining ->barsz[]
+update with pci_rebar_set_size() naturally rolls back it when restoring
+the old BAR size on a different layer of the BAR resize operation.
 
-An example of a corrupted resource tree with overlapping addresses:
+Thus, rework pci_rebar_set_size() to also update ->barsz[].
 
-6200000000000-6203fbfffffff : pciex@620c3c0000000
-  6200000000000-6203fbff0ffff : PCI Bus 0030:01
-    6200020000000-62000207fffff : 0030:01:00.0
-    6200000000000-6203fbff0ffff : PCI Bus 0030:02
-
-A resource that are assigned into the resource tree must remain
-unchanged. Thus, release such a resource before attempting to restore
-and claim it back.
-
-For simplicity, always do the release and claim back for the resource
-even in the cases where it is restored to the same address range.
-
-Note: this fix may "break" some cases where devices "worked" because
-the resource tree corruption allowed address space double counting to
-fit more resource than what can now be assigned without double
-counting. The upcoming changes to BAR resizing should address those
-scenarios (to the extent possible).
-
-Fixes: 8bb705e3e79d ("PCI: Add pci_resize_resource() for resizing BARs")
-Reported-by: Simon Richter <Simon.Richter@hogyros.de>
-Reported-by: Alex Bennée <alex.bennee@linaro.org>
 Signed-off-by: Ilpo Järvinen <ilpo.jarvinen@linux.intel.com>
 ---
- drivers/pci/setup-bus.c | 5 +++++
- 1 file changed, 5 insertions(+)
+ drivers/pci/iov.c       | 15 ++++-----------
+ drivers/pci/pci.c       |  4 ++++
+ drivers/pci/pci.h       |  5 ++---
+ drivers/pci/setup-res.c | 10 ++++------
+ 4 files changed, 14 insertions(+), 20 deletions(-)
 
-diff --git a/drivers/pci/setup-bus.c b/drivers/pci/setup-bus.c
-index 4a8735b275e4..e6984bb530ae 100644
---- a/drivers/pci/setup-bus.c
-+++ b/drivers/pci/setup-bus.c
-@@ -2504,6 +2504,11 @@ int pbus_reassign_bridge_resources(struct pci_bus *bus, struct resource *res)
- 		bridge = dev_res->dev;
- 		i = pci_resource_num(bridge, res);
+diff --git a/drivers/pci/iov.c b/drivers/pci/iov.c
+index 77dee43b7858..04b675e90963 100644
+--- a/drivers/pci/iov.c
++++ b/drivers/pci/iov.c
+@@ -158,8 +158,7 @@ resource_size_t pci_iov_resource_size(struct pci_dev *dev, int resno)
+ 	return dev->sriov->barsz[pci_resource_num_to_vf_bar(resno)];
+ }
  
-+		if (res->parent) {
-+			release_child_resources(res);
-+			pci_release_resource(bridge, i);
-+		}
+-void pci_iov_resource_set_size(struct pci_dev *dev, int resno,
+-			       resource_size_t size)
++void pci_iov_resource_set_size(struct pci_dev *dev, int resno, int size)
+ {
+ 	if (!pci_resource_is_iov(resno)) {
+ 		pci_warn(dev, "%s is not an IOV resource\n",
+@@ -167,7 +166,8 @@ void pci_iov_resource_set_size(struct pci_dev *dev, int resno,
+ 		return;
+ 	}
+ 
+-	dev->sriov->barsz[pci_resource_num_to_vf_bar(resno)] = size;
++	resno = pci_resource_num_to_vf_bar(resno);
++	dev->sriov->barsz[resno] = pci_rebar_size_to_bytes(size);
+ }
+ 
+ bool pci_iov_is_memory_decoding_enabled(struct pci_dev *dev)
+@@ -1340,7 +1340,6 @@ EXPORT_SYMBOL_GPL(pci_sriov_configure_simple);
+ int pci_iov_vf_bar_set_size(struct pci_dev *dev, int resno, int size)
+ {
+ 	u32 sizes;
+-	int ret;
+ 
+ 	if (!pci_resource_is_iov(resno))
+ 		return -EINVAL;
+@@ -1355,13 +1354,7 @@ int pci_iov_vf_bar_set_size(struct pci_dev *dev, int resno, int size)
+ 	if (!(sizes & BIT(size)))
+ 		return -EINVAL;
+ 
+-	ret = pci_rebar_set_size(dev, resno, size);
+-	if (ret)
+-		return ret;
+-
+-	pci_iov_resource_set_size(dev, resno, pci_rebar_size_to_bytes(size));
+-
+-	return 0;
++	return pci_rebar_set_size(dev, resno, size);
+ }
+ EXPORT_SYMBOL_GPL(pci_iov_vf_bar_set_size);
+ 
+diff --git a/drivers/pci/pci.c b/drivers/pci/pci.c
+index b14dd064006c..7dfc58b0e55e 100644
+--- a/drivers/pci/pci.c
++++ b/drivers/pci/pci.c
+@@ -3803,6 +3803,10 @@ int pci_rebar_set_size(struct pci_dev *pdev, int bar, int size)
+ 	ctrl &= ~PCI_REBAR_CTRL_BAR_SIZE;
+ 	ctrl |= FIELD_PREP(PCI_REBAR_CTRL_BAR_SIZE, size);
+ 	pci_write_config_dword(pdev, pos + PCI_REBAR_CTRL, ctrl);
 +
- 		restore_dev_resource(dev_res);
++	if (pci_resource_is_iov(bar))
++		pci_iov_resource_set_size(pdev, bar, size);
++
+ 	return 0;
+ }
  
- 		pci_claim_resource(bridge, i);
+diff --git a/drivers/pci/pci.h b/drivers/pci/pci.h
+index 4492b809094b..bf1a577e9623 100644
+--- a/drivers/pci/pci.h
++++ b/drivers/pci/pci.h
+@@ -808,8 +808,7 @@ void pci_iov_update_resource(struct pci_dev *dev, int resno);
+ resource_size_t pci_sriov_resource_alignment(struct pci_dev *dev, int resno);
+ void pci_restore_iov_state(struct pci_dev *dev);
+ int pci_iov_bus_range(struct pci_bus *bus);
+-void pci_iov_resource_set_size(struct pci_dev *dev, int resno,
+-			       resource_size_t size);
++void pci_iov_resource_set_size(struct pci_dev *dev, int resno, int size);
+ bool pci_iov_is_memory_decoding_enabled(struct pci_dev *dev);
+ static inline u16 pci_iov_vf_rebar_cap(struct pci_dev *dev)
+ {
+@@ -851,7 +850,7 @@ static inline int pci_iov_bus_range(struct pci_bus *bus)
+ 	return 0;
+ }
+ static inline void pci_iov_resource_set_size(struct pci_dev *dev, int resno,
+-					     resource_size_t size) { }
++					     int size) { }
+ static inline bool pci_iov_is_memory_decoding_enabled(struct pci_dev *dev)
+ {
+ 	return false;
+diff --git a/drivers/pci/setup-res.c b/drivers/pci/setup-res.c
+index c3ba4ccecd43..3d0b0b3f60c4 100644
+--- a/drivers/pci/setup-res.c
++++ b/drivers/pci/setup-res.c
+@@ -450,12 +450,10 @@ static void pci_resize_resource_set_size(struct pci_dev *dev, int resno,
+ 	resource_size_t res_size = pci_rebar_size_to_bytes(size);
+ 	struct resource *res = pci_resource_n(dev, resno);
+ 
+-	if (!pci_resource_is_iov(resno)) {
+-		resource_set_size(res, res_size);
+-	} else {
+-		resource_set_size(res, res_size * pci_sriov_get_totalvfs(dev));
+-		pci_iov_resource_set_size(dev, resno, res_size);
+-	}
++	if (pci_resource_is_iov(resno))
++		res_size *= pci_sriov_get_totalvfs(dev);
++
++	resource_set_size(res, res_size);
+ }
+ 
+ int pci_resize_resource(struct pci_dev *dev, int resno, int size)
 -- 
 2.39.5
 
