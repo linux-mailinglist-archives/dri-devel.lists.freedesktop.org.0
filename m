@@ -2,49 +2,65 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id DD494C14A95
-	for <lists+dri-devel@lfdr.de>; Tue, 28 Oct 2025 13:39:43 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id A61E3C14AC8
+	for <lists+dri-devel@lfdr.de>; Tue, 28 Oct 2025 13:42:55 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 04E9B10E3BE;
-	Tue, 28 Oct 2025 12:39:42 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E75EB10E052;
+	Tue, 28 Oct 2025 12:42:52 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="tQu52Bpm";
+	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="StBeXySm";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sea.source.kernel.org (sea.source.kernel.org [172.234.252.31])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D899710E3BE
- for <dri-devel@lists.freedesktop.org>; Tue, 28 Oct 2025 12:39:40 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by sea.source.kernel.org (Postfix) with ESMTP id 89089418EE;
- Tue, 28 Oct 2025 12:39:40 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A81AAC4CEE7;
- Tue, 28 Oct 2025 12:39:38 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1761655180;
- bh=6MD0sthR182nStMxcccxrkgtZws4XvRSBv3yo0xYeUA=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=tQu52BpmKIJ4y5/J+HudOPWYMPnBQ8O5RJPqxC8zWA2XAMkqt80DX0w5FroCxN97K
- F3hreKWsd7kHK5s4LMjxCn+8a2SyINQgpkwrMtUYhln3ZRx/3ytNG/S0whWtDzZIOR
- LuzoBOWezS8yZdIP9MQEPXhNtVnQAqjNmHnr902jNnNx3Mb7aFKui+/MuTtJQ708Xb
- iQqvZubrXNFumDRqUWrkCckeIkgoILYM8QmMwhwIwmMSwQf9oCO4GpeV478VAUPuK5
- 7bpDfkNH5HfpeOGhtJZW7w29iX2ZDqTfYLLDWQy0q7cgBonIpqVmOF+h8tdq2RdUHS
- ZPy8GBRbeLRAw==
-Date: Tue, 28 Oct 2025 12:40:30 +0000
-From: Daniel Thompson <danielt@kernel.org>
-To: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
-Cc: foss@joelselvaraj.com, Lee Jones <lee@kernel.org>,
- Jingoo Han <jingoohan1@gmail.com>, Helge Deller <deller@gmx.de>,
- linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org,
- linux-fbdev@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2] backlight: qcom-wled: fix unbalanced ovp irq enable
-Message-ID: <aQC5vsJzeA-cPdKd@aspen.lan>
-References: <20251021-qcom-wled-fix-unbalanced-ovp-irq-enable-v2-1-7ff115b4ffe7@joelselvaraj.com>
- <280f1e92-36a1-450b-b6df-b36c3aed3c1c@oss.qualcomm.com>
+Received: from bali.collaboradmins.com (bali.collaboradmins.com
+ [148.251.105.195])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5A57A10E052
+ for <dri-devel@lists.freedesktop.org>; Tue, 28 Oct 2025 12:42:52 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+ s=mail; t=1761655370;
+ bh=u0Rc6uddmvyN6A9OgBxIwz2e4v43ymsLxM3TDcEIbKU=;
+ h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+ b=StBeXySmJjGSd1xFRKwCwHY5JXlO8LMuQ6NNDIDliO3nbsaTrwe2GjQ4nC3M5HEi6
+ jF2qtHilep9UT1TEXah25dWzbBVN4RNLz6baHmPXj/PulKUSmgZLkg7TL8d9UXo15P
+ MEd9IThinC+GxvZR9t7QmQ4PrI47cVgmV/7GjQtR8tkgTWacQR3neGIxFzH5Vp6fEu
+ 92lf964rtDYc9RFWH+P2lzGUmMfdNUsB3ECMMwqlBe+s2lpG6mt1ikFkBSW7ifizAl
+ bcJk8WFoCc34avz+tVuY9xhY0SsU0jGAftWx4JPZXGp0TP7CnrdutiZ2JCE3XLSdy8
+ SDuHL1eaO3uvw==
+Received: from [192.168.1.90] (unknown [82.79.138.145])
+ (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested) (Authenticated sender: cristicc)
+ by bali.collaboradmins.com (Postfix) with ESMTPSA id C49D917E12BA;
+ Tue, 28 Oct 2025 13:42:49 +0100 (CET)
+Message-ID: <410fa913-e86b-4ffd-9d79-ce804f0271ff@collabora.com>
+Date: Tue, 28 Oct 2025 14:42:49 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <280f1e92-36a1-450b-b6df-b36c3aed3c1c@oss.qualcomm.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v4 0/6] Add HDMI CEC support to Rockchip RK3588/RK3576 SoCs
+To: Mark Brown <broonie@kernel.org>
+Cc: Sandy Huang <hjc@rock-chips.com>, =?UTF-8?Q?Heiko_St=C3=BCbner?=
+ <heiko@sntech.de>, Andy Yan <andy.yan@rock-chips.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Andrzej Hajda <andrzej.hajda@intel.com>,
+ Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
+ Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Catalin Marinas <catalin.marinas@arm.com>, Will Deacon <will@kernel.org>,
+ kernel@collabora.com, dri-devel@lists.freedesktop.org,
+ linux-arm-kernel@lists.infradead.org, linux-rockchip@lists.infradead.org,
+ linux-kernel@vger.kernel.org, Algea Cao <algea.cao@rock-chips.com>,
+ Derek Foreman <derek.foreman@collabora.com>,
+ Daniel Stone <daniels@collabora.com>, Aishwarya.TCV@arm.com
+References: <20250903-rk3588-hdmi-cec-v4-0-fa25163c4b08@collabora.com>
+ <6f3f126d-72c1-48cb-a9c8-8d354af2a3d5@sirena.org.uk>
+Content-Language: en-US
+From: Cristian Ciocaltea <cristian.ciocaltea@collabora.com>
+In-Reply-To: <6f3f126d-72c1-48cb-a9c8-8d354af2a3d5@sirena.org.uk>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -60,52 +76,47 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Oct 22, 2025 at 07:14:32PM +0200, Konrad Dybcio wrote:
-> On 10/21/25 8:53 PM, Joel Selvaraj via B4 Relay wrote:
-> > From: Joel Selvaraj <foss@joelselvaraj.com>
-> >
-> > In Xiaomi Poco F1 and at least few other devices, the qcom wled driver
-> > triggers unbalanced ovp irq enable warning like the following during
-> > boot up.
-> >
-> > [    1.151677] ------------[ cut here ]------------
-> > [    1.151680] Unbalanced enable for IRQ 176
-> > [    1.151693] WARNING: CPU: 0 PID: 160 at kernel/irq/manage.c:774 __enable_irq+0x50/0x80
-> > [    1.151710] Modules linked in:
-> > [    1.151717] CPU: 0 PID: 160 Comm: kworker/0:11 Not tainted 5.17.0-sdm845 #4
-> > [    1.151724] Hardware name: Xiaomi Pocophone F1 (DT)
-> > [    1.151728] Workqueue: events wled_ovp_work
-> > ...<snip>...
-> > [    1.151833] Call trace:
-> > [    1.151836]  __enable_irq+0x50/0x80
-> > [    1.151841]  enable_irq+0x48/0xa0
-> > [    1.151846]  wled_ovp_work+0x18/0x24
-> > [    1.151850]  process_one_work+0x1d0/0x350
-> > [    1.151858]  worker_thread+0x13c/0x460
-> > [    1.151862]  kthread+0x110/0x114
-> > [    1.151868]  ret_from_fork+0x10/0x20
-> > [    1.151876] ---[ end trace 0000000000000000 ]---
-> >
-> > Fix it by storing and checking the state of ovp irq before enabling and
-> > disabling it.
-> >
-> > Signed-off-by: Joel Selvaraj <foss@joelselvaraj.com>
-> > ---
-> > I was able to debug the issue a little further. This happens mainly because
-> > devm_request_threaded_irq already enables the ovp irq during probe. Then ovp
-> > work gets scheduled when update_status happens and in turn enables the irq again.
-> > Tracking the status makes it easy to avoid the double irq enable. But I am
-> > open to try a different approach if there is any suggestion.
->
-> Would reverting this change and adding (| IRQF_NO_AUTOEN) to that call
-> fix it?
+Hi Mark,
 
-I'd definitely favour trying an alternative approach.
+On 10/28/25 2:38 PM, Mark Brown wrote:
+> On Wed, Sep 03, 2025 at 09:50:58PM +0300, Cristian Ciocaltea wrote:
+>> The first patch in the series implements the CEC capability of the
+>> Synopsys DesignWare HDMI QP TX controller found in RK3588 & RK3576 Socs.
+>> This is based on the downstream code, but rewritten on top of the CEC
+>> helpers added recently to the DRM HDMI connector framework.
+> 
+> For the past couple of weeks we've been seeing various instability with
+> the graphics drivers on the Rock 5B in -next, the most common system is
+> that we get faults in code that looks suspiciously relevant to this
+> series:
+> 
+> <6>[   17.353368] rockchip-drm display-subsystem: bound fdd90000.vop (ops vop2_component_ops [rockchipdrm])
+> <6>[   17.355237] dwhdmiqp-rockchip fde80000.hdmi: registered DesignWare HDMI QP I2C bus driver
+> / # <1>[   17.357803] Unable to handle kernel NULL pointer dereference at virtual address 0000000000000098
+> 
+> ...
+> 
+> <4>[   17.372390] Hardware name: Radxa ROCK 5B (DT)
+> 
+> ...
+> 
+> <4>[   17.382082] Call trace:
+> <4>[   17.382317]  drm_bridge_connector_hdmi_cec_init+0x8/0x38 [drm_display_helper] (P)
+> <4>[   17.383003]  drm_bridge_connector_init+0x658/0x678 [drm_display_helper]
+> <4>[   17.383612]  dw_hdmi_qp_rockchip_bind+0x35c/0x4d8 [rockchipdrm]
+> <4>[   17.384159]  component_bind_all+0x118/0x248
+> <4>[   17.384550]  rockchip_drm_bind+0xb4/0x20c [rockchipdrm]
+> <4>[   17.385034]  try_to_bring_up_aggregate_device+0x164/0x1d0
+> <4>[   17.385528]  component_master_add_with_match+0xc4/0x104
+> <4>[   17.386008]  rockchip_drm_platform_probe+0x1f8/0x31c [rockchipdrm]
+> 
+> (from today's -next, 
+> 
+> Unfortunately we haven't managed to point at a specific commit, it looks
+> like this might be triggered by multiple serieses interacting with each
+> other.  I'm not sure what other information might be useful here?
 
-wled_[disable|enable]_ovp_irq() do hide "unbalanced enable/disable"
-warnings but they will not nest correctly. That put things are high risk
-of bugs (even if there are no bugs now it makes maintaining this driver
-"high risk" in the future).
+Thanks for reporting, I will investigate.
 
-
-Daniel.
+Regards,
+Cristian
