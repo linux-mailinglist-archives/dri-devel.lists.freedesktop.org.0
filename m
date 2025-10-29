@@ -2,63 +2,60 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id CF8BAC1C70F
-	for <lists+dri-devel@lfdr.de>; Wed, 29 Oct 2025 18:29:55 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2E4D9C1C898
+	for <lists+dri-devel@lfdr.de>; Wed, 29 Oct 2025 18:44:28 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E450510E210;
-	Wed, 29 Oct 2025 17:29:52 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7AE7710E211;
+	Wed, 29 Oct 2025 17:44:19 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="IV+H1s5c";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="LNJC3HSu";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CD94110E210;
- Wed, 29 Oct 2025 17:29:51 +0000 (UTC)
+Received: from sea.source.kernel.org (sea.source.kernel.org [172.234.252.31])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C844210E211
+ for <dri-devel@lists.freedesktop.org>; Wed, 29 Oct 2025 17:44:17 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by tor.source.kernel.org (Postfix) with ESMTP id DDC5A603FF;
- Wed, 29 Oct 2025 17:29:50 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C9493C4CEF7;
- Wed, 29 Oct 2025 17:29:48 +0000 (UTC)
+ by sea.source.kernel.org (Postfix) with ESMTP id 8153D438F2;
+ Wed, 29 Oct 2025 17:44:17 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3798CC4CEF7;
+ Wed, 29 Oct 2025 17:44:14 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1761758990;
- bh=6c2lRH79gPUfqUGUAT2Ahh0VCQFp9aMLWeaNEpTU2VA=;
+ s=k20201202; t=1761759857;
+ bh=MFX7L/AI8JM0uO4N5k58xVcU7FqcMiBcizefUKUgzz4=;
  h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=IV+H1s5cA6+q0eMfmwxGdQll40rtEMuen9ODGoXJ0OyV1c7HlROjIDiHl6KG9b0cM
- FSyPQD1mtMazchRKzcZKMw1h7JchjzQPcBc7nocjWzUmL4vSgLFvItd+Jaz0E+42LF
- KmMKufHWsKhpeg1WlsfRIDF1IV0kh6aYcAOtiplt/PoA72VVW5roiYDDYtAXFP1jyG
- +PtQEywQFP5nH85YlDKYPBQe1x5HqqGu4UVQgdYiTiGfGwEJDPXOkfYH+KNLBq5LiH
- 72EH3Yb1CURWbl9kIaes24S5Lqils3FF9J3gk0zDo74JmDpxq2QUXMv/H9L8AWBL1U
- 68B80NxBEviJA==
-Date: Wed, 29 Oct 2025 12:32:53 -0500
-From: Bjorn Andersson <andersson@kernel.org>
-To: xiangxu.yin@oss.qualcomm.com
-Cc: Rob Clark <robin.clark@oss.qualcomm.com>, 
- Dmitry Baryshkov <lumag@kernel.org>, Abhinav Kumar <abhinav.kumar@linux.dev>, 
- Jessica Zhang <jesszhan0024@gmail.com>, Sean Paul <sean@poorly.run>, 
- Marijn Suijten <marijn.suijten@somainline.org>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Rob Herring <robh@kernel.org>, 
- Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
- Konrad Dybcio <konradybcio@kernel.org>, linux-arm-msm@vger.kernel.org,
- dri-devel@lists.freedesktop.org, 
- freedreno@lists.freedesktop.org, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org, 
- fange.zhang@oss.qualcomm.com, yongxing.mou@oss.qualcomm.com,
- li.liu@oss.qualcomm.com, 
- Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>,
- Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
-Subject: Re: [PATCH v6 3/4] arm64: dts: qcom: Add DisplayPort and QMP USB3DP
- PHY for SM6150
-Message-ID: <xjes5h45y44cahs7avj4xngprwnks3alnf25tsbptyvckajz3q@lhawlg5vamls>
-References: <20251024-add-displayport-support-to-qcs615-devicetree-v6-0-c4316975dd0e@oss.qualcomm.com>
- <20251024-add-displayport-support-to-qcs615-devicetree-v6-3-c4316975dd0e@oss.qualcomm.com>
+ b=LNJC3HSuFqsitCic1quYkNQly3HBPAfIaRu2tJjyfsk6r6Sr/yfBkMh3mwR114OwK
+ eC6p1rE8dXwEAbr3Ft/sYyjg1nR+eTwkeNVwlo6jAB5/SvKyUboTW9f1YIXIJ0eoEx
+ QjJ3fnPAW3tIv1HHlw+grkirs2ocSSf3HSfL/noxHLOj4MQnT5ozy30+GFtUjyvmhI
+ 6uEsq491dCQ6o52rEuwviY9Pu0wWX8kT+alGypvU4xPDdQBGSRmgDH6p1LU0jAHyxb
+ HvK59t4JqRx54FGEb7AI58k5JxDtDBBvdkzbkGVT42IKAxV5OiLJhev8QXqcr0TfiP
+ OPEFEXpRjAHng==
+Date: Wed, 29 Oct 2025 17:45:12 +0000
+From: Daniel Thompson <danielt@kernel.org>
+To: "Sverdlin, Alexander" <alexander.sverdlin@siemens.com>
+Cc: "jingoohan1@gmail.com" <jingoohan1@gmail.com>,
+ "tomi.valkeinen@ti.com" <tomi.valkeinen@ti.com>,
+ "lee@kernel.org" <lee@kernel.org>,
+ "luca.ceresoli@bootlin.com" <luca.ceresoli@bootlin.com>,
+ "tony@atomide.com" <tony@atomide.com>,
+ "pavel@ucw.cz" <pavel@ucw.cz>, "deller@gmx.de" <deller@gmx.de>,
+ "jjhiblot@ti.com" <jjhiblot@ti.com>,
+ "linux-fbdev@vger.kernel.org" <linux-fbdev@vger.kernel.org>,
+ "thomas.petazzoni@bootlin.com" <thomas.petazzoni@bootlin.com>,
+ "saravanak@google.com" <saravanak@google.com>,
+ "herve.codina@bootlin.com" <herve.codina@bootlin.com>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+ "alexander.sverdlin@gmail.com" <alexander.sverdlin@gmail.com>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+ "daniel.thompson@linaro.org" <daniel.thompson@linaro.org>
+Subject: Re: [PATCH v6] backlight: led-backlight: add devlink to supplier LEDs
+Message-ID: <aQJSqJOrtETMKt8x@aspen.lan>
+References: <20250519-led-backlight-add-devlink-to-supplier-class-device-v6-1-845224aeb2ce@bootlin.com>
+ <6e6039c815c7125e35b43ca2f8d32a0fa3103fea.camel@siemens.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20251024-add-displayport-support-to-qcs615-devicetree-v6-3-c4316975dd0e@oss.qualcomm.com>
+In-Reply-To: <6e6039c815c7125e35b43ca2f8d32a0fa3103fea.camel@siemens.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -74,182 +71,29 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, Oct 24, 2025 at 01:21:03PM +0800, Xiangxu Yin via B4 Relay wrote:
-> From: Xiangxu Yin <xiangxu.yin@oss.qualcomm.com>
-> 
+On Thu, Oct 23, 2025 at 12:41:30PM +0000, Sverdlin, Alexander wrote:
+> Hi Lee, Daniel, Jingoo,
+>
+> On Mon, 2025-05-19 at 22:19 +0200, Luca Ceresoli wrote:
+> > led-backlight is a consumer of one or multiple LED class devices, but
+> > devlink is currently unable to create correct supplier-producer links when
+> > the supplier is a class device. It creates instead a link where the
+> > supplier is the parent of the expected device.
+> > <snip>
+> > Fixes: ae232e45acf9 ("backlight: add led-backlight driver")
+> > Signed-off-by: Luca Ceresoli <luca.ceresoli@bootlin.com>
+> > Reviewed-by: Herve Codina <herve.codina@bootlin.com>
+>
+> I've noticed that the patch in archived in the patchwork [1] but I wasn't
+> able to find it in any branch of the backlight tree [2].
+>
+> Could it be that the patch somehow slipped through?
+> It does solve a real-world crash, could you please consider to apply it?
 
-Please fix the subject prefix and drop the "for SM6150" suffix.
+Sorry folks. I overlooked this in my backlog and never posted the R-b
+(which helps Lee figure out what to hoover up).
 
-Regards,
-Bjorn
+Reviewed-by: Daniel Thompson (RISCstar) <danielt@kernel.org>
 
-> Introduce DisplayPort controller node and associated QMP USB3-DP PHY
-> for SM6150 SoC. Add data-lanes property to the DP endpoint and update
-> clock assignments for proper DP integration.
-> 
-> Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
-> Reviewed-by: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
-> Signed-off-by: Xiangxu Yin <xiangxu.yin@oss.qualcomm.com>
-> ---
->  arch/arm64/boot/dts/qcom/sm6150.dtsi | 115 ++++++++++++++++++++++++++++++++++-
->  1 file changed, 113 insertions(+), 2 deletions(-)
-> 
-> diff --git a/arch/arm64/boot/dts/qcom/sm6150.dtsi b/arch/arm64/boot/dts/qcom/sm6150.dtsi
-> index 6128d8c48f9c0807ac488ddac3b2377678e8f8c3..9741f8d14c72ed7dd6a5e483c5c0d578662f1d31 100644
-> --- a/arch/arm64/boot/dts/qcom/sm6150.dtsi
-> +++ b/arch/arm64/boot/dts/qcom/sm6150.dtsi
-> @@ -14,6 +14,7 @@
->  #include <dt-bindings/interconnect/qcom,icc.h>
->  #include <dt-bindings/interconnect/qcom,qcs615-rpmh.h>
->  #include <dt-bindings/interrupt-controller/arm-gic.h>
-> +#include <dt-bindings/phy/phy-qcom-qmp.h>
->  #include <dt-bindings/power/qcom-rpmpd.h>
->  #include <dt-bindings/power/qcom,rpmhpd.h>
->  #include <dt-bindings/soc/qcom,rpmh-rsc.h>
-> @@ -3717,6 +3718,7 @@ port@0 {
->  						reg = <0>;
->  
->  						dpu_intf0_out: endpoint {
-> +							remote-endpoint = <&mdss_dp0_in>;
->  						};
->  					};
->  
-> @@ -3749,6 +3751,89 @@ opp-307200000 {
->  				};
->  			};
->  
-> +			mdss_dp0: displayport-controller@ae90000 {
-> +				compatible = "qcom,sm6150-dp", "qcom,sm8150-dp", "qcom,sm8350-dp";
-> +
-> +				reg = <0x0 0x0ae90000 0x0 0x200>,
-> +				      <0x0 0x0ae90200 0x0 0x200>,
-> +				      <0x0 0x0ae90400 0x0 0x600>,
-> +				      <0x0 0x0ae90a00 0x0 0x600>,
-> +				      <0x0 0x0ae91000 0x0 0x600>;
-> +
-> +				interrupt-parent = <&mdss>;
-> +				interrupts = <12>;
-> +
-> +				clocks = <&dispcc DISP_CC_MDSS_AHB_CLK>,
-> +					 <&dispcc DISP_CC_MDSS_DP_AUX_CLK>,
-> +					 <&dispcc DISP_CC_MDSS_DP_LINK_CLK>,
-> +					 <&dispcc DISP_CC_MDSS_DP_LINK_INTF_CLK>,
-> +					 <&dispcc DISP_CC_MDSS_DP_PIXEL_CLK>,
-> +					 <&dispcc DISP_CC_MDSS_DP_PIXEL1_CLK>;
-> +				clock-names = "core_iface",
-> +					      "core_aux",
-> +					      "ctrl_link",
-> +					      "ctrl_link_iface",
-> +					      "stream_pixel",
-> +					      "stream_1_pixel";
-> +
-> +				assigned-clocks = <&dispcc DISP_CC_MDSS_DP_LINK_CLK_SRC>,
-> +						  <&dispcc DISP_CC_MDSS_DP_PIXEL_CLK_SRC>,
-> +						  <&dispcc DISP_CC_MDSS_DP_PIXEL1_CLK_SRC>;
-> +				assigned-clock-parents = <&usb_qmpphy_2 QMP_USB43DP_DP_LINK_CLK>,
-> +							 <&usb_qmpphy_2 QMP_USB43DP_DP_VCO_DIV_CLK>,
-> +							 <&usb_qmpphy_2 QMP_USB43DP_DP_VCO_DIV_CLK>;
-> +
-> +				phys = <&usb_qmpphy_2 QMP_USB43DP_DP_PHY>;
-> +				phy-names = "dp";
-> +
-> +				operating-points-v2 = <&dp_opp_table>;
-> +				power-domains = <&rpmhpd RPMHPD_CX>;
-> +
-> +				#sound-dai-cells = <0>;
-> +
-> +				status = "disabled";
-> +
-> +				ports {
-> +					#address-cells = <1>;
-> +					#size-cells = <0>;
-> +
-> +					port@0 {
-> +						reg = <0>;
-> +
-> +						mdss_dp0_in: endpoint {
-> +							remote-endpoint = <&dpu_intf0_out>;
-> +						};
-> +					};
-> +
-> +					port@1 {
-> +						reg = <1>;
-> +
-> +						mdss_dp0_out: endpoint {
-> +							data-lanes = <3 2 0 1>;
-> +						};
-> +					};
-> +				};
-> +
-> +				dp_opp_table: opp-table {
-> +					compatible = "operating-points-v2";
-> +
-> +					opp-160000000 {
-> +						opp-hz = /bits/ 64 <160000000>;
-> +						required-opps = <&rpmhpd_opp_low_svs>;
-> +					};
-> +
-> +					opp-270000000 {
-> +						opp-hz = /bits/ 64 <270000000>;
-> +						required-opps = <&rpmhpd_opp_svs>;
-> +					};
-> +
-> +					opp-540000000 {
-> +						opp-hz = /bits/ 64 <540000000>;
-> +						required-opps = <&rpmhpd_opp_svs_l1>;
-> +					};
-> +				};
-> +			};
-> +
->  			mdss_dsi0: dsi@ae94000 {
->  				compatible = "qcom,sm6150-dsi-ctrl", "qcom,mdss-dsi-ctrl";
->  				reg = <0x0 0x0ae94000 0x0 0x400>;
-> @@ -3844,8 +3929,8 @@ dispcc: clock-controller@af00000 {
->  				 <&mdss_dsi0_phy DSI_BYTE_PLL_CLK>,
->  				 <&mdss_dsi0_phy DSI_PIXEL_PLL_CLK>,
->  				 <0>,
-> -				 <0>,
-> -				 <0>;
-> +				 <&usb_qmpphy_2 QMP_USB43DP_DP_LINK_CLK>,
-> +				 <&usb_qmpphy_2 QMP_USB43DP_DP_VCO_DIV_CLK>;
->  
->  			#clock-cells = <1>;
->  			#reset-cells = <1>;
-> @@ -4214,6 +4299,32 @@ usb_qmpphy: phy@88e6000 {
->  			status = "disabled";
->  		};
->  
-> +		usb_qmpphy_2: phy@88e8000 {
-> +			compatible = "qcom,qcs615-qmp-usb3-dp-phy";
-> +			reg = <0x0 0x088e8000 0x0 0x2000>;
-> +
-> +			clocks = <&gcc GCC_USB2_SEC_PHY_AUX_CLK>,
-> +				 <&gcc GCC_USB3_SEC_CLKREF_CLK>,
-> +				 <&gcc GCC_AHB2PHY_WEST_CLK>,
-> +				 <&gcc GCC_USB2_SEC_PHY_PIPE_CLK>;
-> +			clock-names = "aux",
-> +				      "ref",
-> +				      "cfg_ahb",
-> +				      "pipe";
-> +
-> +			resets = <&gcc GCC_USB3PHY_PHY_SEC_BCR >,
-> +				 <&gcc GCC_USB3_DP_PHY_SEC_BCR>;
-> +			reset-names = "phy_phy",
-> +				      "dp_phy";
-> +
-> +			#clock-cells = <1>;
-> +			#phy-cells = <1>;
-> +
-> +			qcom,tcsr-reg = <&tcsr 0xbff0 0xb24c>;
-> +
-> +			status = "disabled";
-> +		};
-> +
->  		usb_1: usb@a6f8800 {
->  			compatible = "qcom,qcs615-dwc3", "qcom,dwc3";
->  			reg = <0x0 0x0a6f8800 0x0 0x400>;
-> 
-> -- 
-> 2.34.1
-> 
-> 
+
+Daniel.
