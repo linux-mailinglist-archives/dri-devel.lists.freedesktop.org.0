@@ -2,86 +2,85 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id F3B56C1DADD
-	for <lists+dri-devel@lfdr.de>; Thu, 30 Oct 2025 00:21:09 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3DC2CC1DAF5
+	for <lists+dri-devel@lfdr.de>; Thu, 30 Oct 2025 00:25:23 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C00D010E226;
-	Wed, 29 Oct 2025 23:21:06 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E535D10E869;
+	Wed, 29 Oct 2025 23:25:19 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=chromium.org header.i=@chromium.org header.b="CkTnMI2U";
+	dkim=pass (1024-bit key; unprotected) header.d=chromium.org header.i=@chromium.org header.b="DnstRmJ5";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ej1-f65.google.com (mail-ej1-f65.google.com
- [209.85.218.65])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 919BD10E226
- for <dri-devel@lists.freedesktop.org>; Wed, 29 Oct 2025 23:21:05 +0000 (UTC)
-Received: by mail-ej1-f65.google.com with SMTP id
- a640c23a62f3a-b5b823b4f3dso67630966b.3
- for <dri-devel@lists.freedesktop.org>; Wed, 29 Oct 2025 16:21:05 -0700 (PDT)
+Received: from mail-ej1-f48.google.com (mail-ej1-f48.google.com
+ [209.85.218.48])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7EEA610E869
+ for <dri-devel@lists.freedesktop.org>; Wed, 29 Oct 2025 23:25:19 +0000 (UTC)
+Received: by mail-ej1-f48.google.com with SMTP id
+ a640c23a62f3a-b6d2f5c0e8eso89242866b.3
+ for <dri-devel@lists.freedesktop.org>; Wed, 29 Oct 2025 16:25:19 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=chromium.org; s=google; t=1761780064; x=1762384864;
+ d=chromium.org; s=google; t=1761780316; x=1762385116;
  darn=lists.freedesktop.org; 
  h=content-transfer-encoding:cc:to:subject:message-id:date:from
  :in-reply-to:references:mime-version:from:to:cc:subject:date
  :message-id:reply-to;
- bh=TKw67xewyEQ2RYEG8QR7XxorPa9DhZO3u8V3evRxitc=;
- b=CkTnMI2UDIC9UZLSt2qXFBAgFhsd6iOWEfh7dhEtRcwkYekuXrxovEFYYKd/U8iCjv
- QJ9SXkNNEsgbeK3mKpcqppR7LyuNrtKiaZCdpT0HORaW7Xm0fuTOxMn/Cpj8zNvk8z8w
- XH01kmjh/4a+3YY5hZZpCd+B7tqz6IsNtj51U=
+ bh=A3epzZnxmPN8tHOsM2+QpxO5JfuLDi/llITGwEkkd/U=;
+ b=DnstRmJ5+9Pb3oqobaQSI+12MRS4Fv0JvTOaGToRVIDEc2wKEePhn7mAqcsPsndZ1W
+ 8zYiaToIUyH4qt9kGNJTh4Ho2wtMSDmxBefv5Lg7Brv9U0CyPVrPWYiZqRUj7iKbgkxK
+ 5oWcM5gv1oJt6yvbbdsAhRZLTyKVZv5wGbrAE=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1761780064; x=1762384864;
+ d=1e100.net; s=20230601; t=1761780316; x=1762385116;
  h=content-transfer-encoding:cc:to:subject:message-id:date:from
  :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=TKw67xewyEQ2RYEG8QR7XxorPa9DhZO3u8V3evRxitc=;
- b=E1zWpPe96ejzswPa1L1mNxH9njm9zH/pcSAZu60oL3R3mjQNAML7T8fM1oElb+y9tS
- gToE1ADtlWFE7WVvu4IU6XBQQmy69ayDVbm+oC6y4rfd30Oz78xyjUWNMKbJD7GS70lK
- Fq5K/0prTfNBA2yNvHothwEXTD4kBJOntPzFVYJRX754plXBmnE6Ki+ZR42ARycB4KqU
- SmwJn8yvv7Ou6Rp2Mq1GK3BOx3LhoiB1OfN9B0t+qoTZ5W4QLOnxMXSuudHj30tN/7MV
- KE9ANOjrRUB4QJKnz6Tx8SY++SZlFOwRoWYup11xIrfSBoFqYpyQrlete3qXyXw9OVZP
- Cvyg==
+ bh=A3epzZnxmPN8tHOsM2+QpxO5JfuLDi/llITGwEkkd/U=;
+ b=S+NiJyhQgtq46IXdaxkF/67M6XrPxKl2U3m1hnrMXgWJnwsSXWn5E6UldHadSkQDdP
+ jDCoGt+vBJ6BmJYPOn6aMW1sfnlTtfy2OVD9KhDVIU1KyjZviqdCA2vKwjnIdqLnuFmr
+ FMSgfWf3NulNK8ErICtB4SYmZeDKIP4gtKEn3h8wxhWVHI4pxfW8p4XlOLujJ4EflCb6
+ 4hM8cPLcADIvP0aoEOfDDX5TpMKZBBUHhWRo0egHFwl/R/gEY1bFNg7xrYyYvQ4mtOhm
+ WZWFl3G6NU3USidDzvNCe0P/nCi8KCG3Fl0T+D/opM/3uBkbxpD+Mr/OaNJNDCWh8qoE
+ 27OQ==
 X-Forwarded-Encrypted: i=1;
- AJvYcCXTMvyKmG6Xhitu6Bp7XONnJyyVue0KbVQjfG3n94SqKRB+Yk9GDoKShSXIxUzZ9VDVqHIeFtcaNEQ=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Yy4xihjkd+NLXZRw2RV6juCJtmIL46wAghYa+QqqA4cn5KbKGhR
- Gh27hAyoResvzGSRC0XSQbj7bx4gGW83WVzQ67FZsfPewNcsUEUu61J2+MWj/ysaIz+h+bnh6oY
- +ayZrw6fC
-X-Gm-Gg: ASbGncsKc4ke/l23G9DBVBax1V2xIicuVmjZK2ncsCyOiZ5ljTrCieB0h0Z/yuWPw8j
- qguPpbnEF388drLlVPwzhTZog1ITbyEbhR/Glzu4psn7s8DX1jShLktIHMD1SzcvwlywKzyzuqT
- bVwdVgBGOz4/7NdemjvV0KomSYHA7AcK6QvSSRPTU16bswnmI5oxpb98HSiXKC0apSycDqL7gfu
- KgAOpJeRfSn8NMPevUUiXib7eFhq1R8/hAObZifzQ4kuKRUlVrtLXaBBfb06I2ZBVeTIFsYCzWC
- 1i97oHedyuFe6DTySXnTMYJtbFy8YGe2LntElF6fnd8Vdh8xJrvBj/5xFU8rXjyj7lhHI3faIFn
- qzxkSaP/wmKoKdFUQxL1JhrdShRxUE8e30UxDPODUgiMkTdyPnYp/9XduhQsXaHv0ySIfDEitc+
- kU0SAok+98ioFEoqFRRnVCll1XgURbAqnTfYDn2h8=
-X-Google-Smtp-Source: AGHT+IFQgSC40jlRyEdS8HN5fZlinLlGzvze+mcjNMBspXvp2hK4SXJ6n3bWWmcrJXEi+Wa9BC1REg==
-X-Received: by 2002:a17:907:d23:b0:b6f:9db5:9fe6 with SMTP id
- a640c23a62f3a-b703d4db341mr472859066b.36.1761780063930; 
- Wed, 29 Oct 2025 16:21:03 -0700 (PDT)
-Received: from mail-ej1-f44.google.com (mail-ej1-f44.google.com.
- [209.85.218.44]) by smtp.gmail.com with ESMTPSA id
- a640c23a62f3a-b6d854430dbsm1557688666b.63.2025.10.29.16.21.03
+ AJvYcCVLKaS8FJ15XW95UTcyrcDSn+KPJYK1k1M01p6MAS5o20+QrJeBrFiIojfv3vxhCORFzbPNxq5wb8E=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YxX7TlCoAyOuQ31bCVyfqOjeQ+i4RRvqh4jMlCX0URSbHQHZIec
+ ZKFpwAxFJMiP2nW8x2OOjAiOndEBvKLLXx4Kuh+H7NmAzPq736wjdSwr+jtAZmI8CVaxADUfIai
+ bZPMQPg==
+X-Gm-Gg: ASbGncuOppeGZom3dnqI9K49KjhvbFl2XKNos0RBS7Ac+14Q0L4uHn6fmnHBtiec22u
+ AM2KJg4Bgisl+3eBRdTjZ6qmefh0uGK7eCAZ+4Z9uOIw0huP3GyvqJyJnnd32RVUx9FhduGqLro
+ Ms3oFES1R0niolwgnTNHxEZH+5xYobJWx4bv4UnKkQOhnvjLTbDJbrq10emN+SPXY0zhT4LWyK5
+ m74b0FKaAQM24eCsAec2q7LKVwRTpv4KyEdkbW8JNa+Jsuw02JZjqZT+88xHi+wh/XnahFgNGBP
+ hKRVrpqKV+ACsQRWSL30UPsuxqlSHv+WWlu9vOcZK4B2HnBV6Ed8RlC0rSyK3z0M062cyGl+q+k
+ 7kb7q6NzfNXPHahdtna7N4LCuwuvQq33j1/VjK/YYalCs7e8q54Se3R1/V5G5ZK/2LV6OJZ92pV
+ mEsswBKWwt6/khiPG87le7Iaq8KXf7cJegv5ufz04=
+X-Google-Smtp-Source: AGHT+IF6iOKFsuZdPYwxo7gKA3GSmgu+rLK2c6M8NVPY8t2dnhm7tZ3YbbdQc6b6chG8RswAj/SWkA==
+X-Received: by 2002:a17:907:3f21:b0:b49:a5e4:754a with SMTP id
+ a640c23a62f3a-b703d5555a1mr468690966b.43.1761780315823; 
+ Wed, 29 Oct 2025 16:25:15 -0700 (PDT)
+Received: from mail-ej1-f52.google.com (mail-ej1-f52.google.com.
+ [209.85.218.52]) by smtp.gmail.com with ESMTPSA id
+ a640c23a62f3a-b6d853077ddsm1558772766b.11.2025.10.29.16.25.14
  for <dri-devel@lists.freedesktop.org>
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 29 Oct 2025 16:21:03 -0700 (PDT)
-Received: by mail-ej1-f44.google.com with SMTP id
- a640c23a62f3a-b6d5c59f2b6so104341266b.2
- for <dri-devel@lists.freedesktop.org>; Wed, 29 Oct 2025 16:21:03 -0700 (PDT)
+ Wed, 29 Oct 2025 16:25:14 -0700 (PDT)
+Received: by mail-ej1-f52.google.com with SMTP id
+ a640c23a62f3a-b6d6c11f39aso71374766b.2
+ for <dri-devel@lists.freedesktop.org>; Wed, 29 Oct 2025 16:25:14 -0700 (PDT)
 X-Forwarded-Encrypted: i=1;
- AJvYcCWrGz+A5TjQ19XZZcnd2q0LGQ/nyqFzd03GLOkl86W3/XNVzrXy0xorc+JgnyYdC15mQlw8+6Fz254=@lists.freedesktop.org
-X-Received: by 2002:a17:906:f588:b0:b4a:d60d:fb68 with SMTP id
- a640c23a62f3a-b703d2dc0acmr408681866b.6.1761780062930; Wed, 29 Oct 2025
- 16:21:02 -0700 (PDT)
+ AJvYcCXsSKvrECFEBBCKa1ySKdDRmj0csW2hLAHkw3ylMWm2U58viVgdHPQtiUwkzGHiensKXZu2N/HgAks=@lists.freedesktop.org
+X-Received: by 2002:a17:906:71cd:b0:b6d:505e:3d99 with SMTP id
+ a640c23a62f3a-b703d2e21eamr369434466b.12.1761780314255; Wed, 29 Oct 2025
+ 16:25:14 -0700 (PDT)
 MIME-Version: 1.0
 References: <20251029081048.162374-1-ajye_huang@compal.corp-partner.google.com>
- <20251029081048.162374-2-ajye_huang@compal.corp-partner.google.com>
-In-Reply-To: <20251029081048.162374-2-ajye_huang@compal.corp-partner.google.com>
+ <20251029081048.162374-3-ajye_huang@compal.corp-partner.google.com>
+In-Reply-To: <20251029081048.162374-3-ajye_huang@compal.corp-partner.google.com>
 From: Doug Anderson <dianders@chromium.org>
-Date: Wed, 29 Oct 2025 16:20:51 -0700
-X-Gmail-Original-Message-ID: <CAD=FV=X9hUxsrJ6o5yP0-bprfKgyQzZJnQRwQVYRo6G0yKWhCg@mail.gmail.com>
-X-Gm-Features: AWmQ_bnALe5cE6UL5BlZi69GWxwTwFqhUHYXfwWWJkf3C1AVS9gQ6kR_yZsS7Ms
-Message-ID: <CAD=FV=X9hUxsrJ6o5yP0-bprfKgyQzZJnQRwQVYRo6G0yKWhCg@mail.gmail.com>
-Subject: Re: [PATCH v1 1/2] drm/panel-edp: Add override bpc quirk for generic
- edp
+Date: Wed, 29 Oct 2025 16:25:02 -0700
+X-Gmail-Original-Message-ID: <CAD=FV=WbR0u_a7S1pcL-6C+sj9Kt=GOLUwJmwt8ANJbyV4JYFQ@mail.gmail.com>
+X-Gm-Features: AWmQ_bmyGhK2APErFjpEf3hMjvCxrILRsCTTYr0jINqS6mb0sq-aCKx063lDV7Y
+Message-ID: <CAD=FV=WbR0u_a7S1pcL-6C+sj9Kt=GOLUwJmwt8ANJbyV4JYFQ@mail.gmail.com>
+Subject: Re: [PATCH v1 2/2] drm/panel-edp: Modify LQ116M1JW10 panel's bpc to 6
 To: Ajye Huang <ajye_huang@compal.corp-partner.google.com>
 Cc: linux-kernel@vger.kernel.org, Neil Armstrong <neil.armstrong@linaro.org>, 
  Jessica Zhang <jesszhan0024@gmail.com>, 
@@ -89,8 +88,7 @@ Cc: linux-kernel@vger.kernel.org, Neil Armstrong <neil.armstrong@linaro.org>,
  Maxime Ripard <mripard@kernel.org>, 
  Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
  Simona Vetter <simona@ffwll.ch>, 
- dri-devel@lists.freedesktop.org, jazhan@google.com, 
- Jani Nikula <jani.nikula@intel.com>
+ dri-devel@lists.freedesktop.org, jazhan@google.com
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -113,31 +111,42 @@ Hi,
 On Wed, Oct 29, 2025 at 1:11=E2=80=AFAM Ajye Huang
 <ajye_huang@compal.corp-partner.google.com> wrote:
 >
-> Adding override bpc to EDP_PANEL_ENTRY3 quirk.
+> The link training is failed when bpc value is 8.
+> It sure seems like the panel simply doesn't like 8bpp,
+> Changing the bpc to 6 allows link training to succeed.
 >
+> The 8bpc log shows that link training failed.
+> 6bpc
+> ----
+> rate_mhz: 1620
+> valid rates: 30
+> bit_rate_khz: 2399760, dp_rate_mhz: 1500, ti_sn_bridge_calc_min_dp_rate_i=
+dx return: 1
+>
+> 8bpc
+> ----
+> rate_mhz: 2160
+> valid rates: 30
+> bit_rate_khz: 3199680, dp_rate_mhz: 2000, ti_sn_bridge_calc_min_dp_rate_i=
+dx return: 2
+> Link training failed, link is off.
+> Disable the PLL if we failed.
+
+Though I always appreciate details about the debugging that was done,
+I suspect that most people reading this won't really understand unless
+you give them the context that you are using the ti-sn65dsi86 bridge
+chip and that you are printing out values related to bridge training.
+
+I would also note that, to me, the more important test was confirming
+that even when you pick the same "rate_mhz" for 6bpc and 8bpc that
+6bpc works and 8bpc doesn't work.
+
+
 > Signed-off-by: Ajye Huang <ajye_huang@compal.corp-partner.google.com>
 > ---
->  drivers/gpu/drm/panel/panel-edp.c | 20 ++++++++++++++++++++
->  1 file changed, 20 insertions(+)
+>  drivers/gpu/drm/panel/panel-edp.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
 
-This seems OK to me. I'd be OK with:
+Unless folks end up preferring EDID_QUIRK_FORCE_6BPC:
 
 Reviewed-by: Douglas Anderson <dianders@chromium.org>
-
-
-I think you could alternatively add a EDID_QUIRK_FORCE_6BPC quirk for
-this panel in "drivers/gpu/drm/drm_edid.c", though I haven't tested
-it. That _might_ be a better solution? Maybe Jani or someone else CCed
-would have an opinion.
-
-At first I was thinking that the quirks in "drm_edid.c" were probably
-just for "DP" display, but then I just realized that they probably
-also are for "eDP" panels. Specifically I think Intel hardware doesn't
-use panel-edp.c so I think the only place quirks could get applied (if
-an eDP panel was also used on Intel hardware) was from "drm_edid.c".
-
-Any chance you could confirm if EDID_QUIRK_FORCE_6BPC works for you?
-
-Does anyone else CCed have an opinion of which they like better?
-
--Doug
