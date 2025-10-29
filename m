@@ -2,97 +2,85 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2AB00C1F0FF
-	for <lists+dri-devel@lfdr.de>; Thu, 30 Oct 2025 09:48:57 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 80BFCC1F11A
+	for <lists+dri-devel@lfdr.de>; Thu, 30 Oct 2025 09:49:03 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 94A0010E8F1;
-	Thu, 30 Oct 2025 08:48:48 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A3CC710E924;
+	Thu, 30 Oct 2025 08:48:55 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="Qgtq+4TD";
+	dkim=pass (2048-bit key; unprotected) header.d=suse.com header.i=@suse.com header.b="Q2+swA91";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-yx1-f54.google.com (mail-yx1-f54.google.com
- [74.125.224.54])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BDECE10E75B
- for <dri-devel@lists.freedesktop.org>; Wed, 29 Oct 2025 09:45:57 +0000 (UTC)
-Received: by mail-yx1-f54.google.com with SMTP id
- 956f58d0204a3-63e3804362cso6397992d50.2
- for <dri-devel@lists.freedesktop.org>; Wed, 29 Oct 2025 02:45:57 -0700 (PDT)
+Received: from mail-wm1-f50.google.com (mail-wm1-f50.google.com
+ [209.85.128.50])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3E0D510E201
+ for <dri-devel@lists.freedesktop.org>; Wed, 29 Oct 2025 16:56:56 +0000 (UTC)
+Received: by mail-wm1-f50.google.com with SMTP id
+ 5b1f17b1804b1-4770c34ca8eso480605e9.0
+ for <dri-devel@lists.freedesktop.org>; Wed, 29 Oct 2025 09:56:56 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1761731156; x=1762335956; darn=lists.freedesktop.org;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=T+0dV49Z0hZQvL1JwoyFgg+j9v/HxeFYx2d1Gt9wCQ4=;
- b=Qgtq+4TDKHPjwhT4D/MKJtwtri5rNC+hrJtHq11Yvd2Jxao8R67ZZBrZJxnj/o/gHs
- OLouskjzkb+Z4MP3x6hXHLfD3br3emy5NWBl3kuC0/51JUSnN2YnVyLL8+Fwxgrmm//G
- XDz9Aso15fnRUvLc2OhlI9r3ojxo10/VUwwKhE+v/rAuaF0FnXpRyvWxrv+tT6OvldC3
- 4iXMBLkQ/bOIhMpnpAkxeJCFp0ZVm4db1e+jFAC60H1Ez7qtGOfLGCqNL/8RUVXG4kCa
- YLTaXMmHKt9a4RNBrgfJA+UtX2WNH11M48eE3LhLholIDuQ9MCCbrrRiU89+GZkssSj3
- +nxw==
+ d=suse.com; s=google; t=1761757015; x=1762361815; darn=lists.freedesktop.org; 
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=yIJ3dMVPQRqYkVtVVJ+BHYPuM04KT3nCIS1A9DH47jI=;
+ b=Q2+swA91zktHmjqcZjycv1ED8Oe6fFff6rmrE9uZHCMNCrSsWPjmApBNMWZBhQnGP0
+ 8wIc+M4JebhaJorrMTRA6Ejb+78PN9At8IaIJFR6XeDZoRXK8fV93L41vhIQEqu9Fhar
+ 2TY8JBU3PN0ZXuHwkt3NgydemmHJUJZBjmbNZQTmwnLS9xxn16aLUvpfxFHiIFNyjiAu
+ 3kzKtS8Df2VtJc21N33Yk9XS51G6gV+1m+6Ou0+UyNZekmFBhmPmErr0Lv3BaA/lnHDA
+ g+sHgGsZ33idBprs6xq/g3aIf4ShSMQ+zMZ5QyZb+pB4QC5hyAUjiMpWGJGyM0GIANh6
+ ErvA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1761731156; x=1762335956;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ d=1e100.net; s=20230601; t=1761757015; x=1762361815;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
  :reply-to;
- bh=T+0dV49Z0hZQvL1JwoyFgg+j9v/HxeFYx2d1Gt9wCQ4=;
- b=GtlsDQUnliyquDUyM19iRuwvwEeUQORgVaSmAaz1I+HBTYJK6eWEd+VksnPUEO+1fN
- xth7wbHJdDUA1iP+0AN4XYa2URyEYgDu4owMH7Yq3LjrAJjeznaJ44W/TA0N3gH4yb+h
- H8yjELGf9MJMjLoWeOIRGtiLxJI/g3XmmBC+OpeDuHtHOWLlZUHQjXK5N2IKX7ZO88q+
- tN47TI9MdpOf6s5skuLDCymU0Ft6JhltQuUpiutLpBC/ajFFJJu5a37ahZdnvS7KpQBM
- HTxwDTAwQleOKRnw9EdivVQQCuTTa5m4ctG7txFeQCIlwakDBxTJfv0qDoEnSXSszNXN
- 2UVA==
+ bh=yIJ3dMVPQRqYkVtVVJ+BHYPuM04KT3nCIS1A9DH47jI=;
+ b=doRvBQOVKFrvOsoEkd7TaIG6tZO+nV2NnHZrCbC4lY5pmh827hoD9VhTAoYwd5X0CR
+ Aym18CryLU8EeJqL4V6ewEG9h8T41609oWyCFHW3DQNaLDMlPjupd+Qb5aX5spBoXcGT
+ T9mQ3UIB0L+YPXsCgodQ8VUEMCVVlwu8NvmmJ0iuaOgdFO5UiXLWRyKUtDRqYK0tneWW
+ RcAUJbn+oTJRXIj+h1tCyP/wAAo6RXL3m9mtVVJF1F2/VLG+GjiEwDLuDr5ufUGRHriK
+ /v7KYglZpH1qu0pN93uRq2o+S5zrKw6r3y1zAMDlNT+rbXD6TG5X+0ddrJkSJMQmVxzq
+ ZSqg==
 X-Forwarded-Encrypted: i=1;
- AJvYcCWOJbJBoPO2fimVvS21bfzNN8AU03l5ekIriXY9/tKksUJ10WZpfZIpQNtY7ucsw1w9m6fkkFIY+nY=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YwXiKETpa18IqPJ99Ly6/XKohRyO86HVE/8BSddZP//CtoTzcR6
- sDXm7+9OJmsJIfoLzMSnLO0yGunAT53a675CuQ+tUpRl7CIuQsUeIb1v/QvbglCBaF6k0fmQjno
- UGxW8qMKXME8OXksv+G7PVrTDj/ByYS8=
-X-Gm-Gg: ASbGnct06obfho5W6csvKQWN8s10MkI/UVyUoQSuwxagawXbG+0xJjgc4f5Hd57d9Ws
- uc1RQJoMbBQHqBCI5b1IJ1bxTd/sTNB4vFoOVnPZEy4QJiN6ln+Xt9uA8EDxK6lyVq3g2pHtcNG
- 3LieoMBNiJyVTE4E2FQst6FBBtbSAHe2qZVRFE6NpVAqGHifR6gRkIaJNS0G1GkozUOgB8ICQ5O
- PzSvYAST9sRaun/jtcAIo3w3dclLo2KWq7384NuDTrfQdPvIgOKfMwRbbiqeKrhAmVJjA==
-X-Google-Smtp-Source: AGHT+IFXTGFBQZQCvoFTcD2XW69zJNvRv2jA1skYdjLaN3X9V8WOQAc0sJLs73yBIhsOL2y0JL1ybcsga9Zkjczkf4s=
-X-Received: by 2002:a05:690c:680d:b0:785:bfd8:c4ad with SMTP id
- 00721157ae682-78629298707mr36580707b3.3.1761731156514; Wed, 29 Oct 2025
- 02:45:56 -0700 (PDT)
+ AJvYcCUC23/CqjmkeVcs/olLwWJI80ztO9KME+Y0XXh0T20RH5Zbvq6G7FGerhNrGkdo2nCwjVi1+9FLTfs=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Yw8UIdOZlQCqy8z/KNxlKwQtz6dz38mRyJEIFkbvDmUrt5Bzq1P
+ Y31HOwtKV/1GAh9AwnLHqdz/jHJfCovrSfXgLOre6PhV2NDWS2dJnzHNoH1J3OJri5M=
+X-Gm-Gg: ASbGncuoZSVB/+rrEx8so8+kttCQuBD8w1sW3dl/BTK8xWrP3PMV9jAA6cUSbA/mCqp
+ ssQHDf6eyUlBsL7bxOxqMA8kWawlDXrqSdZNuBc8iW/Me0aEdWQoApHCcZ5W25FTsXs0jzwl61G
+ 4PksRKJ1HDxdsFMF/AaxatUUT62zz7OQYbD7l+2ewLX7zVYGsqLDNKdhRhuEpf7U4OFIkam/gc5
+ 7Ag/zVV5a6i5ez4hZeeuYA9nO6ONTE4NVyal7k81SrtXjWPUwGoENyshN0nfflUFA6wQw9yNFYj
+ M3pkHTZvz9TSfMGqGQp3YfDhHEHDtrFh+YKm3BXGJgykjBHX4u7xADaVEijz0bejEXNP+yfmrnN
+ dGocBQqEbhtsZFASvug9DrxqrYLfu0MtMICQYQXz5FzC8jMaXbx2HFKnGs51jrpcUEjo5mVNvQ4
+ bKR8jQnI9S3pWMcIkjOmKZjH/Q9w==
+X-Google-Smtp-Source: AGHT+IFYqJFZsAhoFPyNU3nEUwUIKl624El6R6Na+elRr4qSnpCFvVFBM9qNlTlmde2qxGHGbegNmg==
+X-Received: by 2002:a05:600c:34cd:b0:46e:5b74:4858 with SMTP id
+ 5b1f17b1804b1-4771e34a909mr37714225e9.13.1761757014626; 
+ Wed, 29 Oct 2025 09:56:54 -0700 (PDT)
+Received: from linux.fritz.box ([2a00:6d43:105:c401:e307:1a37:2e76:ce91])
+ by smtp.gmail.com with ESMTPSA id
+ 5b1f17b1804b1-47718fc0335sm48393845e9.2.2025.10.29.09.56.53
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 29 Oct 2025 09:56:54 -0700 (PDT)
+From: Marco Crivellari <marco.crivellari@suse.com>
+To: linux-kernel@vger.kernel.org,
+	dri-devel@lists.freedesktop.org
+Cc: Tejun Heo <tj@kernel.org>, Lai Jiangshan <jiangshanlai@gmail.com>,
+ Frederic Weisbecker <frederic@kernel.org>,
+ Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
+ Marco Crivellari <marco.crivellari@suse.com>,
+ Michal Hocko <mhocko@suse.com>,
+ Maciej Falkowski <maciej.falkowski@linux.intel.com>,
+ Karol Wachowski <karol.wachowski@linux.intel.com>,
+ Oded Gabbay <ogabbay@kernel.org>
+Subject: [PATCH v2 0/2] replace system_unbound_wq and system_wq with the new
+ wqs
+Date: Wed, 29 Oct 2025 17:56:40 +0100
+Message-ID: <20251029165642.364488-1-marco.crivellari@suse.com>
+X-Mailer: git-send-email 2.51.0
 MIME-Version: 1.0
-References: <20251029071435.88-1-kernel@airkyi.com>
- <20251029071435.88-11-kernel@airkyi.com>
-In-Reply-To: <20251029071435.88-11-kernel@airkyi.com>
-From: Peter Chen <hzpeterchen@gmail.com>
-Date: Wed, 29 Oct 2025 17:45:45 +0800
-X-Gm-Features: AWmQ_blYmsodv_vg4uKolYRe0NzpqIhwJ3rq0FrOe8J4voY-HqIG6eRi0roVBPc
-Message-ID: <CAL411-o6mF71oBeRsJ-OPZNbLegn4iJ_ELN9xVdppTM3ssUPOw@mail.gmail.com>
-Subject: Re: [PATCH v8 10/10] arm64: dts: rockchip: rk3399-evb-ind: Add
- support for DisplayPort
-To: Chaoyi Chen <kernel@airkyi.com>
-Cc: Heikki Krogerus <heikki.krogerus@linux.intel.com>, 
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
- Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>,
- Rob Herring <robh@kernel.org>, 
- Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>,
- Vinod Koul <vkoul@kernel.org>, 
- Kishon Vijay Abraham I <kishon@kernel.org>, Heiko Stuebner <heiko@sntech.de>,
- Sandy Huang <hjc@rock-chips.com>, 
- Andy Yan <andy.yan@rock-chips.com>, Yubing Zhang <yubing.zhang@rock-chips.com>,
- Frank Wang <frank.wang@rock-chips.com>, Andrzej Hajda <andrzej.hajda@intel.com>,
- Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>, 
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Jonas Karlman <jonas@kwiboo.se>, 
- Jernej Skrabec <jernej.skrabec@gmail.com>, 
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, 
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
- Simona Vetter <simona@ffwll.ch>, 
- Amit Sunil Dhamne <amitsd@google.com>, Chaoyi Chen <chaoyi.chen@rock-chips.com>,
- Dragan Simic <dsimic@manjaro.org>, Johan Jonker <jbx6244@gmail.com>, 
- Diederik de Haas <didi.debian@cknow.org>, Peter Robinson <pbrobinson@gmail.com>,
- linux-usb@vger.kernel.org, 
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
- linux-phy@lists.infradead.org, linux-arm-kernel@lists.infradead.org, 
- linux-rockchip@lists.infradead.org, dri-devel@lists.freedesktop.org
-Content-Type: text/plain; charset="UTF-8"
-X-Mailman-Approved-At: Thu, 30 Oct 2025 08:48:46 +0000
+Content-Transfer-Encoding: 8bit
+X-Mailman-Approved-At: Thu, 30 Oct 2025 08:48:47 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -108,89 +96,71 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-> +&i2c4 {
-> +       i2c-scl-rising-time-ns = <475>;
-> +       i2c-scl-falling-time-ns = <26>;
-> +       status = "okay";
-> +
-> +       usbc0: typec-portc@22 {
-> +               compatible = "fcs,fusb302";
-> +               reg = <0x22>;
-> +               interrupt-parent = <&gpio1>;
-> +               interrupts = <RK_PA2 IRQ_TYPE_LEVEL_LOW>;
-> +               pinctrl-names = "default";
-> +               pinctrl-0 = <&usbc0_int>;
-> +               vbus-supply = <&vbus_typec>;
-> +
-> +               usb_con: connector {
-> +                       compatible = "usb-c-connector";
-> +                       label = "USB-C";
-> +                       data-role = "dual";
-> +                       power-role = "dual";
-> +                       try-power-role = "sink";
-> +                       op-sink-microwatt = <1000000>;
-> +                       sink-pdos =
-> +                               <PDO_FIXED(5000, 2500, PDO_FIXED_USB_COMM)>;
-> +                       source-pdos =
-> +                               <PDO_FIXED(5000, 1500, PDO_FIXED_USB_COMM)>;
-> +
-> +                       altmodes {
-> +                               displayport {
-> +                                       svid = /bits/ 16 <0xff01>;
-> +                                       vdo = <0x00001c46>;
-> +                               };
-> +                       };
-> +
-> +                       ports {
-> +                               #address-cells = <1>;
-> +                               #size-cells = <0>;
-> +
-> +                               port@0 {
-> +                                       reg = <0>;
-> +
-> +                                       usbc_hs: endpoint {
-> +                                               remote-endpoint = <&u2phy0_typec_hs>;
-> +                                       };
-> +                               };
-> +
+Hi,
 
-Why USB2 PHY needs to be notified for Type-C connection?
+=== Current situation: problems ===
 
-> +                               port@1 {
-> +                                       reg = <1>;
-> +
-> +                                       usbc_ss: endpoint {
-> +                                               remote-endpoint = <&tcphy0_typec_ss>;
-> +                                       };
-> +                               };
-> +
-> +                               port@2 {
-> +                                       reg = <2>;
-> +
-> +                                       usbc_dp: endpoint {
-> +                                               remote-endpoint = <&tcphy0_typec_dp>;
-> +                                       };
-> +                               };
-> +                       };
-> +               };
-> +       };
-> +};
-> +
+Let's consider a nohz_full system with isolated CPUs: wq_unbound_cpumask is
+set to the housekeeping CPUs, for !WQ_UNBOUND the local CPU is selected.
 
-.....
->
->  &u2phy0 {
->         status = "okay";
-> +
-> +       port {
-> +               u2phy0_typec_hs: endpoint {
-> +                       remote-endpoint = <&usbc_hs>;
-> +               };
-> +       };
->  };
->
+This leads to different scenarios if a work item is scheduled on an
+isolated CPU where "delay" value is 0 or greater then 0:
+        schedule_delayed_work(, 0);
 
-There is no switch and mux, how to co-work with Type-C?
+This will be handled by __queue_work() that will queue the work item on the
+current local (isolated) CPU, while:
 
-Best regards,
-Peter
+        schedule_delayed_work(, 1);
+
+Will move the timer on an housekeeping CPU, and schedule the work there.
+
+Currently if a user enqueue a work item using schedule_delayed_work() the
+used wq is "system_wq" (per-cpu wq) while queue_delayed_work() use
+WORK_CPU_UNBOUND (used when a cpu is not specified). The same applies to
+schedule_work() that is using system_wq and queue_work(), that makes use
+again of WORK_CPU_UNBOUND.
+
+This lack of consistency cannot be addressed without refactoring the API.
+
+=== Recent changes to the WQ API ===
+
+The following, address the recent changes in the Workqueue API:
+
+- commit 128ea9f6ccfb ("workqueue: Add system_percpu_wq and system_dfl_wq")
+- commit 930c2ea566af ("workqueue: Add new WQ_PERCPU flag")
+
+The old workqueues will be removed in a future release cycle.
+
+=== Introduced Changes by this series ===
+
+1) [P 1-2] Replace uses of system_wq and system_unbound_wq
+
+    system_wq is a per-CPU workqueue, but his name is not clear.
+    system_unbound_wq is to be used when locality is not required.
+
+    Because of that, system_wq has been replaced with system_percpu_wq, and
+    system_unbound_wq has been replaced with system_dfl_wq.
+
+
+Thanks!
+
+---
+Changes in v2:
+- Fixed warning about length of lines
+
+- Fixed typo in the cover letter
+
+Marco Crivellari (2):
+  accel/ivpu: replace use of system_unbound_wq with system_dfl_wq
+  accel/ivpu: replace use of system_wq with system_percpu_wq
+
+ drivers/accel/ivpu/ivpu_hw_btrs.c | 2 +-
+ drivers/accel/ivpu/ivpu_ipc.c     | 2 +-
+ drivers/accel/ivpu/ivpu_job.c     | 2 +-
+ drivers/accel/ivpu/ivpu_mmu.c     | 2 +-
+ drivers/accel/ivpu/ivpu_pm.c      | 5 +++--
+ 5 files changed, 7 insertions(+), 6 deletions(-)
+
+-- 
+2.51.0
+
