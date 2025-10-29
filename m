@@ -2,91 +2,84 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C94E9C1D3A5
-	for <lists+dri-devel@lfdr.de>; Wed, 29 Oct 2025 21:38:36 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 97F45C1D3BA
+	for <lists+dri-devel@lfdr.de>; Wed, 29 Oct 2025 21:39:44 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2230B10E839;
-	Wed, 29 Oct 2025 20:38:34 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6951D10E83A;
+	Wed, 29 Oct 2025 20:39:42 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="WwmFo32b";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="iSaAScPO";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-f54.google.com (mail-wr1-f54.google.com
- [209.85.221.54])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0EA2810E839
- for <dri-devel@lists.freedesktop.org>; Wed, 29 Oct 2025 20:38:32 +0000 (UTC)
-Received: by mail-wr1-f54.google.com with SMTP id
- ffacd0b85a97d-426fc536b5dso172819f8f.3
- for <dri-devel@lists.freedesktop.org>; Wed, 29 Oct 2025 13:38:32 -0700 (PDT)
+Received: from mail-wm1-f45.google.com (mail-wm1-f45.google.com
+ [209.85.128.45])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4305010E83A
+ for <dri-devel@lists.freedesktop.org>; Wed, 29 Oct 2025 20:39:41 +0000 (UTC)
+Received: by mail-wm1-f45.google.com with SMTP id
+ 5b1f17b1804b1-475dbc3c9efso1821735e9.0
+ for <dri-devel@lists.freedesktop.org>; Wed, 29 Oct 2025 13:39:41 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1761770311; x=1762375111; darn=lists.freedesktop.org;
+ d=linaro.org; s=google; t=1761770380; x=1762375180; darn=lists.freedesktop.org;
  h=content-transfer-encoding:in-reply-to:organization:autocrypt
  :content-language:references:cc:to:subject:reply-to:from:user-agent
  :mime-version:date:message-id:from:to:cc:subject:date:message-id
- :reply-to; bh=QZZWPacVTome8i/td23ATqpr5fxPQl52SGeEOJvaFRk=;
- b=WwmFo32bU3emvfbknmyhWkRlMKriVh00W7+nEceau0QS3JDCXSMJr61FOujBzXO58S
- ASwJ2MbATpq367j5C6Zw2DMvNNyT4YVNtWXs48ZN4VDbG5uIvxXeO7fJ7zMvzmG9Mjtr
- +qX/m7BMrJrpdhPXMpne1jUlriosgoOOFcR2ZlGUnlQ47mt28BXbSFddddKS3aBxiBXq
- Y7BQuxsVk0urlOl6jVbGNDD/OdPf0OXHwCTB3bpGgs71OSr0td4r3HBLboV+JnVXsscs
- aywDeTay5bo84PJzZYV5FQOWGftVibjbOLRueMlTKIYd+g1EByTyAPOs7J4gDTS2vnMM
- Yf9w==
+ :reply-to; bh=5I7C6ZgZBcD6qnL0xn/jbMAlnZlBa2bm2Wl3A8ISkBw=;
+ b=iSaAScPOjt7YNR7AE1qbsjBi/JFcLxy+1ztEK0DbzpV6s9n/NHonPjyYYcsZg7wCiH
+ Wvc+deQLkSgsh4RLVoQkERSMcbIAyfYoEVZAWZQdT/lEwSyTudfHUOFiPEiWkq52ef9X
+ qJQsoem6ZbpS7OY+CKBj2Fg4GzfMSWK3pBTs0p3vM+uE3UbtFpDaCCOgN4GU7BBxt9bT
+ qjapdOhtg3DU2+VARb1ssTsm4R3C/0Mllu4Bja4NtIMvVrECGe1YoXNjIz4NT5oPrNV3
+ PByjeeVdidO8QllLYqpbB6qWl7+k/eixypkd47oCh58NDPoCX7phRgQeU82zqN7RZF4n
+ GybA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1761770311; x=1762375111;
+ d=1e100.net; s=20230601; t=1761770380; x=1762375180;
  h=content-transfer-encoding:in-reply-to:organization:autocrypt
  :content-language:references:cc:to:subject:reply-to:from:user-agent
  :mime-version:date:message-id:x-gm-message-state:from:to:cc:subject
  :date:message-id:reply-to;
- bh=QZZWPacVTome8i/td23ATqpr5fxPQl52SGeEOJvaFRk=;
- b=PdzwWzbNSrkoUbiTxRDIGUj7hw/p/+JcuXLxNlQQYR/6HcYasKlC1IwQinnuT5CKrX
- CmIO+yHoIifaCACBte6emnKY/z+5CQkD+uFnLoCQoH3XFSekSCTGZY/SpB1bsZum3LzK
- Jeyh1ig6jLj+5L3mz9YCtRGHDFKZ1gDLPeHeTZqF4Ij+MzM32VH6xWr8wjKo7RApw3yk
- DC3bMugccRrcCQdy+g4yR00HOGFqjrGWcSAyYvyuJXJthLaa+3ws25PFRsXuugAfhQ8z
- wqo1LYcgiibeHVY9IgKRhuYKEgkG9RqPaIF6qAJ3gIHMSHTTq9QyMYtUXRVa9cyxBPBd
- 2jEw==
+ bh=5I7C6ZgZBcD6qnL0xn/jbMAlnZlBa2bm2Wl3A8ISkBw=;
+ b=C1S2UBLGrij9zTZGgZQd/RAfKQImB6DAInsltEX2Y1DrEEMxdltQqV1ELh075+H8iu
+ EBWXEN9h5USXpEAl/fCw1VxCMSnq0nNf9gsGMtlfkGY5G0QOgadWjk6kFNdwgyeAC7eo
+ mgRtYIR/8d7uEUIJ5OlxupGwXNFzHHaTl6O0Zf160lhYN0FPFzYWSaSX17BA3AcHl0L9
+ a21ralNm727fZgfELz8+tLdTViXbvHup1obI1vdbqqCkVL9ocHqvjJJSTRr81IbSBKvi
+ 4NThIpW/gAJG/eE/bFInlfWUVcIfbdV331ZuDTwEn1MBsxF+N6fdu1pUYSXkHEPZi5Vo
+ IPuQ==
 X-Forwarded-Encrypted: i=1;
- AJvYcCU1MD8YQg+saF8/2ukVsQdMG+JXqdkxga0CwCsdmuIneg0cbhcsbn4hzvYYqSwkhb6FgK47HBt3Z4o=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YzMiBy8dPhKBc1rcNxi5GfvXA/DKjSwsNEQwKVaurbNBxtnXb/D
- aKn4XlnhEkXNvY9+Mn8kgB05DJ6ctK9lunveHuAhaTkLruPDBKr7SNl8HsJRka2abp4=
-X-Gm-Gg: ASbGnctV/vCndWwatWoMJWqYInRHKNz72Vp1t+kxZIpyliRbsQfpKuKAD08+Jtvi0IS
- Pt9P73Fe0JJGvu9Kiy64blQzSq2zChahi7Bo42eZ9GS/EpEEeANxXZ5+4KJLpp1Mz++aHNxgORR
- ERdPC51/0BAhWhftW2PX0FYc+2VQKcwrDhc+vFTMpYiBSBSkmxCgMH7WFJ0RM7AkpEeoKepQD+F
- 1Q0PgDJhDwQvhy6TVvgRLNLBXOeveuZrgEqsOZKBaP+dpoqhxvAjnla6ckx62GZP+O6a4iRXHZs
- VmqLTNUMJn+QT0mecjEEP87SNlBQuefDmv3+PhHjG5B431woMg9vAEPGwqgzhfCIHZ8JbRYeBTo
- XljeYCVz1+gYLzkDsxZl8ZljZ6YFnGz/mUVqifUxA2HuOtnEbUPiUIQ8KFRx3pdtcp2E+Vpy+Tm
- kFsw/I6+gLEXIzIhsCHIpAoCnMT8cCTU+VUN4vrLe2AETsecllmQ==
-X-Google-Smtp-Source: AGHT+IEql7WhgFE2ZyhRhdguRGYBWDwfbeIdgbMOHnGRkmwfrCwTcZSg+FoIVVzr5qW+ZqxN0Ht5cw==
-X-Received: by 2002:a05:6000:4211:b0:429:8c31:84b7 with SMTP id
- ffacd0b85a97d-429aefd6aa2mr3537391f8f.39.1761770311185; 
- Wed, 29 Oct 2025 13:38:31 -0700 (PDT)
+ AJvYcCUEmcbR49KCsWrfmqjm5AShdri11Pqw5StBREBOtAIxAxUzBsEy/fjnNcpD5FgcwLVg6DBUsAF8xr4=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YwfOeykRztTurkK/WHCeE0erd0hRXwvREfdrvyxOGEScs82G4GX
+ A7ZwS3zmXMw262UidwGc66EOw+rtEBK+YhgSYTc/3uumdT7wlkgqp6Kyrb28uR2UkZI=
+X-Gm-Gg: ASbGncsNJXkzcvmTXw1wx4BxbYFwImqIKEuLAPjNaubcRBu1io0ZdnOj57y4NvD0aUd
+ cLGqdjDRdFxZ9J+FPGsKfDRpoZMn2mbfIW/cNGiDk3XqPl9e+JsfYPZoBczFpW++jmPr4xl9sfZ
+ aBqTGrvGdiT1n2O9+c6cZg9m+LwAN2BPLi1SLAZW4bsOhwNy5xE7oEfySDzgSnvpKhs/i3szZJl
+ ZbiKV9S3Io2mXpzYwMJoKuFf3UngHgeailxgoHCzHLvc9DJXvs2F7IFY3dIEP3175jE1xIkOD3a
+ sEsFmqitislJt0SZdY1JhXSb5aCkF9/3XCdI8ycAzdpxR1vF/BJb8VRduJ0sXgGnHG6HS9eaWtE
+ tGJ8th7UsrOZ/+ZKVCUcTQ4Kb+7cxeQgo9pE6IjmN4i9ikwZpFy45FaHCobalujzrIflr9GifAs
+ FsRs81+s/S7T8mNu+TiPElPKFMK8e3h6fB/ei4l1PkIkYuH2Gwyw==
+X-Google-Smtp-Source: AGHT+IED4MnHuoUIY/M09MCRLyO+H754ZygSqy9/2M/qMze54F1qyR8E8hz3TcZxMmaNL41buVyjHA==
+X-Received: by 2002:a05:600c:528f:b0:471:700:f281 with SMTP id
+ 5b1f17b1804b1-47726872581mr5311295e9.25.1761770379759; 
+ Wed, 29 Oct 2025 13:39:39 -0700 (PDT)
 Received: from ?IPV6:2a01:e0a:cad:2140:3447:eb7a:cb9f:5e0?
  ([2a01:e0a:cad:2140:3447:eb7a:cb9f:5e0])
  by smtp.gmail.com with ESMTPSA id
- 5b1f17b1804b1-477289e8139sm2028605e9.15.2025.10.29.13.38.30
+ 5b1f17b1804b1-477289998f3sm2404735e9.4.2025.10.29.13.39.38
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 29 Oct 2025 13:38:30 -0700 (PDT)
-Message-ID: <74dbab41-a46a-464f-98ae-c478b4afd6b9@linaro.org>
-Date: Wed, 29 Oct 2025 21:38:30 +0100
+ Wed, 29 Oct 2025 13:39:39 -0700 (PDT)
+Message-ID: <cdb7ab69-3037-44c9-834b-1d747b299ea4@linaro.org>
+Date: Wed, 29 Oct 2025 21:39:38 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
 From: Neil Armstrong <neil.armstrong@linaro.org>
-Subject: Re: [PATCH] dt-bindings: display: bridge: renesas, dsi-csi2-tx: Align
- panel example with ili9881c binding
-To: Marek Vasut <marek.vasut+renesas@mailbox.org>, devicetree@vger.kernel.org
-Cc: Andrzej Hajda <andrzej.hajda@intel.com>,
- Conor Dooley <conor+dt@kernel.org>, David Airlie <airlied@gmail.com>,
- Jernej Skrabec <jernej.skrabec@gmail.com>, Jonas Karlman <jonas@kwiboo.se>,
- Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
+Subject: Re: [PATCH v2] drm/panel: kingdisplay-kd097d04: Disable EoTp
+To: Sebastian Fleer <dev@dwurp.de>, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org
+Cc: Christoph Fritz <chf.fritz@googlemail.com>,
+ Jessica Zhang <jesszhan0024@gmail.com>,
  Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Rob Herring <robh@kernel.org>,
- Robert Foss <rfoss@kernel.org>, Simona Vetter <simona@ffwll.ch>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- linux-renesas-soc@vger.kernel.org
-References: <20251029200519.214548-1-marek.vasut+renesas@mailbox.org>
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Jens Reidel <adrian@postmarketos.org>
+References: <20251029124007.232333-1-dev@dwurp.de>
 Content-Language: en-US, fr
 Autocrypt: addr=neil.armstrong@linaro.org; keydata=
  xsBNBE1ZBs8BCAD78xVLsXPwV/2qQx2FaO/7mhWL0Qodw8UcQJnkrWmgTFRobtTWxuRx8WWP
@@ -113,7 +106,7 @@ Autocrypt: addr=neil.armstrong@linaro.org; keydata=
  4zcsPWvwnXgfe5tk680fEKZVwOZKIEuJC3v+/yZpQzDvGYJvbyix0lHnrCzq43WefRHI5XTT
  QbM0WUIBIcGmq38+OgUsMYu4NzLu7uZFAcmp6h8g
 Organization: Linaro
-In-Reply-To: <20251029200519.214548-1-marek.vasut+renesas@mailbox.org>
+In-Reply-To: <20251029124007.232333-1-dev@dwurp.de>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -132,58 +125,37 @@ Reply-To: Neil Armstrong <neil.armstrong@linaro.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 10/29/25 21:04, Marek Vasut wrote:
-> Update the panel example in this DT schema to match requirements in binding
-> display/panel/ilitek,ili9881c.yaml . This fixes the following schema check
-> warnings:
+On 10/29/25 13:35, Sebastian Fleer wrote:
+> Since commit d97e71e44937 ("drm/bridge: synopsys: dw-mipi-dsi: enable EoTp by
+> default") panel output on an Acer Chromebook Tab 10 (google-dru) is corrupted.
+> The tablet I use is equipped with a kingdisplay-kd097d04 panel, disabling EoTp
+> restores the correct functionality.
 > 
-> "
-> /tmp/dtx/Documentation/devicetree/bindings/display/bridge/renesas,dsi-csi2-tx.example.dtb: panel@0 (raspberrypi,dsi-7inch): compatible: ['raspberrypi,dsi-7inch'] is too short
->          from schema $id: http://devicetree.org/schemas/display/panel/ilitek,ili9881c.yaml
-> /tmp/dtx/Documentation/devicetree/bindings/display/bridge/renesas,dsi-csi2-tx.example.dtb: panel@0 (raspberrypi,dsi-7inch): 'power-supply' is a required property
->          from schema $id: http://devicetree.org/schemas/display/panel/ilitek,ili9881c.yaml
-> "
-> 
-> Fixes: c376a6943741 ("dt-bindings: display: bridge: renesas,dsi-csi2-tx: Allow panel@ subnode")
-> Signed-off-by: Marek Vasut <marek.vasut+renesas@mailbox.org>
+> Fixes: 2a994cbed6b2 ("drm/panel: Add Kingdisplay KD097D04 panel driver")
+> Suggested-by: Jens Reidel <adrian@postmarketos.org>
+> Signed-off-by: Sebastian Fleer <dev@dwurp.de>
 > ---
-> Cc: Andrzej Hajda <andrzej.hajda@intel.com>
-> Cc: Conor Dooley <conor+dt@kernel.org>
-> Cc: David Airlie <airlied@gmail.com>
-> Cc: Jernej Skrabec <jernej.skrabec@gmail.com>
-> Cc: Jonas Karlman <jonas@kwiboo.se>
-> Cc: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
-> Cc: Krzysztof Kozlowski <krzk+dt@kernel.org>
-> Cc: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
-> Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
-> Cc: Maxime Ripard <mripard@kernel.org>
-> Cc: Neil Armstrong <neil.armstrong@linaro.org>
-> Cc: Rob Herring <robh@kernel.org>
-> Cc: Robert Foss <rfoss@kernel.org>
-> Cc: Simona Vetter <simona@ffwll.ch>
-> Cc: Thomas Zimmermann <tzimmermann@suse.de>
-> Cc: Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>
-> Cc: devicetree@vger.kernel.org
-> Cc: dri-devel@lists.freedesktop.org
-> Cc: linux-kernel@vger.kernel.org
-> Cc: linux-renesas-soc@vger.kernel.org
-> ---
->   .../bindings/display/bridge/renesas,dsi-csi2-tx.yaml           | 3 ++-
->   1 file changed, 2 insertions(+), 1 deletion(-)
 > 
-> diff --git a/Documentation/devicetree/bindings/display/bridge/renesas,dsi-csi2-tx.yaml b/Documentation/devicetree/bindings/display/bridge/renesas,dsi-csi2-tx.yaml
-> index 51d685ed82891..b95f10edd3a29 100644
-> --- a/Documentation/devicetree/bindings/display/bridge/renesas,dsi-csi2-tx.yaml
-> +++ b/Documentation/devicetree/bindings/display/bridge/renesas,dsi-csi2-tx.yaml
-> @@ -157,7 +157,8 @@ examples:
+> Changes in v2:
+> - Reference correct commit in Fixes tag
+> - Added Suggested-by
+> 
+> ---
+>   drivers/gpu/drm/panel/panel-kingdisplay-kd097d04.c | 2 +-
+>   1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/drivers/gpu/drm/panel/panel-kingdisplay-kd097d04.c b/drivers/gpu/drm/panel/panel-kingdisplay-kd097d04.c
+> index 2fc7b0779b37..893af9b16756 100644
+> --- a/drivers/gpu/drm/panel/panel-kingdisplay-kd097d04.c
+> +++ b/drivers/gpu/drm/panel/panel-kingdisplay-kd097d04.c
+> @@ -359,7 +359,7 @@ static int kingdisplay_panel_probe(struct mipi_dsi_device *dsi)
+>   	dsi->lanes = 4;
+>   	dsi->format = MIPI_DSI_FMT_RGB888;
+>   	dsi->mode_flags = MIPI_DSI_MODE_VIDEO | MIPI_DSI_MODE_VIDEO_BURST |
+> -			  MIPI_DSI_MODE_LPM;
+> +			  MIPI_DSI_MODE_LPM | MIPI_DSI_MODE_NO_EOT_PACKET;
 >   
->           panel@0 {
->               reg = <0>;
-> -            compatible = "raspberrypi,dsi-7inch";
-> +            compatible = "raspberrypi,dsi-7inch", "ilitek,ili9881c";
-> +            power-supply = <&vcc_lcd_reg>;
->   
->               port {
->                   panel_in: endpoint {
+>   	kingdisplay = devm_drm_panel_alloc(&dsi->dev, __typeof(*kingdisplay), base,
+>   					   &kingdisplay_panel_funcs,
 
 Reviewed-by: Neil Armstrong <neil.armstrong@linaro.org>
