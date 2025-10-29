@@ -2,137 +2,144 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 15774C1CD4E
-	for <lists+dri-devel@lfdr.de>; Wed, 29 Oct 2025 19:54:23 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6FE69C1CE42
+	for <lists+dri-devel@lfdr.de>; Wed, 29 Oct 2025 20:06:05 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2A00610E830;
-	Wed, 29 Oct 2025 18:54:20 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 771CE10E221;
+	Wed, 29 Oct 2025 19:06:02 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; secure) header.d=web.de header.i=markus.elfring@web.de header.b="CWWcT4WC";
+	dkim=pass (1024-bit key; unprotected) header.d=amd.com header.i=@amd.com header.b="Er1XShgk";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mout.web.de (mout.web.de [217.72.192.78])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4305010E21B
- for <dri-devel@lists.freedesktop.org>; Wed, 29 Oct 2025 18:54:18 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=web.de;
- s=s29768273; t=1761764056; x=1762368856; i=markus.elfring@web.de;
- bh=6TVk6+TU0bslC7OmscDtUb31DXjia0pUFqHx+EgaWw0=;
- h=X-UI-Sender-Class:Message-ID:Date:MIME-Version:Subject:To:Cc:
- References:From:In-Reply-To:Content-Type:
- Content-Transfer-Encoding:cc:content-transfer-encoding:
- content-type:date:from:message-id:mime-version:reply-to:subject:
- to;
- b=CWWcT4WCqGSjqrfpeT7eNqjjPT+iIaCv8MoPttAiOPmZYUneALfgC1ZhKxCJCA39
- qEOYIe95xwbe6gOqa5veD5SONT7+PeYn+fLsZYzw81FLefHYZXV5KpE2EAdvUgdLE
- Z9Wv/WYU++nux21K6C9uip1yI/SE9ohLlWcjv96vpAqO0hhWv8jHVTwtwXyW796zy
- kakId+PAmNG99J8slrtpyhy8MR7xGk7O959ZianyjUmk0RK1ftzvrPCyj545chF6Q
- 4B57EHOpoexYi0qLHCLE3BYOYG45ozwXLoTerr+U2rVGgoqt9JKQxRZJBtTSBDq5Q
- 2m0eikGRnz+2Fr2x0g==
-X-UI-Sender-Class: 814a7b36-bfc1-4dae-8640-3722d8ec6cd6
-Received: from [192.168.178.29] ([94.31.92.249]) by smtp.web.de (mrweb105
- [213.165.67.124]) with ESMTPSA (Nemesis) id 1M2gkf-1vHDa326X9-00BzMZ; Wed, 29
- Oct 2025 19:54:16 +0100
-Message-ID: <80fe1dd3-7541-4629-a540-021603d1f150@web.de>
-Date: Wed, 29 Oct 2025 19:54:14 +0100
+Received: from SJ2PR03CU001.outbound.protection.outlook.com
+ (mail-westusazon11012038.outbound.protection.outlook.com [52.101.43.38])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 03ADD10E221
+ for <dri-devel@lists.freedesktop.org>; Wed, 29 Oct 2025 19:06:01 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=PmBmcyGSIyNA92J/Dni1xVtkeWfuNqmW1wPyyAPpP9PbOvik1jv8wiKafRbSwvTAcNDTGa6l+jdCuHfzJLGH7izxE5K/lqJ4fgLAPtWORIkcVJe5hDmsSBl8Id1F6u1QqOZRQJUX2euwio+ai66ISiW6iU9A2+wHlhZTyStHhbfD5j9VkT/rlmQqVD0sN4ZghEB76a+jj06pssny90BtnjqL94x1OYRYYxN87CbveCcByWY1CZtImq7v0+VM55uTjgiL3DIF+NJed4sJBq9SKasPbbJKr50B4jFF2OG9+dpSEz+Btgo6DJv1QGbYXwai8ZhQd42qkIfRj//ZxqfZcQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=FHdrz/rCsScILBrMeeSAJ1ILkG+2cdbrcclN4VsFs2I=;
+ b=ZCfavPie28ODv+Vv1ZMvzDJ0G4Iwcnrgcvu/bsMZm/rRT0yWHEmcxeG/mfpoR639udD1I8PyYXGPSwunL9yQh3x0pB+KvRxsqMb5Ctx3dWh9aVbbkN5yKvtByk/q8Kcc7iUuMtMBfHiwoj0Jw5M7Vj2ItL+6qJ7Cl6fkWaZy3kue7mWDswZdNox9Z9njcSi6lcG9NbnmKPzkvXWZ+hqa0b7+Ttq0N0chRieBl3CJ67MvlG9MkFB1eLMWOLfEKp1c5nWKVNpKoAWZKNX/EsbklhCrbdWW6+5Xwvmmy/6/W/Q0Hlo5ccu/W5x8cafZKbIL1ORlMD8ANVr+UAxyg/Yp7w==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 165.204.84.17) smtp.rcpttodomain=kernel.org smtp.mailfrom=amd.com; dmarc=pass
+ (p=quarantine sp=quarantine pct=100) action=none header.from=amd.com;
+ dkim=none (message not signed); arc=none (0)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=FHdrz/rCsScILBrMeeSAJ1ILkG+2cdbrcclN4VsFs2I=;
+ b=Er1XShgk6R7ormMoJashNbc3jXwVIKGSbZoJJ1n0lManYflx0KmE+ArKI8sjya/2u5B8ADJ3990ZShQX6EKXj+B8GgKiUhZ9nefajHmVqcORx3KZH4pRA/RGBESmtRqKXi9nFcUzjAx85EA6sRxojSJaiNk3JbF+D08dydyy8Fc=
+Received: from DS7PR03CA0236.namprd03.prod.outlook.com (2603:10b6:5:3ba::31)
+ by BL4PR12MB9533.namprd12.prod.outlook.com (2603:10b6:208:58f::21) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9275.12; Wed, 29 Oct
+ 2025 19:05:58 +0000
+Received: from DS1PEPF00017098.namprd05.prod.outlook.com
+ (2603:10b6:5:3ba:cafe::27) by DS7PR03CA0236.outlook.office365.com
+ (2603:10b6:5:3ba::31) with Microsoft SMTP Server (version=TLS1_3,
+ cipher=TLS_AES_256_GCM_SHA384) id 15.20.9275.12 via Frontend Transport; Wed,
+ 29 Oct 2025 19:05:52 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
+ smtp.mailfrom=amd.com; dkim=none (message not signed)
+ header.d=none;dmarc=pass action=none header.from=amd.com;
+Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
+ 165.204.84.17 as permitted sender) receiver=protection.outlook.com;
+ client-ip=165.204.84.17; helo=satlexmb07.amd.com; pr=C
+Received: from satlexmb07.amd.com (165.204.84.17) by
+ DS1PEPF00017098.mail.protection.outlook.com (10.167.18.102) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.9275.10 via Frontend Transport; Wed, 29 Oct 2025 19:05:56 +0000
+Received: from SATLEXMB03.amd.com (10.181.40.144) by satlexmb07.amd.com
+ (10.181.42.216) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.2.2562.17; Wed, 29 Oct
+ 2025 12:05:56 -0700
+Received: from satlexmb08.amd.com (10.181.42.217) by SATLEXMB03.amd.com
+ (10.181.40.144) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.39; Wed, 29 Oct
+ 2025 14:05:55 -0500
+Received: from [172.19.71.207] (10.180.168.240) by satlexmb08.amd.com
+ (10.181.42.217) with Microsoft SMTP Server id 15.2.2562.17 via Frontend
+ Transport; Wed, 29 Oct 2025 12:05:55 -0700
+Message-ID: <cac0eb0f-7e91-f68d-8cbd-f6bf9586afca@amd.com>
+Date: Wed, 29 Oct 2025 12:05:54 -0700
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: accel/amdxdna: Fix incorrect command state for timed out job
-To: Lizhi Hou <lizhi.hou@amd.com>, dri-devel@lists.freedesktop.org,
- Jeffrey Hugo <quic_jhugo@quicinc.com>,
- Maciej Falkowski <maciej.falkowski@linux.intel.com>,
- Oded Gabbay <ogabbay@kernel.org>
-Cc: LKML <linux-kernel@vger.kernel.org>,
- Mario Limonciello <mario.limonciello@amd.com>, Max Zhen <max.zhen@amd.com>,
- Sonal Santan <sonal.santan@amd.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.11.0
+Subject: Re: [PATCH] accel/amdxdna: Fix incorrect command state for timed out
+ job
+Content-Language: en-US
+To: Mario Limonciello <mario.limonciello@amd.com>, <ogabbay@kernel.org>,
+ <quic_jhugo@quicinc.com>, <maciej.falkowski@linux.intel.com>,
+ <dri-devel@lists.freedesktop.org>
+CC: <linux-kernel@vger.kernel.org>, <max.zhen@amd.com>, <sonal.santan@amd.com>
 References: <20251028175452.2329497-1-lizhi.hou@amd.com>
- <b7a2ac2a-53c3-49ce-862d-eaba86f0b298@web.de>
- <605e6f4f-8e96-dbe4-d43d-16bcac63f94e@amd.com>
- <3dd7e061-8e6f-4d3d-b56c-7005da8197f6@web.de>
- <b2cf67a4-6795-d743-e90b-db10f636db2e@amd.com>
- <6238912a-8733-4b2c-a155-82bb081e6063@web.de>
- <e4c8b7be-588d-b0b7-00ca-e60cbde034a6@amd.com>
-Content-Language: en-GB, de-DE
-From: Markus Elfring <Markus.Elfring@web.de>
-In-Reply-To: <e4c8b7be-588d-b0b7-00ca-e60cbde034a6@amd.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-X-Provags-ID: V03:K1:2jJ5bE0O9iVzpbcsUECZgwCwAbyQsP+8A7UmSGQGoBnn05oItRs
- iwHG16Now69Njlv7dd/ziryrAuPMlPbFgPs6xFLdeN+u2m39QMSP3Jrhf6rm8wv88Dcd8mr
- WKMunMGXLMJxicUck1Z72czOHV8+IPV44Z5APIK07w1hHJoeQyysi7DlfFgO8pcj9oInRSR
- myodbWIV4op6QLvFE8zEw==
-X-Spam-Flag: NO
-UI-OutboundReport: notjunk:1;M01:P0:X+Qh4MomW3Y=;5+698kBI7amT90j/py+w0kcTus5
- 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
+ <ecdd1f2d-7192-4fce-9fb7-854cdfe2ab88@amd.com>
+From: Lizhi Hou <lizhi.hou@amd.com>
+In-Reply-To: <ecdd1f2d-7192-4fce-9fb7-854cdfe2ab88@amd.com>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 8bit
+Received-SPF: None (SATLEXMB03.amd.com: lizhi.hou@amd.com does not designate
+ permitted sender hosts)
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: DS1PEPF00017098:EE_|BL4PR12MB9533:EE_
+X-MS-Office365-Filtering-Correlation-Id: dd5f8530-3c4d-449e-9917-08de171e30a4
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+ ARA:13230040|36860700013|376014|1800799024|82310400026; 
+X-Microsoft-Antispam-Message-Info: =?utf-8?B?M3RPZDFhVkxINFpmdlFqT3R3SDE3b0FzY1NObXhXbmtOREJVS0trZE1UcU1J?=
+ =?utf-8?B?bkJzWm12cHN5TEEzd2NCUGFYUytsYTJtSFljWGhnREN5NytmaUxyeHI3QStu?=
+ =?utf-8?B?WXRSejgvL1d2Mzk3SmQyaG91TGVMMU5ENml1ZWhXaTFLeTFlRjhCSTdFLzJL?=
+ =?utf-8?B?NU93SmtZQVNibGFGNU1SSm1PRlQ2ZWJDd0RyT0d3QlJGS0dTbStVRkRuNW5y?=
+ =?utf-8?B?dHlqSERRRTdqMW9wd2xFZnNNWHdKYlJnNVpEOHZ4RXNkT2pLUENPcVNZYnhq?=
+ =?utf-8?B?Wm9WVmdQYU11Zy9rRXV0c0U3SjJmRkpscnZmam1MaUtzZXpSMHNxL0I2bUJS?=
+ =?utf-8?B?bWVuWnRYWUd5WEwvb0hZUkRQN085YWVCM2l0YzJDQlhEY3FLVHpHaTNhYTZ5?=
+ =?utf-8?B?bmF0MDBtUmJXVEt2Z1ZxVDhJeW9BT2lPQjdxM2JEaUNuQVJZai9RSzlYdW1R?=
+ =?utf-8?B?ZTVGRFBzUTNVdGNmcWpnbmtwQXRsOTB1WFJuVkFtc2RaOXVYM2Y5aVA3Wlps?=
+ =?utf-8?B?aTI4T2cvTnl3cHUxa3EwRHpZVXdqWnVtcExLUWowcmRTaTNoeGcvUkdUaDJp?=
+ =?utf-8?B?TjFybHpYM1REYWwzb2tZZnE5UFlVRGNSemQ5WCtrQmhrdHlNUzRaWDZXc2hL?=
+ =?utf-8?B?Z3NGRmxTVGQxUnpMaytEc2k4RlpCdXZ5blVrc2dGMEIzeEFXUjZ1WGZ1Uktj?=
+ =?utf-8?B?dVhxMmgvblIxdm56Q3ZtdzNiUTkzUEs2U2NjMXhpRzBIdmR2WkdnTkhYalBN?=
+ =?utf-8?B?c2VvL1pUU0k1YlhLTEg1WUo3bjVlZTVGSm5MQk5CNHdxSGJ2NytMeGFmZ1dj?=
+ =?utf-8?B?dmx3RXlhWkk2cG00MGhWcWVad1IvMkU3azJVTnpaTkFqSFVwRzgxazQ4cXQ0?=
+ =?utf-8?B?TFo1aERvQndVMnlrSko3UXJObVZUQVNxUlFCVGFPR2RtQi9XaHJOemdNTytM?=
+ =?utf-8?B?cEN2aHBUTnlrSW9qdUZobHcwZWREYUdsNHdhb1U1VXBRcUFiWTJsZm84SmNo?=
+ =?utf-8?B?SDgwVkN0Wk03SDRSYk9jb2tuZHVYcFErSDhIbjZob095VDRYajEybDJhdXpL?=
+ =?utf-8?B?aWFESUtqM1Bkbk9LZytsRWxkU1ZwNjRrN2hhbE5WbFp3SjVUK3hFQ1pYSzZX?=
+ =?utf-8?B?NDEvcE5XcGV6MDNXYjFpN1ZqRmFETkg1eGhXSDdlSDZBdzJuTGNyZEhYUTRp?=
+ =?utf-8?B?MzFDNXlMZzdodDN6Vm5yOS9PbllnYzgzb2pLS2ZBamNHb2xYZ2FwWVBON2Jy?=
+ =?utf-8?B?Yno0VzFUbGErUnhvYXlZa25SLy83VTd0dXZKN0doN3VBdnRnYlFJRVczNS9s?=
+ =?utf-8?B?QVc1WlE1VXZKbmZHMDZ3Y0lEdXE2b0RvNENCSHhwZWlkdDhwdU15L2JhWTY4?=
+ =?utf-8?B?MDdNTjN1YnoyOFJWeDZaV1JrUVpBbnVMVDAvZEhrd213Mng3V21uVzFkbHJX?=
+ =?utf-8?B?eDBUUzE0UHhOL2Fka3IweFNhbkZQNko2VmFLelEwUkN1czYzTW5PRW9BNWor?=
+ =?utf-8?B?MjVGYzJsd3NsK2Nnazg5bURPbExzWVZMMExNUS9KcDhJbThucUYyZU1MUzl0?=
+ =?utf-8?B?a2s0eUwyTDh1Tm55bnVYSGVlOHV3eGQ5TFhuQm43OXlMdzB2L0pwbXB1N0VW?=
+ =?utf-8?B?SmdnaTc5T3c3YXhhb3pTa2JuMktvU3U2QSs3ZXFGQ0l6SXZGb29HSWNpbTEr?=
+ =?utf-8?B?QkxUT3FGdjZCUWZVbVordlFTZzlJT1ZXcDdHVFV5d2R6b3AzZG9abW1pWjMr?=
+ =?utf-8?B?YStCazRyM1ZoZFc2bVFKcnFhdFlUWkFIREwzUjNrSzlWQitqZmFFRjM3TVlr?=
+ =?utf-8?B?dHdiS0s5QWV3ZlMzRE16L3U5ajRndHd1N3ZtMXVwbng1NC9PNjNUKzB4VzZN?=
+ =?utf-8?B?YS9ueWNuenUrWDJtaDduY1R5UjVFZGZaeG1FTVZ4NTdvSmZEeW8zNy94MnI1?=
+ =?utf-8?B?Mm9oQ1FkSlVyazg3UkcxdmFDT2N3SVU2dloxUXF0K0dOZ2tjK2tWNUxoK0kz?=
+ =?utf-8?B?czVBT0F5MndVb0x2bTJoMGFZRkxYUWJ4ZFJleXRNa3ZJN1Z5eWcxKzc4Q0E4?=
+ =?utf-8?B?S09kejJxamRzTUJWWXRUYnNjREpCbHBGdUw3bGl6b0VyVXQydGIyVU9XMXVI?=
+ =?utf-8?Q?b6ec=3D?=
+X-Forefront-Antispam-Report: CIP:165.204.84.17; CTRY:US; LANG:en; SCL:1; SRV:;
+ IPV:CAL; SFV:NSPM; H:satlexmb07.amd.com; PTR:InfoDomainNonexistent; CAT:NONE;
+ SFS:(13230040)(36860700013)(376014)(1800799024)(82310400026); DIR:OUT;
+ SFP:1101; 
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 29 Oct 2025 19:05:56.4918 (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: dd5f8530-3c4d-449e-9917-08de171e30a4
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d; Ip=[165.204.84.17];
+ Helo=[satlexmb07.amd.com]
+X-MS-Exchange-CrossTenant-AuthSource: DS1PEPF00017098.namprd05.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BL4PR12MB9533
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -148,20 +155,79 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
->> https://elixir.bootlin.com/linux/v6.18-rc3/C/ident/amdxdna_cmd_set_stat=
-e
->=20
-> Sure. amdxdna_cmd_set_state() updates the return code to command buffer.=
- So application which issues the command will be able to get the return co=
-de.
->=20
-> The function return value "ret" is used by mailbox receiving kernel thre=
-ad to deal with the error.
 
-I miss a clearer answer for the indicated function call incidence.
+On 10/29/25 07:28, Mario Limonciello wrote:
+> On 10/28/25 12:54 PM, Lizhi Hou wrote:
+>> When a command times out, mark it as ERT_CMD_STATE_TIMEOUT. Any other
+>> commands that are canceled due to this timeout should be marked as
+>> ERT_CMD_STATE_ABORT.
+>>
+>> Fixes: aac243092b70 ("accel/amdxdna: Add command execution")
+>> Signed-off-by: Lizhi Hou <lizhi.hou@amd.com>
+>> ---
+>>   drivers/accel/amdxdna/aie2_ctx.c    | 12 ++++++++++--
+>>   drivers/accel/amdxdna/amdxdna_ctx.h |  1 +
+>>   2 files changed, 11 insertions(+), 2 deletions(-)
+>>
+>> diff --git a/drivers/accel/amdxdna/aie2_ctx.c 
+>> b/drivers/accel/amdxdna/aie2_ctx.c
+>> index c6c473c78352..958a64bb5251 100644
+>> --- a/drivers/accel/amdxdna/aie2_ctx.c
+>> +++ b/drivers/accel/amdxdna/aie2_ctx.c
+>> @@ -204,10 +204,12 @@ aie2_sched_resp_handler(void *handle, void 
+>> __iomem *data, size_t size)
+>>         cmd_abo = job->cmd_bo;
+>>   -    if (unlikely(!data))
+>> +    if (unlikely(job->job_timeout)) {
+>> +        amdxdna_cmd_set_state(cmd_abo, ERT_CMD_STATE_TIMEOUT);
+>>           goto out;
+>> +    }
+>>   -    if (unlikely(size != sizeof(u32))) {
+>> +    if (unlikely(!data) || unlikely(size != sizeof(u32))) {
+>>           amdxdna_cmd_set_state(cmd_abo, ERT_CMD_STATE_ABORT);
+>>           ret = -EINVAL;
+>>           goto out;
+>> @@ -258,6 +260,11 @@ aie2_sched_cmdlist_resp_handler(void *handle, 
+>> void __iomem *data, size_t size)
+>>       int ret = 0;
+>>         cmd_abo = job->cmd_bo;
+>> +    if (unlikely(job->job_timeout)) {
+>> +        amdxdna_cmd_set_state(cmd_abo, ERT_CMD_STATE_TIMEOUT);
+>
+> Don't you need to set ret here?
 
-Can it be helpful to determine the state value before it would be passed t=
-o a concrete call?
+Yes. I should set ret to -EINVAL for a timed out request.
 
-Regards,
-Markus
+
+Thanks
+
+Lizhi
+
+>
+>> +        goto out;
+>> +    }
+>> +
+>>       if (unlikely(!data) || unlikely(size != sizeof(u32) * 3)) {
+>>           amdxdna_cmd_set_state(cmd_abo, ERT_CMD_STATE_ABORT);
+>>           ret = -EINVAL;
+>> @@ -370,6 +377,7 @@ aie2_sched_job_timedout(struct drm_sched_job 
+>> *sched_job)
+>>         xdna = hwctx->client->xdna;
+>>       trace_xdna_job(sched_job, hwctx->name, "job timedout", job->seq);
+>> +    job->job_timeout = true;
+>>       mutex_lock(&xdna->dev_lock);
+>>       aie2_hwctx_stop(xdna, hwctx, sched_job);
+>>   diff --git a/drivers/accel/amdxdna/amdxdna_ctx.h 
+>> b/drivers/accel/amdxdna/amdxdna_ctx.h
+>> index cbe60efbe60b..919c654dfea6 100644
+>> --- a/drivers/accel/amdxdna/amdxdna_ctx.h
+>> +++ b/drivers/accel/amdxdna/amdxdna_ctx.h
+>> @@ -116,6 +116,7 @@ struct amdxdna_sched_job {
+>>       /* user can wait on this fence */
+>>       struct dma_fence    *out_fence;
+>>       bool            job_done;
+>> +    bool            job_timeout;
+>>       u64            seq;
+>>       struct amdxdna_drv_cmd    *drv_cmd;
+>>       struct amdxdna_gem_obj    *cmd_bo;
+>
