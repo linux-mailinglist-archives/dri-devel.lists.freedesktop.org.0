@@ -2,130 +2,138 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7A718C193DF
-	for <lists+dri-devel@lfdr.de>; Wed, 29 Oct 2025 09:57:37 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 68ED5C1950A
+	for <lists+dri-devel@lfdr.de>; Wed, 29 Oct 2025 10:11:29 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2314410E742;
-	Wed, 29 Oct 2025 08:57:35 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9CEC310E1A8;
+	Wed, 29 Oct 2025 09:11:26 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="F+BRj58l";
-	dkim=pass (2048-bit key; unprotected) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="GOt394sH";
+	dkim=pass (1024-bit key; unprotected) header.d=amd.com header.i=@amd.com header.b="yCDsHwsM";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
- [205.220.180.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 192C710E0F8
- for <dri-devel@lists.freedesktop.org>; Wed, 29 Oct 2025 08:57:33 +0000 (UTC)
-Received: from pps.filterd (m0279868.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id
- 59T4v0Cu3676906
- for <dri-devel@lists.freedesktop.org>; Wed, 29 Oct 2025 08:57:32 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
- cc:content-type:date:from:in-reply-to:message-id:mime-version
- :references:subject:to; s=qcppdkim1; bh=7a63mCSv+A9JvgWMq7Ieh7NT
- 4tLcXzk9s+x47dKyuJQ=; b=F+BRj58lP+5eA/marruZFwnwCtmJMHkHj9YBDlBt
- qD9/cqIHj3w0TOZC3VGj94+on44sKfGeB1ku3OsYgjmuMLrniZYwqZPakT77gk1S
- WJMDmgrMtLFGrJEYoH4LCDorZG7yPw1ytbv6PC5nSAKio3Zhag1CHBJv0M4WQ5h6
- rR5Tm8cu01/aVD0/i6QaG7Bczau0v/jh+8MBkCXc6uf3UwB/gLwiCeRJP1I/J/ip
- pQwkLf9+NvB2m7Z5qall3khhRJCgtXJxYYZ1gkYc9OED1v5EyWeBLGjqh6KoL5OY
- O+6DaLmmJPzOI/NiK+/ABnInhgv6PpIn63B7kHSpETm+8w==
-Received: from mail-qt1-f199.google.com (mail-qt1-f199.google.com
- [209.85.160.199])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4a34a1hv37-1
- (version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
- for <dri-devel@lists.freedesktop.org>; Wed, 29 Oct 2025 08:57:32 +0000 (GMT)
-Received: by mail-qt1-f199.google.com with SMTP id
- d75a77b69052e-4e884663b25so180080701cf.0
- for <dri-devel@lists.freedesktop.org>; Wed, 29 Oct 2025 01:57:31 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=oss.qualcomm.com; s=google; t=1761728251; x=1762333051;
- darn=lists.freedesktop.org; 
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
- bh=7a63mCSv+A9JvgWMq7Ieh7NT4tLcXzk9s+x47dKyuJQ=;
- b=GOt394sHIQEwCCGvvTG460a12ibF+SLIrdI4zxXWvzfvxXs9gNJ3SCvw2CO0uzdV0H
- i4PKBbKtPst+u2SERCZ6OzBUC4+rb2twQMinrX6Ut82ZgUawirXekxz06LN6f6jllTEm
- 3qFL7RKDnlkdV5VQc3lfJcYETqbt7nxz4oURbQsx22cT0oXaVFO+QuLgpKGXpBHxaBMx
- p8VduYGsV8R6oDebH2E14ywsutAUAx4NssZ0nR08NBtB8xzvwOT+6YlHbWne5nT9jcqf
- 2DKYJJ0HJirV67KQUxwOKDpufSgZMsPMB/QQlZJDL9U8k/CIvIKuphjGDV3XCLwbN40H
- Kjqg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1761728251; x=1762333051;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=7a63mCSv+A9JvgWMq7Ieh7NT4tLcXzk9s+x47dKyuJQ=;
- b=OztrVaelMuXfrOx/ytWQwEi9loBCX7/YW3olmMn6u5Rz1hpbSgPbsEBT9BxuGSOAhb
- JlhgsRdFIZmWajWv3iTsdIhBzRqNDYYQLEtWUkT+Bomcshv0dSdkCrZXG69UaiRlPvHw
- seBoZmAOTbC43LtTE9kJNtcal/7W7VMkcImD/NrYMMj4HRKo5IO1oz+s3oQ+1Fyc1jAc
- bDfQpiMm74vXOIIZTyEZ+32P5AbYdCsoN/eGD2h2G5iWg8yAz9sfEj/3FSvUfpk2vqAp
- O2hWMBORfEccNm2Pl0BxJTNco5axoa17/cpBlnQbnj5EUWmpV8PAVsCiECvRzxpLRBSr
- 8mZg==
-X-Gm-Message-State: AOJu0Yw0H7PEvGpqcstiegAS7vWzZK9OesUSbw0RrtGdscg7MXQGdDJc
- uG9Me6l/fLCcWekh0PmnqMIM6MyqpFkVBp7eTRoqVigKJRrUFVhvmGeWG5aSsw1shxx4tPCYXFN
- VAxJmd8oU96HD31awkDFwSGl14vefgfD5jcz4zWLZewXgQP/ImHH1apKKKxiUlvZB2XF9p/A=
-X-Gm-Gg: ASbGncsXpiJvkZfYE1NOabaFqHtjXQyDnmCSSIPRDpOeWE7H1rxUKdBPk+BVXu/9LGj
- PfdGr3DDyRHyJ2wkYBFwbhn0j6XWf05mA8NV1Ajw2kXHDHRNq7bMiW+fSjfffzStY9po6lKkanp
- xBYuZz6Ug9VKvAtnygypTO0iKp4boFEBYDEFk941bIE/nzMfi5+bAf9SJgRMjqgWk4yHXQuMgLV
- ZReiEOCI9WAAgFjkJpfQ6RhPPlwLVbyAj0kLC51onBb0ekzl817SS5u4fEQeSOBjrHiigc00HWv
- hUY4zd9iXtkD21zpSnDqvcME9YqexJfXpU5K1wHbe4rJpdubdiDaHejZLmCeTasDOmUv24k1TTd
- ig/m2iEXd6/OgWtCiswGf/xF8bX+ge9VVi/R8kuQQJAXR3Zq8uZ29cxAp9mu4yGULsq8cbIB6Y2
- 1zA94ZDMGmbEuS
-X-Received: by 2002:a05:622a:1b87:b0:4b2:9cdc:6d52 with SMTP id
- d75a77b69052e-4ed15c9afcamr25245911cf.71.1761728251384; 
- Wed, 29 Oct 2025 01:57:31 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IHHMxS9dJDlfut9jklaN1u7WjxrtXy+M4HfVu5cw7ucNDEH9oxaqvAGSpJbi0LaKmBBPdMe+A==
-X-Received: by 2002:a05:622a:1b87:b0:4b2:9cdc:6d52 with SMTP id
- d75a77b69052e-4ed15c9afcamr25245721cf.71.1761728250874; 
- Wed, 29 Oct 2025 01:57:30 -0700 (PDT)
-Received: from umbar.lan
- (2001-14ba-a0c3-3a00-264b-feff-fe8b-be8a.rev.dnainternet.fi.
- [2001:14ba:a0c3:3a00:264b:feff:fe8b:be8a])
- by smtp.gmail.com with ESMTPSA id
- 38308e7fff4ca-378ee0bbfeasm32127811fa.25.2025.10.29.01.57.29
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 29 Oct 2025 01:57:29 -0700 (PDT)
-Date: Wed, 29 Oct 2025 10:57:28 +0200
-From: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
-To: Khaled Almahallawy <khaled.almahallawy@intel.com>
-Cc: dri-devel@lists.freedesktop.org, linux-arm-msm@vger.kernel.org,
- intel-gfx@lists.freedesktop.org, intel-xe@lists.freedesktop.org,
- Jani Nikula <jani.nikula@intel.com>,
- Rob Clark <robin.clark@oss.qualcomm.com>,
- Dmitry Baryshkov <lumag@kernel.org>,
- Abhinav Kumar <quic_abhinavk@quicinc.com>, Sean Paul <sean@poorly.run>
-Subject: Re: [PATCH] drm/display/dp: Rename bit 4 of DPCD TEST_REQUEST to
- match DP2.1 spec
-Message-ID: <jn7piiqfyeiiinpxu5ht7qza2la3cigdqlhtlvuvkbzqeyhcad@v5aypgcrcdok>
-References: <20251028222817.3290035-1-khaled.almahallawy@intel.com>
+Received: from MW6PR02CU001.outbound.protection.outlook.com
+ (mail-westus2azon11012047.outbound.protection.outlook.com [52.101.48.47])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4667B10E1A8
+ for <dri-devel@lists.freedesktop.org>; Wed, 29 Oct 2025 09:11:25 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=qCbTEMD40DzSj6JHMQG6RlHAPpyRQTMDSHlMyel5gFVftjy7Wp4mXWn5k/mABQX1gAiRZYIR4ifLQCWo9f5UlhtiAs7MYn8HXm+T3afCNEvftFtd5YZJTqg6LEYHBBQvvDVXId7oKv10GMM/fNG15Vttp0V1PfIGCoJUsvHFhnGSYdHH5PikoCeAsEZzKAeowEVPkVeH3X3AdgCtotnIr7gW4ovLS9UDDPg1TjMoYj07UwZ9vez6Z1cuFuGl8PjHyYUj3eFt94nYmX2sbPsaG/Et8A/t+avjDRH1kBTVTd6ITX5E34IATaS0z/7ufFLQOonTGU+YL9g0+11j++zt+w==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=cYEZMNdDHnQvp43EQ0z67oy2BWoeTy2Bkh33Yh9ro9s=;
+ b=k8NNKJuCjM6bVbBaUHl2D6OkMFuJBxWma5h1srUlonxPedq/mlMU6bNVv1uBmkrpJ/gyVrGTmTiQHv34BnBV/Ed1omFN4j5bK+eGZjH4SVEwdS2TxDReauDB6e02MaOilOdvieAx/yvn6X3dYAhb/E6gEFRkaOHKpmzm+ZrAP1SeqiMCJNa6HbKviwzfw56wn+JRByIn/KPbk5uUQ986nvfoa6UtRTJr4YV8+pTdAAwAIt8QPIBOqJesevgFhTeKGQn+Md/7g0FGFlMrQ1EiE6Ow3/JdCEIsFieVY8lcqwuUJqQHvrFTs83oIWg3kwHnwCivxUPtglUYQgnR8YJdaw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 165.204.84.17) smtp.rcpttodomain=intel.com smtp.mailfrom=amd.com; dmarc=pass
+ (p=quarantine sp=quarantine pct=100) action=none header.from=amd.com;
+ dkim=none (message not signed); arc=none (0)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=cYEZMNdDHnQvp43EQ0z67oy2BWoeTy2Bkh33Yh9ro9s=;
+ b=yCDsHwsMvOa4KVN7aojms7kWcWmkJTDiLGsq8SVooWgyXwj40z6w13ktvfUCDAZqWBtrVjUS0UmkmDLjoZgGAiEik0PKzCOkVc3i/EEUmjPthw5YsSH+J3h8QWrrwOkS+ljHNC6h/rS7xqrqs2n29d9th9Mi08ACKIOJ5EdEoeE=
+Received: from MN2PR20CA0022.namprd20.prod.outlook.com (2603:10b6:208:e8::35)
+ by BY5PR12MB4211.namprd12.prod.outlook.com (2603:10b6:a03:20f::19)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9275.12; Wed, 29 Oct
+ 2025 09:11:22 +0000
+Received: from BL6PEPF0001AB55.namprd02.prod.outlook.com
+ (2603:10b6:208:e8:cafe::3c) by MN2PR20CA0022.outlook.office365.com
+ (2603:10b6:208:e8::35) with Microsoft SMTP Server (version=TLS1_3,
+ cipher=TLS_AES_256_GCM_SHA384) id 15.20.9275.13 via Frontend Transport; Wed,
+ 29 Oct 2025 09:11:21 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
+ smtp.mailfrom=amd.com; dkim=none (message not signed)
+ header.d=none;dmarc=pass action=none header.from=amd.com;
+Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
+ 165.204.84.17 as permitted sender) receiver=protection.outlook.com;
+ client-ip=165.204.84.17; helo=satlexmb07.amd.com; pr=C
+Received: from satlexmb07.amd.com (165.204.84.17) by
+ BL6PEPF0001AB55.mail.protection.outlook.com (10.167.241.7) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.9275.10 via Frontend Transport; Wed, 29 Oct 2025 09:11:22 +0000
+Received: from FRAPPELLOUX01-WSLPUB.amd.com (10.180.168.240) by
+ satlexmb07.amd.com (10.181.42.216) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.2562.17; Wed, 29 Oct 2025 02:11:19 -0700
+From: Pierre-Eric Pelloux-Prayer <pierre-eric.pelloux-prayer@amd.com>
+To: Matthew Brost <matthew.brost@intel.com>, Danilo Krummrich
+ <dakr@kernel.org>, Philipp Stanner <phasta@kernel.org>,
+ =?UTF-8?q?Christian=20K=C3=B6nig?= <ckoenig.leichtzumerken@gmail.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Maxime Ripard
+ <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, David Airlie
+ <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, Sumit Semwal
+ <sumit.semwal@linaro.org>
+CC: Pierre-Eric Pelloux-Prayer <pierre-eric.pelloux-prayer@amd.com>,
+ =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
+ <dri-devel@lists.freedesktop.org>, <linux-kernel@vger.kernel.org>,
+ <linux-media@vger.kernel.org>, <linaro-mm-sig@lists.linaro.org>
+Subject: [PATCH v1] drm/sched: fix deadlock in drm_sched_entity_kill_jobs_cb
+Date: Wed, 29 Oct 2025 10:11:03 +0100
+Message-ID: <20251029091103.1159-1-pierre-eric.pelloux-prayer@amd.com>
+X-Mailer: git-send-email 2.43.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20251028222817.3290035-1-khaled.almahallawy@intel.com>
-X-Authority-Analysis: v=2.4 cv=Nu/cssdJ c=1 sm=1 tr=0 ts=6901d6fc cx=c_pps
- a=WeENfcodrlLV9YRTxbY/uA==:117 a=xqWC_Br6kY4A:10 a=kj9zAlcOel0A:10
- a=x6icFKpwvdMA:10 a=s4-Qcg_JpJYA:10 a=VkNPw1HP01LnGYTKEx00:22
- a=QyXUC8HyAAAA:8 a=EUspDBNiAAAA:8 a=VwQbUJbxAAAA:8 a=COk6AnOGAAAA:8
- a=rHtxkZaJ8jImS8H9yjEA:9 a=CjuIK1q_8ugA:10 a=kacYvNCVWA4VmyqE58fU:22
- a=TjNXssC_j7lpFel5tvFf:22
-X-Proofpoint-GUID: YCz_-3iZs2RM9aHeex0rrOcFSt-j_RQp
-X-Proofpoint-ORIG-GUID: YCz_-3iZs2RM9aHeex0rrOcFSt-j_RQp
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUxMDI5MDA2NiBTYWx0ZWRfX+Loq2UDy1KkK
- eAd2zdBb2/qGX+DCKaBealEiumazo+CqyjXigY0nsiPF7zN6SIzYKhyVcG75Ut2mBzVhKhJn/SO
- JymxG4sBbkWqlKOVFAR4Gy+BImmljhOH0QzFGBatVOuHdEByLfXVq+cN6iJ/Rv4ksBd4mRXeMvI
- lXbv1yfFbCSVaJ2HA5XHc19sNHK7rgo0oP5eJEgVCudH3d3srfP0HGryiJ3H/FpailupEKtFIUt
- iW+YJ6WbJvkiQYWdHE0G2GcUASIFNv8xaMLbTqz3wFDFx8GePGmBIS+qxGSVN0qNWTBLB6Q+rQz
- 54pclLjP7CKc54okK/dGmnNhb6mmYXB3czM/jhn6oJZvKMp7RmGZkgRQzFYIL0Aw4BcfIqMKY5y
- T/M2B/CWVcP60JDGOY5qd3u8g/X0hw==
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.9,FMLib:17.12.80.40
- definitions=2025-10-29_04,2025-10-22_01,2025-03-28_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- spamscore=0 priorityscore=1501 adultscore=0 suspectscore=0 clxscore=1015
- lowpriorityscore=0 phishscore=0 impostorscore=0 bulkscore=0 malwarescore=0
- classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.22.0-2510240001 definitions=main-2510290066
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
+X-Originating-IP: [10.180.168.240]
+X-ClientProxiedBy: satlexmb08.amd.com (10.181.42.217) To satlexmb07.amd.com
+ (10.181.42.216)
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: BL6PEPF0001AB55:EE_|BY5PR12MB4211:EE_
+X-MS-Office365-Filtering-Correlation-Id: 026e1c61-7025-4e33-57dd-08de16cb2116
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+ ARA:13230040|82310400026|376014|7416014|36860700013|1800799024|921020; 
+X-Microsoft-Antispam-Message-Info: =?utf-8?B?TGo3Nm1MN3cvZkJGazZ3VHNwNW1rMU5yMEc3aUNpbzA4RFhCd0kwd1ZiTklV?=
+ =?utf-8?B?azg5QmhIMlYyVDd6NHE1SS9yaGZ5NFlxMGlsWFpCcVdYb2xWWkFCVzVLcytQ?=
+ =?utf-8?B?dFpaTzE2YytiVGNxb214VHp1Q2JqcGxjTDNZZTJValhhR3BHVXpKdjFubk9X?=
+ =?utf-8?B?TnY4bk5iUHZ2VGlBdXJWektkb242aGRVVktNbUxxWWN2V1RkNGNOSWtkRnJU?=
+ =?utf-8?B?L2k5dms5SDZqZjlkRi9yU2lzam1UeUZlS0JMNzB0dno1akFqRnlpNm9iVkR3?=
+ =?utf-8?B?dThrQnhBVTN6RW9UNTNQVkZlUHhVK3RHN1daSlBYSXNtdFNIc1N4OFJPS2JM?=
+ =?utf-8?B?QnIranpaVVoydUQ1YWlqaEpUYXJ4VURoL2YvSVVhQWM1eVVyZjBNSkE0Sko3?=
+ =?utf-8?B?N2svcWxTckc2dXdiRXp1RWdSN1gvZTc5Z2tSYXBRbjBzQVlRTG4rRnYvR3Vw?=
+ =?utf-8?B?QkVIbWE0RXBmV0RXKzNLc3dPNG5tSG1qZkdGSjl3MkIvWmNQRDZuTXJjY2Fm?=
+ =?utf-8?B?UHVBNHh1c05LbjlnMGdJU1AzSloydEZzbVNCVVZ0a0lJdklXZkJ0bnRZc0Zq?=
+ =?utf-8?B?UzZ0WjlBU1V0RDhrdTVGdHJmNGtwc2VVMmtRMjQ4VCtzcHBiaUlsNGZkS0g4?=
+ =?utf-8?B?Ti85endWKzVVbVU4Uy8yZlFzTGVtY3ArQW51Um11NEp0bFBnekxub2ZaTDdt?=
+ =?utf-8?B?dXFHdlc3TmlDbFc1WGRCQW9xTDk0bkgvUFEzZHJXSGpXR05YZ3VtREt0MXpT?=
+ =?utf-8?B?WXZPWWl1ZFhkMHphdzg0RUNCQzNPcHlKK2kvcjdhalg2MjEvVWRKTlZpMS8z?=
+ =?utf-8?B?aDYrUExUb0dGY1N1d0V4TEVjM1dpUTBCZElXRDN4WU90MTJOY2J3YVNIeGRR?=
+ =?utf-8?B?dHlTbUhUTUw2VXV2NnVYbjRxRXFhS1Vwc2Q4cEJ6UytoQi8wbjE0TGxPekcx?=
+ =?utf-8?B?bnRsQ2ZHNHk0VTJlM3RQNU9IdmJKMzdLYmVSY0tGUVVvek5nTEFSWVduNzY0?=
+ =?utf-8?B?MW1QSW1GSXI5WHlPNU9kdjZoVVBsM00xRmRlbTY0bUhydXVEelBXdTVrc0ZO?=
+ =?utf-8?B?akFYR1pES1V6T2dyanp5dWxNcWV6ckdOZUUxaExHZEJveHR5M0pxVmp4L0Jo?=
+ =?utf-8?B?Qkk3OWsraEcrOUNtcWJ5Y3FPdmxnVXpGa1hYNFNoYlF1RndJK1MxRU5MZXFk?=
+ =?utf-8?B?TGw3T0x2enZiYis4dE5qNlBkSk95M1pLNEk0TUV4aHpEd2s4TXdlcmZpbUto?=
+ =?utf-8?B?WjdrcXE4UDVMdVVtTUJLL0VZbGNmZDJmZlFNM3NZTEJ1UzFZTU95Wkt5YmhJ?=
+ =?utf-8?B?WW1weFlDMVh4ZFVyay9VczQvN25IR29CaW9DY2ljbitaeDhQSG03cDNxNjA4?=
+ =?utf-8?B?cVJhYjNDMjNpd0ZqOEIyTVlWSG5paWJpSCsvcVVYdi9TNm1ubkl6aFdueU1C?=
+ =?utf-8?B?a0dyN0ZGMi9YUHpVZG4wUmkwWnJCaC9oM3Y1aTRrcWxaWkxpS1RNOTZuM2xW?=
+ =?utf-8?B?U2tZMGFKVldyK3drY3NpQUZjNDYrWkxnRzJDV1dURldzZFpNaGZOTzR1YmNJ?=
+ =?utf-8?B?TWJDT0hNc2NsSEFYYzVnc2tkT29Nc250UEk5U2UrQktHcEdLKy9ocFYwekpY?=
+ =?utf-8?B?YlI1dlNKTldrcXVBb092enFiQ3NKWnZLaGhIcnFNa1N2ZWsvL3hmQ3ZXMDlr?=
+ =?utf-8?B?blU3aENjVVhuSStzeXFLS20waVE0TVF1UVR4UmxvRzUrWGRMUVlxYk5VMkls?=
+ =?utf-8?B?UU91L0tlOUFUbzVrTi9SMmNCcFpmcUNVQ1p4RlZmR2lRMnBQbGpQR1R3SUJp?=
+ =?utf-8?B?SEZnSmxQM1NCTzRaWUFIZWRtMkZSQ3ZHaU5yV2hJV1dkQkg5N2V1aGFkVnJw?=
+ =?utf-8?B?MkJCOUp5VW9oamRDRTFNQ1JpT0cveG9Eelc5ZzVZYktIU25mdHRaMkJBS1U5?=
+ =?utf-8?B?U05zOWpUK3M5RjhJNjlVeSt6VjNNSWM4WXdyUUs3Y0lzQUxqTjZpeHVZZUFK?=
+ =?utf-8?B?ZW1yZ0xBRzl5eXU1MjdQdGdIaUozc3F0Q3ArV2FZbFNseFJoSnNOOGdpSVd5?=
+ =?utf-8?Q?fviA9Z?=
+X-Forefront-Antispam-Report: CIP:165.204.84.17; CTRY:US; LANG:en; SCL:1; SRV:;
+ IPV:CAL; SFV:NSPM; H:satlexmb07.amd.com; PTR:InfoDomainNonexistent; CAT:NONE;
+ SFS:(13230040)(82310400026)(376014)(7416014)(36860700013)(1800799024)(921020);
+ DIR:OUT; SFP:1101; 
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 29 Oct 2025 09:11:22.2033 (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 026e1c61-7025-4e33-57dd-08de16cb2116
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d; Ip=[165.204.84.17];
+ Helo=[satlexmb07.amd.com]
+X-MS-Exchange-CrossTenant-AuthSource: BL6PEPF0001AB55.namprd02.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BY5PR12MB4211
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -141,27 +149,93 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Oct 28, 2025 at 03:28:17PM -0700, Khaled Almahallawy wrote:
-> The DP_TEST_LINK_FAUX_PATTERN field was deprecated in the DP 1.3 spec.
-> Update its name to align with the DP 2.1 definition and reflect its
-> actual use in the code. No functional changes.
-> 
-> Cc: Jani Nikula <jani.nikula@intel.com>
-> Cc: Rob Clark <robin.clark@oss.qualcomm.com>
-> Cc: Dmitry Baryshkov <lumag@kernel.org>
-> Cc: Abhinav Kumar <quic_abhinavk@quicinc.com>
-> Cc: Sean Paul <sean@poorly.run>
-> Signed-off-by: Khaled Almahallawy <khaled.almahallawy@intel.com>
-> ---
->  drivers/gpu/drm/msm/dp/dp_link.c | 2 +-
->  include/drm/display/drm_dp.h     | 2 +-
->  2 files changed, 2 insertions(+), 2 deletions(-)
-> 
+https://gitlab.freedesktop.org/mesa/mesa/-/issues/13908 pointed out
+a possible deadlock:
 
-Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
+[ 1231.611031]  Possible interrupt unsafe locking scenario:
 
-Would you prefer to merge this through drm-misc-next or through msm-next?
+[ 1231.611033]        CPU0                    CPU1
+[ 1231.611034]        ----                    ----
+[ 1231.611035]   lock(&xa->xa_lock#17);
+[ 1231.611038]                                local_irq_disable();
+[ 1231.611039]                                lock(&fence->lock);
+[ 1231.611041]                                lock(&xa->xa_lock#17);
+[ 1231.611044]   <Interrupt>
+[ 1231.611045]     lock(&fence->lock);
+[ 1231.611047]
+                *** DEADLOCK ***
 
+My initial fix was to replace xa_erase by xa_erase_irq, but Christian
+pointed out that calling dma_fence_add_callback from a callback can
+also deadlock if the signalling fence and the one passed to
+dma_fence_add_callback share the same lock.
+
+To fix both issues, the code iterating on dependencies and re-arming them
+is moved out to drm_sched_entity_kill_jobs_work.
+
+Suggested-by: Christian König <christian.koenig@amd.com>
+Signed-off-by: Pierre-Eric Pelloux-Prayer <pierre-eric.pelloux-prayer@amd.com>
+---
+ drivers/gpu/drm/scheduler/sched_entity.c | 34 +++++++++++++-----------
+ 1 file changed, 19 insertions(+), 15 deletions(-)
+
+diff --git a/drivers/gpu/drm/scheduler/sched_entity.c b/drivers/gpu/drm/scheduler/sched_entity.c
+index c8e949f4a568..fe174a4857be 100644
+--- a/drivers/gpu/drm/scheduler/sched_entity.c
++++ b/drivers/gpu/drm/scheduler/sched_entity.c
+@@ -173,26 +173,15 @@ int drm_sched_entity_error(struct drm_sched_entity *entity)
+ }
+ EXPORT_SYMBOL(drm_sched_entity_error);
+ 
++static void drm_sched_entity_kill_jobs_cb(struct dma_fence *f,
++					  struct dma_fence_cb *cb);
++
+ static void drm_sched_entity_kill_jobs_work(struct work_struct *wrk)
+ {
+ 	struct drm_sched_job *job = container_of(wrk, typeof(*job), work);
+-
+-	drm_sched_fence_scheduled(job->s_fence, NULL);
+-	drm_sched_fence_finished(job->s_fence, -ESRCH);
+-	WARN_ON(job->s_fence->parent);
+-	job->sched->ops->free_job(job);
+-}
+-
+-/* Signal the scheduler finished fence when the entity in question is killed. */
+-static void drm_sched_entity_kill_jobs_cb(struct dma_fence *f,
+-					  struct dma_fence_cb *cb)
+-{
+-	struct drm_sched_job *job = container_of(cb, struct drm_sched_job,
+-						 finish_cb);
++	struct dma_fence *f;
+ 	unsigned long index;
+ 
+-	dma_fence_put(f);
+-
+ 	/* Wait for all dependencies to avoid data corruptions */
+ 	xa_for_each(&job->dependencies, index, f) {
+ 		struct drm_sched_fence *s_fence = to_drm_sched_fence(f);
+@@ -220,6 +209,21 @@ static void drm_sched_entity_kill_jobs_cb(struct dma_fence *f,
+ 		dma_fence_put(f);
+ 	}
+ 
++	drm_sched_fence_scheduled(job->s_fence, NULL);
++	drm_sched_fence_finished(job->s_fence, -ESRCH);
++	WARN_ON(job->s_fence->parent);
++	job->sched->ops->free_job(job);
++}
++
++/* Signal the scheduler finished fence when the entity in question is killed. */
++static void drm_sched_entity_kill_jobs_cb(struct dma_fence *f,
++					  struct dma_fence_cb *cb)
++{
++	struct drm_sched_job *job = container_of(cb, struct drm_sched_job,
++						 finish_cb);
++
++	dma_fence_put(f);
++
+ 	INIT_WORK(&job->work, drm_sched_entity_kill_jobs_work);
+ 	schedule_work(&job->work);
+ }
 -- 
-With best wishes
-Dmitry
+2.43.0
+
