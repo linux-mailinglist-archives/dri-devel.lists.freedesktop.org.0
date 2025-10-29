@@ -2,141 +2,135 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D1F73C17897
-	for <lists+dri-devel@lfdr.de>; Wed, 29 Oct 2025 01:27:37 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 93059C178C1
+	for <lists+dri-devel@lfdr.de>; Wed, 29 Oct 2025 01:31:03 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BBB8810E6C6;
-	Wed, 29 Oct 2025 00:27:34 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B1A3F10E6C1;
+	Wed, 29 Oct 2025 00:30:49 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=Nvidia.com header.i=@Nvidia.com header.b="e7Ad3NZ3";
+	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="b60cyLLn";
+	dkim=pass (2048-bit key; unprotected) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="I3ObrnFl";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from BN1PR04CU002.outbound.protection.outlook.com
- (mail-eastus2azon11010051.outbound.protection.outlook.com [52.101.56.51])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A586C10E6C3;
- Wed, 29 Oct 2025 00:27:33 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=HVA5Y/fG6B7eNOlipbW/Afu25MRptEUMXvL96emfsUmF8mnIJ+BOMiBKa3pyL3A2EFOaMUSokgyk+YnkwuGB3v3YsbLiXIxMa8nv16Y6tOXVN7npzbrI7G5H6tkFkWfoYbr5zx8b8n4XMNf7VXswPCUDh+nHNWskyEPuvRht4zR5Y4rPC5W1kRIuhD5Ub6zV5k43GrsaqnYDBBdSWevuQQs/YTlQ+WRU2+CJsUCT0rQM2XDdGsS8sUjES8xa/TgDKSaogDBlvoEyCSjG6+wXIhOHPXSXB6/1pZUAYQJ1t41WtVP5yJfSkZP66r40ATYlLr76yP+/zN/Bxg46pG20XA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=uWARp0Kxq1lfTEtY8GKa32bfRZolasl7gj6wyYdEqV8=;
- b=TuSThWAvvTFnT1+z4TjOqnqVkR2ooYuZ0S5ArC06eqEclc1vopLq28KEpRuzA1MKlWkL9uPHf2W1V8WXp/+yAKEz+eTfPA2q5iPFwGVJUiV5gP4PlQgx6bT7iW7ikSq6Xta7PkGlKnXIeflZ2HAgRS7UBIGtIgc1aRNF5QB7BJlTh4fz03gCg7e/iS9/ruHxvxv8iTUMkaAJho0eUILhdbkvyzt5QLB5CXgf3yiDibBfFYvtU6JaggmkZwo3ehJXWsSVdNqxMkGymGogJoqVeMFKdZtjATlwE/SnyUZk7nSIv2Wf2vgGZltrtyjP1g2bobPM0tO05RJ1PQxrSssEfQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
- dkim=pass header.d=nvidia.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=uWARp0Kxq1lfTEtY8GKa32bfRZolasl7gj6wyYdEqV8=;
- b=e7Ad3NZ3imQyU/PoowXCwEIb8rrgF6omphEbcbPnvNBMe8MezeMeF4u3svbWknANRoC5lxiSoC77izUORlJkkSvvhPTRP4ifhm2QsesXRNFI7xIjHhUlRK2sQcelMomYselpGshMrpIdVsy9FAMyU0FU1FrVdp7d5huYibklsjJbSeHnpb5kpnQrOrdsgesbrjPvHrrNOLh5d/tS04vumhV9VcCGg8K0bGXXUqqhqRmapxyDw9Ba+UPht6ztONvXEWqPfYBJ2NMvaaz4WDuk0JX5S5Hp0expgtruebt/sN/VALJdL7zCIJeAU18ppIiJBdqGTbWex3edO+5H/q/HxA==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nvidia.com;
-Received: from MN2PR12MB3613.namprd12.prod.outlook.com (2603:10b6:208:c1::17)
- by PH7PR12MB6657.namprd12.prod.outlook.com (2603:10b6:510:1fe::7)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9275.12; Wed, 29 Oct
- 2025 00:27:28 +0000
-Received: from MN2PR12MB3613.namprd12.prod.outlook.com
- ([fe80::1b3b:64f5:9211:608b]) by MN2PR12MB3613.namprd12.prod.outlook.com
- ([fe80::1b3b:64f5:9211:608b%4]) with mapi id 15.20.9275.011; Wed, 29 Oct 2025
- 00:27:28 +0000
-Date: Tue, 28 Oct 2025 21:27:26 -0300
-From: Jason Gunthorpe <jgg@nvidia.com>
-To: Vivek Kasireddy <vivek.kasireddy@intel.com>
-Cc: dri-devel@lists.freedesktop.org, intel-xe@lists.freedesktop.org,
- linux-media@vger.kernel.org, linaro-mm-sig@lists.linaro.org,
- Leon Romanovsky <leonro@nvidia.com>,
- Christian Koenig <christian.koenig@amd.com>,
- Sumit Semwal <sumit.semwal@linaro.org>,
- Thomas =?utf-8?Q?Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>,
- Simona Vetter <simona.vetter@ffwll.ch>,
- Matthew Brost <matthew.brost@intel.com>,
- Dongwon Kim <dongwon.kim@intel.com>
-Subject: Re: [RFC v2 0/8] dma-buf: Add support for mapping dmabufs via
- interconnects
-Message-ID: <20251029002726.GA1092494@nvidia.com>
-References: <20251027044712.1676175-1-vivek.kasireddy@intel.com>
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20251027044712.1676175-1-vivek.kasireddy@intel.com>
-X-ClientProxiedBy: BLAPR03CA0047.namprd03.prod.outlook.com
- (2603:10b6:208:32d::22) To MN2PR12MB3613.namprd12.prod.outlook.com
- (2603:10b6:208:c1::17)
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
+ [205.220.168.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6DEF910E6C1
+ for <dri-devel@lists.freedesktop.org>; Wed, 29 Oct 2025 00:30:48 +0000 (UTC)
+Received: from pps.filterd (m0279866.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id
+ 59SJlw0Y2525896
+ for <dri-devel@lists.freedesktop.org>; Wed, 29 Oct 2025 00:30:48 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+ cc:content-transfer-encoding:content-type:date:from:in-reply-to
+ :message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+ VyEOF+aXLbKYv3f4NZ9fETHTP8oPsdMhgn4tmd3+uZs=; b=b60cyLLnGPIYVqY1
+ y1eCbNRllbHQeqtZHhtrK38EbhJym4H3A2ltPD2NfqkktHucHZNlxli8Yo6YJZiG
+ 7z8vGY8DT7uwZdv9ejfy/B+ng13/Fw4XwVHq3RLhoZL1AKaipqzHWICk5ZoWLFt9
+ 17Ylf+gC3xnu5DPPTCEBj5XgNtORiUaiq5vDTzUWUlniATBjR7nwZolJ1Xu0oSGb
+ yOqCnlxjzZL7hdge4liWmflOYiCtAypGzspZyTGYgw62oBQJ3nFjq1Eq3NgHWHRT
+ pquXlVLSLDxNrv2yaxBIJ7VmiKCqDvAoDrC+r4wbX+3iTPf6mHi/Bsoj9FfD68zT
+ UPBkXQ==
+Received: from mail-qv1-f71.google.com (mail-qv1-f71.google.com
+ [209.85.219.71])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4a34a3rn39-1
+ (version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
+ for <dri-devel@lists.freedesktop.org>; Wed, 29 Oct 2025 00:30:47 +0000 (GMT)
+Received: by mail-qv1-f71.google.com with SMTP id
+ 6a1803df08f44-87c1f18cbc6so273544216d6.1
+ for <dri-devel@lists.freedesktop.org>; Tue, 28 Oct 2025 17:30:47 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=oss.qualcomm.com; s=google; t=1761697847; x=1762302647;
+ darn=lists.freedesktop.org; 
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=VyEOF+aXLbKYv3f4NZ9fETHTP8oPsdMhgn4tmd3+uZs=;
+ b=I3ObrnFlUK1xexVzQ+3KH53VMp6PtP7MD2PCZOILCZnPf2PtSqQfvpc0iMNowMsPcw
+ qu1SMcCh4m2msdWRReyLVq8BwCuzf1p4/OdA3B3DP6kfo7XGQNGhSlSJQWPAqURFuEKF
+ rqhlt9FkfMJhKDZ+5YSAj0qwNeDoRJt8QGdILCznYLeoDu7+84egKWvXcCEVMhI8z/Tp
+ rXsnQmFq+DXNjPpkQy6P53xk/2s7H+DX7yO/nBiALPNqEdxyKQNKSxU4JfSo7OGkmWdJ
+ lgyu2AEm9H3pbw/pEmtlE3cozIbroKsGEpSyLtjCDpOKR2MHet6Sn44LOvrLQdmfZDTW
+ zSEA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1761697847; x=1762302647;
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=VyEOF+aXLbKYv3f4NZ9fETHTP8oPsdMhgn4tmd3+uZs=;
+ b=sNxaf0uJetUiou/BsQ6D6Nb4jtipNZ0i8Fbrl0rvjZ+UGlKKyj62pyX8w4mKKsAU/8
+ w/+EKU9ftjKloQDShy8RoY8clescO6Agy3JxMGwRegJHDUgwzpZNamaMFFME2ypAAy+i
+ 0lL7BDX5aKOdf/qTDpXED2xK1z+Ov3UxDutTu7ToiGb1Rl3unGJpap7fs5Eep7HxXzox
+ mVghdpk/ighVWwPAlyo0IUAoMkKOtBv1LnMX0WLGDLAMbUOXt4FTbjmR2kau6xIgDz15
+ js8jtkIYpAV1HGpFQNSG4owOP3zrKmUSabnvw/AkYThJoVGKURF6SXgt6S7y+LPHTLA4
+ HAVA==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCUEr8zHAsSb3UkPfmJEJieUFSlS01NeWeDzZoVvUf6kmUv4DXsQeWED2cySUaBkzZkTYdO+ipG3Qcc=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YzCAv5tle0WdCtJgTiDGvtkWJJdojMuytaw1MhjzoM8kYMPKQP1
+ +xZcgFMQ/ewqGHaNEXi/ewi7MZGWoVv3KJg5Lo7XqBMaiZMbLgpXudNhCA3f7x2ToxuMviAytzm
+ Nvd+uvjRiGhApnBRk0icMW1fTevr0jQCxPUuSlsP6lxwSkxo3d4wTNVs+pUzbxkHKoXDss5M=
+X-Gm-Gg: ASbGncsmWCISpL1cE2VJocOjCa3tK4vj7EYUFsq0HDncNW7lTJivrm7Nv0aY0a7oQnB
+ Km0rTnssWdpGMZjO6yA3wEHD6+6WmLzsCl8yg7i1UNTYcmf7Nlhge1W5vqKRnlBaeiXkNpnuGHd
+ jEtAy2YKjU7WWhwh+6GYT7C05Zw9jFxGgJri3MWewu+2Nn0BUnzo/AK2JU6+W4BaKz5KiOUmBal
+ x7cSMhUZXryzx9bMldRgNdw9dIvLKhPhmhPozD5YH+Xh+ondwbSKn8HCBc1qHVUn5xLhU+YuqEZ
+ MNuy8/vqO/jeOFtF+PZbkpGgDaeMRTk2owwk80vxWahhtyTdNdCrHheHwfmTxs0Bnzlg6LcbGl9
+ uJ5XhQbuwIbcHAEx0hLOHpstoYZIGf9yO1rU4wVA/i7/jfBaY7TE3LPElNKF7RF8W/Yaeih5Hfr
+ W/To2D29fk+cUv
+X-Received: by 2002:a05:6214:acc:b0:87c:1e27:f7b4 with SMTP id
+ 6a1803df08f44-88009c3fb27mr16408966d6.67.1761697846995; 
+ Tue, 28 Oct 2025 17:30:46 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IFsBFnqbz/J7aBH99rrrrpjG36zD/8B0hEGORviQ9ZerRyWHsasvUR2RCXFVhnR2eDLiEUJxw==
+X-Received: by 2002:a05:6214:acc:b0:87c:1e27:f7b4 with SMTP id
+ 6a1803df08f44-88009c3fb27mr16408416d6.67.1761697846330; 
+ Tue, 28 Oct 2025 17:30:46 -0700 (PDT)
+Received: from umbar.lan
+ (2001-14ba-a0c3-3a00-264b-feff-fe8b-be8a.rev.dnainternet.fi.
+ [2001:14ba:a0c3:3a00:264b:feff:fe8b:be8a])
+ by smtp.gmail.com with ESMTPSA id
+ 38308e7fff4ca-378ee092042sm32141621fa.6.2025.10.28.17.30.42
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 28 Oct 2025 17:30:44 -0700 (PDT)
+From: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
+To: Rob Clark <robin.clark@oss.qualcomm.com>,
+ Dmitry Baryshkov <lumag@kernel.org>,
+ Abhinav Kumar <abhinav.kumar@linux.dev>, Sean Paul <sean@poorly.run>,
+ Marijn Suijten <marijn.suijten@somainline.org>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Jessica Zhang <jessica.zhang@oss.qualcomm.com>
+Cc: linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ freedreno@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ Abel Vesa <abel.vesa@linaro.org>
+Subject: Re: [PATCH v2] drm/msm/dpu: Fix adjusted mode clock check for 3d merge
+Date: Wed, 29 Oct 2025 02:30:41 +0200
+Message-ID: <176169780818.3761968.15179413078088034823.b4-ty@oss.qualcomm.com>
+X-Mailer: git-send-email 2.47.3
+In-Reply-To: <20250923-modeclk-fix-v2-1-01fcd0b2465a@oss.qualcomm.com>
+References: <20250923-modeclk-fix-v2-1-01fcd0b2465a@oss.qualcomm.com>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: MN2PR12MB3613:EE_|PH7PR12MB6657:EE_
-X-MS-Office365-Filtering-Correlation-Id: 4c9c275b-35ba-4448-2505-08de1681f0c3
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|7416014|376014|366016|1800799024;
-X-Microsoft-Antispam-Message-Info: =?us-ascii?Q?SR7dguIbE/5C/9AkzsHhTykK+Nh6fxNpGo24WiKh/n/xte1XevD5B+CiYyTn?=
- =?us-ascii?Q?dxdabWGjxa44rYnFjO62tqHHTnDUzRKnfqL/EPV01gZiG/hp4q6nCLtVaStu?=
- =?us-ascii?Q?rUxDv15pgIM0pfbMUF2d9z3EpfPTdz6wa0lhwgmVBmI74xBGr6UyDPDbbs96?=
- =?us-ascii?Q?1a+UJJuAI6aEijX0GcXP2vT3y10KzZ0NNPQQUqvnllfemdywNeCSs5MFo/1D?=
- =?us-ascii?Q?4nZzeCK+4As4DhW0hKpGdfW6maej3NRRXtzqoINWoDK8mZXD4FZ0SCHqd/k9?=
- =?us-ascii?Q?pYscMzkbUd528NxYB0q6R8n40A/6/4iz46q/TLhq2SDlpKce8MNkmNTr3AB+?=
- =?us-ascii?Q?arv7nRB1Re6ao0ftTBXQWBi2/Rrvvtjbx5CZpZDCJpGRCubvZrNzYlOiRPMG?=
- =?us-ascii?Q?pInuOnOCU/o0/+sB/P1G2XE2fZLgELL0l6nBXjAAX7zP7PHz+Na+z1hE+KHb?=
- =?us-ascii?Q?d2pGTYrwajzjxwD43lvEscyIE8m3vT3/NQwXLgDffFUJdZ/mQcNNrlTMVE7K?=
- =?us-ascii?Q?lixZ2e311sphyHvbV1EuSiofpLA8gsWtnl4watOEDgGx8oRHtwzQ1Ns6G+AQ?=
- =?us-ascii?Q?3l0EycfB9iadj9ACMwXCSvAUZtXuH5yXqhxjbRR486vmF35Qahw92oaC3gRl?=
- =?us-ascii?Q?vWtBrb5JQcoQVG5lYKPcIFG1J5keEX2Wi+P9oz9aJDoc8vJMcb4io0mvojB1?=
- =?us-ascii?Q?uAfaw3QS1FQXrthcvQswrVoywNXAQDny/mfjQ21z8Q+rYCB6FQg9YK4EGyDb?=
- =?us-ascii?Q?6OXo+3B7kaU2XpR/sxiKp+7V6SyM2G2E7JKck7pRA1FlGitc/UyvwD5/3hz7?=
- =?us-ascii?Q?La1FU30qfO3J2xYBYhnITbUsQMjgK8SQTh8oPpKS2DHqp1qI/RjotbB7e5XY?=
- =?us-ascii?Q?PshJzPZPbkV69IrOuHBXewWJ82QUCXBubgInPFjOI6U3VpYUvEh+nVhWjZEH?=
- =?us-ascii?Q?vIDzyD+W8cIoh3EGpKkYNJwmuQPc0OS3Zsb8f65eN8k1RQAQaQCTu9TTFNmB?=
- =?us-ascii?Q?vEVv5eOf/LNWm57iYgcfhToSvP5YTDAl47aSmw0vKCaotb1mqZba6d5kGkep?=
- =?us-ascii?Q?A0EC25RcRvIUbyhXQY5fjnskhM4HXdZvWksIS6fChMfYWfgbDGR9NuWLWC9A?=
- =?us-ascii?Q?oybwjGnqz4fjrPbmBa8zpeSRkYcTg16yUJRAL0C5mk/VueZZzv2BrPYdo65e?=
- =?us-ascii?Q?atDEb8kpczt7QvH6kwReg1o5/xzICbkSNdU9lKvXshX9wj2ZoqN80dCUk90+?=
- =?us-ascii?Q?fE5vUout2GhiAwnBbdv8HvzAAPI7X3oj1jmxZLMKTcsBXBOtuO1RZ7n6MbEN?=
- =?us-ascii?Q?1pG//vrvZ8AATGXDmC47pGCo8+E26lDYNY86JMzpjLQKOThWJdp8l+IOzj2u?=
- =?us-ascii?Q?T4O4ib0t49SKNpd51dEPlNZISg3ioLJpUI6o2Yj4I6HiBm1lnUc9Lg/2YDJJ?=
- =?us-ascii?Q?I6yvdmjYKEM5EP6j8Nt5TgJp6mdSD6Awvzy5Vf5jxCMTiP5K/i637g=3D=3D?=
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:MN2PR12MB3613.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230040)(7416014)(376014)(366016)(1800799024); DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?LJiW14z0g1F4+O7xV63TbG/RhJCVj+d92R+RxR2WkDIlCzhJW7LsKfpMAbBF?=
- =?us-ascii?Q?oJFNelXM3oyI3mxbDcVf1qVFeuyyPZy+sz2SW54uYPpyWTjDGsDKGCFcn3B/?=
- =?us-ascii?Q?FGPffZn+vUB2zNfabKz2uM4c3Dpqybwt0ZeHlafZYLv6gduEh46qbvrIAeCJ?=
- =?us-ascii?Q?OU8GuT23A6vBgYEtu6N8SiUHPT999BRtn0gy5ZMLyjjk6o7V/0GFkBSd/L5W?=
- =?us-ascii?Q?VJTnM8CKjasB+KdQH74/juP/k95BjaoEpSDiRSm4PFJC87ITp/Bs1C/s5ykO?=
- =?us-ascii?Q?6lCLygOU+2wuNJBWvgOsTJ+FlH5/rOpVHgJIFvddAsS6aAsFSDj6FjynYq8O?=
- =?us-ascii?Q?AJA08dv6i0QVSYgbkHla3RLEl2V31zL63EZyWEsrTbZ5OY4MUyQyfMEC1OjE?=
- =?us-ascii?Q?2SgMNX7IMBgmbSjm6K+GD5fj70/dx2TV9DMR5UyZfxc+a2G7AQKEdfSZIXyr?=
- =?us-ascii?Q?k8QwHGsGv5mlOZQX+FnDMUPMR6lkjc2JkQK0ELcq6Q8HpUxQHXnqLKSnWy4I?=
- =?us-ascii?Q?GQ5O/ZAyedbB3fZlyhilH9J3CS89/S/tXtSnZKNqenXY9WrPh4Y/4N067b4Y?=
- =?us-ascii?Q?4mgH9flP+T0WKGsb4oG1BgDUshZ8aT4Y3LakSa0kkz1led1e9GXhG2nCVyfv?=
- =?us-ascii?Q?8jhWN7ci3BQL5hwMQIQop9so6T0pHnSi9mwTE5167e86X9T7tb8F7Lr2O3lB?=
- =?us-ascii?Q?IL49vthHC61pWVQhYc7QsoGXjGFqo3a4RL78oBUFbGabNgXToPP+68/dxC1+?=
- =?us-ascii?Q?VAvBz0pbPoRM/rzTlZts/VGXnWtC0WhfqoUbs8rHhlwA2+fDOY7YG7Oulc+F?=
- =?us-ascii?Q?Ap3e109DLizRL0SrTFG3ULfOPiM5ZsqwK66ehzvHBZjls/0A9WJJAdEBWrC0?=
- =?us-ascii?Q?9yXDjrNk5kSJpazK1kY7iIwCwuos2K4vT8cRyK2RsEnb53C7zVuaDC3scW2u?=
- =?us-ascii?Q?qsR/rDjE0XfK73vELwFjwsgqz04K9nm01Wo7jhNuCbkuZ/1L9flBO4JMAdt5?=
- =?us-ascii?Q?1HJ+m902hCLOQBZORmlLMHoOJ1F60GFs0gucIuCM3kQ6Bs3Ih9sJhEx1R7de?=
- =?us-ascii?Q?5I+c5Cyudo8gnfMzlK96B6IjzDsYl7NJrK6aVsbRW0e7vma2NmyC4ffWwOz7?=
- =?us-ascii?Q?2ZscvIBtAayF8lfTN4dWJrI5NrkcGyPtD3+F8tsV3cTMaKGhF0UAs+Akpuhi?=
- =?us-ascii?Q?A/jXSec1k/ynqasmgDYKpG91yXe+TmwehoNdaWCFN0X5xcu3cysjhyzZ80zZ?=
- =?us-ascii?Q?KS4f1sNnaMJMSl0nsOoQawR9y8MHWjuZUDJXY67o2J/RAvGInm81cwpXD8EX?=
- =?us-ascii?Q?ujoUHnYnQztMjVPohCiIeZRAJEZzpD17dkBiRqoNDyk8P4fYogGEue7AdXhd?=
- =?us-ascii?Q?aBM4vmGPF7Imy1xUgpSIjQjqFtfJlgP2Y2K6MU7ZETGoUW5I4ZuWelQlA6k7?=
- =?us-ascii?Q?Tit1Rr+o01y8fCuM4vWKK+C3+sezmLglkoCTdz1iucN6LJCHfVAV55TLfGLu?=
- =?us-ascii?Q?ffJJcJ2cXrCwz7v5cskznzQRfvPyt5FRZZI1pkSKxe+Kw4U53mtof81JHR7u?=
- =?us-ascii?Q?xIinAMpOXwgJ3URRAP4=3D?=
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 4c9c275b-35ba-4448-2505-08de1681f0c3
-X-MS-Exchange-CrossTenant-AuthSource: MN2PR12MB3613.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 29 Oct 2025 00:27:28.2198 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: i/xBDGl51ckJVvVgm9Ju2h3dijS9stPkIuMIs3F2tSKXbEn/1VsAID+c6k/DCGPy
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH7PR12MB6657
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
+X-Proofpoint-ORIG-GUID: crXAnwNKs8a85vlLUyFw_TDgNhTvndKY
+X-Authority-Analysis: v=2.4 cv=HM3O14tv c=1 sm=1 tr=0 ts=69016037 cx=c_pps
+ a=UgVkIMxJMSkC9lv97toC5g==:117 a=xqWC_Br6kY4A:10 a=IkcTkHD0fZMA:10
+ a=x6icFKpwvdMA:10 a=s4-Qcg_JpJYA:10 a=VkNPw1HP01LnGYTKEx00:22
+ a=e5mUnYsNAAAA:8 a=1bp3yVi2_WrJ7BMISZwA:9 a=QEXdDO2ut3YA:10
+ a=1HOtulTD9v-eNWfpl4qZ:22 a=Vxmtnl_E_bksehYqCbjh:22
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUxMDI5MDAwMSBTYWx0ZWRfX11u8iYlEvNkI
+ Sxs28aojwNTC3QwZEiwPWzf3N4A3rUq/puco5LAxOo4tn2+7dDvwTxcHG5VdXZ3SOZyLFo07jwp
+ 3Iz2uDmYMdc5KNznNk00EHVk17G5mvSxRjup95lFRfy+p99IDJ/OquskNzwBTTQO0wxsWPIdtRe
+ fTDIhNDWhXOX0Yf3oVz/ar3OYo/eooUHZmw/og0/7mW4nZBKYXR+hBVHPBk3qWM/50qhmrGCpRS
+ 1DErLnzxGV3v3c/4JRxvQEpZUGQKOQlFlBJliV4KcbNeDuQYtPXdVThOYYkpGmjvl+ZTh+e257y
+ aVnb3msfx4mlslWPzXtnhNZ19kQu0IHSGDAX3wzl61I5fyGcfXYWXVcjaxzTsbAErWrSVpWHZQT
+ KWokGM3H4XkCpzo7fpYLXpFrRv8H9w==
+X-Proofpoint-GUID: crXAnwNKs8a85vlLUyFw_TDgNhTvndKY
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.9,FMLib:17.12.80.40
+ definitions=2025-10-28_09,2025-10-22_01,2025-03-28_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ suspectscore=0 priorityscore=1501 malwarescore=0 adultscore=0 phishscore=0
+ spamscore=0 lowpriorityscore=0 impostorscore=0 clxscore=1015 bulkscore=0
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.22.0-2510240001 definitions=main-2510290001
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -152,34 +146,21 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Sun, Oct 26, 2025 at 09:44:12PM -0700, Vivek Kasireddy wrote:
-> In a typical dma-buf use case, a dmabuf exporter makes its buffer
-> buffer available to an importer by mapping it using DMA APIs
-> such as dma_map_sgtable() or dma_map_resource(). However, this
-> is not desirable in some cases where the exporter and importer
-> are directly connected via a physical or virtual link (or
-> interconnect) and the importer can access the buffer without
-> having it DMA mapped.
 
-I think my explanation was not so clear, I spent a few hours and typed
-in what I was thinking about here:
+On Tue, 23 Sep 2025 16:03:50 -0700, Jessica Zhang wrote:
+> Since 3D merge allows for larger modes to be supported across 2 layer
+> mixers, filter modes based on adjusted mode clock / 2 when 3d merge is
+> supported.
+> 
+> 
 
-https://github.com/jgunthorpe/linux/commits/dmabuf_map_type
+Applied, thanks!
 
-I didn't type in the last patch for iommufd side, hopefully it is
-clear enough. Adding iov should follow the pattern of the "physical
-address list" patch.
+[1/1] drm/msm/dpu: Fix adjusted mode clock check for 3d merge
+      https://gitlab.freedesktop.org/lumag/msm/-/commit/f5d079564c44
 
-I think the use of EXPORT_SYMBOL_FOR_MODULES() to lock down the
-physical addres list mapping type to iommufd is clever and I'm hoping
-addresses Chrsitian's concerns about abuse.
+Best regards,
+-- 
+With best wishes
+Dmitry
 
-Single GPU drivers can easilly declare their own mapping type for
-their own private interconnect without needing to change the core
-code.
-
-This seems to be fairly straightforward and reasonably type safe..
-
-What do you think?
-
-Jason
