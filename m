@@ -2,38 +2,49 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7864FC19F06
-	for <lists+dri-devel@lfdr.de>; Wed, 29 Oct 2025 12:14:29 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id B0CAAC1A144
+	for <lists+dri-devel@lfdr.de>; Wed, 29 Oct 2025 12:40:32 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7D66010E7A1;
-	Wed, 29 Oct 2025 11:14:26 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A41D610E7A0;
+	Wed, 29 Oct 2025 11:40:30 +0000 (UTC)
+Authentication-Results: gabe.freedesktop.org;
+	dkim=pass (1024-bit key; secure) header.d=dwurp.de header.i=@dwurp.de header.b="RIWF8YjL";
+	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
- by gabe.freedesktop.org (Postfix) with ESMTP id 6EAAD10E7A1
- for <dri-devel@lists.freedesktop.org>; Wed, 29 Oct 2025 11:14:24 +0000 (UTC)
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
- by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id E8CE01655;
- Wed, 29 Oct 2025 04:14:15 -0700 (PDT)
-Received: from e120398-lin.trondheim.arm.com (e120398-lin.trondheim.arm.com
- [10.40.16.110])
- by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 4E4323F673;
- Wed, 29 Oct 2025 04:14:21 -0700 (PDT)
-From: Ketil Johnsen <ketil.johnsen@arm.com>
-To: Boris Brezillon <boris.brezillon@collabora.com>,
- Steven Price <steven.price@arm.com>, Liviu Dudau <liviu.dudau@arm.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
- Simona Vetter <simona@ffwll.ch>
-Cc: Ketil Johnsen <ketil.johnsen@arm.com>, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org
-Subject: [PATCH] drm/panthor: disable async work during unplug
-Date: Wed, 29 Oct 2025 12:14:10 +0100
-Message-ID: <20251029111412.924104-1-ketil.johnsen@arm.com>
-X-Mailer: git-send-email 2.43.0
+Received: from mail.dwurp.de (mail.dwurp.de [185.183.156.149])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 80AAD89954
+ for <dri-devel@lists.freedesktop.org>; Wed, 29 Oct 2025 11:40:28 +0000 (UTC)
+Message-ID: <ffd5081c-2193-4ae2-9b2c-c32b276fe1d9@dwurp.de>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=dwurp.de; s=mail;
+ t=1761738025;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=TTyQI4Tts9+775CKf5cVmQAALYTRwiiX2bdCP1i30PM=;
+ b=RIWF8YjLxwcXkhBKw+7pNZycLwm/ZZayfmE7J38UjnIz3a7T4yurK+pjTF3cy3whhqmnxp
+ TI4VjKPAKk/CS+1NbZETT3NUZDcFk3MM7CRIcVPinbfJZD5fvLRCccFszWc1Zd+zCV23D5
+ 2IHO3pC2zWqUGvQ0qlkUoOZGeYGmkw4=
+Date: Wed, 29 Oct 2025 12:40:21 +0100
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Subject: Re: [PATCH] drm/panel: kingdisplay-kd097d04: Disable EoTp
+To: Christoph Fritz <chf.fritz@googlemail.com>
+Cc: Neil Armstrong <neil.armstrong@linaro.org>,
+ Jessica Zhang <jesszhan0024@gmail.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
+References: <20251028214045.1944956-1-dev@dwurp.de>
+ <aeee5f47ef2842fde66bc66fc598ee4f007fc1c2.camel@googlemail.com>
+ <33e255dc-64f9-4e4f-82eb-6f5e9c1d63d4@dwurp.de>
+ <5465f445fe9e230f1f37cbb22a97ff2b7c9c3d2e.camel@googlemail.com>
+Content-Language: en-US, de-DE
+From: Sebastian Fleer <dev@dwurp.de>
+In-Reply-To: <5465f445fe9e230f1f37cbb22a97ff2b7c9c3d2e.camel@googlemail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -49,70 +60,24 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-A previous change, "drm/panthor: Fix UAF race between device unplug and
-FW event processing", fixes a real issue where new work was unexpectedly
-queued after cancellation. This was fixed by a disable instead.
+On 10/29/25 09:15, Christoph Fritz wrote:
+> It's not a workaround, it's the actual fix.
+> 
+>> However, I'm in favor of keeping the "Fixes:" line since using bisect,
+>> commit d97e71e44937 ("drm/bridge: synopsys: dw-mipi-dsi: enable EoTp by
+>> default") is found as the first commit that shows distorted output for
+>> that panel.
+> Documentation states:
+> 
+>   || A Fixes: tag indicates that the patch fixes a bug in a previous
+>   || commit
+> 
+> You are quoting the wrong commit in your Fixes: tag.
 
-Apply the same disable logic to other device level async work on device
-unplug as a precaution.
+OK, now I got it. I'll send v2 with Fixes: 2a994cbed6b2 ("drm/panel: Add 
+Kingdisplay KD097D04 panel driver").
 
-Signed-off-by: Ketil Johnsen <ketil.johnsen@arm.com>
----
- drivers/gpu/drm/panthor/panthor_device.c | 2 +-
- drivers/gpu/drm/panthor/panthor_fw.c     | 2 +-
- drivers/gpu/drm/panthor/panthor_sched.c  | 5 ++---
- 3 files changed, 4 insertions(+), 5 deletions(-)
+Thank you for your guidance.
 
-diff --git a/drivers/gpu/drm/panthor/panthor_device.c b/drivers/gpu/drm/panthor/panthor_device.c
-index 962a10e00848e..c4ae78545ef03 100644
---- a/drivers/gpu/drm/panthor/panthor_device.c
-+++ b/drivers/gpu/drm/panthor/panthor_device.c
-@@ -120,7 +120,7 @@ static void panthor_device_reset_cleanup(struct drm_device *ddev, void *data)
- {
- 	struct panthor_device *ptdev = container_of(ddev, struct panthor_device, base);
- 
--	cancel_work_sync(&ptdev->reset.work);
-+	disable_work_sync(&ptdev->reset.work);
- 	destroy_workqueue(ptdev->reset.wq);
- }
- 
-diff --git a/drivers/gpu/drm/panthor/panthor_fw.c b/drivers/gpu/drm/panthor/panthor_fw.c
-index 9bf06e55eaeea..ceb249da8b336 100644
---- a/drivers/gpu/drm/panthor/panthor_fw.c
-+++ b/drivers/gpu/drm/panthor/panthor_fw.c
-@@ -1162,7 +1162,7 @@ void panthor_fw_unplug(struct panthor_device *ptdev)
- {
- 	struct panthor_fw_section *section;
- 
--	cancel_delayed_work_sync(&ptdev->fw->watchdog.ping_work);
-+	disable_delayed_work_sync(&ptdev->fw->watchdog.ping_work);
- 
- 	if (!IS_ENABLED(CONFIG_PM) || pm_runtime_active(ptdev->base.dev)) {
- 		/* Make sure the IRQ handler cannot be called after that point. */
-diff --git a/drivers/gpu/drm/panthor/panthor_sched.c b/drivers/gpu/drm/panthor/panthor_sched.c
-index b7595beaa0205..278434da8926d 100644
---- a/drivers/gpu/drm/panthor/panthor_sched.c
-+++ b/drivers/gpu/drm/panthor/panthor_sched.c
-@@ -3879,8 +3879,9 @@ void panthor_sched_unplug(struct panthor_device *ptdev)
- {
- 	struct panthor_scheduler *sched = ptdev->scheduler;
- 
--	cancel_delayed_work_sync(&sched->tick_work);
-+	disable_delayed_work_sync(&sched->tick_work);
- 	disable_work_sync(&sched->fw_events_work);
-+	disable_work_sync(&sched->sync_upd_work);
- 
- 	mutex_lock(&sched->lock);
- 	if (sched->pm.has_ref) {
-@@ -3898,8 +3899,6 @@ static void panthor_sched_fini(struct drm_device *ddev, void *res)
- 	if (!sched || !sched->csg_slot_count)
- 		return;
- 
--	cancel_delayed_work_sync(&sched->tick_work);
--
- 	if (sched->wq)
- 		destroy_workqueue(sched->wq);
- 
--- 
-2.47.2
-
+Best regards
+Sebastian
