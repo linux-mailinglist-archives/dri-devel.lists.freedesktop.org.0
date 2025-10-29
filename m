@@ -2,139 +2,132 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3B5F0C196AC
-	for <lists+dri-devel@lfdr.de>; Wed, 29 Oct 2025 10:41:31 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id F38D5C196CA
+	for <lists+dri-devel@lfdr.de>; Wed, 29 Oct 2025 10:42:40 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9745810E756;
-	Wed, 29 Oct 2025 09:41:29 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5329210E752;
+	Wed, 29 Oct 2025 09:42:39 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=suse.de header.i=@suse.de header.b="MmnLD2bD";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="eKUlva59";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="MmnLD2bD";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="eKUlva59";
+	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="QQuycoPs";
+	dkim=pass (2048-bit key; unprotected) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="Ei5WI6UG";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 06CB810E752
- for <dri-devel@lists.freedesktop.org>; Wed, 29 Oct 2025 09:41:28 +0000 (UTC)
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org
- [IPv6:2a07:de40:b281:104:10:150:64:97])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested)
- by smtp-out2.suse.de (Postfix) with ESMTPS id 960F9204E0;
- Wed, 29 Oct 2025 09:41:26 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1761730886; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=N5K8Urb4N3VnDxSd9ItMD6oQu4DbsPgRcBWRHps8dGc=;
- b=MmnLD2bDSmha8bCQ+szJBz6hFzasi5Q+Z1nL8hpXU3GsJ//mZjTxrR1scUc+wU22Hdo1RQ
- bwjPmN001opVfiuypQMxFbXHV0DOyMmxoUMcjBKOmaScW1MtfZn3t2vP7l/Wf9KLugIR63
- SVXCPjQoJ9MT1KRr1u81v316f6UWEsA=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1761730886;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=N5K8Urb4N3VnDxSd9ItMD6oQu4DbsPgRcBWRHps8dGc=;
- b=eKUlva59HJ4G7qpP3fnafOr0fZI29XG7OaMNoZyBHqKmYOjicgBS6kl0/+KJU+RyIIdISl
- vHfyuqexYEhD+3AA==
-Authentication-Results: smtp-out2.suse.de;
- dkim=pass header.d=suse.de header.s=susede2_rsa header.b=MmnLD2bD;
- dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=eKUlva59
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1761730886; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=N5K8Urb4N3VnDxSd9ItMD6oQu4DbsPgRcBWRHps8dGc=;
- b=MmnLD2bDSmha8bCQ+szJBz6hFzasi5Q+Z1nL8hpXU3GsJ//mZjTxrR1scUc+wU22Hdo1RQ
- bwjPmN001opVfiuypQMxFbXHV0DOyMmxoUMcjBKOmaScW1MtfZn3t2vP7l/Wf9KLugIR63
- SVXCPjQoJ9MT1KRr1u81v316f6UWEsA=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1761730886;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=N5K8Urb4N3VnDxSd9ItMD6oQu4DbsPgRcBWRHps8dGc=;
- b=eKUlva59HJ4G7qpP3fnafOr0fZI29XG7OaMNoZyBHqKmYOjicgBS6kl0/+KJU+RyIIdISl
- vHfyuqexYEhD+3AA==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested)
- by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 7AB311396A;
- Wed, 29 Oct 2025 09:41:26 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
- by imap1.dmz-prg2.suse.org with ESMTPSA id 54NcHUbhAWk7DgAAD6G6ig
- (envelope-from <tzimmermann@suse.de>); Wed, 29 Oct 2025 09:41:26 +0000
-Message-ID: <924afde7-eccf-4dda-af92-b6dc5dacb18a@suse.de>
-Date: Wed, 29 Oct 2025 10:41:25 +0100
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
+ [205.220.180.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6E61A10E752
+ for <dri-devel@lists.freedesktop.org>; Wed, 29 Oct 2025 09:42:38 +0000 (UTC)
+Received: from pps.filterd (m0279868.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id
+ 59T4ux6x3676873
+ for <dri-devel@lists.freedesktop.org>; Wed, 29 Oct 2025 09:42:37 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+ cc:content-transfer-encoding:content-type:date:from:in-reply-to
+ :message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+ MmgRKySPBYPzkhHOeDW0BeEkxDUdUPpQf5CBxkBMstI=; b=QQuycoPs+C/VeFQM
+ etXGcA454gTXTyTo+Z0pkOabIRfNOIDe5qcGphTys7OTdaXoZ6lCv6fhWR8TdhIp
+ QKhZAvzohOpCHrveLE883tDiUVxPXIftlLBEIGuz18V9BjEzPu/SwVnZqfyr8HRL
+ N2jAhAN8wCSosm1UvKGweyNQY8NIYfQ8sfFlrUAytVkQro0hWt3NfHiHvoCGGC0F
+ CRylK4rV+9q5mXlHJScqWfiOThdJaDUiSZMUB6KdBWiuwcadmmQtadRwBBZX4Jmm
+ R9mWcHxphDVBhc1fI3VSIMaaQUFmsDYKPbUyVMfLT9V3bs03igtoxmx3Q1ST37O9
+ xkkFPA==
+Received: from mail-qk1-f200.google.com (mail-qk1-f200.google.com
+ [209.85.222.200])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4a34a1j14s-1
+ (version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
+ for <dri-devel@lists.freedesktop.org>; Wed, 29 Oct 2025 09:42:37 +0000 (GMT)
+Received: by mail-qk1-f200.google.com with SMTP id
+ af79cd13be357-88e965f2bbfso263580985a.2
+ for <dri-devel@lists.freedesktop.org>; Wed, 29 Oct 2025 02:42:37 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=oss.qualcomm.com; s=google; t=1761730957; x=1762335757;
+ darn=lists.freedesktop.org; 
+ h=content-transfer-encoding:in-reply-to:from:content-language
+ :references:cc:to:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=MmgRKySPBYPzkhHOeDW0BeEkxDUdUPpQf5CBxkBMstI=;
+ b=Ei5WI6UGxcM1H32alnZI0m6w02LT39h6DgzOL5vlg3JZ7RiPuG8xZ1sYThOvSz9/Jk
+ ckV0YZDCB7N8eo8//JkstqOhCt6LVkwg/662MnQtx7/mVLChdL1sl+y1njwDt7lz/YzJ
+ dpTVMbroSkUbxTwqgfKZ3O16vgcyRwyVH5TlTn7oQ9R1n46SqSaAXol/TCJsrJvD1W1U
+ 8F3lIhepwD6tcl6RRPT8t3Ulfid4SlD51uMggcFyE8UOtHFwmF9kmYt3OUOg/F5rW5Pc
+ G1eMTh45Qpm6onFkcUhABboizxlEbV5UPvUzX5lkKQk9kS+qrQkKjFpGCnSu+S50Bia0
+ vHlg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1761730957; x=1762335757;
+ h=content-transfer-encoding:in-reply-to:from:content-language
+ :references:cc:to:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=MmgRKySPBYPzkhHOeDW0BeEkxDUdUPpQf5CBxkBMstI=;
+ b=vDmOyI8AWasMTZgQwXTBLfv3dLHiDO4UlQNfUtCPbCj4oz8ytyuhmAXkfkzyblumfI
+ wUNoWnbu8uuicMQMByz2AyLC+583uPq8nNSS0JwPa1ST53BdImgPwYU5/t0kmhw68TdJ
+ 2Ctgtyz9wqJY3SjmleUvVlZjjCjmzryMHFisJfV1/QOndiBi7fKd6V58ZigcjM52MCLW
+ 5mW6KNUAcPHaQtKx8g4k2OVTV0rcm19G76R//nzC/9dV3eXTCzj+vV6/HR+EQ0OXUm2k
+ PiSpHBXjUxYpKIZUnQlCaDhwDwpOzbfFRH1qjJl+aafrajKZdjmriF0SVKpfjIVPQ54E
+ o9AQ==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCU0nfwm8XpWAV97pN7mkNEQRlGmfpkYLBd2LtJKnUTOB1RoF7E8UpmQc0LPP0DTZ0A/zMxEi+u0w94=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YxndzDvLlTwzR5OEw8xKzgws4OKBDF2PnpOPp3XQBbtmK+ELaUv
+ b2WEjDtEPHtRZ75oM4OhmnGHK70GuDSYn/amVfOM9wkxuq9PUAYS0oLY6+fHYUVxD9jaUqmpXVi
+ eo12ktwboP3zCLhTmC7vqs7SUtVIFqr3wrFwsBOfGegoi/QeIvg0ld5d1NgazhqCemG9FqCo=
+X-Gm-Gg: ASbGncsDAPqnEtvl5ApBT5piIsfDbXkFU0NZeB8LHFn2T/lodgBhhANwwwyZFa/yFpj
+ 1/yPo0TqedqSnybf0XmwxIgx3L/bjbkqD0iwcBufUXwGr6bN3NGNJW6H9rEhbZ9zQYlenv5NGI1
+ kPzgtjXYuSGu3WU0ipwVJer9Dq85PilCHXqgPcjl1D8uSXIy9IoXxN8U+MN1aXp0KYrxBN9zNQP
+ VgzMvCNCJLxpak3stgt1/GjibquVu7MeTirXIGIVwq0HYyf3ORrIj3ZQ8oc0SgebVayzOlC4c/k
+ QCSgJ0x4dZ4S0lmw+oBD2+yh8gdlzqPzmcn6H5XIoiwoLnYbKZA1ZzJQocz6nf7UvCX/WhTVuTL
+ H9iHTcfx0uKHT/k56X0HV95by/PkifMl7dtslKe7CiXhKbr7tRn/HkoNf
+X-Received: by 2002:a05:620a:bce:b0:878:408d:c09a with SMTP id
+ af79cd13be357-8a8e34d22c9mr206431885a.4.1761730956891; 
+ Wed, 29 Oct 2025 02:42:36 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IEyzw2uooaE3FP8gd0prarw9B+NMvunoxzP7rKqKh5OTI7VSeSeyuZJuSI/cuTYOFoNrAsYcA==
+X-Received: by 2002:a05:620a:bce:b0:878:408d:c09a with SMTP id
+ af79cd13be357-8a8e34d22c9mr206430585a.4.1761730956406; 
+ Wed, 29 Oct 2025 02:42:36 -0700 (PDT)
+Received: from [192.168.119.202] (078088045245.garwolin.vectranet.pl.
+ [78.88.45.245]) by smtp.gmail.com with ESMTPSA id
+ a640c23a62f3a-b6d8541e99fsm1389534266b.61.2025.10.29.02.42.34
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 29 Oct 2025 02:42:35 -0700 (PDT)
+Message-ID: <78679e08-2a38-477b-a080-be0442465fbe@oss.qualcomm.com>
+Date: Wed, 29 Oct 2025 10:42:33 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] drm/ast: Handle framebuffer from dma-buf
-To: Jocelyn Falempe <jfalempe@redhat.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Dave Airlie <airlied@redhat.com>,
- Simona Vetter <simona@ffwll.ch>, dri-devel@lists.freedesktop.org
-References: <20251028144226.171593-1-jfalempe@redhat.com>
- <99f8a5f0-c650-485c-aef6-e8f1a89598fe@redhat.com>
- <26c7b1b5-cf9e-4d46-8796-b18329c46c61@suse.de>
- <b28f58f6-ce30-4ac2-afa0-4b3849f0725d@redhat.com>
+Subject: Re: [PATCH] drm/display/dp: Rename bit 4 of DPCD TEST_REQUEST to
+ match DP2.1 spec
+To: Khaled Almahallawy <khaled.almahallawy@intel.com>,
+ dri-devel@lists.freedesktop.org, linux-arm-msm@vger.kernel.org
+Cc: intel-gfx@lists.freedesktop.org, intel-xe@lists.freedesktop.org,
+ Jani Nikula <jani.nikula@intel.com>, Rob Clark
+ <robin.clark@oss.qualcomm.com>, Dmitry Baryshkov <lumag@kernel.org>,
+ Abhinav Kumar <quic_abhinavk@quicinc.com>, Sean Paul <sean@poorly.run>
+References: <20251028222817.3290035-1-khaled.almahallawy@intel.com>
 Content-Language: en-US
-From: Thomas Zimmermann <tzimmermann@suse.de>
-Autocrypt: addr=tzimmermann@suse.de; keydata=
- xsBNBFs50uABCADEHPidWt974CaxBVbrIBwqcq/WURinJ3+2WlIrKWspiP83vfZKaXhFYsdg
- XH47fDVbPPj+d6tQrw5lPQCyqjwrCPYnq3WlIBnGPJ4/jreTL6V+qfKRDlGLWFjZcsrPJGE0
- BeB5BbqP5erN1qylK9i3gPoQjXGhpBpQYwRrEyQyjuvk+Ev0K1Jc5tVDeJAuau3TGNgah4Yc
- hdHm3bkPjz9EErV85RwvImQ1dptvx6s7xzwXTgGAsaYZsL8WCwDaTuqFa1d1jjlaxg6+tZsB
- 9GluwvIhSezPgnEmimZDkGnZRRSFiGP8yjqTjjWuf0bSj5rUnTGiyLyRZRNGcXmu6hjlABEB
- AAHNJ1Rob21hcyBaaW1tZXJtYW5uIDx0emltbWVybWFubkBzdXNlLmRlPsLAjgQTAQgAOAIb
- AwULCQgHAgYVCgkICwIEFgIDAQIeAQIXgBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftODH
- AAoJEGgNwR1TC3ojx1wH/0hKGWugiqDgLNXLRD/4TfHBEKmxIrmfu9Z5t7vwUKfwhFL6hqvo
- lXPJJKQpQ2z8+X2vZm/slsLn7J1yjrOsoJhKABDi+3QWWSGkaGwRJAdPVVyJMfJRNNNIKwVb
- U6B1BkX2XDKDGffF4TxlOpSQzdtNI/9gleOoUA8+jy8knnDYzjBNOZqLG2FuTdicBXblz0Mf
- vg41gd9kCwYXDnD91rJU8tzylXv03E75NCaTxTM+FBXPmsAVYQ4GYhhgFt8S2UWMoaaABLDe
- 7l5FdnLdDEcbmd8uLU2CaG4W2cLrUaI4jz2XbkcPQkqTQ3EB67hYkjiEE6Zy3ggOitiQGcqp
- j//OwE0EWznS4AEIAMYmP4M/V+T5RY5at/g7rUdNsLhWv1APYrh9RQefODYHrNRHUE9eosYb
- T6XMryR9hT8XlGOYRwKWwiQBoWSDiTMo/Xi29jUnn4BXfI2px2DTXwc22LKtLAgTRjP+qbU6
- 3Y0xnQN29UGDbYgyyK51DW3H0If2a3JNsheAAK+Xc9baj0LGIc8T9uiEWHBnCH+RdhgATnWW
- GKdDegUR5BkDfDg5O/FISymJBHx2Dyoklv5g4BzkgqTqwmaYzsl8UxZKvbaxq0zbehDda8lv
- hFXodNFMAgTLJlLuDYOGLK2AwbrS3Sp0AEbkpdJBb44qVlGm5bApZouHeJ/+n+7r12+lqdsA
- EQEAAcLAdgQYAQgAIAIbDBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftOH6AAoJEGgNwR1T
- C3ojVSkIALpAPkIJPQoURPb1VWjh34l0HlglmYHvZszJWTXYwavHR8+k6Baa6H7ufXNQtThR
- yIxJrQLW6rV5lm7TjhffEhxVCn37+cg0zZ3j7zIsSS0rx/aMwi6VhFJA5hfn3T0TtrijKP4A
- SAQO9xD1Zk9/61JWk8OysuIh7MXkl0fxbRKWE93XeQBhIJHQfnc+YBLprdnxR446Sh8Wn/2D
- Ya8cavuWf2zrB6cZurs048xe0UbSW5AOSo4V9M0jzYI4nZqTmPxYyXbm30Kvmz0rYVRaitYJ
- 4kyYYMhuULvrJDMjZRvaNe52tkKAvMevcGdt38H4KSVXAylqyQOW5zvPc4/sq9c=
-In-Reply-To: <b28f58f6-ce30-4ac2-afa0-4b3849f0725d@redhat.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Spam-Level: 
-X-Spam-Flag: NO
-X-Rspamd-Queue-Id: 960F9204E0
-X-Rspamd-Action: no action
-X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
-X-Spamd-Result: default: False [-4.51 / 50.00]; BAYES_HAM(-3.00)[100.00%];
- NEURAL_HAM_LONG(-1.00)[-1.000];
- R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
- NEURAL_HAM_SHORT(-0.20)[-1.000]; MIME_GOOD(-0.10)[text/plain];
- MX_GOOD(-0.01)[]; FROM_HAS_DN(0.00)[];
- DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
- FUZZY_RATELIMITED(0.00)[rspamd.com]; MIME_TRACE(0.00)[0:+];
- ARC_NA(0.00)[]; TO_DN_SOME(0.00)[];
- TO_MATCH_ENVRCPT_ALL(0.00)[]; RCVD_TLS_ALL(0.00)[];
- DKIM_TRACE(0.00)[suse.de:+]; RCVD_COUNT_TWO(0.00)[2];
- FROM_EQ_ENVFROM(0.00)[]; RCPT_COUNT_FIVE(0.00)[6];
- MID_RHS_MATCH_FROM(0.00)[]; RCVD_VIA_SMTP_AUTH(0.00)[];
- RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
- DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:dkim,suse.de:mid,suse.de:email]
-X-Spam-Score: -4.51
+From: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
+In-Reply-To: <20251028222817.3290035-1-khaled.almahallawy@intel.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-Authority-Analysis: v=2.4 cv=Nu/cssdJ c=1 sm=1 tr=0 ts=6901e18d cx=c_pps
+ a=hnmNkyzTK/kJ09Xio7VxxA==:117 a=FpWmc02/iXfjRdCD7H54yg==:17
+ a=IkcTkHD0fZMA:10 a=x6icFKpwvdMA:10 a=s4-Qcg_JpJYA:10
+ a=VkNPw1HP01LnGYTKEx00:22 a=QyXUC8HyAAAA:8 a=EUspDBNiAAAA:8 a=VwQbUJbxAAAA:8
+ a=COk6AnOGAAAA:8 a=DweoPDKG-9ER2baVzYcA:9 a=QEXdDO2ut3YA:10
+ a=PEH46H7Ffwr30OY-TuGO:22 a=TjNXssC_j7lpFel5tvFf:22
+X-Proofpoint-GUID: OX0Y1dApa12x5JrPIhkBzg3Ld1ffb8CX
+X-Proofpoint-ORIG-GUID: OX0Y1dApa12x5JrPIhkBzg3Ld1ffb8CX
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUxMDI5MDA3MiBTYWx0ZWRfX7AluWssVlzo3
+ TLuV8zaORZhpVqinGTkO+ziwSgUnrZO3TXTc0LdT2kjPjgfm1tE6L/zXbbJb4BYF7usHq5NkWvu
+ mzOGExsbsOZRynHu5h1lzPOxmRkFMU1yZ984Yf46ci3jMy87vbFJVde7jnAnfzeGAhrAS7bLO0b
+ odLXyZPROfa7aDegF4Hj+zq/lvJ3Am78Ee/F6JE5L4Qa/96WrfsF0aEJBOXg5CDgcrJqa6xZifm
+ hI+A9jG6/J+rDckZ/W80gWQVcVjGQL3vTjJeA+5q3DSdpG/6b5wvLU/s9bp3BtoidK7kZdDPCFs
+ X8l9/GCUTXW0yyFR56NWy19y1VQDAHV8imXEikjBA99Zl+kwqLMVr6CpCF6+XpV9jNdhJ93hotn
+ V3zRej5dAeTVAy7fsSSY3DHRYLzC+A==
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.9,FMLib:17.12.80.40
+ definitions=2025-10-29_04,2025-10-22_01,2025-03-28_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ spamscore=0 priorityscore=1501 adultscore=0 suspectscore=0 clxscore=1015
+ lowpriorityscore=0 phishscore=0 impostorscore=0 bulkscore=0 malwarescore=0
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.22.0-2510240001 definitions=main-2510290072
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -150,104 +143,47 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi
+On 10/28/25 11:28 PM, Khaled Almahallawy wrote:
+> The DP_TEST_LINK_FAUX_PATTERN field was deprecated in the DP 1.3 spec.
+> Update its name to align with the DP 2.1 definition and reflect its
+> actual use in the code. No functional changes.
+> 
+> Cc: Jani Nikula <jani.nikula@intel.com>
+> Cc: Rob Clark <robin.clark@oss.qualcomm.com>
+> Cc: Dmitry Baryshkov <lumag@kernel.org>
+> Cc: Abhinav Kumar <quic_abhinavk@quicinc.com>
+> Cc: Sean Paul <sean@poorly.run>
+> Signed-off-by: Khaled Almahallawy <khaled.almahallawy@intel.com>
+> ---
+>  drivers/gpu/drm/msm/dp/dp_link.c | 2 +-
+>  include/drm/display/drm_dp.h     | 2 +-
+>  2 files changed, 2 insertions(+), 2 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/msm/dp/dp_link.c b/drivers/gpu/drm/msm/dp/dp_link.c
+> index 66e1bbd80db3..5d465cf4dbc2 100644
+> --- a/drivers/gpu/drm/msm/dp/dp_link.c
+> +++ b/drivers/gpu/drm/msm/dp/dp_link.c
+> @@ -665,7 +665,7 @@ static int msm_dp_link_parse_request(struct msm_dp_link_private *link)
+>  		return rlen;
+>  	}
+>  
+> -	if (!data || (data == DP_TEST_LINK_FAUX_PATTERN)) {
+> +	if (!data || (data == DP_TEST_PHY_TEST_CHANNEL_CODING_TYPE)) {
+>  		drm_dbg_dp(link->drm_dev, "link 0x%x not supported\n", data);
+>  		goto end;
+>  	}
+> diff --git a/include/drm/display/drm_dp.h b/include/drm/display/drm_dp.h
+> index e4eebabab975..610b8cbf1125 100644
+> --- a/include/drm/display/drm_dp.h
+> +++ b/include/drm/display/drm_dp.h
+> @@ -849,7 +849,7 @@
+>  # define DP_TEST_LINK_VIDEO_PATTERN	    (1 << 1)
+>  # define DP_TEST_LINK_EDID_READ		    (1 << 2)
+>  # define DP_TEST_LINK_PHY_TEST_PATTERN	    (1 << 3) /* DPCD >= 1.1 */
+> -# define DP_TEST_LINK_FAUX_PATTERN	    (1 << 4) /* DPCD >= 1.2 */
+> +# define DP_TEST_PHY_TEST_CHANNEL_CODING_TYPE	    (1 << 4)
 
-Am 28.10.25 um 18:24 schrieb Jocelyn Falempe:
-> On 28/10/2025 17:01, Thomas Zimmermann wrote:
->> Hi Jocelyn
->>
->> Am 28.10.25 um 15:49 schrieb Jocelyn Falempe:
->>> On 28/10/2025 15:42, Jocelyn Falempe wrote:
->>>> In the atomic update callback, ast should call
->>>> drm_gem_fb_begin_cpu_access() to make sure it can read the
->>>> framebuffer from the CPU, otherwise the data might not be there due
->>>> to cache, and synchronization.
->>>>
->>>> Tested on a Lenovo SE100, while rendering on the ArrowLake GPU with
->>>> i915 driver, and using ast for display.
->>>
->>> I sent this patch a bit too fast, my mistake below:>
->>>> Suggested-by: Thomas Zimmermann <tzimmermann@suse.de>
->>>> Signed-off-by: Jocelyn Falempe <jfalempe@redhat.com>
->>>> ---
->>>>   drivers/gpu/drm/ast/ast_mode.c | 6 ++++++
->>>>   1 file changed, 6 insertions(+)
->>>>
->>>> diff --git a/drivers/gpu/drm/ast/ast_mode.c b/drivers/gpu/drm/ast/ 
->>>> ast_mode.c
->>>> index 9ce874dba69c..68da4544d92d 100644
->>>> --- a/drivers/gpu/drm/ast/ast_mode.c
->>>> +++ b/drivers/gpu/drm/ast/ast_mode.c
->>>> @@ -556,11 +556,17 @@ static void 
->>>> ast_primary_plane_helper_atomic_update(struct drm_plane *plane,
->>>>           ast_set_vbios_color_reg(ast, fb->format, ast_crtc_state- 
->>>> >vmode);
->>>>       }
->>>>   +    /* if the buffer comes from another device */
->>>> +    if (!drm_gem_fb_begin_cpu_access(fb, DMA_FROM_DEVICE))
->>>> +        return;
->>>> +
->>>
->>> Sorry, there is a typo here, it should be:
->>>
->>> if (drm_gem_fb_begin_cpu_access(fb, DMA_FROM_DEVICE))
->>>     return;
->>>
->>>> drm_atomic_helper_damage_iter_init(&iter, old_plane_state, 
->>>> plane_state);
->>>>       drm_atomic_for_each_plane_damage(&iter, &damage) {
->>>>           ast_handle_damage(ast_plane, shadow_plane_state->data, 
->>>> fb, &damage);
->>>>       }
->>>>   +    drm_gem_fb_end_cpu_access(fb, DMA_FROM_DEVICE);
->>>> +
->>
->> Thanks for posting this. I know that you follow the common code from 
->> other drivers, but I think we should change the pattern a bit. The 
->> code in _begin_cpu_access() might fail for whatever reason, but that 
->> does not affect the rest of the plane update.
->>
->> How about
->>
->> if (_begin_cpu_access() == 0)
->>      for_each_damage {
->>          handle_damage()
->>      }
->>      _end_cpu_access()
->> }
->>
->> and then continue with the rest of the helper? Even if the damage 
->> update doesn't happen, the driver would still program changes of the 
->> framebuffer pitch.
->>
->> There's no easy way of keeping the damage information across display 
->> updates AFAIK. But the problem might be transient, while a failed 
->> update of the framebuffer pitch can be permanent.
->>
->
-> I'm unsure what is better, change the pitch while keeping the old 
-> buffer content, or keeping the last frame, and risking the next update 
-> to mess up. Anyway this shouldn't happen in practice, so I will sent 
-> your version in a v2.
+I think it'd be useful to keep a comment of what it was before the
+deprecation and rename
 
-If the error is permanent, we're probably out of luck in any case. If 
-the error is transient, it might be fixed with the next frame if we 
-program the framebuffer pitch to the correct value.
-
-Best regards
-Thomas
-
->
-> Best regards,
->
-
--- 
---
-Thomas Zimmermann
-Graphics Driver Developer
-SUSE Software Solutions Germany GmbH
-Frankenstrasse 146, 90461 Nuernberg, Germany
-GF: Ivo Totev, Andrew Myers, Andrew McDonald, Boudien Moerman
-HRB 36809 (AG Nuernberg)
-
-
+Konrad
