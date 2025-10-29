@@ -2,141 +2,177 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8A78EC178D3
-	for <lists+dri-devel@lfdr.de>; Wed, 29 Oct 2025 01:31:12 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id A893BC178E5
+	for <lists+dri-devel@lfdr.de>; Wed, 29 Oct 2025 01:32:14 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 542F810E6C8;
-	Wed, 29 Oct 2025 00:31:00 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id F097210E6C4;
+	Wed, 29 Oct 2025 00:32:04 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="c42zwcBD";
-	dkim=pass (2048-bit key; unprotected) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="c9cMjtcP";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="OacQm7wa";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
- [205.220.168.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D516B10E6C5
- for <dri-devel@lists.freedesktop.org>; Wed, 29 Oct 2025 00:30:54 +0000 (UTC)
-Received: from pps.filterd (m0279865.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id
- 59SJlGRf2609295
- for <dri-devel@lists.freedesktop.org>; Wed, 29 Oct 2025 00:30:54 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
- cc:content-transfer-encoding:content-type:date:from:in-reply-to
- :message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
- BA3mJgJEALDSQIU7lzkJCNPe98ZeA1NlvvJIGteEvDA=; b=c42zwcBDAPLZdF1u
- rm7Y3eie3KqdnqllpJIswgqdZu3BXIkUFqJFdU9XgoJgNd3bnPRnFaKyZCi+O24J
- 94mhNFH50rJ10UJfnxKvoodqMfG1PjKrUxjnzc0FHZ3PCifct8LtKR9LtqgBHFsj
- divbCHAV8gjOjTsY3TWQdopUfvjm0CSEDiWM11WwWGEPQHirMfF7BQH1YCufGiEP
- 85u+89F6fXxKrxTnhLdCmT3AhNX8DqEcfSh3OKIP9DGucnyLJYkTRWdzo49gp6OZ
- 6oEYi4ypzPj44bNQI3pyYfTmsLg05ymnQooqI52RcE2sVA2t7/+0nskUp/y2X6sP
- H8TOCA==
-Received: from mail-qv1-f69.google.com (mail-qv1-f69.google.com
- [209.85.219.69])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4a34a00nyr-1
- (version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
- for <dri-devel@lists.freedesktop.org>; Wed, 29 Oct 2025 00:30:54 +0000 (GMT)
-Received: by mail-qv1-f69.google.com with SMTP id
- 6a1803df08f44-87bf4ed75beso148313376d6.3
- for <dri-devel@lists.freedesktop.org>; Tue, 28 Oct 2025 17:30:54 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=oss.qualcomm.com; s=google; t=1761697853; x=1762302653;
- darn=lists.freedesktop.org; 
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:from:to:cc:subject:date
- :message-id:reply-to;
- bh=BA3mJgJEALDSQIU7lzkJCNPe98ZeA1NlvvJIGteEvDA=;
- b=c9cMjtcP40x0RzPkfG+0CJm4hFy+y4vwY9kktjUSKc388m181U/TqLlFfWG7FohQBt
- /CTU8ruaya7LJNA7mXWhxMQXJK0nvYXxT/PkrQpoNLVOuXcpjAN79BjiCUCEMNZ3a2/L
- ZB/3qsbS5Jx0cDdeosoN2tSGuUYoOKpTwVBMXInYaUW8ksuWistrCzzQd94mdr/ATMKB
- 0Xdf40AyWOuStjLQEngvy7dr6yIVv1YAHWiodU8VSrJV+5UPeYzrBdrNn6FryQxQl/a2
- uqdtyCb49fgHEpRlnFnTG/8/vg2BccSPf5Qu1+gYCf5/SwUGv5AORwOErpLUwr0bcBMI
- oZIA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1761697853; x=1762302653;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=BA3mJgJEALDSQIU7lzkJCNPe98ZeA1NlvvJIGteEvDA=;
- b=IME/9AitLstIICNjGAS2zqF/WvlE4sJaa1ZNKG4X+gHOaM5vRM5Qlkmgr1DJQ2LnwS
- XQzCdM6Pf3Xj/qygwYa6m1sTPikh/RLAntPN/s8sjoXD0Qcn6g/I1TUTwY3aDNHioVCS
- ARLMiANLCp2yqvPJU4z01h60OGuDPgPnUHvsrCrwfVbH9ihTUe99byWM+0VgElurRbED
- 30mxu6f8oi9amiMCNmfkncxn88y+2F4r7Wz/grV1bmZlKAPU/8AEuF2jImDLQ8bjsG+v
- IFLaTaQoitgb/XZ0Uy1n9S/W+59prFIB7MG99naWt8iRuAXADxokcqnvjkE1eBQifIqA
- uCRw==
-X-Forwarded-Encrypted: i=1;
- AJvYcCXzja602ZCAthbOVzmfP6UbcFvIR1A6UqENS/odpASw2t6QNoY0lxyUPshGGQgyNZFtYyR92DFQNQE=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YxW/pMCOwR4fy1FpiAvu718RaBB4JFn3T1OLnCh0cJYnZ2ngUXd
- UWel8KkVnLvDrFnOzBTKa0mjPPiMcXGAcDI38Q78Gr6nnvlfZXwW46V3Dehywl4aXaUFzY9Izi6
- xU57hBgN525N2p7hiAkD6UXtyV36lC92dQJJJOHpeKbw+39vMkjMGofbWneWSZZdJHODVvkI=
-X-Gm-Gg: ASbGncuf38yl8Nk1lwScXnPgHHWOsXw3l/wU191cjg5JiY5uh/VkPI81Zv9cmTwRMy1
- 8eV+N04wRs9PFoPFm7G17PAAcZ0+WrIaS8fbwk3kIU/BGNs6goQG2LcqWmfNkwXG6Yoi4uCu+SE
- PnuFcfGs9Wv2lCB5vBxuuLc6f/KN86nHBmd47Shj/fOLsU/j9b/0iZJhIxwl6yIRF058zhN6FzO
- jjuFnUlmby1d8evk2rvwzsGM/frwrrcIFqqiqe01rskFJhpZcTJ/3phJTVQXV16YqJXI4BxbnHr
- TUpX/cgW1kwpxhO8PWQQwbm8i7odmP7YAShJm9bo1RHj60edoUhdH6MfPaW/59izoRBk9pXTtNJ
- ArN39BcLK9Qby1+xeWtJeAROJc/Z2+BVnKk8v8IbJ54OHLSx2+aaOOKtSR5LkqZRKbI2UKytXuI
- D8j1ei5x+y3C8w
-X-Received: by 2002:a05:6214:2385:b0:879:d13a:109e with SMTP id
- 6a1803df08f44-88009c125a4mr16066466d6.58.1761697853294; 
- Tue, 28 Oct 2025 17:30:53 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IEyr/bWQydXn9qOo8x46NrfEYfRXvfQLrxprPj6QzPNkBQLdmOHSiqC1X0kLR/y0Ii3Ai42aQ==
-X-Received: by 2002:a05:6214:2385:b0:879:d13a:109e with SMTP id
- 6a1803df08f44-88009c125a4mr16065856d6.58.1761697852700; 
- Tue, 28 Oct 2025 17:30:52 -0700 (PDT)
-Received: from umbar.lan
- (2001-14ba-a0c3-3a00-264b-feff-fe8b-be8a.rev.dnainternet.fi.
- [2001:14ba:a0c3:3a00:264b:feff:fe8b:be8a])
- by smtp.gmail.com with ESMTPSA id
- 38308e7fff4ca-378ee092042sm32141621fa.6.2025.10.28.17.30.49
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 28 Oct 2025 17:30:50 -0700 (PDT)
-From: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
-To: Rob Clark <robin.clark@oss.qualcomm.com>,
- Dmitry Baryshkov <lumag@kernel.org>,
- Abhinav Kumar <abhinav.kumar@linux.dev>,
- Jessica Zhang <jessica.zhang@oss.qualcomm.com>,
- Sean Paul <sean@poorly.run>,
- Marijn Suijten <marijn.suijten@somainline.org>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>,
- Kalyan Thota <quic_kalyant@quicinc.com>,
- Vinod Polimera <quic_vpolimer@quicinc.com>,
- Konrad Dybcio <konradybcio@kernel.org>,
- =?UTF-8?q?Barnab=C3=A1s=20Cz=C3=A9m=C3=A1n?= <barnabas.czeman@mainlining.org>, 
- Vladimir Lypak <vladimir.lypak@gmail.com>
-Cc: linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org,
- freedreno@lists.freedesktop.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 0/6] drm/msm/dpu: Fixes for virtual planes and 1.x features
-Date: Wed, 29 Oct 2025 02:30:43 +0200
-Message-ID: <176169780824.3761968.9764192918741349867.b4-ty@oss.qualcomm.com>
-X-Mailer: git-send-email 2.47.3
-In-Reply-To: <20251017-b4-dpu-fixes-v1-0-40ce5993eeb6@gmail.com>
-References: <20251017-b4-dpu-fixes-v1-0-40ce5993eeb6@gmail.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id AAD0810E6C4;
+ Wed, 29 Oct 2025 00:32:03 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1761697924; x=1793233924;
+ h=date:from:to:cc:subject:message-id:references:
+ content-transfer-encoding:in-reply-to:mime-version;
+ bh=Drb7TCx7WaRQtSnEpB7ZGoPUXB5Ui9/1ulzUeZD7UmM=;
+ b=OacQm7wa0TKkvD3IIS6Po+BFs0KfP3uk7IvWizi4EL320OLQvAB9v4yo
+ OedA2BizviqRPICofB7nKvRSa1BNnDNmie98nhaLslAtMVENS7BgduwFM
+ b03b5r7avMPCi8WAqBgLwUHQSNTZZhrWcwBphR00hCh0Fzp8U4f8ZAaYM
+ hjxk5ud6jPSfeSSaJW+AoBubm6x1LN/tsJ3PPQAfzyF3vxpmjotDaNIjz
+ JoCrYBjMcsWiBOEWMuuCVx4z4ix1YNWJ9pjh/xSFBBabjib8b9eyOBkEc
+ 2R/CRV2CNCjkgsk8GC6oDGWE2YthVjhuuAnwsqonZ2KE8Ug4md9epNsS0 A==;
+X-CSE-ConnectionGUID: Vz6KS9OPTIKQOSC/PDYzpQ==
+X-CSE-MsgGUID: R2Qt4QHpQtmkcvbz3onkyA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11531"; a="67648865"
+X-IronPort-AV: E=Sophos;i="6.17,312,1747724400"; d="scan'208";a="67648865"
+Received: from orviesa010.jf.intel.com ([10.64.159.150])
+ by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 28 Oct 2025 17:32:04 -0700
+X-CSE-ConnectionGUID: O9JdE6WNRdq5Jc19q7Rj9w==
+X-CSE-MsgGUID: uvhwkQvuQiCHeMGmGdnZNg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.19,262,1754982000"; d="scan'208";a="184743704"
+Received: from fmsmsx901.amr.corp.intel.com ([10.18.126.90])
+ by orviesa010.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 28 Oct 2025 17:32:03 -0700
+Received: from FMSMSX901.amr.corp.intel.com (10.18.126.90) by
+ fmsmsx901.amr.corp.intel.com (10.18.126.90) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.2562.27; Tue, 28 Oct 2025 17:32:02 -0700
+Received: from fmsedg902.ED.cps.intel.com (10.1.192.144) by
+ FMSMSX901.amr.corp.intel.com (10.18.126.90) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.2562.27 via Frontend Transport; Tue, 28 Oct 2025 17:32:02 -0700
+Received: from BN1PR04CU002.outbound.protection.outlook.com (52.101.56.51) by
+ edgegateway.intel.com (192.55.55.82) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.2562.27; Tue, 28 Oct 2025 17:32:01 -0700
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=umJCKtjiWCiKGD7xIquEY1aYW4UaHnmBj94UvfhBu1kCZzTr1emqPZl8MrzGJg+BqoT6buZYFOUod+e1xIvUjuhreQ7eNqyHH50D86F8T3DxOBIUB++g8krCuvgAYfY+ydZ5/JtS+c0Htb4hLdYBNentZ7rahOqr92EYY1ovNxvcuIJ4j+16v4F2X9nUu7I8tUpyB1YTxQW73C38f0kVyLIuMAMUWTIlN8H51ofe55/sYktnEmRZ6gudnA2M3H2iS5FzWz1gV720ipcS4bxWWR9DALkUNZGJiXGbgaSsKZlj3i2PcY9E5wNjhbKrP5n8t2emBlXCr6KYN5tdZGd8WQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=I6s3mek+X9xRctB7KPAO2IYPi7uVfTQHHKkBpNBOEzI=;
+ b=X+IUzTeljCfB2RDOsuRdyxaOi1e4i/2YOmZ6Gy7ecA04ihuNj0LW7C26ZPnTGQCclEANLbyID01giTZ2elzF89JSDt0HKrFPKddxIOkbHRC140aRmraUGk0xCQrbXe7GGcGTh+FqKYsIjaQRx8Md8vcilm6qQMGjSCpsHU9aANQoNVqcRsFQy78ZKAV+kr3ecB+GJAk4S2Twqm+nmu/YWXKjsfNSh8fuRxAjs85w1WVg+SdjPVxlxp0EU7J71M1ZXH3dyS3x+GnAo3WzFhbzqEtU/c0k9Y0u2U2QJnfOClUSbB1Xg7CFRGxd5uUe+p7UgfYmhEwxhuEqfmmpD1Qt8Q==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=intel.com;
+Received: from PH7PR11MB6522.namprd11.prod.outlook.com (2603:10b6:510:212::12)
+ by DM3PPF208195D8D.namprd11.prod.outlook.com (2603:10b6:f:fc00::f13)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9275.12; Wed, 29 Oct
+ 2025 00:31:53 +0000
+Received: from PH7PR11MB6522.namprd11.prod.outlook.com
+ ([fe80::9e94:e21f:e11a:332]) by PH7PR11MB6522.namprd11.prod.outlook.com
+ ([fe80::9e94:e21f:e11a:332%3]) with mapi id 15.20.9253.017; Wed, 29 Oct 2025
+ 00:31:53 +0000
+Date: Tue, 28 Oct 2025 17:31:50 -0700
+From: Matthew Brost <matthew.brost@intel.com>
+To: Thomas =?iso-8859-1?Q?Hellstr=F6m?= <thomas.hellstrom@linux.intel.com>
+CC: <intel-xe@lists.freedesktop.org>, <dri-devel@lists.freedesktop.org>,
+ <himal.prasad.ghimiray@intel.com>, <apopple@nvidia.com>, <airlied@gmail.com>, 
+ Simona Vetter <simona.vetter@ffwll.ch>, <felix.kuehling@amd.com>, Christian
+ =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>, <dakr@kernel.org>,
+ "Mrozek, Michal" <michal.mrozek@intel.com>, Joonas Lahtinen
+ <joonas.lahtinen@linux.intel.com>
+Subject: Re: [PATCH 01/15] drm/pagemap, drm/xe: Add refcounting to struct
+ drm_pagemap
+Message-ID: <aQFgdpgcj3k0Egt/@lstrano-desk.jf.intel.com>
+References: <20251025120412.12262-1-thomas.hellstrom@linux.intel.com>
+ <20251025120412.12262-2-thomas.hellstrom@linux.intel.com>
+Content-Type: text/plain; charset="iso-8859-1"
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUxMDI5MDAwMSBTYWx0ZWRfX1E8+MU4R4sT5
- gqTFObR7PvBQ25Vdi04aT4Vk5ORfKOBVRs9PI4R7TRR6HsiONz1XcaSfQYDQctHQPn09mMcBx4J
- 53GXaEkzIm3OKAP9/TI1dSVd/QRQYPrDFVXyjRyPJdiA0VVCeXELa9uz7R8oWEMUHo/2Cbnn7KP
- h3WoWFfsQhcb7Bpbs/TLi7aRjD64VsIkjdH6CHaRzGoXw6S0Um/NcrxSwmFv2MIOzbh3VNCDSZj
- Dkvw9Cc14Xr+/aXSa5CmPu1vM8bPt5nTpMN0LxbLREEKY+TAeLolIjp4vvVzHL1YZEY4WDjhovT
- yJhUemdrDYeD3jgn11QSDMXz5arh+yzsk3x4CJjCh/bnfFFMXpKfW3LwewwyTN+NeKMrvSF9zWv
- 0YmSj49O+IuYYca797NFd3U6jNHc6A==
-X-Proofpoint-GUID: SgF1I7nWjrJj06xE08gF0PaDaflY4Yx5
-X-Proofpoint-ORIG-GUID: SgF1I7nWjrJj06xE08gF0PaDaflY4Yx5
-X-Authority-Analysis: v=2.4 cv=epXSD4pX c=1 sm=1 tr=0 ts=6901603e cx=c_pps
- a=wEM5vcRIz55oU/E2lInRtA==:117 a=xqWC_Br6kY4A:10 a=IkcTkHD0fZMA:10
- a=x6icFKpwvdMA:10 a=s4-Qcg_JpJYA:10 a=VkNPw1HP01LnGYTKEx00:22
- a=e5mUnYsNAAAA:8 a=aMyzyzqXAEIezWvZdfUA:9 a=QEXdDO2ut3YA:10
- a=OIgjcC2v60KrkQgK7BGD:22 a=Vxmtnl_E_bksehYqCbjh:22
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.9,FMLib:17.12.80.40
- definitions=2025-10-28_09,2025-10-22_01,2025-03-28_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- priorityscore=1501 impostorscore=0 lowpriorityscore=0 spamscore=0 bulkscore=0
- suspectscore=0 malwarescore=0 clxscore=1015 adultscore=0 phishscore=0
- classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.22.0-2510240001 definitions=main-2510290001
+In-Reply-To: <20251025120412.12262-2-thomas.hellstrom@linux.intel.com>
+X-ClientProxiedBy: SJ0PR13CA0074.namprd13.prod.outlook.com
+ (2603:10b6:a03:2c4::19) To PH7PR11MB6522.namprd11.prod.outlook.com
+ (2603:10b6:510:212::12)
+MIME-Version: 1.0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: PH7PR11MB6522:EE_|DM3PPF208195D8D:EE_
+X-MS-Office365-Filtering-Correlation-Id: 887a2e53-3050-431c-e5f9-08de16828eac
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+ ARA:13230040|366016|1800799024|376014|7416014|7053199007; 
+X-Microsoft-Antispam-Message-Info: =?iso-8859-1?Q?7sbKYhqRAPYgR4/fjEUoQr0O1xVUMRzRjTnYyqyJSTkibuv+uQdc9iz5cD?=
+ =?iso-8859-1?Q?aHSfMESURtQCnuga15sehwhDY4LI58mrHSvvPk3/3FW3zl60nnR/YMiiYt?=
+ =?iso-8859-1?Q?kdehJLIoreUJN/GoX2Gyzu+b9lnLPIy8coIgEWWix4HcAcSR5dVad9Scrw?=
+ =?iso-8859-1?Q?t7orvTHxoZSdpgv88W3IoLCal5ZjnYwu9vuGpOX35C5/t2bIk/aI8FXQYw?=
+ =?iso-8859-1?Q?c3ywk19j9m2HaphrWEhVrjKhZt2A7bF7LAFOEIi8qZNBLxv0+qWef9SU70?=
+ =?iso-8859-1?Q?vikokonkKjjO0VNPm18meK8paO3B6HSzlPJxWBSn+dFXzMbw87qqOUnZ8p?=
+ =?iso-8859-1?Q?l3pew31Tsiqq1/JBYJm1EI4zHZxmvwSPhPH65qYbmXiP64hZla3mxw/T5p?=
+ =?iso-8859-1?Q?k2STTkdOtjRGX15i+JDZk28fA9sGJnxHMP/P4PebdNNlPgVlO5i26Y3Gpk?=
+ =?iso-8859-1?Q?Y+jymZiTK6JepuYKo9Hb63V/qAhUHPShdZzOWwP+8KGIEDxVQT643s4oRX?=
+ =?iso-8859-1?Q?QeLJ9r8R9xIpixEWsst4TycKM4G4V9tbFMyOYOKKhah76nu59LXwhz75qD?=
+ =?iso-8859-1?Q?Cf9qxUGOWngisT+xqgrS4I+7z5z0kHBRk7/z9/CIeq/yrBAySpsT6EodUz?=
+ =?iso-8859-1?Q?wbbUCtUE2kRwkQQ8VKKffbyaLTvqd6ajJJOyy9Nm07H/ngpeo06hWsYhrY?=
+ =?iso-8859-1?Q?H107WMgcm26Ir4PclG5n3Ej8Kqnyeix0MmAjJ4FXSFi96UPUx8z9RxPdHC?=
+ =?iso-8859-1?Q?Sj3Hl5jyr2iwbW2m0cG1kdKjnsOR4VylMevAIojaEKy6FT7Vi1RikA7uJR?=
+ =?iso-8859-1?Q?bzprJggwg9hisUGfC+xW/MdbfFTvXgRk5bRFmqBkkGc7H/eFErsQd7GB/j?=
+ =?iso-8859-1?Q?WdrpiMX4RHZl3zWXJmbwcFHJfmQ1U+3KVx+GZblgaudDa9g0H6ul7oD2s3?=
+ =?iso-8859-1?Q?0Dmk1V/shS0QhgBlzVRa1Cw/5pPohtzAG7SY397U4dw63qh4VpQriNn43q?=
+ =?iso-8859-1?Q?6XwRQq4WDbcPgJ7Hyo9ihFskqqIxFHOafkfEwlaMtrwnVoe4V+0NnFmTyX?=
+ =?iso-8859-1?Q?G8/pmLhzxgXQDHLeUQ2RIRKlKPTh3zuuJhnPEF0cC0n1/YKqMLlXMrQN0s?=
+ =?iso-8859-1?Q?d6Pf9cOpF7e8cZEEr18IjDWMxlQlEbx7pZUsi2dqAJ6H9ILPWYSIbPaZdM?=
+ =?iso-8859-1?Q?QtwJTXB+5gCiG/jTwi5AEsquj72IIPdTF57AFQ2UupJpNXR+xDet9wNhKQ?=
+ =?iso-8859-1?Q?kIXDW/Q/n3e2wmjTZWth+sZ4Ic6MR3tqHFm4Dxx6SJQQ6HLFDbNltVL0xT?=
+ =?iso-8859-1?Q?7nhEDF9gIxzpRd4o2F7sHs342srNQIr5LvVfeG/psDm4DnDnC4ipK7mPVx?=
+ =?iso-8859-1?Q?w05qfTLgVyHSjNT9+QyO0VhENioUhLHNrrDGTz3ipRkLpllCV4uTSkzRvq?=
+ =?iso-8859-1?Q?Dg9Q+cRGz0+uT6jhgvMR4hJQivbfwBUJwsoZ7OcaLp8xAxIh9Y7jqdzcJn?=
+ =?iso-8859-1?Q?HvCX4ADOgaSp2bHQTpcuqB?=
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:PH7PR11MB6522.namprd11.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230040)(366016)(1800799024)(376014)(7416014)(7053199007); DIR:OUT;
+ SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?iso-8859-1?Q?I34NAOmjUt1cFxISWUNM3wrUYrV+B+wlziCFZXL1GTFM1Z0Nlb2CzKYeV2?=
+ =?iso-8859-1?Q?x4lRsJWPzpaolwx+C71daVHF+DjbipCORAJFsPEDOzX4YLjYqilECOmXKz?=
+ =?iso-8859-1?Q?Cf434dMcFqkwS1oV7y3mHnqWNuxfewj4QejEKGFafWB8u/ERbEER/RrBK6?=
+ =?iso-8859-1?Q?fPoN/48xrhpvdrYVUrPAJ28sdzT/redCXWheOogxB21SBjZahvBhsHVUwo?=
+ =?iso-8859-1?Q?HaqyfEEsAhYSLpFOV1el8qouMv+aBnGYc5Uz9xXXAk/Rn+/iHyaURUYdTt?=
+ =?iso-8859-1?Q?Yk8P9hlaMPCN5/qOjTeMDdMxJXo2NZnd8fkxy+TPkeodx1HJA2YmKlojzZ?=
+ =?iso-8859-1?Q?s2a0wpLLybro5YluLizoCirt60q9sxG5aE3fTAaQMQxV63MH2wskBOo4/G?=
+ =?iso-8859-1?Q?LczjRAoidEjrBuD68jN99HaqKy3bzuYsbfeuPFoBKM4ibxXTebOfbHOPjQ?=
+ =?iso-8859-1?Q?LSYwXsDnrWHvP+VpeZlCBXYMA5oSl5nKba44rxirWRq7F9BV9gkStuKNCY?=
+ =?iso-8859-1?Q?PeWtc9vzxJOavQSf/XqSTN4Jw4J7GXp2iMY2J3yhOWVz6jJUIsXhrHNyIS?=
+ =?iso-8859-1?Q?7QQhOCKf4Bl42tMy8PRCyAt65v1FNXu+jcsE8xG/3GH/s7T4LzEQMvgwck?=
+ =?iso-8859-1?Q?62USYR0UU5RO2G4Bc+X26dt5hTDdDA64jm3BAzaS0GRFCaGz7QFD+qFUCq?=
+ =?iso-8859-1?Q?BH41iSvJJMgB875T3pdQ6gWyrRVeX6T2U2/MC8kHYVqY79lFaX1eZpnhJ+?=
+ =?iso-8859-1?Q?rl7Side7SPXiIWcEbWpZgIr6WaW0K4nralRpjUkREwVfbWwjfvz14/scyX?=
+ =?iso-8859-1?Q?Wfa+lWGHbuP0C42VC7yXVUrkfvK3xZsCzWgekUMfn2TgBhcVYnDGz71B1S?=
+ =?iso-8859-1?Q?jiv47gFxWUG62Rs2FHOvfOnb/T29KvdurPPcy+xrDWt//noDGuCXIeaCHB?=
+ =?iso-8859-1?Q?iy/WFzzwh2a3L16iiVWeDCWKsNiOFooRPScQIAWwCaD1xaZKKp9cmoiD+9?=
+ =?iso-8859-1?Q?8XJ+puJ1LStTx3MpJeeqlBLie5HNDNC/pvjI+QX/xRgdO5eYpBTg6vNZSZ?=
+ =?iso-8859-1?Q?/iSHsIYVybsLSoVXt/6XdB66ecatiTMqFQvdHswmk/1Ebe20FlXbU+j+mI?=
+ =?iso-8859-1?Q?jh+Apyijy718yl5SsvGCX8OgWwpV/gAnukeZh/Xl8C7BeDM5O3+lehuyEH?=
+ =?iso-8859-1?Q?NKMGeSB3Fj/VnGx7O+IzPhkdGgSdLdvqwsDHSAWrHB3Awums/UwMbcAxdO?=
+ =?iso-8859-1?Q?emSXm9s84JSWRhIh2Q20zpmQ6ap+UG1rypI+WUKV+yyCWhreKZZLxs1JCw?=
+ =?iso-8859-1?Q?L2VUfPKqkr/0+8JVoL5mamj4fNApiCVFuJi+AMGzK4UYYSYaDtttBcmvJK?=
+ =?iso-8859-1?Q?Z31TMYs2O5SZvT/RxYwRkmHtQIE3gFBD0EvXRr5im6RjEosIvE8nQAICqm?=
+ =?iso-8859-1?Q?f9dq6dYw0ziSWoTBkbVwhjjR6I606PnLTTURiSV+SXxpmYml5Cf03aCyp0?=
+ =?iso-8859-1?Q?VSrePzm/oD+vLcmZgvmv2ExhuzpZ3Vc0OdsVwtTROnDLASZP6w0lX1y/cI?=
+ =?iso-8859-1?Q?u+mhg0JkAmRwmOi2z5ZRaHBFywBNUwLj287naxyb1glHwdIebAmJXdRM9p?=
+ =?iso-8859-1?Q?EO/zTFjt7gBFzqMlvVpXKN965KgLnHrGUPVJ/xum9GCqmLwEpONGz3jg?=
+ =?iso-8859-1?Q?=3D=3D?=
+X-MS-Exchange-CrossTenant-Network-Message-Id: 887a2e53-3050-431c-e5f9-08de16828eac
+X-MS-Exchange-CrossTenant-AuthSource: PH7PR11MB6522.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 29 Oct 2025 00:31:53.1180 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: G+BFMipXidFU51lgtKrTT3tWmgKD0OTDs2bdh4iRREKtSTQNaPnp30Lsbu7fN1RO77odD6HeFPtiNA9r2a3ZwQ==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM3PPF208195D8D
+X-OriginatorOrg: intel.com
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -152,29 +188,234 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
-On Fri, 17 Oct 2025 19:58:34 +0000, Vladimir Lypak wrote:
-> This patch series fix some issues found during testing on MDSS v1.16.
+On Sat, Oct 25, 2025 at 02:03:58PM +0200, Thomas Hellström wrote:
+> With the end goal of being able to free unused pagemaps
+> and allocate them on demand, add a refcount to struct drm_pagemap,
+> remove the xe embedded drm_pagemap, allocating and freeing it
+> explicitly.
 > 
+
+I think techincally we can leak a drm_pagemap in this patch by itself,
+but since the ref counting scheme is refined later in the series, likely
+not worth adding drmm/devm handler to drop this reference.
+
+Anyways, patch itself look good to me:
+Reviewed-by: Matthew Brost <matthew.brost@intel.com>
+
+> Signed-off-by: Thomas Hellström <thomas.hellstrom@linux.intel.com>
+> ---
+>  drivers/gpu/drm/drm_pagemap.c      | 51 ++++++++++++++++++++++++++++++
+>  drivers/gpu/drm/xe/xe_svm.c        | 26 ++++++++++-----
+>  drivers/gpu/drm/xe/xe_vram_types.h |  2 +-
+>  include/drm/drm_pagemap.h          | 36 +++++++++++++++++++++
+>  4 files changed, 106 insertions(+), 9 deletions(-)
 > 
-
-Applied, thanks!
-
-[1/6] drm/msm/dpu: Fix allocation of RGB SSPPs without scaling
-      https://gitlab.freedesktop.org/lumag/msm/-/commit/2319551e97f0
-[2/6] drm/msm/dpu: Propagate error from dpu_assign_plane_resources
-      https://gitlab.freedesktop.org/lumag/msm/-/commit/23ab0d6228bf
-[3/6] drm/msm/dpu: Disable scaling for unsupported scaler types
-      https://gitlab.freedesktop.org/lumag/msm/-/commit/425da3305972
-[4/6] drm/msm/dpu: Fix pixel extension sub-sampling
-      https://gitlab.freedesktop.org/lumag/msm/-/commit/2f8bed917542
-[5/6] drm/msm/dpu: Require linear modifier for writeback framebuffers
-      https://gitlab.freedesktop.org/lumag/msm/-/commit/5e0656b12534
-[6/6] drm/msm/dpu: Disable broken YUV on QSEED2 hardware
-      https://gitlab.freedesktop.org/lumag/msm/-/commit/bbc65d1bde82
-
-Best regards,
--- 
-With best wishes
-Dmitry
-
+> diff --git a/drivers/gpu/drm/drm_pagemap.c b/drivers/gpu/drm/drm_pagemap.c
+> index 22c44807e3fe..4b8692f0b2a2 100644
+> --- a/drivers/gpu/drm/drm_pagemap.c
+> +++ b/drivers/gpu/drm/drm_pagemap.c
+> @@ -538,6 +538,57 @@ static int drm_pagemap_migrate_populate_ram_pfn(struct vm_area_struct *vas,
+>  	return -ENOMEM;
+>  }
+>  
+> +static void drm_pagemap_release(struct kref *ref)
+> +{
+> +	struct drm_pagemap *dpagemap = container_of(ref, typeof(*dpagemap), ref);
+> +
+> +	kfree(dpagemap);
+> +}
+> +
+> +/**
+> + * drm_pagemap_create() - Create a struct drm_pagemap.
+> + * @dev: Pointer to a struct device providing the device-private memory.
+> + * @pagemap: Pointer to a pre-setup struct dev_pagemap providing the struct pages.
+> + * @ops: Pointer to the struct drm_pagemap_ops.
+> + *
+> + * Allocate and initialize a struct drm_pagemap.
+> + *
+> + * Return: A refcounted pointer to a struct drm_pagemap on success.
+> + * Error pointer on error.
+> + */
+> +struct drm_pagemap *
+> +drm_pagemap_create(struct device *dev,
+> +		   struct dev_pagemap *pagemap,
+> +		   const struct drm_pagemap_ops *ops)
+> +{
+> +	struct drm_pagemap *dpagemap = kzalloc(sizeof(*dpagemap), GFP_KERNEL);
+> +
+> +	if (!dpagemap)
+> +		return ERR_PTR(-ENOMEM);
+> +
+> +	kref_init(&dpagemap->ref);
+> +	dpagemap->dev = dev;
+> +	dpagemap->ops = ops;
+> +	dpagemap->pagemap = pagemap;
+> +
+> +	return dpagemap;
+> +}
+> +EXPORT_SYMBOL(drm_pagemap_create);
+> +
+> +/**
+> + * drm_pagemap_put() - Put a struct drm_pagemap reference
+> + * @dpagemap: Pointer to a struct drm_pagemap object.
+> + *
+> + * Puts a struct drm_pagemap reference and frees the drm_pagemap object
+> + * if the refount reaches zero.
+> + */
+> +void drm_pagemap_put(struct drm_pagemap *dpagemap)
+> +{
+> +	if (likely(dpagemap))
+> +		kref_put(&dpagemap->ref, drm_pagemap_release);
+> +}
+> +EXPORT_SYMBOL(drm_pagemap_put);
+> +
+>  /**
+>   * drm_pagemap_evict_to_ram() - Evict GPU SVM range to RAM
+>   * @devmem_allocation: Pointer to the device memory allocation
+> diff --git a/drivers/gpu/drm/xe/xe_svm.c b/drivers/gpu/drm/xe/xe_svm.c
+> index 129e7818565c..6d2c6c144315 100644
+> --- a/drivers/gpu/drm/xe/xe_svm.c
+> +++ b/drivers/gpu/drm/xe/xe_svm.c
+> @@ -861,7 +861,7 @@ static int xe_drm_pagemap_populate_mm(struct drm_pagemap *dpagemap,
+>  				      struct mm_struct *mm,
+>  				      unsigned long timeslice_ms)
+>  {
+> -	struct xe_vram_region *vr = container_of(dpagemap, typeof(*vr), dpagemap);
+> +	struct xe_vram_region *vr = container_of(dpagemap->pagemap, typeof(*vr), pagemap);
+>  	struct xe_device *xe = vr->xe;
+>  	struct device *dev = xe->drm.dev;
+>  	struct drm_buddy_block *block;
+> @@ -1372,7 +1372,7 @@ u8 xe_svm_ranges_zap_ptes_in_range(struct xe_vm *vm, u64 start, u64 end)
+>  
+>  static struct drm_pagemap *tile_local_pagemap(struct xe_tile *tile)
+>  {
+> -	return &tile->mem.vram->dpagemap;
+> +	return tile->mem.vram->dpagemap;
+>  }
+>  
+>  /**
+> @@ -1482,6 +1482,15 @@ int xe_devm_add(struct xe_tile *tile, struct xe_vram_region *vr)
+>  		return ret;
+>  	}
+>  
+> +	vr->dpagemap = drm_pagemap_create(dev, &vr->pagemap,
+> +					  &xe_drm_pagemap_ops);
+> +	if (IS_ERR(vr->dpagemap)) {
+> +		drm_err(&xe->drm, "Failed to create drm_pagemap tile %d memory: %pe\n",
+> +			tile->id, vr->dpagemap);
+> +		ret = PTR_ERR(vr->dpagemap);
+> +		goto out_no_dpagemap;
+> +	}
+> +
+>  	vr->pagemap.type = MEMORY_DEVICE_PRIVATE;
+>  	vr->pagemap.range.start = res->start;
+>  	vr->pagemap.range.end = res->end;
+> @@ -1489,22 +1498,23 @@ int xe_devm_add(struct xe_tile *tile, struct xe_vram_region *vr)
+>  	vr->pagemap.ops = drm_pagemap_pagemap_ops_get();
+>  	vr->pagemap.owner = xe_svm_devm_owner(xe);
+>  	addr = devm_memremap_pages(dev, &vr->pagemap);
+> -
+> -	vr->dpagemap.dev = dev;
+> -	vr->dpagemap.ops = &xe_drm_pagemap_ops;
+> -
+>  	if (IS_ERR(addr)) {
+> -		devm_release_mem_region(dev, res->start, resource_size(res));
+>  		ret = PTR_ERR(addr);
+>  		drm_err(&xe->drm, "Failed to remap tile %d memory, errno %pe\n",
+>  			tile->id, ERR_PTR(ret));
+> -		return ret;
+> +		goto out_failed_memremap;
+>  	}
+>  	vr->hpa_base = res->start;
+>  
+>  	drm_dbg(&xe->drm, "Added tile %d memory [%llx-%llx] to devm, remapped to %pr\n",
+>  		tile->id, vr->io_start, vr->io_start + vr->usable_size, res);
+>  	return 0;
+> +
+> +out_failed_memremap:
+> +	drm_pagemap_put(vr->dpagemap);
+> +out_no_dpagemap:
+> +	devm_release_mem_region(dev, res->start, resource_size(res));
+> +	return ret;
+>  }
+>  #else
+>  int xe_svm_alloc_vram(struct xe_tile *tile,
+> diff --git a/drivers/gpu/drm/xe/xe_vram_types.h b/drivers/gpu/drm/xe/xe_vram_types.h
+> index 83772dcbf1af..c0d2c5ee8c10 100644
+> --- a/drivers/gpu/drm/xe/xe_vram_types.h
+> +++ b/drivers/gpu/drm/xe/xe_vram_types.h
+> @@ -72,7 +72,7 @@ struct xe_vram_region {
+>  	 * @dpagemap: The struct drm_pagemap of the ZONE_DEVICE memory
+>  	 * pages of this tile.
+>  	 */
+> -	struct drm_pagemap dpagemap;
+> +	struct drm_pagemap *dpagemap;
+>  	/**
+>  	 * @hpa_base: base host physical address
+>  	 *
+> diff --git a/include/drm/drm_pagemap.h b/include/drm/drm_pagemap.h
+> index f6e7e234c089..2c7de928865b 100644
+> --- a/include/drm/drm_pagemap.h
+> +++ b/include/drm/drm_pagemap.h
+> @@ -129,11 +129,15 @@ struct drm_pagemap_ops {
+>   * struct drm_pagemap: Additional information for a struct dev_pagemap
+>   * used for device p2p handshaking.
+>   * @ops: The struct drm_pagemap_ops.
+> + * @ref: Reference count.
+>   * @dev: The struct drevice owning the device-private memory.
+> + * @pagemap: Pointer to the underlying dev_pagemap.
+>   */
+>  struct drm_pagemap {
+>  	const struct drm_pagemap_ops *ops;
+> +	struct kref ref;
+>  	struct device *dev;
+> +	struct dev_pagemap *pagemap;
+>  };
+>  
+>  struct drm_pagemap_devmem;
+> @@ -202,6 +206,37 @@ struct drm_pagemap_devmem_ops {
+>  			   unsigned long npages);
+>  };
+>  
+> +struct drm_pagemap *drm_pagemap_create(struct device *dev,
+> +				       struct dev_pagemap *pagemap,
+> +				       const struct drm_pagemap_ops *ops);
+> +
+> +#if IS_ENABLED(CONFIG_DRM_GPUSVM)
+> +
+> +void drm_pagemap_put(struct drm_pagemap *dpagemap);
+> +
+> +#else
+> +
+> +static inline void drm_pagemap_put(struct drm_pagemap *dpagemap)
+> +{
+> +}
+> +
+> +#endif /* IS_ENABLED(CONFIG_DRM_GPUSVM) */
+> +
+> +/**
+> + * drm_pagemap_get() - Obtain a reference on a struct drm_pagemap
+> + * @dpagemap: Pointer to the struct drm_pagemap.
+> + *
+> + * Return: Pointer to the struct drm_pagemap.
+> + */
+> +static inline struct drm_pagemap *
+> +drm_pagemap_get(struct drm_pagemap *dpagemap)
+> +{
+> +	if (likely(dpagemap))
+> +		kref_get(&dpagemap->ref);
+> +
+> +	return dpagemap;
+> +}
+> +
+>  /**
+>   * struct drm_pagemap_devmem - Structure representing a GPU SVM device memory allocation
+>   *
+> @@ -246,3 +281,4 @@ int drm_pagemap_populate_mm(struct drm_pagemap *dpagemap,
+>  			    unsigned long timeslice_ms);
+>  
+>  #endif
+> +
+> -- 
+> 2.51.0
+> 
