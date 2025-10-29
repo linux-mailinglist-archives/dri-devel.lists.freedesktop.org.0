@@ -2,75 +2,85 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 43BBDC18CE8
-	for <lists+dri-devel@lfdr.de>; Wed, 29 Oct 2025 08:57:05 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7C8F5C18AAE
+	for <lists+dri-devel@lfdr.de>; Wed, 29 Oct 2025 08:23:28 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8490110E716;
-	Wed, 29 Oct 2025 07:57:02 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A8A7D10E168;
+	Wed, 29 Oct 2025 07:23:25 +0000 (UTC)
+Authentication-Results: gabe.freedesktop.org;
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="W0hM6lkx";
+	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 938 seconds by postgrey-1.36 at gabe;
- Wed, 29 Oct 2025 07:57:01 UTC
-Received: from mail-vip.corpemail.net (mail-vip.corpemail.net
- [162.243.126.186])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E5B6E10E719;
- Wed, 29 Oct 2025 07:57:01 +0000 (UTC)
-Received: from jtjnmail201623.home.langchao.com
- by ssh248.corpemail.net ((D)) with ASMTP (SSL) id 202510291519137869;
- Wed, 29 Oct 2025 15:19:13 +0800
-Received: from jtjnmail201626.home.langchao.com (10.100.2.36) by
- jtjnmail201623.home.langchao.com (10.100.2.23) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.58; Wed, 29 Oct 2025 15:19:13 +0800
-Received: from jtjnmailAR01.home.langchao.com (10.100.2.42) by
- jtjnmail201626.home.langchao.com (10.100.2.36) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.58; Wed, 29 Oct 2025 15:19:13 +0800
-Received: from inspur.com (10.100.2.113) by jtjnmailAR01.home.langchao.com
- (10.100.2.42) with Microsoft SMTP Server id 15.1.2507.58 via Frontend
- Transport; Wed, 29 Oct 2025 15:19:13 +0800
-Received: from localhost.localdomain.com (unknown [10.94.19.60])
- by app9 (Coremail) with SMTP id cQJkCsDwlHjwvwFppzgHAA--.5619S2;
- Wed, 29 Oct 2025 15:19:13 +0800 (CST)
-From: Bo Liu <liubo03@inspur.com>
-To: <harry.wentland@amd.com>, <sunpeng.li@amd.com>,
- <alexander.deucher@amd.com>, <christian.koenig@amd.com>, <airlied@gmail.com>, 
- <simona@ffwll.ch>
-CC: <amd-gfx@lists.freedesktop.org>, <dri-devel@lists.freedesktop.org>,
- <linux-kernel@vger.kernel.org>, Bo Liu <liubo03@inspur.com>
-Subject: [PATCH] drm/amd/display: Fix double word in comments
-Date: Wed, 29 Oct 2025 15:19:11 +0800
-Message-ID: <20251029071911.17786-1-liubo03@inspur.com>
-X-Mailer: git-send-email 2.43.7
+Received: from mail-pf1-f179.google.com (mail-pf1-f179.google.com
+ [209.85.210.179])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 77E0610E168
+ for <dri-devel@lists.freedesktop.org>; Wed, 29 Oct 2025 07:23:24 +0000 (UTC)
+Received: by mail-pf1-f179.google.com with SMTP id
+ d2e1a72fcca58-7a27bf4fbcbso5851812b3a.1
+ for <dri-devel@lists.freedesktop.org>; Wed, 29 Oct 2025 00:23:24 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20230601; t=1761722604; x=1762327404; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=w7WzjBbcIkMp9vE4EpjCxo/Q8IBE8WxTrpS4XkHUl5o=;
+ b=W0hM6lkxFY0bzuSEVEFmEL6IjiuGCWxk5y9RhqTYCQLsXuxqfyTZeQRQU+XqXFrJXF
+ Q5ZG12g9c0Nf9sB1TNKSeWKgi33YCaae64alZKaIQtKdIsxt4mSSy5dlfqpK/o2mUVQB
+ f+DEh5suZtvTtZkMeYcCTOCf2AH/c4+JU8BBkclPEUm8tz9uvfb1ckYfFQKqlAUu8iSE
+ qOm0y943w4I3suSya3TVh6vfTsCdWCQCTDe+mMsswb79VN/PFIWIsqxYFfHrd8TkZ89z
+ PCsW64sPK6Ta4TVR70X/ykNXykKROEjJ7qq3brxbcYYLJLwFebA2DigHQU+kgFOa+hsI
+ +tHA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1761722604; x=1762327404;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=w7WzjBbcIkMp9vE4EpjCxo/Q8IBE8WxTrpS4XkHUl5o=;
+ b=IfYXcG34D/y8TSZOYicu3Lryxz+8vklFcAA+ncw0cddq5bawsDE9LmMZ7HWYS30n9w
+ D3aeMtKQEnHTlA5PKEEBEmPe+dmBszv5wxNYe5LaRdejsySEONAxojGg1wL6GGx74UGD
+ zRkwlEPJGujWgegJ502GauOhuf+dOR7FbiIWwuhaIO80CgyRhLfUt/yXp4Qi7WK4+Xxl
+ VsWmS7MDMxCasF6eoq6NKVYZ/Hi5EoGVFq0OoCprZ9YQ4rByduxdtEmObWCwPoK9+p+x
+ cZ4kgbZVgIndcT1NdairW4EPekfZ1ah6HkyJDMF6d/+GsJ+J0oft/2jo1I4PqcNHHyM9
+ e1dg==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCXTmzUZBsV4w+mKX6ncTOuzb1PJAo5MQmgO8UgKC7VKcG7t/BZ2uJR2jpx2Q9D982A9GgLZBu4ILIE=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YzuTrynpwE9mVfXLj2woCjjk+JuIypFPtcnmojp3mBV9+EyJboq
+ mYxP+3j77W067FrbI5Gp4LfnlLTHUNxhHWq1Fo2/mfhlg9fgAzehnEbG
+X-Gm-Gg: ASbGncsk1k3M0N8WntrvOG6d5OqtlycyBAvI4eEcuuZxKP16m+0mNLUeGOEM/hJ/Fgn
+ ZPB7u8ySFBih5WJYqJ6i9bFrC9p52ny4GkzvMQhDW7zvkO23Pzw4PSErMf5b2rF+qbjmD+5qSmU
+ gCtMzsKJSyF9uZhLXGBeH4+8NYzn2554hYE/AaJchhtyyyQ0RVGMqiGUOMgJZzVd624x52jrGxP
+ bpL6XZu4swUgQvDC2zvhvyZwtJuPQzWtwQ+8dPrZqiIJTV3JoMdJAfP/PMrvWB9E9uwsYnSltro
+ 5k0VpA+u9wnh6gx+ocX09RDAqEFDiGMAfAMJ1n4Y+lznxTM9fVdJ4koqgy240cvJeIs4HwnscQP
+ ipt/jpYR9ivQH37UqnT2LAoFxZgYtcXYuivuLm9GM8SkCSOyWL66O74bEhlgQB0NP905puHXWmD
+ QQBefbnG2I90CoLWOSjY6JlA==
+X-Google-Smtp-Source: AGHT+IFyoTqxEaHdHcYwG2j5PoXFVoRtIyJkYmXJKSPfYslsy5ZMiSdta/UGyBhYN4fJfCWD+fCbVA==
+X-Received: by 2002:a05:6300:218c:b0:341:6c8a:5218 with SMTP id
+ adf61e73a8af0-34655401460mr2197446637.56.1761722603774; 
+ Wed, 29 Oct 2025 00:23:23 -0700 (PDT)
+Received: from localhost.localdomain ([124.77.218.104])
+ by smtp.googlemail.com with ESMTPSA id
+ 41be03b00d2f7-b71268bdb2dsm13021005a12.5.2025.10.29.00.23.20
+ (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
+ Wed, 29 Oct 2025 00:23:23 -0700 (PDT)
+From: Miaoqian Lin <linmq006@gmail.com>
+To: Chun-Kuang Hu <chunkuang.hu@kernel.org>,
+ Philipp Zabel <p.zabel@pengutronix.de>, David Airlie <airlied@gmail.com>,
+ Simona Vetter <simona@ffwll.ch>, Matthias Brugger <matthias.bgg@gmail.com>,
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+ Markus Schneider-Pargmann <msp@baylibre.com>, CK Hu <ck.hu@mediatek.com>,
+ Dmitry Osipenko <dmitry.osipenko@collabora.com>,
+ Guillaume Ranquet <granquet@baylibre.com>, dri-devel@lists.freedesktop.org,
+ linux-mediatek@lists.infradead.org, linux-kernel@vger.kernel.org,
+ linux-arm-kernel@lists.infradead.org
+Cc: linmq006@gmail.com,
+	stable@vger.kernel.org
+Subject: [PATCH] drm/mediatek: Fix device node reference leak in
+ mtk_dp_dt_parse()
+Date: Wed, 29 Oct 2025 15:23:06 +0800
+Message-Id: <20251029072307.10955-1-linmq006@gmail.com>
+X-Mailer: git-send-email 2.39.5 (Apple Git-154)
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-CM-TRANSID: cQJkCsDwlHjwvwFppzgHAA--.5619S2
-X-Coremail-Antispam: 1UD129KBjvJXoW7Kr4xCw18ZFWxJF15Cw4Uurg_yoW8Gr1rp3
- yDKrWYq398GF17t39rWF1DWayag398WFy3t3s5CwsxCa1UJrWxXwn7uw1YkrWUCFWFyF1Y
- yr98CFWrWFyqyrJanT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
- 9KBjDU0xBIdaVrnRJUUUBY14x267AKxVW8JVW5JwAFc2x0x2IEx4CE42xK8VAvwI8IcIk0
- rVWrJVCq3wAFIxvE14AKwVWUJVWUGwA2ocxC64kIII0Yj41l84x0c7CEw4AK67xGY2AK02
- 1l84ACjcxK6xIIjxv20xvE14v26w1j6s0DM28EF7xvwVC0I7IYx2IY6xkF7I0E14v26rxl
- 6s0DM28EF7xvwVC2z280aVAFwI0_GcCE3s1l84ACjcxK6I8E87Iv6xkF7I0E14v26rxl6s
- 0DM2vYz4IE04k24VAvwVAKI4IrM2AIxVAIcxkEcVAq07x20xvEncxIr21l5I8CrVACY4xI
- 64kE6c02F40Ex7xfMcIj6xIIjxv20xvE14v26r1Y6r17McIj6I8E87Iv67AKxVWUJVW8Jw
- Am72CE4IkC6x0Yz7v_Jr0_Gr1lF7xvr2IYc2Ij64vIr41lF7I21c0EjII2zVCS5cI20VAG
- YxC7M4IIrI8v6xkF7I0E8cxan2IY04v7MxkF7I0En4kS14v26r1q6r43MxAIw28IcxkI7V
- AKI48JMxC20s026xCaFVCjc4AY6r1j6r4UMI8I3I0E5I8CrVAFwI0_Jr0_Jr4lx2IqxVCj
- r7xvwVAFwI0_JrI_JrWlx4CE17CEb7AF67AKxVWUtVW8ZwCIc40Y0x0EwIxGrwCI42IY6x
- IIjxv20xvE14v26r1j6r1xMIIF0xvE2Ix0cI8IcVCY1x0267AKxVW8JVWxJwCI42IY6xAI
- w20EY4v20xvaj40_Jr0_JF4lIxAIcVC2z280aVAFwI0_Jr0_Gr1lIxAIcVC2z280aVCY1x
- 0267AKxVW8JVW8JrUvcSsGvfC2KfnxnUUI43ZEXa7VUbCPfPUUUUU==
-X-CM-SenderInfo: xolxu0iqt6x0hvsx2hhfrp/
-X-CM-DELIVERINFO: =?B?SVELsmLVRuiwy3Lqe5bb/wL3YD0Z3+qys2oM3YyJaJDj+48qHwuUARU7xYOAI0q1Re
- KIpedjRVREeXrKp2GVcC1+hy8UA3v4YLioUy1QX4XtPbugOBkHUbSmiG4iRGoNFPrkYiqq
- TaRnPrDe8agINCvjjdQ=
-Content-Type: text/plain
-tUid: 202510291519133de33ef3a36d45fee600a25e63dee77a
-X-Abuse-Reports-To: service@corp-email.com
-Abuse-Reports-To: service@corp-email.com
-X-Complaints-To: service@corp-email.com
-X-Report-Abuse-To: service@corp-email.com
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -86,26 +96,35 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Remove the repeated word "the" in comments.
+The function mtk_dp_dt_parse() calls of_graph_get_endpoint_by_regs()
+to get the endpoint device node, but fails to call of_node_put() to release
+the reference when the function returns. This results in a device node
+reference leak.
 
-Signed-off-by: Bo Liu <liubo03@inspur.com>
+Fix this by adding the missing of_node_put() call before returning from
+the function.
+
+Found via static analysis and code review.
+
+Fixes: f70ac097a2cf ("drm/mediatek: Add MT8195 Embedded DisplayPort driver")
+Cc: stable@vger.kernel.org
+Signed-off-by: Miaoqian Lin <linmq006@gmail.com>
 ---
- .../dc/dml2_0/dml21/src/dml2_core/dml2_core_dcn4_calcs.c        | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ drivers/gpu/drm/mediatek/mtk_dp.c | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/drivers/gpu/drm/amd/display/dc/dml2_0/dml21/src/dml2_core/dml2_core_dcn4_calcs.c b/drivers/gpu/drm/amd/display/dc/dml2_0/dml21/src/dml2_core/dml2_core_dcn4_calcs.c
-index f809c4073b43..4287f9d22f3d 100644
---- a/drivers/gpu/drm/amd/display/dc/dml2_0/dml21/src/dml2_core/dml2_core_dcn4_calcs.c
-+++ b/drivers/gpu/drm/amd/display/dc/dml2_0/dml21/src/dml2_core/dml2_core_dcn4_calcs.c
-@@ -5624,7 +5624,7 @@ static bool CalculatePrefetchSchedule(struct dml2_core_internal_scratch *scratch
- 			// vs the latency based number
- 
- 			// prefetch_bw1: VM + 2*R0 + SW
--			// so prefetch_bw1 will have enough bw to transfer the necessary data within Tpre_rounded - Tno_bw (Tpre is the the worst-case latency based time to fetch the data)
-+			// so prefetch_bw1 will have enough bw to transfer the necessary data within Tpre_rounded - Tno_bw (Tpre is the worst-case latency based time to fetch the data)
- 			// here is to make sure equ bw wont be more agressive than the latency-based requirement.
- 			// check vm time >= vm_trips
- 			// check r0 time >= r0_trips
+diff --git a/drivers/gpu/drm/mediatek/mtk_dp.c b/drivers/gpu/drm/mediatek/mtk_dp.c
+index bef6eeb30d3e..b0b1e158600f 100644
+--- a/drivers/gpu/drm/mediatek/mtk_dp.c
++++ b/drivers/gpu/drm/mediatek/mtk_dp.c
+@@ -2087,6 +2087,7 @@ static int mtk_dp_dt_parse(struct mtk_dp *mtk_dp,
+ 	endpoint = of_graph_get_endpoint_by_regs(pdev->dev.of_node, 1, -1);
+ 	len = of_property_count_elems_of_size(endpoint,
+ 					      "data-lanes", sizeof(u32));
++	of_node_put(endpoint);
+ 	if (len < 0 || len > 4 || len == 3) {
+ 		dev_err(dev, "invalid data lane size: %d\n", len);
+ 		return -EINVAL;
 -- 
-2.31.1
+2.39.5 (Apple Git-154)
 
