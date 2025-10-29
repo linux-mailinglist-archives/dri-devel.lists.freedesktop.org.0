@@ -2,173 +2,69 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3E31DC1C459
-	for <lists+dri-devel@lfdr.de>; Wed, 29 Oct 2025 17:54:58 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1C347C1C4F1
+	for <lists+dri-devel@lfdr.de>; Wed, 29 Oct 2025 18:00:10 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3643010E205;
-	Wed, 29 Oct 2025 16:54:56 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A260210E207;
+	Wed, 29 Oct 2025 17:00:06 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="flM6gME9";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="Q2OLWAG6";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3588E10E205
- for <dri-devel@lists.freedesktop.org>; Wed, 29 Oct 2025 16:54:54 +0000 (UTC)
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 138C710E201;
+ Wed, 29 Oct 2025 17:00:05 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1761756894; x=1793292894;
+ t=1761757205; x=1793293205;
  h=date:from:to:cc:subject:message-id:references:
- in-reply-to:mime-version;
- bh=9HBfzwTj5S2x+97Td98EFyGXtvx5tt0OFIx+ahoCPog=;
- b=flM6gME9fA4EWvZqewPDgXTUj7iVANIU7TM0r3RzUvyq8zxJoOUQicy8
- 570NEt1u25kWt1sZm+dttaMQVNFK35GxgVeWIJTmRBBHdmunSLbxpJLgf
- V/X2RNYHNDXRprGnnoWwIAJA/yKAvKtRcK5sW8sjTHSDhgIyYfLBdUzYG
- XA4ir71qRMpogeT0b9RlmVZGoki6UtFzY/AcYCAZg9PV0XRceEhBP1Gzm
- ELSNifz7cIziCy+Z8s+s7tkkbm0KbIn01OqMAXnTi3vIRIoSR+1nVELGo
- IvHKoiuZ5Bbg14LAwI2wbPZdPx++Eipy+YEoVhUL/m8ucT9I10mnWNOJ8 w==;
-X-CSE-ConnectionGUID: /bZzSQixTmCerhrTb3oY/A==
-X-CSE-MsgGUID: ilRX0U1XT/GIdLiWmvNGdg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11597"; a="81515493"
-X-IronPort-AV: E=Sophos;i="6.19,264,1754982000"; d="scan'208";a="81515493"
-Received: from orviesa009.jf.intel.com ([10.64.159.149])
- by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 29 Oct 2025 09:54:53 -0700
-X-CSE-ConnectionGUID: uGQkI/BXRyaz14aXI3shKg==
-X-CSE-MsgGUID: PouqlG/5SXyl8f6AaSISVA==
+ mime-version:content-transfer-encoding:in-reply-to;
+ bh=OIQdryHGUZOKo6Hdx5cBJl8uOORO3GnWNcqH+2JR8x4=;
+ b=Q2OLWAG6Dx9MtO1b6H/GD4srbJlg9FaMlznHiMHEdg9NNazoL8Y/nXG1
+ oeVC7aUoecjnG4gyA495meyJyiKdZrUBUrtyp23I3oh/eNQCvYxGymHF2
+ zuJ4pYgROFzx77YgWh7CiaHf6+OySnGwEEtH9o1igg6LyqJxdcbK/v0Zl
+ xu/axP1lSsSl8lZ7PZgVcR/orECd8bNhomMPckXePSfVifH02gZBE1FL7
+ s0q9DDwY1VX8gzHEogGBo1vQDKABopi6EZJhcHrX6CXiQQahfDSYCnam1
+ Vd5QlJBlGJkx5/9diFOzulw2uSsmX4aHAFslmXa51h5TEKZ644uNpYYHl g==;
+X-CSE-ConnectionGUID: vxd01j0ISH6CFX/Gu5Gl/Q==
+X-CSE-MsgGUID: WlaGU6YkT96pgo8GgNoaQQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11597"; a="51459850"
+X-IronPort-AV: E=Sophos;i="6.19,264,1754982000"; d="scan'208";a="51459850"
+Received: from fmviesa009.fm.intel.com ([10.60.135.149])
+ by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 29 Oct 2025 10:00:04 -0700
+X-CSE-ConnectionGUID: GEjuoucOTl+AtBgBS7AC2g==
+X-CSE-MsgGUID: EmcHcsWCRjK+wuhx3QIRmA==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.19,264,1754982000"; d="scan'208";a="185364379"
-Received: from orsmsx903.amr.corp.intel.com ([10.22.229.25])
- by orviesa009.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 29 Oct 2025 09:54:53 -0700
-Received: from ORSMSX902.amr.corp.intel.com (10.22.229.24) by
- ORSMSX903.amr.corp.intel.com (10.22.229.25) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.27; Wed, 29 Oct 2025 09:54:52 -0700
-Received: from ORSEDG901.ED.cps.intel.com (10.7.248.11) by
- ORSMSX902.amr.corp.intel.com (10.22.229.24) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.27 via Frontend Transport; Wed, 29 Oct 2025 09:54:52 -0700
-Received: from DM1PR04CU001.outbound.protection.outlook.com (52.101.61.61) by
- edgegateway.intel.com (134.134.137.111) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.27; Wed, 29 Oct 2025 09:54:52 -0700
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=QUaqbCvdnwiOHt8xcqS6vUt3zbs9wKPHo5mDxRACXu7zVwSiCSvissa8bvpELNnlJsJOdT6Rg0TSTh1kwoT+DWiRlXb297Q+zN9NQ0o6ECZ/xgHIgGLLYyHhh0cK+XQG84u6uCFGPpy/U3SkRZ9lDEHu7clzuFKW/sqP3UrF6QWi+lJqCb98FDywjFIKN3m2kWfR03o19YIm/JApfFAWzbXnwGPZde0bV5HFcSNGwwLwKne4tuFDuyR9XOjHihAsRQXc0bI1X5HrflZobqjdsw6h1jyMP8EtN+0jOhNtrHH6ZDd8Gfpsuw5307Rn5eX/QYCSBkoBeyNZPPmYa+SFsg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=I+MCBLalVwbfgBaPYbzByNwenxRyWFVl4EYLdrLAEIM=;
- b=hS+KiR5BA6dqMs+M/Dy7BMpnvPXabUUzZ+nnjdh3pX7xoQcRzi+5fdxambi3KODskDrQA5h3/hrDjyi93wK0elYm7GRGkhtmrIQVxVrikoaJuYHS2glF1QoViXzyfAcce//77ZqHEb0BKrp7PKOzzWkcbyQMsnd3QUUbaRcNZxRGHssYCoe8cEN4TCdAND9vXQwV32rxrsPCdYlcEgAbv19oelTw5r2XvibYiCfjxRECWD9VdYCbtEskXNj8HzgP3RDA3BqEqQyUTGcbeQMiVOUYsdpWNyqv9f7W8GHAK/MmUynuBt66FBrmSo/TKdn5QGjy6RPnuD0ZFlEOrQNdqw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=intel.com;
-Received: from PH7PR11MB6522.namprd11.prod.outlook.com (2603:10b6:510:212::12)
- by IA4PR11MB9249.namprd11.prod.outlook.com (2603:10b6:208:55f::13)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9253.13; Wed, 29 Oct
- 2025 16:54:50 +0000
-Received: from PH7PR11MB6522.namprd11.prod.outlook.com
- ([fe80::9e94:e21f:e11a:332]) by PH7PR11MB6522.namprd11.prod.outlook.com
- ([fe80::9e94:e21f:e11a:332%3]) with mapi id 15.20.9253.017; Wed, 29 Oct 2025
- 16:54:50 +0000
-Date: Wed, 29 Oct 2025 09:54:47 -0700
-From: Matthew Brost <matthew.brost@intel.com>
-To: Philipp Stanner <phasta@kernel.org>
-CC: Danilo Krummrich <dakr@kernel.org>, Christian =?iso-8859-1?Q?K=F6nig?=
- <ckoenig.leichtzumerken@gmail.com>, Maarten Lankhorst
- <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
- Simona Vetter <simona@ffwll.ch>, <tursulin@ursulin.net>,
- <dri-devel@lists.freedesktop.org>, <linux-kernel@vger.kernel.org>
-Subject: Re: [PATCH 1/2] drm/sched: Fix comment in drm_sched_run_job_work()
-Message-ID: <aQJG1/izCBbNnX0a@lstrano-desk.jf.intel.com>
-References: <20251028134602.94125-2-phasta@kernel.org>
- <20251028134602.94125-3-phasta@kernel.org>
-Content-Type: text/plain; charset="us-ascii"
-Content-Disposition: inline
-In-Reply-To: <20251028134602.94125-3-phasta@kernel.org>
-X-ClientProxiedBy: BYAPR01CA0062.prod.exchangelabs.com (2603:10b6:a03:94::39)
- To PH7PR11MB6522.namprd11.prod.outlook.com
- (2603:10b6:510:212::12)
+X-IronPort-AV: E=Sophos;i="6.19,264,1754982000"; d="scan'208";a="186173967"
+Received: from lkp-server02.sh.intel.com (HELO 66d7546c76b2) ([10.239.97.151])
+ by fmviesa009.fm.intel.com with ESMTP; 29 Oct 2025 10:00:01 -0700
+Received: from kbuild by 66d7546c76b2 with local (Exim 4.96)
+ (envelope-from <lkp@intel.com>) id 1vE9Wg-000Kon-2P;
+ Wed, 29 Oct 2025 16:59:58 +0000
+Date: Thu, 30 Oct 2025 00:59:27 +0800
+From: kernel test robot <lkp@intel.com>
+To: Thomas =?iso-8859-1?Q?Hellstr=F6m?= <thomas.hellstrom@linux.intel.com>,
+ intel-xe@lists.freedesktop.org
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+ Thomas =?iso-8859-1?Q?Hellstr=F6m?= <thomas.hellstrom@linux.intel.com>,
+ dri-devel@lists.freedesktop.org, himal.prasad.ghimiray@intel.com,
+ apopple@nvidia.com, airlied@gmail.com,
+ Simona Vetter <simona.vetter@ffwll.ch>, felix.kuehling@amd.com,
+ Matthew Brost <matthew.brost@intel.com>,
+ Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
+ dakr@kernel.org, "Mrozek, Michal" <michal.mrozek@intel.com>,
+ Joonas Lahtinen <joonas.lahtinen@linux.intel.com>
+Subject: Re: [PATCH 10/15] drm/xe: Use the vma attibute drm_pagemap to select
+ where to migrate
+Message-ID: <202510300027.HZ9D3Ruj-lkp@intel.com>
+References: <20251025120412.12262-11-thomas.hellstrom@linux.intel.com>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: PH7PR11MB6522:EE_|IA4PR11MB9249:EE_
-X-MS-Office365-Filtering-Correlation-Id: 7efd599a-db35-47d1-a9da-08de170bdf7d
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
- ARA:13230040|376014|1800799024|7416014|366016|7053199007; 
-X-Microsoft-Antispam-Message-Info: =?us-ascii?Q?JhajLcR9kE2YLpADgbmvWkE2t9Bu/wsDGgnH2E+L6c+5DyOSGLGNz8qE0ufo?=
- =?us-ascii?Q?dqTnAGDsY16A+16Gl/v3rexEVNLEkDtTFLfBdmou4YFekJ04vztd3WryO+xH?=
- =?us-ascii?Q?TvAKxX++XFgAojjDtpe0ltWTIOROAz8XWnkpy8Gbqt1i9636XzMjtHVs30pv?=
- =?us-ascii?Q?QEi1S4ndXQKj55GIH5XWkn9ZmcUHKjnEmL0MukYvUEapg6xfyvCVNu2GckCz?=
- =?us-ascii?Q?J04IB9oouZB4zTH/TZZz8+JNTUPJvYAYS0oh3Uoh/l7Qzgkza3225rkdRH4S?=
- =?us-ascii?Q?z7sDeTcdAy/D2qyeLZabMQSti3/y9IRUQT5Etn0iAzeDsovhvzhhYslu+uyK?=
- =?us-ascii?Q?kX9i3Y9exzsfwqhir1jcbg2C4Dx2T92Gep7CheFlipd2WC6X5KKNZ74C1Jbo?=
- =?us-ascii?Q?3rhI/lFvgNA6ppcn0L2U5wuXGjimOdiGTbi3Psql6jwUuwI88AZslFh5+J0L?=
- =?us-ascii?Q?MeH62bAv0VsJRrtylGI3uFVUm6G9q22B10lUKK4GK3V5cNU0ZMG2cYV5w6G6?=
- =?us-ascii?Q?+3Qr+CllSvnORw0Pa7kuQqAlW+c2vyVHlKyFSrwjRt1Bi0/HmvRMJSOnGBkj?=
- =?us-ascii?Q?8JKteX9W+9vJuFZRjZ7A2n652XpmLP68C7kKhNTXv5X5ERYDMOus8nLyB0td?=
- =?us-ascii?Q?VOO9rGvH3jzIAquFHQ3wyX1lp0prnoQ6EybW8Y3wy1cEf1BkLBMhireyEsu9?=
- =?us-ascii?Q?5QQ/ejOwfHAvpQR24xcrfj8WFqKNIxCkPK7TGSFoYpLFt40PdlKKbwSEU85K?=
- =?us-ascii?Q?DcGOBkMPfDR8dzigykikd9hi7+fPEXscB4uTPmrDDlSq9FrLpiNVd6d6EHQQ?=
- =?us-ascii?Q?EszG47aBVT+j+YxIbsZmktm9R+dD7XrQA6RoSpKoEt7Zg3W0aoCbNifIQDhj?=
- =?us-ascii?Q?3yA1qXDuhmLwylYNZrqqabg7H32WiQjxqoFoarpdKJr+qvT9/cO2HKwlY1Mv?=
- =?us-ascii?Q?ReRvP0n7qHM75CBt7jr4QsPY0pKjWz8PHklf+pkp377PggdVqmj5MTacMcC4?=
- =?us-ascii?Q?EKfQ+HqaFKvge84eOH36xN9oIdwSKrj53xqKPKpfvfgEnWPMc7C78lKcvMG+?=
- =?us-ascii?Q?dDoho5zSCuGJYuTI2KL8CD/AYPNemTBIr/T7tTsR/TbKPdhpkxd9zx8fAqIE?=
- =?us-ascii?Q?SvBlJtMj+SJtXQu0GWctQ89plYBmnsFZXaACDFDbg8rkpAU5rW7PV2DICISu?=
- =?us-ascii?Q?DtAzesFo8O009QXtyqJnFl/Sav7UpMc1qhTGdEPxS6PHUZ8OW3IiLoBoD9vU?=
- =?us-ascii?Q?ZBRFJcuvAAcJBMw/5OsZ7WxUrLaakqc6g7ojBIYfQPY5I+HNYV4YfmqpPuAA?=
- =?us-ascii?Q?i/XkBkPHnXZyRy2/baaWgJ1mwQIJfdf20uqKC/XIrv7w8J/7LkAhzkgocl//?=
- =?us-ascii?Q?EGqgEVYChQewrzIOaiAVbA4TMGLgZ84CDe7Ty+LfGGaHwGFX3VqTiWbToh1x?=
- =?us-ascii?Q?nGiQknQ3GwwvyLb0cinrZTFKyK246kPe?=
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:PH7PR11MB6522.namprd11.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230040)(376014)(1800799024)(7416014)(366016)(7053199007); DIR:OUT;
- SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?pEldiWQiUDTwH7nMsAAbzV6fDCE6g8o5IhNnhe4XmMgZH2548lHQ8d9OvlHC?=
- =?us-ascii?Q?ROlGeIr1RJaMtIBCvel8uYhbQNA9ubLhHU2cPU+jnIrqdCclvLaegd4z5aRn?=
- =?us-ascii?Q?gmcU+fDMobvJvbNr5w+D3DnROW4PaX8vtyuZbXPDpeBYGrbjBdnN3VbsDpIM?=
- =?us-ascii?Q?RHiRRTC4Uv3TEOKccvpeRwZ8ki048+2SiOcyGDT74O5ldGQ2asLQCQEhNHU1?=
- =?us-ascii?Q?dKEg76pvjZjz6NMgkRIhIjjvZzc+O7DE02cyGU7gHSYBqRxBYUkT5vV2p6a/?=
- =?us-ascii?Q?he+9S5QMQ7VNPno2kpetumjJ0MsPYq+qemdJkIM8WyX3rey78V8KKxe9X0Ng?=
- =?us-ascii?Q?bl2GZFxGvZ4m49+a7/Rt0kUcoig0IYRaJcVDKJgpSi2uehTPw1iSIYmZ73r/?=
- =?us-ascii?Q?qLVbIoHC2E9tGZ9Bxi1uKwmsR1e59w43gW+l6hm0RLBUNfZNAmyc8yvh3yOD?=
- =?us-ascii?Q?X6Hk5vy3bf30FL0eArTOVhtG/qDhj7Xf1So/ryjZq2H55SCG9KgjZQPvZNIJ?=
- =?us-ascii?Q?jGThsv1tnZxEFOTmNa18dlyeie/euUdmbz+4Nfhnaq0TMB6aLfA1n32k39/Z?=
- =?us-ascii?Q?3PuV7HnJAVUw5ZA5uYUNKkomUJrcYykmgvK998otUeAjlJLoCa8IIvLPTYXs?=
- =?us-ascii?Q?lNMPaQaxkYE/xwy2n3VS++u6gXced9QyI1wWVHXi/nR4LMoR9EiLZJEug+MC?=
- =?us-ascii?Q?I/lId+E0GILvg6FrKvaa9VJe0SaDeyw2Wco8rcJxfH2xpGtWtZOxYzj8ec+7?=
- =?us-ascii?Q?FiE/KJ0vXrjEeyyqm6QJnIOewc5YuFlvmP0GV7lzb1qR6/kHqFKvXgr3dVKM?=
- =?us-ascii?Q?CU4sti2lHagyuk0QLlhbwQ/JYpVYv1nnk5pjcMz0OKXc+xLo5tOy7GwKYb9p?=
- =?us-ascii?Q?f3kotq6zESDWJf6q0NT3QhohFpCKT7qH3psZW5aWNe9QbnFvTJruZh9AZFeu?=
- =?us-ascii?Q?hNtMgr5BUgV6LNwZpBFmLLTIb0sZDHxEjkPO8MsXDrBkvD+lTAk8yOKAZV6t?=
- =?us-ascii?Q?mbuNA449b31J9Xp9K2Jgviqw63YLg+o+ose7nBSAyXkrztlOC1jb8UEaB/ek?=
- =?us-ascii?Q?hqf3S/eC4Jf20tWLnBtffHyQ7lFl8h+UwUHIrEEFgWUQEwtgO46AgYPYqtS6?=
- =?us-ascii?Q?CkZtnXgupIdXKmkOIbq6xepkU3KCjQGvDVk6z3N90oceDJK3fsaQOPtmml9D?=
- =?us-ascii?Q?3sQLd7WtBrhJbi27wiV1qKDTto228Kmi7Al19VUSGkYRr1exCcL8yoLRDsJ4?=
- =?us-ascii?Q?1tYpihpm4/yiEcMaeyulrhofgGjrc6/X1Kl5xzR+CdVgEZlwkAKx2y/DkN7a?=
- =?us-ascii?Q?pRoVtYhES4w6dqeDOtDWNF89nOJoS2+JEKdhtMPzbHr1FVwDuU9DDKZHQutO?=
- =?us-ascii?Q?1dcG1AelzDTEqCwXEeRBuO8b8K+EOGGYiDmNREBnSywp3JqmXU/4owIsamJt?=
- =?us-ascii?Q?J93SHyhjGdIwiPxeI2aFTbtgYIw0AidLnEMap7ycxz13YBg5l2ceanrfYzM6?=
- =?us-ascii?Q?Q3ELP9D/TETShbckASeEnrRJxit3eEHi1IjaeNyap9i3gTk0agyK2T0BWt4E?=
- =?us-ascii?Q?8Ct5FoHnqRbhC/FYIx1G4YjNgFEkveKHPcMxAaYVYHsDeKPEqLHcfpqL6JnX?=
- =?us-ascii?Q?Pw=3D=3D?=
-X-MS-Exchange-CrossTenant-Network-Message-Id: 7efd599a-db35-47d1-a9da-08de170bdf7d
-X-MS-Exchange-CrossTenant-AuthSource: PH7PR11MB6522.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 29 Oct 2025 16:54:50.2082 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: qj44+egbX+QJKZm/GoexmodJ2Ym7GpnkHKu67kt+npSY77mBWfl6emk+l9pF/Uew+4sX/EVGU4DgEf7YzhLrUg==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: IA4PR11MB9249
-X-OriginatorOrg: intel.com
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20251025120412.12262-11-thomas.hellstrom@linux.intel.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -184,42 +80,226 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Oct 28, 2025 at 02:46:01PM +0100, Philipp Stanner wrote:
-> drm_sched_run_job_work() contains a comment which explains that an
-> entity being NULL means that there is no more work to do. It can,
-> however, also mean that there is work, but the scheduler doesn't have
-> enough credits to process the jobs right now.
-> 
-> Provide this detail in the comment.
-> 
-> Signed-off-by: Philipp Stanner <phasta@kernel.org>
+Hi Thomas,
 
-Reviewed-by: Matthew Brost <matthew.brost@intel.com>
+kernel test robot noticed the following build errors:
 
-> ---
->  drivers/gpu/drm/scheduler/sched_main.c | 9 +++++++--
->  1 file changed, 7 insertions(+), 2 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/scheduler/sched_main.c b/drivers/gpu/drm/scheduler/sched_main.c
-> index c39f0245e3a9..492e8af639db 100644
-> --- a/drivers/gpu/drm/scheduler/sched_main.c
-> +++ b/drivers/gpu/drm/scheduler/sched_main.c
-> @@ -1237,8 +1237,13 @@ static void drm_sched_run_job_work(struct work_struct *w)
->  
->  	/* Find entity with a ready job */
->  	entity = drm_sched_select_entity(sched);
-> -	if (!entity)
-> -		return;	/* No more work */
-> +	if (!entity) {
-> +		/*
-> +		 * Either no more work to do, or the next ready job needs more
-> +		 * credits than the scheduler has currently available.
-> +		 */
-> +		return;
-> +	}
->  
->  	sched_job = drm_sched_entity_pop_job(entity);
->  	if (!sched_job) {
-> -- 
-> 2.49.0
-> 
+[auto build test ERROR on drm-xe/drm-xe-next]
+[also build test ERROR on next-20251029]
+[cannot apply to linus/master v6.18-rc3]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Thomas-Hellstr-m/drm-pagemap-drm-xe-Add-refcounting-to-struct-drm_pagemap/20251025-200645
+base:   https://gitlab.freedesktop.org/drm/xe/kernel.git drm-xe-next
+patch link:    https://lore.kernel.org/r/20251025120412.12262-11-thomas.hellstrom%40linux.intel.com
+patch subject: [PATCH 10/15] drm/xe: Use the vma attibute drm_pagemap to select where to migrate
+config: i386-randconfig-005-20251029 (https://download.01.org/0day-ci/archive/20251030/202510300027.HZ9D3Ruj-lkp@intel.com/config)
+compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251030/202510300027.HZ9D3Ruj-lkp@intel.com/reproduce)
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202510300027.HZ9D3Ruj-lkp@intel.com/
+
+All errors (new ones prefixed by >>):
+
+>> drivers/gpu/drm/xe/xe_vm.c:2358:15: error: variable 'dpagemap' is used uninitialized whenever 'if' condition is false [-Werror,-Wsometimes-uninitialized]
+    2358 |                         } else if (prefetch_region) {
+         |                                    ^~~~~~~~~~~~~~~
+   drivers/gpu/drm/xe/xe_vm.c:2364:34: note: uninitialized use occurs here
+    2364 |                         op->prefetch_range.dpagemap = dpagemap;
+         |                                                       ^~~~~~~~
+   drivers/gpu/drm/xe/xe_vm.c:2358:11: note: remove the 'if' if its condition is always true
+    2358 |                         } else if (prefetch_region) {
+         |                                ^~~~~~~~~~~~~~~~~~~~
+   drivers/gpu/drm/xe/xe_vm.c:2335:32: note: initialize the variable 'dpagemap' to silence this warning
+    2335 |                         struct drm_pagemap *dpagemap;
+         |                                                     ^
+         |                                                      = NULL
+   1 error generated.
+
+
+vim +2358 drivers/gpu/drm/xe/xe_vm.c
+
+09ba0a8f06cd69 Himal Prasad Ghimiray 2025-05-13  2242  
+b06d47be7c8316 Matthew Brost         2023-07-07  2243  /*
+b06d47be7c8316 Matthew Brost         2023-07-07  2244   * Create operations list from IOCTL arguments, setup operations fields so parse
+b06d47be7c8316 Matthew Brost         2023-07-07  2245   * and commit steps are decoupled from IOCTL arguments. This step can fail.
+b06d47be7c8316 Matthew Brost         2023-07-07  2246   */
+b06d47be7c8316 Matthew Brost         2023-07-07  2247  static struct drm_gpuva_ops *
+09ba0a8f06cd69 Himal Prasad Ghimiray 2025-05-13  2248  vm_bind_ioctl_ops_create(struct xe_vm *vm, struct xe_vma_ops *vops,
+09ba0a8f06cd69 Himal Prasad Ghimiray 2025-05-13  2249  			 struct xe_bo *bo, u64 bo_offset_or_userptr,
+09ba0a8f06cd69 Himal Prasad Ghimiray 2025-05-13  2250  			 u64 addr, u64 range,
+cad4a0d6af146e Rodrigo Vivi          2023-11-22  2251  			 u32 operation, u32 flags,
+e1fbc4f18d5b44 Matthew Auld          2023-09-25  2252  			 u32 prefetch_region, u16 pat_index)
+dd08ebf6c3525a Matthew Brost         2023-03-30  2253  {
+b06d47be7c8316 Matthew Brost         2023-07-07  2254  	struct drm_gem_object *obj = bo ? &bo->ttm.base : NULL;
+b06d47be7c8316 Matthew Brost         2023-07-07  2255  	struct drm_gpuva_ops *ops;
+b06d47be7c8316 Matthew Brost         2023-07-07  2256  	struct drm_gpuva_op *__op;
+b06d47be7c8316 Matthew Brost         2023-07-07  2257  	struct drm_gpuvm_bo *vm_bo;
+09ba0a8f06cd69 Himal Prasad Ghimiray 2025-05-13  2258  	u64 range_end = addr + range;
+dd08ebf6c3525a Matthew Brost         2023-03-30  2259  	int err;
+dd08ebf6c3525a Matthew Brost         2023-03-30  2260  
+b06d47be7c8316 Matthew Brost         2023-07-07  2261  	lockdep_assert_held_write(&vm->lock);
+dd08ebf6c3525a Matthew Brost         2023-03-30  2262  
+b06d47be7c8316 Matthew Brost         2023-07-07  2263  	vm_dbg(&vm->xe->drm,
+b06d47be7c8316 Matthew Brost         2023-07-07  2264  	       "op=%d, addr=0x%016llx, range=0x%016llx, bo_offset_or_userptr=0x%016llx",
+78ddc872c6a91d Francois Dugast       2023-09-20  2265  	       operation, (ULL)addr, (ULL)range,
+b06d47be7c8316 Matthew Brost         2023-07-07  2266  	       (ULL)bo_offset_or_userptr);
+dd08ebf6c3525a Matthew Brost         2023-03-30  2267  
+78ddc872c6a91d Francois Dugast       2023-09-20  2268  	switch (operation) {
+d5dc73dbd148ef Francois Dugast       2023-11-14  2269  	case DRM_XE_VM_BIND_OP_MAP:
+000a45dce7adc1 Boris Brezillon       2025-08-19  2270  	case DRM_XE_VM_BIND_OP_MAP_USERPTR: {
+000a45dce7adc1 Boris Brezillon       2025-08-19  2271  		struct drm_gpuvm_map_req map_req = {
+000a45dce7adc1 Boris Brezillon       2025-08-19  2272  			.map.va.addr = addr,
+000a45dce7adc1 Boris Brezillon       2025-08-19  2273  			.map.va.range = range,
+000a45dce7adc1 Boris Brezillon       2025-08-19  2274  			.map.gem.obj = obj,
+000a45dce7adc1 Boris Brezillon       2025-08-19  2275  			.map.gem.offset = bo_offset_or_userptr,
+000a45dce7adc1 Boris Brezillon       2025-08-19  2276  		};
+000a45dce7adc1 Boris Brezillon       2025-08-19  2277  
+000a45dce7adc1 Boris Brezillon       2025-08-19  2278  		ops = drm_gpuvm_sm_map_ops_create(&vm->gpuvm, &map_req);
+b06d47be7c8316 Matthew Brost         2023-07-07  2279  		break;
+000a45dce7adc1 Boris Brezillon       2025-08-19  2280  	}
+d5dc73dbd148ef Francois Dugast       2023-11-14  2281  	case DRM_XE_VM_BIND_OP_UNMAP:
+b06d47be7c8316 Matthew Brost         2023-07-07  2282  		ops = drm_gpuvm_sm_unmap_ops_create(&vm->gpuvm, addr, range);
+b06d47be7c8316 Matthew Brost         2023-07-07  2283  		break;
+d5dc73dbd148ef Francois Dugast       2023-11-14  2284  	case DRM_XE_VM_BIND_OP_PREFETCH:
+b06d47be7c8316 Matthew Brost         2023-07-07  2285  		ops = drm_gpuvm_prefetch_ops_create(&vm->gpuvm, addr, range);
+b06d47be7c8316 Matthew Brost         2023-07-07  2286  		break;
+d5dc73dbd148ef Francois Dugast       2023-11-14  2287  	case DRM_XE_VM_BIND_OP_UNMAP_ALL:
+c73acc1eeba5e3 Francois Dugast       2023-09-12  2288  		xe_assert(vm->xe, bo);
+dd08ebf6c3525a Matthew Brost         2023-03-30  2289  
+08a4f00e62bc96 Thomas Hellström      2023-09-08  2290  		err = xe_bo_lock(bo, true);
+b06d47be7c8316 Matthew Brost         2023-07-07  2291  		if (err)
+b06d47be7c8316 Matthew Brost         2023-07-07  2292  			return ERR_PTR(err);
+b06d47be7c8316 Matthew Brost         2023-07-07  2293  
+9d0c1c5618be02 Thomas Hellström      2023-12-22  2294  		vm_bo = drm_gpuvm_bo_obtain(&vm->gpuvm, obj);
+9d0c1c5618be02 Thomas Hellström      2023-12-22  2295  		if (IS_ERR(vm_bo)) {
+9d0c1c5618be02 Thomas Hellström      2023-12-22  2296  			xe_bo_unlock(bo);
+9d0c1c5618be02 Thomas Hellström      2023-12-22  2297  			return ERR_CAST(vm_bo);
+9d0c1c5618be02 Thomas Hellström      2023-12-22  2298  		}
+dd08ebf6c3525a Matthew Brost         2023-03-30  2299  
+b06d47be7c8316 Matthew Brost         2023-07-07  2300  		ops = drm_gpuvm_bo_unmap_ops_create(vm_bo);
+b06d47be7c8316 Matthew Brost         2023-07-07  2301  		drm_gpuvm_bo_put(vm_bo);
+08a4f00e62bc96 Thomas Hellström      2023-09-08  2302  		xe_bo_unlock(bo);
+b06d47be7c8316 Matthew Brost         2023-07-07  2303  		break;
+b06d47be7c8316 Matthew Brost         2023-07-07  2304  	default:
+5c0553cdc811bb Francois Dugast       2023-09-12  2305  		drm_warn(&vm->xe->drm, "NOT POSSIBLE");
+b06d47be7c8316 Matthew Brost         2023-07-07  2306  		ops = ERR_PTR(-EINVAL);
+dd08ebf6c3525a Matthew Brost         2023-03-30  2307  	}
+40709aa761acbc Matthew Brost         2023-11-20  2308  	if (IS_ERR(ops))
+40709aa761acbc Matthew Brost         2023-11-20  2309  		return ops;
+dd08ebf6c3525a Matthew Brost         2023-03-30  2310  
+40709aa761acbc Matthew Brost         2023-11-20  2311  	drm_gpuva_for_each_op(__op, ops) {
+40709aa761acbc Matthew Brost         2023-11-20  2312  		struct xe_vma_op *op = gpuva_op_to_vma_op(__op);
+40709aa761acbc Matthew Brost         2023-11-20  2313  
+40709aa761acbc Matthew Brost         2023-11-20  2314  		if (__op->op == DRM_GPUVA_OP_MAP) {
+06e7139a034f26 Thomas Hellström      2024-04-23  2315  			op->map.immediate =
+06e7139a034f26 Thomas Hellström      2024-04-23  2316  				flags & DRM_XE_VM_BIND_FLAG_IMMEDIATE;
+b3af8658ec70f2 Thomas Hellström      2025-10-15  2317  			if (flags & DRM_XE_VM_BIND_FLAG_READONLY)
+b3af8658ec70f2 Thomas Hellström      2025-10-15  2318  				op->map.vma_flags |= XE_VMA_READ_ONLY;
+b3af8658ec70f2 Thomas Hellström      2025-10-15  2319  			if (flags & DRM_XE_VM_BIND_FLAG_NULL)
+b3af8658ec70f2 Thomas Hellström      2025-10-15  2320  				op->map.vma_flags |= DRM_GPUVA_SPARSE;
+b3af8658ec70f2 Thomas Hellström      2025-10-15  2321  			if (flags & DRM_XE_VM_BIND_FLAG_CPU_ADDR_MIRROR)
+b3af8658ec70f2 Thomas Hellström      2025-10-15  2322  				op->map.vma_flags |= XE_VMA_SYSTEM_ALLOCATOR;
+b3af8658ec70f2 Thomas Hellström      2025-10-15  2323  			if (flags & DRM_XE_VM_BIND_FLAG_DUMPABLE)
+b3af8658ec70f2 Thomas Hellström      2025-10-15  2324  				op->map.vma_flags |= XE_VMA_DUMPABLE;
+59a2d3f38ab23c Thomas Hellström      2025-10-15  2325  			if (flags & DRM_XE_VM_BIND_FLAG_MADVISE_AUTORESET)
+59a2d3f38ab23c Thomas Hellström      2025-10-15  2326  				op->map.vma_flags |= XE_VMA_MADV_AUTORESET;
+e1fbc4f18d5b44 Matthew Auld          2023-09-25  2327  			op->map.pat_index = pat_index;
+5b658b7e89c312 Oak Zeng              2025-04-03  2328  			op->map.invalidate_on_bind =
+5b658b7e89c312 Oak Zeng              2025-04-03  2329  				__xe_vm_needs_clear_scratch_pages(vm, flags);
+40709aa761acbc Matthew Brost         2023-11-20  2330  		} else if (__op->op == DRM_GPUVA_OP_PREFETCH) {
+09ba0a8f06cd69 Himal Prasad Ghimiray 2025-05-13  2331  			struct xe_vma *vma = gpuva_to_vma(op->base.prefetch.va);
+c1bb69a2e8e2d5 Himal Prasad Ghimiray 2025-08-21  2332  			struct xe_tile *tile;
+09ba0a8f06cd69 Himal Prasad Ghimiray 2025-05-13  2333  			struct xe_svm_range *svm_range;
+09ba0a8f06cd69 Himal Prasad Ghimiray 2025-05-13  2334  			struct drm_gpusvm_ctx ctx = {};
+c1bb69a2e8e2d5 Himal Prasad Ghimiray 2025-08-21  2335  			struct drm_pagemap *dpagemap;
+09ba0a8f06cd69 Himal Prasad Ghimiray 2025-05-13  2336  			u8 id, tile_mask = 0;
+09ba0a8f06cd69 Himal Prasad Ghimiray 2025-05-13  2337  			u32 i;
+09ba0a8f06cd69 Himal Prasad Ghimiray 2025-05-13  2338  
+09ba0a8f06cd69 Himal Prasad Ghimiray 2025-05-13  2339  			if (!xe_vma_is_cpu_addr_mirror(vma)) {
+40709aa761acbc Matthew Brost         2023-11-20  2340  				op->prefetch.region = prefetch_region;
+09ba0a8f06cd69 Himal Prasad Ghimiray 2025-05-13  2341  				break;
+40709aa761acbc Matthew Brost         2023-11-20  2342  			}
+40709aa761acbc Matthew Brost         2023-11-20  2343  
+09ba0a8f06cd69 Himal Prasad Ghimiray 2025-05-13  2344  			ctx.read_only = xe_vma_read_only(vma);
+09ba0a8f06cd69 Himal Prasad Ghimiray 2025-05-13  2345  			ctx.devmem_possible = IS_DGFX(vm->xe) &&
+4a1eaf7d110aa5 Matthew Brost         2025-07-10  2346  					      IS_ENABLED(CONFIG_DRM_XE_PAGEMAP);
+09ba0a8f06cd69 Himal Prasad Ghimiray 2025-05-13  2347  
+09ba0a8f06cd69 Himal Prasad Ghimiray 2025-05-13  2348  			for_each_tile(tile, vm->xe, id)
+09ba0a8f06cd69 Himal Prasad Ghimiray 2025-05-13  2349  				tile_mask |= 0x1 << id;
+09ba0a8f06cd69 Himal Prasad Ghimiray 2025-05-13  2350  
+09ba0a8f06cd69 Himal Prasad Ghimiray 2025-05-13  2351  			xa_init_flags(&op->prefetch_range.range, XA_FLAGS_ALLOC);
+09ba0a8f06cd69 Himal Prasad Ghimiray 2025-05-13  2352  			op->prefetch_range.ranges_count = 0;
+c1bb69a2e8e2d5 Himal Prasad Ghimiray 2025-08-21  2353  			tile = NULL;
+c1bb69a2e8e2d5 Himal Prasad Ghimiray 2025-08-21  2354  
+c1bb69a2e8e2d5 Himal Prasad Ghimiray 2025-08-21  2355  			if (prefetch_region == DRM_XE_CONSULT_MEM_ADVISE_PREF_LOC) {
+c1bb69a2e8e2d5 Himal Prasad Ghimiray 2025-08-21  2356  				dpagemap = xe_vma_resolve_pagemap(vma,
+c1bb69a2e8e2d5 Himal Prasad Ghimiray 2025-08-21  2357  								  xe_device_get_root_tile(vm->xe));
+c1bb69a2e8e2d5 Himal Prasad Ghimiray 2025-08-21 @2358  			} else if (prefetch_region) {
+c1bb69a2e8e2d5 Himal Prasad Ghimiray 2025-08-21  2359  				tile = &vm->xe->tiles[region_to_mem_type[prefetch_region] -
+c1bb69a2e8e2d5 Himal Prasad Ghimiray 2025-08-21  2360  						      XE_PL_VRAM0];
+1b7e4275a5db37 Thomas Hellström      2025-10-25  2361  				dpagemap = xe_tile_local_pagemap(tile);
+c1bb69a2e8e2d5 Himal Prasad Ghimiray 2025-08-21  2362  			}
+c1bb69a2e8e2d5 Himal Prasad Ghimiray 2025-08-21  2363  
+1b7e4275a5db37 Thomas Hellström      2025-10-25  2364  			op->prefetch_range.dpagemap = dpagemap;
+09ba0a8f06cd69 Himal Prasad Ghimiray 2025-05-13  2365  alloc_next_range:
+09ba0a8f06cd69 Himal Prasad Ghimiray 2025-05-13  2366  			svm_range = xe_svm_range_find_or_insert(vm, addr, vma, &ctx);
+09ba0a8f06cd69 Himal Prasad Ghimiray 2025-05-13  2367  
+09ba0a8f06cd69 Himal Prasad Ghimiray 2025-05-13  2368  			if (PTR_ERR(svm_range) == -ENOENT) {
+09ba0a8f06cd69 Himal Prasad Ghimiray 2025-05-13  2369  				u64 ret = xe_svm_find_vma_start(vm, addr, range_end, vma);
+09ba0a8f06cd69 Himal Prasad Ghimiray 2025-05-13  2370  
+09ba0a8f06cd69 Himal Prasad Ghimiray 2025-05-13  2371  				addr = ret == ULONG_MAX ? 0 : ret;
+09ba0a8f06cd69 Himal Prasad Ghimiray 2025-05-13  2372  				if (addr)
+09ba0a8f06cd69 Himal Prasad Ghimiray 2025-05-13  2373  					goto alloc_next_range;
+09ba0a8f06cd69 Himal Prasad Ghimiray 2025-05-13  2374  				else
+09ba0a8f06cd69 Himal Prasad Ghimiray 2025-05-13  2375  					goto print_op_label;
+09ba0a8f06cd69 Himal Prasad Ghimiray 2025-05-13  2376  			}
+09ba0a8f06cd69 Himal Prasad Ghimiray 2025-05-13  2377  
+09ba0a8f06cd69 Himal Prasad Ghimiray 2025-05-13  2378  			if (IS_ERR(svm_range)) {
+09ba0a8f06cd69 Himal Prasad Ghimiray 2025-05-13  2379  				err = PTR_ERR(svm_range);
+09ba0a8f06cd69 Himal Prasad Ghimiray 2025-05-13  2380  				goto unwind_prefetch_ops;
+09ba0a8f06cd69 Himal Prasad Ghimiray 2025-05-13  2381  			}
+09ba0a8f06cd69 Himal Prasad Ghimiray 2025-05-13  2382  
+c1bb69a2e8e2d5 Himal Prasad Ghimiray 2025-08-21  2383  			if (xe_svm_range_validate(vm, svm_range, tile_mask, !!tile)) {
+5aee6e33e19593 Himal Prasad Ghimiray 2025-05-13  2384  				xe_svm_range_debug(svm_range, "PREFETCH - RANGE IS VALID");
+09ba0a8f06cd69 Himal Prasad Ghimiray 2025-05-13  2385  				goto check_next_range;
+5aee6e33e19593 Himal Prasad Ghimiray 2025-05-13  2386  			}
+09ba0a8f06cd69 Himal Prasad Ghimiray 2025-05-13  2387  
+09ba0a8f06cd69 Himal Prasad Ghimiray 2025-05-13  2388  			err = xa_alloc(&op->prefetch_range.range,
+09ba0a8f06cd69 Himal Prasad Ghimiray 2025-05-13  2389  				       &i, svm_range, xa_limit_32b,
+09ba0a8f06cd69 Himal Prasad Ghimiray 2025-05-13  2390  				       GFP_KERNEL);
+09ba0a8f06cd69 Himal Prasad Ghimiray 2025-05-13  2391  
+09ba0a8f06cd69 Himal Prasad Ghimiray 2025-05-13  2392  			if (err)
+09ba0a8f06cd69 Himal Prasad Ghimiray 2025-05-13  2393  				goto unwind_prefetch_ops;
+09ba0a8f06cd69 Himal Prasad Ghimiray 2025-05-13  2394  
+09ba0a8f06cd69 Himal Prasad Ghimiray 2025-05-13  2395  			op->prefetch_range.ranges_count++;
+09ba0a8f06cd69 Himal Prasad Ghimiray 2025-05-13  2396  			vops->flags |= XE_VMA_OPS_FLAG_HAS_SVM_PREFETCH;
+5aee6e33e19593 Himal Prasad Ghimiray 2025-05-13  2397  			xe_svm_range_debug(svm_range, "PREFETCH - RANGE CREATED");
+09ba0a8f06cd69 Himal Prasad Ghimiray 2025-05-13  2398  check_next_range:
+09ba0a8f06cd69 Himal Prasad Ghimiray 2025-05-13  2399  			if (range_end > xe_svm_range_end(svm_range) &&
+09ba0a8f06cd69 Himal Prasad Ghimiray 2025-05-13  2400  			    xe_svm_range_end(svm_range) < xe_vma_end(vma)) {
+09ba0a8f06cd69 Himal Prasad Ghimiray 2025-05-13  2401  				addr = xe_svm_range_end(svm_range);
+09ba0a8f06cd69 Himal Prasad Ghimiray 2025-05-13  2402  				goto alloc_next_range;
+09ba0a8f06cd69 Himal Prasad Ghimiray 2025-05-13  2403  			}
+09ba0a8f06cd69 Himal Prasad Ghimiray 2025-05-13  2404  		}
+09ba0a8f06cd69 Himal Prasad Ghimiray 2025-05-13  2405  print_op_label:
+b06d47be7c8316 Matthew Brost         2023-07-07  2406  		print_op(vm->xe, __op);
+40709aa761acbc Matthew Brost         2023-11-20  2407  	}
+b06d47be7c8316 Matthew Brost         2023-07-07  2408  
+b06d47be7c8316 Matthew Brost         2023-07-07  2409  	return ops;
+09ba0a8f06cd69 Himal Prasad Ghimiray 2025-05-13  2410  
+09ba0a8f06cd69 Himal Prasad Ghimiray 2025-05-13  2411  unwind_prefetch_ops:
+09ba0a8f06cd69 Himal Prasad Ghimiray 2025-05-13  2412  	xe_svm_prefetch_gpuva_ops_fini(ops);
+09ba0a8f06cd69 Himal Prasad Ghimiray 2025-05-13  2413  	drm_gpuva_ops_free(&vm->gpuvm, ops);
+09ba0a8f06cd69 Himal Prasad Ghimiray 2025-05-13  2414  	return ERR_PTR(err);
+dd08ebf6c3525a Matthew Brost         2023-03-30  2415  }
+09ba0a8f06cd69 Himal Prasad Ghimiray 2025-05-13  2416  
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
