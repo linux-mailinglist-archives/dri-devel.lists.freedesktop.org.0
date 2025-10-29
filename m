@@ -2,143 +2,148 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id F1930C198A4
-	for <lists+dri-devel@lfdr.de>; Wed, 29 Oct 2025 10:59:58 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4CB9FC198AE
+	for <lists+dri-devel@lfdr.de>; Wed, 29 Oct 2025 11:00:25 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A50D210E776;
-	Wed, 29 Oct 2025 09:59:56 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9E73310E76D;
+	Wed, 29 Oct 2025 10:00:22 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="lPcOsO4r";
-	dkim=pass (2048-bit key; unprotected) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="OWKgHQ0v";
+	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="Bl6nJXM+";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
- [205.220.168.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BBE2B10E76D
- for <dri-devel@lists.freedesktop.org>; Wed, 29 Oct 2025 09:59:54 +0000 (UTC)
-Received: from pps.filterd (m0279866.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id
- 59T4vQ853666075
- for <dri-devel@lists.freedesktop.org>; Wed, 29 Oct 2025 09:59:54 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
- cc:content-transfer-encoding:content-type:date:from:in-reply-to
- :message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
- Piz8rod4lz0FtmBYgSwSVPwpSZnz6NSh0sr50I+nrGU=; b=lPcOsO4r3SX6Ym/V
- XyPlofVFzvTrGI2l0UP5NsYv4j28pOhXcDNyo+1K9h4pcDMI8F/eaA0IrYvwiyyH
- ju/qnQ9MAPGJnMTXHV+I/tFOs7/EDWeklEj5SQqnvCn75dAmpeNCchuAdibM9iMJ
- kntrb2Ym0p+c3KKy1TDAqcNw4C5FUNycUxeN0/Th55oUEGSrcM8QjRLNz/io8uJ5
- AF9LsxT1iG2g7SAD1DGviacyfguXDCzx2vIMqLO4Kf3oG3JKehZA7QPJB8H3Wf8Y
- L3Q2ufs7iQDOsjrsnJnunM1jhwXVerjc6Zzba09+Src16zAcPIUKa/0d4eSQ6nmM
- Nm3+kw==
-Received: from mail-pl1-f197.google.com (mail-pl1-f197.google.com
- [209.85.214.197])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4a34a3t3pg-1
- (version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
- for <dri-devel@lists.freedesktop.org>; Wed, 29 Oct 2025 09:59:54 +0000 (GMT)
-Received: by mail-pl1-f197.google.com with SMTP id
- d9443c01a7336-28e970be282so23345525ad.1
- for <dri-devel@lists.freedesktop.org>; Wed, 29 Oct 2025 02:59:54 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=oss.qualcomm.com; s=google; t=1761731994; x=1762336794;
- darn=lists.freedesktop.org; 
- h=content-transfer-encoding:in-reply-to:from:references:cc:to:subject
- :user-agent:mime-version:date:message-id:from:to:cc:subject:date
- :message-id:reply-to;
- bh=Piz8rod4lz0FtmBYgSwSVPwpSZnz6NSh0sr50I+nrGU=;
- b=OWKgHQ0vjMDmxzPASoYVg9rTUwE0xdud2sO8LnGzjw0ea7/ANeSWcU9WmHJGKv0mpx
- b5JXl14+TW9QCmjnrI0JhMXuaFhB+NM6Ssnh02HfsO2phIExI6BbcZvM12iNyCztpgh0
- YWnCey39WnBVVMzPT4x29QkoAd+mmJrhRtHkzb35yx4g0u8Z2x84m93O7KgsxKXIWDqR
- ylofcBxNRKt9XIEXOfnuyRbUJedolzyIlN2I7k2lB4mFmdcYZTzQFQJBUS1WlaR5QybB
- YHNcgCl/MgYaro17tnUj+QnkbftJMyQmAyMgefynRrAAyg4V5FWpkRrihzHP+menr/F6
- xRxg==
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 83E3910E76C
+ for <dri-devel@lists.freedesktop.org>; Wed, 29 Oct 2025 10:00:21 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1761732020;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=hEtH/DOi8ufPul8rQIFdoeVO4A7KFJe7+IrA/7Qq9Tk=;
+ b=Bl6nJXM+2Bt0zK3cy5OzjYqWxx9/97RvTYbUdHAaFxcYXoV4o6Ln5LpX6TjaNBiYhM7nhs
+ ZVfWPsAi1Xpc91lkNLD6aqsyCA1mDYGZ3oEpOXcann4daFp9LX3vTj4Glj0Sk9y+CwpbQx
+ CYXuHDaA5RJFdsGhVOGSZbVwlP1EaUI=
+Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
+ [209.85.128.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-612-Tf9xtVnAO0a0cBaF4F7hhg-1; Wed, 29 Oct 2025 06:00:18 -0400
+X-MC-Unique: Tf9xtVnAO0a0cBaF4F7hhg-1
+X-Mimecast-MFC-AGG-ID: Tf9xtVnAO0a0cBaF4F7hhg_1761732017
+Received: by mail-wm1-f72.google.com with SMTP id
+ 5b1f17b1804b1-477113a50fcso28700425e9.1
+ for <dri-devel@lists.freedesktop.org>; Wed, 29 Oct 2025 03:00:18 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1761731994; x=1762336794;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to:subject
- :user-agent:mime-version:date:message-id:x-gm-message-state:from:to
- :cc:subject:date:message-id:reply-to;
- bh=Piz8rod4lz0FtmBYgSwSVPwpSZnz6NSh0sr50I+nrGU=;
- b=w8XWYiebhx4J1snYM4OiVw/6VmTRWyw5eD7TTpX2sx0bmZKqUzvmejb9afQouQyg76
- pTw08/dEuUG8gwc4GokTt2cKklPZxGuNI6HeboEvBpcK/ohsXJ+fublMHVX2RX9K+79l
- ok2w32+t1zjbF7TZDo4T6qSxwEYpIL1LHNdXUkHQ0+pehIDM42eq8LCFpJReXi7tr3+2
- x7XO0hCZE3BBNPHoVl3JHnGBaLGjEAH0TkuZwHPgwtV0BoeFnBhCdHSZyWQJf5fQs/Mr
- ySmuOF9l6Qef8IgZdp/NEGz6NDTO1PyrEsOX6/p87YrnqagU+M/08RFjfOJ/5rKrjlE5
- 2DTg==
+ d=1e100.net; s=20230601; t=1761732017; x=1762336817;
+ h=content-transfer-encoding:in-reply-to:autocrypt:content-language
+ :from:references:cc:to:subject:user-agent:mime-version:date
+ :message-id:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=hEtH/DOi8ufPul8rQIFdoeVO4A7KFJe7+IrA/7Qq9Tk=;
+ b=v0qPwty5JF3vr9ofLLZtQ2No/doAnYXhF0JdHGmYmjI6G3HL71bbojicwK8QOkjsSW
+ KicZO6GnxK3cA/p8BAY63SZvga6kMu2/Cb/PiDZsq8LIoJcIZOf11J2b4L9dWom5LsnQ
+ xBsnGgiUrWqaMhdl7eG8ar+fFNSs7FFFCW+Zuxmsl/f49p0QfV8MwjMhKS670ii+DkUb
+ s6mAXdnHHYN5Q2/jYi4xqe+QmGbjnTxUM2xDytMmWriU+xNryPeh73Ua/3gFH+TmqwIq
+ KRG+N21bNf8hn3gVhXLUtp1hUsVX4zgES7smogQ3ulDj1YVoZwMTn0gGrzee+dCHVqem
+ NloA==
 X-Forwarded-Encrypted: i=1;
- AJvYcCUHIMMKaKBD8P6M0pXk3I0J12tNXv4hWGUJbSNcUe6FAld2AJFTow9W28N7oioJZyOJLBmBTGE+CXI=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YxuwJmN0AeoW+x1pv+1a/pmAU6ZluKlZaP8oEPdT/Ip75d0D0cK
- tFYuPfgFQAdx0cztoWnH9DCzsLuEjDiKlYxRDHL5/625c6CL+C0C2wrw0AaqNBe2Y6bKn4Qp2TF
- tXDdYjNEpcka0zemAJG49O+LbacYuxAptTyUa8aoOOtrbAEPpvA351fAocvE7Q1LRucszG3c=
-X-Gm-Gg: ASbGnct63+/hmARsqRH/JosFqkCtaHyqSCjbAGKyuuc/69Y2aWfvB/qRaAxch5PPWx7
- N7ebe93tPbD16I0TWJGFQMr2CfTdwmYkMohlhxep6FxaEsPPA517D9y50SQ9dMGFNWwA4ZN6guy
- DMdNuae1nj2LrgILDcbr3+qTs5U7gEJkJuVBtq7Si++RbJfE2soYkusqq0Zi6NwAo1BqZmveEkj
- nvTlKOeZ3TjXrzt0XFZmWN8mpPPBRFsQRV7CTtEVsFqdBeAMnI0yH5isNEODC/VBOesqr7wWmwl
- Fx/yelcu1p4iFUouHlTpa22gWc4Kl9xziPfRzUhMspXmYJ6/qLySvvgPZKC6+ikXp+M2olWUWuF
- REsPmG3ENlFL8xMFQZst9z9a0QjhoyIqS1Z9pFB6lqxe6IAdca4jnMrZaS8trMvX5RM6n4Q==
-X-Received: by 2002:a17:903:2f8d:b0:269:80e2:c5a8 with SMTP id
- d9443c01a7336-294deeedda7mr15829025ad.7.1761731993558; 
- Wed, 29 Oct 2025 02:59:53 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IG4z4olbHvLZYuxygnDrTvnj3GVSCIDXrQfTkLlCd2lWeeIOL0S3gFqI+0DsjMVOy8PFkbqAA==
-X-Received: by 2002:a17:903:2f8d:b0:269:80e2:c5a8 with SMTP id
- d9443c01a7336-294deeedda7mr15828705ad.7.1761731992999; 
- Wed, 29 Oct 2025 02:59:52 -0700 (PDT)
-Received: from [10.133.33.251] (tpe-colo-wan-fw-bordernet.qualcomm.com.
- [103.229.16.4]) by smtp.gmail.com with ESMTPSA id
- d9443c01a7336-29498d2789bsm144130825ad.62.2025.10.29.02.59.46
+ AJvYcCVwICvVpWpTvbcPv0VwhXChiWLhx0EF1xw6c+YQygz/nrT0dqczZhEKVfDPaG7FCHQKxNJ1gxqd+kU=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Yxi+rkM8Z1PCYJE3oafgDPAdnjIQ2FBA8BMixF7IvsPM3MszabC
+ HIZPtINSd5L5PBpbTeUWwijNnqXx5Pmq7QToJ3gmIpgaj7Nbt+xkJQJvDwua/AeG7HAsGOUUPSr
+ 13Y+/EqooUZzZqFIV06fnu7HtIMhu9L0LMlVcE0nf7s05X8da9qChbUhkdmDzO4y1z9ALEw==
+X-Gm-Gg: ASbGncvvrqd949j82qwNVfoIZ72vy140FLuhYO3F2mvNEmO9CsdYyMcAZZpsN8YurB0
+ hVkmAiKMLQQLWqITmw+0S5s/CfoTkq9fyyYMVNNv/CgLx1MXC42i+m4Ef5UKdJzvgFDsmkWJtdE
+ 3AmYWDFsH7HDoTCataJmoMdhxwzy9yCDZQaK2TD9pDGXL39DncpvWGuTwPI2GRDVkCl2jhbrOqq
+ xd0DyE635X5kJLBgB7g04K+0fIa8yY9ONUr9UYUXM0f0TtQgpTUp4XlYtkPPCfoDGq7bPm1tYlE
+ mH7VyHPLke2OJZvVUjIi4jLs0fCaae5m6NKFIB8H2AtM7kSNkftQpi3d4Nmc6sYefuVdp/SUpWX
+ ozKiVrd1LfZmYApCXwzQgjQ==
+X-Received: by 2002:a05:600d:4398:b0:475:dae5:d972 with SMTP id
+ 5b1f17b1804b1-4771e85156emr12759215e9.23.1761732016760; 
+ Wed, 29 Oct 2025 03:00:16 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IFnA3IRpFHhYsZzK6qc9l0qizFN8SkkYYfFwlHAG+3t4PNESgPO0z5ya7ZscSCTji9s1WIskA==
+X-Received: by 2002:a05:600d:4398:b0:475:dae5:d972 with SMTP id
+ 5b1f17b1804b1-4771e85156emr12758875e9.23.1761732016284; 
+ Wed, 29 Oct 2025 03:00:16 -0700 (PDT)
+Received: from [10.32.64.156] (nat-pool-muc-t.redhat.com. [149.14.88.26])
+ by smtp.gmail.com with ESMTPSA id
+ 5b1f17b1804b1-4771902fa8dsm39879465e9.8.2025.10.29.03.00.14
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 29 Oct 2025 02:59:52 -0700 (PDT)
-Message-ID: <7fcbb624-7c92-4043-b5aa-0fbfd3dd125c@oss.qualcomm.com>
-Date: Wed, 29 Oct 2025 17:59:43 +0800
+ Wed, 29 Oct 2025 03:00:15 -0700 (PDT)
+Message-ID: <db143076-afa0-4129-b5b0-eab85ec54aac@redhat.com>
+Date: Wed, 29 Oct 2025 11:00:14 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v6 2/4] dt-bindings: display: msm: sm6150-mdss: Fix
- example indentation and OPP values
-To: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
-Cc: Rob Clark <robin.clark@oss.qualcomm.com>,
- Dmitry Baryshkov <lumag@kernel.org>, Abhinav Kumar
- <abhinav.kumar@linux.dev>,
- Jessica Zhang <jesszhan0024@gmail.com>, Sean Paul <sean@poorly.run>,
- Marijn Suijten <marijn.suijten@somainline.org>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>, Bjorn Andersson <andersson@kernel.org>,
- Konrad Dybcio <konradybcio@kernel.org>, linux-arm-msm@vger.kernel.org,
- dri-devel@lists.freedesktop.org, freedreno@lists.freedesktop.org,
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
- fange.zhang@oss.qualcomm.com, yongxing.mou@oss.qualcomm.com,
- li.liu@oss.qualcomm.com
-References: <20251024-add-displayport-support-to-qcs615-devicetree-v6-0-c4316975dd0e@oss.qualcomm.com>
- <20251024-add-displayport-support-to-qcs615-devicetree-v6-2-c4316975dd0e@oss.qualcomm.com>
- <ggrtehmzg5bajbglcjhlf5jynhwqq6vztc2fqwxxgip2q3vmip@t72qcggza2or>
-From: Xiangxu Yin <xiangxu.yin@oss.qualcomm.com>
-In-Reply-To: <ggrtehmzg5bajbglcjhlf5jynhwqq6vztc2fqwxxgip2q3vmip@t72qcggza2or>
-Content-Type: text/plain; charset=UTF-8
+Subject: Re: [PATCH v1 1/1] KVM: s390: Fix missing present bit for gmap puds
+To: Claudio Imbrenda <imbrenda@linux.ibm.com>, akpm@linux-foundation.org
+Cc: balbirs@nvidia.com, borntraeger@de.ibm.com, Liam.Howlett@oracle.com,
+ airlied@gmail.com, apopple@nvidia.com, baohua@kernel.org,
+ baolin.wang@linux.alibaba.com, byungchul@sk.com, dakr@kernel.org,
+ dev.jain@arm.com, dri-devel@lists.freedesktop.org,
+ francois.dugast@intel.com, gourry@gourry.net, joshua.hahnjy@gmail.com,
+ linux-kernel@vger.kernel.org, linux-mm@kvack.org,
+ lorenzo.stoakes@oracle.com, lyude@redhat.com, matthew.brost@intel.com,
+ mpenttil@redhat.com, npache@redhat.com, osalvador@suse.de, rakie.kim@sk.com,
+ rcampbell@nvidia.com, ryan.roberts@arm.com, simona@ffwll.ch,
+ ying.huang@linux.alibaba.com, ziy@nvidia.com, kvm@vger.kernel.org,
+ linux-s390@vger.kernel.org, linux-next@vger.kernel.org, hca@linux.ibm.com,
+ gor@linux.ibm.com, agordeev@linux.ibm.com
+References: <d4a09cc8-84b2-42a8-bd03-7fa3adee4a99@linux.ibm.com>
+ <20251028130150.57379-1-imbrenda@linux.ibm.com>
+ <20251028130150.57379-2-imbrenda@linux.ibm.com>
+From: David Hildenbrand <david@redhat.com>
+Autocrypt: addr=david@redhat.com; keydata=
+ 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
+ qIws/H2t
+In-Reply-To: <20251028130150.57379-2-imbrenda@linux.ibm.com>
+X-Mimecast-Spam-Score: 0
+X-Mimecast-MFC-PROC-ID: wYzKVguY0pqGFUSQcC-vEPW5SEEts1DD0ATD5wHTJKs_1761732017
+X-Mimecast-Originator: redhat.com
+Content-Language: en-US
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-X-Proofpoint-ORIG-GUID: zBGjsudgjTRF6Foibba2swurpY2l1OAX
-X-Authority-Analysis: v=2.4 cv=HM3O14tv c=1 sm=1 tr=0 ts=6901e59a cx=c_pps
- a=cmESyDAEBpBGqyK7t0alAg==:117 a=nuhDOHQX5FNHPW3J6Bj6AA==:17
- a=IkcTkHD0fZMA:10 a=x6icFKpwvdMA:10 a=s4-Qcg_JpJYA:10
- a=VkNPw1HP01LnGYTKEx00:22 a=EUspDBNiAAAA:8 a=v3LxePKqoqSeXojOrL0A:9
- a=QEXdDO2ut3YA:10 a=1OuFwYUASf3TG4hYMiVC:22
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUxMDI5MDA3NCBTYWx0ZWRfX1s9Bejfxne8H
- LWwXGFLAezv88QBtViBpchm1q+jAjXJ/wJX4Hq+jEiBvaOnlmyaAQ4PtmbSWtH3pl2qJpOqBiGb
- CkaI53SFTFRaD28OWBd6upmDRdP8L6mnvKRbzheadVSYywNaWyymB7HSccHz1umsVXK+ZFF93qP
- AerBMlTCnGma+/S1ZxMG4XBSqIzH8UsuvFLpN+iLa2jz4ZpF8MjKmcuM6YCkgXh22Ag+yb+1VwA
- 8wrZvSgtDiU04ht4inyWNmedrCJH1/UZqycAfv8HWeoOx7Di3qDjNkU0km47EJUAJT+LeqQCuAz
- ScLolYjNkDTTiU4+UJzjYXKW9rxJFx4dTELLKNaQvanpWq3ii6d23iXs33KGIoZ7Rq2yk9eE9Q4
- ftl442yclhllqJsPHnRmpSDf6/t1rA==
-X-Proofpoint-GUID: zBGjsudgjTRF6Foibba2swurpY2l1OAX
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.9,FMLib:17.12.80.40
- definitions=2025-10-29_04,2025-10-22_01,2025-03-28_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- suspectscore=0 priorityscore=1501 malwarescore=0 adultscore=0 phishscore=0
- spamscore=0 lowpriorityscore=0 impostorscore=0 clxscore=1015 bulkscore=0
- classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.22.0-2510240001 definitions=main-2510290074
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -154,91 +159,51 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+On 28.10.25 14:01, Claudio Imbrenda wrote:
+> For hugetlbs, gmap puds have the present bit set. For normal puds
+> (which point to ptes), the bit is not set. This is in contrast to the
+> normal userspace puds, which always have the bit set for present pmds.
+> 
+> This causes issues when ___pte_offset_map() is modified to only check
+> for the present bit.
+> 
+> The solution to the problem is simply to always set the present bit for
+> present gmap pmds.
+> 
+> Signed-off-by: Claudio Imbrenda <imbrenda@linux.ibm.com>
+> Link: https://lore.kernel.org/lkml/20251017144924.10034-1-borntraeger@linux.ibm.com/
+> Tested-by: Christian Borntraeger <borntraeger@linux.ibm.com>
+> Acked-by: Christian Borntraeger <borntraeger@linux.ibm.com>
+> ---
+>   arch/s390/mm/gmap.c | 5 +++--
+>   1 file changed, 3 insertions(+), 2 deletions(-)
+> 
+> diff --git a/arch/s390/mm/gmap.c b/arch/s390/mm/gmap.c
+> index 8ff6bba107e8..22c448b32340 100644
+> --- a/arch/s390/mm/gmap.c
+> +++ b/arch/s390/mm/gmap.c
+> @@ -599,8 +599,9 @@ int __gmap_link(struct gmap *gmap, unsigned long gaddr, unsigned long vmaddr)
+>   					| _SEGMENT_ENTRY_GMAP_UC
+>   					| _SEGMENT_ENTRY;
+>   			} else
+> -				*table = pmd_val(*pmd) &
+> -					_SEGMENT_ENTRY_HARDWARE_BITS;
 
-On 10/29/2025 4:00 AM, Dmitry Baryshkov wrote:
-> On Fri, Oct 24, 2025 at 01:21:02PM +0800, Xiangxu Yin via B4 Relay wrote:
->> From: Xiangxu Yin <xiangxu.yin@oss.qualcomm.com>
->>
->> - Adjusted indentation and added missing blank lines in the example.
->> - Corrected OPP clock values to match actual DTS configuration.
-> See Documentation/process/submitting-patches.rst to check how to write
-> proper commit messages.
+I'd add a comment here like
 
+/* Make sure that pmd_present() will work on these entries. */
 
-Ok, will refer guide to update commit msg.
+> +				*table = (pmd_val(*pmd) &
+> +					_SEGMENT_ENTRY_HARDWARE_BITS)
+> +					| _SEGMENT_ENTRY;
+>   		}
+>   	} else if (*table & _SEGMENT_ENTRY_PROTECT &&
+>   		   !(pmd_val(*pmd) & _SEGMENT_ENTRY_PROTECT)) {
 
+Reviewed-by: David Hildenbrand <david@redhat.com>
 
->> Signed-off-by: Xiangxu Yin <xiangxu.yin@oss.qualcomm.com>
->> ---
->>  .../bindings/display/msm/qcom,sm6150-mdss.yaml     | 32 ++++++++++++----------
->>  1 file changed, 17 insertions(+), 15 deletions(-)
->>
->> diff --git a/Documentation/devicetree/bindings/display/msm/qcom,sm6150-mdss.yaml b/Documentation/devicetree/bindings/display/msm/qcom,sm6150-mdss.yaml
->> index ba0dea2edea98cee0826cf38b3f33361666e004a..80183df71cd9288f652dc42afeae101e8edcbe65 100644
->> --- a/Documentation/devicetree/bindings/display/msm/qcom,sm6150-mdss.yaml
->> +++ b/Documentation/devicetree/bindings/display/msm/qcom,sm6150-mdss.yaml
->> @@ -140,35 +140,37 @@ examples:
->>                  #size-cells = <0>;
->>  
->>                  port@0 {
->> -                  reg = <0>;
->> -                  dpu_intf0_out: endpoint {
->> -                  };
->> +                    reg = <0>;
->> +
->> +                    dpu_intf0_out: endpoint {
->> +                    };
->>                  };
->>  
->>                  port@1 {
->> -                  reg = <1>;
->> -                  dpu_intf1_out: endpoint {
->> -                      remote-endpoint = <&mdss_dsi0_in>;
->> -                  };
->> +                    reg = <1>;
->> +
->> +                    dpu_intf1_out: endpoint {
->> +                        remote-endpoint = <&mdss_dsi0_in>;
->> +                    };
->>                  };
->>              };
->>  
->>              mdp_opp_table: opp-table {
->>                  compatible = "operating-points-v2";
->>  
->> -                opp-19200000 {
->> -                  opp-hz = /bits/ 64 <19200000>;
->> -                  required-opps = <&rpmhpd_opp_low_svs>;
->> +                opp-192000000 {
-> This is not necessary. This is just an example, so it doesn't matter,
-> which values are actually written here.
+-- 
+Cheers
 
+David / dhildenb
 
-Yes, but I think correct value is better?
-
-
->> +                    opp-hz = /bits/ 64 <192000000>;
->> +                    required-opps = <&rpmhpd_opp_low_svs>;
->>                  };
->>  
->> -                opp-25600000 {
->> -                  opp-hz = /bits/ 64 <25600000>;
->> -                  required-opps = <&rpmhpd_opp_svs>;
->> +                opp-256000000 {
->> +                    opp-hz = /bits/ 64 <256000000>;
->> +                    required-opps = <&rpmhpd_opp_svs>;
->>                  };
->>  
->>                  opp-307200000 {
->> -                  opp-hz = /bits/ 64 <307200000>;
->> -                  required-opps = <&rpmhpd_opp_nom>;
->> +                    opp-hz = /bits/ 64 <307200000>;
->> +                    required-opps = <&rpmhpd_opp_nom>;
->>                  };
->>              };
->>          };
->>
->> -- 
->> 2.34.1
->>
->>
