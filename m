@@ -2,128 +2,85 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 67741C1BC4C
-	for <lists+dri-devel@lfdr.de>; Wed, 29 Oct 2025 16:47:36 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3BB53C1BE3B
+	for <lists+dri-devel@lfdr.de>; Wed, 29 Oct 2025 17:00:34 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9CF9C10E14B;
-	Wed, 29 Oct 2025 15:47:34 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6F8BB10E163;
+	Wed, 29 Oct 2025 16:00:32 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="lSwT+C41";
-	dkim=pass (2048-bit key; unprotected) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="Vla+9zAi";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="hM48l62M";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
- [205.220.168.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2BDC410E80C
- for <dri-devel@lists.freedesktop.org>; Wed, 29 Oct 2025 15:47:33 +0000 (UTC)
-Received: from pps.filterd (m0279863.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id
- 59TC9bfA3663647
- for <dri-devel@lists.freedesktop.org>; Wed, 29 Oct 2025 15:47:32 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
- cc:content-transfer-encoding:content-type:date:from:in-reply-to
- :message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
- RekmVKWrCvXzM/j9GSoTaAobqMvaiGt6QxLrXZmRYiA=; b=lSwT+C41lxiR6TW8
- 7EF1sQ8XJJ7Gvhc2uIDnCVPsAB/gUyELvTeLuMZIE57TcvqxcG0HD4VG1t2lIZTO
- bIbMrNYPSUVsAag3GlCvKheehJUaRhgI6XVJYP3VW/hU+ajG5qzVPGSCdDpXnz2Y
- 9811xIOn+PbdCIR157K3sUjox+/YvXr2LPfbQKChfDE/hznbK1BgTspN99bMkCyh
- z2Vt/+2mGABmeiQvyb11SKSVC/6KohsKmNXwUHwFOLBmiCBvB+StN01Il6v+5fab
- SrXoIdzqQXrDquhP9QzvZRiyr2iCMJ6IDIrp/xdfVnlj7UCgGuAgZk/3tam+cH5N
- /Dk95g==
-Received: from mail-pj1-f70.google.com (mail-pj1-f70.google.com
- [209.85.216.70])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4a34a1u3vt-1
- (version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
- for <dri-devel@lists.freedesktop.org>; Wed, 29 Oct 2025 15:47:32 +0000 (GMT)
-Received: by mail-pj1-f70.google.com with SMTP id
- 98e67ed59e1d1-32ee62ed6beso87622a91.2
- for <dri-devel@lists.freedesktop.org>; Wed, 29 Oct 2025 08:47:32 -0700 (PDT)
+Received: from mail-wm1-f46.google.com (mail-wm1-f46.google.com
+ [209.85.128.46])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 971C210E163
+ for <dri-devel@lists.freedesktop.org>; Wed, 29 Oct 2025 16:00:30 +0000 (UTC)
+Received: by mail-wm1-f46.google.com with SMTP id
+ 5b1f17b1804b1-47710acf715so20329745e9.1
+ for <dri-devel@lists.freedesktop.org>; Wed, 29 Oct 2025 09:00:30 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=oss.qualcomm.com; s=google; t=1761752852; x=1762357652;
- darn=lists.freedesktop.org; 
- h=content-transfer-encoding:in-reply-to:from:content-language
- :references:cc:to:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=RekmVKWrCvXzM/j9GSoTaAobqMvaiGt6QxLrXZmRYiA=;
- b=Vla+9zAitRJ70AuvqMuwMwPz9BouMchyzkOQHTRYhuyO/XRgP35uOLqAaw7Ljv5gid
- cv9YJxuaZj4TDaaIML7oDN380wMc4Lk+8bBybgRNh3AERewi3VMcUHKqpSPb1o8ZJwgX
- Mo7QQbBj0jUzZAG08c+SEaG3YRzZiXoKXz4OO+SWt3NjnmjNZjwBdrx+YxSqA5KOAR3Z
- f89MKscq3NUSq+3L6BO8LF26aRwGfVCvS5U0XEIPg9ZG6BsT4XhhraB4dldypqCOejey
- PoTrqVAGx1VqRfRODIkjpfAk6CEqxd6Es9M5lSU3iO/sXbbu0o8zSkQx12ifBQyYTN44
- kKJg==
+ d=gmail.com; s=20230601; t=1761753629; x=1762358429; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=QjbKfgzHn5tyeA0m3V5JJ3BLODA9JPFCp9Sk+QT8tK8=;
+ b=hM48l62MCT4FE+u1RxHBSMsYcSTOhbzL5lxHwP5m5vrB2Ut6h1Px+TuBkOkEYvN0/+
+ C6pOXbrUj4ZYY68egrqFeoEoJOPZ2T/QgoCbInXwjUjKimQLNPRO/Lj1UNFYAPgGkF9V
+ Qm+akhwNFR4WuDn+E+ggyN3kxzkGAoOpCEQgA9yAieXKUDfGDo/6OueiyPnkXaX58p34
+ 0CR1fJkArFmcemxS63xRH8AmI7uqf/GOZ5c5JBt+husUnT3Ym/TyucRJoff8+mD5DYQF
+ MoMGKkxVv5FnPdfjgVBqn1gv2zhZvmBtTFNHELk5zPARbxr4Pudw6zWa/Kf9SjD3Xkk8
+ qU1A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1761752852; x=1762357652;
- h=content-transfer-encoding:in-reply-to:from:content-language
- :references:cc:to:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=RekmVKWrCvXzM/j9GSoTaAobqMvaiGt6QxLrXZmRYiA=;
- b=rXwUBucwdnu36EaH+P2rYQMi32Bee+6JHcajYJMprwkbonJYT1SU2Qt06nbUmbK32U
- tNvLoL/EZck0sFzNY9iXCAUheYTgIdJpeRqjD4fKwluobzcDdQ2S8IRacjz7EvCKzb90
- VkliQgDb2wMvWyffNI7SIjlqLAH22tJQxB5ix25/C72vH1RG1weXCy3YNCyzKAi4WlFT
- UPK+tLHRtEXGv/CFLGpC8eixBAILzLyU9FLeJ01/T+FIKWnsp9KTOt13b98297j33djx
- NQlLopHuwyiXX+DPFjwALU2egoZbHrOE5X/T9cKFAy9MKH3if7aFUTZrPmKFpITQoioP
- Aauw==
+ d=1e100.net; s=20230601; t=1761753629; x=1762358429;
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=QjbKfgzHn5tyeA0m3V5JJ3BLODA9JPFCp9Sk+QT8tK8=;
+ b=jf3hsXMNS6ovtaABSuCY04cMB6cpBN9zCPoM5d/t8EJ4SR7Ietxqnc6cvcmx5BX+ea
+ 6FUQAL4yJUV9pHNrqu8ptK6+g5Pqj3Nd76hDEGPTMeO1HjU9lnCPxPwMRWE0V7SqpC2Q
+ Uxobplb7gdMI8Kx5gshr66FG+j7PiYndZB66a6PxC9OWACoYJgT0trVfqKemxotxp+n7
+ V7gA5iYoU9uwM5QJkY4L5i//nf0SqxPW7eKVo7hZkoyIe74la6ptsnmATzzjoSIp+A8n
+ nbdPxO2wXasfyIvruDYN8SGXdCpvBcAoNEAGDqyuLInR39Gv/Fu/qZ1KRbthdIm6p51X
+ YfhQ==
 X-Forwarded-Encrypted: i=1;
- AJvYcCVqR5I2n+qdmZ3V/YXerPNQsZshyVX0HFz7OEz6iwBE/kCeuSoDCg7Jzg5Qn9qmkkYFwKvsDTx9Ezc=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YzXVfrVngtx7WopNhAUI+L5D4jHU2JGhGal17eItViLB1sXhKt+
- 4FFa0PgGkQhepWE4n2HVJ2l8sgGLkzvrg2eE3r+TNNozOSP40FW5gQ95q85YTa9PjRIuH+FsnML
- DIfKuqVNRQ+qFTttGz8zAa17eUGa7mdG3Z6T38Fp8bqF1rKqKINsxh9PtVF2mdwXUCvTBSCI=
-X-Gm-Gg: ASbGncuilQw2ZZ9eqMqAom5Nj9xg7KFEhH8ZY60BfTh84TN6W8yDPwx5QvSfokAecQm
- D5ZUa7P+icQjzSWrpElDpw9FVbJcSua/zrEoDGdcJQDAmxDXyUbcmPwNJd+g8OoAiBYVo27llxw
- APi75/BZFd+T+jVmdOd+Qvn2U+/qL+ynnyV6njXpaIUj7uOizANN8elr4Am0yEECqeSlXjg3Am3
- +bTN0TSAN9amq2h8kNcXzEqpgN9yh3W4aGmhrWeVl/nLIB9BG9oEXtB6+r4lBJ4akkRzBBdjraJ
- UnciQzWfOkWn8zA3a8hmaZFOZbO/qxXx1zClHNqUYhWmRs2xaBoPVXEdik2j+xT+1Bg6bF5KTAr
- 94rAOn9GliN/V5ujTp1xyM42HjJ+NKTwDr46CG67IX9ttw8okKh28
-X-Received: by 2002:a17:90b:2811:b0:33e:2d0f:478e with SMTP id
- 98e67ed59e1d1-3403a14191dmr3445168a91.3.1761752851875; 
- Wed, 29 Oct 2025 08:47:31 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IGZ39r+36rUhyBD0fu0OSgVuiZBMWGUrsrB/mnLAglFnh1PbOBfhkQHCppW+f1YqivKDa/Ojg==
-X-Received: by 2002:a17:90b:2811:b0:33e:2d0f:478e with SMTP id
- 98e67ed59e1d1-3403a14191dmr3445139a91.3.1761752851258; 
- Wed, 29 Oct 2025 08:47:31 -0700 (PDT)
-Received: from [10.226.59.182] (i-global254.qualcomm.com. [199.106.103.254])
- by smtp.gmail.com with ESMTPSA id
- 98e67ed59e1d1-33fed706449sm15959184a91.2.2025.10.29.08.47.30
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 29 Oct 2025 08:47:30 -0700 (PDT)
-Message-ID: <dd579486-efbf-41a4-8523-a804c8f7e68f@oss.qualcomm.com>
-Date: Wed, 29 Oct 2025 09:47:29 -0600
+ AJvYcCVs1hMv1SQfIqlu0aw8RuCrDorRad8J6cLKhqJIPq9Al7jiFvr2FqaV4doPYMBpM0KCDBz8nyPwgEo=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YxTlb7aD5fYHQNjojqIzkJntxN8eGbQfGlKNIgajY7nwg2d671f
+ ObLzDSFIxIaVCrMz5O4U3KwY3s8VPa/mHLtQ9YErBt9LZhjzLctHoPl/
+X-Gm-Gg: ASbGnct+J1GsIht5DeQ8nJlKggztOSt884JU4pcjQkabqZ77FEZHa5q9IfC9X+qfuU5
+ LH095CyAwGNEZ1Tlb/wjmBHkeo9eo0rMECkqgQHABzRHUgaz6rh1TLINpPYi7Aqvo0rqLu8iQ0t
+ JkIhD3nOSxylhS7sFCBqrjsIRw2T5NlgrO/BMEbYVYQ3rHM9afebwQVnWTTF0esKbP63g6apwYc
+ fZFsmsTEsk89c7tbE5SKqOUPOSJuB+FotjLJHAci2azm8xaHxa9AG8a4A/+8P0V8rbuTjabj8pN
+ 0Xe6wtqDGMdu85L73yEZODQ7bgvHIB+tpmBRzMr5xtnMLhP06+sLgbQSciu72mJsA8fKpIazHBR
+ QswkiyvMfdQabT3K2XM/2yiAkf4f3lTKOu+aTA73lbgynwYzZ4FlkSVpQBULiZ7zuZa4/iwZgvn
+ 5KbXscylz7IJ/u3REaMMmprxu/FkfaRFnO+VDa80QlBITLh1g5ydZAdy5fRaPzO6Tzz78w
+X-Google-Smtp-Source: AGHT+IELwKkyoHZcEXoDh+ODYAhJc1PkQChXNnF/56yRmyxyp0iQGf8PAy40wU0hq97LrnXaNPX15Q==
+X-Received: by 2002:a05:600c:848a:b0:45d:d97c:236c with SMTP id
+ 5b1f17b1804b1-4771e21c484mr25812165e9.21.1761753628706; 
+ Wed, 29 Oct 2025 09:00:28 -0700 (PDT)
+Received: from jernej-laptop.localnet (178-79-73-218.dynamic.telemach.net.
+ [178.79.73.218]) by smtp.gmail.com with ESMTPSA id
+ 5b1f17b1804b1-4771e3a8209sm54097015e9.11.2025.10.29.09.00.27
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 29 Oct 2025 09:00:28 -0700 (PDT)
+From: Jernej =?UTF-8?B?xaBrcmFiZWM=?= <jernej.skrabec@gmail.com>
+To: Maxime Ripard <mripard@kernel.org>, Chen-Yu Tsai <wens@csie.org>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
+ Simona Vetter <simona@ffwll.ch>, Samuel Holland <samuel@sholland.org>,
+ dri-devel@lists.freedesktop.org, linux-arm-kernel@lists.infradead.org,
+ linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org,
+ Miaoqian Lin <linmq006@gmail.com>
+Cc: linmq006@gmail.com, stable@vger.kernel.org
+Subject: Re: [PATCH] drm/sun4i: Fix device node reference leak in
+ sun4i_tcon_of_get_id_from_port
+Date: Wed, 29 Oct 2025 17:00:26 +0100
+Message-ID: <3848160.MHq7AAxBmi@jernej-laptop>
+In-Reply-To: <20251029074911.19265-1-linmq006@gmail.com>
+References: <20251029074911.19265-1-linmq006@gmail.com>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] accel/ivpu: Wait for CDYN de-assertion during power down
- sequence
-To: Karol Wachowski <karol.wachowski@linux.intel.com>,
- dri-devel@lists.freedesktop.org
-Cc: oded.gabbay@gmail.com, maciej.falkowski@linux.intel.com, lizhi.hou@amd.com
-References: <20251028070642.135166-1-karol.wachowski@linux.intel.com>
-Content-Language: en-US
-From: Jeff Hugo <jeff.hugo@oss.qualcomm.com>
-In-Reply-To: <20251028070642.135166-1-karol.wachowski@linux.intel.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Proofpoint-GUID: v9VEjumom8MbSbj73IUKsazLkG0QhY0j
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUxMDI5MDEyNCBTYWx0ZWRfXwYPm88N3F0M2
- w1kAq1c9w53QzlBIr0+tRmNAeo0kJz3znBAHG3zBhAsCaYsEZUerjyEjvw3q2P0vXUhwYZH5qWb
- uBHKS+CfALWNoRyEKnDbsVkwBOEClMIIpd6L0geiX0mTvhLjn1egUveqKrofqXoXg+ewE9eU/EI
- tX/nbmYglJFXHeMAwyNh/qsWn9cqCVMBXSguFADgG16i6HVoNTBpgSfgX94JmkbBl1xA9alw25J
- INDWaMxGcpnYj0Hvh29HfdEeCUqRtelClg8Bvz3AXd6LqxZXg+2WLgChlMy5CO6xuhvigVOS3xr
- SmHVNSefjcPCL7j6PpCwShHtb0Ty73bekZDuGSDrHlUGKdbNUfERVQqruZ/xD3F7T7B1WQqe2Q0
- dHBZiDYaSkNx882PdoSyHI7BMVMPiw==
-X-Proofpoint-ORIG-GUID: v9VEjumom8MbSbj73IUKsazLkG0QhY0j
-X-Authority-Analysis: v=2.4 cv=UObQ3Sfy c=1 sm=1 tr=0 ts=69023714 cx=c_pps
- a=0uOsjrqzRL749jD1oC5vDA==:117 a=JYp8KDb2vCoCEuGobkYCKw==:17
- a=IkcTkHD0fZMA:10 a=x6icFKpwvdMA:10 a=s4-Qcg_JpJYA:10
- a=VkNPw1HP01LnGYTKEx00:22 a=bWUy6ffCo7lWDh6rsR8A:9 a=QEXdDO2ut3YA:10
- a=zgiPjhLxNE0A:10 a=mQ_c8vxmzFEMiUWkPHU9:22
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.9,FMLib:17.12.100.49
- definitions=2025-10-29_06,2025-10-29_03,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- clxscore=1015 malwarescore=0 phishscore=0 bulkscore=0 priorityscore=1501
- spamscore=0 impostorscore=0 adultscore=0 lowpriorityscore=0 suspectscore=0
- classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.22.0-2510240001 definitions=main-2510290124
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="utf-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -139,21 +96,21 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 10/28/2025 1:06 AM, Karol Wachowski wrote:
-> During power down, pending DVFS operations may still be in progress
-> when the NPU reset is asserted after CDYN=0 is set. Since the READY
-> bit may already be deasserted at this point, checking only the READY
-> bit is insufficient to ensure all transactions have completed.
-> 
-> Add an explicit check for CDYN de-assertion after the READY bit check
-> to guarantee no outstanding transactions remain before proceeding.
+Dne sreda, 29. oktober 2025 ob 08:49:10 Srednjeevropski standardni =C4=8Das=
+ je Miaoqian Lin napisal(a):
+> Fix a device node reference leak where the remote endpoint node obtained
+> by of_graph_get_remote_endpoint() was not being properly released.
+>=20
+> Add of_node_put() calls after of_property_read_u32() to fix this.
+>=20
+> Fixes: e8d5bbf7f4c4 ("drm/sun4i: tcon: get TCON ID and matching engine wi=
+th remote endpoint ID")
+> Cc: stable@vger.kernel.org
+> Signed-off-by: Miaoqian Lin <linmq006@gmail.com>
 
-Is it worthwhile to mention what can break if transactions are pending 
-while we proceed? Is there something that the user will see?
+Reviewed-by: Jernej Skrabec <jernej.skrabec@gmail.com>
 
-I'm guessing that proceeding with active transactions is bad, but its 
-unclear to me if this is just a best practice, or actually fixes some 
-kind of issue that will actually impact the user.  If there is actual 
-user impact that this addresses, should we consider a fixes tag?
+Best regards,
+Jernej
 
--Jeff
+
