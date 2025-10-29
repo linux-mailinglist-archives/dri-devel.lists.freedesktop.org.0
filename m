@@ -2,85 +2,59 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7C8F5C18AAE
-	for <lists+dri-devel@lfdr.de>; Wed, 29 Oct 2025 08:23:28 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id CFDBAC18B1D
+	for <lists+dri-devel@lfdr.de>; Wed, 29 Oct 2025 08:31:00 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A8A7D10E168;
-	Wed, 29 Oct 2025 07:23:25 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CF9F410E6F8;
+	Wed, 29 Oct 2025 07:30:58 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="W0hM6lkx";
+	dkim=pass (2048-bit key; secure) header.d=mailbox.org header.i=@mailbox.org header.b="hf/93c7P";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pf1-f179.google.com (mail-pf1-f179.google.com
- [209.85.210.179])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 77E0610E168
- for <dri-devel@lists.freedesktop.org>; Wed, 29 Oct 2025 07:23:24 +0000 (UTC)
-Received: by mail-pf1-f179.google.com with SMTP id
- d2e1a72fcca58-7a27bf4fbcbso5851812b3a.1
- for <dri-devel@lists.freedesktop.org>; Wed, 29 Oct 2025 00:23:24 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1761722604; x=1762327404; darn=lists.freedesktop.org;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:from:to:cc:subject:date:message-id:reply-to;
- bh=w7WzjBbcIkMp9vE4EpjCxo/Q8IBE8WxTrpS4XkHUl5o=;
- b=W0hM6lkxFY0bzuSEVEFmEL6IjiuGCWxk5y9RhqTYCQLsXuxqfyTZeQRQU+XqXFrJXF
- Q5ZG12g9c0Nf9sB1TNKSeWKgi33YCaae64alZKaIQtKdIsxt4mSSy5dlfqpK/o2mUVQB
- f+DEh5suZtvTtZkMeYcCTOCf2AH/c4+JU8BBkclPEUm8tz9uvfb1ckYfFQKqlAUu8iSE
- qOm0y943w4I3suSya3TVh6vfTsCdWCQCTDe+mMsswb79VN/PFIWIsqxYFfHrd8TkZ89z
- PCsW64sPK6Ta4TVR70X/ykNXykKROEjJ7qq3brxbcYYLJLwFebA2DigHQU+kgFOa+hsI
- +tHA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1761722604; x=1762327404;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=w7WzjBbcIkMp9vE4EpjCxo/Q8IBE8WxTrpS4XkHUl5o=;
- b=IfYXcG34D/y8TSZOYicu3Lryxz+8vklFcAA+ncw0cddq5bawsDE9LmMZ7HWYS30n9w
- D3aeMtKQEnHTlA5PKEEBEmPe+dmBszv5wxNYe5LaRdejsySEONAxojGg1wL6GGx74UGD
- zRkwlEPJGujWgegJ502GauOhuf+dOR7FbiIWwuhaIO80CgyRhLfUt/yXp4Qi7WK4+Xxl
- VsWmS7MDMxCasF6eoq6NKVYZ/Hi5EoGVFq0OoCprZ9YQ4rByduxdtEmObWCwPoK9+p+x
- cZ4kgbZVgIndcT1NdairW4EPekfZ1ah6HkyJDMF6d/+GsJ+J0oft/2jo1I4PqcNHHyM9
- e1dg==
-X-Forwarded-Encrypted: i=1;
- AJvYcCXTmzUZBsV4w+mKX6ncTOuzb1PJAo5MQmgO8UgKC7VKcG7t/BZ2uJR2jpx2Q9D982A9GgLZBu4ILIE=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YzuTrynpwE9mVfXLj2woCjjk+JuIypFPtcnmojp3mBV9+EyJboq
- mYxP+3j77W067FrbI5Gp4LfnlLTHUNxhHWq1Fo2/mfhlg9fgAzehnEbG
-X-Gm-Gg: ASbGncsk1k3M0N8WntrvOG6d5OqtlycyBAvI4eEcuuZxKP16m+0mNLUeGOEM/hJ/Fgn
- ZPB7u8ySFBih5WJYqJ6i9bFrC9p52ny4GkzvMQhDW7zvkO23Pzw4PSErMf5b2rF+qbjmD+5qSmU
- gCtMzsKJSyF9uZhLXGBeH4+8NYzn2554hYE/AaJchhtyyyQ0RVGMqiGUOMgJZzVd624x52jrGxP
- bpL6XZu4swUgQvDC2zvhvyZwtJuPQzWtwQ+8dPrZqiIJTV3JoMdJAfP/PMrvWB9E9uwsYnSltro
- 5k0VpA+u9wnh6gx+ocX09RDAqEFDiGMAfAMJ1n4Y+lznxTM9fVdJ4koqgy240cvJeIs4HwnscQP
- ipt/jpYR9ivQH37UqnT2LAoFxZgYtcXYuivuLm9GM8SkCSOyWL66O74bEhlgQB0NP905puHXWmD
- QQBefbnG2I90CoLWOSjY6JlA==
-X-Google-Smtp-Source: AGHT+IFyoTqxEaHdHcYwG2j5PoXFVoRtIyJkYmXJKSPfYslsy5ZMiSdta/UGyBhYN4fJfCWD+fCbVA==
-X-Received: by 2002:a05:6300:218c:b0:341:6c8a:5218 with SMTP id
- adf61e73a8af0-34655401460mr2197446637.56.1761722603774; 
- Wed, 29 Oct 2025 00:23:23 -0700 (PDT)
-Received: from localhost.localdomain ([124.77.218.104])
- by smtp.googlemail.com with ESMTPSA id
- 41be03b00d2f7-b71268bdb2dsm13021005a12.5.2025.10.29.00.23.20
- (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
- Wed, 29 Oct 2025 00:23:23 -0700 (PDT)
-From: Miaoqian Lin <linmq006@gmail.com>
-To: Chun-Kuang Hu <chunkuang.hu@kernel.org>,
- Philipp Zabel <p.zabel@pengutronix.de>, David Airlie <airlied@gmail.com>,
- Simona Vetter <simona@ffwll.ch>, Matthias Brugger <matthias.bgg@gmail.com>,
- AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
- Markus Schneider-Pargmann <msp@baylibre.com>, CK Hu <ck.hu@mediatek.com>,
- Dmitry Osipenko <dmitry.osipenko@collabora.com>,
- Guillaume Ranquet <granquet@baylibre.com>, dri-devel@lists.freedesktop.org,
- linux-mediatek@lists.infradead.org, linux-kernel@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org
-Cc: linmq006@gmail.com,
-	stable@vger.kernel.org
-Subject: [PATCH] drm/mediatek: Fix device node reference leak in
- mtk_dp_dt_parse()
-Date: Wed, 29 Oct 2025 15:23:06 +0800
-Message-Id: <20251029072307.10955-1-linmq006@gmail.com>
-X-Mailer: git-send-email 2.39.5 (Apple Git-154)
+Received: from mout-p-102.mailbox.org (mout-p-102.mailbox.org [80.241.56.152])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2AF8810E6F8
+ for <dri-devel@lists.freedesktop.org>; Wed, 29 Oct 2025 07:30:57 +0000 (UTC)
+Received: from smtp1.mailbox.org (smtp1.mailbox.org [10.196.197.1])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested)
+ by mout-p-102.mailbox.org (Postfix) with ESMTPS id 4cxJnT6ZF8z9tSV;
+ Wed, 29 Oct 2025 08:30:53 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org;
+ s=mail20150812; 
+ t=1761723053; h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=dc/nHQJ01/k3r4k37WvJJ6sn+d52mPfesqmqjpSbQFU=;
+ b=hf/93c7PuLW8msZp53XX2GgIOcde7vWqwZCDjevZDuox54GHsQcAGLizWY2LJy//9wp11H
+ 5F/3eNrBC+E4lJ+nzFrmv+1miVPGMXmCAmAcw+u89yzFDhHopvrM9UqpaRWtdDJ6+Jd5Fl
+ Sm2WZRSmFwboyRaCScCGey7n1klbdre2BSqyeJrfVaj3ML7HpYsbYmPUIYY6W6wFDZbqQl
+ kHGqKsoozkEys2IR7QWMtuJl/UBlOYqaidFtMe01YL1BULrqVfreed6HRe7jfFuPWCt/HS
+ buRHmRR58Xzt5Wqeq5y88yz7kj6k1RhA86LWH4SQGxUFSx9q+SB5vBR2ZDoaxw==
+Message-ID: <2e08b320a9d81faee6d1ec2a3fe8a1df6773c8f6.camel@mailbox.org>
+Subject: Re: [PATCH 2/2] drm/sched: Add FIXME detailing potential hang
+From: Philipp Stanner <phasta@mailbox.org>
+To: Matthew Brost <matthew.brost@intel.com>, Philipp Stanner
+ <phasta@kernel.org>
+Cc: Danilo Krummrich <dakr@kernel.org>, Christian =?ISO-8859-1?Q?K=F6nig?=
+ <ckoenig.leichtzumerken@gmail.com>, Maarten Lankhorst
+ <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>, 
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
+ Simona Vetter <simona@ffwll.ch>,  tursulin@ursulin.net,
+ dri-devel@lists.freedesktop.org,  linux-kernel@vger.kernel.org
+Date: Wed, 29 Oct 2025 08:30:48 +0100
+In-Reply-To: <aQEc5eUR8bq+XNG1@lstrano-desk.jf.intel.com>
+References: <20251028134602.94125-2-phasta@kernel.org>
+ <20251028134602.94125-4-phasta@kernel.org>
+ <aQEc5eUR8bq+XNG1@lstrano-desk.jf.intel.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+X-MBO-RS-ID: 231303fb3b5f76a16db
+X-MBO-RS-META: qtg7zkqcp5wj9caew7eose6iunjn1qdi
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -93,38 +67,59 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Reply-To: phasta@kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The function mtk_dp_dt_parse() calls of_graph_get_endpoint_by_regs()
-to get the endpoint device node, but fails to call of_node_put() to release
-the reference when the function returns. This results in a device node
-reference leak.
+On Tue, 2025-10-28 at 12:43 -0700, Matthew Brost wrote:
+> On Tue, Oct 28, 2025 at 02:46:02PM +0100, Philipp Stanner wrote:
+> > If a job from a ready entity needs more credits than are currently
+> > available, drm_sched_run_job_work() (a work item) simply returns and
+> > doesn't reschedule itself. The scheduler is only woken up again when th=
+e
+> > next job gets pushed with drm_sched_entity_push_job().
+> >=20
+> > If someone submits a job that needs too many credits and doesn't submit
+> > more jobs afterwards, this would lead to the scheduler never pulling th=
+e
+> > too-expensive job, effectively hanging forever.
+> >=20
+> > Document this problem as a FIXME.
+> >=20
+> > Signed-off-by: Philipp Stanner <phasta@kernel.org>
+> > ---
+> > =C2=A0drivers/gpu/drm/scheduler/sched_main.c | 10 ++++++++++
+> > =C2=A01 file changed, 10 insertions(+)
+> >=20
+> > diff --git a/drivers/gpu/drm/scheduler/sched_main.c b/drivers/gpu/drm/s=
+cheduler/sched_main.c
+> > index 492e8af639db..eaf8d17b2a66 100644
+> > --- a/drivers/gpu/drm/scheduler/sched_main.c
+> > +++ b/drivers/gpu/drm/scheduler/sched_main.c
+> > @@ -1237,6 +1237,16 @@ static void drm_sched_run_job_work(struct work_s=
+truct *w)
+> > =C2=A0
+> > =C2=A0	/* Find entity with a ready job */
+> > =C2=A0	entity =3D drm_sched_select_entity(sched);
+> > +	/*
+> > +	 * FIXME:
+> > +	 * The entity can be NULL when the scheduler currently has no capacit=
+y
+> > +	 * (credits) for more jobs. If that happens, the work item terminates
+> > +	 * itself here, without rescheduling itself.
+> > +	 *
+> > +	 * It only gets started again in drm_sched_entity_push_job(). IOW, th=
+e
+> > +	 * scheduler might hang forever if a job that needs too many credits
+> > +	 * gets submitted to an entity and no other, subsequent jobs are.
+> > +	 */
+>=20
+> drm_sched_job_done frees the credits, which triggers
+> drm_sched_free_job_work, and that in turn triggers
+> drm_sched_run_job_work.
 
-Fix this by adding the missing of_node_put() call before returning from
-the function.
+Sounds correct to me.
 
-Found via static analysis and code review.
+We can still merge #1, though, for a bit more clearness.
 
-Fixes: f70ac097a2cf ("drm/mediatek: Add MT8195 Embedded DisplayPort driver")
-Cc: stable@vger.kernel.org
-Signed-off-by: Miaoqian Lin <linmq006@gmail.com>
----
- drivers/gpu/drm/mediatek/mtk_dp.c | 1 +
- 1 file changed, 1 insertion(+)
-
-diff --git a/drivers/gpu/drm/mediatek/mtk_dp.c b/drivers/gpu/drm/mediatek/mtk_dp.c
-index bef6eeb30d3e..b0b1e158600f 100644
---- a/drivers/gpu/drm/mediatek/mtk_dp.c
-+++ b/drivers/gpu/drm/mediatek/mtk_dp.c
-@@ -2087,6 +2087,7 @@ static int mtk_dp_dt_parse(struct mtk_dp *mtk_dp,
- 	endpoint = of_graph_get_endpoint_by_regs(pdev->dev.of_node, 1, -1);
- 	len = of_property_count_elems_of_size(endpoint,
- 					      "data-lanes", sizeof(u32));
-+	of_node_put(endpoint);
- 	if (len < 0 || len > 4 || len == 3) {
- 		dev_err(dev, "invalid data lane size: %d\n", len);
- 		return -EINVAL;
--- 
-2.39.5 (Apple Git-154)
-
+P.
