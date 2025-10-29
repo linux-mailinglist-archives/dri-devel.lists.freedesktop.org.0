@@ -2,73 +2,55 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 124DCC19BED
-	for <lists+dri-devel@lfdr.de>; Wed, 29 Oct 2025 11:32:08 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2F33FC19C56
+	for <lists+dri-devel@lfdr.de>; Wed, 29 Oct 2025 11:37:32 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 39DC610E186;
-	Wed, 29 Oct 2025 10:32:05 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id AEF5310E783;
+	Wed, 29 Oct 2025 10:37:29 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=rock-chips.com header.i=@rock-chips.com header.b="GmeuiUAx";
+	dkim=pass (1024-bit key; unprotected) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="JDklBsjE";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-m19731117.qiye.163.com (mail-m19731117.qiye.163.com
- [220.197.31.117])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2B63B10E77B
- for <dri-devel@lists.freedesktop.org>; Wed, 29 Oct 2025 10:32:02 +0000 (UTC)
-Received: from [172.16.12.149] (unknown [58.22.7.114])
- by smtp.qiye.163.com (Hmail) with ESMTP id 27a23665c;
- Wed, 29 Oct 2025 18:31:58 +0800 (GMT+08:00)
-Message-ID: <e0c5bda3-7428-49e0-9955-fa23f1e4f35d@rock-chips.com>
-Date: Wed, 29 Oct 2025 18:31:57 +0800
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
+ [213.167.242.64])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DE99410E783
+ for <dri-devel@lists.freedesktop.org>; Wed, 29 Oct 2025 10:37:28 +0000 (UTC)
+Received: from [192.168.88.20] (91-158-153-178.elisa-laajakaista.fi
+ [91.158.153.178])
+ by perceval.ideasonboard.com (Postfix) with ESMTPSA id C8E7AC73;
+ Wed, 29 Oct 2025 11:35:37 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+ s=mail; t=1761734138;
+ bh=jwBaQzKjV6kpwsoIVph1wfQsut1xxi1eIsjuYFMBtGA=;
+ h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+ b=JDklBsjEu2Rkzm2oIzg+Dx4K5WBpo7qCadmF0vXxMxy/z1Ik/VhVX1CfZOXFQE92M
+ KtXGGdOnkd5tlmCbB8h349avBLO2PQP/Zee3SMEcIFiMru/0tah20/oJHqknpiBrH5
+ iNp7YNeoQxyOxCXNycfSzjLz/ZpW8AqQCRl590jo=
+Message-ID: <a8e2a977-0bf7-476c-9a45-da7f38954465@ideasonboard.com>
+Date: Wed, 29 Oct 2025 12:37:23 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v8 10/10] arm64: dts: rockchip: rk3399-evb-ind: Add
- support for DisplayPort
-To: Peter Chen <hzpeterchen@gmail.com>, Chaoyi Chen <kernel@airkyi.com>
-Cc: Heikki Krogerus <heikki.krogerus@linux.intel.com>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>,
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>, Vinod Koul <vkoul@kernel.org>,
- Kishon Vijay Abraham I <kishon@kernel.org>, Heiko Stuebner
- <heiko@sntech.de>, Sandy Huang <hjc@rock-chips.com>,
- Andy Yan <andy.yan@rock-chips.com>,
- Yubing Zhang <yubing.zhang@rock-chips.com>,
- Frank Wang <frank.wang@rock-chips.com>,
- Andrzej Hajda <andrzej.hajda@intel.com>,
- Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>,
+Subject: Re: [PATCH v3 05/11] drm/rcar-du: dsi: Clean up VCLKSET register
+ macros
+To: Geert Uytterhoeven <geert@linux-m68k.org>
+Cc: Marek Vasut <marek.vasut+renesas@mailbox.org>,
+ dri-devel@lists.freedesktop.org, David Airlie <airlied@gmail.com>,
+ Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
+ Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
  Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Amit Sunil Dhamne <amitsd@google.com>, Dragan Simic <dsimic@manjaro.org>,
- Johan Jonker <jbx6244@gmail.com>, Diederik de Haas <didi.debian@cknow.org>,
- Peter Robinson <pbrobinson@gmail.com>, linux-usb@vger.kernel.org,
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-phy@lists.infradead.org, linux-arm-kernel@lists.infradead.org,
- linux-rockchip@lists.infradead.org, dri-devel@lists.freedesktop.org
-References: <20251029071435.88-1-kernel@airkyi.com>
- <20251029071435.88-11-kernel@airkyi.com>
- <CAL411-o6mF71oBeRsJ-OPZNbLegn4iJ_ELN9xVdppTM3ssUPOw@mail.gmail.com>
- <cc8b583a-77ec-4a7f-97cc-2d148f7fee9f@rock-chips.com>
+ Magnus Damm <magnus.damm@gmail.com>, Maxime Ripard <mripard@kernel.org>,
+ Simona Vetter <simona@ffwll.ch>, Thomas Zimmermann <tzimmermann@suse.de>,
+ linux-renesas-soc@vger.kernel.org
+References: <20251005030355.202242-1-marek.vasut+renesas@mailbox.org>
+ <20251005030355.202242-6-marek.vasut+renesas@mailbox.org>
+ <2666bd0f-b2a3-49b4-9458-1b362d9d1b4e@ideasonboard.com>
+ <CAMuHMdX0gPyMNF1vwnkEcJRc99MbqXW_5SqSwrdy8BL0Nyugkg@mail.gmail.com>
+From: Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>
 Content-Language: en-US
-From: Chaoyi Chen <chaoyi.chen@rock-chips.com>
-In-Reply-To: <cc8b583a-77ec-4a7f-97cc-2d148f7fee9f@rock-chips.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-HM-Tid: 0a9a2f863f0e03abkunm89a9d527348c30
-X-HM-MType: 1
-X-HM-Spam-Status: e1kfGhgUHx5ZQUpXWQgPGg8OCBgUHx5ZQUlOS1dZFg8aDwILHllBWSg2Ly
- tZV1koWUFDSUNOT01LS0k3V1ktWUFJV1kPCRoVCBIfWUFZGU4eGlZKTh9OSx9CGk1PSBpWFRQJFh
- oXVRMBExYaEhckFA4PWVdZGBILWUFZTkNVSUlVTFVKSk9ZV1kWGg8SFR0UWUFZT0tIVUpLSEpPSE
- xVSktLVUpCS0tZBg++
-DKIM-Signature: a=rsa-sha256;
- b=GmeuiUAxP7J2yuWygBp95hV/mCOru5SA8EQF6k8V2qpQmRXW7S/ggyYk6FWN6PZ5seE3nppmtySOiZU0C0yx32P3CLk2gGfF+2QjP0ShL16frucKFSI9rXy8+y7T7ReuyXgssIptoyeDmznafg59sMOyB5abKFMpN1vtCMAK/P8=;
- s=default; c=relaxed/relaxed; d=rock-chips.com; v=1; 
- bh=x8PMAjpUzEpEObt1dire31F5Js78fV2X3/gBASmc8NM=;
- h=date:mime-version:subject:message-id:from;
+In-Reply-To: <CAMuHMdX0gPyMNF1vwnkEcJRc99MbqXW_5SqSwrdy8BL0Nyugkg@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -84,114 +66,45 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 10/29/2025 6:21 PM, Chaoyi Chen wrote:
-
-> Hi Peter,
->
-> On 10/29/2025 5:45 PM, Peter Chen wrote:
->>> +&i2c4 {
->>> +       i2c-scl-rising-time-ns = <475>;
->>> +       i2c-scl-falling-time-ns = <26>;
->>> +       status = "okay";
->>> +
->>> +       usbc0: typec-portc@22 {
->>> +               compatible = "fcs,fusb302";
->>> +               reg = <0x22>;
->>> +               interrupt-parent = <&gpio1>;
->>> +               interrupts = <RK_PA2 IRQ_TYPE_LEVEL_LOW>;
->>> +               pinctrl-names = "default";
->>> +               pinctrl-0 = <&usbc0_int>;
->>> +               vbus-supply = <&vbus_typec>;
->>> +
->>> +               usb_con: connector {
->>> +                       compatible = "usb-c-connector";
->>> +                       label = "USB-C";
->>> +                       data-role = "dual";
->>> +                       power-role = "dual";
->>> +                       try-power-role = "sink";
->>> +                       op-sink-microwatt = <1000000>;
->>> +                       sink-pdos =
->>> +                               <PDO_FIXED(5000, 2500, PDO_FIXED_USB_COMM)>;
->>> +                       source-pdos =
->>> +                               <PDO_FIXED(5000, 1500, PDO_FIXED_USB_COMM)>;
->>> +
->>> +                       altmodes {
->>> +                               displayport {
->>> +                                       svid = /bits/ 16 <0xff01>;
->>> +                                       vdo = <0x00001c46>;
->>> +                               };
->>> +                       };
->>> +
->>> +                       ports {
->>> +                               #address-cells = <1>;
->>> +                               #size-cells = <0>;
->>> +
->>> +                               port@0 {
->>> +                                       reg = <0>;
->>> +
->>> +                                       usbc_hs: endpoint {
->>> + remote-endpoint = <&u2phy0_typec_hs>;
->>> +                                       };
->>> +                               };
->>> +
->> Why USB2 PHY needs to be notified for Type-C connection?
->
-> I think the USB-connector binding require a port@0 for High Speed.  So I filled in USB2 PHY here. And I have looked up boards with the same usage, and some of the results are as follows:
->
-> - rk3399-firefly.dts
->
-> - rk3399-pinebook-pro.dts
->
-> - rk3399-eaidk-610.dts
->
->
->>
->>> +                               port@1 {
->>> +                                       reg = <1>;
->>> +
->>> +                                       usbc_ss: endpoint {
->>> + remote-endpoint = <&tcphy0_typec_ss>;
->>> +                                       };
->>> +                               };
->>> +
->>> +                               port@2 {
->>> +                                       reg = <2>;
->>> +
->>> +                                       usbc_dp: endpoint {
->>> + remote-endpoint = <&tcphy0_typec_dp>;
->>> +                                       };
->>> +                               };
->>> +                       };
->>> +               };
->>> +       };
->>> +};
->>> +
->> .....
->>>   &u2phy0 {
->>>          status = "okay";
->>> +
->>> +       port {
->>> +               u2phy0_typec_hs: endpoint {
->>> +                       remote-endpoint = <&usbc_hs>;
->>> +               };
->>> +       };
->>>   };
+On 29/10/2025 11:57, Geert Uytterhoeven wrote:
+> Hi Tomi,
+> 
+> On Tue, 28 Oct 2025 at 18:15, Tomi Valkeinen
+> <tomi.valkeinen+renesas@ideasonboard.com> wrote:
+>> On 05/10/2025 06:02, Marek Vasut wrote:
+>>> --- a/drivers/gpu/drm/renesas/rcar-du/rcar_mipi_dsi_regs.h
+>>> +++ b/drivers/gpu/drm/renesas/rcar-du/rcar_mipi_dsi_regs.h
+>>> @@ -246,14 +246,14 @@
 >>>
->> There is no switch and mux, how to co-work with Type-C?
->
-> I checked the phy-rockchip-inno-usb2.c but did not find any switch or mux. Does this mean that we need to implement them? Thank you.
+>>>  #define VCLKSET                              0x100c
+>>>  #define VCLKSET_CKEN                 (1 << 16)
+>>> -#define VCLKSET_COLOR_RGB            (0 << 8)
+>>> -#define VCLKSET_COLOR_YCC            (1 << 8)
+>>> +#define VCLKSET_COLOR_YCC            (1 << 8) /* 0:RGB 1:YCbCr */
+>>>  #define VCLKSET_DIV_V3U(x)           (((x) & 0x3) << 4)
+>>>  #define VCLKSET_DIV_V4H(x)           (((x) & 0x7) << 4)
+>>> -#define VCLKSET_BPP_16                       (0 << 2)
+>>> -#define VCLKSET_BPP_18                       (1 << 2)
+>>> -#define VCLKSET_BPP_18L                      (2 << 2)
+>>> -#define VCLKSET_BPP_24                       (3 << 2)
+>>> +#define VCLKSET_BPP_MASK             (3 << 2)
+>>> +#define VCLKSET_BPP_16                       FIELD_PREP(VCLKSET_BPP_MASK, 0)
+>>> +#define VCLKSET_BPP_18                       FIELD_PREP(VCLKSET_BPP_MASK, 1)
+>>> +#define VCLKSET_BPP_18L                      FIELD_PREP(VCLKSET_BPP_MASK, 2)
+>>> +#define VCLKSET_BPP_24                       FIELD_PREP(VCLKSET_BPP_MASK, 3)
+>>>  #define VCLKSET_LANE(x)                      (((x) & 0x3) << 0)
+>> It probably doesn't matter, but just wanted to mention: here FIELD_PREP
+>> is used with, e.g., (3 << 2). GENMASK returns an unsigned value, whereas
+>> (3 << 2) is signed.
+> 
+> Huh?
+> 
+> Either you use the unshifted value "(define for) 3" with FIELD_PREP(),
+> or you use the shifted value "(define for) (3 << 2)" without FIELD_PREP()?
+Sure. My point was, VCLKSET_BPP_MASK is a signed value, but GENMASK()
+would produce an unsigned value. Normally FIELD_PREP() is used with
+GENMASK, i.e. with unsigned mask, but here FIELD_PREP is used with a
+signed mask. Does it matter? I don't know, most likely not.
 
-Wait a minute, actually we have multiple hardware interfaces, one of which is Type-C, eventually connected to USBDPPHY, and the other is micro-usb connected to U2PHY.
-
-
->
->
->>
->> Best regards,
->> Peter
->>
->>
--- 
-Best,
-Chaoyi
+ Tomi
 
