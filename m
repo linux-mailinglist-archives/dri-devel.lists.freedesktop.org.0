@@ -2,67 +2,92 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 67B59C1B668
-	for <lists+dri-devel@lfdr.de>; Wed, 29 Oct 2025 15:51:10 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id C5E9DC1B883
+	for <lists+dri-devel@lfdr.de>; Wed, 29 Oct 2025 16:04:42 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B8A9510E1F7;
-	Wed, 29 Oct 2025 14:51:08 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B13D010E7F5;
+	Wed, 29 Oct 2025 15:04:39 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="YO0Bxd81";
+	dkim=pass (1024-bit key; unprotected) header.d=broadcom.com header.i=@broadcom.com header.b="hbsYhtcv";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1B50910E1F7;
- Wed, 29 Oct 2025 14:51:07 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1761749467; x=1793285467;
- h=message-id:subject:from:to:cc:date:in-reply-to:
- references:content-transfer-encoding:mime-version;
- bh=4hd2sBB1h+1slSiA+09zkbOsLhiOeTEIuMXEIYA9JyU=;
- b=YO0Bxd81iMnStshognuUZvO/4lou7tiuiaTWT+akOOK6mG50OWz7NJh4
- WzmmTUH6s/uSMn0hBW+MRm3hCi2fBH09gNOC7bGotQK08Ffwu0jg3atlv
- 5xV9a6rrJ1NAiIFeigh0DenQjE44lo2WjpBbtNioQrlp+8pjAc5oVXNF3
- PqlU20TtpflD3Vw3FaCzLO3i2uDaHjcd4qrTiwsJuqo13/aQ2uXmO8u48
- jVsf4ymw2x+D2vKyVJnsqnrtQjYBuABVhp5lIHX/73Vcj74vcvk4+SY+F
- spwZ8wZuaLBjcXmXr41CvA0uQHSLbeJwsz+ZNSVx2Lv8R4IwtGKZek5gl Q==;
-X-CSE-ConnectionGUID: 4Jzy0ygCTC26p52aVFGGKA==
-X-CSE-MsgGUID: VjXBOWZHTAOCH/Xaf07Ufg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11597"; a="66489123"
-X-IronPort-AV: E=Sophos;i="6.19,264,1754982000"; d="scan'208";a="66489123"
-Received: from orviesa005.jf.intel.com ([10.64.159.145])
- by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 29 Oct 2025 07:51:07 -0700
-X-CSE-ConnectionGUID: BqSUa/i8TVSmjjThjRyhUA==
-X-CSE-MsgGUID: K1p5pRNCSaihHqGrFDZPgg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.19,264,1754982000"; d="scan'208";a="190818974"
-Received: from egrumbac-mobl6.ger.corp.intel.com (HELO [10.245.245.28])
- ([10.245.245.28])
- by orviesa005-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 29 Oct 2025 07:51:03 -0700
-Message-ID: <0c873366b0e56d840687755e50a3c62f38a8b7a1.camel@linux.intel.com>
-Subject: Re: [PATCH 01/15] drm/pagemap, drm/xe: Add refcounting to struct
- drm_pagemap
-From: Thomas =?ISO-8859-1?Q?Hellstr=F6m?= <thomas.hellstrom@linux.intel.com>
-To: Matthew Brost <matthew.brost@intel.com>
-Cc: intel-xe@lists.freedesktop.org, dri-devel@lists.freedesktop.org, 
- himal.prasad.ghimiray@intel.com, apopple@nvidia.com, airlied@gmail.com,
- Simona Vetter <simona.vetter@ffwll.ch>, felix.kuehling@amd.com, Christian
- =?ISO-8859-1?Q?K=F6nig?=	 <christian.koenig@amd.com>, dakr@kernel.org,
- "Mrozek, Michal"	 <michal.mrozek@intel.com>, Joonas Lahtinen
- <joonas.lahtinen@linux.intel.com>
-Date: Wed, 29 Oct 2025 15:51:01 +0100
-In-Reply-To: <aQFpwOCqBq+Z21Rg@lstrano-desk.jf.intel.com>
-References: <20251025120412.12262-1-thomas.hellstrom@linux.intel.com>
- <20251025120412.12262-2-thomas.hellstrom@linux.intel.com>
- <aQFpwOCqBq+Z21Rg@lstrano-desk.jf.intel.com>
-Organization: Intel Sweden AB, Registration Number: 556189-6027
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.54.3 (3.54.3-2.fc41) 
+Received: from mail-pf1-f227.google.com (mail-pf1-f227.google.com
+ [209.85.210.227])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8DF2910E7F6
+ for <dri-devel@lists.freedesktop.org>; Wed, 29 Oct 2025 15:04:38 +0000 (UTC)
+Received: by mail-pf1-f227.google.com with SMTP id
+ d2e1a72fcca58-7a27c67cdc4so7710b3a.3
+ for <dri-devel@lists.freedesktop.org>; Wed, 29 Oct 2025 08:04:38 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1761750278; x=1762355078;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:dkim-signature:x-gm-message-state:from:to:cc:subject
+ :date:message-id:reply-to;
+ bh=xeWpW6jpBPtVIgX4dSR5z8bRaKgcaM7QjGWm4tcMczc=;
+ b=i+qfoXJedeCJikikAwwgJ+gRde41I/62eFY4bIWhIe4VCAI7iswLCu61qeyG84a7Mg
+ GVscAsQObHTT+ETPXS9LNgVIpXFQ3PjIUfLavYliJ0GYkZe4pIxvrd9zY+rNSiQ37qC/
+ ThTMcfCerPfL31955MwV3JgQfoB9xzvGUnjxM1VngoEFk+HUXovz9OB3Wd62Pk0B3fAf
+ uX5M67WiIx4Bq1cFa5VGklqgqs/TOcf6dLQaFJUHPK/gskIRTbWnhzJSlTZ6VEcgvpmc
+ aVGS6nTb4SDDpIzupovUHB8guqBuBQbbdpBiSLgd5yY5ugihMgoTnJZxo2OH6N3SvHvm
+ Oj7A==
+X-Gm-Message-State: AOJu0Yy97SCRCY6Tg18xfZS0oH5Uy6cSO2qG48snG30QAxs8FMY49QrR
+ vSMt+yAMKCxNuS3KFMv9JKQJ1EqexfEzs7meb9kIv+RFuIJiahympHSxH4Py934xl1XRgoIXBae
+ DToDL2J+AwPVKqxeTSr1XJB5A/DdBW1/xg5Fxu8YOkzoaNy55o18hDH7wu7LZr83VAdloGn5oTu
+ nAFiTgBTDalxbvLuTZfAdup+7qzMReefvtW1FSOvumr06fnAWZWvWpaAEFK44bdb9GLnEpw1v88
+ FVewXtRw1Oo8jwfYoaJ
+X-Gm-Gg: ASbGncvhcOH/YG5cLZ93QNzjnY4rxMXkIhVbwPXQZdeCqwwXH/vDTjyr0X+4twEOcAc
+ AppSJgb6vJrvVWd4j352NSXMJ8LC1jOGQv0tfypq0JsZ1PWqYKFeZndJ/MKKdWEI4B+xzpTK8P9
+ 7C7ILZ1gT1ZffQ2z160+seojDdiQOOLJOuF8lCk0PSpI+l+5P1AyJcPNzdHHkMr2Rwjwa3w2j5h
+ HCL9NAsWRyZ5sK8lE4wcfdk6FOdssgdZtPYSmpo/rAk7rCy/zH7z4cZmZYFY7HmpPxcqWscqLlF
+ i3542P/yslqFmCt4k1blfo8MXix7hBWX6dZdYIUGo00vcc6x4ay5Oxu4kX9zXldopufT5kChmcB
+ 48Dofv8tzAxIXFBILp34A4j/quvJpQqF5w0nFtRwK46kCJHoc+gSLbpQOXZl9XhPRlPOtFYhUbC
+ /2wqQjUMfGUkXwArmiodlL8AcUn37uEkI=
+X-Google-Smtp-Source: AGHT+IHXQjycix7VjZv4xSVBi4tcezh9OSxAmqhH+QWXHwFw4cmcvERcaxe41DoIe1i1d/uxjlaSFlA7QtPM
+X-Received: by 2002:a05:6a00:995:b0:7a4:c1c4:3959 with SMTP id
+ d2e1a72fcca58-7a4e4e178a7mr3671566b3a.22.1761750277569; 
+ Wed, 29 Oct 2025 08:04:37 -0700 (PDT)
+Received: from smtp-us-east1-p01-i01-si01.dlp.protect.broadcom.com
+ (address-144-49-247-19.dlp.protect.broadcom.com. [144.49.247.19])
+ by smtp-relay.gmail.com with ESMTPS id
+ d2e1a72fcca58-7a4140c47a0sm979929b3a.11.2025.10.29.08.04.37
+ for <dri-devel@lists.freedesktop.org>
+ (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
+ Wed, 29 Oct 2025 08:04:37 -0700 (PDT)
+X-Relaying-Domain: broadcom.com
+X-CFilter-Loop: Reflected
+Received: by mail-ed1-f71.google.com with SMTP id
+ 4fb4d7f45d1cf-6404a5895f9so1029694a12.3
+ for <dri-devel@lists.freedesktop.org>; Wed, 29 Oct 2025 08:04:36 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=broadcom.com; s=google; t=1761750275; x=1762355075;
+ darn=lists.freedesktop.org; 
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date:message-id:reply-to;
+ bh=xeWpW6jpBPtVIgX4dSR5z8bRaKgcaM7QjGWm4tcMczc=;
+ b=hbsYhtcvCK2fqDOmspEXT7VuhLM9wB8jpGnKVYq4jiBcMVczv/qeWMPvR/5csawkgo
+ dVby6JRfed/Ag6XEtPLgCwPGReztAige+Z1+xAYIeKapQUUey3Y/qKpd3MJ6XWkZnyi/
+ vYFkFd+g+zNRtR4JZ1c8OZy+MmAH+YERxWBoU=
+X-Received: by 2002:a05:6512:1390:b0:592:f490:5bef with SMTP id
+ 2adb3069b0e04-5941286af1amr1149268e87.6.1761749553682; 
+ Wed, 29 Oct 2025 07:52:33 -0700 (PDT)
+X-Received: by 2002:a05:6512:1390:b0:592:f490:5bef with SMTP id
+ 2adb3069b0e04-5941286af1amr1149264e87.6.1761749553153; Wed, 29 Oct 2025
+ 07:52:33 -0700 (PDT)
 MIME-Version: 1.0
+References: <20251029141619.28964-1-ian.forbes@broadcom.com>
+In-Reply-To: <20251029141619.28964-1-ian.forbes@broadcom.com>
+From: Zack Rusin <zack.rusin@broadcom.com>
+Date: Wed, 29 Oct 2025 10:52:20 -0400
+X-Gm-Features: AWmQ_bnSNWpAq1gndDVuQklEiCcRUpsFnMJjkKIPTSggXEmu2lnNi6EziNh2SoY
+Message-ID: <CABQX2QOiQRmjrPVj0vt4yaM0pXtqNAcUSyZP6pJbh4f546DsCw@mail.gmail.com>
+Subject: Re: [PATCH] drm/vmwgfx: Restore Guest-Backed only cursor plane support
+To: Ian Forbes <ian.forbes@broadcom.com>
+Cc: dri-devel@lists.freedesktop.org, bcm-kernel-feedback-list@broadcom.com, 
+ maaz.mombasawala@broadcom.com
+X-DetectorID-Processed: b00c1d49-9d2e-4205-b15f-d015386d3d5e
+Content-Type: multipart/signed; protocol="application/pkcs7-signature";
+ micalg=sha-256; boundary="0000000000005ce63206424d73e3"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -78,284 +103,145 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, 2025-10-28 at 18:11 -0700, Matthew Brost wrote:
-> On Sat, Oct 25, 2025 at 02:03:58PM +0200, Thomas Hellstr=C3=B6m wrote:
-> > With the end goal of being able to free unused pagemaps
-> > and allocate them on demand, add a refcount to struct drm_pagemap,
-> > remove the xe embedded drm_pagemap, allocating and freeing it
-> > explicitly.
-> >=20
->=20
-> General commit for the series =E2=80=94 could we add some kernel
-> documentation,
-> ideally in xe_svm.c, that explains the reference counting scheme used
-> for drm_pagemap?
->=20
-> For example:
->=20
-> - An SVM VM holds a drm_pagemap reference to local pagemaps.
-> - madvise VMAs hold a reference to the preferred location pagemap.
-> - Allocated device pages hold a reference to the pagemap.
-> - The pagemap itself holds a reference to the device/module.
->=20
-> Reference counting schemes can be difficult to reverse-engineer and
-> easy
-> to forget, so it would be best to document them clearly.
+--0000000000005ce63206424d73e3
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Sure. Good idea.
+On Wed, Oct 29, 2025 at 10:16=E2=80=AFAM Ian Forbes <ian.forbes@broadcom.co=
+m> wrote:
+>
+> The referenced fixes commit broke the cursor plane for configurations
+> which have Guest-Backed surfaces but no cursor MOB support.
+>
+> Fixes: 965544150d1c ("drm/vmwgfx: Refactor cursor handling")
+> Signed-off-by: Ian Forbes <ian.forbes@broadcom.com>
+> ---
+>  drivers/gpu/drm/vmwgfx/vmwgfx_cursor_plane.c | 14 ++++++++++++++
+>  drivers/gpu/drm/vmwgfx/vmwgfx_cursor_plane.h |  1 +
+>  2 files changed, 15 insertions(+)
+>
+> diff --git a/drivers/gpu/drm/vmwgfx/vmwgfx_cursor_plane.c b/drivers/gpu/d=
+rm/vmwgfx/vmwgfx_cursor_plane.c
+> index 718832b08d96..87f0f61e470c 100644
+> --- a/drivers/gpu/drm/vmwgfx/vmwgfx_cursor_plane.c
+> +++ b/drivers/gpu/drm/vmwgfx/vmwgfx_cursor_plane.c
+> @@ -100,6 +100,8 @@ vmw_cursor_update_type(struct vmw_private *vmw, struc=
+t vmw_plane_state *vps)
+>         if (vmw->has_mob) {
+>                 if ((vmw->capabilities2 & SVGA_CAP2_CURSOR_MOB) !=3D 0)
+>                         return VMW_CURSOR_UPDATE_MOB;
+> +               else
+> +                       return VMW_CURSOR_UPDATE_GB_ONLY;
+>         }
+>
+>         return VMW_CURSOR_UPDATE_NONE;
 
-/Thomas
+Could you add a drm_warn_once before this return to give us a clear
+clue what's happening here in the future?
 
->=20
-> Matt
->=20
-> > Signed-off-by: Thomas Hellstr=C3=B6m <thomas.hellstrom@linux.intel.com>
-> > ---
-> > =C2=A0drivers/gpu/drm/drm_pagemap.c=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 | 51
-> > ++++++++++++++++++++++++++++++
-> > =C2=A0drivers/gpu/drm/xe/xe_svm.c=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0 | 26 ++++++++++-----
-> > =C2=A0drivers/gpu/drm/xe/xe_vram_types.h |=C2=A0 2 +-
-> > =C2=A0include/drm/drm_pagemap.h=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0 | 36 +++++++++++++++++++++
-> > =C2=A04 files changed, 106 insertions(+), 9 deletions(-)
-> >=20
-> > diff --git a/drivers/gpu/drm/drm_pagemap.c
-> > b/drivers/gpu/drm/drm_pagemap.c
-> > index 22c44807e3fe..4b8692f0b2a2 100644
-> > --- a/drivers/gpu/drm/drm_pagemap.c
-> > +++ b/drivers/gpu/drm/drm_pagemap.c
-> > @@ -538,6 +538,57 @@ static int
-> > drm_pagemap_migrate_populate_ram_pfn(struct vm_area_struct *vas,
-> > =C2=A0	return -ENOMEM;
-> > =C2=A0}
-> > =C2=A0
-> > +static void drm_pagemap_release(struct kref *ref)
-> > +{
-> > +	struct drm_pagemap *dpagemap =3D container_of(ref,
-> > typeof(*dpagemap), ref);
-> > +
-> > +	kfree(dpagemap);
-> > +}
-> > +
-> > +/**
-> > + * drm_pagemap_create() - Create a struct drm_pagemap.
-> > + * @dev: Pointer to a struct device providing the device-private
-> > memory.
-> > + * @pagemap: Pointer to a pre-setup struct dev_pagemap providing
-> > the struct pages.
-> > + * @ops: Pointer to the struct drm_pagemap_ops.
-> > + *
-> > + * Allocate and initialize a struct drm_pagemap.
-> > + *
-> > + * Return: A refcounted pointer to a struct drm_pagemap on
-> > success.
-> > + * Error pointer on error.
-> > + */
-> > +struct drm_pagemap *
-> > +drm_pagemap_create(struct device *dev,
-> > +		=C2=A0=C2=A0 struct dev_pagemap *pagemap,
-> > +		=C2=A0=C2=A0 const struct drm_pagemap_ops *ops)
-> > +{
-> > +	struct drm_pagemap *dpagemap =3D kzalloc(sizeof(*dpagemap),
-> > GFP_KERNEL);
-> > +
-> > +	if (!dpagemap)
-> > +		return ERR_PTR(-ENOMEM);
-> > +
-> > +	kref_init(&dpagemap->ref);
-> > +	dpagemap->dev =3D dev;
-> > +	dpagemap->ops =3D ops;
-> > +	dpagemap->pagemap =3D pagemap;
-> > +
-> > +	return dpagemap;
-> > +}
-> > +EXPORT_SYMBOL(drm_pagemap_create);
-> > +
-> > +/**
-> > + * drm_pagemap_put() - Put a struct drm_pagemap reference
-> > + * @dpagemap: Pointer to a struct drm_pagemap object.
-> > + *
-> > + * Puts a struct drm_pagemap reference and frees the drm_pagemap
-> > object
-> > + * if the refount reaches zero.
-> > + */
-> > +void drm_pagemap_put(struct drm_pagemap *dpagemap)
-> > +{
-> > +	if (likely(dpagemap))
-> > +		kref_put(&dpagemap->ref, drm_pagemap_release);
-> > +}
-> > +EXPORT_SYMBOL(drm_pagemap_put);
-> > +
-> > =C2=A0/**
-> > =C2=A0 * drm_pagemap_evict_to_ram() - Evict GPU SVM range to RAM
-> > =C2=A0 * @devmem_allocation: Pointer to the device memory allocation
-> > diff --git a/drivers/gpu/drm/xe/xe_svm.c
-> > b/drivers/gpu/drm/xe/xe_svm.c
-> > index 129e7818565c..6d2c6c144315 100644
-> > --- a/drivers/gpu/drm/xe/xe_svm.c
-> > +++ b/drivers/gpu/drm/xe/xe_svm.c
-> > @@ -861,7 +861,7 @@ static int xe_drm_pagemap_populate_mm(struct
-> > drm_pagemap *dpagemap,
-> > =C2=A0				=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 struct mm_struct *mm,
-> > =C2=A0				=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 unsigned long timeslice_ms)
-> > =C2=A0{
-> > -	struct xe_vram_region *vr =3D container_of(dpagemap,
-> > typeof(*vr), dpagemap);
-> > +	struct xe_vram_region *vr =3D container_of(dpagemap-
-> > >pagemap, typeof(*vr), pagemap);
-> > =C2=A0	struct xe_device *xe =3D vr->xe;
-> > =C2=A0	struct device *dev =3D xe->drm.dev;
-> > =C2=A0	struct drm_buddy_block *block;
-> > @@ -1372,7 +1372,7 @@ u8 xe_svm_ranges_zap_ptes_in_range(struct
-> > xe_vm *vm, u64 start, u64 end)
-> > =C2=A0
-> > =C2=A0static struct drm_pagemap *tile_local_pagemap(struct xe_tile
-> > *tile)
-> > =C2=A0{
-> > -	return &tile->mem.vram->dpagemap;
-> > +	return tile->mem.vram->dpagemap;
-> > =C2=A0}
-> > =C2=A0
-> > =C2=A0/**
-> > @@ -1482,6 +1482,15 @@ int xe_devm_add(struct xe_tile *tile, struct
-> > xe_vram_region *vr)
-> > =C2=A0		return ret;
-> > =C2=A0	}
-> > =C2=A0
-> > +	vr->dpagemap =3D drm_pagemap_create(dev, &vr->pagemap,
-> > +					=C2=A0 &xe_drm_pagemap_ops);
-> > +	if (IS_ERR(vr->dpagemap)) {
-> > +		drm_err(&xe->drm, "Failed to create drm_pagemap
-> > tile %d memory: %pe\n",
-> > +			tile->id, vr->dpagemap);
-> > +		ret =3D PTR_ERR(vr->dpagemap);
-> > +		goto out_no_dpagemap;
-> > +	}
-> > +
-> > =C2=A0	vr->pagemap.type =3D MEMORY_DEVICE_PRIVATE;
-> > =C2=A0	vr->pagemap.range.start =3D res->start;
-> > =C2=A0	vr->pagemap.range.end =3D res->end;
-> > @@ -1489,22 +1498,23 @@ int xe_devm_add(struct xe_tile *tile,
-> > struct xe_vram_region *vr)
-> > =C2=A0	vr->pagemap.ops =3D drm_pagemap_pagemap_ops_get();
-> > =C2=A0	vr->pagemap.owner =3D xe_svm_devm_owner(xe);
-> > =C2=A0	addr =3D devm_memremap_pages(dev, &vr->pagemap);
-> > -
-> > -	vr->dpagemap.dev =3D dev;
-> > -	vr->dpagemap.ops =3D &xe_drm_pagemap_ops;
-> > -
-> > =C2=A0	if (IS_ERR(addr)) {
-> > -		devm_release_mem_region(dev, res->start,
-> > resource_size(res));
-> > =C2=A0		ret =3D PTR_ERR(addr);
-> > =C2=A0		drm_err(&xe->drm, "Failed to remap tile %d memory,
-> > errno %pe\n",
-> > =C2=A0			tile->id, ERR_PTR(ret));
-> > -		return ret;
-> > +		goto out_failed_memremap;
-> > =C2=A0	}
-> > =C2=A0	vr->hpa_base =3D res->start;
-> > =C2=A0
-> > =C2=A0	drm_dbg(&xe->drm, "Added tile %d memory [%llx-%llx] to
-> > devm, remapped to %pr\n",
-> > =C2=A0		tile->id, vr->io_start, vr->io_start + vr-
-> > >usable_size, res);
-> > =C2=A0	return 0;
-> > +
-> > +out_failed_memremap:
-> > +	drm_pagemap_put(vr->dpagemap);
-> > +out_no_dpagemap:
-> > +	devm_release_mem_region(dev, res->start,
-> > resource_size(res));
-> > +	return ret;
-> > =C2=A0}
-> > =C2=A0#else
-> > =C2=A0int xe_svm_alloc_vram(struct xe_tile *tile,
-> > diff --git a/drivers/gpu/drm/xe/xe_vram_types.h
-> > b/drivers/gpu/drm/xe/xe_vram_types.h
-> > index 83772dcbf1af..c0d2c5ee8c10 100644
-> > --- a/drivers/gpu/drm/xe/xe_vram_types.h
-> > +++ b/drivers/gpu/drm/xe/xe_vram_types.h
-> > @@ -72,7 +72,7 @@ struct xe_vram_region {
-> > =C2=A0	 * @dpagemap: The struct drm_pagemap of the ZONE_DEVICE
-> > memory
-> > =C2=A0	 * pages of this tile.
-> > =C2=A0	 */
-> > -	struct drm_pagemap dpagemap;
-> > +	struct drm_pagemap *dpagemap;
-> > =C2=A0	/**
-> > =C2=A0	 * @hpa_base: base host physical address
-> > =C2=A0	 *
-> > diff --git a/include/drm/drm_pagemap.h b/include/drm/drm_pagemap.h
-> > index f6e7e234c089..2c7de928865b 100644
-> > --- a/include/drm/drm_pagemap.h
-> > +++ b/include/drm/drm_pagemap.h
-> > @@ -129,11 +129,15 @@ struct drm_pagemap_ops {
-> > =C2=A0 * struct drm_pagemap: Additional information for a struct
-> > dev_pagemap
-> > =C2=A0 * used for device p2p handshaking.
-> > =C2=A0 * @ops: The struct drm_pagemap_ops.
-> > + * @ref: Reference count.
-> > =C2=A0 * @dev: The struct drevice owning the device-private memory.
-> > + * @pagemap: Pointer to the underlying dev_pagemap.
-> > =C2=A0 */
-> > =C2=A0struct drm_pagemap {
-> > =C2=A0	const struct drm_pagemap_ops *ops;
-> > +	struct kref ref;
-> > =C2=A0	struct device *dev;
-> > +	struct dev_pagemap *pagemap;
-> > =C2=A0};
-> > =C2=A0
-> > =C2=A0struct drm_pagemap_devmem;
-> > @@ -202,6 +206,37 @@ struct drm_pagemap_devmem_ops {
-> > =C2=A0			=C2=A0=C2=A0 unsigned long npages);
-> > =C2=A0};
-> > =C2=A0
-> > +struct drm_pagemap *drm_pagemap_create(struct device *dev,
-> > +				=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 struct dev_pagemap
-> > *pagemap,
-> > +				=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 const struct
-> > drm_pagemap_ops *ops);
-> > +
-> > +#if IS_ENABLED(CONFIG_DRM_GPUSVM)
-> > +
-> > +void drm_pagemap_put(struct drm_pagemap *dpagemap);
-> > +
-> > +#else
-> > +
-> > +static inline void drm_pagemap_put(struct drm_pagemap *dpagemap)
-> > +{
-> > +}
-> > +
-> > +#endif /* IS_ENABLED(CONFIG_DRM_GPUSVM) */
-> > +
-> > +/**
-> > + * drm_pagemap_get() - Obtain a reference on a struct drm_pagemap
-> > + * @dpagemap: Pointer to the struct drm_pagemap.
-> > + *
-> > + * Return: Pointer to the struct drm_pagemap.
-> > + */
-> > +static inline struct drm_pagemap *
-> > +drm_pagemap_get(struct drm_pagemap *dpagemap)
-> > +{
-> > +	if (likely(dpagemap))
-> > +		kref_get(&dpagemap->ref);
-> > +
-> > +	return dpagemap;
-> > +}
-> > +
-> > =C2=A0/**
-> > =C2=A0 * struct drm_pagemap_devmem - Structure representing a GPU SVM
-> > device memory allocation
-> > =C2=A0 *
-> > @@ -246,3 +281,4 @@ int drm_pagemap_populate_mm(struct drm_pagemap
-> > *dpagemap,
-> > =C2=A0			=C2=A0=C2=A0=C2=A0 unsigned long timeslice_ms);
-> > =C2=A0
-> > =C2=A0#endif
-> > +
-> > --=20
-> > 2.51.0
-> >=20
+Otherwise it looks great, thanks for fixing this!
 
+z
+
+--0000000000005ce63206424d73e3
+Content-Type: application/pkcs7-signature; name="smime.p7s"
+Content-Transfer-Encoding: base64
+Content-Disposition: attachment; filename="smime.p7s"
+Content-Description: S/MIME Cryptographic Signature
+
+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
+6U6qgI8F5eiKsQyE0HgYrQJx/sDs9LLVZlaNiA3U8M8CgEnb8VhuH3BN/yXphhEQdJXb1TyaJA60
+SmHcZdEQZbl4EjwUcs3UIowmI/Mhi7ADQB7VNsO/BaOVBEQk53xH+4djY/cg7jvqTTeliY05j2Yx
+uwwXcDC4mWjGzxAT5DVqC8fKQvon1uc2heorHb555+sLdwYxAgMBAAGjggHYMIIB1DAOBgNVHQ8B
+Af8EBAMCBaAwgZMGCCsGAQUFBwEBBIGGMIGDMEYGCCsGAQUFBzAChjpodHRwOi8vc2VjdXJlLmds
+b2JhbHNpZ24uY29tL2NhY2VydC9nc2djY3I2c21pbWVjYTIwMjMuY3J0MDkGCCsGAQUFBzABhi1o
+dHRwOi8vb2NzcC5nbG9iYWxzaWduLmNvbS9nc2djY3I2c21pbWVjYTIwMjMwZQYDVR0gBF4wXDAJ
+BgdngQwBBQMBMAsGCSsGAQQBoDIBKDBCBgorBgEEAaAyCgMCMDQwMgYIKwYBBQUHAgEWJmh0dHBz
+Oi8vd3d3Lmdsb2JhbHNpZ24uY29tL3JlcG9zaXRvcnkvMAkGA1UdEwQCMAAwQQYDVR0fBDowODA2
+oDSgMoYwaHR0cDovL2NybC5nbG9iYWxzaWduLmNvbS9nc2djY3I2c21pbWVjYTIwMjMuY3JsMCIG
+A1UdEQQbMBmBF3phY2sucnVzaW5AYnJvYWRjb20uY29tMBMGA1UdJQQMMAoGCCsGAQUFBwMEMB8G
+A1UdIwQYMBaAFAApNp5ceroPry1QLdugI4UYsKCSMB0GA1UdDgQWBBQNDn2m/OLuDx9YjEqPLCDB
+s/VKNTANBgkqhkiG9w0BAQsFAAOCAgEAF463syOLTQkWZmEyyR60W1sM3J1cbnMRrBFUBt3S2NTY
+SJ2NAvkTAxbPoOhK6IQdaTyrWi8xdg2tftr5FC1bOSUdxudY6dipq2txe7mEoUE6VlpJid/56Mo4
+QJRb6YiykQeIfoJiYMKsyuXWsTB1rhQxlxfnaFxi8Xy3+xKAeX68DcsHG3ZU0h1beBURA44tXcz6
+fFDNPQ2k6rWDFz+XNN2YOPqfse2wEm3DXpqNT79ycU7Uva7e51b8XdbmJ6XVzUFmWzhjXy5hvV8z
+iF+DvP+KT1/bjO6aNL2/3PWiy1u6xjnWvobHuAYVrXxQ5wzk8aPOnED9Q8pt2nqk/UIzw2f67Cn9
+3CxrVqXUKm93J+rupyKVTGgKO9T1ODVPo665aIbM72RxSI9Wsofatm2fo8DWOkrfs29pYfy6eECl
+91qfFMl+IzIVfDgIrEX6gSngJ2ZLaG6L+/iNrUxHxxsaUmyDwBbTfjYwr10H6NKES3JaxVRslnpF
+06HTTciJNx2wowbYF1c+BFY4r/19LHygijIVa+hZEgNuMrVLyAamaAKZ1AWxTdv8Q/eeNN3Myq61
+b1ykTSPCXjBq/03CMF/wT1wly16jYjLDXZ6II/HYyJt34QeqnBENU9zXTc9RopqcuHD2g+ROT7lI
+VLi5ffzC8rVliltTltbYPc7F0lAvGKAxggJXMIICUwIBATBiMFIxCzAJBgNVBAYTAkJFMRkwFwYD
+VQQKExBHbG9iYWxTaWduIG52LXNhMSgwJgYDVQQDEx9HbG9iYWxTaWduIEdDQyBSNiBTTUlNRSBD
+QSAyMDIzAgxhPxw+eieHWB40hPkwDQYJYIZIAWUDBAIBBQCggccwLwYJKoZIhvcNAQkEMSIEII1U
+oIMSbXxoqg+ugYgqDFGrJ3YiRTN66DcnSXUTnWGBMBgGCSqGSIb3DQEJAzELBgkqhkiG9w0BBwEw
+HAYJKoZIhvcNAQkFMQ8XDTI1MTAyOTE1MDQzNVowXAYJKoZIhvcNAQkPMU8wTTALBglghkgBZQME
+ASowCwYJYIZIAWUDBAEWMAsGCWCGSAFlAwQBAjAKBggqhkiG9w0DBzALBgkqhkiG9w0BAQcwCwYJ
+YIZIAWUDBAIBMA0GCSqGSIb3DQEBAQUABIIBAKu0rABUlNmXq4d4V7egUC5uRRH9+q+5qZJssIfe
+3B9lMjxzMz05ddjF2+Hbnm/hnmsaD/jwy+iCa/oK8VjNTzoP/oZlxLR5opZYAGtDlIyslw/eonml
+/MMWY6FhI7sIfbaSLRYEkNrpFsP+G41yF9pueAjnBYsp1VkFuUi6iHzljgNSjMwaaiiEvGUd9PRz
+1XRgCgCD5U2cZgmOZjted10jEyZQe+p7D8f+SDYb9pPsZ8cgvVQZpu9B8qQXja9RUPic5LBZ2Bcd
+eV/tOYvmq9bPYvHnvR+c4xxHfAEO8YvuEITzJ66OPcq/LOrn0TzioCCOZIjeDLl3uiDQPw2VIRE=
+--0000000000005ce63206424d73e3--
