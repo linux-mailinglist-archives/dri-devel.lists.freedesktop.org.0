@@ -2,50 +2,73 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0A711C1D081
-	for <lists+dri-devel@lfdr.de>; Wed, 29 Oct 2025 20:38:57 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0660CC1D09C
+	for <lists+dri-devel@lfdr.de>; Wed, 29 Oct 2025 20:42:24 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 74EA810E220;
-	Wed, 29 Oct 2025 19:38:54 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9FA8810E224;
+	Wed, 29 Oct 2025 19:42:21 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="npKUKx/4";
+	dkim=pass (2048-bit key; secure) header.d=mailbox.org header.i=@mailbox.org header.b="gvuq8XCA";
+	dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b="GJ7Zg+pG";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sea.source.kernel.org (sea.source.kernel.org [172.234.252.31])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 18CDC10E220
- for <dri-devel@lists.freedesktop.org>; Wed, 29 Oct 2025 19:38:53 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by sea.source.kernel.org (Postfix) with ESMTP id BE6C34028E;
- Wed, 29 Oct 2025 19:38:52 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 11495C4CEF7;
- Wed, 29 Oct 2025 19:38:52 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1761766732;
- bh=R89zVkSXHPeEUzwsnlWJmQ0tSs3mFYIilk13mLGeMZo=;
- h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
- b=npKUKx/40kHFfIyiGGiN9esDR0joALFg6IPbwTKB+YgR8go0U/syXNZtR95dqdIhK
- Sy0GX5OTR5wIeNXtYLiSBbUd2fdM37drGoVvDZ7sWNmGGPCjG0mUbjSeiMbRxuJk1B
- 2/YfHJKk8m5DT3WfRfVxVITQIuWotsvQOajWFg7dN8HbrMdUsi/0PImFboWeG57dr5
- Wt4O76Yx+WXL+8LbtjorsjvWSlzLxK+WsNpJuuqOG+YyoUvU3qIlgSlHzgVb2dKHsH
- XSX0p6OTLZGno3QrChv3R2jOt1vIDrwDx3twlI4G8PSTYWwH+0VOQUCPyEykNuNQrB
- wOEpADb4Tmrlg==
-Message-ID: <8324911f-ff49-457c-9021-a860d2d4c0c7@kernel.org>
-Date: Wed, 29 Oct 2025 14:38:51 -0500
+Received: from mout-p-201.mailbox.org (mout-p-201.mailbox.org [80.241.56.171])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BCFE410E224
+ for <dri-devel@lists.freedesktop.org>; Wed, 29 Oct 2025 19:42:18 +0000 (UTC)
+Received: from smtp102.mailbox.org (smtp102.mailbox.org
+ [IPv6:2001:67c:2050:b231:465::102])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested)
+ by mout-p-201.mailbox.org (Postfix) with ESMTPS id 4cxd1P38TMz9tgK;
+ Wed, 29 Oct 2025 20:42:17 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org;
+ s=mail20150812; t=1761766937;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=+ZThYyYJOwM1+BCwYF269VW+S6XvWye2pxq2VEf4UAc=;
+ b=gvuq8XCAtRlAYCrGtrF0P3P4PuyPupf//+PO2Gh/loOUKusWFp25p97d9qa/CHgivoj0/8
+ lKTxEYA4IurN8FN4mBhHVgU1UIydM4XYxQgoP//LrHuQITdrasMOwqvrLaaAl/pefbZzyJ
+ KXWoiw+5tMrCuxmybTs3GTdmWDc2wBy5GsxYtqUCv6fMQNdr1j8ORgoP7UZAiaC2Jvxtzx
+ lkrgLILhJ+XPoJGbs1MBLDmAIoRJaa7I1hlpJYfSmUYULLkS3bbbnzp9m4Ys07//7VXg6I
+ 688qlqUvNoWjVCzHKYoPO7M9vbrnlea/f/ieNi4jM3dEZDhy8YTmrWEP2/d4rg==
+Authentication-Results: outgoing_mbo_mout;
+ dkim=pass header.d=mailbox.org header.s=mail20150812 header.b=GJ7Zg+pG;
+ spf=pass (outgoing_mbo_mout: domain of marek.vasut+renesas@mailbox.org
+ designates 2001:67c:2050:b231:465::102 as permitted sender)
+ smtp.mailfrom=marek.vasut+renesas@mailbox.org
+From: Marek Vasut <marek.vasut+renesas@mailbox.org>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org;
+ s=mail20150812; t=1761766935;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=+ZThYyYJOwM1+BCwYF269VW+S6XvWye2pxq2VEf4UAc=;
+ b=GJ7Zg+pGDiNcyur0EutixwUf5F6DbfSIxNmPr92Om9wa7utudBIRTeNuZ1Ga8CHrpqXdFt
+ aI6c0sdRgtPfxb1iH0Gb15QFoZjo/wbRQwdWLaQ/HelFmxHJEQZxlUMo2LofbpOYe+v1AZ
+ +fPscTdBoco3KY9rxo69hU2fSHY3gaj0hSyo9dKGwgEQgPSuc/x6DKfUT3RJurbvqonfvT
+ 4P8VIN0sOqv9ptvSj8FsH9lIaprRR/KEZYll3cohxdU/IWH05PmUoWJStAcNtg5n6z6Kmk
+ QyyZe2wmssur4nF4dEBvH12XKv1Dso67l8AIeYcr+nHUnmHn4QlCrDVoi/mzgA==
+To: devicetree@vger.kernel.org
+Cc: Marek Vasut <marek.vasut+renesas@mailbox.org>,
+ Conor Dooley <conor+dt@kernel.org>, David Airlie <airlied@gmail.com>,
+ Frank Binns <frank.binns@imgtec.com>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Matt Coster <matt.coster@imgtec.com>, Maxime Ripard <mripard@kernel.org>,
+ Rob Herring <robh@kernel.org>, Simona Vetter <simona@ffwll.ch>,
+ Thomas Zimmermann <tzimmermann@suse.de>, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org
+Subject: [PATCH] dt-bindings: gpu: img,powervr-rogue: Drop duplicate newline
+Date: Wed, 29 Oct 2025 20:42:02 +0100
+Message-ID: <20251029194210.129326-1-marek.vasut+renesas@mailbox.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH V2] accel/amdxdna: Fix incorrect command state for timed
- out job
-To: Lizhi Hou <lizhi.hou@amd.com>, ogabbay@kernel.org,
- quic_jhugo@quicinc.com, maciej.falkowski@linux.intel.com,
- dri-devel@lists.freedesktop.org
-Cc: linux-kernel@vger.kernel.org, max.zhen@amd.com, sonal.santan@amd.com
-References: <20251029193423.2430463-1-lizhi.hou@amd.com>
-Content-Language: en-US
-From: Mario Limonciello <superm1@kernel.org>
-In-Reply-To: <20251029193423.2430463-1-lizhi.hou@amd.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
+X-MBO-RS-ID: d99c324eee434e72efc
+X-MBO-RS-META: fm4bxq96txzbruo1s1tkytmibwba6nsp
+X-Rspamd-Queue-Id: 4cxd1P38TMz9tgK
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -61,70 +84,43 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 10/29/25 2:34 PM, Lizhi Hou wrote:
-> When a command times out, mark it as ERT_CMD_STATE_TIMEOUT. Any other
-> commands that are canceled due to this timeout should be marked as
-> ERT_CMD_STATE_ABORT.
-> 
-> Fixes: aac243092b70 ("accel/amdxdna: Add command execution")
-> Signed-off-by: Lizhi Hou <lizhi.hou@amd.com>
-Reviewed-by: Mario Limonciello (AMD) <superm1@kernel.org>> ---
->   drivers/accel/amdxdna/aie2_ctx.c    | 15 +++++++++++++--
->   drivers/accel/amdxdna/amdxdna_ctx.h |  1 +
->   2 files changed, 14 insertions(+), 2 deletions(-)
-> 
-> diff --git a/drivers/accel/amdxdna/aie2_ctx.c b/drivers/accel/amdxdna/aie2_ctx.c
-> index c6c473c78352..289a2aaf4cae 100644
-> --- a/drivers/accel/amdxdna/aie2_ctx.c
-> +++ b/drivers/accel/amdxdna/aie2_ctx.c
-> @@ -204,10 +204,13 @@ aie2_sched_resp_handler(void *handle, void __iomem *data, size_t size)
->   
->   	cmd_abo = job->cmd_bo;
->   
-> -	if (unlikely(!data))
-> +	if (unlikely(job->job_timeout)) {
-> +		amdxdna_cmd_set_state(cmd_abo, ERT_CMD_STATE_TIMEOUT);
-> +		ret = -EINVAL;
->   		goto out;
-> +	}
->   
-> -	if (unlikely(size != sizeof(u32))) {
-> +	if (unlikely(!data) || unlikely(size != sizeof(u32))) {
->   		amdxdna_cmd_set_state(cmd_abo, ERT_CMD_STATE_ABORT);
->   		ret = -EINVAL;
->   		goto out;
-> @@ -258,6 +261,13 @@ aie2_sched_cmdlist_resp_handler(void *handle, void __iomem *data, size_t size)
->   	int ret = 0;
->   
->   	cmd_abo = job->cmd_bo;
-> +
-> +	if (unlikely(job->job_timeout)) {
-> +		amdxdna_cmd_set_state(cmd_abo, ERT_CMD_STATE_TIMEOUT);
-> +		ret = -EINVAL;
-> +		goto out;
-> +	}
-> +
->   	if (unlikely(!data) || unlikely(size != sizeof(u32) * 3)) {
->   		amdxdna_cmd_set_state(cmd_abo, ERT_CMD_STATE_ABORT);
->   		ret = -EINVAL;
-> @@ -370,6 +380,7 @@ aie2_sched_job_timedout(struct drm_sched_job *sched_job)
->   
->   	xdna = hwctx->client->xdna;
->   	trace_xdna_job(sched_job, hwctx->name, "job timedout", job->seq);
-> +	job->job_timeout = true;
->   	mutex_lock(&xdna->dev_lock);
->   	aie2_hwctx_stop(xdna, hwctx, sched_job);
->   
-> diff --git a/drivers/accel/amdxdna/amdxdna_ctx.h b/drivers/accel/amdxdna/amdxdna_ctx.h
-> index cbe60efbe60b..919c654dfea6 100644
-> --- a/drivers/accel/amdxdna/amdxdna_ctx.h
-> +++ b/drivers/accel/amdxdna/amdxdna_ctx.h
-> @@ -116,6 +116,7 @@ struct amdxdna_sched_job {
->   	/* user can wait on this fence */
->   	struct dma_fence	*out_fence;
->   	bool			job_done;
-> +	bool			job_timeout;
->   	u64			seq;
->   	struct amdxdna_drv_cmd	*drv_cmd;
->   	struct amdxdna_gem_obj	*cmd_bo;
+Fix the following DT schema check warning:
+
+./Documentation/devicetree/bindings/gpu/img,powervr-rogue.yaml:103:1: [warning] too many blank lines (2 > 1) (empty-lines)
+
+One newline is enough. No functional change.
+
+Signed-off-by: Marek Vasut <marek.vasut+renesas@mailbox.org>
+---
+Cc: Conor Dooley <conor+dt@kernel.org>
+Cc: David Airlie <airlied@gmail.com>
+Cc: Frank Binns <frank.binns@imgtec.com>
+Cc: Krzysztof Kozlowski <krzk+dt@kernel.org>
+Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
+Cc: Matt Coster <matt.coster@imgtec.com>
+Cc: Maxime Ripard <mripard@kernel.org>
+Cc: Rob Herring <robh@kernel.org>
+Cc: Simona Vetter <simona@ffwll.ch>
+Cc: Thomas Zimmermann <tzimmermann@suse.de>
+Cc: devicetree@vger.kernel.org
+Cc: dri-devel@lists.freedesktop.org
+Cc: linux-kernel@vger.kernel.org
+---
+ Documentation/devicetree/bindings/gpu/img,powervr-rogue.yaml | 1 -
+ 1 file changed, 1 deletion(-)
+
+diff --git a/Documentation/devicetree/bindings/gpu/img,powervr-rogue.yaml b/Documentation/devicetree/bindings/gpu/img,powervr-rogue.yaml
+index aa8b2069cc24b..a7ca6d3fdf10a 100644
+--- a/Documentation/devicetree/bindings/gpu/img,powervr-rogue.yaml
++++ b/Documentation/devicetree/bindings/gpu/img,powervr-rogue.yaml
+@@ -100,7 +100,6 @@ allOf:
+         clocks:
+           maxItems: 1
+ 
+-
+   - if:
+       properties:
+         compatible:
+-- 
+2.51.0
 
