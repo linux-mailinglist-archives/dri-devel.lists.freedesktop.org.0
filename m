@@ -2,74 +2,86 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7A6D4C1F102
-	for <lists+dri-devel@lfdr.de>; Thu, 30 Oct 2025 09:48:58 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 58DBBC1F138
+	for <lists+dri-devel@lfdr.de>; Thu, 30 Oct 2025 09:49:40 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8A54910E8EE;
-	Thu, 30 Oct 2025 08:48:48 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7428C10E932;
+	Thu, 30 Oct 2025 08:49:38 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="d8sqBFvX";
+	dkim=pass (2048-bit key; unprotected) header.d=compal-corp-partner-google-com.20230601.gappssmtp.com header.i=@compal-corp-partner-google-com.20230601.gappssmtp.com header.b="is0D8+AI";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-f47.google.com (mail-lf1-f47.google.com
- [209.85.167.47])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8588610E696
- for <dri-devel@lists.freedesktop.org>; Tue, 28 Oct 2025 22:54:21 +0000 (UTC)
-Received: by mail-lf1-f47.google.com with SMTP id
- 2adb3069b0e04-592f1f75c46so1047237e87.0
- for <dri-devel@lists.freedesktop.org>; Tue, 28 Oct 2025 15:54:21 -0700 (PDT)
+Received: from mail-pg1-f169.google.com (mail-pg1-f169.google.com
+ [209.85.215.169])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C2E5110E71A
+ for <dri-devel@lists.freedesktop.org>; Wed, 29 Oct 2025 08:11:01 +0000 (UTC)
+Received: by mail-pg1-f169.google.com with SMTP id
+ 41be03b00d2f7-b67684e2904so5042616a12.2
+ for <dri-devel@lists.freedesktop.org>; Wed, 29 Oct 2025 01:11:01 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1761692060; x=1762296860; darn=lists.freedesktop.org;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=aisF7ddVD9IhLbWjOfio7/ZCoiJu6awZBLaswdfgm+o=;
- b=d8sqBFvXP2wKZC4v6AV/Ms0Fy6029aNqSMcjm4CY5prp2FH3jgDvuyYc48C4H6fBs+
- UZeygGPLfDVxXyY9oT/84YWbE1YZjZlTXCORnwC4mjuclfFITJSFN8Vz+R5H9QAfv9wM
- 6A7Q+e906BQqra1mlymYKTdzYkzvbs1giXomlhtylGZIrTMfMPEHLWFHvbgA5G0iJMST
- F7+OjemrL+AY1SrCF9xYER6wV0rQbLH77Dmbrmwxl+G5vXQ7Uq2tQZQmsR8zkuZCa/L1
- ZktNAGKofjNjieXhNtVZxNWze+05++TRYk1WHkImMiQnqUuRmWmF0SqyxGFQiYKSdqBW
- 1vwg==
+ d=compal-corp-partner-google-com.20230601.gappssmtp.com; s=20230601;
+ t=1761725461; x=1762330261; darn=lists.freedesktop.org; 
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=W4TBb1NGZPBKZvsq9zfR8xwiZbK0RiAI4Eb+zjEMiJg=;
+ b=is0D8+AI6dEZ+WSAuqrz55YQV0pItIhnWqf1NHIxEduFXaNElfivd6ynjM8lLzGTUX
+ UQ448iJwVOz09QJUr53VtSx8mPPITAwWwMgChTmgqZ8xtoTyr9tnftUM3JiQMMgwbcqJ
+ 7cO1c9TYLv7N7VY96FZjh2jgNFkf0lR06G6FCI75utiCmhV+s/s4Gq30zl5tGnME2qVD
+ exdhxnOjzjrVoEf9FUVmPCDnqk6RgGAo2IXu1zcN+YFX41rw/m/YrrtCRPIsguWz6xut
+ IsbO5Voam/wcu7XmSjtNbB9b6Tlp/JKn279cUbCpKaJcqyrOWdarNjZ8Wmj357cAHZg6
+ x/sg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1761692060; x=1762296860;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ d=1e100.net; s=20230601; t=1761725461; x=1762330261;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
  :reply-to;
- bh=aisF7ddVD9IhLbWjOfio7/ZCoiJu6awZBLaswdfgm+o=;
- b=NUCWNerrPMdOGLsMdRQOv62Vmto4RKgn0U1huA31iiIA4F0Rc0B1AY96Z+tUThz0Qv
- MbTk+7oxipguIxIuTpsx6G7hyCL7O+3qOx2ZVSbH4tZdqxftOEbGECUSfsFQZVtcFcJJ
- EmHOOxunkwnyYz5p00DyuIyXmV47s+SHSWOYCn+PC075thzlmQt8JULaA/8VWkqCbd5T
- wYA4PEGS2xOlxvq4iujYHfrzwB6qUGwAl7ITx78cJ8RffMJYvckSkhxNp2dfGYCadAnR
- ykcMJKqNno0hrCaGLaDEVP/gUBAYU8cKaiq+FIG/pNRlxc+q1fAmD1cJE6n6TgVPJAyH
- aXUg==
+ bh=W4TBb1NGZPBKZvsq9zfR8xwiZbK0RiAI4Eb+zjEMiJg=;
+ b=Ppoa+TU/wwGyHoSTqTeWGjgYsilgFPvEKw5Vue5D0YCA/0K7odek0zI27a199Rhy10
+ dtVmjzAEz0ADRNkrOywhC1RblnbCVuWtjuVmk/8/Y3YS2FYsUbrAWWCN5TrX0jnhctYF
+ GMduEFr/NVKZXiOsQ6gT/s+MhqZZT87jTsfVYBenyLm/Ajv1/ZlNqW/NAZ2Ou9Cj5qL5
+ 9stVBYhybroL2FTfhjiHogPzZ5xzIv+OScY27st8H8fWv8kZ0YbvM9AgQV7KD4FMbtva
+ B3F+QTLXURWZ/jJYxJyFlalDzLWLe7iHGwXVjYM6FARXSAlDKdt8F+YyRKcXklSMCjBs
+ QHBQ==
 X-Forwarded-Encrypted: i=1;
- AJvYcCWU/rO2llo/JZK8bS6xc0C3fSvCGnn7PRUcuzQoNnHEpkmDF7kZyEccZvC3OsRRDaVqmoD2AqV0vss=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YxCpt9Zm2UlEpqI9SeVmjEkyJT5/sFX6GiGsaElAtgWGswZKdka
- IGN37kARRbAQHL8bljpUCX8zQQw9RJa4FW/o8TCM40TtbXAfNgrtDUuuUgkPxA/Cy3f9hdrI6GY
- RQl6OyK69Ds7Y0i5DN7GInKjBKKLnsRD++i3A+qE86VCGQM9R4X0Vc4b86CqQLBcx1mROqfA=
-X-Gm-Gg: ASbGncsycFnQm7uWvKvGM2pFJmr3in0VPzw9ted/t6RoTaE7GQz31+kxEw/ZXzSCS/c
- VmWNPNeHfHqRGqHfK+fsuPlOqzpxp9hoBs59EOceZO5HsNeEp0+T4j/FwkklKOAoNx+Pipw8+hv
- FeOLYUMs4nxTsJ4kQpNlgD2N9G59RiQRHNq0xPT8SYIXW5yk39wXY1s+km82Jvq34ocCctaN0Uk
- 1MYIKiRNVTeMVVQNulaTN/FgI+qRz+eRlAiaGRRIZa+bhIj2H6tbV7FPX5u5GZk2JrfI/JNuSAV
- w8yaMz6xQ7CUBu4N3TLmKRFwsEqX
-X-Google-Smtp-Source: AGHT+IGPblBkUhbF/C9fqA11UgoH3h3R0ywcPNKBX+oOHXySvsyd9xDFkvLlcgwY4yy3GlrK2Te1o4JriZX9QRldC+ybIzGZxz1m8djJ
-X-Received: by 2002:a05:6512:3f0e:b0:57d:720:9eb0 with SMTP id
- 2adb3069b0e04-594128e00b4mr202617e87.10.1761692059550; Tue, 28 Oct 2025
- 15:54:19 -0700 (PDT)
+ AJvYcCW2h+uQL05LusGBeHE+9N8jAfYzOttfzCeKgeJcc8Ho+uBHiecKYkEen8Inua2lAotD992H9YjIK8A=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YxsatHfh2B1ocpZ9yQFBTLJ+p8igfjsmtXKtB3XsFG+sS/KYSXB
+ EHIHg8Ba+xnmhXY4WaHPv2bHNa13zGkRn9jR/VIAe6d0MQ9XTWqOKobTIHX+qTJQeIc=
+X-Gm-Gg: ASbGncs4A4WmM0CVqSm/gBa5cUjgnAkoWlcecdByKlC0l3yhc6XzsfwWXreclH0r7/r
+ /HpzROBVJ4YLaY0Ams7xF6cyJe5sCVWe1ObC4u9uwyzpne9jvNFNP4AFewSTuTfnY5lCH9A4ibu
+ Oxatz5TfTHpUgiYB70WAOttuKvhzHSoahxUDQ0v/wk5+f0ebk+Y/VnNx2JojxSHiOvQXM+cDIM7
+ x2E0eyF9xoVvFaDTTBfU0Iyz+0ps8htl51+wD2m6wJIKX+sOu9dM7/tI+THUgNS59G//Y97vZ8v
+ /sDkV8F3ArOQxEOts1+V3myoWQB9PUwPI0fx44tE6E+JNaQ69gQtow1nYzZVSO3c5iVTHT9ObGf
+ a9m8xAf2xqHlOl6jhO7jtX0U2Cm8I4MIjSEYSdH77qfIbGvAkeBIKwR1JPs/pI2vvQl6xr86z3e
+ P1GxMW6I68FytZAFStcAWD6bPP5ovu22Eqcg2SjKWVzO9DjWfjDnOS08QPn9brUWH6dO4KfK+73
+ Ns6bQEKyXkWWFLCy1SA7lSQ
+X-Google-Smtp-Source: AGHT+IEcVGsW+DQZ98CiBxU6KG24EXGungrAvTUljhmtkrrdGkEJqJ2HiPOwNRPACMFE5LCNKepWsg==
+X-Received: by 2002:a17:902:ea08:b0:250:643e:c947 with SMTP id
+ d9443c01a7336-294deec67femr26359755ad.28.1761725461243; 
+ Wed, 29 Oct 2025 01:11:01 -0700 (PDT)
+Received: from ajye-OMEN-by-HP-Laptop-S.compal.com
+ (61-219-175-100.hinet-ip.hinet.net. [61.219.175.100])
+ by smtp.gmail.com with ESMTPSA id
+ d9443c01a7336-29498d23226sm143988155ad.49.2025.10.29.01.10.58
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 29 Oct 2025 01:11:00 -0700 (PDT)
+From: Ajye Huang <ajye_huang@compal.corp-partner.google.com>
+To: linux-kernel@vger.kernel.org
+Cc: Douglas Anderson <dianders@chromium.org>,
+ Neil Armstrong <neil.armstrong@linaro.org>,
+ Jessica Zhang <jesszhan0024@gmail.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
+ Simona Vetter <simona@ffwll.ch>, dri-devel@lists.freedesktop.org,
+ Ajye Huang <ajye_huang@compal.corp-partner.google.com>, jazhan@google.com
+Subject: [PATCH v1 0/2] Add EDP_PANEL_ENTRY3 to override bpc
+Date: Wed, 29 Oct 2025 16:10:46 +0800
+Message-Id: <20251029081048.162374-1-ajye_huang@compal.corp-partner.google.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-References: <20251019183508.20804-1-mercmerc961@gmail.com>
- <9e81bc14-39e6-419b-bb4f-67d8d2701025@gmx.de>
-In-Reply-To: <9e81bc14-39e6-419b-bb4f-67d8d2701025@gmx.de>
-From: merc merc <mercmerc961@gmail.com>
-Date: Wed, 29 Oct 2025 04:24:06 +0530
-X-Gm-Features: AWmQ_bnALF3VwLS9EVWSPODKqgy5w4OBK67jqykUHiHsz9xC96QNeUTkY0GV4vo
-Message-ID: <CALLCVzXLhSwJ9a1z+LP8Lr0k6-dYsmmA1yT7d+TQJAzJon=HoQ@mail.gmail.com>
-Subject: Re: [PATCH] video: fb: Fix typo in comment
-To: deller@gmx.de
-Cc: linux-fbdev@vger.kernel.org, dri-devel@lists.freedesktop.org, 
- linux-kernel@vger.kernel.org
-Content-Type: multipart/alternative; boundary="00000000000069c62a06423fe511"
-X-Mailman-Approved-At: Thu, 30 Oct 2025 08:48:47 +0000
+Content-Transfer-Encoding: 8bit
+X-Mailman-Approved-At: Thu, 30 Oct 2025 08:48:46 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -85,68 +97,19 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
---00000000000069c62a06423fe511
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+v1:
+- EDP_PANEL_ENTRY3: 
+  - "override_bpc" is used for override the value of panel's bpc.
 
-=F0=9F=92=96
+Thanks for the review!
 
-merc reacted via Gmail
-<https://www.google.com/gmail/about/?utm_source=3Dgmail-in-product&utm_medi=
-um=3Det&utm_campaign=3Demojireactionemail#app>
+Ajye Huang (2):
+  drm/panel-edp: Add override bpc quirk for generic edp
+  drm/panel-edp: Modify LQ116M1JW10 panel's bpc to 6
 
-On Wed, Oct 29, 2025, 02:42 Helge Deller <deller@gmx.de> wrote:
+ drivers/gpu/drm/panel/panel-edp.c | 22 +++++++++++++++++++++-
+ 1 file changed, 21 insertions(+), 1 deletion(-)
 
-> On 10/19/25 20:35, PIYUSH CHOUDHARY wrote:
-> > Fix typo: "verical" -> "vertical" in macro description
-> >
-> > Signed-off-by: PIYUSH CHOUDHARY <mercmerc961@gmail.com>
-> > ---
-> >   include/uapi/linux/fb.h | 2 +-
-> >   1 file changed, 1 insertion(+), 1 deletion(-)
->
-> applied.
->
-> Thanks!
-> Helge
->
+-- 
+2.25.1
 
---00000000000069c62a06423fe511
-Content-Type: text/vnd.google.email-reaction+json; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-{
-  "emoji": "=F0=9F=92=96",
-  "version": 1
-}
---00000000000069c62a06423fe511
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div><p style=3D"font-size:50px;margin-top:0;margin-bottom:0">=F0=9F=92=96<=
-/p><p style=3D"margin-top:10px;margin-bottom:0">merc reacted via <a style=
-=3D"color:unset;text-decoration:underline" href=3D"https://www.google.com/g=
-mail/about/?utm_source=3Dgmail-in-product&amp;utm_medium=3Det&amp;utm_campa=
-ign=3Demojireactionemail#app">Gmail</a></p></div><br><div class=3D"gmail_qu=
-ote gmail_quote_container"><div dir=3D"ltr" class=3D"gmail_attr">On Wed, Oc=
-t 29, 2025, 02:42 Helge Deller &lt;<a href=3D"mailto:deller@gmx.de">deller@=
-gmx.de</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"m=
-argin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex">On 10/19/25 2=
-0:35, PIYUSH CHOUDHARY wrote:<br>
-&gt; Fix typo: &quot;verical&quot; -&gt; &quot;vertical&quot; in macro desc=
-ription<br>
-&gt; <br>
-&gt; Signed-off-by: PIYUSH CHOUDHARY &lt;<a href=3D"mailto:mercmerc961@gmai=
-l.com" target=3D"_blank" rel=3D"noreferrer">mercmerc961@gmail.com</a>&gt;<b=
-r>
-&gt; ---<br>
-&gt;=C2=A0 =C2=A0include/uapi/linux/fb.h | 2 +-<br>
-&gt;=C2=A0 =C2=A01 file changed, 1 insertion(+), 1 deletion(-)<br>
-<br>
-applied.<br>
-<br>
-Thanks!<br>
-Helge<br>
-</blockquote></div>
-
---00000000000069c62a06423fe511--
