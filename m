@@ -2,75 +2,67 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0B914C1B48B
-	for <lists+dri-devel@lfdr.de>; Wed, 29 Oct 2025 15:38:26 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5B5FAC1B642
+	for <lists+dri-devel@lfdr.de>; Wed, 29 Oct 2025 15:49:57 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1C4B910E7DA;
-	Wed, 29 Oct 2025 14:38:23 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1BF1D10E7DC;
+	Wed, 29 Oct 2025 14:49:54 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=bootlin.com header.i=@bootlin.com header.b="xDFoakFg";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="moayzCG/";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtpout-02.galae.net (smtpout-02.galae.net [185.246.84.56])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7EB71891AA
- for <dri-devel@lists.freedesktop.org>; Wed, 29 Oct 2025 14:37:49 +0000 (UTC)
-Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
- by smtpout-02.galae.net (Postfix) with ESMTPS id 72CDF1A174B;
- Wed, 29 Oct 2025 14:37:48 +0000 (UTC)
-Received: from mail.galae.net (mail.galae.net [212.83.136.155])
- by smtpout-01.galae.net (Postfix) with ESMTPS id 49861606E8;
- Wed, 29 Oct 2025 14:37:48 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon)
- with ESMTPSA id 25A8B117F81B9; Wed, 29 Oct 2025 15:37:46 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
- t=1761748667; h=from:subject:date:message-id:to:cc:mime-version:content-type:
- content-transfer-encoding:in-reply-to:references;
- bh=SpkB+O9TsCu/AbXZ5AMtN1pcUFMsRO/D92Oon6XNGNc=;
- b=xDFoakFgMjXupBjBvM+Gj5BckQhNYGUgz1innM7hTnbwJWUUnazPq0pPkIsagfLx+EUnxB
- EtgFrnebLMMuEDmkcGRBTTG1zI8EKUXG04w8BA2jE/smNK+G9xWDmQAkGRSboKhex3zx4v
- 9tDcAW7WacckHu1y3Rl2VAzMgYHHhLIm97Y62Goh7p07wU6snaNpYjuMOYeH9rA3MzerCO
- ysZ+Lv4P8xjrZakBqEhaK2IT0jJViNdqdwnfA5L74eb6A7q1saaVZtiRKd1HTn8upN9IiD
- BU8yBSoop4xirtZCmVW2+ar7cWD05fV+hl2Ady9MrpiqzGRbHKxlXmenCeg7pQ==
-From: Louis Chauvet <louis.chauvet@bootlin.com>
-Date: Wed, 29 Oct 2025 15:37:09 +0100
-Subject: [PATCH RESEND v2 32/32] drm/vkms: Introduce configfs for dynamic
- connector creation
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DFEF610E1F7;
+ Wed, 29 Oct 2025 14:49:52 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1761749393; x=1793285393;
+ h=message-id:subject:from:to:cc:date:in-reply-to:
+ references:content-transfer-encoding:mime-version;
+ bh=oLKa+BkC9q63ry23Dxr1e52bDl08K1Hhied9l9q94Ak=;
+ b=moayzCG/96ptHQfNfPHxAD8x5SKcpdMbm1oazG+34GI1/uwZksDJlMwN
+ 6p1TNMH2cNkSr0Q23gXSbWpN/A4VxeuNRiQXuN/xlEZpxpkef5COCZkOh
+ rW2cRuOHy8vGVMGTxOncbJIsuTjjGCZ+V4G5yaer5SxDafBfc2KZGbA/A
+ 1vha3p9x4ywDghxMT1QdFIEKnER4o7IV/Ta89uQoPCceOF6DjT311g5Wh
+ P2AYfBYUHXFyBaDX8NZwb6guRm4H23+9BUsQrmT25/64MMHKabi4rd67e
+ 5y/SdA2QedoovDKOOJ9wyfxs2qqnOo55c80+aWgnN4nX425WlwXt4sfbW A==;
+X-CSE-ConnectionGUID: vEE1fK2ER0CTpRhYe8fRaQ==
+X-CSE-MsgGUID: bagqI6WPShmZtVFJpfZ/Lg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11597"; a="74162304"
+X-IronPort-AV: E=Sophos;i="6.19,264,1754982000"; d="scan'208";a="74162304"
+Received: from orviesa003.jf.intel.com ([10.64.159.143])
+ by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 29 Oct 2025 07:49:53 -0700
+X-CSE-ConnectionGUID: AhZikK9OT1ahWrMzFGXvwA==
+X-CSE-MsgGUID: PbEhXrLJQBaoS6cv5lso/A==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.19,264,1754982000"; d="scan'208";a="189750973"
+Received: from egrumbac-mobl6.ger.corp.intel.com (HELO [10.245.245.28])
+ ([10.245.245.28])
+ by ORVIESA003-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 29 Oct 2025 07:49:50 -0700
+Message-ID: <4e6b06069f77aee5cf7153e0ac0cf1a30c1327a0.camel@linux.intel.com>
+Subject: Re: [PATCH 03/15] drm/pagemap, drm/xe: Manage drm_pagemap provider
+ lifetimes
+From: Thomas =?ISO-8859-1?Q?Hellstr=F6m?= <thomas.hellstrom@linux.intel.com>
+To: Matthew Brost <matthew.brost@intel.com>
+Cc: intel-xe@lists.freedesktop.org, dri-devel@lists.freedesktop.org, 
+ himal.prasad.ghimiray@intel.com, apopple@nvidia.com, airlied@gmail.com,
+ Simona Vetter <simona.vetter@ffwll.ch>, felix.kuehling@amd.com, Christian
+ =?ISO-8859-1?Q?K=F6nig?=	 <christian.koenig@amd.com>, dakr@kernel.org,
+ "Mrozek, Michal"	 <michal.mrozek@intel.com>, Joonas Lahtinen
+ <joonas.lahtinen@linux.intel.com>
+Date: Wed, 29 Oct 2025 15:49:47 +0100
+In-Reply-To: <aQFjzTpZwYaytZqB@lstrano-desk.jf.intel.com>
+References: <20251025120412.12262-1-thomas.hellstrom@linux.intel.com>
+ <20251025120412.12262-4-thomas.hellstrom@linux.intel.com>
+ <aQFjzTpZwYaytZqB@lstrano-desk.jf.intel.com>
+Organization: Intel Sweden AB, Registration Number: 556189-6027
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.54.3 (3.54.3-2.fc41) 
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
-Message-Id: <20251029-vkms-all-config-v2-32-a49a2d4cba26@bootlin.com>
-References: <20251029-vkms-all-config-v2-0-a49a2d4cba26@bootlin.com>
-In-Reply-To: <20251029-vkms-all-config-v2-0-a49a2d4cba26@bootlin.com>
-To: Haneen Mohammed <hamohammed.sa@gmail.com>, 
- Simona Vetter <simona@ffwll.ch>, Melissa Wen <melissa.srw@gmail.com>, 
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
- David Airlie <airlied@gmail.com>, jose.exposito89@gmail.com, 
- Jonathan Corbet <corbet@lwn.net>
-Cc: victoria@system76.com, sebastian.wick@redhat.com, victoria@system76.com, 
- airlied@gmail.com, thomas.petazzoni@bootlin.com, 
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org, 
- linux-doc@vger.kernel.org, Louis Chauvet <louis.chauvet@bootlin.com>
-X-Mailer: b4 0.14.3
-X-Developer-Signature: v=1; a=openpgp-sha256; l=10022;
- i=louis.chauvet@bootlin.com; h=from:subject:message-id;
- bh=0c54fSmOm2l+K0LbPt9pg/s8Cgsdy0XFWVvsXyQZpVs=;
- b=owEBbQKS/ZANAwAKASCtLsZbECziAcsmYgBpAiZ+L80/ASVtOKvQ0n7uTXAP0uWajlNrFXD97
- MBpD/48eHyJAjMEAAEKAB0WIQRPj7g/vng8MQxQWQQgrS7GWxAs4gUCaQImfgAKCRAgrS7GWxAs
- 4rjNEAC3Tewhm9I9O6xyTAKBKs+x5urd4lBFI762XjQglX8KPHFqn42L8wV5TB3NW10ROXcHFmB
- dDoS1M5l/k9bcLSEziGyPHs1stZpPD8m3oBvsPYmsTtZO4emLQQ7Wdc1BIUKZSv8qOt1B8DwoNV
- 3IxpnlIhVuLNQ0/iumRCPSTIbtxbcPvj+hwHW+bjSuL+W0/lW3oaCEWOmrE5XA7hlM+Aizf5UsP
- rJuDomy032u3rNgfNb2P3WjzUS7nWLmjjnNZ0B9FLRqzT7JAPRJnYnyGyH46PwErK9VBU1M66Et
- itz3cGepXEPji0EZk/od9VVOl6hSqRQqxWFnP7nHcuCmMw/yEhEsL/SGQHPDes1YciMxxfSFYJ5
- 73cKdhXDKCi3KgpRA3nqVnq1nw/q6GaGbLZIKP9SdL+RhRCb7BG0tRrE66exsMLRchBG0PKqr/g
- 9NX7ko+oAGzuPheJ75Dic/HhV1UjcAlKOCUAcxcqcfRelRvMLI82WLVsU3RDmaIJ8T+yrpPlcNh
- 4ke7unvlg5PXXuH2/VC4j5hEsL9z4LIaQb+NZueHw0oOQDHtUDCCD6aAUcqdhZh4UMGZ5efGiNH
- 490QxoMVjnaPYYW3JAlJWAju63dX/4arQ1RUWy/T4Oc2nduvCO0sfl8NW6sVn/oS105OlRoOUxQ
- lzoB5k76fWrHi9w==
-X-Developer-Key: i=louis.chauvet@bootlin.com; a=openpgp;
- fpr=8B7104AE9A272D6693F527F2EC1883F55E0B40A5
-X-Last-TLS-Session-Version: TLSv1.3
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -86,296 +78,346 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-DRM allows the connector to be created after the device. To allows
-emulating this, add two configfs attributes to connector to allows this.
+On Tue, 2025-10-28 at 17:46 -0700, Matthew Brost wrote:
+> On Sat, Oct 25, 2025 at 02:04:00PM +0200, Thomas Hellstr=C3=B6m wrote:
+> > Even if the drm_pagemap provider has released its reference on
+> > the drm_pagemap, references may be held by still active pages.
+> > Ensure that we hold a reference on the provider drm device and
+> > modules for as long as we might need to use the drm_pagemap ops.
+> >=20
+>=20
+> Just to make sure I=E2=80=99m understanding this correctly =E2=80=94 this=
+ is intended
+> to
+> guard against the devm action [1] running while a device is still
+> holding references to another device=E2=80=99s pages, right?
+>=20
+> [1]
+> https://elixir.bootlin.com/linux/v6.17.5/source/kernel/resource.c#L1993
 
-Using the dynamic attribute you can set if a connector will be dynamic or
-not.
-Using the enabled attribute, you can set at runtime if a dynamic connector
-is present or not.
+Actually removing the dev_pagemap and its region is allowed while
+another device holds a reference on the *drm_pagemap*. For example if
+you have two devices. Device 0 executes from the memory of device 1.
+Suddenly you feel like offlining / unbinding device 1. When you execute
+unbind, the driver evicts all SVM bos and thereby frees all device-
+private pages. But device 0 still has a reference to the drm_pagemap,
+even if it's unusable: Any VRAM migration trying to use the drm_pagemap
+will error with -ENODEV, so depending on how the driver handles that,
+it will continue executing out of another memory region. At this point
+it would've been possible without this code to rmmod the drm_pagemap
+provider device module, and its drm device would've been freed without
+this code, and when drm_pagemap_put() eventually is called, things go
+boom. So the commit message is a bit misleading.
 
-Co-developed-by: José Expósito <jose.exposito89@gmail.com>
-Signed-off-by: José Expósito <jose.exposito89@gmail.com>
-Signed-off-by: Louis Chauvet <louis.chauvet@bootlin.com>
----
- Documentation/gpu/vkms.rst           |   6 +-
- drivers/gpu/drm/vkms/vkms_configfs.c | 153 ++++++++++++++++++++++++++++++++---
- 2 files changed, 146 insertions(+), 13 deletions(-)
+In the case where we only have pages left, the last page should be
+freed from the device remove callback where bos are evicted. At that
+point, the provider drm device is still alive as the devm callbacks
+haven't executed yet. Also a rmmod wold typically cause the devm
+callbacks to execute so that should also be safe without this patch. At
+least if the page freeing doesn't trigger any async callbacks that
+aren't waited on before removal.
 
-diff --git a/Documentation/gpu/vkms.rst b/Documentation/gpu/vkms.rst
-index 0cc7897d7b83..afed12132ae7 100644
---- a/Documentation/gpu/vkms.rst
-+++ b/Documentation/gpu/vkms.rst
-@@ -138,7 +138,7 @@ Last but not least, create one or more connectors::
- 
-   sudo mkdir /config/vkms/my-vkms/connectors/connector0
- 
--Connectors have 5 configurable attribute:
-+Connectors have 7 configurable attribute:
- 
- - status: Connection status: 1 connected, 2 disconnected, 3 unknown (same values
-   as those exposed by the "status" property of a connector)
-@@ -150,7 +150,9 @@ Connectors have 5 configurable attribute:
- - edid_enabled: Enable or not EDID for this connector. Some connectors may not have an
-   EDID but just a list of modes, this attribute allows to disable EDID property.
- - edid: Content of the EDID. Ignored if edid_enabled is not set
--
-+- dynamic: Set to 1 while configuring the device to create a dynamic connector. A dynamic
-+  connector can be used to emulate DP MST connectors.
-+- enabled: For dynamic connector, set it to 1 to create the connector, 0 to remove it.
- 
- To finish the configuration, link the different pipeline items::
- 
-diff --git a/drivers/gpu/drm/vkms/vkms_configfs.c b/drivers/gpu/drm/vkms/vkms_configfs.c
-index 1843e5d9e1e1..b4315c6cb25c 100644
---- a/drivers/gpu/drm/vkms/vkms_configfs.c
-+++ b/drivers/gpu/drm/vkms/vkms_configfs.c
-@@ -1135,6 +1135,12 @@ static ssize_t connector_status_show(struct config_item *item, char *page)
- 	return sprintf(page, "%u", status);
- }
- 
-+static bool connector_is_enabled(struct vkms_config_connector *connector_cfg)
-+{
-+	return !connector_cfg->dynamic ||
-+	       (connector_cfg->dynamic && connector_cfg->enabled);
-+}
-+
- static ssize_t connector_status_store(struct config_item *item,
- 				      const char *page, size_t count)
- {
-@@ -1154,8 +1160,10 @@ static ssize_t connector_status_store(struct config_item *item,
- 	scoped_guard(mutex, &connector->dev->lock) {
- 		vkms_config_connector_set_status(connector->config, status);
- 
--		if (connector->dev->enabled)
--			vkms_trigger_connector_hotplug(connector->dev->config->dev);
-+		if (connector->dev->enabled) {
-+			if (connector_is_enabled(connector->config))
-+				vkms_trigger_connector_hotplug(connector->dev->config->dev);
-+		}
- 	}
- 
- 	return (ssize_t)count;
-@@ -1215,8 +1223,10 @@ static ssize_t connector_type_store(struct config_item *item,
- 	}
- 
- 	scoped_guard(mutex, &connector->dev->lock) {
--		if (connector->dev->enabled)
--			return -EINVAL;
-+		if (connector->dev->enabled) {
-+			if (connector_is_enabled(connector->config))
-+				return -EBUSY;
-+		}
- 		vkms_config_connector_set_type(connector->config, val);
- 	}
- 
-@@ -1332,6 +1342,107 @@ static ssize_t connector_edid_store(struct config_item *item,
- 		    connector_status_disconnected)
- 			vkms_trigger_connector_hotplug(connector->dev->config->dev);
- 	}
-+	return count;
-+}
-+
-+static ssize_t connector_enabled_show(struct config_item *item, char *page)
-+{
-+	struct vkms_configfs_connector *connector;
-+	bool enabled;
-+
-+	connector = connector_item_to_vkms_configfs_connector(item);
-+
-+	scoped_guard(mutex, &connector->dev->lock)
-+		enabled = vkms_config_connector_is_enabled(connector->config);
-+
-+	return sprintf(page, "%d\n", enabled);
-+}
-+
-+static ssize_t connector_enabled_store(struct config_item *item,
-+				       const char *page, size_t count)
-+{
-+	struct vkms_configfs_connector *connector;
-+	struct vkms_config_connector *connector_cfg;
-+	bool enabled, was_enabled;
-+
-+	connector = connector_item_to_vkms_configfs_connector(item);
-+	connector_cfg = connector->config;
-+
-+	if (kstrtobool(page, &enabled))
-+		return -EINVAL;
-+	scoped_guard(mutex, &connector->dev->lock) {
-+		if (!connector->dev->enabled) {
-+			vkms_config_connector_set_enabled(connector_cfg, enabled);
-+		} else {
-+			// Only dynamic connector can be enabled/disabled at runtime
-+			if (!connector_cfg->dynamic)
-+				return -EBUSY;
-+
-+			was_enabled = vkms_config_connector_is_enabled(connector_cfg);
-+			vkms_config_connector_set_enabled(connector_cfg, enabled);
-+
-+			// Resulting configuration is invalid (missing encoder for example)
-+			// Early return to avoid drm core issue
-+			if (!vkms_config_is_valid(connector->dev->config)) {
-+				count = -EINVAL;
-+				goto rollback;
-+			}
-+
-+			if (!was_enabled && enabled) {
-+				// Adding the connector
-+				connector_cfg->connector = vkms_connector_hot_add(connector->dev->config->dev,
-+										  connector_cfg);
-+				if (IS_ERR(connector_cfg->connector)) {
-+					count = PTR_ERR(connector_cfg->connector);
-+					goto rollback;
-+				}
-+			} else if (was_enabled && !enabled) {
-+				vkms_connector_hot_remove(connector->dev->config->dev,
-+							  connector_cfg->connector);
-+			}
-+		}
-+	}
-+	return count;
-+
-+rollback:
-+	vkms_config_connector_set_enabled(connector_cfg, was_enabled);
-+	return count;
-+}
-+
-+static ssize_t connector_dynamic_show(struct config_item *item, char *page)
-+{
-+	struct vkms_configfs_connector *connector;
-+	bool enabled;
-+
-+	connector = connector_item_to_vkms_configfs_connector(item);
-+
-+	scoped_guard(mutex, &connector->dev->lock) {
-+		enabled = vkms_config_connector_is_dynamic(connector->config);
-+	}
-+
-+	return sprintf(page, "%d\n", enabled);
-+}
-+
-+static ssize_t connector_dynamic_store(struct config_item *item,
-+				       const char *page, size_t count)
-+{
-+	struct vkms_configfs_connector *connector;
-+	struct vkms_config_connector *connector_cfg;
-+	bool dynamic;
-+
-+	connector = connector_item_to_vkms_configfs_connector(item);
-+	connector_cfg = connector->config;
-+
-+	if (kstrtobool(page, &dynamic))
-+		return -EINVAL;
-+
-+	scoped_guard(mutex, &connector->dev->lock) {
-+		// Can't change the dynamic status when the device is activated
-+		if (connector->dev->enabled)
-+			return -EBUSY;
-+
-+		vkms_config_connector_set_dynamic(connector_cfg, dynamic);
-+	}
- 
- 	return count;
- }
-@@ -1341,6 +1452,8 @@ CONFIGFS_ATTR(connector_, type);
- CONFIGFS_ATTR(connector_, supported_colorspaces);
- CONFIGFS_ATTR(connector_, edid_enabled);
- CONFIGFS_ATTR(connector_, edid);
-+CONFIGFS_ATTR(connector_, dynamic);
-+CONFIGFS_ATTR(connector_, enabled);
- 
- static struct configfs_attribute *connector_item_attrs[] = {
- 	&connector_attr_status,
-@@ -1348,19 +1461,28 @@ static struct configfs_attribute *connector_item_attrs[] = {
- 	&connector_attr_supported_colorspaces,
- 	&connector_attr_edid_enabled,
- 	&connector_attr_edid,
-+	&connector_attr_dynamic,
-+	&connector_attr_enabled,
- 	NULL,
- };
- 
- static void connector_release(struct config_item *item)
- {
- 	struct vkms_configfs_connector *connector;
-+	struct vkms_config_connector *connector_cfg;
- 	struct mutex *lock;
- 
- 	connector = connector_item_to_vkms_configfs_connector(item);
-+	connector_cfg = connector->config;
- 	lock = &connector->dev->lock;
- 
- 	scoped_guard(mutex, lock) {
-+		if (connector->dev->enabled && connector_cfg->dynamic && connector_cfg->enabled)
-+			vkms_connector_hot_remove(connector->dev->config->dev,
-+						  connector_cfg->connector);
-+
- 		vkms_config_destroy_connector(connector->config);
-+
- 		kfree(connector);
- 	}
- }
-@@ -1379,6 +1501,7 @@ static int connector_possible_encoders_allow_link(struct config_item *src,
- 						  struct config_item *target)
- {
- 	struct vkms_configfs_connector *connector;
-+	struct vkms_config_connector *connector_cfg;
- 	struct vkms_configfs_encoder *encoder;
- 	int ret;
- 
-@@ -1386,16 +1509,25 @@ static int connector_possible_encoders_allow_link(struct config_item *src,
- 		return -EINVAL;
- 
- 	connector = connector_possible_encoders_item_to_vkms_configfs_connector(src);
-+	connector_cfg = connector->config;
- 	encoder = encoder_item_to_vkms_configfs_encoder(target);
- 
- 	scoped_guard(mutex, &connector->dev->lock) {
--		if (connector->dev->enabled)
--			return -EBUSY;
-+		if (connector->dev->enabled && connector_cfg->enabled) {
-+			if (!connector_cfg->dynamic)
-+				return -EBUSY;
-+			ret = vkms_connector_hot_attach_encoder(connector->dev->config->dev,
-+								connector->config->connector,
-+								encoder->config->encoder);
-+			if (ret)
-+				return ret;
-+		}
- 
- 		ret = vkms_config_connector_attach_encoder(connector->config,
- 							   encoder->config);
-+		if (ret)
-+			return ret;
- 	}
--
- 	return ret;
- }
- 
-@@ -1433,9 +1565,6 @@ static struct config_group *make_connector_group(struct config_group *group,
- 	dev = child_group_to_vkms_configfs_device(group);
- 
- 	scoped_guard(mutex, &dev->lock) {
--		if (dev->enabled)
--			return ERR_PTR(-EBUSY);
--
- 		connector = kzalloc(sizeof(*connector), GFP_KERNEL);
- 		if (!connector)
- 			return ERR_PTR(-ENOMEM);
-@@ -1448,9 +1577,11 @@ static struct config_group *make_connector_group(struct config_group *group,
- 			return ERR_CAST(connector->config);
- 		}
- 
-+		vkms_config_connector_set_dynamic(connector->config, connector->dev->enabled);
-+		vkms_config_connector_set_enabled(connector->config, !connector->dev->enabled);
-+
- 		config_group_init_type_name(&connector->group, name,
- 					    &connector_item_type);
--
- 		config_group_init_type_name(&connector->possible_encoders_group,
- 					    "possible_encoders",
- 					    &connector_possible_encoders_group_type);
+So yeah, I need to update the commit message a bit. We should also
+craft an IGT that unbinds device 1 while device 0 is executing out of
+its memory and verify that execution completes with correct results
+anyway.
 
--- 
-2.51.0
+/Thomas
+
+
+>=20
+> > Note that in theory, the drm_gpusvm_helper module may be unloaded
+> > as soon as the final module_put() of the provider driver module is
+> > executed, so we need to add a module_exit() function that waits
+> > for the work item executing the module_put() has completed.
+> >=20
+> > Signed-off-by: Thomas Hellstr=C3=B6m <thomas.hellstrom@linux.intel.com>
+> > ---
+> > =C2=A0drivers/gpu/drm/drm_pagemap.c | 101
+> > ++++++++++++++++++++++++++++++++--
+> > =C2=A0drivers/gpu/drm/xe/xe_svm.c=C2=A0=C2=A0 |=C2=A0 15 ++++-
+> > =C2=A0include/drm/drm_pagemap.h=C2=A0=C2=A0=C2=A0=C2=A0 |=C2=A0 10 +++-
+> > =C2=A03 files changed, 117 insertions(+), 9 deletions(-)
+> >=20
+> > diff --git a/drivers/gpu/drm/drm_pagemap.c
+> > b/drivers/gpu/drm/drm_pagemap.c
+> > index 173b3ecb07d5..fb18a80d6a1c 100644
+> > --- a/drivers/gpu/drm/drm_pagemap.c
+> > +++ b/drivers/gpu/drm/drm_pagemap.c
+> > @@ -8,6 +8,7 @@
+> > =C2=A0#include <linux/pagemap.h>
+> > =C2=A0#include <drm/drm_drv.h>
+> > =C2=A0#include <drm/drm_pagemap.h>
+> > +#include <drm/drm_print.h>
+> > =C2=A0
+> > =C2=A0/**
+> > =C2=A0 * DOC: Overview
+> > @@ -544,16 +545,92 @@ static int
+> > drm_pagemap_migrate_populate_ram_pfn(struct vm_area_struct *vas,
+> > =C2=A0	return -ENOMEM;
+> > =C2=A0}
+> > =C2=A0
+> > +static void drm_pagemap_dev_unhold_work(struct work_struct *work);
+> > +static LLIST_HEAD(drm_pagemap_unhold_list);
+> > +static DECLARE_WORK(drm_pagemap_work,
+> > drm_pagemap_dev_unhold_work);
+> > +
+> > +/**
+> > + * struct drm_pagemap_dev_hold - Struct to aid in drm_device
+> > release.
+> > + * @link: Link into drm_pagemap_unhold_list for deferred reference
+> > releases.
+> > + * @drm: drm device to put.
+> > + *
+> > + * When a struct drm_pagemap is released, we also need to release
+> > the
+> > + * reference it holds on the drm device. However, typically that
+> > needs
+> > + * to be done separately from a system-wide workqueue.
+> > + * Each time a struct drm_pagemap is initialized
+> > + * (or re-initialized if cached) therefore allocate a separate
+> > + * drm_pagemap_dev_hold item, from which we put the drm device and
+> > + * associated module.
+> > + */
+> > +struct drm_pagemap_dev_hold {
+> > +	struct llist_node link;
+> > +	struct drm_device *drm;
+> > +};
+> > +
+> > =C2=A0static void drm_pagemap_release(struct kref *ref)
+> > =C2=A0{
+> > =C2=A0	struct drm_pagemap *dpagemap =3D container_of(ref,
+> > typeof(*dpagemap), ref);
+> > -
+> > +	struct drm_pagemap_dev_hold *dev_hold =3D dpagemap-
+> > >dev_hold;
+> > +
+> > +	/*
+> > +	 * We know the pagemap provider is alive at this point,
+> > since
+> > +	 * the struct drm_pagemap_dev_hold holds a reference to
+> > the
+> > +	 * pagemap provider drm_device and its module.
+> > +	 */
+> > +	dpagemap->dev_hold =3D NULL;
+> > =C2=A0	kfree(dpagemap);
+> > +	llist_add(&dev_hold->link, &drm_pagemap_unhold_list);
+> > +	schedule_work(&drm_pagemap_work);
+> > +	/*
+> > +	 * Here, either the provider device is still alive, since
+> > if called from
+> > +	 * page_free(), the caller is holding a reference on the
+> > dev_pagemap,
+> > +	 * or if called from drm_pagemap_put(), the direct caller
+> > is still alive.
+> > +	 * This ensures we can't race with THIS module unload.
+> > +	 */
+> > +}
+> > +
+> > +static void drm_pagemap_dev_unhold_work(struct work_struct *work)
+> > +{
+> > +	struct llist_node *node =3D
+> > llist_del_all(&drm_pagemap_unhold_list);
+> > +	struct drm_pagemap_dev_hold *dev_hold, *next;
+> > +
+> > +	/*
+> > +	 * Deferred release of drm_pagemap provider device and
+> > module.
+> > +	 * THIS module is kept alive during the release by the
+> > +	 * flush_work() in the drm_pagemap_exit() function.
+> > +	 */
+> > +	llist_for_each_entry_safe(dev_hold, next, node, link) {
+> > +		struct drm_device *drm =3D dev_hold->drm;
+> > +		struct module *module =3D drm->driver->fops->owner;
+> > +
+> > +		drm_dbg(drm, "Releasing reference on provider
+> > device and module.\n");
+> > +		drm_dev_put(drm);
+> > +		module_put(module);
+> > +		kfree(dev_hold);
+> > +	}
+> > +}
+> > +
+> > +static struct drm_pagemap_dev_hold *
+> > +drm_pagemap_dev_hold(struct drm_pagemap *dpagemap)
+> > +{
+> > +	struct drm_pagemap_dev_hold *dev_hold;
+> > +	struct drm_device *drm =3D dpagemap->drm;
+> > +
+> > +	dev_hold =3D kzalloc(sizeof(*dev_hold), GFP_KERNEL);
+> > +	if (!dev_hold)
+> > +		return ERR_PTR(-ENOMEM);
+> > +
+> > +	init_llist_node(&dev_hold->link);
+> > +	dev_hold->drm =3D drm;
+> > +	(void)try_module_get(drm->driver->fops->owner);
+> > +	drm_dev_get(drm);
+> > +
+> > +	return dev_hold;
+> > =C2=A0}
+> > =C2=A0
+> > =C2=A0/**
+> > =C2=A0 * drm_pagemap_create() - Create a struct drm_pagemap.
+> > - * @dev: Pointer to a struct device providing the device-private
+> > memory.
+> > + * @drm: Pointer to a struct drm_device providing the device-
+> > private memory.
+> > =C2=A0 * @pagemap: Pointer to a pre-setup struct dev_pagemap providing
+> > the struct pages.
+> > =C2=A0 * @ops: Pointer to the struct drm_pagemap_ops.
+> > =C2=A0 *
+> > @@ -563,20 +640,28 @@ static void drm_pagemap_release(struct kref
+> > *ref)
+> > =C2=A0 * Error pointer on error.
+> > =C2=A0 */
+> > =C2=A0struct drm_pagemap *
+> > -drm_pagemap_create(struct device *dev,
+> > +drm_pagemap_create(struct drm_device *drm,
+> > =C2=A0		=C2=A0=C2=A0 struct dev_pagemap *pagemap,
+> > =C2=A0		=C2=A0=C2=A0 const struct drm_pagemap_ops *ops)
+> > =C2=A0{
+> > =C2=A0	struct drm_pagemap *dpagemap =3D kzalloc(sizeof(*dpagemap),
+> > GFP_KERNEL);
+> > +	struct drm_pagemap_dev_hold *dev_hold;
+> > =C2=A0
+> > =C2=A0	if (!dpagemap)
+> > =C2=A0		return ERR_PTR(-ENOMEM);
+> > =C2=A0
+> > =C2=A0	kref_init(&dpagemap->ref);
+> > -	dpagemap->dev =3D dev;
+> > +	dpagemap->drm =3D drm;
+> > =C2=A0	dpagemap->ops =3D ops;
+> > =C2=A0	dpagemap->pagemap =3D pagemap;
+> > =C2=A0
+> > +	dev_hold =3D drm_pagemap_dev_hold(dpagemap);
+> > +	if (IS_ERR(dev_hold)) {
+> > +		kfree(dpagemap);
+> > +		return ERR_CAST(dev_hold);
+> > +	}
+> > +	dpagemap->dev_hold =3D dev_hold;
+> > +
+> > =C2=A0	return dpagemap;
+> > =C2=A0}
+> > =C2=A0EXPORT_SYMBOL(drm_pagemap_create);
+> > @@ -937,3 +1022,11 @@ int drm_pagemap_populate_mm(struct
+> > drm_pagemap *dpagemap,
+> > =C2=A0	return err;
+> > =C2=A0}
+> > =C2=A0EXPORT_SYMBOL(drm_pagemap_populate_mm);
+> > +
+> > +static void drm_pagemap_exit(void)
+> > +{
+> > +	flush_work(&drm_pagemap_work);
+> > +	if (WARN_ON(!llist_empty(&drm_pagemap_unhold_list)))
+> > +		disable_work_sync(&drm_pagemap_work);
+> > +}
+> > +module_exit(drm_pagemap_exit);
+> > diff --git a/drivers/gpu/drm/xe/xe_svm.c
+> > b/drivers/gpu/drm/xe/xe_svm.c
+> > index 6d2c6c144315..f6ee22da2e95 100644
+> > --- a/drivers/gpu/drm/xe/xe_svm.c
+> > +++ b/drivers/gpu/drm/xe/xe_svm.c
+> > @@ -1437,7 +1437,7 @@ xe_drm_pagemap_device_map(struct drm_pagemap
+> > *dpagemap,
+> > =C2=A0			=C2=A0 unsigned int order,
+> > =C2=A0			=C2=A0 enum dma_data_direction dir)
+> > =C2=A0{
+> > -	struct device *pgmap_dev =3D dpagemap->dev;
+> > +	struct device *pgmap_dev =3D dpagemap->drm->dev;
+> > =C2=A0	enum drm_interconnect_protocol prot;
+> > =C2=A0	dma_addr_t addr;
+> > =C2=A0
+> > @@ -1457,6 +1457,14 @@ static const struct drm_pagemap_ops
+> > xe_drm_pagemap_ops =3D {
+> > =C2=A0	.populate_mm =3D xe_drm_pagemap_populate_mm,
+> > =C2=A0};
+> > =C2=A0
+> > +static void xe_devm_release(void *data)
+> > +{
+> > +	struct xe_vram_region *vr =3D data;
+> > +
+> > +	drm_pagemap_put(vr->dpagemap);
+> > +	vr->dpagemap =3D NULL;
+> > +}
+> > +
+> > =C2=A0/**
+> > =C2=A0 * xe_devm_add: Remap and provide memmap backing for device memor=
+y
+> > =C2=A0 * @tile: tile that the memory region belongs to
+> > @@ -1482,7 +1490,7 @@ int xe_devm_add(struct xe_tile *tile, struct
+> > xe_vram_region *vr)
+> > =C2=A0		return ret;
+> > =C2=A0	}
+> > =C2=A0
+> > -	vr->dpagemap =3D drm_pagemap_create(dev, &vr->pagemap,
+> > +	vr->dpagemap =3D drm_pagemap_create(&xe->drm, &vr->pagemap,
+> > =C2=A0					=C2=A0 &xe_drm_pagemap_ops);
+> > =C2=A0	if (IS_ERR(vr->dpagemap)) {
+> > =C2=A0		drm_err(&xe->drm, "Failed to create drm_pagemap
+> > tile %d memory: %pe\n",
+> > @@ -1490,6 +1498,9 @@ int xe_devm_add(struct xe_tile *tile, struct
+> > xe_vram_region *vr)
+> > =C2=A0		ret =3D PTR_ERR(vr->dpagemap);
+> > =C2=A0		goto out_no_dpagemap;
+> > =C2=A0	}
+> > +	ret =3D devm_add_action_or_reset(dev, xe_devm_release, vr);
+> > +	if (ret)
+> > +		goto out_no_dpagemap;
+>=20
+> I mentioned this in first patch that this was missing, maybe move
+> this
+> part to the first patch even though this will get removed a bit
+> later.
+>=20
+> Matt
+>=20
+> > =C2=A0
+> > =C2=A0	vr->pagemap.type =3D MEMORY_DEVICE_PRIVATE;
+> > =C2=A0	vr->pagemap.range.start =3D res->start;
+> > diff --git a/include/drm/drm_pagemap.h b/include/drm/drm_pagemap.h
+> > index 2c7de928865b..5cfe54331ba7 100644
+> > --- a/include/drm/drm_pagemap.h
+> > +++ b/include/drm/drm_pagemap.h
+> > @@ -9,6 +9,7 @@
+> > =C2=A0#define NR_PAGES(order) (1U << (order))
+> > =C2=A0
+> > =C2=A0struct drm_pagemap;
+> > +struct drm_pagemap_dev_hold;
+> > =C2=A0struct drm_pagemap_zdd;
+> > =C2=A0struct device;
+> > =C2=A0
+> > @@ -130,14 +131,17 @@ struct drm_pagemap_ops {
+> > =C2=A0 * used for device p2p handshaking.
+> > =C2=A0 * @ops: The struct drm_pagemap_ops.
+> > =C2=A0 * @ref: Reference count.
+> > - * @dev: The struct drevice owning the device-private memory.
+> > + * @drm: The struct drm device owning the device-private memory.
+> > =C2=A0 * @pagemap: Pointer to the underlying dev_pagemap.
+> > + * @dev_hold: Pointer to a struct drm_pagemap_dev_hold for
+> > + * device referencing.
+> > =C2=A0 */
+> > =C2=A0struct drm_pagemap {
+> > =C2=A0	const struct drm_pagemap_ops *ops;
+> > =C2=A0	struct kref ref;
+> > -	struct device *dev;
+> > +	struct drm_device *drm;
+> > =C2=A0	struct dev_pagemap *pagemap;
+> > +	struct drm_pagemap_dev_hold *dev_hold;
+> > =C2=A0};
+> > =C2=A0
+> > =C2=A0struct drm_pagemap_devmem;
+> > @@ -206,7 +210,7 @@ struct drm_pagemap_devmem_ops {
+> > =C2=A0			=C2=A0=C2=A0 unsigned long npages);
+> > =C2=A0};
+> > =C2=A0
+> > -struct drm_pagemap *drm_pagemap_create(struct device *dev,
+> > +struct drm_pagemap *drm_pagemap_create(struct drm_device *drm,
+> > =C2=A0				=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 struct dev_pagemap
+> > *pagemap,
+> > =C2=A0				=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 const struct
+> > drm_pagemap_ops *ops);
+> > =C2=A0
+> > --=20
+> > 2.51.0
+> >=20
 
