@@ -2,62 +2,75 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 67787C189C0
-	for <lists+dri-devel@lfdr.de>; Wed, 29 Oct 2025 08:15:13 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 43BBDC18CE8
+	for <lists+dri-devel@lfdr.de>; Wed, 29 Oct 2025 08:57:05 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B2DD510E6FD;
-	Wed, 29 Oct 2025 07:15:11 +0000 (UTC)
-Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="V/HjxV/6";
-	dkim-atps=neutral
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8490110E716;
+	Wed, 29 Oct 2025 07:57:02 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 980CD10E6FD
- for <dri-devel@lists.freedesktop.org>; Wed, 29 Oct 2025 07:15:10 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1761722111; x=1793258111;
- h=message-id:date:mime-version:subject:to:cc:references:
- from:in-reply-to:content-transfer-encoding;
- bh=/jRrPOduVTlj/Gt3xSirIupJXip86RJqNPv8yH8beXg=;
- b=V/HjxV/6L2lg10aYvNhsnlSQUa3/g6vD2yhOoa5hihdptRVtIZe/MVST
- quD8DWdssYUO/hi2FV3l/wZpqgnOgCl0gTA+zlZ/rVYIIT8nrXh1b5c0Q
- 64W9xewhH2SafL3HXJ1tmLJ1gwI8tlAUbtL86DxMG3waVUvl68Wdild/L
- TKFFtPKYxR3HaHLvLbZ65hnJzSDJi58QnzAdz25R9JvW5HEpivLEbzjp2
- Lcd4XqwKj8sPlgXyQtJnupUf3aSmARuQtJfgICHO+anWnbX1/k0Jmt8p2
- iPgIOeodRpZFM7sbOv1HfZwCJZdHMWI7BXjARhW3GxzuMntyWuqC+Nzwy A==;
-X-CSE-ConnectionGUID: MtJ9hEswSV2uH4W5fFXd5w==
-X-CSE-MsgGUID: NCMmdfzrQoin8jiTUrng2w==
-X-IronPort-AV: E=McAfee;i="6800,10657,11586"; a="75281274"
-X-IronPort-AV: E=Sophos;i="6.19,263,1754982000"; d="scan'208";a="75281274"
-Received: from orviesa003.jf.intel.com ([10.64.159.143])
- by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 29 Oct 2025 00:15:11 -0700
-X-CSE-ConnectionGUID: wspNO7TjSv+qyFROc1FRiw==
-X-CSE-MsgGUID: bBl/uXR2Ra2I7yNsqenXmg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.19,263,1754982000"; d="scan'208";a="189640264"
-Received: from unknown (HELO [10.102.88.18]) ([10.102.88.18])
- by ORVIESA003-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 29 Oct 2025 00:15:07 -0700
-Message-ID: <16dc50b8-9f8e-416c-b3c0-82582f5f07d9@linux.intel.com>
-Date: Wed, 29 Oct 2025 08:15:06 +0100
+X-Greylist: delayed 938 seconds by postgrey-1.36 at gabe;
+ Wed, 29 Oct 2025 07:57:01 UTC
+Received: from mail-vip.corpemail.net (mail-vip.corpemail.net
+ [162.243.126.186])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E5B6E10E719;
+ Wed, 29 Oct 2025 07:57:01 +0000 (UTC)
+Received: from jtjnmail201623.home.langchao.com
+ by ssh248.corpemail.net ((D)) with ASMTP (SSL) id 202510291519137869;
+ Wed, 29 Oct 2025 15:19:13 +0800
+Received: from jtjnmail201626.home.langchao.com (10.100.2.36) by
+ jtjnmail201623.home.langchao.com (10.100.2.23) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.58; Wed, 29 Oct 2025 15:19:13 +0800
+Received: from jtjnmailAR01.home.langchao.com (10.100.2.42) by
+ jtjnmail201626.home.langchao.com (10.100.2.36) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.58; Wed, 29 Oct 2025 15:19:13 +0800
+Received: from inspur.com (10.100.2.113) by jtjnmailAR01.home.langchao.com
+ (10.100.2.42) with Microsoft SMTP Server id 15.1.2507.58 via Frontend
+ Transport; Wed, 29 Oct 2025 15:19:13 +0800
+Received: from localhost.localdomain.com (unknown [10.94.19.60])
+ by app9 (Coremail) with SMTP id cQJkCsDwlHjwvwFppzgHAA--.5619S2;
+ Wed, 29 Oct 2025 15:19:13 +0800 (CST)
+From: Bo Liu <liubo03@inspur.com>
+To: <harry.wentland@amd.com>, <sunpeng.li@amd.com>,
+ <alexander.deucher@amd.com>, <christian.koenig@amd.com>, <airlied@gmail.com>, 
+ <simona@ffwll.ch>
+CC: <amd-gfx@lists.freedesktop.org>, <dri-devel@lists.freedesktop.org>,
+ <linux-kernel@vger.kernel.org>, Bo Liu <liubo03@inspur.com>
+Subject: [PATCH] drm/amd/display: Fix double word in comments
+Date: Wed, 29 Oct 2025 15:19:11 +0800
+Message-ID: <20251029071911.17786-1-liubo03@inspur.com>
+X-Mailer: git-send-email 2.43.7
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] accel/ivpu: Fix race condition when unbinding BOs
-To: Jeff Hugo <jeff.hugo@oss.qualcomm.com>, dri-devel@lists.freedesktop.org
-Cc: oded.gabbay@gmail.com, maciej.falkowski@linux.intel.com,
- lizhi.hou@amd.com, Tomasz Rusinowicz <tomasz.rusinowicz@intel.com>
-References: <20251028070559.135097-1-karol.wachowski@linux.intel.com>
- <2a11acc6-28c6-401d-a5c4-d18e75b128d1@oss.qualcomm.com>
-Content-Language: en-US
-From: Karol Wachowski <karol.wachowski@linux.intel.com>
-Organization: Intel Technology Poland sp. z o.o. - ul. Slowackiego 173, 80-298
- Gdansk - KRS 101882 - NIP 957-07-52-316
-In-Reply-To: <2a11acc6-28c6-401d-a5c4-d18e75b128d1@oss.qualcomm.com>
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
+X-CM-TRANSID: cQJkCsDwlHjwvwFppzgHAA--.5619S2
+X-Coremail-Antispam: 1UD129KBjvJXoW7Kr4xCw18ZFWxJF15Cw4Uurg_yoW8Gr1rp3
+ yDKrWYq398GF17t39rWF1DWayag398WFy3t3s5CwsxCa1UJrWxXwn7uw1YkrWUCFWFyF1Y
+ yr98CFWrWFyqyrJanT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+ 9KBjDU0xBIdaVrnRJUUUBY14x267AKxVW8JVW5JwAFc2x0x2IEx4CE42xK8VAvwI8IcIk0
+ rVWrJVCq3wAFIxvE14AKwVWUJVWUGwA2ocxC64kIII0Yj41l84x0c7CEw4AK67xGY2AK02
+ 1l84ACjcxK6xIIjxv20xvE14v26w1j6s0DM28EF7xvwVC0I7IYx2IY6xkF7I0E14v26rxl
+ 6s0DM28EF7xvwVC2z280aVAFwI0_GcCE3s1l84ACjcxK6I8E87Iv6xkF7I0E14v26rxl6s
+ 0DM2vYz4IE04k24VAvwVAKI4IrM2AIxVAIcxkEcVAq07x20xvEncxIr21l5I8CrVACY4xI
+ 64kE6c02F40Ex7xfMcIj6xIIjxv20xvE14v26r1Y6r17McIj6I8E87Iv67AKxVWUJVW8Jw
+ Am72CE4IkC6x0Yz7v_Jr0_Gr1lF7xvr2IYc2Ij64vIr41lF7I21c0EjII2zVCS5cI20VAG
+ YxC7M4IIrI8v6xkF7I0E8cxan2IY04v7MxkF7I0En4kS14v26r1q6r43MxAIw28IcxkI7V
+ AKI48JMxC20s026xCaFVCjc4AY6r1j6r4UMI8I3I0E5I8CrVAFwI0_Jr0_Jr4lx2IqxVCj
+ r7xvwVAFwI0_JrI_JrWlx4CE17CEb7AF67AKxVWUtVW8ZwCIc40Y0x0EwIxGrwCI42IY6x
+ IIjxv20xvE14v26r1j6r1xMIIF0xvE2Ix0cI8IcVCY1x0267AKxVW8JVWxJwCI42IY6xAI
+ w20EY4v20xvaj40_Jr0_JF4lIxAIcVC2z280aVAFwI0_Jr0_Gr1lIxAIcVC2z280aVCY1x
+ 0267AKxVW8JVW8JrUvcSsGvfC2KfnxnUUI43ZEXa7VUbCPfPUUUUU==
+X-CM-SenderInfo: xolxu0iqt6x0hvsx2hhfrp/
+X-CM-DELIVERINFO: =?B?SVELsmLVRuiwy3Lqe5bb/wL3YD0Z3+qys2oM3YyJaJDj+48qHwuUARU7xYOAI0q1Re
+ KIpedjRVREeXrKp2GVcC1+hy8UA3v4YLioUy1QX4XtPbugOBkHUbSmiG4iRGoNFPrkYiqq
+ TaRnPrDe8agINCvjjdQ=
+Content-Type: text/plain
+tUid: 202510291519133de33ef3a36d45fee600a25e63dee77a
+X-Abuse-Reports-To: service@corp-email.com
+Abuse-Reports-To: service@corp-email.com
+X-Complaints-To: service@corp-email.com
+X-Report-Abuse-To: service@corp-email.com
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -73,28 +86,26 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 10/28/2025 9:28 PM, Jeff Hugo wrote:
-> On 10/28/2025 1:05 AM, Karol Wachowski wrote:
->> From: Tomasz Rusinowicz <tomasz.rusinowicz@intel.com>
->>
->> Fix 'Memory manager not clean during takedown' warning that occurs
->> when ivpu_gem_bo_free() removes the BO from the BOs list before it
->> gets unmapped. Then file_priv_unbind() triggers a warning in
->> drm_mm_takedown() during context teardown.
->>
->> Protect the unmapping sequence with bo_list_lock to ensure the BO is
->> always fully unmapped when removed from the list. This ensures the BO
->> is either fully unmapped at context teardown time or present on the
->> list and unmapped by file_priv_unbind().
->>
->
-> Should this have a Fixes tag? Sounds like just a splat, but a user
-> visible one perhaps. 
+Remove the repeated word "the" in comments.
 
-Good idea, added Fixes tag in v2.
+Signed-off-by: Bo Liu <liubo03@inspur.com>
+---
+ .../dc/dml2_0/dml21/src/dml2_core/dml2_core_dcn4_calcs.c        | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-Thanks,
--Karol
+diff --git a/drivers/gpu/drm/amd/display/dc/dml2_0/dml21/src/dml2_core/dml2_core_dcn4_calcs.c b/drivers/gpu/drm/amd/display/dc/dml2_0/dml21/src/dml2_core/dml2_core_dcn4_calcs.c
+index f809c4073b43..4287f9d22f3d 100644
+--- a/drivers/gpu/drm/amd/display/dc/dml2_0/dml21/src/dml2_core/dml2_core_dcn4_calcs.c
++++ b/drivers/gpu/drm/amd/display/dc/dml2_0/dml21/src/dml2_core/dml2_core_dcn4_calcs.c
+@@ -5624,7 +5624,7 @@ static bool CalculatePrefetchSchedule(struct dml2_core_internal_scratch *scratch
+ 			// vs the latency based number
+ 
+ 			// prefetch_bw1: VM + 2*R0 + SW
+-			// so prefetch_bw1 will have enough bw to transfer the necessary data within Tpre_rounded - Tno_bw (Tpre is the the worst-case latency based time to fetch the data)
++			// so prefetch_bw1 will have enough bw to transfer the necessary data within Tpre_rounded - Tno_bw (Tpre is the worst-case latency based time to fetch the data)
+ 			// here is to make sure equ bw wont be more agressive than the latency-based requirement.
+ 			// check vm time >= vm_trips
+ 			// check r0 time >= r0_trips
+-- 
+2.31.1
 
->
-> -Jeff
