@@ -2,137 +2,54 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5EAD8C195D4
-	for <lists+dri-devel@lfdr.de>; Wed, 29 Oct 2025 10:27:04 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 80A56C195F2
+	for <lists+dri-devel@lfdr.de>; Wed, 29 Oct 2025 10:31:04 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 64F7510E18B;
-	Wed, 29 Oct 2025 09:27:01 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A690210E1B4;
+	Wed, 29 Oct 2025 09:31:01 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=Nvidia.com header.i=@Nvidia.com header.b="Q73AY/iJ";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="FPm0/iho";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from CY7PR03CU001.outbound.protection.outlook.com
- (mail-westcentralusazon11010050.outbound.protection.outlook.com
- [40.93.198.50])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1BFCB10E18B;
- Wed, 29 Oct 2025 09:27:00 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=ugsA56NmRYydxF5IJZxdxeAHzw4s8yCqWNC2khSFVXr4FBR9APVlgu6vOQFCG1YxkZ2yy3VAF8sWClD6mEj6y223MEkUobwrzh4mQtGft/efPdplMLd8mxlaXG59cK+OxWSwOI/9sJJgSQsx6d8wBCwV6ZS+qvcKS/k4WHLIW5RLbVZYFXf6jfLWALqKM0LNZpUk6Xb91r4hJkKunAP0d/q3i8K98zorD/TnnIF8cbWvZyBTlRIXbtieoOjeqyatsflHg/csdmI2CR3zx7ynl4cWKSnHrmzZzKzvEMDOfzahRLhZ9r/4063bGanMpssfTXRVOpQ0p7Z7awZI1m4Jiw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=Xz6a3ozz4aSvRNROJz/OvlvZWPYRHeII2UMRvcKmH2Q=;
- b=Up7SvPMpIGtANrUHuIbLTnmU2aGm2g4HAsgZ2q9U5pqo9jittAq2Ba5hDENz2aLbbdXO7zOvBFGG0lGhpDMpfl0ftMTbnDr/lR6kngNwt4hGgqBzUiQwK6/9WxzbdbATkdGR9XyT4ln7dGGJGtCRGRdkvTuf1LYU8puBeAKdT6SnmBBUNLHIr2DCirXh0tdMYov05SS0moywrFwTb5Zi+9ShsG2mk/c80DpHHWS/9RphMBlZHoCHJY85NSum38o/6MtqVcGfPGsGj53dpbrrlgiAjLid83wnEWobbf7gcGRrBOUSLLrMrxZrTuIsvrH+bx2x/NPXaCdQaUnSMyY8fg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 216.228.117.160) smtp.rcpttodomain=intel.com smtp.mailfrom=nvidia.com;
- dmarc=pass (p=reject sp=reject pct=100) action=none header.from=nvidia.com;
- dkim=none (message not signed); arc=none (0)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=Xz6a3ozz4aSvRNROJz/OvlvZWPYRHeII2UMRvcKmH2Q=;
- b=Q73AY/iJTJLdPZ1VvrZzeeFLpZVmI8PXrocF/LqbeV4Rfa8mBTCX4jiiiCZZkj9Zr4o7ttQhZXZTsZYuRRMNOi6X6kmRZwS1O0/LwFqDwKdLLe9Ee/dtMdVtoC6y+pNvKZ6eb+9QTLuxyZuzorILF2j++htRlk6FR+B2Ph340LCIrTex97mgC39cDWy5Gi67AdXwr6m1+qIhKqhQFUxHo6CEdMcHjJzcwOjRAuIENLYpDbQxvnTvYvAvRCCT6W6p/+qVEACEFki3h7s1aF4v4mt7q2V8v4LTBnuDroU/Oan/brneWAkl6Z4OT7MGb7Jq07DR9VmOe5vz8mP0kUas2Q==
-Received: from BL1PR13CA0017.namprd13.prod.outlook.com (2603:10b6:208:256::22)
- by IA1PR12MB6530.namprd12.prod.outlook.com (2603:10b6:208:3a5::20)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9275.13; Wed, 29 Oct
- 2025 09:26:54 +0000
-Received: from BL6PEPF00022574.namprd02.prod.outlook.com
- (2603:10b6:208:256:cafe::6e) by BL1PR13CA0017.outlook.office365.com
- (2603:10b6:208:256::22) with Microsoft SMTP Server (version=TLS1_3,
- cipher=TLS_AES_256_GCM_SHA384) id 15.20.9275.13 via Frontend Transport; Wed,
- 29 Oct 2025 09:26:54 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 216.228.117.160)
- smtp.mailfrom=nvidia.com;
- dkim=none (message not signed)
- header.d=none;dmarc=pass action=none header.from=nvidia.com;
-Received-SPF: Pass (protection.outlook.com: domain of nvidia.com designates
- 216.228.117.160 as permitted sender) receiver=protection.outlook.com;
- client-ip=216.228.117.160; helo=mail.nvidia.com; pr=C
-Received: from mail.nvidia.com (216.228.117.160) by
- BL6PEPF00022574.mail.protection.outlook.com (10.167.249.42) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.9275.10 via Frontend Transport; Wed, 29 Oct 2025 09:26:54 +0000
-Received: from rnnvmail201.nvidia.com (10.129.68.8) by mail.nvidia.com
- (10.129.200.66) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.34; Wed, 29 Oct
- 2025 02:26:41 -0700
-Received: from localhost (10.126.231.35) by rnnvmail201.nvidia.com
- (10.129.68.8) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.20; Wed, 29 Oct
- 2025 02:26:40 -0700
-Date: Wed, 29 Oct 2025 11:25:34 +0200
-From: Leon Romanovsky <leonro@nvidia.com>
-To: Jason Gunthorpe <jgg@nvidia.com>
-CC: Vivek Kasireddy <vivek.kasireddy@intel.com>,
- <dri-devel@lists.freedesktop.org>, <intel-xe@lists.freedesktop.org>,
- <linux-media@vger.kernel.org>, <linaro-mm-sig@lists.linaro.org>, "Christian
- Koenig" <christian.koenig@amd.com>, Sumit Semwal <sumit.semwal@linaro.org>,
- Thomas =?iso-8859-1?Q?Hellstr=F6m?= <thomas.hellstrom@linux.intel.com>,
- Simona Vetter <simona.vetter@ffwll.ch>, Matthew Brost
- <matthew.brost@intel.com>, Dongwon Kim <dongwon.kim@intel.com>
-Subject: Re: [RFC v2 0/8] dma-buf: Add support for mapping dmabufs via
- interconnects
-Message-ID: <20251029092534.GA11622@unreal>
-References: <20251027044712.1676175-1-vivek.kasireddy@intel.com>
- <20251029002726.GA1092494@nvidia.com>
+Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B06EC10E1B4
+ for <dri-devel@lists.freedesktop.org>; Wed, 29 Oct 2025 09:31:00 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by tor.source.kernel.org (Postfix) with ESMTP id 08E146045A;
+ Wed, 29 Oct 2025 09:31:00 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 22C19C4CEF7;
+ Wed, 29 Oct 2025 09:30:58 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1761730259;
+ bh=OnuzIss5wX2fRUo/q10utI0J8ms/Z29hJm2vjtZTHEA=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=FPm0/ihoLtsl78ml/8eo/k+WK3xm6nm00lnXlUTXT/wYuJFXv+cOpoK1jUbAPSz+b
+ Ixx/NXK2jLPmV4VOYF5VhgktWbBVI8cyWr083m7cDx+4P8uAosDLUVatwdcAkjSeiJ
+ QrvatyCYI9cBIokCwqKbYQeTFLq3br33CM6bwWcZ5A+FiWtUOz0vEjUH6RSzSmhggI
+ lf+IDvTobrrYdMxHv4S35hZAfIBZF/q7YmnvBwaH0VP/4GMfLEdS5DAuuaHR69bOpl
+ HEEQnq5Oi54fGxFvJ2YJPTufpOAHWaaoP6xiQsVf8Toi5kbEXGojbOVyvp4z1LB1pi
+ Dn5jueBBMFC1A==
+Date: Wed, 29 Oct 2025 10:30:56 +0100
+From: Maxime Ripard <mripard@kernel.org>
+To: Boris Brezillon <boris.brezillon@collabora.com>
+Cc: Steven Price <steven.price@arm.com>, dri-devel@lists.freedesktop.org, 
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Thomas Zimmermann <tzimmermann@suse.de>, 
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
+ Faith Ekstrand <faith.ekstrand@collabora.com>, kernel@collabora.com
+Subject: Re: [PATCH v4 02/14] drm/gem: Add a drm_gem_object_funcs::sync() and
+ a drm_gem_sync() helper
+Message-ID: <aw3upkfkzcrpgqpsipo63fstekq2f5trskg2d7xiyh2l6pgxu4@mj4yhxixtoqz>
+References: <20251015160326.3657287-1-boris.brezillon@collabora.com>
+ <20251015160326.3657287-3-boris.brezillon@collabora.com>
+ <k4qq6mcgil6ubyrarr6ptib7qckrgg6eh5y747ckycvnoyu7tf@d5aoylyi5nvz>
+ <20251016145708.5721c43a@fedora> <20251016150704.405524b9@fedora>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="us-ascii"
+Content-Type: multipart/signed; micalg=pgp-sha384;
+ protocol="application/pgp-signature"; boundary="zwbjt7t543jc4pil"
 Content-Disposition: inline
-In-Reply-To: <20251029002726.GA1092494@nvidia.com>
-X-Originating-IP: [10.126.231.35]
-X-ClientProxiedBy: rnnvmail202.nvidia.com (10.129.68.7) To
- rnnvmail201.nvidia.com (10.129.68.8)
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: BL6PEPF00022574:EE_|IA1PR12MB6530:EE_
-X-MS-Office365-Filtering-Correlation-Id: d3a6868b-c28c-4f75-6bd9-08de16cd4cf2
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
- ARA:13230040|82310400026|376014|7416014|36860700013|1800799024|13003099007; 
-X-Microsoft-Antispam-Message-Info: =?us-ascii?Q?NVngunuNT47NQo84KAxs+T4FBFstm9ZqvyHhe6Y7o1ytajs0tghCGyc7lkp5?=
- =?us-ascii?Q?eft2oivsF9N4t0Jr0GTCwBYCltU2H3osfOOEttSVNQPDcXvv6Z06bIxD60dl?=
- =?us-ascii?Q?rS8tUNdNlqg4GaLFPoi/EvR+cGXAYV9HaPCEph88viM5IvrRfHi3tfcGMIlC?=
- =?us-ascii?Q?vkFXuxdvjCw0tL5Bb4uBwnfLUQcERgCQkwQjiJKPlDxMYmurRlqPOqxBpf1M?=
- =?us-ascii?Q?t/eRezZxLIKMLc4yDyxUQ5k2O4jzDjjXNuFhR/RW03uZtX3Ezha8od/STgNt?=
- =?us-ascii?Q?0Fp2YCZcBSpMqTOsvXL+Zj6ZOrYsTP9acG3TJVs/gCSU9G2TrYKEDNs88s3q?=
- =?us-ascii?Q?hfOojya9f/MhpJ8cf01NYjaeXMA7LB+stNzkbKYFZfby3Fts7hw4oKQFOmMu?=
- =?us-ascii?Q?Gsq/ERoHZ08vEAoYdH3ahN4YV3mBPxZm99yKGQCOizHrNxuuVXqdchbb2B0/?=
- =?us-ascii?Q?qCY9KFSqTu3nDXorLjBVFg7ShHrqqFWGi2g6OW3nD3cn2f1ImCt+ICfRQAV0?=
- =?us-ascii?Q?EGIlOrN4HFYymHmdkB0wdDBfnJeM7tPcleIgRzkSn3Ivok9EFBgy3kqQ+2xD?=
- =?us-ascii?Q?tumZrTNMGHaqwbCLDyBoOs6p3jOOoR4IWUJnAbRdPXuE/PpaO5nEICVy/1sp?=
- =?us-ascii?Q?qQk92PX5vs/ljT3K4u/PqbNfPX3Lsb0OZuii9f1qi7gqwhfk8pBDykz4H6y7?=
- =?us-ascii?Q?hQRay8LU2dnspn9ylmANZA5QPUrbR6YSGTaw+SV2O6gOPJGO1LmEMDO4NbWv?=
- =?us-ascii?Q?nXNUG8k2QKU1Bf/K/6kXw9dCjCB8+VmOiPGkcPORCR7rmrIGC7KO4pPSGSBl?=
- =?us-ascii?Q?L7jdm/8K2UoxXCQH94uboE86UWpraK+bJQ3bHNOe2hunSjzjE6ItiTGJ+gwW?=
- =?us-ascii?Q?1IC5jco/4YX1fVMZhECgPat8N8lcilzMa0yuDAa18X5i6QJiPI8wgMSPe42m?=
- =?us-ascii?Q?iq50OBnQZBcqbXSVc6MyWSjFGq9bxS+hXX+w5TGM2XFfAiXWcouFrZqWyfUL?=
- =?us-ascii?Q?i+rVOt5YLJeM7tnKS/NiLdvV4T6GTYNytBvcdloyX0VQKx0c9FPztgaZORHp?=
- =?us-ascii?Q?KF/WIRpmQDdYwb3HwSBpbqcAqnxfnqTXYvMDBSGJXA4VWutp9ohELv7t/+wy?=
- =?us-ascii?Q?MyPPEfqXhaiYYQylMfw52M/wA2S+KeitsfAawwzxKAxI0AUdWuPclZTocxv1?=
- =?us-ascii?Q?1NByaTK8zUPF47GZGltD1LRBEIKShWaxAHjAaR9anSfx/51jIRe0O9mxe8KM?=
- =?us-ascii?Q?EixkW8hTk0eHDqVtdwl64PJrfR6t/DJhr6jpNyu5xQct5NqEB4kEsaf0wryO?=
- =?us-ascii?Q?5QpANNRuC4N3RLALs8v0G9jdlKtg2kFiDV64G6jsiyYoJ9gDG7Z7LBDh6V6b?=
- =?us-ascii?Q?vMSm0qvgYPJXAi2ArbPYqP/MhfyYtqQuZbMrXtBMKV+rPqD1+Cy7LUAQVGBz?=
- =?us-ascii?Q?+pVlvyWbRlvEzSlpL3AN2ZfHyeo+ONuRD/axGIPXq+lNq+HDqEa7+hbtC9HJ?=
- =?us-ascii?Q?chj9LrUH4kpF2JHeaGxg02rQTZ0odC/Kjl3la6XHfhStxWb4uKWQpbD89KiS?=
- =?us-ascii?Q?JS++JcUjML30ZVvUSjctSz0NOneKI03kr2PACE/7?=
-X-Forefront-Antispam-Report: CIP:216.228.117.160; CTRY:US; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:mail.nvidia.com; PTR:dc6edge1.nvidia.com; CAT:NONE;
- SFS:(13230040)(82310400026)(376014)(7416014)(36860700013)(1800799024)(13003099007);
- DIR:OUT; SFP:1101; 
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 29 Oct 2025 09:26:54.6379 (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: d3a6868b-c28c-4f75-6bd9-08de16cd4cf2
-X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=43083d15-7273-40c1-b7db-39efd9ccc17a; Ip=[216.228.117.160];
- Helo=[mail.nvidia.com]
-X-MS-Exchange-CrossTenant-AuthSource: BL6PEPF00022574.namprd02.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: IA1PR12MB6530
+In-Reply-To: <20251016150704.405524b9@fedora>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -148,42 +65,172 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Oct 28, 2025 at 09:27:26PM -0300, Jason Gunthorpe wrote:
-> On Sun, Oct 26, 2025 at 09:44:12PM -0700, Vivek Kasireddy wrote:
-> > In a typical dma-buf use case, a dmabuf exporter makes its buffer
-> > buffer available to an importer by mapping it using DMA APIs
-> > such as dma_map_sgtable() or dma_map_resource(). However, this
-> > is not desirable in some cases where the exporter and importer
-> > are directly connected via a physical or virtual link (or
-> > interconnect) and the importer can access the buffer without
-> > having it DMA mapped.
-> 
-> I think my explanation was not so clear, I spent a few hours and typed
-> in what I was thinking about here:
-> 
-> https://github.com/jgunthorpe/linux/commits/dmabuf_map_type
-> 
-> I didn't type in the last patch for iommufd side, hopefully it is
-> clear enough. Adding iov should follow the pattern of the "physical
-> address list" patch.
-> 
-> I think the use of EXPORT_SYMBOL_FOR_MODULES() to lock down the
-> physical addres list mapping type to iommufd is clever and I'm hoping
-> addresses Chrsitian's concerns about abuse.
-> 
-> Single GPU drivers can easilly declare their own mapping type for
-> their own private interconnect without needing to change the core
-> code.
-> 
-> This seems to be fairly straightforward and reasonably type safe..
 
-It makes me wonder what am I supposed to do with my series now [1]?
-How do you see submission plan now?
+--zwbjt7t543jc4pil
+Content-Type: text/plain; protected-headers=v1; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+Subject: Re: [PATCH v4 02/14] drm/gem: Add a drm_gem_object_funcs::sync() and
+ a drm_gem_sync() helper
+MIME-Version: 1.0
 
-[1] https://lore.kernel.org/all/cover.1760368250.git.leon@kernel.org/
+On Thu, Oct 16, 2025 at 03:07:04PM +0200, Boris Brezillon wrote:
+> On Thu, 16 Oct 2025 14:57:08 +0200
+> Boris Brezillon <boris.brezillon@collabora.com> wrote:
+>=20
+> > On Thu, 16 Oct 2025 10:13:25 +0200
+> > Maxime Ripard <mripard@kernel.org> wrote:
+> >=20
+> > > Hi,
+> > >=20
+> > > On Wed, Oct 15, 2025 at 06:03:14PM +0200, Boris Brezillon wrote: =20
+> > > > Prepare things for standardizing synchronization around CPU accesses
+> > > > of GEM buffers. This will be used to provide default
+> > > > drm_gem_dmabuf_{begin,end}_cpu_access() implementations, and provide
+> > > > a way for drivers to add their own ioctls to synchronize CPU
+> > > > writes/reads when they can't do it directly from userland.
+> > > >=20
+> > > > v2:
+> > > > - New commit
+> > > >=20
+> > > > v3:
+> > > > - No changes
+> > > >=20
+> > > > v4:
+> > > > - Add Steve's R-b
+> > > >=20
+> > > > Signed-off-by: Boris Brezillon <boris.brezillon@collabora.com>
+> > > > Reviewed-by: Steven Price <steven.price@arm.com>
+> > > > ---
+> > > >  drivers/gpu/drm/drm_gem.c | 10 +++++++++
+> > > >  include/drm/drm_gem.h     | 45 +++++++++++++++++++++++++++++++++++=
+++++
+> > > >  2 files changed, 55 insertions(+)
+> > > >=20
+> > > > diff --git a/drivers/gpu/drm/drm_gem.c b/drivers/gpu/drm/drm_gem.c
+> > > > index a1a9c828938b..a1431e4f2404 100644
+> > > > --- a/drivers/gpu/drm/drm_gem.c
+> > > > +++ b/drivers/gpu/drm/drm_gem.c
+> > > > @@ -1333,6 +1333,16 @@ void drm_gem_vunmap(struct drm_gem_object *o=
+bj, struct iosys_map *map)
+> > > >  }
+> > > >  EXPORT_SYMBOL(drm_gem_vunmap);
+> > > > =20
+> > > > +int drm_gem_sync(struct drm_gem_object *obj, size_t offset, size_t=
+ size,
+> > > > +		 enum drm_gem_object_access_flags access)
+> > > > +{
+> > > > +	if (obj->funcs->sync)
+> > > > +		return obj->funcs->sync(obj, offset, size, access);
+> > > > +
+> > > > +	return 0;
+> > > > +}
+> > > > +EXPORT_SYMBOL(drm_gem_sync);
+> > > > +
+> > > >  /**
+> > > >   * drm_gem_lock_reservations - Sets up the ww context and acquires
+> > > >   * the lock on an array of GEM objects.
+> > > > diff --git a/include/drm/drm_gem.h b/include/drm/drm_gem.h
+> > > > index 8d48d2af2649..1c33e59ab305 100644
+> > > > --- a/include/drm/drm_gem.h
+> > > > +++ b/include/drm/drm_gem.h
+> > > > @@ -66,6 +66,33 @@ enum drm_gem_object_status {
+> > > >  	DRM_GEM_OBJECT_ACTIVE    =3D BIT(2),
+> > > >  };
+> > > > =20
+> > > > +/**
+> > > > + * enum drm_gem_object_status - bitmask describing GEM access type=
+s to prepare for   =20
+> > >=20
+> > > Treating an enum as a bitmask is a bit weird to me. I'd say either ha=
+ve
+> > > a bitmask with BIT(enum values), or no enum at all. =20
+> >=20
+> > I'll drop the enum and make it pure defines.
+> >=20
+> > >  =20
+> > > > + */
+> > > > +enum drm_gem_object_access_flags {
+> > > > +	/** @DRM_GEM_OBJECT_CPU_ACCESS: Prepare for a CPU access. */
+> > > > +	DRM_GEM_OBJECT_CPU_ACCESS =3D 0,
+> > > > +
+> > > > +	/** @DRM_GEM_OBJECT_DEV_ACCESS: Prepare for a device access. */
+> > > > +	DRM_GEM_OBJECT_DEV_ACCESS =3D BIT(0),
+> > > > +
+> > > > +	/** @DRM_GEM_OBJECT_ACCESSOR_MASK: Mask used to check the entity =
+doing the access. */
+> > > > +	DRM_GEM_OBJECT_ACCESSOR_MASK =3D BIT(0),   =20
+> > >=20
+> > > Do we really want to have to variants with the same discriminant? If =
+so,
+> > > we should document why it's something we want.
+> > >  =20
+> > > > +	/** @DRM_GEM_OBJECT_READ_ACCESS: Prepare for read-only accesses. =
+*/
+> > > > +	DRM_GEM_OBJECT_READ_ACCESS =3D BIT(1),
+> > > > +
+> > > > +	/** @DRM_GEM_OBJECT_WRITE_ACCESS: Prepare for write-only accesses=
+=2E */
+> > > > +	DRM_GEM_OBJECT_WRITE_ACCESS =3D BIT(2),
+> > > > +
+> > > > +	/** @DRM_GEM_OBJECT_RW_ACCESS: Prepare for a read/write accesses.=
+ */
+> > > > +	DRM_GEM_OBJECT_RW_ACCESS =3D DRM_GEM_OBJECT_READ_ACCESS |
+> > > > +				   DRM_GEM_OBJECT_WRITE_ACCESS,
+> > > > +
+> > > > +	/** @DRM_GEM_OBJECT_ACCESS_TYPE_MASK: Mask used to check the acce=
+ss type. */
+> > > > +	DRM_GEM_OBJECT_ACCESS_TYPE_MASK =3D DRM_GEM_OBJECT_RW_ACCESS,   =
+=20
+> > >=20
+> > > Same thing.
+> > >=20
+> > > Or is it that you encode both the direction and access type, and have=
+ a
+> > > mask to isolate each? =20
+> >=20
+> > This ^.
+> >=20
+> > >=20
+> > > If so, we should really move it out from an enum into defines, or tre=
+at each
+> > > separately like dma_sync_does. =20
+> >=20
+> > Sure, I can do that.
+>=20
+> Actually, looking at the enum just above the one added in this patch
+> (drm_gem_object_status), it seems that it has the same flaws, and I
+> think it was the reason I went for this enum-based approach, because I
+> tend to be consistent with the code base I'm modifying.
+>=20
+> Now, I get that defining flags with an enum and then composing those to
+> then pass the composition to some helper pretending it's still an enum
+> only works in C (because with C you can do anything you want :D), and
+> probably not if you're in pedantic mode. But if we want to enforce
+> that, we should probably fix the existing code base, otherwise this
+> will keep happening ;-). And no, before you ask, I'm not volunteering
+> for this :P.
 
+I'm fine with it not being totally consistent with the other enums
+around, if anything because those aren't consistent with the typical way
+we use enums in C.
 
-> 
-> What do you think?
-> 
-> Jason
+And I don't expect to fix everything else, especially if you don't have
+the time. It's still not worth creating more work down the line when
+you'll volunteer ;)
+
+Maxime
+
+--zwbjt7t543jc4pil
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iJUEABMJAB0WIQTkHFbLp4ejekA/qfgnX84Zoj2+dgUCaQHezwAKCRAnX84Zoj2+
+dtxWAYCdtvscQgOspH2kHF3Au/NP3XqHjU1fPnA6y1Y2Y2DyazvziGKJiGf6H2qE
+igPJBoABgN60eYQZcOjQuCZPOidQOAZ1LahhoA436lwbqYKvEjIlxhrr4c6ten0s
+2LWjX6aC8Q==
+=vLR5
+-----END PGP SIGNATURE-----
+
+--zwbjt7t543jc4pil--
