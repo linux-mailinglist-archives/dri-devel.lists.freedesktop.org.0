@@ -2,57 +2,137 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 57C45C19580
-	for <lists+dri-devel@lfdr.de>; Wed, 29 Oct 2025 10:18:02 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5EAD8C195D4
+	for <lists+dri-devel@lfdr.de>; Wed, 29 Oct 2025 10:27:04 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B5FD710E750;
-	Wed, 29 Oct 2025 09:18:00 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 64F7510E18B;
+	Wed, 29 Oct 2025 09:27:01 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="VEEAv9Lp";
+	dkim=pass (2048-bit key; unprotected) header.d=Nvidia.com header.i=@Nvidia.com header.b="Q73AY/iJ";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B653D10E750
- for <dri-devel@lists.freedesktop.org>; Wed, 29 Oct 2025 09:17:59 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1761729480; x=1793265480;
- h=from:to:cc:subject:date:message-id:mime-version:
- content-transfer-encoding;
- bh=ubqdeMq70IogS/KJhceS66srDmkBxehU/dspUy/eDuA=;
- b=VEEAv9Lpf5TL9H4rC2iKhH7W6ZOPxz4tTbzhJKCtBqx7r3lyYCdwnNxZ
- VouKtHyFztPO4QamfEUtKoN/aiHNfE32cagkg1I+j8oLZiPjR/E6WuvLh
- z8hvhYmA86Z2NKoZUIGiHGVRsu20sGs71v4a+FFto1wJM5oq5+ySuqf6z
- Ewxb0y/or+VSYjYFgcXfEnTdFX16pJmVJPNL3tvQ+qoQ329H/ksHmXwZd
- eRCY5UnPh+ijsehaLethJlvN73m3w0wU/DTxQLVwJbanc5dgSYTkYD6a5
- 7JBnT86BpPMsWiwjJYancDasG3VzfqOT6u5mqItWHW7Qb7blTq2Kmzw+l g==;
-X-CSE-ConnectionGUID: v97lPoWES8OrwXhaC2fSAw==
-X-CSE-MsgGUID: 40GiF2enT4KqyWkR/ZQB4g==
-X-IronPort-AV: E=McAfee;i="6800,10657,11586"; a="86473280"
-X-IronPort-AV: E=Sophos;i="6.19,263,1754982000"; d="scan'208";a="86473280"
-Received: from orviesa002.jf.intel.com ([10.64.159.142])
- by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 29 Oct 2025 02:17:59 -0700
-X-CSE-ConnectionGUID: 31eHSaFwQWiU/pC12L96ZQ==
-X-CSE-MsgGUID: 9ew0N7XST9uEnNcaZyq+hg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.19,263,1754982000"; d="scan'208";a="216262006"
-Received: from pl-npu-pc-kwachow.igk.intel.com ([10.91.220.239])
- by orviesa002-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 29 Oct 2025 02:17:58 -0700
-From: Karol Wachowski <karol.wachowski@linux.intel.com>
-To: dri-devel@lists.freedesktop.org
-Cc: oded.gabbay@gmail.com, jeff.hugo@oss.qualcomm.com,
- maciej.falkowski@linux.intel.com, lizhi.hou@amd.com,
- Jacek Lawrynowicz <jacek.lawrynowicz@linux.intel.com>,
- Karol Wachowski <karol.wachowski@linux.intel.com>
-Subject: [PATCH v2] accel/ivpu: Add support for userptr buffer objects
-Date: Wed, 29 Oct 2025 10:17:52 +0100
-Message-ID: <20251029091752.203198-1-karol.wachowski@linux.intel.com>
-X-Mailer: git-send-email 2.43.0
+Received: from CY7PR03CU001.outbound.protection.outlook.com
+ (mail-westcentralusazon11010050.outbound.protection.outlook.com
+ [40.93.198.50])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1BFCB10E18B;
+ Wed, 29 Oct 2025 09:27:00 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=ugsA56NmRYydxF5IJZxdxeAHzw4s8yCqWNC2khSFVXr4FBR9APVlgu6vOQFCG1YxkZ2yy3VAF8sWClD6mEj6y223MEkUobwrzh4mQtGft/efPdplMLd8mxlaXG59cK+OxWSwOI/9sJJgSQsx6d8wBCwV6ZS+qvcKS/k4WHLIW5RLbVZYFXf6jfLWALqKM0LNZpUk6Xb91r4hJkKunAP0d/q3i8K98zorD/TnnIF8cbWvZyBTlRIXbtieoOjeqyatsflHg/csdmI2CR3zx7ynl4cWKSnHrmzZzKzvEMDOfzahRLhZ9r/4063bGanMpssfTXRVOpQ0p7Z7awZI1m4Jiw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=Xz6a3ozz4aSvRNROJz/OvlvZWPYRHeII2UMRvcKmH2Q=;
+ b=Up7SvPMpIGtANrUHuIbLTnmU2aGm2g4HAsgZ2q9U5pqo9jittAq2Ba5hDENz2aLbbdXO7zOvBFGG0lGhpDMpfl0ftMTbnDr/lR6kngNwt4hGgqBzUiQwK6/9WxzbdbATkdGR9XyT4ln7dGGJGtCRGRdkvTuf1LYU8puBeAKdT6SnmBBUNLHIr2DCirXh0tdMYov05SS0moywrFwTb5Zi+9ShsG2mk/c80DpHHWS/9RphMBlZHoCHJY85NSum38o/6MtqVcGfPGsGj53dpbrrlgiAjLid83wnEWobbf7gcGRrBOUSLLrMrxZrTuIsvrH+bx2x/NPXaCdQaUnSMyY8fg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 216.228.117.160) smtp.rcpttodomain=intel.com smtp.mailfrom=nvidia.com;
+ dmarc=pass (p=reject sp=reject pct=100) action=none header.from=nvidia.com;
+ dkim=none (message not signed); arc=none (0)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=Xz6a3ozz4aSvRNROJz/OvlvZWPYRHeII2UMRvcKmH2Q=;
+ b=Q73AY/iJTJLdPZ1VvrZzeeFLpZVmI8PXrocF/LqbeV4Rfa8mBTCX4jiiiCZZkj9Zr4o7ttQhZXZTsZYuRRMNOi6X6kmRZwS1O0/LwFqDwKdLLe9Ee/dtMdVtoC6y+pNvKZ6eb+9QTLuxyZuzorILF2j++htRlk6FR+B2Ph340LCIrTex97mgC39cDWy5Gi67AdXwr6m1+qIhKqhQFUxHo6CEdMcHjJzcwOjRAuIENLYpDbQxvnTvYvAvRCCT6W6p/+qVEACEFki3h7s1aF4v4mt7q2V8v4LTBnuDroU/Oan/brneWAkl6Z4OT7MGb7Jq07DR9VmOe5vz8mP0kUas2Q==
+Received: from BL1PR13CA0017.namprd13.prod.outlook.com (2603:10b6:208:256::22)
+ by IA1PR12MB6530.namprd12.prod.outlook.com (2603:10b6:208:3a5::20)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9275.13; Wed, 29 Oct
+ 2025 09:26:54 +0000
+Received: from BL6PEPF00022574.namprd02.prod.outlook.com
+ (2603:10b6:208:256:cafe::6e) by BL1PR13CA0017.outlook.office365.com
+ (2603:10b6:208:256::22) with Microsoft SMTP Server (version=TLS1_3,
+ cipher=TLS_AES_256_GCM_SHA384) id 15.20.9275.13 via Frontend Transport; Wed,
+ 29 Oct 2025 09:26:54 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 216.228.117.160)
+ smtp.mailfrom=nvidia.com;
+ dkim=none (message not signed)
+ header.d=none;dmarc=pass action=none header.from=nvidia.com;
+Received-SPF: Pass (protection.outlook.com: domain of nvidia.com designates
+ 216.228.117.160 as permitted sender) receiver=protection.outlook.com;
+ client-ip=216.228.117.160; helo=mail.nvidia.com; pr=C
+Received: from mail.nvidia.com (216.228.117.160) by
+ BL6PEPF00022574.mail.protection.outlook.com (10.167.249.42) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.9275.10 via Frontend Transport; Wed, 29 Oct 2025 09:26:54 +0000
+Received: from rnnvmail201.nvidia.com (10.129.68.8) by mail.nvidia.com
+ (10.129.200.66) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.34; Wed, 29 Oct
+ 2025 02:26:41 -0700
+Received: from localhost (10.126.231.35) by rnnvmail201.nvidia.com
+ (10.129.68.8) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.20; Wed, 29 Oct
+ 2025 02:26:40 -0700
+Date: Wed, 29 Oct 2025 11:25:34 +0200
+From: Leon Romanovsky <leonro@nvidia.com>
+To: Jason Gunthorpe <jgg@nvidia.com>
+CC: Vivek Kasireddy <vivek.kasireddy@intel.com>,
+ <dri-devel@lists.freedesktop.org>, <intel-xe@lists.freedesktop.org>,
+ <linux-media@vger.kernel.org>, <linaro-mm-sig@lists.linaro.org>, "Christian
+ Koenig" <christian.koenig@amd.com>, Sumit Semwal <sumit.semwal@linaro.org>,
+ Thomas =?iso-8859-1?Q?Hellstr=F6m?= <thomas.hellstrom@linux.intel.com>,
+ Simona Vetter <simona.vetter@ffwll.ch>, Matthew Brost
+ <matthew.brost@intel.com>, Dongwon Kim <dongwon.kim@intel.com>
+Subject: Re: [RFC v2 0/8] dma-buf: Add support for mapping dmabufs via
+ interconnects
+Message-ID: <20251029092534.GA11622@unreal>
+References: <20251027044712.1676175-1-vivek.kasireddy@intel.com>
+ <20251029002726.GA1092494@nvidia.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="us-ascii"
+Content-Disposition: inline
+In-Reply-To: <20251029002726.GA1092494@nvidia.com>
+X-Originating-IP: [10.126.231.35]
+X-ClientProxiedBy: rnnvmail202.nvidia.com (10.129.68.7) To
+ rnnvmail201.nvidia.com (10.129.68.8)
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: BL6PEPF00022574:EE_|IA1PR12MB6530:EE_
+X-MS-Office365-Filtering-Correlation-Id: d3a6868b-c28c-4f75-6bd9-08de16cd4cf2
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+ ARA:13230040|82310400026|376014|7416014|36860700013|1800799024|13003099007; 
+X-Microsoft-Antispam-Message-Info: =?us-ascii?Q?NVngunuNT47NQo84KAxs+T4FBFstm9ZqvyHhe6Y7o1ytajs0tghCGyc7lkp5?=
+ =?us-ascii?Q?eft2oivsF9N4t0Jr0GTCwBYCltU2H3osfOOEttSVNQPDcXvv6Z06bIxD60dl?=
+ =?us-ascii?Q?rS8tUNdNlqg4GaLFPoi/EvR+cGXAYV9HaPCEph88viM5IvrRfHi3tfcGMIlC?=
+ =?us-ascii?Q?vkFXuxdvjCw0tL5Bb4uBwnfLUQcERgCQkwQjiJKPlDxMYmurRlqPOqxBpf1M?=
+ =?us-ascii?Q?t/eRezZxLIKMLc4yDyxUQ5k2O4jzDjjXNuFhR/RW03uZtX3Ezha8od/STgNt?=
+ =?us-ascii?Q?0Fp2YCZcBSpMqTOsvXL+Zj6ZOrYsTP9acG3TJVs/gCSU9G2TrYKEDNs88s3q?=
+ =?us-ascii?Q?hfOojya9f/MhpJ8cf01NYjaeXMA7LB+stNzkbKYFZfby3Fts7hw4oKQFOmMu?=
+ =?us-ascii?Q?Gsq/ERoHZ08vEAoYdH3ahN4YV3mBPxZm99yKGQCOizHrNxuuVXqdchbb2B0/?=
+ =?us-ascii?Q?qCY9KFSqTu3nDXorLjBVFg7ShHrqqFWGi2g6OW3nD3cn2f1ImCt+ICfRQAV0?=
+ =?us-ascii?Q?EGIlOrN4HFYymHmdkB0wdDBfnJeM7tPcleIgRzkSn3Ivok9EFBgy3kqQ+2xD?=
+ =?us-ascii?Q?tumZrTNMGHaqwbCLDyBoOs6p3jOOoR4IWUJnAbRdPXuE/PpaO5nEICVy/1sp?=
+ =?us-ascii?Q?qQk92PX5vs/ljT3K4u/PqbNfPX3Lsb0OZuii9f1qi7gqwhfk8pBDykz4H6y7?=
+ =?us-ascii?Q?hQRay8LU2dnspn9ylmANZA5QPUrbR6YSGTaw+SV2O6gOPJGO1LmEMDO4NbWv?=
+ =?us-ascii?Q?nXNUG8k2QKU1Bf/K/6kXw9dCjCB8+VmOiPGkcPORCR7rmrIGC7KO4pPSGSBl?=
+ =?us-ascii?Q?L7jdm/8K2UoxXCQH94uboE86UWpraK+bJQ3bHNOe2hunSjzjE6ItiTGJ+gwW?=
+ =?us-ascii?Q?1IC5jco/4YX1fVMZhECgPat8N8lcilzMa0yuDAa18X5i6QJiPI8wgMSPe42m?=
+ =?us-ascii?Q?iq50OBnQZBcqbXSVc6MyWSjFGq9bxS+hXX+w5TGM2XFfAiXWcouFrZqWyfUL?=
+ =?us-ascii?Q?i+rVOt5YLJeM7tnKS/NiLdvV4T6GTYNytBvcdloyX0VQKx0c9FPztgaZORHp?=
+ =?us-ascii?Q?KF/WIRpmQDdYwb3HwSBpbqcAqnxfnqTXYvMDBSGJXA4VWutp9ohELv7t/+wy?=
+ =?us-ascii?Q?MyPPEfqXhaiYYQylMfw52M/wA2S+KeitsfAawwzxKAxI0AUdWuPclZTocxv1?=
+ =?us-ascii?Q?1NByaTK8zUPF47GZGltD1LRBEIKShWaxAHjAaR9anSfx/51jIRe0O9mxe8KM?=
+ =?us-ascii?Q?EixkW8hTk0eHDqVtdwl64PJrfR6t/DJhr6jpNyu5xQct5NqEB4kEsaf0wryO?=
+ =?us-ascii?Q?5QpANNRuC4N3RLALs8v0G9jdlKtg2kFiDV64G6jsiyYoJ9gDG7Z7LBDh6V6b?=
+ =?us-ascii?Q?vMSm0qvgYPJXAi2ArbPYqP/MhfyYtqQuZbMrXtBMKV+rPqD1+Cy7LUAQVGBz?=
+ =?us-ascii?Q?+pVlvyWbRlvEzSlpL3AN2ZfHyeo+ONuRD/axGIPXq+lNq+HDqEa7+hbtC9HJ?=
+ =?us-ascii?Q?chj9LrUH4kpF2JHeaGxg02rQTZ0odC/Kjl3la6XHfhStxWb4uKWQpbD89KiS?=
+ =?us-ascii?Q?JS++JcUjML30ZVvUSjctSz0NOneKI03kr2PACE/7?=
+X-Forefront-Antispam-Report: CIP:216.228.117.160; CTRY:US; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:mail.nvidia.com; PTR:dc6edge1.nvidia.com; CAT:NONE;
+ SFS:(13230040)(82310400026)(376014)(7416014)(36860700013)(1800799024)(13003099007);
+ DIR:OUT; SFP:1101; 
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 29 Oct 2025 09:26:54.6379 (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: d3a6868b-c28c-4f75-6bd9-08de16cd4cf2
+X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=43083d15-7273-40c1-b7db-39efd9ccc17a; Ip=[216.228.117.160];
+ Helo=[mail.nvidia.com]
+X-MS-Exchange-CrossTenant-AuthSource: BL6PEPF00022574.namprd02.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: IA1PR12MB6530
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -68,450 +148,42 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Jacek Lawrynowicz <jacek.lawrynowicz@linux.intel.com>
+On Tue, Oct 28, 2025 at 09:27:26PM -0300, Jason Gunthorpe wrote:
+> On Sun, Oct 26, 2025 at 09:44:12PM -0700, Vivek Kasireddy wrote:
+> > In a typical dma-buf use case, a dmabuf exporter makes its buffer
+> > buffer available to an importer by mapping it using DMA APIs
+> > such as dma_map_sgtable() or dma_map_resource(). However, this
+> > is not desirable in some cases where the exporter and importer
+> > are directly connected via a physical or virtual link (or
+> > interconnect) and the importer can access the buffer without
+> > having it DMA mapped.
+> 
+> I think my explanation was not so clear, I spent a few hours and typed
+> in what I was thinking about here:
+> 
+> https://github.com/jgunthorpe/linux/commits/dmabuf_map_type
+> 
+> I didn't type in the last patch for iommufd side, hopefully it is
+> clear enough. Adding iov should follow the pattern of the "physical
+> address list" patch.
+> 
+> I think the use of EXPORT_SYMBOL_FOR_MODULES() to lock down the
+> physical addres list mapping type to iommufd is clever and I'm hoping
+> addresses Chrsitian's concerns about abuse.
+> 
+> Single GPU drivers can easilly declare their own mapping type for
+> their own private interconnect without needing to change the core
+> code.
+> 
+> This seems to be fairly straightforward and reasonably type safe..
 
-Introduce a new ioctl `drm_ivpu_bo_create_from_userptr` that allows
-users to create GEM buffer objects from user pointers to memory regions.
-The user pointer must be page-aligned and the memory region must remain
-valid for the buffer object's lifetime.
+It makes me wonder what am I supposed to do with my series now [1]?
+How do you see submission plan now?
 
-Userptr buffers enable direct use of mmapped files (e.g. inference
-weights) in NPU workloads without copying data to NPU buffer objects.
-This reduces memory usage and provides better flexibility for NPU
-applications.
+[1] https://lore.kernel.org/all/cover.1760368250.git.leon@kernel.org/
 
-Signed-off-by: Jacek Lawrynowicz <jacek.lawrynowicz@linux.intel.com>
-Signed-off-by: Karol Wachowski <karol.wachowski@linux.intel.com>
----
-Changes in v2:
- - Remove unnecessary paragraph duplicating subject in commit message
- - Add paragraph explaining benefits of userptr buffers in commit
-   message
- - Remove 4GB limiation for userptr size
----
- drivers/accel/ivpu/Makefile           |   1 +
- drivers/accel/ivpu/ivpu_drv.c         |   3 +
- drivers/accel/ivpu/ivpu_gem.c         |   2 +-
- drivers/accel/ivpu/ivpu_gem.h         |   7 +
- drivers/accel/ivpu/ivpu_gem_userptr.c | 202 ++++++++++++++++++++++++++
- drivers/accel/ivpu/ivpu_mmu_context.c |   4 +-
- drivers/accel/ivpu/ivpu_mmu_context.h |   2 +-
- include/uapi/drm/ivpu_accel.h         |  52 +++++++
- 8 files changed, 270 insertions(+), 3 deletions(-)
- create mode 100644 drivers/accel/ivpu/ivpu_gem_userptr.c
 
-diff --git a/drivers/accel/ivpu/Makefile b/drivers/accel/ivpu/Makefile
-index 1029e0bab061..dbf76b8a5b4c 100644
---- a/drivers/accel/ivpu/Makefile
-+++ b/drivers/accel/ivpu/Makefile
-@@ -6,6 +6,7 @@ intel_vpu-y := \
- 	ivpu_fw.o \
- 	ivpu_fw_log.o \
- 	ivpu_gem.o \
-+	ivpu_gem_userptr.o \
- 	ivpu_hw.o \
- 	ivpu_hw_btrs.o \
- 	ivpu_hw_ip.o \
-diff --git a/drivers/accel/ivpu/ivpu_drv.c b/drivers/accel/ivpu/ivpu_drv.c
-index c6fe7a408912..ca68730dee88 100644
---- a/drivers/accel/ivpu/ivpu_drv.c
-+++ b/drivers/accel/ivpu/ivpu_drv.c
-@@ -134,6 +134,8 @@ bool ivpu_is_capable(struct ivpu_device *vdev, u32 capability)
- 		return true;
- 	case DRM_IVPU_CAP_DMA_MEMORY_RANGE:
- 		return true;
-+	case DRM_IVPU_CAP_BO_CREATE_FROM_USERPTR:
-+		return true;
- 	case DRM_IVPU_CAP_MANAGE_CMDQ:
- 		return vdev->fw->sched_mode == VPU_SCHEDULING_MODE_HW;
- 	default:
-@@ -313,6 +315,7 @@ static const struct drm_ioctl_desc ivpu_drm_ioctls[] = {
- 	DRM_IOCTL_DEF_DRV(IVPU_CMDQ_CREATE, ivpu_cmdq_create_ioctl, 0),
- 	DRM_IOCTL_DEF_DRV(IVPU_CMDQ_DESTROY, ivpu_cmdq_destroy_ioctl, 0),
- 	DRM_IOCTL_DEF_DRV(IVPU_CMDQ_SUBMIT, ivpu_cmdq_submit_ioctl, 0),
-+	DRM_IOCTL_DEF_DRV(IVPU_BO_CREATE_FROM_USERPTR, ivpu_bo_create_from_userptr_ioctl, 0),
- };
- 
- static int ivpu_wait_for_ready(struct ivpu_device *vdev)
-diff --git a/drivers/accel/ivpu/ivpu_gem.c b/drivers/accel/ivpu/ivpu_gem.c
-index e7277e02840a..9e58522840ae 100644
---- a/drivers/accel/ivpu/ivpu_gem.c
-+++ b/drivers/accel/ivpu/ivpu_gem.c
-@@ -96,7 +96,7 @@ int __must_check ivpu_bo_bind(struct ivpu_bo *bo)
- 	if (!bo->mmu_mapped) {
- 		drm_WARN_ON(&vdev->drm, !bo->ctx);
- 		ret = ivpu_mmu_context_map_sgt(vdev, bo->ctx, bo->vpu_addr, sgt,
--					       ivpu_bo_is_snooped(bo));
-+					       ivpu_bo_is_snooped(bo), ivpu_bo_is_read_only(bo));
- 		if (ret) {
- 			ivpu_err(vdev, "Failed to map BO in MMU: %d\n", ret);
- 			goto unlock;
-diff --git a/drivers/accel/ivpu/ivpu_gem.h b/drivers/accel/ivpu/ivpu_gem.h
-index 54452eb8a41f..2dcd7eba9cb7 100644
---- a/drivers/accel/ivpu/ivpu_gem.h
-+++ b/drivers/accel/ivpu/ivpu_gem.h
-@@ -38,6 +38,8 @@ void ivpu_bo_free(struct ivpu_bo *bo);
- int ivpu_bo_create_ioctl(struct drm_device *dev, void *data, struct drm_file *file);
- int ivpu_bo_info_ioctl(struct drm_device *dev, void *data, struct drm_file *file);
- int ivpu_bo_wait_ioctl(struct drm_device *dev, void *data, struct drm_file *file);
-+int ivpu_bo_create_from_userptr_ioctl(struct drm_device *dev, void *data,
-+				      struct drm_file *file);
- 
- void ivpu_bo_list(struct drm_device *dev, struct drm_printer *p);
- void ivpu_bo_list_print(struct drm_device *dev);
-@@ -75,6 +77,11 @@ static inline bool ivpu_bo_is_snooped(struct ivpu_bo *bo)
- 	return ivpu_bo_cache_mode(bo) == DRM_IVPU_BO_CACHED;
- }
- 
-+static inline bool ivpu_bo_is_read_only(struct ivpu_bo *bo)
-+{
-+	return bo->flags & DRM_IVPU_BO_READ_ONLY;
-+}
-+
- static inline void *ivpu_to_cpu_addr(struct ivpu_bo *bo, u32 vpu_addr)
- {
- 	if (vpu_addr < bo->vpu_addr)
-diff --git a/drivers/accel/ivpu/ivpu_gem_userptr.c b/drivers/accel/ivpu/ivpu_gem_userptr.c
-new file mode 100644
-index 000000000000..235c67959453
---- /dev/null
-+++ b/drivers/accel/ivpu/ivpu_gem_userptr.c
-@@ -0,0 +1,202 @@
-+// SPDX-License-Identifier: GPL-2.0-only
-+/*
-+ * Copyright (C) 2020-2025 Intel Corporation
-+ */
-+
-+#include <linux/dma-buf.h>
-+#include <linux/err.h>
-+#include <linux/highmem.h>
-+#include <linux/mm.h>
-+#include <linux/mman.h>
-+#include <linux/scatterlist.h>
-+#include <linux/slab.h>
-+#include <linux/capability.h>
-+
-+#include <drm/drm_device.h>
-+#include <drm/drm_file.h>
-+#include <drm/drm_gem.h>
-+
-+#include "ivpu_drv.h"
-+#include "ivpu_gem.h"
-+
-+static struct sg_table *
-+ivpu_gem_userptr_dmabuf_map(struct dma_buf_attachment *attachment,
-+			    enum dma_data_direction direction)
-+{
-+	struct sg_table *sgt = attachment->dmabuf->priv;
-+	int ret;
-+
-+	ret = dma_map_sgtable(attachment->dev, sgt, direction, DMA_ATTR_SKIP_CPU_SYNC);
-+	if (ret)
-+		return ERR_PTR(ret);
-+
-+	return sgt;
-+}
-+
-+static void ivpu_gem_userptr_dmabuf_unmap(struct dma_buf_attachment *attachment,
-+					  struct sg_table *sgt,
-+					  enum dma_data_direction direction)
-+{
-+	dma_unmap_sgtable(attachment->dev, sgt, direction, DMA_ATTR_SKIP_CPU_SYNC);
-+}
-+
-+static void ivpu_gem_userptr_dmabuf_release(struct dma_buf *dma_buf)
-+{
-+	struct sg_table *sgt = dma_buf->priv;
-+	struct sg_page_iter page_iter;
-+	struct page *page;
-+
-+	for_each_sgtable_page(sgt, &page_iter, 0) {
-+		page = sg_page_iter_page(&page_iter);
-+		unpin_user_page(page);
-+	}
-+
-+	sg_free_table(sgt);
-+	kfree(sgt);
-+}
-+
-+static const struct dma_buf_ops ivpu_gem_userptr_dmabuf_ops = {
-+	.map_dma_buf = ivpu_gem_userptr_dmabuf_map,
-+	.unmap_dma_buf = ivpu_gem_userptr_dmabuf_unmap,
-+	.release = ivpu_gem_userptr_dmabuf_release,
-+};
-+
-+static struct dma_buf *
-+ivpu_create_userptr_dmabuf(struct ivpu_device *vdev, void __user *user_ptr,
-+			   size_t size, uint32_t flags)
-+{
-+	struct dma_buf_export_info exp_info = {};
-+	struct dma_buf *dma_buf;
-+	struct sg_table *sgt;
-+	struct page **pages;
-+	unsigned long nr_pages = size >> PAGE_SHIFT;
-+	unsigned int gup_flags = FOLL_LONGTERM;
-+	int ret, i, pinned;
-+
-+	/* Add FOLL_WRITE only if the BO is not read-only */
-+	if (!(flags & DRM_IVPU_BO_READ_ONLY))
-+		gup_flags |= FOLL_WRITE;
-+
-+	pages = kvmalloc_array(nr_pages, sizeof(*pages), GFP_KERNEL);
-+	if (!pages)
-+		return ERR_PTR(-ENOMEM);
-+
-+	pinned = pin_user_pages_fast((unsigned long)user_ptr, nr_pages, gup_flags, pages);
-+	if (pinned < 0) {
-+		ret = pinned;
-+		ivpu_warn(vdev, "Failed to pin user pages: %d\n", ret);
-+		goto free_pages_array;
-+	}
-+
-+	if (pinned != nr_pages) {
-+		ivpu_warn(vdev, "Pinned %d pages, expected %lu\n", pinned, nr_pages);
-+		ret = -EFAULT;
-+		goto unpin_pages;
-+	}
-+
-+	sgt = kmalloc(sizeof(*sgt), GFP_KERNEL);
-+	if (!sgt) {
-+		ret = -ENOMEM;
-+		goto unpin_pages;
-+	}
-+
-+	ret = sg_alloc_table_from_pages(sgt, pages, nr_pages, 0, size, GFP_KERNEL);
-+	if (ret) {
-+		ivpu_warn(vdev, "Failed to create sg table: %d\n", ret);
-+		goto free_sgt;
-+	}
-+
-+	exp_info.exp_name = "ivpu_userptr_dmabuf";
-+	exp_info.owner = THIS_MODULE;
-+	exp_info.ops = &ivpu_gem_userptr_dmabuf_ops;
-+	exp_info.size = size;
-+	exp_info.flags = O_RDWR | O_CLOEXEC;
-+	exp_info.priv = sgt;
-+
-+	dma_buf = dma_buf_export(&exp_info);
-+	if (IS_ERR(dma_buf)) {
-+		ret = PTR_ERR(dma_buf);
-+		ivpu_warn(vdev, "Failed to export userptr dma-buf: %d\n", ret);
-+		goto free_sg_table;
-+	}
-+
-+	kvfree(pages);
-+	return dma_buf;
-+
-+free_sg_table:
-+	sg_free_table(sgt);
-+free_sgt:
-+	kfree(sgt);
-+unpin_pages:
-+	for (i = 0; i < pinned; i++)
-+		unpin_user_page(pages[i]);
-+free_pages_array:
-+	kvfree(pages);
-+	return ERR_PTR(ret);
-+}
-+
-+static struct ivpu_bo *
-+ivpu_bo_create_from_userptr(struct ivpu_device *vdev, void __user *user_ptr,
-+			    size_t size, uint32_t flags)
-+{
-+	struct dma_buf *dma_buf;
-+	struct drm_gem_object *obj;
-+	struct ivpu_bo *bo;
-+
-+	dma_buf = ivpu_create_userptr_dmabuf(vdev, user_ptr, size, flags);
-+	if (IS_ERR(dma_buf))
-+		return ERR_CAST(dma_buf);
-+
-+	obj = ivpu_gem_prime_import(&vdev->drm, dma_buf);
-+	if (IS_ERR(obj)) {
-+		dma_buf_put(dma_buf);
-+		return ERR_CAST(obj);
-+	}
-+
-+	dma_buf_put(dma_buf);
-+
-+	bo = to_ivpu_bo(obj);
-+	bo->flags = flags;
-+
-+	return bo;
-+}
-+
-+int ivpu_bo_create_from_userptr_ioctl(struct drm_device *dev, void *data, struct drm_file *file)
-+{
-+	struct drm_ivpu_bo_create_from_userptr *args = data;
-+	struct ivpu_file_priv *file_priv = file->driver_priv;
-+	struct ivpu_device *vdev = to_ivpu_device(dev);
-+	void __user *user_ptr = u64_to_user_ptr(args->user_ptr);
-+	struct ivpu_bo *bo;
-+	int ret;
-+
-+	if (args->flags & ~(DRM_IVPU_BO_HIGH_MEM | DRM_IVPU_BO_DMA_MEM | DRM_IVPU_BO_READ_ONLY))
-+		return -EINVAL;
-+
-+	if (!args->user_ptr || !args->size)
-+		return -EINVAL;
-+
-+	if (!PAGE_ALIGNED(args->user_ptr) || !PAGE_ALIGNED(args->size))
-+		return -EINVAL;
-+
-+	if (!access_ok(user_ptr, args->size))
-+		return -EFAULT;
-+
-+	bo = ivpu_bo_create_from_userptr(vdev, user_ptr, args->size, args->flags);
-+	if (IS_ERR(bo))
-+		return PTR_ERR(bo);
-+
-+	ret = drm_gem_handle_create(file, &bo->base.base, &args->handle);
-+	if (ret) {
-+		ivpu_err(vdev, "Failed to create handle for BO: %pe (ctx %u size %llu flags 0x%x)",
-+			 bo, file_priv->ctx.id, args->size, args->flags);
-+	} else {
-+		ivpu_dbg(vdev, BO, "Created userptr BO: handle=%u vpu_addr=0x%llx size=%llu flags=0x%x\n",
-+			 args->handle, bo->vpu_addr, args->size, bo->flags);
-+		args->vpu_addr = bo->vpu_addr;
-+	}
-+
-+	drm_gem_object_put(&bo->base.base);
-+
-+	return ret;
-+}
-diff --git a/drivers/accel/ivpu/ivpu_mmu_context.c b/drivers/accel/ivpu/ivpu_mmu_context.c
-index 4ffc783426be..d128e8961688 100644
---- a/drivers/accel/ivpu/ivpu_mmu_context.c
-+++ b/drivers/accel/ivpu/ivpu_mmu_context.c
-@@ -430,7 +430,7 @@ static void ivpu_mmu_context_unmap_pages(struct ivpu_mmu_context *ctx, u64 vpu_a
- 
- int
- ivpu_mmu_context_map_sgt(struct ivpu_device *vdev, struct ivpu_mmu_context *ctx,
--			 u64 vpu_addr, struct sg_table *sgt,  bool llc_coherent)
-+			 u64 vpu_addr, struct sg_table *sgt, bool llc_coherent, bool read_only)
- {
- 	size_t start_vpu_addr = vpu_addr;
- 	struct scatterlist *sg;
-@@ -450,6 +450,8 @@ ivpu_mmu_context_map_sgt(struct ivpu_device *vdev, struct ivpu_mmu_context *ctx,
- 	prot = IVPU_MMU_ENTRY_MAPPED;
- 	if (llc_coherent)
- 		prot |= IVPU_MMU_ENTRY_FLAG_LLC_COHERENT;
-+	if (read_only)
-+		prot |= IVPU_MMU_ENTRY_FLAG_RO;
- 
- 	mutex_lock(&ctx->lock);
- 
-diff --git a/drivers/accel/ivpu/ivpu_mmu_context.h b/drivers/accel/ivpu/ivpu_mmu_context.h
-index f255310968cf..663a11a9db11 100644
---- a/drivers/accel/ivpu/ivpu_mmu_context.h
-+++ b/drivers/accel/ivpu/ivpu_mmu_context.h
-@@ -42,7 +42,7 @@ int ivpu_mmu_context_insert_node(struct ivpu_mmu_context *ctx, const struct ivpu
- void ivpu_mmu_context_remove_node(struct ivpu_mmu_context *ctx, struct drm_mm_node *node);
- 
- int ivpu_mmu_context_map_sgt(struct ivpu_device *vdev, struct ivpu_mmu_context *ctx,
--			     u64 vpu_addr, struct sg_table *sgt, bool llc_coherent);
-+			     u64 vpu_addr, struct sg_table *sgt, bool llc_coherent, bool read_only);
- void ivpu_mmu_context_unmap_sgt(struct ivpu_device *vdev, struct ivpu_mmu_context *ctx,
- 				u64 vpu_addr, struct sg_table *sgt);
- int ivpu_mmu_context_set_pages_ro(struct ivpu_device *vdev, struct ivpu_mmu_context *ctx,
-diff --git a/include/uapi/drm/ivpu_accel.h b/include/uapi/drm/ivpu_accel.h
-index e470b0221e02..264505d54f93 100644
---- a/include/uapi/drm/ivpu_accel.h
-+++ b/include/uapi/drm/ivpu_accel.h
-@@ -25,6 +25,7 @@ extern "C" {
- #define DRM_IVPU_CMDQ_CREATE              0x0b
- #define DRM_IVPU_CMDQ_DESTROY             0x0c
- #define DRM_IVPU_CMDQ_SUBMIT              0x0d
-+#define DRM_IVPU_BO_CREATE_FROM_USERPTR	  0x0e
- 
- #define DRM_IOCTL_IVPU_GET_PARAM                                               \
- 	DRM_IOWR(DRM_COMMAND_BASE + DRM_IVPU_GET_PARAM, struct drm_ivpu_param)
-@@ -69,6 +70,10 @@ extern "C" {
- #define DRM_IOCTL_IVPU_CMDQ_SUBMIT                                             \
- 	DRM_IOW(DRM_COMMAND_BASE + DRM_IVPU_CMDQ_SUBMIT, struct drm_ivpu_cmdq_submit)
- 
-+#define DRM_IOCTL_IVPU_BO_CREATE_FROM_USERPTR                        \
-+	DRM_IOWR(DRM_COMMAND_BASE + DRM_IVPU_BO_CREATE_FROM_USERPTR, \
-+		 struct drm_ivpu_bo_create_from_userptr)
-+
- /**
-  * DOC: contexts
-  *
-@@ -127,6 +132,13 @@ extern "C" {
-  * command queue destroy and submit job on specific command queue.
-  */
- #define DRM_IVPU_CAP_MANAGE_CMDQ       3
-+/**
-+ * DRM_IVPU_CAP_BO_CREATE_FROM_USERPTR
-+ *
-+ * Driver supports creating buffer objects from user space memory pointers.
-+ * This allows creating GEM buffers from existing user memory regions.
-+ */
-+#define DRM_IVPU_CAP_BO_CREATE_FROM_USERPTR	4
- 
- /**
-  * struct drm_ivpu_param - Get/Set VPU parameters
-@@ -194,6 +206,7 @@ struct drm_ivpu_param {
- #define DRM_IVPU_BO_HIGH_MEM   DRM_IVPU_BO_SHAVE_MEM
- #define DRM_IVPU_BO_MAPPABLE   0x00000002
- #define DRM_IVPU_BO_DMA_MEM    0x00000004
-+#define DRM_IVPU_BO_READ_ONLY  0x00000008
- 
- #define DRM_IVPU_BO_CACHED     0x00000000
- #define DRM_IVPU_BO_UNCACHED   0x00010000
-@@ -204,6 +217,7 @@ struct drm_ivpu_param {
- 	(DRM_IVPU_BO_HIGH_MEM | \
- 	 DRM_IVPU_BO_MAPPABLE | \
- 	 DRM_IVPU_BO_DMA_MEM | \
-+	 DRM_IVPU_BO_READ_ONLY | \
- 	 DRM_IVPU_BO_CACHE_MASK)
- 
- /**
-@@ -255,6 +269,44 @@ struct drm_ivpu_bo_create {
- 	__u64 vpu_addr;
- };
- 
-+/**
-+ * struct drm_ivpu_bo_create_from_userptr - Create dma-buf from user pointer
-+ *
-+ * Create a GEM buffer object from a user pointer to a memory region.
-+ */
-+struct drm_ivpu_bo_create_from_userptr {
-+	/** @user_ptr: User pointer to memory region (must be page aligned) */
-+	__u64 user_ptr;
-+
-+	/** @size: Size of the memory region in bytes (must be page aligned) */
-+	__u64 size;
-+
-+	/**
-+	 * @flags:
-+	 *
-+	 * Supported flags:
-+	 *
-+	 * %DRM_IVPU_BO_HIGH_MEM:
-+	 *
-+	 * Allocate VPU address from >4GB range.
-+	 *
-+	 * %DRM_IVPU_BO_DMA_MEM:
-+	 *
-+	 * Allocate from DMA memory range accessible by hardware DMA.
-+	 *
-+	 * %DRM_IVPU_BO_READ_ONLY:
-+	 *
-+	 * Allocate as a read-only buffer object.
-+	 */
-+	__u32 flags;
-+
-+	/** @handle: Returned GEM object handle */
-+	__u32 handle;
-+
-+	/** @vpu_addr: Returned VPU virtual address */
-+	__u64 vpu_addr;
-+};
-+
- /**
-  * struct drm_ivpu_bo_info - Query buffer object info
-  */
--- 
-2.43.0
-
+> 
+> What do you think?
+> 
+> Jason
