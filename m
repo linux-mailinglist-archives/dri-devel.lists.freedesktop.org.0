@@ -2,42 +2,42 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4352DC1939A
-	for <lists+dri-devel@lfdr.de>; Wed, 29 Oct 2025 09:54:58 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0DCA7C193AF
+	for <lists+dri-devel@lfdr.de>; Wed, 29 Oct 2025 09:55:27 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 99A3E10E76F;
-	Wed, 29 Oct 2025 08:54:56 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 62C0C10E774;
+	Wed, 29 Oct 2025 08:55:25 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="WEV4PnwV";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="bezlEPpR";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C8D9910E76F
- for <dri-devel@lists.freedesktop.org>; Wed, 29 Oct 2025 08:54:55 +0000 (UTC)
+Received: from sea.source.kernel.org (sea.source.kernel.org [172.234.252.31])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A1ACB10E774
+ for <dri-devel@lists.freedesktop.org>; Wed, 29 Oct 2025 08:55:24 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by tor.source.kernel.org (Postfix) with ESMTP id 02C5D611E0;
- Wed, 29 Oct 2025 08:54:55 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1C5F4C4CEF7;
- Wed, 29 Oct 2025 08:54:53 +0000 (UTC)
+ by sea.source.kernel.org (Postfix) with ESMTP id 5580D4186F;
+ Wed, 29 Oct 2025 08:55:24 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B5435C4CEF7;
+ Wed, 29 Oct 2025 08:55:23 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1761728094;
- bh=Dy4WiiEp2hDTLOfWgfOlVvW3TTdWJu7jpfAlJ8GtIl8=;
+ s=k20201202; t=1761728124;
+ bh=phEg2pXqRD3Io5OWcNnG6saaAlBTyp0EzBzi9+EOrK0=;
  h=Date:From:To:Subject:In-Reply-To:References:Cc:From;
- b=WEV4PnwVugjI4eYTb5D3Xn5Z4SpWwhIIgtQ6bhBAO5Gg+jfKiUPa6QqTDBVz2RpRk
- kKbesQHYBsFKN3TodcNKNGbZ5TtT+qvKc/PDikJ6NLVp+eSB4YWfLPu5hei1tBbkVu
- KsiIYA2AbjSgTgwKdUo46yC63JIcaEfkHZSoDNnQQqyfbRxdjaAHDMBiX8IoUs83ln
- E/I8fAxI66UjB3g1xEz/e3+S921y55JmfwSU8n2lUjThdw95a/zd0XnjEKJ3PP5o2c
- Z6TuDl1jusd6p/YiCR9aqvNO3uLyvOcvAsmp/0t7vm9/A8WkM9plbb6odoVrl2bdoI
- QIcQLK4QqmxXQ==
-Message-ID: <312c3226cd0581d00b39db8daea69417@kernel.org>
-Date: Wed, 29 Oct 2025 08:54:51 +0000
+ b=bezlEPpRBkgqkc10mB7ahmvPgLeCkHYle2USV/V0UykGaC6vHavgDhl/tslGl4m6N
+ wX0l2QxaAyfoLf3oCNEyNGaonRbOeRfVTbTHMVaMCeiX6PSsawdp6zC11ksjyM2WbN
+ lRYF/JsHo7IvMp6CYqdYtqfDE9X7MCQaSQEQjZ6LM29P+vEeyVLvvKdYzZhyEM1kKd
+ Xh+tXYLJjeBaNJNWiE4X4HMTVEvrY724HGD3XOj7tTM0bavnt5Z8nT+lW88JRjpOME
+ DHAzcPHyjHDz3O/VgQgyWRrlpNCSCtCkqOuNiByEg0w7QH75+0AL+ogMfc9Qsb4muv
+ 7gAjUZa5FMGNg==
+Message-ID: <0c0b84319f96b5d2a32bbae473e5758e@kernel.org>
+Date: Wed, 29 Oct 2025 08:55:20 +0000
 From: "Maxime Ripard" <mripard@kernel.org>
 To: "Luca Ceresoli" <luca.ceresoli@bootlin.com>
-Subject: Re: [PATCH v3 3/7] drm/bridge: drm_bridge_attach: lock the encoder
- chain mutex during insertion
-In-Reply-To: <20251009-drm-bridge-alloc-encoder-chain-mutex-v3-3-c90ed744efec@bootlin.com>
-References: <20251009-drm-bridge-alloc-encoder-chain-mutex-v3-3-c90ed744efec@bootlin.com>
+Subject: Re: [PATCH v3 7/7] drm/bridge: prevent encoder chain changes in
+ pre_enable/post_disable
+In-Reply-To: <20251009-drm-bridge-alloc-encoder-chain-mutex-v3-7-c90ed744efec@bootlin.com>
+References: <20251009-drm-bridge-alloc-encoder-chain-mutex-v3-7-c90ed744efec@bootlin.com>
 Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org, "Andrzej
  Hajda" <andrzej.hajda@intel.com>, "David Airlie" <airlied@gmail.com>, "Hui
  Pu" <Hui.Pu@gehealthcare.com>, "Jernej Skrabec" <jernej.skrabec@gmail.com>,
@@ -65,12 +65,12 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, 9 Oct 2025 13:38:58 +0200, Luca Ceresoli wrote:
-> drm_bridge_attach() modifies the encoder bridge chain, so take a mutex
-> around such operations to allow users of the chain to protect themselves
-> from chain modifications while iterating.
+On Thu, 9 Oct 2025 13:39:02 +0200, Luca Ceresoli wrote:
+> Take the encoder chain mutex while iterating over the encoder chain in
+> drm_atomic_bridge_chain_pre_enable() and
+> drm_atomic_bridge_chain_post_disable() to ensure the lists won't change
+> while being inspected.
 > 
-> Signed-off-by: Luca Ceresoli <luca.ceresoli@bootlin.com>
 > 
 > [ ... ]
 
