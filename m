@@ -2,59 +2,88 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id CFDBAC18B1D
-	for <lists+dri-devel@lfdr.de>; Wed, 29 Oct 2025 08:31:00 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id BF2E2C18BBC
+	for <lists+dri-devel@lfdr.de>; Wed, 29 Oct 2025 08:41:44 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CF9F410E6F8;
-	Wed, 29 Oct 2025 07:30:58 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C2A1010E70F;
+	Wed, 29 Oct 2025 07:41:41 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; secure) header.d=mailbox.org header.i=@mailbox.org header.b="hf/93c7P";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="XPZepOt5";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mout-p-102.mailbox.org (mout-p-102.mailbox.org [80.241.56.152])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2AF8810E6F8
- for <dri-devel@lists.freedesktop.org>; Wed, 29 Oct 2025 07:30:57 +0000 (UTC)
-Received: from smtp1.mailbox.org (smtp1.mailbox.org [10.196.197.1])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested)
- by mout-p-102.mailbox.org (Postfix) with ESMTPS id 4cxJnT6ZF8z9tSV;
- Wed, 29 Oct 2025 08:30:53 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org;
- s=mail20150812; 
- t=1761723053; h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=dc/nHQJ01/k3r4k37WvJJ6sn+d52mPfesqmqjpSbQFU=;
- b=hf/93c7PuLW8msZp53XX2GgIOcde7vWqwZCDjevZDuox54GHsQcAGLizWY2LJy//9wp11H
- 5F/3eNrBC+E4lJ+nzFrmv+1miVPGMXmCAmAcw+u89yzFDhHopvrM9UqpaRWtdDJ6+Jd5Fl
- Sm2WZRSmFwboyRaCScCGey7n1klbdre2BSqyeJrfVaj3ML7HpYsbYmPUIYY6W6wFDZbqQl
- kHGqKsoozkEys2IR7QWMtuJl/UBlOYqaidFtMe01YL1BULrqVfreed6HRe7jfFuPWCt/HS
- buRHmRR58Xzt5Wqeq5y88yz7kj6k1RhA86LWH4SQGxUFSx9q+SB5vBR2ZDoaxw==
-Message-ID: <2e08b320a9d81faee6d1ec2a3fe8a1df6773c8f6.camel@mailbox.org>
-Subject: Re: [PATCH 2/2] drm/sched: Add FIXME detailing potential hang
-From: Philipp Stanner <phasta@mailbox.org>
-To: Matthew Brost <matthew.brost@intel.com>, Philipp Stanner
- <phasta@kernel.org>
-Cc: Danilo Krummrich <dakr@kernel.org>, Christian =?ISO-8859-1?Q?K=F6nig?=
- <ckoenig.leichtzumerken@gmail.com>, Maarten Lankhorst
- <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>, 
+Received: from mail-pl1-f174.google.com (mail-pl1-f174.google.com
+ [209.85.214.174])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 722EB10E70F
+ for <dri-devel@lists.freedesktop.org>; Wed, 29 Oct 2025 07:41:40 +0000 (UTC)
+Received: by mail-pl1-f174.google.com with SMTP id
+ d9443c01a7336-26a0a694ea8so49541585ad.3
+ for <dri-devel@lists.freedesktop.org>; Wed, 29 Oct 2025 00:41:40 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20230601; t=1761723700; x=1762328500; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=qgvDUTgmwUbybBiqh6wci1MBiFa+WkYYBAxgF2SWiwA=;
+ b=XPZepOt5goqUdQ8DXFukwjpcMf8PQ6YFQANXFoMeiKa3egRBXMKW3htle564B8mvdk
+ iqcJ0cYM4l7xHPRITCYpXCh3QwdUxMWpVTTbixM1OK7WRlZBD9LXJoO3A4p0rN3TRxf4
+ hrLjDgL7Q1XZvphVVps0y+YSexcp2lrBMLPU+BmutqBKyPAA5DG94PqcOV+Kf6nPP0od
+ i97BiYrhr0bWNEj4VHOPVGy8pdfNqJbiPECX0eT73E04wCJebO3nrerMjBuGLVwCtamq
+ QDH416qJmq7s0DNf2qPx8T5k6nlcplrajno8MZPJ4mteb9Ifuse4qO5kW67WX+l/yvhJ
+ H/zA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1761723700; x=1762328500;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=qgvDUTgmwUbybBiqh6wci1MBiFa+WkYYBAxgF2SWiwA=;
+ b=wZw4TVbuc3IRgwMgyO79vwhmj+kNoc+vWtcXOWeT11dIZOpKfHzxz73L5hDaxRgwqN
+ Cz6iKo9uxhw4xPl01w5AEkmU6y2nSVEA7pk2CJLIHSvJ/uc9KU0bzzco4+I44NB8AHmQ
+ twRzB9PBlUdsZBpqdMc4wDPJWvvWMLyMfFq/KzkuXNivG9eTRaLpKDR6nrPsHQ/b88ey
+ 2Q4AwsxSGlEIXP8mhnL9Vm+FKMtCo/NOFi/X/2z6hNq21/openzHeKuUQgzmIqXrfR53
+ N9hErzX/Ilvwtr0trjXBLUs0Y2I2ZnhEV8ykqF64HQgARGrtzGYYV3wikvVE+j6jBbDT
+ fl0A==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCX0ZPBneDryVZIc2ms9eHRqyOzzt1KHltQUbqQzG8rIypTfQTaKHXiAlVTZLoewb0Jjeo/TBWoyaPs=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Yypgq8UsQdV6sVbSoRSfJpvkvDSvjbFcSR3PGDRfGHjBR0cCXKI
+ X21qnSloPJBoFPEdc78re4NdTw3/7gHnA6HHiBMailwwrYfrXU5D915S
+X-Gm-Gg: ASbGnct77mIAluVJUttqWff5x2BpFoCHcmRg40P8jOJO1C3SEI1JzYcjneiVmIAvohs
+ fSpe3vOcphId+KpQR4Us31lVido7a5oL/gGuGG+fI+RCv6KmW5I75qxF16vyJBT8mBR5eUZ21+p
+ Sxpsxq1S3h9QfVOwxex9LGM+zefYN4qVPqETnSHqpnGfU3YjSo1pMdL3OlFVM4XGEXzoPzH+CR/
+ 9nmYBRm5qjBpA5giFhPRCETt1gQskpa2RhwtN5f0w/4S80hV0QuV2qtvalHLoi/IzaIiRbe2QpP
+ 5EZr3Sws9+hmh5UoEyx+EHFDxd0x9x3d4IkUjdwgdt5LxptvO63SQgXlcdtL7OwyFwrlUyZz3m6
+ Nqi0mL/dDphbtUJtSj3ZmkXWZGp63QFCa+xd0ACTX7CrweXa2jB6yZhNU1o5FZhE7Pb/227CPoN
+ Pl8kRaggNZFZ3lAJzBnAS9xg==
+X-Google-Smtp-Source: AGHT+IEAqSeL49I0O53+T8EYYG0n4Be/S9PQxC/LftWWFjftQd/hhQp8QU08hja4QrlQTuil7K/59Q==
+X-Received: by 2002:a17:903:234c:b0:246:4077:4563 with SMTP id
+ d9443c01a7336-294def2da22mr23417225ad.34.1761723699803; 
+ Wed, 29 Oct 2025 00:41:39 -0700 (PDT)
+Received: from localhost.localdomain ([124.77.218.104])
+ by smtp.googlemail.com with ESMTPSA id
+ 98e67ed59e1d1-33fed706449sm14495814a91.2.2025.10.29.00.41.34
+ (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
+ Wed, 29 Oct 2025 00:41:39 -0700 (PDT)
+From: Miaoqian Lin <linmq006@gmail.com>
+To: Inki Dae <inki.dae@samsung.com>, Jagan Teki <jagan@amarulasolutions.com>,
+ Marek Szyprowski <m.szyprowski@samsung.com>,
+ Andrzej Hajda <andrzej.hajda@intel.com>,
+ Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
  Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
- Simona Vetter <simona@ffwll.ch>,  tursulin@ursulin.net,
- dri-devel@lists.freedesktop.org,  linux-kernel@vger.kernel.org
-Date: Wed, 29 Oct 2025 08:30:48 +0100
-In-Reply-To: <aQEc5eUR8bq+XNG1@lstrano-desk.jf.intel.com>
-References: <20251028134602.94125-2-phasta@kernel.org>
- <20251028134602.94125-4-phasta@kernel.org>
- <aQEc5eUR8bq+XNG1@lstrano-desk.jf.intel.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+ Simona Vetter <simona@ffwll.ch>,
+ Kaustabh Chakraborty <kauschluss@disroot.org>,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
+Cc: linmq006@gmail.com,
+	stable@vger.kernel.org
+Subject: [PATCH] drm/bridge: samsung-dsim: Fix device node reference leak in
+ samsung_dsim_parse_dt
+Date: Wed, 29 Oct 2025 15:41:20 +0800
+Message-Id: <20251029074121.15260-1-linmq006@gmail.com>
+X-Mailer: git-send-email 2.39.5 (Apple Git-154)
 MIME-Version: 1.0
-X-MBO-RS-ID: 231303fb3b5f76a16db
-X-MBO-RS-META: qtg7zkqcp5wj9caew7eose6iunjn1qdi
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -67,59 +96,38 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Reply-To: phasta@kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, 2025-10-28 at 12:43 -0700, Matthew Brost wrote:
-> On Tue, Oct 28, 2025 at 02:46:02PM +0100, Philipp Stanner wrote:
-> > If a job from a ready entity needs more credits than are currently
-> > available, drm_sched_run_job_work() (a work item) simply returns and
-> > doesn't reschedule itself. The scheduler is only woken up again when th=
-e
-> > next job gets pushed with drm_sched_entity_push_job().
-> >=20
-> > If someone submits a job that needs too many credits and doesn't submit
-> > more jobs afterwards, this would lead to the scheduler never pulling th=
-e
-> > too-expensive job, effectively hanging forever.
-> >=20
-> > Document this problem as a FIXME.
-> >=20
-> > Signed-off-by: Philipp Stanner <phasta@kernel.org>
-> > ---
-> > =C2=A0drivers/gpu/drm/scheduler/sched_main.c | 10 ++++++++++
-> > =C2=A01 file changed, 10 insertions(+)
-> >=20
-> > diff --git a/drivers/gpu/drm/scheduler/sched_main.c b/drivers/gpu/drm/s=
-cheduler/sched_main.c
-> > index 492e8af639db..eaf8d17b2a66 100644
-> > --- a/drivers/gpu/drm/scheduler/sched_main.c
-> > +++ b/drivers/gpu/drm/scheduler/sched_main.c
-> > @@ -1237,6 +1237,16 @@ static void drm_sched_run_job_work(struct work_s=
-truct *w)
-> > =C2=A0
-> > =C2=A0	/* Find entity with a ready job */
-> > =C2=A0	entity =3D drm_sched_select_entity(sched);
-> > +	/*
-> > +	 * FIXME:
-> > +	 * The entity can be NULL when the scheduler currently has no capacit=
-y
-> > +	 * (credits) for more jobs. If that happens, the work item terminates
-> > +	 * itself here, without rescheduling itself.
-> > +	 *
-> > +	 * It only gets started again in drm_sched_entity_push_job(). IOW, th=
-e
-> > +	 * scheduler might hang forever if a job that needs too many credits
-> > +	 * gets submitted to an entity and no other, subsequent jobs are.
-> > +	 */
->=20
-> drm_sched_job_done frees the credits, which triggers
-> drm_sched_free_job_work, and that in turn triggers
-> drm_sched_run_job_work.
+The function samsung_dsim_parse_dt() calls of_graph_get_endpoint_by_regs()
+to get the endpoint device node, but fails to call of_node_put() to release
+the reference when the function returns. This results in a device node
+reference leak.
 
-Sounds correct to me.
+Fix this by adding the missing of_node_put() call before returning from
+the function.
 
-We can still merge #1, though, for a bit more clearness.
+Found via static analysis and code review.
 
-P.
+Fixes: 77169a11d4e9 ("drm/bridge: samsung-dsim: add driver support for exynos7870 DSIM bridge")
+Cc: stable@vger.kernel.org
+Signed-off-by: Miaoqian Lin <linmq006@gmail.com>
+---
+ drivers/gpu/drm/bridge/samsung-dsim.c | 1 +
+ 1 file changed, 1 insertion(+)
+
+diff --git a/drivers/gpu/drm/bridge/samsung-dsim.c b/drivers/gpu/drm/bridge/samsung-dsim.c
+index eabc4c32f6ab..1a5acd5077ad 100644
+--- a/drivers/gpu/drm/bridge/samsung-dsim.c
++++ b/drivers/gpu/drm/bridge/samsung-dsim.c
+@@ -2086,6 +2086,7 @@ static int samsung_dsim_parse_dt(struct samsung_dsim *dsi)
+ 		if (lane_polarities[1])
+ 			dsi->swap_dn_dp_data = true;
+ 	}
++	of_node_put(endpoint);
+ 
+ 	return 0;
+ }
+-- 
+2.39.5 (Apple Git-154)
+
