@@ -2,60 +2,56 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2E4D9C1C898
-	for <lists+dri-devel@lfdr.de>; Wed, 29 Oct 2025 18:44:28 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id C93D7C1C97D
+	for <lists+dri-devel@lfdr.de>; Wed, 29 Oct 2025 18:52:39 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7AE7710E211;
-	Wed, 29 Oct 2025 17:44:19 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2DB3310E802;
+	Wed, 29 Oct 2025 17:52:38 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="LNJC3HSu";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="tr8RjkwN";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sea.source.kernel.org (sea.source.kernel.org [172.234.252.31])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C844210E211
- for <dri-devel@lists.freedesktop.org>; Wed, 29 Oct 2025 17:44:17 +0000 (UTC)
+Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2812610E802
+ for <dri-devel@lists.freedesktop.org>; Wed, 29 Oct 2025 17:52:37 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by sea.source.kernel.org (Postfix) with ESMTP id 8153D438F2;
- Wed, 29 Oct 2025 17:44:17 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3798CC4CEF7;
- Wed, 29 Oct 2025 17:44:14 +0000 (UTC)
+ by tor.source.kernel.org (Postfix) with ESMTP id 3C73960503;
+ Wed, 29 Oct 2025 17:52:36 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3EBE6C4CEF7;
+ Wed, 29 Oct 2025 17:52:33 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1761759857;
- bh=MFX7L/AI8JM0uO4N5k58xVcU7FqcMiBcizefUKUgzz4=;
+ s=k20201202; t=1761760355;
+ bh=0YBScoJ8j4SEyGyzFWW4kdvZXQlp+HgJ7s1KzaPXNDA=;
  h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=LNJC3HSuFqsitCic1quYkNQly3HBPAfIaRu2tJjyfsk6r6Sr/yfBkMh3mwR114OwK
- eC6p1rE8dXwEAbr3Ft/sYyjg1nR+eTwkeNVwlo6jAB5/SvKyUboTW9f1YIXIJ0eoEx
- QjJ3fnPAW3tIv1HHlw+grkirs2ocSSf3HSfL/noxHLOj4MQnT5ozy30+GFtUjyvmhI
- 6uEsq491dCQ6o52rEuwviY9Pu0wWX8kT+alGypvU4xPDdQBGSRmgDH6p1LU0jAHyxb
- HvK59t4JqRx54FGEb7AI58k5JxDtDBBvdkzbkGVT42IKAxV5OiLJhev8QXqcr0TfiP
- OPEFEXpRjAHng==
-Date: Wed, 29 Oct 2025 17:45:12 +0000
+ b=tr8RjkwNuP9TI9R6Dv4328MqMFROy/G1RzcO3D+YUqrzInGDBmSUn6dWtqJl4ViHD
+ RwWjAcNHTuYjNFImMaLZE7bHMtLXm+2kE+086j9yN/NONlyNv8JHtglIkMWnZIsvXf
+ FalyX9cBXS4k8sNIlnmP0ADnY+1FeeIECSsC9cBHU2OQvxRs1n47fq4Aw5G/1L3/mk
+ tOweAgQRN+NTuyN2RWGuAyvQ1ujoSuPFwZRXNjuISPfWGGRGS+lo+DIcswLY7fy9u1
+ 4HxpKFB38E/VhrBd9r1GMZiiVY4DtPSzzpBeG4xRujhI9bX9uKWVgVyO3cFABWRley
+ WU+A6rf3lbhTg==
+Date: Wed, 29 Oct 2025 17:53:31 +0000
 From: Daniel Thompson <danielt@kernel.org>
-To: "Sverdlin, Alexander" <alexander.sverdlin@siemens.com>
-Cc: "jingoohan1@gmail.com" <jingoohan1@gmail.com>,
- "tomi.valkeinen@ti.com" <tomi.valkeinen@ti.com>,
- "lee@kernel.org" <lee@kernel.org>,
- "luca.ceresoli@bootlin.com" <luca.ceresoli@bootlin.com>,
- "tony@atomide.com" <tony@atomide.com>,
- "pavel@ucw.cz" <pavel@ucw.cz>, "deller@gmx.de" <deller@gmx.de>,
- "jjhiblot@ti.com" <jjhiblot@ti.com>,
- "linux-fbdev@vger.kernel.org" <linux-fbdev@vger.kernel.org>,
- "thomas.petazzoni@bootlin.com" <thomas.petazzoni@bootlin.com>,
- "saravanak@google.com" <saravanak@google.com>,
- "herve.codina@bootlin.com" <herve.codina@bootlin.com>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
- "alexander.sverdlin@gmail.com" <alexander.sverdlin@gmail.com>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- "daniel.thompson@linaro.org" <daniel.thompson@linaro.org>
-Subject: Re: [PATCH v6] backlight: led-backlight: add devlink to supplier LEDs
-Message-ID: <aQJSqJOrtETMKt8x@aspen.lan>
-References: <20250519-led-backlight-add-devlink-to-supplier-class-device-v6-1-845224aeb2ce@bootlin.com>
- <6e6039c815c7125e35b43ca2f8d32a0fa3103fea.camel@siemens.com>
+To: Junjie Cao <caojunjie650@gmail.com>
+Cc: Lee Jones <lee@kernel.org>, Jingoo Han <jingoohan1@gmail.com>,
+ Pavel Machek <pavel@kernel.org>, Rob Herring <robh@kernel.org>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>, Helge Deller <deller@gmx.de>,
+ dri-devel@lists.freedesktop.org, linux-leds@vger.kernel.org,
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-fbdev@vger.kernel.org, Pengyu Luo <mitltlatltl@gmail.com>
+Subject: Re: [PATCH 2/2] backlight: aw99706: Add support for Awinic AW99706
+ backlight
+Message-ID: <aQJUmx5elYOW2TvO@aspen.lan>
+References: <20251026123923.1531727-1-caojunjie650@gmail.com>
+ <20251026123923.1531727-3-caojunjie650@gmail.com>
+ <aQDDjzl65dMZEnwM@aspen.lan>
+ <CAK6c68h3Mc0=JbbbVAmo_cYeOR_T-_rRy5EacgYQh7HgQZOPBg@mail.gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <6e6039c815c7125e35b43ca2f8d32a0fa3103fea.camel@siemens.com>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <CAK6c68h3Mc0=JbbbVAmo_cYeOR_T-_rRy5EacgYQh7HgQZOPBg@mail.gmail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -71,29 +67,55 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Oct 23, 2025 at 12:41:30PM +0000, Sverdlin, Alexander wrote:
-> Hi Lee, Daniel, Jingoo,
+On Wed, Oct 29, 2025 at 07:49:35PM +0800, Junjie Cao wrote:
+> On Tue, Oct 28, 2025 at 9:21 PM Daniel Thompson <danielt@kernel.org> wrote:
+> >
+> > On Sun, Oct 26, 2025 at 08:39:23PM +0800, Junjie Cao wrote:
+> > > Add support for Awinic AW99706 backlight, which can be found in
+> > > tablet and notebook backlight, one case is the Lenovo Legion Y700
+> > > Gen4. This driver refers to the official datasheets and android
+> > > driver, they can be found in [1].
+> > >
+> > > [1] https://www.awinic.com/en/productDetail/AW99706QNR
+> > >
+> > > Signed-off-by: Pengyu Luo <mitltlatltl@gmail.com>
+> > > Signed-off-by: Junjie Cao <caojunjie650@gmail.com>
+> > > ---
+> > > diff --git a/drivers/video/backlight/aw99706.c b/drivers/video/backlight/aw99706.c
+> > > <snip>
+> > > +static void aw99706_dt_parse(struct aw99706_device *aw)
+> > > +{
+> > > +     struct aw99706_dt_prop *prop;
+> > > +     int ret, i;
+> > > +
+> > > +     for (i = 0; i < ARRAY_SIZE(aw99706_dt_props); i++) {
+> > > +             prop = &aw99706_dt_props[i];
+> > > +             ret = device_property_read_u32(aw->dev, prop->name,
+> > > +                                            &prop->raw_val);
+> > > +             if (ret < 0) {
+> > > +                     dev_warn(aw->dev, "Missing property %s: %d\n",
+> > > +                              prop->name, ret);
+> >
+> > Why is there a warning when an optional property is not present. A DT
+> > not including an optional property needs no message at all.
+> >
 >
-> On Mon, 2025-05-19 at 22:19 +0200, Luca Ceresoli wrote:
-> > led-backlight is a consumer of one or multiple LED class devices, but
-> > devlink is currently unable to create correct supplier-producer links when
-> > the supplier is a class device. It creates instead a link where the
-> > supplier is the parent of the expected device.
-> > <snip>
-> > Fixes: ae232e45acf9 ("backlight: add led-backlight driver")
-> > Signed-off-by: Luca Ceresoli <luca.ceresoli@bootlin.com>
-> > Reviewed-by: Herve Codina <herve.codina@bootlin.com>
->
-> I've noticed that the patch in archived in the patchwork [1] but I wasn't
-> able to find it in any branch of the backlight tree [2].
->
-> Could it be that the patch somehow slipped through?
-> It does solve a real-world crash, could you please consider to apply it?
+> They are mandatory in the downstream, and providing all properties is
+> difficult sometimes, so I set a default value if one is missing. But
+> one device may use a configuration different from the component
+> vendor's. These default values may be not optimal, so I issue a
+> warning for property missing. (I forgot to address it)
 
-Sorry folks. I overlooked this in my backlog and never posted the R-b
-(which helps Lee figure out what to hoover up).
+All sensible but to be clear...
 
-Reviewed-by: Daniel Thompson (RISCstar) <danielt@kernel.org>
+From my point-of-view the driver should match the upstream bindings.
+Either the properties are required (in which case missing them can be
+dev_err() and/or fail to probe) or they are optional (in which case
+there should be no warnings).
+
+Similarly if missing values is likely to lead to very sub-optimal
+behavior (or something that has a risk of over-current or component
+failure) then consider making the options mandatory.
 
 
 Daniel.
