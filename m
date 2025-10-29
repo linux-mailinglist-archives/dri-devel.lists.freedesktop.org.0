@@ -2,89 +2,91 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 18F99C1F120
-	for <lists+dri-devel@lfdr.de>; Thu, 30 Oct 2025 09:49:05 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 716F9C1F0F6
+	for <lists+dri-devel@lfdr.de>; Thu, 30 Oct 2025 09:48:53 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8919710E91E;
-	Thu, 30 Oct 2025 08:48:55 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8352910E8DE;
+	Thu, 30 Oct 2025 08:48:47 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b="pLRitz3p";
+	dkim=pass (2048-bit key; unprotected) header.d=thorsis.com header.i=@thorsis.com header.b="CnysY0t4";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-f52.google.com (mail-wr1-f52.google.com
- [209.85.221.52])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9574E10E71B
- for <dri-devel@lists.freedesktop.org>; Wed, 29 Oct 2025 08:14:34 +0000 (UTC)
-Received: by mail-wr1-f52.google.com with SMTP id
- ffacd0b85a97d-42966ce6dbdso5007439f8f.0
- for <dri-devel@lists.freedesktop.org>; Wed, 29 Oct 2025 01:14:34 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1761725673; x=1762330473;
- darn=lists.freedesktop.org; 
- h=in-reply-to:references:from:subject:cc:to:message-id:date
- :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=N8+rq+xZPmi2I8g0y9aIjmTjbWxMyaupeqzQVgZxcEI=;
- b=pLRitz3pYO9r5OS6En9IeBV7ia0jGYlEYb3lG/EB7rtlFiMeMkVs6zBiYPl1M8zrJJ
- WKsgoHcGbTyPhC3guqtLaZBMZR2G9GBWpj6KIEDaAtGbrmrhHe1yNM1q+lkcW2sf3UWi
- vrvMDhx0pqatAYQxERpMDMvaG4D4ECqS4kKPJ97z1uGZHYzBzembnCKvC1WTwxH26p54
- uOOtRitVLRdi8uan3xRXqlw4J+i3W8Fj2iis2BDuIbKFVQOEP3qiapMl2MWPvV9d/iR8
- UnhDTiSKrqCmR0ziOAOm6ZHifZgmgkfzQKQ/TawHdjkybfKzmHMJz3GVFgxlU7FY+PQs
- aTNQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1761725673; x=1762330473;
- h=in-reply-to:references:from:subject:cc:to:message-id:date
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=N8+rq+xZPmi2I8g0y9aIjmTjbWxMyaupeqzQVgZxcEI=;
- b=lajCxFNv17THC0sANxOu1FviZ40Y/L0GosPJ7NcJ2/HXbKQceB8gLYiAWM1Ypsrmkf
- UvrgQBm2912ddjjAMWw8HxTMiV8V/3dhuqlGP3EUwcFrYibXavyjJbeH/I5AH69j0qGU
- pILbKevRYUbFA1teeJYT+qS7gt/t9xv7D+kkHfGjk64pNX8K1AjUF3jzukGuRdjiJ/mx
- CSq3Q0oim33WBhPtLa7ZEYgVn26lZDlCYQrFDCsf4d+9sygGWZ0pctyvbP+zTCZH5SaV
- JHGBNHoTOQMQzD3AOrFks2ZpksIjR2IIA4CDeDmo+t4aObhOOjFLBH1ih/FbTV6ZqhMy
- EGZA==
-X-Forwarded-Encrypted: i=1;
- AJvYcCXVIixxCl1lLpCKKT6kQBKrhs534Y5Slo9/D0jDiYwqziWctq2LFAkgZQIooo/zVBg1WvVSdSh1o3I=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YwPj7dXrIaqFTUwNsSNOUjrjWUzTpoccExw3eoeFGP5dMlDQHZe
- Wxz6Qgz9Ux9BgjOQBpz2//iCB9lj1+/S1QpEOY8VBnV16iKwCe1VTL4l9keB7xM3fvw=
-X-Gm-Gg: ASbGncu9RKKItsKXRXcsgNg2deTKi9mQgo4cTC61rq/U+XpqUc8Q4RO+P8rmh1Nev+y
- sxK2TFq097HX8LKOpbeTuq9F17Udf5cK/OvApDCZvGKGqTWGt+IhSZySFoLlv5zomY6VIfJN4G/
- Zb870M2y6X+2PbF772ChjyzIayHCQ03vMMvV11t9jFrga8B/zrpVKaqShkO4JWsUy8DZiqyy6WO
- tvwliINS9XKUTLvEKT00SQHR3mdRR9oMvdqP011tocfYt+GbWTH8S3/5FRl5OkFmCFcgmn086T4
- 29Yg1tgfPunkkn3iAkB5IGNoX9xQP0jbepoDCyuiM4vCRyXv2tn5bAri+PfYBY+hq1sTL+eKXRs
- o13OVALQ74F8FEVoL27oIrzLtRdzPtuoLMNHM0tKcA6uEiLLhOuPY91TgW5holUC01+7vv/4DTU
- Zf/Dc=
-X-Google-Smtp-Source: AGHT+IEwzzvxzDwy2hXfDTMyKk2u3q3b4WDeoC3Cd1r42aF64N8QkWqyq5rTqATRPlQPagJ+AbKIrw==
-X-Received: by 2002:a05:6000:240f:b0:428:52d1:73ab with SMTP id
- ffacd0b85a97d-429aefcd0f0mr1311537f8f.58.1761725672718; 
- Wed, 29 Oct 2025 01:14:32 -0700 (PDT)
-Received: from localhost ([195.52.63.148]) by smtp.gmail.com with ESMTPSA id
- ffacd0b85a97d-429952df6b9sm25774340f8f.44.2025.10.29.01.14.31
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 29 Oct 2025 01:14:31 -0700 (PDT)
-Mime-Version: 1.0
-Content-Type: multipart/signed;
- boundary=47d5f61bca1ab14c9eafcd8930ddd77eb5a3992e8bb0bd44140ee03f8bb9;
- micalg=pgp-sha512; protocol="application/pgp-signature"
-Date: Wed, 29 Oct 2025 09:14:23 +0100
-Message-Id: <DDUNMKXD4HRX.DXUT67S354TJ@baylibre.com>
-To: "Miaoqian Lin" <linmq006@gmail.com>, "Chun-Kuang Hu"
- <chunkuang.hu@kernel.org>, "Philipp Zabel" <p.zabel@pengutronix.de>, "David
- Airlie" <airlied@gmail.com>, "Simona Vetter" <simona@ffwll.ch>, "Matthias
- Brugger" <matthias.bgg@gmail.com>, "AngeloGioacchino Del Regno"
- <angelogioacchino.delregno@collabora.com>, "Markus Schneider-Pargmann"
- <msp@baylibre.com>, "CK Hu" <ck.hu@mediatek.com>, "Dmitry Osipenko"
- <dmitry.osipenko@collabora.com>, "Guillaume Ranquet"
- <granquet@baylibre.com>, <dri-devel@lists.freedesktop.org>,
- <linux-mediatek@lists.infradead.org>, <linux-kernel@vger.kernel.org>,
- <linux-arm-kernel@lists.infradead.org>
-Cc: <stable@vger.kernel.org>
-Subject: Re: [PATCH] drm/mediatek: Fix device node reference leak in
- mtk_dp_dt_parse()
-From: "Markus Schneider-Pargmann" <msp@baylibre.com>
-X-Mailer: aerc 0.21.0
-References: <20251029072307.10955-1-linmq006@gmail.com>
-In-Reply-To: <20251029072307.10955-1-linmq006@gmail.com>
+X-Greylist: delayed 498 seconds by postgrey-1.36 at gabe;
+ Wed, 29 Oct 2025 09:31:49 UTC
+Received: from mail.thorsis.com (mail.thorsis.com [217.92.40.78])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2B37810E1B6
+ for <dri-devel@lists.freedesktop.org>; Wed, 29 Oct 2025 09:31:49 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon)
+ with ESMTPSA id 43E2C1489CE9; Wed, 29 Oct 2025 10:23:22 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=thorsis.com; s=dkim;
+ t=1761729808; h=from:subject:date:message-id:to:cc:mime-version:content-type:
+ in-reply-to:references; bh=1zLIEoaFBP4q/5p+hEtogKcFyzuImMfXPa+ST2olz9A=;
+ b=CnysY0t4pIjp6NlKEvBZFdi3Y3jdok7H4tpzujTzN0+P3Q4HSFSE0Wy8kEvWBNQQAx2qzi
+ Gz3vIodzUSWZfOwJXyKky1we/qFyzFFEECLnoANMVqvPJRrKhTjCVil567ApPhoHanQpkX
+ d6WjXx0eVDVzAI39NDFWAwabMtuDYWfgqfvELfVSfoBwFG/xN5OX1IYttnilLTIzf6iD1w
+ dt73CsRp67KCmTUmoVHsktfeOy90b5Sn1RurTuKEQ4t43brVGNuOXQRROd0137G/iQvl01
+ o+Pi0TWAVaSDNh5XtJTlA1X/yk5R/ZkpKnWplOnynXthsEoMxhutw1MmJgrXfw==
+Date: Wed, 29 Oct 2025 10:23:17 +0100
+From: Alexander Dahl <ada@thorsis.com>
+To: Josua Mayer <josua@solid-run.com>
+Cc: Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>, Shawn Guo <shawnguo@kernel.org>,
+ Neil Armstrong <neil.armstrong@linaro.org>,
+ Jessica Zhang <jessica.zhang@oss.qualcomm.com>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+ Sascha Hauer <s.hauer@pengutronix.de>,
+ Pengutronix Kernel Team <kernel@pengutronix.de>,
+ Fabio Estevam <festevam@gmail.com>, Jon Nettleton <jon@solid-run.com>,
+ Mikhail Anikin <mikhail.anikin@solid-run.com>,
+ Yazan Shhady <yazan.shhady@solid-run.com>,
+ "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+ "linux-input@vger.kernel.org" <linux-input@vger.kernel.org>,
+ "imx@lists.linux.dev" <imx@lists.linux.dev>,
+ "linux-arm-kernel@lists.infradead.org" <linux-arm-kernel@lists.infradead.org>, 
+ linux-leds@vger.kernel.org
+Subject: Re: [PATCH 08/10] arm64: dts: add description for solidrun imx8mp
+ hummingboard-iiot
+Message-ID: <20251029-jittery-ambiguity-14e03ad2f0df@thorsis.com>
+Mail-Followup-To: Josua Mayer <josua@solid-run.com>,
+ Rob Herring <robh@kernel.org>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>, Shawn Guo <shawnguo@kernel.org>,
+ Neil Armstrong <neil.armstrong@linaro.org>,
+ Jessica Zhang <jessica.zhang@oss.qualcomm.com>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+ Sascha Hauer <s.hauer@pengutronix.de>,
+ Pengutronix Kernel Team <kernel@pengutronix.de>,
+ Fabio Estevam <festevam@gmail.com>,
+ Jon Nettleton <jon@solid-run.com>,
+ Mikhail Anikin <mikhail.anikin@solid-run.com>,
+ Yazan Shhady <yazan.shhady@solid-run.com>,
+ "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+ "linux-input@vger.kernel.org" <linux-input@vger.kernel.org>,
+ "imx@lists.linux.dev" <imx@lists.linux.dev>,
+ "linux-arm-kernel@lists.infradead.org" <linux-arm-kernel@lists.infradead.org>, 
+ linux-leds@vger.kernel.org
+References: <20251027-imx8mp-hb-iiot-v1-0-683f86357818@solid-run.com>
+ <20251027-imx8mp-hb-iiot-v1-8-683f86357818@solid-run.com>
+ <2c54b7b7-4eb4-44a0-8025-8da16a28efd4@solid-run.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <2c54b7b7-4eb4-44a0-8025-8da16a28efd4@solid-run.com>
+User-Agent: Mutt/2.2.12 (2023-09-09)
+X-Last-TLS-Session-Version: TLSv1.3
 X-Mailman-Approved-At: Thu, 30 Oct 2025 08:48:46 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -101,42 +103,123 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
---47d5f61bca1ab14c9eafcd8930ddd77eb5a3992e8bb0bd44140ee03f8bb9
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
+Hello Josua,
 
-On Wed Oct 29, 2025 at 8:23 AM CET, Miaoqian Lin wrote:
-> The function mtk_dp_dt_parse() calls of_graph_get_endpoint_by_regs()
-> to get the endpoint device node, but fails to call of_node_put() to relea=
-se
-> the reference when the function returns. This results in a device node
-> reference leak.
->
-> Fix this by adding the missing of_node_put() call before returning from
-> the function.
->
-> Found via static analysis and code review.
->
-> Fixes: f70ac097a2cf ("drm/mediatek: Add MT8195 Embedded DisplayPort drive=
-r")
-> Cc: stable@vger.kernel.org
-> Signed-off-by: Miaoqian Lin <linmq006@gmail.com>
+Am Tue, Oct 28, 2025 at 12:24:36PM +0000 schrieb Josua Mayer:
+> Am 27.10.25 um 18:48 schrieb Josua Mayer:
+> 
+> > Add description for the SolidRun i.MX8MP HummingBoard IIoT.
+> > The board is a new design around the i.MX8MP System on Module, not
+> > sharing much with previous HummingBoards.
+> >
+> > It comes with some common features:
+> > - 3x USB-3.0 Type A connector
+> > - 2x 1Gbps RJ45 Ethernet
+> > - USB Type-C Console Port
+> > - microSD connector
+> > - RTC with backup battery
+> > - RGB Status LED
+> > - 1x M.2 M-Key connector with PCI-E Gen. 3 x1
+> > - 1x M.2 B-Key connector with USB-2.0/3.0 + SIM card holder
+> > - 1x LVDS Display Connector
+> > - 1x DSI Display Connector
+> > - GPIO header
+> > - 2x RS232/RS485 ports (configurable)
+> > - 2x CAN
+> >
+> > In addition there is a board-to-board expansion connector to support
+> > custom daughter boards with access to SPI, a range of GPIOs and -
+> > notably - CAN and UART. Both 2x CAN and 2x UART can be muxed either
+> > to this b2b connector, or a termianl block connector on the base board.
+> >
+> > The routing choice for UART and CAN is expressed through gpio
+> > mux-controllers in DT and can be changed by applying dtb addons.
+> >
+> > Four dtb addons are provided:
+> >
+> > - dsi panel Winstar WJ70N3TYJHMNG0
+> > - lvds panel Winstar WF70A8SYJHLNGA
+> > - RS485 on UART port "A" (default rs232)
+> > - RS485 on UART port "B" (default rs232)
+> >
+> > Signed-off-by: Josua Mayer <josua@solid-run.com>
+> > ---
+> >  arch/arm64/boot/dts/freescale/Makefile             |   6 +
+> >  ...hummingboard-iiot-panel-dsi-WJ70N3TYJHMNG0.dtso |  70 ++
+> >  ...ummingboard-iiot-panel-lvds-WF70A8SYJHLNGA.dtso | 105 +++
+> >  .../imx8mp-hummingboard-iiot-rs485-a.dtso          |  18 +
+> >  .../imx8mp-hummingboard-iiot-rs485-b.dtso          |  18 +
+> >  .../dts/freescale/imx8mp-hummingboard-iiot.dts     | 710 +++++++++++++++++++++
+> >  6 files changed, 927 insertions(+)
+> cut
+> > diff --git a/arch/arm64/boot/dts/freescale/imx8mp-hummingboard-iiot.dts b/arch/arm64/boot/dts/freescale/imx8mp-hummingboard-iiot.dts
+> > new file mode 100644
+> > index 0000000000000..2e4cb676bc9da
+> > --- /dev/null
+> > +++ b/arch/arm64/boot/dts/freescale/imx8mp-hummingboard-iiot.dts
+> cut
+> > +	led-controller@30 {
+> > +		compatible = "ti,lp5562";
+> > +		reg = <0x30>;
+> > +		/* use internal clock, could use external generated by rtc */
+> > +		clock-mode = /bits/ 8 <1>;
+> > +		#address-cells = <1>;
+> > +		#size-cells = <0>;
+> > +
+> > +		multi-led@0 {
+> > +			reg = <0x0>;
+> > +			color = <LED_COLOR_ID_RGB>;
+> > +			#address-cells = <1>;
+> > +			#size-cells = <0>;
+> > +
+> > +			led@0 {
+> > +				reg = <0x0>;
+> > +				color = <LED_COLOR_ID_RED>;
+> > +				led-cur = /bits/ 8 <0x32>;
+> > +				max-cur = /bits/ 8 <0x64>;
+> > +			};
+> > +
+> > +			led@1 {
+> > +				reg = <0x1>;
+> > +				color = <LED_COLOR_ID_GREEN>;
+> > +				led-cur = /bits/ 8 <0x19>;
+> > +				max-cur = /bits/ 8 <0x32>;
+> > +			};
+> > +
+> > +			led@2 {
+> > +				reg = <0x2>;
+> > +				color = <LED_COLOR_ID_BLUE>;
+> > +				led-cur = /bits/ 8 <0x19>;
+> > +				max-cur = /bits/ 8 <0x32>;
+> > +			};
+> > +		};
+> > +
+> > +		led@3 {
+> > +			reg = <3>;
+> > +			chan-name = "D8";
+> 
+> chan-name gives the led the name D6 in sysfs.
+> 
+> The bindings do not allow however setting chan-name on
+> the multi-led, and it has an auto-generated name in sysfs.
+> 
+> Am I missing something? Can multi-leds have a custom name?
 
-Reviewed-by: Markus Schneider-Pargmann <msp@baylibre.com>
+The sysfs names are auto-generated based on the attributes "color",
+"function", and "label" with the last being discouraged for new
+designs.  If the "ti,lp5562" driver does nothing special, you could
+add "function" to the multi-led node and see if that fits your needs.
 
-Best
-Markus
+Adding linux-leds to Cc, because this is a LED related question.
 
---47d5f61bca1ab14c9eafcd8930ddd77eb5a3992e8bb0bd44140ee03f8bb9
-Content-Type: application/pgp-signature; name="signature.asc"
+Greets
+Alex
 
------BEGIN PGP SIGNATURE-----
-
-iKMEABYKAEsWIQSJYVVm/x+5xmOiprOFwVZpkBVKUwUCaQHM3xsUgAAAAAAEAA5t
-YW51MiwyLjUrMS4xMSwyLDIRHG1zcEBiYXlsaWJyZS5jb20ACgkQhcFWaZAVSlMY
-BQEAuHoHmQztjd0qDVochaQgMwU/UDAYYFg9Pt2qLtKUZoIA/RVh2U8TuEbNs/4U
-K3J+cqEkOl1LVK9aUjFYUv90UyQJ
-=nF+A
------END PGP SIGNATURE-----
-
---47d5f61bca1ab14c9eafcd8930ddd77eb5a3992e8bb0bd44140ee03f8bb9--
+> In v6.6 leds-lp5562 driver if I set in each multi-led led@[0-2] sub-node
+> chan-name to the same string "D7" - then the sysfs name becomes D7.
+> 
+> > +			color = <LED_COLOR_ID_GREEN>;
+> > +			led-cur = /bits/ 8 <0x19>;
+> > +			max-cur = /bits/ 8 <0x64>;
+> > +		};
+> > +	};
