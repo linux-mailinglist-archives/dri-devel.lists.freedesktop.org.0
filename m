@@ -2,85 +2,79 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id F0C2CC1D531
-	for <lists+dri-devel@lfdr.de>; Wed, 29 Oct 2025 21:58:59 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 04F79C1D534
+	for <lists+dri-devel@lfdr.de>; Wed, 29 Oct 2025 21:59:05 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4DF5C10E857;
-	Wed, 29 Oct 2025 20:58:58 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6461A10E84C;
+	Wed, 29 Oct 2025 20:59:03 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="qwE0mL+k";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="bLhZSjAS";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-f51.google.com (mail-wm1-f51.google.com
- [209.85.128.51])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A41FF10E858
- for <dri-devel@lists.freedesktop.org>; Wed, 29 Oct 2025 20:58:56 +0000 (UTC)
-Received: by mail-wm1-f51.google.com with SMTP id
- 5b1f17b1804b1-46e6a689bd0so2843395e9.1
- for <dri-devel@lists.freedesktop.org>; Wed, 29 Oct 2025 13:58:56 -0700 (PDT)
+Received: from mail-wr1-f45.google.com (mail-wr1-f45.google.com
+ [209.85.221.45])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4D09310E858
+ for <dri-devel@lists.freedesktop.org>; Wed, 29 Oct 2025 20:58:57 +0000 (UTC)
+Received: by mail-wr1-f45.google.com with SMTP id
+ ffacd0b85a97d-3ee130237a8so220505f8f.0
+ for <dri-devel@lists.freedesktop.org>; Wed, 29 Oct 2025 13:58:57 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1761771535; x=1762376335; darn=lists.freedesktop.org;
+ d=linaro.org; s=google; t=1761771536; x=1762376336; darn=lists.freedesktop.org;
  h=content-transfer-encoding:mime-version:date:message-id:subject
  :references:in-reply-to:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=8PZYROl59B0+8VWAIvP+emTQAflEt9bueWJDy1TlQwU=;
- b=qwE0mL+kabI3gcCxu/qL0M1AUq9NFoTJlqaacHcp4iGFeXHMIZsYjLvpAfzS6y/XUr
- IdgzDiNdlnP0LKbBjLfNimtovHdKIXIyEOKo8/Kl+yUC0pLlTwfoTNvWQA6F6k+A96lL
- BbVVen/e7AJtfnzxKbblP4cR7BY+rC6nheS6QpNH7UiiQZKkMy6up+z23rYx4skp5yFI
- lFtpOrxsllOysw+J0Z91redgPOyFVmOOZlKXQ8x/OSX8sLCzwnsNHIv2TMJkg0c3zdBv
- PSJ1gUh3xKUK67O/J/hdSI8CEZW3KwnYONGa0hjgsgZ9HYIdznyBGuz+jWRgMGJ8djP5
- QhFg==
+ bh=kdSLLw0p3z7nGivp6vT1oG25P9JcVKw4nemoD8BNgY4=;
+ b=bLhZSjAS+mwgB1qXdbBEfTKs1Yv7nMtSVW1OmgbKF7LF/TrKlgd+uUokHNLJzYX4+4
+ YymXhD3z/adDsyYU8cZlKWKzxT8LdJpxkFTuvsYtEaMTBYPuVVrA267sdY98aUmZ7a2M
+ Q28Zn78jQrYR1elRAOvomVXBisio8U31arPk/UCp5eaWndfWbqUyyJFMoIm7BiPfbPnq
+ tbNGUqAfFB8Twm7KnrovU4tull+QuI6e1abaM2iJGavoFkgksSTVeH2LH3I3rpBW8qyx
+ sR/Rhs56xdaWJhOzKSMXmks6oHLhA3M8axtukPshJf+KBcB54PYLk6MyTCziaRPqmdjl
+ 5WLA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1761771535; x=1762376335;
+ d=1e100.net; s=20230601; t=1761771536; x=1762376336;
  h=content-transfer-encoding:mime-version:date:message-id:subject
  :references:in-reply-to:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=8PZYROl59B0+8VWAIvP+emTQAflEt9bueWJDy1TlQwU=;
- b=nMX+fJcVs2Ms0HYFDsrI8eucBaYz13U4dpdEJmYmoGnJlgfjDhwFRj88v74YDlUAoh
- rS+WOA6nxhDQdj0VikWzVpTnxteCb7qlbs68OOzRbJO6nojheQXKeqjMWariJb/Un1KQ
- Gbw+OWs9jBZQnUo4IxCoOBz76wru3vIvL3Elj/UUYhSeNy6S2stRviVqvVjtHRpo7plD
- qye2YA2ycIExGoLBtPqqZ67HEtBTIYRcXng6S0IRO5bxinmAi9sqTzqb+GAdL4YnfRhj
- qP0ZmaqL0feV5UpNMFovAOE35BBlKk50FbSS/uKYza3j1DT0aGlXRm4ppvB8kZk8ept2
- HozA==
-X-Forwarded-Encrypted: i=1;
- AJvYcCX3nM4CO+Wt0jbCnWKx+N6wsVDOR64Yu+zi6Ztl0vOOZI6k9Hc41QX9mC/sjt56++UW9GoEk/fri8A=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YwsGjFOLA4EXFJd6THynX7kPzUrTDokp+4moXb3lT2AsKEw73B3
- JWfxBhT+X131H3KIl2WXSH953cMx3W95hFnJwmIF3Bym4bdvyJEDuNxHlfLfuzknzkA=
-X-Gm-Gg: ASbGncsS+gC1k+5NxxflJxMuUwGu833hGqTdQxzn7WQOo61CIwexNgdksna3Ab8S1D5
- 8HfNf2Ay8iYgh+u7jR4+YjVcPrAdccVNmzSw3Q7QrjDLo80OZmc+fVVNSjI5fcvIPAlqgZNCHg4
- yFVEWBf+qN7WulFEXpiKi1v5hJE5j5CNMzw8rlr/8cXx3hqGoGxGgUF9NvS1dUC094PUa0yU8XL
- apWaHriz3DCxalwznjMSdMw+YqkAZGbXibFBvJb1XhdEEGETYFT11xTDu6MR5K/W4+e6TdgyG2e
- tJH8Nz17ep1eOolfa0UfcqTfKjewviYPtwu3iXF++DwGCAV6ydE8/b3rGx2dt1bqdyHPRVATUwJ
- ARO9LNxhGSs45n05/HOaqQXMM4IjQolq46YDzQuPh+dwSAy4Qis8452yjx2bAzkUS8GFERAXSHI
- zIe9loPJ79Yq9zd6h+GBjN
-X-Google-Smtp-Source: AGHT+IEnayHPbaY6SjxO0Lnzit9Wm5g29qzB2gGaxhiaHjbnjOsf9eFfiEs5FI9Ij3D8BfOJxLc4FQ==
-X-Received: by 2002:a05:6000:2484:b0:428:3c4f:2c40 with SMTP id
- ffacd0b85a97d-429b4ca3df5mr820876f8f.56.1761771534983; 
- Wed, 29 Oct 2025 13:58:54 -0700 (PDT)
+ bh=kdSLLw0p3z7nGivp6vT1oG25P9JcVKw4nemoD8BNgY4=;
+ b=kwJc3/b6kZhJXWaVpRFaAI/HqrlJmYyMjsmRaaEOH7/6SOHCwioSv/Pqn7lvKiqLt0
+ zgJsYv0FNsFBkUg4su6RSeddyjEpOfrdaAquLtDsSxgD8mAusa21yMSxlZ9YSAltssjN
+ hw5rkeRFqSEhfCHcT+2RJLPFVPm4vRiIdmj88I+ytu/Uz++O91DDfxJVQQjmoProa+dY
+ wNJmP1slc+OUb8A/8nMQLILdnyeffs2o09EgEMQotn5ycRQ/u3dCCCcmkj87n4OYD6Ra
+ rIgXUFJ+Utl17yz3UEqdpyvgvfEi32TGRnfaRM1Js/icQtbeooRMs2AP+04CcxIdmE67
+ 90kw==
+X-Gm-Message-State: AOJu0YwVy4HdnYVYn8zmqOB9tY8s8mZ1oH+WngMuLHMSD8TdydhrU2wi
+ GHZoGtzsgAv1hj6bjIXRS0cL4SE/62e2Mf87EczYOYh5aLGfaOmFkmZgpg5ZOwJRBZk=
+X-Gm-Gg: ASbGncsObZnffiB/17vONUP4QRmVPLT3I+E9ihVx3cZS6MsyzCLhc6ifrbWbVJuHQmU
+ WDqRUqGU40e4Ef8smFMvnkgMqtMK/iB9Wh5wjw7Cdbf8wEn0y8bJyBYmOQ8YRn8pnG4xMWGJJqY
+ Cn8+mf+18JRUsnXIxa9I0slf/PRceViPT2qLSNdVqak177bTZZECA3hVM8uAcWUXtj8eZQcNpnY
+ bICCk74+aec+k2PTGzI0e3iUkz9KBSqAfiS8R6BIKnZSPSvq7VIxm6sKx2yamaTJMSMmujSugJI
+ jehF1q8Jy7lf2RHT1YBUYTB0F59KsDIeNIU+A3lOZc4J7YV/Oy+1RIuvJS+hsCJP3kniwNp4FFZ
+ z2Xywt7+6COU0iT0BIeLdEryxcDJzVtghitjjWBSN7oT44Cn4U2sqQ2/CaF6zlTl67rMCJOwtez
+ aPqRYRueRqTRTR7qhWr1eb
+X-Google-Smtp-Source: AGHT+IFVMHyp562BYRGWCjnik15BnXNlOH4y5IHiux9OZ9GHHrHGAoYYJnD441NGHvz13Cvns71ZAg==
+X-Received: by 2002:a05:6000:2481:b0:426:d5a0:bac8 with SMTP id
+ ffacd0b85a97d-429aefda6a6mr3692849f8f.56.1761771535660; 
+ Wed, 29 Oct 2025 13:58:55 -0700 (PDT)
 Received: from arrakeen.starnux.net ([2a01:e0a:3d9:2080:52eb:f6ff:feb3:451a])
  by smtp.gmail.com with ESMTPSA id
- ffacd0b85a97d-429952ca569sm27596082f8f.12.2025.10.29.13.58.54
+ ffacd0b85a97d-429952ca569sm27596082f8f.12.2025.10.29.13.58.55
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 29 Oct 2025 13:58:54 -0700 (PDT)
+ Wed, 29 Oct 2025 13:58:55 -0700 (PDT)
 From: Neil Armstrong <neil.armstrong@linaro.org>
-To: Jessica Zhang <jessica.zhang@oss.qualcomm.com>, 
+To: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org, 
+ Sebastian Fleer <dev@dwurp.de>
+Cc: Christoph Fritz <chf.fritz@googlemail.com>, 
+ Jessica Zhang <jesszhan0024@gmail.com>, 
  Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
  Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
  David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
- Michael Riesch <michael.riesch@collabora.com>, 
- Sebastian Reichel <sre@kernel.org>
-Cc: Marek Vasut <marek.vasut@mailbox.org>, dri-devel@lists.freedesktop.org, 
- linux-kernel@vger.kernel.org, kernel@collabora.com, 
- Sebastian Reichel <sebastian.reichel@collabora.com>, 
- Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>, 
- Marek Vasut <marek.vasut+renesas@mailbox.org>
-In-Reply-To: <20251001-t28cp45tn89-fix-v2-1-67fe8e3046ca@collabora.com>
-References: <20251001-t28cp45tn89-fix-v2-1-67fe8e3046ca@collabora.com>
-Subject: Re: [PATCH v2] drm/panel: sitronix-st7789v: fix sync flags for
- t28cp45tn89
-Message-Id: <176177153417.2036161.16223414447101207716.b4-ty@linaro.org>
-Date: Wed, 29 Oct 2025 21:58:54 +0100
+ Jens Reidel <adrian@postmarketos.org>
+In-Reply-To: <20251029124007.232333-1-dev@dwurp.de>
+References: <20251029124007.232333-1-dev@dwurp.de>
+Subject: Re: [PATCH v2] drm/panel: kingdisplay-kd097d04: Disable EoTp
+Message-Id: <176177153507.2036161.11759341734941100816.b4-ty@linaro.org>
+Date: Wed, 29 Oct 2025 21:58:55 +0100
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
@@ -102,21 +96,18 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 Hi,
 
-On Wed, 01 Oct 2025 01:59:42 +0200, Sebastian Reichel wrote:
-> I planned to set the polarity of horizontal and vertical sync, but
-> accidentally described vertical sync twice with different polarity
-> instead.
+On Wed, 29 Oct 2025 13:35:28 +0100, Sebastian Fleer wrote:
+> Since commit d97e71e44937 ("drm/bridge: synopsys: dw-mipi-dsi: enable EoTp by
+> default") panel output on an Acer Chromebook Tab 10 (google-dru) is corrupted.
+> The tablet I use is equipped with a kingdisplay-kd097d04 panel, disabling EoTp
+> restores the correct functionality.
 > 
-> Note, that there is no functional change, because the driver only
-> makes use of DRM_MODE_FLAG_P[HV]SYNC to divert from the default
-> active-low polarity.
 > 
-> [...]
 
 Thanks, Applied to https://gitlab.freedesktop.org/drm/misc/kernel.git (drm-misc-fixes)
 
-[1/1] drm/panel: sitronix-st7789v: fix sync flags for t28cp45tn89
-      https://gitlab.freedesktop.org/drm/misc/kernel/-/commit/056d76f7cb9fa68c8bbf85b4055aeb84af6139d5
+[1/1] drm/panel: kingdisplay-kd097d04: Disable EoTp
+      https://gitlab.freedesktop.org/drm/misc/kernel/-/commit/d8eb00bbc628c8916ab0da2bb80059d48aa4512e
 
 -- 
 Neil
