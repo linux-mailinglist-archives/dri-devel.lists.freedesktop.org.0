@@ -2,49 +2,41 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 248D5C1FC70
-	for <lists+dri-devel@lfdr.de>; Thu, 30 Oct 2025 12:19:05 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4CD4FC1FDE1
+	for <lists+dri-devel@lfdr.de>; Thu, 30 Oct 2025 12:44:27 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D4E6310E8E7;
-	Thu, 30 Oct 2025 11:19:02 +0000 (UTC)
-Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="TUMpsPNY";
-	dkim-atps=neutral
+	by gabe.freedesktop.org (Postfix) with ESMTP id 914AE10E8D5;
+	Thu, 30 Oct 2025 11:44:24 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sea.source.kernel.org (sea.source.kernel.org [172.234.252.31])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6167D10E8E7
- for <dri-devel@lists.freedesktop.org>; Thu, 30 Oct 2025 11:19:01 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by sea.source.kernel.org (Postfix) with ESMTP id 2EA09417BC;
- Thu, 30 Oct 2025 11:19:01 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 087A0C4CEF8;
- Thu, 30 Oct 2025 11:18:58 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1761823141;
- bh=dMWeVsXlPYq+6w66BT5t7sFQftyp1w+uf3dD7WEW+Wc=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=TUMpsPNY2Avx+CEsJhbuUOTzE6D0vmcukFqQ3brKymX1bSoe2y/32milLkW7nFxpj
- q5Z82zTpvPttyrM//kUS6S6vjBoeO7qhSCBvRpaDTGwXBe6m8+jNpQb/Q/W2YlpOVz
- /w0tRON0ru5SGJ2mlOObIDUiYoPmhgkdDduQSbfLSnAx816lOpXXVtOgolbrCE46n7
- KLpQzkf51qrGwsY8YJMOgs5mh0TM41wmZw87u3fLw8XoW5qoMngAQ5hhC0Uj5xWP6+
- W3eBFNiRQMH6zm8tGxiAmVpFb8hXfeqzDdNFQxSunEXwFx52w9EEoBJFLEHvOL8B9P
- UoB0Xs/gV1EEw==
-Date: Thu, 30 Oct 2025 11:20:03 +0000
-From: Daniel Thompson <danielt@kernel.org>
-To: Thomas Zimmermann <tzimmermann@suse.de>
-Cc: ysato@users.sourceforge.jp, dalias@libc.org,
- glaubitz@physik.fu-berlin.de, lee@kernel.org,
- simona.vetter@ffwll.ch, linux-sh@vger.kernel.org,
- dri-devel@lists.freedesktop.org, kernel test robot <lkp@intel.com>,
- Jingoo Han <jingoohan1@gmail.com>
-Subject: Re: [PATCH] arch: sh: Include <linux/io.h> in dac.h
-Message-ID: <aQNJ4xZzMps_OLD8@aspen.lan>
-References: <20251028170913.16711-1-tzimmermann@suse.de>
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 23D4A10E8D5
+ for <dri-devel@lists.freedesktop.org>; Thu, 30 Oct 2025 11:44:22 +0000 (UTC)
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+ by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id B28352C40
+ for <dri-devel@lists.freedesktop.org>; Thu, 30 Oct 2025 04:44:14 -0700 (PDT)
+Received: from e110455-lin.cambridge.arm.com (usa-sjc-imap-foss1.foss.arm.com
+ [10.121.207.14])
+ by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPA id 5356A3F673
+ for <dri-devel@lists.freedesktop.org>; Thu, 30 Oct 2025 04:44:22 -0700 (PDT)
+Date: Thu, 30 Oct 2025 11:44:13 +0000
+From: Liviu Dudau <liviu.dudau@arm.com>
+To: Ketil Johnsen <ketil.johnsen@arm.com>
+Cc: Boris Brezillon <boris.brezillon@collabora.com>,
+ Steven Price <steven.price@arm.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] drm/panthor: disable async work during unplug
+Message-ID: <aQNPjYdp4XOlk0Ej@e110455-lin.cambridge.arm.com>
+References: <20251029111412.924104-1-ketil.johnsen@arm.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20251028170913.16711-1-tzimmermann@suse.de>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20251029111412.924104-1-ketil.johnsen@arm.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -60,23 +52,87 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Oct 28, 2025 at 06:07:55PM +0100, Thomas Zimmermann wrote:
-> Include <linux/io.h> to avoid depending on <linux/backlight.h> for
-> including it. Declares __raw_readb() and __raw_writeb().
->
-> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
-> Reported-by: kernel test robot <lkp@intel.com>
-> Closes: https://lore.kernel.org/oe-kbuild-all/202510282206.wI0HrqcK-lkp@intel.com/
-> Fixes: 243ce64b2b37 ("backlight: Do not include <linux/fb.h> in header file")
-> Cc: Thomas Zimmermann <tzimmermann@suse.de>
-> Cc: Daniel Thompson (RISCstar) <danielt@kernel.org>
-> Cc: Simona Vetter <simona.vetter@ffwll.ch>
-> Cc: Lee Jones <lee@kernel.org>
-> Cc: Daniel Thompson <danielt@kernel.org>
-> Cc: Jingoo Han <jingoohan1@gmail.com>
-> Cc: dri-devel@lists.freedesktop.org
+On Wed, Oct 29, 2025 at 12:14:10PM +0100, Ketil Johnsen wrote:
+> A previous change, "drm/panthor: Fix UAF race between device unplug and
+> FW event processing", fixes a real issue where new work was unexpectedly
+> queued after cancellation. This was fixed by a disable instead.
+> 
+> Apply the same disable logic to other device level async work on device
+> unplug as a precaution.
+> 
+> Signed-off-by: Ketil Johnsen <ketil.johnsen@arm.com>
 
-Reviewed-by: Daniel Thompson (RISCstar) <danielt@kernel.org>
+Reviewed-by: Liviu Dudau <liviu.dudau@arm.com>
 
+Best regards,
+Liviu
 
-Daniel.
+> ---
+>  drivers/gpu/drm/panthor/panthor_device.c | 2 +-
+>  drivers/gpu/drm/panthor/panthor_fw.c     | 2 +-
+>  drivers/gpu/drm/panthor/panthor_sched.c  | 5 ++---
+>  3 files changed, 4 insertions(+), 5 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/panthor/panthor_device.c b/drivers/gpu/drm/panthor/panthor_device.c
+> index 962a10e00848e..c4ae78545ef03 100644
+> --- a/drivers/gpu/drm/panthor/panthor_device.c
+> +++ b/drivers/gpu/drm/panthor/panthor_device.c
+> @@ -120,7 +120,7 @@ static void panthor_device_reset_cleanup(struct drm_device *ddev, void *data)
+>  {
+>  	struct panthor_device *ptdev = container_of(ddev, struct panthor_device, base);
+>  
+> -	cancel_work_sync(&ptdev->reset.work);
+> +	disable_work_sync(&ptdev->reset.work);
+>  	destroy_workqueue(ptdev->reset.wq);
+>  }
+>  
+> diff --git a/drivers/gpu/drm/panthor/panthor_fw.c b/drivers/gpu/drm/panthor/panthor_fw.c
+> index 9bf06e55eaeea..ceb249da8b336 100644
+> --- a/drivers/gpu/drm/panthor/panthor_fw.c
+> +++ b/drivers/gpu/drm/panthor/panthor_fw.c
+> @@ -1162,7 +1162,7 @@ void panthor_fw_unplug(struct panthor_device *ptdev)
+>  {
+>  	struct panthor_fw_section *section;
+>  
+> -	cancel_delayed_work_sync(&ptdev->fw->watchdog.ping_work);
+> +	disable_delayed_work_sync(&ptdev->fw->watchdog.ping_work);
+>  
+>  	if (!IS_ENABLED(CONFIG_PM) || pm_runtime_active(ptdev->base.dev)) {
+>  		/* Make sure the IRQ handler cannot be called after that point. */
+> diff --git a/drivers/gpu/drm/panthor/panthor_sched.c b/drivers/gpu/drm/panthor/panthor_sched.c
+> index b7595beaa0205..278434da8926d 100644
+> --- a/drivers/gpu/drm/panthor/panthor_sched.c
+> +++ b/drivers/gpu/drm/panthor/panthor_sched.c
+> @@ -3879,8 +3879,9 @@ void panthor_sched_unplug(struct panthor_device *ptdev)
+>  {
+>  	struct panthor_scheduler *sched = ptdev->scheduler;
+>  
+> -	cancel_delayed_work_sync(&sched->tick_work);
+> +	disable_delayed_work_sync(&sched->tick_work);
+>  	disable_work_sync(&sched->fw_events_work);
+> +	disable_work_sync(&sched->sync_upd_work);
+>  
+>  	mutex_lock(&sched->lock);
+>  	if (sched->pm.has_ref) {
+> @@ -3898,8 +3899,6 @@ static void panthor_sched_fini(struct drm_device *ddev, void *res)
+>  	if (!sched || !sched->csg_slot_count)
+>  		return;
+>  
+> -	cancel_delayed_work_sync(&sched->tick_work);
+> -
+>  	if (sched->wq)
+>  		destroy_workqueue(sched->wq);
+>  
+> -- 
+> 2.47.2
+> 
+
+-- 
+====================
+| I would like to |
+| fix the world,  |
+| but they're not |
+| giving me the   |
+ \ source code!  /
+  ---------------
+    ¯\_(ツ)_/¯
