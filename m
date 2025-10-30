@@ -2,102 +2,41 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id BC1DEC1F126
-	for <lists+dri-devel@lfdr.de>; Thu, 30 Oct 2025 09:49:06 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 12D59C1F0FC
+	for <lists+dri-devel@lfdr.de>; Thu, 30 Oct 2025 09:48:56 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A842C10E92A;
-	Thu, 30 Oct 2025 08:48:56 +0000 (UTC)
-Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="ZJ0IA3J+";
-	dkim-atps=neutral
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7955510E8EA;
+	Thu, 30 Oct 2025 08:48:48 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-yw1-f170.google.com (mail-yw1-f170.google.com
- [209.85.128.170])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 34FA910E22F
- for <dri-devel@lists.freedesktop.org>; Thu, 30 Oct 2025 02:50:27 +0000 (UTC)
-Received: by mail-yw1-f170.google.com with SMTP id
- 00721157ae682-785db6b7484so5846197b3.1
- for <dri-devel@lists.freedesktop.org>; Wed, 29 Oct 2025 19:50:27 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1761792626; x=1762397426; darn=lists.freedesktop.org;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=49j9QrYlm4qxZHbvYSYUJsJt0aMp426fig3D6hH+fj0=;
- b=ZJ0IA3J+S/De+a+in0hwZm2/cmk3iTdG0a0hxpA7ZLXWMTYEdlIg6+7+V5sagvTAgH
- gYzUs2JJZCO/X3u7NwdJvUBGx/OKyBbY/g6c38BfsZmkvZSLQM9/99ksT3CpOgSYIlzA
- j1wcXGFvPrGJG5Zt0DE/YRpi3APj3r3VLqVFgrsJ/IfcNKeYm6gYV69MKJkIK5VwXGad
- Y02sxYkqkSZhQcgeLwbpcyiajwsuXogyZyger4A8tERGz4U5lvKUbJ9YB+TpvSYpX+7J
- BYTkyK1fxtiNCdVfFXCBMiGCIMoGmSTZxo83yslfFN0vahHH7W64WVCmSiBdCuJVLTjU
- qKEg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1761792626; x=1762397426;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=49j9QrYlm4qxZHbvYSYUJsJt0aMp426fig3D6hH+fj0=;
- b=e3NJhXdJ+XtDph668Z/EKOFJtrXh9UYSczNOij1TsRbHbFHfFMyj1PDgs4LcyNHR8E
- /Q+QZuWulK2YNlvSxLveyNingvXYz5G7UfujiWNaa2FC76ZnFTgUWSLNV99UIl2BaeWe
- pfdI6B5cFwxLz8baOjfUUNVEBMtfcZ6pFgKRcHdnM9rGgpBycecY5yzj9e1UqSAg/2ZG
- gZQ/2Vs+N3T1e5XwObVmT2EfpDOSKv+iQRCOVQWPHg2OwEc76krdkU5VhzqDksYh+elW
- BgNmPeleXRCvGUg1TzlIb9X8hFLxQ2dD6Ju04nvnXRqnGWHg7qcvTqkUStOieAqWOBCe
- pjEA==
-X-Forwarded-Encrypted: i=1;
- AJvYcCXtuFL4w9Bu2ZZFsARl253TqbTmixh0O1UciQbX/gE7cy0S6m104e0hJ58bU+y+hOfOjodBRirdEng=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Yyek2cxZL8YJovmFHcIbwr31gWOd5njZLdRG5fWxN2NjAbUgFrM
- 4xgmJrb7L4PfIAqTzOC/ZWU8ORBCeQZnW0DZU2yaDpuvfqnScO7fow2DY5MeXZaWrh3+Bo+csQ7
- oFbi7R/q/yof1AuTjui3Y9YmsEIkbnFM=
-X-Gm-Gg: ASbGncu2l1Du0ObBqhrHr4ZHDKw6WJTRFui/M/O9KQT7UDN5GBvPN4pQwVDDC/ISXSu
- TK+ECOGzYGco6495JewBvdBacVyJYvhf9Wk4t4qFT7cSaoo6Trvdxxf0xEvDd/IKHxHJShhAodk
- FzeGiQ/YN8e6/DEJe10+2igfswhHHgANGLHBQocYWDKeIw+VDDQKk+uh3dJsYPxSp98tzG9t7cI
- r1aFdk8JPQbidUs1wtsuGY66BmiIKqAGV696xAQUmgYmgurDXW76mYVvPWI8dbsnj/mVA==
-X-Google-Smtp-Source: AGHT+IHyoJ9K1Vnf2DZwS2Kk6JM2P4IoAuduJ5ZhKYBvP2Erk/Knw6rAfD9/QlPYp3ts6NwBBaU6zsVdEYEe2Nqfv+s=
-X-Received: by 2002:a05:690c:22c2:b0:784:8a26:b74 with SMTP id
- 00721157ae682-78628cf728dmr50871897b3.0.1761792625956; Wed, 29 Oct 2025
- 19:50:25 -0700 (PDT)
+X-Greylist: delayed 302 seconds by postgrey-1.36 at gabe;
+ Thu, 30 Oct 2025 03:33:13 UTC
+Received: from out28-125.mail.aliyun.com (out28-125.mail.aliyun.com
+ [115.124.28.125])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 020A210E22F;
+ Thu, 30 Oct 2025 03:33:13 +0000 (UTC)
+Received: from 172.38.11.120(mailfrom:zhangzhijie@bosc.ac.cn
+ fp:SMTPD_---.fAeuCRr_1761794886 cluster:ay29) by smtp.aliyun-inc.com;
+ Thu, 30 Oct 2025 11:28:07 +0800
+Message-ID: <889561a0-cf44-4a17-a7c2-095408006bf3@bosc.ac.cn>
+Date: Thu, 30 Oct 2025 11:28:06 +0800
 MIME-Version: 1.0
-References: <20251029071435.88-1-kernel@airkyi.com>
- <20251029071435.88-11-kernel@airkyi.com>
- <CAL411-o6mF71oBeRsJ-OPZNbLegn4iJ_ELN9xVdppTM3ssUPOw@mail.gmail.com>
- <cc8b583a-77ec-4a7f-97cc-2d148f7fee9f@rock-chips.com>
- <e0c5bda3-7428-49e0-9955-fa23f1e4f35d@rock-chips.com>
- <CAL411-oXfvp-iqN+uRmFHijdmW=1omKwozKOoZ2shxukMHmwPg@mail.gmail.com>
- <C6253E8254C80B0F+839b71d0-1bd8-40b7-9515-7ce4a1eb8673@airkyi.com>
-In-Reply-To: <C6253E8254C80B0F+839b71d0-1bd8-40b7-9515-7ce4a1eb8673@airkyi.com>
-From: Peter Chen <hzpeterchen@gmail.com>
-Date: Thu, 30 Oct 2025 10:50:15 +0800
-X-Gm-Features: AWmQ_bl1mNxPmQHnKmASAzhusTRjlDlCn6q9Kp_CyHmpybtPIUgHFck3iJTK_U4
-Message-ID: <CAL411-pULVu4AYybW9oW7kmr4M_kJhdytgBjLPb4y6w_2dj+0w@mail.gmail.com>
-Subject: Re: [PATCH v8 10/10] arm64: dts: rockchip: rk3399-evb-ind: Add
- support for DisplayPort
-To: Chaoyi Chen <kernel@airkyi.com>
-Cc: Chaoyi Chen <chaoyi.chen@rock-chips.com>, 
- Heikki Krogerus <heikki.krogerus@linux.intel.com>, 
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
- Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>,
- Rob Herring <robh@kernel.org>, 
- Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>,
- Vinod Koul <vkoul@kernel.org>, 
- Kishon Vijay Abraham I <kishon@kernel.org>, Heiko Stuebner <heiko@sntech.de>,
- Sandy Huang <hjc@rock-chips.com>, 
- Andy Yan <andy.yan@rock-chips.com>, Yubing Zhang <yubing.zhang@rock-chips.com>,
- Frank Wang <frank.wang@rock-chips.com>, Andrzej Hajda <andrzej.hajda@intel.com>,
- Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>, 
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Jonas Karlman <jonas@kwiboo.se>, 
- Jernej Skrabec <jernej.skrabec@gmail.com>, 
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, 
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
- Simona Vetter <simona@ffwll.ch>, 
- Amit Sunil Dhamne <amitsd@google.com>, Dragan Simic <dsimic@manjaro.org>,
- Johan Jonker <jbx6244@gmail.com>, 
- Diederik de Haas <didi.debian@cknow.org>, Peter Robinson <pbrobinson@gmail.com>,
- linux-usb@vger.kernel.org, 
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
- linux-phy@lists.infradead.org, linux-arm-kernel@lists.infradead.org, 
- linux-rockchip@lists.infradead.org, dri-devel@lists.freedesktop.org
-Content-Type: text/plain; charset="UTF-8"
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v1] Support Intel Xe GPU dirver Porting on RISC-V
+ Architecture
+To: Jeff Geerling <jeff@jeffgeerling.com>
+Cc: wangran@bosc.ac.cn, zhangjian@bosc.ac.cn, daniel@ffwll.ch,
+ jani.nikula@linux.intel.com, rodrigo.vivi@intel.com,
+ joonas.lahtinen@linux.intel.com, tursulin@ursulin.net, airlied@gmail.com,
+ intel-gfx@lists.freedesktop.org, intel-xe@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
+References: <20250715061837.2144388-1-zhangzhijie@bosc.ac.cn>
+ <C67D4EC2-649C-4E46-A55D-8B48A31E8928@jeffgeerling.com>
+Content-Language: en-US
+From: ZhangZhiJie <zhangzhijie@bosc.ac.cn>
+In-Reply-To: <C67D4EC2-649C-4E46-A55D-8B48A31E8928@jeffgeerling.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 X-Mailman-Approved-At: Thu, 30 Oct 2025 08:48:47 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -114,93 +53,68 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-> > Okay.  My question is basic: USB2 PHY supplies DP/DM, and the DP/DM is
-> > short for Type-C connector,
-> > and no control is needed for Type-C application.
-> > Why is there a remote-endpoint connection between USB2 PHY and Type-C connector?
->
->  From the perspective of Type-C, this should not be added.  Is the approach in v2 correct [0] ?
->
 
-Have you tried debugging based on upstream code?
-v2 is correct, but the dts needs to improve.
-- There is a remote-endpoint connection for USB role switch between
-Type-C connector
-device and USB controller device
-- There is a remote-endpoint connection for orientation and lane configuration
-between Type-C connector device and USB/DP PHY device.
 
-Peter
-
-> [0]: https://lore.kernel.org/all/20250715112456.101-6-kernel@airkyi.com/
->
-> Or is the following approach correct?
->
->
-> port@0 {
->      reg = <0>;
->
->      usbc_hs: endpoint {
->          remote-endpoint = <&tcphy0>;
->      };
-> };
->
-> port@1 {
->      reg = <1>;
->
->      usbc_ss: endpoint {
->          remote-endpoint = <&tcphy0>;
->      };
-> };
->
-> port@2 {
->      reg = <2>;
->
->      usbc_dp: endpoint {
->          remote-endpoint = <&tcphy0_typec_dp>;
->      };
-> };
->
->
-> >
-> >>>>> +                               port@1 {
-> >>>>> +                                       reg = <1>;
-> >>>>> +
-> >>>>> +                                       usbc_ss: endpoint {
-> >>>>> + remote-endpoint = <&tcphy0_typec_ss>;
-> >>>>> +                                       };
-> >>>>> +                               };
-> >>>>> +
-> >>>>> +                               port@2 {
-> >>>>> +                                       reg = <2>;
-> >>>>> +
-> >>>>> +                                       usbc_dp: endpoint {
-> >>>>> + remote-endpoint = <&tcphy0_typec_dp>;
-> >>>>> +                                       };
-> >>>>> +                               };
-> >>>>> +                       };
-> >>>>> +               };
-> >>>>> +       };
-> >>>>> +};
-> >>>>> +
-> >>>> .....
-> >>>>>    &u2phy0 {
-> >>>>>           status = "okay";
-> >>>>> +
-> >>>>> +       port {
-> >>>>> +               u2phy0_typec_hs: endpoint {
-> >>>>> +                       remote-endpoint = <&usbc_hs>;
-> >>>>> +               };
-> >>>>> +       };
-> >>>>>    };
-> >>>>>
-> >>>> There is no switch and mux, how to co-work with Type-C?
-> >>> I checked the phy-rockchip-inno-usb2.c but did not find any switch or mux. Does this mean that we need to implement them? Thank you.
-> >> Wait a minute, actually we have multiple hardware interfaces, one of which is Type-C, eventually connected to USBDPPHY, and the other is micro-usb connected to U2PHY.
-> > I assume the Micro-USB connector does not use Type-C/PD IC, is it
-> > right? Does it relate to this patch?
-> >
-> > Best regards,
-> > Peter
-> >
->
+On 2025/10/30 09:55, Jeff Geerling wrote:
+> +1 for this patch, as it would enable Xe on any non-x86 system.
+> 
+> I've successfully tested this change on Ampere and Broadcom (Raspberry Pi) systems.
+> 
+> We've been using the flag `CONFIG_VGA_CONSOLE` instead of `CONFIG_X86` but either should achieve the same goal. See: https://github.com/6by9/linux/commit/6bd4cfe79b5111986dd11a5c6e48d4a963fd7740
+> 
+> With some OSes a later Mesa version needs to be compiled to support newer Xe/Xe2 cards, however I've successfully tested a number of Intel dGPUs at this point. Sometimes setting force probe to '*' (or the particular GPU ID) is required, but otherwise stability is good.
+> 
+> For example, the A750: https://github.com/geerlingguy/raspberry-pi-pcie-devices/issues/510#issuecomment-3383284831
+> 
+>> On Jul 15, 2025, at 1:18 AM, zhangzhijie <zhangzhijie@bosc.ac.cn> wrote:
+>>
+>>     inb/outb speccial wire not support on other ARCH.
+>> Should detect whether arch platform support or not.
+>>
+>> Signed-off-by: zhangzhijie <zhangzhijie@bosc.ac.cn>
+>> ---
+>> drivers/gpu/drm/i915/display/intel_vga.c | 4 ++++
+>> 1 file changed, 4 insertions(+)
+>>
+>> diff --git a/drivers/gpu/drm/i915/display/intel_vga.c b/drivers/gpu/drm/i915/display/intel_vga.c
+>> index 4b98833bfa8c..5e48e3282670 100644
+>> --- a/drivers/gpu/drm/i915/display/intel_vga.c
+>> +++ b/drivers/gpu/drm/i915/display/intel_vga.c
+>> @@ -33,6 +33,7 @@ void intel_vga_disable(struct drm_i915_private *dev_priv)
+>> if (intel_de_read(dev_priv, vga_reg) & VGA_DISP_DISABLE)
+>> return;
+>>
+>> +#if defined(CONFIG_X86) || defined(CONFIG_X86_64)
+>> /* WaEnableVGAAccessThroughIOPort:ctg,elk,ilk,snb,ivb,vlv,hsw */
+>> vga_get_uninterruptible(pdev, VGA_RSRC_LEGACY_IO);
+>> outb(0x01, VGA_SEQ_I);
+>> @@ -40,6 +41,7 @@ void intel_vga_disable(struct drm_i915_private *dev_priv)
+>> outb(sr1 | VGA_SR01_SCREEN_OFF, VGA_SEQ_D);
+>> vga_put(pdev, VGA_RSRC_LEGACY_IO);
+>> udelay(300);
+>> +#endif
+>>
+>> intel_de_write(dev_priv, vga_reg, VGA_DISP_DISABLE);
+>> intel_de_posting_read(dev_priv, vga_reg);
+>> @@ -80,6 +82,7 @@ void intel_vga_redisable(struct drm_i915_private *i915)
+>>
+>> void intel_vga_reset_io_mem(struct drm_i915_private *i915)
+>> {
+>> +#if defined(CONFIG_X86) || defined(CONFIG_X86_64)
+>> struct pci_dev *pdev = to_pci_dev(i915->drm.dev);
+>>
+>> /*
+>> @@ -95,6 +98,7 @@ void intel_vga_reset_io_mem(struct drm_i915_private *i915)
+>> vga_get_uninterruptible(pdev, VGA_RSRC_LEGACY_IO);
+>> outb(inb(VGA_MIS_R), VGA_MIS_W);
+>> vga_put(pdev, VGA_RSRC_LEGACY_IO);
+>> +#endif
+>> }
+>>
+>> int intel_vga_register(struct drm_i915_private *i915)
+>> -- 
+>> 2.34.1
+>>
+>>
+Congratulation! . So I think shoule be disable this ops or take other 
+ways to instead this code， Like None IO soc/ARCH
