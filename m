@@ -2,51 +2,50 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B0F40C2092F
-	for <lists+dri-devel@lfdr.de>; Thu, 30 Oct 2025 15:26:06 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4FB91C2099E
+	for <lists+dri-devel@lfdr.de>; Thu, 30 Oct 2025 15:32:00 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BA0E010E980;
-	Thu, 30 Oct 2025 14:26:03 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2D9BA10E9BF;
+	Thu, 30 Oct 2025 14:31:57 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=amd.com header.i=@amd.com header.b="STaEfe/h";
+	dkim=pass (1024-bit key; unprotected) header.d=amd.com header.i=@amd.com header.b="ibq3zwcx";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from CY7PR03CU001.outbound.protection.outlook.com
- (mail-westcentralusazon11010031.outbound.protection.outlook.com
- [40.93.198.31])
- by gabe.freedesktop.org (Postfix) with ESMTPS id F304710E887;
- Thu, 30 Oct 2025 14:26:01 +0000 (UTC)
+Received: from BL2PR02CU003.outbound.protection.outlook.com
+ (mail-eastusazon11011026.outbound.protection.outlook.com [52.101.52.26])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id EC1E010E9BD;
+ Thu, 30 Oct 2025 14:31:55 +0000 (UTC)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=B79wQvEqhJFh02lOJfUptencXCV9mNU5TFcDeVYTu/N+boY/qQbcrmiZfR605dOiZ5GMdLBYNZ+2GcetYGuV2iRdDFqoWagoJHOOk655lMPVOT30Hp0QP/pWGzflbNHGsmkCFBgupxRGNyk0mYhFJ7FRxT1UviL5urkakMy1o8tsdc+bdUcAkNZDH93c8QYw4CabZML1jRg7QqzsVqj1rl7yqOKHkSjTqJVdiEKne0NnH7yqk3aE7fqYWP4mhoqBZShx93/ypx/ZXqjiH7+16eIyAm13SmGOBujA6k6W2lJcDGxqRuoeq91wbKG+npsBHwfIojo/wH/mzcyjJ4Supg==
+ b=Z5cQRov1JEbXBPWbYFdz9FV4rJzmhUUrHavYjrpVXJoHOqVSXKrNT+ObV6OZLF+lP9rq54jAAUsP70rw+zoYxhT72FRY5qu7LwSb3FibCAM82NjvmYjTUlCEMOuAK3F9cutUciic0KnimaD5Xh1TIe2p5emh6YPaBHniCh9XcNMJYkSU/6/+fl6estOl7BGRF/Xwz4Arqc1WYNzu18BVYOGlHyM80wAXc55GuEopXMduO21lH86/cxapxX7rke+oB4vGx+XgqTXfJ/yZWOlW3VlkcjOI9BGA2tWrPJS8HmPjaV3AbT22JSsuODkwL//kihfjWr2sQ5kqzXggQKZc7Q==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=ZF6ichj5clc9YeYTBiVVhc2lrlSsBWF7RKC4T3xl99E=;
- b=mwwUMtbdQD6djCEED0cwtwuBjh3WTybDSsEKiPq/afqzQHiBM4m9p/XlHWO/eO0ORksOoJE4PuEUWG7xswVy2lOofLh6WeSxb+JPDmYIaeQp592HV8buUkJCnMrSihMQqD3W3JnPDTWbolNmNCUSwofrkzyq45yKNhujGvA5CNubRBcstUVQlJTXQTM7Sg04MeSO75kYl/q+9fZUJTY8OxWhA16eFUILf4XPKwokP2DXdVro2N3GLkUUwPVcM0/aEvNtssNRlqlrzPNjU5lcZCvdQD01wsGGDkYeIFkXGAEVhD02GpC4oVk2ogzWDyCnuFXDu6Rc+kUKgyOm+wWeVw==
+ bh=WQtiGSuhqjNFoYk4CDV+zvjRE4lSdNRvR3RFA/kkf5s=;
+ b=psHEinrTDu6ih9WKySItJ9N9y5m0C9vZrN9DwkA8p5RT6N/e/7n3Rx8Sm+VZbae89CbZ8IWbjZZm0Fn1+eFClg3LAN4Kveqd2hOYbpqgxeooFffOj/3SC76WlXx4o7Kn0CO5CllehCz+xdMN3qDAWyfzcZTOFa+MeMHa4DE4SVbeBahljZoWOjM9Hq1e8s2HjW/43KniSzlNbe4Exngz3A6s1hDkFtM99bKO4sfAhUchtdZF2AKG9Sij5GN8F4GqJ/fUhxkt5fW4XkJXEEMeMb2zxmfwi9Lg7eYEcVoxmKaYl3s7OEvCCKdK4vr/IuvAZqKw7FF6dmuPYB1qd6BLBA==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
  header.d=amd.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=ZF6ichj5clc9YeYTBiVVhc2lrlSsBWF7RKC4T3xl99E=;
- b=STaEfe/h8Qa+NTpKIRltNwB1MINjmvO78E5Tu+uBz2iBkUozDOF0caDkHV7YG38hEhj8ZDfJ57vVwMcVfE+Qkdl/fvbhZOpR1rjSDhcDunfLzfDi/ykh9z2p9iiUQ9LE/rKDRSGcq4o6+GcaSJ/5U3EstWuKDYZ6jH3qRVll9xU=
+ bh=WQtiGSuhqjNFoYk4CDV+zvjRE4lSdNRvR3RFA/kkf5s=;
+ b=ibq3zwcxUJ7Gqcwis0ssEKPQZ/422S7bbawlejc9uHo9ERVY8jIv8OyJ59PvbHnqNN9c4DTt7CkFBuk7sDzjQLVthmVfxVYjwz9ehsGwGa9cHzHMasHbAZ/nAj1tmdJ0OlXJrRSmRagVYIpJPVVIvg/CrYYfKcFlXDLjT8/Dniw=
 Authentication-Results: dkim=none (message not signed)
  header.d=none;dmarc=none action=none header.from=amd.com;
 Received: from PH7PR12MB5685.namprd12.prod.outlook.com (2603:10b6:510:13c::22)
- by DS0PR12MB7557.namprd12.prod.outlook.com (2603:10b6:8:130::21) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9275.14; Thu, 30 Oct
- 2025 14:25:58 +0000
+ by PH8PR12MB7231.namprd12.prod.outlook.com (2603:10b6:510:225::9)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9275.13; Thu, 30 Oct
+ 2025 14:31:52 +0000
 Received: from PH7PR12MB5685.namprd12.prod.outlook.com
  ([fe80::46fb:96f2:7667:7ca5]) by PH7PR12MB5685.namprd12.prod.outlook.com
  ([fe80::46fb:96f2:7667:7ca5%4]) with mapi id 15.20.9275.013; Thu, 30 Oct 2025
- 14:25:58 +0000
-Message-ID: <ebe1c1d0-3d76-4468-b85d-5c4aa23e3cc6@amd.com>
-Date: Thu, 30 Oct 2025 15:25:50 +0100
+ 14:31:52 +0000
+Message-ID: <abbd34de-cbbf-4188-a236-e3eccc357fab@amd.com>
+Date: Thu, 30 Oct 2025 15:31:44 +0100
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v5 01/16] drm/prime: Simplify life of drivers needing
- custom dma_buf_ops
+Subject: Re: [PATCH v5 02/16] drm/shmem: Provide a generic
+ {begin,end}_cpu_access() implementation
 To: Boris Brezillon <boris.brezillon@collabora.com>,
  Steven Price <steven.price@arm.com>
 Cc: dri-devel@lists.freedesktop.org,
@@ -68,107 +67,107 @@ Cc: dri-devel@lists.freedesktop.org,
  Alex Deucher <alexander.deucher@amd.com>, amd-gfx@lists.freedesktop.org,
  kernel@collabora.com
 References: <20251030140525.366636-1-boris.brezillon@collabora.com>
- <20251030140525.366636-2-boris.brezillon@collabora.com>
+ <20251030140525.366636-3-boris.brezillon@collabora.com>
 Content-Language: en-US
 From: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
-In-Reply-To: <20251030140525.366636-2-boris.brezillon@collabora.com>
+In-Reply-To: <20251030140525.366636-3-boris.brezillon@collabora.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: YT4PR01CA0229.CANPRD01.PROD.OUTLOOK.COM
- (2603:10b6:b01:eb::26) To PH7PR12MB5685.namprd12.prod.outlook.com
+X-ClientProxiedBy: YT3PR01CA0077.CANPRD01.PROD.OUTLOOK.COM
+ (2603:10b6:b01:84::25) To PH7PR12MB5685.namprd12.prod.outlook.com
  (2603:10b6:510:13c::22)
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: PH7PR12MB5685:EE_|DS0PR12MB7557:EE_
-X-MS-Office365-Filtering-Correlation-Id: 25067bfa-4e8f-4476-7f77-08de17c03e40
+X-MS-TrafficTypeDiagnostic: PH7PR12MB5685:EE_|PH8PR12MB7231:EE_
+X-MS-Office365-Filtering-Correlation-Id: 2a8e41de-861b-413b-29a8-08de17c11172
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
- ARA:13230040|7416014|376014|366016|1800799024|7053199007; 
-X-Microsoft-Antispam-Message-Info: =?utf-8?B?MDI2N1BXUHJqRmp4WGpRMS9XSFlncllqZzBjMTRLNmdmdUdqTjZ2emdYR2xB?=
- =?utf-8?B?cWY0SDFSVitXV2toS01yRXNvZ3FNb09Rb1J3WmVQSWhWYXZ1V3QrWEdoakJI?=
- =?utf-8?B?R3hGMVF2eDRMa3V5cG4yNjVJdE5RSkpSVXo1K09pMDY2bFJQVUJPUitOYjFM?=
- =?utf-8?B?aUhqaGx5L1ZLVmdiYVk4R0dmM2Vsb0hLTGcyTzJDMzN4M1gvUDhzTHE2K3Fv?=
- =?utf-8?B?Q2ZTOHJEUVBTSjBsREJWdGtGRldQSVRJaEt5c1JGb0VFY29za0VqeG1FZzlI?=
- =?utf-8?B?UEZNcjIxVDYxSnlkSytTenJxRjQ1TFJKVU8xdVZRbUhRMUoyaWdqOXh1aGgw?=
- =?utf-8?B?SXJFMmsrN1M2bnFGUGQ5QUxXekhQcUx2cmx1c1d0MlRpc2pWU1NrUWtacEhW?=
- =?utf-8?B?TW1waXhBd1dwWUlpV3VCUzJWOXYxOTU2ZnRsK09wMFBFNHRBQlYrL2J6UGVW?=
- =?utf-8?B?Q0s2Wll6SG5ES3RFZFRCYXpwU3MrZHVXeTV6b0ZMak45djd6RGlNaTE3NlJC?=
- =?utf-8?B?UG1rWG56RE4rWWlhREwxMHpoOCtGUWdLeHVvSU9DaURqVG5BVXZ6ZUpaMU9O?=
- =?utf-8?B?YktzOHMxbGR0TXZudXFvanR4enRuOUZwWENoQlVrcEdIYTgvdmNJWkFvRDF5?=
- =?utf-8?B?ZGFnMG9paUtaN0hMZGxtb3psa2NFdEtteWFXMmkrRDZzTHpCR05lRTBkOHlX?=
- =?utf-8?B?UTIzNWIxY1hOYmppYjViU2pYYmdJNjZKcXhyQjBHaUw2YXZxczVJbVlWdWk5?=
- =?utf-8?B?WjkvV2M2M1pQV2tOTmxmRzh1M0xyVGE4VUdndHo5MEFRU3I2TTBGV2ZPWUtH?=
- =?utf-8?B?aGdjbGRhdkQydCtaNVEveWxRaU9hdWl0WHVLa3ZPR2ZFa3UveTlSUWNjMWJm?=
- =?utf-8?B?dW02MWJCcitoS2tjck9VbU1VVGFmUEdwL1d5V1kxdElJbm83cVFkMUZvK05M?=
- =?utf-8?B?d0JFbGh6bTVEM1U2R1UzdGpkNjE2QUNxcjAwTnJ1bm8wcis5RDRPSlYwY3Yr?=
- =?utf-8?B?TWtycHJXZmN2bW9ZVzd3MXcrRzFPUlFtQk5xcTM5eHRGWi96V0pUVmlFemVZ?=
- =?utf-8?B?K2N5bGxrTi9PRFlSQjNRL0lSMG1XdnByRUFoZjlwWnA5OFYzcXJ3dkV3enZM?=
- =?utf-8?B?WFZEVUpkbDZEdmlaWG5idVJhNHB4eDhMNjFLeWxlQ2cvOFM0V3M1UEtuSGtX?=
- =?utf-8?B?MHdoaS94Q0dreit5WlJzMWoyT2JldCtJVnFVdUMzWE03TE5KdHNJeDhNSmJh?=
- =?utf-8?B?blB1VXdaRWwzWmRXVER1bkRGOXhIcEZ5d3I0ajdYbkEzT010WndWMEgyWDhT?=
- =?utf-8?B?M0xWcFZyUktqTDhMT04zQ3lpTHhSeHJyclFVelYrVXdBSUhsRGpvcER3WDRQ?=
- =?utf-8?B?SEZmR2dCTGFuRXh6dXFpeVZOMmc4TThidGh1S2x4TU05bTZXbUNJNEd6aklj?=
- =?utf-8?B?RDNnWTJhT1V6L1htYTZOdXgxWTVqRFI1RjR5cDRWbll0UDRXRlB4a3U1OWJR?=
- =?utf-8?B?N290L29uVGhwbyt6M241MmNMVm51cVVqRTlHSjMvN29ieU42aytLVG50eTBx?=
- =?utf-8?B?dzRKZFlZNFpHc3JobjBrSG1pczdpNVFYb1BNK1h3SHFiNlhsSEJOQndQN21P?=
- =?utf-8?B?ZjBFeUVYSVBJVFVKUGo0UVRhQ0djN2RLVkJ0YldpczRnZGoxNUJCK1J1bmpr?=
- =?utf-8?B?K0kwU3hucnowY3h0Y3Q4ZnpSaGZaQmpQNklpbUZxMFRIcG44YmtZcTQ3RkY3?=
- =?utf-8?B?UThpNXRMSEJvYnFTdUJ4OVByazJHT0F1VnJjWWx0WjdUMy9abjVOOVF3Rnpy?=
- =?utf-8?B?Y1hyNWZ6Tys3RlZWc2FDR3d2TTBqeld1Y1VrVHl5ZW9IaklpWXBrN2Z5bDFC?=
- =?utf-8?B?WmdCMmlCZ0owU3ArcXlia3RQVDZGeUR1T1lWenVzSktPQlVrV284ZGN4elJx?=
- =?utf-8?Q?3lHK6rAlvK0kaq8mzg06rPy5ylc/zF6p?=
+ ARA:13230040|366016|1800799024|7416014|376014|7053199007; 
+X-Microsoft-Antispam-Message-Info: =?utf-8?B?STljTU9oNTNwSXJUZWR2Zk5jWXlLZWJGZkpaYlhnY2pBd21kalNNeGJMUWpL?=
+ =?utf-8?B?bHRIMzFVY05vSFhpUHVmdzFmYmhPQjV1TjVsOXBGQWhOVXFZUStWRVE1STdz?=
+ =?utf-8?B?ZUxhRUZMWEFUVytTZEJWZ09qa2xPNHdOMWZvai9HZ2I5VnIrYi9DTnFrU0p1?=
+ =?utf-8?B?Q1ZESm1MeVpQYUx6ZGNpWE9PTXU4NjA0L25rcFp4anhKelgwMEpyZW9OS0xM?=
+ =?utf-8?B?RG9iSWwrVjBMd1dkZkFIczVBaWVOcEcrQXk3QVZUd285Q1lvTTc5TGtHbm52?=
+ =?utf-8?B?dFVEMzkwcFBKQjI2WlQ5b3FZYllRTFIyLzZwZC9uUElVaENMcXlLWjZrby9i?=
+ =?utf-8?B?THZqTG9oVmFCYlZ0NzZLSGtxd3YrMUEvZFo1T09rS3hmbVloamlEb0s2MmVp?=
+ =?utf-8?B?Y1BsakFFZWtRanVUSzF1a1BtQ09GWWFwUzlWdXZ5UVEyWjgrSW9ubVM5Y1hn?=
+ =?utf-8?B?ZGg0b0lKaXZLSEJXRHJCOCtZQU9WNjNLcU05akhIVEhHSUFsd1JqQ0FrQ3hD?=
+ =?utf-8?B?L2pLaFZEYVF1MmQrdWtsakxGVnZOVXZMMnhlR0hPeUROZXZOc0c5WVU0b3hS?=
+ =?utf-8?B?b0ZXbndRY3FQVHY3TXhsYTJuQVNNUjNzNFhRY2duSjVkZlBOekh6OE95WFBX?=
+ =?utf-8?B?U094T2FkMTVjRDlBdEtXcyt2elZZSllJOGNOYkRwWUZtTnF1TElORjUyMVVz?=
+ =?utf-8?B?Tm1pbFYzOEZDb0xHT3ozb0NxUmJqWVZSRVorazlTR2JkQ2VLY1FWWkpNb1lp?=
+ =?utf-8?B?d2NVUkdwVGt5THJLUHE2M1d2eU5RS1c3WlpCRlRpSkJXZlpqMFpKcVNSaU9Z?=
+ =?utf-8?B?OG9aNTdLdkx3MjJyTHFRcGl6RGZLd3daOUFuZjV0c2tWL3Izc0s2ajAzUWdr?=
+ =?utf-8?B?ZGIwZUg1MUVxUFJLRlA2cEpDaFF6M3dydWZod3l0cXV4RkVxYU92L0RBKzhU?=
+ =?utf-8?B?SXJwRDB4YzYyR3hPcWdMYUEyMTZaMDRRUGtMcEpPM2YvT0tmQ1MwY1JCRTNm?=
+ =?utf-8?B?R3VtY3k4V3dHQ29xVEdnR2s3Y05Za05UUEM0SFJuTmxQckh4SEhrdnJrK01x?=
+ =?utf-8?B?c0s2NlBldm1LMDZwN3BTRVZJRExCdG1ZRWhDdEswYVBlWThKbHUxNUQ4MFpG?=
+ =?utf-8?B?a1Q2N0NBMHN3Smd2OENCaFZlMXl2UG9PN282azBVSjVrSEJCYUg1cm9zSkM5?=
+ =?utf-8?B?V3Mwc3dmWDAwL2dLK3FQK1d1RDNxU0FXTGlEa2hMR3FQQkxuNkZIUkk5NzJ6?=
+ =?utf-8?B?MGdHUXFOT3BIbStzSy9rZmNzK2kyVXV0RFFmd2tZajRVYnFIY0xzRGt2cy9X?=
+ =?utf-8?B?QTB0dkxBOVFnbGl6SU81dmRWT1pTSDhGS0lhaE52UWdVbWN0S0E1ZGVXU3hL?=
+ =?utf-8?B?aHE0VzZFeHMrUjRldmlVYnloL2xOLzFxVndYZlVSSEdSZXBNN2M1RUVaVzh2?=
+ =?utf-8?B?eHJ1Y1BJSzR4RklHcHVPNTN4M0FWMjZYcGZGcGd5MGVzeFVZN0pzUXRVOEhZ?=
+ =?utf-8?B?QmFUM1FJbStFV0lqV254dmpQd1JRdjlUWC9sdFRXVi9MNkZKN1gxM2MzTk8v?=
+ =?utf-8?B?RUNMZmZYcmZZSFJOc3hrczhIZGY5dm8rck5mUlFqc01Rd3ZrWkFjTVUxRGE4?=
+ =?utf-8?B?M2lwS1h0R1p3eG1nV2NyeEZOVURvSlBudEhuYmwvUU5ZZjZ5M3ZHdmd5Q3dK?=
+ =?utf-8?B?U1lMNXJ5dHl5L1JOajlnb0ZkU0dISTIyMnFJenR4aTJJOXlXeDJ0bnN5MTJn?=
+ =?utf-8?B?Vk0xRXZqdS9nQjBIdWsvVzNidEV1alB0VEtzd29UNmdPM1FjRitaQVNVWHUz?=
+ =?utf-8?B?eUJsemMzZWt3dzA3blBBQm15K0ptUFJxTTVmRVpnZFlkZnlMUVZEd2ZwN3FG?=
+ =?utf-8?B?dmhST3lPU0tqclozRFQ3dDFENURsTHQyRWtBbzZIaFRramQ2OWx3VTF0OVpI?=
+ =?utf-8?Q?HIk2Y57iczjVwajppCBCjf4uqONrBXv+?=
 X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
  IPV:NLI; SFV:NSPM; H:PH7PR12MB5685.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230040)(7416014)(376014)(366016)(1800799024)(7053199007); DIR:OUT;
+ SFS:(13230040)(366016)(1800799024)(7416014)(376014)(7053199007); DIR:OUT;
  SFP:1101; 
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?Sis4QjFwc0srdlUrVEw3MHNnN3VHQ1NPTmJPbEJjcXZzckVVN3RTMlJKQ2JM?=
- =?utf-8?B?NFVEQzF2WGJhaFlYQ1Z3RG0vWEtHWmJ2S0RGdk9maFZ1MGorVFdMUkNCNU15?=
- =?utf-8?B?SlQwOUFDY1FGbkRMOHZPeWswRlJHeTR1dTFpVG1xUkZ3S2xmbDV4eitHNWZ1?=
- =?utf-8?B?SHpSTWgyMVJqZEx4MXpkc0xTSjBXWXdkOXh5QmI5WUd1YXZaTy9ESGNpNUpR?=
- =?utf-8?B?Y3laUFZXSStVamFSdThlbW8xSnVCZUZoaURIUkdqUnFiVG4wOG9JSG92MU5n?=
- =?utf-8?B?UnNLekFIU1puZTRxblpVTWI5VVlaTWVIUk1vck96V2tibjFqcFp6TnE3NEhF?=
- =?utf-8?B?by9TTmtNanluUWIxMlRQcVlXdnJSMFVaNDZIRTRGSkg5NURJVTdxOW1aR2N3?=
- =?utf-8?B?akwrL0VtNk5lTzhYVTQwclBma1UwRC9ZZnE1R2o4aTRKcGNSSVZiay9UTGxG?=
- =?utf-8?B?cG9wYTZweUp6WUJQOS8vNHNFT2R5bzdLQ0Q0L01BcFRDZ1lQMDhGN0IwdXQz?=
- =?utf-8?B?bVZHa0FuUTBDUVVOblZlUEcxdmFxcm1tYXY1MlJjakk3Y2ZtZ0hwY0hMTFNO?=
- =?utf-8?B?OWd6eXVMeWlzMnpqODY2bUpkYXVndmt2SzIxMUMwdTRQOTBPd3gwMFJ0QTVT?=
- =?utf-8?B?SXZ5cVhaZzhmMjdwY29JdnZHWHRzS3JqVzkvTHBXRUhNMzJBVGUrSmw5MjBY?=
- =?utf-8?B?MnhGdlRUOE4rNmh0NGlLNlAyV2ltSFZwellXS0o5cmJyOFVUUFhiZkxWQ1NN?=
- =?utf-8?B?ZEc4c2xvLyt5cERYYmZRMEd5Z2EvWW51dUdFTDVmUDZwSkZlNXQ2cFZXVEtu?=
- =?utf-8?B?clBBNHVmUm5hVzZ5TUNxWjl0b1JFeVFxMllPV285NFhUemFTQmthNExDVmhF?=
- =?utf-8?B?NTNMRjRlKzgwRTR0UDZhRnJqS0ZPVU9uTXkzS1RFcklCdTQya1pJOG01U284?=
- =?utf-8?B?U3E1V1ZnalUzSVN5M3YvMmEyNlFvV1JORDdNT1J2T0IrMERrcFozZ0VXSC8v?=
- =?utf-8?B?YTAwVy8xK21sdmEwOXZHd0F2VWh6MDZiNGt3U1kzK0ovdy9GdFdybDZhNC9X?=
- =?utf-8?B?cmRwN04rL1grd2hXSmFmamJSOGJTUEVPQ1JYQllPTTk4SzJqZnU5clZpYnpX?=
- =?utf-8?B?dmhiTHJPelM3SGVOWi90L3RIV3dvS21ndUZ4OVBzUnpKTDJudys2S3MzNFJa?=
- =?utf-8?B?aGJNbHlSQldrZlkwekNvQ0NnTDVGbzRKMDd4eE1odC9FbGoyaFhUQisvMThn?=
- =?utf-8?B?QnFXKzdIOS9oNnptVC9EQzh6bk90V3JTaUp4ekpWUmpFWTJyVkJ2dWowbmdi?=
- =?utf-8?B?TEswYStWeFpGMXN2ekg5cGIzZzBhcVl2VHNKTlNpVmplbUNqT1JEb29IMURF?=
- =?utf-8?B?RHhaM3VWMlZPcU80R2gvMXhzSWlKcDJjWmU4MzVxTTVUZWlwUUZhZWROL0s4?=
- =?utf-8?B?MjY0emI0M0trTS8vWGN6YlhQbkdNcGRZVGRvMVcvNXFTYmIySWw0T2NsTDkz?=
- =?utf-8?B?SFk1aGdmaHVubjdBQ1BTeGtNV1Y4dFBySkNZMExCUUswbDJaVEZYdEtjbWZ1?=
- =?utf-8?B?YlVKdXIwSTBtdkYrdkxLQ0diWVNyNlJ4djZvMHptV1ArdHQ3bE9leng4UWFt?=
- =?utf-8?B?QnRMWnVtNXcwREx5YzVoR3l6blRCa2NHUmowNjVSUjgyQi9oNUQwc1FOTm82?=
- =?utf-8?B?MFhMR1dHVjBsbXdTV1NmbVNVWDI2V01xSGZPUzhyZnB4S1BCQTlaNGZmV0lo?=
- =?utf-8?B?KzIydlBTZm45SWtUMlEwUGFOZytlc3M1d2krYm1hQkFoMityZndtOEEwazg0?=
- =?utf-8?B?MUpDL2N3b29Nbml0NzRFbWNyallBbUxOOFFYbXJHZm9IU2dEM1cwdU9mczF1?=
- =?utf-8?B?Z2h4S3ZRU1o3ampuYld5b2lpaFBxNkxWSS9scU8wY0xKemppRmRrdXhUZDBH?=
- =?utf-8?B?UmV3UFFFQU5HNVhrSWFjRTJoUE45aS9IV1RCVVFNZE52Q3AxbUtqeXRkaWg5?=
- =?utf-8?B?ektnQkNaNlNOcGNNbXdjeWdWenZQeWdESmk2cFBOUXNLcGgvUUxTL3M4clVw?=
- =?utf-8?B?eW1BYURPdm8ydkltNUNiN2tnRGVON0F4TVI3VEU2SVBOMXFCMU1YcFZISGNN?=
- =?utf-8?Q?RGLRpxHYLY5HX0SNG74LxTggJ?=
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?TXFHT3JlVjNEcENSWXlLbmN6ZXlBcFBoNi9Db0pTbkhDckdmbUhTZEhhK3Fq?=
+ =?utf-8?B?dFZmME8yeTRUdDUyTDF2dzJwYjZndlpkZzVCdHUvKzJ3RU4rZDltenVqOEVJ?=
+ =?utf-8?B?N2ZnbWQ1a3NVSWFSUi9GRnFxdi9JODVraUxUQUZqQnVqMTBOd2Yycy9qcWZm?=
+ =?utf-8?B?ci9IUkdLWkNHTlJ4RTR2K01ML0VLZDM4LzdvNWJsR1BWeWYyNHNzZWMzVG0z?=
+ =?utf-8?B?V1R6ZWZ5M01heU9KQVZxeDQ4NzJtZS94bG01MWhnN3ExTWwwdWUvU2tIVFYv?=
+ =?utf-8?B?dlgrMjRVdGZRbklZTE8yekhhVk9OTnpxT0dVVkV5VFkzeVpYMWJ4aUx3dC8r?=
+ =?utf-8?B?ZHlJaXQwVjFTOS8xc2pNQnhqRlZ3QkM4VlhnS1ZHVWZzQndxMnd4RzA1Smp2?=
+ =?utf-8?B?TE9QaEh4Z29KMyt5bnFIdFQ0WVBHMFpkUERzdmVodnJpUFlPVGJHckRBbk02?=
+ =?utf-8?B?YmhqUFhqWHlwNkVLai8zOHFZUkhSTGUyUHR1a2xhcjNlNmQ3cG4xOTBaNElI?=
+ =?utf-8?B?b0YwOVVjdTEwTnR1UjlEYXB4bTNoUGZNL2lyWU00OUE4ZDVYaGVweE02ZXNZ?=
+ =?utf-8?B?cnpZS3Fya3NTcTJ5ZnNzU3dxOWhaV0VqazRkb1pHV0ZuSm4xT2hLOG5BbThS?=
+ =?utf-8?B?NlZDSXA1RU5IaVlqQWRlYTQ4bHdMLzNPczUydWtsTWN0RUpHQm43NlB2SVpP?=
+ =?utf-8?B?dDkvSlpYQS9lNGFjRG1TeHUyNENqZm0wam1nVlVlY0xVanlEaW1YNVo3MEJw?=
+ =?utf-8?B?TFJCejZic0ZjWWFVOTdsYjdHampOcHI3Wklhb1pPWVNZcDZacWM3bklHRWFr?=
+ =?utf-8?B?VkpHRnpzbDcvRnBxdXFCbzczOGJVYVZtVW1WRExyQUVHdlFPdkM0N2pTZ1ZN?=
+ =?utf-8?B?MFNBVlhXckVWRVJ3d0J5Q3hLQTJKMDJZSHF4ei9MRTJJakY4MjRhOVRiVTlU?=
+ =?utf-8?B?VGlGYkF4aEc2NUp5Z3QreUhkcXBXbjAvcVdZNE0yb1BCU3BIakd4ZUFJcFRM?=
+ =?utf-8?B?ZzY4Z0V5di9zVGFQUFFnOFNNc0Z5UGZWQ0c1SURDM2dCODR4TDh4aVZsRU5T?=
+ =?utf-8?B?RHphVktQRDlIeFJKZ3ZoZm93WmZvMENuTFUwVlhIejFPS3I3Sm54eUZVbmdS?=
+ =?utf-8?B?dXhuU3haYUYxK1dkUzdoV0R3Y2RUendSK09aMWw5b080N2JoSGZwR3FsVVpa?=
+ =?utf-8?B?VXFwc2Nab2tabkZTanJocVN4aXlqMkNJdlJ6SWVqa0F6ZHpSbzFoSmFpWisy?=
+ =?utf-8?B?OEhHcjNtWmRqcWZyODgwdVdsZzFUS0crOHEwOXY1M215OWJSUHkwamtCZkJH?=
+ =?utf-8?B?TVI1L09xelpzOWZ0bWRyY3NPOFZwYVFzaE5wNlE3UHJtMjBraU1LMFVEalpI?=
+ =?utf-8?B?YTdZV01FTG1wdEt5ZXhicjFTSWE5OXYwc2g0RjRLMzlhNllUY1E1MklOV245?=
+ =?utf-8?B?OUUzNGxaR1hPVU1mUnUxeVNXOEpFd21JSGFZSmsrVUh1ZWRPY0tvd3ZMajJx?=
+ =?utf-8?B?QmFTY3hZVGp2WWFQaklITzFXUFFWTFpQZVBwNzc2RXRZRmFMOWZOMlF0T2VG?=
+ =?utf-8?B?RDEzMzBiNGFZYzl3SnlQN0MxNWNEb2dKUWNwbDh4cmFleHcyTkIzZ1lTNlRP?=
+ =?utf-8?B?ZE5zYWUvRkRodFZqOVRieG9DVG9NWE5iZEN3ejZ2bkpRSVA5dmRVSFpRRmtY?=
+ =?utf-8?B?c1FZOEJ4N1VvVjJmcXhXY1Z0ak1peitFRXF4aWNTNVdqTExZWko5cGRkaVA3?=
+ =?utf-8?B?YnViUCtWOTAvQTJFaCtKVEpGQnlOdTBRYUdaVHRJSy9NeGp3L3FsSU9yZE1Y?=
+ =?utf-8?B?V280dTc3L25VNjRKRVY4elVscXJ4UCtJaFIzOUEycWgzd1ZPeTBoZFpEVFlu?=
+ =?utf-8?B?U0pRZXF5TVVuUVRuS0k0TjlxNVN2UkdKMkVNNExHbzRtUXZiSXpPMm9ZS3Nv?=
+ =?utf-8?B?S2pnUk5hRWo0R2t5UUNsQ3JEMC8ycWdPZ09jc055M3llVFpZYUhBeHRmZjBp?=
+ =?utf-8?B?NG4xWFJhYXhPTlRFMVdtWmM3OTByVjlxcHl1T0syWjllR1pBOW51MlpCSXBJ?=
+ =?utf-8?B?KzNla0hRRzIzMkxtTWNqdjNHVzI5RzFpd1o3Qk1nNEQzbFBGS3ZBdlZBbjFv?=
+ =?utf-8?Q?VmKj6OA0gN5D/BYWtmw0qJh/I?=
 X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 25067bfa-4e8f-4476-7f77-08de17c03e40
+X-MS-Exchange-CrossTenant-Network-Message-Id: 2a8e41de-861b-413b-29a8-08de17c11172
 X-MS-Exchange-CrossTenant-AuthSource: PH7PR12MB5685.namprd12.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 30 Oct 2025 14:25:58.4922 (UTC)
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 30 Oct 2025 14:31:52.3425 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: vcT95/5kMDx26sdSiZaHYxFRIAQTZc9W7qp/5CjCgrj2ZZty9RKdNMRNCy8S8VJJ
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DS0PR12MB7557
+X-MS-Exchange-CrossTenant-UserPrincipalName: h7w4HXFcCNxl85TWm4wIpwiHAS8ryY13/M1l/k1aJCGMmvZIOITyMGMu4gi/EqWT
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH8PR12MB7231
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -185,94 +184,177 @@ Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 On 10/30/25 15:05, Boris Brezillon wrote:
-> drm_gem_is_prime_exported_dma_buf() checks the dma_buf->ops against
-> drm_gem_prime_dmabuf_ops, which makes it impossible to use if the
-> driver implements custom dma_buf_ops. Instead of duplicating a bunch
-> of helpers to work around it, let's provide a way for drivers to
-> expose their custom dma_buf_ops so the core prime helpers can rely on
-> that instead of hardcoding &drm_gem_prime_dmabuf_ops.
-
-That's generally nice to have, I've re-implemented quite a number of functions in amdgpu because of this as well.
-
+> The default implementation simply takes care of invalidating/flushing
+> caches around CPU accesses. It takes care of both the exporter and
+> the importers, which forces us to overload the default
+> ::[un]map_dma_buf() implementation provided by drm_gem.c to store the
+> sgt.
 > 
 > v5:
 > - New patch
 > 
 > Signed-off-by: Boris Brezillon <boris.brezillon@collabora.com>
 > ---
->  drivers/gpu/drm/drm_prime.c | 14 +++++++++++---
->  include/drm/drm_drv.h       |  8 ++++++++
->  2 files changed, 19 insertions(+), 3 deletions(-)
+>  drivers/gpu/drm/drm_gem_shmem_helper.c | 114 +++++++++++++++++++++++++
+>  include/drm/drm_gem_shmem_helper.h     |  10 +++
+>  2 files changed, 124 insertions(+)
 > 
-> diff --git a/drivers/gpu/drm/drm_prime.c b/drivers/gpu/drm/drm_prime.c
-> index 43a10b4af43a..3796844af418 100644
-> --- a/drivers/gpu/drm/drm_prime.c
-> +++ b/drivers/gpu/drm/drm_prime.c
-> @@ -903,6 +903,15 @@ unsigned long drm_prime_get_contiguous_size(struct sg_table *sgt)
+> diff --git a/drivers/gpu/drm/drm_gem_shmem_helper.c b/drivers/gpu/drm/drm_gem_shmem_helper.c
+> index dc94a27710e5..e49c75739c20 100644
+> --- a/drivers/gpu/drm/drm_gem_shmem_helper.c
+> +++ b/drivers/gpu/drm/drm_gem_shmem_helper.c
+> @@ -893,6 +893,120 @@ struct drm_gem_object *drm_gem_shmem_prime_import_no_map(struct drm_device *dev,
 >  }
->  EXPORT_SYMBOL(drm_prime_get_contiguous_size);
+>  EXPORT_SYMBOL_GPL(drm_gem_shmem_prime_import_no_map);
 >  
-> +static const struct dma_buf_ops *
-> +drm_gem_prime_get_dma_buf_ops(struct drm_device *dev)
+> +/**
+> + * drm_gem_shmem_prime_unmap_dma_buf - Default unmap_dma_buf() for exported buffers
+> + * @attach: attachment
+> + * @sgt: SG table to unmap
+> + * @dir: type of access done by this attachment
+> + *
+> + * Default implementation for dma_buf_ops::map_dma_buf(). This is just a wrapper
+> + * around drm_gem_map_dma_buf() that lets us set the dma_buf_attachment::priv
+> + * to the sgt so that drm_gem_shmem_prime_{begin,end}_cpu_access() can sync
+> + * around CPU accesses.
+> + */
+> +struct sg_table *
+> +drm_gem_shmem_prime_map_dma_buf(struct dma_buf_attachment *attach,
+> +				enum dma_data_direction dir)
 > +{
-> +	if (dev->driver->gem_prime_get_dma_buf_ops)
-> +		return dev->driver->gem_prime_get_dma_buf_ops(dev);
+> +	struct sg_table *sgt = drm_gem_map_dma_buf(attach, dir);
+> +
+> +	if (!IS_ERR(sgt))
+> +		attach->priv = sgt;
+> +
+> +	return sgt;
+> +}
+> +EXPORT_SYMBOL_GPL(drm_gem_shmem_prime_map_dma_buf);
+> +
+> +/**
+> + * drm_gem_shmem_prime_unmap_dma_buf - Default unmap_dma_buf() for exported buffers
+> + * @attach: attachment
+> + * @sgt: SG table to unmap
+> + * @dir: type of access done by this attachment
+> + *
+> + * Default implementation for dma_buf_ops::unmap_dma_buf(). This is just a wrapper
+> + * around drm_gem_unmap_dma_buf() that lets us reset the dma_buf_attachment::priv
+> + * field so that drm_gem_shmem_prime_{begin,end}_cpu_access() don't consider it
+> + * as a mapped attachment to sync against.
+> + */
+> +void drm_gem_shmem_prime_unmap_dma_buf(struct dma_buf_attachment *attach,
+> +				       struct sg_table *sgt,
+> +				       enum dma_data_direction dir)
+> +{
+> +	attach->priv = NULL;
+> +	drm_gem_unmap_dma_buf(attach, sgt, dir);
+> +}
+> +EXPORT_SYMBOL_GPL(drm_gem_shmem_prime_unmap_dma_buf);
+> +
+> +/**
+> + * drm_gem_shmem_prime_begin_cpu_access - Default end_cpu_access() for exported buffers
+> + * @dma_buf: The exported DMA buffer this acts on
+> + * @dir: direction of the access
+> + *
+> + * Default implementation for dma_buf_ops::begin_cpu_access(). This only takes care of
+> + * cache maintenance.
+> + */
+> +int drm_gem_shmem_prime_begin_cpu_access(struct dma_buf *dma_buf,
+> +					 enum dma_data_direction dir)
+> +{
+> +	struct drm_gem_object *obj = dma_buf->priv;
+> +	struct drm_device *dev = obj->dev;
+> +	struct drm_gem_shmem_object *shmem = to_drm_gem_shmem_obj(obj);
+> +	struct dma_buf_attachment *attach;
+> +
+> +	dma_resv_lock(obj->resv, NULL);
+> +	if (shmem->sgt)
+> +		dma_sync_sgtable_for_cpu(dev->dev, shmem->sgt, dir);
+> +
+> +	if (shmem->vaddr)
+> +		invalidate_kernel_vmap_range(shmem->vaddr, shmem->base.size);
+> +
 
-I have strong doubts that a driver changes their dma_buf ops during their runtime, so instead of a callback could we just have it as pointer in drm_driver?
+
+> +	list_for_each_entry(attach, &dma_buf->attachments, node) {
+> +		struct sg_table *sgt = attach->priv;
+> +
+> +		if (sgt)
+> +			dma_sync_sgtable_for_cpu(attach->dev, sgt, dir);
+> +	}
+
+This conflicts with the debugging hack in DMA-buf.
+
+I've recently send out a patch to fix that, but it hasn't been pushed yet.
+
+Apart from that looks absolutely reasonable to me.
 
 Regards,
 Christian.
 
+> +	dma_resv_unlock(obj->resv);
 > +
-> +	return &drm_gem_prime_dmabuf_ops;
+> +	return 0;
 > +}
+> +EXPORT_SYMBOL_GPL(drm_gem_shmem_prime_begin_cpu_access);
 > +
->  /**
->   * drm_gem_prime_export - helper library implementation of the export callback
->   * @obj: GEM object to export
-> @@ -919,7 +928,7 @@ struct dma_buf *drm_gem_prime_export(struct drm_gem_object *obj,
->  	struct dma_buf_export_info exp_info = {
->  		.exp_name = KBUILD_MODNAME, /* white lie for debug */
->  		.owner = dev->driver->fops->owner,
-> -		.ops = &drm_gem_prime_dmabuf_ops,
-> +		.ops = drm_gem_prime_get_dma_buf_ops(dev),
->  		.size = obj->size,
->  		.flags = flags,
->  		.priv = obj,
-> @@ -930,7 +939,6 @@ struct dma_buf *drm_gem_prime_export(struct drm_gem_object *obj,
->  }
->  EXPORT_SYMBOL(drm_gem_prime_export);
->  
-> -
->  /**
->   * drm_gem_is_prime_exported_dma_buf -
->   * checks if the DMA-BUF was exported from a GEM object belonging to @dev.
-> @@ -946,7 +954,7 @@ bool drm_gem_is_prime_exported_dma_buf(struct drm_device *dev,
->  {
->  	struct drm_gem_object *obj = dma_buf->priv;
->  
-> -	return (dma_buf->ops == &drm_gem_prime_dmabuf_ops) && (obj->dev == dev);
-> +	return (dma_buf->ops == drm_gem_prime_get_dma_buf_ops(dev)) && (obj->dev == dev);
->  }
->  EXPORT_SYMBOL(drm_gem_is_prime_exported_dma_buf);
->  
-> diff --git a/include/drm/drm_drv.h b/include/drm/drm_drv.h
-> index 42fc085f986d..f18da3c0edb8 100644
-> --- a/include/drm/drm_drv.h
-> +++ b/include/drm/drm_drv.h
-> @@ -326,6 +326,14 @@ struct drm_driver {
->  				struct dma_buf_attachment *attach,
->  				struct sg_table *sgt);
->  
-> +	/**
-> +	 * @gem_prime_get_dma_buf_ops:
-> +	 *
-> +	 * Optional hook used by the PRIME helpers to get the custom dma_buf_ops
-> +	 * used by this driver.
-> +	 */
-> +	const struct dma_buf_ops *(*gem_prime_get_dma_buf_ops)(struct drm_device *dev);
+> +/**
+> + * drm_gem_shmem_prime_end_cpu_access - Default end_cpu_access() for exported buffers
+> + * @dma_buf: The exported DMA buffer this acts on
+> + * @dir: direction of the access
+> + *
+> + * Default implementation for dma_buf_ops::end_cpu_access(). This only takes care of
+> + * cache maintenance.
+> + */
+> +int drm_gem_shmem_prime_end_cpu_access(struct dma_buf *dma_buf,
+> +				       enum dma_data_direction dir)
+> +{
+> +	struct drm_gem_object *obj = dma_buf->priv;
+> +	struct drm_device *dev = obj->dev;
+> +	struct drm_gem_shmem_object *shmem = to_drm_gem_shmem_obj(obj);
+> +	struct dma_buf_attachment *attach;
 > +
->  	/**
->  	 * @dumb_create:
->  	 *
+> +	dma_resv_lock(obj->resv, NULL);
+> +	list_for_each_entry(attach, &dma_buf->attachments, node) {
+> +		struct sg_table *sgt = attach->priv;
+> +
+> +		if (sgt)
+> +			dma_sync_sgtable_for_device(attach->dev, sgt, dir);
+> +	}
+> +
+> +	if (shmem->vaddr)
+> +		flush_kernel_vmap_range(shmem->vaddr, shmem->base.size);
+> +
+> +	if (shmem->sgt)
+> +		dma_sync_sgtable_for_device(dev->dev, shmem->sgt, dir);
+> +
+> +	dma_resv_unlock(obj->resv);
+> +	return 0;
+> +}
+> +EXPORT_SYMBOL_GPL(drm_gem_shmem_prime_end_cpu_access);
+> +
+>  MODULE_DESCRIPTION("DRM SHMEM memory-management helpers");
+>  MODULE_IMPORT_NS("DMA_BUF");
+>  MODULE_LICENSE("GPL v2");
+> diff --git a/include/drm/drm_gem_shmem_helper.h b/include/drm/drm_gem_shmem_helper.h
+> index 589f7bfe7506..075275d6b2fd 100644
+> --- a/include/drm/drm_gem_shmem_helper.h
+> +++ b/include/drm/drm_gem_shmem_helper.h
+> @@ -291,6 +291,16 @@ int drm_gem_shmem_dumb_create(struct drm_file *file, struct drm_device *dev,
+>  			      struct drm_mode_create_dumb *args);
+>  struct drm_gem_object *drm_gem_shmem_prime_import_no_map(struct drm_device *dev,
+>  							 struct dma_buf *buf);
+> +struct sg_table *
+> +drm_gem_shmem_prime_map_dma_buf(struct dma_buf_attachment *attach,
+> +				enum dma_data_direction dir);
+> +void drm_gem_shmem_prime_unmap_dma_buf(struct dma_buf_attachment *attach,
+> +				       struct sg_table *sgt,
+> +				       enum dma_data_direction dir);
+> +int drm_gem_shmem_prime_begin_cpu_access(struct dma_buf *dma_buf,
+> +					 enum dma_data_direction dir);
+> +int drm_gem_shmem_prime_end_cpu_access(struct dma_buf *dma_buf,
+> +				       enum dma_data_direction dir);
+>  
+>  /**
+>   * DRM_GEM_SHMEM_DRIVER_OPS - Default shmem GEM operations
 
