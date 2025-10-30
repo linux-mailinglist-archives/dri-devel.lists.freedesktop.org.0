@@ -2,91 +2,139 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6F435C1DB2E
-	for <lists+dri-devel@lfdr.de>; Thu, 30 Oct 2025 00:38:17 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 867D4C1DDFB
+	for <lists+dri-devel@lfdr.de>; Thu, 30 Oct 2025 01:12:31 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CD4D410E86F;
-	Wed, 29 Oct 2025 23:38:15 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0283D10E060;
+	Thu, 30 Oct 2025 00:12:28 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="gOVxPk3E";
+	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="Jy3Ktocq";
+	dkim=pass (2048-bit key; unprotected) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="HxXvMy7m";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.133.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6A2E910E86F
- for <dri-devel@lists.freedesktop.org>; Wed, 29 Oct 2025 23:38:14 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1761781093;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=PQVXQhmywwNDhXjEHeNci/tD1xAS4rlDBizu8EsOzts=;
- b=gOVxPk3EDZwJ6McBI+ecmDfFjrI+MZHez/jglyUUtCeGtYiWK3KpSTI40DFNX7PnhvfTzr
- oYTOF3OSLq7Em83TQbIYkGoRHojQcfqP8zoRs3yR2M3shVZQ0QX1C4LahaG2yq/RWtVpaP
- wSt3mzqopfVkR9ULdwucxuUjLA+WrBY=
-Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
- [209.85.221.69]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-22-X1i4Cr5sMLm4TvuZRkATQg-1; Wed, 29 Oct 2025 19:38:11 -0400
-X-MC-Unique: X1i4Cr5sMLm4TvuZRkATQg-1
-X-Mimecast-MFC-AGG-ID: X1i4Cr5sMLm4TvuZRkATQg_1761781090
-Received: by mail-wr1-f69.google.com with SMTP id
- ffacd0b85a97d-429b7b46eebso91270f8f.2
- for <dri-devel@lists.freedesktop.org>; Wed, 29 Oct 2025 16:38:11 -0700 (PDT)
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
+ [205.220.168.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7182010E060
+ for <dri-devel@lists.freedesktop.org>; Thu, 30 Oct 2025 00:12:26 +0000 (UTC)
+Received: from pps.filterd (m0279867.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id
+ 59TEdAsI811145
+ for <dri-devel@lists.freedesktop.org>; Thu, 30 Oct 2025 00:12:26 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+ cc:content-transfer-encoding:content-type:date:from:in-reply-to
+ :message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+ RlOA3yo8oapL6z88NAIu8PVoZTfephjCzUiz6uOkvUM=; b=Jy3KtocqdD5BKvb/
+ uSvsMseZSvEDh6Mk3hdbKAkARftkNcBLbPtjXIxJGTPJ4ScOS0SgMWZGvLSKJkqZ
+ VYbIOslbYkCSiL+gyHRiDhs1H4sCIHL0XlWKVvVEYSDaQYksJcKubOxHPCBp0ppS
+ ELciUmERhtM7AdvvRUhph6GJopohAPQwSpBRlFAPB8pahUiNOtGbnoorLCCPBmR1
+ 3fik4T98EukcUS6RSomBkUTYrjZC2/G4pcwZy8yCVPmNkssSW5HtaBxfhXGNrSIh
+ dxIU5CuMKqhYo/MIH8Z+iVbgUeDrC6IVnlnFM2poLoMGbcR8pm1D1l2lkNGED7dj
+ 2IpqJA==
+Received: from mail-qt1-f200.google.com (mail-qt1-f200.google.com
+ [209.85.160.200])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4a3mvg9nms-1
+ (version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
+ for <dri-devel@lists.freedesktop.org>; Thu, 30 Oct 2025 00:12:25 +0000 (GMT)
+Received: by mail-qt1-f200.google.com with SMTP id
+ d75a77b69052e-4e8a3d0fb09so5259971cf.1
+ for <dri-devel@lists.freedesktop.org>; Wed, 29 Oct 2025 17:12:25 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=oss.qualcomm.com; s=google; t=1761783145; x=1762387945;
+ darn=lists.freedesktop.org; 
+ h=in-reply-to:content-transfer-encoding:content-disposition
+ :mime-version:references:message-id:subject:cc:to:from:date:from:to
+ :cc:subject:date:message-id:reply-to;
+ bh=RlOA3yo8oapL6z88NAIu8PVoZTfephjCzUiz6uOkvUM=;
+ b=HxXvMy7mFJrYxxB9MtUs87OysStcvk8pIll0SeMLf/4Q33LWTeOmCJih/U9La/a6uC
+ Mf70we9/7ckJ61xsnU8xYmbrb4QjLUJLjcEZmSX8u40yZnwXZHv2iZH9ivE6WmMZ/Lm4
+ 820Cdd4lhEoO4TO0svatnGgiXhsWwPimbm4igNTayUI0DL29pC8PuZY0pjc7zcsCxeiT
+ UEE8bsPOJUghRCIM579eFThmMDlPBbmmkSmmwzixDWk0Yt4eKCm7ZjD/V7YOoNUTRVDw
+ VI1E6e1zrSQI3ot0NXr4Qr+O8S/aHVxJGNC7bwZS7ECjGJzkh6tbDSer4CNG3NJrt0OJ
+ uhug==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1761781090; x=1762385890;
- h=content-transfer-encoding:in-reply-to:from:content-language
- :references:cc:to:subject:user-agent:mime-version:date:message-id
+ d=1e100.net; s=20230601; t=1761783145; x=1762387945;
+ h=in-reply-to:content-transfer-encoding:content-disposition
+ :mime-version:references:message-id:subject:cc:to:from:date
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=PQVXQhmywwNDhXjEHeNci/tD1xAS4rlDBizu8EsOzts=;
- b=stVBXoMGY/s1fVs6GRrlvUIy+Hlsoezvaowq+drvxWYvpto61QvGNxDDzLvAgVONWY
- zXXG/ErFcT8opoJ70vQDS73E2XKcGINI8w4RJyjGWP8BRC+kl4Cp+1dte+11kO0/rN3d
- oWHdtc5tnO2+KvhBQceCfl2NSDuYMnF1BB/LRg4Ow1BJU11V69IiAJZNLLREudNzo5g9
- AGtRaiSWdJjlHQsQ5aNaXwK95VVk2CzO4NfnfX9kBBjeXAbUTDbEGojnEoDBTZISuy1N
- LZQOuI5jeqiszCyAalhr2TQuvnSFIATl7zYbUcDDvZ8buqQ6c+EHRALMxBIYsGIXwBvl
- 68pQ==
-X-Gm-Message-State: AOJu0YyuuFlIuM4wRFBdUe+pnxoM7Q5isCjFlJkXqg5SzQb1SUfklPT7
- 5EVPxTTtOb+WIrwSNBR43M4f7QBUtF4MJCL+EnnWymbBuItwAWzICtdvgQZ4+bLsDb2TKs8Evb2
- 3EqUyBLgyZPRRlFOG/QuaetP7kbu8gQuyRllyy1abSCSlI/Fij6Yy5+LsT6kuWFUuu4YKhA==
-X-Gm-Gg: ASbGncuSEf48NEaM9MZikRKjfMblvUPQ+f+Br/JouTdGwb1My4scXMGYGBE0F1W0edy
- rnjCqTzNlyHuBtrTBlVr8LIP5vCPgFKYA7QmKsn/OE/aUvgrJqiWrEwyWykX+XXrQlHLxD+vDun
- bdV7dQVLKHXCHhsW8lMFtOWi71zbgj2xrHGfd+7cZRBLqDow2VK8nqXvzXRUFI8qpJlZ3lDF5LR
- u6DtZ/cf6mfYLayvICj8PqqdFg6zJ74xPoLqgJ02cKMWfnKiBkv6hyjLAfbs41ThwPRMCf3b/V/
- wbgDG2Jq54vjm659B5dqaS3nEVUQbKM5YtFGl+qLZGhMcHbqzXQ7I11uzfXisG046r0ApxXwY7d
- VKr9XNnJzn2dHQQUNAsYMrhVMJFJ6/nc6UCePNaI=
-X-Received: by 2002:a5d:5c89:0:b0:407:7a7:1cb6 with SMTP id
- ffacd0b85a97d-429b4ca3e2emr1008020f8f.55.1761781090460; 
- Wed, 29 Oct 2025 16:38:10 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IE1uEuB+3v8AoscTZsHMuW4VKp5DpDnedQw28SoYh2t0KnxCPl65xDRR4J3Kh76yfotw/qtRQ==
-X-Received: by 2002:a5d:5c89:0:b0:407:7a7:1cb6 with SMTP id
- ffacd0b85a97d-429b4ca3e2emr1007999f8f.55.1761781090028; 
- Wed, 29 Oct 2025 16:38:10 -0700 (PDT)
-Received: from ?IPV6:2a01:e0a:d5:a000:d252:5640:545:41db?
- ([2a01:e0a:d5:a000:d252:5640:545:41db])
+ bh=RlOA3yo8oapL6z88NAIu8PVoZTfephjCzUiz6uOkvUM=;
+ b=unKe0lbyfB37F04RaJ+g0tKskndfkLZR0dWPUG+QfL8+vaibLCAKRNIWZ+V7cBSqtz
+ XvVF4QEShZVEklbP7KBXJqJYO+4zHaRi5FXiyXmFlbPsefTbMHPnxPy3awERiI/yomts
+ SHCBqsT5+IulL4+7Rrv094x+g07f4p9HxjTs04CiYKwbYgzZvO8iE5sTn4AQQduMSpHP
+ jTWADUG2sVTxp+3Q0VoL8wNbLbj8ekjQ+9wNxvx4FgNdr386Ocux+odnuhGXrBbqVGG+
+ ZDXTNCWxPvZKkWatpqutOeWmdPP0IaNQcpT5jGWXtUK1D8G5zOtClyVmFX6b0103RuGB
+ EqwA==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCUNhado+qsPUdWJlk4SaHNYGh2jx7yZ6Kw+h3t+ggSlBdoMEV0ftqAoLyJu5yoNzC3r7Rho18TJtc8=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YwyOFsXwY6/x3Z0EW8WL6VspRtM9F2bKkRct5h3AtK1C8TvJsFi
+ O4NSghmXx7mSzszYpXANZLuBUSLDbbWJB8qEz6h1ffvg/Xw1kZp5mo1wG52lZ3X9sZI86PR917G
+ RvJDq9eOKYmG2TEZbCTrFqTAL4a4tFtMg1nXaIbNbNfxJF4Ce/6RQId0lnEqCaGGsabw1Sxc=
+X-Gm-Gg: ASbGnctooYDMhav/LgsXHRciD8xsluM/eyVqfZiGpHpERiYD5ZtEui1Ps++9BtYblUS
+ 126kNqoJ40Gna49bv2rtP9VkL/zKll2EkNUPBzXsusUydUSoQPG8YPXnoFTByfsDr5TWwmPDIF+
+ eQJ85zkCvcSMJVRMeI2jnnvCC8ck7tvr3BMa2d1m4WWVK45nLEtFmS1Gn+YhNEe4p/yKcPAWOQ0
+ NNVqMnZJUTXJrs9AhhNRuzHX4c0rVebHAZ/tFfULX4NzBVIzW6QvN0HF1cL1fBi+r+6YmsA9eS9
+ /ydhmfX6l3KrcpnHmXmIL1eFVpLhv0ZdX4crZvW/1/Zkg7IfISH4mZ9EpRvEYGOVvLUsjZmyXfZ
+ DAp+/cbg+mivhmlS8q6XZXCyRQ07luFhcbFqRJ2OFp5jxv4r1me2R1jxegCx+ZZEmt80flBAmWM
+ 8vuiYmllI4mWRf
+X-Received: by 2002:a05:622a:355:b0:4e5:6c5e:430a with SMTP id
+ d75a77b69052e-4ed22b201demr15246351cf.64.1761783144880; 
+ Wed, 29 Oct 2025 17:12:24 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IHTTPJzQ4pPAdhaocWtdADne4C/nq9/kxzm5f9yI/Y1cbenNeHY/sD8/KOO3LAKlfuZ51CL3w==
+X-Received: by 2002:a05:622a:355:b0:4e5:6c5e:430a with SMTP id
+ d75a77b69052e-4ed22b201demr15246121cf.64.1761783144399; 
+ Wed, 29 Oct 2025 17:12:24 -0700 (PDT)
+Received: from umbar.lan
+ (2001-14ba-a0c3-3a00-264b-feff-fe8b-be8a.rev.dnainternet.fi.
+ [2001:14ba:a0c3:3a00:264b:feff:fe8b:be8a])
  by smtp.gmail.com with ESMTPSA id
- ffacd0b85a97d-429952e3201sm28696727f8f.47.2025.10.29.16.38.08
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 29 Oct 2025 16:38:08 -0700 (PDT)
-Message-ID: <45733336-720f-484c-b683-66dda19042f7@redhat.com>
-Date: Thu, 30 Oct 2025 00:38:03 +0100
+ 2adb3069b0e04-59301f8471csm4163592e87.106.2025.10.29.17.12.23
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 29 Oct 2025 17:12:23 -0700 (PDT)
+Date: Thu, 30 Oct 2025 02:12:21 +0200
+From: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
+To: "Almahallawy, Khaled" <khaled.almahallawy@intel.com>
+Cc: "intel-xe@lists.freedesktop.org" <intel-xe@lists.freedesktop.org>,
+ "Nikula, Jani" <jani.nikula@intel.com>,
+ "intel-gfx@lists.freedesktop.org" <intel-gfx@lists.freedesktop.org>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+ "linux-arm-msm@vger.kernel.org" <linux-arm-msm@vger.kernel.org>,
+ "lumag@kernel.org" <lumag@kernel.org>, "sean@poorly.run" <sean@poorly.run>,
+ "robin.clark@oss.qualcomm.com" <robin.clark@oss.qualcomm.com>
+Subject: Re: [PATCH] drm/display/dp: Rename bit 4 of DPCD TEST_REQUEST to
+ match DP2.1 spec
+Message-ID: <75lb7tqpoxvvf72iv3ag23yw32xce6ifxaxq4sghb2jhwxbr5c@wbjnp44tgkm3>
+References: <20251028222817.3290035-1-khaled.almahallawy@intel.com>
+ <jn7piiqfyeiiinpxu5ht7qza2la3cigdqlhtlvuvkbzqeyhcad@v5aypgcrcdok>
+ <d768e2abf7e27edac66f1d0068540e2b0617561e.camel@intel.com>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] drm/ast: Clear preserved bits from register output value
-To: Thomas Zimmermann <tzimmermann@suse.de>, airlied@redhat.com,
- pschneider1968@googlemail.com, airlied@gmail.com, simona@ffwll.ch
-Cc: dri-devel@lists.freedesktop.org, Nick Bowler <nbowler@draconx.ca>,
- Douglas Anderson <dianders@chromium.org>, stable@vger.kernel.org
-References: <20251024073626.129032-1-tzimmermann@suse.de>
-From: Jocelyn Falempe <jfalempe@redhat.com>
-In-Reply-To: <20251024073626.129032-1-tzimmermann@suse.de>
-X-Mimecast-Spam-Score: 0
-X-Mimecast-MFC-PROC-ID: QzXkRvH5DxhHqj_kzsUo4pWZtGqTzDzBayMWha1-Zvs_1761781090
-X-Mimecast-Originator: redhat.com
-Content-Language: en-US, fr
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <d768e2abf7e27edac66f1d0068540e2b0617561e.camel@intel.com>
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUxMDMwMDAwMCBTYWx0ZWRfX6W2jooRs2ooV
+ I25gCcY70yjNojnUpC8XaZl8KVVJ8zZwLdw8BLSbfoCjOV9vEjxHCNQcuLIj59uO7kAQK+NHE+0
+ UAW3hM98+XOxpLUL3gEVCIP+5TdoMxJvDrX1baya2edAqi5eZPIVYBSNNrI+wEHn2cjiFs4nxsU
+ 7sXJYit9j2y2SPOuLNKefkEUkFnrsLkO75Za3Oxk03heuerghVFgifccczaE8PC1M04jsS7X1+r
+ rJe/W0pI8MPqQ7t1avYq7dAYON85oywq44UF19FzsWXzv07odIt5S0fnbPotJm+EN8UDT9P5Xo6
+ +1oelHKYcwaoAT8Hq4VyjpW12AZK8jJmrSckuAWZM9us5pNip+erS6LgWMxWBiEdi9ZWwCRYl+w
+ 2+3r5Xe6z8Pktq0z4sEH7YsQMxMUXg==
+X-Authority-Analysis: v=2.4 cv=S8XUAYsP c=1 sm=1 tr=0 ts=6902ad69 cx=c_pps
+ a=JbAStetqSzwMeJznSMzCyw==:117 a=xqWC_Br6kY4A:10 a=8nJEP1OIZ-IA:10
+ a=x6icFKpwvdMA:10 a=s4-Qcg_JpJYA:10 a=VkNPw1HP01LnGYTKEx00:22
+ a=QyXUC8HyAAAA:8 a=EUspDBNiAAAA:8 a=VwQbUJbxAAAA:8 a=COk6AnOGAAAA:8
+ a=IdroE-pjToVxfVGS2yYA:9 a=3ZKOabzyN94A:10 a=wPNLvfGTeEIA:10
+ a=uxP6HrT_eTzRwkO_Te1X:22 a=TjNXssC_j7lpFel5tvFf:22
+X-Proofpoint-GUID: aZrhzxPuqvlM7I6aQRYN0OcxqjkZMLOl
+X-Proofpoint-ORIG-GUID: aZrhzxPuqvlM7I6aQRYN0OcxqjkZMLOl
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.9,FMLib:17.12.100.49
+ definitions=2025-10-29_08,2025-10-29_03,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ suspectscore=0 malwarescore=0 spamscore=0 bulkscore=0 clxscore=1015
+ phishscore=0 priorityscore=1501 impostorscore=0 lowpriorityscore=0
+ adultscore=0 classifier=typeunknown authscore=0 authtc= authcc=
+ route=outbound adjust=0 reason=mlx scancount=1 engine=8.22.0-2510240001
+ definitions=main-2510300000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -102,57 +150,37 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 24/10/2025 09:35, Thomas Zimmermann wrote:
-> Preserve the I/O register bits in __ast_write8_i_masked() as specified
-> by preserve_mask. Accidentally OR-ing the output value into these will
-> overwrite the register's previous settings.
+On Wed, Oct 29, 2025 at 09:43:45PM +0000, Almahallawy, Khaled wrote:
+> On Wed, 2025-10-29 at 10:57 +0200, Dmitry Baryshkov wrote:
+> > On Tue, Oct 28, 2025 at 03:28:17PM -0700, Khaled Almahallawy wrote:
+> > > The DP_TEST_LINK_FAUX_PATTERN field was deprecated in the DP 1.3
+> > > spec.
+> > > Update its name to align with the DP 2.1 definition and reflect its
+> > > actual use in the code. No functional changes.
+> > > 
+> > > Cc: Jani Nikula <jani.nikula@intel.com>
+> > > Cc: Rob Clark <robin.clark@oss.qualcomm.com>
+> > > Cc: Dmitry Baryshkov <lumag@kernel.org>
+> > > Cc: Abhinav Kumar <quic_abhinavk@quicinc.com>
+> > > Cc: Sean Paul <sean@poorly.run>
+> > > Signed-off-by: Khaled Almahallawy <khaled.almahallawy@intel.com>
+> > > ---
+> > >  drivers/gpu/drm/msm/dp/dp_link.c | 2 +-
+> > >  include/drm/display/drm_dp.h     | 2 +-
+> > >  2 files changed, 2 insertions(+), 2 deletions(-)
+> > > 
+> > 
+> > Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
+> > 
+> > Would you prefer to merge this through drm-misc-next or through msm-
+> > next?
 > 
-> Fixes display output on the AST2300, where the screen can go blank at
-> boot. The driver's original commit 312fec1405dd ("drm: Initial KMS
-> driver for AST (ASpeed Technologies) 2000 series (v2)") already added
-> the broken code. Commit 6f719373b943 ("drm/ast: Blank with VGACR17 sync
-> enable, always clear VGACRB6 sync off") triggered the bug.
+> Thank you for your review. 
+> it would be great if you can merge to drm-misc-next after I address
+> Konrad input.
 
-Thanks, it looks good to me.
+Yes, please send v2 once it's ready.
 
-Reviewed-by: Jocelyn Falempe <jfalempe@redhat.com>>
-> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
-> Reported-by: Peter Schneider <pschneider1968@googlemail.com>
-> Closes: https://lore.kernel.org/dri-devel/a40caf8e-58ad-4f9c-af7f-54f6f69c29bb@googlemail.com/
-> Tested-by: Peter Schneider <pschneider1968@googlemail.com>
-> Fixes: 6f719373b943 ("drm/ast: Blank with VGACR17 sync enable, always clear VGACRB6 sync off")
-> Fixes: 312fec1405dd ("drm: Initial KMS driver for AST (ASpeed Technologies) 2000 series (v2)")
-> Cc: Thomas Zimmermann <tzimmermann@suse.de>
-> Cc: Nick Bowler <nbowler@draconx.ca>
-> Cc: Douglas Anderson <dianders@chromium.org>
-> Cc: Dave Airlie <airlied@redhat.com>
-> Cc: Jocelyn Falempe <jfalempe@redhat.com>
-> Cc: dri-devel@lists.freedesktop.org
-> Cc: <stable@vger.kernel.org> # v3.5+
-> ---
->   drivers/gpu/drm/ast/ast_drv.h | 8 ++++----
->   1 file changed, 4 insertions(+), 4 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/ast/ast_drv.h b/drivers/gpu/drm/ast/ast_drv.h
-> index 7be36a358e74..787e38c6c17d 100644
-> --- a/drivers/gpu/drm/ast/ast_drv.h
-> +++ b/drivers/gpu/drm/ast/ast_drv.h
-> @@ -298,13 +298,13 @@ static inline void __ast_write8_i(void __iomem *addr, u32 reg, u8 index, u8 val)
->   	__ast_write8(addr, reg + 1, val);
->   }
->   
-> -static inline void __ast_write8_i_masked(void __iomem *addr, u32 reg, u8 index, u8 read_mask,
-> +static inline void __ast_write8_i_masked(void __iomem *addr, u32 reg, u8 index, u8 preserve_mask,
->   					 u8 val)
->   {
-> -	u8 tmp = __ast_read8_i_masked(addr, reg, index, read_mask);
-> +	u8 tmp = __ast_read8_i_masked(addr, reg, index, preserve_mask);
->   
-> -	tmp |= val;
-> -	__ast_write8_i(addr, reg, index, tmp);
-> +	val &= ~preserve_mask;
-> +	__ast_write8_i(addr, reg, index, tmp | val);
->   }
->   
->   static inline u32 ast_read32(struct ast_device *ast, u32 reg)
-
+-- 
+With best wishes
+Dmitry
