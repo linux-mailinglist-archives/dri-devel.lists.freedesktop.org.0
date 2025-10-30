@@ -2,36 +2,36 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 20476C20798
+	by mail.lfdr.de (Postfix) with ESMTPS id 26888C2079A
 	for <lists+dri-devel@lfdr.de>; Thu, 30 Oct 2025 15:06:14 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1113D10E9A8;
-	Thu, 30 Oct 2025 14:05:51 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D731210E9A6;
+	Thu, 30 Oct 2025 14:05:50 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="Yxht4ber";
+	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="dhH1JejG";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from bali.collaboradmins.com (bali.collaboradmins.com
  [148.251.105.195])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4FA8E10E99B;
- Thu, 30 Oct 2025 14:05:45 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5933D10E9A0;
+ Thu, 30 Oct 2025 14:05:46 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1761833143;
- bh=UeV0LIN5Ec5eVB3X8qtqOLOQkIXhZeTSjt0dflVAxAQ=;
+ s=mail; t=1761833145;
+ bh=xL+Viqv64mI+Im4ey3Ty/IK9F7Sj8Rb4pKiYLXdhThQ=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=Yxht4ber4TajRM7QyGWjslxE17ty/CG062uEJzC79bLemEuRKLpB+hzfHqeMBWfJ0
- 5q/D/POePaltJFHMi7N8kA6R2M3s4YA6t6uaGnFb9wWCvlXCA+txvMayAY3+03LWZA
- SXU65m+TT5YZz2d0f6cZ7ScRbpEU9mTnin644z1s7GomAWzuT9acsXdA5OKXW93jJH
- Mlq5+sB9ri/WbQmxb9osMP/pjpwU6UyjRPwLy+2nYEnPUUBQMShNZrNur1cuXTZMif
- 4sLNVtgST/V5p8QWdB6pFE1vYr7bk4xE7QRGsAw0+YkwK1zxZ4AWnl2l5Mkd1wksPA
- BZZulbFtzuUqA==
+ b=dhH1JejGxCteeY+dDW0fqhedODVfthiuQGN+7L6FVL2a1O3QPIApiGguvqfbkmhsE
+ 3l4uhx05vaOGmS/2vBzMRQRR96hTeeAPuNrKPUUCOZYxTVuiQ4QYASlQwEvI9y8a54
+ hVJg4x91wupSsCu8rWbBgvRiHqlQKEwTX570Q+c/pI/uPvEXWzt7NFJ4mf92b7mysL
+ hudj68u6ln1XwHv9/qQZwgy3pNBF9TVfiPsBO91DtKQt6xxl36OBeAj+vw2Y1NWhWX
+ wYTdMFgAFwDRNb5nIy8/i5jVj4o2Ku14tYuWZBTqP1TEtnoYBsu7uXOfl5m1XPetX/
+ 4/pb2BJ9S8Hpg==
 Received: from fedora (unknown [IPv6:2a01:e0a:2c:6930:a2a7:f53:ebb0:945e])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
  (No client certificate requested) (Authenticated sender: bbrezillon)
- by bali.collaboradmins.com (Postfix) with ESMTPSA id 0F85517E159C;
- Thu, 30 Oct 2025 15:05:43 +0100 (CET)
+ by bali.collaboradmins.com (Postfix) with ESMTPSA id 16E9117E15AB;
+ Thu, 30 Oct 2025 15:05:44 +0100 (CET)
 From: Boris Brezillon <boris.brezillon@collabora.com>
 To: Steven Price <steven.price@arm.com>
 Cc: dri-devel@lists.freedesktop.org,
@@ -57,9 +57,9 @@ Cc: dri-devel@lists.freedesktop.org,
  =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
  amd-gfx@lists.freedesktop.org,
  Boris Brezillon <boris.brezillon@collabora.com>, kernel@collabora.com
-Subject: [PATCH v5 07/16] drm/panthor: Add a PANTHOR_BO_SYNC ioctl
-Date: Thu, 30 Oct 2025 15:05:16 +0100
-Message-ID: <20251030140525.366636-8-boris.brezillon@collabora.com>
+Subject: [PATCH v5 08/16] drm/panthor: Add an ioctl to query BO flags
+Date: Thu, 30 Oct 2025 15:05:17 +0100
+Message-ID: <20251030140525.366636-9-boris.brezillon@collabora.com>
 X-Mailer: git-send-email 2.51.0
 In-Reply-To: <20251030140525.366636-1-boris.brezillon@collabora.com>
 References: <20251030140525.366636-1-boris.brezillon@collabora.com>
@@ -80,13 +80,15 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This will be used by the UMD to synchronize CPU-cached mappings when
-the UMD can't do it directly (no usermode cache maintenance instruction
-on Arm32).
+This is useful when importing BOs, so we can know about cacheability
+and flush the caches when needed.
+
+We can also know when the buffer comes from a different subsystem and
+take proper actions (avoid CPU mappings, or do kernel-based syncs
+instead of userland cache flushes).
 
 v2:
-- Change the flags so they better match the drm_gem_shmem_sync()
-  semantics
+- New commit
 
 v3:
 - Add Steve's R-b
@@ -95,204 +97,136 @@ v4:
 - No changes
 
 v5:
-- Drop Steve's R-b (the semantics changes call for a new review)
+- No changes
 
-Signed-off-by: Faith Ekstrand <faith.ekstrand@collabora.com>
 Signed-off-by: Boris Brezillon <boris.brezillon@collabora.com>
+Reviewed-by: Steven Price <steven.price@arm.com>
 ---
- drivers/gpu/drm/panthor/panthor_drv.c | 42 +++++++++++++++++++++-
- drivers/gpu/drm/panthor/panthor_gem.c | 21 +++++++++++
- drivers/gpu/drm/panthor/panthor_gem.h |  3 ++
- include/uapi/drm/panthor_drm.h        | 52 +++++++++++++++++++++++++++
- 4 files changed, 117 insertions(+), 1 deletion(-)
+ drivers/gpu/drm/panthor/panthor_drv.c | 24 +++++++++++
+ include/uapi/drm/panthor_drm.h        | 57 +++++++++++++++++++++++++++
+ 2 files changed, 81 insertions(+)
 
 diff --git a/drivers/gpu/drm/panthor/panthor_drv.c b/drivers/gpu/drm/panthor/panthor_drv.c
-index 99a4534c0074..cad5c4270b04 100644
+index cad5c4270b04..c07fc5dcd4a1 100644
 --- a/drivers/gpu/drm/panthor/panthor_drv.c
 +++ b/drivers/gpu/drm/panthor/panthor_drv.c
-@@ -175,7 +175,8 @@ panthor_get_uobj_array(const struct drm_panthor_obj_array *in, u32 min_stride,
- 		 PANTHOR_UOBJ_DECL(struct drm_panthor_sync_op, timeline_value), \
- 		 PANTHOR_UOBJ_DECL(struct drm_panthor_queue_submit, syncs), \
- 		 PANTHOR_UOBJ_DECL(struct drm_panthor_queue_create, ringbuf_size), \
--		 PANTHOR_UOBJ_DECL(struct drm_panthor_vm_bind_op, syncs))
-+		 PANTHOR_UOBJ_DECL(struct drm_panthor_vm_bind_op, syncs), \
-+		 PANTHOR_UOBJ_DECL(struct drm_panthor_bo_sync_op, size))
- 
- /**
-  * PANTHOR_UOBJ_SET() - Copy a kernel object to a user object.
-@@ -1394,6 +1395,44 @@ static int panthor_ioctl_set_user_mmio_offset(struct drm_device *ddev,
- 	return 0;
+@@ -1433,6 +1433,29 @@ static int panthor_ioctl_bo_sync(struct drm_device *ddev, void *data,
+ 	return ret;
  }
  
-+#define PANTHOR_BO_SYNC_OP_FLAGS                                      \
-+	(DRM_PANTHOR_BO_SYNC_FOR_DEV | DRM_PANTHOR_BO_SYNC_FOR_READ | \
-+	 DRM_PANTHOR_BO_SYNC_FOR_WRITE)
-+
-+static int panthor_ioctl_bo_sync(struct drm_device *ddev, void *data,
-+				 struct drm_file *file)
++static int panthor_ioctl_bo_query_info(struct drm_device *ddev, void *data,
++				       struct drm_file *file)
 +{
-+	struct drm_panthor_bo_sync *args = data;
-+	struct drm_panthor_bo_sync_op *ops;
++	struct drm_panthor_bo_query_info *args = data;
++	struct panthor_gem_object *bo;
 +	struct drm_gem_object *obj;
-+	int ret = 0;
 +
-+	ret = PANTHOR_UOBJ_GET_ARRAY(ops, &args->ops);
-+	if (ret)
-+		return ret;
++	obj = drm_gem_object_lookup(file, args->handle);
++	if (!obj)
++		return -ENOENT;
 +
-+	for (u32 i = 0; i < args->ops.count; i++) {
-+		obj = drm_gem_object_lookup(file, ops[i].handle);
-+		if (!obj) {
-+			ret = -ENOENT;
-+			goto err_ops;
-+		}
++	bo = to_panthor_bo(obj);
++	args->pad = 0;
++	args->create_flags = bo->flags;
 +
-+		ret = panthor_gem_sync(obj, ops[i].type, ops[i].offset,
-+				       ops[i].size);
++	args->extra_flags = 0;
++	if (drm_gem_is_imported(&bo->base.base))
++		args->extra_flags |= DRM_PANTHOR_BO_IS_IMPORTED;
 +
-+		drm_gem_object_put(obj);
-+
-+		if (ret)
-+			goto err_ops;
-+	}
-+
-+err_ops:
-+	kvfree(ops);
-+
-+	return ret;
++	drm_gem_object_put(obj);
++	return 0;
 +}
 +
  static int
  panthor_open(struct drm_device *ddev, struct drm_file *file)
  {
-@@ -1468,6 +1507,7 @@ static const struct drm_ioctl_desc panthor_drm_driver_ioctls[] = {
- 	PANTHOR_IOCTL(GROUP_SUBMIT, group_submit, DRM_RENDER_ALLOW),
+@@ -1508,6 +1531,7 @@ static const struct drm_ioctl_desc panthor_drm_driver_ioctls[] = {
  	PANTHOR_IOCTL(BO_SET_LABEL, bo_set_label, DRM_RENDER_ALLOW),
  	PANTHOR_IOCTL(SET_USER_MMIO_OFFSET, set_user_mmio_offset, DRM_RENDER_ALLOW),
-+	PANTHOR_IOCTL(BO_SYNC, bo_sync, DRM_RENDER_ALLOW),
+ 	PANTHOR_IOCTL(BO_SYNC, bo_sync, DRM_RENDER_ALLOW),
++	PANTHOR_IOCTL(BO_QUERY_INFO, bo_query_info, DRM_RENDER_ALLOW),
  };
  
  static int panthor_mmap(struct file *filp, struct vm_area_struct *vma)
-diff --git a/drivers/gpu/drm/panthor/panthor_gem.c b/drivers/gpu/drm/panthor/panthor_gem.c
-index 160692e45f44..1b1e98c61b8c 100644
---- a/drivers/gpu/drm/panthor/panthor_gem.c
-+++ b/drivers/gpu/drm/panthor/panthor_gem.c
-@@ -357,6 +357,27 @@ panthor_gem_kernel_bo_set_label(struct panthor_kernel_bo *bo, const char *label)
- 	panthor_gem_bo_set_label(bo->obj, str);
- }
- 
-+int
-+panthor_gem_sync(struct drm_gem_object *obj, u32 type,
-+		 u64 offset, u64 size)
-+{
-+	enum drm_gem_shmem_sync_type shmem_sync_type;
-+	struct panthor_gem_object *bo = to_panthor_bo(obj);
-+
-+	switch (type) {
-+	case DRM_PANTHOR_BO_SYNC_CPU_CACHE_FLUSH:
-+		shmem_sync_type = DRM_GEM_SHMEM_SYNC_CPU_CACHE_FLUSH;
-+		break;
-+	case DRM_PANTHOR_BO_SYNC_CPU_CACHE_FLUSH_AND_INVALIDATE:
-+		shmem_sync_type = DRM_GEM_SHMEM_SYNC_CPU_CACHE_FLUSH_AND_INVALIDATE;
-+		break;
-+	default:
-+		return -EINVAL;
-+	}
-+
-+	return drm_gem_shmem_sync(&bo->base, offset, size, shmem_sync_type);
-+}
-+
- #ifdef CONFIG_DEBUG_FS
- struct gem_size_totals {
- 	size_t size;
-diff --git a/drivers/gpu/drm/panthor/panthor_gem.h b/drivers/gpu/drm/panthor/panthor_gem.h
-index 528088839468..8705c492c5b6 100644
---- a/drivers/gpu/drm/panthor/panthor_gem.h
-+++ b/drivers/gpu/drm/panthor/panthor_gem.h
-@@ -147,6 +147,9 @@ panthor_gem_create_with_handle(struct drm_file *file,
- void panthor_gem_bo_set_label(struct drm_gem_object *obj, const char *label);
- void panthor_gem_kernel_bo_set_label(struct panthor_kernel_bo *bo, const char *label);
- 
-+int panthor_gem_sync(struct drm_gem_object *obj,
-+		     u32 type, u64 offset, u64 size);
-+
- const struct dma_buf_ops *
- panthor_gem_prime_get_dma_buf_ops(struct drm_device *dev);
- 
 diff --git a/include/uapi/drm/panthor_drm.h b/include/uapi/drm/panthor_drm.h
-index f0f637e0631d..bb12760abe99 100644
+index bb12760abe99..7eec9f922183 100644
 --- a/include/uapi/drm/panthor_drm.h
 +++ b/include/uapi/drm/panthor_drm.h
-@@ -144,6 +144,9 @@ enum drm_panthor_ioctl_id {
- 	 * pgoff_t size.
- 	 */
- 	DRM_PANTHOR_SET_USER_MMIO_OFFSET,
+@@ -147,6 +147,13 @@ enum drm_panthor_ioctl_id {
+ 
+ 	/** @DRM_PANTHOR_BO_SYNC: Sync BO data to/from the device */
+ 	DRM_PANTHOR_BO_SYNC,
 +
-+	/** @DRM_PANTHOR_BO_SYNC: Sync BO data to/from the device */
-+	DRM_PANTHOR_BO_SYNC,
++	/**
++	 * @DRM_PANTHOR_BO_QUERY_INFO: Query information about a BO.
++	 *
++	 * This is useful for imported BOs.
++	 */
++	DRM_PANTHOR_BO_QUERY_INFO,
  };
  
  /**
-@@ -1073,6 +1076,53 @@ struct drm_panthor_set_user_mmio_offset {
- 	__u64 offset;
+@@ -1123,6 +1130,54 @@ struct drm_panthor_bo_sync {
+ 	struct drm_panthor_obj_array ops;
  };
  
 +/**
-+ * enum drm_panthor_bo_sync_op_type - BO sync type
++ * enum drm_panthor_bo_extra_flags - Set of flags returned on a BO_QUERY_INFO request
++ *
++ * Those are flags reflecting BO properties that are not directly coming from the flags
++ * passed are creation time, or information on BOs that were imported from other drivers.
 + */
-+enum drm_panthor_bo_sync_op_type {
-+	/** @DRM_PANTHOR_BO_SYNC_CPU_CACHE_FLUSH: Flush CPU caches. */
-+	DRM_PANTHOR_BO_SYNC_CPU_CACHE_FLUSH = 0,
-+
-+	/** @DRM_PANTHOR_BO_SYNC_CPU_CACHE_FLUSH_AND_INVALIDATE: Flush and invalidate CPU caches. */
-+	DRM_PANTHOR_BO_SYNC_CPU_CACHE_FLUSH_AND_INVALIDATE = 1,
++enum drm_panthor_bo_extra_flags {
++	/**
++	 * @DRM_PANTHOR_BO_IS_IMPORTED: BO has been imported from an external driver.
++	 *
++	 * Note that imported dma-buf handles are not flagged as imported if they
++	 * where exported by panthor. Only buffers that are coming from other drivers
++	 * (dma heaps, other GPUs, display controllers, V4L, ...).
++	 *
++	 * It's also important to note that all imported BOs are mapped cached and can't
++	 * be considered IO-coherent even if the GPU is. This means they require explicit
++	 * syncs that must go through the DRM_PANTHOR_BO_SYNC ioctl (userland cache
++	 * maintenance is not allowed in that case, because extra operations might be
++	 * needed to make changes visible to the CPU/device, like buffer migration when the
++	 * exporter is a GPU with its own VRAM).
++	 */
++	DRM_PANTHOR_BO_IS_IMPORTED = (1 << 0),
 +};
 +
 +/**
-+ * struct drm_panthor_bo_sync_op - BO map sync op
++ * struct drm_panthor_bo_query_info - Query BO info
 + */
-+struct drm_panthor_bo_sync_op {
-+	/** @handle: Handle of the buffer object to sync. */
++struct drm_panthor_bo_query_info {
++	/** @handle: Handle of the buffer object to query flags on. */
 +	__u32 handle;
 +
-+	/** @type: Type of operation. */
-+	__u32 type;
++	/**
++	 * @extra_flags: Combination of enum drm_panthor_bo_extra_flags flags.
++	 */
++	__u32 extra_flags;
 +
 +	/**
-+	 * @offset: Offset into the BO at which the sync range starts.
++	 * @create_flags: Flags passed at creation time.
 +	 *
-+	 * This will be rounded down to the nearest cache line as needed.
++	 * Combination of enum drm_panthor_bo_flags flags.
++	 * Will be zero if the buffer comes from a different driver.
 +	 */
-+	__u64 offset;
++	__u32 create_flags;
 +
-+	/**
-+	 * @size: Size of the range to sync
-+	 *
-+	 * @size + @offset will be rounded up to the nearest cache line as
-+	 * needed.
-+	 */
-+	__u64 size;
-+};
-+
-+/**
-+ * struct drm_panthor_bo_sync - BO map sync request
-+ */
-+struct drm_panthor_bo_sync {
-+	/**
-+	 * @ops: Array of struct drm_panthor_bo_sync_op sync operations.
-+	 */
-+	struct drm_panthor_obj_array ops;
++	/** @pad: Will be zero on return. */
++	__u32 pad;
 +};
 +
  /**
   * DRM_IOCTL_PANTHOR() - Build a Panthor IOCTL number
   * @__access: Access type. Must be R, W or RW.
-@@ -1119,6 +1169,8 @@ enum {
- 		DRM_IOCTL_PANTHOR(WR, BO_SET_LABEL, bo_set_label),
- 	DRM_IOCTL_PANTHOR_SET_USER_MMIO_OFFSET =
+@@ -1171,6 +1226,8 @@ enum {
  		DRM_IOCTL_PANTHOR(WR, SET_USER_MMIO_OFFSET, set_user_mmio_offset),
-+	DRM_IOCTL_PANTHOR_BO_SYNC =
-+		DRM_IOCTL_PANTHOR(WR, BO_SYNC, bo_sync),
+ 	DRM_IOCTL_PANTHOR_BO_SYNC =
+ 		DRM_IOCTL_PANTHOR(WR, BO_SYNC, bo_sync),
++	DRM_IOCTL_PANTHOR_BO_QUERY_INFO =
++		DRM_IOCTL_PANTHOR(WR, BO_QUERY_INFO, bo_query_info),
  };
  
  #if defined(__cplusplus)
