@@ -2,40 +2,85 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B0B11C1F117
-	for <lists+dri-devel@lfdr.de>; Thu, 30 Oct 2025 09:49:02 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 73980C1F0F3
+	for <lists+dri-devel@lfdr.de>; Thu, 30 Oct 2025 09:48:51 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6BAA710E916;
-	Thu, 30 Oct 2025 08:48:55 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 719CB10E8C4;
+	Thu, 30 Oct 2025 08:48:47 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=mac.com header.i=@mac.com header.b="bZcTJyVj";
+	dkim=pass (2048-bit key; unprotected) header.d=jeffgeerling.com header.i=@jeffgeerling.com header.b="ndQaUWO+";
+	dkim=pass (2048-bit key; unprotected) header.d=messagingengine.com header.i=@messagingengine.com header.b="NAIoBtQx";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 974 seconds by postgrey-1.36 at gabe;
- Thu, 30 Oct 2025 02:06:52 UTC
-Received: from outbound.ci.icloud.com
- (p-east1-cluster5-host9-snip4-10.eps.apple.com [57.103.89.221])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 990DA10E87E
- for <dri-devel@lists.freedesktop.org>; Thu, 30 Oct 2025 02:06:52 +0000 (UTC)
-Received: from outbound.ci.icloud.com (unknown [127.0.0.2])
- by p00-icloudmta-asmtp-us-central-1k-20-percent-2 (Postfix) with ESMTPS id
- 862A9180018B; Thu, 30 Oct 2025 01:50:36 +0000 (UTC)
-Dkim-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mac.com; s=1a1hai;
- bh=I7tCoYxb41/Drq2+GPL1Ci37qVTZZ5eqKPzaURsjoFE=;
- h=From:Message-Id:Content-Type:Mime-Version:Subject:Date:To:x-icloud-hme;
- b=bZcTJyVjYYpYV/dus6KsFPOOrOnVxl1odqgeTbp6Tox5LyPmvPnmLFwJjrt6yUQPa37PWxk/TQlqhRXzjX/GuLZj2U2QigNCwg3eAGC7+xe6mH6lQ5HzexMNvSdTv6F32nB0EL3gM/858KGtNoVDosmKjP8WmiDS6uBgODXl65+rvAeu9aniABBp68sTa30trvgJD/tqe5yduAg9WvlxFdDiJXOh2OTaCoySiYACFg/egrZnpZYSaAx0ss9LNQ+j1CBjOf5e3mTl+IyhJjJzO4D9/rPTa29GLRMKva3vTWaQrvBwpbq4xWKj77IJq6KjxGK8ijL8I7pcuwIynHM7Gw==
-Received: from smtpclient.apple (unknown [17.57.156.36])
- by p00-icloudmta-asmtp-us-central-1k-20-percent-2 (Postfix) with ESMTPSA id
- F341A1800180; Thu, 30 Oct 2025 01:50:35 +0000 (UTC)
-From: Jeff Geerling <geerlingguy@mac.com>
-Message-Id: <3F61A177-482E-496D-9041-ADED72586968@mac.com>
+Received: from fhigh-a6-smtp.messagingengine.com
+ (fhigh-a6-smtp.messagingengine.com [103.168.172.157])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C61C610E068;
+ Thu, 30 Oct 2025 02:01:08 +0000 (UTC)
+Received: from phl-compute-09.internal (phl-compute-09.internal [10.202.2.49])
+ by mailfhigh.phl.internal (Postfix) with ESMTP id EEA2214000DE;
+ Wed, 29 Oct 2025 21:52:10 -0400 (EDT)
+Received: from phl-mailfrontend-01 ([10.202.2.162])
+ by phl-compute-09.internal (MEProxy); Wed, 29 Oct 2025 21:52:10 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+ jeffgeerling.com; h=cc:cc:content-type:content-type:date:date
+ :from:from:in-reply-to:in-reply-to:message-id:mime-version
+ :references:reply-to:subject:subject:to:to; s=fm3; t=1761789130;
+ x=1761875530; bh=hoZGz5R8UoPDoasJsmeTpblX9uvR5hvy9RFLHgLyoVk=; b=
+ ndQaUWO+yZ1GoPFZF00eAAqqLYMoqGLV0+X1BCOceMNK4JZbiPH04BywKaOkBdu9
+ 4eWxPOg+h96KWJ9Z6aurwbmXfSZA/ywJD9EVGmaBYy/sa0nXZunEMZvMI7mNYOzN
+ IIJpnUfMZVMDCqyMAgOPyK+SmMG3CS4BbjFKFSVMj9lpP+euN9JD6g50n1RDJIPO
+ cJhivXmOT1H8TYY1q0ozQrosFRXXbwchpA9jY7eEWxz9jzXiFlRXMul7UvEI6UQs
+ 2lhG26QyNr3iY5oxhU4vjqD08OD8bzloQslhAX46faQYBdGMGwG0s0WGqB8GqOG8
+ dis3P8zv67b7MAy5oyeTIg==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+ messagingengine.com; h=cc:cc:content-type:content-type:date:date
+ :feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
+ :message-id:mime-version:references:reply-to:subject:subject:to
+ :to:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; t=
+ 1761789130; x=1761875530; bh=hoZGz5R8UoPDoasJsmeTpblX9uvR5hvy9RF
+ LHgLyoVk=; b=NAIoBtQxPnr4M8NkG1m+BhkABY6LUyohaXPQEdNThz7mQ7GfLJH
+ PjfWyAb4ZGcsvabkXwubXwt4BgnYS3u22/YsXqwgPHccEVWzOX4EnLD/Wki0SoaJ
+ aJLfz8EAqDjn0YNNxNIvGwqMdbYfSsezjzICSd3Oi679KNru8a1vBNlkBubMGraI
+ h8ME+Y5SH+D4aC7qca6eZEdxsmW48FnHFj7cnKLp/wKew7fCQIfq0qOkxKLouqCi
+ bCOLFYObQPhz+sGhm2WldR3SNGeCc7mMymX8U+oqA/8GwqvxVZpaZEnz4Hvo0bSn
+ 8lad6gO9txPX1kHr7LGcJL3pmLrOmiHHHog==
+X-ME-Sender: <xms:ycQCaVZ8QWI6danacVVcqc7WrlXoKz8K4_XxmQYmiEOYOJS2IVsPHA>
+ <xme:ycQCabU5CnOW7925_dDbvAbi5HQM_F24WHFLsCxAY_wVyPUphKNuICn5Xw73glRwZ
+ NjcWKJDWnocCNTA7aC7KGYgYIiHojLRxne27vcLkLx0MJBYCHTB-vE>
+X-ME-Received: <xmr:ycQCaUCjuYeRGUBWBRnOme8Sc2fY2UugtRLq_tkwoXo7uyfuNBgj9BStSg1IEgTdPX91JhWpU2wiBDTYIFDkQ1Ml2VaDVvbcY3OGkd-OVspr0NIp5H-YbsTgpA>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeeffedrtdeggdduieehfeefucetufdoteggodetrf
+ dotffvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfurfetoffkrfgpnffqhgenuceu
+ rghilhhouhhtmecufedttdenucenucfjughrpefhkfgtggfuffgjvefvfhfosegrtdhmre
+ hhtdejnecuhfhrohhmpeflvghffhcuifgvvghrlhhinhhguceojhgvfhhfsehjvghffhhg
+ vggvrhhlihhnghdrtghomheqnecuggftrfgrthhtvghrnhepkeehhfekteeiueekhfefke
+ fgtdduhffhfeehkeevtdelgedvvdejhfehteelueegnecuffhomhgrihhnpehgihhthhhu
+ sgdrtghomhenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhroh
+ hmpehjvghffhesjhgvfhhfghgvvghrlhhinhhgrdgtohhmpdhnsggprhgtphhtthhopedu
+ fedpmhhouggvpehsmhhtphhouhhtpdhrtghpthhtohepiihhrghnghiihhhijhhivgessg
+ hoshgtrdgrtgdrtghnpdhrtghpthhtohepfigrnhhgrhgrnhessghoshgtrdgrtgdrtghn
+ pdhrtghpthhtohepiihhrghnghhjihgrnhessghoshgtrdgrtgdrtghnpdhrtghpthhtoh
+ epuggrnhhivghlsehffhiflhhlrdgthhdprhgtphhtthhopehjrghnihdrnhhikhhulhgr
+ sehlihhnuhigrdhinhhtvghlrdgtohhmpdhrtghpthhtoheprhhoughrihhgohdrvhhivh
+ hisehinhhtvghlrdgtohhmpdhrtghpthhtohepjhhoohhnrghsrdhlrghhthhinhgvnhes
+ lhhinhhugidrihhnthgvlhdrtghomhdprhgtphhtthhopehtuhhrshhulhhinhesuhhrsh
+ hulhhinhdrnhgvthdprhgtphhtthhopegrihhrlhhivggusehgmhgrihhlrdgtohhm
+X-ME-Proxy: <xmx:ycQCaXJymfIq2F9FkgxBXgdRLHuyrlKGhA5rMeXPtZzYsvBZWcNDCA>
+ <xmx:ycQCaSv20dvhLE0TZsoPRHVevcJ1Ylz1uobnUeo6M_mjUMgubBqGIw>
+ <xmx:ycQCafV834-DGXwdgUzVTLX4nrdDZ2ZPr2Za9KHabBkkO6NORALHkQ>
+ <xmx:ycQCadKx-2cP4pVtq4fC8vKqgQEOC0WItGMwrI5EzZe2DKDfHBQftg>
+ <xmx:ysQCaUdOZTgZEVgk94s7IlQLDcBIFYBDrOMhyLeHSgPuoKQrD9xsEr5p>
+Feedback-ID: i66614745:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Wed,
+ 29 Oct 2025 21:52:08 -0400 (EDT)
+From: Jeff Geerling <jeff@jeffgeerling.com>
+Message-Id: <2B3AAFA6-E0CD-471D-A377-A8E487CCA2FB@jeffgeerling.com>
 Content-Type: multipart/alternative;
- boundary="Apple-Mail=_358AD353-3A03-4A64-9985-3310BC9941E7"
+ boundary="Apple-Mail=_E2ADBE55-4107-404A-B7A4-445B49A28299"
 Mime-Version: 1.0 (Mac OS X Mail 16.0 \(3864.100.1.1.5\))
 Subject: Re: [PATCH v1] Support Intel Xe GPU dirver Porting on RISC-V
  Architecture
-Date: Wed, 29 Oct 2025 20:50:25 -0500
+Date: Wed, 29 Oct 2025 20:51:58 -0500
 In-Reply-To: <20250715061837.2144388-1-zhangzhijie@bosc.ac.cn>
 Cc: wangran@bosc.ac.cn, zhangjian@bosc.ac.cn, daniel@ffwll.ch,
  jani.nikula@linux.intel.com, rodrigo.vivi@intel.com,
@@ -45,21 +90,6 @@ Cc: wangran@bosc.ac.cn, zhangjian@bosc.ac.cn, daniel@ffwll.ch,
 To: zhangzhijie <zhangzhijie@bosc.ac.cn>
 References: <20250715061837.2144388-1-zhangzhijie@bosc.ac.cn>
 X-Mailer: Apple Mail (2.3864.100.1.1.5)
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUxMDMwMDAxMyBTYWx0ZWRfX7Nzw5hUHsoAH
- NL9o2f48K8K3lsRxEEVqMA+oUqeQU+GgbtbEoe+kNCsz+40ojW8iLRih0sAG5qDKGlZGMewFdUl
- oteaC5aFVRGQMVhWsqVb6rEnQiEvkl2TMj/rOlJrNsBIVKpz2UTIlolnmbjEhlr61uKUjqQFPOB
- +EgK0y0oJXu8QTAbSz7pgIHQBByzYIxzGiCHDgfJTFjNPVVBrCteEa7R2x6b6hH7stnPXOE/LnX
- fLlb+87czKiZvgtcVSaDFyEesdgDBdCLySNGJZi5Ihm5sHqgGlj+sGO1i2BVNgsX3tQRcb8n4=
-X-Proofpoint-GUID: p8K_fckhTduZncMkQ8j9IcaRiP8DrrpB
-X-Proofpoint-ORIG-GUID: p8K_fckhTduZncMkQ8j9IcaRiP8DrrpB
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.9,FMLib:17.12.100.49
- definitions=2025-10-30_01,2025-10-29_03,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 adultscore=0
- phishscore=0 spamscore=0 suspectscore=0 mlxscore=0 bulkscore=0
- mlxlogscore=999 clxscore=1011 malwarescore=0 classifier=spam adjust=0
- reason=mlx scancount=1 engine=8.22.0-2506270000 definitions=main-2510300013
-X-JNJ: AAAAAAABWvmhw+ZCaNVFkXiaHhpniypsJ2U6R41zMFCdksvLmUJZqPS+4eKFEtshjOCm+dmmaiV6Jec3YF+cdX4Bh9tC2MmHp5JrrvdBmNPl0cgZAIeEggGIYosWEg20maNVulSvYsMc9QTxYjNOujLI7skMLzyswb8iV5vff+HlQ4yRHjQI4tkIFQDdYMdV1p7QAjAsT5atZFBPMCgQpHFrRlhG9/mWux+XJuFMVRYdrkPIZi3jb3LnysNtPBmHglrnzCaXmKXoEdJlKNRpjt+hfe7gQFbVY6ALqkKsCS2BxTI4kZoHJHnaTg2jBcxUgbzedCV+Gr9MPBFwK0UWVwtoznOolMBPGW3GZiP64OwgpBKIq/qzC+trLOzZpn9z6O5TeRUDkMNV64QI+loyTsaTsgbAQdkZ821xQfBC7AZmu+Aolx5DE+PbN9QmjPrwkRzjIZMagbUHiyplIPefeXny6u6wz2rhCXoTlpWIK8hPSGwIi6nFDkCVzFI9yXQnld/TkI81HA5ATLFuh/gAQ4BrpaxPBJmGuuIOkgCGEXhKNgcecer0WBwGT0KF6s2lTT1Ddja9uGwwVq7iUUMsEaPdgJ/QSgztr+MCSBaBAyi+9vG4L+ubmu3QIpsQLgYNUY+/Q2+H18xcN+DCnIf4rQdvUqgqSp9kkbKh9JnSBJ7Y/nWtD7Nne82X8IXvjiZ6hJI8TvjNj33NdQjlk2GZZnH6+htE0l4WKYPnptFASE0hMnDfvWPxwMj9LTPUZRY9krEJTxJPbiWTNzsZe+hZ5HZs2U49Ns6Ms2/X9H2nFp8kIOax7P39RsfxMKAp61d1u7hy9obP24piL7PDRQer
 X-Mailman-Approved-At: Thu, 30 Oct 2025 08:48:47 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -77,7 +107,7 @@ Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
---Apple-Mail=_358AD353-3A03-4A64-9985-3310BC9941E7
+--Apple-Mail=_E2ADBE55-4107-404A-B7A4-445B49A28299
 Content-Transfer-Encoding: quoted-printable
 Content-Type: text/plain;
 	charset=utf-8
@@ -159,7 +189,7 @@ b/drivers/gpu/drm/i915/display/intel_vga.c
 >=20
 
 
---Apple-Mail=_358AD353-3A03-4A64-9985-3310BC9941E7
+--Apple-Mail=_E2ADBE55-4107-404A-B7A4-445B49A28299
 Content-Transfer-Encoding: quoted-printable
 Content-Type: text/html;
 	charset=utf-8
@@ -184,8 +214,8 @@ required, but otherwise stability is good.<br><div><br></div><div>For =
 example, the A750:&nbsp;<a =
 href=3D"https://github.com/geerlingguy/raspberry-pi-pcie-devices/issues/51=
 0#issuecomment-3383284831">https://github.com/geerlingguy/raspberry-pi-pci=
-e-devices/issues/510#issuecomment-3383284831</a></div><div><div><br><block=
-quote type=3D"cite"><div>On Jul 15, 2025, at 1:18=E2=80=AFAM, =
+e-devices/issues/510#issuecomment-3383284831</a></div></div><div><br><bloc=
+kquote type=3D"cite"><div>On Jul 15, 2025, at 1:18=E2=80=AFAM, =
 zhangzhijie &lt;zhangzhijie@bosc.ac.cn&gt; wrote:</div><br =
 class=3D"Apple-interchange-newline"><div><div> =
 &nbsp;&nbsp;&nbsp;inb/outb speccial wire not support on other =
@@ -236,7 +266,6 @@ class=3D"Apple-tab-span" style=3D"white-space:pre">	=
  style=3D"white-space:pre">	</span>vga_put(pdev, =
 VGA_RSRC_LEGACY_IO);<br>+#endif<br> }<br><br> int =
 intel_vga_register(struct drm_i915_private *i915)<br>-- =
-<br>2.34.1<br><br><br></div></div></blockquote></div><br></div></div></bod=
-y></html>=
+<br>2.34.1<br><br><br></div></div></blockquote></div><br></body></html>=
 
---Apple-Mail=_358AD353-3A03-4A64-9985-3310BC9941E7--
+--Apple-Mail=_E2ADBE55-4107-404A-B7A4-445B49A28299--
