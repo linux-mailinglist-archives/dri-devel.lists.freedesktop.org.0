@@ -2,129 +2,49 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6050AC1FC6D
-	for <lists+dri-devel@lfdr.de>; Thu, 30 Oct 2025 12:18:59 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 248D5C1FC70
+	for <lists+dri-devel@lfdr.de>; Thu, 30 Oct 2025 12:19:05 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B1A3810E107;
-	Thu, 30 Oct 2025 11:18:57 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D4E6310E8E7;
+	Thu, 30 Oct 2025 11:19:02 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=suse.de header.i=@suse.de header.b="P1Pqrmkl";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="umXgXxVA";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="P1Pqrmkl";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="umXgXxVA";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="TUMpsPNY";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
- by gabe.freedesktop.org (Postfix) with ESMTPS id AF2F110E107
- for <dri-devel@lists.freedesktop.org>; Thu, 30 Oct 2025 11:18:56 +0000 (UTC)
-Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested)
- by smtp-out1.suse.de (Postfix) with ESMTPS id 7835F336EE;
- Thu, 30 Oct 2025 11:18:55 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1761823135; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=Etf6rIzRGVD0hvE7ko9UKFt/isUCWJ+a9YJl7qCPizk=;
- b=P1PqrmklZP+UWnTZZAbmQ/Nv3fvGUQ1zJOxVcVy2kOO4Y5XLjXMgpEew0oRV7iQGmFpgt4
- 2ZBWQ8IvblIwzhA2g2upXpV3KiNzom79fy2tgW1yesvzlKDjAmACRrYM/EDCjPWMquFwAq
- CuDyM2aZKF69BX7nxQM7iMYE+dM8DXA=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1761823135;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=Etf6rIzRGVD0hvE7ko9UKFt/isUCWJ+a9YJl7qCPizk=;
- b=umXgXxVAfW/20DwUwFducSLIxMEzAYdAHSL2381IAHDpiA0DTPhYCffwpJxXjQZus4FhYH
- 0ZkxcCBZpMwg7ADQ==
-Authentication-Results: smtp-out1.suse.de;
-	none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1761823135; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=Etf6rIzRGVD0hvE7ko9UKFt/isUCWJ+a9YJl7qCPizk=;
- b=P1PqrmklZP+UWnTZZAbmQ/Nv3fvGUQ1zJOxVcVy2kOO4Y5XLjXMgpEew0oRV7iQGmFpgt4
- 2ZBWQ8IvblIwzhA2g2upXpV3KiNzom79fy2tgW1yesvzlKDjAmACRrYM/EDCjPWMquFwAq
- CuDyM2aZKF69BX7nxQM7iMYE+dM8DXA=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1761823135;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=Etf6rIzRGVD0hvE7ko9UKFt/isUCWJ+a9YJl7qCPizk=;
- b=umXgXxVAfW/20DwUwFducSLIxMEzAYdAHSL2381IAHDpiA0DTPhYCffwpJxXjQZus4FhYH
- 0ZkxcCBZpMwg7ADQ==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested)
- by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 5ED0513393;
- Thu, 30 Oct 2025 11:18:55 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
- by imap1.dmz-prg2.suse.org with ESMTPSA id lX+IFp9JA2mlYQAAD6G6ig
- (envelope-from <tzimmermann@suse.de>); Thu, 30 Oct 2025 11:18:55 +0000
-Message-ID: <908ff7f7-cdf3-4596-9246-0100e4c15820@suse.de>
-Date: Thu, 30 Oct 2025 12:18:55 +0100
+Received: from sea.source.kernel.org (sea.source.kernel.org [172.234.252.31])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6167D10E8E7
+ for <dri-devel@lists.freedesktop.org>; Thu, 30 Oct 2025 11:19:01 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by sea.source.kernel.org (Postfix) with ESMTP id 2EA09417BC;
+ Thu, 30 Oct 2025 11:19:01 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 087A0C4CEF8;
+ Thu, 30 Oct 2025 11:18:58 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1761823141;
+ bh=dMWeVsXlPYq+6w66BT5t7sFQftyp1w+uf3dD7WEW+Wc=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=TUMpsPNY2Avx+CEsJhbuUOTzE6D0vmcukFqQ3brKymX1bSoe2y/32milLkW7nFxpj
+ q5Z82zTpvPttyrM//kUS6S6vjBoeO7qhSCBvRpaDTGwXBe6m8+jNpQb/Q/W2YlpOVz
+ /w0tRON0ru5SGJ2mlOObIDUiYoPmhgkdDduQSbfLSnAx816lOpXXVtOgolbrCE46n7
+ KLpQzkf51qrGwsY8YJMOgs5mh0TM41wmZw87u3fLw8XoW5qoMngAQ5hhC0Uj5xWP6+
+ W3eBFNiRQMH6zm8tGxiAmVpFb8hXfeqzDdNFQxSunEXwFx52w9EEoBJFLEHvOL8B9P
+ UoB0Xs/gV1EEw==
+Date: Thu, 30 Oct 2025 11:20:03 +0000
+From: Daniel Thompson <danielt@kernel.org>
+To: Thomas Zimmermann <tzimmermann@suse.de>
+Cc: ysato@users.sourceforge.jp, dalias@libc.org,
+ glaubitz@physik.fu-berlin.de, lee@kernel.org,
+ simona.vetter@ffwll.ch, linux-sh@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, kernel test robot <lkp@intel.com>,
+ Jingoo Han <jingoohan1@gmail.com>
+Subject: Re: [PATCH] arch: sh: Include <linux/io.h> in dac.h
+Message-ID: <aQNJ4xZzMps_OLD8@aspen.lan>
+References: <20251028170913.16711-1-tzimmermann@suse.de>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2] drm/ast: Handle framebuffer from dma-buf
-To: Jocelyn Falempe <jfalempe@redhat.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Dave Airlie <airlied@redhat.com>,
- Simona Vetter <simona@ffwll.ch>, dri-devel@lists.freedesktop.org
-References: <20251030091627.340780-1-jfalempe@redhat.com>
-Content-Language: en-US
-From: Thomas Zimmermann <tzimmermann@suse.de>
-Autocrypt: addr=tzimmermann@suse.de; keydata=
- xsBNBFs50uABCADEHPidWt974CaxBVbrIBwqcq/WURinJ3+2WlIrKWspiP83vfZKaXhFYsdg
- XH47fDVbPPj+d6tQrw5lPQCyqjwrCPYnq3WlIBnGPJ4/jreTL6V+qfKRDlGLWFjZcsrPJGE0
- BeB5BbqP5erN1qylK9i3gPoQjXGhpBpQYwRrEyQyjuvk+Ev0K1Jc5tVDeJAuau3TGNgah4Yc
- hdHm3bkPjz9EErV85RwvImQ1dptvx6s7xzwXTgGAsaYZsL8WCwDaTuqFa1d1jjlaxg6+tZsB
- 9GluwvIhSezPgnEmimZDkGnZRRSFiGP8yjqTjjWuf0bSj5rUnTGiyLyRZRNGcXmu6hjlABEB
- AAHNJ1Rob21hcyBaaW1tZXJtYW5uIDx0emltbWVybWFubkBzdXNlLmRlPsLAjgQTAQgAOAIb
- AwULCQgHAgYVCgkICwIEFgIDAQIeAQIXgBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftODH
- AAoJEGgNwR1TC3ojx1wH/0hKGWugiqDgLNXLRD/4TfHBEKmxIrmfu9Z5t7vwUKfwhFL6hqvo
- lXPJJKQpQ2z8+X2vZm/slsLn7J1yjrOsoJhKABDi+3QWWSGkaGwRJAdPVVyJMfJRNNNIKwVb
- U6B1BkX2XDKDGffF4TxlOpSQzdtNI/9gleOoUA8+jy8knnDYzjBNOZqLG2FuTdicBXblz0Mf
- vg41gd9kCwYXDnD91rJU8tzylXv03E75NCaTxTM+FBXPmsAVYQ4GYhhgFt8S2UWMoaaABLDe
- 7l5FdnLdDEcbmd8uLU2CaG4W2cLrUaI4jz2XbkcPQkqTQ3EB67hYkjiEE6Zy3ggOitiQGcqp
- j//OwE0EWznS4AEIAMYmP4M/V+T5RY5at/g7rUdNsLhWv1APYrh9RQefODYHrNRHUE9eosYb
- T6XMryR9hT8XlGOYRwKWwiQBoWSDiTMo/Xi29jUnn4BXfI2px2DTXwc22LKtLAgTRjP+qbU6
- 3Y0xnQN29UGDbYgyyK51DW3H0If2a3JNsheAAK+Xc9baj0LGIc8T9uiEWHBnCH+RdhgATnWW
- GKdDegUR5BkDfDg5O/FISymJBHx2Dyoklv5g4BzkgqTqwmaYzsl8UxZKvbaxq0zbehDda8lv
- hFXodNFMAgTLJlLuDYOGLK2AwbrS3Sp0AEbkpdJBb44qVlGm5bApZouHeJ/+n+7r12+lqdsA
- EQEAAcLAdgQYAQgAIAIbDBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftOH6AAoJEGgNwR1T
- C3ojVSkIALpAPkIJPQoURPb1VWjh34l0HlglmYHvZszJWTXYwavHR8+k6Baa6H7ufXNQtThR
- yIxJrQLW6rV5lm7TjhffEhxVCn37+cg0zZ3j7zIsSS0rx/aMwi6VhFJA5hfn3T0TtrijKP4A
- SAQO9xD1Zk9/61JWk8OysuIh7MXkl0fxbRKWE93XeQBhIJHQfnc+YBLprdnxR446Sh8Wn/2D
- Ya8cavuWf2zrB6cZurs048xe0UbSW5AOSo4V9M0jzYI4nZqTmPxYyXbm30Kvmz0rYVRaitYJ
- 4kyYYMhuULvrJDMjZRvaNe52tkKAvMevcGdt38H4KSVXAylqyQOW5zvPc4/sq9c=
-In-Reply-To: <20251030091627.340780-1-jfalempe@redhat.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Spam-Level: 
-X-Spamd-Result: default: False [-4.30 / 50.00]; BAYES_HAM(-3.00)[100.00%];
- NEURAL_HAM_LONG(-1.00)[-1.000];
- NEURAL_HAM_SHORT(-0.20)[-1.000]; MIME_GOOD(-0.10)[text/plain];
- FUZZY_RATELIMITED(0.00)[rspamd.com];
- RCVD_VIA_SMTP_AUTH(0.00)[]; MIME_TRACE(0.00)[0:+];
- ARC_NA(0.00)[]; TO_DN_SOME(0.00)[]; MID_RHS_MATCH_FROM(0.00)[];
- RCVD_TLS_ALL(0.00)[];
- DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
- FROM_HAS_DN(0.00)[]; RCPT_COUNT_FIVE(0.00)[6];
- FROM_EQ_ENVFROM(0.00)[]; TO_MATCH_ENVRCPT_ALL(0.00)[];
- RCVD_COUNT_TWO(0.00)[2];
- DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:email,suse.de:mid]
-X-Spam-Flag: NO
-X-Spam-Score: -4.30
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20251028170913.16711-1-tzimmermann@suse.de>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -140,63 +60,23 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
-
-Am 30.10.25 um 10:14 schrieb Jocelyn Falempe:
-> In the atomic update callback, ast should call
-> drm_gem_fb_begin_cpu_access() to make sure it can read the
-> framebuffer from the CPU, otherwise the data might not be there due
-> to cache, and synchronization.
+On Tue, Oct 28, 2025 at 06:07:55PM +0100, Thomas Zimmermann wrote:
+> Include <linux/io.h> to avoid depending on <linux/backlight.h> for
+> including it. Declares __raw_readb() and __raw_writeb().
 >
-> Tested on a Lenovo SE100, while rendering on the ArrowLake GPU with
-> i915 driver, and using ast for display.
->
-> Suggested-by: Thomas Zimmermann <tzimmermann@suse.de>
-> Signed-off-by: Jocelyn Falempe <jfalempe@redhat.com>
+> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
+> Reported-by: kernel test robot <lkp@intel.com>
+> Closes: https://lore.kernel.org/oe-kbuild-all/202510282206.wI0HrqcK-lkp@intel.com/
+> Fixes: 243ce64b2b37 ("backlight: Do not include <linux/fb.h> in header file")
+> Cc: Thomas Zimmermann <tzimmermann@suse.de>
+> Cc: Daniel Thompson (RISCstar) <danielt@kernel.org>
+> Cc: Simona Vetter <simona.vetter@ffwll.ch>
+> Cc: Lee Jones <lee@kernel.org>
+> Cc: Daniel Thompson <danielt@kernel.org>
+> Cc: Jingoo Han <jingoohan1@gmail.com>
+> Cc: dri-devel@lists.freedesktop.org
 
-Reviewed-by: Thomas Zimmermann <tzimmermann@suse.de>
-
-> ---
->
-> v2:
->   * If begin_cpu_access() failed, skip the damage copy, but update the
->     pitch register (Thomas Zimmermann)
->
->   drivers/gpu/drm/ast/ast_mode.c | 11 ++++++++---
->   1 file changed, 8 insertions(+), 3 deletions(-)
->
-> diff --git a/drivers/gpu/drm/ast/ast_mode.c b/drivers/gpu/drm/ast/ast_mode.c
-> index 9ce874dba69c..77d6c2dcfc40 100644
-> --- a/drivers/gpu/drm/ast/ast_mode.c
-> +++ b/drivers/gpu/drm/ast/ast_mode.c
-> @@ -556,9 +556,14 @@ static void ast_primary_plane_helper_atomic_update(struct drm_plane *plane,
->   		ast_set_vbios_color_reg(ast, fb->format, ast_crtc_state->vmode);
->   	}
->   
-> -	drm_atomic_helper_damage_iter_init(&iter, old_plane_state, plane_state);
-> -	drm_atomic_for_each_plane_damage(&iter, &damage) {
-> -		ast_handle_damage(ast_plane, shadow_plane_state->data, fb, &damage);
-> +	/* if the buffer comes from another device */
-> +	if (drm_gem_fb_begin_cpu_access(fb, DMA_FROM_DEVICE) == 0) {
-> +		drm_atomic_helper_damage_iter_init(&iter, old_plane_state, plane_state);
-> +		drm_atomic_for_each_plane_damage(&iter, &damage) {
-> +			ast_handle_damage(ast_plane, shadow_plane_state->data, fb, &damage);
-> +		}
-> +
-> +		drm_gem_fb_end_cpu_access(fb, DMA_FROM_DEVICE);
->   	}
->   
->   	/*
->
-> base-commit: 4f9ffd2c80a2fa09dcc8dfa0482cb7e0fb6fcf6c
-
--- 
---
-Thomas Zimmermann
-Graphics Driver Developer
-SUSE Software Solutions Germany GmbH
-Frankenstrasse 146, 90461 Nuernberg, Germany
-GF: Ivo Totev, Andrew Myers, Andrew McDonald, Boudien Moerman
-HRB 36809 (AG Nuernberg)
+Reviewed-by: Daniel Thompson (RISCstar) <danielt@kernel.org>
 
 
+Daniel.
