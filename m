@@ -2,36 +2,36 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id AB01EC2075D
-	for <lists+dri-devel@lfdr.de>; Thu, 30 Oct 2025 15:05:46 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 519C8C20763
+	for <lists+dri-devel@lfdr.de>; Thu, 30 Oct 2025 15:06:09 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DFD2210E401;
-	Thu, 30 Oct 2025 14:05:44 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6061510E99D;
+	Thu, 30 Oct 2025 14:05:45 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="Uh2wgLfq";
+	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="lJw34kci";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from bali.collaboradmins.com (bali.collaboradmins.com
  [148.251.105.195])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 23A0910E5D2;
- Thu, 30 Oct 2025 14:05:40 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 35A1310E993;
+ Thu, 30 Oct 2025 14:05:41 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1761833138;
- bh=+iu5PtaFpmoSjXtsfCvhEy2qNXj0jXPF8fI4Kum+WdA=;
+ s=mail; t=1761833139;
+ bh=3rG5aKg+AL5ZQCR4iB2jiQLGJuYBkDRu5tq3RKVGZvM=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=Uh2wgLfq0RSTVdQyiwOmvveZKLbWNOHGbdDlnP5a5VZRObATT6DqXF2THJ8cQGA4Q
- 92UyfaDPPuAXj6rLmz6qIYGsNrtvSfIltPNzcfZEX78rdupuERXjdJifod0Bx29X84
- tXCXygmBtnAZALzw6FEbfmUZ00ybhXsMeMVmrWSRU5Gl4GzGz6BjvLmuSXMm+7yuJW
- z0mpU7loOZsiKPxcSzrgOiotn6RfvcROcqWzoMuDJwFhsKHo/bA/t4CcV5B1ck7mPz
- fYPEZlO/m5tvhxvVsY6RtE5c7LHtq/joM3pDClym3qx77IdM6RNoCT0fVj1AtlEnWE
- oMjeP9Ivj956A==
+ b=lJw34kcivR9NsQwvKNLFFEY9/Lt1CU3uVQRRYhjGeaBfkQSxSCzf/4vYEkqg+RAW0
+ 9nlzu2lHOM6NMkO2CI7QMB5NEIfj4BBtsK6RHYPMnrcsHsKHiOtLW0IGAkdftOMpbO
+ JezqqWun+CIvGScRZ2j4ENTytdVErUEEQb7dS8vo8fXLkouwyQ8wrrQxWbCS4k+to3
+ tMN5aFn/99mHmKR1TLMSevKQjJnk3nDpcTifKq2Z/dZeLyXU9sn+o42F8YqoBIqoOR
+ EvB4rKV9mBwzlZ3p7gEKSvZtIcYdWqCFhZdi9ZeVt3+4cN9nz96onJYhwkFKtumIrq
+ +4a9NFgMTz+7g==
 Received: from fedora (unknown [IPv6:2a01:e0a:2c:6930:a2a7:f53:ebb0:945e])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
  (No client certificate requested) (Authenticated sender: bbrezillon)
- by bali.collaboradmins.com (Postfix) with ESMTPSA id D09AB17E1401;
- Thu, 30 Oct 2025 15:05:37 +0100 (CET)
+ by bali.collaboradmins.com (Postfix) with ESMTPSA id DA8D217E1413;
+ Thu, 30 Oct 2025 15:05:38 +0100 (CET)
 From: Boris Brezillon <boris.brezillon@collabora.com>
 To: Steven Price <steven.price@arm.com>
 Cc: dri-devel@lists.freedesktop.org,
@@ -55,12 +55,11 @@ Cc: dri-devel@lists.freedesktop.org,
  Marijn Suijten <marijn.suijten@somainline.org>,
  Alex Deucher <alexander.deucher@amd.com>,
  =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
- amd-gfx@lists.freedesktop.org,
- Boris Brezillon <boris.brezillon@collabora.com>, kernel@collabora.com
-Subject: [PATCH v5 02/16] drm/shmem: Provide a generic {begin,
- end}_cpu_access() implementation
-Date: Thu, 30 Oct 2025 15:05:11 +0100
-Message-ID: <20251030140525.366636-3-boris.brezillon@collabora.com>
+ amd-gfx@lists.freedesktop.org, kernel@collabora.com,
+ Boris Brezillon <boris.brezillon@collabora.com>
+Subject: [PATCH v5 03/16] drm/shmem: Add a drm_gem_shmem_sync() helper
+Date: Thu, 30 Oct 2025 15:05:12 +0100
+Message-ID: <20251030140525.366636-4-boris.brezillon@collabora.com>
 X-Mailer: git-send-email 2.51.0
 In-Reply-To: <20251030140525.366636-1-boris.brezillon@collabora.com>
 References: <20251030140525.366636-1-boris.brezillon@collabora.com>
@@ -81,167 +80,165 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The default implementation simply takes care of invalidating/flushing
-caches around CPU accesses. It takes care of both the exporter and
-the importers, which forces us to overload the default
-::[un]map_dma_buf() implementation provided by drm_gem.c to store the
-sgt.
+From: Faith Ekstrand <faith.ekstrand@collabora.com>
+
+This enables syncing mapped GEM objects between the CPU and GPU via calls
+to dma_sync_*().  It's a bit annoying as it requires walking the sg_table
+so it's best if every driver doesn't hand-roll it.
+
+v2:
+- s/drm_gem_shmem_sync_mmap/drm_gem_shmem_sync/
+- Change the prototype to match drm_gem_object_funcs::sync()
+- Add a wrapper for drm_gem_object_funcs::sync()
+
+v3:
+- No changes
+
+v4:
+- Add Steve's R-b
 
 v5:
-- New patch
+- Change the semantics of the drm_gem_shmem_sync() helper to better
+  reflect the UMD cache flush/flush+invalidate semantics (discussed
+  with Faith)
+- Drop R-bs
 
+Signed-off-by: Faith Ekstrand <faith.ekstrand@collabora.com>
 Signed-off-by: Boris Brezillon <boris.brezillon@collabora.com>
 ---
- drivers/gpu/drm/drm_gem_shmem_helper.c | 114 +++++++++++++++++++++++++
- include/drm/drm_gem_shmem_helper.h     |  10 +++
- 2 files changed, 124 insertions(+)
+ drivers/gpu/drm/drm_gem_shmem_helper.c | 93 ++++++++++++++++++++++++++
+ include/drm/drm_gem_shmem_helper.h     | 14 ++++
+ 2 files changed, 107 insertions(+)
 
 diff --git a/drivers/gpu/drm/drm_gem_shmem_helper.c b/drivers/gpu/drm/drm_gem_shmem_helper.c
-index dc94a27710e5..e49c75739c20 100644
+index e49c75739c20..d9266e22a0dc 100644
 --- a/drivers/gpu/drm/drm_gem_shmem_helper.c
 +++ b/drivers/gpu/drm/drm_gem_shmem_helper.c
-@@ -893,6 +893,120 @@ struct drm_gem_object *drm_gem_shmem_prime_import_no_map(struct drm_device *dev,
+@@ -690,6 +690,99 @@ int drm_gem_shmem_mmap(struct drm_gem_shmem_object *shmem, struct vm_area_struct
  }
- EXPORT_SYMBOL_GPL(drm_gem_shmem_prime_import_no_map);
+ EXPORT_SYMBOL_GPL(drm_gem_shmem_mmap);
  
 +/**
-+ * drm_gem_shmem_prime_unmap_dma_buf - Default unmap_dma_buf() for exported buffers
-+ * @attach: attachment
-+ * @sgt: SG table to unmap
-+ * @dir: type of access done by this attachment
++ * drm_gem_shmem_sync - Sync CPU-mapped data
++ * @shmem: shmem GEM object
++ * @offset: Offset into the GEM object
++ * @size: Size of the area to sync
++ * @type: Type of synchronization
 + *
-+ * Default implementation for dma_buf_ops::map_dma_buf(). This is just a wrapper
-+ * around drm_gem_map_dma_buf() that lets us set the dma_buf_attachment::priv
-+ * to the sgt so that drm_gem_shmem_prime_{begin,end}_cpu_access() can sync
-+ * around CPU accesses.
++ * Returns:
++ * 0 on success or a negative error code on failure.
 + */
-+struct sg_table *
-+drm_gem_shmem_prime_map_dma_buf(struct dma_buf_attachment *attach,
-+				enum dma_data_direction dir)
++int drm_gem_shmem_sync(struct drm_gem_shmem_object *shmem, size_t offset,
++		       size_t size, enum drm_gem_shmem_sync_type type)
 +{
-+	struct sg_table *sgt = drm_gem_map_dma_buf(attach, dir);
++	const struct drm_device *dev = shmem->base.dev;
++	struct sg_table *sgt;
++	struct scatterlist *sgl;
++	unsigned int count;
 +
-+	if (!IS_ERR(sgt))
-+		attach->priv = sgt;
++	/* Make sure the range is in bounds. */
++	if (offset + size < offset || offset + size > shmem->base.size)
++		return -EINVAL;
 +
-+	return sgt;
-+}
-+EXPORT_SYMBOL_GPL(drm_gem_shmem_prime_map_dma_buf);
++	/* Disallow CPU-cache maintenance on imported buffers. */
++	if (drm_gem_is_imported(&shmem->base))
++		return -EINVAL;
 +
-+/**
-+ * drm_gem_shmem_prime_unmap_dma_buf - Default unmap_dma_buf() for exported buffers
-+ * @attach: attachment
-+ * @sgt: SG table to unmap
-+ * @dir: type of access done by this attachment
-+ *
-+ * Default implementation for dma_buf_ops::unmap_dma_buf(). This is just a wrapper
-+ * around drm_gem_unmap_dma_buf() that lets us reset the dma_buf_attachment::priv
-+ * field so that drm_gem_shmem_prime_{begin,end}_cpu_access() don't consider it
-+ * as a mapped attachment to sync against.
-+ */
-+void drm_gem_shmem_prime_unmap_dma_buf(struct dma_buf_attachment *attach,
-+				       struct sg_table *sgt,
-+				       enum dma_data_direction dir)
-+{
-+	attach->priv = NULL;
-+	drm_gem_unmap_dma_buf(attach, sgt, dir);
-+}
-+EXPORT_SYMBOL_GPL(drm_gem_shmem_prime_unmap_dma_buf);
++	switch (type) {
++	case DRM_GEM_SHMEM_SYNC_CPU_CACHE_FLUSH:
++	case DRM_GEM_SHMEM_SYNC_CPU_CACHE_FLUSH_AND_INVALIDATE:
++		break;
 +
-+/**
-+ * drm_gem_shmem_prime_begin_cpu_access - Default end_cpu_access() for exported buffers
-+ * @dma_buf: The exported DMA buffer this acts on
-+ * @dir: direction of the access
-+ *
-+ * Default implementation for dma_buf_ops::begin_cpu_access(). This only takes care of
-+ * cache maintenance.
-+ */
-+int drm_gem_shmem_prime_begin_cpu_access(struct dma_buf *dma_buf,
-+					 enum dma_data_direction dir)
-+{
-+	struct drm_gem_object *obj = dma_buf->priv;
-+	struct drm_device *dev = obj->dev;
-+	struct drm_gem_shmem_object *shmem = to_drm_gem_shmem_obj(obj);
-+	struct dma_buf_attachment *attach;
-+
-+	dma_resv_lock(obj->resv, NULL);
-+	if (shmem->sgt)
-+		dma_sync_sgtable_for_cpu(dev->dev, shmem->sgt, dir);
-+
-+	if (shmem->vaddr)
-+		invalidate_kernel_vmap_range(shmem->vaddr, shmem->base.size);
-+
-+	list_for_each_entry(attach, &dma_buf->attachments, node) {
-+		struct sg_table *sgt = attach->priv;
-+
-+		if (sgt)
-+			dma_sync_sgtable_for_cpu(attach->dev, sgt, dir);
++	default:
++		return -EINVAL;
 +	}
-+	dma_resv_unlock(obj->resv);
++
++	/* Don't bother if it's WC-mapped */
++	if (shmem->map_wc)
++		return 0;
++
++	/* Nothing to do if the size is zero. */
++	if (size == 0)
++		return 0;
++
++	sgt = drm_gem_shmem_get_pages_sgt(shmem);
++	if (IS_ERR(sgt))
++		return PTR_ERR(sgt);
++
++	for_each_sgtable_dma_sg(sgt, sgl, count) {
++		if (size == 0)
++			break;
++
++		dma_addr_t paddr = sg_dma_address(sgl);
++		size_t len = sg_dma_len(sgl);
++
++		if (len <= offset) {
++			offset -= len;
++			continue;
++		}
++
++		paddr += offset;
++		len -= offset;
++		len = min_t(size_t, len, size);
++		size -= len;
++		offset = 0;
++
++		/* It's unclear whether dma_sync_xxx() is the right API to do CPU
++		 * cache maintenance given an IOMMU can register their own
++		 * implementation doing more than just CPU cache flushes/invalidation,
++		 * and what we really care about here is CPU caches only, but that's
++		 * the best we have that is both arch-agnostic and does at least the
++		 * CPU cache maintenance on a <page,offset,size> tuple.
++		 *
++		 * Also, I wish we could do a single
++		 *
++		 *	dma_sync_single_for_device(BIDIR)
++		 *
++		 * and get a flush+invalidate, but that's not how it's implemented
++		 * in practice (at least on arm64), so we have to make it
++		 *
++		 *	dma_sync_single_for_device(TO_DEVICE)
++		 *	dma_sync_single_for_cpu(FROM_DEVICE)
++		 *
++		 * for the flush+invalidate case.
++		 */
++		dma_sync_single_for_device(dev->dev, paddr, len, DMA_TO_DEVICE);
++		if (type == DRM_GEM_SHMEM_SYNC_CPU_CACHE_FLUSH_AND_INVALIDATE)
++			dma_sync_single_for_cpu(dev->dev, paddr, len, DMA_FROM_DEVICE);
++	}
 +
 +	return 0;
 +}
-+EXPORT_SYMBOL_GPL(drm_gem_shmem_prime_begin_cpu_access);
++EXPORT_SYMBOL_GPL(drm_gem_shmem_sync);
 +
-+/**
-+ * drm_gem_shmem_prime_end_cpu_access - Default end_cpu_access() for exported buffers
-+ * @dma_buf: The exported DMA buffer this acts on
-+ * @dir: direction of the access
-+ *
-+ * Default implementation for dma_buf_ops::end_cpu_access(). This only takes care of
-+ * cache maintenance.
-+ */
-+int drm_gem_shmem_prime_end_cpu_access(struct dma_buf *dma_buf,
-+				       enum dma_data_direction dir)
-+{
-+	struct drm_gem_object *obj = dma_buf->priv;
-+	struct drm_device *dev = obj->dev;
-+	struct drm_gem_shmem_object *shmem = to_drm_gem_shmem_obj(obj);
-+	struct dma_buf_attachment *attach;
-+
-+	dma_resv_lock(obj->resv, NULL);
-+	list_for_each_entry(attach, &dma_buf->attachments, node) {
-+		struct sg_table *sgt = attach->priv;
-+
-+		if (sgt)
-+			dma_sync_sgtable_for_device(attach->dev, sgt, dir);
-+	}
-+
-+	if (shmem->vaddr)
-+		flush_kernel_vmap_range(shmem->vaddr, shmem->base.size);
-+
-+	if (shmem->sgt)
-+		dma_sync_sgtable_for_device(dev->dev, shmem->sgt, dir);
-+
-+	dma_resv_unlock(obj->resv);
-+	return 0;
-+}
-+EXPORT_SYMBOL_GPL(drm_gem_shmem_prime_end_cpu_access);
-+
- MODULE_DESCRIPTION("DRM SHMEM memory-management helpers");
- MODULE_IMPORT_NS("DMA_BUF");
- MODULE_LICENSE("GPL v2");
+ /**
+  * drm_gem_shmem_print_info() - Print &drm_gem_shmem_object info for debugfs
+  * @shmem: shmem GEM object
 diff --git a/include/drm/drm_gem_shmem_helper.h b/include/drm/drm_gem_shmem_helper.h
-index 589f7bfe7506..075275d6b2fd 100644
+index 075275d6b2fd..b0b6d0104a9a 100644
 --- a/include/drm/drm_gem_shmem_helper.h
 +++ b/include/drm/drm_gem_shmem_helper.h
-@@ -291,6 +291,16 @@ int drm_gem_shmem_dumb_create(struct drm_file *file, struct drm_device *dev,
- 			      struct drm_mode_create_dumb *args);
- struct drm_gem_object *drm_gem_shmem_prime_import_no_map(struct drm_device *dev,
- 							 struct dma_buf *buf);
-+struct sg_table *
-+drm_gem_shmem_prime_map_dma_buf(struct dma_buf_attachment *attach,
-+				enum dma_data_direction dir);
-+void drm_gem_shmem_prime_unmap_dma_buf(struct dma_buf_attachment *attach,
-+				       struct sg_table *sgt,
-+				       enum dma_data_direction dir);
-+int drm_gem_shmem_prime_begin_cpu_access(struct dma_buf *dma_buf,
-+					 enum dma_data_direction dir);
-+int drm_gem_shmem_prime_end_cpu_access(struct dma_buf *dma_buf,
-+				       enum dma_data_direction dir);
+@@ -124,6 +124,20 @@ void drm_gem_shmem_vunmap_locked(struct drm_gem_shmem_object *shmem,
+ 				 struct iosys_map *map);
+ int drm_gem_shmem_mmap(struct drm_gem_shmem_object *shmem, struct vm_area_struct *vma);
  
- /**
-  * DRM_GEM_SHMEM_DRIVER_OPS - Default shmem GEM operations
++/**
++ * enum enum drm_gem_shmem_sync_type - Type of synchronization
++ */
++enum drm_gem_shmem_sync_type {
++	/** DRM_GEM_SHMEM_SYNC_CPU_CACHE_FLUSH: Flush CPU caches */
++	DRM_GEM_SHMEM_SYNC_CPU_CACHE_FLUSH = 0,
++
++	/** DRM_GEM_SHMEM_SYNC_CPU_CACHE_FLUSH_AND_INVALIDATE: Flush and invalidate CPU caches */
++	DRM_GEM_SHMEM_SYNC_CPU_CACHE_FLUSH_AND_INVALIDATE,
++};
++
++int drm_gem_shmem_sync(struct drm_gem_shmem_object *shmem, size_t offset,
++		       size_t size, enum drm_gem_shmem_sync_type type);
++
+ int drm_gem_shmem_pin_locked(struct drm_gem_shmem_object *shmem);
+ void drm_gem_shmem_unpin_locked(struct drm_gem_shmem_object *shmem);
+ 
 -- 
 2.51.0
 
