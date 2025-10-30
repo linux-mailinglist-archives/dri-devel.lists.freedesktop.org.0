@@ -2,46 +2,46 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2ACFCC21AAD
-	for <lists+dri-devel@lfdr.de>; Thu, 30 Oct 2025 19:07:22 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 994FCC21AA7
+	for <lists+dri-devel@lfdr.de>; Thu, 30 Oct 2025 19:07:19 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3D5C310E326;
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1D8A110E31F;
 	Thu, 30 Oct 2025 18:07:17 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=Nvidia.com header.i=@Nvidia.com header.b="lX1PGOHl";
+	dkim=pass (2048-bit key; unprotected) header.d=Nvidia.com header.i=@Nvidia.com header.b="pmGL/rWz";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from PH7PR06CU001.outbound.protection.outlook.com
  (mail-westus3azon11010010.outbound.protection.outlook.com [52.101.201.10])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8E01510E0ED;
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C0B9310E31E;
  Thu, 30 Oct 2025 18:07:15 +0000 (UTC)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=ga71JtwhkGN61j2+k2EVjFbUAsKSxz0kZCA+9ZRjOhgZhPn/aMcMj7oYAEvaj0BXsrO/pGIh0nzH+PZulbuUsb0ejFcHByvAfQ5nHgoZDYw+X+s+JIgoZDFfep4Q6SY0Oe3jb0Am4U3B0cW33t56Adc665KDp8LrfiEDsbbVxgPTFyXFBZ9iwR+7JhPKTElTQci4JTwjrIsm2+TEH237ohwMBJXMC1VJREmesRb9cYCdkgAqCrMbHZflNEaGRziDMoEB2Th5cKojPTU+cWEiEm8GpyDZKugAJkk29DVLgI5XBKeA8npKjoH9qI/bgpiUh6BMJzU3uJ2PZa3FY9wVzw==
+ b=UCptpTgw3fIC/DHpPjPpa0f3eZnsiyGHUTcoVY4ZS4gQFzLScRyTaOHOE9jn32OQhink8vL72XNtaDdtiT5rItDLa1hz3cwpBD9jaiqoEs2gxw0CVYz+6Q72AZlDBmMgR2oZG/ewhDrTfqFeaRnSlvriEYoMwUlXxNHOCCIdaUFj7YctI8qlK49nxi49q9eZ+dycIdRz4rlZlwZJpS/u9otyEANG3rpWM7sJsrCpHU1ePQBon+u1PnTV6U4DVyB/sENuGHJcXms+CQsRTiLyFE5NFnyZ5R0qclOqWNyCHV7qEU0LifXgA/zlReGUsFuS9rSEdq7ycLZPMKWLFNXC6Q==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=qydi9IrCfjOBSImRAzHWJPpyRoK+OmBCEhbEDrgH/0E=;
- b=hPNTKeYkUdxG5OSfHrRUv7Y0gebKfdyqPYYaCPAb3AhwS8K/zwjGyNBw6jSgeDuFq3LfDzM/3qZGCErRmnrUkbRmbFBlrZO6OEt/q5xH4g26yoIizWQLO13i6aumueLy3imKaG5ZZDfBRAb5twWtABZmOVNGCG5rKybFwsKy4v+EF+MGfkR3Wss5ZhTSCB7VR+XdIDUkGBhjZ7rduLGXLkk5dEf3pYBBBepNnEnU3OxB3GPOZpo68ClxpR4ZxYm8AbEceWn7rwibR1wHnd0TVTgfV44WgB9JRaWMV7OyxAub3j1zfXJr4WJKyuKIinffB5RhixT7pzUUQKs7sNEo9Q==
+ bh=uJv1UijARcdKBjpxhUcNE26+pzDafd3yaPEhS5/1FBw=;
+ b=Nq4wpb+ZatsDoPaMfoc1dB6zYVipKzV4RgYHZZbts5/Pvl/jEADtalLO/46JqbOzHrB1XxKVDomLSPoxYfhq21TtaiB1fXpVWzz19cFAtTswmxfKewAnDcq4Co9jcceSOCBpPMtG8F1zYg8Q2RC+psaov3os/cDt0ITw5rMDq039iiy0/6EScOcWWJpu3GZzIkUJ9qKUKrV5C3V61zlgg0bOWYR/roD4nQ35cucxuOJO2FmB86Ca0Y+8FIsoWIK5NXJsZOcd6ynzbJL0OAW6rmNKUrCh4vT+thybEjBUDHsiCyzUTYnJOKDY3Bxc5bjDmUtMV1E0zljOpDbuJt6sSQ==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
  dkim=pass header.d=nvidia.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
  s=selector2;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=qydi9IrCfjOBSImRAzHWJPpyRoK+OmBCEhbEDrgH/0E=;
- b=lX1PGOHlAu3qUcvPmLzntx33VzhCkeXRY1hd7rCauGkXodsiD4sQLZ3zbSmmV6nAKoXxVeu28esX5Oxdv+YBfM0hGLfixZR4vPdUMTxYmYXNdYAyJ9l8LpCsfOKpg4U6AAhlJ3guaQl6TeFm8q+/DihOujugAuPhf+Exn4X2UoyVx0OHoNhe/SW78DIUpVtVUUncGAA/HX8AIo7huS58VBlHKnO1JadDGBvHjJldoseob6SBd5SGwwva7ToSurQoiCBC+FxC7FGp++BnvZW1adRKo4DLZKizlG0E6oXsbs6VEhbuf+UKOqbi/pOQ52CXEld5pfFNcwqYbDdJp3XKEA==
+ bh=uJv1UijARcdKBjpxhUcNE26+pzDafd3yaPEhS5/1FBw=;
+ b=pmGL/rWzzuseK3ub3OjLUCtLs1Ilq58WKFaGh+NhhMAmaelZTOfWQw6KPc1pl/LyuAic60mYwBrDdSJllXkTQMnqpN7XZAM54QIYtC/xfbdy8hrn96LM7TslLcBaK/inCTQqEBCyymY7G5MvAIa2PmVcDI38lR+vGEh+3XbkN/mO1fB4fPOhbdroNrhhV/rKMFZF3iLObY7Gl+P11X2uXr//zIeJBCGLQsw3bNThkKp65XMSI8HdK5YkUM+eykvSQZlTlDE5+VnsGxP0Nb3CURR9wDEWZHgoZiv8CFphwGJyjMk0xf35TwcRpSXXx8fBxmlFPjgJpFTGl+zi2O8jJg==
 Authentication-Results: dkim=none (message not signed)
  header.d=none;dmarc=none action=none header.from=nvidia.com;
 Received: from SA1PR12MB6701.namprd12.prod.outlook.com (2603:10b6:806:251::18)
  by SA0PR12MB7479.namprd12.prod.outlook.com (2603:10b6:806:24b::19)
  with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9275.14; Thu, 30 Oct
- 2025 18:07:12 +0000
+ 2025 18:07:14 +0000
 Received: from SA1PR12MB6701.namprd12.prod.outlook.com
  ([fe80::2be0:c316:443d:da3a]) by SA1PR12MB6701.namprd12.prod.outlook.com
  ([fe80::2be0:c316:443d:da3a%5]) with mapi id 15.20.9275.013; Thu, 30 Oct 2025
- 18:07:12 +0000
+ 18:07:13 +0000
 From: James Jones <jajones@nvidia.com>
 To: Danilo Krummrich <dakr@kernel.org>, Lyude Paul <lyude@redhat.com>,
  Faith Ekstrand <faith.ekstrand@collabora.com>
@@ -49,87 +49,89 @@ Cc: nouveau@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
  linux-kernel@vger.kernel.org, David Airlie <airlied@gmail.com>,
  Simona Vetter <simona@ffwll.ch>, Joel Fernandes <joelagnelf@nvidia.com>,
  James Jones <jajones@nvidia.com>
-Subject: [PATCH v2 0/2] drm/nouveau: Advertise correct modifiers on GB20x
-Date: Thu, 30 Oct 2025 11:11:51 -0700
-Message-ID: <20251030181153.1208-1-jajones@nvidia.com>
+Subject: [PATCH v2 1/2] drm: define NVIDIA DRM format modifiers for GB20x
+Date: Thu, 30 Oct 2025 11:11:52 -0700
+Message-ID: <20251030181153.1208-2-jajones@nvidia.com>
 X-Mailer: git-send-email 2.50.1
+In-Reply-To: <20251030181153.1208-1-jajones@nvidia.com>
+References: <20251030181153.1208-1-jajones@nvidia.com>
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain
-X-ClientProxiedBy: BYAPR02CA0053.namprd02.prod.outlook.com
- (2603:10b6:a03:54::30) To SA1PR12MB6701.namprd12.prod.outlook.com
+X-ClientProxiedBy: SJ0PR03CA0016.namprd03.prod.outlook.com
+ (2603:10b6:a03:33a::21) To SA1PR12MB6701.namprd12.prod.outlook.com
  (2603:10b6:806:251::18)
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
 X-MS-TrafficTypeDiagnostic: SA1PR12MB6701:EE_|SA0PR12MB7479:EE_
-X-MS-Office365-Filtering-Correlation-Id: 008f1971-fb3b-4a92-0a75-08de17df2636
+X-MS-Office365-Filtering-Correlation-Id: 98e8a264-1005-4790-c6bf-08de17df2752
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;ARA:13230040|376014|366016|1800799024;
-X-Microsoft-Antispam-Message-Info: =?us-ascii?Q?UjBLR4sMUIK1qUJSlBs5UqquRE0TfjEo6AOMgHZCl8D35kwZOm+tmIEM20/o?=
- =?us-ascii?Q?CofA0bcj5BQLpLZJgnC3I0vHHWsOQQ4qRJVwOzbPl6YQY1LhLBOv3Y6basAy?=
- =?us-ascii?Q?+LOpxjsPVX9TSNyPNMHY3ZthZngu38HpVDMTP0VOoBLLqFzGbeGUMZ7weIzj?=
- =?us-ascii?Q?Cj1VjwGK2xAgYtd3F5ICtXTRhgUeSa5yrAPvBM5yOB/+Cm20witPV6hvICAJ?=
- =?us-ascii?Q?m6+wDu6mFhj95HlWwtxkXAMqg8WQConwDQ9rRsfmrz5uiF/DMgWyJ7Q+6jdl?=
- =?us-ascii?Q?8buquT43Osses1pbOQ4McShBwXNe4gLRfUWBMelt83+1vAibj7c9SnbkGp9p?=
- =?us-ascii?Q?kxYIgwf+BMLtviKwGnJj57/JpDLg1OA0cai87n8knNnmoCjTqZnnyO1OMDj1?=
- =?us-ascii?Q?109hCdbIfoGqOAT2RGc/lFXZei2IH3zpFBKkqtTPC0tkBTOsqC7uRXzqhjcF?=
- =?us-ascii?Q?bk5RuFNiou22oZYzTkY84iNyLTulqgsSgHTvAjOWXc6x9CgFrBlittttqWOT?=
- =?us-ascii?Q?fhQTasoAxnh8yvr2sCGyE2vMQikoYAd9eOc9Nkf+HdVRkTVG/aLyUlSEtNnN?=
- =?us-ascii?Q?cT650Jf/x15N1xH6JNAiprYd9DkivH/nBuE+sjKvn5vTbejsQrtuDdPyVNAS?=
- =?us-ascii?Q?EjrkYt70u8xyyNnFIOaFGZTc2QXoHyANeadsxlFCpjE0vFrKrqKXZck/k9y+?=
- =?us-ascii?Q?DDX+ctgwyzdcfeUhW8I5ICVfJiVnPmjs0Z2v8JHTUO8vNXg2qXwws/YOjh2K?=
- =?us-ascii?Q?XBVH4FR0Z8tzbG3wwrGvZc4Z1ommA7LH/LdWf2SPHONK6Qr1YKaDVVWFCvng?=
- =?us-ascii?Q?/7sWudBA8mWvGVzjcs6UmBiO4oPH7dRePJTAT4bM2B5uRdSWhR1/Qd6d+n4/?=
- =?us-ascii?Q?bfpHYiAxrdJ0FC7WAyOqJx/nSdOaqDMj5exM3QfLiY/3BQwV/b7ybOrmcs0a?=
- =?us-ascii?Q?oNa4STzRN0LbUP+2xxb0RDoy+PP+6mEX0CcFL9XCsYzuhpTSDLQEgjBkkxo1?=
- =?us-ascii?Q?sWpfGTcDrQFCBuz1dInOG1ttUNHWZPMqbmO8eWxfrTlqyvw+bArkRO5oR3qt?=
- =?us-ascii?Q?KM2V6iavIGQP4+TcETvmPfOMxRpfgVAVdykWtDABrrdfQvdaUKggdUvkIG9F?=
- =?us-ascii?Q?It+bqEUVijYi7ZpNL4tVDnkNjSurH6NcqyqVUTuo8BQqwYIWENWy+IkG8kFa?=
- =?us-ascii?Q?z4BxQ2kIoSlmZ31pKT+jZlwqWB/l+JxZZNIJVxvuoY49f26Oe72eJqpa/hUO?=
- =?us-ascii?Q?axSlNhcljYvzQMSVUl3pFfmrMqXEakhyoMXV74M7vnCXhpW7+0CONSteRRFj?=
- =?us-ascii?Q?QQXFdz0vofBPEvVGbhPmu+X8wholLYf6BQbEY55/spN4fBUA7UOZvisENQPU?=
- =?us-ascii?Q?2SXeqqcels+1YlOWAHQmJ0HB7lz2fcoam/n0Luxo2EJiCwC9PstCQA8vjPtZ?=
- =?us-ascii?Q?tWzIzbYqvEic6sV9pA9wL9l1/ZDX9gwKXUAmCQLFao+KJ66N69e8tQ=3D=3D?=
+X-Microsoft-Antispam-Message-Info: =?us-ascii?Q?Vh6fmNO0LPrImkQI6SYFHTIj4uvU78/UOnRf7ikMw6XpcYULrKZVJuc/5/tS?=
+ =?us-ascii?Q?+NHZ155xVZmoeNbuFvP6r7EKYR+D4nnvjqC56oljmHKfWAGd/trMkBCmE11p?=
+ =?us-ascii?Q?WiRzvuOJxARCLrhtLVQr7/sY5r1TpDibk6qY+ucjhKBYLPvYnd3moOa0Lp33?=
+ =?us-ascii?Q?yRMvfOlaB6n0Wg02kB1RPRJbIdfA/djD6FVL9TVykV/hhAYYF0haj8vXtoUR?=
+ =?us-ascii?Q?mzI8nRrFEc+TJQoB4uAL7WFIX9UJGy44vd6YTocLJHHKwYMLY+pbALoUL5lP?=
+ =?us-ascii?Q?L/upP5ZrDjl7SHH8ar0dNinqgJysHkGBrCCRFr/ydVO02Ml9hYNjmpAoociU?=
+ =?us-ascii?Q?PLxo4HPAQg1fW2DUa1Ek4SOQxoqcyRyruTmHX10GVjF0YZ3pRMzjGZ/ZYXlm?=
+ =?us-ascii?Q?ji3lDsAsh77ZQcUN+xoRzXSXMIMF1lq2/Pr2fT1tUPp0zZknMe0FkkvPivCT?=
+ =?us-ascii?Q?u9UT84lX6sn2sxrwPjlZhOJ2NymSyt0BMIImOzaEmXzVePXDf/VkPWuQOz47?=
+ =?us-ascii?Q?brm5R6WRMEo6xC6+Do/2zMBI0oWuY0xEF5fNEjAcOgc4xcPQoad5XbjXad/F?=
+ =?us-ascii?Q?nx2jCbzx5cMkoZkKG4wMBPqdhb8/nByQ8fJ6SdhHdqNB2QEZWEAZstnrxAX3?=
+ =?us-ascii?Q?dlq7a5s6BnSStP6lL8dgV/gjOEgZkvzjM6riRegi2skH0zKCR/FM5tqYVMsl?=
+ =?us-ascii?Q?EzfaPG82QhOoSsww34DRzmgTXGMR14nYDqB/dQ42q8mZbM+Pl7M4pEVP9m8M?=
+ =?us-ascii?Q?rJcozpYzdmA2u61zXicPM1O5s/Fb27qOSGYDev/dR5l7YZPYNnKen6K86teE?=
+ =?us-ascii?Q?hICNpwsqsC45NWwApETC2cgUNermCUHUjJokqKJ6PIKl7yCtjubZjdBMq5wn?=
+ =?us-ascii?Q?yac6qnlPUjGDu7PCm48PxVvz3EvRE5FkSyrLkDF4Fok3yKcZbjEkMeJhSS5T?=
+ =?us-ascii?Q?W7Z6MSQ/+Y0AnXyNfjDy2kFhpbUaDVvN/uTU6W0uHxjTSsG2enRUbeGSsIPf?=
+ =?us-ascii?Q?OZGvds/ZL6ys8jkuw7Ln2Iqq7YrL8Rxz1yztczZyJ/TDfKOFxXOAvN3Ig9vK?=
+ =?us-ascii?Q?2/bXwHzSSxu5dMpFLhJwE3FuirMUPRV8pqOHH7SCaxGQsNMu4AZ9WoA7ETfY?=
+ =?us-ascii?Q?BUtO9gt1OAWj0W9tMaWEINYWHyfOO7Gc7DYRdDEUwQVv5ElqhXTDjV53Pgiu?=
+ =?us-ascii?Q?2BRjHCvoIFW4yoirEk9GbtCif0InfroRKGf2eqa6wzCwW12/LnBKB58htWuE?=
+ =?us-ascii?Q?SjTvc8ydpwMPFbVtN2U5qcimEhYJOORP94Myjiz9z/MVyJgjV//rItRfK1La?=
+ =?us-ascii?Q?7bJ9Y3RD6+vH6Lxfc+pd4pXtkkOOksyIGu+GTfCA1/f4oM7QuP9SVhfoy9Ch?=
+ =?us-ascii?Q?/77x0e2hu9CkRhOndA6pu++831+5zGDl6FjA6F4+rC/4cHhY2Bjnl5uG9/wV?=
+ =?us-ascii?Q?Uegp0Wl50/rD0xLpErIW/aMy4j+JYlfw?=
 X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
  IPV:NLI; SFV:NSPM; H:SA1PR12MB6701.namprd12.prod.outlook.com; PTR:; CAT:NONE;
  SFS:(13230040)(376014)(366016)(1800799024); DIR:OUT; SFP:1101; 
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?Sn6Y4M0ZfX39QlKGOOqfhORXu3P0oNVTDTSp4/SZog2vtsTIkJa/dp9zsnUN?=
- =?us-ascii?Q?GkE1cPx+5UOCQYADPdpGl87r5g2kVRHyPSp7/EjM68a82g8S+n13SO3hXnBz?=
- =?us-ascii?Q?Wj1V+XVymJ5OP1T1deFCxtYNOJXiJg7DqMbtzQKYZW0YIh1vkUYs3TGTpWKQ?=
- =?us-ascii?Q?FdZ13wEKNSY/7+a7gppeOvdBFo9NUJwxhJ8Z+xzRUAwYVarBbdEXjJRwaV8T?=
- =?us-ascii?Q?PeyXGTACpUs4blAZGUOi41OVBiBaIR0ICKgXwGJiN+Omag/vdw5lR5HRqLuK?=
- =?us-ascii?Q?YchbV0gep+qeuitCUvxMSZ3tta+apwk/hDGnoZFY2ZtSN6JwRfop3s0IlYc5?=
- =?us-ascii?Q?okYI33yxeAZ3XsfMJw461kCtDo9BtNlYn4v+fzNljJ/MDGV3HIF6VAVgMDg+?=
- =?us-ascii?Q?h0NKaSCarNW+Wsc4YUitkLk+BC1fhpscpP80OeLZy+kJOp5gwtiXflh6lzpM?=
- =?us-ascii?Q?uHRgLbqRtduY2PQmaZXzGAixfydfVseVuTc2zsfrjVRn+7Nix6H08oO+UsRm?=
- =?us-ascii?Q?vrSnrNG/W3R+do4RjsvbWFFga2V6CfWLQT5doC/h3dBtJ1ahaoode84G5vrT?=
- =?us-ascii?Q?9aoQIpwBQ0K/8gz3enSKWrwqKBAgOstOTAQNm/hg37s61OChRq4tA4cTe5uI?=
- =?us-ascii?Q?hTJ/YPftMK0bwsmnRemtktHbAmVyAuiDGkX4Np28hRy+2+FLD0iSmwBB04Mt?=
- =?us-ascii?Q?dtMod4MMx0iBkTQmWrAOWbHCdgHcGt578UCSqeoHqdxkBE7VvT1eT0nPV6Wk?=
- =?us-ascii?Q?pnrcc4jh7F5tbnWQ/DkReUqZhfKwg332XKuCSpB0jsY3PUTsq5VdXIV55jYW?=
- =?us-ascii?Q?9w1ZMyHRw6blKVS3RrtAy5/trzEG+0iN/LryEkBDocmjJG9lUrs8c8jdy13/?=
- =?us-ascii?Q?HSe03fSSFboMtXQBGknmQnPugrtrzAEr8G5x9Cc1uf4TIOMdxVik48yOnbSz?=
- =?us-ascii?Q?qE3wJRQvK75xaP8Xwztk8fLOrSr610VznM8sWGl5/9QoCqwC7MblwN7NsjV+?=
- =?us-ascii?Q?Y2ghOqOGqFUoW17aKOyUFeyIVOW44OHrQlUKkJUiY5qeX6TKaTwePnNedc5e?=
- =?us-ascii?Q?dS7JCkx0qb1sx0eg9EffOAd7QTgF4eZLpBauJnarVE0eABWpk+KaIavKgNol?=
- =?us-ascii?Q?OpZ7PnTIdgij3WKQMNMDAiInUS4NSI7cPdGF//1zJyO8CYGRZ8UHx/gb2Idq?=
- =?us-ascii?Q?9TemB45hUZmw8eKPnnLaR4foYVNBfPjxJFPh0DbD+W0o/+sJmjoVNxHuTJoq?=
- =?us-ascii?Q?RM5aFPDSqXobyh+QonzjfnlMWSBPYBc6JTGeybEKLb4Sg+o3U3qfFxcJ3qom?=
- =?us-ascii?Q?E8anTlbS3zFEQsQt9+wS7r2uxyXA98loVD6iXDPPhl7QvgvYzV7fgMTm2UXa?=
- =?us-ascii?Q?jEQk2zYEEZa+cxiUwB88fXqG8sJ6o9sgG/wo8NF4wkRkaOa336tFLvWaYPig?=
- =?us-ascii?Q?HjDMm9P64hb0iGVSSCutuOTaRwb/1qQj+L94MT3yOL5bJaL5kThsMmbMF0OY?=
- =?us-ascii?Q?upmp+Rg+3xPP5jX7qORS8vTQtF2sf2qJYc+fZZ7TJWujr3CIR6SSfYjHicEX?=
- =?us-ascii?Q?OOze4UlmsbtM4QBZPmt39Ix6H9uSaXPzfcORLcxv?=
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?6Wc46ojl6AaGLf/m0gbs4avV0R8h0k2HX3M2w93P04b7iEHaPdQx+XvN6QIM?=
+ =?us-ascii?Q?S23fJuqMz8YthEfB91TveoPv59j1HpIl6QLIrJIqMVg8NQ3CMNOmTj2ezELX?=
+ =?us-ascii?Q?LD4Hfm+lZyyCqOOGeSjc2YhKXRtpEjPU4NbJ4xG01VMa/MQYvhyc/d3vX6Fp?=
+ =?us-ascii?Q?vHck/boom0IsUrcxhPpinPRWmHJbJD6RSFHyaFSKtlwce2WW3gzQUU19C9lc?=
+ =?us-ascii?Q?5woMItDzDWH9Tm2y2g6fsDXXG9VBfNs15senI0+XqNEeDtndSAanMLIY0pLJ?=
+ =?us-ascii?Q?j//gcpz+1y7xSL95bkXE31JRuVN0itPK7krc11dPS2Gebhogwkj9i/2xQgLn?=
+ =?us-ascii?Q?ztYiVEir45R1sW2DwI1iWie5PDUe8LMMfFCU6trfprvolvi6eZSrJzOvl4QT?=
+ =?us-ascii?Q?NmoRuiwvo8Hq8OEsWe+AkQrBAgDwNSU8eqm1UCAhclkq4nE/CJsGXECuqErC?=
+ =?us-ascii?Q?SJYV5snjXQhhZ4S4ogtSpLlp7kCR5t6BWdlnyNLDW0h0jferYPD9SH98RjJN?=
+ =?us-ascii?Q?1u4yTJSSKs5mGBl9WhxSrP48dfIrtDlYJ2NvDUpzMvfyFlzJnk//yRkyCWbS?=
+ =?us-ascii?Q?ymj4q7SM9JUy1raspKbF48F+0RlMILGaNc1Wvw95ZPlZoK267VKwfUUQRpfV?=
+ =?us-ascii?Q?CK/MmwSI8QNV0tus/tjCvD2FmEeZt16fjl5SOs4Be33MxgB6KQ+cGfU243qk?=
+ =?us-ascii?Q?mZ2ZfhtY0DQ6o3EXBBDZjtFt+xg2KtJKJX0ik16qCXsEk/59qwUoMbGqmcKU?=
+ =?us-ascii?Q?ZDcinNLX5qeMj3CU3qyY9Z8TqCIybS/76Jg6l03eLhrgwDhOkwk7eeztOthy?=
+ =?us-ascii?Q?3/ustgNxWCenvMbO2/JdFHbpwG+5Ga9Eb4ZOBj+eEVDc9XNKiqoRW63DQ6iz?=
+ =?us-ascii?Q?gu3s6ETRLDkAujyaqTrgd/1LUEIaNdUa3+vuCLCt047HlILXYrVunQK6KMNu?=
+ =?us-ascii?Q?/biFM+Nd67bFU2M3yKwUbQO/PBXbL786nrxnVM/CM3SWatL2kNCFZSfBMMIq?=
+ =?us-ascii?Q?GPlt+o4fAC0USLGkgJsDOXLcC3jAftxL3fffrDhlL1F7an+GRUJoQs3eG/kZ?=
+ =?us-ascii?Q?zsG5Pm5AKSJJ1X2z73GY2wH02oe9+FHZvscqbT63yXQQoDemHiOu+EMbM5ug?=
+ =?us-ascii?Q?mqSzt7weBSCeROMijmiadUicofAUxC2B2odLvOJuoYaNN2xrjMLxH4UZgfio?=
+ =?us-ascii?Q?oRo2sQ7vO0VKeaZ8s7YHlQFH6eqkMCK0nXeA7KUOe5A8QIbLvCA9vAiw45uP?=
+ =?us-ascii?Q?xe1zIhh9x9dTH827ziSE3LFoUlA3iDolDuIcMAaVQeGfcF1RttpKDZmhvrgd?=
+ =?us-ascii?Q?yiEyB1YxJjiAU2YCqv4FLPrQWkjtL/b378+GIZM7Yvvww1RM7kohNi3p36a/?=
+ =?us-ascii?Q?/+25VYf864eGcQrcPtW232bAz+TWTRI75ZBfZ4pV9m1aTRGMg3HM7+c9Etco?=
+ =?us-ascii?Q?ony80gqAYcSooCXaN7l6aRP8crtD8wNIZg777AeGfmgZ5pByd/pmA441Udph?=
+ =?us-ascii?Q?A/5uiCNr23YCCx4xtIeIzq5nxK6/Hz12oSk3manQTUe70upirxLjxcekVfET?=
+ =?us-ascii?Q?iXTnwy16fLyl81maPdCHcliz/agt0LMcb0j49Gpt?=
 X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 008f1971-fb3b-4a92-0a75-08de17df2636
+X-MS-Exchange-CrossTenant-Network-Message-Id: 98e8a264-1005-4790-c6bf-08de17df2752
 X-MS-Exchange-CrossTenant-AuthSource: SA1PR12MB6701.namprd12.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 30 Oct 2025 18:07:12.0783 (UTC)
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 30 Oct 2025 18:07:13.9091 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: GLW4KcWhEr8/+0VxW/zRMQn0P9kOomSvAemtfwq/PvPVNAHpVxI911/MdDtCj0c7OaNxETftCHi+kJBj+o3S6w==
+X-MS-Exchange-CrossTenant-UserPrincipalName: 7vGe9Z3XF5s4AlesOip40Qlg3Irl4el1Uo5/XjLca5NTXuClKGCMk4DVQfNCB+mMuN7KbOUGBdypjUoymDZ60w==
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA0PR12MB7479
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -146,83 +148,91 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This series adds new format modifiers for 8 and 16-bit formats on GB20x
-GPUs, preventing them from mistakenly sharing block-linear surfaces
-using these formats with prior GPUs that use a different layout.
+The layout of bits within the individual tiles
+(referred to as sectors in the
+DRM_FORMAT_MOD_NVIDIA_BLOCK_LINEAR_2D() macro)
+changed for 8 and 16-bit surfaces starting in
+Blackwell 2 GPUs (With the exception of GB10).
+To denote the difference, extend the sector field
+in the parametric format modifier definition used
+to generate modifier values for NVIDIA hardware.
 
-There are a few ways the parameteric format modifier definition
-could have been altered to handle the new layouts:
+Without this change, it would be impossible to
+differentiate the two layouts based on modifiers,
+and as a result software could attempt to share
+surfaces directly between pre-GB20x and GB20x
+cards, resulting in corruption when the surface
+was accessed on one of the GPUs after being
+populated with content by the other.
 
--The GOB Height and Page Kind field has a reserved value that could
- have been used. However, the GOB height and page kind enums did
- not change relative to prior chips, so this is sort of a lie.
- However, this is the least-invasive change.
+Of note: This change causes the
+DRM_FORMAT_MOD_NVIDIA_BLOCK_LINEAR_2D() macro to
+evaluate its "s" parameter twice, with the side
+effects that entails. I surveyed all usage of the
+modifier in the kernel and Mesa code, and that
+does not appear to be problematic in any current
+usage, but I thought it was worth calling out.
 
--An entirely new field could have been added. This seems
- inappropriate given the presence of an existing appropriate field.
- The advantage here is it avoids splitting the sector layout field
- across two bitfields.
+Fixes: 6cc6e08d4542 ("drm/nouveau/kms: add support for GB20x")
+Signed-off-by: James Jones <jajones@nvidia.com>
+Reviewed-by: Faith Ekstrand <faith.ekstrand@collabora.com>
+---
 
-The chosen approach is the logically consistent one, but has the
-downside of being the most complex, and that it causes the
-DRM_FORMAT_MOD_NVIDIA_BLOCK_LINEAR_2D() macro to evaluate its 's'
-parameter twice. However, utilizing simple helper functions in
-client code when accessing the parameteric format modifier fields
-easily addresses the complexity, and I have audited the relevant code
-and do not believe the double evaluation should cause any problems in
-practice.
+(no changes since v1)
 
-Tested on GB20x and TU10x cards using the following:
+ include/uapi/drm/drm_fourcc.h | 25 ++++++++++++++++---------
+ 1 file changed, 16 insertions(+), 9 deletions(-)
 
--kmscube w/NVK+Zink built with these patches applied:
-
-   https://gitlab.freedesktop.org/mesa/mesa/-/merge_requests/36336
-
- with various manually specified formats
- and both manually specified and automatically
- selected modifiers.
-
--drmfmtmods, a tiny test program that lists modifiers:
-
-   https://github.com/cubanismo/drmfmtmods
-
-Changes in v2:
-
--Added "Fixes: 6cc6e08d4542" line since this can be considered a bug
- fix for the initial blackwell KMS support in nouveau.
-
--Dropped the second patch from the v1 series as it has been merged.
-
-Changes since the RFC version here:
-
-  https://lore.kernel.org/nouveau/20250703223658.1457-1-jajones@nvidia.com/
-
--Dropped the helper macros & static inlines in
- drm_fourcc.h as requested by Faith Ekstrand,
- who noted these aren't helpful for UMD code,
- which is all written in rust now. I may re-
- introduce some of these in a subsequent series,
- but we both agreed we do not want to delay
- progress on the modifiers themselves while we
- debate the details of those cometic details.
-
--Reserved an extra bit for future sector
- layouts.
-
--Fixed handling of linear modifiers on GB20x
- and NV5x/G8x/G9x/GT2xx chips.
-
-James Jones (2):
-  drm: define NVIDIA DRM format modifiers for GB20x
-  drm/nouveau: Advertise correct modifiers on GB20x
-
- drivers/gpu/drm/nouveau/dispnv50/disp.c     |  4 ++-
- drivers/gpu/drm/nouveau/dispnv50/disp.h     |  1 +
- drivers/gpu/drm/nouveau/dispnv50/wndw.c     | 24 +++++++++++++--
- drivers/gpu/drm/nouveau/dispnv50/wndwca7e.c | 33 +++++++++++++++++++++
- include/uapi/drm/drm_fourcc.h               | 25 ++++++++++------
- 5 files changed, 75 insertions(+), 12 deletions(-)
-
+diff --git a/include/uapi/drm/drm_fourcc.h b/include/uapi/drm/drm_fourcc.h
+index ea91aa8afde9..e527b24bd824 100644
+--- a/include/uapi/drm/drm_fourcc.h
++++ b/include/uapi/drm/drm_fourcc.h
+@@ -979,14 +979,20 @@ extern "C" {
+  *               2 = Gob Height 8, Turing+ Page Kind mapping
+  *               3 = Reserved for future use.
+  *
+- * 22:22 s     Sector layout.  On Tegra GPUs prior to Xavier, there is a further
+- *             bit remapping step that occurs at an even lower level than the
+- *             page kind and block linear swizzles.  This causes the layout of
+- *             surfaces mapped in those SOC's GPUs to be incompatible with the
+- *             equivalent mapping on other GPUs in the same system.
+- *
+- *               0 = Tegra K1 - Tegra Parker/TX2 Layout.
+- *               1 = Desktop GPU and Tegra Xavier+ Layout
++ * 22:22 s     Sector layout.  There is a further bit remapping step that occurs
++ * 26:27       at an even lower level than the page kind and block linear
++ *             swizzles.  This causes the bit arrangement of surfaces in memory
++ *             to differ subtly, and prevents direct sharing of surfaces between
++ *             GPUs with different layouts.
++ *
++ *               0 = Tegra K1 - Tegra Parker/TX2 Layout
++ *               1 = Pre-GB20x, GB20x 32+ bpp, GB10, Tegra Xavier-Orin Layout
++ *               2 = GB20x(Blackwell 2)+ 8 bpp surface layout
++ *               3 = GB20x(Blackwell 2)+ 16 bpp surface layout
++ *               4 = Reserved for future use.
++ *               5 = Reserved for future use.
++ *               6 = Reserved for future use.
++ *               7 = Reserved for future use.
+  *
+  * 25:23 c     Lossless Framebuffer Compression type.
+  *
+@@ -1001,7 +1007,7 @@ extern "C" {
+  *               6 = Reserved for future use
+  *               7 = Reserved for future use
+  *
+- * 55:25 -     Reserved for future use.  Must be zero.
++ * 55:28 -     Reserved for future use.  Must be zero.
+  */
+ #define DRM_FORMAT_MOD_NVIDIA_BLOCK_LINEAR_2D(c, s, g, k, h) \
+ 	fourcc_mod_code(NVIDIA, (0x10 | \
+@@ -1009,6 +1015,7 @@ extern "C" {
+ 				 (((k) & 0xff) << 12) | \
+ 				 (((g) & 0x3) << 20) | \
+ 				 (((s) & 0x1) << 22) | \
++				 (((s) & 0x6) << 25) | \
+ 				 (((c) & 0x7) << 23)))
+ 
+ /* To grandfather in prior block linear format modifiers to the above layout,
 -- 
 2.50.1
 
