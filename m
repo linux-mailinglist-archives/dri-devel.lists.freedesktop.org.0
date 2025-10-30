@@ -2,44 +2,62 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id DF543C211D1
-	for <lists+dri-devel@lfdr.de>; Thu, 30 Oct 2025 17:14:17 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 428DDC21232
+	for <lists+dri-devel@lfdr.de>; Thu, 30 Oct 2025 17:22:45 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DD76810E28F;
-	Thu, 30 Oct 2025 16:14:14 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 493E910E292;
+	Thu, 30 Oct 2025 16:22:42 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="dWCpovhC";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="sM2BrH/9";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E67CF10E28F
- for <dri-devel@lists.freedesktop.org>; Thu, 30 Oct 2025 16:14:13 +0000 (UTC)
+Received: from sea.source.kernel.org (sea.source.kernel.org [172.234.252.31])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6328B10E292
+ for <dri-devel@lists.freedesktop.org>; Thu, 30 Oct 2025 16:22:40 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by tor.source.kernel.org (Postfix) with ESMTP id D686660207;
- Thu, 30 Oct 2025 16:14:12 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 83245C4CEF8;
- Thu, 30 Oct 2025 16:14:10 +0000 (UTC)
+ by sea.source.kernel.org (Postfix) with ESMTP id 0A552418BC;
+ Thu, 30 Oct 2025 16:22:40 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4D9C5C4CEF1;
+ Thu, 30 Oct 2025 16:22:38 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1761840852;
- bh=WadIyrGhjZmtFOmTht7Qz2UfFstKfJJoO9MBbxCO7VM=;
- h=Date:From:To:Subject:From;
- b=dWCpovhC0QJKOMFQNIVOMcghgZoDCVTglKArdzpJGz5p50ZqJFbM+73TRaXAVSL7x
- xPz931w1iIC/lBgNRyVQMinkpdaA/M/7TPCZl7Mxc6dtkBkfgzMxHUJFKU8B/tWlEn
- ZlOEXP4TFX8MyqYg4v3b1vIIcimhLq8cw665CDuaGJwKhTbSoV+Fup7Eti5Ept0Hyl
- YzB0JxSlRo5a59VWXh3wH7jpmgJuY9Ei++8hdUd2Ft/Pp3EPOasWzAJRG5o6edUKim
- UfQiJp4JiSOblN3V2Vh1t+brbguYQWZ/lm/9pmrJj9q81scFDPwQQpuFxvQKI0ZRYP
- YYKIQNxrqZvSQ==
-Date: Thu, 30 Oct 2025 17:14:07 +0100
-From: Helge Deller <deller@kernel.org>
-To: Linus Torvalds <torvalds@linux-foundation.org>,
- linux-kernel@vger.kernel.org, linux-fbdev@vger.kernel.org,
- dri-devel@lists.freedesktop.org
-Subject: [GIT PULL] fbdev fixes for v6.18-rc4
-Message-ID: <aQOOz7Q27BbUo-_4@carbonx1>
+ s=k20201202; t=1761841359;
+ bh=qeejJw/Ci04guqvtvub4+S+ZoFbZ8/admEO2nb7xcKk=;
+ h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+ b=sM2BrH/9fLau66Kv3195fiOQB6MxtyPXRXtOIYVMdU5A17KL7QC2Qai+2RmKFruY/
+ uTxFhGlUjTeb7BdmOXNCSNp9kWr7zSRhWCbaRPS008DM8bOn8Za3RY6SbVy5EAlYXo
+ NHFmhjj4Wnxex9UrXdb7nEma4PZD9b2kNGKvqUITnEp5ODjFDs3Pb0AQHXbeKZLZds
+ /Y9UaXi51BAeTwg93p/Q1UJQZ3YdLY6yHAduDN2woYqCSIY6v0ABaXPu9cSDqw7Z2E
+ VnlNC1IvIV20+NKAkAo/2CVcajJ5k02bGlPpLU8Ss/jKqZvwMywdaosN1nNbFViAk9
+ xgX2bZxesoVqg==
+From: Bjorn Andersson <andersson@kernel.org>
+To: Hans de Goede <hansg@kernel.org>, Lee Jones <lee@kernel.org>,
+ Pavel Machek <pavel@kernel.org>, Rob Herring <robh@kernel.org>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>,
+ Bryan O'Donoghue <bryan.odonoghue@linaro.org>,
+ Jingoo Han <jingoohan1@gmail.com>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>,
+ Jean-Jacques Hiblot <jjhiblot@traphandler.com>,
+ Jacopo Mondi <jacopo@jmondi.org>,
+ Sakari Ailus <sakari.ailus@linux.intel.com>,
+ Konrad Dybcio <konradybcio@kernel.org>,
+ Daniel Thompson <danielt@kernel.org>,
+ Aleksandrs Vinarskis <alex@vinarskis.com>
+Cc: linux-leds@vger.kernel.org, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ linux-media@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+ threeway@gmail.com, Andy Shevchenko <andy.shevchenko@gmail.com>,
+ Linus Walleij <linus.walleij@linaro.org>
+Subject: Re: (subset) [PATCH v5 0/4] leds: privacy-led support for devicetree
+Date: Thu, 30 Oct 2025 11:25:33 -0500
+Message-ID: <176184154198.475875.6266114626536757346.b4-ty@kernel.org>
+X-Mailer: git-send-email 2.51.0
+In-Reply-To: <20250910-leds-v5-0-bb90a0f897d5@vinarskis.com>
+References: <20250910-leds-v5-0-bb90a0f897d5@vinarskis.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -55,64 +73,25 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Linus,
 
-please pull a few important bugfixes for various fbdev drivers for 6.18-rc4.
+On Wed, 10 Sep 2025 14:01:07 +0200, Aleksandrs Vinarskis wrote:
+> Re-spin of RFC patch from ~2.5 years ago [1]. v4l2 controls for privacy
+> LEDs has landed, but the DT part was left out. Introduce missing
+> dt-bindings, and commonize 'leds' parameter. Finally, add a patch to
+> enable privacy-led on Lenovo Thinkpad x13s.
+> 
+> With recent inflow of arm64-power laptops (Snapdragon X1E/X1P) which
+> mostly use MIPI cameras, this feature becomes more desired. Original
+> rebased patch is still working as expected (with respective DT changes)
+> on Dell XPS 9345.
+> 
+> [...]
 
-All patches are tagged for stable series.
-Includes a trivial typo fix for the fb.h header as well.
+Applied, thanks!
 
-Thanks!
-Helge
+[4/4] arm64: dts: qcom: sc8280xp-x13s: enable camera privacy indicator
+      commit: b54c412b511c8bc8e71fd09a766bd95528d94840
 
-----------------------------------------------------------------
-The following changes since commit dcb6fa37fd7bc9c3d2b066329b0d27dedf8becaa:
-
-  Linux 6.18-rc3 (2025-10-26 15:59:49 -0700)
-
-are available in the Git repository at:
-
-  http://git.kernel.org/pub/scm/linux/kernel/git/deller/linux-fbdev.git tags/fbdev-for-6.18-rc4
-
-for you to fetch changes up to 7073c7fc8d8ba47194e5fc58fcafc0efe7586e9b:
-
-  fbdev: atyfb: Check if pll_ops->init_pll failed (2025-10-28 22:59:19 +0100)
-
-----------------------------------------------------------------
-fbdev fixes for 6.18-rc4:
-
-- atyfb: Avoid hard lock up when PLL not initialized (Daniel Palmer)
-- pvr2fb: Fix build error when CONFIG_PVR2_DMA enabled (Florian Fuchs)
-- bitblit: Fix out-of-bounds read in bit_putcs* (Junjie Cao)
-- valkyriefb: Fix reference count leak (Miaoqian Lin)
-- fbcon: Fix slab-use-after-free in fb_mode_is_equal (Quanmin Yan)
-- fb.h: Fix typo in "vertical" (Piyush Choudhary)
-
-----------------------------------------------------------------
-Daniel Palmer (1):
-      fbdev: atyfb: Check if pll_ops->init_pll failed
-
-Florian Fuchs (1):
-      fbdev: pvr2fb: Fix leftover reference to ONCHIP_NR_DMA_CHANNELS
-
-Junjie Cao (1):
-      fbdev: bitblit: bound-check glyph index in bit_putcs*
-
-Miaoqian Lin (1):
-      fbdev: valkyriefb: Fix reference count leak in valkyriefb_init
-
-PIYUSH CHOUDHARY (1):
-      video: fb: Fix typo in comment in fb.h
-
-Quanmin Yan (1):
-      fbcon: Set fb_display[i]->mode to NULL when the mode is released
-
- drivers/video/fbdev/aty/atyfb_base.c |  8 ++++++--
- drivers/video/fbdev/core/bitblit.c   | 16 ++++++++++++----
- drivers/video/fbdev/core/fbcon.c     | 19 +++++++++++++++++++
- drivers/video/fbdev/core/fbmem.c     |  1 +
- drivers/video/fbdev/pvr2fb.c         |  2 +-
- drivers/video/fbdev/valkyriefb.c     |  2 ++
- include/linux/fbcon.h                |  2 ++
- include/uapi/linux/fb.h              |  2 +-
- 8 files changed, 44 insertions(+), 8 deletions(-)
+Best regards,
+-- 
+Bjorn Andersson <andersson@kernel.org>
