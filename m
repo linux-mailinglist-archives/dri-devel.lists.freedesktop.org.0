@@ -2,36 +2,36 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C5DF0C20783
-	for <lists+dri-devel@lfdr.de>; Thu, 30 Oct 2025 15:06:11 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 20476C20798
+	for <lists+dri-devel@lfdr.de>; Thu, 30 Oct 2025 15:06:14 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 86D8310E9BA;
-	Thu, 30 Oct 2025 14:06:00 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1113D10E9A8;
+	Thu, 30 Oct 2025 14:05:51 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="bK/0jh1c";
+	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="Yxht4ber";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from bali.collaboradmins.com (bali.collaboradmins.com
  [148.251.105.195])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3681010E98B;
- Thu, 30 Oct 2025 14:05:44 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4FA8E10E99B;
+ Thu, 30 Oct 2025 14:05:45 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1761833142;
- bh=G6Jverd7TNyaRPc0r8UoWEn49n5SOIwGDLD7r/nUJE4=;
+ s=mail; t=1761833143;
+ bh=UeV0LIN5Ec5eVB3X8qtqOLOQkIXhZeTSjt0dflVAxAQ=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=bK/0jh1cXPPUEMbFavCqQFPZR52lxCnX4MWUmvLwnQ6yJa8Nu7mFt3BJE9SI34RY8
- q4MeCtWtLEamg+YIQP4ObVpuFBNMVIGevRAfo+J4vUKB02BFjqZEoq2BXVp3QTcA9R
- iac6nWPEfBTq6XuOh/MHqCKeY5/YYW4Dq+LY1W7ItcUjwHwpBFsRlprlw1IQ4IW45W
- qsVtFIyL1UJ9xXDVXuQR/sytKgISujDSjSkLcwc2BJB2p3rMFt9MzQABzoGma7ykSx
- qt2BsBFT1GrLvkTIm5nbFQrbOP+c2QjoHb/9/wYQR5oW7ldeRqmhN8B2t/Tsam2Mb4
- nle5liL7hCN1w==
+ b=Yxht4ber4TajRM7QyGWjslxE17ty/CG062uEJzC79bLemEuRKLpB+hzfHqeMBWfJ0
+ 5q/D/POePaltJFHMi7N8kA6R2M3s4YA6t6uaGnFb9wWCvlXCA+txvMayAY3+03LWZA
+ SXU65m+TT5YZz2d0f6cZ7ScRbpEU9mTnin644z1s7GomAWzuT9acsXdA5OKXW93jJH
+ Mlq5+sB9ri/WbQmxb9osMP/pjpwU6UyjRPwLy+2nYEnPUUBQMShNZrNur1cuXTZMif
+ 4sLNVtgST/V5p8QWdB6pFE1vYr7bk4xE7QRGsAw0+YkwK1zxZ4AWnl2l5Mkd1wksPA
+ BZZulbFtzuUqA==
 Received: from fedora (unknown [IPv6:2a01:e0a:2c:6930:a2a7:f53:ebb0:945e])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
  (No client certificate requested) (Authenticated sender: bbrezillon)
- by bali.collaboradmins.com (Postfix) with ESMTPSA id 06E9C17E1550;
- Thu, 30 Oct 2025 15:05:41 +0100 (CET)
+ by bali.collaboradmins.com (Postfix) with ESMTPSA id 0F85517E159C;
+ Thu, 30 Oct 2025 15:05:43 +0100 (CET)
 From: Boris Brezillon <boris.brezillon@collabora.com>
 To: Steven Price <steven.price@arm.com>
 Cc: dri-devel@lists.freedesktop.org,
@@ -57,10 +57,9 @@ Cc: dri-devel@lists.freedesktop.org,
  =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
  amd-gfx@lists.freedesktop.org,
  Boris Brezillon <boris.brezillon@collabora.com>, kernel@collabora.com
-Subject: [PATCH v5 06/16] drm/panthor: Expose the selected coherency protocol
- to the UMD
-Date: Thu, 30 Oct 2025 15:05:15 +0100
-Message-ID: <20251030140525.366636-7-boris.brezillon@collabora.com>
+Subject: [PATCH v5 07/16] drm/panthor: Add a PANTHOR_BO_SYNC ioctl
+Date: Thu, 30 Oct 2025 15:05:16 +0100
+Message-ID: <20251030140525.366636-8-boris.brezillon@collabora.com>
 X-Mailer: git-send-email 2.51.0
 In-Reply-To: <20251030140525.366636-1-boris.brezillon@collabora.com>
 References: <20251030140525.366636-1-boris.brezillon@collabora.com>
@@ -81,140 +80,222 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-If we want to be able to skip CPU cache maintenance operations on
-CPU-cached mappings, the UMD needs to know the kind of coherency
-in place. Add a field to drm_panthor_gpu_info to do that. We can re-use
-a padding field for that since this object is write-only from the
-KMD perspective, and the UMD should just ignore it.
+This will be used by the UMD to synchronize CPU-cached mappings when
+the UMD can't do it directly (no usermode cache maintenance instruction
+on Arm32).
 
 v2:
-- New commit
+- Change the flags so they better match the drm_gem_shmem_sync()
+  semantics
 
 v3:
-- Make coherency protocol a real enum, not a bitmask
-- Add BUILD_BUG_ON()s to make sure the values in panthor_regs.h and
-  those exposed through the uAPI match
-
-v4:
 - Add Steve's R-b
 
-v5:
+v4:
 - No changes
 
-Signed-off-by: Boris Brezillon <boris.brezillon@collabora.com>
-Reviewed-by: Steven Price <steven.price@arm.com>
----
- drivers/gpu/drm/panthor/panthor_device.c | 10 +++++-
- drivers/gpu/drm/panthor/panthor_gpu.c    |  2 +-
- include/uapi/drm/panthor_drm.h           | 39 ++++++++++++++++++++++--
- 3 files changed, 46 insertions(+), 5 deletions(-)
+v5:
+- Drop Steve's R-b (the semantics changes call for a new review)
 
-diff --git a/drivers/gpu/drm/panthor/panthor_device.c b/drivers/gpu/drm/panthor/panthor_device.c
-index c7033d82cef5..492585014e9f 100644
---- a/drivers/gpu/drm/panthor/panthor_device.c
-+++ b/drivers/gpu/drm/panthor/panthor_device.c
-@@ -25,6 +25,12 @@
+Signed-off-by: Faith Ekstrand <faith.ekstrand@collabora.com>
+Signed-off-by: Boris Brezillon <boris.brezillon@collabora.com>
+---
+ drivers/gpu/drm/panthor/panthor_drv.c | 42 +++++++++++++++++++++-
+ drivers/gpu/drm/panthor/panthor_gem.c | 21 +++++++++++
+ drivers/gpu/drm/panthor/panthor_gem.h |  3 ++
+ include/uapi/drm/panthor_drm.h        | 52 +++++++++++++++++++++++++++
+ 4 files changed, 117 insertions(+), 1 deletion(-)
+
+diff --git a/drivers/gpu/drm/panthor/panthor_drv.c b/drivers/gpu/drm/panthor/panthor_drv.c
+index 99a4534c0074..cad5c4270b04 100644
+--- a/drivers/gpu/drm/panthor/panthor_drv.c
++++ b/drivers/gpu/drm/panthor/panthor_drv.c
+@@ -175,7 +175,8 @@ panthor_get_uobj_array(const struct drm_panthor_obj_array *in, u32 min_stride,
+ 		 PANTHOR_UOBJ_DECL(struct drm_panthor_sync_op, timeline_value), \
+ 		 PANTHOR_UOBJ_DECL(struct drm_panthor_queue_submit, syncs), \
+ 		 PANTHOR_UOBJ_DECL(struct drm_panthor_queue_create, ringbuf_size), \
+-		 PANTHOR_UOBJ_DECL(struct drm_panthor_vm_bind_op, syncs))
++		 PANTHOR_UOBJ_DECL(struct drm_panthor_vm_bind_op, syncs), \
++		 PANTHOR_UOBJ_DECL(struct drm_panthor_bo_sync_op, size))
  
- static int panthor_gpu_coherency_init(struct panthor_device *ptdev)
- {
-+	BUILD_BUG_ON(GPU_COHERENCY_NONE != DRM_PANTHOR_GPU_COHERENCY_NONE);
-+	BUILD_BUG_ON(GPU_COHERENCY_ACE_LITE != DRM_PANTHOR_GPU_COHERENCY_ACE_LITE);
-+	BUILD_BUG_ON(GPU_COHERENCY_ACE != DRM_PANTHOR_GPU_COHERENCY_ACE);
-+
-+	/* Start with no coherency, and update it if the device is flagged coherent. */
-+	ptdev->gpu_info.selected_coherency = GPU_COHERENCY_NONE;
- 	ptdev->coherent = device_get_dma_attr(ptdev->base.dev) == DEV_DMA_COHERENT;
- 
- 	if (!ptdev->coherent)
-@@ -34,8 +40,10 @@ static int panthor_gpu_coherency_init(struct panthor_device *ptdev)
- 	 * ACE protocol has never been supported for command stream frontend GPUs.
- 	 */
- 	if ((gpu_read(ptdev, GPU_COHERENCY_FEATURES) &
--		      GPU_COHERENCY_PROT_BIT(ACE_LITE)))
-+		      GPU_COHERENCY_PROT_BIT(ACE_LITE))) {
-+		ptdev->gpu_info.selected_coherency = GPU_COHERENCY_ACE_LITE;
- 		return 0;
-+	}
- 
- 	drm_err(&ptdev->base, "Coherency not supported by the device");
- 	return -ENOTSUPP;
-diff --git a/drivers/gpu/drm/panthor/panthor_gpu.c b/drivers/gpu/drm/panthor/panthor_gpu.c
-index 7f9a28e90409..a95c0b94ef58 100644
---- a/drivers/gpu/drm/panthor/panthor_gpu.c
-+++ b/drivers/gpu/drm/panthor/panthor_gpu.c
-@@ -49,7 +49,7 @@ struct panthor_gpu {
- static void panthor_gpu_coherency_set(struct panthor_device *ptdev)
- {
- 	gpu_write(ptdev, GPU_COHERENCY_PROTOCOL,
--		  ptdev->coherent ? GPU_COHERENCY_ACE_LITE : GPU_COHERENCY_NONE);
-+		  ptdev->gpu_info.selected_coherency);
+ /**
+  * PANTHOR_UOBJ_SET() - Copy a kernel object to a user object.
+@@ -1394,6 +1395,44 @@ static int panthor_ioctl_set_user_mmio_offset(struct drm_device *ddev,
+ 	return 0;
  }
  
- static void panthor_gpu_l2_config_set(struct panthor_device *ptdev)
++#define PANTHOR_BO_SYNC_OP_FLAGS                                      \
++	(DRM_PANTHOR_BO_SYNC_FOR_DEV | DRM_PANTHOR_BO_SYNC_FOR_READ | \
++	 DRM_PANTHOR_BO_SYNC_FOR_WRITE)
++
++static int panthor_ioctl_bo_sync(struct drm_device *ddev, void *data,
++				 struct drm_file *file)
++{
++	struct drm_panthor_bo_sync *args = data;
++	struct drm_panthor_bo_sync_op *ops;
++	struct drm_gem_object *obj;
++	int ret = 0;
++
++	ret = PANTHOR_UOBJ_GET_ARRAY(ops, &args->ops);
++	if (ret)
++		return ret;
++
++	for (u32 i = 0; i < args->ops.count; i++) {
++		obj = drm_gem_object_lookup(file, ops[i].handle);
++		if (!obj) {
++			ret = -ENOENT;
++			goto err_ops;
++		}
++
++		ret = panthor_gem_sync(obj, ops[i].type, ops[i].offset,
++				       ops[i].size);
++
++		drm_gem_object_put(obj);
++
++		if (ret)
++			goto err_ops;
++	}
++
++err_ops:
++	kvfree(ops);
++
++	return ret;
++}
++
+ static int
+ panthor_open(struct drm_device *ddev, struct drm_file *file)
+ {
+@@ -1468,6 +1507,7 @@ static const struct drm_ioctl_desc panthor_drm_driver_ioctls[] = {
+ 	PANTHOR_IOCTL(GROUP_SUBMIT, group_submit, DRM_RENDER_ALLOW),
+ 	PANTHOR_IOCTL(BO_SET_LABEL, bo_set_label, DRM_RENDER_ALLOW),
+ 	PANTHOR_IOCTL(SET_USER_MMIO_OFFSET, set_user_mmio_offset, DRM_RENDER_ALLOW),
++	PANTHOR_IOCTL(BO_SYNC, bo_sync, DRM_RENDER_ALLOW),
+ };
+ 
+ static int panthor_mmap(struct file *filp, struct vm_area_struct *vma)
+diff --git a/drivers/gpu/drm/panthor/panthor_gem.c b/drivers/gpu/drm/panthor/panthor_gem.c
+index 160692e45f44..1b1e98c61b8c 100644
+--- a/drivers/gpu/drm/panthor/panthor_gem.c
++++ b/drivers/gpu/drm/panthor/panthor_gem.c
+@@ -357,6 +357,27 @@ panthor_gem_kernel_bo_set_label(struct panthor_kernel_bo *bo, const char *label)
+ 	panthor_gem_bo_set_label(bo->obj, str);
+ }
+ 
++int
++panthor_gem_sync(struct drm_gem_object *obj, u32 type,
++		 u64 offset, u64 size)
++{
++	enum drm_gem_shmem_sync_type shmem_sync_type;
++	struct panthor_gem_object *bo = to_panthor_bo(obj);
++
++	switch (type) {
++	case DRM_PANTHOR_BO_SYNC_CPU_CACHE_FLUSH:
++		shmem_sync_type = DRM_GEM_SHMEM_SYNC_CPU_CACHE_FLUSH;
++		break;
++	case DRM_PANTHOR_BO_SYNC_CPU_CACHE_FLUSH_AND_INVALIDATE:
++		shmem_sync_type = DRM_GEM_SHMEM_SYNC_CPU_CACHE_FLUSH_AND_INVALIDATE;
++		break;
++	default:
++		return -EINVAL;
++	}
++
++	return drm_gem_shmem_sync(&bo->base, offset, size, shmem_sync_type);
++}
++
+ #ifdef CONFIG_DEBUG_FS
+ struct gem_size_totals {
+ 	size_t size;
+diff --git a/drivers/gpu/drm/panthor/panthor_gem.h b/drivers/gpu/drm/panthor/panthor_gem.h
+index 528088839468..8705c492c5b6 100644
+--- a/drivers/gpu/drm/panthor/panthor_gem.h
++++ b/drivers/gpu/drm/panthor/panthor_gem.h
+@@ -147,6 +147,9 @@ panthor_gem_create_with_handle(struct drm_file *file,
+ void panthor_gem_bo_set_label(struct drm_gem_object *obj, const char *label);
+ void panthor_gem_kernel_bo_set_label(struct panthor_kernel_bo *bo, const char *label);
+ 
++int panthor_gem_sync(struct drm_gem_object *obj,
++		     u32 type, u64 offset, u64 size);
++
+ const struct dma_buf_ops *
+ panthor_gem_prime_get_dma_buf_ops(struct drm_device *dev);
+ 
 diff --git a/include/uapi/drm/panthor_drm.h b/include/uapi/drm/panthor_drm.h
-index 467d365ed7ba..f0f637e0631d 100644
+index f0f637e0631d..bb12760abe99 100644
 --- a/include/uapi/drm/panthor_drm.h
 +++ b/include/uapi/drm/panthor_drm.h
-@@ -245,6 +245,26 @@ enum drm_panthor_dev_query_type {
- 	DRM_PANTHOR_DEV_QUERY_GROUP_PRIORITIES_INFO,
+@@ -144,6 +144,9 @@ enum drm_panthor_ioctl_id {
+ 	 * pgoff_t size.
+ 	 */
+ 	DRM_PANTHOR_SET_USER_MMIO_OFFSET,
++
++	/** @DRM_PANTHOR_BO_SYNC: Sync BO data to/from the device */
++	DRM_PANTHOR_BO_SYNC,
+ };
+ 
+ /**
+@@ -1073,6 +1076,53 @@ struct drm_panthor_set_user_mmio_offset {
+ 	__u64 offset;
  };
  
 +/**
-+ * enum drm_panthor_gpu_coherency: Type of GPU coherency
++ * enum drm_panthor_bo_sync_op_type - BO sync type
 + */
-+enum drm_panthor_gpu_coherency {
-+	/**
-+	 * @DRM_PANTHOR_GPU_COHERENCY_ACE_LITE: ACE Lite coherency.
-+	 */
-+	DRM_PANTHOR_GPU_COHERENCY_ACE_LITE = 0,
++enum drm_panthor_bo_sync_op_type {
++	/** @DRM_PANTHOR_BO_SYNC_CPU_CACHE_FLUSH: Flush CPU caches. */
++	DRM_PANTHOR_BO_SYNC_CPU_CACHE_FLUSH = 0,
++
++	/** @DRM_PANTHOR_BO_SYNC_CPU_CACHE_FLUSH_AND_INVALIDATE: Flush and invalidate CPU caches. */
++	DRM_PANTHOR_BO_SYNC_CPU_CACHE_FLUSH_AND_INVALIDATE = 1,
++};
++
++/**
++ * struct drm_panthor_bo_sync_op - BO map sync op
++ */
++struct drm_panthor_bo_sync_op {
++	/** @handle: Handle of the buffer object to sync. */
++	__u32 handle;
++
++	/** @type: Type of operation. */
++	__u32 type;
 +
 +	/**
-+	 * @DRM_PANTHOR_GPU_COHERENCY_ACE_LITE: ACE coherency.
++	 * @offset: Offset into the BO at which the sync range starts.
++	 *
++	 * This will be rounded down to the nearest cache line as needed.
 +	 */
-+	DRM_PANTHOR_GPU_COHERENCY_ACE = 1,
++	__u64 offset;
 +
 +	/**
-+	 * @DRM_PANTHOR_GPU_COHERENCY_NONE: No coherency.
++	 * @size: Size of the range to sync
++	 *
++	 * @size + @offset will be rounded up to the nearest cache line as
++	 * needed.
 +	 */
-+	DRM_PANTHOR_GPU_COHERENCY_NONE = 31,
++	__u64 size;
++};
++
++/**
++ * struct drm_panthor_bo_sync - BO map sync request
++ */
++struct drm_panthor_bo_sync {
++	/**
++	 * @ops: Array of struct drm_panthor_bo_sync_op sync operations.
++	 */
++	struct drm_panthor_obj_array ops;
 +};
 +
  /**
-  * struct drm_panthor_gpu_info - GPU information
-  *
-@@ -301,7 +321,16 @@ struct drm_panthor_gpu_info {
- 	 */
- 	__u32 thread_max_barrier_size;
+  * DRM_IOCTL_PANTHOR() - Build a Panthor IOCTL number
+  * @__access: Access type. Must be R, W or RW.
+@@ -1119,6 +1169,8 @@ enum {
+ 		DRM_IOCTL_PANTHOR(WR, BO_SET_LABEL, bo_set_label),
+ 	DRM_IOCTL_PANTHOR_SET_USER_MMIO_OFFSET =
+ 		DRM_IOCTL_PANTHOR(WR, SET_USER_MMIO_OFFSET, set_user_mmio_offset),
++	DRM_IOCTL_PANTHOR_BO_SYNC =
++		DRM_IOCTL_PANTHOR(WR, BO_SYNC, bo_sync),
+ };
  
--	/** @coherency_features: Coherency features. */
-+	/**
-+	 * @coherency_features: Coherency features.
-+	 *
-+	 * Combination of drm_panthor_gpu_coherency flags.
-+	 *
-+	 * Note that this is just what the coherency protocols supported by the
-+	 * GPU, but the actual coherency in place depends on the SoC
-+	 * integration and is reflected by
-+	 * drm_panthor_gpu_info::selected_coherency.
-+	 */
- 	__u32 coherency_features;
- 
- 	/** @texture_features: Texture features. */
-@@ -310,8 +339,12 @@ struct drm_panthor_gpu_info {
- 	/** @as_present: Bitmask encoding the number of address-space exposed by the MMU. */
- 	__u32 as_present;
- 
--	/** @pad0: MBZ. */
--	__u32 pad0;
-+	/**
-+	 * @select_coherency: Coherency selected for this device.
-+	 *
-+	 * One of drm_panthor_gpu_coherency.
-+	 */
-+	__u32 selected_coherency;
- 
- 	/** @shader_present: Bitmask encoding the shader cores exposed by the GPU. */
- 	__u64 shader_present;
+ #if defined(__cplusplus)
 -- 
 2.51.0
 
