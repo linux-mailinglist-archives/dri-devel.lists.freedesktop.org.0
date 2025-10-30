@@ -2,138 +2,170 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 850B7C21AB9
-	for <lists+dri-devel@lfdr.de>; Thu, 30 Oct 2025 19:07:27 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 770C3C21B6C
+	for <lists+dri-devel@lfdr.de>; Thu, 30 Oct 2025 19:14:01 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DABE610E32A;
-	Thu, 30 Oct 2025 18:07:25 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A260710E32B;
+	Thu, 30 Oct 2025 18:13:58 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=Nvidia.com header.i=@Nvidia.com header.b="cYbuRcux";
+	dkim=pass (2048-bit key; secure) header.d=gmx.de header.i=deller@gmx.de header.b="oVe0vObl";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from CH4PR04CU002.outbound.protection.outlook.com
- (mail-northcentralusazon11013049.outbound.protection.outlook.com
- [40.107.201.49])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 07B6B10E32B;
- Thu, 30 Oct 2025 18:07:20 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=SSDI8cA7hV/k4dm/k1rRfBjJ8nwX++IZGmipQaVGMMnXT2OoDSlq8RlNFgnPd/Qh18XfXA4c9OtZPiLiHiIHE+apPd40BOerDr/csBqVVY5hQgNU8wkXR68s7u3sZx7ZtGggZzXQXj+NUSY1xJ14Y8kRJb0cmx8QPHcDwsk4MzeYrGuekj+v9e5c7n+oG0Nd+tOWLBJEafVJIkGhu5ddSnQhvjK0+pnCjOgmIazBQUpp9/NAkJW5ZI8tl9VJTXd3xnUlEe9cQEgSdpdTVoDEVfrL15FA8fDb1jL3rxJ6E6PknedzThqd4y4KKZUlI5uwb8bIEw2wJ4RwbPQ8kJNX9g==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=k+/bpGEE9WCuARZJ++oD/JdSEDE2RmsR+ksmHkbTOeU=;
- b=tu3bAcvnN8ddu8q1SdXM2ipzQJZ+F0+gOWQGKz8rPCunCZRsIXt/YKxt0Y9miwPGLMQy6n/SzZO0eDJmJiUsEUgXpIiD8Nm23x7CevgDxmhwuZTgH7+R3IQ/y3GEKe+AwONq74KTMmHUGuUC4oMX5i8C6yTE++e+H2h5fVhct/xKiVb4F0ZY0NhdsBDt2IifLkje4gDTikurJY1rh5Td3wNsnW7TfkuE3ZI72VlpRnx3P0ydmeYAR2zWIrBKuc8Mg8OxdOEPZffQ/zZJYdFfTWGukaZHHA1zgILoTMsaDzOaKMdWRJ6XsNfBPoTvbI+nkczoCJiWLNbA9gyAOzcgsQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
- dkim=pass header.d=nvidia.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=k+/bpGEE9WCuARZJ++oD/JdSEDE2RmsR+ksmHkbTOeU=;
- b=cYbuRcuxvogGEZq6haEKNRjuXOTKaIc6OZn+TNDKkHqHfg+Ae/MrS1G8xLo6yNNhfDA/cLmpLpbeIyoGh36/xnWF2YwsBaeqanvRT0eRDWO+8X9HRkEn33C2SsHoMHULNEtjrGcKdDQwqa4NjSMR6CHz2R/fmKSHniIGg7nbyjt4zdpka9Ywn91PhA1344D3udr6A3R5H44qN3pQEcuDLlmXANjkl4tUifZWxEAWUNVt6rnAE9FG/G2Fq8Y0JKethhsVepMqvkmED/jLZAEW7wY6ugsBk+5Q/8os/owA9eaOM72FzTrRBbquTIPJz3i7/hDgqRStlibdRIBMupbrcw==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nvidia.com;
-Received: from SA1PR12MB6701.namprd12.prod.outlook.com (2603:10b6:806:251::18)
- by SA0PR12MB7479.namprd12.prod.outlook.com (2603:10b6:806:24b::19)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9275.14; Thu, 30 Oct
- 2025 18:07:15 +0000
-Received: from SA1PR12MB6701.namprd12.prod.outlook.com
- ([fe80::2be0:c316:443d:da3a]) by SA1PR12MB6701.namprd12.prod.outlook.com
- ([fe80::2be0:c316:443d:da3a%5]) with mapi id 15.20.9275.013; Thu, 30 Oct 2025
- 18:07:15 +0000
-From: James Jones <jajones@nvidia.com>
-To: Danilo Krummrich <dakr@kernel.org>, Lyude Paul <lyude@redhat.com>,
- Faith Ekstrand <faith.ekstrand@collabora.com>
-Cc: nouveau@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, David Airlie <airlied@gmail.com>,
- Simona Vetter <simona@ffwll.ch>, Joel Fernandes <joelagnelf@nvidia.com>,
- James Jones <jajones@nvidia.com>
-Subject: [PATCH v2 2/2] drm/nouveau: Advertise correct modifiers on GB20x
-Date: Thu, 30 Oct 2025 11:11:53 -0700
-Message-ID: <20251030181153.1208-3-jajones@nvidia.com>
-X-Mailer: git-send-email 2.50.1
-In-Reply-To: <20251030181153.1208-1-jajones@nvidia.com>
-References: <20251030181153.1208-1-jajones@nvidia.com>
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-ClientProxiedBy: BY5PR03CA0015.namprd03.prod.outlook.com
- (2603:10b6:a03:1e0::25) To SA1PR12MB6701.namprd12.prod.outlook.com
- (2603:10b6:806:251::18)
+Received: from mout.gmx.net (mout.gmx.net [212.227.15.15])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8F57310E32B
+ for <dri-devel@lists.freedesktop.org>; Thu, 30 Oct 2025 18:13:56 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmx.de;
+ s=s31663417; t=1761848028; x=1762452828; i=deller@gmx.de;
+ bh=Bm8Zvv3W+EdVL6CpopIt62w5TWsOazDCaC9KpOQFQQQ=;
+ h=X-UI-Sender-Class:Message-ID:Date:MIME-Version:Subject:To:Cc:
+ References:From:In-Reply-To:Content-Type:
+ Content-Transfer-Encoding:cc:content-transfer-encoding:
+ content-type:date:from:message-id:mime-version:reply-to:subject:
+ to;
+ b=oVe0vOblnbjno0N9MP7VOPtxNNCco4XvHrHKvdg4Ji+m5lj5YqzeQkIUbRyJpIEr
+ pUS2CJ1sizk+1+FxEPMgDVk2uwQjsFr3Sn8jTZ2dFK1laAT/aRiC/Fslrr2A6dA5t
+ TZUIgS8h/2Jk9UCfdUUPMAq2F4cse/j9BDvCsi9t7f//PogEoKIhvI9rDSl0Z97QX
+ l5DvebwpOFfbRRjBNVeMeu5cqRe14dae19eZkCrVEzmmzja/S0zG3H+qo4kehJ5g1
+ D7Hpatomw6ZJlpbtgT5gDnDD8d5qxKuuwsGt/VM0+tCf5t6Yq+dwgtP+DWQAWrjeY
+ UXmiKZxECsG1V4HYpA==
+X-UI-Sender-Class: 724b4f7f-cbec-4199-ad4e-598c01a50d3a
+Received: from [192.168.20.55] ([109.250.50.209]) by mail.gmx.net (mrgmx005
+ [212.227.17.190]) with ESMTPSA (Nemesis) id 1MGhyS-1vRAD81JKM-0090FX; Thu, 30
+ Oct 2025 19:13:48 +0100
+Message-ID: <b33682e3-9869-4c35-82b8-9d80feabfad1@gmx.de>
+Date: Thu, 30 Oct 2025 19:13:46 +0100
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: SA1PR12MB6701:EE_|SA0PR12MB7479:EE_
-X-MS-Office365-Filtering-Correlation-Id: bb76e7d9-7412-403c-90ac-08de17df284f
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|376014|366016|1800799024;
-X-Microsoft-Antispam-Message-Info: =?us-ascii?Q?j45ssitZPMHVPkyCvmMDJ+mMPa1IdWh3Nuqkwq/yBBhMK9k1yme/mb4zw8Ko?=
- =?us-ascii?Q?40YwQccNEkV+cYo0SzhDaL08l6BCwIo0TYfURGaTVOQlAbOhObWqS7Ba8lk7?=
- =?us-ascii?Q?D9ofcJgstIlCiOSdSAyLVBQ1Ugv8tsGNj5yOWr0dw+zBIcUi8IDLNyFQoBui?=
- =?us-ascii?Q?xTh1Qksf6DCTbVTW4Ss3c/GmAidvQVZbjELkl22ak4fLLOxfNxDQchCjMDj0?=
- =?us-ascii?Q?WzeUBsiKu1JtoxGUM4cGLFH3o1tcqLHVXD4KrQA6oHpnFWgD2Xl65UpZDFnH?=
- =?us-ascii?Q?HdCBzmtdJzBXRMEMq3lJogxvAXmlgjWZB5Nb2oaqoXZCwoXtmNIfTZ1WYSDt?=
- =?us-ascii?Q?PtK8IHWmHewiuRvVHSrXIMhl1Skyxlok5S1FAzJJvOwcdtbsrWTYqFu3SByG?=
- =?us-ascii?Q?oke8TMBy5M66CsN8GPJSLAX2B+1a9iGaXY8RJGfCX98/fr6raOGxOhZvzenG?=
- =?us-ascii?Q?dv8eQ4Qw3HY5y/fPNFdtwY2sQuIAEpOlBxAGFw8docxG8KNObgGwlKkDR75Z?=
- =?us-ascii?Q?ynuTY8pMYGfo/X26uWXn8YUVAQXBhlTCxFIb4I9cs38xpLPoSP4vCNAqIXBH?=
- =?us-ascii?Q?El5Zm+Adv2V2tf7AtZN8yDe8cWdFegjb5aot7/1lsNnPn+k+xoZ2Wr+ZDEGm?=
- =?us-ascii?Q?37a0ynvIlZllErFFAu92jMcj+bG2LoAB4Lg05ItgUkvY3SqqzL9hHLvUlXH/?=
- =?us-ascii?Q?3EdHENeA3fOCcbSEQG2pr53TN+7kMPDPIkVWsdpBpHp8gnvQRphnw4dkvZOE?=
- =?us-ascii?Q?6AiUaEE1oXKYYfLBnizdXP9v/mKYGdeXIB6EjBBAS/FG3gpD8p880wCL/Rd2?=
- =?us-ascii?Q?1Nuul4wSSFDJ8kpPL/6aktfHRSgwKgyUhkUWYfoILbGd08M3P/qW1FdRtZPG?=
- =?us-ascii?Q?ZO8gLtFadr0yDjtGc47FpGrzOhB4qnpyfEoheszpQ/vr6P2ycX6aJ+/qpqau?=
- =?us-ascii?Q?XNNMcVUSv99h4B168krS4AtnDqEU14I/DfuSv2haxXVoIci3KQA5CdF1BpZS?=
- =?us-ascii?Q?nUewUiKS9QnNYWHid0F8zcaubPl8MVnGLgTOn0NVxQhAUh3ZLNpQ0NEAqV0d?=
- =?us-ascii?Q?ImDfj1gjD2HJmgyYQIEjISJHwoqk8YVZqXBV4xVuPi+IPh3giqv5c2QIdVrb?=
- =?us-ascii?Q?Nl88kFArKHE7r0sa8If6+ihNlnaq1eJqI7Sddfec8hvxX6BmwYHFaZVIvX2/?=
- =?us-ascii?Q?j/+i2I/7uM2SyJWQWn0HiSECimtz2MNoqI10A1hcu0lBB0ILZE47Muh528jY?=
- =?us-ascii?Q?zpxUaeyAKpnt3jWebMHebgS0LA/3HR8KzL8XdtitYnKMIyBsPRZcuwLs0T+q?=
- =?us-ascii?Q?xiVBaCjSSw7eHV0C3/dscTPX7FIC3MJy1vzlE5npXXaPYVhoTeARwQp9m4Iu?=
- =?us-ascii?Q?mWS4lcjALRMYJphYaTg3DMbV86fDohFY/1z9uCT+R3vxAgnIxt/u5jj3uEBe?=
- =?us-ascii?Q?NHMvFAhM1ukvW/KvnyHTyMUgdjw++Vks?=
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:SA1PR12MB6701.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230040)(376014)(366016)(1800799024); DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?y3Nud2YNNaNu2nsvCzR/AWesHZSMh6ujG2JBy9pXmZrl9PCTsjHzPT1Ev6VR?=
- =?us-ascii?Q?s5/IRXp11Ny+dWtrIV0o03ng06kK4nEPS1mLkqp5CYUg1HZwzCHm0GHwwDHS?=
- =?us-ascii?Q?ExteMYEq30VLwT09KN7BAhiWG/8TS1rk0ulBlUe6HalKCYZEkritQ4uOe4OM?=
- =?us-ascii?Q?xKpkrSlKILnYl1P8qiPTzoA9jA7ZIKefv/2WC2RyOIonxo03iieX2Yk2O/0O?=
- =?us-ascii?Q?pSwNvfyZ1MP5XlvU+rSX6C0lhbenhWvp/pEJVNTdNv1PdClVkzzoJOpAQ8zL?=
- =?us-ascii?Q?UD4jiYg9GG2SkVTFDbi+I6YmQwRZdB1xRduea7qdVnYbT9cCyEKJyJjCCF/W?=
- =?us-ascii?Q?prfCm4oPhCCn25nhYQa/j/2Dc4tgdjvo1viwpeTxutTc+iXAmcQ4XTZJHRqA?=
- =?us-ascii?Q?m00KO5OLxpqvZisUluUnI919XwTc6EVOMERjzS7vVzi8VjM5CVvX3k6wsPwe?=
- =?us-ascii?Q?Qje4DmmQnwZsqxxQM4bxNrEdM+qMflG3YgzLxbvXs4LwPinTri4ihgNUtXuU?=
- =?us-ascii?Q?XcUaPlUPHPPncJbvUPMhMqnJ1z8wu0AfhoVM+AAMQLqFoGuuny976qSYrews?=
- =?us-ascii?Q?hDZyoshms1WRRxqCMKP5cgY67AwAQCxt3jezTX4HatyGA6Ne6JP7dRXzm4RE?=
- =?us-ascii?Q?D1GZGSZFS02D9+Rt73Ev5Er3wvZVv/AVqKBhQBFV122yt37XWvZTGTuoIciQ?=
- =?us-ascii?Q?GRmw5k1khxho5Py+uYIXRXg0pfrz3BAdPFcd81ltEe4pcdHOxfxfJt4p4JjW?=
- =?us-ascii?Q?klM6OT7BTBsf66FMB/+6CZZP64iCfmcu/vkISXIi/0w0sQuPGksRyQIpqGkP?=
- =?us-ascii?Q?z++EPUG3CR4OPMqb4alXGXCxKAmH65c5B6Ux/wlenbnmumvFFtFaGOU17/Qp?=
- =?us-ascii?Q?iD/buiVIXUOCA3QwJMy8wSrLONyXA33WOXv8W+pHIj6974Ed53/m4ADdpzzM?=
- =?us-ascii?Q?X4w1u1uN/NIy46iCan3miWYP+7JceOkXYkpjCnDaH3pR84//5n5k7WEX6aql?=
- =?us-ascii?Q?EEYsmioAiG4pzahNNbPTab/bFmBN0g3HuFu7iPg0bRRd9r33DVsCobzCQ5Ry?=
- =?us-ascii?Q?X3MDlPr+1uWguO2xvw5vloEi2QE5zTa6pfbfAJIPv2nbKC3HFCYa5sBzZY4z?=
- =?us-ascii?Q?dxk0Z3QoceT9hIDDdqtezYM+F3YANw5yhvStJow+rkMmCJkO9E5WQEunP1GR?=
- =?us-ascii?Q?3l0+FMCud17nuZpp64wL80GBTKLyGNKeXssxAwVmMMa+r92+4b/xTsU/wCYt?=
- =?us-ascii?Q?0ZL+RHwO+jKbUdPhd4rqiUMlBi+n4yjRtp3BJBdFpj20rfNl+AXwdMX5Iy3I?=
- =?us-ascii?Q?FD9GjomYl08Hs5GWlJDgdn6bqNusim/pxpu3AhIDwz5gs0RwYC1xAZI0X3kD?=
- =?us-ascii?Q?FnRG/ApGqVfsRx+i/3LnXR30cfKihtxvgfwwkfcoQ6TYOvnfx7eKiQxV0Gm/?=
- =?us-ascii?Q?2a2s4GGVGy+pj9caGP8dj64pmQNjxarjf7feVkGc3E2KBOdgx4AtKB0PqHpd?=
- =?us-ascii?Q?TWMYWKlp5Md+LNJpcXLSB9wRMubQDdn1G5aNgoCUG6dit5Vs9A3GDLZHumdm?=
- =?us-ascii?Q?6UuKgTJKHHvSAZ4rzRWD4hLMi0QCdGEz5NlqbRnE?=
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: bb76e7d9-7412-403c-90ac-08de17df284f
-X-MS-Exchange-CrossTenant-AuthSource: SA1PR12MB6701.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 30 Oct 2025 18:07:15.6282 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: ss6cZbDYx9hbE++xRJBlNLVAuRIiKnHqASE+2eYX3igk0em6zh0n7WIXP7rb+C6Z7zhSowaWgggl7ScpFa+PYw==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA0PR12MB7479
+User-Agent: Mozilla Thunderbird
+Subject: Re: [RFC PATCH] fdev: i810: use appropriate log interface pr_info
+To: Shi Hao <i.shihao.999@gmail.com>, linux-fbdev@vger.kernel.org
+Cc: dri-devel@lists.freedesktop.org, adaplas@gmail.com
+References: <20251015140845.31671-1-i.shihao.999@gmail.com>
+Content-Language: en-US
+From: Helge Deller <deller@gmx.de>
+Autocrypt: addr=deller@gmx.de; keydata=
+ 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
+In-Reply-To: <20251015140845.31671-1-i.shihao.999@gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: quoted-printable
+X-Provags-ID: V03:K1:NwAs90T/HnTyp+Y6NwNTxpQc8fyRL7o5QRoy0nDElulWOXgZdaY
+ f6DRTW8l6JtJ+56mytTCIH7No63Qav8Zw/BH8tZVs8GNrE3Vwn9Cbu4t3S2ynIpyPHFO/9l
+ Yw4fd8+noILzYRDmhkRGoBoN5dfcAmFo2GhRj7EsXEV/I3OofDt/QBixyeGbK5mcYKRQSpb
+ 8bxKjALDeNpbJ3fY15YiQ==
+X-Spam-Flag: NO
+UI-OutboundReport: notjunk:1;M01:P0:hW6dYSn6orc=;CXg3CZUoZ9sIuTQMlio57vA3p2A
+ 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
+ PAtOzKc4QK5Z6TmRB9Ti64bKR8=
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -149,154 +181,47 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-8 and 16 bit formats use a different layout on
-GB20x than they did on prior chips. Add the
-corresponding DRM format modifiers to the list of
-modifiers supported by the display engine on such
-chips, and filter the supported modifiers for each
-format based on its bytes per pixel in
-nv50_plane_format_mod_supported().
+On 10/15/25 16:08, Shi Hao wrote:
+> use appropriate logging interface pr_info instead of printk
+> without KERN_INFO with it. It could be updated with proper
+> logging interfaces.
+>=20
+> Legacy printk() calls in the i810 fbdev driver can be replaced
+> with the standard kernel logging interface pr_info() which will
+> help to allow proper log level handling, making messages easier
+> to filter and manage.
+>=20
+> No functional changes to the driver behavior are introduced.
+> Only the logging method has been updated to follow modern
+> kernel coding guidelines.
+>=20
+> Signed-off-by: Shi Hao <i.shihao.999@gmail.com>
+> ---
+>   drivers/video/fbdev/i810/i810_main.c | 2 +-
+>   1 file changed, 1 insertion(+), 1 deletion(-)
+>=20
+> diff --git a/drivers/video/fbdev/i810/i810_main.c b/drivers/video/fbdev/=
+i810/i810_main.c
+> index d73a795fe1be..8c4b9eae151d 100644
+> --- a/drivers/video/fbdev/i810/i810_main.c
+> +++ b/drivers/video/fbdev/i810/i810_main.c
+> @@ -2137,7 +2137,7 @@ static void i810fb_remove_pci(struct pci_dev *dev)
+>=20
+>   	unregister_framebuffer(info);
+>   	i810fb_release_resource(info, par);
+> -	printk("cleanup_module:  unloaded i810 framebuffer device\n");
+> +	pr_info("cleanup_module: unloaded i810 framebuffer device\n");
 
-Note this logic will need to be updated when GB10
-support is added, since it is a GB20x chip that
-uses the pre-GB20x sector layout for all formats.
+Thanks for your patch!
+It's possible to change it like this, but I wonder:
+Why did you choose to change that specific line?
+What about the other printk() in this file ?
+Ideally we then should use dev_info() or dev_warn() [...] instead.
+and most important:
+There is no actual reason to change it. Usually we touch such lines
+and clean then up when we anyway change code in this area.
 
-Fixes: 6cc6e08d4542 ("drm/nouveau/kms: add support for GB20x")
-Signed-off-by: James Jones <jajones@nvidia.com>
-Reviewed-by: Faith Ekstrand <faith.ekstrand@collabora.com>
----
+So, your patch is appreciated, but I'm a little hesitant to take it
+(although it's basically correct!).
 
-(no changes since v1)
-
- drivers/gpu/drm/nouveau/dispnv50/disp.c     |  4 ++-
- drivers/gpu/drm/nouveau/dispnv50/disp.h     |  1 +
- drivers/gpu/drm/nouveau/dispnv50/wndw.c     | 24 +++++++++++++--
- drivers/gpu/drm/nouveau/dispnv50/wndwca7e.c | 33 +++++++++++++++++++++
- 4 files changed, 59 insertions(+), 3 deletions(-)
-
-diff --git a/drivers/gpu/drm/nouveau/dispnv50/disp.c b/drivers/gpu/drm/nouveau/dispnv50/disp.c
-index e97e39abf3a2..12b1dba8e05d 100644
---- a/drivers/gpu/drm/nouveau/dispnv50/disp.c
-+++ b/drivers/gpu/drm/nouveau/dispnv50/disp.c
-@@ -2867,7 +2867,9 @@ nv50_display_create(struct drm_device *dev)
- 	}
- 
- 	/* Assign the correct format modifiers */
--	if (disp->disp->object.oclass >= TU102_DISP)
-+	if (disp->disp->object.oclass >= GB202_DISP)
-+		nouveau_display(dev)->format_modifiers = wndwca7e_modifiers;
-+	else if (disp->disp->object.oclass >= TU102_DISP)
- 		nouveau_display(dev)->format_modifiers = wndwc57e_modifiers;
- 	else
- 	if (drm->client.device.info.family >= NV_DEVICE_INFO_V0_FERMI)
-diff --git a/drivers/gpu/drm/nouveau/dispnv50/disp.h b/drivers/gpu/drm/nouveau/dispnv50/disp.h
-index 15f9242b72ac..5d998f0319dc 100644
---- a/drivers/gpu/drm/nouveau/dispnv50/disp.h
-+++ b/drivers/gpu/drm/nouveau/dispnv50/disp.h
-@@ -104,4 +104,5 @@ struct nouveau_encoder *nv50_real_outp(struct drm_encoder *encoder);
- extern const u64 disp50xx_modifiers[];
- extern const u64 disp90xx_modifiers[];
- extern const u64 wndwc57e_modifiers[];
-+extern const u64 wndwca7e_modifiers[];
- #endif
-diff --git a/drivers/gpu/drm/nouveau/dispnv50/wndw.c b/drivers/gpu/drm/nouveau/dispnv50/wndw.c
-index e2c55f4b9c5a..ef9e410babbf 100644
---- a/drivers/gpu/drm/nouveau/dispnv50/wndw.c
-+++ b/drivers/gpu/drm/nouveau/dispnv50/wndw.c
-@@ -786,13 +786,14 @@ nv50_wndw_destroy(struct drm_plane *plane)
- }
- 
- /* This function assumes the format has already been validated against the plane
-- * and the modifier was validated against the device-wides modifier list at FB
-+ * and the modifier was validated against the device-wide modifier list at FB
-  * creation time.
-  */
- static bool nv50_plane_format_mod_supported(struct drm_plane *plane,
- 					    u32 format, u64 modifier)
- {
- 	struct nouveau_drm *drm = nouveau_drm(plane->dev);
-+	const struct drm_format_info *info = drm_format_info(format);
- 	uint8_t i;
- 
- 	/* All chipsets can display all formats in linear layout */
-@@ -800,13 +801,32 @@ static bool nv50_plane_format_mod_supported(struct drm_plane *plane,
- 		return true;
- 
- 	if (drm->client.device.info.chipset < 0xc0) {
--		const struct drm_format_info *info = drm_format_info(format);
- 		const uint8_t kind = (modifier >> 12) & 0xff;
- 
- 		if (!format) return false;
- 
- 		for (i = 0; i < info->num_planes; i++)
- 			if ((info->cpp[i] != 4) && kind != 0x70) return false;
-+	} else if (drm->client.device.info.chipset >= 0x1b2) {
-+		const uint8_t slayout = ((modifier >> 22) & 0x1) |
-+			((modifier >> 25) & 0x6);
-+
-+		if (!format)
-+			return false;
-+
-+		/*
-+		 * Note in practice this implies only formats where cpp is equal
-+		 * for each plane, or >= 4 for all planes, are supported.
-+		 */
-+		for (i = 0; i < info->num_planes; i++) {
-+			if (((info->cpp[i] == 2) && slayout != 3) ||
-+			    ((info->cpp[i] == 1) && slayout != 2) ||
-+			    ((info->cpp[i] >= 4) && slayout != 1))
-+				return false;
-+
-+			/* 24-bit not supported. It has yet another layout */
-+			WARN_ON(info->cpp[i] == 3);
-+		}
- 	}
- 
- 	return true;
-diff --git a/drivers/gpu/drm/nouveau/dispnv50/wndwca7e.c b/drivers/gpu/drm/nouveau/dispnv50/wndwca7e.c
-index 0d8e9a9d1a57..2cec8cfbd546 100644
---- a/drivers/gpu/drm/nouveau/dispnv50/wndwca7e.c
-+++ b/drivers/gpu/drm/nouveau/dispnv50/wndwca7e.c
-@@ -179,6 +179,39 @@ wndwca7e_ntfy_set(struct nv50_wndw *wndw, struct nv50_wndw_atom *asyw)
- 	return 0;
- }
- 
-+/****************************************************************
-+ *            Log2(block height) ----------------------------+  *
-+ *            Page Kind ----------------------------------+  |  *
-+ *            Gob Height/Page Kind Generation ------+     |  |  *
-+ *                          Sector layout -------+  |     |  |  *
-+ *                          Compression ------+  |  |     |  |  */
-+const u64 wndwca7e_modifiers[] = { /*         |  |  |     |  |  */
-+	/* 4cpp+ modifiers */
-+	DRM_FORMAT_MOD_NVIDIA_BLOCK_LINEAR_2D(0, 1, 2, 0x06, 0),
-+	DRM_FORMAT_MOD_NVIDIA_BLOCK_LINEAR_2D(0, 1, 2, 0x06, 1),
-+	DRM_FORMAT_MOD_NVIDIA_BLOCK_LINEAR_2D(0, 1, 2, 0x06, 2),
-+	DRM_FORMAT_MOD_NVIDIA_BLOCK_LINEAR_2D(0, 1, 2, 0x06, 3),
-+	DRM_FORMAT_MOD_NVIDIA_BLOCK_LINEAR_2D(0, 1, 2, 0x06, 4),
-+	DRM_FORMAT_MOD_NVIDIA_BLOCK_LINEAR_2D(0, 1, 2, 0x06, 5),
-+	/* 1cpp/8bpp modifiers */
-+	DRM_FORMAT_MOD_NVIDIA_BLOCK_LINEAR_2D(0, 2, 2, 0x06, 0),
-+	DRM_FORMAT_MOD_NVIDIA_BLOCK_LINEAR_2D(0, 2, 2, 0x06, 1),
-+	DRM_FORMAT_MOD_NVIDIA_BLOCK_LINEAR_2D(0, 2, 2, 0x06, 2),
-+	DRM_FORMAT_MOD_NVIDIA_BLOCK_LINEAR_2D(0, 2, 2, 0x06, 3),
-+	DRM_FORMAT_MOD_NVIDIA_BLOCK_LINEAR_2D(0, 2, 2, 0x06, 4),
-+	DRM_FORMAT_MOD_NVIDIA_BLOCK_LINEAR_2D(0, 2, 2, 0x06, 5),
-+	/* 2cpp/16bpp modifiers */
-+	DRM_FORMAT_MOD_NVIDIA_BLOCK_LINEAR_2D(0, 3, 2, 0x06, 0),
-+	DRM_FORMAT_MOD_NVIDIA_BLOCK_LINEAR_2D(0, 3, 2, 0x06, 1),
-+	DRM_FORMAT_MOD_NVIDIA_BLOCK_LINEAR_2D(0, 3, 2, 0x06, 2),
-+	DRM_FORMAT_MOD_NVIDIA_BLOCK_LINEAR_2D(0, 3, 2, 0x06, 3),
-+	DRM_FORMAT_MOD_NVIDIA_BLOCK_LINEAR_2D(0, 3, 2, 0x06, 4),
-+	DRM_FORMAT_MOD_NVIDIA_BLOCK_LINEAR_2D(0, 3, 2, 0x06, 5),
-+	/* All formats support linear */
-+	DRM_FORMAT_MOD_LINEAR,
-+	DRM_FORMAT_MOD_INVALID
-+};
-+
- static const struct nv50_wndw_func
- wndwca7e = {
- 	.acquire = wndwc37e_acquire,
--- 
-2.50.1
-
+Helge
