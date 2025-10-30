@@ -2,108 +2,158 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3F1B7C1F9D7
-	for <lists+dri-devel@lfdr.de>; Thu, 30 Oct 2025 11:44:01 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 592CDC1FA3A
+	for <lists+dri-devel@lfdr.de>; Thu, 30 Oct 2025 11:50:20 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8895F10E8E9;
-	Thu, 30 Oct 2025 10:43:59 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5576510E8FB;
+	Thu, 30 Oct 2025 10:50:16 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="SBCkkvZq";
+	dkim=pass (1024-bit key; unprotected) header.d=amd.com header.i=@amd.com header.b="ykqm67Z4";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D97FA10E8E7;
- Thu, 30 Oct 2025 10:43:57 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by tor.source.kernel.org (Postfix) with ESMTP id 25FDC612CE;
- Thu, 30 Oct 2025 10:43:57 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1F8C8C4CEF1;
- Thu, 30 Oct 2025 10:43:50 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1761821036;
- bh=q0LYfQDEfgAcsgyx1A10iYOVVNVWlHZdVq8tYzcNjdw=;
- h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
- b=SBCkkvZq/c2Y8TMZvhMZErNsnfBNinricatoRIhqHJjLeeLz2EYURnpFyVkRZ3FgX
- F2HoKx0libbcHKbmT3dC8+L/hb81cg9tTGPdajuOfxD8wYx8ScA8Ut13pNwCqZoXlU
- RpRbv8qzosiTeZYzSLhyV3Tu0BeHqed5CTx9CE053dhan1Uk0lPXhs/Hw2o/q0WmNr
- +4vGwjm5bJnKVyxIzqfGJPK9s/Pe/hXeLtXVdIGHPSjtht13O/Omxoxi43znQZ/uhm
- Sn0WseIAIPZlnjvfOzPbL0LCj50QJgX89a7pCTUKHilg197+oOf1XXDaCvI0DUu2aW
- 1eeGH2PbK3huQ==
-Message-ID: <4e444fd3-b079-4e0c-9449-1c119e1d710a@kernel.org>
-Date: Thu, 30 Oct 2025 11:43:49 +0100
-MIME-Version: 1.0
+Received: from PH7PR06CU001.outbound.protection.outlook.com
+ (mail-westus3azon11010000.outbound.protection.outlook.com [52.101.201.0])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2D47C10E8FB;
+ Thu, 30 Oct 2025 10:50:15 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=b4QuMxDCWq9GcJvNCeR+NYFsjnWAhSJgjvtismspHN5GO1gA3VUhDE2s19ePWT5McSDwrRbnRWXqXp1Wokx38XPp3ptZQCoTfqU6ha3xovoVYL/UL4QQIbEf8I69qUbxGEccsixV3mHz7hZnqzH1tQrgFa0nJpa/NmIPNxChQmDovKn3Ou19C/O22vO0IAZYGSXoKp2bsY3zrdDpQxiRLUkCmdYveDmdWaZk2t/nUOtVCcV9yKJ3wejDtc6QH+elefISrd3ljt/BZiIqfCqZ+vjhgJpjqIGMf/1XgmFNgzpF9FlFWhptv6JmjyYceD9SaV0Cikyo2t9x+QgArFGdPw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=JjXgIqJUOyinh78ykMwMpNtOFIeeoUi7o4PRSF6meaM=;
+ b=Cjuljpb7y3ixOh737wbqfnhqYOP4E5WbkIT03vg/TgKGXuYBkWBENxms/4UMT0T1Cor6jqRJ+1ypQaRXcIdYpHJzrOwCVRlvmKHI5+jTG1Uwyu0WGkvnE2bWn02BrYW2UpwGSdG6UL2gMZoWcoI8w8X9TJW5ogLnvT71iSZxk+dQG3VXHCPDTis22ZGFrcRrqkoQu5W2bX36MFpSQF9qtHVucrkx5Ig1ZTNFFWkb4/3p2FOp1yC9MlvnTbXzjEO0UrTqGTKWFafzNKIAo82UIrZf10/LxoNqG4D2eRQS0cO+CPi9G5o8P2mCGm3N3npHK8MSATqQNZOCI3Nw2B79ZA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=JjXgIqJUOyinh78ykMwMpNtOFIeeoUi7o4PRSF6meaM=;
+ b=ykqm67Z4iMajYOaapZQQMGm8EMsFz3h6fjoxGTLAqGZcMTwOM38GQR8PSuwolVnMPSaiVu9V7cMXat3hzG5aPiqTPppeYT7qwgHn6NrUIgtZniR1dC6cZdI74CKXliF+A884C1YtnbfBVVLyRPPiRbXi2fTPkpK24+aaX+7PWQw=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=amd.com;
+Received: from PH7PR12MB5685.namprd12.prod.outlook.com (2603:10b6:510:13c::22)
+ by IA0PR12MB7649.namprd12.prod.outlook.com (2603:10b6:208:437::17)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9275.13; Thu, 30 Oct
+ 2025 10:50:09 +0000
+Received: from PH7PR12MB5685.namprd12.prod.outlook.com
+ ([fe80::46fb:96f2:7667:7ca5]) by PH7PR12MB5685.namprd12.prod.outlook.com
+ ([fe80::46fb:96f2:7667:7ca5%4]) with mapi id 15.20.9275.013; Thu, 30 Oct 2025
+ 10:50:09 +0000
+Message-ID: <2d8f4e8c-10b5-4783-855f-c7f0f7343ea2@amd.com>
+Date: Thu, 30 Oct 2025 11:50:04 +0100
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 08/12] arm64: defconfig: Enable NT37801 DSI panel driver
-To: yuanjiey <yuanjie.yang@oss.qualcomm.com>
-Cc: Bjorn Andersson <andersson@kernel.org>, robin.clark@oss.qualcomm.com,
- lumag@kernel.org, abhinav.kumar@linux.dev, sean@poorly.run,
- marijn.suijten@somainline.org, airlied@gmail.com, simona@ffwll.ch,
- maarten.lankhorst@linux.intel.com, mripard@kernel.org, tzimmermann@suse.de,
- robh@kernel.org, krzk+dt@kernel.org, conor+dt@kernel.org,
- quic_mkrishn@quicinc.com, jonathan@marek.ca, quic_khsieh@quicinc.com,
- neil.armstrong@linaro.org, linux-arm-msm@vger.kernel.org,
- dri-devel@lists.freedesktop.org, freedreno@lists.freedesktop.org,
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
- tingwei.zhang@oss.qualcomm.com, aiqun.yu@oss.qualcomm.com,
- yongxing.mou@oss.qualcomm.com
-References: <20251023075401.1148-1-yuanjie.yang@oss.qualcomm.com>
- <20251023080609.1212-1-yuanjie.yang@oss.qualcomm.com>
- <20251023080609.1212-3-yuanjie.yang@oss.qualcomm.com>
- <wuh7agcgg6spghilnx4amqukaaydj25u7kbdiod7fl6pu2ulvm@pmosyuo43cyw>
- <aQF98RvLuOlJZlFi@yuanjiey.ap.qualcomm.com>
- <38c8e26c-08a4-42d9-8f6d-93969af90d50@kernel.org>
- <aQLOaI3ngjswi7kd@yuanjiey.ap.qualcomm.com>
- <7c1e0cb5-2483-4efa-be52-84cbe5d1a4b2@kernel.org>
- <aQMOz4P2/WyjXy1b@yuanjiey.ap.qualcomm.com>
-From: Krzysztof Kozlowski <krzk@kernel.org>
+Subject: Re: [PATCH] dma-buf: Take a breath during dma-fence-chain subtests
+To: Rodrigo Vivi <rodrigo.vivi@intel.com>
+Cc: Janusz Krzysztofik <janusz.krzysztofik@linux.intel.com>,
+ Andi Shyti <andi.shyti@linux.intel.com>, Nitin Gote
+ <nitin.r.gote@intel.com>, intel-gfx@lists.freedesktop.org,
+ chris.p.wilson@intel.com, Sumit Semwal <sumit.semwal@linaro.org>,
+ linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org
+References: <20250226155534.1099538-1-nitin.r.gote@intel.com>
+ <2153999.KlZ2vcFHjT@jkrzyszt-mobl2.ger.corp.intel.com>
+ <7a96d06d-54a9-42b4-84c7-0c262104ea5b@amd.com>
+ <7836906.EvYhyI6sBW@jkrzyszt-mobl2.ger.corp.intel.com>
+ <cf5d530e-6952-4e76-93e2-5c72b31b5c62@amd.com> <aQJ2YMGxh-foBCvx@intel.com>
 Content-Language: en-US
-Autocrypt: addr=krzk@kernel.org; keydata=
- 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 a/A=
-In-Reply-To: <aQMOz4P2/WyjXy1b@yuanjiey.ap.qualcomm.com>
+From: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
+In-Reply-To: <aQJ2YMGxh-foBCvx@intel.com>
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
+X-ClientProxiedBy: YT4P288CA0085.CANP288.PROD.OUTLOOK.COM
+ (2603:10b6:b01:d0::16) To PH7PR12MB5685.namprd12.prod.outlook.com
+ (2603:10b6:510:13c::22)
+MIME-Version: 1.0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: PH7PR12MB5685:EE_|IA0PR12MB7649:EE_
+X-MS-Office365-Filtering-Correlation-Id: 8121c92a-7c50-4833-7588-08de17a21832
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;ARA:13230040|376014|1800799024|366016;
+X-Microsoft-Antispam-Message-Info: =?utf-8?B?M2ZIanpLRzdlaEtjQ0lNcTNhVjVYTUdURTducnZOVGdaQk5STFNSNkNvbUNU?=
+ =?utf-8?B?Mnhoa25GZVh5UFZuNlpWWFpPNkpMcXJtc2pVUno0aUdhbGt0U2l1dzNDeEI0?=
+ =?utf-8?B?UlhyeGx2bGlSOXdFci9CVzlHcmdSQXk2ZUNPSmppb1Y3NkgvbURhV0RDMnBF?=
+ =?utf-8?B?Vk5YNDlZR3Jzc0JxWXdtZVVSZDFrMnBkeUtXVVI0SEgreFJmeUpINHFlaEZZ?=
+ =?utf-8?B?V2NCbnZEbnBScTVCb3VHaHN1S0ZpcGpZUFdnQWJIWG1ITmcwR083MFA3VWtK?=
+ =?utf-8?B?Q3FnZWdPNUkvbzJPR2JaLzVpL0VrYkgwMzJJcEU4SWYxUG9VK0FkTFBPaEZp?=
+ =?utf-8?B?R1VxTFRaQ1pBeU1kdGV4dmtCVzlFcWluR0x5Y243RnJHdlpwU0xYKzB3YUdT?=
+ =?utf-8?B?R2F0c2wvT3BhNytiU096ZFNBU2l2SU1kM2dlZUR5Sm1pUHFCVFhWN3ZmbWsw?=
+ =?utf-8?B?WFZXTVV4c0VFeEh0bTVTRVdHdFlwT2VWTmh5Y1MrcWI1NUFvaW1SMGFVZ1lC?=
+ =?utf-8?B?UHQvQ094ZTN0QzhMWXFRTVRVVEU4TWNjRHp0THlrcWVYeklSYjRnV1JGVFhT?=
+ =?utf-8?B?MFJRL3NWNWhFZVN5OGlsNWRkVm5DaG80cVFzUERNeEVJZFFDdCtuM3FtLy9N?=
+ =?utf-8?B?TWFzdGd3RmRUWlhxaldiNmxoWWN4ckxWbjZDc0x6aGMrZ3laRjE0ZFVxTFFp?=
+ =?utf-8?B?MjMwVTVPOVpVdkpqd0xXM1BiM0E2VDAzaDZ5VHlEWHNzcHo2L1pNalRILzBW?=
+ =?utf-8?B?T1pUQzNtRDhPRGd5amxIV01KNXJIeEJIZVNyUUl0eGY2RDdxS3R5RTJ4RzBO?=
+ =?utf-8?B?c0pnSUtxdUk1VFR0N1pxRFMxL0UwNUY5MWlmeEZzb3AvWGt4aG9QU3ZzMVBR?=
+ =?utf-8?B?OXlJREt3TWJiRDR0VnBKR3VQNHVPOGNsYWJkN2pOa2QweXNMSHFINm1hRFZI?=
+ =?utf-8?B?K3NVTkRidjFrYTEzYkYySU1pdGJiM0hVZHFZTDBUQzFCWXdqUDg5M3AxekpX?=
+ =?utf-8?B?bGFCalNmTXJ5Z1QwK0JkZ3AvUGgzdXl2TWxBREE2NWgza2k2VVFXeHhqR01h?=
+ =?utf-8?B?akFRWHJ5NUYrTUo1M25FYXNvdlc3QUFLc0pJdXI1WDlkRUxYaFNjMmdFeis3?=
+ =?utf-8?B?ampMNGFsdktpSCt4SlRYaE95dzZVVkNLclM3Z3g0M3pEbWZxN1hkNUdZRUlI?=
+ =?utf-8?B?U3JWaVh2VVVFMjIreGJ5S0h0ZlNlaVovME5GSTJBMEkzeVo1RU83NEN1Rkxp?=
+ =?utf-8?B?UTFpTWMyNTRxYnJIL2RGdkp3TlFlcUhwWVVhcFUvcmlXZWhqdGZlY3MzMTFv?=
+ =?utf-8?B?THJtdy9jcmZiMkZYQmNrRDYzdWMzUkJJTGlqRkVTdUhIR3I2MGxzTE1zTEFU?=
+ =?utf-8?B?MlVUbkM5OUVQUklPYWYrYkdjQ0QxTEwrSTcyT293YmdEVEd1YUUwRVJMSHJX?=
+ =?utf-8?B?SHJtOS8wOGZNeVp1YS96WGlrbVBFSkZ4TnNLZXJLWEh1eHMwNEZrcFoxL1N1?=
+ =?utf-8?B?cWY5ZkpOQWlyekRQVXY3RkU0UTZTZC82L3JHcXRhTFU3cjVVa3BXbEJka05o?=
+ =?utf-8?B?ZUJlb1dRTHY2ckk2OWZ1VCtzYzRQQ05UaGp6M05ZZWowang1RjBXdUkxcjhD?=
+ =?utf-8?B?YlZUalVna1lYNVY0TkRsTXpSVFMvSWx5Mlc3R0R2emcrV2lZZGZlT2lqVUpo?=
+ =?utf-8?B?THJkRE4zZGowcGlwMUYxalltTFdIVjNTWUNzbFZSZ1ZPRjF4Y2NjOTV2bU5E?=
+ =?utf-8?B?QTNheldQb3hlVWRWSHVrMDl6alBKRVBRakpWYVNBcmozdG50TUg1bTZUSE9S?=
+ =?utf-8?B?eTIyWlllR2RzSi8vT0ZwQXBOVGVJM0NiTmt0Q0pFcnZVVGFqeE4wTkt3UDNY?=
+ =?utf-8?B?SnpQSHBadHNFU1pXNy9RQ2hUbUNadjluT2RlNXlmRHRPcVlXY0NvRmsvaW00?=
+ =?utf-8?Q?FuD6izbaCnpbr1Em9rDyHu/45k01RTRh?=
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:PH7PR12MB5685.namprd12.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230040)(376014)(1800799024)(366016); DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?c3FXR096bXZJWWhsUHFOSDJGaGtrT2thZ1hNdnNPOTV3VGo3OVZyZ0xERXBP?=
+ =?utf-8?B?dUpIOGtBRnBBT00xWW5FcEFTSXpCekhOL3o0RzV1NndRc3JGNHVvS2MvZjNr?=
+ =?utf-8?B?SXhpRjdRUnp5SmhSYWIzbitBWi9aZ3E2QWVERUJWZnhNMmFMVlVEdU9nV2NZ?=
+ =?utf-8?B?QllVcWNGbEpqKzFZb2crUmFIU0UyWVdDWjlQN1BZK2ExbnhUV0JybXBXN3pM?=
+ =?utf-8?B?cXRBa0FMNTVyNWdWWE9Fb0VkRlUwL0VCU3JYcG9Gb0lSdUJSa3NGWkxRbDRn?=
+ =?utf-8?B?MlpXYlZ5Zy9DMDZzZWRCazdkU21BRDR3OXhkMFhxcjFNK0pqSUVPSWxrdEhn?=
+ =?utf-8?B?VDY1V05Lckh2QWZ0d2ZCQXowdHJBY08rcmZ1LzNVV2Q0K3pLb3NESmpYMVhW?=
+ =?utf-8?B?YUQzZWppSWVoSEd3Vk85b0w4K2YrQWZxQ0hnNThQdTh1M0NoMVdSYTloSTBL?=
+ =?utf-8?B?TjJ6S2ZDZitHVHo0QWJoTTFPa2kvN05JVGV2d3hBRjlNRnV2dWNjRnRyRDQz?=
+ =?utf-8?B?U1ZzejAxUEF1QzF2c09jSlZBN2c2dG5mQVFFcmh4cGZFaXFtaWxhL1RiZWdW?=
+ =?utf-8?B?WithWWgxYXdwemZwY0ZFMUQwSkZpZHM3TENNbG5JbWRXVDY2eXBFRGdhZFMv?=
+ =?utf-8?B?cElueStiSnlMK3R2bWJhTXBBTTZvYjNPdkcreVFYR0lHTjZ1bCswV0ZDakRC?=
+ =?utf-8?B?c055NkoxMldOdDlyZ3kyTEhNeHZIOU9BUkk0RlMyb050WCtwbXNOaFRFdXpz?=
+ =?utf-8?B?TE9TTTIyUzM3SVJHajhmc1lYRFNqdUhVb3NVRmxzSFFUMUYzWmszVVZkQ3dj?=
+ =?utf-8?B?SFA1cGJ2R1NsRmdYWmVsVFlNNjNIM2E1Umx6dDIwWlppdXMvc2lOZnM3OFRG?=
+ =?utf-8?B?bW5XM01kSERDcXJFUWRTbUtVcDdnZnpxeUVrM0twL2o5dVY5Q2JPU3B3VFA0?=
+ =?utf-8?B?RE1LUUNXTm8wU3YzNjJSbnVJejVzNXJhQ05qMzgwaUVmVm92RDF6c3lmZS9H?=
+ =?utf-8?B?Y1dQbUNrQW1obVdVU3ZtdGp0NWxTUmh4OFBVY0MrR016bHBveGNsM0Y3MTVh?=
+ =?utf-8?B?dXdhckgyVHJ2MGNQNDFJY0EwSUh5M01mRXNvUzNEZ0d1QTZCSmRMOGVsZVhE?=
+ =?utf-8?B?VzNGSEo4QWNMWE9rT1Y1OWZQbjVlWUM2OXRxOTg2eUNWNDdwL2V6ZmdaNEpS?=
+ =?utf-8?B?ckxoYUltVE53bmV5dVgxUGo5RkdQUzRjYTFhK2FiTDlac05ZVmNlV0JERHdY?=
+ =?utf-8?B?UWdqMmVDWXU3Ky91MkxrVmsxNUlrSDNoWEFPVTNxMlZkVWJiYVZLYWFZTDBB?=
+ =?utf-8?B?bUF2S0NSRHZwVThlaFVOeUNzWGlmSHl1UkpmSnNUeGY3Y0tWcHlaT3RaTHJ1?=
+ =?utf-8?B?NW0velQ2MUdEYTl5bHNvY0gzS2lQdkZiMkpMcmRZVHhock9BWVNMUTJOVVZG?=
+ =?utf-8?B?dnk3M0ttR0hiUGRDZFlmU2gydCt1Slg5Qmx5MVZSVWIvY1ZnY1NhSzY5NE1X?=
+ =?utf-8?B?R1VYYnpxQmdLSVNaZWpoRDFPUWF0NEtRNURGRTRhSEIwNnBpS0FIdjV4U1J2?=
+ =?utf-8?B?ekRwM1JvMm9NbFNFV1BNdDUxTFhwOUFRQlluZW9McHhNV3gySHh3akxyYUNx?=
+ =?utf-8?B?MW5CNW1HQkZEKzFoWHlDQks4ZjFHcy9SenNXamxtWG5Kb3R3WFVrS2FqWjlz?=
+ =?utf-8?B?QXB5OFV2a21ldkZGUU44aStxVTBiYnNySlJZc1JEZHkxY0dMajF5VTQ1bThr?=
+ =?utf-8?B?V1VJRkhPWjRPUnZrQmZ0MUIrbnJJRUwyeTF6K0dIMmN0YWlBdUpuZU9KeVVp?=
+ =?utf-8?B?OHZMM2tBbnA4SnhMVHM4M3A1Wm9hOVVjanpWV3REd080ZUpnemRjNkhHV2RV?=
+ =?utf-8?B?UExpZWw5Qkh1dE8rRWwvYUxpK1A2a0h4UVVWVlhoRlF3WnRkemRUSTNPamxJ?=
+ =?utf-8?B?MTh6ZDgwakVhc0FoR0l6VmRLVlZoZmdlcVV2eWRCbmdBSFpIM25GajNqNE5Z?=
+ =?utf-8?B?YzVNc0NaejRBZTRBVGgxNFQ2YTMyOXJnOFBRb1FYTytHYkptS3lNVXYxUnpX?=
+ =?utf-8?B?YTNqUFNqOEVDdVFkNkVJbEZXa29iUS90S0IwcTZwMnJuQytIRkk1NVY0cGp1?=
+ =?utf-8?Q?kd+U+q/D9HzC67Y5IrV1RiKsh?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 8121c92a-7c50-4833-7588-08de17a21832
+X-MS-Exchange-CrossTenant-AuthSource: PH7PR12MB5685.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 30 Oct 2025 10:50:09.3897 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: 8xLQ20GxBFqSXybS6aetizB9ygCamwOxz02XpRIe+Y/1ma87zz3biayS4fBXl6Nb
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: IA0PR12MB7649
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -119,58 +169,90 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 30/10/2025 08:07, yuanjiey wrote:
-> On Thu, Oct 30, 2025 at 06:37:40AM +0100, Krzysztof Kozlowski wrote:
->> On 30/10/2025 03:33, yuanjiey wrote:
->>> On Wed, Oct 29, 2025 at 02:05:20PM +0100, Krzysztof Kozlowski wrote:
->>>> On 29/10/2025 03:37, yuanjiey wrote:
->>>>> On Mon, Oct 27, 2025 at 10:51:23PM -0500, Bjorn Andersson wrote:
->>>>>> On Thu, Oct 23, 2025 at 04:06:05PM +0800, yuanjie yang wrote:
->>>>>>> From: Yuanjie Yang <yuanjie.yang@oss.qualcomm.com>
->>>>>>>
->>>>>>> Build the NT37801 DSI panel driver as module.
->>>>>>>
->>>>>>> Signed-off-by: Yongxing Mou <yongxing.mou@oss.qualcomm.com>
->>>>>>> Signed-off-by: Yuanjie Yang <yuanjie.yang@oss.qualcomm.com>
+On 10/29/25 21:17, Rodrigo Vivi wrote:
+> On Wed, Aug 13, 2025 at 03:29:39PM +0200, Christian König wrote:
+>> On 13.08.25 14:43, Janusz Krzysztofik wrote:
+>>> Hi Christian,
+>>>
+>>> On Tuesday, 8 July 2025 12:09:58 CEST Christian König wrote:
+>>>> On 08.07.25 10:56, Janusz Krzysztofik wrote:
 >>>>>>
->>>>>> You (Yuanjie) authored the patch, but forgot to sign-off, then Yongxing
->>>>>> provided certificate of origin, then you provide certificate of origin
->>>>>> and send it to list?
->>>>>>
->>>>>> Please correct.
+>>>>>> There is no reason to test enabling signaling each of the element in a loop. So there should be something like 4096 calls to the dma_fence_chain_cb function each jumping to the next unsignaled fence and re-installing the callback.
 >>>>>
->>>>> All the display patches were jointly developed by Yongxing and me.
->>>>> So every patch 
+>>>>> So how building a chain should look like in real use cases?  When a user 
+>>>>> builds a chained link of her fence with another fence then may she enable 
+>>>>> signaling on the new chain link?  If that other fence occurs a chain link then 
+>>>>> who should take care of disabling signaling on it so signaling is enabled only 
+>>>>> on the last link of the chain, not leading to a situation similar to what we 
+>>>>> have now in the test case?  IOW, what's a correct use pattern of 
+>>>>> dma_fence_chain?  I can't find that documented anywhere, neither in inline 
+>>>>> docs nor in commit descriptions.
 >>>>
+>>>> The dma_fence_chain container is basically a single linked list which allows to "chain" together multiple dma_fence objects.
 >>>>
->>>> So two people were working on this absolutely trivial defconfig change?
->>>> I have troubles believing this.
->>> I want to say these patches I am first author and yongxing give me support, so
->>> I think yongxing is second author.
+>>>> The use cases is to keep only a single fence even when multiple asynchronous operations have been started.
+>>>>
+>>>> So you usually keep only the most recently created dma_fence_chain and eventually ask that one to signal when you need to wait for all fences inside the container.
+>>>>
+>>>> The tricky part is that since the chain can get very long the implementation can't use recursion or otherwise we would potentially overflow the kernel stack. And that needs to be tested and made sure we don't accidentally break the implementation somehow.
+>>>>
+>>>> Keeping all elements of a dma_fence_chain in an array and asking all of them to signal individually makes no sense, for this use case we have the dma_fence_array in the first place.
 >>>
->>> I want to express my gratitude for Yongxing's support in every patch, so I included
->>> both our names in the sign-off for each one.
+>>> I'm going to submit a patch that drops enabling of signaling on each link of 
+>>> the tested chain, as you suggested.  Don't you mind if I add your Suggested-
+>>> by:?
+>>
+>> Sure.
+>>
+>> Thanks for looking into that,
+> 
+> 
+> Hi Christian,
+> 
+> Okay, so the take is that that IGT case is non-realistic and that that kernel
+> change is not needed. We still have a problem with this patch here take so
+> long to complete in a few platforms in a way that the watchdogs gets triggered
+> and test case is marked as failure. While if we do the reschedule waiting a bit
+> longer it end up completing successfully as expected.
+> 
+> Since the goal here is not performance but compliance, can we go with this
+> cond_reschedule here? Or do you have any other suggestion here on how
+> to handle this test case and make it pass on those old platforms?
+> 
+> Or should we simply disable the tests for those platforms?
+
+I think for this particular case we should just completely remove the test.
+
+HW can have some parallelism and out of order execution, but it is just unrealistic that 1k of submission made in the order A..Z signal in the order Z..A.
+
+What we should test is that in no possible combination the kernel runs into a stack overflow because of recursion in the release handler (for example) of 1k submissions.
+
+What we should also test from userspace is that we can't overload the callback functions of a fence. E.g. something make a submission and spawn thousands of threads who want to wait for this single submission.
+
+Regards,
+Christian.
+
+> 
+> Thanks,
+> Rodrigo.
+> 
+>> Christian.
+>>
 >>>
->>> However, if my intention causes any trouble for maintainer, I can remove Yongxing's
->>> sign-off from this patch.
+>>> Thanks,
+>>> Janusz
+>>>
+>>>>
+>>>> Regards,
+>>>> Christian.
+>>>>
+>>>>>
+>>>>> Thanks,
+>>>>> Janusz
+>>>>
+>>>
+>>>
+>>>
+>>>
 >>
->>
->> Please read submitting patches to understand what Signed-off-by means.
->> Otherwise I have doubts we can accept your patches - you simply do not
->> understand what you are certifying.
-> Thanks for your tips, and I learn some tips from submitting patches: 
-> https://elixir.bootlin.com/linux/v6.18-rc3/source/Documentation/process/submitting-patches.rst#L524
-> 
-> I thinks below sign should be true, if you also think it true, I will use it in next patches.
-> 
->  Co-developed-by: Yongxing Mou <yongxing.mou@oss.qualcomm.com>
 
-How does co-developing match what you wrote "give me support"?
-
->  Signed-off-by: Yongxing Mou <yongxing.mou@oss.qualcomm.com>
->  Signed-off-by: Yuanjie Yang <yuanjie.yang@oss.qualcomm.com>
-
-
-
-Best regards,
-Krzysztof
