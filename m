@@ -2,87 +2,102 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id EDF24C1F112
-	for <lists+dri-devel@lfdr.de>; Thu, 30 Oct 2025 09:49:01 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5DCE3C1F10B
+	for <lists+dri-devel@lfdr.de>; Thu, 30 Oct 2025 09:49:00 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7CAF210E918;
-	Thu, 30 Oct 2025 08:48:55 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 911CD10E256;
+	Thu, 30 Oct 2025 08:48:54 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=suse.com header.i=@suse.com header.b="H3JKlJbW";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="Ivz68d6U";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-f47.google.com (mail-wm1-f47.google.com
- [209.85.128.47])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 42C1B10E201
- for <dri-devel@lists.freedesktop.org>; Wed, 29 Oct 2025 16:56:58 +0000 (UTC)
-Received: by mail-wm1-f47.google.com with SMTP id
- 5b1f17b1804b1-475dbb524e4so358035e9.2
- for <dri-devel@lists.freedesktop.org>; Wed, 29 Oct 2025 09:56:58 -0700 (PDT)
+Received: from mail-yx1-f53.google.com (mail-yx1-f53.google.com
+ [74.125.224.53])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3120310E87B
+ for <dri-devel@lists.freedesktop.org>; Thu, 30 Oct 2025 01:34:43 +0000 (UTC)
+Received: by mail-yx1-f53.google.com with SMTP id
+ 956f58d0204a3-63e1b52b452so646954d50.1
+ for <dri-devel@lists.freedesktop.org>; Wed, 29 Oct 2025 18:34:43 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=suse.com; s=google; t=1761757017; x=1762361817; darn=lists.freedesktop.org; 
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+ d=gmail.com; s=20230601; t=1761788082; x=1762392882; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
  :message-id:reply-to;
- bh=U3fwimJIAawa0pjVoXec35/1jofr54T3nJPQIURfOc0=;
- b=H3JKlJbWRk62G0RBwGkBb3LnGvPCKvdLeb/HXzU6y5inr90i6iNqipPgj+MzcjUmoK
- hDoobBfFvgjR0zy90HKZ3lZYNoedPHhWLEytt1ohyEo2IlSinHNeVH7KQrTwrLP309qA
- WuD3CSAzPJFqTyB9vTg7C7WX0DZZQilL+Fa7a539TVBRfYUnrp9keOQZzGm2w022Vud6
- xFCw9/eOho9NFa7zYEPOuWp6FXzINLgq8TcT0mDyMUXv2tb1Yz8nfD6tKSe5qJuDLJiY
- 6MSuoV7hM2k445RxUm4mhfQWKzEHuQFpUDLH87NOXjwtii/8nseGiO0yOhd5n2rbnyUN
- UDDw==
+ bh=QSYKQjyLLpQ9U6VgF/+NC7c9Vfg3d8+LTPH7512lTcw=;
+ b=Ivz68d6USxz5KrwgkbfRiSvTBhRV+i3p5pt4VRhuN6BgOn1j1ChGF+hJYCdkqo+jpB
+ N7H27oFRfWTRhieHrGs9SBInZDHNN0AmdtaZkVoItD+eyb+7CirwgZLjUfUvv5bn6VX8
+ em8IruT/6un0a7toWtPJX37ai282uRzBMBrlLp9xx53OJiAz1fyz4WiP9ZYE3g4fWiha
+ 7JDp3b/4En1owMFhHsrq6L0hXVCsVhP+lNj/Ogzzgr23jZ4R+sAQL5ppELKXaMJhjEel
+ 9ckKHov1fOENrC0z/KpkWow2nXBvlVArat1+UOtzeKFz+r+G3rWXuNC/1dc7DUYmSbk9
+ YJ5g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1761757017; x=1762361817;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+ d=1e100.net; s=20230601; t=1761788082; x=1762392882;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=U3fwimJIAawa0pjVoXec35/1jofr54T3nJPQIURfOc0=;
- b=OKgQ2LiaQ+y8uMAiBj8YeJlRjedFSQ9EFl+8TQxCSu4QgMmru0vtzJwpcNjiXgjPYG
- XYtpEj/KMmU77MbyfcHQwghXXaIGU/NutxiUYY+6ekAuGOInS3PuC1RbaOJNrmnguJTf
- ITNDyvG8vd4Bx13dMekGqawXxp6iDpkbsCS8cBEGsL8q14sXUs5cC9k3fWxownUkAlr5
- vY9Xl2RasFevvod35ltpqUr8ubOnzWB44ZREMmbdoDECZo6rj6hrbX+ZwbnsSb6x61by
- zCVVRYVswNXHmnSkilYn6vlRwDy5hLT/cfaXxBvOvl7j/hY7rsaReOKEe6BH/kgP3YxA
- BMrA==
+ bh=QSYKQjyLLpQ9U6VgF/+NC7c9Vfg3d8+LTPH7512lTcw=;
+ b=qgdKBbNrzhHG7ls00yh27PuMmh0mwTjiqSEeBm7BTdmQbnFykP4zVtQPVFRv114EzE
+ OuTABU93otZgZmFI/fz4yNgqxy/MAGX1zNZxsIDNaqgIgElNBfSAR0wpVuLybUKDFyng
+ CH5fR14GVr/foexeGxp+Dw/3RDbozb+gWxj22LPkfjjoMh40Zrr7KZmMTsy9lqI39sTl
+ HkW2apgx/4k5SCjFYWc/3AG+4wSNw5pSSBotuFzzhr72EuR2WkU5V8dhpxUfdQrtKa4V
+ TNTQWK24jZg/fRWApjom87oSftwrRjITugURzU0kugYu6Q+PF2ZH8wez7zcKmCeLx7uO
+ H3qw==
 X-Forwarded-Encrypted: i=1;
- AJvYcCWzTJUnHxu9Bv7QmYs7VrV9FxAi2FkiZrguAxJZ4111htaaQ1+JJx1Tb1jRV/entxg3XUFCYBlWK3k=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Yx01AmRp4NXx49FLy/4NZlcONbzVSwuJzZn8xc75DsUQKoi2xgg
- uLwgleBOogNbjbXMLpmTUL0n93p8ItZVFmUgTaz1Pl4y5P+KGSVD70yn5e/Fw8Xh9j8=
-X-Gm-Gg: ASbGncv2gpEIcY3garSux0y0XAMXCdx/2+R1B6nA4E7cTFEiF18elO/fZScio4FyXDG
- gTtrG4g5dPsSVv33nn+g6AeCZCXpdcroODVIcSkmTAnwpPd1gB09znFcM8Nz36CZ0edcIzlqReM
- 6G0KJWYi8x2Sv0ap6sZOibR6Q+R0Ssm4YBGb3ZrUuqlkW2k2VHAXGqtk8TJXo4+AKlgvTI9eNjT
- dVBppRK/UA1cen6sZM9y+187abMyM0te7atmTINeeKl3RSSYmsjHHsEIxSumUtXjhw4Lc+xgkF6
- b8a8dw0FtUJH7uuf3/ekgrX+F2gjOmXzw3zS+IPXKavC/Q69bLTeKkFMEQF20J/QSZeH2mZWi3b
- GXifMKH0kViM3F+267nDVx4gbNd7qCAJjaXD0Li9c/4K1IjGpn+Jm2c/qtudfC11Hq78PP+Q4b5
- fbZbEQ89I0riL5MDQ=
-X-Google-Smtp-Source: AGHT+IGlBdH3KaL6DIZZtMv4E8cuqpaFJbIPOQcIbg0DFvQj0ChGVMMLIYHLgSHaNIaXDylAVv6IJA==
-X-Received: by 2002:a05:600c:190e:b0:471:1337:7220 with SMTP id
- 5b1f17b1804b1-4771e165a18mr34957175e9.3.1761757016715; 
- Wed, 29 Oct 2025 09:56:56 -0700 (PDT)
-Received: from linux.fritz.box ([2a00:6d43:105:c401:e307:1a37:2e76:ce91])
- by smtp.gmail.com with ESMTPSA id
- 5b1f17b1804b1-47718fc0335sm48393845e9.2.2025.10.29.09.56.55
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 29 Oct 2025 09:56:56 -0700 (PDT)
-From: Marco Crivellari <marco.crivellari@suse.com>
-To: linux-kernel@vger.kernel.org,
-	dri-devel@lists.freedesktop.org
-Cc: Tejun Heo <tj@kernel.org>, Lai Jiangshan <jiangshanlai@gmail.com>,
- Frederic Weisbecker <frederic@kernel.org>,
- Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
- Marco Crivellari <marco.crivellari@suse.com>,
- Michal Hocko <mhocko@suse.com>,
- Maciej Falkowski <maciej.falkowski@linux.intel.com>,
- Karol Wachowski <karol.wachowski@linux.intel.com>,
- Oded Gabbay <ogabbay@kernel.org>
-Subject: [PATCH v2 2/2] accel/ivpu: replace use of system_wq with
- system_percpu_wq
-Date: Wed, 29 Oct 2025 17:56:42 +0100
-Message-ID: <20251029165642.364488-3-marco.crivellari@suse.com>
-X-Mailer: git-send-email 2.51.0
-In-Reply-To: <20251029165642.364488-1-marco.crivellari@suse.com>
-References: <20251029165642.364488-1-marco.crivellari@suse.com>
+ AJvYcCUnOxk5LxUHsQvLp+s1kVDiicr70af9UIIsbk3kep7hegveKeT+u7WoS/RmEGIJ8nHhYG6L4OiUXe0=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YzHyApLMfpajD6Ab4wUQ+N2SfTlZgLp95/wJr4azczlgk4u/75+
+ C4mthW1d9hqOOrV5kS4a7I36fnQC//No1RD0mBHf+WRg18mE947zNIreMRGtOhC4wc70o2pK7No
+ o+CdMUEb+l6zhJOBaWU5HCmAFDVtyl8Q=
+X-Gm-Gg: ASbGncuAP5IPgzLV+pcwrZ123bHUZ8KpCqI0ECAEwbLh+ofV2H8Fb75x/lGGv+dvmSW
+ 5ldH03VmPA7dNiG7HxW5fdrGhJyGGxawMs1gRRhcbEYNGzvziy1Ch7BtYgXeDINAckR2cYjIzpV
+ 3stD04k6UOlKo4uhKCOkYF+48r/hcvwXyGXZBrUMvfmY0x90cNK82oqP8R1wG3JY0cRrQoQCQJ7
+ HlsKWVeDEu0mjodoJEbf1wFrxtab+nYycTxvyvLxMSEaugTrW3ZYtodFMA=
+X-Google-Smtp-Source: AGHT+IHMgJ4rKBE3uO85FiTJlzlAN942wrm4DmLjbiS0N7/wUCXXDdFNOdlxyLWqUIKEUXLtWtfDUoP0SJbFBB5hViQ=
+X-Received: by 2002:a05:690c:6a89:b0:784:841e:c03c with SMTP id
+ 00721157ae682-7863903404amr16292487b3.15.1761788081875; Wed, 29 Oct 2025
+ 18:34:41 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20251029071435.88-1-kernel@airkyi.com>
+ <20251029071435.88-11-kernel@airkyi.com>
+ <CAL411-o6mF71oBeRsJ-OPZNbLegn4iJ_ELN9xVdppTM3ssUPOw@mail.gmail.com>
+ <cc8b583a-77ec-4a7f-97cc-2d148f7fee9f@rock-chips.com>
+ <e0c5bda3-7428-49e0-9955-fa23f1e4f35d@rock-chips.com>
+In-Reply-To: <e0c5bda3-7428-49e0-9955-fa23f1e4f35d@rock-chips.com>
+From: Peter Chen <hzpeterchen@gmail.com>
+Date: Thu, 30 Oct 2025 09:34:30 +0800
+X-Gm-Features: AWmQ_bnwd-FVfcBS5MP2Q8qG3_b5HlIQQto3HU-lVRe3FvjLA4i8HmYCB1URRXQ
+Message-ID: <CAL411-oXfvp-iqN+uRmFHijdmW=1omKwozKOoZ2shxukMHmwPg@mail.gmail.com>
+Subject: Re: [PATCH v8 10/10] arm64: dts: rockchip: rk3399-evb-ind: Add
+ support for DisplayPort
+To: Chaoyi Chen <chaoyi.chen@rock-chips.com>
+Cc: Chaoyi Chen <kernel@airkyi.com>,
+ Heikki Krogerus <heikki.krogerus@linux.intel.com>, 
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
+ Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>,
+ Rob Herring <robh@kernel.org>, 
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>,
+ Vinod Koul <vkoul@kernel.org>, 
+ Kishon Vijay Abraham I <kishon@kernel.org>, Heiko Stuebner <heiko@sntech.de>,
+ Sandy Huang <hjc@rock-chips.com>, 
+ Andy Yan <andy.yan@rock-chips.com>, Yubing Zhang <yubing.zhang@rock-chips.com>,
+ Frank Wang <frank.wang@rock-chips.com>, Andrzej Hajda <andrzej.hajda@intel.com>,
+ Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>, 
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Jonas Karlman <jonas@kwiboo.se>, 
+ Jernej Skrabec <jernej.skrabec@gmail.com>, 
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, 
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
+ Simona Vetter <simona@ffwll.ch>, 
+ Amit Sunil Dhamne <amitsd@google.com>, Dragan Simic <dsimic@manjaro.org>,
+ Johan Jonker <jbx6244@gmail.com>, 
+ Diederik de Haas <didi.debian@cknow.org>, Peter Robinson <pbrobinson@gmail.com>,
+ linux-usb@vger.kernel.org, 
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ linux-phy@lists.infradead.org, linux-arm-kernel@lists.infradead.org, 
+ linux-rockchip@lists.infradead.org, dri-devel@lists.freedesktop.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-Mailman-Approved-At: Thu, 30 Oct 2025 08:48:47 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -99,95 +114,124 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Currently if a user enqueue a work item using schedule_delayed_work() the
-used wq is "system_wq" (per-cpu wq) while queue_delayed_work() use
-WORK_CPU_UNBOUND (used when a cpu is not specified). The same applies to
-schedule_work() that is using system_wq and queue_work(), that makes use
-again of WORK_CPU_UNBOUND.
+On Wed, Oct 29, 2025 at 6:32=E2=80=AFPM Chaoyi Chen <chaoyi.chen@rock-chips=
+.com> wrote:
+>
+> On 10/29/2025 6:21 PM, Chaoyi Chen wrote:
+>
+> > Hi Peter,
+> >
+> > On 10/29/2025 5:45 PM, Peter Chen wrote:
+> >>> +&i2c4 {
+> >>> +       i2c-scl-rising-time-ns =3D <475>;
+> >>> +       i2c-scl-falling-time-ns =3D <26>;
+> >>> +       status =3D "okay";
+> >>> +
+> >>> +       usbc0: typec-portc@22 {
+> >>> +               compatible =3D "fcs,fusb302";
+> >>> +               reg =3D <0x22>;
+> >>> +               interrupt-parent =3D <&gpio1>;
+> >>> +               interrupts =3D <RK_PA2 IRQ_TYPE_LEVEL_LOW>;
+> >>> +               pinctrl-names =3D "default";
+> >>> +               pinctrl-0 =3D <&usbc0_int>;
+> >>> +               vbus-supply =3D <&vbus_typec>;
+> >>> +
+> >>> +               usb_con: connector {
+> >>> +                       compatible =3D "usb-c-connector";
+> >>> +                       label =3D "USB-C";
+> >>> +                       data-role =3D "dual";
+> >>> +                       power-role =3D "dual";
+> >>> +                       try-power-role =3D "sink";
+> >>> +                       op-sink-microwatt =3D <1000000>;
+> >>> +                       sink-pdos =3D
+> >>> +                               <PDO_FIXED(5000, 2500, PDO_FIXED_USB_=
+COMM)>;
+> >>> +                       source-pdos =3D
+> >>> +                               <PDO_FIXED(5000, 1500, PDO_FIXED_USB_=
+COMM)>;
+> >>> +
+> >>> +                       altmodes {
+> >>> +                               displayport {
+> >>> +                                       svid =3D /bits/ 16 <0xff01>;
+> >>> +                                       vdo =3D <0x00001c46>;
+> >>> +                               };
+> >>> +                       };
+> >>> +
+> >>> +                       ports {
+> >>> +                               #address-cells =3D <1>;
+> >>> +                               #size-cells =3D <0>;
+> >>> +
+> >>> +                               port@0 {
+> >>> +                                       reg =3D <0>;
+> >>> +
+> >>> +                                       usbc_hs: endpoint {
+> >>> + remote-endpoint =3D <&u2phy0_typec_hs>;
+> >>> +                                       };
+> >>> +                               };
+> >>> +
+> >> Why USB2 PHY needs to be notified for Type-C connection?
+> >
+> > I think the USB-connector binding require a port@0 for High Speed.  So =
+I filled in USB2 PHY here. And I have looked up boards with the same usage,=
+ and some of the results are as follows:
+> >
+> > - rk3399-firefly.dts
+> >
+> > - rk3399-pinebook-pro.dts
+> >
+> > - rk3399-eaidk-610.dts
+> >
 
-This lack of consistency cannot be addressed without refactoring the API.
+Okay.  My question is basic: USB2 PHY supplies DP/DM, and the DP/DM is
+short for Type-C connector,
+and no control is needed for Type-C application.
+Why is there a remote-endpoint connection between USB2 PHY and Type-C conne=
+ctor?
 
-system_wq should be the per-cpu workqueue, yet in this name nothing makes
-that clear, so replace system_wq with system_percpu_wq.
+> >
+> >>
+> >>> +                               port@1 {
+> >>> +                                       reg =3D <1>;
+> >>> +
+> >>> +                                       usbc_ss: endpoint {
+> >>> + remote-endpoint =3D <&tcphy0_typec_ss>;
+> >>> +                                       };
+> >>> +                               };
+> >>> +
+> >>> +                               port@2 {
+> >>> +                                       reg =3D <2>;
+> >>> +
+> >>> +                                       usbc_dp: endpoint {
+> >>> + remote-endpoint =3D <&tcphy0_typec_dp>;
+> >>> +                                       };
+> >>> +                               };
+> >>> +                       };
+> >>> +               };
+> >>> +       };
+> >>> +};
+> >>> +
+> >> .....
+> >>>   &u2phy0 {
+> >>>          status =3D "okay";
+> >>> +
+> >>> +       port {
+> >>> +               u2phy0_typec_hs: endpoint {
+> >>> +                       remote-endpoint =3D <&usbc_hs>;
+> >>> +               };
+> >>> +       };
+> >>>   };
+> >>>
+> >> There is no switch and mux, how to co-work with Type-C?
+> >
+> > I checked the phy-rockchip-inno-usb2.c but did not find any switch or m=
+ux. Does this mean that we need to implement them? Thank you.
+>
+> Wait a minute, actually we have multiple hardware interfaces, one of whic=
+h is Type-C, eventually connected to USBDPPHY, and the other is micro-usb c=
+onnected to U2PHY.
 
-The old wq (system_wq) will be kept for a few release cycles.
+I assume the Micro-USB connector does not use Type-C/PD IC, is it
+right? Does it relate to this patch?
 
-Suggested-by: Tejun Heo <tj@kernel.org>
-Signed-off-by: Marco Crivellari <marco.crivellari@suse.com>
----
- drivers/accel/ivpu/ivpu_hw_btrs.c | 2 +-
- drivers/accel/ivpu/ivpu_ipc.c     | 2 +-
- drivers/accel/ivpu/ivpu_job.c     | 2 +-
- drivers/accel/ivpu/ivpu_mmu.c     | 2 +-
- drivers/accel/ivpu/ivpu_pm.c      | 3 ++-
- 5 files changed, 6 insertions(+), 5 deletions(-)
-
-diff --git a/drivers/accel/ivpu/ivpu_hw_btrs.c b/drivers/accel/ivpu/ivpu_hw_btrs.c
-index afdb3b2aa72a..27a345f3befe 100644
---- a/drivers/accel/ivpu/ivpu_hw_btrs.c
-+++ b/drivers/accel/ivpu/ivpu_hw_btrs.c
-@@ -673,7 +673,7 @@ bool ivpu_hw_btrs_irq_handler_lnl(struct ivpu_device *vdev, int irq)
- 
- 	if (REG_TEST_FLD(VPU_HW_BTRS_LNL_INTERRUPT_STAT, SURV_ERR, status)) {
- 		ivpu_dbg(vdev, IRQ, "Survivability IRQ\n");
--		queue_work(system_wq, &vdev->irq_dct_work);
-+		queue_work(system_percpu_wq, &vdev->irq_dct_work);
- 	}
- 
- 	if (REG_TEST_FLD(VPU_HW_BTRS_LNL_INTERRUPT_STAT, FREQ_CHANGE, status)) {
-diff --git a/drivers/accel/ivpu/ivpu_ipc.c b/drivers/accel/ivpu/ivpu_ipc.c
-index 5f00809d448a..1f13bf95b2b3 100644
---- a/drivers/accel/ivpu/ivpu_ipc.c
-+++ b/drivers/accel/ivpu/ivpu_ipc.c
-@@ -459,7 +459,7 @@ void ivpu_ipc_irq_handler(struct ivpu_device *vdev)
- 		}
- 	}
- 
--	queue_work(system_wq, &vdev->irq_ipc_work);
-+	queue_work(system_percpu_wq, &vdev->irq_ipc_work);
- }
- 
- void ivpu_ipc_irq_work_fn(struct work_struct *work)
-diff --git a/drivers/accel/ivpu/ivpu_job.c b/drivers/accel/ivpu/ivpu_job.c
-index 060f1fc031d3..7a1f78b84b09 100644
---- a/drivers/accel/ivpu/ivpu_job.c
-+++ b/drivers/accel/ivpu/ivpu_job.c
-@@ -574,7 +574,7 @@ static int ivpu_job_signal_and_destroy(struct ivpu_device *vdev, u32 job_id, u32
- 		 * status and ensure both are handled in the same way
- 		 */
- 		job->file_priv->has_mmu_faults = true;
--		queue_work(system_wq, &vdev->context_abort_work);
-+		queue_work(system_percpu_wq, &vdev->context_abort_work);
- 		return 0;
- 	}
- 
-diff --git a/drivers/accel/ivpu/ivpu_mmu.c b/drivers/accel/ivpu/ivpu_mmu.c
-index 5ea010568faa..e1baf6b64935 100644
---- a/drivers/accel/ivpu/ivpu_mmu.c
-+++ b/drivers/accel/ivpu/ivpu_mmu.c
-@@ -970,7 +970,7 @@ void ivpu_mmu_irq_evtq_handler(struct ivpu_device *vdev)
- 		}
- 	}
- 
--	queue_work(system_wq, &vdev->context_abort_work);
-+	queue_work(system_percpu_wq, &vdev->context_abort_work);
- }
- 
- void ivpu_mmu_evtq_dump(struct ivpu_device *vdev)
-diff --git a/drivers/accel/ivpu/ivpu_pm.c b/drivers/accel/ivpu/ivpu_pm.c
-index ffa2ba7cafe2..9ecba05ce7db 100644
---- a/drivers/accel/ivpu/ivpu_pm.c
-+++ b/drivers/accel/ivpu/ivpu_pm.c
-@@ -226,7 +226,8 @@ void ivpu_start_job_timeout_detection(struct ivpu_device *vdev)
- 	unsigned long timeout_ms = ivpu_tdr_timeout_ms ? ivpu_tdr_timeout_ms : vdev->timeout.tdr;
- 
- 	/* No-op if already queued */
--	queue_delayed_work(system_wq, &vdev->pm->job_timeout_work, msecs_to_jiffies(timeout_ms));
-+	queue_delayed_work(system_percpu_wq, &vdev->pm->job_timeout_work,
-+			   msecs_to_jiffies(timeout_ms));
- }
- 
- void ivpu_stop_job_timeout_detection(struct ivpu_device *vdev)
--- 
-2.51.0
-
+Best regards,
+Peter
