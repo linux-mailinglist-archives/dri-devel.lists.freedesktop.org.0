@@ -2,73 +2,86 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E6583C20F2B
-	for <lists+dri-devel@lfdr.de>; Thu, 30 Oct 2025 16:33:29 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 20803C20F5B
+	for <lists+dri-devel@lfdr.de>; Thu, 30 Oct 2025 16:35:09 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 746C710E9EB;
-	Thu, 30 Oct 2025 15:33:26 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 63D8310E9F3;
+	Thu, 30 Oct 2025 15:35:07 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="gVmHCdGW";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="T/C/YCNf";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pl1-f174.google.com (mail-pl1-f174.google.com
- [209.85.214.174])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6891810E9EB
- for <dri-devel@lists.freedesktop.org>; Thu, 30 Oct 2025 15:33:25 +0000 (UTC)
-Received: by mail-pl1-f174.google.com with SMTP id
- d9443c01a7336-26987b80720so1543635ad.2
- for <dri-devel@lists.freedesktop.org>; Thu, 30 Oct 2025 08:33:25 -0700 (PDT)
+Received: from mail-wm1-f47.google.com (mail-wm1-f47.google.com
+ [209.85.128.47])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5EFD710E9F3
+ for <dri-devel@lists.freedesktop.org>; Thu, 30 Oct 2025 15:35:06 +0000 (UTC)
+Received: by mail-wm1-f47.google.com with SMTP id
+ 5b1f17b1804b1-4710a1f9e4cso10018915e9.0
+ for <dri-devel@lists.freedesktop.org>; Thu, 30 Oct 2025 08:35:06 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1761838405; x=1762443205; darn=lists.freedesktop.org;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
+ d=linaro.org; s=google; t=1761838505; x=1762443305; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:mime-version:date:message-id:subject
+ :references:in-reply-to:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=zSrtuFsWyaFuDIg9Oq0ESkGEkzoKb+w5VcoJTz4/A6g=;
- b=gVmHCdGWVZ1d8H5QboZZo3OLnJJM+ZeRmwXQPE7hAZUutozZHNR/FLuy/GtLsKyshr
- OCzP8d5GvJa+w9aMCMTQe0grzsJdifQcdpV//S82lAyPa4vdTDfK3ooWhG9pLfeRfA1j
- zaR8DmGtotI3h85OtXW97O5ECOFCHFY6ZCBbw7yKMoteyz3keRQx1WgXKB+YT6Y9mpIU
- 4jdiH7UbB1sCCqNS7wYO2fcktMi18UnwCRzngStVfhoW4ZuD6RDocjLMcR7gLBwSrUim
- xgweJzUmMNBx2m4ljPIKTo02DbHErzGR4CZuRmRnSA/LEt9XY2BfAmGpvwwRYLnc/t73
- xayQ==
+ bh=yMjHugVum7QNRx23N0Xydg5pEWW7JC7mvFaBCaZk2OI=;
+ b=T/C/YCNflbweA8T1AnLRWbgRcwMDM0WIbx/9lPUiuTujAGmZCVJfMkIOOZpp62biKZ
+ mOZaVoppH+YEo7sl3Z4V2abQ/Sd/QTUav3eskEWxPlpZid8h+Pi6Jb7W5k5UMmYMfa/3
+ W4wHiYm5pmTJPGPk1VZ+lOptN0tRa7g0UNGlGGjCfwdpZQ9fyzYxihCNA2k0AOTAdiVs
+ XpPhUw2PKojLukQ5etdqwF7EB7u8MqazR7q9nL+/tUlnV3YQQ16ozg1BnT03jBGRPiiE
+ hy/j7Wcm8FUC47TY6e7zWxs1rrbH3r6jWTcwKmAxwiLbRBsTYQPQxra1IZ7BfotpEHOK
+ 3hYg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1761838405; x=1762443205;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ d=1e100.net; s=20230601; t=1761838505; x=1762443305;
+ h=content-transfer-encoding:mime-version:date:message-id:subject
+ :references:in-reply-to:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=zSrtuFsWyaFuDIg9Oq0ESkGEkzoKb+w5VcoJTz4/A6g=;
- b=dGB2kTmtZmKcIe5Ote3fgRKXIF9Pw/RVbzMvvjSRN+nMmipvXHaLbFvF8fjW9UtYaP
- Z4e4dZXAWRcCp5ZjPktmKv8v2wMZPOZ77w3Be5KDxljAa217cZNErf8+933dK6x0zBEn
- MINrOsiDwxOmlzHZDXDgtfBuMg3zHOTKYn9SyNASYUKZVv+VDdr9K5lKYxqefvydFOb/
- jEtwZhtZniWVSYc/GTjsw9gsk8nK4KlPRdJcbkaJVxxkwpeobnAwVcFRYf3S8WAo82Gy
- WCh5VtKI1EScl9/AgukBPxf762lMsu/xpiaZCJVLHux10wg6HROMKLfjp7kfS6HP5hei
- 7dgg==
-X-Gm-Message-State: AOJu0Yyl2K/oJ3NCWf4Pny7AA9EGt4xeN5cjgoqgKcsZ/RcEqr4EJ79b
- M2gdkVYWXvKE9Kptxf/+PzpLzm6cjxDcAma8zETJRYiF91c17yDTBCKuI6x2EvmVVecqfc0FlZT
- BsshcUn5jq3olqWtpA0BeEADv4YDdZ1g=
-X-Gm-Gg: ASbGnctaL6WDeWzVi8Rpe1XDCGnSVBLfCzM/ECB9Og2jBs7gwevX6+QD7Maae+YE03D
- ocY+k4d+XgOA1b3f+dizYOSDHtzhjrUumpt4kV7ooEC2VdrT+RKBz9f8OtHr73huEFOuHSsjT6u
- SskfmvqL71LEvMKznjN8sfiy1vuuYKEuheHRk2qCtRt5p6YSEEEw4+ta6+/1EeC/ppfwe5C6/Cq
- pBf+NLC3Scwub0j9VHEx0jqwXRPya1fWU2RMiEJAKHxDnm1Hd0L6odmsjNw
-X-Google-Smtp-Source: AGHT+IF/DIcmG8u5RIhhAldrw36dsfpg+I4aimMNvV0R2hPUZTuiDy91PQ+wNVE4OZ/Fz3BlbzPBEjTfu7I/QAPnw0U=
-X-Received: by 2002:a17:903:41ca:b0:27e:eb9b:b80f with SMTP id
- d9443c01a7336-2951a37f5b0mr1184265ad.2.1761838404814; Thu, 30 Oct 2025
- 08:33:24 -0700 (PDT)
+ bh=yMjHugVum7QNRx23N0Xydg5pEWW7JC7mvFaBCaZk2OI=;
+ b=DN+iFzdzsLDB6DBcMm8mGpk9uCqGpemqMscfjWNFd/0sczCDl3HupNq/gUPmqM1Nsj
+ IQm32A/dLuzPBu6toZjKn8DqZ7uUy7tCvJ6wiUB1+YRlg0/7Vl1180U22tFjVrRKcE5H
+ c6gLcSrDOQTLKiS/SsNiHaN5OFBhzbAZogpDI+bH0/DdHEYmaY3MfOct5VJK/ZAYUxuD
+ d40JUh5nYzHTQOfipIfN5K5HA3JEqRl/SOEQhyxaVjM+SqMt7xhdiKfdXGWVHF9CGFsL
+ ZmX6jIBQqRAWyrSAXDiKvk5ppdkVbQq1OHPRgKYgXtyX40CotBRPAYF7r2SwZ+yUCtFc
+ fpaw==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCXGHudPLqJTr7vkxArOnJ/jMQwqSCOWuWCrWiuE5+IsbTqinLIhCtAOf/ZMVCnp3rRR2afMqNgSruc=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YxNpLmE/N1su+YibJXUAum+4jz5solUgbKhhPY2pINXxKFa/mBD
+ CQS90UUObYC32doWZdPjzK+5s8OayeRUEZcCSdNdyu0LoNmFhr4IMBzUVXbNTqFsTLQ=
+X-Gm-Gg: ASbGncvfxLpIW+o/c+KFJb8c3nNDn7UlN1CAsTbstMdJxsFkyH8rGN1GmYt3RY9Qv5z
+ 1LrWdfetvLUDAIya1CJ7v/U2wIDWoVznm29Pr38nHjOU25+ROL2qW5yItz/1FuBlsb8n6UF9pUG
+ Id6dgvEDlqlaYZHCoynEe1ipzbzDppMeJy+wZvx1z4TeOSWhzx5XsoGK0vULFldLEjJvkEJVZwJ
+ jVLzq2bmQtSf/aJhdgY0Plxk1AQteXxWMxefyEF6uFx2JC1WGHF6rb/E/urFbdg/QJAPtGO8xfY
+ fvBQZQiWVKYFK56w8UXGW1rM8NpAHnEsO8vdSVaLfZwXinlXQdT6fJ4dXspDOzeM27uSW6SYsa6
+ X1bjQw+PUk3vYoR2OrZn+V2ogvZTg9fB80dpfwW3sPUN/IdyBzbkOjZqSryRQvusx9kMkO77ZPg
+ fvl9rIYMcy3Q0+wuLOiijSxSM7MstIO5w=
+X-Google-Smtp-Source: AGHT+IHZeYrq8+mRtX1lTeY4B5rTgJhAiC8nhVTLREWZuzfET2A3NjWN8gRpSGrW1jSySlURYEGMqA==
+X-Received: by 2002:a05:600c:a08:b0:46e:35a0:3587 with SMTP id
+ 5b1f17b1804b1-477308c9355mr946125e9.27.1761838504411; 
+ Thu, 30 Oct 2025 08:35:04 -0700 (PDT)
+Received: from arrakeen.starnux.net ([2a01:e0a:3d9:2080:52eb:f6ff:feb3:451a])
+ by smtp.gmail.com with ESMTPSA id
+ ffacd0b85a97d-429952b7a7csm32976206f8f.8.2025.10.30.08.35.03
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 30 Oct 2025 08:35:04 -0700 (PDT)
+From: Neil Armstrong <neil.armstrong@linaro.org>
+To: Jessica Zhang <jesszhan0024@gmail.com>, 
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
+ Neil Armstrong <neil.armstrong@linaro.org>
+Cc: Kaustabh Chakraborty <kauschluss@disroot.org>, 
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org, 
+ Stephen Rothwell <sfr@canb.auug.org.au>
+In-Reply-To: <20251030-topic-drm-fix-panel-synaptics-tddi-v1-1-206519d246e8@linaro.org>
+References: <20251030-topic-drm-fix-panel-synaptics-tddi-v1-1-206519d246e8@linaro.org>
+Subject: Re: [PATCH] drm/panel: synaptics-tddi: fix build error by missing
+ regulator/consumer.h include
+Message-Id: <176183850374.52027.4493661188023999045.b4-ty@linaro.org>
+Date: Thu, 30 Oct 2025 16:35:03 +0100
 MIME-Version: 1.0
-References: <cover.1761681968.git.jani.nikula@intel.com>
- <c04d81ae648c5f21b3f5b7953f924718051f2798.1761681968.git.jani.nikula@intel.com>
-In-Reply-To: <c04d81ae648c5f21b3f5b7953f924718051f2798.1761681968.git.jani.nikula@intel.com>
-From: Alex Deucher <alexdeucher@gmail.com>
-Date: Thu, 30 Oct 2025 11:33:13 -0400
-X-Gm-Features: AWmQ_bmWPKIX3d-kIDddLaL2dw67OeDnzKsWnv6V0e-DXCx6Xc_EyN4vl5wEspA
-Message-ID: <CADnq5_MA9sUeKC6XEJGqvzSwXzwXL8bqUfs4U41aTJY2qF=Upw@mail.gmail.com>
-Subject: Re: [PATCH 3/3] drm/displayid: add quirk to ignore DisplayID checksum
- errors
-To: Jani Nikula <jani.nikula@intel.com>
-Cc: dri-devel@lists.freedesktop.org, intel-gfx@lists.freedesktop.org, 
- intel-xe@lists.freedesktop.org, tiago.martins.araujo@gmail.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-Mailer: b4 0.14.3
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -84,151 +97,21 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Oct 28, 2025 at 5:26=E2=80=AFPM Jani Nikula <jani.nikula@intel.com>=
- wrote:
->
-> Add a mechanism for DisplayID specific quirks, and add the first quirk
-> to ignore DisplayID section checksum errors.
->
-> It would be quite inconvenient to pass existing EDID quirks from
-> drm_edid.c for DisplayID parsing. Not all places doing DisplayID
-> iteration have the quirks readily available, and would have to pass it
-> in all places. Simply add a separate array of DisplayID specific EDID
-> quirks. We do end up checking it every time we iterate DisplayID blocks,
-> but hopefully the number of quirks remains small.
->
-> There are a few laptop models with DisplayID checksum failures, leading
-> to higher refresh rates only present in the DisplayID blocks being
-> ignored. Add a quirk for the panel in the machines.
->
-> Reported-by: Tiago Martins Ara=C3=BAjo <tiago.martins.araujo@gmail.com>
-> Closes: https://lore.kernel.org/r/CACRbrPGvLP5LANXuFi6z0S7XMbAG4X5y2YOLBD=
-xfOVtfGGqiKQ@mail.gmail.com
-> Closes: https://gitlab.freedesktop.org/drm/i915/kernel/-/issues/14703
-> Signed-off-by: Jani Nikula <jani.nikula@intel.com>
+Hi,
 
-Series is:
-Acked-by: Alex Deucher <alexander.deucher@amd.com>
+On Thu, 30 Oct 2025 09:28:28 +0100, Neil Armstrong wrote:
+> Fix up for "backlight: Do not include <linux/fb.h> in header file"
+> interacting with [1] from the drm-misc tree.
+> 
+> [1] commit 3eae82503f4f ("drm: panel: add support for Synaptics TDDI series DSI panels")
+> 
+> 
 
-> ---
->  drivers/gpu/drm/drm_displayid.c          | 41 +++++++++++++++++++++---
->  drivers/gpu/drm/drm_displayid_internal.h |  2 ++
->  2 files changed, 39 insertions(+), 4 deletions(-)
->
-> diff --git a/drivers/gpu/drm/drm_displayid.c b/drivers/gpu/drm/drm_displa=
-yid.c
-> index 20b453d2b854..58d0bb6d2676 100644
-> --- a/drivers/gpu/drm/drm_displayid.c
-> +++ b/drivers/gpu/drm/drm_displayid.c
-> @@ -9,6 +9,34 @@
->  #include "drm_crtc_internal.h"
->  #include "drm_displayid_internal.h"
->
-> +enum {
-> +       QUIRK_IGNORE_CHECKSUM,
-> +};
-> +
-> +struct displayid_quirk {
-> +       const struct drm_edid_ident ident;
-> +       u8 quirks;
-> +};
-> +
-> +static const struct displayid_quirk quirks[] =3D {
-> +       {
-> +               .ident =3D DRM_EDID_IDENT_INIT('C', 'S', 'O', 5142, "MNE0=
-07ZA1-5"),
-> +               .quirks =3D BIT(QUIRK_IGNORE_CHECKSUM),
-> +       },
-> +};
-> +
-> +static u8 get_quirks(const struct drm_edid *drm_edid)
-> +{
-> +       int i;
-> +
-> +       for (i =3D 0; i < ARRAY_SIZE(quirks); i++) {
-> +               if (drm_edid_match(drm_edid, &quirks[i].ident))
-> +                       return quirks[i].quirks;
-> +       }
-> +
-> +       return 0;
-> +}
-> +
->  static const struct displayid_header *
->  displayid_get_header(const u8 *displayid, int length, int index)
->  {
-> @@ -23,7 +51,7 @@ displayid_get_header(const u8 *displayid, int length, i=
-nt index)
->  }
->
->  static const struct displayid_header *
-> -validate_displayid(const u8 *displayid, int length, int idx)
-> +validate_displayid(const u8 *displayid, int length, int idx, bool ignore=
-_checksum)
->  {
->         int i, dispid_length;
->         u8 csum =3D 0;
-> @@ -41,8 +69,11 @@ validate_displayid(const u8 *displayid, int length, in=
-t idx)
->         for (i =3D 0; i < dispid_length; i++)
->                 csum +=3D displayid[idx + i];
->         if (csum) {
-> -               DRM_NOTE("DisplayID checksum invalid, remainder is %d\n",=
- csum);
-> -               return ERR_PTR(-EINVAL);
-> +               DRM_NOTE("DisplayID checksum invalid, remainder is %d%s\n=
-", csum,
-> +                        ignore_checksum ? " (ignoring)" : "");
-> +
-> +               if (!ignore_checksum)
-> +                       return ERR_PTR(-EINVAL);
->         }
->
->         return base;
-> @@ -52,6 +83,7 @@ static const u8 *find_next_displayid_extension(struct d=
-isplayid_iter *iter)
->  {
->         const struct displayid_header *base;
->         const u8 *displayid;
-> +       bool ignore_checksum =3D iter->quirks & BIT(QUIRK_IGNORE_CHECKSUM=
-);
->
->         displayid =3D drm_edid_find_extension(iter->drm_edid, DISPLAYID_E=
-XT, &iter->ext_index);
->         if (!displayid)
-> @@ -61,7 +93,7 @@ static const u8 *find_next_displayid_extension(struct d=
-isplayid_iter *iter)
->         iter->length =3D EDID_LENGTH - 1;
->         iter->idx =3D 1;
->
-> -       base =3D validate_displayid(displayid, iter->length, iter->idx);
-> +       base =3D validate_displayid(displayid, iter->length, iter->idx, i=
-gnore_checksum);
->         if (IS_ERR(base))
->                 return NULL;
->
-> @@ -76,6 +108,7 @@ void displayid_iter_edid_begin(const struct drm_edid *=
-drm_edid,
->         memset(iter, 0, sizeof(*iter));
->
->         iter->drm_edid =3D drm_edid;
-> +       iter->quirks =3D get_quirks(drm_edid);
->  }
->
->  static const struct displayid_block *
-> diff --git a/drivers/gpu/drm/drm_displayid_internal.h b/drivers/gpu/drm/d=
-rm_displayid_internal.h
-> index 957dd0619f5c..5b1b32f73516 100644
-> --- a/drivers/gpu/drm/drm_displayid_internal.h
-> +++ b/drivers/gpu/drm/drm_displayid_internal.h
-> @@ -167,6 +167,8 @@ struct displayid_iter {
->
->         u8 version;
->         u8 primary_use;
-> +
-> +       u8 quirks;
->  };
->
->  void displayid_iter_edid_begin(const struct drm_edid *drm_edid,
-> --
-> 2.47.3
->
+Thanks, Applied to https://gitlab.freedesktop.org/drm/misc/kernel.git (drm-misc-next)
+
+[1/1] drm/panel: synaptics-tddi: fix build error by missing regulator/consumer.h include
+      https://gitlab.freedesktop.org/drm/misc/kernel/-/commit/66610c08e954e6a995c2504934e54f8945f9ee49
+
+-- 
+Neil
+
