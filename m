@@ -2,70 +2,135 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7991BC21AD1
-	for <lists+dri-devel@lfdr.de>; Thu, 30 Oct 2025 19:07:59 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2ACFCC21AAD
+	for <lists+dri-devel@lfdr.de>; Thu, 30 Oct 2025 19:07:22 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A7C1010E31E;
-	Thu, 30 Oct 2025 18:07:57 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3D5C310E326;
+	Thu, 30 Oct 2025 18:07:17 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="OzR1+CTa";
+	dkim=pass (2048-bit key; unprotected) header.d=Nvidia.com header.i=@Nvidia.com header.b="lX1PGOHl";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DC05410E31E
- for <dri-devel@lists.freedesktop.org>; Thu, 30 Oct 2025 18:07:56 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1761847677; x=1793383677;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:in-reply-to;
- bh=iP/s4UAA9B2nPL0oz7dCcsbvxDo5KsExttoOXbiI4jw=;
- b=OzR1+CTaqF1mLQwL5NeOqUBtdVdcbuSiMYT6605CO7d83+mMLUkNTKvQ
- +cJqPyFZ19QJxpHL7w3PjaHHQzRAmTIToUkJVT/MNEpmAptjfmIpHGZ4k
- KWU3islokpTYpwOXFkhYnWimF6NATPzs2OnPV5XU7yTA4AahT3luYkBuj
- JuBqXsIv9QXf77/vi2/riwXDFq0FSD+72z7Y6kf58TQQRsoTFibnWHgru
- i33tP5Xa7SAfdrkFpoWi43mDunehjd4decOI1t2ZyfaM8A6d8VcIi9Aix
- 3qltfaArs08eRYTVQ+mKt6PZ2KhHLvTfzj9FzU2DiC4oNsOGL2doIMniq w==;
-X-CSE-ConnectionGUID: 34QIimjRRw2XbFADQJJ1mA==
-X-CSE-MsgGUID: MemyQPitSjCPTbAetw3FyA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11598"; a="63885987"
-X-IronPort-AV: E=Sophos;i="6.19,267,1754982000"; d="scan'208";a="63885987"
-Received: from orviesa006.jf.intel.com ([10.64.159.146])
- by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 30 Oct 2025 11:07:57 -0700
-X-CSE-ConnectionGUID: 9p/tDAhTRCCj2jfvrIEJuA==
-X-CSE-MsgGUID: lUJf09szRfOicaHLR05gkQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.19,267,1754982000"; d="scan'208";a="185232151"
-Received: from lkp-server02.sh.intel.com (HELO 66d7546c76b2) ([10.239.97.151])
- by orviesa006.jf.intel.com with ESMTP; 30 Oct 2025 11:07:52 -0700
-Received: from kbuild by 66d7546c76b2 with local (Exim 4.96)
- (envelope-from <lkp@intel.com>) id 1vEX3p-000MNw-1s;
- Thu, 30 Oct 2025 18:07:46 +0000
-Date: Fri, 31 Oct 2025 02:06:32 +0800
-From: kernel test robot <lkp@intel.com>
-To: Lyude Paul <lyude@redhat.com>, dri-devel@lists.freedesktop.org,
- rust-for-linux@vger.kernel.org, linux-kernel@vger.kernel.org
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
- Danilo Krummrich <dakr@kernel.org>,
- Abdiel Janulgue <abdiel.janulgue@gmail.com>,
- Daniel Almeida <daniel.almeida@collabora.com>,
- Robin Murphy <robin.murphy@arm.com>,
- Andreas Hindborg <a.hindborg@kernel.org>, Miguel Ojeda <ojeda@kernel.org>,
- Alex Gaynor <alex.gaynor@gmail.com>,
- Boqun Feng <boqun.feng@gmail.com>, Gary Guo <gary@garyguo.net>,
- =?iso-8859-1?Q?Bj=F6rn?= Roy Baron <bjorn3_gh@protonmail.com>,
- Benno Lossin <lossin@kernel.org>, Alice Ryhl <aliceryhl@google.com>,
- Trevor Gross <tmgross@umich.edu>
-Subject: Re: [PATCH] rust/dma: Take &mut self in
- CoherentAllocation::field_write()
-Message-ID: <202510310102.NdHj0ur8-lkp@intel.com>
-References: <20251028211801.85215-1-lyude@redhat.com>
+Received: from PH7PR06CU001.outbound.protection.outlook.com
+ (mail-westus3azon11010010.outbound.protection.outlook.com [52.101.201.10])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8E01510E0ED;
+ Thu, 30 Oct 2025 18:07:15 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=ga71JtwhkGN61j2+k2EVjFbUAsKSxz0kZCA+9ZRjOhgZhPn/aMcMj7oYAEvaj0BXsrO/pGIh0nzH+PZulbuUsb0ejFcHByvAfQ5nHgoZDYw+X+s+JIgoZDFfep4Q6SY0Oe3jb0Am4U3B0cW33t56Adc665KDp8LrfiEDsbbVxgPTFyXFBZ9iwR+7JhPKTElTQci4JTwjrIsm2+TEH237ohwMBJXMC1VJREmesRb9cYCdkgAqCrMbHZflNEaGRziDMoEB2Th5cKojPTU+cWEiEm8GpyDZKugAJkk29DVLgI5XBKeA8npKjoH9qI/bgpiUh6BMJzU3uJ2PZa3FY9wVzw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=qydi9IrCfjOBSImRAzHWJPpyRoK+OmBCEhbEDrgH/0E=;
+ b=hPNTKeYkUdxG5OSfHrRUv7Y0gebKfdyqPYYaCPAb3AhwS8K/zwjGyNBw6jSgeDuFq3LfDzM/3qZGCErRmnrUkbRmbFBlrZO6OEt/q5xH4g26yoIizWQLO13i6aumueLy3imKaG5ZZDfBRAb5twWtABZmOVNGCG5rKybFwsKy4v+EF+MGfkR3Wss5ZhTSCB7VR+XdIDUkGBhjZ7rduLGXLkk5dEf3pYBBBepNnEnU3OxB3GPOZpo68ClxpR4ZxYm8AbEceWn7rwibR1wHnd0TVTgfV44WgB9JRaWMV7OyxAub3j1zfXJr4WJKyuKIinffB5RhixT7pzUUQKs7sNEo9Q==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
+ dkim=pass header.d=nvidia.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=qydi9IrCfjOBSImRAzHWJPpyRoK+OmBCEhbEDrgH/0E=;
+ b=lX1PGOHlAu3qUcvPmLzntx33VzhCkeXRY1hd7rCauGkXodsiD4sQLZ3zbSmmV6nAKoXxVeu28esX5Oxdv+YBfM0hGLfixZR4vPdUMTxYmYXNdYAyJ9l8LpCsfOKpg4U6AAhlJ3guaQl6TeFm8q+/DihOujugAuPhf+Exn4X2UoyVx0OHoNhe/SW78DIUpVtVUUncGAA/HX8AIo7huS58VBlHKnO1JadDGBvHjJldoseob6SBd5SGwwva7ToSurQoiCBC+FxC7FGp++BnvZW1adRKo4DLZKizlG0E6oXsbs6VEhbuf+UKOqbi/pOQ52CXEld5pfFNcwqYbDdJp3XKEA==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=nvidia.com;
+Received: from SA1PR12MB6701.namprd12.prod.outlook.com (2603:10b6:806:251::18)
+ by SA0PR12MB7479.namprd12.prod.outlook.com (2603:10b6:806:24b::19)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9275.14; Thu, 30 Oct
+ 2025 18:07:12 +0000
+Received: from SA1PR12MB6701.namprd12.prod.outlook.com
+ ([fe80::2be0:c316:443d:da3a]) by SA1PR12MB6701.namprd12.prod.outlook.com
+ ([fe80::2be0:c316:443d:da3a%5]) with mapi id 15.20.9275.013; Thu, 30 Oct 2025
+ 18:07:12 +0000
+From: James Jones <jajones@nvidia.com>
+To: Danilo Krummrich <dakr@kernel.org>, Lyude Paul <lyude@redhat.com>,
+ Faith Ekstrand <faith.ekstrand@collabora.com>
+Cc: nouveau@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, David Airlie <airlied@gmail.com>,
+ Simona Vetter <simona@ffwll.ch>, Joel Fernandes <joelagnelf@nvidia.com>,
+ James Jones <jajones@nvidia.com>
+Subject: [PATCH v2 0/2] drm/nouveau: Advertise correct modifiers on GB20x
+Date: Thu, 30 Oct 2025 11:11:51 -0700
+Message-ID: <20251030181153.1208-1-jajones@nvidia.com>
+X-Mailer: git-send-email 2.50.1
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-ClientProxiedBy: BYAPR02CA0053.namprd02.prod.outlook.com
+ (2603:10b6:a03:54::30) To SA1PR12MB6701.namprd12.prod.outlook.com
+ (2603:10b6:806:251::18)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20251028211801.85215-1-lyude@redhat.com>
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: SA1PR12MB6701:EE_|SA0PR12MB7479:EE_
+X-MS-Office365-Filtering-Correlation-Id: 008f1971-fb3b-4a92-0a75-08de17df2636
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;ARA:13230040|376014|366016|1800799024;
+X-Microsoft-Antispam-Message-Info: =?us-ascii?Q?UjBLR4sMUIK1qUJSlBs5UqquRE0TfjEo6AOMgHZCl8D35kwZOm+tmIEM20/o?=
+ =?us-ascii?Q?CofA0bcj5BQLpLZJgnC3I0vHHWsOQQ4qRJVwOzbPl6YQY1LhLBOv3Y6basAy?=
+ =?us-ascii?Q?+LOpxjsPVX9TSNyPNMHY3ZthZngu38HpVDMTP0VOoBLLqFzGbeGUMZ7weIzj?=
+ =?us-ascii?Q?Cj1VjwGK2xAgYtd3F5ICtXTRhgUeSa5yrAPvBM5yOB/+Cm20witPV6hvICAJ?=
+ =?us-ascii?Q?m6+wDu6mFhj95HlWwtxkXAMqg8WQConwDQ9rRsfmrz5uiF/DMgWyJ7Q+6jdl?=
+ =?us-ascii?Q?8buquT43Osses1pbOQ4McShBwXNe4gLRfUWBMelt83+1vAibj7c9SnbkGp9p?=
+ =?us-ascii?Q?kxYIgwf+BMLtviKwGnJj57/JpDLg1OA0cai87n8knNnmoCjTqZnnyO1OMDj1?=
+ =?us-ascii?Q?109hCdbIfoGqOAT2RGc/lFXZei2IH3zpFBKkqtTPC0tkBTOsqC7uRXzqhjcF?=
+ =?us-ascii?Q?bk5RuFNiou22oZYzTkY84iNyLTulqgsSgHTvAjOWXc6x9CgFrBlittttqWOT?=
+ =?us-ascii?Q?fhQTasoAxnh8yvr2sCGyE2vMQikoYAd9eOc9Nkf+HdVRkTVG/aLyUlSEtNnN?=
+ =?us-ascii?Q?cT650Jf/x15N1xH6JNAiprYd9DkivH/nBuE+sjKvn5vTbejsQrtuDdPyVNAS?=
+ =?us-ascii?Q?EjrkYt70u8xyyNnFIOaFGZTc2QXoHyANeadsxlFCpjE0vFrKrqKXZck/k9y+?=
+ =?us-ascii?Q?DDX+ctgwyzdcfeUhW8I5ICVfJiVnPmjs0Z2v8JHTUO8vNXg2qXwws/YOjh2K?=
+ =?us-ascii?Q?XBVH4FR0Z8tzbG3wwrGvZc4Z1ommA7LH/LdWf2SPHONK6Qr1YKaDVVWFCvng?=
+ =?us-ascii?Q?/7sWudBA8mWvGVzjcs6UmBiO4oPH7dRePJTAT4bM2B5uRdSWhR1/Qd6d+n4/?=
+ =?us-ascii?Q?bfpHYiAxrdJ0FC7WAyOqJx/nSdOaqDMj5exM3QfLiY/3BQwV/b7ybOrmcs0a?=
+ =?us-ascii?Q?oNa4STzRN0LbUP+2xxb0RDoy+PP+6mEX0CcFL9XCsYzuhpTSDLQEgjBkkxo1?=
+ =?us-ascii?Q?sWpfGTcDrQFCBuz1dInOG1ttUNHWZPMqbmO8eWxfrTlqyvw+bArkRO5oR3qt?=
+ =?us-ascii?Q?KM2V6iavIGQP4+TcETvmPfOMxRpfgVAVdykWtDABrrdfQvdaUKggdUvkIG9F?=
+ =?us-ascii?Q?It+bqEUVijYi7ZpNL4tVDnkNjSurH6NcqyqVUTuo8BQqwYIWENWy+IkG8kFa?=
+ =?us-ascii?Q?z4BxQ2kIoSlmZ31pKT+jZlwqWB/l+JxZZNIJVxvuoY49f26Oe72eJqpa/hUO?=
+ =?us-ascii?Q?axSlNhcljYvzQMSVUl3pFfmrMqXEakhyoMXV74M7vnCXhpW7+0CONSteRRFj?=
+ =?us-ascii?Q?QQXFdz0vofBPEvVGbhPmu+X8wholLYf6BQbEY55/spN4fBUA7UOZvisENQPU?=
+ =?us-ascii?Q?2SXeqqcels+1YlOWAHQmJ0HB7lz2fcoam/n0Luxo2EJiCwC9PstCQA8vjPtZ?=
+ =?us-ascii?Q?tWzIzbYqvEic6sV9pA9wL9l1/ZDX9gwKXUAmCQLFao+KJ66N69e8tQ=3D=3D?=
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:SA1PR12MB6701.namprd12.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230040)(376014)(366016)(1800799024); DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?Sn6Y4M0ZfX39QlKGOOqfhORXu3P0oNVTDTSp4/SZog2vtsTIkJa/dp9zsnUN?=
+ =?us-ascii?Q?GkE1cPx+5UOCQYADPdpGl87r5g2kVRHyPSp7/EjM68a82g8S+n13SO3hXnBz?=
+ =?us-ascii?Q?Wj1V+XVymJ5OP1T1deFCxtYNOJXiJg7DqMbtzQKYZW0YIh1vkUYs3TGTpWKQ?=
+ =?us-ascii?Q?FdZ13wEKNSY/7+a7gppeOvdBFo9NUJwxhJ8Z+xzRUAwYVarBbdEXjJRwaV8T?=
+ =?us-ascii?Q?PeyXGTACpUs4blAZGUOi41OVBiBaIR0ICKgXwGJiN+Omag/vdw5lR5HRqLuK?=
+ =?us-ascii?Q?YchbV0gep+qeuitCUvxMSZ3tta+apwk/hDGnoZFY2ZtSN6JwRfop3s0IlYc5?=
+ =?us-ascii?Q?okYI33yxeAZ3XsfMJw461kCtDo9BtNlYn4v+fzNljJ/MDGV3HIF6VAVgMDg+?=
+ =?us-ascii?Q?h0NKaSCarNW+Wsc4YUitkLk+BC1fhpscpP80OeLZy+kJOp5gwtiXflh6lzpM?=
+ =?us-ascii?Q?uHRgLbqRtduY2PQmaZXzGAixfydfVseVuTc2zsfrjVRn+7Nix6H08oO+UsRm?=
+ =?us-ascii?Q?vrSnrNG/W3R+do4RjsvbWFFga2V6CfWLQT5doC/h3dBtJ1ahaoode84G5vrT?=
+ =?us-ascii?Q?9aoQIpwBQ0K/8gz3enSKWrwqKBAgOstOTAQNm/hg37s61OChRq4tA4cTe5uI?=
+ =?us-ascii?Q?hTJ/YPftMK0bwsmnRemtktHbAmVyAuiDGkX4Np28hRy+2+FLD0iSmwBB04Mt?=
+ =?us-ascii?Q?dtMod4MMx0iBkTQmWrAOWbHCdgHcGt578UCSqeoHqdxkBE7VvT1eT0nPV6Wk?=
+ =?us-ascii?Q?pnrcc4jh7F5tbnWQ/DkReUqZhfKwg332XKuCSpB0jsY3PUTsq5VdXIV55jYW?=
+ =?us-ascii?Q?9w1ZMyHRw6blKVS3RrtAy5/trzEG+0iN/LryEkBDocmjJG9lUrs8c8jdy13/?=
+ =?us-ascii?Q?HSe03fSSFboMtXQBGknmQnPugrtrzAEr8G5x9Cc1uf4TIOMdxVik48yOnbSz?=
+ =?us-ascii?Q?qE3wJRQvK75xaP8Xwztk8fLOrSr610VznM8sWGl5/9QoCqwC7MblwN7NsjV+?=
+ =?us-ascii?Q?Y2ghOqOGqFUoW17aKOyUFeyIVOW44OHrQlUKkJUiY5qeX6TKaTwePnNedc5e?=
+ =?us-ascii?Q?dS7JCkx0qb1sx0eg9EffOAd7QTgF4eZLpBauJnarVE0eABWpk+KaIavKgNol?=
+ =?us-ascii?Q?OpZ7PnTIdgij3WKQMNMDAiInUS4NSI7cPdGF//1zJyO8CYGRZ8UHx/gb2Idq?=
+ =?us-ascii?Q?9TemB45hUZmw8eKPnnLaR4foYVNBfPjxJFPh0DbD+W0o/+sJmjoVNxHuTJoq?=
+ =?us-ascii?Q?RM5aFPDSqXobyh+QonzjfnlMWSBPYBc6JTGeybEKLb4Sg+o3U3qfFxcJ3qom?=
+ =?us-ascii?Q?E8anTlbS3zFEQsQt9+wS7r2uxyXA98loVD6iXDPPhl7QvgvYzV7fgMTm2UXa?=
+ =?us-ascii?Q?jEQk2zYEEZa+cxiUwB88fXqG8sJ6o9sgG/wo8NF4wkRkaOa336tFLvWaYPig?=
+ =?us-ascii?Q?HjDMm9P64hb0iGVSSCutuOTaRwb/1qQj+L94MT3yOL5bJaL5kThsMmbMF0OY?=
+ =?us-ascii?Q?upmp+Rg+3xPP5jX7qORS8vTQtF2sf2qJYc+fZZ7TJWujr3CIR6SSfYjHicEX?=
+ =?us-ascii?Q?OOze4UlmsbtM4QBZPmt39Ix6H9uSaXPzfcORLcxv?=
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 008f1971-fb3b-4a92-0a75-08de17df2636
+X-MS-Exchange-CrossTenant-AuthSource: SA1PR12MB6701.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 30 Oct 2025 18:07:12.0783 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: GLW4KcWhEr8/+0VxW/zRMQn0P9kOomSvAemtfwq/PvPVNAHpVxI911/MdDtCj0c7OaNxETftCHi+kJBj+o3S6w==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA0PR12MB7479
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -81,40 +146,83 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Lyude,
+This series adds new format modifiers for 8 and 16-bit formats on GB20x
+GPUs, preventing them from mistakenly sharing block-linear surfaces
+using these formats with prior GPUs that use a different layout.
 
-kernel test robot noticed the following build errors:
+There are a few ways the parameteric format modifier definition
+could have been altered to handle the new layouts:
 
-[auto build test ERROR on 3b83f5d5e78ac5cddd811a5e431af73959864390]
+-The GOB Height and Page Kind field has a reserved value that could
+ have been used. However, the GOB height and page kind enums did
+ not change relative to prior chips, so this is sort of a lie.
+ However, this is the least-invasive change.
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Lyude-Paul/rust-dma-Take-mut-self-in-CoherentAllocation-field_write/20251029-052034
-base:   3b83f5d5e78ac5cddd811a5e431af73959864390
-patch link:    https://lore.kernel.org/r/20251028211801.85215-1-lyude%40redhat.com
-patch subject: [PATCH] rust/dma: Take &mut self in CoherentAllocation::field_write()
-config: x86_64-rhel-9.4-rust (https://download.01.org/0day-ci/archive/20251031/202510310102.NdHj0ur8-lkp@intel.com/config)
-compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
-rustc: rustc 1.88.0 (6b00bc388 2025-06-23)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251031/202510310102.NdHj0ur8-lkp@intel.com/reproduce)
+-An entirely new field could have been added. This seems
+ inappropriate given the presence of an existing appropriate field.
+ The advantage here is it avoids splitting the sector layout field
+ across two bitfields.
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202510310102.NdHj0ur8-lkp@intel.com/
+The chosen approach is the logically consistent one, but has the
+downside of being the most complex, and that it causes the
+DRM_FORMAT_MOD_NVIDIA_BLOCK_LINEAR_2D() macro to evaluate its 's'
+parameter twice. However, utilizing simple helper functions in
+client code when accessing the parameteric format modifier fields
+easily addresses the complexity, and I have audited the relevant code
+and do not believe the double evaluation should cause any problems in
+practice.
 
-All errors (new ones prefixed by >>):
+Tested on GB20x and TU10x cards using the following:
 
->> error[E0596]: cannot borrow value as mutable, as it is not declared as mutable
-   --> samples/rust/rust_dma.rs:70:13
-   |
-   70 |             kernel::dma_write!(ca[i] = MyStruct::new(value.0, value.1))?;
-   |             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ cannot borrow as mutable
-   |
-   = note: this error originates in the macro `$crate::dma_write` which comes from the expansion of the macro `kernel::dma_write` (in Nightly builds, run with -Z macro-backtrace for more info)
-   help: consider changing this to be mutable
-   |
-   66 |         let mut ca: CoherentAllocation<MyStruct> =
-   |             +++
+-kmscube w/NVK+Zink built with these patches applied:
+
+   https://gitlab.freedesktop.org/mesa/mesa/-/merge_requests/36336
+
+ with various manually specified formats
+ and both manually specified and automatically
+ selected modifiers.
+
+-drmfmtmods, a tiny test program that lists modifiers:
+
+   https://github.com/cubanismo/drmfmtmods
+
+Changes in v2:
+
+-Added "Fixes: 6cc6e08d4542" line since this can be considered a bug
+ fix for the initial blackwell KMS support in nouveau.
+
+-Dropped the second patch from the v1 series as it has been merged.
+
+Changes since the RFC version here:
+
+  https://lore.kernel.org/nouveau/20250703223658.1457-1-jajones@nvidia.com/
+
+-Dropped the helper macros & static inlines in
+ drm_fourcc.h as requested by Faith Ekstrand,
+ who noted these aren't helpful for UMD code,
+ which is all written in rust now. I may re-
+ introduce some of these in a subsequent series,
+ but we both agreed we do not want to delay
+ progress on the modifiers themselves while we
+ debate the details of those cometic details.
+
+-Reserved an extra bit for future sector
+ layouts.
+
+-Fixed handling of linear modifiers on GB20x
+ and NV5x/G8x/G9x/GT2xx chips.
+
+James Jones (2):
+  drm: define NVIDIA DRM format modifiers for GB20x
+  drm/nouveau: Advertise correct modifiers on GB20x
+
+ drivers/gpu/drm/nouveau/dispnv50/disp.c     |  4 ++-
+ drivers/gpu/drm/nouveau/dispnv50/disp.h     |  1 +
+ drivers/gpu/drm/nouveau/dispnv50/wndw.c     | 24 +++++++++++++--
+ drivers/gpu/drm/nouveau/dispnv50/wndwca7e.c | 33 +++++++++++++++++++++
+ include/uapi/drm/drm_fourcc.h               | 25 ++++++++++------
+ 5 files changed, 75 insertions(+), 12 deletions(-)
 
 -- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+2.50.1
+
