@@ -2,41 +2,41 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5DB77C22652
-	for <lists+dri-devel@lfdr.de>; Thu, 30 Oct 2025 22:17:18 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4205BC226A6
+	for <lists+dri-devel@lfdr.de>; Thu, 30 Oct 2025 22:27:57 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7FC0310EA34;
-	Thu, 30 Oct 2025 21:17:15 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D839F10EA3C;
+	Thu, 30 Oct 2025 21:27:54 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="i6CKBQtA";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="gj21ihIp";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from sea.source.kernel.org (sea.source.kernel.org [172.234.252.31])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7C59A10EA26;
- Thu, 30 Oct 2025 21:17:13 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2345D10E91C;
+ Thu, 30 Oct 2025 21:27:53 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by sea.source.kernel.org (Postfix) with ESMTP id 3A97440486;
- Thu, 30 Oct 2025 21:17:13 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2E9C3C4CEF1;
- Thu, 30 Oct 2025 21:17:08 +0000 (UTC)
+ by sea.source.kernel.org (Postfix) with ESMTP id D51CB43EC6;
+ Thu, 30 Oct 2025 21:27:52 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C99C9C4CEF1;
+ Thu, 30 Oct 2025 21:27:47 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1761859033;
- bh=XermN9jQ3wZ4fqlqqOotYOXuBNHynIWoOTfpAp4RGHs=;
- h=Date:Subject:Cc:To:From:References:In-Reply-To:From;
- b=i6CKBQtAZlBdtQH0O7unusyS7sO0aEpyqbQLRfXvYDlYSBC1ShdDPzNSNS9wijlik
- mEx4tLoxpKcnpALBY9+5WuJEjuiEUNVi76+KrThmXpWcNE683gNJH3hSB2Ug3qjWXN
- QLXnpalf9B7HkXoZe5Fp6KxEMuKgiKYWeM+6nEYseue1SNT8p9X8hsDAcdCQnt9Wnb
- Q6lmf+LdtEtSk6OQTUPvLGIpTEG9aiquw3B08cvPdvHIXUy/+UcUvTmTtG2t+301am
- kj98w6ag8lOE4msRzrcYL8gXR5PMVsbQrRVr1s6ACdZRPLnkq96n3e82FY6zxW3sgW
- yLGBc9cR/tMiA==
+ s=k20201202; t=1761859672;
+ bh=SVxofZBodQMq2edTAlTFELOdmGnbu0QYSQXYY2Xxvj4=;
+ h=Date:From:Subject:Cc:To:References:In-Reply-To:From;
+ b=gj21ihIpi0Frx5U2DXHXyw0i1BL8GIMyFNGu7SLPiUEQ6giI8X/bCxKhW1d9XjijV
+ us2VQd/o1fhWhogEQdaPAxl0q7Y3G3TkaRGx9H0GwbAlWQ+UFBXxkmbQMfBxdyG66m
+ vQJsQBcqwLjQACSBzNWK3dDxEZ1SNeU9PeaEb6d0udOzREGhhUdHEoN7Shi1sp53LF
+ Ob0Aw/hQxa9GZSfrnpnUSUZIbEv3Q7jIyFFqwrt33vyapJaSJqiU8jE54EvTS0GHUQ
+ hgKKXTrJH5Rt+tY6g2bkpT+boKLByo1R+pokToyeQ7RfbDPwI38X86n48Nu9Hz+Kqv
+ w/Fb3sbEMq61Q==
 Mime-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 Content-Type: text/plain; charset=UTF-8
-Date: Thu, 30 Oct 2025 22:17:06 +0100
-Message-Id: <DDVYWF5UL3T0.QDZNMBTX582T@kernel.org>
-Subject: Re: [PATCH RFC 4/4] samples: rust: Add sample demonstrating DRM
- buddy allocator
+Date: Thu, 30 Oct 2025 22:27:46 +0100
+Message-Id: <DDVZ4L08QMIR.GFMG544BYQEO@kernel.org>
+From: "Danilo Krummrich" <dakr@kernel.org>
+Subject: Re: [PATCH RFC 3/4] rust: drm: Add DRM buddy allocator bindings
 Cc: <linux-kernel@vger.kernel.org>, <rust-for-linux@vger.kernel.org>,
  <dri-devel@lists.freedesktop.org>, "David Airlie" <airlied@gmail.com>,
  <acourbot@nvidia.com>, "Alistair Popple" <apopple@nvidia.com>, "Miguel
@@ -53,10 +53,9 @@ Cc: <linux-kernel@vger.kernel.org>, <rust-for-linux@vger.kernel.org>,
  <arighi@nvidia.com>, "Philipp Stanner" <phasta@kernel.org>,
  <nouveau@lists.freedesktop.org>
 To: "Joel Fernandes" <joelagnelf@nvidia.com>
-From: "Danilo Krummrich" <dakr@kernel.org>
 References: <20251030190613.1224287-1-joelagnelf@nvidia.com>
- <20251030190613.1224287-5-joelagnelf@nvidia.com>
-In-Reply-To: <20251030190613.1224287-5-joelagnelf@nvidia.com>
+ <20251030190613.1224287-4-joelagnelf@nvidia.com>
+In-Reply-To: <20251030190613.1224287-4-joelagnelf@nvidia.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -73,10 +72,39 @@ Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 On Thu Oct 30, 2025 at 8:06 PM CET, Joel Fernandes wrote:
-> Demonstrates usage of the DRM buddy allocator bindings through
-> a simple test module that initializes the allocator, performs
-> allocations, and prints information about the allocated blocks.
+> +    ///
+> +    /// Returns an [`AllocatedBlocks`] structure that owns the allocated=
+ blocks and automatically
+> +    /// frees them when dropped. Allocation of `list_head` uses the `gfp=
+` flags passed.
+> +    pub fn alloc_blocks(
+> +        &self,
+> +        start: usize,
+> +        end: usize,
+> +        size: usize,
+> +        min_block_size: usize,
+> +        flags: BuddyFlags,
+> +        gfp: Flags,
+> +    ) -> Result<AllocatedBlocks<'_>> {
+> +        // Allocate list_head on the heap.
+> +        let mut list_head =3D KBox::new(bindings::list_head::default(), =
+gfp)?;
+> +
+> +        // SAFETY: list_head is valid and heap-allocated.
+> +        unsafe {
+> +            bindings::INIT_LIST_HEAD(&mut *list_head as *mut _);
+> +        }
 
-I don't think this should be a sample module either, the code looks a bit l=
-ike
-it tries to reinvents kunit tests.
+Not a full review, but a quick drive-by comment:
+
+bindings::list_head has to be pinned in memory it should be
+
+	let list_head =3D KBox::pin_init(Opaque::ffi_init(|slot: *mut bindings::li=
+st_head| {
+	    // SAFETY: `slot` is a valid pointer to uninitialized memory.
+	    unsafe { bindings::INIT_LIST_HEAD(slot) };
+	}), gfp)?;
+
+if you're doing it by hand, but as mentioned in a previous patch, I think i=
+t
+would be nice to have a transparent wrapper type, CListHead, for this.
