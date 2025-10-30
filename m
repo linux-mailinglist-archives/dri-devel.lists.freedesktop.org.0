@@ -2,36 +2,36 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7040CC20788
-	for <lists+dri-devel@lfdr.de>; Thu, 30 Oct 2025 15:06:13 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 202D6C20797
+	for <lists+dri-devel@lfdr.de>; Thu, 30 Oct 2025 15:06:14 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 18B1D10E9AF;
-	Thu, 30 Oct 2025 14:05:59 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 02B5310E9A7;
+	Thu, 30 Oct 2025 14:05:51 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="TjSipgti";
+	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="IWUrLSR0";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from bali.collaboradmins.com (bali.collaboradmins.com
  [148.251.105.195])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6059710E9A1;
- Thu, 30 Oct 2025 14:05:48 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 785EB10E9A0;
+ Thu, 30 Oct 2025 14:05:49 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1761833147;
- bh=FNM+I9KHPUiQEEGZamIWsZcL4INOTIgSqw0hdyL0awk=;
+ s=mail; t=1761833148;
+ bh=mMXEIDjcZK37rIytesFw8PJh0mKCRm+vIDeFU57mcW4=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=TjSipgti20oUd/PDxzQDsx8FFA6IiP3YNzQKH4ZvO+Ok8dv8q2fdrAplhgglgFQ7x
- TlFDQRnqJJLLRRaaFTNGr0bEM+Iu+vjJpYro7PEWAMkGWxVw+VKKaoXSBIvuS8Hlao
- TFzcVEtkM2bNiKHC7NUfrHHJHZuY71yka5rcuhUMPKgT0ncuzXOKfS8/pCATKKDST5
- 9B4Krq6XZa+h67ytI4lv3XWRVCpNpnxFo7APg6dXYScH2nQwaJkygFdG5/PdaKSufL
- ljPatDvx82IQb3JteuWLPvHbrjn3ETyjQd4Klt0r2CBJQQ2r062FoR2RioqcR9zJUC
- SRB8WOELo8zsg==
+ b=IWUrLSR03F47LCsdFsUG4+8l7HCJfUQNDQ55x3FUagxxrMsaOax1WiVgfDbTwFH0i
+ 7yND/8eGo2THBt7eAgVY5EwP2ZRotTiiNWBNAUwNIsw43/91gImvbvXd03iv+HYUes
+ 7uj+m8XZeM5SeDm3gO2n6C5T8h1Oehmg/ar1KKYE4TId+0jB7ccsxwZKLOYS3Ch2KN
+ +JA6uruYirVbSDNrau2TzT07h2omlbgRsT8MF0pV6dDvrrlN9OYsM2UzNQIL5ojeve
+ sxNHgVym6mVCXdKvKmJt9KvXhEGckQlFfyjRVaRUHODWIOGoB2V4txa6qH42xz6+Sy
+ eUqw2om1OrswQ==
 Received: from fedora (unknown [IPv6:2a01:e0a:2c:6930:a2a7:f53:ebb0:945e])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
  (No client certificate requested) (Authenticated sender: bbrezillon)
- by bali.collaboradmins.com (Postfix) with ESMTPSA id 2E6D717E15DF;
- Thu, 30 Oct 2025 15:05:46 +0100 (CET)
+ by bali.collaboradmins.com (Postfix) with ESMTPSA id 375FE17E35CB;
+ Thu, 30 Oct 2025 15:05:47 +0100 (CET)
 From: Boris Brezillon <boris.brezillon@collabora.com>
 To: Steven Price <steven.price@arm.com>
 Cc: dri-devel@lists.freedesktop.org,
@@ -55,11 +55,11 @@ Cc: dri-devel@lists.freedesktop.org,
  Marijn Suijten <marijn.suijten@somainline.org>,
  Alex Deucher <alexander.deucher@amd.com>,
  =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
- amd-gfx@lists.freedesktop.org, kernel@collabora.com,
- Boris Brezillon <boris.brezillon@collabora.com>
-Subject: [PATCH v5 10/16] drm/panthor: Bump the driver version to 1.6
-Date: Thu, 30 Oct 2025 15:05:19 +0100
-Message-ID: <20251030140525.366636-11-boris.brezillon@collabora.com>
+ amd-gfx@lists.freedesktop.org,
+ Boris Brezillon <boris.brezillon@collabora.com>, kernel@collabora.com
+Subject: [PATCH v5 11/16] drm/panfrost: Provide a custom dma_buf implementation
+Date: Thu, 30 Oct 2025 15:05:20 +0100
+Message-ID: <20251030140525.366636-12-boris.brezillon@collabora.com>
 X-Mailer: git-send-email 2.51.0
 In-Reply-To: <20251030140525.366636-1-boris.brezillon@collabora.com>
 References: <20251030140525.366636-1-boris.brezillon@collabora.com>
@@ -80,54 +80,77 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Faith Ekstrand <faith.ekstrand@collabora.com>
-
-Bump the driver version to reflect the new cached-CPU mapping
-capability.
-
-v2:
-- Quickly describe what the new version exposes in the commit message
-
-v3:
-- Add Steve's R-b
-
-v4:
-- No changes
+Before we introduce cached CPU mappings, we want a dma_buf
+implementation satisfying synchronization requests around CPU
+accesses coming from a dma_buf exported by our driver. Let's
+provide our own implementation relying on the default
+gem_shmem_prime helpers designed for that purpose.
 
 v5:
-- No changes
+- New patch
 
-Signed-off-by: Faith Ekstrand <faith.ekstrand@collabora.com>
 Signed-off-by: Boris Brezillon <boris.brezillon@collabora.com>
-Reviewed-by: Steven Price <steven.price@arm.com>
 ---
- drivers/gpu/drm/panthor/panthor_drv.c | 6 +++++-
- 1 file changed, 5 insertions(+), 1 deletion(-)
+ drivers/gpu/drm/panfrost/panfrost_drv.c |  1 +
+ drivers/gpu/drm/panfrost/panfrost_gem.c | 19 +++++++++++++++++++
+ drivers/gpu/drm/panfrost/panfrost_gem.h |  2 ++
+ 3 files changed, 22 insertions(+)
 
-diff --git a/drivers/gpu/drm/panthor/panthor_drv.c b/drivers/gpu/drm/panthor/panthor_drv.c
-index 4e915f5ef3fa..2b2f2ae471a8 100644
---- a/drivers/gpu/drm/panthor/panthor_drv.c
-+++ b/drivers/gpu/drm/panthor/panthor_drv.c
-@@ -1670,6 +1670,10 @@ static void panthor_debugfs_init(struct drm_minor *minor)
-  * - 1.3 - adds DRM_PANTHOR_GROUP_STATE_INNOCENT flag
-  * - 1.4 - adds DRM_IOCTL_PANTHOR_BO_SET_LABEL ioctl
-  * - 1.5 - adds DRM_PANTHOR_SET_USER_MMIO_OFFSET ioctl
-+ * - 1.6 - adds DRM_PANTHOR_BO_WB_MMAP flag
-+ *       - adds DRM_IOCTL_PANTHOR_BO_SYNC ioctl
-+ *       - adds DRM_IOCTL_PANTHOR_BO_QUERY_INFO ioctl
-+ *       - adds drm_panthor_gpu_info::selected_coherency
-  */
- static const struct drm_driver panthor_drm_driver = {
- 	.driver_features = DRIVER_RENDER | DRIVER_GEM | DRIVER_SYNCOBJ |
-@@ -1683,7 +1687,7 @@ static const struct drm_driver panthor_drm_driver = {
- 	.name = "panthor",
- 	.desc = "Panthor DRM driver",
- 	.major = 1,
--	.minor = 5,
-+	.minor = 6,
+diff --git a/drivers/gpu/drm/panfrost/panfrost_drv.c b/drivers/gpu/drm/panfrost/panfrost_drv.c
+index 1c3c574cd64a..e3cdc0c95a56 100644
+--- a/drivers/gpu/drm/panfrost/panfrost_drv.c
++++ b/drivers/gpu/drm/panfrost/panfrost_drv.c
+@@ -852,6 +852,7 @@ static const struct drm_driver panfrost_drm_driver = {
  
- 	.gem_create_object = panthor_gem_create_object,
- 	.gem_prime_import_sg_table = drm_gem_shmem_prime_import_sg_table,
+ 	.gem_create_object	= panfrost_gem_create_object,
+ 	.gem_prime_import_sg_table = panfrost_gem_prime_import_sg_table,
++	.gem_prime_get_dma_buf_ops = panfrost_gem_prime_get_dma_buf_ops,
+ #ifdef CONFIG_DEBUG_FS
+ 	.debugfs_init = panfrost_debugfs_init,
+ #endif
+diff --git a/drivers/gpu/drm/panfrost/panfrost_gem.c b/drivers/gpu/drm/panfrost/panfrost_gem.c
+index 0528de674a4f..070ea7108af6 100644
+--- a/drivers/gpu/drm/panfrost/panfrost_gem.c
++++ b/drivers/gpu/drm/panfrost/panfrost_gem.c
+@@ -323,6 +323,25 @@ panfrost_gem_create(struct drm_device *dev, size_t size, u32 flags)
+ 	return bo;
+ }
+ 
++static const struct dma_buf_ops panfrost_dma_buf_ops = {
++	.attach = drm_gem_map_attach,
++	.detach = drm_gem_map_detach,
++	.map_dma_buf = drm_gem_shmem_prime_map_dma_buf,
++	.unmap_dma_buf = drm_gem_shmem_prime_unmap_dma_buf,
++	.release = drm_gem_dmabuf_release,
++	.mmap = drm_gem_dmabuf_mmap,
++	.vmap = drm_gem_dmabuf_vmap,
++	.vunmap = drm_gem_dmabuf_vunmap,
++	.begin_cpu_access = drm_gem_shmem_prime_begin_cpu_access,
++	.end_cpu_access = drm_gem_shmem_prime_end_cpu_access,
++};
++
++const struct dma_buf_ops *
++panfrost_gem_prime_get_dma_buf_ops(struct drm_device *dev)
++{
++	return &panfrost_dma_buf_ops;
++}
++
+ struct drm_gem_object *
+ panfrost_gem_prime_import_sg_table(struct drm_device *dev,
+ 				   struct dma_buf_attachment *attach,
+diff --git a/drivers/gpu/drm/panfrost/panfrost_gem.h b/drivers/gpu/drm/panfrost/panfrost_gem.h
+index 8de3e76f2717..c63264464271 100644
+--- a/drivers/gpu/drm/panfrost/panfrost_gem.h
++++ b/drivers/gpu/drm/panfrost/panfrost_gem.h
+@@ -130,6 +130,8 @@ struct drm_gem_object *
+ panfrost_gem_prime_import_sg_table(struct drm_device *dev,
+ 				   struct dma_buf_attachment *attach,
+ 				   struct sg_table *sgt);
++const struct dma_buf_ops *
++panfrost_gem_prime_get_dma_buf_ops(struct drm_device *dev);
+ 
+ struct panfrost_gem_object *
+ panfrost_gem_create(struct drm_device *dev, size_t size, u32 flags);
 -- 
 2.51.0
 
