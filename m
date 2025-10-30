@@ -2,64 +2,44 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id DE2C8C21135
-	for <lists+dri-devel@lfdr.de>; Thu, 30 Oct 2025 17:00:32 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id DF543C211D1
+	for <lists+dri-devel@lfdr.de>; Thu, 30 Oct 2025 17:14:17 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4A3F710E9F6;
-	Thu, 30 Oct 2025 16:00:31 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DD76810E28F;
+	Thu, 30 Oct 2025 16:14:14 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="EGiyhoJT";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="dWCpovhC";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A32D810E9F6
- for <dri-devel@lists.freedesktop.org>; Thu, 30 Oct 2025 16:00:30 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1761840030; x=1793376030;
- h=message-id:date:mime-version:subject:to:cc:references:
- from:in-reply-to:content-transfer-encoding;
- bh=w2qiHt8EEq7Myb43sN5XT6AcoQr/FHqZnRkVrOu9ABI=;
- b=EGiyhoJT6a47/nvcyboIqV/8YlakD4B273w9XgCf4/hSmCAr7KbKBImL
- FwANCx3sya64YRWyrhvd2iceElQ89Oh9T71NcpuOyafyNF5/LnK1r4in6
- F2tr7dHxTUfEbLaiRgY88eygATCg2HvkS+imemtgw9cY4eimepix8Ql6Z
- l6zlIoWUxHXhcoJMAxmWlaqwDrFGahw3/+q5Gh+daufgfrI9QWtqf8PEg
- UZsmrezQw33nItkdGtPn9Onpy0fqfexFRKGdbmwpSofe4XSLZinNFFhiw
- uDLJi8LiUIulNGakWFqjgw+ZSmsqhPsXkQlmAjPOQCGvq6RVsx1scv7Pm Q==;
-X-CSE-ConnectionGUID: yg/D0kxhQyaSjaADYyUxBQ==
-X-CSE-MsgGUID: Ny30orxRQ+yndFtNWe4qVQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11598"; a="89453980"
-X-IronPort-AV: E=Sophos;i="6.19,267,1754982000"; d="scan'208";a="89453980"
-Received: from orviesa004.jf.intel.com ([10.64.159.144])
- by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 30 Oct 2025 09:00:30 -0700
-X-CSE-ConnectionGUID: cs5DdlIfTrSqxg/1jgUzRA==
-X-CSE-MsgGUID: xjJ9NKqsQJCY15W6J4+jdw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.19,267,1754982000"; d="scan'208";a="190333954"
-Received: from kwachows-mobl.ger.corp.intel.com (HELO [10.246.16.226])
- ([10.246.16.226])
- by orviesa004-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 30 Oct 2025 09:00:29 -0700
-Message-ID: <9d8ea728-da34-43c8-b149-2305ec16a96c@linux.intel.com>
-Date: Thu, 30 Oct 2025 17:00:26 +0100
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2] accel/ivpu: Wait for CDYN de-assertion during power
- down sequence
-To: "Falkowski, Maciej" <maciej.falkowski@linux.intel.com>,
+Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E67CF10E28F
+ for <dri-devel@lists.freedesktop.org>; Thu, 30 Oct 2025 16:14:13 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by tor.source.kernel.org (Postfix) with ESMTP id D686660207;
+ Thu, 30 Oct 2025 16:14:12 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 83245C4CEF8;
+ Thu, 30 Oct 2025 16:14:10 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1761840852;
+ bh=WadIyrGhjZmtFOmTht7Qz2UfFstKfJJoO9MBbxCO7VM=;
+ h=Date:From:To:Subject:From;
+ b=dWCpovhC0QJKOMFQNIVOMcghgZoDCVTglKArdzpJGz5p50ZqJFbM+73TRaXAVSL7x
+ xPz931w1iIC/lBgNRyVQMinkpdaA/M/7TPCZl7Mxc6dtkBkfgzMxHUJFKU8B/tWlEn
+ ZlOEXP4TFX8MyqYg4v3b1vIIcimhLq8cw665CDuaGJwKhTbSoV+Fup7Eti5Ept0Hyl
+ YzB0JxSlRo5a59VWXh3wH7jpmgJuY9Ei++8hdUd2Ft/Pp3EPOasWzAJRG5o6edUKim
+ UfQiJp4JiSOblN3V2Vh1t+brbguYQWZ/lm/9pmrJj9q81scFDPwQQpuFxvQKI0ZRYP
+ YYKIQNxrqZvSQ==
+Date: Thu, 30 Oct 2025 17:14:07 +0100
+From: Helge Deller <deller@kernel.org>
+To: Linus Torvalds <torvalds@linux-foundation.org>,
+ linux-kernel@vger.kernel.org, linux-fbdev@vger.kernel.org,
  dri-devel@lists.freedesktop.org
-Cc: oded.gabbay@gmail.com, jeff.hugo@oss.qualcomm.com, lizhi.hou@amd.com
-References: <20251030091700.293341-1-karol.wachowski@linux.intel.com>
- <72d53da3-b974-4951-b172-7cf0cd3007b6@linux.intel.com>
-Content-Language: en-US
-From: Karol Wachowski <karol.wachowski@linux.intel.com>
-Organization: Intel Technology Poland sp. z o.o. - ul. Slowackiego 173, 80-298
- Gdansk - KRS 101882 - NIP 957-07-52-316
-In-Reply-To: <72d53da3-b974-4951-b172-7cf0cd3007b6@linux.intel.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Subject: [GIT PULL] fbdev fixes for v6.18-rc4
+Message-ID: <aQOOz7Q27BbUo-_4@carbonx1>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -75,82 +55,64 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 10/30/2025 4:56 PM, Falkowski, Maciej wrote:
-> Reviewed-by: Maciej Falkowski <maciej.falkowski@linux.intel.com>
->
-> On 10/30/2025 10:17 AM, Karol Wachowski wrote:
->> During power down, pending DVFS operations may still be in progress
->> when the NPU reset is asserted after CDYN=0 is set. Since the READY
->> bit may already be deasserted at this point, checking only the READY
->> bit is insufficient to ensure all transactions have completed.
->>
->> Add an explicit check for CDYN de-assertion after the READY bit check
->> to guarantee no outstanding transactions remain before proceeding.
->>
->> Fixes: 550f4dd2cedd ("accel/ivpu: Add support for Nova Lake's NPU")
->> Signed-off-by: Karol Wachowski <karol.wachowski@linux.intel.com>
->> ---
->> Changes in v2:
->>   - Add Fixes tag
->> ---
->>   drivers/accel/ivpu/ivpu_hw_btrs.c         | 16 ++++++++++++++++
->>   drivers/accel/ivpu/ivpu_hw_btrs_lnl_reg.h |  3 +++
->>   2 files changed, 19 insertions(+)
->>
->> diff --git a/drivers/accel/ivpu/ivpu_hw_btrs.c
->> b/drivers/accel/ivpu/ivpu_hw_btrs.c
->> index 2085edbfd40a..06e65c592618 100644
->> --- a/drivers/accel/ivpu/ivpu_hw_btrs.c
->> +++ b/drivers/accel/ivpu/ivpu_hw_btrs.c
->> @@ -321,6 +321,14 @@ static int wait_for_pll_lock(struct ivpu_device
->> *vdev, bool enable)
->>       return REGB_POLL_FLD(VPU_HW_BTRS_MTL_PLL_STATUS, LOCK, exp_val,
->> PLL_TIMEOUT_US);
->>   }
->>   +static int wait_for_cdyn_deassert(struct ivpu_device *vdev)
->> +{
->> +    if (ivpu_hw_btrs_gen(vdev) == IVPU_HW_BTRS_MTL)
->> +        return 0;
->> +
->> +    return REGB_POLL_FLD(VPU_HW_BTRS_LNL_CDYN, CDYN, 0,
->> PLL_TIMEOUT_US);
->> +}
->> +
->>   int ivpu_hw_btrs_wp_drive(struct ivpu_device *vdev, bool enable)
->>   {
->>       struct wp_request wp;
->> @@ -354,6 +362,14 @@ int ivpu_hw_btrs_wp_drive(struct ivpu_device
->> *vdev, bool enable)
->>           return ret;
->>       }
->>   +    if (!enable) {
->> +        ret = wait_for_cdyn_deassert(vdev);
->> +        if (ret) {
->> +            ivpu_err(vdev, "Timed out waiting for CDYN deassert\n");
->> +            return ret;
->> +        }
->> +    }
->> +
->>       return 0;
->>   }
->>   diff --git a/drivers/accel/ivpu/ivpu_hw_btrs_lnl_reg.h
->> b/drivers/accel/ivpu/ivpu_hw_btrs_lnl_reg.h
->> index fff2ef2cada6..a81a9ba540fa 100644
->> --- a/drivers/accel/ivpu/ivpu_hw_btrs_lnl_reg.h
->> +++ b/drivers/accel/ivpu/ivpu_hw_btrs_lnl_reg.h
->> @@ -74,6 +74,9 @@
->>   #define VPU_HW_BTRS_LNL_PLL_FREQ                0x00000148u
->>   #define VPU_HW_BTRS_LNL_PLL_FREQ_RATIO_MASK            GENMASK(15, 0)
->>   +#define VPU_HW_BTRS_LNL_CDYN                    0x0000014cu
->> +#define VPU_HW_BTRS_LNL_CDYN_CDYN_MASK                GENMASK(15, 0)
->> +
->>   #define VPU_HW_BTRS_LNL_TILE_FUSE                0x00000150u
->>   #define VPU_HW_BTRS_LNL_TILE_FUSE_VALID_MASK            BIT_MASK(0)
->>   #define VPU_HW_BTRS_LNL_TILE_FUSE_
->> CONFIG_MASK            GENMASK(6, 1) 
+Hi Linus,
 
-Thanks,
-Pushed to drm-misc-next.
+please pull a few important bugfixes for various fbdev drivers for 6.18-rc4.
 
--Karol
+All patches are tagged for stable series.
+Includes a trivial typo fix for the fb.h header as well.
 
+Thanks!
+Helge
+
+----------------------------------------------------------------
+The following changes since commit dcb6fa37fd7bc9c3d2b066329b0d27dedf8becaa:
+
+  Linux 6.18-rc3 (2025-10-26 15:59:49 -0700)
+
+are available in the Git repository at:
+
+  http://git.kernel.org/pub/scm/linux/kernel/git/deller/linux-fbdev.git tags/fbdev-for-6.18-rc4
+
+for you to fetch changes up to 7073c7fc8d8ba47194e5fc58fcafc0efe7586e9b:
+
+  fbdev: atyfb: Check if pll_ops->init_pll failed (2025-10-28 22:59:19 +0100)
+
+----------------------------------------------------------------
+fbdev fixes for 6.18-rc4:
+
+- atyfb: Avoid hard lock up when PLL not initialized (Daniel Palmer)
+- pvr2fb: Fix build error when CONFIG_PVR2_DMA enabled (Florian Fuchs)
+- bitblit: Fix out-of-bounds read in bit_putcs* (Junjie Cao)
+- valkyriefb: Fix reference count leak (Miaoqian Lin)
+- fbcon: Fix slab-use-after-free in fb_mode_is_equal (Quanmin Yan)
+- fb.h: Fix typo in "vertical" (Piyush Choudhary)
+
+----------------------------------------------------------------
+Daniel Palmer (1):
+      fbdev: atyfb: Check if pll_ops->init_pll failed
+
+Florian Fuchs (1):
+      fbdev: pvr2fb: Fix leftover reference to ONCHIP_NR_DMA_CHANNELS
+
+Junjie Cao (1):
+      fbdev: bitblit: bound-check glyph index in bit_putcs*
+
+Miaoqian Lin (1):
+      fbdev: valkyriefb: Fix reference count leak in valkyriefb_init
+
+PIYUSH CHOUDHARY (1):
+      video: fb: Fix typo in comment in fb.h
+
+Quanmin Yan (1):
+      fbcon: Set fb_display[i]->mode to NULL when the mode is released
+
+ drivers/video/fbdev/aty/atyfb_base.c |  8 ++++++--
+ drivers/video/fbdev/core/bitblit.c   | 16 ++++++++++++----
+ drivers/video/fbdev/core/fbcon.c     | 19 +++++++++++++++++++
+ drivers/video/fbdev/core/fbmem.c     |  1 +
+ drivers/video/fbdev/pvr2fb.c         |  2 +-
+ drivers/video/fbdev/valkyriefb.c     |  2 ++
+ include/linux/fbcon.h                |  2 ++
+ include/uapi/linux/fb.h              |  2 +-
+ 8 files changed, 44 insertions(+), 8 deletions(-)
