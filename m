@@ -2,145 +2,145 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 833DBC2045A
-	for <lists+dri-devel@lfdr.de>; Thu, 30 Oct 2025 14:39:12 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id EF477C204B1
+	for <lists+dri-devel@lfdr.de>; Thu, 30 Oct 2025 14:43:24 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 942E410E972;
-	Thu, 30 Oct 2025 13:39:09 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 472E510E979;
+	Thu, 30 Oct 2025 13:43:22 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=ti.com header.i=@ti.com header.b="UnYjXgRA";
+	dkim=pass (2048-bit key; unprotected) header.d=Nvidia.com header.i=@Nvidia.com header.b="pHcMTKhk";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from BL2PR02CU003.outbound.protection.outlook.com
- (mail-eastusazon11011020.outbound.protection.outlook.com [52.101.52.20])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 96E9B10E972
- for <dri-devel@lists.freedesktop.org>; Thu, 30 Oct 2025 13:39:08 +0000 (UTC)
+Received: from CO1PR03CU002.outbound.protection.outlook.com
+ (mail-westus2azon11010048.outbound.protection.outlook.com [52.101.46.48])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6227110E0A1;
+ Thu, 30 Oct 2025 13:43:20 +0000 (UTC)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=yUqaWgHxwnHz9PTGNcNOeJpVxH3n1w2p6JQKOQYP3/HQA8pmF+jktHpP7tCLQATXzU7wT7tIYXZgAQZcA0Dqho2+hy226ocncj1Ba1kHMjrFQunFL3tXa4Wopbg7UjR1hNoBJlzaidXi9Vpo0z97f0VgZ9HNN/JAh+umQDsnUnHMr5KLGZj9hPsCIS/UjWFAyKoQBWEnEWBaRjrWmsPzT7Csrmcf7rKd7wvCvcDQtV/m9vpx/p/m7R+NjGHceOJsfgWaPo1CkJwkjmg8LEs9Oclz7C+is7vWSpMSxVdTuzhjpZ8RTUjFFY3OS7d2phF+S+6nJyvvuGQNeDHUAvg7dA==
+ b=LIEQMyJ2B2Qy+U0GbUGnqnb7bR00g4pQI99Z84PLjGOfQLJAeNvpR6DDeHOnHcc0dkzRBroafVeITSoKiQJK7vXpzIkdDFa1MH0sxer8Bg8Ox5XWBFgIgj/973/4I6vZt4VqBEPLLaziNIvQ3Jrn7lvLs9mKCgDlWADMycSeXN2B3e5Jq6V9E9UgtwbJFyGS8BaGwRRyH6uueLWqUZkxblic41WLXSqhI69r5jVrhIyiuYCtOYCY4DR0GwTgRRFu3aXq6sdciKHjHLtmnMhPORxz23/oubXIAVC42w905BDPGj66MWlBYWnw2l3FA7VL6r4SMRjxTdGSsxvmcHLwEA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=7I23mlbCEWa6JxjZEYBLPvkSaPBmEz9swJiLToIAUsg=;
- b=eFCSuHlkUkaDRrj8VZp0Iu8qMxrhZTp2lGrmbd1Jbpqluw6VqoIX2AY88T1nTfnWtmTcUBrn53znICpFqUVFN9xHJGPWRjCkTcf+OmXXGhnvNfHAQpMXtRJ+CDIWODp6b2sUlIRWbtWcTT6NZat82LplN95CnVuJdkwaMVXVDZJu3ichfIj17R5ASbMWsrZMvhh6wfuEuv2Y0sw1UV7IOeYAV0kmPv5NGig8lc2pbDapnPe4jKl+O0dSDOkw+l5+/d7FVCGGqPdOwqunrdI4Vkw0Xn6KIuweY8bV9YVSw0WST33Zk5l4toEJ3PzYktPUGwfdTX8SrhJw62DE7GRuLg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 198.47.23.194) smtp.rcpttodomain=vger.kernel.org smtp.mailfrom=ti.com;
- dmarc=pass (p=quarantine sp=none pct=100) action=none header.from=ti.com;
- dkim=none (message not signed); arc=none (0)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com; s=selector1;
+ bh=zYuZ1ZGkfgeKAgIM9XJ6Xynej5SzcnnkUBLkvXPPXyI=;
+ b=hp4ICbWKh19m48zRzDt9UN4T98le5xFs/c18clIYfWVGM4xcCFkvVOWS3Yn0TsWosdrYB4wz1W7BgHlJEoS/DxEASy6lDfHlBjkLhBYgAo/gWxCQbfrJjox9tB+OjLjeKKzqW71GKDoaMQQJ+aPlHKtUgnweMPUclcsezizzG18dR70uE2HUZ6YMKUt7BEaDBZP10rwqO/P7IGJCiWqqQETqiDPfgAAl6uC59qZ2qfnvkoMUwCURYSW+7srVBt92VRySlQUAToKWfNMFiUlqnhMxgpqaCT4UHwJnRkYy8azUqUHy1ldDAIvVK/CIoIO7phy4R1k0uXLUScZluDecJg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
+ dkim=pass header.d=nvidia.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=7I23mlbCEWa6JxjZEYBLPvkSaPBmEz9swJiLToIAUsg=;
- b=UnYjXgRAnW+fDlzJ/Aq7VkFAS9/uN+9TGrsV0R3Qme6twWNbNdJkAE5swkWvRIwdaN9R8VYIV5nJG6t5xzxK8R9CJ81/XaKFwHJ+pkS1AP/7faTLXtWu6LhTxbrwhaDy2oP3uBtr4dmjPXWNepmVQaKiuAYYUUndX7LaTkBi+Ng=
-Received: from PH0PR07CA0034.namprd07.prod.outlook.com (2603:10b6:510:e::9) by
- PH0PR10MB5846.namprd10.prod.outlook.com (2603:10b6:510:14c::20) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9275.13; Thu, 30 Oct
- 2025 13:39:01 +0000
-Received: from CY4PEPF0000EE30.namprd05.prod.outlook.com
- (2603:10b6:510:e:cafe::53) by PH0PR07CA0034.outlook.office365.com
- (2603:10b6:510:e::9) with Microsoft SMTP Server (version=TLS1_3,
- cipher=TLS_AES_256_GCM_SHA384) id 15.20.9275.12 via Frontend Transport; Thu,
- 30 Oct 2025 13:39:01 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 198.47.23.194)
- smtp.mailfrom=ti.com; dkim=none (message not signed) header.d=none; dmarc=pass
- action=none header.from=ti.com;
-Received-SPF: Pass (protection.outlook.com: domain of ti.com designates
- 198.47.23.194 as permitted sender) receiver=protection.outlook.com;
- client-ip=198.47.23.194; helo=lewvzet200.ext.ti.com; pr=C
-Received: from lewvzet200.ext.ti.com (198.47.23.194) by
- CY4PEPF0000EE30.mail.protection.outlook.com (10.167.242.36) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.9275.10 via Frontend Transport; Thu, 30 Oct 2025 13:39:00 +0000
-Received: from DLEE204.ent.ti.com (157.170.170.84) by lewvzet200.ext.ti.com
- (10.4.14.103) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.20; Thu, 30 Oct
- 2025 08:38:56 -0500
-Received: from DLEE200.ent.ti.com (157.170.170.75) by DLEE204.ent.ti.com
- (157.170.170.84) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.20; Thu, 30 Oct
- 2025 08:38:56 -0500
-Received: from lelvem-mr05.itg.ti.com (10.180.75.9) by DLEE200.ent.ti.com
- (157.170.170.75) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.20 via Frontend
- Transport; Thu, 30 Oct 2025 08:38:56 -0500
-Received: from uda0132425.dhcp.ti.com (uda0132425.dhcp.ti.com [172.24.233.103])
- by lelvem-mr05.itg.ti.com (8.18.1/8.18.1) with ESMTP id 59UDcpcM2241222;
- Thu, 30 Oct 2025 08:38:52 -0500
-From: Vignesh Raghavendra <vigneshr@ti.com>
-To: <mwalle@kernel.org>, <afd@ti.com>, <conor+dt@kernel.org>,
- <frank.binns@imgtec.com>, <kristo@kernel.org>, <krzk+dt@kernel.org>,
- <matt.coster@imgtec.com>, <nm@ti.com>, <robh@kernel.org>, <rs@ti.com>
-CC: Vignesh Raghavendra <vigneshr@ti.com>, <devicetree@vger.kernel.org>,
- <dri-devel@lists.freedesktop.org>, <linux-arm-kernel@lists.infradead.org>,
- <linux-kernel@vger.kernel.org>, <detheridge@ti.com>
-Subject: Re: [PATCH] arm64: dts: ti: k3-am62p: Fix memory ranges for GPU
-Date: Thu, 30 Oct 2025 19:07:18 +0530
-Message-ID: <176183141857.2766610.13135514120305603944.b4-ty@ti.com>
-X-Mailer: git-send-email 2.49.0
-In-Reply-To: <20250919193341.707660-2-rs@ti.com>
-References: <20250919193341.707660-2-rs@ti.com>
+ bh=zYuZ1ZGkfgeKAgIM9XJ6Xynej5SzcnnkUBLkvXPPXyI=;
+ b=pHcMTKhkezZjRcFY/0CO+FWybmoAe8rmHSJ/poZ7NwC4fFH8xX2BvCBxD9a6SMNbU1ZWylhP1m9WKQ0HgkTdeU4pmptF3DapNICOkZL+bF/OMBs0yeL4tBDQmEtCTWAXbzbm4HZSK7XgnwKwWLFGrhE3EJW+uIGrXUwm8D3bxDpvhQDKsvtTssk4j1SYaK9KMFllEzKnkgjE7GkCgTLfawelqkTyesM1j8O7A+/aT9AivJ19SAPHcvjmzBuqU3q7rb5akyjIT+ezttfXfA1UfhapjFABZpiHIOtCBPx3cHhwlmr6ueLCjjAfmPsBAG1D3CIr07TGFmBNJiiOCPz9wg==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=nvidia.com;
+Received: from MN2PR12MB3613.namprd12.prod.outlook.com (2603:10b6:208:c1::17)
+ by SA1PR12MB7444.namprd12.prod.outlook.com (2603:10b6:806:2b3::16)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9275.12; Thu, 30 Oct
+ 2025 13:43:13 +0000
+Received: from MN2PR12MB3613.namprd12.prod.outlook.com
+ ([fe80::1b3b:64f5:9211:608b]) by MN2PR12MB3613.namprd12.prod.outlook.com
+ ([fe80::1b3b:64f5:9211:608b%4]) with mapi id 15.20.9275.011; Thu, 30 Oct 2025
+ 13:43:11 +0000
+Date: Thu, 30 Oct 2025 10:43:10 -0300
+From: Jason Gunthorpe <jgg@nvidia.com>
+To: "Kasireddy, Vivek" <vivek.kasireddy@intel.com>
+Cc: Leon Romanovsky <leonro@nvidia.com>,
+ Christian Koenig <christian.koenig@amd.com>,
+ Sumit Semwal <sumit.semwal@linaro.org>,
+ Thomas =?utf-8?Q?Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>,
+ Simona Vetter <simona.vetter@ffwll.ch>,
+ "Brost, Matthew" <matthew.brost@intel.com>,
+ "Kim, Dongwon" <dongwon.kim@intel.com>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+ "intel-xe@lists.freedesktop.org" <intel-xe@lists.freedesktop.org>,
+ "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
+ "linaro-mm-sig@lists.linaro.org" <linaro-mm-sig@lists.linaro.org>
+Subject: Re: [RFC v2 0/8] dma-buf: Add support for mapping dmabufs via
+ interconnects
+Message-ID: <20251030134310.GR1018328@nvidia.com>
+References: <20251027044712.1676175-1-vivek.kasireddy@intel.com>
+ <20251029002726.GA1092494@nvidia.com>
+ <IA0PR11MB7185E85E1CFAA04485768E30F8FBA@IA0PR11MB7185.namprd11.prod.outlook.com>
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <IA0PR11MB7185E85E1CFAA04485768E30F8FBA@IA0PR11MB7185.namprd11.prod.outlook.com>
+X-ClientProxiedBy: BL1PR13CA0003.namprd13.prod.outlook.com
+ (2603:10b6:208:256::8) To MN2PR12MB3613.namprd12.prod.outlook.com
+ (2603:10b6:208:c1::17)
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
-X-C2ProcessedOrg: 333ef613-75bf-4e12-a4b1-8e3623f5dcea
-X-EOPAttributedMessage: 0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: CY4PEPF0000EE30:EE_|PH0PR10MB5846:EE_
-X-MS-Office365-Filtering-Correlation-Id: 0f0506d0-2263-4da7-f37e-08de17b9af4a
+X-MS-TrafficTypeDiagnostic: MN2PR12MB3613:EE_|SA1PR12MB7444:EE_
+X-MS-Office365-Filtering-Correlation-Id: 1c7b1106-b0c8-4e5a-8545-08de17ba444c
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
- ARA:13230040|376014|82310400026|7416014|36860700013|34020700016|1800799024|921020;
-X-Microsoft-Antispam-Message-Info: =?utf-8?B?UEJYNDlrOVFCSVIvalNMbTIxN1R5NGtFbytXZTQ0TDloSVJlYUh1NVZlMWFZ?=
- =?utf-8?B?ZnlEUC8rSy96UmR1aTNYTHU3RnUzUjZqSXRzZnNxRGpBZjFiVDVSdWR6bm1D?=
- =?utf-8?B?N2UxTHhJc2s5Zm9LQmsrQkVTTW5uTHRyeXVtWFVZelpGMGlyK1JsWE1HU2Er?=
- =?utf-8?B?eGlja0hnRnhjaWFsb3ErR21neGp5ZmYyRjY2NnN0cHl1dDR3NmE3Z01EcWVu?=
- =?utf-8?B?WmZmaE5ldzVZWmEwVXZGUXFIMVBpeHcvMUpBMDJSMjVHaHRFcGtzL09LM1JJ?=
- =?utf-8?B?NDUwcm9janRvbTcyYVF5U1U1cHdkMk82OGJ6N0RNalBhZzNiTkJNZjhSNUJo?=
- =?utf-8?B?bXBGM3NZSHpCUmtqaTVaUHozTHFzNkpVem5aaldDRzVOYkJZcGswNUNrZkFa?=
- =?utf-8?B?SnZvVW1rTzE2bzc4dWFMQnZvdTMzS3dMVlFmVmpWaVFTY2tLaE9rTkxUdm1Q?=
- =?utf-8?B?a2dnbXRrZjYxWWl2eDNwdWdDT1FiSytCYy95WnpNcVpNMUxzTDVmYmFldEdv?=
- =?utf-8?B?dFltSnV3WW5QWURzY1hMeEtuMFlwb0tGTjl4TmdJM2R6Ym54bEdnNmJ4NDlq?=
- =?utf-8?B?RUpTWTlYVy9PYzVyMDY0V0Y1aCtpa2NQZ1JzUnJYVXA3akVvS21iT2hFeU16?=
- =?utf-8?B?bXVpVmYxT05GdWdEUnJQMzZWMXk5RHdnZkdEMXNBTU13R2tHc3Vob2VKc0JO?=
- =?utf-8?B?NW8vd2U0K0FJdDd6dWwya3BUS3JSWVhCWW5BMWw0NHFDUjJBY0xQdGZtaG5N?=
- =?utf-8?B?cFFrZVJ3QXFSM0lXN3RrcW5keXBsSlpnSXJ0ZWgzSWZzWkllYTcwWjlPVnUz?=
- =?utf-8?B?UTl3MHE0UGt4RGY4SFlNU2RSQm1HZENVdWs3ejdCK3NhQmJ6TFFoeEl3WGtC?=
- =?utf-8?B?Ry9kbk8wS2M0MGdCYTdtTkg5MHVjeGNNQzU1UXhsRDlvZ0c0c24xTzRHSmdz?=
- =?utf-8?B?U1k0Q1k0SUlzTWt6UDF6RVJIRmh0SSt6cnFMa1NQWFVReG1iR0J2M1M2dTdz?=
- =?utf-8?B?Nlo2dUE2dlBpZkljTGJBR2U3ZVVuRnZTYVhFS3JxSml4bERXakd3am5DT2VO?=
- =?utf-8?B?MGtIWDJPeUZvWUtpZUc3N1hYUjFDNjVrcm5RcDNsaHVBbFpJWmt0RFFFRUgz?=
- =?utf-8?B?UlJxb3BIenZ2ZlJqSzlxSmprRTRBcUxsYTRFTDhSdTdjK01hQytmWXQ1aGEz?=
- =?utf-8?B?UmVSWHk4YVpmV2V1MjRQOSs3QlNPWUdTeTZIekErSjZoNzdlQ2YvV0dnQ25G?=
- =?utf-8?B?aFh6VENuVGZ4MTlqQ3F3Rk1MNURCd2JiQUJvVUV2SGc4ZGdVcWh2U1phZzJr?=
- =?utf-8?B?eS9nQmVvTHRSRmsrazJDYjQ0VnVMa2NzeUgyblhBd21wWjZZaVE2bWN2SVdT?=
- =?utf-8?B?NEZPL0luT2picWZmYzB0eHV3YzQ4K0lVSldpTnhxMTZJb1RQTTYyTnVjaHdK?=
- =?utf-8?B?ckc5YzlxZWdyd1p2ZnRIK0VUNzlsSVYwYXJKaUpRRmN2NHRUOHkvRXFidEpO?=
- =?utf-8?B?dzZpdjhQZnZHVGFnUFJrUFpBZjdlZklhbVlCQkVkbWtkMmFCbmxVT3ZwZE4r?=
- =?utf-8?B?MEpJR1NDY2ljbkdGQWhWemNrOWc4ekJWaWdoam01ekxFTE5ZcXNndUNqNFFn?=
- =?utf-8?B?T3VVR1lEenhJTHpZQ082aC90eUNVNjZONGtFKy9jZ0pXUEMvUlNOMWRybytn?=
- =?utf-8?B?Wk1RNG1TWXZlekhFNE95NE9INHBEN0RPNGw0cUVKeTRIMlUzRmhIZEg5U3M4?=
- =?utf-8?B?cUhURXV1M2tIUlk5MkhQZnNLRmVSOUlnRDRkU2ZrUTlxVnNqTjJaRmFBL2V2?=
- =?utf-8?B?ZmQvTGdIWlVpbjhqQVBGczg3WmZZZnFmaEx1cVBDVE1xSE83Q0Z2dlZzaFlN?=
- =?utf-8?B?TmdOSFBiNmt1Y1pCSjVFT1NzVVZpdnkrT3lVWVN3YjhRQXpDd1lWMU45dmxH?=
- =?utf-8?B?S0RkVW53a3NLU2FkUTEyQVRPSnpCelhYcWpRR1RsWFJtakJueFNGTXFOQkNt?=
- =?utf-8?B?L01QL3BpbWQvTmljV094UjlRdk1ORE80U3cvOSszRElVZG1HWnRQNHRrSzZL?=
- =?utf-8?Q?fR0TLs?=
-X-Forefront-Antispam-Report: CIP:198.47.23.194; CTRY:US; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:lewvzet200.ext.ti.com; PTR:InfoDomainNonexistent;
- CAT:NONE;
- SFS:(13230040)(376014)(82310400026)(7416014)(36860700013)(34020700016)(1800799024)(921020);
- DIR:OUT; SFP:1101; 
-X-OriginatorOrg: ti.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 30 Oct 2025 13:39:00.9753 (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 0f0506d0-2263-4da7-f37e-08de17b9af4a
-X-MS-Exchange-CrossTenant-Id: e5b49634-450b-4709-8abb-1e2b19b982b7
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=e5b49634-450b-4709-8abb-1e2b19b982b7; Ip=[198.47.23.194];
- Helo=[lewvzet200.ext.ti.com]
-X-MS-Exchange-CrossTenant-AuthSource: CY4PEPF0000EE30.namprd05.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH0PR10MB5846
+X-Microsoft-Antispam: BCL:0;ARA:13230040|7416014|376014|366016|1800799024;
+X-Microsoft-Antispam-Message-Info: =?us-ascii?Q?J+kmN+LK1DUJ6wjFSyeUgOdsIEhM9iRl/cFpzw58hLZqjabkgtMrfftznHwy?=
+ =?us-ascii?Q?kb5cr6U46201WKzWhvQ3LSfzglJMoBBaS0bUp+6hV8CbBZCqNzFwwWTSCDHb?=
+ =?us-ascii?Q?yvXxIgXAMq6ZYDvrc4UgZmE9os3jLdVBwIwXL5J+xIlxOqKgcU/nOHWB76SX?=
+ =?us-ascii?Q?AOVuVZqXPjVc7lpaVXT9nsOPEVRRfPWSnozAvwkSascPhQEwCCesVJy1MdK7?=
+ =?us-ascii?Q?VyTKCZWqH5rq894AeO5WYW6uiORp6uk+NWbnQwQpQQIFh+MKAuOBIUsdrVXB?=
+ =?us-ascii?Q?paVjYqohNhjlsgmZIwrMvVbU9n2MwxpWYWo4weHj3qg2Td/VCzfyb9QKVUGj?=
+ =?us-ascii?Q?ujO8RN+tF4igMfoHeOfIcNj09ECjSpcZHsCGCOL2jOng2IEpq9BTMy2DG+za?=
+ =?us-ascii?Q?kX/nSkS7bGz7OAp47KJkXCjZKNqFCi7jepO685DR6HrcLJniNokwhjaIsAqN?=
+ =?us-ascii?Q?FVuyJXZaftKcb9QGKC3ipbDcpfSfE1jcj6XAqNX3FGN4jkY/7fT3d1J+Oz7R?=
+ =?us-ascii?Q?huiR/koBMaFfcJs2cpqUfualK4vRQzbynhNraqf3m5cJ0T2SSOFcdseGvqzc?=
+ =?us-ascii?Q?Sk0NuFDA0VC5XOPJPv5C7guZyZefxwn4X6FICWOJOx9jXZ9fkJzZ9RgUeYpU?=
+ =?us-ascii?Q?DwvS+cl+X6asymVPQveHxDRIAp4NVNn602xZUQYxdTPOR/M1cFkyITtzEdKZ?=
+ =?us-ascii?Q?E0NvrCI76mkUL49DK4ljEf4jSJ+ryc5eFxmDOekFeLBTiEJ5Txcf96ggzKd1?=
+ =?us-ascii?Q?FDgMuJN8eH0ObZO3E6Omdja3ZI6Jt/Aah5lAtqqomoLZAJ4h8RK1i/e4qSYJ?=
+ =?us-ascii?Q?tOgBUeZbo+yYzuP4Z/y2RH6H0SdKZ2/zbsoK/ALkgJ9XMXTdNCX44m6eDINE?=
+ =?us-ascii?Q?OTchNHOp7y80B270Zy6e/0w3hvHwGLOj0dsz4pZSVJSelqoYuX8FKO9Dtxrq?=
+ =?us-ascii?Q?EC310Va/BKuAT3FKQ/wNeiUcEuR4XT30lMi4dd12J7o3S8vna1ORztEbD0tU?=
+ =?us-ascii?Q?vbZPNlvY4PnYInksLtq5uZvj4EMeeD4Cnytx/oml3wQAzEvGqy6Z0x1Fl9s/?=
+ =?us-ascii?Q?CqC7asHa1MWIYbumhGh/UYfvDw7yZL38eMb1fdSStcJ1B1AQN1J1yviH4X0G?=
+ =?us-ascii?Q?SxsZKEkC23k7jxtYtwsZe9qUH3VyOlJ8wqbA02VGUuBF3exPoZQr5slb5E0y?=
+ =?us-ascii?Q?lCX53rF/IzLftM7VeCa32Hyy0EkGWknz5OKisHfnE7h3WVejmvwjhwnn84Pp?=
+ =?us-ascii?Q?3cpr2FATvOvXGMxZj1xBGxiMIj5o6Wj9xIjmYloMbKH6XZ+M33VnQSDkJoqS?=
+ =?us-ascii?Q?ZLieg97yLh1BBf/b+RP1DnnihRtWlHcayvAz+PyH+CqMfIEudzCGijrNVlzw?=
+ =?us-ascii?Q?CJpZMma3jcl3A1c7WwWFpc6MJBDYbsE3YY7XuJs9lmckDByKc+Zm/Ym2xVCU?=
+ =?us-ascii?Q?bxuL2kfun8U3mz17Z3SeB5K2nza5Mr/9?=
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:MN2PR12MB3613.namprd12.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230040)(7416014)(376014)(366016)(1800799024); DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?VOfWCw060f8CZDPvETtZU0eH14zOpeV3BNAQvJNkBUF2Gvtr5nBQ8bTAxm1Q?=
+ =?us-ascii?Q?nt17w3+W36DBmUVUZf5Trzh+tEUqYRb7UAngiw86yFgCnpo1WRkFI5gzYiAZ?=
+ =?us-ascii?Q?BNxjgSI4H4YVNZJXXldqmnkdeDt/1J9mVoUuCTDxLQGTeS0Qx9dQIfotL7E1?=
+ =?us-ascii?Q?1KFnDAWNyAkW3/CGulYph+qJHppBS28bpRjOwktDjIxyu5Zequv4c029k2Rw?=
+ =?us-ascii?Q?9rocerCI+S+dz2Gki0wo8k0ZYcwLsqEWYYinYEMvf3Oo9lxG0JR4ubnuy1A+?=
+ =?us-ascii?Q?Dh58kn24ezs2HlNc/H8tuelIqS+0paOyCQhXNekmLuvnm8SSNeChMbiCSw1R?=
+ =?us-ascii?Q?JTEDEJqN0pdwwHsOhDG4FeaQRNp2QMnvFQfbWW6QB5sr4/udSLC+id21XCGS?=
+ =?us-ascii?Q?ruR70aOGCqX7uV/OCL5EYTAIM0lfsSwjC64gnCfdl/bCy+18BGIGkUlPXp/D?=
+ =?us-ascii?Q?C1gV0Ogq5qiSeIQpxiB/tqsk4An9VNGnDJ303jw73CjhDFP0L5UusaUbtR3R?=
+ =?us-ascii?Q?ohHIscpn2EDYDlaRUPvtTTf0QGgR3oGb8nQfGe4HCv6/6u3373cg//eoFORl?=
+ =?us-ascii?Q?UWp6vG40oMvKkCNW/uOIBB7d/91LpnxIbUpcF3m3GcTRTWtG6vkOeiOH5CzZ?=
+ =?us-ascii?Q?vJT21geoaM7TSahp9VqimQe+alh4+2hh2qi4nR+Yx2ZTUA4nrGf6m/73SUdF?=
+ =?us-ascii?Q?dreRcvalfW3GTICOtClC6JPaqqUEz+uqZCIOpS4899QJMqS3s8sJksczWBx+?=
+ =?us-ascii?Q?YL59EeePAcp32cld7R9irRTtPvHEuaIt9OgevEEhAK1+LO+rPqGTn/HwnqG+?=
+ =?us-ascii?Q?dQFi3oynl0B0fe7DXTiXE7GWa5OEVYtUDBlZO+qgFxJUqkOCaVa6bLCW0LFA?=
+ =?us-ascii?Q?R1I++lVFOv9ZJIXVWufy9lFSudgkriEzRksK20z2QSLirwOnFQ8Ibur8iwRf?=
+ =?us-ascii?Q?3h2tjXdHYZvMocL5wFpb2fIO3T7d8bqrHj1DvYeyEIrTBZez4vMLLUtFPYk+?=
+ =?us-ascii?Q?T1MDPptf7y648D2212VwLvPYJAkFgjqPWSzIwauP7eOWKB4rj3MsB2EnDpeK?=
+ =?us-ascii?Q?mdSzCCwI+HJ+j66FKBi010ZsObZwCTWdC9aYGA1CYq7vspz+lTN5ONABHdWh?=
+ =?us-ascii?Q?YR9w0WJK4GvCJ9FgrPnIyHSDgfw6r8qVAan5Bcd2wYbHJnCHiYq0HvJXqhgc?=
+ =?us-ascii?Q?ewWmM9gJWbmpwKF86vKlYGy68E9q5bMAZLvRdgFIaTzVnh9cYjGZg3WUoCXx?=
+ =?us-ascii?Q?hjs3Rip8Y+kIE89NDXuuUT1EBDS6zYIqgCO7uc5h4WE5aI1ihB0JWCcgI8dJ?=
+ =?us-ascii?Q?R6n7+N5iRoifX8eO2dR4j8DY8Ee0qP23OzPnaQajOnrmK888RX2JlKzy+fGL?=
+ =?us-ascii?Q?zpaP17ARTOYFcT0Ib/8iUjtvHtUgodbN9Se4H0ZINH4t8nAbbEo+ocKfK6B6?=
+ =?us-ascii?Q?/ykOaActVYURGbDrTtxqK+k6pnlM3A+pSDXHis3u7KPXHldf640jJjuONGJX?=
+ =?us-ascii?Q?g7vKV1lY4V1Avg4tcxxVBo0fa1uGLZ8wrcFmgl6zQBaH5sTpUiHRCQqfWTlh?=
+ =?us-ascii?Q?D4DgRfjAAcnqXLrpWa4=3D?=
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 1c7b1106-b0c8-4e5a-8545-08de17ba444c
+X-MS-Exchange-CrossTenant-AuthSource: MN2PR12MB3613.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 30 Oct 2025 13:43:11.2934 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: dUaLv9YnM+gULZTI5fZqwfID2kooSKJU6o/Let2mUmd2uLdyYJrhpT/+LBCP8Zah
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA1PR12MB7444
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -156,39 +156,103 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi rs@ti.com,
+On Thu, Oct 30, 2025 at 06:17:11AM +0000, Kasireddy, Vivek wrote:
+> It mostly looks OK to me but there are a few things that I want to discuss,
+> after briefly looking at the patches in your branch:
+> - I am wondering what is the benefit of the SGT compatibility stuff especially
+> when Christian suggested that he'd like to see SGT usage gone from
+> dma-buf
 
-On Fri, 19 Sep 2025 14:33:42 -0500, rs@ti.com wrote:
-> Update the memory region listed in the k3-am62p.dtsi for the BXS-4-64
-> GPU to match the Main Memory Map described in the TRM [1].
-> 
-> [1] https://www.ti.com/lit/ug/spruj83b/spruj83b.pdf
-> 
-> 
+I think to get rid of SGT we do need to put it in a little well
+defined box and then create alternatives and remove things using
+SGT. This is a long journey, and I think this is the first step.
 
-I have applied the following to branch ti-k3-dts-next on [1].
-Thank you!
+If SGT is some special case it will be harder to excise.
 
-[1/1] arm64: dts: ti: k3-am62p: Fix memory ranges for GPU
-      commit: 76546090b1726118cd6fb3db7159fc2a3fdda8a0
+So the next steps would be to make all the exporters directly declare
+a SGT and then remove the SGT related ops from dma_ops itself and
+remove the compat sgt in the attach logic. This is not hard, it is all
+simple mechanical work.
 
-All being well this means that it will be integrated into the linux-next
-tree (usually sometime in the next 24 hours) and sent up the chain during
-the next merge window (or sooner if it is a relevant bug fix), however if
-problems are discovered then the patch may be dropped or reverted.
+This way the only compat requirement is to automatically give an
+import match list for a SGT only importer which is very little code in
+the core.
 
-You may get further e-mails resulting from automated or manual testing
-and review of the tree, please engage with people reporting problems and
-send followup patches addressing any issues that are reported if needed.
+The point is we make the SGT stuff nonspecial and fully aligned with
+the mapping type in small steps. This way neither importer nor
+exporter should have any special code to deal with interworking.
 
-If any updates are required or you are submitting further changes they
-should be sent as incremental updates against current git, existing
-patches will not be replaced.
+To remove SGT we'd want to teach the core code how to create some kind
+of conversion mapping type, eg exporter uses SGT importer uses NEW so
+the magic conversion mapping type does the adapatation.
 
-Please add any relevant lists and maintainers to the CCs when replying
-to this mail.
+In this way we can convert importers and exporters to use NEW in any
+order and they still interwork with each other.
 
-[1] https://git.kernel.org/pub/scm/linux/kernel/git/ti/linux.git
---
-Vignesh
+> eventually. Also, if matching fails, IMO, indicating that to the
+> importer (allow_ic) and having both exporter/importer fallback to
+> the current legacy mechanism would be simpler than the SGT
+> compatibility stuff.
 
+I don't want to have three paths in importers.
+
+If the importer supports SGT it should declare it in a match and the
+core code should always return a SGT match for the importer to use
+
+The importer should not have to code 'oh it is sgt but it somehow a
+little different' via an allow_ic type idea.
+ 
+> - Also, I thought PCIe P2P (along with SGT) use-cases are already well handled
+> by the existing map_dma_buf() and other interfaces. So, it might be confusing
+> if the newer interfaces also provide a mechanism to handle P2P although a
+> bit differently. I might be missing something here but shouldn't the existing
+> allow_peer2peer and other related stuff be left alone?
+
+P2P is part of SGT, it gets pulled into the SGT stuff as steps toward
+isolating SGT properly. Again as we move things to use native SGT
+exporters we would remove the exporter related allow_peer2peer items
+when they become unused.
+ 
+> - You are also adding custom attach/detach ops for each mapping_type. I think
+> it makes sense to reuse existing attach/detach ops if possible and initiate the
+> matching process from there, at-least initially.
+
+I started there, but as soon as I went to adding PAL I realized the
+attach/detach logic was completely different for each of the mapping
+types. So this is looking alot simpler.
+
+If the driver wants to share the same attach/detach ops for some of
+its mapping types then it can just set the same function pointer to
+all of them and pick up the mapping type from the attach->map_type.
+
+> - Looks like your design doesn't call for a dma_buf_map_interconnect() or other
+> similar helpers provided by dma-buf core that the importers can use. Is that
+> because the return type would not be known to the core?
+
+I don't want to have a single shared 'map' operation, that is the
+whole point of this design. Each mapping type has its own ops, own
+types, own function signatures that the client calls directly.
+
+No more type confusion or trying to abuse phys_addr_t, dma_addr_t, or
+scatterlist for in appropriate things. If your driver wants something
+special, like IOV, then give it proper clear types so it is
+understandable.
+
+> - And, just to confirm, with your design if I want to add a new interconnect/
+> mapping_type (not just IOV but in general), all that is needed is to provide custom
+> attach/detach, match ops and one or more ops to map/unmap the address list
+> right? Does this mean that the role of dma-buf core would be limited to just
+> match and the exporters are expected to do most of the heavy lifting and
+> checking for stuff like dynamic importers, resv lock held, etc?
+
+I expect the core code would continue to provide wrappers and helpers
+to call the ops that can do any required common stuff.
+
+However, keep in mind, when the importer moves to use mapping type it
+also must be upgraded to use the dynamic importer flow as this API
+doesn't support non-dynamic importers using mapping type.
+
+I will add some of these remarks to the commit messages..
+
+Thanks!
+Jason
