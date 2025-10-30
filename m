@@ -2,130 +2,81 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 50DC3C20CEB
-	for <lists+dri-devel@lfdr.de>; Thu, 30 Oct 2025 16:02:47 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 970D3C20D28
+	for <lists+dri-devel@lfdr.de>; Thu, 30 Oct 2025 16:05:48 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 71F5110E9D2;
-	Thu, 30 Oct 2025 15:02:44 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3A0AB10E9D6;
+	Thu, 30 Oct 2025 15:05:45 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="dA7hC1lh";
-	dkim=pass (2048-bit key; unprotected) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="dF6zWClt";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="Zi5R4j3F";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
- [205.220.168.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B4C3510E9D2
- for <dri-devel@lists.freedesktop.org>; Thu, 30 Oct 2025 15:02:43 +0000 (UTC)
-Received: from pps.filterd (m0279867.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id
- 59UB8bwn3808770
- for <dri-devel@lists.freedesktop.org>; Thu, 30 Oct 2025 15:02:43 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
- cc:content-transfer-encoding:content-type:date:from:in-reply-to
- :message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
- y7mIVHjczy+G07m/awOiYZNFAk52oy8y9dslXKIzRms=; b=dA7hC1lhkmyGhNA9
- jjDuRzR+l7gs5bbST0jKWpSdFZC6AJeR5XLnweZfde9HDHHRKGguLsdZicDPhpk1
- um8ntLxz4/gQeH6WpSRBMMoP7IJncSyUd+X2346qzK24HZCnokGeEauK73BDDXPA
- +mZefGeKUy5aavhlsqwbeBmTgZHAJAsAbe6jut3PlEsPhkLUC5dCJWHy02yc7wtr
- o9Tyibq0NMA0b40nJrojnkSnrSeNh2cGaWmvNGCz4IvgA0HQKyKw9WyXTQ2KCFz7
- yDAvleEPre4bLTqGec0s1YSN6vxsTLFOSkmZUWIUhUToveiZvJDgWSzoX7uAUtLg
- r4xB1w==
-Received: from mail-pj1-f70.google.com (mail-pj1-f70.google.com
- [209.85.216.70])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4a46vv8m68-1
- (version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
- for <dri-devel@lists.freedesktop.org>; Thu, 30 Oct 2025 15:02:43 +0000 (GMT)
-Received: by mail-pj1-f70.google.com with SMTP id
- 98e67ed59e1d1-340410b11b8so1075565a91.2
- for <dri-devel@lists.freedesktop.org>; Thu, 30 Oct 2025 08:02:43 -0700 (PDT)
+Received: from mail-qv1-f46.google.com (mail-qv1-f46.google.com
+ [209.85.219.46])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6AD7610E9D5
+ for <dri-devel@lists.freedesktop.org>; Thu, 30 Oct 2025 15:05:43 +0000 (UTC)
+Received: by mail-qv1-f46.google.com with SMTP id
+ 6a1803df08f44-87dcb1dd50cso19070496d6.3
+ for <dri-devel@lists.freedesktop.org>; Thu, 30 Oct 2025 08:05:43 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=oss.qualcomm.com; s=google; t=1761836562; x=1762441362;
- darn=lists.freedesktop.org; 
+ d=gmail.com; s=20230601; t=1761836742; x=1762441542; darn=lists.freedesktop.org;
  h=content-transfer-encoding:in-reply-to:from:content-language
  :references:cc:to:subject:user-agent:mime-version:date:message-id
  :from:to:cc:subject:date:message-id:reply-to;
- bh=y7mIVHjczy+G07m/awOiYZNFAk52oy8y9dslXKIzRms=;
- b=dF6zWCltacpmdziSQnASEe37qPt2Je2r0AI58H2hAgKom9xGyi7IW49sxp/mrurXTi
- 5zz9gONzFqY2kESbnjwhnNjJILp5q0Zzg2D6j1+OeE/FlJdgwUwzwF2SOYllxtkn4T27
- /ROIONOF6yTqyQmx99CPeWGCoyXwK5IZhNdMugRfLZEpTEGPJ2GVJTSlzkan30h3R47X
- 5yJUZkk/c9cQCN5RR9cSiEBNC9TXM6O0++eoSFFyGRjTL6TfBtALCaxss1Xq1bo9+QKG
- 7eibBLZjir33K7P9QOB74jdF2elzDfWzWEqyCFWj9S3hrwklIQbLgGU0l51xjM1a2u9Y
- jLbg==
+ bh=tBS9RgnsnpRaEHPmIuolWSg7H246dI6nS1xElcRsrNo=;
+ b=Zi5R4j3FPfDZsRrA/8KMg0O3kkIaDz7upKd2JXTAd4BcqzUx9yJH86hlxdeYRYi4Ox
+ hF6ziCIRB73ZfWozzL+X4VPhmDe7akfSLWLgzYlXSaqvLNfw9MXeDwCLnGtvhDvSYnhp
+ PA5ayZkLkNePHh6+FxRggh7/QQB7WFlulIu8zxScm5qBD2AClevY8IP+mJy1SRi4jOrI
+ AIBqfKW6OW64BJePSW85+27OVSFSa+KtJC8PZrr8dEzjuQQiH2Xk5ftxAC0IHeVoi3+S
+ QI8pScBPnuCBV9ss2lS0jPQnSW946SHIvB2ehs3UOFY6tZAZ4sIaqXe2xANgyQ2d06dZ
+ cE6Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1761836562; x=1762441362;
+ d=1e100.net; s=20230601; t=1761836742; x=1762441542;
  h=content-transfer-encoding:in-reply-to:from:content-language
  :references:cc:to:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=y7mIVHjczy+G07m/awOiYZNFAk52oy8y9dslXKIzRms=;
- b=kk7Po+DF9Uue0rs15R+63IgT6dpZ9G0MlPHTUiEzOk5zbzvlrKux/qVzOC+QmnPMJl
- 3BrMCJhuPdbOebqVCYTJPsRIdi7tHqYLpOFjCMN3UlJOQKfTYa+8SbDyIsbdjY4bHUXn
- MeiZhB9D3HRwA/GzkW1OvDUPNBL2kJQ4r5IFilPVQi4UweeSjk8YOBmAr8emGs2cUiUO
- hjHLGmEFUp2o8IBKGJdLcln1V5l1inLkj4C7NATN1Y1+tP3vqxiUba4G8N8CHDAtD8tc
- UJYJI8N8ImQzUrX4AzeOhWYYmVcdN6jGae2z40oWIHxLzbaYuaS0/SGbmYwH/gCirxkY
- 22EA==
-X-Forwarded-Encrypted: i=1;
- AJvYcCWNMCl8F7d3Pf0cHhAmep823yjyFoHlIwqSFKeVqICA76SB8Jjd4WoZwDoGilbR90CgZ78NUBzGits=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YyxLQn+x7EI7sHzzFlb5gZR5zZrbAF+Mk+dVzIx7j2MeKa0QyK0
- lahOEGr4vbHpviEAKtb83maLaA4RVGOVmvvRcc4dcY6K9zzygFP51RJygBWq0w31fYdhFS1Uyzv
- 67msqKc+4WK5WAUJyU/T264HbsCudva7Gj0PILEZjc3HtgDBu9TqxUokhtxglAYGzRxWzsNiHnf
- CbyZY=
-X-Gm-Gg: ASbGncuZQPwjcZn4xoDuv2S4Sb549givQEvEPEBDwcf5vZhopMlihAdm6S2mz9k2Hp5
- jQ0Vo5YeE/CPkBsdcWclPFZT8KHxN5jmJE4qfV+K5kK+UxGly+yhSKawGJro7C71+nLzgAiyUnE
- g3l5PYdfws0bzzzQnqC8ox2IJ/5iEAyK1F77ZHElm8IvlX6coIajBlqFuZwxMyUSZbWFLnVedLq
- he+vfvxmzgOAnbDw2YCNlULLYrDCNePzfExlCTPb9qg3cyNOJbxFChqcxxyF8nyMrzMhSkBuWEn
- vQ3pKZQNUmLVQO09GqXncbRFOxI+EcSt9arORTPyh++gdRvRb5eE5CHVshdpjJJs+3spr4vlGBy
- /Ioe+ZtbphNCG6EhMpp4nccqjR+O35H3V/d40bh8xFLkeNndV4Vd0
-X-Received: by 2002:a17:90b:28c4:b0:33b:ae28:5eae with SMTP id
- 98e67ed59e1d1-34082fdbb99mr1945a91.14.1761836561736; 
- Thu, 30 Oct 2025 08:02:41 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IFncMXvhqCs6ZcYBWEUEBUX8UounWfTkYgFrqR+3QGvJxG9ONBncLcZQxJKwThpum0pZyoQsQ==
-X-Received: by 2002:a17:90b:28c4:b0:33b:ae28:5eae with SMTP id
- 98e67ed59e1d1-34082fdbb99mr1633a91.14.1761836558373; 
- Thu, 30 Oct 2025 08:02:38 -0700 (PDT)
-Received: from [10.226.59.182] (i-global254.qualcomm.com. [199.106.103.254])
+ bh=tBS9RgnsnpRaEHPmIuolWSg7H246dI6nS1xElcRsrNo=;
+ b=EQ8xb1IfQtKGyPWkpLRlan725kc16CshERtyPP61cWAf/eM30gb3z0xOmUENotpy0j
+ w62OBq/tj2pEl5Z3NtOkya+tnIVw5g/qhHSjzc4Tl0uEqm8a7omK31DwznOHKQOld89E
+ f5oXPP7jElBM32QwUbNqc6CPItRE5ZE18X2wQoOBI91NvN0b55yAACX2G6KAk8eHbQwo
+ NZSPEwVdKbYz5UhhhSw1lTPNGs+WTeAvlHAgCR1LoXwMF7HSw7/C+u9tHIiqOd3SnMYF
+ gAaXdU4S4lSJWZL1bwu5kdYEv5F+mAaCVOgXWMw10qeEzn48AlkWOoeMAz5240+EeXfX
+ /Tng==
+X-Gm-Message-State: AOJu0YyVlXB/GrEcb9Y8nHZez8JPfdiwHixkdTloS2CAoEb0kknkwXu+
+ UP+Q/LKZnWS3dOzGDa4yQ/0gWbSmvI0d7CeIDKly4fP3lbDvPGqz87Cp
+X-Gm-Gg: ASbGncs/L3888Vl49PXwtbeIwSIh0W/CxaaIA5rTSQGZri2YI0dr5Zs7YKqk5K0+mzF
+ fApVEe1f1Q2CJAkU5KcCuxxZvRywCPC/r5+W31Ev3DNLb9MTLrlSOREyHY3bKSBclVaHaQwiThe
+ dlZjZfMBlZnUWAxwwmW3faX3GvvXZoMqfAwpdklRsHCXnUjZ3Rc8p05FvjjUJJgzyUu2RmSMX7m
+ BNP1K98xfBklTjyOiKf0bpdLJxIrQ/VrUtAuUMAUoOkxrcmb8ivfQ/FMMcJhqsl6KurLR68wjF9
+ EP0h/pPqK9v6BXEDpn2raYmMiiyvrA26XdSlh/uwUgxK05U9upSasWgZzKw5kLEbhrlpHMAfzfM
+ Tuq06c+WvLRkyk8lAplgBbVR3ZDYioyZCB/lNb+JoD8T1+y+N2N9tOawntzKDZXHpI2SYaAq5jm
+ 1DdEGjsJiIHa8d/avaFpZBgDG//IqSgNRk9gGOnvkJvg==
+X-Google-Smtp-Source: AGHT+IGKiOB1+rCktccqrf6rePLF+UtBi7EHCZIvo5UN0zh3qpUdgWZ7f8rHSzlonNRJyJeOLFBe5g==
+X-Received: by 2002:a05:622a:198c:b0:4b5:ea1f:77f4 with SMTP id
+ d75a77b69052e-4ed2213b260mr42641971cf.64.1761836742220; 
+ Thu, 30 Oct 2025 08:05:42 -0700 (PDT)
+Received: from [10.254.120.28] (mkmvpn.amd.com. [165.204.54.211])
  by smtp.gmail.com with ESMTPSA id
- 41be03b00d2f7-b712ce3a90bsm17860429a12.25.2025.10.30.08.02.37
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 30 Oct 2025 08:02:37 -0700 (PDT)
-Message-ID: <baa2a93f-d131-4adf-90bb-a1ab49d693c1@oss.qualcomm.com>
-Date: Thu, 30 Oct 2025 09:02:36 -0600
+ af79cd13be357-89f254abccbsm1263454585a.31.2025.10.30.08.05.40
+ (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
+ Thu, 30 Oct 2025 08:05:41 -0700 (PDT)
+Message-ID: <45afa337-6b46-4119-abd6-f0d79a96c7fd@gmail.com>
+Date: Thu, 30 Oct 2025 16:05:38 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2] accel/ivpu: Wait for CDYN de-assertion during power
- down sequence
-To: Karol Wachowski <karol.wachowski@linux.intel.com>,
- dri-devel@lists.freedesktop.org
-Cc: oded.gabbay@gmail.com, maciej.falkowski@linux.intel.com, lizhi.hou@amd.com
-References: <20251030091700.293341-1-karol.wachowski@linux.intel.com>
+Subject: Re: [PATCH 04/15] dma-buf: detach fence ops on signal
+To: phasta@kernel.org, alexdeucher@gmail.com, simona.vetter@ffwll.ch,
+ tursulin@ursulin.net
+Cc: dri-devel@lists.freedesktop.org, amd-gfx@lists.freedesktop.org
+References: <20251013143502.1655-1-christian.koenig@amd.com>
+ <20251013143502.1655-5-christian.koenig@amd.com>
+ <d4283e9220df6ce6cd9ec2ae0b011f4931f4acf5.camel@mailbox.org>
 Content-Language: en-US
-From: Jeff Hugo <jeff.hugo@oss.qualcomm.com>
-In-Reply-To: <20251030091700.293341-1-karol.wachowski@linux.intel.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Proofpoint-GUID: B0Re5awJyVRH_fsKCc1BIY93yEPQZ8_-
-X-Authority-Analysis: v=2.4 cv=dK6rWeZb c=1 sm=1 tr=0 ts=69037e13 cx=c_pps
- a=0uOsjrqzRL749jD1oC5vDA==:117 a=JYp8KDb2vCoCEuGobkYCKw==:17
- a=IkcTkHD0fZMA:10 a=x6icFKpwvdMA:10 a=s4-Qcg_JpJYA:10
- a=VkNPw1HP01LnGYTKEx00:22 a=QyXUC8HyAAAA:8 a=EUspDBNiAAAA:8
- a=bWUy6ffCo7lWDh6rsR8A:9 a=QEXdDO2ut3YA:10 a=zgiPjhLxNE0A:10
- a=mQ_c8vxmzFEMiUWkPHU9:22
-X-Proofpoint-ORIG-GUID: B0Re5awJyVRH_fsKCc1BIY93yEPQZ8_-
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUxMDMwMDEyMiBTYWx0ZWRfX7YyRhyEJv7Wj
- MHeN1Pgskm2efz8qqUp4bGrQgGYh7VDMRgBgFtECrI1RFFDynfa5HOrLHb94uyHDAdS95U24GqW
- PTELqUe2C3wPPOhp5gez0j9DNHBoIvUKXohJ1oTG5EHBk+RINos0WMmu/daZe5blYONemSaz2f0
- TYfgF3tFpTitLJIqcSB3PI/xfRZP1FizRJLTgH9cYIzb6p/fViYimAbOI2608ttNSixognGvRk0
- mn6kCRH8WQLexv6OUCCDZaRhpwod2aIi8v6fkoDyszYLwZb2zs6K4xov+x/Bi8S3R9FRs5yKss9
- H1KS5SIVNXl4PUzBZwvsAGySBIaHhvtW7rwsJ7JUZYYj3mkHR0YbIQbonFTpywVLv8Bi9MkOqeD
- 5Z0To6G4mAqI5vWyDG5ayA+oOohh0g==
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.9,FMLib:17.12.100.49
- definitions=2025-10-30_04,2025-10-29_03,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- malwarescore=0 impostorscore=0 suspectscore=0 clxscore=1015 spamscore=0
- lowpriorityscore=0 phishscore=0 priorityscore=1501 bulkscore=0 adultscore=0
- classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.22.0-2510240001 definitions=main-2510300122
+From: =?UTF-8?Q?Christian_K=C3=B6nig?= <ckoenig.leichtzumerken@gmail.com>
+In-Reply-To: <d4283e9220df6ce6cd9ec2ae0b011f4931f4acf5.camel@mailbox.org>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -141,16 +92,125 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 10/30/2025 3:17 AM, Karol Wachowski wrote:
-> During power down, pending DVFS operations may still be in progress
-> when the NPU reset is asserted after CDYN=0 is set. Since the READY
-> bit may already be deasserted at this point, checking only the READY
-> bit is insufficient to ensure all transactions have completed.
+On 10/17/25 11:14, Philipp Stanner wrote:
+> On Mon, 2025-10-13 at 15:48 +0200, Christian König wrote:
+>> When neither a release nor a wait operation is specified it is possible
+>> to let the dma_fence live on independent of the module who issued it.
+>>
+>> This makes it possible to unload drivers and only wait for all their
+>> fences to signal.
+>>
+>> Signed-off-by: Christian König <christian.koenig@amd.com>
+>> ---
+>>  drivers/dma-buf/dma-fence.c | 16 ++++++++++++----
+>>  include/linux/dma-fence.h   |  4 ++--
+>>  2 files changed, 14 insertions(+), 6 deletions(-)
+>>
+>> diff --git a/drivers/dma-buf/dma-fence.c b/drivers/dma-buf/dma-fence.c
+>> index 982f2b2a62c0..39f73edf3a33 100644
+>> --- a/drivers/dma-buf/dma-fence.c
+>> +++ b/drivers/dma-buf/dma-fence.c
+>> @@ -374,6 +374,14 @@ int dma_fence_signal_timestamp_locked(struct dma_fence *fence,
+>>  				      &fence->flags)))
+>>  		return -EINVAL;
+>>  
+>> +	/*
+>> +	 * When neither a release nor a wait operation is specified set the ops
+>> +	 * pointer to NULL to allow the fence structure to become independent
+>> +	 * who originally issued it.
+>> +	 */
+>> +	if (!fence->ops->release && !fence->ops->wait)
+>> +		RCU_INIT_POINTER(fence->ops, NULL);
 > 
-> Add an explicit check for CDYN de-assertion after the READY bit check
-> to guarantee no outstanding transactions remain before proceeding.
+> OK, so the basic idea is that still living fences can't access driver
+> data or driver code anymore after the driver is unloaded. Good and
+> well, nice idea. We need something like that in Rust, too.
 > 
-> Fixes: 550f4dd2cedd ("accel/ivpu: Add support for Nova Lake's NPU")
-> Signed-off-by: Karol Wachowski <karol.wachowski@linux.intel.com>
+> That's based on the rule that the driver, on unload, must signal all
+> the fences. Also OK.
+> 
+> However, how can that possibly fly by relying on the release callback
+> not being implemented? How many users don't need it, and could those
+> who implement release() be ported to.. sth else?
 
-Reviewed-by: Jeff Hugo <jeff.hugo@oss.qualcomm.com>
+As far as I can see the only one who really needs the ->release callback for technical reasons is the DRM scheduler fence and the dma_fence_array and dma_fence_chain containers. 
+
+For the DRM scheduler fence it is just the finished fence which needs to drop the reference to the scheduled fence because we can now be sure that nobody can cast the fence any more.
+
+For the dma_fence_array we could actually clean up the state on signaling, but that would need some more cleanup in the framework.
+
+For the dma_fence_chain it is a must have to avoid potential kernel stack overrun.
+
+Apart from that all drivers should be able to cleanup their internal state necessary for signaling when they actually signal.
+
+Regards,
+Christian.
+
+> 
+> 
+> P.
+> 
+>> +
+>>  	/* Stash the cb_list before replacing it with the timestamp */
+>>  	list_replace(&fence->cb_list, &cb_list);
+>>  
+>> @@ -513,7 +521,7 @@ dma_fence_wait_timeout(struct dma_fence *fence, bool intr, signed long timeout)
+>>  	rcu_read_lock();
+>>  	ops = rcu_dereference(fence->ops);
+>>  	trace_dma_fence_wait_start(fence);
+>> -	if (ops->wait) {
+>> +	if (ops && ops->wait) {
+>>  		/*
+>>  		 * Implementing the wait ops is deprecated and not supported for
+>>  		 * issuer independent fences, so it is ok to use the ops outside
+>> @@ -578,7 +586,7 @@ void dma_fence_release(struct kref *kref)
+>>  	}
+>>  
+>>  	ops = rcu_dereference(fence->ops);
+>> -	if (ops->release)
+>> +	if (ops && ops->release)
+>>  		ops->release(fence);
+>>  	else
+>>  		dma_fence_free(fence);
+>> @@ -614,7 +622,7 @@ static bool __dma_fence_enable_signaling(struct dma_fence *fence)
+>>  
+>>  	rcu_read_lock();
+>>  	ops = rcu_dereference(fence->ops);
+>> -	if (!was_set && ops->enable_signaling) {
+>> +	if (!was_set && ops && ops->enable_signaling) {
+>>  		trace_dma_fence_enable_signal(fence);
+>>  
+>>  		if (!ops->enable_signaling(fence)) {
+>> @@ -1000,7 +1008,7 @@ void dma_fence_set_deadline(struct dma_fence *fence, ktime_t deadline)
+>>  
+>>  	rcu_read_lock();
+>>  	ops = rcu_dereference(fence->ops);
+>> -	if (ops->set_deadline && !dma_fence_is_signaled(fence))
+>> +	if (ops && ops->set_deadline && !dma_fence_is_signaled(fence))
+>>  		ops->set_deadline(fence, deadline);
+>>  	rcu_read_unlock();
+>>  }
+>> diff --git a/include/linux/dma-fence.h b/include/linux/dma-fence.h
+>> index 38421a0c7c5b..e1ba1d53de88 100644
+>> --- a/include/linux/dma-fence.h
+>> +++ b/include/linux/dma-fence.h
+>> @@ -425,7 +425,7 @@ dma_fence_is_signaled_locked(struct dma_fence *fence)
+>>  
+>>  	rcu_read_lock();
+>>  	ops = rcu_dereference(fence->ops);
+>> -	if (ops->signaled && ops->signaled(fence)) {
+>> +	if (ops && ops->signaled && ops->signaled(fence)) {
+>>  		rcu_read_unlock();
+>>  		dma_fence_signal_locked(fence);
+>>  		return true;
+>> @@ -461,7 +461,7 @@ dma_fence_is_signaled(struct dma_fence *fence)
+>>  
+>>  	rcu_read_lock();
+>>  	ops = rcu_dereference(fence->ops);
+>> -	if (ops->signaled && ops->signaled(fence)) {
+>> +	if (ops && ops->signaled && ops->signaled(fence)) {
+>>  		rcu_read_unlock();
+>>  		dma_fence_signal(fence);
+>>  		return true;
+> 
+
