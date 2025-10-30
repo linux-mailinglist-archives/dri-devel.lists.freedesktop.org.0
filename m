@@ -2,36 +2,36 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A659CC2077D
+	by mail.lfdr.de (Postfix) with ESMTPS id C0290C20780
 	for <lists+dri-devel@lfdr.de>; Thu, 30 Oct 2025 15:06:11 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E420210E9B5;
+	by gabe.freedesktop.org (Postfix) with ESMTP id F385110E9B6;
 	Thu, 30 Oct 2025 14:05:59 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="SoVDJVXz";
+	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="d8glrrf0";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from bali.collaboradmins.com (bali.collaboradmins.com
  [148.251.105.195])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8A8D310E9A3;
- Thu, 30 Oct 2025 14:05:52 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8758110E9AB;
+ Thu, 30 Oct 2025 14:05:53 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1761833151;
- bh=Tp5o0fYP4UbmvuRfa0CWs/16isYCJMNoBEVECC/KSvQ=;
+ s=mail; t=1761833152;
+ bh=GY9wMgktOBJ7uArfwVtp9Q3Yv5RK7UzEPvARpt6v/hU=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=SoVDJVXzt2LTHwoOPSVmMe5n6EX1+4Qt/cUl99kjNvkEv7E0f0QKa8XsGrBIxz7DX
- T+axXbV+b/47lb5q6+lHy07iGRQzIaTltb6l1KGqBJVzyko4gol7l92wl22nTTWqEg
- ovyVZsNHmx5RG/9dCbLteUsjTZ3G1dYRIulyajIkzuGj8jklVJKgv1XSofXjCO49Yu
- g9DvbVO3AiBo1DoKQQd9VmUgT8mQo/l2BqGdiOQiY47k7V0YNFTKRBGenlDhaBWl5K
- WXUFCsbC9QnmBRUUDn9K88KWLqczccVVszRyEx4q43BF9odHiTHkIUKi3B3QSk3zZq
- KiyelKlYt19TQ==
+ b=d8glrrf0k/zCgXfVKKerD3H+qnngE28McfepvdZSn77a/IoAK7Zy5xx/G8RHralun
+ ++JRbzF1vWNHkQwqxy8+zt0qs4NF8o6SOHUCdawT6rR/LQtb7m+8HiaK2a1IcPKE2Y
+ 2Uv/1qNY5HUNORhBKOD9AaXOtRsABTpDsjpaJeincDpNGIFBYn5OgQN5RL8K7QQ3+F
+ OgqzDHciX65rYwl09O3bdguwjWMWwLV68LCs8l+cukD3sO+W3N0hhZQOfPVqkS4SXu
+ HNa2g7b5rD5RQcMxpJeCzDbbchg3AOhREiQIdhhCo178K6Oue3Mm4+4hYV7TIxUd8Y
+ e/CVWhjUzQTSw==
 Received: from fedora (unknown [IPv6:2a01:e0a:2c:6930:a2a7:f53:ebb0:945e])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
  (No client certificate requested) (Authenticated sender: bbrezillon)
- by bali.collaboradmins.com (Postfix) with ESMTPSA id 4EBA617E37C2;
- Thu, 30 Oct 2025 15:05:50 +0100 (CET)
+ by bali.collaboradmins.com (Postfix) with ESMTPSA id 57CCF17E37D0;
+ Thu, 30 Oct 2025 15:05:51 +0100 (CET)
 From: Boris Brezillon <boris.brezillon@collabora.com>
 To: Steven Price <steven.price@arm.com>
 Cc: dri-devel@lists.freedesktop.org,
@@ -55,11 +55,12 @@ Cc: dri-devel@lists.freedesktop.org,
  Marijn Suijten <marijn.suijten@somainline.org>,
  Alex Deucher <alexander.deucher@amd.com>,
  =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
- amd-gfx@lists.freedesktop.org,
- Boris Brezillon <boris.brezillon@collabora.com>, kernel@collabora.com
-Subject: [PATCH v5 14/16] drm/panfrost: Add an ioctl to query BO flags
-Date: Thu, 30 Oct 2025 15:05:23 +0100
-Message-ID: <20251030140525.366636-15-boris.brezillon@collabora.com>
+ amd-gfx@lists.freedesktop.org, kernel@collabora.com,
+ Boris Brezillon <boris.brezillon@collabora.com>
+Subject: [PATCH v5 15/16] drm/panfrost: Add flag to map GEM object Write-Back
+ Cacheable
+Date: Thu, 30 Oct 2025 15:05:24 +0100
+Message-ID: <20251030140525.366636-16-boris.brezillon@collabora.com>
 X-Mailer: git-send-email 2.51.0
 In-Reply-To: <20251030140525.366636-1-boris.brezillon@collabora.com>
 References: <20251030140525.366636-1-boris.brezillon@collabora.com>
@@ -80,123 +81,169 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This is useful when importing BOs, so we can know about cacheability
-and flush the caches when needed.
+From: Faith Ekstrand <faith.ekstrand@collabora.com>
+
+Will be used by the UMD to optimize CPU accesses to buffers
+that are frequently read by the CPU, or on which the access
+pattern makes non-cacheable mappings inefficient.
+
+Mapping buffers CPU-cached implies taking care of the CPU
+cache maintenance in the UMD, unless the GPU is IO coherent.
 
 v2:
-- New commit
+- Add more to the commit message
 
 v3:
-- Add Steve's R-b
+- No changes
 
 v4:
-- No changes
+- Fix the map_wc test in panfrost_ioctl_query_bo_info()
 
 v5:
-- No changes
+- Drop Steve's R-b (enough has changed to justify a new review)
 
+Signed-off-by: Faith Ekstrand <faith.ekstrand@collabora.com>
 Signed-off-by: Boris Brezillon <boris.brezillon@collabora.com>
-Reviewed-by: Steven Price <steven.price@arm.com>
 ---
- drivers/gpu/drm/panfrost/panfrost_drv.c | 33 +++++++++++++++++++++++++
- include/uapi/drm/panfrost_drm.h         | 19 ++++++++++++++
- 2 files changed, 52 insertions(+)
+ drivers/gpu/drm/panfrost/panfrost_drv.c | 10 ++++++--
+ drivers/gpu/drm/panfrost/panfrost_gem.c | 33 +++++++++++++++++++++++++
+ drivers/gpu/drm/panfrost/panfrost_gem.h |  5 ++++
+ include/uapi/drm/panfrost_drm.h         |  5 +++-
+ 4 files changed, 50 insertions(+), 3 deletions(-)
 
 diff --git a/drivers/gpu/drm/panfrost/panfrost_drv.c b/drivers/gpu/drm/panfrost/panfrost_drv.c
-index f6692bd3fdaf..ba03a4420264 100644
+index ba03a4420264..74b7dc75d88b 100644
 --- a/drivers/gpu/drm/panfrost/panfrost_drv.c
 +++ b/drivers/gpu/drm/panfrost/panfrost_drv.c
-@@ -626,6 +626,38 @@ static int panfrost_ioctl_sync_bo(struct drm_device *ddev, void *data,
- 	return ret;
+@@ -125,6 +125,10 @@ static int panfrost_ioctl_get_param(struct drm_device *ddev, void *data, struct
+ 	return 0;
  }
  
-+static int panfrost_ioctl_query_bo_info(struct drm_device *dev, void *data,
-+					struct drm_file *file_priv)
++#define PANFROST_BO_FLAGS	(PANFROST_BO_NOEXEC | \
++				 PANFROST_BO_HEAP | \
++				 PANFROST_BO_WB_MMAP)
++
+ static int panfrost_ioctl_create_bo(struct drm_device *dev, void *data,
+ 		struct drm_file *file)
+ {
+@@ -134,8 +138,7 @@ static int panfrost_ioctl_create_bo(struct drm_device *dev, void *data,
+ 	struct panfrost_gem_mapping *mapping;
+ 	int ret;
+ 
+-	if (!args->size || args->pad ||
+-	    (args->flags & ~(PANFROST_BO_NOEXEC | PANFROST_BO_HEAP)))
++	if (!args->size || args->pad || (args->flags & ~PANFROST_BO_FLAGS))
+ 		return -EINVAL;
+ 
+ 	/* Heaps should never be executable */
+@@ -652,6 +655,9 @@ static int panfrost_ioctl_query_bo_info(struct drm_device *dev, void *data,
+ 
+ 		if (bo->is_heap)
+ 			args->create_flags |= PANFROST_BO_HEAP;
++
++		if (!bo->base.map_wc)
++			args->create_flags |= PANFROST_BO_WB_MMAP;
+ 	}
+ 
+ 	drm_gem_object_put(gem_obj);
+diff --git a/drivers/gpu/drm/panfrost/panfrost_gem.c b/drivers/gpu/drm/panfrost/panfrost_gem.c
+index 05d3f8a6fa78..1c600939c17a 100644
+--- a/drivers/gpu/drm/panfrost/panfrost_gem.c
++++ b/drivers/gpu/drm/panfrost/panfrost_gem.c
+@@ -269,6 +269,7 @@ static const struct drm_gem_object_funcs panfrost_gem_funcs = {
+ 	.vmap = drm_gem_shmem_object_vmap,
+ 	.vunmap = drm_gem_shmem_object_vunmap,
+ 	.mmap = drm_gem_shmem_object_mmap,
++	.export = drm_gem_prime_export,
+ 	.status = panfrost_gem_status,
+ 	.rss = panfrost_gem_rss,
+ 	.vm_ops = &drm_gem_shmem_vm_ops,
+@@ -302,12 +303,42 @@ struct drm_gem_object *panfrost_gem_create_object(struct drm_device *dev, size_t
+ 	return &obj->base.base;
+ }
+ 
++static bool
++should_map_wc(struct panfrost_gem_object *bo)
 +{
-+	struct drm_panfrost_query_bo_info *args = data;
-+	struct drm_gem_object *gem_obj;
-+	struct panfrost_gem_object *bo;
++	struct panfrost_device *pfdev = to_panfrost_device(bo->base.base.dev);
 +
-+	gem_obj = drm_gem_object_lookup(file_priv, args->handle);
-+	if (!gem_obj) {
-+		DRM_DEBUG("Failed to look up GEM BO %d\n", args->handle);
-+		return -ENOENT;
-+	}
++	/* We can't do uncached mappings if the device is coherent,
++	 * because the zeroing done by the shmem layer at page allocation
++	 * time happens on a cached mapping which isn't CPU-flushed (at least
++	 * not on Arm64 where the flush is deferred to PTE setup time, and
++	 * only done conditionally based on the mapping permissions). We can't
++	 * rely on dma_map_sgtable()/dma_sync_sgtable_for_xxx() either to flush
++	 * those, because they are NOPed if dma_dev_coherent() returns true.
++	 */
++	if (pfdev->coherent)
++		return false;
 +
-+	bo = to_panfrost_bo(gem_obj);
-+	args->pad = 0;
-+	args->create_flags = 0;
-+	args->extra_flags = 0;
++	/* Cached mappings are explicitly requested, so no write-combine. */
++	if (bo->wb_mmap)
++		return false;
 +
-+	if (drm_gem_is_imported(gem_obj)) {
-+		args->extra_flags |= DRM_PANFROST_BO_IS_IMPORTED;
-+	} else {
-+		if (bo->noexec)
-+			args->create_flags |= PANFROST_BO_NOEXEC;
-+
-+		if (bo->is_heap)
-+			args->create_flags |= PANFROST_BO_HEAP;
-+	}
-+
-+	drm_gem_object_put(gem_obj);
-+	return 0;
++	/* The default is write-combine. */
++	return true;
 +}
 +
- int panfrost_unstable_ioctl_check(void)
+ struct panfrost_gem_object *
+ panfrost_gem_create(struct drm_device *dev, size_t size, u32 flags)
  {
- 	if (!unstable_ioctls)
-@@ -696,6 +728,7 @@ static const struct drm_ioctl_desc panfrost_drm_driver_ioctls[] = {
- 	PANFROST_IOCTL(JM_CTX_CREATE,	jm_ctx_create,	DRM_RENDER_ALLOW),
- 	PANFROST_IOCTL(JM_CTX_DESTROY,	jm_ctx_destroy,	DRM_RENDER_ALLOW),
- 	PANFROST_IOCTL(SYNC_BO,		sync_bo,	DRM_RENDER_ALLOW),
-+	PANFROST_IOCTL(QUERY_BO_INFO,	query_bo_info,	DRM_RENDER_ALLOW),
- };
+ 	struct drm_gem_shmem_object *shmem;
+ 	struct panfrost_gem_object *bo;
  
- static void panfrost_gpu_show_fdinfo(struct panfrost_device *pfdev,
++	/* The heap buffer is not supposed to be CPU-visible, so don't allow
++	 * WB_MMAP on those.
++	 */
++	if ((flags & PANFROST_BO_HEAP) && (flags & PANFROST_BO_WB_MMAP))
++		return ERR_PTR(-EINVAL);
++
+ 	/* Round up heap allocations to 2MB to keep fault handling simple */
+ 	if (flags & PANFROST_BO_HEAP)
+ 		size = roundup(size, SZ_2M);
+@@ -319,6 +350,8 @@ panfrost_gem_create(struct drm_device *dev, size_t size, u32 flags)
+ 	bo = to_panfrost_bo(&shmem->base);
+ 	bo->noexec = !!(flags & PANFROST_BO_NOEXEC);
+ 	bo->is_heap = !!(flags & PANFROST_BO_HEAP);
++	bo->wb_mmap = !!(flags & PANFROST_BO_WB_MMAP);
++	bo->base.map_wc = should_map_wc(bo);
+ 
+ 	return bo;
+ }
+diff --git a/drivers/gpu/drm/panfrost/panfrost_gem.h b/drivers/gpu/drm/panfrost/panfrost_gem.h
+index 87b918f30baa..d2d532b3007a 100644
+--- a/drivers/gpu/drm/panfrost/panfrost_gem.h
++++ b/drivers/gpu/drm/panfrost/panfrost_gem.h
+@@ -98,6 +98,11 @@ struct panfrost_gem_object {
+ 	bool noexec		:1;
+ 	bool is_heap		:1;
+ 
++	/* On coherent devices, this reflects the creation flags, not the true
++	 * cacheability attribute of the mapping.
++	 */
++	bool wb_mmap		:1;
++
+ #ifdef CONFIG_DEBUG_FS
+ 	struct panfrost_gem_debugfs debugfs;
+ #endif
 diff --git a/include/uapi/drm/panfrost_drm.h b/include/uapi/drm/panfrost_drm.h
-index 98f93dc87b34..743c79a38f1b 100644
+index 743c79a38f1b..82f4e69bafb4 100644
 --- a/include/uapi/drm/panfrost_drm.h
 +++ b/include/uapi/drm/panfrost_drm.h
-@@ -25,6 +25,7 @@ extern "C" {
- #define DRM_PANFROST_JM_CTX_CREATE		0x0a
- #define DRM_PANFROST_JM_CTX_DESTROY		0x0b
- #define DRM_PANFROST_SYNC_BO			0x0c
-+#define DRM_PANFROST_QUERY_BO_INFO		0x0d
- 
- #define DRM_IOCTL_PANFROST_SUBMIT		DRM_IOW(DRM_COMMAND_BASE + DRM_PANFROST_SUBMIT, struct drm_panfrost_submit)
- #define DRM_IOCTL_PANFROST_WAIT_BO		DRM_IOW(DRM_COMMAND_BASE + DRM_PANFROST_WAIT_BO, struct drm_panfrost_wait_bo)
-@@ -37,6 +38,7 @@ extern "C" {
- #define DRM_IOCTL_PANFROST_JM_CTX_CREATE	DRM_IOWR(DRM_COMMAND_BASE + DRM_PANFROST_JM_CTX_CREATE, struct drm_panfrost_jm_ctx_create)
- #define DRM_IOCTL_PANFROST_JM_CTX_DESTROY	DRM_IOWR(DRM_COMMAND_BASE + DRM_PANFROST_JM_CTX_DESTROY, struct drm_panfrost_jm_ctx_destroy)
- #define DRM_IOCTL_PANFROST_SYNC_BO		DRM_IOWR(DRM_COMMAND_BASE + DRM_PANFROST_SYNC_BO, struct drm_panfrost_sync_bo)
-+#define DRM_IOCTL_PANFROST_QUERY_BO_INFO	DRM_IOWR(DRM_COMMAND_BASE + DRM_PANFROST_QUERY_BO_INFO, struct drm_panfrost_query_bo_info)
- 
- /*
-  * Unstable ioctl(s): only exposed when the unsafe unstable_ioctls module
-@@ -311,6 +313,23 @@ struct drm_panfrost_sync_bo {
- 	__u32 pad;
+@@ -101,9 +101,12 @@ struct drm_panfrost_wait_bo {
+ 	__s64 timeout_ns;	/* absolute */
  };
  
-+/** BO comes from a different subsystem. */
-+#define DRM_PANFROST_BO_IS_IMPORTED (1 << 0)
-+
-+struct drm_panfrost_query_bo_info {
-+	/** Handle of the object being queried. */
-+	__u32 handle;
-+
-+	/** Extra flags that are not coming from the BO_CREATE ioctl(). */
-+	__u32 extra_flags;
-+
-+	/** Flags passed at creation time. */
-+	__u32 create_flags;
-+
-+	/** Will be zero on return. */
-+	__u32 pad;
-+};
-+
- /* Definitions for coredump decoding in user space */
- #define PANFROSTDUMP_MAJOR 1
- #define PANFROSTDUMP_MINOR 0
+-/* Valid flags to pass to drm_panfrost_create_bo */
++/* Valid flags to pass to drm_panfrost_create_bo.
++ * PANFROST_BO_WB_MMAP can't be set if PANFROST_BO_HEAP is.
++ */
+ #define PANFROST_BO_NOEXEC	1
+ #define PANFROST_BO_HEAP	2
++#define PANFROST_BO_WB_MMAP	4
+ 
+ /**
+  * struct drm_panfrost_create_bo - ioctl argument for creating Panfrost BOs.
 -- 
 2.51.0
 
