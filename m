@@ -2,51 +2,84 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0D647C1F009
-	for <lists+dri-devel@lfdr.de>; Thu, 30 Oct 2025 09:35:02 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id DB40FC1F123
+	for <lists+dri-devel@lfdr.de>; Thu, 30 Oct 2025 09:49:05 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id EEACE10E897;
-	Thu, 30 Oct 2025 08:34:58 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4252C10E928;
+	Thu, 30 Oct 2025 08:48:56 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="l0zNwIi0";
+	dkim=pass (2048-bit key; unprotected) header.d=suse.com header.i=@suse.com header.b="LlDWmXuG";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from bali.collaboradmins.com (bali.collaboradmins.com
- [148.251.105.195])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CFD2810E897
- for <dri-devel@lists.freedesktop.org>; Thu, 30 Oct 2025 08:34:57 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1761813296;
- bh=peljNprcvxi6XRk4kC8LDnOTbjB1tFfz4WmUw7O5TDM=;
- h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=l0zNwIi0mCCFh3UE5+9zkg2ouoVvRWRM0JCNpjbFGkUVuII1l7wWbTL6dO5cCrrXW
- lSxwXoPFSuZpivq1luJlFlvhNwAl18RppZpR9XGqEAwg4YBu0rft8r1i4ZNOCeLDel
- qNufArjWhwT5H9KnygSZdG0pAxTRnybM0vLTOW9GgYs/upAyt27k11W3jtyNaNz8s3
- VRlf6rpbJOSF05xBYX8A3KcNZ1Dk5mMXOg6TeZFhLJoqU6nD41p1lNDfBHJPda4Rvm
- pnQ4sQRtlIA8kUXtQfxq2zOQ4oTsSky8BvWd4UneVa+4I7Y56Etdthih57CQUNjSEE
- y4gqJeh5ih/2w==
-Received: from fedora (unknown [IPv6:2a01:e0a:2c:6930:a2a7:f53:ebb0:945e])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested) (Authenticated sender: bbrezillon)
- by bali.collaboradmins.com (Postfix) with ESMTPSA id 27BA117E0154;
- Thu, 30 Oct 2025 09:34:56 +0100 (CET)
-From: Boris Brezillon <boris.brezillon@collabora.com>
-To: Boris Brezillon <boris.brezillon@collabora.com>,
- Steven Price <steven.price@arm.com>, Liviu Dudau <liviu.dudau@arm.com>,
- =?UTF-8?q?Adri=C3=A1n=20Larumbe?= <adrian.larumbe@collabora.com>
-Cc: dri-devel@lists.freedesktop.org,
-	kernel@collabora.com
-Subject: [PATCH 2/2] drm/panthor: Fix group_free_queue() for partially
- initialized queues
-Date: Thu, 30 Oct 2025 09:34:46 +0100
-Message-ID: <20251030083446.162990-2-boris.brezillon@collabora.com>
-X-Mailer: git-send-email 2.51.0
-In-Reply-To: <20251030083446.162990-1-boris.brezillon@collabora.com>
-References: <20251030083446.162990-1-boris.brezillon@collabora.com>
+Received: from mail-lf1-f42.google.com (mail-lf1-f42.google.com
+ [209.85.167.42])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3A98810E8C4
+ for <dri-devel@lists.freedesktop.org>; Thu, 30 Oct 2025 08:37:18 +0000 (UTC)
+Received: by mail-lf1-f42.google.com with SMTP id
+ 2adb3069b0e04-592f5736693so817223e87.1
+ for <dri-devel@lists.freedesktop.org>; Thu, 30 Oct 2025 01:37:18 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=suse.com; s=google; t=1761813436; x=1762418236; darn=lists.freedesktop.org; 
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=0H69JoG/2rJHvdEOAXH5NLL2iNrX6QKlodTNw1vRLt4=;
+ b=LlDWmXuGxIjce3FrxdvZ1EwwLXGDjCI/TpnG9Lbt7Lk8BTpdkNUZwaeCjN2M6CbsdD
+ wgM/i076OUqI6lsy3p66hPo7PUdh6T/5WAdJFIjpPtUQOsdvaiuQZeKX4oOaYPk0Hrzz
+ A+itcpwG1hk+9U/7Sx4GZMOGWHtK/WY1xTwvAQTP8Xd8MHGebrj+2oZAD7kVLG4vEIT0
+ njyeOBr9VVbP1ORiwcqB5Cxv/V9li9LkUjGC19SbeKAD7a9lyslPErt5jpQneJSgKar9
+ BApbrhMpvP9MJ1m9pGkNXYruB4EfWoWu6QKxHfmVhJ6Ej2AgGmOp4GkINGHssWt21FKj
+ B76g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1761813436; x=1762418236;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=0H69JoG/2rJHvdEOAXH5NLL2iNrX6QKlodTNw1vRLt4=;
+ b=JFVaOl8ASCpuWncgtTzSgKaK+lMCQZu8j+gsC+ZOT8mQWB6CejmCIRlXZW73eDVUoV
+ 5FTvqO+nIQ4JDGTzpvUlT1vRbCvV3caWeg2n6uvTMnO4/nLNlmFE98i3E2sC7r6Zl+b0
+ lGDP+fDXFVJfv42bNXMRZRCv2RceEjEyWWaXU7P1ZWET5Fzw30l9QhLStpREKNy5OzLQ
+ Ig3N7EOw3FXvSm/Qy3cJ5HHup/MeTeggO7iZZ199VP0/Ew7BjYptpMdIZGJAszqGGp6e
+ glk/QSQi2dQGmFyBaN9d4FbCcYXGPsaVaC8TzEX+5zipVzlOi21Zf/aQKID62rCs0Uta
+ BLdQ==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCW5vI5Z/RI15rVfKSkGK9JD3hLQLdV9jerT4bT3gvDPoyslEQYgIfXGov9wDpGaLHAuniA5vLuRCdA=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YwUMtYM0/ELBmDAy9cNfUlAmnFMM1ECIf5QuEbf1HnyymRuDFYo
+ /A8+fr8YlmNHQY5lBCW9rLOfQFL6GYCvoNTwwVy6jp0iDc/FnTYMeaLp0L2lj6JKvZEvQ2HoTyP
+ bj0sew8YFTtGg3EQhS//8pY4wfwXkCEpMeXinMTF73A==
+X-Gm-Gg: ASbGncv5NGOv1ypfg8h9rqLOjmQTNRFv+557pBydc4K29D4ct3RGhDdRasYKiJmfuYp
+ uh4OdFyKx33MbCIOj40sA5W23FXrwxvrlZtKeq2q9dotUj1R4OPDW20ZEhlEuFp8Fvyjk+5yxvs
+ 7R6GZ6fpIuJVbKEBAj6ndV0rk1FMCwqH8zu0vrbR+j7KUmPe+BXUo+4BXpbr+ako4K/m8Fb2Nqk
+ LLNj9P7UnkyAi/aJq4b+uUAtV9bh1hAWiTLirAvRuyl+nNSooAHGVajCSjKwroyTDr6Ll5NFVmi
+ saDFmB8gjJ9/JucrrA==
+X-Google-Smtp-Source: AGHT+IG3gjuQpHSwEBxVko51wOHMRoYO41Dp3MqxnULe10xLwSMQ6tOVJ17T9RQCsvuInjHrx4tUt76Y0BnH18FeVPo=
+X-Received: by 2002:a05:6512:33c3:b0:592:f484:cf6f with SMTP id
+ 2adb3069b0e04-594128b10a0mr1574453e87.26.1761813436530; Thu, 30 Oct 2025
+ 01:37:16 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20251029165642.364488-1-marco.crivellari@suse.com>
+ <20251029165642.364488-3-marco.crivellari@suse.com>
+ <eafe034a-0c87-452e-b202-bd53fbdf12ac@linux.intel.com>
+ <6cfbb32b-7866-4fcc-98a3-1ded4558d43f@linux.intel.com>
+In-Reply-To: <6cfbb32b-7866-4fcc-98a3-1ded4558d43f@linux.intel.com>
+From: Marco Crivellari <marco.crivellari@suse.com>
+Date: Thu, 30 Oct 2025 09:37:05 +0100
+X-Gm-Features: AWmQ_bkTbTc0-yWVMyGAw-n2TS8F7Xu7uSbtF9NoAnfBvC6747-bXpR13PxTOCc
+Message-ID: <CAAofZF57u=Bp0AusvQDZnAmtDjxYDc0oQwr8JVBJh4vQQtO-KA@mail.gmail.com>
+Subject: Re: [PATCH v2 2/2] accel/ivpu: replace use of system_wq with
+ system_percpu_wq
+To: Karol Wachowski <karol.wachowski@linux.intel.com>
+Cc: linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org, 
+ Tejun Heo <tj@kernel.org>, Lai Jiangshan <jiangshanlai@gmail.com>, 
+ Frederic Weisbecker <frederic@kernel.org>,
+ Sebastian Andrzej Siewior <bigeasy@linutronix.de>, 
+ Michal Hocko <mhocko@suse.com>,
+ Maciej Falkowski <maciej.falkowski@linux.intel.com>, 
+ Oded Gabbay <ogabbay@kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Mailman-Approved-At: Thu, 30 Oct 2025 08:48:46 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -62,31 +95,17 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-group_free_queue() can be called on a partially initialized queue
-object if something fails group_create_queue(). Make sure we don't
-call drm_sched_entity_destroy() on a entity that hasn't been
-initialized.
+On Thu, Oct 30, 2025 at 8:47=E2=80=AFAM Karol Wachowski
+<karol.wachowski@linux.intel.com> wrote:
+>[...]
+> > Reviewed-by: Karol Wachowski <karol.wachowski@linux.intel.com>
+> Pushed to drm-misc-next.
+> -Karol
 
-Fixes: 7d9c3442b02a ("drm/panthor: Defer scheduler entitiy destruction to queue release")
-Signed-off-by: Boris Brezillon <boris.brezillon@collabora.com>
----
- drivers/gpu/drm/panthor/panthor_sched.c | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+Many thanks!
 
-diff --git a/drivers/gpu/drm/panthor/panthor_sched.c b/drivers/gpu/drm/panthor/panthor_sched.c
-index a0a31aa6c6bc..552542f70cab 100644
---- a/drivers/gpu/drm/panthor/panthor_sched.c
-+++ b/drivers/gpu/drm/panthor/panthor_sched.c
-@@ -886,7 +886,8 @@ static void group_free_queue(struct panthor_group *group, struct panthor_queue *
- 	if (IS_ERR_OR_NULL(queue))
- 		return;
- 
--	drm_sched_entity_destroy(&queue->entity);
-+	if (queue->entity.fence_context)
-+		drm_sched_entity_destroy(&queue->entity);
- 
- 	if (queue->scheduler.ops)
- 		drm_sched_fini(&queue->scheduler);
--- 
-2.51.0
+--
 
+Marco Crivellari
+
+L3 Support Engineer, Technology & Product
