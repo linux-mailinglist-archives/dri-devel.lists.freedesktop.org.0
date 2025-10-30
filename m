@@ -2,97 +2,57 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 32795C20E3B
-	for <lists+dri-devel@lfdr.de>; Thu, 30 Oct 2025 16:22:30 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3331DC20E68
+	for <lists+dri-devel@lfdr.de>; Thu, 30 Oct 2025 16:23:57 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8022A10E9E1;
-	Thu, 30 Oct 2025 15:22:28 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C0E2E10E9E4;
+	Thu, 30 Oct 2025 15:23:52 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=chromium.org header.i=@chromium.org header.b="BBsbORra";
+	dkim=pass (2048-bit key; secure) header.d=mailbox.org header.i=@mailbox.org header.b="XsRvY6ir";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ej1-f44.google.com (mail-ej1-f44.google.com
- [209.85.218.44])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 92F3510E9E1
- for <dri-devel@lists.freedesktop.org>; Thu, 30 Oct 2025 15:22:27 +0000 (UTC)
-Received: by mail-ej1-f44.google.com with SMTP id
- a640c23a62f3a-b3b27b50090so199986166b.0
- for <dri-devel@lists.freedesktop.org>; Thu, 30 Oct 2025 08:22:27 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=chromium.org; s=google; t=1761837744; x=1762442544;
- darn=lists.freedesktop.org; 
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=6d/OVmKJJb7OlddG1Bh9+D9lD7AVNsH/e/F/SKjKcKo=;
- b=BBsbORrag0H+ZNJ4W51KYc+VAhHYYkZy9WVKoo7Fl+i00w+SObBKPUKdmTIcyu60+8
- Q9g1CSx02BMhGo/7P+sY9s2sbyWFQB+/6EXLroeUPeeEmZ2dwh8uC/QgBvZSRO+J/L4D
- bKdqHjp2SSdpCyvI0byQ2GU/zow7CNxSRfb8M=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1761837744; x=1762442544;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=6d/OVmKJJb7OlddG1Bh9+D9lD7AVNsH/e/F/SKjKcKo=;
- b=Bau5HTzvZ4Jm9GEXrgN80v4AI0kSnKk6vt+wO8utF/h0kdUzd/bU3AwN8sb/c8SXIb
- JfO5samiNpAMn/kftpfPOPLkjPWkZGsTlPUJM2f0n4B+CkW/39XIYk6pCSdR++3HrJkp
- NyKdjHs0R2xhprokf7LiG29WMtyPWHgPf84ju+rdfc3UcCU17tzwVsewgtaT8WiT8X6S
- HaYQDo4PiGFBaYu3vVBhujQDgmOed3kt3MObKCD1EXw5iKz3raFxNP1+SG/8m/9AI2gA
- HQWiNmGAT5MUyQHnzkoyVUIxkoWOE2MKKxuGH2NPmtc7yQRRUxNSfiw+dUv/JX6xhHmm
- 1G6A==
-X-Forwarded-Encrypted: i=1;
- AJvYcCUEZT5KW0wYX1chn3kmTloku0nQUBh132HespMypLogiCDXfYXx9pg7zF83fUt5xVN0MTE5xxbB9pY=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YwhEcE+VA48Dmj5qR36ywA3s89bNS5ZZgHZ7HRkR5yvjT6npRca
- 68apqTOXgy4z2fxvVj/NDe5c76ARWYSooTeS4GVQsDedOqQarhxSnZEoPwmTD0H8FDvpm1OBlM9
- qdLmIeO2U
-X-Gm-Gg: ASbGncvP9hJ4DbwFl10GI0ZiSOsUsoNjaX3DEqP3C0o5NxTuOORyWbnx49ybcrqwbGo
- ZKyp1Yha9LykxtgK++Y2/jaOouZjaHoDSezxq78yFwZYjKBjqrEZSIwjnVFmwSCXAMDq/sjAjGv
- qrmMgEJo3UipS5nMRk8KxUVYluvb3UanHFqHxDLeu79oZDEPQIx1KQxHP9BnNX4uWs8q+8AmFTT
- K51f+KZNTtT/0Lc0vPiEWRrZ5QdF1Gv8OBRZDnDlo5StK5akjBQo6yJDQIpEX+4Pcps0tNS03T+
- iy9XTKsb/1heVBTTGViN/gruaJe+GUcTphPvOtNQp0JbkZses6bUmNrFELmzV30LwS9IhXj23Ps
- A767bDxcp8icnyQFqMF2cWize4El+Hoy+FrGHvBqXpNb+7K2v9W6GyQpdVrej10/9zoCQe8RsSU
- awn108sUajpI6gjZwJ+tEepfqnohc/cjU8UX/oTdU=
-X-Google-Smtp-Source: AGHT+IFYxuDQkRKeHIdbOPshgRd6sHcgZXUvtBRwaffitIWrJY3K26UihxqWWpJVDakSIxRHucdrwg==
-X-Received: by 2002:a17:907:7fa0:b0:b3d:9261:ff1b with SMTP id
- a640c23a62f3a-b7053b63973mr310772666b.5.1761837743644; 
- Thu, 30 Oct 2025 08:22:23 -0700 (PDT)
-Received: from mail-wm1-f45.google.com (mail-wm1-f45.google.com.
- [209.85.128.45]) by smtp.gmail.com with ESMTPSA id
- a640c23a62f3a-b6d853e5138sm1781744466b.44.2025.10.30.08.22.22
- for <dri-devel@lists.freedesktop.org>
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 30 Oct 2025 08:22:22 -0700 (PDT)
-Received: by mail-wm1-f45.google.com with SMTP id
- 5b1f17b1804b1-475d9de970eso8531985e9.1
- for <dri-devel@lists.freedesktop.org>; Thu, 30 Oct 2025 08:22:22 -0700 (PDT)
-X-Forwarded-Encrypted: i=1;
- AJvYcCWqc9g0xT8PqHXBK9/wHBQPLNw/Q2Wm0wpbESTY4b1ACbiqkwS7KcDPOrefA1S9CMulRcJ9HcU9lgI=@lists.freedesktop.org
-X-Received: by 2002:a05:600c:190e:b0:46e:42aa:75b5 with SMTP id
- 5b1f17b1804b1-47730793c04mr1042045e9.4.1761837741749; Thu, 30 Oct 2025
- 08:22:21 -0700 (PDT)
-MIME-Version: 1.0
-References: <20251029081048.162374-1-ajye_huang@compal.corp-partner.google.com>
- <20251029081048.162374-3-ajye_huang@compal.corp-partner.google.com>
- <CAD=FV=WbR0u_a7S1pcL-6C+sj9Kt=GOLUwJmwt8ANJbyV4JYFQ@mail.gmail.com>
- <CALprXBb=_HuwskwFP0nRKH=3zwoGbig4fWY+Q4g53Jhn985TsA@mail.gmail.com>
-In-Reply-To: <CALprXBb=_HuwskwFP0nRKH=3zwoGbig4fWY+Q4g53Jhn985TsA@mail.gmail.com>
-From: Doug Anderson <dianders@chromium.org>
-Date: Thu, 30 Oct 2025 08:22:09 -0700
-X-Gmail-Original-Message-ID: <CAD=FV=UXRpk=O7zC4B9hRE4oTNHJLosm_bhhNUgVur0csChMhQ@mail.gmail.com>
-X-Gm-Features: AWmQ_bnhb78qdonzJKwyTXBrXsT_c1_8-ezmVyvceIjunYMg8V3tseIDtx918nA
-Message-ID: <CAD=FV=UXRpk=O7zC4B9hRE4oTNHJLosm_bhhNUgVur0csChMhQ@mail.gmail.com>
-Subject: Re: [PATCH v1 2/2] drm/panel-edp: Modify LQ116M1JW10 panel's bpc to 6
-To: Ajye Huang <ajye_huang@compal.corp-partner.google.com>
-Cc: linux-kernel@vger.kernel.org, Neil Armstrong <neil.armstrong@linaro.org>, 
- Jessica Zhang <jesszhan0024@gmail.com>, 
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, 
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
- Simona Vetter <simona@ffwll.ch>, 
- dri-devel@lists.freedesktop.org, jazhan@google.com
+Received: from mout-p-102.mailbox.org (mout-p-102.mailbox.org [80.241.56.152])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5460C10E9E4
+ for <dri-devel@lists.freedesktop.org>; Thu, 30 Oct 2025 15:23:51 +0000 (UTC)
+Received: from smtp1.mailbox.org (smtp1.mailbox.org [10.196.197.1])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested)
+ by mout-p-102.mailbox.org (Postfix) with ESMTPS id 4cy7Dg6lDvz9t3b;
+ Thu, 30 Oct 2025 16:23:47 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org;
+ s=mail20150812; 
+ t=1761837828; h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=u5e1e008gbO1/zsprlDyPBCZ7fdZFhj66DGzzytqzuQ=;
+ b=XsRvY6irrdPrD8d9dBP1MABjFGs0HiyFQN9u9P6b0Gjz/HyMS39KS4Q93VFvX5Kj+D7Yy4
+ Xc05edZos7ptFMRZx2iiwIx+HzLNpHAlGyJg8UDpJ0ECb3AibH4JzU/8nG5KDWOJOMXGe/
+ fZDPS/bM9b3z+0cZM6UDSCKIiqOA3Cen7w/QXZJIBBqAOijyyAKPi1zVwbyZmtaK21lFCl
+ /LxVJEeSTn3SvyPYlmxYmmRb1ktth1teMz9ct2Gc3YU3TVzg5ZewN5XQwuTbQ8nL0ev+4x
+ glEHsar9iCtFJqSg0P0VtbV/ZuqPSiQIGrK9s2DP2TQALstbLTgLktb1rXAbzg==
+Message-ID: <015c204472811734b1e2a12d044ac3b13926c617.camel@mailbox.org>
+Subject: Re: [PATCH v3] drm/sched: Add warning for removing hack in
+ drm_sched_fini()
+From: Philipp Stanner <phasta@mailbox.org>
+To: Philipp Stanner <phasta@kernel.org>, Matthew Brost
+ <matthew.brost@intel.com>,  Danilo Krummrich <dakr@kernel.org>, Christian
+ =?ISO-8859-1?Q?K=F6nig?= <ckoenig.leichtzumerken@gmail.com>, David Airlie
+ <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, Tvrtko Ursulin
+ <tvrtko.ursulin@igalia.com>
+Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org, 
+ linux-media@vger.kernel.org
+Date: Thu, 30 Oct 2025 16:23:44 +0100
+In-Reply-To: <20251023123429.139848-2-phasta@kernel.org>
+References: <20251023123429.139848-2-phasta@kernel.org>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
+MIME-Version: 1.0
+X-MBO-RS-ID: 50bb01bfe4d79271fe0
+X-MBO-RS-META: wd5awe31de8g61xfb6fczuxkck9e7365
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -105,31 +65,75 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Reply-To: phasta@kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,
+On Thu, 2025-10-23 at 14:34 +0200, Philipp Stanner wrote:
+> The assembled developers agreed at the X.Org Developers Conference 2025
+> that the hack added for amdgpu in drm_sched_fini() shall be removed. It
+> shouldn't be needed by amdgpu anymore.
+>=20
+> As it's unclear whether all drivers really follow the life time rule of
+> entities having to be torn down before their scheduler, it is reasonable
+> to warn for a while before removing the hack.
+>=20
+> Add a warning in drm_sched_fini() that fires if an entity is still
+> active.
+>=20
+> Signed-off-by: Philipp Stanner <phasta@kernel.org>
 
-On Thu, Oct 30, 2025 at 2:58=E2=80=AFAM Ajye Huang
-<ajye_huang@compal.corp-partner.google.com> wrote:
->
-> Hi Doug,
->
-> On Thu, Oct 30, 2025 at 7:25=E2=80=AFAM Doug Anderson <dianders@chromium.=
-org> wrote:
->
-> >
-> > Unless folks end up preferring EDID_QUIRK_FORCE_6BPC:
-> >
-> > Reviewed-by: Douglas Anderson <dianders@chromium.org>
->
-> After following your suggestion with the following, the issue goes
-> away during YouTube playback.
-> I will send a new patch for drm_edid.c, thank you so much
+Can someone review this?
 
-FWIW, it is a bit baffling to me that you report link training seems
-to be failing yet then talk about the symptom of noise during youtube
-playback. If link training is failing I'd expect nothing to ever show
-up on the screen...
+At XDC we agreed on removing the hack, but wanted to add a warning
+print first for a few releases, to really catch if there are no users
+anymore.
 
--Doug
+Thx
+P.
+
+> ---
+> Changes in v3:
+> =C2=A0 - Add a READ_ONCE() + comment to make the warning slightly less
+> =C2=A0=C2=A0=C2=A0 horrible.
+>=20
+> Changes in v2:
+> =C2=A0 - Fix broken brackets.
+> ---
+> =C2=A0drivers/gpu/drm/scheduler/sched_main.c | 9 ++++++++-
+> =C2=A01 file changed, 8 insertions(+), 1 deletion(-)
+>=20
+> diff --git a/drivers/gpu/drm/scheduler/sched_main.c b/drivers/gpu/drm/sch=
+eduler/sched_main.c
+> index 46119aacb809..31039b08c7b9 100644
+> --- a/drivers/gpu/drm/scheduler/sched_main.c
+> +++ b/drivers/gpu/drm/scheduler/sched_main.c
+> @@ -1419,7 +1419,7 @@ void drm_sched_fini(struct drm_gpu_scheduler *sched=
+)
+> =C2=A0		struct drm_sched_rq *rq =3D sched->sched_rq[i];
+> =C2=A0
+> =C2=A0		spin_lock(&rq->lock);
+> -		list_for_each_entry(s_entity, &rq->entities, list)
+> +		list_for_each_entry(s_entity, &rq->entities, list) {
+> =C2=A0			/*
+> =C2=A0			 * Prevents reinsertion and marks job_queue as idle,
+> =C2=A0			 * it will be removed from the rq in drm_sched_entity_fini()
+> @@ -1440,8 +1440,15 @@ void drm_sched_fini(struct drm_gpu_scheduler *sche=
+d)
+> =C2=A0			 * For now, this remains a potential race in all
+> =C2=A0			 * drivers that keep entities alive for longer than
+> =C2=A0			 * the scheduler.
+> +			 *
+> +			 * The READ_ONCE() is there to make the lockless read
+> +			 * (warning about the lockless write below) slightly
+> +			 * less broken...
+> =C2=A0			 */
+> +			if (!READ_ONCE(s_entity->stopped))
+> +				dev_warn(sched->dev, "Tearing down scheduler with active entities!\n=
+");
+> =C2=A0			s_entity->stopped =3D true;
+> +		}
+> =C2=A0		spin_unlock(&rq->lock);
+> =C2=A0		kfree(sched->sched_rq[i]);
+> =C2=A0	}
+
