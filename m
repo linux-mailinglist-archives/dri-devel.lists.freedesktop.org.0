@@ -2,79 +2,95 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6AB85C20E32
-	for <lists+dri-devel@lfdr.de>; Thu, 30 Oct 2025 16:20:38 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 32795C20E3B
+	for <lists+dri-devel@lfdr.de>; Thu, 30 Oct 2025 16:22:30 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DD02910E9E0;
-	Thu, 30 Oct 2025 15:20:35 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8022A10E9E1;
+	Thu, 30 Oct 2025 15:22:28 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="P5C95DD2";
+	dkim=pass (1024-bit key; unprotected) header.d=chromium.org header.i=@chromium.org header.b="BBsbORra";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pj1-f50.google.com (mail-pj1-f50.google.com
- [209.85.216.50])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E2D1010E28A
- for <dri-devel@lists.freedesktop.org>; Thu, 30 Oct 2025 15:20:33 +0000 (UTC)
-Received: by mail-pj1-f50.google.com with SMTP id
- 98e67ed59e1d1-340299fd35aso186750a91.1
- for <dri-devel@lists.freedesktop.org>; Thu, 30 Oct 2025 08:20:33 -0700 (PDT)
+Received: from mail-ej1-f44.google.com (mail-ej1-f44.google.com
+ [209.85.218.44])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 92F3510E9E1
+ for <dri-devel@lists.freedesktop.org>; Thu, 30 Oct 2025 15:22:27 +0000 (UTC)
+Received: by mail-ej1-f44.google.com with SMTP id
+ a640c23a62f3a-b3b27b50090so199986166b.0
+ for <dri-devel@lists.freedesktop.org>; Thu, 30 Oct 2025 08:22:27 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1761837633; x=1762442433; darn=lists.freedesktop.org;
+ d=chromium.org; s=google; t=1761837744; x=1762442544;
+ darn=lists.freedesktop.org; 
  h=content-transfer-encoding:cc:to:subject:message-id:date:from
  :in-reply-to:references:mime-version:from:to:cc:subject:date
  :message-id:reply-to;
- bh=4n2ZAbC/7CporyooiQ9y7Oblbi4ys3ElhAZOq431qrQ=;
- b=P5C95DD2vRwUcZ+E+z7IhDrdS+X6e76HdhTtNkjKYGx6eqFxYCL1C2yqOpicztrt2x
- prlQolsJ7oNjdNxKx5IwYB4dAvIWvXKssdI/Sab3X7CUAmcDm0JtQ8vui81P9JN9qRFU
- eI4Ex3B3ONnbmadvL4hxgT62IowoG5xDelZgNKwXazzGJoCS3+GRbWTKuVgqwbmC6xzz
- h1K2lRE335d2+AdyN9MTDFrtby17PcsK4nW0XmJ0UsHbgHJd227mw1KJfycRYJnyPtvF
- ER2xd1x6hmst7iQfEyu8gX/1H64CZciH9B+rEDiOlRq1XhLHjrDdCCh4Z/7cDdXYMDEY
- lxMQ==
+ bh=6d/OVmKJJb7OlddG1Bh9+D9lD7AVNsH/e/F/SKjKcKo=;
+ b=BBsbORrag0H+ZNJ4W51KYc+VAhHYYkZy9WVKoo7Fl+i00w+SObBKPUKdmTIcyu60+8
+ Q9g1CSx02BMhGo/7P+sY9s2sbyWFQB+/6EXLroeUPeeEmZ2dwh8uC/QgBvZSRO+J/L4D
+ bKdqHjp2SSdpCyvI0byQ2GU/zow7CNxSRfb8M=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1761837633; x=1762442433;
+ d=1e100.net; s=20230601; t=1761837744; x=1762442544;
  h=content-transfer-encoding:cc:to:subject:message-id:date:from
  :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=4n2ZAbC/7CporyooiQ9y7Oblbi4ys3ElhAZOq431qrQ=;
- b=B97hOWYe9Zru6TKe8FaBBSYG3q2BhfHPqdGqxzUJqvYF0qFB2jr+vRVkEGQAMR3MvB
- QkyN9b1/B+nzX1TmVLHJidSBdYdxrKilAJH/MuOn1EPjt4WgY3MB+6V0N99hOa1pHCfp
- 3VScS8xIxLGvuCIIEO2aTc7to+OPOQH47sCUh7yHA0dg0tgrx2BmFBY4IsAc/zUYP0za
- vFABX4Nk8Unesi7OQ5ochChViBPaEjYdhQtRmDQVvNAtznRAHIrZjwk1SLpESyx/7UZW
- eRgD6SsnqXrxfYGCnmiCtvMfLh4owVPKBebXuQUIO7M0RPK4eoF0IAPy7wbbH8ws1YXF
- UPhg==
+ bh=6d/OVmKJJb7OlddG1Bh9+D9lD7AVNsH/e/F/SKjKcKo=;
+ b=Bau5HTzvZ4Jm9GEXrgN80v4AI0kSnKk6vt+wO8utF/h0kdUzd/bU3AwN8sb/c8SXIb
+ JfO5samiNpAMn/kftpfPOPLkjPWkZGsTlPUJM2f0n4B+CkW/39XIYk6pCSdR++3HrJkp
+ NyKdjHs0R2xhprokf7LiG29WMtyPWHgPf84ju+rdfc3UcCU17tzwVsewgtaT8WiT8X6S
+ HaYQDo4PiGFBaYu3vVBhujQDgmOed3kt3MObKCD1EXw5iKz3raFxNP1+SG/8m/9AI2gA
+ HQWiNmGAT5MUyQHnzkoyVUIxkoWOE2MKKxuGH2NPmtc7yQRRUxNSfiw+dUv/JX6xhHmm
+ 1G6A==
 X-Forwarded-Encrypted: i=1;
- AJvYcCV/xyIMpMkKSpiH7V/X1bNWNZNl9kMSOYij2D7ZFCLzBmGSFT/7rGEzl25KY914uy+I5McUlei8YtM=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YwAklyVKAm4ONYO9q99mC1TrQnRsUQIjkJwrY2RGvXSdtCHg2V0
- wXjaAOEPopqlDRQvZKvArOS/Y3bMiAHb6XtRENomte5du88Iofb0UN2iqM7XMLQBJRPwyP11REe
- KIO4LJttOc6hbWrjw5bgMNZX35rO4NII=
-X-Gm-Gg: ASbGncttByGwNCTY+YVHoiIZUak3Hiv7C4wt/sNIZd0JucmYKwUguuN9U0JLbJxUY1v
- 7PLwGkFlHI9SMiurRq/T8RAbPOW6p8Qwe41lumi4h7eep3Es01ULPHo5CwbV1+fpOuHiuhATkpe
- i9u0VjpFgLGPreUI+rJNM3pRjur7HO35OHmPXdYPVFMTjUjkI+5BSxiVnSWd03zsQO8FxPnDxHK
- kXI99ZpDRgdfOy5yaqjDNWq8YdH2Z8Am5hmsaAXQlaMvWP+/AhyYroHb8hH
-X-Google-Smtp-Source: AGHT+IFb9s2heQmxBOs16F9sJ4fOGsoBxkOFOsxPxU7gqSkUUjW9axA4peKPZGOc6kGJhiEtISZ7fWFZ7zDcJ9fzKU8=
-X-Received: by 2002:a17:902:f395:b0:26c:3c15:f780 with SMTP id
- d9443c01a7336-2951a49dd38mr397265ad.8.1761837633262; Thu, 30 Oct 2025
- 08:20:33 -0700 (PDT)
+ AJvYcCUEZT5KW0wYX1chn3kmTloku0nQUBh132HespMypLogiCDXfYXx9pg7zF83fUt5xVN0MTE5xxbB9pY=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YwhEcE+VA48Dmj5qR36ywA3s89bNS5ZZgHZ7HRkR5yvjT6npRca
+ 68apqTOXgy4z2fxvVj/NDe5c76ARWYSooTeS4GVQsDedOqQarhxSnZEoPwmTD0H8FDvpm1OBlM9
+ qdLmIeO2U
+X-Gm-Gg: ASbGncvP9hJ4DbwFl10GI0ZiSOsUsoNjaX3DEqP3C0o5NxTuOORyWbnx49ybcrqwbGo
+ ZKyp1Yha9LykxtgK++Y2/jaOouZjaHoDSezxq78yFwZYjKBjqrEZSIwjnVFmwSCXAMDq/sjAjGv
+ qrmMgEJo3UipS5nMRk8KxUVYluvb3UanHFqHxDLeu79oZDEPQIx1KQxHP9BnNX4uWs8q+8AmFTT
+ K51f+KZNTtT/0Lc0vPiEWRrZ5QdF1Gv8OBRZDnDlo5StK5akjBQo6yJDQIpEX+4Pcps0tNS03T+
+ iy9XTKsb/1heVBTTGViN/gruaJe+GUcTphPvOtNQp0JbkZses6bUmNrFELmzV30LwS9IhXj23Ps
+ A767bDxcp8icnyQFqMF2cWize4El+Hoy+FrGHvBqXpNb+7K2v9W6GyQpdVrej10/9zoCQe8RsSU
+ awn108sUajpI6gjZwJ+tEepfqnohc/cjU8UX/oTdU=
+X-Google-Smtp-Source: AGHT+IFYxuDQkRKeHIdbOPshgRd6sHcgZXUvtBRwaffitIWrJY3K26UihxqWWpJVDakSIxRHucdrwg==
+X-Received: by 2002:a17:907:7fa0:b0:b3d:9261:ff1b with SMTP id
+ a640c23a62f3a-b7053b63973mr310772666b.5.1761837743644; 
+ Thu, 30 Oct 2025 08:22:23 -0700 (PDT)
+Received: from mail-wm1-f45.google.com (mail-wm1-f45.google.com.
+ [209.85.128.45]) by smtp.gmail.com with ESMTPSA id
+ a640c23a62f3a-b6d853e5138sm1781744466b.44.2025.10.30.08.22.22
+ for <dri-devel@lists.freedesktop.org>
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 30 Oct 2025 08:22:22 -0700 (PDT)
+Received: by mail-wm1-f45.google.com with SMTP id
+ 5b1f17b1804b1-475d9de970eso8531985e9.1
+ for <dri-devel@lists.freedesktop.org>; Thu, 30 Oct 2025 08:22:22 -0700 (PDT)
+X-Forwarded-Encrypted: i=1;
+ AJvYcCWqc9g0xT8PqHXBK9/wHBQPLNw/Q2Wm0wpbESTY4b1ACbiqkwS7KcDPOrefA1S9CMulRcJ9HcU9lgI=@lists.freedesktop.org
+X-Received: by 2002:a05:600c:190e:b0:46e:42aa:75b5 with SMTP id
+ 5b1f17b1804b1-47730793c04mr1042045e9.4.1761837741749; Thu, 30 Oct 2025
+ 08:22:21 -0700 (PDT)
 MIME-Version: 1.0
-References: <20251030143737.136120-1-lukas.bulwahn@redhat.com>
-In-Reply-To: <20251030143737.136120-1-lukas.bulwahn@redhat.com>
-From: Alex Deucher <alexdeucher@gmail.com>
-Date: Thu, 30 Oct 2025 11:20:21 -0400
-X-Gm-Features: AWmQ_bmVii5Alx1O5jsx56pQkAEpJlLlfevil6R4SK7ejJJXXuksGVL19-p25ec
-Message-ID: <CADnq5_OR72MJvXHTGzzW-oP+z8X=7vQiCpytmuBJNsN7=Tw=pA@mail.gmail.com>
-Subject: Re: [PATCH] MAINTAINERS: adjust file entry in AMD DISPLAY CORE - DML
-To: Lukas Bulwahn <lbulwahn@redhat.com>
-Cc: Austin Zheng <austin.zheng@amd.com>, Dillon Varone <dillon.varone@amd.com>,
- waynelin <Wayne.Lin@amd.com>, Dan Wheeler <daniel.wheeler@amd.com>, 
- Alex Deucher <alexander.deucher@amd.com>, amd-gfx@lists.freedesktop.org, 
- dri-devel@lists.freedesktop.org, Jun Lei <jun.lei@amd.com>, 
- Harry Wentland <harry.wentland@amd.com>, Leo Li <sunpeng.li@amd.com>, 
- Rodrigo Siqueira <siqueira@igalia.com>,
- =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>, 
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- kernel-janitors@vger.kernel.org, 
- linux-kernel@vger.kernel.org, Lukas Bulwahn <lukas.bulwahn@redhat.com>
+References: <20251029081048.162374-1-ajye_huang@compal.corp-partner.google.com>
+ <20251029081048.162374-3-ajye_huang@compal.corp-partner.google.com>
+ <CAD=FV=WbR0u_a7S1pcL-6C+sj9Kt=GOLUwJmwt8ANJbyV4JYFQ@mail.gmail.com>
+ <CALprXBb=_HuwskwFP0nRKH=3zwoGbig4fWY+Q4g53Jhn985TsA@mail.gmail.com>
+In-Reply-To: <CALprXBb=_HuwskwFP0nRKH=3zwoGbig4fWY+Q4g53Jhn985TsA@mail.gmail.com>
+From: Doug Anderson <dianders@chromium.org>
+Date: Thu, 30 Oct 2025 08:22:09 -0700
+X-Gmail-Original-Message-ID: <CAD=FV=UXRpk=O7zC4B9hRE4oTNHJLosm_bhhNUgVur0csChMhQ@mail.gmail.com>
+X-Gm-Features: AWmQ_bnhb78qdonzJKwyTXBrXsT_c1_8-ezmVyvceIjunYMg8V3tseIDtx918nA
+Message-ID: <CAD=FV=UXRpk=O7zC4B9hRE4oTNHJLosm_bhhNUgVur0csChMhQ@mail.gmail.com>
+Subject: Re: [PATCH v1 2/2] drm/panel-edp: Modify LQ116M1JW10 panel's bpc to 6
+To: Ajye Huang <ajye_huang@compal.corp-partner.google.com>
+Cc: linux-kernel@vger.kernel.org, Neil Armstrong <neil.armstrong@linaro.org>, 
+ Jessica Zhang <jesszhan0024@gmail.com>, 
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, 
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
+ Simona Vetter <simona@ffwll.ch>, 
+ dri-devel@lists.freedesktop.org, jazhan@google.com
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -92,37 +108,28 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Applied.  Thanks!
+Hi,
 
-On Thu, Oct 30, 2025 at 10:46=E2=80=AFAM Lukas Bulwahn <lbulwahn@redhat.com=
-> wrote:
+On Thu, Oct 30, 2025 at 2:58=E2=80=AFAM Ajye Huang
+<ajye_huang@compal.corp-partner.google.com> wrote:
 >
-> From: Lukas Bulwahn <lukas.bulwahn@redhat.com>
+> Hi Doug,
 >
-> Commit e6a8a000cfe6 ("drm/amd/display: Rename dml2 to dml2_0 folder")
-> renames the directory dml2 to dml2_0 in ./drivers/gpu/drm/amd/display/dc,
-> but misses to adjust the file entry in AMD DISPLAY CORE - DML.
+> On Thu, Oct 30, 2025 at 7:25=E2=80=AFAM Doug Anderson <dianders@chromium.=
+org> wrote:
 >
-> Adjust the file entry after this directory renaming.
+> >
+> > Unless folks end up preferring EDID_QUIRK_FORCE_6BPC:
+> >
+> > Reviewed-by: Douglas Anderson <dianders@chromium.org>
 >
-> Signed-off-by: Lukas Bulwahn <lukas.bulwahn@redhat.com>
-> ---
->  MAINTAINERS | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
->
-> diff --git a/MAINTAINERS b/MAINTAINERS
-> index 4d739e18aab6..7031ee1e7cff 100644
-> --- a/MAINTAINERS
-> +++ b/MAINTAINERS
-> @@ -1080,7 +1080,7 @@ M:        Austin Zheng <austin.zheng@amd.com>
->  M:     Jun Lei <jun.lei@amd.com>
->  S:     Supported
->  F:     drivers/gpu/drm/amd/display/dc/dml/
-> -F:     drivers/gpu/drm/amd/display/dc/dml2/
-> +F:     drivers/gpu/drm/amd/display/dc/dml2_0/
->
->  AMD FAM15H PROCESSOR POWER MONITORING DRIVER
->  M:     Huang Rui <ray.huang@amd.com>
-> --
-> 2.51.0
->
+> After following your suggestion with the following, the issue goes
+> away during YouTube playback.
+> I will send a new patch for drm_edid.c, thank you so much
+
+FWIW, it is a bit baffling to me that you report link training seems
+to be failing yet then talk about the symptom of noise during youtube
+playback. If link training is failing I'd expect nothing to ever show
+up on the screen...
+
+-Doug
