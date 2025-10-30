@@ -2,86 +2,80 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B2864C1EEE8
-	for <lists+dri-devel@lfdr.de>; Thu, 30 Oct 2025 09:17:55 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id BB130C1EF04
+	for <lists+dri-devel@lfdr.de>; Thu, 30 Oct 2025 09:18:49 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4A85F10E917;
-	Thu, 30 Oct 2025 08:17:44 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 20FF010E91F;
+	Thu, 30 Oct 2025 08:18:48 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="ehwwDjgc";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="ydZT1OYS";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-f53.google.com (mail-wr1-f53.google.com
- [209.85.221.53])
- by gabe.freedesktop.org (Postfix) with ESMTPS id EC5AD10E917
- for <dri-devel@lists.freedesktop.org>; Thu, 30 Oct 2025 08:17:42 +0000 (UTC)
-Received: by mail-wr1-f53.google.com with SMTP id
- ffacd0b85a97d-3ee15b5435bso582122f8f.0
- for <dri-devel@lists.freedesktop.org>; Thu, 30 Oct 2025 01:17:42 -0700 (PDT)
+Received: from mail-wm1-f47.google.com (mail-wm1-f47.google.com
+ [209.85.128.47])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2A39410E92A
+ for <dri-devel@lists.freedesktop.org>; Thu, 30 Oct 2025 08:18:47 +0000 (UTC)
+Received: by mail-wm1-f47.google.com with SMTP id
+ 5b1f17b1804b1-47112a73785so5456815e9.3
+ for <dri-devel@lists.freedesktop.org>; Thu, 30 Oct 2025 01:18:47 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1761812261; x=1762417061; darn=lists.freedesktop.org;
+ d=linaro.org; s=google; t=1761812326; x=1762417126; darn=lists.freedesktop.org;
  h=content-transfer-encoding:in-reply-to:organization:autocrypt
  :content-language:references:cc:to:subject:reply-to:from:user-agent
  :mime-version:date:message-id:from:to:cc:subject:date:message-id
- :reply-to; bh=1gVKZ9YN8sZoUBOLwjil9dfNLuOB/p2Y81xFPY004kY=;
- b=ehwwDjgc3nbk0FBuO91v7gL2focJzirhD4Vs/LStHq3/8sLvJ7JGybP70Q4MrZzcEt
- hj2qNMrxCz7nzuTNokcjUriXLEWYgRRGc5FyAxOimoOOalcGuYQNRH42DLgLnH7HdHNV
- 8IET06q0hCdTFZNYn2h3KCw+bDSeNT2KzooiAw79S2pxEmLivo9GUSbf5VpXuQhviS6P
- nNuJmntXIP9HwdUI76b+K7xKLx6imcoLJ27xHWQMvaWHlrvj8fdf2Io1g4iwH3MD3LuQ
- O1EcXDYRcL5kT5FTDXz+NYOsxfMhOPr6YxkH0ZtWt04luc9T1LatabYwd6TWiEjy28Lu
- yAlg==
+ :reply-to; bh=n22jjnKTjPV+2WeoUAlwQeRGh9RPW9Sz0+Vh4tXt1qE=;
+ b=ydZT1OYSJNxfkthNrsThNmPQg2ZWR+2dgrsk7s1eWZ29yqyYts9gSTFbKnweRJHaWe
+ ruSfSY9twOLFaHV2AmDk7kh01YNVOtd/rkeXll4XnbVgRP4YzIClIgm9HhDS4YT3HHnJ
+ rhn966mXyQLDZ3nqJHjPYawfum+hJPKy6qkHHwqLAWAIJr6TLUWqthlIdL7Ok/lAacd+
+ /xfmTXizX9nJLDKmjJ5USDjVwaDfV7RGcoGOd6AVCVKtQryFky7sZq4vceKO5fCbfAkk
+ hiIDrMUUWlaY39Z5yPunPbEMeKHoggc/eyYzg+rrjkPr7o6iyGqjMGOpvVCQysO98KgY
+ cp9g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1761812261; x=1762417061;
+ d=1e100.net; s=20230601; t=1761812326; x=1762417126;
  h=content-transfer-encoding:in-reply-to:organization:autocrypt
  :content-language:references:cc:to:subject:reply-to:from:user-agent
  :mime-version:date:message-id:x-gm-message-state:from:to:cc:subject
  :date:message-id:reply-to;
- bh=1gVKZ9YN8sZoUBOLwjil9dfNLuOB/p2Y81xFPY004kY=;
- b=SflnIXrD7gHr5q0ylS/TtofNOGAmVckZAW/8L/ouZkxUa9B4Qifnt/rhaXMLIl06aF
- NN1nHPG/jpdAK1nGJx3j7mgj20ngyuMIFidzDuuXF04MVvzhBEHoxmHclnGh0APtAutz
- cN8nCkRLLlNXRi7kBezKafj5GOipzKREgHqXESpbQ2iXQ8NiT/3jyeCPEw+tgneD/19L
- GgVebmYVJkDKRU4tVncN1KU28yoih7r/Q2GUOXmPvxdBsdzhu7g3Bc4zb/KQpYz6qVv6
- 2oaSJTSgldoYsxJ4y5anl9mPiEAqtjya211s/sGcYe8C8jiL0PnGocyTr8yeuId5essc
- lTNg==
+ bh=n22jjnKTjPV+2WeoUAlwQeRGh9RPW9Sz0+Vh4tXt1qE=;
+ b=BuU8ZuR+Md3mevs8mlXStXmpnB5OpcIxl+wTRqqKev99NXbORQmvIqlMMoqfgGmAHn
+ NiltXluZ4yRLIN8OV2k7yZjQJWIwR+VA1qK7RkleLVp5LEp7JenjZQRaqf3/OsvcVGsX
+ +cJ+Kmmfc/pFwjyDNq8XKL9ABBShxHNRI5OqrU4qiNsgdSv4d4W19xpX2s27ogBPsWg9
+ 3No5hMi9oqkmwGT6cqXbM2xmBi34idsbQ5b7xhSKKzmAnxJMQyC4bo+UexE7AZKV+TlI
+ S2J1wMy4wk4iF59PDpeqm70eHk8F4wD/C/ReDw/p7UNFIIWo/Si9YFj/nJhhCVmIYdyu
+ F8Kw==
 X-Forwarded-Encrypted: i=1;
- AJvYcCUeVMnmWLhqbTAq0tnVKAo6M5qmNYQbi7NYoHg48pabfX5OdTEYt2s/FDu9eeIaEO1ddbzNbuGnV/c=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YwRG9OJxA6lAxLtKmGywOPdMxqmei0Kh65/B1ySIXj6S/P9/ptn
- wq8ovP0yksoI1UvgrkcCabv30nyqXAzPtvUPEUijgbC4chd1Y8azQDKukrAxgp3Tqrs=
-X-Gm-Gg: ASbGnctjlkYFzTtfipa3jGvV+hKIRsSmhikPmJbUqnPswb6FnWSXecIBkQo+GcCjyAU
- nDDKNmkqLlI4puOSCmU/jlw46pkoti1FxZ9q/Pkxge40Qf62gb2WdmYCKUNL2IrNVGHHSKlbj3a
- 9vdixG8wpzlx4ymssRBV799l79m4MJOgblKcBBv6hws/ZQubCtxKmALkWE1uHKkiPiCZTK9kRmZ
- G4M0hQCw14pzKFslMakvKPfeksT0GJVHwqzjVr+6e0JkzOMhCadBODi9XZeFKHz20dQlKnCHxF/
- Q03+y4cKhAouEtjywBUKEKC3/T3CGykWh4RHTAHtpLrSmgq9EOsijM5DHQD9MVE1eHdTPqlb3ne
- 4HGd8WOr12XSs8lKuvvEjqh2VcoTPuUl6sTyBXFvLegtrXFrI25VPHpFFd9WheV9gGqqU1+JN9y
- Ip8FSEHX825IUYpykgPUq5XfWi/u6A2zNmK0DMr6hLY4mFa8rD1/ZS
-X-Google-Smtp-Source: AGHT+IGRMDnVKGMZu+9Y1CP/bFmSno7jyht49nowkG0CEnVkboBLPR5O/60eu2OsoH0/Yi48rzAk5g==
-X-Received: by 2002:a05:6000:43c6:20b0:407:23f7:51 with SMTP id
- ffacd0b85a97d-429aef715c1mr3237226f8f.1.1761812261194; 
- Thu, 30 Oct 2025 01:17:41 -0700 (PDT)
+ AJvYcCUDvBnqmQha2IGaIC+mPIKdzDvKyWFAaCrY6rsHK19YMa90xJjcjrqP/rMqh1d9VcqG5rtZbQDVvVw=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YydYRajHRHdiBRubET00nImMOhBwOkq5g5pEPLaHSXU0gsNV3VD
+ iopJ4xhNWPb/SaAYiJUiVFcLalP8/rfKOgTJgvWskoIaAdYkIeDu895mP2QC3MW803s=
+X-Gm-Gg: ASbGncupyDnfRhnbF/1Dx+z9tzSJ7CEJyXjaimQ/eeZ/TNZFkdl/97H1d0KiRMt9fRb
+ D0tngnOqFeGOKJlHLF2zdwaoNDm0sNTipZchOmScRyGPQGUOHvWi7GkrnZIecHuaI6frVMPSl1n
+ gF0DPcb1TeOoLjnB7/YqaGN6Nnn2Lz86JyIuHs9OrgoDM5zmH67wiFVcW2bQOS3GT5cTYUVht2D
+ e2IzmJ4xiwReX91ROOPgGR9br+8P6s2SeYe5I41Hdy+dbHX5HYKvIZfytFmyqcVBk1XUlI9ipQs
+ YPzrPGjXyTUoS/uaYfDj0aZMoTsvI0JvuJhYnvRGkmGFKSeJIC789+A5GEbIorubc5N/6Xe/HWB
+ sxkXLx2FH6mhvF+F84UWdUtK2oJMjeIbQ/zGSu7PZhZ/JtNBc3g3cQOk0o1I1whVxn8bTQVuinE
+ RTEP/p/MCocLAC7Nja/vAe1ig+aLPT0R2w+V/emj5Xax8dnjQc7hBV
+X-Google-Smtp-Source: AGHT+IEPEKlS1MXFKcHH4eUEEpj3CY6CH7IIM3l1El1nu+O9i5LhtMn2UPjpukubmdgPWNokkI299Q==
+X-Received: by 2002:a05:600c:45c5:b0:46e:376c:b1f0 with SMTP id
+ 5b1f17b1804b1-4771e316cf4mr54045975e9.7.1761812325510; 
+ Thu, 30 Oct 2025 01:18:45 -0700 (PDT)
 Received: from ?IPV6:2a01:e0a:cad:2140:3e45:b3e1:4bfc:5477?
  ([2a01:e0a:cad:2140:3e45:b3e1:4bfc:5477])
  by smtp.gmail.com with ESMTPSA id
- 5b1f17b1804b1-47728aa8a9dsm26326715e9.13.2025.10.30.01.17.40
+ ffacd0b85a97d-429952db964sm30787325f8f.33.2025.10.30.01.18.44
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 30 Oct 2025 01:17:40 -0700 (PDT)
-Message-ID: <8cd614ea-fed9-423e-a90d-8c4831426cbd@linaro.org>
-Date: Thu, 30 Oct 2025 09:17:40 +0100
+ Thu, 30 Oct 2025 01:18:45 -0700 (PDT)
+Message-ID: <dc589c50-aa4c-4bbb-b481-b3a66fcba095@linaro.org>
+Date: Thu, 30 Oct 2025 09:18:44 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-From: Neil Armstrong <neil.armstrong@linaro.org>
-Subject: Re: linux-next: manual merge of the backlight tree with the drm-misc
- tree
-To: Thomas Zimmermann <tzimmermann@suse.de>,
- Stephen Rothwell <sfr@canb.auug.org.au>, Lee Jones <lee@kernel.org>,
- Simona Vetter <simona.vetter@ffwll.ch>
-Cc: Kaustabh Chakraborty <kauschluss@disroot.org>,
- Intel Graphics <intel-gfx@lists.freedesktop.org>,
- DRI <dri-devel@lists.freedesktop.org>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- Linux Next Mailing List <linux-next@vger.kernel.org>
-References: <20251030151428.3c1f11ea@canb.auug.org.au>
- <86a0cf86-42e6-430b-b193-f60d6182f416@suse.de>
+From: neil.armstrong@linaro.org
+Subject: Re: [PATCH] mailmap: Update Jessica Zhang's email address
+To: Jessica Zhang <jesszhan0024@gmail.com>, lumag@kernel.org,
+ robin.clark@oss.qualcomm.com
+Cc: linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ linux-arm-msm@vger.kernel.org, freedreno@lists.freedesktop.org
+References: <20251029-mailmap-fix-v1-1-8534ffa12ed3@gmail.com>
 Content-Language: en-US, fr
 Autocrypt: addr=neil.armstrong@linaro.org; keydata=
  xsBNBE1ZBs8BCAD78xVLsXPwV/2qQx2FaO/7mhWL0Qodw8UcQJnkrWmgTFRobtTWxuRx8WWP
@@ -108,9 +102,9 @@ Autocrypt: addr=neil.armstrong@linaro.org; keydata=
  4zcsPWvwnXgfe5tk680fEKZVwOZKIEuJC3v+/yZpQzDvGYJvbyix0lHnrCzq43WefRHI5XTT
  QbM0WUIBIcGmq38+OgUsMYu4NzLu7uZFAcmp6h8g
 Organization: Linaro
-In-Reply-To: <86a0cf86-42e6-430b-b193-f60d6182f416@suse.de>
+In-Reply-To: <20251029-mailmap-fix-v1-1-8534ffa12ed3@gmail.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -127,127 +121,38 @@ Reply-To: Neil Armstrong <neil.armstrong@linaro.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 10/30/25 09:14, Thomas Zimmermann wrote:
-> Hi
+On 10/30/25 07:31, Jessica Zhang wrote:
+> Update mailmap to point to my current address
 > 
-> Am 30.10.25 um 05:14 schrieb Stephen Rothwell:
->> Hi all,
->>
->> After merging the backlight tree, today's linux-next build (x86_64
->> allmodconfig) failed like this:
->>
->> drivers/gpu/drm/panel/panel-synaptics-tddi.c:41:41: error: array type has incomplete element type 'struct regulator_bulk_data'
->>     41 | static const struct regulator_bulk_data tddi_supplies[] = {
->>        |                                         ^~~~~~~~~~~~~
->> drivers/gpu/drm/panel/panel-synaptics-tddi.c: In function 'tddi_prepare':
->> drivers/gpu/drm/panel/panel-synaptics-tddi.c:72:15: error: implicit declaration of function 'regulator_bulk_enable' [-Wimplicit-function-declaration]
->>     72 |         ret = regulator_bulk_enable(ARRAY_SIZE(tddi_supplies), ctx->supplies);
->>        |               ^~~~~~~~~~~~~~~~~~~~~
->> In file included from include/linux/dev_printk.h:14,
->>                   from include/linux/device.h:15,
->>                   from include/linux/backlight.h:12,
->>                   from drivers/gpu/drm/panel/panel-synaptics-tddi.c:8:
->> include/linux/compiler.h:201:82: error: expression in static assertion is not an integer
->>    201 | #define __BUILD_BUG_ON_ZERO_MSG(e, msg, ...) ((int)sizeof(struct {_Static_assert(!(e), msg);}))
->>        |                                                                                  ^
->> include/linux/compiler.h:206:33: note: in expansion of macro '__BUILD_BUG_ON_ZERO_MSG'
->>    206 | #define __must_be_array(a)      __BUILD_BUG_ON_ZERO_MSG(!__is_array(a), \
->>        |                                 ^~~~~~~~~~~~~~~~~~~~~~~
->> include/linux/array_size.h:11:59: note: in expansion of macro '__must_be_array'
->>     11 | #define ARRAY_SIZE(arr) (sizeof(arr) / sizeof((arr)[0]) + __must_be_array(arr))
->>        |                                                           ^~~~~~~~~~~~~~~
->> drivers/gpu/drm/panel/panel-synaptics-tddi.c:72:37: note: in expansion of macro 'ARRAY_SIZE'
->>     72 |         ret = regulator_bulk_enable(ARRAY_SIZE(tddi_supplies), ctx->supplies);
->>        |                                     ^~~~~~~~~~
->> drivers/gpu/drm/panel/panel-synaptics-tddi.c: In function 'tddi_unprepare':
->> drivers/gpu/drm/panel/panel-synaptics-tddi.c:101:9: error: implicit declaration of function 'regulator_bulk_disable' [-Wimplicit-function-declaration]
->>    101 |         regulator_bulk_disable(ARRAY_SIZE(tddi_supplies), ctx->supplies);
->>        |         ^~~~~~~~~~~~~~~~~~~~~~
->> include/linux/compiler.h:201:82: error: expression in static assertion is not an integer
->>    201 | #define __BUILD_BUG_ON_ZERO_MSG(e, msg, ...) ((int)sizeof(struct {_Static_assert(!(e), msg);}))
->>        |                                                                                  ^
->> include/linux/compiler.h:206:33: note: in expansion of macro '__BUILD_BUG_ON_ZERO_MSG'
->>    206 | #define __must_be_array(a)      __BUILD_BUG_ON_ZERO_MSG(!__is_array(a), \
->>        |                                 ^~~~~~~~~~~~~~~~~~~~~~~
->> include/linux/array_size.h:11:59: note: in expansion of macro '__must_be_array'
->>     11 | #define ARRAY_SIZE(arr) (sizeof(arr) / sizeof((arr)[0]) + __must_be_array(arr))
->>        |                                                           ^~~~~~~~~~~~~~~
->> drivers/gpu/drm/panel/panel-synaptics-tddi.c:101:32: note: in expansion of macro 'ARRAY_SIZE'
->>    101 |         regulator_bulk_disable(ARRAY_SIZE(tddi_supplies), ctx->supplies);
->>        |                                ^~~~~~~~~~
->> drivers/gpu/drm/panel/panel-synaptics-tddi.c: In function 'tddi_probe':
->> drivers/gpu/drm/panel/panel-synaptics-tddi.c:183:15: error: implicit declaration of function 'devm_regulator_bulk_get_const' [-Wimplicit-function-declaration]
->>    183 |         ret = devm_regulator_bulk_get_const(dev, ARRAY_SIZE(tddi_supplies),
->>        |               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
->> include/linux/compiler.h:201:82: error: expression in static assertion is not an integer
->>    201 | #define __BUILD_BUG_ON_ZERO_MSG(e, msg, ...) ((int)sizeof(struct {_Static_assert(!(e), msg);}))
->>        |                                                                                  ^
->> include/linux/compiler.h:206:33: note: in expansion of macro '__BUILD_BUG_ON_ZERO_MSG'
->>    206 | #define __must_be_array(a)      __BUILD_BUG_ON_ZERO_MSG(!__is_array(a), \
->>        |                                 ^~~~~~~~~~~~~~~~~~~~~~~
->> include/linux/array_size.h:11:59: note: in expansion of macro '__must_be_array'
->>     11 | #define ARRAY_SIZE(arr) (sizeof(arr) / sizeof((arr)[0]) + __must_be_array(arr))
->>        |                                                           ^~~~~~~~~~~~~~~
->> drivers/gpu/drm/panel/panel-synaptics-tddi.c:183:50: note: in expansion of macro 'ARRAY_SIZE'
->>    183 |         ret = devm_regulator_bulk_get_const(dev, ARRAY_SIZE(tddi_supplies),
->>        |                                                  ^~~~~~~~~~
->> drivers/gpu/drm/panel/panel-synaptics-tddi.c: At top level:
->> drivers/gpu/drm/panel/panel-synaptics-tddi.c:41:41: error: 'tddi_supplies' defined but not used [-Werror=unused-variable]
->>     41 | static const struct regulator_bulk_data tddi_supplies[] = {
->>        |                                         ^~~~~~~~~~~~~
->> cc1: all warnings being treated as errors
->>
->> Caused by commit
->>
->>    243ce64b2b37 ("backlight: Do not include <linux/fb.h> in header file")
->>
->> interacting with commit
->>
->>    3eae82503f4f ("drm: panel: add support for Synaptics TDDI series DSI panels")
->>
->> from the drm-misc tree.
->>
->> I have applied the following merge fix patch.  It (or something linke it)
->> should be applied to the drm-misc tree.
->>
->> From: Stephen Rothwell <sfr@canb.auug.org.au>
->> Date: Thu, 30 Oct 2025 14:57:03 +1100
->> Subject: [PATCH] fix up for "backlight: Do not include <linux/fb.h> in header file"
->>
->> interacting with commit
->>
->>    3eae82503f4f ("drm: panel: add support for Synaptics TDDI series DSI panels")
->>
->> from the drm-misc tree.
->>
->> Signed-off-by: Stephen Rothwell <sfr@canb.auug.org.au>
+> Reported-by: Neil Armstrong <neil.armstrong@linaro.org>
+> Signed-off-by: Jessica Zhang <jesszhan0024@gmail.com>
+> ---
+>   .mailmap | 4 +++-
+>   1 file changed, 3 insertions(+), 1 deletion(-)
 > 
-> Acked-by: Thomas Zimmermann <tzimmermann@suse.de>
+> diff --git a/.mailmap b/.mailmap
+> index b77cd34cf852..1c57bd649f04 100644
+> --- a/.mailmap
+> +++ b/.mailmap
+> @@ -352,7 +352,9 @@ Jesper Dangaard Brouer <hawk@kernel.org> <hawk@comx.dk>
+>   Jesper Dangaard Brouer <hawk@kernel.org> <jbrouer@redhat.com>
+>   Jesper Dangaard Brouer <hawk@kernel.org> <jdb@comx.dk>
+>   Jesper Dangaard Brouer <hawk@kernel.org> <netoptimizer@brouer.com>
+> -Jessica Zhang <quic_jesszhan@quicinc.com> <jesszhan@codeaurora.org>
+> +Jessica Zhang <jesszhan0024@gmail.com> <jesszhan@codeaurora.org>
+> +Jessica Zhang <jesszhan0024@gmail.com> <quic_jesszhan@quicinc.com>
+> +Jessica Zhang <jesszhan0024@gmail.com> <jessica.zhang@oss.qualcomm.com>
+>   Jilai Wang <quic_jilaiw@quicinc.com> <jilaiw@codeaurora.org>
+>   Jiri Kosina <jikos@kernel.org> <jikos@jikos.cz>
+>   Jiri Kosina <jikos@kernel.org> <jkosina@suse.cz>
 > 
-> I think we can take your patch into drm-misc. Thanks for fixing this.
-
-I'm preparing the patch right now.
-
-Thanks,
-Neil
-
+> ---
+> base-commit: b5bad77e1e3c7249e4c0c88f98477e1ee7669b63
+> change-id: 20251028-mailmap-fix-50434c548816
 > 
-> Best regards
-> Thomas
-> 
->> ---
->>   drivers/gpu/drm/panel/panel-synaptics-tddi.c | 1 +
->>   1 file changed, 1 insertion(+)
->>
->> diff --git a/drivers/gpu/drm/panel/panel-synaptics-tddi.c b/drivers/gpu/drm/panel/panel-synaptics-tddi.c
->> index a4b3cbdebb6c..0aea1854710e 100644
->> --- a/drivers/gpu/drm/panel/panel-synaptics-tddi.c
->> +++ b/drivers/gpu/drm/panel/panel-synaptics-tddi.c
->> @@ -9,6 +9,7 @@
->>   #include <linux/gpio/consumer.h>
->>   #include <linux/module.h>
->>   #include <linux/of.h>
->> +#include <linux/regulator/consumer.h>
->>   #include <video/mipi_display.h>
+> Best regards,
+> --
+> Jessica Zhang <jesszhan0024@gmail.com>
 > 
 
+Acked-by: Neil Armstrong <neil.armstrong@linaro.org>
