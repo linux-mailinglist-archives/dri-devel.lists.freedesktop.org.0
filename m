@@ -2,63 +2,80 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2E87BC1E9DF
-	for <lists+dri-devel@lfdr.de>; Thu, 30 Oct 2025 07:48:28 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 59B22C1EA09
+	for <lists+dri-devel@lfdr.de>; Thu, 30 Oct 2025 07:50:44 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9D85010E88C;
-	Thu, 30 Oct 2025 06:48:25 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A0DAA10E038;
+	Thu, 30 Oct 2025 06:50:41 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="Jvaq5XNT";
+	dkim=pass (1024-bit key; unprotected) header.d=rock-chips.com header.i=@rock-chips.com header.b="aQQwn+va";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sea.source.kernel.org (sea.source.kernel.org [172.234.252.31])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5C4E910E88C
- for <dri-devel@lists.freedesktop.org>; Thu, 30 Oct 2025 06:48:24 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by sea.source.kernel.org (Postfix) with ESMTP id 1340543ADE;
- Thu, 30 Oct 2025 06:48:24 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 26554C4CEF1;
- Thu, 30 Oct 2025 06:48:22 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1761806903;
- bh=Hh7skkg065ylczpCr0Iv292nYGj50H++UlcoJlqnTFg=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=Jvaq5XNTepDILhgg1JjU/RUVDN3aAiAJIkCA81z5TSuHPckkaF3X0SyKZTH4NiHLo
- x+finAT9AqYTJiYKAczU3VWRnf+rm3VE20OrKWYI/Xxc5hFGsCXFzXGxlRgl84S3cn
- 1erdjEeAotdXzH15cDoYeVH+bTlS6vCEewWmlIP12FHqqmKW1wIhJVbVTWmVOPGJrX
- RJ5aoNnkrAbFiXF+dpmpZF6tfJYJwn+YpHGgTwxQxqrtPlhVJhYtSdcxvt/ny5ubyp
- 08qX3boYwst6Z/pSklUkGal7BAeNf8rJyf2PuG4I88FPZtBaphc13e3GPPIzUbz0sz
- yNDwwG6BUC0cA==
-Date: Thu, 30 Oct 2025 08:48:18 +0200
-From: Leon Romanovsky <leon@kernel.org>
-To: Samiullah Khawaja <skhawaja@google.com>
-Cc: Alex Williamson <alex.williamson@redhat.com>,
- Jason Gunthorpe <jgg@nvidia.com>,
- Andrew Morton <akpm@linux-foundation.org>,
- Bjorn Helgaas <bhelgaas@google.com>,
- Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
- dri-devel@lists.freedesktop.org, iommu@lists.linux.dev,
- Jens Axboe <axboe@kernel.dk>, Joerg Roedel <joro@8bytes.org>,
- kvm@vger.kernel.org, linaro-mm-sig@lists.linaro.org,
- linux-block@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-media@vger.kernel.org, linux-mm@kvack.org,
- linux-pci@vger.kernel.org, Logan Gunthorpe <logang@deltatee.com>,
- Marek Szyprowski <m.szyprowski@samsung.com>,
- Robin Murphy <robin.murphy@arm.com>,
- Sumit Semwal <sumit.semwal@linaro.org>,
- Vivek Kasireddy <vivek.kasireddy@intel.com>, Will Deacon <will@kernel.org>
-Subject: Re: [PATCH v5 9/9] vfio/pci: Add dma-buf export support for MMIO
- regions
-Message-ID: <20251030064818.GA60090@unreal>
-References: <cover.1760368250.git.leon@kernel.org>
- <72ecaa13864ca346797e342d23a7929562788148.1760368250.git.leon@kernel.org>
- <CAAywjhRb6Nwmzy+QWFPH9Zkn-xvtvOktNjAZ8HMpM2wmVw2rjw@mail.gmail.com>
+Received: from mail-m49209.qiye.163.com (mail-m49209.qiye.163.com
+ [45.254.49.209])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 65FFC10E038
+ for <dri-devel@lists.freedesktop.org>; Thu, 30 Oct 2025 06:50:39 +0000 (UTC)
+Received: from [172.16.12.149] (unknown [58.22.7.114])
+ by smtp.qiye.163.com (Hmail) with ESMTP id 27bf20e38;
+ Thu, 30 Oct 2025 14:50:33 +0800 (GMT+08:00)
+Message-ID: <e2fcc437-0650-4fdf-bb75-3463a80299fe@rock-chips.com>
+Date: Thu, 30 Oct 2025 14:50:33 +0800
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v8 10/10] arm64: dts: rockchip: rk3399-evb-ind: Add
+ support for DisplayPort
+To: Peter Chen <hzpeterchen@gmail.com>
+Cc: Chaoyi Chen <kernel@airkyi.com>,
+ Heikki Krogerus <heikki.krogerus@linux.intel.com>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>,
+ Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>, Vinod Koul <vkoul@kernel.org>,
+ Kishon Vijay Abraham I <kishon@kernel.org>, Heiko Stuebner
+ <heiko@sntech.de>, Sandy Huang <hjc@rock-chips.com>,
+ Andy Yan <andy.yan@rock-chips.com>,
+ Yubing Zhang <yubing.zhang@rock-chips.com>,
+ Frank Wang <frank.wang@rock-chips.com>,
+ Andrzej Hajda <andrzej.hajda@intel.com>,
+ Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Amit Sunil Dhamne <amitsd@google.com>, Dragan Simic <dsimic@manjaro.org>,
+ Johan Jonker <jbx6244@gmail.com>, Diederik de Haas <didi.debian@cknow.org>,
+ Peter Robinson <pbrobinson@gmail.com>, linux-usb@vger.kernel.org,
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-phy@lists.infradead.org, linux-arm-kernel@lists.infradead.org,
+ linux-rockchip@lists.infradead.org, dri-devel@lists.freedesktop.org
+References: <20251029071435.88-1-kernel@airkyi.com>
+ <20251029071435.88-11-kernel@airkyi.com>
+ <CAL411-o6mF71oBeRsJ-OPZNbLegn4iJ_ELN9xVdppTM3ssUPOw@mail.gmail.com>
+ <cc8b583a-77ec-4a7f-97cc-2d148f7fee9f@rock-chips.com>
+ <e0c5bda3-7428-49e0-9955-fa23f1e4f35d@rock-chips.com>
+ <CAL411-oXfvp-iqN+uRmFHijdmW=1omKwozKOoZ2shxukMHmwPg@mail.gmail.com>
+ <C6253E8254C80B0F+839b71d0-1bd8-40b7-9515-7ce4a1eb8673@airkyi.com>
+ <CAL411-pULVu4AYybW9oW7kmr4M_kJhdytgBjLPb4y6w_2dj+0w@mail.gmail.com>
+ <7853bbf0-34e5-4880-a2f4-2d73f25cd5e6@rock-chips.com>
+ <CAL411-rFK0o_cxBO_yJFHWurGFKxZGxw6=kpqxRipMetJskTaQ@mail.gmail.com>
+Content-Language: en-US
+From: Chaoyi Chen <chaoyi.chen@rock-chips.com>
+In-Reply-To: <CAL411-rFK0o_cxBO_yJFHWurGFKxZGxw6=kpqxRipMetJskTaQ@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <CAAywjhRb6Nwmzy+QWFPH9Zkn-xvtvOktNjAZ8HMpM2wmVw2rjw@mail.gmail.com>
+X-HM-Tid: 0a9a33e1e5d603abkunm4fdeafe247c99d
+X-HM-MType: 1
+X-HM-Spam-Status: e1kfGhgUHx5ZQUpXWQgPGg8OCBgUHx5ZQUlOS1dZFg8aDwILHllBWSg2Ly
+ tZV1koWUFDSUNOT01LS0k3V1ktWUFJV1kPCRoVCBIfWUFZQhoeTlZCTEtOQ0pKTk1CSUNWFRQJFh
+ oXVRMBExYaEhckFA4PWVdZGBILWUFZTkNVSUlVTFVKSk9ZV1kWGg8SFR0UWUFZT0tIVUpLSEpOTE
+ 5VSktLVUpCS0tZBg++
+DKIM-Signature: a=rsa-sha256;
+ b=aQQwn+vaju0fkVYqlzGfwsD04Z6mA/IUGFwt2/LybJDUI6VkbH4gPP3HejyR9GH2oDyovSq2B+HP/lZguM+2DXuCAwhyjbvdkv8Sy0w8O/SXgQZqRujAaeLAQmJ0w9DPTEMHz7SyhBw9i5kJ4Bq+y9Ft8urfVEBjRCZLvy8wSI0=;
+ s=default; c=relaxed/relaxed; d=rock-chips.com; v=1; 
+ bh=sctOfaMCaVQx0TE/izjuKTlWuoHc1phPG68ypDI+DRY=;
+ h=date:mime-version:subject:message-id:from;
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -74,70 +91,208 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Oct 29, 2025 at 05:25:03PM -0700, Samiullah Khawaja wrote:
-> On Mon, Oct 13, 2025 at 8:27 AM Leon Romanovsky <leon@kernel.org> wrote:
-> >
-> > From: Leon Romanovsky <leonro@nvidia.com>
-> >
-> > Add support for exporting PCI device MMIO regions through dma-buf,
-> > enabling safe sharing of non-struct page memory with controlled
-> > lifetime management. This allows RDMA and other subsystems to import
-> > dma-buf FDs and build them into memory regions for PCI P2P operations.
-> >
-> > The implementation provides a revocable attachment mechanism using
-> > dma-buf move operations. MMIO regions are normally pinned as BARs
-> > don't change physical addresses, but access is revoked when the VFIO
-> > device is closed or a PCI reset is issued. This ensures kernel
-> > self-defense against potentially hostile userspace.
-> >
-> > Signed-off-by: Jason Gunthorpe <jgg@nvidia.com>
-> > Signed-off-by: Vivek Kasireddy <vivek.kasireddy@intel.com>
-> > Signed-off-by: Leon Romanovsky <leonro@nvidia.com>
-> > ---
-> >  drivers/vfio/pci/Kconfig           |   3 +
-> >  drivers/vfio/pci/Makefile          |   2 +
-> >  drivers/vfio/pci/vfio_pci_config.c |  22 +-
-> >  drivers/vfio/pci/vfio_pci_core.c   |  28 ++
-> >  drivers/vfio/pci/vfio_pci_dmabuf.c | 446 +++++++++++++++++++++++++++++
-> >  drivers/vfio/pci/vfio_pci_priv.h   |  23 ++
-> >  include/linux/vfio_pci_core.h      |   1 +
-> >  include/uapi/linux/vfio.h          |  25 ++
-> >  8 files changed, 546 insertions(+), 4 deletions(-)
-> >  create mode 100644 drivers/vfio/pci/vfio_pci_dmabuf.c
+On 10/30/2025 2:13 PM, Peter Chen wrote:
 
-<...>
+> On Thu, Oct 30, 2025 at 11:14 AM Chaoyi Chen <chaoyi.chen@rock-chips.com> wrote:
+>> On 10/30/2025 10:50 AM, Peter Chen wrote:
+>>
+>>>>> Okay.  My question is basic: USB2 PHY supplies DP/DM, and the DP/DM is
+>>>>> short for Type-C connector,
+>>>>> and no control is needed for Type-C application.
+>>>>> Why is there a remote-endpoint connection between USB2 PHY and Type-C connector?
+>>>>    From the perspective of Type-C, this should not be added.  Is the approach in v2 correct [0] ?
+>>>>
+>>> Have you tried debugging based on upstream code?
+>> Yes, I have tried both the v2 and v8 approaches, and both can work.
+>>
+>>
+>>> v2 is correct, but the dts needs to improve.
+>>> - There is a remote-endpoint connection for USB role switch between
+>>> Type-C connector
+>>> device and USB controller device
+>>> - There is a remote-endpoint connection for orientation and lane configuration
+>>> between Type-C connector device and USB/DP PHY device.
+>> In v8 patch5, we implemented typec_mux and typec_switch in the USB/DP PHY.
+>>
+>> I think the current remote-endpoint connections are all child node of the USB/DP PHY. That is:
+>>
+>>
+>> &tcphy0_dp {
+>>       mode-switch;
+>>       ...
+>> };
+>>
+>>
+>> &tcphy0_usb3 {
+>>       orientation-switch;
+>>       ...
+>> };
+>>
+>>
+>> Does this still need to be improved? Thank you.
+>>
+> Hi Chaoyi,
+>
+> There are two questions I have still not seen the answer to:
+> - Why USB2 PHY is related to your Type-C patch?
 
-> > +void vfio_pci_dma_buf_move(struct vfio_pci_core_device *vdev, bool revoked)
-> > +{
-> > +       struct vfio_pci_dma_buf *priv;
-> > +       struct vfio_pci_dma_buf *tmp;
-> > +
-> > +       lockdep_assert_held_write(&vdev->memory_lock);
-> > +
-> > +       list_for_each_entry_safe(priv, tmp, &vdev->dmabufs, dmabufs_elm) {
-> > +               if (!get_file_active(&priv->dmabuf->file))
-> > +                       continue;
-> > +
-> > +               if (priv->revoked != revoked) {
-> > +                       dma_resv_lock(priv->dmabuf->resv, NULL);
-> > +                       priv->revoked = revoked;
-> > +                       dma_buf_move_notify(priv->dmabuf);
-> 
-> I think this should only be called when revoked is true, otherwise
-> this will be calling move_notify on the already revoked dmabuf
-> attachments.
+I was just following other people's approach. Sorry, this should be removed from the dts.
 
-This case is protected by "if (priv->revoked)" check both in vfio_pci_dma_buf_map
-and vfio_pci_dma_buf_attach. They will prevent DMABUF recreation if revoked is false.
 
-VTW, please trim your replies, it is time consuming to find your reply
-among 600 lines of unrelated text.
+> - How does the USB role switch event notify the USB controller driver, eg dwc3?
 
-Thanks
+Sorry, I misunderstood what you said before. There is indeed a missing usb-role-switch now. I referred to the approach in rk3588-evb1-v10.dts. Is the following way of writing correct?
 
-> > +                       dma_resv_unlock(priv->dmabuf->resv);
-> > +               }
-> > +               dma_buf_put(priv->dmabuf);
-> > +       }
-> > +}
+&usbc_connector {
+     ports {
+         #address-cells = <1>;
+         #size-cells = <0>;
+
+         port@0 {
+             reg = <0>;
+
+             usbc_orien_sw: endpoint {
+                 remote-endpoint = <&tcphy0_typec_orien_sw>;
+             };
+         };
+
+         port@1 {
+             reg = <1>;
+
+             usbc_role_sw: endpoint {
+                 remote-endpoint = <&dwc3_0_role_switch>;
+             };
+         };
+
+
+         port@2 {
+             reg = <2>;
+
+             usbc_dp: endpoint {
+                 remote-endpoint = <&tcphy0_typec_dp>;
+             };
+         };
+     };
+};
+
+&usbdrd_dwc3_0 {
+     status = "okay";
+     usb-role-switch;
+
+     port {
+         #address-cells = <1>;
+         #size-cells = <0>;
+         dwc3_0_role_switch: endpoint@0 {
+             reg = <0>;
+             remote-endpoint = <&usbc_role_sw>;
+         };
+     };
+};
+
+&tcphy0_usb3 {
+     orientation-switch;
+
+     port {
+         tcphy0_typec_orien_sw: endpoint {
+             remote-endpoint = <&usbc_orien_sw>;
+         };
+     };
+};
+
+&tcphy0_dp {
+     mode-switch;
+
+     port {
+         #address-cells = <1>;
+         #size-cells = <0>;
+
+         tcphy0_typec_dp: endpoint@0 {
+             reg = <0>;
+             remote-endpoint = <&usbc_dp>;
+         };
+     };
+};
+
+
+> Peter
+>>> Peter
+>>>
+>>>> [0]: https://lore.kernel.org/all/20250715112456.101-6-kernel@airkyi.com/
+>>>>
+>>>> Or is the following approach correct?
+>>>>
+>>>>
+>>>> port@0 {
+>>>>        reg = <0>;
+>>>>
+>>>>        usbc_hs: endpoint {
+>>>>            remote-endpoint = <&tcphy0>;
+>>>>        };
+>>>> };
+>>>>
+>>>> port@1 {
+>>>>        reg = <1>;
+>>>>
+>>>>        usbc_ss: endpoint {
+>>>>            remote-endpoint = <&tcphy0>;
+>>>>        };
+>>>> };
+>>>>
+>>>> port@2 {
+>>>>        reg = <2>;
+>>>>
+>>>>        usbc_dp: endpoint {
+>>>>            remote-endpoint = <&tcphy0_typec_dp>;
+>>>>        };
+>>>> };
+>>>>
+>>>>
+>>>>>>>>> +                               port@1 {
+>>>>>>>>> +                                       reg = <1>;
+>>>>>>>>> +
+>>>>>>>>> +                                       usbc_ss: endpoint {
+>>>>>>>>> + remote-endpoint = <&tcphy0_typec_ss>;
+>>>>>>>>> +                                       };
+>>>>>>>>> +                               };
+>>>>>>>>> +
+>>>>>>>>> +                               port@2 {
+>>>>>>>>> +                                       reg = <2>;
+>>>>>>>>> +
+>>>>>>>>> +                                       usbc_dp: endpoint {
+>>>>>>>>> + remote-endpoint = <&tcphy0_typec_dp>;
+>>>>>>>>> +                                       };
+>>>>>>>>> +                               };
+>>>>>>>>> +                       };
+>>>>>>>>> +               };
+>>>>>>>>> +       };
+>>>>>>>>> +};
+>>>>>>>>> +
+>>>>>>>> .....
+>>>>>>>>>      &u2phy0 {
+>>>>>>>>>             status = "okay";
+>>>>>>>>> +
+>>>>>>>>> +       port {
+>>>>>>>>> +               u2phy0_typec_hs: endpoint {
+>>>>>>>>> +                       remote-endpoint = <&usbc_hs>;
+>>>>>>>>> +               };
+>>>>>>>>> +       };
+>>>>>>>>>      };
+>>>>>>>>>
+>>>>>>>> There is no switch and mux, how to co-work with Type-C?
+>>>>>>> I checked the phy-rockchip-inno-usb2.c but did not find any switch or mux. Does this mean that we need to implement them? Thank you.
+>>>>>> Wait a minute, actually we have multiple hardware interfaces, one of which is Type-C, eventually connected to USBDPPHY, and the other is micro-usb connected to U2PHY.
+>>>>> I assume the Micro-USB connector does not use Type-C/PD IC, is it
+>>>>> right? Does it relate to this patch?
+>>>>>
+>>>>> Best regards,
+>>>>> Peter
+>>>>>
+>> --
+>> Best,
+>> Chaoyi
+>>
+>
+-- 
+Best,
+Chaoyi
 
