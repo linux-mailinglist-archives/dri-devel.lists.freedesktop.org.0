@@ -2,63 +2,52 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6E653C20E9E
-	for <lists+dri-devel@lfdr.de>; Thu, 30 Oct 2025 16:26:02 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id B8EF8C20EBF
+	for <lists+dri-devel@lfdr.de>; Thu, 30 Oct 2025 16:27:53 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C20B510E9E6;
-	Thu, 30 Oct 2025 15:26:00 +0000 (UTC)
-Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=bootlin.com header.i=@bootlin.com header.b="xRciWGok";
-	dkim-atps=neutral
+	by gabe.freedesktop.org (Postfix) with ESMTP id 03B4B10E0BA;
+	Thu, 30 Oct 2025 15:27:52 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtpout-02.galae.net (smtpout-02.galae.net [185.246.84.56])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1EEFC10E9E6
- for <dri-devel@lists.freedesktop.org>; Thu, 30 Oct 2025 15:26:00 +0000 (UTC)
-Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
- by smtpout-02.galae.net (Postfix) with ESMTPS id D96C31A178F;
- Thu, 30 Oct 2025 15:25:58 +0000 (UTC)
-Received: from mail.galae.net (mail.galae.net [212.83.136.155])
- by smtpout-01.galae.net (Postfix) with ESMTPS id A4A646068C;
- Thu, 30 Oct 2025 15:25:58 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon)
- with ESMTPSA id 65B6311808BF6; Thu, 30 Oct 2025 16:25:51 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
- t=1761837957; h=from:subject:date:message-id:to:cc:mime-version:content-type:
- content-transfer-encoding:in-reply-to:references;
- bh=9TyfVTtmiB0HqF3wvvWDiUMZGtwH3+ueA2qzLuORFuo=;
- b=xRciWGok4j1T3/882LJemGiLsaiRP7bgsC3acWGBUnYAjwwn9uV7C7r+GYs8nMOWImik3Q
- TX9ppbvdV5kv0LI3PM1Gv8/njfbyWVJW/8eiDBith5VpQSn0yEpYNVINJPYfRXtUffawgc
- x0sw2iz5X9TxWq1GzSi7KOE5a2e2dntoEPgYoLFwqgstXAxKEXOXc5wHUEcYNIjL9ujipy
- +Qmt3SFl1ZjA+Dv6SXL4CXLU2FcPjVglD+qUpVwpjJboiRWtfZ+w3wkrQ7IdLgWP1XEJDH
- dhFXZUGFDc1/o8/g+04XlUyAbkeB50IgOQwh8rbGlMENhOJCtUbtAlY6mlKWdg==
-Mime-Version: 1.0
+Received: from metis.whiteo.stw.pengutronix.de
+ (metis.whiteo.stw.pengutronix.de [185.203.201.7])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3B1EC10E0BA
+ for <dri-devel@lists.freedesktop.org>; Thu, 30 Oct 2025 15:27:51 +0000 (UTC)
+Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
+ by metis.whiteo.stw.pengutronix.de with esmtps
+ (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.92)
+ (envelope-from <p.zabel@pengutronix.de>)
+ id 1vEUYu-0000uH-HI; Thu, 30 Oct 2025 16:27:40 +0100
+Received: from lupine.office.stw.pengutronix.de ([2a0a:edc0:0:900:1d::4e]
+ helo=lupine)
+ by drehscheibe.grey.stw.pengutronix.de with esmtps (TLS1.3) tls
+ TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384 (Exim 4.96)
+ (envelope-from <p.zabel@pengutronix.de>) id 1vEUYt-006EZI-2R;
+ Thu, 30 Oct 2025 16:27:39 +0100
+Received: from pza by lupine with local (Exim 4.98.2)
+ (envelope-from <p.zabel@pengutronix.de>) id 1vEUYt-00000000CkU-2pWz;
+ Thu, 30 Oct 2025 16:27:39 +0100
+Message-ID: <89a86fc1c48f921aa3b06146f43a32dc58515548.camel@pengutronix.de>
+Subject: Re: [PATCH] drm/imx/tve: fix probe device leak
+From: Philipp Zabel <p.zabel@pengutronix.de>
+To: Johan Hovold <johan@kernel.org>
+Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Maxime Ripard	
+ <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, David Airlie
+ <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
+ dri-devel@lists.freedesktop.org, imx@lists.linux.dev, 
+ linux-kernel@vger.kernel.org, stable@vger.kernel.org
+Date: Thu, 30 Oct 2025 16:27:39 +0100
+In-Reply-To: <20250923151346.17512-1-johan@kernel.org>
+References: <20250923151346.17512-1-johan@kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
-Date: Thu, 30 Oct 2025 16:25:50 +0100
-Message-Id: <DDVRFGWCDRGT.2IR33ALXLVJ2U@bootlin.com>
-To: "Mark Brown" <broonie@kernel.org>
-Cc: "Marek Szyprowski" <m.szyprowski@samsung.com>, "Naresh Kamboju"
- <naresh.kamboju@linaro.org>, "Andrzej Hajda" <andrzej.hajda@intel.com>,
- "Neil Armstrong" <neil.armstrong@linaro.org>, "Robert Foss"
- <rfoss@kernel.org>, "Laurent Pinchart" <Laurent.pinchart@ideasonboard.com>,
- "Jonas Karlman" <jonas@kwiboo.se>, "Jernej Skrabec"
- <jernej.skrabec@gmail.com>, "Maarten Lankhorst"
- <maarten.lankhorst@linux.intel.com>, "Maxime Ripard" <mripard@kernel.org>,
- "Thomas Zimmermann" <tzimmermann@suse.de>, "David Airlie"
- <airlied@gmail.com>, "Simona Vetter" <simona@ffwll.ch>, "Dmitry Baryshkov"
- <dmitry.baryshkov@oss.qualcomm.com>, "Hui Pu" <Hui.Pu@gehealthcare.com>,
- "Thomas Petazzoni" <thomas.petazzoni@bootlin.com>,
- <dri-devel@lists.freedesktop.org>, <linux-kernel@vger.kernel.org>
-Subject: Re: [PATCH v2 1/3] Revert "drm/display: bridge_connector: get/put
- the stored bridges"
-From: "Luca Ceresoli" <luca.ceresoli@bootlin.com>
-X-Mailer: aerc 0.20.1
-References: <20251017-drm-bridge-alloc-getput-bridge-connector-fix-hdmi_cec-v2-0-667abf6d47c0@bootlin.com>
- <20251017-drm-bridge-alloc-getput-bridge-connector-fix-hdmi_cec-v2-1-667abf6d47c0@bootlin.com>
- <7873e2ab-a8ea-4fdc-8534-746f91c8368b@sirena.org.uk>
-In-Reply-To: <7873e2ab-a8ea-4fdc-8534-746f91c8368b@sirena.org.uk>
-X-Last-TLS-Session-Version: TLSv1.3
+User-Agent: Evolution 3.56.1-1+deb13u1 
+MIME-Version: 1.0
+X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
+X-SA-Exim-Mail-From: p.zabel@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.whiteo.stw.pengutronix.de);
+ SAEximRunCond expanded to false
+X-PTX-Original-Recipient: dri-devel@lists.freedesktop.org
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -74,35 +63,49 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hello Mark,
+On Di, 2025-09-23 at 17:13 +0200, Johan Hovold wrote:
+> Make sure to drop the reference taken to the DDC device during probe on
+> probe failure (e.g. probe deferral) and on driver unbind.
+>=20
+> Fixes: fcbc51e54d2a ("staging: drm/imx: Add support for Television Encode=
+r (TVEv2)")
+> Cc: stable@vger.kernel.org	# 3.10
+> Cc: Philipp Zabel <p.zabel@pengutronix.de>
+> Signed-off-by: Johan Hovold <johan@kernel.org>
+> ---
+>  drivers/gpu/drm/imx/ipuv3/imx-tve.c | 12 ++++++++++++
+>  1 file changed, 12 insertions(+)
+>=20
+> diff --git a/drivers/gpu/drm/imx/ipuv3/imx-tve.c b/drivers/gpu/drm/imx/ip=
+uv3/imx-tve.c
+> index c5629e155d25..895413d26113 100644
+> --- a/drivers/gpu/drm/imx/ipuv3/imx-tve.c
+> +++ b/drivers/gpu/drm/imx/ipuv3/imx-tve.c
+> @@ -525,6 +525,13 @@ static const struct component_ops imx_tve_ops =3D {
+>  	.bind	=3D imx_tve_bind,
+>  };
+> =20
+> +static void imx_tve_put_device(void *_dev)
+> +{
+> +	struct device *dev =3D _dev;
+> +
+> +	put_device(dev);
+> +}
+> +
+>  static int imx_tve_probe(struct platform_device *pdev)
+>  {
+>  	struct device *dev =3D &pdev->dev;
+> @@ -546,6 +553,11 @@ static int imx_tve_probe(struct platform_device *pde=
+v)
+>  	if (ddc_node) {
+>  		tve->ddc =3D of_find_i2c_adapter_by_node(ddc_node);
+>  		of_node_put(ddc_node);
+> +
+> +		ret =3D devm_add_action_or_reset(dev, imx_tve_put_device,
+> +					       &tve->ddc->dev);
 
-On Thu Oct 30, 2025 at 2:11 PM CET, Mark Brown wrote:
-> On Fri, Oct 17, 2025 at 06:15:04PM +0200, Luca Ceresoli wrote:
->> This reverts commit 2be300f9a0b6f6b0ae2a90be97e558ec0535be54.
->>
->> The commit being reverted moved all the bridge_connector->bridge_*
->> assignments to just before the final successful return in order to handl=
-e
->> the bridge refcounting in a clean way.
->
-> Is there any news on getting this series merged - the currently broken
-> code in -next is causing boot issues on several affected platforms (eg,
-> Rock5B) which is disrupting other testing?  If the other patches are
-> somehow causing issues could we perhaps get the revert in to fix the
-> boot issue while those issues are resolved?
+I think this needs to be wrapped in "if (tve->ddc) { }",
+of_find_i2c_adapter_by_node() can return NULL.
 
-Thanks for pinging, I must agree the regression is out since quite a few
-weeks. Despite having four Tested-by, this series was lacking Reviewed- and
-Tested-by entirely.
-
-Now Louis reviewed the whole series (thanks!), so my understanding of the
-drm-misc policy is that I can apply the series, which I plan to do in a few
-days to let anybody else comment.
-
-Best regards,
-Luca
-
---
-Luca Ceresoli, Bootlin
-Embedded Linux and Kernel engineering
-https://bootlin.com
+regards
+Philipp
