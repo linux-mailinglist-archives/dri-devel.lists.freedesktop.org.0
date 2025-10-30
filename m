@@ -2,35 +2,35 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9BD7CC1FDED
-	for <lists+dri-devel@lfdr.de>; Thu, 30 Oct 2025 12:46:26 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 465ABC1FDF9
+	for <lists+dri-devel@lfdr.de>; Thu, 30 Oct 2025 12:47:17 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BC55E10E95C;
-	Thu, 30 Oct 2025 11:46:24 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9EBF710E960;
+	Thu, 30 Oct 2025 11:47:15 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="Hz2a8B2n";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="nd+CpjmI";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sea.source.kernel.org (sea.source.kernel.org [172.234.252.31])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A2DC710E95C
- for <dri-devel@lists.freedesktop.org>; Thu, 30 Oct 2025 11:46:23 +0000 (UTC)
+Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 082F910E960
+ for <dri-devel@lists.freedesktop.org>; Thu, 30 Oct 2025 11:47:14 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by sea.source.kernel.org (Postfix) with ESMTP id 702B34417F;
- Thu, 30 Oct 2025 11:46:23 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4D92BC4CEFF;
- Thu, 30 Oct 2025 11:46:21 +0000 (UTC)
+ by tor.source.kernel.org (Postfix) with ESMTP id 264F4601FF;
+ Thu, 30 Oct 2025 11:47:13 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C1A38C4CEF1;
+ Thu, 30 Oct 2025 11:47:10 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1761824783;
- bh=reiNpeqTPEeJU6gOHFXRhPO54XWsRkqnewY5o9KMMDQ=;
+ s=k20201202; t=1761824832;
+ bh=NPtLpyBMJ6lKixCBeff+DHHfeoHFoRb6MzwjeRD2Ve0=;
  h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=Hz2a8B2nAz+J+MqNj3XJWzeVhFnHgmnKxDMGrxgKNJHwV9Zt0Sl2LJYbw9jTJzwcq
- j5Vdd/3qwXooUYn4PtiKS0USib3p1lY1QHAj0r4TRFxThcAqyO+1RozVogiGKS+wav
- M4/63umk7L2ayO8Yh4Vn++Xy++tM3wZxFu3TaNkwSytRL19wlvdxh5iuXQFkfGeomq
- oy4rnPAOceDk63XM1KYxjtqJokm1wqgTwfp1vDT33eZeCc2yh9flgYvvVobw4r9cU6
- mr9hswKxc9hAvcyd6aHovQaIdCs9zVQ8Ka1KiXWX+49qARSBxpQyXh3x0BksTJrXl2
- CrqTV588Bt/lQ==
-Date: Thu, 30 Oct 2025 11:47:26 +0000
+ b=nd+CpjmIm1eD9VFr3DBUOApbeBPryyS/Ln6Ax9h++X2ggQEyzzm6rOGtd/DiE5qta
+ fZdmPq8ZlAEZEoi6igQPRabzrZlorPu01Fl7wJgdagnTgBo1nLbentCtqDBCcNLXKH
+ K9+malVlfl1ORI9PR3O2jaeBtk5lH+5XgvwHhFQL5pqMwdf4xOxGPrx+k4vHmF2xh8
+ +yWNbN7GwctOWz9vWzdrZHU9mE/oyctg2TV/lwaKtMoAKcIVK5pz/M+5ySTSUQBiEa
+ gv401J7j87BqQQPIRPO3leh259+IttAWZUnkCSbPd6nt6/7LZoK+MpCOhVS01oBtSY
+ hA6Sg5YAvILqg==
+Date: Thu, 30 Oct 2025 11:48:15 +0000
 From: Daniel Thompson <danielt@kernel.org>
 To: Duje =?utf-8?Q?Mihanovi=C4=87?= <duje@dujemihanovic.xyz>
 Cc: Lee Jones <lee@kernel.org>, Pavel Machek <pavel@kernel.org>,
@@ -38,15 +38,15 @@ Cc: Lee Jones <lee@kernel.org>, Pavel Machek <pavel@kernel.org>,
  Randy Dunlap <rdunlap@infradead.org>, linux-leds@vger.kernel.org,
  linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
  linux-fbdev@vger.kernel.org
-Subject: Re: [PATCH 1/2] leds: Drop duplicate LEDS_EXPRESSWIRE config
-Message-ID: <aQNQTlGed2XCY0lH@aspen.lan>
+Subject: Re: [PATCH 2/2] backlight: ktd2801: Depend on GPIOLIB
+Message-ID: <aQNQf33cUcvo0HvR@aspen.lan>
 References: <20250729-expresswire-dep-fix-v1-0-635cd4cc746b@dujemihanovic.xyz>
- <20250729-expresswire-dep-fix-v1-1-635cd4cc746b@dujemihanovic.xyz>
+ <20250729-expresswire-dep-fix-v1-2-635cd4cc746b@dujemihanovic.xyz>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20250729-expresswire-dep-fix-v1-1-635cd4cc746b@dujemihanovic.xyz>
+In-Reply-To: <20250729-expresswire-dep-fix-v1-2-635cd4cc746b@dujemihanovic.xyz>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -62,13 +62,12 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Jul 29, 2025 at 07:18:29PM +0200, Duje Mihanović wrote:
-> While moving said config symbol out of the "if NEW_LEDS" block, I
-> accidentally left a copy inside that block. Remove it.
+On Tue, Jul 29, 2025 at 07:18:30PM +0200, Duje Mihanović wrote:
+> The LEDS_EXPRESSWIRE library used by the driver requires GPIOLIB. Make
+> sure this dependency is not left unsatisfied.
 >
 > Reported-by: Randy Dunlap <rdunlap@infradead.org>
 > Link: https://lore.kernel.org/all/b6c481bb-e854-405e-a428-90301789fe20@infradead.org/
-> Fixes: 2cd0d1db31e7 ("leds: expresswire: Don't depend on NEW_LEDS")
 > Signed-off-by: Duje Mihanović <duje@dujemihanovic.xyz>
 
 Reviewed-by: Daniel Thompson (RISCstar) <danielt@kernel.org>
