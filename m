@@ -2,61 +2,129 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 183E7C1FC52
-	for <lists+dri-devel@lfdr.de>; Thu, 30 Oct 2025 12:17:46 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6050AC1FC6D
+	for <lists+dri-devel@lfdr.de>; Thu, 30 Oct 2025 12:18:59 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7951C10E901;
-	Thu, 30 Oct 2025 11:17:44 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B1A3810E107;
+	Thu, 30 Oct 2025 11:18:57 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; secure) header.d=mailbox.org header.i=@mailbox.org header.b="rfCkCj1a";
+	dkim=pass (1024-bit key; unprotected) header.d=suse.de header.i=@suse.de header.b="P1Pqrmkl";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="umXgXxVA";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="P1Pqrmkl";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="umXgXxVA";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mout-p-202.mailbox.org (mout-p-202.mailbox.org [80.241.56.172])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D28FA10E901
- for <dri-devel@lists.freedesktop.org>; Thu, 30 Oct 2025 11:17:42 +0000 (UTC)
-Received: from smtp2.mailbox.org (smtp2.mailbox.org [10.196.197.2])
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id AF2F110E107
+ for <dri-devel@lists.freedesktop.org>; Thu, 30 Oct 2025 11:18:56 +0000 (UTC)
+Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
  (No client certificate requested)
- by mout-p-202.mailbox.org (Postfix) with ESMTPS id 4cy1mg3LK0z9spB;
- Thu, 30 Oct 2025 12:17:39 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org;
- s=mail20150812; 
- t=1761823059; h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:
+ by smtp-out1.suse.de (Postfix) with ESMTPS id 7835F336EE;
+ Thu, 30 Oct 2025 11:18:55 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1761823135; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
+ mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=udQdI8kZ9HNR1T3YelubgV+z74XJhbul0irKljvsfkw=;
- b=rfCkCj1aKP3gD9fOKRtgCEZm254WNjvqqyYCD1808//A8YhflHFiiKP/HJOpq9yq7jNCyk
- hj7d/rUdifE+Wvb1dA6BhWHH++w6Rp/9RQv02E7vyrnCJQD87ql2VfxV8iNEz7ryyPJEB6
- CdVBDsuHksvbjEZ7QsbTjPA3Fue3uZqqbuNtCh5dKSZNtEZFqiEOS22+l+Dw4Cb4MutmvD
- CpP519yREgx3PQSsNMBmJY1IV9tKJY8+akQB8/CXqqMjO/kZfBn4ZqOTBcmch6fx+WE+oG
- +fZ3LqaV8rbTc8Al9CqQZW/zaCGJvIMlEJqLF+8Da7WYsH5KdeRDJLj7qoC9mg==
-Message-ID: <fb2881006f843bd85dd02948c4467c81086effc8.camel@mailbox.org>
-Subject: Re: [PATCH v1] drm/sched: fix deadlock in
- drm_sched_entity_kill_jobs_cb
-From: Philipp Stanner <phasta@mailbox.org>
-To: Pierre-Eric Pelloux-Prayer <pierre-eric.pelloux-prayer@amd.com>, 
- Matthew Brost <matthew.brost@intel.com>, Danilo Krummrich
- <dakr@kernel.org>, Philipp Stanner <phasta@kernel.org>,  Christian
- =?ISO-8859-1?Q?K=F6nig?= <ckoenig.leichtzumerken@gmail.com>, Maarten
- Lankhorst <maarten.lankhorst@linux.intel.com>, Maxime Ripard
- <mripard@kernel.org>,  Thomas Zimmermann <tzimmermann@suse.de>, David
- Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, Sumit Semwal
- <sumit.semwal@linaro.org>
-Cc: Christian =?ISO-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>, 
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org, 
- linux-media@vger.kernel.org, linaro-mm-sig@lists.linaro.org
-Date: Thu, 30 Oct 2025 12:17:31 +0100
-In-Reply-To: <20251029091103.1159-1-pierre-eric.pelloux-prayer@amd.com>
-References: <20251029091103.1159-1-pierre-eric.pelloux-prayer@amd.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=Etf6rIzRGVD0hvE7ko9UKFt/isUCWJ+a9YJl7qCPizk=;
+ b=P1PqrmklZP+UWnTZZAbmQ/Nv3fvGUQ1zJOxVcVy2kOO4Y5XLjXMgpEew0oRV7iQGmFpgt4
+ 2ZBWQ8IvblIwzhA2g2upXpV3KiNzom79fy2tgW1yesvzlKDjAmACRrYM/EDCjPWMquFwAq
+ CuDyM2aZKF69BX7nxQM7iMYE+dM8DXA=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1761823135;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=Etf6rIzRGVD0hvE7ko9UKFt/isUCWJ+a9YJl7qCPizk=;
+ b=umXgXxVAfW/20DwUwFducSLIxMEzAYdAHSL2381IAHDpiA0DTPhYCffwpJxXjQZus4FhYH
+ 0ZkxcCBZpMwg7ADQ==
+Authentication-Results: smtp-out1.suse.de;
+	none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1761823135; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=Etf6rIzRGVD0hvE7ko9UKFt/isUCWJ+a9YJl7qCPizk=;
+ b=P1PqrmklZP+UWnTZZAbmQ/Nv3fvGUQ1zJOxVcVy2kOO4Y5XLjXMgpEew0oRV7iQGmFpgt4
+ 2ZBWQ8IvblIwzhA2g2upXpV3KiNzom79fy2tgW1yesvzlKDjAmACRrYM/EDCjPWMquFwAq
+ CuDyM2aZKF69BX7nxQM7iMYE+dM8DXA=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1761823135;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=Etf6rIzRGVD0hvE7ko9UKFt/isUCWJ+a9YJl7qCPizk=;
+ b=umXgXxVAfW/20DwUwFducSLIxMEzAYdAHSL2381IAHDpiA0DTPhYCffwpJxXjQZus4FhYH
+ 0ZkxcCBZpMwg7ADQ==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested)
+ by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 5ED0513393;
+ Thu, 30 Oct 2025 11:18:55 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+ by imap1.dmz-prg2.suse.org with ESMTPSA id lX+IFp9JA2mlYQAAD6G6ig
+ (envelope-from <tzimmermann@suse.de>); Thu, 30 Oct 2025 11:18:55 +0000
+Message-ID: <908ff7f7-cdf3-4596-9246-0100e4c15820@suse.de>
+Date: Thu, 30 Oct 2025 12:18:55 +0100
 MIME-Version: 1.0
-X-MBO-RS-META: uxkngmmbxwy4o97th7ytiop6e8nj697p
-X-MBO-RS-ID: ca1f3193d85e48195cb
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2] drm/ast: Handle framebuffer from dma-buf
+To: Jocelyn Falempe <jfalempe@redhat.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Dave Airlie <airlied@redhat.com>,
+ Simona Vetter <simona@ffwll.ch>, dri-devel@lists.freedesktop.org
+References: <20251030091627.340780-1-jfalempe@redhat.com>
+Content-Language: en-US
+From: Thomas Zimmermann <tzimmermann@suse.de>
+Autocrypt: addr=tzimmermann@suse.de; keydata=
+ xsBNBFs50uABCADEHPidWt974CaxBVbrIBwqcq/WURinJ3+2WlIrKWspiP83vfZKaXhFYsdg
+ XH47fDVbPPj+d6tQrw5lPQCyqjwrCPYnq3WlIBnGPJ4/jreTL6V+qfKRDlGLWFjZcsrPJGE0
+ BeB5BbqP5erN1qylK9i3gPoQjXGhpBpQYwRrEyQyjuvk+Ev0K1Jc5tVDeJAuau3TGNgah4Yc
+ hdHm3bkPjz9EErV85RwvImQ1dptvx6s7xzwXTgGAsaYZsL8WCwDaTuqFa1d1jjlaxg6+tZsB
+ 9GluwvIhSezPgnEmimZDkGnZRRSFiGP8yjqTjjWuf0bSj5rUnTGiyLyRZRNGcXmu6hjlABEB
+ AAHNJ1Rob21hcyBaaW1tZXJtYW5uIDx0emltbWVybWFubkBzdXNlLmRlPsLAjgQTAQgAOAIb
+ AwULCQgHAgYVCgkICwIEFgIDAQIeAQIXgBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftODH
+ AAoJEGgNwR1TC3ojx1wH/0hKGWugiqDgLNXLRD/4TfHBEKmxIrmfu9Z5t7vwUKfwhFL6hqvo
+ lXPJJKQpQ2z8+X2vZm/slsLn7J1yjrOsoJhKABDi+3QWWSGkaGwRJAdPVVyJMfJRNNNIKwVb
+ U6B1BkX2XDKDGffF4TxlOpSQzdtNI/9gleOoUA8+jy8knnDYzjBNOZqLG2FuTdicBXblz0Mf
+ vg41gd9kCwYXDnD91rJU8tzylXv03E75NCaTxTM+FBXPmsAVYQ4GYhhgFt8S2UWMoaaABLDe
+ 7l5FdnLdDEcbmd8uLU2CaG4W2cLrUaI4jz2XbkcPQkqTQ3EB67hYkjiEE6Zy3ggOitiQGcqp
+ j//OwE0EWznS4AEIAMYmP4M/V+T5RY5at/g7rUdNsLhWv1APYrh9RQefODYHrNRHUE9eosYb
+ T6XMryR9hT8XlGOYRwKWwiQBoWSDiTMo/Xi29jUnn4BXfI2px2DTXwc22LKtLAgTRjP+qbU6
+ 3Y0xnQN29UGDbYgyyK51DW3H0If2a3JNsheAAK+Xc9baj0LGIc8T9uiEWHBnCH+RdhgATnWW
+ GKdDegUR5BkDfDg5O/FISymJBHx2Dyoklv5g4BzkgqTqwmaYzsl8UxZKvbaxq0zbehDda8lv
+ hFXodNFMAgTLJlLuDYOGLK2AwbrS3Sp0AEbkpdJBb44qVlGm5bApZouHeJ/+n+7r12+lqdsA
+ EQEAAcLAdgQYAQgAIAIbDBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftOH6AAoJEGgNwR1T
+ C3ojVSkIALpAPkIJPQoURPb1VWjh34l0HlglmYHvZszJWTXYwavHR8+k6Baa6H7ufXNQtThR
+ yIxJrQLW6rV5lm7TjhffEhxVCn37+cg0zZ3j7zIsSS0rx/aMwi6VhFJA5hfn3T0TtrijKP4A
+ SAQO9xD1Zk9/61JWk8OysuIh7MXkl0fxbRKWE93XeQBhIJHQfnc+YBLprdnxR446Sh8Wn/2D
+ Ya8cavuWf2zrB6cZurs048xe0UbSW5AOSo4V9M0jzYI4nZqTmPxYyXbm30Kvmz0rYVRaitYJ
+ 4kyYYMhuULvrJDMjZRvaNe52tkKAvMevcGdt38H4KSVXAylqyQOW5zvPc4/sq9c=
+In-Reply-To: <20251030091627.340780-1-jfalempe@redhat.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Spam-Level: 
+X-Spamd-Result: default: False [-4.30 / 50.00]; BAYES_HAM(-3.00)[100.00%];
+ NEURAL_HAM_LONG(-1.00)[-1.000];
+ NEURAL_HAM_SHORT(-0.20)[-1.000]; MIME_GOOD(-0.10)[text/plain];
+ FUZZY_RATELIMITED(0.00)[rspamd.com];
+ RCVD_VIA_SMTP_AUTH(0.00)[]; MIME_TRACE(0.00)[0:+];
+ ARC_NA(0.00)[]; TO_DN_SOME(0.00)[]; MID_RHS_MATCH_FROM(0.00)[];
+ RCVD_TLS_ALL(0.00)[];
+ DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+ FROM_HAS_DN(0.00)[]; RCPT_COUNT_FIVE(0.00)[6];
+ FROM_EQ_ENVFROM(0.00)[]; TO_MATCH_ENVRCPT_ALL(0.00)[];
+ RCVD_COUNT_TWO(0.00)[2];
+ DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:email,suse.de:mid]
+X-Spam-Flag: NO
+X-Spam-Score: -4.30
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -69,92 +137,66 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Reply-To: phasta@kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, 2025-10-29 at 10:11 +0100, Pierre-Eric Pelloux-Prayer wrote:
-> https://gitlab.freedesktop.org/mesa/mesa/-/issues/13908=C2=A0pointed out
 
-This link should be moved to the tag section at the bottom at a Closes:
-tag. Optionally a Reported-by:, too.
 
-> a possible deadlock:
->=20
-> [ 1231.611031]=C2=A0 Possible interrupt unsafe locking scenario:
->=20
-> [ 1231.611033]=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 CPU0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0 CPU1
-> [ 1231.611034]=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 ----=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0 ----
-> [ 1231.611035]=C2=A0=C2=A0 lock(&xa->xa_lock#17);
-> [ 1231.611038]=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 local_irq_disable();
-> [ 1231.611039]=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 lock(&fence->lock);
-> [ 1231.611041]=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 lock(&xa->xa_lock#17=
-);
-> [ 1231.611044]=C2=A0=C2=A0 <Interrupt>
-> [ 1231.611045]=C2=A0=C2=A0=C2=A0=C2=A0 lock(&fence->lock);
-> [ 1231.611047]
-> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0 *** DEADLOCK ***
->=20
+Am 30.10.25 um 10:14 schrieb Jocelyn Falempe:
+> In the atomic update callback, ast should call
+> drm_gem_fb_begin_cpu_access() to make sure it can read the
+> framebuffer from the CPU, otherwise the data might not be there due
+> to cache, and synchronization.
+>
+> Tested on a Lenovo SE100, while rendering on the ArrowLake GPU with
+> i915 driver, and using ast for display.
+>
+> Suggested-by: Thomas Zimmermann <tzimmermann@suse.de>
+> Signed-off-by: Jocelyn Falempe <jfalempe@redhat.com>
 
-The commit message is lacking an explanation as to _how_ and _when_ the
-deadlock comes to be. That's a prerequisite for understanding why the
-below is the proper fix and solution.
+Reviewed-by: Thomas Zimmermann <tzimmermann@suse.de>
 
-The issue seems to be that you cannot perform certain tasks from within
-that work item?
-
-> My initial fix was to replace xa_erase by xa_erase_irq, but Christian
-> pointed out that calling dma_fence_add_callback from a callback can
-> also deadlock if the signalling fence and the one passed to
-> dma_fence_add_callback share the same lock.
->=20
-> To fix both issues, the code iterating on dependencies and re-arming them
-> is moved out to drm_sched_entity_kill_jobs_work.
->=20
-> Suggested-by: Christian K=C3=B6nig <christian.koenig@amd.com>
-> Signed-off-by: Pierre-Eric Pelloux-Prayer <pierre-eric.pelloux-prayer@amd=
-.com>
 > ---
-> =C2=A0drivers/gpu/drm/scheduler/sched_entity.c | 34 +++++++++++++--------=
----
-> =C2=A01 file changed, 19 insertions(+), 15 deletions(-)
->=20
-> diff --git a/drivers/gpu/drm/scheduler/sched_entity.c b/drivers/gpu/drm/s=
-cheduler/sched_entity.c
-> index c8e949f4a568..fe174a4857be 100644
-> --- a/drivers/gpu/drm/scheduler/sched_entity.c
-> +++ b/drivers/gpu/drm/scheduler/sched_entity.c
-> @@ -173,26 +173,15 @@ int drm_sched_entity_error(struct drm_sched_entity =
-*entity)
-> =C2=A0}
-> =C2=A0EXPORT_SYMBOL(drm_sched_entity_error);
-> =C2=A0
-> +static void drm_sched_entity_kill_jobs_cb(struct dma_fence *f,
-> +					=C2=A0 struct dma_fence_cb *cb);
+>
+> v2:
+>   * If begin_cpu_access() failed, skip the damage copy, but update the
+>     pitch register (Thomas Zimmermann)
+>
+>   drivers/gpu/drm/ast/ast_mode.c | 11 ++++++++---
+>   1 file changed, 8 insertions(+), 3 deletions(-)
+>
+> diff --git a/drivers/gpu/drm/ast/ast_mode.c b/drivers/gpu/drm/ast/ast_mode.c
+> index 9ce874dba69c..77d6c2dcfc40 100644
+> --- a/drivers/gpu/drm/ast/ast_mode.c
+> +++ b/drivers/gpu/drm/ast/ast_mode.c
+> @@ -556,9 +556,14 @@ static void ast_primary_plane_helper_atomic_update(struct drm_plane *plane,
+>   		ast_set_vbios_color_reg(ast, fb->format, ast_crtc_state->vmode);
+>   	}
+>   
+> -	drm_atomic_helper_damage_iter_init(&iter, old_plane_state, plane_state);
+> -	drm_atomic_for_each_plane_damage(&iter, &damage) {
+> -		ast_handle_damage(ast_plane, shadow_plane_state->data, fb, &damage);
+> +	/* if the buffer comes from another device */
+> +	if (drm_gem_fb_begin_cpu_access(fb, DMA_FROM_DEVICE) == 0) {
+> +		drm_atomic_helper_damage_iter_init(&iter, old_plane_state, plane_state);
+> +		drm_atomic_for_each_plane_damage(&iter, &damage) {
+> +			ast_handle_damage(ast_plane, shadow_plane_state->data, fb, &damage);
+> +		}
 > +
-> =C2=A0static void drm_sched_entity_kill_jobs_work(struct work_struct *wrk=
-)
-> =C2=A0{
-> =C2=A0	struct drm_sched_job *job =3D container_of(wrk, typeof(*job), work=
-);
-> -
-> -	drm_sched_fence_scheduled(job->s_fence, NULL);
-> -	drm_sched_fence_finished(job->s_fence, -ESRCH);
-> -	WARN_ON(job->s_fence->parent);
-> -	job->sched->ops->free_job(job);
+> +		drm_gem_fb_end_cpu_access(fb, DMA_FROM_DEVICE);
+>   	}
+>   
+>   	/*
+>
+> base-commit: 4f9ffd2c80a2fa09dcc8dfa0482cb7e0fb6fcf6c
 
-Can free_job() really not be called from within work item context?
+-- 
+--
+Thomas Zimmermann
+Graphics Driver Developer
+SUSE Software Solutions Germany GmbH
+Frankenstrasse 146, 90461 Nuernberg, Germany
+GF: Ivo Totev, Andrew Myers, Andrew McDonald, Boudien Moerman
+HRB 36809 (AG Nuernberg)
 
 
-P.
