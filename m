@@ -2,89 +2,85 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1D02AC1E90A
-	for <lists+dri-devel@lfdr.de>; Thu, 30 Oct 2025 07:31:56 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 93470C1E9C4
+	for <lists+dri-devel@lfdr.de>; Thu, 30 Oct 2025 07:42:19 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C2B1A10E031;
-	Thu, 30 Oct 2025 06:31:52 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5844510E24C;
+	Thu, 30 Oct 2025 06:42:16 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="cXRJAvWT";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="NlxZgT9v";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pf1-f181.google.com (mail-pf1-f181.google.com
- [209.85.210.181])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 494AF10E031
- for <dri-devel@lists.freedesktop.org>; Thu, 30 Oct 2025 06:31:52 +0000 (UTC)
-Received: by mail-pf1-f181.google.com with SMTP id
- d2e1a72fcca58-77f5d497692so970824b3a.1
- for <dri-devel@lists.freedesktop.org>; Wed, 29 Oct 2025 23:31:52 -0700 (PDT)
+Received: from mail-pf1-f172.google.com (mail-pf1-f172.google.com
+ [209.85.210.172])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 65C7510E24C
+ for <dri-devel@lists.freedesktop.org>; Thu, 30 Oct 2025 06:42:15 +0000 (UTC)
+Received: by mail-pf1-f172.google.com with SMTP id
+ d2e1a72fcca58-7a23208a0c2so610272b3a.0
+ for <dri-devel@lists.freedesktop.org>; Wed, 29 Oct 2025 23:42:15 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1761805912; x=1762410712; darn=lists.freedesktop.org;
- h=cc:to:message-id:content-transfer-encoding:mime-version:subject
- :date:from:from:to:cc:subject:date:message-id:reply-to;
- bh=IteJbnpQxtDfi0VoQZa3f0/zEOSuD+t4NwFKFFHXmzw=;
- b=cXRJAvWTJIQ9kxsFSHM41atDpr48MBRne1r4MuhwI7QTgfhXAdAxZ+EuvQmGyxEn6l
- SeDe99fWC+rPpBzuchl8DnFVKYwq4fzykKAK3UfuhZ8B3h+48sHFvxmtTNen+h2ie1MJ
- MLALfIdKh+wj8dZn19ZiQKh+BG/ddZiRWIsOhNWEFBWp7iOm5WJta4zsXZxWAiq/+0ph
- iCVcvpURdFi/KDy1VfAVy0RV1HvD268O7sVdDKErCMz8vCwYUgO7xvyQvO1JBLUufNVZ
- bKCcVp7iNsQIj+XTwaqWk/9OhKSD+yiSrH7lfHvulFFzgDFfJvpCkldYiopzkNXnSHZP
- EoAw==
+ d=gmail.com; s=20230601; t=1761806535; x=1762411335; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:in-reply-to:from:content-language
+ :references:cc:to:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=XRjmjhwgFo6DAjuANvJLlsLw1oA4anFVQb7lf99MW8g=;
+ b=NlxZgT9vErArTnzYZcWQ79vYcwltgJFY69SdLX5+4k7dfpg96aIICnTIETydp6g4rQ
+ nBMbQDJAHYaAnu4eMNC4jiglBmSeMbkKqxin+vL5OuW5CpEsDqdPglRyyrlciag9uCro
+ qWAsXspjdR+5Ul/BZzq01SbTfVA31bTCSlSLHrkh37RTOIzQmGAst9iYgNriP4u7q8d+
+ KGH49XBkW4jbFXpLUNriBpXrPWWA8go6shyqn/ddx+gVZ709OwM7OA46xZZfmT7Obhrp
+ VAglSl+9TtEGS4hq97c+e4l6zAH/t5yjdxcL8riXhAs702y3BcrDkuTZ67BM8YIVjco+
+ pdmw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1761805912; x=1762410712;
- h=cc:to:message-id:content-transfer-encoding:mime-version:subject
- :date:from:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=IteJbnpQxtDfi0VoQZa3f0/zEOSuD+t4NwFKFFHXmzw=;
- b=V2udQ4ImaVSebAIdvstL8IHhVqvJlBZI9+vLq9p7sksPyNOqKNHpzs+MSM0IPkvJRj
- U3hKn0282QICv2mA5q3i4Ki4863vjGq6MeFddPftXMv8t8OPB4KqRyUO6bzzfKP5qv/8
- vAMVbmPFSGZMwMk12GdSmeRw3aTjjVNkwqmUNKFCdC33NdA67G5fTXosc8+8o12ttNgT
- fsJikiCJ8O3tisqj95UZdjPEr3c2I8BwlLkHMHmAK9HJXtPKkn5X/iQ4rzRLDNd4r5BS
- e9Bet1+NSMm2tAtAfJJOzh1KNx7Wo372tzIxKh6wOqXxcC0KvwQpN3NtEnIEkrO+5mfa
- zoBg==
+ d=1e100.net; s=20230601; t=1761806535; x=1762411335;
+ h=content-transfer-encoding:in-reply-to:from:content-language
+ :references:cc:to:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=XRjmjhwgFo6DAjuANvJLlsLw1oA4anFVQb7lf99MW8g=;
+ b=JpV2R0ABI9lsuzDWMGFOh8Fb5074CeNuaPOTVwdoEyF3l3gBr8fyk5U9I4ySdRZL/N
+ 6de1w1t/8NJupbTNSLExvsvXfqYnRGagLPAjSBv6VBslReT6SpxNvOsLWMTGmCgd6nW4
+ pRLguZoAJ4D0Y+K7u1RiPOhRkgw9uhKhOPcXreW12M9Bm63yhDlMUlfPkG9QWwwIYQeX
+ J+XejyTIlnhaP7prcTtw3uoI9mGcEVG49bu5XZUXXFzro5yOWMbbi6PpxDwhXHKiRfek
+ yHxgpIUBjUkjTYlpC1wDCJQ7Fuj/Dgyj+8jPup5HrcfGrcLRBVpA1IOhYgbHE93QWxe/
+ 1FvQ==
 X-Forwarded-Encrypted: i=1;
- AJvYcCVsSD5bVUk9KyAscKkBB+zbBdy8ra4PB6NdYG4n4nPpQmXcjbRLypxYz8G7DaAKwgm3PMSepPQ0OkE=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YxubP42iPLJVX+pbnRqnZVd7V2iGd+48xlggnu1MLjRrMO2sVbz
- cXyXl56m9I+Od3SfLk5JwgurrmncvVdDjA7+M9Zu+Lkjuc5K06GnEb+m
-X-Gm-Gg: ASbGnctSzJhhngoGlXF2SLRlFRR89zjDeEVC3cUw063KsthYmF3zi1XI9SrxbN5vRnn
- emoNaweVxWyLKGtISJvwzw9xEMkYox9vk6iK0fZ2Hc+iPg5It29E69BEti5kF3fShDcLEinAGro
- kkN4B2eauRhhaTI2TicltVX+uXGXvGYkTw4hUiV4Zni838mbNfRHiWJwZNcwegtRr1kpz7H9RWO
- VzmC5I7XjhwTwjB8SWzMay8K7T/B2QCiQMABvYNk2yP3zMX8ZaKo9QSby3EP2v25IarULwPztZl
- 13gE31XdVeYzMlMoWtVmxKX9JDrxJm/8og8P3vAVO9qyUvHKXWed4rxYYax3VLVItwA86mneZkC
- fF7SeD3hcy2k94l4alyeAX3peGfPl89TuO2F4tFg/C7a3NvsKQjOEe7wacoxzsF41A//J7bkpvI
- qFX/aa1tkS9NEfsOU2Zzv4O9JVKU9StTbgwOlMitb3lQuXqG2jlAewXpw=
-X-Google-Smtp-Source: AGHT+IHNvKCn04TUtBKiitaic4J2q30Yzc+qOqNpAkIf4/fyYDmwz0RWuqOmy8D+jYX31HnPUWKBbQ==
-X-Received: by 2002:a05:6a00:2e23:b0:780:f6db:b1bd with SMTP id
- d2e1a72fcca58-7a62a361761mr2569135b3a.4.1761805911695; 
- Wed, 29 Oct 2025 23:31:51 -0700 (PDT)
-Received: from stravinsky.localdomain (ip72-203-100-4.oc.oc.cox.net.
- [72.203.100.4]) by smtp.gmail.com with ESMTPSA id
- d2e1a72fcca58-7a414049a44sm17200296b3a.35.2025.10.29.23.31.50
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 29 Oct 2025 23:31:51 -0700 (PDT)
-From: Jessica Zhang <jesszhan0024@gmail.com>
-Date: Wed, 29 Oct 2025 23:31:45 -0700
-Subject: [PATCH] mailmap: Update Jessica Zhang's email address
+ AJvYcCVSG/lO3dTKvNYEJhU0hAdb8s/T9jNXFfoIxT5J+hk77dKHsbkGsRC2DSDzvKc47uYqMQB/exVkJCU=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YyTtkMTsbBK8MwWVsXxYG8GoaQQRjf91x2IgpmVCGxuRFS6dPq5
+ B+XUPgBZuPcOYtuipdWTwCUNltSRPI4ZnONWc0Xvny3x0aE0V34d5GzJDLj8Ug==
+X-Gm-Gg: ASbGncuUmVtiWamzbjgpcsfjuHIMB+l4hIrzLEwGztC2x0wvHDeYCOBUGmIuzyVWAa2
+ 0oghLZdltKKAcxlsgCmy41LjhvGcPvGRSCrQzPn5ya5yQZwLwOjij9P9+gZcf7aU95mhJk4Jaz4
+ IqwzZsqKwUMHsJcUUd6UbpqbaSDJTOO0sJ97X1Fys2Q/8ADyp2VmLqco1MomFM65HMxK3xiotAo
+ P/fhFmeSK1nQNx6ID13J+5CeZ4o1XyLLpJ7cJYnQzGnx8e/PJ+NPI20Jk/9JE8xjC2Q/3IQKdpR
+ PALVKJm73uyXCoqyY/6mLfeFJOJxjkqLOFHe7CXhbKvyajz7F7J210cmkW5lcO0auntC9Gjae28
+ F+HFveTC7/JY+Km/h1YqMyUbyfB0m8lnVmikcxY1ZgPdStqQeBQn4pUReYBO6N2G7Ji/3w9Yo9A
+ Eqt0sNYqClMwbbViyK77bJmBeiIQkbhxYom4QGgae3PQBAVyY3xvnixg==
+X-Google-Smtp-Source: AGHT+IHhNxsrwPO8GFNjwbeDLO66xSVyMs6+J042HgogOYR3N9tX6avqO0/30+zi499pUFsIKhHa2g==
+X-Received: by 2002:a05:6a21:3287:b0:334:9649:4754 with SMTP id
+ adf61e73a8af0-3465293bf63mr7104225637.13.1761806534844; 
+ Wed, 29 Oct 2025 23:42:14 -0700 (PDT)
+Received: from ?IPV6:2600:8802:702:7400:90ae:1623:a8e:9839?
+ ([2600:8802:702:7400:90ae:1623:a8e:9839])
+ by smtp.gmail.com with ESMTPSA id
+ d2e1a72fcca58-7a4140168f7sm17329517b3a.11.2025.10.29.23.42.13
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 29 Oct 2025 23:42:14 -0700 (PDT)
+Message-ID: <89dbc85f-631e-4402-aca6-128e2cce399b@gmail.com>
+Date: Wed, 29 Oct 2025 23:42:13 -0700
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20251029-mailmap-fix-v1-1-8534ffa12ed3@gmail.com>
-X-B4-Tracking: v=1; b=H4sIAFAGA2kC/x2MQQqAIBAAvyJ7TlDTkL4SHcS2WkgThQjEvycdZ
- 2CmQsFMWGBmFTI+VOiOHeTAwJ8uHshp6wxKKCOFsjw4uoJLfKeXG6FH7Y22Vk7Qi5Sx6/+2rK1
- 9ezZC/V0AAAA=
-X-Change-ID: 20251028-mailmap-fix-50434c548816
-To: neil.armstrong@linaro.org, lumag@kernel.org, robin.clark@oss.qualcomm.com
-Cc: linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org, 
- linux-arm-msm@vger.kernel.org, freedreno@lists.freedesktop.org, 
- Jessica Zhang <jesszhan0024@gmail.com>
-X-Mailer: b4 0.15-dev-509f5
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1761805910; l=1226;
- i=jesszhan0024@gmail.com; s=20251028; h=from:subject:message-id;
- bh=EvEXTz0KOxz6r+4dee3gAhObDEZ9RzGv4u6rNYbYStE=;
- b=4AiNnU52GcTLFxFVrVFNRtBIYgDMcsTe1X5gNVFGem6rW0dpFbRAMuLF/g8ZuCZZ4pAV7ZETd
- /Cm12ZhzY7PD6ExKeMtG+CG5/e/RDBmWXFODJU9FyALDeZ1gLr62emS
-X-Developer-Key: i=jesszhan0024@gmail.com; a=ed25519;
- pk=Qjsztzh+H8Xz0uqVst7N2PHX5Vnd3JXONpkaTHqk/Pk=
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] MAINTAINERS: Update Jessica Zhang's email address
+To: Neil Armstrong <neil.armstrong@linaro.org>,
+ Jessica Zhang <jessica.zhang@oss.qualcomm.com>,
+ Dmitry Baryshkov <lumag@kernel.org>, Rob Clark <robin.clark@oss.qualcomm.com>
+Cc: linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ linux-arm-msm@vger.kernel.org, freedreno@lists.freedesktop.org
+References: <20251002-quit-qcom-v1-1-0898a63ffddd@oss.qualcomm.com>
+ <6eedef19-5473-4c09-bae5-04490f711d9e@linaro.org>
+Content-Language: en-US
+From: Jessica Zhang <jesszhan0024@gmail.com>
+In-Reply-To: <6eedef19-5473-4c09-bae5-04490f711d9e@linaro.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -100,35 +96,65 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Update mailmap to point to my current address
+On 10/15/2025 12:26 AM, Neil Armstrong wrote:
+> Hi,
+> 
+> On 10/3/25 01:57, Jessica Zhang wrote:
+>> My current email will stop working soon. Update my email address to
+>> jesszhan0024@gmail.com
+>>
+>> Signed-off-by: Jessica Zhang <jessica.zhang@oss.qualcomm.com>
+>> ---
+>>   MAINTAINERS | 4 ++--
+>>   1 file changed, 2 insertions(+), 2 deletions(-)
+>>
+>> diff --git a/MAINTAINERS b/MAINTAINERS
+>> index 7e7515a412e9..7a712ded8f9f 100644
+>> --- a/MAINTAINERS
+>> +++ b/MAINTAINERS
+>> @@ -7652,7 +7652,7 @@ DRM DRIVER for Qualcomm display hardware
+>>   M:    Rob Clark <robin.clark@oss.qualcomm.com>
+>>   M:    Dmitry Baryshkov <lumag@kernel.org>
+>>   R:    Abhinav Kumar <abhinav.kumar@linux.dev>
+>> -R:    Jessica Zhang <jessica.zhang@oss.qualcomm.com>
+>> +R:    Jessica Zhang <jesszhan0024@gmail.com>
+>>   R:    Sean Paul <sean@poorly.run>
+>>   R:    Marijn Suijten <marijn.suijten@somainline.org>
+>>   L:    linux-arm-msm@vger.kernel.org
+>> @@ -8325,7 +8325,7 @@ F:    drivers/gpu/drm/clients/drm_log.c
+>>   DRM PANEL DRIVERS
+>>   M:    Neil Armstrong <neil.armstrong@linaro.org>
+>> -R:    Jessica Zhang <jessica.zhang@oss.qualcomm.com>
+>> +R:    Jessica Zhang <jesszhan0024@gmail.com>
+>>   L:    dri-devel@lists.freedesktop.org
+>>   S:    Maintained
+>>   T:    git https://gitlab.freedesktop.org/drm/misc/kernel.git
+> 
+> Could you also update .mailmap in a follow-up patch ?
 
-Reported-by: Neil Armstrong <neil.armstrong@linaro.org>
-Signed-off-by: Jessica Zhang <jesszhan0024@gmail.com>
----
- .mailmap | 4 +++-
- 1 file changed, 3 insertions(+), 1 deletion(-)
+Hey Neil,
 
-diff --git a/.mailmap b/.mailmap
-index b77cd34cf852..1c57bd649f04 100644
---- a/.mailmap
-+++ b/.mailmap
-@@ -352,7 +352,9 @@ Jesper Dangaard Brouer <hawk@kernel.org> <hawk@comx.dk>
- Jesper Dangaard Brouer <hawk@kernel.org> <jbrouer@redhat.com>
- Jesper Dangaard Brouer <hawk@kernel.org> <jdb@comx.dk>
- Jesper Dangaard Brouer <hawk@kernel.org> <netoptimizer@brouer.com>
--Jessica Zhang <quic_jesszhan@quicinc.com> <jesszhan@codeaurora.org>
-+Jessica Zhang <jesszhan0024@gmail.com> <jesszhan@codeaurora.org>
-+Jessica Zhang <jesszhan0024@gmail.com> <quic_jesszhan@quicinc.com>
-+Jessica Zhang <jesszhan0024@gmail.com> <jessica.zhang@oss.qualcomm.com>
- Jilai Wang <quic_jilaiw@quicinc.com> <jilaiw@codeaurora.org>
- Jiri Kosina <jikos@kernel.org> <jikos@jikos.cz>
- Jiri Kosina <jikos@kernel.org> <jkosina@suse.cz>
+Sorry for missing this earlier -- I've posted the follow-up here [1].
 
----
-base-commit: b5bad77e1e3c7249e4c0c88f98477e1ee7669b63
-change-id: 20251028-mailmap-fix-50434c548816
+Thanks,
 
-Best regards,
---  
-Jessica Zhang <jesszhan0024@gmail.com>
+Jessica Zhang
+
+[1] 
+https://lists.freedesktop.org/archives/freedreno/2025-October/041998.html
+
+> 
+> Thanks,
+> Neil
+> 
+>>
+>> ---
+>> base-commit: b5bad77e1e3c7249e4c0c88f98477e1ee7669b63
+>> change-id: 20251002-quit-qcom-5125b64a86aa
+>>
+>> Best regards,
+>> -- 
+>> Jessica Zhang <jessica.zhang@oss.qualcomm.com>
+>>
+> 
 
