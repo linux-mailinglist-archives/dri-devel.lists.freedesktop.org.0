@@ -2,45 +2,45 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4E45BC1E449
-	for <lists+dri-devel@lfdr.de>; Thu, 30 Oct 2025 04:50:24 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id EC127C1E44F
+	for <lists+dri-devel@lfdr.de>; Thu, 30 Oct 2025 04:50:37 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 94E3E10E956;
-	Thu, 30 Oct 2025 03:50:22 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3B60410E959;
+	Thu, 30 Oct 2025 03:50:36 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=amd.com header.i=@amd.com header.b="C6mbcd11";
+	dkim=pass (1024-bit key; unprotected) header.d=amd.com header.i=@amd.com header.b="ZHD60Lba";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from PH8PR06CU001.outbound.protection.outlook.com
- (mail-westus3azon11012067.outbound.protection.outlook.com [40.107.209.67])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2535B10E956;
- Thu, 30 Oct 2025 03:50:21 +0000 (UTC)
+Received: from SJ2PR03CU001.outbound.protection.outlook.com
+ (mail-westusazon11012041.outbound.protection.outlook.com [52.101.43.41])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8478C10E94D;
+ Thu, 30 Oct 2025 03:50:34 +0000 (UTC)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=GXkT5AIodaXEWSM7q0eHdXbCGSZuqDzMNoYs+XJDv3kxw3JSMPzZvqOvUrMsTS+vwNO7ds5l+HGyNfBVNZsu4M745l5zJbx8JY4BizMQH4SPrw+6u46P495b65GHlobdidTD8fWZxA73BlKuyD6bDZYxXEgpiXKHyWHPNd5pu6NGWihoilAmsmRMwa6VLKYu7aCCnb5nSjMow3c/vbl7sI0L2lpHfEae6MhJGBqgd6YoDvtGpGsQ7JuFSl+Zx8+VVBfQU9WgiaGSgCbL6m2F1ALrEN5zt0NZlJbapYfQrRoMX9QfYrGY1Ib2ASJ+CuyRiIk5/Y38nZg5KZ/jf3Jo/g==
+ b=Ufo1KYnDJosgsj8w4Dy8sK56mmjVEwtKIeBtHtgH08hEWlFa5aKcxOVugmLDZAT/EjgpuxlhY+Xf/U+/n5N+VNpfyg20vtO4G8ay4jEKRlxGHXr0facjqOnguWVVDfTF62DqaalJ1Jgk1JG+v8XXFo74Q4wCK/qndUYfuxPukzWfE9n67NhKuN+QWvtPKVE9koZzeVcwNNreCcfxPNpkXWjjRuheV3MWfJ8aPToBbJ9EuPheEQknt2cJmJuvYlctczGqIFGuap32heFsGKh5Z+0GVwLoQfnfNd6fU4rbWvtbb50JcyWO7+Lm496udNKVpUbDJvut6+S4KmzI2XCbnw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=ZGFmhHUTDkrrZN8nu1ioR0W53Lx2lE/b5TLkDUoleCQ=;
- b=OcZfMT1To9wpvdpicy5wmBWhVH8FEnEroudirGryjqY0XBUoOHiIHgdaxK+6nunDIveuzWSWx3H8l0ERnr/EH4VrgrcsCtrhtQnkW640MT20kGOK1CW4QxvW8UYVfpMsYPSPeeD8FHFtyQ7SX+zU+DvjkE7Ti1lCzyLl6eBfHPQ3Vqpt8oDlT9gXYv92KrVg5DDG1cHEtu7orzTu6LDd1zpeiaQijiKGXzC/FLHjKW/TlUInZlMNHtvzBv3BYD7hhctTKyK/cDWEhHgWJp+a5x3Y7LG+jd2liv4aYaBYYHPhOkkfRwDXgMWjcANxwoS4zYMqO7DGs2M0EZsGMlAl1w==
+ bh=lczg07TuElj3A+7NUsQAihL9a5ZJIOJpua2JBMNrlVI=;
+ b=O0+lZods29JyJ1JD7evofuCCdori2Gk4phZjCnGkuXR6mVziDaReaDTnjHRVnHgiAts89I4XxGMED1l8ou+wyKJP3sEGO9qpEil3smoof1lsOyR+rPggfDGYQMbf4jYLSf/iGtU/Wt3QChw3Efwu1vuoRXgm2VOOnKVEWpMJ08V5VkiBnwxrOwedtM0o5+YRUYKQMkX+pBYXkfvsQ87YJqO+1NQX5eux+Q/tpfgzmgwx4/JV7nIj03H9d9fEzyjeOet49LPlimRbcjxFRlaTX0VEAauwKlyMITyhjwMZ10yI953ZJ+vhhFrgjJ4VHAUpb6AU14riOyqwI+1AJraUEw==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
  165.204.84.17) smtp.rcpttodomain=lists.freedesktop.org smtp.mailfrom=amd.com; 
  dmarc=pass (p=quarantine sp=quarantine pct=100) action=none
  header.from=amd.com; dkim=none (message not signed); arc=none (0)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=ZGFmhHUTDkrrZN8nu1ioR0W53Lx2lE/b5TLkDUoleCQ=;
- b=C6mbcd1101sOYqU59NNGZCndfYQXtxMPZ7W/qvit3ZqPW5PouDq0Uqxwz/pWKQPigKmKe6Ck0WpfsnFd8IRTZEHhUwcihIFqs806KyDsq0ImIN83ai++psv3tGoJ1MfKlRZudZHYcohxOvNn8RrLoGmpJlxjBRvg+WMIb4jBej0=
-Received: from BN0PR04CA0111.namprd04.prod.outlook.com (2603:10b6:408:ec::26)
- by MW4PR12MB7263.namprd12.prod.outlook.com (2603:10b6:303:226::7)
+ bh=lczg07TuElj3A+7NUsQAihL9a5ZJIOJpua2JBMNrlVI=;
+ b=ZHD60Lbaizxi+vXXSbeAc0GDonq/5uLWgNgqqaN3k6UI3nEmX+zrCUl0a639nnynwLoVmJGZeDn2NEYbKQrUBzoIy8dTAuKf3TEI1g67qjrCmL6YyCrZfpEKZT1RzQ0oWXLasNpvIMz8uHjYCSlSvayfoQU7cKDrL1/Wg43UBU4=
+Received: from BN9PR03CA0058.namprd03.prod.outlook.com (2603:10b6:408:fb::33)
+ by LV8PR12MB9641.namprd12.prod.outlook.com (2603:10b6:408:295::18)
  with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9253.19; Thu, 30 Oct
- 2025 03:50:15 +0000
-Received: from BN1PEPF00004684.namprd03.prod.outlook.com
- (2603:10b6:408:ec:cafe::54) by BN0PR04CA0111.outlook.office365.com
- (2603:10b6:408:ec::26) with Microsoft SMTP Server (version=TLS1_3,
- cipher=TLS_AES_256_GCM_SHA384) id 15.20.9275.13 via Frontend Transport; Thu,
- 30 Oct 2025 03:50:07 +0000
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9253.17; Thu, 30 Oct
+ 2025 03:50:30 +0000
+Received: from BN1PEPF00004683.namprd03.prod.outlook.com
+ (2603:10b6:408:fb:cafe::63) by BN9PR03CA0058.outlook.office365.com
+ (2603:10b6:408:fb::33) with Microsoft SMTP Server (version=TLS1_3,
+ cipher=TLS_AES_256_GCM_SHA384) id 15.20.9253.19 via Frontend Transport; Thu,
+ 30 Oct 2025 03:50:30 +0000
 X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
  smtp.mailfrom=amd.com; dkim=none (message not signed)
  header.d=none;dmarc=pass action=none header.from=amd.com;
@@ -48,13 +48,13 @@ Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
  165.204.84.17 as permitted sender) receiver=protection.outlook.com;
  client-ip=165.204.84.17; helo=satlexmb07.amd.com; pr=C
 Received: from satlexmb07.amd.com (165.204.84.17) by
- BN1PEPF00004684.mail.protection.outlook.com (10.167.243.90) with Microsoft
+ BN1PEPF00004683.mail.protection.outlook.com (10.167.243.89) with Microsoft
  SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.9275.10 via Frontend Transport; Thu, 30 Oct 2025 03:50:14 +0000
+ 15.20.9275.10 via Frontend Transport; Thu, 30 Oct 2025 03:50:30 +0000
 Received: from kylin.lan (10.180.168.240) by satlexmb07.amd.com
  (10.181.42.216) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.17; Wed, 29 Oct
- 2025 20:50:11 -0700
+ 2025 20:50:26 -0700
 From: Alex Hung <alex.hung@amd.com>
 To: <dri-devel@lists.freedesktop.org>, <amd-gfx@lists.freedesktop.org>
 CC: <wayland-devel@lists.freedesktop.org>, <harry.wentland@amd.com>,
@@ -69,10 +69,10 @@ CC: <wayland-devel@lists.freedesktop.org>, <harry.wentland@amd.com>,
  <chaitanya.kumar.borah@intel.com>, <louis.chauvet@bootlin.com>,
  <mcanal@igalia.com>, <nfraprado@collabora.com>, <arthurgrillo@riseup.net>,
  Daniel Stone <daniels@collabora.com>
-Subject: [PATCH V12 22/49] drm/colorop: define a new macro
- for_each_new_colorop_in_state
-Date: Wed, 29 Oct 2025 21:42:27 -0600
-Message-ID: <20251030034349.2309829-23-alex.hung@amd.com>
+Subject: [PATCH V12 23/49] drm/amd/display: Ignore deprecated props when
+ plane_color_pipeline set
+Date: Wed, 29 Oct 2025 21:42:28 -0600
+Message-ID: <20251030034349.2309829-24-alex.hung@amd.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20251030034349.2309829-1-alex.hung@amd.com>
 References: <20251030034349.2309829-1-alex.hung@amd.com>
@@ -84,53 +84,53 @@ X-ClientProxiedBy: satlexmb08.amd.com (10.181.42.217) To satlexmb07.amd.com
  (10.181.42.216)
 X-EOPAttributedMessage: 0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: BN1PEPF00004684:EE_|MW4PR12MB7263:EE_
-X-MS-Office365-Filtering-Correlation-Id: d5072336-f65c-49c0-733f-08de17676f54
+X-MS-TrafficTypeDiagnostic: BN1PEPF00004683:EE_|LV8PR12MB9641:EE_
+X-MS-Office365-Filtering-Correlation-Id: 7ed79775-11cf-4fd6-fe28-08de17677851
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
- ARA:13230040|376014|7416014|1800799024|36860700013|82310400026; 
-X-Microsoft-Antispam-Message-Info: =?us-ascii?Q?Fb8+8M0AXelIdLtEbs2/3tL67sm4eHcWmXlS0sKfKBSagqZ9EA7j16QSVzri?=
- =?us-ascii?Q?wC2Xv6SsF7tCT6dY4AGtuYZZI7g8zqPUwwcMgYcld3r6K/tNGIQdHycKlEwQ?=
- =?us-ascii?Q?14KQROLHNjj6eBInhbHtSY2C9D8079iUIAPnmQ1OuCr3qQuvGOHnyERW4a9X?=
- =?us-ascii?Q?bMlRCKsNhBx6jNCUejf5d5w9Rys5ZPlWevMgSfHYz9lXWADeB5+QgDBkHX+2?=
- =?us-ascii?Q?vJ41B3H6busZaTdOs9BVzJY+Rq4/3irh4HcwLNE/VuiWuvz1Rlxq4rSuzgOf?=
- =?us-ascii?Q?an76LmvNQqwrulvAbAVni3KX6uu8RPv8yHxCqBFWJ2sv7Wusof//ZJJGgk2S?=
- =?us-ascii?Q?keYks5h4/eJHHiOG9uxvXB9quBOj65Mb0n6Mgc3yjn4vbo4Vra7mA2bPCl/L?=
- =?us-ascii?Q?miI6SqcGoXCp83Ml4ezXa2leplucu+gqV1JSPQB1t84FfQUCf+FQvW4BaXg2?=
- =?us-ascii?Q?Ow0fDcmgTFER3bUrlgWCEshrIoNK6ucMho7Mj6zzP6cAfPQxxgyV0JVbOOiW?=
- =?us-ascii?Q?psB9f0b11+wMeDAZM1dqQVX5wb05jbCNQ+8AleaXB6oOYdlx+98xTQKmLZTd?=
- =?us-ascii?Q?61dnlDFEvHobPfTp7WpDlQriN8CP6tQViNi62w8ZeCXTXxFBa38eKUspr70C?=
- =?us-ascii?Q?fR3O2L78sOntlo7hc3yiiZFN8gA6pw5EHCSCTNX9ND+BZVYVLfFixtSnkxkr?=
- =?us-ascii?Q?plqZFhqT3EfcJSGQGZOUOIv2Xtfye0M7N8RGCkt9TRdopgjWIBbTdbei+mtx?=
- =?us-ascii?Q?VWSsWfcBZThgAnlhTKrC/t6Iwwj97AeaFnGgrTVHdM4d2LDkrJgYRjWsQUbt?=
- =?us-ascii?Q?3xO9TRAa3MLhB1tmMzNYqdL7vq+JdQbvVjt9Brn1lFSJMNaCzPoxYDUa7VGZ?=
- =?us-ascii?Q?OlL4CMJVufjtxVKdfAmWz1jGtbQSjKWDArveHrcW51Prg+/l4T2FW7QwPAtV?=
- =?us-ascii?Q?4YVxgFXE811tQO6pzSMuyBm5IxBLS6lJ35Hrmt0rQZaDyTSwfjoG9lBcNebO?=
- =?us-ascii?Q?rEWgRW9/A9AXI3ssk2VniEsmUZisg5p3Sd0YsjVnAb9hdn79zscYwnjM6x2d?=
- =?us-ascii?Q?biCSExFxG60SK2Yevzh4fAnPs3241WlWsYwtK57zo5tuDyIMudX9d5Jp7zg+?=
- =?us-ascii?Q?Tp0rswS5YuJpHfyKwZmwk+GfmCVUuKe3EUlTQfjdODfMEWWPXfs41U9sXGUx?=
- =?us-ascii?Q?N2C9eMQ+050d2arETbZcFumfFQAKwhYOyBzTF7m9r/O8N+vJjzNY9pOuNPGI?=
- =?us-ascii?Q?jcOM7AUFWaavRTTpn7POxn6TiuLsiO1NsI5VuBqO+aUORDEPiOTxCxQEosWV?=
- =?us-ascii?Q?oGkxt5cMvZPSpAnyBm+3T4CqzmpsRqT6Xetixro0sAFjqely/Pz/tJKpIi8h?=
- =?us-ascii?Q?1LhXFPhj3Jnn4F7S3a+6jPgE5xQlRlRAG4zU3DXfwxGRRCOi78Du+DCm0JBE?=
- =?us-ascii?Q?/d2WHURenbdgOUUbhanzILxysXZEi6QDyT29nksfH3BxRwWlbbHaM9PXc8Fd?=
- =?us-ascii?Q?bkQdRTaFUJKiyMIGYpaLFKEGRjSthUYaulOcIT9qMM7dDDrz1pSIVLMiavjm?=
- =?us-ascii?Q?CaTNkw4bt1Z/pVnIMdo=3D?=
+ ARA:13230040|82310400026|36860700013|1800799024|7416014|376014; 
+X-Microsoft-Antispam-Message-Info: =?us-ascii?Q?wYF7qP0mPC0VGy5RSGmI8HlhoCImCZ/EXliZIlMvBEn/WyFunFgFz+1MYmU0?=
+ =?us-ascii?Q?j7lq+yAu5FFbRBb0jOPLfkRxBQlHSqdkdhBZ1igGB+A2qmS57tNk1zJiBE5c?=
+ =?us-ascii?Q?IDzMxQiOUdMbk2F2zu6+RD/gTXg5r3BZg9dN2vUpE+YaENpksXVaqyijqt+d?=
+ =?us-ascii?Q?qeH9b38wH/xNB7GZClQ3108WWy8w6GNfMQtpZAoYlXcVFGnCL16xnIY5/W7y?=
+ =?us-ascii?Q?1SEgWVphfo6I5Sv7ZtyX+5P9/bESPLsPBKNCj4hWILpTc+GB84VwQXBFqjXd?=
+ =?us-ascii?Q?7Z/J3gyHeiYd0vn4xDQEnCvZuOzTRwDj16L2MIpAJTk0E4CV/eoBhaGc4q8K?=
+ =?us-ascii?Q?Z4dpcihWAzknBk6trVsbjBkY+LtbxL0on5qAbPIOeCwQZSyuavyl8DShYDf/?=
+ =?us-ascii?Q?KVLkzdKOcG9O7jnGQ73/SKdIli7RI183ZiPabFIZcPq4+9H51YcpdfHJRb0Y?=
+ =?us-ascii?Q?tOE8if+4pMRwHOh+6yFEefkY0nxZRfgqhag/ArUEFdZvidpkuDUar+tyfm4I?=
+ =?us-ascii?Q?xAg0NZIrc+8M0QCaEH5loGClQV+5fmmK3CMOHSbzA++/weE1z5OqkDa3PcdD?=
+ =?us-ascii?Q?Tg6dAnWXe12EzZ5/yZTVRdS59qKRxvUTusEx/1SSvvS9a3gnQNQK7NgdYkWl?=
+ =?us-ascii?Q?rOQ5zADXHaLoPjPjiZCt3cs7vRUM8ho9EGnVQdrRAD7gfFOsOiqiIOBYz2jL?=
+ =?us-ascii?Q?Yisw029qUqYOJZB/s0f+DjYzv4pGMAVTY7H6qvV7clVCavyynB0bT9skixt2?=
+ =?us-ascii?Q?iRO2bbznnPYKxl2iEi8tzg6lKqI+dfv+V6G6idE53TGLMMXh9AuB7dtcubii?=
+ =?us-ascii?Q?f+sPJuVniRTEGrp1RbkJ5+6Ldjug4ZqXtsT8ff0p6grzNbxVnE9jN0YsNDtW?=
+ =?us-ascii?Q?/6ahAusxUaTzOWKvhYbOTq/+EUXdrjPvh6lVdhat3H/TzHJOjjuPt1+EETCq?=
+ =?us-ascii?Q?t1PVq+ZyDWz0gZUzld9XpLXFZ5IP/5GE8pGJWk0yB4MqVLZKFLNGi4jpxKxz?=
+ =?us-ascii?Q?7nHp2Hh2tqAokq4C8XAcI7femsUIsjpSJ1uIyVMSuvyxLNlRZ3VK4m01XEnj?=
+ =?us-ascii?Q?i1I1/aMOgOk1D4nEj820Uukt7IgEKZLNJNCE6EJswrqztduAkNdLBeESrGM5?=
+ =?us-ascii?Q?l43jIyDE+oIPqpvVJVdjJ0Uxj7QCZzVPJqTwBiXV9VqDcmMTd9HqYNeNu1kA?=
+ =?us-ascii?Q?voooqo+ia384ofi7RyxroezTHjl44p/nwhDHeKRvUoC8EyZAwfOLspKxDcxb?=
+ =?us-ascii?Q?chzE9svyfK5Q5o7EEeDbdTRYeoCuBdPzC8J1MJgJBJBDrx7a37nSTOdU3enz?=
+ =?us-ascii?Q?zf8GpjEWLn58ezw/OcJuL9dcjh/DlDxPfkojYPynLWzPxNWAqywLPp6KXfoC?=
+ =?us-ascii?Q?FfBFAvjNDiKL2MbeWgbPMJfvBlBXfLPuTlvvJ3/vKnC8wng/VU1ZaRtYQ6v1?=
+ =?us-ascii?Q?/CCmoJ/m27TovvUhDXwv7eZe7GV5T3BTT1ulJ4+lKKbmM5KJR4ORkIPBpPnr?=
+ =?us-ascii?Q?+ncVpdbLtEpW4EloMoLnwjj3Phb2IkR9qnW9u7Wn6YLueGhDHzQNs1LP/3fo?=
+ =?us-ascii?Q?N5K0PfVUCwUSZZkTK9I=3D?=
 X-Forefront-Antispam-Report: CIP:165.204.84.17; CTRY:US; LANG:en; SCL:1; SRV:;
  IPV:CAL; SFV:NSPM; H:satlexmb07.amd.com; PTR:InfoDomainNonexistent; CAT:NONE;
- SFS:(13230040)(376014)(7416014)(1800799024)(36860700013)(82310400026); DIR:OUT;
+ SFS:(13230040)(82310400026)(36860700013)(1800799024)(7416014)(376014); DIR:OUT;
  SFP:1101; 
 X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 30 Oct 2025 03:50:14.9635 (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: d5072336-f65c-49c0-733f-08de17676f54
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 30 Oct 2025 03:50:30.0479 (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 7ed79775-11cf-4fd6-fe28-08de17677851
 X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
 X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d; Ip=[165.204.84.17];
  Helo=[satlexmb07.amd.com]
-X-MS-Exchange-CrossTenant-AuthSource: BN1PEPF00004684.namprd03.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthSource: BN1PEPF00004683.namprd03.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Anonymous
 X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MW4PR12MB7263
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: LV8PR12MB9641
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -146,52 +146,34 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Create a new macro for_each_new_colorop_in_state to access new
-drm_colorop_state updated from uapi.
+From: Harry Wentland <harry.wentland@amd.com>
 
-Reviewed-by: Simon Ser <contact@emersion.fr>
+When the plane_color_pipeline bit is set we should ignore
+deprecated properties, such as COLOR_RANGE and COLOR_ENCODING.
+
 Signed-off-by: Alex Hung <alex.hung@amd.com>
+Signed-off-by: Harry Wentland <harry.wentland@amd.com>
 Reviewed-by: Daniel Stone <daniels@collabora.com>
 Reviewed-by: Melissa Wen <mwen@igalia.com>
-Reviewed-by: Sebastian Wick <sebastian.wick@redhat.com>
 ---
-v10:
- - remove duplicated "is useful" in comments
+ drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c | 4 ++++
+ 1 file changed, 4 insertions(+)
 
- include/drm/drm_atomic.h | 20 ++++++++++++++++++++
- 1 file changed, 20 insertions(+)
-
-diff --git a/include/drm/drm_atomic.h b/include/drm/drm_atomic.h
-index 67cb0c602b7d..2d9cc2f21855 100644
---- a/include/drm/drm_atomic.h
-+++ b/include/drm/drm_atomic.h
-@@ -1081,6 +1081,26 @@ void drm_state_dump(struct drm_device *dev, struct drm_printer *p);
- 			      (new_colorop_state) = (__state)->colorops[__i].new_state, 1))
+diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
+index 32f7850abc61..ac4933c67461 100644
+--- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
++++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
+@@ -5793,6 +5793,10 @@ fill_plane_color_attributes(const struct drm_plane_state *plane_state,
  
+ 	*color_space = COLOR_SPACE_SRGB;
  
-+/**
-+ * for_each_new_colorop_in_state - iterate over all colorops in an atomic update
-+ * @__state: &struct drm_atomic_state pointer
-+ * @colorop: &struct drm_colorop iteration cursor
-+ * @new_colorop_state: &struct drm_colorop_state iteration cursor for the new state
-+ * @__i: int iteration cursor, for macro-internal use
-+ *
-+ * This iterates over all colorops in an atomic update, tracking new state. This is
-+ * useful in places where the state delta needs to be considered, for example in
-+ * atomic check functions.
-+ */
-+#define for_each_new_colorop_in_state(__state, colorop, new_colorop_state, __i) \
-+	for ((__i) = 0;							\
-+	     (__i) < (__state)->dev->mode_config.num_colorop;	\
-+	     (__i)++)							\
-+		for_each_if ((__state)->colorops[__i].ptr &&		\
-+			     ((colorop) = (__state)->colorops[__i].ptr,	\
-+			      (void)(colorop) /* Only to avoid unused-but-set-variable warning */, \
-+			      (new_colorop_state) = (__state)->colorops[__i].new_state, 1))
++	/* Ignore properties when DRM_CLIENT_CAP_PLANE_COLOR_PIPELINE is set */
++	if (plane_state->state && plane_state->state->plane_color_pipeline)
++		return 0;
 +
- /**
-  * for_each_oldnew_plane_in_state - iterate over all planes in an atomic update
-  * @__state: &struct drm_atomic_state pointer
+ 	/* DRM color properties only affect non-RGB formats. */
+ 	if (format < SURFACE_PIXEL_FORMAT_VIDEO_BEGIN)
+ 		return 0;
 -- 
 2.43.0
 
