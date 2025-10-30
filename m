@@ -2,145 +2,180 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5489AC1EB91
-	for <lists+dri-devel@lfdr.de>; Thu, 30 Oct 2025 08:21:25 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 76517C1ED29
+	for <lists+dri-devel@lfdr.de>; Thu, 30 Oct 2025 08:43:23 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 46F7510E029;
-	Thu, 30 Oct 2025 07:21:22 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3B13110E8C6;
+	Thu, 30 Oct 2025 07:43:21 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="aJmdIQy1";
-	dkim=pass (2048-bit key; unprotected) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="i6/+YxA6";
+	dkim=pass (2048-bit key; unprotected) header.d=foss.st.com header.i=@foss.st.com header.b="VZ461bVf";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
- [205.220.168.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B08B010E8AC
- for <dri-devel@lists.freedesktop.org>; Thu, 30 Oct 2025 07:21:21 +0000 (UTC)
-Received: from pps.filterd (m0279864.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id
- 59U1lWhG4135361
- for <dri-devel@lists.freedesktop.org>; Thu, 30 Oct 2025 07:21:21 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
- cc:content-transfer-encoding:content-type:date:from:in-reply-to
- :message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
- LrLH04bvWmhv/7dSuz9/jODN0MrjOzjLTOOh3RzYK98=; b=aJmdIQy1dzNp+YSO
- uYD5v7uBG6WccO2WyWuXmJygidw+st6zcZUCS7lIaBhlmZJpmOylw4iW5z7tzIQj
- CBaIaIFmECBjjXRoQLDWMk5s5RLgnz8ykhYfpF+El3Y33ArA1HM9BKRJQDrJlzg8
- Utf1dubsR4j27TTqKZRMdsjSU9OQpBCI2/hR9Hhwj3PsfUnCBk3PfEeOKWZiR7qG
- RhE9JMfGC5xei95FUIMhAjSAVkvwYXHdKtJtm1v6t1rUxO/+xxo0QgR//A2GwDB3
- /1UkAzswKyOkydIUPmcR2Yddv7v36LcZBzOJU4K+vB3kP8nvhREE+16xCZUtcZLV
- RkBlyQ==
-Received: from mail-pj1-f69.google.com (mail-pj1-f69.google.com
- [209.85.216.69])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4a3ff9uqnf-1
- (version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
- for <dri-devel@lists.freedesktop.org>; Thu, 30 Oct 2025 07:21:20 +0000 (GMT)
-Received: by mail-pj1-f69.google.com with SMTP id
- 98e67ed59e1d1-339ee6fe72cso196105a91.0
- for <dri-devel@lists.freedesktop.org>; Thu, 30 Oct 2025 00:21:20 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=oss.qualcomm.com; s=google; t=1761808880; x=1762413680;
- darn=lists.freedesktop.org; 
- h=content-transfer-encoding:in-reply-to:from:references:cc:to:subject
- :user-agent:mime-version:date:message-id:from:to:cc:subject:date
- :message-id:reply-to;
- bh=LrLH04bvWmhv/7dSuz9/jODN0MrjOzjLTOOh3RzYK98=;
- b=i6/+YxA6ZW0QHAyleP3sENKWsggpj0uCUrhl9PKd/xy5Coam6X03D5O3qN+dyUh7ku
- wh7zRMGF82UIvBC1n12E65mC7Vey4Ovo6TH96DKV+78ztr6RbfzSjLnEYu1iftfyAle+
- pM7ZNjwaoyK3/QY7aNX0IJLSWd2vRzv8WW7ijdMayFAG4P4cOw7HS3yxj/zFIf5TVl0T
- +mDETFvW5e0rbHTwPH1WRdPc2wfRcDNNMTUwh5iNMJ+rAaaPDSOvbnJsAQoR4Y9IlkVb
- L5l/HzmIemA4FaTFMy2SupLg3gs269KLiMsSPTPZSAUZOq+qS3wP206yRijIHp8N/8BE
- de9w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1761808880; x=1762413680;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to:subject
- :user-agent:mime-version:date:message-id:x-gm-message-state:from:to
- :cc:subject:date:message-id:reply-to;
- bh=LrLH04bvWmhv/7dSuz9/jODN0MrjOzjLTOOh3RzYK98=;
- b=THV/d9vyKfK4CUVuEoEXX2a3EL9ErkCdzXrTYsy30s+YsY7OhfPWDOPsszkQq78LHP
- VQIoClUXGXCUiAKhfYvgRSlFI6IZxeE62pRbjH45Hzk4Xnfw5KweDr4nc3F+Xe1M/tSd
- H1zoMekHqEQfaYT/jv3pNHDUIsdj0zqR8ZyBbWnk5WTp0Nc78xwZXlIRSgpjabF6+T/w
- PwUfQ1MKDC2aXhwUVf4GizBeZjDOhHA8hBrqYqlS9YlzSfe1lZ1trulBeUAFlB0qN7RZ
- y0tJGaB/s2YhVB+YwziuaBkfVMyHNu7ZgUQxIzVT9F5cBltQT4/z1XQnsRNvbH8M/jja
- tH1Q==
-X-Forwarded-Encrypted: i=1;
- AJvYcCUSV8y5fWvTgaFmW8SpBwL3C76bRKiEk1YxHt/XkPGNqHwAOYDAhf1aWXTQ2Md38w8UXKsyApKWDg8=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Yx32tXjMGghaEHojdH5P17jq4wFyibQO+/1a7VNWCn6B5UcVdbO
- tMMHDeBmzSwN8R0vFUjPcIlRhU9obEd7Imir9ItKz/ltaUn2+ViZrFO0Y1MYyc8yOzD2N8AotIt
- 4XLcIz+Kf4ch9Ty1IMgwD7CjfVogkLDbFunh4eRcDpt4WimSa7FaqlVDMVzPR0VbTMKDd60c=
-X-Gm-Gg: ASbGncvg8nWi7DU99UWIND0JNqIP0zfXIddghdnNFKtfCa/3sHNOmq0cJ+OY3/VhkNi
- unUfPLxhXFoszYauNoU8/NqeSpzGLCTYB6vwy2YjR0IzlytG6EdZxmMFC51BAe0x3tCE7aB5KNm
- A0Cp9WmjFKjhz2GcYsqru+jVu6o0JIKdzSOAyNrhCrPjdz4CwKbGLGOkYS+Zfa16fvzEwFi/bTI
- xlzG7ItemCcvbp/9Vq52waccA51tOvt5Hoen18bRwjheWaXYz9MJ8qwO95AWbhcEZ+95prwJqYw
- a8Lfocv4rWjR0yDU6OQQJqf9ezaOt8Rjh8UpvYJBJZseEvclCA6wT5XAz6gUUmxNJj/2hcDkgxi
- GzDaQEi77gRliRJHelapF6NmGrDoN6aCjkBMek5/Yg8IZeuTMVdOiTSNGHt2HlrFtVVTYVA==
-X-Received: by 2002:a05:6a21:4d8c:b0:341:fcbf:90b9 with SMTP id
- adf61e73a8af0-34653c0cc95mr3991163637.4.1761808880198; 
- Thu, 30 Oct 2025 00:21:20 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IEzZrHhcc1HTqPJ7CvrAphUHOthYYbudWGXcSpWUVourKLOVpK1kqUouzpCpiUJ1uwL+BHxGw==
-X-Received: by 2002:a05:6a21:4d8c:b0:341:fcbf:90b9 with SMTP id
- adf61e73a8af0-34653c0cc95mr3991136637.4.1761808879701; 
- Thu, 30 Oct 2025 00:21:19 -0700 (PDT)
-Received: from [10.133.33.251] (tpe-colo-wan-fw-bordernet.qualcomm.com.
- [103.229.16.4]) by smtp.gmail.com with ESMTPSA id
- 41be03b00d2f7-b8c0d2364d5sm3941558a12.19.2025.10.30.00.21.12
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 30 Oct 2025 00:21:19 -0700 (PDT)
-Message-ID: <da6eebe0-13ec-4168-aac1-2eef9db3bd13@oss.qualcomm.com>
-Date: Thu, 30 Oct 2025 15:21:09 +0800
+Received: from mx07-00178001.pphosted.com (mx07-00178001.pphosted.com
+ [185.132.182.106])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1B74610E8C3
+ for <dri-devel@lists.freedesktop.org>; Thu, 30 Oct 2025 07:43:18 +0000 (UTC)
+Received: from pps.filterd (m0288072.ppops.net [127.0.0.1])
+ by mx07-00178001.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id
+ 59U7XfLa1282408; Thu, 30 Oct 2025 08:43:02 +0100
+Received: from pa4pr04cu001.outbound.protection.outlook.com
+ (mail-francecentralazon11013013.outbound.protection.outlook.com
+ [40.107.162.13])
+ by mx07-00178001.pphosted.com (PPS) with ESMTPS id 4a3be3nu56-1
+ (version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 bits=256 verify=NOT);
+ Thu, 30 Oct 2025 08:43:02 +0100 (CET)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=hbwNlC76laitIPWCZbGRxVneB6vA4drel48cEvOw15LxfNHMNGBdn13+3bS1Gj/jGroK3M8LAmmb7+3sZfbnF02UgGt+LgXAoG+x0BIZUgcfcVhh3dv0fqODQFvBO04q9hL/N3Ox8wFj2HaDeZeDnWnsYvniOEJEzrzeSV9TazOKr0OM3bXYfX4RGECBS1yZUbG54BL+2zFazPyxxFv/yx/Brf/yMwg8UUUZvrleVHhJ4LkRktEianHwLqkBcSZTwjBCLEoI+zwhd+Iv5lmQtKK1qfWYZLLXveUwOFBMPt0NQxTGH6AwvpstlQ5kFsOnrukye7Va9JmlKfJ3tqTS0w==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=JOaKVTRnNwcfTImRnwy1uE5SoHQ/vXIrnPxQLZ/wFfk=;
+ b=NUQCKkPjIsCrddmWPRYpb+vR4+j4AXgwbyDFmZDFSGtxT4zMk6kq7SO+RpbtZQ1pY16hau4JHIckMGwdv2rd0kdSGnDY09UX0jwVycn55Ik7MJ6kP4+KAsXkOSfwLgVWS3CSyPIa+KUgPZrJyiiLKjPLPZxVO1CFjeSDmUDPxDb/kX5aTm+99Vry/jAnBxqgZ0d78/JRUkVazu1rlN/F0JFnrz4PdEl32VlWrKIm4Z05yifvJLSTEFXiHqDEWrXSbgbCD3pei1lrSGLQqoAoq+vZuAd/Ojm6EtxIAHLvxqDTHzD/ikwHc47Y3LqE/Ui+B62NL17oklUiWUevUrUtkQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=fail (sender ip is
+ 164.130.1.43) smtp.rcpttodomain=gmail.com smtp.mailfrom=foss.st.com;
+ dmarc=fail (p=none sp=none pct=100) action=none header.from=foss.st.com;
+ dkim=none (message not signed); arc=none (0)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=foss.st.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=JOaKVTRnNwcfTImRnwy1uE5SoHQ/vXIrnPxQLZ/wFfk=;
+ b=VZ461bVfcFaBtzzTRGuLROp6A+NTaASxupr8jqYpLwPq/Hg68Yc4ZS/QEAM2hL4kvzBrdk+JfmHXk62Ep60hu5zgtnBCrKB5WZoF3t6Nsco9jRfoWd50C48p8MU8ydzr853OP+OTEbmiVY3vExVrtEDSAfXzGVItyVlBPMC6zMHKv4muunwdc+N5Jou1mnpGJKXd7vW9JnO5FbuopomcoBlT5nH3htcx08CqUn5Ts5J8TVSIkq32yS/4elkltu3nvt8jCaD0LEsxlz2FOiG+4dKsLVVS+Fk7YwI73mnRUHyG1IxSja22CTDuYm/44TtU7pG/ZvxE0DD88TnpcG5QkQ==
+Received: from PAYP264CA0019.FRAP264.PROD.OUTLOOK.COM (2603:10a6:102:11f::6)
+ by PAWPR10MB7126.EURPRD10.PROD.OUTLOOK.COM (2603:10a6:102:2e5::12) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9275.14; Thu, 30 Oct
+ 2025 07:42:57 +0000
+Received: from AM4PEPF00025F97.EURPRD83.prod.outlook.com
+ (2603:10a6:102:11f:cafe::20) by PAYP264CA0019.outlook.office365.com
+ (2603:10a6:102:11f::6) with Microsoft SMTP Server (version=TLS1_3,
+ cipher=TLS_AES_256_GCM_SHA384) id 15.20.9253.17 via Frontend Transport; Thu,
+ 30 Oct 2025 07:42:57 +0000
+X-MS-Exchange-Authentication-Results: spf=fail (sender IP is 164.130.1.43)
+ smtp.mailfrom=foss.st.com; dkim=none (message not signed)
+ header.d=none;dmarc=fail action=none header.from=foss.st.com;
+Received-SPF: Fail (protection.outlook.com: domain of foss.st.com does not
+ designate 164.130.1.43 as permitted sender) receiver=protection.outlook.com;
+ client-ip=164.130.1.43; helo=smtpO365.st.com;
+Received: from smtpO365.st.com (164.130.1.43) by
+ AM4PEPF00025F97.mail.protection.outlook.com (10.167.16.6) with Microsoft SMTP
+ Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.9298.0 via Frontend Transport; Thu, 30 Oct 2025 07:42:56 +0000
+Received: from SHFDAG1NODE1.st.com (10.75.129.69) by smtpO365.st.com
+ (10.250.44.66) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.57; Thu, 30 Oct
+ 2025 08:40:40 +0100
+Received: from [10.48.87.93] (10.48.87.93) by SHFDAG1NODE1.st.com
+ (10.75.129.69) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.57; Thu, 30 Oct
+ 2025 08:42:55 +0100
+Message-ID: <c5a84e6a-ebdd-46ad-8140-40b9711b4b25@foss.st.com>
+Date: Thu, 30 Oct 2025 08:42:54 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v6 3/4] arm64: dts: qcom: Add DisplayPort and QMP USB3DP
- PHY for SM6150
-To: Bjorn Andersson <andersson@kernel.org>
-Cc: Rob Clark <robin.clark@oss.qualcomm.com>,
- Dmitry Baryshkov <lumag@kernel.org>, Abhinav Kumar
- <abhinav.kumar@linux.dev>,
- Jessica Zhang <jesszhan0024@gmail.com>, Sean Paul <sean@poorly.run>,
- Marijn Suijten <marijn.suijten@somainline.org>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
+Subject: Re: [PATCH 3/4] ARM: dts: sti: extract display subsystem out of soc
+To: Raphael Gallais-Pou <rgallaispou@gmail.com>, Alain Volmat
+ <alain.volmat@foss.st.com>, Maarten Lankhorst
+ <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>,
  Thomas Zimmermann <tzimmermann@suse.de>,
  David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>,
- Konrad Dybcio <konradybcio@kernel.org>, linux-arm-msm@vger.kernel.org,
- dri-devel@lists.freedesktop.org, freedreno@lists.freedesktop.org,
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
- fange.zhang@oss.qualcomm.com, yongxing.mou@oss.qualcomm.com,
- li.liu@oss.qualcomm.com,
- Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>,
- Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
-References: <20251024-add-displayport-support-to-qcs615-devicetree-v6-0-c4316975dd0e@oss.qualcomm.com>
- <20251024-add-displayport-support-to-qcs615-devicetree-v6-3-c4316975dd0e@oss.qualcomm.com>
- <xjes5h45y44cahs7avj4xngprwnks3alnf25tsbptyvckajz3q@lhawlg5vamls>
-From: Xiangxu Yin <xiangxu.yin@oss.qualcomm.com>
-In-Reply-To: <xjes5h45y44cahs7avj4xngprwnks3alnf25tsbptyvckajz3q@lhawlg5vamls>
-Content-Type: text/plain; charset=UTF-8
+ Rob Herring <robh@kernel.org>, "Krzysztof Kozlowski" <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>
+CC: <dri-devel@lists.freedesktop.org>, <linux-kernel@vger.kernel.org>,
+ <linux-arm-kernel@lists.infradead.org>, <devicetree@vger.kernel.org>
+References: <20250717-sti-rework-v1-0-46d516fb1ebb@gmail.com>
+ <20250717-sti-rework-v1-3-46d516fb1ebb@gmail.com>
+Content-Language: en-US
+From: Patrice CHOTARD <patrice.chotard@foss.st.com>
+In-Reply-To: <20250717-sti-rework-v1-3-46d516fb1ebb@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
-X-Proofpoint-ORIG-GUID: cZrfbP0sbw4RItozPaHs-eScA5_GwsM7
-X-Proofpoint-GUID: cZrfbP0sbw4RItozPaHs-eScA5_GwsM7
-X-Authority-Analysis: v=2.4 cv=Cf4FJbrl c=1 sm=1 tr=0 ts=690311f1 cx=c_pps
- a=vVfyC5vLCtgYJKYeQD43oA==:117 a=nuhDOHQX5FNHPW3J6Bj6AA==:17
- a=IkcTkHD0fZMA:10 a=x6icFKpwvdMA:10 a=s4-Qcg_JpJYA:10
- a=VkNPw1HP01LnGYTKEx00:22 a=EUspDBNiAAAA:8 a=tU0UsG_G8rlFAKuj474A:9
- a=QEXdDO2ut3YA:10 a=rl5im9kqc5Lf4LNbBjHf:22
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUxMDMwMDA1OCBTYWx0ZWRfXwkkKPigdw07a
- yuql5f3eltQ9PfE20prttJ+lOSc58MLulUYFkmgByoxIoR+uN0wQo5QQ6Wboq4DPwBVHM0anAz/
- v+SCh38fdoqdHm6tFzAuPOVJ3tfyJuKkOOtWpNMpbkDJp5rFEwtRGEwr/f6eXHIR2rLBy/aLB9g
- RcOLewYPMTvQ6kb4kPjf+FlEDBcs9jivjvb3YmfnHWw77mPXsdHW9ELC3S81sQeBpxQTZmZQcPp
- 6mbX6RUPmCexcSqjlLWy45zB43Pp1IG/3mNXwny+YbnyVAbdnj9y2d9NW77frrL/6LHXjo+2zeO
- rXJc4IOOpGx9RQ+VJejKfWChdUmTYh/7S2vCdRLBRX2lr1hAiAjZmofgEqL/VgympmzZ4vh+a8S
- FHKIhBBl00mhSqvSEk0pQ2buw4YEiA==
+X-Originating-IP: [10.48.87.93]
+X-ClientProxiedBy: EQNCAS1NODE4.st.com (10.75.129.82) To SHFDAG1NODE1.st.com
+ (10.75.129.69)
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: AM4PEPF00025F97:EE_|PAWPR10MB7126:EE_
+X-MS-Office365-Filtering-Correlation-Id: a7d4ca53-fb19-4e6b-74cc-08de1787f147
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+ ARA:13230040|36860700013|1800799024|82310400026|7416014|376014|921020|7053199007;
+X-Microsoft-Antispam-Message-Info: =?utf-8?B?Q0ttSW1OYTVscHJ5ZUxaV2pCeE54U0dQamJBTWdGVHpkUGo3eUI0dHVvZ1c1?=
+ =?utf-8?B?djBNRHBQd3VWR2x5ZmloTHppaUdZZW1VSTRsTEgrSEJicWV3RGpuaGdhL1JJ?=
+ =?utf-8?B?OERreWlJSXpaSDM4b01sNG5ZTnpqb3RHRDg5NEU2OU1lT0JvZHc0TWtQdnlk?=
+ =?utf-8?B?SVY2b29CMGVnYUtDMHFxcEJQa1hzSzIzeC9zTkJuSzNFc3graEpqRTY4cUZm?=
+ =?utf-8?B?aXE2cTdlR2Y2Qk1HdC9KRFJ5MmQ3dmNSSnhFRlJtamNSYTVQdlJhSlNTc2JM?=
+ =?utf-8?B?OXdmVW5qa0tzYXpFZkt4N3BTZTJFelhNQkJqdFRCSldhM0RidjhKYTFGTFRi?=
+ =?utf-8?B?TzRzY1ZpK0dpQ0xEWTVBVUtiRWtVMHNpckpIOXQ1eFJZZlNKeGpWd1lVRFNN?=
+ =?utf-8?B?bnNSc0tZdVNXL01XVzNiMndHeG4yQi9oVWY1emc2WVgySjNLWjJuRjQ1Q0FD?=
+ =?utf-8?B?d2k4NHZnUjVkMzJHNXYzS0NWZ1ZiRGJUcUFvUTJaaHIraC9weVI0Ymsrc3Z3?=
+ =?utf-8?B?cEc4S2lYL1dJMytBMEdQNjFPdmh5RXpPaExyRHFVMXZHMnVmTWdhbVBGS2ll?=
+ =?utf-8?B?c1RkUFo2cWhXU1d4V0xsWHhOb2FXU3c0MkRDK3d6aXc1SDUvRFVTbzRjZGVp?=
+ =?utf-8?B?MERhTTE3bWRuTU15TmFFRDkzZktCUUZpOEQ0NTkyNURBRHRId2pSVWxoNHJs?=
+ =?utf-8?B?S251VG9IVEZoY3lDTDR5c0VtNSt6R1VKc2RMLzhMQ2pBbWIwTlNCMnJtR1pj?=
+ =?utf-8?B?SVRmdDV0eU81bFo3OE5qT1FmUmxyTEJJMjh5Vlp3UHRwbUFqMjlwOXlzcVRq?=
+ =?utf-8?B?bDV1RlFOMGlZYWlKZ3ZWa1hXMjRwWEJveW9hQWtMSE10V1Nxcjg0a2lWZEts?=
+ =?utf-8?B?RzNabnFDVHVsbUhOKzh3ZnByZUZwanEwK3hIMUx5SzE1TGRHSlJJVHZ4eEdv?=
+ =?utf-8?B?SW1jalhLK2ZiMGFOQnlLWERsaVpsVG4wYStQYTgyTEUzMnBaV0l2MGhoWnR2?=
+ =?utf-8?B?TSsxd0xqWkpSanc1dEhqOEF2S2src3pla0M5MjZNWkFTVVJ4bDQ1UERlbEgr?=
+ =?utf-8?B?UkxBWlBtb05BcEFzMC93QXc5MWxONXEzT0VjOFQ5MTdqSEZZTkg5M1Q3RFFl?=
+ =?utf-8?B?dXhoUG5qN0pYbDJRd3VJUU9WQm0rakdJSGR3OWQ2dFpBQ1NlaU9CQ1Z3bmdh?=
+ =?utf-8?B?MTF1aXQ1M1A4cUtOVXpSaTJSMVVuc3gwb2ZEckRrSDFtUlRFeGRIbHpraXBL?=
+ =?utf-8?B?Szh2dGYrNFRpZ3VIOGg0bGF2bjRBbE04K0J4U0Q4Ri9tNmlhdDQ5THRJMEdm?=
+ =?utf-8?B?TVFvcHh5WjYzbTJiSkZqdFhxbTdEcGs4eTllaVd5UUhORWRZSXZNWlBKZm5y?=
+ =?utf-8?B?WGM3NHk4eEVobEk1VmgzWk1zaUFNekVWNXBtTGJnTmhEd3hPWktmNjdwZ1M1?=
+ =?utf-8?B?THRKRU1TTWVKaU1UMVd3MVJmTHNxRFZuS1FqM1R6NXRCblV3WUhoY1c2TE9P?=
+ =?utf-8?B?cHZ2QWp3K0dFUDRwWUZKK3hvSkFPZno5NXFQUDIyK2Zhc0RhZG8vdm5xYjB1?=
+ =?utf-8?B?bzRuckUzWTE2ZUFkUHBZeVZCa3BHd28xdFRjYTVlcDBsUmVWOWNKSTdIZ3JK?=
+ =?utf-8?B?QllzN3lWQVd6TWwzdWU4UFBrakVveFIxUElQYzNKamc1VHF3TGtidTRtdTRl?=
+ =?utf-8?B?TG94VVRvbExYeUFzKzJhcnBkZGxzTlBmMjdEM1AxeHhFa2syeUhYSVQvVmc1?=
+ =?utf-8?B?RExkVjR2MDBGM210c2ZNMms2MVFyczFMRnEvOGJjRDllVHdYMFZqL0FLMFFB?=
+ =?utf-8?B?c2s2MGpQVzk2S0NNWEF6RGl5ay81eG5sYVB1ZGk4dHBYYTk1WVZ3QVZHSHJP?=
+ =?utf-8?B?MjZTMlNScklpY2hkREdvMWh0Qi8zekx1dk52TjlrZUlMS1lkR0ZVMHo1c0JE?=
+ =?utf-8?B?MXcxaXNkUTRqd3lpakdzYkVGYkZyWndhYllGL0JDeGZiQTR1dU9GWFZDZkJM?=
+ =?utf-8?B?Qm1TeDBic2ppcTlpSlJNbCs5alRlbmViWGFPN29UMTlMTmlSYm9icE5hUlE1?=
+ =?utf-8?B?eGRyL0c5eDVwTzJIdmwwSGo0czFKUGVZQndraE9lSU1tbWJrRDJNWlJEeG1X?=
+ =?utf-8?Q?wLnun+Sfkcd9K2NbI58z+JlAD?=
+X-Forefront-Antispam-Report: CIP:164.130.1.43; CTRY:IT; LANG:en; SCL:1; SRV:;
+ IPV:CAL; SFV:NSPM; H:smtpO365.st.com; PTR:InfoDomainNonexistent; CAT:NONE;
+ SFS:(13230040)(36860700013)(1800799024)(82310400026)(7416014)(376014)(921020)(7053199007);
+ DIR:OUT; SFP:1101; 
+X-OriginatorOrg: foss.st.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 30 Oct 2025 07:42:56.7989 (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: a7d4ca53-fb19-4e6b-74cc-08de1787f147
+X-MS-Exchange-CrossTenant-Id: 75e027c9-20d5-47d5-b82f-77d7cd041e8f
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=75e027c9-20d5-47d5-b82f-77d7cd041e8f; Ip=[164.130.1.43];
+ Helo=[smtpO365.st.com]
+X-MS-Exchange-CrossTenant-AuthSource: AM4PEPF00025F97.EURPRD83.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PAWPR10MB7126
+X-Authority-Analysis: v=2.4 cv=JMU2csKb c=1 sm=1 tr=0 ts=69031706 cx=c_pps
+ a=KhE4gu946QIFSMZrge1Egw==:117 a=peP7VJn1Wk7OJvVWh4ABVQ==:17
+ a=6eWqkTHjU83fiwn7nKZWdM+Sl24=:19 a=XWp4PHTOCikA:10 a=IkcTkHD0fZMA:10
+ a=x6icFKpwvdMA:10 a=s63m1ICgrNkA:10 a=KrXZwBdWH7kA:10
+ a=VkNPw1HP01LnGYTKEx00:22 a=pGLkceISAAAA:8 a=8b9GpE9nAAAA:8
+ a=Fogd_9c_AqE0UklwBAkA:9 a=QEXdDO2ut3YA:10 a=T3LWEMljR5ZiDmsYVIUa:22
+ a=cPQSjfK2_nFv0Q5t_7PE:22
+X-Proofpoint-ORIG-GUID: D2HaJFYl-GoRcfavp_9NjYjVh9e69DCO
+X-Proofpoint-GUID: D2HaJFYl-GoRcfavp_9NjYjVh9e69DCO
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUxMDMwMDA2MSBTYWx0ZWRfX4+58opNY30ey
+ vk0fHi9Rz1FlXxtBytW/+CNDnlIzcn2Q3ZyFGl5Tb3/mwJNw6za6wpQPrHHGUcAB12H4Ksyk6Km
+ xQT3YW99GdCYbP5i45XYN86D8qrCfIrwr9Iis4WqzuUdr7Cd/EghMzVMU/I4Omp6lRZYNVeyoMm
+ BgossYu397Qrx1btaJeClfuLNVNDsKjDMYDMZWoeTvxm7U71svtl+XGBV2Mtb++3IfxrIwgQG71
+ 4xCd0A7AvdTwJZGdz1vE8S3O8HCfkixO9R9bUCB6UcKmKt0p9FNFGjrXA6LjSZvhno84KyCJ4bD
+ 386NmRCepZWZ6n92jXXAok0gCHZE3Zc2UqcMOeCSQVFxVaCFQih9JS+U/6OZG3C5NHyOhk1N7CS
+ qx/70QxYxcZxggBSLh/cLW/syTHy5g==
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.9,FMLib:17.12.100.49
  definitions=2025-10-30_01,2025-10-29_03,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- adultscore=0 suspectscore=0 phishscore=0 malwarescore=0 impostorscore=0
- clxscore=1015 priorityscore=1501 lowpriorityscore=0 spamscore=0 bulkscore=0
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 suspectscore=0
+ adultscore=0 spamscore=0 clxscore=1015
+ malwarescore=0 phishscore=0
+ bulkscore=0 impostorscore=0 priorityscore=1501 lowpriorityscore=0
  classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.22.0-2510240001 definitions=main-2510300058
+ reason=mlx scancount=1 engine=8.22.0-2510240001 definitions=main-2510300061
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -157,188 +192,380 @@ Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
-On 10/30/2025 1:32 AM, Bjorn Andersson wrote:
-> On Fri, Oct 24, 2025 at 01:21:03PM +0800, Xiangxu Yin via B4 Relay wrote:
->> From: Xiangxu Yin <xiangxu.yin@oss.qualcomm.com>
->>
-> Please fix the subject prefix and drop the "for SM6150" suffix.
->
-> Regards,
-> Bjorn
 
+On 7/17/25 21:15, Raphael Gallais-Pou wrote:
+> The display subsystem represent how IPs are interacting together and
+> have nothing to do within the SoC node.
+> 
+> Extract it from the SoC node and let IPs nodes in the Soc node.
+> 
+> Several nodes did not use conventional name:
+>  * sti-display-subsystem -> display-subsystem
+>  * sti-controller -> display-controller
+>  * sti-tvout -> encoder
+>  * sti-hda -> analog
+>  * sti-hqvdp -> plane
+> 
+> Signed-off-by: Raphael Gallais-Pou <rgallaispou@gmail.com>
+> ---
+>  arch/arm/boot/dts/st/stih410.dtsi | 316 +++++++++++++++++++++++---------------
+>  1 file changed, 188 insertions(+), 128 deletions(-)
+> 
+> diff --git a/arch/arm/boot/dts/st/stih410.dtsi b/arch/arm/boot/dts/st/stih410.dtsi
+> index d56343f44fda4e9e1de2e5efc86e2d984bad14b4..47d66d7eb07a3d73d98b3e21d62b2253aa1171e4 100644
+> --- a/arch/arm/boot/dts/st/stih410.dtsi
+> +++ b/arch/arm/boot/dts/st/stih410.dtsi
+> @@ -34,6 +34,41 @@ usb2_picophy2: phy3 {
+>  		status = "disabled";
+>  	};
+>  
+> +	display-subsystem {
+> +		compatible = "st,sti-display-subsystem";
+> +		ports = <&compositor>, <&hqvdp>, <&tvout>, <&sti_hdmi>;
+> +
+> +		assigned-clocks = <&clk_s_d2_quadfs 0>,
+> +				  <&clk_s_d2_quadfs 1>,
+> +				  <&clk_s_c0_pll1 0>,
+> +				  <&clk_s_c0_flexgen CLK_COMPO_DVP>,
+> +				  <&clk_s_c0_flexgen CLK_MAIN_DISP>,
+> +				  <&clk_s_d2_flexgen CLK_PIX_MAIN_DISP>,
+> +				  <&clk_s_d2_flexgen CLK_PIX_AUX_DISP>,
+> +				  <&clk_s_d2_flexgen CLK_PIX_GDP1>,
+> +				  <&clk_s_d2_flexgen CLK_PIX_GDP2>,
+> +				  <&clk_s_d2_flexgen CLK_PIX_GDP3>,
+> +				  <&clk_s_d2_flexgen CLK_PIX_GDP4>;
+> +
+> +		assigned-clock-parents = <0>,
+> +					 <0>,
+> +					 <0>,
+> +					 <&clk_s_c0_pll1 0>,
+> +					 <&clk_s_c0_pll1 0>,
+> +					 <&clk_s_d2_quadfs 0>,
+> +					 <&clk_s_d2_quadfs 1>,
+> +					 <&clk_s_d2_quadfs 0>,
+> +					 <&clk_s_d2_quadfs 0>,
+> +					 <&clk_s_d2_quadfs 0>,
+> +					 <&clk_s_d2_quadfs 0>;
+> +
+> +		assigned-clock-rates = <297000000>,
+> +				       <297000000>,
+> +				       <0>,
+> +				       <400000000>,
+> +				       <400000000>;
+> +	};
+> +
+>  	soc {
+>  		ohci0: usb@9a03c00 {
+>  			compatible = "st,st-ohci-300x";
+> @@ -99,153 +134,178 @@ ehci1: usb@9a83e00 {
+>  			status = "disabled";
+>  		};
+>  
+> -		sti-display-subsystem@0 {
+> -			compatible = "st,sti-display-subsystem";
+> +		compositor: display-controller@9d11000 {
+> +			compatible = "st,stih407-compositor";
+> +			reg = <0x9d11000 0x1000>;
+> +
+> +			clock-names = "compo_main",
+> +				      "compo_aux",
+> +				      "pix_main",
+> +				      "pix_aux",
+> +				      "pix_gdp1",
+> +				      "pix_gdp2",
+> +				      "pix_gdp3",
+> +				      "pix_gdp4",
+> +				      "main_parent",
+> +				      "aux_parent";
+> +
+> +			clocks = <&clk_s_c0_flexgen CLK_COMPO_DVP>,
+> +				 <&clk_s_c0_flexgen CLK_COMPO_DVP>,
+> +				 <&clk_s_d2_flexgen CLK_PIX_MAIN_DISP>,
+> +				 <&clk_s_d2_flexgen CLK_PIX_AUX_DISP>,
+> +				 <&clk_s_d2_flexgen CLK_PIX_GDP1>,
+> +				 <&clk_s_d2_flexgen CLK_PIX_GDP2>,
+> +				 <&clk_s_d2_flexgen CLK_PIX_GDP3>,
+> +				 <&clk_s_d2_flexgen CLK_PIX_GDP4>,
+> +				 <&clk_s_d2_quadfs 0>,
+> +				 <&clk_s_d2_quadfs 1>;
+> +
+> +			reset-names = "compo-main", "compo-aux";
+> +			resets = <&softreset STIH407_COMPO_SOFTRESET>,
+> +				 <&softreset STIH407_COMPO_SOFTRESET>;
+> +			st,vtg = <&vtg_main>, <&vtg_aux>;
+> +
+> +			ports {
+> +				#address-cells = <1>;
+> +				#size-cells = <0>;
+> +
+> +				port@0 {
+> +					reg = <0>;
+> +					compo_main_out: endpoint {
+> +						remote-endpoint = <&tvout_in0>;
+> +					};
+> +				};
+> +
+> +				port@1 {
+> +					reg = <1>;
+> +					compo_aux_out: endpoint {
+> +						remote-endpoint = <&tvout_in1>;
+> +					};
+> +				};
+> +			};
+> +		};
+> +
+> +		tvout: encoder@8d08000 {
+> +			compatible = "st,stih407-tvout";
+> +			reg = <0x8d08000 0x1000>;
+> +			reg-names = "tvout-reg";
+> +			reset-names = "tvout";
+> +			resets = <&softreset STIH407_HDTVOUT_SOFTRESET>;
+>  			#address-cells = <1>;
+>  			#size-cells = <1>;
+> +			assigned-clocks = <&clk_s_d2_flexgen CLK_PIX_HDMI>,
+> +					  <&clk_s_d2_flexgen CLK_TMDS_HDMI>,
+> +					  <&clk_s_d2_flexgen CLK_REF_HDMIPHY>,
+> +					  <&clk_s_d0_flexgen CLK_PCM_0>,
+> +					  <&clk_s_d2_flexgen CLK_PIX_HDDAC>,
+> +					  <&clk_s_d2_flexgen CLK_HDDAC>;
+>  
+> -			reg = <0 0>;
+> -			assigned-clocks = <&clk_s_d2_quadfs 0>,
+> -					  <&clk_s_d2_quadfs 1>,
+> -					  <&clk_s_c0_pll1 0>,
+> -					  <&clk_s_c0_flexgen CLK_COMPO_DVP>,
+> -					  <&clk_s_c0_flexgen CLK_MAIN_DISP>,
+> -					  <&clk_s_d2_flexgen CLK_PIX_MAIN_DISP>,
+> -					  <&clk_s_d2_flexgen CLK_PIX_AUX_DISP>,
+> -					  <&clk_s_d2_flexgen CLK_PIX_GDP1>,
+> -					  <&clk_s_d2_flexgen CLK_PIX_GDP2>,
+> -					  <&clk_s_d2_flexgen CLK_PIX_GDP3>,
+> -					  <&clk_s_d2_flexgen CLK_PIX_GDP4>;
+> -
+> -			assigned-clock-parents = <0>,
+> -						 <0>,
+> -						 <0>,
+> -						 <&clk_s_c0_pll1 0>,
+> -						 <&clk_s_c0_pll1 0>,
+> -						 <&clk_s_d2_quadfs 0>,
+> -						 <&clk_s_d2_quadfs 1>,
+> -						 <&clk_s_d2_quadfs 0>,
+> +			assigned-clock-parents = <&clk_s_d2_quadfs 0>,
+> +						 <&clk_tmdsout_hdmi>,
+>  						 <&clk_s_d2_quadfs 0>,
+> +						 <&clk_s_d0_quadfs 0>,
+>  						 <&clk_s_d2_quadfs 0>,
+>  						 <&clk_s_d2_quadfs 0>;
+>  
+> -			assigned-clock-rates = <297000000>,
+> -					       <297000000>,
+> -					       <0>,
+> -					       <400000000>,
+> -					       <400000000>;
+> -
+> -			ranges;
+> -
+> -			sti-compositor@9d11000 {
+> -				compatible = "st,stih407-compositor";
+> -				reg = <0x9d11000 0x1000>;
+> -
+> -				clock-names = "compo_main",
+> -					      "compo_aux",
+> -					      "pix_main",
+> -					      "pix_aux",
+> -					      "pix_gdp1",
+> -					      "pix_gdp2",
+> -					      "pix_gdp3",
+> -					      "pix_gdp4",
+> -					      "main_parent",
+> -					      "aux_parent";
+> -
+> -				clocks = <&clk_s_c0_flexgen CLK_COMPO_DVP>,
+> -					 <&clk_s_c0_flexgen CLK_COMPO_DVP>,
+> -					 <&clk_s_d2_flexgen CLK_PIX_MAIN_DISP>,
+> -					 <&clk_s_d2_flexgen CLK_PIX_AUX_DISP>,
+> -					 <&clk_s_d2_flexgen CLK_PIX_GDP1>,
+> -					 <&clk_s_d2_flexgen CLK_PIX_GDP2>,
+> -					 <&clk_s_d2_flexgen CLK_PIX_GDP3>,
+> -					 <&clk_s_d2_flexgen CLK_PIX_GDP4>,
+> -					 <&clk_s_d2_quadfs 0>,
+> -					 <&clk_s_d2_quadfs 1>;
+> -
+> -				reset-names = "compo-main", "compo-aux";
+> -				resets = <&softreset STIH407_COMPO_SOFTRESET>,
+> -					 <&softreset STIH407_COMPO_SOFTRESET>;
+> -				st,vtg = <&vtg_main>, <&vtg_aux>;
+> -			};
+> -
+> -			sti-tvout@8d08000 {
+> -				compatible = "st,stih407-tvout";
+> -				reg = <0x8d08000 0x1000>;
+> -				reg-names = "tvout-reg";
+> -				reset-names = "tvout";
+> -				resets = <&softreset STIH407_HDTVOUT_SOFTRESET>;
+> +			ports {
+>  				#address-cells = <1>;
+> -				#size-cells = <1>;
+> -				assigned-clocks = <&clk_s_d2_flexgen CLK_PIX_HDMI>,
+> -						  <&clk_s_d2_flexgen CLK_TMDS_HDMI>,
+> -						  <&clk_s_d2_flexgen CLK_REF_HDMIPHY>,
+> -						  <&clk_s_d0_flexgen CLK_PCM_0>,
+> -						  <&clk_s_d2_flexgen CLK_PIX_HDDAC>,
+> -						  <&clk_s_d2_flexgen CLK_HDDAC>;
+> +				#size-cells = <0>;
+>  
+> -				assigned-clock-parents = <&clk_s_d2_quadfs 0>,
+> -							 <&clk_tmdsout_hdmi>,
+> -							 <&clk_s_d2_quadfs 0>,
+> -							 <&clk_s_d0_quadfs 0>,
+> -							 <&clk_s_d2_quadfs 0>,
+> -							 <&clk_s_d2_quadfs 0>;
+> +				port@0 {
+> +					reg = <0>;
+> +					tvout_in0: endpoint {
+> +						remote-endpoint = <&compo_main_out>;
+> +					};
+> +				};
+> +
+> +				port@1 {
+> +					reg = <1>;
+> +					tvout_in1: endpoint {
+> +						remote-endpoint = <&compo_aux_out>;
+> +					};
+> +				};
+> +
+> +				port@2 {
+> +					reg = <2>;
+> +					tvout_out0: endpoint {
+> +						remote-endpoint = <&hdmi_in>;
+> +					};
+> +				};
+> +
+> +				port@3 {
+> +					reg = <3>;
+> +					tvout_out1: endpoint {
+> +						remote-endpoint = <&hda_in>;
+> +					};
+> +				};
+>  			};
+> +		};
+>  
+> -			sti_hdmi: sti-hdmi@8d04000 {
+> -				compatible = "st,stih407-hdmi";
+> -				reg = <0x8d04000 0x1000>;
+> -				reg-names = "hdmi-reg";
+> -				#sound-dai-cells = <0>;
+> -				interrupts = <GIC_SPI 106 IRQ_TYPE_LEVEL_HIGH>;
+> -				interrupt-names = "irq";
+> -				clock-names = "pix",
+> -					      "tmds",
+> -					      "phy",
+> -					      "audio",
+> -					      "main_parent",
+> -					      "aux_parent";
+> +		sti_hdmi: hdmi@8d04000 {
+> +			compatible = "st,stih407-hdmi";
+> +			reg = <0x8d04000 0x1000>;
+> +			reg-names = "hdmi-reg";
+> +			#sound-dai-cells = <0>;
+> +			interrupts = <GIC_SPI 106 IRQ_TYPE_LEVEL_HIGH>;
+> +			interrupt-names = "irq";
+> +			clock-names = "pix",
+> +				      "tmds",
+> +				      "phy",
+> +				      "audio",
+> +				      "main_parent",
+> +				      "aux_parent";
+>  
+> -				clocks = <&clk_s_d2_flexgen CLK_PIX_HDMI>,
+> -					 <&clk_s_d2_flexgen CLK_TMDS_HDMI>,
+> -					 <&clk_s_d2_flexgen CLK_REF_HDMIPHY>,
+> -					 <&clk_s_d0_flexgen CLK_PCM_0>,
+> -					 <&clk_s_d2_quadfs 0>,
+> -					 <&clk_s_d2_quadfs 1>;
+> +			clocks = <&clk_s_d2_flexgen CLK_PIX_HDMI>,
+> +				 <&clk_s_d2_flexgen CLK_TMDS_HDMI>,
+> +				 <&clk_s_d2_flexgen CLK_REF_HDMIPHY>,
+> +				 <&clk_s_d0_flexgen CLK_PCM_0>,
+> +				 <&clk_s_d2_quadfs 0>,
+> +				 <&clk_s_d2_quadfs 1>;
+>  
+> -				hdmi,hpd-gpio = <&pio5 3 GPIO_ACTIVE_LOW>;
+> -				reset-names = "hdmi";
+> -				resets = <&softreset STIH407_HDMI_TX_PHY_SOFTRESET>;
+> -				ddc = <&hdmiddc>;
+> +			hdmi,hpd-gpio = <&pio5 3 GPIO_ACTIVE_LOW>;
+> +			reset-names = "hdmi";
+> +			resets = <&softreset STIH407_HDMI_TX_PHY_SOFTRESET>;
+> +			ddc = <&hdmiddc>;
+> +
+> +			port {
+> +				hdmi_in: endpoint {
+> +					remote-endpoint = <&tvout_out0>;
+> +				};
+>  			};
+> +		};
+>  
+> -			sti-hda@8d02000 {
+> -				compatible = "st,stih407-hda";
+> -				status = "disabled";
+> -				reg = <0x8d02000 0x400>, <0x92b0120 0x4>;
+> -				reg-names = "hda-reg", "video-dacs-ctrl";
+> -				clock-names = "pix",
+> -					      "hddac",
+> -					      "main_parent",
+> -					      "aux_parent";
+> -				clocks = <&clk_s_d2_flexgen CLK_PIX_HDDAC>,
+> -					 <&clk_s_d2_flexgen CLK_HDDAC>,
+> -					 <&clk_s_d2_quadfs 0>,
+> -					 <&clk_s_d2_quadfs 1>;
+> -			};
+> +		analog@8d02000 {
+> +			compatible = "st,stih407-hda";
+> +			status = "disabled";
+> +			reg = <0x8d02000 0x400>, <0x92b0120 0x4>;
+> +			reg-names = "hda-reg", "video-dacs-ctrl";
+> +			clock-names = "pix",
+> +				      "hddac",
+> +				      "main_parent",
+> +				      "aux_parent";
+> +			clocks = <&clk_s_d2_flexgen CLK_PIX_HDDAC>,
+> +				 <&clk_s_d2_flexgen CLK_HDDAC>,
+> +				 <&clk_s_d2_quadfs 0>,
+> +				 <&clk_s_d2_quadfs 1>;
+>  
+> -			sti-hqvdp@9c00000 {
+> -				compatible = "st,stih407-hqvdp";
+> -				reg = <0x9C00000 0x100000>;
+> -				clock-names = "hqvdp", "pix_main";
+> -				clocks = <&clk_s_c0_flexgen CLK_MAIN_DISP>,
+> -					 <&clk_s_d2_flexgen CLK_PIX_MAIN_DISP>;
+> -				reset-names = "hqvdp";
+> -				resets = <&softreset STIH407_HDQVDP_SOFTRESET>;
+> -				st,vtg = <&vtg_main>;
+> +			port {
+> +				hda_in: endpoint {
+> +					remote-endpoint = <&tvout_out1>;
+> +				};
+>  			};
+>  		};
+>  
+> +		hqvdp: plane@9c00000 {
+> +			compatible = "st,stih407-hqvdp";
+> +			reg = <0x9C00000 0x100000>;
+> +			clock-names = "hqvdp", "pix_main";
+> +			clocks = <&clk_s_c0_flexgen CLK_MAIN_DISP>,
+> +				 <&clk_s_d2_flexgen CLK_PIX_MAIN_DISP>;
+> +			reset-names = "hqvdp";
+> +			resets = <&softreset STIH407_HDQVDP_SOFTRESET>;
+> +			st,vtg = <&vtg_main>;
+> +		};
+> +
+>  		bdisp0:bdisp@9f10000 {
+>  			compatible = "st,stih407-bdisp";
+>  			reg = <0x9f10000 0x1000>;
+> 
+Acked-by: Patrice Chotard <patrice.chotard@foss.st.com>
 
-Ok, due to sm6150.dtsi have renamed to talos.dtsi in newest version.
-
-Will update to 'arm64: dts: qcom: talos: Add DisplayPort and QMP USB3DP PHY'
-
-
->> Introduce DisplayPort controller node and associated QMP USB3-DP PHY
->> for SM6150 SoC. Add data-lanes property to the DP endpoint and update
->> clock assignments for proper DP integration.
->>
->> Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
->> Reviewed-by: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
->> Signed-off-by: Xiangxu Yin <xiangxu.yin@oss.qualcomm.com>
->> ---
->>  arch/arm64/boot/dts/qcom/sm6150.dtsi | 115 ++++++++++++++++++++++++++++++++++-
->>  1 file changed, 113 insertions(+), 2 deletions(-)
->>
->> diff --git a/arch/arm64/boot/dts/qcom/sm6150.dtsi b/arch/arm64/boot/dts/qcom/sm6150.dtsi
->> index 6128d8c48f9c0807ac488ddac3b2377678e8f8c3..9741f8d14c72ed7dd6a5e483c5c0d578662f1d31 100644
->> --- a/arch/arm64/boot/dts/qcom/sm6150.dtsi
->> +++ b/arch/arm64/boot/dts/qcom/sm6150.dtsi
->> @@ -14,6 +14,7 @@
->>  #include <dt-bindings/interconnect/qcom,icc.h>
->>  #include <dt-bindings/interconnect/qcom,qcs615-rpmh.h>
->>  #include <dt-bindings/interrupt-controller/arm-gic.h>
->> +#include <dt-bindings/phy/phy-qcom-qmp.h>
->>  #include <dt-bindings/power/qcom-rpmpd.h>
->>  #include <dt-bindings/power/qcom,rpmhpd.h>
->>  #include <dt-bindings/soc/qcom,rpmh-rsc.h>
->> @@ -3717,6 +3718,7 @@ port@0 {
->>  						reg = <0>;
->>  
->>  						dpu_intf0_out: endpoint {
->> +							remote-endpoint = <&mdss_dp0_in>;
->>  						};
->>  					};
->>  
->> @@ -3749,6 +3751,89 @@ opp-307200000 {
->>  				};
->>  			};
->>  
->> +			mdss_dp0: displayport-controller@ae90000 {
->> +				compatible = "qcom,sm6150-dp", "qcom,sm8150-dp", "qcom,sm8350-dp";
->> +
->> +				reg = <0x0 0x0ae90000 0x0 0x200>,
->> +				      <0x0 0x0ae90200 0x0 0x200>,
->> +				      <0x0 0x0ae90400 0x0 0x600>,
->> +				      <0x0 0x0ae90a00 0x0 0x600>,
->> +				      <0x0 0x0ae91000 0x0 0x600>;
->> +
->> +				interrupt-parent = <&mdss>;
->> +				interrupts = <12>;
->> +
->> +				clocks = <&dispcc DISP_CC_MDSS_AHB_CLK>,
->> +					 <&dispcc DISP_CC_MDSS_DP_AUX_CLK>,
->> +					 <&dispcc DISP_CC_MDSS_DP_LINK_CLK>,
->> +					 <&dispcc DISP_CC_MDSS_DP_LINK_INTF_CLK>,
->> +					 <&dispcc DISP_CC_MDSS_DP_PIXEL_CLK>,
->> +					 <&dispcc DISP_CC_MDSS_DP_PIXEL1_CLK>;
->> +				clock-names = "core_iface",
->> +					      "core_aux",
->> +					      "ctrl_link",
->> +					      "ctrl_link_iface",
->> +					      "stream_pixel",
->> +					      "stream_1_pixel";
->> +
->> +				assigned-clocks = <&dispcc DISP_CC_MDSS_DP_LINK_CLK_SRC>,
->> +						  <&dispcc DISP_CC_MDSS_DP_PIXEL_CLK_SRC>,
->> +						  <&dispcc DISP_CC_MDSS_DP_PIXEL1_CLK_SRC>;
->> +				assigned-clock-parents = <&usb_qmpphy_2 QMP_USB43DP_DP_LINK_CLK>,
->> +							 <&usb_qmpphy_2 QMP_USB43DP_DP_VCO_DIV_CLK>,
->> +							 <&usb_qmpphy_2 QMP_USB43DP_DP_VCO_DIV_CLK>;
->> +
->> +				phys = <&usb_qmpphy_2 QMP_USB43DP_DP_PHY>;
->> +				phy-names = "dp";
->> +
->> +				operating-points-v2 = <&dp_opp_table>;
->> +				power-domains = <&rpmhpd RPMHPD_CX>;
->> +
->> +				#sound-dai-cells = <0>;
->> +
->> +				status = "disabled";
->> +
->> +				ports {
->> +					#address-cells = <1>;
->> +					#size-cells = <0>;
->> +
->> +					port@0 {
->> +						reg = <0>;
->> +
->> +						mdss_dp0_in: endpoint {
->> +							remote-endpoint = <&dpu_intf0_out>;
->> +						};
->> +					};
->> +
->> +					port@1 {
->> +						reg = <1>;
->> +
->> +						mdss_dp0_out: endpoint {
->> +							data-lanes = <3 2 0 1>;
->> +						};
->> +					};
->> +				};
->> +
->> +				dp_opp_table: opp-table {
->> +					compatible = "operating-points-v2";
->> +
->> +					opp-160000000 {
->> +						opp-hz = /bits/ 64 <160000000>;
->> +						required-opps = <&rpmhpd_opp_low_svs>;
->> +					};
->> +
->> +					opp-270000000 {
->> +						opp-hz = /bits/ 64 <270000000>;
->> +						required-opps = <&rpmhpd_opp_svs>;
->> +					};
->> +
->> +					opp-540000000 {
->> +						opp-hz = /bits/ 64 <540000000>;
->> +						required-opps = <&rpmhpd_opp_svs_l1>;
->> +					};
->> +				};
->> +			};
->> +
->>  			mdss_dsi0: dsi@ae94000 {
->>  				compatible = "qcom,sm6150-dsi-ctrl", "qcom,mdss-dsi-ctrl";
->>  				reg = <0x0 0x0ae94000 0x0 0x400>;
->> @@ -3844,8 +3929,8 @@ dispcc: clock-controller@af00000 {
->>  				 <&mdss_dsi0_phy DSI_BYTE_PLL_CLK>,
->>  				 <&mdss_dsi0_phy DSI_PIXEL_PLL_CLK>,
->>  				 <0>,
->> -				 <0>,
->> -				 <0>;
->> +				 <&usb_qmpphy_2 QMP_USB43DP_DP_LINK_CLK>,
->> +				 <&usb_qmpphy_2 QMP_USB43DP_DP_VCO_DIV_CLK>;
->>  
->>  			#clock-cells = <1>;
->>  			#reset-cells = <1>;
->> @@ -4214,6 +4299,32 @@ usb_qmpphy: phy@88e6000 {
->>  			status = "disabled";
->>  		};
->>  
->> +		usb_qmpphy_2: phy@88e8000 {
->> +			compatible = "qcom,qcs615-qmp-usb3-dp-phy";
->> +			reg = <0x0 0x088e8000 0x0 0x2000>;
->> +
->> +			clocks = <&gcc GCC_USB2_SEC_PHY_AUX_CLK>,
->> +				 <&gcc GCC_USB3_SEC_CLKREF_CLK>,
->> +				 <&gcc GCC_AHB2PHY_WEST_CLK>,
->> +				 <&gcc GCC_USB2_SEC_PHY_PIPE_CLK>;
->> +			clock-names = "aux",
->> +				      "ref",
->> +				      "cfg_ahb",
->> +				      "pipe";
->> +
->> +			resets = <&gcc GCC_USB3PHY_PHY_SEC_BCR >,
->> +				 <&gcc GCC_USB3_DP_PHY_SEC_BCR>;
->> +			reset-names = "phy_phy",
->> +				      "dp_phy";
->> +
->> +			#clock-cells = <1>;
->> +			#phy-cells = <1>;
->> +
->> +			qcom,tcsr-reg = <&tcsr 0xbff0 0xb24c>;
->> +
->> +			status = "disabled";
->> +		};
->> +
->>  		usb_1: usb@a6f8800 {
->>  			compatible = "qcom,qcs615-dwc3", "qcom,dwc3";
->>  			reg = <0x0 0x0a6f8800 0x0 0x400>;
->>
->> -- 
->> 2.34.1
->>
->>
+Thanks
+PAtrice
