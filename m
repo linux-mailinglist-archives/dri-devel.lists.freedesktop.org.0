@@ -2,93 +2,93 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id CB102C21804
-	for <lists+dri-devel@lfdr.de>; Thu, 30 Oct 2025 18:31:29 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id DBA56C2183A
+	for <lists+dri-devel@lfdr.de>; Thu, 30 Oct 2025 18:36:22 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D6D9410E31C;
-	Thu, 30 Oct 2025 17:31:26 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E878310E2E0;
+	Thu, 30 Oct 2025 17:36:19 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="p52pO8aM";
-	dkim=pass (2048-bit key; unprotected) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="ZwoWCUBa";
+	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="Q92/7ElM";
+	dkim=pass (2048-bit key; unprotected) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="gcSdD3un";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
  [205.220.180.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7FB6110E31C
- for <dri-devel@lists.freedesktop.org>; Thu, 30 Oct 2025 17:31:25 +0000 (UTC)
-Received: from pps.filterd (m0279868.ppops.net [127.0.0.1])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5C62B10E2E0
+ for <dri-devel@lists.freedesktop.org>; Thu, 30 Oct 2025 17:36:18 +0000 (UTC)
+Received: from pps.filterd (m0279871.ppops.net [127.0.0.1])
  by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id
- 59U9MX6E3115524
- for <dri-devel@lists.freedesktop.org>; Thu, 30 Oct 2025 17:31:24 GMT
+ 59U9ERXl1994523
+ for <dri-devel@lists.freedesktop.org>; Thu, 30 Oct 2025 17:36:17 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
  cc:content-transfer-encoding:content-type:date:from:in-reply-to
  :message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
- nujCbf3WQqhKbt53E3sLeaRTPd2xv13fga/Jte9oXQU=; b=p52pO8aMorVtk3l4
- YppCuFe0ySoi/Mx6GfzAOXa1We9NCsSEi+MP2Yxaw3XQ/38AUwYhegxknbepe45H
- r1m1RJzzWxbCrxSQE8OtgCn158W78GyfFtUAhAh6RU0KFogp+FrRWmt9cS0QOo+p
- LsVpc1NWWdfsJCHpOsmFWCRVS4yhI13Mlkm6sMVA3M4alUsY8xjq/o73E/ztMBYP
- jB9eWEBAG3CVKKSA761Ny9xee8OOFblPUMmIlUPmwLJqjgAoGCDFxehas3bdRtKY
- C4hRcgyJrnmnLvvkSuzo0R2s6v8j9g6ZHkJjnkOcax1o2/rtUuODIYs5gykjRtvZ
- FPucGA==
-Received: from mail-pl1-f198.google.com (mail-pl1-f198.google.com
- [209.85.214.198])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4a45b41ds4-1
+ bajkHqMMv5pqZJo4QCw1Ta2zYwtF/RwQTRuwpNjkSLQ=; b=Q92/7ElMP3R0fyOM
+ imgHlHInp3GVvOBewB7MFleKB9oBawKM8a9G3uXojFbFsdR1ylWJH3MusQ+/hvnL
+ iZ+7OxLTNG2nY0Zbg1GvCDhC10IoON+63JDhw6wDLj1irFyIFwtPIgAqItlwbmTl
+ +L9mM8lkq7VQi3WluSw7QttRzuzk4oPwVj4mVAeuG6vL4v+5dngvboPLXJFstPrK
+ uruBs/H/uBVdfQB4LHCTkrTc1WsnVSd2YERbfefOZd45XXZ0sHGkbCSl9kbvk5qy
+ F8TdzZHxIB9KuHLqmRJL8n/HllTQoV9T9dhhXGyM8IYs1+ms3D1BboL4IJF5UHLB
+ +U0IaQ==
+Received: from mail-pj1-f72.google.com (mail-pj1-f72.google.com
+ [209.85.216.72])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4a3wr72qa8-1
  (version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
- for <dri-devel@lists.freedesktop.org>; Thu, 30 Oct 2025 17:31:24 +0000 (GMT)
-Received: by mail-pl1-f198.google.com with SMTP id
- d9443c01a7336-294f59039d6so10975495ad.3
- for <dri-devel@lists.freedesktop.org>; Thu, 30 Oct 2025 10:31:24 -0700 (PDT)
+ for <dri-devel@lists.freedesktop.org>; Thu, 30 Oct 2025 17:36:17 +0000 (GMT)
+Received: by mail-pj1-f72.google.com with SMTP id
+ 98e67ed59e1d1-340410b11b8so1208379a91.2
+ for <dri-devel@lists.freedesktop.org>; Thu, 30 Oct 2025 10:36:17 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=oss.qualcomm.com; s=google; t=1761845483; x=1762450283;
+ d=oss.qualcomm.com; s=google; t=1761845776; x=1762450576;
  darn=lists.freedesktop.org; 
  h=content-transfer-encoding:in-reply-to:from:content-language
  :references:cc:to:subject:user-agent:mime-version:date:message-id
  :from:to:cc:subject:date:message-id:reply-to;
- bh=nujCbf3WQqhKbt53E3sLeaRTPd2xv13fga/Jte9oXQU=;
- b=ZwoWCUBaOTfIBx+Ipy1AQK3FJs6Q39k21GaBnd8cmA5K3WtvVdA6PIEccGlUN9X/Up
- ep0ZaRPg4UYmVNDiS7+3oq8WgsuTperItyfEAaM+9XhgNvSlvXyg6ceq1mCBNLIh/Bl4
- FZtLfHC/yie7/VQc016tLxhbS2n0gZHBjWwS0ITgw7tYiSWbHmbpVuh+HOMIh+kcunUu
- lGEqMbGu5ZDaJnQ9UjhXxJViu9GcNVu024zEotUNYf5eCaB1Gxgv/282wuFhru7RbU99
- i15RXZNfxX9vPFhssWs1h2IWcfnhzvdmLdHVEK8kAY1PFNPLzn+Kc0lO5DUl6nKCDuw7
- GIbA==
+ bh=bajkHqMMv5pqZJo4QCw1Ta2zYwtF/RwQTRuwpNjkSLQ=;
+ b=gcSdD3unyujYvgq35PK2AH5P9ROZnECYAiWcwx3oUrNVQEV8bGNSrKi41QjWE09p5A
+ fTwHTtQzEWNPapRCgd0UI4IoDyST1bETeoL2g7FF1mIktHIGPJr43imL6FU/PBBk3hSW
+ KaAQxX8o0x1ILoUlu7Hyp5SbZOBAy/ZIyUWu1c5TvD+0Q4K5LEiw3/nGXcprS9z4vl6a
+ tcCxMbP96hlBcAwSAIgBkaj4ynvxerXKbuDGHPXMSfAuYUKQSKbW9vKrAbme0J8e8R2F
+ k5iuQQoRt36EKNuE+pO7kKtjy+qAIMS5K+5nj/FR2PIdgavV4x1fIMGI3KAYopqfxGFP
+ 0nTw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1761845483; x=1762450283;
+ d=1e100.net; s=20230601; t=1761845776; x=1762450576;
  h=content-transfer-encoding:in-reply-to:from:content-language
  :references:cc:to:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=nujCbf3WQqhKbt53E3sLeaRTPd2xv13fga/Jte9oXQU=;
- b=cx68DBLResLKR+YKMXqFbOXDpdzxz59gEokKNixCsxxVUADH7HcE2wLPN/ww8Ya5pw
- fQWRtDoBkGAlV8HDbPUIDeRvqa74o7dtMC8+/y5lREabKsLjgfxJ368BVMCO6MEPOGKz
- P1RUC6lyELTwE//R1Zwl9EHpg4IM+yRRmhW7ehavhSb9XYmFth04FpsJVbsbI57y9J3H
- ikDaKINEPaOc5WS8G6Bv6/lnemR7eaEf2/TFhE7G3KO2RVp4FeXVAb3GcFqy5UQ27Kal
- 7ui5UwWLp9UySBSpCN4qIJJ5A/WQXknQFafRpBLM1OwGSlGozH6xmk5jUS0JJX5eE5RS
- fxrg==
+ bh=bajkHqMMv5pqZJo4QCw1Ta2zYwtF/RwQTRuwpNjkSLQ=;
+ b=dNvtzOBMnTN+zVO67Q8qrq86ZNoF2IQCAhMsSYNkuXhgfOnI2dHIAUMEZ92w146uyD
+ OShkLD7CAHqu2fNkU3tQCKJI0YDgGsGhJOaHeO0gUlMS9L7kdRH62eMifMFITx4c2vrH
+ 3PFjs34i4EILjzFr2Y5v3C/We89YV/3IiG9nVzoDFdcBHgW1CSsbsyybGCcdYJyCjAU4
+ gPZLxECtZlEyjynsCk7ICcLIEu9MKpY2ONw/Dta2Mmz8KVkDTA3OXvTtNNM8tf+hbOoe
+ AsvuIAh2RuuqnE8qLaKHGBWAQmP/zTqrmulwfjB2WQcLCm1B78Wvyjw2Ygxg2B/6CvzJ
+ Yn3Q==
 X-Forwarded-Encrypted: i=1;
- AJvYcCX6wX5ua4pPRsb6VZ01oBBQBRBC57W13b3dyA03zQ/tO89Px1UTy3AH/Etd8OoTdkX/mtcjMIQcrTM=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Yxw9NzDPgIBktcWv6m0irlU3X56H95CM6E1UfDI0Hn+9Iq/Tms+
- HqCz04SI84xKF7BmtkKQ1QThUEYTyHKOay6GfHJADknSkXdyT5OeYOQuLnoamL7CCACJgcnZBKe
- XXMx50tJHtHeykB1RxUIuvcqjeQmoPAuBwkq4REGlqFNIWXPkFo0rtlXXHRaGJy5gKqcx1Gc=
-X-Gm-Gg: ASbGncuvNkBDdyBFsGhjDmhgR8E7aoKHFzrwgH2cwrBO90KCNGmVYaSBGsvug338OIq
- RH3ndyeEQ3n1rZ/OQqyfD8t0IeiiROIdQJkZCYmsWmTdg6HgwLU7dCOupSIVf6G6B7ONNwGf8Pa
- nNBlVudsTpw5LJCrPvsloThLhjLdirC3Z4Vj/FIvQxOISJtWIbfccD5CBKi8obZr0EC5eAZVnbJ
- 0Cz7arlQ1U2oOlgFVO9FhKZEH9x42nL3uV2NiFUCkrg0S1kBrPf9NkkIGdd5jKmv8ghibyLG0jo
- qPBkusw0LSXVCvML+mvHEYjrGWMFCiHrQ0xhpX1ccAqDq7PxLqu9PpV0sylOmYWdh0cSFUsNI2s
- E7jEpmeVKkW5mpMlxju+HA+5OIKjhfM3Lap0R5Ew8AkJyaj1bKds3
-X-Received: by 2002:a17:903:2452:b0:290:bd15:24a8 with SMTP id
- d9443c01a7336-2951a35eb20mr6721325ad.11.1761845483291; 
- Thu, 30 Oct 2025 10:31:23 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IHatVCcKHulN/NnmmX3C3gpBJYSCtJ3Tdrf10lbnR2DdP8nhX5ZB8Z0iJkrQ6GlsbPGKAtxNw==
-X-Received: by 2002:a17:903:2452:b0:290:bd15:24a8 with SMTP id
- d9443c01a7336-2951a35eb20mr6720705ad.11.1761845482698; 
- Thu, 30 Oct 2025 10:31:22 -0700 (PDT)
+ AJvYcCXU9c3lg6ZyFcSwCvWUzWw/yaGCu3y0XxPoxjyYr1r+p5vs9dQ57O5TtYyu9p/aDzcLJSU2iQ4HK4I=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YyUZ4OEJ0rUTpyocy70vjRpFIsj/FDx9Cf5LpJu44ABngRDm3p1
+ 66GHrLxnkSziF1ElG68cnQ1t3EWC2qbD+csV1S0PXzFhHNzAfQqheKvvbUQ5etSKKWUPnog1Icg
+ XGGqRAo8LGNuatVQYBifTFUk73Y/cSOIDBUIQ9eQYYX1PAM9Pz38GIMcWWQl3zH5KTDgbqqk=
+X-Gm-Gg: ASbGncshpMLHT1CF6FR9Bdc26DDStD65GzybTgfYhEiUX0FjrxJu9Sp47uuodgsNiz3
+ +rbHvVfTzYujCx1EpW/QaYCSl49PavNrzKz8epKPpRgZnDP02GYGl0KpUPwyYlSpX+ISpzLtgpl
+ TvBnWRnZ20M55AlDRAlO/nJBCLwj/QKWatWJQJJlVgMF7O2jUkI8xiE5knq1DNlBVN8OyEA1Xhi
+ sYSePsaWLLxdQ3M8VOa6jGd51G2QzN9jRcdSU5a2fIvNypX59MxSNIA+fVoqKXzs4DvhwjWWcPq
+ krwXWUBKP97l9kvNtdAWIcAV8gqZtQD9cFDA0CQqSoGvM/5uhxcTcjIlpGzuBgBZ3tXq71/LXNW
+ BUvE1dDwo1TdIod+wDRHAwA6ovdJCEbAke3v2nHQBfFHDo7yI1Rmm
+X-Received: by 2002:a17:90b:5490:b0:33b:cbb2:31ed with SMTP id
+ 98e67ed59e1d1-34082f057a0mr726845a91.0.1761845776344; 
+ Thu, 30 Oct 2025 10:36:16 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IFjy1qSt2hZ98/eZvNJ9wygZ/dv5c3bUXaazDj2M0X/Bxw7LMUxGQjHWbaOsqTKpz9V8v3MMA==
+X-Received: by 2002:a17:90b:5490:b0:33b:cbb2:31ed with SMTP id
+ 98e67ed59e1d1-34082f057a0mr726805a91.0.1761845775801; 
+ Thu, 30 Oct 2025 10:36:15 -0700 (PDT)
 Received: from [10.226.59.182] (i-global254.qualcomm.com. [199.106.103.254])
  by smtp.gmail.com with ESMTPSA id
- d9443c01a7336-29498cf423esm191733165ad.19.2025.10.30.10.31.21
+ 98e67ed59e1d1-340509b444bsm3239247a91.13.2025.10.30.10.36.14
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 30 Oct 2025 10:31:22 -0700 (PDT)
-Message-ID: <a26a29e2-c686-4976-928b-0696e34c2c01@oss.qualcomm.com>
-Date: Thu, 30 Oct 2025 11:31:20 -0600
+ Thu, 30 Oct 2025 10:36:15 -0700 (PDT)
+Message-ID: <e89a830c-020b-4970-a649-86850246a530@oss.qualcomm.com>
+Date: Thu, 30 Oct 2025 11:36:13 -0600
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
 Subject: Re: [PATCH] accel/qaic: Fix typos in the documentation for qaic
@@ -103,29 +103,30 @@ From: Jeff Hugo <jeff.hugo@oss.qualcomm.com>
 In-Reply-To: <20251024165749.821414-1-youssef.abdulrahman@oss.qualcomm.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUxMDMwMDE0NCBTYWx0ZWRfX8IrPtbGdaApd
- /mqPAD896KMFAz/t/HZU3egcfVIhr+Nr8SwhbgxfmSc4XEpAkmgWcARYDMJXPqa5k0tQTRCQiqO
- us2jeLZncc/oIrpd2w13y9befKaAYf35fD+wIFxefoZiF5GFSYDMW0YHxVVSE2C3gC0eNp1DJ1G
- z/aioQMao3xqXLs3ZhLL2K2/MvVu8aPtnh89xf1KIBNW3Yt83SlMlIWaFNayTp0u/GQGgbUFj/N
- IjlD9lvQQ3nxaDFqkPgWDOVm0emA1cKg9gXff0lHoBr8EJ/wADtKOl10L0X6/QeGEqShKEZWUog
- 0ub9vFfB3J4gSIpxzEgZfV3mLnQ+6D+erdtWI0dILMunfx89OncN2wPbYoCel0i/v+ZQUbtv7qy
- bUFNGSjjaX2gyPdBbke8T/vMmTDcPQ==
-X-Authority-Analysis: v=2.4 cv=KePfcAYD c=1 sm=1 tr=0 ts=6903a0ec cx=c_pps
- a=MTSHoo12Qbhz2p7MsH1ifg==:117 a=JYp8KDb2vCoCEuGobkYCKw==:17
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUxMDMwMDE0NSBTYWx0ZWRfX8sBXAOxWjsFi
+ 5iu6RPR27UF6IeBdYv6AaJAIQA+kFQmBdAH4CjBjDXI+8oEvwEK23S8rqm5T/J8aJMP5maLHjtI
+ pEdGlHekAGFaUTP0d5uMGoUGjs0byRl663KXGmn7J41kpoT9XasFtqtGq5E1unaEbmPP6IbwGXG
+ 550T0ecpVO63lVXIl8uxiOlbvrwZVqQBAncvsVzZ1NWxzE3nODMbp28o2iaIs0WeYLRGxx8rLay
+ pNZ6Gjy+f9FueqD7f6LwdPGBDPunZl/H05X0/VTfsEVUgBbucEOyjMDcmp3v/O8KpIPRzA4d6WS
+ JQb+cMoCK5gDhFUdHAgytAa0Xvn0cVQyt/6q5k6T2qdqiZqRL6oOvCYw5NfFBu/BDo9J/7LXwSC
+ ey6XBRKLpwz8pBZRK3cbZHKNaUJHGg==
+X-Authority-Analysis: v=2.4 cv=P+Y3RyAu c=1 sm=1 tr=0 ts=6903a211 cx=c_pps
+ a=RP+M6JBNLl+fLTcSJhASfg==:117 a=JYp8KDb2vCoCEuGobkYCKw==:17
  a=IkcTkHD0fZMA:10 a=x6icFKpwvdMA:10 a=s4-Qcg_JpJYA:10
  a=VkNPw1HP01LnGYTKEx00:22 a=COk6AnOGAAAA:8 a=EUspDBNiAAAA:8
- a=_LXf31rqrPtJYysunv4A:9 a=QEXdDO2ut3YA:10 a=GvdueXVYPmCkWapjIL-Q:22
- a=TjNXssC_j7lpFel5tvFf:22
-X-Proofpoint-ORIG-GUID: Gh5xNcAU3BK-f36HTxmAqw3BjuR3TDCr
-X-Proofpoint-GUID: Gh5xNcAU3BK-f36HTxmAqw3BjuR3TDCr
+ a=_LXf31rqrPtJYysunv4A:9 a=QEXdDO2ut3YA:10 a=5OH7ri-qmpsA:10
+ a=iS9zxrgQBfv6-_F4QbHw:22 a=TjNXssC_j7lpFel5tvFf:22
+X-Proofpoint-ORIG-GUID: V7WTJU5FlhhFOmuf-AOIWBEySu7xEllw
+X-Proofpoint-GUID: V7WTJU5FlhhFOmuf-AOIWBEySu7xEllw
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.9,FMLib:17.12.100.49
  definitions=2025-10-30_05,2025-10-29_03,2025-10-01_01
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- suspectscore=0 impostorscore=0 priorityscore=1501 bulkscore=0 adultscore=0
- lowpriorityscore=0 clxscore=1015 phishscore=0 spamscore=0 malwarescore=0
- classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.22.0-2510240001 definitions=main-2510300144
+ clxscore=1015 suspectscore=0 spamscore=0 lowpriorityscore=0
+ priorityscore=1501 phishscore=0 malwarescore=0 adultscore=0 impostorscore=0
+ bulkscore=0 classifier=typeunknown authscore=0 authtc= authcc= route=outbound
+ adjust=0 reason=mlx scancount=1 engine=8.22.0-2510240001
+ definitions=main-2510300145
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -149,4 +150,6 @@ On 10/24/2025 10:57 AM, Youssef Samir wrote:
 > Signed-off-by: Sourab Bera <quic_sourbera@quicinc.com>
 > Signed-off-by: Youssef Samir <youssef.abdulrahman@oss.qualcomm.com>
 
-Reviewed-by: Jeff Hugo <jeff.hugo@oss.qualcomm.com>
+Pushed to drm-misc-next.
+
+-Jeff
