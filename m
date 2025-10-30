@@ -2,41 +2,51 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4CD4FC1FDE1
-	for <lists+dri-devel@lfdr.de>; Thu, 30 Oct 2025 12:44:27 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9BD7CC1FDED
+	for <lists+dri-devel@lfdr.de>; Thu, 30 Oct 2025 12:46:26 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 914AE10E8D5;
-	Thu, 30 Oct 2025 11:44:24 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BC55E10E95C;
+	Thu, 30 Oct 2025 11:46:24 +0000 (UTC)
+Authentication-Results: gabe.freedesktop.org;
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="Hz2a8B2n";
+	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
- by gabe.freedesktop.org (Postfix) with ESMTP id 23D4A10E8D5
- for <dri-devel@lists.freedesktop.org>; Thu, 30 Oct 2025 11:44:22 +0000 (UTC)
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
- by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id B28352C40
- for <dri-devel@lists.freedesktop.org>; Thu, 30 Oct 2025 04:44:14 -0700 (PDT)
-Received: from e110455-lin.cambridge.arm.com (usa-sjc-imap-foss1.foss.arm.com
- [10.121.207.14])
- by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPA id 5356A3F673
- for <dri-devel@lists.freedesktop.org>; Thu, 30 Oct 2025 04:44:22 -0700 (PDT)
-Date: Thu, 30 Oct 2025 11:44:13 +0000
-From: Liviu Dudau <liviu.dudau@arm.com>
-To: Ketil Johnsen <ketil.johnsen@arm.com>
-Cc: Boris Brezillon <boris.brezillon@collabora.com>,
- Steven Price <steven.price@arm.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] drm/panthor: disable async work during unplug
-Message-ID: <aQNPjYdp4XOlk0Ej@e110455-lin.cambridge.arm.com>
-References: <20251029111412.924104-1-ketil.johnsen@arm.com>
+Received: from sea.source.kernel.org (sea.source.kernel.org [172.234.252.31])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A2DC710E95C
+ for <dri-devel@lists.freedesktop.org>; Thu, 30 Oct 2025 11:46:23 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by sea.source.kernel.org (Postfix) with ESMTP id 702B34417F;
+ Thu, 30 Oct 2025 11:46:23 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4D92BC4CEFF;
+ Thu, 30 Oct 2025 11:46:21 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1761824783;
+ bh=reiNpeqTPEeJU6gOHFXRhPO54XWsRkqnewY5o9KMMDQ=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=Hz2a8B2nAz+J+MqNj3XJWzeVhFnHgmnKxDMGrxgKNJHwV9Zt0Sl2LJYbw9jTJzwcq
+ j5Vdd/3qwXooUYn4PtiKS0USib3p1lY1QHAj0r4TRFxThcAqyO+1RozVogiGKS+wav
+ M4/63umk7L2ayO8Yh4Vn++Xy++tM3wZxFu3TaNkwSytRL19wlvdxh5iuXQFkfGeomq
+ oy4rnPAOceDk63XM1KYxjtqJokm1wqgTwfp1vDT33eZeCc2yh9flgYvvVobw4r9cU6
+ mr9hswKxc9hAvcyd6aHovQaIdCs9zVQ8Ka1KiXWX+49qARSBxpQyXh3x0BksTJrXl2
+ CrqTV588Bt/lQ==
+Date: Thu, 30 Oct 2025 11:47:26 +0000
+From: Daniel Thompson <danielt@kernel.org>
+To: Duje =?utf-8?Q?Mihanovi=C4=87?= <duje@dujemihanovic.xyz>
+Cc: Lee Jones <lee@kernel.org>, Pavel Machek <pavel@kernel.org>,
+ Jingoo Han <jingoohan1@gmail.com>, Helge Deller <deller@gmx.de>,
+ Randy Dunlap <rdunlap@infradead.org>, linux-leds@vger.kernel.org,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ linux-fbdev@vger.kernel.org
+Subject: Re: [PATCH 1/2] leds: Drop duplicate LEDS_EXPRESSWIRE config
+Message-ID: <aQNQTlGed2XCY0lH@aspen.lan>
+References: <20250729-expresswire-dep-fix-v1-0-635cd4cc746b@dujemihanovic.xyz>
+ <20250729-expresswire-dep-fix-v1-1-635cd4cc746b@dujemihanovic.xyz>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20251029111412.924104-1-ketil.johnsen@arm.com>
+In-Reply-To: <20250729-expresswire-dep-fix-v1-1-635cd4cc746b@dujemihanovic.xyz>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -52,87 +62,16 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Oct 29, 2025 at 12:14:10PM +0100, Ketil Johnsen wrote:
-> A previous change, "drm/panthor: Fix UAF race between device unplug and
-> FW event processing", fixes a real issue where new work was unexpectedly
-> queued after cancellation. This was fixed by a disable instead.
-> 
-> Apply the same disable logic to other device level async work on device
-> unplug as a precaution.
-> 
-> Signed-off-by: Ketil Johnsen <ketil.johnsen@arm.com>
+On Tue, Jul 29, 2025 at 07:18:29PM +0200, Duje Mihanović wrote:
+> While moving said config symbol out of the "if NEW_LEDS" block, I
+> accidentally left a copy inside that block. Remove it.
+>
+> Reported-by: Randy Dunlap <rdunlap@infradead.org>
+> Link: https://lore.kernel.org/all/b6c481bb-e854-405e-a428-90301789fe20@infradead.org/
+> Fixes: 2cd0d1db31e7 ("leds: expresswire: Don't depend on NEW_LEDS")
+> Signed-off-by: Duje Mihanović <duje@dujemihanovic.xyz>
 
-Reviewed-by: Liviu Dudau <liviu.dudau@arm.com>
+Reviewed-by: Daniel Thompson (RISCstar) <danielt@kernel.org>
 
-Best regards,
-Liviu
 
-> ---
->  drivers/gpu/drm/panthor/panthor_device.c | 2 +-
->  drivers/gpu/drm/panthor/panthor_fw.c     | 2 +-
->  drivers/gpu/drm/panthor/panthor_sched.c  | 5 ++---
->  3 files changed, 4 insertions(+), 5 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/panthor/panthor_device.c b/drivers/gpu/drm/panthor/panthor_device.c
-> index 962a10e00848e..c4ae78545ef03 100644
-> --- a/drivers/gpu/drm/panthor/panthor_device.c
-> +++ b/drivers/gpu/drm/panthor/panthor_device.c
-> @@ -120,7 +120,7 @@ static void panthor_device_reset_cleanup(struct drm_device *ddev, void *data)
->  {
->  	struct panthor_device *ptdev = container_of(ddev, struct panthor_device, base);
->  
-> -	cancel_work_sync(&ptdev->reset.work);
-> +	disable_work_sync(&ptdev->reset.work);
->  	destroy_workqueue(ptdev->reset.wq);
->  }
->  
-> diff --git a/drivers/gpu/drm/panthor/panthor_fw.c b/drivers/gpu/drm/panthor/panthor_fw.c
-> index 9bf06e55eaeea..ceb249da8b336 100644
-> --- a/drivers/gpu/drm/panthor/panthor_fw.c
-> +++ b/drivers/gpu/drm/panthor/panthor_fw.c
-> @@ -1162,7 +1162,7 @@ void panthor_fw_unplug(struct panthor_device *ptdev)
->  {
->  	struct panthor_fw_section *section;
->  
-> -	cancel_delayed_work_sync(&ptdev->fw->watchdog.ping_work);
-> +	disable_delayed_work_sync(&ptdev->fw->watchdog.ping_work);
->  
->  	if (!IS_ENABLED(CONFIG_PM) || pm_runtime_active(ptdev->base.dev)) {
->  		/* Make sure the IRQ handler cannot be called after that point. */
-> diff --git a/drivers/gpu/drm/panthor/panthor_sched.c b/drivers/gpu/drm/panthor/panthor_sched.c
-> index b7595beaa0205..278434da8926d 100644
-> --- a/drivers/gpu/drm/panthor/panthor_sched.c
-> +++ b/drivers/gpu/drm/panthor/panthor_sched.c
-> @@ -3879,8 +3879,9 @@ void panthor_sched_unplug(struct panthor_device *ptdev)
->  {
->  	struct panthor_scheduler *sched = ptdev->scheduler;
->  
-> -	cancel_delayed_work_sync(&sched->tick_work);
-> +	disable_delayed_work_sync(&sched->tick_work);
->  	disable_work_sync(&sched->fw_events_work);
-> +	disable_work_sync(&sched->sync_upd_work);
->  
->  	mutex_lock(&sched->lock);
->  	if (sched->pm.has_ref) {
-> @@ -3898,8 +3899,6 @@ static void panthor_sched_fini(struct drm_device *ddev, void *res)
->  	if (!sched || !sched->csg_slot_count)
->  		return;
->  
-> -	cancel_delayed_work_sync(&sched->tick_work);
-> -
->  	if (sched->wq)
->  		destroy_workqueue(sched->wq);
->  
-> -- 
-> 2.47.2
-> 
-
--- 
-====================
-| I would like to |
-| fix the world,  |
-| but they're not |
-| giving me the   |
- \ source code!  /
-  ---------------
-    ¯\_(ツ)_/¯
+Daniel.
