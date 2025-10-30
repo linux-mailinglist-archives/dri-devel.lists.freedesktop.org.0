@@ -2,139 +2,191 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 13754C1DE92
-	for <lists+dri-devel@lfdr.de>; Thu, 30 Oct 2025 01:30:30 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id BE4FAC1DF19
+	for <lists+dri-devel@lfdr.de>; Thu, 30 Oct 2025 01:44:09 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0834810E227;
-	Thu, 30 Oct 2025 00:30:28 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C63AC10E875;
+	Thu, 30 Oct 2025 00:44:06 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="Wz1nUFOb";
-	dkim=pass (2048-bit key; unprotected) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="H+ZUSJsh";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="S9Qm4mGs";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
- [205.220.168.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 423C110E227
- for <dri-devel@lists.freedesktop.org>; Thu, 30 Oct 2025 00:30:26 +0000 (UTC)
-Received: from pps.filterd (m0279863.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id
- 59TL7Ewm1578970
- for <dri-devel@lists.freedesktop.org>; Thu, 30 Oct 2025 00:30:25 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
- cc:content-transfer-encoding:content-type:date:from:in-reply-to
- :message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
- Bg4GD4B5bCl/z2lBLTlw6Nv819p3I0Eq4wMDWopW18A=; b=Wz1nUFObUD9mqwkl
- wLRDy5auK2++Bw+Y/XNjqjFBfwGNpBMHWKMOVNguzhqmjlcl7PUmH47kKXiZBOHr
- 7XqNv12v89HIB9YZX8mtPbjc3pwGf93Nz3LFuifqjgiUsb84TPLqJuAAsneE/5B3
- gfQQf2AnpDMBH/dNw7NiRdbdg9Y50Z7mrXurL8c1d+QJeZddghf+qeDFVM60qeMT
- MMvFs1v4EQ1rNjc3SIJU01knN9+JgNy6KQjpOfT6h+syH0Kog8qQfbo4qYG5dWFj
- x8C/nSpl10ADsnA6Ut1X4HNNwUjflkC341kTRYsm1B+fC81CUuLIC3sfOFvLlq2c
- jTsnDQ==
-Received: from mail-pg1-f198.google.com (mail-pg1-f198.google.com
- [209.85.215.198])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4a3tjeggwa-1
- (version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
- for <dri-devel@lists.freedesktop.org>; Thu, 30 Oct 2025 00:30:25 +0000 (GMT)
-Received: by mail-pg1-f198.google.com with SMTP id
- 41be03b00d2f7-b6ce1b57b9cso263442a12.1
- for <dri-devel@lists.freedesktop.org>; Wed, 29 Oct 2025 17:30:25 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=oss.qualcomm.com; s=google; t=1761784225; x=1762389025;
- darn=lists.freedesktop.org; 
- h=content-transfer-encoding:in-reply-to:from:content-language
- :references:cc:to:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=Bg4GD4B5bCl/z2lBLTlw6Nv819p3I0Eq4wMDWopW18A=;
- b=H+ZUSJshyvesaOrSXkmFhd5q8CTodqMPyp6ZigPXXqoQKNxnQeZPM1doiGxX6f9A9l
- /kvabY5rMq0HWU0nJUC5rnlB6AxBJO7xtpo0cuv2jmkUUfez7gGsZKtDHV3+EC4uemRn
- VMx/VVP0XshYXCreb/qckBYyNmSBo7/ZWDVmYsYXGen4kJC1nW3X2vCI8TagHGzJZn4g
- xAfBsYI9Codcir/LQ8vrFSHGsFzxgzSOdVx1Cw/kn8nqsGdRfPmwmEr7Eg6hdhaJazu1
- S+3lLLdUM5MKvgwSAhu/qNKErsmlmgf5gwCVBkloVbj+pzUMD/puvdR8LqAOc+hMWWls
- d5sQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1761784225; x=1762389025;
- h=content-transfer-encoding:in-reply-to:from:content-language
- :references:cc:to:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=Bg4GD4B5bCl/z2lBLTlw6Nv819p3I0Eq4wMDWopW18A=;
- b=mnQhQHfuidlnig332HIOe3bCDVYbleYFt4Q92m4gTB5VQ74DK277EYePyJVikshtED
- LAINrJKHK/qFqeZzjicLXlsIj7W/5ZQJyJ6DatowBcUntFI13HXWoYai0Yv1ljgTLnWg
- sV5eyt8kp76p64+fIFq18UKQb9xoRLCMK+WJkshd5uCIo4Fi2tO0hM1mmfq6grpsnjrF
- pMRlPA/jvqf3RTchCNhsJ1b7svv8u3Xpim/LhtA0bPP9TEDBFnaanYZ6bwQZcQAZ2Lft
- bP3PgfRSwXtex3AvSeSvw+wteSxhdcNpqih0b1maHGG9sR/KNDDXGqSKCIgXt9Cn1Nku
- 1goA==
-X-Forwarded-Encrypted: i=1;
- AJvYcCXf1ah8ALBZGkhaYcnggHzG+CodxyJuneDIGlfS7FABpQwZF2AXm3gfULWl7J7gogD2qL0eB4BB1jo=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Yzce2dyq12xPWlaX/ftcdchPH3yuKcGVV60I81AtY1zF0eF8FD0
- SREkaC0+LcNX38m9SZMY1t4C7HthAURvNCNdSpoxpXjE7rUY5e4LCPOg5tR5edIrpIqt5zbJjCO
- AbCXhdceWxQWyD2A6J7+Zo8npqVUS5KIpACD18aATHxF0FbGgJHw5Q51la9TOTvYW04iogEU=
-X-Gm-Gg: ASbGncuvagIi3Ns017Uf2ASOPN/CTKMIsDVSkPTU713Bjka7PN+OsfmlcGqsc41vLRM
- nDPVzZnSDRDjX7JWbyIByBJixLvJyVrczl1nhKBXpcZFA8KhuyZLcWFycV7P5IAHEWFMmSyeyPe
- LHr4YxRPAf/6XSBhMZPOEH08hM4f9lvR8io+AVDlFys+syvSQP4f4d1ahj56+m7mvz9C6IaVGCD
- s800LeU7alLxFp2JFNmSQiOXysvXn6OY8IrBYSnEY55pf/cWkGbMWcFyCcnPcjNa4s5h+l/Ggmf
- 46pCtppAFvoRltjiw/vIes5yim087zZ7LX4pRXYmS4ItnSPg8zc38w+CKahC4jR02CzDSr92rOJ
- khb0zT8udajE0DGrfia5GvXmJm6ABo2S34RthhbjSE3Q2Qwf+o/sn
-X-Received: by 2002:a17:903:1a23:b0:240:9dd8:219b with SMTP id
- d9443c01a7336-294deed6937mr56766435ad.49.1761784224179; 
- Wed, 29 Oct 2025 17:30:24 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IFbpA1sRQPQGXfu0y7Xt51AgpiXHs+MPJMCKqhhNVROmMm29cJsPfykWn0uuQiQuftFK0UPpA==
-X-Received: by 2002:a17:903:1a23:b0:240:9dd8:219b with SMTP id
- d9443c01a7336-294deed6937mr56765575ad.49.1761784223240; 
- Wed, 29 Oct 2025 17:30:23 -0700 (PDT)
-Received: from [10.226.59.182] (i-global254.qualcomm.com. [199.106.103.254])
- by smtp.gmail.com with ESMTPSA id
- d9443c01a7336-29498d0ac07sm165638755ad.43.2025.10.29.17.30.21
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 29 Oct 2025 17:30:22 -0700 (PDT)
-Message-ID: <f594b22f-f9f0-466f-963f-42235424790f@oss.qualcomm.com>
-Date: Wed, 29 Oct 2025 18:30:20 -0600
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9DB3B10E871;
+ Thu, 30 Oct 2025 00:44:04 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1761785045; x=1793321045;
+ h=date:from:to:cc:subject:message-id:references:
+ content-transfer-encoding:in-reply-to:mime-version;
+ bh=DAzy5qBbN5LFPlBclGLmM4V8qqzoXf/63IIKpo2Fs8U=;
+ b=S9Qm4mGsz7g2Kro5IA6T3NQzzOT9fHkp55ANv8onAwCRS6voKWaPLP7c
+ b/abLNVVhq1NRC7rW61GMRQt+e8UW9JODe/xmZevQEDRFRQdKvgE+wTNy
+ uxUYqxqWmuUAU5M6DgDkPE69q2vV4tIYJ7ZI0yNxtVAGrFGLn/ew6WwSC
+ MrFoK+XouqnWtFdDRUgbEjMszlM/+9XXoxsKQe6riJWI9989TzGC0pomM
+ g1p53R+CW+Q32/p5vR8VzbYYdDqTAD8bPY2po+/VkIrsoXJYG70fEexfA
+ 3oVmGRYorFSFOSHl0JDSc1N0ZY1drqQNFtZipxbnz4lG7YybEKIbJnCn5 Q==;
+X-CSE-ConnectionGUID: k8MrAslpSPeLILvzGLsBeA==
+X-CSE-MsgGUID: 1Brw2/9mSUeirYru3EIx9A==
+X-IronPort-AV: E=McAfee;i="6800,10657,11597"; a="86546728"
+X-IronPort-AV: E=Sophos;i="6.19,265,1754982000"; d="scan'208";a="86546728"
+Received: from orviesa007.jf.intel.com ([10.64.159.147])
+ by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 29 Oct 2025 17:44:04 -0700
+X-CSE-ConnectionGUID: Sx6X89bRQPaE6H/tHxygJA==
+X-CSE-MsgGUID: S43kY2uJQVGKe5eUacwTQw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.19,265,1754982000"; d="scan'208";a="185746168"
+Received: from orsmsx902.amr.corp.intel.com ([10.22.229.24])
+ by orviesa007.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 29 Oct 2025 17:44:04 -0700
+Received: from ORSMSX903.amr.corp.intel.com (10.22.229.25) by
+ ORSMSX902.amr.corp.intel.com (10.22.229.24) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.2562.27; Wed, 29 Oct 2025 17:44:03 -0700
+Received: from ORSEDG901.ED.cps.intel.com (10.7.248.11) by
+ ORSMSX903.amr.corp.intel.com (10.22.229.25) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.2562.27 via Frontend Transport; Wed, 29 Oct 2025 17:44:03 -0700
+Received: from BL2PR02CU003.outbound.protection.outlook.com (52.101.52.49) by
+ edgegateway.intel.com (134.134.137.111) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.2562.27; Wed, 29 Oct 2025 17:44:03 -0700
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=RJiv25VXMY8Gn2FRr2mrd+fPU8JT8+8mcnaWQuFN4/acVTRYA9Xr2WOcxh5/S8GgJkKRrsxDcMFv3FdNXxPStPIeBdwXwaDw9wQ4a/rZDVllId83iQVcKjidcKDKzFVmldqpOw3huDnXqDpmIxpgCt8ERjFvm0ct25JxzEUn6O9IqIJZ3r/dD70qpeXPhKLBXKb+ytCTofQNfkfNq8eFV74YAuKzofZCxgL0FoUGtKVBp9Usw0I71qvBLGxWquBcQ2FZKAZry08CpkYongoqGx93Hwp8rSeafi+hoZlXvCdmfXco/Q3yMw/jkimJSfkBxvOh0moVE1tXQTYD1i+P9g==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=2fBN5CH1q1A9LkaibykID1p6+PB9cV8WHoLTK8aEduM=;
+ b=olyHZXsfrdRDh/5NE5J52DZkiT5TBz9xDqGUpAZUVoLkuPq7dL54hUjUDq1H97IGTQjAAgCHBfSe3SHSi3zhTIOxke40YQ6T7x5GoM7BcLd9ddpWy1uc0atE/1CFxBGdcugdjaoKAh+1x9ijEO1DjcQV3cipbiDS+GXMJhu688JL4v9X6MzQ0bg9luWdELvwYsT+YP0oiyvpQcFjufS8KYWxtkRrZ91E5pzq47+MYGVXmjFJu+JU8Ok1yW2z3DHan9sz3jw4soGkKSK+ClQP+LA4/colZWWUK0sx1x0X5wKtCivutec+TlnzWQvjndWjeQDTxUNp18X2BFdmhjCYXg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=intel.com;
+Received: from PH7PR11MB6522.namprd11.prod.outlook.com (2603:10b6:510:212::12)
+ by PH3PPF8C0509479.namprd11.prod.outlook.com (2603:10b6:518:1::d37)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9275.13; Thu, 30 Oct
+ 2025 00:44:00 +0000
+Received: from PH7PR11MB6522.namprd11.prod.outlook.com
+ ([fe80::9e94:e21f:e11a:332]) by PH7PR11MB6522.namprd11.prod.outlook.com
+ ([fe80::9e94:e21f:e11a:332%3]) with mapi id 15.20.9253.017; Thu, 30 Oct 2025
+ 00:43:59 +0000
+Date: Wed, 29 Oct 2025 17:43:57 -0700
+From: Matthew Brost <matthew.brost@intel.com>
+To: Thomas =?iso-8859-1?Q?Hellstr=F6m?= <thomas.hellstrom@linux.intel.com>
+CC: <intel-xe@lists.freedesktop.org>, <dri-devel@lists.freedesktop.org>,
+ <himal.prasad.ghimiray@intel.com>, <apopple@nvidia.com>, <airlied@gmail.com>, 
+ Simona Vetter <simona.vetter@ffwll.ch>, <felix.kuehling@amd.com>, Christian
+ =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>, <dakr@kernel.org>,
+ "Mrozek, Michal" <michal.mrozek@intel.com>, Joonas Lahtinen
+ <joonas.lahtinen@linux.intel.com>
+Subject: Re: [PATCH 05/15] drm/xe: Use the drm_pagemap cache and shrinker
+Message-ID: <aQK0zQCAwgd5tHXe@lstrano-desk.jf.intel.com>
+References: <20251025120412.12262-1-thomas.hellstrom@linux.intel.com>
+ <20251025120412.12262-6-thomas.hellstrom@linux.intel.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20251025120412.12262-6-thomas.hellstrom@linux.intel.com>
+X-ClientProxiedBy: BYAPR07CA0044.namprd07.prod.outlook.com
+ (2603:10b6:a03:60::21) To PH7PR11MB6522.namprd11.prod.outlook.com
+ (2603:10b6:510:212::12)
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 2/3] accel/qaic: Implement basic SSR handling
-To: Bjorn Andersson <andersson@kernel.org>,
- Youssef Samir <youssef.abdulrahman@oss.qualcomm.com>
-Cc: carl.vanderlip@oss.qualcomm.com, troy.hanson@oss.qualcomm.com,
- zachary.mckevitt@oss.qualcomm.com, ogabbay@kernel.org,
- lizhi.hou@amd.com, karol.wachowski@linux.intel.com,
- linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org,
- Jeffrey Hugo <quic_jhugo@quicinc.com>,
- Pranjal Ramajor Asha Kanojiya <quic_pkanojiy@quicinc.com>,
- Troy Hanson <quic_thanson@quicinc.com>,
- Aswin Venkatesan <aswivenk@qti.qualcomm.com>
-References: <20251024164630.816862-1-youssef.abdulrahman@oss.qualcomm.com>
- <20251024164630.816862-3-youssef.abdulrahman@oss.qualcomm.com>
- <club7ttb5xwffgcglsbnm62dzdnjrdutclbbfpsh2rfynrje6m@bu4bk3pd2pcv>
-Content-Language: en-US
-From: Jeff Hugo <jeff.hugo@oss.qualcomm.com>
-In-Reply-To: <club7ttb5xwffgcglsbnm62dzdnjrdutclbbfpsh2rfynrje6m@bu4bk3pd2pcv>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Proofpoint-GUID: 8jaGqotCSHSDiPDs_KCE_MeY5T6qJaek
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUxMDMwMDAwMiBTYWx0ZWRfX5akTqAPBacu1
- ArCdxZayWvH/0Wwrmt2cXj+/7UpOBu5fUFVzn4M2yeYBBsWiBkty6EWhCuy3GK+BjXOG3qoAYU4
- Ex6Q883l6mq5nkiJ0ztoPTCwsYrimxqGMDzNX2VzRm1ou05J19f9GDg4Kc4y0TGeW5JWUFzq3r6
- SyVzfNXB0KFEYttV8VmBE7tugeWp0/SChRnIQzYOrlr2JJd19i0KTl7I2cWOWcU9YnWjT902OuK
- VjajoAtmOekrtZ2eETusTRx7fB43yzn0yY8lCJ1PUZaa7GNwdg9j1l2hNeUyem4AS3mtpyqIRNt
- WjRqvsqelovInhfaGGqLYdfjuZcbcjhlHe5PzjZAM7O6swkSYXfIBu1zdIU0f+cHMS+IcmNd48k
- UF8cdVjlW5IRft+Uy1XYX+DLVs1KWA==
-X-Authority-Analysis: v=2.4 cv=a/Q9NESF c=1 sm=1 tr=0 ts=6902b1a1 cx=c_pps
- a=Qgeoaf8Lrialg5Z894R3/Q==:117 a=JYp8KDb2vCoCEuGobkYCKw==:17
- a=IkcTkHD0fZMA:10 a=x6icFKpwvdMA:10 a=s4-Qcg_JpJYA:10
- a=VkNPw1HP01LnGYTKEx00:22 a=VwQbUJbxAAAA:8 a=LpQP-O61AAAA:8 a=COk6AnOGAAAA:8
- a=EUspDBNiAAAA:8 a=QIhr-27iAAAA:8 a=Jq3LtsnOAsMKr34-ZU8A:9 a=QEXdDO2ut3YA:10
- a=Yx1Ww8rMGscA:10 a=x9snwWr2DeNwDh03kgHS:22 a=pioyyrs4ZptJ924tMmac:22
- a=TjNXssC_j7lpFel5tvFf:22 a=cgaYBWEFosGJW4rWv5Lf:22
-X-Proofpoint-ORIG-GUID: 8jaGqotCSHSDiPDs_KCE_MeY5T6qJaek
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.9,FMLib:17.12.100.49
- definitions=2025-10-30_01,2025-10-29_03,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- impostorscore=0 priorityscore=1501 lowpriorityscore=0 malwarescore=0
- suspectscore=0 phishscore=0 spamscore=0 adultscore=0 clxscore=1015
- bulkscore=0 classifier=typeunknown authscore=0 authtc= authcc= route=outbound
- adjust=0 reason=mlx scancount=1 engine=8.22.0-2510240001
- definitions=main-2510300002
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: PH7PR11MB6522:EE_|PH3PPF8C0509479:EE_
+X-MS-Office365-Filtering-Correlation-Id: 460c9422-f0e1-48d3-a961-08de174d6a4f
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+ ARA:13230040|1800799024|7416014|376014|366016|7053199007; 
+X-Microsoft-Antispam-Message-Info: =?utf-8?B?OHVJaDhvRjQvS3dHbHhmSjFBTWFNbmtNbjYzREQ4VmE1N29RSDdlNEVVdkE5?=
+ =?utf-8?B?dXJ1ai9BbFJVM2JERUlUQzh1UGsvZk9NdTIwdnJ4OGVNald3WGFpZG40UzVz?=
+ =?utf-8?B?ZVRaMi8wRkxTTHhsVWtUS3Z5ZWxPanFncjR0TTJGdjZnOWhzL1lHOTBWc3lX?=
+ =?utf-8?B?TldLV3Vnd3lkaHlEdVZ3c2w0bHA0WC9yWmFKbWU5cHl1d3pubWdDalF4cWRm?=
+ =?utf-8?B?MWg3bUdOdkkvZU9CcVUvdmcrdU8wdVZWOGt2b2dmUkVNM0VEYnlTUWIyd3VF?=
+ =?utf-8?B?MWxyOFNBNGNrOHorUlIyZi9KR3h5SWhQSHdLeDNtY2l5NmwyeWo3UHdZeHdn?=
+ =?utf-8?B?dUpyQUtwNldLS01talFPK2hvR2x1TDRnK21LazhJUVBoc1NCTzRCKy9uYVE3?=
+ =?utf-8?B?UUJzbUk1VkJiOEJ5STFkK2ZDRzQ5NVdFODQ0emZXVmZCOXlzbkNTa1VPalNo?=
+ =?utf-8?B?N0V3cmZtS1lVNEw1OWJVSTlNQnpWNCtJZEFWUUswSWp0SG5yU3ZtNWcxdDR3?=
+ =?utf-8?B?UXF1ajZIaVM1SzZ3a0c1R0hDbFhMVkNCUWQzTW51c0hwTGxrd3kzQzRnNDFv?=
+ =?utf-8?B?SW53QW9WaVE5dmNzbVlLWHM3UGUyeGticXF3ajBNZTJJcHVoelY4NWIxQW5F?=
+ =?utf-8?B?SEViYk1DMUdXTWVrTU1IRUdUVndLc2FSRStLWk42ekR6SW5NYkdtQTE3Y2t0?=
+ =?utf-8?B?VlFMN3lWSnNIYll0T2JLd2Jxam1UZGdmckJsblh6TkNMZGF2ZHRaSXFNZlNm?=
+ =?utf-8?B?SVpaWnRpSkhobnRWU0F2VEpWa1pPY1NjVjcxVGw4NHVQQXNZazRBNmlERHd1?=
+ =?utf-8?B?NlVSOEtTZ1hiMVcxMUpMRU1MWUpTSkdWYUxGcWdVekdlY1lwZUNZeW0rd0Jk?=
+ =?utf-8?B?c3EwSldaSHhUUmZaU0VSYzRaWFBFM3dCVThhNFl4YjBGeE1ray9YbGpVZUdn?=
+ =?utf-8?B?ZU9JbXc3SDNHaFFLMTZQdXJGclZrMEtuM3FJK2V6eDdYQldXcVJjYTJSb1Jx?=
+ =?utf-8?B?aEN0L1h4aXh4UDB4ZkpBWmpOV3NzK2wwaWM3dXFtL2hmOEpWMGZTTTZSQUlJ?=
+ =?utf-8?B?eVFuLzZQTVpETUMrc3NSNUwzVVZvc2FhTzJRSUZ1NURaeThhUytaUHo5TlBG?=
+ =?utf-8?B?aEpra2RXaXpqUTFxTDdRNFpjNWx0WVBNWjBkMU0zclRDOVFZQ3Eya2MwYWkx?=
+ =?utf-8?B?M3pYcVB1NENERkxuUTgxamdidWVYT0Nuc3F2U0Rkd2N2aS9vYm9HeDJsSm5X?=
+ =?utf-8?B?dHU3SXFkbWUvaWowbStkaklWS3N2ZVJ1TyszOUpnRzhNaDUyMUkvdm1KUTJ0?=
+ =?utf-8?B?ZXdxTWlodmpBaFNoRFNTNW04Nm50bGYxL09lK3NHSmVDaE4yM3BDaGRqMkFP?=
+ =?utf-8?B?Z1Yxamc1Y1ZLNFZFejdMUXBkazNpK0tTTzFZcXhwVGkwQWw3cEhEbnRVdjFY?=
+ =?utf-8?B?aUpqam9qT01PVXJqSjBNMVVLbnFKaklqL2krWXB1djk2NFd0K05lWkF2c25Y?=
+ =?utf-8?B?Y3ZNK0puT3J2TEdXSklmamtnNjhqZkcrY3N1TW80dC9iMENXeldkUGdQdm9P?=
+ =?utf-8?B?aitUM0lwNTRxVnArMERDbTMrdzR0QThJOGVDNVhSSWhQQytXdGFiM0xieG5q?=
+ =?utf-8?B?VFd2cVdlWjBNTUJibWNXMFc5cmRQUHMzbHRjM2hycTVHMW9IM3RaOUF6Q2lx?=
+ =?utf-8?B?d2w2NTJ6dWNCdm5iaEN4VW9TellSTUlTUXNRT0ZGQkZUTzFBb3RlWkllT1Fq?=
+ =?utf-8?B?dm1rbFFDZzZjclZxRG9GNlRQUGNYZ3Y3cWJHMVN0ZEFXK1Fyd2tzQlRTODBF?=
+ =?utf-8?B?NzljRmFxajRDTUVVZzVDYSttamtyakI0V1VzYnBlWWZCbUczSDdzN0oxVmg0?=
+ =?utf-8?B?WndHaUh0Q1JiNVRsZXBTOWVIWC93N2J3VGE4MjlCYnVEVXhEZXR0L2g0d2FZ?=
+ =?utf-8?Q?vkSyq7l1rxFd3MRa2cKyeQbX36M6//JW?=
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:PH7PR11MB6522.namprd11.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230040)(1800799024)(7416014)(376014)(366016)(7053199007); DIR:OUT;
+ SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?ZHVjMUdpZTdybndscXorUjVqTlVYbVpPVk9RM1ZMTnViVng1eXkyWmR5RkNo?=
+ =?utf-8?B?L1hJbGZVeDZMMzA0V0pHdmlPRHdhNjUwSGhZbXlZbG0wclpWSlJFaGplNG0v?=
+ =?utf-8?B?MzFqRUp6eURDN2xpbGtZVEx6QnFJaCtMbTFSSUhXKzB1SStsbTROb2Z1SWky?=
+ =?utf-8?B?U1V2aWZsMHkrOFBlS0ZBUlFFNWNNWjI0bm5HbGxXQ2xRWEJRYmhNa094RWMv?=
+ =?utf-8?B?Uld4YjJIQm9PSUV3amVLdzZ2Nlc2b21UaisxK3o4ZFA0REJEWUlCM1hGcDZY?=
+ =?utf-8?B?RUVmRzlHaFVWaXMvY3krdlhjdlhhN2NkRXI2NVZVenB4WU05d0tjK1lORTdB?=
+ =?utf-8?B?c2xaK2ZsU2puMHNsbjFCMzBVei80UWdnR3AvcGcrbFBXM2c3NDN4dUhaVFRs?=
+ =?utf-8?B?eER0cUpXanlxT2RqWFpzZWJvNmhtTGRkWi9obldCTHRhWnBuR1FVTWNHVFln?=
+ =?utf-8?B?UGYwYlArU1VyV1BOSFovWFlKcWxYV2xkYjE0NDM3end1dHY3M0pNNlBkcWhy?=
+ =?utf-8?B?Z2FLQVNEcTBwclA2cTcrSEpqWWRFTUpFZFRmWXorY1UzR0F1VjVSVUZKNFd1?=
+ =?utf-8?B?RDFpeHorUGVueExFNEEyUFdkdjFsa0o2TS9JVmJJZzJHZjc3K2VVRmg2VTU5?=
+ =?utf-8?B?dHVtbkdQcC95SjBoSmNZaWRQNWlscmx1Zi9EOStQMzU0VlJoWjg5ZnBYUzhm?=
+ =?utf-8?B?cXhaNTM3NWNPdUc3cTdkWlIwUkRpb3F5SGZmcFVVelJ2ZzAxZS9IeDZ2elhx?=
+ =?utf-8?B?TzdtUkxxQnJmSkNhU3h6YzJPU2cxdkpmZlZjQXp1aE1ySnVvZ3dqTGNTZFVC?=
+ =?utf-8?B?eWIxQzRFQmFYeDNlekZHVWRzeXBPbDlDcjU2N05RZk1ub1lLN2RsajNtZGVM?=
+ =?utf-8?B?Vm9lcEdCd0JZUUNnWGw1QXNVTk1QVEdpUzNmYjZHR1NEc3Zja0srcnQxNUJC?=
+ =?utf-8?B?NkhMa1ZhSEtIQmVPcG4zeUxhYzBZdVp5M0xQVG5JLzM3d3lpTVR3aUY3RTAr?=
+ =?utf-8?B?N2E3RGRJUUhDV3FhenF1N3dCVmlhQ0VhOHRvM2hNK3VNTnVOYkoxUXE0cEls?=
+ =?utf-8?B?VGs5SzJEejdtNmIwTUVkMzJCbjVXbW5iQ2ZjV2plNmpBTjFMcGFFYWd0R0NV?=
+ =?utf-8?B?b0E0NDBjS1ZHSk1LdTNwMDViR29mdXdwbzZNNGNxeWpMVkUxVG9iSkhwQlBG?=
+ =?utf-8?B?dTZEcXdudGxDUTFURlBpcDByNjZhZHlHakdmYTNFM2VKRU9NWnBlRStaNWNF?=
+ =?utf-8?B?Ujkzc2V4UytBOVhjODF6UmhqMjJWaDgvcWJCS093SCsxeTRndldHY0FrV2Qv?=
+ =?utf-8?B?ZHpkSU5iU0R2RC93cDVyYXNUMFZOSFNhSU51VDNxclA0QzRjdU9HcytZS09k?=
+ =?utf-8?B?cnEwaTFxbVk5ZEt6UjQ3anBCcXJVQm51RnZyZ3RzZmtQaWYwSEdZTUc5V0Z6?=
+ =?utf-8?B?dHM5ZEtleXE1VElObExEMS9rSVVjUHBZc3UyU05xNldLQ2R1d2ZmY0pLN1Bk?=
+ =?utf-8?B?SUxLRm8zeENGNjlkdUJGeXNZRkMwdllhZTBiTEN4blN4R0pMYjhHVEVZRUZh?=
+ =?utf-8?B?Z1FHYzFIZzBSQmVEa2dyUnNKckFxbTNrbk5FcDhJSmduNzZGOUFOVDNJY2dh?=
+ =?utf-8?B?SWFjRlpJL0U5QkphbWVPNDRvOG9RallNM0tEQ0tnb1ZzbUl5eEE4K0JNR2JR?=
+ =?utf-8?B?Tm5uT2t0R0t2US9BR2lEWVg2SjRLUXZIUHgzUnMrZ0FPRDdDQTNaZW9QZS96?=
+ =?utf-8?B?VjJRWFlTaXhZTFBLY09tQjdjajN0UzV1SXo3N1R5dTh1eldjbHRhZEo5Z21k?=
+ =?utf-8?B?YWJoUDYxNU9UVDN1b3ErVGRDNElVcm8xQlhmN2tKZUZHNUtPRldSdVVPRTZN?=
+ =?utf-8?B?VEZNUVJaZ0FTVnBTM2ZxbmtXWHEwUUdtV29hMUo2TzZoT1lVaU1oakR0azhH?=
+ =?utf-8?B?RmZCcGh1QjRRTDNHM0lVWnRQSW9DZ3JpTlhXeEVqOFA5SStVOGYyV1lCWjJi?=
+ =?utf-8?B?V0pFTlowa1MzV0pQTDJVSlhURWx2SmNMamFFNS9iZ3d2RkgwS0JvOWFLeXNa?=
+ =?utf-8?B?WldLY3plbkFxeGE2YTZuTEhleFJaTzA2M1lrRDVHT0hNWTdGdWdWZVUvUDFY?=
+ =?utf-8?B?YWZzdTRjampPNVVFSDg1a2lxaEh0UlhMSjlrSmNVOHkwR3NOM1FRMG9FZDBm?=
+ =?utf-8?B?YUE9PQ==?=
+X-MS-Exchange-CrossTenant-Network-Message-Id: 460c9422-f0e1-48d3-a961-08de174d6a4f
+X-MS-Exchange-CrossTenant-AuthSource: PH7PR11MB6522.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 30 Oct 2025 00:43:59.8688 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: aQeYGGUkdJTaVN7eXgj2e2l8SKyLScs3B2V7QU73JN765U55xBPtSYftQiaMeRHJgdjK0LQlL/aeMGkxDymOEg==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH3PPF8C0509479
+X-OriginatorOrg: intel.com
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -150,800 +202,850 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 10/27/2025 7:59 AM, Bjorn Andersson wrote:
-> On Fri, Oct 24, 2025 at 06:46:29PM +0200, Youssef Samir wrote:
->> From: Jeffrey Hugo <jhugo@codeaurora.org>
->>
->> Subsystem restart (SSR) for a qaic device means that a NSP has crashed,
->> and will be restarted.  However the restart process will lose any state
->> associated with activation, so the user will need to do some recovery.
->>
->> While SSR has the provision to collect a crash dump, this patch does not
->> support it.
+On Sat, Oct 25, 2025 at 02:04:02PM +0200, Thomas Hellström wrote:
+> Define a struct xe_pagemap that embeds all pagemap-related
+> data used by xekmd, and use the drm_pagemap cache- and
+> shrinker to manage lifetime.
 > 
-> "does not support it", wouldn't it be better to say "patch does not
-> implement this"? As I presume the code you add here will indeed support
-> the addition of the coredump collection code?
+> Signed-off-by: Thomas Hellström <thomas.hellstrom@linux.intel.com>
+> ---
+>  drivers/gpu/drm/xe/xe_device.c       |   6 +
+>  drivers/gpu/drm/xe/xe_device_types.h |   5 +
+>  drivers/gpu/drm/xe/xe_svm.c          | 354 +++++++++++++++++++++------
+>  drivers/gpu/drm/xe/xe_svm.h          |  38 ++-
+>  drivers/gpu/drm/xe/xe_tile.c         |  34 ++-
+>  drivers/gpu/drm/xe/xe_tile.h         |  21 ++
+>  drivers/gpu/drm/xe/xe_vm_types.h     |   1 +
+>  drivers/gpu/drm/xe/xe_vram_types.h   |  15 +-
+>  8 files changed, 379 insertions(+), 95 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/xe/xe_device.c b/drivers/gpu/drm/xe/xe_device.c
+> index 5f6a412b571c..ad004aab67ce 100644
+> --- a/drivers/gpu/drm/xe/xe_device.c
+> +++ b/drivers/gpu/drm/xe/xe_device.c
+> @@ -16,6 +16,7 @@
+>  #include <drm/drm_gem_ttm_helper.h>
+>  #include <drm/drm_ioctl.h>
+>  #include <drm/drm_managed.h>
+> +#include <drm/drm_pagemap_util.h>
+>  #include <drm/drm_print.h>
+>  #include <uapi/drm/xe_drm.h>
+>  
+> @@ -62,6 +63,7 @@
+>  #include "xe_shrinker.h"
+>  #include "xe_survivability_mode.h"
+>  #include "xe_sriov.h"
+> +#include "xe_svm.h"
+>  #include "xe_tile.h"
+>  #include "xe_ttm_stolen_mgr.h"
+>  #include "xe_ttm_sys_mgr.h"
+> @@ -465,6 +467,10 @@ struct xe_device *xe_device_create(struct pci_dev *pdev,
+>  
+>  	init_rwsem(&xe->usm.lock);
+>  
+> +	err = xe_pagemap_shrinker_create(xe);
+> +	if (err)
+> +		goto err;
+> +
+>  	xa_init_flags(&xe->usm.asid_to_vm, XA_FLAGS_ALLOC);
+>  
+>  	if (IS_ENABLED(CONFIG_DRM_XE_DEBUG)) {
+> diff --git a/drivers/gpu/drm/xe/xe_device_types.h b/drivers/gpu/drm/xe/xe_device_types.h
+> index 6a62b520f5b5..dbcfe54b36d8 100644
+> --- a/drivers/gpu/drm/xe/xe_device_types.h
+> +++ b/drivers/gpu/drm/xe/xe_device_types.h
+> @@ -35,6 +35,7 @@
+>  #endif
+>  
+>  struct dram_info;
+> +struct drm_pagemap_shrinker;
+>  struct intel_display;
+>  struct intel_dg_nvm_dev;
+>  struct xe_ggtt;
+> @@ -418,6 +419,10 @@ struct xe_device {
+>  		u32 next_asid;
+>  		/** @usm.lock: protects UM state */
+>  		struct rw_semaphore lock;
+> +#if IS_ENABLED(CONFIG_DRM_XE_PAGEMAP)
+> +		/** @usm.pagemap_shrinker: Shrinker for unused pagemaps */
+> +		struct drm_pagemap_shrinker *dpagemap_shrinker;
+> +#endif
+>  	} usm;
+>  
+>  	/** @pinned: pinned BO state */
+> diff --git a/drivers/gpu/drm/xe/xe_svm.c b/drivers/gpu/drm/xe/xe_svm.c
+> index f6ee22da2e95..8aced064c83f 100644
+> --- a/drivers/gpu/drm/xe/xe_svm.c
+> +++ b/drivers/gpu/drm/xe/xe_svm.c
+> @@ -4,6 +4,9 @@
+>   */
+>  
+>  #include <drm/drm_drv.h>
+> +#include <drm/drm_managed.h>
+> +#include <drm/drm_pagemap.h>
+> +#include <drm/drm_pagemap_util.h>
+>  
+>  #include "xe_bo.h"
+>  #include "xe_exec_queue_types.h"
+> @@ -19,6 +22,8 @@
+>  #include "xe_vm_types.h"
+>  #include "xe_vram_types.h"
+>  
+> +static int xe_svm_get_pagemaps(struct xe_vm *vm);
+> +
+>  static bool xe_svm_range_in_vram(struct xe_svm_range *range)
+>  {
+>  	/*
+> @@ -395,22 +400,34 @@ static void xe_svm_garbage_collector_work_func(struct work_struct *w)
+>  
+>  #if IS_ENABLED(CONFIG_DRM_XE_PAGEMAP)
+>  
+> -static struct xe_vram_region *page_to_vr(struct page *page)
+> +static struct xe_vram_region *xe_pagemap_to_vr(struct xe_pagemap *xpagemap)
+>  {
+> -	return container_of(page_pgmap(page), struct xe_vram_region, pagemap);
+> +	return xpagemap->vr;
+>  }
+>  
+> -static u64 xe_vram_region_page_to_dpa(struct xe_vram_region *vr,
+> -				      struct page *page)
+> +static struct xe_pagemap *xe_page_to_pagemap(struct page *page)
+>  {
+> -	u64 dpa;
+> +	return container_of(page_pgmap(page), struct xe_pagemap, pagemap);
+> +}
+> +
+> +static struct xe_vram_region *xe_page_to_vr(struct page *page)
+> +{
+> +	return xe_pagemap_to_vr(xe_page_to_pagemap(page));
+> +}
+> +
+> +static u64 xe_page_to_dpa(struct page *page)
+> +{
+> +	struct xe_pagemap *xpagemap = xe_page_to_pagemap(page);
+> +	struct xe_vram_region *vr = xe_pagemap_to_vr(xpagemap);
+> +	u64 hpa_base = xpagemap->hpa_base;
+>  	u64 pfn = page_to_pfn(page);
+>  	u64 offset;
+> +	u64 dpa;
+>  
+>  	xe_assert(vr->xe, is_device_private_page(page));
+> -	xe_assert(vr->xe, (pfn << PAGE_SHIFT) >= vr->hpa_base);
+> +	xe_assert(vr->xe, (pfn << PAGE_SHIFT) >= hpa_base);
+>  
+> -	offset = (pfn << PAGE_SHIFT) - vr->hpa_base;
+> +	offset = (pfn << PAGE_SHIFT) - hpa_base;
+>  	dpa = vr->dpa_base + offset;
+>  
+>  	return dpa;
+> @@ -514,11 +531,11 @@ static int xe_svm_copy(struct page **pages,
+>  			continue;
+>  
+>  		if (!vr && spage) {
+> -			vr = page_to_vr(spage);
+> +			vr = xe_page_to_vr(spage);
+>  			gt = xe_migrate_exec_queue(vr->migrate)->gt;
+>  			xe = vr->xe;
+>  		}
+> -		XE_WARN_ON(spage && page_to_vr(spage) != vr);
+> +		XE_WARN_ON(spage && xe_page_to_vr(spage) != vr);
+>  
+>  		/*
+>  		 * CPU page and device page valid, capture physical address on
+> @@ -526,7 +543,7 @@ static int xe_svm_copy(struct page **pages,
+>  		 * device pages.
+>  		 */
+>  		if (pagemap_addr[i].addr && spage) {
+> -			__vram_addr = xe_vram_region_page_to_dpa(vr, spage);
+> +			__vram_addr = xe_page_to_dpa(spage);
+>  			if (vram_addr == XE_VRAM_ADDR_INVALID) {
+>  				vram_addr = __vram_addr;
+>  				pos = i;
+> @@ -672,9 +689,11 @@ static void xe_svm_devmem_release(struct drm_pagemap_devmem *devmem_allocation)
+>  	xe_pm_runtime_put(xe);
+>  }
+>  
+> -static u64 block_offset_to_pfn(struct xe_vram_region *vr, u64 offset)
+> +static u64 block_offset_to_pfn(struct drm_pagemap *dpagemap, u64 offset)
+>  {
+> -	return PHYS_PFN(offset + vr->hpa_base);
+> +	struct xe_pagemap *xpagemap = container_of(dpagemap, typeof(*xpagemap), dpagemap);
+> +
+> +	return PHYS_PFN(offset + xpagemap->hpa_base);
+>  }
+>  
+>  static struct drm_buddy *vram_to_buddy(struct xe_vram_region *vram)
+> @@ -694,7 +713,8 @@ static int xe_svm_populate_devmem_pfn(struct drm_pagemap_devmem *devmem_allocati
+>  	list_for_each_entry(block, blocks, link) {
+>  		struct xe_vram_region *vr = block->private;
+>  		struct drm_buddy *buddy = vram_to_buddy(vr);
+> -		u64 block_pfn = block_offset_to_pfn(vr, drm_buddy_block_offset(block));
+> +		u64 block_pfn = block_offset_to_pfn(devmem_allocation->dpagemap,
+> +						    drm_buddy_block_offset(block));
+>  		int i;
+>  
+>  		for (i = 0; i < drm_buddy_block_size(buddy, block) >> PAGE_SHIFT; ++i)
+> @@ -711,6 +731,11 @@ static const struct drm_pagemap_devmem_ops dpagemap_devmem_ops = {
+>  	.copy_to_ram = xe_svm_copy_to_ram,
+>  };
+>  
+> +#else
+> +static int xe_svm_get_pagemaps(struct xe_vm *vm)
+> +{
+> +	return 0;
+> +}
+>  #endif
+>  
+>  static const struct drm_gpusvm_ops gpusvm_ops = {
+> @@ -725,6 +750,26 @@ static const unsigned long fault_chunk_sizes[] = {
+>  	SZ_4K,
+>  };
+>  
+> +static void xe_pagemap_put(struct xe_pagemap *xpagemap)
+> +{
+> +	drm_pagemap_put(&xpagemap->dpagemap);
+> +}
+> +
+> +static void xe_svm_put_pagemaps(struct xe_vm *vm)
+> +{
+> +	struct xe_device *xe = vm->xe;
+> +	struct xe_tile *tile;
+> +	int id;
+> +
+> +	for_each_tile(tile, xe, id) {
+> +		struct xe_pagemap *xpagemap = vm->svm.pagemaps[id];
+> +
+> +		if (xpagemap)
+> +			xe_pagemap_put(xpagemap);
+> +		vm->svm.pagemaps[id] = NULL;
+> +	}
+> +}
+> +
+>  /**
+>   * xe_svm_init() - SVM initialize
+>   * @vm: The VM.
+> @@ -743,12 +788,21 @@ int xe_svm_init(struct xe_vm *vm)
+>  		INIT_WORK(&vm->svm.garbage_collector.work,
+>  			  xe_svm_garbage_collector_work_func);
+>  
+> +		err = xe_svm_get_pagemaps(vm);
+> +		if (err)
+> +			return err;
+> +
+>  		err = drm_gpusvm_init(&vm->svm.gpusvm, "Xe SVM", &vm->xe->drm,
+>  				      current->mm, 0, vm->size,
+>  				      xe_modparam.svm_notifier_size * SZ_1M,
+>  				      &gpusvm_ops, fault_chunk_sizes,
+>  				      ARRAY_SIZE(fault_chunk_sizes));
+>  		drm_gpusvm_driver_set_lock(&vm->svm.gpusvm, &vm->lock);
+> +
+> +		if (err) {
+> +			xe_svm_put_pagemaps(vm);
+> +			return err;
+> +		}
+>  	} else {
+>  		err = drm_gpusvm_init(&vm->svm.gpusvm, "Xe SVM (simple)",
+>  				      &vm->xe->drm, NULL, 0, 0, 0, NULL,
+> @@ -768,6 +822,7 @@ void xe_svm_close(struct xe_vm *vm)
+>  {
+>  	xe_assert(vm->xe, xe_vm_is_closed(vm));
+>  	flush_work(&vm->svm.garbage_collector.work);
+> +	xe_svm_put_pagemaps(vm);
+>  }
+>  
+>  /**
+> @@ -861,7 +916,8 @@ static int xe_drm_pagemap_populate_mm(struct drm_pagemap *dpagemap,
+>  				      struct mm_struct *mm,
+>  				      unsigned long timeslice_ms)
+>  {
+> -	struct xe_vram_region *vr = container_of(dpagemap->pagemap, typeof(*vr), pagemap);
+> +	struct xe_pagemap *xpagemap = container_of(dpagemap, typeof(*xpagemap), dpagemap);
+> +	struct xe_vram_region *vr = xe_pagemap_to_vr(xpagemap);
+>  	struct xe_device *xe = vr->xe;
+>  	struct device *dev = xe->drm.dev;
+>  	struct drm_buddy_block *block;
+> @@ -1370,11 +1426,6 @@ u8 xe_svm_ranges_zap_ptes_in_range(struct xe_vm *vm, u64 start, u64 end)
+>  
+>  #if IS_ENABLED(CONFIG_DRM_XE_PAGEMAP)
+>  
+> -static struct drm_pagemap *tile_local_pagemap(struct xe_tile *tile)
+> -{
+> -	return tile->mem.vram->dpagemap;
+> -}
+> -
+>  /**
+>   * xe_vma_resolve_pagemap - Resolve the appropriate DRM pagemap for a VMA
+>   * @vma: Pointer to the xe_vma structure containing memory attributes
+> @@ -1400,7 +1451,7 @@ struct drm_pagemap *xe_vma_resolve_pagemap(struct xe_vma *vma, struct xe_tile *t
+>  		return NULL;
+>  
+>  	if (fd == DRM_XE_PREFERRED_LOC_DEFAULT_DEVICE)
+> -		return IS_DGFX(tile_to_xe(tile)) ? tile_local_pagemap(tile) : NULL;
+> +		return IS_DGFX(tile_to_xe(tile)) ? xe_tile_local_pagemap(tile) : NULL;
+>  
+>  	/* TODO: Support multi-device with drm_pagemap_from_fd(fd) */
+>  	return NULL;
+> @@ -1423,7 +1474,7 @@ int xe_svm_alloc_vram(struct xe_tile *tile, struct xe_svm_range *range,
+>  	xe_assert(tile_to_xe(tile), range->base.pages.flags.migrate_devmem);
+>  	range_debug(range, "ALLOCATE VRAM");
+>  
+> -	dpagemap = tile_local_pagemap(tile);
+> +	dpagemap = xe_tile_local_pagemap(tile);
+>  	return drm_pagemap_populate_mm(dpagemap, xe_svm_range_start(range),
+>  				       xe_svm_range_end(range),
+>  				       range->base.gpusvm->mm,
+> @@ -1442,7 +1493,7 @@ xe_drm_pagemap_device_map(struct drm_pagemap *dpagemap,
+>  	dma_addr_t addr;
+>  
+>  	if (pgmap_dev == dev) {
+> -		addr = xe_vram_region_page_to_dpa(page_to_vr(page), page);
+> +		addr = xe_page_to_dpa(page);
+>  		prot = XE_INTERCONNECT_VRAM;
+>  	} else {
+>  		addr = DMA_MAPPING_ERROR;
+> @@ -1452,94 +1503,243 @@ xe_drm_pagemap_device_map(struct drm_pagemap *dpagemap,
+>  	return drm_pagemap_addr_encode(addr, prot, order, dir);
+>  }
+>  
+> -static const struct drm_pagemap_ops xe_drm_pagemap_ops = {
+> -	.device_map = xe_drm_pagemap_device_map,
+> -	.populate_mm = xe_drm_pagemap_populate_mm,
+> -};
+> +static void xe_pagemap_destroy_work(struct work_struct *work)
+> +{
+> +	struct xe_pagemap *xpagemap = container_of(work, typeof(*xpagemap), destroy_work);
+> +	struct dev_pagemap *pagemap = &xpagemap->pagemap;
+> +	struct drm_device *drm = xpagemap->dpagemap.drm;
+> +	int idx;
+>  
+> -static void xe_devm_release(void *data)
+> +	/*
+> +	 * Only unmap / release if devm_ release hasn't run yet.
+> +	 * Otherwise the devm_ callbacks have already released, or
+> +	 * will do shortly.
+> +	 */
+> +	if (drm_dev_enter(drm, &idx)) {
+> +		devm_memunmap_pages(drm->dev, pagemap);
+> +		devm_release_mem_region(drm->dev, pagemap->range.start,
+> +					pagemap->range.end - pagemap->range.start + 1);
+> +		drm_dev_exit(idx);
+> +	}
+> +	kfree(xpagemap);
+> +}
+> +
+> +static void xe_pagemap_destroy(struct drm_pagemap *dpagemap, bool from_atomic_or_reclaim)
+>  {
+> -	struct xe_vram_region *vr = data;
+> +	struct xe_pagemap *xpagemap = container_of(dpagemap, typeof(*xpagemap), dpagemap);
+> +	struct xe_device *xe = to_xe_device(dpagemap->drm);
+>  
+> -	drm_pagemap_put(vr->dpagemap);
+> -	vr->dpagemap = NULL;
+> +	if (from_atomic_or_reclaim)
+> +		queue_work(xe->destroy_wq, &xpagemap->destroy_work);
+> +	else
+> +		xe_pagemap_destroy_work(&xpagemap->destroy_work);
+>  }
+>  
+> +static const struct drm_pagemap_ops xe_drm_pagemap_ops = {
+> +	.device_map = xe_drm_pagemap_device_map,
+> +	.populate_mm = xe_drm_pagemap_populate_mm,
+> +	.destroy = xe_pagemap_destroy,
+> +};
+> +
+>  /**
+> - * xe_devm_add: Remap and provide memmap backing for device memory
+> - * @tile: tile that the memory region belongs to
+> - * @vr: vram memory region to remap
+> + * xe_pagemap_create() - Create a struct xe_pagemap object
+> + * @xe: The xe device.
+> + * @vr: Back-pointer to the struct xe_vram_region.
+>   *
+> - * This remap device memory to host physical address space and create
+> - * struct page to back device memory
+> + * Allocate and initialize a struct xe_pagemap. On successful
+> + * return, drm_pagemap_put() on the embedded struct drm_pagemap
+> + * should be used to unreference.
+>   *
+> - * Return: 0 on success standard error code otherwise
+> + * Return: Pointer to a struct xe_pagemap if successful. Error pointer
+> + * on failure.
+>   */
+> -int xe_devm_add(struct xe_tile *tile, struct xe_vram_region *vr)
+> +static struct xe_pagemap *xe_pagemap_create(struct xe_device *xe, struct xe_vram_region *vr)
+>  {
+> -	struct xe_device *xe = tile_to_xe(tile);
+> -	struct device *dev = &to_pci_dev(xe->drm.dev)->dev;
+> +	struct device *dev = xe->drm.dev;
+> +	struct xe_pagemap *xpagemap;
+> +	struct dev_pagemap *pagemap;
+> +	struct drm_pagemap *dpagemap;
+>  	struct resource *res;
+>  	void *addr;
+> -	int ret;
+> +	int err;
+> +
+> +	xpagemap = kzalloc(sizeof(*xpagemap), GFP_KERNEL);
+> +	if (!xpagemap)
+> +		return ERR_PTR(-ENOMEM);
+> +
+> +	pagemap = &xpagemap->pagemap;
+> +	dpagemap = &xpagemap->dpagemap;
+> +	INIT_WORK(&xpagemap->destroy_work, xe_pagemap_destroy_work);
+> +	xpagemap->vr = vr;
+> +
+> +	err = drm_pagemap_init(dpagemap, pagemap, &xe->drm, &xe_drm_pagemap_ops);
+> +	if (err)
+> +		goto out_no_dpagemap;
+>  
+>  	res = devm_request_free_mem_region(dev, &iomem_resource,
+>  					   vr->usable_size);
+>  	if (IS_ERR(res)) {
+> -		ret = PTR_ERR(res);
+> -		return ret;
+> +		err = PTR_ERR(res);
+> +		goto out_err;
+>  	}
+>  
+> -	vr->dpagemap = drm_pagemap_create(&xe->drm, &vr->pagemap,
+> -					  &xe_drm_pagemap_ops);
+> -	if (IS_ERR(vr->dpagemap)) {
+> -		drm_err(&xe->drm, "Failed to create drm_pagemap tile %d memory: %pe\n",
+> -			tile->id, vr->dpagemap);
+> -		ret = PTR_ERR(vr->dpagemap);
+> -		goto out_no_dpagemap;
+> +	pagemap->type = MEMORY_DEVICE_PRIVATE;
+> +	pagemap->range.start = res->start;
+> +	pagemap->range.end = res->end;
+> +	pagemap->nr_range = 1;
+> +	pagemap->owner = xe_svm_devm_owner(xe);
+> +	pagemap->ops = drm_pagemap_pagemap_ops_get();
+> +	addr = devm_memremap_pages(dev, pagemap);
+> +	if (IS_ERR(addr)) {
+> +		err = PTR_ERR(addr);
+> +		devm_release_mem_region(dev, res->start, res->end - res->start + 1);
+> +		goto out_err;
+>  	}
+> -	ret = devm_add_action_or_reset(dev, xe_devm_release, vr);
+> -	if (ret)
+> -		goto out_no_dpagemap;
+> +	xpagemap->hpa_base = res->start;
+> +	return xpagemap;
+>  
+> -	vr->pagemap.type = MEMORY_DEVICE_PRIVATE;
+> -	vr->pagemap.range.start = res->start;
+> -	vr->pagemap.range.end = res->end;
+> -	vr->pagemap.nr_range = 1;
+> -	vr->pagemap.ops = drm_pagemap_pagemap_ops_get();
+> -	vr->pagemap.owner = xe_svm_devm_owner(xe);
+> -	addr = devm_memremap_pages(dev, &vr->pagemap);
+> -	if (IS_ERR(addr)) {
+> -		ret = PTR_ERR(addr);
+> -		drm_err(&xe->drm, "Failed to remap tile %d memory, errno %pe\n",
+> -			tile->id, ERR_PTR(ret));
+> -		goto out_failed_memremap;
+> +out_err:
+> +	drm_pagemap_put(dpagemap);
+> +	return ERR_PTR(err);
+> +
+> +out_no_dpagemap:
+> +	kfree(xpagemap);
+> +	return ERR_PTR(err);
+> +}
+> +
+> +/**
+> + * xe_pagemap_find_or_create() - Find or create a struct xe_pagemap
+> + * @xe: The xe device.
+> + * @cache: The struct xe_pagemap_cache.
+> + * @vr: The VRAM region.
+> + *
+> + * Check if there is an already used xe_pagemap for this tile, and in that case,
+> + * return it.
+> + * If not, check if there is a cached xe_pagemap for this tile, and in that case,
+> + * cancel its destruction, re-initialize it and return it.
+> + * Finally if there is no cached or already used pagemap, create one and
+> + * register it in the tile's pagemap cache.
+> + *
+> + * Note that this function is typically called from within an IOCTL, and waits are
+> + * therefore carried out interruptible if possible.
+> + *
+> + * Return: A pointer to a struct xe_pagemap if successful, Error pointer on failure.
+> + */
 
-Yes, this patch does not implement crashdump, that is added in the next 
-patch (this one seems large enough as it is).  There is an aspect of 
-support in the protocol, where the host can reject the dump.  Wording 
-could be better.
+I'd mention that not only is a xe_pagemap returned, but also a reference
+that must eventually be dropped.
 
-> 
->>
->> Co-developed-by: Jeffrey Hugo <quic_jhugo@quicinc.com>
->> Signed-off-by: Jeffrey Hugo <quic_jhugo@quicinc.com>
->> Co-developed-by: Pranjal Ramajor Asha Kanojiya <quic_pkanojiy@quicinc.com>
->> Signed-off-by: Pranjal Ramajor Asha Kanojiya <quic_pkanojiy@quicinc.com>
->> Co-developed-by: Troy Hanson <quic_thanson@quicinc.com>
->> Signed-off-by: Troy Hanson <quic_thanson@quicinc.com>
->> Co-developed-by: Aswin Venkatesan <aswivenk@qti.qualcomm.com>
->> Signed-off-by: Aswin Venkatesan <aswivenk@qti.qualcomm.com>
-> 
-> Above are the list of authors who pair-programmed this patch.
-> 
->> Signed-off-by: Jeffrey Hugo <jhugo@codeaurora.org>
-> 
-> Then Jeff @ Codeaurora handled the patch.
-> 
->> Signed-off-by: Youssef Samir <youssef.abdulrahman@oss.qualcomm.com>
-> 
-> And now you're handling the patch.
-> 
-> This mostly makes sense, except that the "main" author
-> jhugo@codeaurora.org never signed-off the patch when he co-authored it,
-> instead he did that as quic_jhugo. Then later jhugo@codeaurora.org
-> handled the patch...
+> +static struct xe_pagemap *
+> +xe_pagemap_find_or_create(struct xe_device *xe, struct drm_pagemap_cache *cache,
+> +			  struct xe_vram_region *vr)
+> +{
+> +	struct drm_pagemap *dpagemap;
+> +	struct xe_pagemap *xpagemap;
+> +	int err;
+> +
+> +	err = drm_pagemap_cache_lock_lookup(cache);
+> +	if (err)
+> +		return ERR_PTR(err);
+> +
+> +	dpagemap = drm_pagemap_get_from_cache(cache);
+> +	if (IS_ERR(dpagemap)) {
+> +		xpagemap = ERR_CAST(dpagemap);
+> +	} else if (!dpagemap) {
+> +		xpagemap = xe_pagemap_create(xe, vr);
+> +		if (IS_ERR(xpagemap))
+> +			goto out_unlock;
+> +		drm_pagemap_cache_set_pagemap(cache, &xpagemap->dpagemap);
+> +	} else {
+> +		xpagemap = container_of(dpagemap, typeof(*xpagemap), dpagemap);
+> +	}
+> +
+> +out_unlock:
+> +	drm_pagemap_cache_unlock_lookup(cache);
+> +	return xpagemap;
+> +}
+> +
+> +static int xe_svm_get_pagemaps(struct xe_vm *vm)
+> +{
+> +	struct xe_device *xe = vm->xe;
+> +	struct xe_pagemap *xpagemap;
+> +	struct xe_tile *tile;
+> +	int id;
+> +
+> +	for_each_tile(tile, xe, id) {
+> +		struct xe_vram_region *vr;
+> +
+> +		if (!((BIT(id) << 1) & xe->info.mem_region_mask))
+> +			continue;
+> +
+> +		vr = xe_tile_to_vr(tile);
+> +		xpagemap = xe_pagemap_find_or_create(xe, vr->dpagemap_cache, vr);
+> +		if (IS_ERR(xpagemap))
+> +			break;
+> +		vm->svm.pagemaps[id] = xpagemap;
+> +	}
+> +
+> +	if (IS_ERR(xpagemap)) {
+> +		xe_svm_put_pagemaps(vm);
+> +		return PTR_ERR(xpagemap);
+>  	}
+> -	vr->hpa_base = res->start;
+>  
+> -	drm_dbg(&xe->drm, "Added tile %d memory [%llx-%llx] to devm, remapped to %pr\n",
+> -		tile->id, vr->io_start, vr->io_start + vr->usable_size, res);
+>  	return 0;
+> +}
+>  
+> -out_failed_memremap:
+> -	drm_pagemap_put(vr->dpagemap);
+> -out_no_dpagemap:
+> -	devm_release_mem_region(dev, res->start, resource_size(res));
+> -	return ret;
+> +/**
+> + * xe_pagemap_shrinker_create() - Create a drm_pagemap shrinker
+> + * @xe: The xe device
+> + *
+> + * Create a drm_pagemap shrinker and register with the xe device.
+> + *
+> + * Return: %0 on success, negative error code on failure.
+> + */
+> +int xe_pagemap_shrinker_create(struct xe_device *xe)
+> +{
+> +	xe->usm.dpagemap_shrinker = drm_pagemap_shrinker_create_devm(&xe->drm);
+> +	return PTR_ERR_OR_ZERO(xe->usm.dpagemap_shrinker);
+>  }
+> +
+> +/**
+> + * xe_pagemap_cache_create() - Create a drm_pagemap cache
+> + * @tile: The tile to register the cache with
+> + *
+> + * Create a drm_pagemap cache and register with the tile.
+> + *
+> + * Return: %0 on success, negative error code on failure.
+> + */
+> +int xe_pagemap_cache_create(struct xe_tile *tile)
+> +{
+> +	struct xe_device *xe = tile_to_xe(tile);
+> +
+> +	if (IS_DGFX(xe)) {
 
-No, thats the origional SOB from me @CAF that you think "handled" the 
-patch. Youssef's SOB is the first "handling" one.
+I think we need to skip this step if vram->dpagemap_cache is already
+set. IIRC, some patches were merged allowing tile->vram to be the same
+object across multiple tiles. No current platforms use this mode, but
+it’s forward-looking for potential upcoming platforms.
 
-Please see the example in Submitting Patches -
+> +		struct drm_pagemap_cache *cache =
+> +			drm_pagemap_cache_create_devm(xe->usm.dpagemap_shrinker);
+> +
+> +		if (IS_ERR(cache))
+> +			return PTR_ERR(cache);
+> +
+> +		tile->mem.vram->dpagemap_cache = cache;
+> +	}
+> +
+> +	return 0;
+> +}
+> +
+>  #else
+> -int xe_svm_alloc_vram(struct xe_tile *tile,
+> -		      struct xe_svm_range *range,
+> -		      const struct drm_gpusvm_ctx *ctx)
+> +
+> +int xe_pagemap_shrinker_create(struct xe_device *xe)
+>  {
+> -	return -EOPNOTSUPP;
+> +	return 0;
+>  }
+>  
+> -int xe_devm_add(struct xe_tile *tile, struct xe_vram_region *vr)
+> +int xe_pagemap_cache_create(struct xe_tile *tile)
+>  {
+>  	return 0;
+>  }
+>  
+> +int xe_svm_alloc_vram(struct xe_tile *tile,
+> +		      struct xe_svm_range *range,
+> +		      const struct drm_gpusvm_ctx *ctx)
+> +{
+> +	return -EOPNOTSUPP;
+> +}
+> +
+>  struct drm_pagemap *xe_vma_resolve_pagemap(struct xe_vma *vma, struct xe_tile *tile)
+>  {
+>  	return NULL;
+> diff --git a/drivers/gpu/drm/xe/xe_svm.h b/drivers/gpu/drm/xe/xe_svm.h
+> index fa757dd07954..8a49ff17ef0c 100644
+> --- a/drivers/gpu/drm/xe/xe_svm.h
+> +++ b/drivers/gpu/drm/xe/xe_svm.h
+> @@ -27,8 +27,13 @@ static inline void *xe_svm_devm_owner(struct xe_device *xe)
+>  
+>  #define XE_INTERCONNECT_VRAM DRM_INTERCONNECT_DRIVER
+>  
+> +struct drm_device;
+> +struct drm_file;
+> +
+>  struct xe_bo;
+>  struct xe_gt;
+> +struct xe_device;
 
-<changelog>
+Alphabetical order.
 
-Co-developed-by: First Co-Author <first@coauthor.example.org>
-Signed-off-by: First Co-Author <first@coauthor.example.org>
-Co-developed-by: Second Co-Author <second@coauthor.example.org>
-Signed-off-by: Second Co-Author <second@coauthor.example.org>
-Signed-off-by: From Author <from@author.example.org>
+> +struct xe_vram_region;
+>  struct xe_tile;
+>  struct xe_vm;
+>  struct xe_vma;
+> @@ -55,6 +60,22 @@ struct xe_svm_range {
+>  	u8 tile_invalidated;
+>  };
+>  
+> +/**
+> + * struct xe_pagemap - Manages xe device_private memory for SVM.
+> + * @pagemap: The struct dev_pagemap providing the struct pages.
+> + * @dpagemap: The drm_pagemap managing allocation and migration.
+> + * @destroy_work: Handles asnynchronous destruction and caching.
+> + * @hpa_base: The host physical address base for the managemd memory.
+> + * @vr: Backpointer to the xe_vram region.
+> + */
+> +struct xe_pagemap {
+> +	struct dev_pagemap pagemap;
+> +	struct drm_pagemap dpagemap;
+> +	struct work_struct destroy_work;
+> +	resource_size_t hpa_base;
+> +	struct xe_vram_region *vr;
+> +};
+> +
+>  /**
+>   * xe_svm_range_pages_valid() - SVM range pages valid
+>   * @range: SVM range
+> @@ -171,6 +192,10 @@ static inline unsigned long xe_svm_range_size(struct xe_svm_range *range)
+>  
+>  void xe_svm_flush(struct xe_vm *vm);
+>  
+> +int xe_pagemap_shrinker_create(struct xe_device *xe);
+> +
+> +int xe_pagemap_cache_create(struct xe_tile *tile);
+> +
+>  #else
+>  #include <linux/interval_tree.h>
+>  #include "xe_vm.h"
+> @@ -179,7 +204,7 @@ struct drm_pagemap_addr;
+>  struct drm_gpusvm_ctx;
+>  struct drm_gpusvm_range;
+>  struct xe_bo;
+> -struct xe_gt;
+> +struct xe_device;
+>  struct xe_vm;
+>  struct xe_vma;
+>  struct xe_tile;
+> @@ -346,6 +371,17 @@ struct drm_pagemap *xe_vma_resolve_pagemap(struct xe_vma *vma, struct xe_tile *t
+>  static inline void xe_svm_flush(struct xe_vm *vm)
+>  {
+>  }
+> +
+> +static inline int xe_pagemap_shrinker_create(struct xe_device *xe)
+> +{
+> +	return 0;
+> +}
+> +
+> +static inline int xe_pagemap_cache_create(struct xe_tile *tile)
+> +{
+> +	return 0;
+> +}
+> +
+>  #define xe_svm_range_has_dma_mapping(...) false
+>  #endif /* CONFIG_DRM_XE_GPUSVM */
+>  
+> diff --git a/drivers/gpu/drm/xe/xe_tile.c b/drivers/gpu/drm/xe/xe_tile.c
+> index 4f4f9a5c43af..051b191377df 100644
+> --- a/drivers/gpu/drm/xe/xe_tile.c
+> +++ b/drivers/gpu/drm/xe/xe_tile.c
+> @@ -6,6 +6,7 @@
+>  #include <linux/fault-inject.h>
+>  
+>  #include <drm/drm_managed.h>
+> +#include <drm/drm_pagemap_util.h>
+>  
+>  #include "xe_bo.h"
+>  #include "xe_device.h"
+> @@ -180,17 +181,19 @@ ALLOW_ERROR_INJECTION(xe_tile_init_early, ERRNO); /* See xe_pci_probe() */
+>  int xe_tile_init_noalloc(struct xe_tile *tile)
+>  {
+>  	struct xe_device *xe = tile_to_xe(tile);
+> +	int err;
+>  
+>  	xe_wa_apply_tile_workarounds(tile);
+>  
+> -	if (xe->info.has_usm && IS_DGFX(xe))
+> -		xe_devm_add(tile, tile->mem.vram);
+> +	err = xe_pagemap_cache_create(tile);
+> +	if (err)
+> +		return err;
+>  
+>  	if (IS_DGFX(xe) && !ttm_resource_manager_used(&tile->mem.vram->ttm.manager)) {
+
+I think you potentially move xe_pagemap_cache_create under this logic
+too to avoid double init when tiles point to the vram object.
 
 
-> 
->> ---
->>   Documentation/accel/qaic/aic100.rst |  24 ++-
->>   drivers/accel/qaic/Makefile         |   1 +
->>   drivers/accel/qaic/qaic.h           |   9 +
->>   drivers/accel/qaic/qaic_data.c      |  61 +++++-
->>   drivers/accel/qaic/qaic_drv.c       |  17 ++
->>   drivers/accel/qaic/qaic_ssr.c       | 293 ++++++++++++++++++++++++++++
->>   drivers/accel/qaic/qaic_ssr.h       |  16 ++
->>   7 files changed, 412 insertions(+), 9 deletions(-)
->>   create mode 100644 drivers/accel/qaic/qaic_ssr.c
->>   create mode 100644 drivers/accel/qaic/qaic_ssr.h
->>
->> diff --git a/Documentation/accel/qaic/aic100.rst b/Documentation/accel/qaic/aic100.rst
->> index 273da6192fb3..3b287c3987d2 100644
->> --- a/Documentation/accel/qaic/aic100.rst
->> +++ b/Documentation/accel/qaic/aic100.rst
->> @@ -487,8 +487,8 @@ one user crashes, the fallout of that should be limited to that workload and not
->>   impact other workloads. SSR accomplishes this.
->>   
->>   If a particular workload crashes, QSM notifies the host via the QAIC_SSR MHI
->> -channel. This notification identifies the workload by it's assigned DBC. A
->> -multi-stage recovery process is then used to cleanup both sides, and get the
->> +channel. This notification identifies the workload by its assigned DBC. A
->> +multi-stage recovery process is then used to cleanup both sides, and gets the
->>   DBC/NSPs into a working state.
->>   
->>   When SSR occurs, any state in the workload is lost. Any inputs that were in
->> @@ -496,6 +496,26 @@ process, or queued by not yet serviced, are lost. The loaded artifacts will
->>   remain in on-card DDR, but the host will need to re-activate the workload if
->>   it desires to recover the workload.
->>   
->> +When SSR occurs for a specific NSP, the assigned DBC goes through the
->> +following state transactions in order:
->> +DBC_STATE_BEFORE_SHUTDOWN
->> +	Indicates that the affected NSP was found in an unrecoverable error
->> +	condition.
->> +DBC_STATE_AFTER_SHUTDOWN
->> +	Indicates that the NSP is under reset.
->> +DBC_STATE_BEFORE_POWER_UP
->> +	Indicates that the NSP's debug information has been collected, and is
->> +	ready to be collected by the host (if desired). At that stage the NSP
->> +	is restarted by QSM.
->> +DBC_STATE_AFTER_POWER_UP
->> +	Indicates that the NSP has been restarted, fully operational and is
->> +	in idle state.
->> +
->> +SSR also has an optional crashdump collection feature. If enabled, the host can
->> +collect the memory dump for the crashed NSP and dump it to the user space via
->> +the dev_coredump subsystem. The host can also decline the crashdump collection
->> +request from the device.
->> +
->>   Reliability, Accessibility, Serviceability (RAS)
->>   ================================================
->>   
->> diff --git a/drivers/accel/qaic/Makefile b/drivers/accel/qaic/Makefile
->> index 8f6746e5f03a..71f727b74da3 100644
->> --- a/drivers/accel/qaic/Makefile
->> +++ b/drivers/accel/qaic/Makefile
->> @@ -11,6 +11,7 @@ qaic-y := \
->>   	qaic_data.o \
->>   	qaic_drv.o \
->>   	qaic_ras.o \
->> +	qaic_ssr.o \
->>   	qaic_sysfs.o \
->>   	qaic_timesync.o \
->>   	sahara.o
->> diff --git a/drivers/accel/qaic/qaic.h b/drivers/accel/qaic/qaic.h
->> index 4c2f25249e95..3bd37b494d49 100644
->> --- a/drivers/accel/qaic/qaic.h
->> +++ b/drivers/accel/qaic/qaic.h
->> @@ -21,6 +21,7 @@
->>   
->>   #define QAIC_DBC_BASE		SZ_128K
->>   #define QAIC_DBC_SIZE		SZ_4K
->> +#define SSR_DBC_SENTINEL	U32_MAX /* No ongoing SSR sentinel */
-> 
-> Please continue using the QAIC_ prefix.
-> 
->>   
->>   #define QAIC_NO_PARTITION	-1
->>   
->> @@ -195,6 +196,12 @@ struct qaic_device {
->>   	unsigned int		ue_count;
->>   	/* Un-correctable non-fatal error count */
->>   	unsigned int		ue_nf_count;
->> +	/* MHI SSR channel device */
->> +	struct mhi_device	*ssr_ch;
->> +	/* Work queue for tasks related to MHI SSR device */
->> +	struct workqueue_struct	*ssr_wq;
->> +	/* DBC which is under SSR. Sentinel U32_MAX would mean that no SSR in progress */
-> 
-> What prevents a second NSP from sending BEFORE_SHUTDOWN while you're
-> currently processing a first one?
+> -		int err = xe_ttm_vram_mgr_init(xe, tile->mem.vram);
+> -
+> +		err = xe_ttm_vram_mgr_init(xe, tile->mem.vram);
+>  		if (err)
+>  			return err;
+> +
+>  		xe->info.mem_region_mask |= BIT(tile->mem.vram->id) << 1;
+>  	}
+>  
+> @@ -215,3 +218,26 @@ void xe_tile_migrate_wait(struct xe_tile *tile)
+>  {
+>  	xe_migrate_wait(tile->migrate);
+>  }
+> +
+> +#if IS_ENABLED(CONFIG_DRM_XE_PAGEMAP)
+> +/**
+> + * xe_tile_local_pagemap() - Return a pointer to the tile's local drm_pagemap if any
+> + * @tile: The tile.
+> + *
+> + * Return: A pointer to the tile's local drm_pagemap, or NULL if local pagemap
+> + * support has been compiled out.
+> + */
 
-Currently the FW is designed to handle multiple SSR events sequentially. 
-  Any kind of "parallelism" is a bug
+Mention no reference is taken?
 
-> 
-> Seems like you will stop failing requests on the first one, and then as
-> soon as the first one recover (if it does) its signal will mark the
-> second one as done...
-> 
->> +	u32			ssr_dbc;
->>   };
->>   
->>   struct qaic_drm_device {
->> @@ -338,6 +345,8 @@ int qaic_wait_bo_ioctl(struct drm_device *dev, void *data, struct drm_file *file
->>   int qaic_perf_stats_bo_ioctl(struct drm_device *dev, void *data, struct drm_file *file_priv);
->>   int qaic_detach_slice_bo_ioctl(struct drm_device *dev, void *data, struct drm_file *file_priv);
->>   void irq_polling_work(struct work_struct *work);
->> +void dbc_enter_ssr(struct qaic_device *qdev, u32 dbc_id);
->> +void dbc_exit_ssr(struct qaic_device *qdev);
-> 
-> qaic_ prefix please.
-> 
-> Interestingly enough, there's only one "irq_polling_work" in the kernel,
-> but it would be nice if that could get a prefix as well (in a separate
-> patch).
-> 
->>   
->>   /* qaic_sysfs.c */
->>   int qaic_sysfs_init(struct qaic_drm_device *qddev);
->> diff --git a/drivers/accel/qaic/qaic_data.c b/drivers/accel/qaic/qaic_data.c
->> index c4f117edb266..018c97e7ab72 100644
->> --- a/drivers/accel/qaic/qaic_data.c
->> +++ b/drivers/accel/qaic/qaic_data.c
->> @@ -1023,6 +1023,11 @@ int qaic_attach_slice_bo_ioctl(struct drm_device *dev, void *data, struct drm_fi
->>   		goto unlock_ch_srcu;
->>   	}
->>   
->> +	if (dbc->id == qdev->ssr_dbc) {
->> +		ret = -EPIPE;
->> +		goto unlock_ch_srcu;
->> +	}
->> +
->>   	ret = qaic_prepare_bo(qdev, bo, &args->hdr);
->>   	if (ret)
->>   		goto unlock_ch_srcu;
->> @@ -1356,6 +1361,11 @@ static int __qaic_execute_bo_ioctl(struct drm_device *dev, void *data, struct dr
->>   		goto release_ch_rcu;
->>   	}
->>   
->> +	if (dbc->id == qdev->ssr_dbc) {
->> +		ret = -EPIPE;
->> +		goto release_ch_rcu;
->> +	}
->> +
->>   	ret = mutex_lock_interruptible(&dbc->req_lock);
->>   	if (ret)
->>   		goto release_ch_rcu;
->> @@ -1709,6 +1719,11 @@ int qaic_wait_bo_ioctl(struct drm_device *dev, void *data, struct drm_file *file
->>   		goto unlock_ch_srcu;
->>   	}
->>   
->> +	if (dbc->id == qdev->ssr_dbc) {
->> +		ret = -EPIPE;
->> +		goto unlock_ch_srcu;
->> +	}
->> +
->>   	obj = drm_gem_object_lookup(file_priv, args->handle);
->>   	if (!obj) {
->>   		ret = -ENOENT;
->> @@ -1729,6 +1744,9 @@ int qaic_wait_bo_ioctl(struct drm_device *dev, void *data, struct drm_file *file
->>   	if (!dbc->usr)
->>   		ret = -EPERM;
->>   
->> +	if (dbc->id == qdev->ssr_dbc)
->> +		ret = -EPIPE;
->> +
->>   put_obj:
->>   	drm_gem_object_put(obj);
->>   unlock_ch_srcu:
->> @@ -1927,6 +1945,17 @@ static void empty_xfer_list(struct qaic_device *qdev, struct dma_bridge_chan *db
->>   	spin_unlock_irqrestore(&dbc->xfer_lock, flags);
->>   }
->>   
->> +static void sync_empty_xfer_list(struct qaic_device *qdev, struct dma_bridge_chan *dbc)
->> +{
->> +	empty_xfer_list(qdev, dbc);
->> +	synchronize_srcu(&dbc->ch_lock);
->> +	/*
->> +	 * Threads holding channel lock, may add more elements in the xfer_list.
->> +	 * Flush out these elements from xfer_list.
->> +	 */
->> +	empty_xfer_list(qdev, dbc);
->> +}
->> +
->>   int disable_dbc(struct qaic_device *qdev, u32 dbc_id, struct qaic_user *usr)
->>   {
->>   	if (!qdev->dbc[dbc_id].usr || qdev->dbc[dbc_id].usr->handle != usr->handle)
->> @@ -1955,13 +1984,7 @@ void wakeup_dbc(struct qaic_device *qdev, u32 dbc_id)
->>   	struct dma_bridge_chan *dbc = &qdev->dbc[dbc_id];
->>   
->>   	dbc->usr = NULL;
->> -	empty_xfer_list(qdev, dbc);
->> -	synchronize_srcu(&dbc->ch_lock);
->> -	/*
->> -	 * Threads holding channel lock, may add more elements in the xfer_list.
->> -	 * Flush out these elements from xfer_list.
->> -	 */
->> -	empty_xfer_list(qdev, dbc);
->> +	sync_empty_xfer_list(qdev, dbc);
-> 
-> Why was this block moved verbatim - it's still only used here.
+> +struct drm_pagemap *xe_tile_local_pagemap(struct xe_tile *tile)
+> +{
+> +	struct drm_pagemap *dpagemap =
+> +		drm_pagemap_get_from_cache_if_active(xe_tile_to_vr(tile)->dpagemap_cache);
+> +
+> +	if (dpagemap) {
+> +		xe_assert(tile_to_xe(tile), kref_read(&dpagemap->ref) >= 2);
+> +		drm_pagemap_put(dpagemap);
+> +	}
+> +
+> +	return dpagemap;
+> +}
+> +#endif
+> +
+> diff --git a/drivers/gpu/drm/xe/xe_tile.h b/drivers/gpu/drm/xe/xe_tile.h
+> index dceb6297aa01..734132eddda5 100644
+> --- a/drivers/gpu/drm/xe/xe_tile.h
+> +++ b/drivers/gpu/drm/xe/xe_tile.h
+> @@ -8,6 +8,7 @@
+>  
+>  #include "xe_device_types.h"
+>  
+> +struct xe_pagemap;
+>  struct xe_tile;
+>  
+>  int xe_tile_init_early(struct xe_tile *tile, struct xe_device *xe, u8 id);
+> @@ -23,4 +24,24 @@ static inline bool xe_tile_is_root(struct xe_tile *tile)
+>  	return tile->id == 0;
+>  }
+>  
+> +/**
+> + * xe_tile_to_vr() - Return the struct xe_vram_region pointer from a
+> + * struct xe_tile pointer
+> + * @tile: Pointer to the struct xe_tile.
+> + *
+> + * Return: Pointer to the struct xe_vram_region embedded in *@tile.
+> + */
+> +static inline struct xe_vram_region *xe_tile_to_vr(struct xe_tile *tile)
+> +{
+> +	return tile->mem.vram;
+> +}
+> +
+> +#if IS_ENABLED(CONFIG_DRM_XE_PAGEMAP)
+> +struct drm_pagemap *xe_tile_local_pagemap(struct xe_tile *tile);
+> +#else
+> +static inline struct drm_pagemap *xe_tile_local_pagemap(struct xe_tile *tile)
+> +{
+> +	return NULL;
+> +}
+> +#endif
+>  #endif
+> diff --git a/drivers/gpu/drm/xe/xe_vm_types.h b/drivers/gpu/drm/xe/xe_vm_types.h
+> index d6e2a0fdd4b3..9f0d8bf1af4f 100644
+> --- a/drivers/gpu/drm/xe/xe_vm_types.h
+> +++ b/drivers/gpu/drm/xe/xe_vm_types.h
+> @@ -191,6 +191,7 @@ struct xe_vm {
+>  			 */
+>  			struct work_struct work;
+>  		} garbage_collector;
+> +		struct xe_pagemap *pagemaps[XE_MAX_TILES_PER_DEVICE];
 
-Readability. We've observed the compiler will inline it just fine.
+I know this file isn't great at kernel doc, but let's not make it worse
+but omitting it.
 
-> 
->>   }
->>   
->>   void release_dbc(struct qaic_device *qdev, u32 dbc_id)
->> @@ -2002,3 +2025,27 @@ void qaic_data_get_fifo_info(struct dma_bridge_chan *dbc, u32 *head, u32 *tail)
->>   	*head = readl(dbc->dbc_base + REQHP_OFF);
->>   	*tail = readl(dbc->dbc_base + REQTP_OFF);
->>   }
->> +
->> +/*
->> + * dbc_enter_ssr - Prepare to enter in sub system reset(SSR) for given DBC ID.
->> + *		   The device will automatically deactivate the workload as not
->> + *		   all errors can be silently recovered. The user will be
->> + *		   notified and will need to decide the required recovery
->> + *		   action to take.
->> + * @qdev: qaic device handle
->> + * @dbc_id: ID of the DBC which will enter SSR
-> 
-> This is almost kernel-doc, please read
-> https://docs.kernel.org/doc-guide/kernel-doc.html#function-documentation
-> and adjust accordingly.
-> 
-> 
-> How about prefixing global functions qaic_?
-> 
->> + */
->> +void dbc_enter_ssr(struct qaic_device *qdev, u32 dbc_id)
->> +{
->> +	qdev->ssr_dbc = dbc_id;
->> +	release_dbc(qdev, dbc_id);
->> +}
->> +
->> +/*
->> + * dbc_exit_ssr - Prepare to exit from sub system reset(SSR) for given DBC ID
-> 
-> Also almost kernel-doc.
-> 
-> What does it mean to "exit from sub system restart"? Boot the device up
-> again? Or are we saying that we're done with the restart and can start
-> accepting work again?
+Matt
 
-Yes, we are done with the restart and can start accepting work again. 
-Could be better stated.
-
+>  	} svm;
+>  
+>  	struct xe_device *xe;
+> diff --git a/drivers/gpu/drm/xe/xe_vram_types.h b/drivers/gpu/drm/xe/xe_vram_types.h
+> index c0d2c5ee8c10..646e3c12ae9f 100644
+> --- a/drivers/gpu/drm/xe/xe_vram_types.h
+> +++ b/drivers/gpu/drm/xe/xe_vram_types.h
+> @@ -66,19 +66,8 @@ struct xe_vram_region {
+>  #if IS_ENABLED(CONFIG_DRM_XE_PAGEMAP)
+>  	/** @migrate: Back pointer to migrate */
+>  	struct xe_migrate *migrate;
+> -	/** @pagemap: Used to remap device memory as ZONE_DEVICE */
+> -	struct dev_pagemap pagemap;
+> -	/**
+> -	 * @dpagemap: The struct drm_pagemap of the ZONE_DEVICE memory
+> -	 * pages of this tile.
+> -	 */
+> -	struct drm_pagemap *dpagemap;
+> -	/**
+> -	 * @hpa_base: base host physical address
+> -	 *
+> -	 * This is generated when remap device memory as ZONE_DEVICE
+> -	 */
+> -	resource_size_t hpa_base;
+> +	/** @dpagemap_cache: drm_pagemap cache. */
+> +	struct drm_pagemap_cache *dpagemap_cache;
+>  #endif
+>  };
+>  
+> -- 
+> 2.51.0
 > 
->> + * @qdev: qaic device handle
->> + */
->> +void dbc_exit_ssr(struct qaic_device *qdev)
->> +{
->> +	qdev->ssr_dbc = SSR_DBC_SENTINEL;
->> +}
->> diff --git a/drivers/accel/qaic/qaic_drv.c b/drivers/accel/qaic/qaic_drv.c
->> index a8a16f20320f..4aac8d1eba8c 100644
->> --- a/drivers/accel/qaic/qaic_drv.c
->> +++ b/drivers/accel/qaic/qaic_drv.c
->> @@ -30,6 +30,7 @@
->>   #include "qaic.h"
->>   #include "qaic_debugfs.h"
->>   #include "qaic_ras.h"
->> +#include "qaic_ssr.h"
->>   #include "qaic_timesync.h"
->>   #include "sahara.h"
->>   
->> @@ -390,6 +391,7 @@ void qaic_dev_reset_clean_local_state(struct qaic_device *qdev)
->>   	qaic_notify_reset(qdev);
->>   
->>   	/* start tearing things down */
->> +	clean_up_ssr(qdev);
->>   	for (i = 0; i < qdev->num_dbc; ++i)
->>   		release_dbc(qdev, i);
->>   }
->> @@ -439,11 +441,18 @@ static struct qaic_device *create_qdev(struct pci_dev *pdev,
->>   	qdev->qts_wq = qaicm_wq_init(drm, "qaic_ts");
->>   	if (IS_ERR(qdev->qts_wq))
->>   		return NULL;
->> +	qdev->ssr_wq = qaicm_wq_init(drm, "qaic_ssr");
->> +	if (IS_ERR(qdev->ssr_wq))
->> +		return NULL;
->>   
->>   	ret = qaicm_srcu_init(drm, &qdev->dev_lock);
->>   	if (ret)
->>   		return NULL;
->>   
->> +	ret = ssr_init(qdev, drm);
->> +	if (ret)
->> +		pci_info(pdev, "QAIC SSR crashdump collection not supported.\n");
->> +
->>   	qdev->qddev = qddev;
->>   	qdev->pdev = pdev;
->>   	qddev->qdev = qdev;
->> @@ -710,9 +719,16 @@ static int __init qaic_init(void)
->>   	ret = qaic_ras_register();
->>   	if (ret)
->>   		pr_debug("qaic: qaic_ras_register failed %d\n", ret);
->> +	ret = qaic_ssr_register();
->> +	if (ret) {
->> +		pr_debug("qaic: qaic_ssr_register failed %d\n", ret);
->> +		goto free_bootlog;
->> +	}
->>   
->>   	return 0;
->>   
->> +free_bootlog:
->> +	qaic_bootlog_unregister();
->>   free_mhi:
->>   	mhi_driver_unregister(&qaic_mhi_driver);
->>   free_pci:
->> @@ -738,6 +754,7 @@ static void __exit qaic_exit(void)
->>   	 * reinitializing the link_up state after the cleanup is done.
->>   	 */
->>   	link_up = true;
->> +	qaic_ssr_unregister();
->>   	qaic_ras_unregister();
->>   	qaic_bootlog_unregister();
->>   	qaic_timesync_deinit();
->> diff --git a/drivers/accel/qaic/qaic_ssr.c b/drivers/accel/qaic/qaic_ssr.c
->> new file mode 100644
->> index 000000000000..1ffb44767b3d
->> --- /dev/null
->> +++ b/drivers/accel/qaic/qaic_ssr.c
->> @@ -0,0 +1,293 @@
->> +// SPDX-License-Identifier: GPL-2.0-only
->> +
->> +/* Copyright (c) 2020-2021, The Linux Foundation. All rights reserved. */
->> +/* Copyright (c) 2021-2024 Qualcomm Innovation Center, Inc. All rights reserved. */
-> 
-> Please use the new copyright statement.
-
-That doesn't match the specific guidence I've gotten from our legal team 
-in this specific case.
-
-> 
->> +
->> +#include <asm/byteorder.h>
->> +#include <drm/drm_file.h>
->> +#include <drm/drm_managed.h>
->> +#include <linux/device.h>
->> +#include <linux/kernel.h>
->> +#include <linux/mhi.h>
->> +#include <linux/workqueue.h>
->> +
->> +#include "qaic.h"
->> +#include "qaic_ssr.h"
->> +
->> +#define MSG_BUF_SZ 32
-> 
-> This is a quite generic name, what does it actually size?
-> 
->> +
->> +enum ssr_cmds {
->> +	DEBUG_TRANSFER_INFO =		BIT(0),
-> 
-> This isn't an "enumeration", so use #define.
-> 
->> +	DEBUG_TRANSFER_INFO_RSP =	BIT(1),
->> +	MEMORY_READ =			BIT(2),
->> +	MEMORY_READ_RSP =		BIT(3),
->> +	DEBUG_TRANSFER_DONE =		BIT(4),
->> +	DEBUG_TRANSFER_DONE_RSP =	BIT(5),
->> +	SSR_EVENT =			BIT(8),
->> +	SSR_EVENT_RSP =			BIT(9),
->> +};
->> +
->> +enum ssr_events {
->> +	SSR_EVENT_NACK =	BIT(0),
-> 
-> Same here.
-> 
->> +	BEFORE_SHUTDOWN =	BIT(1),
->> +	AFTER_SHUTDOWN =	BIT(2),
->> +	BEFORE_POWER_UP =	BIT(3),
->> +	AFTER_POWER_UP =	BIT(4),
->> +};
->> +
->> +struct _ssr_hdr {
->> +	__le32 cmd;
->> +	__le32 len;
->> +	__le32 dbc_id;
->> +};
->> +
->> +struct ssr_hdr {
->> +	u32 cmd;
->> +	u32 len;
->> +	u32 dbc_id;
->> +};
->> +
->> +struct ssr_debug_transfer_info {
-> 
-> This is unused.
-> 
->> +	struct ssr_hdr hdr;
->> +	u32 resv;
->> +	u64 tbl_addr;
->> +	u64 tbl_len;
->> +} __packed;
->> +
->> +struct ssr_debug_transfer_info_rsp {
->> +	struct _ssr_hdr hdr;
->> +	__le32 ret;
->> +} __packed;
->> +
->> +struct ssr_memory_read {
-> 
-> Unused
-> 
->> +	struct _ssr_hdr hdr;
->> +	__le32 resv;
->> +	__le64 addr;
->> +	__le64 len;
->> +} __packed;
->> +
->> +struct ssr_memory_read_rsp {
-> 
-> Unused
-> 
->> +	struct _ssr_hdr hdr;
->> +	__le32 resv;
->> +	u8 data[];
->> +} __packed;
->> +
->> +struct ssr_debug_transfer_done {
-> 
-> Unused
-> 
->> +	struct _ssr_hdr hdr;
->> +	__le32 resv;
->> +} __packed;
->> +
->> +struct ssr_debug_transfer_done_rsp {
-> 
-> Unused
-> 
->> +	struct _ssr_hdr hdr;
->> +	__le32 ret;
->> +} __packed;
->> +
->> +struct ssr_event {
->> +	struct ssr_hdr hdr;
->> +	u32 event;
-> 
-> Some of these structs are expressed in little endian and some in native
-> endian. I believe this relates to some of them being sent over the wire
-> and some being used in the driver only.
-> 
-> It would be nice if there was a hint other than "does the struct have
-> __leXY types" to indicate this - or at least group them accordingly.
-> 
->> +} __packed;
->> +
->> +struct ssr_event_rsp {
->> +	struct _ssr_hdr hdr;
->> +	__le32 event;
->> +} __packed;
->> +
->> +struct ssr_resp {
->> +	/* Work struct to schedule work coming on QAIC_SSR channel */
-> 
-> Wouldn't it be cleaner to use kernel-doc style and document this above
-> the struct?
-
-It is an internal structure. What is the value in having this 
-documentation end up on docs.kernel.og?
-
-> 
->> +	struct work_struct work;
->> +	/* Root struct of device, used to access device resources */
->> +	struct qaic_device *qdev;
->> +	/* Buffer used by MHI for transfer requests */
->> +	u8 data[] __aligned(8);
->> +};
->> +
->> +void clean_up_ssr(struct qaic_device *qdev)
-> 
-> That's a pretty generic name for a globally accessible function.
-> 
->> +{
->> +	dbc_exit_ssr(qdev);
->> +}
->> +
->> +static void ssr_worker(struct work_struct *work)
->> +{
->> +	struct ssr_resp *resp = container_of(work, struct ssr_resp, work);
->> +	struct ssr_hdr *hdr = (struct ssr_hdr *)resp->data;
->> +	struct ssr_debug_transfer_info_rsp *debug_rsp;
->> +	struct qaic_device *qdev = resp->qdev;
->> +	struct ssr_event_rsp *event_rsp;
->> +	struct dma_bridge_chan *dbc;
->> +	struct ssr_event *event;
->> +	u32 ssr_event_ack;
->> +	int ret;
->> +
->> +	le32_to_cpus(&hdr->cmd);
->> +	le32_to_cpus(&hdr->len);
->> +	le32_to_cpus(&hdr->dbc_id);
->> +
->> +	if (hdr->len > MSG_BUF_SZ)
->> +		goto out;
->> +
->> +	if (hdr->dbc_id >= qdev->num_dbc)
-> 
-> Isn't this bad? Does it warrant a comment? Or perhaps dev_dbg() so you
-> know in testing if this ever happens?
-> 
->> +		goto out;
->> +
->> +	dbc = &qdev->dbc[hdr->dbc_id];
->> +
->> +	switch (hdr->cmd) {
->> +	case DEBUG_TRANSFER_INFO:
->> +		/* Decline crash dump request from the device */
->> +		debug_rsp = kmalloc(sizeof(*debug_rsp), GFP_KERNEL);
->> +		if (!debug_rsp)
->> +			break;
->> +
->> +		debug_rsp->hdr.cmd = cpu_to_le32(DEBUG_TRANSFER_INFO_RSP);
->> +		debug_rsp->hdr.len = cpu_to_le32(sizeof(*debug_rsp));
->> +		debug_rsp->hdr.dbc_id = cpu_to_le32(event->hdr.dbc_id);
->> +		debug_rsp->ret = cpu_to_le32(1);
->> +
->> +		ret = mhi_queue_buf(qdev->ssr_ch, DMA_TO_DEVICE,
->> +				    debug_rsp, sizeof(*debug_rsp), MHI_EOT);
->> +		if (ret) {
->> +			pci_warn(qdev->pdev, "Could not send DEBUG_TRANSFER_INFO_RSP %d\n", ret);
->> +			kfree(debug_rsp);
->> +		}
->> +		return;
->> +	case SSR_EVENT:
->> +		event = (struct ssr_event *)hdr;
->> +		le32_to_cpus(&event->event);
-> 
-> Leftover?
-> 
->> +		ssr_event_ack = event->event;
->> +
->> +		switch (event->event) {
->> +		case BEFORE_SHUTDOWN:
->> +			set_dbc_state(qdev, hdr->dbc_id, DBC_STATE_BEFORE_SHUTDOWN);
->> +			dbc_enter_ssr(qdev, hdr->dbc_id);
->> +			break;
->> +		case AFTER_SHUTDOWN:
->> +			set_dbc_state(qdev, hdr->dbc_id, DBC_STATE_AFTER_SHUTDOWN);
->> +			break;
->> +		case BEFORE_POWER_UP:
->> +			set_dbc_state(qdev, hdr->dbc_id, DBC_STATE_BEFORE_POWER_UP);
->> +			break;
->> +		case AFTER_POWER_UP:
->> +			set_dbc_state(qdev, hdr->dbc_id, DBC_STATE_AFTER_POWER_UP);
->> +			break;
->> +		default:
->> +			break;
->> +		}
->> +
->> +		event_rsp = kmalloc(sizeof(*event_rsp), GFP_KERNEL);
->> +		if (!event_rsp)
->> +			break;
->> +
->> +		event_rsp->hdr.cmd = cpu_to_le32(SSR_EVENT_RSP);
->> +		event_rsp->hdr.len = cpu_to_le32(sizeof(*event_rsp));
->> +		event_rsp->hdr.dbc_id = cpu_to_le32(hdr->dbc_id);
->> +		event_rsp->event = cpu_to_le32(ssr_event_ack);
->> +
->> +		ret = mhi_queue_buf(qdev->ssr_ch, DMA_TO_DEVICE, event_rsp, sizeof(*event_rsp),
->> +				    MHI_EOT);
->> +		if (ret)
->> +			kfree(event_rsp);
->> +
->> +		if (event->event == AFTER_POWER_UP) {
->> +			dbc_exit_ssr(qdev);
->> +			set_dbc_state(qdev, hdr->dbc_id, DBC_STATE_IDLE);
->> +		}
->> +
->> +		break;
->> +	default:
->> +		break;
->> +	}
->> +
->> +out:
->> +	ret = mhi_queue_buf(qdev->ssr_ch, DMA_FROM_DEVICE, resp->data, MSG_BUF_SZ, MHI_EOT);
->> +	if (ret)
->> +		kfree(resp);
->> +}
->> +
->> +static int qaic_ssr_mhi_probe(struct mhi_device *mhi_dev, const struct mhi_device_id *id)
->> +{
->> +	struct qaic_device *qdev = pci_get_drvdata(to_pci_dev(mhi_dev->mhi_cntrl->cntrl_dev));
->> +	struct ssr_resp *resp;
->> +	int ret;
->> +
->> +	ret = mhi_prepare_for_transfer(mhi_dev);
->> +	if (ret)
->> +		return ret;
->> +
->> +	resp = kzalloc(sizeof(*resp) + MSG_BUF_SZ, GFP_KERNEL);
->> +	if (!resp) {
->> +		mhi_unprepare_from_transfer(mhi_dev);
->> +		return -ENOMEM;
->> +	}
->> +
->> +	resp->qdev = qdev;
->> +	INIT_WORK(&resp->work, ssr_worker);
->> +
->> +	ret = mhi_queue_buf(mhi_dev, DMA_FROM_DEVICE, resp->data, MSG_BUF_SZ, MHI_EOT);
->> +	if (ret) {
->> +		kfree(resp);
->> +		mhi_unprepare_from_transfer(mhi_dev);
->> +		return ret;
->> +	}
->> +
->> +	dev_set_drvdata(&mhi_dev->dev, qdev);
->> +	qdev->ssr_ch = mhi_dev;
->> +
->> +	return 0;
->> +}
->> +
->> +static void qaic_ssr_mhi_remove(struct mhi_device *mhi_dev)
->> +{
->> +	struct qaic_device *qdev;
->> +
->> +	qdev = dev_get_drvdata(&mhi_dev->dev);
->> +	mhi_unprepare_from_transfer(qdev->ssr_ch);
-> 
-> Please confirm that this will free the ssr_resp object you allocated in
-> probe.
-
-Yes.  Unprepare for transfer will cause the xfer callback to be called 
-on every queued buffer, with an error code. The callback in this code 
-frees the buffer in that instance.
-
-> 
->> +	qdev->ssr_ch = NULL;
->> +}
->> +
->> +static void qaic_ssr_mhi_ul_xfer_cb(struct mhi_device *mhi_dev, struct mhi_result *mhi_result)
->> +{
->> +	kfree(mhi_result->buf_addr);
->> +}
->> +
->> +static void qaic_ssr_mhi_dl_xfer_cb(struct mhi_device *mhi_dev, struct mhi_result *mhi_result)
->> +{
->> +	struct ssr_resp *resp = container_of(mhi_result->buf_addr, struct ssr_resp, data);
->> +	struct qaic_device *qdev = dev_get_drvdata(&mhi_dev->dev);
->> +
->> +	if (mhi_result->transaction_status) {
->> +		kfree(resp);
->> +		return;
->> +	}
->> +	queue_work(qdev->ssr_wq, &resp->work);
->> +}
->> +
->> +static const struct mhi_device_id qaic_ssr_mhi_match_table[] = {
->> +	{ .chan = "QAIC_SSR", },
->> +	{},
->> +};
->> +
->> +static struct mhi_driver qaic_ssr_mhi_driver = {
->> +	.id_table = qaic_ssr_mhi_match_table,
->> +	.remove = qaic_ssr_mhi_remove,
->> +	.probe = qaic_ssr_mhi_probe,
->> +	.ul_xfer_cb = qaic_ssr_mhi_ul_xfer_cb,
->> +	.dl_xfer_cb = qaic_ssr_mhi_dl_xfer_cb,
->> +	.driver = {
->> +		.name = "qaic_ssr",
->> +	},
->> +};
->> +
->> +int ssr_init(struct qaic_device *qdev, struct drm_device *drm)
-> 
-> Same as clean_up_ssr(), other functions are prefixed "qaic_" why not
-> these?
-> 
-> Why does this function take the drm_device?
-> 
-> 
->> +{
->> +	qdev->ssr_dbc = SSR_DBC_SENTINEL;
->> +	return 0;
->> +}
->> +
->> +int qaic_ssr_register(void)
->> +{
->> +	return mhi_driver_register(&qaic_ssr_mhi_driver);
->> +}
->> +
->> +void qaic_ssr_unregister(void)
->> +{
->> +	mhi_driver_unregister(&qaic_ssr_mhi_driver);
->> +}
->> diff --git a/drivers/accel/qaic/qaic_ssr.h b/drivers/accel/qaic/qaic_ssr.h
->> new file mode 100644
->> index 000000000000..7de1eb4086cd
->> --- /dev/null
->> +++ b/drivers/accel/qaic/qaic_ssr.h
->> @@ -0,0 +1,16 @@
->> +/* SPDX-License-Identifier: GPL-2.0-only
->> + *
->> + * Copyright (c) 2020, The Linux Foundation. All rights reserved.
->> + * Copyright (c) 2021, 2024 Qualcomm Innovation Center, Inc. All rights reserved.
-> 
-> Please use the new copyright statement.
-> 
->> + */
->> +
->> +#ifndef __QAIC_SSR_H__
->> +#define __QAIC_SSR_H__
->> +
->> +#include <drm/drm_device.h>
->> +
-> 
-> You don't need drm/drm_device.h, and I presume it doesn't give you
-> struct qaic_device?
-> 
-> Instead just do:
-> 
-> struct drm_device;
-> struct qaic_device;
-> 
-> Regards,
-> Bjorn
-> 
->> +int qaic_ssr_register(void);
->> +void qaic_ssr_unregister(void);
->> +void clean_up_ssr(struct qaic_device *qdev);
->> +int ssr_init(struct qaic_device *qdev, struct drm_device *drm);
->> +#endif /* __QAIC_SSR_H__ */
->> -- 
->> 2.43.0
->>
->>
-
