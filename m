@@ -2,46 +2,46 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 83A61C21DA4
-	for <lists+dri-devel@lfdr.de>; Thu, 30 Oct 2025 20:06:45 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6B62CC21DB4
+	for <lists+dri-devel@lfdr.de>; Thu, 30 Oct 2025 20:06:52 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 05D7510EA0C;
-	Thu, 30 Oct 2025 19:06:38 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 33CE710EA16;
+	Thu, 30 Oct 2025 19:06:48 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=Nvidia.com header.i=@Nvidia.com header.b="EwZjMJTK";
+	dkim=pass (2048-bit key; unprotected) header.d=Nvidia.com header.i=@Nvidia.com header.b="UcYqluqF";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from BL0PR03CU003.outbound.protection.outlook.com
  (mail-eastusazon11012034.outbound.protection.outlook.com [52.101.53.34])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1DFE710EA0E;
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9A96910EA0E;
  Thu, 30 Oct 2025 19:06:36 +0000 (UTC)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=lqxGd783p4DM1d7vwm5ZhiuGdoZmzOn8qg5sCiFT9QxD33bXUswjmCJTTSfgpSqK3FlvYbvHD5C+2Ml98JKIy2ct1jyTrTwFmTdxpUfKDjFT7yNdTWeMS6B0GX+x7mtu3r+NgsEgZpdf/JEVuE6avK3kzo2e5Y27hdvZFZ0/gTTCVH3NS4WdeVSdTsbOUOuHeSVwXX4HJJzXPxDTPDzRQj/gt0FlZMDv6nW/el/QDQSf/2KIY7pctf9lTCrBxdaxA+WbGPu27QoOufPf2DRYmr6BxnZ6IhfKu3rLUr2efEarwkkgVp4D2GSKI7RmS94N6jFnlSPx1iudKQuEHaqIZQ==
+ b=x+mKagy0F1P3WHk0RVYJ3X2r3tVYDTs/BeGchchP2O7uutog/uvCnx1TCRwFUdCWcOXAJwg57Yf9eq+2KstekiWiB3qxQYz0yqFW/exLxwPCDU27lJmlDyxURn1WoNqSWIQvoHLvbg2QYM2fQgTNc25JOKJ5tu70gTnQVluZEcIh3NpHQXUWt3iAq0lttOzV5wE/D781vSQHSesycf4r/uo4JJlHhBFm5A42xTZKQTogSn2aM2hqhUp00esaQu4rW+/6NMdASj/5WpJo29JdwvXGpyBvx8PssD0nTI+3csiv5vPMFI/eBBU4Od+gi6UpOgAhqBdvpbjVm/Q0WOfCTg==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=etJbbMeqdAuZRh/HJvZ2cLD+tgdVu/ko2JD1/SlDlII=;
- b=hdj6t9nfK43nU/+8Yp/ZfzY3jMVxzCjDCAAR/RDvLbdFZQwRaAlzvktIx0QHpUjOKJU5ghk27PI27cnef7QgE/V+JKNu9vcnQ2CT3l2KGs6B5zxS8dpcRuYcU81R2Af7Zp4yjfsgTBODAqP6ymNCzqTNjlp6MhxLVPPNfrFxQcxW6BzMVOK1tDclkb7cs4ertbwhCVlwLh/7M/VNNVYK1uZQeRSBhmH8XxgtgX7/IgM5slAXLt7j8xy41xUFhSnoHajhGlLqHYmAD1h7mQsKp+YinYWj8TMsxB7e1TLptf6qi2uYzskUTVLnU8tOhzqI70IahtmLaA4M63UHiDc0FA==
+ bh=yiVTJHiNiDjnr2NxwkAK6VVz42WDCXEUP9b3e+gcK3Y=;
+ b=Ne0Zhw6MmfSONywTmO2JzLBY2vWCY0oMZSKToze7xRgv7I2XlprRjJMVixY5mVJjYELmHd8bnvRDRQSTnn/ZmJp2b8vcojW149rc/eNlwmMq7bgbxgPB364HIlGYR8aVGWicI5U385CIyockXLziWvcFtj1T7b8ALt0eB61LTa0VOq1tH6XSiaBNTJsl41L02AEDzBVEGSLqeECGrKRePrC4lTx8zZPyDYSpKfrqZWfwA/zVRveDrCijutKWbl+BE5h4XpexBasB52AZM/jI4P7eJmuZeRJpSO7nkTTmtJPU+OY7m7IRsqZI+0LKAWEMjNCmC+bM7V+MspA42u1RFA==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
  dkim=pass header.d=nvidia.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
  s=selector2;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=etJbbMeqdAuZRh/HJvZ2cLD+tgdVu/ko2JD1/SlDlII=;
- b=EwZjMJTKp8HeAkXV1VbWZRf01/0dTiVQuSJImA9yKN29MHjsMa6mom1clEVrXXz9GQbhIoEFByjjFkp2o5pixvmF5XhAGhT8Gch1oZIBzYH5mKaPezpntpWgA2+/KLvQ93SpRSDq7OgB7RHISWF1hHE4DdAN7WrklfTsUkRUgUf/yIqMGsE3oXlTVBPgGw4ccD88igd83So4912ryuHKWYL2F5ZPg3PLX8xba3S7UwNhJ0b0wR9I/Rjj45SYtEicpmHEShlU8jEQFIS5Xkn9odXkSKabd0SdARhIZfB0XAVLOFuOLAybAzS7kKop0cFMcxBlqHsODT9jPsckLbjeIQ==
+ bh=yiVTJHiNiDjnr2NxwkAK6VVz42WDCXEUP9b3e+gcK3Y=;
+ b=UcYqluqFz3we8cmtBMNRU9sqKbXUtSdxvQjSzdn9OMTlV30UCGpTwRCcWn7SJz2UjqP/0YIuXfdwE9gms2QzIB0R03QBNqab4j38on44pE5Wrs4yxN8iuT+AMUbE5ziwnYs7K2QHgZIFr3uWuAlS+ztCgQOC9CdgDqIwIodHKI+buFVvnga3gD/+asuCxLY9WQ3AKiJPJUSjXpqI9vhET+Pi44CRgbi+rbHF7GyJQymdhS2IRRglED6TDQ9Qe77bMscG4UudCIwRuGS87Vj+oIewS5xqDWSQGURZjLoMsNjNAhy6wKQ/UY7R2uYZYf1oAjHN/kUlb7IUc+CXrZ4yGA==
 Authentication-Results: dkim=none (message not signed)
  header.d=none;dmarc=none action=none header.from=nvidia.com;
 Received: from SN7PR12MB8059.namprd12.prod.outlook.com (2603:10b6:806:32b::7)
  by DS5PPFBABE93B01.namprd12.prod.outlook.com (2603:10b6:f:fc00::65f)
  with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9275.14; Thu, 30 Oct
- 2025 19:06:31 +0000
+ 2025 19:06:32 +0000
 Received: from SN7PR12MB8059.namprd12.prod.outlook.com
  ([fe80::4ee2:654e:1fe8:4b91]) by SN7PR12MB8059.namprd12.prod.outlook.com
  ([fe80::4ee2:654e:1fe8:4b91%2]) with mapi id 15.20.9228.015; Thu, 30 Oct 2025
- 19:06:30 +0000
+ 19:06:32 +0000
 From: Joel Fernandes <joelagnelf@nvidia.com>
 To: linux-kernel@vger.kernel.org, rust-for-linux@vger.kernel.org,
  dri-devel@lists.freedesktop.org, dakr@kernel.org,
@@ -62,90 +62,89 @@ Cc: acourbot@nvidia.com, Alistair Popple <apopple@nvidia.com>,
  Daniel Almeida <daniel.almeida@collabora.com>,
  Andrea Righi <arighi@nvidia.com>, Philipp Stanner <phasta@kernel.org>,
  nouveau@lists.freedesktop.org
-Subject: [PATCH RFC 2/4] samples: rust: Add sample demonstrating C linked list
- iteration
-Date: Thu, 30 Oct 2025 15:06:11 -0400
-Message-Id: <20251030190613.1224287-3-joelagnelf@nvidia.com>
+Subject: [PATCH RFC 3/4] rust: drm: Add DRM buddy allocator bindings
+Date: Thu, 30 Oct 2025 15:06:12 -0400
+Message-Id: <20251030190613.1224287-4-joelagnelf@nvidia.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20251030190613.1224287-1-joelagnelf@nvidia.com>
 References: <20251030190613.1224287-1-joelagnelf@nvidia.com>
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain
-X-ClientProxiedBy: BN9PR03CA0579.namprd03.prod.outlook.com
- (2603:10b6:408:10d::14) To SN7PR12MB8059.namprd12.prod.outlook.com
+X-ClientProxiedBy: BL1PR13CA0133.namprd13.prod.outlook.com
+ (2603:10b6:208:2bb::18) To SN7PR12MB8059.namprd12.prod.outlook.com
  (2603:10b6:806:32b::7)
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
 X-MS-TrafficTypeDiagnostic: SN7PR12MB8059:EE_|DS5PPFBABE93B01:EE_
-X-MS-Office365-Filtering-Correlation-Id: dc53d27f-b101-487b-2e9a-08de17e76d5c
+X-MS-Office365-Filtering-Correlation-Id: 7abe587f-a4e9-45b3-d345-08de17e76e5d
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;ARA:13230040|7416014|1800799024|376014|366016;
-X-Microsoft-Antispam-Message-Info: =?us-ascii?Q?YBqd2stBHY53LF/ZcGtKDnTixWwBbVdsa8mhDpPLa3gGxZRH8Ev5zxtCjeNO?=
- =?us-ascii?Q?dVHyipdS++ztJh15rFE0dYB8OEfrzK/1xe1GtBuPiyRykUKcWZjyv12DglM3?=
- =?us-ascii?Q?WqNBE5sM/OQrV/2Jc62WVM5Qq6uUNWJS1v484QTYacH9wRjMAhZqFreAzjJ/?=
- =?us-ascii?Q?cDKOtuuLXrER/eSEIJiPU0RBPDaW+bEiIsA/2dvEO/6lTtNT0DQDAeP8SNsV?=
- =?us-ascii?Q?wTzGcjwTziUF/7j303PThsIJzCOFao3qyIdPTsKn/DHCLfsSfPr1w+4rWpiV?=
- =?us-ascii?Q?Scj2VehNoCyZpCwmwtWam6M1CmQG1NocebPoJ2EKXy0omprPl0aipqm4SXtG?=
- =?us-ascii?Q?VOBmywUERDUNObgxbuTmEvZzZPWVfMUaf6SjouHlEmhRvYEUmZ5Ggorr2rEf?=
- =?us-ascii?Q?t8+BHcAX6zOuvpUMpGMN8+TCB8o/zbxpYU/R/08ccdRkMPar3iGfgsZsE3Rd?=
- =?us-ascii?Q?jmD8cH4Blfzkp/lYkMHUddkq/Kd7O+0E9Y3wreolIpR0LS0u0WhQs1CNMxie?=
- =?us-ascii?Q?8asbolwhe4xdXaLBhjqhJbl/68pd/eiSj6R07v6j0pAgUFDCyaaMmOhB3Pqd?=
- =?us-ascii?Q?dKtA+xiJCf0Oz37X8JVCbEwXT46d65a9F5nn+K9BR94hg8ivbCYuCkd0h1X0?=
- =?us-ascii?Q?vyyE1hZ1llKCw3zbouUCmi45d8kfrIGXz9AwNfEef3cbddZ0KykdAweh1Dwu?=
- =?us-ascii?Q?dFHE/sdVJ9KZDKst0dIoXfnzGP6ADvnYcGrLXueu7oMb5ZCwDEK47iFQda8+?=
- =?us-ascii?Q?6TAomRrf/ma/Zo8TT2fZLx4i1L2WHFdBXVlr5riQ7ufszp0JSdMJycEEHHbm?=
- =?us-ascii?Q?123+Sx7CbpLmSLYhj83uIYSvFuBKNSIxkjDYaTUURQxIbmAxtoyIRRqV2Je5?=
- =?us-ascii?Q?9Vev3iQ6D4gKIwFZZ0KGWDnyoyqBwo32V8fI2Db+AtZ8pdEr6CLMEaDkyBLY?=
- =?us-ascii?Q?7sd0YFV0hBEizj71wA8c0yCGVNdkdEUbJkzJ8GA2B84oi2E4CfoMknserCjt?=
- =?us-ascii?Q?aHZzE1B4hiIwNzNzdfQIemSn29ZmkASNXMkI23RQztDYPt+WJqq+JirdolcW?=
- =?us-ascii?Q?IKUjDlbqoNyyjnLQILJwcpRD/ZhCbYYm4E/i0/Qa29WNS21HWC9zx2Lxslzu?=
- =?us-ascii?Q?o0LYKcGWDK5JD6u/hkUczcrFAf1p8le6xbIFjjSM+xKoesGtTti5GMUil6WY?=
- =?us-ascii?Q?Rzb0ZSoack6uXIU/tls20KltM6Bvu94o5i9s6dFRyBleR7ZftQVHJi/1BAbQ?=
- =?us-ascii?Q?nk0SXBdV++/MZNfJgDW+QhT0NHGhYmvDALjHl3dyW7Dl95jM4VZyw/mmEhpB?=
- =?us-ascii?Q?OPcCN+g4pl57Asb5FyK3tvaApLYa+6Z3F6D+jEKrZN5IJKQgSTfUQMpqmKfN?=
- =?us-ascii?Q?0d++b9S1Gs+iUXci1ed+xmAzEsBA2KllyJMpZoyZakRwmMv7HBHR29lF8WBY?=
- =?us-ascii?Q?cRvA+dnwRMiisIfETB3rv9zQ3XHpF7fY?=
+X-Microsoft-Antispam-Message-Info: =?us-ascii?Q?ZWf7Y/9J/IMP+lnG/YeGMgPKRQ76ncUvuSszILzNtqAqI7xtQu0SS3aYMNj3?=
+ =?us-ascii?Q?YIunZgzjyrPybOUDzBfeY4ZSB39WcvwgUOHDXDmNhxVe7xhuPXiVTH88hVnq?=
+ =?us-ascii?Q?IYBXLOF6uH46vGYkQl47RgLzTbQgcxtpIxBQzEBN0Pm5RbYJtGcY7iiIphUG?=
+ =?us-ascii?Q?zayUnOUA3Fspba7LyslyMaaUtZzubQAW0pYnsRc+CXrw0wBzAb7RVD3qFDW6?=
+ =?us-ascii?Q?JfmFo4IyhckVmHj7dzGzLFoyASKXBuErcQ8mYePGvuAHfULpQBCSspUcYaCw?=
+ =?us-ascii?Q?b0f/QY/z+yjfo7cQLoW58AOiiojWU7IzzxJR3SHifjmGnXHKBDpf1JOb4467?=
+ =?us-ascii?Q?ilVMuK0uln0DJc/qfvzPmMja/a2+uoXxRJV70bikXY5Uj8OqTlhuKsvH9NcB?=
+ =?us-ascii?Q?aMx8HagUnWL2ApLmEQ4wFW5ior+FXdNDxcR4EcaVvgONjSnj/oNOcDX3kEWh?=
+ =?us-ascii?Q?Rv26AfTTxvjc5CfurIbYQnCf4k8k2ZMo3a3E7TAere+y+KeaDXnkoXzoK7gJ?=
+ =?us-ascii?Q?m1fu9ua+aAUFl9nf3xTLjTlU9b3I3h2Fa1vNlLCu0Xy9NcmheVdsCtc7ZCMv?=
+ =?us-ascii?Q?hOSVYYJZy12CpsCwpPvoUspVIO4maocKR736+1r2XHeOJVcys6dzmLdDe8Yt?=
+ =?us-ascii?Q?sGmP6/xecbxd+S40UGwFM3eJqdqXSgVU3HjJgl7U8kRaO9bTXzzzgknYT6tE?=
+ =?us-ascii?Q?ffgb2tzVM+rgN4iuLrNOzIrznxuUTHglCywJyTvoDcCdMSxUSLezQ0cvvs+E?=
+ =?us-ascii?Q?ZlSjMQxbus72dRJPHJHlLI+4KXWK5Ujst34deenPabNrMRNPcVXxlNQnP+t/?=
+ =?us-ascii?Q?27mFhrDG8qDP1npCSyRxfNjZqmMHJzgAQd4m2nQPrgncVmDT9Y1PmT5rpGZ5?=
+ =?us-ascii?Q?DtdtW8VqNERAYb75+KxuQQW2a1IwMTwzoAJF9HX+9j/eCuff8Oc2KQyELM4f?=
+ =?us-ascii?Q?XoNWACVGuWhS/g6XZ0+4TUSFcVESpwgPnv8J8V/Z9YkM4J6nC+mshf1E3Cgp?=
+ =?us-ascii?Q?v600MUmK1COeLli78JG3rLX7JLUhGkoQlbZ+pxXz6HfHRPQuRXglUFooOIZn?=
+ =?us-ascii?Q?a46CvVZ/MYAHTVdVhVk0hlHe6Vcqr5R6Ojo4hsskW5BamNLPibAmtdIJKI+J?=
+ =?us-ascii?Q?yXSRRFLoVm0OWC+px6AUjJ0Hsb+TuLRnWk/RaR7X2OVwGSteCaU5rO7AKIbq?=
+ =?us-ascii?Q?OB2+sD8P4UH0aWY53jnio7wR7tScJKwGPFFw0lk5QMG13H9gJ3k0jK10jyGM?=
+ =?us-ascii?Q?tf/uZ7teeyLAvz8MvUTOSPeLYoWgbUb2KT31fkhcM5bQnooy+i+of5jtbmb+?=
+ =?us-ascii?Q?4spp+PNbdVDrY+zLBIwCTQvL6NbzaR5zVpFKhW7jAuIKxU6iQCNDWSOj7mTf?=
+ =?us-ascii?Q?I65wanQF6nAYf79S2UNpRhy53Nba3BUGCTVRqXwwl42KQvj+cfLyY4Bsyr4e?=
+ =?us-ascii?Q?MvXv4E8PKUBmE5BOvyMtHI94CnS2fkF4?=
 X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
  IPV:NLI; SFV:NSPM; H:SN7PR12MB8059.namprd12.prod.outlook.com; PTR:; CAT:NONE;
  SFS:(13230040)(7416014)(1800799024)(376014)(366016); DIR:OUT; SFP:1101; 
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?RsO2V4nPUA0OmFOcXsM/bosUsDyMJpgs6jvvQDQx4ebr8afg6BlPOdoScOI2?=
- =?us-ascii?Q?5yhAVrM35Bt/VzyQ7XmXdpTaVXLyQPVo8BE7FsV5w/Dqd8ufwTMliZoNRIV+?=
- =?us-ascii?Q?xkWSd9YbJbDUvX2rngoQI/xxtWZC+IWBK18t3YjR1ZdaeQf7YwKxzXmq9LYP?=
- =?us-ascii?Q?hONtdNJBzxhkdZStZ9bCMOHa1L9ynXZg0Q98h7PElaIbCvVXGXSOTudUqGDd?=
- =?us-ascii?Q?87UmJ/0qIXXM+qpjbFcwkvrO/wqaIGe1ngXJA8MKaV87FXIyjhkb9MsARma2?=
- =?us-ascii?Q?envQSQs7duU9oY2qiLlbE4jM4qE0UBNv3xukUt4XBkUoCeNcl+93ebq3CLSr?=
- =?us-ascii?Q?WfkAipEAgFDcF9GpIKwv5+WyVXWb/cg4ZJF/PFdkSxPhm7a+sfyKJyexNMM4?=
- =?us-ascii?Q?/e4DF/kaFQjcl9fbAcxBEEYYcCOGlJp2OjjQpMF+/wgSj1pxVM+Jt1R1xhxx?=
- =?us-ascii?Q?eN1v4AyJW7/2o7ROu/CTn7HYXDUaMw32cjaNmqLws+Bab7BmfLRYaNI/pXt+?=
- =?us-ascii?Q?3Oyg/QfZ+NdYYPulAffsD5p5sukaoT4eWarmnNy07Gmp8GVRKU7CXZqrSyCK?=
- =?us-ascii?Q?6NxeMLT9HQsJoRAYq7Sx2bnZlUc14fqZRO5uFK3m1gIqDxYreL92EHmnanDh?=
- =?us-ascii?Q?JQuiaVngSGoE67Bw+c1P2Z2GlALbVETuFawXEYgD9kZMlXKIYT25JIY94SFG?=
- =?us-ascii?Q?dX8DUB/REMTPLPqYfGavrHIPD+yZHZSWe04JTIaq58VeUgKUUPqW9gRFey4+?=
- =?us-ascii?Q?womrgANqoJiV1m/8ckDRvkWU0Uw78P9TpmWmaMiCWEd5seEB4tLYAqnljmPy?=
- =?us-ascii?Q?iybvKwfCdUmEDm5KA5h3kF8WoAik34JhX86t6aZsc/SnR4mAnZM0GTn3xqHO?=
- =?us-ascii?Q?dsS9/jnnK+6HnruBf5Y9zg8qaKGIiteOnP4KPbc0ucZ3jGLn/EKT74ZbRdqZ?=
- =?us-ascii?Q?YKvQ8nG0iXe0k0O0mzA7awl1w7G4ZjK4v9LbVW5rXsrkej99UcFhrTL0jGYc?=
- =?us-ascii?Q?/X0dvG1k1MqmOSsCj+WARRUc1083ByWiVQOf4qpSkbL63q3gqsTsGpwchqbA?=
- =?us-ascii?Q?1/gF22NKRvfyJ/dOmrGWphZoQbrBoR2q3riWh7okWoY8c3j9xjmTiP/Fqfii?=
- =?us-ascii?Q?ajVX3Ujn8HRGFoklSwKk7R1cYcXGs+aUAWJxTJq7QaSS04/0SFcLUm8rGyVb?=
- =?us-ascii?Q?kU+LY+vnvha1XWEZaSPlEJW2yD2y9IwguqYfpZCN+5G7uWzWuB26Mn+K1TfA?=
- =?us-ascii?Q?SkQOcJ4z/OuJYA8X97sTVeitTjaatW5+TQ3b7pZSx8GpUKSj+cXKzDoVSVLd?=
- =?us-ascii?Q?qJwPOvAkAs5gb0WdvM89h2ms4z3BZ1Az8IXVpZ7ciLABQzCCBLYUssaogW7h?=
- =?us-ascii?Q?3nkUPE2UTDkHbBSBV5iekKoMBLahxTJaeLAZczUmWsnOq0PRWsk2wPiOZY6w?=
- =?us-ascii?Q?/k1dOEgyMKg8ZS7nEpLCbn2qAftaxvgYCiRHcvuNtW5lYkzeT2tOTbI49bu8?=
- =?us-ascii?Q?s4OytqAGmgCsN9t4wCV5v5aYBC2cgtK681NwulPUw74RuvKx0QiUcDVEuMKU?=
- =?us-ascii?Q?+dKgrALP/jDGU8VebhaBhwRmxn44RPlrb2FoR0I/?=
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?dSgbk1r+jRbzAFp0uxlXmlO2CxHsGN341O7YMnKABRbT+rrwnzD0h2W7Q0TJ?=
+ =?us-ascii?Q?J8VrsYPPEWXm6iNliM5+G1sSfkpl2Jf4YfqPwPb5A7CJD2ZuCA3tQCnKBmxx?=
+ =?us-ascii?Q?zFJfGj2uWl5AiHQZz8PVgBkTRuMKDTMW5hWzDu69/JAmIDz7g7rZQFBTf7Jm?=
+ =?us-ascii?Q?s+a9K/LqPGKsrC4ovUnySwYle7KkVe5q7WBj3puCTEP/rMO4a2Ga3fv0CG1P?=
+ =?us-ascii?Q?Fh0boCDWMyftmW4dT6xz+uJ5L2+HbY9JoPyAAxYL69IIBT5xPLMQC+S7n7XT?=
+ =?us-ascii?Q?PyjyaOM1g5Mrx1XFY8Hw2njQHGxA2Uqc7ijvGxHsKG37qZHTPg/jdIkE7fpn?=
+ =?us-ascii?Q?r04j+jWVYKQHomCiit0FqdOE3PhEGs0lOSFEQyWP8YpFPin2I9fxOjUoWVwV?=
+ =?us-ascii?Q?pd3JBWMK79a1iaP2BjMxIUIm1MNc+LGayN+Ss/N372BQj1AW+O/8nWQxvrpr?=
+ =?us-ascii?Q?h/vORXp8Obdj+9zXnfXoFijd3CRwGCYwMfIzfreR8RN8oeoDtIGRG/xxJD2G?=
+ =?us-ascii?Q?avGapw8zJYDp0rGajQSH91opY3bDTITh2bUT/ASQhBT8Qht2mqIuPsoGmrRy?=
+ =?us-ascii?Q?eZwuPIjI6fGuy2grHG1FUTm4W7ZOeYJ6uSoysJCg89kRp3KFNRofl83hhT2/?=
+ =?us-ascii?Q?Y22O3NolJHA/ZqU6ez4Cn6anhb7MaxCfxzd5KUMfWOf1RCPb+VMFEG49Md37?=
+ =?us-ascii?Q?C+64OoWvSTS8OgCA4WET6BoMhteAYUBV82Qmb1pelaU4F4Wz1J12tWPYUnkw?=
+ =?us-ascii?Q?OlTstiUyxzTEYBlZ5wY8aSvk3yWwBwGGrcpPLCHU0JR4E4LkwHgTJABUIYI/?=
+ =?us-ascii?Q?hx7AAn5+YxYzQnZt4b6RhXEK3NFrKkloZg8CEG+Yfvqy0sFZARZ1U/wuSNEe?=
+ =?us-ascii?Q?btAR4hdykjqjQ8sWNEDJqWnyv7UtHApo+nOt2DDFd37pkRDrmXCbFWNMj06Z?=
+ =?us-ascii?Q?MvKKuWnLx0TA7Y8S+t9MkwgJNNGmx72syEEUkkrVdMKMUdhRMjY8aorLa67j?=
+ =?us-ascii?Q?/zi6JCW4HRJ1R6PK6Tcpxyc8H7vAqLEXvkUjIXJhxaI+LLrER/P92r2lPpu0?=
+ =?us-ascii?Q?a4U4/odk+74bdB7DxiNJV82ZDez93H1PoUP6+/jTcOaX8pNvmiCC3UQkVSsn?=
+ =?us-ascii?Q?A6qdraq2xVEgJ6lMcEzRfl0BvUlV8rtvbWzk78G4Ww9lK0UNGafm7Cvxm7wR?=
+ =?us-ascii?Q?tvBZmPzBBsAlR1WqnKa+U6h5Mb+6gG2HnGAtT7BYIGTJ0bPU0ySQtFah14dY?=
+ =?us-ascii?Q?2OfY3tB4xcMXUCcUmcfyA4y03SIA4tcxeEeaJ7mt9eiAFiAfk/Typ7cATYwY?=
+ =?us-ascii?Q?eg6Y3Yda5gVcnfQ+QpykZ/+0ri16m4YvXEMxexj8Si48sUE1BMmOrazUE5WZ?=
+ =?us-ascii?Q?4DbQ3qclas6AWfcIGdxJFqlbPqEcXNwvfeeVmHxysug3Tng3c5Usdr1L0Rkf?=
+ =?us-ascii?Q?sFCjhw+pzauh3j+WkHcltG6jRAZ+TW0PjlSk7AJ0PoEabK34ZkPkPGA9qV8j?=
+ =?us-ascii?Q?0wbCuXoTNDtIjXBmsIj1LbmCsyxeR25RL85qRZMnvxMgcisdjsIevklbSVrT?=
+ =?us-ascii?Q?i26ptVzCSoWKv/u5eJSTDkPg1XqojoI4GuUtS+MU?=
 X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: dc53d27f-b101-487b-2e9a-08de17e76d5c
+X-MS-Exchange-CrossTenant-Network-Message-Id: 7abe587f-a4e9-45b3-d345-08de17e76e5d
 X-MS-Exchange-CrossTenant-AuthSource: SN7PR12MB8059.namprd12.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 30 Oct 2025 19:06:27.6498 (UTC)
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 30 Oct 2025 19:06:29.1549 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: dbfHFnTF7M4Afqlanf9AIDHlz55Y4vJnNUc5x5BqOevX7x7SRoE3yMwQhu3sJUk0ZBp1kt6+rM+Cm+Ev2xDvOg==
+X-MS-Exchange-CrossTenant-UserPrincipalName: P+6/SMIOOprH8FvHwK0XM9s2gqJ8Cb9VHE7PasktjYN9fycRXp2+qw1pBiGzT9u/aySt5+Xde+7Ewfh/zxP+Nw==
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: DS5PPFBABE93B01
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -162,266 +161,461 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Demonstrates usage of the clist module for iterating over
-C-managed linked lists. C code creates and populates the list,
-Rust code performs safe iteration using the clist abstraction.
+Add safe Rust abstractions over the Linux kernel's DRM buddy
+allocator for physical memory management. The DRM buddy allocator
+implements a binary buddy system for useful for GPU physical memory
+allocation. nova-core will use it for physical memory allocation.
 
 Signed-off-by: Joel Fernandes <joelagnelf@nvidia.com>
 ---
- samples/rust/Kconfig            |  11 +++
- samples/rust/Makefile           |   2 +
- samples/rust/rust_clist_c.c     |  54 +++++++++++++
- samples/rust/rust_clist_main.rs | 138 ++++++++++++++++++++++++++++++++
- 4 files changed, 205 insertions(+)
- create mode 100644 samples/rust/rust_clist_c.c
- create mode 100644 samples/rust/rust_clist_main.rs
+ rust/bindings/bindings_helper.h |  11 +
+ rust/helpers/drm.c              |  23 +-
+ rust/kernel/drm/buddy.rs        | 357 ++++++++++++++++++++++++++++++++
+ rust/kernel/drm/mod.rs          |   1 +
+ 4 files changed, 391 insertions(+), 1 deletion(-)
+ create mode 100644 rust/kernel/drm/buddy.rs
 
-diff --git a/samples/rust/Kconfig b/samples/rust/Kconfig
-index c1cc787a9add..b45631e2593c 100644
---- a/samples/rust/Kconfig
-+++ b/samples/rust/Kconfig
-@@ -10,6 +10,17 @@ menuconfig SAMPLES_RUST
+diff --git a/rust/bindings/bindings_helper.h b/rust/bindings/bindings_helper.h
+index 6b973589a546..747d4c7ef935 100644
+--- a/rust/bindings/bindings_helper.h
++++ b/rust/bindings/bindings_helper.h
+@@ -29,6 +29,7 @@
+ #include <linux/hrtimer_types.h>
  
- if SAMPLES_RUST
+ #include <linux/acpi.h>
++#include <drm/drm_buddy.h>
+ #include <drm/drm_device.h>
+ #include <drm/drm_drv.h>
+ #include <drm/drm_file.h>
+@@ -112,6 +113,16 @@ const gfp_t RUST_CONST_HELPER_XA_FLAGS_ALLOC = XA_FLAGS_ALLOC;
+ const gfp_t RUST_CONST_HELPER_XA_FLAGS_ALLOC1 = XA_FLAGS_ALLOC1;
+ const vm_flags_t RUST_CONST_HELPER_VM_MERGEABLE = VM_MERGEABLE;
  
-+config SAMPLE_RUST_CLIST
-+	tristate "C Linked List sample"
-+	help
-+	  This option builds the Rust CList sample demonstrating
-+	  the clist module for working with C list_head structures.
++#if IS_ENABLED(CONFIG_DRM_BUDDY)
++const unsigned long RUST_CONST_HELPER_DRM_BUDDY_RANGE_ALLOCATION = DRM_BUDDY_RANGE_ALLOCATION;
++const unsigned long RUST_CONST_HELPER_DRM_BUDDY_TOPDOWN_ALLOCATION = DRM_BUDDY_TOPDOWN_ALLOCATION;
++const unsigned long RUST_CONST_HELPER_DRM_BUDDY_CONTIGUOUS_ALLOCATION =
++								DRM_BUDDY_CONTIGUOUS_ALLOCATION;
++const unsigned long RUST_CONST_HELPER_DRM_BUDDY_CLEAR_ALLOCATION = DRM_BUDDY_CLEAR_ALLOCATION;
++const unsigned long RUST_CONST_HELPER_DRM_BUDDY_CLEARED = DRM_BUDDY_CLEARED;
++const unsigned long RUST_CONST_HELPER_DRM_BUDDY_TRIM_DISABLE = DRM_BUDDY_TRIM_DISABLE;
++#endif
 +
-+	  To compile this as a module, choose M here:
-+	  the module will be called rust_clist.
-+
-+	  If unsure, say N.
-+
- config SAMPLE_RUST_CONFIGFS
- 	tristate "Configfs sample"
- 	depends on CONFIGFS_FS
-diff --git a/samples/rust/Makefile b/samples/rust/Makefile
-index cf8422f8f219..f8899c0df762 100644
---- a/samples/rust/Makefile
-+++ b/samples/rust/Makefile
-@@ -1,6 +1,7 @@
- # SPDX-License-Identifier: GPL-2.0
- ccflags-y += -I$(src)				# needed for trace events
+ #if IS_ENABLED(CONFIG_ANDROID_BINDER_IPC_RUST)
+ #include "../../drivers/android/binder/rust_binder.h"
+ #include "../../drivers/android/binder/rust_binder_events.h"
+diff --git a/rust/helpers/drm.c b/rust/helpers/drm.c
+index 450b406c6f27..bd8748ade3f5 100644
+--- a/rust/helpers/drm.c
++++ b/rust/helpers/drm.c
+@@ -1,5 +1,6 @@
+ // SPDX-License-Identifier: GPL-2.0
  
-+obj-$(CONFIG_SAMPLE_RUST_CLIST)			+= rust_clist.o
- obj-$(CONFIG_SAMPLE_RUST_MINIMAL)		+= rust_minimal.o
- obj-$(CONFIG_SAMPLE_RUST_MISC_DEVICE)		+= rust_misc_device.o
- obj-$(CONFIG_SAMPLE_RUST_PRINT)			+= rust_print.o
-@@ -14,6 +15,7 @@ obj-$(CONFIG_SAMPLE_RUST_DRIVER_FAUX)		+= rust_driver_faux.o
- obj-$(CONFIG_SAMPLE_RUST_DRIVER_AUXILIARY)	+= rust_driver_auxiliary.o
- obj-$(CONFIG_SAMPLE_RUST_CONFIGFS)		+= rust_configfs.o
++#include <drm/drm_buddy.h>
+ #include <drm/drm_gem.h>
+ #include <drm/drm_vma_manager.h>
  
-+rust_clist-y := rust_clist_main.o rust_clist_c.o
- rust_print-y := rust_print_main.o rust_print_events.o
+@@ -20,4 +21,24 @@ __u64 rust_helper_drm_vma_node_offset_addr(struct drm_vma_offset_node *node)
+ 	return drm_vma_node_offset_addr(node);
+ }
  
- subdir-$(CONFIG_SAMPLE_RUST_HOSTPROGS)		+= hostprogs
-diff --git a/samples/rust/rust_clist_c.c b/samples/rust/rust_clist_c.c
-new file mode 100644
-index 000000000000..7a8f5e6c642a
---- /dev/null
-+++ b/samples/rust/rust_clist_c.c
-@@ -0,0 +1,54 @@
-+// SPDX-License-Identifier: GPL-2.0
+-#endif
++#ifdef CONFIG_DRM_BUDDY
 +
-+#include <linux/list.h>
-+#include <linux/slab.h>
-+
-+/* Sample item with embedded C list_head */
-+struct sample_item_c {
-+	int value;
-+	struct list_head link;
-+};
-+
-+/* Create a list_head and populate it with items */
-+struct list_head *clist_sample_create(int count)
++u64 rust_helper_drm_buddy_block_offset(const struct drm_buddy_block *block)
 +{
-+	struct list_head *head;
-+	int i;
-+
-+	head = kmalloc(sizeof(*head), GFP_KERNEL);
-+	if (!head)
-+		return NULL;
-+
-+	INIT_LIST_HEAD(head);
-+
-+	/* Populate with items */
-+	for (i = 0; i < count; i++) {
-+		struct sample_item_c *item = kmalloc(sizeof(*item), GFP_KERNEL);
-+
-+		if (!item)
-+			continue;
-+
-+		item->value = i * 10;
-+		INIT_LIST_HEAD(&item->link);
-+		list_add_tail(&item->link, head);
-+	}
-+
-+	return head;
++	return drm_buddy_block_offset(block);
 +}
 +
-+/* Free the list_head and all items */
-+void clist_sample_free(struct list_head *head)
++unsigned int rust_helper_drm_buddy_block_order(struct drm_buddy_block *block)
 +{
-+	struct sample_item_c *item, *tmp;
-+
-+	if (!head)
-+		return;
-+
-+	/* Free all items in the list */
-+	list_for_each_entry_safe(item, tmp, head, link) {
-+		list_del(&item->link);
-+		kfree(item);
-+	}
-+
-+	kfree(head);
++	return drm_buddy_block_order(block);
 +}
-diff --git a/samples/rust/rust_clist_main.rs b/samples/rust/rust_clist_main.rs
++
++u64 rust_helper_drm_buddy_block_size(struct drm_buddy *mm,
++				     struct drm_buddy_block *block)
++{
++	return drm_buddy_block_size(mm, block);
++}
++
++#endif /* CONFIG_DRM_BUDDY */
++
++#endif /* CONFIG_DRM */
+diff --git a/rust/kernel/drm/buddy.rs b/rust/kernel/drm/buddy.rs
 new file mode 100644
-index 000000000000..6600b0c79558
+index 000000000000..b1cd23f81838
 --- /dev/null
-+++ b/samples/rust/rust_clist_main.rs
-@@ -0,0 +1,138 @@
++++ b/rust/kernel/drm/buddy.rs
+@@ -0,0 +1,357 @@
 +// SPDX-License-Identifier: GPL-2.0
 +
-+//! Sample for Rust code interfacing with C linked lists (list_head).
++//! DRM buddy allocator bindings.
 +//!
-+//! This sample demonstrates iteration of a C-managed linked list using the [`clist`] module.
-+//! C code creates and populates the list, Rust code performs iteration.
++//! C header: [`include/drm/drm_buddy.h`](srctree/include/drm/drm_buddy.h)
++//!
++//! This module provides Rust abstractions over the Linux kernel's DRM buddy
++//! allocator, which implements a binary buddy memory allocation system.
++//!
++//! The buddy allocator manages a contiguous address space and allocates blocks
++//! in power-of-two sizes. It's commonly used for physical memory management.
++//!
++//! # Examples
++//!
++//! ```ignore
++//! use kernel::{
++//!     drm::buddy::{BuddyFlags, DrmBuddy},
++//!     prelude::*,
++//!     sizes::*, //
++//! };
++//!
++//! let buddy = DrmBuddy::new(SZ_1G, SZ_4K)?;
++//! let allocated = buddy.alloc_blocks(
++//!     0, 0, SZ_16M, SZ_4K,
++//!     BuddyFlags::RANGE_ALLOCATION,
++//!     GFP_KERNEL,
++//! )?;
++//!
++//! for block in &allocated {
++//!     // Use block.
++//! }
++//! // Blocks are automatically freed when `allocated` goes out of scope.
++//! ```
 +
-+use core::ptr::NonNull;
-+use kernel::{
++use crate::{
++    alloc::Flags,
 +    bindings,
 +    clist,
 +    container_of,
-+    prelude::*, //
++    error::{
++        to_result,
++        Result, //
++    },
++    prelude::KBox,
++    types::Opaque, //
 +};
++use core::ptr::NonNull;
 +
-+module! {
-+    type: RustClistModule,
-+    name: "rust_clist",
-+    authors: ["Joel Fernandes"],
-+    description: "Rust Clist sample",
-+    license: "GPL",
++/// Flags for DRM buddy allocator operations.
++///
++/// These flags control the allocation behavior of the buddy allocator.
++#[derive(Clone, Copy, PartialEq)]
++pub struct BuddyFlags(u64);
++
++impl BuddyFlags {
++    /// Range-based allocation from start to end addresses.
++    pub const RANGE_ALLOCATION: BuddyFlags =
++        BuddyFlags(bindings::DRM_BUDDY_RANGE_ALLOCATION as u64);
++
++    /// Allocate from top of address space downward.
++    pub const TOPDOWN_ALLOCATION: BuddyFlags =
++        BuddyFlags(bindings::DRM_BUDDY_TOPDOWN_ALLOCATION as u64);
++
++    /// Allocate physically contiguous blocks.
++    pub const CONTIGUOUS_ALLOCATION: BuddyFlags =
++        BuddyFlags(bindings::DRM_BUDDY_CONTIGUOUS_ALLOCATION as u64);
++
++    /// Clear allocated blocks (zero them).
++    pub const CLEAR_ALLOCATION: BuddyFlags =
++        BuddyFlags(bindings::DRM_BUDDY_CLEAR_ALLOCATION as u64);
++
++    /// Block has been cleared - internal flag.
++    pub const CLEARED: BuddyFlags = BuddyFlags(bindings::DRM_BUDDY_CLEARED as u64);
++
++    /// Disable trimming of partially used blocks.
++    pub const TRIM_DISABLE: BuddyFlags = BuddyFlags(bindings::DRM_BUDDY_TRIM_DISABLE as u64);
++
++    /// Get raw value for FFI.
++    pub(crate) fn as_raw(self) -> u64 {
++        self.0
++    }
 +}
 +
-+// FFI declarations for C functions
-+extern "C" {
-+    fn clist_sample_create(count: i32) -> *mut bindings::list_head;
-+    fn clist_sample_free(head: *mut bindings::list_head);
++impl core::ops::BitOr for BuddyFlags {
++    type Output = Self;
++
++    fn bitor(self, rhs: Self) -> Self::Output {
++        Self(self.0 | rhs.0)
++    }
 +}
 +
-+/// Sample item with embedded C list_head (This would typically be a C struct).
-+#[repr(C)]
-+struct SampleItemC {
-+    value: i32,
-+    link: bindings::list_head,
-+}
-+
-+/// Rust wrapper for SampleItemC object pointer allocated on the C side.
++/// DRM buddy allocator instance.
++///
++/// This structure wraps the C `drm_buddy` allocator.
++///
++/// # Safety
++///
++/// Not thread-safe. Concurrent alloc/free operations require external
++/// synchronization (e.g., wrapping in `Arc<Mutex<DrmBuddy>>`).
 +///
 +/// # Invariants
 +///
-+/// `ptr` points to a valid [`SampleItemC`] with an initialized embedded `list_head`.
-+struct SampleItem {
-+    ptr: NonNull<SampleItemC>,
++/// - `mm` is initialized via `drm_buddy_init()` and remains valid until Drop.
++pub struct DrmBuddy {
++    mm: Opaque<bindings::drm_buddy>,
 +}
 +
-+impl clist::FromListHead for SampleItem {
-+    unsafe fn from_list_head(link: *const bindings::list_head) -> Self {
-+        // SAFETY: Caller ensures link points to a valid, initialized list_head.
++impl DrmBuddy {
++    /// Create a new buddy allocator.
++    ///
++    /// Creates a buddy allocator that manages a contiguous address space of the given
++    /// size, with the specified minimum allocation unit (chunk_size must be at least 4KB).
++    ///
++    /// # Examples
++    ///
++    /// See the complete example in the documentation comments for [`AllocatedBlocks`].
++    pub fn new(size: usize, chunk_size: usize) -> Result<Self> {
++        // Create buddy allocator with zeroed memory.
++        let buddy = Self {
++            mm: Opaque::zeroed(),
++        };
++
++        // Initialize the C buddy structure.
++        // SAFETY: buddy.mm points to valid, zeroed memory.
 +        unsafe {
-+            let item_ptr = container_of!(link, SampleItemC, link) as *mut _;
-+            SampleItem {
-+                ptr: NonNull::new_unchecked(item_ptr),
++            to_result(bindings::drm_buddy_init(
++                buddy.mm.get(),
++                size as u64,
++                chunk_size as u64,
++            ))?;
++        }
++
++        Ok(buddy)
++    }
++
++    /// Get a raw pointer to the underlying C drm_buddy structure.
++    ///
++    /// # Safety
++    ///
++    /// Caller must ensure the returned pointer is not used after this
++    /// structure is dropped.
++    pub unsafe fn as_raw(&self) -> *mut bindings::drm_buddy {
++        self.mm.get()
++    }
++
++    /// Get the chunk size (minimum allocation unit).
++    pub fn chunk_size(&self) -> u64 {
++        // SAFETY: mm is initialized and valid per struct invariant.
++        unsafe { (*self.as_raw()).chunk_size }
++    }
++
++    /// Get the total managed size.
++    pub fn size(&self) -> u64 {
++        // SAFETY: mm is initialized and valid per struct invariant.
++        unsafe { (*self.as_raw()).size }
++    }
++
++    /// Get the available (free) memory.
++    pub fn avail(&self) -> u64 {
++        // SAFETY: mm is initialized and valid per struct invariant.
++        unsafe { (*self.as_raw()).avail }
++    }
++
++    /// Allocate blocks from the buddy allocator.
++    ///
++    /// Returns an [`AllocatedBlocks`] structure that owns the allocated blocks and automatically
++    /// frees them when dropped. Allocation of `list_head` uses the `gfp` flags passed.
++    pub fn alloc_blocks(
++        &self,
++        start: usize,
++        end: usize,
++        size: usize,
++        min_block_size: usize,
++        flags: BuddyFlags,
++        gfp: Flags,
++    ) -> Result<AllocatedBlocks<'_>> {
++        // Allocate list_head on the heap.
++        let mut list_head = KBox::new(bindings::list_head::default(), gfp)?;
++
++        // SAFETY: list_head is valid and heap-allocated.
++        unsafe {
++            bindings::INIT_LIST_HEAD(&mut *list_head as *mut _);
++        }
++
++        // SAFETY: mm is a valid DrmBuddy object per the type's invariants.
++        unsafe {
++            to_result(bindings::drm_buddy_alloc_blocks(
++                self.as_raw(),
++                start as u64,
++                end as u64,
++                size as u64,
++                min_block_size as u64,
++                &mut *list_head as *mut _,
++                flags.as_raw() as usize,
++            ))?;
++        }
++
++        // `list_head` is now the head of a list that contains allocated blocks
++        // from C code. The allocated blocks will be automatically freed when
++        // `AllocatedBlocks` is dropped.
++        Ok(AllocatedBlocks {
++            list_head,
++            buddy: self,
++        })
++    }
++}
++
++impl Drop for DrmBuddy {
++    fn drop(&mut self) {
++        // SAFETY: self.mm is initialized and valid. drm_buddy_fini properly
++        // cleans up all resources. This is called exactly once during Drop.
++        unsafe {
++            bindings::drm_buddy_fini(self.as_raw());
++        }
++    }
++}
++
++// SAFETY: DrmBuddy can be sent between threads. Caller is responsible for
++// ensuring thread-safe access if needed (e.g., via Mutex).
++unsafe impl Send for DrmBuddy {}
++
++/// Allocated blocks from the buddy allocator with automatic cleanup.
++///
++/// This structure owns a list of allocated blocks and ensures they are
++/// automatically freed when dropped. Blocks may be iterated over and are
++/// read-only after allocation (iteration via [`IntoIterator`] and
++/// automatic cleanup via [`Drop`] only). To share across threads, wrap
++/// in `Arc<AllocatedBlocks>`. Rust owns the head list head of the
++/// allocated blocks; C allocates blocks and links them to the head
++/// list head. Clean up of the allocated blocks is handled by C code.
++///
++/// # Invariants
++///
++/// - `list_head` is an owned, valid, initialized list_head.
++/// - `buddy` points to a valid, initialized [`DrmBuddy`].
++pub struct AllocatedBlocks<'a> {
++    list_head: KBox<bindings::list_head>,
++    buddy: &'a DrmBuddy,
++}
++
++impl Drop for AllocatedBlocks<'_> {
++    fn drop(&mut self) {
++        // Free all blocks automatically when dropped.
++        // SAFETY: list_head is a valid list of blocks per the type's invariants.
++        unsafe {
++            bindings::drm_buddy_free_list(self.buddy.as_raw(), &mut *self.list_head as *mut _, 0);
++        }
++    }
++}
++
++impl<'a> AllocatedBlocks<'a> {
++    /// Check if the block list is empty.
++    pub fn is_empty(&self) -> bool {
++        // SAFETY: list_head is a valid list of blocks per the type's invariants.
++        unsafe { clist::list_empty(&*self.list_head as *const _) }
++    }
++
++    /// Iterate over allocated blocks.
++    pub fn iter(&self) -> clist::ClistIter<'_, Block> {
++        // SAFETY: list_head is a valid list of blocks per the type's invariants.
++        clist::iter_list_head::<Block>(&*self.list_head)
++    }
++}
++
++/// Iteration support for allocated blocks.
++///
++/// # Examples
++///
++/// ```ignore
++/// for block in &allocated_blocks {
++///     // Use block.
++/// }
++/// ```
++impl<'a> IntoIterator for &'a AllocatedBlocks<'_> {
++    type Item = Block;
++    type IntoIter = clist::ClistIter<'a, Block>;
++
++    fn into_iter(self) -> Self::IntoIter {
++        self.iter()
++    }
++}
++
++/// A DRM buddy block.
++///
++/// Wraps a pointer to a C `drm_buddy_block` structure. This is returned
++/// from allocation operations and used to free blocks.
++///
++/// # Invariants
++///
++/// `drm_buddy_block_ptr` points to a valid `drm_buddy_block` managed by the buddy allocator.
++pub struct Block {
++    drm_buddy_block_ptr: NonNull<bindings::drm_buddy_block>,
++}
++
++impl Block {
++    /// Get the block's offset in the address space.
++    pub fn offset(&self) -> u64 {
++        // SAFETY: drm_buddy_block_ptr is valid per the type's invariants.
++        unsafe { bindings::drm_buddy_block_offset(self.drm_buddy_block_ptr.as_ptr()) }
++    }
++
++    /// Get the block order (size = chunk_size << order).
++    pub fn order(&self) -> u32 {
++        // SAFETY: drm_buddy_block_ptr is valid per the type's invariants.
++        unsafe { bindings::drm_buddy_block_order(self.drm_buddy_block_ptr.as_ptr()) }
++    }
++
++    /// Get the block's size in bytes.
++    ///
++    /// Requires the buddy allocator to calculate size from order.
++    pub fn size(&self, buddy: &DrmBuddy) -> u64 {
++        // SAFETY: Both pointers are valid per the type's invariants.
++        unsafe { bindings::drm_buddy_block_size(buddy.as_raw(), self.drm_buddy_block_ptr.as_ptr()) }
++    }
++
++    /// Get a raw pointer to the underlying C block.
++    ///
++    /// # Safety
++    ///
++    /// Caller must ensure the pointer is not used after the block is freed.
++    pub unsafe fn as_ptr(&self) -> *mut bindings::drm_buddy_block {
++        self.drm_buddy_block_ptr.as_ptr()
++    }
++}
++
++impl clist::FromListHead for Block {
++    unsafe fn from_list_head(link: *const bindings::list_head) -> Self {
++        // SAFETY: link points to a valid list_head embedded in drm_buddy_block.
++        // The container_of macro calculates the containing struct pointer.
++        // We need to account for the union field __bindgen_anon_1.link.
++        //
++        // The link is embedded in a union within drm_buddy_block:
++        //     struct drm_buddy_block {
++        //         [...]
++        //         union {
++        //             struct rb_node rb;
++        //             struct list_head link;
++        //         };
++        //     }
++        //
++        // This is why we perform a double container_of calculation: first to get
++        // to the union, then to get to the containing drm_buddy_block.
++        unsafe {
++            // First get to the union.
++            let union_ptr = container_of!(link, bindings::drm_buddy_block__bindgen_ty_1, link);
++            // Then get to the containing drm_buddy_block.
++            let block_ptr =
++                container_of!(union_ptr, bindings::drm_buddy_block, __bindgen_anon_1) as *mut _;
++            Block {
++                drm_buddy_block_ptr: NonNull::new_unchecked(block_ptr),
 +            }
 +        }
 +    }
 +}
 +
-+impl SampleItem {
-+    /// Get the value from the sample item.
-+    fn value(&self) -> i32 {
-+        // SAFETY: self.ptr is valid as per the SampleItem invariants.
-+        unsafe { (*self.ptr.as_ptr()).value }
-+    }
-+}
-+
-+/// Clist struct - holds the C list_head and manages its lifecycle.
-+#[repr(C)]
-+struct RustClist {
-+    list_head: NonNull<bindings::list_head>,
-+}
-+
-+// SAFETY: RustClist can be sent between threads since it only holds a pointer
-+// which can be accessed from any thread with proper synchronization.
-+unsafe impl Send for RustClist {}
-+
-+impl RustClist {
-+    /// Create a container for a pointer to a C-allocated list_head.
-+    fn new(list_head: *mut bindings::list_head) -> Self {
-+        // SAFETY: Caller ensures list_head is a valid, non-null pointer.
-+        Self {
-+            list_head: unsafe { NonNull::new_unchecked(list_head) },
-+        }
-+    }
-+
-+    /// Demonstrate iteration over the list.
-+    fn do_iteration(&self) {
-+        // Wrap the C list_head with a Rust [`Clist`].
-+        // SAFETY: list_head is a valid, initialized, populated list_head.
-+        let list = unsafe { clist::Clist::<SampleItem>::new(self.list_head.as_ptr()) };
-+        pr_info!("Created C list with items, is_empty: {}\n", list.is_empty());
-+
-+        // Iterate over the list.
-+        pr_info!("Iterating over C list from Rust:\n");
-+        for item in list.iter() {
-+            pr_info!("  Item value: {}\n", item.value());
-+        }
-+
-+        pr_info!("Iteration complete\n");
-+    }
-+}
-+
-+impl Drop for RustClist {
-+    fn drop(&mut self) {
-+        // Free the list and all items using C FFI.
-+        // SAFETY: list_head was allocated by clist_sample_create.
-+        // C side handles freeing both the list_head and all items.
-+        unsafe {
-+            clist_sample_free(self.list_head.as_ptr());
-+        }
-+    }
-+}
-+
-+struct RustClistModule;
-+
-+impl kernel::Module for RustClistModule {
-+    fn init(_module: &'static ThisModule) -> Result<Self> {
-+        pr_info!("Rust Clist sample (init)\n");
-+
-+        // C creates and populates a list_head with items.
-+        // SAFETY: clist_sample_create allocates, initializes, and populates a list.
-+        let c_list_head = unsafe { clist_sample_create(6) };
-+        if c_list_head.is_null() {
-+            pr_err!("Failed to create and populate C list\n");
-+            return Err(ENOMEM);
-+        }
-+
-+        // Create the list container (separate from module).
-+        let rust_clist = RustClist::new(c_list_head);
-+
-+        // Demonstrate list operations.
-+        rust_clist.do_iteration();
-+
-+        // rust_clist is dropped here, which frees the C list via Drop impl.
-+        pr_info!("Rust Clist sample (exit)\n");
-+
-+        Ok(RustClistModule {})
-+    }
-+}
++// SAFETY: Block is just a pointer wrapper and can be safely sent between threads.
++unsafe impl Send for Block {}
+diff --git a/rust/kernel/drm/mod.rs b/rust/kernel/drm/mod.rs
+index 1b82b6945edf..ee173729eac5 100644
+--- a/rust/kernel/drm/mod.rs
++++ b/rust/kernel/drm/mod.rs
+@@ -2,6 +2,7 @@
+ 
+ //! DRM subsystem abstractions.
+ 
++pub mod buddy;
+ pub mod device;
+ pub mod driver;
+ pub mod file;
 -- 
 2.34.1
 
