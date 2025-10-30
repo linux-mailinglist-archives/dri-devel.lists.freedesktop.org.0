@@ -2,64 +2,64 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 636D3C22A15
-	for <lists+dri-devel@lfdr.de>; Fri, 31 Oct 2025 00:04:43 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2759AC22A1E
+	for <lists+dri-devel@lfdr.de>; Fri, 31 Oct 2025 00:04:48 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B38F510EA75;
-	Thu, 30 Oct 2025 23:04:41 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7C7B210EA7B;
+	Thu, 30 Oct 2025 23:04:46 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="kafyQLw/";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="PliAInOq";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-f54.google.com (mail-wm1-f54.google.com
- [209.85.128.54])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B065D10EA70
- for <dri-devel@lists.freedesktop.org>; Thu, 30 Oct 2025 23:04:37 +0000 (UTC)
-Received: by mail-wm1-f54.google.com with SMTP id
- 5b1f17b1804b1-475dbc3c9efso11031275e9.0
- for <dri-devel@lists.freedesktop.org>; Thu, 30 Oct 2025 16:04:37 -0700 (PDT)
+Received: from mail-wm1-f52.google.com (mail-wm1-f52.google.com
+ [209.85.128.52])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B31E410EA80
+ for <dri-devel@lists.freedesktop.org>; Thu, 30 Oct 2025 23:04:43 +0000 (UTC)
+Received: by mail-wm1-f52.google.com with SMTP id
+ 5b1f17b1804b1-47112edf9f7so13152535e9.0
+ for <dri-devel@lists.freedesktop.org>; Thu, 30 Oct 2025 16:04:43 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1761865476; x=1762470276; darn=lists.freedesktop.org;
+ d=gmail.com; s=20230601; t=1761865482; x=1762470282; darn=lists.freedesktop.org;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=Zzdi8nfSSs1sZofLN+Os1wqi0upcCWxbMTjLpxylR+I=;
- b=kafyQLw/cqEwA/BZAYCNlLbXNyVn/WO3k0OjJ6HE9qe08FRAtYSt+DHQSyrJwL5oxA
- aAvb4fdbrW1djjfG2hmVcQblqg/VJ86nwNapZBGU5CN8wXzvIhQZ1RxzdsqD6T7DlA7D
- idco6MEp53thilHSxBf5BB4t7qAFrwIYD0/gCF+H5aefMbbME+r5NQHmVg3E93BtN0RT
- mF1aEa3dhHjgcTZjLZ1Bw4bjNiAsrm7yp26YtDZdjx7wwzX41MXqwtuRXto/+pUKMHp9
- FbEOYfpgQSOzWyJkFQqi07i4Qdex6FBGxIPMRvzVits+Bl3QRnUhhHdPROBJqsNXE+F8
- bX7g==
+ bh=4dA6vbryG5FJTzOnmpJ+a7K24uQqVYeU0GUEiTTytsg=;
+ b=PliAInOqOrxQS+ImCg8kjzwaCTrWJ9pDv9fGOzI0WhAu4Uwzti5nGL0GCDcws2RPET
+ 6+cfEBcw2CQVg9uWr5DyE67WdhITplTm3PJBzljr1XJ8WIvngG3rLblywEM1EPZSX/Wj
+ B8i2cqkyQpsRzb55gYFW3KND2QxDu7Kn5clP0eYInP7CU1BxabGWPRH9Lm7c5eSF8FK2
+ H4MEQx4anaxy6pSaZpsn1eL27jCW+uOFPZWZu8l0/hwiuYuFgspV2ro5LuCofBnv/5Qv
+ iO6Y2M623PNwIlAUd097+yipjs8EG4JSxZXVVeGjOi5ezmX5SaiMXvTES1XGSpE1kRW3
+ WUcQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1761865476; x=1762470276;
+ d=1e100.net; s=20230601; t=1761865482; x=1762470282;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=Zzdi8nfSSs1sZofLN+Os1wqi0upcCWxbMTjLpxylR+I=;
- b=Gy8PGg5xO08gVoVaZ2k+SVjnkhF7OMk7SCLuCfmrNbaFPYWBTIVm69Qce1dZ2f7pBr
- qYco6wyElM3a9r70VdtpFa/pp8DNslCRCQEDCW/NqpE0e0UwDHzE1YkevXYpw1CCRQTQ
- IttlEGCU7KQkyJ5oyLcVC9sTt5V/eq5IFKwRplgHgcilK2ix4YjoINNwO4imJNpTos4a
- opLFapvJy/6bSex3lsP9Vk1iY9+eIT/S4v8bOFUGhtdO7mRsXi2CfRlCj6E//ZPc3k8H
- mVdjjmhKa1078V1YH7dC3+sMxcJvnij9vnEDy9FG1Cs0yt+FR02Da8Yd8A0qrWWhXQjv
- W1Jg==
-X-Gm-Message-State: AOJu0YyGLkXruAI4J6WQEIo56hV+GGcVThb8IOfqmMsnMOoxHN4CpLwU
- t4rg6noVbFkfd+0bCTfxX8et0JFLD3mggv9GRd1imS7U53dfbGuBHb+0
-X-Gm-Gg: ASbGncs2Aqwu4C7tQBfUUlAjDbKLtayShjXiVbRMDaNAa+leA+hpVJ7ucvo580Ol8fg
- 0ZAaF+KL1fLpPaoB9MfXuyzoEJtmNEMlq8hnr0xUYtbs66+eLmeztp0YWyn8R1vor/HR1lAYdvV
- UEYjmesFOSRczCfzPQM6k1jhmnqR+wW+fwyYMunRAqDOGngw7vlfdQIxTEMBYMxxQd57/4a/ZdW
- 4wqZHBG+MzIXXnumA2SpiuTcNtw3yfBMhj5JW2On2atid2EObXkhkO04vw8xrXBCOPM2AkCI7FY
- Y3iNbW6ybPm6p1/0SWappqli7KfnhzqhyuwifRAK1T8CG+zlEXFzCdFaQZCCbTOQxPrCeuOzSHp
- cwRld7yY43RaNZNq7zBtMYjBU8Dse13h+3tzpOz19NRH6uQNGl+zwlpdLvcGstCIiOVjOeCrj7s
- dk731iNBKpFbQ=
-X-Google-Smtp-Source: AGHT+IF1so7IsZ9CcfqAXskg5gm7+8a7SRpdoFYm2WfU1UNPEHE0EN5YGGHblVJH7Zxh/5bqtSuH+Q==
-X-Received: by 2002:a05:600c:8706:b0:45f:2922:2aef with SMTP id
- 5b1f17b1804b1-477308b0a8bmr14151015e9.28.1761865475936; 
- Thu, 30 Oct 2025 16:04:35 -0700 (PDT)
+ bh=4dA6vbryG5FJTzOnmpJ+a7K24uQqVYeU0GUEiTTytsg=;
+ b=AB4of8rT+TQzJ0w7IbrScV6psxiyGiHVzx2l3V5gN3uQ5l2shd28/v782kMVQUQcgr
+ EuNc3ZNaOZuQe3rPf1ewIX0P4xEkZqpI/E5xL/a1fHzzv8SgUczdRlCxQdO7BNONkJcH
+ KoeKYfIg2T7b/uhfAZIvq7V0zGE/mLtTAEBfps1k70CzWh0mJdcN43EaLAGQs4umsTcQ
+ oq10IuPbZ0x83D35Z2tHwg5UDWHtOXy18zzIEWFSlyMqolsJEa5I6p8pn3G2O2lbbQED
+ klpHLYhPY9d8gfpJqtBEaHg3sgtkib2lbyaYXpOG1yBELkOyxpBNyDxILnJbIRBPKqiP
+ SEIQ==
+X-Gm-Message-State: AOJu0YyCMXsitKWzptHZTSRvbFDRe8i/h6Zw9Cu+LSJ8GCyn7hUOe5b6
+ LZbxOZy1Zt+TJGo29Zcwh7Z1nIDb+W3uKNH+cm4iYYf6bE3MksXxYlwe
+X-Gm-Gg: ASbGncu63ZEaO3DQ5fy02wA3NPMsLNP7FgfIbyxL0ugG0TkK48g6kCibg2sRBwVwq+S
+ PkfrO24BdOPJ5BU8Z8Po4/21w/1QqjPIPStA8jFbXKS0uJ1Hne9UICMqrceXYJDjPfcaEtE3vHM
+ Eoiw4v7nm/Q1oo1zJEDfOQx0EvAYnu/luD5bb18eiCB7NBfD+nstgNxD42+LHMvk/snuG6qJLbi
+ LCJ3tJOwG+DdKw2iYAluTETyo0dpYfH7kk9vo+Xikr2IYgxfDd/EFd3a3nJ9hiBWhwZYNenZhC0
+ 7Id5ANGpS3SeQLHmkVA24qVW2M31A6G/KtFbHwsH8lCfEZgkpx7/+/n3VHbOzpfziLLFBNqEZjX
+ ze0ad7/2ftb9j64gkZKik8Vvgh628n0CitKcu+/Nz87k8yCkuiOMPY3R3I1pZrTytIYZDSnRywr
+ k5NMUcd7hy/Hp09EkGhSJ0hg==
+X-Google-Smtp-Source: AGHT+IGyCOmFhRjPi1dA9EmPXnKmiW9faJgiGLkzd27O/GNIxvB0MswqzLd3bUuGjgqJLB4E+1ldgQ==
+X-Received: by 2002:a05:600c:1c1d:b0:46e:39e1:fc27 with SMTP id
+ 5b1f17b1804b1-477307d740cmr11913775e9.5.1761865481989; 
+ Thu, 30 Oct 2025 16:04:41 -0700 (PDT)
 Received: from fedora ([154.182.161.198]) by smtp.gmail.com with ESMTPSA id
- 5b1f17b1804b1-47732ff8235sm2227025e9.14.2025.10.30.16.04.34
+ 5b1f17b1804b1-47732ff8235sm2227025e9.14.2025.10.30.16.04.38
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 30 Oct 2025 16:04:35 -0700 (PDT)
+ Thu, 30 Oct 2025 16:04:39 -0700 (PDT)
 From: Mohamed Ahmed <mohamedahmedegypt2001@gmail.com>
 To: linux-kernel@vger.kernel.org
 Cc: dri-devel@lists.freedesktop.org, Mary Guillemard <mary@mary.zone>,
@@ -69,11 +69,11 @@ Cc: dri-devel@lists.freedesktop.org, Mary Guillemard <mary@mary.zone>,
  Maxime Ripard <mripard@kernel.org>,
  Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
  Simona Vetter <simona@ffwll.ch>, nouveau@lists.freedesktop.org,
- Ben Skeggs <bskeggs@nvidia.com>,
  Mohamed Ahmed <mohamedahmedegypt2001@gmail.com>
-Subject: [PATCH v3 4/5] drm/nouveau/mmu/tu102: Add support for compressed kinds
-Date: Fri, 31 Oct 2025 01:03:56 +0200
-Message-ID: <20251030230357.45070-5-mohamedahmedegypt2001@gmail.com>
+Subject: [PATCH v3 5/5] drm/nouveau/drm: Bump the driver version to 1.4.1 to
+ report new features
+Date: Fri, 31 Oct 2025 01:03:57 +0200
+Message-ID: <20251030230357.45070-6-mohamedahmedegypt2001@gmail.com>
 X-Mailer: git-send-email 2.51.1
 In-Reply-To: <20251030230357.45070-1-mohamedahmedegypt2001@gmail.com>
 References: <20251030230357.45070-1-mohamedahmedegypt2001@gmail.com>
@@ -94,96 +94,45 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Ben Skeggs <bskeggs@nvidia.com>
+The HW can only do compression on large and huge pages, and enabling it on
+4K pages leads to a MMU fault. Compression also needs kernel support for
+handling the compressed kinds and managing the compression tags.
 
-Allow compressed PTE kinds to be written into PTEs when GSP-RM is
-present, rather than reverting to their non-compressed versions.
+This increments the nouveau version number which allows NVK to enable it
+only when the kernel actually supports both features and avoid breaking
+the system if a newer mesa version is paired with an older kernel version.
 
-Signed-off-by: Ben Skeggs <bskeggs@nvidia.com>
+For the associated userspace MR, please see !36450:
+https://gitlab.freedesktop.org/mesa/mesa/-/merge_requests/36450
+
 Signed-off-by: Mohamed Ahmed <mohamedahmedegypt2001@gmail.com>
 Reviewed-by: Lyude Paul <lyude@redhat.com>
 ---
- .../drm/nouveau/nvkm/subdev/mmu/vmmgp100.c    | 46 ++++++++++++++++++-
- 1 file changed, 44 insertions(+), 2 deletions(-)
+ drivers/gpu/drm/nouveau/nouveau_drv.h | 4 +++-
+ 1 file changed, 3 insertions(+), 1 deletion(-)
 
-diff --git a/drivers/gpu/drm/nouveau/nvkm/subdev/mmu/vmmgp100.c b/drivers/gpu/drm/nouveau/nvkm/subdev/mmu/vmmgp100.c
-index ecff1096a1bb..ed15a4475181 100644
---- a/drivers/gpu/drm/nouveau/nvkm/subdev/mmu/vmmgp100.c
-+++ b/drivers/gpu/drm/nouveau/nvkm/subdev/mmu/vmmgp100.c
-@@ -109,12 +109,34 @@ gp100_vmm_pgt_pfn(struct nvkm_vmm *vmm, struct nvkm_mmu_pt *pt,
- 	nvkm_done(pt->memory);
- }
+diff --git a/drivers/gpu/drm/nouveau/nouveau_drv.h b/drivers/gpu/drm/nouveau/nouveau_drv.h
+index 55abc510067b..e5de4367e2cc 100644
+--- a/drivers/gpu/drm/nouveau/nouveau_drv.h
++++ b/drivers/gpu/drm/nouveau/nouveau_drv.h
+@@ -10,7 +10,7 @@
  
-+static inline u64
-+gp100_vmm_comptag_nr(u64 size)
-+{
-+	return size >> 16; /* One comptag per 64KiB VRAM. */
-+}
-+
-+static inline u64
-+gp100_vmm_pte_comptagline_base(u64 addr)
-+{
-+	/* RM allocates enough comptags for all of VRAM, so use a 1:1 mapping. */
-+	return (1 + gp100_vmm_comptag_nr(addr)) << 36; /* NV_MMU_VER2_PTE_COMPTAGLINE */
-+}
-+
-+static inline u64
-+gp100_vmm_pte_comptagline_incr(u32 page_size)
-+{
-+	return gp100_vmm_comptag_nr(page_size) << 36; /* NV_MMU_VER2_PTE_COMPTAGLINE */
-+}
-+
- static inline void
- gp100_vmm_pgt_pte(struct nvkm_vmm *vmm, struct nvkm_mmu_pt *pt,
- 		  u32 ptei, u32 ptes, struct nvkm_vmm_map *map, u64 addr)
- {
- 	u64 data = (addr >> 4) | map->type;
+ #define DRIVER_MAJOR		1
+ #define DRIVER_MINOR		4
+-#define DRIVER_PATCHLEVEL	0
++#define DRIVER_PATCHLEVEL	1
  
-+	if (map->ctag)
-+		data |= gp100_vmm_pte_comptagline_base(addr);
-+
- 	while (ptes--) {
- 		VMM_WO064(pt, vmm, ptei++ * 8, data);
- 		data += map->next;
-@@ -195,6 +217,9 @@ gp100_vmm_pd0_pte(struct nvkm_vmm *vmm, struct nvkm_mmu_pt *pt,
- {
- 	u64 data = (addr >> 4) | map->type;
+ /*
+  * 1.1.1:
+@@ -35,6 +35,8 @@
+  *        programs that get directly linked with NVKM.
+  * 1.3.1:
+  *      - implemented limited ABI16/NVIF interop
++ * 1.4.1:
++ *      - add variable page sizes and compression for Turing+
+  */
  
-+	if (map->ctag)
-+		data |= gp100_vmm_pte_comptagline_base(addr);
-+
- 	while (ptes--) {
- 		VMM_WO128(pt, vmm, ptei++ * 0x10, data, 0ULL);
- 		data += map->next;
-@@ -440,9 +465,26 @@ gp100_vmm_valid(struct nvkm_vmm *vmm, void *argv, u32 argc,
- 		return -EINVAL;
- 	}
- 
-+	/* Handle compression. */
- 	if (kindm[kind] != kind) {
--		/* Revert to non-compressed kind. */
--		kind = kindm[kind];
-+		struct nvkm_device *device = vmm->mmu->subdev.device;
-+
-+		/* Compression is only supported when using GSP-RM, as
-+		 * PMU firmware is required in order to initialise the
-+		 * compbit backing store.
-+		 */
-+		if (nvkm_gsp_rm(device->gsp)) {
-+			/* Turing GPUs require PTE_COMPTAGLINE to be filled,
-+			 * in addition to specifying a compressed kind.
-+			 */
-+			if (device->card_type < GA100) {
-+				map->ctag  = gp100_vmm_pte_comptagline_incr(1 << map->page->shift);
-+				map->next |= map->ctag;
-+			}
-+		} else {
-+			/* Revert to non-compressed kind. */
-+			kind = kindm[kind];
-+		}
- 	}
- 
- 	map->type |= BIT(0);
+ #include <linux/notifier.h>
 -- 
 2.51.1
 
