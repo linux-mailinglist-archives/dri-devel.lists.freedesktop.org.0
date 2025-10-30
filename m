@@ -2,64 +2,64 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 061CFC22439
-	for <lists+dri-devel@lfdr.de>; Thu, 30 Oct 2025 21:33:15 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id D7C72C22438
+	for <lists+dri-devel@lfdr.de>; Thu, 30 Oct 2025 21:33:14 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0465A10EA5C;
-	Thu, 30 Oct 2025 20:33:13 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E72FA10EA5B;
+	Thu, 30 Oct 2025 20:33:12 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="CZlgCybJ";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="nf9Z0wHp";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 74B2510EA59;
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9A83C10EA5A;
  Thu, 30 Oct 2025 20:33:11 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1761856391; x=1793392391;
+ t=1761856392; x=1793392392;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:content-transfer-encoding:mime-version;
- bh=4FR5hdkf8mLI+JfOHm/AJ6RHShH6+nIJ3ePjD977uig=;
- b=CZlgCybJN2GYoHxFY+Gf6NsjUBZHzWN36mK/jdENJqBuZYNfJGEcGb2A
- IRZlFDJlxHr5bFi6SvqGNZvh4ngOglk4N77wDSz8xTypca+gfxG+lCXrT
- /Lu4KqLuTBqLi7/s2dXEZGIBgS8MsaU3b830+NbA+RvtJG5XC5IcRdoqz
- zNVSwasy/D673KRJCjWN2LmptB92mLxCUlW44a5zCP20Ke3p1dZ7s9Op3
- JgIwDelsUNmxo2fxKFnr4H+WYWDkHU/Dmll5kAqZjdA/DcNu5p2CNqPiD
- yVOABil5OC7QNwdAqELhBLoicx7NBgs6Sf+Rlq0bzSdcJb04fQ+ySpdvr g==;
-X-CSE-ConnectionGUID: zClTBDo2T1i+AqnXNdBLWw==
-X-CSE-MsgGUID: Bvc05JXqTmWboXigdALH7g==
-X-IronPort-AV: E=McAfee;i="6800,10657,11598"; a="51583817"
-X-IronPort-AV: E=Sophos;i="6.19,267,1754982000"; d="scan'208";a="51583817"
-Received: from orviesa001.jf.intel.com ([10.64.159.141])
- by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 30 Oct 2025 13:33:11 -0700
-X-CSE-ConnectionGUID: sVPMs4RySMCQCZawRH6+AQ==
-X-CSE-MsgGUID: SMvuLpUBQAOgcxHOSpXHUw==
+ bh=1L1rhFqxScJB67SPq4akSvYOwqLWLRjtQOYSK51u+jY=;
+ b=nf9Z0wHpoj5itRsmHalpdzPZxJf37iQ+COW8cFRxNXTQ2BXSbfkKrgwN
+ r6RJMIbcqu5UlFJi0JpQ+fFZg/asdpPdruo3pU/dY26FKD9LxJs0p0hUm
+ n/R1AyXoHiSnikyD2x0o20ERUeDL6+lYyyRLT5KMYT3zpAIcoaqsGdo2D
+ UBV0qooeqcTtUheKN+A7AAu4jmttyaJdq0DIouVtO4/evB79H+XKdGErS
+ DOh8LIaTSsm0PTB3Kxwb4xEwOvXxKsHH8eW71IQg4yUKcNmTCNP0ZJy1z
+ CeXr8YUfLBsSzRaUeY/XMfNtpJXFhuoLokrtfP3ukHomspsAMJiCNwVQ6 A==;
+X-CSE-ConnectionGUID: z5wNqaBLTU+pmjPqTC0QrA==
+X-CSE-MsgGUID: gDAIYVxDQ8ig4WRnLaPeZQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11598"; a="75130093"
+X-IronPort-AV: E=Sophos;i="6.19,267,1754982000"; d="scan'208";a="75130093"
+Received: from orviesa006.jf.intel.com ([10.64.159.146])
+ by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 30 Oct 2025 13:33:12 -0700
+X-CSE-ConnectionGUID: 10/K0NQUTv24KJ/AfbKziQ==
+X-CSE-MsgGUID: EXn8QFvrSIKqtpFhCG0cIw==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.19,267,1754982000"; d="scan'208";a="223284394"
-Received: from fmsmsx902.amr.corp.intel.com ([10.18.126.91])
- by orviesa001.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+X-IronPort-AV: E=Sophos;i="6.19,267,1754982000"; d="scan'208";a="185262651"
+Received: from fmsmsx903.amr.corp.intel.com ([10.18.126.92])
+ by orviesa006.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
  30 Oct 2025 13:33:11 -0700
-Received: from FMSMSX901.amr.corp.intel.com (10.18.126.90) by
- fmsmsx902.amr.corp.intel.com (10.18.126.91) with Microsoft SMTP Server
+Received: from FMSMSX902.amr.corp.intel.com (10.18.126.91) by
+ fmsmsx903.amr.corp.intel.com (10.18.126.92) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.27; Thu, 30 Oct 2025 13:33:09 -0700
+ 15.2.2562.27; Thu, 30 Oct 2025 13:33:10 -0700
 Received: from fmsedg902.ED.cps.intel.com (10.1.192.144) by
- FMSMSX901.amr.corp.intel.com (10.18.126.90) with Microsoft SMTP Server
+ FMSMSX902.amr.corp.intel.com (10.18.126.91) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.27 via Frontend Transport; Thu, 30 Oct 2025 13:33:09 -0700
+ 15.2.2562.27 via Frontend Transport; Thu, 30 Oct 2025 13:33:10 -0700
 Received: from SN4PR0501CU005.outbound.protection.outlook.com (40.93.194.47)
  by edgegateway.intel.com (192.55.55.82) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.27; Thu, 30 Oct 2025 13:33:09 -0700
+ 15.2.2562.27; Thu, 30 Oct 2025 13:33:10 -0700
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=jQmqLcjN0V7+uOaP7YkDgRP0NBwC7MK5pXJ/LFDZYzJVkCaZ/F+9Vh1ZB9Pz/dZu2fvSo66SErTmcmognyspHEM28rielInjzZ3NxWZuq4tCos47FP+4YKQ+bkO9pAEA8XnxneA1W8AbSn3CZCPli7wfi51CultcQl1qhOQrnaFoCFj6U5Ryj7bIOvx0f16ZuKTh03hR5QEVYMwVDMNVj+cqHaaO5F/vgAN+jHgs4KWfk36r4dwheMxlvb7z/z07yd1rKI+3GMgkWn7RB1lt+7/lQtb/lyHQFkTWWuisj8xvXgj+zlGYF4kQJ9NyUR9hJalCnZkZx/wsAQbfURFtYQ==
+ b=QN/Koxx9aHCk28I9yoalFB0YHjGIDRlaTOhHfCYLXItwD1EwxImGRwrgO83/pD2hwiiN1Lfehw6TwTy7i9xcczYFtXOr1HSOI4bp+i7uvlDfD8QZqrPziylOQen1/0lE7XGJSnlK+1e0qDePwb4oqUjbSOQ4pMNtk3bdzhXfLSOWe5bSWBiUhQLL8g7xQlfg8cHZCGhPQSK1SaVL6hEXrdNTZeu/0Z6UTMDOXk5+IdP5aUKxLdhtzzmH+ySLdCp+6S2J9myp1xV20fwwnfTdlE26uqn+JIodlN/zW3KpvIZJIR3WLMtTgjkVT6v618oROzmeTQvAhTfQs4rphaIZ+A==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=gPIDXNHrvH0gQwsHq1u7nwWuceVbCx/rcMs3HdGxpC8=;
- b=fl2cBP0gMWO7+OwJqkwVnDQWygGkxTrriwDJfMRGbgbMOCfUlo5iI8cM/BcqchP1+tyuSOT6ARfc6XZEMv90HvOxpWwnZiZFlvRGVqwK958k5LVJGf9aP3G+VjY5r+4/L919eW7VswBugQe1DI9VwCxuTBlhEwGbTxCaGQBTf20vanlq6i4cR8VyBxkOv+sEUAeQCkM0j7uYnytmbbQIFuNydXyS9/bvgmd+/Q0Jl+x0Y57Clnw0qfYI09xP9/5XYjG1gzWV4RvzM+23XndsDQDk5Cw09cWj4oyEYbpnahjhA8b7H6YiFGev9/4czt1yN7ysT4+vdyZOQzFPevPD6A==
+ bh=YFOjQcUN92k8NAbFk5nGQRo/G2mTq5dY1xvSeWDvxYI=;
+ b=sqvgC9ENarY+Prm45b6V+CRvEIorRe0Sul5uFaCB1Dienv3jhrhGgavkf6oQduUCwLf+2ZknX/8wKa9JWEWGAfTJ+qMMa6D7C5dAZchKEbsTst+LF042Xgn5Pq724tdXe6ra59gyQxkKisKCoHEsz+ahxlcNQ16abpENtnkTedK7446PrhsHV/cauywkgnIVjXIY2vRRWtdNg8pWkAgPIuz3kHMajgql1e77/ZQLA3DUlVxLGOH/QuTD+Ic75KOO1M4wAkr+p84dDxi96zJ1Nlj0el8U3ufPaNhApi2EfLvUhMVicfc+xthCfuk2rJZNSktSoQOhKmrxwacPPlrEIw==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
  dkim=pass header.d=intel.com; arc=none
@@ -69,11 +69,11 @@ Received: from DM4PR11MB5373.namprd11.prod.outlook.com (2603:10b6:5:394::7) by
  CO1PR11MB4817.namprd11.prod.outlook.com (2603:10b6:303:98::7) with
  Microsoft
  SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.9275.14; Thu, 30 Oct 2025 20:33:02 +0000
+ 15.20.9275.14; Thu, 30 Oct 2025 20:33:07 +0000
 Received: from DM4PR11MB5373.namprd11.prod.outlook.com
  ([fe80::927a:9c08:26f7:5b39]) by DM4PR11MB5373.namprd11.prod.outlook.com
  ([fe80::927a:9c08:26f7:5b39%5]) with mapi id 15.20.9275.011; Thu, 30 Oct 2025
- 20:33:02 +0000
+ 20:33:07 +0000
 From: =?UTF-8?q?Micha=C5=82=20Winiarski?= <michal.winiarski@intel.com>
 To: Alex Williamson <alex@shazbot.org>, Lucas De Marchi
  <lucas.demarchi@intel.com>, =?UTF-8?q?Thomas=20Hellstr=C3=B6m?=
@@ -89,109 +89,108 @@ CC: <dri-devel@lists.freedesktop.org>, Jani Nikula
  David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, "Lukasz
  Laguna" <lukasz.laguna@intel.com>, Christoph Hellwig <hch@infradead.org>,
  =?UTF-8?q?Micha=C5=82=20Winiarski?= <michal.winiarski@intel.com>
-Subject: [PATCH v3 13/28] drm/xe/pf: Remove GuC migration data save/restore
- from GT debugfs
-Date: Thu, 30 Oct 2025 21:31:20 +0100
-Message-ID: <20251030203135.337696-14-michal.winiarski@intel.com>
+Subject: [PATCH v3 14/28] drm/xe/pf: Don't save GuC VF migration data on pause
+Date: Thu, 30 Oct 2025 21:31:21 +0100
+Message-ID: <20251030203135.337696-15-michal.winiarski@intel.com>
 X-Mailer: git-send-email 2.50.1
 In-Reply-To: <20251030203135.337696-1-michal.winiarski@intel.com>
 References: <20251030203135.337696-1-michal.winiarski@intel.com>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: VI1PR07CA0288.eurprd07.prod.outlook.com
- (2603:10a6:800:130::16) To DM4PR11MB5373.namprd11.prod.outlook.com
+X-ClientProxiedBy: VI1P191CA0010.EURP191.PROD.OUTLOOK.COM
+ (2603:10a6:800:1ba::18) To DM4PR11MB5373.namprd11.prod.outlook.com
  (2603:10b6:5:394::7)
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
 X-MS-TrafficTypeDiagnostic: DM4PR11MB5373:EE_|CO1PR11MB4817:EE_
-X-MS-Office365-Filtering-Correlation-Id: 0e6e71d1-c072-42da-8ed7-08de17f385d7
+X-MS-Office365-Filtering-Correlation-Id: d4272e6c-9715-4349-7142-08de17f388b0
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
  ARA:13230040|376014|7416014|1800799024|366016|921020; 
-X-Microsoft-Antispam-Message-Info: =?utf-8?B?eUNWVHJVTnV4L0FtajM5cTYyYzl6Y242YWRMc1UvOW1GK25Bb3VrbDUydmx2?=
- =?utf-8?B?YW96RFE5WnU1RncvSjRrLytOS1IycngyTTFVakpaZkJEOXRhUTRiaDhWVTIv?=
- =?utf-8?B?MXhNby9xYStrcTliZCtGQkljUHJCZHd2MEN6dDVSZUE1MXErQjJ4WWlycWJ4?=
- =?utf-8?B?QlVlTmIwc1RJUEN4eSs2YXpoL21hRW5DYnhnTUpxbE9nSlgreVdQaHR3Qjhy?=
- =?utf-8?B?bStvOG92OVM0WU9mVUpMS3VJT1Y5TVRmdzc0MEIzN0xXZXFnd1R5eVFwZThS?=
- =?utf-8?B?QTZyZSsvSHUxdWZjYThjVWJCbzYwZjkvRGIyT0VaZnVXVzk5bzd2dTEzcXBa?=
- =?utf-8?B?UDhWV25QZER4bDZTYUt6L1lTWWdkcG1JT0tVMUtvSGtYUkk0SmlLSjk2cGZF?=
- =?utf-8?B?WmdERk80M3ZuNkZVUFFLb0ZqZ3E5UXMxR25LZlViS1VUQ1BiaVJMK0dtR0dO?=
- =?utf-8?B?Tm1tL2JxeWpaZ3pkVFUwc0FCOU93blpaeDFwMEdkK3VlOXRlcC8zT3YvT3hH?=
- =?utf-8?B?K3dRY29JRUlFbklveVM2MElaMDc2emZMSXV4WmNuNU9uUGdMSkxsenAxeWNM?=
- =?utf-8?B?elRCTnhZY2EveUphb1FlakxYWS9lZVZCVVIybHhUcUdKQjZGekk0R05PMGp3?=
- =?utf-8?B?WkJ3K3pKQTdYQm5WWERqQW1iVDU2UUd2eGRaR0psVi9iQVdqRU9RZFBvM3Br?=
- =?utf-8?B?N01qVTgzYUJlTGQ0bnFpbXMyWmZIcFk4S3YrWVlvLy9DVjc5V2wxak9iUlR6?=
- =?utf-8?B?M2l3cmZjZmU3UVFxeVg5TTdYUy8xa0Qya21uWi9SYzRCdzduVDNlMVVKelBR?=
- =?utf-8?B?K0g4WGp2VFhGYW5reWFiT3ZYZFBrRnlzTXArU05vY3lMSjhRL3Y5c0Q3VzBP?=
- =?utf-8?B?OUdqUXZ4L21kZWxwZ1EyUVlNLzgvM2Y5TldpSFppUEJjTXBQT3dLcG5oMlMr?=
- =?utf-8?B?WElMckNKeFZYMXpGNXVPOGZGdXJVaTlEalVBYjU5am0yTXlHVWV0ZUVxTDQ2?=
- =?utf-8?B?eUtnQVh0VGxEOVRPSERSV2gwNWRIYmpkeHJ0V1kxRlFSNlVrdGJ3ZFUwL1Bu?=
- =?utf-8?B?dFNwSEpMeE5VTTRNTHhKNjNkTDc1NW9LZUp6UUdkcG5MTzVObkFMaGRWMnNG?=
- =?utf-8?B?YlZ0MEgxUVduUyt1RW9MdURIZjJZSDVGMU1XUnJYd2EzelR3cVd5Y1RYVlpl?=
- =?utf-8?B?UkhRNTE4cnVXUkxBZUVUU01xTU0xSjQ4WXp0UlErVjQwandHazFZUXVTdlZs?=
- =?utf-8?B?d2JrZzdZU3I1NlcrOU8vVlNEMWRGTkorQXRDM0czeGh0Z0s0S1JWSGJZVWhO?=
- =?utf-8?B?Mk4xS1BTdmpFb2RqNi9URjdBK2xjNWNhOEs3SzI4Z3ZlUklnekh2Tkh4bUY3?=
- =?utf-8?B?TlU0VTh2czh3bC9vaGdxUlBSbjhjM0FUeVFTZ1Qzd0VOZTZhcXBCbW1XN3BW?=
- =?utf-8?B?dWpEc0hwaVRjQmlyVjdQUDVHRkF6bUpTdmo2dG5QRkZTclVOMHM0dlZLaVp0?=
- =?utf-8?B?cFRScXVZOHI3TTJyeHZzYU9PTG1JTThFOXNkRmtHVE11bm1VdmJIZXRLeENr?=
- =?utf-8?B?OW9Nellvb0tab2xXU2xNS0Z5RTZJajNlVU1NcmFTOU01UTNlN1A0Sy9TaGJ2?=
- =?utf-8?B?VVJFVGpxcjhpYVJoRHg4VVhrN2lhWnJydFBNa2J2V0I1T3pLTWhPVXhjMktp?=
- =?utf-8?B?anhSQmtXQVJvR2srRjFzTnpXYU1WMmlvMlNUSnUxWER0MExUcXJUY0RYR1lm?=
- =?utf-8?B?V3V1akhiVVBDMU5aQkJkUS80TmhiL2gyaE1Tb3hMaW5ZaFRocUdaT1lmRHhF?=
- =?utf-8?B?QytCcE9McHBuajhaUUJVSWxvMER4Qm5NU1k3MUdlYXdPUEY5c2dPelU5TDB6?=
- =?utf-8?B?L1RJTjZxa1BQTjU4UjIxRDlHT0IzQVBCYjg3TWJrdmRXZkpHVDlnS08wOGZp?=
- =?utf-8?B?OE04YnhwUHZCREp2dVpoSU4zWDkzTllrcjRHcFgyZThkb0c2UFRscHpTb0Ix?=
- =?utf-8?Q?agTGreQns19qb6KlgSTicnOLdat02w=3D?=
+X-Microsoft-Antispam-Message-Info: =?utf-8?B?ZWJTdFA1Z3ZXWlk1OWtzR0VRdnZmNEZFd0xwaEJrQXpDKzZrb3lXYUJPODJZ?=
+ =?utf-8?B?azZnNDBwYVRycUVUSGlzMVp5N2I3TnlNNFdDWVBWYTZJNzlNQjBXVG1qVWha?=
+ =?utf-8?B?d0lkcEg3d0lpTVVMYUl1V3haMEdRU3lDektVb08xVnhqS2JaUmJKVk9zQjhu?=
+ =?utf-8?B?VTZ3NFVGNHpuNDNoZmdncG5kMmo2T3dDYnV0YUlZVWJ1cFZPaTN6QjJyTlA5?=
+ =?utf-8?B?ckZzcVdKbjhycThyak9MWXllU2VSU1p1SXJMNExEcXpnZHFoWldOY1VIKzBo?=
+ =?utf-8?B?TGVGM294UUpncEZhT2gzY2pCZEhRTWtDbDI4VmtjUXR4Qit6U1J2bTIxSnB2?=
+ =?utf-8?B?OS9LL3h3TWx1UVVWWVlNL2I4R0Q5dWR6VGtaWG9mNzliWTl6MlczRW1ReVov?=
+ =?utf-8?B?Q21PL2tnc1Z3R1ZIYVJoaCtSZ2hDSEpKN2hycWsrR1dndGlmRjdmT1hGTzZB?=
+ =?utf-8?B?RWtQeXZaVXphUVNCS1N6cjdKVmJPaTFEdjJPK1pZOFZqOHU3Z0pXaHRVOTh0?=
+ =?utf-8?B?OTlhL0hyR2l2QlJteVgxZzRtWDZxZUxYNmRaZ1BUd05IazdnQ2g2SzBkTWVZ?=
+ =?utf-8?B?dUtDVmx2VTR1bGluc1M1Rllsd3RpWW9DM3lFbXlkbnVxYzVNV2dOWi96Um4x?=
+ =?utf-8?B?Y2N0cTV3WXZqdkJWZEJSSGJTbzFlRlpCajFyN24vMDhCTUtSTHhJUEtwMi9Q?=
+ =?utf-8?B?V2tDUCtxS1puekNHRHlxZXBmK1ZBZDdBcFJOWnV1QkcyU2FXZjhSZ3hTdmE5?=
+ =?utf-8?B?WnVoZXFPTHd6ZDd0NDR5YU9DVFdnWksvdDN5eFRHOEFTZXd2L3pOeGp0R1BF?=
+ =?utf-8?B?aGwyb2JBREVFTXpCbzJVQ3plNWd3N1ZnWm5IZXdVVWliOE9JUDRPTVByZFRt?=
+ =?utf-8?B?U0xmZkdnRm15bWgwclZkSVd2cy9lVHZPNkpMZ1VUK1lpdDZKdUZ0QzRwRVpX?=
+ =?utf-8?B?NXE5K2hVenlETkU0QVpTd2pSZXZlU2hsUVk3OTJrcTM0dmh2T0ZXTXVad21o?=
+ =?utf-8?B?T3grL2JWc2E2dk9KWHVtYmorM0FWNXhydGZEcnRFWnB2ZFBQcVdwZkpsdHli?=
+ =?utf-8?B?RncrTitSTFYwdVlvdW9ZSnZCd2VEWkNTcG14cFh1OWk0UUFaNGg4emRUUklQ?=
+ =?utf-8?B?YVV2YlhSRDQ5VnRVZkc1ZzdrNnFuMVFKaWdjczZlRDI3RmtlTGY4UHFNaDJO?=
+ =?utf-8?B?eE8zLzlsaXVodXo2MlFIdkF5TTA3U3NnYVo1MllRdHFNVUpFYUZlOUZxdTMr?=
+ =?utf-8?B?cWJZL3dJT2NTN3lUd1dmYTNJMDg0bmlSeW9hTWZzOVdUS3BLMmZ5ZnRQQTQ0?=
+ =?utf-8?B?eFlmVHpOamhnWm5QOGgwV1lsWWp2Y0syQXFJaEdBbGxTVmFXYXc3dUIzd3VF?=
+ =?utf-8?B?aG9pOXp1V2hYb1VtS0Y2bUdjS0JhY2t1VzJRNHhHSEw0RFZvRjZSc0oybGd3?=
+ =?utf-8?B?Sm5Sb1A4TThidkpqVVM2V0tMR1FrVzZJN1p0NXRSMWx2MDZwclFUT2gwUGJj?=
+ =?utf-8?B?c1E3Z0E0N0RtOUlQM0lURjcwK2tvRWtvV2lDWjNLdGhJaEFyTmRVSkxBTXc1?=
+ =?utf-8?B?Y0h5ZytKOGZ4OVBXc3JORUVzSEVnRFlHRjk4OHNFOWVvanlzTWh4YlVuN3Zu?=
+ =?utf-8?B?QkQ1aXV0Sk5YanFoMTFzVCtHZ3kxQ09GOWhwcGU4N1ZkcU9XVEh0Y0prOFg4?=
+ =?utf-8?B?UVo1bU5ETlp2a1JlNVJVcGhnOHl3ZStZUHhiM2hQT2ViMUczdkJJMmhIK0Qr?=
+ =?utf-8?B?Z1E5eFF3bHFMQ3pkUWM5NEpOaWhEZk00MksyTmxQRkxVMFVjYVFGM0MyVjRa?=
+ =?utf-8?B?VzhEa1orWkhNVVhwY29xeTkwei9OYzEydzl0ZnU5MlVPbng0Q3c1RjNQQkxM?=
+ =?utf-8?B?Zmc5emdxcFNWSnptY0N3RFRZR2RzdXhNcmxRaDRwbHpaQkZKdWpIK0ZYTWlD?=
+ =?utf-8?B?dkJWYTBaZEhCSk9sQzA0RUpyN0h2d3ZVM0FBZUNEbWl0Ujk0UVg2MS9GWGNT?=
+ =?utf-8?Q?xgLx7D8S8pJchMCKL/zBh4JJtJ6hqQ=3D?=
 X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
  IPV:NLI; SFV:NSPM; H:DM4PR11MB5373.namprd11.prod.outlook.com; PTR:; CAT:NONE;
  SFS:(13230040)(376014)(7416014)(1800799024)(366016)(921020); DIR:OUT; SFP:1101;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?SURYazFVbnFIVjBDRHdZQkpGMDFoNTJIajVseENOU2V3MVo2bTlZZnhLNk1F?=
- =?utf-8?B?bG1yaitnSFJ5WnMzUWRBT1VCKytPWnNsUzhldWQ1SDh5aUpBRDlhU21GUXdj?=
- =?utf-8?B?Mm1ZYWpiK0dlMHBrQWdVbGxGeW9zbzVjek0xb2NtV3FsdG8zQ3FmeU4rWS9D?=
- =?utf-8?B?YmZMNGJNYkNNbnhNSU1GV0kxcjA5alZuUzI2NjBYSDZmMVpGWEsyV0JGWVhG?=
- =?utf-8?B?WHQ5U0lLeXpCbW8yRlRIVEE4bUhiTWNhaUFSbnZ1RTFsRGE4M1pnZTdMZzl1?=
- =?utf-8?B?VFdtRDExbjJUUTJsdUFGV1AxM2IwNkFSTFEzSzVDeHJqQTZ4ZjZ5UXdkM0F1?=
- =?utf-8?B?M1lRQ0FEcDJ5eS9zRFRwOXB3WDZsTlZkdGxCc2NBck9EZWJlUXRtbi9sKzFM?=
- =?utf-8?B?ZGgveVNSeTMwbEFSWkNvb3JRTm5RTEV3MWhuL2pPVHVUQmtyNWtWenhtVjRa?=
- =?utf-8?B?MHAwaHlWcU5sc1BtK3ZwMTFaZzcyczR6c1hxdmNObmhKcEpxbWYrMEh3ZW5L?=
- =?utf-8?B?YkJqTHlxeFRKbnRZS2hrNG5MVkV2eHVzYWhiY3lJVG5DVFRJNUNkK3FqY3NL?=
- =?utf-8?B?K1ozTzRWQk1JNXRaSTJMYVpaY1p6dFUxSHhMaTFHVFZmQXJ5RzA0L0pKRzZ3?=
- =?utf-8?B?UFhGUWVNVGJNdWFLUVBaeDFXMlhiQjdQVm5vbkxpOXhXMjY3VlY1S0kxWWFB?=
- =?utf-8?B?WnJLcVkzZ3F3bHk4bzYrQlNUdUxmRVVWWUdxRnA0KzVVbDNPQlQweDl5NUlH?=
- =?utf-8?B?angzRVV3TXVFSHMxU1pRaFZIaDl0bUJweEdyY01oK2JYcC9ZOFYycjBBNUR2?=
- =?utf-8?B?Vmx5RStCYmF5UE5LMkJCeFk5eFhKVXZWd1Fkdk81WXMxSWVBaDFveVlaNDQ4?=
- =?utf-8?B?OUpiWjJwTWExWUFuSEp6YkRCM2RBWGczSnJ4bWdyUkh2Ty9UY0JPVUd1b0No?=
- =?utf-8?B?TmF2S1VIYzQ3ZzhTdTA3WUQybDFCRnhwNEh6dVRBYTFWZ3FEOHhIYzNzelFr?=
- =?utf-8?B?MVI1RzBVelg3am8zOGxHUEYwampoeUZQVkwxK0dHSWFOcThmSDBNcGJ2bEZn?=
- =?utf-8?B?OXBBcDNYQlNQZTZPRUtrWHFkNVo2cUtLQ0draXVxUzdqUE51MVFxZW1oNWJ2?=
- =?utf-8?B?UmlaRDFsK2c5ZWlvYWdVUUVqZndiM2Z3czZJVktleC91WTYxSitsYy9IcVRp?=
- =?utf-8?B?RmNZR2puQm5TeFRoRkZTeTRBNkU0Mi9kREtKM21RVEhPaW94ZmloVzY0RE50?=
- =?utf-8?B?bG53bm42eEptVjU3KzNwSUFPaUIvY29EZHhoazQ4TG1ZZllsSW9sOHJOcE0y?=
- =?utf-8?B?SHZHN09hNG9pL1ZSZzlrSllHYlBXdzQ2SG9iUUE2WWtIcmFGTjRNMVhBMk1t?=
- =?utf-8?B?V05JQUVLdk9abUF5WmRMU0FhSjE4SysydTlYZFNKZ0JGV2Fwc1FqN3hrTy9I?=
- =?utf-8?B?ek9RUmNQMXQrZDgxOFdFa0JTZGJDOGt6U1F3d3dySVk3cTJURlNIRXRaNzBD?=
- =?utf-8?B?UUpIYUoybktkS1ErWmVzYTRRRUNPRmpGOEFyQ1NFL3BxZVI5YzRJbGxoUzY3?=
- =?utf-8?B?d0hBYzFPSDJlT1VST3Q5R0RjSGRZK25uUlQrZDFEUW5NMDhFUTVJUExOb0dZ?=
- =?utf-8?B?UHI2YmVLbVRVNzNRdWMrSSt0MTM5ZW5yKytFeU1XeWZlK1JhK2lGZGZ1RXZj?=
- =?utf-8?B?VHRFc24xRUdZanYrS05SaFNRV1VLYWdCM3Q2cWFabVhMOFppQzRIUGxMVjNo?=
- =?utf-8?B?NTJyVzJ6dWJWQmppY1pZRU0ydlpmOTBXS1d4S0d6TzNsVStYYkZTUFlyVlB0?=
- =?utf-8?B?T0krZFc2cnlIalI1ay94RVQ5NFFJTy8weDVuQXVtWVZCUTJENE9jU2RIZHRC?=
- =?utf-8?B?Z1F2dzBVRUFsVzdoVTJad2tsekU0TkduWElURDUzSms2U3VOWDhWTUIvVTF0?=
- =?utf-8?B?NEVhdjRlRWVWc1hBVjkydi9FdTBoemhGZFJ5angrOGJjTXZ4cnVSaGp4Z2NC?=
- =?utf-8?B?a0hKK1FHa01BbXZ0a1R0cDRtR2drZFAzbE43Y0wyNmxKdVpSTXB0TGxHNExo?=
- =?utf-8?B?VEhiY2lOODhiU0V4UUhGVnRLQXJtSks1N0RQeExEMHdaOXJEWVMxZi9ZSGdI?=
- =?utf-8?B?ZHNrU1pPVGp3czFzNmdiVFp0QlZ6anZkbE1rNzQrSTZJK0Q2NEhKcC96Y2FC?=
- =?utf-8?B?U2c9PQ==?=
-X-MS-Exchange-CrossTenant-Network-Message-Id: 0e6e71d1-c072-42da-8ed7-08de17f385d7
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?MkpFMDl4ZjRBNzdqRkN5QTJOWU81NHQvazRlaXdVY0FOWDFZeVNlcGZoZm96?=
+ =?utf-8?B?VjlOQkZ2V3czMzFIY3Rldm85SSthWDJDVUtEY0tSeUE2VEYxMlU3bjNwalBX?=
+ =?utf-8?B?M2NDZFFTaytZbWlCdkFkRUEvcDU4dmhPQWlpbENZbEFlTGsxTGJ3M3I2ZEdM?=
+ =?utf-8?B?UmZOY1kyMTNEcEdGOFhOMTVKVUw5VUpPUWRNMjgvN2JlbGlVZDlNaVRjcm9N?=
+ =?utf-8?B?dGxuMDAzcVRRRk9wZnBSOHR2dkhCc3A3M2JWK2FUOCtxS0xGeDFrYnduNFVD?=
+ =?utf-8?B?U0pxVE10ZFZGS2xHRkRvK3RKam0rSDI2bGd4dWI5UnphaFFYUEJHbjhwNG5Y?=
+ =?utf-8?B?bERpYm1YRU9hMDhLM3JsWTBtaUswOTViTEQ5Mllla3ZvVWwrRjRrcE1HMkhO?=
+ =?utf-8?B?WUR3TVFDTmhqcUh3UzcvcHlHS1VQZGpsVkVMRTZjRjIyeGMzUTdZWDAyV1h2?=
+ =?utf-8?B?bEhLSWpoR0xFWTBEKzVscitOcTRmK1N0bmNjUllna29UQjNvKzdLdmFFOEhM?=
+ =?utf-8?B?cHR0MGc3Tk9WZHBWaVp5VlN0WlpLOXhPb1NSSnFscjAwN0xWMlZuSW14SkhH?=
+ =?utf-8?B?eTdnMXlaV2R1RVhsL3BiaWFCaVYrNTcvQllMZ0JSQ3F4MEpvSExLL3NBZGNO?=
+ =?utf-8?B?SGhySUNUQ2s1RDZ2c0VRRURaeWY2ZHQ5OCtpM0s3NHFSTC9CdFNZQXIxOHcy?=
+ =?utf-8?B?aVJYUnAwRHEwVlpvVWM2Rkd6ZVFWQnRUcnEyWjF0UnR5S2J4Z1RlQU5QT0ZD?=
+ =?utf-8?B?SFdYN0dpMHpVcjZGUllBQmpMa3NkTUsxK2NJeEtYUld5dDNRWlNhRTN3aWcw?=
+ =?utf-8?B?TjcxTEtCVzdFbmg5RXN0SlY5YWhOSUR6bTFhY1AzcE9xM2JJcHRQUXJhblhw?=
+ =?utf-8?B?OEFjM3JqMndyMTQ1KytMdXhSMUFCR3NZZWoyN3FOb2N2MHFYazZSeWZQbFRq?=
+ =?utf-8?B?MEF4RGk2MHVDQXRzSTlreUlNazM4bG1wYlNGSENaWUZBS05yUjZFNHBtbU8y?=
+ =?utf-8?B?OGMxbm81OVR1dUlVNHFZdVVvaFZNeU5pWFhOQ2FCWXN5VGJNNEJ1cW5RTVZT?=
+ =?utf-8?B?ZDkzam40bjlOdUFISzdHTU5PSG5lRDJjQUFtYnU5VS9RemNpY3k0SmpieXNh?=
+ =?utf-8?B?bEM0MCt6NDR0VStHTWVoMk9VNjhZOFFhbGQvYU90RXN2SzhldTZyOFVmQ2p6?=
+ =?utf-8?B?Y0tuamtGL1lNOE1tUmhvUWswU01za1ltaE5pVWlZY3o2YjNTdnRvZ015bFJv?=
+ =?utf-8?B?MzlpZXNLTlpSRmREN05uczFyZDROVFByZDM5cWE4eG9JWFlKQkozcGRDMWpk?=
+ =?utf-8?B?TmdRYm04cVk0OEt4TGVsMzR2TkhVRE0xd3M2NzFNWUNJNXBNa0hnSG9Dcmg5?=
+ =?utf-8?B?VDJ2Y2ZkVnBTT1A5WWludlY2dHlESlFkdEkyL0tZdURlMkFoWCtubHBSSTQy?=
+ =?utf-8?B?MTdMaEU1ZDBQOWhxclhJbExJbHlhaHVZWGJWcW1GYzE1ZG45Z1lCRGp6RFN0?=
+ =?utf-8?B?S1Bram1wZkNUQjhGTVN3UlNJeklNRFZ0bUgrWDYwMWVXaUxWMXByMmhhb3pV?=
+ =?utf-8?B?V0Y1SWlqUWZIbWE1SFFjaGNlUDhyVWdQOVdYd2U5ZDVJTzIrR0hZS3A4bnFn?=
+ =?utf-8?B?ZUU3ZjkwWHB5OFJCUlBucC8xNVVYa0xONlF0bTc5ejU4ekpzYzQralFKZDdt?=
+ =?utf-8?B?bW1KQzllR1BsYzkyWWdQeHluQUsvNXp5Z3JGeWYvOUlFSzN0c3lnNEdTOTFo?=
+ =?utf-8?B?U29NV0hPTHpnYzFtcHZPZjBrelZsWTdQd2U5TFVqTFBOenhwb1F5WDdwRGJE?=
+ =?utf-8?B?aFl2ZXNhQVhRUnJ5Q1AyajdqTzJ6TG9YMk9LS3Zaa1dlTW5xYmlYVUR2N21h?=
+ =?utf-8?B?RFpLS24zRTNZdk1GZVNoeGNlMGdvdkxqWGx2VmQrbm1IRVpnUVBXemxjUDVD?=
+ =?utf-8?B?WGgxQkdLazRVTGpERVRDYkluRkJDMlEwTkxuUFRDM0VVcURUNWhxeEp0Q0NI?=
+ =?utf-8?B?ZGc2OGxYc1pHcVJlZXh2Z2lQVmF3VWtzZUN0U0RiaWpvQ0JiL1hMRC90ZXdw?=
+ =?utf-8?B?cWswOWQzZ0xzTnU1Qi9aSkNhUTErdTErTlkyc0E5QWVsRWU5WjFhZ3BtRGtL?=
+ =?utf-8?B?OER4ZkV3NlVNU0thUUhJTmxCSitOSm1Qc2lubnVUakdaa2JGR3VuQTFwK0Fw?=
+ =?utf-8?B?MVE9PQ==?=
+X-MS-Exchange-CrossTenant-Network-Message-Id: d4272e6c-9715-4349-7142-08de17f388b0
 X-MS-Exchange-CrossTenant-AuthSource: DM4PR11MB5373.namprd11.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 30 Oct 2025 20:33:02.4439 (UTC)
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 30 Oct 2025 20:33:07.2268 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: eInWd2cIDPKEuM4s1D1gKkARHx5XZ9xjt/rALQwNVSlEt6RD+mF/l1HYl8jDP/ZCXVLbIy/atyDQiKP2OIhjYzAPOFt1UlitR8XJLYn2mU0=
+X-MS-Exchange-CrossTenant-UserPrincipalName: d3A5Yc6v+5lS6j85Qo4EVSjC8ONcVF4bMjq4IPxm2h98IY0McTVOuJbwnAw0Ton+m4GdqQhnMGNu9aVkjG2veCLrh5r5i1yiGL2CXDc+H5s=
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: CO1PR11MB4817
 X-OriginatorOrg: intel.com
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -209,89 +208,120 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-In upcoming changes, SR-IOV VF migration data will be extended beyond
-GuC data and exported to userspace using VFIO interface (with a
-vendor-specific variant driver) and a device-level debugfs interface.
-Remove the GT-level debugfs.
+In upcoming changes, the GuC VF migration data will be handled as part
+of separate SAVE/RESTORE states in VF control state machine.
+Remove it from PAUSE state.
 
 Signed-off-by: Michał Winiarski <michal.winiarski@intel.com>
 Reviewed-by: Michal Wajdeczko <michal.wajdeczko@intel.com>
 ---
- drivers/gpu/drm/xe/xe_gt_sriov_pf_debugfs.c | 47 ---------------------
- 1 file changed, 47 deletions(-)
+ drivers/gpu/drm/xe/xe_gt_sriov_pf_control.c   | 39 +------------------
+ .../gpu/drm/xe/xe_gt_sriov_pf_control_types.h |  2 -
+ 2 files changed, 2 insertions(+), 39 deletions(-)
 
-diff --git a/drivers/gpu/drm/xe/xe_gt_sriov_pf_debugfs.c b/drivers/gpu/drm/xe/xe_gt_sriov_pf_debugfs.c
-index 838beb7f6327f..5278ea4fd6552 100644
---- a/drivers/gpu/drm/xe/xe_gt_sriov_pf_debugfs.c
-+++ b/drivers/gpu/drm/xe/xe_gt_sriov_pf_debugfs.c
-@@ -327,9 +327,6 @@ static const struct {
- 	{ "stop", xe_gt_sriov_pf_control_stop_vf },
- 	{ "pause", xe_gt_sriov_pf_control_pause_vf },
- 	{ "resume", xe_gt_sriov_pf_control_resume_vf },
--#ifdef CONFIG_DRM_XE_DEBUG_SRIOV
--	{ "restore!", xe_gt_sriov_pf_migration_restore_guc_state },
--#endif
- };
+diff --git a/drivers/gpu/drm/xe/xe_gt_sriov_pf_control.c b/drivers/gpu/drm/xe/xe_gt_sriov_pf_control.c
+index 02019b646389c..203ba1fbeefcd 100644
+--- a/drivers/gpu/drm/xe/xe_gt_sriov_pf_control.c
++++ b/drivers/gpu/drm/xe/xe_gt_sriov_pf_control.c
+@@ -183,7 +183,6 @@ static const char *control_bit_to_string(enum xe_gt_sriov_control_bits bit)
+ 	CASE2STR(PAUSE_SEND_PAUSE);
+ 	CASE2STR(PAUSE_WAIT_GUC);
+ 	CASE2STR(PAUSE_GUC_DONE);
+-	CASE2STR(PAUSE_SAVE_GUC);
+ 	CASE2STR(PAUSE_FAILED);
+ 	CASE2STR(PAUSED);
+ 	CASE2STR(SAVE_WIP);
+@@ -453,8 +452,7 @@ static void pf_enter_vf_ready(struct xe_gt *gt, unsigned int vfid)
+  *	:       PAUSE_GUC_DONE                          o-----restart
+  *	:        |                                      :
+  *	:        |   o---<--busy                        :
+- *	:        v  /         /                         :
+- *	:       PAUSE_SAVE_GUC                          :
++ *	:       /                                       :
+  *	:      /                                        :
+  *	:     /                                         :
+  *	:....o..............o...............o...........:
+@@ -474,7 +472,6 @@ static void pf_exit_vf_pause_wip(struct xe_gt *gt, unsigned int vfid)
+ 		pf_escape_vf_state(gt, vfid, XE_GT_SRIOV_STATE_PAUSE_SEND_PAUSE);
+ 		pf_escape_vf_state(gt, vfid, XE_GT_SRIOV_STATE_PAUSE_WAIT_GUC);
+ 		pf_escape_vf_state(gt, vfid, XE_GT_SRIOV_STATE_PAUSE_GUC_DONE);
+-		pf_escape_vf_state(gt, vfid, XE_GT_SRIOV_STATE_PAUSE_SAVE_GUC);
+ 	}
+ }
  
- static ssize_t control_write(struct file *file, const char __user *buf, size_t count, loff_t *pos)
-@@ -393,47 +390,6 @@ static const struct file_operations control_ops = {
- 	.llseek		= default_llseek,
- };
+@@ -505,41 +502,12 @@ static void pf_enter_vf_pause_rejected(struct xe_gt *gt, unsigned int vfid)
+ 	pf_enter_vf_pause_failed(gt, vfid);
+ }
  
--/*
-- *      /sys/kernel/debug/dri/BDF/
-- *      ├── sriov
-- *      :   ├── vf1
-- *          :   ├── tile0
-- *              :   ├── gt0
-- *                  :   ├── guc_state
-- */
--
--static ssize_t guc_state_read(struct file *file, char __user *buf,
--			      size_t count, loff_t *pos)
+-static void pf_enter_vf_pause_save_guc(struct xe_gt *gt, unsigned int vfid)
 -{
--	struct dentry *dent = file_dentry(file);
--	struct dentry *parent = dent->d_parent;
--	struct xe_gt *gt = extract_gt(parent);
--	unsigned int vfid = extract_vfid(parent);
--
--	return xe_gt_sriov_pf_migration_read_guc_state(gt, vfid, buf, count, pos);
+-	if (!pf_enter_vf_state(gt, vfid, XE_GT_SRIOV_STATE_PAUSE_SAVE_GUC))
+-		pf_enter_vf_state_machine_bug(gt, vfid);
 -}
 -
--static ssize_t guc_state_write(struct file *file, const char __user *buf,
--			       size_t count, loff_t *pos)
+-static bool pf_exit_vf_pause_save_guc(struct xe_gt *gt, unsigned int vfid)
 -{
--	struct dentry *dent = file_dentry(file);
--	struct dentry *parent = dent->d_parent;
--	struct xe_gt *gt = extract_gt(parent);
--	unsigned int vfid = extract_vfid(parent);
+-	int err;
 -
--	if (*pos)
--		return -EINVAL;
+-	if (!pf_exit_vf_state(gt, vfid, XE_GT_SRIOV_STATE_PAUSE_SAVE_GUC))
+-		return false;
 -
--	return xe_gt_sriov_pf_migration_write_guc_state(gt, vfid, buf, count);
+-	err = xe_gt_sriov_pf_migration_save_guc_state(gt, vfid);
+-	if (err) {
+-		/* retry if busy */
+-		if (err == -EBUSY) {
+-			pf_enter_vf_pause_save_guc(gt, vfid);
+-			return true;
+-		}
+-		/* give up on error */
+-		if (err == -EIO)
+-			pf_enter_vf_mismatch(gt, vfid);
+-	}
+-
+-	pf_enter_vf_pause_completed(gt, vfid);
+-	return true;
 -}
 -
--static const struct file_operations guc_state_ops = {
--	.owner		= THIS_MODULE,
--	.read		= guc_state_read,
--	.write		= guc_state_write,
--	.llseek		= default_llseek,
--};
--
- /*
-  *      /sys/kernel/debug/dri/BDF/
-  *      ├── sriov
-@@ -568,9 +524,6 @@ static void pf_populate_gt(struct xe_gt *gt, struct dentry *dent, unsigned int v
+ static bool pf_exit_vf_pause_guc_done(struct xe_gt *gt, unsigned int vfid)
+ {
+ 	if (!pf_exit_vf_state(gt, vfid, XE_GT_SRIOV_STATE_PAUSE_GUC_DONE))
+ 		return false;
  
- 		/* for testing/debugging purposes only! */
- 		if (IS_ENABLED(CONFIG_DRM_XE_DEBUG)) {
--			debugfs_create_file("guc_state",
--					    IS_ENABLED(CONFIG_DRM_XE_DEBUG_SRIOV) ? 0600 : 0400,
--					    dent, NULL, &guc_state_ops);
- 			debugfs_create_file("config_blob",
- 					    IS_ENABLED(CONFIG_DRM_XE_DEBUG_SRIOV) ? 0600 : 0400,
- 					    dent, NULL, &config_blob_ops);
+-	pf_enter_vf_pause_save_guc(gt, vfid);
++	pf_enter_vf_pause_completed(gt, vfid);
+ 	return true;
+ }
+ 
+@@ -1942,9 +1910,6 @@ static bool pf_process_vf_state_machine(struct xe_gt *gt, unsigned int vfid)
+ 	if (pf_exit_vf_pause_guc_done(gt, vfid))
+ 		return true;
+ 
+-	if (pf_exit_vf_pause_save_guc(gt, vfid))
+-		return true;
+-
+ 	if (pf_check_vf_state(gt, vfid, XE_GT_SRIOV_STATE_SAVE_WAIT_DATA)) {
+ 		xe_gt_sriov_dbg_verbose(gt, "VF%u in %s\n", vfid,
+ 					control_bit_to_string(XE_GT_SRIOV_STATE_SAVE_WAIT_DATA));
+diff --git a/drivers/gpu/drm/xe/xe_gt_sriov_pf_control_types.h b/drivers/gpu/drm/xe/xe_gt_sriov_pf_control_types.h
+index a14c738581ae2..c2ec0403b2be7 100644
+--- a/drivers/gpu/drm/xe/xe_gt_sriov_pf_control_types.h
++++ b/drivers/gpu/drm/xe/xe_gt_sriov_pf_control_types.h
+@@ -28,7 +28,6 @@
+  * @XE_GT_SRIOV_STATE_PAUSE_SEND_PAUSE: indicates that the PF is about to send a PAUSE command.
+  * @XE_GT_SRIOV_STATE_PAUSE_WAIT_GUC: indicates that the PF awaits for a response from the GuC.
+  * @XE_GT_SRIOV_STATE_PAUSE_GUC_DONE: indicates that the PF has received a response from the GuC.
+- * @XE_GT_SRIOV_STATE_PAUSE_SAVE_GUC: indicates that the PF needs to save the VF GuC state.
+  * @XE_GT_SRIOV_STATE_PAUSE_FAILED: indicates that a VF pause operation has failed.
+  * @XE_GT_SRIOV_STATE_PAUSED: indicates that the VF is paused.
+  * @XE_GT_SRIOV_STATE_SAVE_WIP: indicates that VF save operation is in progress.
+@@ -71,7 +70,6 @@ enum xe_gt_sriov_control_bits {
+ 	XE_GT_SRIOV_STATE_PAUSE_SEND_PAUSE,
+ 	XE_GT_SRIOV_STATE_PAUSE_WAIT_GUC,
+ 	XE_GT_SRIOV_STATE_PAUSE_GUC_DONE,
+-	XE_GT_SRIOV_STATE_PAUSE_SAVE_GUC,
+ 	XE_GT_SRIOV_STATE_PAUSE_FAILED,
+ 	XE_GT_SRIOV_STATE_PAUSED,
+ 
 -- 
 2.50.1
 
