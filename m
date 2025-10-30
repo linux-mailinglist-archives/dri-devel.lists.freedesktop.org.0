@@ -2,85 +2,70 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C9229C21A8F
-	for <lists+dri-devel@lfdr.de>; Thu, 30 Oct 2025 19:05:36 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7991BC21AD1
+	for <lists+dri-devel@lfdr.de>; Thu, 30 Oct 2025 19:07:59 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8207610E324;
-	Thu, 30 Oct 2025 18:05:34 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A7C1010E31E;
+	Thu, 30 Oct 2025 18:07:57 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="JOa22nem";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="OzR1+CTa";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ej1-f43.google.com (mail-ej1-f43.google.com
- [209.85.218.43])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D1D2510E324
- for <dri-devel@lists.freedesktop.org>; Thu, 30 Oct 2025 18:05:33 +0000 (UTC)
-Received: by mail-ej1-f43.google.com with SMTP id
- a640c23a62f3a-b7042e50899so129533766b.0
- for <dri-devel@lists.freedesktop.org>; Thu, 30 Oct 2025 11:05:33 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1761847532; x=1762452332; darn=lists.freedesktop.org;
- h=mime-version:user-agent:content-transfer-encoding:references
- :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
- :date:message-id:reply-to;
- bh=ffUErFjwH6FPsyyAXYKD8BwCvRk0j0ovrU1IvwXLog8=;
- b=JOa22nemtyzHdlEiiUJtawiMaiv2b+jCh6oAPJp8PSBJlN8/t96xOsKuq3VtRMGdLm
- 6xcgUW6v/6alKJTkjMA+sBU7DFzUbYK3UvCf0nz7sUE/oaxRzBHsAyMrBXZvXh1xGrL6
- VL3rTwFS5UC8lVtrAxMo9+dISQfXQSH9ZpPyY2z0m8ttqMruhdql3a3WpnCm/irw+L8t
- YXr/sYtW3/zpWpGb+PZB4rBqfgTfFnyHRt5XmZqK3JcVZ91EKqIMSdzoP8zZ0aBvwgg8
- TnmKziGE36RdSHn6z5luyljReaIF3iuxXPROxBUB9BHsExfkhvQXo5JRyrvKneFrod6E
- 5q+Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1761847532; x=1762452332;
- h=mime-version:user-agent:content-transfer-encoding:references
- :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
- :from:to:cc:subject:date:message-id:reply-to;
- bh=ffUErFjwH6FPsyyAXYKD8BwCvRk0j0ovrU1IvwXLog8=;
- b=Woc/UeuLx/h8XN7pBbgUuhbXa9BNhKkMZpwqZxTbpdDK2SdOrBwgYNvppiE6qxB3HU
- 3+elAlYYtelsCyHHjKm7uVAegIHEta/mK9gv7YobFA5KVJ1DhxxmWlKpJgeh9mGv63Ra
- 2iJlvNSnDbUCBQwA9ak+1pKLOi4Gike+WLxu8A0u8XpS5Xfv5csos0LZD7156wF09rNO
- /Li/IAyBidGYPEg2rC2LfH515gLZb/RL/yu7pkINVRhaDKbLXJcCuu5a+bBTNRzPshd8
- ZO3CiEbprWzdsxx3yHEOeQoiHhEftkLzUWCZM8MHsUeroXJZvtq04hnizp0neForAP5T
- 28+A==
-X-Forwarded-Encrypted: i=1;
- AJvYcCUqU6/1icLLrjpYjZybJlrRUTnKu8y3/d6z77YVkJsqsgKFTgKvaVT3e1VLRLfoQhPcdNvf/jLZg4k=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Yxk09B2HnIuaApV+0u2TJ7EEXbqn47/w/RGgBAns44nfqLVyi3X
- +qYpaTdsqT1K7ikFqAN7hj95jUv3GRFXpSqGk7oEWCxZz2C6sFpWeJS5
-X-Gm-Gg: ASbGncuSi78CgNJkhj2vNF/ZOSp4unf5tQXPVzc+Iud6lijmIz/jGFkolyNXY2bMIPI
- 6fyqQH4GCTb4OB2wPfTkstVPNWRmAiXdDG+Rqp3TTMv2gAS9o8SWw1kye5qz/Kmr5A4+CH6wP41
- 1zRMZW6M2arAjT5xMaZrndqfWEVNBMbkjPNWGMopjqG2YGCicLDhTF54CaXmgLlfpfog3+dG0Nw
- K1RHDQlZuqJiAGQpy1phkqcEfkkfztTEE8N48c93b4wP8vkqqAPJYy+ML0/ANUoSMp9jm+aqanB
- aY8uQQ2g+KAWgOr0myCxWhsfQVseCcuxX7MmCGZ4HhWxZkbR9dvB+S6vi30Qig87PCCFCzuBRU/
- N9OxUm+rC6zsOSrpUaDrHW/5WdxcwSvYOQgGbuKyKyqu6/5zYIG17icSZP1PboY8nnGgSblF5Pa
- S1WzpfimuL5NGlVD35fUBu1ikBf71JM7hXB+EJtNvAPtq1vY0lcSEuOXtVGyJZmlJ6sIN+kmpmX
- PocNsPdEF0fMEItox1/VLRssKbPJokIdmXZhVB3Hw+obHhCP7lTSrE=
-X-Google-Smtp-Source: AGHT+IGJV/I1/C7aO/ht8j1BD1EQXUXgawrmeYdDSw5EX8PS0SBYhLW9fl4h/IWLZ5+YHnJQFCdfnw==
-X-Received: by 2002:a17:907:94c5:b0:b04:2533:e8dd with SMTP id
- a640c23a62f3a-b7070870952mr42287966b.60.1761847531886; 
- Thu, 30 Oct 2025 11:05:31 -0700 (PDT)
-Received: from ?IPv6:2001:4c4e:24cb:f700:23e8:3719:bda9:8268?
- (20014C4E24CBF70023E83719BDA98268.dsl.pool.telekom.hu.
- [2001:4c4e:24cb:f700:23e8:3719:bda9:8268])
- by smtp.gmail.com with ESMTPSA id
- a640c23a62f3a-b6d853696a3sm1801921066b.27.2025.10.30.11.05.31
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 30 Oct 2025 11:05:31 -0700 (PDT)
-Message-ID: <32ed124e9d603cad950c4836c7a14a3ba8bc2068.camel@gmail.com>
-Subject: Re: linux-next-20251029 - build error in amdgpu
-From: Timur =?ISO-8859-1?Q?Krist=F3f?= <timur.kristof@gmail.com>
-To: Valdis =?UTF-8?Q?Kl=C4=93tnieks?= <valdis.kletnieks@vt.edu>, Alex
- Deucher	 <alexander.deucher@amd.com>
-Cc: Leo Li <sunpeng.li@amd.com>, David Airlie <airlied@gmail.com>, 
- amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org, 
- linux-kernel@vger.kernel.org
-Date: Thu, 30 Oct 2025 19:05:30 +0100
-In-Reply-To: <1043551.1761844832@turing-police>
-References: <1043551.1761844832@turing-police>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.56.2 (3.56.2-2.fc42) 
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DC05410E31E
+ for <dri-devel@lists.freedesktop.org>; Thu, 30 Oct 2025 18:07:56 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1761847677; x=1793383677;
+ h=date:from:to:cc:subject:message-id:references:
+ mime-version:in-reply-to;
+ bh=iP/s4UAA9B2nPL0oz7dCcsbvxDo5KsExttoOXbiI4jw=;
+ b=OzR1+CTaqF1mLQwL5NeOqUBtdVdcbuSiMYT6605CO7d83+mMLUkNTKvQ
+ +cJqPyFZ19QJxpHL7w3PjaHHQzRAmTIToUkJVT/MNEpmAptjfmIpHGZ4k
+ KWU3islokpTYpwOXFkhYnWimF6NATPzs2OnPV5XU7yTA4AahT3luYkBuj
+ JuBqXsIv9QXf77/vi2/riwXDFq0FSD+72z7Y6kf58TQQRsoTFibnWHgru
+ i33tP5Xa7SAfdrkFpoWi43mDunehjd4decOI1t2ZyfaM8A6d8VcIi9Aix
+ 3qltfaArs08eRYTVQ+mKt6PZ2KhHLvTfzj9FzU2DiC4oNsOGL2doIMniq w==;
+X-CSE-ConnectionGUID: 34QIimjRRw2XbFADQJJ1mA==
+X-CSE-MsgGUID: MemyQPitSjCPTbAetw3FyA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11598"; a="63885987"
+X-IronPort-AV: E=Sophos;i="6.19,267,1754982000"; d="scan'208";a="63885987"
+Received: from orviesa006.jf.intel.com ([10.64.159.146])
+ by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 30 Oct 2025 11:07:57 -0700
+X-CSE-ConnectionGUID: 9p/tDAhTRCCj2jfvrIEJuA==
+X-CSE-MsgGUID: lUJf09szRfOicaHLR05gkQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.19,267,1754982000"; d="scan'208";a="185232151"
+Received: from lkp-server02.sh.intel.com (HELO 66d7546c76b2) ([10.239.97.151])
+ by orviesa006.jf.intel.com with ESMTP; 30 Oct 2025 11:07:52 -0700
+Received: from kbuild by 66d7546c76b2 with local (Exim 4.96)
+ (envelope-from <lkp@intel.com>) id 1vEX3p-000MNw-1s;
+ Thu, 30 Oct 2025 18:07:46 +0000
+Date: Fri, 31 Oct 2025 02:06:32 +0800
+From: kernel test robot <lkp@intel.com>
+To: Lyude Paul <lyude@redhat.com>, dri-devel@lists.freedesktop.org,
+ rust-for-linux@vger.kernel.org, linux-kernel@vger.kernel.org
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+ Danilo Krummrich <dakr@kernel.org>,
+ Abdiel Janulgue <abdiel.janulgue@gmail.com>,
+ Daniel Almeida <daniel.almeida@collabora.com>,
+ Robin Murphy <robin.murphy@arm.com>,
+ Andreas Hindborg <a.hindborg@kernel.org>, Miguel Ojeda <ojeda@kernel.org>,
+ Alex Gaynor <alex.gaynor@gmail.com>,
+ Boqun Feng <boqun.feng@gmail.com>, Gary Guo <gary@garyguo.net>,
+ =?iso-8859-1?Q?Bj=F6rn?= Roy Baron <bjorn3_gh@protonmail.com>,
+ Benno Lossin <lossin@kernel.org>, Alice Ryhl <aliceryhl@google.com>,
+ Trevor Gross <tmgross@umich.edu>
+Subject: Re: [PATCH] rust/dma: Take &mut self in
+ CoherentAllocation::field_write()
+Message-ID: <202510310102.NdHj0ur8-lkp@intel.com>
+References: <20251028211801.85215-1-lyude@redhat.com>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20251028211801.85215-1-lyude@redhat.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -96,45 +81,40 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, 2025-10-30 at 13:20 -0400, Valdis Kl=C4=93tnieks wrote:
-> Hit this error while building next-20251029 with W=3D1 and gcc (GCC)
-> 15.2.1 20251022 (Red Hat 15.2.1-3
+Hi Lyude,
 
-Hi,
+kernel test robot noticed the following build errors:
 
-Can you say how to reproduce that?
-I use the same version of GCC but it hasn't given me any warning or
-error for that patch.
+[auto build test ERROR on 3b83f5d5e78ac5cddd811a5e431af73959864390]
 
-Thanks & best regards,
-Timur
+url:    https://github.com/intel-lab-lkp/linux/commits/Lyude-Paul/rust-dma-Take-mut-self-in-CoherentAllocation-field_write/20251029-052034
+base:   3b83f5d5e78ac5cddd811a5e431af73959864390
+patch link:    https://lore.kernel.org/r/20251028211801.85215-1-lyude%40redhat.com
+patch subject: [PATCH] rust/dma: Take &mut self in CoherentAllocation::field_write()
+config: x86_64-rhel-9.4-rust (https://download.01.org/0day-ci/archive/20251031/202510310102.NdHj0ur8-lkp@intel.com/config)
+compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
+rustc: rustc 1.88.0 (6b00bc388 2025-06-23)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251031/202510310102.NdHj0ur8-lkp@intel.com/reproduce)
 
->=20
-> =C2=A0 CC [M]=C2=A0
-> drivers/gpu/drm/amd/amdgpu/../display/dc/dce/dce_stream_encoder.o
-> drivers/gpu/drm/amd/amdgpu/../display/dc/dce/dce_stream_encoder.c:157
-> 1:69: error: positional initialization of field in 'struct' declared
-> with 'designated_init' attribute [-Werror=3Ddesignated-init]
-> =C2=A01571 | static const struct stream_encoder_funcs
-> dce110_an_str_enc_funcs =3D {0};
-> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0
-> |=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0
-> ^
-> drivers/gpu/drm/amd/amdgpu/../display/dc/dce/dce_stream_encoder.c:157
-> 1:69: note: (near initialization for 'dce110_an_str_enc_funcs')
-> cc1: some warnings being treated as errors
->=20
-> Caused by:
-> commit deb072d241c906ae378bc88ff91dfcdc34ebe71a
-> Author: Timur Krist?f <timur.kristof@gmail.com>
-> Date:=C2=A0=C2=A0 Fri Sep 26 20:01:51 2025 +0200
->=20
-> =C2=A0=C2=A0=C2=A0 drm/amd/display: Implement DCE analog stream encoders
->=20
->=20
-> > > > > > > > >=20
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202510310102.NdHj0ur8-lkp@intel.com/
+
+All errors (new ones prefixed by >>):
+
+>> error[E0596]: cannot borrow value as mutable, as it is not declared as mutable
+   --> samples/rust/rust_dma.rs:70:13
+   |
+   70 |             kernel::dma_write!(ca[i] = MyStruct::new(value.0, value.1))?;
+   |             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ cannot borrow as mutable
+   |
+   = note: this error originates in the macro `$crate::dma_write` which comes from the expansion of the macro `kernel::dma_write` (in Nightly builds, run with -Z macro-backtrace for more info)
+   help: consider changing this to be mutable
+   |
+   66 |         let mut ca: CoherentAllocation<MyStruct> =
+   |             +++
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
