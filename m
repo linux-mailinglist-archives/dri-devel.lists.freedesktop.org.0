@@ -2,47 +2,49 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E245DC1F00C
-	for <lists+dri-devel@lfdr.de>; Thu, 30 Oct 2025 09:35:04 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0D647C1F009
+	for <lists+dri-devel@lfdr.de>; Thu, 30 Oct 2025 09:35:02 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0FE9C10E8BD;
-	Thu, 30 Oct 2025 08:35:03 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id EEACE10E897;
+	Thu, 30 Oct 2025 08:34:58 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="d+d3sidH";
+	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="l0zNwIi0";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from bali.collaboradmins.com (bali.collaboradmins.com
  [148.251.105.195])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7C61910E897
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CFD2810E897
  for <dri-devel@lists.freedesktop.org>; Thu, 30 Oct 2025 08:34:57 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
  s=mail; t=1761813296;
- bh=V0HY9vU8QMpzNXeQkufpvBy16ysQig4wlVNWLuqAvmE=;
- h=From:To:Cc:Subject:Date:From;
- b=d+d3sidHEM+2PCoMXYWZmBztnA7dhO+12aqoIGV3XS8o/YnSd6lSQBi16OHG9WdxK
- HRDQ2F8bcwrK4BCUsX+rblhGjnrQHJTskdaUdm2ImngVCw7etcAh7tE5EkhRDnylwY
- mS2GLRp6FPDsuViGUYkpM3OzWBWsN/3JSI1tbATFrU+fickKDW4QwAVT2bO6Q0nwZ0
- UgeFJw+Rf/kXir7Clt9yg6bA9IZ2M7ije+ierYWqaYybSGucNDhM05HMEqJKINv9Dx
- eprhGSSC/kQWNEYQ97bzpU4JDWo0INkpsRhohfreaNwnjK2IwbuCM+Rn7KyLtmvHTI
- K8YdqtTjCY7zA==
+ bh=peljNprcvxi6XRk4kC8LDnOTbjB1tFfz4WmUw7O5TDM=;
+ h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+ b=l0zNwIi0mCCFh3UE5+9zkg2ouoVvRWRM0JCNpjbFGkUVuII1l7wWbTL6dO5cCrrXW
+ lSxwXoPFSuZpivq1luJlFlvhNwAl18RppZpR9XGqEAwg4YBu0rft8r1i4ZNOCeLDel
+ qNufArjWhwT5H9KnygSZdG0pAxTRnybM0vLTOW9GgYs/upAyt27k11W3jtyNaNz8s3
+ VRlf6rpbJOSF05xBYX8A3KcNZ1Dk5mMXOg6TeZFhLJoqU6nD41p1lNDfBHJPda4Rvm
+ pnQ4sQRtlIA8kUXtQfxq2zOQ4oTsSky8BvWd4UneVa+4I7Y56Etdthih57CQUNjSEE
+ y4gqJeh5ih/2w==
 Received: from fedora (unknown [IPv6:2a01:e0a:2c:6930:a2a7:f53:ebb0:945e])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
  (No client certificate requested) (Authenticated sender: bbrezillon)
- by bali.collaboradmins.com (Postfix) with ESMTPSA id B2BF517E009B;
- Thu, 30 Oct 2025 09:34:55 +0100 (CET)
+ by bali.collaboradmins.com (Postfix) with ESMTPSA id 27BA117E0154;
+ Thu, 30 Oct 2025 09:34:56 +0100 (CET)
 From: Boris Brezillon <boris.brezillon@collabora.com>
 To: Boris Brezillon <boris.brezillon@collabora.com>,
  Steven Price <steven.price@arm.com>, Liviu Dudau <liviu.dudau@arm.com>,
  =?UTF-8?q?Adri=C3=A1n=20Larumbe?= <adrian.larumbe@collabora.com>
 Cc: dri-devel@lists.freedesktop.org,
 	kernel@collabora.com
-Subject: [PATCH 1/2] drm/panthor: Handle errors returned by
- drm_sched_entity_init()
-Date: Thu, 30 Oct 2025 09:34:45 +0100
-Message-ID: <20251030083446.162990-1-boris.brezillon@collabora.com>
+Subject: [PATCH 2/2] drm/panthor: Fix group_free_queue() for partially
+ initialized queues
+Date: Thu, 30 Oct 2025 09:34:46 +0100
+Message-ID: <20251030083446.162990-2-boris.brezillon@collabora.com>
 X-Mailer: git-send-email 2.51.0
+In-Reply-To: <20251030083446.162990-1-boris.brezillon@collabora.com>
+References: <20251030083446.162990-1-boris.brezillon@collabora.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -60,29 +62,31 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-In practice it's not going to fail because we're passing the current
-sanity checks done by drm_sched_entity_init(), and that's the only
-reason it would return an error, but better safe than sorry.
+group_free_queue() can be called on a partially initialized queue
+object if something fails group_create_queue(). Make sure we don't
+call drm_sched_entity_destroy() on a entity that hasn't been
+initialized.
 
-Fixes: de8548813824 ("drm/panthor: Add the scheduler logical block")
+Fixes: 7d9c3442b02a ("drm/panthor: Defer scheduler entitiy destruction to queue release")
 Signed-off-by: Boris Brezillon <boris.brezillon@collabora.com>
 ---
- drivers/gpu/drm/panthor/panthor_sched.c | 2 ++
- 1 file changed, 2 insertions(+)
+ drivers/gpu/drm/panthor/panthor_sched.c | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
 diff --git a/drivers/gpu/drm/panthor/panthor_sched.c b/drivers/gpu/drm/panthor/panthor_sched.c
-index df76653e649a..a0a31aa6c6bc 100644
+index a0a31aa6c6bc..552542f70cab 100644
 --- a/drivers/gpu/drm/panthor/panthor_sched.c
 +++ b/drivers/gpu/drm/panthor/panthor_sched.c
-@@ -3380,6 +3380,8 @@ group_create_queue(struct panthor_group *group,
+@@ -886,7 +886,8 @@ static void group_free_queue(struct panthor_group *group, struct panthor_queue *
+ 	if (IS_ERR_OR_NULL(queue))
+ 		return;
  
- 	drm_sched = &queue->scheduler;
- 	ret = drm_sched_entity_init(&queue->entity, 0, &drm_sched, 1, NULL);
-+	if (ret)
-+		goto err_free_queue;
+-	drm_sched_entity_destroy(&queue->entity);
++	if (queue->entity.fence_context)
++		drm_sched_entity_destroy(&queue->entity);
  
- 	return queue;
- 
+ 	if (queue->scheduler.ops)
+ 		drm_sched_fini(&queue->scheduler);
 -- 
 2.51.0
 
