@@ -2,42 +2,42 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id AF61CC208AB
-	for <lists+dri-devel@lfdr.de>; Thu, 30 Oct 2025 15:18:59 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id D6C39C208D5
+	for <lists+dri-devel@lfdr.de>; Thu, 30 Oct 2025 15:20:54 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7A22210E285;
-	Thu, 30 Oct 2025 14:18:57 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 310B310E9B4;
+	Thu, 30 Oct 2025 14:20:53 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=bootlin.com header.i=@bootlin.com header.b="A+3IfahP";
+	dkim=pass (2048-bit key; unprotected) header.d=bootlin.com header.i=@bootlin.com header.b="llJm/X5Z";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtpout-04.galae.net (smtpout-04.galae.net [185.171.202.116])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BA1F010E285
- for <dri-devel@lists.freedesktop.org>; Thu, 30 Oct 2025 14:18:55 +0000 (UTC)
+Received: from smtpout-02.galae.net (smtpout-02.galae.net [185.246.84.56])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 34E3010E9B4
+ for <dri-devel@lists.freedesktop.org>; Thu, 30 Oct 2025 14:20:52 +0000 (UTC)
 Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
- by smtpout-04.galae.net (Postfix) with ESMTPS id 38F28C0DABD;
- Thu, 30 Oct 2025 14:18:33 +0000 (UTC)
+ by smtpout-02.galae.net (Postfix) with ESMTPS id 8D83A1A1771;
+ Thu, 30 Oct 2025 14:20:50 +0000 (UTC)
 Received: from mail.galae.net (mail.galae.net [212.83.136.155])
- by smtpout-01.galae.net (Postfix) with ESMTPS id 9C9E96068C;
- Thu, 30 Oct 2025 14:18:53 +0000 (UTC)
+ by smtpout-01.galae.net (Postfix) with ESMTPS id 570916068C;
+ Thu, 30 Oct 2025 14:20:50 +0000 (UTC)
 Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon)
- with ESMTPSA id 8C94711808B04; Thu, 30 Oct 2025 15:18:48 +0100 (CET)
+ with ESMTPSA id 495F311808A0F; Thu, 30 Oct 2025 15:20:46 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
- t=1761833932; h=from:subject:date:message-id:to:cc:mime-version:content-type:
+ t=1761834049; h=from:subject:date:message-id:to:cc:mime-version:content-type:
  content-transfer-encoding:content-language:in-reply-to:references:autocrypt;
- bh=S/7/GQNWOmWK2zjALUxyCyh+iYwu/qPd0QrBumxb1iw=;
- b=A+3IfahPfgUJ5dXdXkv2FhvEGtSVhtdzl6C+jbw9gCK5kn8FuHjYtQBmrTIcndaki6BoI/
- me+uzBYlaGTOi3IsGTHfFjNvkIcJ68U2vSCWMqrLwHhosgk6xLGcPHkMeY58x1oQ+brVjl
- 6zuaaEwljCl0Ea2CoToswJcw9uaF2a3V45Vn8VSFu+HhpoPTKrqWOxtuL5G4zBSDs6W7C9
- scmdKqcCaKHBTVPCITtYOAA+IsecAUi4KjfVti6p+12ieTFBYgmX6r4jzxOTCUXl8eQvPU
- 3SwZYyecaRhuM4dfnDbtpEXElQI7mB2Fda/qM+/DNHnxVnIKADasIdytPwTa7A==
-Message-ID: <ddcf8a8b-84a5-4895-b890-4f236c8094f2@bootlin.com>
-Date: Thu, 30 Oct 2025 15:18:47 +0100
+ bh=skHp0eTUWwKN0p8bd3E+DRj/+w+mhaJt2KL60ddiTjw=;
+ b=llJm/X5ZMXYkdkozbrEDzZI3K81Mbsr7qrHuNyIdn+tFOfHucBnceSBYDFxUkALH+Jcpc0
+ o+voDsU1p9etFaYck0rpB8ZpffKhv2KL8lYdyq/QMK1LGaQNuAr38EQqm5Tu2JiBEGXeuv
+ munjO+5+cOJRzUVh8u3ldDVY6N1W0fpn5b90zknTwPM2nW7kLW0gJRBOb71tle2zeHX39x
+ WTlIGtOK6NDALQPxXNQjJr7uDc75qncgShvz7c+40rJmUZ9G184kcoiOYjVNOsINmM8rFP
+ T5kVA6LTe54HdURbuOdpnJuoUss9n2R9pi8cXA2Xv45/PYebYGoL2GgWlAwzAw==
+Message-ID: <df18fc81-3ef6-4423-af7a-3472a731c4ad@bootlin.com>
+Date: Thu, 30 Oct 2025 15:20:46 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 1/2] drm/imx: parallel-display: convert to
- devm_drm_bridge_alloc() API
+Subject: Re: [PATCH 2/2] drm/imx: parallel-display: add the bridge before
+ attaching it
 To: Luca Ceresoli <luca.ceresoli@bootlin.com>,
  Ernest Van Hoecke <ernestvanhoecke@gmail.com>,
  Philipp Zabel <p.zabel@pengutronix.de>,
@@ -52,7 +52,7 @@ Cc: Hui Pu <Hui.Pu@gehealthcare.com>,
  dri-devel@lists.freedesktop.org, imx@lists.linux.dev,
  linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org
 References: <20251014-drm-bridge-alloc-imx-ipuv3-v1-0-a1bb1dcbff50@bootlin.com>
- <20251014-drm-bridge-alloc-imx-ipuv3-v1-1-a1bb1dcbff50@bootlin.com>
+ <20251014-drm-bridge-alloc-imx-ipuv3-v1-2-a1bb1dcbff50@bootlin.com>
 Content-Language: en-US, fr
 From: Louis Chauvet <louis.chauvet@bootlin.com>
 Autocrypt: addr=louis.chauvet@bootlin.com; keydata=
@@ -109,7 +109,7 @@ Autocrypt: addr=louis.chauvet@bootlin.com; keydata=
  wDN7ORknPndzxrq3CyB7b/Tk1e8Qx+6HU/pnMb4ZqwwMwZAMk24TZpsgg28o9MQiUNzad0h2
  gIszbeej9ryrtLHxMzyK8yKhHoI2i2ovxy5O+hsWeAoCPE9xwbqnAjLjOn4Jzd/pPovizrq/
  kUoX66YgvCuHfQMC/aBPLnVunZSP23J2CrkTrnsUzw==
-In-Reply-To: <20251014-drm-bridge-alloc-imx-ipuv3-v1-1-a1bb1dcbff50@bootlin.com>
+In-Reply-To: <20251014-drm-bridge-alloc-imx-ipuv3-v1-2-a1bb1dcbff50@bootlin.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 X-Last-TLS-Session-Version: TLSv1.3
@@ -131,89 +131,35 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
 Le 14/10/2025 à 13:30, Luca Ceresoli a écrit :
-> This is the new API for allocating DRM bridges.
+> Invoking drm_bridge_add() is good practice, so add it to this driver.
 > 
-> This conversion was missed during the initial conversion of all bridges to
-> the new API. Thus all kernels with commit 94d50c1a2ca3 ("drm/bridge:
-> get/put the bridge reference in drm_bridge_attach/detach()") and using this
-> driver now warn due to drm_bridge_attach() incrementing the refcount, which
-> is not initialized without using devm_drm_bridge_alloc() for allocation.
-> 
-> To make the conversion simple and straightforward without messing up with
-> the drmm_simple_encoder_alloc(), move the struct drm_bridge from struct
-> imx_parallel_display_encoder to struct imx_parallel_display.
-> 
-> Also remove the 'struct imx_parallel_display *pd' from struct
-> imx_parallel_display_encoder, not needed anymore.
-> 
-> Fixes: 94d50c1a2ca3 ("drm/bridge: get/put the bridge reference in drm_bridge_attach/detach()")
-> Reported-by: Ernest Van Hoecke <ernestvanhoecke@gmail.com>
-> Closes: https://lore.kernel.org/all/hlf4wdopapxnh4rekl5s3kvoi6egaga3lrjfbx6r223ar3txri@3ik53xw5idyh/
+> Link: https://lore.kernel.org/all/DDHZ5GO9MPF0.CGYTVBI74FOZ@bootlin.com
 > Signed-off-by: Luca Ceresoli <luca.ceresoli@bootlin.com>
 
 Reviewed-by: Louis Chauvet <louis.chauvet@bootlin.com>
 
 > ---
->   drivers/gpu/drm/imx/ipuv3/parallel-display.c | 16 +++++++---------
->   1 file changed, 7 insertions(+), 9 deletions(-)
+> 
+> Note: there is a proposal to make drm_bridge_add() mandatory before
+> drm_bridge_attach():
+> https://lore.kernel.org/lkml/20251003-b4-drm-bridge-alloc-add-before-attach-v1-3-92fb40d27704@bootlin.com/
+> ---
+>   drivers/gpu/drm/imx/ipuv3/parallel-display.c | 2 ++
+>   1 file changed, 2 insertions(+)
 > 
 > diff --git a/drivers/gpu/drm/imx/ipuv3/parallel-display.c b/drivers/gpu/drm/imx/ipuv3/parallel-display.c
-> index 6d8325c766979aa3ba98970f00806e99c139d3c3..3d0de9c6e925978b7532b6d13caf6909cc343dd7 100644
+> index 3d0de9c6e925978b7532b6d13caf6909cc343dd7..7fc6af7033078eef6be0672ff0d1c7bddda88ba1 100644
 > --- a/drivers/gpu/drm/imx/ipuv3/parallel-display.c
 > +++ b/drivers/gpu/drm/imx/ipuv3/parallel-display.c
-> @@ -25,19 +25,18 @@
+> @@ -256,6 +256,8 @@ static int imx_pd_probe(struct platform_device *pdev)
 >   
->   struct imx_parallel_display_encoder {
->   	struct drm_encoder encoder;
-> -	struct drm_bridge bridge;
-> -	struct imx_parallel_display *pd;
->   };
+>   	platform_set_drvdata(pdev, imxpd);
 >   
->   struct imx_parallel_display {
->   	struct device *dev;
->   	u32 bus_format;
->   	struct drm_bridge *next_bridge;
-> +	struct drm_bridge bridge;
->   };
->   
->   static inline struct imx_parallel_display *bridge_to_imxpd(struct drm_bridge *b)
->   {
-> -	return container_of(b, struct imx_parallel_display_encoder, bridge)->pd;
-> +	return container_of(b, struct imx_parallel_display, bridge);
+> +	devm_drm_bridge_add(dev, &imxpd->bridge);
+> +
+>   	return component_add(dev, &imx_pd_ops);
 >   }
 >   
->   static const u32 imx_pd_bus_fmts[] = {
-> @@ -195,15 +194,13 @@ static int imx_pd_bind(struct device *dev, struct device *master, void *data)
->   	if (IS_ERR(imxpd_encoder))
->   		return PTR_ERR(imxpd_encoder);
->   
-> -	imxpd_encoder->pd = imxpd;
->   	encoder = &imxpd_encoder->encoder;
-> -	bridge = &imxpd_encoder->bridge;
-> +	bridge = &imxpd->bridge;
->   
->   	ret = imx_drm_encoder_parse_of(drm, encoder, imxpd->dev->of_node);
->   	if (ret)
->   		return ret;
->   
-> -	bridge->funcs = &imx_pd_bridge_funcs;
->   	drm_bridge_attach(encoder, bridge, NULL, DRM_BRIDGE_ATTACH_NO_CONNECTOR);
->   
->   	connector = drm_bridge_connector_init(drm, encoder);
-> @@ -228,9 +225,10 @@ static int imx_pd_probe(struct platform_device *pdev)
->   	u32 bus_format = 0;
->   	const char *fmt;
->   
-> -	imxpd = devm_kzalloc(dev, sizeof(*imxpd), GFP_KERNEL);
-> -	if (!imxpd)
-> -		return -ENOMEM;
-> +	imxpd = devm_drm_bridge_alloc(dev, struct imx_parallel_display, bridge,
-> +				      &imx_pd_bridge_funcs);
-> +	if (IS_ERR(imxpd))
-> +		return PTR_ERR(imxpd);
->   
->   	/* port@1 is the output port */
->   	imxpd->next_bridge = devm_drm_of_get_bridge(dev, np, 1, 0);
 > 
 
 -- 
