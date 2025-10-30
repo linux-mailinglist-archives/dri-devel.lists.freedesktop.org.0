@@ -2,34 +2,34 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1A590C1F9B9
-	for <lists+dri-devel@lfdr.de>; Thu, 30 Oct 2025 11:42:54 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id EF581C1F9BC
+	for <lists+dri-devel@lfdr.de>; Thu, 30 Oct 2025 11:42:57 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7388C10E8D2;
-	Thu, 30 Oct 2025 10:42:52 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4AA9A10E8E1;
+	Thu, 30 Oct 2025 10:42:56 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="FOLo2YOH";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="VXQu60U0";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7576810E8D2
- for <dri-devel@lists.freedesktop.org>; Thu, 30 Oct 2025 10:42:50 +0000 (UTC)
+Received: from sea.source.kernel.org (sea.source.kernel.org [172.234.252.31])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 755CE10E8E1
+ for <dri-devel@lists.freedesktop.org>; Thu, 30 Oct 2025 10:42:53 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by tor.source.kernel.org (Postfix) with ESMTP id A11D460140;
+ by sea.source.kernel.org (Postfix) with ESMTP id 5B486416B4;
+ Thu, 30 Oct 2025 10:42:53 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C382FC4CEFD;
  Thu, 30 Oct 2025 10:42:49 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id DDFFDC4CEF1;
- Thu, 30 Oct 2025 10:42:45 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1761820969;
- bh=21Imxsayj+IViqhAG6JgOVkWhAy1BH84E8W2Bso8PDw=;
+ s=k20201202; t=1761820973;
+ bh=F/f+RWP9fwyYDOn+3d4o1ZB3ZqbyAoBpoxM/PzubWPA=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=FOLo2YOH4OkOEoCN2DKzPliod5u8DzwhLaUYSh74iVtICZoUDt59pB8EOqnc+yKi7
- fOyvR4BAB6BsL6YKrPtxL5d+SYvMj49JujD8R++V2+geHBZxgpea9o38Br3rYXxctg
- 8n1+lUyYXHRoL1PivR5S+WVqAkbven2QAvK4x8grgpNh07qH7UsV/rFfYoZTGVu0b7
- IVTNZuawGp+6BYSVTBSiVb1yjODMg8n/IUygF0t0s2bhqjftt69aKPEcclC2kaeii8
- M1pt38bVOMD78mMJpA1Df7osigAlWmJfaHyPfORpT0tJEVWVgIsVThGRg1Y4iX4aBc
- EJWfDQn0geYNA==
+ b=VXQu60U0nG3c8cO44lOHxE7TcPKEwP6oEC+fULdsoDahypPowOlaKDtGgI9Ya2t2g
+ XjYYSKt+TotIhfLPlj8AfBxg0SYhum+YkS8+xNvKy5hwiaVdB41W50Iz5vbVyE3FwZ
+ s0lEtvuy41Dj8ypR6B4c68K0dOLT/+4Ngv/GEpwDd75npu64yogxo7sf7pBQu5eqH/
+ CTD2ekWuV6xpX8oN3SkRnMoskVMtUm3f0UqdUBnHWCUhWnFpS+5cACEjtUK3kEZjCm
+ SRa1SoZvii+B6pHGXjnTxwYWl5VcuOTkpNVnB4uFInqv2blm4/+QBU+yEDkM10i7gb
+ jHgrqBYAmFdpw==
 From: Philipp Stanner <phasta@kernel.org>
 To: Matthew Brost <matthew.brost@intel.com>,
  Danilo Krummrich <dakr@kernel.org>, Philipp Stanner <phasta@kernel.org>,
@@ -42,9 +42,9 @@ To: Matthew Brost <matthew.brost@intel.com>,
  Melissa Wen <mwen@igalia.com>, Steven Price <steven.price@arm.com>
 Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
  stable@vger.kernel.org
-Subject: [PATCH 1/2] drm/sched: Use proper locks in drm_sched_job_arm()
-Date: Thu, 30 Oct 2025 11:42:19 +0100
-Message-ID: <20251030104219.181704-3-phasta@kernel.org>
+Subject: [PATCH 2/2] drm/sched: Use proper locks for drm_sched_job_init()
+Date: Thu, 30 Oct 2025 11:42:20 +0100
+Message-ID: <20251030104219.181704-4-phasta@kernel.org>
 X-Mailer: git-send-email 2.49.0
 In-Reply-To: <20251030104219.181704-2-phasta@kernel.org>
 References: <20251030104219.181704-2-phasta@kernel.org>
@@ -65,40 +65,36 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-drm_sched_job_arm() is just racing when dereferencing entity and
-runqueue.
+drm_sched_job_init() is just racing when checking an entity's runqueue, without
+taking the proper spinlock.
 
-Add the proper spinlocks.
+Add the lock.
 
-Cc: stable@vger.kernel.org # v5.16+
-Fixes: dbe48d030b28 ("drm/sched: Split drm_sched_job_init")
+Cc: stable@vger.kernel.org # 6.7+
+Fixes: 56e449603f0a ("drm/sched: Convert the GPU scheduler to variable number of run-queues")
 Signed-off-by: Philipp Stanner <phasta@kernel.org>
 ---
- drivers/gpu/drm/scheduler/sched_main.c | 8 +++++++-
- 1 file changed, 7 insertions(+), 1 deletion(-)
+ drivers/gpu/drm/scheduler/sched_main.c | 7 ++++++-
+ 1 file changed, 6 insertions(+), 1 deletion(-)
 
 diff --git a/drivers/gpu/drm/scheduler/sched_main.c b/drivers/gpu/drm/scheduler/sched_main.c
-index c39f0245e3a9..7f938f491b6f 100644
+index 7f938f491b6f..30028054385f 100644
 --- a/drivers/gpu/drm/scheduler/sched_main.c
 +++ b/drivers/gpu/drm/scheduler/sched_main.c
-@@ -859,10 +859,16 @@ void drm_sched_job_arm(struct drm_sched_job *job)
- 
- 	BUG_ON(!entity);
- 	drm_sched_entity_select_rq(entity);
+@@ -799,7 +799,12 @@ int drm_sched_job_init(struct drm_sched_job *job,
+ 		       u32 credits, void *owner,
+ 		       uint64_t drm_client_id)
+ {
+-	if (!entity->rq) {
++	struct drm_sched_rq *rq;
 +
 +	spin_lock(&entity->lock);
-+	spin_lock(&entity->rq->lock);
- 	sched = entity->rq->sched;
-+	spin_unlock(&entity->rq->lock);
-+
-+	job->s_priority = entity->priority;
++	rq = entity->rq;
 +	spin_unlock(&entity->lock);
- 
- 	job->sched = sched;
--	job->s_priority = entity->priority;
- 
- 	drm_sched_fence_init(job->s_fence, job->entity);
- }
++	if (!rq) {
+ 		/* This will most likely be followed by missing frames
+ 		 * or worse--a blank screen--leave a trail in the
+ 		 * logs, so this can be debugged easier.
 -- 
 2.49.0
 
