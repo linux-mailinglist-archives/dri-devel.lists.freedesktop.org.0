@@ -2,155 +2,106 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4C1A6C1E606
-	for <lists+dri-devel@lfdr.de>; Thu, 30 Oct 2025 05:44:18 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 10053C1E711
+	for <lists+dri-devel@lfdr.de>; Thu, 30 Oct 2025 06:38:15 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1547210E23C;
-	Thu, 30 Oct 2025 04:44:15 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id ACDBC10E248;
+	Thu, 30 Oct 2025 05:37:49 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=ti.com header.i=@ti.com header.b="s/6MncB8";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="mw0YlVCP";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from CO1PR03CU002.outbound.protection.outlook.com
- (mail-westus2azhn15010052.outbound.protection.outlook.com [52.102.136.52])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6369510E23C
- for <dri-devel@lists.freedesktop.org>; Thu, 30 Oct 2025 04:44:13 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=gFJLT6UOjJvtAwNYTUwMrnDnrh/GmLi/2v+4HB2pFBEgtl/JmcfpU7xR5g/1fKHYvK6LvSonuFpXqJ0o69Dk6j/UxhwGH5HJkNpVHywLPqNJzyQ49vNs16sYgn7NusqNaR3b5gxIg0t0w3iV+3+PJt2+jIGfWx9TgfLbNRS7hC0kpyoEamc9rdRxBEpFD1arWglFr32Ka8BIOfonj985aENLL5gfLvQcM1ZClI5aFbtLTMCSWnd4q8Jz6CbrmLGbkyOGacSZ0ITHI4GnCFDxPR1TtL0EJpOYPmoM/O9RIEMrXLKQ04AmympZv0ey3t4E3JeLNXM4gUNGfSTW+R9lGQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=zpgtKhPtUjL30Fec/scLab74IjUMA05RajdEndc/YuU=;
- b=fvLIG4whZOaGJIPs+tbmWCIVDmHVTYbmZFDONjEg2dAtPcmwIb1VrGGNeIrkZMZk5I0bsc9gzsjH3fMUFam9C88Y7jaHPv13mvgfZys744Gih/eBx2VXPKHqLAivXyz+taG80VLUCTsGhlLfUkHJJTCboV0SIiNGxh+H3ihAQhMR8vbrznwHX94fPwunpP8eBqLVTiqyWi8emA41MTrTovwjYckKv0IZtifTah2SoT3MX0SxK2MmMZKPhianHT/9sxvuzJXmi9pTxALKTaZyOxIvk7rFwpkm80UwC9Fj38g2UAh9nOHTALSEP94pDKOMdS5EHDxLJ5rtojNArX0Hbg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 198.47.21.194) smtp.rcpttodomain=kernel.org smtp.mailfrom=ti.com; dmarc=pass
- (p=quarantine sp=none pct=100) action=none header.from=ti.com; dkim=none
- (message not signed); arc=none (0)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=zpgtKhPtUjL30Fec/scLab74IjUMA05RajdEndc/YuU=;
- b=s/6MncB8npOsupezmnmSUz3bHQQY7bGiR2tTnLThZ/pwI+Dtn8HtS4kZGpWwXIs3bi8Dt4x7nQrCJCuRX03PGqZJqkiUYGpwUhE0ZBKOagnMFapbNr+w9hzQsrY4yl5sVFR1YY9c9vA3p1XrGGB6+4UJ03lhhz27UfpkwIkSdKY=
-Received: from BN0PR04CA0137.namprd04.prod.outlook.com (2603:10b6:408:ed::22)
- by BN0PR10MB4981.namprd10.prod.outlook.com (2603:10b6:408:12d::16)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9275.13; Thu, 30 Oct
- 2025 04:44:10 +0000
-Received: from BN1PEPF00004685.namprd03.prod.outlook.com
- (2603:10b6:408:ed:cafe::db) by BN0PR04CA0137.outlook.office365.com
- (2603:10b6:408:ed::22) with Microsoft SMTP Server (version=TLS1_3,
- cipher=TLS_AES_256_GCM_SHA384) id 15.20.9275.14 via Frontend Transport; Thu,
- 30 Oct 2025 04:43:59 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 198.47.21.194)
- smtp.mailfrom=ti.com; dkim=none (message not signed) header.d=none; dmarc=pass
- action=none header.from=ti.com;
-Received-SPF: Pass (protection.outlook.com: domain of ti.com designates
- 198.47.21.194 as permitted sender) receiver=protection.outlook.com;
- client-ip=198.47.21.194; helo=flwvzet200.ext.ti.com; pr=C
-Received: from flwvzet200.ext.ti.com (198.47.21.194) by
- BN1PEPF00004685.mail.protection.outlook.com (10.167.243.86) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.9275.10 via Frontend Transport; Thu, 30 Oct 2025 04:44:09 +0000
-Received: from DFLE201.ent.ti.com (10.64.6.59) by flwvzet200.ext.ti.com
- (10.248.192.31) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.20; Wed, 29 Oct
- 2025 23:43:59 -0500
-Received: from DFLE212.ent.ti.com (10.64.6.70) by DFLE201.ent.ti.com
- (10.64.6.59) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.20; Wed, 29 Oct
- 2025 23:43:59 -0500
-Received: from lelvem-mr05.itg.ti.com (10.180.75.9) by DFLE212.ent.ti.com
- (10.64.6.70) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.20 via Frontend
- Transport; Wed, 29 Oct 2025 23:43:59 -0500
-Received: from [10.24.69.13] (meghana-pc.dhcp.ti.com [10.24.69.13] (may be
- forged))
- by lelvem-mr05.itg.ti.com (8.18.1/8.18.1) with ESMTP id 59U4hqLO1337117;
- Wed, 29 Oct 2025 23:43:52 -0500
-Message-ID: <ba1b48dc-b544-4c4b-be8a-d39b104cda21@ti.com>
-Date: Thu, 30 Oct 2025 10:13:51 +0530
+Received: from sea.source.kernel.org (sea.source.kernel.org [172.234.252.31])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9F25510E248;
+ Thu, 30 Oct 2025 05:37:48 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by sea.source.kernel.org (Postfix) with ESMTP id 5AA77434E7;
+ Thu, 30 Oct 2025 05:37:48 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6C4C7C4CEF1;
+ Thu, 30 Oct 2025 05:37:42 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1761802668;
+ bh=2Ql6M2oEHS7vNgrk7s8vVaKzAoHkuVoLhaBtq6nZqNQ=;
+ h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+ b=mw0YlVCPET7ndopNNr9hB7Re4x9WJIosMTGc0wbFHbfpjO3sIEor75y1+KYOPJGEK
+ fBBnxkL+Cf+AVzk7EzlqCcnRHWnB4XJ1fyR/zrk1xVP0hFLXJRFVcKzOF3wll/F6eB
+ 2em8BRX45O0hHq8ozDzmHfGXOzt+P9jhiCzG3/8bW7KBT+SxixONMZTFGlf0ExV6VD
+ ydCqfmtUBSx21kbCpQ2GaCIV95p5G3wmrosXkTd9YOvsIKc4u2MEOQGaxS/im3RVLD
+ Z/Tt5eaEczxahwnvBN4Plu/6xl2BZui3hBMQQUUsl6EETPs0OAIbafkrJgSWz1W9Tf
+ MPa0YcySif4LQ==
+Message-ID: <7c1e0cb5-2483-4efa-be52-84cbe5d1a4b2@kernel.org>
+Date: Thu, 30 Oct 2025 06:37:40 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [EXTERNAL] Re: [PATCH net-next v4 2/6] net: ti: icssg-prueth: Add
- XSK pool helpers
-To: Paolo Abeni <pabeni@redhat.com>, <horms@kernel.org>,
- <namcao@linutronix.de>, <vadim.fedorenko@linux.dev>,
- <jacob.e.keller@intel.com>, <christian.koenig@amd.com>,
- <sumit.semwal@linaro.org>, <sdf@fomichev.me>, <john.fastabend@gmail.com>,
- <hawk@kernel.org>, <daniel@iogearbox.net>, <ast@kernel.org>,
- <kuba@kernel.org>, <edumazet@google.com>, <davem@davemloft.net>,
- <andrew+netdev@lunn.ch>
-CC: <linaro-mm-sig@lists.linaro.org>, <dri-devel@lists.freedesktop.org>,
- <linux-media@vger.kernel.org>, <bpf@vger.kernel.org>,
- <linux-kernel@vger.kernel.org>, <netdev@vger.kernel.org>,
- <linux-arm-kernel@lists.infradead.org>, <srk@ti.com>, Vignesh Raghavendra
- <vigneshr@ti.com>, Roger Quadros <rogerq@kernel.org>, <danishanwar@ti.com>
-References: <20251023093927.1878411-1-m-malladi@ti.com>
- <20251023093927.1878411-3-m-malladi@ti.com>
- <05efdc9a-8704-476e-8179-1a9fc0ada749@redhat.com>
+Subject: Re: [PATCH 08/12] arm64: defconfig: Enable NT37801 DSI panel driver
+To: yuanjiey <yuanjie.yang@oss.qualcomm.com>
+Cc: Bjorn Andersson <andersson@kernel.org>, robin.clark@oss.qualcomm.com,
+ lumag@kernel.org, abhinav.kumar@linux.dev, sean@poorly.run,
+ marijn.suijten@somainline.org, airlied@gmail.com, simona@ffwll.ch,
+ maarten.lankhorst@linux.intel.com, mripard@kernel.org, tzimmermann@suse.de,
+ robh@kernel.org, krzk+dt@kernel.org, conor+dt@kernel.org,
+ quic_mkrishn@quicinc.com, jonathan@marek.ca, quic_khsieh@quicinc.com,
+ neil.armstrong@linaro.org, linux-arm-msm@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, freedreno@lists.freedesktop.org,
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+ tingwei.zhang@oss.qualcomm.com, aiqun.yu@oss.qualcomm.com,
+ yongxing.mou@oss.qualcomm.com
+References: <20251023075401.1148-1-yuanjie.yang@oss.qualcomm.com>
+ <20251023080609.1212-1-yuanjie.yang@oss.qualcomm.com>
+ <20251023080609.1212-3-yuanjie.yang@oss.qualcomm.com>
+ <wuh7agcgg6spghilnx4amqukaaydj25u7kbdiod7fl6pu2ulvm@pmosyuo43cyw>
+ <aQF98RvLuOlJZlFi@yuanjiey.ap.qualcomm.com>
+ <38c8e26c-08a4-42d9-8f6d-93969af90d50@kernel.org>
+ <aQLOaI3ngjswi7kd@yuanjiey.ap.qualcomm.com>
+From: Krzysztof Kozlowski <krzk@kernel.org>
 Content-Language: en-US
-From: Meghana Malladi <m-malladi@ti.com>
-In-Reply-To: <05efdc9a-8704-476e-8179-1a9fc0ada749@redhat.com>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 8bit
-X-C2ProcessedOrg: 333ef613-75bf-4e12-a4b1-8e3623f5dcea
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: BN1PEPF00004685:EE_|BN0PR10MB4981:EE_
-X-MS-Office365-Filtering-Correlation-Id: d547939b-942c-4649-5de9-08de176ef77b
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
- ARA:13230040|82310400026|1800799024|7416014|376014|34020700016|36860700013|921020|12100799066;
-X-Microsoft-Antispam-Message-Info: =?utf-8?B?QUJob3ZIMlU4cFg0Zk1FSGJHUFhrTWFTbFFaeFBuU0VYcnNQVjk5VEtBTnN4?=
- =?utf-8?B?WjlhNkpIRHloK3FhbDAzc0ZtSVV2d0dNczQrYVRvcTJMUkxWdnU3UkFYNTJj?=
- =?utf-8?B?WEpwaEV2WVBzbUZvakhFYTFoWWF4SHl0NkRuSTJaQnk4VWZoNWpFUkw2V1lZ?=
- =?utf-8?B?RElLazBBZW9aZnp4aWEzMWV6VlE2dU5qM2JsenZBR2dDNElZKzM5dVRqTTl3?=
- =?utf-8?B?aThhUnJBeVVFdnpGcHBmWkYrL01BamgxMGRJOGZxK0FzNWMzcUorc0VzMjBx?=
- =?utf-8?B?cFhmaUQ5NHA0aTY4S25aVy96ZzdRNDBhUThnWE9BTXlqcmh5dWJPNnlLa3Zi?=
- =?utf-8?B?K3VBRWp0K28yS1QvVWYzYlFqNzdkKzFQN1dkU0tBdWliVTNDK3B4Mi9WV3RN?=
- =?utf-8?B?RmNXb3pybjFWbHRaZUNtcnhkbnZjWGFjbkxibktxRFh6N0ZJUWF6R1NybGQy?=
- =?utf-8?B?alcrVHJQTitabFg2ejc4ZWJ0UW1oVmVLUXZNc2R5NmMwSXp6SmNtQ3hxM0hh?=
- =?utf-8?B?TGt0Wjd0OFQyaVM1UnhwK2tMdWRNbUxMSUFHeVRIWEc2VWRISlZJVjN5RThr?=
- =?utf-8?B?SmdTNnltQnJycHhaaFpqaGFkTG1DUmRIVmVHWGRJd1NndGVjbVJDNHJ6WmFs?=
- =?utf-8?B?SmREd3BYcDVlOVBrVVI1emZCUnI3bzJXR2FpOUpNenhDdDAwVVArSkdCLzRk?=
- =?utf-8?B?QUtkd0ZpUDAzYjk2bVJHT3lvMisrVnVGVkJhY2dCeWNDQ0VnVXNhekdDVEs0?=
- =?utf-8?B?UVZWVjhUVGRCUlg1YlFPZlBIZkhWeHVDTHF3cVVlLytyQ0dEemo1cGU3bGg4?=
- =?utf-8?B?ZFRCeFNxN2lERlhsb0M2UVNZTzY1RjMrTDhsZmFNM003VXJFNFRqdFNaU2t6?=
- =?utf-8?B?bFRYdVMyT2ZSL1IvOENsOXg5RUhzYnB0QmxaY2V3dTVIdlhEU1hqUkNxdWNx?=
- =?utf-8?B?a3lHUFFjMXBhMmJhSHNBUE9mbFB3TUtaa0RHVmdkSmJ4RE10cTJtRW1FU3hK?=
- =?utf-8?B?OVRORmxtWGpkSTVOQVk2V0hSamR0OXRVTTArQkxUNDFZT2lkLzBFYzk4YVE0?=
- =?utf-8?B?YXFvajZldWVUK3JyYzVqZnNKQ3pUajhVT1JjNUdaa2xNUytBcGhDUkxsRkt0?=
- =?utf-8?B?U1Ftd3prcDdTZm9RWXBPUi9yem5VRG9yNnk4K0kzOTZXM2JYeFRpT3QxTmRn?=
- =?utf-8?B?WVU2OEo1TmhxTXcwbEl3VTNCekIvc2tOSnJXWU4rYnMwUjhqTVQ5UjRIeU9y?=
- =?utf-8?B?QWpiU2hHV3JpRWFiK0FFRWRBSlVzYzEzaHRLZ2dXbFYybTY0MzFCMSt2N1Bn?=
- =?utf-8?B?SjNsdkcyZStvTGc0Y0IvVDBmUVF3aWhZU3E3UlNtTmMrNjBnMDZUZnd3S1hD?=
- =?utf-8?B?YXVsakpwK29xcHYydVMwa3VuQ3dRYnpoQktXMFJWRjV1aWhEM1dTNXdIaDBQ?=
- =?utf-8?B?VFFhaGtnTjRwb2NxeUlCVzQ5ZFZLVDZZckFjZ08veUl6YmI4aS96MnFObEVr?=
- =?utf-8?B?UjErVHh5a0xmMjZjdWhobW15dk1HcTNRZHBsekxCT2pYUzgwUSt2Ni84L0ds?=
- =?utf-8?B?TUlrbSs2R0JMblRlZ3AxZzhrVHVZSWtjNGwvVVJFWVBPUUlPYjBsVVNtdEs3?=
- =?utf-8?B?bzFGaytzY3pIM1R6cVMzalg1NWY2M0JJU3RGaVBwZjRaV2ZHY3J4ZXYzQ1VG?=
- =?utf-8?B?S0pZUnR5SDViNE1tOHRKSGhXdEhOK3d3Z3RJSVI3Zys3QWFtY2h3RElZSGlE?=
- =?utf-8?B?d2VyUkZZMy8zeGVLRXdKYUpWVmxTanBaMEs0ak1kNFYwOXBxdjllbGVvY1NC?=
- =?utf-8?B?U0JEMmpYclFLTk8yOUJMOGw3ajN6TDJiNzY4cG1nZVdGRkJpa21LT09uS1Br?=
- =?utf-8?B?TDdkZ3RlSnNNeUU4UVhxUWZiUk5TOEN3SjRUTnlhYXgwZXFYQ0FwckdlaDNH?=
- =?utf-8?B?TFFrTDNuZXpVV0N4bkNoc1d5bHZQeWV4eG9Gc0NvY1VuLzJrc29oQ0hSdXg5?=
- =?utf-8?B?R2V1cEpaL28xajkwRFV4bjZyMDc5alR1TEk3M2o2cThoSzNDUVVUOVZSL3o5?=
- =?utf-8?Q?hIhOY/?=
-X-Forefront-Antispam-Report: CIP:198.47.21.194; CTRY:US; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:flwvzet200.ext.ti.com; PTR:ErrorRetry; CAT:NONE;
- SFS:(13230040)(82310400026)(1800799024)(7416014)(376014)(34020700016)(36860700013)(921020)(12100799066);
- DIR:OUT; SFP:1501; 
-X-OriginatorOrg: ti.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 30 Oct 2025 04:44:09.7861 (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: d547939b-942c-4649-5de9-08de176ef77b
-X-MS-Exchange-CrossTenant-Id: e5b49634-450b-4709-8abb-1e2b19b982b7
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=e5b49634-450b-4709-8abb-1e2b19b982b7; Ip=[198.47.21.194];
- Helo=[flwvzet200.ext.ti.com]
-X-MS-Exchange-CrossTenant-AuthSource: BN1PEPF00004685.namprd03.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BN0PR10MB4981
+Autocrypt: addr=krzk@kernel.org; keydata=
+ xsFNBFVDQq4BEAC6KeLOfFsAvFMBsrCrJ2bCalhPv5+KQF2PS2+iwZI8BpRZoV+Bd5kWvN79
+ cFgcqTTuNHjAvxtUG8pQgGTHAObYs6xeYJtjUH0ZX6ndJ33FJYf5V3yXqqjcZ30FgHzJCFUu
+ JMp7PSyMPzpUXfU12yfcRYVEMQrmplNZssmYhiTeVicuOOypWugZKVLGNm0IweVCaZ/DJDIH
+ gNbpvVwjcKYrx85m9cBVEBUGaQP6AT7qlVCkrf50v8bofSIyVa2xmubbAwwFA1oxoOusjPIE
+ J3iadrwpFvsZjF5uHAKS+7wHLoW9hVzOnLbX6ajk5Hf8Pb1m+VH/E8bPBNNYKkfTtypTDUCj
+ NYcd27tjnXfG+SDs/EXNUAIRefCyvaRG7oRYF3Ec+2RgQDRnmmjCjoQNbFrJvJkFHlPeHaeS
+ BosGY+XWKydnmsfY7SSnjAzLUGAFhLd/XDVpb1Een2XucPpKvt9ORF+48gy12FA5GduRLhQU
+ vK4tU7ojoem/G23PcowM1CwPurC8sAVsQb9KmwTGh7rVz3ks3w/zfGBy3+WmLg++C2Wct6nM
+ Pd8/6CBVjEWqD06/RjI2AnjIq5fSEH/BIfXXfC68nMp9BZoy3So4ZsbOlBmtAPvMYX6U8VwD
+ TNeBxJu5Ex0Izf1NV9CzC3nNaFUYOY8KfN01X5SExAoVTr09ewARAQABzSVLcnp5c3p0b2Yg
+ S296bG93c2tpIDxrcnprQGtlcm5lbC5vcmc+wsGVBBMBCgA/AhsDBgsJCAcDAgYVCAIJCgsE
+ FgIDAQIeAQIXgBYhBJvQfg4MUfjVlne3VBuTQ307QWKbBQJoF1BKBQkWlnSaAAoJEBuTQ307
+ QWKbHukP/3t4tRp/bvDnxJfmNdNVn0gv9ep3L39IntPalBFwRKytqeQkzAju0whYWg+R/rwp
+ +r2I1Fzwt7+PTjsnMFlh1AZxGDmP5MFkzVsMnfX1lGiXhYSOMP97XL6R1QSXxaWOpGNCDaUl
+ ajorB0lJDcC0q3xAdwzRConxYVhlgmTrRiD8oLlSCD5baEAt5Zw17UTNDnDGmZQKR0fqLpWy
+ 786Lm5OScb7DjEgcA2PRm17st4UQ1kF0rQHokVaotxRM74PPDB8bCsunlghJl1DRK9s1aSuN
+ hL1Pv9VD8b4dFNvCo7b4hfAANPU67W40AaaGZ3UAfmw+1MYyo4QuAZGKzaP2ukbdCD/DYnqi
+ tJy88XqWtyb4UQWKNoQqGKzlYXdKsldYqrLHGoMvj1UN9XcRtXHST/IaLn72o7j7/h/Ac5EL
+ 8lSUVIG4TYn59NyxxAXa07Wi6zjVL1U11fTnFmE29ALYQEXKBI3KUO1A3p4sQWzU7uRmbuxn
+ naUmm8RbpMcOfa9JjlXCLmQ5IP7Rr5tYZUCkZz08LIfF8UMXwH7OOEX87Y++EkAB+pzKZNNd
+ hwoXulTAgjSy+OiaLtuCys9VdXLZ3Zy314azaCU3BoWgaMV0eAW/+gprWMXQM1lrlzvwlD/k
+ whyy9wGf0AEPpLssLVt9VVxNjo6BIkt6d1pMg6mHsUEVzsFNBFVDXDQBEADNkrQYSREUL4D3
+ Gws46JEoZ9HEQOKtkrwjrzlw/tCmqVzERRPvz2Xg8n7+HRCrgqnodIYoUh5WsU84N03KlLue
+ MNsWLJBvBaubYN4JuJIdRr4dS4oyF1/fQAQPHh8Thpiz0SAZFx6iWKB7Qrz3OrGCjTPcW6ei
+ OMheesVS5hxietSmlin+SilmIAPZHx7n242u6kdHOh+/SyLImKn/dh9RzatVpUKbv34eP1wA
+ GldWsRxbf3WP9pFNObSzI/Bo3kA89Xx2rO2roC+Gq4LeHvo7ptzcLcrqaHUAcZ3CgFG88CnA
+ 6z6lBZn0WyewEcPOPdcUB2Q7D/NiUY+HDiV99rAYPJztjeTrBSTnHeSBPb+qn5ZZGQwIdUW9
+ YegxWKvXXHTwB5eMzo/RB6vffwqcnHDoe0q7VgzRRZJwpi6aMIXLfeWZ5Wrwaw2zldFuO4Dt
+ 91pFzBSOIpeMtfgb/Pfe/a1WJ/GgaIRIBE+NUqckM+3zJHGmVPqJP/h2Iwv6nw8U+7Yyl6gU
+ BLHFTg2hYnLFJI4Xjg+AX1hHFVKmvl3VBHIsBv0oDcsQWXqY+NaFahT0lRPjYtrTa1v3tem/
+ JoFzZ4B0p27K+qQCF2R96hVvuEyjzBmdq2esyE6zIqftdo4MOJho8uctOiWbwNNq2U9pPWmu
+ 4vXVFBYIGmpyNPYzRm0QPwARAQABwsF8BBgBCgAmAhsMFiEEm9B+DgxR+NWWd7dUG5NDfTtB
+ YpsFAmgXUF8FCRaWWyoACgkQG5NDfTtBYptO0w//dlXJs5/42hAXKsk+PDg3wyEFb4NpyA1v
+ qmx7SfAzk9Hf6lWwU1O6AbqNMbh6PjEwadKUk1m04S7EjdQLsj/MBSgoQtCT3MDmWUUtHZd5
+ RYIPnPq3WVB47GtuO6/u375tsxhtf7vt95QSYJwCB+ZUgo4T+FV4hquZ4AsRkbgavtIzQisg
+ Dgv76tnEv3YHV8Jn9mi/Bu0FURF+5kpdMfgo1sq6RXNQ//TVf8yFgRtTUdXxW/qHjlYURrm2
+ H4kutobVEIxiyu6m05q3e9eZB/TaMMNVORx+1kM3j7f0rwtEYUFzY1ygQfpcMDPl7pRYoJjB
+ dSsm0ZuzDaCwaxg2t8hqQJBzJCezTOIkjHUsWAK+tEbU4Z4SnNpCyM3fBqsgYdJxjyC/tWVT
+ AQ18NRLtPw7tK1rdcwCl0GFQHwSwk5pDpz1NH40e6lU+NcXSeiqkDDRkHlftKPV/dV+lQXiu
+ jWt87ecuHlpL3uuQ0ZZNWqHgZoQLXoqC2ZV5KrtKWb/jyiFX/sxSrodALf0zf+tfHv0FZWT2
+ zHjUqd0t4njD/UOsuIMOQn4Ig0SdivYPfZukb5cdasKJukG1NOpbW7yRNivaCnfZz6dTawXw
+ XRIV/KDsHQiyVxKvN73bThKhONkcX2LWuD928tAR6XMM2G5ovxLe09vuOzzfTWQDsm++9UKF a/A=
+In-Reply-To: <aQLOaI3ngjswi7kd@yuanjiey.ap.qualcomm.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -166,103 +117,43 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Paolo,
-
-On 10/28/25 16:27, Paolo Abeni wrote:
-> On 10/23/25 11: 39 AM, Meghana Malladi wrote: > @@ -1200,6 +1218,109 @@ 
-> static int emac_xdp_setup(struct prueth_emac *emac, struct netdev_bpf 
-> *bpf) > return 0; > } > > +static int prueth_xsk_pool_enable(struct 
-> prueth_emac *emac,
-> ZjQcmQRYFpfptBannerStart
-> This message was sent from outside of Texas Instruments.
-> Do not click links or open attachments unless you recognize the source 
-> of this email and know the content is safe.
-> Report Suspicious
-> <https://us-phishalarm-ewt.proofpoint.com/EWT/v1/G3vK! 
-> updqHb0lvOd6ACXFPDODXzFjW2RtkIpblpWr3zui2O2JqWTyRCLKc2i7Pa7uSMBZYpq8H7tTr-jp_nDelg_OUrmNCgZ8_m0$>
-> ZjQcmQRYFpfptBannerEnd
+On 30/10/2025 03:33, yuanjiey wrote:
+> On Wed, Oct 29, 2025 at 02:05:20PM +0100, Krzysztof Kozlowski wrote:
+>> On 29/10/2025 03:37, yuanjiey wrote:
+>>> On Mon, Oct 27, 2025 at 10:51:23PM -0500, Bjorn Andersson wrote:
+>>>> On Thu, Oct 23, 2025 at 04:06:05PM +0800, yuanjie yang wrote:
+>>>>> From: Yuanjie Yang <yuanjie.yang@oss.qualcomm.com>
+>>>>>
+>>>>> Build the NT37801 DSI panel driver as module.
+>>>>>
+>>>>> Signed-off-by: Yongxing Mou <yongxing.mou@oss.qualcomm.com>
+>>>>> Signed-off-by: Yuanjie Yang <yuanjie.yang@oss.qualcomm.com>
+>>>>
+>>>> You (Yuanjie) authored the patch, but forgot to sign-off, then Yongxing
+>>>> provided certificate of origin, then you provide certificate of origin
+>>>> and send it to list?
+>>>>
+>>>> Please correct.
+>>>
+>>> All the display patches were jointly developed by Yongxing and me.
+>>> So every patch 
+>>
+>>
+>> So two people were working on this absolutely trivial defconfig change?
+>> I have troubles believing this.
+> I want to say these patches I am first author and yongxing give me support, so
+> I think yongxing is second author.
 > 
-> On 10/23/25 11:39 AM, Meghana Malladi wrote:
->> @@ -1200,6 +1218,109 @@ static int emac_xdp_setup(struct prueth_emac *emac, struct netdev_bpf *bpf)
->>  	return 0;
->>  }
->>  
->> +static int prueth_xsk_pool_enable(struct prueth_emac *emac,
->> +				  struct xsk_buff_pool *pool, u16 queue_id)
->> +{
->> +	struct prueth_rx_chn *rx_chn = &emac->rx_chns;
->> +	u32 frame_size;
->> +	int ret;
->> +
->> +	if (queue_id >= PRUETH_MAX_RX_FLOWS ||
->> +	    queue_id >= emac->tx_ch_num) {
->> +		netdev_err(emac->ndev, "Invalid XSK queue ID %d\n", queue_id);
->> +		return -EINVAL;
->> +	}
->> +
->> +	frame_size = xsk_pool_get_rx_frame_size(pool);
->> +	if (frame_size < PRUETH_MAX_PKT_SIZE)
->> +		return -EOPNOTSUPP;
->> +
->> +	ret = xsk_pool_dma_map(pool, rx_chn->dma_dev, PRUETH_RX_DMA_ATTR);
->> +	if (ret) {
->> +		netdev_err(emac->ndev, "Failed to map XSK pool: %d\n", ret);
->> +		return ret;
->> +	}
->> +
->> +	if (netif_running(emac->ndev)) {
->> +		/* stop packets from wire for graceful teardown */
->> +		ret = icssg_set_port_state(emac, ICSSG_EMAC_PORT_DISABLE);
->> +		if (ret)
->> +			return ret;
->> +		prueth_destroy_rxq(emac);
->> +	}
->> +
->> +	emac->xsk_qid = queue_id;
->> +	prueth_set_xsk_pool(emac, queue_id);
->> +
->> +	if (netif_running(emac->ndev)) {
->> +		ret = prueth_create_rxq(emac);
+> I want to express my gratitude for Yongxing's support in every patch, so I included
+> both our names in the sign-off for each one.
 > 
-> It looks like this falls short of Jakub's request on v2:
-> 
-> https://urldefense.com/v3/__https://lore.kernel.org/ 
-> netdev/20250903174847.5d8d1c9f@kernel.org/__;!!G3vK! 
-> TxEOF2PZA-2oagU7Gmq2PdyHrceI_sWFRSCMP2meOxVrs8eqStDUSTPi2kyzjva1rgUzQUtYbd9g$ <https://urldefense.com/v3/__https://lore.kernel.org/netdev/20250903174847.5d8d1c9f@kernel.org/__;!!G3vK!TxEOF2PZA-2oagU7Gmq2PdyHrceI_sWFRSCMP2meOxVrs8eqStDUSTPi2kyzjva1rgUzQUtYbd9g$>
-> 
-> about not freeing the rx queue for reconfig.
-> 
+> However, if my intention causes any trouble for maintainer, I can remove Yongxing's
+> sign-off from this patch.
 
-I tried honoring Jakub's comment to avoid freeing the rx memory wherever 
-necessary.
 
-"In case of icssg driver, freeing the rx memory is necessary as the
-rx descriptor memory is owned by the cppi dma controller and can be
-mapped to a single memory model (pages/xdp buffers) at a given time.
-In order to remap it, the memory needs to be freed and reallocated."
+Please read submitting patches to understand what Signed-off-by means.
+Otherwise I have doubts we can accept your patches - you simply do not
+understand what you are certifying.
 
-> I think you should:
-> - stop the H/W from processing incoming packets,
-> - spool all the pending packets
-> - attach/detach the xsk_pool
-> - refill the ring
-> - re-enable the H/W
-> 
-
-Current implementation follows the same sequence:
-1. Does a channel teardown -> stop incoming traffic
-2. free the rx descriptors from free queue and completion queue -> spool 
-all pending packets/descriptors
-3. attach/detach the xsk pool
-4. allocate rx descriptors and fill the freeq after mapping them to the 
-correct memory buffers -> refill the ring
-5. restart the NAPI - re-enable the H/W to recv the traffic
-
-I am still working on skipping 2 and 4 steps but this will be a long 
-shot. Need to make sure all corner cases are getting covered. If this 
-approach looks doable without causing any regressions I might post it as 
-a followup patch later in the future.
-
-> /P
-> 
-
+Best regards,
+Krzysztof
