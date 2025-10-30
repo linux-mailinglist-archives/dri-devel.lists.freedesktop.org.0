@@ -2,130 +2,62 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B3947C1F344
-	for <lists+dri-devel@lfdr.de>; Thu, 30 Oct 2025 10:11:58 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1768BC1F3A0
+	for <lists+dri-devel@lfdr.de>; Thu, 30 Oct 2025 10:16:48 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1313D10E904;
-	Thu, 30 Oct 2025 09:11:57 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1EAED10E8FF;
+	Thu, 30 Oct 2025 09:16:46 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=amd.com header.i=@amd.com header.b="z59mExFY";
+	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="GOH4PVPS";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from BYAPR05CU005.outbound.protection.outlook.com
- (mail-westusazon11010071.outbound.protection.outlook.com [52.101.85.71])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3BB4710E904
- for <dri-devel@lists.freedesktop.org>; Thu, 30 Oct 2025 09:11:52 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=inR3GhuJjo//q7e2OOWyZ8XIx3MleIhbEPCHF8Jbwq3ZIr4uUeBXXjNaiGVddvnSEp/HaGYvmsOO1GeZtZaam+X/Ic5hkB7Cv2zRsWXJEHm4yGQlOmoGgAnXBm9HcDqATSO88TtLupXdqFWK9PpO62jTJrpuAETW0uZ55JgZOZk6Ie/REcHQEMWvZNnDMXV8r9XHXH+ltFs+W12SAo2zWwMD1XEJC5SUe6K5FaAbBANFCsazTpE1GIkoKewUOk4C/aJDBsrcaedb/dfMBkPKiRdWx1ZhMUJdqxwGL68DS78NKztV4kkcqLSzzac+2JHkNnBZ6FXj5MrbOgw9liCMwQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=pTtzB6qFYPssviQz5CwXw2yzojtZkgbNlIInA9oZcB8=;
- b=Z46iXVeuW5yK8EsdsQi4dOxG3f8qhAVyDtyWUaEKgLbTcpYNMSD8FpLT4WF05xHlMrY6IVc+ds6n8J6U4OydF/xcZDBwwtYMBnZ52gQEGOGZXuKlHcfz3wCkqFX6+ptsnpl27oLNtDyCjc+vhoW/ytmi0wM47dnGsvw9oW8cPGK6oTWlXrfiRV+Km0KEUwFT6/8STMV5GIeGAwsW3Yu7Miv2DjxllUlX5151m0b6G7WLq8W5QdY2kYQaVLOfmOqP1/hOGPOu6ZUXltN3mVuYM+yReD3kOFdVbvV/XWGzXlqGD9MWQYa8OAV/1lB0XnokY1Q/PadVBENYfQdnb+7Wtg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 165.204.84.17) smtp.rcpttodomain=intel.com smtp.mailfrom=amd.com; dmarc=pass
- (p=quarantine sp=quarantine pct=100) action=none header.from=amd.com;
- dkim=none (message not signed); arc=none (0)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=pTtzB6qFYPssviQz5CwXw2yzojtZkgbNlIInA9oZcB8=;
- b=z59mExFYxNyE6jD3owPqkouv/f9xtxwoESb2wEB6p9rClv1nlFPMIv1p3X2B7n68xE9jpGxX3zR8KgLcY3Lv5JqAHHskCl/epM1ttX9n0IJyY7Db4snLhlp7JyO3RXtsu1hvdIGGvQ1GyBplZ3U43lpojKR32nGknOX6IGaqfBw=
-Received: from BL1PR13CA0107.namprd13.prod.outlook.com (2603:10b6:208:2b9::22)
- by LV2PR12MB5773.namprd12.prod.outlook.com (2603:10b6:408:17b::14)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9275.13; Thu, 30 Oct
- 2025 09:11:47 +0000
-Received: from BL6PEPF0001AB58.namprd02.prod.outlook.com
- (2603:10b6:208:2b9:cafe::ad) by BL1PR13CA0107.outlook.office365.com
- (2603:10b6:208:2b9::22) with Microsoft SMTP Server (version=TLS1_3,
- cipher=TLS_AES_256_GCM_SHA384) id 15.20.9275.13 via Frontend Transport; Thu,
- 30 Oct 2025 09:11:46 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
- smtp.mailfrom=amd.com; dkim=none (message not signed)
- header.d=none;dmarc=pass action=none header.from=amd.com;
-Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
- 165.204.84.17 as permitted sender) receiver=protection.outlook.com;
- client-ip=165.204.84.17; helo=satlexmb07.amd.com; pr=C
-Received: from satlexmb07.amd.com (165.204.84.17) by
- BL6PEPF0001AB58.mail.protection.outlook.com (10.167.241.10) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.9275.10 via Frontend Transport; Thu, 30 Oct 2025 09:11:46 +0000
-Received: from FRAPPELLOUX01-WSLPUB.amd.com (10.180.168.240) by
- satlexmb07.amd.com (10.181.42.216) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.17; Thu, 30 Oct 2025 02:11:44 -0700
-From: Pierre-Eric Pelloux-Prayer <pierre-eric.pelloux-prayer@amd.com>
-To: Matthew Brost <matthew.brost@intel.com>, Danilo Krummrich
- <dakr@kernel.org>, Philipp Stanner <phasta@kernel.org>,
- =?UTF-8?q?Christian=20K=C3=B6nig?= <ckoenig.leichtzumerken@gmail.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Maxime Ripard
- <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, David Airlie
- <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>
-CC: Pierre-Eric Pelloux-Prayer <pierre-eric.pelloux-prayer@amd.com>, "Tvrtko
- Ursulin" <tvrtko.ursulin@igalia.com>, Tomeu Vizoso <tomeu@tomeuvizoso.net>,
- <dri-devel@lists.freedesktop.org>, <linux-kernel@vger.kernel.org>
-Subject: [PATCH v2 3/3] drm/sched: limit sched score update to jobs change
-Date: Thu, 30 Oct 2025 10:11:13 +0100
-Message-ID: <20251030091118.4864-3-pierre-eric.pelloux-prayer@amd.com>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20251030091118.4864-1-pierre-eric.pelloux-prayer@amd.com>
-References: <20251030091118.4864-1-pierre-eric.pelloux-prayer@amd.com>
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D009210E8FF
+ for <dri-devel@lists.freedesktop.org>; Thu, 30 Oct 2025 09:16:43 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1761815803;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=E03zS2Y7hXOgIIAm99WDrDNWEtg53fgISfyTZXXcoGk=;
+ b=GOH4PVPST+IgfFMDDxVm8g4yyyKDRnypgTGYchH0nLQ0vXIEA0rAaOobhVEkUXe7c6NWW7
+ 73ZekTw2C8Y4B3kY8g2dAnjz50v09xOchbMqRmBOAWE6CVYLs8+kRbddbf35Xw3vLPZVuo
+ 8Jg4Z2ExWpTLM7ZaH0d7XfX0EEzlblE=
+Received: from mx-prod-mc-08.mail-002.prod.us-west-2.aws.redhat.com
+ (ec2-35-165-154-97.us-west-2.compute.amazonaws.com [35.165.154.97]) by
+ relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
+ cipher=TLS_AES_256_GCM_SHA384) id us-mta-275-jvLGbC1nMi6k5n3aayUlwQ-1; Thu,
+ 30 Oct 2025 05:16:39 -0400
+X-MC-Unique: jvLGbC1nMi6k5n3aayUlwQ-1
+X-Mimecast-MFC-AGG-ID: jvLGbC1nMi6k5n3aayUlwQ_1761815798
+Received: from mx-prod-int-05.mail-002.prod.us-west-2.aws.redhat.com
+ (mx-prod-int-05.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.17])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+ (No client certificate requested)
+ by mx-prod-mc-08.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS
+ id 170201801A13; Thu, 30 Oct 2025 09:16:38 +0000 (UTC)
+Received: from hydra.redhat.com (unknown [10.44.32.119])
+ by mx-prod-int-05.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP
+ id 408FF1954128; Thu, 30 Oct 2025 09:16:33 +0000 (UTC)
+From: Jocelyn Falempe <jfalempe@redhat.com>
+To: Thomas Zimmermann <tzimmermann@suse.de>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Dave Airlie <airlied@redhat.com>,
+ Simona Vetter <simona@ffwll.ch>, dri-devel@lists.freedesktop.org
+Cc: Jocelyn Falempe <jfalempe@redhat.com>
+Subject: [PATCH v2] drm/ast: Handle framebuffer from dma-buf
+Date: Thu, 30 Oct 2025 10:14:11 +0100
+Message-ID: <20251030091627.340780-1-jfalempe@redhat.com>
 MIME-Version: 1.0
+X-Scanned-By: MIMEDefang 3.0 on 10.30.177.17
+X-Mimecast-Spam-Score: 0
+X-Mimecast-MFC-PROC-ID: EFPRD_8qWrxUEZqTQWh-qeWphcloYfRo7SyAHimUJl0_1761815798
+X-Mimecast-Originator: redhat.com
 Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-Originating-IP: [10.180.168.240]
-X-ClientProxiedBy: satlexmb07.amd.com (10.181.42.216) To satlexmb07.amd.com
- (10.181.42.216)
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: BL6PEPF0001AB58:EE_|LV2PR12MB5773:EE_
-X-MS-Office365-Filtering-Correlation-Id: ae9ee6b6-d134-49d6-b31f-08de17945a39
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
- ARA:13230040|7416014|376014|82310400026|36860700013|1800799024; 
-X-Microsoft-Antispam-Message-Info: =?us-ascii?Q?gIWPSBVzOHas31M6OeWoRuhWi6by0cUMflxkx5c/r9wpc84vWX+sRb235UhP?=
- =?us-ascii?Q?iFLHT1VIrJevxaiDHs6b1Zy8RVh/ERUKk1TtyYWWhPCo0qY0BjRXBre05N6V?=
- =?us-ascii?Q?tv0w1o3X7e8K/bH5SyY+JZ89mHVH9DaUL1egXRySd00yH8e+f82mbSP+vV0I?=
- =?us-ascii?Q?nj1Kmc4RVJ6J0asxNb9co91ZZqvx/Fg7EVuslTpNZrIP+YjpHw1K/ZE12Fbo?=
- =?us-ascii?Q?b5+WVia4V2FgyTNzaJYflw1ZvpktT0ArsyybRnZlQt+yNn5Pi2vWKoTMjfGp?=
- =?us-ascii?Q?JDoTIJYVbluOQYRVNw5gPv/zvjyvVoojzrMKwh105Dg1dS+j2JyBOuY0zqbn?=
- =?us-ascii?Q?Mb9pIZA3ZF9rLU/0pc9nef3wfWX5cpDUS0MdeiP5cAhZjEHMzE+DCMPuG6H+?=
- =?us-ascii?Q?M4cMmQ3MYJCzRdtJporPT0Apj/bI8djG0k4y2viVXpD+ut8sOEznHDGycKYT?=
- =?us-ascii?Q?8z/fLmu9imFIMFXr3wGy8R9OGyEye/KeEI7JrE4+O4hJIbzvN15L4sYjWgi9?=
- =?us-ascii?Q?GOgf3krbzOSml9PhR9stQlJdaiUTBAWwmU08kB/WFngDRWfi8zoE4CNHjMb6?=
- =?us-ascii?Q?u5DWZynTssENcco9/AqdF5OnbGwKNMWX231vJtUd4bFJyqBarpglDLugmUfY?=
- =?us-ascii?Q?mFQK1XEuA05WSMKzGYkfPGXtx/8XVRw8jvcOtKNcxpw72AvhN+LtZpbrzluA?=
- =?us-ascii?Q?dAUte/cEJkJwwGiDRzd9QA5fRyxwwEHHNzn1iv3YVTpxhjGea51HbcWmp3Ld?=
- =?us-ascii?Q?DMnkZ/7qas9bOPGlLB8RtW7m/F/gsiUpc4qEAkQMY85ikEyeJNmihW9BYCob?=
- =?us-ascii?Q?Vzip0rHMDwq4qu+E1YJE5BBs40+ucjKXYQ3HYg+YFtTb6YvNsV82epj7+4BF?=
- =?us-ascii?Q?Nl5uqI/QakPSwoqVlVHEfajO7cd67Fzzu9qS/WNFB1XlQMouKyTycsmUnmKo?=
- =?us-ascii?Q?fj2rsOoUifbx6EVJTKdm0I+in2Jtczie/dAnu9et4aNjsD0pdsLphZTiXXJD?=
- =?us-ascii?Q?4zhR8aSS8OMsTi9m9ffVaQmBioJlaeLMMXPHX6oy8bfCJMKtFgWJdw1X+gxE?=
- =?us-ascii?Q?pZA2pBcDH4VJW0NxkBbmXO/S/Suu6xp0jp8KXSp5qs4ritWVsodI2SVMEDUn?=
- =?us-ascii?Q?tbJBmAPYZRmpepFuW/USJYm2KuqO/pgGENqy7iYKh/DZ8uHW6j9xnJ00QvyQ?=
- =?us-ascii?Q?coA6j6vzEv8UlmtTmaf+M1nin1Kyh6mv7q5WEtyifcIUHcSGTeewfcYKlb2m?=
- =?us-ascii?Q?HvPoOyVUx3r0snv8sdIdxleoGnZWm2nI6vVYj/NHGOje3scFEe4lqEVz8h1S?=
- =?us-ascii?Q?IQDPAt8YUNg5R7aNWTQ5BQQqUQao5EevTCWRx0FNnnkt9qfMb3iSngrdGe1/?=
- =?us-ascii?Q?1ogJ0F/Srp6hF5H1AhKHvzUTBQ4oEkWnEK/jyvc4Kk2Y2ywafLw9cI0Wol6k?=
- =?us-ascii?Q?phvuj9PqAp0T3xmulOOrQcCMByIyQNhJDmQtyJ8MDTa+bf2HLZlr0YHFa3fh?=
- =?us-ascii?Q?8CW0QYzGSCKy5LU91IpuEqyiySsJ3OwOqAVcnk19ISuT/MiwUEJh0FcaL6gC?=
- =?us-ascii?Q?/IsYAQ7PuYV5fGUFaPk=3D?=
-X-Forefront-Antispam-Report: CIP:165.204.84.17; CTRY:US; LANG:en; SCL:1; SRV:;
- IPV:CAL; SFV:NSPM; H:satlexmb07.amd.com; PTR:InfoDomainNonexistent; CAT:NONE;
- SFS:(13230040)(7416014)(376014)(82310400026)(36860700013)(1800799024); DIR:OUT;
- SFP:1101; 
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 30 Oct 2025 09:11:46.9082 (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: ae9ee6b6-d134-49d6-b31f-08de17945a39
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d; Ip=[165.204.84.17];
- Helo=[satlexmb07.amd.com]
-X-MS-Exchange-CrossTenant-AuthSource: BL6PEPF0001AB58.namprd02.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: LV2PR12MB5773
+content-type: text/plain; charset="US-ASCII"; x-default=true
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -141,53 +73,49 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Currently, the scheduler score is incremented when a job is pushed to an
-entity and when an entity is attached to the scheduler.
+In the atomic update callback, ast should call
+drm_gem_fb_begin_cpu_access() to make sure it can read the
+framebuffer from the CPU, otherwise the data might not be there due
+to cache, and synchronization.
 
-This leads to some bad scheduling decision where the score value is
-largely made of idle entities.
+Tested on a Lenovo SE100, while rendering on the ArrowLake GPU with
+i915 driver, and using ast for display.
 
-For instance, a scenario with 2 schedulers and where 10 entities submit
-a single job, then do nothing, each scheduler will probably end up with
-a score of 5.
-Now, 5 userspace apps exit, so their entities will be dropped. In
-the worst case, these apps' entities where all attached to the same
-scheduler and we end up with score=5 (the 5 remaining entities) and
-score=0, despite the 2 schedulers being idle.
-When new entities show up, they will all select the second scheduler
-based on its low score value, instead of alternating between the 2.
-
-Some amdgpu rings depended on this feature, but the previous commit
-implemented the same thing in amdgpu directly so it can be safely
-removed from drm/sched.
-
-Signed-off-by: Pierre-Eric Pelloux-Prayer <pierre-eric.pelloux-prayer@amd.com>
-Reviewed-by: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
-Acked-by: Tomeu Vizoso <tomeu@tomeuvizoso.net>
+Suggested-by: Thomas Zimmermann <tzimmermann@suse.de>
+Signed-off-by: Jocelyn Falempe <jfalempe@redhat.com>
 ---
- drivers/gpu/drm/scheduler/sched_main.c | 2 --
- 1 file changed, 2 deletions(-)
 
-diff --git a/drivers/gpu/drm/scheduler/sched_main.c b/drivers/gpu/drm/scheduler/sched_main.c
-index c39f0245e3a9..8a3d99a86090 100644
---- a/drivers/gpu/drm/scheduler/sched_main.c
-+++ b/drivers/gpu/drm/scheduler/sched_main.c
-@@ -206,7 +206,6 @@ void drm_sched_rq_add_entity(struct drm_sched_rq *rq,
- 	if (!list_empty(&entity->list))
- 		return;
+v2:
+ * If begin_cpu_access() failed, skip the damage copy, but update the
+   pitch register (Thomas Zimmermann)
+
+ drivers/gpu/drm/ast/ast_mode.c | 11 ++++++++---
+ 1 file changed, 8 insertions(+), 3 deletions(-)
+
+diff --git a/drivers/gpu/drm/ast/ast_mode.c b/drivers/gpu/drm/ast/ast_mode.c
+index 9ce874dba69c..77d6c2dcfc40 100644
+--- a/drivers/gpu/drm/ast/ast_mode.c
++++ b/drivers/gpu/drm/ast/ast_mode.c
+@@ -556,9 +556,14 @@ static void ast_primary_plane_helper_atomic_update(struct drm_plane *plane,
+ 		ast_set_vbios_color_reg(ast, fb->format, ast_crtc_state->vmode);
+ 	}
  
--	atomic_inc(rq->sched->score);
- 	list_add_tail(&entity->list, &rq->entities);
- }
+-	drm_atomic_helper_damage_iter_init(&iter, old_plane_state, plane_state);
+-	drm_atomic_for_each_plane_damage(&iter, &damage) {
+-		ast_handle_damage(ast_plane, shadow_plane_state->data, fb, &damage);
++	/* if the buffer comes from another device */
++	if (drm_gem_fb_begin_cpu_access(fb, DMA_FROM_DEVICE) == 0) {
++		drm_atomic_helper_damage_iter_init(&iter, old_plane_state, plane_state);
++		drm_atomic_for_each_plane_damage(&iter, &damage) {
++			ast_handle_damage(ast_plane, shadow_plane_state->data, fb, &damage);
++		}
++
++		drm_gem_fb_end_cpu_access(fb, DMA_FROM_DEVICE);
+ 	}
  
-@@ -228,7 +227,6 @@ void drm_sched_rq_remove_entity(struct drm_sched_rq *rq,
- 
- 	spin_lock(&rq->lock);
- 
--	atomic_dec(rq->sched->score);
- 	list_del_init(&entity->list);
- 
- 	if (rq->current_entity == entity)
+ 	/*
+
+base-commit: 4f9ffd2c80a2fa09dcc8dfa0482cb7e0fb6fcf6c
 -- 
-2.43.0
+2.51.0
 
