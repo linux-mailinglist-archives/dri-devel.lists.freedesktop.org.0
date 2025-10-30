@@ -2,59 +2,62 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 428DDC21232
-	for <lists+dri-devel@lfdr.de>; Thu, 30 Oct 2025 17:22:45 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id BF872C2123C
+	for <lists+dri-devel@lfdr.de>; Thu, 30 Oct 2025 17:22:55 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 493E910E292;
-	Thu, 30 Oct 2025 16:22:42 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 15E3A10E9FC;
+	Thu, 30 Oct 2025 16:22:54 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="sM2BrH/9";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="WR8xPAf7";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from sea.source.kernel.org (sea.source.kernel.org [172.234.252.31])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6328B10E292
- for <dri-devel@lists.freedesktop.org>; Thu, 30 Oct 2025 16:22:40 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4ABE810E9FC;
+ Thu, 30 Oct 2025 16:22:53 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by sea.source.kernel.org (Postfix) with ESMTP id 0A552418BC;
- Thu, 30 Oct 2025 16:22:40 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4D9C5C4CEF1;
- Thu, 30 Oct 2025 16:22:38 +0000 (UTC)
+ by sea.source.kernel.org (Postfix) with ESMTP id 3193D43D2C;
+ Thu, 30 Oct 2025 16:22:53 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 75E4EC113D0;
+ Thu, 30 Oct 2025 16:22:51 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1761841359;
- bh=qeejJw/Ci04guqvtvub4+S+ZoFbZ8/admEO2nb7xcKk=;
+ s=k20201202; t=1761841373;
+ bh=cmZmFgC76pi98WknvVC6o6aMaiEboDlTfT1jYrQ4eJ8=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=sM2BrH/9fLau66Kv3195fiOQB6MxtyPXRXtOIYVMdU5A17KL7QC2Qai+2RmKFruY/
- uTxFhGlUjTeb7BdmOXNCSNp9kWr7zSRhWCbaRPS008DM8bOn8Za3RY6SbVy5EAlYXo
- NHFmhjj4Wnxex9UrXdb7nEma4PZD9b2kNGKvqUITnEp5ODjFDs3Pb0AQHXbeKZLZds
- /Y9UaXi51BAeTwg93p/Q1UJQZ3YdLY6yHAduDN2woYqCSIY6v0ABaXPu9cSDqw7Z2E
- VnlNC1IvIV20+NKAkAo/2CVcajJ5k02bGlPpLU8Ss/jKqZvwMywdaosN1nNbFViAk9
- xgX2bZxesoVqg==
+ b=WR8xPAf7ZUQ1RfvdbsVCbw6cI8vRO7/WN5PAbqT44g1Ckxop4RajDmbNlSS6CJ4sD
+ LVAPr56VGyUdCp9lXDf4d1ZiosqFD5aSpj611uoz/AbOm019HdlLtllSDg6aWA5fS5
+ QyXpGCtKUha2O1grAIQhn7OinRpHeWi/MFrXeukL5e21j+YxbQ+1reKELR0jGbPxW6
+ SE04bu9UujLJD3sR+Kt1V562T3/qNrLlbZvKW6RhCwaW4MUKmODk8uQsPIGlq+JpTn
+ 26xv5W3fIG+PHNX8TEumtJnthdEjqOsoPcaAaq+HFLjNKf9iyMsktwQD7lnnV6AwGu
+ +5utx1ktFAlSA==
 From: Bjorn Andersson <andersson@kernel.org>
-To: Hans de Goede <hansg@kernel.org>, Lee Jones <lee@kernel.org>,
- Pavel Machek <pavel@kernel.org>, Rob Herring <robh@kernel.org>,
+To: Rob Clark <robin.clark@oss.qualcomm.com>,
+ Dmitry Baryshkov <lumag@kernel.org>,
+ Abhinav Kumar <abhinav.kumar@linux.dev>, Sean Paul <sean@poorly.run>,
+ Marijn Suijten <marijn.suijten@somainline.org>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
+ Simona Vetter <simona@ffwll.ch>, Rob Herring <robh@kernel.org>,
  Krzysztof Kozlowski <krzk+dt@kernel.org>,
  Conor Dooley <conor+dt@kernel.org>,
- Bryan O'Donoghue <bryan.odonoghue@linaro.org>,
- Jingoo Han <jingoohan1@gmail.com>,
- Mauro Carvalho Chehab <mchehab@kernel.org>,
- Jean-Jacques Hiblot <jjhiblot@traphandler.com>,
- Jacopo Mondi <jacopo@jmondi.org>,
- Sakari Ailus <sakari.ailus@linux.intel.com>,
+ Neil Armstrong <neil.armstrong@linaro.org>,
+ Kuogee Hsieh <quic_khsieh@quicinc.com>,
  Konrad Dybcio <konradybcio@kernel.org>,
- Daniel Thompson <danielt@kernel.org>,
- Aleksandrs Vinarskis <alex@vinarskis.com>
-Cc: linux-leds@vger.kernel.org, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- linux-media@vger.kernel.org, linux-arm-msm@vger.kernel.org,
- threeway@gmail.com, Andy Shevchenko <andy.shevchenko@gmail.com>,
- Linus Walleij <linus.walleij@linaro.org>
-Subject: Re: (subset) [PATCH v5 0/4] leds: privacy-led support for devicetree
-Date: Thu, 30 Oct 2025 11:25:33 -0500
-Message-ID: <176184154198.475875.6266114626536757346.b4-ty@kernel.org>
+ Jessica Zhang <jesszhan0024@gmail.com>,
+ Yongxing Mou <yongxing.mou@oss.qualcomm.com>
+Cc: linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ freedreno@lists.freedesktop.org, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org,
+ Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>,
+ Krzysztof Kozlowski <krzk@kernel.org>
+Subject: Re: (subset) [PATCH v13 0/5] Display enablement changes for Qualcomm
+ QCS8300 platform
+Date: Thu, 30 Oct 2025 11:25:44 -0500
+Message-ID: <176184154225.475875.2172967213754375064.b4-ty@kernel.org>
 X-Mailer: git-send-email 2.51.0
-In-Reply-To: <20250910-leds-v5-0-bb90a0f897d5@vinarskis.com>
-References: <20250910-leds-v5-0-bb90a0f897d5@vinarskis.com>
+In-Reply-To: <20251029-qcs8300_mdss-v13-0-e8c8c4f82da2@oss.qualcomm.com>
+References: <20251029-qcs8300_mdss-v13-0-e8c8c4f82da2@oss.qualcomm.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
@@ -74,23 +77,18 @@ Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
-On Wed, 10 Sep 2025 14:01:07 +0200, Aleksandrs Vinarskis wrote:
-> Re-spin of RFC patch from ~2.5 years ago [1]. v4l2 controls for privacy
-> LEDs has landed, but the DT part was left out. Introduce missing
-> dt-bindings, and commonize 'leds' parameter. Finally, add a patch to
-> enable privacy-led on Lenovo Thinkpad x13s.
+On Wed, 29 Oct 2025 16:51:33 +0800, Yongxing Mou wrote:
+> This series introduces support to enable the Mobile Display Subsystem (MDSS)
+> , Display Processing Unit (DPU), DisplayPort controller for the Qualcomm
+> QCS8300 target. It includes the addition of the hardware catalog, compatible
+> string, and their YAML bindings.
 > 
-> With recent inflow of arm64-power laptops (Snapdragon X1E/X1P) which
-> mostly use MIPI cameras, this feature becomes more desired. Original
-> rebased patch is still working as expected (with respective DT changes)
-> on Dell XPS 9345.
 > 
-> [...]
 
 Applied, thanks!
 
-[4/4] arm64: dts: qcom: sc8280xp-x13s: enable camera privacy indicator
-      commit: b54c412b511c8bc8e71fd09a766bd95528d94840
+[4/5] soc: qcom: ubwc: Add QCS8300 UBWC cfg
+      commit: 58fbc8208e9fd950ddaa2614ac6f324999c32d09
 
 Best regards,
 -- 
