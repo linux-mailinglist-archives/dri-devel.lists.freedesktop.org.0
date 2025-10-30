@@ -2,88 +2,79 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id DD6A3C21CD9
-	for <lists+dri-devel@lfdr.de>; Thu, 30 Oct 2025 19:42:54 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2897EC21CDF
+	for <lists+dri-devel@lfdr.de>; Thu, 30 Oct 2025 19:42:56 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0680D10EA00;
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0EDA110EA02;
 	Thu, 30 Oct 2025 18:42:53 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=suse.com header.i=@suse.com header.b="DDvkpPNx";
+	dkim=pass (2048-bit key; unprotected) header.d=google.com header.i=@google.com header.b="lP8Nb6eJ";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-f49.google.com (mail-wr1-f49.google.com
- [209.85.221.49])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5F4E010E292
- for <dri-devel@lists.freedesktop.org>; Thu, 30 Oct 2025 16:20:56 +0000 (UTC)
-Received: by mail-wr1-f49.google.com with SMTP id
- ffacd0b85a97d-4298a028de6so1490130f8f.0
- for <dri-devel@lists.freedesktop.org>; Thu, 30 Oct 2025 09:20:56 -0700 (PDT)
+Received: from mail-qv1-f48.google.com (mail-qv1-f48.google.com
+ [209.85.219.48])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A938210EA00
+ for <dri-devel@lists.freedesktop.org>; Thu, 30 Oct 2025 16:31:34 +0000 (UTC)
+Received: by mail-qv1-f48.google.com with SMTP id
+ 6a1803df08f44-87bb66dd224so16669376d6.3
+ for <dri-devel@lists.freedesktop.org>; Thu, 30 Oct 2025 09:31:34 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=suse.com; s=google; t=1761841255; x=1762446055; darn=lists.freedesktop.org; 
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+ d=google.com; s=20230601; t=1761841893; x=1762446693;
+ darn=lists.freedesktop.org; 
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
  :message-id:reply-to;
- bh=6NY69lTN7Ud7Wl3FDNsKkunmZ3YSYqX1JZIpAlME2vc=;
- b=DDvkpPNxybEi3L6aWvext/W+gB2qmDC4q+iD0yT07adtrnzkgJ+p6RGQXf6Y94Z6WU
- pQ6MC9fQTreFhLmGDzMFRE7UkW0C1EiIkhjHOAcb07G3SyzYA1YXQdS8o+BiCraeuBaT
- 1fEjdrhXsLJoIC2WRK/fE2hl9Mvw59jsLga9g92ejczgU41yeRKPhWRiUorEGvrFitDj
- Gt3Tk9blZZFZ/d4nZg0z6TUfLfIse6KKIJB9VX1FrXf0an33Lcjg1G6YJMWi0cZh1+VI
- /+cuGPC5vNV3EneRIC01OS8Hl2AwMagx8YsthMZvsq8wRx/wAx66fhZrfie9J8zu/aC4
- 2x1Q==
+ bh=Lcro7aS2LTQSDE5KiwibL0iMqZiuCu8FC+2EGOTSddI=;
+ b=lP8Nb6eJw3iVSttjDCz/zd4VWGQ7Ow6NdX+WPG+f9a9jwmNYk4TNfcxWcllOFJRmjS
+ Gn1FYyahJRBEC4/EywOMES52LVmZUZsZIgW+6Id1xc/i/Y2Vohq5Jz/WCu/WDJ5W9G2B
+ djtZwPcp4VxQLlmK3kOIOnQ6tRaNPSXEmuv2Y8gJU+o2tgTjmJWoYmKxqeAJ4/0uAwW+
+ kfZsn9gpU4cUutim7m5k1tFhfWjkAoOdU/KXEb8gIyqParabrLO18G916a0yRoOcq9fO
+ +0hZfvGMirCf7HdOXuD/RTGi4da8FJ5dlJho6sOZlzZWurZUcDkeDa8dxOPyY3IX0Oxb
+ Qx2g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1761841255; x=1762446055;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+ d=1e100.net; s=20230601; t=1761841893; x=1762446693;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=6NY69lTN7Ud7Wl3FDNsKkunmZ3YSYqX1JZIpAlME2vc=;
- b=ntJ+kX0kXtz0zfyShGewfcnAoBCIBUh4d5sxsSpq3jaEvEWM8nNYKMgugY6k0vwY/P
- Vjcy9myJP4mQnoNBIMrdfG3DAu8UPC5NwpfXv5dhfYrFj6L+NexDF009s6TCPOmzF5hq
- Cd8N+t4W6iwRVjCaz+T7/2itxsRM2IxwSt1fbVMFLvWuO1G9HNolLXPDydhpXfNyBhXG
- MFj2e6VQQFtKEE4JNoFoYd3CFpyDMwQwWOOveD+6TF8Gbn/lOtga+pNqhlfG/1OwYCsQ
- WwVxdbj05DhrwSnCq1xiYqav+Rax9bJVBpYnY/B0ei9eC6K7HQtJ3zzNGTnUkh/7h1z/
- kluA==
+ bh=Lcro7aS2LTQSDE5KiwibL0iMqZiuCu8FC+2EGOTSddI=;
+ b=lTWZzqpyOLjWmae4lgn5UfpSqsRoEJyo38SH9/JCg6yTXej1xt+Y9r3FhJg94l3b/b
+ dzFcwPtM15p5G8fS9KB+iKkRyPA9Ka7N+b62RUHqAbF18SNlXEJ9Z7+i20iumuCsycOz
+ r94CiZSy45q1+fuVPuxc46dyYxwFx0ABI0mPzq0azrws0tp16F0KpKQUEeAK3UgJNbz+
+ 12qg+tLJ/TPdyo5AFgEvLt56uQ9gXKPP44Z81A/BgP4Nu2jakAPu5sUvaRzRTJ5bm5gm
+ MP5iCHLcd8Ov/sy2s71ND5ErijaQ23lzlUThR02HPlJuVQItp2VrckmBs4gkYTTRAjYN
+ 3oiw==
 X-Forwarded-Encrypted: i=1;
- AJvYcCWdh8/EnDMZ2RNTN5DQ9VyHfYXZTa6q4E78kyQ9yfOXA45Ct4c7detGFszc0vXoMAgEDDFhAy93bHU=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YzRmFBhnWsL7iFTDZGhK+I91u1R3XDX0X9O+GDHhbftVOqBS1Ug
- FzCk+XVOB2FHzhzKm+A0lZ1rllw5+g1Ty7T/ZbbhWX7MvHAbcf3QsDBSaFop2YiklC4=
-X-Gm-Gg: ASbGncvCQrsOim4SlLC8zrHWurvtk0FtbHOH71nRsDpAilYjBNei+yjgeYLExYOtf0O
- E9k2NSfKopjBPFgjUzAu1xxo9vpfnVbMBJA7ZW4OaAxjsSaxgZg6hS4Y0EeVE9j2EowTouzVeCD
- 0GDPfV9XeiiFjT+5xSzcMGA2Wel68t0wvI0K5mYwjAp4iypr0pF7CtQRvU1WlLJts5FbRdWiQ/u
- qimI/EF1ug+kQoBFyetObt/WUF8ophH2uDHkv4hLXXbg6IqiVhweO19VtKvcIvZ+4r3FGAXFLDn
- tsYZC3cpabtEjLTh0eujCLu13BBnbO5bpGvKmFtzAybSPC7BqjGFDopWt6hcj2NWdaS1WqBg9Hx
- Rn+UI4pK+t32PNOjhNBkLFUGAB4piGsyrHON/On6j19xqDAimN++9oxLUgRbsqszBEhU8dCw81+
- 5zrl5KlPReFD6KWWA=
-X-Google-Smtp-Source: AGHT+IFXfPh9yW0jtVttu/qwKjincPyDWS6IM7gy5X4TYXb5a6D/RDGVc/OgitNN+ao8ksUaeqYamg==
-X-Received: by 2002:a05:6000:178d:b0:3e7:428f:d33 with SMTP id
- ffacd0b85a97d-429bcd51231mr502674f8f.16.1761841254774; 
- Thu, 30 Oct 2025 09:20:54 -0700 (PDT)
-Received: from linux.fritz.box ([2a00:6d43:105:c401:e307:1a37:2e76:ce91])
- by smtp.gmail.com with ESMTPSA id
- ffacd0b85a97d-429952df473sm32758678f8f.42.2025.10.30.09.20.53
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 30 Oct 2025 09:20:54 -0700 (PDT)
-From: Marco Crivellari <marco.crivellari@suse.com>
-To: linux-kernel@vger.kernel.org,
-	dri-devel@lists.freedesktop.org
-Cc: Tejun Heo <tj@kernel.org>, Lai Jiangshan <jiangshanlai@gmail.com>,
- Frederic Weisbecker <frederic@kernel.org>,
- Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
- Marco Crivellari <marco.crivellari@suse.com>,
- Michal Hocko <mhocko@suse.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
- Simona Vetter <simona@ffwll.ch>
-Subject: [PATCH 3/3] drm/self_refresh: replace use of system_wq with
- system_percpu_wq
-Date: Thu, 30 Oct 2025 17:20:43 +0100
-Message-ID: <20251030162043.292468-4-marco.crivellari@suse.com>
-X-Mailer: git-send-email 2.51.0
-In-Reply-To: <20251030162043.292468-1-marco.crivellari@suse.com>
-References: <20251030162043.292468-1-marco.crivellari@suse.com>
+ AJvYcCUjyTkwPut2VDlzBvT6LtBrDcTxWRtnTBhH3UYS3TpGbGR2k/4YrskljOwa9JbFpOnSjfOqytifFi0=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YyHaKK5jq/Xijvz8nlW8iAphDFIoKCpZ9+Y1mbqy66K7yVXpCXD
+ FZFd4eCVm5l3mQJUUx649ZDug/E8LahPqfwfXgdNp67W3zkIRh20n9Uy0swyOlAeD+D6TBvM/1O
+ 1MzQ/JWSa0KUQhwVW5WEjVrkUZaHQIDA1M0Bhr+Ki0Q==
+X-Gm-Gg: ASbGncsdPt1BryP0iqoJ8eyj72xSMbJe+TsViXdr2I2JymjFrJig5jpedT6U6PcjbuU
+ /gbMTdksSZemguKY5TLTlkNlHGe8kIOtwnhrFa5HZXS+BuKjWPb87LCsj2MZJ+HdkHjkysyxiNC
+ rthLvcbiOnSkphb9KnHeer/r3KfHPGXgxLw0DqSRqun9co3A1HU0nKudaSPr/FekDATsp0hdEf3
+ LqotVG1A/wDpoB+gWnfT4Hxd5hFRxBjukI2wRpLgcjCXOYQcY2P2bYipTd+GOY2q1LfG/MDe7FH
+ 6GIGg4GKq7gIIAF0dw==
+X-Google-Smtp-Source: AGHT+IEkj46+/B0K8GIyrlYZyKHcCV6t6mvnj2aOt9aXfuZPt6AReZRXp0RWtwLFCrq6LGljuPZNyWbF+jhr2bn5n/0=
+X-Received: by 2002:ad4:5f87:0:b0:87c:2967:fd52 with SMTP id
+ 6a1803df08f44-8802f2f5681mr2517706d6.17.1761841885454; Thu, 30 Oct 2025
+ 09:31:25 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20251030094434.1390143-1-ajye_huang@compal.corp-partner.google.com>
+ <CAD=FV=V6xV0m4pj=7f2dxDP-0A1AaQuYJP5NAnXNz1_bzH7nSw@mail.gmail.com>
+In-Reply-To: <CAD=FV=V6xV0m4pj=7f2dxDP-0A1AaQuYJP5NAnXNz1_bzH7nSw@mail.gmail.com>
+From: Ajye Huang <ajye_huang@compal.corp-partner.google.com>
+Date: Fri, 31 Oct 2025 00:31:23 +0800
+X-Gm-Features: AWmQ_blljuOVJEoWM8HEfx4HXzb3s-EmtRR_lYI7XqNnS-lC5zNQ1CNEjOYQWaE
+Message-ID: <CALprXBYir7u3N3x6pZ_VK73Nrp5dP=qt5LCnUdhrjeQo4s1JsA@mail.gmail.com>
+Subject: Re: [PATCH v1] drm/edid: add 6 bpc quirk to the Sharp LQ116M1JW10
+To: Doug Anderson <dianders@chromium.org>
+Cc: linux-kernel@vger.kernel.org, 
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, 
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ dri-devel@lists.freedesktop.org, Jani Nikula <jani.nikula@intel.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-Mailman-Approved-At: Thu, 30 Oct 2025 18:42:35 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -100,38 +91,16 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Currently if a user enqueue a work item using schedule_delayed_work() the
-used wq is "system_wq" (per-cpu wq) while queue_delayed_work() use
-WORK_CPU_UNBOUND (used when a cpu is not specified). The same applies to
-schedule_work() that is using system_wq and queue_work(), that makes use
-again of WORK_CPU_UNBOUND.
+Hi Doug,
 
-This lack of consistency cannot be addressed without refactoring the API.
+On Thu, Oct 30, 2025 at 11:08=E2=80=AFPM Doug Anderson <dianders@chromium.o=
+rg> wrote:
 
-system_wq should be the per-cpu workqueue, yet in this name nothing makes
-that clear, so replace system_wq with system_percpu_wq.
-
-The old wq (system_wq) will be kept for a few release cycles.
-
-Suggested-by: Tejun Heo <tj@kernel.org>
-Signed-off-by: Marco Crivellari <marco.crivellari@suse.com>
----
- drivers/gpu/drm/drm_self_refresh_helper.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
-diff --git a/drivers/gpu/drm/drm_self_refresh_helper.c b/drivers/gpu/drm/drm_self_refresh_helper.c
-index c0948586b7fd..36f4237efd4d 100644
---- a/drivers/gpu/drm/drm_self_refresh_helper.c
-+++ b/drivers/gpu/drm/drm_self_refresh_helper.c
-@@ -218,7 +218,7 @@ void drm_self_refresh_helper_alter_state(struct drm_atomic_state *state)
- 			 ewma_psr_time_read(&sr_data->exit_avg_ms)) * 2;
- 		mutex_unlock(&sr_data->avg_mutex);
- 
--		mod_delayed_work(system_wq, &sr_data->entry_work,
-+		mod_delayed_work(system_percpu_wq, &sr_data->entry_work,
- 				 msecs_to_jiffies(delay));
- 	}
- }
--- 
-2.51.0
-
+>
+> NOTE: in general if someone is involved in the discussion of a
+> previous versoin, it's good to CC them on newer versions. I've added
+> Jani back to the CC list here.
+>
+Yes, you are right, It's my rudeness,
+I will pay more attention to this detail in the future. Thank you for
+reminding me.
