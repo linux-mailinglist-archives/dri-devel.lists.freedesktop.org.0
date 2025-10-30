@@ -2,52 +2,40 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B8EF8C20EBF
-	for <lists+dri-devel@lfdr.de>; Thu, 30 Oct 2025 16:27:53 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 20EF2C20ED4
+	for <lists+dri-devel@lfdr.de>; Thu, 30 Oct 2025 16:28:41 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 03B4B10E0BA;
-	Thu, 30 Oct 2025 15:27:52 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7312B10E9F0;
+	Thu, 30 Oct 2025 15:28:39 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from metis.whiteo.stw.pengutronix.de
- (metis.whiteo.stw.pengutronix.de [185.203.201.7])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3B1EC10E0BA
- for <dri-devel@lists.freedesktop.org>; Thu, 30 Oct 2025 15:27:51 +0000 (UTC)
-Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
- by metis.whiteo.stw.pengutronix.de with esmtps
- (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.92)
- (envelope-from <p.zabel@pengutronix.de>)
- id 1vEUYu-0000uH-HI; Thu, 30 Oct 2025 16:27:40 +0100
-Received: from lupine.office.stw.pengutronix.de ([2a0a:edc0:0:900:1d::4e]
- helo=lupine)
- by drehscheibe.grey.stw.pengutronix.de with esmtps (TLS1.3) tls
- TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384 (Exim 4.96)
- (envelope-from <p.zabel@pengutronix.de>) id 1vEUYt-006EZI-2R;
- Thu, 30 Oct 2025 16:27:39 +0100
-Received: from pza by lupine with local (Exim 4.98.2)
- (envelope-from <p.zabel@pengutronix.de>) id 1vEUYt-00000000CkU-2pWz;
- Thu, 30 Oct 2025 16:27:39 +0100
-Message-ID: <89a86fc1c48f921aa3b06146f43a32dc58515548.camel@pengutronix.de>
-Subject: Re: [PATCH] drm/imx/tve: fix probe device leak
-From: Philipp Zabel <p.zabel@pengutronix.de>
-To: Johan Hovold <johan@kernel.org>
-Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Maxime Ripard	
- <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, David Airlie
- <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
- dri-devel@lists.freedesktop.org, imx@lists.linux.dev, 
- linux-kernel@vger.kernel.org, stable@vger.kernel.org
-Date: Thu, 30 Oct 2025 16:27:39 +0100
-In-Reply-To: <20250923151346.17512-1-johan@kernel.org>
-References: <20250923151346.17512-1-johan@kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.56.1-1+deb13u1 
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 7764910E9F0
+ for <dri-devel@lists.freedesktop.org>; Thu, 30 Oct 2025 15:28:37 +0000 (UTC)
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+ by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 448C42ECB
+ for <dri-devel@lists.freedesktop.org>; Thu, 30 Oct 2025 08:28:29 -0700 (PDT)
+Received: from e110455-lin.cambridge.arm.com (usa-sjc-imap-foss1.foss.arm.com
+ [10.121.207.14])
+ by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPA id CCDFC3F673
+ for <dri-devel@lists.freedesktop.org>; Thu, 30 Oct 2025 08:28:36 -0700 (PDT)
+Date: Thu, 30 Oct 2025 15:28:33 +0000
+From: Liviu Dudau <liviu.dudau@arm.com>
+To: Rain Yang <jiyu.yang@oss.nxp.com>
+Cc: imx@lists.linux.dev, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, boris.brezillon@collabora.com,
+ steven.price@arm.com, maarten.lankhorst@linux.intel.com,
+ mripard@kernel.org, tzimmermann@suse.de, airlied@gmail.com,
+ simona@ffwll.ch, xianzhong.li@nxp.com, Rain Yang <jiyu.yang@nxp.com>,
+ Prabhu Sundararaj <prabhu.sundararaj@nxp.com>
+Subject: Re: [PATCH v3] drm/panthor: attach the driver's multiple power domains
+Message-ID: <aQOEIdRM2yk0JhLt@e110455-lin.cambridge.arm.com>
+References: <20251022092604.181752-1-jiyu.yang@oss.nxp.com>
 MIME-Version: 1.0
-X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
-X-SA-Exim-Mail-From: p.zabel@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.whiteo.stw.pengutronix.de);
- SAEximRunCond expanded to false
-X-PTX-Original-Recipient: dri-devel@lists.freedesktop.org
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20251022092604.181752-1-jiyu.yang@oss.nxp.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -63,49 +51,71 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Di, 2025-09-23 at 17:13 +0200, Johan Hovold wrote:
-> Make sure to drop the reference taken to the DDC device during probe on
-> probe failure (e.g. probe deferral) and on driver unbind.
->=20
-> Fixes: fcbc51e54d2a ("staging: drm/imx: Add support for Television Encode=
-r (TVEv2)")
-> Cc: stable@vger.kernel.org	# 3.10
-> Cc: Philipp Zabel <p.zabel@pengutronix.de>
-> Signed-off-by: Johan Hovold <johan@kernel.org>
+On Wed, Oct 22, 2025 at 05:26:04PM +0800, Rain Yang wrote:
+> From: Rain Yang <jiyu.yang@nxp.com>
+> 
+> Some platforms, such as i.MX95, utilize multiple power domains that need
+> to be attached explicitly. This patch ensures that the driver properly
+> attaches all available power domains using devm_pm_domain_attach_list().
+> 
+> Suggested-by: Boris Brezillon <boris.brezillon@collabora.com>
+> Suggested-by: Steven Price <steven.price@arm.com>
+> Signed-off-by: Prabhu Sundararaj <prabhu.sundararaj@nxp.com>
+> Signed-off-by: Rain Yang <jiyu.yang@nxp.com>
+
+Reviewed-by: Liviu Dudau <liviu.dudau@arm.com>
+
+Best regards,
+Liviu
+
 > ---
->  drivers/gpu/drm/imx/ipuv3/imx-tve.c | 12 ++++++++++++
->  1 file changed, 12 insertions(+)
->=20
-> diff --git a/drivers/gpu/drm/imx/ipuv3/imx-tve.c b/drivers/gpu/drm/imx/ip=
-uv3/imx-tve.c
-> index c5629e155d25..895413d26113 100644
-> --- a/drivers/gpu/drm/imx/ipuv3/imx-tve.c
-> +++ b/drivers/gpu/drm/imx/ipuv3/imx-tve.c
-> @@ -525,6 +525,13 @@ static const struct component_ops imx_tve_ops =3D {
->  	.bind	=3D imx_tve_bind,
->  };
-> =20
-> +static void imx_tve_put_device(void *_dev)
+>  drivers/gpu/drm/panthor/panthor_device.c | 16 ++++++++++++++++
+>  1 file changed, 16 insertions(+)
+> 
+> diff --git a/drivers/gpu/drm/panthor/panthor_device.c b/drivers/gpu/drm/panthor/panthor_device.c
+> index f0b2da5b2b96..c39b9812eaa7 100644
+> --- a/drivers/gpu/drm/panthor/panthor_device.c
+> +++ b/drivers/gpu/drm/panthor/panthor_device.c
+> @@ -64,6 +64,16 @@ static int panthor_clk_init(struct panthor_device *ptdev)
+>  	return 0;
+>  }
+>  
+> +static int panthor_init_power(struct device *dev)
 > +{
-> +	struct device *dev =3D _dev;
+> +	struct dev_pm_domain_list  *pd_list = NULL;
 > +
-> +	put_device(dev);
+> +	if (dev->pm_domain)
+> +		return 0;
+> +
+> +	return devm_pm_domain_attach_list(dev, NULL, &pd_list);
 > +}
 > +
->  static int imx_tve_probe(struct platform_device *pdev)
+>  void panthor_device_unplug(struct panthor_device *ptdev)
 >  {
->  	struct device *dev =3D &pdev->dev;
-> @@ -546,6 +553,11 @@ static int imx_tve_probe(struct platform_device *pde=
-v)
->  	if (ddc_node) {
->  		tve->ddc =3D of_find_i2c_adapter_by_node(ddc_node);
->  		of_node_put(ddc_node);
+>  	/* This function can be called from two different path: the reset work
+> @@ -218,6 +228,12 @@ int panthor_device_init(struct panthor_device *ptdev)
+>  	if (ret)
+>  		return ret;
+>  
+> +	ret = panthor_init_power(ptdev->base.dev);
+> +	if (ret < 0) {
+> +		drm_err(&ptdev->base, "init power domains failed, ret=%d", ret);
+> +		return ret;
+> +	}
 > +
-> +		ret =3D devm_add_action_or_reset(dev, imx_tve_put_device,
-> +					       &tve->ddc->dev);
+>  	ret = panthor_devfreq_init(ptdev);
+>  	if (ret)
+>  		return ret;
+> -- 
+> 2.39.5
+> 
 
-I think this needs to be wrapped in "if (tve->ddc) { }",
-of_find_i2c_adapter_by_node() can return NULL.
-
-regards
-Philipp
+-- 
+====================
+| I would like to |
+| fix the world,  |
+| but they're not |
+| giving me the   |
+ \ source code!  /
+  ---------------
+    ¯\_(ツ)_/¯
