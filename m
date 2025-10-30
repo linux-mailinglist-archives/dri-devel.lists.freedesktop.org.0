@@ -2,62 +2,57 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1768BC1F3A0
-	for <lists+dri-devel@lfdr.de>; Thu, 30 Oct 2025 10:16:48 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 433D6C1F3A7
+	for <lists+dri-devel@lfdr.de>; Thu, 30 Oct 2025 10:17:11 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1EAED10E8FF;
-	Thu, 30 Oct 2025 09:16:46 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A29D810E906;
+	Thu, 30 Oct 2025 09:17:09 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="GOH4PVPS";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="J4ijGA7V";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.129.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D009210E8FF
- for <dri-devel@lists.freedesktop.org>; Thu, 30 Oct 2025 09:16:43 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1761815803;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=E03zS2Y7hXOgIIAm99WDrDNWEtg53fgISfyTZXXcoGk=;
- b=GOH4PVPST+IgfFMDDxVm8g4yyyKDRnypgTGYchH0nLQ0vXIEA0rAaOobhVEkUXe7c6NWW7
- 73ZekTw2C8Y4B3kY8g2dAnjz50v09xOchbMqRmBOAWE6CVYLs8+kRbddbf35Xw3vLPZVuo
- 8Jg4Z2ExWpTLM7ZaH0d7XfX0EEzlblE=
-Received: from mx-prod-mc-08.mail-002.prod.us-west-2.aws.redhat.com
- (ec2-35-165-154-97.us-west-2.compute.amazonaws.com [35.165.154.97]) by
- relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
- cipher=TLS_AES_256_GCM_SHA384) id us-mta-275-jvLGbC1nMi6k5n3aayUlwQ-1; Thu,
- 30 Oct 2025 05:16:39 -0400
-X-MC-Unique: jvLGbC1nMi6k5n3aayUlwQ-1
-X-Mimecast-MFC-AGG-ID: jvLGbC1nMi6k5n3aayUlwQ_1761815798
-Received: from mx-prod-int-05.mail-002.prod.us-west-2.aws.redhat.com
- (mx-prod-int-05.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.17])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
- (No client certificate requested)
- by mx-prod-mc-08.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS
- id 170201801A13; Thu, 30 Oct 2025 09:16:38 +0000 (UTC)
-Received: from hydra.redhat.com (unknown [10.44.32.119])
- by mx-prod-int-05.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP
- id 408FF1954128; Thu, 30 Oct 2025 09:16:33 +0000 (UTC)
-From: Jocelyn Falempe <jfalempe@redhat.com>
-To: Thomas Zimmermann <tzimmermann@suse.de>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Dave Airlie <airlied@redhat.com>,
- Simona Vetter <simona@ffwll.ch>, dri-devel@lists.freedesktop.org
-Cc: Jocelyn Falempe <jfalempe@redhat.com>
-Subject: [PATCH v2] drm/ast: Handle framebuffer from dma-buf
-Date: Thu, 30 Oct 2025 10:14:11 +0100
-Message-ID: <20251030091627.340780-1-jfalempe@redhat.com>
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6720F10E906
+ for <dri-devel@lists.freedesktop.org>; Thu, 30 Oct 2025 09:17:07 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1761815827; x=1793351827;
+ h=from:to:cc:subject:date:message-id:mime-version:
+ content-transfer-encoding;
+ bh=L6mTG76bN/U8LElNZB/MC6PcC3H3GBwdT6nFDbVbztg=;
+ b=J4ijGA7V9r6jeTIBOhgP/3fH957AOOOh5+WN5RfDB5/uK6iSAEkrLV23
+ bfD+6icbSEDozRDGjLYw+2s9qKNvWSY9NZOplQVb/WpRhyXDG9oq02iJW
+ cSDJlpT79QlZUI6H5IsQOOBKh3XAJdyDui3/EXFSX57ORyfQ1GgaGhWJh
+ rdJ/mQC/9tGJYxgUvosh/MsvJzMDZgjmK4yjgB/NoEgVjplq7HQMBf2mX
+ pGidn4gyoLDni6EazFHo9udZXvIUIZyVjbK5AoC829BWnTwNO/H4jg4e0
+ dCgAAdIrfUaxxI1dMXO0qUxK5yJvOAAu58cA+lPz+PCgk2dATsnwx7zcm Q==;
+X-CSE-ConnectionGUID: R4hMj2c0RW6C0Mbf36TRWA==
+X-CSE-MsgGUID: jRnZql2fS0agykgXY8wIYQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11597"; a="64047541"
+X-IronPort-AV: E=Sophos;i="6.19,266,1754982000"; d="scan'208";a="64047541"
+Received: from orviesa007.jf.intel.com ([10.64.159.147])
+ by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 30 Oct 2025 02:17:07 -0700
+X-CSE-ConnectionGUID: WsNcLFwvSjmNEEb6ZUrD1A==
+X-CSE-MsgGUID: Wzd2kuUWSYaxyxNuv0yLlg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.19,266,1754982000"; d="scan'208";a="185838432"
+Received: from pl-npu-pc-kwachow.igk.intel.com ([10.91.220.239])
+ by orviesa007-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 30 Oct 2025 02:17:06 -0700
+From: Karol Wachowski <karol.wachowski@linux.intel.com>
+To: dri-devel@lists.freedesktop.org
+Cc: oded.gabbay@gmail.com, jeff.hugo@oss.qualcomm.com,
+ maciej.falkowski@linux.intel.com, lizhi.hou@amd.com,
+ Karol Wachowski <karol.wachowski@linux.intel.com>
+Subject: [PATCH v2] accel/ivpu: Wait for CDYN de-assertion during power down
+ sequence
+Date: Thu, 30 Oct 2025 10:17:00 +0100
+Message-ID: <20251030091700.293341-1-karol.wachowski@linux.intel.com>
+X-Mailer: git-send-email 2.43.0
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 3.0 on 10.30.177.17
-X-Mimecast-Spam-Score: 0
-X-Mimecast-MFC-PROC-ID: EFPRD_8qWrxUEZqTQWh-qeWphcloYfRo7SyAHimUJl0_1761815798
-X-Mimecast-Originator: redhat.com
 Content-Transfer-Encoding: 8bit
-content-type: text/plain; charset="US-ASCII"; x-default=true
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -73,49 +68,72 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-In the atomic update callback, ast should call
-drm_gem_fb_begin_cpu_access() to make sure it can read the
-framebuffer from the CPU, otherwise the data might not be there due
-to cache, and synchronization.
+During power down, pending DVFS operations may still be in progress
+when the NPU reset is asserted after CDYN=0 is set. Since the READY
+bit may already be deasserted at this point, checking only the READY
+bit is insufficient to ensure all transactions have completed.
 
-Tested on a Lenovo SE100, while rendering on the ArrowLake GPU with
-i915 driver, and using ast for display.
+Add an explicit check for CDYN de-assertion after the READY bit check
+to guarantee no outstanding transactions remain before proceeding.
 
-Suggested-by: Thomas Zimmermann <tzimmermann@suse.de>
-Signed-off-by: Jocelyn Falempe <jfalempe@redhat.com>
+Fixes: 550f4dd2cedd ("accel/ivpu: Add support for Nova Lake's NPU")
+Signed-off-by: Karol Wachowski <karol.wachowski@linux.intel.com>
 ---
+Changes in v2:
+ - Add Fixes tag
+---
+ drivers/accel/ivpu/ivpu_hw_btrs.c         | 16 ++++++++++++++++
+ drivers/accel/ivpu/ivpu_hw_btrs_lnl_reg.h |  3 +++
+ 2 files changed, 19 insertions(+)
 
-v2:
- * If begin_cpu_access() failed, skip the damage copy, but update the
-   pitch register (Thomas Zimmermann)
-
- drivers/gpu/drm/ast/ast_mode.c | 11 ++++++++---
- 1 file changed, 8 insertions(+), 3 deletions(-)
-
-diff --git a/drivers/gpu/drm/ast/ast_mode.c b/drivers/gpu/drm/ast/ast_mode.c
-index 9ce874dba69c..77d6c2dcfc40 100644
---- a/drivers/gpu/drm/ast/ast_mode.c
-+++ b/drivers/gpu/drm/ast/ast_mode.c
-@@ -556,9 +556,14 @@ static void ast_primary_plane_helper_atomic_update(struct drm_plane *plane,
- 		ast_set_vbios_color_reg(ast, fb->format, ast_crtc_state->vmode);
- 	}
+diff --git a/drivers/accel/ivpu/ivpu_hw_btrs.c b/drivers/accel/ivpu/ivpu_hw_btrs.c
+index 2085edbfd40a..06e65c592618 100644
+--- a/drivers/accel/ivpu/ivpu_hw_btrs.c
++++ b/drivers/accel/ivpu/ivpu_hw_btrs.c
+@@ -321,6 +321,14 @@ static int wait_for_pll_lock(struct ivpu_device *vdev, bool enable)
+ 	return REGB_POLL_FLD(VPU_HW_BTRS_MTL_PLL_STATUS, LOCK, exp_val, PLL_TIMEOUT_US);
+ }
  
--	drm_atomic_helper_damage_iter_init(&iter, old_plane_state, plane_state);
--	drm_atomic_for_each_plane_damage(&iter, &damage) {
--		ast_handle_damage(ast_plane, shadow_plane_state->data, fb, &damage);
-+	/* if the buffer comes from another device */
-+	if (drm_gem_fb_begin_cpu_access(fb, DMA_FROM_DEVICE) == 0) {
-+		drm_atomic_helper_damage_iter_init(&iter, old_plane_state, plane_state);
-+		drm_atomic_for_each_plane_damage(&iter, &damage) {
-+			ast_handle_damage(ast_plane, shadow_plane_state->data, fb, &damage);
-+		}
++static int wait_for_cdyn_deassert(struct ivpu_device *vdev)
++{
++	if (ivpu_hw_btrs_gen(vdev) == IVPU_HW_BTRS_MTL)
++		return 0;
 +
-+		drm_gem_fb_end_cpu_access(fb, DMA_FROM_DEVICE);
++	return REGB_POLL_FLD(VPU_HW_BTRS_LNL_CDYN, CDYN, 0, PLL_TIMEOUT_US);
++}
++
+ int ivpu_hw_btrs_wp_drive(struct ivpu_device *vdev, bool enable)
+ {
+ 	struct wp_request wp;
+@@ -354,6 +362,14 @@ int ivpu_hw_btrs_wp_drive(struct ivpu_device *vdev, bool enable)
+ 		return ret;
  	}
  
- 	/*
-
-base-commit: 4f9ffd2c80a2fa09dcc8dfa0482cb7e0fb6fcf6c
++	if (!enable) {
++		ret = wait_for_cdyn_deassert(vdev);
++		if (ret) {
++			ivpu_err(vdev, "Timed out waiting for CDYN deassert\n");
++			return ret;
++		}
++	}
++
+ 	return 0;
+ }
+ 
+diff --git a/drivers/accel/ivpu/ivpu_hw_btrs_lnl_reg.h b/drivers/accel/ivpu/ivpu_hw_btrs_lnl_reg.h
+index fff2ef2cada6..a81a9ba540fa 100644
+--- a/drivers/accel/ivpu/ivpu_hw_btrs_lnl_reg.h
++++ b/drivers/accel/ivpu/ivpu_hw_btrs_lnl_reg.h
+@@ -74,6 +74,9 @@
+ #define VPU_HW_BTRS_LNL_PLL_FREQ				0x00000148u
+ #define VPU_HW_BTRS_LNL_PLL_FREQ_RATIO_MASK			GENMASK(15, 0)
+ 
++#define VPU_HW_BTRS_LNL_CDYN					0x0000014cu
++#define VPU_HW_BTRS_LNL_CDYN_CDYN_MASK				GENMASK(15, 0)
++
+ #define VPU_HW_BTRS_LNL_TILE_FUSE				0x00000150u
+ #define VPU_HW_BTRS_LNL_TILE_FUSE_VALID_MASK			BIT_MASK(0)
+ #define VPU_HW_BTRS_LNL_TILE_FUSE_CONFIG_MASK			GENMASK(6, 1)
 -- 
-2.51.0
+2.43.0
 
