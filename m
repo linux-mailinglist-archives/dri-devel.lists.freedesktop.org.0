@@ -2,57 +2,63 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3331DC20E68
-	for <lists+dri-devel@lfdr.de>; Thu, 30 Oct 2025 16:23:57 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6E653C20E9E
+	for <lists+dri-devel@lfdr.de>; Thu, 30 Oct 2025 16:26:02 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C0E2E10E9E4;
-	Thu, 30 Oct 2025 15:23:52 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C20B510E9E6;
+	Thu, 30 Oct 2025 15:26:00 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; secure) header.d=mailbox.org header.i=@mailbox.org header.b="XsRvY6ir";
+	dkim=pass (2048-bit key; unprotected) header.d=bootlin.com header.i=@bootlin.com header.b="xRciWGok";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mout-p-102.mailbox.org (mout-p-102.mailbox.org [80.241.56.152])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5460C10E9E4
- for <dri-devel@lists.freedesktop.org>; Thu, 30 Oct 2025 15:23:51 +0000 (UTC)
-Received: from smtp1.mailbox.org (smtp1.mailbox.org [10.196.197.1])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested)
- by mout-p-102.mailbox.org (Postfix) with ESMTPS id 4cy7Dg6lDvz9t3b;
- Thu, 30 Oct 2025 16:23:47 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org;
- s=mail20150812; 
- t=1761837828; h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=u5e1e008gbO1/zsprlDyPBCZ7fdZFhj66DGzzytqzuQ=;
- b=XsRvY6irrdPrD8d9dBP1MABjFGs0HiyFQN9u9P6b0Gjz/HyMS39KS4Q93VFvX5Kj+D7Yy4
- Xc05edZos7ptFMRZx2iiwIx+HzLNpHAlGyJg8UDpJ0ECb3AibH4JzU/8nG5KDWOJOMXGe/
- fZDPS/bM9b3z+0cZM6UDSCKIiqOA3Cen7w/QXZJIBBqAOijyyAKPi1zVwbyZmtaK21lFCl
- /LxVJEeSTn3SvyPYlmxYmmRb1ktth1teMz9ct2Gc3YU3TVzg5ZewN5XQwuTbQ8nL0ev+4x
- glEHsar9iCtFJqSg0P0VtbV/ZuqPSiQIGrK9s2DP2TQALstbLTgLktb1rXAbzg==
-Message-ID: <015c204472811734b1e2a12d044ac3b13926c617.camel@mailbox.org>
-Subject: Re: [PATCH v3] drm/sched: Add warning for removing hack in
- drm_sched_fini()
-From: Philipp Stanner <phasta@mailbox.org>
-To: Philipp Stanner <phasta@kernel.org>, Matthew Brost
- <matthew.brost@intel.com>,  Danilo Krummrich <dakr@kernel.org>, Christian
- =?ISO-8859-1?Q?K=F6nig?= <ckoenig.leichtzumerken@gmail.com>, David Airlie
- <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, Tvrtko Ursulin
- <tvrtko.ursulin@igalia.com>
-Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org, 
- linux-media@vger.kernel.org
-Date: Thu, 30 Oct 2025 16:23:44 +0100
-In-Reply-To: <20251023123429.139848-2-phasta@kernel.org>
-References: <20251023123429.139848-2-phasta@kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+Received: from smtpout-02.galae.net (smtpout-02.galae.net [185.246.84.56])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1EEFC10E9E6
+ for <dri-devel@lists.freedesktop.org>; Thu, 30 Oct 2025 15:26:00 +0000 (UTC)
+Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
+ by smtpout-02.galae.net (Postfix) with ESMTPS id D96C31A178F;
+ Thu, 30 Oct 2025 15:25:58 +0000 (UTC)
+Received: from mail.galae.net (mail.galae.net [212.83.136.155])
+ by smtpout-01.galae.net (Postfix) with ESMTPS id A4A646068C;
+ Thu, 30 Oct 2025 15:25:58 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon)
+ with ESMTPSA id 65B6311808BF6; Thu, 30 Oct 2025 16:25:51 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
+ t=1761837957; h=from:subject:date:message-id:to:cc:mime-version:content-type:
+ content-transfer-encoding:in-reply-to:references;
+ bh=9TyfVTtmiB0HqF3wvvWDiUMZGtwH3+ueA2qzLuORFuo=;
+ b=xRciWGok4j1T3/882LJemGiLsaiRP7bgsC3acWGBUnYAjwwn9uV7C7r+GYs8nMOWImik3Q
+ TX9ppbvdV5kv0LI3PM1Gv8/njfbyWVJW/8eiDBith5VpQSn0yEpYNVINJPYfRXtUffawgc
+ x0sw2iz5X9TxWq1GzSi7KOE5a2e2dntoEPgYoLFwqgstXAxKEXOXc5wHUEcYNIjL9ujipy
+ +Qmt3SFl1ZjA+Dv6SXL4CXLU2FcPjVglD+qUpVwpjJboiRWtfZ+w3wkrQ7IdLgWP1XEJDH
+ dhFXZUGFDc1/o8/g+04XlUyAbkeB50IgOQwh8rbGlMENhOJCtUbtAlY6mlKWdg==
+Mime-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
-MIME-Version: 1.0
-X-MBO-RS-ID: 50bb01bfe4d79271fe0
-X-MBO-RS-META: wd5awe31de8g61xfb6fczuxkck9e7365
+Content-Type: text/plain; charset=UTF-8
+Date: Thu, 30 Oct 2025 16:25:50 +0100
+Message-Id: <DDVRFGWCDRGT.2IR33ALXLVJ2U@bootlin.com>
+To: "Mark Brown" <broonie@kernel.org>
+Cc: "Marek Szyprowski" <m.szyprowski@samsung.com>, "Naresh Kamboju"
+ <naresh.kamboju@linaro.org>, "Andrzej Hajda" <andrzej.hajda@intel.com>,
+ "Neil Armstrong" <neil.armstrong@linaro.org>, "Robert Foss"
+ <rfoss@kernel.org>, "Laurent Pinchart" <Laurent.pinchart@ideasonboard.com>,
+ "Jonas Karlman" <jonas@kwiboo.se>, "Jernej Skrabec"
+ <jernej.skrabec@gmail.com>, "Maarten Lankhorst"
+ <maarten.lankhorst@linux.intel.com>, "Maxime Ripard" <mripard@kernel.org>,
+ "Thomas Zimmermann" <tzimmermann@suse.de>, "David Airlie"
+ <airlied@gmail.com>, "Simona Vetter" <simona@ffwll.ch>, "Dmitry Baryshkov"
+ <dmitry.baryshkov@oss.qualcomm.com>, "Hui Pu" <Hui.Pu@gehealthcare.com>,
+ "Thomas Petazzoni" <thomas.petazzoni@bootlin.com>,
+ <dri-devel@lists.freedesktop.org>, <linux-kernel@vger.kernel.org>
+Subject: Re: [PATCH v2 1/3] Revert "drm/display: bridge_connector: get/put
+ the stored bridges"
+From: "Luca Ceresoli" <luca.ceresoli@bootlin.com>
+X-Mailer: aerc 0.20.1
+References: <20251017-drm-bridge-alloc-getput-bridge-connector-fix-hdmi_cec-v2-0-667abf6d47c0@bootlin.com>
+ <20251017-drm-bridge-alloc-getput-bridge-connector-fix-hdmi_cec-v2-1-667abf6d47c0@bootlin.com>
+ <7873e2ab-a8ea-4fdc-8534-746f91c8368b@sirena.org.uk>
+In-Reply-To: <7873e2ab-a8ea-4fdc-8534-746f91c8368b@sirena.org.uk>
+X-Last-TLS-Session-Version: TLSv1.3
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -65,75 +71,38 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Reply-To: phasta@kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, 2025-10-23 at 14:34 +0200, Philipp Stanner wrote:
-> The assembled developers agreed at the X.Org Developers Conference 2025
-> that the hack added for amdgpu in drm_sched_fini() shall be removed. It
-> shouldn't be needed by amdgpu anymore.
->=20
-> As it's unclear whether all drivers really follow the life time rule of
-> entities having to be torn down before their scheduler, it is reasonable
-> to warn for a while before removing the hack.
->=20
-> Add a warning in drm_sched_fini() that fires if an entity is still
-> active.
->=20
-> Signed-off-by: Philipp Stanner <phasta@kernel.org>
+Hello Mark,
 
-Can someone review this?
+On Thu Oct 30, 2025 at 2:11 PM CET, Mark Brown wrote:
+> On Fri, Oct 17, 2025 at 06:15:04PM +0200, Luca Ceresoli wrote:
+>> This reverts commit 2be300f9a0b6f6b0ae2a90be97e558ec0535be54.
+>>
+>> The commit being reverted moved all the bridge_connector->bridge_*
+>> assignments to just before the final successful return in order to handl=
+e
+>> the bridge refcounting in a clean way.
+>
+> Is there any news on getting this series merged - the currently broken
+> code in -next is causing boot issues on several affected platforms (eg,
+> Rock5B) which is disrupting other testing?  If the other patches are
+> somehow causing issues could we perhaps get the revert in to fix the
+> boot issue while those issues are resolved?
 
-At XDC we agreed on removing the hack, but wanted to add a warning
-print first for a few releases, to really catch if there are no users
-anymore.
+Thanks for pinging, I must agree the regression is out since quite a few
+weeks. Despite having four Tested-by, this series was lacking Reviewed- and
+Tested-by entirely.
 
-Thx
-P.
+Now Louis reviewed the whole series (thanks!), so my understanding of the
+drm-misc policy is that I can apply the series, which I plan to do in a few
+days to let anybody else comment.
 
-> ---
-> Changes in v3:
-> =C2=A0 - Add a READ_ONCE() + comment to make the warning slightly less
-> =C2=A0=C2=A0=C2=A0 horrible.
->=20
-> Changes in v2:
-> =C2=A0 - Fix broken brackets.
-> ---
-> =C2=A0drivers/gpu/drm/scheduler/sched_main.c | 9 ++++++++-
-> =C2=A01 file changed, 8 insertions(+), 1 deletion(-)
->=20
-> diff --git a/drivers/gpu/drm/scheduler/sched_main.c b/drivers/gpu/drm/sch=
-eduler/sched_main.c
-> index 46119aacb809..31039b08c7b9 100644
-> --- a/drivers/gpu/drm/scheduler/sched_main.c
-> +++ b/drivers/gpu/drm/scheduler/sched_main.c
-> @@ -1419,7 +1419,7 @@ void drm_sched_fini(struct drm_gpu_scheduler *sched=
-)
-> =C2=A0		struct drm_sched_rq *rq =3D sched->sched_rq[i];
-> =C2=A0
-> =C2=A0		spin_lock(&rq->lock);
-> -		list_for_each_entry(s_entity, &rq->entities, list)
-> +		list_for_each_entry(s_entity, &rq->entities, list) {
-> =C2=A0			/*
-> =C2=A0			 * Prevents reinsertion and marks job_queue as idle,
-> =C2=A0			 * it will be removed from the rq in drm_sched_entity_fini()
-> @@ -1440,8 +1440,15 @@ void drm_sched_fini(struct drm_gpu_scheduler *sche=
-d)
-> =C2=A0			 * For now, this remains a potential race in all
-> =C2=A0			 * drivers that keep entities alive for longer than
-> =C2=A0			 * the scheduler.
-> +			 *
-> +			 * The READ_ONCE() is there to make the lockless read
-> +			 * (warning about the lockless write below) slightly
-> +			 * less broken...
-> =C2=A0			 */
-> +			if (!READ_ONCE(s_entity->stopped))
-> +				dev_warn(sched->dev, "Tearing down scheduler with active entities!\n=
-");
-> =C2=A0			s_entity->stopped =3D true;
-> +		}
-> =C2=A0		spin_unlock(&rq->lock);
-> =C2=A0		kfree(sched->sched_rq[i]);
-> =C2=A0	}
+Best regards,
+Luca
 
+--
+Luca Ceresoli, Bootlin
+Embedded Linux and Kernel engineering
+https://bootlin.com
