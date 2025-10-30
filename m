@@ -2,45 +2,45 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id BFDF0C1F33B
-	for <lists+dri-devel@lfdr.de>; Thu, 30 Oct 2025 10:11:50 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id A3B4CC1F33E
+	for <lists+dri-devel@lfdr.de>; Thu, 30 Oct 2025 10:11:52 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D2B7D10E8BA;
-	Thu, 30 Oct 2025 09:11:46 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9009B10E8B4;
+	Thu, 30 Oct 2025 09:11:47 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=amd.com header.i=@amd.com header.b="PPSA4cyH";
+	dkim=pass (1024-bit key; unprotected) header.d=amd.com header.i=@amd.com header.b="ME1929/r";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from PH0PR06CU001.outbound.protection.outlook.com
- (mail-westus3azon11011059.outbound.protection.outlook.com [40.107.208.59])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B5C9810E8B2;
- Thu, 30 Oct 2025 09:11:45 +0000 (UTC)
+Received: from BN1PR04CU002.outbound.protection.outlook.com
+ (mail-eastus2azon11010060.outbound.protection.outlook.com [52.101.56.60])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C363D10E8B4;
+ Thu, 30 Oct 2025 09:11:46 +0000 (UTC)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=qY25iiBFEpl6veGQ9i7bdjGF3vYrAxLVlLtYHFXFSg5Y90IzHBWoR1/MF+/1ajQXF5l0MQl9szszvTe9UZMSfVy7yrqMZanZ2X2JHq44M0qpOPYEG3xXt/SCyhQ9IWUhA6FlKVGQttZdPvkNKOp6valL/qF5k2zBI1b1f9aGHoStt+9O7cTvbQCTasGqFtkWwL+G6Dx/bLLa9g93X9edrXWgs7aXEE9Ei6uPt58DN/Jv8uvlJTb3zg01/l9JwejEZZmTFaXDEOoBXhwzyGw0S43hiU2zhtoVAp80b114+VzpPkJv+QoyYEqEBTCurntY34XQ7DbIO8sqBMl0a7bTUA==
+ b=pynRicP6/7Brt6PTpWWnVc/YvI67Cek6nRC0CLVcb6tTKZsPU8lF3yyfbuJDZiREqcjehHo9ibXyTNOCu2+cPiBoPzX1QLnAmjHpymKNJNl5aX/EhoAb04Uj/BzpQ0yAGO8PI9HzXIy471WZVtlZc7hGZ0EJFGrtCA5U6i2uydk6NwRybXZ9j687nH4O3NrdK5B6fGAYz9kNw5WfG5qEA8x7pnw8H2NatOlde3mNwubEndml0cdokpnV17zEYIiEnW9WtJ0tNSTZWacjfAgjED3E1necPlfNoubca6IiTJtY7gfACAlHvPft2T0/8DiCSXeeIgeXUrFp8C6uR/wmAA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=1xPMpl8VEA8QBzh65oO2lBWtlg4Tp/boL50io4vE8rw=;
- b=lMbP4k5fAybujqbBdAjZ2GqoqfShTrjsnH2dYICrSYjKZodFcu8nO5olEwI4xkN7w+Z9ZhxRkzLNowmtU/rA/RDVqFqp9nrt/7UZEgnO++NslLSBNoOhEOJDrfx3g4BJzeZVNdBMK3jpgLe04/OW8X0PFqUUfah2GUvtMw5LAGkQeF1mf9iWl55w5lBKvCYa92iicauC1m18gkSTT8N7onnMtkdmI4J6y3bfHYfbuWvCRZW/DNC0qRjjlZTDUSTlMEwjmLYLbhvQvSEHwh4k0vqRjlv0+xTHRnRBTj87ZXZLUWWgygS4D00KLR9JSMKmS+OqpB7BAdwXNSZS9MusMA==
+ bh=i+R+zqcTe6N8AI9Zq7PcqQOmrPy6Lsupd2bZ3tYWTaY=;
+ b=F1DSkFx2OTW4fv5zsREJtuaWeF0Vk63BEmB4fzg99lWsom7TuekgO1IM//ZWbWHTXakuwaKuUH2DCa3gzlIUAmIJn1fjQ5hwgf9QZxx5LDsU3Im50s77vKR7IHArfy7/4j2UMyeS2PORDN+Xy4yy6jrLkHNDq/yW9TRmL4cQRnWkZ0Aljo1i7eLvxWDvlNZDLuOovHrKEfxUbTjDZJQmL2aA62kQvQaZ8Tk0h+qwXKEqfaUtCBdIdzoElOb9lAJmf1erfi0AWmskkkEcv7adcQ+oGuRcB0dDv8sOBWPsItAXQFXU4n/WPH8kcUDzQgQD6HXFLNRMCnjmDQP5Gq81Bg==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
  165.204.84.17) smtp.rcpttodomain=gmail.com smtp.mailfrom=amd.com; dmarc=pass
  (p=quarantine sp=quarantine pct=100) action=none header.from=amd.com;
  dkim=none (message not signed); arc=none (0)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=1xPMpl8VEA8QBzh65oO2lBWtlg4Tp/boL50io4vE8rw=;
- b=PPSA4cyHAuaab+Cey+CMpuER5Fao6EbODggTcHIJ0sF5iL/T5GXIJHYjbKwhtlbaMN1HP8XFG++L+fY+tBzmnp8DGfA3LwNDqlhQd+L2o/0yEb++8DsIOhTNQ5SbeesJG0HbXnBXIEXIfyf/xBQUNm06uMoONWOReLp472YO5oI=
-Received: from MN0P221CA0001.NAMP221.PROD.OUTLOOK.COM (2603:10b6:208:52a::7)
- by CH3PR12MB8660.namprd12.prod.outlook.com (2603:10b6:610:177::5) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9275.13; Thu, 30 Oct
- 2025 09:11:38 +0000
-Received: from BL6PEPF0001AB55.namprd02.prod.outlook.com
- (2603:10b6:208:52a:cafe::26) by MN0P221CA0001.outlook.office365.com
- (2603:10b6:208:52a::7) with Microsoft SMTP Server (version=TLS1_3,
- cipher=TLS_AES_256_GCM_SHA384) id 15.20.9275.14 via Frontend Transport; Thu,
- 30 Oct 2025 09:11:33 +0000
+ bh=i+R+zqcTe6N8AI9Zq7PcqQOmrPy6Lsupd2bZ3tYWTaY=;
+ b=ME1929/rlPDbgJ/wakzRFz6Wu/HW+Aw1QUrzV6wquUqzHfF5e3Yfa1nwS4QdRm0tFfO6VfedOLsHAMLvppCvlZOmDCYV8OywakgZPBGe2Wz3leHwCnJxcNOZI1ewXMBogqUAqaVWTxf53STnwGzeT4x9MrmXSD2cOt45/KVT11o=
+Received: from BL1PR13CA0094.namprd13.prod.outlook.com (2603:10b6:208:2b9::9)
+ by DS5PPFDB3A23D1A.namprd12.prod.outlook.com (2603:10b6:f:fc00::663)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9253.18; Thu, 30 Oct
+ 2025 09:11:42 +0000
+Received: from BL6PEPF0001AB58.namprd02.prod.outlook.com
+ (2603:10b6:208:2b9:cafe::d1) by BL1PR13CA0094.outlook.office365.com
+ (2603:10b6:208:2b9::9) with Microsoft SMTP Server (version=TLS1_3,
+ cipher=TLS_AES_256_GCM_SHA384) id 15.20.9275.13 via Frontend Transport; Thu,
+ 30 Oct 2025 09:11:14 +0000
 X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
  smtp.mailfrom=amd.com; dkim=none (message not signed)
  header.d=none;dmarc=pass action=none header.from=amd.com;
@@ -48,13 +48,13 @@ Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
  165.204.84.17 as permitted sender) receiver=protection.outlook.com;
  client-ip=165.204.84.17; helo=satlexmb07.amd.com; pr=C
 Received: from satlexmb07.amd.com (165.204.84.17) by
- BL6PEPF0001AB55.mail.protection.outlook.com (10.167.241.7) with Microsoft
+ BL6PEPF0001AB58.mail.protection.outlook.com (10.167.241.10) with Microsoft
  SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.9275.10 via Frontend Transport; Thu, 30 Oct 2025 09:11:38 +0000
+ 15.20.9275.10 via Frontend Transport; Thu, 30 Oct 2025 09:11:42 +0000
 Received: from FRAPPELLOUX01-WSLPUB.amd.com (10.180.168.240) by
  satlexmb07.amd.com (10.181.42.216) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.17; Thu, 30 Oct 2025 02:11:36 -0700
+ 15.2.2562.17; Thu, 30 Oct 2025 02:11:40 -0700
 From: Pierre-Eric Pelloux-Prayer <pierre-eric.pelloux-prayer@amd.com>
 To: Alex Deucher <alexander.deucher@amd.com>,
  =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>, David Airlie
@@ -62,11 +62,12 @@ To: Alex Deucher <alexander.deucher@amd.com>,
 CC: Pierre-Eric Pelloux-Prayer <pierre-eric.pelloux-prayer@amd.com>,
  <amd-gfx@lists.freedesktop.org>, <dri-devel@lists.freedesktop.org>,
  <linux-kernel@vger.kernel.org>
-Subject: [PATCH v2 1/3] drm/amdgpu: add engine_retains_context to
- amdgpu_ring_funcs
-Date: Thu, 30 Oct 2025 10:11:11 +0100
-Message-ID: <20251030091118.4864-1-pierre-eric.pelloux-prayer@amd.com>
+Subject: [PATCH v2 2/3] drm/amdgpu: increment sched score on entity selection
+Date: Thu, 30 Oct 2025 10:11:12 +0100
+Message-ID: <20251030091118.4864-2-pierre-eric.pelloux-prayer@amd.com>
 X-Mailer: git-send-email 2.43.0
+In-Reply-To: <20251030091118.4864-1-pierre-eric.pelloux-prayer@amd.com>
+References: <20251030091118.4864-1-pierre-eric.pelloux-prayer@amd.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain
@@ -75,53 +76,53 @@ X-ClientProxiedBy: satlexmb07.amd.com (10.181.42.216) To satlexmb07.amd.com
  (10.181.42.216)
 X-EOPAttributedMessage: 0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: BL6PEPF0001AB55:EE_|CH3PR12MB8660:EE_
-X-MS-Office365-Filtering-Correlation-Id: e166637c-7708-401b-dd5e-08de17945505
+X-MS-TrafficTypeDiagnostic: BL6PEPF0001AB58:EE_|DS5PPFDB3A23D1A:EE_
+X-MS-Office365-Filtering-Correlation-Id: e858b3c0-95ce-4ddd-c6f0-08de17945774
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
- ARA:13230040|376014|82310400026|1800799024|36860700013; 
-X-Microsoft-Antispam-Message-Info: =?us-ascii?Q?aTlXEdBA4llzMEbhBlCnoD0RfpNYFHAS6UtZnphnAAge+cswvWie/Stbpp+B?=
- =?us-ascii?Q?SPZaHvMbGdBNOEReDPEAwuDxVutouTGn0Nj1v4BvWIdP01ZAcoJGkMXCDwNz?=
- =?us-ascii?Q?U3IFExE5Oe2cb1c2jXTCvM8pmOaG2DmDnhCrx/T+8hP3WgBL+eQw17LUj8YI?=
- =?us-ascii?Q?guEQECTq1fdZlK1p06tIVa5NicgeXsi71/sdHVrG74b3zwMThqaCKB9g/qP8?=
- =?us-ascii?Q?5IKYiCS6FG6EbrsLW0AqRo9/hn4BI+iwBbDakLCAziOiPC+Fpk+ShYTTjGMY?=
- =?us-ascii?Q?AFIlYxiVItn4TGiK0xcsRf5O1d6C0ZV4O2q7+CxtxLJRyG2qPwIRmGp+wqSd?=
- =?us-ascii?Q?RibSPECMoP7Hhb8fzL2/8MrUM5WLqum4QGKDPBq2QkveKDFQw5ldfxc4CiKY?=
- =?us-ascii?Q?r/1P04Vf88Mx8OWGrHvcrYwXy3BRzk1uygQFHgwqysyjQr1sEtbIOTlxUNLT?=
- =?us-ascii?Q?qNYqW4m5wpfKB5x565UgDeeQ+tviu/vNSY7lsPARYLwOf7tG6CN9Jd0dpcuT?=
- =?us-ascii?Q?mEGZ+qGJqOjxCVQLElr/w0EcYNGEYrgc9MmjWhAUuynBnS1WLDulCJTXY7iI?=
- =?us-ascii?Q?tTP6UY6SKT7SyMLYEDJlIz0wwO4SPu0BiZrfkmW6BWU6vZ41PivqDJl0gavS?=
- =?us-ascii?Q?Houqu8n/sKcftvTgKqzYhgIwECHQbT6+b85hB68yByAgSox87Ot734OFlrXn?=
- =?us-ascii?Q?jUDhMkju2ioqU86eQqGQdeIPjkQIy3U4ebYYev2a8zrjSpBnMWKU1RtUYUz5?=
- =?us-ascii?Q?UivMNOvU6ov2H8bJHxh7LSr+gI6mU02FjTV8RCy8aGrGD9bUpMaTA7toOoxp?=
- =?us-ascii?Q?TFOhK15dPJOt3TMLXjPIzLqHAaUQG97R2rSHYxYv7k5sn3bseAG9unbbpSt5?=
- =?us-ascii?Q?W3wbRLWhbFG/XDwu0Dw3tTZCHzwszu7E83wUhYicQV+dTBqzFBg7j8GlJnF7?=
- =?us-ascii?Q?o+dYLTVrfCmkjc9rhZdOrzgZavxvMP6PosVXvAfRBHwz6TXgOWx69Rpt49Lb?=
- =?us-ascii?Q?TewhADFZ5msFFV94T62hfucQBXw1alELmQoVP5Nqrz4nFG4VznIhfvgQ3SgB?=
- =?us-ascii?Q?kbnt4/wMaSOdv0EDpTu1NI1GAud52mQQpNFrAsClVw/GOUdRHbE5us3ZyTqp?=
- =?us-ascii?Q?kh/x7M+Kh6HCXC51G6KxbsBb1JozfgXiuios4XtnjqiWejjZ6wm/wVAWqh+4?=
- =?us-ascii?Q?NgjXbZIk5XbmsDO/GkHnSbXQh5vWFUb356V+7Z0XjfyK9nht9VX/XIPd9XPF?=
- =?us-ascii?Q?9z0BMttadJg+WwOG8wAQh2vjsIe3JuLzQKzUZ2TBsa1yMz8ALNJ3CipXYjpg?=
- =?us-ascii?Q?hFN+pLeTQHdt3hUnIMqAMF0FrnzRYK94SgGND0gkIQ2a/dnuxqN7vdsCNso5?=
- =?us-ascii?Q?WaDL47Psi0EZ1qgyoBwfvh9JZaXEhsKTwTKUCHRH7V6NJ8W8f388slXvFXtr?=
- =?us-ascii?Q?86qJBBgGNMSTtofc0clF8jCprlFT1PvLSP+IOVGnwQ6OTxtrqZHym/lXE7wk?=
- =?us-ascii?Q?k520J24+sRGrUYi5Eh1Hx9p1dDwETJLPHQXI7T0QoTJODyJw2cremHmeW3zq?=
- =?us-ascii?Q?X7NazOhX0k1KJYCFVYU=3D?=
+ ARA:13230040|376014|36860700013|82310400026|1800799024; 
+X-Microsoft-Antispam-Message-Info: =?us-ascii?Q?AQeia7lOseya+wl23OrOoDBB/EYffjG6aKirodaGYGSxNSe+9pn7OymoVO8u?=
+ =?us-ascii?Q?GeflA7U8/Is0KsrHWJFGKeoENTBwxWHO/AphSCLOrDjyd7T6O+eSxvpCs7s6?=
+ =?us-ascii?Q?tm5yQ15W/qR4ZrIWjqodIOVkTuWh2SMelTYI2DEFMjhEWhrhn64xYttzlc0x?=
+ =?us-ascii?Q?gvyivLFaHomB6kHyMp1zyGCarvnlv0lvuyRmX0dEpJcnAz2bTUkg9lv4X6Ow?=
+ =?us-ascii?Q?6Ay3tsXIUCxadkmC27SlnE/w7Jnmg+uer5adGQuNTfgYWrZMzBeDnycXJrPW?=
+ =?us-ascii?Q?40wHHj5xKAzUWr7W8LqXO0KIA+OUgkdJwL3dZHpTMwvIOum3ljjzj9V3wsh1?=
+ =?us-ascii?Q?3M+5cYeioQPG6d+8IRV09IY9LsVRpUomrQINpiOA3McDxL5btuMvnVRf/sEO?=
+ =?us-ascii?Q?fmNtL6nz3xXjwhAUrk7JKipiXbb+au57jTqG+DnAoqPd+sCSiLtaGHKXj3ro?=
+ =?us-ascii?Q?x4bX845WnW2Qt02mwy12pQyUruWk6DGZFjFjeK2s1ch+VLw4qHxHxaqQXZxG?=
+ =?us-ascii?Q?+L7nDZd8fPAjpf+K3+r6jbNKn3x99P78LxfEx3bVh+tNYfFM0n319dOtKdkL?=
+ =?us-ascii?Q?8q64lfRqhI86ALgx0H47k7hFVI+Pur51sGHZUShNiUihGYx9GnV3S67vNpg3?=
+ =?us-ascii?Q?wzY7ctcPfWsT97AqQK9EqzvqB+QR9P513aS2VaBWRFjV2aOj8MSwaSQuuahv?=
+ =?us-ascii?Q?nik2qDSyhc16EkCMZY0QMETdxsWDlnGaqUPzDl4t6XpEzp03dIeSlmRe6MdS?=
+ =?us-ascii?Q?36UZopxP/CEiI+N1f5luUTmYRz1CODW0Y8DHoMQDDlwyChnScLqGkSGJRjmY?=
+ =?us-ascii?Q?0ILmGmHJofRRkqpGq8gevZHMFDFy2/+sNUFI3JHNgqXeAszVAEKcJrIMuY+9?=
+ =?us-ascii?Q?zWsHjE7z1xXQNMxQXeiNfecR/U5F/SYnYY/La2xZQ5x6fUI5gIJbFi5byxkg?=
+ =?us-ascii?Q?Nd5ZwFWWeG/6jLrxZkY9R59A42/dvEKOAfjv7Mw8tKsycwJuYQHqdE612yPg?=
+ =?us-ascii?Q?43JBGe/fWXGV+XXR27DmR3KqcKYxhCOI0rfGmox9oHhJz/Z1AYOHNNiZJAbF?=
+ =?us-ascii?Q?xOQ0p7oZ57YJOjhHQxDDUOWHaBikhKYqLZk+Hl+UBIXepnUDJxW0B7YSqzDE?=
+ =?us-ascii?Q?FKP0Q08j9vNP1lg/wx0xA8TOZ1H7L6nljib8kE68h8dOgw/oHTIopFGcKqre?=
+ =?us-ascii?Q?1kJywNuF21y2B6/QEKXXJc9aodkB4LcpnQqB3uSeFG/Jb0R5ag+763gkGAa8?=
+ =?us-ascii?Q?f0UZCqf/gSg4rooX/IV/dZeBnXpw6afIunnAFG9AUbKkJdvxz3BxATfjTA5Q?=
+ =?us-ascii?Q?2ByYu9ziMBgonW/1BgOpB6hZ+yELUnSRVELa7etSB4X4ZnqfHS92PfAMWnE7?=
+ =?us-ascii?Q?vErUlwLKHVg83oHx1+11ttwSzjXSu2IWlmQhixTs2YYOlwNiXafadXJ7Eirm?=
+ =?us-ascii?Q?aFtOHmR3U7mwgmwXUkZzQITzweGsq+y1R32av3T+GaFYC+DDjN0YAZfCPgnh?=
+ =?us-ascii?Q?hJ39+PHrsojpBpw+ICUI9ATNTxP0TMhz0/f6eT69wiTTyvc1F1eelINb/OYC?=
+ =?us-ascii?Q?O1FFphkjYnvB9A3GkNI=3D?=
 X-Forefront-Antispam-Report: CIP:165.204.84.17; CTRY:US; LANG:en; SCL:1; SRV:;
  IPV:CAL; SFV:NSPM; H:satlexmb07.amd.com; PTR:InfoDomainNonexistent; CAT:NONE;
- SFS:(13230040)(376014)(82310400026)(1800799024)(36860700013); DIR:OUT;
+ SFS:(13230040)(376014)(36860700013)(82310400026)(1800799024); DIR:OUT;
  SFP:1101; 
 X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 30 Oct 2025 09:11:38.1809 (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: e166637c-7708-401b-dd5e-08de17945505
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 30 Oct 2025 09:11:42.2622 (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: e858b3c0-95ce-4ddd-c6f0-08de17945774
 X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
 X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d; Ip=[165.204.84.17];
  Helo=[satlexmb07.amd.com]
-X-MS-Exchange-CrossTenant-AuthSource: BL6PEPF0001AB55.namprd02.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthSource: BL6PEPF0001AB58.namprd02.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Anonymous
 X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CH3PR12MB8660
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DS5PPFDB3A23D1A
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -137,276 +138,96 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-If true, the hw engine retains context among dependent jobs, which means
-load balancing between schedulers cannot be used at the job level.
+For hw engines that can't load balance jobs, entities are
+"statically" load balanced: on their first submit, they select
+the best scheduler based on its score.
+The score is made up of 2 parts:
+* the job queue depth (how much jobs are executing/waiting)
+* the number of entities assigned
 
-amdgpu_ctx_init_entity uses this information to disable load balancing,
-but it's best to store it as a property rather than deduce it based on
-hw_ip.
+The second part is only relevant for the static load balance:
+it's a way to consider how many entities are attached to this
+scheduler, knowing that if they ever submit jobs they will go
+to this one.
+
+For rings that can load balance jobs freely, idle entities
+aren't a concern and shouldn't impact the scheduler's decisions.
 
 Signed-off-by: Pierre-Eric Pelloux-Prayer <pierre-eric.pelloux-prayer@amd.com>
 ---
- drivers/gpu/drm/amd/amdgpu/amdgpu_ring.h | 1 +
- drivers/gpu/drm/amd/amdgpu/uvd_v3_1.c    | 1 +
- drivers/gpu/drm/amd/amdgpu/uvd_v4_2.c    | 1 +
- drivers/gpu/drm/amd/amdgpu/uvd_v5_0.c    | 1 +
- drivers/gpu/drm/amd/amdgpu/uvd_v6_0.c    | 3 +++
- drivers/gpu/drm/amd/amdgpu/uvd_v7_0.c    | 2 ++
- drivers/gpu/drm/amd/amdgpu/vcn_v1_0.c    | 2 ++
- drivers/gpu/drm/amd/amdgpu/vcn_v2_0.c    | 2 ++
- drivers/gpu/drm/amd/amdgpu/vcn_v2_5.c    | 2 ++
- drivers/gpu/drm/amd/amdgpu/vcn_v3_0.c    | 3 +++
- drivers/gpu/drm/amd/amdgpu/vcn_v4_0.c    | 1 +
- drivers/gpu/drm/amd/amdgpu/vcn_v4_0_3.c  | 1 +
- drivers/gpu/drm/amd/amdgpu/vcn_v4_0_5.c  | 1 +
- drivers/gpu/drm/amd/amdgpu/vcn_v5_0_0.c  | 1 +
- drivers/gpu/drm/amd/amdgpu/vcn_v5_0_1.c  | 1 +
- 15 files changed, 23 insertions(+)
+ drivers/gpu/drm/amd/amdgpu/amdgpu_ctx.c | 23 +++++++++++++++++------
+ drivers/gpu/drm/amd/amdgpu/amdgpu_ctx.h |  1 +
+ 2 files changed, 18 insertions(+), 6 deletions(-)
 
-diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_ring.h b/drivers/gpu/drm/amd/amdgpu/amdgpu_ring.h
-index 4b46e3c26ff3..a10efac2fc54 100644
---- a/drivers/gpu/drm/amd/amdgpu/amdgpu_ring.h
-+++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_ring.h
-@@ -211,6 +211,7 @@ struct amdgpu_ring_funcs {
- 	bool			support_64bit_ptrs;
- 	bool			no_user_fence;
- 	bool			secure_submission_supported;
-+	bool			engine_retains_context;
+diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_ctx.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_ctx.c
+index f5d5c45ddc0d..953c81c928c1 100644
+--- a/drivers/gpu/drm/amd/amdgpu/amdgpu_ctx.c
++++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_ctx.c
+@@ -209,6 +209,7 @@ static int amdgpu_ctx_init_entity(struct amdgpu_ctx *ctx, u32 hw_ip,
+ 	struct amdgpu_ctx_entity *entity;
+ 	enum drm_sched_priority drm_prio;
+ 	unsigned int hw_prio, num_scheds;
++	struct amdgpu_ring *aring;
+ 	int32_t ctx_prio;
+ 	int r;
  
- 	/**
- 	 * @extra_bytes:
-diff --git a/drivers/gpu/drm/amd/amdgpu/uvd_v3_1.c b/drivers/gpu/drm/amd/amdgpu/uvd_v3_1.c
-index 2e79a3afc774..4a85b5465bb2 100644
---- a/drivers/gpu/drm/amd/amdgpu/uvd_v3_1.c
-+++ b/drivers/gpu/drm/amd/amdgpu/uvd_v3_1.c
-@@ -181,6 +181,7 @@ static const struct amdgpu_ring_funcs uvd_v3_1_ring_funcs = {
- 	.align_mask = 0xf,
- 	.support_64bit_ptrs = false,
- 	.no_user_fence = true,
-+	.engine_retains_context = true,
- 	.get_rptr = uvd_v3_1_ring_get_rptr,
- 	.get_wptr = uvd_v3_1_ring_get_wptr,
- 	.set_wptr = uvd_v3_1_ring_set_wptr,
-diff --git a/drivers/gpu/drm/amd/amdgpu/uvd_v4_2.c b/drivers/gpu/drm/amd/amdgpu/uvd_v4_2.c
-index 4b96fd583772..e7c1d12f0596 100644
---- a/drivers/gpu/drm/amd/amdgpu/uvd_v4_2.c
-+++ b/drivers/gpu/drm/amd/amdgpu/uvd_v4_2.c
-@@ -775,6 +775,7 @@ static const struct amdgpu_ring_funcs uvd_v4_2_ring_funcs = {
- 	.align_mask = 0xf,
- 	.support_64bit_ptrs = false,
- 	.no_user_fence = true,
-+	.engine_retains_context = true,
- 	.get_rptr = uvd_v4_2_ring_get_rptr,
- 	.get_wptr = uvd_v4_2_ring_get_wptr,
- 	.set_wptr = uvd_v4_2_ring_set_wptr,
-diff --git a/drivers/gpu/drm/amd/amdgpu/uvd_v5_0.c b/drivers/gpu/drm/amd/amdgpu/uvd_v5_0.c
-index 71409ad8b7ed..a62788e4af96 100644
---- a/drivers/gpu/drm/amd/amdgpu/uvd_v5_0.c
-+++ b/drivers/gpu/drm/amd/amdgpu/uvd_v5_0.c
-@@ -882,6 +882,7 @@ static const struct amdgpu_ring_funcs uvd_v5_0_ring_funcs = {
- 	.align_mask = 0xf,
- 	.support_64bit_ptrs = false,
- 	.no_user_fence = true,
-+	.engine_retains_context = true,
- 	.get_rptr = uvd_v5_0_ring_get_rptr,
- 	.get_wptr = uvd_v5_0_ring_get_wptr,
- 	.set_wptr = uvd_v5_0_ring_set_wptr,
-diff --git a/drivers/gpu/drm/amd/amdgpu/uvd_v6_0.c b/drivers/gpu/drm/amd/amdgpu/uvd_v6_0.c
-index ceb94bbb03a4..0435577b9b3b 100644
---- a/drivers/gpu/drm/amd/amdgpu/uvd_v6_0.c
-+++ b/drivers/gpu/drm/amd/amdgpu/uvd_v6_0.c
-@@ -1552,6 +1552,7 @@ static const struct amdgpu_ring_funcs uvd_v6_0_ring_phys_funcs = {
- 	.align_mask = 0xf,
- 	.support_64bit_ptrs = false,
- 	.no_user_fence = true,
-+	.engine_retains_context = true,
- 	.get_rptr = uvd_v6_0_ring_get_rptr,
- 	.get_wptr = uvd_v6_0_ring_get_wptr,
- 	.set_wptr = uvd_v6_0_ring_set_wptr,
-@@ -1578,6 +1579,7 @@ static const struct amdgpu_ring_funcs uvd_v6_0_ring_vm_funcs = {
- 	.align_mask = 0xf,
- 	.support_64bit_ptrs = false,
- 	.no_user_fence = true,
-+	.engine_retains_context = true,
- 	.get_rptr = uvd_v6_0_ring_get_rptr,
- 	.get_wptr = uvd_v6_0_ring_get_wptr,
- 	.set_wptr = uvd_v6_0_ring_set_wptr,
-@@ -1607,6 +1609,7 @@ static const struct amdgpu_ring_funcs uvd_v6_0_enc_ring_vm_funcs = {
- 	.nop = HEVC_ENC_CMD_NO_OP,
- 	.support_64bit_ptrs = false,
- 	.no_user_fence = true,
-+	.engine_retains_context = true,
- 	.get_rptr = uvd_v6_0_enc_ring_get_rptr,
- 	.get_wptr = uvd_v6_0_enc_ring_get_wptr,
- 	.set_wptr = uvd_v6_0_enc_ring_set_wptr,
-diff --git a/drivers/gpu/drm/amd/amdgpu/uvd_v7_0.c b/drivers/gpu/drm/amd/amdgpu/uvd_v7_0.c
-index 1f8866f3f63c..3720d72f2c3e 100644
---- a/drivers/gpu/drm/amd/amdgpu/uvd_v7_0.c
-+++ b/drivers/gpu/drm/amd/amdgpu/uvd_v7_0.c
-@@ -1539,6 +1539,7 @@ static const struct amdgpu_ring_funcs uvd_v7_0_ring_vm_funcs = {
- 	.align_mask = 0xf,
- 	.support_64bit_ptrs = false,
- 	.no_user_fence = true,
-+	.engine_retains_context = true,
- 	.get_rptr = uvd_v7_0_ring_get_rptr,
- 	.get_wptr = uvd_v7_0_ring_get_wptr,
- 	.set_wptr = uvd_v7_0_ring_set_wptr,
-@@ -1571,6 +1572,7 @@ static const struct amdgpu_ring_funcs uvd_v7_0_enc_ring_vm_funcs = {
- 	.nop = HEVC_ENC_CMD_NO_OP,
- 	.support_64bit_ptrs = false,
- 	.no_user_fence = true,
-+	.engine_retains_context = true,
- 	.get_rptr = uvd_v7_0_enc_ring_get_rptr,
- 	.get_wptr = uvd_v7_0_enc_ring_get_wptr,
- 	.set_wptr = uvd_v7_0_enc_ring_set_wptr,
-diff --git a/drivers/gpu/drm/amd/amdgpu/vcn_v1_0.c b/drivers/gpu/drm/amd/amdgpu/vcn_v1_0.c
-index a316797875a8..1691d0f955a9 100644
---- a/drivers/gpu/drm/amd/amdgpu/vcn_v1_0.c
-+++ b/drivers/gpu/drm/amd/amdgpu/vcn_v1_0.c
-@@ -2117,6 +2117,7 @@ static const struct amdgpu_ring_funcs vcn_v1_0_dec_ring_vm_funcs = {
- 	.support_64bit_ptrs = false,
- 	.no_user_fence = true,
- 	.secure_submission_supported = true,
-+	.engine_retains_context = true,
- 	.get_rptr = vcn_v1_0_dec_ring_get_rptr,
- 	.get_wptr = vcn_v1_0_dec_ring_get_wptr,
- 	.set_wptr = vcn_v1_0_dec_ring_set_wptr,
-@@ -2150,6 +2151,7 @@ static const struct amdgpu_ring_funcs vcn_v1_0_enc_ring_vm_funcs = {
- 	.align_mask = 0x3f,
- 	.nop = VCN_ENC_CMD_NO_OP,
- 	.support_64bit_ptrs = false,
-+	.engine_retains_context = true,
- 	.no_user_fence = true,
- 	.get_rptr = vcn_v1_0_enc_ring_get_rptr,
- 	.get_wptr = vcn_v1_0_enc_ring_get_wptr,
-diff --git a/drivers/gpu/drm/amd/amdgpu/vcn_v2_0.c b/drivers/gpu/drm/amd/amdgpu/vcn_v2_0.c
-index 8897dcc9c1a0..046dd6b216e9 100644
---- a/drivers/gpu/drm/amd/amdgpu/vcn_v2_0.c
-+++ b/drivers/gpu/drm/amd/amdgpu/vcn_v2_0.c
-@@ -2113,6 +2113,7 @@ static const struct amdgpu_ring_funcs vcn_v2_0_dec_ring_vm_funcs = {
- 	.type = AMDGPU_RING_TYPE_VCN_DEC,
- 	.align_mask = 0xf,
- 	.secure_submission_supported = true,
-+	.engine_retains_context = true,
- 	.get_rptr = vcn_v2_0_dec_ring_get_rptr,
- 	.get_wptr = vcn_v2_0_dec_ring_get_wptr,
- 	.set_wptr = vcn_v2_0_dec_ring_set_wptr,
-@@ -2144,6 +2145,7 @@ static const struct amdgpu_ring_funcs vcn_v2_0_enc_ring_vm_funcs = {
- 	.type = AMDGPU_RING_TYPE_VCN_ENC,
- 	.align_mask = 0x3f,
- 	.nop = VCN_ENC_CMD_NO_OP,
-+	.engine_retains_context = true,
- 	.get_rptr = vcn_v2_0_enc_ring_get_rptr,
- 	.get_wptr = vcn_v2_0_enc_ring_get_wptr,
- 	.set_wptr = vcn_v2_0_enc_ring_set_wptr,
-diff --git a/drivers/gpu/drm/amd/amdgpu/vcn_v2_5.c b/drivers/gpu/drm/amd/amdgpu/vcn_v2_5.c
-index cebee453871c..063f88da120b 100644
---- a/drivers/gpu/drm/amd/amdgpu/vcn_v2_5.c
-+++ b/drivers/gpu/drm/amd/amdgpu/vcn_v2_5.c
-@@ -1777,6 +1777,7 @@ static const struct amdgpu_ring_funcs vcn_v2_5_dec_ring_vm_funcs = {
- 	.type = AMDGPU_RING_TYPE_VCN_DEC,
- 	.align_mask = 0xf,
- 	.secure_submission_supported = true,
-+	.engine_retains_context = true,
- 	.get_rptr = vcn_v2_5_dec_ring_get_rptr,
- 	.get_wptr = vcn_v2_5_dec_ring_get_wptr,
- 	.set_wptr = vcn_v2_5_dec_ring_set_wptr,
-@@ -1877,6 +1878,7 @@ static const struct amdgpu_ring_funcs vcn_v2_5_enc_ring_vm_funcs = {
- 	.type = AMDGPU_RING_TYPE_VCN_ENC,
- 	.align_mask = 0x3f,
- 	.nop = VCN_ENC_CMD_NO_OP,
-+	.engine_retains_context = true,
- 	.get_rptr = vcn_v2_5_enc_ring_get_rptr,
- 	.get_wptr = vcn_v2_5_enc_ring_get_wptr,
- 	.set_wptr = vcn_v2_5_enc_ring_set_wptr,
-diff --git a/drivers/gpu/drm/amd/amdgpu/vcn_v3_0.c b/drivers/gpu/drm/amd/amdgpu/vcn_v3_0.c
-index d9cf8f0feeb3..8dcc07b3f631 100644
---- a/drivers/gpu/drm/amd/amdgpu/vcn_v3_0.c
-+++ b/drivers/gpu/drm/amd/amdgpu/vcn_v3_0.c
-@@ -1857,6 +1857,7 @@ static const struct amdgpu_ring_funcs vcn_v3_0_dec_sw_ring_vm_funcs = {
- 	.align_mask = 0x3f,
- 	.nop = VCN_DEC_SW_CMD_NO_OP,
- 	.secure_submission_supported = true,
-+	.engine_retains_context = true,
- 	.get_rptr = vcn_v3_0_dec_ring_get_rptr,
- 	.get_wptr = vcn_v3_0_dec_ring_get_wptr,
- 	.set_wptr = vcn_v3_0_dec_ring_set_wptr,
-@@ -2021,6 +2022,7 @@ static const struct amdgpu_ring_funcs vcn_v3_0_dec_ring_vm_funcs = {
- 	.type = AMDGPU_RING_TYPE_VCN_DEC,
- 	.align_mask = 0xf,
- 	.secure_submission_supported = true,
-+	.engine_retains_context = true,
- 	.get_rptr = vcn_v3_0_dec_ring_get_rptr,
- 	.get_wptr = vcn_v3_0_dec_ring_get_wptr,
- 	.set_wptr = vcn_v3_0_dec_ring_set_wptr,
-@@ -2122,6 +2124,7 @@ static const struct amdgpu_ring_funcs vcn_v3_0_enc_ring_vm_funcs = {
- 	.type = AMDGPU_RING_TYPE_VCN_ENC,
- 	.align_mask = 0x3f,
- 	.nop = VCN_ENC_CMD_NO_OP,
-+	.engine_retains_context = true,
- 	.get_rptr = vcn_v3_0_enc_ring_get_rptr,
- 	.get_wptr = vcn_v3_0_enc_ring_get_wptr,
- 	.set_wptr = vcn_v3_0_enc_ring_set_wptr,
-diff --git a/drivers/gpu/drm/amd/amdgpu/vcn_v4_0.c b/drivers/gpu/drm/amd/amdgpu/vcn_v4_0.c
-index 3ae666522d57..f1306316dc3c 100644
---- a/drivers/gpu/drm/amd/amdgpu/vcn_v4_0.c
-+++ b/drivers/gpu/drm/amd/amdgpu/vcn_v4_0.c
-@@ -1977,6 +1977,7 @@ static struct amdgpu_ring_funcs vcn_v4_0_unified_ring_vm_funcs = {
- 	.type = AMDGPU_RING_TYPE_VCN_ENC,
- 	.align_mask = 0x3f,
- 	.nop = VCN_ENC_CMD_NO_OP,
-+	.engine_retains_context = true,
- 	.extra_bytes = sizeof(struct amdgpu_vcn_rb_metadata),
- 	.get_rptr = vcn_v4_0_unified_ring_get_rptr,
- 	.get_wptr = vcn_v4_0_unified_ring_get_wptr,
-diff --git a/drivers/gpu/drm/amd/amdgpu/vcn_v4_0_3.c b/drivers/gpu/drm/amd/amdgpu/vcn_v4_0_3.c
-index eacf4e93ba2f..5a935c07352a 100644
---- a/drivers/gpu/drm/amd/amdgpu/vcn_v4_0_3.c
-+++ b/drivers/gpu/drm/amd/amdgpu/vcn_v4_0_3.c
-@@ -1628,6 +1628,7 @@ static const struct amdgpu_ring_funcs vcn_v4_0_3_unified_ring_vm_funcs = {
- 	.type = AMDGPU_RING_TYPE_VCN_ENC,
- 	.align_mask = 0x3f,
- 	.nop = VCN_ENC_CMD_NO_OP,
-+	.engine_retains_context = true,
- 	.get_rptr = vcn_v4_0_3_unified_ring_get_rptr,
- 	.get_wptr = vcn_v4_0_3_unified_ring_get_wptr,
- 	.set_wptr = vcn_v4_0_3_unified_ring_set_wptr,
-diff --git a/drivers/gpu/drm/amd/amdgpu/vcn_v4_0_5.c b/drivers/gpu/drm/amd/amdgpu/vcn_v4_0_5.c
-index b107ee80e472..1a485f5825dd 100644
---- a/drivers/gpu/drm/amd/amdgpu/vcn_v4_0_5.c
-+++ b/drivers/gpu/drm/amd/amdgpu/vcn_v4_0_5.c
-@@ -1481,6 +1481,7 @@ static struct amdgpu_ring_funcs vcn_v4_0_5_unified_ring_vm_funcs = {
- 	.type = AMDGPU_RING_TYPE_VCN_ENC,
- 	.align_mask = 0x3f,
- 	.nop = VCN_ENC_CMD_NO_OP,
-+	.engine_retains_context = true,
- 	.get_rptr = vcn_v4_0_5_unified_ring_get_rptr,
- 	.get_wptr = vcn_v4_0_5_unified_ring_get_wptr,
- 	.set_wptr = vcn_v4_0_5_unified_ring_set_wptr,
-diff --git a/drivers/gpu/drm/amd/amdgpu/vcn_v5_0_0.c b/drivers/gpu/drm/amd/amdgpu/vcn_v5_0_0.c
-index 0202df5db1e1..2d8214f591f1 100644
---- a/drivers/gpu/drm/amd/amdgpu/vcn_v5_0_0.c
-+++ b/drivers/gpu/drm/amd/amdgpu/vcn_v5_0_0.c
-@@ -1203,6 +1203,7 @@ static const struct amdgpu_ring_funcs vcn_v5_0_0_unified_ring_vm_funcs = {
- 	.type = AMDGPU_RING_TYPE_VCN_ENC,
- 	.align_mask = 0x3f,
- 	.nop = VCN_ENC_CMD_NO_OP,
-+	.engine_retains_context = true,
- 	.get_rptr = vcn_v5_0_0_unified_ring_get_rptr,
- 	.get_wptr = vcn_v5_0_0_unified_ring_get_wptr,
- 	.set_wptr = vcn_v5_0_0_unified_ring_set_wptr,
-diff --git a/drivers/gpu/drm/amd/amdgpu/vcn_v5_0_1.c b/drivers/gpu/drm/amd/amdgpu/vcn_v5_0_1.c
-index 714350cabf2f..bd3a04f1414d 100644
---- a/drivers/gpu/drm/amd/amdgpu/vcn_v5_0_1.c
-+++ b/drivers/gpu/drm/amd/amdgpu/vcn_v5_0_1.c
-@@ -1328,6 +1328,7 @@ static const struct amdgpu_ring_funcs vcn_v5_0_1_unified_ring_vm_funcs = {
- 	.type = AMDGPU_RING_TYPE_VCN_ENC,
- 	.align_mask = 0x3f,
- 	.nop = VCN_ENC_CMD_NO_OP,
-+	.engine_retains_context = true,
- 	.get_rptr = vcn_v5_0_1_unified_ring_get_rptr,
- 	.get_wptr = vcn_v5_0_1_unified_ring_get_wptr,
- 	.set_wptr = vcn_v5_0_1_unified_ring_set_wptr,
+@@ -236,14 +237,16 @@ static int amdgpu_ctx_init_entity(struct amdgpu_ctx *ctx, u32 hw_ip,
+ 		r = amdgpu_xcp_select_scheds(adev, hw_ip, hw_prio, fpriv,
+ 						&num_scheds, &scheds);
+ 		if (r)
+-			goto cleanup_entity;
++			goto error_free_entity;
+ 	}
+ 
+-	/* disable load balance if the hw engine retains context among dependent jobs */
+-	if (hw_ip == AMDGPU_HW_IP_VCN_ENC ||
+-	    hw_ip == AMDGPU_HW_IP_VCN_DEC ||
+-	    hw_ip == AMDGPU_HW_IP_UVD_ENC ||
+-	    hw_ip == AMDGPU_HW_IP_UVD) {
++	sched = scheds[0];
++	aring = container_of(sched, struct amdgpu_ring, sched);
++
++	if (aring->funcs->engine_retains_context) {
++		/* Disable load balancing between multiple schedulers if the hw
++		 * engine retains context among dependent jobs.
++		 */
+ 		sched = drm_sched_pick_best(scheds, num_scheds);
+ 		scheds = &sched;
+ 		num_scheds = 1;
+@@ -258,6 +261,11 @@ static int amdgpu_ctx_init_entity(struct amdgpu_ctx *ctx, u32 hw_ip,
+ 	if (cmpxchg(&ctx->entities[hw_ip][ring], NULL, entity))
+ 		goto cleanup_entity;
+ 
++	if (aring->funcs->engine_retains_context) {
++		entity->sched_score = sched->score;
++		atomic_inc(entity->sched_score);
++	}
++
+ 	return 0;
+ 
+ cleanup_entity:
+@@ -514,6 +522,9 @@ static void amdgpu_ctx_do_release(struct kref *ref)
+ 			if (!ctx->entities[i][j])
+ 				continue;
+ 
++			if (ctx->entities[i][j]->sched_score)
++				atomic_dec(ctx->entities[i][j]->sched_score);
++
+ 			drm_sched_entity_destroy(&ctx->entities[i][j]->entity);
+ 		}
+ 	}
+diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_ctx.h b/drivers/gpu/drm/amd/amdgpu/amdgpu_ctx.h
+index 090dfe86f75b..f7b44f96f374 100644
+--- a/drivers/gpu/drm/amd/amdgpu/amdgpu_ctx.h
++++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_ctx.h
+@@ -39,6 +39,7 @@ struct amdgpu_ctx_entity {
+ 	uint32_t		hw_ip;
+ 	uint64_t		sequence;
+ 	struct drm_sched_entity	entity;
++	atomic_t		*sched_score;
+ 	struct dma_fence	*fences[];
+ };
+ 
 -- 
 2.43.0
 
