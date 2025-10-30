@@ -2,46 +2,46 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9763AC21DB2
-	for <lists+dri-devel@lfdr.de>; Thu, 30 Oct 2025 20:06:51 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 83A61C21DA4
+	for <lists+dri-devel@lfdr.de>; Thu, 30 Oct 2025 20:06:45 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 16BFF10EA0F;
+	by gabe.freedesktop.org (Postfix) with ESMTP id 05D7510EA0C;
 	Thu, 30 Oct 2025 19:06:38 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=Nvidia.com header.i=@Nvidia.com header.b="P8A3s7eF";
+	dkim=pass (2048-bit key; unprotected) header.d=Nvidia.com header.i=@Nvidia.com header.b="EwZjMJTK";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from BL0PR03CU003.outbound.protection.outlook.com
  (mail-eastusazon11012034.outbound.protection.outlook.com [52.101.53.34])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C395F10EA0C;
- Thu, 30 Oct 2025 19:06:35 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1DFE710EA0E;
+ Thu, 30 Oct 2025 19:06:36 +0000 (UTC)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=hji1yRKfflvoFTWM50j6ajfn5hS10VmiMMglf5pn1qGoDlWEV5bJjFDkdtdUNv0qyUqBBYjUM54rexLj6UWtD/yQqDphKSqRJ2IaEVEMFMi6rUdCoH0cy52v1FYjGP2flTMx8EFjC3LDZaXJQ/TptXRbdrwYAvUNWiLLULs6ykL2yaeALj/zlQ6amrH4PLfacy3Lym+wbwN2y9rZOIp4QVqiXNDJBTKnVcLOB+1NsQYf2fbwv3hWo5gHiqxScAf7B4dDkvtn4wJGJy63CKruzK3WnnbW/ITzLNKhVcuvdJDH1N9uGUqcS6sHNgR8f7H0igEfEFVs4TvX90xDNYNdjQ==
+ b=lqxGd783p4DM1d7vwm5ZhiuGdoZmzOn8qg5sCiFT9QxD33bXUswjmCJTTSfgpSqK3FlvYbvHD5C+2Ml98JKIy2ct1jyTrTwFmTdxpUfKDjFT7yNdTWeMS6B0GX+x7mtu3r+NgsEgZpdf/JEVuE6avK3kzo2e5Y27hdvZFZ0/gTTCVH3NS4WdeVSdTsbOUOuHeSVwXX4HJJzXPxDTPDzRQj/gt0FlZMDv6nW/el/QDQSf/2KIY7pctf9lTCrBxdaxA+WbGPu27QoOufPf2DRYmr6BxnZ6IhfKu3rLUr2efEarwkkgVp4D2GSKI7RmS94N6jFnlSPx1iudKQuEHaqIZQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=M20FBJnvcmSsWDiO/hP1LroGcCpoKGyXqgZEe7BZYxs=;
- b=lybtddx6XGafwfm4j8ACD43RemXpDvkS6WOHUDuiEAJ4nCEt4mBU6MsqnNY7ABWbrdH+sgucVIDC+e0p+FpX1fpiOgslB3O2WtvtjplrGNLSezuxjaZ4jucOmxolKJZOV6Sa8yzKhcXFRdYqq4aOwMf8wNWqkviSQD+9zuXxs+q1QdB+qtdSuaHDSP1BkkEkken26ZrHrXX2FrIw9fO4DOvLpixiepsOxsqeWBbNtP7YYnDHH6q0Pm0oV3O9JsfTdfhrx+19XQJq/RyfApGsm2GuGv/1mFcRZHf+W3TyuuN59ayTjw2JjzvbUrqAtNexOfZzg3FxljQC6git8P5tDw==
+ bh=etJbbMeqdAuZRh/HJvZ2cLD+tgdVu/ko2JD1/SlDlII=;
+ b=hdj6t9nfK43nU/+8Yp/ZfzY3jMVxzCjDCAAR/RDvLbdFZQwRaAlzvktIx0QHpUjOKJU5ghk27PI27cnef7QgE/V+JKNu9vcnQ2CT3l2KGs6B5zxS8dpcRuYcU81R2Af7Zp4yjfsgTBODAqP6ymNCzqTNjlp6MhxLVPPNfrFxQcxW6BzMVOK1tDclkb7cs4ertbwhCVlwLh/7M/VNNVYK1uZQeRSBhmH8XxgtgX7/IgM5slAXLt7j8xy41xUFhSnoHajhGlLqHYmAD1h7mQsKp+YinYWj8TMsxB7e1TLptf6qi2uYzskUTVLnU8tOhzqI70IahtmLaA4M63UHiDc0FA==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
  dkim=pass header.d=nvidia.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
  s=selector2;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=M20FBJnvcmSsWDiO/hP1LroGcCpoKGyXqgZEe7BZYxs=;
- b=P8A3s7eFB3URrESuv8OkGfJ9aqpzGwWUPL5H5f3l5+22kONPcsAxwJt1JAL49Pe0KaB2xPt5YEL/8/uqbudQyHjcu9tcy5McigVQUmYAN9Z9MBDyuoK29tRMEgnt1CJORlp4dHLZggVlfxMlUZMxXlvRTjtfuw875X/N6SH3FelrXISL+y/tGSKZ8tQgFM6a99MAAfmFGKXSTlb+GbUtt4Fpuwt/5BUxahG1ZpIe//9ZKtfEL9JMOhoCEsUP8x+FX/lIVv6MmTUzDTk8F3cdZMexbs+gXA5gfjGdl9+Awm44Fgrpaku2d8qyRh2b9pYn+tfQ+WA0vNE7fCZLAt7lqA==
+ bh=etJbbMeqdAuZRh/HJvZ2cLD+tgdVu/ko2JD1/SlDlII=;
+ b=EwZjMJTKp8HeAkXV1VbWZRf01/0dTiVQuSJImA9yKN29MHjsMa6mom1clEVrXXz9GQbhIoEFByjjFkp2o5pixvmF5XhAGhT8Gch1oZIBzYH5mKaPezpntpWgA2+/KLvQ93SpRSDq7OgB7RHISWF1hHE4DdAN7WrklfTsUkRUgUf/yIqMGsE3oXlTVBPgGw4ccD88igd83So4912ryuHKWYL2F5ZPg3PLX8xba3S7UwNhJ0b0wR9I/Rjj45SYtEicpmHEShlU8jEQFIS5Xkn9odXkSKabd0SdARhIZfB0XAVLOFuOLAybAzS7kKop0cFMcxBlqHsODT9jPsckLbjeIQ==
 Authentication-Results: dkim=none (message not signed)
  header.d=none;dmarc=none action=none header.from=nvidia.com;
 Received: from SN7PR12MB8059.namprd12.prod.outlook.com (2603:10b6:806:32b::7)
  by DS5PPFBABE93B01.namprd12.prod.outlook.com (2603:10b6:f:fc00::65f)
  with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9275.14; Thu, 30 Oct
- 2025 19:06:27 +0000
+ 2025 19:06:31 +0000
 Received: from SN7PR12MB8059.namprd12.prod.outlook.com
  ([fe80::4ee2:654e:1fe8:4b91]) by SN7PR12MB8059.namprd12.prod.outlook.com
  ([fe80::4ee2:654e:1fe8:4b91%2]) with mapi id 15.20.9228.015; Thu, 30 Oct 2025
- 19:06:25 +0000
+ 19:06:30 +0000
 From: Joel Fernandes <joelagnelf@nvidia.com>
 To: linux-kernel@vger.kernel.org, rust-for-linux@vger.kernel.org,
  dri-devel@lists.freedesktop.org, dakr@kernel.org,
@@ -62,90 +62,90 @@ Cc: acourbot@nvidia.com, Alistair Popple <apopple@nvidia.com>,
  Daniel Almeida <daniel.almeida@collabora.com>,
  Andrea Righi <arighi@nvidia.com>, Philipp Stanner <phasta@kernel.org>,
  nouveau@lists.freedesktop.org
-Subject: [PATCH RFC 1/4] rust: clist: Add abstraction for iterating over C
- linked lists
-Date: Thu, 30 Oct 2025 15:06:10 -0400
-Message-Id: <20251030190613.1224287-2-joelagnelf@nvidia.com>
+Subject: [PATCH RFC 2/4] samples: rust: Add sample demonstrating C linked list
+ iteration
+Date: Thu, 30 Oct 2025 15:06:11 -0400
+Message-Id: <20251030190613.1224287-3-joelagnelf@nvidia.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20251030190613.1224287-1-joelagnelf@nvidia.com>
 References: <20251030190613.1224287-1-joelagnelf@nvidia.com>
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain
-X-ClientProxiedBy: BN9PR03CA0600.namprd03.prod.outlook.com
- (2603:10b6:408:10d::35) To SN7PR12MB8059.namprd12.prod.outlook.com
+X-ClientProxiedBy: BN9PR03CA0579.namprd03.prod.outlook.com
+ (2603:10b6:408:10d::14) To SN7PR12MB8059.namprd12.prod.outlook.com
  (2603:10b6:806:32b::7)
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
 X-MS-TrafficTypeDiagnostic: SN7PR12MB8059:EE_|DS5PPFBABE93B01:EE_
-X-MS-Office365-Filtering-Correlation-Id: 5af55669-329c-4741-e0c1-08de17e76c61
+X-MS-Office365-Filtering-Correlation-Id: dc53d27f-b101-487b-2e9a-08de17e76d5c
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;ARA:13230040|7416014|1800799024|376014|366016;
-X-Microsoft-Antispam-Message-Info: =?us-ascii?Q?islQ4wSWQ/VkZaGKxWqYAdyTP/Z7csUJsCLSSJbhL2JSexkkmRrkw1lJZFHm?=
- =?us-ascii?Q?VyLy05Nb8hmyPqBuVNYGL1tnV1ACTLmPFm+jgbGNUEzTafhzcGjg6xZRUdij?=
- =?us-ascii?Q?8e5koBdFEuqV+kINKVpnuYItCdB+nh0D0Akynk5gLRwncj26ix1gyBPWHoAR?=
- =?us-ascii?Q?cxNTaeoNN4fi6Etn6HsgNUNlu+BTZI7zeWCM02H74NPSDVb6AmfmJvYHJLgj?=
- =?us-ascii?Q?K+a9gHGHE/clJ/DlcOxH5xy5BqKY1yxCaakiVMtJtdKJJheiesjIycsppUTo?=
- =?us-ascii?Q?l00oiZgmt7rFQugxXtq96dVnDZHmsyKvDwQVeYoPeagG+aT7GaJSMfGlB9qI?=
- =?us-ascii?Q?oLjCmecqFpX38CCvYw3DQYLM/uab1cmognzb32hdA3W0DyJycvxyS0fiLTfb?=
- =?us-ascii?Q?B1T3YUsfDO8VazIi0Xm/eMMZ5+jK1oskgOO0KlUk8wNi0bGT+VLRg02opUdK?=
- =?us-ascii?Q?fIGvFyH4siTPkFGoDF5ZqMhkOJSxSMcnnCLM4x+FJNvGVlyepVdzUj7RhGKm?=
- =?us-ascii?Q?co9BwYFnsjbBXN0OdPxfNuM8jSkS2OABDpnBkEc9CS+AFOFTLJ60PxIAJ0Zc?=
- =?us-ascii?Q?oA0TVBHsliRilQJLYBxl2KG22/OV/gvpiiRBCeT8u1eMCo+rTsWNeQCUhb8V?=
- =?us-ascii?Q?5rgGA6HtPUmTUJJl6k//QDih6tg1WICgjEStL8R5YO8DSEUhUuCKF46wKfOS?=
- =?us-ascii?Q?mB66ijF4ofZsIqqmdx+9bxowu5XLrjnYOEc7A8zgE92ksTHDZDNzkvVnYF1N?=
- =?us-ascii?Q?sX4SrC7n4HHBQtzeZBzuNrvGMxxErnrhqG/t3Awu50Jhz/YgAg2A79u5VWVP?=
- =?us-ascii?Q?tHAIYcx98/LeLS0xghehfBCxLp1k7Lc9NdCEirC3m8npslkgYW1ro48c+3E1?=
- =?us-ascii?Q?iLgnC60hZb631/qczKpxjaxjq108iDYbqLCn+A8gO1KNnaX0Xb9NCcAeWfz1?=
- =?us-ascii?Q?OjvG6LCjpL6SR4qbw7VwbHOcvqzb3ZcW5sdHzsLYStyUfwfLp1bMg3zrN5Ms?=
- =?us-ascii?Q?k1G1JWjCbVPueES4u5jicJa8qAugvH0g7krQF6eKUFAulDFHIxCgovpGVCMf?=
- =?us-ascii?Q?y/c8PEo7WHEJGqL7N5MZm9bMIJH7O7cYGO84o5dJMGD9VlG8TRQXbtl9eFfL?=
- =?us-ascii?Q?Thq7Q+OHRSqWwONf/7mCQ2hLhpN+LA9b85nGTxnwHjuol2KdR9QOnnG/NKGE?=
- =?us-ascii?Q?KGg7i6bqghIfT2TQ2fOGIryEy1YvWadzbPOfBiG+3f63aXqvB9VW4og+/ek2?=
- =?us-ascii?Q?0vKrPeblB2M18bezq7dAnZFWer4IC/3BmAj1e1lSMSKCwCflF0bIK6izsEaO?=
- =?us-ascii?Q?IGvEm8Y9skbPXkpROdhjWu4dd+2FNPExSen00en5Vzk4eL+hVK7mlrVeCMIJ?=
- =?us-ascii?Q?bDL+VS58Bg6/ZBSLUpBHxNsPXlItbAN0QKUwP/7YN4tWo3ySpsUvPj0cJzDz?=
- =?us-ascii?Q?kDPQhgNXIdkjxF6r6cEN0cg5hwS8yvH6?=
+X-Microsoft-Antispam-Message-Info: =?us-ascii?Q?YBqd2stBHY53LF/ZcGtKDnTixWwBbVdsa8mhDpPLa3gGxZRH8Ev5zxtCjeNO?=
+ =?us-ascii?Q?dVHyipdS++ztJh15rFE0dYB8OEfrzK/1xe1GtBuPiyRykUKcWZjyv12DglM3?=
+ =?us-ascii?Q?WqNBE5sM/OQrV/2Jc62WVM5Qq6uUNWJS1v484QTYacH9wRjMAhZqFreAzjJ/?=
+ =?us-ascii?Q?cDKOtuuLXrER/eSEIJiPU0RBPDaW+bEiIsA/2dvEO/6lTtNT0DQDAeP8SNsV?=
+ =?us-ascii?Q?wTzGcjwTziUF/7j303PThsIJzCOFao3qyIdPTsKn/DHCLfsSfPr1w+4rWpiV?=
+ =?us-ascii?Q?Scj2VehNoCyZpCwmwtWam6M1CmQG1NocebPoJ2EKXy0omprPl0aipqm4SXtG?=
+ =?us-ascii?Q?VOBmywUERDUNObgxbuTmEvZzZPWVfMUaf6SjouHlEmhRvYEUmZ5Ggorr2rEf?=
+ =?us-ascii?Q?t8+BHcAX6zOuvpUMpGMN8+TCB8o/zbxpYU/R/08ccdRkMPar3iGfgsZsE3Rd?=
+ =?us-ascii?Q?jmD8cH4Blfzkp/lYkMHUddkq/Kd7O+0E9Y3wreolIpR0LS0u0WhQs1CNMxie?=
+ =?us-ascii?Q?8asbolwhe4xdXaLBhjqhJbl/68pd/eiSj6R07v6j0pAgUFDCyaaMmOhB3Pqd?=
+ =?us-ascii?Q?dKtA+xiJCf0Oz37X8JVCbEwXT46d65a9F5nn+K9BR94hg8ivbCYuCkd0h1X0?=
+ =?us-ascii?Q?vyyE1hZ1llKCw3zbouUCmi45d8kfrIGXz9AwNfEef3cbddZ0KykdAweh1Dwu?=
+ =?us-ascii?Q?dFHE/sdVJ9KZDKst0dIoXfnzGP6ADvnYcGrLXueu7oMb5ZCwDEK47iFQda8+?=
+ =?us-ascii?Q?6TAomRrf/ma/Zo8TT2fZLx4i1L2WHFdBXVlr5riQ7ufszp0JSdMJycEEHHbm?=
+ =?us-ascii?Q?123+Sx7CbpLmSLYhj83uIYSvFuBKNSIxkjDYaTUURQxIbmAxtoyIRRqV2Je5?=
+ =?us-ascii?Q?9Vev3iQ6D4gKIwFZZ0KGWDnyoyqBwo32V8fI2Db+AtZ8pdEr6CLMEaDkyBLY?=
+ =?us-ascii?Q?7sd0YFV0hBEizj71wA8c0yCGVNdkdEUbJkzJ8GA2B84oi2E4CfoMknserCjt?=
+ =?us-ascii?Q?aHZzE1B4hiIwNzNzdfQIemSn29ZmkASNXMkI23RQztDYPt+WJqq+JirdolcW?=
+ =?us-ascii?Q?IKUjDlbqoNyyjnLQILJwcpRD/ZhCbYYm4E/i0/Qa29WNS21HWC9zx2Lxslzu?=
+ =?us-ascii?Q?o0LYKcGWDK5JD6u/hkUczcrFAf1p8le6xbIFjjSM+xKoesGtTti5GMUil6WY?=
+ =?us-ascii?Q?Rzb0ZSoack6uXIU/tls20KltM6Bvu94o5i9s6dFRyBleR7ZftQVHJi/1BAbQ?=
+ =?us-ascii?Q?nk0SXBdV++/MZNfJgDW+QhT0NHGhYmvDALjHl3dyW7Dl95jM4VZyw/mmEhpB?=
+ =?us-ascii?Q?OPcCN+g4pl57Asb5FyK3tvaApLYa+6Z3F6D+jEKrZN5IJKQgSTfUQMpqmKfN?=
+ =?us-ascii?Q?0d++b9S1Gs+iUXci1ed+xmAzEsBA2KllyJMpZoyZakRwmMv7HBHR29lF8WBY?=
+ =?us-ascii?Q?cRvA+dnwRMiisIfETB3rv9zQ3XHpF7fY?=
 X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
  IPV:NLI; SFV:NSPM; H:SN7PR12MB8059.namprd12.prod.outlook.com; PTR:; CAT:NONE;
  SFS:(13230040)(7416014)(1800799024)(376014)(366016); DIR:OUT; SFP:1101; 
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?4ahRjXoVKhbhGcq/DWNfJuzXGNipFOw2mKtRPG7nGFX+Pw7ybKJDi+UyY5gr?=
- =?us-ascii?Q?VGnoQVhE/eneHCHpuLx8ae32QZDfJlltHDG7iopBnf+OWOlXmK5XuW5qRoox?=
- =?us-ascii?Q?wIbELnTJx5x2he/zdHn8Y9nvrFTAwY2F9R6ORsXCwA0i1qvMqo3VpVPeqhXw?=
- =?us-ascii?Q?rBh2aIucKzf/BKr/5D/yCfGUJhgjgapq0GKKhsgirpQLjmp7k+adrU8ZGXbD?=
- =?us-ascii?Q?Ryz3xj0XW0n8HAq3P74E1DYq9tIjwmTOYm/7deagdrItojXt2LwBUq/L+UHW?=
- =?us-ascii?Q?25/7JlqQqhEP6NDk8gxElhb/0R9i4WDZtHpal4Bqp3H2cX6Zvu//KFcIt0va?=
- =?us-ascii?Q?pPcvFQ/LZO8uoz6LkuwrobxX2YE6o7YOdtQpyFoSioSgG7XSWe70nYMz3y5r?=
- =?us-ascii?Q?ZL6EZN7KdlAWylSAqdTDzms8X085jeVuyTc+nwsnERBwU8Hbe9ypwvtYymBI?=
- =?us-ascii?Q?W0///kF8yRzjIDqzStR+Yz9qVxzZIkKbw5VvnAAhuvCzGBThRH4Xb96adEYz?=
- =?us-ascii?Q?s2/mVWXzszqASF7PHshYmYXIBJjBVcXNJqn7+SsqWk3c+HJ8TcweZsqHpsoc?=
- =?us-ascii?Q?axziANQ2dB8LV/QSWadCTgst8APxopZzPVdp7CJB9Vz5U59PM0UbhidYb+yc?=
- =?us-ascii?Q?F+q6wAQIzn+S5M5DIUrtAbsNcvf2vlGcE1004TwPj86q3CgrfZZhAb//QXHz?=
- =?us-ascii?Q?z/Nfb1OyMU9O9YbArtF9FAELEPI3OVxwrqpd/1TIZWz5dqTz+5BBpGV8c1Ne?=
- =?us-ascii?Q?zsPaFYW4Nd+0r14DK4EFAqacaef/GQDVn1hPydjBG+J5M/HV6lfS8/V7oi5Y?=
- =?us-ascii?Q?sbNo02xBq8kQVIC1KApZGLoKFoVOl9JEXHo4w+9cKqYGzuHLALWsP75wEYAs?=
- =?us-ascii?Q?CKmCNOfLUBJCrXzCx1NLnya4uOl1Hiy/UjR+ysqppfTv+kjMFy8uKyOhHRiL?=
- =?us-ascii?Q?BjLX9IL8efb0lsBGKjLMPUAxs2WfnSA0Q0yF6jdDNNSHFDUNy0Ua/etQNxHc?=
- =?us-ascii?Q?THGP7FVA4o3FHm9MXsYPqnu4EZOj1D5mA1LXLQYNP4SUxKZJqCvoqzm1za/A?=
- =?us-ascii?Q?dMUgFwFVKwHgU4TEBbm/1q5voUGvcO0zkeJKQ8Y3odeRRb3Wn6BGuVG/1t1u?=
- =?us-ascii?Q?60zXs5Lwpt2fHCTLSXr4ePzr5KBLqrAxxTwXSw5bwOvF0fMJ/zYIet6KnEtJ?=
- =?us-ascii?Q?ho4xPC3ObBFDiTcX5YQsPzPPRcd07rjrdCxp3lqhns2HzKaRLE4Z1MpONTCT?=
- =?us-ascii?Q?kxENXfFxwgKmG/R1PuQHaR12m3b9FqCZEuAVPpOas72UGYNmCNTvwQGfY9ov?=
- =?us-ascii?Q?CHgGMDKyeDGFzB5Dc/MR4THavBPHAyrEFKq/VXqRfWi/5Cothjd1DBUUAkaA?=
- =?us-ascii?Q?PFknG7vTvi9/eka99mIzcz4tjnrUXLdo3N7Sgnh5gL0wpAPJdN9k1aTugnTm?=
- =?us-ascii?Q?KaiqUGb85G4zmYlIJp+slAZ1+SI8k7VxEAsutgTqM7J+lqMeerMUtKlUA8iv?=
- =?us-ascii?Q?3rsd5TLDtxE5EB6eE2kprzRwRyw8AHmO/8QCCkZPlVAvwLffpwcBySs14CUK?=
- =?us-ascii?Q?ZMDUhks7z7Msl9/ea5Xa28dt4ryu2IdxQJxrov0s?=
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?RsO2V4nPUA0OmFOcXsM/bosUsDyMJpgs6jvvQDQx4ebr8afg6BlPOdoScOI2?=
+ =?us-ascii?Q?5yhAVrM35Bt/VzyQ7XmXdpTaVXLyQPVo8BE7FsV5w/Dqd8ufwTMliZoNRIV+?=
+ =?us-ascii?Q?xkWSd9YbJbDUvX2rngoQI/xxtWZC+IWBK18t3YjR1ZdaeQf7YwKxzXmq9LYP?=
+ =?us-ascii?Q?hONtdNJBzxhkdZStZ9bCMOHa1L9ynXZg0Q98h7PElaIbCvVXGXSOTudUqGDd?=
+ =?us-ascii?Q?87UmJ/0qIXXM+qpjbFcwkvrO/wqaIGe1ngXJA8MKaV87FXIyjhkb9MsARma2?=
+ =?us-ascii?Q?envQSQs7duU9oY2qiLlbE4jM4qE0UBNv3xukUt4XBkUoCeNcl+93ebq3CLSr?=
+ =?us-ascii?Q?WfkAipEAgFDcF9GpIKwv5+WyVXWb/cg4ZJF/PFdkSxPhm7a+sfyKJyexNMM4?=
+ =?us-ascii?Q?/e4DF/kaFQjcl9fbAcxBEEYYcCOGlJp2OjjQpMF+/wgSj1pxVM+Jt1R1xhxx?=
+ =?us-ascii?Q?eN1v4AyJW7/2o7ROu/CTn7HYXDUaMw32cjaNmqLws+Bab7BmfLRYaNI/pXt+?=
+ =?us-ascii?Q?3Oyg/QfZ+NdYYPulAffsD5p5sukaoT4eWarmnNy07Gmp8GVRKU7CXZqrSyCK?=
+ =?us-ascii?Q?6NxeMLT9HQsJoRAYq7Sx2bnZlUc14fqZRO5uFK3m1gIqDxYreL92EHmnanDh?=
+ =?us-ascii?Q?JQuiaVngSGoE67Bw+c1P2Z2GlALbVETuFawXEYgD9kZMlXKIYT25JIY94SFG?=
+ =?us-ascii?Q?dX8DUB/REMTPLPqYfGavrHIPD+yZHZSWe04JTIaq58VeUgKUUPqW9gRFey4+?=
+ =?us-ascii?Q?womrgANqoJiV1m/8ckDRvkWU0Uw78P9TpmWmaMiCWEd5seEB4tLYAqnljmPy?=
+ =?us-ascii?Q?iybvKwfCdUmEDm5KA5h3kF8WoAik34JhX86t6aZsc/SnR4mAnZM0GTn3xqHO?=
+ =?us-ascii?Q?dsS9/jnnK+6HnruBf5Y9zg8qaKGIiteOnP4KPbc0ucZ3jGLn/EKT74ZbRdqZ?=
+ =?us-ascii?Q?YKvQ8nG0iXe0k0O0mzA7awl1w7G4ZjK4v9LbVW5rXsrkej99UcFhrTL0jGYc?=
+ =?us-ascii?Q?/X0dvG1k1MqmOSsCj+WARRUc1083ByWiVQOf4qpSkbL63q3gqsTsGpwchqbA?=
+ =?us-ascii?Q?1/gF22NKRvfyJ/dOmrGWphZoQbrBoR2q3riWh7okWoY8c3j9xjmTiP/Fqfii?=
+ =?us-ascii?Q?ajVX3Ujn8HRGFoklSwKk7R1cYcXGs+aUAWJxTJq7QaSS04/0SFcLUm8rGyVb?=
+ =?us-ascii?Q?kU+LY+vnvha1XWEZaSPlEJW2yD2y9IwguqYfpZCN+5G7uWzWuB26Mn+K1TfA?=
+ =?us-ascii?Q?SkQOcJ4z/OuJYA8X97sTVeitTjaatW5+TQ3b7pZSx8GpUKSj+cXKzDoVSVLd?=
+ =?us-ascii?Q?qJwPOvAkAs5gb0WdvM89h2ms4z3BZ1Az8IXVpZ7ciLABQzCCBLYUssaogW7h?=
+ =?us-ascii?Q?3nkUPE2UTDkHbBSBV5iekKoMBLahxTJaeLAZczUmWsnOq0PRWsk2wPiOZY6w?=
+ =?us-ascii?Q?/k1dOEgyMKg8ZS7nEpLCbn2qAftaxvgYCiRHcvuNtW5lYkzeT2tOTbI49bu8?=
+ =?us-ascii?Q?s4OytqAGmgCsN9t4wCV5v5aYBC2cgtK681NwulPUw74RuvKx0QiUcDVEuMKU?=
+ =?us-ascii?Q?+dKgrALP/jDGU8VebhaBhwRmxn44RPlrb2FoR0I/?=
 X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 5af55669-329c-4741-e0c1-08de17e76c61
+X-MS-Exchange-CrossTenant-Network-Message-Id: dc53d27f-b101-487b-2e9a-08de17e76d5c
 X-MS-Exchange-CrossTenant-AuthSource: SN7PR12MB8059.namprd12.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 30 Oct 2025 19:06:25.8170 (UTC)
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 30 Oct 2025 19:06:27.6498 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: SWrhZROS1/TsOTyUKQK2jIvDJFHF8VZsjgDdJu23yO4EzpHMwWN+TIxfApXPEN4eiFvYyNMy7/rn1iFRBZhMDA==
+X-MS-Exchange-CrossTenant-UserPrincipalName: dbfHFnTF7M4Afqlanf9AIDHlz55Y4vJnNUc5x5BqOevX7x7SRoE3yMwQhu3sJUk0ZBp1kt6+rM+Cm+Ev2xDvOg==
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: DS5PPFBABE93B01
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -162,381 +162,266 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Provides a safe interface for iterating over C's intrusive
-linked lists (`list_head` structures). At the moment, supports
-only read-only iteration. DRM Buddy bindings will use this to
-iterate over DRM buddy blocks allocated in a linked list.
+Demonstrates usage of the clist module for iterating over
+C-managed linked lists. C code creates and populates the list,
+Rust code performs safe iteration using the clist abstraction.
 
 Signed-off-by: Joel Fernandes <joelagnelf@nvidia.com>
 ---
- rust/helpers/helpers.c |   1 +
- rust/helpers/list.c    |  28 ++++
- rust/kernel/clist.rs   | 296 +++++++++++++++++++++++++++++++++++++++++
- rust/kernel/lib.rs     |   1 +
- 4 files changed, 326 insertions(+)
- create mode 100644 rust/helpers/list.c
- create mode 100644 rust/kernel/clist.rs
+ samples/rust/Kconfig            |  11 +++
+ samples/rust/Makefile           |   2 +
+ samples/rust/rust_clist_c.c     |  54 +++++++++++++
+ samples/rust/rust_clist_main.rs | 138 ++++++++++++++++++++++++++++++++
+ 4 files changed, 205 insertions(+)
+ create mode 100644 samples/rust/rust_clist_c.c
+ create mode 100644 samples/rust/rust_clist_main.rs
 
-diff --git a/rust/helpers/helpers.c b/rust/helpers/helpers.c
-index 79c72762ad9c..634fa2386bbb 100644
---- a/rust/helpers/helpers.c
-+++ b/rust/helpers/helpers.c
-@@ -32,6 +32,7 @@
- #include "io.c"
- #include "jump_label.c"
- #include "kunit.c"
-+#include "list.c"
- #include "maple_tree.c"
- #include "mm.c"
- #include "mutex.c"
-diff --git a/rust/helpers/list.c b/rust/helpers/list.c
+diff --git a/samples/rust/Kconfig b/samples/rust/Kconfig
+index c1cc787a9add..b45631e2593c 100644
+--- a/samples/rust/Kconfig
++++ b/samples/rust/Kconfig
+@@ -10,6 +10,17 @@ menuconfig SAMPLES_RUST
+ 
+ if SAMPLES_RUST
+ 
++config SAMPLE_RUST_CLIST
++	tristate "C Linked List sample"
++	help
++	  This option builds the Rust CList sample demonstrating
++	  the clist module for working with C list_head structures.
++
++	  To compile this as a module, choose M here:
++	  the module will be called rust_clist.
++
++	  If unsure, say N.
++
+ config SAMPLE_RUST_CONFIGFS
+ 	tristate "Configfs sample"
+ 	depends on CONFIGFS_FS
+diff --git a/samples/rust/Makefile b/samples/rust/Makefile
+index cf8422f8f219..f8899c0df762 100644
+--- a/samples/rust/Makefile
++++ b/samples/rust/Makefile
+@@ -1,6 +1,7 @@
+ # SPDX-License-Identifier: GPL-2.0
+ ccflags-y += -I$(src)				# needed for trace events
+ 
++obj-$(CONFIG_SAMPLE_RUST_CLIST)			+= rust_clist.o
+ obj-$(CONFIG_SAMPLE_RUST_MINIMAL)		+= rust_minimal.o
+ obj-$(CONFIG_SAMPLE_RUST_MISC_DEVICE)		+= rust_misc_device.o
+ obj-$(CONFIG_SAMPLE_RUST_PRINT)			+= rust_print.o
+@@ -14,6 +15,7 @@ obj-$(CONFIG_SAMPLE_RUST_DRIVER_FAUX)		+= rust_driver_faux.o
+ obj-$(CONFIG_SAMPLE_RUST_DRIVER_AUXILIARY)	+= rust_driver_auxiliary.o
+ obj-$(CONFIG_SAMPLE_RUST_CONFIGFS)		+= rust_configfs.o
+ 
++rust_clist-y := rust_clist_main.o rust_clist_c.o
+ rust_print-y := rust_print_main.o rust_print_events.o
+ 
+ subdir-$(CONFIG_SAMPLE_RUST_HOSTPROGS)		+= hostprogs
+diff --git a/samples/rust/rust_clist_c.c b/samples/rust/rust_clist_c.c
 new file mode 100644
-index 000000000000..74e8f40b7141
+index 000000000000..7a8f5e6c642a
 --- /dev/null
-+++ b/rust/helpers/list.c
-@@ -0,0 +1,28 @@
++++ b/samples/rust/rust_clist_c.c
+@@ -0,0 +1,54 @@
 +// SPDX-License-Identifier: GPL-2.0
 +
 +#include <linux/list.h>
++#include <linux/slab.h>
 +
-+bool rust_helper_list_empty(const struct list_head *head)
++/* Sample item with embedded C list_head */
++struct sample_item_c {
++	int value;
++	struct list_head link;
++};
++
++/* Create a list_head and populate it with items */
++struct list_head *clist_sample_create(int count)
 +{
-+	return list_empty(head);
++	struct list_head *head;
++	int i;
++
++	head = kmalloc(sizeof(*head), GFP_KERNEL);
++	if (!head)
++		return NULL;
++
++	INIT_LIST_HEAD(head);
++
++	/* Populate with items */
++	for (i = 0; i < count; i++) {
++		struct sample_item_c *item = kmalloc(sizeof(*item), GFP_KERNEL);
++
++		if (!item)
++			continue;
++
++		item->value = i * 10;
++		INIT_LIST_HEAD(&item->link);
++		list_add_tail(&item->link, head);
++	}
++
++	return head;
 +}
 +
-+void rust_helper_list_del(struct list_head *entry)
++/* Free the list_head and all items */
++void clist_sample_free(struct list_head *head)
 +{
-+	list_del(entry);
-+}
++	struct sample_item_c *item, *tmp;
 +
-+void rust_helper_INIT_LIST_HEAD(struct list_head *list)
-+{
-+	INIT_LIST_HEAD(list);
-+}
++	if (!head)
++		return;
 +
-+void rust_helper_list_add(struct list_head *new, struct list_head *head)
-+{
-+	list_add(new, head);
-+}
++	/* Free all items in the list */
++	list_for_each_entry_safe(item, tmp, head, link) {
++		list_del(&item->link);
++		kfree(item);
++	}
 +
-+void rust_helper_list_add_tail(struct list_head *new, struct list_head *head)
-+{
-+	list_add_tail(new, head);
++	kfree(head);
 +}
-diff --git a/rust/kernel/clist.rs b/rust/kernel/clist.rs
+diff --git a/samples/rust/rust_clist_main.rs b/samples/rust/rust_clist_main.rs
 new file mode 100644
-index 000000000000..e6a46974b1ba
+index 000000000000..6600b0c79558
 --- /dev/null
-+++ b/rust/kernel/clist.rs
-@@ -0,0 +1,296 @@
++++ b/samples/rust/rust_clist_main.rs
+@@ -0,0 +1,138 @@
 +// SPDX-License-Identifier: GPL-2.0
 +
-+//! List processing module for C list_head linked lists.
++//! Sample for Rust code interfacing with C linked lists (list_head).
 +//!
-+//! C header: [`include/linux/list.h`](srctree/include/linux/list.h)
-+//!
-+//! Provides a safe interface for iterating over C's intrusive `list_head` structures.
-+//! At the moment, supports only read-only iteration.
-+//!
-+//! # Examples
-+//!
-+//! ```ignore
-+//! use core::ptr::NonNull;
-+//! use kernel::{
-+//!     bindings,
-+//!     clist,
-+//!     container_of,
-+//!     prelude::*, //
-+//! };
-+//!
-+//! // Example C-side struct (typically from C bindings):
-+//! // struct c_item {
-+//! //     u64 offset;
-+//! //     struct list_head link;
-+//! //     /* ... other fields ... */
-+//! // };
-+//!
-+//! // Rust-side struct to hold pointer to C-side struct.
-+//! struct Item {
-+//!     ptr: NonNull<bindings::c_item>,
-+//! }
-+//!
-+//! impl clist::FromListHead for Item {
-+//!     unsafe fn from_list_head(link: *const bindings::list_head) -> Self {
-+//!         let item_ptr = container_of!(link, bindings::c_item, link) as *mut _;
-+//!         Item { ptr: NonNull::new_unchecked(item_ptr) }
-+//!     }
-+//! }
-+//!
-+//! impl Item {
-+//!     fn offset(&self) -> u64 {
-+//!         unsafe { (*self.ptr.as_ptr()).offset }
-+//!     }
-+//! }
-+//!
-+//! // Get the list head from C code.
-+//! let c_list_head = unsafe { bindings::get_item_list() };
-+//!
-+//! // Rust wraps and iterates over the list.
-+//! let list = unsafe { clist::Clist::<Item>::new(c_list_head) };
-+//!
-+//! // Check if empty.
-+//! if list.is_empty() {
-+//!     pr_info!("List is empty\n");
-+//! }
-+//!
-+//! // Iterate over items.
-+//! for item in list.iter() {
-+//!     pr_info!("Item offset: {}\n", item.offset());
-+//! }
-+//! ```
++//! This sample demonstrates iteration of a C-managed linked list using the [`clist`] module.
++//! C code creates and populates the list, Rust code performs iteration.
 +
-+use crate::bindings;
-+use core::marker::PhantomData;
++use core::ptr::NonNull;
++use kernel::{
++    bindings,
++    clist,
++    container_of,
++    prelude::*, //
++};
 +
-+/// Trait for types that can be constructed from a C list_head pointer.
-+///
-+/// This typically encapsulates `container_of` logic, allowing iterators to
-+/// work with high-level types without knowing about C struct layout details.
-+///
-+/// # Safety
-+///
-+/// Implementors must ensure that `from_list_head` correctly converts the
-+/// `list_head` pointer to the containing struct pointer using proper offset
-+/// calculations (typically via container_of! macro).
-+///
-+/// # Examples
-+///
-+/// ```ignore
-+/// impl FromListHead for MyItem {
-+///     unsafe fn from_list_head(link: *const bindings::list_head) -> Self {
-+///         let item_ptr = container_of!(link, bindings::my_c_struct, link_field) as *mut _;
-+///         MyItem { ptr: NonNull::new_unchecked(item_ptr) }
-+///     }
-+/// }
-+/// ```
-+pub trait FromListHead: Sized {
-+    /// Create instance from list_head pointer embedded in containing struct.
-+    ///
-+    /// # Safety
-+    ///
-+    /// Caller must ensure `link` points to a valid list_head embedded in the
-+    /// containing struct, and that the containing struct is valid for the
-+    /// lifetime of the returned instance.
-+    unsafe fn from_list_head(link: *const bindings::list_head) -> Self;
++module! {
++    type: RustClistModule,
++    name: "rust_clist",
++    authors: ["Joel Fernandes"],
++    description: "Rust Clist sample",
++    license: "GPL",
 +}
 +
-+/// Iterator over C list items.
-+///
-+/// Uses the [`FromListHead`] trait to convert list_head pointers to
-+/// Rust types and iterate over them.
++// FFI declarations for C functions
++extern "C" {
++    fn clist_sample_create(count: i32) -> *mut bindings::list_head;
++    fn clist_sample_free(head: *mut bindings::list_head);
++}
++
++/// Sample item with embedded C list_head (This would typically be a C struct).
++#[repr(C)]
++struct SampleItemC {
++    value: i32,
++    link: bindings::list_head,
++}
++
++/// Rust wrapper for SampleItemC object pointer allocated on the C side.
 +///
 +/// # Invariants
-+/// - `head` points to a valid, initialized list_head.
-+/// - `current` points to a valid node in the list.
-+/// - The list is not modified during iteration.
 +///
-+/// # Examples
-+///
-+/// ```ignore
-+/// // Iterate over blocks in a C list_head
-+/// for block in clist::iter_list_head::<Block>(&list_head) {
-+///     // Process block
-+/// }
-+/// ```
-+pub struct ClistIter<'a, T: FromListHead> {
-+    current: *const bindings::list_head,
-+    head: *const bindings::list_head,
-+    _phantom: PhantomData<&'a T>,
++/// `ptr` points to a valid [`SampleItemC`] with an initialized embedded `list_head`.
++struct SampleItem {
++    ptr: NonNull<SampleItemC>,
 +}
 +
-+// SAFETY: Safe to send iterator if T is Send.
-+unsafe impl<'a, T: FromListHead + Send> Send for ClistIter<'a, T> {}
-+
-+impl<'a, T: FromListHead> Iterator for ClistIter<'a, T> {
-+    type Item = T;
-+
-+    fn next(&mut self) -> Option<Self::Item> {
-+        // SAFETY: Pointers are valid per the type's invariants. The list
-+        // structure is valid and we traverse according to kernel list semantics.
++impl clist::FromListHead for SampleItem {
++    unsafe fn from_list_head(link: *const bindings::list_head) -> Self {
++        // SAFETY: Caller ensures link points to a valid, initialized list_head.
 +        unsafe {
-+            self.current = (*self.current).next;
-+
-+            if self.current == self.head {
-+                return None;
++            let item_ptr = container_of!(link, SampleItemC, link) as *mut _;
++            SampleItem {
++                ptr: NonNull::new_unchecked(item_ptr),
 +            }
-+
-+            // Use the trait to convert list_head to T.
-+            Some(T::from_list_head(self.current))
 +        }
 +    }
 +}
 +
-+/// Create a read-only iterator over a C list_head.
-+///
-+/// This is a convenience function for creating iterators directly
-+/// from a list_head reference.
-+///
-+/// # Safety
-+///
-+/// Caller must ensure:
-+/// - `head` is a valid, initialized list_head.
-+/// - All items in the list are valid instances that can be converted via [`FromListHead`].
-+/// - The list is not modified during iteration.
-+///
-+/// # Examples
-+///
-+/// ```ignore
-+/// // Iterate over items in a C list.
-+/// for item in clist::iter_list_head::<Item>(&c_list_head) {
-+///     // Process item
-+/// }
-+/// ```
-+pub fn iter_list_head<'a, T: FromListHead>(head: &'a bindings::list_head) -> ClistIter<'a, T> {
-+    ClistIter {
-+        current: head as *const _,
-+        head: head as *const _,
-+        _phantom: PhantomData,
++impl SampleItem {
++    /// Get the value from the sample item.
++    fn value(&self) -> i32 {
++        // SAFETY: self.ptr is valid as per the SampleItem invariants.
++        unsafe { (*self.ptr.as_ptr()).value }
 +    }
 +}
 +
-+/// Check if a C list is empty.
-+///
-+/// # Safety
-+///
-+/// Caller must ensure `head` points to a valid, initialized list_head.
-+#[inline]
-+pub unsafe fn list_empty(head: *const bindings::list_head) -> bool {
-+    // SAFETY: Caller ensures head is valid and initialized.
-+    unsafe { bindings::list_empty(head) }
++/// Clist struct - holds the C list_head and manages its lifecycle.
++#[repr(C)]
++struct RustClist {
++    list_head: NonNull<bindings::list_head>,
 +}
 +
-+/// Initialize a C list_head to an empty list.
-+///
-+/// # Safety
-+///
-+/// Caller must ensure `head` points to valid memory for a list_head.
-+#[inline]
-+pub unsafe fn init_list_head(head: *mut bindings::list_head) {
-+    // SAFETY: Caller ensures head points to valid memory for a list_head.
-+    unsafe { bindings::INIT_LIST_HEAD(head) }
-+}
++// SAFETY: RustClist can be sent between threads since it only holds a pointer
++// which can be accessed from any thread with proper synchronization.
++unsafe impl Send for RustClist {}
 +
-+/// An interface to C list_head structures.
-+///
-+/// This provides an iterator-based interface for traversing C's intrusive
-+/// linked lists. Items must implement the [`FromListHead`] trait.
-+///
-+/// Designed for iterating over lists created and managed by C code (e.g.,
-+/// drm_buddy block lists). [`Clist`] does not own the `list_head` or the items.
-+/// It's a non-owning view for iteration.
-+///
-+/// # Invariants
-+/// - `head` points to a valid, initialized list_head.
-+/// - All items in the list are valid instances of `T`.
-+/// - The list is not modified while iterating.
-+///
-+/// # Thread Safety
-+/// [`Clist`] can have its ownership transferred between threads ([`Send`]) if `T: Send`.
-+/// But its never [`Sync`] - concurrent Rust threads with `&Clist` could call C FFI unsafely.
-+/// For concurrent access, wrap in a `Mutex` or other synchronization primitive.
-+///
-+/// # Examples
-+///
-+/// ```ignore
-+/// use kernel::clist::Clist;
-+///
-+/// // C code provides the populated list_head.
-+/// let list = unsafe { Clist::<Item>::new(c_list_head) };
-+///
-+/// // Iterate over items.
-+/// for item in list.iter() {
-+///     // Process item.
-+/// }
-+/// ```
-+pub struct Clist<T: FromListHead> {
-+    head: *mut bindings::list_head,
-+    _phantom: PhantomData<T>,
-+}
-+
-+// SAFETY: Safe to send Clist if T is Send (pointer moves, C data stays in place).
-+unsafe impl<T: FromListHead + Send> Send for Clist<T> {}
-+
-+impl<T: FromListHead> Clist<T> {
-+    /// Wrap an existing C list_head pointer without taking ownership.
-+    ///
-+    /// # Safety
-+    ///
-+    /// Caller must ensure:
-+    /// - `head` points to a valid, initialized list_head.
-+    /// - `head` remains valid for the lifetime of the returned [`Clist`].
-+    /// - The list is not modified by C code while [`Clist`] exists. Caller must
-+    ///   implement mutual exclusion algorithms if required, to coordinate with C.
-+    /// - Caller is responsible for requesting or working with C to free `head` if needed.
-+    pub unsafe fn new(head: *mut bindings::list_head) -> Self {
-+        // SAFETY: Caller ensures head is valid and initialized
++impl RustClist {
++    /// Create a container for a pointer to a C-allocated list_head.
++    fn new(list_head: *mut bindings::list_head) -> Self {
++        // SAFETY: Caller ensures list_head is a valid, non-null pointer.
 +        Self {
-+            head,
-+            _phantom: PhantomData,
++            list_head: unsafe { NonNull::new_unchecked(list_head) },
 +        }
 +    }
 +
-+    /// Check if the list is empty.
-+    ///
-+    /// # Examples
-+    ///
-+    /// ```ignore
-+    /// let list = Clist::<Block>::new()?;
-+    /// assert!(list.is_empty());
-+    /// ```
-+    #[inline]
-+    pub fn is_empty(&self) -> bool {
-+        // SAFETY: self.head points to valid list_head per invariant.
-+        unsafe { list_empty(self.head) }
-+    }
++    /// Demonstrate iteration over the list.
++    fn do_iteration(&self) {
++        // Wrap the C list_head with a Rust [`Clist`].
++        // SAFETY: list_head is a valid, initialized, populated list_head.
++        let list = unsafe { clist::Clist::<SampleItem>::new(self.list_head.as_ptr()) };
++        pr_info!("Created C list with items, is_empty: {}\n", list.is_empty());
 +
-+    /// Iterate over items in the list.
-+    ///
-+    /// # Examples
-+    ///
-+    /// ```ignore
-+    /// for item in list.iter() {
-+    ///     // Process item
-+    /// }
-+    /// ```
-+    pub fn iter(&self) -> ClistIter<'_, T> {
-+        // SAFETY: self.head points to valid list_head per invariant.
-+        unsafe { iter_list_head::<T>(&*self.head) }
-+    }
++        // Iterate over the list.
++        pr_info!("Iterating over C list from Rust:\n");
++        for item in list.iter() {
++            pr_info!("  Item value: {}\n", item.value());
++        }
 +
-+    /// Get the raw list_head pointer.
-+    ///
-+    /// This is useful when interfacing with C APIs that need the list_head pointer.
-+    pub fn as_raw(&self) -> *mut bindings::list_head {
-+        self.head
++        pr_info!("Iteration complete\n");
 +    }
 +}
 +
-+impl<'a, T: FromListHead> IntoIterator for &'a Clist<T> {
-+    type Item = T;
-+    type IntoIter = ClistIter<'a, T>;
-+
-+    fn into_iter(self) -> Self::IntoIter {
-+        self.iter()
++impl Drop for RustClist {
++    fn drop(&mut self) {
++        // Free the list and all items using C FFI.
++        // SAFETY: list_head was allocated by clist_sample_create.
++        // C side handles freeing both the list_head and all items.
++        unsafe {
++            clist_sample_free(self.list_head.as_ptr());
++        }
 +    }
 +}
-diff --git a/rust/kernel/lib.rs b/rust/kernel/lib.rs
-index c2eea9a2a345..b69cc5ed3b59 100644
---- a/rust/kernel/lib.rs
-+++ b/rust/kernel/lib.rs
-@@ -72,6 +72,7 @@
- pub mod bug;
- #[doc(hidden)]
- pub mod build_assert;
-+pub mod clist;
- pub mod clk;
- #[cfg(CONFIG_CONFIGFS_FS)]
- pub mod configfs;
++
++struct RustClistModule;
++
++impl kernel::Module for RustClistModule {
++    fn init(_module: &'static ThisModule) -> Result<Self> {
++        pr_info!("Rust Clist sample (init)\n");
++
++        // C creates and populates a list_head with items.
++        // SAFETY: clist_sample_create allocates, initializes, and populates a list.
++        let c_list_head = unsafe { clist_sample_create(6) };
++        if c_list_head.is_null() {
++            pr_err!("Failed to create and populate C list\n");
++            return Err(ENOMEM);
++        }
++
++        // Create the list container (separate from module).
++        let rust_clist = RustClist::new(c_list_head);
++
++        // Demonstrate list operations.
++        rust_clist.do_iteration();
++
++        // rust_clist is dropped here, which frees the C list via Drop impl.
++        pr_info!("Rust Clist sample (exit)\n");
++
++        Ok(RustClistModule {})
++    }
++}
 -- 
 2.34.1
 
