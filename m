@@ -2,107 +2,140 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 570B6C1F11D
-	for <lists+dri-devel@lfdr.de>; Thu, 30 Oct 2025 09:49:04 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id F30B6C1EB09
+	for <lists+dri-devel@lfdr.de>; Thu, 30 Oct 2025 08:08:18 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 906CF10E920;
-	Thu, 30 Oct 2025 08:48:55 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B693910E89C;
+	Thu, 30 Oct 2025 07:08:15 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="m40U02gj";
+	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="k+v7FLmK";
+	dkim=pass (2048-bit key; unprotected) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="PDBXVLAG";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-yx1-f47.google.com (mail-yx1-f47.google.com
- [74.125.224.47])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CC8F710E24C
- for <dri-devel@lists.freedesktop.org>; Thu, 30 Oct 2025 06:13:33 +0000 (UTC)
-Received: by mail-yx1-f47.google.com with SMTP id
- 956f58d0204a3-63e336b1ac4so1224845d50.1
- for <dri-devel@lists.freedesktop.org>; Wed, 29 Oct 2025 23:13:33 -0700 (PDT)
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
+ [205.220.180.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7F6BC10E89C
+ for <dri-devel@lists.freedesktop.org>; Thu, 30 Oct 2025 07:08:14 +0000 (UTC)
+Received: from pps.filterd (m0279868.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id
+ 59TM2plZ1699846
+ for <dri-devel@lists.freedesktop.org>; Thu, 30 Oct 2025 07:08:13 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+ cc:content-type:date:from:in-reply-to:message-id:mime-version
+ :references:subject:to; s=qcppdkim1; bh=IYBMombL8T1bltomZZaQTOz9
+ 2EhYNFQ6v2Qs6UxOLuI=; b=k+v7FLmKgRWh6+sAFlXrqWjVGaylcQDC/8Z1iokE
+ d5w9DhvSHUU9nEqRrXe5dGBfvVQr8l4nqbqPEG3GFgcsIPXVrMYCOYV7PNqegvbk
+ mUETGV2cfEkyIFoCErKTb6qC6ObQ1BHtZVyFVePGdSBQGWPspJM4putckJBamGB6
+ b0IWbroqpWj8nZG6DjVQklpKqVTyoQ6FJlFJ63VqfLsuVMwCpOyxyEWqSK2UTBZq
+ esEiR1dX2HF+tdzOXI+CxdnxnlhmxeMIdGURByXxIDQVZpQXg8YFnyV3CIlMM+lO
+ uGEoaBUN4GnSKC5M31ok+MFOQ+cro30GTZ8kR+54vmG1ng==
+Received: from mail-qv1-f71.google.com (mail-qv1-f71.google.com
+ [209.85.219.71])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4a3ucj98nq-1
+ (version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
+ for <dri-devel@lists.freedesktop.org>; Thu, 30 Oct 2025 07:08:13 +0000 (GMT)
+Received: by mail-qv1-f71.google.com with SMTP id
+ 6a1803df08f44-87c0e0d12ddso19478076d6.3
+ for <dri-devel@lists.freedesktop.org>; Thu, 30 Oct 2025 00:08:13 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1761804813; x=1762409613; darn=lists.freedesktop.org;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=3rF4eMVmZqF08Uiy4ZG4pr/6crlsmzGRDhN+59lsH5Y=;
- b=m40U02gjKeVjNQOXqdO0So+K2EtFcLOOomG5x6t32ya/q5EyELsv73Q/5khAhho/rU
- 7hxDI1kxh9/5vlpWQ+S5vqCoAxNSSGB2DxVQ7z5BxSP1ONDpynOkqBdDwJerN1bXV3O0
- JZ/HHeCVQ0jWMbpQGWfU3aff3v93tH1ATe9xUl8wnRFxV4YQfCiawFWFy4n8ZnfVs5Gp
- JWvdB2TCqxI/Tx2plAM8CAiixim/03KfrQcmn5epYQeJnnj/maIogoDHqqCNGQChcBFR
- sbD8qQvDeMy9ffiyKpKKazygfA9xcSSsJmRVqz7Ok6J9bpLBj/RYXZsAJPYV8Pb+/iEX
- QzMg==
+ d=oss.qualcomm.com; s=google; t=1761808093; x=1762412893;
+ darn=lists.freedesktop.org; 
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+ bh=IYBMombL8T1bltomZZaQTOz92EhYNFQ6v2Qs6UxOLuI=;
+ b=PDBXVLAGn1EmOs0Sim+IriXVkArOrOSEnL582SsoYQFn9XOD9EhCDpFTFx7wFQr+qS
+ oUeHDmeP5QNjT++Cfsw5CWdYi7aadQphLj1Tg2IZcxYd10H0ofxrdnz5dwQ3L8LEoO9L
+ /KrhO85Pti+cuJxjdMxh8wVQIvQbNRTpK3Ai4/OZNmZpB0+6qGneNX02c9PVb8ttpYUG
+ nV7Qsu1IuKJlJUnWlK/UQ6MbTwRE0XkIfHDYbE/43MSFloXU7OAhvMKAnizHYLwXI4t5
+ U8EDC/2b5nuXIwye5bLFOBqe1qIiJhxCG/dyl8hqDJrGoiegFU2y9nkVSuJ1NC0MRVxa
+ l8KA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1761804813; x=1762409613;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=3rF4eMVmZqF08Uiy4ZG4pr/6crlsmzGRDhN+59lsH5Y=;
- b=b53PvpTM6jKRQ3mBxax5bNy/a6qkdQQRJJxOicEXJMSkjWlfn1XOQEMTB4b1c74u0O
- nhrA0cusdDcOnNm0OL1ltFL+sUBb+h6/BXC4QDW8TDLeL0fyvStMEvDcRM5ZNqMJx+tB
- Nj3fjvWbBzLUhg6ue5WvqAg81B/qDme/KJf2QPqm6Ad/rI9fFADjKZAonUpTsENDWcdC
- EoMX4yHRpUt9InUqDNUTbBTGkPE/qn6JAuxlgEaScTGeE07ocinm4fhyrnrBSsy74i0v
- 2z0a28YHY+pVdYeWrO7UqFpSM32j7BAqGxAlT8BVNptFXujpYZdPJPsf/bjtJduAGrRJ
- Dw3A==
+ d=1e100.net; s=20230601; t=1761808093; x=1762412893;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=IYBMombL8T1bltomZZaQTOz92EhYNFQ6v2Qs6UxOLuI=;
+ b=Zb2awktqSy2epoNq7nuq1E1G1yMotvoqaGCpwqCSbaxyfjgtGjrnkuXhQu4nWPtA0N
+ rzzHO/EXmp1VqWEbJjAinHxwjKZ1xiJc2yMtbIoYUHoyS9esnldWAw/LwXgVV2KGBC/4
+ 24j3EWbK5amCVt18AHtz5NM3lP7X4u5PoiJEPDunaAi51uZu2WdNN3XVTyXuNXFsHeD/
+ JQkEG+OUzIOlweYA6ph6Usm1T3Da06aZy/db1rZthkc3pBOFd2UUVkk6omIUzViKkfhL
+ ZkGUVQE5LNSo54PqMmtmjVLCCA/z3knmciZKnSBt2aEZv9MC0auqgN9FGisef70pqrgz
+ hT/w==
 X-Forwarded-Encrypted: i=1;
- AJvYcCXS+gF05oAzAjhGC0Id9R9QQHCu9mC+NoKR6C7ze889M7hfqequkNleAh+kZcQx4EK6rcSFCAfN4ps=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Ywo8R4rhNuyZsmSADBl8kq1IsqtwoCIgWzw3/vjHXv1b5N270SY
- bNheZ4VhAJIBWCtsiF9w/DjeK0mC1AqAldqefHHx5Q5UeKq+vTIDpoA0w202XAta8vGIyGI7sbj
- OilRuiQVG5FneLpdK4Sd2UIluqhAO/9k=
-X-Gm-Gg: ASbGncsRqf9UrtgEMdm15B9flttkgmgTzCcDP4sUhZ1ba0mphWayCYgai+ddP1/Bdhh
- q7lh6USENnQna91Wydg+aDtw+pVKXboS9/Mh98BKd+TvzWmIPunu7be2UneyPshnpqym8cafGsW
- /DNLgYhNjqNxdjPslOVZk/actEMbbkt50ylu4sbN+mqYaVBKrnKRT515huDOsIl2mbFu8hzGfvJ
- EJZ9wbTxTVHnN99fkROwjTTZlYJ6S3I832x12MVBNQnYb0KuMDRD8iTButiHzAM350Uvw==
-X-Google-Smtp-Source: AGHT+IGNukfCrjaksH3Umzb+6A3Q6R4gH1hMz3jAmphM+O0AwBZJ/TjCDOWOuiqRoFX9uHUrvtIVlMk1omsejKcgRqU=
-X-Received: by 2002:a05:690e:14c6:b0:63e:2b9e:1462 with SMTP id
- 956f58d0204a3-63f829a66admr1708439d50.22.1761804812638; Wed, 29 Oct 2025
- 23:13:32 -0700 (PDT)
+ AJvYcCU3UDMqfIjd/JvvKtFMRp0ESmBYEJ/xh2Pb9IjBRKUmxn+vEMIN+zvLiRjGiuiK9rZsgFZ0ZcNPVDk=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Yy9SMC8L2UscZDrLlM3wdC29kkb5oloUqVMMAjiOjdqjteIpxfz
+ iI48KCcDUz7D5lfvJ7r1drJSQDJ4+2ByvypuzPVTOIJCqkG97rcTWjGfMZKugpFNHwQYNnUWr1D
+ jw/hZ9TKNOs+RctpwOpRPKcAWYz9VpDJDJKx0T36Wkzt3LtRdPQxIAa8DROO5NSNg79YJnf0=
+X-Gm-Gg: ASbGncvj20OZE7xP3RioQIBYSPqmpkzM/68TMUKsc7d3KlREV8F3F8LHAvyFWuw2/xU
+ jNJYnPk74+o8Tf59aNrzkfPTX1M24LHTjJFf9eQQmzQUoRYiMNujMAFNL1RJMCCKW/fz1QdTPwl
+ UUxAOA6RUrvySHZqm1hq+VavUTehAUEKbE+RD8lhSNbDl53PuUsDZcwILiIsBCB3HVJ501Ebxpw
+ Z1tNRkZnwBYl7uWgXIQMVGRuE1n9MBTXMYd4Te94p3Gk/Ps6Fzp8Zfz2mea/rvi+52TcAFVeyzH
+ DMCNKG9oT86/HqfFVK++qMsvSw67H9cF2MK6Il39EQVNoxYSjJRiL0LWLBuZin6AZj5Gj/Zsr5W
+ fW+20VfRVWHBMNfkEJUkNXeHgcO8UpC8hauB/f8l5goOfb9LDEuNMWt1vxGHCTuVr
+X-Received: by 2002:a05:6214:b6c:b0:810:e12a:48fd with SMTP id
+ 6a1803df08f44-88009ad09a1mr83592316d6.7.1761808092793; 
+ Thu, 30 Oct 2025 00:08:12 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IF8zPyr7CBc17zabeEthaobsdk5MfrOpcUhAgyht/VFw5dcoi3n9FednzAFRqYb6ttQ+XA7xw==
+X-Received: by 2002:a05:6214:b6c:b0:810:e12a:48fd with SMTP id
+ 6a1803df08f44-88009ad09a1mr83591986d6.7.1761808092324; 
+ Thu, 30 Oct 2025 00:08:12 -0700 (PDT)
+Received: from yuanjiey.ap.qualcomm.com (Global_NAT1_IAD_FW.qualcomm.com.
+ [129.46.232.65]) by smtp.gmail.com with ESMTPSA id
+ 6a1803df08f44-87fc494ab16sm112217426d6.39.2025.10.30.00.08.02
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 30 Oct 2025 00:08:11 -0700 (PDT)
+Date: Thu, 30 Oct 2025 15:07:59 +0800
+From: yuanjiey <yuanjie.yang@oss.qualcomm.com>
+To: Krzysztof Kozlowski <krzk@kernel.org>
+Cc: Bjorn Andersson <andersson@kernel.org>, robin.clark@oss.qualcomm.com,
+ lumag@kernel.org, abhinav.kumar@linux.dev, sean@poorly.run,
+ marijn.suijten@somainline.org, airlied@gmail.com, simona@ffwll.ch,
+ maarten.lankhorst@linux.intel.com, mripard@kernel.org,
+ tzimmermann@suse.de, robh@kernel.org, krzk+dt@kernel.org,
+ conor+dt@kernel.org, quic_mkrishn@quicinc.com, jonathan@marek.ca,
+ quic_khsieh@quicinc.com, neil.armstrong@linaro.org,
+ linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ freedreno@lists.freedesktop.org, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org, tingwei.zhang@oss.qualcomm.com,
+ aiqun.yu@oss.qualcomm.com, yongxing.mou@oss.qualcomm.com
+Subject: Re: [PATCH 08/12] arm64: defconfig: Enable NT37801 DSI panel driver
+Message-ID: <aQMOz4P2/WyjXy1b@yuanjiey.ap.qualcomm.com>
+References: <20251023075401.1148-1-yuanjie.yang@oss.qualcomm.com>
+ <20251023080609.1212-1-yuanjie.yang@oss.qualcomm.com>
+ <20251023080609.1212-3-yuanjie.yang@oss.qualcomm.com>
+ <wuh7agcgg6spghilnx4amqukaaydj25u7kbdiod7fl6pu2ulvm@pmosyuo43cyw>
+ <aQF98RvLuOlJZlFi@yuanjiey.ap.qualcomm.com>
+ <38c8e26c-08a4-42d9-8f6d-93969af90d50@kernel.org>
+ <aQLOaI3ngjswi7kd@yuanjiey.ap.qualcomm.com>
+ <7c1e0cb5-2483-4efa-be52-84cbe5d1a4b2@kernel.org>
 MIME-Version: 1.0
-References: <20251029071435.88-1-kernel@airkyi.com>
- <20251029071435.88-11-kernel@airkyi.com>
- <CAL411-o6mF71oBeRsJ-OPZNbLegn4iJ_ELN9xVdppTM3ssUPOw@mail.gmail.com>
- <cc8b583a-77ec-4a7f-97cc-2d148f7fee9f@rock-chips.com>
- <e0c5bda3-7428-49e0-9955-fa23f1e4f35d@rock-chips.com>
- <CAL411-oXfvp-iqN+uRmFHijdmW=1omKwozKOoZ2shxukMHmwPg@mail.gmail.com>
- <C6253E8254C80B0F+839b71d0-1bd8-40b7-9515-7ce4a1eb8673@airkyi.com>
- <CAL411-pULVu4AYybW9oW7kmr4M_kJhdytgBjLPb4y6w_2dj+0w@mail.gmail.com>
- <7853bbf0-34e5-4880-a2f4-2d73f25cd5e6@rock-chips.com>
-In-Reply-To: <7853bbf0-34e5-4880-a2f4-2d73f25cd5e6@rock-chips.com>
-From: Peter Chen <hzpeterchen@gmail.com>
-Date: Thu, 30 Oct 2025 14:13:21 +0800
-X-Gm-Features: AWmQ_bnKM651Al7hBqe9TPet6QHNgDQAymVR1zTv3jbaP-L2YDnRDbwZ2qTLHzg
-Message-ID: <CAL411-rFK0o_cxBO_yJFHWurGFKxZGxw6=kpqxRipMetJskTaQ@mail.gmail.com>
-Subject: Re: [PATCH v8 10/10] arm64: dts: rockchip: rk3399-evb-ind: Add
- support for DisplayPort
-To: Chaoyi Chen <chaoyi.chen@rock-chips.com>
-Cc: Chaoyi Chen <kernel@airkyi.com>,
- Heikki Krogerus <heikki.krogerus@linux.intel.com>, 
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
- Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>,
- Rob Herring <robh@kernel.org>, 
- Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>,
- Vinod Koul <vkoul@kernel.org>, 
- Kishon Vijay Abraham I <kishon@kernel.org>, Heiko Stuebner <heiko@sntech.de>,
- Sandy Huang <hjc@rock-chips.com>, 
- Andy Yan <andy.yan@rock-chips.com>, Yubing Zhang <yubing.zhang@rock-chips.com>,
- Frank Wang <frank.wang@rock-chips.com>, Andrzej Hajda <andrzej.hajda@intel.com>,
- Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>, 
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Jonas Karlman <jonas@kwiboo.se>, 
- Jernej Skrabec <jernej.skrabec@gmail.com>, 
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, 
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
- Simona Vetter <simona@ffwll.ch>, 
- Amit Sunil Dhamne <amitsd@google.com>, Dragan Simic <dsimic@manjaro.org>,
- Johan Jonker <jbx6244@gmail.com>, 
- Diederik de Haas <didi.debian@cknow.org>, Peter Robinson <pbrobinson@gmail.com>,
- linux-usb@vger.kernel.org, 
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
- linux-phy@lists.infradead.org, linux-arm-kernel@lists.infradead.org, 
- linux-rockchip@lists.infradead.org, dri-devel@lists.freedesktop.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Mailman-Approved-At: Thu, 30 Oct 2025 08:48:47 +0000
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <7c1e0cb5-2483-4efa-be52-84cbe5d1a4b2@kernel.org>
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUxMDMwMDA1NyBTYWx0ZWRfX7RfUgkq+p/in
+ T88UHxa+Lo46HbHeG5aAua+9k8QGxyTO6HYuMs8GPhFE5sgIJdNJhq5w1GOsen+G+L7xSEJhVYj
+ Np+Dq7rChiboBd/zaehzxo3WAZc+KLx4o204Zl/XHNydkNQt+3GJp1NgoPZfn1o4Ni9Rf6EA/ap
+ fMUiHmMxNHC4tLq4i1vpEc1xA6mkFCWo8V1EPpHS+Dfwhe7Ex+4kYLVyOxfQr49W8y7XhzEhVBW
+ X772px89uDcE0fx0PAa/Yafarv+zT4AT/kDoop+A++ecBxdli6otDCu2EOJV2resqLkXJgJLjVI
+ Kfb+6dWeiH+CwtkoRdJnVRtIhuZlWJoR+ezV8ncnP12182de1YDhaBc6L3L/Xn/bbDCIQrv5HaV
+ YPJMtkLlobn8YY60Ahnj3kmKB0+I9w==
+X-Proofpoint-ORIG-GUID: 3M2Y3IiVwMxH4MKGuHz3ykzYweAdOVRN
+X-Authority-Analysis: v=2.4 cv=V+RwEOni c=1 sm=1 tr=0 ts=69030edd cx=c_pps
+ a=UgVkIMxJMSkC9lv97toC5g==:117 a=C3Dk8TwHQYyIj7nOf9RCJw==:17
+ a=kj9zAlcOel0A:10 a=x6icFKpwvdMA:10 a=s4-Qcg_JpJYA:10
+ a=VkNPw1HP01LnGYTKEx00:22 a=P-IC7800AAAA:8 a=EUspDBNiAAAA:8
+ a=x1sgA4FD8JzbF63Z9coA:9 a=CjuIK1q_8ugA:10 a=1HOtulTD9v-eNWfpl4qZ:22
+ a=d3PnA9EDa4IxuAV0gXij:22
+X-Proofpoint-GUID: 3M2Y3IiVwMxH4MKGuHz3ykzYweAdOVRN
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.9,FMLib:17.12.100.49
+ definitions=2025-10-30_01,2025-10-29_03,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ impostorscore=0 phishscore=0 malwarescore=0 bulkscore=0 suspectscore=0
+ priorityscore=1501 spamscore=0 lowpriorityscore=0 clxscore=1015 adultscore=0
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.22.0-2510240001 definitions=main-2510300057
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -118,143 +151,55 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Oct 30, 2025 at 11:14=E2=80=AFAM Chaoyi Chen <chaoyi.chen@rock-chip=
-s.com> wrote:
->
-> On 10/30/2025 10:50 AM, Peter Chen wrote:
->
-> >>> Okay.  My question is basic: USB2 PHY supplies DP/DM, and the DP/DM i=
-s
-> >>> short for Type-C connector,
-> >>> and no control is needed for Type-C application.
-> >>> Why is there a remote-endpoint connection between USB2 PHY and Type-C=
- connector?
-> >>   From the perspective of Type-C, this should not be added.  Is the ap=
-proach in v2 correct [0] ?
-> >>
-> > Have you tried debugging based on upstream code?
->
-> Yes, I have tried both the v2 and v8 approaches, and both can work.
->
->
-> > v2 is correct, but the dts needs to improve.
-> > - There is a remote-endpoint connection for USB role switch between
-> > Type-C connector
-> > device and USB controller device
-> > - There is a remote-endpoint connection for orientation and lane config=
-uration
-> > between Type-C connector device and USB/DP PHY device.
->
-> In v8 patch5, we implemented typec_mux and typec_switch in the USB/DP PHY=
-.
->
-> I think the current remote-endpoint connections are all child node of the=
- USB/DP PHY. That is:
->
->
-> &tcphy0_dp {
->      mode-switch;
->      ...
-> };
->
->
-> &tcphy0_usb3 {
->      orientation-switch;
->      ...
-> };
->
->
-> Does this still need to be improved? Thank you.
->
-
-Hi Chaoyi,
-
-There are two questions I have still not seen the answer to:
-- Why USB2 PHY is related to your Type-C patch?
-- How does the USB role switch event notify the USB controller driver, eg d=
-wc3?
-
-Peter
->
-> >
-> > Peter
-> >
-> >> [0]: https://lore.kernel.org/all/20250715112456.101-6-kernel@airkyi.co=
-m/
-> >>
-> >> Or is the following approach correct?
-> >>
-> >>
-> >> port@0 {
-> >>       reg =3D <0>;
-> >>
-> >>       usbc_hs: endpoint {
-> >>           remote-endpoint =3D <&tcphy0>;
-> >>       };
-> >> };
-> >>
-> >> port@1 {
-> >>       reg =3D <1>;
-> >>
-> >>       usbc_ss: endpoint {
-> >>           remote-endpoint =3D <&tcphy0>;
-> >>       };
-> >> };
-> >>
-> >> port@2 {
-> >>       reg =3D <2>;
-> >>
-> >>       usbc_dp: endpoint {
-> >>           remote-endpoint =3D <&tcphy0_typec_dp>;
-> >>       };
-> >> };
-> >>
-> >>
-> >>>>>>> +                               port@1 {
-> >>>>>>> +                                       reg =3D <1>;
-> >>>>>>> +
-> >>>>>>> +                                       usbc_ss: endpoint {
-> >>>>>>> + remote-endpoint =3D <&tcphy0_typec_ss>;
-> >>>>>>> +                                       };
-> >>>>>>> +                               };
-> >>>>>>> +
-> >>>>>>> +                               port@2 {
-> >>>>>>> +                                       reg =3D <2>;
-> >>>>>>> +
-> >>>>>>> +                                       usbc_dp: endpoint {
-> >>>>>>> + remote-endpoint =3D <&tcphy0_typec_dp>;
-> >>>>>>> +                                       };
-> >>>>>>> +                               };
-> >>>>>>> +                       };
-> >>>>>>> +               };
-> >>>>>>> +       };
-> >>>>>>> +};
-> >>>>>>> +
-> >>>>>> .....
-> >>>>>>>     &u2phy0 {
-> >>>>>>>            status =3D "okay";
-> >>>>>>> +
-> >>>>>>> +       port {
-> >>>>>>> +               u2phy0_typec_hs: endpoint {
-> >>>>>>> +                       remote-endpoint =3D <&usbc_hs>;
-> >>>>>>> +               };
-> >>>>>>> +       };
-> >>>>>>>     };
-> >>>>>>>
-> >>>>>> There is no switch and mux, how to co-work with Type-C?
-> >>>>> I checked the phy-rockchip-inno-usb2.c but did not find any switch =
-or mux. Does this mean that we need to implement them? Thank you.
-> >>>> Wait a minute, actually we have multiple hardware interfaces, one of=
- which is Type-C, eventually connected to USBDPPHY, and the other is micro-=
-usb connected to U2PHY.
-> >>> I assume the Micro-USB connector does not use Type-C/PD IC, is it
-> >>> right? Does it relate to this patch?
+On Thu, Oct 30, 2025 at 06:37:40AM +0100, Krzysztof Kozlowski wrote:
+> On 30/10/2025 03:33, yuanjiey wrote:
+> > On Wed, Oct 29, 2025 at 02:05:20PM +0100, Krzysztof Kozlowski wrote:
+> >> On 29/10/2025 03:37, yuanjiey wrote:
+> >>> On Mon, Oct 27, 2025 at 10:51:23PM -0500, Bjorn Andersson wrote:
+> >>>> On Thu, Oct 23, 2025 at 04:06:05PM +0800, yuanjie yang wrote:
+> >>>>> From: Yuanjie Yang <yuanjie.yang@oss.qualcomm.com>
+> >>>>>
+> >>>>> Build the NT37801 DSI panel driver as module.
+> >>>>>
+> >>>>> Signed-off-by: Yongxing Mou <yongxing.mou@oss.qualcomm.com>
+> >>>>> Signed-off-by: Yuanjie Yang <yuanjie.yang@oss.qualcomm.com>
+> >>>>
+> >>>> You (Yuanjie) authored the patch, but forgot to sign-off, then Yongxing
+> >>>> provided certificate of origin, then you provide certificate of origin
+> >>>> and send it to list?
+> >>>>
+> >>>> Please correct.
 > >>>
-> >>> Best regards,
-> >>> Peter
-> >>>
-> >
-> --
-> Best,
-> Chaoyi
->
+> >>> All the display patches were jointly developed by Yongxing and me.
+> >>> So every patch 
+> >>
+> >>
+> >> So two people were working on this absolutely trivial defconfig change?
+> >> I have troubles believing this.
+> > I want to say these patches I am first author and yongxing give me support, so
+> > I think yongxing is second author.
+> > 
+> > I want to express my gratitude for Yongxing's support in every patch, so I included
+> > both our names in the sign-off for each one.
+> > 
+> > However, if my intention causes any trouble for maintainer, I can remove Yongxing's
+> > sign-off from this patch.
+> 
+> 
+> Please read submitting patches to understand what Signed-off-by means.
+> Otherwise I have doubts we can accept your patches - you simply do not
+> understand what you are certifying.
+Thanks for your tips, and I learn some tips from submitting patches: 
+https://elixir.bootlin.com/linux/v6.18-rc3/source/Documentation/process/submitting-patches.rst#L524
+
+I thinks below sign should be true, if you also think it true, I will use it in next patches.
+
+ Co-developed-by: Yongxing Mou <yongxing.mou@oss.qualcomm.com>
+ Signed-off-by: Yongxing Mou <yongxing.mou@oss.qualcomm.com>
+ Signed-off-by: Yuanjie Yang <yuanjie.yang@oss.qualcomm.com>
+
+Thanks,
+Yuanjie
+ 
+> Best regards,
+> Krzysztof
