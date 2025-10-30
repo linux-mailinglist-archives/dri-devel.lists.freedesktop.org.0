@@ -2,183 +2,96 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 210A3C20A1A
-	for <lists+dri-devel@lfdr.de>; Thu, 30 Oct 2025 15:37:29 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id C2B63C20A31
+	for <lists+dri-devel@lfdr.de>; Thu, 30 Oct 2025 15:37:49 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1919B10E9BE;
-	Thu, 30 Oct 2025 14:37:25 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 095C110E9CE;
+	Thu, 30 Oct 2025 14:37:48 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="f1P/gJQQ";
+	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="S22ZZovO";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3115610E9BE;
- Thu, 30 Oct 2025 14:37:24 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1761835044; x=1793371044;
- h=date:from:to:cc:subject:message-id:references:
- content-transfer-encoding:in-reply-to:mime-version;
- bh=p2zeLnO7Qx+z2YR7KIc4utmLaDQDPaBPHpEh8qiuv8s=;
- b=f1P/gJQQv7vt3RrXIuIXzDY/wh23b12zbWQzQg5ynC3rKgqUAthJkddO
- kKvlW+2ybd90OOTbHPpO8G43NZ/XcNirltkOg6CQtzn5wW75t1EBbRVQc
- RBIkc7xL/npm7W+FvWhtB1+PRem/XCRqEekqyJiViW5/wRiCZxWxaUIUs
- cGCdu0LfUW3F8a4gil0bTZSR5uf210fzvWPM8+j8zphOQstm+MMOa6idg
- GHj3TCW7zCVUNGv9Ug1jtou7/8ailBHpVNPsa8DK1minblM7znzmHLhqh
- gQ6CPq072U3kjklX1OB9yQGmcb2AE/QSkKM5GPvXL+8WG5dpcuOVNKQu9 A==;
-X-CSE-ConnectionGUID: dN2gXjdNQG6AsVQRuDS22A==
-X-CSE-MsgGUID: 5geSf4vhSbiK/li9COeE5w==
-X-IronPort-AV: E=McAfee;i="6800,10657,11598"; a="74655439"
-X-IronPort-AV: E=Sophos;i="6.19,267,1754982000"; d="scan'208";a="74655439"
-Received: from fmviesa006.fm.intel.com ([10.60.135.146])
- by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 30 Oct 2025 07:37:24 -0700
-X-CSE-ConnectionGUID: nZ2XSm9XRhq4KWgnfmLrRQ==
-X-CSE-MsgGUID: Zj3DMXUqTe6uo8Reg95azg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.19,266,1754982000"; d="scan'208";a="185851015"
-Received: from fmsmsx902.amr.corp.intel.com ([10.18.126.91])
- by fmviesa006.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 30 Oct 2025 07:37:24 -0700
-Received: from FMSMSX903.amr.corp.intel.com (10.18.126.92) by
- fmsmsx902.amr.corp.intel.com (10.18.126.91) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.27; Thu, 30 Oct 2025 07:37:23 -0700
-Received: from fmsedg902.ED.cps.intel.com (10.1.192.144) by
- FMSMSX903.amr.corp.intel.com (10.18.126.92) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.27 via Frontend Transport; Thu, 30 Oct 2025 07:37:23 -0700
-Received: from SN4PR0501CU005.outbound.protection.outlook.com (40.93.194.40)
- by edgegateway.intel.com (192.55.55.82) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.27; Thu, 30 Oct 2025 07:37:22 -0700
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=p0cfyRHUKfjExurL8XYKLel/IRinFuB1tXrFfKyflS8z+FHw91qI3d06yi1ARfHOmyBhY0RwJMH1KXqMn3tlvbrcYlqp8xkPbI7D6N7a552N7AF51JzTTmz47mZGqIBfV3ufB0DvU7RZXbazK/6hJGR5Flsj1iAtnx7C7sOlgenw4+Osc1OKumKXfg/+H4IOeDB2CzDClmMFoy+F4p3Ue56gBxwSlE2FeI3B2DiwL4fmCyflNKXULYBv+8uekTpVL/KeHCdtQdY6ghwO1kOpgT2nvQWgcX2FEr2mzf1OPnc0IXVoHVU8Rn/tiUmmIlyjtTr/27hvlBnxc09w8Akf8w==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=swWHCOZt91jwhtraTmX8IwegYtjsOEG99XF2PI17Blo=;
- b=dWhMZwK6mQpk9X+6fujGGtgO1Gk0WxMIcVSDE8ob8sm92CL9gXWiHRzyI/g5/fTTl/scJ/TtoYoMBznLdc5SjvjCfJM1U5UnabOAdcuACeQ1x8rcJLB12rMhnMdbhJxYct7FPa6ooKmkHMpanlWvdLrEz1NUUbIbQnzYOb38D69IQ2iSpObniqkDWxQuhdxBoQZyFgeQTIIKf26oMRiucNKz8iBrf89srmeIWBQhmf31imBEYXqDL7OmCnPkXJAl1/u102hBADtXn/doG0YDMmlpzzqBy9WSWGUW/B7e1RneIiRizJRI4vFNCFuOE+hN/7u1OU4ldYPJzTXq9uJhCQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=intel.com;
-Received: from CY5PR11MB6139.namprd11.prod.outlook.com (2603:10b6:930:29::17)
- by IA0PR11MB7209.namprd11.prod.outlook.com (2603:10b6:208:441::17)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9275.14; Thu, 30 Oct
- 2025 14:37:20 +0000
-Received: from CY5PR11MB6139.namprd11.prod.outlook.com
- ([fe80::7141:316f:77a0:9c44]) by CY5PR11MB6139.namprd11.prod.outlook.com
- ([fe80::7141:316f:77a0:9c44%6]) with mapi id 15.20.9275.011; Thu, 30 Oct 2025
- 14:37:18 +0000
-Date: Thu, 30 Oct 2025 09:37:14 -0500
-From: Lucas De Marchi <lucas.demarchi@intel.com>
-To: Ilpo =?utf-8?B?SsOkcnZpbmVu?= <ilpo.jarvinen@linux.intel.com>
-CC: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>, Simon Richter
- <Simon.Richter@hogyros.de>, Alex Deucher <alexander.deucher@amd.com>,
- <amd-gfx@lists.freedesktop.org>, Bjorn Helgaas <bhelgaas@google.com>, "David
- Airlie" <airlied@gmail.com>, <dri-devel@lists.freedesktop.org>,
- <intel-gfx@lists.freedesktop.org>, <intel-xe@lists.freedesktop.org>, "Jani
- Nikula" <jani.nikula@linux.intel.com>, Joonas Lahtinen
- <joonas.lahtinen@linux.intel.com>, <linux-pci@vger.kernel.org>, Rodrigo Vivi
- <rodrigo.vivi@intel.com>, Simona Vetter <simona@ffwll.ch>, Tvrtko Ursulin
- <tursulin@ursulin.net>, Christian =?utf-8?B?S8O2bmln?=
- <christian.koenig@amd.com>, Thomas =?utf-8?Q?Hellstr=C3=B6m?=
- <thomas.hellstrom@linux.intel.com>, =?utf-8?Q?Micha=C5=82?= Winiarski
- <michal.winiarski@intel.com>, <linux-kernel@vger.kernel.org>
-Subject: Re: [PATCH 6/9] drm/xe: Remove driver side BAR release before resize
-Message-ID: <rk3bknl7gw2iaslzjc6hejijvevxyj5rt5m6ovqjxgu637mj2a@b723dlcpmvkf>
-References: <20251028173551.22578-1-ilpo.jarvinen@linux.intel.com>
- <20251028173551.22578-7-ilpo.jarvinen@linux.intel.com>
- <3ts3e2fwom7inbu2kzrvljo5mm7wz5ruaf6daib6cf5tk3v4al@njzufk22tcsy>
-Content-Type: text/plain; charset="iso-8859-1"; format=flowed
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <3ts3e2fwom7inbu2kzrvljo5mm7wz5ruaf6daib6cf5tk3v4al@njzufk22tcsy>
-X-ClientProxiedBy: BY3PR10CA0002.namprd10.prod.outlook.com
- (2603:10b6:a03:255::7) To CY5PR11MB6139.namprd11.prod.outlook.com
- (2603:10b6:930:29::17)
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6B7D110E9C5
+ for <dri-devel@lists.freedesktop.org>; Thu, 30 Oct 2025 14:37:46 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1761835065;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=nkks9IPPTiRjudJKz2fy8ztuwHSVrBIwR6A4uWG3RWI=;
+ b=S22ZZovOv4dk2DtO7f6rbdTBTGuyF0LZ84MApUzajYKYF8+3VgcX9Rp8w1uLRptBb2JjYW
+ 1BnfhiPzDJCNKpttzh3fhPZVp8NUkA8MrxEe3XU+RIgeeLLDrQ/upvsjq9BjrD+oP1DEJ0
+ xNyN+hJKrZJg3RNPYsiokGbnNDuzgsw=
+Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
+ [209.85.221.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-310-bYhw2toDO3uww24gP8TRtA-1; Thu, 30 Oct 2025 10:37:44 -0400
+X-MC-Unique: bYhw2toDO3uww24gP8TRtA-1
+X-Mimecast-MFC-AGG-ID: bYhw2toDO3uww24gP8TRtA_1761835063
+Received: by mail-wr1-f70.google.com with SMTP id
+ ffacd0b85a97d-426d4f59cbcso1287100f8f.1
+ for <dri-devel@lists.freedesktop.org>; Thu, 30 Oct 2025 07:37:43 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1761835063; x=1762439863;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=nkks9IPPTiRjudJKz2fy8ztuwHSVrBIwR6A4uWG3RWI=;
+ b=wwaF9ZZcrlWdXN+m60S24kSn564tCmNZXaLV+NQ257cfTUeBuLZMU/Q7JoAUfR8rrT
+ 1aY4coqGEy1OQ7R9uNIXxdTAvlE5mxuEbPgtcRN8vTyAIvnKNsdQTFyGr7zGvQy09AW6
+ REu3cFKj1sd+t8x9olvIBl2IDZUhSXfyM4MHaAuBYA/QC0aUw/HF6ipk+6MzGxGEmXKe
+ Ss8n+jV8wEPQUWgeRO8l/M59xmjwo1jA8TU+UQkQF4/np2b1+XGoD7VRC7xwjInPm3I8
+ lW5HIWJ3nCo+pXGUEBbR/o6frWP0S0GPW+jZ58PoZpe68f7U+d4/ydRGY3w0zlvvAuXq
+ 6POA==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCXjiPWibEPxWSie80eWxDjQcXNLHMiJlFVO+pb9NGQKv0eK5TdW/2mb1a9O4+Bso1W26tFmBOKl0rc=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YwtLp/uv50EBoFJV6mgaZNk+BmujNQEZc/1FxiEnjBZ9SM7JMoG
+ HPjgn9KrBzoO2BvxuhK+ceHyN1YRTKZhIOiTiekGrDjGvR2tcISJhmJQjSX5v3v9zSvfCyeGHQy
+ /LXEdVOYdk/dlReMHgjnmU/xVUlGmH7+K/NpDr9ULmjbfTmTeKNZKxag8B01zZOLVkJVYDw==
+X-Gm-Gg: ASbGncuuPPSw2b3jsJfTHZEvxAJfV1OtzcLKNhgKLOzymmRxXOfOyk6fKZmOVFZbg19
+ 47jVURuJbL6qS03YLjNjuAebkRmc2pNmfMXKEgr4JnVYxXmYFdulhfDrB/ROBRFpI7qD2GScS9s
+ 5blIVOaURNZeVNlnTI1I0DD9pkn/w0WV7ja1AY7XyuWFqT5AXzNB0sBIUlBnlXJutmjL5ONyEHA
+ 9a8QU+DcFrJSm1SuLC/oX/JnR0+Gv5mh5vWppPh8BIO50dVs+Z9rMCw163d73leVK7Fcou2iRzi
+ YGmM/TnTcKF+UNEhYG0KL1BAlzRvAWsPjG0uUuNa6Wen4cCyL1Os07Wvbxp6vPu/9kAbK7xyqXa
+ LnLx7zAuQFQnQTWEiUDf0IMmKxqyvqdqbqfVozaYkAx5VGg/o
+X-Received: by 2002:a05:6000:1449:b0:429:b963:cdd5 with SMTP id
+ ffacd0b85a97d-429bcccf0aamr87220f8f.5.1761835062923; 
+ Thu, 30 Oct 2025 07:37:42 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IH4Hb1Zr2+1H9F1aQQVjn8swQhMlyoOrBtrdyyo6F0SLZbU4syUP2hFz8P5UzKpetZ1C9iD6A==
+X-Received: by 2002:a05:6000:1449:b0:429:b963:cdd5 with SMTP id
+ ffacd0b85a97d-429bcccf0aamr87184f8f.5.1761835062481; 
+ Thu, 30 Oct 2025 07:37:42 -0700 (PDT)
+Received: from lbulwahn-thinkpadx1carbongen12.rmtde.csb
+ ([2a02:810d:7e01:ef00:1622:5a48:afdc:799f])
+ by smtp.gmail.com with ESMTPSA id
+ ffacd0b85a97d-429952b7a94sm38472105f8f.5.2025.10.30.07.37.40
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 30 Oct 2025 07:37:41 -0700 (PDT)
+From: Lukas Bulwahn <lbulwahn@redhat.com>
+X-Google-Original-From: Lukas Bulwahn <lukas.bulwahn@redhat.com>
+To: Austin Zheng <austin.zheng@amd.com>, Dillon Varone <dillon.varone@amd.com>,
+ waynelin <Wayne.Lin@amd.com>, Dan Wheeler <daniel.wheeler@amd.com>,
+ Alex Deucher <alexander.deucher@amd.com>, amd-gfx@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org
+Cc: Jun Lei <jun.lei@amd.com>, Harry Wentland <harry.wentland@amd.com>,
+ Leo Li <sunpeng.li@amd.com>, Rodrigo Siqueira <siqueira@igalia.com>,
+ =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ kernel-janitors@vger.kernel.org, linux-kernel@vger.kernel.org,
+ Lukas Bulwahn <lukas.bulwahn@redhat.com>
+Subject: [PATCH] MAINTAINERS: adjust file entry in AMD DISPLAY CORE - DML
+Date: Thu, 30 Oct 2025 15:37:37 +0100
+Message-ID: <20251030143737.136120-1-lukas.bulwahn@redhat.com>
+X-Mailer: git-send-email 2.51.0
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: CY5PR11MB6139:EE_|IA0PR11MB7209:EE_
-X-MS-Office365-Filtering-Correlation-Id: a7c0ad72-0205-44a4-1575-08de17c1d405
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
- ARA:13230040|376014|7416014|1800799024|366016|7053199007; 
-X-Microsoft-Antispam-Message-Info: =?iso-8859-1?Q?6VNdKEG9Q32hDUNzgqaKziUg/SaDe2dHpNw42rsdwPd9iB+dxU8NWL5phT?=
- =?iso-8859-1?Q?l/pkzJxkM7jEuoyS/dvLqty1lOJgbU7SBHTwnQGlD4Tbf4Zvek9nEbp5Rw?=
- =?iso-8859-1?Q?BV1Wv1LcJ02F2PY1NhPQAlyZlcwN/w3IKSz9me191fjD1gSxp724m37r6f?=
- =?iso-8859-1?Q?ANJA5Bf44Z80uWyawOAww8TYKR/zFa03toBCWaebjHE5dmPq6q31n2ZHPj?=
- =?iso-8859-1?Q?fd22gCMOJkL7OvrfjSkSFRUBfU7FTtJvGQZOrWSBo8gAPsdo5zPdR+ioEx?=
- =?iso-8859-1?Q?4gG6Tz8+ErdXGkneFXnr/pUjsi/lGuwIMpCthLUqMZuyCPIO0fwdaY1PDu?=
- =?iso-8859-1?Q?aXNtJNpjtZqaVYiCP4MzZe6vhwoVeMFmD86zUdkzkxo8xQH9oRRsDd1f3J?=
- =?iso-8859-1?Q?g3G/DOHr5utkz6josy/z8IQRTkTVHHU0XtbaqCtj7uHPrmyaDeTV9Zcj17?=
- =?iso-8859-1?Q?RmEaeF3vpFR7t2nhmx/Zsy1WSaZXhTfc/ydqk/wyf1Xhoo834At5R3mH17?=
- =?iso-8859-1?Q?Pygu+n/9fklJENvCLFw/L3aVAUmxjfPrj7hFcJbywGj7Rd2ToGhq0kSpri?=
- =?iso-8859-1?Q?wjbCVn411C+D1JcQcNcbukfNxKbIoM+bNQqonesqOgYyqS3/J6+8A8ajtN?=
- =?iso-8859-1?Q?y6UNL/LgxSgtJ+Dc9P8uuNBJcJopkHhYcCQocf28HP32skCaiSOb3s6rPx?=
- =?iso-8859-1?Q?Z/qdmnGhLDDCO33HT+TVIX2KuhPr8/fkPxoR7WnqIB3y8sDQXZK16gknLo?=
- =?iso-8859-1?Q?+yoAmKrN681PONneLxCnwpSqChUhL7DY0wpxMdZsbHfzXkLtYjqFb6v36g?=
- =?iso-8859-1?Q?SUaEYMOePbMMRjVhS6RZkof+WI9JHVVRgJasi8UUGGrwVu3oguPnh/xU74?=
- =?iso-8859-1?Q?FOWzoh71q7uQ6QrA7r2CzfMPpJjpFTk/16GkQdg4zMafJWUi0iCZrD8MZc?=
- =?iso-8859-1?Q?SDCvwX/Cz/R4TjjOdRCpV7aLaH3a7f1k6+aMZczhBbsNQxehxpbr0r4mR2?=
- =?iso-8859-1?Q?Kyc/FG+LgsX4tFHRDeJwHiPsIEdhdvIHzP+TTJRi5PuyaZHaRhIj9ADh+K?=
- =?iso-8859-1?Q?E3GJlJHryMcKFIWJkBduAc6LUrB0Dzcec2AhGFrak+FqXqs6y/+Y+yUVyp?=
- =?iso-8859-1?Q?Uz9v3l5TK0tuEeJR7X3jRLpQrD5p4moLcXUL4I0puvVvsqxL2/CLYpv667?=
- =?iso-8859-1?Q?FGeqaIuhiVpCvvHRiCw645LbdUyGY3bOaQARdOtu1Ya4rPMGHhi3O2aZ1s?=
- =?iso-8859-1?Q?7hRB+K2GhJJkpSuhdrSy/jEiC0honwS185IYN2UOsdiBY6ytUySH+mOpEp?=
- =?iso-8859-1?Q?uzS6dUiWFkKBKsoVItEuV3vCDLtO6w61KP7idLbjvqMaJoeQKsCV2lP8gF?=
- =?iso-8859-1?Q?Jzpa+EidY2uClGotujFDDXegVAjjSVW44Qtnez5rppqzl2WhDGpBIi1DyJ?=
- =?iso-8859-1?Q?tO0FL+mATdZX7Cw2DmBUS+/OzM8sc9LBD5XdCnlvx/+mVMZHCCbzcnwE4M?=
- =?iso-8859-1?Q?nGUDFDw1MHfblgncJPiZJiAEjaZ0qX1/BxuSVwqZQerQ=3D=3D?=
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:CY5PR11MB6139.namprd11.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230040)(376014)(7416014)(1800799024)(366016)(7053199007); DIR:OUT;
- SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?iso-8859-1?Q?pEkzPwAEczI3sexOMLNRa/Uabr79Q238j5scIuqYODKceGyix4baTTWVm4?=
- =?iso-8859-1?Q?kCqPxMCrMVY9XG+ZEQQ0madJRQQwXCZjqVz9KhTyOXf0TsIdWBmHB2tnb2?=
- =?iso-8859-1?Q?ZweLcr5TnP8UMLyiU9ZabhAOx4/u15G4KMh5UzYNFZnfuml0G8nzeQqnTD?=
- =?iso-8859-1?Q?GB7FpRwSaOgEymopg5VWL0VEaLMc6QrKeBA3YSLGbnagLJZSKwytwUAfhz?=
- =?iso-8859-1?Q?DdTzTEDQwhAVK9tOYBQsKYZOIQpGo6b7PhWMWE1rzgeIJJsE+6BJI1eaha?=
- =?iso-8859-1?Q?J4eJG9yUDG2saV27XeZLW5xjmfRVvmcHsSco2HZLa1dJRbZjvN8wIoBGxC?=
- =?iso-8859-1?Q?2KhOst7PP/LOpKYpjlcFnB4LnTKDvBLtTTi7P/v5E7tfbWp81YNGx7xUzQ?=
- =?iso-8859-1?Q?PLqQkwPYsuKII4kq8MndqpMPAbO93eY4W9UmhSo9QStS47ofXqw3oh0Hy4?=
- =?iso-8859-1?Q?PK+QCdQtew6tOCaGG/PayUzwa61JZy0PZR5potAN09875RARvu66co/+mc?=
- =?iso-8859-1?Q?wecqCnqTRzkfQuh1rFVN1+g5ih7DYypnuGPoCAUfESdr5akFespCM0SRGQ?=
- =?iso-8859-1?Q?tPyuYkMUlnZ4z44S4IoZGNf6PwY4b6lGwFUV6sWHXKU43YjTxaXVtd/16O?=
- =?iso-8859-1?Q?aFghOcCgbH85Xef3zDOzTJ/CuFeHIo/kYqflj+SV3kkYtcVzcuYboloS8e?=
- =?iso-8859-1?Q?sImecTu8hA9/78szjj0OL2x3YFHyCjt0I5jGxtqY7mwQULE8qDrBklJSXJ?=
- =?iso-8859-1?Q?TC4NTJQi7rh0lsOFpW7fOshTYMjjn3IuzORI1W7Wa5InpcV/HSVyGzuwRe?=
- =?iso-8859-1?Q?u1Y5l2+yaRUDfTbTrliwvtsyxL2lOtSrj/SQltqfIic5B9vgV8KeaXKXtO?=
- =?iso-8859-1?Q?Srih6M2tCxlIoDusaeTrQFENZLuXZIXLfCEAurQFIZ0ZzT/9QT0APtGTyD?=
- =?iso-8859-1?Q?wSeAFjABglivMnZbUdxKZYQqXFkRWbUW5gZYRB8vMI7B155T7jldSbjyY3?=
- =?iso-8859-1?Q?nookyXcFSYcr3YcMwdWhL0K+q0Ek/VrG56saemUpQ+RvNtRa7ETjSBSMmX?=
- =?iso-8859-1?Q?6Y+dW8b+snPum0e+V9qudmXMIvjXtMCJcZHyto2jtGmKV1pLiQ/XFbhDHG?=
- =?iso-8859-1?Q?d0tdw5mrbvFt3U+0C4kdXvuyB+MPszfVlAdw2OaHc2KteHxjbsY6RFKHqa?=
- =?iso-8859-1?Q?70lc1IhL/4Pef2eW4oX7NOciEgOmM3x+v6aWjlGsDrSv8kr8gJCE4JaybI?=
- =?iso-8859-1?Q?Sa9dVqMhDQmxZSzINzdvGod5MY+3qPW8ktlPgsdi9VInyo+kg0HrlsVCqi?=
- =?iso-8859-1?Q?WCDThDEmtoooceBMsRsrusdGDCZpXeaSQo7F8mdy7KNG7rC4+l7cxVD2m7?=
- =?iso-8859-1?Q?FKkMiJ16WybadjZBCDY5XtPtLmjKdYBdIUFuqogWY7WMS4T6kNKuVXfBMs?=
- =?iso-8859-1?Q?Ynr9odO9WHbLJ7m9QzS7/FouvNOYtFS978B8F5mpwYxMpmSKKso5UnRCyb?=
- =?iso-8859-1?Q?wzZ0WWudfHz4M5cZhS0YtNcoStqxuAaRLJRD3tU0LJTWn6SAwJHqeioIQn?=
- =?iso-8859-1?Q?AAkTv+YON/0WD58yzrJVHy/VPUfeaRB5NwjOktK/vZU/ufwScZVz92Zl1i?=
- =?iso-8859-1?Q?ntDsbcdfgNY46TwvIKi3vMue3bVxFEVlgVoGIuS3cUbdtenJqKFLhEHw?=
- =?iso-8859-1?Q?=3D=3D?=
-X-MS-Exchange-CrossTenant-Network-Message-Id: a7c0ad72-0205-44a4-1575-08de17c1d405
-X-MS-Exchange-CrossTenant-AuthSource: CY5PR11MB6139.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 30 Oct 2025 14:37:18.8385 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: r5QWzF+cOvu+nvhpxkTqYmB0pBaKZWUFCv7Mwoool2M1l9LCY3bS1u6cBMCUO5icDfdOckfbM/PDzP4J+JN6zAA6ifPfHP1uWz7Wgm3Pwf0=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: IA0PR11MB7209
-X-OriginatorOrg: intel.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-MFC-PROC-ID: w00a3Ud7SWSh2SSQTZAaxCwumbWxTGYU8K6JvbBOkGI_1761835063
+X-Mimecast-Originator: redhat.com
+Content-Transfer-Encoding: 8bit
+content-type: text/plain; charset="US-ASCII"; x-default=true
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -194,62 +107,32 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Oct 28, 2025 at 04:24:04PM -0500, Lucas De Marchi wrote:
->On Tue, Oct 28, 2025 at 07:35:48PM +0200, Ilpo Järvinen wrote:
->>PCI core handles releasing device's resources and their rollback in
->>case of failure of a BAR resizing operation. Releasing resource prior
->>to calling pci_resize_resource() prevents PCI core from restoring the
->>BARs as they were.
->>
->>Remove driver-side release of BARs from the xe driver.
->>
->>Signed-off-by: Ilpo Järvinen <ilpo.jarvinen@linux.intel.com>
->>Cc: Lucas De Marchi <lucas.demarchi@intel.com>
->>---
->>drivers/gpu/drm/xe/xe_vram.c | 3 ---
->>1 file changed, 3 deletions(-)
->>
->>diff --git a/drivers/gpu/drm/xe/xe_vram.c b/drivers/gpu/drm/xe/xe_vram.c
->>index b44ebf50fedb..929412f0d131 100644
->>--- a/drivers/gpu/drm/xe/xe_vram.c
->>+++ b/drivers/gpu/drm/xe/xe_vram.c
->>@@ -33,9 +33,6 @@ _resize_bar(struct xe_device *xe, int resno, resource_size_t size)
->>	int bar_size = pci_rebar_bytes_to_size(size);
->>	int ret;
->>
->>-	if (pci_resource_len(pdev, resno))
->>-		pci_release_resource(pdev, resno);
->>-
->
->conflict with drm-xe-next:
->
->++<<<<<<< ours
-> +      release_bars(pdev);
-> +
->++=======
->++>>>>>>> theirs
->
->if we don't need to release the BARs anymore to call
->pci_resize_resource(), then the resolution is simply to drop the
->function release_bars() function.
->
->I'm sending that to our CI for coverage:
->https://lore.kernel.org/intel-xe/20251028211613.3228940-2-lucas.demarchi@intel.com/T/#u
+From: Lukas Bulwahn <lukas.bulwahn@redhat.com>
 
-CI came back clean. Looks good from xe side:
+Commit e6a8a000cfe6 ("drm/amd/display: Rename dml2 to dml2_0 folder")
+renames the directory dml2 to dml2_0 in ./drivers/gpu/drm/amd/display/dc,
+but misses to adjust the file entry in AMD DISPLAY CORE - DML.
 
-Acked-by: Lucas De Marchi <lucas.demarchi@intel.com>
+Adjust the file entry after this directory renaming.
 
-thanks
-Lucas De Marchi
+Signed-off-by: Lukas Bulwahn <lukas.bulwahn@redhat.com>
+---
+ MAINTAINERS | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
->
->thanks
->Lucas De Marchi
->
->>	ret = pci_resize_resource(pdev, resno, bar_size);
->>	if (ret) {
->>		drm_info(&xe->drm, "Failed to resize BAR%d to %dM (%pe). Consider enabling 'Resizable BAR' support in your BIOS\n",
->>-- 
->>2.39.5
->>
+diff --git a/MAINTAINERS b/MAINTAINERS
+index 4d739e18aab6..7031ee1e7cff 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -1080,7 +1080,7 @@ M:	Austin Zheng <austin.zheng@amd.com>
+ M:	Jun Lei <jun.lei@amd.com>
+ S:	Supported
+ F:	drivers/gpu/drm/amd/display/dc/dml/
+-F:	drivers/gpu/drm/amd/display/dc/dml2/
++F:	drivers/gpu/drm/amd/display/dc/dml2_0/
+ 
+ AMD FAM15H PROCESSOR POWER MONITORING DRIVER
+ M:	Huang Rui <ray.huang@amd.com>
+-- 
+2.51.0
+
