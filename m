@@ -2,85 +2,141 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 35046C24004
-	for <lists+dri-devel@lfdr.de>; Fri, 31 Oct 2025 10:05:57 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id D415BC24046
+	for <lists+dri-devel@lfdr.de>; Fri, 31 Oct 2025 10:08:03 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5E52F10EADD;
-	Fri, 31 Oct 2025 09:05:54 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B601F10EAD6;
+	Fri, 31 Oct 2025 09:08:01 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="jRz9PBBL";
+	dkim=pass (1024-bit key; unprotected) header.d=amd.com header.i=@amd.com header.b="hj3nAC8k";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-f53.google.com (mail-wm1-f53.google.com
- [209.85.128.53])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3D78010EAD8
- for <dri-devel@lists.freedesktop.org>; Fri, 31 Oct 2025 09:05:42 +0000 (UTC)
-Received: by mail-wm1-f53.google.com with SMTP id
- 5b1f17b1804b1-47728f914a4so9743055e9.1
- for <dri-devel@lists.freedesktop.org>; Fri, 31 Oct 2025 02:05:42 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1761901541; x=1762506341; darn=lists.freedesktop.org;
- h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
- :mime-version:subject:date:from:from:to:cc:subject:date:message-id
- :reply-to; bh=m97kyP3HTS70kAnw3EPRct0ZUapkHpzYxU+r81cO+AM=;
- b=jRz9PBBLRZDsLbuyFwq5GoUFqlwYUKMhNEmxEM0h/bH0545bIf88/zvMFdlKnNfjYk
- /gsqFMr1mIOQIdL8TbaupzjwoJcsaewWxXFXxkanUW3pnY5Qp0mvHB1lOtiKCZIshUGk
- LNTr/CNnc/Y+ZPhwltIY1GVrgAdWlUuJBnKCUmAQGW2wPTHfZ52FJEYtoHpunb34VG+i
- z8zf5V6vfScDPuNAGRmEN/mtD9i9ILFOHcWXl5enxWuhaX4PdCX5rN74qDEhcUjcOJI4
- 2yYEaodoWT/hy2nTU9GKZyVgV/U8pBJavcFen9acRkS9w2jn5EbBpu6BYA/XqZCnAeTq
- 0i8w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1761901541; x=1762506341;
- h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
- :mime-version:subject:date:from:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=m97kyP3HTS70kAnw3EPRct0ZUapkHpzYxU+r81cO+AM=;
- b=OHmVaZiAacpXkn8FGXaktLKeeAXYuD/hOFUsMQcBi6MwQZuOYYfOoDTSbuqBm2v5tp
- GUoBipptIRVyqqwyWK91RGQY1q+FaTyGne/5bM8kHubL8g3w8o54qjH3syNhlwcClobt
- 3Fv5sqbGZm1uDRx2UdgLc3OV2Tkq/ZQvmqIRIXviPTo6zNafNUdlQ9SGeO/4G4vHLoZR
- J9IRhgUgXMAp9hAr1eC1lWtcLnJCxoZOvDbXVcDwjoD+HdPqBvftpbjbgKsd02YjR3Ml
- dpV7XAMTKud3fGoCyvpFU+9iJirzWc9/ZInZagyHXRNCTLHj2LuwwjZc6EzZXFA0/g4H
- SYAA==
-X-Forwarded-Encrypted: i=1;
- AJvYcCXKQVxYBcxQ1P4c0lq29i12oVpuVQBMIa/HC7GuEX2AYJVtre10HRZRqIb31dwBpDW5wfqJT9WHaEQ=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YzNFqMfvRjwzJhEvy+ZuaMsl5sD2jHL0zgLPc4Uvi9f2qX+YDev
- Ciaz5AQ0m/bje69mV6eB9W60ffx64x+QNSm0IgN0egGPM5iDJLkL9MGx
-X-Gm-Gg: ASbGnctB18apo4UesGUKXpckFb5/J4jrTLUP+RTpEGIOGFapvbWax0SX8ED7VAM/4FZ
- tYAo/WUuL3kmp/b6xOeuqtiCCr/Mwh2oMCfWWnjizo+wHSoe1DHsZ1m0Zf1hI0KytQA1O8ivFIz
- DHloMgfsUaRf+cWGLQgb7J1yJK5sIvHqYNH44Q77ESXBbMg7HLXWUvZnH/z6IsO+zUxAlodrsUg
- z1T0QRl9s7xdmhsRF04yahd6quNbAqQkVVxu6JkE4IR6XLFbz9QJFb06OzX5ndtq/LHczmV+BAD
- YGiietNw0uS6RvJNmGCoYXJ0KNidBMLGjYpdXV4elkw3+fLX5+GfHfpVLrKNgG6jjAyXDrJfJNd
- 9Dlvc81+vNehSWC0H8fiEyswg64btX1y9D9Szc0zU9+KUXLjiqviA5x33vpYWTds/2GGXV3VhFM
- XkiCvsh8coMdi/Da6t1945jde0Lkee4df5mQZyEIQXgUuZscq5NS9H
-X-Google-Smtp-Source: AGHT+IHaEdfxWwYT2zJAyLRZyUAgi4BdK3quhN7NkvDh1BylxO25NofIDcQ0FfuX8++X59NClzV6hw==
-X-Received: by 2002:a05:600c:1e06:b0:477:1be1:9afe with SMTP id
- 5b1f17b1804b1-477307b879bmr22506295e9.9.1761901540395; 
- Fri, 31 Oct 2025 02:05:40 -0700 (PDT)
-Received: from ipedrosa-thinkpadx1carbongen12.rmtes.csb ([5.225.139.156])
- by smtp.gmail.com with ESMTPSA id
- 5b1f17b1804b1-477289adaf8sm93454475e9.7.2025.10.31.02.05.39
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 31 Oct 2025 02:05:39 -0700 (PDT)
-From: Iker Pedrosa <ikerpedrosam@gmail.com>
-Date: Fri, 31 Oct 2025 10:05:19 +0100
-Subject: [PATCH v4 3/3] MAINTAINERS: Add entry for Sitronix ST7920 driver
+Received: from CH1PR05CU001.outbound.protection.outlook.com
+ (mail-northcentralusazon11010048.outbound.protection.outlook.com
+ [52.101.193.48])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 30BDA10EAD6
+ for <dri-devel@lists.freedesktop.org>; Fri, 31 Oct 2025 09:08:00 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=L5jZluuyJhog0VB7XMlw5ul/hodAx/bypq+bloiZ/r2d1+eS3gFQR30qepO/AQCjQnxm5DmxiznfDtUeE5yd087YPmZXqXKuTy7cR4n4onLn/5ASWJ27EOvhSAwUpgWBpOx+amszHKy3rmRZDfg7DLmifYhD8W7N+qrEB4OJA/1iVSx1T/yZdqzjnjUHIUlFjjn5YGQCLfb8zinHB6hWPamdmvyiAzE2X7MNqbCdyWKQu2gICfNoVV2KpTQVNLWctJ6Nrl347vGm1gzR5sM744/oVL7A6ebVeSN7U3eaqQY3MVJ7oV1gslhDLMpfvp4JkeHlMM0llrf215As98HIyw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=QdNvOiQ1LXcb13VOXga0h/FFdJUqY66hyml/hMGWAEI=;
+ b=LT05SD1gf83ic3Yo51mHI7c/sXAV3i5t9Sl/StUMfWHhOOqDz0YNaR3KTTR/41Ffkq7IIkvIT2vNk5wdhRDPmG8JkcaSqK2WnjBB2xMadsseannBLZOYOKk+MoRUdEyoDcefqUR2pXGzf5QsMN4nH98hVvmTHxn4iqyZzwJzqWNojwQFYU08CDO98dK1KWT0znUSVj8CoBY418xF9k7waY7CUQZLAcTnOPm/B5LJFbIKiaOnWl418wp2g2DX9naPiDI05jFJ6m34mmswRu0mhHP4wjO5uo8CBB4pKEYMyeoeNwzszEr3GZGxoEXmBjJ70bQe9rd4TctmylApxFqLfA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 165.204.84.17) smtp.rcpttodomain=intel.com smtp.mailfrom=amd.com; dmarc=pass
+ (p=quarantine sp=quarantine pct=100) action=none header.from=amd.com;
+ dkim=none (message not signed); arc=none (0)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=QdNvOiQ1LXcb13VOXga0h/FFdJUqY66hyml/hMGWAEI=;
+ b=hj3nAC8kRu53LFEFQ1eIf3hSZoZpg62uimlrBoxl1txqUhSpi7r25HvSjWk7G8Nlw2NV11ib2ty9C7BO57KlOq0VKPDVhwrD5chWpa28CGmMz56PshgEaJLt5BgBACU9qXmgTAODAvVdhcdrvk0K8OQQiCG0qm+ygFSG9kA9IrE=
+Received: from BY5PR04CA0029.namprd04.prod.outlook.com (2603:10b6:a03:1d0::39)
+ by IA1PR12MB6458.namprd12.prod.outlook.com (2603:10b6:208:3aa::22)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9275.15; Fri, 31 Oct
+ 2025 09:07:55 +0000
+Received: from SJ1PEPF00001CE0.namprd05.prod.outlook.com
+ (2603:10b6:a03:1d0:cafe::14) by BY5PR04CA0029.outlook.office365.com
+ (2603:10b6:a03:1d0::39) with Microsoft SMTP Server (version=TLS1_3,
+ cipher=TLS_AES_256_GCM_SHA384) id 15.20.9275.14 via Frontend Transport; Fri,
+ 31 Oct 2025 09:07:52 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
+ smtp.mailfrom=amd.com; dkim=none (message not signed)
+ header.d=none;dmarc=pass action=none header.from=amd.com;
+Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
+ 165.204.84.17 as permitted sender) receiver=protection.outlook.com;
+ client-ip=165.204.84.17; helo=satlexmb07.amd.com; pr=C
+Received: from satlexmb07.amd.com (165.204.84.17) by
+ SJ1PEPF00001CE0.mail.protection.outlook.com (10.167.242.8) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.9275.10 via Frontend Transport; Fri, 31 Oct 2025 09:07:54 +0000
+Received: from FRAPPELLOUX01-WSLPUB.amd.com (10.180.168.240) by
+ satlexmb07.amd.com (10.181.42.216) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.2562.17; Fri, 31 Oct 2025 02:07:52 -0700
+From: Pierre-Eric Pelloux-Prayer <pierre-eric.pelloux-prayer@amd.com>
+To: Matthew Brost <matthew.brost@intel.com>, Danilo Krummrich
+ <dakr@kernel.org>, Philipp Stanner <phasta@kernel.org>,
+ =?UTF-8?q?Christian=20K=C3=B6nig?= <ckoenig.leichtzumerken@gmail.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Maxime Ripard
+ <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, David Airlie
+ <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, Sumit Semwal
+ <sumit.semwal@linaro.org>
+CC: Pierre-Eric Pelloux-Prayer <pierre-eric.pelloux-prayer@amd.com>, "Mikhail
+ Gavrilov" <mikhail.v.gavrilov@gmail.com>,
+ =?UTF-8?q?Christian=20K=C3=B6nig?=
+ <christian.koenig@amd.com>, <dri-devel@lists.freedesktop.org>,
+ <linux-kernel@vger.kernel.org>, <linux-media@vger.kernel.org>,
+ <linaro-mm-sig@lists.linaro.org>
+Subject: [PATCH v2] drm/sched: Fix deadlock in drm_sched_entity_kill_jobs_cb
+Date: Fri, 31 Oct 2025 10:07:03 +0100
+Message-ID: <20251031090704.1111-1-pierre-eric.pelloux-prayer@amd.com>
+X-Mailer: git-send-email 2.43.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20251031-st7920-v4-3-35291f8076b2@gmail.com>
-References: <20251031-st7920-v4-0-35291f8076b2@gmail.com>
-In-Reply-To: <20251031-st7920-v4-0-35291f8076b2@gmail.com>
-To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
- Conor Dooley <conor+dt@kernel.org>, 
- Javier Martinez Canillas <javierm@redhat.com>, 
- Iker Pedrosa <ikerpedrosam@gmail.com>
-Cc: linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org, 
- devicetree@vger.kernel.org
-X-Mailer: b4 0.14.2
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
+X-Originating-IP: [10.180.168.240]
+X-ClientProxiedBy: satlexmb07.amd.com (10.181.42.216) To satlexmb07.amd.com
+ (10.181.42.216)
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: SJ1PEPF00001CE0:EE_|IA1PR12MB6458:EE_
+X-MS-Office365-Filtering-Correlation-Id: 04bc99fa-1d1e-4ecc-f922-08de185cfa72
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+ ARA:13230040|7416014|376014|1800799024|82310400026|36860700013|13003099007|921020;
+X-Microsoft-Antispam-Message-Info: =?utf-8?B?bnBmTGNNUFpFMVNzTjVuZHcrUEZjWGtVRmlna2xoMVBIZ3QrNVdWL1BWS3hU?=
+ =?utf-8?B?U04yZ3dNbXBobktUMmZNSk9TZXVsMEgyNTFlRUZ1UGFNMU9vc1hiMFlCaExX?=
+ =?utf-8?B?ZVNraUhZaWhBTFc3b3VqczJxZFdtNW1rZHZXR3h1Y25QblRuUUVYK3NGN0t3?=
+ =?utf-8?B?R0pkMHZBZXRZL0p6S014eWU1SFBxSW9kclVtVlJIZkFlWlNudFI2bE1xTHY4?=
+ =?utf-8?B?K2NKWWRYMmRlbTlrKy9yaFNJdm5uZHl1RnpHZnloV09HZXkyZkttZzJtTkhH?=
+ =?utf-8?B?THV0eEJxZ1NvRHQyd09JVGdSOTBweUlod2RsVHZjSlpWa2xubVlXZFY3OE1w?=
+ =?utf-8?B?NDVXdlU3TFVXaGprMnNSems0Q1BLMDM5SEZ2WE1UazQ0Sm1nUlRpYnVBR0li?=
+ =?utf-8?B?T050Z0tTMW9UQUdJSFV5TE1TWHpXOHJhc2tTUWtvTmhDTzNvRUY4d2VJT2dj?=
+ =?utf-8?B?RW5jTHNvcHJsVzZ2RjZyYzk2djBJWGYwV0ZIR1ZXNjJsMk03V2RvNHFUS3JQ?=
+ =?utf-8?B?cUpSRlFSNmlNaVcwZGQ1Rk9sRE9ib1FBZkZBMkJnRTA4QW5Db0RjSTl6cnQ2?=
+ =?utf-8?B?VGQxaEZmWmxBM3p5SzB2NUw2R1RzelRSRFVhRWpzdzhPUjl0UnA5RDZmbmsv?=
+ =?utf-8?B?bytoUTd0TWM5QkdWZFROSFlySmtraVpWeHpxUkpRWVZyZkJJUXJDakhxcHY3?=
+ =?utf-8?B?bklGd0p1Nm8wQ2RpYnlSZFlMby9TUGZlZFNLb3VxV0h6U2Z1azE2NUh0VjZI?=
+ =?utf-8?B?Q1VGem1aYWxNWEZ1UUNhMWhjN1dSL3VUWWttZGlSNTFWWjRyV0RkU1NPSjBD?=
+ =?utf-8?B?MHlXWmtQYUZNQXRLT1JWd1ZhZG1JeUtmZDFNQVFuVGViRDZPTFpVNENGd2Jz?=
+ =?utf-8?B?c203N0I5bDhST2hDWkMzbEJRSFB1Ti9lU2Z2V3E5N0FlZDk0WjJjRnBvbm9u?=
+ =?utf-8?B?am8vMzZ2QjJiUHZjYnlYTmYyaGNDbkhLem5BNEhzVkJYSnpkKzlKLzFVbURq?=
+ =?utf-8?B?QTRqOTZTSkIxM1p2aE9Way96eXAwZFovUFlNYllBSU5NdVVZdTRFcXFvRDZw?=
+ =?utf-8?B?UGEreHNVK2QzSHlqVy9KR0c2SXdNankvYVdXOEFLbU1ja3pKZGU1aG5vN1Rp?=
+ =?utf-8?B?eDNtYVJMQ0ZjMDNNWENScSszM1Jnc3ZTU0VqaG9VbUQ2ekdzYXFENVlQbmFD?=
+ =?utf-8?B?aTdXcmg3WExrb0o3SHBJSW5vVnhUQW9IWkV6SUt0Si9FNjdCQzI2RWlIKzBl?=
+ =?utf-8?B?a21BblpmOXEyMWlZdzJGeHd0clJXc01RUEJScGFxVmF1cEpOaHZGdWVacUtt?=
+ =?utf-8?B?KzFDbEpNRXdrUHBDcVV6MkVDMkhLRWVGcWRwS1Uxeit0UVNFa1NETmJtR2tP?=
+ =?utf-8?B?Zi94M05mQVlvZDNSRm1MY1N4WWo4ZTAybkhyU1FkNjdxUlNSL2xNTEdVd3hP?=
+ =?utf-8?B?ak9rejl0SndkNlhJSVJFVkZJM0FHSnRoc09yU0oyNjZYQTJOWlVNVFVVNnV0?=
+ =?utf-8?B?Z1d3QWp5QjRqQ0tNU1k4bm1HTElHeGFtMzZMNlVWM1N0L3pSd0tyZDd5Yk5Z?=
+ =?utf-8?B?QWlDUWQ1c2lNUExRa3d3a2dsY1pYRFVRZHQ0cENNTlIvRTdLdWMrcEdJTmRK?=
+ =?utf-8?B?bUc5Z3VENTc1dkg0cTMyNy9pQm5rYmswazljZkt3VHMzbDNEN0FseW1HNlhZ?=
+ =?utf-8?B?b1RVRmFSaEQ2Z1Ivc1VPak5vUWtlV1dZUUZBVTVRbUJ4bjgzNTFicE9wR0V3?=
+ =?utf-8?B?N2ZUeWFDSVZvTFNhL2RadWVLaTZMblFQd24xWEdUbWRzUk82a1ZGNGRHc0pR?=
+ =?utf-8?B?NFNiaUJvL2Z0bFk4YnVWTUJyZDl2NG14L2ZPYXpDY1Nkd0FCVkZ5TGNsVE5I?=
+ =?utf-8?B?b3ZPUWlPblU5UmY5K0t3Vytka09YeEp1WEhFUXhQZXFJOVpOVE5Zd2ZQQTBn?=
+ =?utf-8?B?UWN5ZFg5M2FXL2RUUWRPeGRZTGMwTXRxZkdGYmZ4eFA0NW94SzBLZlFNNU9w?=
+ =?utf-8?B?MlcvK3A0NnNFVEhIc3dGU2pKR0t4a0hyZTNMSFpOM0t4anJ4THJiOGtXREJY?=
+ =?utf-8?Q?exbM1M?=
+X-Forefront-Antispam-Report: CIP:165.204.84.17; CTRY:US; LANG:en; SCL:1; SRV:;
+ IPV:CAL; SFV:NSPM; H:satlexmb07.amd.com; PTR:InfoDomainNonexistent; CAT:NONE;
+ SFS:(13230040)(7416014)(376014)(1800799024)(82310400026)(36860700013)(13003099007)(921020);
+ DIR:OUT; SFP:1101; 
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 31 Oct 2025 09:07:54.9755 (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 04bc99fa-1d1e-4ecc-f922-08de185cfa72
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d; Ip=[165.204.84.17];
+ Helo=[satlexmb07.amd.com]
+X-MS-Exchange-CrossTenant-AuthSource: SJ1PEPF00001CE0.namprd05.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: IA1PR12MB6458
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -96,32 +152,109 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Add Iker as ST7920 driver maintainer.
+The Mesa issue referenced below pointed out a possible deadlock:
 
-Signed-off-by: Iker Pedrosa <ikerpedrosam@gmail.com>
+[ 1231.611031]  Possible interrupt unsafe locking scenario:
+
+[ 1231.611033]        CPU0                    CPU1
+[ 1231.611034]        ----                    ----
+[ 1231.611035]   lock(&xa->xa_lock#17);
+[ 1231.611038]                                local_irq_disable();
+[ 1231.611039]                                lock(&fence->lock);
+[ 1231.611041]                                lock(&xa->xa_lock#17);
+[ 1231.611044]   <Interrupt>
+[ 1231.611045]     lock(&fence->lock);
+[ 1231.611047]
+                *** DEADLOCK ***
+
+In this example, CPU0 would be any function accessing job->dependencies
+through the xa_* functions that doesn't disable interrupts (eg:
+drm_sched_job_add_dependency, drm_sched_entity_kill_jobs_cb).
+
+CPU1 is executing drm_sched_entity_kill_jobs_cb as a fence signalling
+callback so in an interrupt context. It will deadlock when trying to
+grab the xa_lock which is already held by CPU0.
+
+Replacing all xa_* usage by their xa_*_irq counterparts would fix
+this issue, but Christian pointed out another issue: dma_fence_signal
+takes fence.lock and so does dma_fence_add_callback.
+
+  dma_fence_signal() // locks f1.lock
+  -> drm_sched_entity_kill_jobs_cb()
+  -> foreach dependencies
+     -> dma_fence_add_callback() // locks f2.lock
+
+This will deadlock if f1 and f2 share the same spinlock.
+
+To fix both issues, the code iterating on dependencies and re-arming them
+is moved out to drm_sched_entity_kill_jobs_work.
+
+Link: https://gitlab.freedesktop.org/mesa/mesa/-/issues/13908
+Reported-by: Mikhail Gavrilov <mikhail.v.gavrilov@gmail.com>
+Suggested-by: Christian König <christian.koenig@amd.com>
+Reviewed-by: Christian König <christian.koenig@amd.com>
+Signed-off-by: Pierre-Eric Pelloux-Prayer <pierre-eric.pelloux-prayer@amd.com>
 ---
- MAINTAINERS | 7 +++++++
- 1 file changed, 7 insertions(+)
+ drivers/gpu/drm/scheduler/sched_entity.c | 34 +++++++++++++-----------
+ 1 file changed, 19 insertions(+), 15 deletions(-)
 
-diff --git a/MAINTAINERS b/MAINTAINERS
-index 5ddf37f0acc960039422ef988cadfa7176972fc5..79b8a277e38b55ebcff05450d6c565c0d87c6b51 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -7861,6 +7861,13 @@ T:	git https://gitlab.freedesktop.org/drm/misc/kernel.git
- F:	Documentation/devicetree/bindings/display/sitronix,st7735r.yaml
- F:	drivers/gpu/drm/sitronix/st7735r.c
+diff --git a/drivers/gpu/drm/scheduler/sched_entity.c b/drivers/gpu/drm/scheduler/sched_entity.c
+index c8e949f4a568..fe174a4857be 100644
+--- a/drivers/gpu/drm/scheduler/sched_entity.c
++++ b/drivers/gpu/drm/scheduler/sched_entity.c
+@@ -173,26 +173,15 @@ int drm_sched_entity_error(struct drm_sched_entity *entity)
+ }
+ EXPORT_SYMBOL(drm_sched_entity_error);
  
-+DRM DRIVER FOR SITRONIX ST7920 LCD DISPLAYS
-+M:	Iker Pedrosa <ikerpedrosam@gmail.com>
-+S:	Maintained
-+T:	git https://gitlab.freedesktop.org/drm/misc/kernel.git
-+F:	Documentation/devicetree/bindings/display/sitronix,st7920.yaml
-+F:	drivers/gpu/drm/sitronix/st7920.c
++static void drm_sched_entity_kill_jobs_cb(struct dma_fence *f,
++					  struct dma_fence_cb *cb);
 +
- DRM DRIVER FOR SOLOMON SSD130X OLED DISPLAYS
- M:	Javier Martinez Canillas <javierm@redhat.com>
- S:	Maintained
-
+ static void drm_sched_entity_kill_jobs_work(struct work_struct *wrk)
+ {
+ 	struct drm_sched_job *job = container_of(wrk, typeof(*job), work);
+-
+-	drm_sched_fence_scheduled(job->s_fence, NULL);
+-	drm_sched_fence_finished(job->s_fence, -ESRCH);
+-	WARN_ON(job->s_fence->parent);
+-	job->sched->ops->free_job(job);
+-}
+-
+-/* Signal the scheduler finished fence when the entity in question is killed. */
+-static void drm_sched_entity_kill_jobs_cb(struct dma_fence *f,
+-					  struct dma_fence_cb *cb)
+-{
+-	struct drm_sched_job *job = container_of(cb, struct drm_sched_job,
+-						 finish_cb);
++	struct dma_fence *f;
+ 	unsigned long index;
+ 
+-	dma_fence_put(f);
+-
+ 	/* Wait for all dependencies to avoid data corruptions */
+ 	xa_for_each(&job->dependencies, index, f) {
+ 		struct drm_sched_fence *s_fence = to_drm_sched_fence(f);
+@@ -220,6 +209,21 @@ static void drm_sched_entity_kill_jobs_cb(struct dma_fence *f,
+ 		dma_fence_put(f);
+ 	}
+ 
++	drm_sched_fence_scheduled(job->s_fence, NULL);
++	drm_sched_fence_finished(job->s_fence, -ESRCH);
++	WARN_ON(job->s_fence->parent);
++	job->sched->ops->free_job(job);
++}
++
++/* Signal the scheduler finished fence when the entity in question is killed. */
++static void drm_sched_entity_kill_jobs_cb(struct dma_fence *f,
++					  struct dma_fence_cb *cb)
++{
++	struct drm_sched_job *job = container_of(cb, struct drm_sched_job,
++						 finish_cb);
++
++	dma_fence_put(f);
++
+ 	INIT_WORK(&job->work, drm_sched_entity_kill_jobs_work);
+ 	schedule_work(&job->work);
+ }
 -- 
-2.51.0
+2.43.0
 
