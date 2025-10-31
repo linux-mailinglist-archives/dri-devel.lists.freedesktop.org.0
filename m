@@ -2,88 +2,59 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C9C61C245C0
-	for <lists+dri-devel@lfdr.de>; Fri, 31 Oct 2025 11:09:45 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id D4F69C245DE
+	for <lists+dri-devel@lfdr.de>; Fri, 31 Oct 2025 11:11:07 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2CEF510EAEE;
-	Fri, 31 Oct 2025 10:09:44 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4837910EAED;
+	Fri, 31 Oct 2025 10:10:49 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=suse.com header.i=@suse.com header.b="UdR7bSxa";
+	dkim=pass (2048-bit key; secure) header.d=mailbox.org header.i=@mailbox.org header.b="k88e6phy";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-f50.google.com (mail-wm1-f50.google.com
- [209.85.128.50])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 785C510EAF3
- for <dri-devel@lists.freedesktop.org>; Fri, 31 Oct 2025 10:09:41 +0000 (UTC)
-Received: by mail-wm1-f50.google.com with SMTP id
- 5b1f17b1804b1-475db4ad7e4so7889095e9.3
- for <dri-devel@lists.freedesktop.org>; Fri, 31 Oct 2025 03:09:41 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=suse.com; s=google; t=1761905380; x=1762510180; darn=lists.freedesktop.org; 
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:from:to:cc:subject:date
- :message-id:reply-to;
- bh=uIEAHpZJgPenfQa0eR0eha1rgNHE8FkwlCwPAkqtADI=;
- b=UdR7bSxadN1D7NnOG/8atzU9iq5djtnBgXLH/tl/MD6I5kUzjXwNqoABdx40HfGOOK
- ag+ETuCf1YGFp6DwdBh4yOxfljV8PNLRzWSEBImGAJ1psu+2/kDuRRGs3HuhTHWH7iZg
- +/HncfDEx1winMW4d8Qd/f4LQAqe32vl2VMOa//hyYUoj5AX3k3LhIBNdsoR4aM8UDIQ
- n1CRaadA8KkzL8bPqvvX4tB59qER0aNCYuFJ3ctA/iZVKHxckk2xiTGHK3O46QJBA+nC
- 92mWcaKKPc0Ssq0SqdMAfRgt3G4bISdsM52LcEXzyMRNHMrAZSkKOUXYLS6UamL1IRDC
- J5Zw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1761905380; x=1762510180;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=uIEAHpZJgPenfQa0eR0eha1rgNHE8FkwlCwPAkqtADI=;
- b=UZoJJVNoS68x0hKLWVlWk9oFrXzlGmba6M7viJuVx0eK6++AEKcTJI+9RbQIW28R/G
- x9zzVMmY5XAp0tTiwEC9BX2nW0ZyaQT/SEnhW5fRinqqbNdCt87Xobr6b+5QW8GYr1XF
- UGjGH1n3PARZpPL0L20RZPPw0iNrNL9wD/DLbFr0Q5707OR7ivbFOcOtQvuYvTmGJMJn
- 2S5d3QA96ebsCzbbLPmnziYFu/MZZOXHrQpQBia5WirCviTJQWfRhzTxZcE1pbqs8sZN
- KOwQ3BAeaxvoei7iAh7oj14QY6v4f0kcB8pZJikpO0WYwW044BqQo2DZ7Ib5raomyE2m
- aPFQ==
-X-Forwarded-Encrypted: i=1;
- AJvYcCVuu2+vvxYwbvG6JODns7gA/XYMFBUdesZGdFP0/zSH4+81IltVsUioNqazcgvTXk7+/g/fBst2sCQ=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YxdvNKGdzh/pWaE2qrE8Pmu5qeqgG8hA1H3pZBLn0gOfN84LNP+
- yEAwL+dGpL9GnJPzVNYwWDhpbXlICIWKp6MnJDbbBYnATrflnXarvB6ePOogD5kimZw=
-X-Gm-Gg: ASbGncuIcM4UrRjq+oJVyLXKXBihjuDQhlxGp2CD+X1+cNWeWNoo8xqnPH+fqGofO2m
- w1WUWF/uoWdLoHedgfGnbZZihl/VgInbPMsdgECpvz4Kh/UiCy0Rjwj19tE13kRwE7IJDx11yM2
- GSu5DjA32X1t+KqnikyDHSR+LdOYvAROPjBTSzSP77mbWKhwwSssvhCWQq79NwJEWEr4p/xe9o3
- qLazlztS1xlVpLlRNGD5/WSbrnivh45tsfq3Ldpa3FsLL1deoBq1lzZjk0cDySREJ/6GevQCYXf
- ko/Yb+E7sZ2TqseFwxwmZt54t7BS8U9ltGDtu2lnRdvkZZ+NiKVlLhPI4v4HgZhIQonmPLaDod8
- vQINLqSYKF7QHuT2411mHKOQPflc0HGaqex5pixObisHrJ0b0oYH/1JzcO2UqAUTEDr6+xii97r
- 1gXwTR11oWOSXxtsLFSQCzPsie49koCK8tqI1SqG9QSnzfxA==
-X-Google-Smtp-Source: AGHT+IEuYSheTD0LAmCUTXMqTUnmXFPaQcuKHhOpSOYN7DCVbycYCPaNazgBhc5bsfGHuKVEiD6GEw==
-X-Received: by 2002:a05:600c:4695:b0:471:1774:3003 with SMTP id
- 5b1f17b1804b1-477308be7b3mr29933385e9.29.1761905379892; 
- Fri, 31 Oct 2025 03:09:39 -0700 (PDT)
-Received: from localhost.localdomain ([2a00:6d43:105:c401:e307:1a37:2e76:ce91])
- by smtp.gmail.com with ESMTPSA id
- ffacd0b85a97d-429c13e1c9esm2839171f8f.22.2025.10.31.03.09.39
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 31 Oct 2025 03:09:39 -0700 (PDT)
-From: Marco Crivellari <marco.crivellari@suse.com>
-To: linux-kernel@vger.kernel.org, intel-gfx@lists.freedesktop.org,
- dri-devel@lists.freedesktop.org
-Cc: Tejun Heo <tj@kernel.org>, Lai Jiangshan <jiangshanlai@gmail.com>,
- Frederic Weisbecker <frederic@kernel.org>,
- Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
- Marco Crivellari <marco.crivellari@suse.com>,
- Michal Hocko <mhocko@suse.com>, Jani Nikula <jani.nikula@linux.intel.com>,
- Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>,
- Tvrtko Ursulin <tursulin@ursulin.net>, David Airlie <airlied@gmail.com>,
- Simona Vetter <simona@ffwll.ch>
-Subject: [PATCH 3/3] drm/i915: WQ_PERCPU added to alloc_workqueue users
-Date: Fri, 31 Oct 2025 11:09:23 +0100
-Message-ID: <20251031100923.85721-4-marco.crivellari@suse.com>
-X-Mailer: git-send-email 2.51.0
-In-Reply-To: <20251031100923.85721-1-marco.crivellari@suse.com>
-References: <20251031100923.85721-1-marco.crivellari@suse.com>
+Received: from mout-p-103.mailbox.org (mout-p-103.mailbox.org [80.241.56.161])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 163F210EAED
+ for <dri-devel@lists.freedesktop.org>; Fri, 31 Oct 2025 10:10:46 +0000 (UTC)
+Received: from smtp2.mailbox.org (smtp2.mailbox.org [10.196.197.2])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested)
+ by mout-p-103.mailbox.org (Postfix) with ESMTPS id 4cycDy4PDqz9srd;
+ Fri, 31 Oct 2025 11:10:42 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org;
+ s=mail20150812; 
+ t=1761905442; h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=oX/fzg/n5SwFz0Vlx5NQrJ0TysuKtNx7wJbpBrBb7Gc=;
+ b=k88e6phyFxYs99l4k8KsioLz4O6ef0gXmbm7ITVuJtXtCZFyS6hh5TuF2Wy4FSI47MQ7Qs
+ BojqW1hz38sMglZAjHmtgA5sjHCPmPZpIQACSUq3b2X1E9qCbpGn8of51w3XJ+6K71rikJ
+ wTZIflBggUbfO8UJAZsvA0eVsj4cUZQ+8f4ErjEwIxtlBzS89ZNupA3/pSaw9yAPDitzkC
+ Xi9F/4ib5T4bDtLSlh+df9wQWuHntf0FxccAqK7meDkTwJUhNw8zObwVifxfhR2ZWTBiOW
+ UYbTrs6EThAQDGrh4oJr6Oy7eH6cMqKqaH1SDLpw9Parot2qehFDrs8imKTr1g==
+Message-ID: <a243e68704eda067bd18458aa41452d1da220d68.camel@mailbox.org>
+Subject: Re: [PATCH 1/2] drm/sched: Fix comment in drm_sched_run_job_work()
+From: Philipp Stanner <phasta@mailbox.org>
+To: Matthew Brost <matthew.brost@intel.com>, Philipp Stanner
+ <phasta@kernel.org>
+Cc: Danilo Krummrich <dakr@kernel.org>, Christian =?ISO-8859-1?Q?K=F6nig?=
+ <ckoenig.leichtzumerken@gmail.com>, Maarten Lankhorst
+ <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>, 
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
+ Simona Vetter <simona@ffwll.ch>,  tursulin@ursulin.net,
+ dri-devel@lists.freedesktop.org,  linux-kernel@vger.kernel.org
+Date: Fri, 31 Oct 2025 11:10:38 +0100
+In-Reply-To: <aQJG1/izCBbNnX0a@lstrano-desk.jf.intel.com>
+References: <20251028134602.94125-2-phasta@kernel.org>
+ <20251028134602.94125-3-phasta@kernel.org>
+ <aQJG1/izCBbNnX0a@lstrano-desk.jf.intel.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+X-MBO-RS-ID: d0c2776e058c22ecbae
+X-MBO-RS-META: yjw8d48kozfrob7ej5igbn3qmsdok7rq
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -96,102 +67,57 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Reply-To: phasta@kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Currently if a user enqueue a work item using schedule_delayed_work() the
-used wq is "system_wq" (per-cpu wq) while queue_delayed_work() use
-WORK_CPU_UNBOUND (used when a cpu is not specified). The same applies to
-schedule_work() that is using system_wq and queue_work(), that makes use
-again of WORK_CPU_UNBOUND.
-This lack of consistentcy cannot be addressed without refactoring the API.
+On Wed, 2025-10-29 at 09:54 -0700, Matthew Brost wrote:
+> On Tue, Oct 28, 2025 at 02:46:01PM +0100, Philipp Stanner wrote:
+> > drm_sched_run_job_work() contains a comment which explains that an
+> > entity being NULL means that there is no more work to do. It can,
+> > however, also mean that there is work, but the scheduler doesn't have
+> > enough credits to process the jobs right now.
+> >=20
+> > Provide this detail in the comment.
+> >=20
+> > Signed-off-by: Philipp Stanner <phasta@kernel.org>
+>=20
+> Reviewed-by: Matthew Brost <matthew.brost@intel.com>
 
-alloc_workqueue() treats all queues as per-CPU by default, while unbound
-workqueues must opt-in via WQ_UNBOUND.
+Applied to drm-misc-next.
+Dropped the other patch.
 
-This default is suboptimal: most workloads benefit from unbound queues,
-allowing the scheduler to place worker threads where they’re needed and
-reducing noise when CPUs are isolated.
+Thx
+P.
 
-This change adds a new WQ_PERCPU flag to explicitly request
-alloc_workqueue() to be per-cpu when WQ_UNBOUND has not been specified.
-
-With the introduction of the WQ_PERCPU flag (equivalent to !WQ_UNBOUND),
-any alloc_workqueue() caller that doesn’t explicitly specify WQ_UNBOUND
-must now use WQ_PERCPU.
-
-Once migration is complete, WQ_UNBOUND can be removed and unbound will
-become the implicit default.
-
-Suggested-by: Tejun Heo <tj@kernel.org>
-Signed-off-by: Marco Crivellari <marco.crivellari@suse.com>
----
- drivers/gpu/drm/i915/display/intel_display_driver.c | 4 ++--
- drivers/gpu/drm/i915/i915_driver.c                  | 3 ++-
- drivers/gpu/drm/i915/selftests/i915_sw_fence.c      | 2 +-
- drivers/gpu/drm/i915/selftests/mock_gem_device.c    | 2 +-
- 4 files changed, 6 insertions(+), 5 deletions(-)
-
-diff --git a/drivers/gpu/drm/i915/display/intel_display_driver.c b/drivers/gpu/drm/i915/display/intel_display_driver.c
-index cf1c14412abe..e12f9126b155 100644
---- a/drivers/gpu/drm/i915/display/intel_display_driver.c
-+++ b/drivers/gpu/drm/i915/display/intel_display_driver.c
-@@ -257,13 +257,13 @@ int intel_display_driver_probe_noirq(struct intel_display *display)
- 		goto cleanup_wq_modeset;
- 	}
- 
--	display->wq.cleanup = alloc_workqueue("i915_cleanup", WQ_HIGHPRI, 0);
-+	display->wq.cleanup = alloc_workqueue("i915_cleanup", WQ_HIGHPRI | WQ_PERCPU, 0);
- 	if (!display->wq.cleanup) {
- 		ret = -ENOMEM;
- 		goto cleanup_wq_flip;
- 	}
- 
--	display->wq.unordered = alloc_workqueue("display_unordered", 0, 0);
-+	display->wq.unordered = alloc_workqueue("display_unordered", WQ_PERCPU, 0);
- 	if (!display->wq.unordered) {
- 		ret = -ENOMEM;
- 		goto cleanup_wq_cleanup;
-diff --git a/drivers/gpu/drm/i915/i915_driver.c b/drivers/gpu/drm/i915/i915_driver.c
-index 0f33cdc11736..380cb20a47c6 100644
---- a/drivers/gpu/drm/i915/i915_driver.c
-+++ b/drivers/gpu/drm/i915/i915_driver.c
-@@ -143,7 +143,8 @@ static int i915_workqueues_init(struct drm_i915_private *dev_priv)
- 	 * to be scheduled on the system_percpu_wq before moving to a driver
- 	 * instance due deprecation of flush_scheduled_work().
- 	 */
--	dev_priv->unordered_wq = alloc_workqueue("i915-unordered", 0, 0);
-+	dev_priv->unordered_wq = alloc_workqueue("i915-unordered", WQ_PERCPU,
-+						 0);
- 	if (dev_priv->unordered_wq == NULL)
- 		goto out_free_wq;
- 
-diff --git a/drivers/gpu/drm/i915/selftests/i915_sw_fence.c b/drivers/gpu/drm/i915/selftests/i915_sw_fence.c
-index 8f5ce71fa453..b81d65c77458 100644
---- a/drivers/gpu/drm/i915/selftests/i915_sw_fence.c
-+++ b/drivers/gpu/drm/i915/selftests/i915_sw_fence.c
-@@ -526,7 +526,7 @@ static int test_ipc(void *arg)
- 	struct workqueue_struct *wq;
- 	int ret = 0;
- 
--	wq = alloc_workqueue("i1915-selftest", 0, 0);
-+	wq = alloc_workqueue("i1915-selftest", WQ_PERCPU, 0);
- 	if (wq == NULL)
- 		return -ENOMEM;
- 
-diff --git a/drivers/gpu/drm/i915/selftests/mock_gem_device.c b/drivers/gpu/drm/i915/selftests/mock_gem_device.c
-index fb8751bd5df0..684e6ca0f960 100644
---- a/drivers/gpu/drm/i915/selftests/mock_gem_device.c
-+++ b/drivers/gpu/drm/i915/selftests/mock_gem_device.c
-@@ -221,7 +221,7 @@ struct drm_i915_private *mock_gem_device(void)
- 	if (!i915->wq)
- 		goto err_drv;
- 
--	i915->unordered_wq = alloc_workqueue("mock-unordered", 0, 0);
-+	i915->unordered_wq = alloc_workqueue("mock-unordered", WQ_PERCPU, 0);
- 	if (!i915->unordered_wq)
- 		goto err_wq;
- 
--- 
-2.51.0
+>=20
+> > ---
+> > =C2=A0drivers/gpu/drm/scheduler/sched_main.c | 9 +++++++--
+> > =C2=A01 file changed, 7 insertions(+), 2 deletions(-)
+> >=20
+> > diff --git a/drivers/gpu/drm/scheduler/sched_main.c b/drivers/gpu/drm/s=
+cheduler/sched_main.c
+> > index c39f0245e3a9..492e8af639db 100644
+> > --- a/drivers/gpu/drm/scheduler/sched_main.c
+> > +++ b/drivers/gpu/drm/scheduler/sched_main.c
+> > @@ -1237,8 +1237,13 @@ static void drm_sched_run_job_work(struct work_s=
+truct *w)
+> > =C2=A0
+> > =C2=A0	/* Find entity with a ready job */
+> > =C2=A0	entity =3D drm_sched_select_entity(sched);
+> > -	if (!entity)
+> > -		return;	/* No more work */
+> > +	if (!entity) {
+> > +		/*
+> > +		 * Either no more work to do, or the next ready job needs more
+> > +		 * credits than the scheduler has currently available.
+> > +		 */
+> > +		return;
+> > +	}
+> > =C2=A0
+> > =C2=A0	sched_job =3D drm_sched_entity_pop_job(entity);
+> > =C2=A0	if (!sched_job) {
+> > --=20
+> > 2.49.0
+> >=20
 
