@@ -2,83 +2,82 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id CD555C23DE3
-	for <lists+dri-devel@lfdr.de>; Fri, 31 Oct 2025 09:43:02 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8F454C23DEC
+	for <lists+dri-devel@lfdr.de>; Fri, 31 Oct 2025 09:43:15 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1FB2C10EADC;
-	Fri, 31 Oct 2025 08:43:01 +0000 (UTC)
-Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=suse.com header.i=@suse.com header.b="gfMnIMTV";
-	dkim-atps=neutral
+	by gabe.freedesktop.org (Postfix) with ESMTP id D949C10EAD1;
+	Fri, 31 Oct 2025 08:43:13 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lj1-f180.google.com (mail-lj1-f180.google.com
- [209.85.208.180])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B106810EAD8
- for <dri-devel@lists.freedesktop.org>; Fri, 31 Oct 2025 08:43:00 +0000 (UTC)
-Received: by mail-lj1-f180.google.com with SMTP id
- 38308e7fff4ca-376466f1280so24816831fa.0
- for <dri-devel@lists.freedesktop.org>; Fri, 31 Oct 2025 01:43:00 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=suse.com; s=google; t=1761900179; x=1762504979; darn=lists.freedesktop.org; 
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=8VPEaVnHIyEEykp68DuPbpbxptxzT5e1LgeffYCAMUg=;
- b=gfMnIMTVkrgvnIRX28I08N9wBYIbHQ3hbElE4T044H+XWUDU0UD/7bWr73EsDpwSF0
- CJ5YjHTJKNrIBXMnmjXA2le38J+Zedb53zYoGl/7tUkvimk9Zzxu0nm7EpOCD+1mkBDo
- YeBEQ3PNq0lBYsAjosw+P6aT3Rk7kZQwpsrfTclVmGgbWk9W2hzqeSidsq6Ko/QWF6dP
- k9K6p8+d2p/l3a1M5W3WlzrsfX87DXw9yISRz8ZTLXqnPvHagQxnAM3SVOGGFyHU/ATz
- 17TEhwHVAIPPJeIDBkLre5GRhPyiMnKZO8dozSx+HMa1hCV3QaCBcdxIIsg/9JDNMFVN
- 0sQw==
+Received: from mail-vs1-f45.google.com (mail-vs1-f45.google.com
+ [209.85.217.45])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0491B10EAD1
+ for <dri-devel@lists.freedesktop.org>; Fri, 31 Oct 2025 08:43:13 +0000 (UTC)
+Received: by mail-vs1-f45.google.com with SMTP id
+ ada2fe7eead31-5db1e29edbcso1340683137.0
+ for <dri-devel@lists.freedesktop.org>; Fri, 31 Oct 2025 01:43:12 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1761900179; x=1762504979;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=8VPEaVnHIyEEykp68DuPbpbxptxzT5e1LgeffYCAMUg=;
- b=f9D7vaUM4BaoE3r5uTUrZgK+JXAUcXSxmYIDcIPMKDOYOLzHU9ClWHt4/yz1HUPY8s
- luFLUfTsQWObp97sqaFlwlj4gLWdtp/u6xQy+INK/VrXOCdk2rUsQWkYn0Ar2cp0Ai3l
- xWUWPFjSv6znlqujtQwpH06396zUvVwNhkA24NSYBNiBY/KCflhhQiplILlLHXjakX6H
- jDTlxvgR+2HjAV0K/oVUGrxG6xvxlIN1FVfTPpN8YaL6aEn8GwMNCsjIrv8mc+DRYUJk
- g/qJiObz+EhDKzl410yMabggQl5opiCBQgz8qDkIEBIn5Z6xJ36sAONkkPiMCTnyh+7j
- rneA==
+ d=1e100.net; s=20230601; t=1761900192; x=1762504992;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=srKuvBcN8qwhEwMAzIP9jvMl8T/5K7+6w69VAb/dJjw=;
+ b=mm//o+AvtYoDgjC+RxIl6bdYXC9Kl1cTAUIh4UhD25Z5D/rLvGnl/XMBfKav/TzixX
+ 4wVLXzzif7Sb5sOPjMEOOupxDkFZt2riybN8giMajHETdKUBiisDhOUsdqjNE6H4itVE
+ VnmMymK/cTxutFptR1ATme9aAMkWhYFYItCHkU11BJCtpEUFolfDBWBrEbg5VLn0DZmM
+ 89Jd9TnOi00sJfJ8uY0VN5LCXci9kJKGCJlmbt2sYUfDtizbfaE8U34v5FXFQUfiLD7j
+ JUhD0B5YUkZUFuxI6AvY9ZvperzP3AUd7HlL8mj2FEVvShW2ivNRTFjuKKcJEiGc55Bb
+ 9gRQ==
 X-Forwarded-Encrypted: i=1;
- AJvYcCX0V/sIF7Y3arYVzjY+E8ZlbB3cK/+j7zHYu0fD3FyUwgRPAq+qd/IaBakwXhVLqozqhd7raQsvLcA=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YwDxai8KAkrdpvT+qRKBhcxaVQ8QxdZvQXIj3ZqoRHlmzpsv/og
- PzYKApFv4Xut2jIFt9idVmIyPDXSA0A/XjVz65Ep0gKVnXQ2LyUfiSRFIqUM/j2V2nOpr6+kKy7
- w+zyMhv3TFvYovjXbxkCiV1lA7HCjcIHRfyVsHJ67JQ==
-X-Gm-Gg: ASbGnctkiByjoVNQ9juqRYtF5E9YeROpRqgWp8N/YGZuoGjls2YYd56GOQY3FuE+099
- XQJaQM2BCiW+1vtctNfEm9wv2wCx+3ybMYWMbDHrQtBGOGQjZjIfib276xGgmqNg7EyeVHq7AP7
- rPhdkY175f8+X8WdsI+5szVx7cOvzg/o+EZ2trAFzNT0EiJJd92A48+hL/S7zumMa7cy8pLKN9q
- nma0s3cLsBZbIrwl4DkQs3yEbeIXpd3MW/gnpgOOJiJUB6CFKu+6Oyeo0gdxqE4y9fdgKn0pDuW
- 380Yu/f9DPa4EXU8/gwfoVM1tWCt
-X-Google-Smtp-Source: AGHT+IHGJmqlIXHNOm1UUUwV1F7p+xTwNQl9Kedsi6/i4Xko3qPnKOYsj5yIF7hW0Osmxc3o0wmHJE08wvPDk4Ri8KE=
-X-Received: by 2002:a05:6512:3a8a:b0:593:f74:91bb with SMTP id
- 2adb3069b0e04-5941d52bf43mr870426e87.23.1761900179006; Fri, 31 Oct 2025
- 01:42:59 -0700 (PDT)
+ AJvYcCUBn/1sQUQ2F2//La9RFdYZGj2GCdwplur6vWhXItrBIAg/neSiEczvej3KjRmbrxiEhwwbXO2b8PQ=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YynNYd5gsL807BgTu3slk5f06Iud2M5l0hdwpihozIdx43uyGje
+ EJYQgw8T3m+McSrGFH8Zoqa8xdu6M/31x76KrD0j6K7rPRm711B37u83k/nVkP7M
+X-Gm-Gg: ASbGnctwn09GiTqEpLDfveWCcxr1E1q9nQze9Om/Se4kY14FRDOLm2OPbnRNgJ4xx6D
+ zo25BCKoum/uVYIAXJdhSEewpkWnwGqBDORyoCJAQgDcPqXP9d5sOH5D1gMk5liKM0vi1SCMJWC
+ vo6yZk3E82aBRovU2MnLA02U9CzcmNhTqFNhWVInGDw6g69MIdBjmtukjg5i1sNl3SdLKpPYaKM
+ dmNbBcBUl1AfxYiHLQO3+AFa+/y3AMcvRb3YfJaNpk6JRjLttLhlQ31I5EqwZOqFAMk3soVawyp
+ bDac6vW0E5YUnotr+BJz7/clLZ6riDm5niQNhI7FgE3P8lMUhJBZSyZsZnX09JUhwFHErxR1+s0
+ 8DPfGoxmJ0t5ifgjifKKVU0xwi1STbRmwqJXE3vl2vsOniRVdlpRpeUU/LeJ8QIv45K17JL1zSg
+ v8DS+p1m/Fw4BGTYDwN4MwsqK2dfYDGDjCmtf3L0o3hi8dDcME
+X-Google-Smtp-Source: AGHT+IFCSZX1zhKyDs8JJsW0KLPc+0pqwFofgGp2CVsRKlECK3joDPWtU0aA5ccC1Ai0tCDrKtnlHQ==
+X-Received: by 2002:a67:fbd9:0:b0:5db:b7c3:116f with SMTP id
+ ada2fe7eead31-5dbb7c315c2mr165091137.11.1761900191528; 
+ Fri, 31 Oct 2025 01:43:11 -0700 (PDT)
+Received: from mail-vs1-f46.google.com (mail-vs1-f46.google.com.
+ [209.85.217.46]) by smtp.gmail.com with ESMTPSA id
+ ada2fe7eead31-5dbb617acf9sm399820137.3.2025.10.31.01.43.11
+ for <dri-devel@lists.freedesktop.org>
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 31 Oct 2025 01:43:11 -0700 (PDT)
+Received: by mail-vs1-f46.google.com with SMTP id
+ ada2fe7eead31-5db4006eb0fso1545979137.2
+ for <dri-devel@lists.freedesktop.org>; Fri, 31 Oct 2025 01:43:11 -0700 (PDT)
+X-Forwarded-Encrypted: i=1;
+ AJvYcCWQZcq/KPdcNr55nG/c1Kapenv451a4EVU1oYOpWadqfazEguOSqfbnlBUl3BfsWS2I6ZsMai/WhGQ=@lists.freedesktop.org
+X-Received: by 2002:a05:6102:26d2:b0:5d5:f544:a88e with SMTP id
+ ada2fe7eead31-5dbb133e6acmr609871137.35.1761900191030; Fri, 31 Oct 2025
+ 01:43:11 -0700 (PDT)
 MIME-Version: 1.0
-References: <20251030161011.282924-1-marco.crivellari@suse.com>
- <20251030161011.282924-2-marco.crivellari@suse.com>
- <813d07f7-b430-4c95-bac3-931188415593@amd.com>
-In-Reply-To: <813d07f7-b430-4c95-bac3-931188415593@amd.com>
-From: Marco Crivellari <marco.crivellari@suse.com>
-Date: Fri, 31 Oct 2025 09:42:48 +0100
-X-Gm-Features: AWmQ_bmgqax5gxHAeWzVR_zTAqsONzdP2NZEDUwQUNjiw7YBE-IHcZ7XDLkhobU
-Message-ID: <CAAofZF7d+t8Qqojawes8WAR2YOWz7vMtgt2y=ofJHN6mChX6DQ@mail.gmail.com>
-Subject: Re: [PATCH 1/4] drm/amdgpu: replace use of system_unbound_wq with
- system_dfl_wq
-To: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
-Cc: linux-kernel@vger.kernel.org, amd-gfx@lists.freedesktop.org, 
- dri-devel@lists.freedesktop.org, Tejun Heo <tj@kernel.org>, 
- Lai Jiangshan <jiangshanlai@gmail.com>,
- Frederic Weisbecker <frederic@kernel.org>, 
- Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
- Michal Hocko <mhocko@suse.com>, 
- Alex Deucher <alexander.deucher@amd.com>, David Airlie <airlied@gmail.com>, 
- Simona Vetter <simona@ffwll.ch>
+References: <CAMuHMdWapT40hV3c+CSBqFOW05aWcV1a6v_NiJYgoYi0i9_PDQ@mail.gmail.com>
+ <6854ea2b-b316-4711-b849-038d532f00c1@imgtec.com>
+In-Reply-To: <6854ea2b-b316-4711-b849-038d532f00c1@imgtec.com>
+From: Geert Uytterhoeven <geert@linux-m68k.org>
+Date: Fri, 31 Oct 2025 09:43:00 +0100
+X-Gmail-Original-Message-ID: <CAMuHMdUdYidx7u2FOFUmiijp-YeYaQQw_Lrj_E-BoUubuxxR_A@mail.gmail.com>
+X-Gm-Features: AWmQ_bl5-OwN-KWDVvu4tvr704LIaV03yTPqbwFu_WpQDxzklRlUNeQBSF_vnQU
+Message-ID: <CAMuHMdUdYidx7u2FOFUmiijp-YeYaQQw_Lrj_E-BoUubuxxR_A@mail.gmail.com>
+Subject: Re: drm/imagination: genpd_runtime_suspend() crash
+To: Matt Coster <Matt.Coster@imgtec.com>
+Cc: Frank Binns <Frank.Binns@imgtec.com>,
+ Alessio Belle <Alessio.Belle@imgtec.com>, 
+ Alexandru Dadu <Alexandru.Dadu@imgtec.com>,
+ Ulf Hansson <ulf.hansson@linaro.org>, 
+ "Rafael J. Wysocki" <rafael@kernel.org>,
+ Marek Vasut <marek.vasut+renesas@mailbox.org>, 
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>, 
+ "linux-pm@vger.kernel.org" <linux-pm@vger.kernel.org>, 
+ "linux-renesas-soc@vger.kernel.org" <linux-renesas-soc@vger.kernel.org>
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -94,23 +93,36 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Oct 30, 2025 at 6:14=E2=80=AFPM Christian K=C3=B6nig
-<christian.koenig@amd.com> wrote:
->[...]
-> In all the cases below we actually want the work to run on a different CP=
-U than the current one.
+Hi Matt,
+
+On Thu, 30 Oct 2025 at 13:18, Matt Coster <Matt.Coster@imgtec.com> wrote:
+> On 29/10/2025 14:08, Geert Uytterhoeven wrote:
+> > While playing with the PowerVR driver on various R-Car SoCs, I ran into
+> > a crash/race condition on Gray Hawk Single (R-Car V4M).  After adding
+> > the GPU device node to DTS, the driver fails to probe due to lack of
+> > suitable firmware, as expected:
 >
-> So using system_unbound_wq seems to be more appropriate.
+> Thanks for the detailed report! I'll make time to look into this. Do you
+> encounter a similar issue on other R-Car platforms, or is this exclusive
+> to the V4M?
 
-Hello Christian,
+Yes, I managed to trigger it on Salvator-X with R-Car M3-W, too.
+Reproduction steps at:
+https://lore.kernel.org/linux-renesas-soc/CAMuHMdWyKeQq31GEK+-y4BoaZFcCxJNac63S7NoocMj1cYKniw@mail.gmail.com
 
-system_dfl_wq is the new workqueue that will replace
-system_unbound_wq, but the behavior is the same.
-So, if you need system_unbound_wq, it means system_dfl_wq is fine here.
+renesas-drivers-2025-10-28 is available at
+https://web.git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-drivers.git/tag/?h=renesas-drivers-2025-10-28-v6.18-rc3
+My aarch64-linux-gnu-gcc is gcc version 13.3.0 (Ubuntu 13.3.0-6ubuntu2~24.04)
 
 Thanks!
---=20
 
-Marco Crivellari
+Gr{oetje,eeting}s,
 
-L3 Support Engineer, Technology & Product
+                        Geert
+
+-- 
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
