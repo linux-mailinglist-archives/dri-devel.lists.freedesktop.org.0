@@ -2,52 +2,51 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5B782C2449B
-	for <lists+dri-devel@lfdr.de>; Fri, 31 Oct 2025 10:56:02 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9A67BC244DF
+	for <lists+dri-devel@lfdr.de>; Fri, 31 Oct 2025 10:59:59 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id AF0A910E2BE;
-	Fri, 31 Oct 2025 09:55:53 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 057CC10EAE7;
+	Fri, 31 Oct 2025 09:59:57 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="NHoBYsy4";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="YFgnCTxE";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sea.source.kernel.org (sea.source.kernel.org [172.234.252.31])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9C76B10E2BE;
- Fri, 31 Oct 2025 09:55:52 +0000 (UTC)
+Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 320C810EAE4;
+ Fri, 31 Oct 2025 09:59:55 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by sea.source.kernel.org (Postfix) with ESMTP id 473BF436F9;
- Fri, 31 Oct 2025 09:55:52 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id AEC02C4CEE7;
- Fri, 31 Oct 2025 09:55:51 +0000 (UTC)
+ by tor.source.kernel.org (Postfix) with ESMTP id 68A2460403;
+ Fri, 31 Oct 2025 09:59:54 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 67B4CC4CEE7;
+ Fri, 31 Oct 2025 09:59:52 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1761904552;
- bh=aUIeKonLEN2Jjqki6gKSV3nqFqO7nZFmZ5zWHzPsnSs=;
+ s=k20201202; t=1761904794;
+ bh=0H+2X2wBzENuCnBV2Y0fipHxX4GX0+68/lismInwpE0=;
  h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=NHoBYsy4PtDW3TjuHTjZCx+keyV3OWMVc6hygxn/uM9NmcwywVfer0jPNr3BC3Yrw
- 9USgu/zGdDOIsj9jpzgRJcLp3rJ5wi+waj5HwUSBF/zZbS2yikwBzYDmluxWQT0GRj
- IdaDXoQkLT9nD9lduabgz9jInhWylMYPN5EjABWprlGauAbM9qZZkeseEdbAjYoHPB
- EzpN/MHR3Ga6ssB8f7crMkUAQCSJvWSAai0oZEkbHjj7U+W2o51hcgh55zom/W3Mcp
- 3JN8HfNdHZTQ+BlEzfgiLzzVrtaoFYEelAuPQ7XHuWobeU6O1k0/bpOc/SXDhpBzLT
- 4Q8zyH972bAoQ==
-Date: Fri, 31 Oct 2025 10:55:48 +0100
+ b=YFgnCTxE/zAgB7l+xIWpvQUDxpEzTxObQOioe8FzoPjpHkOmTIv6/AM9Ho3YuG3xJ
+ Rp1GfNmWa2bNWlp3tpm0QYRN3JgyWATssk22OB+sbix0Sx4gCa2vmVwa1/exBNBr/a
+ EX6KVy5CtovvPB4XLyKOUIlf/qWDiQuPxkYtqPnpECqqgb3ZXnpB/yl2T5iq2PBikO
+ 4BcGUAjN7CuyJ9G6XnyjgjgHmR1ys+qyRyvRuPaTFo8nib8ugQ0cZfq90REbeZNUO6
+ x2GVqMWdCo3Ng5IsogXfZruzToj0Rlq8K90tQzrj/ep49XoxAOBb4FcK6jsrihrTAR
+ rhOnXfhsBhLIQ==
+Date: Fri, 31 Oct 2025 10:59:49 +0100
 From: Andi Shyti <andi.shyti@kernel.org>
-To: Janusz Krzysztofik <janusz.krzysztofik@linux.intel.com>
-Cc: intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org, 
+To: Sebastian Brzezinka <sebastian.brzezinka@intel.com>
+Cc: Andi Shyti <andi.shyti@linux.intel.com>, 
+ intel-gfx <intel-gfx@lists.freedesktop.org>,
+ dri-devel <dri-devel@lists.freedesktop.org>, 
  Jani Nikula <jani.nikula@linux.intel.com>,
- Joonas Lahtinen <joonas.lahtinen@linux.intel.com>, 
- Rodrigo Vivi <rodrigo.vivi@intel.com>, Tvrtko Ursulin <tursulin@ursulin.net>, 
- Thomas =?utf-8?Q?Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
- Krzysztof Niemiec <krzysztof.niemiec@intel.com>,
- Sebastian Brzezinka <sebastian.brzezinka@intel.com>
-Subject: Re: [PATCH v3 0/3] drm/i915: Avoid lock inversion when pinning to GGTT
-Message-ID: <4qvakezswpevfjzpm3koj2m7l3pxxcfuzngz5j32dzl2w4eokm@5ozk7jbybgpe>
-References: <20251023082925.351307-5-janusz.krzysztofik@linux.intel.com>
+ "Christoph Lameter (Ampere)" <cl@gentwo.org>
+Subject: Re: [PATCH] drm/i915/gt: Use standard API for seqcount read in TLB
+ invalidation
+Message-ID: <2y3ze4qzzjg76hmocset2up54z4oakuur5a2muyltvl3lfo7xm@eejjdkwgm35e>
+References: <20251023132802.654061-1-andi.shyti@linux.intel.com>
+ <DDTYRY4J7XJ5.8PR5I265OCFJ@intel.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20251023082925.351307-5-janusz.krzysztofik@linux.intel.com>
+In-Reply-To: <DDTYRY4J7XJ5.8PR5I265OCFJ@intel.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -63,14 +62,25 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Janusz,
+Hi Sebastian,
 
-> Janusz Krzysztofik (3):
->   drm/i915: Avoid lock inversion when pinning to GGTT on CHV/BXT+VTD
->   drm/i915: Wait longer for threads in migrate selftest on CHV/BXT+VTD
->   drm/i915: Wait for page_sizes_gtt in gtt selftest on CHV/BXT+VTD
+On Tue, Oct 28, 2025 at 12:45:56PM +0000, Sebastian Brzezinka wrote:
+> On Thu Oct 23, 2025 at 1:28 PM UTC, Andi Shyti wrote:
+> > seqprop_sequence() is not intended for use outside seqlock.h.
+> > Although it is accessible as a macro, it is meant to be used only
+> > internally within the header.
+> >
+> > Replace it with its proper wrapper, raw_read_seqcount().
+> >
+> > Signed-off-by: Andi Shyti <andi.shyti@linux.intel.com>
+> > Co-developed-by: Jani Nikula <jani.nikula@linux.intel.com>
+> > Signed-off-by: Jani Nikula <jani.nikula@linux.intel.com>
+> > Cc: Christoph Lameter (Ampere) <cl@gentwo.org>
+> > ---
+> 
+> LGTM
+> Reviewed-by: Sebastian Brzezinka <sebastian.brzezinka@intel.com>
 
-merged to drm-intel-gt-next.
+Thank you! Pushed to drm-intel-gt-next.
 
-Thanks,
 Andi
