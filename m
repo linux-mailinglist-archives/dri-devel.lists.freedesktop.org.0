@@ -2,82 +2,84 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 39AB7C24578
-	for <lists+dri-devel@lfdr.de>; Fri, 31 Oct 2025 11:05:09 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id A68B0C245BD
+	for <lists+dri-devel@lfdr.de>; Fri, 31 Oct 2025 11:09:42 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9446710EAE9;
-	Fri, 31 Oct 2025 10:05:07 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1908D10EAEA;
+	Fri, 31 Oct 2025 10:09:40 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=huaqin-corp-partner-google-com.20230601.gappssmtp.com header.i=@huaqin-corp-partner-google-com.20230601.gappssmtp.com header.b="T7bntPWR";
+	dkim=pass (2048-bit key; unprotected) header.d=suse.com header.i=@suse.com header.b="TD8sLM9W";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pf1-f170.google.com (mail-pf1-f170.google.com
- [209.85.210.170])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 25C3A10EAE8
- for <dri-devel@lists.freedesktop.org>; Fri, 31 Oct 2025 10:05:03 +0000 (UTC)
-Received: by mail-pf1-f170.google.com with SMTP id
- d2e1a72fcca58-7a2738daea2so2048862b3a.0
- for <dri-devel@lists.freedesktop.org>; Fri, 31 Oct 2025 03:05:03 -0700 (PDT)
+Received: from mail-wm1-f51.google.com (mail-wm1-f51.google.com
+ [209.85.128.51])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 76D7810EAF3
+ for <dri-devel@lists.freedesktop.org>; Fri, 31 Oct 2025 10:09:38 +0000 (UTC)
+Received: by mail-wm1-f51.google.com with SMTP id
+ 5b1f17b1804b1-47117f92e32so17509435e9.1
+ for <dri-devel@lists.freedesktop.org>; Fri, 31 Oct 2025 03:09:38 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=huaqin-corp-partner-google-com.20230601.gappssmtp.com; s=20230601;
- t=1761905103; x=1762509903; darn=lists.freedesktop.org; 
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:from:to:cc:subject:date
- :message-id:reply-to;
- bh=FEUFh8n08DQQphEfu7D6Jjf0DyrDDA8NGdeNReXL22I=;
- b=T7bntPWRatWyCyhB93d8tmyN/i2h8LDKNGemfNS2kcjg05q7PDQH6XYsgbgtaObUz0
- GghGy+YF56ykuGUjvE0uA95QDoaC5x5sHAEUxISGlLgUaMHydp89EHOvqgREPX1hagUs
- vFKt2Pvlm+//qQXo1oikHvZGv5DcElCbgwbDf5q+BMIlEMYbm6YXjUV/X2UKI6wjyurk
- LjKvGptDYjc/aaGlskB9ozS2e7+fAkweRBcUKew6TQJeEgNNjywk7aQJZBb6tQSMyirP
- SWq5DG1xt42vbEVs+Y/sHdnEo5eykOcUYmJxKs88IxKR28DbIzeOsl4hXqlHRxr4TyaR
- rBnA==
+ d=suse.com; s=google; t=1761905377; x=1762510177; darn=lists.freedesktop.org; 
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=5gLsyclWIg1Hbk8GCNQzeqbJp579/jQeUbknnNQhnaI=;
+ b=TD8sLM9W/eIes+VwvHuLM8vAwm593tjNRLFSgDCSY8dKzi0P1YnDrf0vxUlO92IIwp
+ uGxnO7g3kSTdJG3JWPgplML0oV6p1UVK4M89TlzG/LqERYd2R5h7CWp/np/TOwuj5g5l
+ jE+g7J2qIKyg76rE09oDCEHPtoL8VY+aw9JsRDkaRKpB4l84pW/onbnWsKZyrZ2VHjP8
+ knEqM0RC2DIPfRte8JGTEJgUIETKbXIisJPq58vEc7AnLPqdzoSq7jVAhZ3w858kf5/D
+ msZ3fVHZN2TQZ1wAqT68TfRYY8DvxldGGgT3MNoHowfoZVmvE5TrnzT/18xt3aYwoiE+
+ 3X5g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1761905103; x=1762509903;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=FEUFh8n08DQQphEfu7D6Jjf0DyrDDA8NGdeNReXL22I=;
- b=rvXFAMsRvQNXwqc2CtWlhQMRSEQfdGuaCnbsGJ9rWZWz8ZgDmIfYaK7mZtIuvShCoP
- 74OZnBj4AcCz1dEexUIsaXBq2x0GJwDHupnaqaf700+OKgWxk6U0V7ivXByFAWUowJIY
- Y0PT3krifPgw8KH734tL0YmW8vSDAY4p5P/B/fkb4titJmnKQQXJek3+rPZikqSFkNt+
- i3xuA3K2xCX6uIjmpanzDgiREgM63Rr0fSDzk7ovj9JVVKZwJqX6QN61BUosQSOr6BFn
- O6y85Wxq8NVPE8tmAWViMijaY5M05aZaf7elYBlMfbseTbPW6d1Iceit8QL63bGYHe8k
- 6vKw==
-X-Gm-Message-State: AOJu0YxbTvSXve9xnqZJsWPAZLBt87/qSw0t4LLDd1X9AIooJcE11kcI
- 243Dama2oBRiymvaKG/ADMZZM8T6ifneIPbq89QiC1EH3ORwHH1/Fxubp90MXrJGbwQ=
-X-Gm-Gg: ASbGncsMi3OaAcQU8NjNi1bQ711/JrqMS1pif2COaOTilQLl8ZprhSUl6bSArNpueOK
- fdLsaWSAy/VrqzVI/OmnP3nsx10K9+HtiyQffnxnh7PtLRw9rCmQUiZUMOnl3b6F04ME3bRAPPi
- ILoOWUhJ5KNxyPVTUdz5qbYs+O4E+pNeWDPpMQ0yHTa7vDuT+CXer/tw+c8MoVpeXMd5ZWLdSUf
- WzEdHMyD5gefz2SUVooiNpkmUTnUDSk6A+5eh/1XCEoOAjQ2lnESM1EOAIf0jtoR1Ax+3MVjwns
- D6xQ7YS1Cyi/pGIwGoQT/SMNyWFR/01jev6KZSdafPPFDJ1KXtPA0XnLMfBI2FQ64BuIlQNIgDJ
- GMxoXVCgvlafgRwXylyskQWSYEsVfUxY4f6Xtddo8P0/JP9pvvJ5z/aoETOf8ZUW0yIQyR6ldOw
- 6zIRdBAK8RXoXRlbflb/bgAbu9db/c0xNrqFjNmlvr2rrDo6KeeZM+0Ho+HQ==
-X-Google-Smtp-Source: AGHT+IH//IxQyYKyB5E1QEm5vaYIp9M6eCvuPoYVqMg/AVtwUeanmUa0KKSrJP5wn5URAlX+DhkZZQ==
-X-Received: by 2002:a05:6a00:4fcf:b0:781:1a9f:aeeb with SMTP id
- d2e1a72fcca58-7a776e94027mr3603542b3a.1.1761905102532; 
- Fri, 31 Oct 2025 03:05:02 -0700 (PDT)
-Received: from dgp100339560-01.huaqin.com ([103.117.77.121])
+ d=1e100.net; s=20230601; t=1761905377; x=1762510177;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=5gLsyclWIg1Hbk8GCNQzeqbJp579/jQeUbknnNQhnaI=;
+ b=EOjX4l+n9LiUcoG8vsEz+uxm2cmpDID4OFalbk0YK7+k0aNv4+ytSVZmECWvXNtCz/
+ ZsifISSw4+hnMzDV6Ev6ld42ECw/DAqOeI43Gd7gbFpNHj1a3MDZPcuqdV369ZqJ3IhU
+ 1hr/wAwYdO7E//I156pyfNNSQV201vXCuo2vHjJSEPGMaAgJ3gHk+tKsl7MHFZIQ/cuQ
+ LqYU//5hxIhOGGLS/v0WEXkS9xT5Z972IlrRNZgW33bcwhj2QwUU2UGPK4oc53GmrQiB
+ tIDHDqSwhlPVXdid47K8iLMEHx9Z8sZog3Lf7Xw72B0lkaXnCgM3sqnr2l8B89hcbeSU
+ S2Dw==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCX9+WUvq25RcyNCBRElNf0ZYNI7Y0JlfExdI5TmnbTnfWT/bpDGV5NnIqnx8opexmcUOvPTPlvwpGw=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YxLNuGWbuA7mio/4ptr2vRvUdT1yK86Je/bBFVniRJI62WKoaSH
+ jm1McM+6PgFonKl+9WICwUbfKY4r7dl2oe/QbEZOCGoTv2I7KPZjnadRO4dGfcsWANw=
+X-Gm-Gg: ASbGncte4+ZuEqCT0ykikMfTwLzgYjzKqWp/UBEFunFaqcUCBS2gFzbyYIbGCNBspw5
+ +n0vWU1+xYi1Wi0SRHV9UvsiUDoCjE/aOWzmRb094lXHTw/bIxXbCklUadixW3CMpiqNmQnxTbp
+ Obnf2bT+zDZpy0Lffw83sgaI+1mO1dg+6ooLcsnzFn3+FONagnyaJ9183eqmUYiNsGKAdGJVqe3
+ DWOKDS6IvJpIHuF+lAzVRh0nYb0pEQV7Ehp/3r/6zOptxcojYFnnHC6JwaNXIRzDI5SJqKAz8ez
+ RlbBqGV0inhy2IQRKIJvD/QgB/Pebe3PI/CIPcG8WJYeVrqVist4wEZdnGWLqguVPKakXHs6zvP
+ PpAjFhd+2ots8gllpbr10jlTTDSuPiQnoOaDGiXkX26yLIIxx00DT2hcUSJwm17yLV8AjgbqXp0
+ /rvxyUfYfwFo+pj4ndo3FGxE0mdfr+2YdP0g8=
+X-Google-Smtp-Source: AGHT+IFHb0AaSWW+DTXGcxSx3IxdrfeDMO0RYX9+22XPN4yMZ4YQ/BGd2RRqAhlylqD2wBta80eN9A==
+X-Received: by 2002:a05:600c:a08e:b0:46e:49fb:4776 with SMTP id
+ 5b1f17b1804b1-477307c2ad7mr21989415e9.11.1761905376895; 
+ Fri, 31 Oct 2025 03:09:36 -0700 (PDT)
+Received: from localhost.localdomain ([2a00:6d43:105:c401:e307:1a37:2e76:ce91])
  by smtp.gmail.com with ESMTPSA id
- d2e1a72fcca58-7a7d8982117sm1644352b3a.15.2025.10.31.03.04.59
+ ffacd0b85a97d-429c13e1c9esm2839171f8f.22.2025.10.31.03.09.36
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 31 Oct 2025 03:05:02 -0700 (PDT)
-From: Langyan Ye <yelangyan@huaqin.corp-partner.google.com>
-To: neil.armstrong@linaro.org, airlied@gmail.com, simona@ffwll.ch,
- maarten.lankhorst@linux.intel.com, mripard@kernel.org, tzimmermann@suse.de,
- robh@kernel.org, krzk+dt@kernel.org, conor+dt@kernel.org,
- dianders@chromium.org
-Cc: dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org,
- Langyan Ye <yelangyan@huaqin.corp-partner.google.com>
-Subject: [PATCH v5 2/2] drm/panel: ilitek-ili9882t: Add support for Ilitek
- IL79900A-based panels
-Date: Fri, 31 Oct 2025 18:04:47 +0800
-Message-Id: <20251031100447.253164-3-yelangyan@huaqin.corp-partner.google.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20251031100447.253164-1-yelangyan@huaqin.corp-partner.google.com>
-References: <20251031100447.253164-1-yelangyan@huaqin.corp-partner.google.com>
+ Fri, 31 Oct 2025 03:09:36 -0700 (PDT)
+From: Marco Crivellari <marco.crivellari@suse.com>
+To: linux-kernel@vger.kernel.org, intel-gfx@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org
+Cc: Tejun Heo <tj@kernel.org>, Lai Jiangshan <jiangshanlai@gmail.com>,
+ Frederic Weisbecker <frederic@kernel.org>,
+ Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
+ Marco Crivellari <marco.crivellari@suse.com>,
+ Michal Hocko <mhocko@suse.com>, Jani Nikula <jani.nikula@linux.intel.com>,
+ Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>,
+ Tvrtko Ursulin <tursulin@ursulin.net>, David Airlie <airlied@gmail.com>,
+ Simona Vetter <simona@ffwll.ch>
+Subject: [PATCH 0/3] replace old wq(s), added WQ_PERCPU to alloc_workqueue
+Date: Fri, 31 Oct 2025 11:09:20 +0100
+Message-ID: <20251031100923.85721-1-marco.crivellari@suse.com>
+X-Mailer: git-send-email 2.51.0
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -94,127 +96,83 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The Ilitek IL79900A display controller is similar to the ILI9882T and can
-be supported within the existing `panel-ilitek-ili9882t.c` driver.
+Hi,
 
-This patch extends the ILI9882T driver to handle IL79900A-based panels,
-such as the Tianma TL121BVMS07-00. The IL79900A uses a similar command
-sequence and initialization flow, with minor differences in power supply
-configuration and timing.
+=== Current situation: problems ===
 
-Signed-off-by: Langyan Ye <yelangyan@huaqin.corp-partner.google.com>
----
- drivers/gpu/drm/panel/panel-ilitek-ili9882t.c | 69 +++++++++++++++++++
- 1 file changed, 69 insertions(+)
+Let's consider a nohz_full system with isolated CPUs: wq_unbound_cpumask is
+set to the housekeeping CPUs, for !WQ_UNBOUND the local CPU is selected.
 
-diff --git a/drivers/gpu/drm/panel/panel-ilitek-ili9882t.c b/drivers/gpu/drm/panel/panel-ilitek-ili9882t.c
-index 85c7059be214..c52f20863fc7 100644
---- a/drivers/gpu/drm/panel/panel-ilitek-ili9882t.c
-+++ b/drivers/gpu/drm/panel/panel-ilitek-ili9882t.c
-@@ -61,6 +61,13 @@ struct ili9882t {
- 	mipi_dsi_dcs_write_seq_multi(ctx, ILI9882T_DCS_SWITCH_PAGE, \
- 				     0x98, 0x82, (page))
- 
-+/* IL79900A-specific commands, add new commands as you decode them */
-+#define IL79900A_DCS_SWITCH_PAGE	0xFF
-+
-+#define il79900a_switch_page(ctx, page) \
-+	mipi_dsi_dcs_write_seq_multi(ctx, IL79900A_DCS_SWITCH_PAGE, \
-+				     0x5a, 0xa5, (page))
-+
- static int starry_ili9882t_init(struct ili9882t *ili)
- {
- 	struct mipi_dsi_multi_context ctx = { .dsi = ili->dsi };
-@@ -413,6 +420,38 @@ static int starry_ili9882t_init(struct ili9882t *ili)
- 	return ctx.accum_err;
- };
- 
-+static int tianma_il79900a_init(struct ili9882t *ili)
-+{
-+	struct mipi_dsi_multi_context ctx = { .dsi = ili->dsi };
-+
-+	mipi_dsi_usleep_range(&ctx, 5000, 5100);
-+
-+	il79900a_switch_page(&ctx, 0x06);
-+	mipi_dsi_dcs_write_seq_multi(&ctx, 0x3e, 0x62);
-+
-+	il79900a_switch_page(&ctx, 0x02);
-+	mipi_dsi_dcs_write_seq_multi(&ctx, 0x1b, 0x20);
-+	mipi_dsi_dcs_write_seq_multi(&ctx, 0x5d, 0x00);
-+	mipi_dsi_dcs_write_seq_multi(&ctx, 0x5e, 0x40);
-+
-+	il79900a_switch_page(&ctx, 0x07);
-+	mipi_dsi_dcs_write_seq_multi(&ctx, 0X29, 0x00);
-+
-+	il79900a_switch_page(&ctx, 0x06);
-+	mipi_dsi_dcs_write_seq_multi(&ctx, 0x92, 0x22);
-+
-+	il79900a_switch_page(&ctx, 0x00);
-+	mipi_dsi_dcs_exit_sleep_mode_multi(&ctx);
-+
-+	mipi_dsi_msleep(&ctx, 120);
-+
-+	mipi_dsi_dcs_set_display_on_multi(&ctx);
-+
-+	mipi_dsi_msleep(&ctx, 80);
-+
-+	return 0;
-+};
-+
- static inline struct ili9882t *to_ili9882t(struct drm_panel *panel)
- {
- 	return container_of(panel, struct ili9882t, base);
-@@ -529,6 +568,19 @@ static const struct drm_display_mode starry_ili9882t_default_mode = {
- 	.type = DRM_MODE_TYPE_DRIVER | DRM_MODE_TYPE_PREFERRED,
- };
- 
-+static const struct drm_display_mode tianma_il79900a_default_mode = {
-+	.clock = 264355,
-+	.hdisplay = 1600,
-+	.hsync_start = 1600 + 20,
-+	.hsync_end = 1600 + 20 + 4,
-+	.htotal = 1600 + 20 + 4 + 20,
-+	.vdisplay = 2560,
-+	.vsync_start = 2560 + 82,
-+	.vsync_end = 2560 + 82 + 2,
-+	.vtotal = 2560 + 82 + 2 + 36,
-+	.type = DRM_MODE_TYPE_DRIVER | DRM_MODE_TYPE_PREFERRED,
-+};
-+
- static const struct panel_desc starry_ili9882t_desc = {
- 	.modes = &starry_ili9882t_default_mode,
- 	.bpc = 8,
-@@ -543,6 +595,20 @@ static const struct panel_desc starry_ili9882t_desc = {
- 	.init = starry_ili9882t_init,
- };
- 
-+static const struct panel_desc tianma_tl121bvms07_desc = {
-+	.modes = &tianma_il79900a_default_mode,
-+	.bpc = 8,
-+	.size = {
-+		.width_mm = 163,
-+		.height_mm = 260,
-+	},
-+	.lanes = 3,
-+	.format = MIPI_DSI_FMT_RGB888,
-+	.mode_flags = MIPI_DSI_MODE_VIDEO | MIPI_DSI_MODE_VIDEO_SYNC_PULSE |
-+		      MIPI_DSI_MODE_LPM,
-+	.init = tianma_il79900a_init,
-+};
-+
- static int ili9882t_get_modes(struct drm_panel *panel,
- 			      struct drm_connector *connector)
- {
-@@ -680,6 +746,9 @@ static const struct of_device_id ili9882t_of_match[] = {
- 	{ .compatible = "starry,ili9882t",
- 	  .data = &starry_ili9882t_desc
- 	},
-+	{ .compatible = "tianma,tl121bvms07-00",
-+	  .data = &tianma_tl121bvms07_desc
-+	},
- 	{ /* sentinel */ }
- };
- MODULE_DEVICE_TABLE(of, ili9882t_of_match);
+This leads to different scenarios if a work item is scheduled on an
+isolated CPU where "delay" value is 0 or greater then 0:
+        schedule_delayed_work(, 0);
+
+This will be handled by __queue_work() that will queue the work item on the
+current local (isolated) CPU, while:
+
+        schedule_delayed_work(, 1);
+
+Will move the timer on an housekeeping CPU, and schedule the work there.
+
+Currently if a user enqueue a work item using schedule_delayed_work() the
+used wq is "system_wq" (per-cpu wq) while queue_delayed_work() use
+WORK_CPU_UNBOUND (used when a cpu is not specified). The same applies to
+schedule_work() that is using system_wq and queue_work(), that makes use
+again of WORK_CPU_UNBOUND.
+
+This lack of consistency cannot be addressed without refactoring the API.
+
+=== Recent changes to the WQ API ===
+
+The following, address the recent changes in the Workqueue API:
+
+- commit 128ea9f6ccfb ("workqueue: Add system_percpu_wq and system_dfl_wq")
+- commit 930c2ea566af ("workqueue: Add new WQ_PERCPU flag")
+
+The old workqueues will be removed in a future release cycle.
+
+=== Introduced Changes by this series ===
+
+1) [P 1-2]  Replace uses of system_wq and system_unbound_wq
+
+	system_wq is a per-CPU workqueue, but his name is not clear.
+    system_unbound_wq is to be used when locality is not required.
+
+    Because of that, system_wq has been replaced with system_percpu_wq, and
+    system_unbound_wq has been replaced with system_dfl_wq.
+
+2) [P 3] WQ_PERCPU added to alloc_workqueue()
+
+    This change adds a new WQ_PERCPU flag to explicitly request
+    alloc_workqueue() to be per-cpu when WQ_UNBOUND has not been specified.
+
+
+Thanks!
+
+
+Marco Crivellari (3):
+  drm/i915: replace use of system_unbound_wq with system_dfl_wq
+  drm/i915: replace use of system_wq with system_percpu_wq
+  drm/i915: WQ_PERCPU added to alloc_workqueue users
+
+ drivers/gpu/drm/i915/display/intel_display_driver.c | 4 ++--
+ drivers/gpu/drm/i915/display/intel_display_power.c  | 2 +-
+ drivers/gpu/drm/i915/display/intel_tc.c             | 4 ++--
+ drivers/gpu/drm/i915/gem/i915_gem_ttm_move.c        | 2 +-
+ drivers/gpu/drm/i915/gt/uc/intel_guc.c              | 4 ++--
+ drivers/gpu/drm/i915/gt/uc/intel_guc_ct.c           | 4 ++--
+ drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c   | 6 +++---
+ drivers/gpu/drm/i915/i915_active.c                  | 2 +-
+ drivers/gpu/drm/i915/i915_driver.c                  | 5 +++--
+ drivers/gpu/drm/i915/i915_drv.h                     | 2 +-
+ drivers/gpu/drm/i915/i915_sw_fence_work.c           | 2 +-
+ drivers/gpu/drm/i915/i915_vma_resource.c            | 2 +-
+ drivers/gpu/drm/i915/pxp/intel_pxp.c                | 2 +-
+ drivers/gpu/drm/i915/pxp/intel_pxp_irq.c            | 2 +-
+ drivers/gpu/drm/i915/selftests/i915_sw_fence.c      | 2 +-
+ drivers/gpu/drm/i915/selftests/mock_gem_device.c    | 2 +-
+ 16 files changed, 24 insertions(+), 23 deletions(-)
+
 -- 
-2.34.1
+2.51.0
 
