@@ -2,99 +2,65 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id AE846C24F6B
-	for <lists+dri-devel@lfdr.de>; Fri, 31 Oct 2025 13:20:35 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3B83FC24F84
+	for <lists+dri-devel@lfdr.de>; Fri, 31 Oct 2025 13:22:03 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 231AC10E29F;
-	Fri, 31 Oct 2025 12:20:33 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3BE2210EB10;
+	Fri, 31 Oct 2025 12:21:56 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="mlg0/JzP";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="eEfmMu91";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C057310E29F
- for <dri-devel@lists.freedesktop.org>; Fri, 31 Oct 2025 12:20:31 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by tor.source.kernel.org (Postfix) with ESMTP id EB1D560216;
- Fri, 31 Oct 2025 12:20:30 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9A9D6C4CEFB;
- Fri, 31 Oct 2025 12:20:27 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1761913230;
- bh=6hN9oD7BoUujzqaI8J1/rYBQ7gJ8PrxmniYHV108z6Y=;
- h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
- b=mlg0/JzPg7ZMCDhrmvEgGinkOSxkBEAWXc2WbK87bIW16q2/WfnICZtQBqyW9rJNd
- XDVD/TtazWnQJME6jThLOaznqdnZcOj8pPQGw2BwbB1ndDjyUfBhmVrZ+pGrzZ+3Ji
- +8ambcdgQojA6u8SMmUy2hfwNID0KR/EskZA9Wnq5C0eNHvBUrsUPbwb159HAlVtdD
- 2SCrQGwqAJOvJFkE8J4ukkxmF0KsblcAjs5vIqbCVNoiwIFcvnEnasQnq573g6ixNX
- mwymcbZJvecVFeFahfoN6CZi84UNSWfnZ4KSB7v2DYhgiYaukCd9+w57Wyt6FV/lN9
- UaOZhJm61xDyw==
-Message-ID: <7557b6bf-3ad0-42ef-a342-50052056b5fc@kernel.org>
-Date: Fri, 31 Oct 2025 13:20:25 +0100
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4373110E2D1;
+ Fri, 31 Oct 2025 12:21:55 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1761913315; x=1793449315;
+ h=from:to:cc:subject:date:message-id:in-reply-to:
+ references:mime-version:content-transfer-encoding;
+ bh=wtXa5N8ELzd9patOCL0wnoDyTlyEA9GUSpL7zpvZcPU=;
+ b=eEfmMu916W5Gs8DFg7N8O3AM0wpAFlLvLVwdt5cY/NmHu4Kus0q5WXLV
+ hg5zHp32SvSRNTv7w/hT8gIXObYiY4gdhxUxTbhDTud9fEgR5Pm0k7TRe
+ +D11Ojq8p3PZ3OBw6f4qP4N2RVWxcL6az716sm+DuDV5HWOXsGzrGx/p3
+ S6lkLPn+g99H0iEWsaogFjMQdksQCB7FH+G2R/jGy1NGx3qPLGPHebWAw
+ lSIC24h+ANk5VpCvmCnv2fEiwZyGUTS/XxFqJVlwcB+/1C3Wvl8YRMGiM
+ /UoKPHL+TVo6FbkFHZfbEuvR+F+zEqGNtm5U9SnWbzR+Hrf5wdds1VDCt Q==;
+X-CSE-ConnectionGUID: K4XTfsyrTP6uggMRbH0/RQ==
+X-CSE-MsgGUID: Nl9pagI1RCKJcUPGmeew/A==
+X-IronPort-AV: E=McAfee;i="6800,10657,11598"; a="63093299"
+X-IronPort-AV: E=Sophos;i="6.19,269,1754982000"; d="scan'208";a="63093299"
+Received: from orviesa008.jf.intel.com ([10.64.159.148])
+ by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 31 Oct 2025 05:21:55 -0700
+X-CSE-ConnectionGUID: qS+WLt2gRGOfZ800ME/xww==
+X-CSE-MsgGUID: QJvRNelDQ0e2QnMaAgfB+Q==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.19,269,1754982000"; d="scan'208";a="186341117"
+Received: from jkrzyszt-mobl2.ger.corp.intel.com ([10.245.246.53])
+ by orviesa008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 31 Oct 2025 05:21:53 -0700
+From: Janusz Krzysztofik <janusz.krzysztofik@linux.intel.com>
+To: dri-devel@lists.freedesktop.org, intel-gfx@lists.freedesktop.org,
+ Krzysztof Niemiec <krzysztof.niemiec@intel.com>
+Cc: =?UTF-8?B?6rmA6rCV66+8?= <km.kim1503@gmail.com>,
+ Chris Wilson <chris.p.wilson@linux.intel.com>,
+ Andi Shyti <andi.shyti@linux.intel.com>,
+ Krzysztof Karas <krzysztof.karas@intel.com>,
+ Sebastian Brzezinka <sebastian.brzezinka@intel.com>,
+ Krzysztof Niemiec <krzysztof.niemiec@intel.com>
+Subject: Re: [PATCH] drm/i915/gem: Fix NULL pointer dereference in
+ eb_release_vmas()
+Date: Fri, 31 Oct 2025 13:21:50 +0100
+Message-ID: <24137698.6Emhk5qWAg@jkrzyszt-mobl2.ger.corp.intel.com>
+Organization: Intel Technology Poland sp. z o.o. - ul. Slowackiego 173,
+ 80-298 Gdansk - KRS 101882 - NIP 957-07-52-316
+In-Reply-To: <20251031105259.72927-2-krzysztof.niemiec@intel.com>
+References: <20251031105259.72927-2-krzysztof.niemiec@intel.com>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v4 1/3] dt-bindings: display: sitronix,st7920: Add DT
- schema
-To: Iker Pedrosa <ikerpedrosam@gmail.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>,
- Javier Martinez Canillas <javierm@redhat.com>
-Cc: linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- devicetree@vger.kernel.org
-References: <20251031-st7920-v4-0-35291f8076b2@gmail.com>
- <20251031-st7920-v4-1-35291f8076b2@gmail.com>
-From: Krzysztof Kozlowski <krzk@kernel.org>
-Content-Language: en-US
-Autocrypt: addr=krzk@kernel.org; keydata=
- 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 a/A=
-In-Reply-To: <20251031-st7920-v4-1-35291f8076b2@gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="utf-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -110,17 +76,89 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 31/10/2025 10:05, Iker Pedrosa wrote:
-> Add binding for Sitronix ST7920 display.
-> 
-> Signed-off-by: Iker Pedrosa <ikerpedrosam@gmail.com>
+Hi Krzysztof,
+
+On Friday, 31 October 2025 11:53:00 CET Krzysztof Niemiec wrote:
+> Set eb->vma[i+1].vma to NULL to prevent eb_release_vmas() from
+> processing unitialized data, leading to a potential NULL dereference.
+
+At a first glance, shouldn't we rather initialize the whole table memory=20
+before using it?
+
+Thanks,
+Janusz
+
+>=20
+> During the execution of eb_lookup_vmas(), the eb->vma array is
+> successively filled up with struct eb_vma objects. This process includes
+> calling eb_add_vma(), which might fail; however, even in the event of
+> failure, eb->vma[i].vma is set for the currently processes buffer.
+>=20
+> If eb_add_vma() fails, eb_lookup_vmas() returns with an error, which
+> prompts a call to eb_release_vmas() to clean up the mess. Since
+> eb_lookup_vmas() might fail during processing any (possibly not first)
+> buffer, eb_release_vmas() checks whether a buffer's vma is NULL to know
+> which one has failed first. The NULL is set if the vma cannot be set or
+> is invalid in some way, but during and after the eb_add_vma() call, it
+> is set to a valid pointer for the currently processed eb_vma.
+>=20
+> This means that during the check in eb_release_vmas(), the buffer that
+> failed eb_add_vma() (say, eb->vma[i]) is processed (and rightfully so,
+> since the vma associated with it still needs cleanup), but eb->vma[i+1]
+> is left completely uninitialized (since the loop was broken prematurely
+> after failing on eb_add_vma() for eb->vma[i]). Therefore
+> eb->vma[i+1].vma has junk in it, and if that junk is not NULL, that vma
+> will be processed by eb_release_vmas(), leading to memory corruption.
+>=20
+> Closes: https://gitlab.freedesktop.org/drm/i915/kernel/-/issues/15062
+>=20
+> Reported-by: =EA=B9=80=EA=B0=95=EB=AF=BC <km.kim1503@gmail.com>
+> Signed-off-by: Krzysztof Niemiec <krzysztof.niemiec@intel.com>
 > ---
->  .../bindings/display/sitronix,st7920.yaml          | 58 ++++++++++++++++++++++
->  1 file changed, 58 insertions(+)
-> 
+>  .../gpu/drm/i915/gem/i915_gem_execbuffer.c    | 19 ++++++++++++++-----
+>  1 file changed, 14 insertions(+), 5 deletions(-)
+>=20
+> diff --git a/drivers/gpu/drm/i915/gem/i915_gem_execbuffer.c b/drivers/gpu=
+/drm/i915/gem/i915_gem_execbuffer.c
+> index 39c7c32e1e74..0f8f02e22c03 100644
+> --- a/drivers/gpu/drm/i915/gem/i915_gem_execbuffer.c
+> +++ b/drivers/gpu/drm/i915/gem/i915_gem_execbuffer.c
+> @@ -960,18 +960,27 @@ static int eb_lookup_vmas(struct i915_execbuffer *e=
+b)
+>  		}
+> =20
+>  		err =3D eb_add_vma(eb, &current_batch, i, vma);
+> -		if (err)
+> +		if (err) {
+> +			if (i + 1 < eb->buffer_count) {
+> +				/*
+> +				 * Execbuffer code expects last vma entry to be NULL,
+> +				 * since we already initialized this entry,
+> +				 * set the next value to NULL or we mess up
+> +				 * cleanup handling.
+> +				 */
+> +				eb->vma[i + 1].vma =3D NULL;
+> +			}
+> +
+>  			return err;
+> +		}
+> =20
+>  		if (i915_gem_object_is_userptr(vma->obj)) {
+>  			err =3D i915_gem_object_userptr_submit_init(vma->obj);
+>  			if (err) {
+>  				if (i + 1 < eb->buffer_count) {
+>  					/*
+> -					 * Execbuffer code expects last vma entry to be NULL,
+> -					 * since we already initialized this entry,
+> -					 * set the next value to NULL or we mess up
+> -					 * cleanup handling.
+> +					 * Set the next vma to null, for the same
+> +					 * reason as above.
+>  					 */
+>  					eb->vma[i + 1].vma =3D NULL;
+>  				}
+>=20
 
 
-Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 
-Best regards,
-Krzysztof
+
