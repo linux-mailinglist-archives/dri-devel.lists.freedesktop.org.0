@@ -2,81 +2,63 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0AD5FC247A5
-	for <lists+dri-devel@lfdr.de>; Fri, 31 Oct 2025 11:35:15 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id B7BF6C24829
+	for <lists+dri-devel@lfdr.de>; Fri, 31 Oct 2025 11:38:01 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6326010EB01;
-	Fri, 31 Oct 2025 10:35:13 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 142D910EB25;
+	Fri, 31 Oct 2025 10:38:00 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=ursulin-net.20230601.gappssmtp.com header.i=@ursulin-net.20230601.gappssmtp.com header.b="MgQAUrWh";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="PmJKKtMU";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-f45.google.com (mail-wr1-f45.google.com
- [209.85.221.45])
- by gabe.freedesktop.org (Postfix) with ESMTPS id EB5F010EAFF
- for <dri-devel@lists.freedesktop.org>; Fri, 31 Oct 2025 10:35:07 +0000 (UTC)
-Received: by mail-wr1-f45.google.com with SMTP id
- ffacd0b85a97d-42557c5cedcso1282831f8f.0
- for <dri-devel@lists.freedesktop.org>; Fri, 31 Oct 2025 03:35:07 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=ursulin-net.20230601.gappssmtp.com; s=20230601; t=1761906906; x=1762511706;
- darn=lists.freedesktop.org; 
- h=content-transfer-encoding:in-reply-to:from:content-language
- :references:cc:to:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=PdrymPQFa+0z7DHo2EakNjMe5XtHWaGvX1vPpLrRBxs=;
- b=MgQAUrWhtLtsLnGDlEJZ0w6b8b/VqkB+F1C8UGSHJcxxsqfqvxaJfyJn+KbkN2l6/r
- tr31BXj7lXqZ4fmx1CbgKp48EWvdsAm08mDsXkDQZYwm8pKlm4hnilDBHVN/svVjfrUj
- zX+4vLsyusKLd16vVPjhXg2cW9ZBF4HyX3BZHhKyVR8b4N7v7njLJtlEXkPoaDEJBb3G
- 0otGfsqEsmwyfDu7HQntV6tp7fH03XswxnZQT42obMojwBxPybiS3AQrNG9iD11ssopS
- eCHHOl9CUYgpEn0J1NN4cxKxjCxl2/t6GNd86herjsnYxiE42aOGQ8JB/VJ/PcgDn/h3
- zAWw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1761906906; x=1762511706;
- h=content-transfer-encoding:in-reply-to:from:content-language
- :references:cc:to:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=PdrymPQFa+0z7DHo2EakNjMe5XtHWaGvX1vPpLrRBxs=;
- b=eYiLloIG5C95xYFpPGGXlIoIvW9O0o54A0acIsqN2yoVFcCthtvvUpq8+KeVL27tKJ
- QGCPCMI783YjY3U3a9FBh/28OJETI1G4MywxXNhHIaIhZaQJOlNZX0PG0Yhe7Hhctc0g
- NF5o6KoBP3MsBrP04RVVeJHRHQSlIm0CfT5PNGMUulLmf2AcHV7+XpgVT4yB2ENfiykW
- NmudFsyZ3qXEMTmCQni+t5PJLWaArDJ49v5pG/n/1IJMgJJ/ngcF4gL5FIzrJGJ/Dogh
- XK93DeUxsdtpnwv8sImE0h5fak5/gHnmAV0QeJUHwqNNrcvhp9es64Nlg+g+anqpLC6L
- FnVQ==
-X-Gm-Message-State: AOJu0Yz9+DJfT+71RfsnoK0GaeBQzlsSwxHH9QxX9ZuKowdyKXi5mQY1
- FGG5+eugUlNN1tT3O2wEjOIyFRo1XfzOr9Y/jiQQIIqxCxTeuP5dsJoOKRkywOztpYM=
-X-Gm-Gg: ASbGncubZRCEKl8VwpwZrSRVEqKYkC+1TRBKveuWgttLTQao+SBQds2YHJfrv8xV5K1
- +lZSuOcsywkxNwp6bVV/7mVeJAlv55iQN82YJqYeL4pg1FXb4W7YS/QnaRLgeWwQCeexf1nR/QK
- dliWmBVeCD+FYrgoH89iM5hG0YQX0rnfU9HyJKK0VoRlYHWINecBnEEkiw0YMQJfRkImqexvxVt
- PHytPk8ttdwADSLI3G6J4XXeZKj/4PiKSD3jtb70e7c0uLOd4uYekSk4ffJAeUIjLYPUj+YzPqs
- cjcS+7BTH69yJQaL+RGmy1hcd4kVJAuoi3/aRPJKeDmF2uNPp4GPyfzWzkXDG2X0HxMwvw71A2M
- eEA3wtuks5CZowZ0pCbR9IkrB1LWcBZsqic3OIcgOVANpaNU21vw7EdSe7OiO1ym3lZAeg2JH9L
- +HAEgPOYq0/3EoBmUwiVOwdSHGU6g=
-X-Google-Smtp-Source: AGHT+IEbXjZwVZ0BRz6eKPRreWtcxs3tBkrOmZ3nSlwbUYhE9YCNIcCaf2kqw06sBQspAX6iWIdKEw==
-X-Received: by 2002:a05:6000:18a5:b0:427:a34:648c with SMTP id
- ffacd0b85a97d-429bd6efbbdmr2615765f8f.58.1761906906340; 
- Fri, 31 Oct 2025 03:35:06 -0700 (PDT)
-Received: from [192.168.0.101] ([90.240.106.137])
- by smtp.gmail.com with ESMTPSA id
- ffacd0b85a97d-429c1125ad0sm2882917f8f.13.2025.10.31.03.35.05
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 31 Oct 2025 03:35:05 -0700 (PDT)
-Message-ID: <332f1009-1371-4287-8726-f7b875cadd03@ursulin.net>
-Date: Fri, 31 Oct 2025 10:35:05 +0000
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 318DE10EB35
+ for <dri-devel@lists.freedesktop.org>; Fri, 31 Oct 2025 10:37:58 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1761907079; x=1793443079;
+ h=from:to:cc:subject:in-reply-to:references:date:
+ message-id:mime-version:content-transfer-encoding;
+ bh=QSaTEzBQfWPbXIC3RRefKKJv8RZk9/0WkODw7UdM88w=;
+ b=PmJKKtMUACUTGOKnur/kix/PS6pBkClXWfEQGWtUT/Rn2g5BWD5tQvmj
+ RTdzPWsv3H8tijDPzc77UfTj8lHNGZ1s8KJ56K2XanFjDoR/0uOB35IbO
+ waYHQj/N/GTMSkPYTEvqCWlXd5/BOFYkc5QKdzFRbMfi3IasxDAjWc35p
+ AOA7ResPeH7EpFxEbDqIdGc4eC3vjIeD6P8lX83xn844K+2K38ocu4mOk
+ 7SgY5k0x05y5yKLqLXKaBBetZmyT6lz1qnqmVOoPFlZL0OGHug+Kddh3x
+ Q/DkUKBxzn7w32+HAfLp9C1vTs6CppLI9lJ46Ys010A3JLkLz1SmY751a A==;
+X-CSE-ConnectionGUID: tBLGtFTbSRqQiJaqFHn6+Q==
+X-CSE-MsgGUID: hqkz1CBPQB+fzeDcjCe90A==
+X-IronPort-AV: E=McAfee;i="6800,10657,11598"; a="64106837"
+X-IronPort-AV: E=Sophos;i="6.19,269,1754982000"; d="scan'208";a="64106837"
+Received: from fmviesa007.fm.intel.com ([10.60.135.147])
+ by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 31 Oct 2025 03:37:58 -0700
+X-CSE-ConnectionGUID: 8pyiYAyjR22by0vnQYF0kw==
+X-CSE-MsgGUID: QpR3cUmSTYCPHXpvYKmOdw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.19,269,1754982000"; d="scan'208";a="185892866"
+Received: from carterle-desk.ger.corp.intel.com (HELO localhost)
+ ([10.245.246.37])
+ by fmviesa007-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 31 Oct 2025 03:37:54 -0700
+From: Jani Nikula <jani.nikula@intel.com>
+To: Doug Anderson <dianders@chromium.org>, Ajye Huang
+ <ajye_huang@compal.corp-partner.google.com>
+Cc: linux-kernel@vger.kernel.org, Maarten Lankhorst
+ <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ dri-devel@lists.freedesktop.org
+Subject: Re: [PATCH v1] drm/edid: add 6 bpc quirk to the Sharp LQ116M1JW10
+In-Reply-To: <CAD=FV=V6xV0m4pj=7f2dxDP-0A1AaQuYJP5NAnXNz1_bzH7nSw@mail.gmail.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+References: <20251030094434.1390143-1-ajye_huang@compal.corp-partner.google.com>
+ <CAD=FV=V6xV0m4pj=7f2dxDP-0A1AaQuYJP5NAnXNz1_bzH7nSw@mail.gmail.com>
+Date: Fri, 31 Oct 2025 12:37:52 +0200
+Message-ID: <7071a2b8198c09011c84d39b45dc6d1da4b69d12@intel.com>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 03/15] dma-buf: protected fence ops by RCU
-To: =?UTF-8?Q?Christian_K=C3=B6nig?= <ckoenig.leichtzumerken@gmail.com>,
- phasta@mailbox.org, alexdeucher@gmail.com, simona.vetter@ffwll.ch
-Cc: dri-devel@lists.freedesktop.org, amd-gfx@lists.freedesktop.org
-References: <20251013143502.1655-1-christian.koenig@amd.com>
- <20251013143502.1655-4-christian.koenig@amd.com>
-Content-Language: en-GB
-From: Tvrtko Ursulin <tursulin@ursulin.net>
-In-Reply-To: <20251013143502.1655-4-christian.koenig@amd.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -92,61 +74,50 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+On Thu, 30 Oct 2025, Doug Anderson <dianders@chromium.org> wrote:
+> Hi,
+>
+> On Thu, Oct 30, 2025 at 2:44=E2=80=AFAM Ajye Huang
+> <ajye_huang@compal.corp-partner.google.com> wrote:
+>>
+>> The Sharp LQ116M1JW105 reports that it supports 8 bpc modes,
+>> but it will happen display noise in some videos.
+>> So, limit it to 6 bpc modes.
+>>
+>> Signed-off-by: Ajye Huang <ajye_huang@compal.corp-partner.google.com>
+>> ---
+>>  drivers/gpu/drm/drm_edid.c | 3 +++
+>>  1 file changed, 3 insertions(+)
+>>
+>> diff --git a/drivers/gpu/drm/drm_edid.c b/drivers/gpu/drm/drm_edid.c
+>> index e2e85345aa9a..a73d37fe7ea1 100644
+>> --- a/drivers/gpu/drm/drm_edid.c
+>> +++ b/drivers/gpu/drm/drm_edid.c
+>> @@ -250,6 +250,9 @@ static const struct edid_quirk {
+>>         EDID_QUIRK('S', 'V', 'R', 0x1019, BIT(EDID_QUIRK_NON_DESKTOP)),
+>>         EDID_QUIRK('A', 'U', 'O', 0x1111, BIT(EDID_QUIRK_NON_DESKTOP)),
+>>
+>> +       /* LQ116M1JW10 displays noise when 8 bpc, but display fine as 6 =
+bpc */
+>> +       EDID_QUIRK('S', 'H', 'P', 0x154c, EDID_QUIRK_FORCE_6BPC),
+>
+> Reviewed-by: Douglas Anderson <dianders@chromium.org>
 
-One additional comment on this patch:
+FWIW,
 
-On 13/10/2025 14:48, Christian König wrote:
-> At first glance it is counter intuitive to protect a constant function
-> pointer table by RCU, but this allows modules providing the function
-> table to unload by waiting for an RCU grace period.
-> 
-> Signed-off-by: Christian König <christian.koenig@amd.com>
-> ---
->   drivers/dma-buf/dma-fence.c | 65 +++++++++++++++++++++++++++----------
->   include/linux/dma-fence.h   | 18 ++++++++--
->   2 files changed, 62 insertions(+), 21 deletions(-)
-> 
+Acked-by: Jani Nikula <jani.nikula@intel.com>
 
-8><
+>
+> I'll plan to apply this patch next week unless there are any comments.
+> Given that it's just adding a quirk, I'm also happy to apply it
+> soonner (or for someone else to apply it) if people think that's OK.
+> :-)
+>
+> NOTE: in general if someone is involved in the discussion of a
+> previous versoin, it's good to CC them on newer versions. I've added
+> Jani back to the CC list here.
+>
+> -Doug
 
-> @@ -1104,11 +1127,14 @@ EXPORT_SYMBOL(dma_fence_init64);
->    */
->   const char __rcu *dma_fence_driver_name(struct dma_fence *fence)
->   {
-> +	const struct dma_fence_ops *ops;
-> +
->   	RCU_LOCKDEP_WARN(!rcu_read_lock_held(),
->   			 "RCU protection is required for safe access to returned string");
->   
-> +	ops = rcu_dereference(fence->ops);
->   	if (!test_bit(DMA_FENCE_FLAG_SIGNALED_BIT, &fence->flags))
-> -		return fence->ops->get_driver_name(fence);
-> +		return ops->get_driver_name(fence);
->   	else
->   		return "detached-driver";
->   }
-> @@ -1136,11 +1162,14 @@ EXPORT_SYMBOL(dma_fence_driver_name);
->    */
->   const char __rcu *dma_fence_timeline_name(struct dma_fence *fence)
->   {
-> +	const struct dma_fence_ops *ops;
-> +
->   	RCU_LOCKDEP_WARN(!rcu_read_lock_held(),
->   			 "RCU protection is required for safe access to returned string");
->   
-> +	ops = rcu_dereference(fence->ops);
-
-For the above two functions, the RCU_LOCKDEP_WARN now becomes redundant 
-to the one rcu_dererence() would emit. Maybe just move the string into a 
-comment?
-
-Regards,
-
-Tvrtko
-
->   	if (!test_bit(DMA_FENCE_FLAG_SIGNALED_BIT, &fence->flags))
-> -		return fence->ops->get_driver_name(fence);
-> +		return ops->get_driver_name(fence);
->   	else
->   		return "signaled-timeline";
->   }
+--=20
+Jani Nikula, Intel
