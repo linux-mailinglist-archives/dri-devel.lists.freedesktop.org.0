@@ -2,94 +2,86 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A0808C25035
-	for <lists+dri-devel@lfdr.de>; Fri, 31 Oct 2025 13:32:02 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id CF049C2525F
+	for <lists+dri-devel@lfdr.de>; Fri, 31 Oct 2025 14:02:35 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 77AA010EB49;
-	Fri, 31 Oct 2025 12:31:37 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 27AA410EB1D;
+	Fri, 31 Oct 2025 13:02:33 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=ursulin-net.20230601.gappssmtp.com header.i=@ursulin-net.20230601.gappssmtp.com header.b="a5QIq9Xn";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="XKRqTA+N";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-f51.google.com (mail-wr1-f51.google.com
- [209.85.221.51])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4222F10EB49
- for <dri-devel@lists.freedesktop.org>; Fri, 31 Oct 2025 12:31:36 +0000 (UTC)
-Received: by mail-wr1-f51.google.com with SMTP id
- ffacd0b85a97d-3ecdf2b1751so1452994f8f.0
- for <dri-devel@lists.freedesktop.org>; Fri, 31 Oct 2025 05:31:36 -0700 (PDT)
+Received: from mail-wm1-f51.google.com (mail-wm1-f51.google.com
+ [209.85.128.51])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9E4F310EB1D
+ for <dri-devel@lists.freedesktop.org>; Fri, 31 Oct 2025 13:02:31 +0000 (UTC)
+Received: by mail-wm1-f51.google.com with SMTP id
+ 5b1f17b1804b1-475e01db75aso14829865e9.1
+ for <dri-devel@lists.freedesktop.org>; Fri, 31 Oct 2025 06:02:31 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=ursulin-net.20230601.gappssmtp.com; s=20230601; t=1761913894; x=1762518694;
- darn=lists.freedesktop.org; 
- h=content-transfer-encoding:in-reply-to:from:content-language
- :references:cc:to:subject:user-agent:mime-version:date:message-id
+ d=linaro.org; s=google; t=1761915750; x=1762520550; darn=lists.freedesktop.org;
+ h=content-disposition:mime-version:message-id:subject:cc:to:from:date
  :from:to:cc:subject:date:message-id:reply-to;
- bh=08fssheEH26ewL9xgSjQ1sFTztWWkCBjLlcECWJQBfM=;
- b=a5QIq9XnXryE3F8+mAQmY5hglsPZgomyx0jr1TKH8LMXJr0mlipfVPcVGyG+TyieRs
- StIOBUzRZvvdLlNx8ThVQGXiSC5z30HTGfQ28T0hzHe5infQ7y3mgXVN+M8XzlpXrSh3
- p2yyx+bUJp4yNOzBUhQkxLNH+jrGaslW9saXYgXBO4tq/8C23nf1+mYKmuMjg2FwKUvm
- U6BXS9i98H147IDkb0zEBgnIKLHJG05ym9V/kNmkVv3Xkwf1+qyWxS6BZ7ngJUm+9dLG
- n94MrfJs97Xg/e+EK93T2Dt07wZPP+XCzrnwSQR2EMg8F+kiQr809QN90JboauNpzYHK
- V01Q==
+ bh=2FQGZCGnHsgyhdfpYgLWb8UhWYQWnOT5iNG04Z0iL94=;
+ b=XKRqTA+N0FlOH8g4WHUgiXhqQ/loz/G5ZlKgaVEfoZLS2mbiBhdpYBSRAWcziIbiOB
+ wxdtLh5V1RDNiW9e3+Jw2IisjSQ8qlfMbjMuQjGiUomYpJWUw53BEMZLE/TzMO7/Q91x
+ 88kdR8rBUgBDbK0JN3TpBUYYF6H8iCTrVH2ioBAI5TKBg0YbLpfUkKS6kXtSQLxWARdp
+ IM4x85Zur4MDY/sMlthQvp8AA1pJcGwGP/dUnnhFy4yNk0jPJXBs+28clAC3TSzjXt4k
+ ftRhlSl2aStRu7ClP1sjUDhEM7DvnyfpLvVeI5Nk6oihVMFS9iy7n+Sz4HwalZRTjumR
+ Vz2w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1761913894; x=1762518694;
- h=content-transfer-encoding:in-reply-to:from:content-language
- :references:cc:to:subject:user-agent:mime-version:date:message-id
+ d=1e100.net; s=20230601; t=1761915750; x=1762520550;
+ h=content-disposition:mime-version:message-id:subject:cc:to:from:date
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=08fssheEH26ewL9xgSjQ1sFTztWWkCBjLlcECWJQBfM=;
- b=hgPG79yhm2OK9jSiLCCJHrOQG1TczYfatapm51TsROlcGW8Na5RYdm9CIevlDtIxCR
- kZ0+XV4f6x8QYyb5uDCk53af+En7n4M1IXolymNnPSYpOrUf7XUo4PuEXXvD24ksCaBq
- j55wxP6W7eywHLNwopIRv3uy9LF1YDseNLA/vnbOmE2M/p8jgiM1PcSuajPIHNe9MwGK
- mBMCUq25ik2pL5lREdsu9CC9YoEW/celfkKTo4qXhrpweldZo3l3h4uPa+ie9QlqGir4
- GtlGdKPlppomQcR4UKXOZxyp1eJ6V1WxPojs8svy/WmOmMQI2EEFYpE8SMHD24OXMJ9/
- LrEQ==
+ bh=2FQGZCGnHsgyhdfpYgLWb8UhWYQWnOT5iNG04Z0iL94=;
+ b=v7z6gRJXsMl9AcBX5+Rd16jTJ/onSm/Q7EHjIwPfzvloNRryQw5MvXvX3WiQpW2K/N
+ EM5RqRcSR27+VhPUbKrnSkuvZWyEffblU7bDgt6kTTNbdaQk9hdDE1QYundqVCuF9Ceu
+ fTE63iZoV9EQmvQ8O9S7wBfK/DljZTSJDx3ErOUxdpNdaWsXfyI8b40OzQMC9Pwxh+4f
+ I4QI/99ebUkzJYCirNoLaAnSy0JagZDJreh/z1nqg8XKp904O2o0PxgXXolkO5TScVgC
+ dDvSLmiTIi1Tvil8XlN11VZIZJd2QtZ6hXw7YHe2qWlRs4nCQkOZR/cycxFnFdpHpgUK
+ Woag==
 X-Forwarded-Encrypted: i=1;
- AJvYcCVmW2WZbmTk7SWj0d8Gfb+1yOuQjMxzFyWOknGEKKFNzKhO57hhyaw6usOVEjHHTtyAO9ps0fFQUs8=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Yx0JAxu7hLr5RCL4xePuDGqnejcv5fkklvVj+IEzZU+wH7czbEE
- eomAm6dFseGzj7cjxgnaCdBhf84H6mwZi6ikkv9QivEBjPZ07yZo5TDQxZwO4PWRRwc=
-X-Gm-Gg: ASbGnct/JhpbBNXfF1HJdNZT0hlWO1oiSwQTRwfUHAhaKmMHugk25ufRCpAAuC0nQ5O
- XfLwuZE0YIZPZqhBd72yTCZlwRg76k1h1cPYcn3XGFnjZtS5t2iiyF8aj7DVqm2nxXr/keWKqDA
- M7ymLShPKTVMyTNXSKKPkCoGBjb7+M5guywjpcYONen3WqJn7w02PGtoUwrTweh8GWO/pAmX68n
- wXgJSaG6HTBiuSaSkM8BG/58lJfGwLW3jwJvyuOgUWE0gjGRJyJHa7Ii8U8gZf7HlNygYZnzrLn
- 9XdIkBDNrG3zGiLJuSxhArkFlx6lOZIYGYE/hGfyrPcfiLkl7jTkYjqQlSoXJCBnpbaRAWc5Kcz
- bmv4Cf3aTbH6q/2j6TC8+A4YPpvuGqxvkpiw1/Gcp7uGI/lIb+NQY0U8DhL0iTV9qdYFf3TROjP
- FZkl8I74Vsa2ubBE0je+gTrGxlgZA=
-X-Google-Smtp-Source: AGHT+IFN1SIbYGYuHJIssflh634/zxs/aR+a86BEewospW9lCTe+InyrPCsK+oVBo1QTVBWURISFmw==
-X-Received: by 2002:a05:6000:2288:b0:427:5cf:a284 with SMTP id
- ffacd0b85a97d-429bd6c2d51mr2705783f8f.60.1761913894379; 
- Fri, 31 Oct 2025 05:31:34 -0700 (PDT)
-Received: from [192.168.0.101] ([90.240.106.137])
- by smtp.gmail.com with ESMTPSA id
- ffacd0b85a97d-429c1406a45sm3333829f8f.47.2025.10.31.05.31.33
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 31 Oct 2025 05:31:33 -0700 (PDT)
-Message-ID: <08bc7f37-d2d7-4ad0-9575-f8a2c36b1c3f@ursulin.net>
-Date: Fri, 31 Oct 2025 12:31:33 +0000
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2] drm/sched: Fix deadlock in
- drm_sched_entity_kill_jobs_cb
-To: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
- Pierre-Eric Pelloux-Prayer <pierre-eric.pelloux-prayer@amd.com>,
- Matthew Brost <matthew.brost@intel.com>, Danilo Krummrich <dakr@kernel.org>,
- Philipp Stanner <phasta@kernel.org>,
- =?UTF-8?Q?Christian_K=C3=B6nig?= <ckoenig.leichtzumerken@gmail.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ AJvYcCW4THCmXxisZE0HZuvEHqJZR4mbJmJlUBJwmx9UJPQL3hVNcZq4Zk6RFaHAzzvRpLdXLT3Vw1TjfKk=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YzwtlQOC7N4ufSYH3jNq/BpGRcuTOJyZ3oxEwHQRPlEhTtB5del
+ 2JPaA5K9tFEUbowm/RqTrA/DQUaN2WdjIzajN3CVmxcIqM7Lza6cj7oxOfX8KuFAbd4=
+X-Gm-Gg: ASbGncuX6VnHE9BRyMMcqpQf5juBobHUyI66Aq2vW2snvwbDc1HnMKymGzFFFviX6IG
+ pFtzA2SHfqTdlJChXK2E5lMiHkCUIxT1r3ENfcmIx6GIfuFA1ejZjTzCm5LJpvJl0ldInl+WGZY
+ rwog+Nr4EYTrlC7cQwBL4dTegMo16vw91nzrjhHYXAAz4myfIwE2mDFI7+M6am/3eQ49SXGfuXQ
+ p+0I5rFChuO9Ddz2vsXt6oD87LTIPn1Z0+kEoUwg7TDaTZmYfJPdlivqr+wvfnTbvx3APUTECwm
+ 3TpS8zHo8JggfYLCoJuahsgHTv4/zEZ09pMn6+mnpFNBpAE549cFHvzo/zm4B+9mebmLSXr/vVs
+ 57TCrbRSWZfzRN5evJ7Yw3ISonkY5KiNdH/cWh/CsE+uusukNfY63KNNcjFtE09uLKHnl2WbEqO
+ jsWDmIkg==
+X-Google-Smtp-Source: AGHT+IFtOV4W0Y8ZfIuQZW9gadDZKRpyQvtO7XZin6e2iW2zHXOgFcxmDRDXqGF4RU8aG0zT2NZ4TQ==
+X-Received: by 2002:a05:600c:3149:b0:475:dd89:acb with SMTP id
+ 5b1f17b1804b1-4773089c4a1mr29545645e9.22.1761915749827; 
+ Fri, 31 Oct 2025 06:02:29 -0700 (PDT)
+Received: from localhost ([196.207.164.177])
+ by smtp.gmail.com with UTF8SMTPSA id
+ 5b1f17b1804b1-4772fbc32d9sm22667605e9.1.2025.10.31.06.02.28
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 31 Oct 2025 06:02:29 -0700 (PDT)
+Date: Fri, 31 Oct 2025 16:02:25 +0300
+From: Dan Carpenter <dan.carpenter@linaro.org>
+To: Harry Wentland <harry.wentland@amd.com>,
+ Harshit Mogalapalli <harshit.m.mogalapalli@gmail.com>
+Cc: Leo Li <sunpeng.li@amd.com>, Rodrigo Siqueira <siqueira@igalia.com>,
+ Alex Deucher <alexander.deucher@amd.com>,
+ Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
  David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Sumit Semwal <sumit.semwal@linaro.org>
-Cc: Mikhail Gavrilov <mikhail.v.gavrilov@gmail.com>,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- linux-media@vger.kernel.org, linaro-mm-sig@lists.linaro.org
-References: <20251031090704.1111-1-pierre-eric.pelloux-prayer@amd.com>
- <411190d4-92d7-4e95-acac-b39afa438c0f@ursulin.net>
- <50f3743f-8b83-42de-87c8-1c7d52df3ab0@amd.com>
-Content-Language: en-GB
-From: Tvrtko Ursulin <tursulin@ursulin.net>
-In-Reply-To: <50f3743f-8b83-42de-87c8-1c7d52df3ab0@amd.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+ Hamish Claxton <hamishclaxton@gmail.com>,
+ Aurabindo Pillai <aurabindo.pillai@amd.com>,
+ Zaeem Mohamed <zaeem.mohamed@amd.com>,
+ Michael Strauss <michael.strauss@amd.com>,
+ amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, kernel-janitors@vger.kernel.org
+Subject: [PATCH] drm/amd/display: Fix logical vs bitwise bug in
+ get_embedded_panel_info_v2_1()
+Message-ID: <aQSzYV0ytfQK2kvN@stanley.mountain>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+X-Mailer: git-send-email haha only kidding
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -105,143 +97,47 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+The .H_SYNC_POLARITY and .V_SYNC_POLARITY variables are 1 bit bitfields
+of a u32.  The ATOM_HSYNC_POLARITY define is 0x2 and the
+ATOM_VSYNC_POLARITY is 0x4.  When we do a bitwise negate of 0, 2, or 4
+then the last bit is always 1 so this code always sets .H_SYNC_POLARITY
+and .V_SYNC_POLARITY to true.
 
-On 31/10/2025 12:25, Christian König wrote:
-> 
-> 
-> On 10/31/25 12:50, Tvrtko Ursulin wrote:
->>
->> On 31/10/2025 09:07, Pierre-Eric Pelloux-Prayer wrote:
->>> The Mesa issue referenced below pointed out a possible deadlock:
->>>
->>> [ 1231.611031]  Possible interrupt unsafe locking scenario:
->>>
->>> [ 1231.611033]        CPU0                    CPU1
->>> [ 1231.611034]        ----                    ----
->>> [ 1231.611035]   lock(&xa->xa_lock#17);
->>> [ 1231.611038]                                local_irq_disable();
->>> [ 1231.611039]                                lock(&fence->lock);
->>> [ 1231.611041]                                lock(&xa->xa_lock#17);
->>> [ 1231.611044]   <Interrupt>
->>> [ 1231.611045]     lock(&fence->lock);
->>> [ 1231.611047]
->>>                   *** DEADLOCK ***
->>>
->>> In this example, CPU0 would be any function accessing job->dependencies
->>> through the xa_* functions that doesn't disable interrupts (eg:
->>> drm_sched_job_add_dependency, drm_sched_entity_kill_jobs_cb).
->>>
->>> CPU1 is executing drm_sched_entity_kill_jobs_cb as a fence signalling
->>> callback so in an interrupt context. It will deadlock when trying to
->>> grab the xa_lock which is already held by CPU0.
->>>
->>> Replacing all xa_* usage by their xa_*_irq counterparts would fix
->>> this issue, but Christian pointed out another issue: dma_fence_signal
->>> takes fence.lock and so does dma_fence_add_callback.
->>>
->>>     dma_fence_signal() // locks f1.lock
->>>     -> drm_sched_entity_kill_jobs_cb()
->>>     -> foreach dependencies
->>>        -> dma_fence_add_callback() // locks f2.lock
->>>
->>> This will deadlock if f1 and f2 share the same spinlock.
->>
->> Is it possible to hit this case?
->>
->> Same lock means same execution timeline
-> 
-> Nope, exactly that is incorrect. It's completely up to the implementation what they use this lock for.
+This code is instead intended to check if the ATOM_HSYNC_POLARITY or
+ATOM_VSYNC_POLARITY flags are set and reverse the result.  In other
+words, it's supposed to be a logical negate instead of a bitwise negate.
 
-Yes, sorry, I got confused for a moment. The lock can be per hw 
-scheduler while execution timeline is per entity.
+Fixes: ae79c310b1a6 ("drm/amd/display: Add DCE12 bios parser support")
+Signed-off-by: Dan Carpenter <dan.carpenter@linaro.org>
+---
+Please note that I have not tested this.  It's straight forward enough to
+see that logical negate was intended, but it's always good to test things
+as well.
 
-Regards,
+Harshit and I only recently created this static checker warning.
 
-Tvrtko
+ drivers/gpu/drm/amd/display/dc/bios/bios_parser2.c | 8 ++++----
+ 1 file changed, 4 insertions(+), 4 deletions(-)
 
-> 
->> , which should mean dependency should have been squashed in drm_sched_job_add_dependency(), no?
-> 
-> This makes it less likely, but not impossible to trigger.
-> 
-> Regards,
-> Christian.
-> 
->>
->> Or would sharing the lock but not sharing the entity->fence_context be considered legal? It would be surprising at least.
->>
->> Also, would anyone have time to add a kunit test? ;)
->>
->> Regards,
->>
->> Tvrtko
->>
->>> To fix both issues, the code iterating on dependencies and re-arming them
->>> is moved out to drm_sched_entity_kill_jobs_work.
->>>
->>> Link: https://gitlab.freedesktop.org/mesa/mesa/-/issues/13908
->>> Reported-by: Mikhail Gavrilov <mikhail.v.gavrilov@gmail.com>
->>> Suggested-by: Christian König <christian.koenig@amd.com>
->>> Reviewed-by: Christian König <christian.koenig@amd.com>
->>> Signed-off-by: Pierre-Eric Pelloux-Prayer <pierre-eric.pelloux-prayer@amd.com>
->>> ---
->>>    drivers/gpu/drm/scheduler/sched_entity.c | 34 +++++++++++++-----------
->>>    1 file changed, 19 insertions(+), 15 deletions(-)
->>>
->>> diff --git a/drivers/gpu/drm/scheduler/sched_entity.c b/drivers/gpu/drm/scheduler/sched_entity.c
->>> index c8e949f4a568..fe174a4857be 100644
->>> --- a/drivers/gpu/drm/scheduler/sched_entity.c
->>> +++ b/drivers/gpu/drm/scheduler/sched_entity.c
->>> @@ -173,26 +173,15 @@ int drm_sched_entity_error(struct drm_sched_entity *entity)
->>>    }
->>>    EXPORT_SYMBOL(drm_sched_entity_error);
->>>    +static void drm_sched_entity_kill_jobs_cb(struct dma_fence *f,
->>> +                      struct dma_fence_cb *cb);
->>> +
->>>    static void drm_sched_entity_kill_jobs_work(struct work_struct *wrk)
->>>    {
->>>        struct drm_sched_job *job = container_of(wrk, typeof(*job), work);
->>> -
->>> -    drm_sched_fence_scheduled(job->s_fence, NULL);
->>> -    drm_sched_fence_finished(job->s_fence, -ESRCH);
->>> -    WARN_ON(job->s_fence->parent);
->>> -    job->sched->ops->free_job(job);
->>> -}
->>> -
->>> -/* Signal the scheduler finished fence when the entity in question is killed. */
->>> -static void drm_sched_entity_kill_jobs_cb(struct dma_fence *f,
->>> -                      struct dma_fence_cb *cb)
->>> -{
->>> -    struct drm_sched_job *job = container_of(cb, struct drm_sched_job,
->>> -                         finish_cb);
->>> +    struct dma_fence *f;
->>>        unsigned long index;
->>>    -    dma_fence_put(f);
->>> -
->>>        /* Wait for all dependencies to avoid data corruptions */
->>>        xa_for_each(&job->dependencies, index, f) {
->>>            struct drm_sched_fence *s_fence = to_drm_sched_fence(f);
->>> @@ -220,6 +209,21 @@ static void drm_sched_entity_kill_jobs_cb(struct dma_fence *f,
->>>            dma_fence_put(f);
->>>        }
->>>    +    drm_sched_fence_scheduled(job->s_fence, NULL);
->>> +    drm_sched_fence_finished(job->s_fence, -ESRCH);
->>> +    WARN_ON(job->s_fence->parent);
->>> +    job->sched->ops->free_job(job);
->>> +}
->>> +
->>> +/* Signal the scheduler finished fence when the entity in question is killed. */
->>> +static void drm_sched_entity_kill_jobs_cb(struct dma_fence *f,
->>> +                      struct dma_fence_cb *cb)
->>> +{
->>> +    struct drm_sched_job *job = container_of(cb, struct drm_sched_job,
->>> +                         finish_cb);
->>> +
->>> +    dma_fence_put(f);
->>> +
->>>        INIT_WORK(&job->work, drm_sched_entity_kill_jobs_work);
->>>        schedule_work(&job->work);
->>>    }
->>
-> 
+diff --git a/drivers/gpu/drm/amd/display/dc/bios/bios_parser2.c b/drivers/gpu/drm/amd/display/dc/bios/bios_parser2.c
+index 04eb647acc4e..550a9f1d03f8 100644
+--- a/drivers/gpu/drm/amd/display/dc/bios/bios_parser2.c
++++ b/drivers/gpu/drm/amd/display/dc/bios/bios_parser2.c
+@@ -1480,10 +1480,10 @@ static enum bp_result get_embedded_panel_info_v2_1(
+ 	/* not provided by VBIOS */
+ 	info->lcd_timing.misc_info.HORIZONTAL_CUT_OFF = 0;
+ 
+-	info->lcd_timing.misc_info.H_SYNC_POLARITY = ~(uint32_t) (lvds->lcd_timing.miscinfo
+-			& ATOM_HSYNC_POLARITY);
+-	info->lcd_timing.misc_info.V_SYNC_POLARITY = ~(uint32_t) (lvds->lcd_timing.miscinfo
+-			& ATOM_VSYNC_POLARITY);
++	info->lcd_timing.misc_info.H_SYNC_POLARITY = !(lvds->lcd_timing.miscinfo &
++						       ATOM_HSYNC_POLARITY);
++	info->lcd_timing.misc_info.V_SYNC_POLARITY = !(lvds->lcd_timing.miscinfo &
++						       ATOM_VSYNC_POLARITY);
+ 
+ 	/* not provided by VBIOS */
+ 	info->lcd_timing.misc_info.VERTICAL_CUT_OFF = 0;
+-- 
+2.51.0
 
