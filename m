@@ -2,90 +2,85 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id ADA6FC24D8A
-	for <lists+dri-devel@lfdr.de>; Fri, 31 Oct 2025 12:50:23 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 09CCCC24DF9
+	for <lists+dri-devel@lfdr.de>; Fri, 31 Oct 2025 12:54:20 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0601610E2D4;
-	Fri, 31 Oct 2025 11:50:21 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 673D410EB24;
+	Fri, 31 Oct 2025 11:54:17 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=ursulin-net.20230601.gappssmtp.com header.i=@ursulin-net.20230601.gappssmtp.com header.b="MPT/xd99";
+	dkim=pass (2048-bit key; unprotected) header.d=ursulin-net.20230601.gappssmtp.com header.i=@ursulin-net.20230601.gappssmtp.com header.b="mKzbE1J+";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-f54.google.com (mail-wr1-f54.google.com
- [209.85.221.54])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7B09B10E2D4
- for <dri-devel@lists.freedesktop.org>; Fri, 31 Oct 2025 11:50:19 +0000 (UTC)
-Received: by mail-wr1-f54.google.com with SMTP id
- ffacd0b85a97d-4270a3464bcso1547545f8f.2
- for <dri-devel@lists.freedesktop.org>; Fri, 31 Oct 2025 04:50:19 -0700 (PDT)
+Received: from mail-wm1-f45.google.com (mail-wm1-f45.google.com
+ [209.85.128.45])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8E4B710EB21
+ for <dri-devel@lists.freedesktop.org>; Fri, 31 Oct 2025 11:54:15 +0000 (UTC)
+Received: by mail-wm1-f45.google.com with SMTP id
+ 5b1f17b1804b1-474975af41dso15675975e9.2
+ for <dri-devel@lists.freedesktop.org>; Fri, 31 Oct 2025 04:54:15 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=ursulin-net.20230601.gappssmtp.com; s=20230601; t=1761911418; x=1762516218;
+ d=ursulin-net.20230601.gappssmtp.com; s=20230601; t=1761911654; x=1762516454;
  darn=lists.freedesktop.org; 
  h=content-transfer-encoding:in-reply-to:from:content-language
  :references:cc:to:subject:user-agent:mime-version:date:message-id
  :from:to:cc:subject:date:message-id:reply-to;
- bh=TMW4q1yc/hq1gjF5rKdDD6wjxSe1WwAdRUZxNTv4M7U=;
- b=MPT/xd99GWnGBRnw08+wDSMkE4MuxJ/kGWwpxvaxHjvdsiYakvVzHYGHPsXhsHD3fl
- x2c1Dk0bccndKYT5UvAhZmmdcBJpoI+bcsLRmeU+vnJnFNDvV5vlbKWkDJc+rU1aigco
- ujYy2bf9CEUoATuCyfh7OWvxLhyRsH8LJtEbwJ0V40jW3bITklNufLZUgC2odvx/CVnI
- Qid9kbgWfBMVicaCeV6/CpQs7nnLHK8hFEFFnNxHCu7ZEZloGxxMNZquj8ZMEkfJAa2X
- q7BGcyLeOsAHyCRb9wVFTxveXCf7SoWhkALxXguc5rWBuvwKL345mgoU+9VLOydjTp79
- 8XNg==
+ bh=HKkSRdqTp5S5/1BXHl6+ZFCr2dE8STUesgwS1+S7n98=;
+ b=mKzbE1J+8nHScOm32FKyemDLx0U//snbxWCobWOpYbqIZfidUJSVmrNB2zONq+SU63
+ q2o6meqmmNytbcVXqRifbOtWktjGihrAza4MMRsBv4iqE5KtgdGgXf5J6AVqa8LM8fFa
+ o2QXeSD4kgFQRrfnIz/rSTpLzIHeoYN6+EO7ZEY6sy7Uj0RPv37LESdqcjSZZ8QykwtU
+ UQhSRX+IMOiNmD4NGHCqv5CpoXLkwiVNXBSSyuPgco+y4IaHvWGCBayK1SEJKO6sgkeK
+ J/Y1XJfGjyjHXjIUCcv/HJD+Er9fJiAjDgyLT9OWt0j1YbvUQjmwFxEff88XelSZ5q2I
+ L1Jw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1761911418; x=1762516218;
+ d=1e100.net; s=20230601; t=1761911654; x=1762516454;
  h=content-transfer-encoding:in-reply-to:from:content-language
  :references:cc:to:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=TMW4q1yc/hq1gjF5rKdDD6wjxSe1WwAdRUZxNTv4M7U=;
- b=Gj9BdDV6RnOE0uKy1BYiK9wuNclnZO7VH9K5HvTAQiIgZlByeUTEPugTVsVi2LMYpY
- KlAUAs/y9vt0oH/H0czdtCIfJqqTuMcO7vD6VwKOM4XghsTHEM0qcDXmgS2NdcfOzRIN
- vNtVoTikLYIScfobqrke0A0fohSWzS00zY3b2L4kFzxzS1rtmDqxLhaQt3nhvxzsFl8H
- o13rLa1HvJdQNp2vDkdJbCtMuLRCKEfiA8nIAjfHNcLZ8tvGhMBpHufVmB3Q45RNbjaZ
- 25q72b2vObgvdHTAo+mdklWBMel367R4i0sKhEV4j218uqI6DE5V8gmxNyob16413KEI
- wS7w==
-X-Forwarded-Encrypted: i=1;
- AJvYcCXTpcy2/yIS3E3+PuAyVTMPuSEW8eNli6XjK+CeC9kBs73gPqybLWfnBh1RnEIf+NI2P59vT+55o4k=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YxCfBkQYxpl6x/85NaOhUDTWs+APYtPJXaZWkTNbRTnOLZHtOYD
- LOjnHlIbeHI+Pj/KmBoO9xDnnV4/u4op502jmIoa+M1DxRX/hAJj4Zbdh+4rgSCKegA=
-X-Gm-Gg: ASbGncuhEz6EUxnpr//dnTDE2Lyc69Kg6otZaeLJb6Xcgrbwa0K0YarIlUMpILhtEx6
- sey6g5nIVXHKEvalUX9Zr7Fmng4+wG/FovGA0n+Ben31f+D1ebLqmjqHtD8gjGeKrWDdY0VKW0l
- RCtg60gS23OgL69wJcs+i+U5zNlFHMrQAAkiv1msmYKTRK8ktXSubOYLNuPXkF1lYfBboEG+224
- 9lJ2/dpS/GC+QN4PMNB89b3l0snhAbh6WCwuW7DPvgwmC3IblHh0/FQoWAxRVtzHGB22H1C2e0W
- xB/BFxZhcYF2B/HMl34vGpICoDEKY8SKfbqLwleD6pEjxp+zSUisJcrSOEpiRCweCMuuJGBmtu7
- Atd0t6UOaSVjiuQ4SWn63C+UM4FPMeWrDAeNUC9zBCHp8LdG16KGhy560Z5yTkQbqGw5WJ4K7H+
- VqlJ16rEsyANVa2Q6l
-X-Google-Smtp-Source: AGHT+IG7ZgRAfklgWSpAYSPzxFgTxUag6V3Fc8ctTVAuDt+DMbJ27kEs61rDXYyhICbDmi4MeLbsVQ==
-X-Received: by 2002:a05:6000:1889:b0:3dc:1473:18bc with SMTP id
- ffacd0b85a97d-429bd5f72ccmr2613024f8f.0.1761911416851; 
- Fri, 31 Oct 2025 04:50:16 -0700 (PDT)
+ bh=HKkSRdqTp5S5/1BXHl6+ZFCr2dE8STUesgwS1+S7n98=;
+ b=MjOCkUsSmWOVQv7vRijsiRuiVoHLT8D3rMM4Ar/mAiCvXJuEpb0eRtjvusppI3U2SN
+ GcT06wa6Ih9HtTTxFqD+Z8zL0KxkBYzevVrrjBWU4ZzpQz1I7t8KOPCTw5dFLzIl69V1
+ LoHr0ko86F6m8AqQKwT0d1DaNdPNNqmPf9FCh97FTkQAdRVpCa7pVtHO+5ZCVm0IC/pk
+ y0D/24TFqAYQFjTuTVGYRpqAFtO+Mprp7FJIowgpgJ4Hgf8zE5X6vzISu88Qi3bqxQUk
+ gBYFhYOfiFZ1QYUxFN054FuvMcFTTogKueZopSbvOPOX+Z+DYu5cxqGkmkC9qjFGGFll
+ 7xRw==
+X-Gm-Message-State: AOJu0YxADQadNYi8VFKsRp4/thRe8zcnrtC2ETewP02hUUK9+KpMaB6P
+ MuKWU9OCgYXDOCmFGzRdeCVNu/1ezCdMwcs9CPsDu/NFYTZvFS0ypxfU++Jqj1BpssM=
+X-Gm-Gg: ASbGncs3lJptRZGcbTCuJyEey9D8Vl3HKan7ujNfDUSEid8YGnigwqtuQabXtJBXD0M
+ GhX+naa3pIYPQBl97fasm2lck0uSchOStPpBavRS4NHqG1VsLkz1bXbMdaQjVo09dF6zRvdLjyd
+ iKd/pMcFfaheDRvDvDInDr/AbgFiL+QOvUI9MT37sYDGTH3EQcLp7UOic5adiFXT5nVKqp82Mju
+ w5Ot4FT0HVfkMJaioKUsZ9TQaOiyWa50UuPOSbrNblOfYyqAbgyv8vSbqCOJ0QZ+FSS2+bRB+tg
+ JBOIpVL/dVLEsBpugXidaKopNEY6luMT/+NCc7OuPooUGuPiAkndJMcask5HocnmuHvqPEERG0o
+ MTMOePoDaE84kVE+fDX4F8Qk4Czmf+mz9AmCXw+/dUvAoZ8SVxSDCC4grUjhs5FlZWVgYbW24sE
+ uRh8ljy5kD3GfC+J85
+X-Google-Smtp-Source: AGHT+IG+/5H9fvCUDctmf9ZUkC50CpibVvBasWK4qcR+v0QwdTFLnZ7cuh2ly+U+Hz3QL1huTHBIZQ==
+X-Received: by 2002:a05:6000:4387:b0:429:8cb0:cf9d with SMTP id
+ ffacd0b85a97d-429bd6ac113mr2661701f8f.48.1761911653809; 
+ Fri, 31 Oct 2025 04:54:13 -0700 (PDT)
 Received: from [192.168.0.101] ([90.240.106.137])
  by smtp.gmail.com with ESMTPSA id
- 5b1f17b1804b1-47728a979b8sm91657215e9.10.2025.10.31.04.50.16
+ 5b1f17b1804b1-47728a96897sm91130385e9.11.2025.10.31.04.54.13
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 31 Oct 2025 04:50:16 -0700 (PDT)
-Message-ID: <411190d4-92d7-4e95-acac-b39afa438c0f@ursulin.net>
-Date: Fri, 31 Oct 2025 11:50:15 +0000
+ Fri, 31 Oct 2025 04:54:13 -0700 (PDT)
+Message-ID: <6e35b319-211c-45fc-9ff8-090618273a6b@ursulin.net>
+Date: Fri, 31 Oct 2025 11:54:12 +0000
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2] drm/sched: Fix deadlock in
- drm_sched_entity_kill_jobs_cb
-To: Pierre-Eric Pelloux-Prayer <pierre-eric.pelloux-prayer@amd.com>,
- Matthew Brost <matthew.brost@intel.com>, Danilo Krummrich <dakr@kernel.org>,
- Philipp Stanner <phasta@kernel.org>,
- =?UTF-8?Q?Christian_K=C3=B6nig?= <ckoenig.leichtzumerken@gmail.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Sumit Semwal <sumit.semwal@linaro.org>
-Cc: Mikhail Gavrilov <mikhail.v.gavrilov@gmail.com>,
- =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- linux-media@vger.kernel.org, linaro-mm-sig@lists.linaro.org
-References: <20251031090704.1111-1-pierre-eric.pelloux-prayer@amd.com>
+Subject: Re: [PATCH] drm/i915/gem: Fix NULL pointer dereference in
+ eb_release_vmas()
+To: Krzysztof Karas <krzysztof.karas@intel.com>,
+ Krzysztof Niemiec <krzysztof.niemiec@intel.com>
+Cc: dri-devel@lists.freedesktop.org, intel-gfx@lists.freedesktop.org,
+ =?UTF-8?B?6rmA6rCV66+8?= <km.kim1503@gmail.com>,
+ Chris Wilson <chris.p.wilson@linux.intel.com>,
+ Andi Shyti <andi.shyti@linux.intel.com>,
+ Janusz Krzysztofik <janusz.krzysztofik@linux.intel.com>,
+ Sebastian Brzezinka <sebastian.brzezinka@intel.com>
+References: <20251031105259.72927-2-krzysztof.niemiec@intel.com>
+ <z4o2gk3i6zeocib4geu3swv2elxdmrgmvqvbgxmu5l2uhsb35r@nqnlnndzozvi>
 Content-Language: en-GB
 From: Tvrtko Ursulin <tursulin@ursulin.net>
-In-Reply-To: <20251031090704.1111-1-pierre-eric.pelloux-prayer@amd.com>
+In-Reply-To: <z4o2gk3i6zeocib4geu3swv2elxdmrgmvqvbgxmu5l2uhsb35r@nqnlnndzozvi>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -104,122 +99,95 @@ Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
-On 31/10/2025 09:07, Pierre-Eric Pelloux-Prayer wrote:
-> The Mesa issue referenced below pointed out a possible deadlock:
+On 31/10/2025 11:42, Krzysztof Karas wrote:
+> Hi Krzysztof,
 > 
-> [ 1231.611031]  Possible interrupt unsafe locking scenario:
+>> Set eb->vma[i+1].vma to NULL to prevent eb_release_vmas() from
+>> processing unitialized data, leading to a potential NULL dereference.
+>>
+>> During the execution of eb_lookup_vmas(), the eb->vma array is
+>> successively filled up with struct eb_vma objects. This process includes
+>> calling eb_add_vma(), which might fail; however, even in the event of
+>> failure, eb->vma[i].vma is set for the currently processes buffer.
+> processes -> processed
 > 
-> [ 1231.611033]        CPU0                    CPU1
-> [ 1231.611034]        ----                    ----
-> [ 1231.611035]   lock(&xa->xa_lock#17);
-> [ 1231.611038]                                local_irq_disable();
-> [ 1231.611039]                                lock(&fence->lock);
-> [ 1231.611041]                                lock(&xa->xa_lock#17);
-> [ 1231.611044]   <Interrupt>
-> [ 1231.611045]     lock(&fence->lock);
-> [ 1231.611047]
->                  *** DEADLOCK ***
+>>
+>> If eb_add_vma() fails, eb_lookup_vmas() returns with an error, which
+>> prompts a call to eb_release_vmas() to clean up the mess. Since
+>> eb_lookup_vmas() might fail during processing any (possibly not first)
+>> buffer, eb_release_vmas() checks whether a buffer's vma is NULL to know
+>> which one has failed first. The NULL is set if the vma cannot be set or
+>> is invalid in some way, but during and after the eb_add_vma() call, it
+>> is set to a valid pointer for the currently processed eb_vma.
+>>
+>> This means that during the check in eb_release_vmas(), the buffer that
+>> failed eb_add_vma() (say, eb->vma[i]) is processed (and rightfully so,
+>> since the vma associated with it still needs cleanup), but eb->vma[i+1]
+>> is left completely uninitialized (since the loop was broken prematurely
+>> after failing on eb_add_vma() for eb->vma[i]). Therefore
+>> eb->vma[i+1].vma has junk in it, and if that junk is not NULL, that vma
+>> will be processed by eb_release_vmas(), leading to memory corruption.
+>>
+>> Closes: https://gitlab.freedesktop.org/drm/i915/kernel/-/issues/15062
+>>
+>> Reported-by: 김강민 <km.kim1503@gmail.com>
+>> Signed-off-by: Krzysztof Niemiec <krzysztof.niemiec@intel.com>
+>> ---
+>>   .../gpu/drm/i915/gem/i915_gem_execbuffer.c    | 19 ++++++++++++++-----
+>>   1 file changed, 14 insertions(+), 5 deletions(-)
+>>
+>> diff --git a/drivers/gpu/drm/i915/gem/i915_gem_execbuffer.c b/drivers/gpu/drm/i915/gem/i915_gem_execbuffer.c
+>> index 39c7c32e1e74..0f8f02e22c03 100644
+>> --- a/drivers/gpu/drm/i915/gem/i915_gem_execbuffer.c
+>> +++ b/drivers/gpu/drm/i915/gem/i915_gem_execbuffer.c
+>> @@ -960,18 +960,27 @@ static int eb_lookup_vmas(struct i915_execbuffer *eb)
+>>   		}
+>>   
+>>   		err = eb_add_vma(eb, &current_batch, i, vma);
+>> -		if (err)
+>> +		if (err) {
+>> +			if (i + 1 < eb->buffer_count) {
+>> +				/*
+>> +				 * Execbuffer code expects last vma entry to be NULL,
+>> +				 * since we already initialized this entry,
+>> +				 * set the next value to NULL or we mess up
+>> +				 * cleanup handling.
+>> +				 */
+>> +				eb->vma[i + 1].vma = NULL;
+>> +			}
+>> +
+>>   			return err;
+>> +		}
+>>   
+>>   		if (i915_gem_object_is_userptr(vma->obj)) {
+>>   			err = i915_gem_object_userptr_submit_init(vma->obj);
+>>   			if (err) {
+>>   				if (i + 1 < eb->buffer_count) {
+>>   					/*
+>> -					 * Execbuffer code expects last vma entry to be NULL,
+>> -					 * since we already initialized this entry,
+>> -					 * set the next value to NULL or we mess up
+>> -					 * cleanup handling.
+>> +					 * Set the next vma to null, for the same
+> null -> NULL to be more explicit and to match the previous
+> comment.
 > 
-> In this example, CPU0 would be any function accessing job->dependencies
-> through the xa_* functions that doesn't disable interrupts (eg:
-> drm_sched_job_add_dependency, drm_sched_entity_kill_jobs_cb).
+>> +					 * reason as above.
+>>   					 */
+>>   					eb->vma[i + 1].vma = NULL;
+>>   				}
 > 
-> CPU1 is executing drm_sched_entity_kill_jobs_cb as a fence signalling
-> callback so in an interrupt context. It will deadlock when trying to
-> grab the xa_lock which is already held by CPU0.
-> 
-> Replacing all xa_* usage by their xa_*_irq counterparts would fix
-> this issue, but Christian pointed out another issue: dma_fence_signal
-> takes fence.lock and so does dma_fence_add_callback.
-> 
->    dma_fence_signal() // locks f1.lock
->    -> drm_sched_entity_kill_jobs_cb()
->    -> foreach dependencies
->       -> dma_fence_add_callback() // locks f2.lock
-> 
-> This will deadlock if f1 and f2 share the same spinlock.
+> After above are addressed (maybe during merge, to avoid
+> re-sending?):
+> Reviewed-by: Krzysztof Karas <krzysztof.karas@intel.com>
 
-Is it possible to hit this case?
+Could you please also figure out the right Fixes: / stable?
 
-Same lock means same execution timeline, which should mean dependency 
-should have been squashed in drm_sched_job_add_dependency(), no?
-
-Or would sharing the lock but not sharing the entity->fence_context be 
-considered legal? It would be surprising at least.
-
-Also, would anyone have time to add a kunit test? ;)
+I initially suspected either 544460c33821 or ed29c2691188 could be 
+related. In any case bug looks serious enough to warrant backporting for 
+stable.
 
 Regards,
 
 Tvrtko
-
-> To fix both issues, the code iterating on dependencies and re-arming them
-> is moved out to drm_sched_entity_kill_jobs_work.
-> 
-> Link: https://gitlab.freedesktop.org/mesa/mesa/-/issues/13908
-> Reported-by: Mikhail Gavrilov <mikhail.v.gavrilov@gmail.com>
-> Suggested-by: Christian König <christian.koenig@amd.com>
-> Reviewed-by: Christian König <christian.koenig@amd.com>
-> Signed-off-by: Pierre-Eric Pelloux-Prayer <pierre-eric.pelloux-prayer@amd.com>
-> ---
->   drivers/gpu/drm/scheduler/sched_entity.c | 34 +++++++++++++-----------
->   1 file changed, 19 insertions(+), 15 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/scheduler/sched_entity.c b/drivers/gpu/drm/scheduler/sched_entity.c
-> index c8e949f4a568..fe174a4857be 100644
-> --- a/drivers/gpu/drm/scheduler/sched_entity.c
-> +++ b/drivers/gpu/drm/scheduler/sched_entity.c
-> @@ -173,26 +173,15 @@ int drm_sched_entity_error(struct drm_sched_entity *entity)
->   }
->   EXPORT_SYMBOL(drm_sched_entity_error);
->   
-> +static void drm_sched_entity_kill_jobs_cb(struct dma_fence *f,
-> +					  struct dma_fence_cb *cb);
-> +
->   static void drm_sched_entity_kill_jobs_work(struct work_struct *wrk)
->   {
->   	struct drm_sched_job *job = container_of(wrk, typeof(*job), work);
-> -
-> -	drm_sched_fence_scheduled(job->s_fence, NULL);
-> -	drm_sched_fence_finished(job->s_fence, -ESRCH);
-> -	WARN_ON(job->s_fence->parent);
-> -	job->sched->ops->free_job(job);
-> -}
-> -
-> -/* Signal the scheduler finished fence when the entity in question is killed. */
-> -static void drm_sched_entity_kill_jobs_cb(struct dma_fence *f,
-> -					  struct dma_fence_cb *cb)
-> -{
-> -	struct drm_sched_job *job = container_of(cb, struct drm_sched_job,
-> -						 finish_cb);
-> +	struct dma_fence *f;
->   	unsigned long index;
->   
-> -	dma_fence_put(f);
-> -
->   	/* Wait for all dependencies to avoid data corruptions */
->   	xa_for_each(&job->dependencies, index, f) {
->   		struct drm_sched_fence *s_fence = to_drm_sched_fence(f);
-> @@ -220,6 +209,21 @@ static void drm_sched_entity_kill_jobs_cb(struct dma_fence *f,
->   		dma_fence_put(f);
->   	}
->   
-> +	drm_sched_fence_scheduled(job->s_fence, NULL);
-> +	drm_sched_fence_finished(job->s_fence, -ESRCH);
-> +	WARN_ON(job->s_fence->parent);
-> +	job->sched->ops->free_job(job);
-> +}
-> +
-> +/* Signal the scheduler finished fence when the entity in question is killed. */
-> +static void drm_sched_entity_kill_jobs_cb(struct dma_fence *f,
-> +					  struct dma_fence_cb *cb)
-> +{
-> +	struct drm_sched_job *job = container_of(cb, struct drm_sched_job,
-> +						 finish_cb);
-> +
-> +	dma_fence_put(f);
-> +
->   	INIT_WORK(&job->work, drm_sched_entity_kill_jobs_work);
->   	schedule_work(&job->work);
->   }
 
