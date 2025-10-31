@@ -2,67 +2,67 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C195AC24688
-	for <lists+dri-devel@lfdr.de>; Fri, 31 Oct 2025 11:20:35 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8FD73C24694
+	for <lists+dri-devel@lfdr.de>; Fri, 31 Oct 2025 11:20:42 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9B9FE10EAF6;
-	Fri, 31 Oct 2025 10:20:31 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D7D4010EAF4;
+	Fri, 31 Oct 2025 10:20:40 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=suse.com header.i=@suse.com header.b="KYVPYC5T";
+	dkim=pass (2048-bit key; unprotected) header.d=suse.com header.i=@suse.com header.b="Zhbcz02f";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-f54.google.com (mail-wm1-f54.google.com
- [209.85.128.54])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3526210EAF4
- for <dri-devel@lists.freedesktop.org>; Fri, 31 Oct 2025 10:20:30 +0000 (UTC)
-Received: by mail-wm1-f54.google.com with SMTP id
- 5b1f17b1804b1-4711b95226dso25868165e9.0
- for <dri-devel@lists.freedesktop.org>; Fri, 31 Oct 2025 03:20:30 -0700 (PDT)
+Received: from mail-wr1-f52.google.com (mail-wr1-f52.google.com
+ [209.85.221.52])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3411410EAF7
+ for <dri-devel@lists.freedesktop.org>; Fri, 31 Oct 2025 10:20:31 +0000 (UTC)
+Received: by mail-wr1-f52.google.com with SMTP id
+ ffacd0b85a97d-3ece1102998so1450517f8f.2
+ for <dri-devel@lists.freedesktop.org>; Fri, 31 Oct 2025 03:20:31 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=suse.com; s=google; t=1761906029; x=1762510829; darn=lists.freedesktop.org; 
+ d=suse.com; s=google; t=1761906030; x=1762510830; darn=lists.freedesktop.org; 
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=lG/JWTB4mQFHfKHxkHY65ceoWtJs048pwnbqojq+RhA=;
- b=KYVPYC5T6Tk7oCK/+OhvuGEBwmuub+qWgQpFvpC5H10JeB18vaVAPbbLt67hZnMvDv
- otDw52FJszZzqLw9XsEgy7CfIFEIhGazfNzfXOn88k4DiO9uxfiiZNiyx5JStENDv/PN
- TWyzPve2/2QKfhtcxHyjrgJkQ/YlVtwVl3dLSb23PphkDxTZeDTDPvuu+6cPBfIgVPRE
- te38dwgo3bMWhs4QED1I0M8tcFLEG7vfPm0KUoth3W4rzrTDbN3Ygc1IoKHequbeM9Al
- RAiI9oJc7c98t0woIz4DXVn5Y+LUgOWIgSvCsdmf3QGtoBqc6rOfh3VE2B/pVy+rBDXP
- 1eYQ==
+ bh=/u+awZrbSzQ6eDfqV7nDtHfvXhS1UpzbuBjH1UCPs0c=;
+ b=Zhbcz02fqu1/BP1Jl6q7KkM5oCidczad0aFj3YvNmRT3UkLJHW6iByh8CAwP8kbr4v
+ LmB/FAXTMusf5w2Hbud2K/zMLiN7S3Yx7sHRjZ6B1S4bvu603h726Fh2Uph7gblV6agL
+ bWWDJS647L8v6GwUHO1POusHuvdEV9sZd5MJ0175kMmb5WxUEjS2VnQh2mqvPzMkSQaf
+ yt5USNLTFn9mycQbeEmBliA8fKriOYfJbGvk63FF/CG06CaEWAuy/7GxD6HB2jKCFQxY
+ pwum4ptrdfiCEu4DZ6AjbGU8Bxclbkzhhn3grspxhPZC2uBZR2f8VGweUv2gBUOEfc+T
+ sbYQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1761906029; x=1762510829;
+ d=1e100.net; s=20230601; t=1761906030; x=1762510830;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=lG/JWTB4mQFHfKHxkHY65ceoWtJs048pwnbqojq+RhA=;
- b=hSK5qDMTwjctC1YAzAsj8/M5pYOddzxL3m50hMgY0B+8SRTznVDy30CiqRmVAS0GpE
- BR+xwsIcDkhdSGQyTixtWOqjQx19Hgjl2mVVubHjWzD5chTdlND0zxAlEvYEYyvLZfDg
- urA4N3iw55gFk7hRBPyfYqXYB8a5t1c/0K3f2qycLSO/xxtBLPumvZ++JqgyZCE31Ion
- b6XJkvc0TzFYMqxGSAlOqmUaaqqIdRrNvInkNbofm30AQUdAaTgVl8vMG8TQymJWe90I
- g9cmI+amhTVT+YrIGhPBl/iivbaXZn9YMVJEZV9Z3Pm11ueG9VkZ3TwHUj2oUvUvVqFg
- gMvw==
+ bh=/u+awZrbSzQ6eDfqV7nDtHfvXhS1UpzbuBjH1UCPs0c=;
+ b=jgKzi731WAQJHxTbm41kdkXKuvl+u37toQX9v0J5tWhGG9O3q/rGnYmdZdzNW+LGms
+ cCXBQ+381ped+aNZOcL9KWT6Umyo0p5zSfCbCCzGq45uDeWbEs2gtIUNi8AoF5haeFhu
+ bLdB4R45bX7q6fDjmQq7xi6efdusViZ5eR5dl3yXkTpcqZBT5bZiypx+yTcQRyyUH8z/
+ 2E6tku5pz3535uTOSpquxylFlWz0jvRLcHILexqy9lEWih5UxtmPS7wRrFWUWQQUp/ZD
+ 0hDaDRD3t7E3RoNixXHzxuo8axhFQizl7G/Ewu1JklATk5AF9eVg8o6Wck9uRjeLzReW
+ qaJw==
 X-Forwarded-Encrypted: i=1;
- AJvYcCVO1GvSfrpidVPKHK11JJbMO937DLeMxAWf7ILgus4brxfXxqPEUuE2PRPieuFepWC2vjHbBcbLpK4=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Yx4vMOWrGliJf/jvI5upqJSuPNUQrQR24GHb3/g29JP3namL4bA
- aNf38Q820kwvxIJsHcuo0WVH2ijDGkGvtaCR9hezXpqOC+jJSIao/RvGhQJD0oxCN7A=
-X-Gm-Gg: ASbGncuNOmsPGLHwrfdwsf1TcZra71Bd4qy+e0cWAt1hS4KnfyLXkXjkZ55L+xLa96/
- 5L8amlrNQZEb/XkEE9bQIIzohCL9sx54hA/Q/f3Gij0UfsrYa9Ksrwb8dcyTYSyR1Yn2D6cvX1d
- KKbqzVA+46Mdz3CLqf40HmpM115ynsVpG0Z6eTywoBk5hbAIz34DwL4R5Wd/AmeK1cfOL2EHhQT
- sfqUUNJ2OtkJSnjmh9b15JRbsXLaF5cPVO/KvFIYPvphulknNIHvphwnbIs1iYo4TfJ9TP4xb/a
- aLg0rO9CDQh0kUtK+ToyDWOlpnfLyuFqyHu3Dq0TkKMu7j3nMygm2fuefyzNOrpYXwIzMkqGaA/
- VnAv8Fk7MykXGh/FGRdP4pBEEshzXP7HxV88KkB/3llaY8fFALTwXpvAyPUBB3QGxMhdHGk5uO1
- lN3sRj6mLjd36NVMeEjS5+j+hq61bPfa+EyIM=
-X-Google-Smtp-Source: AGHT+IFxPuEPZ18LFLMwyhb4w1UgiiQJF5IBQ0ySKwVqt0uLPj62F1MUEQhY67w2SzSkdspzyNNBCw==
-X-Received: by 2002:a05:6000:2511:b0:429:b7bb:89bc with SMTP id
- ffacd0b85a97d-429bd672238mr2018518f8f.1.1761906028685; 
- Fri, 31 Oct 2025 03:20:28 -0700 (PDT)
+ AJvYcCUknyzIHekX+H4ReLCrRQ7SolH5RTsk0Z2XBe0MKmw0lxE9+fbqCYRzftF1zHrMCnZyvQNhc5P/88Y=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Yw96hqD++9VviQIuy9RlWJHo04PmP/9cfIR60T/bHgqB9qYzzQr
+ la2L6Y7J1kBUj6BJENoEIj+8/70iMX6acPiIhXvKVDRc4NsIKs5sVPEv51H+zMIrrCM=
+X-Gm-Gg: ASbGncubg/fseBj8qC9lEQi3M9EW9vJ5En4TKkSZoau4v7EldK5owEQsPFfIP+K2Uao
+ f+c9Yy/nHzLd8pl1yP1HIAMjGeRe2VtHhuCCvRo67AV6UROuTZkJvtpkiWbs7MoJEVm5Ne9V4+X
+ c4UmcnEzBqohacquQh3mQB/rcJKqYKs82VErX8V7y4acpnm0EyTuAs9B4Gka87fPBmzFstCVOzW
+ fVPaIeAXehuCao3By8Ey8CHvb+PReCMTK/FE6tpzwH+FtZUGqrUZSdtM+aklRL12HwmbnQmswLy
+ l+jx+vec5w8QKmopbWPnjaORG81WTffSURDThf1ZXqtoPjV1LBN7em0Z8qbMFNJogFpQq27JIbv
+ v/YCCYBkmLj+s5CKSOdkx88FzowTamRFzGtv6S2GrQSTO54Wvfam8QmTm2ua7llRfC68qvAPR9I
+ YLo1dRgnLuzVg5sbzuFFId5y8YBH54q8Ywrk5TDyCYBBVNXA==
+X-Google-Smtp-Source: AGHT+IFGDvTKB2rxlJh5yej09wy7WNNlEMpaWtu5SfSjAIP63L2LKeKXvN3qht8svwvhZJc5Fdl6Ag==
+X-Received: by 2002:a05:6000:2f86:b0:3f0:2ab8:710f with SMTP id
+ ffacd0b85a97d-429bd671cc6mr2113941f8f.8.1761906029644; 
+ Fri, 31 Oct 2025 03:20:29 -0700 (PDT)
 Received: from localhost.localdomain ([2a00:6d43:105:c401:e307:1a37:2e76:ce91])
  by smtp.gmail.com with ESMTPSA id
- ffacd0b85a97d-429c110037asm3090410f8f.3.2025.10.31.03.20.27
+ ffacd0b85a97d-429c110037asm3090410f8f.3.2025.10.31.03.20.28
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 31 Oct 2025 03:20:28 -0700 (PDT)
+ Fri, 31 Oct 2025 03:20:29 -0700 (PDT)
 From: Marco Crivellari <marco.crivellari@suse.com>
 To: linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
  nouveau@lists.freedesktop.org
@@ -76,14 +76,14 @@ Cc: Tejun Heo <tj@kernel.org>, Lai Jiangshan <jiangshanlai@gmail.com>,
  Maxime Ripard <mripard@kernel.org>,
  Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
  Simona Vetter <simona@ffwll.ch>
-Subject: [PATCH 1/2] drm/nouveau: replace use of system_unbound_wq with
- system_dfl_wq
-Date: Fri, 31 Oct 2025 11:20:19 +0100
-Message-ID: <20251031102020.95349-2-marco.crivellari@suse.com>
+Subject: [PATCH 2/2] drm/nouveau: WQ_PERCPU added to alloc_workqueue users
+Date: Fri, 31 Oct 2025 11:20:20 +0100
+Message-ID: <20251031102020.95349-3-marco.crivellari@suse.com>
 X-Mailer: git-send-email 2.51.0
 In-Reply-To: <20251031102020.95349-1-marco.crivellari@suse.com>
 References: <20251031102020.95349-1-marco.crivellari@suse.com>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -105,35 +105,59 @@ used wq is "system_wq" (per-cpu wq) while queue_delayed_work() use
 WORK_CPU_UNBOUND (used when a cpu is not specified). The same applies to
 schedule_work() that is using system_wq and queue_work(), that makes use
 again of WORK_CPU_UNBOUND.
+This lack of consistentcy cannot be addressed without refactoring the API.
 
-This lack of consistency cannot be addressed without refactoring the API.
+alloc_workqueue() treats all queues as per-CPU by default, while unbound
+workqueues must opt-in via WQ_UNBOUND.
 
-system_unbound_wq should be the default workqueue so as not to enforce
-locality constraints for random work whenever it's not required.
+This default is suboptimal: most workloads benefit from unbound queues,
+allowing the scheduler to place worker threads where they’re needed and
+reducing noise when CPUs are isolated.
 
-Adding system_dfl_wq to encourage its use when unbound work should be used.
+This change adds a new WQ_PERCPU flag to explicitly request
+alloc_workqueue() to be per-cpu when WQ_UNBOUND has not been specified.
 
-The old system_unbound_wq will be kept for a few release cycles.
+With the introduction of the WQ_PERCPU flag (equivalent to !WQ_UNBOUND),
+any alloc_workqueue() caller that doesn’t explicitly specify WQ_UNBOUND
+must now use WQ_PERCPU.
+
+Once migration is complete, WQ_UNBOUND can be removed and unbound will
+become the implicit default.
 
 Suggested-by: Tejun Heo <tj@kernel.org>
 Signed-off-by: Marco Crivellari <marco.crivellari@suse.com>
 ---
- drivers/gpu/drm/nouveau/dispnv50/disp.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ drivers/gpu/drm/nouveau/nouveau_drm.c   | 2 +-
+ drivers/gpu/drm/nouveau/nouveau_sched.c | 3 ++-
+ 2 files changed, 3 insertions(+), 2 deletions(-)
 
-diff --git a/drivers/gpu/drm/nouveau/dispnv50/disp.c b/drivers/gpu/drm/nouveau/dispnv50/disp.c
-index e97e39abf3a2..50b7aade5f0a 100644
---- a/drivers/gpu/drm/nouveau/dispnv50/disp.c
-+++ b/drivers/gpu/drm/nouveau/dispnv50/disp.c
-@@ -2474,7 +2474,7 @@ nv50_disp_atomic_commit(struct drm_device *dev,
- 	pm_runtime_get_noresume(dev->dev);
+diff --git a/drivers/gpu/drm/nouveau/nouveau_drm.c b/drivers/gpu/drm/nouveau/nouveau_drm.c
+index 1527b801f013..5a2970ef27d4 100644
+--- a/drivers/gpu/drm/nouveau/nouveau_drm.c
++++ b/drivers/gpu/drm/nouveau/nouveau_drm.c
+@@ -631,7 +631,7 @@ nouveau_drm_device_init(struct nouveau_drm *drm)
+ 	struct drm_device *dev = drm->dev;
+ 	int ret;
  
- 	if (nonblock)
--		queue_work(system_unbound_wq, &state->commit_work);
-+		queue_work(system_dfl_wq, &state->commit_work);
- 	else
- 		nv50_disp_atomic_commit_tail(state);
+-	drm->sched_wq = alloc_workqueue("nouveau_sched_wq_shared", 0,
++	drm->sched_wq = alloc_workqueue("nouveau_sched_wq_shared", WQ_PERCPU,
+ 					WQ_MAX_ACTIVE);
+ 	if (!drm->sched_wq)
+ 		return -ENOMEM;
+diff --git a/drivers/gpu/drm/nouveau/nouveau_sched.c b/drivers/gpu/drm/nouveau/nouveau_sched.c
+index e60f7892f5ce..79cf157ab2a5 100644
+--- a/drivers/gpu/drm/nouveau/nouveau_sched.c
++++ b/drivers/gpu/drm/nouveau/nouveau_sched.c
+@@ -416,7 +416,8 @@ nouveau_sched_init(struct nouveau_sched *sched, struct nouveau_drm *drm,
+ 	int ret;
  
+ 	if (!wq) {
+-		wq = alloc_workqueue("nouveau_sched_wq_%d", 0, WQ_MAX_ACTIVE,
++		wq = alloc_workqueue("nouveau_sched_wq_%d", WQ_PERCPU,
++				     WQ_MAX_ACTIVE,
+ 				     current->pid);
+ 		if (!wq)
+ 			return -ENOMEM;
 -- 
 2.51.0
 
