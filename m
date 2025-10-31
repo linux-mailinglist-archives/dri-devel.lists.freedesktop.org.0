@@ -2,94 +2,55 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2B51BC26B98
-	for <lists+dri-devel@lfdr.de>; Fri, 31 Oct 2025 20:26:11 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 252C8C26E72
+	for <lists+dri-devel@lfdr.de>; Fri, 31 Oct 2025 21:34:56 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4ACA310E0D0;
-	Fri, 31 Oct 2025 19:26:08 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 05A1A10E0D6;
+	Fri, 31 Oct 2025 20:34:53 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="lAkL5RMy";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="mKCn1nrE";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
- [205.220.180.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 964D710E0D0
- for <dri-devel@lists.freedesktop.org>; Fri, 31 Oct 2025 19:26:06 +0000 (UTC)
-Received: from pps.filterd (m0279868.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id
- 59VF7Dji3210518; Fri, 31 Oct 2025 19:25:57 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
- cc:content-transfer-encoding:date:from:message-id:mime-version
- :subject:to; s=qcppdkim1; bh=vm9YST1ru4TYMKmjdDri2q/ayDMdiVpiKua
- QAplEIl8=; b=lAkL5RMyi5ujl6xXEJFfa5WCz6/V96AIo8u6qLrWkyClth5mrh5
- Z1fiRYZ2hW7D4ZoouhQcmw1IZaebHzexoIIXkEeI5qccwV26nDMeuE08epdQBp6f
- L/LsdHvQG83WvUVMtYwN5Gt3nfpvoKXQ4wpJoQvAaWTXvRGmkSavUWA+TfUGoLyR
- 1cIlHrD0pmrKk+vaEzRaCsGrMU8bIuiOxQxBS+QoEQhLLJk0kLAqlrll6GYkch4i
- 9ULvLeqtTC3hUZLwwlWP4NJ/aCWtMdgORES358NSG54YB9dzxMXb8PKEdFp1thLH
- kiwNBB5404nJ0pj7fzHfpMVC/sBfcVgG7lg==
-Received: from nalasppmta05.qualcomm.com (Global_NAT1.qualcomm.com
- [129.46.96.20])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4a4yfpgnxq-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Fri, 31 Oct 2025 19:25:57 +0000 (GMT)
-Received: from pps.filterd (NALASPPMTA05.qualcomm.com [127.0.0.1])
- by NALASPPMTA05.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTP id 59VJPuDM007885; 
- Fri, 31 Oct 2025 19:25:56 GMT
-Received: from pps.reinject (localhost [127.0.0.1])
- by NALASPPMTA05.qualcomm.com (PPS) with ESMTPS id 4a4er43ntq-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Fri, 31 Oct 2025 19:25:56 +0000
-Received: from NALASPPMTA05.qualcomm.com (NALASPPMTA05.qualcomm.com
- [127.0.0.1])
- by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 59VJPu1S007880;
- Fri, 31 Oct 2025 19:25:56 GMT
-Received: from hu-devc-lv-u22-a.qualcomm.com (hu-zmckevit-lv.qualcomm.com
- [10.81.26.129])
- by NALASPPMTA05.qualcomm.com (PPS) with ESMTPS id 59VJPuk4007879
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Fri, 31 Oct 2025 19:25:56 +0000
-Received: by hu-devc-lv-u22-a.qualcomm.com (Postfix, from userid 4696302)
- id 5988D5B6; Fri, 31 Oct 2025 12:25:56 -0700 (PDT)
-From: Zack McKevitt <zachary.mckevitt@oss.qualcomm.com>
-To: jeff.hugo@oss.qualcomm.com, carl.vanderlip@oss.qualcomm.com,
- troy.hanson@oss.qualcomm.com, youssef.abdulrahman@oss.qualcomm.com
-Cc: ogabbay@kernel.org, lizhi.hou@amd.com, karol.wachowski@linux.intel.com,
- linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org,
- andersson@kernel.org, Zack McKevitt <zachary.mckevitt@oss.qualcomm.com>
-Subject: [PATCH] accel/qaic: Add qaic_ prefix to irq_polling_work
-Date: Fri, 31 Oct 2025 12:25:12 -0700
-Message-Id: <20251031192511.3179130-1-zachary.mckevitt@oss.qualcomm.com>
-X-Mailer: git-send-email 2.34.1
+Received: from sea.source.kernel.org (sea.source.kernel.org [172.234.252.31])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 38CD810E0D6
+ for <dri-devel@lists.freedesktop.org>; Fri, 31 Oct 2025 20:34:52 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by sea.source.kernel.org (Postfix) with ESMTP id F155444BC3;
+ Fri, 31 Oct 2025 20:34:51 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 00468C116B1;
+ Fri, 31 Oct 2025 20:34:48 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1761942891;
+ bh=eaC3FfZxJWWchwEb1p6d5lCoWti7psSYXuw5oCrNqpM=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=mKCn1nrEXYR+sGYuQPxZG5neXvAlbt0EngVb/GV5zXs8b+1Wc2rkekZzILixCS0Ij
+ 2Im4Xkx0kgrfB/SFaa38w5VOmwasbtHrZYFdzD1gn/v4ySgnWf/SSLEtnMwOWJJ/SE
+ MBFD4Z+W9JkdpSaDRItQW/4l7mEUDyq/pgEElBITM4yWKJ0mz89SJbHKjpL9/wvBUO
+ HyXqFLBaZox8WOOMon7PYozUn/DDONnnAqyD/oquhp/jo0VFrrxLf/fyxT753hGEEo
+ eWmFpWl4QJwwRpiyiq7FAe1IUi8OA0UJi0VIFwTrHKvWCArxEIr2aWGePv/okng6+g
+ NUgFx5hG2KfRQ==
+Date: Fri, 31 Oct 2025 16:34:46 -0400
+From: Nathan Chancellor <nathan@kernel.org>
+To: Jani Nikula <jani.nikula@linux.intel.com>
+Cc: LiangCheng Wang <zaq14760@gmail.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Nick Desaulniers <nick.desaulniers+lkml@gmail.com>,
+ Bill Wendling <morbo@google.com>, Justin Stitt <justinstitt@google.com>,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ llvm@lists.linux.dev, kernel test robot <lkp@intel.com>
+Subject: Re: [PATCH] drm/tiny: pixpaper: Prevent inlining of send helpers to
+ reduce stack usage
+Message-ID: <20251031203446.GD2486902@ax162>
+References: <20251031-fix_202510270858-v1-1-6b111d475ce2@gmail.com>
+ <0d9e5bf4036dc0706fac603764276d2327d0bc69@intel.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-QCInternal: smtphost
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
- signatures=585085
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
- signatures=585085
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUxMDMxMDE3MyBTYWx0ZWRfX51mrDTPl65//
- zHbxNO0nCXPLR/E+XGkHyDeXKlQza4zC9N48ngEruXtdiLXEkfEUtZjPn0hb6RcusdJObgCs+sG
- eC7gSkrAgi7W7fuWhHqSmK37ig7qE0OJuBXuv49jN+5qZrDP8Pqsifw5Iw3Rk4nYSjhwdkO6gFo
- BG5MFTlhbAAn9cMijd2QNvxGzq94nuXTWjJXb8Qo6wSaFrRpzgWqMGW1bN2+fSGO0UKs6owE2vW
- vDi0NwQfOXUC75GSG/Dp1QrDSJncNBc1181qebTB5WbzS/ZgbN4TzZfQI7ts0IFJiB/UsZNOAE0
- xiA3obvE2T1d+ce5ahra2Z2BkgJabKnKsNomTxMbBnhrr/WtZMQSpBaw7z6NUOEfgRTyOmL+2cy
- 4I5FWSGoGHigotLP9TrPo0DW5KhMWA==
-X-Authority-Analysis: v=2.4 cv=V5NwEOni c=1 sm=1 tr=0 ts=69050d45 cx=c_pps
- a=ouPCqIW2jiPt+lZRy3xVPw==:117 a=ouPCqIW2jiPt+lZRy3xVPw==:17
- a=x6icFKpwvdMA:10 a=VkNPw1HP01LnGYTKEx00:22 a=EUspDBNiAAAA:8
- a=D7IMJj08by8z0Juzub4A:9 a=cPQSjfK2_nFv0Q5t_7PE:22
-X-Proofpoint-GUID: pT9AYa4h78UlQaVsbEajeO5bMA7RjnuG
-X-Proofpoint-ORIG-GUID: pT9AYa4h78UlQaVsbEajeO5bMA7RjnuG
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.9,FMLib:17.12.100.49
- definitions=2025-10-31_06,2025-10-29_03,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- priorityscore=1501 phishscore=0 clxscore=1015 adultscore=0 bulkscore=0
- malwarescore=0 lowpriorityscore=0 impostorscore=0 suspectscore=0 spamscore=0
- classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.22.0-2510240001 definitions=main-2510310173
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <0d9e5bf4036dc0706fac603764276d2327d0bc69@intel.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -105,54 +66,91 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Rename irq_polling_work to qaic_irq_polling_work to reduce ambiguity
-and avoid potential naming conflicts in the future.
+On Fri, Oct 31, 2025 at 10:40:13AM +0200, Jani Nikula wrote:
+> On Fri, 31 Oct 2025, LiangCheng Wang <zaq14760@gmail.com> wrote:
+> > Clang reports that pixpaper_panel_hw_init() exceeds the 8 KB stack
+> > frame limit:
+> >
+> >     drivers/gpu/drm/tiny/pixpaper.c:579:12: warning:
+> >       stack frame size (20024) exceeds limit (8192)
+> >       in 'pixpaper_panel_hw_init'
+> >
+> > This warning occurs because the compiler aggressively inlines
+> > pixpaper_send_cmd() and pixpaper_send_data() into
+> > pixpaper_panel_hw_init(), which inflates the estimated stack usage.
+> >
+> > Mark these two helper functions as 'noinline' to prevent inlining.
+> > This significantly reduces the reported stack usage without changing
+> > runtime behavior.
+> >
+> > Reported-by: kernel test robot <lkp@intel.com>
+> > Closes: https://lore.kernel.org/oe-kbuild-all/202510270858.1GzE6iQg-lkp@intel.com/
+> > Fixes: c9e70639f591 ("drm: tiny: Add support for Mayqueen Pixpaper e-ink panel")
+> > Signed-off-by: LiangCheng Wang <zaq14760@gmail.com>
+> > ---
+> > When building with Clang and frame size warnings enabled
+> > (-Wframe-larger-than=8192), the compiler reports that
+> > pixpaper_panel_hw_init() consumes over 20 KB of stack space:
+> >
+> >     drivers/gpu/drm/tiny/pixpaper.c:579:12: warning:
+> >       stack frame size (20024) exceeds limit (8192)
+> >       in 'pixpaper_panel_hw_init'
+> >
+> > This happens because Clang aggressively inlines
+> > pixpaper_send_cmd() and pixpaper_send_data() into
+> > pixpaper_panel_hw_init(), causing the calculated stack usage
+> > to balloon far beyond the warning threshold.
+> >
+> > The fix is straightforward: mark these two helper functions as
+> > 'noinline' to prevent inlining. This reduces the reported stack
+> > usage to within normal limits without changing runtime behavior.
+> 
+> I really *really* wish we wouldn't have to go this route at all.
+> 
+> But if we have to, I think noinline_for_stack is the keyword to use.
 
-Signed-off-by: Zack McKevitt <zachary.mckevitt@oss.qualcomm.com>
----
- drivers/accel/qaic/qaic.h      | 2 +-
- drivers/accel/qaic/qaic_data.c | 2 +-
- drivers/accel/qaic/qaic_drv.c  | 2 +-
- 3 files changed, 3 insertions(+), 3 deletions(-)
+For what it's worth, the configuration in the report linked above has
+CONFIG_KASAN_STACK=y, which is known to be broken with clang and
+requires !COMPILE_TEST to even select it (which the robot should be
+using to avoid pathological cases such as this). If I disable
+CONFIG_KASAN_STACK, there is no warning even with a 1024 byte limit, so
+realistically, I think we can just leave this be.
 
-diff --git a/drivers/accel/qaic/qaic.h b/drivers/accel/qaic/qaic.h
-index 820d133236dd..7a18a617bd1d 100644
---- a/drivers/accel/qaic/qaic.h
-+++ b/drivers/accel/qaic/qaic.h
-@@ -317,6 +317,6 @@ int qaic_partial_execute_bo_ioctl(struct drm_device *dev, void *data, struct drm
- int qaic_wait_bo_ioctl(struct drm_device *dev, void *data, struct drm_file *file_priv);
- int qaic_perf_stats_bo_ioctl(struct drm_device *dev, void *data, struct drm_file *file_priv);
- int qaic_detach_slice_bo_ioctl(struct drm_device *dev, void *data, struct drm_file *file_priv);
--void irq_polling_work(struct work_struct *work);
-+void qaic_irq_polling_work(struct work_struct *work);
- 
- #endif /* _QAIC_H_ */
-diff --git a/drivers/accel/qaic/qaic_data.c b/drivers/accel/qaic/qaic_data.c
-index 703ef0ce9da1..4e12a1d1742d 100644
---- a/drivers/accel/qaic/qaic_data.c
-+++ b/drivers/accel/qaic/qaic_data.c
-@@ -1504,7 +1504,7 @@ irqreturn_t dbc_irq_handler(int irq, void *data)
- 	return IRQ_WAKE_THREAD;
- }
- 
--void irq_polling_work(struct work_struct *work)
-+void qaic_irq_polling_work(struct work_struct *work)
- {
- 	struct dma_bridge_chan *dbc = container_of(work, struct dma_bridge_chan,  poll_work);
- 	unsigned long flags;
-diff --git a/drivers/accel/qaic/qaic_drv.c b/drivers/accel/qaic/qaic_drv.c
-index e162f4b8a262..4978f5864892 100644
---- a/drivers/accel/qaic/qaic_drv.c
-+++ b/drivers/accel/qaic/qaic_drv.c
-@@ -545,7 +545,7 @@ static int init_msi(struct qaic_device *qdev, struct pci_dev *pdev)
- 			qdev->dbc[i].irq = pci_irq_vector(pdev, qdev->single_msi ? 0 : i + 1);
- 			if (!qdev->single_msi)
- 				disable_irq_nosync(qdev->dbc[i].irq);
--			INIT_WORK(&qdev->dbc[i].poll_work, irq_polling_work);
-+			INIT_WORK(&qdev->dbc[i].poll_work, qaic_irq_polling_work);
- 		}
- 	}
- 
--- 
-2.34.1
+Cheers,
+Nathan
 
+> > ---
+> >  drivers/gpu/drm/tiny/pixpaper.c | 4 ++--
+> >  1 file changed, 2 insertions(+), 2 deletions(-)
+> >
+> > diff --git a/drivers/gpu/drm/tiny/pixpaper.c b/drivers/gpu/drm/tiny/pixpaper.c
+> > index 32598fb2fee7fcdea3ea0696c2bf54404fcffa2e..70e3239adfd0f86f92551991872486380489fb9b 100644
+> > --- a/drivers/gpu/drm/tiny/pixpaper.c
+> > +++ b/drivers/gpu/drm/tiny/pixpaper.c
+> > @@ -536,7 +536,7 @@ static void pixpaper_spi_sync(struct spi_device *spi, struct spi_message *msg,
+> >  		err->errno_code = ret;
+> >  }
+> >  
+> > -static void pixpaper_send_cmd(struct pixpaper_panel *panel, u8 cmd,
+> > +static noinline void pixpaper_send_cmd(struct pixpaper_panel *panel, u8 cmd,
+> >  			      struct pixpaper_error_ctx *err)
+> >  {
+> >  	if (err->errno_code)
+> > @@ -556,7 +556,7 @@ static void pixpaper_send_cmd(struct pixpaper_panel *panel, u8 cmd,
+> >  	pixpaper_spi_sync(panel->spi, &msg, err);
+> >  }
+> >  
+> > -static void pixpaper_send_data(struct pixpaper_panel *panel, u8 data,
+> > +static noinline void pixpaper_send_data(struct pixpaper_panel *panel, u8 data,
+> >  			       struct pixpaper_error_ctx *err)
+> >  {
+> >  	if (err->errno_code)
+> >
+> > ---
+> > base-commit: d127176862a93c4b3216bda533d2bee170af5e71
+> > change-id: 20251031-fix_202510270858-2e4643b00545
+> >
+> > Best regards,
+> 
+> -- 
+> Jani Nikula, Intel
