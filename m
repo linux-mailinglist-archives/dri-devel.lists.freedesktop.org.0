@@ -2,84 +2,88 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6AEE5C26764
-	for <lists+dri-devel@lfdr.de>; Fri, 31 Oct 2025 18:47:01 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 923A1C267CD
+	for <lists+dri-devel@lfdr.de>; Fri, 31 Oct 2025 18:54:07 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A3CC210E2F9;
-	Fri, 31 Oct 2025 17:46:57 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8B94F10E1A3;
+	Fri, 31 Oct 2025 17:54:04 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; secure) header.d=ffwll.ch header.i=@ffwll.ch header.b="gKsD1YA3";
+	dkim=pass (1024-bit key; secure) header.d=ffwll.ch header.i=@ffwll.ch header.b="AOo/BhYQ";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ej1-f41.google.com (mail-ej1-f41.google.com
- [209.85.218.41])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D8AE410E2F9
- for <dri-devel@lists.freedesktop.org>; Fri, 31 Oct 2025 17:46:55 +0000 (UTC)
-Received: by mail-ej1-f41.google.com with SMTP id
- a640c23a62f3a-b6d855ca585so548976966b.0
- for <dri-devel@lists.freedesktop.org>; Fri, 31 Oct 2025 10:46:55 -0700 (PDT)
+Received: from mail-ed1-f45.google.com (mail-ed1-f45.google.com
+ [209.85.208.45])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CA7D710E1A3
+ for <dri-devel@lists.freedesktop.org>; Fri, 31 Oct 2025 17:54:03 +0000 (UTC)
+Received: by mail-ed1-f45.google.com with SMTP id
+ 4fb4d7f45d1cf-63c4f1e7243so3914338a12.3
+ for <dri-devel@lists.freedesktop.org>; Fri, 31 Oct 2025 10:54:03 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=ffwll.ch; s=google; t=1761932814; x=1762537614; darn=lists.freedesktop.org; 
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
- bh=/U74qDhWtRZ2/GEt0OgV6FI8TLhf3YNClD+a4qkyCyc=;
- b=gKsD1YA3kRKMgQkpuFoLFgFw+TzChqzLMQES7Pqzyt/Ehd3wFl4/ZQd9RyiMujVpXF
- RByCE69FsnZHVubaz+aGo/PvTeuoZKjdmyjkWdyBo0Teuhjrd1V4R6t2l3jtFLl60Pup
- l+g1eRUN9X26aU0gE6DoMhne/z/lynony/aQ0=
+ d=ffwll.ch; s=google; t=1761933242; x=1762538042; darn=lists.freedesktop.org; 
+ h=in-reply-to:content-transfer-encoding:content-disposition
+ :mime-version:references:message-id:subject:cc:to:from:date:from:to
+ :cc:subject:date:message-id:reply-to;
+ bh=i3GrUtY0OMATUSUqtJmJb4a9B6MNgBENoG5uhIwzOL4=;
+ b=AOo/BhYQ0ZHycXX2CofCoyZrdot/CkGTRlH/eshi5PLkQgKf44iiSL8OmbMcXacFfc
+ QtvmZiWMt3L6fhLz/0ZfrRNZlzr8P0AmJ0Ve56svAfuZCSnec62RzgfqG5mTa2XReD09
+ BOafqu5Sy+FpYwvDmm5bdyAmjlD1p+7hhVf/w=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1761932814; x=1762537614;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=/U74qDhWtRZ2/GEt0OgV6FI8TLhf3YNClD+a4qkyCyc=;
- b=eVKtRbekxxbTevWDw3kMczhg+Os9Jm96zBAHErGZeoBOaA6USWPuxirFP050kSw3CQ
- FiEef9rjCCg7BwOQsugFQbCrob2SQaB5i6shhfyZRDHyOc8MLh9ougQ2sVeuokR9LkpT
- DWAIxYFsY+OxRIe5O8PwZo2FH2WaYqixWHZuGX5G/2QN2YG2ZBDVhR2iDasCMUEJ3+X4
- uphF/lle1QLudPTbZeZX2QOPfF09ZzePxI+YddNcVwfOF5W0n6olN2uHrWeZWn2F6OFf
- JyYzhFc0x3gr4KUhd6w5WmiXmNjdpKV2Z+I1cwh/WDPIBjylNcTGCv/0hGCMBOGQHfxz
- oyoA==
+ d=1e100.net; s=20230601; t=1761933242; x=1762538042;
+ h=in-reply-to:content-transfer-encoding:content-disposition
+ :mime-version:references:message-id:subject:cc:to:from:date
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=i3GrUtY0OMATUSUqtJmJb4a9B6MNgBENoG5uhIwzOL4=;
+ b=TGiDAoWw7aGC3soZ4zyob22IcClC/hiRfEj3OrzwJP1cSR8tp641YChSsqpkc23D+U
+ as6zJJzFVVETF8k2uAaz+ilHCF2GQbJVA0P1o67ksIxwzK1WRbEXCuG2GwQEbDHFgDw0
+ r1AJW+aT+RaeFodTNFVau6zn/taZY3hDU5YZKC2UVTG0VZtzetvn3d0BRI1YQC6D/EMK
+ YggTQ5czxcHW/fO9RBao92w6s2+hbT2gW/FJXvidBxMgGgJTOoUrtNeVyEFKLh4Tf+m1
+ kQrVnqaEghdtzJ3wDy5BF258PCwdynsBmW2ecc37i8ViG8zsYfYqyfWLryOQI2UhVPnE
+ N7nA==
 X-Forwarded-Encrypted: i=1;
- AJvYcCVbc6F7yfua86MC1dJAHwgqSUsV+JgLueFc15nKQeAWqMMVj1X+v75O+mICB5Ci+dXaGjuriwjidkY=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YxeTkBCYj5wArlh3MXvZzUMeAp+wxwO6kUlNDfPfmXmRxYz9NZ3
- JqPjGLG0253W1MT7tfBJFccNOG2GXici7z+8dHTsfxx12SiAHuZclnm3cKFXMR8ELEY=
-X-Gm-Gg: ASbGnctyhle0yqdjKUUt22Xs1uBlcRpZfUuOeoYQAOQtNANlaGxBFpLXatGTPylZZji
- N23snLmDcGM2uCd/Gw34Mc5jGjUEbRkKVDpYEVhQK9E6UMbtuFZQfigH+qoAlP6KtS4cP0fQh5+
- qg7zZZtB+2JcmRlgSPSz81e/noU1N8px7TXlr/fSrYwIEk6cvTUvIobax57f3vprQe/4dM63uFj
- Qp8YFxKD9tMUsDODsc0TNxS/IwS+7oZHGcXSaYZ8512yoJhCsWLsaSlgTwWxiz0NzMd85tOCaJ8
- JfPNlh8hQy1C8hMkfnTTbp04xxEnQFgHDg/AFBZVkM8owIJpwFCZFyu5s2eiAczh4KCzXjrVw09
- YPMYuafYwHImD0FPmGmpvC1FySAeIVbGLUsC/y39KLnqQMwf9Mi/1wMp9Fu/U90jHuunD20nLk9
- G59qLeOqir8C0dEz8gWAni8g==
-X-Google-Smtp-Source: AGHT+IF9FGeHOiBrOmfXVtaVLh47pAXMMNvGpvR4PtefXoKPk1p0EH9vsTbNtl1+JtB019yoDDIA4Q==
-X-Received: by 2002:a17:907:1c93:b0:b40:8deb:9cbe with SMTP id
- a640c23a62f3a-b70700bad7dmr509520766b.2.1761932814193; 
- Fri, 31 Oct 2025 10:46:54 -0700 (PDT)
+ AJvYcCUZV1GhXBm+yj+Lq2u93vAXQtWuOvlUVi0J69j1F/SbYgnK2z8xgLGyO5iM+a+Im4IeiVaI0bdMTxM=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YxGh5MG+gf/9AK625HUuPx62SfNWCrQroHek++Ohgq7BjMTEHFo
+ T3ctKWqZvcimHNcDHFIlQC4N7639VxPsrsHE2hZ20NnocdpZGcGkdyWVjr5pnqPwsK0=
+X-Gm-Gg: ASbGncvrqh1I4ofpUzCGVycswkixQUhNgovqUGttZXa8zStMBej5TZIEs2U3ntrtcAQ
+ YgBizM2EZZwGUX6OAB7BiB68goHs3XSliL6H9/rF7vgv6Q4XaM3UYLf+z1obr0ZjBiXo6fm7xoQ
+ JUhtaNKrLRG1i9Y5Ls0dVfnpuljc3azwI/0bw9KaiVMVVfQ/mQh+2T8aTV0qNxPXLTf615UU5jl
+ ReXOy8M1ZuuhNA7vnTctwXSuT6els2Mzx8/oM08gRZL49KORKs2hAPops4ZcNLSJHl/IvZMzWMD
+ GWuMpuri9bTo2iykkLgCorZMDoLwgnQucbXEXMPX78BeKR3zj3tLfS2ofmPDXaSQhTtNM/0uJ+/
+ xA90gUGvnzA7naKVF07nS8GVQIkLZEj3MZ0QTqTcwUG5CBpMdqkMynwS1de1aHWnEU+AF7Z30V2
+ 46kFTrSikhxaE=
+X-Google-Smtp-Source: AGHT+IHJX3ptK+sjXIQCqq9ttCTGYzxhPdvlsTonY5tgYEav/nhfRkG6YME/qXED7xlnug3Bjzq/8g==
+X-Received: by 2002:a05:6402:13c5:b0:640:7690:997e with SMTP id
+ 4fb4d7f45d1cf-64076f6be63mr3905208a12.3.1761933242036; 
+ Fri, 31 Oct 2025 10:54:02 -0700 (PDT)
 Received: from phenom.ffwll.local ([2a02:168:57f4:0:5485:d4b2:c087:b497])
  by smtp.gmail.com with ESMTPSA id
- a640c23a62f3a-b7077c3ec52sm230828166b.43.2025.10.31.10.46.53
+ 4fb4d7f45d1cf-6407b448ed9sm2118179a12.35.2025.10.31.10.54.00
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 31 Oct 2025 10:46:53 -0700 (PDT)
-Date: Fri, 31 Oct 2025 18:46:51 +0100
+ Fri, 31 Oct 2025 10:54:01 -0700 (PDT)
+Date: Fri, 31 Oct 2025 18:53:59 +0100
 From: Simona Vetter <simona.vetter@ffwll.ch>
-To: Thomas Hellstrom <thomas.hellstrom@linux.intel.com>
-Cc: Dave Airlie <airlied@gmail.com>, Simona Vetter <simona.vetter@ffwll.ch>,
- Jani Nikula <jani.nikula@linux.intel.com>,
- Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
- Tvrtko Ursulin <tursulin@ursulin.net>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Oded Gabbay <ogabbay@kernel.org>,
+To: Maarten Lankhorst <dev@lankhorst.se>
+Cc: Simona Vetter <simona.vetter@ffwll.ch>, Dave Airlie <airlied@gmail.com>,
+ dim-tools@lists.freedesktop.org, intel-xe@lists.freedesktop.org,
+ intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
  Lucas De Marchi <lucas.demarchi@intel.com>,
- dri-devel@lists.freedesktop.org, intel-gfx@lists.freedesktop.org,
- intel-xe@lists.freedesktop.org, dim-tools@lists.freedesktop.org
-Subject: Re: [PULL] drm-xe-next
-Message-ID: <aQT2C_cJMjYbZL0T@phenom.ffwll.local>
-References: <aQCl9uJxN6CWJ8Vg@fedora>
+ Oded Gabbay <ogabbay@kernel.org>,
+ Thomas =?iso-8859-1?Q?Hellstr=F6m?= <thomas.hellstrom@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>,
+ Tvrtko Ursulin <tursulin@ursulin.net>,
+ Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
+ Jani Nikula <jani.nikula@linux.intel.com>
+Subject: Re: [PULL] drm-misc-next
+Message-ID: <aQT3t-Ne-2mTnZD7@phenom.ffwll.local>
+References: <32b43261-3c99-49d9-92ee-615ada1d01e8@lankhorst.se>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
-In-Reply-To: <aQCl9uJxN6CWJ8Vg@fedora>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <32b43261-3c99-49d9-92ee-615ada1d01e8@lankhorst.se>
 X-Operating-System: Linux phenom 6.12.38+deb13-amd64 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -96,180 +100,211 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Oct 28, 2025 at 12:16:06PM +0100, Thomas Hellstrom wrote:
-> Hi Dave, Simona!
+On Tue, Oct 28, 2025 at 02:14:00PM +0100, Maarten Lankhorst wrote:
+> Hi Dave, Simona,
 > 
-> This weeks drm-xe-next PR.
+> Next pull-request for v6.19-rc1!
 > 
-> drm-xe-next-2025-10-28:
+> Kind regards,
+> ~Maarten Lankhorst
+> 
+> drm-misc-next-2025-10-28:
+> drm-misc-next for v6.19-rc1:
+> 
+> UAPI Changes:
+> 
+> Cross-subsystem Changes:
+> - Update DT bindings for renesas and powervr-rogue.
+> - Update MAINTAINERS email and add spsc_queue.
+> 
+> Core Changes:
+> - Allow ttm page protection flags on risc-v.
+> - Move freeing of drm client memory to driver.
+> 
 > Driver Changes:
-> More xe3p support (Harish, Brian, Balasubramani, Matt Roper)
-> Make panic support work on VRAM for display (Maarten)
-> Fix stolen size check (Shuicheng)
-> xe_pci_test update (Gustavo)
-> VF migration updates (Tomasz)
-> A couple of fixes around allocation and PM references (Matt Brost)
-> Migration update for the MEM_COPY instruction (Matt Auld)
-> Initial CRI support (Balasubramani, Matt Roper)
-> Use SVM range helpers in PT layer (Matt Brost)
-> Drop MAX_GT_TYPE_CHARS constant (Matt Roper)
-> Fix spelling and typos (Sanjay)
-> Fix VF FLR synchronization between all GTs (Michal)
-> Add a Workaround (Nitin)
-> Access VF's register using dedicated MMIO view (Michal)
-> The following changes since commit d104d7ea864c1b9d8ffb3d93a58d49f9395be670:
+> - Assorted small fixes and updates to qaic, ivpu, st7571-i2c, gud,
+>   amdxdna.
+> - Allow configuration of vkms' display through configfs.
+> - Add Arm Ethos-U65/U85 accel driver.
+> The following changes since commit 098456f3141bf9e0c0d8973695ca38a03465ccd6:
 > 
->   drm/xe/xe3p: Add xe3p EU stall data format (2025-10-18 19:45:14 -0700)
+>   Merge tag 'drm-misc-next-2025-10-21' of https://gitlab.freedesktop.org/drm/misc/kernel into drm-next (2025-10-24 13:25:20 +0200)
 > 
 > are available in the Git repository at:
 > 
->   https://gitlab.freedesktop.org/drm/xe/kernel.git tags/drm-xe-next-2025-10-28
+>   https://gitlab.freedesktop.org/drm/misc/kernel.git tags/drm-misc-next-2025-10-28
 > 
-> for you to fetch changes up to 4504e780689245f01bee6ee4c19c74051bd87593:
+> for you to fetch changes up to 4f9ffd2c80a2fa09dcc8dfa0482cb7e0fb6fcf6c:
 > 
->   drm/xe/pf: Access VF's register using dedicated MMIO view (2025-10-27 17:22:18 +0100)
+>   drm/ttm: add pgprot handling for RISC-V (2025-10-28 09:19:46 +0100)
 
 Pulled into drm-next, thanks!
 -Sima
 
 > 
 > ----------------------------------------------------------------
+> drm-misc-next for v6.19-rc1:
+> 
+> UAPI Changes:
+> 
+> Cross-subsystem Changes:
+> - Update DT bindings for renesas and powervr-rogue.
+> - Update MAINTAINERS email and add spsc_queue.
+> 
+> Core Changes:
+> - Allow ttm page protection flags on risc-v.
+> - Move freeing of drm client memory to driver.
+> 
 > Driver Changes:
-> More xe3p support (Harish, Brian, Balasubramani, Matt Roper)
-> Make panic support work on VRAM for display (Maarten)
-> Fix stolen size check (Shuicheng)
-> xe_pci_test update (Gustavo)
-> VF migration updates (Tomasz)
-> A couple of fixes around allocation and PM references (Matt Brost)
-> Migration update for the MEM_COPY instruction (Matt Auld)
-> Initial CRI support (Balasubramani, Matt Roper)
-> Use SVM range helpers in PT layer (Matt Brost)
-> Drop MAX_GT_TYPE_CHARS constant (Matt Roper)
-> Fix spelling and typos (Sanjay)
-> Fix VF FLR synchronization between all GTs (Michal)
-> Add a Workaround (Nitin)
-> Access VF's register using dedicated MMIO view (Michal)
+> - Assorted small fixes and updates to qaic, ivpu, st7571-i2c, gud,
+>   amdxdna.
+> - Allow configuration of vkms' display through configfs.
+> - Add Arm Ethos-U65/U85 accel driver.
 > 
 > ----------------------------------------------------------------
-> Balasubramani Vivekanandan (2):
->       drm/xe/xe3p_lpm: Add special check in Media GT for Main GAMCTRL
->       drm/xe/cri: Add CRI platform definition
+> Aswin Venkatesan (1):
+>       accel/qaic: Fix comment
 > 
-> Brian Welty (1):
->       drm/xe/xe3p_lpm: Configure MAIN_GAMCTRL_QUEUE_SELECT
+> Chen-Yu Tsai (1):
+>       MAINTAINERS: Update Chen-Yu's email address
 > 
-> Gustavo Sousa (2):
->       drm/xe/tests/pci: Convert GT count check to general device check
->       drm/xe/tests/pci: Check dma_mask_size, va_bits and vm_max_level
+> Icenowy Zheng (1):
+>       drm/ttm: add pgprot handling for RISC-V
 > 
-> Maarten Lankhorst (2):
->       drm/xe: Extract xe_bo_is_visible_vram
->       drm/xe/display: Make panic support work on vram.
+> José Expósito (6):
+>       drm/vkms: Expose device creation and destruction
+>       drm/vkms: Allow to configure the default device creation
+>       drm/vkms: Remove completed task from the TODO list
+>       drm/vkms: Allow to configure connector status
+>       drm/vkms: Allow to update the connector status
+>       drm/vkms: Allow to configure connector status via configfs
 > 
-> Matt Roper (4):
->       drm/xe/cri: Setup MOCS table
->       drm/xe/xe3p_xpc: Treat all PSMI MCR ranges as "INSTANCE0"
->       drm/xe/xe3p_xpc: Add MCR steering for NODE and L3BANK ranges
->       drm/xe/configfs: Drop MAX_GT_TYPE_CHARS constant
+> Lizhi Hou (2):
+>       accel/amdxdna: Fix incorrect return value in aie2_hwctx_sync_debug_bo()
+>       accel/amdxdna: Fix uninitialized return value
 > 
-> Matthew Auld (7):
->       drm/xe/migrate: fix offset and len check
->       drm/xe/migrate: rework size restrictions for sram pte emit
->       drm/xe/migrate: fix chunk handling for 2M page emit
->       drm/xe/migrate: fix batch buffer sizing
->       drm/xe/migrate: trim batch buffer sizing
->       drm/xe/migrate: support MEM_COPY instruction
->       drm/xe/migrate: skip bounce buffer path on xe2
+> Louis Chauvet (10):
+>       drm/vkms: Add and remove VKMS instances via configfs
+>       drm/vkms: Allow to configure multiple planes via configfs
+>       drm/vkms: Allow to configure the plane type via configfs
+>       drm/vkms: Allow to configure multiple CRTCs via configfs
+>       drm/vkms: Allow to configure CRTC writeback support via configfs
+>       drm/vkms: Allow to attach planes and CRTCs via configfs
+>       drm/vkms: Allow to configure multiple encoders via configfs
+>       drm/vkms: Allow to attach encoders and CRTCs via configfs
+>       drm/vkms: Allow to configure multiple connectors via configfs
+>       drm/vkms: Allow to attach connectors and encoders via configfs
 > 
-> Matthew Brost (4):
->       drm/xe: Check return value of GGTT workqueue allocation
->       drm/xe: Do not wake device during a GT reset
->       drm/xe: Avoid PM wake reference during VF migration
->       drm/xe: Use SVM range helpers in PT layer
+> Maciej Falkowski (1):
+>       accel/ivpu: Add support for Nova Lake's NPU
 > 
-> Michal Wajdeczko (2):
->       drm/xe/pf: Fix VF FLR synchronization between all GTs
->       drm/xe/pf: Access VF's register using dedicated MMIO view
+> Marcus Folkesson (1):
+>       drm/sitronix/st7571-i2c: remove unneeded semicolon
 > 
-> Nitin Gote (1):
->       drm/xe/xe3: Add WA_14024681466 for Xe3_LPG
+> Marek Vasut (4):
+>       dt-bindings: gpu: img,powervr-rogue: Drop useless power domains items
+>       dt-bindings: gpu: img,powervr-rogue: Rework the allOf section
+>       dt-bindings: display: bridge: renesas,dsi-csi2-tx: Allow panel@ subnode
+>       dt-bindings: gpu: img,powervr-rogue: Document GX6250 GPU in Renesas R-Car M3-W/M3-W+
 > 
-> Sanjay Yadav (1):
->       drm/xe: Fix spelling and typos across Xe driver files
+> Philipp Stanner (1):
+>       MAINTAINERS: Maintain spsc_queue through drm_sched
 > 
-> Shuicheng Lin (1):
->       drm/xe: Fix stolen size check to allow equal WOPCM size
+> Rob Herring (Arm) (2):
+>       dt-bindings: npu: Add Arm Ethos-U65/U85
+>       accel: Add Arm Ethos-U NPU driver
 > 
-> Tomasz Lis (4):
->       drm/xe/vf: Revert logic of vf.migration.enabled
->       drm/xe/vf: Fix GuC FW check for VF migration support
->       drm/xe: Assert that VF will never use fixed placement of BOs
->       drm/xe/vf: Do not disable VF migration on ATS-M
+> Ruben Wauters (1):
+>       drm/gud: rearrange gud_probe() to prepare for function splitting
 > 
->  drivers/gpu/drm/xe/display/xe_panic.c             |  50 +++++---
->  drivers/gpu/drm/xe/instructions/xe_gpu_commands.h |   6 +
->  drivers/gpu/drm/xe/regs/xe_gt_regs.h              |  10 ++
->  drivers/gpu/drm/xe/tests/xe_pci_test.c            |  16 ++-
->  drivers/gpu/drm/xe/xe_bo.c                        |  29 ++++-
->  drivers/gpu/drm/xe/xe_bo.h                        |   1 +
->  drivers/gpu/drm/xe/xe_bo_doc.h                    |   8 +-
->  drivers/gpu/drm/xe/xe_configfs.c                  |   5 +-
->  drivers/gpu/drm/xe/xe_device.c                    |   2 +-
->  drivers/gpu/drm/xe/xe_device_types.h              |  10 +-
->  drivers/gpu/drm/xe/xe_exec.c                      |   2 +-
->  drivers/gpu/drm/xe/xe_force_wake_types.h          |   4 +-
->  drivers/gpu/drm/xe/xe_ggtt.c                      |   3 +
->  drivers/gpu/drm/xe/xe_gt.c                        |  19 ++--
->  drivers/gpu/drm/xe/xe_gt_freq.c                   |   2 +-
->  drivers/gpu/drm/xe/xe_gt_mcr.c                    |  35 +++---
->  drivers/gpu/drm/xe/xe_gt_sriov_pf.c               |  36 ++----
->  drivers/gpu/drm/xe/xe_gt_sriov_pf_control.c       |   2 +
->  drivers/gpu/drm/xe/xe_gt_sriov_vf.c               |   7 +-
->  drivers/gpu/drm/xe/xe_gt_topology.c               |   7 ++
->  drivers/gpu/drm/xe/xe_gt_topology.h               |   2 +
->  drivers/gpu/drm/xe/xe_gt_types.h                  |   9 +-
->  drivers/gpu/drm/xe/xe_guc.c                       |  46 ++++++++
->  drivers/gpu/drm/xe/xe_guc.h                       |   1 +
->  drivers/gpu/drm/xe/xe_guc_ads.c                   |   6 +-
->  drivers/gpu/drm/xe/xe_guc_ads_types.h             |   2 +-
->  drivers/gpu/drm/xe/xe_guc_ct_types.h              |   2 +-
->  drivers/gpu/drm/xe/xe_guc_fwif.h                  |   1 +
->  drivers/gpu/drm/xe/xe_guc_log_types.h             |   2 +-
->  drivers/gpu/drm/xe/xe_guc_submit.c                |   2 +-
->  drivers/gpu/drm/xe/xe_guc_tlb_inval.c             |   2 +-
->  drivers/gpu/drm/xe/xe_map.h                       |   4 +-
->  drivers/gpu/drm/xe/xe_migrate.c                   | 132 ++++++++++++++++++----
->  drivers/gpu/drm/xe/xe_migrate_doc.h               |   2 +-
->  drivers/gpu/drm/xe/xe_mmio.c                      |  29 +++++
->  drivers/gpu/drm/xe/xe_mmio.h                      |   4 +
->  drivers/gpu/drm/xe/xe_mocs.c                      |  26 +++++
->  drivers/gpu/drm/xe/xe_pci.c                       |  20 ++++
->  drivers/gpu/drm/xe/xe_pci_types.h                 |   1 +
->  drivers/gpu/drm/xe/xe_platform_types.h            |   1 +
->  drivers/gpu/drm/xe/xe_pm.c                        |   2 +-
->  drivers/gpu/drm/xe/xe_preempt_fence_types.h       |   2 +-
->  drivers/gpu/drm/xe/xe_pt.c                        |  28 ++---
->  drivers/gpu/drm/xe/xe_range_fence.h               |   4 +-
->  drivers/gpu/drm/xe/xe_sched_job.c                 |   6 +-
->  drivers/gpu/drm/xe/xe_sched_job.h                 |  12 +-
->  drivers/gpu/drm/xe/xe_sched_job_types.h           |   2 +-
->  drivers/gpu/drm/xe/xe_sriov_vf.c                  |  39 +++----
->  drivers/gpu/drm/xe/xe_sriov_vf.h                  |   1 +
->  drivers/gpu/drm/xe/xe_sriov_vf_ccs.c              |  46 +++++++-
->  drivers/gpu/drm/xe/xe_sriov_vf_types.h            |   6 +-
->  drivers/gpu/drm/xe/xe_svm.c                       |   2 +-
->  drivers/gpu/drm/xe/xe_tlb_inval.h                 |   2 +-
->  drivers/gpu/drm/xe/xe_ttm_stolen_mgr.c            |   2 +-
->  drivers/gpu/drm/xe/xe_ttm_vram_mgr_types.h        |   4 +-
->  drivers/gpu/drm/xe/xe_uc_fw_types.h               |   6 +-
->  drivers/gpu/drm/xe/xe_uc_types.h                  |   2 +-
->  drivers/gpu/drm/xe/xe_validation.h                |   6 +-
->  drivers/gpu/drm/xe/xe_vm.c                        |  10 +-
->  drivers/gpu/drm/xe/xe_vm_doc.h                    |   8 +-
->  drivers/gpu/drm/xe/xe_vm_types.h                  |   4 +-
->  drivers/gpu/drm/xe/xe_wa.c                        |   4 +
->  include/drm/intel/pciids.h                        |   4 +
->  63 files changed, 534 insertions(+), 216 deletions(-)
+> Thomas Zimmermann (7):
+>       drm/sysfb: Use new CRTC state in begin_fb_access
+>       drm/client: Add client free callback to unprepare fb_helper
+>       drm/log: Do not hold lock across drm_client_release()
+>       drm/log: Add free callback
+>       drm/client: Do not free client memory by default
+>       Merge drm/drm-next into drm-misc-next
+>       drm/gem-atomic: Reset plane state to NULL if allocation failed
+> 
+> Troy Hanson (1):
+>       accel/qaic: Rename constant for clarity
+> 
+> Youssef Samir (1):
+>       accel/qaic: Update the sahara image table for AIC200
+> 
+>  .mailmap                                           |   1 +
+>  .../display/bridge/renesas,dsi-csi2-tx.yaml        |  53 +-
+>  .../devicetree/bindings/gpu/img,powervr-rogue.yaml |  86 ++-
+>  .../devicetree/bindings/npu/arm,ethos.yaml         |  79 ++
+>  Documentation/gpu/vkms.rst                         | 100 ++-
+>  MAINTAINERS                                        |  18 +-
+>  drivers/accel/Kconfig                              |   1 +
+>  drivers/accel/Makefile                             |   1 +
+>  drivers/accel/amdxdna/aie2_ctx.c                   |   2 +-
+>  drivers/accel/amdxdna/aie2_pci.c                   |   4 +-
+>  drivers/accel/ethosu/Kconfig                       |  11 +
+>  drivers/accel/ethosu/Makefile                      |   4 +
+>  drivers/accel/ethosu/ethosu_device.h               | 197 +++++
+>  drivers/accel/ethosu/ethosu_drv.c                  | 403 ++++++++++
+>  drivers/accel/ethosu/ethosu_drv.h                  |  15 +
+>  drivers/accel/ethosu/ethosu_gem.c                  | 704 +++++++++++++++++
+>  drivers/accel/ethosu/ethosu_gem.h                  |  46 ++
+>  drivers/accel/ethosu/ethosu_job.c                  | 496 ++++++++++++
+>  drivers/accel/ethosu/ethosu_job.h                  |  40 +
+>  drivers/accel/ivpu/ivpu_drv.c                      |   1 +
+>  drivers/accel/ivpu/ivpu_drv.h                      |   4 +
+>  drivers/accel/ivpu/ivpu_fw.c                       |   2 +
+>  drivers/accel/ivpu/ivpu_hw_ip.c                    |  10 +
+>  drivers/accel/qaic/qaic_control.c                  |  14 +-
+>  drivers/accel/qaic/qaic_data.c                     |   2 +-
+>  drivers/accel/qaic/sahara.c                        |   5 +-
+>  drivers/gpu/drm/armada/armada_fbdev.c              |   2 -
+>  drivers/gpu/drm/clients/drm_fbdev_client.c         |  17 +-
+>  drivers/gpu/drm/clients/drm_log.c                  |  16 +-
+>  drivers/gpu/drm/drm_client.c                       |   4 +
+>  drivers/gpu/drm/drm_client_event.c                 |   9 +-
+>  drivers/gpu/drm/drm_fbdev_dma.c                    |   4 -
+>  drivers/gpu/drm/drm_fbdev_shmem.c                  |   2 -
+>  drivers/gpu/drm/drm_fbdev_ttm.c                    |   2 -
+>  drivers/gpu/drm/drm_gem_atomic_helper.c            |   2 -
+>  drivers/gpu/drm/exynos/exynos_drm_fbdev.c          |   2 -
+>  drivers/gpu/drm/gma500/fbdev.c                     |   3 -
+>  drivers/gpu/drm/gud/gud_drv.c                      |  45 +-
+>  drivers/gpu/drm/i915/display/intel_fbdev.c         |   2 -
+>  drivers/gpu/drm/msm/msm_fbdev.c                    |   2 -
+>  drivers/gpu/drm/omapdrm/omap_fbdev.c               |   2 -
+>  drivers/gpu/drm/radeon/radeon_fbdev.c              |   2 -
+>  drivers/gpu/drm/sitronix/st7571-i2c.c              |   2 +-
+>  drivers/gpu/drm/sysfb/drm_sysfb_modeset.c          |   2 +-
+>  drivers/gpu/drm/tegra/fbdev.c                      |   2 -
+>  drivers/gpu/drm/ttm/ttm_module.c                   |   3 +-
+>  drivers/gpu/drm/vkms/Kconfig                       |   1 +
+>  drivers/gpu/drm/vkms/Makefile                      |   3 +-
+>  drivers/gpu/drm/vkms/tests/vkms_config_test.c      |  24 +
+>  drivers/gpu/drm/vkms/vkms_config.c                 |   8 +-
+>  drivers/gpu/drm/vkms/vkms_config.h                 |  26 +
+>  drivers/gpu/drm/vkms/vkms_configfs.c               | 833 +++++++++++++++++++++
+>  drivers/gpu/drm/vkms/vkms_configfs.h               |   8 +
+>  drivers/gpu/drm/vkms/vkms_connector.c              |  35 +
+>  drivers/gpu/drm/vkms/vkms_connector.h              |   9 +
+>  drivers/gpu/drm/vkms/vkms_drv.c                    |  18 +-
+>  drivers/gpu/drm/vkms/vkms_drv.h                    |  20 +
+>  include/drm/drm_client.h                           |  10 +
+>  include/uapi/drm/ethosu_accel.h                    | 261 +++++++
+>  59 files changed, 3553 insertions(+), 127 deletions(-)
+>  create mode 100644 Documentation/devicetree/bindings/npu/arm,ethos.yaml
+>  create mode 100644 drivers/accel/ethosu/Kconfig
+>  create mode 100644 drivers/accel/ethosu/Makefile
+>  create mode 100644 drivers/accel/ethosu/ethosu_device.h
+>  create mode 100644 drivers/accel/ethosu/ethosu_drv.c
+>  create mode 100644 drivers/accel/ethosu/ethosu_drv.h
+>  create mode 100644 drivers/accel/ethosu/ethosu_gem.c
+>  create mode 100644 drivers/accel/ethosu/ethosu_gem.h
+>  create mode 100644 drivers/accel/ethosu/ethosu_job.c
+>  create mode 100644 drivers/accel/ethosu/ethosu_job.h
+>  create mode 100644 drivers/gpu/drm/vkms/vkms_configfs.c
+>  create mode 100644 drivers/gpu/drm/vkms/vkms_configfs.h
+>  create mode 100644 include/uapi/drm/ethosu_accel.h
 
 -- 
 Simona Vetter
