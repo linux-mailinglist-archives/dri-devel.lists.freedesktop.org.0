@@ -2,134 +2,137 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 70CA1C25D6A
-	for <lists+dri-devel@lfdr.de>; Fri, 31 Oct 2025 16:30:21 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6C20DC25DB8
+	for <lists+dri-devel@lfdr.de>; Fri, 31 Oct 2025 16:35:34 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8E26410E2DC;
-	Fri, 31 Oct 2025 15:30:19 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 42D2C10E07E;
+	Fri, 31 Oct 2025 15:35:31 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="k83hUwoE";
-	dkim=pass (2048-bit key; unprotected) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="Gt8Rk3sa";
+	dkim=pass (2048-bit key; secure) header.d=web.de header.i=markus.elfring@web.de header.b="w++npf0j";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
- [205.220.168.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9923710E2DC
- for <dri-devel@lists.freedesktop.org>; Fri, 31 Oct 2025 15:30:17 +0000 (UTC)
-Received: from pps.filterd (m0279864.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id
- 59V8NCmO898461
- for <dri-devel@lists.freedesktop.org>; Fri, 31 Oct 2025 15:30:17 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
- cc:content-transfer-encoding:content-type:date:from:in-reply-to
- :message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
- aubjBpZ4Wxz6WDYi3ML1S8Br7mpPFHUcMeGT2IdqfJM=; b=k83hUwoE2hZlFlIS
- oITN13ABbcaks5UErqK2TdL64wOAw1HGbfYOj/mxk2jhaplLkPD2f69cpA9lyyel
- BnVXZ+fbCtyn4IFA+wgHiQQZa1tH2bdci/akd+TnDbyRyk9D0HJ9c+SzO3i749lc
- eXgO8Huj3AgL4EodPMD6YTGbUMLo+L0DaXzgDEHsMyh/LYPEtLZ8LZPG61cIjKl0
- mr7F7tMjPXtCNC2rjoxsZhlGEEbfK+OoD0ljgZ8THSLhfBksXW4OjtqcgtUO9TEi
- IAJHMkK8PtE/PCDUkNVtaOz1TYjdfONAX2g95aNsZ4OMto2VGTy4eVUlSGwa/Yuh
- k2qzZg==
-Received: from mail-pg1-f200.google.com (mail-pg1-f200.google.com
- [209.85.215.200])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4a4gb22hcg-1
- (version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
- for <dri-devel@lists.freedesktop.org>; Fri, 31 Oct 2025 15:30:17 +0000 (GMT)
-Received: by mail-pg1-f200.google.com with SMTP id
- 41be03b00d2f7-b6cd4d3a441so2099576a12.0
- for <dri-devel@lists.freedesktop.org>; Fri, 31 Oct 2025 08:30:17 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=oss.qualcomm.com; s=google; t=1761924616; x=1762529416;
- darn=lists.freedesktop.org; 
- h=content-transfer-encoding:in-reply-to:from:content-language
- :references:cc:to:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=aubjBpZ4Wxz6WDYi3ML1S8Br7mpPFHUcMeGT2IdqfJM=;
- b=Gt8Rk3saog7zYqWGETTPThmYCxC47IbmLH5ZRaZKm9gelt5nUzl1vss/ZEF0yn16e4
- vKx+5+o3ffVK95nZGEH80J/SR3DH2hK372o/1vGroBQ9sRU23A8z/aO1g+oYAAc96n5n
- O+vxYFtywFIDFARXKGcHN2MBi5bAcZ0iBGBudURxRo/wkPP6ymSN6K7vaW3is8nwWw03
- oCX7iQMlbXAw5RzPvoYxOmDU3EZJJwcn9kpfsnpL+QMLQUtOokHvSaWA30Z0W2igI6S5
- tplmfegrVI/mQtZYjLNaQFnP5UqTbneo701ZWWe5l3GKdE1rQcdJGM0nVHTFyMugYUUd
- JFrw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1761924616; x=1762529416;
- h=content-transfer-encoding:in-reply-to:from:content-language
- :references:cc:to:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=aubjBpZ4Wxz6WDYi3ML1S8Br7mpPFHUcMeGT2IdqfJM=;
- b=g5h1LZxDXUiBF7R0/Oa/+kzNlBsK4AWx1mhK4IS9wfoiabvpj8L4u8ZU4Lh/dVrU1P
- V8kKZo9APf10sqkJ/TWkZ4NqM+R330Lii0vE72Yuj+ZSwlkg4RfcRUeXMh0RVzx0VTR5
- NDoTufq4VeOKHAQASPudkTFG3YpcgHXQM0uZnG9gwWTt57QyRDgjsuN4r990LEvHiURk
- cGzbSx9IrlsIaIJQYtz6qMXcP2k4796/KNw1gzgS9FqvwXcU8g3/Q/keR359t1EPJiw2
- 1ov26LeYo+CKdBgNhdj4Xid3WNxINmCNQuEcTZ8W/jJKQtBJLQmU/G7UK4ZszMMILZp2
- m91g==
-X-Forwarded-Encrypted: i=1;
- AJvYcCV8yjP0fUNqfo7KAsV6TZlLWC1wUMJz5v9BThKNpFL+h++iRyej1WUayIJDqKcUbDMcYQ17UAdI18c=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YyC/7d/jxQQKNNWVTE/ccuDMspjbVbF7vRQM0bC4VEJ+lRQ91MU
- MJAMP51AIwtW/ll0a1C8+FL6lWEzXYlATiWc/l5lukcdIxKjKOb8Ee+ci6iq6H+8hdRzgJihFHI
- xuERTctqIsxe/zwnBB+BiEsqbNxf7K/OEhoHoA/jcuVMVq7ShUk6+EpDqXleQLiT2PvHT9lM=
-X-Gm-Gg: ASbGncsAtuLAnZxWZT07xzQi+BCfZGeQO5IrT6lRWvGUReuOWCgSs34pyxpSvcWewYl
- D6BZV4+rZYbfm//+tQ4a24IywtksaPv9J6zjUbO+RLgDTMIdZyLhOAy33MPlhfp/MXsTSVA00us
- RUeV56aOB70ru+egeRL6g+BJA1HQ6/TN73N0JyFt10zz5mrRSqKoluuNlYloUvcBYYgOiGW/l5t
- xVVuxeDCiQOg+A7D+Nn8Sp6Mf5HSePWp+Fe0RUvlE1QboIK1oz3N84PSsMRLiPAXeIbvSHCkYhv
- /0QoY6kQZIbYalokisB9SLYOnDAWApAP0mRGcnm8AAALD7uqARaxXV/LHsjkO4RVGHyDcVV1Vhc
- hCceOTt8+FWT5o0LodZcneGPIxV2zRgDqKwiFXurXW/e7XLBiBZIJ
-X-Received: by 2002:a05:6a21:3998:b0:345:3eae:c6a3 with SMTP id
- adf61e73a8af0-3477c3d4aa1mr11213340637.18.1761924616203; 
- Fri, 31 Oct 2025 08:30:16 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IGI0yjTWVj8oWnooNwsC1xD39utAJSo9GaWuze9TCeSTyfY65uj7xmGoPU885hFwiAxRoWjtw==
-X-Received: by 2002:a05:6a21:3998:b0:345:3eae:c6a3 with SMTP id
- adf61e73a8af0-3477c3d4aa1mr11213279637.18.1761924615551; 
- Fri, 31 Oct 2025 08:30:15 -0700 (PDT)
-Received: from [10.226.59.182] (i-global254.qualcomm.com. [199.106.103.254])
- by smtp.gmail.com with ESMTPSA id
- 41be03b00d2f7-b9483c03f43sm1961613a12.24.2025.10.31.08.30.14
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 31 Oct 2025 08:30:14 -0700 (PDT)
-Message-ID: <ce252b99-c011-428f-a89a-5792f14c2eaa@oss.qualcomm.com>
-Date: Fri, 31 Oct 2025 09:30:13 -0600
+Received: from mout.web.de (mout.web.de [212.227.17.12])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BDB5210E07E
+ for <dri-devel@lists.freedesktop.org>; Fri, 31 Oct 2025 15:35:28 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=web.de;
+ s=s29768273; t=1761924903; x=1762529703; i=markus.elfring@web.de;
+ bh=lSvuC/KcxKeVuAb60LPnWWm4nybSjq56GDvtKBR7ZDw=;
+ h=X-UI-Sender-Class:Message-ID:Date:MIME-Version:Subject:To:Cc:
+ References:From:In-Reply-To:Content-Type:
+ Content-Transfer-Encoding:cc:content-transfer-encoding:
+ content-type:date:from:message-id:mime-version:reply-to:subject:
+ to;
+ b=w++npf0jE1C9TUmzat86JRZ2EP3Zfo2HGZEyptFBTYPNcbfEvP+xDRe8YAd8HGkB
+ 7tUz5TN5nAmHOgv7s9nq9R4NMOsIPvyAjzdxwEBRbjc9zUxTTB2tfOz4tv4DWQf28
+ ckp53NQei0wWhy1aq+Vse4CT7J2PM/MS6bN1SpeT1BalR/ACRIxNEWsY5p01mvzZ9
+ RTIXDUNMybC6Ec7xgcW8tsXMOYbbHDqL3rwwdraKgrx+GlQ+KiRSZbvVQurfHDZFO
+ b5W8QBHxQmOLGH4bsalfmR+ZmZwkiKRezApRULtvKJs0JOJREhwVgDjTYzSEQ/3vb
+ gvexq3a55oqpEIIj9A==
+X-UI-Sender-Class: 814a7b36-bfc1-4dae-8640-3722d8ec6cd6
+Received: from [192.168.178.29] ([94.31.69.206]) by smtp.web.de (mrweb106
+ [213.165.67.124]) with ESMTPSA (Nemesis) id 1Mi4z5-1vsZct3n3h-00p3Zj; Fri, 31
+ Oct 2025 16:35:02 +0100
+Message-ID: <2dd26f37-7a42-44b3-8902-5c6b5492655a@web.de>
+Date: Fri, 31 Oct 2025 16:34:59 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
 Subject: Re: [PATCH] accel/qaic: Use pointer from memcpy() call for assignment
  in copy_partial_exec_reqs()
-To: Markus Elfring <Markus.Elfring@web.de>, dri-devel@lists.freedesktop.org,
- linux-arm-msm@vger.kernel.org,
+To: Jeff Hugo <jeff.hugo@oss.qualcomm.com>, dri-devel@lists.freedesktop.org,
+ linux-arm-msm@vger.kernel.org
+Cc: LKML <linux-kernel@vger.kernel.org>, kernel-janitors@vger.kernel.org,
+ Miaoqian Lin <linmq006@gmail.com>,
  Carl Vanderlip <carl.vanderlip@oss.qualcomm.com>,
  Jacek Lawrynowicz <jacek.lawrynowicz@linux.intel.com>,
  Oded Gabbay <ogabbay@kernel.org>,
  Pranjal Ramajor Asha Kanojiya <quic_pkanojiy@quicinc.com>,
  Stanislaw Gruszka <stanislaw.gruszka@linux.intel.com>
-Cc: LKML <linux-kernel@vger.kernel.org>, kernel-janitors@vger.kernel.org,
- Miaoqian Lin <linmq006@gmail.com>
 References: <d154d3c4-dd3e-488d-862f-5361867a70f1@web.de>
-Content-Language: en-US
-From: Jeff Hugo <jeff.hugo@oss.qualcomm.com>
-In-Reply-To: <d154d3c4-dd3e-488d-862f-5361867a70f1@web.de>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Authority-Analysis: v=2.4 cv=efswvrEH c=1 sm=1 tr=0 ts=6904d609 cx=c_pps
- a=oF/VQ+ItUULfLr/lQ2/icg==:117 a=JYp8KDb2vCoCEuGobkYCKw==:17
- a=IkcTkHD0fZMA:10 a=x6icFKpwvdMA:10 a=s4-Qcg_JpJYA:10
- a=VkNPw1HP01LnGYTKEx00:22 a=FP58Ms26AAAA:8 a=i7YI89PhWf-mWEaAo1gA:9
- a=QEXdDO2ut3YA:10 a=3WC7DwWrALyhR5TkjVHa:22
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUxMDMxMDEzOCBTYWx0ZWRfX/9dhztOKyot2
- xbfld8vg6P41ngq5bKmAjZaC+6Db++FZXPN/YTAQjp0jlJtAFEkreV/rHKA3wV3MEx6XmnYmhZ1
- dNxcbv7G/voTDeiaC3lhZsNPlhF+ZFDeMMphopMXqBt8EPWnAiKEwqyL4gOLG5ifHwCxTRXhtCz
- EcNGglZ1wjrXjWi30t9cQRg6TFh4njhRi07G8GHzofqAvuBqtCi517MVFp1T0AzTwbNrlIgekme
- Hta+WAq4Xnt5zrVJk4vNcsvSgbNDq+i6HiX1/TB1cnWEvLE6KzLAduO2Ya8tQq5MbGLUZgFFO3H
- q2v/yGkMaJUw7+A/DSoxeUNCUWrWHREnE9vkJqYK9AQfK3QzVMkTHilWUvN/KS7LWU08KKkMHOK
- DIbJ+/DPrTEz/YUoWTX9PI9kTXLaBA==
-X-Proofpoint-GUID: 9BFQlEDqoU77bJvkHyfLajFLDvp9Fmnz
-X-Proofpoint-ORIG-GUID: 9BFQlEDqoU77bJvkHyfLajFLDvp9Fmnz
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.9,FMLib:17.12.100.49
- definitions=2025-10-31_05,2025-10-29_03,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- bulkscore=0 malwarescore=0 phishscore=0 impostorscore=0 lowpriorityscore=0
- priorityscore=1501 spamscore=0 clxscore=1015 adultscore=0 suspectscore=0
- classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.22.0-2510240001 definitions=main-2510310138
+ <ce252b99-c011-428f-a89a-5792f14c2eaa@oss.qualcomm.com>
+Content-Language: en-GB, de-DE
+From: Markus Elfring <Markus.Elfring@web.de>
+In-Reply-To: <ce252b99-c011-428f-a89a-5792f14c2eaa@oss.qualcomm.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+X-Provags-ID: V03:K1:QQ69HncWRHyZuyvGaUuWLaFhIt0L1EXDVyvCv2b6FDcfYGAPQSD
+ JhzivJCPjdpZb+PqLh5Y/ra4qNOHEWl+KpiWmuVZ86rh7M10JV79tN1IOzshR2HC2hYTsgW
+ IWe9em6Wgm37RMQ+/itD/h1LWNuSHwKznWn2fqEPLsJyKd7FfwSi7Qhgv07WfW9VtsaUl4f
+ mcsLK5UhSL65tjPd07uUg==
+X-Spam-Flag: NO
+UI-OutboundReport: notjunk:1;M01:P0:bimFpOyyXuc=;chMbPRywxQ1rvlagtHj/ePTUlqF
+ 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
+ +qc3nDzDvIckVpgkU=
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -145,43 +148,16 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 10/31/2025 4:34 AM, Markus Elfring wrote:
-> From: Markus Elfring <elfring@users.sourceforge.net>
-> Date: Fri, 31 Oct 2025 11:26:33 +0100
-> 
-> A pointer was assigned to a variable. The same pointer was used for
-> the destination parameter of a memcpy() call.
-> This function is documented in the way that the same value is returned.
-> Thus convert two separate statements into a direct variable assignment for
-> the return value from a memory copy action.
-> 
-> The source code was transformed by using the Coccinelle software.
-> 
-> Signed-off-by: Markus Elfring <elfring@users.sourceforge.net>
+>> From: Markus Elfring <elfring@users.sourceforge.net>
+>> Date: Fri, 31 Oct 2025 11:26:33 +0100
+=E2=80=A6>> Signed-off-by: Markus Elfring <elfring@users.sourceforge.net>
+>=20
+> This does not match the address this patch was received from, therefore =
+DCO does not appear to be satisfied.=C2=A0 I cannot accept this.
 
-This does not match the address this patch was received from, therefore 
-DCO does not appear to be satisfied.  I cannot accept this.
+I find such a change rejection questionable.
+https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/Do=
+cumentation/process/submitting-patches.rst?h=3Dv6.18-rc3#n409
 
-> ---
->   drivers/accel/qaic/qaic_data.c | 4 ++--
->   1 file changed, 2 insertions(+), 2 deletions(-)
-> 
-> diff --git a/drivers/accel/qaic/qaic_data.c b/drivers/accel/qaic/qaic_data.c
-> index fa723a2bdfa9..c1b315d1689c 100644
-> --- a/drivers/accel/qaic/qaic_data.c
-> +++ b/drivers/accel/qaic/qaic_data.c
-> @@ -1171,8 +1171,8 @@ static inline int copy_partial_exec_reqs(struct qaic_device *qdev, struct bo_sli
->   	 * Copy over the last entry. Here we need to adjust len to the left over
->   	 * size, and set src and dst to the entry it is copied to.
->   	 */
-> -	last_req = fifo_at(dbc->req_q_base, (tail + first_n) % dbc->nelem);
-> -	memcpy(last_req, reqs + slice->nents - 1, sizeof(*reqs));
-> +	last_req = memcpy(fifo_at(dbc->req_q_base, (tail + first_n) % dbc->nelem),
-> +			  reqs + slice->nents - 1, sizeof(*reqs));
-
-The new version reads worse to me, so I do not consider this to be an 
-improvement.  This is not a critical path, so I doubt any performance 
-increase that may exist outweighs the impact to readability.
-
--Jeff
-
+Regards,
+Markus
