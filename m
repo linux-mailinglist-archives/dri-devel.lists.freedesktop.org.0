@@ -2,145 +2,191 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id BB13DC2670D
-	for <lists+dri-devel@lfdr.de>; Fri, 31 Oct 2025 18:45:00 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2468DC26720
+	for <lists+dri-devel@lfdr.de>; Fri, 31 Oct 2025 18:45:08 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DC81A10EC01;
-	Fri, 31 Oct 2025 17:44:58 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6A7EF10EC04;
+	Fri, 31 Oct 2025 17:45:06 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="KQvCDgXx";
-	dkim=pass (2048-bit key; unprotected) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="PrnAT1sw";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="d5Q9CccA";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
- [205.220.180.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E289F10EC01
- for <dri-devel@lists.freedesktop.org>; Fri, 31 Oct 2025 17:44:57 +0000 (UTC)
-Received: from pps.filterd (m0279868.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id
- 59VF79te3210472
- for <dri-devel@lists.freedesktop.org>; Fri, 31 Oct 2025 17:44:57 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
- cc:content-type:date:from:in-reply-to:message-id:mime-version
- :references:subject:to; s=qcppdkim1; bh=vvHKLumKKaVNpfG3W6t6aYP4
- CbJ/5LJdAfa5MGOu8/4=; b=KQvCDgXxzqVclXNmB/ngqm50Mk7X6iKbKzWhNvSZ
- 3UOCW9qdgrNnEhPbnfM8eiYiRoHX03qLmUAIo1ISyAVsf/690rZHRCi212QFmYoC
- MxwhMx99YqoMX4x6p0oi5H0zFOziho/1iXldgNH5SYdvwKq9ArNlY8vkFBMgCGH9
- t34Kbv/jT5VjbaWOinGglah/q5jqQYRwHShskdT4mhcytUeOu0E4/5eKkbBWStil
- +Zp2V8ITUy1QEUpi7Le4mhpRqu8dnw4c8VOuus9SW18opppNxMnwLGbfy2aWlp7S
- 7zPJDOaOJ4agF8YSsEARJozB5mkk2aqGY3U/7ZV/q0K15Q==
-Received: from mail-qt1-f198.google.com (mail-qt1-f198.google.com
- [209.85.160.198])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4a4yfpge78-1
- (version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
- for <dri-devel@lists.freedesktop.org>; Fri, 31 Oct 2025 17:44:56 +0000 (GMT)
-Received: by mail-qt1-f198.google.com with SMTP id
- d75a77b69052e-4e8a387d01bso91035211cf.3
- for <dri-devel@lists.freedesktop.org>; Fri, 31 Oct 2025 10:44:56 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=oss.qualcomm.com; s=google; t=1761932696; x=1762537496;
- darn=lists.freedesktop.org; 
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
- bh=vvHKLumKKaVNpfG3W6t6aYP4CbJ/5LJdAfa5MGOu8/4=;
- b=PrnAT1sw/kZn5qObwWSkA/kjiMdtQVEJ41dVaNCutGdjv8ubZwR5NUy4fTlGPIcKuV
- 0ADNzxv39fm7e0ziIfRffJnmN15BR0pVbDNO3UWFDv2NlGSfpVemF0zqsGJSTnUvM38I
- yACSTnAjv8EzUlbfUq8g6/HnMh17tDhBEaCR0qOIsKcY/kCoTRxcjZePDQgsuXr11XSc
- UzDEZFD7+Ye8n/MCYe08ttzBlYfXt+qyS7NPlJhPrfawV2wRDht57O8ypevpfdH63qsn
- 870i+qxNpB5hVd+CojsvTF5M45RnwhhXf9Wt8m2F8VUqLW2hkLsBNa8alObtIJi09Rdt
- 4SBQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1761932696; x=1762537496;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=vvHKLumKKaVNpfG3W6t6aYP4CbJ/5LJdAfa5MGOu8/4=;
- b=SAYaU+hl9UsnOlBp36HB67h/5azvO7eBf0q/EfRT0qtV4OGtHNBm2/C9SPVf2abp+U
- xpADAn4JNjYz0+PZpIoV9/TdlWk7zx7ysVzHzbqyfPzn98u+JtMmkYXH4TzU59DkUGmK
- NuYi/xHyb3t/OxTHZayU6UXe6uwCq9wRwj4D30TX2gxCvM613M1ooNxZrcYR+n13CFzM
- U/PkpfSUkf7/p/yxsMr86ySKDKeFqezupwiug9lALCkSnufpQicsvJFSB3Zj0IcDmWka
- y6GJHSP33Q8nquqM9CBklchSJMv8h7JqklES9Ux6iQQL3TXJnvSjP1Yu3EKDX29HWQRk
- iqIQ==
-X-Forwarded-Encrypted: i=1;
- AJvYcCV5RnFaxwzukoqz1N71+oT+Ke90trTPM1DaZCveLxgjyYQZTAGBUE2STTBj0jlNxAzUvdObDqdjlnY=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Yz5iZQQG0YFiYRXTqx8iNgHQdSYf/udqGCgalHXsMz+5gqJlJxt
- CoRsvAxgCaOJdKiOkhMiL0VtGc7ERlDMZiKs9AUggIfxu2jLR9R9lC//JXZmI5YURrwdkdMBbHv
- JyIkMYwmG83W4YJaTjbAFxPeJU3EYDrFcZOCqoFMApyXYflZeHYpPvPgUVQEr9KvZfVd6zns=
-X-Gm-Gg: ASbGncugriklUAOxefIwWsUxWc0M9E8FL4wD4NHksGCdhGqIPwbsuo2rHV4nOt166fs
- 6UJysOT0KlbSbg0lhxlxvgrnhwcmcZCQzqGGI/Ucf04RtwcLCz7Wv5y0qnhx0rm6R9/MajIwdY7
- n8JFz91SgvJkXwVKt9FiVFCMc31aKY4sOI4sPAcAzHwLlEK+RYT4qLevY9cJZQxQBM0KS/INxIo
- foIM2TUK2AW2I3Pl2IK0Bhkn1YWfrS2cTYxDnxIvMPRp2NrHskr/XTI65llWl9bzz9Y7IEesvdv
- m0vI+M/U7TaIzKJBy1pS7WJm0VN4tXi6tWdrP2YkqXasUYKWm6eeTlyq8BjOoYs+Dw3aoBjSbRu
- zf+SD7s75ixHIOgKTDNrLpmngDE8H39DejzTj3m+7yASoPtV/WXq3MwHwu+h8k/7+/o2gIIxTuM
- YAj8njfuZZNfr1
-X-Received: by 2002:a05:622a:1aa4:b0:4ec:f4be:cd9e with SMTP id
- d75a77b69052e-4ed3109b8f2mr50682871cf.73.1761932695719; 
- Fri, 31 Oct 2025 10:44:55 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IG9bEHzE8FUhJ91Y/44yaTELcPDElgy8o9JtMJnkidFrR8S2ct4TEYiKDSKIhS6PFHQgLRXEQ==
-X-Received: by 2002:a05:622a:1aa4:b0:4ec:f4be:cd9e with SMTP id
- d75a77b69052e-4ed3109b8f2mr50682271cf.73.1761932695194; 
- Fri, 31 Oct 2025 10:44:55 -0700 (PDT)
-Received: from umbar.lan
- (2001-14ba-a0c3-3a00-264b-feff-fe8b-be8a.rev.dnainternet.fi.
- [2001:14ba:a0c3:3a00:264b:feff:fe8b:be8a])
- by smtp.gmail.com with ESMTPSA id
- 2adb3069b0e04-5941f5b5cc4sm639106e87.72.2025.10.31.10.44.53
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 31 Oct 2025 10:44:54 -0700 (PDT)
-Date: Fri, 31 Oct 2025 19:44:52 +0200
-From: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
-To: yuanjiey <yuanjie.yang@oss.qualcomm.com>
-Cc: Krzysztof Kozlowski <krzk@kernel.org>,
- Bjorn Andersson <andersson@kernel.org>, robin.clark@oss.qualcomm.com,
- lumag@kernel.org, abhinav.kumar@linux.dev, sean@poorly.run,
- marijn.suijten@somainline.org, airlied@gmail.com, simona@ffwll.ch,
- maarten.lankhorst@linux.intel.com, mripard@kernel.org,
- tzimmermann@suse.de, robh@kernel.org, krzk+dt@kernel.org,
- conor+dt@kernel.org, quic_mkrishn@quicinc.com, jonathan@marek.ca,
- quic_khsieh@quicinc.com, neil.armstrong@linaro.org,
- linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org,
- freedreno@lists.freedesktop.org, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org, tingwei.zhang@oss.qualcomm.com,
- aiqun.yu@oss.qualcomm.com, yongxing.mou@oss.qualcomm.com
-Subject: Re: [PATCH 08/12] arm64: defconfig: Enable NT37801 DSI panel driver
-Message-ID: <epz7tibi4kduo6agfirr4fe477dakdccwob4xq2nz6qkjqakr6@jmweqjka4xgd>
-References: <20251023080609.1212-1-yuanjie.yang@oss.qualcomm.com>
- <20251023080609.1212-3-yuanjie.yang@oss.qualcomm.com>
- <wuh7agcgg6spghilnx4amqukaaydj25u7kbdiod7fl6pu2ulvm@pmosyuo43cyw>
- <aQF98RvLuOlJZlFi@yuanjiey.ap.qualcomm.com>
- <38c8e26c-08a4-42d9-8f6d-93969af90d50@kernel.org>
- <aQLOaI3ngjswi7kd@yuanjiey.ap.qualcomm.com>
- <7c1e0cb5-2483-4efa-be52-84cbe5d1a4b2@kernel.org>
- <aQMOz4P2/WyjXy1b@yuanjiey.ap.qualcomm.com>
- <4e444fd3-b079-4e0c-9449-1c119e1d710a@kernel.org>
- <aQQevC/Jd76rTNSU@yuanjiey.ap.qualcomm.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9D0D710EC08;
+ Fri, 31 Oct 2025 17:45:01 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1761932702; x=1793468702;
+ h=date:from:to:cc:subject:message-id:references:
+ content-transfer-encoding:in-reply-to:mime-version;
+ bh=3OW5dVqd6hUMRTdbXzSHylUSUhFIpyEL4AbMghT3cz4=;
+ b=d5Q9CccA0Su/7zMWxsk8/Xe9lfzYm7R9INxd3Umgz7t9bEf54ZuErEo8
+ 29T192kwIBtRCbGt7NeIiPVETaGLvtYb6w+siqNS45XbbrCaTV+2CODDO
+ EIMtKLi5AoWDmjIn5ZVeJpuIW0a91cHF3E6O2GlVkJM+OWvLBnea+TlUm
+ 8d6hoiFzFLQ4yav7JHDwv8QqcOdlANP8+VIN7vhxdijN9yMYv6gx+Npu8
+ f9S2jK37K6VedtwH/EXEfk/J40aG98jiKAc/r2YV7n1e7ZYIvx73uGgaT
+ 0x3PCSwhuFit84T8qGlvBB7QhykcCN+g9lL4txU/R5sBh7Y+McrzPEbAj g==;
+X-CSE-ConnectionGUID: wJ85V4XSSnCdRYkJER0lBQ==
+X-CSE-MsgGUID: NftuoHuYT+elsl+dHbFxug==
+X-IronPort-AV: E=McAfee;i="6800,10657,11599"; a="67960325"
+X-IronPort-AV: E=Sophos;i="6.19,269,1754982000"; d="scan'208";a="67960325"
+Received: from orviesa006.jf.intel.com ([10.64.159.146])
+ by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 31 Oct 2025 10:45:01 -0700
+X-CSE-ConnectionGUID: 1yQ8CwYjRJaVUqEYJCQkpw==
+X-CSE-MsgGUID: Bn1cc0D0S8iPB+OZwVMRdw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.19,269,1754982000"; d="scan'208";a="185508619"
+Received: from orsmsx902.amr.corp.intel.com ([10.22.229.24])
+ by orviesa006.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 31 Oct 2025 10:45:01 -0700
+Received: from ORSMSX902.amr.corp.intel.com (10.22.229.24) by
+ ORSMSX902.amr.corp.intel.com (10.22.229.24) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.2562.27; Fri, 31 Oct 2025 10:45:00 -0700
+Received: from ORSEDG903.ED.cps.intel.com (10.7.248.13) by
+ ORSMSX902.amr.corp.intel.com (10.22.229.24) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.2562.27 via Frontend Transport; Fri, 31 Oct 2025 10:45:00 -0700
+Received: from SN4PR2101CU001.outbound.protection.outlook.com (40.93.195.9) by
+ edgegateway.intel.com (134.134.137.113) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.2562.27; Fri, 31 Oct 2025 10:45:00 -0700
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=Qs9ws9bSSrNtuFDZUQBqTXCehGi9vDjwijoLy8gmqoikF4KIrdbH/Xfg+aw6nFtvSciom5SXRVYPC9RCdDxYmeNUNlirbfZhst3eKlK+OFQYy2H8jPjKTFMZFnt+vgNdZ458M0A3eL4KV3uL/Gm07j378MD6La5mzxHzs/jBR6pAlhfj2RS31dMxM5CFe068peYywsl2UVsvqx+z8RVcbTUq4msGDd+lPLwT69oOt1273yo5zRT9eWhf4Nlz13tgEJIHXETk+eheBHWvRFLb51SMhP95m0OLbGGJCsA/jsjyGGm36WfGcuMkXlyztrwemEqGHReIyWjIZfbtk0h4Mg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=/+CoA2N/59RfIAw/GGEH9zDhLyoqr5Yzo7GI+aGUu8Q=;
+ b=dRQuNas86pSEObnvQcocsbbhpbep/Povgaqty25B/FqzS28KhPNH6xbygHIbdvik5kuQdi9eJ+oOVjno5m0traHA18HHjGr2yzV3tXxGpVmYHGrz292bZ+p2MZsUlX+a4LQ/NfS1lCOUitXGA+UgrnXm50/KDj8Pmkqrv5JAZcEza/noX1L44W4cxRYCNTsAFD+jtguX2Ea+HuObvIlnhBwJqTZ11ATBWF2386XvFUo8n6EfNB3F7VG91Ooo6iVGqonFSR610WWfcqgHjX8UGdRLidDDkAHalDXDNNoYoK8M/Dxy9goX8tbN6hrCz3RB3P5Z7KP7ayZ7jxx2N0e7Og==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=intel.com;
+Received: from PH7PR11MB6522.namprd11.prod.outlook.com (2603:10b6:510:212::12)
+ by PH8PR11MB8015.namprd11.prod.outlook.com (2603:10b6:510:23b::18)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9275.14; Fri, 31 Oct
+ 2025 17:44:57 +0000
+Received: from PH7PR11MB6522.namprd11.prod.outlook.com
+ ([fe80::9e94:e21f:e11a:332]) by PH7PR11MB6522.namprd11.prod.outlook.com
+ ([fe80::9e94:e21f:e11a:332%3]) with mapi id 15.20.9253.017; Fri, 31 Oct 2025
+ 17:44:57 +0000
+Date: Fri, 31 Oct 2025 10:44:54 -0700
+From: Matthew Brost <matthew.brost@intel.com>
+To: Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>
+CC: <phasta@kernel.org>, <alexdeucher@gmail.com>, <simona.vetter@ffwll.ch>,
+ <tursulin@ursulin.net>, <dri-devel@lists.freedesktop.org>,
+ <amd-gfx@lists.freedesktop.org>
+Subject: Re: Independence for dma_fences!
+Message-ID: <aQT1lpZJwQmWXGBt@lstrano-desk.jf.intel.com>
+References: <20251013143502.1655-1-christian.koenig@amd.com>
+ <15b2f86e8d6cb1df93edf73001fda2c378926016.camel@mailbox.org>
+ <c5ee86a8-3c6d-462b-b435-e25e8a925bde@amd.com>
+ <0e7f3ab50a2c30f193491bb82f97004150b99772.camel@mailbox.org>
+ <2da2077c-4226-4ba4-8935-e7e15e6b9765@amd.com>
+ <aQJ+08BFLtmsM8LQ@lstrano-desk.jf.intel.com>
+ <6739aebe-45eb-44a5-a539-209fc3ed809b@amd.com>
+Content-Type: text/plain; charset="utf-8"
 Content-Disposition: inline
-In-Reply-To: <aQQevC/Jd76rTNSU@yuanjiey.ap.qualcomm.com>
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUxMDMxMDE1OCBTYWx0ZWRfX4rnD1pUNcvKE
- 0b6UOVbdtGpRcX8eLOmrEsD5vJMYlmmSJTdM+EmDJlwOq8d8mFNrXhXPNV/U4Llq4T9f+SmPfcl
- EyPfM+tuGQazmUYXe1QDkJTYDzt/aZVCokrE5hnOWRsnDW1V7FN31LvahFfCPe/VUlqfn1tbLYv
- /e0vxWI8Ey8I2PL4MOn8qJY78x/ZexQnm5a5T5HcZlESuN9GY9BWDjc5tT0qc/bePwz15/WHS/y
- eADMm/LxqGbEHKG2z0ls+r92CtYwkDdmfzHafDTkQzV8tODisXVHvlujPLmc4JWIAHbNdHY6WJp
- RzorEuX+AlqQEf+VT9fYot4s/3IcasH9ZdnlV0oocVVB3JFQAfaIGiINUDFWSye4ps8MRuKgvbl
- jfD+zVdZ5xMvpuC0xQd6XVM96ERErg==
-X-Authority-Analysis: v=2.4 cv=V5NwEOni c=1 sm=1 tr=0 ts=6904f598 cx=c_pps
- a=mPf7EqFMSY9/WdsSgAYMbA==:117 a=xqWC_Br6kY4A:10 a=kj9zAlcOel0A:10
- a=x6icFKpwvdMA:10 a=s4-Qcg_JpJYA:10 a=VkNPw1HP01LnGYTKEx00:22
- a=P-IC7800AAAA:8 a=EUspDBNiAAAA:8 a=SA9wRs256TnAP9KdDBoA:9 a=CjuIK1q_8ugA:10
- a=dawVfQjAaf238kedN5IG:22 a=d3PnA9EDa4IxuAV0gXij:22
-X-Proofpoint-GUID: T3-Bk3lxbYoCEEoz3UdUMFec2uBiWqcK
-X-Proofpoint-ORIG-GUID: T3-Bk3lxbYoCEEoz3UdUMFec2uBiWqcK
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.9,FMLib:17.12.100.49
- definitions=2025-10-31_06,2025-10-29_03,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- priorityscore=1501 phishscore=0 clxscore=1015 adultscore=0 bulkscore=0
- malwarescore=0 lowpriorityscore=0 impostorscore=0 suspectscore=0 spamscore=0
- classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.22.0-2510240001 definitions=main-2510310158
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <6739aebe-45eb-44a5-a539-209fc3ed809b@amd.com>
+X-ClientProxiedBy: BY1P220CA0011.NAMP220.PROD.OUTLOOK.COM
+ (2603:10b6:a03:59d::11) To PH7PR11MB6522.namprd11.prod.outlook.com
+ (2603:10b6:510:212::12)
+MIME-Version: 1.0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: PH7PR11MB6522:EE_|PH8PR11MB8015:EE_
+X-MS-Office365-Filtering-Correlation-Id: 41863541-0252-4baa-be83-08de18a534f0
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;ARA:13230040|376014|1800799024|366016;
+X-Microsoft-Antispam-Message-Info: =?utf-8?B?NTVxRFl6dm9IV3hvSFlLUEt0enRKQTRmNFUyNDVXVEpYUU9aazlXeENsYytT?=
+ =?utf-8?B?eFRCTGdlTjJSV3RSeklQWHhDa3lURnk1L1RCbnpmWmVRaGFHc2NqNGdONmY4?=
+ =?utf-8?B?STNSaExXS1k4d0xiRm1NbFNlRWx1SmhmdnhhWlhTb29Hc3Z6eGVNNGwrMFI4?=
+ =?utf-8?B?MzkzcmNiTEpRNm1lcE1nVkhxaHVWVksvUXdlRkJ1eDNaTUhjTDFuTG9kUjBW?=
+ =?utf-8?B?SDF2U3dscFpGWnU4S0pGS1pSanJWdmVDRDFMc0RxcEdRRHdDK2VvRVRFK1lX?=
+ =?utf-8?B?Rzk3S0JMTlIycFB2S2FzbXZvTlVNejdQN1RnbVo5TDI2Z3RJcEh2aW5QMFFq?=
+ =?utf-8?B?cHRqTDdXc2ZhRy9ibjAraXg3SEFab25NREJxMURySVpRWERFb1dGaXp6dEY5?=
+ =?utf-8?B?M1Q5OVR1ZE50SnpUeW1KNWhwbTcxczRhaG9sVmN0V215ck9XYzFjSmpyVzcw?=
+ =?utf-8?B?Uml4b0lrQlphVWNMWm1ZV2QybUNMTy9pdGppQUs1Qys5cFhXd0ViZEk1MXl1?=
+ =?utf-8?B?cjRiN0p1SGZ1LytMTDZaSE1zK3BGRzZuVmFDZmgvZkdKM3lJZ2tJRElFbXRy?=
+ =?utf-8?B?b2xoNUJJTUlrTGFhbW9rRGJaSU1QTFYwYkJjUWpaSkkya1dXbTMzaGMyMWQ2?=
+ =?utf-8?B?bnpUMjhvZEg3SDM2SGZaQzhmdDBzeEo0TGxnOHc4ZHFzdk13bmM2MjV6ZDM0?=
+ =?utf-8?B?QWl3cXVoeVE3cSs5akdCVkMrNkZJZVlYYjJrbVpSTE0yUU1Bay9vQmFraXhV?=
+ =?utf-8?B?TDREM3dmclpBekhvRG1oMkdNcHF2K2RVV29XVjJGYnNlKzZhdGVrV2hacWRr?=
+ =?utf-8?B?dkNSQkJ6cTZwRE1FanJlaXJWaitRRkVOckFaWWh2NUkrb0lWbVFPMUFmcTVS?=
+ =?utf-8?B?U242TnFXVC85YTRRdElTdUVjQ2RpK3gyVWo1N2IvdmUvckZzQnlpUElNVXlJ?=
+ =?utf-8?B?MjF1S3dsL1lBeVNHM0F1Q2gzRWd4dEFTTXUrREMzdEVJSFE5eVRkK3RFZDhU?=
+ =?utf-8?B?cEtCT3A5VE9xTi91ZDRDd2FpMzBDUzlVZzFOU0RuR0pWVUdGTjkzQitCSktR?=
+ =?utf-8?B?aWd2cFdCdE81VURaakdweDllMU52Y2ZUOXRjcURPZDNFSlRtditYK00rQ2pq?=
+ =?utf-8?B?ekJXMExJWWthdk5NaFRwT01aWVZkZXFiTFh4aEJ0N1JmOS9RT241SzZSaGVY?=
+ =?utf-8?B?NEN1U0xFbHArdVBYbnBSTjJ5Wit5TC9BN21rQXRVOEZhd0dKeHR1d0lnb25v?=
+ =?utf-8?B?Y21vTUJxQ3JFdTdqUktjam94SlpUbG1RUDlwOHNWWk1LYzdBaDQ0QlUxbTNl?=
+ =?utf-8?B?NS95dlFnU3ZHRXBvK0YvTmRnbEkxdGZiQ3d5clArald4cUJGejJ1WTlLOXN6?=
+ =?utf-8?B?d3F2ZklvYkczUmRwMGNkeFEyQlAvZWlDNmd4NDN0M09ab2RkemJoVnNWMmR0?=
+ =?utf-8?B?YlhsMTd0YW5SdlRVVzl4MVlCQ1p0VE5JWmR2OWYvdCtQY04wMHMwTWxqWk40?=
+ =?utf-8?B?L0RDVVhOUmRQQW52S2l4c3IrakVjNnRMVWRuVk5MTDkwcCtMNERPUlE1Q0x0?=
+ =?utf-8?B?NnhBUHdXWnU1cEZYVnNDTHh2R2ZlK1BkUXZIdXVyUVF5aVdORkQ1VnFOM3Vj?=
+ =?utf-8?B?OFo3MzdMbU8yWGlSdEVtdllvaENPOC8wcHpGZVlVeTM1U2tSNXRZTHp6UDVH?=
+ =?utf-8?B?STdnaHNDV0JDQmRON08xRWMyN1h6c0ZObDdSeGRjVW9hcndENVNjaVlxUVRt?=
+ =?utf-8?B?SDNYRSticHBHaUd5L3ViVzRPdWJKN2Q3bVd5UjNTY3k0UGV1RDY1dGZEYlR6?=
+ =?utf-8?B?VnFvNFlaRDd6T2M0cFk4UlBHRE5kNGExUnpJNVB5dVF2YVVmdVJnQTJSeGMz?=
+ =?utf-8?B?ZW1COHBuWjNpc3RNWVpDblRtR2dTMzF2RmJSb0U5SFhYMS90cEdER09HWTQ0?=
+ =?utf-8?Q?ZMbXTWL+e/SyZjBjtWtN3ZEKCU+Z8Rzm?=
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:PH7PR11MB6522.namprd11.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230040)(376014)(1800799024)(366016); DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?NUlsRzBUVUcvT2FrcDhPbExEbURpcFpib1BEanMzUXUzQjZ6eXpBZUFzbk9T?=
+ =?utf-8?B?eVlPUXRTaUt2czZPNk9VbVlyL3Mra0FVQnVEa0dPekRIOGpJOFR6KzNwNTFv?=
+ =?utf-8?B?dDFraHpSKzI0a0xhZkJxN3g3T0R3M3dydHVzYTNXcDdCY2tlMGNEOHU3SWY1?=
+ =?utf-8?B?bXdTdkdPdTVaVzBrZkp5bDgrMDc3SmhWODBkbjg0cUNiOUlOSkt6cDJyMkZz?=
+ =?utf-8?B?OG90NUkzNTFNSlhhSlhvcSs2UzFteWp2NUlSOTZWRFBXa0pVbyt3ak1HUy9N?=
+ =?utf-8?B?SXVyZFJIOUsxNjc0Z0NWbWw5TzVCWGVWTDE5dXBMdElGbXBvc1l2ZUcwVFNZ?=
+ =?utf-8?B?WXBiVkk4RWh1RXhCL3pNRERGR1ZyUkNtT21RZDlFZWVVTS8raXdHT1Qvc2p5?=
+ =?utf-8?B?TGM2bk90SWl6ZWNXaDlWRkNEZmVhL3ZpSFZGME01ekdlUGFVb2pPSzRIZDdR?=
+ =?utf-8?B?ZWhMdkR2OEhjNGhkb0d5bms1OHFRUEJXeXE1RngvOXJqLy95K0tQUkNOd29h?=
+ =?utf-8?B?Qkg0RU9CVndWaitRMnZJQ0ttTzZnaFhib3UzYzk4cVFaaUdCWFhKTzN1QnVo?=
+ =?utf-8?B?T0wvbW1raVN5TG5pWlJGa3NvbG42WlVsdlZDZCs5dWRTTVJjazdqUXREV2dW?=
+ =?utf-8?B?OUl2TlFmUzBDclpIVU1BY1crNjZESGpSTWJtTmlaMlRYTnZEMWxGQytLamhL?=
+ =?utf-8?B?NExENGJSVXh6WFYxR3hMNDZwRGhHM0JJcDdvc3cvVFFDZ2QxK3hLaDlOVENi?=
+ =?utf-8?B?dE5TQ1FoU2RWVS9xQmdYZDBKZ1c4V3V0T21rNFFPN1dqL0tXRUxLRDFTNUpq?=
+ =?utf-8?B?YmRLbjQ0eC9jYkpGRkFPNTdJeVkrcUMrUE52NDVaV1creW5CUFBVNzJsa1FX?=
+ =?utf-8?B?ZFl5TEV5MUxReEthb1pDU0tpaGF5SXdqQ2RKcVFlVlIvTTBhUHZ4STNSUFNK?=
+ =?utf-8?B?b3U4STF3dkZoUFI4b01pc0EvVTI3QmZwR3VDV3NKSExIMEhMd2MxVGNXSmhB?=
+ =?utf-8?B?blRjR0hINEllL0VLQ2thV3JxRVllajBBUUNEdkZGcXJWM292aGpSYTVFbDNn?=
+ =?utf-8?B?RS9nTmdpdytUU3dqUzhMT0Y1MXlha2dvcjROZm1TeTNCZEluMEhSdGJ4K2FG?=
+ =?utf-8?B?RFR5a00vdHV0cUNUREpaL3owb1VrcUljRWRNbVo2ZXBTOHFrSFJTMHZjUnBp?=
+ =?utf-8?B?dVMvOFV2ejFaNmtuQ2J6bXZtR0x2cDF6TFRLYjhFV3RtTERXSEJIbFpGVkdQ?=
+ =?utf-8?B?dmpEdFRTK3Nxd3FoNEloRnRWS2lGNVJ0ZC9zQzhvNis5QWRXZTZ6a2xzUEw5?=
+ =?utf-8?B?angyZUxTOEtaeHd1VEk4aEVJSTI0RE9tbUZTck9FTWNidkVXSEliNjY3QURZ?=
+ =?utf-8?B?a2ZveW84bkNGMVVCRUU0Rkh3bCs2dVpiV3ZCSHZ3ckF6NFlURjJaUFI1RUJo?=
+ =?utf-8?B?WGNRcW9vKzR5RmRjSHVSSXlhRXdzSC9sSDIxWUQ1YkZaWmdjWkFjZlJYY1cx?=
+ =?utf-8?B?dWpTYUViMUcrOStmeTZSZWlEYUFRblYxUWEyWWpIUlkwZG1yNFE5bGhrQUpX?=
+ =?utf-8?B?VEZxRS8zTFY0c1g5dGpGR0swbWFscWsvS0FvMXhRbmYvdVZwdHhHbGN1Zklp?=
+ =?utf-8?B?Ny9jVzR3MmZTcEZRblZveHB0blMvRGJMY1Z1K1hZU3FESEZvcUpkeHduazR5?=
+ =?utf-8?B?THBNWExybUtHZTd0U0ZtZjVGbGxtL09uTUE3NUhiSG5sWHJhQUsrMWs3WFFu?=
+ =?utf-8?B?NDdrajlUc3FPY0dJNDN2SGNTS01rdDFyem52WG1pdlllU2xKWUZZWXFTRnla?=
+ =?utf-8?B?TFMvSkRrMDRmbWVTZ2lSeCs2YW9LQkxzdXRTWjhWNGdRZWdmRlZqWWNoL3BE?=
+ =?utf-8?B?cmpiVmgrWnVSdHVoYUVTM3dXK1lBZWRZNDhPRUhmUDdScnkxcll3Tmt5bTE2?=
+ =?utf-8?B?eTVzM2J3ZzYvZWN1UUdZZ2dnTDJrWWxNY3dHVFFpQVh2d0M5RjIvcUNuM1dz?=
+ =?utf-8?B?c3lIbkpPZTFnVWxWMEtyaDUrby94eHljZ0J5Y2FRUEZhV1BrZmt5emZNL1JY?=
+ =?utf-8?B?MjhCaS9oYTIvMTd0UTE0ZThNSElHclFZb3hYSE9tMVFzUW52enVyN3pHWjVz?=
+ =?utf-8?B?WTFrRjVBTmU0WFpLVG0wMm8rMVY5VWFtKzhiNnVPVVpvNWtkYk1WQlAzSmhv?=
+ =?utf-8?B?ZWc9PQ==?=
+X-MS-Exchange-CrossTenant-Network-Message-Id: 41863541-0252-4baa-be83-08de18a534f0
+X-MS-Exchange-CrossTenant-AuthSource: PH7PR11MB6522.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 31 Oct 2025 17:44:57.1964 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: 7jbzdxPHHehjexMKTomk3L1UYaWHrOQI+2jONSKosUJr0vTyAYbX3Aokr5FXbBP6FVonlDI0k443SeWOnRfdYA==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH8PR11MB8015
+X-OriginatorOrg: intel.com
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -156,75 +202,163 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, Oct 31, 2025 at 10:28:12AM +0800, yuanjiey wrote:
-> On Thu, Oct 30, 2025 at 11:43:49AM +0100, Krzysztof Kozlowski wrote:
-> > On 30/10/2025 08:07, yuanjiey wrote:
-> > > On Thu, Oct 30, 2025 at 06:37:40AM +0100, Krzysztof Kozlowski wrote:
-> > >> On 30/10/2025 03:33, yuanjiey wrote:
-> > >>> On Wed, Oct 29, 2025 at 02:05:20PM +0100, Krzysztof Kozlowski wrote:
-> > >>>> On 29/10/2025 03:37, yuanjiey wrote:
-> > >>>>> On Mon, Oct 27, 2025 at 10:51:23PM -0500, Bjorn Andersson wrote:
-> > >>>>>> On Thu, Oct 23, 2025 at 04:06:05PM +0800, yuanjie yang wrote:
-> > >>>>>>> From: Yuanjie Yang <yuanjie.yang@oss.qualcomm.com>
-> > >>>>>>>
-> > >>>>>>> Build the NT37801 DSI panel driver as module.
-> > >>>>>>>
-> > >>>>>>> Signed-off-by: Yongxing Mou <yongxing.mou@oss.qualcomm.com>
-> > >>>>>>> Signed-off-by: Yuanjie Yang <yuanjie.yang@oss.qualcomm.com>
-> > >>>>>>
-> > >>>>>> You (Yuanjie) authored the patch, but forgot to sign-off, then Yongxing
-> > >>>>>> provided certificate of origin, then you provide certificate of origin
-> > >>>>>> and send it to list?
-> > >>>>>>
-> > >>>>>> Please correct.
-> > >>>>>
-> > >>>>> All the display patches were jointly developed by Yongxing and me.
-> > >>>>> So every patch 
-> > >>>>
-> > >>>>
-> > >>>> So two people were working on this absolutely trivial defconfig change?
-> > >>>> I have troubles believing this.
-> > >>> I want to say these patches I am first author and yongxing give me support, so
-> > >>> I think yongxing is second author.
-> > >>>
-> > >>> I want to express my gratitude for Yongxing's support in every patch, so I included
-> > >>> both our names in the sign-off for each one.
-> > >>>
-> > >>> However, if my intention causes any trouble for maintainer, I can remove Yongxing's
-> > >>> sign-off from this patch.
-> > >>
-> > >>
-> > >> Please read submitting patches to understand what Signed-off-by means.
-> > >> Otherwise I have doubts we can accept your patches - you simply do not
-> > >> understand what you are certifying.
-> > > Thanks for your tips, and I learn some tips from submitting patches: 
-> > > https://elixir.bootlin.com/linux/v6.18-rc3/source/Documentation/process/submitting-patches.rst#L524
-> > > 
-> > > I thinks below sign should be true, if you also think it true, I will use it in next patches.
-> > > 
-> > >  Co-developed-by: Yongxing Mou <yongxing.mou@oss.qualcomm.com>
+On Thu, Oct 30, 2025 at 11:59:01AM +0100, Christian König wrote:
+> On 10/29/25 21:53, Matthew Brost wrote:
+> > On Tue, Oct 28, 2025 at 03:06:22PM +0100, Christian König wrote:
+> >> On 10/17/25 10:32, Philipp Stanner wrote:
+> >>> On Tue, 2025-10-14 at 17:54 +0200, Christian König wrote:
+> >>>> On 13.10.25 16:54, Philipp Stanner wrote:
+> >>>>> On Mon, 2025-10-13 at 15:48 +0200, Christian König wrote:
+> >>>>>> Hi everyone,
+> >>>>>>
+> >>>>>> dma_fences have ever lived under the tyranny dictated by the module
+> >>>>>> lifetime of their issuer, leading to crashes should anybody still holding
+> >>>>>> a reference to a dma_fence when the module of the issuer was unloaded.
+> >>>>>>
+> >>>>>> But those days are over! The patch set following this mail finally
+> >>>>>> implements a way for issuers to release their dma_fence out of this
+> >>>>>> slavery and outlive the module who originally created them.
+> >>>>>>
+> >>>>>> Previously various approaches have been discussed, including changing the
+> >>>>>> locking semantics of the dma_fence callbacks (by me) as well as using the
+> >>>>>> drm scheduler as intermediate layer (by Sima) to disconnect dma_fences
+> >>>>>> from their actual users.
+> >>>>>>
+> >>>>>> Changing the locking semantics turned out to be much more trickier than
+> >>>>>> originally thought because especially on older drivers (nouveau, radeon,
+> >>>>>> but also i915) this locking semantics is actually needed for correct
+> >>>>>> operation.
+> >>>>>>
+> >>>>>> Using the drm_scheduler as intermediate layer is still a good idea and
+> >>>>>> should probably be implemented to make live simpler for some drivers, but
+> >>>>>> doesn't work for all use cases. Especially TLB flush fences, preemption
+> >>>>>> fences and userqueue fences don't go through the drm scheduler because it
+> >>>>>> doesn't make sense for them.
+> >>>>>>
+> >>>>>> Tvrtko did some really nice prerequisite work by protecting the returned
+> >>>>>> strings of the dma_fence_ops by RCU. This way dma_fence creators where
+> >>>>>> able to just wait for an RCU grace period after fence signaling before
+> >>>>>> they could be save to free those data structures.
+> >>>>>>
+> >>>>>> Now this patch set here goes a step further and protects the whole
+> >>>>>> dma_fence_ops structure by RCU, so that after the fence signals the
+> >>>>>> pointer to the dma_fence_ops is set to NULL when there is no wait nor
+> >>>>>> release callback given. All functionality which use the dma_fence_ops
+> >>>>>> reference are put inside an RCU critical section, except for the
+> >>>>>> deprecated issuer specific wait and of course the optional release
+> >>>>>> callback.
+> >>>>>>
+> >>>>>> Additional to the RCU changes the lock protecting the dma_fence state
+> >>>>>> previously had to be allocated external. This set here now changes the
+> >>>>>> functionality to make that external lock optional and allows dma_fences
+> >>>>>> to use an inline lock and be self contained.
+> >>>>>
+> >>>>> Allowing for an embedded lock, is that actually necessary for the goals
+> >>>>> of this series, or is it an optional change / improvement?
+> >>>>
+> >>>> It is kind of necessary because otherwise you can't fully determine the lifetime of the lock.
+> >>>>
+> >>>> The lock is used to avoid signaling a dma_fence when you modify the linked list of callbacks for example.
+> >>>>
+> >>>> An alternative would be to protect the lock by RCU as well instead of embedding it in the structure, but that would make things even more complicated.
+> >>>>
+> >>>>> If I understood you correctly at XDC you wanted to have an embedded
+> >>>>> lock because it improves the memory footprint and because an external
+> >>>>> lock couldn't achieve some goals about fence-signaling-order originally
+> >>>>> intended. Can you elaborate on that?
+> >>>>
+> >>>> The embedded lock is also nice to have for the dma_fence_array, dma_fence_chain and drm_sched_fence, but that just saves a few cache lines in some use cases.
+> >>>>
+> >>>> The fence-signaling-order is important for drivers like radeon where the external lock is protecting multiple fences from signaling at the same time and makes sure that everything stays in order.
 > > 
-> > How does co-developing match what you wrote "give me support"?
-> OK, I will fix sign, will keep sign below in next patch:
+> > Not to derail the conversation, but I noticed that dma-fence-arrays can,
+> > in fact, signal out of order. The issue lies in dma-fence-cb, which
+> > signals the fence using irq_queue_work. Internally, irq_queue_work uses
+> > llist, a LIFO structure. So, if two dma-fence-arrays have all their
+> > fences signaled from a thread, the IRQ work that signals each individual
+> > dma-fence-array will execute out of order.
+> > 
+> > We should probably fix this.
 > 
-> Signed-off-by: Yuanjie Yang <yuanjie.yang@oss.qualcomm.com>
-
-There was already one and it doesn't help, because co-developing means
-actually developing together or one after another. "giving support" is
-not co-developing-by.
-
+> No we don't. That's what I'm trying to point out all the time.
 > 
-> Thanks,
-> Yuanjie
+> The original idea of sharing the lock was to guarantee that fence signal in order, but that never worked correct even for driver fences.
+> 
+> The background is the optimization we do in the signaling fast path. E.g. when dma_fence_is_signaled() is called.
+> 
+
+Ah, yes—I see this now. I was operating under the assumption that fences
+on a timeline must signal in order, but that’s not actually true. What
+is true is that if a fence later on a timeline signals, all prior fences
+are complete (i.e., the underlying hardware condition is met, even if
+the software hasn’t signaled them yet).
+
+Could we document this somewhere in the dma-fence kernel docs? I can
+take a stab at writing it up if you'd like. This is a fairly confusing
+aspect of dma-fence behavior.
+
+Matt
+
+> This means that when fence A,B and C are submitted to the HW it is perfectly possible that somebody query the status of fence B but not A and C. And this querying of the status is faster than the interrupt which signals A and C.
+> 
+> So in this scenario B signals before A.
+> 
+> The only way to avoid that is to not implement the fast path and as far as I know no real HW driver does that because it makes your driver horrible slow.
+> 
+> So of to the trash bin with the signaling order, things have worked for over 10 years without it and as far as I know nobody complained about it.
+> 
+> Regards,
+> Christian.
 >  
-> > >  Signed-off-by: Yongxing Mou <yongxing.mou@oss.qualcomm.com>
-> > >  Signed-off-by: Yuanjie Yang <yuanjie.yang@oss.qualcomm.com>
+> 
 > > 
+> > Matt
 > > 
-> > 
-> > Best regards,
-> > Krzysztof
-
--- 
-With best wishes
-Dmitry
+> >>>
+> >>> I mean, neither external nor internal lock can somehow force the driver
+> >>> to signal fences in order, can they?
+> >>
+> >> Nope, as I said before this approach is actually pretty useless.
+> >>
+> >>> Only the driver can ensure this.
+> >>
+> >> Only when the signaled callback is not implemented which basically all driver do.
+> >>
+> >> So the whole point of sharing the lock is just not existent any more, it's just that changing it all at once as I tried before results in a way to big patch.
+> >>
+> >>>
+> >>> I am, however, considering modeling something like that on a
+> >>> FenceContext object:
+> >>>
+> >>> fctx.signal_all_fences_up_to_ordered(seqno);
+> >>
+> >> Yeah, I have patches for that as well. But then found that amdgpus TLB fences trigger that check and I won't have time to fix it.
+> >>
+> >>
+> >>
+> >>>
+> >>>
+> >>> P.
+> >>>
+> >>>>
+> >>>> While it is possible to change the locking semantics on such old drivers, it's probably just better to stay away from it.
+> >>>>
+> >>>> Regards,
+> >>>> Christian.
+> >>>>
+> >>>>>
+> >>>>> P.
+> >>>>>
+> >>>>>
+> >>>>>>
+> >>>>>> The new approach is then applied to amdgpu allowing the module to be
+> >>>>>> unloaded even when dma_fences issued by it are still around.
+> >>>>>>
+> >>>>>> Please review and comment,
+> >>>>>> Christian.
+> >>>>>>
+> >>>>>
+> >>>>
+> >>>
+> >>
+> 
