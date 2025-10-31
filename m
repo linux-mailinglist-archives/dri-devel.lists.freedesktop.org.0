@@ -2,78 +2,62 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id EC11EC267F4
-	for <lists+dri-devel@lfdr.de>; Fri, 31 Oct 2025 18:57:46 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 538D0C267EE
+	for <lists+dri-devel@lfdr.de>; Fri, 31 Oct 2025 18:57:44 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9BD4B10E308;
-	Fri, 31 Oct 2025 17:57:42 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C1EFA10E2F5;
+	Fri, 31 Oct 2025 17:57:41 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; secure) header.d=ffwll.ch header.i=@ffwll.ch header.b="coD6Fici";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="RrKLz5K6";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ej1-f48.google.com (mail-ej1-f48.google.com
- [209.85.218.48])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3DDDD10E06D
- for <dri-devel@lists.freedesktop.org>; Fri, 31 Oct 2025 17:57:41 +0000 (UTC)
-Received: by mail-ej1-f48.google.com with SMTP id
- a640c23a62f3a-b6d83bf1077so524356766b.3
- for <dri-devel@lists.freedesktop.org>; Fri, 31 Oct 2025 10:57:41 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=ffwll.ch; s=google; t=1761933460; x=1762538260; darn=lists.freedesktop.org; 
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
- bh=0hkxia2CA9CPAPfjt95DlH0WVP9rnYiBKDpQymGAYoo=;
- b=coD6Ficimu0qAvocCTcsSEFVT+O6MGeBtxf34AsM1XaiY7ZYYM4VLr4E3vzVcXWtfj
- A7w4gCrQ28i41DWUrV5JU8ozzFZrMMdzNrGTubfMpS3H27c9lUF0n9dqZngwWlan1DGH
- yxzrfXUSOOWMplwsI+N59I68Cu7jWQa6LwK2o=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1761933460; x=1762538260;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=0hkxia2CA9CPAPfjt95DlH0WVP9rnYiBKDpQymGAYoo=;
- b=p6AfkNSDpcjFri8pDoSQ73KlKVveDWRdy7w9IIp70nMEeW+dMqjso5P+0SqMy+9jZp
- 6JyqM3xpzNUuEZ2WrP34AsgjNe7M+vzV5ypuivjtamoHY8XtIuk+BENIVWcWbSZvISgq
- iboktpq1xSp1hRdWKzMcI87zVy4nmWj6QzulratEECFzLuPc/DBtifk0v0ypASFZPb0H
- gWYD+QtfBT4K20k2+Z5fKmRjeL8quEH3577eem/Xxl5vUdwJ2K+ev+XjpUmaNpa3wJuk
- noSnZp1lJdTjmI1jEHtlyAHOfis1nkkHfM+HqSY7JeXtMlNLOFVPlhwrQdrCh7KSJHaD
- 7RRw==
-X-Forwarded-Encrypted: i=1;
- AJvYcCUZWhHpoYkHE/l8o9WvKcHhrARQlwi5A2R4XzfbKta7sL1nh2Gh3keDJozMH7LS7JkEhrixZn6wpn4=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YwekPWAMUuO4BedxRWwqFwHfuTSSuIjjoJRBFbq3DNaZGAaVuDd
- nkjP343TzJmygkeAzUMEihn9gM/9af3HxIT/IZF97qO/Wn5wSB7hpxtQEFtIqHbsDH0=
-X-Gm-Gg: ASbGncsKzcvqUZyXyti7pT61Qxgx61CjDZYziY5DMT9FmAC0Dvk6OdHr914zOn9hTVA
- wdUN4rkW+Ym2cLzMEM/5+eYhyHXjw3QVBUMKEXHJ3NUTJ6qmrhDkAPebcxbFgllG/q7b3NhG/nU
- 612P5mC7G55jio1ir4OTXjf3eBujU6PhPrDZK6DHj+PNrpai/pXPIe5R+SA3Wem1blCmcuhWlxx
- C/4ljPoiAUZiX4FAJBWgpuepQT29srWDIKa4gkygHXtWJvKO9M6B7Xzz1ZVIjxfcSCbcSttbKIm
- IDId1ejSbiJlGDHKr5EkB9KTSlyNAATH0k9c3+wdMfE0sXDwLeruaTdu9YRVsL5mdu9+o701fV5
- p/B6YIqGauWuvim7R7zezadmt4egE47sGM32PA+kAyw9riwHozWDle3Ug245QUuBAg5VE9zQ2+Z
- /1V0E9Enb8DlJIu/j+farTFw==
-X-Google-Smtp-Source: AGHT+IGb0/G0Y2oVuvPkmvMM5pxw9KWvBDLMoZZ9CrExvWFw6UO+bVtLDy2A3aoJLRHnGzKQeW9qLw==
-X-Received: by 2002:a17:906:1795:b0:b70:8afd:7c39 with SMTP id
- a640c23a62f3a-b708afd8112mr49773766b.57.1761933459716; 
- Fri, 31 Oct 2025 10:57:39 -0700 (PDT)
-Received: from phenom.ffwll.local ([2a02:168:57f4:0:5485:d4b2:c087:b497])
- by smtp.gmail.com with ESMTPSA id
- a640c23a62f3a-b70779e8f91sm234574266b.33.2025.10.31.10.57.38
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 31 Oct 2025 10:57:39 -0700 (PDT)
-Date: Fri, 31 Oct 2025 18:57:37 +0100
-From: Simona Vetter <simona.vetter@ffwll.ch>
-To: Johan Hovold <johan@kernel.org>
-Cc: David Airlie <airlied@linux.ie>, Simona Vetter <simona.vetter@ffwll.ch>,
- dri-devel@lists.freedesktop.org, linux-mediatek@lists.infradead.org,
- Chun-Kuang Hu <chunkuang.hu@kernel.org>
-Subject: Re: [GIT PULL] mediatek drm fixes - 20251028
-Message-ID: <aQT4kcDnfhK-nTwU@phenom.ffwll.local>
-References: <20251028151548.3944-1-chunkuang.hu@kernel.org>
- <aQR2KOvMxghFgQXl@hovoldconsulting.com>
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CC42E10E06D;
+ Fri, 31 Oct 2025 17:57:40 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1761933461; x=1793469461;
+ h=from:to:cc:subject:date:message-id:mime-version:
+ content-transfer-encoding;
+ bh=U1SJEHv77UlVmQIwfYx3kPtQgJj8QTjOlyY+o3sqETU=;
+ b=RrKLz5K6YyY2z2iQwDmq3c/38tijcrdJNPsqWdXgF6yESMXkoIs+kgTq
+ TS6i7ljqLUNL86rdmJXQBNUg0bJk0JDLL584JvbEQox4pPgr5kIU4ulg/
+ b8LceE9PDfVtNuFNWhCX+ZHZX0hhnzLcB5ccU6EJkK+J/mYKgJHe3BJLL
+ L13EHcQkS2jrz7Obn4utAnaFGG+WjPKBTxW2Z4WvJxmX5+zzVu7SlEpqQ
+ 6Bvvdikts4Qi2boXa5/9UUaessV0bE94qABh+IXm930c6dIzztMaBnabh
+ Po9RcCJrc4Zt4ZotSF0U2w7C9jFwVPQPZ/pvLedVVvT0lltsmP6GNQvpG A==;
+X-CSE-ConnectionGUID: wgDrTKoPTPGzLGGczsOsHQ==
+X-CSE-MsgGUID: wBks1JGZROaQNuzU6tb0YQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11599"; a="64197819"
+X-IronPort-AV: E=Sophos;i="6.19,269,1754982000"; d="scan'208";a="64197819"
+Received: from fmviesa006.fm.intel.com ([10.60.135.146])
+ by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 31 Oct 2025 10:57:41 -0700
+X-CSE-ConnectionGUID: gOmtIhR0Snmk1PIgUlTCxA==
+X-CSE-MsgGUID: OdM79Rh1TAqwOU7/K0rLzw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.19,269,1754982000"; d="scan'208";a="186171943"
+Received: from kialmah1-desk5.jf.intel.com ([10.23.33.174])
+ by fmviesa006.fm.intel.com with ESMTP; 31 Oct 2025 10:57:40 -0700
+From: Khaled Almahallawy <khaled.almahallawy@intel.com>
+To: dri-devel@lists.freedesktop.org,
+	linux-arm-msm@vger.kernel.org
+Cc: intel-gfx@lists.freedesktop.org, intel-xe@lists.freedesktop.org,
+ Khaled Almahallawy <khaled.almahallawy@intel.com>,
+ Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>,
+ Jani Nikula <jani.nikula@intel.com>,
+ Rob Clark <robin.clark@oss.qualcomm.com>,
+ Dmitry Baryshkov <lumag@kernel.org>,
+ Abhinav Kumar <abhinav.kumar@linux.dev>, Sean Paul <sean@poorly.run>,
+ Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
+Subject: [PATCH v2] drm/display/dp: Rename bit 4 of DPCD TEST_REQUEST to match
+ DP2.1 spec
+Date: Fri, 31 Oct 2025 10:57:38 -0700
+Message-ID: <20251031175738.3430347-1-khaled.almahallawy@intel.com>
+X-Mailer: git-send-email 2.43.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <aQR2KOvMxghFgQXl@hovoldconsulting.com>
-X-Operating-System: Linux phenom 6.12.38+deb13-amd64 
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -89,27 +73,51 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, Oct 31, 2025 at 09:41:12AM +0100, Johan Hovold wrote:
-> On Tue, Oct 28, 2025 at 03:15:48PM +0000, Chun-Kuang Hu wrote:
-> 
-> > ----------------------------------------------------------------
-> > Mediatek DRM Fixes - 20251028
-> > 
-> > 1. Fix device use-after-free on unbind
-> > 
-> > ----------------------------------------------------------------
-> > Johan Hovold (1):
-> >       drm/mediatek: Fix device use-after-free on unbind
-> 
-> Note that this fixes a regression in 6.17-rc4 which have since been
-> reported to cause boot failures. The offending commit has also been
-> backported to the stable trees so it would be good to get this one into
-> 6.18-rc4.
+The DP_TEST_LINK_FAUX_PATTERN field was deprecated in the DP 1.3 spec.
+Update its name to align with the DP 2.1 definition and reflect its
+actual use in the code. No functional changes.
 
-Pulled into drm-fixes, so should make it.
+v2: Comment about spec version where the bit was introduced (Konrad)
 
-Cheers, Sima
+Cc: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
+Cc: Jani Nikula <jani.nikula@intel.com>
+Cc: Rob Clark <robin.clark@oss.qualcomm.com>
+Cc: Dmitry Baryshkov <lumag@kernel.org>
+Cc: Abhinav Kumar <abhinav.kumar@linux.dev>
+Cc: Sean Paul <sean@poorly.run>
+Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
+Signed-off-by: Khaled Almahallawy <khaled.almahallawy@intel.com>
+---
+ drivers/gpu/drm/msm/dp/dp_link.c | 2 +-
+ include/drm/display/drm_dp.h     | 2 +-
+ 2 files changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/drivers/gpu/drm/msm/dp/dp_link.c b/drivers/gpu/drm/msm/dp/dp_link.c
+index 66e1bbd80db3..5d465cf4dbc2 100644
+--- a/drivers/gpu/drm/msm/dp/dp_link.c
++++ b/drivers/gpu/drm/msm/dp/dp_link.c
+@@ -665,7 +665,7 @@ static int msm_dp_link_parse_request(struct msm_dp_link_private *link)
+ 		return rlen;
+ 	}
+ 
+-	if (!data || (data == DP_TEST_LINK_FAUX_PATTERN)) {
++	if (!data || (data == DP_TEST_PHY_TEST_CHANNEL_CODING_TYPE)) {
+ 		drm_dbg_dp(link->drm_dev, "link 0x%x not supported\n", data);
+ 		goto end;
+ 	}
+diff --git a/include/drm/display/drm_dp.h b/include/drm/display/drm_dp.h
+index e4eebabab975..e299a66e698d 100644
+--- a/include/drm/display/drm_dp.h
++++ b/include/drm/display/drm_dp.h
+@@ -849,7 +849,7 @@
+ # define DP_TEST_LINK_VIDEO_PATTERN	    (1 << 1)
+ # define DP_TEST_LINK_EDID_READ		    (1 << 2)
+ # define DP_TEST_LINK_PHY_TEST_PATTERN	    (1 << 3) /* DPCD >= 1.1 */
+-# define DP_TEST_LINK_FAUX_PATTERN	    (1 << 4) /* DPCD >= 1.2 */
++# define DP_TEST_PHY_TEST_CHANNEL_CODING_TYPE	    (1 << 4) /* DP 2.1 */
+ # define DP_TEST_LINK_AUDIO_PATTERN         (1 << 5) /* DPCD >= 1.2 */
+ # define DP_TEST_LINK_AUDIO_DISABLED_VIDEO  (1 << 6) /* DPCD >= 1.2 */
+ 
 -- 
-Simona Vetter
-Software Engineer
-http://blog.ffwll.ch
+2.43.0
+
