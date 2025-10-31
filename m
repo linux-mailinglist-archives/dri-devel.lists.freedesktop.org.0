@@ -2,118 +2,86 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id EC785C2461E
-	for <lists+dri-devel@lfdr.de>; Fri, 31 Oct 2025 11:15:51 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id CBA8FC24685
+	for <lists+dri-devel@lfdr.de>; Fri, 31 Oct 2025 11:20:33 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 507C310EAF3;
-	Fri, 31 Oct 2025 10:15:50 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1D7E910E2BC;
+	Fri, 31 Oct 2025 10:20:30 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=bootlin.com header.i=@bootlin.com header.b="U1jDAkWW";
+	dkim=pass (2048-bit key; unprotected) header.d=suse.com header.i=@suse.com header.b="aLG738LN";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtpout-04.galae.net (smtpout-04.galae.net [185.171.202.116])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C5FBA10EAF1;
- Fri, 31 Oct 2025 10:15:48 +0000 (UTC)
-Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
- by smtpout-04.galae.net (Postfix) with ESMTPS id 4443BC0E950;
- Fri, 31 Oct 2025 10:15:26 +0000 (UTC)
-Received: from mail.galae.net (mail.galae.net [212.83.136.155])
- by smtpout-01.galae.net (Postfix) with ESMTPS id 9AC3760704;
- Fri, 31 Oct 2025 10:15:46 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon)
- with ESMTPSA id ECE111181125C; Fri, 31 Oct 2025 11:15:34 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
- t=1761905745; h=from:subject:date:message-id:to:cc:mime-version:content-type:
- content-transfer-encoding:content-language:in-reply-to:references:autocrypt;
- bh=P+BvVQmBo0x0261tII52+BfsyF8fWG45YVeYsKFS7u0=;
- b=U1jDAkWWSrqi7CaYy502yh8Ru7VKQqjxiVH3yV71Tt8Elt68YcZMjftr/M0nsTbxBLbafc
- tYiWvuO/fDs4Gkb4/24SqbZ5EaGvOwTkcxu/MT6M3MUKPPw568NhOlPh4bNaw7sRBIi/rt
- FB6JbsGjHSw/YeguoKrPmkK3bnPuXgW2IP9ifGMjkcUW/BbLJ8ZavyCPfOgeI1z1qC8Lb+
- eJK3aQSOVRGD2xEltsTnPz0/VdbY/Lbz0NS3IhtRC+AZRPPdCHJStDnrUPcdNEEJm0Uot6
- gUJIOxDFIMl1iZ8P+ABiSgTD/ZbOuM7DAdSqUcefrelut23AAifSP3N083tgrA==
-Message-ID: <b81cdad9-69b9-48a9-a5bf-e5edde184c3b@bootlin.com>
-Date: Fri, 31 Oct 2025 11:15:33 +0100
+Received: from mail-wr1-f49.google.com (mail-wr1-f49.google.com
+ [209.85.221.49])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4BAAB10E2BC
+ for <dri-devel@lists.freedesktop.org>; Fri, 31 Oct 2025 10:20:29 +0000 (UTC)
+Received: by mail-wr1-f49.google.com with SMTP id
+ ffacd0b85a97d-42557c5cedcso1271907f8f.0
+ for <dri-devel@lists.freedesktop.org>; Fri, 31 Oct 2025 03:20:29 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=suse.com; s=google; t=1761906028; x=1762510828; darn=lists.freedesktop.org; 
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=K3B/i06NPGDlGfPSmm0JeDJD/jaUMsY04sT9K+okWQQ=;
+ b=aLG738LNBOEb14M4qfpL1t7uWL8k3GMrIVFjsVyNNxIHgoFQcw4J/fUK7r8xxojK/C
+ fP2eE0FND9mXjxEh6e1gNskBVbOGeveOdUwoqokZvHq0uqwbIEaFjTjNwAB2LHzEUh9P
+ 4j8BsAt9ycBgq0ALUduseiFh1LPI34pJXJAXRibqjdgy01yOqi8Y4a2p6lvxdu4MC9L/
+ ILXlEif6b9JLcF07mmIQsnC64s4vN4youHza2iRXcPqQ3kxuQLb1jbhXipa7enC51ina
+ XIRs/ukWdmKHe1IV4+SMqYE+5Dz7o3+Tc4T8RLD9hWufVzbysMUWL9bhB4jQyOsfYhH9
+ cF1A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1761906028; x=1762510828;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=K3B/i06NPGDlGfPSmm0JeDJD/jaUMsY04sT9K+okWQQ=;
+ b=oo2LUM7BMvIc16MWfqGt9mdQaISTLZXWGl39n9Qr054nz+35AW5zNakl1l4GbNOnYp
+ xvv9pxqchKe/aVGyAS5EyqGidNHy27ZO3oCkxubheSstrZmAcW4IVTtbif0PDZsiXMxq
+ yEgIM0sZLPtNvRr/mo4a9Q2E15DIt1VQA6+gydHUhqWADnF2jZSh0OfOBLNaqPqHz2vM
+ ZYkZ1PWfc1wCstOUtn7cZMUVQlU9RHW4b5waVif3Oelkh0VG8O5EyhpWPnR+3mZ3d++T
+ th08B+58ef2eo1lcHbK8vyAQPuT0eZAbXNqpAQRpuA+7W6zNiRujN5DpobyCHDzLBG/G
+ l+Uw==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCUXWrpomhuRcJv8Y+nrldzYKT1X88Q5vErLNv733qIdCtYOi3QJG43P8YWh0oM27ufX8NKTvplzhNk=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YxO8Akt7+hfXJJAI8dre8puXkA/BxvqbXzr/X9eLN81shXlBvrc
+ Pbq46LlZspLwrxcxxRQ7aFgn4iNt11+uzy4MIvojJH/uxUVSPfg41dvdBoK8kSoP0IM=
+X-Gm-Gg: ASbGnctAOYh9NILG/zdraGKkdziu3Me/9qEe3BW59h9esJWH9mDCrfGTPLBBGUZSh2o
+ G3U/0CqLIeP8sG2ZdNqstbkfNxX+4gXV/azS5nOQGyTNuFbDLBl6x4e3GEVf6cHK/Ku0YGPdis8
+ 2aW8P6+rNLJ8IqX3R13pb/+B+2s8vU9PggrZXK/IbKGq31fm/XrshHzXSsd81clXpQ0Q6ciFBMR
+ W6eLrlMsP8neXt57aWyoOFeGMaBBLUGvAMXETHFZqGR9k+S8q2wbqdtllJ6VoFryRNTDu9lAEO/
+ ddV1j6N81s94Uv2IJHZs0/lA73SE9k3+ye9a68slyO5sPf90H2McYtstl8WhjCYhQ1VJYL4QpSW
+ srAV1CupGQ5L9XtbtMUeHlFsa5iiHS0cMoLlKnBDq1eIkcKj5w5ZtPSO0LIBIJBsI2fKKm6c8RI
+ dWN6PLrMpAc29NrxLtjryNmWA8pJ5dks3tPFTXbFP8a3S3JA==
+X-Google-Smtp-Source: AGHT+IGfCTVgpG9l9puSWTYiK3G0d8gKcngL5r4WJ3Xi2AmzTOfMv+bHNEWDuIFmlbATDHcuNOQgMg==
+X-Received: by 2002:a05:6000:2892:b0:428:55c3:cea8 with SMTP id
+ ffacd0b85a97d-429bd6e16bemr2293210f8f.50.1761906027732; 
+ Fri, 31 Oct 2025 03:20:27 -0700 (PDT)
+Received: from localhost.localdomain ([2a00:6d43:105:c401:e307:1a37:2e76:ce91])
+ by smtp.gmail.com with ESMTPSA id
+ ffacd0b85a97d-429c110037asm3090410f8f.3.2025.10.31.03.20.26
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 31 Oct 2025 03:20:27 -0700 (PDT)
+From: Marco Crivellari <marco.crivellari@suse.com>
+To: linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ nouveau@lists.freedesktop.org
+Cc: Tejun Heo <tj@kernel.org>, Lai Jiangshan <jiangshanlai@gmail.com>,
+ Frederic Weisbecker <frederic@kernel.org>,
+ Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
+ Marco Crivellari <marco.crivellari@suse.com>,
+ Michal Hocko <mhocko@suse.com>, Lyude Paul <lyude@redhat.com>,
+ Danilo Krummrich <dakr@kernel.org>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
+ Simona Vetter <simona@ffwll.ch>
+Subject: [PATCH 0/2] replaced old wq name, added WQ_PERCPU to alloc_workqueue
+Date: Fri, 31 Oct 2025 11:20:18 +0100
+Message-ID: <20251031102020.95349-1-marco.crivellari@suse.com>
+X-Mailer: git-send-email 2.51.0
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH V12 14/49] drm/vkms: Add enumerated 1D curve colorop
-To: Alex Hung <alex.hung@amd.com>, dri-devel@lists.freedesktop.org,
- amd-gfx@lists.freedesktop.org
-Cc: wayland-devel@lists.freedesktop.org, harry.wentland@amd.com,
- leo.liu@amd.com, ville.syrjala@linux.intel.com,
- pekka.paalanen@collabora.com, contact@emersion.fr, mwen@igalia.com,
- jadahl@redhat.com, sebastian.wick@redhat.com, shashank.sharma@amd.com,
- agoins@nvidia.com, joshua@froggi.es, mdaenzer@redhat.com, aleixpol@kde.org,
- xaver.hugl@gmail.com, victoria@system76.com, daniel@ffwll.ch,
- uma.shankar@intel.com, quic_naseer@quicinc.com, quic_cbraga@quicinc.com,
- quic_abhinavk@quicinc.com, marcan@marcan.st, Liviu.Dudau@arm.com,
- sashamcintosh@google.com, chaitanya.kumar.borah@intel.com,
- mcanal@igalia.com, nfraprado@collabora.com, arthurgrillo@riseup.net,
- Daniel Stone <daniels@collabora.com>
-References: <20251030034349.2309829-1-alex.hung@amd.com>
- <20251030034349.2309829-15-alex.hung@amd.com>
- <cfdc46fd-2a02-45ed-a752-25ea5a46b52a@bootlin.com>
- <41e6da0a-7f06-40b0-8e8b-ce2699fde760@amd.com>
-Content-Language: en-US, fr
-From: Louis Chauvet <louis.chauvet@bootlin.com>
-Autocrypt: addr=louis.chauvet@bootlin.com; keydata=
- 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
-In-Reply-To: <41e6da0a-7f06-40b0-8e8b-ce2699fde760@amd.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Last-TLS-Session-Version: TLSv1.3
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -129,68 +97,69 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+Hi,
+
+=== Current situation: problems ===
+
+Let's consider a nohz_full system with isolated CPUs: wq_unbound_cpumask is
+set to the housekeeping CPUs, for !WQ_UNBOUND the local CPU is selected.
+
+This leads to different scenarios if a work item is scheduled on an
+isolated CPU where "delay" value is 0 or greater then 0:
+        schedule_delayed_work(, 0);
+
+This will be handled by __queue_work() that will queue the work item on the
+current local (isolated) CPU, while:
+
+        schedule_delayed_work(, 1);
+
+Will move the timer on an housekeeping CPU, and schedule the work there.
+
+Currently if a user enqueue a work item using schedule_delayed_work() the
+used wq is "system_wq" (per-cpu wq) while queue_delayed_work() use
+WORK_CPU_UNBOUND (used when a cpu is not specified). The same applies to
+schedule_work() that is using system_wq and queue_work(), that makes use
+again of WORK_CPU_UNBOUND.
+
+This lack of consistency cannot be addressed without refactoring the API.
+
+=== Recent changes to the WQ API ===
+
+The following, address the recent changes in the Workqueue API:
+
+- commit 128ea9f6ccfb ("workqueue: Add system_percpu_wq and system_dfl_wq")
+- commit 930c2ea566af ("workqueue: Add new WQ_PERCPU flag")
+
+The old workqueues will be removed in a future release cycle.
+
+=== Introduced Changes by this series ===
+
+1) [P 1]  Replace uses of system_unbound_wq
+
+    system_unbound_wq is to be used when locality is not required.
+
+    Because of that, system_unbound_wq has been replaced with
+	system_dfl_wq, to make it clear it should be used if locality
+	is not important.
+
+2) [P 2] WQ_PERCPU added to alloc_workqueue()
+
+    This change adds a new WQ_PERCPU flag to explicitly request
+    alloc_workqueue() to be per-cpu when WQ_UNBOUND has not been specified.
 
 
-Le 31/10/2025 à 01:04, Alex Hung a écrit :
-> 
-> 
-> On 10/30/25 08:50, Louis Chauvet wrote:
->>
->> This patch LGTM, but can you add the [1] (preparatory patch to reduce
->> the diff in this patch) and [2] (fixup to this patch, add a module
->> parameter to enable/disable the pipeline and disable it by default for
->> configfs devices) so it will make it easier to implement configfs for
->> color pipeline without breaking uAPI?
->>
->> [1]:https://paste.sr.ht/~fomys/16118ef2b5604226a7607db8a41941a27a43f168
->> [2]:https://paste.sr.ht/~fomys/a98191b09ff7290dc6768bf7d54e789984cd3250
->>
->> With those patches: Reviewed-by: Louis Chauvet <louis.chauvet@bootlin.com>
->>
->> Thanks a lot for your series!
-> 
-> Hi Louis,
-> 
-> Thanks for reviewing.
-> 
-> Do you want to add these patch on top of this patch as below?
-> 
->     e1c34c68dc33 fixup! drm/vkms: Add enumerated 1D curve colorop
->     68251534ebd1 drm/vkms: Pass plane_cfg to plane initialization
->     8160438be2b5 drm/vkms: Add enumerated 1D curve colorop
-> 
-> I noticed "fixup! drm/vkms: Add enumerated 1D curve colorop" has no
-> commit messages though.
+Thanks!
 
-drm/vkms: Add config for default plane pipeline
 
-With the introduction of color pipeline in VKMS, the default device may 
-have planes with color pipelines. To avoid breaking existing uAPI, 
-create a kernel argument to disable them by default and a vkms_config 
-field to configure the plane.
+Marco Crivellari (2):
+  drm/nouveau: replace use of system_unbound_wq with system_dfl_wq
+  drm/nouveau: WQ_PERCPU added to alloc_workqueue users
 
-This field is not definitive and will be replaced once the uAPI will be 
-able to configure color pipelines. For now devices created with ConfigFS 
-will not have any color pipeline so we can decide later how the uAPI 
-will look like.
-
-> Or do you prefer them to squash them together?
-
-For me 68251534ebd1 is independent so keep it separate.
-
-But for e1c34c68dc33 I don't think this is important to squash or keep 
-them separate. You can do as you want.
-
-If you want to split it, I think you can put e1c34c68dc33 before 
-8160438be2b5 so you don't have to change the call to 
-vkms_initialize_colorops(&plane->base);.
-
-Thanks a lot,
-Louis Chauvet
+ drivers/gpu/drm/nouveau/dispnv50/disp.c | 2 +-
+ drivers/gpu/drm/nouveau/nouveau_drm.c   | 2 +-
+ drivers/gpu/drm/nouveau/nouveau_sched.c | 3 ++-
+ 3 files changed, 4 insertions(+), 3 deletions(-)
 
 -- 
---
-Louis Chauvet, Bootlin
-Embedded Linux and Kernel engineering
-https://bootlin.com
+2.51.0
 
