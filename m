@@ -2,82 +2,66 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1EF95C23E71
-	for <lists+dri-devel@lfdr.de>; Fri, 31 Oct 2025 09:49:07 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6CC32C23E80
+	for <lists+dri-devel@lfdr.de>; Fri, 31 Oct 2025 09:50:03 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2BCC110E080;
-	Fri, 31 Oct 2025 08:49:04 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CCAA210E2A4;
+	Fri, 31 Oct 2025 08:50:01 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=suse.com header.i=@suse.com header.b="FEl1PeTE";
+	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="V2jlkPA7";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-f44.google.com (mail-lf1-f44.google.com
- [209.85.167.44])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 511E210E080
- for <dri-devel@lists.freedesktop.org>; Fri, 31 Oct 2025 08:49:03 +0000 (UTC)
-Received: by mail-lf1-f44.google.com with SMTP id
- 2adb3069b0e04-592f5736693so1390494e87.1
- for <dri-devel@lists.freedesktop.org>; Fri, 31 Oct 2025 01:49:03 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=suse.com; s=google; t=1761900542; x=1762505342; darn=lists.freedesktop.org; 
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=YcNQB2cz7cmMdG+LgLrQkA0i5OOSEJyUpwul2usY/M0=;
- b=FEl1PeTEJAkVEfmUvu9uPL2es7Xpz4XFyHdntup+BphQrid4w0khwRMunxDBjdH6lH
- zf3IyfmhgGdRcITzytE+uj+54NvXrGtnqoJA/hcCh2WXzGm62yYRnIFQpOdf8WIEwh6V
- ZGRHkmlI4vGjP+lHYizDlnHMJ6BfxJyb+QkJECChP1E/kSjwcPXgfzzDW+0TgPX+BJUQ
- fIYxRVR8H3KMPWNcN6UdTLjhYSwkhVfp80jPE1OBC9LspqfxpERKCKMaJGvPcf4ODTHN
- XfxyPZE0+qCzeWWkjXaUjtEQQsS7zUhQ+2yNaRkru9OkhWnHwaQqggx+TMsX3UoLr0ZS
- oaeA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1761900542; x=1762505342;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=YcNQB2cz7cmMdG+LgLrQkA0i5OOSEJyUpwul2usY/M0=;
- b=eF4RiZEJvvJ4r1q/0P8SxEl1/jbFk2mkeedCe6aBer40kYSM/+Gg53cBl5MwLa2lu0
- Jm5LykKrPWZyRUy77nIO7LMfh6gZS1mZHQr590RhA3AnOYk55kyH939ybqggo8mEUwzj
- kwhEx5VzvVCb0SUTaFkvfF3mH+pfaW2HrkTuabsfRpcCwt2rT9kZjcPppjf+buVIOMQ3
- Tlf/mSz4nVm8H1ArWyWBMDUN9EUo8gNRtAqHSdOB26049SBjakxl2UENjuY0CvAx2a83
- CGfcL0Zt5uIscsnojUCybsfFAz/ThrHQC1TIlXxvYFInukCR311s47vWELhmIpMNiMT/
- iStA==
-X-Forwarded-Encrypted: i=1;
- AJvYcCWlV4sbCcEn56N+xCzr6INFDhdFwT6hYOAfC6emsMbhuvTkBFlZGYfH83E7YEneRXFeAqqxcP7HUgs=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YzO7uE1aBvHlGC5tQxoHkBIRaBcAIpU/GKre3J2oDM1izSWBmD9
- f+cfQbSX2hpOHZYopW7TvAy2sK/TyC5gY7dzcEH3BcRs3W2j5MVsYlWBc4uhRLQlgYi9JurMesJ
- r+VvHtmmJPzfyppAVcu1/rnqgz2sC4Q7RdK+uLIYnVA==
-X-Gm-Gg: ASbGncuWjBQI1FWb7awD8OU5VXqEGD1/IMyqmK5+DOonWqlC+Xnk8KkhkflQD7ev/2X
- vbn0vYGPcpGLbpyXFcOJTzExWSEyVq4Gs7PPVaQaC+Dof1+i5RuWGrntuKMt1ZfnpXJEcY/xLRP
- HCbiT554Et9kZlJJ196HTQHWJfHLyND2ZWj5fLXUZztMPrZNVyDZDaYLMPTVcU/4+3MgdTJYgfV
- LYJ8tNJpe9CpRPoCO8Xq53TDUn7yf5pfRPNJxG3aRW45ht0Bz8PFyDjNf+Njp7KCeJtFRtaHRvQ
- ImTH/yDB12KQdYgY5Q==
-X-Google-Smtp-Source: AGHT+IG5f9LrT5nyeUFiNlUT6SjibsgaFtcZ7lVM5kJmZgFZMKb75gWV2jzCfnyesEQtIpQyfU8LfCkUsKtRhTh/eAQ=
-X-Received: by 2002:a05:6512:3d8a:b0:575:c6:edae with SMTP id
- 2adb3069b0e04-5941d5561cdmr988285e87.53.1761900541585; Fri, 31 Oct 2025
- 01:49:01 -0700 (PDT)
+Received: from bali.collaboradmins.com (bali.collaboradmins.com
+ [148.251.105.195])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 72A3510E2A4;
+ Fri, 31 Oct 2025 08:50:00 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+ s=mail; t=1761900598;
+ bh=tzJ2aNT+TdXhEDg4BOMXnSkiNbzvOb7Pn4gIxc4/BzM=;
+ h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+ b=V2jlkPA7Kg2A/UpWR+uAehQ3Qk5UkUesVDGewNFo4kDUciZXoYmcjRKTZAl31yJIt
+ jEYmEl7BeK04RRo3C5zZEyxDUljj3dwv57VJpGbDB/6nWVILBt8JtZ+ELaj/Kbg/9P
+ QJNJnFR8DRo7xBM8u8HMA6kJMym8xUztr/RgeOiQyw9xPEofuf8ScAe+bcy+D14SXw
+ BUqHISr5e575evfRevJ9QN2v1w3nE4TAaTpHf+SpN9uArYYQzS5Wd21/5BrRQWVZ56
+ iYw8havsV4lAivBHMTAll3EiYsTKDxDeumCXGhaQNJdYqul4lPidgkeKbfAgSJroq4
+ ApEr6tTLRGHxQ==
+Received: from fedora (unknown [IPv6:2a01:e0a:2c:6930:d919:a6e:5ea1:8a9f])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested) (Authenticated sender: bbrezillon)
+ by bali.collaboradmins.com (Postfix) with ESMTPSA id CF5E517E00A6;
+ Fri, 31 Oct 2025 09:49:57 +0100 (CET)
+Date: Fri, 31 Oct 2025 09:49:46 +0100
+From: Boris Brezillon <boris.brezillon@collabora.com>
+To: Marcin =?UTF-8?B?xZpsdXNhcno=?= <marcin.slusarz@arm.com>
+Cc: Steven Price <steven.price@arm.com>, dri-devel@lists.freedesktop.org,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Maxime Ripard
+ <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, David Airlie
+ <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, Faith Ekstrand
+ <faith.ekstrand@collabora.com>, Thierry Reding <thierry.reding@gmail.com>,
+ Mikko Perttunen <mperttunen@nvidia.com>, Melissa Wen <mwen@igalia.com>,
+ =?UTF-8?B?TWHDrXJh?= Canal <mcanal@igalia.com>, Lucas De Marchi
+ <lucas.demarchi@intel.com>, Thomas =?UTF-8?B?SGVsbHN0csO2bQ==?=
+ <thomas.hellstrom@linux.intel.com>, Rodrigo Vivi <rodrigo.vivi@intel.com>,
+ Frank Binns <frank.binns@imgtec.com>, Matt Coster <matt.coster@imgtec.com>,
+ Rob Clark <robin.clark@oss.qualcomm.com>, Dmitry Baryshkov
+ <lumag@kernel.org>, Abhinav Kumar <abhinav.kumar@linux.dev>, Jessica Zhang
+ <jessica.zhang@oss.qualcomm.com>, Sean Paul <sean@poorly.run>, Marijn
+ Suijten <marijn.suijten@somainline.org>, Alex Deucher
+ <alexander.deucher@amd.com>, Christian =?UTF-8?B?S8O2bmln?=
+ <christian.koenig@amd.com>, amd-gfx@lists.freedesktop.org,
+ kernel@collabora.com, nd@arm.com
+Subject: Re: [PATCH v5 13/16] drm/panfrost: Add a PANFROST_SYNC_BO ioctl
+Message-ID: <20251031094946.6ab9a19f@fedora>
+In-Reply-To: <aQRgZDWo0Jc2-YrX@e129842.arm.com>
+References: <20251030140525.366636-1-boris.brezillon@collabora.com>
+ <20251030140525.366636-14-boris.brezillon@collabora.com>
+ <aQRgZDWo0Jc2-YrX@e129842.arm.com>
+Organization: Collabora
+X-Mailer: Claws Mail 4.3.1 (GTK 3.24.49; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-References: <20251030161011.282924-1-marco.crivellari@suse.com>
- <20251030161011.282924-4-marco.crivellari@suse.com>
- <690b3fd0-20a1-4245-8fc4-4e8b40695c98@amd.com>
-In-Reply-To: <690b3fd0-20a1-4245-8fc4-4e8b40695c98@amd.com>
-From: Marco Crivellari <marco.crivellari@suse.com>
-Date: Fri, 31 Oct 2025 09:48:49 +0100
-X-Gm-Features: AWmQ_bn-4zPvtMBML6N9b1bZZjys-qRUhwoiBnh0rijwWGoJyeJGXQ7WQEI95VM
-Message-ID: <CAAofZF4V7gN=AqgLwcva+zhJyROYfSjzJ2uLxoNeS2KLuytW9Q@mail.gmail.com>
-Subject: Re: [PATCH 3/4] amd/amdkfd: WQ_PERCPU added to alloc_workqueue users
-To: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
-Cc: linux-kernel@vger.kernel.org, amd-gfx@lists.freedesktop.org, 
- dri-devel@lists.freedesktop.org, Tejun Heo <tj@kernel.org>, 
- Lai Jiangshan <jiangshanlai@gmail.com>,
- Frederic Weisbecker <frederic@kernel.org>, 
- Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
- Michal Hocko <mhocko@suse.com>, 
- Alex Deucher <alexander.deucher@amd.com>, David Airlie <airlied@gmail.com>, 
- Simona Vetter <simona@ffwll.ch>, "Yang, Philip" <Philip.Yang@amd.com>, 
- "Kuehling, Felix" <Felix.Kuehling@amd.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -94,25 +78,56 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Oct 30, 2025 at 6:15=E2=80=AFPM Christian K=C3=B6nig
-<christian.koenig@amd.com> wrote:
->[...]
-> Adding Philip and Felix to comment, but this should most likely also not =
-execute on the same CPU as the one who scheduled the work.
+On Fri, 31 Oct 2025 08:08:20 +0100
+Marcin =C5=9Alusarz <marcin.slusarz@arm.com> wrote:
 
-Hi Christian,
+> On Thu, Oct 30, 2025 at 03:05:22PM +0100, Boris Brezillon wrote:
+> > +static int panfrost_ioctl_sync_bo(struct drm_device *ddev, void *data,
+> > +				  struct drm_file *file)
+> > +{
+> > +	struct drm_panfrost_sync_bo *args =3D data;
+> > +	struct drm_panfrost_bo_sync_op *ops;
+> > +	struct drm_gem_object *obj;
+> > +	int ret;
+> > +	u32 i;
+> > +
+> > +	if (args->pad)
+> > +		return -EINVAL;
+> > +
+> > +	ops =3D kvmalloc_array(args->op_count, sizeof(*ops), GFP_KERNEL);
+> > +	if (!ops) {
+> > +		DRM_DEBUG("Failed to allocate incoming BO sync ops array\n");
+> > +		return -ENOMEM;
+> > +	}
+> > +
+> > +	if (copy_from_user(ops, (void __user *)(uintptr_t)args->ops,
+> > +			   args->op_count * sizeof(*ops))) {
+> > +		DRM_DEBUG("Failed to copy in BO sync ops\n");
+> > +		ret =3D -EFAULT;
+> > +		goto err_ops;
+> > +	}
+> > +
+> > +	for (i =3D 0; i < args->op_count; i++) {
+> > +		obj =3D drm_gem_object_lookup(file, ops[i].handle);
+> > +		if (!obj) {
+> > +			ret =3D -ENOENT;
+> > +			goto err_ops;
+> > +		}
+> > +
+> > +		ret =3D panfrost_gem_sync(obj, ops[i].type,
+> > +					ops[i].offset, ops[i].size);
+> > +
+> > +		drm_gem_object_put(obj);
+> > +
+> > +		if (ret)
+> > +			goto err_ops;
+> > +	}
+> > +
+> > +err_ops:
+> > +	kvfree(ops);
+> > +
+> > +	return ret; =20
+>=20
+> This function will still return garbage if args->op_count is 0.
 
-The actual behavior without WQ_PERCPU is exactly the same: with 0 it
-means the workqueue is per-cpu. We just enforced that, adding the
-WQ_PERCPU flag, so that it is explicit.
-
-So if you need this to be unbound, I can send the v2 with WQ_UNBOUND
-instead of WQ_PERCPU.
-
-Thanks!
-
---
-
-Marco Crivellari
-
-L3 Support Engineer, Technology & Product
+Sorry, this fell through the cracks. Will be fixed in v6.
