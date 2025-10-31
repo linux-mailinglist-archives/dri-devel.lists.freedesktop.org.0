@@ -2,112 +2,118 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 251AAC24612
-	for <lists+dri-devel@lfdr.de>; Fri, 31 Oct 2025 11:15:30 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id EC785C2461E
+	for <lists+dri-devel@lfdr.de>; Fri, 31 Oct 2025 11:15:51 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 78E7910EAEF;
-	Fri, 31 Oct 2025 10:15:28 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 507C310EAF3;
+	Fri, 31 Oct 2025 10:15:50 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="REG+vZnq";
+	dkim=pass (2048-bit key; unprotected) header.d=bootlin.com header.i=@bootlin.com header.b="U1jDAkWW";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-f54.google.com (mail-wm1-f54.google.com
- [209.85.128.54])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A399F10EAEF
- for <dri-devel@lists.freedesktop.org>; Fri, 31 Oct 2025 10:15:27 +0000 (UTC)
-Received: by mail-wm1-f54.google.com with SMTP id
- 5b1f17b1804b1-471b80b994bso25743255e9.3
- for <dri-devel@lists.freedesktop.org>; Fri, 31 Oct 2025 03:15:27 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1761905726; x=1762510526; darn=lists.freedesktop.org;
- h=content-transfer-encoding:in-reply-to:organization:autocrypt
- :content-language:references:cc:to:subject:reply-to:from:user-agent
- :mime-version:date:message-id:from:to:cc:subject:date:message-id
- :reply-to; bh=eE+d1cXEHqkcosUss1w2NBrOE9cjfyKKBw4l7rwMmp0=;
- b=REG+vZnqli9eSUCfhgzY3KHTWiVKIx3eFvV0bXvZP+eNwHQcgizAkBfIPUeo4Fw0CA
- yvqmTvcoHPYvhkWDcwxX13U/xBgcPCuwFEb5BGzS9xhxvK20PMO5bMSyO1IIGCNIhWc8
- qfGBfhnEN6j5/2jhKcXPFvvbM5VnDl28zP6zCgG1vqs8tld+g2wD4LwtqF/LGbfFmk7+
- 95/vOUf5Wi50IgYBvlntJJEG597uyzFnf1zZQLn1F9zmuVWn6gX4pHZuyq6D9A2mIKKY
- 8l+GUbwmKLzVJSJp74u/cJ/CGsAMeF5dTEbHHO7cJi7fcTSLQ2+YW+9aTmXSvmGJLZlP
- 3WMw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1761905726; x=1762510526;
- h=content-transfer-encoding:in-reply-to:organization:autocrypt
- :content-language:references:cc:to:subject:reply-to:from:user-agent
- :mime-version:date:message-id:x-gm-message-state:from:to:cc:subject
- :date:message-id:reply-to;
- bh=eE+d1cXEHqkcosUss1w2NBrOE9cjfyKKBw4l7rwMmp0=;
- b=fJd1FLQwrtQySCeJu+KhwpUYiGlkfSuTWjPvsUXUF36XCqv5Lj4146WFDWRQainOEo
- qXoRuxD9kq4Zb9b5YxUF4ZImzb11s+5wW07Xzb21hEEfeL3s9xRnL28F6Fo4UKNob8jF
- B4+tMnTwLErzOhBJGRQwE5WWxTHfTqbjTTVpSvf7DLjq4dcUwQ9jTMtp4Dbz/MTwchdb
- +6NxMl3HMi03UIed2MN6HAq32pGqG+AikqHUYYlMurmRujcrLUL0Wli5nTK7AAkl5DEc
- N8z0MC8APP3Jx1ZbsB/gtoRzdEQ2TNpitYznfSexUTmizmS4A4WVWumw4GmtPVK7sbmx
- OGEg==
-X-Gm-Message-State: AOJu0YyE7FZDZKfYlq4auM5LNmXOQTmXmqOQh7r4fSePqmkY/LPU2qeT
- BPkErVmff9+HARovyJuFGEnfo1TOdsXyOyqIuNtr1LzzwA68h7LVhTLmmvmTrPXHcao=
-X-Gm-Gg: ASbGnculWBsbOx2UKu/tMq/ykLb/NOB4FcEFO6mEysqafoeMFfFEn9YPGwgjOsT6Vjv
- fRbWH4j1ENLTfxCfP4oCcnBNIPU0d1sWjwmn0IdksO8dGuhhmLNnKO5eMplne5UCZfLtQux/MTn
- /agnelPcXjUsxv+7xfRFVqEKjXdT73iczJY9jlZcpdLu5P/zGLhEsd2bB5wX9/MtkEWNz7nKCPb
- 6MCb0alR6efekPHdnEGoOqwVU7xeDYekS+XKYmQPS0RgFn/I7mPQXSut2SsexN3fTiSlSKRW3NQ
- 631vBqz2WdLO7CQ3UCL/c3OzNuuLa5XOWDQClWse4BjVuJ/eerV4bAa7mTrvOKFn6kJc71o85l4
- DwYf9SPJa7wbOW9c6CNcE2uDG3g2UKtKngLi2RfJYMDJ6yIc3qottTqccAe8LjtpGp3Y8nLMehf
- fn0VJw/tgQNA5H5dE7pRSNQpqQtOa0JqY0reydpxWk5V2vtWo7IYpZCZBjN/aC/CWIAeNzPPZRb
- w==
-X-Google-Smtp-Source: AGHT+IEab5HAlvx0nr1OP9Rq6E4OTz6yEzuNxeSysSuw13E9/5p8UkZsu+Z/wlfJOqSRybyRR7JOsg==
-X-Received: by 2002:a05:600c:848f:b0:477:25b9:3917 with SMTP id
- 5b1f17b1804b1-477308b1aa4mr25211875e9.39.1761905726051; 
- Fri, 31 Oct 2025 03:15:26 -0700 (PDT)
-Received: from ?IPV6:2a01:e0a:cad:2140:d967:2bcf:d2d0:b324?
- ([2a01:e0a:cad:2140:d967:2bcf:d2d0:b324])
- by smtp.gmail.com with ESMTPSA id
- ffacd0b85a97d-429c13e16f4sm2828576f8f.27.2025.10.31.03.15.25
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 31 Oct 2025 03:15:25 -0700 (PDT)
-Message-ID: <7642d4ba-72fe-4af7-a02a-96676f8945af@linaro.org>
-Date: Fri, 31 Oct 2025 11:15:25 +0100
+Received: from smtpout-04.galae.net (smtpout-04.galae.net [185.171.202.116])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C5FBA10EAF1;
+ Fri, 31 Oct 2025 10:15:48 +0000 (UTC)
+Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
+ by smtpout-04.galae.net (Postfix) with ESMTPS id 4443BC0E950;
+ Fri, 31 Oct 2025 10:15:26 +0000 (UTC)
+Received: from mail.galae.net (mail.galae.net [212.83.136.155])
+ by smtpout-01.galae.net (Postfix) with ESMTPS id 9AC3760704;
+ Fri, 31 Oct 2025 10:15:46 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon)
+ with ESMTPSA id ECE111181125C; Fri, 31 Oct 2025 11:15:34 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
+ t=1761905745; h=from:subject:date:message-id:to:cc:mime-version:content-type:
+ content-transfer-encoding:content-language:in-reply-to:references:autocrypt;
+ bh=P+BvVQmBo0x0261tII52+BfsyF8fWG45YVeYsKFS7u0=;
+ b=U1jDAkWWSrqi7CaYy502yh8Ru7VKQqjxiVH3yV71Tt8Elt68YcZMjftr/M0nsTbxBLbafc
+ tYiWvuO/fDs4Gkb4/24SqbZ5EaGvOwTkcxu/MT6M3MUKPPw568NhOlPh4bNaw7sRBIi/rt
+ FB6JbsGjHSw/YeguoKrPmkK3bnPuXgW2IP9ifGMjkcUW/BbLJ8ZavyCPfOgeI1z1qC8Lb+
+ eJK3aQSOVRGD2xEltsTnPz0/VdbY/Lbz0NS3IhtRC+AZRPPdCHJStDnrUPcdNEEJm0Uot6
+ gUJIOxDFIMl1iZ8P+ABiSgTD/ZbOuM7DAdSqUcefrelut23AAifSP3N083tgrA==
+Message-ID: <b81cdad9-69b9-48a9-a5bf-e5edde184c3b@bootlin.com>
+Date: Fri, 31 Oct 2025 11:15:33 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-From: neil.armstrong@linaro.org
-Subject: Re: [PATCH v5 2/2] drm/panel: ilitek-ili9882t: Add support for Ilitek
- IL79900A-based panels
-To: Langyan Ye <yelangyan@huaqin.corp-partner.google.com>, airlied@gmail.com, 
- simona@ffwll.ch, maarten.lankhorst@linux.intel.com, mripard@kernel.org,
- tzimmermann@suse.de, robh@kernel.org, krzk+dt@kernel.org,
- conor+dt@kernel.org, dianders@chromium.org
-Cc: dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org
-References: <20251031100447.253164-1-yelangyan@huaqin.corp-partner.google.com>
- <20251031100447.253164-3-yelangyan@huaqin.corp-partner.google.com>
+Subject: Re: [PATCH V12 14/49] drm/vkms: Add enumerated 1D curve colorop
+To: Alex Hung <alex.hung@amd.com>, dri-devel@lists.freedesktop.org,
+ amd-gfx@lists.freedesktop.org
+Cc: wayland-devel@lists.freedesktop.org, harry.wentland@amd.com,
+ leo.liu@amd.com, ville.syrjala@linux.intel.com,
+ pekka.paalanen@collabora.com, contact@emersion.fr, mwen@igalia.com,
+ jadahl@redhat.com, sebastian.wick@redhat.com, shashank.sharma@amd.com,
+ agoins@nvidia.com, joshua@froggi.es, mdaenzer@redhat.com, aleixpol@kde.org,
+ xaver.hugl@gmail.com, victoria@system76.com, daniel@ffwll.ch,
+ uma.shankar@intel.com, quic_naseer@quicinc.com, quic_cbraga@quicinc.com,
+ quic_abhinavk@quicinc.com, marcan@marcan.st, Liviu.Dudau@arm.com,
+ sashamcintosh@google.com, chaitanya.kumar.borah@intel.com,
+ mcanal@igalia.com, nfraprado@collabora.com, arthurgrillo@riseup.net,
+ Daniel Stone <daniels@collabora.com>
+References: <20251030034349.2309829-1-alex.hung@amd.com>
+ <20251030034349.2309829-15-alex.hung@amd.com>
+ <cfdc46fd-2a02-45ed-a752-25ea5a46b52a@bootlin.com>
+ <41e6da0a-7f06-40b0-8e8b-ce2699fde760@amd.com>
 Content-Language: en-US, fr
-Autocrypt: addr=neil.armstrong@linaro.org; keydata=
- xsBNBE1ZBs8BCAD78xVLsXPwV/2qQx2FaO/7mhWL0Qodw8UcQJnkrWmgTFRobtTWxuRx8WWP
- GTjuhvbleoQ5Cxjr+v+1ARGCH46MxFP5DwauzPekwJUD5QKZlaw/bURTLmS2id5wWi3lqVH4
- BVF2WzvGyyeV1o4RTCYDnZ9VLLylJ9bneEaIs/7cjCEbipGGFlfIML3sfqnIvMAxIMZrvcl9
- qPV2k+KQ7q+aXavU5W+yLNn7QtXUB530Zlk/d2ETgzQ5FLYYnUDAaRl+8JUTjc0CNOTpCeik
- 80TZcE6f8M76Xa6yU8VcNko94Ck7iB4vj70q76P/J7kt98hklrr85/3NU3oti3nrIHmHABEB
- AAHNKk5laWwgQXJtc3Ryb25nIDxuZWlsLmFybXN0cm9uZ0BsaW5hcm8ub3JnPsLAkQQTAQoA
- OwIbIwULCQgHAwUVCgkICwUWAgMBAAIeAQIXgBYhBInsPQWERiF0UPIoSBaat7Gkz/iuBQJk
- Q5wSAhkBAAoJEBaat7Gkz/iuyhMIANiD94qDtUTJRfEW6GwXmtKWwl/mvqQtaTtZID2dos04
- YqBbshiJbejgVJjy+HODcNUIKBB3PSLaln4ltdsV73SBcwUNdzebfKspAQunCM22Mn6FBIxQ
- GizsMLcP/0FX4en9NaKGfK6ZdKK6kN1GR9YffMJd2P08EO8mHowmSRe/ExAODhAs9W7XXExw
- UNCY4pVJyRPpEhv373vvff60bHxc1k/FF9WaPscMt7hlkbFLUs85kHtQAmr8pV5Hy9ezsSRa
- GzJmiVclkPc2BY592IGBXRDQ38urXeM4nfhhvqA50b/nAEXc6FzqgXqDkEIwR66/Gbp0t3+r
- yQzpKRyQif3OwE0ETVkGzwEIALyKDN/OGURaHBVzwjgYq+ZtifvekdrSNl8TIDH8g1xicBYp
- QTbPn6bbSZbdvfeQPNCcD4/EhXZuhQXMcoJsQQQnO4vwVULmPGgtGf8PVc7dxKOeta+qUh6+
- SRh3vIcAUFHDT3f/Zdspz+e2E0hPV2hiSvICLk11qO6cyJE13zeNFoeY3ggrKY+IzbFomIZY
- 4yG6xI99NIPEVE9lNBXBKIlewIyVlkOaYvJWSV+p5gdJXOvScNN1epm5YHmf9aE2ZjnqZGoM
- Mtsyw18YoX9BqMFInxqYQQ3j/HpVgTSvmo5ea5qQDDUaCsaTf8UeDcwYOtgI8iL4oHcsGtUX
- oUk33HEAEQEAAcLAXwQYAQIACQUCTVkGzwIbDAAKCRAWmrexpM/4rrXiB/sGbkQ6itMrAIfn
- M7IbRuiSZS1unlySUVYu3SD6YBYnNi3G5EpbwfBNuT3H8//rVvtOFK4OD8cRYkxXRQmTvqa3
- 3eDIHu/zr1HMKErm+2SD6PO9umRef8V82o2oaCLvf4WeIssFjwB0b6a12opuRP7yo3E3gTCS
- KmbUuLv1CtxKQF+fUV1cVaTPMyT25Od+RC1K+iOR0F54oUJvJeq7fUzbn/KdlhA8XPGzwGRy
- 4zcsPWvwnXgfe5tk680fEKZVwOZKIEuJC3v+/yZpQzDvGYJvbyix0lHnrCzq43WefRHI5XTT
- QbM0WUIBIcGmq38+OgUsMYu4NzLu7uZFAcmp6h8g
-Organization: Linaro
-In-Reply-To: <20251031100447.253164-3-yelangyan@huaqin.corp-partner.google.com>
+From: Louis Chauvet <louis.chauvet@bootlin.com>
+Autocrypt: addr=louis.chauvet@bootlin.com; keydata=
+ xsFNBGCG5KEBEAD1yQ5C7eS4rxD0Wj7JRYZ07UhWTbBpbSjHjYJQWx/qupQdzzxe6sdrxYSY
+ 5K81kIWbtQX91pD/wH5UapRF4kwMXTAqof8+m3XfYcEDVG31Kf8QkJTG/gLBi1UfJgGBahbY
+ hjP40kuUR/mr7M7bKoBP9Uh0uaEM+DuKl6bSXMSrJ6fOtEPOtnfBY0xVPmqIKfLFEkjh800v
+ jD1fdwWKtAIXf+cQtC9QWvcdzAmQIwmyFBmbg+ccqao1OIXTgu+qMAHfgKDjYctESvo+Szmb
+ DFBZudPbyTAlf2mVKpoHKMGy3ndPZ19RboKUP0wjrF+Snif6zRFisHK7D/mqpgUftoV4HjEH
+ bQO9bTJZXIoPJMSb+Lyds0m83/LYfjcWP8w889bNyD4Lzzzu+hWIu/OObJeGEQqY01etOLMh
+ deuSuCG9tFr0DY6l37d4VK4dqq4Snmm87IRCb3AHAEMJ5SsO8WmRYF8ReLIk0tJJPrALv8DD
+ lnLnwadBJ9H8djZMj24+GC6MJjN8dDNWctpBXgGZKuCM7Ggaex+RLHP/+14Vl+lSLdFiUb3U
+ ljBXuc9v5/9+D8fWlH03q+NCa1dVgUtsP2lpolOV3EE85q1HdMyt5K91oB0hLNFdTFYwn1bW
+ WJ2FaRhiC1yV4kn/z8g7fAp57VyIb6lQfS1Wwuj5/53XYjdipQARAQABzSlMb3VpcyBDaGF1
+ dmV0IDxsb3Vpcy5jaGF1dmV0QGJvb3RsaW4uY29tPsLBlAQTAQgAPgIbAwULCQgHAgYVCgkI
+ CwIEFgIDAQIeAQIXgBYhBItxBK6aJy1mk/Un8uwYg/VeC0ClBQJod7hIBQkJ0gcjAAoJEOwY
+ g/VeC0ClghwP/RQeixyghRVZEQtZO5/UsHkNkRRUWeVF9EoFXqFFnWqh4XXKos242btk5+Ew
+ +OThuqDx9iLhLJLUc8XXuVw6rbJEP5j5+z0jI40e7Y+kVWCli/O2H/CrK98mGWwicBPEzrDD
+ 4EfRgD0MeQ9fo2XJ3Iv+XiiZaBFQIKMAEynYdbqECIXxuzAnofhq2PcCrjZmqThwu8jHSc55
+ KwdknZU3aEKSrTYiCIRrsHHi1N6vwiTZ098zL1efw7u0Q8rcqxHu3OWNIAeKHkozsMy9yo1h
+ h3Yc7CA1PrKDGcywuY4MrV726/0VlrWcypYOCM1XG+/4ezIChYizpAiBNlAmd7witTK0d2HT
+ UNSZF8KAOQRlHsIPrkA5qLr94OrFHYx6Ek07zS8LmVTtHricbYxFAXnQ5WbugNSE0uwRyrL/
+ Kies5F0Sst2PcVYguoWcHfoNxes6OeU3xDmzclnpYQTanIU7SBzWXB1fr5WgHF7SAcAVxPY8
+ wAlJBe+zMeA6oWidrd1u37eaEhHfpKX38J1VaSDTNRE+4SPQ+hKGDuMrDn0mXfcqR5wO7n1Z
+ Q6uhKj3k6SJNksAWh1u13NP0DRS6rpRllvGWIyp+653R03NN8TE9JNRWAtSqoGvsiryhQyCE
+ FlPOsv6+Ed/5a4dfLcO1qScJwiuP/XjFHAaWFK9RoOX52lR4zsFNBGCG6KUBEADZhvm9TZ25
+ JZa7wbKMOpvSH36K8wl74FhuVuv7ykeFPKH2oC7zmP1oqs1IF1UXQQzNkCHsBpIZq+TSE74a
+ mG4sEhZP0irrG/w3JQ9Vbxds7PzlQzDarJ1WJvS2KZ4AVnwc/ucirNuxinAuAmmNBUNF8w6o
+ Y97sdgFuIZUP6h972Tby5bu7wmy1hWL3+2QV+LEKmRpr0D9jDtJrKfm25sLwoHIojdQtGv2g
+ JbQ9Oh9+k3QG9Kh6tiQoOrzgJ9pNjamYsnti9M2XHhlX489eXq/E6bWOBRa0UmD0tuQKNgK1
+ n8EDmFPW3L0vEnytAl4QyZEzPhO30GEcgtNkaJVQwiXtn4FMw4R5ncqXVvzR7rnEuXwyO9RF
+ tjqhwxsfRlORo6vMKqvDxFfgIkVnlc2KBa563qDNARB6caG6kRaLVcy0pGVlCiHLjl6ygP+G
+ GCNfoh/PADQz7gaobN2WZzXbsVS5LDb9w/TqskSRhkgXpxt6k2rqNgdfeyomlkQnruvkIIjs
+ Sk2X68nwHJlCjze3IgSngS2Gc0NC/DDoUBMblP6a2LJwuF/nvaW+QzPquy5KjKUO2UqIO9y+
+ movZqE777uayqmMeIy4cd/gg/yTBBcGvWVm0Dh7dE6G6WXJUhWIUtXCzxKMmkvSmZy+gt1rN
+ OyCd65HgUXPBf+hioCzGVFSoqQARAQABwsOyBBgBCAAmAhsuFiEEi3EErponLWaT9Sfy7BiD
+ 9V4LQKUFAmh3uH8FCQnSA1kCQMF0IAQZAQgAHRYhBE+PuD++eDwxDFBZBCCtLsZbECziBQJg
+ huilAAoJECCtLsZbECziB8YQAJwDRdU16xtUjK+zlImknL7pyysfjLLbfegZyVfY/ulwKWzn
+ nCJXrLAK1FpdYWPO1iaSVCJ5pn/Or6lS5QO0Fmj3mtQ/bQTnqBhXZcUHXxZh56RPAfl3Z3+P
+ 77rSIcTFZMH6yAwS/cIQaKRQGPuJoxfYq1oHWT0r7crp3H+zUpbE4KUWRskRX+2Z6rtNrwuL
+ K1Az1vjJjnnS3MLSkQR4VwsVejWbkpwlq5icCquU5Vjjw0WkVR32gBl/8/OnegSz7Of/zMrY
+ 8GtlkIPoCGtui1HLuKsTl6KaHFywWbX4wbm5+dpBRYetFhdW4WG+RKipnyMY+A8SkWivg2NH
+ Jf88wuCVDtLmyeS8pyvcu6fjhrJtcQer/UVPNbaQ6HqQUcUU49sy/W+gkowjOuYOgNL7EA23
+ 8trs7CkLKUKAXq32gcdNMZ8B/C19hluJ6kLroUN78m39AvCQhd4ih5JLU7jqsl0ZYbaQe2FQ
+ z64htRtpElbwCQmnM/UzPtOJ5H/2M7hg95Sb20YvmQ/bLI23MWKVyg56jHU1IU0A/P7M9yi9
+ WbEBpIMZxLOFBUlWWTzE+JvyDh+cjyoncaPvHLDwP13PGEJHYMgWZkvzgSc3tGP6ThUgZjsz
+ 9xW/EvzWOVswYwREyZv3oK5r3PVE6+IYDUd7aBsc5ynqqYs27eemuV4bw8tlCRDsGIP1XgtA
+ pT1zD/0dT+clFbGoCMaIQ5qXypYoO0DYLmBD1aFjJy1YLsS1SCzuwROy4qWWaFMNBoDMF2cY
+ D+XbM+C/4XBS8/wruAUrr+8RSbABBI/rfiVmqv0gPQWDm676V8iMDgyyvMG2DotMjnG/Dfxj
+ w9WVnQUs/kQSPD8GZCZZ3AcycFmxN24ibGHo4zC947VKR5ZYdFHknX+Dt92TdNDkmoBg2CEm
+ 9S2Skki9Pwyvb/21zCYq/o4pRMfKmQgpF2LT2m51rdtmNg9oj9F4+BJUmkgyNxMyGEA1V1jM
+ xQaVX4mRY61O4CimPByUDp2EH2VaEr2rEwvHszaWqFJdSQE8hdSDc4cqhik7rznNBjwgZAzq
+ cefLctAVnKjasfKEWp0VhgkIVB8/Sos4S8YaG4qbeGviSfIQJ2GO1Vd9WQ2n1XGth3cY2Qwk
+ dIo13GCFJF7b6y0J13bm+siRpPZQ3aOda7pn07GXqREjFsfq5gF04/9am5x/haehPse2yzcP
+ wDN7ORknPndzxrq3CyB7b/Tk1e8Qx+6HU/pnMb4ZqwwMwZAMk24TZpsgg28o9MQiUNzad0h2
+ gIszbeej9ryrtLHxMzyK8yKhHoI2i2ovxy5O+hsWeAoCPE9xwbqnAjLjOn4Jzd/pPovizrq/
+ kUoX66YgvCuHfQMC/aBPLnVunZSP23J2CrkTrnsUzw==
+In-Reply-To: <41e6da0a-7f06-40b0-8e8b-ce2699fde760@amd.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
+X-Last-TLS-Session-Version: TLSv1.3
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -120,131 +126,71 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Reply-To: Neil Armstrong <neil.armstrong@linaro.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 10/31/25 11:04, Langyan Ye wrote:
-> The Ilitek IL79900A display controller is similar to the ILI9882T and can
-> be supported within the existing `panel-ilitek-ili9882t.c` driver.
-> 
-> This patch extends the ILI9882T driver to handle IL79900A-based panels,
-> such as the Tianma TL121BVMS07-00. The IL79900A uses a similar command
-> sequence and initialization flow, with minor differences in power supply
-> configuration and timing.
-> 
-> Signed-off-by: Langyan Ye <yelangyan@huaqin.corp-partner.google.com>
-> ---
->   drivers/gpu/drm/panel/panel-ilitek-ili9882t.c | 69 +++++++++++++++++++
->   1 file changed, 69 insertions(+)
-> 
-> diff --git a/drivers/gpu/drm/panel/panel-ilitek-ili9882t.c b/drivers/gpu/drm/panel/panel-ilitek-ili9882t.c
-> index 85c7059be214..c52f20863fc7 100644
-> --- a/drivers/gpu/drm/panel/panel-ilitek-ili9882t.c
-> +++ b/drivers/gpu/drm/panel/panel-ilitek-ili9882t.c
-> @@ -61,6 +61,13 @@ struct ili9882t {
->   	mipi_dsi_dcs_write_seq_multi(ctx, ILI9882T_DCS_SWITCH_PAGE, \
->   				     0x98, 0x82, (page))
->   
-> +/* IL79900A-specific commands, add new commands as you decode them */
-> +#define IL79900A_DCS_SWITCH_PAGE	0xFF
-> +
-> +#define il79900a_switch_page(ctx, page) \
-> +	mipi_dsi_dcs_write_seq_multi(ctx, IL79900A_DCS_SWITCH_PAGE, \
-> +				     0x5a, 0xa5, (page))
-> +
->   static int starry_ili9882t_init(struct ili9882t *ili)
->   {
->   	struct mipi_dsi_multi_context ctx = { .dsi = ili->dsi };
-> @@ -413,6 +420,38 @@ static int starry_ili9882t_init(struct ili9882t *ili)
->   	return ctx.accum_err;
->   };
->   
-> +static int tianma_il79900a_init(struct ili9882t *ili)
-> +{
-> +	struct mipi_dsi_multi_context ctx = { .dsi = ili->dsi };
-> +
-> +	mipi_dsi_usleep_range(&ctx, 5000, 5100);
-> +
-> +	il79900a_switch_page(&ctx, 0x06);
-> +	mipi_dsi_dcs_write_seq_multi(&ctx, 0x3e, 0x62);
-> +
-> +	il79900a_switch_page(&ctx, 0x02);
-> +	mipi_dsi_dcs_write_seq_multi(&ctx, 0x1b, 0x20);
-> +	mipi_dsi_dcs_write_seq_multi(&ctx, 0x5d, 0x00);
-> +	mipi_dsi_dcs_write_seq_multi(&ctx, 0x5e, 0x40);
-> +
-> +	il79900a_switch_page(&ctx, 0x07);
-> +	mipi_dsi_dcs_write_seq_multi(&ctx, 0X29, 0x00);
-> +
-> +	il79900a_switch_page(&ctx, 0x06);
-> +	mipi_dsi_dcs_write_seq_multi(&ctx, 0x92, 0x22);
-> +
-> +	il79900a_switch_page(&ctx, 0x00);
-> +	mipi_dsi_dcs_exit_sleep_mode_multi(&ctx);
-> +
-> +	mipi_dsi_msleep(&ctx, 120);
-> +
-> +	mipi_dsi_dcs_set_display_on_multi(&ctx);
-> +
-> +	mipi_dsi_msleep(&ctx, 80);
-> +
-> +	return 0;
-> +};
-> +
->   static inline struct ili9882t *to_ili9882t(struct drm_panel *panel)
->   {
->   	return container_of(panel, struct ili9882t, base);
-> @@ -529,6 +568,19 @@ static const struct drm_display_mode starry_ili9882t_default_mode = {
->   	.type = DRM_MODE_TYPE_DRIVER | DRM_MODE_TYPE_PREFERRED,
->   };
->   
-> +static const struct drm_display_mode tianma_il79900a_default_mode = {
-> +	.clock = 264355,
-> +	.hdisplay = 1600,
-> +	.hsync_start = 1600 + 20,
-> +	.hsync_end = 1600 + 20 + 4,
-> +	.htotal = 1600 + 20 + 4 + 20,
-> +	.vdisplay = 2560,
-> +	.vsync_start = 2560 + 82,
-> +	.vsync_end = 2560 + 82 + 2,
-> +	.vtotal = 2560 + 82 + 2 + 36,
-> +	.type = DRM_MODE_TYPE_DRIVER | DRM_MODE_TYPE_PREFERRED,
-> +};
-> +
->   static const struct panel_desc starry_ili9882t_desc = {
->   	.modes = &starry_ili9882t_default_mode,
->   	.bpc = 8,
-> @@ -543,6 +595,20 @@ static const struct panel_desc starry_ili9882t_desc = {
->   	.init = starry_ili9882t_init,
->   };
->   
-> +static const struct panel_desc tianma_tl121bvms07_desc = {
-> +	.modes = &tianma_il79900a_default_mode,
-> +	.bpc = 8,
-> +	.size = {
-> +		.width_mm = 163,
-> +		.height_mm = 260,
-> +	},
-> +	.lanes = 3,
-> +	.format = MIPI_DSI_FMT_RGB888,
-> +	.mode_flags = MIPI_DSI_MODE_VIDEO | MIPI_DSI_MODE_VIDEO_SYNC_PULSE |
-> +		      MIPI_DSI_MODE_LPM,
-> +	.init = tianma_il79900a_init,
-> +};
-> +
->   static int ili9882t_get_modes(struct drm_panel *panel,
->   			      struct drm_connector *connector)
->   {
-> @@ -680,6 +746,9 @@ static const struct of_device_id ili9882t_of_match[] = {
->   	{ .compatible = "starry,ili9882t",
->   	  .data = &starry_ili9882t_desc
->   	},
-> +	{ .compatible = "tianma,tl121bvms07-00",
-> +	  .data = &tianma_tl121bvms07_desc
-> +	},
->   	{ /* sentinel */ }
->   };
->   MODULE_DEVICE_TABLE(of, ili9882t_of_match);
 
-Reviewed-by: Neil Armstrong <neil.armstrong@linaro.org>
+
+Le 31/10/2025 à 01:04, Alex Hung a écrit :
+> 
+> 
+> On 10/30/25 08:50, Louis Chauvet wrote:
+>>
+>> This patch LGTM, but can you add the [1] (preparatory patch to reduce
+>> the diff in this patch) and [2] (fixup to this patch, add a module
+>> parameter to enable/disable the pipeline and disable it by default for
+>> configfs devices) so it will make it easier to implement configfs for
+>> color pipeline without breaking uAPI?
+>>
+>> [1]:https://paste.sr.ht/~fomys/16118ef2b5604226a7607db8a41941a27a43f168
+>> [2]:https://paste.sr.ht/~fomys/a98191b09ff7290dc6768bf7d54e789984cd3250
+>>
+>> With those patches: Reviewed-by: Louis Chauvet <louis.chauvet@bootlin.com>
+>>
+>> Thanks a lot for your series!
+> 
+> Hi Louis,
+> 
+> Thanks for reviewing.
+> 
+> Do you want to add these patch on top of this patch as below?
+> 
+>     e1c34c68dc33 fixup! drm/vkms: Add enumerated 1D curve colorop
+>     68251534ebd1 drm/vkms: Pass plane_cfg to plane initialization
+>     8160438be2b5 drm/vkms: Add enumerated 1D curve colorop
+> 
+> I noticed "fixup! drm/vkms: Add enumerated 1D curve colorop" has no
+> commit messages though.
+
+drm/vkms: Add config for default plane pipeline
+
+With the introduction of color pipeline in VKMS, the default device may 
+have planes with color pipelines. To avoid breaking existing uAPI, 
+create a kernel argument to disable them by default and a vkms_config 
+field to configure the plane.
+
+This field is not definitive and will be replaced once the uAPI will be 
+able to configure color pipelines. For now devices created with ConfigFS 
+will not have any color pipeline so we can decide later how the uAPI 
+will look like.
+
+> Or do you prefer them to squash them together?
+
+For me 68251534ebd1 is independent so keep it separate.
+
+But for e1c34c68dc33 I don't think this is important to squash or keep 
+them separate. You can do as you want.
+
+If you want to split it, I think you can put e1c34c68dc33 before 
+8160438be2b5 so you don't have to change the call to 
+vkms_initialize_colorops(&plane->base);.
+
+Thanks a lot,
+Louis Chauvet
+
+-- 
+--
+Louis Chauvet, Bootlin
+Embedded Linux and Kernel engineering
+https://bootlin.com
+
