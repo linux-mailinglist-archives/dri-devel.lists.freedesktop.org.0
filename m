@@ -2,82 +2,88 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 509A9C26860
-	for <lists+dri-devel@lfdr.de>; Fri, 31 Oct 2025 19:08:32 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id A6931C26863
+	for <lists+dri-devel@lfdr.de>; Fri, 31 Oct 2025 19:09:11 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7B3E410EC0A;
-	Fri, 31 Oct 2025 18:08:29 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D705410E2ED;
+	Fri, 31 Oct 2025 18:09:09 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; secure) header.d=ffwll.ch header.i=@ffwll.ch header.b="b/kwE4Ae";
+	dkim=pass (1024-bit key; secure) header.d=ffwll.ch header.i=@ffwll.ch header.b="jMk9fYrf";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ej1-f52.google.com (mail-ej1-f52.google.com
- [209.85.218.52])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 53DFB10EC10
- for <dri-devel@lists.freedesktop.org>; Fri, 31 Oct 2025 18:08:28 +0000 (UTC)
-Received: by mail-ej1-f52.google.com with SMTP id
- a640c23a62f3a-b6d53684cfdso546765966b.0
- for <dri-devel@lists.freedesktop.org>; Fri, 31 Oct 2025 11:08:28 -0700 (PDT)
+Received: from mail-ed1-f42.google.com (mail-ed1-f42.google.com
+ [209.85.208.42])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5309C10E2ED
+ for <dri-devel@lists.freedesktop.org>; Fri, 31 Oct 2025 18:09:09 +0000 (UTC)
+Received: by mail-ed1-f42.google.com with SMTP id
+ 4fb4d7f45d1cf-634cef434beso6685528a12.1
+ for <dri-devel@lists.freedesktop.org>; Fri, 31 Oct 2025 11:09:09 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=ffwll.ch; s=google; t=1761934107; x=1762538907; darn=lists.freedesktop.org; 
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
- bh=k8d3ECFMhnrvwiqROxc/5OIhq95iyP7zpdKInqKWJBA=;
- b=b/kwE4Aef4hw+MIJ4+nMFUvgCubx3RdyOLQh5aCJmwm71WtvXSRH9WlR3WoZw/MKSN
- isLauRxJz3hiPUWa/l8QROC4C6BB3xQR68Wt56OksBrb0abJMo2ZfxL5r+BACfcUXfz+
- ysGEPN/TEAY8e9PWlCQyNkuHOZBanlgOTsQzM=
+ d=ffwll.ch; s=google; t=1761934148; x=1762538948; darn=lists.freedesktop.org; 
+ h=in-reply-to:content-transfer-encoding:content-disposition
+ :mime-version:references:message-id:subject:cc:to:from:date:from:to
+ :cc:subject:date:message-id:reply-to;
+ bh=nKtssmUP+ALDMkzJQfah53QYQZLXpEc5pubXPz+gpuA=;
+ b=jMk9fYrfWm8u3EGuynJgG6OWhLxBDg59KSbdIjLROZ0HgsPpJuNuIqMWIkbg0z6Mm8
+ gA+r2/PNpksUzcLqC0OYRHSXdsSyr9VZ10wFKJXZ8FQBk0hFgW7D/pG1T/oxWuDlq76G
+ PmIJlKq2MSGSbNnEy+uiv2jbNK2gv46Q+uLv4=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1761934107; x=1762538907;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=k8d3ECFMhnrvwiqROxc/5OIhq95iyP7zpdKInqKWJBA=;
- b=tljTGQ3Puhf8Pd1GMRhdruGkLzx5Xkenmf1YXalWaZ8Swm/xfJR7D3ZryJvkwFq4Qa
- fv9NAzexckMeX65iZlRz9g7N62NTJh/I7jalzPXi4ahTDsz7Bf76swHNhHjKKzdMKbkf
- ZKpHclNjjba+hP0CbJaxFZCyw1iI00fKK9IUM3t9Fk/RwRPJo1tOq9BMiQdUnL+uMjyB
- DwtY8xWkdFlTyuVAzctgoft/t2TpHf4SQYTfVIjJdEMGrBVop2FJqLgeHif99NFgT2jL
- XrbW9jRle61pVg1pWTjyW0TLaFI2/fS9ggir9vRBjOBXB/oByDtiJWWjqBcTvCit1VAF
- +rmw==
+ d=1e100.net; s=20230601; t=1761934148; x=1762538948;
+ h=in-reply-to:content-transfer-encoding:content-disposition
+ :mime-version:references:message-id:subject:cc:to:from:date
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=nKtssmUP+ALDMkzJQfah53QYQZLXpEc5pubXPz+gpuA=;
+ b=m/P/Yrw94e9wFoe9dNO0C8X5STVywLGEiHbe9eXf7pf0TicQQ86ItLI9ztA3hdDQ4h
+ y9kEqYhFCxhYYXyR7A5cc1HHqmzeIvYbrIupVYhfgIi7dH4+7wZ48OR8utLITfHGlE9G
+ nqcx8DWJWt856hIYho2hK2qOjxg0nuCo2/q3kKqG0PouFBPGT3eaxpmqLv7Am2snGQlj
+ gUW08aX8qb/8B1JnS9MJZs2wg6mcwxTz8vnBl/rvvpa9s6KDCJ8dWoW1hLnKxPahpA4n
+ nlFZnVmswWuzf50DkU9RSTsq6L4MFcPkfxd7/taEBnKYMntXD5rINPNWEJ9gZqz9Ns4E
+ B1Mg==
 X-Forwarded-Encrypted: i=1;
- AJvYcCW2jtjVOwjIS/gYTsCctr5+6XZMm3FfzvWDQztPzS46XiCRpwh1wL3Feo4QOCuAcd1C0vxMvqevJpw=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YzQd10hk6NFWxaX7HkRAJXOn4SMXTqUPoxQQdi+a1WdIa1IiZXl
- FrP6YK2BQDhu9JmEG3wAYmo2fqjOWiYSq9bFAlcE5XRtbJXWybQUDnMBtImcR8aEmu4=
-X-Gm-Gg: ASbGncu5P0b0MRC9e86R6rovZw0FDufcsCvBsRM+8rtIOrOgniRg/fxOTeQTlHjVQaN
- E9WbRKfka71zmq0hIbBWqudPS8/HFDr1HhAxACGBib5WUs+Hh7wDpYtdYJoeTdTlrlsVi/IjIE+
- GNDNBOpghC5Vs7rvZCP5aseuYhdQs0DjM5Siaj5jcTdSb8Qg2Nde7/4Vh0JurV+0y4/EnAXUiGG
- K6zXQlbzZa7B96SgO93o7AciW7AgZixCffO4N3I/+LLzSkoftcsTyyFwlHmejx2j1+8pTjuHkXI
- Hqqv/0X2L+j1nl8zBJuzMlrBa5n0q8qziSndZwPAc1TKbuDv/8Nsm5JRED69gk+Pks3QpOhp25Q
- ZtOfdudrC2RVgaHBbNJdtaHnpH/2Wi/paUtHPC5XEF67M5v0EE8xt2E57eRFXKm2de7jfGEIcZL
- WR+qBPyvywGpw=
-X-Google-Smtp-Source: AGHT+IGqIcTutuaI6gZsnpUKDuo7K+T8kt8BjV1yz4nEoXEK2pIhTNz970Lt/A0xE/Jshiw649tVtA==
-X-Received: by 2002:a17:907:d7cb:b0:b3b:9832:f9b with SMTP id
- a640c23a62f3a-b7070191794mr462444466b.25.1761934106546; 
- Fri, 31 Oct 2025 11:08:26 -0700 (PDT)
+ AJvYcCVZ6t7dTp+iqEIQcxsDhVFpFJ6cBbIo4/XwcGoaD667AgomhU7gGnBAOfoW8XEmdLLJFOTn3bZ+DIY=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YwXkbDdPEF8abJbqe1aBB0EQSrpWEBLhS6ranVGMFvu1yKkBiKZ
+ uuX94OBU3K3qKWVZCAxM1RjddUhUcqnrziFp+zIcRiQHDtzfKxZTbvGtwPzuYc/XO/w=
+X-Gm-Gg: ASbGncv3qEkUCQs/EINvTG0zvq/iTVO/k+d7/xJ0CXb94Igf1zW9NtBG6R/AD2PozLd
+ uvbpls+upMWSz8ZbTWW9PSbLx4Uf1zdUds4149819S88oru9HFLFoLyz2+1Wbq+TIG0rfYH1RJj
+ vG9Xiua218SbgACHdjiTth3O03SwPd5oHWcLBgL4XDqcoqm+occbzOYEEeS9CQThIUrLOXtxkwe
+ NHBzynJEoDEzGhqTEaHa4QSU6ceo22JrcR4T7O0H4E1MEVJ6cgqCu6bekTKoc0sFXGcIHS6TyCM
+ wkHu23p4C7V6l298V26wyRxWqAN9aJ6Ikl8HvDQG8ROqEuTxEoNdPDT5l97fUeclB9k0HRx2jpV
+ Bz29eWyEwDyNebTOJSrBb8F3qahOcE75+X5lnswpKQFE1puzt+d1hO9B8B23NzD//iAyRyO8KUV
+ 0uSnYCtbxFuVTdrZ/Cuv5U+Q==
+X-Google-Smtp-Source: AGHT+IEKnHd7pJ1dQSxnCMJJVqL4EtiSOZpH8KMq1b10ZNQEIBxUJj5PF57dXuhBIN7vAPX1M39U3w==
+X-Received: by 2002:a17:907:3cc7:b0:b2f:4970:8720 with SMTP id
+ a640c23a62f3a-b706e270568mr574233266b.8.1761934147789; 
+ Fri, 31 Oct 2025 11:09:07 -0700 (PDT)
 Received: from phenom.ffwll.local ([2a02:168:57f4:0:5485:d4b2:c087:b497])
  by smtp.gmail.com with ESMTPSA id
- a640c23a62f3a-b7077ce927csm235947166b.63.2025.10.31.11.08.25
+ a640c23a62f3a-b7077cfa966sm236173766b.65.2025.10.31.11.09.06
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 31 Oct 2025 11:08:25 -0700 (PDT)
-Date: Fri, 31 Oct 2025 19:08:24 +0100
+ Fri, 31 Oct 2025 11:09:07 -0700 (PDT)
+Date: Fri, 31 Oct 2025 19:09:05 +0100
 From: Simona Vetter <simona.vetter@ffwll.ch>
-To: Rob Clark <rob.clark@oss.qualcomm.com>
-Cc: David Airlie <airlied@gmail.com>,
- "open list:DRM DRIVER for Qualcomm Adreno GPUs"
- <dri-devel@lists.freedesktop.org>, 
- "open list:DRM DRIVER for Qualcomm Adreno GPUs"
- <linux-arm-msm@vger.kernel.org>, 
- "open list:DRM DRIVER for Qualcomm Adreno GPUs"
- <freedreno@lists.freedesktop.org>, Dmitry Baryshkov <lumag@kernel.org>,
- Vignesh Raman <vignesh.raman@collabora.com>
-Subject: Re: [pull] drm/msm: drm-msm-fixes-2025-10-29 for v6.18-rc4
-Message-ID: <aQT7GMYPkgALgJ5q@phenom.ffwll.local>
-References: <CACSVV03kUm1ms7FBg0m9U4ZcyickSWbnayAWqYqs0XH4UjWf+A@mail.gmail.com>
+To: Rodrigo Vivi <rodrigo.vivi@intel.com>
+Cc: Dave Airlie <airlied@gmail.com>, Simona Vetter <simona.vetter@ffwll.ch>,
+ Jani Nikula <jani.nikula@linux.intel.com>,
+ Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
+ Tvrtko Ursulin <tursulin@ursulin.net>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas =?iso-8859-1?Q?Hellstr=F6m?= <thomas.hellstrom@linux.intel.com>,
+ Oded Gabbay <ogabbay@kernel.org>,
+ Lucas De Marchi <lucas.demarchi@intel.com>,
+ dri-devel@lists.freedesktop.org, intel-gfx@lists.freedesktop.org,
+ intel-xe@lists.freedesktop.org, dim-tools@lists.freedesktop.org
+Subject: Re: [PULL] drm-intel-fixes
+Message-ID: <aQT7QV8F48fwteHm@phenom.ffwll.local>
+References: <aQNtTV75vPaDhnXh@intel.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
-In-Reply-To: <CACSVV03kUm1ms7FBg0m9U4ZcyickSWbnayAWqYqs0XH4UjWf+A@mail.gmail.com>
-X-Operating-System: Linux phenom 6.12.38+deb13-amd64
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <aQNtTV75vPaDhnXh@intel.com>
+X-Operating-System: Linux phenom 6.12.38+deb13-amd64 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -93,78 +99,42 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Oct 29, 2025 at 03:39:06PM -0700, Rob Clark wrote:
-> Hi Dave,
+On Thu, Oct 30, 2025 at 09:51:09AM -0400, Rodrigo Vivi wrote:
+> Hi Dave and Sima,
 > 
-> Fixes for v6.18-rc4
+> Here goes our only fix for intel-display for this
+> round.
 > 
-> The following changes since commit b5bad77e1e3c7249e4c0c88f98477e1ee7669b63:
+> Thanks,
+> Rodrigo.
 > 
->   drm/msm/registers: Sync GPU registers from mesa (2025-09-10 14:48:12 -0700)
+> drm-intel-fixes-2025-10-30:
+> - Fix DMC/DC6 asserts on ADL-S (Ville)
+> The following changes since commit dcb6fa37fd7bc9c3d2b066329b0d27dedf8becaa:
+> 
+>   Linux 6.18-rc3 (2025-10-26 15:59:49 -0700)
 > 
 > are available in the Git repository at:
 > 
->   drm-msm-fixes-2025-10-29
+>   https://gitlab.freedesktop.org/drm/i915/kernel.git tags/drm-intel-fixes-2025-10-30
+> 
+> for you to fetch changes up to dc8aa0cb87a7836b59422cc02d969c8df849ee39:
+> 
+>   drm/i915/dmc: Clear HRR EVT_CTL/HTP to zero on ADL-S (2025-10-28 16:00:19 -0400)
 
-This is not really a git repo, there is something busted with your
-scripting. I just used the url from the last pr, which seems to have
-worked, but please fix this.
-
-Anyway, pulled into drm-fixes, thanks!
+Pulled into drm-fixes, thanks!
 -Sima
 
 > 
-> for you to fetch changes up to f5d079564c44baaeedf5e25f4b943aa042ea0eb1:
-> 
->   drm/msm/dpu: Fix adjusted mode clock check for 3d merge (2025-10-29
-> 00:20:47 +0200)
+> ----------------------------------------------------------------
+> - Fix DMC/DC6 asserts on ADL-S (Ville)
 > 
 > ----------------------------------------------------------------
-> Akhil P Oommen (1):
->       drm/msm/a6xx: Fix GMU firmware parser
+> Ville Syrjälä (1):
+>       drm/i915/dmc: Clear HRR EVT_CTL/HTP to zero on ADL-S
 > 
-> Anna Maniscalco (1):
->       drm/msm: make sure last_fence is always updated
-> 
-> Jessica Zhang (1):
->       drm/msm/dpu: Fix adjusted mode clock check for 3d merge
-> 
-> Neil Armstrong (1):
->       drm/msm: dsi: fix PLL init in bonded mode
-> 
-> Rob Clark (4):
->       drm/msm: Fix GEM free for imported dma-bufs
->       drm/msm: Fix pgtable prealloc error path
->       drm/msm: Reject MAP_NULL op if no PRR
->       drm/msm: Ensure vm is created in VM_BIND ioctl
-> 
-> Vignesh Raman (1):
->       drm/ci: disable broken MR check in sanity job
-> 
-> Vladimir Lypak (6):
->       drm/msm/dpu: Fix allocation of RGB SSPPs without scaling
->       drm/msm/dpu: Propagate error from dpu_assign_plane_resources
->       drm/msm/dpu: Disable scaling for unsupported scaler types
->       drm/msm/dpu: Fix pixel extension sub-sampling
->       drm/msm/dpu: Require linear modifier for writeback framebuffers
->       drm/msm/dpu: Disable broken YUV on QSEED2 hardware
-> 
->  drivers/gpu/drm/ci/gitlab-ci.yml               |  2 +-
->  drivers/gpu/drm/msm/adreno/a6xx_gmu.c          |  5 ++++-
->  drivers/gpu/drm/msm/adreno/adreno_gpu.c        |  7 -------
->  drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c       |  3 +++
->  drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c |  4 ++--
->  drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c      | 14 ++++++++------
->  drivers/gpu/drm/msm/disp/dpu1/dpu_rm.c         |  2 +-
->  drivers/gpu/drm/msm/disp/dpu1/dpu_writeback.c  |  3 +++
->  drivers/gpu/drm/msm/dsi/phy/dsi_phy.h          |  1 -
->  drivers/gpu/drm/msm/dsi/phy/dsi_phy_7nm.c      | 18 ++----------------
->  drivers/gpu/drm/msm/msm_gem.c                  | 10 +++++++---
->  drivers/gpu/drm/msm/msm_gem_submit.c           |  9 +++++----
->  drivers/gpu/drm/msm/msm_gem_vma.c              |  8 +++++++-
->  drivers/gpu/drm/msm/msm_gpu.h                  | 11 +++++++++++
->  drivers/gpu/drm/msm/msm_iommu.c                |  5 +++++
->  15 files changed, 59 insertions(+), 43 deletions(-)
+>  drivers/gpu/drm/i915/display/intel_dmc.c | 55 +++++++++++++++++++++++++++++++-
+>  1 file changed, 54 insertions(+), 1 deletion(-)
 
 -- 
 Simona Vetter
