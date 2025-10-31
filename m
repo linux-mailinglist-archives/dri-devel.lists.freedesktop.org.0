@@ -2,200 +2,94 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 62153C239CC
-	for <lists+dri-devel@lfdr.de>; Fri, 31 Oct 2025 08:50:55 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 20A3AC23AA0
+	for <lists+dri-devel@lfdr.de>; Fri, 31 Oct 2025 09:06:37 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 508DE10E2BA;
-	Fri, 31 Oct 2025 07:50:52 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7A51A10EABD;
+	Fri, 31 Oct 2025 08:06:35 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="aAFlk0j1";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="nHUICxyf";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C6BA310E2BA;
- Fri, 31 Oct 2025 07:50:50 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1761897051; x=1793433051;
- h=date:from:to:cc:subject:message-id:references:
- content-transfer-encoding:in-reply-to:mime-version;
- bh=K9oMg2/AdJagPsARyP7+lmEACJVv7cyE18sDcSpdaLc=;
- b=aAFlk0j15jFgWh6XM62BciKtiNT5D+M9q2n5krw+Eabln6kLadqlUkEW
- fsVje25KCkFbwU+4plgHWd+5uLRl8fS9d/G9DYTGk9ns+vH2rcigqhpiD
- fBUmUvTLp/vHMhnYgUc+nsXBIMZvYQ7+2cnIVKbYipCXpBhS1k8UXw7DB
- Husx6lXC1tcUBZPgwyQmD7ygoZx0Ea9Tt3wuznrwlhcoJieRIBAbZESDd
- Aku9XfkgtFrOKsJ/80M/YASjApIPUkCVUL8K5i8HaRS7jrtobV+b0fTnx
- iJZ/BOG+domU0IH7UxzFjkuPqvlokN2VdUZl3DN5wOUwLCBMOIUc26WHm g==;
-X-CSE-ConnectionGUID: vj6910/5TJe27Wd7lk7FpQ==
-X-CSE-MsgGUID: WRwSXrZWRNKIG8Wwv/jEzw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11598"; a="51624924"
-X-IronPort-AV: E=Sophos;i="6.19,268,1754982000"; d="scan'208";a="51624924"
-Received: from orviesa003.jf.intel.com ([10.64.159.143])
- by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 31 Oct 2025 00:50:50 -0700
-X-CSE-ConnectionGUID: ya3aX0YqR8WO4ySsuUfxSQ==
-X-CSE-MsgGUID: 00+Odd98QM2jtS4HIuqfoA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.19,268,1754982000"; d="scan'208";a="190251369"
-Received: from fmsmsx901.amr.corp.intel.com ([10.18.126.90])
- by orviesa003.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 31 Oct 2025 00:50:50 -0700
-Received: from FMSMSX903.amr.corp.intel.com (10.18.126.92) by
- fmsmsx901.amr.corp.intel.com (10.18.126.90) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.27; Fri, 31 Oct 2025 00:50:49 -0700
-Received: from fmsedg902.ED.cps.intel.com (10.1.192.144) by
- FMSMSX903.amr.corp.intel.com (10.18.126.92) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.27 via Frontend Transport; Fri, 31 Oct 2025 00:50:49 -0700
-Received: from BL2PR02CU003.outbound.protection.outlook.com (52.101.52.46) by
- edgegateway.intel.com (192.55.55.82) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.27; Fri, 31 Oct 2025 00:50:49 -0700
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=p83ScFxWmAD6KOfTzkdLf+cyBFxTQnuYHQvHIBVuoZ8KanmXHzmdtmNaAzgYaSSf50sCAPYT0ZX+PI5zT81HbR7JqjbJSrgcViwAdesUgdwSbOuLiLyY0I16iGoTK5F+pVPkgD0Wrc0WvvKS/hC34hfk0yaPOfnWOKEPrgE99Frmpt6j4qurRNc2NeGpNlrL+OXwnW1wu/Sq1oiidRKpvgA5HOAC747V91wmczanPzf95tXCsHD3k80qXWNsQX//DyZVs5i0wYflUoCy75JehG3tkIvrAnietlKS9JKk22egnf1mgJNF2riLgjj9NoW8btDYCCBRFToEBN228f8Tjw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=VcP2KVSEJRU2ELKISkjsaDt8/cZbhFGcc48jRIlB9Vw=;
- b=D4XrtxsXFAFGbHfC0cKsixQAA/yzQl/MlOtHY5CqNf9MBUnMiFkKqPP2J4UoxXxnQKP3x5DPp+/KWkg/0M9ZEzwjQrEk2XESrxTAv4fcnn7hwfWKjXR4qRtNWFNGW6AGHnTw/g2eLFRwfj7k83GKGIUcbNQr4AiKgu+WF0Qx3SOpcf+K67b9a2mlcJcXUjFKwY5IrlOhrj/w/trp4aWuZAxOivmhVyW4yzLr7ojqIHl320pZ5H3HABom31j0Heo7+4o3q5cZ0pzoov/nD+w3mwiqFtw+klI0gLv1w/es1qfvev5AXdelLBojBtwPWPGeWpVGtkmsh8sLEfphoPEFXA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=intel.com;
-Received: from DM4PR11MB5373.namprd11.prod.outlook.com (2603:10b6:5:394::7) by
- SA3PR11MB8002.namprd11.prod.outlook.com (2603:10b6:806:2f6::9) with
- Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.9275.15; Fri, 31 Oct 2025 07:50:47 +0000
-Received: from DM4PR11MB5373.namprd11.prod.outlook.com
- ([fe80::927a:9c08:26f7:5b39]) by DM4PR11MB5373.namprd11.prod.outlook.com
- ([fe80::927a:9c08:26f7:5b39%5]) with mapi id 15.20.9275.011; Fri, 31 Oct 2025
- 07:50:47 +0000
-Date: Fri, 31 Oct 2025 08:50:42 +0100
-From: =?utf-8?Q?Micha=C5=82?= Winiarski <michal.winiarski@intel.com>
-To: Michal Wajdeczko <michal.wajdeczko@intel.com>
-CC: Alex Williamson <alex@shazbot.org>, Lucas De Marchi
- <lucas.demarchi@intel.com>, Thomas =?utf-8?Q?Hellstr=C3=B6m?=
- <thomas.hellstrom@linux.intel.com>, Rodrigo Vivi <rodrigo.vivi@intel.com>,
- Jason Gunthorpe <jgg@ziepe.ca>, Yishai Hadas <yishaih@nvidia.com>, Kevin Tian
- <kevin.tian@intel.com>, Shameer Kolothum <skolothumtho@nvidia.com>,
- <intel-xe@lists.freedesktop.org>, <linux-kernel@vger.kernel.org>,
- <kvm@vger.kernel.org>, Matthew Brost <matthew.brost@intel.com>,
- <dri-devel@lists.freedesktop.org>, Jani Nikula <jani.nikula@linux.intel.com>, 
- Joonas Lahtinen <joonas.lahtinen@linux.intel.com>, Tvrtko Ursulin
- <tursulin@ursulin.net>, David Airlie <airlied@gmail.com>, Simona Vetter
- <simona@ffwll.ch>, Lukasz Laguna <lukasz.laguna@intel.com>, Christoph Hellwig
- <hch@infradead.org>, kernel test robot <lkp@intel.com>
-Subject: Re: [PATCH v3 03/28] drm/xe/pf: Convert control state to bitmap
-Message-ID: <gtnomrunyh72n55y4wg7blgqeuyx5h6y5ddeq7uvbdovnyy67l@fapstjgnvdkn>
-References: <20251030203135.337696-1-michal.winiarski@intel.com>
- <20251030203135.337696-4-michal.winiarski@intel.com>
- <612b77d4-236b-411b-9b6f-93c6924e8a1d@intel.com>
-Content-Type: text/plain; charset="utf-8"
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <612b77d4-236b-411b-9b6f-93c6924e8a1d@intel.com>
-X-ClientProxiedBy: VI1PR06CA0217.eurprd06.prod.outlook.com
- (2603:10a6:802:2c::38) To DM4PR11MB5373.namprd11.prod.outlook.com
- (2603:10b6:5:394::7)
+Received: from mail-pl1-f178.google.com (mail-pl1-f178.google.com
+ [209.85.214.178])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 54E7A10EABC
+ for <dri-devel@lists.freedesktop.org>; Fri, 31 Oct 2025 08:06:34 +0000 (UTC)
+Received: by mail-pl1-f178.google.com with SMTP id
+ d9443c01a7336-29521af0e2cso7601165ad.2
+ for <dri-devel@lists.freedesktop.org>; Fri, 31 Oct 2025 01:06:34 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20230601; t=1761897994; x=1762502794; darn=lists.freedesktop.org;
+ h=cc:to:message-id:content-transfer-encoding:mime-version:subject
+ :date:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=IeLVIXwO7uVSd7Eb1bLuSghidWP97pKx/canepqCQWw=;
+ b=nHUICxyfwyeg2ixvbgEA08SsOfdUdQyCVak8MDRP0eoV6fAhwY6XmmmhU47y+Gqyoz
+ RXTJm0vsWQKpgWVETQFq4p1U4VozDUMM2whjohIXigO7x2Ko61Wyy2rVjqFKlqWaWdCY
+ W9u9JzJOxApF5v+p5ztqJR/duDw/FXbqxJHXvd5cXkmqSgT4Eigd7fTOIlabyeTg3z6I
+ RbJBkmO+JoXy0aG1dEyzKJu71s7/nFO96Zjly91iH+HWAwheHsYUT1i55lc9cSNT+Ubl
+ jrbGhbpho6JIrRvLtGr6jxoqlteEmZb/v3BqTl7FDNmLFx0D02XJZG6TvYzV88f/uHzs
+ Qt9g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1761897994; x=1762502794;
+ h=cc:to:message-id:content-transfer-encoding:mime-version:subject
+ :date:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=IeLVIXwO7uVSd7Eb1bLuSghidWP97pKx/canepqCQWw=;
+ b=CnzfXeazzAkmbXh+cBm2gB0+G+UNXz1Szsv0YtChhmsSgpU2jKTbmC3k0rprjjR8Iz
+ jGeuwQaTYZm88oNMsyjy1iTJNWyLPeahgDpDEQ2IufWVU5cCEu9N+VM1wKpZfqtwnrE5
+ ez6efXOM0vAWMdVelZ2ieux2kYOMg168148bEHP+kZOlO3tyxcKxqta0ZM2tk78KJGln
+ d3lhAHUa42WWnWgIQ31mznE6mE5tHyyx/rFUdxUNL4O/6hCNh/fckxWo1xIa1iFila46
+ qoaCF31s+V4dJpRFkNKWk5orUB8L9tyr1BEDjbaKAi44cv8dRvM3+80ZbkNhhIIfddCd
+ bYsA==
+X-Gm-Message-State: AOJu0Yw/WuRU+v7Jf5JiZk9vWSADrsIACr8r9FQQ5vRSwf/+/wkqhd9R
+ 6WfgQZGB5XDd+GTLSt2gXp8BWh6R4Pp3yt6dnlN8EyjfnK0vrZaYt7Ac
+X-Gm-Gg: ASbGncsAkit6jXUk0kwTaAj+gb1Nzy/U6BU5GyHDOGWkyCkX01/iVaPjQg6DSOIOu0C
+ H82YY/DOPoHPeQ2AfOZ+b5iXIVHswgXFkfXQilIKURl5ifOwfnlJNc9JvVavBmVhwbwxSApNfHI
+ /Lz638DB+FRZOxQEpgoGZWgTOqOk+/clRSN8kpyayihbtFyouLz7WmOCetqlCC8CvWs04NfXLdX
+ 9i8pY5vdvHCTfx4GCoBrM7nncI3hLEUs0t+B/OnX/s3yAsD2XQJje8DkRHctgoPW+0Ql3m7pF0e
+ 3mWX3VpaNmiXA7fgub3Hhi6CS+Ca5p6LRCek+Zsj8/GZNzH7ST6MtSBNA9HtzIankpfYIOZ1/Sg
+ 7J+IHCM6cO3wypxcCg012jHyLhkP1x3hyEP6x6j7yY2ciP+oE5BJmE4rFMOn7emdJNtLCzBMelg
+ mBYk2/pJyMQIPSaqGViyNbtqI88KF4Fa3K4EdlaNrWRR7gGUB5Ml2XtPaND3b5aVQ=
+X-Google-Smtp-Source: AGHT+IGhFLRMuVYsJyg0Hk0qGxv9T+7d4+7cAQ0FGbKkkh0amDTMd2Acnw8xiF99bDeg05kFkWf4ow==
+X-Received: by 2002:a17:902:b70f:b0:294:e8a0:382b with SMTP id
+ d9443c01a7336-2951a4f767dmr25011125ad.54.1761897993644; 
+ Fri, 31 Oct 2025 01:06:33 -0700 (PDT)
+Received: from DESKTOP-RD0GVCL.localdomain
+ (124-218-195-161.cm.dynamic.apol.com.tw. [124.218.195.161])
+ by smtp.gmail.com with ESMTPSA id
+ d9443c01a7336-2952699c9fbsm14113245ad.82.2025.10.31.01.06.30
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 31 Oct 2025 01:06:33 -0700 (PDT)
+From: LiangCheng Wang <zaq14760@gmail.com>
+Date: Fri, 31 Oct 2025 16:06:30 +0800
+Subject: [PATCH] drm/tiny: pixpaper: Prevent inlining of send helpers to
+ reduce stack usage
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: DM4PR11MB5373:EE_|SA3PR11MB8002:EE_
-X-MS-Office365-Filtering-Correlation-Id: a0eac95c-81a3-4818-8314-08de185233dc
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
- ARA:13230040|7416014|376014|1800799024|366016|27256017; 
-X-Microsoft-Antispam-Message-Info: =?utf-8?B?Z251dTVVLzM4RHBqemFsRG4vZTdKR0FCekRiQWZIb25KQWpMeHNlRkNPalor?=
- =?utf-8?B?OG9IdU9jWWZ5eExlZFU1SGJSKzhSWFdSZ1A4Qmo5VHZxdDhCNE1kaEFEc3Fn?=
- =?utf-8?B?aTNIWUNObW1VbTk5REFRUzZzdjREN2ZjSlJZamU0UStxeUVObi9JRVpid21S?=
- =?utf-8?B?YkJ2b0NxRlc3MGRRSk92TnVFTXNRSCsvYW9INUd4TFh2MnNIYXc3Z1BIN1l3?=
- =?utf-8?B?RFE3ZHBvTFZkemFtQ1JZclV6ZWZGbmJQU0VUb3Y4allwSGFzN3BsL0RUcHNG?=
- =?utf-8?B?amRoR0ZuSkw1bmo1elhLM0h5NHVEcXJONGtuL0g0bEI4bTRTbUtRcVJnblFU?=
- =?utf-8?B?TmtrazZmWFhUc1VXSGdaakNJTEVFN2M2cWNZMm50VW84UzBUdjE4cEp3U0lD?=
- =?utf-8?B?UUhIYzBRT043eHpoY3NyWGdrUUhvOUNsZVhDbHN1amFlZnc3cU5USys4dEJW?=
- =?utf-8?B?SCtoT0lzYXFSZ0pkQ0RsTGNLdnp2RE9xYk1kZldpTzZlU0l5R1VRN3ZsM0tQ?=
- =?utf-8?B?YWt5MjA1T3VhNThJVUx1aUxwSTZtdXR2MXlGRTVaUm1PY1o1aUtnVEdJVk44?=
- =?utf-8?B?NHZ6ZjRIYXdpSmwydzRqNXN1LzJlaTJUekJMY1FFZ2ZGRkZGT2g0TUoyeDJD?=
- =?utf-8?B?cFpoeDBLMjUxUVd2V0c2cFBaQUFKdTNpMGM5OFRwWkExSTNGa0xkVGZtUTdk?=
- =?utf-8?B?RU1CSjBWRG1nNjdlMkZmdzVPSThveTQxeXd3dnFuYzNHYjRaWWYzYUZQRkFC?=
- =?utf-8?B?RUhLd29SUzl4M2ZnZUR1eWNSVStsOUVXTGtCWmxSalFVNlJncmdyeW1lWVk0?=
- =?utf-8?B?Z3Q3M0pHUURPeGx6R05GSzJETzdJVmFlRkRhSTBxQjNrTXV2MkVGdWJhNEMz?=
- =?utf-8?B?V2U5WC9rUGIzQ2VTcENpK2NjQ3RQbHRwWmpQY0kzRHY5ZmZpV1NLODd5MnE4?=
- =?utf-8?B?ZWZLbmtEOVNkdXJWc0Uvb3ZVeTNnM2dPTlB1ck0vdEdpb1hYZ0lNbUlnZE1U?=
- =?utf-8?B?VnFPRmJncHZRcVdvcUtCTGlzOVZBMGVMZ0V3UmwwMGhyTzdsMS9ycUdXMTNm?=
- =?utf-8?B?RmFYRC82MUxVdlpNbkVjTG9KckF6UFZqQUVIVG9KeWtuV1RaakhYdUlQUE1o?=
- =?utf-8?B?QlpOdWVldnBMbWtDQzNNTGVRY0szaWJHbVB5ZlpWWTRHQUJqbTQ1VjlxR1Ew?=
- =?utf-8?B?RmpUYXpDa3JIZXBSUXlKTVNxcUlRYjRtUkJleGlaUlJXcFM2RTlvc2cyUFZD?=
- =?utf-8?B?K1FodHVPWlYwZUI4RFVzZ214MVcweE9NS25ma3VVaGxmYXlrL0xnY0RPWnY4?=
- =?utf-8?B?N21VR3BVQkpQRVFqS0R0YlZaaThpSG5tWDU4U0UzbUhEeVM1UDd0eC9Ca2JI?=
- =?utf-8?B?cnhSQVNWNGE4KzJwLzhkd0xOczV5NHlpajI1emlpT0lrL2s3RytmOWlFNEZI?=
- =?utf-8?B?Z3BsWkMrbi9ienoxczlnSVVDZmdMVi9ibW5ZZTQyTkl5MWhZN0JMeDROT3hB?=
- =?utf-8?B?RUJJMTlBczFMRFVaSDNpd3VMamNBSjJjUXFrQi9DdW9KQ2NYUkpDUjRYRTRx?=
- =?utf-8?B?L1dWeDdYZ3BMYlZzNGZiV0xuYmpsb0FHNUtzaHR2WVJtaHZ4bUJaQVFhUDN2?=
- =?utf-8?B?cmg0RFgzSUFmays2dTBNYnFrbHJHdGlwZFdyWjVOcHkrL0hkaFhCN0FLQVhW?=
- =?utf-8?B?b09IZitmMCtidnhEMTBjaEl2NHh6Z0tGVHlPMmF6aXdEVmRCb3BWUFJ6eGdE?=
- =?utf-8?B?TndHeStqU3dIR3FsR0k1RmVBRklNeG1iZUpUSllXdnRldURyODVVM2dUMGtG?=
- =?utf-8?B?bE1TT2cxbFVpMVpQQk82RlNQSW8rbTRLYTJ3YXRPQVYybHRaWExtN2ZMczh0?=
- =?utf-8?B?YUY0aVJ6QTZGcG1pQzFLRllSdUlLbDlkZ2I2U0lKcFJCYUhEdjJUcjZ2Vm51?=
- =?utf-8?B?Mk4rR2NIMTFtNVJsaHlNU3VXbFNQMGxNR1o1SWIyeE4wUys3SWdtRG80bXIv?=
- =?utf-8?B?bFljL3BvZFh3RkdHeDZEVlZmdE4rbVRvVGpvWHlwSW91MDczMmd5RmhKK2VN?=
- =?utf-8?Q?piQ8fX?=
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:DM4PR11MB5373.namprd11.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230040)(7416014)(376014)(1800799024)(366016)(27256017); DIR:OUT;
- SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?Z01SaE12b3NUVHVXSm0rYmI0aDkxUitkcCtINGUzUjZMdXlpQWlHZkVxUklK?=
- =?utf-8?B?cEhiTWtKY0doNzIvdVlxaU14OStnRlJVMDRpcm1xVUExUnZVQVdPMHQ1OXJn?=
- =?utf-8?B?cUh6b0lUUjBXTDQ5b2oxM3VlYjByYUZoaEowd3V2T1BxSlpQdHU0b1VZNjlu?=
- =?utf-8?B?UXpza2dtUk9QbC9jS1JPZmduU0dXVmREODhWc3dUVnM4bnhDeERYMXIvNENh?=
- =?utf-8?B?N1RpQlZ4S2hUUWtaNDVscThmalRPU21aRGIyUnFuSWo3Zm44M0VpclBIUjVa?=
- =?utf-8?B?VDczTHZsd0FCd2Z0SWJoVWJhQS9VN0V0MVpwcUlTUmFZd2NjNTQ1ZlJWL3Mv?=
- =?utf-8?B?OWVqa1hUZjcwSXJYTjhPTTBZSWJlR1kzUUQ1elUzNlAveHd3b0JRaXVHVGF0?=
- =?utf-8?B?Q3JTRmdEdW5Vb1l1Wk15SGh4a2twV0FQR1VTK3RmZ0pMalJkN1ZEeGZESmRN?=
- =?utf-8?B?VUVhaHltcEJxVW1SUGVEMHFtVDVRVkkvRTJVbUJrYWE2QzErQmVhNFBTSGFV?=
- =?utf-8?B?eG9pVzA0MzVzYWFyNTJRUEtGeFVnK0g1U3pVNmNZeTRHUGNmNFRwcHlDS0V3?=
- =?utf-8?B?SGlmeGpqaEx5R3lTK1lCV0UvNGdCZy9odXNyTmxQMEloNGJWNGliM0lTajMy?=
- =?utf-8?B?cGhDeDlKZzEwZXM1bnZPMEhiS3J0VUk0dnAvK3JBSm5xMU1FZ3JRSlV6amlU?=
- =?utf-8?B?UGxrYVdQY204bHg4Wk9LUFJCMjBGa1h5N2ZoYTdrdlJnQldmNE9ESlI2cmM3?=
- =?utf-8?B?Q1A0RURoZzFJNzdlMUMvWmovOUdwVUxDY3dDbmlUUG5hQk9rL1UzMzZocE03?=
- =?utf-8?B?VndNeEl6OHZ3b0NZODhZMUZ6Nk9DMytpNE1NTFdrc2tuRm0xMmlvZHNjM1JY?=
- =?utf-8?B?L0dZRm1nYms3YjdFdC9lQloyU28zTVFrclpkNTI3SGM4dDFVZmkySjI5TGVo?=
- =?utf-8?B?dnFkS0h3ZHArZEZ4ckJScThCZGlkbEhGa3ZCajFUU2puSDJTZEI3UXZ4NUpY?=
- =?utf-8?B?MnFBd3AxMDBac2VIbm1ONTdjczVxNy9qWTVKNkZhay9yZ1dRODIxb0dRYXZr?=
- =?utf-8?B?Yk1nWnB0ZGpQUkIxeC9sQ0N3ditETFJDYWJSbHkyOG9vbWZBVFRtd3h2U0ww?=
- =?utf-8?B?bkkvWUFOSlZqVVlHSHZ5aXNhV1Mxd0RmNi9hakowQitkUDRuVzZpWU5COWZi?=
- =?utf-8?B?azh1U0FnTkIwdUFHenhleEdXem5MQmg2c0svbTN4VkxpL0p5SXdhd0NrMkRi?=
- =?utf-8?B?OVNCVmg4dFNLd2NVWGtxUzFzb053WnNFUzhCaC9FMTIzNElEYlZpbU5veTFu?=
- =?utf-8?B?cTE2bzhrSlZoQVJZM0ltRUI0L2MramtqbWlmakc4Qkl6Qkg4ZmN6OWFuTHNs?=
- =?utf-8?B?RGdDRHVVY1hrQmpER0dhZVZRMktFelhkV3Q2U0MzVmpaSjRqUm1RK3I3bHh4?=
- =?utf-8?B?OUFRNFRNWFlWZWVXSVBGZXNuYnFsRHRjWVJrQVFaVm5Yd1pJcTMwc2d0aWZ0?=
- =?utf-8?B?QmJwOU01M2lWSEUwV0NodWhhV1BwU1UxQVBkUTBKRzJiTHZqaGdSUGdLOTZk?=
- =?utf-8?B?Nyt3YktXMzYvVWJLb1dZajBZb05LTWtyVEZqVlNuWG90WE1jQlFlY2JCemR4?=
- =?utf-8?B?eWhNa0xqL2Q3c1JzaldEbEFOYjVYRHp0YnY1eVdjVmZSd0VRRkF4REZvUHJx?=
- =?utf-8?B?QWlQWHBEVjU4dGpvaGNNODJBSkdNVmVRcm1lWHQyK0pKclV3U2FZa0hsd2ts?=
- =?utf-8?B?cWpDclI2ZjQwV2E5NlcxRE9KTEtpZHI5V0NmVTIrcENQTGw4cDdGR1NyK0Mx?=
- =?utf-8?B?bVRpYU9yWFVPcS9KM0x2UDJWU3RVbFRleEVlNUlXbDNrTkp5S1haUWN6ejNT?=
- =?utf-8?B?ODE3N1ZaeFUzUGVrd3ZtNWQrSENyQVhkWHV6K3Y5WTJsTENaWTRVQjdXRzZC?=
- =?utf-8?B?b2ZjVjlrZnkybHhYazZaMGZZN3diQjlkVG9QWWJ6MXpvVkI4VG1EUlhQV3hT?=
- =?utf-8?B?dzRQekxUbUlkSWsyck9EY0toOXpBU2lodTZvRjBxQmRrb2FvVGw0Y0NOWkFR?=
- =?utf-8?B?NHkwTDhnam44cmVkVmNNa0MwVnZBbDFDNXAzL0pRRW43U3Q2MWgrUGIrR2Ey?=
- =?utf-8?B?Q3lTcXhtVUhUMFVGdVU0V2VBb1E1czg1anEvNWh1WnNRWENtVmFodFcxcCs0?=
- =?utf-8?B?V1E9PQ==?=
-X-MS-Exchange-CrossTenant-Network-Message-Id: a0eac95c-81a3-4818-8314-08de185233dc
-X-MS-Exchange-CrossTenant-AuthSource: DM4PR11MB5373.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 31 Oct 2025 07:50:47.2100 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: bPfd33FM3Q1+c+Xr5U8YuEX1JsYLLvUnvRXVO+vro5s5toYtD+mGMPJxYdb0wxt7NYpXNSV+9LPE62PuBihZI+cGyQnB5eDOjX4KHMQoqmU=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA3PR11MB8002
-X-OriginatorOrg: intel.com
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Message-Id: <20251031-fix_202510270858-v1-1-6b111d475ce2@gmail.com>
+X-B4-Tracking: v=1; b=H4sIAAVuBGkC/6tWKk4tykwtVrJSqFYqSi3LLM7MzwNyDHUUlJIzE
+ vPSU3UzU4B8JSMDI1NDA2ND3bTMingIx8jcwMLUQtco1cTMxDjJwMDUxFQJqK2gKBWoBmxkdGx
+ tLQBOGmBZYgAAAA==
+X-Change-ID: 20251031-fix_202510270858-2e4643b00545
+To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
+ Nathan Chancellor <nathan@kernel.org>, 
+ Nick Desaulniers <nick.desaulniers+lkml@gmail.com>, 
+ Bill Wendling <morbo@google.com>, Justin Stitt <justinstitt@google.com>
+Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org, 
+ llvm@lists.linux.dev, kernel test robot <lkp@intel.com>, 
+ LiangCheng Wang <zaq14760@gmail.com>
+X-Mailer: b4 0.14.2
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1761897992; l=2818;
+ i=zaq14760@gmail.com; h=from:subject:message-id;
+ bh=UuG3+VCNBbYpzeZ0dxVY03iZi2WsaJI6aqGWnRdi9IE=;
+ b=mK5+SYBvGWn62MR/m+GdIu/nNPFIfMwQ2E2Ch9x0cFaUiEx+6Qf7V8YKLzV6lC9dvp44QfwL4
+ MS+Nsbaq2KSA97KntzVW89WCREuwcThUpa6N6adNPMod4GcASuBpKkk
+X-Developer-Key: i=zaq14760@gmail.com; a=ed25519;
+ pk=/x4391DbJ19fFQI7t33HWt3lsHfYPl2I2ax8C+Vxr+M=
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -211,77 +105,74 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Oct 30, 2025 at 11:57:28PM +0100, Michal Wajdeczko wrote:
-> 
-> 
-> On 10/30/2025 9:31 PM, Michał Winiarski wrote:
-> > In upcoming changes, the number of states will increase as a result of
-> > introducing SAVE and RESTORE states.
-> > This means that using unsigned long as underlying storage won't work on
-> > 32-bit architectures, as we'll run out of bits.
-> > Use bitmap instead.
-> > 
-> > Reported-by: kernel test robot <lkp@intel.com>
-> > Closes: https://lore.kernel.org/oe-kbuild-all/202510231918.XlOqymLC-lkp@intel.com/
-> > Signed-off-by: Michał Winiarski <michal.winiarski@intel.com>
-> > ---
-> >  drivers/gpu/drm/xe/xe_gt_sriov_pf_control.c       | 2 +-
-> >  drivers/gpu/drm/xe/xe_gt_sriov_pf_control_types.h | 5 +++--
-> >  2 files changed, 4 insertions(+), 3 deletions(-)
-> > 
-> > diff --git a/drivers/gpu/drm/xe/xe_gt_sriov_pf_control.c b/drivers/gpu/drm/xe/xe_gt_sriov_pf_control.c
-> > index 9de05db1f0905..8a2577fda4198 100644
-> > --- a/drivers/gpu/drm/xe/xe_gt_sriov_pf_control.c
-> > +++ b/drivers/gpu/drm/xe/xe_gt_sriov_pf_control.c
-> > @@ -225,7 +225,7 @@ static unsigned long *pf_peek_vf_state(struct xe_gt *gt, unsigned int vfid)
-> >  {
-> >  	struct xe_gt_sriov_control_state *cs = pf_pick_vf_control(gt, vfid);
-> >  
-> > -	return &cs->state;
-> > +	return cs->state;
-> >  }
-> >  
-> >  static bool pf_check_vf_state(struct xe_gt *gt, unsigned int vfid,
-> > diff --git a/drivers/gpu/drm/xe/xe_gt_sriov_pf_control_types.h b/drivers/gpu/drm/xe/xe_gt_sriov_pf_control_types.h
-> > index c80b7e77f1ad2..3ba6ad886c939 100644
-> > --- a/drivers/gpu/drm/xe/xe_gt_sriov_pf_control_types.h
-> > +++ b/drivers/gpu/drm/xe/xe_gt_sriov_pf_control_types.h
-> > @@ -73,7 +73,8 @@ enum xe_gt_sriov_control_bits {
-> >  	XE_GT_SRIOV_STATE_STOP_FAILED,
-> >  	XE_GT_SRIOV_STATE_STOPPED,
-> >  
-> > -	XE_GT_SRIOV_STATE_MISMATCH = BITS_PER_LONG - 1,
-> > +	XE_GT_SRIOV_STATE_MISMATCH,
-> > +	XE_GT_SRIOV_STATE_MAX,
-> 
-> while this feels handy, this MAX enumerator is not a real state
-> and as such shouldn't be passed to any function that expects
-> "enum"
-> 
-> since we know (and want) to keep MISMATCH state as last one
-> (aka top bit) then maybe tag it and use separate define:
-> 
-> -	XE_GT_SRIOV_STATE_MISMATCH = BITS_PER_LONG - 1,
-> +	XE_GT_SRIOV_STATE_MISMATCH /* always keep as last */
-> +
-> + #define XE_GT_SRIOV_NUM_STATES (XE_GT_SRIOV_STATE_MISMATCH + 1)
+Clang reports that pixpaper_panel_hw_init() exceeds the 8 KB stack
+frame limit:
 
-Sure, sounds good.
+    drivers/gpu/drm/tiny/pixpaper.c:579:12: warning:
+      stack frame size (20024) exceeds limit (8192)
+      in 'pixpaper_panel_hw_init'
 
-Thanks,
--Michał
+This warning occurs because the compiler aggressively inlines
+pixpaper_send_cmd() and pixpaper_send_data() into
+pixpaper_panel_hw_init(), which inflates the estimated stack usage.
 
-> 
-> >  };
-> >  
-> >  /**
-> > @@ -83,7 +84,7 @@ enum xe_gt_sriov_control_bits {
-> >   */
-> >  struct xe_gt_sriov_control_state {
-> >  	/** @state: VF state bits */
-> > -	unsigned long state;
-> > +	DECLARE_BITMAP(state, XE_GT_SRIOV_STATE_MAX);
-> >  
-> >  	/** @done: completion of async operations */
-> >  	struct completion done;
-> 
+Mark these two helper functions as 'noinline' to prevent inlining.
+This significantly reduces the reported stack usage without changing
+runtime behavior.
+
+Reported-by: kernel test robot <lkp@intel.com>
+Closes: https://lore.kernel.org/oe-kbuild-all/202510270858.1GzE6iQg-lkp@intel.com/
+Fixes: c9e70639f591 ("drm: tiny: Add support for Mayqueen Pixpaper e-ink panel")
+Signed-off-by: LiangCheng Wang <zaq14760@gmail.com>
+---
+When building with Clang and frame size warnings enabled
+(-Wframe-larger-than=8192), the compiler reports that
+pixpaper_panel_hw_init() consumes over 20 KB of stack space:
+
+    drivers/gpu/drm/tiny/pixpaper.c:579:12: warning:
+      stack frame size (20024) exceeds limit (8192)
+      in 'pixpaper_panel_hw_init'
+
+This happens because Clang aggressively inlines
+pixpaper_send_cmd() and pixpaper_send_data() into
+pixpaper_panel_hw_init(), causing the calculated stack usage
+to balloon far beyond the warning threshold.
+
+The fix is straightforward: mark these two helper functions as
+'noinline' to prevent inlining. This reduces the reported stack
+usage to within normal limits without changing runtime behavior.
+---
+ drivers/gpu/drm/tiny/pixpaper.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/drivers/gpu/drm/tiny/pixpaper.c b/drivers/gpu/drm/tiny/pixpaper.c
+index 32598fb2fee7fcdea3ea0696c2bf54404fcffa2e..70e3239adfd0f86f92551991872486380489fb9b 100644
+--- a/drivers/gpu/drm/tiny/pixpaper.c
++++ b/drivers/gpu/drm/tiny/pixpaper.c
+@@ -536,7 +536,7 @@ static void pixpaper_spi_sync(struct spi_device *spi, struct spi_message *msg,
+ 		err->errno_code = ret;
+ }
+ 
+-static void pixpaper_send_cmd(struct pixpaper_panel *panel, u8 cmd,
++static noinline void pixpaper_send_cmd(struct pixpaper_panel *panel, u8 cmd,
+ 			      struct pixpaper_error_ctx *err)
+ {
+ 	if (err->errno_code)
+@@ -556,7 +556,7 @@ static void pixpaper_send_cmd(struct pixpaper_panel *panel, u8 cmd,
+ 	pixpaper_spi_sync(panel->spi, &msg, err);
+ }
+ 
+-static void pixpaper_send_data(struct pixpaper_panel *panel, u8 data,
++static noinline void pixpaper_send_data(struct pixpaper_panel *panel, u8 data,
+ 			       struct pixpaper_error_ctx *err)
+ {
+ 	if (err->errno_code)
+
+---
+base-commit: d127176862a93c4b3216bda533d2bee170af5e71
+change-id: 20251031-fix_202510270858-2e4643b00545
+
+Best regards,
+-- 
+LiangCheng Wang <zaq14760@gmail.com>
+
