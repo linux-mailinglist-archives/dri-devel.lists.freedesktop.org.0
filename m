@@ -2,56 +2,56 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C9360C23B95
-	for <lists+dri-devel@lfdr.de>; Fri, 31 Oct 2025 09:14:56 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2F083C23CAE
+	for <lists+dri-devel@lfdr.de>; Fri, 31 Oct 2025 09:27:41 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1CD7D10E294;
-	Fri, 31 Oct 2025 08:14:55 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6DD3C10E2BF;
+	Fri, 31 Oct 2025 08:27:38 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=bootlin.com header.i=@bootlin.com header.b="T1ygqf85";
+	dkim=pass (2048-bit key; unprotected) header.d=bootlin.com header.i=@bootlin.com header.b="2QsFma29";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtpout-02.galae.net (smtpout-02.galae.net [185.246.84.56])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D769E10E294
- for <dri-devel@lists.freedesktop.org>; Fri, 31 Oct 2025 08:14:53 +0000 (UTC)
+Received: from smtpout-03.galae.net (smtpout-03.galae.net [185.246.85.4])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CC55110E2BF
+ for <dri-devel@lists.freedesktop.org>; Fri, 31 Oct 2025 08:27:36 +0000 (UTC)
 Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
- by smtpout-02.galae.net (Postfix) with ESMTPS id 6FEF81A179F;
- Fri, 31 Oct 2025 08:14:52 +0000 (UTC)
+ by smtpout-03.galae.net (Postfix) with ESMTPS id 6CFDC4E41431;
+ Fri, 31 Oct 2025 08:27:35 +0000 (UTC)
 Received: from mail.galae.net (mail.galae.net [212.83.136.155])
- by smtpout-01.galae.net (Postfix) with ESMTPS id 3224F60704;
- Fri, 31 Oct 2025 08:14:52 +0000 (UTC)
+ by smtpout-01.galae.net (Postfix) with ESMTPS id 40D1960704;
+ Fri, 31 Oct 2025 08:27:35 +0000 (UTC)
 Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon)
- with ESMTPSA id 5BCFC1180FC53; Fri, 31 Oct 2025 09:14:46 +0100 (CET)
+ with ESMTPSA id 0386711808C56; Fri, 31 Oct 2025 09:27:29 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
- t=1761898491; h=from:subject:date:message-id:to:cc:mime-version:content-type:
+ t=1761899253; h=from:subject:date:message-id:to:cc:mime-version:content-type:
  content-transfer-encoding:in-reply-to:references;
- bh=5kqeQwCaBXcdDdY/fhWUYtRy6WjKsRWcRbvT6plygZk=;
- b=T1ygqf85lOMPWNIDgy20hrud9rCyd1xYGw6YtoFTSBH3pQHtW1WHik1l52Ilu0OT6lsl/L
- zHbQrU6Klq8WUqyjfkbqD9cE5v1+IHAHs3ioVdpqt4SZ+4sVt52p45QAqmqiNS4tAT6jN4
- JcFj+iG9CLwUNVoTsgr3/ZvFloNGRaGHDiWEJFsdStw7t0+V8b1u/1Cl4GZQUUToGmJ0Lj
- Aqk8f1rIgCxzN3KcXKmwhU9EE9CdtmRjNu8cIpT9LENVwKr1icISps9Ay8L6Yvp7cxG2ju
- K4FEKe9rAKcgYlnMBOvrU+XSh0Q0AWraH9ZR4sWbJefClS7Y3DjOAJX7nyVD2g==
+ bh=76uNIUxc2i2CUF22jYSwyi2Mw9C6H4Old0YYKI8BGFg=;
+ b=2QsFma29dzgoL8GUr672ddHPgk5H3bRCZwyWPO/lcE/c8IRQfgnWlJ7VmzRwUphzggoN0z
+ xS4+8Zu5tnHf8b1uK+F2AtZVmJX+l0SmZIqwiScFnnCh4Vn4CfLaTqUUQ/wrtpdbPDl67z
+ DwJWtTSOjFhAiohmYoTzzRSF1rXfG4VCpk7nUXb2EgMm1bivB5qEYmmkrLxBn72OIoQeqa
+ CKkkXOfExYybIlCeIRa6DaCaYWq2lyD7q2ehignpSCor58ClX4aY2duiBY62IgjdPRgcA5
+ j9bryYwyrdzqDUXRKbKg6XDgTTBkbLIlTqUN/iboXCRwEHzZfEXmkqyK8GT5xw==
 Mime-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 Content-Type: text/plain; charset=UTF-8
-Date: Fri, 31 Oct 2025 09:14:45 +0100
-Message-Id: <DDWCVYBQSV10.2MFZFEEHPYJY4@bootlin.com>
-To: "Laurentiu Palcu" <laurentiu.palcu@oss.nxp.com>, <imx@lists.linux.dev>,
- "Maarten Lankhorst" <maarten.lankhorst@linux.intel.com>, "Maxime Ripard"
- <mripard@kernel.org>, "Thomas Zimmermann" <tzimmermann@suse.de>, "David
- Airlie" <airlied@gmail.com>, "Simona Vetter" <simona@ffwll.ch>, "Shawn Guo"
- <shawnguo@kernel.org>, "Sascha Hauer" <s.hauer@pengutronix.de>,
- "Pengutronix Kernel Team" <kernel@pengutronix.de>, "Fabio Estevam"
- <festevam@gmail.com>
-Cc: <dri-devel@lists.freedesktop.org>, "Sandor Yu" <sandor.yu@nxp.com>,
- <linux-kernel@vger.kernel.org>, <linux-arm-kernel@lists.infradead.org>
-Subject: Re: [PATCH v5 5/9] drm/imx: Add support for i.MX94 DCIF
+Date: Fri, 31 Oct 2025 09:27:29 +0100
+Message-Id: <DDWD5P3SKWMV.1LITMN6MAKGMA@bootlin.com>
+Cc: <dri-devel@lists.freedesktop.org>, <linux-kernel@vger.kernel.org>
+Subject: Re: [PATCH v5 3/9] drm/bridge: fsl-ldb: Add support for i.MX94
 From: "Luca Ceresoli" <luca.ceresoli@bootlin.com>
+To: "Laurentiu Palcu" <laurentiu.palcu@oss.nxp.com>, <imx@lists.linux.dev>,
+ "Andrzej Hajda" <andrzej.hajda@intel.com>, "Neil Armstrong"
+ <neil.armstrong@linaro.org>, "Robert Foss" <rfoss@kernel.org>, "Laurent
+ Pinchart" <Laurent.pinchart@ideasonboard.com>, "Jonas Karlman"
+ <jonas@kwiboo.se>, "Jernej Skrabec" <jernej.skrabec@gmail.com>, "Maarten
+ Lankhorst" <maarten.lankhorst@linux.intel.com>, "Maxime Ripard"
+ <mripard@kernel.org>, "Thomas Zimmermann" <tzimmermann@suse.de>, "David
+ Airlie" <airlied@gmail.com>, "Simona Vetter" <simona@ffwll.ch>
 X-Mailer: aerc 0.20.1
 References: <20250911-dcif-upstreaming-v5-0-a1e8dab8ae40@oss.nxp.com>
- <20250911-dcif-upstreaming-v5-5-a1e8dab8ae40@oss.nxp.com>
-In-Reply-To: <20250911-dcif-upstreaming-v5-5-a1e8dab8ae40@oss.nxp.com>
+ <20250911-dcif-upstreaming-v5-3-a1e8dab8ae40@oss.nxp.com>
+In-Reply-To: <20250911-dcif-upstreaming-v5-3-a1e8dab8ae40@oss.nxp.com>
 X-Last-TLS-Session-Version: TLSv1.3
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -71,107 +71,45 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 Hello Laurentiu,
 
 On Thu Sep 11, 2025 at 1:37 PM CEST, Laurentiu Palcu wrote:
+> i.MX94 series LDB controller shares the same LDB and LVDS control
+> registers as i.MX8MP and i.MX93 but supports a higher maximum clock
+> frequency.
+>
+> Add a 'max_clk_khz' member to the fsl_ldb_devdata structure in order to
+> be able to set different max frequencies for other platforms.
+>
+> Signed-off-by: Laurentiu Palcu <laurentiu.palcu@oss.nxp.com>
+> Reviewed-by: Frank Li <Frank.Li@nxp.com>
 
-...
+[...]
 
-> +static struct drm_bridge *dcif_crtc_get_bridge(struct drm_crtc *crtc,
-> +					       struct drm_crtc_state *crtc_state)
-> +{
-> +	struct drm_connector_state *conn_state;
-> +	struct drm_encoder *encoder;
-> +	struct drm_connector *conn;
-> +	struct drm_bridge *bridge;
-> +	int i;
-> +
-> +	for_each_new_connector_in_state(crtc_state->state, conn, conn_state, i)=
- {
-> +		if (crtc !=3D conn_state->crtc)
-> +			continue;
-> +
-> +		encoder =3D conn_state->best_encoder;
-> +
-> +		bridge =3D drm_bridge_chain_get_first_bridge(encoder);
+> @@ -270,8 +281,9 @@ fsl_ldb_mode_valid(struct drm_bridge *bridge,
+>  		   const struct drm_display_mode *mode)
 
-The bridge returned by drm_bridge_chain_get_first_bridge() is refcounted
-since v6.18-rc1 [0], so you have to put that reference...
+I'd suggest a couple possible code style improvements here:
 
-> +		if (bridge)
-> +			return bridge;
-> +	}
-> +
-> +	return NULL;
-> +}
-> +
-> +static void dcif_crtc_query_output_bus_format(struct drm_crtc *crtc,
-> +					      struct drm_crtc_state *crtc_state)
-> +{
-> +	struct dcif_crtc_state *dcif_state =3D to_dcif_crtc_state(crtc_state);
-> +	struct drm_bridge_state *bridge_state;
-> +	struct drm_bridge *bridge;
-> +
-> +	dcif_state->bus_format =3D MEDIA_BUS_FMT_RGB888_1X24;
-> +	dcif_state->bus_flags =3D 0;
-> +
-> +	bridge =3D dcif_crtc_get_bridge(crtc, crtc_state);
-> +	if (!bridge)
-> +		return;
-> +
-> +	bridge_state =3D drm_atomic_get_new_bridge_state(crtc_state->state, bri=
-dge);
-> +	if (!bridge_state)
-> +		return;
-> +
-> +	dcif_state->bus_format =3D bridge_state->input_bus_cfg.format;
-> +	dcif_state->bus_flags =3D bridge_state->input_bus_cfg.flags;
+>  {
+>  	struct fsl_ldb *fsl_ldb =3D to_fsl_ldb(bridge);
+> +	u32 ch_max_clk_khz =3D fsl_ldb->devdata->max_clk_khz;
 
-...perhaps here, when both the bridge pointer and the bridge_state pointer
-referencing it go out of scope.
+You don't need a variable to use it only once.
 
-> +}
+>
+> -	if (mode->clock > (fsl_ldb_is_dual(fsl_ldb) ? 160000 : 80000))
+> +	if (mode->clock > (fsl_ldb_is_dual(fsl_ldb) ? 2 * ch_max_clk_khz : ch_m=
+ax_clk_khz))
 
-You can just call drm_bridge_put(bridge) there, or (at your option) use a
-cleanup action:
+And here you can use the ternary operator to compute the multiplier only:
 
- static void dcif_crtc_query_output_bus_format(struct drm_crtc *crtc,
-                                               struct drm_crtc_state *crtc_=
-state)
- {
-         struct dcif_crtc_state *dcif_state =3D to_dcif_crtc_state(crtc_sta=
-te);
-         struct drm_bridge_state *bridge_state;
--        struct drm_bridge *bridge;
+	if (mode->clock > (fsl_ldb_is_dual(fsl_ldb) ? 2 : 1) * fsl_ldb->devdata->m=
+ax_clk_khz)
 
-         dcif_state->bus_format =3D MEDIA_BUS_FMT_RGB888_1X24;
-         dcif_state->bus_flags =3D 0;
+Up to you whether you want to take my proposals above. The patch looks good
+anyway, so with or without those changes:
 
--        bridge =3D dcif_crtc_get_bridge(crtc, crtc_state);
-+        struct drm_bridge *bridge __free(drm_bridge_put) =3D dcif_crtc_get=
-_bridge(crtc, crtc_state);
-         if (!bridge)
-                 return;
+Reviewed-by: Luca Ceresoli <luca.ceresoli@bootlin.com>
 
-         bridge_state =3D drm_atomic_get_new_bridge_state(crtc_state->state=
-, bridge);
-         if (!bridge_state)
-                 return;
-
-         dcif_state->bus_format =3D bridge_state->input_bus_cfg.format;
-         dcif_state->bus_flags =3D bridge_state->input_bus_cfg.flags;
- }
-
-This would call drm_bridge_put() at end of scope, i.e. end of function.
-
-You can also have a look at recent commits involving drm_bridge_put (git
-log -p -Gdrm_bridge_put v6.16..origin/master) to see how other parts of the
-kernel have added drm_bridge_put().
-
-[0] https://gitlab.freedesktop.org/drm/misc/kernel/-/commit/8fa5909400f3773=
-51836419223c33f1131f0f7d3
-
-Best regards,
-Luca
-
----
+--
 Luca Ceresoli, Bootlin
 Embedded Linux and Kernel engineering
 https://bootlin.com
