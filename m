@@ -2,109 +2,95 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id DE090C26686
-	for <lists+dri-devel@lfdr.de>; Fri, 31 Oct 2025 18:40:14 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 52EABC266B4
+	for <lists+dri-devel@lfdr.de>; Fri, 31 Oct 2025 18:42:33 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3132D10EBFB;
-	Fri, 31 Oct 2025 17:40:13 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CCEA810EC00;
+	Fri, 31 Oct 2025 17:42:10 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; secure) header.d=ffwll.ch header.i=@ffwll.ch header.b="dEhyezKY";
+	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="cJ4UJlqH";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ej1-f45.google.com (mail-ej1-f45.google.com
- [209.85.218.45])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 73A4310EBFB
- for <dri-devel@lists.freedesktop.org>; Fri, 31 Oct 2025 17:40:11 +0000 (UTC)
-Received: by mail-ej1-f45.google.com with SMTP id
- a640c23a62f3a-afcb7ae6ed0so544171166b.3
- for <dri-devel@lists.freedesktop.org>; Fri, 31 Oct 2025 10:40:11 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=ffwll.ch; s=google; t=1761932410; x=1762537210; darn=lists.freedesktop.org; 
- h=in-reply-to:content-disposition:mime-version:references
- :mail-followup-to:message-id:subject:cc:to:from:date:from:to:cc
- :subject:date:message-id:reply-to;
- bh=g0MslenNMNRz9hncNuGH0nUy8fkx7bjabprrZbRn1I0=;
- b=dEhyezKYW/J1gm0GVXNuzIdwent+IDNfp14IgTsTE+nGaDHFmGpSfY3klrkFk1P6Nz
- fzbVoopON26K6ve7gB4tUwSTtk3VAVkqzlMe6OOW1qCxmCA5+gUgKTRL7mDH+fHvxjjx
- JYmV7EJ2+W78Fvm8XvI+yNq32tegkcenNk/4g=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1761932410; x=1762537210;
- h=in-reply-to:content-disposition:mime-version:references
- :mail-followup-to:message-id:subject:cc:to:from:date
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=g0MslenNMNRz9hncNuGH0nUy8fkx7bjabprrZbRn1I0=;
- b=BXO6G5BuxA4eHBhnUgrbXDgjN3q2JWy4IGxw+jlzoMPwHNc7TVL/NQzaXytK4QZVg4
- bhk1w5nM7pFuHUM+XOreJStyTKy+F+XQ0a5RBkLvEugfcRUoBusJc1cYLljmkj2yIusS
- 6o15Vb09I+7yKFXneTzBvA4SDOt7iObaMnsRrf55mBdZ0eDmhbNiGHUd9bPi3TSzuPpc
- vLd1wpQor6LmpE9PApnBj2z3bKVVefmlCpkdUMsM2RrZsxZG2ggaSUzjlE1bRdPyr8h5
- 6laf4QwnfRuplkBau65WE12MucEBUn4BpeSIFvegAfby950SRXeMw755+VYqisyZQ4Gc
- QEOA==
-X-Forwarded-Encrypted: i=1;
- AJvYcCUlzy6J9nY7bHoGKzNbtvqDQ0ckFVAsLK4ADttUbEDD81YTEEU74AhR0l85muQgsNuy5YX2PIZ52xI=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YzbB3uEBG/Xv7xVSDpRODb7VaCiWGk+HK9bEcVY0eAjtpO3nEav
- lKsIr/hHDfUA1eeJSNE9Y0mjfLukCUrcZElU1lkCvgIHEpWa7T8+T7vJ9wFmkryeqaI=
-X-Gm-Gg: ASbGncuFIoHvsPobiBBlkAL6T6eQ0qiqCd8rkzvzbRkY3MKsDXD2gaOCfTBdqcQVyCV
- MYmCSXdn3ZW1CtCrc7MZMjyjxvwSundKpKmawGkJboNJVK0SkhJbYdugbcvN9ZjgGyhdTBOrlxC
- QwSX4MjEBZtmC3G7wuQxwwLYPWTYWn8q0E1kNZtOd8MhkkvqlAHmP0iRpvhxGnFyuj+/DyH5BlN
- 4AWGjniIG6JOtAEdNMZTtsfSVeYP7ufp9sCeKx9lEvyHi4rHL2+llN2vhFCI2jv9CGEvCSBITzk
- FQq8wHSPDpzXa/YueaLHtneleHsh89vYGCOjwl7/O7RECwa6jhdTUSfUupW24rkH10yCsPD8hY9
- EO8QyZjxeFEvJDdyyvtNd90tIgQBVA73FFsg8KiYcALoORSm4BZ+PQsFZ/ztp4TEH5GWbFV1ywH
- 8g6gcWCPB6lwm3P0DBXM7nBg==
-X-Google-Smtp-Source: AGHT+IFbOBwf98bBMLnyAAZrOMm+hJ35dRhtFe2UhgAlTZPlhjoRrNX+iSO04sWdZ50B8Ps8qRcs4g==
-X-Received: by 2002:a17:907:7e8d:b0:b6f:198e:c348 with SMTP id
- a640c23a62f3a-b7070630cfcmr467732066b.46.1761932409693; 
- Fri, 31 Oct 2025 10:40:09 -0700 (PDT)
-Received: from phenom.ffwll.local ([2a02:168:57f4:0:5485:d4b2:c087:b497])
- by smtp.gmail.com with ESMTPSA id
- a640c23a62f3a-b7077c82ef6sm227660766b.52.2025.10.31.10.40.08
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 31 Oct 2025 10:40:08 -0700 (PDT)
-Date: Fri, 31 Oct 2025 18:40:06 +0100
-From: Simona Vetter <simona.vetter@ffwll.ch>
-To: Liu Ying <victor.liu@nxp.com>
-Cc: Shengjiu Wang <shengjiu.wang@nxp.com>, andrzej.hajda@intel.com,
- neil.armstrong@linaro.org, rfoss@kernel.org,
- Laurent.pinchart@ideasonboard.com, jonas@kwiboo.se,
- jernej.skrabec@gmail.com, maarten.lankhorst@linux.intel.com,
- mripard@kernel.org, tzimmermann@suse.de, airlied@gmail.com,
- simona@ffwll.ch, lumag@kernel.org, dianders@chromium.org,
- cristian.ciocaltea@collabora.com, luca.ceresoli@bootlin.com,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- shawnguo@kernel.org, s.hauer@pengutronix.de, kernel@pengutronix.de,
- festevam@gmail.com, imx@lists.linux.dev,
- linux-arm-kernel@lists.infradead.org, robh@kernel.org,
- krzk+dt@kernel.org, conor+dt@kernel.org, p.zabel@pengutronix.de,
- devicetree@vger.kernel.org, l.stach@pengutronix.de,
- shengjiu.wang@gmail.com, perex@perex.cz, tiwai@suse.com,
- linux-sound@vger.kernel.org
-Subject: Re: [PATCH v7 1/7] dt-bindings: display: imx: add HDMI PAI for i.MX8MP
-Message-ID: <aQT0dlZ88jDVptLF@phenom.ffwll.local>
-Mail-Followup-To: Liu Ying <victor.liu@nxp.com>,
- Shengjiu Wang <shengjiu.wang@nxp.com>, andrzej.hajda@intel.com,
- neil.armstrong@linaro.org, rfoss@kernel.org,
- Laurent.pinchart@ideasonboard.com, jonas@kwiboo.se,
- jernej.skrabec@gmail.com, maarten.lankhorst@linux.intel.com,
- mripard@kernel.org, tzimmermann@suse.de, airlied@gmail.com,
- simona@ffwll.ch, lumag@kernel.org, dianders@chromium.org,
- cristian.ciocaltea@collabora.com, luca.ceresoli@bootlin.com,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- shawnguo@kernel.org, s.hauer@pengutronix.de, kernel@pengutronix.de,
- festevam@gmail.com, imx@lists.linux.dev,
- linux-arm-kernel@lists.infradead.org, robh@kernel.org,
- krzk+dt@kernel.org, conor+dt@kernel.org, p.zabel@pengutronix.de,
- devicetree@vger.kernel.org, l.stach@pengutronix.de,
- shengjiu.wang@gmail.com, perex@perex.cz, tiwai@suse.com,
- linux-sound@vger.kernel.org
-References: <20250923053001.2678596-1-shengjiu.wang@nxp.com>
- <20250923053001.2678596-2-shengjiu.wang@nxp.com>
- <aPc9-wYxGB1KYPyQ@phenom.ffwll.local>
- <7e0fb617-088b-4075-9631-e37645b4c40d@nxp.com>
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
+ [205.220.168.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 91B9E10EC00
+ for <dri-devel@lists.freedesktop.org>; Fri, 31 Oct 2025 17:42:09 +0000 (UTC)
+Received: from pps.filterd (m0279866.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id
+ 59VAX3XO102630; Fri, 31 Oct 2025 17:42:02 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+ cc:content-transfer-encoding:date:from:message-id:mime-version
+ :subject:to; s=qcppdkim1; bh=OEZaO+IunlOXbDj3Rn35BX/vSjqNpc3pPE+
+ Gx3Z+03E=; b=cJ4UJlqHBp1Ll+5x2CRRU4VdrUxWn2zqi0a/vuGCsQeUcHl58Yw
+ ZVcJzOsCIsPRZfe4+tN68eOEGpN/18PO38QbIeJHXP798adlowIL+vTCGU9sBZe1
+ RlUbg73MxoDLPXtn1D28zoXD53QIjwxNW0cXEU3w8aVicqpKviLSAxEbBl2B61tR
+ le+8mZluvsbGHXAh75eEV5WTcT4KmQxWVrD1fbU7MHXUM1o4CIkd3vCrHmhnCfCw
+ HSp9Bzc5iUrLT1BxdVr6dJpkk6LOfB+FNs7L4g9tJtORdow62IW73jh5B9bd9Px9
+ n0mNoUa4oKqFrt+n+mVUPWCd/EOaY7xZffg==
+Received: from nalasppmta05.qualcomm.com (Global_NAT1.qualcomm.com
+ [129.46.96.20])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4a4ahdm0jx-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Fri, 31 Oct 2025 17:42:02 +0000 (GMT)
+Received: from pps.filterd (NALASPPMTA05.qualcomm.com [127.0.0.1])
+ by NALASPPMTA05.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTP id 59VHdY8F012751; 
+ Fri, 31 Oct 2025 17:42:00 GMT
+Received: from pps.reinject (localhost [127.0.0.1])
+ by NALASPPMTA05.qualcomm.com (PPS) with ESMTPS id 4a4er42upx-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Fri, 31 Oct 2025 17:42:00 +0000
+Received: from NALASPPMTA05.qualcomm.com (NALASPPMTA05.qualcomm.com
+ [127.0.0.1])
+ by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 59VHfxbB016244;
+ Fri, 31 Oct 2025 17:42:00 GMT
+Received: from hu-devc-lv-u22-a.qualcomm.com (hu-zmckevit-lv.qualcomm.com
+ [10.81.26.129])
+ by NALASPPMTA05.qualcomm.com (PPS) with ESMTPS id 59VHfxIF016239
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Fri, 31 Oct 2025 17:41:59 +0000
+Received: by hu-devc-lv-u22-a.qualcomm.com (Postfix, from userid 4696302)
+ id 205E95B6; Fri, 31 Oct 2025 10:42:00 -0700 (PDT)
+From: Zack McKevitt <zachary.mckevitt@oss.qualcomm.com>
+To: jeff.hugo@oss.qualcomm.com, carl.vanderlip@oss.qualcomm.com,
+ troy.hanson@oss.qualcomm.com, youssef.abdulrahman@oss.qualcomm.com
+Cc: ogabbay@kernel.org, lizhi.hou@amd.com, karol.wachowski@linux.intel.com,
+ linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ andersson@kernel.org, Zack McKevitt <zachary.mckevitt@oss.qualcomm.com>
+Subject: [PATCH v3 0/3] accel/qaic: Add Sub-system restart (SSR)
+Date: Fri, 31 Oct 2025 10:40:58 -0700
+Message-Id: <20251031174059.2814445-1-zachary.mckevitt@oss.qualcomm.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <7e0fb617-088b-4075-9631-e37645b4c40d@nxp.com>
-X-Operating-System: Linux phenom 6.12.38+deb13-amd64 
+Content-Transfer-Encoding: 8bit
+X-QCInternal: smtphost
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
+ signatures=585085
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
+ signatures=585085
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUxMDMxMDE1OCBTYWx0ZWRfXxspaFEPWdnv3
+ ZSNSNyba/Kktd4eO3vB0aHajwCJPjmNkEigrTAZUBTk4LqIpkNCv3+EYwbfPr4YYTWu8dM7vQ1b
+ 9wSHS5+3nKlel6ZQc4Jdu4Xr56VzK5WDIa3Qc51IAGVkuCljUt6zdcQMOQvTkF9E5DZwIAIk+uX
+ vIu5ucnHXgm+ppLZjjTlhDj0Wz/NnHyfrTA9gRqLGXmxgouPm2tv+60CBvIjoXsI0cyVQRa/xgT
+ R57TTU0fo1/zCnX2eGzXCTGpBOeCawRmHf7c+Ftn/tedEPvIZ5TqvKs6ec97FC/OxxUgIMf6+Iw
+ 51pt0blci//JEVkLO3rNXxjAsRRp5WhfKJwtffkHAOvwgTHbG3tjxhhQM6dt+vUrFBemdsa0zd1
+ AtaOXMF6KUDXiQFBzlMk/cLZRVWhwg==
+X-Proofpoint-GUID: T-kQBTpb_DY2pnnw8dnS-md4zV9BbhUy
+X-Authority-Analysis: v=2.4 cv=TsnrRTXh c=1 sm=1 tr=0 ts=6904f4ea cx=c_pps
+ a=ouPCqIW2jiPt+lZRy3xVPw==:117 a=ouPCqIW2jiPt+lZRy3xVPw==:17
+ a=x6icFKpwvdMA:10 a=VkNPw1HP01LnGYTKEx00:22 a=VwQbUJbxAAAA:8 a=EUspDBNiAAAA:8
+ a=jgwv8dc2b0OPOJmP1f4A:9 a=cPQSjfK2_nFv0Q5t_7PE:22
+X-Proofpoint-ORIG-GUID: T-kQBTpb_DY2pnnw8dnS-md4zV9BbhUy
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.9,FMLib:17.12.100.49
+ definitions=2025-10-31_05,2025-10-29_03,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ malwarescore=0 priorityscore=1501 impostorscore=0 lowpriorityscore=0
+ spamscore=0 bulkscore=0 phishscore=0 suspectscore=0 adultscore=0
+ clxscore=1011 classifier=typeunknown authscore=0 authtc= authcc=
+ route=outbound adjust=0 reason=mlx scancount=1 engine=8.22.0-2510240001
+ definitions=main-2510310158
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -120,168 +106,63 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Oct 21, 2025 at 04:51:40PM +0800, Liu Ying wrote:
-> Hi Sima,
-> 
-> On 10/21/2025, Simona Vetter wrote:
-> > On Tue, Sep 23, 2025 at 01:29:55PM +0800, Shengjiu Wang wrote:
-> >> Add binding for the i.MX8MP HDMI parallel Audio interface block.
-> >>
-> >> The HDMI TX Parallel Audio Interface (HTX_PAI) is a digital module that
-> >> acts as the bridge between the Audio Subsystem to the HDMI TX Controller.
-> >> This IP block is found in the HDMI subsystem of the i.MX8MP SoC.
-> >>
-> >> Aud2htx module in Audio Subsystem, HDMI PAI module and HDMI TX
-> >> Controller compose the HDMI audio pipeline.
-> >>
-> >> In fsl,imx8mp-hdmi-tx.yaml, add port@2 that is linked to pai_to_hdmi_tx.
-> >>
-> >> Signed-off-by: Shengjiu Wang <shengjiu.wang@nxp.com>
-> >> Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-> >> Tested-by: Alexander Stein <alexander.stein@ew.tq-group.com>
-> > 
-> > dt patches need an ack from dt maintainers before you push them, please
-> > make sure you follow that for the next changes.
-> 
-> Just want to make sure I may follow that correctly in the future.
-> As Krzysztof is one of DT binding maintainers and this patch has
-> Krzysztof's R-b tag, need more ack from DT maintainers?
+SSR is a feature that mitigates a crash in device sub-system. Usually,
+after a workload (using a sub-system) has crashed on the device, the
+entire device crashes affecting all the workloads on device.
+SSR is used to limit the damage only to that particular workload and
+releases the resources used by it, leaving the decision to the user.
+Applications are informed when SSR starts and ends via udev notifications.
+All ongoing requests for that particular workload will be lost.
 
-Sorry for the late reply, caught a cold :-/
+During SSR the affected DBC changes state as follows:
+DBC_STATE_BEFORE_SHUTDOWN
+DBC_STATE_AFTER_SHUTDOWN
+DBC_STATE_BEFORE_POWER_UP
+DBC_STATE_AFTER_POWER_UP
 
-No, that's enough, I wasn't entirely awake when I processed the PR
-containing these patches. I only noticed because of a a new check in dim
-for maintainer actions like merging a PR, which misfired on these two
-patches - the r-b should have been counted as an ack (even though strictly
-it's better to record both).
+In addition to supporting the sub-system to recover from a crash, the
+device can optionally use SSR to send a crashdump.
 
-Apologies for the noise.
--Sima
+---
+Changes in v3:
+- Add qaic_/QAIC_ prefixes to necessary functions and macros.
+- Use #define for ssr_cmds and ssr_events instead of enum.
+- Remove drm_device.h include from qaic_ssr.h.
+- Remove struct drm_device parameter from qaic_ssr_init (moved to patch 3).
+- Move internal struct definitions to patch 3.
+- Rename MSG_BUF_SZ -> SSR_RESP_MSG_SZ.
+- Link to v2: https://lore.kernel.org/all/20251024164630.816862-1-youssef.abdulrahman@oss.qualcomm.com/
 
-> 
-> > -Sima
-> > 
-> >> ---
-> >>  .../display/bridge/fsl,imx8mp-hdmi-tx.yaml    | 12 ++++
-> >>  .../display/imx/fsl,imx8mp-hdmi-pai.yaml      | 69 +++++++++++++++++++
-> >>  2 files changed, 81 insertions(+)
-> >>  create mode 100644 Documentation/devicetree/bindings/display/imx/fsl,imx8mp-hdmi-pai.yaml
-> >>
-> >> diff --git a/Documentation/devicetree/bindings/display/bridge/fsl,imx8mp-hdmi-tx.yaml b/Documentation/devicetree/bindings/display/bridge/fsl,imx8mp-hdmi-tx.yaml
-> >> index 05442d437755..6211ab8bbb0e 100644
-> >> --- a/Documentation/devicetree/bindings/display/bridge/fsl,imx8mp-hdmi-tx.yaml
-> >> +++ b/Documentation/devicetree/bindings/display/bridge/fsl,imx8mp-hdmi-tx.yaml
-> >> @@ -49,6 +49,10 @@ properties:
-> >>          $ref: /schemas/graph.yaml#/properties/port
-> >>          description: HDMI output port
-> >>  
-> >> +      port@2:
-> >> +        $ref: /schemas/graph.yaml#/properties/port
-> >> +        description: Parallel audio input port
-> >> +
-> >>      required:
-> >>        - port@0
-> >>        - port@1
-> >> @@ -98,5 +102,13 @@ examples:
-> >>                      remote-endpoint = <&hdmi0_con>;
-> >>                  };
-> >>              };
-> >> +
-> >> +            port@2 {
-> >> +                reg = <2>;
-> >> +
-> >> +                endpoint {
-> >> +                    remote-endpoint = <&pai_to_hdmi_tx>;
-> >> +                };
-> >> +            };
-> >>          };
-> >>      };
-> >> diff --git a/Documentation/devicetree/bindings/display/imx/fsl,imx8mp-hdmi-pai.yaml b/Documentation/devicetree/bindings/display/imx/fsl,imx8mp-hdmi-pai.yaml
-> >> new file mode 100644
-> >> index 000000000000..4f99682a308d
-> >> --- /dev/null
-> >> +++ b/Documentation/devicetree/bindings/display/imx/fsl,imx8mp-hdmi-pai.yaml
-> >> @@ -0,0 +1,69 @@
-> >> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-> >> +%YAML 1.2
-> >> +---
-> >> +$id: http://devicetree.org/schemas/display/imx/fsl,imx8mp-hdmi-pai.yaml#
-> >> +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> >> +
-> >> +title: Freescale i.MX8MP HDMI Parallel Audio Interface
-> >> +
-> >> +maintainers:
-> >> +  - Shengjiu Wang <shengjiu.wang@nxp.com>
-> >> +
-> >> +description:
-> >> +  The HDMI TX Parallel Audio Interface (HTX_PAI) is a bridge between the
-> >> +  Audio Subsystem to the HDMI TX Controller.
-> >> +
-> >> +properties:
-> >> +  compatible:
-> >> +    const: fsl,imx8mp-hdmi-pai
-> >> +
-> >> +  reg:
-> >> +    maxItems: 1
-> >> +
-> >> +  interrupts:
-> >> +    maxItems: 1
-> >> +
-> >> +  clocks:
-> >> +    maxItems: 1
-> >> +
-> >> +  clock-names:
-> >> +    const: apb
-> >> +
-> >> +  power-domains:
-> >> +    maxItems: 1
-> >> +
-> >> +  port:
-> >> +    $ref: /schemas/graph.yaml#/properties/port
-> >> +    description: Output to the HDMI TX controller.
-> >> +
-> >> +required:
-> >> +  - compatible
-> >> +  - reg
-> >> +  - interrupts
-> >> +  - clocks
-> >> +  - clock-names
-> >> +  - power-domains
-> >> +  - port
-> >> +
-> >> +additionalProperties: false
-> >> +
-> >> +examples:
-> >> +  - |
-> >> +    #include <dt-bindings/clock/imx8mp-clock.h>
-> >> +    #include <dt-bindings/power/imx8mp-power.h>
-> >> +
-> >> +    audio-bridge@32fc4800 {
-> >> +        compatible = "fsl,imx8mp-hdmi-pai";
-> >> +        reg = <0x32fc4800 0x800>;
-> >> +        interrupt-parent = <&irqsteer_hdmi>;
-> >> +        interrupts = <14>;
-> >> +        clocks = <&clk IMX8MP_CLK_HDMI_APB>;
-> >> +        clock-names = "apb";
-> >> +        power-domains = <&hdmi_blk_ctrl IMX8MP_HDMIBLK_PD_PAI>;
-> >> +
-> >> +        port {
-> >> +            pai_to_hdmi_tx: endpoint {
-> >> +                remote-endpoint = <&hdmi_tx_from_pai>;
-> >> +            };
-> >> +        };
-> >> +    };
-> >> -- 
-> >> 2.34.1
-> >>
-> > 
-> 
-> 
-> -- 
-> Regards,
-> Liu Ying
+Changes in v2:
+- Use scnprintf() in qaic_sysfs.c to fix openrisc build error with -Wformat-truncation
+- Link to v1: https://lore.kernel.org/all/20251022202527.3873558-1-youssef.abdulrahman@oss.qualcomm.com
+---
+Jeff Hugo (1):
+  accel/qaic: Implement basic SSR handling
 
+Pranjal Ramajor Asha Kanojiya (2):
+  accel/qaic: Add DMA Bridge Channel(DBC) sysfs and uevents
+  accel/qaic: Collect crashdump from SSR channel
+
+ Documentation/ABI/stable/sysfs-driver-qaic |  16 +
+ Documentation/accel/qaic/aic100.rst        |  24 +-
+ drivers/accel/qaic/Kconfig                 |   1 +
+ drivers/accel/qaic/Makefile                |   2 +
+ drivers/accel/qaic/qaic.h                  |  36 +
+ drivers/accel/qaic/qaic_control.c          |   2 +
+ drivers/accel/qaic/qaic_data.c             |  64 +-
+ drivers/accel/qaic/qaic_drv.c              |  25 +
+ drivers/accel/qaic/qaic_ssr.c              | 815 +++++++++++++++++++++
+ drivers/accel/qaic/qaic_ssr.h              |  17 +
+ drivers/accel/qaic/qaic_sysfs.c            | 109 +++
+ 11 files changed, 1102 insertions(+), 9 deletions(-)
+ create mode 100644 Documentation/ABI/stable/sysfs-driver-qaic
+ create mode 100644 drivers/accel/qaic/qaic_ssr.c
+ create mode 100644 drivers/accel/qaic/qaic_ssr.h
+ create mode 100644 drivers/accel/qaic/qaic_sysfs.c
+
+
+base-commit: 8fec172c82c2b5f6f8e47ab837c1dc91ee3d1b87
 -- 
-Simona Vetter
-Software Engineer
-http://blog.ffwll.ch
+2.34.1
+
