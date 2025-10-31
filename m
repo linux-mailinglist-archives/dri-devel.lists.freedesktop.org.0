@@ -2,83 +2,89 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8DC45C23FA4
-	for <lists+dri-devel@lfdr.de>; Fri, 31 Oct 2025 10:01:37 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id D7A60C23FF2
+	for <lists+dri-devel@lfdr.de>; Fri, 31 Oct 2025 10:05:43 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8F71B10E165;
-	Fri, 31 Oct 2025 09:01:34 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3CD7C10EAD7;
+	Fri, 31 Oct 2025 09:05:40 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=suse.com header.i=@suse.com header.b="Wbrcvng8";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="KXOm5lkt";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-f53.google.com (mail-lf1-f53.google.com
- [209.85.167.53])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4C68A10E165
- for <dri-devel@lists.freedesktop.org>; Fri, 31 Oct 2025 09:01:34 +0000 (UTC)
-Received: by mail-lf1-f53.google.com with SMTP id
- 2adb3069b0e04-592fdbeb7b2so2651026e87.0
- for <dri-devel@lists.freedesktop.org>; Fri, 31 Oct 2025 02:01:34 -0700 (PDT)
+Received: from mail-wm1-f51.google.com (mail-wm1-f51.google.com
+ [209.85.128.51])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7EE5310EAD7
+ for <dri-devel@lists.freedesktop.org>; Fri, 31 Oct 2025 09:05:38 +0000 (UTC)
+Received: by mail-wm1-f51.google.com with SMTP id
+ 5b1f17b1804b1-4711b95226dso24862335e9.0
+ for <dri-devel@lists.freedesktop.org>; Fri, 31 Oct 2025 02:05:38 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=suse.com; s=google; t=1761901293; x=1762506093; darn=lists.freedesktop.org; 
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=sz8A+kt2c263JVWpwySRC4hb0MoNUZ2J+PKEPthLk9k=;
- b=Wbrcvng8vP2ulQMKRl6ssHR5V7IYN/4gjaieh9oSFLjvDaQoQZ1Qaw/WhOSW6EwovK
- CzsymA3TMK9qm+xm/lIVEYcUIsd0qIaT3xu3D+VUkbf0EGR+keIVtTMXAA+WdlkFLFjN
- /jwtPCBgpmQEEur6R5v2Myon23CiGCXebRjftpnHKGHzfksHxVQsIVB+PEQ30Omu4mNd
- 31hIz5NjBy/CiLRqkgzj3IjLLYTbDF8XUnimg/H99znIAlviTl69cRFwLv1PeAGEIA35
- gKJt82sq2oEr+I+UF1hVJA0LurmBjQH/rviduEs4zOrg3TSVYOyITXu9yDMXhrqo8cz6
- C2wA==
+ d=gmail.com; s=20230601; t=1761901537; x=1762506337; darn=lists.freedesktop.org;
+ h=cc:to:content-transfer-encoding:mime-version:message-id:date
+ :subject:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=3aqRGwqwN2V4mYhgwOypNmslGulZldQn28Px6r89nRA=;
+ b=KXOm5lktNPlT2IbFSbp3ARbXcPxwDap8/x85x8Jt3LDZdgFdTx9fQ8KrxZsr7zV5oD
+ FwC/94xrLPgsqwdrQLxFBQLhGsmwZ0DWWPx2W7C5RBzMuoZ8/AfRi+XQ4Qhw0PKTdBOh
+ k8YTs9NQIRAllSvO3LXY4SVFBlVXaQLMyFZ8FoaexJz1VtgewSiFshDgPtxoVdFCAt7j
+ HIU5ponmOeWUMmxI+LiVQY4+zGOXtqjIT6f5wT2kdeiNndQMcPFlHAJL4lH2TWruDJWD
+ +q10Mlcppda3TipqELKH9/uELT88zEHlOmCWBRyWdm6h6SN8JCYAo8duXngk99kwUGgp
+ 2Mqg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1761901293; x=1762506093;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=sz8A+kt2c263JVWpwySRC4hb0MoNUZ2J+PKEPthLk9k=;
- b=Asq9lwFoJ34KTxLMT/dib2wb6HTCgAFyG+tqNoA8jWBYe01jQvXv257D3zh6icGU0V
- JgyXrTzL82a5SD0FH5d9R8Il5tAyMyn4bXkFGJFgUr5ycRI1gjL7ueeNynlHR8wT3mbw
- fMjPIH9GGPOrpWtF0FCtTbZ0V3nw4h39670RASUI8nPqxPtYG/ftd1OW8+SjUi2fp+Kq
- 3FZrjGPXxCbyVKtCHvXKSqNFtNPx3OofEaEuolWOj7sliwFpvUsn2EyDBuZun+muT1iz
- mvoTOrWAJ51eBwgUWM1wpKjOL7V4ObcDwvrPMO17N34jaZONSlVLgMUwu3BPL34yAfx+
- XeEQ==
+ d=1e100.net; s=20230601; t=1761901537; x=1762506337;
+ h=cc:to:content-transfer-encoding:mime-version:message-id:date
+ :subject:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=3aqRGwqwN2V4mYhgwOypNmslGulZldQn28Px6r89nRA=;
+ b=qe+vifHN36/N9wscMqun8KPXCn8jyxH+9RwMwcWfUvZtwdOpH3MAM9BR321T8fYVLY
+ +4rBLozL45TAuNL2/yt8AecMBNFZCEJlu+OIoBFA9tLLpbaku9ddpedY+mqteijk7fmS
+ 99tQqclg5RwZIYjFqC2MmPXJeckc+QAusow40AGa57ptN40ZD9MFbocugUNItfGYdIXa
+ Bbl1ymOYUKW8xRmys+hwvrZpHD7CgVak7JURpon+pSflivVqptqyZZ+SEBrE3GMMdDu8
+ fqjTYfeJXh+frkwLExabywW0d9+UnO3LbeCs/wjPSw8+fEQBdp6Hj8RTXfAOew2cVpvY
+ sdXQ==
 X-Forwarded-Encrypted: i=1;
- AJvYcCVwJKsQwR8JL1kPGxV8fWPyR2+Psz6FaLRK/BpaaRi+J0JtMdZRPvffE94KZ8ifqiPVR+Cc5t9gebU=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YyESJmbwBPofp6Mh5Ql82hAmdW+RNsfStjsC5HNoRTV1q+uds7D
- 1baCYwP2q8yFN6+jusJdjRh9JsHfimWbrYimI+rDKqwxbmLLNLak/u0oph+sIKJGWlqFUm0kOnG
- K/yN7xgJPbCoFah8ZuBugQHm2oNlaq2yvy896oC4mDA==
-X-Gm-Gg: ASbGncvPPan9+/2V7LFk9a3KN7+hFg7MwbwMSpv3o8fXSDj7bfD+RBe/ZWR63n0uVCk
- 6H/hPxjNsMUbmL7GGezVPxPYvJFbH203GgnmdC47m9LA6WTw8VAF6pFrnw/LeOvpwJZA/9eN00+
- pb1vX7RCpZG+1NnCgHc5Hix0XNw0AXw0q2GE5eif0dLCOJzGQGKR4vv5DtMKMn3sjQN3BJxC5qg
- /rg65OCO6PM63wefT+nTCCx1FZXierHsOWlwDUohsIR/c6zQFzjRWY3DdnTEcY4GS3Zj/G1Xshb
- VigMlohnGpHehuIQVg==
-X-Google-Smtp-Source: AGHT+IG6dDTmqgRndauEm3n43gUUTvbxoIAo8xjrG46WEWaGTmwuwaI0CaRln1vBjuRad9gGiPuvQ5vdbLdXcNS55e0=
-X-Received: by 2002:a05:6512:3c93:b0:592:f9dd:8f28 with SMTP id
- 2adb3069b0e04-5941d53e85amr990212e87.35.1761901292415; Fri, 31 Oct 2025
- 02:01:32 -0700 (PDT)
+ AJvYcCWUqN9+hJHppq70dM67JBAmfD1Xl20TimhlzBQLCToCtqUjI3/CfoJemGe/+2UiVFGZzLdODCEqWuc=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Yx/spfB3fQ39Cs/bt7V/9MCvgQX6VOrWKK4eDJu8eTv34bEqM31
+ xeQ/N//jrzxJuBhWjYWATF8bjkvTLd0bN3993SpTQC8CqENPBh6tc/I3
+X-Gm-Gg: ASbGnctRVzUH68Oktu0665Jfa2B/yvaJhoQB9BVneHL2zCWCFYPubdb6hBR+RTOY91v
+ HW1XwoGO9j+ItUUXqMRLVGcJShXCmnUEmHhCus1pI85cVrX4cxwoFXPO9AUdcd+bna6Kb1UHMBT
+ foaOV6Hg60kSdm7uxaL6paZHVmcpnjbYELiG1/anJkDXrQjYMAbbKIY70mxyf3E8l6za2TikDph
+ AV5lqGRsDccRVRm4GW/pWfr/GvVSQIulF2LoKktVLgCeXUZBFxayXarksXJAJFjX+cCO2+SX6Os
+ bHsNxQmmHUaZw6gbpDltsjHY6RnSpjprKi9IblincCV0JCq01vohwURN4y1/HsQ0Z2xrYtLyeu5
+ QkBU4yEnc/eFEL8+7xyO89x4LytIN1SCgR3jIwy8UwP8G3/keYbiFaQaXbe9/3c79i6q+LGUS0h
+ np+6qcRd6AhOVxILXDuXG+z3k8IHsgRTqmieF7Sh1NYw==
+X-Google-Smtp-Source: AGHT+IFg1FhvXQeYmxAmP+Nfhgs6XrXefcP9LhQ7WeeLTenWM5h6u0BVP7s24vUtB2NJSszwvaVfhw==
+X-Received: by 2002:a05:6000:2f83:b0:427:a27:3a6c with SMTP id
+ ffacd0b85a97d-429bd6d69aamr1761935f8f.63.1761901536640; 
+ Fri, 31 Oct 2025 02:05:36 -0700 (PDT)
+Received: from ipedrosa-thinkpadx1carbongen12.rmtes.csb ([5.225.139.156])
+ by smtp.gmail.com with ESMTPSA id
+ 5b1f17b1804b1-477289adaf8sm93454475e9.7.2025.10.31.02.05.35
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 31 Oct 2025 02:05:36 -0700 (PDT)
+From: Iker Pedrosa <ikerpedrosam@gmail.com>
+Subject: [PATCH v4 0/3] drm/sitronix/st7920: Add support for the ST7920
+ controller
+Date: Fri, 31 Oct 2025 10:05:16 +0100
+Message-Id: <20251031-st7920-v4-0-35291f8076b2@gmail.com>
 MIME-Version: 1.0
-References: <20251030161011.282924-1-marco.crivellari@suse.com>
- <20251030161011.282924-3-marco.crivellari@suse.com>
- <34829993-a888-4f7c-a2c6-e87723644c3c@amd.com>
-In-Reply-To: <34829993-a888-4f7c-a2c6-e87723644c3c@amd.com>
-From: Marco Crivellari <marco.crivellari@suse.com>
-Date: Fri, 31 Oct 2025 10:01:21 +0100
-X-Gm-Features: AWmQ_blyHKRMjIwqs9IEExJag89S5F7s8p2T3thDh3CMhSPUjI4-6H-ukHS_NTs
-Message-ID: <CAAofZF5pSB-kJVr_PJbo_845VbpaB1Fbf+yeA74sWOU_vXfypQ@mail.gmail.com>
-Subject: Re: [PATCH 2/4] drm/amdgpu: replace use of system_wq with
- system_percpu_wq
-To: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
-Cc: linux-kernel@vger.kernel.org, amd-gfx@lists.freedesktop.org, 
- dri-devel@lists.freedesktop.org, Tejun Heo <tj@kernel.org>, 
- Lai Jiangshan <jiangshanlai@gmail.com>,
- Frederic Weisbecker <frederic@kernel.org>, 
- Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
- Michal Hocko <mhocko@suse.com>, 
- Alex Deucher <alexander.deucher@amd.com>, David Airlie <airlied@gmail.com>, 
- Simona Vetter <simona@ffwll.ch>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAMx7BGkC/2XNTQ6CMBCG4auQrq0Z+gd15T2Miym00ETAtIRoC
+ He3sECiy2/S5+1Mog3eRnLJZhLs5KMf+jTEKSNVi31jqa/TJgyYhBIUjWOhGVBboEHODEejSHr
+ 8DNb51xa63dNufRyH8N66U75e/xJTToEqgUYiF04jXJsO/eNcDR1ZExP7Mg16ZywxAdqJUoMz0
+ v0yvrMcDr/xlblS10oqh8CPbFmWD3fCG4MKAQAA
+X-Change-ID: 20250806-st7920-e7aba32b3ab6
+To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
+ Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+ Conor Dooley <conor+dt@kernel.org>, 
+ Javier Martinez Canillas <javierm@redhat.com>, 
+ Iker Pedrosa <ikerpedrosam@gmail.com>
+Cc: linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org, 
+ devicetree@vger.kernel.org
+X-Mailer: b4 0.14.2
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -94,45 +100,85 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Oct 30, 2025 at 6:10=E2=80=AFPM Christian K=C3=B6nig
-<christian.koenig@amd.com> wrote:
->[...]
-> In this particular use case we actually don't want the percpu wq.
->
-> This can execute on any CPU except for the current one.
->
-> Regards,
-> Christian.
->
-> >  exit:
-> >       if (amdgpu_sriov_vf(adev)) {
->
+This patch-series adds support for the Sitronix ST7920 controller, which
+is a monochrome dot-matrix graphical LCD controller that has SPI and
+parallel interfaces.
 
-Hi Christian,
+The st7920 driver only has support for SPI so displays using other
+transport protocols are currently not supported.
 
-like for the unbound workqueue also the system_percpu_wq is just a
-rename for system_wq.
-Technically I changed the workqueue because we added in the code two wq:
-- system_percpu_wq
-- system_dfl_wq
+* Patch #1 adds the driver.
+* Patch #2 adds the DT binding schema.
+* Patch #3 adds the MAINTAINERS information.
 
-You can see the commits mentioned in the cover letter, shared also below:
+---
+Changes in v4:
+- Added definitions for the VDD power supply and the XRESET GPIO line,
+  which were identified as minimum requirements from the datasheet.
+- The error handling strategy has been refactored to propagate an
+  error-tracking struct from the caller.
+- The atomic enable/disable logic has been correctly moved from
+  drm_encoder_helper_funcs to drm_crtc_helper_funcs, as the
+  functionality is bound to the CRTC.
+- Added drm_dev_enter() and drm_dev_exit() calls to the atomic_enable
+  and atomic_disable helpers to correctly manage the device's runtime
+  power state.
+- Renamed macro definitions to match the correct terminology.
+- Link to v3: https://lore.kernel.org/r/20251006-st7920-v3-0-4f89d656fa03@gmail.com
 
-- commit 128ea9f6ccfb ("workqueue: Add system_percpu_wq and system_dfl_wq")
-- commit 930c2ea566af ("workqueue: Add new WQ_PERCPU flag")
+Changes in v3:
+- Reorganize the patch documenting compatible (DT bindings) before their
+  use.
+- Drop reduntant information from DT bindings.
+- Use a goto label to ensure drm_dev_exit() is called in the error path
+  of drm_gem_fb_begin_cpu_access().
+- Link to v2: https://lore.kernel.org/r/20250909-st7920-v2-0-409f4890fb5f@gmail.com
 
-So basically the behavior is the same.
+Changes in v2:
+- Refactor SPI communication:
+  * Internalize error handling and delays within the st7920_spi_write()
+    helper.
+  * Split the main SPI write function into smaller, command-specific
+    helpers for clarity.
+- Improve DRM/KMS logic:
+  * Relocate CPU access calls (drm_gem_fb...) to the atomic_update hook.
+  * Use standard DRM helpers (drm_crtc_helper_mode_valid_fixed and
+    drm_connector_helper_get_modes_fixed) for mode validation and
+    creation.
+- General code cleanup:
+  * Remove dead code related to ST7920_FAMILY.
+  * Replace WARN_ON() with drm_WARN_ON_ONCE().
+  * Ensure single variable assignments per line.
+- Fix probe initialization order:
+  * Move spi_set_drvdata() and st7920_init() to occur before device
+    registration.
+- Devicetree:
+  * Update bindings to address feedback from review (e.g., reference
+    common SPI properties).
+- MAINTAINERS:
+  * Add a proper commit message to the patch.
+- Link to v1: https://lore.kernel.org/r/20250806-st7920-v1-0-64ab5a34f9a0@gmail.com
+---
 
-But if it would be beneficial to have an unbound wq, I can send the v2
-with the change!
-We did so also for other subsystems.
+Signed-off-by: Iker Pedrosa <ikerpedrosam@gmail.com>
 
-Thanks!
+---
+Iker Pedrosa (3):
+      dt-bindings: display: sitronix,st7920: Add DT schema
+      drm: Add driver for Sitronix ST7920 LCD displays
+      MAINTAINERS: Add entry for Sitronix ST7920 driver
 
+ .../bindings/display/sitronix,st7920.yaml          |  58 ++
+ MAINTAINERS                                        |   7 +
+ drivers/gpu/drm/sitronix/Kconfig                   |  10 +
+ drivers/gpu/drm/sitronix/Makefile                  |   1 +
+ drivers/gpu/drm/sitronix/st7920.c                  | 905 +++++++++++++++++++++
+ 5 files changed, 981 insertions(+)
+---
+base-commit: c571cb70e1ed43ee543c70151e61a001ab2eefa2
+change-id: 20250806-st7920-e7aba32b3ab6
 
+Best regards,
+-- 
+Iker Pedrosa <ikerpedrosam@gmail.com>
 
---
-
-Marco Crivellari
-
-L3 Support Engineer, Technology & Product
