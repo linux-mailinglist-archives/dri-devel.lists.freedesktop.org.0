@@ -2,141 +2,82 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D415BC24046
-	for <lists+dri-devel@lfdr.de>; Fri, 31 Oct 2025 10:08:03 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id EC73BC24227
+	for <lists+dri-devel@lfdr.de>; Fri, 31 Oct 2025 10:25:55 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B601F10EAD6;
-	Fri, 31 Oct 2025 09:08:01 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8E9AB10E2B6;
+	Fri, 31 Oct 2025 09:25:33 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=amd.com header.i=@amd.com header.b="hj3nAC8k";
+	dkim=pass (2048-bit key; unprotected) header.d=google.com header.i=@google.com header.b="pyhOKJB5";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from CH1PR05CU001.outbound.protection.outlook.com
- (mail-northcentralusazon11010048.outbound.protection.outlook.com
- [52.101.193.48])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 30BDA10EAD6
- for <dri-devel@lists.freedesktop.org>; Fri, 31 Oct 2025 09:08:00 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=L5jZluuyJhog0VB7XMlw5ul/hodAx/bypq+bloiZ/r2d1+eS3gFQR30qepO/AQCjQnxm5DmxiznfDtUeE5yd087YPmZXqXKuTy7cR4n4onLn/5ASWJ27EOvhSAwUpgWBpOx+amszHKy3rmRZDfg7DLmifYhD8W7N+qrEB4OJA/1iVSx1T/yZdqzjnjUHIUlFjjn5YGQCLfb8zinHB6hWPamdmvyiAzE2X7MNqbCdyWKQu2gICfNoVV2KpTQVNLWctJ6Nrl347vGm1gzR5sM744/oVL7A6ebVeSN7U3eaqQY3MVJ7oV1gslhDLMpfvp4JkeHlMM0llrf215As98HIyw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=QdNvOiQ1LXcb13VOXga0h/FFdJUqY66hyml/hMGWAEI=;
- b=LT05SD1gf83ic3Yo51mHI7c/sXAV3i5t9Sl/StUMfWHhOOqDz0YNaR3KTTR/41Ffkq7IIkvIT2vNk5wdhRDPmG8JkcaSqK2WnjBB2xMadsseannBLZOYOKk+MoRUdEyoDcefqUR2pXGzf5QsMN4nH98hVvmTHxn4iqyZzwJzqWNojwQFYU08CDO98dK1KWT0znUSVj8CoBY418xF9k7waY7CUQZLAcTnOPm/B5LJFbIKiaOnWl418wp2g2DX9naPiDI05jFJ6m34mmswRu0mhHP4wjO5uo8CBB4pKEYMyeoeNwzszEr3GZGxoEXmBjJ70bQe9rd4TctmylApxFqLfA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 165.204.84.17) smtp.rcpttodomain=intel.com smtp.mailfrom=amd.com; dmarc=pass
- (p=quarantine sp=quarantine pct=100) action=none header.from=amd.com;
- dkim=none (message not signed); arc=none (0)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=QdNvOiQ1LXcb13VOXga0h/FFdJUqY66hyml/hMGWAEI=;
- b=hj3nAC8kRu53LFEFQ1eIf3hSZoZpg62uimlrBoxl1txqUhSpi7r25HvSjWk7G8Nlw2NV11ib2ty9C7BO57KlOq0VKPDVhwrD5chWpa28CGmMz56PshgEaJLt5BgBACU9qXmgTAODAvVdhcdrvk0K8OQQiCG0qm+ygFSG9kA9IrE=
-Received: from BY5PR04CA0029.namprd04.prod.outlook.com (2603:10b6:a03:1d0::39)
- by IA1PR12MB6458.namprd12.prod.outlook.com (2603:10b6:208:3aa::22)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9275.15; Fri, 31 Oct
- 2025 09:07:55 +0000
-Received: from SJ1PEPF00001CE0.namprd05.prod.outlook.com
- (2603:10b6:a03:1d0:cafe::14) by BY5PR04CA0029.outlook.office365.com
- (2603:10b6:a03:1d0::39) with Microsoft SMTP Server (version=TLS1_3,
- cipher=TLS_AES_256_GCM_SHA384) id 15.20.9275.14 via Frontend Transport; Fri,
- 31 Oct 2025 09:07:52 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
- smtp.mailfrom=amd.com; dkim=none (message not signed)
- header.d=none;dmarc=pass action=none header.from=amd.com;
-Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
- 165.204.84.17 as permitted sender) receiver=protection.outlook.com;
- client-ip=165.204.84.17; helo=satlexmb07.amd.com; pr=C
-Received: from satlexmb07.amd.com (165.204.84.17) by
- SJ1PEPF00001CE0.mail.protection.outlook.com (10.167.242.8) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.9275.10 via Frontend Transport; Fri, 31 Oct 2025 09:07:54 +0000
-Received: from FRAPPELLOUX01-WSLPUB.amd.com (10.180.168.240) by
- satlexmb07.amd.com (10.181.42.216) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.17; Fri, 31 Oct 2025 02:07:52 -0700
-From: Pierre-Eric Pelloux-Prayer <pierre-eric.pelloux-prayer@amd.com>
-To: Matthew Brost <matthew.brost@intel.com>, Danilo Krummrich
- <dakr@kernel.org>, Philipp Stanner <phasta@kernel.org>,
- =?UTF-8?q?Christian=20K=C3=B6nig?= <ckoenig.leichtzumerken@gmail.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Maxime Ripard
- <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, David Airlie
- <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, Sumit Semwal
- <sumit.semwal@linaro.org>
-CC: Pierre-Eric Pelloux-Prayer <pierre-eric.pelloux-prayer@amd.com>, "Mikhail
- Gavrilov" <mikhail.v.gavrilov@gmail.com>,
- =?UTF-8?q?Christian=20K=C3=B6nig?=
- <christian.koenig@amd.com>, <dri-devel@lists.freedesktop.org>,
- <linux-kernel@vger.kernel.org>, <linux-media@vger.kernel.org>,
- <linaro-mm-sig@lists.linaro.org>
-Subject: [PATCH v2] drm/sched: Fix deadlock in drm_sched_entity_kill_jobs_cb
-Date: Fri, 31 Oct 2025 10:07:03 +0100
-Message-ID: <20251031090704.1111-1-pierre-eric.pelloux-prayer@amd.com>
-X-Mailer: git-send-email 2.43.0
-MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8bit
-X-Originating-IP: [10.180.168.240]
-X-ClientProxiedBy: satlexmb07.amd.com (10.181.42.216) To satlexmb07.amd.com
- (10.181.42.216)
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: SJ1PEPF00001CE0:EE_|IA1PR12MB6458:EE_
-X-MS-Office365-Filtering-Correlation-Id: 04bc99fa-1d1e-4ecc-f922-08de185cfa72
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
- ARA:13230040|7416014|376014|1800799024|82310400026|36860700013|13003099007|921020;
-X-Microsoft-Antispam-Message-Info: =?utf-8?B?bnBmTGNNUFpFMVNzTjVuZHcrUEZjWGtVRmlna2xoMVBIZ3QrNVdWL1BWS3hU?=
- =?utf-8?B?U04yZ3dNbXBobktUMmZNSk9TZXVsMEgyNTFlRUZ1UGFNMU9vc1hiMFlCaExX?=
- =?utf-8?B?ZVNraUhZaWhBTFc3b3VqczJxZFdtNW1rZHZXR3h1Y25QblRuUUVYK3NGN0t3?=
- =?utf-8?B?R0pkMHZBZXRZL0p6S014eWU1SFBxSW9kclVtVlJIZkFlWlNudFI2bE1xTHY4?=
- =?utf-8?B?K2NKWWRYMmRlbTlrKy9yaFNJdm5uZHl1RnpHZnloV09HZXkyZkttZzJtTkhH?=
- =?utf-8?B?THV0eEJxZ1NvRHQyd09JVGdSOTBweUlod2RsVHZjSlpWa2xubVlXZFY3OE1w?=
- =?utf-8?B?NDVXdlU3TFVXaGprMnNSems0Q1BLMDM5SEZ2WE1UazQ0Sm1nUlRpYnVBR0li?=
- =?utf-8?B?T050Z0tTMW9UQUdJSFV5TE1TWHpXOHJhc2tTUWtvTmhDTzNvRUY4d2VJT2dj?=
- =?utf-8?B?RW5jTHNvcHJsVzZ2RjZyYzk2djBJWGYwV0ZIR1ZXNjJsMk03V2RvNHFUS3JQ?=
- =?utf-8?B?cUpSRlFSNmlNaVcwZGQ1Rk9sRE9ib1FBZkZBMkJnRTA4QW5Db0RjSTl6cnQ2?=
- =?utf-8?B?VGQxaEZmWmxBM3p5SzB2NUw2R1RzelRSRFVhRWpzdzhPUjl0UnA5RDZmbmsv?=
- =?utf-8?B?bytoUTd0TWM5QkdWZFROSFlySmtraVpWeHpxUkpRWVZyZkJJUXJDakhxcHY3?=
- =?utf-8?B?bklGd0p1Nm8wQ2RpYnlSZFlMby9TUGZlZFNLb3VxV0h6U2Z1azE2NUh0VjZI?=
- =?utf-8?B?Q1VGem1aYWxNWEZ1UUNhMWhjN1dSL3VUWWttZGlSNTFWWjRyV0RkU1NPSjBD?=
- =?utf-8?B?MHlXWmtQYUZNQXRLT1JWd1ZhZG1JeUtmZDFNQVFuVGViRDZPTFpVNENGd2Jz?=
- =?utf-8?B?c203N0I5bDhST2hDWkMzbEJRSFB1Ti9lU2Z2V3E5N0FlZDk0WjJjRnBvbm9u?=
- =?utf-8?B?am8vMzZ2QjJiUHZjYnlYTmYyaGNDbkhLem5BNEhzVkJYSnpkKzlKLzFVbURq?=
- =?utf-8?B?QTRqOTZTSkIxM1p2aE9Way96eXAwZFovUFlNYllBSU5NdVVZdTRFcXFvRDZw?=
- =?utf-8?B?UGEreHNVK2QzSHlqVy9KR0c2SXdNankvYVdXOEFLbU1ja3pKZGU1aG5vN1Rp?=
- =?utf-8?B?eDNtYVJMQ0ZjMDNNWENScSszM1Jnc3ZTU0VqaG9VbUQ2ekdzYXFENVlQbmFD?=
- =?utf-8?B?aTdXcmg3WExrb0o3SHBJSW5vVnhUQW9IWkV6SUt0Si9FNjdCQzI2RWlIKzBl?=
- =?utf-8?B?a21BblpmOXEyMWlZdzJGeHd0clJXc01RUEJScGFxVmF1cEpOaHZGdWVacUtt?=
- =?utf-8?B?KzFDbEpNRXdrUHBDcVV6MkVDMkhLRWVGcWRwS1Uxeit0UVNFa1NETmJtR2tP?=
- =?utf-8?B?Zi94M05mQVlvZDNSRm1MY1N4WWo4ZTAybkhyU1FkNjdxUlNSL2xNTEdVd3hP?=
- =?utf-8?B?ak9rejl0SndkNlhJSVJFVkZJM0FHSnRoc09yU0oyNjZYQTJOWlVNVFVVNnV0?=
- =?utf-8?B?Z1d3QWp5QjRqQ0tNU1k4bm1HTElHeGFtMzZMNlVWM1N0L3pSd0tyZDd5Yk5Z?=
- =?utf-8?B?QWlDUWQ1c2lNUExRa3d3a2dsY1pYRFVRZHQ0cENNTlIvRTdLdWMrcEdJTmRK?=
- =?utf-8?B?bUc5Z3VENTc1dkg0cTMyNy9pQm5rYmswazljZkt3VHMzbDNEN0FseW1HNlhZ?=
- =?utf-8?B?b1RVRmFSaEQ2Z1Ivc1VPak5vUWtlV1dZUUZBVTVRbUJ4bjgzNTFicE9wR0V3?=
- =?utf-8?B?N2ZUeWFDSVZvTFNhL2RadWVLaTZMblFQd24xWEdUbWRzUk82a1ZGNGRHc0pR?=
- =?utf-8?B?NFNiaUJvL2Z0bFk4YnVWTUJyZDl2NG14L2ZPYXpDY1Nkd0FCVkZ5TGNsVE5I?=
- =?utf-8?B?b3ZPUWlPblU5UmY5K0t3Vytka09YeEp1WEhFUXhQZXFJOVpOVE5Zd2ZQQTBn?=
- =?utf-8?B?UWN5ZFg5M2FXL2RUUWRPeGRZTGMwTXRxZkdGYmZ4eFA0NW94SzBLZlFNNU9w?=
- =?utf-8?B?MlcvK3A0NnNFVEhIc3dGU2pKR0t4a0hyZTNMSFpOM0t4anJ4THJiOGtXREJY?=
- =?utf-8?Q?exbM1M?=
-X-Forefront-Antispam-Report: CIP:165.204.84.17; CTRY:US; LANG:en; SCL:1; SRV:;
- IPV:CAL; SFV:NSPM; H:satlexmb07.amd.com; PTR:InfoDomainNonexistent; CAT:NONE;
- SFS:(13230040)(7416014)(376014)(1800799024)(82310400026)(36860700013)(13003099007)(921020);
- DIR:OUT; SFP:1101; 
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 31 Oct 2025 09:07:54.9755 (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 04bc99fa-1d1e-4ecc-f922-08de185cfa72
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d; Ip=[165.204.84.17];
- Helo=[satlexmb07.amd.com]
-X-MS-Exchange-CrossTenant-AuthSource: SJ1PEPF00001CE0.namprd05.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: IA1PR12MB6458
+Received: from mail-wm1-f74.google.com (mail-wm1-f74.google.com
+ [209.85.128.74])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 96E7510E2D7
+ for <dri-devel@lists.freedesktop.org>; Fri, 31 Oct 2025 09:25:32 +0000 (UTC)
+Received: by mail-wm1-f74.google.com with SMTP id
+ 5b1f17b1804b1-46e39567579so12388285e9.0
+ for <dri-devel@lists.freedesktop.org>; Fri, 31 Oct 2025 02:25:32 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=google.com; s=20230601; t=1761902731; x=1762507531;
+ darn=lists.freedesktop.org; 
+ h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
+ :date:from:to:cc:subject:date:message-id:reply-to;
+ bh=6WlKnCisB9ct9qmD6vE7Q32WOqH6ypUITAGfg5cFitw=;
+ b=pyhOKJB5aR5mbQPtsvGN12b1f5tJjtbbOQ5NO7QIleKW1LMQh2xZ1Du9uq+eGgc1NF
+ XJg/ctTM3YssJ6pUYPAUxARkhtpaisHDJDIfUe1aBeoYOex44kIUUDvmeHC1EDEzoQ9q
+ jSVnThf5R3VSm8jFV6VD3Ov8FCGTD1QbCw79SdNsc1PDwHH5SWFW8gY/ftHGIUgLhOiG
+ /ratJDVgUGPA5xlcHyUYeH8F/TQMJ8CiRGqlM0Tr/lHutCehtApzgcToGnwnfXZFwXbx
+ hqDTILBEn+Fpjcdm3tZkSNpA8VV/bFDgBfXHM7fp+vu/jhO2pRLPsTnFJ1s/4w5BQLLj
+ QFcQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1761902731; x=1762507531;
+ h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
+ :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=6WlKnCisB9ct9qmD6vE7Q32WOqH6ypUITAGfg5cFitw=;
+ b=nsASDZKTUGrjxiOQEpYE1kxbeF9AQwpMLKSB4OIzGb8jn7LKsmcWtIHkEqFqU4BYYz
+ 8VwybV1jbinIoMHrM8Nc92dWtlrke0eor4VJnQCQDDYkvmD5Ut/M0MG4mHFGN6vkTnq3
+ cz7Ntoki7dw8/ItyFFiZnbra5YjuMS7nXqZQGXQ30WZc5BehH78umAn/AUNuasPYS6zz
+ gRWHCIGXmh2pTjoKWMuSli1mp35PXB3rnpzGKXpxuBqquyXQ5U8DuM3O60MFv0d9Uzsy
+ EHcuEqk+qsdcYfiJr7A8RC3k4ItllYGggpF13qTLwFJ+dwwuSB94fuoECNS5q+7a0/aS
+ xHKQ==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCVu75udEDn8Dd7Y8JvYPi1c3Qq+0kUW++zDPSh64+SOwNR2FPPGFWOMPHXZIFTwky9uT6XQ+mvoVNI=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YwnBIcDIwbNioo3fM0OpSTchmgo511uIRAYAPVBH72z1sNyvd+X
+ ag3u8/e/Ilgmu8KeXFylekIukjuMf4ai1pRxbYDTNRuJKNASBaQTjGyelc7/KEUhsgiiKHQiTQ3
+ rdYmBd7AEf9mzaGrd2g==
+X-Google-Smtp-Source: AGHT+IHWugTxsig5fzodator7/hQMt08rOx6g1kN5VIX3Mbwa2C/APlNWSpe6c8n/O0bzJQw4pl8iXtD8Cfg3gA=
+X-Received: from wmdd17.prod.google.com ([2002:a05:600c:a211:b0:475:da28:9004])
+ (user=aliceryhl job=prod-delivery.src-stubby-dispatcher) by
+ 2002:a05:600c:4591:b0:46f:d897:516f with SMTP id
+ 5b1f17b1804b1-477308b51c3mr30708325e9.34.1761902731125; 
+ Fri, 31 Oct 2025 02:25:31 -0700 (PDT)
+Date: Fri, 31 Oct 2025 09:25:30 +0000
+In-Reply-To: <20251030190613.1224287-4-joelagnelf@nvidia.com>
+Mime-Version: 1.0
+References: <20251030190613.1224287-1-joelagnelf@nvidia.com>
+ <20251030190613.1224287-4-joelagnelf@nvidia.com>
+Message-ID: <aQSAijFQ6kBqI5f3@google.com>
+Subject: Re: [PATCH RFC 3/4] rust: drm: Add DRM buddy allocator bindings
+From: Alice Ryhl <aliceryhl@google.com>
+To: Joel Fernandes <joelagnelf@nvidia.com>
+Cc: linux-kernel@vger.kernel.org, rust-for-linux@vger.kernel.org, 
+ dri-devel@lists.freedesktop.org, dakr@kernel.org, 
+ David Airlie <airlied@gmail.com>, acourbot@nvidia.com, 
+ Alistair Popple <apopple@nvidia.com>, Miguel Ojeda <ojeda@kernel.org>, 
+ Alex Gaynor <alex.gaynor@gmail.com>, Boqun Feng <boqun.feng@gmail.com>, 
+ Gary Guo <gary@garyguo.net>, bjorn3_gh@protonmail.com, 
+ Benno Lossin <lossin@kernel.org>, Andreas Hindborg <a.hindborg@kernel.org>, 
+ Trevor Gross <tmgross@umich.edu>, Simona Vetter <simona@ffwll.ch>, 
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, 
+ Thomas Zimmermann <tzimmermann@suse.de>, John Hubbard <jhubbard@nvidia.com>,
+ Timur Tabi <ttabi@nvidia.com>, 
+ joel@joelfernandes.org, Elle Rhumsaa <elle@weathered-steel.dev>, 
+ Daniel Almeida <daniel.almeida@collabora.com>, Andrea Righi <arighi@nvidia.com>,
+ Philipp Stanner <phasta@kernel.org>, nouveau@lists.freedesktop.org
+Content-Type: text/plain; charset="utf-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -152,109 +93,495 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The Mesa issue referenced below pointed out a possible deadlock:
+On Thu, Oct 30, 2025 at 03:06:12PM -0400, Joel Fernandes wrote:
+> Add safe Rust abstractions over the Linux kernel's DRM buddy
+> allocator for physical memory management. The DRM buddy allocator
+> implements a binary buddy system for useful for GPU physical memory
+> allocation. nova-core will use it for physical memory allocation.
+> 
+> Signed-off-by: Joel Fernandes <joelagnelf@nvidia.com>
+> ---
+>  rust/bindings/bindings_helper.h |  11 +
+>  rust/helpers/drm.c              |  23 +-
+>  rust/kernel/drm/buddy.rs        | 357 ++++++++++++++++++++++++++++++++
+>  rust/kernel/drm/mod.rs          |   1 +
+>  4 files changed, 391 insertions(+), 1 deletion(-)
+>  create mode 100644 rust/kernel/drm/buddy.rs
+> 
+> diff --git a/rust/bindings/bindings_helper.h b/rust/bindings/bindings_helper.h
+> index 6b973589a546..747d4c7ef935 100644
+> --- a/rust/bindings/bindings_helper.h
+> +++ b/rust/bindings/bindings_helper.h
+> @@ -29,6 +29,7 @@
+>  #include <linux/hrtimer_types.h>
+>  
+>  #include <linux/acpi.h>
+> +#include <drm/drm_buddy.h>
+>  #include <drm/drm_device.h>
+>  #include <drm/drm_drv.h>
+>  #include <drm/drm_file.h>
+> @@ -112,6 +113,16 @@ const gfp_t RUST_CONST_HELPER_XA_FLAGS_ALLOC = XA_FLAGS_ALLOC;
+>  const gfp_t RUST_CONST_HELPER_XA_FLAGS_ALLOC1 = XA_FLAGS_ALLOC1;
+>  const vm_flags_t RUST_CONST_HELPER_VM_MERGEABLE = VM_MERGEABLE;
+>  
+> +#if IS_ENABLED(CONFIG_DRM_BUDDY)
+> +const unsigned long RUST_CONST_HELPER_DRM_BUDDY_RANGE_ALLOCATION = DRM_BUDDY_RANGE_ALLOCATION;
+> +const unsigned long RUST_CONST_HELPER_DRM_BUDDY_TOPDOWN_ALLOCATION = DRM_BUDDY_TOPDOWN_ALLOCATION;
+> +const unsigned long RUST_CONST_HELPER_DRM_BUDDY_CONTIGUOUS_ALLOCATION =
+> +								DRM_BUDDY_CONTIGUOUS_ALLOCATION;
+> +const unsigned long RUST_CONST_HELPER_DRM_BUDDY_CLEAR_ALLOCATION = DRM_BUDDY_CLEAR_ALLOCATION;
+> +const unsigned long RUST_CONST_HELPER_DRM_BUDDY_CLEARED = DRM_BUDDY_CLEARED;
+> +const unsigned long RUST_CONST_HELPER_DRM_BUDDY_TRIM_DISABLE = DRM_BUDDY_TRIM_DISABLE;
+> +#endif
+> +
+>  #if IS_ENABLED(CONFIG_ANDROID_BINDER_IPC_RUST)
+>  #include "../../drivers/android/binder/rust_binder.h"
+>  #include "../../drivers/android/binder/rust_binder_events.h"
+> diff --git a/rust/helpers/drm.c b/rust/helpers/drm.c
+> index 450b406c6f27..bd8748ade3f5 100644
+> --- a/rust/helpers/drm.c
+> +++ b/rust/helpers/drm.c
+> @@ -1,5 +1,6 @@
+>  // SPDX-License-Identifier: GPL-2.0
+>  
+> +#include <drm/drm_buddy.h>
+>  #include <drm/drm_gem.h>
+>  #include <drm/drm_vma_manager.h>
+>  
+> @@ -20,4 +21,24 @@ __u64 rust_helper_drm_vma_node_offset_addr(struct drm_vma_offset_node *node)
+>  	return drm_vma_node_offset_addr(node);
+>  }
+>  
+> -#endif
+> +#ifdef CONFIG_DRM_BUDDY
+> +
+> +u64 rust_helper_drm_buddy_block_offset(const struct drm_buddy_block *block)
+> +{
+> +	return drm_buddy_block_offset(block);
+> +}
+> +
+> +unsigned int rust_helper_drm_buddy_block_order(struct drm_buddy_block *block)
+> +{
+> +	return drm_buddy_block_order(block);
+> +}
+> +
+> +u64 rust_helper_drm_buddy_block_size(struct drm_buddy *mm,
+> +				     struct drm_buddy_block *block)
+> +{
+> +	return drm_buddy_block_size(mm, block);
+> +}
+> +
+> +#endif /* CONFIG_DRM_BUDDY */
+> +
+> +#endif /* CONFIG_DRM */
+> diff --git a/rust/kernel/drm/buddy.rs b/rust/kernel/drm/buddy.rs
+> new file mode 100644
+> index 000000000000..b1cd23f81838
+> --- /dev/null
+> +++ b/rust/kernel/drm/buddy.rs
+> @@ -0,0 +1,357 @@
+> +// SPDX-License-Identifier: GPL-2.0
+> +
+> +//! DRM buddy allocator bindings.
+> +//!
+> +//! C header: [`include/drm/drm_buddy.h`](srctree/include/drm/drm_buddy.h)
+> +//!
+> +//! This module provides Rust abstractions over the Linux kernel's DRM buddy
+> +//! allocator, which implements a binary buddy memory allocation system.
+> +//!
+> +//! The buddy allocator manages a contiguous address space and allocates blocks
+> +//! in power-of-two sizes. It's commonly used for physical memory management.
+> +//!
+> +//! # Examples
+> +//!
+> +//! ```ignore
+> +//! use kernel::{
+> +//!     drm::buddy::{BuddyFlags, DrmBuddy},
+> +//!     prelude::*,
+> +//!     sizes::*, //
+> +//! };
+> +//!
+> +//! let buddy = DrmBuddy::new(SZ_1G, SZ_4K)?;
+> +//! let allocated = buddy.alloc_blocks(
+> +//!     0, 0, SZ_16M, SZ_4K,
+> +//!     BuddyFlags::RANGE_ALLOCATION,
+> +//!     GFP_KERNEL,
+> +//! )?;
+> +//!
+> +//! for block in &allocated {
+> +//!     // Use block.
+> +//! }
+> +//! // Blocks are automatically freed when `allocated` goes out of scope.
+> +//! ```
+> +
+> +use crate::{
+> +    alloc::Flags,
+> +    bindings,
+> +    clist,
+> +    container_of,
+> +    error::{
+> +        to_result,
+> +        Result, //
+> +    },
+> +    prelude::KBox,
+> +    types::Opaque, //
+> +};
+> +use core::ptr::NonNull;
+> +
+> +/// Flags for DRM buddy allocator operations.
+> +///
+> +/// These flags control the allocation behavior of the buddy allocator.
+> +#[derive(Clone, Copy, PartialEq)]
+> +pub struct BuddyFlags(u64);
+> +
+> +impl BuddyFlags {
+> +    /// Range-based allocation from start to end addresses.
+> +    pub const RANGE_ALLOCATION: BuddyFlags =
+> +        BuddyFlags(bindings::DRM_BUDDY_RANGE_ALLOCATION as u64);
+> +
+> +    /// Allocate from top of address space downward.
+> +    pub const TOPDOWN_ALLOCATION: BuddyFlags =
+> +        BuddyFlags(bindings::DRM_BUDDY_TOPDOWN_ALLOCATION as u64);
+> +
+> +    /// Allocate physically contiguous blocks.
+> +    pub const CONTIGUOUS_ALLOCATION: BuddyFlags =
+> +        BuddyFlags(bindings::DRM_BUDDY_CONTIGUOUS_ALLOCATION as u64);
+> +
+> +    /// Clear allocated blocks (zero them).
+> +    pub const CLEAR_ALLOCATION: BuddyFlags =
+> +        BuddyFlags(bindings::DRM_BUDDY_CLEAR_ALLOCATION as u64);
+> +
+> +    /// Block has been cleared - internal flag.
+> +    pub const CLEARED: BuddyFlags = BuddyFlags(bindings::DRM_BUDDY_CLEARED as u64);
+> +
+> +    /// Disable trimming of partially used blocks.
+> +    pub const TRIM_DISABLE: BuddyFlags = BuddyFlags(bindings::DRM_BUDDY_TRIM_DISABLE as u64);
+> +
+> +    /// Get raw value for FFI.
+> +    pub(crate) fn as_raw(self) -> u64 {
+> +        self.0
+> +    }
+> +}
+> +
+> +impl core::ops::BitOr for BuddyFlags {
+> +    type Output = Self;
+> +
+> +    fn bitor(self, rhs: Self) -> Self::Output {
+> +        Self(self.0 | rhs.0)
+> +    }
+> +}
+> +
+> +/// DRM buddy allocator instance.
+> +///
+> +/// This structure wraps the C `drm_buddy` allocator.
+> +///
+> +/// # Safety
+> +///
+> +/// Not thread-safe. Concurrent alloc/free operations require external
+> +/// synchronization (e.g., wrapping in `Arc<Mutex<DrmBuddy>>`).
+> +///
+> +/// # Invariants
+> +///
+> +/// - `mm` is initialized via `drm_buddy_init()` and remains valid until Drop.
 
-[ 1231.611031]  Possible interrupt unsafe locking scenario:
+Usually an invariant is a statement about the present rather than about
+the past. I would say that `mm` is a valid buddy allocator.
 
-[ 1231.611033]        CPU0                    CPU1
-[ 1231.611034]        ----                    ----
-[ 1231.611035]   lock(&xa->xa_lock#17);
-[ 1231.611038]                                local_irq_disable();
-[ 1231.611039]                                lock(&fence->lock);
-[ 1231.611041]                                lock(&xa->xa_lock#17);
-[ 1231.611044]   <Interrupt>
-[ 1231.611045]     lock(&fence->lock);
-[ 1231.611047]
-                *** DEADLOCK ***
+> +pub struct DrmBuddy {
+> +    mm: Opaque<bindings::drm_buddy>,
+> +}
+> +
+> +impl DrmBuddy {
+> +    /// Create a new buddy allocator.
+> +    ///
+> +    /// Creates a buddy allocator that manages a contiguous address space of the given
+> +    /// size, with the specified minimum allocation unit (chunk_size must be at least 4KB).
+> +    ///
+> +    /// # Examples
+> +    ///
+> +    /// See the complete example in the documentation comments for [`AllocatedBlocks`].
+> +    pub fn new(size: usize, chunk_size: usize) -> Result<Self> {
+> +        // Create buddy allocator with zeroed memory.
+> +        let buddy = Self {
+> +            mm: Opaque::zeroed(),
+> +        };
+> +
+> +        // Initialize the C buddy structure.
+> +        // SAFETY: buddy.mm points to valid, zeroed memory.
+> +        unsafe {
+> +            to_result(bindings::drm_buddy_init(
+> +                buddy.mm.get(),
 
-In this example, CPU0 would be any function accessing job->dependencies
-through the xa_* functions that doesn't disable interrupts (eg:
-drm_sched_job_add_dependency, drm_sched_entity_kill_jobs_cb).
+After this call to drm_buddy_init, you return it which moves the struct.
+Is the struct safe to move from one location to another?
 
-CPU1 is executing drm_sched_entity_kill_jobs_cb as a fence signalling
-callback so in an interrupt context. It will deadlock when trying to
-grab the xa_lock which is already held by CPU0.
+Also I usually put the to_result outside of the unsafe block.
 
-Replacing all xa_* usage by their xa_*_irq counterparts would fix
-this issue, but Christian pointed out another issue: dma_fence_signal
-takes fence.lock and so does dma_fence_add_callback.
+> +                size as u64,
+> +                chunk_size as u64,
+> +            ))?;
+> +        }
+> +
+> +        Ok(buddy)
+> +    }
+> +
+> +    /// Get a raw pointer to the underlying C drm_buddy structure.
+> +    ///
+> +    /// # Safety
+> +    ///
+> +    /// Caller must ensure the returned pointer is not used after this
+> +    /// structure is dropped.
+> +    pub unsafe fn as_raw(&self) -> *mut bindings::drm_buddy {
+> +        self.mm.get()
+> +    }
+> +
+> +    /// Get the chunk size (minimum allocation unit).
+> +    pub fn chunk_size(&self) -> u64 {
+> +        // SAFETY: mm is initialized and valid per struct invariant.
+> +        unsafe { (*self.as_raw()).chunk_size }
+> +    }
+> +
+> +    /// Get the total managed size.
+> +    pub fn size(&self) -> u64 {
+> +        // SAFETY: mm is initialized and valid per struct invariant.
+> +        unsafe { (*self.as_raw()).size }
+> +    }
+> +
+> +    /// Get the available (free) memory.
+> +    pub fn avail(&self) -> u64 {
+> +        // SAFETY: mm is initialized and valid per struct invariant.
+> +        unsafe { (*self.as_raw()).avail }
+> +    }
+> +
+> +    /// Allocate blocks from the buddy allocator.
+> +    ///
+> +    /// Returns an [`AllocatedBlocks`] structure that owns the allocated blocks and automatically
+> +    /// frees them when dropped. Allocation of `list_head` uses the `gfp` flags passed.
+> +    pub fn alloc_blocks(
+> +        &self,
+> +        start: usize,
+> +        end: usize,
+> +        size: usize,
+> +        min_block_size: usize,
+> +        flags: BuddyFlags,
+> +        gfp: Flags,
+> +    ) -> Result<AllocatedBlocks<'_>> {
+> +        // Allocate list_head on the heap.
+> +        let mut list_head = KBox::new(bindings::list_head::default(), gfp)?;
+> +
+> +        // SAFETY: list_head is valid and heap-allocated.
+> +        unsafe {
+> +            bindings::INIT_LIST_HEAD(&mut *list_head as *mut _);
+> +        }
+> +
+> +        // SAFETY: mm is a valid DrmBuddy object per the type's invariants.
+> +        unsafe {
+> +            to_result(bindings::drm_buddy_alloc_blocks(
+> +                self.as_raw(),
+> +                start as u64,
+> +                end as u64,
+> +                size as u64,
+> +                min_block_size as u64,
+> +                &mut *list_head as *mut _,
+> +                flags.as_raw() as usize,
+> +            ))?;
+> +        }
+> +
+> +        // `list_head` is now the head of a list that contains allocated blocks
+> +        // from C code. The allocated blocks will be automatically freed when
+> +        // `AllocatedBlocks` is dropped.
+> +        Ok(AllocatedBlocks {
+> +            list_head,
+> +            buddy: self,
+> +        })
+> +    }
+> +}
+> +
+> +impl Drop for DrmBuddy {
+> +    fn drop(&mut self) {
+> +        // SAFETY: self.mm is initialized and valid. drm_buddy_fini properly
+> +        // cleans up all resources. This is called exactly once during Drop.
+> +        unsafe {
+> +            bindings::drm_buddy_fini(self.as_raw());
+> +        }
+> +    }
+> +}
+> +
+> +// SAFETY: DrmBuddy can be sent between threads. Caller is responsible for
+> +// ensuring thread-safe access if needed (e.g., via Mutex).
+> +unsafe impl Send for DrmBuddy {}
 
-  dma_fence_signal() // locks f1.lock
-  -> drm_sched_entity_kill_jobs_cb()
-  -> foreach dependencies
-     -> dma_fence_add_callback() // locks f2.lock
+Generally, we should implement both Send and Sync unless we really can't
+do so. If methods require external synchronization, then those methods
+should be marked &mut self and then you implement Sync.
 
-This will deadlock if f1 and f2 share the same spinlock.
+If you instead omit Sync and make the methods &self, then the caller is
+severely restricted and can't e.g. store it in an Arc.
 
-To fix both issues, the code iterating on dependencies and re-arming them
-is moved out to drm_sched_entity_kill_jobs_work.
+> +/// Allocated blocks from the buddy allocator with automatic cleanup.
+> +///
+> +/// This structure owns a list of allocated blocks and ensures they are
+> +/// automatically freed when dropped. Blocks may be iterated over and are
+> +/// read-only after allocation (iteration via [`IntoIterator`] and
+> +/// automatic cleanup via [`Drop`] only). To share across threads, wrap
+> +/// in `Arc<AllocatedBlocks>`. Rust owns the head list head of the
+> +/// allocated blocks; C allocates blocks and links them to the head
+> +/// list head. Clean up of the allocated blocks is handled by C code.
+> +///
+> +/// # Invariants
+> +///
+> +/// - `list_head` is an owned, valid, initialized list_head.
+> +/// - `buddy` points to a valid, initialized [`DrmBuddy`].
+> +pub struct AllocatedBlocks<'a> {
+> +    list_head: KBox<bindings::list_head>,
+> +    buddy: &'a DrmBuddy,
+> +}
+> +
+> +impl Drop for AllocatedBlocks<'_> {
+> +    fn drop(&mut self) {
+> +        // Free all blocks automatically when dropped.
+> +        // SAFETY: list_head is a valid list of blocks per the type's invariants.
+> +        unsafe {
+> +            bindings::drm_buddy_free_list(self.buddy.as_raw(), &mut *self.list_head as *mut _, 0);
+> +        }
+> +    }
+> +}
+> +
+> +impl<'a> AllocatedBlocks<'a> {
+> +    /// Check if the block list is empty.
+> +    pub fn is_empty(&self) -> bool {
+> +        // SAFETY: list_head is a valid list of blocks per the type's invariants.
+> +        unsafe { clist::list_empty(&*self.list_head as *const _) }
+> +    }
+> +
+> +    /// Iterate over allocated blocks.
+> +    pub fn iter(&self) -> clist::ClistIter<'_, Block> {
+> +        // SAFETY: list_head is a valid list of blocks per the type's invariants.
+> +        clist::iter_list_head::<Block>(&*self.list_head)
+> +    }
+> +}
+> +
+> +/// Iteration support for allocated blocks.
+> +///
+> +/// # Examples
+> +///
+> +/// ```ignore
+> +/// for block in &allocated_blocks {
+> +///     // Use block.
+> +/// }
+> +/// ```
+> +impl<'a> IntoIterator for &'a AllocatedBlocks<'_> {
+> +    type Item = Block;
+> +    type IntoIter = clist::ClistIter<'a, Block>;
+> +
+> +    fn into_iter(self) -> Self::IntoIter {
+> +        self.iter()
+> +    }
+> +}
+> +
+> +/// A DRM buddy block.
+> +///
+> +/// Wraps a pointer to a C `drm_buddy_block` structure. This is returned
+> +/// from allocation operations and used to free blocks.
+> +///
+> +/// # Invariants
+> +///
+> +/// `drm_buddy_block_ptr` points to a valid `drm_buddy_block` managed by the buddy allocator.
+> +pub struct Block {
+> +    drm_buddy_block_ptr: NonNull<bindings::drm_buddy_block>,
+> +}
 
-Link: https://gitlab.freedesktop.org/mesa/mesa/-/issues/13908
-Reported-by: Mikhail Gavrilov <mikhail.v.gavrilov@gmail.com>
-Suggested-by: Christian König <christian.koenig@amd.com>
-Reviewed-by: Christian König <christian.koenig@amd.com>
-Signed-off-by: Pierre-Eric Pelloux-Prayer <pierre-eric.pelloux-prayer@amd.com>
----
- drivers/gpu/drm/scheduler/sched_entity.c | 34 +++++++++++++-----------
- 1 file changed, 19 insertions(+), 15 deletions(-)
+This type is exposed to the user by ownership (as opposed to being
+exposed behind a reference), and has no lifetime annotation. This
+implies that the caller is allowed to keep it alive for arbitrary
+amounts of time.
 
-diff --git a/drivers/gpu/drm/scheduler/sched_entity.c b/drivers/gpu/drm/scheduler/sched_entity.c
-index c8e949f4a568..fe174a4857be 100644
---- a/drivers/gpu/drm/scheduler/sched_entity.c
-+++ b/drivers/gpu/drm/scheduler/sched_entity.c
-@@ -173,26 +173,15 @@ int drm_sched_entity_error(struct drm_sched_entity *entity)
- }
- EXPORT_SYMBOL(drm_sched_entity_error);
- 
-+static void drm_sched_entity_kill_jobs_cb(struct dma_fence *f,
-+					  struct dma_fence_cb *cb);
-+
- static void drm_sched_entity_kill_jobs_work(struct work_struct *wrk)
- {
- 	struct drm_sched_job *job = container_of(wrk, typeof(*job), work);
--
--	drm_sched_fence_scheduled(job->s_fence, NULL);
--	drm_sched_fence_finished(job->s_fence, -ESRCH);
--	WARN_ON(job->s_fence->parent);
--	job->sched->ops->free_job(job);
--}
--
--/* Signal the scheduler finished fence when the entity in question is killed. */
--static void drm_sched_entity_kill_jobs_cb(struct dma_fence *f,
--					  struct dma_fence_cb *cb)
--{
--	struct drm_sched_job *job = container_of(cb, struct drm_sched_job,
--						 finish_cb);
-+	struct dma_fence *f;
- 	unsigned long index;
- 
--	dma_fence_put(f);
--
- 	/* Wait for all dependencies to avoid data corruptions */
- 	xa_for_each(&job->dependencies, index, f) {
- 		struct drm_sched_fence *s_fence = to_drm_sched_fence(f);
-@@ -220,6 +209,21 @@ static void drm_sched_entity_kill_jobs_cb(struct dma_fence *f,
- 		dma_fence_put(f);
- 	}
- 
-+	drm_sched_fence_scheduled(job->s_fence, NULL);
-+	drm_sched_fence_finished(job->s_fence, -ESRCH);
-+	WARN_ON(job->s_fence->parent);
-+	job->sched->ops->free_job(job);
-+}
-+
-+/* Signal the scheduler finished fence when the entity in question is killed. */
-+static void drm_sched_entity_kill_jobs_cb(struct dma_fence *f,
-+					  struct dma_fence_cb *cb)
-+{
-+	struct drm_sched_job *job = container_of(cb, struct drm_sched_job,
-+						 finish_cb);
-+
-+	dma_fence_put(f);
-+
- 	INIT_WORK(&job->work, drm_sched_entity_kill_jobs_work);
- 	schedule_work(&job->work);
- }
--- 
-2.43.0
+However, it looks like dropping AllocatedBlock would also free this
+Block object. That is a problem.
 
+The ownership of Block should probably be tied to AllocatedBlock so that
+the borrow-checker prevents dropping AllocatedBlock while Block objects
+exist. Or this code should be changed so that Block keeps the underlying
+AllocatedBlock alive using a refcount. Or similar. It depends on how it
+will be used - if Block is stored long-term in structs, then you should
+avoid lifetimes, but if it's a view into AllocatedBlock that is not
+stored long-term, then lifetimes are the right choice.
+
+> +impl Block {
+> +    /// Get the block's offset in the address space.
+> +    pub fn offset(&self) -> u64 {
+> +        // SAFETY: drm_buddy_block_ptr is valid per the type's invariants.
+> +        unsafe { bindings::drm_buddy_block_offset(self.drm_buddy_block_ptr.as_ptr()) }
+> +    }
+> +
+> +    /// Get the block order (size = chunk_size << order).
+> +    pub fn order(&self) -> u32 {
+> +        // SAFETY: drm_buddy_block_ptr is valid per the type's invariants.
+> +        unsafe { bindings::drm_buddy_block_order(self.drm_buddy_block_ptr.as_ptr()) }
+> +    }
+> +
+> +    /// Get the block's size in bytes.
+> +    ///
+> +    /// Requires the buddy allocator to calculate size from order.
+> +    pub fn size(&self, buddy: &DrmBuddy) -> u64 {
+> +        // SAFETY: Both pointers are valid per the type's invariants.
+> +        unsafe { bindings::drm_buddy_block_size(buddy.as_raw(), self.drm_buddy_block_ptr.as_ptr()) }
+> +    }
+> +
+> +    /// Get a raw pointer to the underlying C block.
+> +    ///
+> +    /// # Safety
+> +    ///
+> +    /// Caller must ensure the pointer is not used after the block is freed.
+> +    pub unsafe fn as_ptr(&self) -> *mut bindings::drm_buddy_block {
+> +        self.drm_buddy_block_ptr.as_ptr()
+> +    }
+> +}
+> +
+> +impl clist::FromListHead for Block {
+> +    unsafe fn from_list_head(link: *const bindings::list_head) -> Self {
+> +        // SAFETY: link points to a valid list_head embedded in drm_buddy_block.
+> +        // The container_of macro calculates the containing struct pointer.
+> +        // We need to account for the union field __bindgen_anon_1.link.
+> +        //
+> +        // The link is embedded in a union within drm_buddy_block:
+> +        //     struct drm_buddy_block {
+> +        //         [...]
+> +        //         union {
+> +        //             struct rb_node rb;
+> +        //             struct list_head link;
+> +        //         };
+> +        //     }
+> +        //
+> +        // This is why we perform a double container_of calculation: first to get
+> +        // to the union, then to get to the containing drm_buddy_block.
+> +        unsafe {
+> +            // First get to the union.
+> +            let union_ptr = container_of!(link, bindings::drm_buddy_block__bindgen_ty_1, link);
+> +            // Then get to the containing drm_buddy_block.
+> +            let block_ptr =
+> +                container_of!(union_ptr, bindings::drm_buddy_block, __bindgen_anon_1) as *mut _;
+> +            Block {
+> +                drm_buddy_block_ptr: NonNull::new_unchecked(block_ptr),
+> +            }
+> +        }
+> +    }
+> +}
+> +
+> +// SAFETY: Block is just a pointer wrapper and can be safely sent between threads.
+> +unsafe impl Send for Block {}
+> diff --git a/rust/kernel/drm/mod.rs b/rust/kernel/drm/mod.rs
+> index 1b82b6945edf..ee173729eac5 100644
+> --- a/rust/kernel/drm/mod.rs
+> +++ b/rust/kernel/drm/mod.rs
+> @@ -2,6 +2,7 @@
+>  
+>  //! DRM subsystem abstractions.
+>  
+> +pub mod buddy;
+>  pub mod device;
+>  pub mod driver;
+>  pub mod file;
+> -- 
+> 2.34.1
+> 
