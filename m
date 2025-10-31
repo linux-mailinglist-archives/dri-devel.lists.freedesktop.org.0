@@ -2,199 +2,144 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6CE40C26345
-	for <lists+dri-devel@lfdr.de>; Fri, 31 Oct 2025 17:48:24 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id C754AC2634B
+	for <lists+dri-devel@lfdr.de>; Fri, 31 Oct 2025 17:48:28 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1574110E274;
-	Fri, 31 Oct 2025 16:48:22 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2174D10EBF8;
+	Fri, 31 Oct 2025 16:48:27 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="P1hlb4+N";
+	dkim=pass (1024-bit key; unprotected) header.d=suse.de header.i=@suse.de header.b="Ny9nCMLD";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="V3npbcSu";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="evixZyq2";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="Z+6geRLm";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2223A10EB52;
- Fri, 31 Oct 2025 16:48:20 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1761929300; x=1793465300;
- h=message-id:date:subject:to:cc:references:from:
- in-reply-to:content-transfer-encoding:mime-version;
- bh=QJztFBehMANDG2JRpk432BdNROOiJdw4J60XDWmyq1E=;
- b=P1hlb4+NkmzBe1NX8UxwqSzIEsUsMb1VWlRte9JtYcUWLgNU0CWsA72V
- wuJwuf60A8hD0BeuFNJP0X3bCIS2SP9t3PkDkxugnRMYL0rhclB2qgT6t
- qZ0EvgDzetRPS9H6nO0vX0MFa+KmfQwq89FJx5FTYEwrQXUtfj/B2ft8d
- EL1BMVLzhvcUaNcahuHai7pVeTsbWDacreBS9qqFzo8HG9AH0zxhKk75n
- DXwRK8YSMf06LQMtbrcvdEmo4j5DpQvm79xhcFNxeVblouGEf2K5wdblW
- JP1xr2tZun4yFv+BnxtoEdmyvEPty9+PXWknaR3Gc0FrUiBtEqIXE9dAz w==;
-X-CSE-ConnectionGUID: QI53PXD3R8qVTGC9mDOtRQ==
-X-CSE-MsgGUID: 98UdQ+wiTLmud2eG4BfvTw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11599"; a="74694205"
-X-IronPort-AV: E=Sophos;i="6.19,269,1754982000"; d="scan'208";a="74694205"
-Received: from orviesa007.jf.intel.com ([10.64.159.147])
- by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 31 Oct 2025 09:48:19 -0700
-X-CSE-ConnectionGUID: tXuSN/aPQHC//5KstJCNDA==
-X-CSE-MsgGUID: an0eVNgmRSOwsny5IMe98A==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.19,269,1754982000"; d="scan'208";a="186215574"
-Received: from fmsmsx903.amr.corp.intel.com ([10.18.126.92])
- by orviesa007.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 31 Oct 2025 09:48:19 -0700
-Received: from FMSMSX903.amr.corp.intel.com (10.18.126.92) by
- fmsmsx903.amr.corp.intel.com (10.18.126.92) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.27; Fri, 31 Oct 2025 09:48:18 -0700
-Received: from fmsedg901.ED.cps.intel.com (10.1.192.143) by
- FMSMSX903.amr.corp.intel.com (10.18.126.92) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.27 via Frontend Transport; Fri, 31 Oct 2025 09:48:18 -0700
-Received: from SN4PR2101CU001.outbound.protection.outlook.com (40.93.195.17)
- by edgegateway.intel.com (192.55.55.81) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.27; Fri, 31 Oct 2025 09:48:18 -0700
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=q6HoInFUCXs9pWXrSbxekJ90BQa2QF7lQZ1S4OdjdBVdMuioM+31IM6TFIBV1wfAK5CIsqRY4GujY43KW9xTz9AHa7l/8o/WVav1qCZUZZieVMFQ2IiTNiRt2XyxBaQVhuhEW11+/G633kDd8qSPfJ+1zUqJW2MwZFj1JYOPtMubgXqoF1R2/2NshLR4sbn/aELYIqcwiWiZEV8O8Tj2xz+8tzivS3OE6YVb8rauZyw8+4nZrx9GJSmVSGY72vtbp+n63xkDdQfr7gmzPw75/mAf6XEPc3fPphI1sYX7n1oPZ19xfqIT8r7WD94oXQxnB5rePzz8lo8Cj52tjyPKOw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=D0KxszGFCAGmWOJ1kr7a37zBRlafL437iavepCh7EG0=;
- b=Iv7ZIX7lnfumGX3TYPeFyX9d8IRPA/YXYmeicSmrWMk9/fMfetNrPmJL5jNHBscu6hgItezXoCO84Io1QBpzePL/X7wsUer7tnWWQCRoWM4O3cJBmUBPT1dUcVgfGM2ycVkPzE0FpjpkOfNc+Sjt5WPoQXKyehtmoAQ37vLymSM9F+nKWq8k/MhSrXmVXz2ym9WXyru3A5WBgpZkth7Iu366IV/pg354qru1SJbMpejpGB4oWVnqAM9D6fMVXwF+SA6SJuBzAI2uQahU5xgY7U/7GrkDZ/bAPJoYJEUThuNyHllLsFUqD2pcZHy0xGIZ2M2SDMxIs7umQc7rLNzJWg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=intel.com;
-Received: from MN0PR11MB6011.namprd11.prod.outlook.com (2603:10b6:208:372::6)
- by SA2PR11MB4860.namprd11.prod.outlook.com (2603:10b6:806:11b::10)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9275.13; Fri, 31 Oct
- 2025 16:48:11 +0000
-Received: from MN0PR11MB6011.namprd11.prod.outlook.com
- ([fe80::bbbc:5368:4433:4267]) by MN0PR11MB6011.namprd11.prod.outlook.com
- ([fe80::bbbc:5368:4433:4267%6]) with mapi id 15.20.9275.013; Fri, 31 Oct 2025
- 16:48:10 +0000
-Message-ID: <563ca804-4625-4099-87e2-5a10cccb035c@intel.com>
-Date: Fri, 31 Oct 2025 17:48:04 +0100
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 12/28] drm/xe/pf: Increase PF GuC Buffer Cache size and
- use it for VF migration
-To: =?UTF-8?Q?Micha=C5=82_Winiarski?= <michal.winiarski@intel.com>, "Alex
- Williamson" <alex@shazbot.org>, Lucas De Marchi <lucas.demarchi@intel.com>,
- =?UTF-8?Q?Thomas_Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>,
- "Rodrigo Vivi" <rodrigo.vivi@intel.com>, Jason Gunthorpe <jgg@ziepe.ca>,
- Yishai Hadas <yishaih@nvidia.com>, Kevin Tian <kevin.tian@intel.com>, Shameer
- Kolothum <skolothumtho@nvidia.com>, <intel-xe@lists.freedesktop.org>,
- <linux-kernel@vger.kernel.org>, <kvm@vger.kernel.org>, Matthew Brost
- <matthew.brost@intel.com>
-CC: <dri-devel@lists.freedesktop.org>, Jani Nikula
- <jani.nikula@linux.intel.com>, Joonas Lahtinen
- <joonas.lahtinen@linux.intel.com>, Tvrtko Ursulin <tursulin@ursulin.net>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, "Lukasz
- Laguna" <lukasz.laguna@intel.com>, Christoph Hellwig <hch@infradead.org>
-References: <20251030203135.337696-1-michal.winiarski@intel.com>
- <20251030203135.337696-13-michal.winiarski@intel.com>
-Content-Language: en-US
-From: Michal Wajdeczko <michal.wajdeczko@intel.com>
-In-Reply-To: <20251030203135.337696-13-michal.winiarski@intel.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: WA2P291CA0030.POLP291.PROD.OUTLOOK.COM
- (2603:10a6:1d0:1f::26) To MN0PR11MB6011.namprd11.prod.outlook.com
- (2603:10b6:208:372::6)
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3C50010EB52
+ for <dri-devel@lists.freedesktop.org>; Fri, 31 Oct 2025 16:48:21 +0000 (UTC)
+Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested)
+ by smtp-out1.suse.de (Postfix) with ESMTPS id E1A202252F;
+ Fri, 31 Oct 2025 16:48:19 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1761929300; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=K/RK8uaFgxZOE4m5ndOMiDVdluPlSSnYcfhtE2z500Y=;
+ b=Ny9nCMLDOqMbkQXnIDb+fQxeVZtCAE8tpommTkrW7J+iRKNDbC65FJAAJXupD1ako1p5qI
+ siy5WY98TRvku2ic8s8G1pMG9EPuzs9eb8iOyH1dSkeLa1fz6X6yDow1ILq+6qjs/b2xSe
+ SKW2cYQ0gdyl+utXw3ck3LP09NGMUHA=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1761929300;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=K/RK8uaFgxZOE4m5ndOMiDVdluPlSSnYcfhtE2z500Y=;
+ b=V3npbcSusJmAemAS8nN1bta978QjDdtZXzgOg48LhRVZECRw1A1xsLE3B6Nbv4hUip29ER
+ +O4zIpO7PCFydBBQ==
+Authentication-Results: smtp-out1.suse.de;
+	none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1761929299; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=K/RK8uaFgxZOE4m5ndOMiDVdluPlSSnYcfhtE2z500Y=;
+ b=evixZyq2CXzzzUjqvfqLZWTc6AMNILReVkNl2ZgNmvDwqdqhDhlIQTPqsLuWC6WM+S0ClB
+ StrI0S8ZEfXeYiIe1CAf6Mfa6Ks3UbvomWGr4+Dzufpb245PHG6Rckdoi0reNXFrVxX8Ft
+ 12mMucuRjB/yc8o1VIVHc1+nOuUtydw=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1761929299;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=K/RK8uaFgxZOE4m5ndOMiDVdluPlSSnYcfhtE2z500Y=;
+ b=Z+6geRLmzFlpUatrujYBVAQVZnbgPdvC5mSDSrxbBUquLI8UXbmrG2FIb0aO3A62kHvdFU
+ 72kaWCBN4lxSSXDw==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested)
+ by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 8462F13393;
+ Fri, 31 Oct 2025 16:48:19 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+ by imap1.dmz-prg2.suse.org with ESMTPSA id +cJiHlPoBGkpFQAAD6G6ig
+ (envelope-from <tzimmermann@suse.de>); Fri, 31 Oct 2025 16:48:19 +0000
+Message-ID: <4c4815a6-2494-4426-b566-fe53e57161fe@suse.de>
+Date: Fri, 31 Oct 2025 17:48:18 +0100
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: MN0PR11MB6011:EE_|SA2PR11MB4860:EE_
-X-MS-Office365-Filtering-Correlation-Id: 40cadabc-81c5-43a8-eba5-08de189d45fc
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
- ARA:13230040|1800799024|7416014|376014|366016|921020; 
-X-Microsoft-Antispam-Message-Info: =?utf-8?B?dTJyemxEUklpeE9VZHY5bDM0SUlIVm5JSkJEVTU4cjBVL0dWamJJMi9zRjlj?=
- =?utf-8?B?d3hOQU5mRUcvYkpvUEpUWERrUzJLVWFjWm1Ybld4T00rM2V4dkRIYUZ5OFlT?=
- =?utf-8?B?SkVXcWZSZXJFbllIT24zSWlZU000NytwRHBqc3Y5d3ZjczhFa0NhY3lRMkhD?=
- =?utf-8?B?UWpCQ2laMmEyNGlhVngyVXNPMFN6dWF5cGZTOEY0VUt3UmlQV0tKRTFsV3pE?=
- =?utf-8?B?a0trdGJHU05MMmxTMWRlbk5OVVMzdjljVkVhMTQwNnJxbXM5RVFEOWlEeXlH?=
- =?utf-8?B?YUNtN0RZcXR6WVlCS3BGcklqTVplOGtHMVJ2WGZhWk9kZDh3NTVSWFZUcU8y?=
- =?utf-8?B?dWYyMi9tRkhUZzZ3KzMrZUUyMzIvUUJPNmw5T29xb29vd2FFblF1ZE9ud09V?=
- =?utf-8?B?SS9XOHZRTk9zM1lCVHBqa1dzNG01Y3RENUMzcjI0bVFwMEJoYXY1dDVyNlNR?=
- =?utf-8?B?dmJtWlNNMER6NHBqWHUxYkR4dE9lRmN5MG0zeTZsQjlRczljY0Z3eUNUOFpF?=
- =?utf-8?B?anZkSUprMkxTc0x6Y3l3eHhiYXdpVUpPV05tM1Y1YVQ0UExEenA1bnBhZW1h?=
- =?utf-8?B?VjRqN01zRXp3T3FWMUpIQmxvVzhDUzJnUi9ldDFPS1daVS9aTTZkUEczWlMr?=
- =?utf-8?B?akRHdkwyUy83cEJiSS9mSXlZdEtFbXNmZEdkWHkrU01JMnkydTk4TnkwVmZs?=
- =?utf-8?B?WUpLQ2kzVTN2aDlJZ1ZjellTdWtYQnphSkZFa1lRSlNHa0lhYmF5c2pwSytp?=
- =?utf-8?B?dGIrM0V5dzZ5d1UrSzFvdXZxL3lFcU05dVBZUjBLeHRSbVNSOXVvaU5vSWYy?=
- =?utf-8?B?YVphazEwNzlUQzhiZ2duQlRHb2gwS3NpQ2IyK2dSUHBXdzFJNFhQMHZLZVlv?=
- =?utf-8?B?ZWQzN1p1dHhRZVk5aXNkYTB1UTRmYndLd3pwbjZXQ1gxM2FsSkFkRk1ScEsw?=
- =?utf-8?B?SkRIZys4cVRiSFFHeXdTbVBuakxmcWtsZTlVNkNTRno3MU9ya3F2V2FRNVNv?=
- =?utf-8?B?RHV2SmtrQkZKMVJYLzZERVJLTEg5djZWRVczRXR6MmxFUTFMUE9WY3B0Q3Zm?=
- =?utf-8?B?WVNtSnUzU1VNQ1BCVnFGM04vM29vWHNHMVpPVnR2YWhiNmNVMDNXQ010S1hQ?=
- =?utf-8?B?Y29vNlhWSE4xVzdrUDlid0oyUHlSM3hwT2hBbWExNUsvdWVXK1lYSExsZnl0?=
- =?utf-8?B?QWJJU2pUQnM3VlAwV3ZmUXRia21tZHN3R2RDaUJOeFNJS20wQzUxS1dSMWlr?=
- =?utf-8?B?Z1NOeXhEaUcwNjRtODhUcUNuQ3NkTHN4UGtjSWJRSVYxbFZuY1F4UEJSOWt5?=
- =?utf-8?B?TmEwYmE1R0Q5MUlNSUJ6V1dRenpVT1kyUHdySXRiOFQwSThQcVhCNmkyKzJk?=
- =?utf-8?B?TjlybzJmREdTNUlkQmhwd3c4Wk42b2RQbGtTRldpRTZweU9CcXpxZjdiM1Nj?=
- =?utf-8?B?VTBtaE1IUFZQeTJwdUFtMHEzdFhNYlMxRStnY01mb05zL29KQzBpQ0cyV0Q3?=
- =?utf-8?B?ZmxsOGxFazhXRVlvOHVGNldXdlAzSUljZjZpMkpNK2xJS0VSWTFneWkyeGdT?=
- =?utf-8?B?Vktaek53M2U3cThJTGpIemxqQmVMSTM4L0Frd2pDOWt5VUw4d3VOWkhSZWVr?=
- =?utf-8?B?UDZjSjM0THRxUWlNMjZrdE1xWDQxZVlrSDJrT04vRmpHODFBcEFuN0ljZnNG?=
- =?utf-8?B?ZVNlbkpIckdKbi9XSDlkSDBjTTNyZ2lRaFRVTXYyUGFqNTFzWmZMK0VkazFo?=
- =?utf-8?B?UVNaMVBsYjZhZnByaWNBMUdENExwYXQ2VHZob3Bka2Y4aVY1OVpnLzRKbnp4?=
- =?utf-8?B?cmRFRmhPRkc5dll4SStiWnVsZFNGUFQ1ZXorWDV3Njc3enVpL2JnQmJLWWs4?=
- =?utf-8?B?VjhPa254MlVQU0pnU0NhTFptK0dUMnZsbTFZNkY5S0YrTlBMYzR5Tkd2RDhJ?=
- =?utf-8?B?bkVWMXpnQ3lWTllmY0VOSGZMMitaV1BoWURmLzRZdjVQQ2RvLzVmdERERlNP?=
- =?utf-8?Q?kenFgxXFc9SF2GPp5kZM7p1DQABGR0=3D?=
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:MN0PR11MB6011.namprd11.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230040)(1800799024)(7416014)(376014)(366016)(921020); DIR:OUT; SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?VDNseGZocnBJdFVqUlNCNktGWGcwZWRpanNMYzdpMWdHRCtoczlyMHRvWjQw?=
- =?utf-8?B?VkI0MUUrRTlrLzRWZXZ4Y3RucmNzVnlXdnRVeTVYWENBRjM1eXVhWHNEVGxh?=
- =?utf-8?B?Qk4xQm9mN2loRVJaUTBtbEtBajBvdDJDcDNvM0pYbktWQm50c1BsTE95VFVt?=
- =?utf-8?B?QnV2TVoxU1dnQ25sU3ViU0FWaVA4UFJGRldTK0kwNWl2WjRmNzdJbGM3cWll?=
- =?utf-8?B?Nm53M3l1bHNFUGJzVDVPQVpYZ2dRYkI4NG5ldWhoaFBWNEtQMGp2WGF2bjBx?=
- =?utf-8?B?aXcreWtYTWRCNVl6blNIWUZkbDZpd0tUMk9wM3Rpem83elB3Nit2eGJ4VWpT?=
- =?utf-8?B?K0JyU0dPdmRXU3UxMkt1UzdWSnVKVXJ3bys5N2tmbHovdnlDYlVhOGN2UTZR?=
- =?utf-8?B?U3BxU2I1akN6OEM5bXdob3J6Y0x1Z3R6aWJydVZIS2R2V3NzWDdnQVdqUjg5?=
- =?utf-8?B?MFBFNWJ4ZFpUTnlnZDZsZSt0eVFCd0g1OHBRT3FLN3ZFZy8zTnBjOHIzRXdY?=
- =?utf-8?B?eHRtSFFwL1VwY2lFN09CUVYzUjVBNWlBbXNQOVhIWmdmT1JodHVOR2NubG0x?=
- =?utf-8?B?K1ZVYUM5ZWRpaStGNmZ5aGNXVWZ6eUVzUVNKazdqbGRMb2pWcEExbmxOWVk4?=
- =?utf-8?B?QTdXcEhHQXZOSWpKbVF1VUc5b01RRmQ5S1VObUdIZ0hFdHExVWc3SDdPa29k?=
- =?utf-8?B?dWJpcDQ1OTIxR0dYUzQvZ3ozYnNUbUNWZHpkWkwzWmxKWTh6MktZVFlLbE5R?=
- =?utf-8?B?OWVkU3pmZjh2cjZOZGJNQk1VOENaTXZQVjFKTkpZV2hUZzVET0I1SzFObnJQ?=
- =?utf-8?B?Skd2QUpsaHZvaFI0OGZkMC9yYWFtbGtPbHU2Q0dFWWk0c09OQ3F5VWdZSmVF?=
- =?utf-8?B?d0ZPRC9zRk1RTHpESFA5V0xkc0M5UCsvaGczS0hGMzBuZXpMU2ExQ3ZFN0ls?=
- =?utf-8?B?TWpXNEpoVVRyc3Z1dXVyY1pYR0NhWEtZbmJaUk1YYTJPdTdxNWxmU2VnWll5?=
- =?utf-8?B?MHJFVnZwWWJqZUFtcms0M2hSd21sVGZXK0N1WTlXaWw1bGRaYmZWdGFhV3Nh?=
- =?utf-8?B?eFAwMlBSVWNMTE15RnUwUTZHUUtwbG9aK0VhOU4rZ3RtWG1JNk15WnpDSng3?=
- =?utf-8?B?UEN6SkF5R21GdnAwMzNxVG9rVTN4TGQydGlrV1VJMWJDcmpiY3VUQS9yTi9a?=
- =?utf-8?B?RyttcmRyYjVKZHY4aC80VnczbDdrU1NWWmxvOHBid3R1TWxtS1QyUHJiaDV3?=
- =?utf-8?B?b2JQSU1HNzV3N3VlVkxTeHl1TUhSaXN6b0NTTWE0SmRaK2ErM0VBR1FrQUJZ?=
- =?utf-8?B?NlhRYWZiZkRqc2tERWVpSUJUT0ozeHB1NWlNRmkvY2ZCQk41Wjd0N0dqVUpP?=
- =?utf-8?B?ODlsZllPdnk0Y3Q5QzZyL1hwQmJ4K3BlMHBBeXZLUWU3aVlvR3oxOXlRbmg3?=
- =?utf-8?B?Yzd4OXFBWDRHRmt5Y292aCs3WEl1WGtiQm1HQ1Q3WlFxQWxrVFRCbWdsRjJm?=
- =?utf-8?B?ci9uS1BzaEpkZEtaVzdoN3pOKzNndWsxTjdQQmxWRjNXcVlRRkNpQnBJYlJV?=
- =?utf-8?B?R0dGWU9YZDNDZUV1VEhMdUtFRlRhS2srSVpWR3NWeTR4TjNQRUpwMndMRU1y?=
- =?utf-8?B?cVlad2xyUGlHSHJlVTZQd2E2U3F6TnR5MW0yRTdXS0pXMCtJdVQyRE9kVHI4?=
- =?utf-8?B?STBwbTNyVi9MNS81VEgyVm95TlJ1SDVJVmlaRkFUV3NmNzFvRlJNeDN3emtC?=
- =?utf-8?B?N0xKdHJmdGFqOHlibUNiQjhyb2tLbGtramgzcWtmQ01JVGJWSkl6OXBPWXY0?=
- =?utf-8?B?R1dETXZiNTJWN3ZLUGdVTmpRbS9LZmZOQlB3OE12MUJXd0lNMHVab1ZqVlFU?=
- =?utf-8?B?OVk2cUVkQWlDblFQZ1JwVzRBS0hOeU1zb20wUWVHZ2xLUFBVK0d5VVRUaGxa?=
- =?utf-8?B?bTBaM25lVUhYbHhiOUZRamF0bHVsKzZBRlA5U2RQY3ErS3ZMQ0RrZHJZSlRv?=
- =?utf-8?B?cWMwQXRjZkUvcC9hY0xMRFZNbU1mL0JoWEdFU2NMblJDaTVwbW5abFhsbjhC?=
- =?utf-8?B?OHJScUVzRWpHQ1Z5MHIxN3R6Ykx1ajBMOWRCSTM4OVRvQWIya1lrd3ZDZUFz?=
- =?utf-8?B?d3dxeFN6UFFqUWMrQzJwRkZNZElxVFl5czhlcU9qUkZVdnYyaTE0UENLK09J?=
- =?utf-8?B?TVE9PQ==?=
-X-MS-Exchange-CrossTenant-Network-Message-Id: 40cadabc-81c5-43a8-eba5-08de189d45fc
-X-MS-Exchange-CrossTenant-AuthSource: MN0PR11MB6011.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 31 Oct 2025 16:48:09.9546 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: DyOChhxV7kOPi7QQeAO1r5HrEI9K7Ou1JvGu/RvDUI6cmTRbP/GumQ8p7Byi33pF2zP8jhkpDJcllpMAK7GHniA2F7kU5cnkx5MwQEnbpfk=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA2PR11MB4860
-X-OriginatorOrg: intel.com
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] drm/i915/dmabuf: Flush the cache in vmap
+To: Tvrtko Ursulin <tursulin@ursulin.net>,
+ Jocelyn Falempe <jfalempe@redhat.com>,
+ Jani Nikula <jani.nikula@linux.intel.com>,
+ Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>, David Airlie <airlied@gmail.com>,
+ Simona Vetter <simona@ffwll.ch>, Christian Brauner <brauner@kernel.org>,
+ Andi Shyti <andi.shyti@linux.intel.com>, intel-gfx@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org
+References: <20251024110432.1313391-1-jfalempe@redhat.com>
+ <a1d6cf1f-02b6-4c89-84e2-4b2af39829ef@ursulin.net>
+ <d123d897-8e65-417b-ad3f-40fe5b49f2b1@suse.de>
+ <5ae02bda-0732-4dd4-827e-9e2dac7ae6bd@redhat.com>
+ <8384a735-9d90-4817-86a6-7b7bae81b6e2@suse.de>
+ <fb6f4e12-6bef-4f72-abbe-b82de6c85282@ursulin.net>
+ <70fe6101-4404-42d8-a1b5-0d22a11d8f67@redhat.com>
+ <a90547e6-c05b-4e1c-be5f-2898b516abcc@suse.de>
+ <8c91e311-cef1-4018-88e0-a22f289d7983@ursulin.net>
+Content-Language: en-US
+From: Thomas Zimmermann <tzimmermann@suse.de>
+Autocrypt: addr=tzimmermann@suse.de; keydata=
+ xsBNBFs50uABCADEHPidWt974CaxBVbrIBwqcq/WURinJ3+2WlIrKWspiP83vfZKaXhFYsdg
+ XH47fDVbPPj+d6tQrw5lPQCyqjwrCPYnq3WlIBnGPJ4/jreTL6V+qfKRDlGLWFjZcsrPJGE0
+ BeB5BbqP5erN1qylK9i3gPoQjXGhpBpQYwRrEyQyjuvk+Ev0K1Jc5tVDeJAuau3TGNgah4Yc
+ hdHm3bkPjz9EErV85RwvImQ1dptvx6s7xzwXTgGAsaYZsL8WCwDaTuqFa1d1jjlaxg6+tZsB
+ 9GluwvIhSezPgnEmimZDkGnZRRSFiGP8yjqTjjWuf0bSj5rUnTGiyLyRZRNGcXmu6hjlABEB
+ AAHNJ1Rob21hcyBaaW1tZXJtYW5uIDx0emltbWVybWFubkBzdXNlLmRlPsLAjgQTAQgAOAIb
+ AwULCQgHAgYVCgkICwIEFgIDAQIeAQIXgBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftODH
+ AAoJEGgNwR1TC3ojx1wH/0hKGWugiqDgLNXLRD/4TfHBEKmxIrmfu9Z5t7vwUKfwhFL6hqvo
+ lXPJJKQpQ2z8+X2vZm/slsLn7J1yjrOsoJhKABDi+3QWWSGkaGwRJAdPVVyJMfJRNNNIKwVb
+ U6B1BkX2XDKDGffF4TxlOpSQzdtNI/9gleOoUA8+jy8knnDYzjBNOZqLG2FuTdicBXblz0Mf
+ vg41gd9kCwYXDnD91rJU8tzylXv03E75NCaTxTM+FBXPmsAVYQ4GYhhgFt8S2UWMoaaABLDe
+ 7l5FdnLdDEcbmd8uLU2CaG4W2cLrUaI4jz2XbkcPQkqTQ3EB67hYkjiEE6Zy3ggOitiQGcqp
+ j//OwE0EWznS4AEIAMYmP4M/V+T5RY5at/g7rUdNsLhWv1APYrh9RQefODYHrNRHUE9eosYb
+ T6XMryR9hT8XlGOYRwKWwiQBoWSDiTMo/Xi29jUnn4BXfI2px2DTXwc22LKtLAgTRjP+qbU6
+ 3Y0xnQN29UGDbYgyyK51DW3H0If2a3JNsheAAK+Xc9baj0LGIc8T9uiEWHBnCH+RdhgATnWW
+ GKdDegUR5BkDfDg5O/FISymJBHx2Dyoklv5g4BzkgqTqwmaYzsl8UxZKvbaxq0zbehDda8lv
+ hFXodNFMAgTLJlLuDYOGLK2AwbrS3Sp0AEbkpdJBb44qVlGm5bApZouHeJ/+n+7r12+lqdsA
+ EQEAAcLAdgQYAQgAIAIbDBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftOH6AAoJEGgNwR1T
+ C3ojVSkIALpAPkIJPQoURPb1VWjh34l0HlglmYHvZszJWTXYwavHR8+k6Baa6H7ufXNQtThR
+ yIxJrQLW6rV5lm7TjhffEhxVCn37+cg0zZ3j7zIsSS0rx/aMwi6VhFJA5hfn3T0TtrijKP4A
+ SAQO9xD1Zk9/61JWk8OysuIh7MXkl0fxbRKWE93XeQBhIJHQfnc+YBLprdnxR446Sh8Wn/2D
+ Ya8cavuWf2zrB6cZurs048xe0UbSW5AOSo4V9M0jzYI4nZqTmPxYyXbm30Kvmz0rYVRaitYJ
+ 4kyYYMhuULvrJDMjZRvaNe52tkKAvMevcGdt38H4KSVXAylqyQOW5zvPc4/sq9c=
+In-Reply-To: <8c91e311-cef1-4018-88e0-a22f289d7983@ursulin.net>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Spamd-Result: default: False [-4.30 / 50.00]; BAYES_HAM(-3.00)[100.00%];
+ NEURAL_HAM_LONG(-1.00)[-1.000];
+ NEURAL_HAM_SHORT(-0.20)[-1.000]; MIME_GOOD(-0.10)[text/plain];
+ RCVD_VIA_SMTP_AUTH(0.00)[];
+ FREEMAIL_TO(0.00)[ursulin.net,redhat.com,linux.intel.com,intel.com,gmail.com,ffwll.ch,kernel.org,lists.freedesktop.org];
+ ARC_NA(0.00)[]; MIME_TRACE(0.00)[0:+];
+ RCPT_COUNT_SEVEN(0.00)[11];
+ FUZZY_RATELIMITED(0.00)[rspamd.com];
+ MID_RHS_MATCH_FROM(0.00)[]; FREEMAIL_ENVRCPT(0.00)[gmail.com];
+ DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+ FROM_EQ_ENVFROM(0.00)[]; FROM_HAS_DN(0.00)[];
+ TO_DN_SOME(0.00)[]; RCVD_TLS_ALL(0.00)[];
+ TO_MATCH_ENVRCPT_ALL(0.00)[]; RCVD_COUNT_TWO(0.00)[2];
+ DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:mid, bootlin.com:url,
+ imap1.dmz-prg2.suse.org:helo]
+X-Spam-Flag: NO
+X-Spam-Score: -4.30
+X-Spam-Level: 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -210,186 +155,158 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+Hi
 
+Am 31.10.25 um 14:12 schrieb Tvrtko Ursulin:
+>
+> On 27/10/2025 10:26, Thomas Zimmermann wrote:
+>> Hi
+>>
+>> Am 27.10.25 um 10:46 schrieb Jocelyn Falempe:
+>>> On 24/10/2025 17:55, Tvrtko Ursulin wrote:
+>>>>
+>>>> On 24/10/2025 16:18, Thomas Zimmermann wrote:
+>>>>> Hi
+>>>>>
+>>>>> Am 24.10.25 um 15:33 schrieb Jocelyn Falempe:
+>>>>>> On 24/10/2025 14:40, Thomas Zimmermann wrote:
+>>>>>>> Hi
+>>>>>>>
+>>>>>>> Am 24.10.25 um 13:53 schrieb Tvrtko Ursulin:
+>>>>>>>>
+>>>>>>>> On 24/10/2025 12:04, Jocelyn Falempe wrote:
+>>>>>>>>> On a lenovo se100 server, when using i915 GPU for rendering, 
+>>>>>>>>> and the
+>>>>>>>>> ast driver for display, the graphic output is corrupted, and 
+>>>>>>>>> almost
+>>>>>>>>> unusable.
+>>>>>>>>>
+>>>>>>>>> Adding a clflush call in the vmap function fixes this issue
+>>>>>>>>> completely.
+>>>>>>>>
+>>>>>>>> AST is importing i915 allocated buffer in this use case, or how 
+>>>>>>>> exactly is the relationship?
+>>>>>>>>
+>>>>>>>> Wondering if some path is not calling dma_buf_begin/ 
+>>>>>>>> end_cpu_access().
+>>>>>>>
+>>>>>>> Yes, ast doesn't call begin/end_cpu_access in [1].
+>>>>>>>
+>>>>>>> Jocelyn, if that fixes the issue, feel free to send me a patch 
+>>>>>>> for review.
+>>>>>>>
+>>>>>>> [1] https://elixir.bootlin.com/linux/v6.17.4/source/drivers/gpu/ 
+>>>>>>> drm/ ast/ ast_mode.c
+>>>>>>
+>>>>>> I tried the following patch, but that doesn't fix the graphical 
+>>>>>> issue:
+>>>>>>
+>>>>>> diff --git a/drivers/gpu/drm/ast/ast_mode.c 
+>>>>>> b/drivers/gpu/drm/ast/ ast_mode.c
+>>>>>> index b4e8edc7c767..e50f95a4c8a9 100644
+>>>>>> --- a/drivers/gpu/drm/ast/ast_mode.c
+>>>>>> +++ b/drivers/gpu/drm/ast/ast_mode.c
+>>>>>> @@ -564,6 +564,7 @@ static void 
+>>>>>> ast_primary_plane_helper_atomic_update(struct drm_plane *plane,
+>>>>>>         struct drm_crtc_state *crtc_state = 
+>>>>>> drm_atomic_get_new_crtc_state(state, crtc);
+>>>>>>         struct drm_rect damage;
+>>>>>>         struct drm_atomic_helper_damage_iter iter;
+>>>>>> +       int ret;
+>>>>>>
+>>>>>>         if (!old_fb || (fb->format != old_fb->format) || 
+>>>>>> crtc_state- >mode_changed) {
+>>>>>>                 struct ast_crtc_state *ast_crtc_state = 
+>>>>>> to_ast_crtc_state(crtc_state);
+>>>>>> @@ -572,11 +573,16 @@ static void 
+>>>>>> ast_primary_plane_helper_atomic_update(struct drm_plane *plane,
+>>>>>>                 ast_set_vbios_color_reg(ast, fb->format, 
+>>>>>> ast_crtc_state->vmode);
+>>>>>>         }
+>>>>>>
+>>>>>> +       ret = drm_gem_fb_begin_cpu_access(fb, DMA_FROM_DEVICE);
+>>>>>> +       pr_info("AST begin_cpu_access %d\n", ret);
+>>>>>
+>>>>> Presumably, you end up in [1]. I cannot find the cflush there or 
+>>>>> in [2]. Maybe you need to add this call somewhere in there, 
+>>>>> similar to [3]. Just guessing.
+>>>>
+>>>> Near [2] clflush can happen at [4] *if* the driver thinks it is 
+>>>> needed. Most GPUs are cache coherent so mostly it isn't. But if 
+>>>> this is a Meteorlake machine (when I google Lenovo se100 it makes 
+>>>> me think so?) then the userspace has some responsibility to manage 
+>>>> things since there it is only 1-way coherency. Or userspace could 
+>>>> have even told the driver to stay off in which case it then needs 
+>>>> to manage everything. From the top of my head I am not sure how 
+>>>> exactly this used to work, or how it is supposed to interact with 
+>>>> exported buffers.
+>>>>
+>>>> If this is indeed on Meteorlake, maybe Joonas or Rodrigo remember 
+>>>> better how the special 1-way coherency is supposed to be managed 
+>>>> there?
+>>>
+>>> I've made an experiment, and if I add:
+>>>
+>>> * a calls to drm_gem_fb_begin_cpu_access() in the ast driver.
+>>> * and in i915_gem_domain.c flush_write_domain():
+>>>         case I915_GEM_DOMAIN_RENDER:
+>>> +               i915_gem_clflush_object(obj, I915_CLFLUSH_SYNC | 
+>>> I915_CLFLUSH_FORCE);
+>>>
+>>> Then that fixes the issue too.
+>>>
+>>> So I think there are two things to fix:
+>>>  * The missing call to drm_gem_fb_begin_cpu_access() in ast.
+>>
+>> Yes. We definitely want to add these calls, as they are expected for 
+>> this case.
+>
+> Browsing around a bit, I notice 
+> ast_primary_plane_helper_atomic_update() calls 
+> to_drm_shadow_plane_state() to get the source of the memcpy. Should 
+> there somewhere be calls to drm_gem_begin_shadow_fb_access() and 
+> drm_gem_end_shadow_fb_access()? Or those should be set as  vfuncs by 
+> someone? Sorry I get lost easily in the DRM maze of 
+> helpers<->vfuncs<->helpers<->vfuncs..
 
-On 10/30/2025 9:31 PM, Michał Winiarski wrote:
-> Contiguous PF GGTT VMAs can be scarce after creating VFs.
-> Increase the GuC buffer cache size to 8M for PF so that we can fit GuC
-> migration data (which currently maxes out at just under 4M) and use the
-> cache instead of allocating fresh BOs.
-> 
-> Signed-off-by: Michał Winiarski <michal.winiarski@intel.com>
-> ---
->  drivers/gpu/drm/xe/xe_gt_sriov_pf_migration.c | 46 ++++++-------------
->  drivers/gpu/drm/xe/xe_gt_sriov_pf_migration.h |  3 ++
->  drivers/gpu/drm/xe/xe_guc.c                   | 12 ++++-
->  3 files changed, 28 insertions(+), 33 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/xe/xe_gt_sriov_pf_migration.c b/drivers/gpu/drm/xe/xe_gt_sriov_pf_migration.c
-> index 30f0e51da49ae..a2db127982638 100644
-> --- a/drivers/gpu/drm/xe/xe_gt_sriov_pf_migration.c
-> +++ b/drivers/gpu/drm/xe/xe_gt_sriov_pf_migration.c
-> @@ -11,7 +11,7 @@
->  #include "xe_gt_sriov_pf_helpers.h"
->  #include "xe_gt_sriov_pf_migration.h"
->  #include "xe_gt_sriov_printk.h"
-> -#include "xe_guc.h"
-> +#include "xe_guc_buf.h"
->  #include "xe_guc_ct.h"
->  #include "xe_sriov.h"
->  #include "xe_sriov_migration_data.h"
-> @@ -57,73 +57,55 @@ static int pf_send_guc_query_vf_state_size(struct xe_gt *gt, unsigned int vfid)
->  
->  /* Return: number of state dwords saved or a negative error code on failure */
->  static int pf_send_guc_save_vf_state(struct xe_gt *gt, unsigned int vfid,
-> -				     void *buff, size_t size)
-> +				     void *dst, size_t size)
->  {
->  	const int ndwords = size / sizeof(u32);
-> -	struct xe_tile *tile = gt_to_tile(gt);
-> -	struct xe_device *xe = tile_to_xe(tile);
->  	struct xe_guc *guc = &gt->uc.guc;
-> -	struct xe_bo *bo;
-> +	CLASS(xe_guc_buf, buf)(&guc->buf, ndwords);
->  	int ret;
->  
->  	xe_gt_assert(gt, size % sizeof(u32) == 0);
->  	xe_gt_assert(gt, size == ndwords * sizeof(u32));
->  
-> -	bo = xe_bo_create_pin_map_novm(xe, tile,
-> -				       ALIGN(size, PAGE_SIZE),
-> -				       ttm_bo_type_kernel,
-> -				       XE_BO_FLAG_SYSTEM |
-> -				       XE_BO_FLAG_GGTT |
-> -				       XE_BO_FLAG_GGTT_INVALIDATE, false);
-> -	if (IS_ERR(bo))
-> -		return PTR_ERR(bo);
-> +	if (!xe_guc_buf_is_valid(buf))
-> +		return -ENOBUFS;
-> +
+It is used by DRM_GEM_SHADOW_PLANE_HELPER_FUNCS, [1] which ast uses at 
+[2]. And then atomic helpers call it around the plane update.
 
-nit: I would still add the comment that this to WA some known FW limitation
+[1] 
+https://elixir.bootlin.com/linux/v6.17.6/source/include/drm/drm_gem_atomic_helper.h#L125
+[2] 
+https://elixir.bootlin.com/linux/v6.17.6/source/drivers/gpu/drm/ast/ast_mode.c#L631
 
-> +	memset(xe_guc_buf_cpu_ptr(buf), 0, size);
->  
->  	ret = guc_action_vf_save_restore(guc, vfid, GUC_PF_OPCODE_VF_SAVE,
-> -					 xe_bo_ggtt_addr(bo), ndwords);
-> +					 xe_guc_buf_flush(buf), ndwords);
->  	if (!ret)
->  		ret = -ENODATA;
->  	else if (ret > ndwords)
->  		ret = -EPROTO;
->  	else if (ret > 0)
-> -		xe_map_memcpy_from(xe, buff, &bo->vmap, 0, ret * sizeof(u32));
-> +		memcpy(dst, xe_guc_buf_sync_read(buf), ret * sizeof(u32));
->  
-> -	xe_bo_unpin_map_no_vm(bo);
->  	return ret;
->  }
->  
->  /* Return: number of state dwords restored or a negative error code on failure */
->  static int pf_send_guc_restore_vf_state(struct xe_gt *gt, unsigned int vfid,
-> -					const void *buff, size_t size)
-> +					const void *src, size_t size)
->  {
->  	const int ndwords = size / sizeof(u32);
-> -	struct xe_tile *tile = gt_to_tile(gt);
-> -	struct xe_device *xe = tile_to_xe(tile);
->  	struct xe_guc *guc = &gt->uc.guc;
-> -	struct xe_bo *bo;
-> +	CLASS(xe_guc_buf_from_data, buf)(&guc->buf, src, size);
->  	int ret;
->  
->  	xe_gt_assert(gt, size % sizeof(u32) == 0);
->  	xe_gt_assert(gt, size == ndwords * sizeof(u32));
->  
-> -	bo = xe_bo_create_pin_map_novm(xe, tile,
-> -				       ALIGN(size, PAGE_SIZE),
-> -				       ttm_bo_type_kernel,
-> -				       XE_BO_FLAG_SYSTEM |
-> -				       XE_BO_FLAG_GGTT |
-> -				       XE_BO_FLAG_GGTT_INVALIDATE, false);
-> -	if (IS_ERR(bo))
-> -		return PTR_ERR(bo);
-> -
-> -	xe_map_memcpy_to(xe, &bo->vmap, 0, buff, size);
-> +	if (!xe_guc_buf_is_valid(buf))
-> +		return -ENOBUFS;
->  
->  	ret = guc_action_vf_save_restore(guc, vfid, GUC_PF_OPCODE_VF_RESTORE,
-> -					 xe_bo_ggtt_addr(bo), ndwords);
-> +					 xe_guc_buf_flush(buf), ndwords);
->  	if (!ret)
->  		ret = -ENODATA;
->  	else if (ret > ndwords)
->  		ret = -EPROTO;
->  
-> -	xe_bo_unpin_map_no_vm(bo);
->  	return ret;
->  }
->  
-> diff --git a/drivers/gpu/drm/xe/xe_gt_sriov_pf_migration.h b/drivers/gpu/drm/xe/xe_gt_sriov_pf_migration.h
-> index e2d41750f863c..4f2f2783339c3 100644
-> --- a/drivers/gpu/drm/xe/xe_gt_sriov_pf_migration.h
-> +++ b/drivers/gpu/drm/xe/xe_gt_sriov_pf_migration.h
-> @@ -11,6 +11,9 @@
->  struct xe_gt;
->  struct xe_sriov_migration_data;
->  
-> +/* TODO: get this information by querying GuC in the future */
-> +#define XE_GT_SRIOV_PF_MIGRATION_GUC_DATA_MAX_SIZE SZ_8M
-> +
->  int xe_gt_sriov_pf_migration_init(struct xe_gt *gt);
->  int xe_gt_sriov_pf_migration_save_guc_state(struct xe_gt *gt, unsigned int vfid);
->  int xe_gt_sriov_pf_migration_restore_guc_state(struct xe_gt *gt, unsigned int vfid);
-> diff --git a/drivers/gpu/drm/xe/xe_guc.c b/drivers/gpu/drm/xe/xe_guc.c
-> index ecc3e091b89e6..badae9a26220e 100644
-> --- a/drivers/gpu/drm/xe/xe_guc.c
-> +++ b/drivers/gpu/drm/xe/xe_guc.c
-> @@ -24,6 +24,7 @@
->  #include "xe_gt_printk.h"
->  #include "xe_gt_sriov_vf.h"
->  #include "xe_gt_throttle.h"
-> +#include "xe_gt_sriov_pf_migration.h"
->  #include "xe_guc_ads.h"
->  #include "xe_guc_buf.h"
->  #include "xe_guc_capture.h"
-> @@ -40,6 +41,7 @@
->  #include "xe_mmio.h"
->  #include "xe_platform_types.h"
->  #include "xe_sriov.h"
-> +#include "xe_sriov_pf_migration.h"
->  #include "xe_uc.h"
->  #include "xe_uc_fw.h"
->  #include "xe_wa.h"
-> @@ -821,6 +823,14 @@ static int vf_guc_init_post_hwconfig(struct xe_guc *guc)
->  	return 0;
->  }
->  
-> +static u32 guc_additional_cache_size(struct xe_device *xe)
-> +{
-> +	if (IS_SRIOV_PF(xe) && xe_sriov_pf_migration_supported(xe))
-> +		return XE_GT_SRIOV_PF_MIGRATION_GUC_DATA_MAX_SIZE;
-> +	else
-> +		return 0; /* Fallback to default size */
-> +}
-> +
->  /**
->   * xe_guc_init_post_hwconfig - initialize GuC post hwconfig load
->   * @guc: The GuC object
-> @@ -860,7 +870,7 @@ int xe_guc_init_post_hwconfig(struct xe_guc *guc)
->  	if (ret)
->  		return ret;
->  
-> -	ret = xe_guc_buf_cache_init(&guc->buf);
-> +	ret = xe_guc_buf_cache_init_with_size(&guc->buf, guc_additional_cache_size(guc_to_xe(guc)));
+Best regards
+Thomas
 
-nit: quite long line ... either split, or choose shorter name for the helper
->  	if (ret)
->  		return ret;
->  
+>
+>>>  * The missing cache flush in i915 for the Arrowlake iGPU (but 
+>>> probably not the way I've done it).
+>>
+>> You call begin_cpu_access with DMA_FROM_DEVICE, but there's no 
+>> support for that flag in i915 AFAICT. Maybe this needs to be added 
+>> somehow?
+>
+> AFAIR the premise is GPU writes will not get stuck in the last level 
+> cache but I might be remembering a reverse of what Meteorlake 1-way 
+> coherency means. This area of the driver ended up a mess and was never 
+> properly cleaned up. I even had a series to try and do it but it never 
+> happened. We will need someone who actually remembers how Meteorlake 
+> works.
+>
+> Regards,
+>
+> Tvrtko
+>
 
-just nits, otherwise LGTM,
+-- 
+--
+Thomas Zimmermann
+Graphics Driver Developer
+SUSE Software Solutions Germany GmbH
+Frankenstrasse 146, 90461 Nuernberg, Germany
+GF: Ivo Totev, Andrew Myers, Andrew McDonald, Boudien Moerman
+HRB 36809 (AG Nuernberg)
 
-Reviewed-by: Michal Wajdeczko <michal.wajdeczko@intel.com>
 
