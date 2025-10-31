@@ -2,49 +2,49 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9CC64C252A0
-	for <lists+dri-devel@lfdr.de>; Fri, 31 Oct 2025 14:05:31 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 698F2C252DD
+	for <lists+dri-devel@lfdr.de>; Fri, 31 Oct 2025 14:07:56 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3A3D210EB4B;
-	Fri, 31 Oct 2025 13:05:29 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0606C10EB69;
+	Fri, 31 Oct 2025 13:07:38 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="OuWmANOx";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="l/yAYcSt";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sea.source.kernel.org (sea.source.kernel.org [172.234.252.31])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E20C510EB32;
- Fri, 31 Oct 2025 13:05:27 +0000 (UTC)
+Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4CD6410EB32;
+ Fri, 31 Oct 2025 13:07:33 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by sea.source.kernel.org (Postfix) with ESMTP id A4787440E4;
- Fri, 31 Oct 2025 13:05:27 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B5338C4CEE7;
- Fri, 31 Oct 2025 13:05:26 +0000 (UTC)
+ by tor.source.kernel.org (Postfix) with ESMTP id 69C1960053;
+ Fri, 31 Oct 2025 13:07:32 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 35C69C4CEE7;
+ Fri, 31 Oct 2025 13:07:31 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1761915927;
- bh=d2k8BDYCwAf8v+dGV9tcaTrmfQ4UjRPuay0/M32F87w=;
+ s=k20201202; t=1761916052;
+ bh=06kPK6O8+pY6eTtIgnf8SHfeVOZ6dBU9DlqOfS2xtHg=;
  h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
- b=OuWmANOxQyavr2OndYJ4s3kbVDHfKfszLhmIgVZKhHzwjBDqzGTubQ2YBAqu1rGxT
- urxkoJBdqH1PYxSlKvzMPdcgEtBKR5biV0TAQIWLQKobGNrpYa/Dv1F14VthpK/dlJ
- eObnmE2o8jK0A6/AHnHwrLoI1CzA1Qo1NnO4e2Vu43c0wNGKDUK5wmEDalNoWlv94l
- mhcbnmHRPH44Us/d4K2hu6TErPnmo17QZLj2rzxcpcgPL4GTRlPSJOPq7kT9LO4GiP
- CnzKCaxWN71vt8Z6SZtqm8kkeV0N72WKRzfjCih97B2qpiYqvZTsgLeSIncB+GsXFA
- ZVa5oSOiGoo5w==
-Message-ID: <a10c7757-567d-4312-b72d-159ab0c41ece@kernel.org>
-Date: Fri, 31 Oct 2025 08:05:26 -0500
+ b=l/yAYcStyOPXSV3HM9T49oOl8X9TZw9W5esTdaAnCRYEOmQ1hKdHKN12U/gdasw4C
+ j5xXmFnGKD9HiyUIP90alSb8/PgduVYCZ4Ve6SgHRSCxoVlQAmZUUh/SBA0SeqZv/O
+ 95b7ttAe4PFHStRAHajwD7t/htvNBrBpxPN75XTPtVTtqdFvCFzgq/GMnDuvbwhhrx
+ /LoGBaH4SICKcChvqbA/wkBnKbJ53IQ0+e+azMTr8OZ9QA82bpz4b7ne98dk53b2ke
+ EGmyWhbDZox6tkeZIbM8sjZfw4o9gv4fK8dlCJKOmw7I1z/IOtkt2bCKfziIOEjJDA
+ vKiulGtlyjApw==
+Message-ID: <2f4d2e6e-3bc3-4f44-b474-1617536c9710@kernel.org>
+Date: Fri, 31 Oct 2025 08:07:30 -0500
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v1 1/3] platform/x86/amd/pmc: Add support for Van Gogh SoC
-To: Antheas Kapenekakis <lkml@antheas.dev>,
+Subject: Re: [PATCH v1 0/3] platform/x86/amd: Add S0ix support to the Xbox Ally
+To: =?UTF-8?Q?Ilpo_J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>
+Cc: amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, platform-driver-x86@vger.kernel.org,
+ Antheas Kapenekakis <lkml@antheas.dev>,
  Alex Deucher <alexander.deucher@amd.com>,
  Shyam Sundar S K <Shyam-sundar.S-k@amd.com>, Perry Yuan <perry.yuan@amd.com>
-Cc: amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, platform-driver-x86@vger.kernel.org
 References: <20251024152152.3981721-1-lkml@antheas.dev>
- <20251024152152.3981721-2-lkml@antheas.dev>
 Content-Language: en-US
 From: "Mario Limonciello (AMD) (kernel.org)" <superm1@kernel.org>
-In-Reply-To: <20251024152152.3981721-2-lkml@antheas.dev>
+In-Reply-To: <20251024152152.3981721-1-lkml@antheas.dev>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -65,65 +65,51 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
 On 10/24/2025 10:21 AM, Antheas Kapenekakis wrote:
-> The ROG Xbox Ally (non-X) SoC features a similar architecture to the
-> Steam Deck. While the Steam Deck supports S3 (s2idle causes a crash),
-> this support was dropped by the Xbox Ally which only S0ix suspend.
+> The Xbox Ally features a Van Gogh SoC that on the Steam Deck uses S3.
+> Therefore, kernel support for S0ix was previously absent. Introduce
+> this support in three patches:
 > 
-> Since the handler is missing here, this causes the device to not suspend
-> and the AMD GPU driver to crash while trying to resume afterwards due to
-> a power hang.
+> 1) Add Van Gogh to AMD PMC driver
+> 2) Enable spurious_8042 quirk, as it is common in those generations
+> 3) Adjust the Van Gogh init logic to avoid powering down the rlc
+>     and tweak post init
 > 
-> Closes: https://gitlab.freedesktop.org/drm/amd/-/issues/4659
-> Signed-off-by: Antheas Kapenekakis <lkml@antheas.dev>
-
-Having seen that a few things were tried for the idle mask which don't 
-work I think this patch makes sense as is.
-
-Reviewed-by: Mario Limonciello (AMD) <superm1@kernel.org>
-
-> ---
->   drivers/platform/x86/amd/pmc/pmc.c | 3 +++
->   drivers/platform/x86/amd/pmc/pmc.h | 1 +
->   2 files changed, 4 insertions(+)
+> This allows the Xbox Ally to properly enter and exit S0ix suspend.
+> Perhaps it also allows the Steam Deck to use s2idle without crashing,
+> note it is not currently possible [1].
 > 
-> diff --git a/drivers/platform/x86/amd/pmc/pmc.c b/drivers/platform/x86/amd/pmc/pmc.c
-> index bd318fd02ccf..cae3fcafd4d7 100644
-> --- a/drivers/platform/x86/amd/pmc/pmc.c
-> +++ b/drivers/platform/x86/amd/pmc/pmc.c
-> @@ -106,6 +106,7 @@ static void amd_pmc_get_ip_info(struct amd_pmc_dev *dev)
->   	switch (dev->cpu_id) {
->   	case AMD_CPU_ID_PCO:
->   	case AMD_CPU_ID_RN:
-> +	case AMD_CPU_ID_VG:
->   	case AMD_CPU_ID_YC:
->   	case AMD_CPU_ID_CB:
->   		dev->num_ips = 12;
-> @@ -517,6 +518,7 @@ static int amd_pmc_get_os_hint(struct amd_pmc_dev *dev)
->   	case AMD_CPU_ID_PCO:
->   		return MSG_OS_HINT_PCO;
->   	case AMD_CPU_ID_RN:
-> +	case AMD_CPU_ID_VG:
->   	case AMD_CPU_ID_YC:
->   	case AMD_CPU_ID_CB:
->   	case AMD_CPU_ID_PS:
-> @@ -717,6 +719,7 @@ static const struct pci_device_id pmc_pci_ids[] = {
->   	{ PCI_DEVICE(PCI_VENDOR_ID_AMD, AMD_CPU_ID_RV) },
->   	{ PCI_DEVICE(PCI_VENDOR_ID_AMD, AMD_CPU_ID_SP) },
->   	{ PCI_DEVICE(PCI_VENDOR_ID_AMD, AMD_CPU_ID_SHP) },
-> +	{ PCI_DEVICE(PCI_VENDOR_ID_AMD, AMD_CPU_ID_VG) },
->   	{ PCI_DEVICE(PCI_VENDOR_ID_AMD, PCI_DEVICE_ID_AMD_1AH_M20H_ROOT) },
->   	{ PCI_DEVICE(PCI_VENDOR_ID_AMD, PCI_DEVICE_ID_AMD_1AH_M60H_ROOT) },
->   	{ }
-> diff --git a/drivers/platform/x86/amd/pmc/pmc.h b/drivers/platform/x86/amd/pmc/pmc.h
-> index 62f3e51020fd..fe3f53eb5955 100644
-> --- a/drivers/platform/x86/amd/pmc/pmc.h
-> +++ b/drivers/platform/x86/amd/pmc/pmc.h
-> @@ -156,6 +156,7 @@ void amd_mp2_stb_deinit(struct amd_pmc_dev *dev);
->   #define AMD_CPU_ID_RN			0x1630
->   #define AMD_CPU_ID_PCO			AMD_CPU_ID_RV
->   #define AMD_CPU_ID_CZN			AMD_CPU_ID_RN
-> +#define AMD_CPU_ID_VG			0x1645
->   #define AMD_CPU_ID_YC			0x14B5
->   #define AMD_CPU_ID_CB			0x14D8
->   #define AMD_CPU_ID_PS			0x14E8
+> Currently, around 1/10 times the SoC misses the PMC hint and does not
+> enter S0ix, so perhaps 1 or 3 need tweaking further. It wakes up always,
+> however.
+> 
+> @Alex: I tweaked the text on patch 3 a bit. You can resend it separately
+> after the issue with 1/10 failures is fixed.
+> 
+> [1]: https://github.com/evlaV/linux-integration/commit/5ab73e9069017aa1b5351f91513ba540ce5905fb
+> 
+> Alex Deucher (1):
+>    drm/amdgpu: only send the SMU RLC notification on S3
+> 
+> Antheas Kapenekakis (2):
+>    platform/x86/amd/pmc: Add support for Van Gogh SoC
+>    platform/x86/amd/pmc: Add spurious_8042 to Xbox Ally
+> 
+>   drivers/gpu/drm/amd/amdgpu/amdgpu_device.c       | 8 +++++---
+>   drivers/gpu/drm/amd/pm/swsmu/amdgpu_smu.c        | 6 ++++++
+>   drivers/gpu/drm/amd/pm/swsmu/smu11/vangogh_ppt.c | 3 +++
+>   drivers/platform/x86/amd/pmc/pmc-quirks.c        | 8 ++++++++
+>   drivers/platform/x86/amd/pmc/pmc.c               | 3 +++
+>   drivers/platform/x86/amd/pmc/pmc.h               | 1 +
+>   6 files changed, 26 insertions(+), 3 deletions(-)
+> 
+> 
+> base-commit: 6fab32bb6508abbb8b7b1c5498e44f0c32320ed5
 
+Ilpo,
+
+Patches 1 and 2 are good for platform-x86.  Since this fixes the 
+platform-x86 side of a hang at suspend I think these should go 6.18-rc 
+if you're open to it.
+
+We're doing something different with the other patches in 
+amd-staging-drm-next.  You can ignore the ones in this series.
