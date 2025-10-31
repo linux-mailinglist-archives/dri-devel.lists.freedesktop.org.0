@@ -2,77 +2,137 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id F2723C2604D
-	for <lists+dri-devel@lfdr.de>; Fri, 31 Oct 2025 17:10:06 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id E1209C2605F
+	for <lists+dri-devel@lfdr.de>; Fri, 31 Oct 2025 17:10:43 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 91DED10EBE9;
-	Fri, 31 Oct 2025 16:10:03 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0E71510EBE8;
+	Fri, 31 Oct 2025 16:10:42 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=mediatek.com header.i=@mediatek.com header.b="ZnPyPZNa";
+	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="E4a9SlnC";
+	dkim=pass (2048-bit key; unprotected) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="aIUaKi95";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mailgw02.mediatek.com (unknown [210.61.82.184])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 51C6C10EBE8
- for <dri-devel@lists.freedesktop.org>; Fri, 31 Oct 2025 16:10:02 +0000 (UTC)
-X-UUID: 0c2f5b9cb67411f0b33aeb1e7f16c2b6-20251101
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mediatek.com;
- s=dk; 
- h=Content-Type:Content-Transfer-Encoding:MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:CC:To:From;
- bh=pQ7Y6ikIfmTL4OiHioZhpeLNoYrylE0Dm3P0nx4WjG0=; 
- b=ZnPyPZNaO6nnN5VmxCL9MFP7zkwUa096CrCfWBD5sTEhswsXfIz9lr9sL7RYFBh/Ql5GepWy2Bu++WVNAlwAr81HvIat58slmkPVt4gQCFxBxxYbbHPJf1gRJbfpJn3fd1qLKqDLpCZywLVX9ESonVRJw58A3Kt7GEbbWUE7SQY=;
-X-CID-P-RULE: Release_Ham
-X-CID-O-INFO: VERSION:1.3.6, REQID:bce2dfdb-92ac-46db-9863-8a24cdde6e36, IP:0,
- UR
- L:0,TC:0,Content:100,EDM:0,RT:0,SF:0,FILE:0,BULK:0,RULE:Release_Ham,ACTION
- :release,TS:100
-X-CID-META: VersionHash:a9d874c, CLOUDID:9c52c818-3399-4579-97ab-008f994989ea,
- B
- ulkID:nil,BulkQuantity:0,Recheck:0,SF:81|82|102|836|888|898,TC:-5,Content:
- 3|15|50,EDM:-3,IP:nil,URL:0,File:130,RT:0,Bulk:nil,QS:nil,BEC:nil,COL:0,OS
- I:0,OSA:0,AV:0,LES:1,SPR:NO,DKR:0,DKP:0,BRR:0,BRE:0,ARC:0
-X-CID-BVR: 2,SSN|SDN
-X-CID-BAS: 2,SSN|SDN,0,_
-X-CID-FACTOR: TF_CID_SPAM_SNR
-X-CID-RHF: D41D8CD98F00B204E9800998ECF8427E
-X-UUID: 0c2f5b9cb67411f0b33aeb1e7f16c2b6-20251101
-Received: from mtkmbs14n2.mediatek.inc [(172.21.101.76)] by
- mailgw02.mediatek.com (envelope-from <jason-jh.lin@mediatek.com>)
- (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-GCM-SHA384 256/256)
- with ESMTP id 1890367973; Sat, 01 Nov 2025 00:09:58 +0800
-Received: from mtkmbs13n2.mediatek.inc (172.21.101.108) by
- MTKMBS09N1.mediatek.inc (172.21.101.35) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1748.26; Sat, 1 Nov 2025 00:09:57 +0800
-Received: from mtksitap99.mediatek.inc (10.233.130.16) by
- mtkmbs13n2.mediatek.inc (172.21.101.73) with Microsoft SMTP Server id
- 15.2.1748.26 via Frontend Transport; Sat, 1 Nov 2025 00:09:57 +0800
-From: Jason-JH Lin <jason-jh.lin@mediatek.com>
-To: Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>, Jassi Brar <jassisinghbrar@gmail.com>,
- Chun-Kuang Hu <chunkuang.hu@kernel.org>, AngeloGioacchino Del Regno
- <angelogioacchino.delregno@collabora.com>, Mauro Carvalho Chehab
- <mchehab@kernel.org>
-CC: Matthias Brugger <matthias.bgg@gmail.com>, Nicolas Dufresne
- <nicolas@ndufresne.ca>, Jason-JH Lin <jason-jh.lin@mediatek.com>, Nancy Lin
- <nancy.lin@mediatek.com>, Singo Chang <singo.chang@mediatek.com>, Paul-PL
- Chen <paul-pl.chen@mediatek.com>, Moudy Ho <moudy.ho@mediatek.com>, Xiandong
- Wang <xiandong.wang@mediatek.com>, Sirius Wang <sirius.wang@mediatek.com>,
- Fei Shao <fshao@chromium.org>, Chen-yu Tsai <wenst@chromium.org>,
- <Project_Global_Chrome_Upstream_Group@mediatek.com>,
- <devicetree@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
- <dri-devel@lists.freedesktop.org>, <linux-mediatek@lists.infradead.org>,
- <linux-arm-kernel@lists.infradead.org>, <linux-media@vger.kernel.org>
-Subject: [PATCH 3/3] mailbox: mtk-cmdq: Remove unsued cmdq_get_shift_pa()
-Date: Sat, 1 Nov 2025 00:09:34 +0800
-Message-ID: <20251031160955.1659524-4-jason-jh.lin@mediatek.com>
-X-Mailer: git-send-email 2.45.2
-In-Reply-To: <20251031160955.1659524-1-jason-jh.lin@mediatek.com>
-References: <20251031160955.1659524-1-jason-jh.lin@mediatek.com>
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
+ [205.220.180.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C78DF10EBE8
+ for <dri-devel@lists.freedesktop.org>; Fri, 31 Oct 2025 16:10:40 +0000 (UTC)
+Received: from pps.filterd (m0279871.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id
+ 59V9dVTB1418130
+ for <dri-devel@lists.freedesktop.org>; Fri, 31 Oct 2025 16:10:40 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+ cc:content-transfer-encoding:content-type:date:from:in-reply-to
+ :message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+ oDhfCaLas3av++l6wCRbWmRupmbim+JRjVNXxtLxBgQ=; b=E4a9SlnCoEi18la7
+ T5c99HFGcnd8AI9AzQvs+ZzHViRXFQQ+fLddOw7fbUfx0MFO2F/9K2esbCqxLHG9
+ WWGp3YQdflKN6aP81ZaYgpU983eF2bxEsWJpRv+xkF6Jobm+xxP7Pm7I2fodNarF
+ DVO3gXB5cBdiuSueBTghS2ipsvdAIrDCvEC8Dfx/iBjGcUESsiKUeHtVhzX3Z5SR
+ o7U48WNjj4lol3dlgJxuJLcCCL0LKjMpePZZ6vpAvppUSyS7K53MHyyeUyuYSXRr
+ /wi1XWp0D/KJIhi2ElvG6VVDmtQ79zUxPQKw5KrRP/annSg/+P2T16X+BaZiB7SQ
+ Wj5yXg==
+Received: from mail-pg1-f197.google.com (mail-pg1-f197.google.com
+ [209.85.215.197])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4a4k69jb3k-1
+ (version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
+ for <dri-devel@lists.freedesktop.org>; Fri, 31 Oct 2025 16:10:39 +0000 (GMT)
+Received: by mail-pg1-f197.google.com with SMTP id
+ 41be03b00d2f7-b55443b4110so1784717a12.1
+ for <dri-devel@lists.freedesktop.org>; Fri, 31 Oct 2025 09:10:39 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=oss.qualcomm.com; s=google; t=1761927039; x=1762531839;
+ darn=lists.freedesktop.org; 
+ h=content-transfer-encoding:in-reply-to:from:content-language
+ :references:cc:to:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=oDhfCaLas3av++l6wCRbWmRupmbim+JRjVNXxtLxBgQ=;
+ b=aIUaKi95loG8jqW/WEzm1biEYElGs50S9aLWrRxz7nvMfOkT4Dp2LlrkY9N7M8Um0O
+ Hke+0T/JeF82dpci22wWvvqFPCc4Iw6WF+LvkDoLvmkn3dzW6EiYssxn/wCB6euF3zqW
+ siZTVXbex5uuCw/+K3oytDB0mwTg1yJW8lVheUFLS2mY5jbk4VQv48dgrNtRWWG3XEPG
+ Z4vwbEhIdGuKaETrwynxW8hAR57kY6bOgdtctPFKTXENGsbzKrarjJ2fEzPD4a3gSAIR
+ qqGgPNICxVS+FqB7/tXbj5+mXJ3q7/g1fXB+G9acPCQVOGKVE/w76VAG67sLoVA/m6RT
+ qYAQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1761927039; x=1762531839;
+ h=content-transfer-encoding:in-reply-to:from:content-language
+ :references:cc:to:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=oDhfCaLas3av++l6wCRbWmRupmbim+JRjVNXxtLxBgQ=;
+ b=Z+AnglzrND6CtAu/I9eow3tc+u1Wux9VwmwA/qxikrR3V27Yjvb7pv0VfnxUYQ7VUG
+ AICS2B5aR70QvYVm/ijg+2OIxqSuSesVi5f0gqacT/1G5mttRApghFbrjWEizzW7jPDd
+ RCjJTTprezwUozstWvFEPrFOyHRKZwqclDeb2uUXQPrsKCeW/h4P0BMP+IYobVRgC2La
+ EJ8Fooh2U0wTZYtW8fwUqbyE7dg1YkUWLlka39YDJ6Czc897Lux/BNjV9T7uLk+xDhzK
+ wiH1dybSZtOA6DAhO3S2TNOoLHiFV/ncrHAHGNDYaagLqeNvyuFHvJzFCx5boBKzCh9X
+ 4dMQ==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCXzGznT85V2Te8vqcrGER5hTHbE+vP4EBOR2rRa6PUtUc9ezjU1Cd6F4D847yMEbCCZ1U54XI88Na8=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YzOEYqnj/C5j9AmY+/4cdsxuq3Hl2R+vJc6uScIJb3QidLRn5kN
+ cVKaZj1wsu2krI6/4PNEdfrHsGWTJ9VeoBowP1QDEazHZ1ssS2TzqYX3xc3/O4hnYEhu5yw6gxB
+ 28zgTmirbzxMAZccngTDvSoErubgiTaYaMNZ52NqE0GdraFN8sfOobgaQoNJ2y7U8NIobBjs=
+X-Gm-Gg: ASbGncuvabwgj0aK7iuHGOlXWiMQRLuXHGM5c8lT81uv4rViY/KuBzEDFJ/yjA47rIZ
+ 4elSal2yX7dnMJkhsgiCPXN7yYUn0jmCdqeaeZGOuhHghPPU66csXjOU6zfefXflH8Lc8g79Wam
+ +IJm7NH5rXRBupC3KIUqAhMafjTfRi+4YbsPXBCJsfmRrOQ2RWyyLvGmRZ0OXUsx56PPVsYfzl2
+ AnfMgNZLETmv0SxN2rHn1ezt7u653Qv5l+lsTttzeaTWvEo9fBiM2Xqi5vJnxcsDxeXi6/4/e32
+ xxZf6Ga+1BkkPGINmph2txoaATTl2A1dZ5I56OnQsQFfZdxjHfJh8dXzmFAi/ezIydoxIZeOvQz
+ xZePl6Xk5Qnf/1q4ktg0AB/kh2VfpBgaAGPvr2G7ME5455cM1uAi6
+X-Received: by 2002:a05:6a20:6a0e:b0:343:af1:9a4f with SMTP id
+ adf61e73a8af0-348b7502e0fmr6416110637.0.1761927038651; 
+ Fri, 31 Oct 2025 09:10:38 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IGfwVdhGXO4W6ccy+Gs7nhmHf0xQRAxLoFsaiEkVtoeW1Wt9oOjMi8+GReoMdVleuWYmKRYOg==
+X-Received: by 2002:a05:6a20:6a0e:b0:343:af1:9a4f with SMTP id
+ adf61e73a8af0-348b7502e0fmr6416060637.0.1761927038101; 
+ Fri, 31 Oct 2025 09:10:38 -0700 (PDT)
+Received: from [10.226.59.182] (i-global254.qualcomm.com. [199.106.103.254])
+ by smtp.gmail.com with ESMTPSA id
+ d2e1a72fcca58-7a7d8d71718sm2665414b3a.23.2025.10.31.09.10.36
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 31 Oct 2025 09:10:37 -0700 (PDT)
+Message-ID: <04645402-1e62-42cb-a8ff-3e5f8d852ea5@oss.qualcomm.com>
+Date: Fri, 31 Oct 2025 10:10:36 -0600
 MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] accel/qaic: Use pointer from memcpy() call for assignment
+ in copy_partial_exec_reqs()
+To: Markus Elfring <Markus.Elfring@web.de>, dri-devel@lists.freedesktop.org,
+ linux-arm-msm@vger.kernel.org
+Cc: LKML <linux-kernel@vger.kernel.org>, kernel-janitors@vger.kernel.org,
+ Miaoqian Lin <linmq006@gmail.com>,
+ Carl Vanderlip <carl.vanderlip@oss.qualcomm.com>,
+ Jacek Lawrynowicz <jacek.lawrynowicz@linux.intel.com>,
+ Oded Gabbay <ogabbay@kernel.org>,
+ Pranjal Ramajor Asha Kanojiya <quic_pkanojiy@quicinc.com>,
+ Stanislaw Gruszka <stanislaw.gruszka@linux.intel.com>
+References: <d154d3c4-dd3e-488d-862f-5361867a70f1@web.de>
+ <ce252b99-c011-428f-a89a-5792f14c2eaa@oss.qualcomm.com>
+ <2dd26f37-7a42-44b3-8902-5c6b5492655a@web.de>
+Content-Language: en-US
+From: Jeff Hugo <jeff.hugo@oss.qualcomm.com>
+In-Reply-To: <2dd26f37-7a42-44b3-8902-5c6b5492655a@web.de>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-MTK: N
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUxMDMxMDE0NSBTYWx0ZWRfX7sDHyaR2lEBf
+ OXZdQLPqQ9fT36/xm+pfKp380MSHhxYGfNN0w2sXNgXgFByFpriDg3tBStQqPrn+RjJeHmXZK6C
+ VjbfCgfq7muiVXNcxCQZ0fe1DC2iAbswNmRIiL6inkAlU/s89PwNoOZmTykw9GLDBEIvps3X2Qy
+ YoG8Gn0B+kx2ZhaclbIIcXYvfQjb48LICXsh6zUUlwTKHr4OfpIEUno1woCn5lrBzz4LWmisH/g
+ AzJ0+QlkcfqDbfinu3GIgL8BD/O0Sm3i5N+qHbGI+7vlaYQY8xh6gcN9UkTQmNM4MZwgxv/UU2j
+ /Kpp2nUpR/6Qkj35wbHa+SZLV08iU9V9LgTya2i14+TXN3RxrAC/wimMePIntxOBqLvRiS5rS3M
+ 8WaewRS2kMYgv2z61RN7916hYTdlrQ==
+X-Authority-Analysis: v=2.4 cv=Bv2QAIX5 c=1 sm=1 tr=0 ts=6904df7f cx=c_pps
+ a=rz3CxIlbcmazkYymdCej/Q==:117 a=JYp8KDb2vCoCEuGobkYCKw==:17
+ a=IkcTkHD0fZMA:10 a=x6icFKpwvdMA:10 a=s4-Qcg_JpJYA:10
+ a=VkNPw1HP01LnGYTKEx00:22 a=VwQbUJbxAAAA:8 a=FP58Ms26AAAA:8
+ a=ozBfHW6_ZNkyg7WjN1IA:9 a=3ZKOabzyN94A:10 a=QEXdDO2ut3YA:10
+ a=bFCP_H2QrGi7Okbo017w:22
+X-Proofpoint-GUID: rPbUIX1Od9mgEH02QTJbU-y99RQTNhSK
+X-Proofpoint-ORIG-GUID: rPbUIX1Od9mgEH02QTJbU-y99RQTNhSK
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.9,FMLib:17.12.100.49
+ definitions=2025-10-31_05,2025-10-29_03,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ suspectscore=0 phishscore=0 lowpriorityscore=0 bulkscore=0 priorityscore=1501
+ adultscore=0 malwarescore=0 spamscore=0 clxscore=1015 impostorscore=0
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.22.0-2510240001 definitions=main-2510310145
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -88,57 +148,24 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Since the mailbox driver data can be obtained using cmdq_get_mbox_priv()
-and all CMDQ users have transitioned to cmdq_get_mbox_priv(),
-cmdq_get_shift_pa() can be removed.
+On 10/31/2025 9:34 AM, Markus Elfring wrote:
+>>> From: Markus Elfring <elfring@users.sourceforge.net>
+>>> Date: Fri, 31 Oct 2025 11:26:33 +0100
+> …>> Signed-off-by: Markus Elfring <elfring@users.sourceforge.net>
+>>
+>> This does not match the address this patch was received from, therefore DCO does not appear to be satisfied.  I cannot accept this.
+> 
+> I find such a change rejection questionable.
+> https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/Documentation/process/submitting-patches.rst?h=v6.18-rc3#n409
 
-Signed-off-by: Jason-JH Lin <jason-jh.lin@mediatek.com>
-Reviewed-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
----
- drivers/mailbox/mtk-cmdq-mailbox.c       |  8 --------
- include/linux/mailbox/mtk-cmdq-mailbox.h | 12 ------------
- 2 files changed, 20 deletions(-)
+I received this patch from "Markus Elfring <Markus.Elfring@web.de>". 
+There is no SOB from "Markus Elfring <Markus.Elfring@web.de>" therefore 
+"Markus Elfring <Markus.Elfring@web.de>" has not followed the DCO.
 
-diff --git a/drivers/mailbox/mtk-cmdq-mailbox.c b/drivers/mailbox/mtk-cmdq-mailbox.c
-index 1bf6984948ef..81cd98fc9664 100644
---- a/drivers/mailbox/mtk-cmdq-mailbox.c
-+++ b/drivers/mailbox/mtk-cmdq-mailbox.c
-@@ -123,14 +123,6 @@ void cmdq_get_mbox_priv(struct mbox_chan *chan, struct cmdq_mbox_priv *priv)
- }
- EXPORT_SYMBOL(cmdq_get_mbox_priv);
- 
--u8 cmdq_get_shift_pa(struct mbox_chan *chan)
--{
--	struct cmdq *cmdq = container_of(chan->mbox, struct cmdq, mbox);
--
--	return cmdq->pdata->shift;
--}
--EXPORT_SYMBOL(cmdq_get_shift_pa);
--
- static void cmdq_vm_init(struct cmdq *cmdq)
- {
- 	int i;
-diff --git a/include/linux/mailbox/mtk-cmdq-mailbox.h b/include/linux/mailbox/mtk-cmdq-mailbox.h
-index 07c1bfbdb8c4..a42b44d5fd49 100644
---- a/include/linux/mailbox/mtk-cmdq-mailbox.h
-+++ b/include/linux/mailbox/mtk-cmdq-mailbox.h
-@@ -96,16 +96,4 @@ struct cmdq_pkt {
-  */
- void cmdq_get_mbox_priv(struct mbox_chan *chan, struct cmdq_mbox_priv *priv);
- 
--/**
-- * cmdq_get_shift_pa() - get the shift bits of physical address
-- * @chan: mailbox channel
-- *
-- * GCE can only fetch the command buffer address from a 32-bit register.
-- * Some SOCs support more than 32-bit command buffer address for GCE, which
-- * requires some shift bits to make the address fit into the 32-bit register.
-- *
-- * Return: the shift bits of physical address
-- */
--u8 cmdq_get_shift_pa(struct mbox_chan *chan);
--
- #endif /* __MTK_CMDQ_MAILBOX_H__ */
--- 
-2.43.0
+The resolution to this is either the author and the SOB change to 
+"Markus Elfring <Markus.Elfring@web.de>" or "Markus Elfring 
+<Markus.Elfring@web.de>" adds a SOB at the end to show the path the 
+patch took (reference the paragraph in the documentation you linked to, 
+starting at line 449).
 
+-Jeff
