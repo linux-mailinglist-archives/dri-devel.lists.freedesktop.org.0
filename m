@@ -2,85 +2,87 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0B9DCC26876
-	for <lists+dri-devel@lfdr.de>; Fri, 31 Oct 2025 19:10:47 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 14FDDC26890
+	for <lists+dri-devel@lfdr.de>; Fri, 31 Oct 2025 19:13:23 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3236E10E385;
-	Fri, 31 Oct 2025 18:10:45 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 35BB410EC0D;
+	Fri, 31 Oct 2025 18:13:20 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; secure) header.d=ffwll.ch header.i=@ffwll.ch header.b="iOFka/+f";
+	dkim=pass (1024-bit key; secure) header.d=ffwll.ch header.i=@ffwll.ch header.b="H94SrdI/";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ed1-f49.google.com (mail-ed1-f49.google.com
- [209.85.208.49])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E7FC710E380
- for <dri-devel@lists.freedesktop.org>; Fri, 31 Oct 2025 18:10:43 +0000 (UTC)
-Received: by mail-ed1-f49.google.com with SMTP id
- 4fb4d7f45d1cf-63c556b4e0cso5555915a12.1
- for <dri-devel@lists.freedesktop.org>; Fri, 31 Oct 2025 11:10:43 -0700 (PDT)
+Received: from mail-ej1-f48.google.com (mail-ej1-f48.google.com
+ [209.85.218.48])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 10B8410EC0F
+ for <dri-devel@lists.freedesktop.org>; Fri, 31 Oct 2025 18:13:19 +0000 (UTC)
+Received: by mail-ej1-f48.google.com with SMTP id
+ a640c23a62f3a-b403bb7843eso553436466b.3
+ for <dri-devel@lists.freedesktop.org>; Fri, 31 Oct 2025 11:13:18 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=ffwll.ch; s=google; t=1761934242; x=1762539042; darn=lists.freedesktop.org; 
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
- bh=goq7oUWUWsNMgZUzSM4G2HjOLnb020AUxbJ19px76+I=;
- b=iOFka/+f/oBBJ7JCNJOhlK7DHWb4muKB74jq3xmskv76tZjUZgw1Of/g/xrqV/SMew
- Ge9jxUI5l2H4oZvBHiBKYvySVoySrBDPe5a63RmjmVMu7QbakZSwgfE/zpBHwYeIZOZ5
- t++yntCIWKGsotayEl86GAv58f+cQCtKWcILk=
+ d=ffwll.ch; s=google; t=1761934397; x=1762539197; darn=lists.freedesktop.org; 
+ h=in-reply-to:content-transfer-encoding:content-disposition
+ :mime-version:references:message-id:subject:cc:to:from:date:from:to
+ :cc:subject:date:message-id:reply-to;
+ bh=LvDcl7aUeFUyKsgejSQVUGEaPvCe4KSsG/NO0WKzeoc=;
+ b=H94SrdI/Ud/fnWy8zuyYwEWNBNgozG5E3zI5NNmNuvbJjtXzqbyz8+R7bAGqYZdXOI
+ MUFl9LiwGWjclLtUzZJ/9eqacNb04A9JG69wIq4e1tiPHNjc0HjSb3VZwudG6ZFbBaGE
+ 7z2XUqJMthQZ/elq57NQfagKZeUs5e+5iZ1E4=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1761934242; x=1762539042;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=goq7oUWUWsNMgZUzSM4G2HjOLnb020AUxbJ19px76+I=;
- b=QQgyeG1Xi6okRJuHOj3MxHOUtQRfMWBk/0aeGJweT4e4y79z45fUVJthfCXFfQxTMW
- o4W9EYc8qZmj84N1OB3OnS/Kl+IPv01hDZiWZtalFG0JJNEfX1KtbUJOk+Pv585EwEo8
- Az1oRhIYi5RQw8Q40E3+fuEppnYrCEd1ktHqUTSiF+89BHoLCQfYGksZFoaO+UXHq4gi
- dOXsg1OuXA3lUMFnDUd2nZlfTrE75F6JVVNPKIjOpheQYoGHfeylgorJ7OlnjwDneSjI
- KguCPWdi6Z2t9Lp6IbOGIBeqAelbzXH/wky5BFUBMMYeWDbzGZeK2V9em8jz0UwUmtjA
- gnMA==
+ d=1e100.net; s=20230601; t=1761934397; x=1762539197;
+ h=in-reply-to:content-transfer-encoding:content-disposition
+ :mime-version:references:message-id:subject:cc:to:from:date
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=LvDcl7aUeFUyKsgejSQVUGEaPvCe4KSsG/NO0WKzeoc=;
+ b=lU84L4Il4ksEwGLGc99dj88FGTM6WlTCMWkzf0+7kBlW4WsOKMOMs0ih5xAcGDWyGX
+ xsdGbcwoWkoUxALP1ISrKVewvq2NjQE3qNM5/rsRdiUO0mtS8EgMXgl2lqhPPl2B1cCm
+ D1c4Rl3Cxez1P1ixDCUw2V9SPxunFX+nNvsDz7Xol4/UknNlLLSTVNGZQyJi0irGhFA6
+ 6ZTI6E6Khx5nZhUwaroELzyYnIdvUpRQwLMgqUbYqLvZgO2hIVllVhumfrjNPXyRZnKo
+ yT5r6YApN1s9Ezv/XXKCIAyRhqC2R7FZblfLdDoKteln7bskjSP+p3ZsUH1XmJxC85w3
+ sjSA==
 X-Forwarded-Encrypted: i=1;
- AJvYcCU/49pzoE8IxW++TUYLEJ6OcGGgnbO2SsPvJ1zeg/+2K2tViyvXq+dimPV/OQBBTceay+nkBvm8iFs=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YxR+ivEFU+e5RenDNtLIMg8WsNjCLTGBmBHynZ84q6b2TWIUZeS
- r06FOXpQUgNgjICm5HJySZ1uPm44safop5BXziFiBRJpYwAdeuxPbrU677zc/k8hlSo=
-X-Gm-Gg: ASbGnct5E9sOp9RY5g0C/PvyeCIZgig2eC3V8xJwc2KaTnpMzsAjmAkjFMpH1v0i36m
- 3pCr8XZeTxtakSgGp9sStBMtPjN6NBlay1M+EFUNHZO1uvO4Sytzp2SbqBoUpFoTxbYRMwB3WH8
- 65NPCuTpNPxeKdPFMkelytxPfETf2F5rkWo0YYvsMU/5ULubClQd2rO7ErSIPuudir8fzOOQzs/
- UlFFoP2iFJZT8GgUNijvIPAje+F0e7WoeH6LFAlqHpgv7jmmdiRAZyVyPXuaJyvEZI7e0vYuVgJ
- d9MfNkIkzbYaaRThrEoY71khuHdIHR6DsT5YWmMuRO/FIfG5xPC9VWL4PsBCAEO+9G3hV6bz1K0
- 7sPrQRhB8Dqq9dy8yy+ypuRG6gZJaEeGmJR8zu3BXSDBDv23hK1VwP1vR8fuoS124bLX1DlefGO
- GDR/2vbe6yQnFQUztKSkkYjw==
-X-Google-Smtp-Source: AGHT+IG3MzUXGsIJduWiFugHvrzY+MOlJnj7mGwkcGbRKgIwXZW7ZonUMUpl0WXw619tuwJopi9knQ==
-X-Received: by 2002:a05:6402:34d5:b0:637:8faa:9df7 with SMTP id
- 4fb4d7f45d1cf-640771cee09mr3179026a12.29.1761934242194; 
- Fri, 31 Oct 2025 11:10:42 -0700 (PDT)
+ AJvYcCWZipm6rYfPMTqlSkxsY8INd0L2Rn6/Pb8ZuDrWKQAGN9NQQNZrWdJezbmmxXIChu8KJ9BJRnGwh30=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YxWS49+/dTbZlcmyYjTtfe2cLNbE13hQo6LvlHzZfqQqZBsyN9d
+ FDmpj+wqy2E+oEZP6F2XCEM1cVHXdePHLAMNiSzHcfdh3l9+7+rwEVasq9vWXQ9ZJ08=
+X-Gm-Gg: ASbGncuJxc6Ck10AmYOiRS+GQfw2m3WsA7Codx5D5ABh9VzZ3+/18px8D3apPGV/Dap
+ AP/is/WGi7g2Y3XP6kOKHpIp+b/Oz1HQAVt9PoWgsH2to3GlqSYr/dzkI6kGKg8U6SiNSmudt9k
+ PveEWYOUVz5dCCyhUX7FesTXYHkYRHqhbV4ibNQGecwZJeW7POGLPzOwCUYZuDdRWA6+2eauQla
+ 7AL0x5yQYewiC2P0YIlqlHe6/aBymb8oqywlYTsfXYIyVhQOI7Loy/GR3jkVJ51Omk/YeVtuVj8
+ dKr9bCUj7yfAZ49T2LF/GMd/Py3S3ATZhNlVloNY/7oTy5XsumUrjOceW6Gmu7PsC1f/CCtuNw+
+ 9mShp1IT//MvAvuPxGKnNTVVHvmWFaRuJZ9rPLOzvhzxrDOw60bwTZyDWzHzCEL+icJK7/T3+fp
+ bMq4aA12Ch2Tr+DfJJLc+NCw==
+X-Google-Smtp-Source: AGHT+IHVQtSYIMKoaB09gS4Ym2WtHZOQB6rH2Sr43gGLn8sfmn5TDYxYclk0MPWzHZLKlEq2ORS/lA==
+X-Received: by 2002:a17:907:868b:b0:b50:9863:dbe0 with SMTP id
+ a640c23a62f3a-b70704b26c3mr433135066b.37.1761934397541; 
+ Fri, 31 Oct 2025 11:13:17 -0700 (PDT)
 Received: from phenom.ffwll.local ([2a02:168:57f4:0:5485:d4b2:c087:b497])
  by smtp.gmail.com with ESMTPSA id
- 4fb4d7f45d1cf-6407b428102sm2100968a12.20.2025.10.31.11.10.40
+ a640c23a62f3a-b70779dc143sm237175166b.30.2025.10.31.11.13.16
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 31 Oct 2025 11:10:41 -0700 (PDT)
-Date: Fri, 31 Oct 2025 19:10:39 +0100
+ Fri, 31 Oct 2025 11:13:16 -0700 (PDT)
+Date: Fri, 31 Oct 2025 19:13:15 +0100
 From: Simona Vetter <simona.vetter@ffwll.ch>
-To: Thomas Zimmermann <tzimmermann@suse.de>
+To: Lucas De Marchi <lucas.demarchi@intel.com>
 Cc: Dave Airlie <airlied@gmail.com>, Simona Vetter <simona.vetter@ffwll.ch>,
  Jani Nikula <jani.nikula@linux.intel.com>,
  Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
  Tvrtko Ursulin <tursulin@ursulin.net>,
  Rodrigo Vivi <rodrigo.vivi@intel.com>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
  Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
  Maxime Ripard <mripard@kernel.org>,
  Thomas =?iso-8859-1?Q?Hellstr=F6m?= <thomas.hellstrom@linux.intel.com>,
- Oded Gabbay <ogabbay@kernel.org>,
- Lucas De Marchi <lucas.demarchi@intel.com>,
- dri-devel@lists.freedesktop.org, intel-gfx@lists.freedesktop.org,
- intel-xe@lists.freedesktop.org, dim-tools@lists.freedesktop.org
-Subject: Re: [PULL] drm-misc-fixes
-Message-ID: <aQT7n1Z617Y2oKTs@phenom.ffwll.local>
-References: <20251030195644.GA188441@localhost.localdomain>
+ Oded Gabbay <ogabbay@kernel.org>, dri-devel@lists.freedesktop.org,
+ intel-gfx@lists.freedesktop.org, intel-xe@lists.freedesktop.org,
+ dim-tools@lists.freedesktop.org
+Subject: Re: [PULL] drm-xe-fixes
+Message-ID: <aQT8Oz-iKABeZkCj@phenom.ffwll.local>
+References: <o2b3lucyitafbbcd5bewpfqnslavtnnpc6ck4qatnou2wwukix@rz6seyfw75uy>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
-In-Reply-To: <20251030195644.GA188441@localhost.localdomain>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <o2b3lucyitafbbcd5bewpfqnslavtnnpc6ck4qatnou2wwukix@rz6seyfw75uy>
 X-Operating-System: Linux phenom 6.12.38+deb13-amd64 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -97,133 +99,50 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Oct 30, 2025 at 08:56:44PM +0100, Thomas Zimmermann wrote:
-> Hi Dave, Sima,
+On Thu, Oct 30, 2025 at 03:44:32PM -0500, Lucas De Marchi wrote:
+> Hi Dave and Sima,
 > 
-> here's the drm-misc-fixes PR for this week.
+> Here are the fixes towards 6.18-rc4.
 > 
-> Best regards
-> Thomas
+> drm-xe-fixes-2025-10-30:
+> Driver Changes:
+>  - Fix xe_validation_guard() not guarding (Thomas Hellström)
+>  - Do not wake device during a GT reset (Matthew Brost)
 > 
-> drm-misc-fixes-2025-10-30:
-> Short summary of fixes pull:
+> thanks,
+> Lucas De Marchi
 > 
-> ast:
-> - Preserve correct bits on register I/O
+> The following changes since commit dcb6fa37fd7bc9c3d2b066329b0d27dedf8becaa:
 > 
-> dma-fence:
-> - Use correct timeline name
-> 
-> etnaviv:
-> - Use correct GPU adress space for flush
-> 
-> imx:
-> - parallel-display: Fix bridge handling
-> 
-> nouveau:
-> - Fix locking in scheduler
-> 
-> panel:
-> - kingdisplay-kd097d04: Disable EOT packet
-> - sitronix-st7789v: Use correct SYNC flags
-> 
-> sched:
-> - Fix locking to avoid race condition
-> - Fix SIGKILL handling
-> 
-> sysfb:
-> - Avoid NULL-pointer access
-> The following changes since commit 23437509a69476d4f896891032d62ac868731668:
-> 
->   drm/panic: Fix 24bit pixel crossing page boundaries (2025-10-21 11:28:03 +0200)
+>   Linux 6.18-rc3 (2025-10-26 15:59:49 -0700)
 > 
 > are available in the Git repository at:
 > 
->   https://gitlab.freedesktop.org/drm/misc/kernel.git tags/drm-misc-fixes-2025-10-30
+>   https://gitlab.freedesktop.org/drm/xe/kernel.git tags/drm-xe-fixes-2025-10-30
 > 
-> for you to fetch changes up to a9fb41b5def8e1e0103d5fd1453787993587281e:
+> for you to fetch changes up to b3fbda1a630a9439c885b2a5dc5230cc49a87e9e:
 > 
->   drm/ast: Clear preserved bits from register output value (2025-10-30 20:44:44 +0100)
+>   drm/xe: Do not wake device during a GT reset (2025-10-29 11:43:30 -0700)
 
 Pulled into drm-fixes, thanks!
 -Sima
 
 > 
 > ----------------------------------------------------------------
-> Short summary of fixes pull:
-> 
-> ast:
-> - Preserve correct bits on register I/O
-> 
-> dma-fence:
-> - Use correct timeline name
-> 
-> etnaviv:
-> - Use correct GPU adress space for flush
-> 
-> imx:
-> - parallel-display: Fix bridge handling
-> 
-> nouveau:
-> - Fix locking in scheduler
-> 
-> panel:
-> - kingdisplay-kd097d04: Disable EOT packet
-> - sitronix-st7789v: Use correct SYNC flags
-> 
-> sched:
-> - Fix locking to avoid race condition
-> - Fix SIGKILL handling
-> 
-> sysfb:
-> - Avoid NULL-pointer access
+> Driver Changes:
+>  - Fix xe_validation_guard() not guarding (Thomas Hellström)
+>  - Do not wake device during a GT reset (Matthew Brost)
 > 
 > ----------------------------------------------------------------
-> Akash Goel (1):
->       dma-fence: Fix safe access wrapper to call timeline name method
+> Matthew Brost (1):
+>       drm/xe: Do not wake device during a GT reset
 > 
-> David Rosca (1):
->       drm/sched: avoid killing parent entity on child SIGKILL
+> Thomas Hellström (1):
+>       drm/xe: Fix uninitialized return value from xe_validation_guard()
 > 
-> Luca Ceresoli (2):
->       drm/imx: parallel-display: convert to devm_drm_bridge_alloc() API
->       drm/imx: parallel-display: add the bridge before attaching it
-> 
-> Philipp Stanner (2):
->       drm/sched: Fix race in drm_sched_entity_select_rq()
->       drm/nouveau: Fix race in nouveau_sched_fini()
-> 
-> Sebastian Fleer (1):
->       drm/panel: kingdisplay-kd097d04: Disable EoTp
-> 
-> Sebastian Reichel (1):
->       drm/panel: sitronix-st7789v: fix sync flags for t28cp45tn89
-> 
-> Thomas Zimmermann (2):
->       drm/sysfb: Do not dereference NULL pointer in plane reset
->       drm/ast: Clear preserved bits from register output value
-> 
-> Tomeu Vizoso (1):
->       drm/etnaviv: fix flush sequence logic
-> 
->  drivers/dma-buf/dma-fence.c                        |  2 +-
->  drivers/gpu/drm/ast/ast_drv.h                      |  8 ++++----
->  drivers/gpu/drm/drm_gem_atomic_helper.c            |  8 ++++++--
->  drivers/gpu/drm/etnaviv/etnaviv_buffer.c           |  2 +-
->  drivers/gpu/drm/imx/ipuv3/parallel-display.c       | 18 +++++++++---------
->  drivers/gpu/drm/nouveau/nouveau_sched.c            | 14 ++++++++++++--
->  drivers/gpu/drm/panel/panel-kingdisplay-kd097d04.c |  2 +-
->  drivers/gpu/drm/panel/panel-sitronix-st7789v.c     |  7 ++++++-
->  drivers/gpu/drm/scheduler/sched_entity.c           |  6 ++++--
->  9 files changed, 44 insertions(+), 23 deletions(-)
-> 
-> -- 
-> Thomas Zimmermann
-> Graphics Driver Developer
-> SUSE Software Solutions Germany GmbH
-> Frankenstrasse 146, 90461 Nuernberg, Germany
-> GF: Ivo Totev, Andrew Myers, Andrew McDonald, Boudien Moerman
-> HRB 36809 (AG Nuernberg)
+>  drivers/gpu/drm/xe/xe_gt.c         | 19 ++++++++++++-------
+>  drivers/gpu/drm/xe/xe_validation.h |  8 ++++----
+>  2 files changed, 16 insertions(+), 11 deletions(-)
 
 -- 
 Simona Vetter
