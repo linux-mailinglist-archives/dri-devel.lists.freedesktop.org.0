@@ -2,53 +2,49 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id EBE73C27E59
-	for <lists+dri-devel@lfdr.de>; Sat, 01 Nov 2025 13:54:47 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8F414C27E77
+	for <lists+dri-devel@lfdr.de>; Sat, 01 Nov 2025 13:54:53 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 605AD10E0BD;
-	Sat,  1 Nov 2025 12:54:44 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6BAAA10E2E3;
+	Sat,  1 Nov 2025 12:54:45 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="m2Ja8INm";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="efH/3QAL";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sea.source.kernel.org (sea.source.kernel.org [172.234.252.31])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 088F410E0BD
- for <dri-devel@lists.freedesktop.org>; Sat,  1 Nov 2025 12:54:43 +0000 (UTC)
+Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 18F2910E0BD
+ for <dri-devel@lists.freedesktop.org>; Sat,  1 Nov 2025 12:54:44 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by sea.source.kernel.org (Postfix) with ESMTP id 9A02A44320;
- Sat,  1 Nov 2025 12:54:42 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 5798DC4CEF1;
+ by tor.source.kernel.org (Postfix) with ESMTP id 23050601D3;
+ Sat,  1 Nov 2025 12:54:43 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 62912C113D0;
  Sat,  1 Nov 2025 12:54:42 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
  s=k20201202; t=1762001682;
- bh=u8wLUW6Z9fiKj5eOJYtlEh+2BUk0OgRlOVt2xpH117E=;
- h=From:Subject:Date:To:Cc:Reply-To:From;
- b=m2Ja8INmdmWC+X9QiZI/7Ju8nffsDc41U90B44Ib7WcVp6vUo4JqlJjoOl1yKT56E
- 7MVzY84TraRsZpgUsoPw6XoRF1fjyeo3GnboQIK+okHNo7n3d8FSVqo2ROoiF5qtiC
- vVOPO8hqGk/oOyQ91JT35BHZDkVzFmJuogMnFXVffC9ugf12XovXvInne/ZWBNA+yN
- HeTmy9FXRi+RheaBoqM1YaSFP7yyTOcS8wi6DDalSRYYVL1BGDuP+IyPsXJiJTZbo7
- 9SIFt54sqomIX79v1eu1KCYF5VKHt0pmXePMZBkB8zaD+Pn+CLqbmsSImSi2U2JFd6
- BKF0dZ7BePKOA==
+ bh=rDu4alBE9xc96IQ8M88D+0yqiGPw2gKwSwKTC6CV0mg=;
+ h=From:Date:Subject:References:In-Reply-To:To:Cc:Reply-To:From;
+ b=efH/3QALhJh3vncaZPmjWA08dj7ABgo/ne3hYLiCD3gqEBOMI6NQyCemKlK+iBF75
+ soAvnRkbZV4zIY3hpupyGOQsmfC2mgG3KV/CUMBqyci7bKZw5nT/Er3g9/GhWBa40s
+ eBR78cK0auclU+giayq3aKmpQddno92+rtQ0xY4V7dJc95PJ/rd12VpQfBLzD4OSUV
+ C/CApa19Bk20UFSBudC6bSqog4w6Ek13NmPW+VuASbrD6PZkXt3XUxXVeCuhlPX1nP
+ cQPrngdZsWyPrSXRd64T87R9jU60RQG5OAk8LJQzMtUzVUtvxmBYvrCgHsJbm9gYAK
+ G5e0ZHafcMBHQ==
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org
  (localhost.localdomain [127.0.0.1])
- by smtp.lore.kernel.org (Postfix) with ESMTP id 3FB1FCCFA00;
+ by smtp.lore.kernel.org (Postfix) with ESMTP id 528CACCFA03;
  Sat,  1 Nov 2025 12:54:42 +0000 (UTC)
 From: Maud Spierings via B4 Relay
  <devnull+maud_spierings.hotmail.com@kernel.org>
-Subject: [PATCH 0/6] arm64: dts: qcom: x1e80100-vivobook-s15: add more
- missing features
-Date: Sat, 01 Nov 2025 13:54:11 +0100
-Message-Id: <20251101-asus_usbc_dp-v1-0-9fd4eb9935e8@hotmail.com>
+Date: Sat, 01 Nov 2025 13:54:12 +0100
+Subject: [PATCH 1/6] dt-bindings: display: bridge: simple: document the
+ Parade PS185HDM DP-to-HDMI bridge
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-X-B4-Tracking: v=1; b=H4sIAPMCBmkC/yWN24rCMBRFf6Xk2SO5tDEpg/gfg0iac6IB23SSV
- gTx3yfVx7Vhr/VihXKkwvrmxTI9YolpqiB2DfM3N10JIlZmksuOa9GCK2u5rGXwF5yBS66cbKX
- X1rB6mTOF+Pzofs9fzvS3VuvyHdlIpbiPtW9+NqngQsGS5ujhKchwwTnccIzw0MBBOetNONQ06
- tM9Ti6nfcrX4xYbXCHwaRzj0jfWDGgGoR11BzJBdt522FodPJLCgGikVNgKdn6//wG1sxP+9QA
- AAA==
-X-Change-ID: 20250614-asus_usbc_dp-0203a242c698
+Message-Id: <20251101-asus_usbc_dp-v1-1-9fd4eb9935e8@hotmail.com>
+References: <20251101-asus_usbc_dp-v1-0-9fd4eb9935e8@hotmail.com>
+In-Reply-To: <20251101-asus_usbc_dp-v1-0-9fd4eb9935e8@hotmail.com>
 To: Andrzej Hajda <andrzej.hajda@intel.com>, 
  Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>, 
  Laurent Pinchart <Laurent.pinchart@ideasonboard.com>, 
@@ -63,11 +59,11 @@ Cc: dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
  linux-kernel@vger.kernel.org, linux-arm-msm@vger.kernel.org, 
  Maud Spierings <maud_spierings@hotmail.com>
 X-Mailer: b4 0.14.3
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1762001681; l=1678;
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1762001681; l=812;
  i=maud_spierings@hotmail.com; s=20241110; h=from:subject:message-id;
- bh=u8wLUW6Z9fiKj5eOJYtlEh+2BUk0OgRlOVt2xpH117E=;
- b=zZCnXRfNh5ObdUMoRA0mRNkebgUnURd3FVRw3ClZhVV36UkJPFZ1zarismFBaXyve+lPr+fvc
- kaeH65WFNenAPU5QkTPWLPNiEoi1BjmzdZOjk+cYd85IxnBzVV8D7Zi
+ bh=OQShTopki2aCGWcGKpxk+5iRM+E9syn+/c170E3+gpU=;
+ b=v10KXQFzQ1p49KCoi11KOfvf7wV76/VOoc6mzZMj5sAEC8d30AiU1ywFBJ9hoarSb3yPYwiGU
+ zTGPqM+DFYwCLykcz91aTgzKiveMXc/u8fJKJhjguItS/L7YHoI0uZ9
 X-Developer-Key: i=maud_spierings@hotmail.com; a=ed25519;
  pk=CeFKVnZvRfX2QjB1DpdiAe2N+MEjwLEB9Yhx/OAcxRc=
 X-Endpoint-Received: by B4 Relay for maud_spierings@hotmail.com/20241110
@@ -89,41 +85,29 @@ Reply-To: maud_spierings@hotmail.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-There are still many missing features on this machine, add the ps8830
-retimers for display over usb-c, the simple bridge/HDMI port and set up
-to use IRIS.
+From: Maud Spierings <maud_spierings@hotmail.com>
 
-Currently IRIS gives a ETIMEDOUT, not sure what that is coming from.
-
-lots of these patches are very strongly based on the work of other
-maintainers of these snapdragon machines, like the HDMI part on that of
-Neil Armstrong, many thanks to those who laid the baseline for me to
-follow.
+The Parade PS185HDM is a transparent Displayport to HDMI bridge.
 
 Signed-off-by: Maud Spierings <maud_spierings@hotmail.com>
 ---
-Maud Spierings (6):
-      dt-bindings: display: bridge: simple: document the Parade PS185HDM DP-to-HDMI bridge
-      drm/bridge: simple: add the Parade PS185HDM DP-to-HDMI bridge
-      arm64: dts: qcom: x1e80100-vivobook-s15: enable ps8830 retimers
-      arm64: dts: qcom: x1e80100-vivobook-s15: add HDMI port
-      arm64: dts: qcom: x1e80100-vivobook-s15: add charge limit nvmem
-      arm64: dts: qcom: x1e80100-vivobook-s15: enable IRIS
+ Documentation/devicetree/bindings/display/bridge/simple-bridge.yaml | 1 +
+ 1 file changed, 1 insertion(+)
 
- .../bindings/display/bridge/simple-bridge.yaml     |   1 +
- .../boot/dts/qcom/x1e80100-asus-vivobook-s15.dts   | 402 ++++++++++++++++++++-
- drivers/gpu/drm/bridge/simple-bridge.c             |   5 +
- 3 files changed, 400 insertions(+), 8 deletions(-)
----
-base-commit: 98bd8b16ae57e8f25c95d496fcde3dfdd8223d41
-change-id: 20250614-asus_usbc_dp-0203a242c698
-prerequisite-message-id: <20251013-topic-x1e80100-hdmi-v6-0-3a9c8f7506d6@linaro.org>
-prerequisite-patch-id: 5af0a76cad087e18b0a2f771a78d030f9bf3bd68
-prerequisite-patch-id: 5b908c1f0c5a0c52da384a181a75f17c5e2d19b5
-prerequisite-patch-id: ed40af8d7e99a3f1bcb33b4c678b5f21b0618612
+diff --git a/Documentation/devicetree/bindings/display/bridge/simple-bridge.yaml b/Documentation/devicetree/bindings/display/bridge/simple-bridge.yaml
+index 9ef587d46506..950268632370 100644
+--- a/Documentation/devicetree/bindings/display/bridge/simple-bridge.yaml
++++ b/Documentation/devicetree/bindings/display/bridge/simple-bridge.yaml
+@@ -28,6 +28,7 @@ properties:
+       - enum:
+           - adi,adv7123
+           - dumb-vga-dac
++          - parade,ps185hdm
+           - radxa,ra620
+           - realtek,rtd2171
+           - ti,opa362
 
-Best regards,
 -- 
-Maud Spierings <maud_spierings@hotmail.com>
+2.51.1
 
 
