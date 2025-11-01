@@ -2,62 +2,77 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9B41FC28102
-	for <lists+dri-devel@lfdr.de>; Sat, 01 Nov 2025 15:27:51 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id CE13BC2810E
+	for <lists+dri-devel@lfdr.de>; Sat, 01 Nov 2025 15:38:09 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id ADA1910E008;
-	Sat,  1 Nov 2025 14:27:48 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9FF9310E113;
+	Sat,  1 Nov 2025 14:38:06 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="L5Yny+Rq";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="URjaxQwj";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
- by gabe.freedesktop.org (Postfix) with ESMTPS id F169010E008
- for <dri-devel@lists.freedesktop.org>; Sat,  1 Nov 2025 14:27:46 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1DB5D10E113
+ for <dri-devel@lists.freedesktop.org>; Sat,  1 Nov 2025 14:38:05 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by tor.source.kernel.org (Postfix) with ESMTP id E2275601D9
- for <dri-devel@lists.freedesktop.org>; Sat,  1 Nov 2025 14:27:45 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 88A1EC16AAE
- for <dri-devel@lists.freedesktop.org>; Sat,  1 Nov 2025 14:27:45 +0000 (UTC)
+ by tor.source.kernel.org (Postfix) with ESMTP id 58C65601F8
+ for <dri-devel@lists.freedesktop.org>; Sat,  1 Nov 2025 14:38:04 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E8DEFC19424
+ for <dri-devel@lists.freedesktop.org>; Sat,  1 Nov 2025 14:38:03 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1762007265;
- bh=lV3WbcP4L63VVdKmRFHTW2IFkZA0MqVRd2TKiW7+rwE=;
+ s=k20201202; t=1762007883;
+ bh=HkYm+o5ZrKQsoVDIa7Xk6T9MOu2JC8WhA3qTTbVvthE=;
  h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
- b=L5Yny+RqR6ejBT6dWjFU5SPnufclvSK/b4ZmkHgMH6VFD/mWp5pBe6NBwWJvKh9WQ
- dsgceBxVUt+AO2fGJ7F7f4vOLZIkAgGFHdATQcvg9q0kcr9iabq4uwwJWy9kUzAwa/
- DoFWq7t+6T2yv6Ptrc+1xMFw9+2PuFR79bBKtT5OVGW5QUlQ4CXg6r4756IW3Qb5v7
- 7J0q4ufSMc/E670BHmPOvjV+CV0F5R1Wsu0m4YJP2ZnJbv3BDCkn6uHoqDdpjcqTGE
- GNEOyFEnh+Zc8PEnjyMQkOUWtgLc+S/vNujsiam8gFVG3pcxFUM8cBPBRvB7oe3FfY
- 5Cs7n7Dvgpnyw==
-Received: by mail-pl1-f171.google.com with SMTP id
- d9443c01a7336-2955623e6faso5346265ad.1
- for <dri-devel@lists.freedesktop.org>; Sat, 01 Nov 2025 07:27:45 -0700 (PDT)
+ b=URjaxQwj38MV9iQGYaolqDOCkpTUlKnSVuIzesiOnQhIW/2s3vUvTor5VZ2NOXl3r
+ 2cOYuzMs8TvXSCJ8GkZqcH1oQUmWVTrWNSWXi5IhOXmiLHJe3uxdq0rLgVBfTJ8bJG
+ 6LeOHDmU0rtBOaVQaj1TNa2WXeEM3ho0pa/OQLjuZfsNHTCHabjju0Kyu31tPVK2+R
+ upnREDJ2Wk7qeLcnJwWXYXB5vxHv5n6TDRSW9lWW4rBw1dSZrsjB5LHmnGCe46CWu3
+ iOtj3nJ7kghS2LWUPH5bO8f84VUPwjXtNBOiXUg+y1giOhYJ1aa0x3sJiuPs8K9+ra
+ C2SbXRfQTUa+Q==
+Received: by mail-pg1-f179.google.com with SMTP id
+ 41be03b00d2f7-b67ae7e76abso2345393a12.3
+ for <dri-devel@lists.freedesktop.org>; Sat, 01 Nov 2025 07:38:03 -0700 (PDT)
 X-Forwarded-Encrypted: i=1;
- AJvYcCXXK32r7yE2m+QzQlSG/xdnBrF8tcJz3foW9pKpynwkfZApDnZ5z9VypbsS8ryg0z7qLTMDppqopt4=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YwlIDTJPWDtwpp2ld6qo8+paxhUqG8Sha7xG1XnyD/xYq//f5xD
- iIQSMCbgI2jlRsMbnDvVY5VMlRESuG9S7Tby890QFssg9tnYoO51qOHnv4NrANSReEyZkM/qjx2
- elfCvtob+MjqYa6hBVId01RMbEF18sg==
-X-Google-Smtp-Source: AGHT+IGnOFjLL6wAsT9pv5cIhcF/90Mw/1kp/7g3CvXtV1RTTu/pF5hz4dyECsPv9IpJsPMLjLxpTdmcXg7a1NiMbbo=
-X-Received: by 2002:a17:903:24f:b0:295:24ab:fb06 with SMTP id
- d9443c01a7336-29524abfc57mr60471485ad.22.1762007265054; Sat, 01 Nov 2025
- 07:27:45 -0700 (PDT)
+ AJvYcCUghzPbsEmwYB3MtDHK//8yL8JEEZ3eq4iv0GkXuE4Y749GM48NY1sA+5Cm70b21Y7ufsAPDVwKq4M=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Yw7oMozxCesIhb/RTc4xzjqopABX7+7wwP97OxLYHOk/J8tG2+0
+ J+0AwKSzF4LV+7RiktRhG0tpyoPaND4yLMPfZZ3kZ9WirDmhTwND/oqKuqjHivKFSIS8ICCj575
+ qRWt+DotD8R89HWXY8IHAjC0cYQjecA==
+X-Google-Smtp-Source: AGHT+IGVMak7HVgm2Kw7YYyD00KFk0fyKjURT+jhVGcUMpmtFlXzH6MEO5oeGDTKYtxCg8XT42xXcp+sjl4UzEP3ki0=
+X-Received: by 2002:a17:903:1ce:b0:27e:ec72:f62 with SMTP id
+ d9443c01a7336-2951a35eb36mr108901805ad.6.1762007883402; Sat, 01 Nov 2025
+ 07:38:03 -0700 (PDT)
 MIME-Version: 1.0
-References: <20251024202756.811425-1-ariel.dalessandro@collabora.com>
-In-Reply-To: <20251024202756.811425-1-ariel.dalessandro@collabora.com>
+References: <20250829091727.3745415-1-jason-jh.lin@mediatek.com>
+ <20250829091727.3745415-3-jason-jh.lin@mediatek.com>
+In-Reply-To: <20250829091727.3745415-3-jason-jh.lin@mediatek.com>
 From: Chun-Kuang Hu <chunkuang.hu@kernel.org>
-Date: Sat, 1 Nov 2025 14:27:32 +0000
-X-Gmail-Original-Message-ID: <CAAOTY__Ac8S3gnbx6RbVZrNzMcqSkE70xuq5ErbzAWPUh9moAA@mail.gmail.com>
-X-Gm-Features: AWmQ_bn-FuEPLjCksrS_ODh-bQvHMz1N_UARyqPo_gbgBDuh1txOjH8bx8rhYo0
-Message-ID: <CAAOTY__Ac8S3gnbx6RbVZrNzMcqSkE70xuq5ErbzAWPUh9moAA@mail.gmail.com>
-Subject: Re: [PATCH] drm/mediatek: Disable AFBC support on Mediatek DRM driver
-To: "Ariel D'Alessandro" <ariel.dalessandro@collabora.com>
-Cc: chunkuang.hu@kernel.org, p.zabel@pengutronix.de, airlied@gmail.com, 
- simona@ffwll.ch, matthias.bgg@gmail.com, 
- angelogioacchino.delregno@collabora.com, greenjustin@chromium.org, 
- sjoerd@collabora.com, dri-devel@lists.freedesktop.org, 
- linux-mediatek@lists.infradead.org, linux-kernel@vger.kernel.org, 
- linux-arm-kernel@lists.infradead.org, kernel@collabora.com
+Date: Sat, 1 Nov 2025 14:37:51 +0000
+X-Gmail-Original-Message-ID: <CAAOTY_8inC0s+md84zyjqyrfvsd4Aruy=oVCVsZfhqkv6WPk4g@mail.gmail.com>
+X-Gm-Features: AWmQ_bnMutOthr5nfHuj9QF2tM6tPBJ9JUU0hnLlgQDkMeGZ7OwmHz0IXIzXIxk
+Message-ID: <CAAOTY_8inC0s+md84zyjqyrfvsd4Aruy=oVCVsZfhqkv6WPk4g@mail.gmail.com>
+Subject: Re: [PATCH v2 2/3] drm/mediatek: Add pm_runtime support for GCE power
+ control
+To: Jason-JH Lin <jason-jh.lin@mediatek.com>
+Cc: Chun-Kuang Hu <chunkuang.hu@kernel.org>, 
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, 
+ Jassi Brar <jassisinghbrar@gmail.com>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>, 
+ Philipp Zabel <p.zabel@pengutronix.de>, David Airlie <airlied@gmail.com>, 
+ Simona Vetter <simona@ffwll.ch>, Nancy Lin <nancy.lin@mediatek.com>, 
+ Singo Chang <singo.chang@mediatek.com>,
+ Paul-PL Chen <paul-pl.chen@mediatek.com>, 
+ Yongqiang Niu <yongqiang.niu@mediatek.com>,
+ Zhenxing Qin <zhenxing.qin@mediatek.com>, 
+ Xiandong Wang <xiandong.wang@mediatek.com>,
+ Sirius Wang <sirius.wang@mediatek.com>, 
+ Xavier Chang <xavier.chang@mediatek.com>,
+ Jarried Lin <jarried.lin@mediatek.com>, 
+ Fei Shao <fshao@chromium.org>, Chen-yu Tsai <wenst@chromium.org>, 
+ Project_Global_Chrome_Upstream_Group@mediatek.com, 
+ dri-devel@lists.freedesktop.org, linux-mediatek@lists.infradead.org, 
+ linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
+ linux-media@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -75,57 +90,14 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Ariel D'Alessandro <ariel.dalessandro@collabora.com> =E6=96=BC 2025=E5=B9=
-=B410=E6=9C=8824=E6=97=A5 =E9=80=B1=E4=BA=94 =E4=B8=8B=E5=8D=888:28=E5=AF=
-=AB=E9=81=93=EF=BC=9A
+Jason-JH Lin <jason-jh.lin@mediatek.com> =E6=96=BC 2025=E5=B9=B48=E6=9C=882=
+9=E6=97=A5 =E9=80=B1=E4=BA=94 =E4=B8=8A=E5=8D=889:17=E5=AF=AB=E9=81=93=EF=
+=BC=9A
 >
-> Commit c410fa9b07c32 ("drm/mediatek: Add AFBC support to Mediatek DRM
-> driver") added AFBC support to Mediatek DRM and enabled the
-> 32x8/split/sparse modifier.
->
-> However, this is currently broken on Mediatek MT8188 (Genio 700 EVK
-> platform); tested using upstream Kernel and Mesa (v25.2.1), AFBC is used =
-by
-> default since Mesa v25.0.
->
-> Kernel trace reports vblank timeouts constantly, and the render is garble=
-d:
->
-> ```
-> [CRTC:62:crtc-0] vblank wait timed out
-> WARNING: CPU: 7 PID: 70 at drivers/gpu/drm/drm_atomic_helper.c:1835 drm_a=
-tomic_helper_wait_for_vblanks.part.0+0x24c/0x27c
-> [...]
-> Hardware name: MediaTek Genio-700 EVK (DT)
-> Workqueue: events_unbound commit_work
-> pstate: 60400009 (nZCv daif +PAN -UAO -TCO -DIT -SSBS BTYPE=3D--)
-> pc : drm_atomic_helper_wait_for_vblanks.part.0+0x24c/0x27c
-> lr : drm_atomic_helper_wait_for_vblanks.part.0+0x24c/0x27c
-> sp : ffff80008337bca0
-> x29: ffff80008337bcd0 x28: 0000000000000061 x27: 0000000000000000
-> x26: 0000000000000001 x25: 0000000000000000 x24: ffff0000c9dcc000
-> x23: 0000000000000001 x22: 0000000000000000 x21: ffff0000c66f2f80
-> x20: ffff0000c0d7d880 x19: 0000000000000000 x18: 000000000000000a
-> x17: 000000040044ffff x16: 005000f2b5503510 x15: 0000000000000000
-> x14: 0000000000000000 x13: 74756f2064656d69 x12: 742074696177206b
-> x11: 0000000000000058 x10: 0000000000000018 x9 : ffff800082396a70
-> x8 : 0000000000057fa8 x7 : 0000000000000cce x6 : ffff8000823eea70
-> x5 : ffff0001fef5f408 x4 : ffff80017ccee000 x3 : ffff0000c12cb480
-> x2 : 0000000000000000 x1 : 0000000000000000 x0 : ffff0000c12cb480
-> Call trace:
->  drm_atomic_helper_wait_for_vblanks.part.0+0x24c/0x27c (P)
->  drm_atomic_helper_commit_tail_rpm+0x64/0x80
->  commit_tail+0xa4/0x1a4
->  commit_work+0x14/0x20
->  process_one_work+0x150/0x290
->  worker_thread+0x2d0/0x3ec
->  kthread+0x12c/0x210
->  ret_from_fork+0x10/0x20
-> ---[ end trace 0000000000000000 ]---
-> ```
->
-> Until this gets fixed upstream, disable AFBC support on this platform, as
-> it's currently broken with upstream Mesa.
+> Call pm_runtime_resume_and_get() before accessing GCE hardware in
+> mbox_send_message(), and invoke pm_runtime_put_autosuspend() in the
+> cmdq callback to release the PM reference and start autosuspend for
+> GCE. This ensures correct power management for the GCE device.
 
 Applied to mediatek-drm-fixes [1], thanks.
 
@@ -136,5 +108,7 @@ Regards,
 Chun-Kuang.
 
 >
-> Signed-off-by: Ariel D'Alessandro <ariel.dalessandro@collabora.com>
+> Fixes: 8afe816b0c99 ("mailbox: mtk-cmdq-mailbox: Implement Runtime PM wit=
+h autosuspend")
+> Signed-off-by: Jason-JH Lin <jason-jh.lin@mediatek.com>
 > ---
