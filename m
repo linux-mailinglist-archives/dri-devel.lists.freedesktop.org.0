@@ -2,171 +2,76 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0694AC27879
-	for <lists+dri-devel@lfdr.de>; Sat, 01 Nov 2025 06:19:34 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5CB8DC27C6A
+	for <lists+dri-devel@lfdr.de>; Sat, 01 Nov 2025 12:07:50 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 89F8A10E33D;
-	Sat,  1 Nov 2025 05:19:30 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DBB3610E012;
+	Sat,  1 Nov 2025 11:07:46 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=Nvidia.com header.i=@Nvidia.com header.b="YAr4r4YE";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="Jm5PnlJw";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from CY3PR05CU001.outbound.protection.outlook.com
- (mail-westcentralusazon11013022.outbound.protection.outlook.com
- [40.93.201.22])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 78F8B10E2FB;
- Sat,  1 Nov 2025 05:19:28 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=EL3E9g1mZVs0N5ksjfvw+w8ywT6k+k93wQ6SJAcU7aimkBjBEWWH7L+jgclR1D4qlBcC5H2bNuL9jKIRJGXe7inqZu4OGGaup0wpMdH1kHYXDWcIMQbsyk1lulqCw7DYX3NAvq2Ee0YgAcKHgQOlKDKURJDkQFZHBTkWqzbI9/KE6+CI4lRXjVUwQEEfwOCbdERhk54pdNVG4p989MDhm+3BxMxXayL5zbSRbn40ZnhY/+dANIfa0Tu6hfA+8cOjblCD8SwOZPH0vDZbiSpnqGW9lJUh7NyvLWQcagSbmFLxFBYi8ANG1uJkHdbX4K1ZkwfdPnYKf9GKxyCokxCuwA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=cvTh3kQ0e1gwN+aQH+M19F2KHXuY0sgLwETChmCitWI=;
- b=q/4I/TpWa5BbaBdv42FlwKPjfvSFe+Ocz6sby1BD9pkiXwbbMknL/+V90R+7pfwAwhP73yjGx83Cb6ktY+CvmnefxbURzI7CgqtL6IcLZaJk2Kvk48TzFo9CAehlwPaS0+im5ntW9RHdhp4VfoGGtRuaYg80CubU1LRmc7I4q/zk7S0zAoQhz84qiAoq9Noi+qrNHYEsUE1dYSp3kCDQl2N80FUhOthU43MSVNUw0ZDDA9kmUvX1PX3xvKBbJwaBOgBeNqQdTFocA+iI9O255DEU+Q1fhlDOiv4GFGwIbtQKYWgYyEvBMxaZQbmi4ExN7xPM31H8/quQdw/GFGPjXg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
- dkim=pass header.d=nvidia.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=cvTh3kQ0e1gwN+aQH+M19F2KHXuY0sgLwETChmCitWI=;
- b=YAr4r4YEX4osBE2uFsFfYbvpwML9+qi36qf73zzOMwC7h6MlzKDDE023+PccuK3TrQgCuSQmtQYJWa9IY2jy1pn9SpYjUuaw+VC5c6EXjinU0NpoVUsLiV0IEcroOVaaZdIwy7kF7uSZ22ZDAeU+xnoxk9ZJ4aOHSkqTKELZxRDySDZP7UQh+aNoFlzjnQElh06p8rddgyKoLDvDfjEAPgWN6XSC/ueO59D7It/W4Hwju1vVxC+N0q63WdpHbaUHZ7eaOnjluWBrUoADmqhSXHt7/YoXF1aRL/cj2soZ8EnciEjRqNXL2uQZAV2L7zxpyCKHQKjlWodD8Qk2zsfdew==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nvidia.com;
-Received: from CH2PR12MB3990.namprd12.prod.outlook.com (2603:10b6:610:28::18)
- by DS0PR12MB8020.namprd12.prod.outlook.com (2603:10b6:8:14f::5) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9275.14; Sat, 1 Nov
- 2025 05:19:22 +0000
-Received: from CH2PR12MB3990.namprd12.prod.outlook.com
- ([fe80::7de1:4fe5:8ead:5989]) by CH2PR12MB3990.namprd12.prod.outlook.com
- ([fe80::7de1:4fe5:8ead:5989%6]) with mapi id 15.20.9275.013; Sat, 1 Nov 2025
- 05:19:22 +0000
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
-Date: Sat, 01 Nov 2025 14:19:18 +0900
-Message-Id: <DDX3S62U4O46.133LFLRFHMZI3@nvidia.com>
-To: "Joel Fernandes" <joelagnelf@nvidia.com>,
- <linux-kernel@vger.kernel.org>, <rust-for-linux@vger.kernel.org>,
- <dri-devel@lists.freedesktop.org>, <dakr@kernel.org>, "David Airlie"
- <airlied@gmail.com>
-Cc: <acourbot@nvidia.com>, "Alistair Popple" <apopple@nvidia.com>, "Miguel
- Ojeda" <ojeda@kernel.org>, "Alex Gaynor" <alex.gaynor@gmail.com>, "Boqun
- Feng" <boqun.feng@gmail.com>, "Gary Guo" <gary@garyguo.net>,
- <bjorn3_gh@protonmail.com>, "Benno Lossin" <lossin@kernel.org>, "Andreas
- Hindborg" <a.hindborg@kernel.org>, "Alice Ryhl" <aliceryhl@google.com>,
- "Trevor Gross" <tmgross@umich.edu>, "Simona Vetter" <simona@ffwll.ch>,
- "Maarten Lankhorst" <maarten.lankhorst@linux.intel.com>, "Maxime Ripard"
- <mripard@kernel.org>, "Thomas Zimmermann" <tzimmermann@suse.de>, "John
- Hubbard" <jhubbard@nvidia.com>, "Timur Tabi" <ttabi@nvidia.com>,
- <joel@joelfernandes.org>, "Elle Rhumsaa" <elle@weathered-steel.dev>,
- "Daniel Almeida" <daniel.almeida@collabora.com>, "Andrea Righi"
- <arighi@nvidia.com>, "Philipp Stanner" <phasta@kernel.org>,
- <nouveau@lists.freedesktop.org>, "Nouveau"
- <nouveau-bounces@lists.freedesktop.org>
-Subject: Re: [PATCH RFC 3/4] rust: drm: Add DRM buddy allocator bindings
-From: "Alexandre Courbot" <acourbot@nvidia.com>
-X-Mailer: aerc 0.21.0-0-g5549850facc2
-References: <20251030190613.1224287-1-joelagnelf@nvidia.com>
- <20251030190613.1224287-4-joelagnelf@nvidia.com>
-In-Reply-To: <20251030190613.1224287-4-joelagnelf@nvidia.com>
-X-ClientProxiedBy: TYCP286CA0078.JPNP286.PROD.OUTLOOK.COM
- (2603:1096:400:2b3::15) To CH2PR12MB3990.namprd12.prod.outlook.com
- (2603:10b6:610:28::18)
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5727510E012
+ for <dri-devel@lists.freedesktop.org>; Sat,  1 Nov 2025 11:07:45 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1761995265; x=1793531265;
+ h=date:from:to:cc:subject:message-id:references:
+ mime-version:in-reply-to;
+ bh=pwo2AH/F6d+H4i2vyh89lNZ+XD4n4HBplTVDLdDFnB4=;
+ b=Jm5PnlJwxr82UmtT9GMQBDM33G6qWaUDkSYg/M7EetOmQpeODpe+rf8m
+ QFjoKVBfGzninZQ+r7Aq90ovuvp8YpswOHnU/XXx3vNHLy0GOZfwVQ/vI
+ qmzxRswOxCZf3/P6a6qNmQsBtdGxmmp2CnQ/UVLrXENQ9ev6MKYZ3ovv/
+ lSE+8jtC17n8jYpMHo7RYibjZoe+TfLK4rN07hh4n9VpKodZjGotRa9q7
+ Z7fm5b9B0HNgC/kZZYCMDhiyKib9ZxieGxF06C1MRVFaVhmO9ZoCqDVjz
+ qCy60AORX9ZYJRBVqVXkdcvtQvZ3KEnnk72tkToGW0y9cXYNpVCdmzS6a Q==;
+X-CSE-ConnectionGUID: Sq8lBsxZRSi/xneXmj/k9g==
+X-CSE-MsgGUID: fubHWOJtQoO4S4wSluv8LA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11599"; a="81771068"
+X-IronPort-AV: E=Sophos;i="6.19,271,1754982000"; d="scan'208";a="81771068"
+Received: from fmviesa005.fm.intel.com ([10.60.135.145])
+ by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 01 Nov 2025 04:07:45 -0700
+X-CSE-ConnectionGUID: D9pmvt2aRzub+M8lQn84cw==
+X-CSE-MsgGUID: FpfaqeAFSECmJUUrEqcDeg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.19,271,1754982000"; d="scan'208";a="190789457"
+Received: from lkp-server02.sh.intel.com (HELO 66d7546c76b2) ([10.239.97.151])
+ by fmviesa005.fm.intel.com with ESMTP; 01 Nov 2025 04:07:39 -0700
+Received: from kbuild by 66d7546c76b2 with local (Exim 4.96)
+ (envelope-from <lkp@intel.com>) id 1vF9SE-000OAS-0o;
+ Sat, 01 Nov 2025 11:07:33 +0000
+Date: Sat, 1 Nov 2025 19:06:56 +0800
+From: kernel test robot <lkp@intel.com>
+To: Jason-JH Lin <jason-jh.lin@mediatek.com>, Rob Herring <robh@kernel.org>,
+ Krzysztof Kozlowski <krzk@kernel.org>, Conor Dooley <conor+dt@kernel.org>,
+ Jassi Brar <jassisinghbrar@gmail.com>,
+ Chun-Kuang Hu <chunkuang.hu@kernel.org>,
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev, linux-media@vger.kernel.org,
+ Matthias Brugger <matthias.bgg@gmail.com>,
+ Nicolas Dufresne <nicolas@ndufresne.ca>,
+ Jason-JH Lin <jason-jh.lin@mediatek.com>,
+ Nancy Lin <nancy.lin@mediatek.com>, Singo Chang <singo.chang@mediatek.com>,
+ Paul-PL Chen <paul-pl.chen@mediatek.com>, Moudy Ho <moudy.ho@mediatek.com>,
+ Xiandong Wang <xiandong.wang@mediatek.com>,
+ Sirius Wang <sirius.wang@mediatek.com>,
+ Fei Shao <fshao@chromium.org>, Chen-yu Tsai <wenst@chromium.org>,
+ Project_Global_Chrome_Upstream_Group@mediatek.com,
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, linux-mediatek@lists.infradead.org,
+ linux-arm-kernel@lists.infradead.org
+Subject: Re: [PATCH 1/5] soc: mediatek: Use pkt_write function pointer for
+ subsys ID compatibility
+Message-ID: <202511011822.Vn6fsvGr-lkp@intel.com>
+References: <20251031160309.1654761-2-jason-jh.lin@mediatek.com>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: CH2PR12MB3990:EE_|DS0PR12MB8020:EE_
-X-MS-Office365-Filtering-Correlation-Id: 16248b09-0f21-4b0e-0589-08de19063715
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
- ARA:13230040|7416014|376014|366016|1800799024|10070799003; 
-X-Microsoft-Antispam-Message-Info: =?utf-8?B?cVozTENWVFZRYzEydGpONWhWaStlYWZ2ZklvS2g3ZllSZHU1eTRMWmQvaHNG?=
- =?utf-8?B?VXczR09QRlBUeDl2czh4UDlVem81S25oNXJMYXJlL3VRVDdLSFhoWnpSVkpP?=
- =?utf-8?B?bUs0TjNKbUhZMExTSytQYTBQbUdlUE1wQTdzM1VjNndEd1lOZmFVOXAwWVJE?=
- =?utf-8?B?YkxIRitTQ0tyeEplenZTZzZ4RmwydkVWUHkxZnMxSG1QWldaVFhTc1AzYVBp?=
- =?utf-8?B?bHlYYk9CK3ZDNVcxYm9Rc1BocVZ4NWwraXlrZWYyaWo5b3VjVERRaFcxd05h?=
- =?utf-8?B?MUd3QXlnVFpWRUQwSHFIRE5vK1ZOeDc5RncvdVFkejFCVGN4dWZ4RzMxVmJB?=
- =?utf-8?B?b2JyekxaRUd0cjVqV2JvK0hwR1dTdUhHaFBXQ0lhMWZDSXdheWlVa2ROZDE5?=
- =?utf-8?B?NHlLMkpJbWVrRkl1ZXJzVDFtUkc5V0pEVm9OYlVFL3pUV0NpQ1ZQNDMvdHM3?=
- =?utf-8?B?REZjUStGcW85RUU1dCtXcDd6a01OMDVra0ZpV0IvWUpGRk84dTJQYjQxYmhB?=
- =?utf-8?B?a2JiUU9mVytlRW1pUVAreGNyb290Ujc5Z1pPV2NBZ1BzRFlDcjdEeU1VVzlG?=
- =?utf-8?B?cnJjOUF5Uk95SXBGTE1pQXpTZFlZZWhVTXp0ZE9jUFR0RHlsbCtQMVBoTkRE?=
- =?utf-8?B?L2IxcmdkYm1qbW5sU2hxL2ZNeTkzdUVwSHdLMnZVNFRaV1JpbHRXZDBwSTNj?=
- =?utf-8?B?NzFMbXNxWC9Nd05hU0ZBRGtuNnBNd2xCWG45RUh0SThIclVaUk5VUDk3MXhO?=
- =?utf-8?B?MUxWTWlpWU1CcEl0YUhHQllHK0J2ZGptb200Vzk3em5LT2h3MGt3czA2dmhR?=
- =?utf-8?B?TVZPcU9IbUdWQVQ5THo1cEtuWUpzNHpFaHpsRy8wMVZNVlg3ZDFpZTA0OUNq?=
- =?utf-8?B?T0dyRFZkYXUwZEFaTnM0THFQWHJRR1VpaHlyL1pwM1BQL2tJbVlQRGlMNGdL?=
- =?utf-8?B?U3BFT3Y5b1pIeStzZDZYZ3lGSmkvY3NiNXlvZGZBR0c4UnNuWlRwNW9KYnpK?=
- =?utf-8?B?bEhiR0ZiOFFUTElEZFl3Z1hZaW4zMUIyUTBJbW5hRjVmM2R1a3ExSVhsUU1T?=
- =?utf-8?B?enMwZHByK2NDQXplcTRJWG5KbUlWUWxvOElDY1FKdG5WZndvRUoxWmlOY1lL?=
- =?utf-8?B?QVgyOXFxcXVZRTBFUEdGN1dWVzNlOFREYTMvVWo4UTU5Ty93c0tSQmkvUFcv?=
- =?utf-8?B?WldtU3MvbXNCektPNG5nbjVPRlUyK2RaQTRvY0YwNzJIMGcrNXUxNVZZbnZD?=
- =?utf-8?B?enNtUVBmN3VDakIrRVYwWEd0UFpaQUowVERZbzhDN3dIMHM2YlFJd3FrU2tT?=
- =?utf-8?B?K0hvSEMzOUViTFlnQWI2OHJ3eXl2WG1VOEhKZWxUMjFYUDFTcnFGUGFuZk0r?=
- =?utf-8?B?S25WTVM0Z3RMT2k2eDIwTFJ1cDdHUWRVSFVSbDY3UUhZdk55dS9BckV6WFlG?=
- =?utf-8?B?VTBtOGZVZGhSZXIrSDZxTlI2dUhZMURLa3V5WHAwY0xiS1V0cmZiU09iR2lt?=
- =?utf-8?B?WE0zc2ZKSitTbXV5U0dYTElPQk5jUENVRzRQdDc2N08yVGRMVHVvRmpWMElE?=
- =?utf-8?B?SFRxa1pTMm9aY3JwbzV5eHducFhxRzBlZXMwNmZnWmlHUWpTVjdTc3JVeWRT?=
- =?utf-8?B?b3h0a1Y1eFF5ckZHdHhsTkxVYWxSRmNrcFY1T09ONWhOQ2VOTWlsWTQyZE14?=
- =?utf-8?B?YythblZPcmpJeHpEZ2hOZ0I5ZktDMU51N2t3emNsU0Q1SW1MSmZJRUZJS0Fk?=
- =?utf-8?B?SUFBWkhhV05vWC9Qa2UrYUhMb1dZR3FJUUM2RmhJY3dXa1dqbUwrSlJxY1Zl?=
- =?utf-8?B?SFZaWDlzRXg4eFdWU2VkeWRlcUZzM3B0Wk5XeW5OVzdoYVd5TE93cVVaU2kx?=
- =?utf-8?B?YUtraHMyOHg5KzJiL2V1UmdtZldSeEdEQzBWK0hVMFVNWVZMNkZaUkxzNy8z?=
- =?utf-8?Q?nCtf3296Akj6RHRuTCs0a70ygI4EG+A4?=
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:CH2PR12MB3990.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230040)(7416014)(376014)(366016)(1800799024)(10070799003); DIR:OUT;
- SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?SitSMzBNMWpONHVwQzBRTUt3VHU1SGpJbDRYVnlYK0EwdndaK2YxeDBrd0pE?=
- =?utf-8?B?YW1lYkkwNExPbjhna01CSlJMTWlZanpncmFwYTdzVWJ1ZGtINEJ3RU5aTjB2?=
- =?utf-8?B?UjNlS1RoOVZBRnNsNmdqaDlYUkw0TWE0VmQ2OG9XODkwajBacjJpbVVhd1U2?=
- =?utf-8?B?blNYR1hrUzdaNGRvY1lkbXBvekhmeHg4ZmZJbk1KZFV4M1RBTjlFdTNQSE8r?=
- =?utf-8?B?K1FOR2VvTEVOeWM5aEw0K1A3b3h1MWlLRUhWcTJTajhncnh4VVM1NlJpenR6?=
- =?utf-8?B?ZUV2bk1lVU0zdjNQMXZNRXRBT21wMWxwOUR4dkE0aUFva0kxZWFZcWtCWkdJ?=
- =?utf-8?B?V1hMVE5uUTlDWEdkakZrcklkRWt5TWFyL2JSdTRVL2Z2TktBbWtPT3FwUFZS?=
- =?utf-8?B?Z3I2VDNRZHZEcE9PR2E3UGIyaFFtaVY2U1RxdnZ3TTk2WFVHWFp4ckRrb3hM?=
- =?utf-8?B?Z1ZseWxqa3JlUDA5UGxPdmNrRytGV3hyZGgzdThIbFNuR1FlV2dOcVY2U29U?=
- =?utf-8?B?UzVBN0lVeVNqN09PczRIOTloYklmeDAwTnRNM3FjS1o4SGNJUWV0a0FGVWVt?=
- =?utf-8?B?a0hoM3EvU0VrTGI3Uk5HTnVSWHYvODlXYSt4NDdKaVBPb216d2hLbGQrQzdx?=
- =?utf-8?B?T2gxYUd3c2xYbk1LQkU1bklVYVgzQjk5bktyOW0zcjNFSy9jVE1td2hsQ3Y1?=
- =?utf-8?B?aEtCQzdMTjNhR2Z1SCtZSGRJVXZtV2xtdmdldUpoVFA2SEw1VS85a3pBUit5?=
- =?utf-8?B?SlJweW84cUlNRG5GQUlGNVRHYW92OTUrSlRXTTNRRG1BM042cGs4MVh0RndO?=
- =?utf-8?B?a3pkVTJYbVpmK0p2QWhYd1RUV1BSM2IyQ0JicVRYazJIREFFcmd2bENDV0No?=
- =?utf-8?B?ZVJuQ0hBaTh1OFBKaTRBMGhKZDJkZWNScDBGUHN3MHFlVmhPY3p1UmNuK1VS?=
- =?utf-8?B?SnVFcVVHeWdienpOdkk2Z3VXdlc0ZEpmM2xMcEZYSDBQMTRDeGcveW85Ukd0?=
- =?utf-8?B?NHBRczV1NnBLei8xSCtoVHNXeS9OTFlqUnVvWlYreTc3RzVLQmpFb05rYi9E?=
- =?utf-8?B?R3F3MmFzUCt1RWNKeEZhSFhWcTh3dlYvQlVWWkFMdEMvcFJOcjkzZE9mcDhR?=
- =?utf-8?B?Yi9KakdEblRvOGFPS0JSNWJJTCsvWjZsY2kwbU9zVml1VU43YTVySU1wZ2Zl?=
- =?utf-8?B?V0ZLdm13UDlQa3lQSjErZjdNZXhWN3dTZXVHTWRUYU0zSDRFUnhLY0dmZ2tv?=
- =?utf-8?B?VTJoRFdUZFpuY2dZeGdiM2VPNlNLbFNWdFhHbTRRUUE5aVhtYWpFWnl6Q29P?=
- =?utf-8?B?QXRDZWluMHducnhicjVQWFJhWnRSaW1rVWROcFBoNVpxL25yTVMzWG1ad3Ba?=
- =?utf-8?B?c3ArTlVIMzhOdFFvVThEMFNtRzlsTEZOQ0hLVHdKQ2szM05PVXR1RGJtMUFm?=
- =?utf-8?B?U0thWmZsZ21vS2NwOXU0YkNsM0MwbFZ2YXJNWWUzbFNIT1RSYUNUSmliMXRa?=
- =?utf-8?B?TjZYWGRhVEZFbGptamJYRVk1UFRRZmxwdFhmRWNPNUlrMUNEOFVQNy9wcFN3?=
- =?utf-8?B?QVdXRWZ1M2dEak1qdnhhWXA2d1FWNWt5UmROZ2hZVmpmaVY0WlFSanJwYTFa?=
- =?utf-8?B?LysvWDZRRFI5R204MDAwY0Y2YWJSd3NvNjNKQXY2dU1vYkVMUE92VXZlVjRD?=
- =?utf-8?B?SXJsTkN4Nm5XM0NIVEdDeGNCM2ZsQ09TcW9qR0ExVmgxYnp1YUJKbE5RK0Vr?=
- =?utf-8?B?UDdRSlB1TVhYMmp6azJjL2RicFRNRDc5UW5yeEZDSlorNXlwMEJMazdlMzEv?=
- =?utf-8?B?NHVoOUJyTnpLUjNobG91dy9ZOVlIa3grYnFsNkpkU05FZWM0YlZoZlZiOStJ?=
- =?utf-8?B?Y3lQWjZHTjBlNWxicWFPTDFiR3VxV3ZOR3dmSVVnb3pYUjE2cGs1WUlsaGN3?=
- =?utf-8?B?eVhzSmg5V0xTZERIMGtWTnMzcFMyTkJOWVp6b1kxWFVRbkttT2ZoSjBuYnUx?=
- =?utf-8?B?bnNIbEJ2ZkdzZnFPdDNxNlUzemI3SjFwOVNBcE95MVhubSt4c3lDcGNFTXVp?=
- =?utf-8?B?dDArVllGY0FtdEo0KzZWSHlXM2JtWlBWcW5UQTFzUGNUODNHMC9HOWUwNWd3?=
- =?utf-8?B?SUN3NWF1SnZXSHlieVJoU05FV09FMlFqRm14YWtYcDRlaDA5cU9TdjU1Uk13?=
- =?utf-8?Q?r9CJroFvqDhwGnts6NgSE5NxdjYO2DwMNy8zxCA0VT6q?=
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 16248b09-0f21-4b0e-0589-08de19063715
-X-MS-Exchange-CrossTenant-AuthSource: CH2PR12MB3990.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 01 Nov 2025 05:19:21.9365 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: rBqnMeZPuWABI4RU8DNfv0jj+EWqV/WKWy3jiiEQ7NG5HtIFuG+cnhNCJLzl2wvdhoSlmorbfSau9v0gQHUXzQ==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DS0PR12MB8020
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20251031160309.1654761-2-jason-jh.lin@mediatek.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -182,49 +87,71 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri Oct 31, 2025 at 4:06 AM JST, Joel Fernandes wrote:
-<snip>
-> +    /// Allocate blocks from the buddy allocator.
-> +    ///
-> +    /// Returns an [`AllocatedBlocks`] structure that owns the allocated=
- blocks and automatically
-> +    /// frees them when dropped. Allocation of `list_head` uses the `gfp=
-` flags passed.
-> +    pub fn alloc_blocks(
-> +        &self,
-> +        start: usize,
-> +        end: usize,
-> +        size: usize,
-> +        min_block_size: usize,
-> +        flags: BuddyFlags,
-> +        gfp: Flags,
-> +    ) -> Result<AllocatedBlocks<'_>> {
+Hi Jason-JH,
 
-It looks like some of the flags heavily modify the behavior of the
-allocator, and make some of the parameters irrelevant (for instance,
-IIUC `start` and `end` only make sense if `RANGE_ALLOCATION` is
-passed?).
+kernel test robot noticed the following build errors:
 
-In that case, we should either have several allocation methods, or have
-an `AllocationRequest` enum which variants are the allocation type and its
-relevant parameters. E.g (very naively):
+[auto build test ERROR on linuxtv-media-pending/master]
+[also build test ERROR on media-tree/master linus/master v6.18-rc3 next-20251031]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-enum AllocationRange {
-    Whole,
-    Ranged(Range<u64>),
-    ...
-}
+url:    https://github.com/intel-lab-lkp/linux/commits/Jason-JH-Lin/soc-mediatek-Use-pkt_write-function-pointer-for-subsys-ID-compatibility/20251101-000555
+base:   https://git.linuxtv.org/media-ci/media-pending.git master
+patch link:    https://lore.kernel.org/r/20251031160309.1654761-2-jason-jh.lin%40mediatek.com
+patch subject: [PATCH 1/5] soc: mediatek: Use pkt_write function pointer for subsys ID compatibility
+config: powerpc64-randconfig-r063-20251101 (https://download.01.org/0day-ci/archive/20251101/202511011822.Vn6fsvGr-lkp@intel.com/config)
+compiler: clang version 18.1.8 (https://github.com/llvm/llvm-project 3b5b5c1ec4a3095ab096dd780e84d7ab81f3d7ff)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251101/202511011822.Vn6fsvGr-lkp@intel.com/reproduce)
 
-struct AllocationRequest {
-    range: AllocationRange,
-    top_down: bool,
-    contiguous: bool,
-    clear: bool,
-}
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202511011822.Vn6fsvGr-lkp@intel.com/
 
-I.e. use the type system to make sure we can only express things that
-make sense, and never pass data that will end up being ignored.
+All errors (new ones prefixed by >>):
 
-If we do that well, I think we can drop the `BuddyFlags` type
-altogether, which is great as it seems to serve several different
-purposes.
+>> drivers/soc/mediatek/mtk-mmsys.c:170:26: error: no member named 'pkt_write_mask' in 'struct cmdq_client_reg'
+     170 |                 ret = mmsys->cmdq_base.pkt_write_mask(cmdq_pkt,
+         |                       ~~~~~~~~~~~~~~~~ ^
+>> drivers/soc/mediatek/mtk-mmsys.c:172:30: error: no member named 'pa_base' in 'struct cmdq_client_reg'
+     172 |                                                       mmsys->cmdq_base.pa_base,
+         |                                                       ~~~~~~~~~~~~~~~~ ^
+   2 errors generated.
+--
+>> drivers/soc/mediatek/mtk-mutex.c:1002:16: error: no member named 'pkt_write' in 'struct cmdq_client_reg'
+    1002 |         mtx->cmdq_reg.pkt_write(cmdq_pkt, mtx->cmdq_reg.subsys, en_addr, en_addr, 1);
+         |         ~~~~~~~~~~~~~ ^
+   1 error generated.
+
+
+vim +170 drivers/soc/mediatek/mtk-mmsys.c
+
+   162	
+   163	static void mtk_mmsys_update_bits(struct mtk_mmsys *mmsys, u32 offset, u32 mask, u32 val,
+   164					  struct cmdq_pkt *cmdq_pkt)
+   165	{
+   166		int ret;
+   167		u32 tmp;
+   168	
+   169		if (mmsys->cmdq_base.size && cmdq_pkt) {
+ > 170			ret = mmsys->cmdq_base.pkt_write_mask(cmdq_pkt,
+   171							      mmsys->cmdq_base.subsys,
+ > 172							      mmsys->cmdq_base.pa_base,
+   173							      mmsys->cmdq_base.offset + offset,
+   174							      val, mask);
+   175			if (ret)
+   176				pr_debug("CMDQ unavailable: using CPU write\n");
+   177			else
+   178				return;
+   179		}
+   180		tmp = readl_relaxed(mmsys->regs + offset);
+   181		tmp = (tmp & ~mask) | (val & mask);
+   182		writel_relaxed(tmp, mmsys->regs + offset);
+   183	}
+   184	
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
