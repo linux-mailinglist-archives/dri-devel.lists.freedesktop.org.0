@@ -2,48 +2,48 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5CB8DC27C6A
-	for <lists+dri-devel@lfdr.de>; Sat, 01 Nov 2025 12:07:50 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6A8CBC27CAA
+	for <lists+dri-devel@lfdr.de>; Sat, 01 Nov 2025 12:29:07 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DBB3610E012;
-	Sat,  1 Nov 2025 11:07:46 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7CF6310E027;
+	Sat,  1 Nov 2025 11:29:04 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="Jm5PnlJw";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="QYHAUhqN";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5727510E012
- for <dri-devel@lists.freedesktop.org>; Sat,  1 Nov 2025 11:07:45 +0000 (UTC)
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3092D10E027
+ for <dri-devel@lists.freedesktop.org>; Sat,  1 Nov 2025 11:29:03 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1761995265; x=1793531265;
+ t=1761996543; x=1793532543;
  h=date:from:to:cc:subject:message-id:references:
  mime-version:in-reply-to;
- bh=pwo2AH/F6d+H4i2vyh89lNZ+XD4n4HBplTVDLdDFnB4=;
- b=Jm5PnlJwxr82UmtT9GMQBDM33G6qWaUDkSYg/M7EetOmQpeODpe+rf8m
- QFjoKVBfGzninZQ+r7Aq90ovuvp8YpswOHnU/XXx3vNHLy0GOZfwVQ/vI
- qmzxRswOxCZf3/P6a6qNmQsBtdGxmmp2CnQ/UVLrXENQ9ev6MKYZ3ovv/
- lSE+8jtC17n8jYpMHo7RYibjZoe+TfLK4rN07hh4n9VpKodZjGotRa9q7
- Z7fm5b9B0HNgC/kZZYCMDhiyKib9ZxieGxF06C1MRVFaVhmO9ZoCqDVjz
- qCy60AORX9ZYJRBVqVXkdcvtQvZ3KEnnk72tkToGW0y9cXYNpVCdmzS6a Q==;
-X-CSE-ConnectionGUID: Sq8lBsxZRSi/xneXmj/k9g==
-X-CSE-MsgGUID: fubHWOJtQoO4S4wSluv8LA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11599"; a="81771068"
-X-IronPort-AV: E=Sophos;i="6.19,271,1754982000"; d="scan'208";a="81771068"
-Received: from fmviesa005.fm.intel.com ([10.60.135.145])
- by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 01 Nov 2025 04:07:45 -0700
-X-CSE-ConnectionGUID: D9pmvt2aRzub+M8lQn84cw==
-X-CSE-MsgGUID: FpfaqeAFSECmJUUrEqcDeg==
+ bh=sF26sQtYAQFqKSwZpyXYz3QW+Hf+GiF9jFBa1Emk2c8=;
+ b=QYHAUhqNfDncP7adgX4zB0SoeO4gnZpMraMCkHAFGeu3fuwif2WwPqMp
+ 6Zdf/Tc/cSLgwN7sAtt/EQOTeI3GSJXMIbM/rXPwNHWWNZ84El8OBlGSX
+ NMp8JjtWaHvnd+xxcRlCAl0o8sr5w4B5hjIR2Hyd7n/Qv4XAIPw/DAXLk
+ xp+LkgYQ6eerYCD5y8K14qqFQyi+guF153eh/I06n+7nmXMI7Csyr6hKn
+ m5cubglcj8DJPoVZqA+O9iOGpH/+cCJWwvHcIJcqg4u8Y2SUeqStRF1r/
+ b3MEmtfIYO7Cyog7/J9b7j8S7OslTVPgZkeU6T5SIuSIIIXpI6MRE8H8B w==;
+X-CSE-ConnectionGUID: /gMSeqJYQTqz+y5U7r1CCw==
+X-CSE-MsgGUID: PeUi3EbMRTGrHfudOTbltw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11599"; a="81555083"
+X-IronPort-AV: E=Sophos;i="6.19,272,1754982000"; d="scan'208";a="81555083"
+Received: from orviesa007.jf.intel.com ([10.64.159.147])
+ by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 01 Nov 2025 04:29:03 -0700
+X-CSE-ConnectionGUID: fCbaBgp4R9Cg2C2C3uNafw==
+X-CSE-MsgGUID: fbz26zFYROKDX/eUs4VjWw==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.19,271,1754982000"; d="scan'208";a="190789457"
+X-IronPort-AV: E=Sophos;i="6.19,272,1754982000"; d="scan'208";a="186400275"
 Received: from lkp-server02.sh.intel.com (HELO 66d7546c76b2) ([10.239.97.151])
- by fmviesa005.fm.intel.com with ESMTP; 01 Nov 2025 04:07:39 -0700
+ by orviesa007.jf.intel.com with ESMTP; 01 Nov 2025 04:28:58 -0700
 Received: from kbuild by 66d7546c76b2 with local (Exim 4.96)
- (envelope-from <lkp@intel.com>) id 1vF9SE-000OAS-0o;
- Sat, 01 Nov 2025 11:07:33 +0000
-Date: Sat, 1 Nov 2025 19:06:56 +0800
+ (envelope-from <lkp@intel.com>) id 1vF9mw-000OBo-38;
+ Sat, 01 Nov 2025 11:28:54 +0000
+Date: Sat, 1 Nov 2025 19:28:26 +0800
 From: kernel test robot <lkp@intel.com>
 To: Jason-JH Lin <jason-jh.lin@mediatek.com>, Rob Herring <robh@kernel.org>,
  Krzysztof Kozlowski <krzk@kernel.org>, Conor Dooley <conor+dt@kernel.org>,
@@ -66,7 +66,7 @@ Cc: oe-kbuild-all@lists.linux.dev, linux-media@vger.kernel.org,
  linux-arm-kernel@lists.infradead.org
 Subject: Re: [PATCH 1/5] soc: mediatek: Use pkt_write function pointer for
  subsys ID compatibility
-Message-ID: <202511011822.Vn6fsvGr-lkp@intel.com>
+Message-ID: <202511011936.zWnbnVXF-lkp@intel.com>
 References: <20251031160309.1654761-2-jason-jh.lin@mediatek.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
@@ -101,29 +101,29 @@ url:    https://github.com/intel-lab-lkp/linux/commits/Jason-JH-Lin/soc-mediatek
 base:   https://git.linuxtv.org/media-ci/media-pending.git master
 patch link:    https://lore.kernel.org/r/20251031160309.1654761-2-jason-jh.lin%40mediatek.com
 patch subject: [PATCH 1/5] soc: mediatek: Use pkt_write function pointer for subsys ID compatibility
-config: powerpc64-randconfig-r063-20251101 (https://download.01.org/0day-ci/archive/20251101/202511011822.Vn6fsvGr-lkp@intel.com/config)
-compiler: clang version 18.1.8 (https://github.com/llvm/llvm-project 3b5b5c1ec4a3095ab096dd780e84d7ab81f3d7ff)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251101/202511011822.Vn6fsvGr-lkp@intel.com/reproduce)
+config: xtensa-randconfig-r064-20251101 (https://download.01.org/0day-ci/archive/20251101/202511011936.zWnbnVXF-lkp@intel.com/config)
+compiler: xtensa-linux-gcc (GCC) 8.5.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251101/202511011936.zWnbnVXF-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202511011822.Vn6fsvGr-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202511011936.zWnbnVXF-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
->> drivers/soc/mediatek/mtk-mmsys.c:170:26: error: no member named 'pkt_write_mask' in 'struct cmdq_client_reg'
-     170 |                 ret = mmsys->cmdq_base.pkt_write_mask(cmdq_pkt,
-         |                       ~~~~~~~~~~~~~~~~ ^
->> drivers/soc/mediatek/mtk-mmsys.c:172:30: error: no member named 'pa_base' in 'struct cmdq_client_reg'
-     172 |                                                       mmsys->cmdq_base.pa_base,
-         |                                                       ~~~~~~~~~~~~~~~~ ^
-   2 errors generated.
+   drivers/soc/mediatek/mtk-mmsys.c: In function 'mtk_mmsys_update_bits':
+>> drivers/soc/mediatek/mtk-mmsys.c:170:25: error: 'struct cmdq_client_reg' has no member named 'pkt_write_mask'
+      ret = mmsys->cmdq_base.pkt_write_mask(cmdq_pkt,
+                            ^
+>> drivers/soc/mediatek/mtk-mmsys.c:172:29: error: 'struct cmdq_client_reg' has no member named 'pa_base'
+                mmsys->cmdq_base.pa_base,
+                                ^
 --
->> drivers/soc/mediatek/mtk-mutex.c:1002:16: error: no member named 'pkt_write' in 'struct cmdq_client_reg'
-    1002 |         mtx->cmdq_reg.pkt_write(cmdq_pkt, mtx->cmdq_reg.subsys, en_addr, en_addr, 1);
-         |         ~~~~~~~~~~~~~ ^
-   1 error generated.
+   drivers/soc/mediatek/mtk-mutex.c: In function 'mtk_mutex_enable_by_cmdq':
+>> drivers/soc/mediatek/mtk-mutex.c:1002:15: error: 'struct cmdq_client_reg' has no member named 'pkt_write'
+     mtx->cmdq_reg.pkt_write(cmdq_pkt, mtx->cmdq_reg.subsys, en_addr, en_addr, 1);
+                  ^
 
 
 vim +170 drivers/soc/mediatek/mtk-mmsys.c
