@@ -2,95 +2,92 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1E7F3C281CD
-	for <lists+dri-devel@lfdr.de>; Sat, 01 Nov 2025 16:48:07 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 13E44C283D1
+	for <lists+dri-devel@lfdr.de>; Sat, 01 Nov 2025 18:27:11 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1143D10E037;
-	Sat,  1 Nov 2025 15:48:04 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3BECD10E01F;
+	Sat,  1 Nov 2025 17:27:06 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="l+Ruzkqw";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="N+pqmSHO";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pf1-f171.google.com (mail-pf1-f171.google.com
- [209.85.210.171])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 150B210E345
- for <dri-devel@lists.freedesktop.org>; Sat,  1 Nov 2025 15:48:02 +0000 (UTC)
-Received: by mail-pf1-f171.google.com with SMTP id
- d2e1a72fcca58-7a271fc7e6bso513117b3a.2
- for <dri-devel@lists.freedesktop.org>; Sat, 01 Nov 2025 08:48:02 -0700 (PDT)
+Received: from mail-wm1-f54.google.com (mail-wm1-f54.google.com
+ [209.85.128.54])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A252510E01F
+ for <dri-devel@lists.freedesktop.org>; Sat,  1 Nov 2025 17:27:05 +0000 (UTC)
+Received: by mail-wm1-f54.google.com with SMTP id
+ 5b1f17b1804b1-475dc0ed8aeso21359485e9.2
+ for <dri-devel@lists.freedesktop.org>; Sat, 01 Nov 2025 10:27:05 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1762012082; x=1762616882; darn=lists.freedesktop.org;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=jamIEloEQhiPyz5eXgKCJiNa+AjH+v3pihsy8kT47Q0=;
- b=l+RuzkqwIx5849FFR6V07P/2uqXMa5taRjjL+tkn6JAyBX7flT3/SsFiSsOst1EXOc
- 4GJ8QLcVyklSG1NW3Nlm1Z1vlRYq0zU9h5OmIIun/odqow84ZeePB2fYLLO8P3Ut9GD3
- omxBqLFbpcnhaiF+VEKPepvI4iV4VBPL830PXhR+WWO3W+iiaTcAV6SvarCj+YuTDzBo
- RSEQ8iRFYqjzCVqoXGEDKdOE82swH5tJxo4EQXuEKs1nrgaIBmUU8zHd/lXFR4gfDpVP
- HYc46YeVkN3r86/RQaJDjt4/Rtj9T3z6yuMA09j7PF1iq2brLp0U8PUJnn84La7tzQgI
- OWGw==
+ d=gmail.com; s=20230601; t=1762018024; x=1762622824; darn=lists.freedesktop.org;
+ h=in-reply-to:content-transfer-encoding:content-disposition
+ :mime-version:references:message-id:subject:cc:to:from:date:from:to
+ :cc:subject:date:message-id:reply-to;
+ bh=FbWnJy2qvToz3lRO6LsUfQP9kSkNdSH0CV+AqxPKYkU=;
+ b=N+pqmSHOF62oZUKpS4yhFJLvaPa+eG8R4lof7JFsGEY/Iyg1nN3XDypLov+0CxLXER
+ DHTDUJ+n+uXhUV6fWNe0qGsghp1w1Y9Hxdumf98OfhtbdYtrU7a0IvgiPyjIvIFpV5wz
+ XyGqFAuUKdK/CvukyCqaAXd1w25fLYhP3m40MKRkYclC4yqkntpaJcLdSq9pSsy+uJlV
+ v5dNq7IIXlzhgT4UY3mTThQDnDLXrIUdr8zT8lmHF6yjcGFbtbI4nvZP21zZY3ZVX2lE
+ 4RY45i+eOmZrncP3+GB8eBFKBdRMmiaQsQhtbGzCI53T15xttdkxbcM7PFB5Hwyk61Ry
+ 53Ig==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1762012082; x=1762616882;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=jamIEloEQhiPyz5eXgKCJiNa+AjH+v3pihsy8kT47Q0=;
- b=nDVvEc1otX25DoKnvqhT52f2no50A3Q/a5cD/Q06iMdJY7FKIhselhZu/nismeZR/Q
- G2hb1Td6nI5W/aRLxjffNQTUbMRhN2d2T1pifqzMxJdiqGWtzFKBX4PEt92Zxw+ecauw
- tqVznhP8c2xxiaJg/qFCmKiQj7MtGJBaEq0cmYg+/PRsUxUd2XxMCPjQ7kBOLT7coZD1
- COgHkxRRZ3rkHNxt13QgSNQMSaCvso0A2LiWdklNTeRMDm+VCEZGjwwX/sZvghRNYgjH
- zTkoQ/PwKybGDR3vvDYAbhK379Z9LjoxvsfQ4is3fiHmRaY98qqwN3D8fTpF79nkexmo
- IeDg==
+ d=1e100.net; s=20230601; t=1762018024; x=1762622824;
+ h=in-reply-to:content-transfer-encoding:content-disposition
+ :mime-version:references:message-id:subject:cc:to:from:date
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=FbWnJy2qvToz3lRO6LsUfQP9kSkNdSH0CV+AqxPKYkU=;
+ b=gOoyXcGItroTUjaUlpM2qaBJZcCaVbHdiENJ+wDzIh2WGGaxynGfisctIgOd264eV9
+ s+wMLtxrVXNNRH6qaH2BoHiRysXi/K0mBOsU7+xyW3ZE/SYiH8PB2xpY7BmjjYmLs6JG
+ YhV2oFbn9DhrHjrunjwrgsyvGfvN4ENCh0KeoeOrBvaelPAqNIoDSBcaxBhChfOE/y6s
+ XGzS27MEX53qtqLxkxoehxl71Xa35stSpynUH0mRorWpVvuTAFibGWUjuKO21ho2yChW
+ iGcHStip9qB8IQZfBt/GfLbedFIlDSIC8RGIt4msFMi5E1kiuNP1vY6doU2lS7bUcEKd
+ MWZQ==
 X-Forwarded-Encrypted: i=1;
- AJvYcCXhKNk0PAxcSH+2Ec5ds1KFSusF0dMCLhFg9QdwebitPeOVo7aEN55jMObMoizmWYam719vWpQ2ac8=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Yx2un+Ln78Xqz4F0scUfne6W3SjD/d7UADEO1fzCYsrdJi2IheD
- s7tq79Zm9ogvzP/yA+5HFzY/ApA9wXinnk1gdHAUC5pIaDqQpc6Sy/jAzVp4ex7iqNcYY59pj3v
- slAqLJGkp8NPHzAYcpcG8wzXUp+zldh0=
-X-Gm-Gg: ASbGncsHUySYatXBrJhhIJvtqPE79N3GVB2ZpM8+v9UOPqUnqFIWfTM3eWTTp2vcf0/
- 44zPMg6QSOI3KhcDVXYJoDnwsRP79sw/ViOPiBlbXJX4RR/PKTpW5SAc6Cwj7tAUfllC+iFuYwM
- y1aMn5br3YKrI9YmLdZuDmKxWb5uKn9cFH5lk6TRgAw+P7jOr1OOU6MolcoSWO47IsnZPXeXoQj
- SpiSJ3arM5/Avz1cgGYixrJO9mQeg2nAdJRUlsi4iA9N6ZeCb7QvZfNa7ba1een55Yv4n8lFvox
- 6ndR5biQp1cPBxrtYOeMZfol/aPbgp1GFx9ayggz2GAKD3OZqfycAVxcMto0tUB+7+Ei/Ziolke
- Q+S/uEpBqjm1OtQ==
-X-Google-Smtp-Source: AGHT+IFeUdEiRDYhzdYh9fW3/jmt01WqbIkn5Mq3SaBz0gC57ZxcOJdIQVq5xYtfcf//SPWY5i1+n1E8bScNYE7sAx0=
-X-Received: by 2002:a17:903:3846:b0:295:62d:501c with SMTP id
- d9443c01a7336-2951a3eda2emr49742475ad.5.1762012082347; Sat, 01 Nov 2025
- 08:48:02 -0700 (PDT)
+ AJvYcCV2UB9v3bNyH47CmiYh+WJaiwwPg7TMHNqGEwmW0uiI+naAyBJX2ioZRlcEd2Ihk+AkqemQBypPSHQ=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YzDhQZVgldAAVGbT/EXYMdwPpf5OYvISF8O237aGpljM0dzJmBj
+ HlLKvdoBxg5cdVqQM2TTXsnblOVLYzpFWxcr0M5oS+XPcAseym+yYACz
+X-Gm-Gg: ASbGnctmRyMnpbz0XgXplRftELegvDlzdj2ZbPzGuai4k23cL8969J7UlfbJtulqXbw
+ gXI4zvRAvTrm/1snx7pBp9gh+0dwPFCiyUMmTV9A6sAmZ7wMBjiTa1GGoU4Z2R2IroXb/q/AN8x
+ B5HRtH1mPZ9lzogjbaB56M8UYIRd27dvbTjPrAYaHL3AxnMLT7MbkSfvQse7VLIimLFZrKXCMN5
+ kNLVTvR1wQ8YdQhlg4ZUa1M5PyTykVgXfAuKBt+JHkVZnD+33k7Ylx9QOPmITAHPNkSdkHPs1AK
+ nYErVmcyHenKIMBtZXh21u1kK/Hh9L35S1Yk3rcKUnRTzayQKGb/Ucter6B8yiI07Hgsz0hpQel
+ wh5ZjY4K2qUzKIJP1DbX/qtdA+a2mLPqiJ/sce2ibX2yYWZAUuvQ9pHPvbblm1FsVkLJSDkP340
+ bl/Q==
+X-Google-Smtp-Source: AGHT+IHAkUzD34H7H16cKENp3oNKZcbe/ZJey18IMsChHD+t7D8pxRPIyXbIWzgon9sgvH3z56VsCw==
+X-Received: by 2002:a05:600c:468e:b0:475:dd59:d8d8 with SMTP id
+ 5b1f17b1804b1-47730793c2amr81536255e9.8.1762018023809; 
+ Sat, 01 Nov 2025 10:27:03 -0700 (PDT)
+Received: from localhost ([2001:861:3385:e20:f99c:d6cf:27e6:2b03])
+ by smtp.gmail.com with ESMTPSA id
+ 5b1f17b1804b1-4772fd280fbsm46567395e9.5.2025.11.01.10.27.03
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Sat, 01 Nov 2025 10:27:03 -0700 (PDT)
+Date: Sat, 1 Nov 2025 18:26:54 +0100
+From: =?iso-8859-1?Q?Rapha=EBl?= Gallais-Pou <rgallaispou@gmail.com>
+To: Luca Ceresoli <luca.ceresoli@bootlin.com>
+Cc: Alain Volmat <alain.volmat@foss.st.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Andrzej Hajda <andrzej.hajda@intel.com>,
+ Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Andy Yan <andy.yan@rock-chips.com>, Hui Pu <Hui.Pu@gehealthcare.com>,
+ Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v3 6/6] drm/bridge: synopsys: dw-dp: add bridge before
+ attaching
+Message-ID: <aQZC3gr55C1r2uuX@thinkstation>
+References: <20251028-b4-drm-bridge-alloc-add-before-attach-v3-0-bb8611acbbfb@bootlin.com>
+ <20251028-b4-drm-bridge-alloc-add-before-attach-v3-6-bb8611acbbfb@bootlin.com>
 MIME-Version: 1.0
-References: <20251030190613.1224287-1-joelagnelf@nvidia.com>
- <20251030190613.1224287-3-joelagnelf@nvidia.com>
- <DDVYVKDW8WG2.2STCJ4ZU00MZF@kernel.org>
- <DDX1Y0EUNNPR.1KQ7OF9H4T81E@nvidia.com>
-In-Reply-To: <DDX1Y0EUNNPR.1KQ7OF9H4T81E@nvidia.com>
-From: Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
-Date: Sat, 1 Nov 2025 16:47:49 +0100
-X-Gm-Features: AWmQ_bn8sxdowUb4pdCsaJVkR0Kpv-lxkf62UR4OPlqQBFH0kCL_DBSvQwqzdW4
-Message-ID: <CANiq72nJEGMaV7=omoM+9pKvQpUTq_sXNB5APhEY5vg_6KFoNA@mail.gmail.com>
-Subject: Re: [PATCH RFC 2/4] samples: rust: Add sample demonstrating C linked
- list iteration
-To: Alexandre Courbot <acourbot@nvidia.com>
-Cc: Danilo Krummrich <dakr@kernel.org>, Joel Fernandes <joelagnelf@nvidia.com>,
- linux-kernel@vger.kernel.org, 
- rust-for-linux@vger.kernel.org, dri-devel@lists.freedesktop.org, 
- David Airlie <airlied@gmail.com>, Alistair Popple <apopple@nvidia.com>,
- Miguel Ojeda <ojeda@kernel.org>, 
- Alex Gaynor <alex.gaynor@gmail.com>, Boqun Feng <boqun.feng@gmail.com>, 
- Gary Guo <gary@garyguo.net>, bjorn3_gh@protonmail.com, 
- Benno Lossin <lossin@kernel.org>, Andreas Hindborg <a.hindborg@kernel.org>, 
- Alice Ryhl <aliceryhl@google.com>, Trevor Gross <tmgross@umich.edu>, 
- Simona Vetter <simona@ffwll.ch>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
- John Hubbard <jhubbard@nvidia.com>, Timur Tabi <ttabi@nvidia.com>,
- joel@joelfernandes.org, Elle Rhumsaa <elle@weathered-steel.dev>,
- Daniel Almeida <daniel.almeida@collabora.com>, 
- Andrea Righi <arighi@nvidia.com>, Philipp Stanner <phasta@kernel.org>,
- nouveau@lists.freedesktop.org, 
- Nouveau <nouveau-bounces@lists.freedesktop.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20251028-b4-drm-bridge-alloc-add-before-attach-v3-6-bb8611acbbfb@bootlin.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -106,14 +103,21 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Sat, Nov 1, 2025 at 4:53=E2=80=AFAM Alexandre Courbot <acourbot@nvidia.c=
-om> wrote:
->
-> Yup, we can probably move this into the doctest examples and have them
-> serve as examples as well.
+Le Tue, Oct 28, 2025 at 11:15:47AM +0100, Luca Ceresoli a écrit :
+> DRM bridges should be always added to the global bridge list before being
+> attached.
+> 
+> Signed-off-by: Luca Ceresoli <luca.ceresoli@bootlin.com>
+> 
+> ---
+> 
+> This patch was added in v3 after searching for any remaining bridges not
+> using drm_bridge_add().
+> ---
 
- +1, in general, one should consider whether a test makes sense as an
-example first.
+Hi Luca,
 
-Cheers,
-Miguel
+Reviewed-by: Raphael Gallais-Pou <rgallaispou@gmail.com>
+
+Best regards,
+Raphaël
