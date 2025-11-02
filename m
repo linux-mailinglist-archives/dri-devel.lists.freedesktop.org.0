@@ -2,63 +2,86 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 78553C2942D
-	for <lists+dri-devel@lfdr.de>; Sun, 02 Nov 2025 18:44:34 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 44496C2945A
+	for <lists+dri-devel@lfdr.de>; Sun, 02 Nov 2025 18:55:50 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B014D10E0D7;
-	Sun,  2 Nov 2025 17:44:30 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C124B10E1D8;
+	Sun,  2 Nov 2025 17:55:46 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="VHrs120P";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="HfxKxTQr";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6145F10E0D7
- for <dri-devel@lists.freedesktop.org>; Sun,  2 Nov 2025 17:44:29 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1762105470; x=1793641470;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:in-reply-to;
- bh=ekob6ZS3c0e8P7kQ1YGKc4ijXiV83ifEYMvyqKxpj+o=;
- b=VHrs120P63hhSPfYysnHMpMBEsXW5AVLNNGvRF7zMORYtMhcFVWEelWw
- 1FmIJhE95fmhvv90b04hE8eMDCZJtYehio46Xp8qABxa2MjuYBksvVVUV
- eR+Dx84hkoVgE/R8kvNWGmiBpc7BcQq7RLTi824F2mttJDHmnobEPycDa
- 94ti37NYUBaHvEwOcwetLCGZR+s4rCdv30wPL9IR6Rjrtx8Sa5BHBdgc0
- veyldlU1K+Ins7zadF2P3Ti7GbRqlOojoatl4pv/r8KyubP/VN/E3ubqa
- H/DcSbJUk2CNS13SY8m63Bamjtr/3L/6b4CcoWn0qogmbaRxvjrY9P39K g==;
-X-CSE-ConnectionGUID: zbjX7QvdTROXGosUeLxfTQ==
-X-CSE-MsgGUID: HYzGNrjrQlyjg+is5DPU4w==
-X-IronPort-AV: E=McAfee;i="6800,10657,11601"; a="75642189"
-X-IronPort-AV: E=Sophos;i="6.19,274,1754982000"; d="scan'208";a="75642189"
-Received: from fmviesa003.fm.intel.com ([10.60.135.143])
- by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 02 Nov 2025 09:44:29 -0800
-X-CSE-ConnectionGUID: /BtsB9YDTt+7xQWCkAho/g==
-X-CSE-MsgGUID: FxqV+4HOT/ChUNNigG8zzA==
-X-ExtLoop1: 1
-Received: from lkp-server02.sh.intel.com (HELO 66d7546c76b2) ([10.239.97.151])
- by fmviesa003.fm.intel.com with ESMTP; 02 Nov 2025 09:44:26 -0800
-Received: from kbuild by 66d7546c76b2 with local (Exim 4.96)
- (envelope-from <lkp@intel.com>) id 1vFc7s-000PTQ-04;
- Sun, 02 Nov 2025 17:44:24 +0000
-Date: Mon, 3 Nov 2025 01:44:16 +0800
-From: kernel test robot <lkp@intel.com>
-To: Aaron Kling via B4 Relay <devnull+webgeek1234.gmail.com@kernel.org>,
- Thierry Reding <thierry.reding@gmail.com>,
- Mikko Perttunen <mperttunen@nvidia.com>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Jonathan Hunter <jonathanh@nvidia.com>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
- dri-devel@lists.freedesktop.org, linux-tegra@vger.kernel.org,
- linux-kernel@vger.kernel.org, Aaron Kling <webgeek1234@gmail.com>
-Subject: Re: [PATCH] drm/tegra: Enable cmu for Tegra186 and Tegra194
-Message-ID: <202511030131.AADiEKfQ-lkp@intel.com>
-References: <20251101-tegra-drm-cmu-v1-1-211799755ab8@gmail.com>
+Received: from mail-yw1-f169.google.com (mail-yw1-f169.google.com
+ [209.85.128.169])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E856A10E1D5
+ for <dri-devel@lists.freedesktop.org>; Sun,  2 Nov 2025 17:55:45 +0000 (UTC)
+Received: by mail-yw1-f169.google.com with SMTP id
+ 00721157ae682-71d6014810fso39307927b3.0
+ for <dri-devel@lists.freedesktop.org>; Sun, 02 Nov 2025 09:55:45 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20230601; t=1762106145; x=1762710945; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=COrNcrGnqRmVYJypFzHWli2n6WfayONN+cM0WGt3gX4=;
+ b=HfxKxTQrN534GDnB5urH/nFPWvwW5xZijym2HNTXmJEYFWpNg/pXdXwFkgOzVrRPv3
+ 0MsBUXxX3GDbah+MVtpifeHHj2qPxMdCSM3fgEiwASevz2Gwvd6CYKVdSVu4+AOvg2e1
+ xnq82v7qz86zsJIrZQfu6YVV4buGncz3ZMxTtOpb2Ok/sRa2/IrrNUM09zUTFrQ8ETQZ
+ KDmPCtTUT4sE4RL6GfpjNXgl6+fVvl7Q4PmbDUuJAgcoYtnTLPTkSyUBNxQuhj8sssdT
+ wddwGy7GU6hnHSnMi9eHUIC4ini1xB8Qj2QnvtiIkGcSd6n6s91WtCDY0RrpFb567oA+
+ 0waA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1762106145; x=1762710945;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=COrNcrGnqRmVYJypFzHWli2n6WfayONN+cM0WGt3gX4=;
+ b=XWzDVLA9UPHLao7/lU+JVFLjcRxtI8uHQ0G/5No4SNpTghVKteiotXVANc25OZO3De
+ OPuSCLbj9lS/+JDSHa4vooWgCCwqo4t9nfAsu4mk9X2tP96dbvgetZK8miSENI03MNvh
+ ZHFXlm43CRzLPVMshjmnAIzRurpb2Bka4vwuyQlpQfrwB0rqGTrOsJ4lq9rRj9Zhe+Xq
+ 1Xrq3tmoThamEpkdyKdmjMeoBHaoNWSf7uA8uAeZDQEsUo3kn448RSKLIhGTvwbWROQ0
+ UygF7UajBTe6NyRyHbV5e1yWenWS/xWsSvpk5BP8mM1PJu8ZZNsEHRn8CKSM082Fj7sg
+ UXEQ==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCVZta5YCBd5N9IzAciFt98BorwhmRsZLMFBgQon8FcKInxXFYDMBOpqG7JKHwv1UA7pxO4cmUBzW6Y=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YzALT1rXxSqqS3+i4HtMEaR7F7+KD1kMXoRlGW4VzJcXO/y+VkT
+ yTvTEBDqX0EV9QeXUX9JCLhOnBbkQtKCjlI3Y9JH2roVh2MZ+A4pQX24LpZK1ugGMN2Skfastcd
+ 4c3/9noPDpSoLa50BoqCVW7IKcVOmfAw=
+X-Gm-Gg: ASbGncsyMSpLWklLLJhKYxE8o1ZFnjyItHlrn2PMXXvaCk6g5jZQmam8tSxEyWZllBX
+ Z/2P6XkDEu2IzpmVIRItAJXWGQyGufDBktEq9KM+2erw0WRgCHqEUthhzhxVS4YB3thoxcx32VG
+ pmWy2UKtyJFldRPPK/rJyoC8iQ5PBk57OymV8E4XI6mKcsdaruKDrGkAozf3K0PwdcCDlZtUGcS
+ +EoolAYG4liPtuQUaTNhrdhKu60q0jSApM7bR3eiGrNah8v/tMfk8UH97GgCLvJ2Olu5Q1L0EXu
+ ENIJb1ZceNaO9lCsLA==
+X-Google-Smtp-Source: AGHT+IHwOoTLpyzH/g3E/JzA7phD7BGeV6UpgA7q5eX+Y0LqpTITLujui7fYoTqTi21cWBOv2eaSPrNTGdO3xpZZc9g=
+X-Received: by 2002:a05:690c:4d8a:b0:786:7797:6d90 with SMTP id
+ 00721157ae682-78677977fcfmr14963877b3.15.1762106144618; Sun, 02 Nov 2025
+ 09:55:44 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20251101-tegra-drm-cmu-v1-1-211799755ab8@gmail.com>
+References: <20250908-ifpc-support-v2-0-631b1080bf91@oss.qualcomm.com>
+ <20250908-ifpc-support-v2-15-631b1080bf91@oss.qualcomm.com>
+ <CAPaKu7TQ3tkQREG8xphW_L5eQPLuQhA=oKjfmYVJDR7PsNBXQg@mail.gmail.com>
+ <CACSVV02B8BzvznzOoMw0EgOXEY39syWdyfzTcqWB0qsYjf42hQ@mail.gmail.com>
+ <1d6a50c3-eb1d-46a9-922c-e57e6e83779d@oss.qualcomm.com>
+In-Reply-To: <1d6a50c3-eb1d-46a9-922c-e57e6e83779d@oss.qualcomm.com>
+From: Chia-I Wu <olvaffe@gmail.com>
+Date: Sun, 2 Nov 2025 09:55:33 -0800
+X-Gm-Features: AWmQ_blh6__PmMaN0IO5NFLoRXaEv17c5FLIGT9OWNmNqb_llsX2WSXZEKBZN_A
+Message-ID: <CAPaKu7QvBZmx0b8SDBY1H3u-Em+0py0BrGkmrfGUXkx1uQrg3A@mail.gmail.com>
+Subject: Re: [PATCH v2 15/16] drm/msm/a6xx: Enable IFPC on Adreno X1-85
+To: Akhil P Oommen <akhilpo@oss.qualcomm.com>
+Cc: rob.clark@oss.qualcomm.com, Sean Paul <sean@poorly.run>, 
+ Konrad Dybcio <konradybcio@kernel.org>, Dmitry Baryshkov <lumag@kernel.org>, 
+ Abhinav Kumar <abhinav.kumar@linux.dev>,
+ Jessica Zhang <jessica.zhang@oss.qualcomm.com>, 
+ Marijn Suijten <marijn.suijten@somainline.org>,
+ David Airlie <airlied@gmail.com>, 
+ Simona Vetter <simona@ffwll.ch>, Antonino Maniscalco <antomani103@gmail.com>, 
+ Neil Armstrong <neil.armstrong@linaro.org>, linux-arm-msm@vger.kernel.org, 
+ dri-devel@lists.freedesktop.org, freedreno@lists.freedesktop.org, 
+ linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -74,299 +97,217 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Aaron,
+On Sat, Nov 1, 2025 at 12:52=E2=80=AFPM Akhil P Oommen <akhilpo@oss.qualcom=
+m.com> wrote:
+>
+> On 11/1/2025 6:27 PM, Rob Clark wrote:
+> > On Fri, Oct 31, 2025 at 4:43=E2=80=AFPM Chia-I Wu <olvaffe@gmail.com> w=
+rote:
+> >>
+> >> On Mon, Sep 8, 2025 at 1:28=E2=80=AFAM Akhil P Oommen <akhilpo@oss.qua=
+lcomm.com> wrote:
+> >>>
+> >>> Add the IFPC restore register list and enable IFPC support on Adreno
+> >>> X1-85 gpu.
+> >>>
+> >>> Signed-off-by: Akhil P Oommen <akhilpo@oss.qualcomm.com>
+> >>> ---
+> >>>  drivers/gpu/drm/msm/adreno/a6xx_catalog.c | 68 +++++++++++++++++++++=
++++++++++-
+> >>>  drivers/gpu/drm/msm/adreno/a6xx_gpu.c     | 15 +++++--
+> >>>  drivers/gpu/drm/msm/adreno/a6xx_gpu.h     |  1 +
+> >>>  3 files changed, 79 insertions(+), 5 deletions(-)
+> >>>
+> >>> diff --git a/drivers/gpu/drm/msm/adreno/a6xx_catalog.c b/drivers/gpu/=
+drm/msm/adreno/a6xx_catalog.c
+> >>> index 00e1afd46b81546eec03e22cda9e9a604f6f3b60..547c046730a9b50a82cc9=
+b27f08a5b1eeb08dced 100644
+> >>> --- a/drivers/gpu/drm/msm/adreno/a6xx_catalog.c
+> >>> +++ b/drivers/gpu/drm/msm/adreno/a6xx_catalog.c
+> >>> @@ -1343,6 +1343,69 @@ static const uint32_t a7xx_pwrup_reglist_regs[=
+] =3D {
+> >>>
+> >>>  DECLARE_ADRENO_REGLIST_LIST(a7xx_pwrup_reglist);
+> >>>
+> >>> +/* Applicable for X185, A750 */
+> >>> +static const u32 a750_ifpc_reglist_regs[] =3D {
+> >>> +       REG_A6XX_TPL1_BICUBIC_WEIGHTS_TABLE_0,
+> >>> +       REG_A6XX_TPL1_BICUBIC_WEIGHTS_TABLE_1,
+> >>> +       REG_A6XX_TPL1_BICUBIC_WEIGHTS_TABLE_2,
+> >>> +       REG_A6XX_TPL1_BICUBIC_WEIGHTS_TABLE_3,
+> >>> +       REG_A6XX_TPL1_BICUBIC_WEIGHTS_TABLE_4,
+> >>> +       REG_A6XX_TPL1_NC_MODE_CNTL,
+> >>> +       REG_A6XX_SP_NC_MODE_CNTL,
+> >>> +       REG_A6XX_CP_DBG_ECO_CNTL,
+> >>> +       REG_A6XX_CP_PROTECT_CNTL,
+> >>> +       REG_A6XX_CP_PROTECT(0),
+> >>> +       REG_A6XX_CP_PROTECT(1),
+> >>> +       REG_A6XX_CP_PROTECT(2),
+> >>> +       REG_A6XX_CP_PROTECT(3),
+> >>> +       REG_A6XX_CP_PROTECT(4),
+> >>> +       REG_A6XX_CP_PROTECT(5),
+> >>> +       REG_A6XX_CP_PROTECT(6),
+> >>> +       REG_A6XX_CP_PROTECT(7),
+> >>> +       REG_A6XX_CP_PROTECT(8),
+> >>> +       REG_A6XX_CP_PROTECT(9),
+> >>> +       REG_A6XX_CP_PROTECT(10),
+> >>> +       REG_A6XX_CP_PROTECT(11),
+> >>> +       REG_A6XX_CP_PROTECT(12),
+> >>> +       REG_A6XX_CP_PROTECT(13),
+> >>> +       REG_A6XX_CP_PROTECT(14),
+> >>> +       REG_A6XX_CP_PROTECT(15),
+> >>> +       REG_A6XX_CP_PROTECT(16),
+> >>> +       REG_A6XX_CP_PROTECT(17),
+> >>> +       REG_A6XX_CP_PROTECT(18),
+> >>> +       REG_A6XX_CP_PROTECT(19),
+> >>> +       REG_A6XX_CP_PROTECT(20),
+> >>> +       REG_A6XX_CP_PROTECT(21),
+> >>> +       REG_A6XX_CP_PROTECT(22),
+> >>> +       REG_A6XX_CP_PROTECT(23),
+> >>> +       REG_A6XX_CP_PROTECT(24),
+> >>> +       REG_A6XX_CP_PROTECT(25),
+> >>> +       REG_A6XX_CP_PROTECT(26),
+> >>> +       REG_A6XX_CP_PROTECT(27),
+> >>> +       REG_A6XX_CP_PROTECT(28),
+> >>> +       REG_A6XX_CP_PROTECT(29),
+> >>> +       REG_A6XX_CP_PROTECT(30),
+> >>> +       REG_A6XX_CP_PROTECT(31),
+> >>> +       REG_A6XX_CP_PROTECT(32),
+> >>> +       REG_A6XX_CP_PROTECT(33),
+> >>> +       REG_A6XX_CP_PROTECT(34),
+> >>> +       REG_A6XX_CP_PROTECT(35),
+> >>> +       REG_A6XX_CP_PROTECT(36),
+> >>> +       REG_A6XX_CP_PROTECT(37),
+> >>> +       REG_A6XX_CP_PROTECT(38),
+> >>> +       REG_A6XX_CP_PROTECT(39),
+> >>> +       REG_A6XX_CP_PROTECT(40),
+> >>> +       REG_A6XX_CP_PROTECT(41),
+> >>> +       REG_A6XX_CP_PROTECT(42),
+> >>> +       REG_A6XX_CP_PROTECT(43),
+> >>> +       REG_A6XX_CP_PROTECT(44),
+> >>> +       REG_A6XX_CP_PROTECT(45),
+> >>> +       REG_A6XX_CP_PROTECT(46),
+> >>> +       REG_A6XX_CP_PROTECT(47),
+> >>> +};
+> >>> +
+> >>> +DECLARE_ADRENO_REGLIST_LIST(a750_ifpc_reglist);
+> >>> +
+> >>>  static const struct adreno_info a7xx_gpus[] =3D {
+> >>>         {
+> >>>                 .chip_ids =3D ADRENO_CHIP_IDS(0x07000200),
+> >>> @@ -1432,12 +1495,14 @@ static const struct adreno_info a7xx_gpus[] =
+=3D {
+> >>>                 .inactive_period =3D DRM_MSM_INACTIVE_PERIOD,
+> >>>                 .quirks =3D ADRENO_QUIRK_HAS_CACHED_COHERENT |
+> >>>                           ADRENO_QUIRK_HAS_HW_APRIV |
+> >>> -                         ADRENO_QUIRK_PREEMPTION,
+> >>> +                         ADRENO_QUIRK_PREEMPTION |
+> >>> +                         ADRENO_QUIRK_IFPC,
+> >>>                 .init =3D a6xx_gpu_init,
+> >>>                 .a6xx =3D &(const struct a6xx_info) {
+> >>>                         .hwcg =3D a740_hwcg,
+> >>>                         .protect =3D &a730_protect,
+> >>>                         .pwrup_reglist =3D &a7xx_pwrup_reglist,
+> >>> +                       .ifpc_reglist =3D &a750_ifpc_reglist,
+> >>>                         .gmu_chipid =3D 0x7050001,
+> >>>                         .gmu_cgc_mode =3D 0x00020202,
+> >>>                 },
+> >>> @@ -1466,6 +1531,7 @@ static const struct adreno_info a7xx_gpus[] =3D=
+ {
+> >>>                 .a6xx =3D &(const struct a6xx_info) {
+> >>>                         .protect =3D &a730_protect,
+> >>>                         .pwrup_reglist =3D &a7xx_pwrup_reglist,
+> >>> +                       .ifpc_reglist =3D &a750_ifpc_reglist,
+> >>>                         .gmu_chipid =3D 0x7090100,
+> >>>                         .gmu_cgc_mode =3D 0x00020202,
+> >>>                         .bcms =3D (const struct a6xx_bcm[]) {
+> >>> diff --git a/drivers/gpu/drm/msm/adreno/a6xx_gpu.c b/drivers/gpu/drm/=
+msm/adreno/a6xx_gpu.c
+> >>> index 76dd78f5c48ea818a2aa209e0c0c88bc5e8f4e06..91a2a82c4f388ca6b0521=
+72efdd7255165f3c04a 100644
+> >>> --- a/drivers/gpu/drm/msm/adreno/a6xx_gpu.c
+> >>> +++ b/drivers/gpu/drm/msm/adreno/a6xx_gpu.c
+> >>> @@ -828,11 +828,10 @@ static void a7xx_patch_pwrup_reglist(struct msm=
+_gpu *gpu)
+> >>>         u32 *dest =3D (u32 *)&lock->regs[0];
+> >>>         int i;
+> >>>
+> >>> -       reglist =3D adreno_gpu->info->a6xx->pwrup_reglist;
+> >>> -
+> >>>         lock->gpu_req =3D lock->cpu_req =3D lock->turn =3D 0;
+> >>> -       lock->ifpc_list_len =3D 0;
+> >>> -       lock->preemption_list_len =3D reglist->count;
+> >>> +
+> >>> +       reglist =3D adreno_gpu->info->a6xx->ifpc_reglist;
+> >> This is NULL on X1-45 and causes
+> >>
+> >>   [    8.795603] Unable to handle kernel NULL pointer dereference at
+> >> virtual address 0000000000000008
+> >
+> > Hmm, this is probably going to happen on all a7xx which don't have
+> > IFPC from the looks of it.
+> >
+> > We should either check for the IFPC quirk.. or maybe just drop the
+> > quirk and decide whether IFPC is supported based on ifpc_reglist !=3D
+> > NULL?
+> >
+> > (That said, we probably do want to have IFPC enabled for x1-45)
+>
+> We should add a check for IFPC quirk here. Chia, do you plan to send a fi=
+x?
+>
+> To enable IFPC, we can just add a750_ifpc_reglist_regs[] to
+> adreno_gpu->info->a6xx->ifpc_reglist and enable the IFPC quirk.
+Maybe it is easier for you to do the fix? Because I would have several
+little questions (what happens when the reglist and the quirk flag are
+inconsistent? how about preemption reglist?)
 
-kernel test robot noticed the following build warnings:
+I am happy to do the testing.
 
-[auto build test WARNING on dcb6fa37fd7bc9c3d2b066329b0d27dedf8becaa]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Aaron-Kling-via-B4-Relay/drm-tegra-Enable-cmu-for-Tegra186-and-Tegra194/20251102-071726
-base:   dcb6fa37fd7bc9c3d2b066329b0d27dedf8becaa
-patch link:    https://lore.kernel.org/r/20251101-tegra-drm-cmu-v1-1-211799755ab8%40gmail.com
-patch subject: [PATCH] drm/tegra: Enable cmu for Tegra186 and Tegra194
-config: arm-defconfig (https://download.01.org/0day-ci/archive/20251103/202511030131.AADiEKfQ-lkp@intel.com/config)
-compiler: clang version 22.0.0git (https://github.com/llvm/llvm-project d2625a438020ad35330cda29c3def102c1687b1b)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251103/202511030131.AADiEKfQ-lkp@intel.com/reproduce)
-
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202511030131.AADiEKfQ-lkp@intel.com/
-
-All warnings (new ones prefixed by >>):
-
->> drivers/gpu/drm/tegra/sor.c:2757:50: warning: shift count >= width of type [-Wshift-count-overflow]
-    2757 |                 tegra_dc_writel(dc, (u32)(sor->cmu_output_phys >> 32),
-         |                                                                ^  ~~
-   1 warning generated.
-
-
-vim +2757 drivers/gpu/drm/tegra/sor.c
-
-  2590	
-  2591		/* switch the SOR clock to the pad clock */
-  2592		err = tegra_sor_set_parent_clock(sor, sor->clk_pad);
-  2593		if (err < 0) {
-  2594			dev_err(sor->dev, "failed to select SOR parent clock: %d\n",
-  2595				err);
-  2596			return;
-  2597		}
-  2598	
-  2599		/* switch the output clock to the parent pixel clock */
-  2600		err = clk_set_parent(sor->clk, sor->clk_parent);
-  2601		if (err < 0) {
-  2602			dev_err(sor->dev, "failed to select output parent clock: %d\n",
-  2603				err);
-  2604			return;
-  2605		}
-  2606	
-  2607		/* adjust clock rate for HDMI 2.0 modes */
-  2608		rate = clk_get_rate(sor->clk_parent);
-  2609	
-  2610		if (mode->clock >= 340000)
-  2611			rate /= 2;
-  2612	
-  2613		DRM_DEBUG_KMS("setting clock to %lu Hz, mode: %lu Hz\n", rate, pclk);
-  2614	
-  2615		clk_set_rate(sor->clk, rate);
-  2616	
-  2617		if (!sor->soc->has_nvdisplay) {
-  2618			value = SOR_INPUT_CONTROL_HDMI_SRC_SELECT(dc->pipe);
-  2619	
-  2620			/* XXX is this the proper check? */
-  2621			if (mode->clock < 75000)
-  2622				value |= SOR_INPUT_CONTROL_ARM_VIDEO_RANGE_LIMITED;
-  2623	
-  2624			tegra_sor_writel(sor, value, SOR_INPUT_CONTROL);
-  2625		}
-  2626	
-  2627		max_ac = ((mode->htotal - mode->hdisplay) - SOR_REKEY - 18) / 32;
-  2628	
-  2629		value = SOR_HDMI_CTRL_ENABLE | SOR_HDMI_CTRL_MAX_AC_PACKET(max_ac) |
-  2630			SOR_HDMI_CTRL_AUDIO_LAYOUT | SOR_HDMI_CTRL_REKEY(SOR_REKEY);
-  2631		tegra_sor_writel(sor, value, SOR_HDMI_CTRL);
-  2632	
-  2633		if (!dc->soc->has_nvdisplay) {
-  2634			/* H_PULSE2 setup */
-  2635			pulse_start = h_ref_to_sync +
-  2636				      (mode->hsync_end - mode->hsync_start) +
-  2637				      (mode->htotal - mode->hsync_end) - 10;
-  2638	
-  2639			value = PULSE_LAST_END_A | PULSE_QUAL_VACTIVE |
-  2640				PULSE_POLARITY_HIGH | PULSE_MODE_NORMAL;
-  2641			tegra_dc_writel(dc, value, DC_DISP_H_PULSE2_CONTROL);
-  2642	
-  2643			value = PULSE_END(pulse_start + 8) | PULSE_START(pulse_start);
-  2644			tegra_dc_writel(dc, value, DC_DISP_H_PULSE2_POSITION_A);
-  2645	
-  2646			value = tegra_dc_readl(dc, DC_DISP_DISP_SIGNAL_OPTIONS0);
-  2647			value |= H_PULSE2_ENABLE;
-  2648			tegra_dc_writel(dc, value, DC_DISP_DISP_SIGNAL_OPTIONS0);
-  2649		}
-  2650	
-  2651		/* infoframe setup */
-  2652		err = tegra_sor_hdmi_setup_avi_infoframe(sor, mode);
-  2653		if (err < 0)
-  2654			dev_err(sor->dev, "failed to setup AVI infoframe: %d\n", err);
-  2655	
-  2656		/* XXX HDMI audio support not implemented yet */
-  2657		tegra_sor_hdmi_disable_audio_infoframe(sor);
-  2658	
-  2659		/* use single TMDS protocol */
-  2660		value = tegra_sor_readl(sor, SOR_STATE1);
-  2661		value &= ~SOR_STATE_ASY_PROTOCOL_MASK;
-  2662		value |= SOR_STATE_ASY_PROTOCOL_SINGLE_TMDS_A;
-  2663		tegra_sor_writel(sor, value, SOR_STATE1);
-  2664	
-  2665		/* power up pad calibration */
-  2666		value = tegra_sor_readl(sor, sor->soc->regs->dp_padctl0);
-  2667		value &= ~SOR_DP_PADCTL_PAD_CAL_PD;
-  2668		tegra_sor_writel(sor, value, sor->soc->regs->dp_padctl0);
-  2669	
-  2670		/* production settings */
-  2671		settings = tegra_sor_hdmi_find_settings(sor, mode->clock * 1000);
-  2672		if (!settings) {
-  2673			dev_err(sor->dev, "no settings for pixel clock %d Hz\n",
-  2674				mode->clock * 1000);
-  2675			return;
-  2676		}
-  2677	
-  2678		value = tegra_sor_readl(sor, sor->soc->regs->pll0);
-  2679		value &= ~SOR_PLL0_ICHPMP_MASK;
-  2680		value &= ~SOR_PLL0_FILTER_MASK;
-  2681		value &= ~SOR_PLL0_VCOCAP_MASK;
-  2682		value |= SOR_PLL0_ICHPMP(settings->ichpmp);
-  2683		value |= SOR_PLL0_FILTER(settings->filter);
-  2684		value |= SOR_PLL0_VCOCAP(settings->vcocap);
-  2685		tegra_sor_writel(sor, value, sor->soc->regs->pll0);
-  2686	
-  2687		/* XXX not in TRM */
-  2688		value = tegra_sor_readl(sor, sor->soc->regs->pll1);
-  2689		value &= ~SOR_PLL1_LOADADJ_MASK;
-  2690		value &= ~SOR_PLL1_TMDS_TERMADJ_MASK;
-  2691		value |= SOR_PLL1_LOADADJ(settings->loadadj);
-  2692		value |= SOR_PLL1_TMDS_TERMADJ(settings->tmds_termadj);
-  2693		value |= SOR_PLL1_TMDS_TERM;
-  2694		tegra_sor_writel(sor, value, sor->soc->regs->pll1);
-  2695	
-  2696		value = tegra_sor_readl(sor, sor->soc->regs->pll3);
-  2697		value &= ~SOR_PLL3_BG_TEMP_COEF_MASK;
-  2698		value &= ~SOR_PLL3_BG_VREF_LEVEL_MASK;
-  2699		value &= ~SOR_PLL3_AVDD10_LEVEL_MASK;
-  2700		value &= ~SOR_PLL3_AVDD14_LEVEL_MASK;
-  2701		value |= SOR_PLL3_BG_TEMP_COEF(settings->bg_temp_coef);
-  2702		value |= SOR_PLL3_BG_VREF_LEVEL(settings->bg_vref_level);
-  2703		value |= SOR_PLL3_AVDD10_LEVEL(settings->avdd10_level);
-  2704		value |= SOR_PLL3_AVDD14_LEVEL(settings->avdd14_level);
-  2705		tegra_sor_writel(sor, value, sor->soc->regs->pll3);
-  2706	
-  2707		value = settings->drive_current[3] << 24 |
-  2708			settings->drive_current[2] << 16 |
-  2709			settings->drive_current[1] <<  8 |
-  2710			settings->drive_current[0] <<  0;
-  2711		tegra_sor_writel(sor, value, SOR_LANE_DRIVE_CURRENT0);
-  2712	
-  2713		value = settings->preemphasis[3] << 24 |
-  2714			settings->preemphasis[2] << 16 |
-  2715			settings->preemphasis[1] <<  8 |
-  2716			settings->preemphasis[0] <<  0;
-  2717		tegra_sor_writel(sor, value, SOR_LANE_PREEMPHASIS0);
-  2718	
-  2719		value = tegra_sor_readl(sor, sor->soc->regs->dp_padctl0);
-  2720		value &= ~SOR_DP_PADCTL_TX_PU_MASK;
-  2721		value |= SOR_DP_PADCTL_TX_PU_ENABLE;
-  2722		value |= SOR_DP_PADCTL_TX_PU(settings->tx_pu_value);
-  2723		tegra_sor_writel(sor, value, sor->soc->regs->dp_padctl0);
-  2724	
-  2725		value = tegra_sor_readl(sor, sor->soc->regs->dp_padctl2);
-  2726		value &= ~SOR_DP_PADCTL_SPAREPLL_MASK;
-  2727		value |= SOR_DP_PADCTL_SPAREPLL(settings->sparepll);
-  2728		tegra_sor_writel(sor, value, sor->soc->regs->dp_padctl2);
-  2729	
-  2730		/* power down pad calibration */
-  2731		value = tegra_sor_readl(sor, sor->soc->regs->dp_padctl0);
-  2732		value |= SOR_DP_PADCTL_PAD_CAL_PD;
-  2733		tegra_sor_writel(sor, value, sor->soc->regs->dp_padctl0);
-  2734	
-  2735		if (!dc->soc->has_nvdisplay) {
-  2736			/* miscellaneous display controller settings */
-  2737			value = VSYNC_H_POSITION(1);
-  2738			tegra_dc_writel(dc, value, DC_DISP_DISP_TIMING_OPTIONS);
-  2739		}
-  2740	
-  2741		value = tegra_dc_readl(dc, DC_DISP_DISP_COLOR_CONTROL);
-  2742		value &= ~DITHER_CONTROL_MASK;
-  2743		value &= ~BASE_COLOR_SIZE_MASK;
-  2744	
-  2745		if (dc->soc->has_nvdisplay) {
-  2746			sor->cmu_output_lut =
-  2747				dma_alloc_coherent(dc->dev, ARRAY_SIZE(default_srgb_lut) * sizeof(u64),
-  2748						   &sor->cmu_output_phys, GFP_KERNEL);
-  2749	
-  2750			for (i = 0; i < ARRAY_SIZE(default_srgb_lut); i++) {
-  2751				r = default_srgb_lut[i];
-  2752				sor->cmu_output_lut[i] = (r << 32) | (r << 16) | r;
-  2753			}
-  2754	
-  2755			tegra_dc_writel(dc, (u32)(sor->cmu_output_phys & 0xffffffff),
-  2756					DC_DISP_COREPVT_HEAD_SET_OUTPUT_LUT_BASE);
-> 2757			tegra_dc_writel(dc, (u32)(sor->cmu_output_phys >> 32),
-  2758					DC_DISP_COREPVT_HEAD_SET_OUTPUT_LUT_BASE_HI);
-  2759	
-  2760			tegra_dc_writel(dc, OUTPUT_LUT_MODE_INTERPOLATE | OUTPUT_LUT_SIZE_SIZE_1025,
-  2761					DC_DISP_CORE_HEAD_SET_CONTROL_OUTPUT_LUT);
-  2762	
-  2763			value |= CMU_ENABLE_ENABLE;
-  2764		}
-  2765	
-  2766		switch (state->bpc) {
-  2767		case 6:
-  2768			value |= BASE_COLOR_SIZE_666;
-  2769			break;
-  2770	
-  2771		case 8:
-  2772			value |= BASE_COLOR_SIZE_888;
-  2773			break;
-  2774	
-  2775		case 10:
-  2776			value |= BASE_COLOR_SIZE_101010;
-  2777			break;
-  2778	
-  2779		case 12:
-  2780			value |= BASE_COLOR_SIZE_121212;
-  2781			break;
-  2782	
-  2783		default:
-  2784			WARN(1, "%u bits-per-color not supported\n", state->bpc);
-  2785			value |= BASE_COLOR_SIZE_888;
-  2786			break;
-  2787		}
-  2788	
-  2789		tegra_dc_writel(dc, value, DC_DISP_DISP_COLOR_CONTROL);
-  2790	
-  2791		/* XXX set display head owner */
-  2792		value = tegra_sor_readl(sor, SOR_STATE1);
-  2793		value &= ~SOR_STATE_ASY_OWNER_MASK;
-  2794		value |= SOR_STATE_ASY_OWNER(1 + dc->pipe);
-  2795		tegra_sor_writel(sor, value, SOR_STATE1);
-  2796	
-  2797		err = tegra_sor_power_up(sor, 250);
-  2798		if (err < 0)
-  2799			dev_err(sor->dev, "failed to power up SOR: %d\n", err);
-  2800	
-  2801		/* configure dynamic range of output */
-  2802		value = tegra_sor_readl(sor, sor->soc->regs->head_state0 + dc->pipe);
-  2803		value &= ~SOR_HEAD_STATE_RANGECOMPRESS_MASK;
-  2804		value &= ~SOR_HEAD_STATE_DYNRANGE_MASK;
-  2805		tegra_sor_writel(sor, value, sor->soc->regs->head_state0 + dc->pipe);
-  2806	
-  2807		/* configure colorspace */
-  2808		value = tegra_sor_readl(sor, sor->soc->regs->head_state0 + dc->pipe);
-  2809		value &= ~SOR_HEAD_STATE_COLORSPACE_MASK;
-  2810		value |= SOR_HEAD_STATE_COLORSPACE_RGB;
-  2811		tegra_sor_writel(sor, value, sor->soc->regs->head_state0 + dc->pipe);
-  2812	
-  2813		tegra_sor_mode_set(sor, mode, state);
-  2814	
-  2815		tegra_sor_update(sor);
-  2816	
-  2817		/* program preamble timing in SOR (XXX) */
-  2818		value = tegra_sor_readl(sor, SOR_DP_SPARE0);
-  2819		value &= ~SOR_DP_SPARE_DISP_VIDEO_PREAMBLE;
-  2820		tegra_sor_writel(sor, value, SOR_DP_SPARE0);
-  2821	
-  2822		err = tegra_sor_attach(sor);
-  2823		if (err < 0)
-  2824			dev_err(sor->dev, "failed to attach SOR: %d\n", err);
-  2825	
-  2826		/* enable display to SOR clock and generate HDMI preamble */
-  2827		value = tegra_dc_readl(dc, DC_DISP_DISP_WIN_OPTIONS);
-  2828	
-  2829		if (!sor->soc->has_nvdisplay)
-  2830			value |= SOR1_TIMING_CYA;
-  2831	
-  2832		value |= SOR_ENABLE(sor->index);
-  2833	
-  2834		tegra_dc_writel(dc, value, DC_DISP_DISP_WIN_OPTIONS);
-  2835	
-  2836		if (dc->soc->has_nvdisplay) {
-  2837			value = tegra_dc_readl(dc, DC_DISP_CORE_SOR_SET_CONTROL(sor->index));
-  2838			value &= ~PROTOCOL_MASK;
-  2839			value |= PROTOCOL_SINGLE_TMDS_A;
-  2840			tegra_dc_writel(dc, value, DC_DISP_CORE_SOR_SET_CONTROL(sor->index));
-  2841		}
-  2842	
-  2843		tegra_dc_commit(dc);
-  2844	
-  2845		err = tegra_sor_wakeup(sor);
-  2846		if (err < 0)
-  2847			dev_err(sor->dev, "failed to wakeup SOR: %d\n", err);
-  2848	
-  2849		tegra_sor_hdmi_scdc_start(sor);
-  2850		tegra_sor_audio_prepare(sor);
-  2851	}
-  2852	
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+>
+> -Akhil.
+>
+> >
+> > BR,
+> > -R
+> >
+> >>> +       lock->ifpc_list_len =3D reglist->count;
+> >>>
+> >>>         /*
+> >>>          * For each entry in each of the lists, write the offset and =
+the current
+> >>> @@ -843,6 +842,14 @@ static void a7xx_patch_pwrup_reglist(struct msm_=
+gpu *gpu)
+> >>>                 *dest++ =3D gpu_read(gpu, reglist->regs[i]);
+> >>>         }
+> >>>
+> >>> +       reglist =3D adreno_gpu->info->a6xx->pwrup_reglist;
+> >>> +       lock->preemption_list_len =3D reglist->count;
+> >>> +
+> >>> +       for (i =3D 0; i < reglist->count; i++) {
+> >>> +               *dest++ =3D reglist->regs[i];
+> >>> +               *dest++ =3D gpu_read(gpu, reglist->regs[i]);
+> >>> +       }
+> >>> +
+> >>>         /*
+> >>>          * The overall register list is composed of
+> >>>          * 1. Static IFPC-only registers
+> >>> diff --git a/drivers/gpu/drm/msm/adreno/a6xx_gpu.h b/drivers/gpu/drm/=
+msm/adreno/a6xx_gpu.h
+> >>> index 124c63c4615930b00c64e488a498163ae35afccd..0b17d36c36a9567e6afa4=
+269ae7783ed3578e40e 100644
+> >>> --- a/drivers/gpu/drm/msm/adreno/a6xx_gpu.h
+> >>> +++ b/drivers/gpu/drm/msm/adreno/a6xx_gpu.h
+> >>> @@ -45,6 +45,7 @@ struct a6xx_info {
+> >>>         const struct adreno_reglist *hwcg;
+> >>>         const struct adreno_protect *protect;
+> >>>         const struct adreno_reglist_list *pwrup_reglist;
+> >>> +       const struct adreno_reglist_list *ifpc_reglist;
+> >>>         u32 gmu_chipid;
+> >>>         u32 gmu_cgc_mode;
+> >>>         u32 prim_fifo_threshold;
+> >>>
+> >>> --
+> >>> 2.50.1
+> >>>
+>
