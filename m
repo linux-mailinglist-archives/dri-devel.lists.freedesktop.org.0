@@ -2,109 +2,65 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E3983C29590
-	for <lists+dri-devel@lfdr.de>; Sun, 02 Nov 2025 19:59:48 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id DA34CC2934D
+	for <lists+dri-devel@lfdr.de>; Sun, 02 Nov 2025 18:15:29 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BBEBF10E127;
-	Sun,  2 Nov 2025 18:59:44 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E7FC210E1A7;
+	Sun,  2 Nov 2025 17:15:26 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=shazbot.org header.i=@shazbot.org header.b="TDBBXL62";
-	dkim=pass (2048-bit key; unprotected) header.d=messagingengine.com header.i=@messagingengine.com header.b="1LVX56yf";
+	dkim=pass (2048-bit key; secure) header.d=mailbox.org header.i=@mailbox.org header.b="UvXRZ7bD";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from fout-a7-smtp.messagingengine.com
- (fout-a7-smtp.messagingengine.com [103.168.172.150])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4646410E052
- for <dri-devel@lists.freedesktop.org>; Sun,  2 Nov 2025 15:01:47 +0000 (UTC)
-Received: from phl-compute-04.internal (phl-compute-04.internal [10.202.2.44])
- by mailfout.phl.internal (Postfix) with ESMTP id 5A52EEC00FA;
- Sun,  2 Nov 2025 10:01:46 -0500 (EST)
-Received: from phl-mailfrontend-02 ([10.202.2.163])
- by phl-compute-04.internal (MEProxy); Sun, 02 Nov 2025 10:01:46 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=shazbot.org; h=
- cc:cc:content-transfer-encoding:content-type:content-type:date
- :date:from:from:in-reply-to:in-reply-to:message-id:mime-version
- :references:reply-to:subject:subject:to:to; s=fm2; t=1762095706;
- x=1762182106; bh=0d6OEFnYJ2V3XAULn/TZmZlWcybfhiFmQJo6mbyVvXM=; b=
- TDBBXL627U62EbSvE9rFypOnDsF59crhLTr4X2QKEvliSdqCxPjUyGG2gU1rfyy6
- KFAxwA1gTIMopje4193uHXPRW+ufV9dJZdKqHBRfwc/N4IBiaOR98b4eAXEH0znN
- TGEm6RPZFvDOWz2t1+XG+tu8SlR7C3lIquO0xndqYyPCLJ47ZApUOwrZ+fL1v05Y
- UO6kQ6QwKw94v0SpG2cVHhgdcGhgAbGr8yyVtoD/NNB4QwWq9iuTPgKYtfwDhnMp
- zc4DNh9MkV7/Al+RIrs1DZduD58Ug0u+UsN5KgH6wUZEtxvKc9YwIHTm4hVd6tSs
- 0CyeiKlKqOJyqaNciuiXOQ==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:cc:content-transfer-encoding
- :content-type:content-type:date:date:feedback-id:feedback-id
- :from:from:in-reply-to:in-reply-to:message-id:mime-version
- :references:reply-to:subject:subject:to:to:x-me-proxy
- :x-me-sender:x-me-sender:x-sasl-enc; s=fm3; t=1762095706; x=
- 1762182106; bh=0d6OEFnYJ2V3XAULn/TZmZlWcybfhiFmQJo6mbyVvXM=; b=1
- LVX56yfNDSpIjbdRvoJO/pVaXhalPLO9zDUW46RhJ+NIFwjTzsxKz0U4lLijuDiE
- /J3coBRe5aiRdAgOPuppxezWF1Kn0vGtaRJ50DbviHDspFXvN4/CsZxDPYFdrTQE
- rQTnMDPaU17wxuuSeRSLCIFoTsQyLhm25SgJgE5MCtd6olWZ3wnfxKjXIlHhXu8w
- AAt1cjfsRLEfHZrrZDRyeCx3bzQMm2DgNgFc3x8D1rq3/SGQUf0gVyKY6ZUAHtAk
- GMrN0tWn0OhqQOH1gi2ycbisP7rKgjkeGTT6oLypSJHXOoGRXO+1vl0LQkXCAw2d
- qLCgYO+qQmzuvtppNv+Cw==
-X-ME-Sender: <xms:V3IHacICu8ulgNi7o_gOHA7n7OIXpJl_EkrwhFpTuoWMNbSElXRs6g>
- <xme:V3IHaS_eEi56epCAR71Ow3AZO5YiCeI-oW6OtskAXSaFLFE3lJ3Znpd7T6hKXX39l
- jB_EqBTEDIfpaRz-GdwttQNDa_LzOaDIwPhNt2bHOF7kJ6YFJwVHA>
-X-ME-Received: <xmr:V3IHaVpqiAR7FIyLA4s1kUh8xeOXyBaoUionVfff_VNmwkaMImllMw6SCTs>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeeffedrtdeggddujeehheeiucetufdoteggodetrf
- dotffvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfurfetoffkrfgpnffqhgenuceu
- rghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujf
- gurhepfffhvfevuffkjghfgggtgfesthejredttddtvdenucfhrhhomheptehlvgigucgh
- ihhllhhirghmshhonhcuoegrlhgvgiesshhhrgiisghothdrohhrgheqnecuggftrfgrth
- htvghrnhepteetudelgeekieegudegleeuvdffgeehleeivddtfeektdekkeehffehudet
- hffhnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomheprg
- hlvgigsehshhgriigsohhtrdhorhhgpdhnsggprhgtphhtthhopeefgedpmhhouggvpehs
- mhhtphhouhhtpdhrtghpthhtoheplhgvohhnsehkvghrnhgvlhdrohhrghdprhgtphhtth
- hopegshhgvlhhgrggrshesghhoohhglhgvrdgtohhmpdhrtghpthhtoheplhhoghgrnhhg
- seguvghlthgrthgvvgdrtghomhdprhgtphhtthhopegrgigsohgvsehkvghrnhgvlhdrug
- hkpdhrtghpthhtoheprhhosghinhdrmhhurhhphhihsegrrhhmrdgtohhmpdhrtghpthht
- ohepjhhorhhoseeksgihthgvshdrohhrghdprhgtphhtthhopeifihhllheskhgvrhhnvg
- hlrdhorhhgpdhrtghpthhtohepmhdrshiihihprhhofihskhhisehsrghmshhunhhgrdgt
- ohhmpdhrtghpthhtohepjhhgghesiihivghpvgdrtggr
-X-ME-Proxy: <xmx:V3IHacPvm6yYAGFkJOoCwJMSLlRkDxe2mP1wwPGKFs_yQdMVw0EBhA>
- <xmx:V3IHaXrLQtlZj7fWGRlOfeH0EMNmKki9CCwP4XF51mbUGiN7MdHcbQ>
- <xmx:V3IHaTinpkeptwnvtlt4p2ISS1nkQs5QM83RIoLIlJ1Tl7W2DA4-lA>
- <xmx:V3IHaY2_kf5P8v7ucB2Tj-fdZ8lmkzXzEpiEchjKzUpwizU-U37EHw>
- <xmx:WnIHaYlbGcSJfLIFOTNM9Y5mg_T2bF-aTHDN-65hDt2_atGb1QiAIi8U>
-Feedback-ID: i03f14258:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Sun,
- 2 Nov 2025 10:01:41 -0500 (EST)
-Date: Sun, 2 Nov 2025 08:01:37 -0700
-From: Alex Williamson <alex@shazbot.org>
-To: Leon Romanovsky <leon@kernel.org>
-Cc: Bjorn Helgaas <bhelgaas@google.com>,
- Logan Gunthorpe <logang@deltatee.com>, Jens Axboe <axboe@kernel.dk>,
- Robin Murphy <robin.murphy@arm.com>, Joerg Roedel <joro@8bytes.org>,
- Will Deacon <will@kernel.org>, Marek Szyprowski <m.szyprowski@samsung.com>,
- Jason Gunthorpe <jgg@ziepe.ca>, Andrew Morton <akpm@linux-foundation.org>,
- Jonathan Corbet <corbet@lwn.net>, Sumit Semwal <sumit.semwal@linaro.org>,
- Christian =?UTF-8?B?S8O2bmln?= <christian.koenig@amd.com>,
- Alex Williamson <alex.williamson@redhat.com>, Kees Cook <kees@kernel.org>,
- "Gustavo A. R. Silva" <gustavoars@kernel.org>,
- Ankit Agrawal <ankita@nvidia.com>, Yishai Hadas <yishaih@nvidia.com>,
- Shameer Kolothum <skolothumtho@nvidia.com>,
- Kevin Tian <kevin.tian@intel.com>, Krishnakant Jaju <kjaju@nvidia.com>,
- Matt Ochs <mochs@nvidia.com>, linux-pci@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-block@vger.kernel.org,
- iommu@lists.linux.dev, linux-mm@kvack.org, linux-doc@vger.kernel.org,
- linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
- linaro-mm-sig@lists.linaro.org, kvm@vger.kernel.org,
- linux-hardening@vger.kernel.org,
- Vivek Kasireddy <vivek.kasireddy@intel.com>
-Subject: Re: [PATCH v6 10/11] vfio/pci: Add dma-buf export support for MMIO
- regions
-Message-ID: <20251102080137.209aa567@shazbot.org>
-In-Reply-To: <20251102-dmabuf-vfio-v6-10-d773cff0db9f@nvidia.com>
-References: <20251102-dmabuf-vfio-v6-0-d773cff0db9f@nvidia.com>
- <20251102-dmabuf-vfio-v6-10-d773cff0db9f@nvidia.com>
+Received: from mout-p-103.mailbox.org (mout-p-103.mailbox.org [80.241.56.161])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2ABA110E1A7
+ for <dri-devel@lists.freedesktop.org>; Sun,  2 Nov 2025 17:15:25 +0000 (UTC)
+Received: from smtp202.mailbox.org (smtp202.mailbox.org
+ [IPv6:2001:67c:2050:b231:465::202])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested)
+ by mout-p-103.mailbox.org (Postfix) with ESMTPS id 4d01Z20q5Tz9slM;
+ Sun,  2 Nov 2025 18:15:22 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org;
+ s=mail20150812; t=1762103722;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=BFpdLMII0EG/uXMQS+E4Vw7nKG+ReHRISfwxssVFI9s=;
+ b=UvXRZ7bDu9O4ZrHV72XvvB6yU3Z5LI+jaMxZyKdMUO3KU2hA46wC+PxOVP9bzqNXvsneUs
+ sl9HWw55Jlu4y11sF+dvaApaLFTp1oQVtMVHy2yA3AZt0K3Kh0b7dCpzsPydXqYbwCjFrU
+ okvozNZIQgwpk/q1LcTaDYx/QIMOxKxcvhul3wifKN2qeUb0cgEI7dduhm6a3fW1k4lVdu
+ A+CW9EgF0cmJ67bNJ8laI/8XlP5xaK4zEybXOCxsVG0R9vukPlju6vxyI3GjM/+iquR91V
+ tuLoIL2I8aQLwgBt+kfOI0MXZc6BrnLQCuGQNOjQLl5zVGs9eoFpMXkaMcS3Ig==
+Message-ID: <500852c9-2cd5-4897-a139-4e93988f5469@mailbox.org>
+Date: Sun, 2 Nov 2025 17:14:05 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
+Subject: Re: [PATCH v4 07/14] drm/imx: dc: Add DPR channel support
+To: Liu Ying <victor.liu@nxp.com>, Philipp Zabel <p.zabel@pengutronix.de>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>, Shawn Guo <shawnguo@kernel.org>,
+ Sascha Hauer <s.hauer@pengutronix.de>,
+ Pengutronix Kernel Team <kernel@pengutronix.de>,
+ Fabio Estevam <festevam@gmail.com>, Dmitry Baryshkov <lumag@kernel.org>
+Cc: dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
+ imx@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
+ linux-kernel@vger.kernel.org, Frank Li <Frank.Li@nxp.com>
+References: <20251016-imx8-dc-prefetch-v4-0-dfda347cb3c5@nxp.com>
+ <20251016-imx8-dc-prefetch-v4-7-dfda347cb3c5@nxp.com>
+ <174bdb5a-b5a8-4856-a0ac-8caaaefde136@mailbox.org>
+ <24f99c46-ca5d-43cc-a2eb-a6e5029e9f86@nxp.com>
+Content-Language: en-US
+From: Marek Vasut <marek.vasut@mailbox.org>
+In-Reply-To: <24f99c46-ca5d-43cc-a2eb-a6e5029e9f86@nxp.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-X-Mailman-Approved-At: Sun, 02 Nov 2025 18:59:44 +0000
+X-MBO-RS-META: 3sitdqczazy5k6eyore371b5sdu9hua4
+X-MBO-RS-ID: 505e1783efc7f667bb3
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -120,39 +76,53 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Sun,  2 Nov 2025 10:00:58 +0200
-Leon Romanovsky <leon@kernel.org> wrote:
-> @@ -2391,6 +2403,7 @@ static int vfio_pci_dev_set_hot_reset(struct vfio_device_set *dev_set,
->  				      struct iommufd_ctx *iommufd_ctx)
->  {
->  	struct vfio_pci_core_device *vdev;
-> +	bool restore_revoke = false;
->  	struct pci_dev *pdev;
->  	int ret;
->  
-> @@ -2459,6 +2472,8 @@ static int vfio_pci_dev_set_hot_reset(struct vfio_device_set *dev_set,
->  			break;
->  		}
->  
-> +		vfio_pci_dma_buf_move(vdev, true);
-> +		restore_revoke = true;
->  		vfio_pci_zap_bars(vdev);
->  	}
->  
-> @@ -2486,6 +2501,12 @@ static int vfio_pci_dev_set_hot_reset(struct vfio_device_set *dev_set,
->  			       struct vfio_pci_core_device, vdev.dev_set_list);
->  
->  err_undo:
-> +	if (restore_revoke) {
-> +		list_for_each_entry(vdev, &dev_set->device_list, vdev.dev_set_list)
-> +			if (__vfio_pci_memory_enabled(vdev))
-> +				vfio_pci_dma_buf_move(vdev, false);
-> +	}
-> +
->  	list_for_each_entry_from_reverse(vdev, &dev_set->device_list,
->  					 vdev.dev_set_list)
+On 10/20/25 4:47 AM, Liu Ying wrote:
 
-We don't need the separate loop or flag, and adding it breaks the
-existing reverse list walk.  Thanks,
+Hello Liu,
 
-Alex
+sorry for my late reply.
+
+>>> +++ b/drivers/gpu/drm/imx/dc/Kconfig
+>>> @@ -1,6 +1,7 @@
+>>>    config DRM_IMX8_DC
+>>>        tristate "Freescale i.MX8 Display Controller Graphics"
+>>>        depends on DRM && COMMON_CLK && OF && (ARCH_MXC || COMPILE_TEST)
+>>> +    depends on IMX_SCU
+>> Can the SCU dependency be made optional,
+> 
+> I don't think this can be done.  If you grep 'depends on IMX_SCU' in
+> kernel, you may find a handful of existing dependancies.
+
+Sure, I do not dispute this part.
+
+But the SCU dependency can be contained in a component of this driver, 
+which is not used by MX95, and used only by MX8Q . Then there will be no 
+problem.
+
+>> or per-module,
+> 
+> Well, DRM_IMX8_DC(for the imx8_dc_drm module) depends on IMX_SCU just as
+> this patch does.
+
+I assume it shouldn't have to, because the SCU dependency is only 
+relevant for the prefetch engine ?
+
+>> or somehow abstracted out (via regmap?),
+> 
+> Like I replied to your i.MX95 DC patch series's cover letter, SCU accesses
+> registers via Cortex-M core instead of Cortex-A core IIUC.  I really don't
+> know how to abstract IMX_SCU out, especially via regmap.
+
+The simplest way would be to use regmap_config .reg_read and .reg_write 
+, if there is no better way.
+
+>> so iMX95 support can be added into the driver easily too ?
+> 
+> Like I replied to your i.MX95 DC patch series, I think i.MX95 DC support
+> can be in drivers/gpu/drm/imx/dc, but it should be in a separate module
+> (something like imx95_dc_drm) plus an additional common module(like
+> imx_dc_drm_common).
+This design part is something I do not fully understand. Sure, it can be 
+two modules, but in the end, the result would have to be capable of 
+being compiled into single kernel binary if both modules would be =y in 
+Kconfig anyway.
