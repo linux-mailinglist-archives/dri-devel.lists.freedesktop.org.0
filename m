@@ -2,53 +2,49 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3D444C299EC
-	for <lists+dri-devel@lfdr.de>; Mon, 03 Nov 2025 00:18:50 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7A1F5C299FE
+	for <lists+dri-devel@lfdr.de>; Mon, 03 Nov 2025 00:22:40 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4235310E128;
-	Sun,  2 Nov 2025 23:18:46 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DC3B510E12E;
+	Sun,  2 Nov 2025 23:22:36 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; secure) header.d=canb.auug.org.au header.i=@canb.auug.org.au header.b="rbKZQ6rz";
+	dkim=pass (2048-bit key; secure) header.d=canb.auug.org.au header.i=@canb.auug.org.au header.b="mfG+CMex";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail.ozlabs.org (gandalf.ozlabs.org [150.107.74.76])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 15C9110E125;
- Sun,  2 Nov 2025 23:18:44 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 716E910E12A;
+ Sun,  2 Nov 2025 23:22:35 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=canb.auug.org.au;
- s=202503; t=1762125522;
- bh=xaU4rrErMEvuq9+RliP/7svNzdrCSMaDrdk5mZvdito=;
+ s=202503; t=1762125754;
+ bh=2rNjtOI2mww09uharcAW9DKM4SCrFQrcePKn6Adh+n0=;
  h=Date:From:To:Cc:Subject:From;
- b=rbKZQ6rzBvDb9N5EeEPtT5qSKhA8Qc5vgil6auxdE0Av/rjn9HZR2PXNjQKuVnNWq
- d2Jur7Ya0HNLogjiFqU0NMwYlJ8W9CSycmGhg2qQa0S1+EAh20TWwNMjDj80T2cei3
- jB4+MsRTo7WffBLrrGhd6r1sdMmvkDLNSVTIkFp2rp8p4Q/yG4/qREPrS6Kk2on0m9
- Ywpk7MLihc0gA1L/Q5oq/rWqGovq1zIr8SnUyXIAwQ+yAYWg+0QzA0SqpUcgN/lSS/
- bkkYzSJSdvm8/XGUJonzBCny7Lj+8972nrcB3+ISzN9TXFiqmsf7Wi+On5LLxzSR0G
- cCMopMY2GWj7Q==
+ b=mfG+CMexHVEfMn3XGPzUyXvEjUu1LqUoNtF+InvzBVCkEMXKMEarUI88/zOD5lxlG
+ qem25g7hWN2y8mHmJmlqw0ePJKNVOkCJSu5KFVi/kKlAg05LK9Ia5HQmZhQV5dsOEX
+ fAlytqfzGSAjxvov8UQT5Tw80nJKtSbG6rM0bmDLf1I31a0bUw+8SVVjQAKfsnV+tM
+ nbr+bkqHUj1pe6FULUN5iXqFed0eoA9+OlfWhWynMF7rN4SASamgjDdyKhLKmb66Gx
+ FfCAmpvXU9+hFXO6xv9cT2pZwOSZ422NbaWBN98KO/uWDMgXSMv71dp0N4LFSd0LIa
+ nF+ICqKnc7Qwg==
 Received: from authenticated.ozlabs.org (localhost [127.0.0.1])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange secp256r1 server-signature RSA-PSS (4096 bits) server-digest
  SHA256) (Client did not present a certificate)
- by mail.ozlabs.org (Postfix) with ESMTPSA id 4d09dG3jf3z4w9R;
- Mon, 03 Nov 2025 10:18:42 +1100 (AEDT)
-Date: Mon, 3 Nov 2025 10:18:41 +1100
+ by mail.ozlabs.org (Postfix) with ESMTPSA id 4d09jj6TLhz4w93;
+ Mon, 03 Nov 2025 10:22:33 +1100 (AEDT)
+Date: Mon, 3 Nov 2025 10:22:33 +1100
 From: Stephen Rothwell <sfr@canb.auug.org.au>
 To: Simona Vetter <simona.vetter@ffwll.ch>, Jani Nikula
  <jani.nikula@linux.intel.com>, Joonas Lahtinen
- <joonas.lahtinen@linux.intel.com>, Rodrigo Vivi <rodrigo.vivi@intel.com>,
- Dave Airlie <airlied@redhat.com>
-Cc: Intel Graphics <intel-gfx@lists.freedesktop.org>, DRI
- <dri-devel@lists.freedesktop.org>, Balasubramani Vivekanandan
- <balasubramani.vivekanandan@intel.com>, Dnyaneshwar Bhadane
- <dnyaneshwar.bhadane@intel.com>, Linux Kernel Mailing List
- <linux-kernel@vger.kernel.org>, Linux Next Mailing List
- <linux-next@vger.kernel.org>, Lucas De Marchi <lucas.demarchi@intel.com>,
- Matt Roper <matthew.d.roper@intel.com>, Suraj Kandpal
- <suraj.kandpal@intel.com>
-Subject: linux-next: manual merge of the drm-intel tree with the drm tree
-Message-ID: <20251103101841.537c87dc@canb.auug.org.au>
+ <joonas.lahtinen@linux.intel.com>, Rodrigo Vivi <rodrigo.vivi@intel.com>
+Cc: Jani Nikula <jani.nikula@intel.com>, Intel Graphics
+ <intel-gfx@lists.freedesktop.org>, DRI <dri-devel@lists.freedesktop.org>,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, Linux Next
+ Mailing List <linux-next@vger.kernel.org>, Ville =?UTF-8?B?U3lyasOkbMOk?=
+ <ville.syrjala@linux.intel.com>
+Subject: linux-next: manual merge of the drm-intel tree with the drm-misc tree
+Message-ID: <20251103102233.7c6adc9a@canb.auug.org.au>
 MIME-Version: 1.0
-Content-Type: multipart/signed; boundary="Sig_/Y9dSf5_k+qC6k1QYFAE.jCC";
+Content-Type: multipart/signed; boundary="Sig_/fUz4vqoMbt2t_KNm2IayWRr";
  protocol="application/pgp-signature"; micalg=pgp-sha256
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -65,24 +61,23 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
---Sig_/Y9dSf5_k+qC6k1QYFAE.jCC
-Content-Type: text/plain; charset=US-ASCII
+--Sig_/fUz4vqoMbt2t_KNm2IayWRr
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 
 Hi all,
 
 Today's linux-next merge of the drm-intel tree got a conflict in:
 
-  drivers/gpu/drm/xe/xe_pci.c
+  drivers/gpu/drm/i915/display/intel_bw.c
 
-between commits:
+between commit:
 
-  c002b1764e7b ("drm/xe/nvl: Define NVL-S platform")
-  5e0de2dfbc1b ("drm/xe/cri: Add CRI platform definition")
+  f6e8dc9edf96 ("drm: include drm_print.h where needed")
 
-from the drm tree and commit:
+from the drm-misc tree and commit:
 
-  32620e176443 ("drm/pcids: Split PTL pciids group to make wcl subplatform")
+  ac930bab1c89 ("drm/i915/bw: Untangle dbuf bw from the sagv/mem bw stuff")
 
 from the drm-intel tree.
 
@@ -97,35 +92,35 @@ complex conflicts.
 Cheers,
 Stephen Rothwell
 
-diff --cc drivers/gpu/drm/xe/xe_pci.c
-index 6e59642e7820,67c808bb22a8..000000000000
---- a/drivers/gpu/drm/xe/xe_pci.c
-+++ b/drivers/gpu/drm/xe/xe_pci.c
-@@@ -440,8 -375,7 +440,9 @@@ static const struct pci_device_id pciid
-  	INTEL_LNL_IDS(INTEL_VGA_DEVICE, &lnl_desc),
-  	INTEL_BMG_IDS(INTEL_VGA_DEVICE, &bmg_desc),
-  	INTEL_PTL_IDS(INTEL_VGA_DEVICE, &ptl_desc),
- +	INTEL_NVLS_IDS(INTEL_VGA_DEVICE, &nvls_desc),
- +	INTEL_CRI_IDS(INTEL_PCI_DEVICE, &cri_desc),
-+ 	INTEL_WCL_IDS(INTEL_VGA_DEVICE, &ptl_desc),
-  	{ }
-  };
-  MODULE_DEVICE_TABLE(pci, pciidlist);
+diff --cc drivers/gpu/drm/i915/display/intel_bw.c
+index b3e4cc9985e9,3033c53e61d1..000000000000
+--- a/drivers/gpu/drm/i915/display/intel_bw.c
++++ b/drivers/gpu/drm/i915/display/intel_bw.c
+@@@ -3,9 -3,6 +3,8 @@@
+   * Copyright =C2=A9 2019 Intel Corporation
+   */
+ =20
+- #include <drm/drm_atomic_state_helper.h>
+ +#include <drm/drm_print.h>
+ +
+  #include "soc/intel_dram.h"
+ =20
+  #include "i915_drv.h"
 
---Sig_/Y9dSf5_k+qC6k1QYFAE.jCC
+--Sig_/fUz4vqoMbt2t_KNm2IayWRr
 Content-Type: application/pgp-signature
 Content-Description: OpenPGP digital signature
 
 -----BEGIN PGP SIGNATURE-----
 
-iQEzBAEBCAAdFiEENIC96giZ81tWdLgKAVBC80lX0GwFAmkH5tEACgkQAVBC80lX
-0GzAIQf/VXtLy2V2td1WeYdKCBZ+qe7GU3Z8yZyrQwJ7ZSQ/nT0xga432I16p44M
-3Nm5dtc58Ba/ignPJjvpjuaphB53OZbJNVRgnYFmJTSZD+PKWha+CvJ0ViSted98
-33ABLrWqvIs2D8+A4jLUp+SFx1hMIQv/S5+VoJL+/z72dLOjA/1q3lSg1mrYxn83
-FEdScUYt/+vGVv+4Oq1qpOQUPROiC5S3Wlwy/7JODXdnsQXNwmyY3yPY+UHAzW+e
-ruARCMEIOm6M14gQUxU2QgqNSlr3XprkDFHdg+tIV7lRDmL+rLk1IHIARSmlvGJ4
-EWH3jUmOqqexeaWiKsG5/OsiJgFx9w==
-=OMTU
+iQEzBAEBCAAdFiEENIC96giZ81tWdLgKAVBC80lX0GwFAmkH57kACgkQAVBC80lX
+0GzFmQf+J56RnPQxGAMIrZg2X4PAPoS7F6DlQhHOjBxn07eOrXCTErRQqEeN+Rlp
+6iFvL9UdMmiVi5qBo3riK92kx2sfLZdVXq0zs2TZbARlW/SDt0AaslUZEHz408t/
+7EVXxdxvOIkPr1D/lANCVsjvhk21L7EeTlbT61EFF8ccsOQArMR4F/pNM4uxhm6P
+zLRCNQR5Jpz9UOk6MrTtUKNiFD0SYGaHTgf+6sVDBZMGz1s5XpcuA5K6GyhaPSEZ
+/tvnHyfc9oBFrCFUqrC4MJZ0UlP54j9Mn6Z+jOEXqjg9ZgtHbCmT4AdNSahMo9Xv
+UNWjtDWGl6tnpMs/QW0yZzPXUFV2cQ==
+=ynOq
 -----END PGP SIGNATURE-----
 
---Sig_/Y9dSf5_k+qC6k1QYFAE.jCC--
+--Sig_/fUz4vqoMbt2t_KNm2IayWRr--
