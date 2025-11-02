@@ -2,74 +2,74 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1F5F6C29097
-	for <lists+dri-devel@lfdr.de>; Sun, 02 Nov 2025 15:56:25 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 21F78C290D7
+	for <lists+dri-devel@lfdr.de>; Sun, 02 Nov 2025 16:10:03 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 008D310E04F;
-	Sun,  2 Nov 2025 14:56:22 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id F065210E052;
+	Sun,  2 Nov 2025 15:09:59 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="bdtZYyTK";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="Pf+Rn5iy";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-f54.google.com (mail-wr1-f54.google.com
- [209.85.221.54])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 787A210E052
- for <dri-devel@lists.freedesktop.org>; Sun,  2 Nov 2025 14:56:20 +0000 (UTC)
-Received: by mail-wr1-f54.google.com with SMTP id
- ffacd0b85a97d-429c82bf86bso987459f8f.1
- for <dri-devel@lists.freedesktop.org>; Sun, 02 Nov 2025 06:56:20 -0800 (PST)
+Received: from mail-wm1-f46.google.com (mail-wm1-f46.google.com
+ [209.85.128.46])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 566CA10E0EA
+ for <dri-devel@lists.freedesktop.org>; Sun,  2 Nov 2025 15:09:58 +0000 (UTC)
+Received: by mail-wm1-f46.google.com with SMTP id
+ 5b1f17b1804b1-475dab5a5acso17007465e9.0
+ for <dri-devel@lists.freedesktop.org>; Sun, 02 Nov 2025 07:09:58 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1762095379; x=1762700179; darn=lists.freedesktop.org;
+ d=gmail.com; s=20230601; t=1762096197; x=1762700997; darn=lists.freedesktop.org;
  h=content-transfer-encoding:in-reply-to:from:content-language
  :references:cc:to:subject:user-agent:mime-version:date:message-id
  :from:to:cc:subject:date:message-id:reply-to;
- bh=WNRp8GBQqKKuNk9ZiQRhReDm9E3VEBrBLSW1DlgX55M=;
- b=bdtZYyTK2fdKMwaLxsrsXgRtVU970xOA7S+9X3r4gGNzV7p8r0UUj4QhP5PVTgjdxB
- nMs0lJmpvZOXDW8xCsY9jFVqEq/7CGSEDRGBABnGP/n8/n4nGiUQfRehML2Eguru8F6J
- bfVR2BnxudgYWqp7GaRWcQl360V16SGtsRzwlKK5YGuuRk+vpU5+pFDbvp3Nq4nlmAZi
- 52z5hX3gw8iPy4dgdTwlq0foP+DDFanvJyPvgAwccXsUJdHWYdhb8aWJql63Oqec1+6G
- WTl/ge66OhgZ4ASSOJk7UvOu1FDy+QRBOaP8UFQAd92DXnlYixj667uBwZPFdhLwLlNy
- 3Pdw==
+ bh=KeEh++c4R7x24Ob6ITABSkGpnIKxyH2JeGroaXixafA=;
+ b=Pf+Rn5iy37BksctCTQD7vMX3C3PGJdF06M8l9GWpK7gRxT0JKR71yfhxm5nkLp7a+z
+ IvJXOfPzkyevVH6t8ivV/QiBzSnn/S88EDshETUTJyF6PKUOdROR/fNLH9cqyk7zPhgf
+ pbDWMB1kHtrtbkAweMspANCfwaoBOu/IX0aQh4ObsSRN8/NzQUMWH82zEyroF1Dccnmb
+ 3v8eYDtJUxbny0HQOHizmMMBWliF+gFFyZLggiUV4K8J9QKW/AwSkaifnrk/lxqMLMSL
+ cmdpb+ePeVN0NPEkD+dEY3OjmfxuIH74SgKfUQH8LEVaqDOf+2EKIKEvvjDoL4q5oE2f
+ /RqQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1762095379; x=1762700179;
+ d=1e100.net; s=20230601; t=1762096197; x=1762700997;
  h=content-transfer-encoding:in-reply-to:from:content-language
  :references:cc:to:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=WNRp8GBQqKKuNk9ZiQRhReDm9E3VEBrBLSW1DlgX55M=;
- b=fXrYfaLoa3rOaTAUMW0Bjes3tcqm0omZxC+WQ2g2dShVwQ7B7nAf9lgaIz9IP2y6hT
- oT5jPKi22x4cqBSkMKqyEtSdMrNCW8WG9cZzmW79Yfj9nvtwLI4biw3MrDFm1eyeXsuD
- HLN0xJssM55OaIlg3Pp385BC0jDYjqK8GZFzhYldapr+HWaFJdep7hvcQRn9Q0DEQ32a
- jeh/7vH8ftYgGVm1EBmHcwREKLNofsYGSNjNc+TiQCuKOxWsNOMT4OQBWCjS7Qys1+Dr
- Al9vXVAj4I0PC3QaFlv96T281eRniXy+vvQsSWqfsXDa1qyPofbzLYEtWX0Z8Jiau2Aw
- eSbg==
+ bh=KeEh++c4R7x24Ob6ITABSkGpnIKxyH2JeGroaXixafA=;
+ b=Z8qYYjoys4wa2RiMSGSAqmyD9ySKDlWvOkiwM0mV9IcsMhskKMTvMgwIICFLvbBo+p
+ 23PvNORQCMGEMC8YJZnqWohDTmLJxeMJN4CXdvndxbmHKmHOgoxlGYLKNyMVUWINIPZu
+ 2NZtM5syPAF/V8OBifybBAXpoDQFQVdXgJALg4tHR8dpYt5Ohq9IMXL+w2j2NOSwUFCG
+ FQJNPqjJk9oFYBzg34yLBkZH1zHXnuNuWtgiieqmMleMng3BBHh6xcLbXkYI1XTI842b
+ njcxUiT9YSgN9IA7MQTW+sZdq77YAd77v0hCjTxHORCDVmZX/SYhJAazROuUpE0UVcmg
+ mC5g==
 X-Forwarded-Encrypted: i=1;
- AJvYcCX6ZRk4NcwZz+ub4XOXxFoUkrqxNqpfzARF09V8eZMozHDJNzqznI4yvo9IihTss3baHTAOQ6yz97k=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YxiFn7LUFoGPvFTj+xbUcBcwUrnwUGGFOMJSvC6bfKQWEhdaJcx
- jFXij65mm0E2RjSCj6PoJWI5BdqDG/6N779hHhMuuBd90uWin8/fK0ko
-X-Gm-Gg: ASbGncvttfDKuvLikSQsOIfzErTALnSaqcYPaqLe1QrJKa0dw55S4ksBLU1nv0FZtAo
- nveCKY/S+cNfr3SNU/ZTaDRUSnU46u9fyDLZECVdLX+JdNObqO6sQA7uF3xBwgbO1VFvFhyQh6P
- JrsQ63yXQY6bCLuzuCBZFJg7ucOyoYO/sOoxiARqT3e4Xu8BBJU/cvb0kTbDuIzmpUl1Yae6H+x
- dUt+Zk2Sx/Ief/ImYRz0rlIlSObdYHtODWMqMGtre7RhQ619kS+wWIytPRQs7c02ttS0inXFjSp
- 2dWDeYHoyWzQIp7+4tY3LjJFCksib5ZwlIBUdV9Qmh0/FHIouBHgWmXqezSVCesQCHCaZ0V7hjv
- x78jRJIq+RYYmxun+WR3Gq5ByFZGXqkuIjm2MDSCP3B/Bu2d6HF2GN26efm5rIb5yHKJqZHClmX
- BI55DmHi7+UtCUxGO+na6djSgmchjGl7hePxtqvzpaCcKVHzw663L5/dQaKxwiDxxrJkE=
-X-Google-Smtp-Source: AGHT+IEAwtgyxniTz4Ai5mtawKx2HjkKK2OW7gZ2ITGD+2oJ/4ffgGzrS5E/3uRYJ89wkLzNjfq3hg==
-X-Received: by 2002:a05:6000:1a85:b0:429:d2a9:5dea with SMTP id
- ffacd0b85a97d-429d2a95f05mr675088f8f.15.1762095378417; 
- Sun, 02 Nov 2025 06:56:18 -0800 (PST)
+ AJvYcCXDLkTywDHdvVMxApe6+Eo9Phcl5H1q/mBR/KgBfs4Mf6PsdgoSyk+bteaAGGaXhPwxCTyvwGPm+Fk=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YzXN8RFCTNGGWIyk0BpbuxP9vCNh2cXBMzfK00OJGj8tOypqx3F
+ mfNvF0VfGgxJ/XqhccQnJxZunPTQfcoFzNgpi4PH/Wszi1wAsBayXq2Q
+X-Gm-Gg: ASbGncsLb+Vf/xUmHnJQtHII5d9RLz9zEKQKOLZ36EDkSunY8WOLBU/qvnqdZQjA4az
+ u5PW451UIUgUfq6Ujo50iYh3UArxp3TZYNr9VKnDll8Alyp9YqCDg1SnMPxZtaGUvUiIs7IyzqM
+ w+wZb9VoTe8/KPxhxl64omOAyxFPwJgTy9u4RbrMWpK8AZnCyGgCPD33D7f7Emk6Mm2d81iSYoV
+ sh9AQnWkWid17q9jxqF4bGW1b3HGmMnMmUi0XAgAGgoXyzyc4tCNbMngW0k91esGS/UL77FsTn/
+ KT0P44cO+0K6zMYTCmrK0C3wXgk67MJ6VW6edXGSB/PHlxOJ8eIdUNcmEZxEnr+AW0GLoRq1Qus
+ 4Mfw8eZS0hy4nJMCMU4H5TxBQJ5nYXdZkozUUWMCyN7JNsA5nCY0j9RtsLf2xHd+NMDXNGDd+e+
+ d4KYkKXnr7MXpJKyiN4wntbtYPaKpIVIsCR0rWIr0MmwQTrI6llhpunPCGo9eB3qXdfmc=
+X-Google-Smtp-Source: AGHT+IHGrARufC9tZYIoG9QCHsV4kZ8J2Ovz4A4hPVeK83i602JTm5CAJj2RXLSVlTY6X+3zPvhvCQ==
+X-Received: by 2002:a05:600c:83ce:b0:471:989:9d85 with SMTP id
+ 5b1f17b1804b1-47730871fa6mr104046745e9.19.1762096196688; 
+ Sun, 02 Nov 2025 07:09:56 -0800 (PST)
 Received: from ?IPV6:2a01:e0a:acc:bb60:756b:64e3:20ef:1d08?
  ([2a01:e0a:acc:bb60:756b:64e3:20ef:1d08])
  by smtp.gmail.com with ESMTPSA id
- ffacd0b85a97d-429c13f2b5asm14807337f8f.40.2025.11.02.06.56.17
+ ffacd0b85a97d-429d1061efasm3179609f8f.24.2025.11.02.07.09.54
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Sun, 02 Nov 2025 06:56:18 -0800 (PST)
-Message-ID: <51200cc6-042a-4e83-81b0-720385c67bb5@gmail.com>
-Date: Sun, 2 Nov 2025 15:56:16 +0100
+ Sun, 02 Nov 2025 07:09:55 -0800 (PST)
+Message-ID: <70210168-ee28-4996-89f0-83f8590cb716@gmail.com>
+Date: Sun, 2 Nov 2025 16:09:54 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 2/3] nova-core: Simplify `DmaObject::from_data` in
- nova-core/dma.rs
+Subject: Re: [PATCH v2 1/3] nova-core: Simplify `transmute` and
+ `transmute_mut` in fwsec.rs
 To: Alexandre Courbot <acourbot@nvidia.com>,
  Danilo Krummrich <dakr@kernel.org>, David Airlie <airlied@gmail.com>,
  Simona Vetter <simona@ffwll.ch>, Miguel Ojeda <ojeda@kernel.org>,
@@ -82,11 +82,10 @@ Cc: nouveau@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
  Trevor Gross <tmgross@umich.edu>, rust-for-linux@vger.kernel.org,
  dri-devel <dri-devel-bounces@lists.freedesktop.org>
 References: <20251023205146.196042-1-delcastillodelarosadaniel@gmail.com>
- <20251023205146.196042-2-delcastillodelarosadaniel@gmail.com>
- <DDXC0YKKJJT4.18JQ1MJQ7I31Y@nvidia.com>
+ <DDXC17HXPXFZ.3TIX7FHUJHAI7@nvidia.com>
 Content-Language: en-US
 From: Daniel del Castillo <delcastillodelarosadaniel@gmail.com>
-In-Reply-To: <DDXC0YKKJJT4.18JQ1MJQ7I31Y@nvidia.com>
+In-Reply-To: <DDXC17HXPXFZ.3TIX7FHUJHAI7@nvidia.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -106,59 +105,100 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 Hi Alexandre,
 
-On 11/1/25 12:46, Alexandre Courbot wrote:
+On 11/1/25 12:47, Alexandre Courbot wrote:
 > On Fri Oct 24, 2025 at 5:51 AM JST, Daniel del Castillo wrote:
 >> This patch solves one of the existing mentions of COHA, a task
 >> in the Nova task list about improving the `CoherentAllocation` API.
->> It uses the `write` method from `CoherentAllocation`.
+>> It uses the new `from_bytes` method from the `FromBytes` trait as
+>> well as the `as_slice` and `as_slice_mut` methods from
+>> `CoherentAllocation`.
 >>
 >> Signed-off-by: Daniel del Castillo <delcastillodelarosadaniel@gmail.com>
 >>
 >> ---
 >>
->> V1 -> V2: Split previous patch into two. One per reference to COHA.
->>           Added more details in Safety comment. Let me know your thoughts
->>           Kept the original map to avoid a temporary variable
->> ---
->>  drivers/gpu/nova-core/dma.rs | 15 +++------------
->>  1 file changed, 3 insertions(+), 12 deletions(-)
+>> I confirmed by talking to Alexandre Courbot, that the reading/writing
+>> methods in `CoherentAllocation` can never be safe, so
+>> this patch doesn't actually change `CoherentAllocation`, but rather
+>> tries to solve one of the existing references to [COHA].
 >>
->> diff --git a/drivers/gpu/nova-core/dma.rs b/drivers/gpu/nova-core/dma.rs
->> index 94f44bcfd748..620d31078858 100644
->> --- a/drivers/gpu/nova-core/dma.rs
->> +++ b/drivers/gpu/nova-core/dma.rs
->> @@ -26,18 +26,9 @@ pub(crate) fn new(dev: &device::Device<device::Bound>, len: usize) -> Result<Sel
+>> V1 -> V2: Split previous patch into two. One per reference to COHA.
+>>           Improved comments. Let me know if they are okay now.
+>>           Use of `{...}` syntax for the `if let`
+>>
+>>  drivers/gpu/nova-core/firmware/fwsec.rs | 129 +++++++++++-------------
+>>  1 file changed, 60 insertions(+), 69 deletions(-)
+>>
+>> diff --git a/drivers/gpu/nova-core/firmware/fwsec.rs b/drivers/gpu/nova-core/firmware/fwsec.rs
+>> index 8edbb5c0572c..507ef3868565 100644
+>> --- a/drivers/gpu/nova-core/firmware/fwsec.rs
+>> +++ b/drivers/gpu/nova-core/firmware/fwsec.rs
+>> @@ -11,12 +11,12 @@
+>>  //! - The ucode signature, so the GSP falcon can run FWSEC in HS mode.
 >>  
->>      pub(crate) fn from_data(dev: &device::Device<device::Bound>, data: &[u8]) -> Result<Self> {
->>          Self::new(dev, data.len()).map(|mut dma_obj| {
->> -            // TODO[COHA]: replace with `CoherentAllocation::write()` once available.
->> -            // SAFETY:
->> -            // - `dma_obj`'s size is at least `data.len()`.
->> -            // - We have just created this object and there is no other user at this stage.
->> -            unsafe {
->> -                core::ptr::copy_nonoverlapping(
->> -                    data.as_ptr(),
->> -                    dma_obj.dma.start_ptr_mut(),
->> -                    data.len(),
->> -                );
->> -            }
->> -
->> +            // SAFETY: We have just allocated the DMA memory, we are the only users and
->> +            // we haven't made the device aware of the handle yet.
->> +            unsafe { dma_obj.write(data, 0)? }
+>>  use core::marker::PhantomData;
+>> -use core::mem::{align_of, size_of};
+>> +use core::mem::size_of;
+>>  use core::ops::Deref;
+>>  
+>>  use kernel::device::{self, Device};
+>>  use kernel::prelude::*;
+>> -use kernel::transmute::FromBytes;
+>> +use kernel::transmute::{AsBytes, FromBytes};
+>>  
+>>  use crate::dma::DmaObject;
+>>  use crate::driver::Bar0;
+>> @@ -35,7 +35,7 @@ struct FalconAppifHdrV1 {
+>>      entry_size: u8,
+>>      entry_count: u8,
+>>  }
+>> -// SAFETY: any byte sequence is valid for this struct.
+>> +// SAFETY: Any byte sequence is valid for this struct.
+>>  unsafe impl FromBytes for FalconAppifHdrV1 {}
+>>  
+>>  #[repr(C, packed)]
+>> @@ -44,7 +44,7 @@ struct FalconAppifV1 {
+>>      id: u32,
+>>      dmem_base: u32,
+>>  }
+>> -// SAFETY: any byte sequence is valid for this struct.
+>> +// SAFETY: Any byte sequence is valid for this struct.
+>>  unsafe impl FromBytes for FalconAppifV1 {}
+>>  
+>>  #[derive(Debug)]
+>> @@ -68,8 +68,10 @@ struct FalconAppifDmemmapperV3 {
+>>      ucode_cmd_mask1: u32,
+>>      multi_tgt_tbl: u32,
+>>  }
+>> -// SAFETY: any byte sequence is valid for this struct.
+>> +// SAFETY: Any byte sequence is valid for this struct.
 > 
-> This doesn't build for me:
+> I appreciate the capitalization, but these changes are a bit
+> distracting. :) If you absolutely want to do this, let it be its own
+> patch so the current one stays focused on what it actually does.
 > 
->     error[E0277]: the `?` operator can only be used in a closure that returns `Result` or `Option` (or another type that implements `core::ops::FromResidual`)
->       --> ../drivers/gpu/nova-core/dma.rs:31:44
->       |
->     28 |         Self::new(dev, data.len()).map(|mut dma_obj| {
->       |                                        ------------- this function should return `Result` or `Option` to accept `?`
->     ...
->     31 |             unsafe { dma_obj.write(data, 0)? }
->       |                                            ^ cannot use the `?` operator in a closure that returns `dma::DmaObject`
+>>  unsafe impl FromBytes for FalconAppifDmemmapperV3 {}
+>> +// SAFETY: This struct doesn't contain unitialized bytes and doesn't have interior mutability.
 > 
-> Could you double-check? I guess you will need to change the `map` into
-> `and_then`.
+> Typo: s/unitialized/uninitialized (and in other comments as well).
+> 
+I will move the capitalization to another patch and fix the typo.
 
-You are totally right. I'm not sure what happened. I'll fix it. Thanks!
+> Otherwise this looks ok - it doesn't apply cleanly on drm-rust-next
+> though, could you rebase for the next version?
+
+About this, I was basing myself on nova-next [1]. I will rebase on top
+of drm-rust-next for the next version.
+
+
+Link: https://gitlab.freedesktop.org/drm/nova [1]
+Link:
+https://gitlab.freedesktop.org/drm/rust/kernel/-/tree/drm-rust-next [2]
+
+> 
+> Thanks for the cleanup!
+
+Thanks to you for the reviews and the patience!
+
+
+
