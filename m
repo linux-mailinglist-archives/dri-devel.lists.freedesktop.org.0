@@ -2,106 +2,63 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8E065C29371
-	for <lists+dri-devel@lfdr.de>; Sun, 02 Nov 2025 18:16:59 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 78553C2942D
+	for <lists+dri-devel@lfdr.de>; Sun, 02 Nov 2025 18:44:34 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id EE19510E1D4;
-	Sun,  2 Nov 2025 17:16:57 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B014D10E0D7;
+	Sun,  2 Nov 2025 17:44:30 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="tspLq4ix";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="VHrs120P";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sea.source.kernel.org (sea.source.kernel.org [172.234.252.31])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 47E6E10E1D4
- for <dri-devel@lists.freedesktop.org>; Sun,  2 Nov 2025 17:16:56 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by sea.source.kernel.org (Postfix) with ESMTP id 0BA16416D7;
- Sun,  2 Nov 2025 17:16:56 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0A209C4CEF7;
- Sun,  2 Nov 2025 17:16:54 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1762103815;
- bh=6J4RYbNE7xRGZGzVZmTnvJ17pocxZEQO9XjI2jSDlH8=;
- h=Date:From:To:Cc:In-Reply-To:References:Subject:From;
- b=tspLq4ix1Zd1Pz1ACFGUiNmrbJnzPL7WcetUIIaigwHgNSnnvIU97bD5BO9b+1kJW
- 9hMUX7inBLuT4/KYLcVG9AhBgpcZmlahi1nbGKWdD8QFRNI1XyKb9kyhxD1lriax7d
- L7+lsYqNRSlhNOz0bBqADK3QYcCgyGhuAt/yTZjHD8zIfv0/eyK/xM8M82MBMFaofC
- JHi4KzwaSw0HVNGXDzmz1QLTVhKj58VbER6h9g1QEdLlltvOq3nqqmzztDiwzjm68s
- S1D5F2BXFQHxMG9+c375B641x1Aek6ToQdlZW02OAFDPQcmMijETD4JZjipl3UtgyG
- rWR9hIq+gEP7w==
-Received: from phl-compute-04.internal (phl-compute-04.internal [10.202.2.44])
- by mailfauth.phl.internal (Postfix) with ESMTP id 0463EF40066;
- Sun,  2 Nov 2025 12:16:53 -0500 (EST)
-Received: from phl-imap-08 ([10.202.2.84])
- by phl-compute-04.internal (MEProxy); Sun, 02 Nov 2025 12:16:54 -0500
-X-ME-Sender: <xms:BZIHaYuDYmBjtG7IxUKfvEjba2RKlTl6PZHc9IqGhy7j_jG9gMTxwg>
- <xme:BZIHaQS40zUxhPV_fDp3AqrkIE7bV3DYAqxEVG9VTMoSNhTnkeM8e4NmeRVOn9bh6
- C0ttUUKruiqlA23NausYNPjUtH2T_MmINiNR9Ge9obYEtgqTuQOXog>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeeffedrtdeggddujeehkeefucetufdoteggodetrf
- dotffvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfurfetoffkrfgpnffqhgenuceu
- rghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujf
- gurhepofggfffhvfevkfgjfhfutgfgsehtjeertdertddtnecuhfhrohhmpedfnfgvohhn
- ucftohhmrghnohhvshhkhidfuceolhgvohhnsehkvghrnhgvlhdrohhrgheqnecuggftrf
- grthhtvghrnhepjeevffelgfelvdfgvedvteelhefhvdffheegffekveelieevfeejteei
- leeuuedvnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomh
- eplhgvohhnodhmvghsmhhtphgruhhthhhpvghrshhonhgrlhhithihqdduvdeftdehfeel
- keegqddvjeejleejjedvkedqlhgvohhnpeepkhgvrhhnvghlrdhorhhgsehlvghonhdrnh
- hupdhnsggprhgtphhtthhopeefgedpmhhouggvpehsmhhtphhouhhtpdhrtghpthhtohep
- jhhorhhoseeksgihthgvshdrohhrghdprhgtphhtthhopegthhhrihhsthhirghnrdhkoh
- gvnhhighesrghmugdrtghomhdprhgtphhtthhopehrohgsihhnrdhmuhhrphhhhiesrghr
- mhdrtghomhdprhgtphhtthhopehlohhgrghnghesuggvlhhtrghtvggvrdgtohhmpdhrtg
- hpthhtohepsghhvghlghgrrghssehgohhoghhlvgdrtghomhdprhgtphhtthhopehkvghv
- ihhnrdhtihgrnhesihhnthgvlhdrtghomhdprhgtphhtthhopehvihhvvghkrdhkrghsih
- hrvgguugihsehinhhtvghlrdgtohhmpdhrtghpthhtoheprgigsghovgeskhgvrhhnvghl
- rdgukhdprhgtphhtthhopehguhhsthgrvhhorghrsheskhgvrhhnvghlrdhorhhg
-X-ME-Proxy: <xmx:BZIHaR-tvJBh8-mgAOYUGdkn8s8kLulP-EWIIyk8S5GtuaFeBTZsdA>
- <xmx:BZIHaaYTJL4Te_4Fw1GF_JCGz90x2YjX8VH8icEpsxwlFdW8L1BOyw>
- <xmx:BZIHafTp-dL-74eqOB1FVVTeUq8Z5EEatKsfbiYGKBXPZYMUUjiokA>
- <xmx:BZIHaZkRSqwn6yV6mfCDZEPERqhJEoAAI8EBR8iho6RnbORQMwbAEA>
- <xmx:BZIHabI8zmEQV1j8o_hMlt7NB4IWeKKppSR-0yCNW9noFRUXSASJvZ-B>
-Feedback-ID: i927946fb:Fastmail
-Received: by mailuser.phl.internal (Postfix, from userid 501)
- id AD0F62CE0067; Sun,  2 Nov 2025 12:16:53 -0500 (EST)
-X-Mailer: MessagingEngine.com Webmail Interface
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6145F10E0D7
+ for <dri-devel@lists.freedesktop.org>; Sun,  2 Nov 2025 17:44:29 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1762105470; x=1793641470;
+ h=date:from:to:cc:subject:message-id:references:
+ mime-version:in-reply-to;
+ bh=ekob6ZS3c0e8P7kQ1YGKc4ijXiV83ifEYMvyqKxpj+o=;
+ b=VHrs120P63hhSPfYysnHMpMBEsXW5AVLNNGvRF7zMORYtMhcFVWEelWw
+ 1FmIJhE95fmhvv90b04hE8eMDCZJtYehio46Xp8qABxa2MjuYBksvVVUV
+ eR+Dx84hkoVgE/R8kvNWGmiBpc7BcQq7RLTi824F2mttJDHmnobEPycDa
+ 94ti37NYUBaHvEwOcwetLCGZR+s4rCdv30wPL9IR6Rjrtx8Sa5BHBdgc0
+ veyldlU1K+Ins7zadF2P3Ti7GbRqlOojoatl4pv/r8KyubP/VN/E3ubqa
+ H/DcSbJUk2CNS13SY8m63Bamjtr/3L/6b4CcoWn0qogmbaRxvjrY9P39K g==;
+X-CSE-ConnectionGUID: zbjX7QvdTROXGosUeLxfTQ==
+X-CSE-MsgGUID: HYzGNrjrQlyjg+is5DPU4w==
+X-IronPort-AV: E=McAfee;i="6800,10657,11601"; a="75642189"
+X-IronPort-AV: E=Sophos;i="6.19,274,1754982000"; d="scan'208";a="75642189"
+Received: from fmviesa003.fm.intel.com ([10.60.135.143])
+ by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 02 Nov 2025 09:44:29 -0800
+X-CSE-ConnectionGUID: /BtsB9YDTt+7xQWCkAho/g==
+X-CSE-MsgGUID: FxqV+4HOT/ChUNNigG8zzA==
+X-ExtLoop1: 1
+Received: from lkp-server02.sh.intel.com (HELO 66d7546c76b2) ([10.239.97.151])
+ by fmviesa003.fm.intel.com with ESMTP; 02 Nov 2025 09:44:26 -0800
+Received: from kbuild by 66d7546c76b2 with local (Exim 4.96)
+ (envelope-from <lkp@intel.com>) id 1vFc7s-000PTQ-04;
+ Sun, 02 Nov 2025 17:44:24 +0000
+Date: Mon, 3 Nov 2025 01:44:16 +0800
+From: kernel test robot <lkp@intel.com>
+To: Aaron Kling via B4 Relay <devnull+webgeek1234.gmail.com@kernel.org>,
+ Thierry Reding <thierry.reding@gmail.com>,
+ Mikko Perttunen <mperttunen@nvidia.com>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Jonathan Hunter <jonathanh@nvidia.com>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+ dri-devel@lists.freedesktop.org, linux-tegra@vger.kernel.org,
+ linux-kernel@vger.kernel.org, Aaron Kling <webgeek1234@gmail.com>
+Subject: Re: [PATCH] drm/tegra: Enable cmu for Tegra186 and Tegra194
+Message-ID: <202511030131.AADiEKfQ-lkp@intel.com>
+References: <20251101-tegra-drm-cmu-v1-1-211799755ab8@gmail.com>
 MIME-Version: 1.0
-X-ThreadId: A48325OsNhe3
-Date: Sun, 02 Nov 2025 19:16:34 +0200
-From: "Leon Romanovsky" <leon@kernel.org>
-To: "Alex Williamson" <alex@shazbot.org>
-Cc: "Bjorn Helgaas" <bhelgaas@google.com>,
- "Logan Gunthorpe" <logang@deltatee.com>, "Jens Axboe" <axboe@kernel.dk>,
- "Robin Murphy" <robin.murphy@arm.com>, "Joerg Roedel" <joro@8bytes.org>,
- "Will Deacon" <will@kernel.org>,
- "Marek Szyprowski" <m.szyprowski@samsung.com>,
- "Jason Gunthorpe" <jgg@ziepe.ca>,
- "Andrew Morton" <akpm@linux-foundation.org>,
- "Jonathan Corbet" <corbet@lwn.net>,
- "Sumit Semwal" <sumit.semwal@linaro.org>,
- =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
- "Alex Williamson" <alex.williamson@redhat.com>,
- "Kees Cook" <kees@kernel.org>,
- "Gustavo A. R. Silva" <gustavoars@kernel.org>,
- "Ankit Agrawal" <ankita@nvidia.com>, "Yishai Hadas" <yishaih@nvidia.com>,
- "Shameer Kolothum" <skolothumtho@nvidia.com>,
- "Kevin Tian" <kevin.tian@intel.com>,
- "Krishnakant Jaju" <kjaju@nvidia.com>, "Matt Ochs" <mochs@nvidia.com>,
- linux-pci@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-block@vger.kernel.org, iommu@lists.linux.dev, linux-mm@kvack.org,
- linux-doc@vger.kernel.org, linux-media@vger.kernel.org,
- dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org,
- kvm@vger.kernel.org, linux-hardening@vger.kernel.org,
- "Vivek Kasireddy" <vivek.kasireddy@intel.com>
-Message-Id: <d757cbcb-866a-4af4-b4fd-0ba27f706e74@app.fastmail.com>
-In-Reply-To: <20251102101158.6d2c36c6@shazbot.org>
-References: <20251102-dmabuf-vfio-v6-0-d773cff0db9f@nvidia.com>
- <20251102-dmabuf-vfio-v6-10-d773cff0db9f@nvidia.com>
- <20251102080137.209aa567@shazbot.org> <20251102151253.GA50752@unreal>
- <20251102101158.6d2c36c6@shazbot.org>
-Subject: Re: [PATCH v6 10/11] vfio/pci: Add dma-buf export support for MMIO
- regions
-Content-Type: text/plain
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20251101-tegra-drm-cmu-v1-1-211799755ab8@gmail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -117,68 +74,299 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+Hi Aaron,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on dcb6fa37fd7bc9c3d2b066329b0d27dedf8becaa]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Aaron-Kling-via-B4-Relay/drm-tegra-Enable-cmu-for-Tegra186-and-Tegra194/20251102-071726
+base:   dcb6fa37fd7bc9c3d2b066329b0d27dedf8becaa
+patch link:    https://lore.kernel.org/r/20251101-tegra-drm-cmu-v1-1-211799755ab8%40gmail.com
+patch subject: [PATCH] drm/tegra: Enable cmu for Tegra186 and Tegra194
+config: arm-defconfig (https://download.01.org/0day-ci/archive/20251103/202511030131.AADiEKfQ-lkp@intel.com/config)
+compiler: clang version 22.0.0git (https://github.com/llvm/llvm-project d2625a438020ad35330cda29c3def102c1687b1b)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251103/202511030131.AADiEKfQ-lkp@intel.com/reproduce)
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202511030131.AADiEKfQ-lkp@intel.com/
+
+All warnings (new ones prefixed by >>):
+
+>> drivers/gpu/drm/tegra/sor.c:2757:50: warning: shift count >= width of type [-Wshift-count-overflow]
+    2757 |                 tegra_dc_writel(dc, (u32)(sor->cmu_output_phys >> 32),
+         |                                                                ^  ~~
+   1 warning generated.
 
 
-On Sun, Nov 2, 2025, at 19:11, Alex Williamson wrote:
-> On Sun, 2 Nov 2025 17:12:53 +0200
-> Leon Romanovsky <leon@kernel.org> wrote:
->> On Sun, Nov 02, 2025 at 08:01:37AM -0700, Alex Williamson wrote: 
->> > We don't need the separate loop or flag, and adding it breaks the
->> > existing reverse list walk.  Thanks,  
->> 
->> Do you want me to send v7? I have a feeling that v6 is good to be merged.
->
-> Let's hold off, if this ends up being the only fixup I can roll it in.
-> Thanks,
+vim +2757 drivers/gpu/drm/tegra/sor.c
 
-Thanks 
+  2590	
+  2591		/* switch the SOR clock to the pad clock */
+  2592		err = tegra_sor_set_parent_clock(sor, sor->clk_pad);
+  2593		if (err < 0) {
+  2594			dev_err(sor->dev, "failed to select SOR parent clock: %d\n",
+  2595				err);
+  2596			return;
+  2597		}
+  2598	
+  2599		/* switch the output clock to the parent pixel clock */
+  2600		err = clk_set_parent(sor->clk, sor->clk_parent);
+  2601		if (err < 0) {
+  2602			dev_err(sor->dev, "failed to select output parent clock: %d\n",
+  2603				err);
+  2604			return;
+  2605		}
+  2606	
+  2607		/* adjust clock rate for HDMI 2.0 modes */
+  2608		rate = clk_get_rate(sor->clk_parent);
+  2609	
+  2610		if (mode->clock >= 340000)
+  2611			rate /= 2;
+  2612	
+  2613		DRM_DEBUG_KMS("setting clock to %lu Hz, mode: %lu Hz\n", rate, pclk);
+  2614	
+  2615		clk_set_rate(sor->clk, rate);
+  2616	
+  2617		if (!sor->soc->has_nvdisplay) {
+  2618			value = SOR_INPUT_CONTROL_HDMI_SRC_SELECT(dc->pipe);
+  2619	
+  2620			/* XXX is this the proper check? */
+  2621			if (mode->clock < 75000)
+  2622				value |= SOR_INPUT_CONTROL_ARM_VIDEO_RANGE_LIMITED;
+  2623	
+  2624			tegra_sor_writel(sor, value, SOR_INPUT_CONTROL);
+  2625		}
+  2626	
+  2627		max_ac = ((mode->htotal - mode->hdisplay) - SOR_REKEY - 18) / 32;
+  2628	
+  2629		value = SOR_HDMI_CTRL_ENABLE | SOR_HDMI_CTRL_MAX_AC_PACKET(max_ac) |
+  2630			SOR_HDMI_CTRL_AUDIO_LAYOUT | SOR_HDMI_CTRL_REKEY(SOR_REKEY);
+  2631		tegra_sor_writel(sor, value, SOR_HDMI_CTRL);
+  2632	
+  2633		if (!dc->soc->has_nvdisplay) {
+  2634			/* H_PULSE2 setup */
+  2635			pulse_start = h_ref_to_sync +
+  2636				      (mode->hsync_end - mode->hsync_start) +
+  2637				      (mode->htotal - mode->hsync_end) - 10;
+  2638	
+  2639			value = PULSE_LAST_END_A | PULSE_QUAL_VACTIVE |
+  2640				PULSE_POLARITY_HIGH | PULSE_MODE_NORMAL;
+  2641			tegra_dc_writel(dc, value, DC_DISP_H_PULSE2_CONTROL);
+  2642	
+  2643			value = PULSE_END(pulse_start + 8) | PULSE_START(pulse_start);
+  2644			tegra_dc_writel(dc, value, DC_DISP_H_PULSE2_POSITION_A);
+  2645	
+  2646			value = tegra_dc_readl(dc, DC_DISP_DISP_SIGNAL_OPTIONS0);
+  2647			value |= H_PULSE2_ENABLE;
+  2648			tegra_dc_writel(dc, value, DC_DISP_DISP_SIGNAL_OPTIONS0);
+  2649		}
+  2650	
+  2651		/* infoframe setup */
+  2652		err = tegra_sor_hdmi_setup_avi_infoframe(sor, mode);
+  2653		if (err < 0)
+  2654			dev_err(sor->dev, "failed to setup AVI infoframe: %d\n", err);
+  2655	
+  2656		/* XXX HDMI audio support not implemented yet */
+  2657		tegra_sor_hdmi_disable_audio_infoframe(sor);
+  2658	
+  2659		/* use single TMDS protocol */
+  2660		value = tegra_sor_readl(sor, SOR_STATE1);
+  2661		value &= ~SOR_STATE_ASY_PROTOCOL_MASK;
+  2662		value |= SOR_STATE_ASY_PROTOCOL_SINGLE_TMDS_A;
+  2663		tegra_sor_writel(sor, value, SOR_STATE1);
+  2664	
+  2665		/* power up pad calibration */
+  2666		value = tegra_sor_readl(sor, sor->soc->regs->dp_padctl0);
+  2667		value &= ~SOR_DP_PADCTL_PAD_CAL_PD;
+  2668		tegra_sor_writel(sor, value, sor->soc->regs->dp_padctl0);
+  2669	
+  2670		/* production settings */
+  2671		settings = tegra_sor_hdmi_find_settings(sor, mode->clock * 1000);
+  2672		if (!settings) {
+  2673			dev_err(sor->dev, "no settings for pixel clock %d Hz\n",
+  2674				mode->clock * 1000);
+  2675			return;
+  2676		}
+  2677	
+  2678		value = tegra_sor_readl(sor, sor->soc->regs->pll0);
+  2679		value &= ~SOR_PLL0_ICHPMP_MASK;
+  2680		value &= ~SOR_PLL0_FILTER_MASK;
+  2681		value &= ~SOR_PLL0_VCOCAP_MASK;
+  2682		value |= SOR_PLL0_ICHPMP(settings->ichpmp);
+  2683		value |= SOR_PLL0_FILTER(settings->filter);
+  2684		value |= SOR_PLL0_VCOCAP(settings->vcocap);
+  2685		tegra_sor_writel(sor, value, sor->soc->regs->pll0);
+  2686	
+  2687		/* XXX not in TRM */
+  2688		value = tegra_sor_readl(sor, sor->soc->regs->pll1);
+  2689		value &= ~SOR_PLL1_LOADADJ_MASK;
+  2690		value &= ~SOR_PLL1_TMDS_TERMADJ_MASK;
+  2691		value |= SOR_PLL1_LOADADJ(settings->loadadj);
+  2692		value |= SOR_PLL1_TMDS_TERMADJ(settings->tmds_termadj);
+  2693		value |= SOR_PLL1_TMDS_TERM;
+  2694		tegra_sor_writel(sor, value, sor->soc->regs->pll1);
+  2695	
+  2696		value = tegra_sor_readl(sor, sor->soc->regs->pll3);
+  2697		value &= ~SOR_PLL3_BG_TEMP_COEF_MASK;
+  2698		value &= ~SOR_PLL3_BG_VREF_LEVEL_MASK;
+  2699		value &= ~SOR_PLL3_AVDD10_LEVEL_MASK;
+  2700		value &= ~SOR_PLL3_AVDD14_LEVEL_MASK;
+  2701		value |= SOR_PLL3_BG_TEMP_COEF(settings->bg_temp_coef);
+  2702		value |= SOR_PLL3_BG_VREF_LEVEL(settings->bg_vref_level);
+  2703		value |= SOR_PLL3_AVDD10_LEVEL(settings->avdd10_level);
+  2704		value |= SOR_PLL3_AVDD14_LEVEL(settings->avdd14_level);
+  2705		tegra_sor_writel(sor, value, sor->soc->regs->pll3);
+  2706	
+  2707		value = settings->drive_current[3] << 24 |
+  2708			settings->drive_current[2] << 16 |
+  2709			settings->drive_current[1] <<  8 |
+  2710			settings->drive_current[0] <<  0;
+  2711		tegra_sor_writel(sor, value, SOR_LANE_DRIVE_CURRENT0);
+  2712	
+  2713		value = settings->preemphasis[3] << 24 |
+  2714			settings->preemphasis[2] << 16 |
+  2715			settings->preemphasis[1] <<  8 |
+  2716			settings->preemphasis[0] <<  0;
+  2717		tegra_sor_writel(sor, value, SOR_LANE_PREEMPHASIS0);
+  2718	
+  2719		value = tegra_sor_readl(sor, sor->soc->regs->dp_padctl0);
+  2720		value &= ~SOR_DP_PADCTL_TX_PU_MASK;
+  2721		value |= SOR_DP_PADCTL_TX_PU_ENABLE;
+  2722		value |= SOR_DP_PADCTL_TX_PU(settings->tx_pu_value);
+  2723		tegra_sor_writel(sor, value, sor->soc->regs->dp_padctl0);
+  2724	
+  2725		value = tegra_sor_readl(sor, sor->soc->regs->dp_padctl2);
+  2726		value &= ~SOR_DP_PADCTL_SPAREPLL_MASK;
+  2727		value |= SOR_DP_PADCTL_SPAREPLL(settings->sparepll);
+  2728		tegra_sor_writel(sor, value, sor->soc->regs->dp_padctl2);
+  2729	
+  2730		/* power down pad calibration */
+  2731		value = tegra_sor_readl(sor, sor->soc->regs->dp_padctl0);
+  2732		value |= SOR_DP_PADCTL_PAD_CAL_PD;
+  2733		tegra_sor_writel(sor, value, sor->soc->regs->dp_padctl0);
+  2734	
+  2735		if (!dc->soc->has_nvdisplay) {
+  2736			/* miscellaneous display controller settings */
+  2737			value = VSYNC_H_POSITION(1);
+  2738			tegra_dc_writel(dc, value, DC_DISP_DISP_TIMING_OPTIONS);
+  2739		}
+  2740	
+  2741		value = tegra_dc_readl(dc, DC_DISP_DISP_COLOR_CONTROL);
+  2742		value &= ~DITHER_CONTROL_MASK;
+  2743		value &= ~BASE_COLOR_SIZE_MASK;
+  2744	
+  2745		if (dc->soc->has_nvdisplay) {
+  2746			sor->cmu_output_lut =
+  2747				dma_alloc_coherent(dc->dev, ARRAY_SIZE(default_srgb_lut) * sizeof(u64),
+  2748						   &sor->cmu_output_phys, GFP_KERNEL);
+  2749	
+  2750			for (i = 0; i < ARRAY_SIZE(default_srgb_lut); i++) {
+  2751				r = default_srgb_lut[i];
+  2752				sor->cmu_output_lut[i] = (r << 32) | (r << 16) | r;
+  2753			}
+  2754	
+  2755			tegra_dc_writel(dc, (u32)(sor->cmu_output_phys & 0xffffffff),
+  2756					DC_DISP_COREPVT_HEAD_SET_OUTPUT_LUT_BASE);
+> 2757			tegra_dc_writel(dc, (u32)(sor->cmu_output_phys >> 32),
+  2758					DC_DISP_COREPVT_HEAD_SET_OUTPUT_LUT_BASE_HI);
+  2759	
+  2760			tegra_dc_writel(dc, OUTPUT_LUT_MODE_INTERPOLATE | OUTPUT_LUT_SIZE_SIZE_1025,
+  2761					DC_DISP_CORE_HEAD_SET_CONTROL_OUTPUT_LUT);
+  2762	
+  2763			value |= CMU_ENABLE_ENABLE;
+  2764		}
+  2765	
+  2766		switch (state->bpc) {
+  2767		case 6:
+  2768			value |= BASE_COLOR_SIZE_666;
+  2769			break;
+  2770	
+  2771		case 8:
+  2772			value |= BASE_COLOR_SIZE_888;
+  2773			break;
+  2774	
+  2775		case 10:
+  2776			value |= BASE_COLOR_SIZE_101010;
+  2777			break;
+  2778	
+  2779		case 12:
+  2780			value |= BASE_COLOR_SIZE_121212;
+  2781			break;
+  2782	
+  2783		default:
+  2784			WARN(1, "%u bits-per-color not supported\n", state->bpc);
+  2785			value |= BASE_COLOR_SIZE_888;
+  2786			break;
+  2787		}
+  2788	
+  2789		tegra_dc_writel(dc, value, DC_DISP_DISP_COLOR_CONTROL);
+  2790	
+  2791		/* XXX set display head owner */
+  2792		value = tegra_sor_readl(sor, SOR_STATE1);
+  2793		value &= ~SOR_STATE_ASY_OWNER_MASK;
+  2794		value |= SOR_STATE_ASY_OWNER(1 + dc->pipe);
+  2795		tegra_sor_writel(sor, value, SOR_STATE1);
+  2796	
+  2797		err = tegra_sor_power_up(sor, 250);
+  2798		if (err < 0)
+  2799			dev_err(sor->dev, "failed to power up SOR: %d\n", err);
+  2800	
+  2801		/* configure dynamic range of output */
+  2802		value = tegra_sor_readl(sor, sor->soc->regs->head_state0 + dc->pipe);
+  2803		value &= ~SOR_HEAD_STATE_RANGECOMPRESS_MASK;
+  2804		value &= ~SOR_HEAD_STATE_DYNRANGE_MASK;
+  2805		tegra_sor_writel(sor, value, sor->soc->regs->head_state0 + dc->pipe);
+  2806	
+  2807		/* configure colorspace */
+  2808		value = tegra_sor_readl(sor, sor->soc->regs->head_state0 + dc->pipe);
+  2809		value &= ~SOR_HEAD_STATE_COLORSPACE_MASK;
+  2810		value |= SOR_HEAD_STATE_COLORSPACE_RGB;
+  2811		tegra_sor_writel(sor, value, sor->soc->regs->head_state0 + dc->pipe);
+  2812	
+  2813		tegra_sor_mode_set(sor, mode, state);
+  2814	
+  2815		tegra_sor_update(sor);
+  2816	
+  2817		/* program preamble timing in SOR (XXX) */
+  2818		value = tegra_sor_readl(sor, SOR_DP_SPARE0);
+  2819		value &= ~SOR_DP_SPARE_DISP_VIDEO_PREAMBLE;
+  2820		tegra_sor_writel(sor, value, SOR_DP_SPARE0);
+  2821	
+  2822		err = tegra_sor_attach(sor);
+  2823		if (err < 0)
+  2824			dev_err(sor->dev, "failed to attach SOR: %d\n", err);
+  2825	
+  2826		/* enable display to SOR clock and generate HDMI preamble */
+  2827		value = tegra_dc_readl(dc, DC_DISP_DISP_WIN_OPTIONS);
+  2828	
+  2829		if (!sor->soc->has_nvdisplay)
+  2830			value |= SOR1_TIMING_CYA;
+  2831	
+  2832		value |= SOR_ENABLE(sor->index);
+  2833	
+  2834		tegra_dc_writel(dc, value, DC_DISP_DISP_WIN_OPTIONS);
+  2835	
+  2836		if (dc->soc->has_nvdisplay) {
+  2837			value = tegra_dc_readl(dc, DC_DISP_CORE_SOR_SET_CONTROL(sor->index));
+  2838			value &= ~PROTOCOL_MASK;
+  2839			value |= PROTOCOL_SINGLE_TMDS_A;
+  2840			tegra_dc_writel(dc, value, DC_DISP_CORE_SOR_SET_CONTROL(sor->index));
+  2841		}
+  2842	
+  2843		tegra_dc_commit(dc);
+  2844	
+  2845		err = tegra_sor_wakeup(sor);
+  2846		if (err < 0)
+  2847			dev_err(sor->dev, "failed to wakeup SOR: %d\n", err);
+  2848	
+  2849		tegra_sor_hdmi_scdc_start(sor);
+  2850		tegra_sor_audio_prepare(sor);
+  2851	}
+  2852	
 
->
-> Alex
-> 
->> diff --git a/drivers/vfio/pci/vfio_pci_core.c b/drivers/vfio/pci/vfio_pci_core.c
->> index 24204893e221..51a3bcc26f8b 100644
->> --- a/drivers/vfio/pci/vfio_pci_core.c
->> +++ b/drivers/vfio/pci/vfio_pci_core.c
->> @@ -2403,7 +2403,6 @@ static int vfio_pci_dev_set_hot_reset(struct vfio_device_set *dev_set,
->>                                       struct iommufd_ctx *iommufd_ctx)
->>  {
->>         struct vfio_pci_core_device *vdev;
->> -       bool restore_revoke = false;
->>         struct pci_dev *pdev;
->>         int ret;
->>  
->> @@ -2473,7 +2472,6 @@ static int vfio_pci_dev_set_hot_reset(struct vfio_device_set *dev_set,
->>                 }
->>  
->>                 vfio_pci_dma_buf_move(vdev, true);
->> -               restore_revoke = true;
->>                 vfio_pci_zap_bars(vdev);
->>         }
->>  
->> @@ -2501,15 +2499,12 @@ static int vfio_pci_dev_set_hot_reset(struct vfio_device_set *dev_set,
->>                                struct vfio_pci_core_device, vdev.dev_set_list);
->>  
->>  err_undo:
->> -       if (restore_revoke) {
->> -               list_for_each_entry(vdev, &dev_set->device_list, vdev.dev_set_list)
->> -                       if (__vfio_pci_memory_enabled(vdev))
->> -                               vfio_pci_dma_buf_move(vdev, false);
->> -       }
->> -
->>         list_for_each_entry_from_reverse(vdev, &dev_set->device_list,
->> -                                        vdev.dev_set_list)
->> +                                        vdev.dev_set_list) {
->> +               if (__vfio_pci_memory_enabled(vdev))
->> +                       vfio_pci_dma_buf_move(vdev, false);
->>                 up_write(&vdev->memory_lock);
->> +       }
->>  
->>         list_for_each_entry(vdev, &dev_set->device_list, vdev.dev_set_list)
->>                 pm_runtime_put(&vdev->pdev->dev);
->> 
->> 
->> > 
->> > Alex
->> >   
->>
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
