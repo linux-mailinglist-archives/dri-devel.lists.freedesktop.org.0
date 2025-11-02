@@ -2,75 +2,65 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C8AF8C28C8E
-	for <lists+dri-devel@lfdr.de>; Sun, 02 Nov 2025 10:28:14 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id D37A0C28D4E
+	for <lists+dri-devel@lfdr.de>; Sun, 02 Nov 2025 11:26:31 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1C1FF10E02E;
-	Sun,  2 Nov 2025 09:28:12 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 784A610E02F;
+	Sun,  2 Nov 2025 10:26:28 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="dksYxdpv";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="G63+It9b";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ua1-f53.google.com (mail-ua1-f53.google.com
- [209.85.222.53])
- by gabe.freedesktop.org (Postfix) with ESMTPS id EBEAD10E02E
- for <dri-devel@lists.freedesktop.org>; Sun,  2 Nov 2025 09:28:10 +0000 (UTC)
-Received: by mail-ua1-f53.google.com with SMTP id
- a1e0cc1a2514c-934fb15ee9dso1289249241.1
- for <dri-devel@lists.freedesktop.org>; Sun, 02 Nov 2025 01:28:10 -0800 (PST)
+Received: from mail-oo1-f42.google.com (mail-oo1-f42.google.com
+ [209.85.161.42])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 252FF10E02F
+ for <dri-devel@lists.freedesktop.org>; Sun,  2 Nov 2025 10:26:27 +0000 (UTC)
+Received: by mail-oo1-f42.google.com with SMTP id
+ 006d021491bc7-654fa5780f1so74233eaf.2
+ for <dri-devel@lists.freedesktop.org>; Sun, 02 Nov 2025 02:26:27 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1762075689; x=1762680489; darn=lists.freedesktop.org;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=FD9xDvssjzVBPML49kAzttrJKM9EYRI+EGQcxwiKXKQ=;
- b=dksYxdpvJxuVUV32icWaY/CGt2iYUdbbbuMsM8ureiWGXcpAIZjreOTR9n2yTo4FLr
- mw0P3nfN08lJK+IuCGHksprrapOOH7uM5QEckQuNGefxdBFbbF34CQ7XRpI2V54UADGE
- l80bN7mgyBP1uhNJw2xhyfPVhy4y+Xb17fCK/mX1kIWRcKHpBFaIqvsFvCQlAW9ljH3Q
- PGvjdReFY+Va4Peyix0tGMM755ODBLzK+3D2udscmzkx1zNX5WmhuK0l4+URH+xvUgR0
- inMI63dNPUSX5VOsw3NwK5yZBzZT0KCfV6ChXRkDLBgyNR3L8v1xIMI6BKpvS5vmQh0h
- 2CbQ==
+ d=gmail.com; s=20230601; t=1762079186; x=1762683986; darn=lists.freedesktop.org;
+ h=cc:to:subject:message-id:date:from:mime-version:from:to:cc:subject
+ :date:message-id:reply-to;
+ bh=hPH7z91/SHPTqeGI2Zb3u2B7+TDbBA+6Nni03MInLvg=;
+ b=G63+It9bNpx1Ii20RSyo4+4/oTsEnUHMV6cZU2ly3t+ZeSqavHT8wn3HRSm8dIqK70
+ l2i8hnfiMU+1ALGHHmILWsZQV2Y6Uz6PBbNUKjPMmfV8VX96iBHLzWfsonTYbhRBhSht
+ LCfa84K7l6cxC/HCMAp4FxXGq7H+v/Pvkuww0Fepm9N48akCJQlThSE/J6G01qsPyeeM
+ 6SSknxExTiwM3yXu3c/iF9tyxbv6aRO8zXzxPHt6/bORJGudl6PNor6kxbBlfzd5cZmn
+ MhptuNSnAC7yQwG4hS0Mqme2+e21IU6w/hWdVOfKe5H86qD6RpkfX85sPUFvSqveSNrM
+ PL/w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1762075689; x=1762680489;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=FD9xDvssjzVBPML49kAzttrJKM9EYRI+EGQcxwiKXKQ=;
- b=jfoNvicSN5Z1usbzyDr80kf8kncMQWPUs4GkIVAyTB0TpDdmh7VLC9YX76EXF5OPBL
- LBAD0+f6NB2hQ5DWlikI3rOriVTyn1Yx/jykcrp03CAWImNzg/x5glEMjZzrUgP9vIFa
- FPgz08p3rB/vsYFY5WDEvklZW5+nBtgLTWHkHdD8Sh8ZYDaMQubNUwaJkMkbWo0ezQc1
- lYGVVZeLNT2JWBFKAFlsREG0GEZA/tgRCMgt2PQp2I9NIYKAVvLaGpOgbb0nWI5lnXqf
- /HzqzduxAh/Oc8SC2kmPZF80kpBfuozQKhpl6Pti8WpXRgF4e0fUESVqB0mLa4I2rv8r
- 0XKQ==
-X-Forwarded-Encrypted: i=1;
- AJvYcCVnkZTeNHsJD/sW7YwGrRxxsa67qUzzSyeuecU4e1GzBbaX0+bm0AjIcpuDJwlSgFXYsvONiRlhncI=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YzL7R4Pf6ektLFYgER23XUMNcBhAXTCxmc/09gaKyb+Fie93WrX
- zwyVeZ2lJlhqSWXAXBvpvliX6/M3bF87Frb//Kw+88H8ZFEKDcAVFidxbIroWc9znE2SLDrvhsl
- X19BFrfaAgqoMEyxDlJNqXthRD0WBHeA=
-X-Gm-Gg: ASbGnctnGk8JSSX6GbQ9dGV91UXhq1g6OIXrE0jh63eAgkQTjdAo/qPtsLP5jM2BHut
- 7NmgFj2fs2s7JFs1CCd+0VqtpLyTo5M5lb4bosvLkJXVXn71YWtsGVf6TUhEDoWfnn0ITqgidYD
- RQt6kn9kTnKpTfbuWhrf6iMuUve5nGdggOGRwedbocJfUcra3byai7EoZB3Amnojfe2YdavhgqV
- HQnOZvytLYvGeNnqNUOPtse7FcduSlmRKPZccKmh3sx9xw1i1apJNP5Ce6eW/4GhjnFKO03tKaC
- RpUcTAaDCq4N8aZVgBc=
-X-Google-Smtp-Source: AGHT+IHxc3zPuTYwZUI724Vsi0NozZ2WEXr0k3nxeAvnZf/T+liPSxekEHB9GMCjmHrI87ninqDnXcAGJzIDHaWgyXE=
-X-Received: by 2002:a05:6102:3a0c:b0:5db:d91a:ff4f with SMTP id
- ada2fe7eead31-5dbd91b0798mr223857137.28.1762075689415; Sun, 02 Nov 2025
- 01:28:09 -0800 (PST)
+ d=1e100.net; s=20230601; t=1762079186; x=1762683986;
+ h=cc:to:subject:message-id:date:from:mime-version:x-gm-message-state
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=hPH7z91/SHPTqeGI2Zb3u2B7+TDbBA+6Nni03MInLvg=;
+ b=uBLoUvPKsExkwbs5Ou5QkE4xo81naHrQzZvLyRItV5OcBui/wSKyn+EIxDzyU6sZxD
+ vfXWgA66dLpnTSkH4PJAULXgsJ+RTMj7kxlb4KeYOIfQsFOt+lI0dc/PNa8IIp8RJwxM
+ AoA7p2zpcfiJV5R+kxRSO07hlgv9V2D/AUzSlRZavzczxNJOucbi/NTQyCI09ynixYVr
+ M+CtHEO2qsZRAFlCynOTRBLHmhaILPorSmze1Rlta/sV79xjKbsaW7QHwc/JNhsAI2Xk
+ sTXzW2GvT5feaU7vhRrYlVhgL8E2MmzhCXr0Jpm1SiMiKssvHLoGPaNZCSRIRAXFzMMp
+ dl1Q==
+X-Gm-Message-State: AOJu0YxhBLStrqZtRCkcHAkhM24vdvAsSwhFWsx8DRZccMQO3oVhknHR
+ bb+3K2482PzYpKhF1k/oQKc0bOMnk9ksXF1Bfv/iSWfGmeFmOAvZ97nFNi0J/5CUpH8BGZU4DsL
+ 3RtWunMz0sgiF1Gwc92ozeob7zbjw0wzl5Z4S
+X-Gm-Gg: ASbGnctyds1Fjc1DK3t5QFky8MNOGD+rTYCqOaHFwZTnv1h9uhy/czg375lFb+6Z6mR
+ yQLlWLVB55BOhHaJNsxmRDC2m6puaKlYLPIWTnAGBMpdl4rm6xEGQ0BVXx7R+NQDHyMgBABICam
+ bPM5H6325Zdes+xf2p9XXy/Z/OhoU8C0FtzlxA6Yk5MRoGcPjPz1WZINXHJo71IZVV98Rvbxrs8
+ gfIcmApc78/1FrwTGOB0zKL9I5TH37KJ1sy8jmKSWr84goNxeI3Rerayjud
+X-Google-Smtp-Source: AGHT+IESdEmV+nwzhL53FS+XasCC3nmpvjK4fRmTLpOC+MWzSdlrUIWwO871hhi0hspl4lX1EiRzAQKpuidEc8KeNXs=
+X-Received: by 2002:a05:6820:c099:10b0:654:fd22:4b79 with SMTP id
+ 006d021491bc7-6568a671e58mr1608539eaf.3.1762079186099; Sun, 02 Nov 2025
+ 02:26:26 -0800 (PST)
 MIME-Version: 1.0
-References: <1043551.1761844832@turing-police>
- <32ed124e9d603cad950c4836c7a14a3ba8bc2068.camel@gmail.com>
- <1296761.1762045181@turing-police>
-In-Reply-To: <1296761.1762045181@turing-police>
-From: =?UTF-8?Q?Timur_Krist=C3=B3f?= <timur.kristof@gmail.com>
-Date: Sun, 2 Nov 2025 10:27:54 +0100
-X-Gm-Features: AWmQ_bnzbmuLls5PGeFmTvPuXuD55fdLdPAugDkJXyG6xMHZuv-ohFSBcMEuhQY
-Message-ID: <CAFF-SiU3XL5pZAzsB=eXi7e1LKzx5XwiNOyfGpPXOnnc6uo2cw@mail.gmail.com>
-Subject: Re: linux-next-20251029 - build error in amdgpu
-To: =?UTF-8?Q?Valdis_Kl=C4=93tnieks?= <valdis.kletnieks@vt.edu>
-Cc: Alex Deucher <alexander.deucher@amd.com>, Leo Li <sunpeng.li@amd.com>, 
- David Airlie <airlied@gmail.com>, amd-gfx list <amd-gfx@lists.freedesktop.org>,
- dri-devel <dri-devel@lists.freedesktop.org>, linux-kernel@vger.kernel.org
-Content-Type: multipart/alternative; boundary="00000000000088f7e006429937d9"
+From: =?UTF-8?B?TWFyZWsgT2zFocOhaw==?= <maraeo@gmail.com>
+Date: Sun, 2 Nov 2025 05:25:49 -0500
+X-Gm-Features: AWmQ_blKPgpdWXwySVFlWIsLNESdh-5ILPAMMKhOgpFgiz7fr0u6sExrPmDW3bY
+Message-ID: <CAAxE2A4uEkZ7bqimf+WVC8vsQwmNU23UBuy=3YToxzZ+=J=5fQ@mail.gmail.com>
+Subject: [ANNOUNCE] libdrm 2.4.128
+To: xorg-announce@lists.x.org
+Cc: dri-devel <dri-devel@lists.freedesktop.org>
+Content-Type: multipart/mixed; boundary="000000000000f43ec106429a0765"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -86,104 +76,107 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
---00000000000088f7e006429937d9
+--000000000000f43ec106429a0765
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-Hello Valdis,
+-----BEGIN PGP SIGNED MESSAGE-----
+Hash: SHA512
 
-I use Fedora and I developed that patch on Fedora, using the same GCC
-version. It did not give me an error or warning when I wrote the patch. It
-is still not giving me an error or warning about that code now.
+libdrm 2.4.128 has been released.
 
-I am working with the amd-staging-drm-next branch.
+Versions 2.4.126 and 2.4.127 contain an ABI breakage in libdrm_amdgpu.
 
-What do I need to do to trigger the warning?
+Depending on which Mesa version or commit you use, you may see stack
+smashing resulting in crashes of AMD Mesa drivers. It's recommended to
+never package versions 2.4.126 and 2.4.127.
 
-Thanks & best regards,
-Timur
 
-Valdis Kl=C4=93tnieks <valdis.kletnieks@vt.edu> ezt =C3=ADrta (id=C5=91pont=
-: 2025. nov.
-2., Vas 1:59):
+Christian K=C3=B6nig (1):
+    test/amdgpu: remove amdgpu unit tests
 
-> On Thu, 30 Oct 2025 19:05:30 +0100, Timur Krist=C3=B3f said:
->
-> > Can you say how to reproduce that?
-> > I use the same version of GCC but it hasn't given me any warning or
-> > error for that patch.
->
-> Upon further testing,
->
-> [/usr/src/linux-next] make
->
-> is sufficient on my system. Turns out that it errors out even without W=
-=3D1.
-> My
-> next guess was that it had to do with -Werror, which would cause warnings
-> to
-> be treated as errors, but my .config has
->
-> # CONFIG_WERROR is not set
-> # CONFIG_DRM_WERROR is not set
-> # CONFIG_DRM_AMDGPU_WERROR is not set
->
-> Do you perhaps have patches in your tree that aren't in next-20251029?
->
-> I wonder if Fedora's build of gcc 15.2.1 is different somehow from the
-> build you're using....
->
->
->
->
+Jesse.Zhang (1):
+    amdgpu: Add parameter validation to amdgpu_bo functions to fix SIGSEGV
 
---00000000000088f7e006429937d9
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Marek Ol=C5=A1=C3=A1k (2):
+    Revert ABI breakage "drm/amdgpu: Add user queue HQD count to hw_ip info=
+"
+    Bump version to 2.4.128
 
-<div dir=3D"auto">Hello Valdis,<div dir=3D"auto"><br></div><div dir=3D"auto=
-">I use Fedora and I developed that patch on Fedora, using the same GCC ver=
-sion. It did not give me an error or warning when I wrote the patch. It is =
-still not giving me an error or warning about that code now.</div><div dir=
-=3D"auto"><br></div><div dir=3D"auto">I am working with the amd-staging-drm=
--next branch.</div><div dir=3D"auto"><br></div><div dir=3D"auto">What do I =
-need to do to trigger the warning?</div><div dir=3D"auto"><br></div><div di=
-r=3D"auto">Thanks &amp; best regards,</div><div dir=3D"auto">Timur</div></d=
-iv><br><div class=3D"gmail_quote gmail_quote_container"><div dir=3D"ltr" cl=
-ass=3D"gmail_attr">Valdis Kl=C4=93tnieks &lt;<a href=3D"mailto:valdis.kletn=
-ieks@vt.edu">valdis.kletnieks@vt.edu</a>&gt; ezt =C3=ADrta (id=C5=91pont: 2=
-025. nov. 2., Vas 1:59):<br></div><blockquote class=3D"gmail_quote" style=
-=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex">On Thu, =
-30 Oct 2025 19:05:30 +0100, Timur Krist=C3=B3f said:<br>
-<br>
-&gt; Can you say how to reproduce that?<br>
-&gt; I use the same version of GCC but it hasn&#39;t given me any warning o=
-r<br>
-&gt; error for that patch.<br>
-<br>
-Upon further testing, <br>
-<br>
-[/usr/src/linux-next] make <br>
-<br>
-is sufficient on my system. Turns out that it errors out even without W=3D1=
-. My<br>
-next guess was that it had to do with -Werror, which would cause warnings t=
-o<br>
-be treated as errors, but my .config has<br>
-<br>
-# CONFIG_WERROR is not set<br>
-# CONFIG_DRM_WERROR is not set<br>
-# CONFIG_DRM_AMDGPU_WERROR is not set<br>
-<br>
-Do you perhaps have patches in your tree that aren&#39;t in next-20251029?<=
-br>
-<br>
-I wonder if Fedora&#39;s build of gcc 15.2.1 is different somehow from the<=
-br>
-build you&#39;re using....<br>
-<br>
-<br>
-<br>
-</blockquote></div>
+Mario Limonciello (2):
+    amdgpu: Read model name from /proc/cpuinfo for APUs
+    amdgpu: Only read /proc/cpuinfo as a fallback
 
---00000000000088f7e006429937d9--
+Mario Limonciello (AMD) (1):
+    amdgpu: Slice and dice the string for APUs
+
+git tag: libdrm-2.4.128
+
+https://dri.freedesktop.org/libdrm/libdrm-2.4.128.tar.xz
+SHA256: 3bb35db8700c2a0b569f2c6729a53f5495786856b310854c8de57782a22bddac
+  libdrm-2.4.128.tar.xz
+
+(concatenate both halves)
+SHA512: b80e6be1c9d0427e1c3ffd018213d7230333f037498cf98819a8a6c50d923ad3
+        472002044e010ca9dc646ef79dbca241bd47eaa992014cb7063b31cdb84037c7
+  libdrm-2.4.128.tar.xz
+
+PGP:  https://dri.freedesktop.org/libdrm/libdrm-2.4.128.tar.xz.sig
+
+-----BEGIN PGP SIGNATURE-----
+
+iQGzBAEBCgAdFiEE86UtuOzp654zvEjGkXo+6XoPzRoFAmkHLzgACgkQkXo+6XoP
+zRr5vQwApi0CRI/+uKxUnerBbSkj8mCrKxlEZVkMwGTfthBCSPtCNOz1borMhDJL
+T7xNKLWLqfgXS9q52M8DdfhZo9ROXPtMmPiP3Lp2j+SNKGu6urVCwFoZx5PJzllP
+d4fiufyetahq83CQZO4nCKv6CbIf+baprNtZlZHu+eNqAFN0862zbE3InhFtM/ar
+TcUs0z6xB41RDZ8F3MLCx+Ry2Vd0/3raZ7SSprIhrmAfwI4I/wcBLrrOWV0KPC+k
+he/pAHigQkz7CyglqcIKEej73HYATQ+bgNRRMrLKvkgD+XInlL74WUwP0daEGtpm
+f8EJjsJfUioR3Gu/VBZw2Bg9OcUtETnnreA3KOUvvLfycOUEPgBXPRSFIfrxmCXY
+iHXT4VpvB4RYV6kW7eSOwoNluHNeVCXRFzCUI4VunALAxuVZbfqAA6FbFHQ40XlE
+o08FgUGKhQVJKqzkgC19Ye9kmMk4ag3HLFOiuLqsRKht3tRP1a6hYvt2I+O/zJ8x
+N2TkFSaq
+=3Dkkag
+-----END PGP SIGNATURE-----
+
+--000000000000f43ec106429a0765
+Content-Type: text/plain; charset="UTF-8"; name="announce.txt.asc"
+Content-Disposition: attachment; filename="announce.txt.asc"
+Content-Transfer-Encoding: base64
+Content-ID: <f_mhhkf3l90>
+X-Attachment-Id: f_mhhkf3l90
+
+LS0tLS1CRUdJTiBQR1AgU0lHTkVEIE1FU1NBR0UtLS0tLQpIYXNoOiBTSEE1MTIKCmxpYmRybSAy
+LjQuMTI4IGhhcyBiZWVuIHJlbGVhc2VkLgoKVmVyc2lvbnMgMi40LjEyNiBhbmQgMi40LjEyNyBj
+b250YWluIGFuIEFCSSBicmVha2FnZSBpbiBsaWJkcm1fYW1kZ3B1LgoKRGVwZW5kaW5nIG9uIHdo
+aWNoIE1lc2EgdmVyc2lvbiBvciBjb21taXQgeW91IHVzZSwgeW91IG1heSBzZWUgc3RhY2sKc21h
+c2hpbmcgcmVzdWx0aW5nIGluIGNyYXNoZXMgb2YgQU1EIE1lc2EgZHJpdmVycy4gSXQncyByZWNv
+bW1lbmRlZCB0bwpuZXZlciBwYWNrYWdlIHZlcnNpb25zIDIuNC4xMjYgYW5kIDIuNC4xMjcuCgoK
+Q2hyaXN0aWFuIEvDtm5pZyAoMSk6CiAgICB0ZXN0L2FtZGdwdTogcmVtb3ZlIGFtZGdwdSB1bml0
+IHRlc3RzCgpKZXNzZS5aaGFuZyAoMSk6CiAgICBhbWRncHU6IEFkZCBwYXJhbWV0ZXIgdmFsaWRh
+dGlvbiB0byBhbWRncHVfYm8gZnVuY3Rpb25zIHRvIGZpeCBTSUdTRUdWCgpNYXJlayBPbMWhw6Fr
+ICgyKToKICAgIFJldmVydCBBQkkgYnJlYWthZ2UgImRybS9hbWRncHU6IEFkZCB1c2VyIHF1ZXVl
+IEhRRCBjb3VudCB0byBod19pcCBpbmZvIgogICAgQnVtcCB2ZXJzaW9uIHRvIDIuNC4xMjgKCk1h
+cmlvIExpbW9uY2llbGxvICgyKToKICAgIGFtZGdwdTogUmVhZCBtb2RlbCBuYW1lIGZyb20gL3By
+b2MvY3B1aW5mbyBmb3IgQVBVcwogICAgYW1kZ3B1OiBPbmx5IHJlYWQgL3Byb2MvY3B1aW5mbyBh
+cyBhIGZhbGxiYWNrCgpNYXJpbyBMaW1vbmNpZWxsbyAoQU1EKSAoMSk6CiAgICBhbWRncHU6IFNs
+aWNlIGFuZCBkaWNlIHRoZSBzdHJpbmcgZm9yIEFQVXMKCmdpdCB0YWc6IGxpYmRybS0yLjQuMTI4
+CgpodHRwczovL2RyaS5mcmVlZGVza3RvcC5vcmcvbGliZHJtL2xpYmRybS0yLjQuMTI4LnRhci54
+egpTSEEyNTY6IDNiYjM1ZGI4NzAwYzJhMGI1NjlmMmM2NzI5YTUzZjU0OTU3ODY4NTZiMzEwODU0
+YzhkZTU3NzgyYTIyYmRkYWMKICBsaWJkcm0tMi40LjEyOC50YXIueHoKCihjb25jYXRlbmF0ZSBi
+b3RoIGhhbHZlcykKU0hBNTEyOiBiODBlNmJlMWM5ZDA0MjdlMWMzZmZkMDE4MjEzZDcyMzAzMzNm
+MDM3NDk4Y2Y5ODgxOWE4YTZjNTBkOTIzYWQzCiAgICAgICAgNDcyMDAyMDQ0ZTAxMGNhOWRjNjQ2
+ZWY3OWRiY2EyNDFiZDQ3ZWFhOTkyMDE0Y2I3MDYzYjMxY2RiODQwMzdjNwogIGxpYmRybS0yLjQu
+MTI4LnRhci54egoKUEdQOiAgaHR0cHM6Ly9kcmkuZnJlZWRlc2t0b3Aub3JnL2xpYmRybS9saWJk
+cm0tMi40LjEyOC50YXIueHouc2lnCgotLS0tLUJFR0lOIFBHUCBTSUdOQVRVUkUtLS0tLQoKaVFH
+ekJBRUJDZ0FkRmlFRTg2VXR1T3pwNjU0enZFakdrWG8rNlhvUHpSb0ZBbWtITHpnQUNna1FrWG8r
+NlhvUAp6UnI1dlF3QXBpMENSSS8rdUt4VW5lckJiU2tqOG1Dckt4bEVaVmtNd0dUZnRoQkNTUHRD
+Tk96MWJvck1oREpMClQ3eE5LTFdMcWZnWFM5cTUyTThEZGZoWm85Uk9YUHRNbVBpUDNMcDJqK1NO
+S0d1NnVyVkN3Rm9aeDVQSnpsbFAKZDRmaXVmeWV0YWhxODNDUVpPNG5DS3Y2Q2JJZitiYXByTnRa
+bFpIdStlTnFBRk4wODYyemJFM0luaEZ0TS9hcgpUY1VzMHo2eEI0MVJEWjhGM01MQ3grUnkyVmQw
+LzNyYVo3U1Nwcklocm1BZndJNEkvd2NCTHJyT1dWMEtQQytrCmhlL3BBSGlnUWt6N0N5Z2xxY0lL
+RWVqNzNIWUFUUStiZ05SUk1yTEt2a2dEK1hJbmxMNzRXVXdQMGRhRUd0cG0KZjhFSmpzSmZVaW9S
+M0d1L1ZCWncyQmc5T2NVdEVUbm5yZUEzS09VdnZMZnljT1VFUGdCWFBSU0ZJZnJ4bUNYWQppSFhU
+NFZwdkI0UllWNmtXN2VTT3dvTmx1SE5lVkNYUkZ6Q1VJNFZ1bkFMQXh1VlpiZnFBQTZGYkZIUTQw
+WGxFCm8wOEZnVUdLaFFWSktxemtnQzE5WWU5a21NazRhZzNITEZPaXVMcXNSS2h0M3RSUDFhNmhZ
+dnQySStPL3pKOHgKTjJUa0ZTYXEKPWtrYWcKLS0tLS1FTkQgUEdQIFNJR05BVFVSRS0tLS0tCg==
+--000000000000f43ec106429a0765--
