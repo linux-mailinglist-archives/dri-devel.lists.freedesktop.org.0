@@ -2,65 +2,142 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D37A0C28D4E
-	for <lists+dri-devel@lfdr.de>; Sun, 02 Nov 2025 11:26:31 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 298C4C28E6C
+	for <lists+dri-devel@lfdr.de>; Sun, 02 Nov 2025 12:44:43 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 784A610E02F;
-	Sun,  2 Nov 2025 10:26:28 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BA5D110E0BC;
+	Sun,  2 Nov 2025 11:44:38 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="G63+It9b";
+	dkim=pass (1024-bit key; unprotected) header.d=suse.de header.i=@suse.de header.b="ulDejbNT";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="JOs+pFiA";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="ulDejbNT";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="JOs+pFiA";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-oo1-f42.google.com (mail-oo1-f42.google.com
- [209.85.161.42])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 252FF10E02F
- for <dri-devel@lists.freedesktop.org>; Sun,  2 Nov 2025 10:26:27 +0000 (UTC)
-Received: by mail-oo1-f42.google.com with SMTP id
- 006d021491bc7-654fa5780f1so74233eaf.2
- for <dri-devel@lists.freedesktop.org>; Sun, 02 Nov 2025 02:26:27 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1762079186; x=1762683986; darn=lists.freedesktop.org;
- h=cc:to:subject:message-id:date:from:mime-version:from:to:cc:subject
- :date:message-id:reply-to;
- bh=hPH7z91/SHPTqeGI2Zb3u2B7+TDbBA+6Nni03MInLvg=;
- b=G63+It9bNpx1Ii20RSyo4+4/oTsEnUHMV6cZU2ly3t+ZeSqavHT8wn3HRSm8dIqK70
- l2i8hnfiMU+1ALGHHmILWsZQV2Y6Uz6PBbNUKjPMmfV8VX96iBHLzWfsonTYbhRBhSht
- LCfa84K7l6cxC/HCMAp4FxXGq7H+v/Pvkuww0Fepm9N48akCJQlThSE/J6G01qsPyeeM
- 6SSknxExTiwM3yXu3c/iF9tyxbv6aRO8zXzxPHt6/bORJGudl6PNor6kxbBlfzd5cZmn
- MhptuNSnAC7yQwG4hS0Mqme2+e21IU6w/hWdVOfKe5H86qD6RpkfX85sPUFvSqveSNrM
- PL/w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1762079186; x=1762683986;
- h=cc:to:subject:message-id:date:from:mime-version:x-gm-message-state
- :from:to:cc:subject:date:message-id:reply-to;
- bh=hPH7z91/SHPTqeGI2Zb3u2B7+TDbBA+6Nni03MInLvg=;
- b=uBLoUvPKsExkwbs5Ou5QkE4xo81naHrQzZvLyRItV5OcBui/wSKyn+EIxDzyU6sZxD
- vfXWgA66dLpnTSkH4PJAULXgsJ+RTMj7kxlb4KeYOIfQsFOt+lI0dc/PNa8IIp8RJwxM
- AoA7p2zpcfiJV5R+kxRSO07hlgv9V2D/AUzSlRZavzczxNJOucbi/NTQyCI09ynixYVr
- M+CtHEO2qsZRAFlCynOTRBLHmhaILPorSmze1Rlta/sV79xjKbsaW7QHwc/JNhsAI2Xk
- sTXzW2GvT5feaU7vhRrYlVhgL8E2MmzhCXr0Jpm1SiMiKssvHLoGPaNZCSRIRAXFzMMp
- dl1Q==
-X-Gm-Message-State: AOJu0YxhBLStrqZtRCkcHAkhM24vdvAsSwhFWsx8DRZccMQO3oVhknHR
- bb+3K2482PzYpKhF1k/oQKc0bOMnk9ksXF1Bfv/iSWfGmeFmOAvZ97nFNi0J/5CUpH8BGZU4DsL
- 3RtWunMz0sgiF1Gwc92ozeob7zbjw0wzl5Z4S
-X-Gm-Gg: ASbGnctyds1Fjc1DK3t5QFky8MNOGD+rTYCqOaHFwZTnv1h9uhy/czg375lFb+6Z6mR
- yQLlWLVB55BOhHaJNsxmRDC2m6puaKlYLPIWTnAGBMpdl4rm6xEGQ0BVXx7R+NQDHyMgBABICam
- bPM5H6325Zdes+xf2p9XXy/Z/OhoU8C0FtzlxA6Yk5MRoGcPjPz1WZINXHJo71IZVV98Rvbxrs8
- gfIcmApc78/1FrwTGOB0zKL9I5TH37KJ1sy8jmKSWr84goNxeI3Rerayjud
-X-Google-Smtp-Source: AGHT+IESdEmV+nwzhL53FS+XasCC3nmpvjK4fRmTLpOC+MWzSdlrUIWwO871hhi0hspl4lX1EiRzAQKpuidEc8KeNXs=
-X-Received: by 2002:a05:6820:c099:10b0:654:fd22:4b79 with SMTP id
- 006d021491bc7-6568a671e58mr1608539eaf.3.1762079186099; Sun, 02 Nov 2025
- 02:26:26 -0800 (PST)
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6023910E090
+ for <dri-devel@lists.freedesktop.org>; Sun,  2 Nov 2025 11:44:37 +0000 (UTC)
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org
+ [IPv6:2a07:de40:b281:104:10:150:64:97])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested)
+ by smtp-out1.suse.de (Postfix) with ESMTPS id 77B4121976;
+ Sun,  2 Nov 2025 11:44:35 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1762083875; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=3rpRjFNk7I3yO3U+i+VbM9SsYbCLJkYa7H2rvdyHJnc=;
+ b=ulDejbNT/docWm1ktehOhuANLJeqi4HTN3EAO4UmVZ2ZS70Ay3lM2kbZwAzbP2MxxHQQDm
+ H4j5U750sQiOftxPWgoypD47O2kSDSsS6CvIdTZK+zGL3r+i+Ea0Aaecy0sGhkslpeduCN
+ cqe3I0oz87yfDe56DeFrX4monyJzYsI=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1762083875;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=3rpRjFNk7I3yO3U+i+VbM9SsYbCLJkYa7H2rvdyHJnc=;
+ b=JOs+pFiAYTBy7RGFlT4BVjnQvVx22DLgDoi6Ek+MTIUz8SqMr7P8h2MjWkSTDeoiCiw/aI
+ Qz+5S6CIKRkDcqDA==
+Authentication-Results: smtp-out1.suse.de;
+ dkim=pass header.d=suse.de header.s=susede2_rsa header.b=ulDejbNT;
+ dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=JOs+pFiA
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1762083875; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=3rpRjFNk7I3yO3U+i+VbM9SsYbCLJkYa7H2rvdyHJnc=;
+ b=ulDejbNT/docWm1ktehOhuANLJeqi4HTN3EAO4UmVZ2ZS70Ay3lM2kbZwAzbP2MxxHQQDm
+ H4j5U750sQiOftxPWgoypD47O2kSDSsS6CvIdTZK+zGL3r+i+Ea0Aaecy0sGhkslpeduCN
+ cqe3I0oz87yfDe56DeFrX4monyJzYsI=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1762083875;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=3rpRjFNk7I3yO3U+i+VbM9SsYbCLJkYa7H2rvdyHJnc=;
+ b=JOs+pFiAYTBy7RGFlT4BVjnQvVx22DLgDoi6Ek+MTIUz8SqMr7P8h2MjWkSTDeoiCiw/aI
+ Qz+5S6CIKRkDcqDA==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested)
+ by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 36B28136C7;
+ Sun,  2 Nov 2025 11:44:35 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+ by imap1.dmz-prg2.suse.org with ESMTPSA id mG7uCyNEB2mGWwAAD6G6ig
+ (envelope-from <tzimmermann@suse.de>); Sun, 02 Nov 2025 11:44:35 +0000
+Message-ID: <9c67c29b-06e9-469b-9273-eaac368632d6@suse.de>
+Date: Sun, 2 Nov 2025 12:44:34 +0100
 MIME-Version: 1.0
-From: =?UTF-8?B?TWFyZWsgT2zFocOhaw==?= <maraeo@gmail.com>
-Date: Sun, 2 Nov 2025 05:25:49 -0500
-X-Gm-Features: AWmQ_blKPgpdWXwySVFlWIsLNESdh-5ILPAMMKhOgpFgiz7fr0u6sExrPmDW3bY
-Message-ID: <CAAxE2A4uEkZ7bqimf+WVC8vsQwmNU23UBuy=3YToxzZ+=J=5fQ@mail.gmail.com>
-Subject: [ANNOUNCE] libdrm 2.4.128
-To: xorg-announce@lists.x.org
-Cc: dri-devel <dri-devel@lists.freedesktop.org>
-Content-Type: multipart/mixed; boundary="000000000000f43ec106429a0765"
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v3 0/4] drm: replace drm_print.h includes from headers
+ with a forward declaration
+To: Jani Nikula <jani.nikula@intel.com>, dri-devel@lists.freedesktop.org,
+ maarten.lankhorst@linux.intel.com, Maxime Ripard <mripard@kernel.org>,
+ David Airlie <airlied@redhat.com>, simona.vetter@ffwll.ch
+Cc: intel-gfx@lists.freedesktop.org, intel-xe@lists.freedesktop.org
+References: <cover.1761734313.git.jani.nikula@intel.com>
+ <41bb4163-8f5b-47c5-8121-7010147bc5e6@suse.de>
+ <b8cc203c44518822197023c2dbf4a21aad681a4c@intel.com>
+ <c4e3b172-3df8-4d1b-a1b0-51cacae56f0c@suse.de>
+ <18ad4c11261b85614f7e3a2aabe611f2ecbf16a5@intel.com>
+Content-Language: en-US
+From: Thomas Zimmermann <tzimmermann@suse.de>
+Autocrypt: addr=tzimmermann@suse.de; keydata=
+ xsBNBFs50uABCADEHPidWt974CaxBVbrIBwqcq/WURinJ3+2WlIrKWspiP83vfZKaXhFYsdg
+ XH47fDVbPPj+d6tQrw5lPQCyqjwrCPYnq3WlIBnGPJ4/jreTL6V+qfKRDlGLWFjZcsrPJGE0
+ BeB5BbqP5erN1qylK9i3gPoQjXGhpBpQYwRrEyQyjuvk+Ev0K1Jc5tVDeJAuau3TGNgah4Yc
+ hdHm3bkPjz9EErV85RwvImQ1dptvx6s7xzwXTgGAsaYZsL8WCwDaTuqFa1d1jjlaxg6+tZsB
+ 9GluwvIhSezPgnEmimZDkGnZRRSFiGP8yjqTjjWuf0bSj5rUnTGiyLyRZRNGcXmu6hjlABEB
+ AAHNJ1Rob21hcyBaaW1tZXJtYW5uIDx0emltbWVybWFubkBzdXNlLmRlPsLAjgQTAQgAOAIb
+ AwULCQgHAgYVCgkICwIEFgIDAQIeAQIXgBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftODH
+ AAoJEGgNwR1TC3ojx1wH/0hKGWugiqDgLNXLRD/4TfHBEKmxIrmfu9Z5t7vwUKfwhFL6hqvo
+ lXPJJKQpQ2z8+X2vZm/slsLn7J1yjrOsoJhKABDi+3QWWSGkaGwRJAdPVVyJMfJRNNNIKwVb
+ U6B1BkX2XDKDGffF4TxlOpSQzdtNI/9gleOoUA8+jy8knnDYzjBNOZqLG2FuTdicBXblz0Mf
+ vg41gd9kCwYXDnD91rJU8tzylXv03E75NCaTxTM+FBXPmsAVYQ4GYhhgFt8S2UWMoaaABLDe
+ 7l5FdnLdDEcbmd8uLU2CaG4W2cLrUaI4jz2XbkcPQkqTQ3EB67hYkjiEE6Zy3ggOitiQGcqp
+ j//OwE0EWznS4AEIAMYmP4M/V+T5RY5at/g7rUdNsLhWv1APYrh9RQefODYHrNRHUE9eosYb
+ T6XMryR9hT8XlGOYRwKWwiQBoWSDiTMo/Xi29jUnn4BXfI2px2DTXwc22LKtLAgTRjP+qbU6
+ 3Y0xnQN29UGDbYgyyK51DW3H0If2a3JNsheAAK+Xc9baj0LGIc8T9uiEWHBnCH+RdhgATnWW
+ GKdDegUR5BkDfDg5O/FISymJBHx2Dyoklv5g4BzkgqTqwmaYzsl8UxZKvbaxq0zbehDda8lv
+ hFXodNFMAgTLJlLuDYOGLK2AwbrS3Sp0AEbkpdJBb44qVlGm5bApZouHeJ/+n+7r12+lqdsA
+ EQEAAcLAdgQYAQgAIAIbDBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftOH6AAoJEGgNwR1T
+ C3ojVSkIALpAPkIJPQoURPb1VWjh34l0HlglmYHvZszJWTXYwavHR8+k6Baa6H7ufXNQtThR
+ yIxJrQLW6rV5lm7TjhffEhxVCn37+cg0zZ3j7zIsSS0rx/aMwi6VhFJA5hfn3T0TtrijKP4A
+ SAQO9xD1Zk9/61JWk8OysuIh7MXkl0fxbRKWE93XeQBhIJHQfnc+YBLprdnxR446Sh8Wn/2D
+ Ya8cavuWf2zrB6cZurs048xe0UbSW5AOSo4V9M0jzYI4nZqTmPxYyXbm30Kvmz0rYVRaitYJ
+ 4kyYYMhuULvrJDMjZRvaNe52tkKAvMevcGdt38H4KSVXAylqyQOW5zvPc4/sq9c=
+In-Reply-To: <18ad4c11261b85614f7e3a2aabe611f2ecbf16a5@intel.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Spam-Level: 
+X-Spam-Flag: NO
+X-Rspamd-Queue-Id: 77B4121976
+X-Rspamd-Action: no action
+X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
+X-Spamd-Result: default: False [-4.51 / 50.00]; BAYES_HAM(-3.00)[100.00%];
+ NEURAL_HAM_LONG(-1.00)[-1.000];
+ R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+ NEURAL_HAM_SHORT(-0.20)[-1.000]; MIME_GOOD(-0.10)[text/plain];
+ MX_GOOD(-0.01)[]; FUZZY_RATELIMITED(0.00)[rspamd.com];
+ RCVD_VIA_SMTP_AUTH(0.00)[]; ARC_NA(0.00)[];
+ RCPT_COUNT_SEVEN(0.00)[8]; MIME_TRACE(0.00)[0:+];
+ MID_RHS_MATCH_FROM(0.00)[]; RCVD_TLS_ALL(0.00)[];
+ TO_DN_SOME(0.00)[]; FROM_EQ_ENVFROM(0.00)[];
+ FROM_HAS_DN(0.00)[];
+ DNSWL_BLOCKED(0.00)[2a07:de40:b281:104:10:150:64:97:from,2a07:de40:b281:106:10:150:64:167:received];
+ RCVD_COUNT_TWO(0.00)[2]; TO_MATCH_ENVRCPT_ALL(0.00)[];
+ DBL_BLOCKED_OPENRESOLVER(0.00)[suse.com:url];
+ DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+ DKIM_TRACE(0.00)[suse.de:+]
+X-Spam-Score: -4.51
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -76,107 +153,97 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
---000000000000f43ec106429a0765
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Hi
 
------BEGIN PGP SIGNED MESSAGE-----
-Hash: SHA512
+Am 31.10.25 um 11:01 schrieb Jani Nikula:
+> On Thu, 30 Oct 2025, Thomas Zimmermann <tzimmermann@suse.de> wrote:
+>> Am 30.10.25 um 10:31 schrieb Jani Nikula:
+>>> Considering that this touches a lot of drivers, albeit just the include
+>>> lists and thus highly unlikely to cause functional changes or hard
+>>> conflicts, can I go ahead and merge this to drm-misc-next?
+>> Of course, go ahead.
+> Done, thanks again!
 
-libdrm 2.4.128 has been released.
-
-Versions 2.4.126 and 2.4.127 contain an ABI breakage in libdrm_amdgpu.
-
-Depending on which Mesa version or commit you use, you may see stack
-smashing resulting in crashes of AMD Mesa drivers. It's recommended to
-never package versions 2.4.126 and 2.4.127.
+Looks like fallout from this series:
 
 
-Christian K=C3=B6nig (1):
-    test/amdgpu: remove amdgpu unit tests
+   CC [M]  drivers/gpu/drm/rockchip/rockchip_drm_vop2.o
+linux/drivers/gpu/drm/rockchip/rockchip_drm_vop2.c: In function 
+'vop2_convert_format':
+linux/drivers/gpu/drm/rockchip/rockchip_drm_vop2.c:215:17: error: 
+implicit declaration of function 'DRM_ERROR'; did you mean 'SO_ERROR'? 
+[-Wimplicit-function-declaration]
+   215 |                 DRM_ERROR("unsupported format[%08x]\n", format);
+       |                 ^~~~~~~~~
+       |                 SO_ERROR
+linux/drivers/gpu/drm/rockchip/rockchip_drm_vop2.c: In function 
+'rockchip_vop2_mod_supported':
+linux/drivers/gpu/drm/rockchip/rockchip_drm_vop2.c:395:33: error: 
+implicit declaration of function 'drm_dbg_kms' 
+[-Wimplicit-function-declaration]
+   395 |                                 drm_dbg_kms(vop2->drm,
+       |                                 ^~~~~~~~~~~
+linux/drivers/gpu/drm/rockchip/rockchip_drm_vop2.c: In function 
+'vop2_setup_scale':
+linux/drivers/gpu/drm/rockchip/rockchip_drm_vop2.c:602:25: error: 
+implicit declaration of function 'drm_dbg'; did you mean 'dev_dbg'? 
+[-Wimplicit-function-declaration]
+   602 |                         drm_dbg(vop2->drm, "%s dst_w[%d] should 
+align as 2 pixel\n",
+       |                         ^~~~~~~
+       |                         dev_dbg
+linux/drivers/gpu/drm/rockchip/rockchip_drm_vop2.c: In function 
+'vop2_core_clks_prepare_enable':
+linux/drivers/gpu/drm/rockchip/rockchip_drm_vop2.c:763:17: error: 
+implicit declaration of function 'drm_err'; did you mean 'pr_err'? 
+[-Wimplicit-function-declaration]
+   763 |                 drm_err(vop2->drm, "failed to enable hclk - 
+%d\n", ret);
+       |                 ^~~~~~~
+       |                 pr_err
+linux/drivers/gpu/drm/rockchip/rockchip_drm_vop2.c: In function 
+'vop2_crtc_atomic_disable':
+linux/drivers/gpu/drm/rockchip/rockchip_drm_vop2.c:967:17: error: 
+implicit declaration of function 'drm_info'; did you mean 'pr_info'? 
+[-Wimplicit-function-declaration]
+   967 |                 drm_info(vop2->drm, "wait for vp%d dsp_hold 
+timeout\n", vp->id);
+       |                 ^~~~~~~~
+       |                 pr_info
+linux/drivers/gpu/drm/rockchip/rockchip_drm_vop2.c: In function 
+'vop2_crtc_atomic_enable':
+linux/drivers/gpu/drm/rockchip/rockchip_drm_vop2.c:1758:41: error: 
+implicit declaration of function 'drm_warn'; did you mean 'dev_warn'? 
+[-Wimplicit-function-declaration]
+  1758 |  drm_warn(vop2->drm,
+       |                                         ^~~~~~~~
+       |                                         dev_warn
+linux/drivers/gpu/drm/rockchip/rockchip_drm_vop2.c: In function 
+'rk3576_vp_isr':
+linux/drivers/gpu/drm/rockchip/rockchip_drm_vop2.c:2198:17: error: 
+implicit declaration of function 'drm_err_ratelimited'; did you mean 
+'pr_err_ratelimited'? [-Wimplicit-function-declaration]
+  2198 |                 drm_err_ratelimited(vop2->drm, "POST_BUF_EMPTY 
+irq err at vp%d\n", vp->id);
+       |                 ^~~~~~~~~~~~~~~~~~~
+       |                 pr_err_ratelimited
 
-Jesse.Zhang (1):
-    amdgpu: Add parameter validation to amdgpu_bo functions to fix SIGSEGV
 
-Marek Ol=C5=A1=C3=A1k (2):
-    Revert ABI breakage "drm/amdgpu: Add user queue HQD count to hw_ip info=
-"
-    Bump version to 2.4.128
+Best regards
+Thomas
 
-Mario Limonciello (2):
-    amdgpu: Read model name from /proc/cpuinfo for APUs
-    amdgpu: Only read /proc/cpuinfo as a fallback
+>
+> BR,
+> Jani.
+>
+>
 
-Mario Limonciello (AMD) (1):
-    amdgpu: Slice and dice the string for APUs
+-- 
+--
+Thomas Zimmermann
+Graphics Driver Developer
+SUSE Software Solutions Germany GmbH
+Frankenstr. 146, 90461 Nürnberg, Germany, www.suse.com
+GF: Jochen Jaser, Andrew McDonald, Werner Knoblich, (HRB 36809, AG Nürnberg)
 
-git tag: libdrm-2.4.128
 
-https://dri.freedesktop.org/libdrm/libdrm-2.4.128.tar.xz
-SHA256: 3bb35db8700c2a0b569f2c6729a53f5495786856b310854c8de57782a22bddac
-  libdrm-2.4.128.tar.xz
-
-(concatenate both halves)
-SHA512: b80e6be1c9d0427e1c3ffd018213d7230333f037498cf98819a8a6c50d923ad3
-        472002044e010ca9dc646ef79dbca241bd47eaa992014cb7063b31cdb84037c7
-  libdrm-2.4.128.tar.xz
-
-PGP:  https://dri.freedesktop.org/libdrm/libdrm-2.4.128.tar.xz.sig
-
------BEGIN PGP SIGNATURE-----
-
-iQGzBAEBCgAdFiEE86UtuOzp654zvEjGkXo+6XoPzRoFAmkHLzgACgkQkXo+6XoP
-zRr5vQwApi0CRI/+uKxUnerBbSkj8mCrKxlEZVkMwGTfthBCSPtCNOz1borMhDJL
-T7xNKLWLqfgXS9q52M8DdfhZo9ROXPtMmPiP3Lp2j+SNKGu6urVCwFoZx5PJzllP
-d4fiufyetahq83CQZO4nCKv6CbIf+baprNtZlZHu+eNqAFN0862zbE3InhFtM/ar
-TcUs0z6xB41RDZ8F3MLCx+Ry2Vd0/3raZ7SSprIhrmAfwI4I/wcBLrrOWV0KPC+k
-he/pAHigQkz7CyglqcIKEej73HYATQ+bgNRRMrLKvkgD+XInlL74WUwP0daEGtpm
-f8EJjsJfUioR3Gu/VBZw2Bg9OcUtETnnreA3KOUvvLfycOUEPgBXPRSFIfrxmCXY
-iHXT4VpvB4RYV6kW7eSOwoNluHNeVCXRFzCUI4VunALAxuVZbfqAA6FbFHQ40XlE
-o08FgUGKhQVJKqzkgC19Ye9kmMk4ag3HLFOiuLqsRKht3tRP1a6hYvt2I+O/zJ8x
-N2TkFSaq
-=3Dkkag
------END PGP SIGNATURE-----
-
---000000000000f43ec106429a0765
-Content-Type: text/plain; charset="UTF-8"; name="announce.txt.asc"
-Content-Disposition: attachment; filename="announce.txt.asc"
-Content-Transfer-Encoding: base64
-Content-ID: <f_mhhkf3l90>
-X-Attachment-Id: f_mhhkf3l90
-
-LS0tLS1CRUdJTiBQR1AgU0lHTkVEIE1FU1NBR0UtLS0tLQpIYXNoOiBTSEE1MTIKCmxpYmRybSAy
-LjQuMTI4IGhhcyBiZWVuIHJlbGVhc2VkLgoKVmVyc2lvbnMgMi40LjEyNiBhbmQgMi40LjEyNyBj
-b250YWluIGFuIEFCSSBicmVha2FnZSBpbiBsaWJkcm1fYW1kZ3B1LgoKRGVwZW5kaW5nIG9uIHdo
-aWNoIE1lc2EgdmVyc2lvbiBvciBjb21taXQgeW91IHVzZSwgeW91IG1heSBzZWUgc3RhY2sKc21h
-c2hpbmcgcmVzdWx0aW5nIGluIGNyYXNoZXMgb2YgQU1EIE1lc2EgZHJpdmVycy4gSXQncyByZWNv
-bW1lbmRlZCB0bwpuZXZlciBwYWNrYWdlIHZlcnNpb25zIDIuNC4xMjYgYW5kIDIuNC4xMjcuCgoK
-Q2hyaXN0aWFuIEvDtm5pZyAoMSk6CiAgICB0ZXN0L2FtZGdwdTogcmVtb3ZlIGFtZGdwdSB1bml0
-IHRlc3RzCgpKZXNzZS5aaGFuZyAoMSk6CiAgICBhbWRncHU6IEFkZCBwYXJhbWV0ZXIgdmFsaWRh
-dGlvbiB0byBhbWRncHVfYm8gZnVuY3Rpb25zIHRvIGZpeCBTSUdTRUdWCgpNYXJlayBPbMWhw6Fr
-ICgyKToKICAgIFJldmVydCBBQkkgYnJlYWthZ2UgImRybS9hbWRncHU6IEFkZCB1c2VyIHF1ZXVl
-IEhRRCBjb3VudCB0byBod19pcCBpbmZvIgogICAgQnVtcCB2ZXJzaW9uIHRvIDIuNC4xMjgKCk1h
-cmlvIExpbW9uY2llbGxvICgyKToKICAgIGFtZGdwdTogUmVhZCBtb2RlbCBuYW1lIGZyb20gL3By
-b2MvY3B1aW5mbyBmb3IgQVBVcwogICAgYW1kZ3B1OiBPbmx5IHJlYWQgL3Byb2MvY3B1aW5mbyBh
-cyBhIGZhbGxiYWNrCgpNYXJpbyBMaW1vbmNpZWxsbyAoQU1EKSAoMSk6CiAgICBhbWRncHU6IFNs
-aWNlIGFuZCBkaWNlIHRoZSBzdHJpbmcgZm9yIEFQVXMKCmdpdCB0YWc6IGxpYmRybS0yLjQuMTI4
-CgpodHRwczovL2RyaS5mcmVlZGVza3RvcC5vcmcvbGliZHJtL2xpYmRybS0yLjQuMTI4LnRhci54
-egpTSEEyNTY6IDNiYjM1ZGI4NzAwYzJhMGI1NjlmMmM2NzI5YTUzZjU0OTU3ODY4NTZiMzEwODU0
-YzhkZTU3NzgyYTIyYmRkYWMKICBsaWJkcm0tMi40LjEyOC50YXIueHoKCihjb25jYXRlbmF0ZSBi
-b3RoIGhhbHZlcykKU0hBNTEyOiBiODBlNmJlMWM5ZDA0MjdlMWMzZmZkMDE4MjEzZDcyMzAzMzNm
-MDM3NDk4Y2Y5ODgxOWE4YTZjNTBkOTIzYWQzCiAgICAgICAgNDcyMDAyMDQ0ZTAxMGNhOWRjNjQ2
-ZWY3OWRiY2EyNDFiZDQ3ZWFhOTkyMDE0Y2I3MDYzYjMxY2RiODQwMzdjNwogIGxpYmRybS0yLjQu
-MTI4LnRhci54egoKUEdQOiAgaHR0cHM6Ly9kcmkuZnJlZWRlc2t0b3Aub3JnL2xpYmRybS9saWJk
-cm0tMi40LjEyOC50YXIueHouc2lnCgotLS0tLUJFR0lOIFBHUCBTSUdOQVRVUkUtLS0tLQoKaVFH
-ekJBRUJDZ0FkRmlFRTg2VXR1T3pwNjU0enZFakdrWG8rNlhvUHpSb0ZBbWtITHpnQUNna1FrWG8r
-NlhvUAp6UnI1dlF3QXBpMENSSS8rdUt4VW5lckJiU2tqOG1Dckt4bEVaVmtNd0dUZnRoQkNTUHRD
-Tk96MWJvck1oREpMClQ3eE5LTFdMcWZnWFM5cTUyTThEZGZoWm85Uk9YUHRNbVBpUDNMcDJqK1NO
-S0d1NnVyVkN3Rm9aeDVQSnpsbFAKZDRmaXVmeWV0YWhxODNDUVpPNG5DS3Y2Q2JJZitiYXByTnRa
-bFpIdStlTnFBRk4wODYyemJFM0luaEZ0TS9hcgpUY1VzMHo2eEI0MVJEWjhGM01MQ3grUnkyVmQw
-LzNyYVo3U1Nwcklocm1BZndJNEkvd2NCTHJyT1dWMEtQQytrCmhlL3BBSGlnUWt6N0N5Z2xxY0lL
-RWVqNzNIWUFUUStiZ05SUk1yTEt2a2dEK1hJbmxMNzRXVXdQMGRhRUd0cG0KZjhFSmpzSmZVaW9S
-M0d1L1ZCWncyQmc5T2NVdEVUbm5yZUEzS09VdnZMZnljT1VFUGdCWFBSU0ZJZnJ4bUNYWQppSFhU
-NFZwdkI0UllWNmtXN2VTT3dvTmx1SE5lVkNYUkZ6Q1VJNFZ1bkFMQXh1VlpiZnFBQTZGYkZIUTQw
-WGxFCm8wOEZnVUdLaFFWSktxemtnQzE5WWU5a21NazRhZzNITEZPaXVMcXNSS2h0M3RSUDFhNmhZ
-dnQySStPL3pKOHgKTjJUa0ZTYXEKPWtrYWcKLS0tLS1FTkQgUEdQIFNJR05BVFVSRS0tLS0tCg==
---000000000000f43ec106429a0765--
