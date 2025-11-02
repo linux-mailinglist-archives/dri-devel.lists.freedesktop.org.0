@@ -2,61 +2,59 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4795DC29168
-	for <lists+dri-devel@lfdr.de>; Sun, 02 Nov 2025 17:02:54 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 94EB6C29186
+	for <lists+dri-devel@lfdr.de>; Sun, 02 Nov 2025 17:08:56 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9CFFA10E063;
-	Sun,  2 Nov 2025 16:02:50 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7780510E0EA;
+	Sun,  2 Nov 2025 16:08:53 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; secure) header.d=mailbox.org header.i=@mailbox.org header.b="Ue/O+sHM";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="dTK+r+PP";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mout-p-103.mailbox.org (mout-p-103.mailbox.org [80.241.56.161])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8726610E063
- for <dri-devel@lists.freedesktop.org>; Sun,  2 Nov 2025 16:02:48 +0000 (UTC)
-Received: from smtp102.mailbox.org (smtp102.mailbox.org [10.196.197.102])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested)
- by mout-p-103.mailbox.org (Postfix) with ESMTPS id 4czzyF0XKyz9scN;
- Sun,  2 Nov 2025 17:02:45 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org;
- s=mail20150812; t=1762099365;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=yXnbX8obOxTZByxtaFJTonCzW0Sj9xEqQruBvutIFTA=;
- b=Ue/O+sHMUIkVTVRZaqnQY+gmPnJbUOOEBZIbT8CGO97u8N3tB+gLpKYvh8BEZtSersVGge
- upilb0Rhvh6hy5E5+SfBTkm5u7AMVoh4LoIdO9lVcDn7ddtBLV0KOk2b/GQsWIO7THRJeK
- HsvvmAILyejprOUKQjlOBCmfc9CjlbUUgjpXAOtVTqYmxF+ILu849OgGIF1BDsjXxQQx9x
- rGdzrgx0nwi6Rrt0CVCFLfodWD7QfgB+/t67TckYeO+UHNaUE+BblzA2MXBOD+xbDisIK0
- Gv3wb3/8kkofEhxIpZfEYCRKdtpTJSiDdzv7v+4RI5nWyxcmOcHIKdGUeK9qRA==
-Message-ID: <f9057853-8b43-4ab6-ae65-ee5e4d569c46@mailbox.org>
-Date: Sun, 2 Nov 2025 17:02:37 +0100
+Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E7A4F10E0EA;
+ Sun,  2 Nov 2025 16:08:51 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by tor.source.kernel.org (Postfix) with ESMTP id 0F6B9601F0;
+ Sun,  2 Nov 2025 16:08:51 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 58792C4CEF7;
+ Sun,  2 Nov 2025 16:08:47 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1762099730;
+ bh=R+eQUJqY93nsA0j/rgsWshRJvg4Yt8gRY5QAT1HTwxE=;
+ h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+ b=dTK+r+PPtpJ2OivgDQTeE0Om5Loa0FEbqXbx46BzzdjD8Gev69t5NMmO0aZWzN3AG
+ yG6jRaxH+z9lkiOzd24I3tS02L10KpiHX2frBzb+EyznE4zsLfx35bjOlpi1yb/29l
+ 1MKBeA1rumfN7P29p2erk5baqKFo4yvxCmfZBkTRp8XyDIm4D9S0073UkFZCNTU8d7
+ pLwFHiQEjQWqa540Z6NagKXqEfiwuLD8ViSGaSSO9c2XqMxQn1tmjhBWLkVrbOZNnl
+ 1tXqGcuKR9VUN4tlwNoBGDjte8dlPhpyoUOgs4JqfQLjBCGwcoEdQ3hMHvj6sm89/E
+ Zx+2pN5SHNL3A==
+Message-ID: <eb51b5d5-7f38-41f3-882c-eb87eb2b9f44@kernel.org>
+Date: Sun, 2 Nov 2025 17:08:45 +0100
 MIME-Version: 1.0
-Subject: Re: [PATCH v3 2/2] arm64: dts: imx95: Describe Mali G310 GPU
-To: Shawn Guo <shawnguo2@yeah.net>, Rain Yang <jiyu.yang@oss.nxp.com>
-Cc: airlied@gmail.com, boris.brezillon@collabora.com, conor+dt@kernel.org,
- devicetree@vger.kernel.org, dri-devel@lists.freedesktop.org,
- festevam@gmail.com, imx@lists.linux.dev, kernel@pengutronix.de,
- krzk+dt@kernel.org, linux-arm-kernel@lists.infradead.org,
- liviu.dudau@arm.com, maarten.lankhorst@linux.intel.com, mripard@kernel.org,
- p.zabel@pengutronix.de, robh@kernel.org, s.hauer@pengutronix.de,
- shawnguo@kernel.org, simona@ffwll.ch, sre@kernel.org, steven.price@arm.com,
- tzimmermann@suse.de, xianzhong.li@nxp.com
-References: <20250925203938.169880-1-marek.vasut@mailbox.org>
- <20250925203938.169880-2-marek.vasut@mailbox.org>
- <ba95487c-ada7-48a4-90b7-fd99a0278f51@mailbox.org> <aP7DZCMk1pQ7wsFo@dragon>
- <aQB88c_AEC1RAZtH@oss.nxp.com> <aQCIAfyUC6N5y2fB@dragon>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 1/3] nova-core: Simplify `transmute` and
+ `transmute_mut` in fwsec.rs
+To: Daniel del Castillo <delcastillodelarosadaniel@gmail.com>
+Cc: Alexandre Courbot <acourbot@nvidia.com>, David Airlie
+ <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Miguel Ojeda <ojeda@kernel.org>, Alex Gaynor <alex.gaynor@gmail.com>,
+ nouveau@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, Boqun Feng <boqun.feng@gmail.com>,
+ Gary Guo <gary@garyguo.net>, =?UTF-8?Q?Bj=C3=B6rn_Roy_Baron?=
+ <bjorn3_gh@protonmail.com>, Benno Lossin <lossin@kernel.org>,
+ Andreas Hindborg <a.hindborg@kernel.org>, Alice Ryhl <aliceryhl@google.com>,
+ Trevor Gross <tmgross@umich.edu>, rust-for-linux@vger.kernel.org,
+ dri-devel <dri-devel-bounces@lists.freedesktop.org>
+References: <20251023205146.196042-1-delcastillodelarosadaniel@gmail.com>
+ <DDXC17HXPXFZ.3TIX7FHUJHAI7@nvidia.com>
+ <70210168-ee28-4996-89f0-83f8590cb716@gmail.com>
+From: Danilo Krummrich <dakr@kernel.org>
 Content-Language: en-US
-From: Marek Vasut <marek.vasut@mailbox.org>
-In-Reply-To: <aQCIAfyUC6N5y2fB@dragon>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+In-Reply-To: <70210168-ee28-4996-89f0-83f8590cb716@gmail.com>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
-X-MBO-RS-META: s6w1ijnr4si371hym9im6ykirojs63uu
-X-MBO-RS-ID: 393e84e1997a987fb3c
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -72,30 +70,19 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 10/28/25 10:08 AM, Shawn Guo wrote:
-> On Tue, Oct 28, 2025 at 04:21:05PM +0800, Rain Yang wrote:
->> On Mon, Oct 27, 2025 at 08:57:08AM +0800, Shawn Guo wrote:
->>> On Sat, Oct 11, 2025 at 12:53:29PM +0200, Marek Vasut wrote:
->>>> On 9/25/25 10:38 PM, Marek Vasut wrote:
->>>>> The instance of the GPU populated in i.MX95 is the G310, describe this
->>>>> GPU in the DT. Include dummy GPU voltage regulator and OPP tables.
->>>> Is there still anything that should be changed with this patchset, or can it
->>>> be applied ?
->>>
->>> I'm waiting binding change to be applied first.  Or is it already done?
->>>
->>> Shawn
->>>
->> Hi Shawn,
->> It might be better for Marek to remove the always-on GPUAPB clock from the DTS, given that
->> it's an SCMI protocol clock and the kernel expects it to be available during operations.
->>
->> Also, the gpu_fix_reg appears unnecessary for the driver and could be removed[1].
->>
->> [1] https://cgit.freedesktop.org/drm/drm-misc/commit/?id=a8cb5ca53690aa809f4f65e14192753073e61a71,
->> https://cgit.freedesktop.org/drm/drm-misc/commit/?id=02df3543f3e0ea572e2c739605ebd6c20e1149c4
+On 11/2/25 4:09 PM, Daniel del Castillo wrote:
+> About this, I was basing myself on nova-next [1]. I will rebase on top
+> of drm-rust-next for the next version.
 > 
-> Ah, sorry! I did not know we haven't reached agreement on the change.
-The feedback above is new to me, so I am somewhat surprised too.
+> 
+> Link: https://gitlab.freedesktop.org/drm/nova [1]
+> Link: https://gitlab.freedesktop.org/drm/rust/kernel/-/tree/drm-rust-next [2]
 
-I'll just send a rebased V4 now.
+Yes, the nova tree is the one I started the project with. Meanwhile we have
+moved to use a common tree for DRM Rust infrastructure and drivers [3].
+
+For the time being, the "original" nova tree is not in use anymore.
+
+- Danilo
+
+[3] https://lore.kernel.org/r/20250901202850.208116-1-dakr@kernel.org
