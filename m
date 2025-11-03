@@ -2,52 +2,52 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6563BC2E482
-	for <lists+dri-devel@lfdr.de>; Mon, 03 Nov 2025 23:37:33 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id B0406C2E488
+	for <lists+dri-devel@lfdr.de>; Mon, 03 Nov 2025 23:37:36 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A7F7710E4DB;
-	Mon,  3 Nov 2025 22:37:31 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E722910E4CE;
+	Mon,  3 Nov 2025 22:37:34 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="hjM2zTr4";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="jg285d0R";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 51BFD10E4D6;
- Mon,  3 Nov 2025 22:37:30 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9A19610E4DC;
+ Mon,  3 Nov 2025 22:37:33 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1762209450; x=1793745450;
+ t=1762209453; x=1793745453;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=8ki1Y3hmhcXZ5PQatBQVTWUjosMD88L6gzJwMWKOqfI=;
- b=hjM2zTr422DLIU1EaqLa5nGiDR+aox3CUt09oAIAVqxb/q2CT4+8Fy46
- ixSYc+p92Mb46DArAb5oJUhaiD0w/TG9fIxN/qEvM/yXJJRMHGeUNPRgu
- 11U/EG76y8po9Bb72B8ZzOFuIurPHWfRSdlBeVUM8sSAigfpwdKLQa4n0
- HlnhshLhDgpSBpW9UYNyBKJmQYaBDhVG48aaOiQ2u6CX5fv7bNAuyj3pU
- 5ezsk66UKxdoGdpmAbI0Lh/DbGRlzvpdM+yv5Tt5NqSdaw0sdMFmEbKQU
- cbo16pHFans0aqijM847hCz00okZ32fBPEs+N9WyFJKdnZrxyZKzFiS1S w==;
-X-CSE-ConnectionGUID: lxEi2Rb9SSmwVEjJgP9lHQ==
-X-CSE-MsgGUID: sWIgx2/nQoy/uqnnOrfYSA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11602"; a="74899613"
-X-IronPort-AV: E=Sophos;i="6.19,277,1754982000"; d="scan'208";a="74899613"
+ bh=M1OfLTO9LecGVmZIo/rXmYQF5kffU0EcwF8iBnR9XgM=;
+ b=jg285d0RnpzzjPNJCtUS45L+gzcKwL0mEdfNliblGJLOCFKUDU1dSymO
+ XqFdSNnrnMkcreXiq6g88Fh4c0hoY39UjdwGK88SXWfh9hUln6u977bT4
+ 1Q9m8CniF0woh3sJ1gcaOZQnGvi7pGc4LcZwKcc025KM3vY8yH1uKa9Ci
+ S5AVBaKuivAZnUVdbyu+HDyPujdNMHYutMwhsIyCWEwi5qtCZWZ0H6898
+ yNMJyJWbttbpBEgW/OAFPrjGwAgRZ/sS3I3/CmuDGUaOiqCGnFANnh12u
+ KsyVmTm1PUFM6FM6JAKEN6cIPrVV/w9BTkEkyZfBoKikkP6UQeR8wWZ7a Q==;
+X-CSE-ConnectionGUID: ZJkRyh0lSmaexn5I8B791g==
+X-CSE-MsgGUID: qbq9UtQqQj2NGmJNq0Wr7w==
+X-IronPort-AV: E=McAfee;i="6800,10657,11602"; a="74899617"
+X-IronPort-AV: E=Sophos;i="6.19,277,1754982000"; d="scan'208";a="74899617"
 Received: from fmviesa010.fm.intel.com ([10.60.135.150])
  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 03 Nov 2025 14:37:30 -0800
-X-CSE-ConnectionGUID: TQmSymdPTS+8+Q0H+IO2+w==
-X-CSE-MsgGUID: 51SDntLZSEy1nUAV3JXxLQ==
+ 03 Nov 2025 14:37:33 -0800
+X-CSE-ConnectionGUID: MEefr4K1RZW6StnPJfJ5pA==
+X-CSE-MsgGUID: 7im7aaXnTXSpPr2WwTllLw==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.19,277,1754982000"; d="scan'208";a="187707513"
+X-IronPort-AV: E=Sophos;i="6.19,277,1754982000"; d="scan'208";a="187707516"
 Received: from srr4-3-linux-101-amanna.iind.intel.com ([10.223.74.76])
- by fmviesa010.fm.intel.com with ESMTP; 03 Nov 2025 14:37:28 -0800
+ by fmviesa010.fm.intel.com with ESMTP; 03 Nov 2025 14:37:31 -0800
 From: Animesh Manna <animesh.manna@intel.com>
 To: intel-gfx@lists.freedesktop.org, intel-xe@lists.freedesktop.org,
  dri-devel@lists.freedesktop.org
 Cc: jani.nikula@intel.com, Animesh Manna <animesh.manna@intel.com>,
  =?UTF-8?q?Jouni=20H=C3=B6gander?= <jouni.hogander@intel.com>
-Subject: [PATCH v2 03/10] drm/i915/alpm: Enable debugfs for DP2.1
-Date: Tue,  4 Nov 2025 03:39:50 +0530
-Message-Id: <20251103220957.1229608-4-animesh.manna@intel.com>
+Subject: [PATCH v2 04/10] drm/i915/alpm: Refactor Auxless wake time calculation
+Date: Tue,  4 Nov 2025 03:39:51 +0530
+Message-Id: <20251103220957.1229608-5-animesh.manna@intel.com>
 X-Mailer: git-send-email 2.29.0
 In-Reply-To: <20251103220957.1229608-1-animesh.manna@intel.com>
 References: <20251103220957.1229608-1-animesh.manna@intel.com>
@@ -69,36 +69,83 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Enable AlPM debug info through lobf debug info.
+Divide the auxless wake time calculation in parts which will
+help later to add Xe3p related modification.
+
+v1: Initial version.
+v2: Refactor first existing calculation. [Jani]
 
 Cc: Jouni Högander <jouni.hogander@intel.com>
 Signed-off-by: Animesh Manna <animesh.manna@intel.com>
 ---
- drivers/gpu/drm/i915/display/intel_alpm.c | 10 ++++++++--
- 1 file changed, 8 insertions(+), 2 deletions(-)
+ drivers/gpu/drm/i915/display/intel_alpm.c | 37 ++++++++++++++++-------
+ 1 file changed, 26 insertions(+), 11 deletions(-)
 
 diff --git a/drivers/gpu/drm/i915/display/intel_alpm.c b/drivers/gpu/drm/i915/display/intel_alpm.c
-index 639941e332f3..779718d0c8dd 100644
+index 779718d0c8dd..8d07455a62c2 100644
 --- a/drivers/gpu/drm/i915/display/intel_alpm.c
 +++ b/drivers/gpu/drm/i915/display/intel_alpm.c
-@@ -541,9 +541,15 @@ void intel_alpm_lobf_debugfs_add(struct intel_connector *connector)
- 	struct intel_display *display = to_intel_display(connector);
- 	struct dentry *root = connector->base.debugfs_entry;
+@@ -85,6 +85,26 @@ static int get_lfps_half_cycle_clocks(const struct intel_crtc_state *crtc_state)
+ 		1000 / (2 * LFPS_CYCLE_COUNT);
+ }
  
--	if (DISPLAY_VER(display) < 20 ||
--	    connector->base.connector_type != DRM_MODE_CONNECTOR_eDP)
-+	if (connector->base.connector_type == DRM_MODE_CONNECTOR_DisplayPort) {
-+		if (DISPLAY_VER(display) < 35)
-+			return;
-+	} else if (connector->base.connector_type == DRM_MODE_CONNECTOR_eDP) {
-+		if (DISPLAY_VER(display) < 20)
-+			return;
-+	} else {
- 		return;
-+	}
++static int get_tphy2_p2_to_p0(struct intel_dp *intel_dp)
++{
++	return 12 * 1000;
++}
++
++static int get_establishment_period(struct intel_dp *intel_dp,
++				    const struct intel_crtc_state *crtc_state)
++{
++	int port_clock = crtc_state->port_clock;
++	int t1 = 50 * 1000;
++	int tps4 = (252 * 10);
++	long tml_phy_lock = 1000 * 1000 * tps4 / port_clock / 10;
++	int tcds, establishment_period;
++
++	tcds = (7 + DIV_ROUND_UP(6500, tml_phy_lock) + 1) * tml_phy_lock;
++	establishment_period = (SILENCE_PERIOD_TIME + t1 + tcds);
++
++	return establishment_period;
++}
++
+ /*
+  * AUX-Less Wake Time = CEILING( ((PHY P2 to P0) + tLFPS_Period, Max+
+  * tSilence, Max+ tPHY Establishment + tCDS) / tline)
+@@ -104,19 +124,14 @@ static int get_lfps_half_cycle_clocks(const struct intel_crtc_state *crtc_state)
+  * tML_PHY_LOCK = TPS4 Length * ( 10 / (Link Rate in MHz) )
+  * TPS4 Length = 252 Symbols
+  */
+-static int _lnl_compute_aux_less_wake_time(const struct intel_crtc_state *crtc_state)
++static int _lnl_compute_aux_less_wake_time(struct intel_dp *intel_dp,
++					   const struct intel_crtc_state *crtc_state)
+ {
+-	int tphy2_p2_to_p0 = 12 * 1000;
+-	int t1 = 50 * 1000;
+-	int tps4 = 252;
+-	/* port_clock is link rate in 10kbit/s units */
+-	int tml_phy_lock = 1000 * 1000 * tps4 / crtc_state->port_clock;
+-	int num_ml_phy_lock = 7 + DIV_ROUND_UP(6500, tml_phy_lock) + 1;
+-	int t2 = num_ml_phy_lock * tml_phy_lock;
+-	int tcds = 1 * t2;
++	int tphy2_p2_to_p0 = get_tphy2_p2_to_p0(intel_dp);
++	int establishment_period = get_establishment_period(intel_dp, crtc_state);
  
- 	debugfs_create_file("i915_edp_lobf_debug", 0644, root,
- 			    connector, &i915_edp_lobf_debug_fops);
+ 	return DIV_ROUND_UP(tphy2_p2_to_p0 + get_lfps_cycle_time(crtc_state) +
+-			    SILENCE_PERIOD_TIME + t1 + tcds, 1000);
++			    establishment_period, 1000);
+ }
+ 
+ static int
+@@ -128,7 +143,7 @@ _lnl_compute_aux_less_alpm_params(struct intel_dp *intel_dp,
+ 		lfps_half_cycle;
+ 
+ 	aux_less_wake_time =
+-		_lnl_compute_aux_less_wake_time(crtc_state);
++		_lnl_compute_aux_less_wake_time(intel_dp, crtc_state);
+ 	aux_less_wake_lines = intel_usecs_to_scanlines(&crtc_state->hw.adjusted_mode,
+ 						       aux_less_wake_time);
+ 	silence_period = get_silence_period_symbols(crtc_state);
 -- 
 2.29.0
 
