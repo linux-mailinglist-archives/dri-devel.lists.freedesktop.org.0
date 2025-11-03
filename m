@@ -2,55 +2,150 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B9FCFC2CFD6
-	for <lists+dri-devel@lfdr.de>; Mon, 03 Nov 2025 17:08:11 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 455CFC2D0B4
+	for <lists+dri-devel@lfdr.de>; Mon, 03 Nov 2025 17:16:50 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 99EF010E437;
-	Mon,  3 Nov 2025 16:08:08 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6A3CF10E081;
+	Mon,  3 Nov 2025 16:16:47 +0000 (UTC)
+Authentication-Results: gabe.freedesktop.org;
+	dkim=pass (1024-bit key; unprotected) header.d=ti.com header.i=@ti.com header.b="n1LDMBck";
+	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
- by gabe.freedesktop.org (Postfix) with ESMTP id 0CF1810E14B
- for <dri-devel@lists.freedesktop.org>; Mon,  3 Nov 2025 16:08:07 +0000 (UTC)
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
- by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id DBDE82A6B
- for <dri-devel@lists.freedesktop.org>; Mon,  3 Nov 2025 08:07:58 -0800 (PST)
-Received: from e110455-lin.cambridge.arm.com (usa-sjc-imap-foss1.foss.arm.com
- [10.121.207.14])
- by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPA id 5264D3F694
- for <dri-devel@lists.freedesktop.org>; Mon,  3 Nov 2025 08:08:06 -0800 (PST)
-Date: Mon, 3 Nov 2025 16:07:35 +0000
-From: Liviu Dudau <liviu.dudau@arm.com>
-To: Ulf Hansson <ulf.hansson@linaro.org>
-Cc: Steven Price <steven.price@arm.com>,
- Nicolas Frattaroli <nicolas.frattaroli@collabora.com>,
- AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
- Boris Brezillon <boris.brezillon@collabora.com>,
- Jassi Brar <jassisinghbrar@gmail.com>,
- Chia-I Wu <olvaffe@gmail.com>, Chen-Yu Tsai <wenst@chromium.org>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>,
- Matthias Brugger <matthias.bgg@gmail.com>, Kees Cook <kees@kernel.org>,
- "Gustavo A. R. Silva" <gustavoars@kernel.org>, kernel@collabora.com,
- dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
- linux-mediatek@lists.infradead.org, linux-hardening@vger.kernel.org,
- linux-pm@vger.kernel.org
-Subject: Re: [PATCH v8 0/5] MT8196 GPU Frequency/Power Control Support
-Message-ID: <aQjTR2OvPBTVbRL0@e110455-lin.cambridge.arm.com>
-References: <20251017-mt8196-gpufreq-v8-0-98fc1cc566a1@collabora.com>
- <CAPDyKFodsAR5bOAST3mPLvSVbe653QS6SdSwHr6kyraQ1cwbhQ@mail.gmail.com>
- <76b35848-8f5e-49a2-ac4a-318945448b9a@arm.com>
- <CAPDyKFpkCivtsV1kuTOp_QG2Ci6HajBAAxQ=0GGoN6VAnaAJrg@mail.gmail.com>
+Received: from CY3PR05CU001.outbound.protection.outlook.com
+ (mail-westcentralusazhn15013063.outbound.protection.outlook.com
+ [52.102.133.63])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7BB0A10E081
+ for <dri-devel@lists.freedesktop.org>; Mon,  3 Nov 2025 16:16:45 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=tfTeXHApOCt7w1GtCZ+ULQXGQi8RGhmiFluO3YIa5CSttuGgEE4yym7i9QjhtAj8xMj8tpQUlxaYW6LPSJZm8VPh4g7OLt3xDckm00/WAA8/SHh91GP7DmgxBmeHWIhrOcqWaLTG9Sw6L0RlgbBtrS5P/KVr5d3nLIdwL+R5A2D1odLlGVROpg8O4IA2c/N4fQClFy6rChDRlRl2WwXbi6QenFSZGHygAwqlQugoWEClfVVMVcSboAYPwxaoCBswTPL3BmYScLtjf41mRTLpYSXfMqOVXYCkQI6gh0eYqftz4LC6PgeSeg/H6JxXwunptLp/yh8amfLEQdxNf1Ovog==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=KEy4F2Op4GIxCicUBgqc9jfQ8diBdGFb9ONQGT8Cet0=;
+ b=SFuoJ7+OkKAP+oa0EaFfnrDWmlGUROzLhUMv0bUqZi1mNxrJ2Hw2K46MttdW43ljvKuCQQhtgxMFSTR2xGSBBFECPESeyJ/uDInqzFKzMv+ewBmVELBt6lJ4PnZJdWTF8w5L4XjSuoEo8K0wpoSi2kUpeBSL9uMzeDoObmelN+fFI1BStF8iRU2xM3ovutBO0Ft/1Gh+TslmeBEPjiq13GvK1SQGevuaEUpfJmMshHeOUBBtWPrdVATc3tH94uenHbncSPsZKF30pcJj52HtGTtVs390Vniy/W4g5pXUNPfU0+DsgBvVXxU0ZzTM3sGK9wOsteocqC/TMvg4aQi6rg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 198.47.21.194) smtp.rcpttodomain=vger.kernel.org smtp.mailfrom=ti.com;
+ dmarc=pass (p=quarantine sp=none pct=100) action=none header.from=ti.com;
+ dkim=none (message not signed); arc=none (0)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=KEy4F2Op4GIxCicUBgqc9jfQ8diBdGFb9ONQGT8Cet0=;
+ b=n1LDMBck2uE5n5dFZiS5Pnm4MY/2NwLqpa2Kxkb1Nc1Pw0zAQJ/zlT6kWeuCsRvkNGsh2tqT3gbhlIouOz9Vo6MOKXDTLHJW56F7cnjlV6EyoB9zLtvJw6j3XGvZfPAi1e2oJhsqaRR3KoKwLQ0BFRZ7FbhQkojV4PmXMn1OvWg=
+Received: from MW4PR04CA0173.namprd04.prod.outlook.com (2603:10b6:303:85::28)
+ by MN0PR10MB5982.namprd10.prod.outlook.com (2603:10b6:208:3ca::12)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9275.14; Mon, 3 Nov
+ 2025 16:16:41 +0000
+Received: from MWH0EPF000A6734.namprd04.prod.outlook.com
+ (2603:10b6:303:85:cafe::ec) by MW4PR04CA0173.outlook.office365.com
+ (2603:10b6:303:85::28) with Microsoft SMTP Server (version=TLS1_3,
+ cipher=TLS_AES_256_GCM_SHA384) id 15.20.9275.16 via Frontend Transport; Mon,
+ 3 Nov 2025 16:16:19 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 198.47.21.194)
+ smtp.mailfrom=ti.com; dkim=none (message not signed) header.d=none; dmarc=pass
+ action=none header.from=ti.com;
+Received-SPF: Pass (protection.outlook.com: domain of ti.com designates
+ 198.47.21.194 as permitted sender) receiver=protection.outlook.com;
+ client-ip=198.47.21.194; helo=flwvzet200.ext.ti.com; pr=C
+Received: from flwvzet200.ext.ti.com (198.47.21.194) by
+ MWH0EPF000A6734.mail.protection.outlook.com (10.167.249.26) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.9298.6 via Frontend Transport; Mon, 3 Nov 2025 16:16:39 +0000
+Received: from DFLE204.ent.ti.com (10.64.6.62) by flwvzet200.ext.ti.com
+ (10.248.192.31) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.20; Mon, 3 Nov
+ 2025 10:16:33 -0600
+Received: from DFLE209.ent.ti.com (10.64.6.67) by DFLE204.ent.ti.com
+ (10.64.6.62) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.20; Mon, 3 Nov
+ 2025 10:16:32 -0600
+Received: from lelvem-mr06.itg.ti.com (10.180.75.8) by DFLE209.ent.ti.com
+ (10.64.6.67) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.20 via Frontend
+ Transport; Mon, 3 Nov 2025 10:16:32 -0600
+Received: from [10.249.128.225] ([10.249.128.225])
+ by lelvem-mr06.itg.ti.com (8.18.1/8.18.1) with ESMTP id 5A3GGRMf465222;
+ Mon, 3 Nov 2025 10:16:28 -0600
+Message-ID: <a921f0d9-b525-4cd0-9875-5d7cd2987419@ti.com>
+Date: Mon, 3 Nov 2025 21:46:26 +0530
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <CAPDyKFpkCivtsV1kuTOp_QG2Ci6HajBAAxQ=0GGoN6VAnaAJrg@mail.gmail.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [RESEND PATCH v7 1/2] drm/tidss: Remove max_pclk_khz and
+ min_pclk_khz from tidss display features
+To: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
+ <aradhya.bhatia@linux.dev>, <devarsht@ti.com>, <mripard@kernel.org>,
+ <jyri.sarha@iki.fi>, <maarten.lankhorst@linux.intel.com>, <simona@ffwll.ch>,
+ <airlied@gmail.com>, <tzimmermann@suse.de>, <h-shenoy@ti.com>
+CC: <praneeth@ti.com>, <u-kumar1@ti.com>, <vigneshr@ti.com>,
+ <dri-devel@lists.freedesktop.org>, <linux-kernel@vger.kernel.org>
+References: <20251028033958.369100-1-s-jain1@ti.com>
+ <20251028033958.369100-2-s-jain1@ti.com>
+ <bdfcd6b8-6799-4e7e-913e-528df322436a@ideasonboard.com>
+Content-Language: en-US
+From: Swamil Jain <s-jain1@ti.com>
+In-Reply-To: <bdfcd6b8-6799-4e7e-913e-528df322436a@ideasonboard.com>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 7bit
+X-C2ProcessedOrg: 333ef613-75bf-4e12-a4b1-8e3623f5dcea
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: MWH0EPF000A6734:EE_|MN0PR10MB5982:EE_
+X-MS-Office365-Filtering-Correlation-Id: 01ff5254-ec4d-4d7d-c5f8-08de1af45eee
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+ ARA:13230040|376014|82310400026|7416014|34020700016|36860700013|1800799024|921020|12100799066;
+X-Microsoft-Antispam-Message-Info: =?utf-8?B?QVJQZ0ZIc3lNdDRTSnNESnQyOE5wbjFRZytoaXZUSURYbmVRWGhIaDhuTG9t?=
+ =?utf-8?B?L0Mvbi9qSmR5cGkrYW5VUlRhNWVGK0l4cFExamhuOEJnWXlHWmZwamhmUC9C?=
+ =?utf-8?B?eUk0WnRRMzFMUWdzb2FqeW5CZGZQcnh4c3VHNzFVVFJtR0YwbUVtSGhLN1ZO?=
+ =?utf-8?B?aWI0MGtDTUZUTEswaS92ZCtuZEEwcndnSENIWnU4ZU1MdGVnY21Ia3lJazhU?=
+ =?utf-8?B?SHFNaWZ1Ny9MLytzOWluRHliRVowa1I4enJZTzZKV2FmUlFLOFh3SEoxTDBX?=
+ =?utf-8?B?dVZWT1hhRGhDZlV1Sk5GUjVibUwzWXAwcFpLMVRPd2lNVE53N0ZVdXVTK2Yr?=
+ =?utf-8?B?VVVNdDhXaStxaGFXUXd0M056eWloUUNFN2hVckRuZU5ja3hnQmZDSmQ3eGU5?=
+ =?utf-8?B?Y0EveE9UVitlc1A0MWJZWlNnVVo4ZlgyNmRlN1Z6U2Jmc1dVSlVONXYzRXdw?=
+ =?utf-8?B?SzVjOFV3dUdXWVp6UkUvcEErQXFwTmhvKzlxazh6R2Vxc3RvajAzSFhwQUNz?=
+ =?utf-8?B?TVBqNHIyVW82bjFkSlRmcU9jNEVsS3hsNXp1V2RiUmFLUC9SSG9JVThiMkVB?=
+ =?utf-8?B?TytIWllzRmordUhWbW9oTm1xcjZ5NER0WnNDZlNuK1dtYjZxNW1TenRFY1FF?=
+ =?utf-8?B?TG90Y0ovV1pkSi9oNVNGQzhuTzBDZ2ttTm53UEN6cDlEU0NRd0JuNFplU3Av?=
+ =?utf-8?B?NmFMUE9jMWxrOGRkQ1pSNnNJRjdMRkRFMkY3dFVLT0RuZzV2VTN5ZG5vRXNT?=
+ =?utf-8?B?eW9ZZVo5SnBDSWNDREtWbmdZZVNRQlMwTktKK0p1Z2tncGw4MmNoRGRVZHdZ?=
+ =?utf-8?B?b3JnYzM0UWVvOExEWVE4T0VBYmJrK0tnWlkwR2pvT2E4ejNkT1ZhdUhCYVJJ?=
+ =?utf-8?B?MG9LYnZyMmwzN21kTlQ2WlZiRXNDSUsya0hLclg4cDZSbWhCY2cvUnRpWDVx?=
+ =?utf-8?B?dzc5VVZxTTlYMldMZGN6QngvRXk0UFoyWU5BRUpVOHpVOE1qQUtzTHVtNy9U?=
+ =?utf-8?B?ZGpLU3U2UlZXeVM3Sisvb084Q1lOR2czbXBIQUErS1FyT09IQ3RkTEcrWjNt?=
+ =?utf-8?B?UzMzcXZBQkU1alN1UzQ3bmNxeWN4NFViOWJnMi9xdG1NK1pBa2ZPU2pMMlNv?=
+ =?utf-8?B?cldwbnVsSFg3MzkzbXJ5RERWcGZaRVlvUE5yQ3krcWxMQmszWXF6dTNwN1JE?=
+ =?utf-8?B?dGhieENFUTRrQXU0MGtSeVM1cEJuME5mUnY4NEl1RnV2UE5uMFR1V1NNdmI5?=
+ =?utf-8?B?eGowWnJ3MHZCMDdtNk8vcnV5cnNaZEtyTG5JQ3dyamxUQUJrY05vd2hSOFlH?=
+ =?utf-8?B?ellrSFVjektra0crRWZtWTJQd05HbURwNnRKK1ZnbGszcHhKRXdSVHkwUnZ3?=
+ =?utf-8?B?RE5qTDdaWjdFNzdybmJ5RlVoQnpIdVIwVDU1S1ZvK2FhUmxERmRRUk5ra3dO?=
+ =?utf-8?B?SUNrZDdaYUdHRXNoTVlhZ29jVm1INWFYUDhjcHh6TUJjbW1jRmdGUUQzY0lI?=
+ =?utf-8?B?ejVtL2h4QlV6R0NQd20yajJ6RGJ6aUpzUjAzTmxEdWRhdlBJVkR0MG5TNFFU?=
+ =?utf-8?B?cy82ZER3VlNRUGF4bUQxTERxeUNjVE1Lem4zR1UyU1JDWjJYOE9pMkVCS3pv?=
+ =?utf-8?B?YitTb3JDUFptNitERHhDVjlWRERuR2FSYVJtaFJJQjJjWEFZMm5DS3hnd0dh?=
+ =?utf-8?B?aHFUdkhiSnRNSDdLbU9kdlhJU0ZDd3hZV2phazB5eVNDQktDd0Y2NThvUWlM?=
+ =?utf-8?B?d1N4aFcvckMvM0F5Y05CcC9xTFFMT3cwbDloUEg0V3VQZlF3b21YSVBsMHBD?=
+ =?utf-8?B?eXVtR1lKOGNvdDMzR1V1OHBLTVFocTZmd25mbFlrbzc3MXQrRzE5M091OUpG?=
+ =?utf-8?B?dkhWWWl6RFhRaW1SZE03T3hTZnBOWHlmSURVZzJTeVFKNm05Wkd0a0dBUndX?=
+ =?utf-8?B?Tk5LVm8zK0dTNjMzNVpEL01VbjVBcWtUc0w1UngrTjd3S1BmZy9EYUY5c1NE?=
+ =?utf-8?B?bzNldlJ4OWlDajIzaFVHWnQ2M2svL2VBL29MeGx1byt3cTlYUVpkNzZXSklz?=
+ =?utf-8?B?VUoydUpOSnNuWEF4UENFNytDc1FOdHV3R1A4ZTUzSmRxMTdtM0t5cGJqTGpB?=
+ =?utf-8?Q?BYlUPoFX/N/LvnsjmYtzrODS8?=
+X-Forefront-Antispam-Report: CIP:198.47.21.194; CTRY:US; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:flwvzet200.ext.ti.com; PTR:ErrorRetry; CAT:NONE;
+ SFS:(13230040)(376014)(82310400026)(7416014)(34020700016)(36860700013)(1800799024)(921020)(12100799066);
+ DIR:OUT; SFP:1501; 
+X-OriginatorOrg: ti.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 03 Nov 2025 16:16:39.9440 (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 01ff5254-ec4d-4d7d-c5f8-08de1af45eee
+X-MS-Exchange-CrossTenant-Id: e5b49634-450b-4709-8abb-1e2b19b982b7
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=e5b49634-450b-4709-8abb-1e2b19b982b7; Ip=[198.47.21.194];
+ Helo=[flwvzet200.ext.ti.com]
+X-MS-Exchange-CrossTenant-AuthSource: MWH0EPF000A6734.namprd04.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MN0PR10MB5982
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -66,301 +161,237 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, Oct 24, 2025 at 04:50:15PM +0200, Ulf Hansson wrote:
-> On Fri, 24 Oct 2025 at 15:09, Steven Price <steven.price@arm.com> wrote:
-> >
-> > On 22/10/2025 14:52, Ulf Hansson wrote:
-> > > On Fri, 17 Oct 2025 at 17:32, Nicolas Frattaroli
-> > > <nicolas.frattaroli@collabora.com> wrote:
-> > >>
-> > >> This series introduces two new drivers to accomplish controlling the
-> > >> frequency and power of the Mali GPU on MediaTek MT8196 SoCs.
-> > >>
-> > >> The reason why it's not as straightforward as with other SoCs is that
-> > >> the MT8196 has quite complex glue logic in order to squeeze the maximum
-> > >> amount of performance possible out of the silicon. There's an additional
-> > >> MCU running a specialised firmware, which communicates with the
-> > >> application processor through a mailbox and some reserved memory, and is
-> > >> in charge of controlling the regulators, the PLL clocks, and the power
-> > >> gating of the GPU, all while also being in charge of any DVFS control.
-> > >>
-> > >> This set of drivers is enough to communicate desired OPP index limits to
-> > >> the aforementioned MCU, referred to as "GPUEB" from here on out. The
-> > >> GPUEB is still free to lower the effective frequency if the GPU has no
-> > >> jobs going on at all, even when a higher OPP is set.
-> > >>
-> > >> The power- and frequency control driver, mtk-mfg-pmdomain, is now
-> > >> implemented as a power domain driver, with a set_performance_state
-> > >> operation. It also exposes itself as a clock provider, so that panthor
-> > >> can read the actual achieved DVFS clock rate as per the GPUEB firmware.
-> > >>
-> > >> This power domain approach means that panthor does not need to know
-> > >> about how the frequency control works on this SoC, as the OPP core
-> > >> framework already takes care of it. The only exception is that panthor
-> > >> needs to not register OPPs from DT itself if there already is an OPP
-> > >> table present.
-> > >>
-> > >> The mailbox driver is a fairly bog-standard common mailbox framework
-> > >> driver, just specific to the firmware that runs on the GPUEB. It was
-> > >> merged in v6.18 already.
-> > >>
-> > >> Signed-off-by: Nicolas Frattaroli <nicolas.frattaroli@collabora.com>
-> > >
-> > > This looks good to me!
-> > >
-> > > I can certainly pick up patch2 and patch5, but before I go ahead I
-> > > just wanted to check what is the preferred merging strategy?
-> > >
-> > > The drm/gpu patches can go independently from the pmdomain patches
-> > > others, right? In either case, I can pick this complete series too via
-> > > my pmdomain tree, if that makes sense for everyone. Please let me
-> > > know.
-> >
-> > I'm about to go on holiday, so I'm not about to merge and run ;)
-> > But I'm happy if you want to take the complete series through your tree.
-> 
-> Unfortunately the panthor specific changes didn't apply cleanly on my
-> side. Looks like you have some patches queued already for the panther
-> driver and I guess Nicolas may have based the changes on top of them.
-> 
-> That said, I decided to pick the pmdomain patches, patch 2 and patch 5, thanks!
+Hi Tomi,
 
-I've pushed the rest of the series through drm-misc-next.
-
-Best regards,
-Liviu
-
+On 03-11-2025 13:34, Tomi Valkeinen wrote:
+> Hi,
 > 
-> Kind regards
-> Uffe
+> On 28/10/2025 05:39, Swamil Jain wrote:
+>> From: Jayesh Choudhary <j-choudhary@ti.com>
+>>
+>> The TIDSS hardware does not have independent maximum or minimum pixel
+>> clock limits for each video port. Instead, these limits are determined
+>> by the SoC's clock architecture. Previously, this constraint was
+>> modeled using the 'max_pclk_khz' and 'min_pclk_khz' fields in
+>> 'dispc_features', but this approach is static and does not account for
+>> the dynamic behavior of PLLs.
+>>
+>> This patch removes the 'max_pclk_khz' and 'min_pclk_khz' fields from
+>> 'dispc_features'. The correct way to check if a requested mode's pixel
+>> clock is supported is by using 'clk_round_rate()' in the 'mode_valid()'
+>> hook. If the best frequency match for the mode clock falls within the
+>> supported tolerance, it is approved. TIDSS supports a 5% pixel clock
+>> tolerance, which is now reflected in the validation logic.
+>>
+>> This change allows existing DSS-compatible drivers to be reused across
+>> SoCs that only differ in their pixel clock characteristics. The
+>> validation uses 'clk_round_rate()' for each mode, which may introduce
+>> additional delay (about 3.5 ms for 30 modes), but this is generally
+>> negligible. Users desiring faster validation may bypass these calls
+>> selectively, for example, checking only the highest resolution mode,
+>> as shown here[1].
+>>
+>> [1]: https://lore.kernel.org/all/20250704094851.182131-3-j-choudhary@ti.com/
+>>
+>> Tested-by: Michael Walle <mwalle@kernel.org>
+>> Reviewed-by: Devarsh Thakkar <devarsht@ti.com>
+>> Signed-off-by: Jayesh Choudhary <j-choudhary@ti.com>
+>> Signed-off-by: Swamil Jain <s-jain1@ti.com>
+>> ---
+>>   drivers/gpu/drm/tidss/tidss_dispc.c | 85 ++++++++++-------------------
+>>   drivers/gpu/drm/tidss/tidss_dispc.h |  3 -
+>>   2 files changed, 30 insertions(+), 58 deletions(-)
+>>
+>> diff --git a/drivers/gpu/drm/tidss/tidss_dispc.c b/drivers/gpu/drm/tidss/tidss_dispc.c
+>> index d0b191c470ca..07731b02490f 100644
+>> --- a/drivers/gpu/drm/tidss/tidss_dispc.c
+>> +++ b/drivers/gpu/drm/tidss/tidss_dispc.c
+>> @@ -57,12 +57,6 @@ static const u16 tidss_k2g_common_regs[DISPC_COMMON_REG_TABLE_LEN] = {
+>>   };
+>>   
+>>   const struct dispc_features dispc_k2g_feats = {
+>> -	.min_pclk_khz = 4375,
+>> -
+>> -	.max_pclk_khz = {
+>> -		[DISPC_VP_DPI] = 150000,
+>> -	},
+>> -
+>>   	/*
+>>   	 * XXX According TRM the RGB input buffer width up to 2560 should
+>>   	 *     work on 3 taps, but in practice it only works up to 1280.
+>> @@ -145,11 +139,6 @@ static const u16 tidss_am65x_common_regs[DISPC_COMMON_REG_TABLE_LEN] = {
+>>   };
+>>   
+>>   const struct dispc_features dispc_am65x_feats = {
+>> -	.max_pclk_khz = {
+>> -		[DISPC_VP_DPI] = 165000,
+>> -		[DISPC_VP_OLDI_AM65X] = 165000,
+>> -	},
+>> -
+>>   	.scaling = {
+>>   		.in_width_max_5tap_rgb = 1280,
+>>   		.in_width_max_3tap_rgb = 2560,
+>> @@ -245,11 +234,6 @@ static const u16 tidss_j721e_common_regs[DISPC_COMMON_REG_TABLE_LEN] = {
+>>   };
+>>   
+>>   const struct dispc_features dispc_j721e_feats = {
+>> -	.max_pclk_khz = {
+>> -		[DISPC_VP_DPI] = 170000,
+>> -		[DISPC_VP_INTERNAL] = 600000,
+>> -	},
+>> -
+>>   	.scaling = {
+>>   		.in_width_max_5tap_rgb = 2048,
+>>   		.in_width_max_3tap_rgb = 4096,
+>> @@ -316,11 +300,6 @@ const struct dispc_features dispc_j721e_feats = {
+>>   };
+>>   
+>>   const struct dispc_features dispc_am625_feats = {
+>> -	.max_pclk_khz = {
+>> -		[DISPC_VP_DPI] = 165000,
+>> -		[DISPC_VP_INTERNAL] = 170000,
+>> -	},
+>> -
+>>   	.scaling = {
+>>   		.in_width_max_5tap_rgb = 1280,
+>>   		.in_width_max_3tap_rgb = 2560,
+>> @@ -377,15 +356,6 @@ const struct dispc_features dispc_am625_feats = {
+>>   };
+>>   
+>>   const struct dispc_features dispc_am62a7_feats = {
+>> -	/*
+>> -	 * if the code reaches dispc_mode_valid with VP1,
+>> -	 * it should return MODE_BAD.
+>> -	 */
+>> -	.max_pclk_khz = {
+>> -		[DISPC_VP_TIED_OFF] = 0,
+>> -		[DISPC_VP_DPI] = 165000,
+>> -	},
+>> -
+>>   	.scaling = {
+>>   		.in_width_max_5tap_rgb = 1280,
+>>   		.in_width_max_3tap_rgb = 2560,
+>> @@ -442,10 +412,6 @@ const struct dispc_features dispc_am62a7_feats = {
+>>   };
+>>   
+>>   const struct dispc_features dispc_am62l_feats = {
+>> -	.max_pclk_khz = {
+>> -		[DISPC_VP_DPI] = 165000,
+>> -	},
+>> -
+>>   	.subrev = DISPC_AM62L,
+>>   
+>>   	.common = "common",
+>> @@ -1333,33 +1299,53 @@ static void dispc_vp_set_default_color(struct dispc_device *dispc,
+>>   			DISPC_OVR_DEFAULT_COLOR2, (v >> 32) & 0xffff);
+>>   }
+>>   
+>> +/*
+>> + * Calculate the percentage difference between the requested pixel clock rate
+>> + * and the effective rate resulting from calculating the clock divider value.
+>> + */
+>> +unsigned int dispc_pclk_diff(unsigned long rate, unsigned long real_rate)
+>> +{
+>> +	int r = rate / 100, rr = real_rate / 100;
+>> +
+>> +	return (unsigned int)(abs(((rr - r) * 100) / r));
+>> +}
+>> +
+>> +static int check_pixel_clock(struct dispc_device *dispc,
+>> +			     u32 hw_videoport, unsigned long clock)
+>> +{
+>> +	unsigned long round_clock;
+>> +
+>> +	round_clock = clk_round_rate(dispc->vp_clk[hw_videoport], clock);
+>> +	/*
+>> +	 * To keep the check consistent with dispc_vp_set_clk_rate(), we
+>> +	 * use the same 5% check here.
+>> +	 */
+>> +	if (dispc_pclk_diff(clock, round_clock) > 5)
+>> +		return -EINVAL;
+>> +	return 0;
+>> +}
+>> +
+>>   enum drm_mode_status dispc_vp_mode_valid(struct dispc_device *dispc,
+>>   					 u32 hw_videoport,
+>>   					 const struct drm_display_mode *mode)
+>>   {
+>>   	u32 hsw, hfp, hbp, vsw, vfp, vbp;
+>>   	enum dispc_vp_bus_type bus_type;
+>> -	int max_pclk;
+>>   
+>>   	bus_type = dispc->feat->vp_bus_type[hw_videoport];
+>>   
+>> -	max_pclk = dispc->feat->max_pclk_khz[bus_type];
+>> -
+>> -	if (WARN_ON(max_pclk == 0))
+>> +	if (WARN_ON(bus_type == DISPC_VP_TIED_OFF))
+>>   		return MODE_BAD;
+>>   
+>> -	if (mode->clock < dispc->feat->min_pclk_khz)
+>> -		return MODE_CLOCK_LOW;
+>> -
+>> -	if (mode->clock > max_pclk)
+>> -		return MODE_CLOCK_HIGH;
+>> -
+>>   	if (mode->hdisplay > 4096)
+>>   		return MODE_BAD;
+>>   
+>>   	if (mode->vdisplay > 4096)
+>>   		return MODE_BAD;
+>>   
+>> +	if (check_pixel_clock(dispc, hw_videoport, mode->clock * 1000))
+>> +		return MODE_CLOCK_HIGH;
+>> +
 > 
+> I think it's better to just inline check_pixel_clock here, it's just a
+> few lines. Also, returning MODE_CLOCK_HIGH is not correct. I see other
+> drivers using MODE_NOCLOCK or MODE_CLOCK_RANGE.
 > 
-> >
-> > Thanks,
-> > Steve
-> >
-> > > Kind regards
-> > > Uffe
-> > >
-> > >> ---
-> > >> Changes in v8:
-> > >> - mtk-mfg-pmdomain: remove unused shmem variable that caused a warning
-> > >>   on GCC, but not clang
-> > >> - Link to v7: https://lore.kernel.org/r/20251015-mt8196-gpufreq-v7-0-0a6435da2080@collabora.com
-> > >>
-> > >> Changes in v7:
-> > >> - panthor: rename "t" to "table"
-> > >> - panthor: add code comment explaining why an existing OPP table is
-> > >>   being checked for
-> > >> - mtk-mfg-pmdomain: use GF_REG_MAGIC offset for sake of consistency
-> > >> - mtk-mfg-pmdomain: remove redundant semicolon after mtk_mfg_mt8196_init
-> > >> - mtk-mfg-pmdomain: fix resource leaks on probe failure
-> > >> - mtk-mfg-pmdomain: enable/disable EB clock during MT8196 init, which is
-> > >>   needed for the register read
-> > >> - Rebase onto next-20251014, which drops already merged patches, namely
-> > >>   mailbox driver+bindings, and drops the ASN_HASH patch series
-> > >>   dependency, which was also merged
-> > >> - Link to v6: https://lore.kernel.org/r/20251003-mt8196-gpufreq-v6-0-76498ad61d9e@collabora.com
-> > >>
-> > >> Changes in v6:
-> > >> - mailbox: move buf definition into if condition, as per Chia-I Wu
-> > >> - panthor: remove the redundant NULL checks in panthor_devfreq_get_freq
-> > >> - mtk-mfg-pmdomain: adjust return style consistency
-> > >> - mtk-mfg-pmdomain: add docstring for mtk_mfg_send_ipi to explain it's
-> > >>   blocking
-> > >> - mtk-mfg-pmdomain: use CMD_FIX_DUAL_TARGET_OPPIDX instead of
-> > >>   CMD_FIX_TARGET_OPPIDX.
-> > >> - mtk-mfg-pmdomain: reword code comments to not be in the "we" style
-> > >> - mtk-mfg-pmdomain: shuffle around mbox allocations as per Angelo
-> > >> - mtk-mfg-pmdomain: don't pointlessly turn on EB clock in probe,
-> > >>   reducing the need for a comment explaining the bookkeeping
-> > >> - mtk-mfg-pmdomain: consistently use dev_err_probe and Capitalise first
-> > >>   letter of error string
-> > >> - mtk-mfg-pmdomain: get rid of redundant ret = dev_err_probe assignment
-> > >> - mtk-mfg-pmdomain: reintroduce stack OPP table, choose min(gpu, stack)
-> > >>   when adding frequencies. Fixes gaps in OPP levels where only stack
-> > >>   changed, but gpu had duplicates, which resulted in choosing a too slow
-> > >>   OPP
-> > >> - mtk-mfg-pmdomain: stub round_rate clk op to opt out of CCF always
-> > >>   "rounding" a devfreq rate request to the current rate
-> > >> - Link to v5: https://lore.kernel.org/r/20250929-mt8196-gpufreq-v5-0-3056e5ecf765@collabora.com
-> > >>
-> > >> Changes in v5:
-> > >> - mtk-mfg-pmdomain binding: add memory-regions property, remove shmem
-> > >>   property, as we now correctly describe the shared memory as a regular
-> > >>   memory region
-> > >> - mtk-mfg-pmdomain binding: get rid of redundant |
-> > >> - drop "dt-bindings: sram: Add compatible for
-> > >>   mediatek,mt8196-gpufreq-sram" as part of the move to reserved memory
-> > >> - mtk-mfg-pmdomain: move to using reserved-memory for GPUEB shared
-> > >>   memory
-> > >> - mtk-mfg-pmdomain: demote some types to smaller sizes in struct
-> > >>   mtk_mfg, as per Angelo's suggestions
-> > >> - mtk-mfg-pmdomain: use units.h for Hz-to-KHz
-> > >> - mtk-mfg-pmdomain: change for loop in attach_dev to reduce indentation
-> > >> - mtk-mfg-pmdomain: simplify return in mtk_mfg_power_off
-> > >> - mtk-mfg-pmdomain: move of_device_id after probe
-> > >> - mtk_mfg_pmdomain: map mmio by index
-> > >> - mtk_mfg_pmdomain: add error checking to pm_genpd_init()
-> > >> - mtk_mfg_pmdomain: add remove function
-> > >> - mtk_mfg_pmdomain: remove last_opp member and logic, since OPP core
-> > >>   already does that for us
-> > >> - mtk_mfg_pmdomain: adjust comment in mtk_mfg_set_performance to explain
-> > >>   why we're doing what we're doing
-> > >> - mtk_mfg_pmdomain: call mtk_mfg_set_oppidx in mtk_mfg_power_on with
-> > >>   the performance_state we deferred setting while it was powered off
-> > >> - mtk_mfg_pmdomain: add inline function for PWR_ACK checking, as it's
-> > >>   now used twice with the added remove function
-> > >> - mtk-mfg-pmdomain: add suppress_bind_attrs so people don't play with
-> > >>   that
-> > >> - mtk-mfg-pmdomain: change KConfig from tristate to bool, as module
-> > >>   unloading results in strange likely firmware-induced hardware state
-> > >>   woes in the mali GPU
-> > >> - mtk-mfg-pmdomain: read IPI magic in power_on, don't zero it after
-> > >>   confirming that seemingly had no purpose
-> > >> - mtk-mfg-pmdomain: misc style changes
-> > >> - Link to v4: https://lore.kernel.org/r/20250923-mt8196-gpufreq-v4-0-6cd63ade73d6@collabora.com
-> > >>
-> > >> Changes in v4:
-> > >> - rebase onto next-20250922, which includes Laura Nao's clock patches
-> > >> - refactor mediatek_mfg into a pmdomain driver called "mtk-mfg-pmdomain"
-> > >> - move mt8196-gpufreq binding to the power subdirectory
-> > >> - mali-valhall-csf binding: adjust for power-domains usage
-> > >> - mali-valhall-csf binding: use clocks on mt8196
-> > >> - mailbox: prefix defines with "GPUEB_"
-> > >> - mailbox: get rid of custom of_xlate
-> > >> - mailbox: rename "CLOGGED" to "BLOCKED"
-> > >> - mailbox: adjust send_data comment to include more technical info
-> > >> - mailbox: misc style improvements
-> > >> - panthor: drop "drm/panthor: devfreq: make get_dev_status use
-> > >>   get_cur_freq", as it is now not necessary and makes the code worse
-> > >> - panthor: drop "drm/panthor: devfreq: add pluggable devfreq providers"
-> > >> - panthor: drop "drm/panthor: add no_clocks soc_data member for MT8196",
-> > >>   as we now have clocks courtesy of gpufreq
-> > >> - panthor: check for existing opp table before registering a new one
-> > >> - mtk-mfg-pmdomain: add turbo_below variant data, which marks OPPs below
-> > >>   a certain index as turbo for the OPP subsystem
-> > >> - mtk-mfg-pmdomain: no longer read stack OPPs, as they weren't used
-> > >> - mtk-mfg-pmdomain: get rid of num gpu opp != num stack opp check.
-> > >>   That's the firmware's problem should it ever happen, not ours
-> > >> - mtk-mfg-pmdomain: some small name and whitespace changes on the defines
-> > >> - Link to v3: https://lore.kernel.org/r/20250917-mt8196-gpufreq-v3-0-c4ede4b4399e@collabora.com
-> > >>
-> > >> Changes in v3:
-> > >> - mali-valhall-csf binding: get rid of clocks for MT8196, rebase onto
-> > >>   Chia-I Wu's patch
-> > >> - mt8196-gpufreq binding: rename hw_revision to hw-revision
-> > >> - mt8196-gpufreq binding: rename clocks
-> > >> - mt8196-gpufreq binding: drop pointless label in example
-> > >> - mailbox binding: drop pointless label in example
-> > >> - mailbox: whitespace changes on defines
-> > >> - mailbox: remove rx_buf member from channel struct, use stack buffer
-> > >> - mailbox: check in probe that no rx_len exceeds MBOX_MAX_RX_SIZE
-> > >> - panthor: add no_clocks SoC data patch, also rebase onto Chia-I Wu's
-> > >>   series
-> > >> - panthor: refactor devfreq provider functionality to do allocation and
-> > >>   initialisation of panthor_devfreq struct in panthor in all cases
-> > >> - panthor: drop the patch that moves struct panthor_devfreq to a header
-> > >>   file, as it no longer needs to be exposed to devfreq providers
-> > >> - mediatek_mfg: refactor devfreq provider functionality to decouple it
-> > >>   more from panthor itself
-> > >> - mediatek_mfg: move SRAM magic to a #define
-> > >> - mediatek_mfg: begrudgingly rename member "padding_lol" to "reserved"
-> > >> - mediatek_mfg: use local struct device pointer var in more places
-> > >> - mediatek_mfg: change wording of sleep command failure error message,
-> > >>   but keep the format specifier because I don't want to throw bare
-> > >>   errnos at users
-> > >> - mediatek_mfg: remove unnecessary braces around dev_err EB power off
-> > >>   timeout message
-> > >> - mediatek_mfg: allocate rx_data for channels that expect a response
-> > >> - mediatek_mfg: memcpy the rx buffer from the common mailbox framework
-> > >>   in the rx callback to rx_data, as mssg now points to stack memory
-> > >> - mediatek_mfg: make SRAM clearing message dev_dbg
-> > >> - mediatek_mfg: no longer print physical address of SRAM
-> > >> - mediatek_mfg: expand on the GF_REG_OPP_TABLE_STK comment, toning down
-> > >>   its defeatist attitude in the process
-> > >> - mediatek_mfg: style fixes in mtk_mfg_get_closest_opp_idx
-> > >> - mediatek_mfg: rename clocks and hw-revision reg as per binding
-> > >> - Link to v2: https://lore.kernel.org/r/20250912-mt8196-gpufreq-v2-0-779a8a3729d9@collabora.com
-> > >>
-> > >> Changes in v2:
-> > >> - mali-valhall-csf binding: move from performance-controller to
-> > >>   performance-domains property
-> > >> - mali-valhall-csf binding: fix vendor name oopsie in compatible of if
-> > >>   condition
-> > >> - mt8196-gpufreq binding: move from performance-controller to
-> > >>   performance-domains by adding the cells property
-> > >> - mt8196-gpufreq binding: rename e2_id to hw_revision
-> > >> - mt8196-gpufreq binding: add description that mentions "MediaTek
-> > >>   Flexible Graphics"
-> > >> - mt8196-gpufreq binding: get rid of mailbox channels we're unlikely to
-> > >>   use any time soon, if ever
-> > >> - mt8196-gpufreq binding: change name of mailbox channels to use -
-> > >>   instead of _
-> > >> - mailbox binding: change reg-names to "data" and "ctl"
-> > >> - drm/panthor: mediatek_mfg: rename e2_id to hw_revision
-> > >> - drm/panthor: devfreq: switch from performance-controller to
-> > >>   performance-domains
-> > >> - drm/panthor: devfreq: get rid of the accidental get_cur_freq function
-> > >>   move
-> > >> - mailbox: rename mtk_gpueb_mbox_ch to mtk_gpueb_mbox_chan_desc
-> > >> - mailbox: use smaller types in mtk_gpueb_mbox_chan_desc where possible
-> > >> - mailbox: add per-channel runtime data struct
-> > >> - mailbox: request one threaded IRQ per channel, pass channel struct as
-> > >>   data
-> > >> - mailbox: make num_channels in variant struct u8
-> > >> - mailbox: get rid of no_response, as it was redundant
-> > >> - mailbox: enable and disable clock in mailbox startup/shutdown
-> > >> - mailbox: point con_priv of mailbox framework channel struct to this
-> > >>   driver's channel struct
-> > >> - mailbox: request and free the threaded IRQ in startup/shutdown
-> > >> - mailbox: only clear IRQ bit flag once RX data has been read from MMIO
-> > >> - mailbox: reduce needlessly large receive buffer size
-> > >> - mailbox: handle allocation errors wherever they could pop up
-> > >> - mailbox: style cleanups in mtk_gpueb_mbox_read_rx
-> > >> - mailbox: call platform_get_irq earlier on in probe
-> > >> - mailbox: set drvdata later on in probe
-> > >> - mailbox: ioremap resources by index, not name
-> > >> - mailbox: handle devm_mbox_controller_register errors
-> > >> - mailbox: rename channels to correspond to bindings
-> > >> - mailbox: document a few of the private driver structs to be kind to
-> > >>   the next person who will look at this code
-> > >> - Link to v1: https://lore.kernel.org/r/20250905-mt8196-gpufreq-v1-0-7b6c2d6be221@collabora.com
-> > >>
-> > >> ---
-> > >> Nicolas Frattaroli (5):
-> > >>       dt-bindings: gpu: mali-valhall-csf: add mediatek,mt8196-mali variant
-> > >>       dt-bindings: power: Add MT8196 GPU frequency control binding
-> > >>       drm/panthor: call into devfreq for current frequency
-> > >>       drm/panthor: Use existing OPP table if present
-> > >>       pmdomain: mediatek: Add support for MFlexGraphics
-> > >>
-> > >>  .../bindings/gpu/arm,mali-valhall-csf.yaml         |   37 +-
-> > >>  .../bindings/power/mediatek,mt8196-gpufreq.yaml    |  117 +++
-> > >>  drivers/gpu/drm/panthor/panthor_devfreq.c          |   62 +-
-> > >>  drivers/gpu/drm/panthor/panthor_devfreq.h          |    2 +
-> > >>  drivers/gpu/drm/panthor/panthor_device.h           |    3 -
-> > >>  drivers/gpu/drm/panthor/panthor_drv.c              |    4 +-
-> > >>  drivers/pmdomain/mediatek/Kconfig                  |   16 +
-> > >>  drivers/pmdomain/mediatek/Makefile                 |    1 +
-> > >>  drivers/pmdomain/mediatek/mtk-mfg-pmdomain.c       | 1044 ++++++++++++++++++++
-> > >>  9 files changed, 1268 insertions(+), 18 deletions(-)
-> > >> ---
-> > >> base-commit: 3477f49ff0433a241da12ec9cecf6c9b2bd1c6f8
-> > >> change-id: 20250829-mt8196-gpufreq-a7645670d182
-> > >>
-> > >> Best regards,
-> > >> --
-> > >> Nicolas Frattaroli <nicolas.frattaroli@collabora.com>
-> > >>
-> >
+Thanks for the suggestions Tomi. I will use MODE_CLOCK_RANGE instead of 
+MODE_CLOCK_HIGH and will update check_pixel_clock() as you mentioned.
 
--- 
-====================
-| I would like to |
-| fix the world,  |
-| but they're not |
-| giving me the   |
- \ source code!  /
-  ---------------
-    ¯\_(ツ)_/¯
+Regards,
+Swamil> Other than that:
+> 
+> Reviewed-by: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+> 
+>   Tomi
+> 
+>>   	/* TODO: add interlace support */
+>>   	if (mode->flags & DRM_MODE_FLAG_INTERLACE)
+>>   		return MODE_NO_INTERLACE;
+>> @@ -1423,17 +1409,6 @@ void dispc_vp_disable_clk(struct dispc_device *dispc, u32 hw_videoport)
+>>   	clk_disable_unprepare(dispc->vp_clk[hw_videoport]);
+>>   }
+>>   
+>> -/*
+>> - * Calculate the percentage difference between the requested pixel clock rate
+>> - * and the effective rate resulting from calculating the clock divider value.
+>> - */
+>> -unsigned int dispc_pclk_diff(unsigned long rate, unsigned long real_rate)
+>> -{
+>> -	int r = rate / 100, rr = real_rate / 100;
+>> -
+>> -	return (unsigned int)(abs(((rr - r) * 100) / r));
+>> -}
+>> -
+>>   int dispc_vp_set_clk_rate(struct dispc_device *dispc, u32 hw_videoport,
+>>   			  unsigned long rate)
+>>   {
+>> diff --git a/drivers/gpu/drm/tidss/tidss_dispc.h b/drivers/gpu/drm/tidss/tidss_dispc.h
+>> index 60c1b400eb89..42279312dcc1 100644
+>> --- a/drivers/gpu/drm/tidss/tidss_dispc.h
+>> +++ b/drivers/gpu/drm/tidss/tidss_dispc.h
+>> @@ -77,9 +77,6 @@ enum dispc_dss_subrevision {
+>>   };
+>>   
+>>   struct dispc_features {
+>> -	int min_pclk_khz;
+>> -	int max_pclk_khz[DISPC_VP_MAX_BUS_TYPE];
+>> -
+>>   	struct dispc_features_scaling scaling;
+>>   
+>>   	enum dispc_dss_subrevision subrev;
+> 
+
