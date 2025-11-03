@@ -2,97 +2,144 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5CA68C2E035
-	for <lists+dri-devel@lfdr.de>; Mon, 03 Nov 2025 21:19:35 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id A0CB4C2E092
+	for <lists+dri-devel@lfdr.de>; Mon, 03 Nov 2025 21:31:53 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A56FA10E481;
-	Mon,  3 Nov 2025 20:19:32 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0151B10E485;
+	Mon,  3 Nov 2025 20:31:50 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=broadcom.com header.i=@broadcom.com header.b="IzYxZtFZ";
+	dkim=pass (2048-bit key; unprotected) header.d=Nvidia.com header.i=@Nvidia.com header.b="N47k4JJB";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pf1-f228.google.com (mail-pf1-f228.google.com
- [209.85.210.228])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1841510E481
- for <dri-devel@lists.freedesktop.org>; Mon,  3 Nov 2025 20:19:32 +0000 (UTC)
-Received: by mail-pf1-f228.google.com with SMTP id
- d2e1a72fcca58-7a9c64dfa6eso1534361b3a.3
- for <dri-devel@lists.freedesktop.org>; Mon, 03 Nov 2025 12:19:32 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1762201171; x=1762805971;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:dkim-signature
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=b00idl91agjn0ys29sWn+IvlA/fQWIzSQ8wCh5mMYoQ=;
- b=j0+f5KwXS8OTn5uf8uCI4tR9tq1UVUV4QZkxJIOQRmi5moTKLUOcmHBLsc0Q15IhzQ
- uh5Z7FoOTkIEJ8GUYFYXeRx4YLZUDbbxMJy/7D0BthfF0aby5StsBG8Fm9f5BJ26kFgP
- N3GOcqZt4mth0DyGcIBqzYlQcVSCZnf9h54axr3wU5k4SilV+457JMNJhBFUJGwlNv4s
- kLf13/gjrkNP7/lNkolgLuWhucymJOUYOPIASu7WVyay0zxJGYtNGJPFqXHgJL5VoZrB
- nPJ7BHn6x6v1hkpIITlChdEg5Hto+6Scc44n0BZOfFxoD1EZZDJ4ijTkKvsgj2bYBEdK
- GN0w==
-X-Gm-Message-State: AOJu0Yx/Sv+EFiomtWSWWNxH0mcVl8ToALi/9aYCNi+wMjpAoOyzcGaa
- j50bxbEyVTP7DQCGscYgAS4706I3cKIhAeWQdhqf3zyr949qF4X7hF2kiYpfpZac2JNicY4RFvf
- gsRgWYrYVRdt2JNyDf3CZpgNFqh2FLpr6wodzUQ48p8NP+GE4mVZz3hK72m1Vu7xqxqKlRxO4Mw
- kyoW5uw9ZrqHEAlgYuKg0aF/PEcDkBFRagAM+KdRvCgcyIF0qcK5Vte6/UWpA9ui/qa3SxJaDD5
- 9aygQCcz6o9eDNFshCz
-X-Gm-Gg: ASbGncus8d6gwFWpGfVEEP0/Zkzfn9aJrshICjpy8qubX2kMFMZkY8FFDJiDwjsawNA
- nFAoZmElqmU8Pj5DFXs5qwR6hsW59XdXwOYcxJmQDslDv0ILguDsozknCTu33KH36tIVy7xl6yg
- pZ8ix9cogfZv4Bij2x2dMFLhpBeWK/o4Yva1/VeLeD2NtZN5n2fhUWp49osdwVfaMKz9mL9bJDP
- psfQoygCqRoILc4ZEP/kbKQsVydDVzCcslTXwvlJIQ5F9jM8PV17Z0hWwgzj/NqLfpWQ6tauP0x
- zAMEnLDk7QMd/vmIowVIkyi9DfxAHvhVyLi3+ZLSJpyyp7LonHdLr7uvjg/HS+BjI0QV401KJOJ
- TC09ZLS/WIdJNz1p1gELguCLucZcZfQrRbc/HSVsiFPwwEGRLyNOGbkPD1J3iTj+5ESRrV4EUFZ
- cmUt0F6fxGNXnR2BELzFsiJCRDkvkjY2nu/A==
-X-Google-Smtp-Source: AGHT+IFxjA4jSnUPU7GorcDKRLB99SCfp7alOTdZMRHWnHuvNWZ0JB+7JNdGLZ/KZfVLXopy9lma9gdFqcys
-X-Received: by 2002:a17:902:e84a:b0:295:987d:f7ef with SMTP id
- d9443c01a7336-295987e0271mr70702555ad.10.1762201170580; 
- Mon, 03 Nov 2025 12:19:30 -0800 (PST)
-Received: from smtp-us-east1-p01-i01-si01.dlp.protect.broadcom.com
- (address-144-49-247-101.dlp.protect.broadcom.com. [144.49.247.101])
- by smtp-relay.gmail.com with ESMTPS id
- 41be03b00d2f7-ba1f493c46bsm763a12.9.2025.11.03.12.19.30
- for <dri-devel@lists.freedesktop.org>
- (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
- Mon, 03 Nov 2025 12:19:30 -0800 (PST)
-X-Relaying-Domain: broadcom.com
-X-CFilter-Loop: Reflected
-Received: by mail-pl1-f198.google.com with SMTP id
- d9443c01a7336-27c62320f16so57312495ad.1
- for <dri-devel@lists.freedesktop.org>; Mon, 03 Nov 2025 12:19:29 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=broadcom.com; s=google; t=1762201168; x=1762805968;
- darn=lists.freedesktop.org; 
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:from:to:cc:subject:date
- :message-id:reply-to;
- bh=b00idl91agjn0ys29sWn+IvlA/fQWIzSQ8wCh5mMYoQ=;
- b=IzYxZtFZPJmWoKSxiePIodrUMOwSduntbIkkXw0dcpFKJ8VALDXf45G5tf2OIPcgHe
- /r4uPTXhbBMjYsZzy8pdKmzVvQZhgFyIDRYNXrH+SbFC7H4MYW58e3vVSMYE5iABfhhy
- 82lduNEPGp/aYFT+GqcUJLX2SBHNtavQTlDfk=
-X-Received: by 2002:a17:902:c409:b0:276:d3e:6844 with SMTP id
- d9443c01a7336-2951a493552mr202563075ad.33.1762201168274; 
- Mon, 03 Nov 2025 12:19:28 -0800 (PST)
-X-Received: by 2002:a17:902:c409:b0:276:d3e:6844 with SMTP id
- d9443c01a7336-2951a493552mr202562655ad.33.1762201167664; 
- Mon, 03 Nov 2025 12:19:27 -0800 (PST)
-Received: from plasma.dhcp.broadcom.net ([192.19.144.250])
- by smtp.gmail.com with ESMTPSA id
- d9443c01a7336-29601a5d174sm154575ad.77.2025.11.03.12.19.26
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 03 Nov 2025 12:19:27 -0800 (PST)
-From: Ian Forbes <ian.forbes@broadcom.com>
-To: dri-devel@lists.freedesktop.org
-Cc: bcm-kernel-feedback-list@broadcom.com, zack.rusin@broadcom.com,
- maaz.mombasawala@broadcom.com, Ian Forbes <ian.forbes@broadcom.com>
-Subject: [PATCH v3] drm/vmwgfx: Restore Guest-Backed only cursor plane support
-Date: Mon,  3 Nov 2025 14:19:20 -0600
-Message-ID: <20251103201920.381503-1-ian.forbes@broadcom.com>
-X-Mailer: git-send-email 2.51.1
-In-Reply-To: <20251030143910.134767-1-ian.forbes@broadcom.com>
-References: <20251030143910.134767-1-ian.forbes@broadcom.com>
+Received: from SJ2PR03CU001.outbound.protection.outlook.com
+ (mail-westusazon11012018.outbound.protection.outlook.com [52.101.43.18])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DE93F10E485;
+ Mon,  3 Nov 2025 20:31:48 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=Jffyqra5lyRjpyvIiKSTLnE6LOCvsqWFt7MNk0A4KyMoVPxn6hiNUmt7K7MbSinbT7cw3DNc6RefJlqHL3lxg3OhquTgEXlYG6XyfyBSDmCRVyC3pKBMzz+qpdAQm/VOTurC6/FFlT6H1kBvOsHVCzv0fFnWF+P0GOb7tNtRi59cVyCg9AGBo6OPBNXN2h3+BcRRie7QHDs4wb1Uw+NXDAs8At9UpK2PgqWbO0Afp+FRviSU8BnNWSYTs5efbRLxe+/1viPjXWtk5Ul58/Psiot0DB1xbY4gL3vGnxmQ+0h/MYNLIQf/4yTjXXCr5tGywSJ43MGc5Tb1Dc8FaDP10Q==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=wGGrH8OTlnR+fi4sdHexJKfzEL4GeVHbDJCizjQkStg=;
+ b=vwTDr2kE3FbGgSiUeHOF1m2fqM/9G4GZh5irQeLKM6GpOVjkwm1ECq2ria+VwI3SnwCWq++yWapTrb73FZyoxtxyTnANpMQWhnsK4cswYQx1IoV1efYV/7Ug5h8XXBY6NAki6/mXDgv82tnzOcqEYH5eJSO1MbvzK5NourQHlE+V4JiTu2QLcC9X4JGmLgi6cidZPi8MVM+pfzIc7oYVlsT3J3fO8SQmriwPNo7zA1FCCevYZg3evq+k+m2e+772QME5DiLRgq5Hd2D5JRVIMgBXT4UyUEcBh3vQytZiyljPlBl+82VpEuyWS2EGfY9AyWobYEKB7K8aTAVB4Vvpjg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
+ dkim=pass header.d=nvidia.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=wGGrH8OTlnR+fi4sdHexJKfzEL4GeVHbDJCizjQkStg=;
+ b=N47k4JJBGp+WAeOASPThzNaiXhkzfhTWEhYtHNayevZcAD7CmaB0Puqb/EXnLiS4Cpkm52fMCxaXnrvzxrzpkiOE/8Brr1EcyxxI5JTP1g2T70Q86MYf4qeRh7ZBWqU1skGa8gRrMN5F3qkfumEe8u2GrsI9PWQaVtlZ5UWYyVXeSlOMf9akNVsqeyfKHF95r5aINg2Lvem6CktzXsWIV/crfalkKxLQxAfl43oclnuiZEWGC13qvnDnxN0LR71xbRhFL8L5TYrzyeMxngO50ViNDRzKJOx+jFxmBnGyf1IpskQxMZezC6U7jOBQ+L6OVnMTPX8Y4Yi6YXuhr8aUvQ==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=nvidia.com;
+Received: from SN7PR12MB8059.namprd12.prod.outlook.com (2603:10b6:806:32b::7)
+ by MW6PR12MB8950.namprd12.prod.outlook.com (2603:10b6:303:24a::8)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9275.16; Mon, 3 Nov
+ 2025 20:31:39 +0000
+Received: from SN7PR12MB8059.namprd12.prod.outlook.com
+ ([fe80::4ee2:654e:1fe8:4b91]) by SN7PR12MB8059.namprd12.prod.outlook.com
+ ([fe80::4ee2:654e:1fe8:4b91%2]) with mapi id 15.20.9275.015; Mon, 3 Nov 2025
+ 20:31:39 +0000
+Date: Mon, 3 Nov 2025 15:31:38 -0500
+From: Joel Fernandes <joelagnelf@nvidia.com>
+To: Alexandre Courbot <acourbot@nvidia.com>
+Cc: Alice Ryhl <aliceryhl@google.com>, David Airlie <airlied@gmail.com>,
+ Simona Vetter <simona@ffwll.ch>, Miguel Ojeda <ojeda@kernel.org>,
+ Alex Gaynor <alex.gaynor@gmail.com>,
+ Boqun Feng <boqun.feng@gmail.com>, Gary Guo <gary@garyguo.net>,
+ =?iso-8859-1?Q?Bj=F6rn?= Roy Baron <bjorn3_gh@protonmail.com>,
+ Benno Lossin <lossin@kernel.org>, Andreas Hindborg <a.hindborg@kernel.org>,
+ Trevor Gross <tmgross@umich.edu>, John Hubbard <jhubbard@nvidia.com>,
+ Alistair Popple <apopple@nvidia.com>, Timur Tabi <ttabi@nvidia.com>,
+ Edwin Peer <epeer@nvidia.com>, nouveau@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ rust-for-linux@vger.kernel.org, Danilo Krummrich <dakr@kernel.org>
+Subject: Re: [PATCH v3 2/6] gpu: nova-core: vbios: do not use `as` when
+ comparing BiosImageType
+Message-ID: <20251103203138.GA2098593@joelbox2>
+References: <20251029-nova-as-v3-0-6a30c7333ad9@nvidia.com>
+ <20251029-nova-as-v3-2-6a30c7333ad9@nvidia.com>
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20251029-nova-as-v3-2-6a30c7333ad9@nvidia.com>
+X-ClientProxiedBy: BN9PR03CA0752.namprd03.prod.outlook.com
+ (2603:10b6:408:13a::7) To SN7PR12MB8059.namprd12.prod.outlook.com
+ (2603:10b6:806:32b::7)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-DetectorID-Processed: b00c1d49-9d2e-4205-b15f-d015386d3d5e
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: SN7PR12MB8059:EE_|MW6PR12MB8950:EE_
+X-MS-Office365-Filtering-Correlation-Id: ffe0a89b-595b-4094-4265-08de1b17fe15
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;ARA:13230040|366016|1800799024|7416014|376014;
+X-Microsoft-Antispam-Message-Info: =?us-ascii?Q?FZXIlwsBCHF58C0hHGxk9ZLCazH4ZYxsgqXREdNGakebVGuXIm9d5G1qLSJT?=
+ =?us-ascii?Q?EAE0HA6826+Q8Sd3yIfwOH9Rc+PUnb3ph8tt/2op6IgmbzvEQQcU2mbQPf1m?=
+ =?us-ascii?Q?YDGwvdEBIv9iHildTRAB8ELLLAokQIoRBiIXzT2/HOshwbEn6Jw9RD8g09CL?=
+ =?us-ascii?Q?e2FnkXq1gOk6m7z/RSutbyeTSrMCWrkWEd4v4G4oKaFgRSzyj5xKWGMZ/PQ7?=
+ =?us-ascii?Q?5UIJu2SZ3JtD0fh4nuwRbmW/PNyjVmjXd526Z+BTAQF1hGuXV4Ycl6GMy/mf?=
+ =?us-ascii?Q?3J3577QKcNBh55AybDL1v5hqo1A4w5+i1y1WfnDboqWfaXfgxP24CllA5sah?=
+ =?us-ascii?Q?6LxGdQmzt5ucU0PjT/5DBr4n6LueWwXnG23asO9q9t+u31IeDw7kHV4kuulf?=
+ =?us-ascii?Q?1LuJpNVudYw1i9J1jZEuwfLLVA/oMMthyKsbG8xjd+28s/Wu/NdeaAoZ9aqE?=
+ =?us-ascii?Q?Pier5DJilB1F9+z4vFZhNAt3EsgaNqCsXP0O2mUDh5hExpY6ohuMLA4hxGK6?=
+ =?us-ascii?Q?rgt5iYH809P2NNFANTD86qkwrn+JI3s+Y7Fr+C56cIrnDF3qCtzrBDCMaRPc?=
+ =?us-ascii?Q?5zPlXeKKh3+31ZYj0TCeaArOyn5s+iTeAXgwprVkJLLvneIAsNUOVnH2Ppg5?=
+ =?us-ascii?Q?Rfd3x72rWHFBFKcepsEcQUnB9OWKoMFVF/qmVXUpaps2wODE6EaEtNhABmRW?=
+ =?us-ascii?Q?guogv6RTcE2x/A+B3iuAo8z/i53DCMAL8oXkEW9uWrPtay1xnSxgs3TQF2pA?=
+ =?us-ascii?Q?NzQQp3y/qVDC1iXj7q7QbLsfSVhhYbasS7XFoMwgf8hgAvlmGaXz0wDTpl1b?=
+ =?us-ascii?Q?/ImwBD3WfRjTB9zC1unwXAeiLWKk5opnvjp5sUyFh3cETsbehld8NE1Kpjj7?=
+ =?us-ascii?Q?imWytUQrlSTu2wIEw2znAar7RK5Nm2z8zOYwJKFeOvrG/O1CKkdqyW+YwBBN?=
+ =?us-ascii?Q?RXkfptyxKX97i2dQzezvw0ag2RHkmxkxEhvwHi3PZhgsnhA86JXbCMiiOyTX?=
+ =?us-ascii?Q?N2ALg717IVwzR4CGxTzvhhDTEX2mO2ub+mJNDea6qZl9ZfOWzs/5TNd8mypn?=
+ =?us-ascii?Q?q/Ep41GQjZDtC7Sg6uS/aY+TKtJjJ2Jjhb+HsSRLxp0RkpOpGfIagVBRldMy?=
+ =?us-ascii?Q?ppsu0uIr/ejO5InSpBm5fAYWuj2Zr0NAUDoT9Kr/2x92ptOcHAymAfsUv46n?=
+ =?us-ascii?Q?BF7iuTX+4pjWcN4h1qHVOmcmUZV/yLwrwOV8Pz94RsAACwdDZ9luUmCHj4nm?=
+ =?us-ascii?Q?a1WtsNi/0Fzbkr88e432hWBv2lE38XRE1WXxTCZ0EdaBgh3bUZiCJMdaxnlh?=
+ =?us-ascii?Q?Iqrg5DFf7E3FKSlGaaey2JC3yPsS09FWCT5HUUL7eDpMWCn/woXfEWVYRLpk?=
+ =?us-ascii?Q?5hxPqSejowLvk+C3rWf9N8iGo+qTKpNzM9Ce2YJ3LQ+YD+i8IYtCBuxdw3SS?=
+ =?us-ascii?Q?/lidIYkyuzTvhG7z35VjTYcHEgHqQqH+?=
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:SN7PR12MB8059.namprd12.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230040)(366016)(1800799024)(7416014)(376014); DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?SUj6eR6YsmFitAJ3pf0K167SEYaDn1RTaifvDQzvwdKqt80lrCnkq3oNyc0i?=
+ =?us-ascii?Q?CgZIp0xKxqZKdVhPpMx+y72JMf9e2q9ix8aaYKPOpO1ZtlxupuL3D7VDCSEK?=
+ =?us-ascii?Q?hjaSCdYnYnKgisHOq7SlYiYPiVdkatPNplX1sqKsE6ufknlxG1Ndh+l7YHNE?=
+ =?us-ascii?Q?WjNgbJE0qvn6XGV51MGbxJkdvrhzIXW2nyHGYhPkU8aUFJuiQtR9t+JXRabD?=
+ =?us-ascii?Q?W4YkFJqGoUmBpuJPh73gK9QlwFFyv075F7VKqdWJjac4k6YAmFybjUuHtNCM?=
+ =?us-ascii?Q?J1fFE16v6HaK4oUJ2UN1c+ep9bSq1PEkmIst0s5i6pAz6tSP0AJiUeFORmgz?=
+ =?us-ascii?Q?Ll8YZoEs/WS8l8MjBlSEwFRcAG9aOMlr4X0j4jVRFKKCvL4tYb7PZqydaJ8l?=
+ =?us-ascii?Q?sn04OutlSIU5dDctVjt0b3UNIDUQJ4rzCFxN1WbkKA/J3hc8rMZuv4I7/D3A?=
+ =?us-ascii?Q?iTCx8r58Z3e8fC9c/FpC92B2sqnXzXa+ed+2iYZp38obHKF7tmFA1/di9AI/?=
+ =?us-ascii?Q?+MtziuBjd6ooEvDWMkCRtBB02tjmsdpFz6hwy7QVDaMuSGP0qUEuirlOPjno?=
+ =?us-ascii?Q?qNbRX12aqvj8jiMa0xq8omAwPzZsmmCkPYSztdiqJUhZpeeF2KpW/RUE4kIy?=
+ =?us-ascii?Q?B/XMXh3wJPc2+Q/JT1iC6jnfQODhfWZf7Aq9CB3OGAh9yT34rZvWQTVVPggb?=
+ =?us-ascii?Q?06S0DXM9Y1HMH03+KhSRz/a8BHbrg46JJw4GTrdr2Qfv8NCWxFqSG+KA+QQL?=
+ =?us-ascii?Q?K8gnNZXto57biM/C5jCuiTTGDArH3ELHYZXwXoE24BwW7dZVrYtKsF9x/acD?=
+ =?us-ascii?Q?Y+10+o4+J1L6EPr2rjpaVDMtRrZFR/dVUx/Xl0peXGeC5nmAMr1xmEdn+v+q?=
+ =?us-ascii?Q?Y4JpulyjA18HtP8LWdj5K4+8FdK7Mi+5TwflafalZlaJYLD4hMQj6+agMUQM?=
+ =?us-ascii?Q?XxMAQdH5NL+zgJgIkvWW1txnu7LOSNFG2YDpOJJjnQRIukfQLhRTRToTtQD9?=
+ =?us-ascii?Q?oDhWscHCgwz6jF8LqDyVew+gSxGII03+d1buZdjKS1dpUctxLP7y81OZHym0?=
+ =?us-ascii?Q?3MEZ6rtGjEmGMiSuDMdw5VCLSBM+0lysgBmqX/E0us0odMxTv8wVEdnVs3X6?=
+ =?us-ascii?Q?PmMTWJNLIbiW5EuQAGKXapN526KcNTgwHGqvU03iUuE622dKqsmECtCVgBEG?=
+ =?us-ascii?Q?xJhZWFalRWtZm0AmU79OTdvEiYn8fiQYcrhfng3GZ3CGTzUPFxnhQyFIXQK9?=
+ =?us-ascii?Q?lfndjS3VtKBy+P8raB2X3nGN4rNfVN3CVNYb9kv0i28GwLzWa4qX8UBVxAzT?=
+ =?us-ascii?Q?Lv1AmKlg3H83x+fhQIFIMGeME0qIiowXIFqizHp76cyCIxXX+tjMLqyQE81Y?=
+ =?us-ascii?Q?2KVtUjp8H1OlTDEfV9YOsxVdIkvYy3Ig4sj1z34K43LFZN2+tNoUAnZ21h1m?=
+ =?us-ascii?Q?/Wr+szfPbkBLVQFPa7/GnVcy2EY94K1R6CwWyJQFJ7+mDrYtLuOMuhTwcvw8?=
+ =?us-ascii?Q?Gtv8gKCWmMaYY3QhcuiQofEzb9a+4zGyUp4AzxZhJgt9CfYzJ1ImkofTr/TV?=
+ =?us-ascii?Q?dCIPxTbjdWD5k8OQ1qkXrfKPJJOVBeUZicywXj9M?=
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: ffe0a89b-595b-4094-4265-08de1b17fe15
+X-MS-Exchange-CrossTenant-AuthSource: SN7PR12MB8059.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 03 Nov 2025 20:31:39.5933 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: dPfd+hdCXvpIoymD2LCWk3qqMmGLBEKBCRppGVJtXGPsrLUeyRnAGlPBab6h6Ii7huNe6nzrU5gVVB4vYrukaQ==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MW6PR12MB8950
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -108,90 +155,45 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The referenced fixes commit broke the cursor plane for configurations
-which have Guest-Backed surfaces but no cursor MOB support.
+On Wed, Oct 29, 2025 at 08:12:10AM +0900, Alexandre Courbot wrote:
+> Use the `image_type` method and compare its result to avoid using `as`.
+> 
+> Signed-off-by: Alexandre Courbot <acourbot@nvidia.com>
+> ---
+>  drivers/gpu/nova-core/vbios.rs | 5 ++---
+>  1 file changed, 2 insertions(+), 3 deletions(-)
+> 
+> diff --git a/drivers/gpu/nova-core/vbios.rs b/drivers/gpu/nova-core/vbios.rs
+> index 74ed6d61e6cc..7c1bf10b2eac 100644
+> --- a/drivers/gpu/nova-core/vbios.rs
+> +++ b/drivers/gpu/nova-core/vbios.rs
+> @@ -709,9 +709,8 @@ fn image_type(&self) -> Result<BiosImageType> {
+>  
+>      /// Check if this is the last image.
+>      fn is_last(&self) -> bool {
+> -        // For NBSI images (type == 0x70), return true as they're
+> -        // considered the last image
+> -        if self.pcir.code_type == BiosImageType::Nbsi as u8 {
+> +        // For NBSI images, return true as they're considered the last image
+> +        if self.image_type() == Ok(BiosImageType::Nbsi) {
 
-Fixes: 965544150d1c ("drm/vmwgfx: Refactor cursor handling")
-Signed-off-by: Ian Forbes <ian.forbes@broadcom.com>
----
+nit: Could you add period at the end of the comment sentence as Miguel
+suggested in the other thread (which I admit the initial code also didn't
+have)?
 
-v2:
- - Add drm_warn_once on unknown cursor type
-v3:
- - Fixed compiler error on GCC 8
+With that change,
 
- drivers/gpu/drm/vmwgfx/vmwgfx_cursor_plane.c | 16 +++++++++++++++-
- drivers/gpu/drm/vmwgfx/vmwgfx_cursor_plane.h |  1 +
- 2 files changed, 16 insertions(+), 1 deletion(-)
+Reviewed-by: Joel Fernandes <joelagnelf@nvidia.com>
 
-diff --git a/drivers/gpu/drm/vmwgfx/vmwgfx_cursor_plane.c b/drivers/gpu/drm/vmwgfx/vmwgfx_cursor_plane.c
-index 718832b08d96..c46f17ba7236 100644
---- a/drivers/gpu/drm/vmwgfx/vmwgfx_cursor_plane.c
-+++ b/drivers/gpu/drm/vmwgfx/vmwgfx_cursor_plane.c
-@@ -100,8 +100,10 @@ vmw_cursor_update_type(struct vmw_private *vmw, struct vmw_plane_state *vps)
- 	if (vmw->has_mob) {
- 		if ((vmw->capabilities2 & SVGA_CAP2_CURSOR_MOB) != 0)
- 			return VMW_CURSOR_UPDATE_MOB;
-+		else
-+			return VMW_CURSOR_UPDATE_GB_ONLY;
- 	}
--
-+	drm_warn_once(&vmw->drm, "Unknown Cursor Type!\n");
- 	return VMW_CURSOR_UPDATE_NONE;
- }
- 
-@@ -139,6 +141,7 @@ static u32 vmw_cursor_mob_size(enum vmw_cursor_update_type update_type,
- {
- 	switch (update_type) {
- 	case VMW_CURSOR_UPDATE_LEGACY:
-+	case VMW_CURSOR_UPDATE_GB_ONLY:
- 	case VMW_CURSOR_UPDATE_NONE:
- 		return 0;
- 	case VMW_CURSOR_UPDATE_MOB:
-@@ -623,6 +626,7 @@ int vmw_cursor_plane_prepare_fb(struct drm_plane *plane,
- 		if (!surface || vps->cursor.legacy.id == surface->snooper.id)
- 			vps->cursor.update_type = VMW_CURSOR_UPDATE_NONE;
- 		break;
-+	case VMW_CURSOR_UPDATE_GB_ONLY:
- 	case VMW_CURSOR_UPDATE_MOB: {
- 		bo = vmw_user_object_buffer(&vps->uo);
- 		if (bo) {
-@@ -737,6 +741,7 @@ void
- vmw_cursor_plane_atomic_update(struct drm_plane *plane,
- 			       struct drm_atomic_state *state)
- {
-+	struct vmw_bo *bo;
- 	struct drm_plane_state *new_state =
- 		drm_atomic_get_new_plane_state(state, plane);
- 	struct drm_plane_state *old_state =
-@@ -762,6 +767,15 @@ vmw_cursor_plane_atomic_update(struct drm_plane *plane,
- 	case VMW_CURSOR_UPDATE_MOB:
- 		vmw_cursor_update_mob(dev_priv, vps);
- 		break;
-+	case VMW_CURSOR_UPDATE_GB_ONLY:
-+		bo = vmw_user_object_buffer(&vps->uo);
-+		if (bo)
-+			vmw_send_define_cursor_cmd(dev_priv, bo->map.virtual,
-+						   vps->base.crtc_w,
-+						   vps->base.crtc_h,
-+						   vps->base.hotspot_x,
-+						   vps->base.hotspot_y);
-+		break;
- 	case VMW_CURSOR_UPDATE_NONE:
- 		/* do nothing */
- 		break;
-diff --git a/drivers/gpu/drm/vmwgfx/vmwgfx_cursor_plane.h b/drivers/gpu/drm/vmwgfx/vmwgfx_cursor_plane.h
-index 40694925a70e..0c2cc0699b0d 100644
---- a/drivers/gpu/drm/vmwgfx/vmwgfx_cursor_plane.h
-+++ b/drivers/gpu/drm/vmwgfx/vmwgfx_cursor_plane.h
-@@ -33,6 +33,7 @@ static const u32 __maybe_unused vmw_cursor_plane_formats[] = {
- enum vmw_cursor_update_type {
- 	VMW_CURSOR_UPDATE_NONE = 0,
- 	VMW_CURSOR_UPDATE_LEGACY,
-+	VMW_CURSOR_UPDATE_GB_ONLY,
- 	VMW_CURSOR_UPDATE_MOB,
- };
- 
--- 
-2.51.1
+thanks,
 
+ - Joel
+
+
+>              return true;
+>          }
+>  
+> 
+> -- 
+> 2.51.0
+> 
