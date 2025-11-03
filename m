@@ -2,55 +2,49 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id BCBF7C2D845
-	for <lists+dri-devel@lfdr.de>; Mon, 03 Nov 2025 18:45:17 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4EBC4C2D85A
+	for <lists+dri-devel@lfdr.de>; Mon, 03 Nov 2025 18:46:03 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3E65A10E4AB;
-	Mon,  3 Nov 2025 17:45:15 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 97D4210E4B4;
+	Mon,  3 Nov 2025 17:46:01 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="D/EJDKWk";
+	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="iMWDMPpQ";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sea.source.kernel.org (sea.source.kernel.org [172.234.252.31])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BB26F10E4AB;
- Mon,  3 Nov 2025 17:45:14 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by sea.source.kernel.org (Postfix) with ESMTP id 823AE41A66;
- Mon,  3 Nov 2025 17:45:14 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E09D4C4CEF8;
- Mon,  3 Nov 2025 17:45:12 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1762191914;
- bh=W+qr5DwMeVjhNwTz4GD8p3W4iUptYbkU5ExtMChr/xo=;
- h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
- b=D/EJDKWk966ytiAE0+j5TuPyzBCXXDpboYv3OUu2QbF7sd8Ee5gkdzs9sS1n8zWSk
- vK1mdIM1LCd2RxmfwB/X0UwPPwBQR/UIFyddjyGJcGcgJWTAM11cf24B1QlNtADpT1
- y9WR+I8EtyRz/fiomZ9jwWKv6uI2nuWgOije/uYCeUIqRTTu3tBHClKPW88zgmG+/t
- OSxgWAwzyEqm9DEP9/x0D1byujZlePfo3lL0LyOTjWj0rs9OxtSsbBrcOFDDB8Y3l8
- YTMpthcTueMGrU11TO4d59WlF7c5j7oDsg5267Koxw/yaQs6fbhVO0pp44ZgVwR7pf
- pkWR85TYbXAzg==
-Message-ID: <a0802bd3-2998-4149-8035-4fbd73ce911f@kernel.org>
-Date: Mon, 3 Nov 2025 11:45:11 -0600
+Received: from bali.collaboradmins.com (bali.collaboradmins.com
+ [148.251.105.195])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6FD0710E4B3
+ for <dri-devel@lists.freedesktop.org>; Mon,  3 Nov 2025 17:46:00 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+ s=mail; t=1762191959;
+ bh=pctSjfRkIU7QLP8KbiN3tqFcGbyWbIapS2i0ze4iemw=;
+ h=From:To:Cc:Subject:Date:From;
+ b=iMWDMPpQ/NHzE5gy06HDPUAzinkiUMxUjH3MgUxwTOdQgSRxEL+19t5Dgk9UgXP/5
+ 4dKxglnZG8a6NVNecgMjPSlkIrMABCHH7reHMqMJ+FufXAZJLEr1YOZjPkAAcyWcKw
+ XK96c7r23XbTjfJ0fHsMMy1P4hTF4CLJS1Y89CQZOQ57/sMh8XFBsbVUV/JTx/Nnwu
+ 1yIPe6H948w1xHrYXTl9CJOWPSt5m1T7xFMT71ldizoXiJLW0lmZMfgMCxssNrWtyD
+ ydVT1a80WaJ1BuAPgjKVlQ0ElwpZS3TiB/L2LGkfmsLqeE7MH3J79dznYQSnoH0hJ/
+ PDhUfcjUlE1kA==
+Received: from localhost.localdomain (unknown
+ [IPv6:2a02:2f08:e41c:5800:b6c0:b468:93e5:9b17])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested) (Authenticated sender: mvlad)
+ by bali.collaboradmins.com (Postfix) with ESMTPSA id A212C17E1305;
+ Mon,  3 Nov 2025 18:45:58 +0100 (CET)
+From: Marius Vlad <marius.vlad@collabora.com>
+To: dri-devel@lists.freedesktop.org
+Cc: dmitry.baryshkov@oss.qualcomm.com, tzimmermann@suse.de,
+ simona.vetter@ffwll.ch, jani.nikula@linux.intel.com,
+ ian.forbes@broadcom.com, louis.chauvet@bootlin.com,
+ daniel.stone@collabora.com
+Subject: [PATCH v4 0/3] Pass down hot plug CONNECTOR ID to user-space
+Date: Mon,  3 Nov 2025 19:45:54 +0200
+Message-ID: <20251103174558.7709-1-marius.vlad@collabora.com>
+X-Mailer: git-send-email 2.47.2
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 5/5] Documentation/amdgpu: Add UMA carveout details
-To: "Yo-Jung Leo Lin (AMD)" <Leo.Lin@amd.com>,
- Alex Deucher <alexander.deucher@amd.com>,
- =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- Jonathan Corbet <corbet@lwn.net>
-Cc: amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, anson.tsao@amd.com
-References: <20251103-vram-carveout-tuning-for-upstream-v1-0-17e2a72639c5@amd.com>
- <20251103-vram-carveout-tuning-for-upstream-v1-5-17e2a72639c5@amd.com>
-Content-Language: en-US
-From: "Mario Limonciello (AMD) (kernel.org)" <superm1@kernel.org>
-In-Reply-To: <20251103-vram-carveout-tuning-for-upstream-v1-5-17e2a72639c5@amd.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -66,91 +60,48 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+Patch series addresses a shortcoming where we're sending a hot plug event
+without passing the actual CONNECTOR that caused it. This takes into
+consideration both the polling path and the HPD (Hot Plug Detect) path.
+
+v4:
+
+- removed the "This patch" bit - Dmitry
+- added a short note when the flag is set and cleared - Dmitry
+- address double dead-locking detected - kbot: https://lore.kernel.org/dri-devel/202509251410.fdfbcac3-lkp@intel.com/
+- virtual connectors do not seem have any kind of hotplug - added
+  polling in vkms - as noted by Ian
+
+v3: Address comments from Dmitry
+
+- guard connector status write with mode_config.mutex
+- avoid setting up the connector status and immediately unset it. Do the
+  unset in drm_kms_helper_hotplug_event/drm_kms_helper_connector_hotplug_event
+- v3 is at https://lore.kernel.org/dri-devel/20250923083636.4749-1-marius.vlad@collabora.com/
+
+v2: Address comments from Daniel
+
+- split patch into 2, one that introduces a bool to track connector
+  connection status change and a patch that uses that to be able to send
+  hot plug events with the proper CONNECTOR ID to udev and further pass
+  that down to user-space
+- nuke out mutex when iterating connector list
+- fix typo
+- v2 is at https://lore.kernel.org/dri-devel/20250729165708.9947-1-marius.vlad@collabora.com/
 
 
-On 11/3/2025 1:51 AM, Yo-Jung Leo Lin (AMD) wrote:
-> Add documentation for the uma_carveout_options and uma_carveout
-> attributes in sysfs
-> 
-> Signed-off-by: Yo-Jung Leo Lin (AMD) <Leo.Lin@amd.com>
-> ---
->   Documentation/gpu/amdgpu/driver-misc.rst     | 26 ++++++++++++++++++++++++++
->   drivers/gpu/drm/amd/amdgpu/amdgpu_atombios.c | 17 +++++++++++++++++
->   2 files changed, 43 insertions(+)
-> 
-> diff --git a/Documentation/gpu/amdgpu/driver-misc.rst b/Documentation/gpu/amdgpu/driver-misc.rst
-> index 25b0c857816e..5a71fa9c6782 100644
-> --- a/Documentation/gpu/amdgpu/driver-misc.rst
-> +++ b/Documentation/gpu/amdgpu/driver-misc.rst
-> @@ -128,3 +128,29 @@ smartshift_bias
->   
->   .. kernel-doc:: drivers/gpu/drm/amd/pm/amdgpu_pm.c
->      :doc: smartshift_bias
-> +
-> +UMA Carveout
-> +============
-> +
-> +Some versions of Atom ROM expose available options for the VRAM carveout sizes,
-> +and allow changes to the carveout size via the ATCS function code 0xA on supported
-> +BIOS implementation.
-> +
-> +For those platforms, users can use the following file to set the carveout size,
-> +in a way similar to what Windows users can do in the "Tuning" tab in AMD
-> +Adrenalin.
-> +
-> +Note that for BIOS implementations that don't support this, these files will not
-> +get created at all.
-> +
-> +uma_carveout_options
-> +--------------------
-> +
-> +.. kernel-doc:: drivers/gpu/drm/amd/amdgpu/amdgpu_atombios.c
-> +   :doc: uma_carveout_options
-> +
-> +uma_carveout
-> +--------------------
-> +
-> +.. kernel-doc:: drivers/gpu/drm/amd/amdgpu/amdgpu_atombios.c
-> +   :doc: uma_carveout
+Marius Vlad (3):
+  drm: Introduce a new connector status
+  drm: Propagate connector status change
+  drm/vkms: Add polling for HPD
 
-How do you feel about adding some sample output from a test system for 
-both files?  This might make it easier for userspace to implement 
-parsing it.
+ drivers/gpu/drm/drm_connector.c    |  1 +
+ drivers/gpu/drm/drm_probe_helper.c | 39 ++++++++++++++++++++++++++----
+ drivers/gpu/drm/drm_sysfs.c        |  1 +
+ drivers/gpu/drm/vkms/vkms_drv.c    |  4 +++
+ include/drm/drm_connector.h        |  3 +++
+ 5 files changed, 43 insertions(+), 5 deletions(-)
 
-> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_atombios.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_atombios.c
-> index 1ebfd925b761..e9f71888ce57 100644
-> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_atombios.c
-> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_atombios.c
-> @@ -1855,6 +1855,17 @@ const struct attribute_group amdgpu_vbios_version_attr_group = {
->   	.is_visible = amdgpu_vbios_version_attrs_is_visible,
->   };
->   
-> +/**
-> + * DOC: uma_carveout
-> + *
-> + * This file is both readable and writable. When read, it shows the
-> + * index of the current setting. Writing a valid index to this file
-> + * allows users to change the UMA carveout size to the selected option
-> + * on the next boot.
-> + *
-> + * The available options and their corresponding indices can be read
-> + * from the uma_carveout_options file.
-> + */
->   static ssize_t uma_carveout_show(struct device *dev,
->   				 struct device_attribute *attr,
->   				 char *buf)
-> @@ -1904,6 +1915,12 @@ static ssize_t uma_carveout_store(struct device *dev,
->   }
->   static DEVICE_ATTR_RW(uma_carveout);
->   
-> +/**
-> + * DOC: uma_carveout_options
-> + *
-> + * This is a read-only file that lists all available UMA allocation
-> + * options and their corresponding indices.
-> + */
->   static ssize_t uma_carveout_options_show(struct device *dev,
->   					 struct device_attribute *attr,
->   					 char *buf)
-> 
+-- 
+2.47.2
 
