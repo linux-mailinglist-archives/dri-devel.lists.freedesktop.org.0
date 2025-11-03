@@ -2,49 +2,57 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id BFE21C2AB6A
-	for <lists+dri-devel@lfdr.de>; Mon, 03 Nov 2025 10:24:00 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id C480EC2AB5E
+	for <lists+dri-devel@lfdr.de>; Mon, 03 Nov 2025 10:22:50 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1920810E1F1;
-	Mon,  3 Nov 2025 09:23:59 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3802210E050;
+	Mon,  3 Nov 2025 09:22:47 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=linux.dev header.i=@linux.dev header.b="m4c/EmKd";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="nDKOXwJG";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 480 seconds by postgrey-1.36 at gabe;
- Mon, 03 Nov 2025 09:23:57 UTC
-Received: from out-174.mta0.migadu.com (out-174.mta0.migadu.com
- [91.218.175.174])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4565210E1F1
- for <dri-devel@lists.freedesktop.org>; Mon,  3 Nov 2025 09:23:57 +0000 (UTC)
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and
- include these headers.
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
- t=1762161355;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:
- content-transfer-encoding:content-transfer-encoding;
- bh=3KxtMFAfAVOECP/KQTtar5ebkakq1fKvsPkRn9H/Qm0=;
- b=m4c/EmKdimBsjdDekxoae/EcjziElpgw9F1ag5e/aUnTP1vwp18o3I4nua6szPxbCIShld
- QPQb0Nf4jp4qg1dZgKWf3wbegiWE3whrtbozzgZtURRrQ3jT7VcnigDiQhcz8jng3oRFQg
- tkaRzoW9CsbLIamliIo00ng8XgtDXbI=
-From: Thorsten Blum <thorsten.blum@linux.dev>
-To: Koby Elbaz <koby.elbaz@intel.com>,
- Konstantin Sinyuk <konstantin.sinyuk@intel.com>,
- Oded Gabbay <ogabbay@kernel.org>,
- Andrew Morton <akpm@linux-foundation.org>,
- Easwar Hariharan <easwar.hariharan@linux.microsoft.com>
-Cc: Thorsten Blum <thorsten.blum@linux.dev>,
- Karol Wachowski <karol.wachowski@linux.intel.com>,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
-Subject: [PATCH RESEND] accel/habanalabs: Replace kmalloc_array +
- copy_from_user with memdup_array_user
-Date: Mon,  3 Nov 2025 10:15:24 +0100
-Message-ID: <20251103091526.2393-2-thorsten.blum@linux.dev>
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B469E10E050
+ for <dri-devel@lists.freedesktop.org>; Mon,  3 Nov 2025 09:22:45 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1762161765; x=1793697765;
+ h=from:to:cc:subject:date:message-id:mime-version:
+ content-transfer-encoding;
+ bh=nWu0C6Qci9EemmyCcPbSN3cpoNKU7cVc7wGPN4fNQIA=;
+ b=nDKOXwJGYBMFsVw1zQ6GD4uqCGpE2J7J72OdOzINUA7nDyJRNP55OnGJ
+ BJyfUI/jZkbJReBx1BCK2VVQCp40FCCqi+4nVKOr5nYOXZAM383NEjNJS
+ E9qdBS+B7Q+SM7N0RN0nO+VhsCA9eL7Vgkj4FGD76x6e1zov4v8IRrw8s
+ FJRCaVotde2u0kyt5Ptm/jsZJXiD0LFHP4x4z1xenp/5LON2GYP7OZ0rZ
+ pg2PT2uaLHDFAupkmOhE0xI2CQHbuPtn2X11fu8lKpXZlwYqGVEhvOqBF
+ D02CEL8m+xPmFneGDuvCPvcrdpGN7F7czEehf8L/E9+8hO0h7QD9V+X9H Q==;
+X-CSE-ConnectionGUID: SIxQpOD1Rx67XONIZBm4Og==
+X-CSE-MsgGUID: +gM+PusgRAm3wlU+MzfGeA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11601"; a="75583841"
+X-IronPort-AV: E=Sophos;i="6.19,275,1754982000"; d="scan'208";a="75583841"
+Received: from orviesa006.jf.intel.com ([10.64.159.146])
+ by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 03 Nov 2025 01:22:45 -0800
+X-CSE-ConnectionGUID: t+2eedNsSmGIb56/18jPjQ==
+X-CSE-MsgGUID: KkWUfbb4QhqeKmCWmznLpQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.19,275,1754982000"; d="scan'208";a="186059406"
+Received: from krybak-mobl1.ger.corp.intel.com (HELO localhost)
+ ([10.245.246.127])
+ by orviesa006-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 03 Nov 2025 01:22:43 -0800
+From: Jani Nikula <jani.nikula@intel.com>
+To: dri-devel@lists.freedesktop.org, Thomas Zimmermann <tzimmermann@suse.de>,
+ Stephen Rothwell <sfr@canb.auug.org.au>
+Cc: jani.nikula@intel.com
+Subject: [PATCH 0/2] drm: fix fallout from drm_print.h include cleanups
+Date: Mon,  3 Nov 2025 11:22:37 +0200
+Message-ID: <cover.1762161597.git.jani.nikula@intel.com>
+X-Mailer: git-send-email 2.47.3
 MIME-Version: 1.0
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
 Content-Transfer-Encoding: 8bit
-X-Migadu-Flow: FLOW_OUT
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -60,92 +68,20 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Replace kmalloc_array() followed by copy_from_user() with
-memdup_array_user() to improve and simplify cs_ioctl_engine_cores(),
-cs_ioctl_engines(), and hl_multi_cs_wait_ioctl().
+Fix some (I guess inevitable) fallout from the drm_print.h cleanups.
 
-Remove the unused variable 'size_to_copy' from hl_multi_cs_wait_ioctl().
+Note: I'm setting Fixes: f6e8dc9edf96 ("drm: include drm_print.h where
+needed") instead of the ones removing drm_print.h includes, because that
+was the one that was supposed to have them all.
 
-No functional changes intended.
+Jani Nikula (2):
+  drm/renesas: include drm_print.h where needed
+  drm/rockchip: include drm_print.h where needed
 
-Reviewed-by: Karol Wachowski <karol.wachowski@linux.intel.com>
-Reviewed-by: Konstantin Sinyuk <konstantin.sinyuk@intel.com>
-Signed-off-by: Thorsten Blum <thorsten.blum@linux.dev>
----
- .../habanalabs/common/command_submission.c    | 34 +++++--------------
- 1 file changed, 9 insertions(+), 25 deletions(-)
+ drivers/gpu/drm/renesas/rz-du/rzg2l_du_drv.c | 1 +
+ drivers/gpu/drm/rockchip/rockchip_drm_vop2.c | 1 +
+ 2 files changed, 2 insertions(+)
 
-diff --git a/drivers/accel/habanalabs/common/command_submission.c b/drivers/accel/habanalabs/common/command_submission.c
-index dee487724918..a5e339eb7a4f 100644
---- a/drivers/accel/habanalabs/common/command_submission.c
-+++ b/drivers/accel/habanalabs/common/command_submission.c
-@@ -2481,14 +2481,10 @@ static int cs_ioctl_engine_cores(struct hl_fpriv *hpriv, u64 engine_cores,
- 	}
- 
- 	engine_cores_arr = (void __user *) (uintptr_t) engine_cores;
--	cores = kmalloc_array(num_engine_cores, sizeof(u32), GFP_KERNEL);
--	if (!cores)
--		return -ENOMEM;
--
--	if (copy_from_user(cores, engine_cores_arr, num_engine_cores * sizeof(u32))) {
-+	cores = memdup_array_user(engine_cores_arr, num_engine_cores, sizeof(u32));
-+	if (IS_ERR(cores)) {
- 		dev_err(hdev->dev, "Failed to copy core-ids array from user\n");
--		kfree(cores);
--		return -EFAULT;
-+		return PTR_ERR(cores);
- 	}
- 
- 	rc = hdev->asic_funcs->set_engine_cores(hdev, cores, num_engine_cores, core_command);
-@@ -2523,14 +2519,10 @@ static int cs_ioctl_engines(struct hl_fpriv *hpriv, u64 engines_arr_user_addr,
- 	}
- 
- 	engines_arr = (void __user *) (uintptr_t) engines_arr_user_addr;
--	engines = kmalloc_array(num_engines, sizeof(u32), GFP_KERNEL);
--	if (!engines)
--		return -ENOMEM;
--
--	if (copy_from_user(engines, engines_arr, num_engines * sizeof(u32))) {
-+	engines = memdup_array_user(engines_arr, num_engines, sizeof(u32));
-+	if (IS_ERR(engines)) {
- 		dev_err(hdev->dev, "Failed to copy engine-ids array from user\n");
--		kfree(engines);
--		return -EFAULT;
-+		return PTR_ERR(engines);
- 	}
- 
- 	rc = hdev->asic_funcs->set_engines(hdev, engines, num_engines, command);
-@@ -3013,7 +3005,6 @@ static int hl_multi_cs_wait_ioctl(struct hl_fpriv *hpriv, void *data)
- 	struct hl_ctx *ctx = hpriv->ctx;
- 	struct hl_fence **fence_arr;
- 	void __user *seq_arr;
--	u32 size_to_copy;
- 	u64 *cs_seq_arr;
- 	u8 seq_arr_len;
- 	int rc, i;
-@@ -3037,19 +3028,12 @@ static int hl_multi_cs_wait_ioctl(struct hl_fpriv *hpriv, void *data)
- 		return -EINVAL;
- 	}
- 
--	/* allocate memory for sequence array */
--	cs_seq_arr =
--		kmalloc_array(seq_arr_len, sizeof(*cs_seq_arr), GFP_KERNEL);
--	if (!cs_seq_arr)
--		return -ENOMEM;
--
- 	/* copy CS sequence array from user */
- 	seq_arr = (void __user *) (uintptr_t) args->in.seq;
--	size_to_copy = seq_arr_len * sizeof(*cs_seq_arr);
--	if (copy_from_user(cs_seq_arr, seq_arr, size_to_copy)) {
-+	cs_seq_arr = memdup_array_user(seq_arr, seq_arr_len, sizeof(*cs_seq_arr));
-+	if (IS_ERR(cs_seq_arr)) {
- 		dev_err(hdev->dev, "Failed to copy multi-cs sequence array from user\n");
--		rc = -EFAULT;
--		goto free_seq_arr;
-+		return PTR_ERR(cs_seq_arr);
- 	}
- 
- 	/* allocate array for the fences */
 -- 
-2.51.1
+2.47.3
 
