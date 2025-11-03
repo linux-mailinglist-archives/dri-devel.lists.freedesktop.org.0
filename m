@@ -2,24 +2,24 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id F037EC2C707
-	for <lists+dri-devel@lfdr.de>; Mon, 03 Nov 2025 15:38:49 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 123CAC2C70D
+	for <lists+dri-devel@lfdr.de>; Mon, 03 Nov 2025 15:39:55 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4DC8010E40B;
-	Mon,  3 Nov 2025 14:38:48 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 61A1610E40C;
+	Mon,  3 Nov 2025 14:39:53 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from foss.arm.com (foss.arm.com [217.140.110.172])
- by gabe.freedesktop.org (Postfix) with ESMTP id AAA5810E40B
- for <dri-devel@lists.freedesktop.org>; Mon,  3 Nov 2025 14:38:46 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTP id A3DCD10E40C
+ for <dri-devel@lists.freedesktop.org>; Mon,  3 Nov 2025 14:39:51 +0000 (UTC)
 Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
- by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 823E62A6B
- for <dri-devel@lists.freedesktop.org>; Mon,  3 Nov 2025 06:38:38 -0800 (PST)
+ by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 8CDC71D14
+ for <dri-devel@lists.freedesktop.org>; Mon,  3 Nov 2025 06:39:43 -0800 (PST)
 Received: from e110455-lin.cambridge.arm.com (usa-sjc-imap-foss1.foss.arm.com
  [10.121.207.14])
- by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPA id 1906C3F694
- for <dri-devel@lists.freedesktop.org>; Mon,  3 Nov 2025 06:38:45 -0800 (PST)
-Date: Mon, 3 Nov 2025 14:38:34 +0000
+ by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPA id 2066A3F694
+ for <dri-devel@lists.freedesktop.org>; Mon,  3 Nov 2025 06:39:51 -0800 (PST)
+Date: Mon, 3 Nov 2025 14:39:39 +0000
 From: Liviu Dudau <liviu.dudau@arm.com>
 To: Ketil Johnsen <ketil.johnsen@arm.com>
 Cc: Boris Brezillon <boris.brezillon@collabora.com>,
@@ -28,17 +28,16 @@ Cc: Boris Brezillon <boris.brezillon@collabora.com>,
  Maxime Ripard <mripard@kernel.org>,
  Thomas Zimmermann <tzimmermann@suse.de>,
  David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Heiko Stuebner <heiko@sntech.de>, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v3] drm/panthor: Fix UAF race between device unplug and
- FW event processing
-Message-ID: <aQi-agymuWjgJA3h@e110455-lin.cambridge.arm.com>
-References: <20251027140217.121274-1-ketil.johnsen@arm.com>
+ Heiko Stuebner <heiko@sntech.de>, Grant Likely <grant.likely@linaro.org>,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] drm/panthor: Fix race with suspend during unplug
+Message-ID: <aQi-q-cWv2tzNX9F@e110455-lin.cambridge.arm.com>
+References: <20251022103242.1083311-1-ketil.johnsen@arm.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20251027140217.121274-1-ketil.johnsen@arm.com>
+In-Reply-To: <20251022103242.1083311-1-ketil.johnsen@arm.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -54,17 +53,21 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Oct 27, 2025 at 03:02:15PM +0100, Ketil Johnsen wrote:
-> The function panthor_fw_unplug() will free the FW memory sections.
-> The problem is that there could still be pending FW events which are yet
-> not handled at this point. process_fw_events_work() can in this case try
-> to access said freed memory.
+On Wed, Oct 22, 2025 at 12:32:41PM +0200, Ketil Johnsen wrote:
+> There is a race between panthor_device_unplug() and
+> panthor_device_suspend() which can lead to IRQ handlers running on a
+> powered down GPU. This is how it can happen:
+> - unplug routine calls drm_dev_unplug()
+> - panthor_device_suspend() can now execute, and will skip a lot of
+>   important work because the device is currently marked as unplugged.
+> - IRQs will remain active in this case and IRQ handlers can therefore
+>   try to access a powered down GPU.
 > 
-> Simply call disable_work_sync() to both drain and prevent future
-> invocation of process_fw_events_work().
+> The fix is simply to take the PM ref in panthor_device_unplug() a
+> little bit earlier, before drm_dev_unplug().
 > 
 > Signed-off-by: Ketil Johnsen <ketil.johnsen@arm.com>
-> Fixes: de85488138247 ("drm/panthor: Add the scheduler logical block")
+> Fixes: 5fe909cae118a ("drm/panthor: Add the device logical block")
 
 Pushed to drm-misc-next.
 
@@ -72,28 +75,31 @@ Best regards,
 Liviu
 
 > ---
-> v2:
-> - Followed Boris's advice and handle the race purely within the
->   scheduler block (by adding a destroyed state)
+>  drivers/gpu/drm/panthor/panthor_device.c | 4 ++--
+>  1 file changed, 2 insertions(+), 2 deletions(-)
 > 
-> v3:
-> - New approach, one single call to disable_work_sync()
-> ---
->  drivers/gpu/drm/panthor/panthor_sched.c | 1 +
->  1 file changed, 1 insertion(+)
-> 
-> diff --git a/drivers/gpu/drm/panthor/panthor_sched.c b/drivers/gpu/drm/panthor/panthor_sched.c
-> index 0cc9055f4ee52..b7595beaa0205 100644
-> --- a/drivers/gpu/drm/panthor/panthor_sched.c
-> +++ b/drivers/gpu/drm/panthor/panthor_sched.c
-> @@ -3880,6 +3880,7 @@ void panthor_sched_unplug(struct panthor_device *ptdev)
->  	struct panthor_scheduler *sched = ptdev->scheduler;
+> diff --git a/drivers/gpu/drm/panthor/panthor_device.c b/drivers/gpu/drm/panthor/panthor_device.c
+> index 81df49880bd87..962a10e00848e 100644
+> --- a/drivers/gpu/drm/panthor/panthor_device.c
+> +++ b/drivers/gpu/drm/panthor/panthor_device.c
+> @@ -83,6 +83,8 @@ void panthor_device_unplug(struct panthor_device *ptdev)
+>  		return;
+>  	}
 >  
->  	cancel_delayed_work_sync(&sched->tick_work);
-> +	disable_work_sync(&sched->fw_events_work);
+> +	drm_WARN_ON(&ptdev->base, pm_runtime_get_sync(ptdev->base.dev) < 0);
+> +
+>  	/* Call drm_dev_unplug() so any access to HW blocks happening after
+>  	 * that point get rejected.
+>  	 */
+> @@ -93,8 +95,6 @@ void panthor_device_unplug(struct panthor_device *ptdev)
+>  	 */
+>  	mutex_unlock(&ptdev->unplug.lock);
 >  
->  	mutex_lock(&sched->lock);
->  	if (sched->pm.has_ref) {
+> -	drm_WARN_ON(&ptdev->base, pm_runtime_get_sync(ptdev->base.dev) < 0);
+> -
+>  	/* Now, try to cleanly shutdown the GPU before the device resources
+>  	 * get reclaimed.
+>  	 */
 > -- 
 > 2.47.2
 > 
