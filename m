@@ -2,39 +2,43 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id BE664C2B914
-	for <lists+dri-devel@lfdr.de>; Mon, 03 Nov 2025 13:04:30 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3A63CC2B941
+	for <lists+dri-devel@lfdr.de>; Mon, 03 Nov 2025 13:13:08 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BD38210E3C1;
-	Mon,  3 Nov 2025 12:04:27 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6F66610E0BF;
+	Mon,  3 Nov 2025 12:13:05 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from foss.arm.com (foss.arm.com [217.140.110.172])
- by gabe.freedesktop.org (Postfix) with ESMTP id 538F910E3C1
- for <dri-devel@lists.freedesktop.org>; Mon,  3 Nov 2025 12:04:26 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTP id 1E2E110E0BF
+ for <dri-devel@lists.freedesktop.org>; Mon,  3 Nov 2025 12:13:04 +0000 (UTC)
 Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
- by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 41FE91D14
- for <dri-devel@lists.freedesktop.org>; Mon,  3 Nov 2025 04:04:18 -0800 (PST)
+ by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id BA4CC1D14
+ for <dri-devel@lists.freedesktop.org>; Mon,  3 Nov 2025 04:12:55 -0800 (PST)
 Received: from e110455-lin.cambridge.arm.com (usa-sjc-imap-foss1.foss.arm.com
  [10.121.207.14])
- by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPA id CDD5C3F694
- for <dri-devel@lists.freedesktop.org>; Mon,  3 Nov 2025 04:04:25 -0800 (PST)
-Date: Mon, 3 Nov 2025 12:04:21 +0000
+ by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPA id 41A153F694
+ for <dri-devel@lists.freedesktop.org>; Mon,  3 Nov 2025 04:13:03 -0800 (PST)
+Date: Mon, 3 Nov 2025 12:12:50 +0000
 From: Liviu Dudau <liviu.dudau@arm.com>
-To: Boris Brezillon <boris.brezillon@collabora.com>
-Cc: Steven Price <steven.price@arm.com>,
- =?utf-8?Q?Adri=C3=A1n?= Larumbe <adrian.larumbe@collabora.com>,
- dri-devel@lists.freedesktop.org, kernel@collabora.com
-Subject: Re: [PATCH v2 2/2] drm/panthor: Fix group_free_queue() for partially
- initialized queues
-Message-ID: <aQiaRbX8ZIPAu7iM@e110455-lin.cambridge.arm.com>
-References: <20251031160318.832427-1-boris.brezillon@collabora.com>
- <20251031160318.832427-2-boris.brezillon@collabora.com>
+To: Ketil Johnsen <ketil.johnsen@arm.com>
+Cc: Boris Brezillon <boris.brezillon@collabora.com>,
+ Steven Price <steven.price@arm.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Heiko Stuebner <heiko@sntech.de>, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v3] drm/panthor: Fix UAF race between device unplug and
+ FW event processing
+Message-ID: <aQicQqpYYRvukRM0@e110455-lin.cambridge.arm.com>
+References: <20251027140217.121274-1-ketil.johnsen@arm.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20251031160318.832427-2-boris.brezillon@collabora.com>
+In-Reply-To: <20251027140217.121274-1-ketil.johnsen@arm.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -50,19 +54,17 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, Oct 31, 2025 at 05:03:18PM +0100, Boris Brezillon wrote:
-> group_free_queue() can be called on a partially initialized queue
-> object if something fails in group_create_queue(). Make sure we don't
-> call drm_sched_entity_destroy() on an entity that hasn't been
-> initialized.
+On Mon, Oct 27, 2025 at 03:02:15PM +0100, Ketil Johnsen wrote:
+> The function panthor_fw_unplug() will free the FW memory sections.
+> The problem is that there could still be pending FW events which are yet
+> not handled at this point. process_fw_events_work() can in this case try
+> to access said freed memory.
 > 
-> v2:
-> - Fix typos
-> - Add R-b
+> Simply call disable_work_sync() to both drain and prevent future
+> invocation of process_fw_events_work().
 > 
-> Fixes: 7d9c3442b02a ("drm/panthor: Defer scheduler entitiy destruction to queue release")
-> Reviewed-by: Adrián Larumbe <adrian.larumbe@collabora.com>
-> Signed-off-by: Boris Brezillon <boris.brezillon@collabora.com>
+> Signed-off-by: Ketil Johnsen <ketil.johnsen@arm.com>
+> Fixes: de85488138247 ("drm/panthor: Add the scheduler logical block")
 
 Reviewed-by: Liviu Dudau <liviu.dudau@arm.com>
 
@@ -70,25 +72,30 @@ Best regards,
 Liviu
 
 > ---
->  drivers/gpu/drm/panthor/panthor_sched.c | 3 ++-
->  1 file changed, 2 insertions(+), 1 deletion(-)
+> v2:
+> - Followed Boris's advice and handle the race purely within the
+>   scheduler block (by adding a destroyed state)
+> 
+> v3:
+> - New approach, one single call to disable_work_sync()
+> ---
+>  drivers/gpu/drm/panthor/panthor_sched.c | 1 +
+>  1 file changed, 1 insertion(+)
 > 
 > diff --git a/drivers/gpu/drm/panthor/panthor_sched.c b/drivers/gpu/drm/panthor/panthor_sched.c
-> index 33e04208db31..e0f5b9171320 100644
+> index 0cc9055f4ee52..b7595beaa0205 100644
 > --- a/drivers/gpu/drm/panthor/panthor_sched.c
 > +++ b/drivers/gpu/drm/panthor/panthor_sched.c
-> @@ -913,7 +913,8 @@ static void group_free_queue(struct panthor_group *group, struct panthor_queue *
->  	if (IS_ERR_OR_NULL(queue))
->  		return;
+> @@ -3880,6 +3880,7 @@ void panthor_sched_unplug(struct panthor_device *ptdev)
+>  	struct panthor_scheduler *sched = ptdev->scheduler;
 >  
-> -	drm_sched_entity_destroy(&queue->entity);
-> +	if (queue->entity.fence_context)
-> +		drm_sched_entity_destroy(&queue->entity);
+>  	cancel_delayed_work_sync(&sched->tick_work);
+> +	disable_work_sync(&sched->fw_events_work);
 >  
->  	if (queue->scheduler.ops)
->  		drm_sched_fini(&queue->scheduler);
+>  	mutex_lock(&sched->lock);
+>  	if (sched->pm.has_ref) {
 > -- 
-> 2.51.0
+> 2.47.2
 > 
 
 -- 
