@@ -2,62 +2,84 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B0E11C2BA41
+	by mail.lfdr.de (Postfix) with ESMTPS id D9840C2BA43
 	for <lists+dri-devel@lfdr.de>; Mon, 03 Nov 2025 13:24:19 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E66CC10E134;
-	Mon,  3 Nov 2025 12:24:10 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8122810E3C4;
+	Mon,  3 Nov 2025 12:24:13 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=bootlin.com header.i=@bootlin.com header.b="X2qSiPXq";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="G/puxMMM";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtpout-03.galae.net (smtpout-03.galae.net [185.246.85.4])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1BD0610E134
- for <dri-devel@lists.freedesktop.org>; Mon,  3 Nov 2025 12:24:10 +0000 (UTC)
-Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
- by smtpout-03.galae.net (Postfix) with ESMTPS id 52CAD4E414CC;
- Mon,  3 Nov 2025 12:24:08 +0000 (UTC)
-Received: from mail.galae.net (mail.galae.net [212.83.136.155])
- by smtpout-01.galae.net (Postfix) with ESMTPS id 23AA060628;
- Mon,  3 Nov 2025 12:24:08 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon)
- with ESMTPSA id B75D210B5003D; Mon,  3 Nov 2025 13:23:58 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
- t=1762172646; h=from:subject:date:message-id:to:cc:mime-version:content-type:
- content-transfer-encoding:in-reply-to:references;
- bh=jWIBKsXwl+lZlSI+m4JdF3FwkWNJycGm6EYh0H2B5I8=;
- b=X2qSiPXqpWSRnWH7izdKgmYPC9Cuxd5s4IeCuS7c4pB77qAbaYcbs3Dpo5k798ISZlkTLJ
- oUV4VlczKvQa5z6ElJkUxJTEE8dyfrGmsvYUOVZ/tgXzBWWL68R4MzBBLeT1nMxFtaD0BL
- ojW9ItGFvw+TJvHqEm/+b6zWWTC1yJV7VoX/RaVHxuh/Y7CJQpuWCjab0bv6ldd244bL9F
- +YwMYra6bQBYWDoRZHy0GhNUqjcgZwvddEfNHSnmq5Ke2A8LS7aayI5c7WU/CRpm65aqlF
- Wzcw2kBn55yIc3y6o4XVWUylDccNGD8HjvQL0ushUpY2W+n3IDMseSE6Las6ow==
-From: Luca Ceresoli <luca.ceresoli@bootlin.com>
-To: Alain Volmat <alain.volmat@foss.st.com>, 
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
- Andrzej Hajda <andrzej.hajda@intel.com>, 
- Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>, 
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>, 
- Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
- Raphael Gallais-Pou <rgallaispou@gmail.com>, 
- Andy Yan <andy.yan@rock-chips.com>, 
- Luca Ceresoli <luca.ceresoli@bootlin.com>
-Cc: Hui Pu <Hui.Pu@gehealthcare.com>, 
- Thomas Petazzoni <thomas.petazzoni@bootlin.com>, 
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
-In-Reply-To: <20251028-b4-drm-bridge-alloc-add-before-attach-v3-0-bb8611acbbfb@bootlin.com>
-References: <20251028-b4-drm-bridge-alloc-add-before-attach-v3-0-bb8611acbbfb@bootlin.com>
-Subject: Re: [PATCH v3 0/6] drm/bridge: enforce drm_bridge_add() before
- drm_bridge_attach()
-Message-Id: <176217263847.134567.5881036101864864671.b4-ty@bootlin.com>
-Date: Mon, 03 Nov 2025 13:23:58 +0100
+Received: from mail-pf1-f170.google.com (mail-pf1-f170.google.com
+ [209.85.210.170])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D3F2D10E1CD
+ for <dri-devel@lists.freedesktop.org>; Mon,  3 Nov 2025 12:24:11 +0000 (UTC)
+Received: by mail-pf1-f170.google.com with SMTP id
+ d2e1a72fcca58-7a9e8a15502so1148860b3a.1
+ for <dri-devel@lists.freedesktop.org>; Mon, 03 Nov 2025 04:24:11 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20230601; t=1762172651; x=1762777451; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=ORdNUFW2zEJlWs19F6Wve3Y3tfAR17V4MJgrWtqk7Qo=;
+ b=G/puxMMM3Q69AllUgP7kUdD7fWDi0P4tbth9jysT0vuPtztZsG+H2HMSva47GPVaE9
+ oFmK3Gw+dfWRvF8NuXyXK74w8RzYy76uPo3jVG8+1Q7qycyK/GsiF9t5UBwVG7uCOtBG
+ Jij8smZ2kEHylFB3PJnA2JM1t9tJbJFdoli5ywozACwOniKxR9OKI/UryyfPDdJMEJls
+ t31KSbji/L99+bsSmG+b+QdPPo4Jh7kBGoZTLcdgXQWZoRpsDEHITfQyXXs4bRZdJLVn
+ 1CYOqU6wAAvzAGVgRQs+I//vkAEXH7Vc3PC5utM7FJLddID3qBvGIAeSD13k5HwwBiM5
+ f9mg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1762172651; x=1762777451;
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=ORdNUFW2zEJlWs19F6Wve3Y3tfAR17V4MJgrWtqk7Qo=;
+ b=xHW+d347mHvycDiSzhobQOcJh+awvaoV6wCE1w57a/4+rpQ5VQ/JbPVESrAmUyV8P3
+ PHmTdcdQZYWZZXFu0ohLATApjmiCBUahAYi1TE8N0Q8gaeIHIjUeNWN+weh/rpP+cnWf
+ zv0gknp/Xo5Fen2JPuhOwDWZb1Qc33waAUYwzYRFwV6ClInh5mSJd3rp0dKvoo2M7beS
+ 1anhIC/tj9fAr9uAB9BNfkXQXfG4ToENGdSLudAdkJ0L2pLXXI9EHVkzQ8Vzomr0cryW
+ 3pKXQuNfRdWyfq3nSwrzVEmmBty1gzSPmrKJRxLdfkyFcKrsTiG0zM+C57rUvKIvRc/f
+ rHVw==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCXN77Vnvf+P87jDAEw7iHfder2mAzLLYmIvBoDTmPjgV18iELWmv7zAxUkvjvfTpg5SCB/lBx3Dq08=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Yy6buTJ3FoibxlMcdQK1A48ZHplx0wnaiX0igeWCZ7gbjPzIX5K
+ alCN/0kvwLi4kIAHnJuYBCndf/sVaSgROa4TQpGRW5SbYOCdzqv6iPOH
+X-Gm-Gg: ASbGncvaXXphs7xg/++9Gzz7zlI3Yu6lLpoLIpfKncRe3mo+ZQBhkHyeZz7Ws6AsCO7
+ 3DlWu6jjHGLpO5dqizq18paglO8NKiyqeulR+wQvN0du+dJgYig4Fq6bgIIUJ3UZZ7EF/zZfnVQ
+ P6gtXuSzCFdW10n724ezOUYfMW30QRPil0IseEa46DBSNjmUsLGU5Z2qpP8MBBObTFOPBQeBP4i
+ j4IoBBVqeVO2TQtQOgidy/oG0fQL/6ObmF+cnZ9DJA1lS2FFxLK9RgcJAv8tLDlXxjidiZa9kSq
+ 8dEHJ7WKd1NvzN99VlvgsKUjHUpaxc9Aer2qjC9tOu8STAQSVMQPSLsTBsZBVWerpsvEem0ioq0
+ 5N5teEh4VA59VmDOCQd6KKWb0lUZ2jyV2um5qa/pEi8gfsmhXAtQDRrroTwzXN+xG/BVr1BDdke
+ +fh7HQbxXUzX4o6x1Dwl6iRFPbQoB3hiMPm51eC9a/63OYCCBTg38f4Sclbyy348c=
+X-Google-Smtp-Source: AGHT+IESpNdOSIFJ0AvELFe2mn5VOX5nqvF9BWuKg9gD11/Sqoj1Pk/e1iUdylQepkg9PBFjDt6oNg==
+X-Received: by 2002:a17:90b:2b48:b0:340:b572:3b7d with SMTP id
+ 98e67ed59e1d1-340b5723c4fmr10683210a91.19.1762172651160; 
+ Mon, 03 Nov 2025 04:24:11 -0800 (PST)
+Received: from DESKTOP-RD0GVCL.localdomain
+ (124-218-195-161.cm.dynamic.apol.com.tw. [124.218.195.161])
+ by smtp.gmail.com with ESMTPSA id
+ 98e67ed59e1d1-3415c8b78f8sm842554a91.20.2025.11.03.04.24.08
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 03 Nov 2025 04:24:10 -0800 (PST)
+From: LiangCheng Wang <zaq14760@gmail.com>
+To: nathan@kernel.org
+Cc: jani.nikula@linux.intel.com, maarten.lankhorst@linux.intel.com,
+ mripard@kernel.org, tzimmermann@suse.de, airlied@gmail.com,
+ simona@ffwll.ch, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, llvm@lists.linux.dev
+Subject: Re: [PATCH] drm/tiny: pixpaper: Prevent inlining of send helpers to
+ reduce stack usage
+Date: Mon,  3 Nov 2025 20:24:04 +0800
+Message-ID: <20251103122406.741-1-zaq14760@gmail.com>
+X-Mailer: git-send-email 2.43.0
+In-Reply-To: <20251031203446.GD2486902@ax162>
+References: <20251031203446.GD2486902@ax162>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Mailer: b4 0.14.2
-X-Last-TLS-Session-Version: TLSv1.3
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -73,33 +95,15 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+Hi Nathan, Jani,
 
-On Tue, 28 Oct 2025 11:15:41 +0100, Luca Ceresoli wrote:
-> This small series enforces that DRM bridges must be added before they are
-> attached as discussed in [1].
-> 
-> This is part of the work towards removal of bridges from a still existing
-> DRM pipeline without use-after-free. The grand plan was discussed in [0].
-> Here's the work breakdown (➜ marks the current series):
-> 
-> [...]
+Thanks for the detailed explanation.
 
-Applied, thanks!
+Understood — if this only happens when CONFIG_KASAN_STACK is enabled
+with clang, it doesn’t look like something that needs to be addressed in
+the driver itself.
 
-[1/6] drm/sti: hda: add bridge before attaching
-      commit: d28726efc637c5e76e23156b0c2418d37ef45b8e
-[2/6] drm/sti: hdmi: add bridge before attaching
-      commit: ebad7a8f3db6c43c29dacbccb1d7615563f4e80a
-[3/6] drm/bridge: document that adding a bridge is mandatory before attach
-      commit: f8b460262a28060be932078e2b8d9fb8bf99dcf6
-[4/6] drm/bridge: add warning for bridges attached without being added
-      commit: 76f1a9711b837f90fba91d00e33549ed1364bea2
-[5/6] drm/bridge: add warning for bridges using neither devm_drm_bridge_alloc() nor drm_bridge_add()
-      commit: 9347f2fbb0183b04070cd7dfde080bfcc54c0f7c
-[6/6] drm/bridge: synopsys: dw-dp: add bridge before attaching
-      commit: b726970486d81ed3eea09cf9f80f39fe1928a741
+Thanks everyone for helping clarify this!
 
 Best regards,
--- 
-Luca Ceresoli <luca.ceresoli@bootlin.com>
-
+LiangCheng
