@@ -2,59 +2,86 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 01FA9C2C21E
-	for <lists+dri-devel@lfdr.de>; Mon, 03 Nov 2025 14:39:15 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5111AC2C3DE
+	for <lists+dri-devel@lfdr.de>; Mon, 03 Nov 2025 14:48:33 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5CA5D10E3F0;
-	Mon,  3 Nov 2025 13:39:12 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 73CE910E3E9;
+	Mon,  3 Nov 2025 13:48:30 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="mPq2ln3p";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="WoEhzKYe";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 050F410E3F5
- for <dri-devel@lists.freedesktop.org>; Mon,  3 Nov 2025 13:39:09 +0000 (UTC)
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0B27610E3E9
+ for <dri-devel@lists.freedesktop.org>; Mon,  3 Nov 2025 13:48:29 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1762177150; x=1793713150;
- h=from:to:subject:in-reply-to:references:date:message-id:
- mime-version:content-transfer-encoding;
- bh=eq/RT7BpjUwhApbhxsKz0hrwz6/owlS+SH51RF5JcfQ=;
- b=mPq2ln3plqLFIfMhoEWLy9y22Ej49xkYvPZTqlmiFoMxO3lX6RD90+W+
- kpSF7+EZkLwSSkVRGzdESq+6G7vJ0JxQeDGWIINZp6DYD2GuQ7W/rcuxx
- rAyJ45YCUQlCh3gRBUTmBfbJfE+UTEwJ8A5HWwPMqS3yL185thiZQvSdb
- uKt2PX3CjlpPi1V00Sd5da3RPPMeFmtq3Bz04cqdBgP8WsLuYC1ZLgAvU
- VFsoM6ozMXZSshDdcNDY75G7yZfW/aTDk2z0w710CquI9JmlD2VHZPcMB
- QCNaeB833LF5Ns+y6DxJaCl/TzqZe2CnphBvzIl1n6jJn8XFkLhpUxSFk A==;
-X-CSE-ConnectionGUID: vFiX7CxgSw++UDQ378Jvug==
-X-CSE-MsgGUID: qqUhitj2Rj2MMHUhFkUZhA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11602"; a="64289554"
-X-IronPort-AV: E=Sophos;i="6.19,276,1754982000"; d="scan'208";a="64289554"
-Received: from fmviesa009.fm.intel.com ([10.60.135.149])
- by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 03 Nov 2025 05:39:10 -0800
-X-CSE-ConnectionGUID: z2BwnwGEQQW0fwTuZ+/U7A==
-X-CSE-MsgGUID: v/5mefj9QA+8SyeCGsGsig==
+ t=1762177709; x=1793713709;
+ h=date:from:to:cc:subject:message-id:references:
+ mime-version:in-reply-to;
+ bh=/eMBTgNJH8/Xgm8LgLzir6GKHePQ75zTAgJlicmNsfQ=;
+ b=WoEhzKYemBdcD8PsWNzNw5GpGsxipF4zNsvDD+kJ2q/ZJ1zCjXBRV9RO
+ +kDYMo58SBbvdtNm3qvOkFRT4cLQKAIJL1k+cSiHArylAXKORuXJNPQUZ
+ rk9nQDIQZ5fQwo6P8yAdJz+kxNS7OX0PROUXsQdNSqPttJWviXv2jUwP5
+ kbi0SaprYUKwk8m7Nvv9e/IJVxVvbZaDVJA0G5bEJRO0q7ZEauOL91BMq
+ 5e+4mnRp/YEMA9bD9RnHI2/7Fg2o41yDlr+GJj3kHANHAoQ0wOC+c0rq+
+ UlanJs6L+8YuY8QsEp72pk1iZ4m45rcZjmIXYONRN13YSF/AiYa9b7WPI Q==;
+X-CSE-ConnectionGUID: gXPZd5MsQ6GI3ODHxV562A==
+X-CSE-MsgGUID: vD9XtzfwRCqfK3Gl7Us3bA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11531"; a="64156336"
+X-IronPort-AV: E=Sophos;i="6.17,312,1747724400"; d="scan'208";a="64156336"
+Received: from orviesa006.jf.intel.com ([10.64.159.146])
+ by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 03 Nov 2025 05:48:29 -0800
+X-CSE-ConnectionGUID: JFm5J5b9STC09kNJqEZ1eA==
+X-CSE-MsgGUID: J32ocSpgR2yn1eLsQx1Tpg==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.19,276,1754982000"; d="scan'208";a="187325128"
-Received: from krybak-mobl1.ger.corp.intel.com (HELO localhost)
- ([10.245.246.127])
- by fmviesa009-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 03 Nov 2025 05:39:07 -0800
-From: Jani Nikula <jani.nikula@intel.com>
-To: Christoph Thielecke <christoph.thielecke@gmx.de>, Linus Torvalds
- <torvalds@linux-foundation.org>, Douglas Anderson <dianders@chromium.org>,
- Alex Deucher <alexdeucher@gmail.com>, dri-devel@lists.freedesktop.org
-Subject: Re: drm/edid: Add kernel parameter for override edid check
-In-Reply-To: <6209957.lOV4Wx5bFT@precision>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-References: <6209957.lOV4Wx5bFT@precision>
-Date: Mon, 03 Nov 2025 15:39:04 +0200
-Message-ID: <339fb24ed184567e8bf0810ab70638a852c2e40d@intel.com>
+X-IronPort-AV: E=Sophos;i="6.19,276,1754982000"; d="scan'208";a="186110382"
+Received: from aschofie-mobl2.amr.corp.intel.com (HELO kuha.fi.intel.com)
+ ([10.124.220.222])
+ by orviesa006.jf.intel.com with SMTP; 03 Nov 2025 05:48:11 -0800
+Received: by kuha.fi.intel.com (sSMTP sendmail emulation);
+ Mon, 03 Nov 2025 15:48:09 +0200
+Date: Mon, 3 Nov 2025 15:48:09 +0200
+From: Heikki Krogerus <heikki.krogerus@linux.intel.com>
+To: Chaoyi Chen <chaoyi.chen@rock-chips.com>
+Cc: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>,
+ Chaoyi Chen <kernel@airkyi.com>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>, Vinod Koul <vkoul@kernel.org>,
+ Kishon Vijay Abraham I <kishon@kernel.org>,
+ Heiko Stuebner <heiko@sntech.de>, Sandy Huang <hjc@rock-chips.com>,
+ Andy Yan <andy.yan@rock-chips.com>,
+ Yubing Zhang <yubing.zhang@rock-chips.com>,
+ Frank Wang <frank.wang@rock-chips.com>,
+ Andrzej Hajda <andrzej.hajda@intel.com>,
+ Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Amit Sunil Dhamne <amitsd@google.com>,
+ Dragan Simic <dsimic@manjaro.org>, Johan Jonker <jbx6244@gmail.com>,
+ Diederik de Haas <didi.debian@cknow.org>,
+ Peter Robinson <pbrobinson@gmail.com>, linux-usb@vger.kernel.org,
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-phy@lists.infradead.org, linux-arm-kernel@lists.infradead.org,
+ linux-rockchip@lists.infradead.org, dri-devel@lists.freedesktop.org
+Subject: Re: [PATCH v8 03/10] drm/bridge: Implement generic USB Type-C DP HPD
+ bridge
+Message-ID: <aQiymTFVU7UpcJ1p@kuha.fi.intel.com>
+References: <20251029071435.88-1-kernel@airkyi.com>
+ <20251029071435.88-4-kernel@airkyi.com>
+ <rzozpbqmymdczerh3iijxxtz3xnsznoku7w2mquikwv6u5osvo@7h43hwc2fpzm>
+ <eca9d5bd-23bd-4c1d-b2f2-c0c32f14177f@rock-chips.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <eca9d5bd-23bd-4c1d-b2f2-c0c32f14177f@rock-chips.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -70,155 +97,170 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, 03 Nov 2025, Christoph Thielecke <christoph.thielecke@gmx.de> wrote:
-> Hello all,
->
->
-> I run in the same problem as lot of other people since a longer time.
-> The edid reported by my external monitor is no longer accepted and only r=
-esolutions up to=20
-> 1024x768 are possible (supported by hardware: 1920x1200).
-> It seems the kernel drm module gained a strict check of the edid delived =
-by the monitor.
+> > > diff --git a/drivers/gpu/drm/bridge/Kconfig b/drivers/gpu/drm/bridge/Kconfig
+> > > index a250afd8d662..17257b223a28 100644
+> > > --- a/drivers/gpu/drm/bridge/Kconfig
+> > > +++ b/drivers/gpu/drm/bridge/Kconfig
+> > > @@ -23,13 +23,16 @@ config DRM_AUX_BRIDGE
+> > >   	  build bridges chain.
+> > >   config DRM_AUX_HPD_BRIDGE
+> > > -	tristate
+> > > +	tristate "AUX HPD bridge support"
+> > Why? No, this is supposed to be selected by other drivers. Users don't
+> > know an wouldn't know what is this.
+> 
+> In v7, I implemented an additional module for selecting this option. But
+> Heikki believes that it would be better to merge the two modules into one.
 
-Seems like you're referring to something that happened 15+ years
-ago. It's not like it's a recent regression, is it?
+Like I said before, I was merely curious why not just squash the
+support into that AUX_PD_HPD_BRIDGE. If that does not make sense, then
+so be it - make it a "Display Interface Bridge" driver like you
+originally proposed.
 
-> The kernel logs shows:
-> [    7.172357] [drm] Initialized nouveau 1.4.0 for 0000:01:00.0 on minor 0
-> [    7.356212] EDID block 0 (tag 0x00) checksum is invalid, remainder is =
-210
-> [    7.356220]     [00] BAD  00 ff ff ff ff ff ff 00 a1 ff a0 46 a1 ff a0=
- 4a
-> [    7.356221]     [00] BAD  d0 ff 01 50 ff ff 20 78 2a 5a d5 a7 56 4b 9b=
- 24
-> [    7.356222]     [00] BAD  13 50 54 ff 08 00 81 00 81 80 95 00 a9 40 b3=
- 00
-> [    7.356223]     [00] BAD  8b c0 d0 9b a1 ff a0 9c a1 ff a0 9d a1 ff a0=
- 9e
-> [    7.356224]     [00] BAD  a1 ff a0 ff ff ff a0 ac a1 ff a0 ad a1 ff a1=
- ff
-> [    7.356225]     [00] BAD  50 ff ff 9e a1 ff a0 9f a1 ff a0 a0 a1 ff a0=
- a1
-> [    7.356226]     [00] BAD  d0 ff a0 ff a0 ae b0 ff d0 ff ff ff d0 ff ff=
- ff
-> [    7.356227]     [00] BAD  a0 ad a1 d0 ff ff 20 50 ff 20 20 50 ff ff 50=
- ff
+> > >   	depends on DRM_BRIDGE && OF
+> > >   	select AUXILIARY_BUS
+> > >   	help
+> > >   	  Simple bridge that terminates the bridge chain and provides HPD
+> > >   	  support.
+> > > +	  Specifically, if you want a default Type-C DisplayPort HPD bridge for
+> > > +	  each port of the Type-C controller, say Y here.
+> > > +
+> > >   menu "Display Interface Bridges"
+> > >   	depends on DRM && DRM_BRIDGE
+> > > diff --git a/drivers/gpu/drm/bridge/Makefile b/drivers/gpu/drm/bridge/Makefile
+> > > index c7dc03182e59..2998937444bc 100644
+> > > --- a/drivers/gpu/drm/bridge/Makefile
+> > > +++ b/drivers/gpu/drm/bridge/Makefile
+> > > @@ -1,6 +1,12 @@
+> > >   # SPDX-License-Identifier: GPL-2.0
+> > >   obj-$(CONFIG_DRM_AUX_BRIDGE) += aux-bridge.o
+> > > -obj-$(CONFIG_DRM_AUX_HPD_BRIDGE) += aux-hpd-bridge.o
+> > > +
+> > > +hpd-bridge-y := aux-hpd-bridge.o
+> > > +ifneq ($(CONFIG_TYPEC),)
+> > > +hpd-bridge-y += aux-hpd-typec-dp-bridge.o
+> > > +endif
+> > > +obj-$(CONFIG_DRM_AUX_HPD_BRIDGE) += hpd-bridge.o
+> > > +
+> > >   obj-$(CONFIG_DRM_CHIPONE_ICN6211) += chipone-icn6211.o
+> > >   obj-$(CONFIG_DRM_CHRONTEL_CH7033) += chrontel-ch7033.o
+> > >   obj-$(CONFIG_DRM_CROS_EC_ANX7688) += cros-ec-anx7688.o
+> > > diff --git a/drivers/gpu/drm/bridge/aux-hpd-bridge.c b/drivers/gpu/drm/bridge/aux-hpd-bridge.c
+> > > index 2e9c702c7087..11ad6dc776c7 100644
+> > > --- a/drivers/gpu/drm/bridge/aux-hpd-bridge.c
+> > > +++ b/drivers/gpu/drm/bridge/aux-hpd-bridge.c
+> > > @@ -12,6 +12,8 @@
+> > >   #include <drm/drm_bridge.h>
+> > >   #include <drm/bridge/aux-bridge.h>
+> > > +#include "aux-hpd-bridge.h"
+> > > +
+> > >   static DEFINE_IDA(drm_aux_hpd_bridge_ida);
+> > >   struct drm_aux_hpd_bridge_data {
+> > > @@ -204,7 +206,26 @@ static struct auxiliary_driver drm_aux_hpd_bridge_drv = {
+> > >   	.id_table = drm_aux_hpd_bridge_table,
+> > >   	.probe = drm_aux_hpd_bridge_probe,
+> > >   };
+> > > -module_auxiliary_driver(drm_aux_hpd_bridge_drv);
+> > > +
+> > > +static int drm_aux_hpd_bridge_mod_init(void)
+> > > +{
+> > > +	int ret;
+> > > +
+> > > +	ret = auxiliary_driver_register(&drm_aux_hpd_bridge_drv);
+> > > +	if (ret)
+> > > +		return ret;
+> > > +
+> > > +	return drm_aux_hpd_typec_dp_bridge_init();
+> > > +}
+> > > +
+> > > +static void drm_aux_hpd_bridge_mod_exit(void)
+> > > +{
+> > > +	drm_aux_hpd_typec_dp_bridge_exit();
+> > > +	auxiliary_driver_unregister(&drm_aux_hpd_bridge_drv);
+> > > +}
+> > > +
+> > > +module_init(drm_aux_hpd_bridge_mod_init);
+> > > +module_exit(drm_aux_hpd_bridge_mod_exit);
+> > >   MODULE_AUTHOR("Dmitry Baryshkov <dmitry.baryshkov@linaro.org>");
+> > >   MODULE_DESCRIPTION("DRM HPD bridge");
+> > > diff --git a/drivers/gpu/drm/bridge/aux-hpd-bridge.h b/drivers/gpu/drm/bridge/aux-hpd-bridge.h
+> > > new file mode 100644
+> > > index 000000000000..69364731c2f1
+> > > --- /dev/null
+> > > +++ b/drivers/gpu/drm/bridge/aux-hpd-bridge.h
+> > > @@ -0,0 +1,13 @@
+> > > +/* SPDX-License-Identifier: GPL-2.0-only */
+> > > +#ifndef AUX_HPD_BRIDGE_H
+> > > +#define AUX_HPD_BRIDGE_H
+> > > +
+> > > +#if IS_REACHABLE(CONFIG_TYPEC)
+> > > +int drm_aux_hpd_typec_dp_bridge_init(void);
+> > > +void drm_aux_hpd_typec_dp_bridge_exit(void);
+> > > +#else
+> > > +static inline int drm_aux_hpd_typec_dp_bridge_init(void) { return 0; }
+> > > +static inline void drm_aux_hpd_typec_dp_bridge_exit(void) { }
+> > > +#endif /* IS_REACHABLE(CONFIG_TYPEC) */
+> > > +
+> > > +#endif /* AUX_HPD_BRIDGE_H */
+> > > diff --git a/drivers/gpu/drm/bridge/aux-hpd-typec-dp-bridge.c b/drivers/gpu/drm/bridge/aux-hpd-typec-dp-bridge.c
+> > > new file mode 100644
+> > > index 000000000000..6f2a1fca0fc5
+> > > --- /dev/null
+> > > +++ b/drivers/gpu/drm/bridge/aux-hpd-typec-dp-bridge.c
+> > > @@ -0,0 +1,47 @@
+> > > +// SPDX-License-Identifier: GPL-2.0+
+> > > +#include <linux/of.h>
+> > > +#include <linux/usb/typec_altmode.h>
+> > > +#include <linux/usb/typec_dp.h>
+> > > +#include <linux/usb/typec_notify.h>
+> > > +
+> > > +#include <drm/bridge/aux-bridge.h>
+> > > +
+> > > +#include "aux-hpd-bridge.h"
+> > > +
+> > > +#if IS_REACHABLE(CONFIG_TYPEC)
+> > > +static int drm_typec_bus_event(struct notifier_block *nb,
+> > > +			       unsigned long action, void *data)
+> > > +{
+> > This feels like this should be a part of the Type-C subsystem rather
+> > than DRM.
+> 
+> In v7, this used to be a part of the Type-C subsystem. I'm not sure what
+> Heikki thinks about this.
 
-Simply ignoring the invalid checksum on this EDID will lead to other
-problems. The EDID claims to have 0x50 extension blocks. That's bogus,
-as normally you have 0-3. There are limits to how much garbage you can
-accept and pretend it's all fine.
+Your original proposal of making the entire TYPEC subsystem depend on
+DRM is _not_ going to happen. In general, if I've now understood this
+correctly, this thing probable should be a "display interface bridge
+driver", similar to what you proposed in the previous version.
 
-> [    7.356232] nouveau 0000:01:00.0: drm: DDC responded, but no EDID for =
-VGA-1
->
->
-> (the monitor is a 24=E2=80=9D Yuraku MB24WKH, product number: Yur.Vision =
-YV24WBH1)
->
->
-> After seaching the net, I found that a lot of people have this problem.
->
->
-> It would be nice to have a new kernel parameter of the drm module as prop=
-osed by Alex=20
-> called "edid_strict" (https://lists.freedesktop.org/archives/dri-devel/20=
-11-January/
-> 006778.html[1]). Set the param to =E2=80=9C0=E2=80=9D will disable the ch=
-eck and let accept the edid=20
-> reported by the monitor.
+Note also that you could make it selected automatically, so there is
+no need for user selectable option if that's the preference. Kconfig
+and Makefile gives you options on how to do that. For example, maybe
+this Kconfig works (or does not, but something like it will):
 
-That suggestion too is very old. I think over the years the mentality
-towards module parameters has changed considerably. Requiring users to
-set a module parameter is not a fix.
-
-> The only workaround to get the higher resolution working is to provide a =
-edid firmware=20
-> file using the parameter =E2=80=9Cedid_firmware=E2=80=9D. This needs to b=
-e created manually and build into=20
-> the initrd to be available early at runtime.
-> I think the workaround isn=E2=80=99t very user friendly.
-> Putting a flag to disable the edid strict check would help more people ge=
-t their moditors=20
-> more easy runnning by their own responsibilty.
->
->
-> At a later time I think a solution for controlling the edid check at runt=
-ime should be made=20
-> possible, so that desktop environmens like KDE can implement an manually =
-override by=20
-> specifying a firmware file or disable the the edid check.
-
-I think generally the solution would be a quirk, but we don't really
-have a mechanism to identify displays based on half-read EDIDs. Chicken
-and egg.
-
-And then there's the problem that it's not just the checksum that
-appears to be wrong here. The workaround pretty much is the edid
-firmware option.
-
-> References:
-> https://bugs.launchpad.net/ubuntu/+source/linux/+bug/712075[2]
-> https://lists.freedesktop.org/archives/dri-devel/2011-January/006778.html=
-[1]
->
->
-> Monitor edid:
-> monitor-get-edid | hexdump=20=20
-> 0000000 ff00 ffff ffff 00ff e430 025a 0000 0000=20
-> 0000010 1300 0401 2595 7817 4402 9c75 5459 2796=20
-> 0000020 5023 0054 0000 0101 0101 0101 0101 0101=20
-> 0000030 0101 0101 0101 37c8 6480 b070 400f 2022=20
-> 0000040 0036 e672 0010 1a00 283c a080 b070 4023=20
-> 0000050 2030 0036 e672 0010 1a00 0000 fe00 4800=20
-> 0000060 3830 5236 3182 3137 5557 0a37 0000 0000=20
-> 0000070 0000 3141 001e 0000 0600 0a01 2020 2300=20
-> 0000080=20
-
-This is not the same EDID as you list above. This one actually has the
-correct checksum. I don't know monitor-get-edid nor monitor-parse-edid,
-where are they from?
+diff --git a/drivers/gpu/drm/bridge/Kconfig b/drivers/gpu/drm/bridge/Kconfig
+index a250afd8d662..7487024ba2ce 100644
+--- a/drivers/gpu/drm/bridge/Kconfig
++++ b/drivers/gpu/drm/bridge/Kconfig
+@@ -30,6 +30,15 @@ config DRM_AUX_HPD_BRIDGE
+          Simple bridge that terminates the bridge chain and provides HPD
+          support.
+ 
++if DRM_AUX_HPD_BRIDGE
++
++config DRM_AUX_HPD_TYPEC_BRIDGE
++       tristate
++       depends on TYPEC || !TYPEC
++       default TYPEC
++
++endif /* DRM_AUX_HPD_BRIDGE */
++
+ menu "Display Interface Bridges"
+        depends on DRM && DRM_BRIDGE
+ 
 
 
-BR,
-Jani.
+thanks,
 
->
-> monitor-get-edid | monitor-parse-edid=20
-> EISA ID: LGD025a=20
-> EDID version: 1.4=20
-> EDID extension blocks: 0=20
-> Screen size: 37.0 cm x 23.0 cm (17.15 inches, aspect ratio 16/10 =3D 1.61=
-)=20
-> Gamma: 2.2=20
-> Digital signal=20
->
->        # Monitor preferred modeline (58.2 Hz vsync, 70.7 kHz hsync, ratio=
- 16/10, 131 dpi)=20
->        ModeLine "1920x1200" 142.8 1920 1954 1986 2020 1200 1203 1209 1215=
- -hsync=20
-> +vsync=20
->
->        # Monitor supported modeline (40.1 Hz vsync, 49.5 kHz hsync, ratio=
- 16/10, 131 dpi)=20
->        ModeLine "1920x1200" 103 1920 1968 2000 2080 1200 1203 1209 1235 -=
-hsync +vsync
->
->
->
-> With best regards
->
->
-> Christoph
-> --
->
->
->
-> --------
-> [1] https://lists.freedesktop.org/archives/dri-devel/2011-January/006778.=
-html
-> [2] https://bugs.launchpad.net/ubuntu/+source/linux/+bug/712075
-
---=20
-Jani Nikula, Intel
+-- 
+heikki
