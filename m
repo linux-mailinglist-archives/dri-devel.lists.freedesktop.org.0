@@ -2,128 +2,104 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2D312C2ABCD
-	for <lists+dri-devel@lfdr.de>; Mon, 03 Nov 2025 10:29:52 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id C1CA0C2ADD0
+	for <lists+dri-devel@lfdr.de>; Mon, 03 Nov 2025 10:53:25 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4C8E910E390;
-	Mon,  3 Nov 2025 09:29:50 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9090710E18B;
+	Mon,  3 Nov 2025 09:53:12 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=suse.de header.i=@suse.de header.b="nK+Z3Ug3";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="xdJnQCQx";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="poSRMsJS";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="/vjm3JhA";
+	dkim=pass (2048-bit key; unprotected) header.d=google.com header.i=@google.com header.b="qobnO3qI";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 36BA910E390
- for <dri-devel@lists.freedesktop.org>; Mon,  3 Nov 2025 09:29:49 +0000 (UTC)
-Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested)
- by smtp-out2.suse.de (Postfix) with ESMTPS id D49A01F7A5;
- Mon,  3 Nov 2025 09:29:47 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1762162188; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=y1hod1qNDrdTQc6177vXMnYp7coaxWUKKtkB+hcYXDQ=;
- b=nK+Z3Ug312gaW71tydZyhCO2S1cUJ3JCYAldj6QmBN+Pfe10C8HXIAcbGxC1JcJ/WlyQJC
- KwQ4hSWuRIyRoCEhkoA/hTH5StFhy9go9pyLDXWLCqnCR2cJJAOvedExgfUlWopTpiIY4T
- Y8xCGGIqEeIwilbwHsheg73fkYTfR8M=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1762162188;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=y1hod1qNDrdTQc6177vXMnYp7coaxWUKKtkB+hcYXDQ=;
- b=xdJnQCQxqiKv04NfZ911GSS35hFSBw0PcrSKzGjV3a2DauMf3AC9aWAgaOy191/K/RZ1WZ
- XvmCth42vuuRq1AA==
-Authentication-Results: smtp-out2.suse.de;
-	none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1762162187; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=y1hod1qNDrdTQc6177vXMnYp7coaxWUKKtkB+hcYXDQ=;
- b=poSRMsJS6haUEMq0+r9VGoXr1mMM1lI0POSP4lzvuAsaQdzUxTVsNUrN90d2yeCWXP7S96
- mbifkAGdP+4zBPnY6G5WON5Lvx/k+QPWzWezHcgRvZ5TGNi6xMjHD0zGn6tLijWow12zG5
- 7YgF9NhWnNN7LnArzpnE9TqKpcGe8Tc=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1762162187;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=y1hod1qNDrdTQc6177vXMnYp7coaxWUKKtkB+hcYXDQ=;
- b=/vjm3JhAiG8HI8aJJ8g6Z9xAMgKywJxnGvJo0bu6VTZl0BWzwXZqielrLuDQtEjKcZHxbX
- SM6zrNFnSeIUmfAg==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested)
- by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id B383E1364F;
- Mon,  3 Nov 2025 09:29:47 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
- by imap1.dmz-prg2.suse.org with ESMTPSA id 9nICKgt2CGkJLgAAD6G6ig
- (envelope-from <tzimmermann@suse.de>); Mon, 03 Nov 2025 09:29:47 +0000
-Message-ID: <f2df4aa4-6c80-4f76-9539-47800b5166d9@suse.de>
-Date: Mon, 3 Nov 2025 10:29:47 +0100
+Received: from mail-wm1-f52.google.com (mail-wm1-f52.google.com
+ [209.85.128.52])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9ABC310E18B
+ for <dri-devel@lists.freedesktop.org>; Mon,  3 Nov 2025 09:53:10 +0000 (UTC)
+Received: by mail-wm1-f52.google.com with SMTP id
+ 5b1f17b1804b1-475df55f484so84025e9.0
+ for <dri-devel@lists.freedesktop.org>; Mon, 03 Nov 2025 01:53:10 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=google.com; s=20230601; t=1762163589; x=1762768389;
+ darn=lists.freedesktop.org; 
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+ bh=CJ4RrOu9uCN2bW8pg1KpsPpPzgZldv3XyNgHXUg1t1c=;
+ b=qobnO3qI/CNrls2aqqtOINen/QaZJQn65i5pjvx+m2eLrCgq4hRwKUJbP9cRSlwHBX
+ NlU7UQtn+NYLvBnYkG60f9uZ9D6/rcKeTQSzlaRz6/5aCozDm4WbjhmCprVK+M0YYkZ7
+ KVj0oneZk3xlnt8hWW0qrbGxSSSDVFOzSKTrcMBDt56/0x1/wRfAQqhZbFppdp2VMUAc
+ GQ/Hy8xxsktY8p53PKBKDk+GZecaOGXG785q2XPLBPOSuozuMqMG+I9Obn9+o6BkQxR9
+ mM4iOBkoAcFuw4m1YXECR89oytI6T+xNgi11svWPHEaJ0peflSYK8ffLRVuoTIR6chjg
+ ahoA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1762163589; x=1762768389;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=CJ4RrOu9uCN2bW8pg1KpsPpPzgZldv3XyNgHXUg1t1c=;
+ b=AmQszNYGawBxThzrX1CRRTOKLVvZnZjH9RBdOQjJyIBXjcRqthVeCmHfxK5iSBjxT2
+ ulHq5jXDg2yr98qq2ukTBQeUc/nzWOcc3Ku8grmu34PkROfzJlB8asgqRY4Qq/SlI0wL
+ R6EgptelXGW/o7ScP3SWRAedgEtyChJgv5S47gnx9GR6sR7i7ihmZu5czcV1a63+xthx
+ Iog5kykIGBnvriSokKySwCNqJVqUF2TOTnHhXHl41cZa6NOElWtfMVJoEO63BX0iyXSE
+ sbszGr4GDWwRaPSlS3oKnNvvCPxe9nQwmhjmiCjUauHivw4HsucD5ltN/oroE/o9Rq34
+ fKJQ==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCV1rH+V916miUFvc4LrN6Rem96t8ccf6/1dzaI9gWdvKHqdRP6Qkjm25KER9pnZK/tR4YLhakcMBaY=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YxyaeKtWIQTia1XrEC1DMjkSdB2mX6+KbuCLZBGJs3mspQ92OQv
+ nvHpt8+fTqmqq4SAtSNs7A8ewaj1mSq5ZS+EYTz+PK7ov5YvCvqxfHNKmIpbxhpZtw==
+X-Gm-Gg: ASbGnct31HoGTic7p5km2VYYcOowEegOE6xiPLCPu3+5tQ0/e/fjVX7Og/hxuquLh6i
+ b98IEn2dqZ0s8tg7NOeBcAqZJjMS9biiRl8RyDL7Z4SkpW0i0o+LpeGR+1Ss1s/pDD0qE7zx86G
+ K5NS1jqLsuv8RpC+oCu44qMahQbDyaALzh+axjQSudYh54w+PzMfEA7jfxcDcJaXltK+T2UfaVu
+ yp9jVo9nqpKEjYLP4PZ/POO1doIhL+29Mg+HnEbxnNErxnnXdquyjNNtI2gVkyxFu0N9qasQ4VW
+ GsbCQRSpwTD+EPjISqbzf4iA2KW6RV7Y1Xtemr3oeARKJbSEMLwny8Atrx5hy7gQNGhZ8YHBZQG
+ t3aXskPtZq4+vW9cxkop/HEZsgILsJMhFTqP+dbkcrWoIMKEyvqSzLcbIIZKU1HiUqG2kFsyY+W
+ tx6+8nPGaAo/Dap0G+TLsd1D2jAOeZZpnVaENf0HhG6eZqrszg/g==
+X-Google-Smtp-Source: AGHT+IE1mff4da9I5vysNB0ob0JmOMr70AWi7AKZOtcSI5qvyyAXHktFY8REU7m0liVQkNgCELSSCg==
+X-Received: by 2002:a7b:cb14:0:b0:46f:a42d:41f0 with SMTP id
+ 5b1f17b1804b1-4775268121fmr217365e9.0.1762163588833; 
+ Mon, 03 Nov 2025 01:53:08 -0800 (PST)
+Received: from google.com (54.140.140.34.bc.googleusercontent.com.
+ [34.140.140.54]) by smtp.gmail.com with ESMTPSA id
+ ffacd0b85a97d-429c13e0325sm20082715f8f.29.2025.11.03.01.53.08
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 03 Nov 2025 01:53:08 -0800 (PST)
+Date: Mon, 3 Nov 2025 09:53:04 +0000
+From: Mostafa Saleh <smostafa@google.com>
+To: Jason Gunthorpe <jgg@nvidia.com>
+Cc: Alexander Gordeev <agordeev@linux.ibm.com>,
+ David Airlie <airlied@gmail.com>,
+ Alex Williamson <alex.williamson@redhat.com>,
+ Ankit Agrawal <ankita@nvidia.com>,
+ Christian Borntraeger <borntraeger@linux.ibm.com>,
+ Brett Creeley <brett.creeley@amd.com>,
+ dri-devel@lists.freedesktop.org, Eric Auger <eric.auger@redhat.com>,
+ Eric Farman <farman@linux.ibm.com>,
+ Giovanni Cabiddu <giovanni.cabiddu@intel.com>,
+ Vasily Gorbik <gor@linux.ibm.com>,
+ Heiko Carstens <hca@linux.ibm.com>, intel-gfx@lists.freedesktop.org,
+ Jani Nikula <jani.nikula@linux.intel.com>,
+ Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
+ Kevin Tian <kevin.tian@intel.com>, kvm@vger.kernel.org,
+ Kirti Wankhede <kwankhede@nvidia.com>, linux-s390@vger.kernel.org,
+ Longfang Liu <liulongfang@huawei.com>,
+ Matthew Rosato <mjrosato@linux.ibm.com>,
+ Nikhil Agarwal <nikhil.agarwal@amd.com>, Nipun Gupta <nipun.gupta@amd.com>,
+ Peter Oberparleiter <oberpar@linux.ibm.com>,
+ Halil Pasic <pasic@linux.ibm.com>,
+ Pranjal Shrivastava <praan@google.com>, qat-linux@intel.com,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>, Simona Vetter <simona@ffwll.ch>,
+ Shameer Kolothum <skolothumtho@nvidia.com>,
+ Sven Schnelle <svens@linux.ibm.com>, Tvrtko Ursulin <tursulin@ursulin.net>,
+ virtualization@lists.linux.dev, Vineeth Vijayan <vneethv@linux.ibm.com>,
+ Yishai Hadas <yishaih@nvidia.com>, Zhenyu Wang <zhenyuw.linux@gmail.com>,
+ Zhi Wang <zhi.wang.linux@gmail.com>, patches@lists.linux.dev
+Subject: Re: [PATCH 00/22] vfio: Give VFIO_DEVICE_GET_REGION_INFO its own op
+Message-ID: <aQh7gG3IAEgEaKY_@google.com>
+References: <0-v1-679a6fa27d31+209-vfio_get_region_info_op_jgg@nvidia.com>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 0/2] drm: fix fallout from drm_print.h include cleanups
-To: Jani Nikula <jani.nikula@intel.com>, dri-devel@lists.freedesktop.org,
- Stephen Rothwell <sfr@canb.auug.org.au>
-References: <cover.1762161597.git.jani.nikula@intel.com>
-Content-Language: en-US
-From: Thomas Zimmermann <tzimmermann@suse.de>
-Autocrypt: addr=tzimmermann@suse.de; keydata=
- xsBNBFs50uABCADEHPidWt974CaxBVbrIBwqcq/WURinJ3+2WlIrKWspiP83vfZKaXhFYsdg
- XH47fDVbPPj+d6tQrw5lPQCyqjwrCPYnq3WlIBnGPJ4/jreTL6V+qfKRDlGLWFjZcsrPJGE0
- BeB5BbqP5erN1qylK9i3gPoQjXGhpBpQYwRrEyQyjuvk+Ev0K1Jc5tVDeJAuau3TGNgah4Yc
- hdHm3bkPjz9EErV85RwvImQ1dptvx6s7xzwXTgGAsaYZsL8WCwDaTuqFa1d1jjlaxg6+tZsB
- 9GluwvIhSezPgnEmimZDkGnZRRSFiGP8yjqTjjWuf0bSj5rUnTGiyLyRZRNGcXmu6hjlABEB
- AAHNJ1Rob21hcyBaaW1tZXJtYW5uIDx0emltbWVybWFubkBzdXNlLmRlPsLAjgQTAQgAOAIb
- AwULCQgHAgYVCgkICwIEFgIDAQIeAQIXgBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftODH
- AAoJEGgNwR1TC3ojx1wH/0hKGWugiqDgLNXLRD/4TfHBEKmxIrmfu9Z5t7vwUKfwhFL6hqvo
- lXPJJKQpQ2z8+X2vZm/slsLn7J1yjrOsoJhKABDi+3QWWSGkaGwRJAdPVVyJMfJRNNNIKwVb
- U6B1BkX2XDKDGffF4TxlOpSQzdtNI/9gleOoUA8+jy8knnDYzjBNOZqLG2FuTdicBXblz0Mf
- vg41gd9kCwYXDnD91rJU8tzylXv03E75NCaTxTM+FBXPmsAVYQ4GYhhgFt8S2UWMoaaABLDe
- 7l5FdnLdDEcbmd8uLU2CaG4W2cLrUaI4jz2XbkcPQkqTQ3EB67hYkjiEE6Zy3ggOitiQGcqp
- j//OwE0EWznS4AEIAMYmP4M/V+T5RY5at/g7rUdNsLhWv1APYrh9RQefODYHrNRHUE9eosYb
- T6XMryR9hT8XlGOYRwKWwiQBoWSDiTMo/Xi29jUnn4BXfI2px2DTXwc22LKtLAgTRjP+qbU6
- 3Y0xnQN29UGDbYgyyK51DW3H0If2a3JNsheAAK+Xc9baj0LGIc8T9uiEWHBnCH+RdhgATnWW
- GKdDegUR5BkDfDg5O/FISymJBHx2Dyoklv5g4BzkgqTqwmaYzsl8UxZKvbaxq0zbehDda8lv
- hFXodNFMAgTLJlLuDYOGLK2AwbrS3Sp0AEbkpdJBb44qVlGm5bApZouHeJ/+n+7r12+lqdsA
- EQEAAcLAdgQYAQgAIAIbDBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftOH6AAoJEGgNwR1T
- C3ojVSkIALpAPkIJPQoURPb1VWjh34l0HlglmYHvZszJWTXYwavHR8+k6Baa6H7ufXNQtThR
- yIxJrQLW6rV5lm7TjhffEhxVCn37+cg0zZ3j7zIsSS0rx/aMwi6VhFJA5hfn3T0TtrijKP4A
- SAQO9xD1Zk9/61JWk8OysuIh7MXkl0fxbRKWE93XeQBhIJHQfnc+YBLprdnxR446Sh8Wn/2D
- Ya8cavuWf2zrB6cZurs048xe0UbSW5AOSo4V9M0jzYI4nZqTmPxYyXbm30Kvmz0rYVRaitYJ
- 4kyYYMhuULvrJDMjZRvaNe52tkKAvMevcGdt38H4KSVXAylqyQOW5zvPc4/sq9c=
-In-Reply-To: <cover.1762161597.git.jani.nikula@intel.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Spamd-Result: default: False [-4.30 / 50.00]; BAYES_HAM(-3.00)[99.99%];
- NEURAL_HAM_LONG(-1.00)[-1.000];
- NEURAL_HAM_SHORT(-0.20)[-1.000]; MIME_GOOD(-0.10)[text/plain];
- FUZZY_RATELIMITED(0.00)[rspamd.com];
- RCVD_VIA_SMTP_AUTH(0.00)[]; MIME_TRACE(0.00)[0:+];
- ARC_NA(0.00)[]; TO_DN_SOME(0.00)[]; MID_RHS_MATCH_FROM(0.00)[];
- RCVD_TLS_ALL(0.00)[];
- DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
- FROM_HAS_DN(0.00)[]; RCPT_COUNT_THREE(0.00)[3];
- FROM_EQ_ENVFROM(0.00)[]; TO_MATCH_ENVRCPT_ALL(0.00)[];
- RCVD_COUNT_TWO(0.00)[2];
- DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:mid, suse.de:email,
- imap1.dmz-prg2.suse.org:helo, suse.com:url]
-X-Spam-Flag: NO
-X-Spam-Score: -4.30
-X-Spam-Level: 
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <0-v1-679a6fa27d31+209-vfio_get_region_info_op_jgg@nvidia.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -139,35 +115,90 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+On Thu, Oct 23, 2025 at 08:09:14PM -0300, Jason Gunthorpe wrote:
+> There is alot of duplicated code in the drivers for processing
+> VFIO_DEVICE_GET_REGION_INFO. Introduce a new op get_region_info_caps()
+> which provides a struct vfio_info_cap and handles the cap chain logic
+> to write the caps back to userspace and remove all of this duplication
+> from drivers.
+> 
+> This is done in two steps, the first is a largely mechanical introduction
+> of the get_region_info(). These patches are best viewed with the diff
+> option to ignore whitespace (-b) as most of the lines are re-indending
+> things.
+> 
+> Then drivers are updated to remove the duplicate cap related code. Some
+> drivers are converted to use vfio_info_add_capability() instead of open
+> coding a version of it.
 
+The series as a whole looks good.
+However, I got confused walking through it as almost all non-PCI drivers
+had to transition to get_region_info then get_region_info_caps then
+removing get_region_info completely from core code after introducing
+it in this series.
 
-Am 03.11.25 um 10:22 schrieb Jani Nikula:
-> Fix some (I guess inevitable) fallout from the drm_print.h cleanups.
->
-> Note: I'm setting Fixes: f6e8dc9edf96 ("drm: include drm_print.h where
-> needed") instead of the ones removing drm_print.h includes, because that
-> was the one that was supposed to have them all.
->
-> Jani Nikula (2):
->    drm/renesas: include drm_print.h where needed
->    drm/rockchip: include drm_print.h where needed
+IMO, the series should start with just consolidating PCI based implementation
+and then add get_region_info_caps for all drivers at the end.
+Anyway, no really strong opinion as the final outcome makes sense.
 
-Reviewed-by: Thomas Zimmermann <tzimmermann@suse.de>
+Thanks,
+Mostafa
 
-for the series.
-
->
->   drivers/gpu/drm/renesas/rz-du/rzg2l_du_drv.c | 1 +
->   drivers/gpu/drm/rockchip/rockchip_drm_vop2.c | 1 +
->   2 files changed, 2 insertions(+)
->
-
--- 
---
-Thomas Zimmermann
-Graphics Driver Developer
-SUSE Software Solutions Germany GmbH
-Frankenstr. 146, 90461 Nürnberg, Germany, www.suse.com
-GF: Jochen Jaser, Andrew McDonald, Werner Knoblich, (HRB 36809, AG Nürnberg)
-
-
+> 
+> This is on github: https://github.com/jgunthorpe/linux/commits/vfio_get_region_info_op
+> 
+> Jason Gunthorpe (22):
+>   vfio: Provide a get_region_info op
+>   vfio/hisi: Convert to the get_region_info op
+>   vfio/virtio: Convert to the get_region_info op
+>   vfio/nvgrace: Convert to the get_region_info op
+>   vfio/pci: Fill in the missing get_region_info ops
+>   vfio/mtty: Provide a get_region_info op
+>   vfio/mdpy: Provide a get_region_info op
+>   vfio/mbochs: Provide a get_region_info op
+>   vfio/platform: Provide a get_region_info op
+>   vfio/fsl: Provide a get_region_info op
+>   vfio/cdx: Provide a get_region_info op
+>   vfio/ccw: Provide a get_region_info op
+>   vfio/gvt: Provide a get_region_info op
+>   vfio: Require drivers to implement get_region_info
+>   vfio: Add get_region_info_caps op
+>   vfio/mbochs: Convert mbochs to use vfio_info_add_capability()
+>   vfio/gvt: Convert to get_region_info_caps
+>   vfio/ccw: Convert to get_region_info_caps
+>   vfio/pci: Convert all PCI drivers to get_region_info_caps
+>   vfio/platform: Convert to get_region_info_caps
+>   vfio: Move the remaining drivers to get_region_info_caps
+>   vfio: Remove the get_region_info op
+> 
+>  drivers/gpu/drm/i915/gvt/kvmgt.c              | 272 ++++++++----------
+>  drivers/s390/cio/vfio_ccw_ops.c               |  45 +--
+>  drivers/vfio/cdx/main.c                       |  29 +-
+>  drivers/vfio/fsl-mc/vfio_fsl_mc.c             |  43 ++-
+>  .../vfio/pci/hisilicon/hisi_acc_vfio_pci.c    |  54 ++--
+>  drivers/vfio/pci/mlx5/main.c                  |   1 +
+>  drivers/vfio/pci/nvgrace-gpu/main.c           |  53 +---
+>  drivers/vfio/pci/pds/vfio_dev.c               |   1 +
+>  drivers/vfio/pci/qat/main.c                   |   1 +
+>  drivers/vfio/pci/vfio_pci.c                   |   1 +
+>  drivers/vfio/pci/vfio_pci_core.c              | 110 +++----
+>  drivers/vfio/pci/virtio/common.h              |   5 +-
+>  drivers/vfio/pci/virtio/legacy_io.c           |  38 +--
+>  drivers/vfio/pci/virtio/main.c                |   5 +-
+>  drivers/vfio/platform/vfio_amba.c             |   1 +
+>  drivers/vfio/platform/vfio_platform.c         |   1 +
+>  drivers/vfio/platform/vfio_platform_common.c  |  40 ++-
+>  drivers/vfio/platform/vfio_platform_private.h |   3 +
+>  drivers/vfio/vfio_main.c                      |  45 +++
+>  include/linux/vfio.h                          |   4 +
+>  include/linux/vfio_pci_core.h                 |   3 +
+>  samples/vfio-mdev/mbochs.c                    |  71 ++---
+>  samples/vfio-mdev/mdpy.c                      |  34 +--
+>  samples/vfio-mdev/mtty.c                      |  33 +--
+>  24 files changed, 363 insertions(+), 530 deletions(-)
+> 
+> 
+> base-commit: 211ddde0823f1442e4ad052a2f30f050145ccada
+> -- 
+> 2.43.0
+> 
