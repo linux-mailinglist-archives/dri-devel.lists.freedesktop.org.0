@@ -2,90 +2,163 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id F2BA8C2E5C1
-	for <lists+dri-devel@lfdr.de>; Tue, 04 Nov 2025 00:03:12 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 51687C2E195
+	for <lists+dri-devel@lfdr.de>; Mon, 03 Nov 2025 22:09:55 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 17C7410E4D6;
-	Mon,  3 Nov 2025 23:03:11 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 62A5C10E491;
+	Mon,  3 Nov 2025 21:09:52 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=fb.com header.i=@fb.com header.b="Y5TYvio2";
+	dkim=pass (1024-bit key; unprotected) header.d=amd.com header.i=@amd.com header.b="xnkeqBgK";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0a-00082601.pphosted.com (mx0a-00082601.pphosted.com
- [67.231.145.42])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E401110E47C
- for <dri-devel@lists.freedesktop.org>; Mon,  3 Nov 2025 20:07:46 +0000 (UTC)
-Received: from pps.filterd (m0044012.ppops.net [127.0.0.1])
- by mx0a-00082601.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id
- 5A3HSUl13368916; Mon, 3 Nov 2025 12:07:21 -0800
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=fb.com; h=cc
- :content-type:date:from:in-reply-to:message-id:mime-version
- :references:subject:to; s=s2048-2025-q2; bh=n9Hp+W96E82ffeM9TGY/
- T64q12eMoTlbRaWkBHrOVhQ=; b=Y5TYvio2wy42a6OuNV1jizo/aQU5rL6HohWI
- OdRswHnuwgKDGg4PRZorsSwOwSWNepxL3lv6e92F0ZZiEQOO8ZMDqwElBWya7VYx
- yHZJ1Bg/rdGSvGKN1xCect7aLk4BJP3dFq0W4bRU4thNy47l/7qf6QCLDdrJWuYT
- ttchffm5fJ8azlwk2GD5NtPH33FSvCNhfhPKLPVh0Qs6M/RaBFY1LsIhyFIHXKOv
- PPwMbL4I1eFF62/08bb33eCUiaTLoRka7NFBHCCzuXtuZDc3HhRZW8A7Jd4FsCBj
- aU36aw88WsqWA0jpB+Nf9LOBQRQOfcCvornGVmHGoYNGSzpsQw==
-Received: from mail.thefacebook.com ([163.114.134.16])
- by mx0a-00082601.pphosted.com (PPS) with ESMTPS id 4a6yfe2849-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT);
- Mon, 03 Nov 2025 12:07:21 -0800 (PST)
-Received: from devgpu015.cco6.facebook.com (2620:10d:c085:208::7cb7) by
- mail.thefacebook.com (2620:10d:c08b:78::c78f) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.2.2562.20; Mon, 3 Nov 2025 20:07:19 +0000
-Date: Mon, 3 Nov 2025 12:07:12 -0800
-From: Alex Mastro <amastro@fb.com>
-To: Leon Romanovsky <leon@kernel.org>
-CC: Bjorn Helgaas <bhelgaas@google.com>, Logan Gunthorpe
- <logang@deltatee.com>, Jens Axboe <axboe@kernel.dk>, Robin Murphy
- <robin.murphy@arm.com>, Joerg Roedel <joro@8bytes.org>, Will Deacon
- <will@kernel.org>, Marek Szyprowski <m.szyprowski@samsung.com>, Jason
- Gunthorpe <jgg@ziepe.ca>, Andrew Morton <akpm@linux-foundation.org>,
- Jonathan Corbet <corbet@lwn.net>, Sumit Semwal <sumit.semwal@linaro.org>,
- Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
- Alex Williamson <alex.williamson@redhat.com>, Kees Cook <kees@kernel.org>,
- "Gustavo A. R. Silva" <gustavoars@kernel.org>,
- Ankit Agrawal <ankita@nvidia.com>, Yishai Hadas <yishaih@nvidia.com>,
- Shameer Kolothum <skolothumtho@nvidia.com>, Kevin
- Tian <kevin.tian@intel.com>, Krishnakant Jaju <kjaju@nvidia.com>, Matt Ochs
- <mochs@nvidia.com>,
- <linux-pci@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
- <linux-block@vger.kernel.org>, <iommu@lists.linux.dev>,
- <linux-mm@kvack.org>, <linux-doc@vger.kernel.org>,
- <linux-media@vger.kernel.org>, <dri-devel@lists.freedesktop.org>,
- <linaro-mm-sig@lists.linaro.org>, <kvm@vger.kernel.org>,
- <linux-hardening@vger.kernel.org>, Vivek Kasireddy
- <vivek.kasireddy@intel.com>
-Subject: Re: [PATCH v6 00/11] vfio/pci: Allow MMIO regions to be exported
- through dma-buf
-Message-ID: <aQkLcAxEn4qmF3c4@devgpu015.cco6.facebook.com>
-References: <20251102-dmabuf-vfio-v6-0-d773cff0db9f@nvidia.com>
+Received: from CY3PR05CU001.outbound.protection.outlook.com
+ (mail-westcentralusazon11013062.outbound.protection.outlook.com
+ [40.93.201.62])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3940310E490;
+ Mon,  3 Nov 2025 21:09:51 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=DJBR9/CNb+t+t6wObY3DXJS0iMldWMW2fcRfupvMwhrvM7SggNGmEnGKqAPvzjFvpn23/OL3tOIMfFymWN1yfIdSs4Wp/Yp7Z9LF/eImY74yxELe8KZU6S2TrS3RE/61zSVE80p+sDkTsV90FbeSPSjXqBMADjO+rfzH4xCuOMelJiKAfl10NAXV41zVVFwusDBZuVI10ua+NcBZ2wN4FLX5BFthU/nOKH1Ub+E3I7nKeSpPRzuqbipmT4R2GT5469UcHWLZJEaGMpx4MXDTkB7wfM3ekr1n3admT7nFMCd2Baa61u+n71rlr/NdMzfXWiQ5NML4ecrpc2i8wBRM+A==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=Cuz5r96Tbd0sAmxjXVs7p4V+E5qnYi2sY6k1KVQrEjk=;
+ b=KrfSqgVagKp8m6kUnbcAl32gs4FmWhhKE8PHFd/gMJF+VKdEdapmwqzLBaNj9ijx451rD9x+8Hu5QnH2nDugwiUGsK86lIya4dHouhan/bi9tMVUsk3GE+llDBQn+frHUD/u3zm2K60e6U22pIbSDjzwmiDCIjBnT8QcbKpsb1hVZYfewv4/MCXdzlEoUesxKw7PM7E6GSRyQeUXM6ROgy+w5OGBVOLkLldnv/ajwh9QspaIWPzbYncRuUIvaOtB3j5jEj7RP27byhOjUqkEEwsYMJW4uHPZnshJRj4uq3D51M1fCNgEx8fC5qt6dPnR0uPUwGsFx5nQVmriL9Lovg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=Cuz5r96Tbd0sAmxjXVs7p4V+E5qnYi2sY6k1KVQrEjk=;
+ b=xnkeqBgKO4xvdDgVZdY0jlQVLFPwmO9PUctsmdHDyUZkQcCIMEWSsovg2TDNTy5zj1hb6rDqiBz2+pdJrOm1p/FLrbNrKF4nrxpO28xuwGxa520sJ4pWO7CeIG3ZhIgwxOJw3R0Ss2Dn/1QIAL73DYqAfuguSPIaYuIHzIaPWj4=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=amd.com;
+Received: from MN0PR12MB6101.namprd12.prod.outlook.com (2603:10b6:208:3cb::10)
+ by CY5PR12MB6348.namprd12.prod.outlook.com (2603:10b6:930:f::13) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9275.16; Mon, 3 Nov
+ 2025 21:09:48 +0000
+Received: from MN0PR12MB6101.namprd12.prod.outlook.com
+ ([fe80::37ee:a763:6d04:81ca]) by MN0PR12MB6101.namprd12.prod.outlook.com
+ ([fe80::37ee:a763:6d04:81ca%7]) with mapi id 15.20.9275.013; Mon, 3 Nov 2025
+ 21:09:48 +0000
+Message-ID: <bea70e02-2d1b-4fc5-bcb0-b1bf33c09139@amd.com>
+Date: Mon, 3 Nov 2025 15:09:44 -0600
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] drm/amd/display: Fix NULL deref in debugfs
+ odm_combine_segments
+To: Rong Zhang <i@rong.moe>, Harry Wentland <harry.wentland@amd.com>,
+ Leo Li <sunpeng.li@amd.com>, Rodrigo Siqueira <siqueira@igalia.com>,
+ Alex Deucher <alexander.deucher@amd.com>,
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>
+Cc: Roman Li <roman.li@amd.com>,
+ "ChiaHsuan (Tom) Chung" <chiahsuan.chung@amd.com>, Ray Wu <ray.wu@amd.com>,
+ Wenjing Liu <wenjing.liu@amd.com>,
+ Hamza Mahfooz <hamzamahfooz@linux.microsoft.com>,
+ Aurabindo Pillai <aurabindo.pillai@amd.com>, amd-gfx@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ stable@vger.kernel.org
+References: <20251013164742.24660-1-i@rong.moe>
+ <7ef252405946f6ab3feff38cc4bd9ddcc49bad56.camel@rong.moe>
+Content-Language: en-US
+From: Mario Limonciello <mario.limonciello@amd.com>
+In-Reply-To: <7ef252405946f6ab3feff38cc4bd9ddcc49bad56.camel@rong.moe>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: SA1P222CA0167.NAMP222.PROD.OUTLOOK.COM
+ (2603:10b6:806:3c3::15) To MN0PR12MB6101.namprd12.prod.outlook.com
+ (2603:10b6:208:3cb::10)
 MIME-Version: 1.0
-Content-Type: text/plain; charset="us-ascii"
-Content-Disposition: inline
-In-Reply-To: <20251102-dmabuf-vfio-v6-0-d773cff0db9f@nvidia.com>
-X-Originating-IP: [2620:10d:c085:208::7cb7]
-X-Authority-Analysis: v=2.4 cv=G9QR0tk5 c=1 sm=1 tr=0 ts=69090b79 cx=c_pps
- a=CB4LiSf2rd0gKozIdrpkBw==:117 a=CB4LiSf2rd0gKozIdrpkBw==:17
- a=kj9zAlcOel0A:10 a=6UeiqGixMTsA:10 a=VkNPw1HP01LnGYTKEx00:22
- a=FOH2dFAWAAAA:8 a=b_Saz7MSmFOFN_6dvx4A:9 a=CjuIK1q_8ugA:10
- a=DXsff8QfwkrTrK3sU8N1:22 a=Z5ABNNGmrOfJ6cZ5bIyy:22 a=bWyr8ysk75zN3GCy5bjg:22
-X-Proofpoint-ORIG-GUID: F1nk6hmysPbKhKVQa_mqqIFKqOIt2lHM
-X-Proofpoint-GUID: F1nk6hmysPbKhKVQa_mqqIFKqOIt2lHM
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUxMTAzMDE3OSBTYWx0ZWRfX6SW28Xvycs0O
- YOKukhqpHcTfkYNeGRk02UVQnYAieNl0FPP5nyOoQsMjQfkPKcUonaa3EWc/tqdoAAQyhyOyp0d
- /JHwcN3QLYQ/+EZJhZ2InHvQ5+q0ThEzTdyBEGsfGK6Opxy38U0CpsznUzKLwU/5Eqh1l493VDE
- PyTsfwJm0au//MmeaXH4NXKBaJs6mnL334sMoj6rtJQYWDX5DKMNRtgxvcMAQid95nsgniy4DYE
- +umaq/vNBvV3b0K6HXe0s/cT+YOR8m2DkpctVf5zXXorytYnhbn1vV3nGRWxaQ24cLeCzQnNSqB
- UmVF2ZqiQwbE9Yb71RMC4EJcfgbsbmodipz9oljstvRLhQ7lzspcSOdC0w5Z4QcLNUWGre4urgV
- ZaziQQl4T7tsVkAKgmifB2A8A6gzCQ==
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.9,FMLib:17.12.100.49
- definitions=2025-11-03_04,2025-11-03_03,2025-10-01_01
-X-Mailman-Approved-At: Mon, 03 Nov 2025 23:03:10 +0000
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: MN0PR12MB6101:EE_|CY5PR12MB6348:EE_
+X-MS-Office365-Filtering-Correlation-Id: 6cc3173d-3fa3-42f4-d9d6-08de1b1d524e
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;ARA:13230040|1800799024|366016|376014;
+X-Microsoft-Antispam-Message-Info: =?utf-8?B?dzBMM2RVU2VLK2lXeXpnOHl5S05aMWxHMzJIMVRkK0ZpTHBmbTVxQXJ0SDJu?=
+ =?utf-8?B?eDlWR0JydlV3ZTBzaCsrVWMzNXJ5MldIY25PdXdQaC9BTk5MZFFNbDRma2xB?=
+ =?utf-8?B?bTlSSUdKYWxJK3FYcEhtVjdtU2IxZUlEdHJqVWRNWWRtcHJRUlo3TzZMU2Zs?=
+ =?utf-8?B?MkxERVNzZm5SdlVlM08yK3ZvVm96eW51akcwaWU4ZTN6a0RCV08rMmIvbkxj?=
+ =?utf-8?B?R2NGblJIdVZqYkVZRXJZa2VkT3pOQWFKUXdNMFBxMGlia1BZenZTc0ozNSs3?=
+ =?utf-8?B?M3UzK2lMM3NaaVlEQkY0NGtXeHBScDdINnZiRnBldXhhNEdtNFJOSkZMRkh2?=
+ =?utf-8?B?cTh2MEExdDFobXlqVldKZTRhMHg4OHRVVnNzMHdOV0dMaml4U0dPcngvOGZ5?=
+ =?utf-8?B?MFZtSi9DbmR6ZURFSVY5Q3BacHMvK2R3T3ZPUEVEdXBvMElDZU52NEI3ZGwx?=
+ =?utf-8?B?TEpJZzNuZDBYVDAzdE5ET21nQVovb1NRWENnTHAyd2pZM2JFS28rY29pTzRv?=
+ =?utf-8?B?TWNMZnFLYk16ZjRHdFg3M0g0U0poMHMzZWcwWVRzOURySzNlbGdjTjZzZTRX?=
+ =?utf-8?B?Y0VBemZOdEkwd2JuSzVqelNEbGJmNHZBRDIrMEtJbURub2VYbzhCQ2d2b01O?=
+ =?utf-8?B?T2hSZExtdG1GTThwR290WitlNG9DRGZQWUFlT2NBbllVbEgzTmJPTWc5dlJL?=
+ =?utf-8?B?NW9UN2JtalZ2cDNNdHNob3dJa1prRVdJMmhFeVc4aE83bDA0UmNlcWN3N3hG?=
+ =?utf-8?B?Z05qQ0YvRWhHV09vSjlEa3VwcTNNV2hoNzRuMXhTY0dqY085TnZKR3U1Vktu?=
+ =?utf-8?B?SmJUWFc5TTB1cVhNcGZIc2dwR3J3OG1uVXdIeCtYZWJIQWV1K2dubE5GUFpV?=
+ =?utf-8?B?UlA2TVh6Zmh4Sm1JM0pLUXAyTE9WN1lZZGtJNG9MRUdEc3pCeEJMM2lId3Fk?=
+ =?utf-8?B?NU0rWWE3d1F4alhMVDMxWkpMWXQyTDNKUTRMMjlEY0ptMUpyb3hoYVZ3UFp5?=
+ =?utf-8?B?Z3BrNG50bmpwN0FISEhOVzBvSlpoT1doUnR0WWtMeC9BeTc3UkFuU1BjQ0ln?=
+ =?utf-8?B?YWVSTElnL3phbWFzRVkzS29RY1ZoRnU2NWgvdjRvMVkyYTRxSE9PYmx5NnQy?=
+ =?utf-8?B?dnRzbTVRcWxIcjBpK29qU3NUdXo2cUZYamY2bnFHanFBTWR4bmdMOGpCRDdJ?=
+ =?utf-8?B?QWQyTUdmcjN6QUpkQU1yMkxXaXZ0TmJFam9SSUIvLzJWMksvQ0xVNCs5Ykl1?=
+ =?utf-8?B?dDJnN1N5dEprSzV6N1NBOGxnMzN5OEljY094QVpTQlVHMW1ya0VaWXNwdjNa?=
+ =?utf-8?B?aTRRUngvcEt2dzdUbFM4VmdUTGJlYWM1NVE5OTZvbnl4a1hubklXRFIzeHdO?=
+ =?utf-8?B?YTJGcnc1UVMwTG5mMkxaV3F0YWJ6amZLUWVzbUNiV2ZWcmdJZHcvSFZGc3JG?=
+ =?utf-8?B?VUpRUjBNc1I0RGZLN2tYTUZ6MkJLZVJjNnRtN3V5RjdLVm92NGlqU3BGY25j?=
+ =?utf-8?B?Yk1uQUZJVVdjNDFYcGlZRWtCUXVpTFRicllvTmFXd3hDVlZFVGhhY05TQTR4?=
+ =?utf-8?B?cWhXc2F3cVhEN2RqMXdadks0TkJ0SXJTZEZRM1VPcEtnYWd4Zko4QWM2VzlT?=
+ =?utf-8?B?QjZLdEErVHZ4alFQMSt6YW5OcDdVTHptQWtxRTN5TmI3NFB5RnRUdlZSeE1t?=
+ =?utf-8?B?WG9acjlGQi9tTmxVREJMUjgxV0Z1eWtuY1pCNklPUVhrV1ZWbFB0UjJsZHhy?=
+ =?utf-8?B?V0hYeGRIWnpwcHAwM2NGS3JZSDg1Ty80eFlaSmFQNDcvL3h2clFaSW9pMG9L?=
+ =?utf-8?B?NmpkcUZqQm5zek44c09jSC9meUFPcmJidjZvYm5OR0VFaE5BU08vS2VXaTBS?=
+ =?utf-8?B?cXBLZ3ZiYjFJdTdId20vZmgzNkxudWpEemNjK2FWQll1K2tETUQ3ajdqcFNU?=
+ =?utf-8?Q?jN6dZ9pI18i38ph+GZ6fxK4Pp0WzF5hW?=
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:MN0PR12MB6101.namprd12.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230040)(1800799024)(366016)(376014); DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?d3ZPc0hVbGREbm5uUkFnd1R1QklOdTJmaGtUTGFjTnNXM3FNWHFHeW4xVVZM?=
+ =?utf-8?B?V1psTytjeGpuQTRQWldUaG5qQlg3R3VaOFQ2RnNWVkM1NXNiWHUyU0RHUFdi?=
+ =?utf-8?B?NlJrUklXeklKL1RLcENDM2NxdzIyWFFnZkJ5NnFmcFRaa2t0ZDNDdTkvQ0pl?=
+ =?utf-8?B?T0hrNndXUWdCdk9nRzdMdGV1bVFodXFiMHhPa2xOZXpVa1d5Y1VXM3VqTXc5?=
+ =?utf-8?B?eVRoRndWR3BqZ2c0MWZkK05XbmVLVmp4YVZ3c3hqYk5YK1RxUHlPeGdXeVc5?=
+ =?utf-8?B?NnlTNThvb1ZrcHRvVzJ0ZXZhSlJMUGFXYm1VWEN3dlZ5M2VqKzlKZXUyUmVn?=
+ =?utf-8?B?SmxBVWpCbEIrbzc5SEViL0dGb0hlREFLSUk5WGFZRzV4Y1RKSWs0MXNCYi8y?=
+ =?utf-8?B?RVd5VFVCZ3NlS2ZqRDQ1UVF2ejJkMldjR3pyWXpwYStVTmY0eHhqRnd3MGR4?=
+ =?utf-8?B?TVlZb3Q1NkNEWERnb3ljYk8vSGZKd2VDQUxtVnd0b3ByRnNqMytzT2lNRFgx?=
+ =?utf-8?B?UFpFOExzWDlzSzROU2ovQ29rZ1JJQStBNG9VR1BUZUtnVDd0RmhibldPdnZu?=
+ =?utf-8?B?eXdOQVYzTm5zZGhTVEFobWptZ1JKOW5DM01wYkRSZXZCdGpWL3QyNDgyeEtK?=
+ =?utf-8?B?WjRiOFp6c2V2WS80VnkxSVVGQWVUd2N5NFI3cTJ4dWlwRDVZYnhKK0FxYUxp?=
+ =?utf-8?B?VEFoOURVdVVERS9BRjA4Q2JQSWUrVC9odnMwM1hXMEg0YnlxRFBrTmNLTnF5?=
+ =?utf-8?B?eFJkQ1l1SFhHdEUwWGkvSExkdkZjZmlKRCtaNElrWGsvRERSNXp6L1JmckhU?=
+ =?utf-8?B?eGJZMHc0SytpOGZBcXpQMzFxQjdIL0FUd1E0bnZteFBObEJqais5U1d6QkFt?=
+ =?utf-8?B?VUNsWjF4bkJrR1pzUzR0aTZoTkR1VEhWaElJb2gvNGdORHFUaHdqcFNkWnhS?=
+ =?utf-8?B?di9PY0E5alFvME1UTXBqMkd1NllDMVE3bnFaK0ZFbmFaaGxiT3dNUFNrbUJh?=
+ =?utf-8?B?QzZlL0NjVnRxZC9XelVWaFBDZVRvKzdITVFjcHZCZUJSbWpNSEhpTklzcGQ3?=
+ =?utf-8?B?d2diTmU1SnJDcFRjblo2bWZtQnU5akVPVStleGhqb2pBMEZ6MjBDaXdiNFhP?=
+ =?utf-8?B?SjVOQm16U2pTYnlUOG9pZlVzUTBBUmMyS0RwcjBMZTU0VVJHQm52eUhyVk5W?=
+ =?utf-8?B?M2tYeXJjTFU1alBtQnduMUtVdU5kK0gyeTBoT3ZkU05aSVdNUEFrTXNMWllQ?=
+ =?utf-8?B?OStZR0FiRXRqWTU1dlNaRVpnVmJkZGgxNnNSNFl0RkZ2L0h5NjlXQm5Jd25y?=
+ =?utf-8?B?dXRPWEdMTEFBOE5zemVzTFJEV0hKMkV5aldsczFMb0o3R04xUFdoaEE3cE54?=
+ =?utf-8?B?V2VYTHNTZ0xFbDdYbkJHRVZhblE2RE1aREVlVTZ6bXVIb0hXZTJ2dEFoclRP?=
+ =?utf-8?B?UGsyaWVteUJCTnA3UnRrKy83ZUE1Y1cxS1FIQSthdzdVc2w1YkxDWmswcVE5?=
+ =?utf-8?B?elV2V1BoU2tvODh3Nzk4eHBmR3gxTkN5RkNaQjFQOG80MFdqOVBlanRVTmJ2?=
+ =?utf-8?B?MkZZdUZNKy9DYm00bCtIRmVYRUY1b0FRM05PVW1ua002ZFVqdTR6MFN5bVl4?=
+ =?utf-8?B?SVJLV2VoUVNuem0vM05zbzFxeWpKVWtOaitSVGhtdzRmdVpETVovSUNPYkhG?=
+ =?utf-8?B?RkNOMW56bWRTUTRRNVcwZ0lTU0RGbDJQNXA0SkRCYkZ2M0JHSHdYN3VXeU1J?=
+ =?utf-8?B?enE1U1o3THg1bUlLQUYrN2FBdzJsdGd3SDNTRitwOXpUaEpWWjNMb0pFR01R?=
+ =?utf-8?B?UCt6b1dkNm5lS1J0RUFaTlg2WUx6SGFLNU1Pd1l3bXhZNm5UZGVxS1E1NDJa?=
+ =?utf-8?B?MjJYR2JJUW1Sa3RFTy9QWlVQNWs2eEtycDdrYWhHUElaQk9IV2hPd3ZyNTB6?=
+ =?utf-8?B?TjBlSnV1ZlFKdGxiRzRqNFdweDZETmRaT2NYMGFHbWMzdUozV3lPdVpmWlFq?=
+ =?utf-8?B?V2x5OGFIV0VPVFVvNldjS003SmJ4VFB1Y3BoeFBOYitRSjNTQlQxclZ4TVBp?=
+ =?utf-8?B?ekFPYmg2aWdGeFZzSjJBTCtEL3UrM01zVzBoYTFaNCt2ZEFUeklkY0RrQmxs?=
+ =?utf-8?Q?a6j4E8YrM7j2Z7XNY/l0z0umf?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 6cc3173d-3fa3-42f4-d9d6-08de1b1d524e
+X-MS-Exchange-CrossTenant-AuthSource: MN0PR12MB6101.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 03 Nov 2025 21:09:48.4440 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: hiDx0SLXxJWcJ1u4UPdMxo8U7GZ1pOzIsoG/6/AhSLfom9bVGEIghGw40BitorByK8v5I5YNnjPaPL8HIbAznQ==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CY5PR12MB6348
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -101,201 +174,109 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Sun, Nov 02, 2025 at 10:00:48AM +0200, Leon Romanovsky wrote:
-> Changelog:
-> v6:
->  * Fixed wrong error check from pcim_p2pdma_init().
->  * Documented pcim_p2pdma_provider() function.
->  * Improved commit messages.
->  * Added VFIO DMA-BUF selftest.
->  * Added __counted_by(nr_ranges) annotation to struct vfio_device_feature_dma_buf.
->  * Fixed error unwind when dma_buf_fd() fails.
->  * Document latest changes to p2pmem.
->  * Removed EXPORT_SYMBOL_GPL from pci_p2pdma_map_type.
->  * Moved DMA mapping logic to DMA-BUF.
->  * Removed types patch to avoid dependencies between subsystems.
->  * Moved vfio_pci_dma_buf_move() in err_undo block.
->  * Added nvgrace patch.
 
-Thanks Leon. Attaching a toy program which sanity tests the dma-buf export UAPI
-by feeding the allocated dma-buf into an dma-buf importer (libibverbs + CX-7).
- 
-Tested-by: Alex Mastro <amastro@fb.com>
 
-$ cc -Og -Wall -Wextra $(pkg-config --cflags --libs libibverbs) test_dmabuf.c -o test_dmabuf
-$ ./test_dmabuf 0000:05:00.0 3 4 0 0x1000
-opening 0000:05:00.0 via /dev/vfio/56
-allocating dma_buf bar_idx=4, bar_offset=0x0, size=0x1000
-allocated dma_buf fd=6
-discovered 4 ibv devices: mlx5_0 mlx5_1 mlx5_2 mlx5_3
-opened ibv device 3: mlx5_3
-registered dma_buf
-unregistered dma_buf
-closed dma_buf fd
+On 11/3/2025 12:15 PM, Rong Zhang wrote:
+> Hi all,
+> 
+> On Tue, 2025-10-14 at 00:47 +0800, Rong Zhang wrote:
+>> When a connector is connected but inactive (e.g., disabled by desktop
+>> environments), pipe_ctx->stream_res.tg will be destroyed. Then, reading
+>> odm_combine_segments causes kernel NULL pointer dereference.
+>>
+>>   BUG: kernel NULL pointer dereference, address: 0000000000000000
+>>   #PF: supervisor read access in kernel mode
+>>   #PF: error_code(0x0000) - not-present page
+>>   PGD 0 P4D 0
+>>   Oops: Oops: 0000 [#1] SMP NOPTI
+>>   CPU: 16 UID: 0 PID: 26474 Comm: cat Not tainted 6.17.0+ #2 PREEMPT(lazy)  e6a17af9ee6db7c63e9d90dbe5b28ccab67520c6
+>>   Hardware name: LENOVO 21Q4/LNVNB161216, BIOS PXCN25WW 03/27/2025
+>>   RIP: 0010:odm_combine_segments_show+0x93/0xf0 [amdgpu]
+>>   Code: 41 83 b8 b0 00 00 00 01 75 6e 48 98 ba a1 ff ff ff 48 c1 e0 0c 48 8d 8c 07 d8 02 00 00 48 85 c9 74 2d 48 8b bc 07 f0 08 00 00 <48> 8b 07 48 8b 80 08 02 00>
+>>   RSP: 0018:ffffd1bf4b953c58 EFLAGS: 00010286
+>>   RAX: 0000000000005000 RBX: ffff8e35976b02d0 RCX: ffff8e3aeed052d8
+>>   RDX: 00000000ffffffa1 RSI: ffff8e35a3120800 RDI: 0000000000000000
+>>   RBP: 0000000000000000 R08: ffff8e3580eb0000 R09: ffff8e35976b02d0
+>>   R10: ffffd1bf4b953c78 R11: 0000000000000000 R12: ffffd1bf4b953d08
+>>   R13: 0000000000040000 R14: 0000000000000001 R15: 0000000000000001
+>>   FS:  00007f44d3f9f740(0000) GS:ffff8e3caa47f000(0000) knlGS:0000000000000000
+>>   CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+>>   CR2: 0000000000000000 CR3: 00000006485c2000 CR4: 0000000000f50ef0
+>>   PKRU: 55555554
+>>   Call Trace:
+>>    <TASK>
+>>    seq_read_iter+0x125/0x490
+>>    ? __alloc_frozen_pages_noprof+0x18f/0x350
+>>    seq_read+0x12c/0x170
+>>    full_proxy_read+0x51/0x80
+>>    vfs_read+0xbc/0x390
+>>    ? __handle_mm_fault+0xa46/0xef0
+>>    ? do_syscall_64+0x71/0x900
+>>    ksys_read+0x73/0xf0
+>>    do_syscall_64+0x71/0x900
+>>    ? count_memcg_events+0xc2/0x190
+>>    ? handle_mm_fault+0x1d7/0x2d0
+>>    ? do_user_addr_fault+0x21a/0x690
+>>    ? exc_page_fault+0x7e/0x1a0
+>>    entry_SYSCALL_64_after_hwframe+0x6c/0x74
+>>   RIP: 0033:0x7f44d4031687
+>>   Code: 48 89 fa 4c 89 df e8 58 b3 00 00 8b 93 08 03 00 00 59 5e 48 83 f8 fc 74 1a 5b c3 0f 1f 84 00 00 00 00 00 48 8b 44 24 10 0f 05 <5b> c3 0f 1f 80 00 00 00 00>
+>>   RSP: 002b:00007ffdb4b5f0b0 EFLAGS: 00000202 ORIG_RAX: 0000000000000000
+>>   RAX: ffffffffffffffda RBX: 00007f44d3f9f740 RCX: 00007f44d4031687
+>>   RDX: 0000000000040000 RSI: 00007f44d3f5e000 RDI: 0000000000000003
+>>   RBP: 0000000000040000 R08: 0000000000000000 R09: 0000000000000000
+>>   R10: 0000000000000000 R11: 0000000000000202 R12: 00007f44d3f5e000
+>>   R13: 0000000000000003 R14: 0000000000000000 R15: 0000000000040000
+>>    </TASK>
+>>   Modules linked in: tls tcp_diag inet_diag xt_mark ccm snd_hrtimer snd_seq_dummy snd_seq_midi snd_seq_oss snd_seq_midi_event snd_rawmidi snd_seq snd_seq_device x>
+>>    snd_hda_codec_atihdmi snd_hda_codec_realtek_lib lenovo_wmi_helpers think_lmi snd_hda_codec_generic snd_hda_codec_hdmi snd_soc_core kvm snd_compress uvcvideo sn>
+>>    platform_profile joydev amd_pmc mousedev mac_hid sch_fq_codel uinput i2c_dev parport_pc ppdev lp parport nvme_fabrics loop nfnetlink ip_tables x_tables dm_cryp>
+>>   CR2: 0000000000000000
+>>   ---[ end trace 0000000000000000 ]---
+>>   RIP: 0010:odm_combine_segments_show+0x93/0xf0 [amdgpu]
+>>   Code: 41 83 b8 b0 00 00 00 01 75 6e 48 98 ba a1 ff ff ff 48 c1 e0 0c 48 8d 8c 07 d8 02 00 00 48 85 c9 74 2d 48 8b bc 07 f0 08 00 00 <48> 8b 07 48 8b 80 08 02 00>
+>>   RSP: 0018:ffffd1bf4b953c58 EFLAGS: 00010286
+>>   RAX: 0000000000005000 RBX: ffff8e35976b02d0 RCX: ffff8e3aeed052d8
+>>   RDX: 00000000ffffffa1 RSI: ffff8e35a3120800 RDI: 0000000000000000
+>>   RBP: 0000000000000000 R08: ffff8e3580eb0000 R09: ffff8e35976b02d0
+>>   R10: ffffd1bf4b953c78 R11: 0000000000000000 R12: ffffd1bf4b953d08
+>>   R13: 0000000000040000 R14: 0000000000000001 R15: 0000000000000001
+>>   FS:  00007f44d3f9f740(0000) GS:ffff8e3caa47f000(0000) knlGS:0000000000000000
+>>   CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+>>   CR2: 0000000000000000 CR3: 00000006485c2000 CR4: 0000000000f50ef0
+>>   PKRU: 55555554
+>>
+>> Fix this by checking pipe_ctx->stream_res.tg before dereferencing.
+>>
+>> Fixes: 07926ba8a44f ("drm/amd/display: Add debugfs interface for ODM combine info")
+>> Cc: stable@vger.kernel.org
+>> Signed-off-by: Rong Zhang <i@rong.moe>
+>> ---
+>>   drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_debugfs.c | 3 ++-
+>>   1 file changed, 2 insertions(+), 1 deletion(-)
+>>
+>> diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_debugfs.c b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_debugfs.c
+>> index f263e1a4537e1..00dac862b665a 100644
+>> --- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_debugfs.c
+>> +++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_debugfs.c
+>> @@ -1302,7 +1302,8 @@ static int odm_combine_segments_show(struct seq_file *m, void *unused)
+>>   	if (connector->status != connector_status_connected)
+>>   		return -ENODEV;
+>>   
+>> -	if (pipe_ctx != NULL && pipe_ctx->stream_res.tg->funcs->get_odm_combine_segments)
+>> +	if (pipe_ctx && pipe_ctx->stream_res.tg &&
+>> +	    pipe_ctx->stream_res.tg->funcs->get_odm_combine_segments)
+>>   		pipe_ctx->stream_res.tg->funcs->get_odm_combine_segments(pipe_ctx->stream_res.tg, &segments);
+>>   
+>>   	seq_printf(m, "%d\n", segments);
+>>
+>> base-commit: 3a8660878839faadb4f1a6dd72c3179c1df56787
+> 
+> Gentle ping.
+> 
+> Thanks,
+> Rong
 
----
-#include <fcntl.h>
-#include <infiniband/verbs.h>
-#include <libgen.h>
-#include <linux/limits.h>
-#include <linux/types.h>
-#include <linux/vfio.h>
-#include <stdbool.h>
-#include <stdint.h>
-#include <stdio.h>
-#include <stdlib.h>
-#include <sys/ioctl.h>
-#include <unistd.h>
+Reviewed-by: Mario Limonciello <mario.limonciello@amd.com>
 
-#define ensure(cond)                                                             \
-	do {                                                                     \
-		if (!(cond)) {                                                   \
-			fprintf(stderr,                                          \
-				"%s:%d Condition failed: '%s' (errno=%d: %s)\n", \
-				__FILE__, __LINE__, #cond, errno,                \
-				strerror(errno));                                \
-			exit(EXIT_FAILURE);                                      \
-		}                                                                \
-	} while (0)
-
-#ifndef VFIO_DEVICE_FEATURE_DMA_BUF
-#define VFIO_DEVICE_FEATURE_DMA_BUF 11
-
-struct vfio_region_dma_range {
-	__u64 offset;
-	__u64 length;
-};
-
-struct vfio_device_feature_dma_buf {
-	__u32 region_index;
-	__u32 open_flags;
-	__u32 flags;
-	__u32 nr_ranges;
-	struct vfio_region_dma_range dma_ranges[];
-};
-#endif
-
-static uint32_t group_for_bdf(const char *bdf)
-{
-	char path[PATH_MAX];
-	char link[PATH_MAX];
-	int ret;
-
-	snprintf(path, sizeof(path), "/sys/bus/pci/devices/%s/iommu_group",
-		 bdf);
-	ret = readlink(path, link, sizeof(link));
-	ensure(ret > 0);
-
-	const char *filename = basename(link);
-	ensure(filename);
-
-	return strtoul(filename, NULL, 0);
-}
-
-int main(int argc, char **argv)
-{
-	int ret;
-
-	if (argc != 6) {
-		printf("usage: %s <vfio_bdf> <ibv_device_idx> <bar_idx> <bar_offset> <size>\n",
-		       argv[0]);
-		printf("example: %s 0000:05:00.0 3 2 0x20000 0x1000\n",
-		       argv[0]);
-		return 1;
-	}
-
-	const char *bdf = argv[1];
-	uint32_t ibv_idx = strtoul(argv[2], NULL, 0);
-	uint32_t bar_idx = strtoul(argv[3], NULL, 0);
-	uint64_t bar_offs = strtoull(argv[4], NULL, 0);
-	uint64_t dmabuf_len = strtoull(argv[5], NULL, 0);
-
-	uint32_t group_num = group_for_bdf(bdf);
-	char group_path[PATH_MAX];
-	snprintf(group_path, sizeof(group_path), "/dev/vfio/%u", group_num);
-
-	int container_fd = open("/dev/vfio/vfio", O_RDWR);
-	ensure(container_fd >= 0);
-
-	printf("opening %s via %s\n", bdf, group_path);
-	int group_fd = open(group_path, O_RDWR);
-	ensure(group_fd >= 0);
-
-	ret = ioctl(group_fd, VFIO_GROUP_SET_CONTAINER, &container_fd);
-	ensure(!ret);
-
-	ret = ioctl(container_fd, VFIO_SET_IOMMU, VFIO_TYPE1v2_IOMMU);
-	ensure(!ret);
-
-	int device_fd = ioctl(group_fd, VFIO_GROUP_GET_DEVICE_FD, bdf);
-	ensure(device_fd >= 0);
-
-	uint8_t buf[sizeof(struct vfio_device_feature) +
-		    sizeof(struct vfio_device_feature_dma_buf) +
-		    sizeof(struct vfio_region_dma_range)]
-		__attribute__((aligned(32)));
-
-	struct vfio_device_feature *ft = (struct vfio_device_feature *)buf;
-	*ft = (struct vfio_device_feature){
-		.argsz = sizeof(buf),
-		.flags = VFIO_DEVICE_FEATURE_GET | VFIO_DEVICE_FEATURE_DMA_BUF,
-	};
-
-	struct vfio_device_feature_dma_buf *ft_dma_buf =
-		(struct vfio_device_feature_dma_buf *)ft->data;
-	*ft_dma_buf = (struct vfio_device_feature_dma_buf){
-		.region_index = bar_idx,
-		.open_flags = O_RDWR,
-		.nr_ranges = 1,
-	};
-
-	ft_dma_buf->dma_ranges[0] = (struct vfio_region_dma_range){
-		.length = dmabuf_len,
-		.offset = bar_offs,
-	};
-
-	printf("allocating dma_buf bar_idx=%u, bar_offset=0x%lx, size=0x%lx\n",
-	       bar_idx, bar_offs, dmabuf_len);
-	int dmabuf_fd = ioctl(device_fd, VFIO_DEVICE_FEATURE, buf);
-	ensure(dmabuf_fd >= 0);
-	printf("allocated dma_buf fd=%d\n", dmabuf_fd);
-
-	int num;
-	struct ibv_device **devs = ibv_get_device_list(&num);
-	ensure(devs && num > 0);
-	printf("discovered %d ibv devices:", num);
-	for (int i = 0; i < num; i++) {
-		printf(" %s", ibv_get_device_name(devs[i]));
-	}
-	printf("\n");
-	ensure(ibv_idx < (uint32_t)num);
-
-	struct ibv_context *ctx = ibv_open_device(devs[ibv_idx]);
-	ensure(ctx);
-	printf("opened ibv device %d: %s\n", ibv_idx,
-	       ibv_get_device_name(devs[ibv_idx]));
-
-	struct ibv_pd *pd = ibv_alloc_pd(ctx);
-	ensure(pd);
-
-	uint64_t offset = 0;
-	uint64_t iova = 0;
-	int access = IBV_ACCESS_LOCAL_WRITE | IBV_ACCESS_REMOTE_READ |
-		     IBV_ACCESS_REMOTE_WRITE;
-
-	struct ibv_mr *mr = ibv_reg_dmabuf_mr(pd, offset, dmabuf_len, iova,
-					      dmabuf_fd, access);
-	ensure(mr);
-	printf("registered dma_buf\n");
-
-	ret = ibv_dereg_mr(mr);
-	ensure(!ret);
-	printf("unregistered dma_buf\n");
-
-	ret = close(dmabuf_fd);
-	ensure(!ret);
-	printf("closed dma_buf fd\n");
-
-	return 0;
-}
----
+And applied, thanks.
