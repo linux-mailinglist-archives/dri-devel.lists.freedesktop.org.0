@@ -2,53 +2,53 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1F04EC2AB5F
-	for <lists+dri-devel@lfdr.de>; Mon, 03 Nov 2025 10:22:54 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8561DC2AB64
+	for <lists+dri-devel@lfdr.de>; Mon, 03 Nov 2025 10:22:57 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6B67F10E0DB;
-	Mon,  3 Nov 2025 09:22:52 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E4C3B10E0F8;
+	Mon,  3 Nov 2025 09:22:55 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="hiClyrtG";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="nWUtIKLQ";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7C96110E0DB
- for <dri-devel@lists.freedesktop.org>; Mon,  3 Nov 2025 09:22:50 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1CDF910E38F
+ for <dri-devel@lists.freedesktop.org>; Mon,  3 Nov 2025 09:22:55 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1762161770; x=1793697770;
+ t=1762161775; x=1793697775;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=ZfD85JnCcKIET4+CszZR9EDnOKKB6p02G0xFk7wFUz4=;
- b=hiClyrtGE8juWEyppHMcMneuUVNX8b+FRRjGsHxxsv47aev2RF9MoHuk
- iJ+HbdqAdLnlt0DLtVpO1oGCVHdRfDt6/gimOHIekM2Hdjpkyph38IMkP
- Q5Y3HCKHuF22I293J9emo37VWpeh8vRDri1tGRNPQp1vd/pA2C0/3+0/m
- 8gaYwfY1DWhkdMSatBRwYFojyIjolnobNYe9QBnhUTwobS0J1mdKrESAX
- E1iZEDqR9uriBQY78XDZPfkqCo8KN4z2HsK/EO8qG0XD5NNPiSP2lu7c7
- AUeqik0Kb3biI9tp1pt8XndQSeX/2aJdm2L/IqN17yPUBqV2xmwWSvroo A==;
-X-CSE-ConnectionGUID: wNGYylg6Sl+AW9i5pzGROA==
-X-CSE-MsgGUID: gVDPLOXvQ66DQsclAN739w==
-X-IronPort-AV: E=McAfee;i="6800,10657,11601"; a="64265165"
-X-IronPort-AV: E=Sophos;i="6.19,275,1754982000"; d="scan'208";a="64265165"
-Received: from orviesa005.jf.intel.com ([10.64.159.145])
+ bh=/5rG5FJULrQ72kx1VOZRoHI6We3zqE0nWIkrVwgFI68=;
+ b=nWUtIKLQqdoTRhmdEvWDeYyk6rS9tMOAFXaCQBQ2nS5XGgEtD6q2emnG
+ BN4oNReZ9EIBT3gMv5WbvRRuZtVreNLihbPZ8Qfv60tojdIZ7Rnir/S3S
+ lEO5X0mxX/7lIdcT/aYhl5AApYoee8VL3dArMz4EQBr2KVAxsoQKBtBbV
+ xNbkjvhBPSRlwAGO3WLy9Zu+THrEoVkI7prtHxBYQRNM17r2nqdKyzZwF
+ bXjztaATUgWUyrulpz5D/tSgUeZHsZxwM9OXt1KSGnXaXNWfuzLYaQwEF
+ 20i0b/uug0vix+zdy0i6kseQSSwlrTkBlsQ887n1qAg1wKsID0I+Z03cq A==;
+X-CSE-ConnectionGUID: GV5UMPNzSTepyFzY5fsZig==
+X-CSE-MsgGUID: ECgk/KUHQ/+484Ds8XAgbA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11601"; a="64265177"
+X-IronPort-AV: E=Sophos;i="6.19,275,1754982000"; d="scan'208";a="64265177"
+Received: from orviesa004.jf.intel.com ([10.64.159.144])
  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 03 Nov 2025 01:22:50 -0800
-X-CSE-ConnectionGUID: v2W4xMFoQua+pwsdftd4jw==
-X-CSE-MsgGUID: 7roWW8m5Sr6X+f218pkLjQ==
+ 03 Nov 2025 01:22:55 -0800
+X-CSE-ConnectionGUID: DuttucIiST2vBzNoAb27HQ==
+X-CSE-MsgGUID: pZyU7ZE5RA+5xKjLf1EQ7Q==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.19,275,1754982000"; d="scan'208";a="191980476"
+X-IronPort-AV: E=Sophos;i="6.19,275,1754982000"; d="scan'208";a="191159820"
 Received: from krybak-mobl1.ger.corp.intel.com (HELO localhost)
  ([10.245.246.127])
- by orviesa005-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 03 Nov 2025 01:22:48 -0800
+ by orviesa004-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 03 Nov 2025 01:22:53 -0800
 From: Jani Nikula <jani.nikula@intel.com>
 To: dri-devel@lists.freedesktop.org, Thomas Zimmermann <tzimmermann@suse.de>,
  Stephen Rothwell <sfr@canb.auug.org.au>
 Cc: jani.nikula@intel.com
-Subject: [PATCH 1/2] drm/renesas: include drm_print.h where needed
-Date: Mon,  3 Nov 2025 11:22:38 +0200
-Message-ID: <04f617d5fe37f92d750efbb73065df3997f5c6b5.1762161597.git.jani.nikula@intel.com>
+Subject: [PATCH 2/2] drm/rockchip: include drm_print.h where needed
+Date: Mon,  3 Nov 2025 11:22:39 +0200
+Message-ID: <59277a2dd7939ef5fe6e8fc61311873775141ef8.1762161597.git.jani.nikula@intel.com>
 X-Mailer: git-send-email 2.47.3
 In-Reply-To: <cover.1762161597.git.jani.nikula@intel.com>
 References: <cover.1762161597.git.jani.nikula@intel.com>
@@ -70,31 +70,30 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-rzg2l_du_drv.c depends on drm_print.h being indirectly included via
+rockchip_drm_vop2.c depends on drm_print.h being indirectly included via
 drm_buddy.h, drm_mm.h, or ttm/ttm_resource.h. Include drm_print.h
 explicitly.
 
-Reported-by: Stephen Rothwell <sfr@canb.auug.org.au>
-Closes: https://lore.kernel.org/r/20251103112418.031b3f8c@canb.auug.org.au
+Reported-by: Thomas Zimmermann <tzimmermann@suse.de>
+Closes: https://lore.kernel.org/r/9c67c29b-06e9-469b-9273-eaac368632d6@suse.de
 Fixes: f6e8dc9edf96 ("drm: include drm_print.h where needed")
-Cc: Thomas Zimmermann <tzimmermann@suse.de>
 Signed-off-by: Jani Nikula <jani.nikula@intel.com>
 ---
- drivers/gpu/drm/renesas/rz-du/rzg2l_du_drv.c | 1 +
+ drivers/gpu/drm/rockchip/rockchip_drm_vop2.c | 1 +
  1 file changed, 1 insertion(+)
 
-diff --git a/drivers/gpu/drm/renesas/rz-du/rzg2l_du_drv.c b/drivers/gpu/drm/renesas/rz-du/rzg2l_du_drv.c
-index e1aa6a719529..0fef33a5a089 100644
---- a/drivers/gpu/drm/renesas/rz-du/rzg2l_du_drv.c
-+++ b/drivers/gpu/drm/renesas/rz-du/rzg2l_du_drv.c
-@@ -17,6 +17,7 @@
- #include <drm/drm_drv.h>
- #include <drm/drm_fbdev_dma.h>
- #include <drm/drm_gem_dma_helper.h>
+diff --git a/drivers/gpu/drm/rockchip/rockchip_drm_vop2.c b/drivers/gpu/drm/rockchip/rockchip_drm_vop2.c
+index 284c8a048034..e979d5e02ff4 100644
+--- a/drivers/gpu/drm/rockchip/rockchip_drm_vop2.c
++++ b/drivers/gpu/drm/rockchip/rockchip_drm_vop2.c
+@@ -29,6 +29,7 @@
+ #include <drm/drm_flip_work.h>
+ #include <drm/drm_framebuffer.h>
+ #include <drm/drm_gem_framebuffer_helper.h>
 +#include <drm/drm_print.h>
  #include <drm/drm_probe_helper.h>
+ #include <drm/drm_vblank.h>
  
- #include "rzg2l_du_drv.h"
 -- 
 2.47.3
 
