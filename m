@@ -2,87 +2,63 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 11F06C2D593
-	for <lists+dri-devel@lfdr.de>; Mon, 03 Nov 2025 18:06:25 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id E9DE0C2D5F0
+	for <lists+dri-devel@lfdr.de>; Mon, 03 Nov 2025 18:11:26 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4C63210E450;
-	Mon,  3 Nov 2025 17:06:23 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4625710E1FC;
+	Mon,  3 Nov 2025 17:11:24 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=suse.com header.i=@suse.com header.b="Ta4X/m5e";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="SlqXc6fd";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-f44.google.com (mail-wm1-f44.google.com
- [209.85.128.44])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0524D10E450
- for <dri-devel@lists.freedesktop.org>; Mon,  3 Nov 2025 17:06:19 +0000 (UTC)
-Received: by mail-wm1-f44.google.com with SMTP id
- 5b1f17b1804b1-475dbc3c9efso27774495e9.0
- for <dri-devel@lists.freedesktop.org>; Mon, 03 Nov 2025 09:06:19 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=suse.com; s=google; t=1762189578; x=1762794378; darn=lists.freedesktop.org; 
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:from:to:cc:subject:date
- :message-id:reply-to;
- bh=W/E+yekLZHoYnEpR/iQ6pLhaCNwhnBlrdLlxkEXpohE=;
- b=Ta4X/m5exPkiXH9QdU9aAi18kNKTUk4MdhnFrB8Rh0xD19cDIGNaNCo/Om/3QqKZYh
- 2lACY96ivUJcYz85OPCG9QHcE2u+sRtM+AAY5OqfpuzjCX/VPFdMZHQUpffrKQpdpKAO
- TrtHLqI0ZPzhnxdsHXh1zf24ioRUGp8MnGZW8WercIKCrDdKmQ9Yyi8aBNjfzs/RwAEr
- ffcyLJAM3QihRnHVPelS5/bflNuXzbHW3AVNOeUh0vxROj1Ii9eewCkZ64kxZ7suZJfd
- bZCf7za21GwLkgHOfvx2P4SiOQlplYVIywqkDyC7Otgq7XsLEerGZvDoCUjfwi6D7Fh4
- NcZg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1762189578; x=1762794378;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=W/E+yekLZHoYnEpR/iQ6pLhaCNwhnBlrdLlxkEXpohE=;
- b=QxCJTVGU6sQDm/zkY3pF46h4f2ZJwyzxSXmOYKl+UokhC1eSJw2WyfG9LUcZ1LzOCa
- NMlV4UiURwtOTc8c55M12Z8Xw3UDzlrwsozkUrEUfM7FVGh+2tuKIIoNI15eQQ92tpaf
- N04YU1KJ+xrPpaZ1cQVKTv1Xp0nGdL7uze1VJ2U9EcvcMPJWVYOmwP1OkUMKnxJHAvje
- wCOJPlQYCNOluAac5luJe8L21DUuO3H7hQxMHmzE1XdER/IFISHclpo0mbrt+ceunexe
- Ssm1RwwRtmOT7NpYzhkPog8M9nye7l+oN/y6SGbfZ9aAv9BheNcnZXuJElg7AJf9JMPD
- vaHA==
+Received: from sea.source.kernel.org (sea.source.kernel.org [172.234.252.31])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1643B10E1FC
+ for <dri-devel@lists.freedesktop.org>; Mon,  3 Nov 2025 17:11:23 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by sea.source.kernel.org (Postfix) with ESMTP id CF93D43A89
+ for <dri-devel@lists.freedesktop.org>; Mon,  3 Nov 2025 17:11:22 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A4E07C4CEFD
+ for <dri-devel@lists.freedesktop.org>; Mon,  3 Nov 2025 17:11:22 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1762189882;
+ bh=Sv9FQL3Mzv+xYf8NoCGm6lqnm9197fwnn5s+c0L/OC4=;
+ h=References:In-Reply-To:Reply-To:From:Date:Subject:To:Cc:From;
+ b=SlqXc6fdFdwZKkA3NGn+gW1fT8efWP2Pq9Eay/W3Z/vvEZfuiMhms2HFuhmciuSLQ
+ 1Kh7RRyWB29Umachh4f15d/U7AQqP3zYHMeYH5OC3ZppNDS1UKTAdPsHgevXW/WW55
+ ve9P/zKD57n3O8qju8FiYDzLkoTNe2h4N+7x0a2rVJjuzTYWH53qtGyPu87G5HYLDv
+ eCmzAwVZo6J+LklFDGA4aj3LdeXYHdHp3670uap8kl2GfnATtEfPe4pICSzf4/kbdD
+ thKd8mjau7IIw+u35stL/MSUdmOQNyQ03rET2COozaTLSqLRDjZQlLrDM1E0HNe3q2
+ pDtzVyQqo3pug==
+Received: by mail-lj1-f177.google.com with SMTP id
+ 38308e7fff4ca-378d50e1c77so39071251fa.0
+ for <dri-devel@lists.freedesktop.org>; Mon, 03 Nov 2025 09:11:22 -0800 (PST)
 X-Forwarded-Encrypted: i=1;
- AJvYcCV4aS3xDDg2qNptLZXcQsscWNYqLSh4F6fkiR5DVSToAqHBEF8dTzvUEcZzMEJOmuwNyV8hOGviDoE=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Yxv3mFt6KUyEQjYvyWT0x0llmB4mbxrJJgtMpLa716breZmatx2
- yuIKSTPH9dY6mBUn/hA5PAi2cwdx4qtuEE5UxvCOMlOSiAM5wfamfuNGp6qNtkCY/SI=
-X-Gm-Gg: ASbGnctPga2DYhfCR+HM2RZQmHD/oAlWMEgzq5CIfUMn0kxHTML97hS+ROtUzNC2eCY
- pmjca+wg5WoxQwtOVzX8EKnVIBaS4WNvK7iq4ueyMVHfUxgUdG0kc5L4Fjfey02zVU0bja4/L4a
- ILudPYL0Nc2TaASV7XnmTesHIYiFAeihkWD7oT/aoYQBODeVZawcBFfnX/mopkT7Wujqi/56hMu
- djJA3ZepQYDW0bvlb/elejwSCpbH3yqlWixAB0kkAR620uwruw2vXoSm65xBWjZLfhu4MqY0ISv
- iIBtuANOG4jGgZyPVvji392wAYx8XQJ0s08+V4Ayhl1A6TPOStDZjdvDOB91BxpMtiQ+mdqYOef
- jEMGW6K03BqMqfpsgFnVZkaF+mru446Lt2sG35bdAgJTNq0B2/u5vyv55G4eszH1Pb5wQnuAWqX
- Lngl4ajTYQZgOoX5u4wku22l9y
-X-Google-Smtp-Source: AGHT+IHro/MP9UonungEHxvhQ8/oFTI0hKO0Ea28MQuK8I5sRHzjmtcpIky3vjVN1zF4UT9So2PeAQ==
-X-Received: by 2002:a05:600d:6352:b0:46e:38f7:625f with SMTP id
- 5b1f17b1804b1-477316381f2mr63094595e9.10.1762189578380; 
- Mon, 03 Nov 2025 09:06:18 -0800 (PST)
-Received: from localhost.localdomain ([2a00:6d43:105:c401:e307:1a37:2e76:ce91])
- by smtp.gmail.com with ESMTPSA id
- 5b1f17b1804b1-4772fc524ddsm89799895e9.7.2025.11.03.09.06.17
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 03 Nov 2025 09:06:17 -0800 (PST)
-From: Marco Crivellari <marco.crivellari@suse.com>
-To: linux-kernel@vger.kernel.org, intel-xe@lists.freedesktop.org,
- dri-devel@lists.freedesktop.org
-Cc: Tejun Heo <tj@kernel.org>, Lai Jiangshan <jiangshanlai@gmail.com>,
- Frederic Weisbecker <frederic@kernel.org>,
- Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
- Marco Crivellari <marco.crivellari@suse.com>,
- Michal Hocko <mhocko@suse.com>, Lucas De Marchi <lucas.demarchi@intel.com>,
- Thomas Hellstrom <thomas.hellstrom@linux.intel.com>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>, David Airlie <airlied@gmail.com>,
- Simona Vetter <simona@ffwll.ch>
-Subject: [PATCH v2 2/2] drm/xe: add WQ_PERCPU to alloc_workqueue users
-Date: Mon,  3 Nov 2025 18:06:04 +0100
-Message-ID: <20251103170604.310895-3-marco.crivellari@suse.com>
-X-Mailer: git-send-email 2.51.1
-In-Reply-To: <20251103170604.310895-1-marco.crivellari@suse.com>
-References: <20251103170604.310895-1-marco.crivellari@suse.com>
+ AJvYcCXiKUrN/NxYr6ajM0jVg0YB9xSHhaWkFjbAjfNsLXU9zJOYWSt/woYgYsRGiZJloo2qMSN8P99xd90=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YwDg6dgJzR6WsH5jClhZATcXuMMOVYJPOidZ2c/kInIm3BG8MoZ
+ YVYQUp1cwL26nam44lki0NuUnXxhzmkbik4K7Fz5/DlxSl6Im9StQSSdM5X05XorzbXE8ryZ9Bt
+ Gn7sa9Z/pTOz9FZAB/pDhDIenmskJ2h8=
+X-Google-Smtp-Source: AGHT+IGj3r9zUjzPzn9IEygYQzEgz7ukM/+Lp4b6fW21ZV+0fJdeLDp4noFAI8Yrq2hHKB7s/nRse2db5Ak/8EyGv8Q=
+X-Received: by 2002:a2e:9205:0:b0:337:e29c:b0d2 with SMTP id
+ 38308e7fff4ca-37a18de1e52mr34298411fa.41.1762189881006; Mon, 03 Nov 2025
+ 09:11:21 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+References: <20251012192330.6903-1-jernej.skrabec@gmail.com>
+ <20251012192330.6903-27-jernej.skrabec@gmail.com>
+In-Reply-To: <20251012192330.6903-27-jernej.skrabec@gmail.com>
+From: Chen-Yu Tsai <wens@kernel.org>
+Date: Tue, 4 Nov 2025 01:11:07 +0800
+X-Gmail-Original-Message-ID: <CAGb2v65RecyHZVUN--oSmtzPDpmUHALd3Pqf79a1fKP9yxD8cA@mail.gmail.com>
+X-Gm-Features: AWmQ_bkNL0jahcEQaqn8bSZ19J8F-ktWPPiEchcfhtJA1Ye9Nhc1HXJ4hMb0Q_M
+Message-ID: <CAGb2v65RecyHZVUN--oSmtzPDpmUHALd3Pqf79a1fKP9yxD8cA@mail.gmail.com>
+Subject: Re: [PATCH 26/30] drm/sun4i: mixer: Add quirk for number of VI scalers
+To: Jernej Skrabec <jernej.skrabec@gmail.com>
+Cc: mripard@kernel.org, maarten.lankhorst@linux.intel.com, tzimmermann@suse.de,
+ airlied@gmail.com, simona@ffwll.ch, samuel@sholland.org, 
+ dri-devel@lists.freedesktop.org, linux-arm-kernel@lists.infradead.org, 
+ linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -95,101 +71,157 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Reply-To: wens@kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Currently if a user enqueue a work item using schedule_delayed_work() the
-used wq is "system_wq" (per-cpu wq) while queue_delayed_work() use
-WORK_CPU_UNBOUND (used when a cpu is not specified). The same applies to
-schedule_work() that is using system_wq and queue_work(), that makes use
-again of WORK_CPU_UNBOUND.
-This lack of consistentcy cannot be addressed without refactoring the API.
+On Mon, Oct 13, 2025 at 3:24=E2=80=AFAM Jernej Skrabec <jernej.skrabec@gmai=
+l.com> wrote:
+>
+> On DE2 and DE3, UI scalers are located right after VI scalers. So in
+> order to calculate proper UI scaler base address, number of VI scalers
+> must be known. In practice, it is same as number of VI channels, but it
+> doesn't need to be.
+>
+> Let's make a quirk for this number. Code for configuring channels and
+> associated functions won't have access to vi_num quirk anymore after
+> rework for independent planes.
+>
+> Signed-off-by: Jernej Skrabec <jernej.skrabec@gmail.com>
+> ---
+>  drivers/gpu/drm/sun4i/sun8i_mixer.c     | 11 +++++++++++
+>  drivers/gpu/drm/sun4i/sun8i_mixer.h     |  2 ++
+>  drivers/gpu/drm/sun4i/sun8i_ui_scaler.c | 10 +++++-----
+>  3 files changed, 18 insertions(+), 5 deletions(-)
+>
+> diff --git a/drivers/gpu/drm/sun4i/sun8i_mixer.c b/drivers/gpu/drm/sun4i/=
+sun8i_mixer.c
+> index 78bbfbe62833..f9131396f22f 100644
+> --- a/drivers/gpu/drm/sun4i/sun8i_mixer.c
+> +++ b/drivers/gpu/drm/sun4i/sun8i_mixer.c
+> @@ -708,6 +708,7 @@ static const struct sun8i_mixer_cfg sun8i_a83t_mixer0=
+_cfg =3D {
+>         .scaler_mask    =3D 0xf,
+>         .scanline_yuv   =3D 2048,
+>         .de2_fcc_alpha  =3D 1,
+> +       .vi_scaler_num  =3D 1,
+>         .ui_num         =3D 3,
+>         .vi_num         =3D 1,
+>  };
+> @@ -718,6 +719,7 @@ static const struct sun8i_mixer_cfg sun8i_a83t_mixer1=
+_cfg =3D {
+>         .scaler_mask    =3D 0x3,
+>         .scanline_yuv   =3D 2048,
+>         .de2_fcc_alpha  =3D 1,
+> +       .vi_scaler_num  =3D 1,
+>         .ui_num         =3D 1,
+>         .vi_num         =3D 1,
+>  };
+> @@ -729,6 +731,7 @@ static const struct sun8i_mixer_cfg sun8i_h3_mixer0_c=
+fg =3D {
+>         .scaler_mask    =3D 0xf,
+>         .scanline_yuv   =3D 2048,
+>         .de2_fcc_alpha  =3D 1,
+> +       .vi_scaler_num  =3D 1,
+>         .ui_num         =3D 3,
+>         .vi_num         =3D 1,
+>  };
+> @@ -740,6 +743,7 @@ static const struct sun8i_mixer_cfg sun8i_r40_mixer0_=
+cfg =3D {
+>         .scaler_mask    =3D 0xf,
+>         .scanline_yuv   =3D 2048,
+>         .de2_fcc_alpha  =3D 1,
+> +       .vi_scaler_num  =3D 1,
+>         .ui_num         =3D 3,
+>         .vi_num         =3D 1,
+>  };
+> @@ -751,6 +755,7 @@ static const struct sun8i_mixer_cfg sun8i_r40_mixer1_=
+cfg =3D {
+>         .scaler_mask    =3D 0x3,
+>         .scanline_yuv   =3D 2048,
+>         .de2_fcc_alpha  =3D 1,
+> +       .vi_scaler_num  =3D 1,
+>         .ui_num         =3D 1,
+>         .vi_num         =3D 1,
+>  };
+> @@ -761,6 +766,7 @@ static const struct sun8i_mixer_cfg sun8i_v3s_mixer_c=
+fg =3D {
+>         .ui_num =3D 1,
+>         .scaler_mask =3D 0x3,
+>         .scanline_yuv =3D 2048,
+> +       .vi_scaler_num  =3D 2,
+>         .ccsc =3D CCSC_MIXER0_LAYOUT,
+>         .mod_rate =3D 150000000,
+>  };
+> @@ -772,6 +778,7 @@ static const struct sun8i_mixer_cfg sun20i_d1_mixer0_=
+cfg =3D {
+>         .scaler_mask    =3D 0x3,
+>         .scanline_yuv   =3D 2048,
+>         .de2_fcc_alpha  =3D 1,
+> +       .vi_scaler_num  =3D 1,
+>         .ui_num         =3D 1,
+>         .vi_num         =3D 1,
+>  };
+> @@ -783,6 +790,7 @@ static const struct sun8i_mixer_cfg sun20i_d1_mixer1_=
+cfg =3D {
+>         .scaler_mask    =3D 0x1,
+>         .scanline_yuv   =3D 1024,
+>         .de2_fcc_alpha  =3D 1,
+> +       .vi_scaler_num  =3D 1,
+>         .ui_num         =3D 0,
+>         .vi_num         =3D 1,
+>  };
+> @@ -794,6 +802,7 @@ static const struct sun8i_mixer_cfg sun50i_a64_mixer0=
+_cfg =3D {
+>         .scaler_mask    =3D 0xf,
+>         .scanline_yuv   =3D 4096,
+>         .de2_fcc_alpha  =3D 1,
+> +       .vi_scaler_num  =3D 1,
+>         .ui_num         =3D 3,
+>         .vi_num         =3D 1,
+>  };
+> @@ -805,6 +814,7 @@ static const struct sun8i_mixer_cfg sun50i_a64_mixer1=
+_cfg =3D {
+>         .scaler_mask    =3D 0x3,
+>         .scanline_yuv   =3D 2048,
+>         .de2_fcc_alpha  =3D 1,
+> +       .vi_scaler_num  =3D 1,
+>         .ui_num         =3D 1,
+>         .vi_num         =3D 1,
+>  };
+> @@ -814,6 +824,7 @@ static const struct sun8i_mixer_cfg sun50i_h6_mixer0_=
+cfg =3D {
+>         .mod_rate       =3D 600000000,
+>         .scaler_mask    =3D 0xf,
+>         .scanline_yuv   =3D 4096,
+> +       .vi_scaler_num  =3D 1,
+>         .ui_num         =3D 3,
+>         .vi_num         =3D 1,
+>  };
+> diff --git a/drivers/gpu/drm/sun4i/sun8i_mixer.h b/drivers/gpu/drm/sun4i/=
+sun8i_mixer.h
+> index def07afd37e1..40b800022237 100644
+> --- a/drivers/gpu/drm/sun4i/sun8i_mixer.h
+> +++ b/drivers/gpu/drm/sun4i/sun8i_mixer.h
+> @@ -178,6 +178,7 @@ enum sun8i_mixer_type {
+>   * @scaline_yuv: size of a scanline for VI scaler for YUV formats.
+>   * @de2_fcc_alpha: use FCC for missing DE2 VI alpha capability
+>   *     Most DE2 cores has FCC. If number of VI planes is one, enable thi=
+s.
+> + * @vi_scaler_num: Number of VI scalers. Used on DE2 and DE3.
+>   * @map: channel map for DE variants processing YUV separately (DE33)
+>   */
+>  struct sun8i_mixer_cfg {
+> @@ -189,6 +190,7 @@ struct sun8i_mixer_cfg {
+>         unsigned int    de_type;
+>         unsigned int    scanline_yuv;
+>         unsigned int    de2_fcc_alpha : 1;
+> +       unsigned int    vi_scaler_num;
 
-The above change to the Workqueue API has been introduced by:
+This could be a smaller type. Please do a sweep of the struct after the
+refactoring is done and see if any of the types could be shrunk.
 
-commit 930c2ea566af ("workqueue: Add new WQ_PERCPU flag")
+And just a nitpick, but I would probably insert it above scaler_mask.
 
-alloc_workqueue() treats all queues as per-CPU by default, while unbound
-workqueues must opt-in via WQ_UNBOUND.
 
-This default is suboptimal: most workloads benefit from unbound queues,
-allowing the scheduler to place worker threads where they’re needed and
-reducing noise when CPUs are isolated.
-
-This change adds a new WQ_PERCPU flag to explicitly request
-alloc_workqueue() to be per-cpu when WQ_UNBOUND has not been specified.
-
-With the introduction of the WQ_PERCPU flag (equivalent to !WQ_UNBOUND),
-any alloc_workqueue() caller that doesn’t explicitly specify WQ_UNBOUND
-must now use WQ_PERCPU.
-
-Once migration is complete, WQ_UNBOUND can be removed and unbound will
-become the implicit default.
-
-Suggested-by: Tejun Heo <tj@kernel.org>
-Signed-off-by: Marco Crivellari <marco.crivellari@suse.com>
----
- drivers/gpu/drm/xe/xe_device.c          | 4 ++--
- drivers/gpu/drm/xe/xe_ggtt.c            | 2 +-
- drivers/gpu/drm/xe/xe_hw_engine_group.c | 3 ++-
- drivers/gpu/drm/xe/xe_sriov.c           | 2 +-
- 4 files changed, 6 insertions(+), 5 deletions(-)
-
-diff --git a/drivers/gpu/drm/xe/xe_device.c b/drivers/gpu/drm/xe/xe_device.c
-index 34d33965eac2..38b42d4f930f 100644
---- a/drivers/gpu/drm/xe/xe_device.c
-+++ b/drivers/gpu/drm/xe/xe_device.c
-@@ -486,8 +486,8 @@ struct xe_device *xe_device_create(struct pci_dev *pdev,
- 	xe->preempt_fence_wq = alloc_ordered_workqueue("xe-preempt-fence-wq",
- 						       WQ_MEM_RECLAIM);
- 	xe->ordered_wq = alloc_ordered_workqueue("xe-ordered-wq", 0);
--	xe->unordered_wq = alloc_workqueue("xe-unordered-wq", 0, 0);
--	xe->destroy_wq = alloc_workqueue("xe-destroy-wq", 0, 0);
-+	xe->unordered_wq = alloc_workqueue("xe-unordered-wq", WQ_PERCPU, 0);
-+	xe->destroy_wq = alloc_workqueue("xe-destroy-wq", WQ_PERCPU, 0);
- 	if (!xe->ordered_wq || !xe->unordered_wq ||
- 	    !xe->preempt_fence_wq || !xe->destroy_wq) {
- 		/*
-diff --git a/drivers/gpu/drm/xe/xe_ggtt.c b/drivers/gpu/drm/xe/xe_ggtt.c
-index 5edc0cad47e2..566163ab96ae 100644
---- a/drivers/gpu/drm/xe/xe_ggtt.c
-+++ b/drivers/gpu/drm/xe/xe_ggtt.c
-@@ -291,7 +291,7 @@ int xe_ggtt_init_early(struct xe_ggtt *ggtt)
- 	else
- 		ggtt->pt_ops = &xelp_pt_ops;
- 
--	ggtt->wq = alloc_workqueue("xe-ggtt-wq", 0, WQ_MEM_RECLAIM);
-+	ggtt->wq = alloc_workqueue("xe-ggtt-wq", WQ_PERCPU, WQ_MEM_RECLAIM);
- 	if (!ggtt->wq)
- 		return -ENOMEM;
- 
-diff --git a/drivers/gpu/drm/xe/xe_hw_engine_group.c b/drivers/gpu/drm/xe/xe_hw_engine_group.c
-index fa4db5f23342..8526addcdf42 100644
---- a/drivers/gpu/drm/xe/xe_hw_engine_group.c
-+++ b/drivers/gpu/drm/xe/xe_hw_engine_group.c
-@@ -48,7 +48,8 @@ hw_engine_group_alloc(struct xe_device *xe)
- 	if (!group)
- 		return ERR_PTR(-ENOMEM);
- 
--	group->resume_wq = alloc_workqueue("xe-resume-lr-jobs-wq", 0, 0);
-+	group->resume_wq = alloc_workqueue("xe-resume-lr-jobs-wq", WQ_PERCPU,
-+					   0);
- 	if (!group->resume_wq)
- 		return ERR_PTR(-ENOMEM);
- 
-diff --git a/drivers/gpu/drm/xe/xe_sriov.c b/drivers/gpu/drm/xe/xe_sriov.c
-index 7d2d6de2aabf..5c36da17f745 100644
---- a/drivers/gpu/drm/xe/xe_sriov.c
-+++ b/drivers/gpu/drm/xe/xe_sriov.c
-@@ -120,7 +120,7 @@ int xe_sriov_init(struct xe_device *xe)
- 		xe_sriov_vf_init_early(xe);
- 
- 	xe_assert(xe, !xe->sriov.wq);
--	xe->sriov.wq = alloc_workqueue("xe-sriov-wq", 0, 0);
-+	xe->sriov.wq = alloc_workqueue("xe-sriov-wq", WQ_PERCPU, 0);
- 	if (!xe->sriov.wq)
- 		return -ENOMEM;
- 
--- 
-2.51.1
-
+Reviewed-by: Chen-Yu Tsai <wens@kernel.org>
