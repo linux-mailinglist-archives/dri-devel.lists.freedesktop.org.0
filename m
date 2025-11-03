@@ -2,46 +2,45 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 01897C2B7BE
-	for <lists+dri-devel@lfdr.de>; Mon, 03 Nov 2025 12:46:00 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 089A3C2B7BB
+	for <lists+dri-devel@lfdr.de>; Mon, 03 Nov 2025 12:45:59 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 93FC210E3BC;
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9329C10E3BB;
 	Mon,  3 Nov 2025 11:45:54 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="m+sJtFzp";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="lvvCyU7S";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from sea.source.kernel.org (sea.source.kernel.org [172.234.252.31])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D829A10E3BD
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C902D10E3BC
  for <dri-devel@lists.freedesktop.org>; Mon,  3 Nov 2025 11:45:52 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by sea.source.kernel.org (Postfix) with ESMTP id 84A7143601;
+ by sea.source.kernel.org (Postfix) with ESMTP id 8508B4360F;
  Mon,  3 Nov 2025 11:45:52 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 58BC8C16AAE;
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 662F8C19425;
  Mon,  3 Nov 2025 11:45:52 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
  s=k20201202; t=1762170352;
- bh=nXDeVQ0wQdG92t3Q9SWNAaZ98jUJtmiwu6D60hINFpw=;
+ bh=qQ/WEdPqrvPC/4CXxlAU3VuHJH/rNzhNQl/2gT3uV84=;
  h=From:Date:Subject:References:In-Reply-To:To:Cc:Reply-To:From;
- b=m+sJtFzpxaWS2kkE1jPX6ioUKOnPjQKovA8uiLdM0mO4RVmCLbGcwkLRe4Rl4IqKc
- bCsXYoKRdNWKUYuwZV73dI6CcEfOLVU7snzMNEk5DXDS0LzsyADbEH2+LifOSfgB2z
- nihirLxAcpCJAV+Uw7aRso26UnhCWAxvh/+DW/P6uCH8fUaIYJXyDybHABapGo1yEI
- 5NCQksblux3gJ6TauS9yTcNWbRveubtoJxr1vgF67XnUVa1MY350sgsMQZ5CemUeHO
- sa4kSf1vQUGHKYpeqtbJAQ6G3YBO2hNSskeRSAFIhgq/PGPg2fP7GfsBUmSRULBENi
- h5R/QWVhDlpJA==
+ b=lvvCyU7SM7EKBul3nJp7Deor7z2Bx22WieV641fIS17vlXXonJZWoQdXig65FMvAR
+ sQbwiuTPchNWEkVV/JucRnosj6Hyzc6I6V8ED/8ASule/DM0mq5BPs+2N/QxHjUecB
+ OsBkqQlp95OszjTjkBwN5RuKpvWLCriTHn7dMjoprDdMVcJNQRPZBzz0FXyeHz1TPL
+ gMaNFwNClx1cL/pt8lE4lLMec6Rxt7eYQYLGw9Dis4dr1AYy3lBh7P7iA+7SO/M8u7
+ swdoccsvQ8WQ51gVQXG+mZ0oA19TB6+q5H3QKfm9uQHMhk4ZjfRa7R0t2YqbKkKP69
+ 0jScmG0ISHBkg==
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org
  (localhost.localdomain [127.0.0.1])
- by smtp.lore.kernel.org (Postfix) with ESMTP id 50AF4CCFA06;
+ by smtp.lore.kernel.org (Postfix) with ESMTP id 5E883CCFA05;
  Mon,  3 Nov 2025 11:45:52 +0000 (UTC)
 From: David Heidelberg via B4 Relay <devnull+david.ixit.cz@kernel.org>
-Date: Mon, 03 Nov 2025 12:45:52 +0100
-Subject: [PATCH v6 3/4] arm64: dts: qcom: sdm845-oneplus: Implement panel
- sleep pinctrl
+Date: Mon, 03 Nov 2025 12:45:53 +0100
+Subject: [PATCH v6 4/4] arm64: dts: qcom: sdm845-oneplus: Describe TE gpio
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20251103-s6e3fc2x01-v6-3-d4eb4abaefa4@ixit.cz>
+Message-Id: <20251103-s6e3fc2x01-v6-4-d4eb4abaefa4@ixit.cz>
 References: <20251103-s6e3fc2x01-v6-0-d4eb4abaefa4@ixit.cz>
 In-Reply-To: <20251103-s6e3fc2x01-v6-0-d4eb4abaefa4@ixit.cz>
 To: Neil Armstrong <neil.armstrong@linaro.org>, 
@@ -57,24 +56,23 @@ To: Neil Armstrong <neil.armstrong@linaro.org>,
  Jessica Zhang <jesszhan0024@gmail.com>
 Cc: dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org, 
  linux-kernel@vger.kernel.org, linux-arm-msm@vger.kernel.org, 
- phone-devel@vger.kernel.org, David Heidelberg <david@ixit.cz>, 
- Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
+ phone-devel@vger.kernel.org, David Heidelberg <david@ixit.cz>
 X-Mailer: b4 0.14.3
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1523; i=david@ixit.cz;
+X-Developer-Signature: v=1; a=openpgp-sha256; l=744; i=david@ixit.cz;
  h=from:subject:message-id;
- bh=WQYIgl3txe070LJxSGYEwJAp2NAlPO9ze25JpKPvsUg=;
- b=owEBbQKS/ZANAwAIAWACP8TTSSByAcsmYgBpCJXu3codYCCYJZRipGc1sfbU+nQD0hiJX7MWL
- Op+SBtM62yJAjMEAAEIAB0WIQTXegnP7twrvVOnBHRgAj/E00kgcgUCaQiV7gAKCRBgAj/E00kg
- cq/YD/4onliWEg7VvnsY6w+mNK/S6hoSnVahc3ZXt3Ummnspr9ru8MPzmij2H08Bz8L3fW4GsO/
- +oNNlsskD02zjWzOjjxAIY0Qw4tpVpKBUd38qJ/GPsqHkK6kFRZMnSetxIV0mjc3hxgE4JhwQrA
- tO/2ZihiESEPMceoiqVOEbGkNpnJORgl6QfMgXCwdchTH94EyXSQCSHhE7aAb5bJ8o33WJEI4rG
- ilVyE67HSil9nJLz8KAEft0JFl/h38k7w7vol2bWBhyYUEFhKAt1LHNEgQGag7MPxCWGHj7wQGJ
- tsii+MSVC/ZZo/Ogw/zKneng3sw/jhZ7aY3vgYypwCOEJSreEB2xgmCToz5aW1cUMPmXRHgQ46A
- Hil4q0m7xwCqdMT3sadgsaYJr34GN3Sf6eI7GUxiTv/BeJGtiH6gr2fo0RGGNbMvsfgISb62DMt
- wTPvdvVyDUDENWgecMVISkzFHFkUO3QSLH5FTLRA8ngwc7pt9/IXwUyGs/kMAMrt8h+1PUBW/bc
- /Ediq10+hu+AJFhXvJ5iPGTw0qwl3Y+ijkzjU5jj40gSK+3OZQImfmsEAL9UAy49soTx8XboGPG
- s5EbmnDeSRcu1qEv6GWpm4SGzuZTVpd9Yd/PVUq4aQmvLUkn6P2CboMmM3mF6MWho1r5O6JIUMX
- +yFNSKQ5sZWpE8w==
+ bh=QDFx8txawxUA4NQVuvt5zOeKxx/QkLilb2g7UEm0IH0=;
+ b=owEBbQKS/ZANAwAIAWACP8TTSSByAcsmYgBpCJXuEzEiUcskISWH6ZZ4EhzYICTEATVcbv9Mu
+ m1e+qHI4xaJAjMEAAEIAB0WIQTXegnP7twrvVOnBHRgAj/E00kgcgUCaQiV7gAKCRBgAj/E00kg
+ cj0jD/98YZnd6jOSxFHP/wV2DBx01s/B68H3a8riT2SeM/CG3+1MqkXzjIGumzwIjI296JN0D3n
+ X4Dfxl+JTY5JOglHv59/9YqbNfiQyyzxAqfK9n+jfWFi0mv9GRpfgHqSKoQ0TTUiMUPZtntDyc1
+ L+BobYGnNTM00oY5RhMo/y5eAJP6/glAlGonw7M8ligK2FWrRfJWEM9HDYVBYyLjWHTt7eymBSO
+ nBW5dVrZgc0Bj6JdqkF5oqF4IWzDVQ9STD5Bq0krpQSSJPC8RdMm+fK8TFKA/QAIfQGDFr3Waf/
+ uogDcwdMkR6lQ36LhW9puguJOHyLwdaawhf/LjegKxKCMW2SZ2Jd+aynqYPcjVabSxhpcubCtBE
+ sAkFhWZ1TlwH77pOORx+416iMXWnT7CCU+La+CUPOWqV2FKalp+0nzgDsiHCXR1wSe+wNaEPYbW
+ GLomUrkg961mJgDp6SZc1dxyBAcz9LBL45Hk/+GOv40yzGHX4+8Y/47iSi12/l0oC7ROh/d0Vrm
+ rSQj+QfXjEL0nAmZ0YJKBe/Ngq9q6F4Lfz4mRGb1yp6ybCAWNyM4PKE2pOLIsvqsWEBVXe8yE/g
+ OJ84f+AyQIIgmlH+ywGj2P+gKN/G3nUF4lr5ja8mK1/fqcJpvqYCz7G25N2dUMrudSFQaMfK7ck
+ QGyY/BofAZDIBUQ==
 X-Developer-Key: i=david@ixit.cz; a=openpgp;
  fpr=D77A09CFEEDC2BBD53A7047460023FC4D3492072
 X-Endpoint-Received: by B4 Relay for david@ixit.cz/default with auth_id=355
@@ -97,63 +95,25 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: David Heidelberg <david@ixit.cz>
 
-We can DSI pin from 8mA to 2mA while suspend, do it.
+Describe panel Tearing Effect (TE) GPIO line.
 
-In theory, should give us extra 2 hours of idle battery life.
-
-cosmetic: sort pinctrl properties.
-
-Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
 Signed-off-by: David Heidelberg <david@ixit.cz>
 ---
- .../arm64/boot/dts/qcom/sdm845-oneplus-common.dtsi | 26 +++++++++++++++++++++-
- 1 file changed, 25 insertions(+), 1 deletion(-)
+ arch/arm64/boot/dts/qcom/sdm845-oneplus-common.dtsi | 1 +
+ 1 file changed, 1 insertion(+)
 
 diff --git a/arch/arm64/boot/dts/qcom/sdm845-oneplus-common.dtsi b/arch/arm64/boot/dts/qcom/sdm845-oneplus-common.dtsi
-index d59a5e8cdeb2c..f00dbc0fff3d4 100644
+index f00dbc0fff3d4..db6dd04c51bb5 100644
 --- a/arch/arm64/boot/dts/qcom/sdm845-oneplus-common.dtsi
 +++ b/arch/arm64/boot/dts/qcom/sdm845-oneplus-common.dtsi
-@@ -449,8 +449,9 @@ display_panel: panel@0 {
+@@ -447,6 +447,7 @@ display_panel: panel@0 {
+ 		vci-supply = <&panel_vci_3v3>;
+ 		poc-supply = <&panel_vddi_poc_1p8>;
  
++		te-gpios = <&tlmm 10 GPIO_ACTIVE_HIGH>;
  		reset-gpios = <&tlmm 6 GPIO_ACTIVE_LOW>;
  
--		pinctrl-names = "default";
  		pinctrl-0 = <&panel_default>;
-+		pinctrl-1 = <&panel_sleep>;
-+		pinctrl-names = "default", "sleep";
- 
- 		port {
- 			panel_in: endpoint {
-@@ -864,6 +865,29 @@ te-pins {
- 		};
- 	};
- 
-+	panel_sleep: panel-sleep-state {
-+		esd-pins {
-+			pins = "gpio30";
-+			function = "gpio";
-+			drive-strength = <2>;
-+			bias-pull-down;
-+		};
-+
-+		reset-pins {
-+			pins = "gpio6";
-+			function = "gpio";
-+			drive-strength = <2>;
-+			bias-pull-down;
-+		};
-+
-+		te-pins {
-+			pins = "gpio10";
-+			function = "mdp_vsync";
-+			drive-strength = <2>;
-+			bias-disable;
-+		};
-+	};
-+
- 	ts_default_pins: ts-int-state {
- 		pins = "gpio99", "gpio125";
- 		function = "gpio";
 
 -- 
 2.51.0
