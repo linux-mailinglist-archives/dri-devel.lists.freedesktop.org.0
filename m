@@ -2,86 +2,116 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5111AC2C3DE
-	for <lists+dri-devel@lfdr.de>; Mon, 03 Nov 2025 14:48:33 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5185FC2C4A7
+	for <lists+dri-devel@lfdr.de>; Mon, 03 Nov 2025 14:59:42 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 73CE910E3E9;
-	Mon,  3 Nov 2025 13:48:30 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4428710E3F2;
+	Mon,  3 Nov 2025 13:59:38 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="WoEhzKYe";
+	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="LsTQAlbT";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0B27610E3E9
- for <dri-devel@lists.freedesktop.org>; Mon,  3 Nov 2025 13:48:29 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1762177709; x=1793713709;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:in-reply-to;
- bh=/eMBTgNJH8/Xgm8LgLzir6GKHePQ75zTAgJlicmNsfQ=;
- b=WoEhzKYemBdcD8PsWNzNw5GpGsxipF4zNsvDD+kJ2q/ZJ1zCjXBRV9RO
- +kDYMo58SBbvdtNm3qvOkFRT4cLQKAIJL1k+cSiHArylAXKORuXJNPQUZ
- rk9nQDIQZ5fQwo6P8yAdJz+kxNS7OX0PROUXsQdNSqPttJWviXv2jUwP5
- kbi0SaprYUKwk8m7Nvv9e/IJVxVvbZaDVJA0G5bEJRO0q7ZEauOL91BMq
- 5e+4mnRp/YEMA9bD9RnHI2/7Fg2o41yDlr+GJj3kHANHAoQ0wOC+c0rq+
- UlanJs6L+8YuY8QsEp72pk1iZ4m45rcZjmIXYONRN13YSF/AiYa9b7WPI Q==;
-X-CSE-ConnectionGUID: gXPZd5MsQ6GI3ODHxV562A==
-X-CSE-MsgGUID: vD9XtzfwRCqfK3Gl7Us3bA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11531"; a="64156336"
-X-IronPort-AV: E=Sophos;i="6.17,312,1747724400"; d="scan'208";a="64156336"
-Received: from orviesa006.jf.intel.com ([10.64.159.146])
- by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 03 Nov 2025 05:48:29 -0800
-X-CSE-ConnectionGUID: JFm5J5b9STC09kNJqEZ1eA==
-X-CSE-MsgGUID: J32ocSpgR2yn1eLsQx1Tpg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.19,276,1754982000"; d="scan'208";a="186110382"
-Received: from aschofie-mobl2.amr.corp.intel.com (HELO kuha.fi.intel.com)
- ([10.124.220.222])
- by orviesa006.jf.intel.com with SMTP; 03 Nov 2025 05:48:11 -0800
-Received: by kuha.fi.intel.com (sSMTP sendmail emulation);
- Mon, 03 Nov 2025 15:48:09 +0200
-Date: Mon, 3 Nov 2025 15:48:09 +0200
-From: Heikki Krogerus <heikki.krogerus@linux.intel.com>
-To: Chaoyi Chen <chaoyi.chen@rock-chips.com>
-Cc: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>,
- Chaoyi Chen <kernel@airkyi.com>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>, Vinod Koul <vkoul@kernel.org>,
- Kishon Vijay Abraham I <kishon@kernel.org>,
- Heiko Stuebner <heiko@sntech.de>, Sandy Huang <hjc@rock-chips.com>,
- Andy Yan <andy.yan@rock-chips.com>,
- Yubing Zhang <yubing.zhang@rock-chips.com>,
- Frank Wang <frank.wang@rock-chips.com>,
- Andrzej Hajda <andrzej.hajda@intel.com>,
- Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Amit Sunil Dhamne <amitsd@google.com>,
- Dragan Simic <dsimic@manjaro.org>, Johan Jonker <jbx6244@gmail.com>,
- Diederik de Haas <didi.debian@cknow.org>,
- Peter Robinson <pbrobinson@gmail.com>, linux-usb@vger.kernel.org,
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-phy@lists.infradead.org, linux-arm-kernel@lists.infradead.org,
- linux-rockchip@lists.infradead.org, dri-devel@lists.freedesktop.org
-Subject: Re: [PATCH v8 03/10] drm/bridge: Implement generic USB Type-C DP HPD
- bridge
-Message-ID: <aQiymTFVU7UpcJ1p@kuha.fi.intel.com>
-References: <20251029071435.88-1-kernel@airkyi.com>
- <20251029071435.88-4-kernel@airkyi.com>
- <rzozpbqmymdczerh3iijxxtz3xnsznoku7w2mquikwv6u5osvo@7h43hwc2fpzm>
- <eca9d5bd-23bd-4c1d-b2f2-c0c32f14177f@rock-chips.com>
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1586510E1A9
+ for <dri-devel@lists.freedesktop.org>; Mon,  3 Nov 2025 13:59:36 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1762178375;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=bsxzOKYHqHXC5PUWfDfFaZwNataXiFJtKNUMBtRzjIc=;
+ b=LsTQAlbTKrE8RMQx3Aw8HB650kiRo5yWwXCbpN+2hhGZ3I8ILaCLSeDjuvQih9zJy5Fzob
+ eUCINbG6UXcv3brhsttOpwT4rF7fOeGzi0Z5lPj+z4dSqJ4WNuAM/rSlAy/w+47NVyWoQ9
+ LxGDgXtBVIhQqhsZGXkONrxhN5UMHTM=
+Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
+ [209.85.128.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-668-h5vbnMAfOC6OXg3hsyHvrQ-1; Mon, 03 Nov 2025 08:59:34 -0500
+X-MC-Unique: h5vbnMAfOC6OXg3hsyHvrQ-1
+X-Mimecast-MFC-AGG-ID: h5vbnMAfOC6OXg3hsyHvrQ_1762178373
+Received: by mail-wm1-f69.google.com with SMTP id
+ 5b1f17b1804b1-47106a388cfso35366675e9.0
+ for <dri-devel@lists.freedesktop.org>; Mon, 03 Nov 2025 05:59:34 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1762178373; x=1762783173;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:reply-to:user-agent:mime-version:date
+ :message-id:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=bsxzOKYHqHXC5PUWfDfFaZwNataXiFJtKNUMBtRzjIc=;
+ b=d3QnUbeud9dojCJg/w6fI9mLZRrXxDgy0sbJEim7OYGBinq0K7cp2tkEpV+gJoAKpM
+ meS6XqqH940Ynh/rZ4zKsyhaW5X++rlN6Afi0weM4KETEfwsyoVzEkBOwVPSLXvXMp35
+ Wq+kZUA5NRZAj5RcLyMXJTPShRGyGHVqov/Js5AvapoCTCIHuOk0TLjnd1w4R4WAAAYx
+ 3B4rig/0KpOhS4jJdK7YufbRima7MhRYdsFVwRrc0IuR6U99R9ND1NnFf+7AaE8dmjQd
+ 5Mbk5W4RHXBUpPCVQm11Z7ulW0WZCaBGq79jiJpbt5VYf8maL9xgRu4zgvn6I4dgYzE3
+ T77Q==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCXowD7eucG7l+RDSNGeAJCSNj1Y9bqIyy+6J9KWyN+68FQJeiKEjDxR+UA881g4SRcOhtsZHTCPArA=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YxMruznK75jzqMTNwc8npmMpvdoMJ8GWTMNV4tNmqIFw6252eFK
+ ZSZJ2ZDBPdlJEVtn6gp52Uw9vAB+diCohZSlRjHdV55+sYnaFViC5BSZnWZVMqOmkvypLvtxxRW
+ 8yHuGVpA9+tQvGiUStYRDuCDbtozj4PvM3+1EsxWn5jLgDsj3nkFGJRVbz2uog/xKv7pjqA==
+X-Gm-Gg: ASbGncsLWPxcN/4a31sMADLUBatFeAWFZtSvCibtg9jgaNkvsmnua/nLxCYFk1J7jjh
+ toB9q6xYGh9NSadLqALPgROatFw7qy4SgnlSs2r7kba+lPw9ztimacO9x783ozKDrXizJlR1PUz
+ n8mq/Ec0/brDBjSKu6RN0ySD+UbkwTEgoMa+GnvIM8LkM0IWg0uuN3GKwMoVLCwL3nGJ1hdT1UJ
+ XiS1GCUwOsnwJj8dB/TuZ9mH2ZeqpalwFLVCcRpSQy1GU6OOns8T9/7fC93bFkp6OCZ7Bywl3Dx
+ DeWhl2LqcuP4dtWJzY4hzK4eX+Ze7os1L2IcaEUSOp3d1YYjd9W8TYGEtE+j1+s17gXw4TnDVl9
+ Zl4ne2An4RhYdP/rhYitaP1Ay85Pfck8/mJTx3MFkAXpU0Q==
+X-Received: by 2002:a05:600c:3b15:b0:46e:48fd:a1a9 with SMTP id
+ 5b1f17b1804b1-4773089cd1amr118451895e9.33.1762178373373; 
+ Mon, 03 Nov 2025 05:59:33 -0800 (PST)
+X-Google-Smtp-Source: AGHT+IHKpOeJ3OCF2vnsxcvEkg/1eMNuJuaakX/5JjRbkHK8VRtwHXD8pikxeGoOHXlvFPGq9VVSPQ==
+X-Received: by 2002:a05:600c:3b15:b0:46e:48fd:a1a9 with SMTP id
+ 5b1f17b1804b1-4773089cd1amr118451615e9.33.1762178372957; 
+ Mon, 03 Nov 2025 05:59:32 -0800 (PST)
+Received: from ?IPV6:2a01:e0a:f0e:9070:527b:9dff:feef:3874?
+ ([2a01:e0a:f0e:9070:527b:9dff:feef:3874])
+ by smtp.gmail.com with ESMTPSA id
+ 5b1f17b1804b1-4773c2e6771sm156241435e9.2.2025.11.03.05.59.30
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 03 Nov 2025 05:59:32 -0800 (PST)
+Message-ID: <0815321f-00d5-402c-b84d-99bc862b4575@redhat.com>
+Date: Mon, 3 Nov 2025 14:59:29 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <eca9d5bd-23bd-4c1d-b2f2-c0c32f14177f@rock-chips.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 09/22] vfio/platform: Provide a get_region_info op
+To: Jason Gunthorpe <jgg@nvidia.com>,
+ Alexander Gordeev <agordeev@linux.ibm.com>, David Airlie
+ <airlied@gmail.com>, Alex Williamson <alex.williamson@redhat.com>,
+ Ankit Agrawal <ankita@nvidia.com>,
+ Christian Borntraeger <borntraeger@linux.ibm.com>,
+ Brett Creeley <brett.creeley@amd.com>, dri-devel@lists.freedesktop.org,
+ Eric Farman <farman@linux.ibm.com>,
+ Giovanni Cabiddu <giovanni.cabiddu@intel.com>,
+ Vasily Gorbik <gor@linux.ibm.com>, Heiko Carstens <hca@linux.ibm.com>,
+ intel-gfx@lists.freedesktop.org, Jani Nikula <jani.nikula@linux.intel.com>,
+ Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
+ Kevin Tian <kevin.tian@intel.com>, kvm@vger.kernel.org,
+ Kirti Wankhede <kwankhede@nvidia.com>, linux-s390@vger.kernel.org,
+ Longfang Liu <liulongfang@huawei.com>,
+ Matthew Rosato <mjrosato@linux.ibm.com>,
+ Nikhil Agarwal <nikhil.agarwal@amd.com>, Nipun Gupta <nipun.gupta@amd.com>,
+ Peter Oberparleiter <oberpar@linux.ibm.com>,
+ Halil Pasic <pasic@linux.ibm.com>, Pranjal Shrivastava <praan@google.com>,
+ qat-linux@intel.com, Rodrigo Vivi <rodrigo.vivi@intel.com>,
+ Simona Vetter <simona@ffwll.ch>, Shameer Kolothum <skolothumtho@nvidia.com>,
+ Mostafa Saleh <smostafa@google.com>, Sven Schnelle <svens@linux.ibm.com>,
+ Tvrtko Ursulin <tursulin@ursulin.net>, virtualization@lists.linux.dev,
+ Vineeth Vijayan <vneethv@linux.ibm.com>, Yishai Hadas <yishaih@nvidia.com>,
+ Zhenyu Wang <zhenyuw.linux@gmail.com>, Zhi Wang <zhi.wang.linux@gmail.com>
+Cc: patches@lists.linux.dev
+References: <9-v1-679a6fa27d31+209-vfio_get_region_info_op_jgg@nvidia.com>
+From: Eric Auger <eric.auger@redhat.com>
+In-Reply-To: <9-v1-679a6fa27d31+209-vfio_get_region_info_op_jgg@nvidia.com>
+X-Mimecast-Spam-Score: 0
+X-Mimecast-MFC-PROC-ID: ojvy2fvRqMHIAhxqj4mILb3WpPJwpF2MOI5Nixt_SUk_1762178373
+X-Mimecast-Originator: redhat.com
+Content-Language: en-US
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -94,173 +124,135 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Reply-To: eric.auger@redhat.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-> > > diff --git a/drivers/gpu/drm/bridge/Kconfig b/drivers/gpu/drm/bridge/Kconfig
-> > > index a250afd8d662..17257b223a28 100644
-> > > --- a/drivers/gpu/drm/bridge/Kconfig
-> > > +++ b/drivers/gpu/drm/bridge/Kconfig
-> > > @@ -23,13 +23,16 @@ config DRM_AUX_BRIDGE
-> > >   	  build bridges chain.
-> > >   config DRM_AUX_HPD_BRIDGE
-> > > -	tristate
-> > > +	tristate "AUX HPD bridge support"
-> > Why? No, this is supposed to be selected by other drivers. Users don't
-> > know an wouldn't know what is this.
-> 
-> In v7, I implemented an additional module for selecting this option. But
-> Heikki believes that it would be better to merge the two modules into one.
+Hi Jason,
 
-Like I said before, I was merely curious why not just squash the
-support into that AUX_PD_HPD_BRIDGE. If that does not make sense, then
-so be it - make it a "Display Interface Bridge" driver like you
-originally proposed.
+On 10/24/25 1:09 AM, Jason Gunthorpe wrote:
+> Move it out of vfio_platform_ioctl() and re-indent it. Add it to all
+> platform drivers.
+>
+> Signed-off-by: Jason Gunthorpe <jgg@nvidia.com>
+> ---
+>  drivers/vfio/platform/vfio_amba.c             |  1 +
+>  drivers/vfio/platform/vfio_platform.c         |  1 +
+>  drivers/vfio/platform/vfio_platform_common.c  | 50 +++++++++++--------
+>  drivers/vfio/platform/vfio_platform_private.h |  2 +
+>  4 files changed, 32 insertions(+), 22 deletions(-)
+>
+> diff --git a/drivers/vfio/platform/vfio_amba.c b/drivers/vfio/platform/vfio_amba.c
+> index 9f5c527baa8a36..d600deaf23b6d7 100644
+> --- a/drivers/vfio/platform/vfio_amba.c
+> +++ b/drivers/vfio/platform/vfio_amba.c
+> @@ -115,6 +115,7 @@ static const struct vfio_device_ops vfio_amba_ops = {
+>  	.open_device	= vfio_platform_open_device,
+>  	.close_device	= vfio_platform_close_device,
+>  	.ioctl		= vfio_platform_ioctl,
+> +	.get_region_info = vfio_platform_ioctl_get_region_info,
+Any rationale behind why using _ioctl naming in some drivers and not in
+some others?
 
-> > >   	depends on DRM_BRIDGE && OF
-> > >   	select AUXILIARY_BUS
-> > >   	help
-> > >   	  Simple bridge that terminates the bridge chain and provides HPD
-> > >   	  support.
-> > > +	  Specifically, if you want a default Type-C DisplayPort HPD bridge for
-> > > +	  each port of the Type-C controller, say Y here.
-> > > +
-> > >   menu "Display Interface Bridges"
-> > >   	depends on DRM && DRM_BRIDGE
-> > > diff --git a/drivers/gpu/drm/bridge/Makefile b/drivers/gpu/drm/bridge/Makefile
-> > > index c7dc03182e59..2998937444bc 100644
-> > > --- a/drivers/gpu/drm/bridge/Makefile
-> > > +++ b/drivers/gpu/drm/bridge/Makefile
-> > > @@ -1,6 +1,12 @@
-> > >   # SPDX-License-Identifier: GPL-2.0
-> > >   obj-$(CONFIG_DRM_AUX_BRIDGE) += aux-bridge.o
-> > > -obj-$(CONFIG_DRM_AUX_HPD_BRIDGE) += aux-hpd-bridge.o
-> > > +
-> > > +hpd-bridge-y := aux-hpd-bridge.o
-> > > +ifneq ($(CONFIG_TYPEC),)
-> > > +hpd-bridge-y += aux-hpd-typec-dp-bridge.o
-> > > +endif
-> > > +obj-$(CONFIG_DRM_AUX_HPD_BRIDGE) += hpd-bridge.o
-> > > +
-> > >   obj-$(CONFIG_DRM_CHIPONE_ICN6211) += chipone-icn6211.o
-> > >   obj-$(CONFIG_DRM_CHRONTEL_CH7033) += chrontel-ch7033.o
-> > >   obj-$(CONFIG_DRM_CROS_EC_ANX7688) += cros-ec-anx7688.o
-> > > diff --git a/drivers/gpu/drm/bridge/aux-hpd-bridge.c b/drivers/gpu/drm/bridge/aux-hpd-bridge.c
-> > > index 2e9c702c7087..11ad6dc776c7 100644
-> > > --- a/drivers/gpu/drm/bridge/aux-hpd-bridge.c
-> > > +++ b/drivers/gpu/drm/bridge/aux-hpd-bridge.c
-> > > @@ -12,6 +12,8 @@
-> > >   #include <drm/drm_bridge.h>
-> > >   #include <drm/bridge/aux-bridge.h>
-> > > +#include "aux-hpd-bridge.h"
-> > > +
-> > >   static DEFINE_IDA(drm_aux_hpd_bridge_ida);
-> > >   struct drm_aux_hpd_bridge_data {
-> > > @@ -204,7 +206,26 @@ static struct auxiliary_driver drm_aux_hpd_bridge_drv = {
-> > >   	.id_table = drm_aux_hpd_bridge_table,
-> > >   	.probe = drm_aux_hpd_bridge_probe,
-> > >   };
-> > > -module_auxiliary_driver(drm_aux_hpd_bridge_drv);
-> > > +
-> > > +static int drm_aux_hpd_bridge_mod_init(void)
-> > > +{
-> > > +	int ret;
-> > > +
-> > > +	ret = auxiliary_driver_register(&drm_aux_hpd_bridge_drv);
-> > > +	if (ret)
-> > > +		return ret;
-> > > +
-> > > +	return drm_aux_hpd_typec_dp_bridge_init();
-> > > +}
-> > > +
-> > > +static void drm_aux_hpd_bridge_mod_exit(void)
-> > > +{
-> > > +	drm_aux_hpd_typec_dp_bridge_exit();
-> > > +	auxiliary_driver_unregister(&drm_aux_hpd_bridge_drv);
-> > > +}
-> > > +
-> > > +module_init(drm_aux_hpd_bridge_mod_init);
-> > > +module_exit(drm_aux_hpd_bridge_mod_exit);
-> > >   MODULE_AUTHOR("Dmitry Baryshkov <dmitry.baryshkov@linaro.org>");
-> > >   MODULE_DESCRIPTION("DRM HPD bridge");
-> > > diff --git a/drivers/gpu/drm/bridge/aux-hpd-bridge.h b/drivers/gpu/drm/bridge/aux-hpd-bridge.h
-> > > new file mode 100644
-> > > index 000000000000..69364731c2f1
-> > > --- /dev/null
-> > > +++ b/drivers/gpu/drm/bridge/aux-hpd-bridge.h
-> > > @@ -0,0 +1,13 @@
-> > > +/* SPDX-License-Identifier: GPL-2.0-only */
-> > > +#ifndef AUX_HPD_BRIDGE_H
-> > > +#define AUX_HPD_BRIDGE_H
-> > > +
-> > > +#if IS_REACHABLE(CONFIG_TYPEC)
-> > > +int drm_aux_hpd_typec_dp_bridge_init(void);
-> > > +void drm_aux_hpd_typec_dp_bridge_exit(void);
-> > > +#else
-> > > +static inline int drm_aux_hpd_typec_dp_bridge_init(void) { return 0; }
-> > > +static inline void drm_aux_hpd_typec_dp_bridge_exit(void) { }
-> > > +#endif /* IS_REACHABLE(CONFIG_TYPEC) */
-> > > +
-> > > +#endif /* AUX_HPD_BRIDGE_H */
-> > > diff --git a/drivers/gpu/drm/bridge/aux-hpd-typec-dp-bridge.c b/drivers/gpu/drm/bridge/aux-hpd-typec-dp-bridge.c
-> > > new file mode 100644
-> > > index 000000000000..6f2a1fca0fc5
-> > > --- /dev/null
-> > > +++ b/drivers/gpu/drm/bridge/aux-hpd-typec-dp-bridge.c
-> > > @@ -0,0 +1,47 @@
-> > > +// SPDX-License-Identifier: GPL-2.0+
-> > > +#include <linux/of.h>
-> > > +#include <linux/usb/typec_altmode.h>
-> > > +#include <linux/usb/typec_dp.h>
-> > > +#include <linux/usb/typec_notify.h>
-> > > +
-> > > +#include <drm/bridge/aux-bridge.h>
-> > > +
-> > > +#include "aux-hpd-bridge.h"
-> > > +
-> > > +#if IS_REACHABLE(CONFIG_TYPEC)
-> > > +static int drm_typec_bus_event(struct notifier_block *nb,
-> > > +			       unsigned long action, void *data)
-> > > +{
-> > This feels like this should be a part of the Type-C subsystem rather
-> > than DRM.
-> 
-> In v7, this used to be a part of the Type-C subsystem. I'm not sure what
-> Heikki thinks about this.
+>  	.read		= vfio_platform_read,
+>  	.write		= vfio_platform_write,
+>  	.mmap		= vfio_platform_mmap,
+> diff --git a/drivers/vfio/platform/vfio_platform.c b/drivers/vfio/platform/vfio_platform.c
+> index 512533501eb7f3..0e85c914b65105 100644
+> --- a/drivers/vfio/platform/vfio_platform.c
+> +++ b/drivers/vfio/platform/vfio_platform.c
+> @@ -101,6 +101,7 @@ static const struct vfio_device_ops vfio_platform_ops = {
+>  	.open_device	= vfio_platform_open_device,
+>  	.close_device	= vfio_platform_close_device,
+>  	.ioctl		= vfio_platform_ioctl,
+> +	.get_region_info = vfio_platform_ioctl_get_region_info,
+>  	.read		= vfio_platform_read,
+>  	.write		= vfio_platform_write,
+>  	.mmap		= vfio_platform_mmap,
+> diff --git a/drivers/vfio/platform/vfio_platform_common.c b/drivers/vfio/platform/vfio_platform_common.c
+> index 3bf1043cd7957c..3ebd50fb78fbb7 100644
+> --- a/drivers/vfio/platform/vfio_platform_common.c
+> +++ b/drivers/vfio/platform/vfio_platform_common.c
+> @@ -272,6 +272,34 @@ int vfio_platform_open_device(struct vfio_device *core_vdev)
+>  }
+>  EXPORT_SYMBOL_GPL(vfio_platform_open_device);
+>  
+> +int vfio_platform_ioctl_get_region_info(struct vfio_device *core_vdev,
+> +					struct vfio_region_info __user *arg)
+> +{
+> +	struct vfio_platform_device *vdev =
+> +		container_of(core_vdev, struct vfio_platform_device, vdev);
+> +	struct vfio_region_info info;
+> +	unsigned long minsz;
+> +
+> +	minsz = offsetofend(struct vfio_region_info, offset);
+> +
+> +	if (copy_from_user(&info, arg, minsz))
+> +		return -EFAULT;
+> +
+> +	if (info.argsz < minsz)
+> +		return -EINVAL;
+> +
+> +	if (info.index >= vdev->num_regions)
+> +		return -EINVAL;
+> +
+> +	/* map offset to the physical address  */
+> +	info.offset = VFIO_PLATFORM_INDEX_TO_OFFSET(info.index);
+> +	info.size = vdev->regions[info.index].size;
+> +	info.flags = vdev->regions[info.index].flags;
+> +
+> +	return copy_to_user(arg, &info, minsz) ? -EFAULT : 0;
+> +}
+> +EXPORT_SYMBOL_GPL(vfio_platform_ioctl_get_region_info);
+> +
+>  long vfio_platform_ioctl(struct vfio_device *core_vdev,
+>  			 unsigned int cmd, unsigned long arg)
+>  {
+> @@ -300,28 +328,6 @@ long vfio_platform_ioctl(struct vfio_device *core_vdev,
+>  		return copy_to_user((void __user *)arg, &info, minsz) ?
+>  			-EFAULT : 0;
+>  
+> -	} else if (cmd == VFIO_DEVICE_GET_REGION_INFO) {
+> -		struct vfio_region_info info;
+> -
+> -		minsz = offsetofend(struct vfio_region_info, offset);
+> -
+> -		if (copy_from_user(&info, (void __user *)arg, minsz))
+> -			return -EFAULT;
+> -
+> -		if (info.argsz < minsz)
+> -			return -EINVAL;
+> -
+> -		if (info.index >= vdev->num_regions)
+> -			return -EINVAL;
+> -
+> -		/* map offset to the physical address  */
+> -		info.offset = VFIO_PLATFORM_INDEX_TO_OFFSET(info.index);
+> -		info.size = vdev->regions[info.index].size;
+> -		info.flags = vdev->regions[info.index].flags;
+> -
+> -		return copy_to_user((void __user *)arg, &info, minsz) ?
+> -			-EFAULT : 0;
+> -
+>  	} else if (cmd == VFIO_DEVICE_GET_IRQ_INFO) {
+>  		struct vfio_irq_info info;
+>  
+> diff --git a/drivers/vfio/platform/vfio_platform_private.h b/drivers/vfio/platform/vfio_platform_private.h
+> index 8d8fab51684909..a6008320e77bae 100644
+> --- a/drivers/vfio/platform/vfio_platform_private.h
+> +++ b/drivers/vfio/platform/vfio_platform_private.h
+> @@ -85,6 +85,8 @@ int vfio_platform_open_device(struct vfio_device *core_vdev);
+>  void vfio_platform_close_device(struct vfio_device *core_vdev);
+>  long vfio_platform_ioctl(struct vfio_device *core_vdev,
+>  			 unsigned int cmd, unsigned long arg);
+> +int vfio_platform_ioctl_get_region_info(struct vfio_device *core_vdev,
+> +					struct vfio_region_info __user *arg);
+>  ssize_t vfio_platform_read(struct vfio_device *core_vdev,
+>  			   char __user *buf, size_t count,
+>  			   loff_t *ppos);
+Besides Reviewed-by: Eric Auger <eric.auger@redhat.com>
 
-Your original proposal of making the entire TYPEC subsystem depend on
-DRM is _not_ going to happen. In general, if I've now understood this
-correctly, this thing probable should be a "display interface bridge
-driver", similar to what you proposed in the previous version.
+Thanks
 
-Note also that you could make it selected automatically, so there is
-no need for user selectable option if that's the preference. Kconfig
-and Makefile gives you options on how to do that. For example, maybe
-this Kconfig works (or does not, but something like it will):
+Eric
 
-diff --git a/drivers/gpu/drm/bridge/Kconfig b/drivers/gpu/drm/bridge/Kconfig
-index a250afd8d662..7487024ba2ce 100644
---- a/drivers/gpu/drm/bridge/Kconfig
-+++ b/drivers/gpu/drm/bridge/Kconfig
-@@ -30,6 +30,15 @@ config DRM_AUX_HPD_BRIDGE
-          Simple bridge that terminates the bridge chain and provides HPD
-          support.
- 
-+if DRM_AUX_HPD_BRIDGE
-+
-+config DRM_AUX_HPD_TYPEC_BRIDGE
-+       tristate
-+       depends on TYPEC || !TYPEC
-+       default TYPEC
-+
-+endif /* DRM_AUX_HPD_BRIDGE */
-+
- menu "Display Interface Bridges"
-        depends on DRM && DRM_BRIDGE
- 
-
-
-thanks,
-
--- 
-heikki
