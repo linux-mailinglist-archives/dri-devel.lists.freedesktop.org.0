@@ -2,150 +2,64 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 949EAC2D0D9
-	for <lists+dri-devel@lfdr.de>; Mon, 03 Nov 2025 17:18:27 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1F284C2D0F4
+	for <lists+dri-devel@lfdr.de>; Mon, 03 Nov 2025 17:19:06 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DEA8C10E10B;
-	Mon,  3 Nov 2025 16:18:25 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7182810E14B;
+	Mon,  3 Nov 2025 16:19:04 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=ti.com header.i=@ti.com header.b="JEi4t0pu";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="PXvOD4xg";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from SN4PR2101CU001.outbound.protection.outlook.com
- (mail-southcentralusazhn15012047.outbound.protection.outlook.com
- [52.102.140.47])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8181210E10B
- for <dri-devel@lists.freedesktop.org>; Mon,  3 Nov 2025 16:18:24 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=njJJQ+WcUofK7S0zhc3NsmKRV50s1hYLpfsjoFGiP8ylmsR99GVCuiPZZz8ctQJ4wP1Y5fagmVjI9pIUGW23eQbh1XzIiuPeulrQWOa5qeGffbeYPfh4dhjbyL42DkWdOHqZXwdEpmp2/vOwyJDXjU6zXlEuKgUSuXdc8Or5FxyFKGYBD4Td5vYlqEaty7Z1oBlQE/ACGdfBAxgFXanZQ0AP8WQKv6xr/MqnvjU5BX+nLOtSiVEsZdeZc9zQFJzDYEEF2Cfpj5qmSeGlCs5rJVKpcYYO0TIxnXK3r/kpAjFgcFYigM/czup2wSLp/2PkuHIMBX5XLk2P1jN9TM1iEA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=xzQRfpcxJNHR8SE5mOfxjtVbnDZhPUNKomziJiBPbyk=;
- b=QOvoQ/dCMukJZOEnsd5MaYzkWc4bR2wD2EG6eyWUxjgr8vWBkCoKTBrQQh8Vrr48cUOhGu96bb3sqn7bMpuBXLeyCrXv26K8Q0YuUQ749R9rdsJl4Iu/xyI2BZuijHKzHRT7lLBykDHJQAqwZy66lMO8XuEw4CojpKRE1NsebtP+j29b2cWC54reRmAEVEEGxw6yLhGdDUY1ydACpFMI+f6wcesBIi/Pi6E5wpPXWcHCwgPK6SLzCldji6yyG9ZcPvvFGDwuI1L5AfMi9PfyysWF+BLaYOjtweQpcYXOSq622GaHFT+SuJf+sMSJV171sRmyUzif5PzHDg2PZ0NM8A==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 198.47.21.194) smtp.rcpttodomain=vger.kernel.org smtp.mailfrom=ti.com;
- dmarc=pass (p=quarantine sp=none pct=100) action=none header.from=ti.com;
- dkim=none (message not signed); arc=none (0)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=xzQRfpcxJNHR8SE5mOfxjtVbnDZhPUNKomziJiBPbyk=;
- b=JEi4t0puYHhslog71OAZKVpe/YNfMhaOPrGeTpYHbpCByF6zbCxwBe1N0Sf+DGqDTGmzOMiG9XvdLvXLo+aKucXSiIqOtUxJ1jJbdamCrPLt+NfQVFYCNzfRc76/umXrCrHf8KEbBiuuXzBSgB0VQ3lyDGYpI4U85Hcn6tjPjn4=
-Received: from BYAPR05CA0052.namprd05.prod.outlook.com (2603:10b6:a03:74::29)
- by SN7PR10MB7076.namprd10.prod.outlook.com (2603:10b6:806:329::10)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9275.16; Mon, 3 Nov
- 2025 16:18:16 +0000
-Received: from SJ1PEPF00002319.namprd03.prod.outlook.com
- (2603:10b6:a03:74:cafe::87) by BYAPR05CA0052.outlook.office365.com
- (2603:10b6:a03:74::29) with Microsoft SMTP Server (version=TLS1_3,
- cipher=TLS_AES_256_GCM_SHA384) id 15.20.9298.7 via Frontend Transport; Mon, 3
- Nov 2025 16:18:14 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 198.47.21.194)
- smtp.mailfrom=ti.com; dkim=none (message not signed) header.d=none; dmarc=pass
- action=none header.from=ti.com;
-Received-SPF: Pass (protection.outlook.com: domain of ti.com designates
- 198.47.21.194 as permitted sender) receiver=protection.outlook.com;
- client-ip=198.47.21.194; helo=flwvzet200.ext.ti.com; pr=C
-Received: from flwvzet200.ext.ti.com (198.47.21.194) by
- SJ1PEPF00002319.mail.protection.outlook.com (10.167.242.229) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.9298.6 via Frontend Transport; Mon, 3 Nov 2025 16:18:14 +0000
-Received: from DFLE201.ent.ti.com (10.64.6.59) by flwvzet200.ext.ti.com
- (10.248.192.31) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.20; Mon, 3 Nov
- 2025 10:18:11 -0600
-Received: from DFLE203.ent.ti.com (10.64.6.61) by DFLE201.ent.ti.com
- (10.64.6.59) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.20; Mon, 3 Nov
- 2025 10:18:11 -0600
-Received: from lelvem-mr05.itg.ti.com (10.180.75.9) by DFLE203.ent.ti.com
- (10.64.6.61) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.20 via Frontend
- Transport; Mon, 3 Nov 2025 10:18:11 -0600
-Received: from [10.249.128.225] ([10.249.128.225])
- by lelvem-mr05.itg.ti.com (8.18.1/8.18.1) with ESMTP id 5A3GI6Hj411107;
- Mon, 3 Nov 2025 10:18:07 -0600
-Message-ID: <486f2a39-90bd-493f-89ad-4f7060fc8158@ti.com>
-Date: Mon, 3 Nov 2025 21:48:05 +0530
+Received: from sea.source.kernel.org (sea.source.kernel.org [172.234.252.31])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3C8C010E14B
+ for <dri-devel@lists.freedesktop.org>; Mon,  3 Nov 2025 16:19:03 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by sea.source.kernel.org (Postfix) with ESMTP id EFCAF41B70
+ for <dri-devel@lists.freedesktop.org>; Mon,  3 Nov 2025 16:19:02 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPS id CE1D7C113D0
+ for <dri-devel@lists.freedesktop.org>; Mon,  3 Nov 2025 16:19:02 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1762186742;
+ bh=o/HUj+nSwXUjHtzIwK+7YX+AKqsoxOfZoC6I+rA4qbw=;
+ h=From:To:Subject:Date:From;
+ b=PXvOD4xg7cHmzLngtIMpq96nVLy3LQ5Mcxv+ycf4aUYRhsKeyOizpz572P5cHQRFN
+ RFKxnOlsDvWnHwvyRAwMG6AFgLNA77kT7F3Bu4l/yTCw9CAkd8pKuxGF6DKGyXFSM0
+ 0IbzNhNTsyAylwTNTIjmuPTbyKqiogKC+fem/3Rq+1XBpuDoFrlrYZFcj4TVb0IoyP
+ Bm9Wv37Inpjws6qxAkljPekoYG7Uty2Sg//84PrN41uHmkVyFfHWDo6eeiAtVRTcpT
+ zkFYcqhBupG7tNIGmcxUtzHI2Y0CVtclZKbYplRVNod4SirqhgGaCXoRvmFV1UGVfL
+ PZNSVfxAb0PUA==
+Received: by aws-us-west-2-korg-bugzilla-1.web.codeaurora.org (Postfix,
+ from userid 48) id C8B1BC41613; Mon,  3 Nov 2025 16:19:02 +0000 (UTC)
+From: bugzilla-daemon@kernel.org
+To: dri-devel@lists.freedesktop.org
+Subject: [Bug 220742] New: UBSAN: array-index-out-of-bounds in
+ drivers/gpu/drm/radeon/radeon_atombios.c:2720:34 with AMD G-T56N
+Date: Mon, 03 Nov 2025 16:19:02 +0000
+X-Bugzilla-Reason: None
+X-Bugzilla-Type: new
+X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
+X-Bugzilla-Product: Drivers
+X-Bugzilla-Component: Video(DRI - non Intel)
+X-Bugzilla-Version: 2.5
+X-Bugzilla-Keywords: 
+X-Bugzilla-Severity: normal
+X-Bugzilla-Who: federicoleva@tiscali.it
+X-Bugzilla-Status: NEW
+X-Bugzilla-Resolution: 
+X-Bugzilla-Priority: P3
+X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
+X-Bugzilla-Flags: 
+X-Bugzilla-Changed-Fields: bug_id short_desc product version rep_platform
+ op_sys bug_status bug_severity priority component assigned_to reporter
+ cf_regression attachments.created
+Message-ID: <bug-220742-2300@https.bugzilla.kernel.org/>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: https://bugzilla.kernel.org/
+Auto-Submitted: auto-generated
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [RESEND PATCH v7 2/2] drm/tidss: Move OLDI mode validation to
- OLDI bridge mode_valid hook
-To: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
- <aradhya.bhatia@linux.dev>, <devarsht@ti.com>, <mripard@kernel.org>,
- <jyri.sarha@iki.fi>, <maarten.lankhorst@linux.intel.com>, <simona@ffwll.ch>,
- <airlied@gmail.com>, <tzimmermann@suse.de>, <h-shenoy@ti.com>
-CC: <praneeth@ti.com>, <u-kumar1@ti.com>, <vigneshr@ti.com>,
- <dri-devel@lists.freedesktop.org>, <linux-kernel@vger.kernel.org>
-References: <20251028033958.369100-1-s-jain1@ti.com>
- <20251028033958.369100-3-s-jain1@ti.com>
- <5c080bb8-2745-4765-abc4-2a46ca40916b@ideasonboard.com>
-Content-Language: en-US
-From: Swamil Jain <s-jain1@ti.com>
-In-Reply-To: <5c080bb8-2745-4765-abc4-2a46ca40916b@ideasonboard.com>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-X-C2ProcessedOrg: 333ef613-75bf-4e12-a4b1-8e3623f5dcea
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: SJ1PEPF00002319:EE_|SN7PR10MB7076:EE_
-X-MS-Office365-Filtering-Correlation-Id: 1015e645-38ee-4626-9a50-08de1af4977f
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
- ARA:13230040|376014|7416014|82310400026|1800799024|36860700013|34020700016|921020|12100799066;
-X-Microsoft-Antispam-Message-Info: =?utf-8?B?dHBxZFdGaStBbzVmeXI2WnJ2L0VDNW84RUIrM3E1VEpGUk9Tc2ZFVTJOcDBh?=
- =?utf-8?B?bS9oMnZLNDByMnErR1ZqVmRUNDQ1bXBQSGtlQ2R2Ulo5cEFNaExISTIrSmRT?=
- =?utf-8?B?TDFMeEZBL0xZT0Rhc0pCQnNSV2NzWjdBVnhLR3VDMHN3QUM0MlpwSU5iKzg1?=
- =?utf-8?B?M0dTUjB2UWRpMlVOcFE1d2l1NVVPTkprRDArR3pTL283TlQrS2pwblBxNXZ5?=
- =?utf-8?B?SU41cWFxVk5USEdaa2ZqWEs5ZjFtMDdsUmw1NHRGMDI1ck8veUEyVytIV0lN?=
- =?utf-8?B?YmxHb1k1MnpwSGdTTGVMR1k5RTdOdUkwRHZ6R01uZG13STBEVlRRWjUwaUFZ?=
- =?utf-8?B?V1A3T1NzbEYrOGMvY2pLS3hCcXFNeUlCVlMyMDNDZkNobHcwazY1ZFFoMUg1?=
- =?utf-8?B?cEhYVno5RnpKdEh3OHNnMDQxRVBwRHhUMjNiUUZ3NzhGMnJmYXptcC9OS3Z2?=
- =?utf-8?B?ZnZJZnN6dytJd3BUT2liRGF0V0ZvVG9zSXZ6NzRtdUhtRVh1RU80OWpzeTZV?=
- =?utf-8?B?ZlJLRlRKTmpxWHJPOWFuNUZiK0NUVHNxbXVrejVsTkdWMW1xK0twSUV5ckI1?=
- =?utf-8?B?WnlFOTRacVlOMnBtSDZjSWJ6MFMwR01FaUxobEZNOWhvTE42UEF4U1pSNDB2?=
- =?utf-8?B?ZVZ6dHByb2M1YTAyaGdrTXpWRzR6WkFCZXBKOUZpa2oyZmpGUEh2RjREZFRu?=
- =?utf-8?B?VE5nOGw5UHpuWWNDMFhUZ1VnNnBzQkVFZ2liM2ZLcTVNZGVGV1FNbUpIaEYx?=
- =?utf-8?B?czk4WkZFMTB0NXJrSW9CTHVnRmJxQW56YWZtQ0QzUzM2N1VuT1VLZmd1eVpG?=
- =?utf-8?B?enlQdWFFdUtTWXdGM3g0MTdxL3pxMS9hYmNHaWdLd1ZiY0NGOFpPTmRkYk5K?=
- =?utf-8?B?TUc0MWExclArOHVEOFdtRnhKZ2RWT3RFMXI2eHVOS1NIVXdjVE51bEJYanZY?=
- =?utf-8?B?M1NFd2NIdTNiQ2lUcHRrN3FOQmFrR2lQcVV4STZaZCtCZW9tS1dJU2JKYU1L?=
- =?utf-8?B?eWhoclA0dDFKbVV1TmVnVExEMjg2NDZTajdsL3lPOG0vaXZETUI0REpNcDE5?=
- =?utf-8?B?a091dTlRSWdTT0NIMDN2OUk4d2RyV1FuMWRpalR6VUVIejNCS1hZaEdCSU9i?=
- =?utf-8?B?RW1LVzk5WG54NGVxa25zczZQNG5QUER3YnNJNTlnKzRQS29ZbWJjdk5zbnI0?=
- =?utf-8?B?UXd4OWpsZzUvMGlWY2lLNGNzTCtyWjBGUVZtSkRpME40SGFpY2pCeFo1MC9o?=
- =?utf-8?B?bXVpOTBYYXM0TWVWeTNzK3N5dEZuand1bllQWmtaRGxRVFY0a3liNWxxNEo3?=
- =?utf-8?B?Si9FbHdvamJjSnJud1AydzMvRHRnVjFxMTFLUktTNld6T1hHV0FhcFN5VzZv?=
- =?utf-8?B?bzA4K3hOL0tSNStldjFhRmg2T29BR2I5WnJWTGZFUXppQWNCeWVIaG5jYk83?=
- =?utf-8?B?WTdDVkFBN1JQNVRMaG9PVVlRanlWRktHbUhueDdMMHRGbjh4cFB4VkJlb1Nx?=
- =?utf-8?B?UExOcHpEcWs5YkxtdGsrbWk5SlpPNmZZcVJFZWdHSndZRW9oZUpzL3NwVVhT?=
- =?utf-8?B?ZThZMWFSYWJFWTJ6V0tFMWk5Wm16S0IySnhiU1JxSDlFKzJRb3F1bEZGazJh?=
- =?utf-8?B?VmhFZmpDRGhaV2EwcE9JWjE5WGwxVU1oYnR0SGlDa2kvQlg0Wmw5cnlUWHA4?=
- =?utf-8?B?aXQzREEwUmdYUzlmVE9oTTRRNnp5bVF2eFE2dkhyTmNycXMxQ050T1hwQnF1?=
- =?utf-8?B?LzhEOEQ4WG8rWHIvL0ZodVRxMnBvcDZRLzM2TzRma0I3MDRUaW9EaU1JU282?=
- =?utf-8?B?UjdONGZ1WjU1UHJtSVhOU0VZdUpTVVhuV2s5OTIySGFqOWhWUStwWnVjaFRP?=
- =?utf-8?B?TE1zVEc1a2pCK2prWHZYbUZIWTlEdmtsQWF0Nm5BOUhOdWZCbjUydWpXcVhN?=
- =?utf-8?B?QXRMNEwwU3VjalR4dTVMVkdFdUJzaGJDUXJvRnJjSzNEMWx6UEIwckdKb3Ra?=
- =?utf-8?B?RGpNLzkyTXZDZ1lyRVJ3em4wa09xQlMvVm9jNUNtb2lleWkvTi85VVZIODZP?=
- =?utf-8?B?Y1RpSjVVc09tdjZ4TXlNdkhqeGtJZXN3V2dmZVpBNDJKRThsYlYrajlJRkNJ?=
- =?utf-8?Q?Y9Os8ZP4fPo/B6yNWLOlm4RMS?=
-X-Forefront-Antispam-Report: CIP:198.47.21.194; CTRY:US; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:flwvzet200.ext.ti.com; PTR:ErrorRetry; CAT:NONE;
- SFS:(13230040)(376014)(7416014)(82310400026)(1800799024)(36860700013)(34020700016)(921020)(12100799066);
- DIR:OUT; SFP:1501; 
-X-OriginatorOrg: ti.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 03 Nov 2025 16:18:14.8098 (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 1015e645-38ee-4626-9a50-08de1af4977f
-X-MS-Exchange-CrossTenant-Id: e5b49634-450b-4709-8abb-1e2b19b982b7
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=e5b49634-450b-4709-8abb-1e2b19b982b7; Ip=[198.47.21.194];
- Helo=[flwvzet200.ext.ti.com]
-X-MS-Exchange-CrossTenant-AuthSource: SJ1PEPF00002319.namprd03.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SN7PR10MB7076
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -161,135 +75,152 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Tomi,
+https://bugzilla.kernel.org/show_bug.cgi?id=3D220742
 
-On 03-11-2025 13:35, Tomi Valkeinen wrote:
-> Hi,
-> 
-> On 28/10/2025 05:39, Swamil Jain wrote:
->> From: Jayesh Choudhary <j-choudhary@ti.com>
->>
->> After integrating OLDI support[0], it is necessary to identify which VP
->> instances use OLDI, since the OLDI driver owns the video port clock
->> (as a serial clock). Clock operations on these VPs must be delegated to
->> the OLDI driver, not handled by the TIDSS driver. This issue also
->> emerged in upstream discussions when DSI-related clock management was
->> attempted in the TIDSS driver[1].
->>
->> To address this, add an 'is_ext_vp_clk' array to the 'tidss_device'
->> structure, marking a VP as 'true' during 'tidss_oldi_init()' and as
->> 'false' during 'tidss_oldi_deinit()'. TIDSS then uses 'is_ext_vp_clk'
->> to skip clock validation checks in 'dispc_vp_mode_valid()' for VPs
->> under OLDI control.
->>
->> Since OLDI uses the DSS VP clock directly as a serial interface and
->> manages its own rate, mode validation should be implemented in the OLDI
->> bridge's 'mode_valid' hook. This patch adds that logic, ensuring proper
->> delegation and avoiding spurious clock handling in the TIDSS driver.
->>
->> [0]: https://lore.kernel.org/all/20250528122544.817829-1-aradhya.bhatia@linux.dev/
->> [1]: https://lore.kernel.org/all/DA6TT575Z82D.3MPK8HG5GRL8U@kernel.org/
->>
->> Fixes: 7246e0929945 ("drm/tidss: Add OLDI bridge support")
->> Tested-by: Michael Walle <mwalle@kernel.org>
->> Reviewed-by: Devarsh Thakkar <devarsht@ti.com>
->> Signed-off-by: Jayesh Choudhary <j-choudhary@ti.com>
->> Signed-off-by: Swamil Jain <s-jain1@ti.com>
->> ---
->>   drivers/gpu/drm/tidss/tidss_dispc.c |  2 ++
->>   drivers/gpu/drm/tidss/tidss_drv.h   |  2 ++
->>   drivers/gpu/drm/tidss/tidss_oldi.c  | 21 +++++++++++++++++++++
->>   3 files changed, 25 insertions(+)
->>
->> diff --git a/drivers/gpu/drm/tidss/tidss_dispc.c b/drivers/gpu/drm/tidss/tidss_dispc.c
->> index 07731b02490f..0c3337a7b163 100644
->> --- a/drivers/gpu/drm/tidss/tidss_dispc.c
->> +++ b/drivers/gpu/drm/tidss/tidss_dispc.c
->> @@ -1315,6 +1315,8 @@ static int check_pixel_clock(struct dispc_device *dispc,
->>   {
->>   	unsigned long round_clock;
->>   
->> +	if (dispc->tidss->is_ext_vp_clk[hw_videoport])
->> +		return 0;
-> 
-> Add empty line here. Also, add a short comment what this check is about.
-> 
->>   	round_clock = clk_round_rate(dispc->vp_clk[hw_videoport], clock);
->>   	/*
->>   	 * To keep the check consistent with dispc_vp_set_clk_rate(), we
->> diff --git a/drivers/gpu/drm/tidss/tidss_drv.h b/drivers/gpu/drm/tidss/tidss_drv.h
->> index 84454a4855d1..e1c1f41d8b4b 100644
->> --- a/drivers/gpu/drm/tidss/tidss_drv.h
->> +++ b/drivers/gpu/drm/tidss/tidss_drv.h
->> @@ -24,6 +24,8 @@ struct tidss_device {
->>   
->>   	const struct dispc_features *feat;
->>   	struct dispc_device *dispc;
->> +	bool is_ext_vp_clk[TIDSS_MAX_PORTS];
->> +
->>   
->>   	unsigned int num_crtcs;
->>   	struct drm_crtc *crtcs[TIDSS_MAX_PORTS];
->> diff --git a/drivers/gpu/drm/tidss/tidss_oldi.c b/drivers/gpu/drm/tidss/tidss_oldi.c
->> index 7688251beba2..d1a5fdac93ff 100644
->> --- a/drivers/gpu/drm/tidss/tidss_oldi.c
->> +++ b/drivers/gpu/drm/tidss/tidss_oldi.c
->> @@ -309,6 +309,24 @@ static u32 *tidss_oldi_atomic_get_input_bus_fmts(struct drm_bridge *bridge,
->>   	return input_fmts;
->>   }
->>   
->> +static enum drm_mode_status
->> +tidss_oldi_mode_valid(struct drm_bridge *bridge,
->> +		      const struct drm_display_info *info,
->> +		      const struct drm_display_mode *mode)
->> +{
->> +	struct tidss_oldi *oldi = drm_bridge_to_tidss_oldi(bridge);
->> +	unsigned long round_clock;
->> +
->> +	round_clock = clk_round_rate(oldi->serial, mode->clock * 7 * 1000);
->> +	/*
->> +	 * To keep the check consistent with dispc_vp_set_clk_rate(),
->> +	 * we use the same 5% check here.
->> +	 */
->> +	if (dispc_pclk_diff(mode->clock * 7 * 1000, round_clock) > 5)
->> +		return -EINVAL;
-> 
-> Add an empty line here.
-Sure, will add and respin. Thanks for reviewing.
+            Bug ID: 220742
+           Summary: UBSAN: array-index-out-of-bounds in
+                    drivers/gpu/drm/radeon/radeon_atombios.c:2720:34 with
+                    AMD G-T56N
+           Product: Drivers
+           Version: 2.5
+          Hardware: AMD
+                OS: Linux
+            Status: NEW
+          Severity: normal
+          Priority: P3
+         Component: Video(DRI - non Intel)
+          Assignee: drivers_video-dri@kernel-bugs.osdl.org
+          Reporter: federicoleva@tiscali.it
+        Regression: No
 
-Regards,
-Swamil>
-> Reviewed-by: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-> 
->> +	return 0;
->> +}
->> +
->>   static const struct drm_bridge_funcs tidss_oldi_bridge_funcs = {
->>   	.attach	= tidss_oldi_bridge_attach,
->>   	.atomic_pre_enable = tidss_oldi_atomic_pre_enable,
->> @@ -317,6 +335,7 @@ static const struct drm_bridge_funcs tidss_oldi_bridge_funcs = {
->>   	.atomic_duplicate_state = drm_atomic_helper_bridge_duplicate_state,
->>   	.atomic_destroy_state = drm_atomic_helper_bridge_destroy_state,
->>   	.atomic_reset = drm_atomic_helper_bridge_reset,
->> +	.mode_valid = tidss_oldi_mode_valid,
->>   };
->>   
->>   static int get_oldi_mode(struct device_node *oldi_tx, int *companion_instance)
->> @@ -430,6 +449,7 @@ void tidss_oldi_deinit(struct tidss_device *tidss)
->>   	for (int i = 0; i < tidss->num_oldis; i++) {
->>   		if (tidss->oldis[i]) {
->>   			drm_bridge_remove(&tidss->oldis[i]->bridge);
->> +			tidss->is_ext_vp_clk[tidss->oldis[i]->parent_vp] = false;
->>   			tidss->oldis[i] = NULL;
->>   		}
->>   	}
->> @@ -580,6 +600,7 @@ int tidss_oldi_init(struct tidss_device *tidss)
->>   		oldi->bridge.timings = &default_tidss_oldi_timings;
->>   
->>   		tidss->oldis[tidss->num_oldis++] = oldi;
->> +		tidss->is_ext_vp_clk[oldi->parent_vp] = true;
->>   		oldi->tidss = tidss;
->>   
->>   		drm_bridge_add(&oldi->bridge);
-> 
+Created attachment 308886
+  --> https://bugzilla.kernel.org/attachment.cgi?id=3D308886&action=3Dedit
+dmesg from AMD G-T56N
 
+Booting kernel 6.17.1-300.fc43.x86_64 on an AMD G-T56N (Motherboard aE350x-=
+HD
+R1.03 55DE5100020) produces this stack trace:
+
+----------------
+
+[   11.958963] [drm] radeon kernel modesetting enabled.
+[   11.959183] radeon 0000:00:01.0: vgaarb: deactivate vga console
+[   11.959909] Console: switching to colour dummy device 80x25
+[   11.960368] [drm] initializing kernel modesetting (PALM 0x1002:0x9806
+0xA0A0:0x080A 0x00).
+[   11.960591] ATOM BIOS: AMD
+[   11.960713] radeon 0000:00:01.0: VRAM: 384M 0x0000000000000000 -
+0x0000000017FFFFFF (384M used)
+[   11.960724] radeon 0000:00:01.0: GTT: 1024M 0x0000000018000000 -
+0x0000000057FFFFFF
+[   11.960738] [drm] Detected VRAM RAM=3D384M, BAR=3D256M
+[   11.960743] [drm] RAM width 32bits DDR
+[   11.961254] [drm] radeon: 384M of VRAM memory ready
+[   11.961265] [drm] radeon: 1024M of GTT memory ready.
+[   11.961300] [drm] Loading PALM Microcode
+[   11.983040] [drm] Internal thermal controller without fan control
+[   11.983069] ------------[ cut here ]------------
+[   11.983072] UBSAN: array-index-out-of-bounds in
+drivers/gpu/drm/radeon/radeon_atombios.c:2720:34
+[   11.983081] index 16 is out of range for type 'UCHAR [*]'
+[   11.983090] CPU: 1 UID: 0 PID: 618 Comm: (udev-worker) Not tainted
+6.17.1-300.fc43.x86_64 #1 PREEMPT(lazy)=20
+[   11.983099] Hardware name: AOpen DE35-HD/aE350x-HD R1.03, BIOS R1.03
+02/21/2013
+[   11.983103] Call Trace:
+[   11.983110]  <TASK>
+[   11.983116]  dump_stack_lvl+0x5d/0x80
+[   11.983129]  ubsan_epilogue+0x5/0x2b
+[   11.983140]  __ubsan_handle_out_of_bounds.cold+0x54/0x59
+[   11.983154]  radeon_atombios_parse_power_table_6+0x3bc/0x3e0 [radeon]
+[   11.983547]  radeon_atombios_get_power_modes+0x220/0x240 [radeon]
+[   11.983827]  radeon_pm_init_dpm+0x77/0x240 [radeon]
+[   11.984120]  evergreen_init+0x154/0x2b0 [radeon]
+[   11.984416]  radeon_device_init+0x484/0xa60 [radeon]
+[   11.984663]  ? pci_find_capability+0x79/0xb0
+[   11.984671]  radeon_driver_load_kms+0xa1/0x260 [radeon]
+[   11.984919]  radeon_pci_probe+0xef/0x1b0 [radeon]
+[   11.985165]  local_pci_probe+0x42/0x90
+[   11.985173]  pci_call_probe+0x5b/0x190
+[   11.985178]  ? kernfs_create_link+0x61/0xb0
+[   11.985186]  pci_device_probe+0x95/0x140
+[   11.985192]  really_probe+0xde/0x340
+[   11.985199]  ? pm_runtime_barrier+0x55/0x90
+[   11.985208]  __driver_probe_device+0x78/0x140
+[   11.985215]  driver_probe_device+0x1f/0xa0
+[   11.985221]  ? __pfx___driver_attach+0x10/0x10
+[   11.985227]  __driver_attach+0xcb/0x1e0
+[   11.985233]  bus_for_each_dev+0x85/0xd0
+[   11.985240]  bus_add_driver+0x12f/0x210
+[   11.985248]  ? __pfx_radeon_module_init+0x10/0x10 [radeon]
+[   11.985489]  driver_register+0x75/0xe0
+[   11.985495]  ? radeon_register_atpx_handler+0xe/0x30 [radeon]
+[   11.985798]  do_one_initcall+0x5b/0x300
+[   11.985813]  do_init_module+0x84/0x280
+[   11.985821]  init_module_from_file+0x8a/0xe0
+[   11.985831]  idempotent_init_module+0x114/0x310
+[   11.985839]  __x64_sys_finit_module+0x6d/0xd0
+[   11.985845]  ? syscall_trace_enter+0x8d/0x1d0
+[   11.985853]  do_syscall_64+0x7e/0x250
+[   11.985867]  ? vfs_read+0x165/0x390
+[   11.985875]  ? vfs_read+0x165/0x390
+[   11.985882]  ? __x64_sys_pread64+0x9c/0xd0
+[   11.985888]  ? do_syscall_64+0xb6/0x250
+[   11.985895]  ? __do_sys_newfstatat+0x3b/0x80
+[   11.985903]  ? do_syscall_64+0xb6/0x250
+[   11.985909]  ? do_syscall_64+0xb6/0x250
+[   11.985915]  ? irqentry_exit_to_user_mode+0x2c/0x1c0
+[   11.985921]  entry_SYSCALL_64_after_hwframe+0x76/0x7e
+[   11.985928] RIP: 0033:0x7f9d7327734d
+[   11.985947] Code: ff c3 66 2e 0f 1f 84 00 00 00 00 00 90 f3 0f 1e fa 48 =
+89
+f8 48 89 f7 48 89 d6 48 89 ca 4d 89 c2 4d 89 c8 4c 8b 4c 24 08 0f 05 <48> 3=
+d 01
+f0 ff ff 73 01 c3 48 8b 0d 83 6a 0f 00 f7 d8 64 89 01 48
+[   11.985953] RSP: 002b:00007ffce08c2738 EFLAGS: 00000246 ORIG_RAX:
+0000000000000139
+[   11.985961] RAX: ffffffffffffffda RBX: 000055980313aa40 RCX:
+00007f9d7327734d
+[   11.985964] RDX: 0000000000000004 RSI: 00007f9d729175e1 RDI:
+000000000000003c
+[   11.985967] RBP: 00007ffce08c27d0 R08: 0000000000000000 R09:
+0000559803141710
+[   11.985970] R10: 0000000000000000 R11: 0000000000000246 R12:
+00007f9d729175e1
+[   11.985973] R13: 0000000000020000 R14: 000055980313b000 R15:
+0000000000000000
+[   11.985979]  </TASK>
+[   11.986103] ---[ end trace ]---
+[   11.986279] [drm] Found smc ucode version: 0x00010601
+[   11.986429] [drm] radeon: dpm initialized
+[   12.019635] [drm] GART: num cpu pages 262144, num gpu pages 262144
+[   12.033668] [drm] PCIE GART of 1024M enabled (table at 0x000000000016200=
+0).
+[   12.033966] radeon 0000:00:01.0: WB enabled
+[   12.033976] radeon 0000:00:01.0: fence driver on ring 0 uses gpu addr
+0x0000000018000c00
+[   12.033983] radeon 0000:00:01.0: fence driver on ring 3 uses gpu addr
+0x0000000018000c0c
+[   12.034441] radeon 0000:00:01.0: fence driver on ring 5 uses gpu addr
+0x0000000000072118
+[   12.034856] radeon 0000:00:01.0: radeon: MSI limited to 32-bit
+[   12.035042] radeon 0000:00:01.0: radeon: using MSI.
+[   12.035104] [drm] radeon: irq initialized.
+
+------
+
+Boot works but Wayland was very slow, not sure if hardware acceleration was
+working. There are more logs at https://linux-hardware.org/?probe=3D13c250c=
+955
+
+(This is a mini-PC formerly used as POS with Windows. Just a retrocomputing
+curiosity, but this CPU/APU architecture was quite popular in 2011 and some
+might cling to it for its rather low power usage.)
+
+Sorry if this is the wrong component, please forward where appropriate.
+
+--=20
+You may reply to this email to add a comment.
+
+You are receiving this mail because:
+You are watching the assignee of the bug.=
