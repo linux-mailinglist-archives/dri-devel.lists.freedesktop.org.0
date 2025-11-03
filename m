@@ -2,78 +2,53 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4A2B6C2C7FB
-	for <lists+dri-devel@lfdr.de>; Mon, 03 Nov 2025 15:56:37 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id EB1D1C2C84F
+	for <lists+dri-devel@lfdr.de>; Mon, 03 Nov 2025 15:59:17 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6DE1A10E151;
-	Mon,  3 Nov 2025 14:56:34 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3679C10E1F4;
+	Mon,  3 Nov 2025 14:59:16 +0000 (UTC)
+Authentication-Results: gabe.freedesktop.org;
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="qa+X6nMS";
+	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lj1-f172.google.com (mail-lj1-f172.google.com
- [209.85.208.172])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E3EEF10E151
- for <dri-devel@lists.freedesktop.org>; Mon,  3 Nov 2025 14:56:32 +0000 (UTC)
-Received: by mail-lj1-f172.google.com with SMTP id
- 38308e7fff4ca-376466f1280so57014571fa.0
- for <dri-devel@lists.freedesktop.org>; Mon, 03 Nov 2025 06:56:32 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1762181788; x=1762786588;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :reply-to:in-reply-to:references:mime-version:x-gm-message-state
- :from:to:cc:subject:date:message-id:reply-to;
- bh=s5HhCqdsQfAH71nlBy5jT8rmemhezTVFDs0Da9TumsU=;
- b=TNOa4N3aXA3HU2cAqTKmrRtiCLIKajhReeFjHYdpKHOkFOOReWjdEbWYDLnR51r0g6
- KsRI0E3uOc7HBzpMvhvpkhhYum75sbWxk0LyQt5KI6OLUq+mY2JpcQfhVxVUAvzbMm1P
- haynwSBDnzr0lWDJcRA17ktAMEnsNiNuUGmg7je7hi1L1fT0ieevQSgYK/B8zuP+s1RD
- J9xkFFSZWCLeVEXsbCXjH8kEpQW4IJXha82zhZG6F9mZHOa+g8v2c+z3rdV2LpjH90Uu
- LnxcNd7gOsJFyE/rDTXTUnXt7jgpmghN/ICu8+jDPUyeVkyc1BSY4FX3nfcDZcYX++Dw
- g6Rw==
-X-Forwarded-Encrypted: i=1;
- AJvYcCVaIFxOJcXISArybV+1RfZjdi4bpS+SIBlZyiOkpMLPQaOY9CxJP3SOYvvBkFkpTPRBlEfSe1uYEzI=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YylmJO/cnW5mfC+g2NZiZ+uvCfZCYT7ZIQsROlw7IYo7omMabrW
- +QMrpn7gQDdPicVgH3WNEeuwx02wFw3hyBmO5vsCi/3bivXXYqC6zHMkwRdxqZDb
-X-Gm-Gg: ASbGncua9v0yCk++sX3Cy+lUvPW9Fk0eD5lKjxqTC1KMMrFWn8mNK100CQkNIk73wi7
- wUQDQIMFzfWueQxPcw+1T7rVKRt15UsNcsdzoPd0nL0wfjIqugUd63/lv5gltCWJExE4X7MDHiV
- wPw98G9Njujt+S/XnGSqEDOmKGKnYqMeJ1GM5Uxi09u3DHmMcG8cckvIoKKRxBI01Jfy32AGhIp
- M3MRdfQiUzJNurtGZr3FgAqthCTqcNK/UZ5qGSooouGr0ZYxhGJ+P2WxMGeSvSs6oOnbpCKYFGw
- QxUbDg9XOJz+B+B5Zv3GUAHz7ZmVami+WtWjExTcH/dC5rxlc+eefezpgz6m0NczzzRpGOR8Wi0
- fodH+1L38IgWRsXnruk44QWpYoXEmLaO3mCCIuwv+1NCMlCVE+geZQmwyhZA06xAlAYUg2jGFV2
- /P0Q6N7vOBcYkmMXdAiRSTosXVbsmFmNbXFlCzZbZg/IOehENzlpVxMw==
-X-Google-Smtp-Source: AGHT+IEXQvagTNv0zYFCjZa1VPyLujqfT/WMJxB8aSBoJI4H6N2BefG0y5tLr0pD4+svAlJ2Gu3Bug==
-X-Received: by 2002:a2e:bc19:0:b0:372:8ccc:2629 with SMTP id
- 38308e7fff4ca-37a18dd3319mr39906031fa.34.1762181787919; 
- Mon, 03 Nov 2025 06:56:27 -0800 (PST)
-Received: from mail-lj1-f177.google.com (mail-lj1-f177.google.com.
- [209.85.208.177]) by smtp.gmail.com with ESMTPSA id
- 38308e7fff4ca-37a415e5962sm835081fa.36.2025.11.03.06.56.27
- for <dri-devel@lists.freedesktop.org>
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 03 Nov 2025 06:56:27 -0800 (PST)
-Received: by mail-lj1-f177.google.com with SMTP id
- 38308e7fff4ca-376466f1280so57013371fa.0
- for <dri-devel@lists.freedesktop.org>; Mon, 03 Nov 2025 06:56:27 -0800 (PST)
-X-Forwarded-Encrypted: i=1;
- AJvYcCUbQXFudUuSHQ0pkML8oykm/gQX0PvH3iSHZ3UwqqPx7TobH/PW3Sn2w5z/O4rYZF8tIsPveu4nzoA=@lists.freedesktop.org
-X-Received: by 2002:a2e:8317:0:b0:375:fa47:14a8 with SMTP id
- 38308e7fff4ca-37a18dc644fmr33438281fa.31.1762181787126; Mon, 03 Nov 2025
- 06:56:27 -0800 (PST)
+Received: from sea.source.kernel.org (sea.source.kernel.org [172.234.252.31])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DC72810E1F4
+ for <dri-devel@lists.freedesktop.org>; Mon,  3 Nov 2025 14:59:14 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by sea.source.kernel.org (Postfix) with ESMTP id 95A8640542;
+ Mon,  3 Nov 2025 14:59:14 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 43AB2C4CEE7;
+ Mon,  3 Nov 2025 14:59:13 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1762181954;
+ bh=tJBA2A+TAE93GzGOk0Jxuu8XMEMOTtnOa9DvzJ94jGc=;
+ h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+ b=qa+X6nMS46jJl35Y+sWy6EoBVNq7Rj6SNFy5ajiPzX5ThVRYDs6S0UQSFBuPYjxLY
+ rlUNC3Md7/vM70gRvmkIUU1M0NPuY0MBD722o/bQdH8K2kbepK9Z3BbCeSX54sbtSu
+ 7jXvw9qdvmn2JA0DSFBmWcED925SM5MGshaJvArmCvW6MAmOqD7VUvZt124DTdQE4P
+ mGMWUGN8Udtu+x/2hwVfA7d2yriaD0W+0MCDx/S6f4MXB/Yj25ZMJvT/NJLIcbDJeK
+ IXZNShtuwylTnz8487ts/Fl7cj2CZ6sii3vLBoEuSSUR4GY7NHt+FPmV67iLv4zXH/
+ TdZ9O/XE8WVVg==
+From: Sasha Levin <sashal@kernel.org>
+To: stable@vger.kernel.org
+Cc: Thomas Zimmermann <tzimmermann@suse.de>,
+ Dan Carpenter <dan.carpenter@linaro.org>,
+ Melissa Wen <melissa.srw@gmail.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, David Airlie <airlied@gmail.com>,
+ Simona Vetter <simona@ffwll.ch>, dri-devel@lists.freedesktop.org,
+ Javier Martinez Canillas <javierm@redhat.com>,
+ Sasha Levin <sashal@kernel.org>
+Subject: [PATCH 6.1.y] drm/sysfb: Do not dereference NULL pointer in plane
+ reset
+Date: Mon,  3 Nov 2025 09:59:11 -0500
+Message-ID: <20251103145911.4040590-1-sashal@kernel.org>
+X-Mailer: git-send-email 2.51.0
+In-Reply-To: <2025110312-duration-shape-5d38@gregkh>
+References: <2025110312-duration-shape-5d38@gregkh>
 MIME-Version: 1.0
-References: <20251012192330.6903-1-jernej.skrabec@gmail.com>
- <20251012192330.6903-22-jernej.skrabec@gmail.com>
-In-Reply-To: <20251012192330.6903-22-jernej.skrabec@gmail.com>
-From: Chen-Yu Tsai <wens@csie.org>
-Date: Mon, 3 Nov 2025 22:56:14 +0800
-X-Gmail-Original-Message-ID: <CAGb2v64Sfk7WvEXNnRfKRehtyn-4KhPBER9tV0E2_pX4JxGC8g@mail.gmail.com>
-X-Gm-Features: AWmQ_bmDRSdirXrFZY61Rit-O4eYxqlNFv0KMpQajaon1izsKkp3c6YIV8hGfRk
-Message-ID: <CAGb2v64Sfk7WvEXNnRfKRehtyn-4KhPBER9tV0E2_pX4JxGC8g@mail.gmail.com>
-Subject: Re: [PATCH 21/30] drm/sun4i: csc: use layer arg instead of mixer
-To: Jernej Skrabec <jernej.skrabec@gmail.com>
-Cc: mripard@kernel.org, maarten.lankhorst@linux.intel.com, tzimmermann@suse.de,
- airlied@gmail.com, simona@ffwll.ch, samuel@sholland.org, 
- dri-devel@lists.freedesktop.org, linux-arm-kernel@lists.infradead.org, 
- linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -86,15 +61,57 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Reply-To: wens@csie.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Oct 13, 2025 at 3:24=E2=80=AFAM Jernej Skrabec <jernej.skrabec@gmai=
-l.com> wrote:
->
-> Layer will be more universal, due to DE33 support.
->
-> Signed-off-by: Jernej Skrabec <jernej.skrabec@gmail.com>
+From: Thomas Zimmermann <tzimmermann@suse.de>
 
-Reviewed-by: Chen-Yu Tsai <wens@kernel.org>
+[ Upstream commit 14e02ed3876f4ab0ed6d3f41972175f8b8df3d70 ]
+
+The plane state in __drm_gem_reset_shadow_plane() can be NULL. Do not
+deref that pointer, but forward NULL to the other plane-reset helpers.
+Clears plane->state to NULL.
+
+v2:
+- fix typo in commit description (Javier)
+
+Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
+Fixes: b71565022031 ("drm/gem: Export implementation of shadow-plane helpers")
+Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
+Closes: https://lore.kernel.org/dri-devel/aPIDAsHIUHp_qSW4@stanley.mountain/
+Cc: Thomas Zimmermann <tzimmermann@suse.de>
+Cc: Melissa Wen <melissa.srw@gmail.com>
+Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
+Cc: Maxime Ripard <mripard@kernel.org>
+Cc: David Airlie <airlied@gmail.com>
+Cc: Simona Vetter <simona@ffwll.ch>
+Cc: dri-devel@lists.freedesktop.org
+Cc: <stable@vger.kernel.org> # v5.15+
+Reviewed-by: Javier Martinez Canillas <javierm@redhat.com>
+Link: https://patch.msgid.link/20251017091407.58488-1-tzimmermann@suse.de
+[ removed drm_format_conv_state_init() call ]
+Signed-off-by: Sasha Levin <sashal@kernel.org>
+---
+ drivers/gpu/drm/drm_gem_atomic_helper.c | 6 +++++-
+ 1 file changed, 5 insertions(+), 1 deletion(-)
+
+diff --git a/drivers/gpu/drm/drm_gem_atomic_helper.c b/drivers/gpu/drm/drm_gem_atomic_helper.c
+index b6a0110eb64af..2e658c216959f 100644
+--- a/drivers/gpu/drm/drm_gem_atomic_helper.c
++++ b/drivers/gpu/drm/drm_gem_atomic_helper.c
+@@ -330,7 +330,11 @@ EXPORT_SYMBOL(drm_gem_destroy_shadow_plane_state);
+ void __drm_gem_reset_shadow_plane(struct drm_plane *plane,
+ 				  struct drm_shadow_plane_state *shadow_plane_state)
+ {
+-	__drm_atomic_helper_plane_reset(plane, &shadow_plane_state->base);
++	if (shadow_plane_state) {
++		__drm_atomic_helper_plane_reset(plane, &shadow_plane_state->base);
++	} else {
++		__drm_atomic_helper_plane_reset(plane, NULL);
++	}
+ }
+ EXPORT_SYMBOL(__drm_gem_reset_shadow_plane);
+ 
+-- 
+2.51.0
+
