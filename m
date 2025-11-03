@@ -2,47 +2,72 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id ED74EC29B36
-	for <lists+dri-devel@lfdr.de>; Mon, 03 Nov 2025 01:24:32 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id CBAB3C29C4F
+	for <lists+dri-devel@lfdr.de>; Mon, 03 Nov 2025 02:17:12 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8292D10E1B1;
-	Mon,  3 Nov 2025 00:24:23 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id EBADC10E2E9;
+	Mon,  3 Nov 2025 01:17:09 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; secure) header.d=canb.auug.org.au header.i=@canb.auug.org.au header.b="H9heTeJr";
+	dkim=pass (1024-bit key; unprotected) header.d=rock-chips.com header.i=@rock-chips.com header.b="Xf2GCOog";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail.ozlabs.org (gandalf.ozlabs.org [150.107.74.76])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7F6DB10E1B1;
- Mon,  3 Nov 2025 00:24:21 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=canb.auug.org.au;
- s=202503; t=1762129459;
- bh=Iy94SWbg1+RQ4Kuynk8DOKGrvK0LPLOCMyntYUWRNLQ=;
- h=Date:From:To:Cc:Subject:From;
- b=H9heTeJrqmE8UuajRxoJsONK2bQsP8jqTOFQ35+XxoSgcyR2QFPxDg6qXBYBHx2jz
- 68texnh7DpH2jRsHC/9x3tcgBaZ5u4apJWc3fjFaEgJK5Tn5M5bwGE1Dr8G8RFFiZq
- VSez0aOBaB5VG0a3e705BwOp1AvdM7hANCoUsy5e83byHoVT46kn0dkULI//njub5P
- jPQgOp77Dn3KBuV7d+qEoyA3rsc3m5UwgnExhWSdovjOGCLl6kBrdWCCzObj8i1IGP
- CAW/Zv2q9OxORRj4ZgrBlhs2UfyzfhP1+gp+Nv/ip97DLlFiv1lPx/Qb6/9gzUwkSD
- Q8V/oZ7G6Z3tQ==
-Received: from authenticated.ozlabs.org (localhost [127.0.0.1])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange secp256r1 server-signature RSA-PSS (4096 bits) server-digest
- SHA256) (Client did not present a certificate)
- by mail.ozlabs.org (Postfix) with ESMTPSA id 4d0C4z2VW2z4w9q;
- Mon, 03 Nov 2025 11:24:19 +1100 (AEDT)
-Date: Mon, 3 Nov 2025 11:24:18 +1100
-From: Stephen Rothwell <sfr@canb.auug.org.au>
-To: Simona Vetter <simona.vetter@ffwll.ch>, Intel Graphics
- <intel-gfx@lists.freedesktop.org>, DRI <dri-devel@lists.freedesktop.org>
-Cc: Jani Nikula <jani.nikula@intel.com>, Linux Kernel Mailing List
- <linux-kernel@vger.kernel.org>, Linux Next Mailing List
- <linux-next@vger.kernel.org>
-Subject: linux-next: build failure after merge of the drm-misc tree
-Message-ID: <20251103112418.031b3f8c@canb.auug.org.au>
+X-Greylist: delayed 302 seconds by postgrey-1.36 at gabe;
+ Mon, 03 Nov 2025 01:17:08 UTC
+Received: from mail-m82144.xmail.ntesmail.com (mail-m82144.xmail.ntesmail.com
+ [156.224.82.144])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CF4A610E2E9
+ for <dri-devel@lists.freedesktop.org>; Mon,  3 Nov 2025 01:17:08 +0000 (UTC)
+Received: from [172.16.12.149] (unknown [58.22.7.114])
+ by smtp.qiye.163.com (Hmail) with ESMTP id 2818c2243;
+ Mon, 3 Nov 2025 09:11:59 +0800 (GMT+08:00)
+Message-ID: <39c21e9f-4958-4007-bb09-3ef40ff30d2a@rock-chips.com>
+Date: Mon, 3 Nov 2025 09:11:57 +0800
 MIME-Version: 1.0
-Content-Type: multipart/signed; boundary="Sig_/KlBPDI1Nmz+Tm.siOFEFuQt";
- protocol="application/pgp-signature"; micalg=pgp-sha256
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v8 01/10] usb: typec: Add notifier functions
+To: Heikki Krogerus <heikki.krogerus@linux.intel.com>,
+ Chaoyi Chen <kernel@airkyi.com>
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>,
+ Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>, Vinod Koul <vkoul@kernel.org>,
+ Kishon Vijay Abraham I <kishon@kernel.org>, Heiko Stuebner
+ <heiko@sntech.de>, Sandy Huang <hjc@rock-chips.com>,
+ Andy Yan <andy.yan@rock-chips.com>,
+ Yubing Zhang <yubing.zhang@rock-chips.com>,
+ Frank Wang <frank.wang@rock-chips.com>,
+ Andrzej Hajda <andrzej.hajda@intel.com>,
+ Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Amit Sunil Dhamne <amitsd@google.com>, Dragan Simic <dsimic@manjaro.org>,
+ Johan Jonker <jbx6244@gmail.com>, Diederik de Haas <didi.debian@cknow.org>,
+ Peter Robinson <pbrobinson@gmail.com>, linux-usb@vger.kernel.org,
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-phy@lists.infradead.org, linux-arm-kernel@lists.infradead.org,
+ linux-rockchip@lists.infradead.org, dri-devel@lists.freedesktop.org
+References: <20251029071435.88-1-kernel@airkyi.com>
+ <20251029071435.88-2-kernel@airkyi.com> <aQS8IatWiAUzBUxd@kuha.fi.intel.com>
+Content-Language: en-US
+From: Chaoyi Chen <chaoyi.chen@rock-chips.com>
+In-Reply-To: <aQS8IatWiAUzBUxd@kuha.fi.intel.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-HM-Tid: 0a9a47455e0103abkunm8b2c313f943871
+X-HM-MType: 1
+X-HM-Spam-Status: e1kfGhgUHx5ZQUpXWQgPGg8OCBgUHx5ZQUlOS1dZFg8aDwILHllBWSg2Ly
+ tZV1koWUFDSUNOT01LS0k3V1ktWUFJV1kPCRoVCBIfWUFZGR5MTVYYQk0YGR1KQ0kfTx1WFRQJFh
+ oXVRMBExYaEhckFA4PWVdZGBILWUFZTkNVSUlVTFVKSk9ZV1kWGg8SFR0UWUFZT0tIVUpLSEpPSE
+ xVSktLVUpCS0tZBg++
+DKIM-Signature: a=rsa-sha256;
+ b=Xf2GCOogE5JU9VFai8bfqqPO4EwB1WJ7U798BYDMShF5yADbVIRdoEeXupnhnUlWCWamERfBB8hOvuY9KC55ljPx2XdO0aSSZ4aN/YVRrfNdwUmKid0Rkhyi8liJDc6hPFcv+WVwWCoRwFPiFILAWI0NSARBI9pcgXmLDxUm+VA=;
+ s=default; c=relaxed/relaxed; d=rock-chips.com; v=1; 
+ bh=kGpL6uycvY2W1UtRJCq/id+/GMXz5vHEcP9JtnFabFA=;
+ h=date:mime-version:subject:message-id:from;
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -58,141 +83,45 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
---Sig_/KlBPDI1Nmz+Tm.siOFEFuQt
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: quoted-printable
+On 10/31/2025 9:39 PM, Heikki Krogerus wrote:
 
-Hi all,
+> Hi,
+>
+>> diff --git a/include/linux/usb/typec_notify.h b/include/linux/usb/typec_notify.h
+>> new file mode 100644
+>> index 000000000000..f3a7b5f5b05b
+>> --- /dev/null
+>> +++ b/include/linux/usb/typec_notify.h
+>> @@ -0,0 +1,16 @@
+>> +/* SPDX-License-Identifier: GPL-2.0 */
+>> +
+>> +#ifndef __USB_TYPEC_NOTIFY
+>> +#define __USB_TYPEC_NOTIFY
+>> +
+>> +#include <linux/notifier.h>
+> Replace that include with a forward declaration:
+>
+> struct notifier_block;
+>
+>> +enum usb_typec_event {
+>> +	TYPEC_ALTMODE_REGISTERED,
+>> +	TYPEC_ALTMODE_UNREGISTERED,
+>> +};
+>> +
+>> +int typec_altmode_register_notify(struct notifier_block *nb);
+>> +int typec_altmode_unregister_notify(struct notifier_block *nb);
+>> +
+>> +#endif /* __USB_TYPEC_NOTIFY */
+> I don't see any need for a separate header file for this. Intoduce
+> those in typec_altmode.h.
 
-After merging the drm-misc tree, today's linux-next build (x86_64
-allmodconfig) failed like this:
+Will fix these in v9. Thank you.
 
-drivers/gpu/drm/renesas/rz-du/rzg2l_du_drv.c: In function 'rzg2l_du_probe':
-drivers/gpu/drm/renesas/rz-du/rzg2l_du_drv.c:173:9: error: implicit declara=
-tion of function 'drm_info'; did you mean 'pr_info'? [-Wimplicit-function-d=
-eclaration]
-  173 |         drm_info(&rcdu->ddev, "Device %s probed\n", dev_name(&pdev-=
->dev));
-      |         ^~~~~~~~
-      |         pr_info
 
-Presumably caused by commit
+>
+> thanks,
+>
+-- 
+Best,
+Chaoyi
 
-  9695c143b72a ("drm/buddy: replace drm_print.h include with a forward decl=
-aration")
-or
-  ea722522d505 ("drm/mm: replace drm_print.h include with a forward declara=
-tion")
-or
-  d7a849d126d0 ("drm/ttm: replace drm_print.h include with a forward declar=
-ation")
-
-I have applied the following fix patch for today:
-
-From: Stephen Rothwell <sfr@canb.auug.org.au>
-Date: Mon, 3 Nov 2025 11:12:27 +1100
-Subject: [PATCH] fix up for dropping drm_print.h includes
-
-Signed-off-by: Stephen Rothwell <sfr@canb.auug.org.au>
----
- drivers/gpu/drm/renesas/rz-du/rzg2l_du_drv.c | 1 +
- 1 file changed, 1 insertion(+)
-
-diff --git a/drivers/gpu/drm/renesas/rz-du/rzg2l_du_drv.c b/drivers/gpu/drm=
-/renesas/rz-du/rzg2l_du_drv.c
-index e1aa6a719529..c34b1a13e685 100644
---- a/drivers/gpu/drm/renesas/rz-du/rzg2l_du_drv.c
-+++ b/drivers/gpu/drm/renesas/rz-du/rzg2l_du_drv.c
-@@ -18,6 +18,7 @@
- #include <drm/drm_fbdev_dma.h>
- #include <drm/drm_gem_dma_helper.h>
- #include <drm/drm_probe_helper.h>
-+#include <drm/drm_print.h>
-=20
- #include "rzg2l_du_drv.h"
- #include "rzg2l_du_kms.h"
---=20
-2.51.1
-
-Which lead to this:
-
-drivers/gpu/drm/rockchip/rockchip_drm_vop2.c: In function 'vop2_convert_for=
-mat':
-drivers/gpu/drm/rockchip/rockchip_drm_vop2.c:215:17: error: implicit declar=
-ation of function 'DRM_ERROR'; did you mean 'SO_ERROR'? [-Wimplicit-functio=
-n-declaration]
-  215 |                 DRM_ERROR("unsupported format[%08x]\n", format);
-      |                 ^~~~~~~~~
-      |                 SO_ERROR
-drivers/gpu/drm/rockchip/rockchip_drm_vop2.c: In function 'rockchip_vop2_mo=
-d_supported':
-drivers/gpu/drm/rockchip/rockchip_drm_vop2.c:395:33: error: implicit declar=
-ation of function 'drm_dbg_kms' [-Wimplicit-function-declaration]
-  395 |                                 drm_dbg_kms(vop2->drm,
-      |                                 ^~~~~~~~~~~
-drivers/gpu/drm/rockchip/rockchip_drm_vop2.c: In function 'vop2_setup_scale=
-':
-drivers/gpu/drm/rockchip/rockchip_drm_vop2.c:602:25: error: implicit declar=
-ation of function 'drm_dbg'; did you mean 'dev_dbg'? [-Wimplicit-function-d=
-eclaration]
-  602 |                         drm_dbg(vop2->drm, "%s dst_w[%d] should ali=
-gn as 2 pixel\n",
-      |                         ^~~~~~~
-      |                         dev_dbg
-drivers/gpu/drm/rockchip/rockchip_drm_vop2.c: In function 'vop2_core_clks_p=
-repare_enable':
-drivers/gpu/drm/rockchip/rockchip_drm_vop2.c:763:17: error: implicit declar=
-ation of function 'drm_err'; did you mean 'pr_err'? [-Wimplicit-function-de=
-claration]
-  763 |                 drm_err(vop2->drm, "failed to enable hclk - %d\n", =
-ret);
-      |                 ^~~~~~~
-      |                 pr_err
-drivers/gpu/drm/rockchip/rockchip_drm_vop2.c: In function 'vop2_crtc_atomic=
-_disable':
-drivers/gpu/drm/rockchip/rockchip_drm_vop2.c:967:17: error: implicit declar=
-ation of function 'drm_info'; did you mean 'pr_info'? [-Wimplicit-function-=
-declaration]
-  967 |                 drm_info(vop2->drm, "wait for vp%d dsp_hold timeout=
-\n", vp->id);
-      |                 ^~~~~~~~
-      |                 pr_info
-drivers/gpu/drm/rockchip/rockchip_drm_vop2.c: In function 'vop2_crtc_atomic=
-_enable':
-drivers/gpu/drm/rockchip/rockchip_drm_vop2.c:1758:41: error: implicit decla=
-ration of function 'drm_warn'; did you mean 'dev_warn'? [-Wimplicit-functio=
-n-declaration]
- 1758 |                                         drm_warn(vop2->drm,
-      |                                         ^~~~~~~~
-      |                                         dev_warn
-drivers/gpu/drm/rockchip/rockchip_drm_vop2.c: In function 'rk3576_vp_isr':
-drivers/gpu/drm/rockchip/rockchip_drm_vop2.c:2198:17: error: implicit decla=
-ration of function 'drm_err_ratelimited'; did you mean 'pr_err_ratelimited'=
-? [-Wimplicit-function-declaration]
- 2198 |                 drm_err_ratelimited(vop2->drm, "POST_BUF_EMPTY irq =
-err at vp%d\n", vp->id);
-      |                 ^~~~~~~~~~~~~~~~~~~
-      |                 pr_err_ratelimited
-
-So, I have instead used the drm-misc tree from next-20251031 for today.
---=20
-Cheers,
-Stephen Rothwell
-
---Sig_/KlBPDI1Nmz+Tm.siOFEFuQt
-Content-Type: application/pgp-signature
-Content-Description: OpenPGP digital signature
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCAAdFiEENIC96giZ81tWdLgKAVBC80lX0GwFAmkH9jIACgkQAVBC80lX
-0GyxLwf+K1ygjtBBNcNgTPWtGNQp75QVY0hRVBj1BczKJcoXQ8OjJHdIP7UfCaz6
-kjmLSWm19LAx2XwKNgf+S4OqGAmWDHxXM3eHIPrGrYcy+B7udmXdN8EYClaj+qlH
-I+V/II8nUI5lqDNFrJnSMGClVJLYmkiKlT3Bf2pB6Y3mnxyCApxsGZGXJ9lV5jZ7
-1mRw94CMV+WQrsI4nke4e6jxo7OoLTk68Lr4GtviGzF9XVpUhOIQzDEl5pN3MWdL
-aoMsKfT8XBo5iZ84yXUL0hB05PTLkxO1KMpgzIFrrOVwf8/6DBoCJQaEA/Wc/jrR
-zD5Y1te9+YDa1/O07EppD5U1YXsbqg==
-=waFo
------END PGP SIGNATURE-----
-
---Sig_/KlBPDI1Nmz+Tm.siOFEFuQt--
