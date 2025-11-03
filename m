@@ -2,84 +2,80 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D9840C2BA43
-	for <lists+dri-devel@lfdr.de>; Mon, 03 Nov 2025 13:24:19 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id F4225C2BBE8
+	for <lists+dri-devel@lfdr.de>; Mon, 03 Nov 2025 13:41:51 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8122810E3C4;
-	Mon,  3 Nov 2025 12:24:13 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A3A7B10E3C8;
+	Mon,  3 Nov 2025 12:41:49 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="G/puxMMM";
+	dkim=pass (2048-bit key; secure) header.d=mailbox.org header.i=@mailbox.org header.b="i140ABhj";
+	dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b="w/beTkws";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pf1-f170.google.com (mail-pf1-f170.google.com
- [209.85.210.170])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D3F2D10E1CD
- for <dri-devel@lists.freedesktop.org>; Mon,  3 Nov 2025 12:24:11 +0000 (UTC)
-Received: by mail-pf1-f170.google.com with SMTP id
- d2e1a72fcca58-7a9e8a15502so1148860b3a.1
- for <dri-devel@lists.freedesktop.org>; Mon, 03 Nov 2025 04:24:11 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1762172651; x=1762777451; darn=lists.freedesktop.org;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:from:to:cc:subject:date
- :message-id:reply-to;
- bh=ORdNUFW2zEJlWs19F6Wve3Y3tfAR17V4MJgrWtqk7Qo=;
- b=G/puxMMM3Q69AllUgP7kUdD7fWDi0P4tbth9jysT0vuPtztZsG+H2HMSva47GPVaE9
- oFmK3Gw+dfWRvF8NuXyXK74w8RzYy76uPo3jVG8+1Q7qycyK/GsiF9t5UBwVG7uCOtBG
- Jij8smZ2kEHylFB3PJnA2JM1t9tJbJFdoli5ywozACwOniKxR9OKI/UryyfPDdJMEJls
- t31KSbji/L99+bsSmG+b+QdPPo4Jh7kBGoZTLcdgXQWZoRpsDEHITfQyXXs4bRZdJLVn
- 1CYOqU6wAAvzAGVgRQs+I//vkAEXH7Vc3PC5utM7FJLddID3qBvGIAeSD13k5HwwBiM5
- f9mg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1762172651; x=1762777451;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=ORdNUFW2zEJlWs19F6Wve3Y3tfAR17V4MJgrWtqk7Qo=;
- b=xHW+d347mHvycDiSzhobQOcJh+awvaoV6wCE1w57a/4+rpQ5VQ/JbPVESrAmUyV8P3
- PHmTdcdQZYWZZXFu0ohLATApjmiCBUahAYi1TE8N0Q8gaeIHIjUeNWN+weh/rpP+cnWf
- zv0gknp/Xo5Fen2JPuhOwDWZb1Qc33waAUYwzYRFwV6ClInh5mSJd3rp0dKvoo2M7beS
- 1anhIC/tj9fAr9uAB9BNfkXQXfG4ToENGdSLudAdkJ0L2pLXXI9EHVkzQ8Vzomr0cryW
- 3pKXQuNfRdWyfq3nSwrzVEmmBty1gzSPmrKJRxLdfkyFcKrsTiG0zM+C57rUvKIvRc/f
- rHVw==
-X-Forwarded-Encrypted: i=1;
- AJvYcCXN77Vnvf+P87jDAEw7iHfder2mAzLLYmIvBoDTmPjgV18iELWmv7zAxUkvjvfTpg5SCB/lBx3Dq08=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Yy6buTJ3FoibxlMcdQK1A48ZHplx0wnaiX0igeWCZ7gbjPzIX5K
- alCN/0kvwLi4kIAHnJuYBCndf/sVaSgROa4TQpGRW5SbYOCdzqv6iPOH
-X-Gm-Gg: ASbGncvaXXphs7xg/++9Gzz7zlI3Yu6lLpoLIpfKncRe3mo+ZQBhkHyeZz7Ws6AsCO7
- 3DlWu6jjHGLpO5dqizq18paglO8NKiyqeulR+wQvN0du+dJgYig4Fq6bgIIUJ3UZZ7EF/zZfnVQ
- P6gtXuSzCFdW10n724ezOUYfMW30QRPil0IseEa46DBSNjmUsLGU5Z2qpP8MBBObTFOPBQeBP4i
- j4IoBBVqeVO2TQtQOgidy/oG0fQL/6ObmF+cnZ9DJA1lS2FFxLK9RgcJAv8tLDlXxjidiZa9kSq
- 8dEHJ7WKd1NvzN99VlvgsKUjHUpaxc9Aer2qjC9tOu8STAQSVMQPSLsTBsZBVWerpsvEem0ioq0
- 5N5teEh4VA59VmDOCQd6KKWb0lUZ2jyV2um5qa/pEi8gfsmhXAtQDRrroTwzXN+xG/BVr1BDdke
- +fh7HQbxXUzX4o6x1Dwl6iRFPbQoB3hiMPm51eC9a/63OYCCBTg38f4Sclbyy348c=
-X-Google-Smtp-Source: AGHT+IESpNdOSIFJ0AvELFe2mn5VOX5nqvF9BWuKg9gD11/Sqoj1Pk/e1iUdylQepkg9PBFjDt6oNg==
-X-Received: by 2002:a17:90b:2b48:b0:340:b572:3b7d with SMTP id
- 98e67ed59e1d1-340b5723c4fmr10683210a91.19.1762172651160; 
- Mon, 03 Nov 2025 04:24:11 -0800 (PST)
-Received: from DESKTOP-RD0GVCL.localdomain
- (124-218-195-161.cm.dynamic.apol.com.tw. [124.218.195.161])
- by smtp.gmail.com with ESMTPSA id
- 98e67ed59e1d1-3415c8b78f8sm842554a91.20.2025.11.03.04.24.08
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 03 Nov 2025 04:24:10 -0800 (PST)
-From: LiangCheng Wang <zaq14760@gmail.com>
-To: nathan@kernel.org
-Cc: jani.nikula@linux.intel.com, maarten.lankhorst@linux.intel.com,
- mripard@kernel.org, tzimmermann@suse.de, airlied@gmail.com,
- simona@ffwll.ch, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, llvm@lists.linux.dev
-Subject: Re: [PATCH] drm/tiny: pixpaper: Prevent inlining of send helpers to
- reduce stack usage
-Date: Mon,  3 Nov 2025 20:24:04 +0800
-Message-ID: <20251103122406.741-1-zaq14760@gmail.com>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20251031203446.GD2486902@ax162>
-References: <20251031203446.GD2486902@ax162>
+Received: from mout-p-103.mailbox.org (mout-p-103.mailbox.org [80.241.56.161])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A76E310E3CA
+ for <dri-devel@lists.freedesktop.org>; Mon,  3 Nov 2025 12:41:44 +0000 (UTC)
+Received: from smtp102.mailbox.org (smtp102.mailbox.org
+ [IPv6:2001:67c:2050:b231:465::102])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested)
+ by mout-p-103.mailbox.org (Postfix) with ESMTPS id 4d0WRq29Wjz9tDy;
+ Mon,  3 Nov 2025 13:41:43 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org;
+ s=mail20150812; t=1762173703;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=/2H1aGiNw5Da4wq5CBM5AFBjI+wBcWi8K6i1q6sCyMs=;
+ b=i140ABhjZLKRRqPndBGIzrA6VLBXnugMJJzCqRSYnzLYje8xijskLVNv3lcrwzO94kfRXz
+ xMv7V4cOZms0rRij8mf6janBijqUiBs9QqRJp6Op/PhT3ef2uu9QHrT7d3POUSjlaRAZUF
+ bUIarCmzSS/GXv6tZ9x5x8JupfmKd7/w+rukbNxzkakd/y7ZVDsWSD9eqjEtq/h3H5jAXR
+ RntUqMfvAJR9lTvbLlx+KHz1NcKFjx2TZ5oQHps374xeAhhlqflC08lL5y+lpqSxFmpA/D
+ MIjveAS1ar+RHvsfZR2nOcLSDjYPpNwtnKmJDXjm1/ROi5r7DKhEVkum3m15uQ==
+Authentication-Results: outgoing_mbo_mout;
+ dkim=pass header.d=mailbox.org header.s=mail20150812 header.b="w/beTkws";
+ spf=pass (outgoing_mbo_mout: domain of marek.vasut@mailbox.org designates
+ 2001:67c:2050:b231:465::102 as permitted sender)
+ smtp.mailfrom=marek.vasut@mailbox.org
+Message-ID: <6281df4d-0389-42a8-8a40-cd5d09c591db@mailbox.org>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org;
+ s=mail20150812; t=1762173701;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=/2H1aGiNw5Da4wq5CBM5AFBjI+wBcWi8K6i1q6sCyMs=;
+ b=w/beTkwsE9BzGglNX4zJXmqfPgbBl35GICQDilWTMpnb4nMnJqCyyI2hrv2ISg9sGcgqhg
+ KGM7D6M9FTRIlCB1d1sjZcbMHZHoNtrGrzaHo4/azgX7wFxpz4nk4NdXL7m2g2coyAPjBX
+ bGAVzzIN2ciwXv6NO6Kry4GJSjC3j8mP1bERyh/a4mLEZ7mre7N2mO3k488g/kwttPuzj+
+ 3GTuSryJvqN6RJDR60H7GGnKSZ5ioPHMKIRtBlWnkTcLUoN+MpyzeobtOv26+9XSy+n6eL
+ DfDtF1qbU5zSbCYOZPKjcrJrnehysVgC8eVT5S0U/sAfDqbKSPYtyCDMaD4wnQ==
+Date: Mon, 3 Nov 2025 13:41:37 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Subject: Re: [PATCH] drm/imagination: Depend on power sequencing
+To: Matt Coster <Matt.Coster@imgtec.com>,
+ Marek Vasut <marek.vasut+renesas@mailbox.org>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>
+Cc: David Airlie <airlied@gmail.com>, Frank Binns <Frank.Binns@imgtec.com>,
+ Alessio Belle <Alessio.Belle@imgtec.com>,
+ Alexandru Dadu <Alexandru.Dadu@imgtec.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Simona Vetter <simona@ffwll.ch>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ "linux-renesas-soc@vger.kernel.org" <linux-renesas-soc@vger.kernel.org>
+References: <20251102184158.264378-1-marek.vasut+renesas@mailbox.org>
+ <b9625d6d-93bf-4c33-a20b-044e680f81af@imgtec.com>
+Content-Language: en-US
+From: Marek Vasut <marek.vasut@mailbox.org>
+In-Reply-To: <b9625d6d-93bf-4c33-a20b-044e680f81af@imgtec.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-MBO-RS-ID: b5d90a5daf3f635d002
+X-MBO-RS-META: yyjzhofw6o361swna9gdd98nzt4upgm5
+X-Rspamd-Queue-Id: 4d0WRq29Wjz9tDy
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -95,15 +91,30 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Nathan, Jani,
+On 11/3/25 11:36 AM, Matt Coster wrote:
 
-Thanks for the detailed explanation.
+Hello Matt,
 
-Understood — if this only happens when CONFIG_KASAN_STACK is enabled
-with clang, it doesn’t look like something that needs to be addressed in
-the driver itself.
-
-Thanks everyone for helping clarify this!
-
-Best regards,
-LiangCheng
+> On 02/11/2025 18:41, Marek Vasut wrote:
+>> Since commit e38e8391f30b ("drm/imagination: Use pwrseq for TH1520 GPU
+>> power management"), the driver calls power sequencing functions. Add
+>> missing dependency on POWER_SEQUENCING, otherwise the kernel may fail
+>> to build if the driver is built-in and POWER_SEQUENCING is a module
+>> with these linker errors:
+>>
+>> aarch64-linux-gnu-ld: Unexpected GOT/PLT entries detected!
+>> aarch64-linux-gnu-ld: Unexpected run-time procedure linkages detected!
+>> aarch64-linux-gnu-ld: drivers/gpu/drm/imagination/pvr_power.o: in function `pvr_power_off_sequence_pwrseq':
+>> pvr_power.c:(.text+0x70): undefined reference to `pwrseq_power_off'
+>> aarch64-linux-gnu-ld: drivers/gpu/drm/imagination/pvr_power.o: in function `pvr_power_on_sequence_pwrseq':
+>> pvr_power.c:(.text+0x88): undefined reference to `pwrseq_power_on'
+>> aarch64-linux-gnu-ld: drivers/gpu/drm/imagination/pvr_power.o: in function `pvr_power_init_pwrseq':
+>> pvr_power.c:(.text+0xb4): undefined reference to `devm_pwrseq_get'
+> 
+> Thanks for the fix! I did send a similar patch[1] last month in response
+> to a test bot report[2], but it slipped my mind to chase an Rb for it so
+> it's never been applied.
+> 
+> Do you mind if I take the earlier patch instead of this one, since it
+> doesn't add a hard dependency on POWER_SEQUENCING?
+Either fix is fine by me, thank you.
