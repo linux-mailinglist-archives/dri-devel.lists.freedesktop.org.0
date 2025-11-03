@@ -2,106 +2,80 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 81D9DC2B39E
-	for <lists+dri-devel@lfdr.de>; Mon, 03 Nov 2025 12:03:52 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3FA23C2B3D7
+	for <lists+dri-devel@lfdr.de>; Mon, 03 Nov 2025 12:07:02 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8463510E1A4;
-	Mon,  3 Nov 2025 11:03:49 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 645CE10E1C9;
+	Mon,  3 Nov 2025 11:06:59 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=google.com header.i=@google.com header.b="CQfx10Id";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="YJLwFjpe";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pl1-f178.google.com (mail-pl1-f178.google.com
- [209.85.214.178])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CBBC710E1A4
- for <dri-devel@lists.freedesktop.org>; Mon,  3 Nov 2025 11:03:47 +0000 (UTC)
-Received: by mail-pl1-f178.google.com with SMTP id
- d9443c01a7336-294f3105435so379535ad.1
- for <dri-devel@lists.freedesktop.org>; Mon, 03 Nov 2025 03:03:47 -0800 (PST)
+Received: from mail-pl1-f196.google.com (mail-pl1-f196.google.com
+ [209.85.214.196])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C1EDA10E1C9
+ for <dri-devel@lists.freedesktop.org>; Mon,  3 Nov 2025 11:06:58 +0000 (UTC)
+Received: by mail-pl1-f196.google.com with SMTP id
+ d9443c01a7336-2952048eb88so41950495ad.0
+ for <dri-devel@lists.freedesktop.org>; Mon, 03 Nov 2025 03:06:58 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=google.com; s=20230601; t=1762167827; x=1762772627;
- darn=lists.freedesktop.org; 
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
- bh=JG+etGO4DCF1PIFwJUo34O2NHRXv7sGubVRA4h3tffk=;
- b=CQfx10IdZbSczTZDGaGrJzKY74WzA34tBAFmMzDnDfTY82fOYZ28bx2595bra3rCvC
- QZCgfLbYSJElnEHcJdq9xFG1ulYFBmrDUBLaOnTYWRPR861sWclU+9bGrOSEOZs7CS2w
- ia7Epjq03UaCifpxaKAkmed65wa3yxblaL4oU1x/ic3Ae5MFwO1G/qTDap1VUGG3BFBb
- kl9v08pqreXLndxn2AxpUJDiYVNhs+QxI5nPIi3NgDMGon1rxSHM9SEOCoSBgsAx9QMu
- Ewmiu4dAJXrR+CEZUZCOIjdBHi/4jW4saz4W+47n/IwNXuj2spC9yrEupHuNnoiAIzI2
- sXhw==
+ d=gmail.com; s=20230601; t=1762168018; x=1762772818; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=msKPrbmLk4Pe+fn3QzDxAI35yUJEjQv+lopXWiS4lts=;
+ b=YJLwFjpeiVhX+a7xTy5OiiqYLFFTlVDBz2dxqAR/cxyVymtCgliAZ8QCTXWgvZPSlh
+ nDT1UfcOUKrUY6n1EbR3DTWSKe7Gwj25W5ic3e0MN5j9sV0zu2X1owQML1ht2p2oJ1ew
+ OroWmssL+keNu3Nes1cqHEkAWCGMbP/BgCfSW3o3VsbsNtlcWb3/XNjlrRYW4CJhJMeA
+ 4p7wSqku/DYYF9WT1k+oLzv7QSKiVm8BiTWqvWfbF5yCjdTO8WziWq4vTinY7PB36mjs
+ QxNBLPltxStlzCxhw/kqfVKYc+GwfQ46assdjHpWbZlj7mAJ//VQH/tnbQaQiXPmk27R
+ h/yQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1762167827; x=1762772627;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=JG+etGO4DCF1PIFwJUo34O2NHRXv7sGubVRA4h3tffk=;
- b=BP/9jYuoEVJaMPI2FsAARAT2Mtfg4LmPJKIFxy/wTLIAUHocYXUwpFytptT6fGe+BL
- fTDuS3yqUHqzo1A5qZXxbRSHG1e/hCXucU8A2TWD8WpePtegk+AR4tIZ9rmpGy0CK/1O
- ojnR4KgT3OJJS6hCOwpkYWBm0Zldv+MHqg6GTZT+iVZ9J6T2TUbRAMDkEQvHq/p8dE7m
- 5Wj00K/6VwDXWFnzanudKau8/NAdf0jlH1oFWaiccZV0VrY23Kvq3kxDh4fSVygWXEZZ
- vKr57xlnGpC3fkzuAgveuatMllxQqMyx/ZVOWuihKYnHhJxGYWeE1itN4Zl0nMw4b9Hz
- zxNg==
-X-Forwarded-Encrypted: i=1;
- AJvYcCXSwEDNLWjFd41YNe0yjWWEFqGd8ejlBXi6uLZxjEzqCC6MRsQhFpU6aYWB9wxJr1Q42DLgrVoYK5U=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YwEZkPklRp0lPwTlGegwH0kWWKlHUW57ZX5bwewzkGBjLj9UFgf
- gN8Aw5M9hP2ITG6QOmHddN0svIizK5JnWbD2iSPCTW+0s1QvpvaPHLRVZdKSYT+1FQ==
-X-Gm-Gg: ASbGncvWvApDOkNoyHBZumwqkHQPDqzKzT4X3BRJa4o8rDaZIIWPsBvem1m1VX7hDU6
- MzXXTGKEZKd0dBadQs7JBr35h240EndY4rpZcQdr8iMFnfiPm/pFSUEJXnDhd54C8A7ELoVfliy
- Nd1dg+W2SLMLZJp50RpCfF6ZiWgiRRBj1KsmMY6iRgZvLSAuVpPx/qtQcQCVlyfi1aoD1e4QAYT
- 6n3xkG4frBtieBZ/w9HHyO+4W8hvB+P77KzveeXMVoC5fZ/YNWpw3IBk0dZuXG/dWzhepI6TIlk
- MV6fJY75zFoEc2b/0YUAROEpacLYmfIWvHtcZbqcxq4KAD+Ue8bq/cMWIU6GvaSjS3psmI0SiSQ
- 1ZIRatCUr9GD2jSlt7pz+L5SapsgIOYTl0jbdNcBaz2wj3WNuTPit9u5f4ad1LbbrVoUnYiYKSg
- HYCckgU1vnM8brLXxiUIWoPKegqlHFICCEH63pGw==
-X-Google-Smtp-Source: AGHT+IGcDUbk6qqLdQjGL3Yxey3X8mTSWxpSXkjqaoDl6gxo10SeAyfD2HQnpWNy1nfGBwMDtJcUBw==
-X-Received: by 2002:a17:903:228c:b0:271:9873:80d9 with SMTP id
- d9443c01a7336-29556476bd0mr5742325ad.7.1762167826744; 
- Mon, 03 Nov 2025 03:03:46 -0800 (PST)
-Received: from google.com (164.210.142.34.bc.googleusercontent.com.
- [34.142.210.164]) by smtp.gmail.com with ESMTPSA id
- d9443c01a7336-29537cccdecsm102934645ad.19.2025.11.03.03.03.39
+ d=1e100.net; s=20230601; t=1762168018; x=1762772818;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=msKPrbmLk4Pe+fn3QzDxAI35yUJEjQv+lopXWiS4lts=;
+ b=TosktUJjpTnFc3yCmw13VxOfnQK6dBmPPHOA7dRxTUnL1Q+acgpD1ryKmLHe/zGzot
+ znzQniC9R9845c2L0IyqhNy1zZ9GqGA1eSUA5CFMihAwwygS4p46rxLRgZ91V1gSfokB
+ fDmoEQ8wMs3MJEqSAZGCvZZE/TtY8Nx+WLHFJIPSvNOmYmuxwduJdZirmMS+ebogdskC
+ GvFt6baa99zStWz+3jTXjC88QPb+8q3rmdohRdD7XaBkmjJtZcEIrZcbXIpinFTyI3ng
+ nYNBGYZlfcmosvvjNt3QBxNxP6M8+JugQlE2RQdmrL/offI40XlU2I1+5A/jhSB2UvdL
+ RsdA==
+X-Gm-Message-State: AOJu0Yx5bQi1gi2oW9FM8P9ZEEko2B2JUC5n4eQ/vXiQtmSN5pG8+SM7
+ z6wtKmqTJbg8sBwTO809cvYSGKgOxhzJQVN2YqDvqM7zxJd06ZTnF3J13Qx13jXHl1N5NA==
+X-Gm-Gg: ASbGncuZ3F8KPlxkubnUptnLAK4E38dzA54DcRvK7i0s7rjq8EpdrMNOU/nm076jRtS
+ 1Uq1dnN/X9WfN/tVYvHYiToR+62PNTD9Fpc5s/SxZ+BV3lCa0KQHkj0JiF6Rn+iQuX+MhDsIcqp
+ xGepPv5UPbSx9ivOkYcG1yD4GPWLFmRq8rS/H5oM7BdG1xFcL8kX0YDPcUX7SFzD8xP+mIJvMQY
+ nPCdPh6jH0cpEOpUPps4mIhGJ6Gu4hS6XOlbntlLOrHn2EB1nDEzcfcFBPhdBsqdKiqbOGO/Z5K
+ bJc/v+TvWDKsr0PCHoRkPJgLMqCg/2l8oGxN6YpjDCLlLZu5JRA+Wwh3WguU7Zd+bISJWJxsFfn
+ m1T2/5mL4fQUrIivCWoW5N8TF7RxLTZ8JJ6CKCv3tR99q/StYr2SEWSM6fYHIlxAFkCGJb6a6Po
+ Ob15fB129ALEoRZeK8CQ==
+X-Google-Smtp-Source: AGHT+IG3q2ScRjcYVlSQKEOGzfSShOd+VCm6j/zTtP/syrwGIinOh8u7Pw68B0XoVDTjaFHiUhDd5Q==
+X-Received: by 2002:a17:902:e74b:b0:269:b30c:c9b8 with SMTP id
+ d9443c01a7336-2951a55923fmr150821025ad.56.1762168018110; 
+ Mon, 03 Nov 2025 03:06:58 -0800 (PST)
+Received: from VM-0-14-ubuntu.. ([43.134.26.72])
+ by smtp.gmail.com with ESMTPSA id
+ d9443c01a7336-2955615d720sm84025575ad.65.2025.11.03.03.06.54
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 03 Nov 2025 03:03:46 -0800 (PST)
-Date: Mon, 3 Nov 2025 11:03:36 +0000
-From: Pranjal Shrivastava <praan@google.com>
-To: Jason Gunthorpe <jgg@nvidia.com>
-Cc: Alexander Gordeev <agordeev@linux.ibm.com>,
- David Airlie <airlied@gmail.com>,
- Alex Williamson <alex.williamson@redhat.com>,
- Ankit Agrawal <ankita@nvidia.com>,
- Christian Borntraeger <borntraeger@linux.ibm.com>,
- Brett Creeley <brett.creeley@amd.com>,
- dri-devel@lists.freedesktop.org, Eric Auger <eric.auger@redhat.com>,
- Eric Farman <farman@linux.ibm.com>,
- Giovanni Cabiddu <giovanni.cabiddu@intel.com>,
- Vasily Gorbik <gor@linux.ibm.com>,
- Heiko Carstens <hca@linux.ibm.com>, intel-gfx@lists.freedesktop.org,
- Jani Nikula <jani.nikula@linux.intel.com>,
- Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
- Kevin Tian <kevin.tian@intel.com>, kvm@vger.kernel.org,
- Kirti Wankhede <kwankhede@nvidia.com>, linux-s390@vger.kernel.org,
- Longfang Liu <liulongfang@huawei.com>,
- Matthew Rosato <mjrosato@linux.ibm.com>,
- Nikhil Agarwal <nikhil.agarwal@amd.com>, Nipun Gupta <nipun.gupta@amd.com>,
- Peter Oberparleiter <oberpar@linux.ibm.com>,
- Halil Pasic <pasic@linux.ibm.com>, qat-linux@intel.com,
- Rodrigo Vivi <rodrigo.vivi@intel.com>, Simona Vetter <simona@ffwll.ch>,
- Shameer Kolothum <skolothumtho@nvidia.com>,
- Mostafa Saleh <smostafa@google.com>, Sven Schnelle <svens@linux.ibm.com>,
- Tvrtko Ursulin <tursulin@ursulin.net>, virtualization@lists.linux.dev,
- Vineeth Vijayan <vneethv@linux.ibm.com>, Yishai Hadas <yishaih@nvidia.com>,
- Zhenyu Wang <zhenyuw.linux@gmail.com>,
- Zhi Wang <zhi.wang.linux@gmail.com>, patches@lists.linux.dev
-Subject: Re: [PATCH 15/22] vfio: Add get_region_info_caps op
-Message-ID: <aQiMCKszFCvDDHhH@google.com>
-References: <0-v1-679a6fa27d31+209-vfio_get_region_info_op_jgg@nvidia.com>
- <15-v1-679a6fa27d31+209-vfio_get_region_info_op_jgg@nvidia.com>
- <aQiBGEgQ3vCpCvXM@google.com>
+ Mon, 03 Nov 2025 03:06:57 -0800 (PST)
+From: Junjie Cao <caojunjie650@gmail.com>
+To: Lee Jones <lee@kernel.org>, Daniel Thompson <danielt@kernel.org>,
+ Jingoo Han <jingoohan1@gmail.com>, Pavel Machek <pavel@kernel.org>,
+ Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>, Helge Deller <deller@gmx.de>
+Cc: dri-devel@lists.freedesktop.org, linux-leds@vger.kernel.org,
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-fbdev@vger.kernel.org, Pengyu Luo <mitltlatltl@gmail.com>,
+ Junjie Cao <caojunjie650@gmail.com>
+Subject: [PATCH v2 0/2] backlight: aw99706: Add support for Awinic AW99706
+ backlight
+Date: Mon,  3 Nov 2025 19:06:46 +0800
+Message-ID: <20251103110648.878325-1-caojunjie650@gmail.com>
+X-Mailer: git-send-email 2.43.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <aQiBGEgQ3vCpCvXM@google.com>
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -117,89 +91,45 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Nov 03, 2025 at 10:16:56AM +0000, Pranjal Shrivastava wrote:
-> On Thu, Oct 23, 2025 at 08:09:29PM -0300, Jason Gunthorpe wrote:
-> > This op does the copy to/from user for the info and can return back
-> > a cap chain through a vfio_info_cap * result.
-> > 
-> > Signed-off-by: Jason Gunthorpe <jgg@nvidia.com>
-> > ---
-> >  drivers/vfio/vfio_main.c | 54 +++++++++++++++++++++++++++++++++++++---
-> >  include/linux/vfio.h     |  4 +++
-> >  2 files changed, 54 insertions(+), 4 deletions(-)
-> 
-> The newly added vfio_get_region_info seems to pull-in common boilerplate
-> code (like copy_from_user, arg size validation) into the core code,
-> removing redundancy across all other vfio drivers. LGTM.
+From: Pengyu Luo <mitltlatltl@gmail.com>
 
-I missed one thing in this patch (luckily caught it in patch 22):
+Add support for Awinic AW99706 backlight, which can be found in
+tablet and notebook backlight, one case is the Lenovo Legion Y700
+Gen4. This driver refers to the official datasheets and android
+driver, they can be found in [1].
 
-> diff --git a/drivers/vfio/vfio_main.c b/drivers/vfio/vfio_main.c
-> index f056e82ba35075..82e7d79b1f9fe2 100644
-> --- a/drivers/vfio/vfio_main.c
-> +++ b/drivers/vfio/vfio_main.c
-> @@ -1259,6 +1259,55 @@ static int vfio_ioctl_device_feature(struct vfio_device *device,
->  	}
->  }
->  
-> +static long vfio_get_region_info(struct vfio_device *device,
-> +				 struct vfio_region_info __user *arg)
-> +{
-> +	unsigned long minsz = offsetofend(struct vfio_region_info, offset);
-> +	struct vfio_region_info info = {};
-> +	int ret;
-> +
-> +	if (copy_from_user(&info, arg, minsz))
-> +		return -EFAULT;
-> +	if (info.argsz < minsz)
-> +		return -EINVAL;
-> +
-> +	if (device->ops->get_region_info_caps) {
-> +		struct vfio_info_cap caps = { .buf = NULL, .size = 0 };
-> +
-> +		ret = device->ops->get_region_info_caps(device, &info, &caps);
-> +		if (ret)
-> +			return ret;
+[1] https://www.awinic.com/en/productDetail/AW99706QNR
 
-device->ops->get_region_info_caps (via vfio_info_add_capability) can
-allocate caps.buf and then return an error for a different reason. The
-if (ret) check returns early and the kfree(caps.buf) on the success path
-is never reached.
+Signed-off-by: Junjie Cao <caojunjie650@gmail.com>
+---
+base-commit: 72fb0170ef1f45addf726319c52a0562b6913707
+---
+Changes in v2:
+- add handler for max-brightness and default-brightness
+- add properties(max-brightness, default-brightness) (Krzysztof)
+- use proper units for properties (Krzysztof)
+- drop non-fixed properties (Krzysztof)
+- include default values in the aw99706_dt_props table (Daniel)
+- warn when a property value from DT is invalid (Daniel)
+- drop warning when optional properties are missing (Daniel)
+- add a function pointer into the aw99706_dt_props table to handle lookup (Daniel)
+- use a lookup function instead of hardcoding the formula for the iLED max (Daniel)
+- move BL enalbe handler into aw99706_update_brightness (Daniel)
+- Link to v1: https://lore.kernel.org/linux-leds/20251026123923.1531727-3-caojunjie650@gmail.com
 
-Should we add kfree(caps.buf) to the error path here?
-This keeps the allocation and cleanup logic centralized in the core code
+Junjie Cao (2):
+  dt-bindings: leds: backlight: Add Awinic AW99706 backlight
+  backlight: aw99706: Add support for Awinic AW99706 backlight
 
-Let's either write comment saying that the get_region_info_caps op is required
-to free caps.buf before returning error OR add a kfree(caps.buf) here.
+ .../leds/backlight/awinic,aw99706.yaml        | 100 ++++
+ MAINTAINERS                                   |   6 +
+ drivers/video/backlight/Kconfig               |   8 +
+ drivers/video/backlight/Makefile              |   1 +
+ drivers/video/backlight/aw99706.c             | 492 ++++++++++++++++++
+ 5 files changed, 607 insertions(+)
+ create mode 100644 Documentation/devicetree/bindings/leds/backlight/awinic,aw99706.yaml
+ create mode 100644 drivers/video/backlight/aw99706.c
 
-> +
-> +		if (caps.size) {
-> +			info.flags |= VFIO_REGION_INFO_FLAG_CAPS;
-> +			if (info.argsz < sizeof(info) + caps.size) {
-> +				info.argsz = sizeof(info) + caps.size;
-> +				info.cap_offset = 0;
-> +			} else {
-> +				vfio_info_cap_shift(&caps, sizeof(info));
-> +				if (copy_to_user(arg + 1, caps.buf,
-> +						 caps.size)) {
-> +					kfree(caps.buf);
-> +					return -EFAULT;
-> +				}
-> +				info.cap_offset = sizeof(info);
-> +			}
-> +			kfree(caps.buf);
-> +		}
-> +
-> +		if (copy_to_user(arg, &info, minsz))
-> +			return -EFAULT;
-> +	} else if (device->ops->get_region_info) {
-> +		ret = device->ops->get_region_info(device, arg);
-> +		if (ret)
-> +			return ret;
+-- 
+2.51.1.dirty
 
-With the above comment addressed,
-
-Reviewed-by: Pranjal Shrivastava <praan@google.com>
-
-Thanks,
-Praan
