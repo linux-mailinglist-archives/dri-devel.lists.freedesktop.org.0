@@ -2,155 +2,92 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E274DC2A6B6
-	for <lists+dri-devel@lfdr.de>; Mon, 03 Nov 2025 08:54:23 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id BACABC2A78E
+	for <lists+dri-devel@lfdr.de>; Mon, 03 Nov 2025 09:04:19 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 28AE910E37D;
-	Mon,  3 Nov 2025 07:54:22 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2EA8110E382;
+	Mon,  3 Nov 2025 08:04:18 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=amd.com header.i=@amd.com header.b="MSjKow7H";
+	dkim=pass (1024-bit key; unprotected) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="OqM7/v5U";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from CH1PR05CU001.outbound.protection.outlook.com
- (mail-northcentralusazon11010012.outbound.protection.outlook.com
- [52.101.193.12])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DC5E110E383;
- Mon,  3 Nov 2025 07:54:20 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=I/GWCETAiBulFC5TV74ZUQI3NBssLdgGa/zsHhDpGYYdCGOqW1fjp+2fxPxj3XaA0CiNEsCqeknaU5BwhP4X4KhP3JZhkcT2rMDjJI37YtZsRDpPfrAoiY99/J6vfLhOgTOyMccxblriKl1y4zwqk4v9+wh4OqlnVBqX1Rpco+q37NicKNWKVwbw1r081ftLQrCOLOusndEIGsePMqsGYjYT9odF7lNZl2kdfA5S39a2JwJJwW1yQrNRr+ktcXq6ijimFJXYi3P0ekLCY9y/5+JbLXpypGLyYjqNREb7gjra/zmMj5C6R5EcAZikLlwYTj/fpIJaNBhFtmZzN34z+A==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=P45SyX+S9aeJckBLwfrZZSIMp/FztSN/rn5FSYdZdR0=;
- b=cpmoniU8xI5V/Fnc+xfXgmEiJMcp0sQ2Uc0yOLZAYNEfD6HmYPSwvwBlRr2nyM9SBfhcJ+lW2M92cxe091POji8loqkYiQ4O5V/CAy9Uv+fq01ZWz8wA3N//vnfx3IhEMENBTTBM27aKhjMyPnMZAaLoLQI376WzQmx536LMNfq/TB+WLMDwYjiWy0SDhuGXqXQ6Jox9P4neqfXGq3Q3ADSfFv5+4zL+BACvJUqyq5l/QnJFU/kP3gilY7UqrTYipm1TcHlBHV8eZ0UcZMPyrKDRXx/SUtMEC4I+K4LML0itJLyukC6uWO5fJlPdFh1jcojpA+36diY3L921ls9wQg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 165.204.84.17) smtp.rcpttodomain=linux.intel.com smtp.mailfrom=amd.com;
- dmarc=pass (p=quarantine sp=quarantine pct=100) action=none
- header.from=amd.com; dkim=none (message not signed); arc=none (0)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=P45SyX+S9aeJckBLwfrZZSIMp/FztSN/rn5FSYdZdR0=;
- b=MSjKow7HYiGCG19yW5hh3+7Y/loI3v229L+RIQcLNRn/nDJPJPeJ/SNMXxR5o+86oevfVSszhbGIhMYuOvd6IzhA3mf7bGCJr5HPMeSMAzb65+zQlTTBTTmTKGts69dUTySvPETVLicI9ZjQWaqirjCkAZxKB0y5JXzF57q2EVY=
-Received: from DS7PR05CA0021.namprd05.prod.outlook.com (2603:10b6:5:3b9::26)
- by SJ2PR12MB8784.namprd12.prod.outlook.com (2603:10b6:a03:4d0::11) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9275.16; Mon, 3 Nov
- 2025 07:54:16 +0000
-Received: from DS1PEPF00017093.namprd03.prod.outlook.com
- (2603:10b6:5:3b9:cafe::9b) by DS7PR05CA0021.outlook.office365.com
- (2603:10b6:5:3b9::26) with Microsoft SMTP Server (version=TLS1_3,
- cipher=TLS_AES_256_GCM_SHA384) id 15.20.9298.7 via Frontend Transport; Mon, 3
- Nov 2025 07:54:13 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
- smtp.mailfrom=amd.com; dkim=none (message not signed)
- header.d=none;dmarc=pass action=none header.from=amd.com;
-Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
- 165.204.84.17 as permitted sender) receiver=protection.outlook.com;
- client-ip=165.204.84.17; helo=satlexmb07.amd.com; pr=C
-Received: from satlexmb07.amd.com (165.204.84.17) by
- DS1PEPF00017093.mail.protection.outlook.com (10.167.17.136) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.9298.6 via Frontend Transport; Mon, 3 Nov 2025 07:54:15 +0000
-Received: from [127.0.1.1] (10.180.168.240) by satlexmb07.amd.com
- (10.181.42.216) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.17; Sun, 2 Nov
- 2025 23:54:11 -0800
-From: "Yo-Jung Leo Lin (AMD)" <Leo.Lin@amd.com>
-Date: Mon, 3 Nov 2025 15:51:08 +0800
-Subject: [PATCH 5/5] Documentation/amdgpu: Add UMA carveout details
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
+ [213.167.242.64])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2A0F610E382
+ for <dri-devel@lists.freedesktop.org>; Mon,  3 Nov 2025 08:04:17 +0000 (UTC)
+Received: from [192.168.88.20] (91-158-153-178.elisa-laajakaista.fi
+ [91.158.153.178])
+ by perceval.ideasonboard.com (Postfix) with ESMTPSA id 2B6A4111D;
+ Mon,  3 Nov 2025 09:02:22 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+ s=mail; t=1762156942;
+ bh=FyMmmsoBsi/S8Ipc3p0MIT1TBNJfhFFLn4grcpvpDa8=;
+ h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+ b=OqM7/v5U9CwwT/3mQHh/COqd0ypxDezAqpi4z2nXnSVJ5iMammPJGPKW+QC2hdWDc
+ prJIXV3SFOaY16XUdA2R6PqUBdx4mkt00GnzA9bX63NIiFPnkYTXxqSeU4jcYHul29
+ 6BxuKKp12twW1WY+9LzXOfUsu9tvM+2VjJ5YDeiU=
+Message-ID: <bdfcd6b8-6799-4e7e-913e-528df322436a@ideasonboard.com>
+Date: Mon, 3 Nov 2025 10:04:11 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
+User-Agent: Mozilla Thunderbird
+Subject: Re: [RESEND PATCH v7 1/2] drm/tidss: Remove max_pclk_khz and
+ min_pclk_khz from tidss display features
+To: Swamil Jain <s-jain1@ti.com>, aradhya.bhatia@linux.dev, devarsht@ti.com,
+ mripard@kernel.org, jyri.sarha@iki.fi, maarten.lankhorst@linux.intel.com,
+ simona@ffwll.ch, airlied@gmail.com, tzimmermann@suse.de, h-shenoy@ti.com
+Cc: praneeth@ti.com, u-kumar1@ti.com, vigneshr@ti.com,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
+References: <20251028033958.369100-1-s-jain1@ti.com>
+ <20251028033958.369100-2-s-jain1@ti.com>
+From: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+Content-Language: en-US
+Autocrypt: addr=tomi.valkeinen@ideasonboard.com; keydata=
+ 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
+In-Reply-To: <20251028033958.369100-2-s-jain1@ti.com>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
-Message-ID: <20251103-vram-carveout-tuning-for-upstream-v1-5-17e2a72639c5@amd.com>
-References: <20251103-vram-carveout-tuning-for-upstream-v1-0-17e2a72639c5@amd.com>
-In-Reply-To: <20251103-vram-carveout-tuning-for-upstream-v1-0-17e2a72639c5@amd.com>
-To: Alex Deucher <alexander.deucher@amd.com>, =?utf-8?q?Christian_K=C3=B6nig?=
- <christian.koenig@amd.com>, David Airlie <airlied@gmail.com>, Simona Vetter
- <simona@ffwll.ch>, Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- Jonathan Corbet <corbet@lwn.net>
-CC: <amd-gfx@lists.freedesktop.org>, <dri-devel@lists.freedesktop.org>,
- <linux-kernel@vger.kernel.org>, <linux-doc@vger.kernel.org>, "Yo-Jung Leo Lin
- (AMD)" <Leo.Lin@amd.com>, <anson.tsao@amd.com>, <superm1@kernel.org>
-X-Mailer: b4 0.13.0
-X-Developer-Signature: v=1; a=openpgp-sha256; l=2809; i=Leo.Lin@amd.com;
- h=from:subject:message-id; bh=qCBX8mmzd8QBvkys4Z3v211HugS1s3SzrXl9HURiq6s=;
- b=owEBbQKS/ZANAwAKAV8XsZZKKe6GAcsmYgBpCF8MzGvkI+THYq3CQNYbycQoBkQ2axPjbG02L
- wUjmleGfoSJAjMEAAEKAB0WIQQzqV4kW+yguuqHrw5fF7GWSinuhgUCaQhfDAAKCRBfF7GWSinu
- hqt6EACkM3KtVkKdLDxifZuLs7SNq52Dnhyi1x4eOqoLsKnq82g+z+sbgl2DFWSbYWRVSPJVf+p
- OPBIY6RWh9hmel/vKf+/aXunlwfFR3/2+K2MoqPmEwWcpx+5hgqjOjNVgTj70RQm/UhvF4TmUwY
- ClLERcfuW3vof7G/Tb2DbIjHvH+XRrffl7v3fmwVTqm/sGnZtBQhYeWaaC7ndMXwt7/S7sW1hwZ
- fOT6KSQy5Nk+oz3RLz9aHgFkKoNx6kpcDruxZZeDHdK+PBknWNU+NMORHvxNJUilyLqa+wj5Ro5
- V/lzMjvL9FQdy5QnOKilt9ppq2i1F3/jB7QDgvInG3p0MPQkHy0C27ceq64rnPP69wI5tdtW7NZ
- gJaAUHL/9B8oUA8Wvqg/K0JtsO1zFE5DXw6yCZa5L4EPIKKGYm1yvIBbOw7mYZ8O+rwDcDFX7iP
- y3kNqpp4/+U2NyziCBTfFXfiZy4HQPsU5rhqrjDb5LC+ST+eIQn1GeXUZb7mhFVsczsN1Z6WLJN
- 3hqMVhfL26a/n62Oo2EBOXWsB/W89i8BXmjeyxvBMVltbuP8p9emyQ4MLRA/EqETDtOr63MiqGa
- XrJIkCsUHvNltKCj8mOTSF5y1e5t2JsCLi+JtEwvbXr7bIlTPUS4b4+tMDPMdQ1MnYb8cmOeHlu
- 1XNSYsTYtEBDxHQ==
-X-Developer-Key: i=Leo.Lin@amd.com; a=openpgp;
- fpr=33A95E245BECA0BAEA87AF0E5F17B1964A29EE86
-X-Originating-IP: [10.180.168.240]
-X-ClientProxiedBy: satlexmb07.amd.com (10.181.42.216) To satlexmb07.amd.com
- (10.181.42.216)
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: DS1PEPF00017093:EE_|SJ2PR12MB8784:EE_
-X-MS-Office365-Filtering-Correlation-Id: a3335280-7cd3-4537-ceb5-08de1aae2f5f
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
- ARA:13230040|7416014|376014|36860700013|1800799024|82310400026; 
-X-Microsoft-Antispam-Message-Info: =?utf-8?B?NmorTUtOajZKK2c2Y05qbldkREEzUkhJdGE0QTR1VS9CU25lNVFVSzNBUjc0?=
- =?utf-8?B?ckgrbFZJeGJkNGM0NXVwNm5oTFdqMXd6Tyt2UVRxVUZJUHVpcGg1WTVBeVd6?=
- =?utf-8?B?ODV5ZEx5Mi9iUzV0c1UrTzcxS1h4aGFBZUcyNXplSDJERktIQmRYa2ZneGJx?=
- =?utf-8?B?S3VpdThUS0JVbW1VOVVxTS90Vk1lSVY3N1U2VkdqbWtWcmg3THl5cGZUOHdZ?=
- =?utf-8?B?bEdJOEkvWFhkN2g4L25NZ1l2VWNGMVVaQTM3S0FRc1VKUHVTQVFTQ0hVUEMx?=
- =?utf-8?B?VUUyYVl2UDM5alYrbUhsRmhyMFUvYmlOZDlXdjdwNG9XSFdoM1IvbURWU2tV?=
- =?utf-8?B?dXhkajF5T1o3RnM0R240dVl1c2VCMDFzKzBrL3VnSjNxRG1vVEdRMDhYMTVF?=
- =?utf-8?B?bFUvWXcvV0NMT3ZYQVlGQi83QkNRaVFreklYV2NhUEYyM1hMS1hrNlVnNjlZ?=
- =?utf-8?B?MitaQ0tqYklqaDdjSGI3d2NqcGNESDNhTEFZMTJqS3VzSkZYNUZSY3ZzdGU0?=
- =?utf-8?B?ZElvMkhYR1kwbDBnV2Q0VTk4bXRPdXhNVCtLbGxLeHlxVWZEazJTT0xDYlhU?=
- =?utf-8?B?WXhwcFNMaVdXRDlqOUxLbEFQUEk4SW5Ydm4weUswZzRwZWRVZ1hRUVoveEJK?=
- =?utf-8?B?emMrVC9Nd3VMb3ZIVkd5ZDY4RDNMYlZGM0k5Y3MrWkhpcjRnTkxlRGplUFBz?=
- =?utf-8?B?UVNUTXQvc3JqOFp6L0VIaVNvbHlkalBvU1dtZ01ZbTRyRDZVSUVJT1NVR3Uy?=
- =?utf-8?B?RFFZZ3lUelhESFhncHBCS0pMZGRaa2Z3TnM3TENVTnk4bTUzemVBSk43UE5J?=
- =?utf-8?B?TTRpdVRkUXpUalJvUm80VlNtanRwMTNONTFRbEg2RElsMWRRS0xBNDdXRFN6?=
- =?utf-8?B?eWVCdXplTTRNMnFZazF4SzVnWDlyTXczNlg5ZStTd3dlMkQ3UGZOeHlBRURC?=
- =?utf-8?B?dkdNVWpkY21lUm5jQUo1VVY3VEx3SGh4VHRvbExMa2U4ZjhnNnRZNTc0dnVG?=
- =?utf-8?B?RkpkY002c2JvSUh1Ri9KVUZLa25lNVlhek9ib2kveUVESzhhVjFhZExuanAy?=
- =?utf-8?B?R2dyUnhjRFVSZG1VTzNXTTE3UloraHkxU0I1ZHFsdDZKTXVHZk5YNmlvUUVZ?=
- =?utf-8?B?S1BFOUs4MzJkdU9CSlAzNm9lWTRkY1c2VU4yRXlQakUrNWFheDZPRTdJNDB0?=
- =?utf-8?B?enRCYXdqMENkSTRDTEFKLy9EK2JTSjNkY3h3Y0ZrVzF6cXBIUWx4Ty9kT01r?=
- =?utf-8?B?WDlxYUJiTGoycG85U1FVc1lxTVpXQ0s1Q1BMV0FteDJsM0Q4UTlkU09wa2JY?=
- =?utf-8?B?dk5ZeWtpM2diUjN0OXkvOVI4S3JOSHJUZk5QWHh6aVh0bXI0ZXNmdXRDSjAr?=
- =?utf-8?B?aFkxRkNmTGJJMVc1YUdOaGdoZW13WFo4ZHR3SHN5bm5Dak1pMUpTV3pVVWZr?=
- =?utf-8?B?bzlXcmJyQjNRWGxLNkJYTkxsYTRETVBPeEVuWFBSNm9zSUE4Um1Lckc3dVdn?=
- =?utf-8?B?aVFwTzVHc1F5QXBmdnVWNDkwR1hXS0JQTGYxYk1MTjZuajNCMm14d0xoeVNy?=
- =?utf-8?B?TGFzMVo1K3ZtRzFsWjd3a2twYklNcG9rbUNiQlU3MFFyckowWlBVM09iakNF?=
- =?utf-8?B?ZHFEbmFzdysvdi9JME1MR0xUcHhXbjNJTnRZcldYczhNQVcvYTJlVHZEaWpS?=
- =?utf-8?B?ZmU5UGxtdjZDTzZGNHVuMVFrNzVkUUsraFFuR1kycTB4VTlkZFo2blF1WitS?=
- =?utf-8?B?Vzl3WVh4Z1AzcE5jL2xzdzFhS3lWdkZYeW00SC9SNzJGeVAvVjBXMUF4Wi9N?=
- =?utf-8?B?c0VUQTNLVS83V0prSjBuQ2g4ampvV0JBOGM2MnJ2cUsxa2g1U2FhdGN4azRX?=
- =?utf-8?B?MXRmMVpNekZCUWZKd284UDI3K1BhZHlKZE81Sk44S0VaT1RDSHJOZU9jbXVK?=
- =?utf-8?B?Rmk1cmNkM0dhblREWG41R3R5UCtjY2h4SENsT2pubzlva1VFeDlXeUViMWtG?=
- =?utf-8?B?RFJwM0NMdlZ6aG82V2I1UUVieFZCTktJMW5DN0pOY1hBUS9jZEdxcGZmZkIv?=
- =?utf-8?B?aEMxc0U0Vzc1ck9sK0Z5bmtTa0hHSkFVMWE5YTA3ZzFRcE5wQVpaUkVXOEdw?=
- =?utf-8?Q?G+7E=3D?=
-X-Forefront-Antispam-Report: CIP:165.204.84.17; CTRY:US; LANG:en; SCL:1; SRV:;
- IPV:CAL; SFV:NSPM; H:satlexmb07.amd.com; PTR:InfoDomainNonexistent; CAT:NONE;
- SFS:(13230040)(7416014)(376014)(36860700013)(1800799024)(82310400026); DIR:OUT;
- SFP:1101; 
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 03 Nov 2025 07:54:15.3735 (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: a3335280-7cd3-4537-ceb5-08de1aae2f5f
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d; Ip=[165.204.84.17];
- Helo=[satlexmb07.amd.com]
-X-MS-Exchange-CrossTenant-AuthSource: DS1PEPF00017093.namprd03.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SJ2PR12MB8784
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -166,85 +103,229 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Add documentation for the uma_carveout_options and uma_carveout
-attributes in sysfs
+Hi,
 
-Signed-off-by: Yo-Jung Leo Lin (AMD) <Leo.Lin@amd.com>
----
- Documentation/gpu/amdgpu/driver-misc.rst     | 26 ++++++++++++++++++++++++++
- drivers/gpu/drm/amd/amdgpu/amdgpu_atombios.c | 17 +++++++++++++++++
- 2 files changed, 43 insertions(+)
+On 28/10/2025 05:39, Swamil Jain wrote:
+> From: Jayesh Choudhary <j-choudhary@ti.com>
+> 
+> The TIDSS hardware does not have independent maximum or minimum pixel
+> clock limits for each video port. Instead, these limits are determined
+> by the SoC's clock architecture. Previously, this constraint was
+> modeled using the 'max_pclk_khz' and 'min_pclk_khz' fields in
+> 'dispc_features', but this approach is static and does not account for
+> the dynamic behavior of PLLs.
+> 
+> This patch removes the 'max_pclk_khz' and 'min_pclk_khz' fields from
+> 'dispc_features'. The correct way to check if a requested mode's pixel
+> clock is supported is by using 'clk_round_rate()' in the 'mode_valid()'
+> hook. If the best frequency match for the mode clock falls within the
+> supported tolerance, it is approved. TIDSS supports a 5% pixel clock
+> tolerance, which is now reflected in the validation logic.
+> 
+> This change allows existing DSS-compatible drivers to be reused across
+> SoCs that only differ in their pixel clock characteristics. The
+> validation uses 'clk_round_rate()' for each mode, which may introduce
+> additional delay (about 3.5 ms for 30 modes), but this is generally
+> negligible. Users desiring faster validation may bypass these calls
+> selectively, for example, checking only the highest resolution mode,
+> as shown here[1].
+> 
+> [1]: https://lore.kernel.org/all/20250704094851.182131-3-j-choudhary@ti.com/
+> 
+> Tested-by: Michael Walle <mwalle@kernel.org>
+> Reviewed-by: Devarsh Thakkar <devarsht@ti.com>
+> Signed-off-by: Jayesh Choudhary <j-choudhary@ti.com>
+> Signed-off-by: Swamil Jain <s-jain1@ti.com>
+> ---
+>  drivers/gpu/drm/tidss/tidss_dispc.c | 85 ++++++++++-------------------
+>  drivers/gpu/drm/tidss/tidss_dispc.h |  3 -
+>  2 files changed, 30 insertions(+), 58 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/tidss/tidss_dispc.c b/drivers/gpu/drm/tidss/tidss_dispc.c
+> index d0b191c470ca..07731b02490f 100644
+> --- a/drivers/gpu/drm/tidss/tidss_dispc.c
+> +++ b/drivers/gpu/drm/tidss/tidss_dispc.c
+> @@ -57,12 +57,6 @@ static const u16 tidss_k2g_common_regs[DISPC_COMMON_REG_TABLE_LEN] = {
+>  };
+>  
+>  const struct dispc_features dispc_k2g_feats = {
+> -	.min_pclk_khz = 4375,
+> -
+> -	.max_pclk_khz = {
+> -		[DISPC_VP_DPI] = 150000,
+> -	},
+> -
+>  	/*
+>  	 * XXX According TRM the RGB input buffer width up to 2560 should
+>  	 *     work on 3 taps, but in practice it only works up to 1280.
+> @@ -145,11 +139,6 @@ static const u16 tidss_am65x_common_regs[DISPC_COMMON_REG_TABLE_LEN] = {
+>  };
+>  
+>  const struct dispc_features dispc_am65x_feats = {
+> -	.max_pclk_khz = {
+> -		[DISPC_VP_DPI] = 165000,
+> -		[DISPC_VP_OLDI_AM65X] = 165000,
+> -	},
+> -
+>  	.scaling = {
+>  		.in_width_max_5tap_rgb = 1280,
+>  		.in_width_max_3tap_rgb = 2560,
+> @@ -245,11 +234,6 @@ static const u16 tidss_j721e_common_regs[DISPC_COMMON_REG_TABLE_LEN] = {
+>  };
+>  
+>  const struct dispc_features dispc_j721e_feats = {
+> -	.max_pclk_khz = {
+> -		[DISPC_VP_DPI] = 170000,
+> -		[DISPC_VP_INTERNAL] = 600000,
+> -	},
+> -
+>  	.scaling = {
+>  		.in_width_max_5tap_rgb = 2048,
+>  		.in_width_max_3tap_rgb = 4096,
+> @@ -316,11 +300,6 @@ const struct dispc_features dispc_j721e_feats = {
+>  };
+>  
+>  const struct dispc_features dispc_am625_feats = {
+> -	.max_pclk_khz = {
+> -		[DISPC_VP_DPI] = 165000,
+> -		[DISPC_VP_INTERNAL] = 170000,
+> -	},
+> -
+>  	.scaling = {
+>  		.in_width_max_5tap_rgb = 1280,
+>  		.in_width_max_3tap_rgb = 2560,
+> @@ -377,15 +356,6 @@ const struct dispc_features dispc_am625_feats = {
+>  };
+>  
+>  const struct dispc_features dispc_am62a7_feats = {
+> -	/*
+> -	 * if the code reaches dispc_mode_valid with VP1,
+> -	 * it should return MODE_BAD.
+> -	 */
+> -	.max_pclk_khz = {
+> -		[DISPC_VP_TIED_OFF] = 0,
+> -		[DISPC_VP_DPI] = 165000,
+> -	},
+> -
+>  	.scaling = {
+>  		.in_width_max_5tap_rgb = 1280,
+>  		.in_width_max_3tap_rgb = 2560,
+> @@ -442,10 +412,6 @@ const struct dispc_features dispc_am62a7_feats = {
+>  };
+>  
+>  const struct dispc_features dispc_am62l_feats = {
+> -	.max_pclk_khz = {
+> -		[DISPC_VP_DPI] = 165000,
+> -	},
+> -
+>  	.subrev = DISPC_AM62L,
+>  
+>  	.common = "common",
+> @@ -1333,33 +1299,53 @@ static void dispc_vp_set_default_color(struct dispc_device *dispc,
+>  			DISPC_OVR_DEFAULT_COLOR2, (v >> 32) & 0xffff);
+>  }
+>  
+> +/*
+> + * Calculate the percentage difference between the requested pixel clock rate
+> + * and the effective rate resulting from calculating the clock divider value.
+> + */
+> +unsigned int dispc_pclk_diff(unsigned long rate, unsigned long real_rate)
+> +{
+> +	int r = rate / 100, rr = real_rate / 100;
+> +
+> +	return (unsigned int)(abs(((rr - r) * 100) / r));
+> +}
+> +
+> +static int check_pixel_clock(struct dispc_device *dispc,
+> +			     u32 hw_videoport, unsigned long clock)
+> +{
+> +	unsigned long round_clock;
+> +
+> +	round_clock = clk_round_rate(dispc->vp_clk[hw_videoport], clock);
+> +	/*
+> +	 * To keep the check consistent with dispc_vp_set_clk_rate(), we
+> +	 * use the same 5% check here.
+> +	 */
+> +	if (dispc_pclk_diff(clock, round_clock) > 5)
+> +		return -EINVAL;
+> +	return 0;
+> +}
+> +
+>  enum drm_mode_status dispc_vp_mode_valid(struct dispc_device *dispc,
+>  					 u32 hw_videoport,
+>  					 const struct drm_display_mode *mode)
+>  {
+>  	u32 hsw, hfp, hbp, vsw, vfp, vbp;
+>  	enum dispc_vp_bus_type bus_type;
+> -	int max_pclk;
+>  
+>  	bus_type = dispc->feat->vp_bus_type[hw_videoport];
+>  
+> -	max_pclk = dispc->feat->max_pclk_khz[bus_type];
+> -
+> -	if (WARN_ON(max_pclk == 0))
+> +	if (WARN_ON(bus_type == DISPC_VP_TIED_OFF))
+>  		return MODE_BAD;
+>  
+> -	if (mode->clock < dispc->feat->min_pclk_khz)
+> -		return MODE_CLOCK_LOW;
+> -
+> -	if (mode->clock > max_pclk)
+> -		return MODE_CLOCK_HIGH;
+> -
+>  	if (mode->hdisplay > 4096)
+>  		return MODE_BAD;
+>  
+>  	if (mode->vdisplay > 4096)
+>  		return MODE_BAD;
+>  
+> +	if (check_pixel_clock(dispc, hw_videoport, mode->clock * 1000))
+> +		return MODE_CLOCK_HIGH;
+> +
 
-diff --git a/Documentation/gpu/amdgpu/driver-misc.rst b/Documentation/gpu/amdgpu/driver-misc.rst
-index 25b0c857816e..5a71fa9c6782 100644
---- a/Documentation/gpu/amdgpu/driver-misc.rst
-+++ b/Documentation/gpu/amdgpu/driver-misc.rst
-@@ -128,3 +128,29 @@ smartshift_bias
- 
- .. kernel-doc:: drivers/gpu/drm/amd/pm/amdgpu_pm.c
-    :doc: smartshift_bias
-+
-+UMA Carveout
-+============
-+
-+Some versions of Atom ROM expose available options for the VRAM carveout sizes,
-+and allow changes to the carveout size via the ATCS function code 0xA on supported
-+BIOS implementation.
-+
-+For those platforms, users can use the following file to set the carveout size,
-+in a way similar to what Windows users can do in the "Tuning" tab in AMD
-+Adrenalin.
-+
-+Note that for BIOS implementations that don't support this, these files will not
-+get created at all.
-+
-+uma_carveout_options
-+--------------------
-+
-+.. kernel-doc:: drivers/gpu/drm/amd/amdgpu/amdgpu_atombios.c
-+   :doc: uma_carveout_options
-+
-+uma_carveout
-+--------------------
-+
-+.. kernel-doc:: drivers/gpu/drm/amd/amdgpu/amdgpu_atombios.c
-+   :doc: uma_carveout
-diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_atombios.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_atombios.c
-index 1ebfd925b761..e9f71888ce57 100644
---- a/drivers/gpu/drm/amd/amdgpu/amdgpu_atombios.c
-+++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_atombios.c
-@@ -1855,6 +1855,17 @@ const struct attribute_group amdgpu_vbios_version_attr_group = {
- 	.is_visible = amdgpu_vbios_version_attrs_is_visible,
- };
- 
-+/**
-+ * DOC: uma_carveout
-+ *
-+ * This file is both readable and writable. When read, it shows the
-+ * index of the current setting. Writing a valid index to this file
-+ * allows users to change the UMA carveout size to the selected option
-+ * on the next boot.
-+ *
-+ * The available options and their corresponding indices can be read
-+ * from the uma_carveout_options file.
-+ */
- static ssize_t uma_carveout_show(struct device *dev,
- 				 struct device_attribute *attr,
- 				 char *buf)
-@@ -1904,6 +1915,12 @@ static ssize_t uma_carveout_store(struct device *dev,
- }
- static DEVICE_ATTR_RW(uma_carveout);
- 
-+/**
-+ * DOC: uma_carveout_options
-+ *
-+ * This is a read-only file that lists all available UMA allocation
-+ * options and their corresponding indices.
-+ */
- static ssize_t uma_carveout_options_show(struct device *dev,
- 					 struct device_attribute *attr,
- 					 char *buf)
+I think it's better to just inline check_pixel_clock here, it's just a
+few lines. Also, returning MODE_CLOCK_HIGH is not correct. I see other
+drivers using MODE_NOCLOCK or MODE_CLOCK_RANGE.
 
--- 
-2.43.0
+Other than that:
+
+Reviewed-by: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+
+ Tomi
+
+>  	/* TODO: add interlace support */
+>  	if (mode->flags & DRM_MODE_FLAG_INTERLACE)
+>  		return MODE_NO_INTERLACE;
+> @@ -1423,17 +1409,6 @@ void dispc_vp_disable_clk(struct dispc_device *dispc, u32 hw_videoport)
+>  	clk_disable_unprepare(dispc->vp_clk[hw_videoport]);
+>  }
+>  
+> -/*
+> - * Calculate the percentage difference between the requested pixel clock rate
+> - * and the effective rate resulting from calculating the clock divider value.
+> - */
+> -unsigned int dispc_pclk_diff(unsigned long rate, unsigned long real_rate)
+> -{
+> -	int r = rate / 100, rr = real_rate / 100;
+> -
+> -	return (unsigned int)(abs(((rr - r) * 100) / r));
+> -}
+> -
+>  int dispc_vp_set_clk_rate(struct dispc_device *dispc, u32 hw_videoport,
+>  			  unsigned long rate)
+>  {
+> diff --git a/drivers/gpu/drm/tidss/tidss_dispc.h b/drivers/gpu/drm/tidss/tidss_dispc.h
+> index 60c1b400eb89..42279312dcc1 100644
+> --- a/drivers/gpu/drm/tidss/tidss_dispc.h
+> +++ b/drivers/gpu/drm/tidss/tidss_dispc.h
+> @@ -77,9 +77,6 @@ enum dispc_dss_subrevision {
+>  };
+>  
+>  struct dispc_features {
+> -	int min_pclk_khz;
+> -	int max_pclk_khz[DISPC_VP_MAX_BUS_TYPE];
+> -
+>  	struct dispc_features_scaling scaling;
+>  
+>  	enum dispc_dss_subrevision subrev;
 
