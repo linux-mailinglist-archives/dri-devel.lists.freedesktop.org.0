@@ -2,59 +2,84 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 290CAC2CEC4
-	for <lists+dri-devel@lfdr.de>; Mon, 03 Nov 2025 16:55:41 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id C8B11C2CEE5
+	for <lists+dri-devel@lfdr.de>; Mon, 03 Nov 2025 16:58:03 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A423610E1F8;
-	Mon,  3 Nov 2025 15:55:38 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id EF05D10E433;
+	Mon,  3 Nov 2025 15:58:01 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=bootlin.com header.i=@bootlin.com header.b="YiP0Q3MG";
+	dkim=pass (2048-bit key; unprotected) header.d=suse.com header.i=@suse.com header.b="VReoeqA7";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtpout-03.galae.net (smtpout-03.galae.net [185.246.85.4])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 13CAA10E1F8
- for <dri-devel@lists.freedesktop.org>; Mon,  3 Nov 2025 15:55:38 +0000 (UTC)
-Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
- by smtpout-03.galae.net (Postfix) with ESMTPS id 90FB94E414CF;
- Mon,  3 Nov 2025 15:55:36 +0000 (UTC)
-Received: from mail.galae.net (mail.galae.net [212.83.136.155])
- by smtpout-01.galae.net (Postfix) with ESMTPS id 5A68A60628;
- Mon,  3 Nov 2025 15:55:36 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon)
- with ESMTPSA id 2FA3310B5013A; Mon,  3 Nov 2025 16:55:30 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
- t=1762185335; h=from:subject:date:message-id:to:cc:mime-version:content-type:
- content-transfer-encoding:in-reply-to:references;
- bh=4c4LRRJ8sw5A6vf7y+x/rzyPGD7ZqnrLurNJrM/Rt1U=;
- b=YiP0Q3MGz6gKrdhEJYtIAzBLLE0V4pCs3lkwuur1gQC4tqTE93BsSj+Bkf4+dvh0NbYtmz
- IUJSHBgvH5XUn/58C/KgsMPolI+ztn40Eosus6fKiAeEC2MQzFJ9Ql4dCxLg6ThYVZ0eSE
- 4TSuzPoVZZeQT/BHz2ADoIRkklr3QfnittPET7bboaawDrInQQqFr4V3/bSzm6zCa77kS2
- 14dKpih+uvDajz56ookb4xHM/Q9DH+TGBidee0WG7jlqrMfPONznoMI/7Kt8A9aFT7TkWy
- fBGMPsAMqf3nFRfAfZQLmAsOJcC4OFThkJaD/C4YYUXGbgiSb/cupY0C4LE3cA==
-Mime-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
+Received: from mail-wm1-f51.google.com (mail-wm1-f51.google.com
+ [209.85.128.51])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 256C410E430
+ for <dri-devel@lists.freedesktop.org>; Mon,  3 Nov 2025 15:58:01 +0000 (UTC)
+Received: by mail-wm1-f51.google.com with SMTP id
+ 5b1f17b1804b1-470ffbf2150so31506125e9.1
+ for <dri-devel@lists.freedesktop.org>; Mon, 03 Nov 2025 07:58:01 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=suse.com; s=google; t=1762185479; x=1762790279; darn=lists.freedesktop.org; 
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=uQ848GCsaR34084rjUbaciLlgRfV9nM886kentzS7Vc=;
+ b=VReoeqA7k7bwNBst9ZcQSPXwOdWTwU0pMPwy/dH0pzO7aSWEz7KWOJNHIfQ3p8HUyg
+ M+wZkKarIsbh/NraEJhdX9yN5VSwPi0IGa7rFtewDJqHLeaXhx987XGOXpnncaT46YWW
+ IJqWfIEQc+CDnAVsQzNipNJi3hCTxoGZ57oD8q+KdT9+kpduqVY+vL40eMYqY79BkJzM
+ LtlcK7+ezZBlm+fhF8C10ceNEbF4DXURx8xdd4GN1+YqKEhV1Lmsp9lmyx4Ke70yNeCP
+ rTemMQENmOy1QXMlmXkwj/jlkOVF8kTp9hGT6MVRyYJvQXICPVW2xjom/1bZTSnw4JYV
+ xJWQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1762185479; x=1762790279;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=uQ848GCsaR34084rjUbaciLlgRfV9nM886kentzS7Vc=;
+ b=j/K1sB2VQyQ35xHD3C63dQ4AaQS2Br57tqxIyUXiSIfJBpTBQBQNq03kTQ49vtpjS4
+ 8WrpAZwxPWD0VDWONEiOlsfZB/6QZTmkgKQPf6aPqFFFTC1H06JXPPCJxJmm5vip2u+p
+ CVOwKm8l839f39dkp2on2MLSeOwefRdW8dn4IK6t7pc98f7SHuGCfOkdi4p4HyG28ITK
+ kcmADMGtfhV3E1Q9h9P5VuRcv0K9ooQHn9Q3AZN3gQkYx36dkh6AQ1tjcq8l69i0nDX6
+ E0FXzXhTGGQl8RYT6+kKz5eaBG3w8yBGUiafKFDIxUQC9Y9JQ8GMfjDnWnc5JtmTQryR
+ VPeQ==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCWtrkKNy6MfToIkd6eUNTEmR9rploRN5LQUiOeAdA2w9aLBXINNrYYvMJxq7RhWUfcTZIonIK69oUc=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YzKbOZ/3PV9+AkG8H63d2MZV7jRS8BDDf7PuN0y7W3l5evGOJi5
+ it/q/3WcBm7mU1FBuT8K+kviltwOeJLrM+BVZxqXWvucfImK25YQU1TTwvCD03j4V14=
+X-Gm-Gg: ASbGncu/EX/04iMCiinoVzE/QIxE1A9QVqSNWpxL50hVnO5XKSNTa+HBLXDdSHdZncH
+ tjz4UZ+ltejH3PHQe/e3v2PAd7cdHkrEnLFa8QOHJ/yON5NaraooJe75035OP108tl+5XZaEpXs
+ 8O5XWdWbLMzVhiZgYyCwMAznWT0T1Ye4VB4S0+TISIYNz2nXqB48IfnkckVUMqll5wFZ91D3ZY8
+ Qhy04kpv+VTeoQAp17T9YqEhhsUj4jS6/BLfPaV4keBmhIylrBVCS7c/oNwqy73peurSP3qSQBC
+ DLO+Nkl3S/8OYegKShFnEkIbwGQrROuXdKoMzuHWCruXxlRx1iBVaAkF9CV6m9NaKHNO4ah50Nm
+ eY2NsZ9icdxSVHl/pLqEGPcNqDIkQJl9dqeS4bphYsP5/na3mqtfbrAHx5wnWyjyq+kvA/P6DcL
+ wy8aWMejrwGzCVHzBdwz4wGpyO
+X-Google-Smtp-Source: AGHT+IG0MryL1RJIOETIEmTPEWauV7sZJaCuGO8cgFoGm1FJGjaR8gh53wOAHm8YYcRtBRwlQhnRkQ==
+X-Received: by 2002:a05:600c:5252:b0:475:d7fd:5c59 with SMTP id
+ 5b1f17b1804b1-477262baf00mr153053775e9.16.1762185479365; 
+ Mon, 03 Nov 2025 07:57:59 -0800 (PST)
+Received: from localhost.localdomain ([2a00:6d43:105:c401:e307:1a37:2e76:ce91])
+ by smtp.gmail.com with ESMTPSA id
+ 5b1f17b1804b1-47754adcd08sm48245e9.5.2025.11.03.07.57.58
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 03 Nov 2025 07:57:59 -0800 (PST)
+From: Marco Crivellari <marco.crivellari@suse.com>
+To: linux-kernel@vger.kernel.org, amd-gfx@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org
+Cc: Tejun Heo <tj@kernel.org>, Lai Jiangshan <jiangshanlai@gmail.com>,
+ Frederic Weisbecker <frederic@kernel.org>,
+ Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
+ Marco Crivellari <marco.crivellari@suse.com>,
+ Michal Hocko <mhocko@suse.com>, Alex Deucher <alexander.deucher@amd.com>,
+ Christian Konig <christian.koenig@amd.com>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Philip Yang <yangp@amd.com>
+Subject: [PATCH v2 0/4] replace old wq(s), add WQ_PERCPU to alloc_workqueue
+Date: Mon,  3 Nov 2025 16:57:36 +0100
+Message-ID: <20251103155740.250398-1-marco.crivellari@suse.com>
+X-Mailer: git-send-email 2.51.1
+MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
-Date: Mon, 03 Nov 2025 16:55:30 +0100
-Message-Id: <DDZ6KCUVYB55.330X4X5ETRXR3@bootlin.com>
-Cc: "Abel Vesa" <abelvesa@kernel.org>, "Conor Dooley" <conor+dt@kernel.org>,
- "Fabio Estevam" <festevam@gmail.com>, "Krzysztof Kozlowski"
- <krzk+dt@kernel.org>, "Laurent Pinchart"
- <Laurent.pinchart@ideasonboard.com>, "Liu Ying" <victor.liu@nxp.com>,
- "Lucas Stach" <l.stach@pengutronix.de>, "Peng Fan" <peng.fan@nxp.com>,
- "Pengutronix Kernel Team" <kernel@pengutronix.de>, "Rob Herring"
- <robh@kernel.org>, "Shawn Guo" <shawnguo@kernel.org>, "Thomas Zimmermann"
- <tzimmermann@suse.de>, <devicetree@vger.kernel.org>, <imx@lists.linux.dev>,
- <linux-arm-kernel@lists.infradead.org>, <linux-clk@vger.kernel.org>
-Subject: Re: [PATCH v2] drm/bridge: fsl-ldb: Parse register offsets from DT
-From: "Luca Ceresoli" <luca.ceresoli@bootlin.com>
-To: "Marek Vasut" <marek.vasut@mailbox.org>,
- <dri-devel@lists.freedesktop.org>, "Laurentiu Palcu"
- <laurentiu.palcu@oss.nxp.com>
-X-Mailer: aerc 0.20.1
-References: <20251102170257.65491-1-marek.vasut@mailbox.org>
-In-Reply-To: <20251102170257.65491-1-marek.vasut@mailbox.org>
-X-Last-TLS-Session-Version: TLSv1.3
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -70,76 +95,89 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hello Marek,
+Hi,
 
-+Laurentiu Palcu
+=== Current situation: problems ===
 
-On Sun Nov 2, 2025 at 6:02 PM CET, Marek Vasut wrote:
-> The DT binding for this bridge describe register offsets for the LDB,
-> parse the register offsets from DT instead of hard-coding them in the
-> driver. No functional change.
->
-> Signed-off-by: Marek Vasut <marek.vasut@mailbox.org>
+Let's consider a nohz_full system with isolated CPUs: wq_unbound_cpumask is
+set to the housekeeping CPUs, for !WQ_UNBOUND the local CPU is selected.
 
-I was initially a bit skeptical because normally register offsets are
-derived from the compatible string, not from device tree. But then I
-realized this is about the LDB which has its two registers in the
-MEDIA_BLK. This means all in all this looks somewhat like an integration
-aspect (the LDB component uses two resources of the MEDIA_CLK component)
-and your patch mekse sense.
+This leads to different scenarios if a work item is scheduled on an
+isolated CPU where "delay" value is 0 or greater then 0:
+        schedule_delayed_work(, 0);
 
-So my only remark is that the above may be in the commit message, to make
-the "why" clear from the beginning. It took a bit of research for me to
-find out.
+This will be handled by __queue_work() that will queue the work item on the
+current local (isolated) CPU, while:
 
-Laurentiu's patch adding i.MX94 support will conflict with this
-one. Whichever gets applied after the other will have to be adapted
-accordingly.
+        schedule_delayed_work(, 1);
 
-[0] https://lore.kernel.org/dri-devel/20251103-dcif-upstreaming-v6-3-76fcec=
-fda919@oss.nxp.com/
+Will move the timer on an housekeeping CPU, and schedule the work there.
 
-> @@ -309,6 +302,27 @@ static int fsl_ldb_probe(struct platform_device *pde=
-v)
->  	fsl_ldb->dev =3D &pdev->dev;
->  	fsl_ldb->bridge.of_node =3D dev->of_node;
->
-> +	/* No "reg-names" property likely means single-register LDB */
+Currently if a user enqueue a work item using schedule_delayed_work() the
+used wq is "system_wq" (per-cpu wq) while queue_delayed_work() use
+WORK_CPU_UNBOUND (used when a cpu is not specified). The same applies to
+schedule_work() that is using system_wq and queue_work(), that makes use
+again of WORK_CPU_UNBOUND.
 
-Uh? If it is "likely" it means we are not sure this code is not introducing
-regressions, and that would be bad.
+This lack of consistency cannot be addressed without refactoring the API.
 
-> +	idx =3D of_property_match_string(dev->of_node, "reg-names", "ldb");
-> +	if (idx < 0) {
-> +		fsl_ldb->single_ctrl_reg =3D true;
-> +		idx =3D 0;
-> +	}
+=== Recent changes to the WQ API ===
 
-From the bindings I understand that having two 'reg' values and no
-'reg-names' at all is legal. Your patch implies differently. Who's right
-here?
+The following, address the recent changes in the Workqueue API:
 
-> +	ret =3D of_property_read_reg(dev->of_node, idx, &fsl_ldb->ldb_ctrl, NUL=
-L);
-> +	if (ret)
-> +		return ret;
-> +
-> +	if (!fsl_ldb->single_ctrl_reg) {
-> +		idx =3D of_property_match_string(dev->of_node, "reg-names", "lvds");
-> +		if (idx < 0)
-> +			return idx;
-> +
-> +		ret =3D of_property_read_reg(dev->of_node, idx, &fsl_ldb->lvds_ctrl, N=
-ULL);
-> +		if (ret)
-> +			return ret;
-> +	}
-> +
+- commit 128ea9f6ccfb ("workqueue: Add system_percpu_wq and system_dfl_wq")
+- commit 930c2ea566af ("workqueue: Add new WQ_PERCPU flag")
 
-Best regards,
-Luca
+The old workqueues will be removed in a future release cycle.
 
---
-Luca Ceresoli, Bootlin
-Embedded Linux and Kernel engineering
-https://bootlin.com
+=== Introduced Changes by this series ===
+
+1) [P 1-2]  Replace uses of system_wq and system_unbound_wq
+
+    system_wq is a per-CPU workqueue, but his name is not clear.
+    system_unbound_wq is to be used when locality is not required.
+
+    Because these specific workloads have no benefits from a per-cpu wq,
+    both have been replaced with system_dfl_wq.
+
+2) [P 3] WQ_PERCPU added to alloc_workqueue (amdfk)
+    This change make sure alloc_workqueue in amd/amdfkd is unbound,
+    explicitly adding WQ_UNBOUND to the alloc_workqueue() user.
+
+3) [P 4] WQ_PERCPU added to alloc_workqueue()
+
+    This change adds a new WQ_PERCPU flag to explicitly request
+    alloc_workqueue() to be per-cpu when WQ_UNBOUND has not been specified.
+
+
+Thanks!
+
+---
+Changes in v2:
+- system_wq replaced with system_dfl_wq instead of system_percpu_wq, because
+  a per-cpu workload is not strictly needed.
+
+- use WQ_UNBOUND instead of WQ_PERCPU, because this workload will benefit
+  from unbound work.
+
+- commits log integrated with commits about recent Workqueue API changes.
+
+- work rebased on v6.18-rc4
+
+
+Marco Crivellari (4):
+  drm/amdgpu: replace use of system_unbound_wq with system_dfl_wq
+  drm/amdgpu: replace use of system_wq with system_dfl_wq
+  amd/amdkfd: add WQ_UNBOUND to alloc_workqueue users
+  drm/radeon: add WQ_PERCPU to alloc_workqueue users
+
+ drivers/gpu/drm/amd/amdgpu/aldebaran.c     | 2 +-
+ drivers/gpu/drm/amd/amdgpu/amdgpu_device.c | 6 +++---
+ drivers/gpu/drm/amd/amdgpu/amdgpu_reset.c  | 2 +-
+ drivers/gpu/drm/amd/amdkfd/kfd_process.c   | 3 ++-
+ drivers/gpu/drm/radeon/radeon_display.c    | 3 ++-
+ 5 files changed, 9 insertions(+), 7 deletions(-)
+
+-- 
+2.51.1
+
