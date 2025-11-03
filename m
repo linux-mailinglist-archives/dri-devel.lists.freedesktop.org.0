@@ -2,77 +2,127 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5B0ADC2E5C4
-	for <lists+dri-devel@lfdr.de>; Tue, 04 Nov 2025 00:03:14 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id AEF47C2E5C7
+	for <lists+dri-devel@lfdr.de>; Tue, 04 Nov 2025 00:03:15 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9DBDE10E4DF;
-	Mon,  3 Nov 2025 23:03:11 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 249AE10E4E7;
+	Mon,  3 Nov 2025 23:03:12 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="g4AUHa8m";
+	dkim=pass (2048-bit key; secure) header.d=gmx.de header.i=christoph.thielecke@gmx.de header.b="L5B+eipb";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ed1-f53.google.com (mail-ed1-f53.google.com
- [209.85.208.53])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DA7E510E3A1
- for <dri-devel@lists.freedesktop.org>; Mon,  3 Nov 2025 10:10:20 +0000 (UTC)
-Received: by mail-ed1-f53.google.com with SMTP id
- 4fb4d7f45d1cf-63c0c9a408aso6139060a12.3
- for <dri-devel@lists.freedesktop.org>; Mon, 03 Nov 2025 02:10:20 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1762164619; x=1762769419; darn=lists.freedesktop.org;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:from:to:cc:subject:date:message-id:reply-to;
- bh=a3PXmC0IgYzElrMaLpcs/3Pmu0PchQ9cqTJphwonA/o=;
- b=g4AUHa8mcBY5mnEkbCsTtcGQOwhd9au0b8H18ypCCOv6D1P4RiPSgiGFAO+czkpIk6
- HO8YKtzHt2qiu5yzs6iBZGZLJpUEShHHAmwMb7zMqEN42iBRg8KZx0+LkH4nOtiBPfyh
- Nl/7KgO1a/clgjIt4z4sOv2LTdRcun5KZVDfE7Zzy7QpmPa32WVOeHNBPdJuUUCRIVx/
- yiJTta0XsNA7HKmC5bvajN0HU4UNH+AIDpWzPR8PkTd3Gkg9cGww6GSJlePEEkcyv8Z+
- iOzSRFGzbQ7DnJ44f0PZhQvFyG7TNnFLsBtXncWLISao4zFhrOWm3guqhwM1KVvffpV8
- +WBA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1762164619; x=1762769419;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=a3PXmC0IgYzElrMaLpcs/3Pmu0PchQ9cqTJphwonA/o=;
- b=v66LqTrRoOP/FF1YGTmAWusS8x5kMp0bnLhqoohcbT/DXFOzDeOX90EE3LRDMXVqDM
- m6tFrYMquWNLXYt1hCqH9cKETKVNnEoF/x46aSXzAAInSBmRhckNwtVOL33fLTFBB2+T
- CImGE/LXb+B+adyOY0Foy1ifRvt4ejtagRkJaFMD30VUIRt1kuMuOYGZX9DZ/y4g7NTQ
- u1B1oLQU5MVIPjrsRuM9q08gtEfcJg2EprSIqfZtCEhDv+ItEAPOb4tAFRBQIq5gUKnV
- LZucL5d7bs1TaGCXHB5kWlpSD+jLJP3cTA8K9ZKVx8lMAY7nYGwws+LHAtuB46GzIN7D
- r/xw==
-X-Gm-Message-State: AOJu0YwNGz2vWo4RDcoYKZaD1IFdL6DciF4E8old11yDD+hIUlVlMmTY
- 1JSTx7N6S+9KOqbGhD0qfxpgxmkZ8l07y15td5levBszM+c9FbtNZKT8
-X-Gm-Gg: ASbGncvFw1SyMIGLIFkkPAt01wtF/i7aLOZTmY5l9h0N1Suil/t+re1hor5UHbAIf2K
- VzCpmy3ORLwbHY6rw3UNvG5udAoQ7otMPFuW2x25J2dQixFBs/b9DLAZT+dE495ntefhLM2KpKZ
- SXxBVe2tAucu7GE4tXTYdMik7kHjD8avPlOhkMU5DKDhY57lGJLEs1MUvA1hWsXL9kLmeBMOfTJ
- 5B2vu4Fe23sS3QJLgXpnsWowR9cGXLBlKQbxH/cxnxte+43fwza/sfD5zVRcg5yK89S8P1GmYZI
- t0dU5O9qHSq8cMv/UVq4wVx2Ker/XemtOc5wWAYS1mbWQgNqsQQwbdz+mHEfdNACX9kwWupBRBx
- 4xQAeK9SluBa4eUir60vI/BW7qNsR2Of/4Q1DS9D44D2Lvx5Shg1kuBajNmaYEGGc04BZZnMdL/
- m6R7tJxOw9//HZ/nQUGwLxplslvZl/OB/GQJ80edkda4ZxebBIATdfx34pFP4L1yw/J39EXVub
-X-Google-Smtp-Source: AGHT+IFE5m2yHWNYm6c1wct4++rOwYRAX7qLun4fuDAZR0oq65xBHc/ujhVijTJwkcEni14iGcGtpA==
-X-Received: by 2002:a05:6402:5113:b0:640:6638:1b2c with SMTP id
- 4fb4d7f45d1cf-64077068aa9mr9819679a12.33.1762164619160; 
- Mon, 03 Nov 2025 02:10:19 -0800 (PST)
-Received: from T9H90HGVX2.discovery.roo.tools (PC-77-46-83-136.euro-net.pl.
- [77.46.83.136]) by smtp.gmail.com with ESMTPSA id
- 4fb4d7f45d1cf-64093b3868esm7291519a12.28.2025.11.03.02.10.17
- (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
- Mon, 03 Nov 2025 02:10:18 -0800 (PST)
-From: "=?UTF-8?q?Micha=C5=82=20Bie=C5=82aga?=" <mbielaga1@gmail.com>
-X-Google-Original-From: =?UTF-8?q?Micha=C5=82=20Bie=C5=82aga?=
- <michal.bielaga@deliveroo.com>
-To: amd-gfx@lists.freedesktop.org
-Cc: dri-devel@lists.freedesktop.org, harry.wentland@amd.com,
- sunpeng.li@amd.com, siqueira@igalia.com, alexander.deucher@amd.com,
- christian.koenig@amd.com, Michal Bielaga <mbielaga1@gmail.com>
-Subject: [PATCH] drm/amdgpu: Add VRR support for MST connectors
-Date: Mon,  3 Nov 2025 11:08:45 +0100
-Message-ID: <20251103100845.12802-1-michal.bielaga@deliveroo.com>
-X-Mailer: git-send-email 2.45.2
+Received: from mout.gmx.net (mout.gmx.net [212.227.15.18])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 77F1D10E3C0
+ for <dri-devel@lists.freedesktop.org>; Mon,  3 Nov 2025 12:06:31 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmx.de;
+ s=s31663417; t=1762171584; x=1762776384;
+ i=christoph.thielecke@gmx.de;
+ bh=OGEu2Lnkbf9kSEcwxXH5XzcgXc/mdWOYBSShTGEj7T8=;
+ h=X-UI-Sender-Class:From:To:Subject:Date:Message-ID:MIME-Version:
+ Content-Type:cc:content-transfer-encoding:content-type:date:from:
+ message-id:mime-version:reply-to:subject:to;
+ b=L5B+eipbqQiaAOpjoZejj3p5l0mTJPdqnQeR4d0pWYYhqU7Z2tgifk+zJaI19mrt
+ MRIvorOZLnThnD76bIlzoraDz/prVuetQHbyDMPeXrWBYdleR/kjEHFSas6pHlfo7
+ jF3yolH9lnF7zQGHN05joS5rEoGipAw27Yboc98xatT9EaL7dwrhVMsJHxzxB8lW3
+ LQBKiW9vkFosdKeGp7xT0s784SagSswY0wsGPndEDZSj3QjkFVXLVuyFf4BQQTp9x
+ jn03Q27WpmY4FzkrIs8KNU2C3QoFPi1OE34g1k+CdcmAP7oy1cEevGpG+8fN+N/9z
+ txDsEvh2SCHSJD+Vcg==
+X-UI-Sender-Class: 724b4f7f-cbec-4199-ad4e-598c01a50d3a
+Received: from precision.localnet ([84.128.164.46]) by mail.gmx.net (mrgmx005
+ [212.227.17.190]) with ESMTPSA (Nemesis) id 1M9Wys-1vLNVk1Pe8-001oSN; Mon, 03
+ Nov 2025 13:06:24 +0100
+From: Christoph Thielecke <christoph.thielecke@gmx.de>
+To: Jani Nikula <jani.nikula@intel.com>,
+ Linus Torvalds <torvalds@linux-foundation.org>,
+ Douglas Anderson <dianders@chromium.org>,
+ Alex Deucher <alexdeucher@gmail.com>, dri-devel@lists.freedesktop.org
+Subject: drm/edid: Add kernel parameter for override edid check
+Date: Mon, 03 Nov 2025 13:06:20 +0100
+Message-ID: <6209957.lOV4Wx5bFT@precision>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: multipart/signed; boundary="nextPart4691754.LvFx2qVVIh";
+ micalg="pgp-sha1"; protocol="application/pgp-signature"
+X-Provags-ID: V03:K1:4/S1d8h+tO3y9888mBZQPEEpxOoEosE/ePhRfHNAlr5O5MudNC3
+ 18KzMXspCYZjT9Yjbsrc9tUbdTsmGR1Cx96btmLkHNxklJRLPT8djziLfBU4XYK2ZoqYNNs
+ bAn9wSlXCA/W8BZ/je9cunpTovdzO9IwF8d5zIWOOrK03C/+z3sZXy3awFz+z/QumaZB50e
+ zOpKQz9wQUA56HdcW/3zA==
+X-Spam-Flag: NO
+UI-OutboundReport: notjunk:1;M01:P0:Sn9v13GH80g=;A2c4ZVm4dPyZ25FtJcbp/7a6Ykc
+ lBXqWlAz9McpzJq6gNzDnGK6OXPJzZnDC00oFE4dH6xy/pMMonsA4XiragmVyIYBW9hKE09Q6
+ IyZWILB9Ov2BAmtXUQhZa8AwYdCELbylg+xPzj4O+XeEYPtesVzgnCu8pORbyusFI74iWWJpA
+ gehRCPsTQYM6uTOzredzOoA43bL1h2iNssHlxZjfZhebZ87FBV2BE7akWx2UYjYTfB4d74Vhc
+ 7bxHBXPvdwe2/h+vURbVchwZONcdQjQ66LZ5cmcGB25cqHlTbqRtqIbiotbMBE9BqEfq54uE8
+ I2wyHeMaEfBf17W8YE1w/bWajIOyFEkTBMrVvp5XIFVy9ZVQVeWtYnv3fFN9izzzUNh9UbOo9
+ o0g9hKgrBoEJLL8DlgSVn36aI9iyoN6neidrtvD+jPgzBd5OqBzh/Il5WAci3slfBocgH2MW9
+ WB+TfvMgYx6RfVlXRRnpHo+dUqfkqN5EuCPu+AtoBhoM3I/95f86zS/romYvTotZhQBIWIJKr
+ lvOG4KR2SNQt5A/mT/E+kqzcQPF8pikHwIn4vTDSIw1Od5lQOmH7xG6m6uKsJhXQQw084ADk8
+ n1iwxdSbW/ab3cuF74eRQhkl4dv4KT5B5xOO2zSTal8+1NOVOrkdZUksDFjP95HmRlaEpuANk
+ U5XQKilhAoV2JRwfEzgNX7qg5HDhVqdqlqijusr6yVplbYqBatYuuhE2XrRH1z5n6oGOvCf2W
+ uoJkhu7mn99IQXhFzrvJeH1BS1bFZCsOJ9N9iXDUPqWMCtXuc0HvSpJogARdrbhJmiXotSXbB
+ M1Cc1ourEv9TJPpKRk91z76k+9f42dZ47ms6ggJ3KEMeBiRIM5PpobIEl0bPtHTksRH9X/SmZ
+ npWr3QWwVaS1vU6n1L8YaSv6GN12uhpkKFUsA0eSlm43A512S/xh4XtW2riTm7Wali7cp47T/
+ r5ocUcEuppwyN1RSgvlPR9g3/ABf/xqWAtMILJeUH7Sns9tTdUOTVM4AybuQAQNOTsAm8fXQ5
+ rYdbOiPnqrm3P/0tExycwi8Eo/g96ZlKq1IGMFRaUwEQDtF0RSPtE0n1kMJMXwJZW1BWa3jfK
+ YN3IUV8wedAOzKgzqAMR4lOIT/Wt6n6RwLrLSS9JlOJMfVShPyZobBFX+SojIDBVyBQHSHMIW
+ RCJVKxTIqkO0cPWr95mBTlpgf1Tyzdr3Y1r+KdfZcFKOtjpCgQXHkp+EIKjFz8h20XvDByAOl
+ 96h7Nw5EDqPxgqw9e1blcd3HUx3g79oBwk0ARBE/EV9mZMWkvHur4xFGxkMlIjM2xwN4TGZuz
+ iSWKy94BikgD21NOnpMtZpiSfVTO8/JEP32E3igT1CRltjOIHIjuUBIRcRhTFBLWt2KKBtcEG
+ hkGEBOjnxb5+idgPbwOiIGIsH9ce+gJ3pCH96zm9EmXo3r2fyBsQT3J38CL2SHnbADdKjp3nt
+ RVKi+q4hfmNYwxT6tcygOiQVDXk3DJHno2lfpvmGPEoV+kKAR6YiAUEOoE8hFzIce6kjhfbBn
+ F2bdhkVvHA1S9gojcgNbzU2pOUifGihoThrbgGpI7inCIWqbWTOGosfFatBanYdFVHpyPjFuc
+ aq9GAo0OBn2JjrI1Nm1v76l3SEukApSOvi6t2kLXZ0x4RxK2pd6Of4z/qicNpEaoms/4CYW/A
+ PRyKc48VGbdPDG3qlpgWsGG2lcpoeYLazbbPwH09p2s3NQg7eIMGcWxMF3gqozQy0nOmxwj8B
+ pDT0jMKO+00Gw2eME/WRPjHYv9W3gnJBkUQCuQ2/wP200FJvuWgnX946quTVEnWMgewSAIjcC
+ QvvWEUC3+mhNascT0xIL7IQJEZxCu6zMdiJVUTJNDM8js4/6PGAblrIj4nYg65TvLLElKr3Pi
+ qEOh0cDOl2xJbBL5zEkD1GUlUbuQKYMbqX9PFCMj3pgP+gTGF+G/v66UfjGT58mp1dySjEmY4
+ GVmYP4YGKciuLXqCiW/jkxqbdNwNkFoUJ4ea+1mm3jnMMmBOMo5bY3txT7Y3qdI5TZ8SJhXwE
+ 1ceaL2BoDm8vHOiCVgMcnAu6STR2kRIlBgCk5fJwvT+gkyAI9zvJxx7lcRoKCRCIewlVv14AJ
+ Rq5p4WYThwOhRzGqOuyQXyDFTe2TWhbJ73enZ0J+5wHjvtOU1MqhHhgRnpL0BKDhJHnNcKV7n
+ 3FSfphTOEfSfrAqEpLR756ZmdbtRKRTA+6N5D9omVp/DA09Mi2LJMH8q5/q5KDxDexNvKyCGm
+ RSSnR6e8uIwqOhG6ytqyLWlefTdo3kc+8HuiSJsZQJ3joxrfbwg/HGIVa7NU55YRvViyxDzJy
+ 2Kihv6SxGcBgTnpQq/2rrfNP1Ldjm6J3B+z3mlNrRAjzC3V35blEIv5xYVVSQT8hRX4zKTOQG
+ YHLBVnwP650d1OBekkF+qn7tbUjLeqzvupTE0xzny/mowghHWeE6Y7lAzfNyDruHGgKb6znkz
+ QDL5NoiVy/eWJ8b64uF0ZI2+K0nQByK2/6+KxyHwLJWV1kuPQFQ37gBj3h0M9ENeYBuLwrIdu
+ Tf5IZddpwsvstp7V7EIKLaJOJC8vd0MXtcLhWnuQxV8PUlFT66C5W0WDCpjjYY1vQz7+NJz/O
+ kXXoHQ/Xa5yDXR/l6UJYjbb6fD7pPZpV9LNm8rfxZZcw4hL4L83HexmZ/o9T0I2+UKo9kPPZu
+ ZQtzMGoOaZCExH969zAjv0j3ngOvC7XtArOWSm3F17BDM8Yn4T7nz57YjJ+7fH2R1XpAaszji
+ S0tjyCxsD1AR/wcTU/G5tXIOXw8hNEvtRpfS7AuHHNkhdSxyMqNY9T1yrpot6947T0p56uXkm
+ 4s739kEq3n8MmXdqedH/IO6Zp9PlKU40siwxETad/cCuC6Fnqmfcx/MMWk0C0jSxLpuPnzKL2
+ RsXzG5yx7DYsuZX2rWiSpAs8VEj+Y0wpAgT+T8gP9C9fkeSL3Q4RFBr1Y0H4z6WHUeVJ4dElB
+ bGPSBKNynTIoYTdI0HEqJn247KY7G2o02I6+NmW/BMcEjDMUXhq+jsrMDJdiPkP2GTdCAyJOn
+ a8FvUmQoXKPRz5oeJrj3uF+0iJzTnnTfKQQQKqKoHISwuaDNy0ywih97Iq/sW7VuuVzGC1ab+
+ 2yDQbfGslxQ4q9NgUoHFWcCYLUJqu2KPAgBTANZuNgSL3n95wHddWjznnxxYAs5UN4ByN83PI
+ 2+LYZrVrVqf1Km854ohOrVUzyn+smEgLLFAZZ8D7e4lmHz+dOFgFmd4PB5Xmr95XyznG80Y5k
+ RfQn7aHWdl1zPCbiWzcXl8Xujuqroom8IxCcQe3FgUfaSkUw2I7CKyAhNCyn7qPBEn4km/gEN
+ qGmLEAIW9PY4mmND73uCyO/QczXy9tj0VKnr4wdWC/gazGlFNCZxyf1PlS6yAb1GWlobWW3UV
+ OKPTDilh81jJhbeWnAUwsPsAVJpDmVB369nUw2KieyI+B6pQTbAcYrcaN1Wjr3GpMO73iDExM
+ wHchlJFWoqQBCjP9yoEHDOGuxJR1IVrZS2xgXoYxFmnYwdUYdQTPHAl8fH1e45JHtfV4D+RU9
+ YySsRTrAaNECQO/2CA8MUBUiZdGE79Rq1nFe7CWgY/PEo/6Vitm0ce0AtWbMOHLw6K8axL5Ld
+ 29sjvwr1fdtNMOi5RpVZGfXkQqELgBVfXj5poP7BynmTsiDeOCzt2OuaoPKyBlA0mh0wrb8Av
+ BwSpwXp7OSFhUqi3NygkQriIktpiAsLnZwgm8Yyg0XrD/2cktcog0bfhZIdaYXwG3qBo892fm
+ fOpW9hzoq7ORZI7YYyVIKKF+Px6cAgidqaIFCWQIvkEuueLTHcJ/RSB9sTZEEXEqf/5QwXxoD
+ uJFmOyHU+0HVsQqdXcn3rLpp+Rz7lIc0oe73nl0eWIT8BeDIJ+cK9CpLGBGkQCzows3ti27qk
+ Pi6F63Q822GifHycwvm+01sWKJ3ixQFG5bZlHaOX+9p1vgxq/gP9Acp78CpRukaYmf3Erya/w
+ RnhobOlr/7SrtV2ioRkekH91XmUmB9l4Af1u4iMIzwbLDaF3D+DHbZB0YY+i9skzMICLoS+rW
+ Da3Mnvuze2SaKZFLcNqxuQa0oPWvU76e8YZkXQke+9MXUNCEkMmVLHN7oWZKufbKRjee1mnjS
+ pD1chBf9V6n8HHmiX1M8wtaVgp9Y1IPfHWg+yF6yy51pFnMNYnZlv3wgS1c+Gw7nf/9tldYIc
+ C0cgBO38/rLuKv3IM6x8IAh2k4/7c8N/Jf0K1LlryQ2yBlhW+KTnHHsknuyF7azCtQHBwmomZ
+ ftgkbznS3kD5MoZSpMJYsyTo3cVZu0f2B9M75bqWxZK9lyIQyv9HswaYmpDHKuPccUQ6lBD87
+ 8iGQjUAYwaU3GCX5B974/pj6JaNsV4pypNvKcUZLUw+4VS96edph9NaCxKUCayuAknfaSTWGl
+ gKMP6/obCX0GuREzgRzv0mee+r5e2dm5QBOKidNyhmbXOpY9zrCUVffpY6mYr4tETsKy+jPmk
+ ZKA1/nM1Pm6atBkDqYLU/XxRSnog8uXznwQ+m90hpLaCJIidNaLDa3glJQSM7KcWQQKOJ0XKn
+ Vlkdzx5ToHGZzPZFfkZ9DSiF6FE/lmnmpQAKVbN85JwOkNdQVsR0RVmZZV35FXXmlBl3olhWM
+ OaEWgw39MDsE9CZCxCTrN9aaC4xehXts6HN4MqlGT93yzhoReSPZ+d8KV7dcy8z+gtmWA81xB
+ RP5O7FOw1TGsOLf50w7I+7NJzLTAvNyAuJJjvS3OII7KN4uqrtZfbc5R4o6QRvKYpoDTqSqtx
+ p12rEFDU8NfFiTKFoBZa0Y+0mJ8+4VVPwchuo0Ack/iSDOqV4c1sGVc99BRu+InktGYoHsJWf
+ AUZN9SV9iLluGI3Z7HYI4CJBVywpsKrdvTx01Rjakq5r0rGNgBYbVfGpLq8CUrvgG6cc7Pk0M
+ knm/RuHUv+o/9UXPW6yVw7fnW5R+QDTmAIMHcJO8VyFzvMvYOivp8Su8fyUE3Eqxee8vtyHCt
+ 8b5tugT6buGT4uXPqbqdmbvkk+sWhfF6qr54cngGGbyUuLDJis9wxtUWy8j3Hl56Fj+6a1fKK
+ JrerMLqOuwkr+oA5TptU57Bc58oThIJ0hGlJzEmC3UhIkGHf/jr9O/1aEffJcQbMElKWi24xP
+ kFTudqtMhmZj4Sd/m6cI7RdH6lo4U4hClrOVN902nJtjHD0yt4H7HQ6vphTr1QXQWZsQnDECb
+ WxohzFyisJ2AXBSnCOONum1rPiDQ8POQd5lh17vg+VNs6mwvWVrdQfF7VYHadTN4jLlUzL/Jh
+ alcysQ1PAcC/SYG/cgj9hct3ftg2zao5bXJ9R8EynjX4PwDM23Ap4FaUkbVl/TI=
 X-Mailman-Approved-At: Mon, 03 Nov 2025 23:03:10 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -89,92 +139,321 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Michal Bielaga <mbielaga1@gmail.com>
+--nextPart4691754.LvFx2qVVIh
+Content-Type: multipart/alternative; boundary="nextPart5054330.31r3eYUQgx";
+ protected-headers="v1"
+Content-Transfer-Encoding: 7Bit
+From: Christoph Thielecke <christoph.thielecke@gmx.de>
+Subject: drm/edid: Add kernel parameter for override edid check
+Date: Mon, 03 Nov 2025 13:06:20 +0100
+Message-ID: <6209957.lOV4Wx5bFT@precision>
+MIME-Version: 1.0
 
-Variable Refresh Rate (VRR/FreeSync) currently only works with
-Single-Stream Transport (SST) DisplayPort connections. Monitors
-connected via MST hubs cannot utilize VRR even when they support it,
-because the driver only enables VRR for SST connections.
+This is a multi-part message in MIME format.
 
-This patch enables VRR for DisplayPort MST by:
-- Including SIGNAL_TYPE_DISPLAY_PORT_MST in VRR capability detection
-- Reading VRR range from display EDID instead of MST hub DPCD, since
-  dc_link points to the hub rather than the actual display
-- Fixing call order to parse EDID before checking VRR capabilities,
-  ensuring display_info.monitor_range is populated
-- Properly attaching VRR property to MST connectors by reusing the
-  master connector's property
+--nextPart5054330.31r3eYUQgx
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="utf-8"
 
-Without this patch, MST displays cannot use VRR even if they support
-it, limiting the user experience for multi-monitor DisplayPort MST
-setups.
+Hello all,
 
-Signed-off-by: Michal Bielaga <mbielaga1@gmail.com>
----
- drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c     | 11 +++++++++--
- .../drm/amd/display/amdgpu_dm/amdgpu_dm_mst_types.c   |  9 ++++++---
- 2 files changed, 15 insertions(+), 5 deletions(-)
 
-diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
-index ef026143dc1c..ac5b6c22361f 100644
---- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
-+++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
-@@ -12644,9 +12644,16 @@ void amdgpu_dm_update_freesync_caps(struct drm_connector *connector,
- 		parse_edid_displayid_vrr(connector, edid);
- 
- 	if (edid && (sink->sink_signal == SIGNAL_TYPE_DISPLAY_PORT ||
-+		     sink->sink_signal == SIGNAL_TYPE_DISPLAY_PORT_MST ||
- 		     sink->sink_signal == SIGNAL_TYPE_EDP)) {
--		if (amdgpu_dm_connector->dc_link &&
--		    amdgpu_dm_connector->dc_link->dpcd_caps.allow_invalid_MSA_timing_param) {
-+		/* For MST, check monitor range from EDID directly since the dc_link
-+		 * points to the MST hub, not the actual display
-+		 */
-+		if ((sink->sink_signal == SIGNAL_TYPE_DISPLAY_PORT_MST ||
-+		     (amdgpu_dm_connector->dc_link &&
-+		      amdgpu_dm_connector->dc_link->dpcd_caps.allow_invalid_MSA_timing_param)) &&
-+		    connector->display_info.monitor_range.min_vfreq &&
-+		    connector->display_info.monitor_range.max_vfreq) {
- 			amdgpu_dm_connector->min_vfreq = connector->display_info.monitor_range.min_vfreq;
- 			amdgpu_dm_connector->max_vfreq = connector->display_info.monitor_range.max_vfreq;
- 			if (amdgpu_dm_connector->max_vfreq - amdgpu_dm_connector->min_vfreq > 10)
-diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_mst_types.c b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_mst_types.c
-index 77a9d2c7d318..062259514b3c 100644
---- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_mst_types.c
-+++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_mst_types.c
-@@ -443,6 +443,9 @@ static int dm_dp_mst_get_modes(struct drm_connector *connector)
- 			}
- 		}
- 
-+		/* Update connector with EDID first so display_info.monitor_range is populated */
-+		drm_edid_connector_update(&aconnector->base, aconnector->drm_edid);
-+
- 		if (aconnector->dc_sink) {
- 			amdgpu_dm_update_freesync_caps(
- 					connector, aconnector->drm_edid);
-@@ -459,8 +462,6 @@ static int dm_dp_mst_get_modes(struct drm_connector *connector)
- 		}
- 	}
- 
--	drm_edid_connector_update(&aconnector->base, aconnector->drm_edid);
--
- 	ret = drm_edid_connector_add_modes(connector);
- 
- 	return ret;
-@@ -650,9 +651,11 @@ dm_dp_add_mst_connector(struct drm_dp_mst_topology_mgr *mgr,
- 	if (connector->max_bpc_property)
- 		drm_connector_attach_max_bpc_property(connector, 8, 16);
- 
-+	/* Reuse VRR property from master connector for MST connectors */
- 	connector->vrr_capable_property = master->base.vrr_capable_property;
- 	if (connector->vrr_capable_property)
--		drm_connector_attach_vrr_capable_property(connector);
-+		drm_object_attach_property(&connector->base,
-+					   connector->vrr_capable_property, 0);
- 
- 	drm_object_attach_property(
- 		&connector->base,
--- 
-2.51.1
+I run in the same problem as lot of other people since a longer time.
+The edid reported by my external monitor is no longer accepted and only res=
+olutions up to=20
+1024x768 are possible (supported by hardware: 1920x1200).
+It seems the kernel drm module gained a strict check of the edid delived by=
+ the monitor.
+
+
+The kernel logs shows:
+[    7.172357] [drm] Initialized nouveau 1.4.0 for 0000:01:00.0 on minor 0
+[    7.356212] EDID block 0 (tag 0x00) checksum is invalid, remainder is 210
+[    7.356220]     [00] BAD  00 ff ff ff ff ff ff 00 a1 ff a0 46 a1 ff a0 4a
+[    7.356221]     [00] BAD  d0 ff 01 50 ff ff 20 78 2a 5a d5 a7 56 4b 9b 24
+[    7.356222]     [00] BAD  13 50 54 ff 08 00 81 00 81 80 95 00 a9 40 b3 00
+[    7.356223]     [00] BAD  8b c0 d0 9b a1 ff a0 9c a1 ff a0 9d a1 ff a0 9e
+[    7.356224]     [00] BAD  a1 ff a0 ff ff ff a0 ac a1 ff a0 ad a1 ff a1 ff
+[    7.356225]     [00] BAD  50 ff ff 9e a1 ff a0 9f a1 ff a0 a0 a1 ff a0 a1
+[    7.356226]     [00] BAD  d0 ff a0 ff a0 ae b0 ff d0 ff ff ff d0 ff ff ff
+[    7.356227]     [00] BAD  a0 ad a1 d0 ff ff 20 50 ff 20 20 50 ff ff 50 ff
+[    7.356232] nouveau 0000:01:00.0: drm: DDC responded, but no EDID for VG=
+A-1
+
+
+(the monitor is a 24=E2=80=9D Yuraku MB24WKH, product number: Yur.Vision YV=
+24WBH1)
+
+
+After seaching the net, I found that a lot of people have this problem.
+
+
+It would be nice to have a new kernel parameter of the drm module as propos=
+ed by Alex=20
+called "edid_strict" (https://lists.freedesktop.org/archives/dri-devel/2011=
+=2DJanuary/
+006778.html[1]). Set the param to =E2=80=9C0=E2=80=9D will disable the chec=
+k and let accept the edid=20
+reported by the monitor.
+
+
+The only workaround to get the higher resolution working is to provide a ed=
+id firmware=20
+file using the parameter =E2=80=9Cedid_firmware=E2=80=9D. This needs to be =
+created manually and build into=20
+the initrd to be available early at runtime.
+I think the workaround isn=E2=80=99t very user friendly.
+Putting a flag to disable the edid strict check would help more people get =
+their moditors=20
+more easy runnning by their own responsibilty.
+
+
+At a later time I think a solution for controlling the edid check at runtim=
+e should be made=20
+possible, so that desktop environmens like KDE can implement an manually ov=
+erride by=20
+specifying a firmware file or disable the the edid check.
+=20
+
+
+References:
+https://bugs.launchpad.net/ubuntu/+source/linux/+bug/712075[2]
+https://lists.freedesktop.org/archives/dri-devel/2011-January/006778.html[1]
+
+
+Monitor edid:
+monitor-get-edid | hexdump =20
+0000000 ff00 ffff ffff 00ff e430 025a 0000 0000=20
+0000010 1300 0401 2595 7817 4402 9c75 5459 2796=20
+0000020 5023 0054 0000 0101 0101 0101 0101 0101=20
+0000030 0101 0101 0101 37c8 6480 b070 400f 2022=20
+0000040 0036 e672 0010 1a00 283c a080 b070 4023=20
+0000050 2030 0036 e672 0010 1a00 0000 fe00 4800=20
+0000060 3830 5236 3182 3137 5557 0a37 0000 0000=20
+0000070 0000 3141 001e 0000 0600 0a01 2020 2300=20
+0000080=20
+
+monitor-get-edid | monitor-parse-edid=20
+EISA ID: LGD025a=20
+EDID version: 1.4=20
+EDID extension blocks: 0=20
+Screen size: 37.0 cm x 23.0 cm (17.15 inches, aspect ratio 16/10 =3D 1.61)=
+=20
+Gamma: 2.2=20
+Digital signal=20
+
+       # Monitor preferred modeline (58.2 Hz vsync, 70.7 kHz hsync, ratio 1=
+6/10, 131 dpi)=20
+       ModeLine "1920x1200" 142.8 1920 1954 1986 2020 1200 1203 1209 1215 -=
+hsync=20
++vsync=20
+
+       # Monitor supported modeline (40.1 Hz vsync, 49.5 kHz hsync, ratio 1=
+6/10, 131 dpi)=20
+       ModeLine "1920x1200" 103 1920 1968 2000 2080 1200 1203 1209 1235 -hs=
+ync +vsync
+
+
+
+With best regards
+
+
+Christoph
+=2D-
+
+
+
+=2D-------
+[1] https://lists.freedesktop.org/archives/dri-devel/2011-January/006778.ht=
+ml
+[2] https://bugs.launchpad.net/ubuntu/+source/linux/+bug/712075
+
+--nextPart5054330.31r3eYUQgx
+Content-Transfer-Encoding: base64
+Content-Type: text/html; charset="utf-8"
+
+PGh0bWw+CjxoZWFkPgo8bWV0YSBodHRwLWVxdWl2PSJjb250ZW50LXR5cGUiIGNvbnRlbnQ9InRl
+eHQvaHRtbDsgY2hhcnNldD1VVEYtOCI+CjwvaGVhZD4KPGJvZHk+PHAgc3R5bGU9Im1hcmdpbi10
+b3A6MDttYXJnaW4tYm90dG9tOjA7bWFyZ2luLWxlZnQ6MDttYXJnaW4tcmlnaHQ6MDsiPkhlbGxv
+IGFsbCw8L3A+CjxwIHN0eWxlPSJtYXJnaW4tdG9wOjA7bWFyZ2luLWJvdHRvbTowO21hcmdpbi1s
+ZWZ0OjA7bWFyZ2luLXJpZ2h0OjA7Ij48YnIgLz48L3A+CjxwIHN0eWxlPSJtYXJnaW4tdG9wOjA7
+bWFyZ2luLWJvdHRvbTowO21hcmdpbi1sZWZ0OjA7bWFyZ2luLXJpZ2h0OjA7Ij5JIHJ1biBpbiB0
+aGUgc2FtZSBwcm9ibGVtIGFzIGxvdCBvZiBvdGhlciBwZW9wbGUgc2luY2UgYSBsb25nZXIgdGlt
+ZS48L3A+CjxwIHN0eWxlPSJtYXJnaW4tdG9wOjA7bWFyZ2luLWJvdHRvbTowO21hcmdpbi1sZWZ0
+OjA7bWFyZ2luLXJpZ2h0OjA7Ij5UaGUgZWRpZCByZXBvcnRlZCBieSBteSBleHRlcm5hbCBtb25p
+dG9yIGlzIG5vIGxvbmdlciBhY2NlcHRlZCBhbmQgb25seSByZXNvbHV0aW9ucyB1cCB0byAxMDI0
+eDc2OCBhcmUgcG9zc2libGUgKHN1cHBvcnRlZCBieSBoYXJkd2FyZTogMTkyMHgxMjAwKS48L3A+
+CjxwIHN0eWxlPSJtYXJnaW4tdG9wOjA7bWFyZ2luLWJvdHRvbTowO21hcmdpbi1sZWZ0OjA7bWFy
+Z2luLXJpZ2h0OjA7Ij5JdCBzZWVtcyB0aGUga2VybmVsIGRybSBtb2R1bGUgZ2FpbmVkIGEgc3Ry
+aWN0IGNoZWNrIG9mIHRoZSBlZGlkIGRlbGl2ZWQgYnkgdGhlIG1vbml0b3IuPC9wPgo8cCBzdHls
+ZT0ibWFyZ2luLXRvcDowO21hcmdpbi1ib3R0b206MDttYXJnaW4tbGVmdDowO21hcmdpbi1yaWdo
+dDowOyI+PGJyIC8+PC9wPgo8cCBzdHlsZT0ibWFyZ2luLXRvcDowO21hcmdpbi1ib3R0b206MDtt
+YXJnaW4tbGVmdDowO21hcmdpbi1yaWdodDowOyI+VGhlIGtlcm5lbCBsb2dzIHNob3dzOjwvcD4K
+PHAgc3R5bGU9Im1hcmdpbi10b3A6MDttYXJnaW4tYm90dG9tOjA7bWFyZ2luLWxlZnQ6MDttYXJn
+aW4tcmlnaHQ6MDsiPlvCoMKgwqAgNy4xNzIzNTddIFtkcm1dIEluaXRpYWxpemVkIG5vdXZlYXUg
+MS40LjAgZm9yIDAwMDA6MDE6MDAuMCBvbiBtaW5vciAwPC9wPgo8cCBzdHlsZT0ibWFyZ2luLXRv
+cDowO21hcmdpbi1ib3R0b206MDttYXJnaW4tbGVmdDowO21hcmdpbi1yaWdodDowOyI+W8KgwqDC
+oCA3LjM1NjIxMl0gRURJRCBibG9jayAwICh0YWcgMHgwMCkgY2hlY2tzdW0gaXMgaW52YWxpZCwg
+cmVtYWluZGVyIGlzIDIxMDwvcD4KPHAgc3R5bGU9Im1hcmdpbi10b3A6MDttYXJnaW4tYm90dG9t
+OjA7bWFyZ2luLWxlZnQ6MDttYXJnaW4tcmlnaHQ6MDsiPlvCoMKgwqAgNy4zNTYyMjBdIMKgwqDC
+oCBbMDBdIEJBRMKgIDAwIGZmIGZmIGZmIGZmIGZmIGZmIDAwIGExIGZmIGEwIDQ2IGExIGZmIGEw
+IDRhPC9wPgo8cCBzdHlsZT0ibWFyZ2luLXRvcDowO21hcmdpbi1ib3R0b206MDttYXJnaW4tbGVm
+dDowO21hcmdpbi1yaWdodDowOyI+W8KgwqDCoCA3LjM1NjIyMV0gwqDCoMKgIFswMF0gQkFEwqAg
+ZDAgZmYgMDEgNTAgZmYgZmYgMjAgNzggMmEgNWEgZDUgYTcgNTYgNGIgOWIgMjQ8L3A+CjxwIHN0
+eWxlPSJtYXJnaW4tdG9wOjA7bWFyZ2luLWJvdHRvbTowO21hcmdpbi1sZWZ0OjA7bWFyZ2luLXJp
+Z2h0OjA7Ij5bwqDCoMKgIDcuMzU2MjIyXSDCoMKgwqAgWzAwXSBCQUTCoCAxMyA1MCA1NCBmZiAw
+OCAwMCA4MSAwMCA4MSA4MCA5NSAwMCBhOSA0MCBiMyAwMDwvcD4KPHAgc3R5bGU9Im1hcmdpbi10
+b3A6MDttYXJnaW4tYm90dG9tOjA7bWFyZ2luLWxlZnQ6MDttYXJnaW4tcmlnaHQ6MDsiPlvCoMKg
+wqAgNy4zNTYyMjNdIMKgwqDCoCBbMDBdIEJBRMKgIDhiIGMwIGQwIDliIGExIGZmIGEwIDljIGEx
+IGZmIGEwIDlkIGExIGZmIGEwIDllPC9wPgo8cCBzdHlsZT0ibWFyZ2luLXRvcDowO21hcmdpbi1i
+b3R0b206MDttYXJnaW4tbGVmdDowO21hcmdpbi1yaWdodDowOyI+W8KgwqDCoCA3LjM1NjIyNF0g
+wqDCoMKgIFswMF0gQkFEwqAgYTEgZmYgYTAgZmYgZmYgZmYgYTAgYWMgYTEgZmYgYTAgYWQgYTEg
+ZmYgYTEgZmY8L3A+CjxwIHN0eWxlPSJtYXJnaW4tdG9wOjA7bWFyZ2luLWJvdHRvbTowO21hcmdp
+bi1sZWZ0OjA7bWFyZ2luLXJpZ2h0OjA7Ij5bwqDCoMKgIDcuMzU2MjI1XSDCoMKgwqAgWzAwXSBC
+QUTCoCA1MCBmZiBmZiA5ZSBhMSBmZiBhMCA5ZiBhMSBmZiBhMCBhMCBhMSBmZiBhMCBhMTwvcD4K
+PHAgc3R5bGU9Im1hcmdpbi10b3A6MDttYXJnaW4tYm90dG9tOjA7bWFyZ2luLWxlZnQ6MDttYXJn
+aW4tcmlnaHQ6MDsiPlvCoMKgwqAgNy4zNTYyMjZdIMKgwqDCoCBbMDBdIEJBRMKgIGQwIGZmIGEw
+IGZmIGEwIGFlIGIwIGZmIGQwIGZmIGZmIGZmIGQwIGZmIGZmIGZmPC9wPgo8cCBzdHlsZT0ibWFy
+Z2luLXRvcDowO21hcmdpbi1ib3R0b206MDttYXJnaW4tbGVmdDowO21hcmdpbi1yaWdodDowOyI+
+W8KgwqDCoCA3LjM1NjIyN10gwqDCoMKgIFswMF0gQkFEwqAgYTAgYWQgYTEgZDAgZmYgZmYgMjAg
+NTAgZmYgMjAgMjAgNTAgZmYgZmYgNTAgZmY8L3A+CjxwIHN0eWxlPSJtYXJnaW4tdG9wOjA7bWFy
+Z2luLWJvdHRvbTowO21hcmdpbi1sZWZ0OjA7bWFyZ2luLXJpZ2h0OjA7Ij5bwqDCoMKgIDcuMzU2
+MjMyXSBub3V2ZWF1IDAwMDA6MDE6MDAuMDogZHJtOiBEREMgcmVzcG9uZGVkLCBidXQgbm8gRURJ
+RCBmb3IgVkdBLTE8L3A+CjxwIHN0eWxlPSJtYXJnaW4tdG9wOjA7bWFyZ2luLWJvdHRvbTowO21h
+cmdpbi1sZWZ0OjA7bWFyZ2luLXJpZ2h0OjA7Ij48YnIgLz48L3A+CjxwIHN0eWxlPSJtYXJnaW4t
+dG9wOjA7bWFyZ2luLWJvdHRvbTowO21hcmdpbi1sZWZ0OjA7bWFyZ2luLXJpZ2h0OjA7Ij4odGhl
+IG1vbml0b3IgaXMgYSAyNOKAnSBZdXJha3UgTUIyNFdLSCwgcHJvZHVjdCBudW1iZXI6IFl1ci5W
+aXNpb24gWVYyNFdCSDEpPC9wPgo8cCBzdHlsZT0ibWFyZ2luLXRvcDowO21hcmdpbi1ib3R0b206
+MDttYXJnaW4tbGVmdDowO21hcmdpbi1yaWdodDowOyI+PGJyIC8+PC9wPgo8cCBzdHlsZT0ibWFy
+Z2luLXRvcDowO21hcmdpbi1ib3R0b206MDttYXJnaW4tbGVmdDowO21hcmdpbi1yaWdodDowOyI+
+QWZ0ZXIgc2VhY2hpbmcgdGhlIG5ldCwgSSBmb3VuZCB0aGF0IGEgbG90IG9mIHBlb3BsZSBoYXZl
+IHRoaXMgcHJvYmxlbS48L3A+CjxwIHN0eWxlPSJtYXJnaW4tdG9wOjA7bWFyZ2luLWJvdHRvbTow
+O21hcmdpbi1sZWZ0OjA7bWFyZ2luLXJpZ2h0OjA7Ij48YnIgLz48L3A+CjxwIHN0eWxlPSJtYXJn
+aW4tdG9wOjA7bWFyZ2luLWJvdHRvbTowO21hcmdpbi1sZWZ0OjA7bWFyZ2luLXJpZ2h0OjA7Ij5J
+dCB3b3VsZCBiZSBuaWNlIHRvIGhhdmUgYSBuZXcga2VybmVsIHBhcmFtZXRlciBvZiB0aGUgZHJt
+IG1vZHVsZSBhcyBwcm9wb3NlZCBieSBBbGV4IGNhbGxlZCAmcXVvdDs8c3BhbiBzdHlsZT0iZm9u
+dC1mYW1pbHk6Tm90byBTYW5zIE1vbm87Ij5lZGlkX3N0cmljdDwvc3Bhbj4mcXVvdDsgKDxhIGhy
+ZWY9Imh0dHBzOi8vbGlzdHMuZnJlZWRlc2t0b3Aub3JnL2FyY2hpdmVzL2RyaS1kZXZlbC8yMDEx
+LUphbnVhcnkvMDA2Nzc4Lmh0bWwiPmh0dHBzOi8vbGlzdHMuZnJlZWRlc2t0b3Aub3JnL2FyY2hp
+dmVzL2RyaS1kZXZlbC8yMDExLUphbnVhcnkvMDA2Nzc4Lmh0bWw8L2E+KS4gU2V0IHRoZSBwYXJh
+bSB0byDigJww4oCdIHdpbGwgZGlzYWJsZSB0aGUgY2hlY2sgYW5kIGxldCBhY2NlcHQgdGhlIGVk
+aWQgcmVwb3J0ZWQgYnkgdGhlIG1vbml0b3IuPC9wPgo8cCBzdHlsZT0ibWFyZ2luLXRvcDowO21h
+cmdpbi1ib3R0b206MDttYXJnaW4tbGVmdDowO21hcmdpbi1yaWdodDowOyI+PGJyIC8+PC9wPgo8
+cCBzdHlsZT0ibWFyZ2luLXRvcDowO21hcmdpbi1ib3R0b206MDttYXJnaW4tbGVmdDowO21hcmdp
+bi1yaWdodDowOyI+VGhlIG9ubHkgd29ya2Fyb3VuZCB0byBnZXQgdGhlIGhpZ2hlciByZXNvbHV0
+aW9uIHdvcmtpbmcgaXMgdG8gcHJvdmlkZSBhIGVkaWQgZmlybXdhcmUgZmlsZSB1c2luZyB0aGUg
+cGFyYW1ldGVyIDxzcGFuIHN0eWxlPSJmb250LWZhbWlseTptb25vc3BhY2U7Ij7igJxlZGlkX2Zp
+cm13YXJl4oCdLjxzcGFuIHN0eWxlPSJiYWNrZ3JvdW5kLWNvbG9yOiNmZmZmZmY7Ij48c3BhbiBz
+dHlsZT0iY29sb3I6IzAwMDAwMDsiPsKgVGhpcyBuZWVkcyB0byBiZSBjcmVhdGVkIG1hbnVhbGx5
+IGFuZCBidWlsZCBpbnRvIHRoZSBpbml0cmQgdG8gYmUgYXZhaWxhYmxlIGVhcmx5IGF0IHJ1bnRp
+bWUuPC9zcGFuPjwvc3Bhbj48L3NwYW4+PC9wPgo8cCBzdHlsZT0ibWFyZ2luLXRvcDowO21hcmdp
+bi1ib3R0b206MDttYXJnaW4tbGVmdDowO21hcmdpbi1yaWdodDowOyI+SSB0aGluayB0aGUgd29y
+a2Fyb3VuZCBpc27igJl0IHZlcnkgdXNlciBmcmllbmRseS48L3A+CjxwIHN0eWxlPSJtYXJnaW4t
+dG9wOjA7bWFyZ2luLWJvdHRvbTowO21hcmdpbi1sZWZ0OjA7bWFyZ2luLXJpZ2h0OjA7Ij5QdXR0
+aW5nIGEgZmxhZyB0byBkaXNhYmxlIHRoZSBlZGlkIHN0cmljdCBjaGVjayB3b3VsZCBoZWxwIG1v
+cmUgcGVvcGxlIGdldCB0aGVpciBtb2RpdG9ycyBtb3JlIGVhc3kgcnVubm5pbmcgYnkgdGhlaXIg
+b3duIHJlc3BvbnNpYmlsdHkuPC9wPgo8cCBzdHlsZT0ibWFyZ2luLXRvcDowO21hcmdpbi1ib3R0
+b206MDttYXJnaW4tbGVmdDowO21hcmdpbi1yaWdodDowOyI+PGJyIC8+PC9wPgo8cCBzdHlsZT0i
+bWFyZ2luLXRvcDowO21hcmdpbi1ib3R0b206MDttYXJnaW4tbGVmdDowO21hcmdpbi1yaWdodDow
+OyI+QXQgYSBsYXRlciB0aW1lIEkgdGhpbmsgYSBzb2x1dGlvbiBmb3IgY29udHJvbGxpbmcgdGhl
+IGVkaWQgY2hlY2sgYXQgcnVudGltZSBzaG91bGQgYmUgbWFkZSBwb3NzaWJsZSwgc28gdGhhdCBk
+ZXNrdG9wIGVudmlyb25tZW5zIGxpa2UgS0RFIGNhbiBpbXBsZW1lbnQgYW4gbWFudWFsbHkgb3Zl
+cnJpZGUgYnkgc3BlY2lmeWluZyBhIGZpcm13YXJlIGZpbGUgb3IgZGlzYWJsZSB0aGUgdGhlIGVk
+aWQgY2hlY2suPC9wPgo8cCBzdHlsZT0ibWFyZ2luLXRvcDoxMjttYXJnaW4tYm90dG9tOjEyO21h
+cmdpbi1sZWZ0OjA7bWFyZ2luLXJpZ2h0OjA7Ij7CoDwvcD4KPHAgc3R5bGU9Im1hcmdpbi10b3A6
+MDttYXJnaW4tYm90dG9tOjA7bWFyZ2luLWxlZnQ6MDttYXJnaW4tcmlnaHQ6MDsiPjxiciAvPjwv
+cD4KPHAgc3R5bGU9Im1hcmdpbi10b3A6MDttYXJnaW4tYm90dG9tOjA7bWFyZ2luLWxlZnQ6MDtt
+YXJnaW4tcmlnaHQ6MDsiPlJlZmVyZW5jZXM6PC9wPgo8cCBzdHlsZT0ibWFyZ2luLXRvcDowO21h
+cmdpbi1ib3R0b206MDttYXJnaW4tbGVmdDowO21hcmdpbi1yaWdodDowOyI+PGEgaHJlZj0iaHR0
+cHM6Ly9idWdzLmxhdW5jaHBhZC5uZXQvdWJ1bnR1Lytzb3VyY2UvbGludXgvK2J1Zy83MTIwNzUi
+Pmh0dHBzOi8vYnVncy5sYXVuY2hwYWQubmV0L3VidW50dS8rc291cmNlL2xpbnV4LytidWcvNzEy
+MDc1PC9hPjwvcD4KPHAgc3R5bGU9Im1hcmdpbi10b3A6MDttYXJnaW4tYm90dG9tOjA7bWFyZ2lu
+LWxlZnQ6MDttYXJnaW4tcmlnaHQ6MDsiPjxhIGhyZWY9Imh0dHBzOi8vbGlzdHMuZnJlZWRlc2t0
+b3Aub3JnL2FyY2hpdmVzL2RyaS1kZXZlbC8yMDExLUphbnVhcnkvMDA2Nzc4Lmh0bWwiPmh0dHBz
+Oi8vbGlzdHMuZnJlZWRlc2t0b3Aub3JnL2FyY2hpdmVzL2RyaS1kZXZlbC8yMDExLUphbnVhcnkv
+MDA2Nzc4Lmh0bWw8L2E+PC9wPgo8cCBzdHlsZT0ibWFyZ2luLXRvcDowO21hcmdpbi1ib3R0b206
+MDttYXJnaW4tbGVmdDowO21hcmdpbi1yaWdodDowOyI+PGJyIC8+PC9wPgo8cCBzdHlsZT0ibWFy
+Z2luLXRvcDowO21hcmdpbi1ib3R0b206MDttYXJnaW4tbGVmdDowO21hcmdpbi1yaWdodDowOyI+
+TW9uaXRvciBlZGlkOjwvcD4KPHAgc3R5bGU9Im1hcmdpbi10b3A6MDttYXJnaW4tYm90dG9tOjA7
+bWFyZ2luLWxlZnQ6MDttYXJnaW4tcmlnaHQ6MDsiPjxzcGFuIHN0eWxlPSJiYWNrZ3JvdW5kLWNv
+bG9yOiNmZmZmZmY7Ij48c3BhbiBzdHlsZT0iY29sb3I6IzAwMDAwMDsiPm1vbml0b3ItZ2V0LWVk
+aWQgfCBoZXhkdW1wIMKgPC9zcGFuPjwvc3Bhbj48YnIgLz48c3BhbiBzdHlsZT0iYmFja2dyb3Vu
+ZC1jb2xvcjojZmZmZmZmOyI+PHNwYW4gc3R5bGU9ImNvbG9yOiMwMDAwMDA7Ij4wMDAwMDAwIGZm
+MDAgZmZmZiBmZmZmIDAwZmYgZTQzMCAwMjVhIDAwMDAgMDAwMCA8L3NwYW4+PC9zcGFuPjxiciAv
+PjxzcGFuIHN0eWxlPSJiYWNrZ3JvdW5kLWNvbG9yOiNmZmZmZmY7Ij48c3BhbiBzdHlsZT0iY29s
+b3I6IzAwMDAwMDsiPjAwMDAwMTAgMTMwMCAwNDAxIDI1OTUgNzgxNyA0NDAyIDljNzUgNTQ1OSAy
+Nzk2IDwvc3Bhbj48L3NwYW4+PGJyIC8+PHNwYW4gc3R5bGU9ImJhY2tncm91bmQtY29sb3I6I2Zm
+ZmZmZjsiPjxzcGFuIHN0eWxlPSJjb2xvcjojMDAwMDAwOyI+MDAwMDAyMCA1MDIzIDAwNTQgMDAw
+MCAwMTAxIDAxMDEgMDEwMSAwMTAxIDAxMDEgPC9zcGFuPjwvc3Bhbj48YnIgLz48c3BhbiBzdHls
+ZT0iYmFja2dyb3VuZC1jb2xvcjojZmZmZmZmOyI+PHNwYW4gc3R5bGU9ImNvbG9yOiMwMDAwMDA7
+Ij4wMDAwMDMwIDAxMDEgMDEwMSAwMTAxIDM3YzggNjQ4MCBiMDcwIDQwMGYgMjAyMiA8L3NwYW4+
+PC9zcGFuPjxiciAvPjxzcGFuIHN0eWxlPSJiYWNrZ3JvdW5kLWNvbG9yOiNmZmZmZmY7Ij48c3Bh
+biBzdHlsZT0iY29sb3I6IzAwMDAwMDsiPjAwMDAwNDAgMDAzNiBlNjcyIDAwMTAgMWEwMCAyODNj
+IGEwODAgYjA3MCA0MDIzIDwvc3Bhbj48L3NwYW4+PGJyIC8+PHNwYW4gc3R5bGU9ImJhY2tncm91
+bmQtY29sb3I6I2ZmZmZmZjsiPjxzcGFuIHN0eWxlPSJjb2xvcjojMDAwMDAwOyI+MDAwMDA1MCAy
+MDMwIDAwMzYgZTY3MiAwMDEwIDFhMDAgMDAwMCBmZTAwIDQ4MDAgPC9zcGFuPjwvc3Bhbj48YnIg
+Lz48c3BhbiBzdHlsZT0iYmFja2dyb3VuZC1jb2xvcjojZmZmZmZmOyI+PHNwYW4gc3R5bGU9ImNv
+bG9yOiMwMDAwMDA7Ij4wMDAwMDYwIDM4MzAgNTIzNiAzMTgyIDMxMzcgNTU1NyAwYTM3IDAwMDAg
+MDAwMCA8L3NwYW4+PC9zcGFuPjxiciAvPjxzcGFuIHN0eWxlPSJiYWNrZ3JvdW5kLWNvbG9yOiNm
+ZmZmZmY7Ij48c3BhbiBzdHlsZT0iY29sb3I6IzAwMDAwMDsiPjAwMDAwNzAgMDAwMCAzMTQxIDAw
+MWUgMDAwMCAwNjAwIDBhMDEgMjAyMCAyMzAwIDwvc3Bhbj48L3NwYW4+PGJyIC8+PHNwYW4gc3R5
+bGU9ImJhY2tncm91bmQtY29sb3I6I2ZmZmZmZjsiPjxzcGFuIHN0eWxlPSJjb2xvcjojMDAwMDAw
+OyI+MDAwMDA4MCA8L3NwYW4+PC9zcGFuPjxiciAvPjwvcD4KPHAgc3R5bGU9Im1hcmdpbi10b3A6
+MDttYXJnaW4tYm90dG9tOjA7bWFyZ2luLWxlZnQ6MDttYXJnaW4tcmlnaHQ6MDsiPjxzcGFuIHN0
+eWxlPSJiYWNrZ3JvdW5kLWNvbG9yOiNmZmZmZmY7Ij48c3BhbiBzdHlsZT0iY29sb3I6IzAwMDAw
+MDsiPm1vbml0b3ItZ2V0LWVkaWQgfCBtb25pdG9yLXBhcnNlLWVkaWQgPC9zcGFuPjwvc3Bhbj48
+YnIgLz48c3BhbiBzdHlsZT0iYmFja2dyb3VuZC1jb2xvcjojZmZmZmZmOyI+PHNwYW4gc3R5bGU9
+ImNvbG9yOiMwMDAwMDA7Ij5FSVNBIElEOiBMR0QwMjVhIDwvc3Bhbj48L3NwYW4+PGJyIC8+PHNw
+YW4gc3R5bGU9ImJhY2tncm91bmQtY29sb3I6I2ZmZmZmZjsiPjxzcGFuIHN0eWxlPSJjb2xvcjoj
+MDAwMDAwOyI+RURJRCB2ZXJzaW9uOiAxLjQgPC9zcGFuPjwvc3Bhbj48YnIgLz48c3BhbiBzdHls
+ZT0iYmFja2dyb3VuZC1jb2xvcjojZmZmZmZmOyI+PHNwYW4gc3R5bGU9ImNvbG9yOiMwMDAwMDA7
+Ij5FRElEIGV4dGVuc2lvbiBibG9ja3M6IDAgPC9zcGFuPjwvc3Bhbj48YnIgLz48c3BhbiBzdHls
+ZT0iYmFja2dyb3VuZC1jb2xvcjojZmZmZmZmOyI+PHNwYW4gc3R5bGU9ImNvbG9yOiMwMDAwMDA7
+Ij5TY3JlZW4gc2l6ZTogMzcuMCBjbSB4IDIzLjAgY20gKDE3LjE1IGluY2hlcywgYXNwZWN0IHJh
+dGlvIDE2LzEwID0gMS42MSkgPC9zcGFuPjwvc3Bhbj48YnIgLz48c3BhbiBzdHlsZT0iYmFja2dy
+b3VuZC1jb2xvcjojZmZmZmZmOyI+PHNwYW4gc3R5bGU9ImNvbG9yOiMwMDAwMDA7Ij5HYW1tYTog
+Mi4yIDwvc3Bhbj48L3NwYW4+PGJyIC8+PHNwYW4gc3R5bGU9ImJhY2tncm91bmQtY29sb3I6I2Zm
+ZmZmZjsiPjxzcGFuIHN0eWxlPSJjb2xvcjojMDAwMDAwOyI+RGlnaXRhbCBzaWduYWwgPC9zcGFu
+Pjwvc3Bhbj48YnIgLz48YnIgLz7CoMKgwqDCoMKgwqDCoDxzcGFuIHN0eWxlPSJiYWNrZ3JvdW5k
+LWNvbG9yOiNmZmZmZmY7Ij48c3BhbiBzdHlsZT0iY29sb3I6IzAwMDAwMDsiPiMgTW9uaXRvciBw
+cmVmZXJyZWQgbW9kZWxpbmUgKDU4LjIgSHogdnN5bmMsIDcwLjcga0h6IGhzeW5jLCByYXRpbyAx
+Ni8xMCwgMTMxIGRwaSkgPC9zcGFuPjwvc3Bhbj48YnIgLz7CoMKgwqDCoMKgwqDCoDxzcGFuIHN0
+eWxlPSJiYWNrZ3JvdW5kLWNvbG9yOiNmZmZmZmY7Ij48c3BhbiBzdHlsZT0iY29sb3I6IzAwMDAw
+MDsiPk1vZGVMaW5lICZxdW90OzE5MjB4MTIwMCZxdW90OyAxNDIuOCAxOTIwIDE5NTQgMTk4NiAy
+MDIwIDEyMDAgMTIwMyAxMjA5IDEyMTUgLWhzeW5jICt2c3luYyA8L3NwYW4+PC9zcGFuPjxiciAv
+PjxiciAvPsKgwqDCoMKgwqDCoMKgPHNwYW4gc3R5bGU9ImJhY2tncm91bmQtY29sb3I6I2ZmZmZm
+ZjsiPjxzcGFuIHN0eWxlPSJjb2xvcjojMDAwMDAwOyI+IyBNb25pdG9yIHN1cHBvcnRlZCBtb2Rl
+bGluZSAoNDAuMSBIeiB2c3luYywgNDkuNSBrSHogaHN5bmMsIHJhdGlvIDE2LzEwLCAxMzEgZHBp
+KSA8L3NwYW4+PC9zcGFuPjxiciAvPsKgwqDCoMKgwqDCoMKgPHNwYW4gc3R5bGU9ImJhY2tncm91
+bmQtY29sb3I6I2ZmZmZmZjsiPjxzcGFuIHN0eWxlPSJjb2xvcjojMDAwMDAwOyI+TW9kZUxpbmUg
+JnF1b3Q7MTkyMHgxMjAwJnF1b3Q7IDEwMyAxOTIwIDE5NjggMjAwMCAyMDgwIDEyMDAgMTIwMyAx
+MjA5IDEyMzUgLWhzeW5jICt2c3luYzwvc3Bhbj48L3NwYW4+PGJyIC8+PC9wPgo8cCBzdHlsZT0i
+bWFyZ2luLXRvcDowO21hcmdpbi1ib3R0b206MDttYXJnaW4tbGVmdDowO21hcmdpbi1yaWdodDow
+OyI+PGJyIC8+PC9wPgo8cCBzdHlsZT0ibWFyZ2luLXRvcDowO21hcmdpbi1ib3R0b206MDttYXJn
+aW4tbGVmdDowO21hcmdpbi1yaWdodDowOyI+V2l0aCBiZXN0IHJlZ2FyZHM8L3A+CjxwIHN0eWxl
+PSJtYXJnaW4tdG9wOjA7bWFyZ2luLWJvdHRvbTowO21hcmdpbi1sZWZ0OjA7bWFyZ2luLXJpZ2h0
+OjA7Ij48YnIgLz48L3A+CjxwIHN0eWxlPSJtYXJnaW4tdG9wOjA7bWFyZ2luLWJvdHRvbTowO21h
+cmdpbi1sZWZ0OjA7bWFyZ2luLXJpZ2h0OjA7Ij5DaHJpc3RvcGg8L3A+CjxwIHN0eWxlPSJtYXJn
+aW4tdG9wOjA7bWFyZ2luLWJvdHRvbTowO21hcmdpbi1sZWZ0OjA7bWFyZ2luLXJpZ2h0OjA7Ij4t
+LTwvcD4KPHAgc3R5bGU9Im1hcmdpbi10b3A6MDttYXJnaW4tYm90dG9tOjA7bWFyZ2luLWxlZnQ6
+MDttYXJnaW4tcmlnaHQ6MDsiPjxiciAvPjwvcD4KPC9ib2R5Pgo8L2h0bWw+
+
+
+--nextPart5054330.31r3eYUQgx--
+
+--nextPart4691754.LvFx2qVVIh
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: This is a digitally signed message part.
+Content-Transfer-Encoding: 7Bit
+
+-----BEGIN PGP SIGNATURE-----
+
+iF0EABECAB0WIQSZRLqiuvBteRMc3u930lFMPlKNGAUCaQiavAAKCRB30lFMPlKN
+GN4UAKCpOWkvbH+NNWDIAm3y+eBSJdBIiACePQOfiDoqeJiVHV2Pav7ZXIcVSp4=
+=9sQT
+-----END PGP SIGNATURE-----
+
+--nextPart4691754.LvFx2qVVIh--
+
 
 
