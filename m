@@ -2,40 +2,55 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 004DEC2B422
-	for <lists+dri-devel@lfdr.de>; Mon, 03 Nov 2025 12:10:53 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 007BBC2B4B6
+	for <lists+dri-devel@lfdr.de>; Mon, 03 Nov 2025 12:23:06 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0E58110E3B2;
-	Mon,  3 Nov 2025 11:10:50 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8DDAA10E186;
+	Mon,  3 Nov 2025 11:23:04 +0000 (UTC)
+Authentication-Results: gabe.freedesktop.org;
+	dkim=pass (2048-bit key; secure) header.d=mailbox.org header.i=@mailbox.org header.b="uwm/QCgn";
+	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
- by gabe.freedesktop.org (Postfix) with ESMTP id 4BB1910E3B2
- for <dri-devel@lists.freedesktop.org>; Mon,  3 Nov 2025 11:10:48 +0000 (UTC)
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
- by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 1619E1D13
- for <dri-devel@lists.freedesktop.org>; Mon,  3 Nov 2025 03:10:40 -0800 (PST)
-Received: from e110455-lin.cambridge.arm.com (usa-sjc-imap-foss1.foss.arm.com
- [10.121.207.14])
- by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPA id 9EE713F63F
- for <dri-devel@lists.freedesktop.org>; Mon,  3 Nov 2025 03:10:47 -0800 (PST)
-Date: Mon, 3 Nov 2025 11:10:43 +0000
-From: Liviu Dudau <liviu.dudau@arm.com>
-To: Boris Brezillon <boris.brezillon@collabora.com>
-Cc: Steven Price <steven.price@arm.com>,
- =?utf-8?Q?Adri=C3=A1n?= Larumbe <adrian.larumbe@collabora.com>,
- dri-devel@lists.freedesktop.org,
- Lars-Ivar Hesselberg Simonsen <lars-ivar.simonsen@arm.com>,
- kernel@collabora.com
-Subject: Re: [PATCH v1 1/4] drm/panthor: Fix UAF on kernel BO VA nodes
-Message-ID: <aQiNsxAlPVPwT415@e110455-lin.cambridge.arm.com>
-References: <20251031154818.821054-1-boris.brezillon@collabora.com>
- <20251031154818.821054-2-boris.brezillon@collabora.com>
+Received: from mout-p-201.mailbox.org (mout-p-201.mailbox.org [80.241.56.171])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4B87E10E186
+ for <dri-devel@lists.freedesktop.org>; Mon,  3 Nov 2025 11:23:02 +0000 (UTC)
+Received: from smtp202.mailbox.org (smtp202.mailbox.org [10.196.197.202])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested)
+ by mout-p-201.mailbox.org (Postfix) with ESMTPS id 4d0Thy6Pz1z9tg0;
+ Mon,  3 Nov 2025 12:22:58 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org;
+ s=mail20150812; t=1762168978;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=D/B5cSi2gvG8WS+XWr9mKVvN8RRTThm5Yd3lpHPpvD0=;
+ b=uwm/QCgnP04rIAxBD8Seqrz57i6K8YDaj8DN+RJUocasdzWorlz6UnN9ihGSnyD2RqKfrn
+ 66U61IRN71+ga3IYZcP13G1k1PyQV92JpIUS3u6RuoF7CN5KlnUI1DdqC5DLsw8ndvHYWy
+ bfgaBpt8uUVCvBGGZhohsYLs8WcHt9nsjG1QbP6qHNWSdyhXhobXFBjqdJMbEfFdeZYYZK
+ fZ1/DleXb7BaPygi4BeZEF2gSrDtdEgPjQbiQZoT+HFHR3wXQ6M6hQfd0DfdlDDu0ZORyD
+ F4e2IKQ/oQV7ZeBIZXGOXUn8awEcuEJrMprA3/sJDfvxsh5Ay3LsMQgYvade1Q==
+Message-ID: <f1abafa2-97e8-49ad-abc8-c71914ac2212@mailbox.org>
+Date: Mon, 3 Nov 2025 12:22:55 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
+Subject: Re: [PATCH] drm: Add "min bpc" connector property
+To: Sasha McIntosh <sashamcintosh@google.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>
+Cc: David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ trivial@kernel.org
+References: <20251031204534.659180-1-sashamcintosh@google.com>
+From: =?UTF-8?Q?Michel_D=C3=A4nzer?= <michel.daenzer@mailbox.org>
+Content-Language: en-CA
+In-Reply-To: <20251031204534.659180-1-sashamcintosh@google.com>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20251031154818.821054-2-boris.brezillon@collabora.com>
+X-MBO-RS-ID: de984f8e742b7750fb9
+X-MBO-RS-META: h31ojnu9ox344y78z53c4jqnpaxg5yw1
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -51,75 +66,20 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, Oct 31, 2025 at 04:48:15PM +0100, Boris Brezillon wrote:
-> If the MMU is down, panthor_vm_unmap_range() might return an error.
-> We expect the page table to be updated still, and if the MMU is blocked,
-> the rest of the GPU should be blocked too, so no risk of accessing
-> physical memory returned to the system (which the current code doesn't
-> cover for anyway).
+On 10/31/25 21:45, Sasha McIntosh wrote:
+> [Why]
+> When playing HDR or WCG content, bandwidth constraints may force the
+> driver to downgrade to 6bpc, resulting in visual artifacts like banding.
 > 
-> Proceed with the rest of the cleanup instead of bailing out and leaving
-> the va_node inserted in the drm_mm, which leads to UAF when other
-> adjacent nodes are removed from the drm_mm tree.
+> Userspace should be able to configure a minimum allowed bpc.
 > 
-> Reported-by: Lars-Ivar Hesselberg Simonsen <lars-ivar.simonsen@arm.com>
-> Closes: https://gitlab.freedesktop.org/panfrost/linux/-/issues/57
-> Fixes: 8a1cc07578bf ("drm/panthor: Add GEM logical block")
-> Signed-off-by: Boris Brezillon <boris.brezillon@collabora.com>
+> [How]
+> Introduce the "min bpc" connector property so the user can limit the
+> minimum bpc. Mirror the "mac bpc" implementation.
 
-Reviewed-by: Liviu Dudau <liviu.dudau@arm.com>
+One issue with this is that the effective bpc of the link (as observed by the user) can be higher than the physical bpc, due to things like DSC or various dithering techniques. So requiring a minimum physical bpc could artificially exclude configurations which would otherwise work fine.
 
-Best regards,
-Liviu
-
-> ---
->  drivers/gpu/drm/panthor/panthor_gem.c | 14 +++-----------
->  1 file changed, 3 insertions(+), 11 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/panthor/panthor_gem.c b/drivers/gpu/drm/panthor/panthor_gem.c
-> index 7e7d2f223cfa..f369cc3e2a5f 100644
-> --- a/drivers/gpu/drm/panthor/panthor_gem.c
-> +++ b/drivers/gpu/drm/panthor/panthor_gem.c
-> @@ -87,7 +87,6 @@ static void panthor_gem_free_object(struct drm_gem_object *obj)
->  void panthor_kernel_bo_destroy(struct panthor_kernel_bo *bo)
->  {
->  	struct panthor_vm *vm;
-> -	int ret;
->  
->  	if (IS_ERR_OR_NULL(bo))
->  		return;
-> @@ -95,18 +94,11 @@ void panthor_kernel_bo_destroy(struct panthor_kernel_bo *bo)
->  	vm = bo->vm;
->  	panthor_kernel_bo_vunmap(bo);
->  
-> -	if (drm_WARN_ON(bo->obj->dev,
-> -			to_panthor_bo(bo->obj)->exclusive_vm_root_gem != panthor_vm_root_gem(vm)))
-> -		goto out_free_bo;
-> -
-> -	ret = panthor_vm_unmap_range(vm, bo->va_node.start, bo->va_node.size);
-> -	if (ret)
-> -		goto out_free_bo;
-> -
-> +	drm_WARN_ON(bo->obj->dev,
-> +		    to_panthor_bo(bo->obj)->exclusive_vm_root_gem != panthor_vm_root_gem(vm));
-> +	panthor_vm_unmap_range(vm, bo->va_node.start, bo->va_node.size);
->  	panthor_vm_free_va(vm, &bo->va_node);
->  	drm_gem_object_put(bo->obj);
-> -
-> -out_free_bo:
->  	panthor_vm_put(vm);
->  	kfree(bo);
->  }
-> -- 
-> 2.51.0
-> 
 
 -- 
-====================
-| I would like to |
-| fix the world,  |
-| but they're not |
-| giving me the   |
- \ source code!  /
-  ---------------
-    ¯\_(ツ)_/¯
+Earthling Michel Dänzer       \        GNOME / Xwayland / Mesa developer
+https://redhat.com             \               Libre software enthusiast
