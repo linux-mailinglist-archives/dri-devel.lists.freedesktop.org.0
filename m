@@ -2,53 +2,62 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7FB0EC2BA3B
-	for <lists+dri-devel@lfdr.de>; Mon, 03 Nov 2025 13:23:47 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id B0E11C2BA41
+	for <lists+dri-devel@lfdr.de>; Mon, 03 Nov 2025 13:24:19 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8FA1C10E11D;
-	Mon,  3 Nov 2025 12:23:44 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E66CC10E134;
+	Mon,  3 Nov 2025 12:24:10 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="h5TUZXfL";
+	dkim=pass (2048-bit key; unprotected) header.d=bootlin.com header.i=@bootlin.com header.b="X2qSiPXq";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CEEE610E11D
- for <dri-devel@lists.freedesktop.org>; Mon,  3 Nov 2025 12:23:43 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by tor.source.kernel.org (Postfix) with ESMTP id DD860600AC;
- Mon,  3 Nov 2025 12:23:42 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 714EFC4CEE7;
- Mon,  3 Nov 2025 12:23:42 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1762172622;
- bh=EpC/d8RctC6D2NqwJF4B8XkTUMtzK+hUR+NvmNGudxM=;
- h=Date:From:Cc:To:In-Reply-To:References:Subject:From;
- b=h5TUZXfLSIYFJ+C2cLV9ax0DJ161K5smtwnP3xVGkkdPTXt40U284gb0Z/uV23oSF
- elCBcizGdQdFT13oahVuNhzFbdCjQfPxXIENiKiq5Nen29yLa6+qoy6dbvCY8nGdw0
- B/Wmuf8HxrgRReePKt492QshgpvpYibWOY1JFHSahs84eRJOKAmLAOrdp66d7DUvQd
- ++bIkcue+qPCUlSWNpZ2V+TstCOtylg+TX1nOBTK0kAIjkHC27j14q8dfMf/d4+PIy
- QG9gFqW5onW2zICCz9yP/hCLXCx7mXDGN+vT2NkYb3LU1xawhoRVf9QnfcDqD73ige
- o7JeGFN/HglMg==
-Date: Mon, 03 Nov 2025 06:23:40 -0600
+Received: from smtpout-03.galae.net (smtpout-03.galae.net [185.246.85.4])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1BD0610E134
+ for <dri-devel@lists.freedesktop.org>; Mon,  3 Nov 2025 12:24:10 +0000 (UTC)
+Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
+ by smtpout-03.galae.net (Postfix) with ESMTPS id 52CAD4E414CC;
+ Mon,  3 Nov 2025 12:24:08 +0000 (UTC)
+Received: from mail.galae.net (mail.galae.net [212.83.136.155])
+ by smtpout-01.galae.net (Postfix) with ESMTPS id 23AA060628;
+ Mon,  3 Nov 2025 12:24:08 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon)
+ with ESMTPSA id B75D210B5003D; Mon,  3 Nov 2025 13:23:58 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
+ t=1762172646; h=from:subject:date:message-id:to:cc:mime-version:content-type:
+ content-transfer-encoding:in-reply-to:references;
+ bh=jWIBKsXwl+lZlSI+m4JdF3FwkWNJycGm6EYh0H2B5I8=;
+ b=X2qSiPXqpWSRnWH7izdKgmYPC9Cuxd5s4IeCuS7c4pB77qAbaYcbs3Dpo5k798ISZlkTLJ
+ oUV4VlczKvQa5z6ElJkUxJTEE8dyfrGmsvYUOVZ/tgXzBWWL68R4MzBBLeT1nMxFtaD0BL
+ ojW9ItGFvw+TJvHqEm/+b6zWWTC1yJV7VoX/RaVHxuh/Y7CJQpuWCjab0bv6ldd244bL9F
+ +YwMYra6bQBYWDoRZHy0GhNUqjcgZwvddEfNHSnmq5Ke2A8LS7aayI5c7WU/CRpm65aqlF
+ Wzcw2kBn55yIc3y6o4XVWUylDccNGD8HjvQL0ushUpY2W+n3IDMseSE6Las6ow==
+From: Luca Ceresoli <luca.ceresoli@bootlin.com>
+To: Alain Volmat <alain.volmat@foss.st.com>, 
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
+ Andrzej Hajda <andrzej.hajda@intel.com>, 
+ Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>, 
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>, 
+ Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
+ Raphael Gallais-Pou <rgallaispou@gmail.com>, 
+ Andy Yan <andy.yan@rock-chips.com>, 
+ Luca Ceresoli <luca.ceresoli@bootlin.com>
+Cc: Hui Pu <Hui.Pu@gehealthcare.com>, 
+ Thomas Petazzoni <thomas.petazzoni@bootlin.com>, 
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
+In-Reply-To: <20251028-b4-drm-bridge-alloc-add-before-attach-v3-0-bb8611acbbfb@bootlin.com>
+References: <20251028-b4-drm-bridge-alloc-add-before-attach-v3-0-bb8611acbbfb@bootlin.com>
+Subject: Re: [PATCH v3 0/6] drm/bridge: enforce drm_bridge_add() before
+ drm_bridge_attach()
+Message-Id: <176217263847.134567.5881036101864864671.b4-ty@bootlin.com>
+Date: Mon, 03 Nov 2025 13:23:58 +0100
+MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-MIME-Version: 1.0
-From: "Rob Herring (Arm)" <robh@kernel.org>
-Cc: Conor Dooley <conor+dt@kernel.org>, linux-kernel@vger.kernel.org, 
- devicetree@vger.kernel.org, Pengyu Luo <mitltlatltl@gmail.com>, 
- Daniel Thompson <danielt@kernel.org>, linux-leds@vger.kernel.org, 
- Jingoo Han <jingoohan1@gmail.com>, dri-devel@lists.freedesktop.org, 
- Krzysztof Kozlowski <krzk+dt@kernel.org>, Helge Deller <deller@gmx.de>, 
- Lee Jones <lee@kernel.org>, Pavel Machek <pavel@kernel.org>, 
- linux-fbdev@vger.kernel.org
-To: Junjie Cao <caojunjie650@gmail.com>
-In-Reply-To: <20251103110648.878325-2-caojunjie650@gmail.com>
-References: <20251103110648.878325-1-caojunjie650@gmail.com>
- <20251103110648.878325-2-caojunjie650@gmail.com>
-Message-Id: <176217262093.2953282.2008834134717044680.robh@kernel.org>
-Subject: Re: [PATCH v2 1/2] dt-bindings: leds: backlight: Add Awinic
- AW99706 backlight
+X-Mailer: b4 0.14.2
+X-Last-TLS-Session-Version: TLSv1.3
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -65,45 +74,32 @@ Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
-On Mon, 03 Nov 2025 19:06:47 +0800, Junjie Cao wrote:
-> From: Pengyu Luo <mitltlatltl@gmail.com>
+On Tue, 28 Oct 2025 11:15:41 +0100, Luca Ceresoli wrote:
+> This small series enforces that DRM bridges must be added before they are
+> attached as discussed in [1].
 > 
-> Add Awinic AW99706 backlight binding documentation.
+> This is part of the work towards removal of bridges from a still existing
+> DRM pipeline without use-after-free. The grand plan was discussed in [0].
+> Here's the work breakdown (➜ marks the current series):
 > 
-> Signed-off-by: Junjie Cao <caojunjie650@gmail.com>
-> ---
-> Changes in v2:
-> - use proper units for properties (Krzysztof)
-> - drop non-fixed properties (Krzysztof)
-> - add properties(max-brightness, default-brightness) (Krzysztof)
-> - Link to v1: https://lore.kernel.org/linux-leds/20251026123923.1531727-2-caojunjie650@gmail.com
-> 
->  .../leds/backlight/awinic,aw99706.yaml        | 100 ++++++++++++++++++
->  1 file changed, 100 insertions(+)
->  create mode 100644 Documentation/devicetree/bindings/leds/backlight/awinic,aw99706.yaml
-> 
+> [...]
 
-My bot found errors running 'make dt_binding_check' on your patch:
+Applied, thanks!
 
-yamllint warnings/errors:
-./Documentation/devicetree/bindings/leds/backlight/awinic,aw99706.yaml:39:111: [warning] line too long (113 > 110 characters) (line-length)
+[1/6] drm/sti: hda: add bridge before attaching
+      commit: d28726efc637c5e76e23156b0c2418d37ef45b8e
+[2/6] drm/sti: hdmi: add bridge before attaching
+      commit: ebad7a8f3db6c43c29dacbccb1d7615563f4e80a
+[3/6] drm/bridge: document that adding a bridge is mandatory before attach
+      commit: f8b460262a28060be932078e2b8d9fb8bf99dcf6
+[4/6] drm/bridge: add warning for bridges attached without being added
+      commit: 76f1a9711b837f90fba91d00e33549ed1364bea2
+[5/6] drm/bridge: add warning for bridges using neither devm_drm_bridge_alloc() nor drm_bridge_add()
+      commit: 9347f2fbb0183b04070cd7dfde080bfcc54c0f7c
+[6/6] drm/bridge: synopsys: dw-dp: add bridge before attaching
+      commit: b726970486d81ed3eea09cf9f80f39fe1928a741
 
-dtschema/dtc warnings/errors:
-
-doc reference errors (make refcheckdocs):
-
-See https://patchwork.ozlabs.org/project/devicetree-bindings/patch/20251103110648.878325-2-caojunjie650@gmail.com
-
-The base for the series is generally the latest rc1. A different dependency
-should be noted in *this* patch.
-
-If you already ran 'make dt_binding_check' and didn't see the above
-error(s), then make sure 'yamllint' is installed and dt-schema is up to
-date:
-
-pip3 install dtschema --upgrade
-
-Please check and re-submit after running the above command yourself. Note
-that DT_SCHEMA_FILES can be set to your schema file to speed up checking
-your schema. However, it must be unset to test all examples with your schema.
+Best regards,
+-- 
+Luca Ceresoli <luca.ceresoli@bootlin.com>
 
