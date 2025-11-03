@@ -2,198 +2,105 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 118A0C2B191
-	for <lists+dri-devel@lfdr.de>; Mon, 03 Nov 2025 11:37:02 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3FBEEC2B266
+	for <lists+dri-devel@lfdr.de>; Mon, 03 Nov 2025 11:52:22 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 65BB410E3AB;
-	Mon,  3 Nov 2025 10:37:00 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 53DD510E1B4;
+	Mon,  3 Nov 2025 10:52:20 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=imgtec.com header.i=@imgtec.com header.b="WzU0LqeU";
-	dkim=pass (1024-bit key; unprotected) header.d=IMGTecCRM.onmicrosoft.com header.i=@IMGTecCRM.onmicrosoft.com header.b="QIiwFM45";
+	dkim=pass (2048-bit key; unprotected) header.d=google.com header.i=@google.com header.b="xtNiIoPB";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx07-00376f01.pphosted.com (mx07-00376f01.pphosted.com
- [185.132.180.163])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3B7EE10E3AB
- for <dri-devel@lists.freedesktop.org>; Mon,  3 Nov 2025 10:36:59 +0000 (UTC)
-Received: from pps.filterd (m0168889.ppops.net [127.0.0.1])
- by mx07-00376f01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id
- 5A367kQh1116482; Mon, 3 Nov 2025 10:36:48 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=imgtec.com; h=cc
- :content-type:date:from:in-reply-to:message-id:mime-version
- :references:subject:to; s=dk201812; bh=+IJJLwWlbH/50k6qVyJiJ5yeJ
- zthRb6VQ24+dUJRtBk=; b=WzU0LqeUG27bdOD1vd+lrwZNQpBaPeaKrGu5DNkf9
- X7OjkyXjBqbtdkn90Ex9i6AIn62GEGlUKHEYzFuMTPH1Si3UjXrOFVcDtYEIproY
- aD85xtcaVwbXr74yZKdpQiYdpoobofETVbyof19wQcff895PlTDG72rg+JJOM2Bo
- WwFF7gjUzwqni5RH1nw6muDlJBVCaDK1ah6vmD4WfsepmyNPIj1h1xetxOODmQeD
- n2VAo/iGvXiqpcweRitO0jB+VsxtPgxPfNbTpt3CASJD3W91c9vwyuosbppiNyqf
- Of1sZsTsAu+2B9EkgwNjAU3qBRvHz9AUeUJK93RGyN8xw==
-Received: from lo2p265cu024.outbound.protection.outlook.com
- (mail-uksouthazon11021085.outbound.protection.outlook.com [52.101.95.85])
- by mx07-00376f01.pphosted.com (PPS) with ESMTPS id 4a5b5w9cg8-1
- (version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 bits=256 verify=NOT);
- Mon, 03 Nov 2025 10:36:46 +0000 (GMT)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=GhDXoB4aRHksMoadpYBZiezNwf5SdEZa3QACKgwcUibvJYXOqScARX1KkCErCpYMCYyNAcg09ruEIBcm4AGjc3lXMYkkroNfVsHdNC6Qv9XXRkHUBH64R0kc79KmzpbFvvvy6C8PUAfYAggWCTgfPhaS9cWPcCL85pXA0e66IBleBGt1+P8GwWE+ZlVjc16L1kSafwmqNGLJEfOHk5fZsDUaBqD09oIZc4f4nm7Zxl3ZWafbZSxdfaD5cQCCG9VwnExjFgDhYJDCawG75P+TKukCDMzcJBXoF1amx4a22gp/r8iwjgvZBSmxesa9UDmFHj1za5ZBzP8At4mSTPXWQg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=+IJJLwWlbH/50k6qVyJiJ5yeJzthRb6VQ24+dUJRtBk=;
- b=rr1spWkpcV0/uzeioBBWqxgEXii0Uu5KL/hqHNBMWwhAlSf1qBb5/8kzkfMyHM05oF53LDE3jYjrs0q9t/mEcc62rRj5Q+3/uW4guzPKIBPrFGgwYD5XaCSWhu1vZh8VS4bqhsL1eRaHDKxbeywTpexZ4U9HW5CJWfFvkycHnQpu+Cb+rn7TT/9Pke3QIB2fVgm/80iprT0mjS2azse8QJwZBpNdd1kkJpWLeWZXyqHxza8pnSQ/mVuwNv5ize9c+13AYPmyNb3lxG6sqJWHaCsJTf6P8/ZaCuek/4I7VH601m+bBpUY8qZfbx/cikzfmAXMPnsDA3Ix/sFplC02Zw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=imgtec.com; dmarc=pass action=none header.from=imgtec.com;
- dkim=pass header.d=imgtec.com; arc=none
+Received: from mail-pl1-f182.google.com (mail-pl1-f182.google.com
+ [209.85.214.182])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5F0E610E1C9
+ for <dri-devel@lists.freedesktop.org>; Mon,  3 Nov 2025 10:52:19 +0000 (UTC)
+Received: by mail-pl1-f182.google.com with SMTP id
+ d9443c01a7336-27d67abd215so423885ad.0
+ for <dri-devel@lists.freedesktop.org>; Mon, 03 Nov 2025 02:52:19 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=IMGTecCRM.onmicrosoft.com; s=selector2-IMGTecCRM-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=+IJJLwWlbH/50k6qVyJiJ5yeJzthRb6VQ24+dUJRtBk=;
- b=QIiwFM45i0tQuKdZILbQnpQ3K9PXxaUNJTB8REuerdWAB+cbGgDaVZjcFqtVZ0QWmAQUrLXaWDnIUTULr6BIa3ko3jLUojT7TwT58zBntglV8NM/KDXDB1tGo9tEKUPzHg9PahhzY0BEyMh3tlW2qYOlNg2gjzAFdimkINj06C0=
-Received: from CWXP265MB3397.GBRP265.PROD.OUTLOOK.COM (2603:10a6:400:e7::8) by
- LO0P265MB7285.GBRP265.PROD.OUTLOOK.COM (2603:10a6:600:308::6) with
- Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.9275.14; Mon, 3 Nov 2025 10:36:40 +0000
-Received: from CWXP265MB3397.GBRP265.PROD.OUTLOOK.COM
- ([fe80::8e9d:6b2f:9881:1e15]) by CWXP265MB3397.GBRP265.PROD.OUTLOOK.COM
- ([fe80::8e9d:6b2f:9881:1e15%5]) with mapi id 15.20.9275.015; Mon, 3 Nov 2025
- 10:36:40 +0000
-From: Matt Coster <Matt.Coster@imgtec.com>
-To: Marek Vasut <marek.vasut+renesas@mailbox.org>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>
-CC: David Airlie <airlied@gmail.com>, Frank Binns <Frank.Binns@imgtec.com>,
- Alessio Belle <Alessio.Belle@imgtec.com>, Alexandru Dadu
- <Alexandru.Dadu@imgtec.com>, Maarten Lankhorst
- <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Simona Vetter <simona@ffwll.ch>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- "linux-renesas-soc@vger.kernel.org" <linux-renesas-soc@vger.kernel.org>
-Subject: Re: [PATCH] drm/imagination: Depend on power sequencing
-Thread-Topic: [PATCH] drm/imagination: Depend on power sequencing
-Thread-Index: AQHcTK29NiE/bmLC+UuYnowjqeGt0A==
-Date: Mon, 3 Nov 2025 10:36:40 +0000
-Message-ID: <b9625d6d-93bf-4c33-a20b-044e680f81af@imgtec.com>
-References: <20251102184158.264378-1-marek.vasut+renesas@mailbox.org>
-In-Reply-To: <20251102184158.264378-1-marek.vasut+renesas@mailbox.org>
-Accept-Language: en-GB, en-US
-Content-Language: en-US
-X-MS-Has-Attach: yes
-X-MS-TNEF-Correlator: 
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: CWXP265MB3397:EE_|LO0P265MB7285:EE_
-x-ms-office365-filtering-correlation-id: 59b95f24-b7f0-4722-b2c8-08de1ac4e00e
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;
- ARA:13230040|1800799024|366016|376014|38070700021|4053099003; 
-x-microsoft-antispam-message-info: =?utf-8?B?Q3pDUFpJbWlOcXRqeStpZW91RWtoamZpT3h1TVhoRGtMcHYxYmVMZGRRczlN?=
- =?utf-8?B?c1d0SklhUU1JbyszaFhleFVYdGpISllCek80UFVTYVN5ZFBFRWh5WVdiaUVV?=
- =?utf-8?B?OUhYK2gwdTdrSGxOWUZVK1d5ejBsSkJocmc0SnpDMmFiY1V5ekR5dm9sYVFr?=
- =?utf-8?B?ZCtrNzVMb201NGpaNmpvRDBiRVdqa1pVR3ZtSFRPZzdwV29aMFk4SGF5djla?=
- =?utf-8?B?UFFydVQ0dGhteWEwTENZeFM2aTFVb0JCRFJKSFBhNUErdHRlbXUvZTN3RllK?=
- =?utf-8?B?STdta3o0Vy9IZndiT0FHZzJGbURjZDdHNlZRU0xZRFFCVjBZQ1B5VjJFNzli?=
- =?utf-8?B?Ri9Tdjh2Rjk4WHhiSkwwVzdlTjVhdzVSNHZqNnZQYit2NVd2Um9RcTN5UndK?=
- =?utf-8?B?SzMyb1cvVVE5WHhoN3lTbnE4OTFNRFJLYVcreVA4QXo4VkVONVZsYlcrWDlo?=
- =?utf-8?B?dU54Ymg5VCs1VmZZT2dLWE8rT09MOUR6Mk5zYTFlRmo4aFBWK3Q0bjdvUmJW?=
- =?utf-8?B?ekFpaHJDQXlWbTI1Z0pPSW5WZ1JxVHUwZ0lBOG4ya3NMWFVXWnVPVmZ3MGdD?=
- =?utf-8?B?VTRUbXc4SXdMWXBCbm5XOUdIQTQvS3NDSTIwblN2L3lYbkV3Si9lQUxTais4?=
- =?utf-8?B?NzZFc3ZwUjErMVR6S2x4Um1zRThyRlVad2UraStzUWRFVkwvSk1RdzJZTXFI?=
- =?utf-8?B?YnV5SlEvcndPQ1VFaG9BMVdnN2hTRnp4K2RQZU4vdk95TUQra3hjbXNVR2VH?=
- =?utf-8?B?VkZwZzRwSE8wU1BqbHNTWlZjMmJzZ0JEMjY4YzFNRU9jMXdrVHlHVWp4RWNt?=
- =?utf-8?B?Z3lYVEZyNXJQcFVTSWpQcENZRFJnQWE5RHhhWDcyZ2FjUkdISEovUE9kK0JK?=
- =?utf-8?B?UmJuVFBzNE5RdUU0MFdpQkF0ZFM3UmpIWkY0UW1xOStCRC95TUF4RVNSdnNo?=
- =?utf-8?B?dDNyTnZBT2VjZ0tnSWltcko2eWlHZkwzeUpKSHlmcUhnZStoNFB4QkJZQzZ4?=
- =?utf-8?B?bnQ1UFNhcjhDR3VBa1VnK0gzaFgxVWhGVi9vSTdwcVhOMXRScTJSRUVzMlVy?=
- =?utf-8?B?akFCVGhXbWo4ZjkyaTA1bm1xVGtpZXVvU3c2QUdYL2FiUzRielNxOGVwaWFO?=
- =?utf-8?B?eDhUSm1JczZvY3E3bURad0Y1YVd0OURnSjBwcEp1akdXcUxYeUp1RE5tUndS?=
- =?utf-8?B?QXVvVzZ6ZG16RXY0OE5BVGdYbk9aMW5QY2lsR3hDZml6SUJmZFJUcmg4YU84?=
- =?utf-8?B?eVQ2NFZsYWJQcEcxRlRJT2s5TXZtV1BrcGk4Vnl0cERBUnd0RkFWVlZLejB5?=
- =?utf-8?B?WVp2WENicStjT2JwRU5vaDVpeWs5ZjROY3dIclFaQ3loQzUxMG8vd2Q0Vitk?=
- =?utf-8?B?clBNNjJRSGFGUitFS0U1aFhaR20zYmlKVFdJTC8rL0UrY25LdU1ZTk02ZFh6?=
- =?utf-8?B?dkhVY1NQNUwrSy9yQjJDc2tKdlBWQUFpbkx1QVgrNEszbFZRdmNkS0k3bXU2?=
- =?utf-8?B?SFJkOW95dTRRTVlZQStjMTNVTjJWT3Z0ZkVZOExXTGZTM1p4cVJSOUMwOGcy?=
- =?utf-8?B?OG5RZVg5SGF3cER1WnpabXdQN3RqQjBNZVZmaGJkeUJLa3ZNUnlJR2VLd1hm?=
- =?utf-8?B?bTkyUTFra0V2Vmp4SllkUDZacEF4ZHpzdGMvU2EzWFM2NHVjbU1oY0hCY3Vy?=
- =?utf-8?B?WXMxaTRlVzUyWllSYkZHTVFvR2dlcmx0OE13UkVQMTk0NXJUMjVuL1ZOSS80?=
- =?utf-8?B?ODFzYXBKQlROaElVeFBXQkZXaTN3ckV2M0QrbmNmcHdDb2lVTS9saGlrWXhW?=
- =?utf-8?B?WGlJSWlvcGFreXdtVVd6cC81SkdyQVV2RlBNQVBxMnBuTytaeUEyS3hrNDFl?=
- =?utf-8?B?U21renFBWE05WVdWbkZpdHoxM1RxRGJYei9QWU9TQUVPSEJPM0xWT3BHaTY5?=
- =?utf-8?B?Q2NkNjEydmxXd2RqYk1hOFVMRkpnYWZxOHY3eDluem1PQ2Q3V05PVW4wUXZp?=
- =?utf-8?B?d1F0RjFzanptRUJOamMvVkh0YXBEd3RkWXg5WTN2REFxYnNXdGNLTXcxSlhO?=
- =?utf-8?B?RDIvOHJCcW1oREJCOGxsbXdsY2xtSmtuektEUT09?=
-x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:CWXP265MB3397.GBRP265.PROD.OUTLOOK.COM; PTR:; CAT:NONE;
- SFS:(13230040)(1800799024)(366016)(376014)(38070700021)(4053099003); DIR:OUT;
- SFP:1102; 
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?utf-8?B?Qys4RC80b21NN2VKREYwdGllY2Y3ZmdTSkowWXdWK1I3d29zRWtwU3FITWlu?=
- =?utf-8?B?UlZVQjkxbm5tbGc0Y2NmV3NmK1VlUHIzZ3g1R1RqejcwdDU3dnc0eUxUUXlz?=
- =?utf-8?B?SkRpd0NqUGJVZmNlVGoxbjU3dnZIcWhHZHFOWDQ5bGt6WXBmZURsRGl0a3Va?=
- =?utf-8?B?Nm9kYnhuZWVZZDlYb3BqNnZtZUM2WEE5OGtMSHhHTjVPSlZxcEpKVlpnN00r?=
- =?utf-8?B?SW9KdU5CcU9sdi9TVlUrMkFDTnFWdE5WMlNrM3VoRFN3SmtHSEVIMFhPMG1a?=
- =?utf-8?B?clNxUjBuZE9BakdEZ2o4czUram90dUxZZk5iVzh3TS9uc082NzQzMThNRnNh?=
- =?utf-8?B?TFl0cWZGdGZPL3VRUzlnY0RKZm5iRkRIdXl4QklySlpyeE1NQTFOVUE4cUsr?=
- =?utf-8?B?R2huZG92eHliK3dHeGJJcFh6aWZUa09mNnA0aDFXeDhTazNsODhwQURSZUVE?=
- =?utf-8?B?V3FFRzFyOS8yaEZOZXEzdURBbTVESm5wMWNqTU0xNEV0WFh3djl1ZjBvUFFH?=
- =?utf-8?B?cFozTmJJK2pkeTYwL2ovMkloTGhZZjM2WGNUcXlNcjllQ1l0SVZOdm1iTlBJ?=
- =?utf-8?B?RVhBWVJLbENWbEkyNGVwWE9xZnUxK2c4L1czUkVyV3d3V3N1NkZjbGk5UEVo?=
- =?utf-8?B?cy9oYUpEN01tMTJOclpBTXdIOWlOOUd1YjNtZlZ6bjRicGR2eW93emRNcUpn?=
- =?utf-8?B?VTRHbko3K3hTS2ZGOUdQVldKYnZDYmJrL0dlcU9SdkkxcjJSYmwyUXh4S3NO?=
- =?utf-8?B?NzE4VzV6V1RpZy9tT1hTL2I5empQQXBwN29pdTZuQVlyazBDNTBFa3BOZVpm?=
- =?utf-8?B?TlVMeE5QUUFRMk9KV1l1UWRFcTBMcGZEK0RSNFNvVFZZZWQ3VzlnOFFJTUZW?=
- =?utf-8?B?SVlHUUg0T3dzejNLNG1ESXRiNDZYSDlxck5RUnR4bVRxcGxuS3R5eUcraWdv?=
- =?utf-8?B?bXh3NnNIQytVY3owVVpzOFkyK29mUnlaSHFlWGlhU0VpbDRQS0U1V3p1TFB5?=
- =?utf-8?B?NlpSd1M4b25qaU1kbHl2MFVkcE5pUmFkbm1kd2pjZUtOcHdEUS9VakRpL1hD?=
- =?utf-8?B?d3FZc2xyaTRDMUFnREZFMVVGZVZRSXhvNHpDaFlNb2NkRzgycmZVSFlYTDNG?=
- =?utf-8?B?WkxkanJMbzYvdkNZRGE0STlkZ0FHYnVIS2VDdnRXdy8vRkt2bG1DUFBiNlFJ?=
- =?utf-8?B?YjlkdGViQVV3MHg4d3VpemZLN3hNUnFwVlEvdjdoN2o2aWFkcmxETHl2UTJi?=
- =?utf-8?B?blpUWHhNYW1qN1drajVzZStxeXVkSzFXU1FMV1c1MTNRTUJpMWtXWnNoT0p6?=
- =?utf-8?B?N0xWN0JNS3VCZUFTTFFSdlJaNXFqR3VIQkJwcmZuT0I4MWlHQzRMZS94VEow?=
- =?utf-8?B?Sld5ck4yd2hVaEFRRHY5TzNzZjE1Rk9uVHpFbHd6OWVrV3Z3VkRQbk9BRmVY?=
- =?utf-8?B?WnYxeDhEenRVV1pBSGV4Y3J4bW1yeHdReVF5bmJScnV0Y0ltOHFzVXVKS284?=
- =?utf-8?B?K20zSW96aXE5ZTFWTFN0d0tpZXNtY3I5cmpFQ1I2SENTQ1VFeEs0SGUvVWV2?=
- =?utf-8?B?Zit1TGc1U3d6cWNVMXBrenE0UjZsUlkreFFTNWVObU1CZjU5KzI0NVVacWk3?=
- =?utf-8?B?L1p5RDZnaTFybnRqOC9lQkpLc0Q4dUN5dDZRM0U1bkpnSHdJLy9BMlNGQnd5?=
- =?utf-8?B?WUFPR1Q4dUhTc1RsRTEydGM5NlVSQUJ6aWloTXhlS1pLSWhRQ0tOWFBFY0tt?=
- =?utf-8?B?WDYwbnZZQmtIM2pjVHFMWmVjMFYrcGYyUUg0YkNhT1hVT1NvWTVMQ28zQVFz?=
- =?utf-8?B?TzljZExjRXUxVGNzYVYvVWlrOFloRFpEL0NLQjVZWWFMcFU3VGJnU2pTRzZu?=
- =?utf-8?B?M0lCQU1kNy9jSmN5TkZVUXh5UVV4SUZQaWRidFhCay9MWnIrV3l1YnlDZzY2?=
- =?utf-8?B?Q0w0ck9oK2ExOWNRd0F6b3U4dE94OXVFbmxCNG5kUGhRanl6UzA4R0svVUpH?=
- =?utf-8?B?NEFoQmgwSWJRM0JDaFBjVGd0L294dDFCMUE1QmFnb081RGdhaVZDOTlva0Rw?=
- =?utf-8?B?YU5lY1g0WFBLa1N4Y1dFbS9JZlpBVXp0QWVobkFzYmZuWXVoOEhtMERHOWFM?=
- =?utf-8?B?ZDNQWVFGQlluMFhTcENvOXZ5eEx0bGgyMitiR3lUNWFlMHltcmhEcnQ2b3FB?=
- =?utf-8?B?a2c9PQ==?=
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature";
- boundary="------------dT78fwanlHg7e0uWwHDLdYNE"
+ d=google.com; s=20230601; t=1762167139; x=1762771939;
+ darn=lists.freedesktop.org; 
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+ bh=WwKprwTirCt4i5Js91Sl+ZyTThwVs5kTlEuvLY+kPJk=;
+ b=xtNiIoPBpihNZc9O6eZhIuttXGhdz5d5ZHRKgEVwWIEEv4vTiK3jSeZbelOpH56esQ
+ s7SdDE6Sn/LVmniidT7kZlF4mKmFQ1aOpD0Q4C2LU+gut8rVvCkk2ag3gO0acpBaxjMc
+ L/Ezvlo6MN1A6s1I3OilwAg3+XHFNCmv1HZMwkxXV3L3gauU02Gno1V3QwwqiOFYCrO2
+ PoPwqVcT5/nXLF9cP4AE+Do1waGX9aodRgN66GssGYSGKpW/qvssTiwTsiVk8XJSLqSE
+ oR3JP2qjXg17/9MrwTZ96Nlivx2Qt7w3NbztYiWf1Nlh5rIXZm2pnTjt8eW+yZ8LTS5k
+ iuIQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1762167139; x=1762771939;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=WwKprwTirCt4i5Js91Sl+ZyTThwVs5kTlEuvLY+kPJk=;
+ b=tGEA0ZQli98/4UpAhvUtncrkrSPQex4FP0Kc76JVWhskLgMaXbLtVF3NnwjL/VAWj6
+ N4e96jZ1c8OSFGS58bzlKuvnCDwJvCvAU+4wcQy2btM+qajwhNYMjyxj2h6CBYTjE77B
+ JMJW4NvjzUgYFZPS6kLP9cgexDk6O8qgOfomDdXYpr9O+dGHd5m6OWZ9tvKxR+d3Qv1Z
+ UxupGSDvmH8GDKg2KjQht5UG+U9WKRJXuekFxSG1jomORUtynirSCMJERj3diebXTdoN
+ fHhxoxbU9oZ3k07txoPlGI4mEEIt/EmnEPwgV3wR48AhTBCf/XwJyF34lmjBSQisS37+
+ +8rA==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCV3YlcTsLzcLPk/LcpeTg4j3C9pTsRJ8py6tyqnVVmZfA5WdcOLN5cV6HBMSVKT84nYy27rvkrV5IE=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Yw6jz7jySzH9O+md5YTNAjFwXONfoBbtplFyaa85AOxF7LkO2t1
+ SAG1yqyneqgSzV22eW7j0Ebgs/+/L3BsoMnAG/GNEA/PUj70HGhYvlCm7PFduGwaJg==
+X-Gm-Gg: ASbGnctPBAIwsyeF630HrriZHnfX7AObPOh007DTvYJpKwmgPPOm+Aan7ZolxQSYD+0
+ 8zwlzTrKVKzudX49iTXqqTXe4sdjszSbtP8Vos3WVwCM4IA2sah1vW5lXu/2T1MNG9jYbcoSmST
+ Kd7PcZLXjHMCREBgEdVcMIafNB4ksi7+A101T/1WXweGIcI4mgu0eu0JCUDgqLZXlv1LjbqQ5qe
+ biesPIEz+iVOA3XrY9p6t2/7BI5mUMGEA67iqw7MHz+sjmIPVc3WPc93gy0V3YWjU+Y5/1FXuOg
+ dSHJh7AdVC7HPpDr2A6ymVY5YyizVJgwGrw34Ayh4Npcm8/AFkJv174L60rNu4C1HCTwe8PxMnN
+ bKIChHR/RJeAZlGstNZvgk8Yn/T3C6GN1LCyGJBvKfCJvupnpbyz+izMYKNxXI9TC7ySouoXWAE
+ JOd+5QZFxD8wfTuK0AwABoxpi1bxXJxO9qmrshNg==
+X-Google-Smtp-Source: AGHT+IHPuCzOHK+gl1PDmhIoWt8nQcQHNMFtOu890fqfdIsVUQlawn89pKWjl6bN9nnq4lv2uM5QPg==
+X-Received: by 2002:a17:902:c411:b0:295:3f35:a315 with SMTP id
+ d9443c01a7336-2955658e37fmr6124875ad.5.1762167138172; 
+ Mon, 03 Nov 2025 02:52:18 -0800 (PST)
+Received: from google.com (164.210.142.34.bc.googleusercontent.com.
+ [34.142.210.164]) by smtp.gmail.com with ESMTPSA id
+ 98e67ed59e1d1-3415994181esm651172a91.5.2025.11.03.02.52.10
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 03 Nov 2025 02:52:17 -0800 (PST)
+Date: Mon, 3 Nov 2025 10:52:07 +0000
+From: Pranjal Shrivastava <praan@google.com>
+To: Jason Gunthorpe <jgg@nvidia.com>
+Cc: Alexander Gordeev <agordeev@linux.ibm.com>,
+ David Airlie <airlied@gmail.com>,
+ Alex Williamson <alex.williamson@redhat.com>,
+ Ankit Agrawal <ankita@nvidia.com>,
+ Christian Borntraeger <borntraeger@linux.ibm.com>,
+ Brett Creeley <brett.creeley@amd.com>,
+ dri-devel@lists.freedesktop.org, Eric Auger <eric.auger@redhat.com>,
+ Eric Farman <farman@linux.ibm.com>,
+ Giovanni Cabiddu <giovanni.cabiddu@intel.com>,
+ Vasily Gorbik <gor@linux.ibm.com>,
+ Heiko Carstens <hca@linux.ibm.com>, intel-gfx@lists.freedesktop.org,
+ Jani Nikula <jani.nikula@linux.intel.com>,
+ Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
+ Kevin Tian <kevin.tian@intel.com>, kvm@vger.kernel.org,
+ Kirti Wankhede <kwankhede@nvidia.com>, linux-s390@vger.kernel.org,
+ Longfang Liu <liulongfang@huawei.com>,
+ Matthew Rosato <mjrosato@linux.ibm.com>,
+ Nikhil Agarwal <nikhil.agarwal@amd.com>, Nipun Gupta <nipun.gupta@amd.com>,
+ Peter Oberparleiter <oberpar@linux.ibm.com>,
+ Halil Pasic <pasic@linux.ibm.com>, qat-linux@intel.com,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>, Simona Vetter <simona@ffwll.ch>,
+ Shameer Kolothum <skolothumtho@nvidia.com>,
+ Mostafa Saleh <smostafa@google.com>, Sven Schnelle <svens@linux.ibm.com>,
+ Tvrtko Ursulin <tursulin@ursulin.net>, virtualization@lists.linux.dev,
+ Vineeth Vijayan <vneethv@linux.ibm.com>, Yishai Hadas <yishaih@nvidia.com>,
+ Zhenyu Wang <zhenyuw.linux@gmail.com>,
+ Zhi Wang <zhi.wang.linux@gmail.com>, patches@lists.linux.dev
+Subject: Re: [PATCH 22/22] vfio: Remove the get_region_info op
+Message-ID: <aQiJV4p3AKZSDH08@google.com>
+References: <0-v1-679a6fa27d31+209-vfio_get_region_info_op_jgg@nvidia.com>
+ <22-v1-679a6fa27d31+209-vfio_get_region_info_op_jgg@nvidia.com>
 MIME-Version: 1.0
-X-OriginatorOrg: imgtec.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: CWXP265MB3397.GBRP265.PROD.OUTLOOK.COM
-X-MS-Exchange-CrossTenant-Network-Message-Id: 59b95f24-b7f0-4722-b2c8-08de1ac4e00e
-X-MS-Exchange-CrossTenant-originalarrivaltime: 03 Nov 2025 10:36:40.7965 (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 0d5fd8bb-e8c2-4e0a-8dd5-2c264f7140fe
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: dM+Wcc48nFFpQK6j/hKwjtlYTh9U5sWDxSNTJz5mE/uYDAp2s6idDOx05/Iwj22TBwQ8RReCx2MrICl0LHsEbw==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: LO0P265MB7285
-X-Authority-Analysis: v=2.4 cv=KrdAGGWN c=1 sm=1 tr=0 ts=690885c0 cx=c_pps
- a=1CbwQMJI/cibt1KAZ2VugQ==:117 a=z/mQ4Ysz8XfWz/Q5cLBRGdckG28=:19
- a=lCpzRmAYbLLaTzLvsPZ7Mbvzbb8=:19 a=xqWC_Br6kY4A:10 a=6UeiqGixMTsA:10
- a=NgoYpvdbvlAA:10 a=VkNPw1HP01LnGYTKEx00:22 a=VwQbUJbxAAAA:8 a=r_1tXGB3AAAA:8
- a=QyXUC8HyAAAA:8 a=b3CbU_ItAAAA:8 a=pGLkceISAAAA:8 a=e5mUnYsNAAAA:8
- a=S2FLAo3L4qEqFndonAgA:9 a=QEXdDO2ut3YA:10 a=rMM0vjyBPkvaw3GELqEA:9
- a=FfaGCDsud1wA:10 a=t8nPyN_e6usw4ciXM-Pk:22 a=Rv2g8BkzVjQTVhhssdqe:22
- a=Vxmtnl_E_bksehYqCbjh:22 a=cPQSjfK2_nFv0Q5t_7PE:22
-X-Proofpoint-GUID: 3oFeupuTp9yYJc0zs6FhAL3yX8ctIurb
-X-Proofpoint-ORIG-GUID: 3oFeupuTp9yYJc0zs6FhAL3yX8ctIurb
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUxMTAzMDA5NyBTYWx0ZWRfX4wLC6lVQogZn
- 1mUTolyEhNFwHBhnvCZcByoowwr9K/1R1aCYUGzsuKjg61355r6Hy6waNQ/XgjhJvfrnfQOn0ND
- h4UUoW6oj8UDoBxz1GQRUpCcjcO5EZYrxwpuOP/lpYVwhi32kYPWXQ8msrIP2aS5wt3rzK6usct
- fnwKy7/MtpaY4T00EjDWtA25eb+ZxdCdFo8MrhStEWyQP5Ef6kj5FijUm4pn7LVousgMYphu4Hn
- f0B3/w63pJGwP01qMOwYENrZR8bN4PTE81M4GiN9k3jauDEbfc+5l/fncCWKDWeFYkF9jvcAlZb
- 48UsGWagfubZkhkg9SG1Tg4ikWL+wcSJ7X2Z6Mp/vSKiwa+P3818cpk1fqV7at6IMbAVmFT1Y9E
- UZwNyd/h9rd0redYfLWIOhy8KwPAZQ==
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <22-v1-679a6fa27d31+209-vfio_get_region_info_op_jgg@nvidia.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -209,112 +116,104 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
---------------dT78fwanlHg7e0uWwHDLdYNE
-Content-Type: multipart/mixed; boundary="------------EJrVUzO8KGz9IJJ5iyBRxZRJ";
- protected-headers="v1"
-From: Matt Coster <matt.coster@imgtec.com>
-To: Marek Vasut <marek.vasut+renesas@mailbox.org>,
- dri-devel@lists.freedesktop.org
-Cc: David Airlie <airlied@gmail.com>, Frank Binns <frank.binns@imgtec.com>,
- Alessio Belle <alessio.belle@imgtec.com>,
- Alexandru Dadu <alexandru.dadu@imgtec.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Simona Vetter <simona@ffwll.ch>,
- Thomas Zimmermann <tzimmermann@suse.de>, linux-renesas-soc@vger.kernel.org
-Message-ID: <b9625d6d-93bf-4c33-a20b-044e680f81af@imgtec.com>
-Subject: Re: [PATCH] drm/imagination: Depend on power sequencing
-References: <20251102184158.264378-1-marek.vasut+renesas@mailbox.org>
-In-Reply-To: <20251102184158.264378-1-marek.vasut+renesas@mailbox.org>
-
---------------EJrVUzO8KGz9IJJ5iyBRxZRJ
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-
-Hi Marek,
-
-On 02/11/2025 18:41, Marek Vasut wrote:
-> Since commit e38e8391f30b ("drm/imagination: Use pwrseq for TH1520 GPU
-> power management"), the driver calls power sequencing functions. Add
-> missing dependency on POWER_SEQUENCING, otherwise the kernel may fail
-> to build if the driver is built-in and POWER_SEQUENCING is a module
-> with these linker errors:
->=20
-> aarch64-linux-gnu-ld: Unexpected GOT/PLT entries detected!
-> aarch64-linux-gnu-ld: Unexpected run-time procedure linkages detected!
-> aarch64-linux-gnu-ld: drivers/gpu/drm/imagination/pvr_power.o: in funct=
-ion `pvr_power_off_sequence_pwrseq':
-> pvr_power.c:(.text+0x70): undefined reference to `pwrseq_power_off'
-> aarch64-linux-gnu-ld: drivers/gpu/drm/imagination/pvr_power.o: in funct=
-ion `pvr_power_on_sequence_pwrseq':
-> pvr_power.c:(.text+0x88): undefined reference to `pwrseq_power_on'
-> aarch64-linux-gnu-ld: drivers/gpu/drm/imagination/pvr_power.o: in funct=
-ion `pvr_power_init_pwrseq':
-> pvr_power.c:(.text+0xb4): undefined reference to `devm_pwrseq_get'
-
-Thanks for the fix! I did send a similar patch[1] last month in response
-to a test bot report[2], but it slipped my mind to chase an Rb for it so
-it's never been applied.
-
-Do you mind if I take the earlier patch instead of this one, since it
-doesn't add a hard dependency on POWER_SEQUENCING?
-
-Cheers,
-Matt
-
-[1]: https://lore.kernel.org/dri-devel/20251014-pwrseq-dep-v1-1-49aabd9d8=
-fa1@imgtec.com/
-[2]: https://lore.kernel.org/oe-kbuild-all/202510111806.CMulNMKW-lkp@inte=
-l.com/
-
->=20
-> Fixes: e38e8391f30b ("drm/imagination: Use pwrseq for TH1520 GPU power =
-management")
-> Signed-off-by: Marek Vasut <marek.vasut+renesas@mailbox.org>
+On Thu, Oct 23, 2025 at 08:09:36PM -0300, Jason Gunthorpe wrote:
+> No driver uses it now, all are using get_region_info_caps().
+> 
+> Signed-off-by: Jason Gunthorpe <jgg@nvidia.com>
 > ---
-> Cc: David Airlie <airlied@gmail.com>
-> Cc: Frank Binns <frank.binns@imgtec.com>
-> Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
-> Cc: Matt Coster <matt.coster@imgtec.com>
-> Cc: Maxime Ripard <mripard@kernel.org>
-> Cc: Simona Vetter <simona@ffwll.ch>
-> Cc: Thomas Zimmermann <tzimmermann@suse.de>
-> Cc: dri-devel@lists.freedesktop.org
-> Cc: linux-renesas-soc@vger.kernel.org
-> ---
->  drivers/gpu/drm/imagination/Kconfig | 1 +
->  1 file changed, 1 insertion(+)
->=20
-> diff --git a/drivers/gpu/drm/imagination/Kconfig b/drivers/gpu/drm/imag=
-ination/Kconfig
-> index 682dd2633d0c..40ee08f72995 100644
-> --- a/drivers/gpu/drm/imagination/Kconfig
-> +++ b/drivers/gpu/drm/imagination/Kconfig
-> @@ -7,6 +7,7 @@ config DRM_POWERVR
->  	depends on DRM
->  	depends on MMU
->  	depends on PM
-> +	depends on POWER_SEQUENCING
->  	select DRM_EXEC
->  	select DRM_GEM_SHMEM_HELPER
->  	select DRM_SCHED
+>  drivers/vfio/vfio_main.c | 50 +++++++++++++++++-----------------------
+>  include/linux/vfio.h     |  2 --
+>  2 files changed, 21 insertions(+), 31 deletions(-)
+> 
+> diff --git a/drivers/vfio/vfio_main.c b/drivers/vfio/vfio_main.c
+> index 82e7d79b1f9fe2..f911c1980c9420 100644
+> --- a/drivers/vfio/vfio_main.c
+> +++ b/drivers/vfio/vfio_main.c
+> @@ -1263,48 +1263,40 @@ static long vfio_get_region_info(struct vfio_device *device,
+>  				 struct vfio_region_info __user *arg)
+>  {
+>  	unsigned long minsz = offsetofend(struct vfio_region_info, offset);
+> +	struct vfio_info_cap caps = { .buf = NULL, .size = 0 };
+>  	struct vfio_region_info info = {};
+>  	int ret;
+>  
+> +	if (unlikely(!device->ops->get_region_info_caps))
+> +		return -EINVAL;
+> +
+>  	if (copy_from_user(&info, arg, minsz))
+>  		return -EFAULT;
+>  	if (info.argsz < minsz)
+>  		return -EINVAL;
+>  
+> -	if (device->ops->get_region_info_caps) {
+> -		struct vfio_info_cap caps = { .buf = NULL, .size = 0 };
+> +	ret = device->ops->get_region_info_caps(device, &info, &caps);
+> +	if (ret)
+> +		return ret;
 
---=20
-Matt Coster
-E: matt.coster@imgtec.com
+Shall we kfree(caps.buf); before returning?
 
---------------EJrVUzO8KGz9IJJ5iyBRxZRJ--
+> -		ret = device->ops->get_region_info_caps(device, &info, &caps);
+> -		if (ret)
+> -			return ret;
+> -
+> -		if (caps.size) {
+> -			info.flags |= VFIO_REGION_INFO_FLAG_CAPS;
+> -			if (info.argsz < sizeof(info) + caps.size) {
+> -				info.argsz = sizeof(info) + caps.size;
+> -				info.cap_offset = 0;
+> -			} else {
+> -				vfio_info_cap_shift(&caps, sizeof(info));
+> -				if (copy_to_user(arg + 1, caps.buf,
+> -						 caps.size)) {
+> -					kfree(caps.buf);
+> -					return -EFAULT;
+> -				}
+> -				info.cap_offset = sizeof(info);
+> +	if (caps.size) {
+> +		info.flags |= VFIO_REGION_INFO_FLAG_CAPS;
+> +		if (info.argsz < sizeof(info) + caps.size) {
+> +			info.argsz = sizeof(info) + caps.size;
+> +			info.cap_offset = 0;
+> +		} else {
+> +			vfio_info_cap_shift(&caps, sizeof(info));
+> +			if (copy_to_user(arg + 1, caps.buf, caps.size)) {
+> +				kfree(caps.buf);
+> +				return -EFAULT;
+>  			}
+> -			kfree(caps.buf);
+> +			info.cap_offset = sizeof(info);
+>  		}
+> -
+> -		if (copy_to_user(arg, &info, minsz))
+> -			return -EFAULT;
+> -	} else if (device->ops->get_region_info) {
+> -		ret = device->ops->get_region_info(device, arg);
+> -		if (ret)
+> -			return ret;
+> -	} else {
+> -		return -EINVAL;
+> +		kfree(caps.buf);
+>  	}
+>  
+> +	if (copy_to_user(arg, &info, minsz))
+> +		return -EFAULT;
+>  	return 0;
+>  }
+>  
+> diff --git a/include/linux/vfio.h b/include/linux/vfio.h
+> index 6311ddc837701d..8e1ddb48b9b54e 100644
+> --- a/include/linux/vfio.h
+> +++ b/include/linux/vfio.h
+> @@ -133,8 +133,6 @@ struct vfio_device_ops {
+>  			 size_t count, loff_t *size);
+>  	long	(*ioctl)(struct vfio_device *vdev, unsigned int cmd,
+>  			 unsigned long arg);
+> -	int	(*get_region_info)(struct vfio_device *vdev,
+> -				   struct vfio_region_info __user *arg);
+>  	int	(*get_region_info_caps)(struct vfio_device *vdev,
+>  					struct vfio_region_info *info,
+>  					struct vfio_info_cap *caps);
 
---------------dT78fwanlHg7e0uWwHDLdYNE
-Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="OpenPGP_signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-wnsEABYIACMWIQS4qDmoJvwmKhjY+nN5vBnz2d5qsAUCaQiFuAUDAAAAAAAKCRB5vBnz2d5qsGX9
-AP47GAzWY9CNqC4mo8dxcq+tdh7nb/5VFbGGl9bLJxyY+wEA91+Tc8L0ONgZDZGpw5EJHr9xrVQv
-tVxUD8eeBUjyiQc=
-=fwne
------END PGP SIGNATURE-----
-
---------------dT78fwanlHg7e0uWwHDLdYNE--
+Thanks,
+Praan
