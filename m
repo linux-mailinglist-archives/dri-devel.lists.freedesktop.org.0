@@ -2,68 +2,68 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1437BC2A361
-	for <lists+dri-devel@lfdr.de>; Mon, 03 Nov 2025 07:41:57 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 27D15C2A36D
+	for <lists+dri-devel@lfdr.de>; Mon, 03 Nov 2025 07:43:22 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1D43210E359;
-	Mon,  3 Nov 2025 06:41:54 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7E1A810E35E;
+	Mon,  3 Nov 2025 06:43:20 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=google.com header.i=@google.com header.b="gqch4w5g";
+	dkim=pass (2048-bit key; unprotected) header.d=google.com header.i=@google.com header.b="pluaPc8k";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pl1-f179.google.com (mail-pl1-f179.google.com
- [209.85.214.179])
- by gabe.freedesktop.org (Postfix) with ESMTPS id ACFC310E35E
- for <dri-devel@lists.freedesktop.org>; Mon,  3 Nov 2025 06:41:52 +0000 (UTC)
-Received: by mail-pl1-f179.google.com with SMTP id
- d9443c01a7336-294f3105435so334035ad.1
- for <dri-devel@lists.freedesktop.org>; Sun, 02 Nov 2025 22:41:52 -0800 (PST)
+Received: from mail-pl1-f170.google.com (mail-pl1-f170.google.com
+ [209.85.214.170])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4A56E10E35E
+ for <dri-devel@lists.freedesktop.org>; Mon,  3 Nov 2025 06:43:19 +0000 (UTC)
+Received: by mail-pl1-f170.google.com with SMTP id
+ d9443c01a7336-295c64cb951so79735ad.0
+ for <dri-devel@lists.freedesktop.org>; Sun, 02 Nov 2025 22:43:19 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=google.com; s=20230601; t=1762152112; x=1762756912;
+ d=google.com; s=20230601; t=1762152199; x=1762756999;
  darn=lists.freedesktop.org; 
  h=in-reply-to:content-disposition:mime-version:references:message-id
  :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
- bh=xy09bbBV2an4SjPwDAIo8320NA2LlnNWvmRboTY817s=;
- b=gqch4w5gnNix3wZ9ZhLfVOdTwPxxM14a5wtZ7h3QgfpaouOSd/oigWFx/FzXdAZoYI
- ozQM1ZPLBPLUwXSgnCuk7piLxb7qEGgJ6RX1D7OPfvhwgkbpDJBaOBLivPc2smLgX/MH
- MyrRMtxPqI2TDQgGOBdmH0Yonj8c6oZabhrYbY/kO1WIbOR4OQRywvA4MIQltw6aWhd1
- FLzi+82vmk5Ng2juxWXiIoWmQUnWVr/uwH3VoN+5JDDrzyzX/JrUbRejPcWWnGhRGQrb
- r0hGk/DqsgADaP02W1Jb7z2jW6YVs92J0sxsrnkGH4mjJJvP+dV6+T5Km5yzqds7Z+C0
- xnKg==
+ bh=vxS6TWyQqtdZLWaYvGIMM/0/SSg5nejyyCdpsoAJAw4=;
+ b=pluaPc8kePuCRi+TZ5YOzm2lerWQR5WqV6LX+gGG290uNiSW9tpl7WTMO0oM3jaMRe
+ Y+kG0LElUP7kzq7Vceb5XD18uPoZ7lH+1ouC3UslKkU4vYVXprXQHN+4heWXsN27vafU
+ klsoRA4xxGEm610woEpfcH53I2qz9wslgsSgvzf4PBa9i5eRc4DWWaErQQY5sLUytGhC
+ 9dQuO9OaIQ0AMbOinFSNgKADLF//KJdpxAgMBXsifZqq1DKADTZOt3UiH7fSDRh6b6kq
+ l5pGGG9yniTbKSjBfKh1gbjqkPW2Cr4QQdJQF1YSeMDC2ZSyYT/bcANYp6rK95aY/If6
+ asXw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1762152112; x=1762756912;
+ d=1e100.net; s=20230601; t=1762152199; x=1762756999;
  h=in-reply-to:content-disposition:mime-version:references:message-id
  :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
  :message-id:reply-to;
- bh=xy09bbBV2an4SjPwDAIo8320NA2LlnNWvmRboTY817s=;
- b=xJp6/3LlCSSvG08lYG3WaV5MKP71/r9wbrIsL1tFkNGh6LYZU4VGLVanePF/1xO435
- zdJAvNC8/zmvtfIQhy7jWj69CbwT7MY+XnYrz5aAvSq77500ugbH7NOUe9QGcwT68v5B
- /IvVJAzEbFVEjBbhuW2XvEdKXJWtQKEaDzkgt7rqvwsJ7pSiBq24zAZmJGXsDUv0Lh54
- YpOUj814Gya0XHG3+tH4AXupIZDjUO/GcC4vb4u5GFPphHciQNH6yrRXO8UZOKSPIncO
- +DYzTOMPJqhx+bECmnCHjGwjkUj2LSE6xRDIPyFKTsXm0rwFsP+a+w8wFrpQJyCuEjNv
- PVSA==
+ bh=vxS6TWyQqtdZLWaYvGIMM/0/SSg5nejyyCdpsoAJAw4=;
+ b=wvcEr/Kjvf0M/EXu6ef+zkBN3MRY9gxlV5gEOUbRp+zP3uJWwAhDAekoneCHYdcZF0
+ ak6H03aESAKIx0AeByWd9IuHB2oMV6k8hkiH+fub8tmL22lwS9nUVEG/aGSzEgHBcLFA
+ gFt5P8MOuK82BTLvnXKQrsn3aN6uQG2MBB60qv+rlZFY9fQSi7cd1Iuv9YhraUqTo3mp
+ QrYhuXPbR8VgmPvpNnG6ItbLsB4CMMHDY/UBp/Y8939HIt89o21UbV8HU17zUImT+PSB
+ aVxAn6tIuuAp1nrCUiSJPtsaeswGNQa3R5T67CcyH47mvuPEVaOlE0O2Z8t2IWHpYjFl
+ TJBA==
 X-Forwarded-Encrypted: i=1;
- AJvYcCXfcrzJzqlpKzupTMypIOE6juUfDWrkcsNX3E+NAwBc6wcquIiPqkS/nYATtBSr2w6YBZ0sf4F3dOA=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Yyi2Gl5QPaJ0oNknAls2m63AjPsIG5REYitvQdg0BBwjTKPE3uB
- 3s/ix8CWaNCoeHaiKdA0vlg6j76ZHMes6CnoR51OW8SzRm+Utq2SYMh3b3rAj/SR4g==
-X-Gm-Gg: ASbGnctS4jb7egabnaPGsmJx6SV1E2mOkFbkece7cA5cg8uka4H30G9G8TOlyxz8bxk
- eTb2rriprUeMoyHRsCtWQb+vSo7BANaYZxOedAdHIKR3JXf2X6//I0QGrnxMc1JUUe9q+qk0PqF
- euMiUl4TtRTE6VuZW6WWbW8cZcnFjjFtNXcrLgTamxh98RyxvG9K9ZFLIFFJFc2zrl+4Ba8bzE6
- R5M76V0+uVreWs8uL6seZOT5d2D9w4o92sNEl1z4rGgDu3aGbQc2hi9cKMwED4iaQrKIkaR1sv1
- TPgVepHr3L3MhrTFIBsOjHwyR+ZE/yLTPG6D3eJ0aoaLFWHeoxIVJW5zO32icHKhwrgaKfKHdYH
- JcisTarpZK8T9qaxwzv6TXdYsn1DBfWiAnI1mPqj+sG8cRcb8GVRmwgtELB8WgkxVKumaoWZk/0
- 49WtnXfJIs5cjYpnmEYqY0wrmFUPGXTQCZaWSmlVtgZLa+K98S
-X-Google-Smtp-Source: AGHT+IGU3X/bvekwg5vtQ6XJGr9uQJGWUTHzyQr+Es6KbcLgu8QfXVso61Ocr0oWX8j6FOttuRoGtw==
-X-Received: by 2002:a17:903:1ce:b0:292:b6a0:80df with SMTP id
- d9443c01a7336-29554bb5aaemr5658455ad.10.1762152111810; 
- Sun, 02 Nov 2025 22:41:51 -0800 (PST)
+ AJvYcCWOFHmqK5qiiqr4CnoQDk35Nh2TxaQtFlEuftNxbMGMGm+a3iyllFuVNgyxhVD3dBYcWFfUYTdKstc=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Yz8hO78CZyLuMQnAd3/gyXXikTw5bvB44O25yjo77ijHxvdRso5
+ iVFWfW0rAylJVx3DrV7e56dbkwVfyH5WEecGxixA5dj3puGEowaqLy5bQOBxpbIEbA==
+X-Gm-Gg: ASbGncv/X5WBa7LuJeA5Wedw3/DeH6vaDqfHCQRdAOKdPiyQO+vLnreudocB8bjhURW
+ SB3/YCpqhlCGBZldqy4IsUVcu1fP7S33PDFelZ36juM4cenLlkfHCjPEf09o1vIwsLpCR5jzIms
+ OB4/wg3BH5JrZXbicDhuO+CwKCzKnGj2aRBUosdYVpkjP+OGoA818a6CsYjxebHMsl/3qGnFEZ8
+ FZb4V5EC1URWtsGC2gJ0TUtHKu1ULdc0jWjDGTqwLSIvoyeDHHAq5UiLlKZZzZYH2g0a4ZR9IWn
+ pg9iTTpNMv/H4KI4x1o0bE8QkBwE1UxJnW9+5UlP18DI8Q1Nh2CcZ/BmvKrlNr5RZrBZ98r0cDi
+ lK2Mgwy7lw/5yA57vpjfw/grC1MsIFH+IYc+3zDfM/UjuJH55TnW3b8yX8zGvTWwsnaBI0LkF+9
+ u8so6cYgk1GaJxeOF9xz8lisRu/8aBNxTS5YoAS2KmFo65HTGC
+X-Google-Smtp-Source: AGHT+IEazENwFhX4zlZOAPlLrsglGHn3aC4ae1C3vchxLK4wgltvDYn1olscExUoutjpE7Up5ejKXA==
+X-Received: by 2002:a17:903:2f81:b0:295:5405:46be with SMTP id
+ d9443c01a7336-295562f73a8mr5347545ad.1.1762152198351; 
+ Sun, 02 Nov 2025 22:43:18 -0800 (PST)
 Received: from google.com (164.210.142.34.bc.googleusercontent.com.
  [34.142.210.164]) by smtp.gmail.com with ESMTPSA id
- d9443c01a7336-2952696eb6bsm105902925ad.58.2025.11.02.22.41.44
+ d9443c01a7336-2954d5ee092sm80708835ad.62.2025.11.02.22.43.10
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 02 Nov 2025 22:41:51 -0800 (PST)
-Date: Mon, 3 Nov 2025 06:41:41 +0000
+ Sun, 02 Nov 2025 22:43:17 -0800 (PST)
+Date: Mon, 3 Nov 2025 06:43:07 +0000
 From: Pranjal Shrivastava <praan@google.com>
 To: Jason Gunthorpe <jgg@nvidia.com>
 Cc: Alexander Gordeev <agordeev@linux.ibm.com>,
@@ -93,14 +93,14 @@ Cc: Alexander Gordeev <agordeev@linux.ibm.com>,
  Vineeth Vijayan <vneethv@linux.ibm.com>, Yishai Hadas <yishaih@nvidia.com>,
  Zhenyu Wang <zhenyuw.linux@gmail.com>,
  Zhi Wang <zhi.wang.linux@gmail.com>, patches@lists.linux.dev
-Subject: Re: [PATCH 04/22] vfio/nvgrace: Convert to the get_region_info op
-Message-ID: <aQhOpec7prJD3zKm@google.com>
+Subject: Re: [PATCH 05/22] vfio/pci: Fill in the missing get_region_info ops
+Message-ID: <aQhO-5Ka4b8Mcwxf@google.com>
 References: <0-v1-679a6fa27d31+209-vfio_get_region_info_op_jgg@nvidia.com>
- <4-v1-679a6fa27d31+209-vfio_get_region_info_op_jgg@nvidia.com>
+ <5-v1-679a6fa27d31+209-vfio_get_region_info_op_jgg@nvidia.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <4-v1-679a6fa27d31+209-vfio_get_region_info_op_jgg@nvidia.com>
+In-Reply-To: <5-v1-679a6fa27d31+209-vfio_get_region_info_op_jgg@nvidia.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -116,13 +116,21 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Oct 23, 2025 at 08:09:18PM -0300, Jason Gunthorpe wrote:
-> Change the signature of nvgrace_gpu_ioctl_get_region_info()
+On Thu, Oct 23, 2025 at 08:09:19PM -0300, Jason Gunthorpe wrote:
+> Now that every variant driver provides a get_region_info op remove the
+> ioctl based dispatch from vfio_pci_core_ioctl().
 > 
 > Signed-off-by: Jason Gunthorpe <jgg@nvidia.com>
 > ---
->  drivers/vfio/pci/nvgrace-gpu/main.c | 15 ++++++---------
->  1 file changed, 6 insertions(+), 9 deletions(-)
+>  drivers/vfio/pci/hisilicon/hisi_acc_vfio_pci.c | 1 +
+>  drivers/vfio/pci/mlx5/main.c                   | 1 +
+>  drivers/vfio/pci/nvgrace-gpu/main.c            | 1 +
+>  drivers/vfio/pci/pds/vfio_dev.c                | 1 +
+>  drivers/vfio/pci/qat/main.c                    | 1 +
+>  drivers/vfio/pci/vfio_pci.c                    | 1 +
+>  drivers/vfio/pci/vfio_pci_core.c               | 2 --
+>  drivers/vfio/pci/virtio/main.c                 | 2 ++
+>  8 files changed, 8 insertions(+), 2 deletions(-)
 > 
 
 Reviewed-by: Pranjal Shrivastava <praan@google.com>
