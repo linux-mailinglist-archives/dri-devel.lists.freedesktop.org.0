@@ -2,45 +2,45 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 24B50C3326B
-	for <lists+dri-devel@lfdr.de>; Tue, 04 Nov 2025 23:16:26 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9FD28C33272
+	for <lists+dri-devel@lfdr.de>; Tue, 04 Nov 2025 23:16:27 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C886A10E681;
-	Tue,  4 Nov 2025 22:16:22 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 89AA310E680;
+	Tue,  4 Nov 2025 22:16:23 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="FtOeuKsj";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="tk1GSwmu";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 466C310E67B
+Received: from sea.source.kernel.org (sea.source.kernel.org [172.234.252.31])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2EB9410E678
  for <dri-devel@lists.freedesktop.org>; Tue,  4 Nov 2025 22:16:16 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by tor.source.kernel.org (Postfix) with ESMTP id 5E63D60216;
+ by sea.source.kernel.org (Postfix) with ESMTP id 5B82A448D1;
  Tue,  4 Nov 2025 22:16:15 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 254B6C4CEF7;
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 36DCAC2BC87;
  Tue,  4 Nov 2025 22:16:15 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
  s=k20201202; t=1762294575;
- bh=7kVUuFepyL1nqefy7/RVz/fzVOVxrSJ4iaI+ek8pJSU=;
+ bh=10XNWDQ1dULf+P9kZ2dHmDwf8V4xwRtNb2eTtETPwsg=;
  h=From:Date:Subject:References:In-Reply-To:To:Cc:Reply-To:From;
- b=FtOeuKsjrUfQ808ka0As0INPyczTyCWSDAgoX+Gyb/lbJfu0nfdcD5AHHtWtFIVIl
- K0c4S2KUQH8Q11G5vS0Q/REUwJQAiU1iqZARYyeNifWy+/ftvkhdfsaGntTpIzWi6H
- 2zzXkZWDr3bJDs0oihuHkr6CZvHKskiJq8Ro4g7YN6qvoRyZIYDTWmlKpwyk98iiCC
- HPAOnC2FGaTP5gmaklh+2+qwc1CiOZmI9NfEw9vLVsf43ED3JlChN3MDB5VZsftNGX
- yhiUWgRv8nFpCapqB5cs7wIv6QuD0yRV5o7L5ugvD+30rzqUKrXh5fJ/G7HIOFxo1O
- iDnHzIKY9IynA==
+ b=tk1GSwmu08uHO6W8kQkko4cOuYzNXpXlmEkiryf5TEksgQ/teM6geCbnwmjLvR0mc
+ D5Qkdllt2GY44AVGc8DXZ8PMVtlAp0iLevi0Ueipg3Vj+IC2Cy7qDQR9yUihANhkvO
+ 7DSPsauholZV+eb8oC/bTdO8foa2LeTiVlpjxiasOs/TkQJzUpYNkLw6SPuG0uy2KF
+ C3VSLqjGWbPmp/Q8R3nRGCp0TzsZdmwTUhkyToh1D/e/WXPcL7FK4jZ976HWUTpNri
+ txtkAe5dZ3p53F+mnrdJwkFi4s+ytaej4tFV8AcesgGy8c3FkDc5WnOkijzsdxegaL
+ p4C/rx1UNwfdw==
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org
  (localhost.localdomain [127.0.0.1])
- by smtp.lore.kernel.org (Postfix) with ESMTP id 1C6BECCF9E3;
+ by smtp.lore.kernel.org (Postfix) with ESMTP id 2BEA7CCFA15;
  Tue,  4 Nov 2025 22:16:15 +0000 (UTC)
 From: David Heidelberg via B4 Relay <devnull+david.ixit.cz@kernel.org>
-Date: Tue, 04 Nov 2025 23:16:18 +0100
-Subject: [PATCH 10/12] drm/panel: sofef00: Simplify get_modes
+Date: Tue, 04 Nov 2025 23:16:19 +0100
+Subject: [PATCH 11/12] drm/panel: sofef00: Mark the LPM mode always-on
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20251104-sofef00-rebuild-v1-10-dfcfa17eb176@ixit.cz>
+Message-Id: <20251104-sofef00-rebuild-v1-11-dfcfa17eb176@ixit.cz>
 References: <20251104-sofef00-rebuild-v1-0-dfcfa17eb176@ixit.cz>
 In-Reply-To: <20251104-sofef00-rebuild-v1-0-dfcfa17eb176@ixit.cz>
 To: Neil Armstrong <neil.armstrong@linaro.org>, 
@@ -58,21 +58,21 @@ Cc: dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
  linux-kernel@vger.kernel.org, linux-arm-msm@vger.kernel.org, 
  phone-devel@vger.kernel.org, David Heidelberg <david@ixit.cz>
 X-Mailer: b4 0.14.3
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1958; i=david@ixit.cz;
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1446; i=david@ixit.cz;
  h=from:subject:message-id;
- bh=8diXpj4flXvL6PBJCymDKTVmS7jlHjaf2gFdGCxh2WA=;
- b=owEBbQKS/ZANAwAIAWACP8TTSSByAcsmYgBpCnssTJrYITqvXoSfOpO1N/xmq6B/uzeG9TnlS
- DqYQuDIxfeJAjMEAAEIAB0WIQTXegnP7twrvVOnBHRgAj/E00kgcgUCaQp7LAAKCRBgAj/E00kg
- csOfD/92fqAeLGJR+XZi2fUT8DBSLFFuuY+d02H9N1VyZMdNS49uTPInJ2tXxfoaPXH6okErM6c
- jAhM9x4Jc12U+BA6h3RrWMseOYi4cdusav8PngmIbRCX1xHqrgmCVuFq08k71IFo5VWGsVw9nSz
- NSGLIFi+9JNr0uNXatGNHziS/31y4aiU+qDIWooJni1IHpYIILL+1dI32t41gqdAzT80rNi89kM
- E61JOFvwez//Cbu6a7i1rEFAp/sI2BTs6966n0i99mL2a5DdX5dW5g082+QgNJ5oP1r1k8uaHC9
- 4QVYgOwusiCgd7FnHg7KVVxkmfJ83AjcnjGPImLPeeTVx46iTkHAYieD9umEBPJ8he8wVw+Hz1D
- LPQTxG5Hm1tcoOUT59XHBboB5cF5u0JNFgX6lbCA87B/uGa75uzgplwH3lKMz7AbAcOXqyGntOc
- fKZwFXGAvZEsUxEAzdKR9Xe2BugFoO5uQWsgJ2+nJC1KYCDIAgYJPxNHPEgCfmqls0zGbqk4g18
- 3ugHyWRctJtD013BG82UTU2r6b9oNCSkViKwcoRAf2Wb0mdPHKBA8pC/HKXKrLZwPnCtUd85WVu
- otN8XtLJoiHtLRRr4d1Y48C0kB49ns1guGqlMuV5EcIFO7t8w+KBe3lKA+GsOb73Onbikb3q9MR
- 88oF6RPjtYEyjCQ==
+ bh=dv4mgLKU6V9KA5Q8a78znnVTuWL2bX0IVKAwUPXHk8E=;
+ b=owEBbQKS/ZANAwAIAWACP8TTSSByAcsmYgBpCnss5hUpSPsdjW0ukYNFOlQ+Ocni+pVvHaxBz
+ bFmfbI4Y1aJAjMEAAEIAB0WIQTXegnP7twrvVOnBHRgAj/E00kgcgUCaQp7LAAKCRBgAj/E00kg
+ ckWtD/4ygHvR0CvpB1cA8D2r355X7hHWLtpzCaCEo2h29/XoojxCI/rXsvGT8mZPfFIiaI8on1O
+ OFVxVBeO3obIlKmJBZT50fPKsWH1HGIyt4R2ruN/nzuzjMu9NZmIXJJfJVd2tPDxq9kvZIxt9+M
+ ZIH5vfyjU1v0qbEZjHPNj5/8kQg7P/ShsF+XOULB0sGfvLbwLxyIpyRthhqfAR5PTjoPtD26mon
+ 5Pilf4fDZzzXy03+KxbxzdZEzIZgk3RgPGx2slG8ZOY9beymJlZggMysUjrXNpwluTIzUBlpZZu
+ pW5KrK1M0iv3XqjCqFRriNP5D6czdOK4jehb0ZPZPESHDdnKMXyMLzfIgSuzl+dlgXH8fUXeUld
+ wVlKofGQV4ef8mrBD4aIiIN9HrWyR5UpwLGYC7t8oJIVmnXi8yG58pT63Oc8V/mrOXJ6jPeshb/
+ hPxU2qpUHSnL5fq/ac8YPX8kam79jJrq2swoPdrhVwKZppvq6lAA0Po/FKc3luaOeicGJkWBN13
+ I3ANyxg3/1aORK0tgRyfEGvz5pi2wRCMstU0+kbMD4QL6pEGW7uAjmGzk605NGB1UW+sHeW2oNC
+ i1g799xbgN3F3+CySS2WwQ+bT7bDzXB01LWu3bzG3TZOaOztYELiQWvNFqMaEsMxMaq5qvQdABF
+ Pz2qlswvD7yvEEQ==
 X-Developer-Key: i=david@ixit.cz; a=openpgp;
  fpr=D77A09CFEEDC2BBD53A7047460023FC4D3492072
 X-Endpoint-Received: by B4 Relay for david@ixit.cz/default with auth_id=355
@@ -95,66 +95,50 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: David Heidelberg <david@ixit.cz>
 
-Levearage drm_connector_helper_get_modes_fixed helper function.
+The panel operated in low-power mode, with exception of changing the
+brightness levels.
 
 Signed-off-by: David Heidelberg <david@ixit.cz>
 ---
- drivers/gpu/drm/panel/panel-samsung-sofef00.c | 21 +++++++--------------
- 1 file changed, 7 insertions(+), 14 deletions(-)
+ drivers/gpu/drm/panel/panel-samsung-sofef00.c | 7 +++++--
+ 1 file changed, 5 insertions(+), 2 deletions(-)
 
 diff --git a/drivers/gpu/drm/panel/panel-samsung-sofef00.c b/drivers/gpu/drm/panel/panel-samsung-sofef00.c
-index 7947adf908772..e69a28628b656 100644
+index e69a28628b656..8286cad385738 100644
 --- a/drivers/gpu/drm/panel/panel-samsung-sofef00.c
 +++ b/drivers/gpu/drm/panel/panel-samsung-sofef00.c
-@@ -16,6 +16,7 @@
- #include <drm/drm_mipi_dsi.h>
- #include <drm/drm_modes.h>
- #include <drm/drm_panel.h>
-+#include <drm/drm_probe_helper.h>
+@@ -92,8 +92,6 @@ static int sofef00_panel_off(struct sofef00_panel *ctx)
+ 	struct mipi_dsi_device *dsi = ctx->dsi;
+ 	struct mipi_dsi_multi_context dsi_ctx = { .dsi = dsi };
  
- struct sofef00_panel {
- 	struct drm_panel panel;
-@@ -143,34 +144,26 @@ static int sofef00_panel_unprepare(struct drm_panel *panel)
+-	dsi->mode_flags &= ~MIPI_DSI_MODE_LPM;
+-
+ 	mipi_dsi_dcs_set_display_off_multi(&dsi_ctx);
+ 	mipi_dsi_msleep(&dsi_ctx, 40);
  
- static const struct drm_display_mode ams628nw01_panel_mode = {
- 	.clock = (1080 + 112 + 16 + 36) * (2280 + 36 + 8 + 12) * 60 / 1000,
-+
- 	.hdisplay = 1080,
- 	.hsync_start = 1080 + 112,
- 	.hsync_end = 1080 + 112 + 16,
- 	.htotal = 1080 + 112 + 16 + 36,
-+
- 	.vdisplay = 2280,
- 	.vsync_start = 2280 + 36,
- 	.vsync_end = 2280 + 36 + 8,
- 	.vtotal = 2280 + 36 + 8 + 12,
-+
- 	.width_mm = 68,
- 	.height_mm = 145,
-+
-+	.type = DRM_MODE_TYPE_DRIVER | DRM_MODE_TYPE_PREFERRED,
- };
+@@ -180,10 +178,14 @@ static int sofef00_panel_bl_update_status(struct backlight_device *bl)
+ 	int err;
+ 	u16 brightness = (u16)backlight_get_brightness(bl);
  
- static int sofef00_panel_get_modes(struct drm_panel *panel, struct drm_connector *connector)
- {
--	struct drm_display_mode *mode;
--
--	mode = drm_mode_duplicate(connector->dev, &ams628nw01_panel_mode);
--	if (!mode)
--		return -ENOMEM;
--
--	drm_mode_set_name(mode);
--
--	mode->type = DRM_MODE_TYPE_DRIVER | DRM_MODE_TYPE_PREFERRED;
--	connector->display_info.width_mm = mode->width_mm;
--	connector->display_info.height_mm = mode->height_mm;
--	drm_mode_probed_add(connector, mode);
--
--	return 1;
-+	return drm_connector_helper_get_modes_fixed(connector, &ams628nw01_panel_mode);
++	dsi->mode_flags &= ~MIPI_DSI_MODE_LPM;
++
+ 	err = mipi_dsi_dcs_set_display_brightness_large(dsi, brightness);
+ 	if (err < 0)
+ 		return err;
+ 
++	dsi->mode_flags |= MIPI_DSI_MODE_LPM;
++
+ 	return 0;
  }
  
- static const struct drm_panel_funcs sofef00_panel_panel_funcs = {
+@@ -234,6 +236,7 @@ static int sofef00_panel_probe(struct mipi_dsi_device *dsi)
+ 
+ 	dsi->lanes = 4;
+ 	dsi->format = MIPI_DSI_FMT_RGB888;
++	dsi->mode_flags = MIPI_DSI_MODE_LPM;
+ 
+ 	ctx->panel.prepare_prev_first = true;
+ 
 
 -- 
 2.51.0
