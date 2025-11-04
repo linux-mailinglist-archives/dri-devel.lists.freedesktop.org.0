@@ -2,83 +2,86 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 303A5C30245
-	for <lists+dri-devel@lfdr.de>; Tue, 04 Nov 2025 10:04:16 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6B61AC30278
+	for <lists+dri-devel@lfdr.de>; Tue, 04 Nov 2025 10:06:21 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3B66B10E566;
-	Tue,  4 Nov 2025 09:04:14 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A7A5910E599;
+	Tue,  4 Nov 2025 09:06:17 +0000 (UTC)
+Authentication-Results: gabe.freedesktop.org;
+	dkim=pass (2048-bit key; unprotected) header.d=suse.com header.i=@suse.com header.b="KFKowNyO";
+	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-vs1-f48.google.com (mail-vs1-f48.google.com
- [209.85.217.48])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E894510E566
- for <dri-devel@lists.freedesktop.org>; Tue,  4 Nov 2025 09:04:12 +0000 (UTC)
-Received: by mail-vs1-f48.google.com with SMTP id
- ada2fe7eead31-58de3ab1831so4962389137.3
- for <dri-devel@lists.freedesktop.org>; Tue, 04 Nov 2025 01:04:12 -0800 (PST)
+Received: from mail-lj1-f177.google.com (mail-lj1-f177.google.com
+ [209.85.208.177])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 28D3C10E599
+ for <dri-devel@lists.freedesktop.org>; Tue,  4 Nov 2025 09:06:16 +0000 (UTC)
+Received: by mail-lj1-f177.google.com with SMTP id
+ 38308e7fff4ca-378d50e1cccso53911471fa.0
+ for <dri-devel@lists.freedesktop.org>; Tue, 04 Nov 2025 01:06:16 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=suse.com; s=google; t=1762247174; x=1762851974; darn=lists.freedesktop.org; 
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=Ve6j/8aRh68YK2EiWRDoB5ZD0BlMxlKqu7uay938KFA=;
+ b=KFKowNyO0aEXdNDRSp28ZWVDjICPxrJxQIroOKbjKhUU95TudJZC3TrxZ7qgNE+syS
+ inN88dPwE3A0i8lba1Xr+YZNFgK1Jz1Y//otKcDbZwfSu6lx9RGiZfIRbtajMeX/F99H
+ jLOjtg3nqrYXjNRRSvW9Jv7ggqZEwZCoYcwzFQVYGGTHT8nVYI50rs6scmLfFT/T+x/i
+ E7CfohB2tLY1hxWTtweyeAmJS7qjSx2rZQpMEM1BG24XPudZvkW8s/JxSWoE8gD92M0L
+ XYIhKIr9d5oNKvEVYwx9dJ9HNWAOOiRXtrMNC+i1p9cqlTE+w6z4YIS0OVS/Ag4S4u/O
+ 7n5Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1762247052; x=1762851852;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=pO6dE6UElPiJpkG1mq8m4CRYqFTl9ZYqxqWs3yM4h1o=;
- b=aycw/wfTvoxIepzNbzfaGcH1AZ89teC7OxVUz7cEJkg5ygIuclQdqOxfXU0KkshXfZ
- K79bATolKt0ePGAMzNojTfccqC6QE0IL9hmiUpf4H0NL6yUd2o9Y2EA/tP2HeyIA31Ix
- izgu+Gfi7EjA0PJ+/eGtIqf9UChKoPNYvn9+R/NQH9FjU7rV6gBwCudz3SpcQ2zHSQeO
- eW3Xuk9jQP4Po8MEhPHmHud4atc6bqzpV35VehTLEC0V9pxHTmjUiRakKIWuDRvpvdCJ
- 8zgtJWc/+/N/cQ9bzbB3gGYvZyaIrrY0GKuz3dWLOv0kCZiqdBvAiFBon2OvdxHU470n
- AB7g==
+ d=1e100.net; s=20230601; t=1762247174; x=1762851974;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=Ve6j/8aRh68YK2EiWRDoB5ZD0BlMxlKqu7uay938KFA=;
+ b=HNYwHLdbbREhSBYUI6inoixM8KBv+sN8js5KYSYO/eKM7PhmZuLB2oPzCxdVthY8Jg
+ J+yileHmG8IgeTHwDKaeZNj0KpEYRCzOQMHi4GEATVScA7E2NkyxNj6i50mQWwx3u4vP
+ HkpruuxxtFcNVOtFidtYEuKWSt2ljMJWTq6sGodNx04ydAFOohq0JHiFKH5507XDqxeX
+ aHNDol4drrxH59iHyJ6UMTsmvpWqyv+Tbisd3kCdZHIPBIt9bA3cZm3cKVOxqI6+PrVP
+ +9X5bm4/Ei/Rqs/Vv+oSE7I3aZEK0EBJ+ekjfHQm2jdEQPXZj2g6hUfSBDGj1/j7l+fe
+ M41A==
 X-Forwarded-Encrypted: i=1;
- AJvYcCUjkTMHtO1/vuTQ97t9v+G1k6y3Vr+ivsT846ykCtrl6nqbbRRrHgDsHzYMHOL9qb9VAhR3witeqb4=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Yz4/K/KGbwIyMtpNuRuguFOZ6F58wNMt0ne9fsq9PPf/9Hv17/2
- v9nhgyMz4x1QHpg8FyKdcMp5k9773Bi5yx/DCpxd/Hb1oC9D39G6TSp9kNnvlN6C
-X-Gm-Gg: ASbGncsP0yr2/gkOnJpIRi1K3TgIhZmqKZLsAgy3oUi5M1QXzeQy+rGZkT5TLOfZ2H/
- 9/gkEwQ30VVzeyau2PLvlUxejA6TxuC5g/AEa/r26rIpedm4MXJjZiJROqQRtgLMI4vsmqOR4j6
- G19DAbLATz1Gi/JTs65A09zuLrwREK+m9xSqN3GVeUdpeseIad4E69JOv4LCgBhqpQk22X4pkqQ
- CdCTi/WikR8oRtVGWTPdRXHN69yIOp92QEnQb0DQ4TMij0M8eQiaNC+Dy0twlscia63cL5bwX+7
- csErE2WgFwon+IWMTfP7gIAmp1KBARb5GEdXEPt1zRsEkZb+oA9/JwjhDS/8t/diLAfDPbJ6qvn
- sNmtwjstyB3GIRZFaspi2rgk4+pSCj+5vdv3fELgS682AWVwlq6Yp9JTnDunnP1QnLKspTb5e2P
- CLZUG0ITo8ctfTdg8sGz6Ad/bxL+tkWBcKm9uysEoSmkSJTsDL
-X-Google-Smtp-Source: AGHT+IElp/X7+dbumRT8LUXBahQamwk9OYKPc8x+J0FV4Xbx9nR52ItObZNdzr9p34jEPOOWH9lpDg==
-X-Received: by 2002:a05:6102:38d0:b0:5db:2049:ac44 with SMTP id
- ada2fe7eead31-5dbb120bcb0mr4602272137.13.1762247051559; 
- Tue, 04 Nov 2025 01:04:11 -0800 (PST)
-Received: from mail-vs1-f45.google.com (mail-vs1-f45.google.com.
- [209.85.217.45]) by smtp.gmail.com with ESMTPSA id
- a1e0cc1a2514c-935490e431fsm374679241.9.2025.11.04.01.04.09
- for <dri-devel@lists.freedesktop.org>
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 04 Nov 2025 01:04:10 -0800 (PST)
-Received: by mail-vs1-f45.google.com with SMTP id
- ada2fe7eead31-5db221488bfso5638395137.1
- for <dri-devel@lists.freedesktop.org>; Tue, 04 Nov 2025 01:04:09 -0800 (PST)
-X-Forwarded-Encrypted: i=1;
- AJvYcCWCJH3AQ3hVmPcHSRD0QB0t4WkOoY/Sf91hEa1gqnIi3MzFjsENzAN+B9/TECxCkKWTaW1aWOBfSCg=@lists.freedesktop.org
-X-Received: by 2002:a05:6102:dcc:b0:5db:ecde:5ae7 with SMTP id
- ada2fe7eead31-5dbecde6663mr1599267137.32.1762247049753; Tue, 04 Nov 2025
- 01:04:09 -0800 (PST)
+ AJvYcCUYq2z8mlyrMuTKCFtV6+gXFW9dr9Uu2Uh/tYyKAZWGwquzgTlhRpevZXk3gpp199Z941Fc9w5J6r0=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YzdIXhHkt4ubh1oJo0nunyE1CicQpgtNUCobQ+GB9XYL9B+Ga/Q
+ aXipRxUchgJk9AYNqszHHZ4ouM5l2NcZa3lan8btoTdRZbyH/P2K3tNolbWKaIs9BJK0DBewsdD
+ sDkwz8eA6wjc1sRAKjtEuCc59NRPKuENfvxFWeuyuyQ==
+X-Gm-Gg: ASbGncul7j5tp/XM5lOy6plCbWwCq3lATEFKkLDQBeGePs16aWpnU5xWH3AdPBzQH6u
+ v/O07E0dbxMx7thJRRBpeE+b+ptyfkqTYiAKZKAG8on7Dx9oFh9YYwAeeO4WcbK828JZYX2rDZb
+ NT5inWg0Zlf2JqkSAH+XNyegCYBd9sg9F2V7BdgNikum237nz+pq9jSWt3W7bX41artS3//ANp8
+ GoQfmOxyP/e5dQm2hNiQXAxSwEfSbnTAismGsWSynI6HvJyeU0fyAvLA7s2L3KeG7ljgbra4YlS
+ 8rhPRLRmLjSY25b5dA==
+X-Google-Smtp-Source: AGHT+IGoHrnYG8pwuIHGlYyWwSS5cdb6Yc2Im4z8V243Aw9CaUJS7Bdv48REX9tserm65W5shJTVHeZLHIb6C1wIJVk=
+X-Received: by 2002:a05:6512:1442:10b0:594:27fb:e7ff with SMTP id
+ 2adb3069b0e04-59427fbeab4mr2389190e87.51.1762247174389; Tue, 04 Nov 2025
+ 01:06:14 -0800 (PST)
 MIME-Version: 1.0
-References: <20251103200800.173440-1-marek.vasut+renesas@mailbox.org>
- <20251103200800.173440-2-marek.vasut+renesas@mailbox.org>
-In-Reply-To: <20251103200800.173440-2-marek.vasut+renesas@mailbox.org>
-From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Tue, 4 Nov 2025 10:03:58 +0100
-X-Gmail-Original-Message-ID: <CAMuHMdXQJJYzdWD3tufU5wVxy1OLfZEXh_KbkjTdaY4XJwKyOQ@mail.gmail.com>
-X-Gm-Features: AWmQ_bmlcpVQIRAtDzcmHfsASxj-kOO0XENw5qhpcWFOCPThzyKdxDz-JN4eLYI
-Message-ID: <CAMuHMdXQJJYzdWD3tufU5wVxy1OLfZEXh_KbkjTdaY4XJwKyOQ@mail.gmail.com>
-Subject: Re: [PATCH 2/2] arm64: dts: renesas: r8a77965: Add GE7800 GPU node
-To: Marek Vasut <marek.vasut+renesas@mailbox.org>
-Cc: linux-arm-kernel@lists.infradead.org, Conor Dooley <conor+dt@kernel.org>, 
- David Airlie <airlied@gmail.com>, Frank Binns <frank.binns@imgtec.com>, 
- Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
- Magnus Damm <magnus.damm@gmail.com>, Matt Coster <matt.coster@imgtec.com>, 
- Maxime Ripard <mripard@kernel.org>,
- =?UTF-8?Q?Niklas_S=C3=B6derlund?= <niklas.soderlund@ragnatech.se>, 
- Rob Herring <robh@kernel.org>, Simona Vetter <simona@ffwll.ch>, 
- Thomas Zimmermann <tzimmermann@suse.de>, devicetree@vger.kernel.org, 
- dri-devel@lists.freedesktop.org, linux-renesas-soc@vger.kernel.org
+References: <20251103164800.294729-1-marco.crivellari@suse.com>
+ <20251103164800.294729-2-marco.crivellari@suse.com>
+ <vzwd2i6wn75oxn5e34xwky74ezpjjosyhx5kvcvwvywhohzegq@xfhhlcdei6it>
+In-Reply-To: <vzwd2i6wn75oxn5e34xwky74ezpjjosyhx5kvcvwvywhohzegq@xfhhlcdei6it>
+From: Marco Crivellari <marco.crivellari@suse.com>
+Date: Tue, 4 Nov 2025 10:06:02 +0100
+X-Gm-Features: AWmQ_bm8IBsb5ejrK32XwjdslIRWl6oYAyZossJmkVQl98tzAWm4SvM3BJaQbUs
+Message-ID: <CAAofZF7nfB881LL4qry+L2Z7TNsBx+TWgELv1aKEUpkV2H=pAg@mail.gmail.com>
+Subject: Re: [PATCH v2 1/3] drm/i915: replace use of system_unbound_wq with
+ system_dfl_wq
+To: Krzysztof Karas <krzysztof.karas@intel.com>
+Cc: linux-kernel@vger.kernel.org, intel-gfx@lists.freedesktop.org, 
+ dri-devel@lists.freedesktop.org, Tejun Heo <tj@kernel.org>, 
+ Lai Jiangshan <jiangshanlai@gmail.com>,
+ Frederic Weisbecker <frederic@kernel.org>, 
+ Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
+ Michal Hocko <mhocko@suse.com>, 
+ Jani Nikula <jani.nikula@linux.intel.com>, 
+ Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>, 
+ Tvrtko Ursulin <tursulin@ursulin.net>, David Airlie <airlied@gmail.com>, 
+ Simona Vetter <simona@ffwll.ch>
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -94,24 +97,30 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, 3 Nov 2025 at 21:08, Marek Vasut
-<marek.vasut+renesas@mailbox.org> wrote:
-> Describe Imagination Technologies PowerVR Rogue GE7800 BNVC 15.5.1.64
-> present in Renesas R-Car R8A77965 M3-N SoC.
+Hi Krzysztof,
+
+On Tue, Nov 4, 2025 at 8:31=E2=80=AFAM Krzysztof Karas
+<krzysztof.karas@intel.com> wrote:
+>[...]
+> "This patch continues the effort to refactor worqueue APIs,
+> which has begun with the change introducing new workqueues:
+> commit 930c2ea566af ("workqueue: Add new WQ_PERCPU flag").".
 >
-> Signed-off-by: Marek Vasut <marek.vasut+renesas@mailbox.org>
+> Otherwise, the sentence "The above change to the Workqueue API
+> has been introduced by" to me suggests that you are trying to
+> re-introduce or fix something that already exists in the kernel.
 
-Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
-To be queued in renesas-devel for v6.19, pending acceptance of the
-DT bindings.
+Makes sense, thanks for the correction.
+I also realize that if I were put that sentence after:
 
-Gr{oetje,eeting}s,
+> This lack of consistency cannot be addressed without refactoring the API.
 
-                        Geert
+would have been better, anyhow (maybe it had already the correct meaning).
 
--- 
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+Thank you!
 
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
+--=20
+
+Marco Crivellari
+
+L3 Support Engineer, Technology & Product
