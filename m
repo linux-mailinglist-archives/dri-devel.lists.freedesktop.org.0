@@ -2,129 +2,80 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id BBB30C327F0
-	for <lists+dri-devel@lfdr.de>; Tue, 04 Nov 2025 19:01:14 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1F3FBC3287D
+	for <lists+dri-devel@lfdr.de>; Tue, 04 Nov 2025 19:10:08 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E0A4C10E2A7;
-	Tue,  4 Nov 2025 18:01:11 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3EE7D10E2AD;
+	Tue,  4 Nov 2025 18:10:05 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="FGhEO709";
-	dkim=pass (2048-bit key; unprotected) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="cqA0Lv++";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="ZUdFFqCl";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
- [205.220.168.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9955E10E2B2
- for <dri-devel@lists.freedesktop.org>; Tue,  4 Nov 2025 18:01:10 +0000 (UTC)
-Received: from pps.filterd (m0279863.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id
- 5A4GgVJS2441908
- for <dri-devel@lists.freedesktop.org>; Tue, 4 Nov 2025 18:01:10 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
- cc:content-transfer-encoding:content-type:date:from:in-reply-to
- :message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
- 62pxMELWDAsKAfPNLhqLMVBmVN0ymcdnSZ8wuYDyxfA=; b=FGhEO709SinN5yzS
- KHgtyx61p09qMiuovNtCq5NHTccSd+yFfRAOyhky6zL9qm6c/JWuklE1yKECOrin
- hmJo0V9J6Zps4rGM7BkD3XyeMVZlSQAXbLHcz4FVXRJuz0t7Q7L7wYhGb5rbgMUm
- mk9b9D8Bbd0/gvmpsj/V2EA+qYaUq5gpQuStWmCFWsR42YKb7yojF4f/OySKbyrT
- k1EohjvJEJLQELr/YXDpBdm6s662xrYXeLbBvuKDQPWwkPNXB8Xb7g8QPsyfnVdo
- DdC2ndmbVYKd1T6vIO3EbF4IseeMBIoK/SQ/6WXBSmh+59/FL4gDsQiBeNecOjIU
- wdm2sg==
-Received: from mail-pf1-f198.google.com (mail-pf1-f198.google.com
- [209.85.210.198])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4a7me5reet-1
- (version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
- for <dri-devel@lists.freedesktop.org>; Tue, 04 Nov 2025 18:01:09 +0000 (GMT)
-Received: by mail-pf1-f198.google.com with SMTP id
- d2e1a72fcca58-76e2ea9366aso5579770b3a.2
- for <dri-devel@lists.freedesktop.org>; Tue, 04 Nov 2025 10:01:09 -0800 (PST)
+Received: from mail-wr1-f49.google.com (mail-wr1-f49.google.com
+ [209.85.221.49])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id AC9E710E2AD
+ for <dri-devel@lists.freedesktop.org>; Tue,  4 Nov 2025 18:10:03 +0000 (UTC)
+Received: by mail-wr1-f49.google.com with SMTP id
+ ffacd0b85a97d-3ecdf2b1751so3780404f8f.0
+ for <dri-devel@lists.freedesktop.org>; Tue, 04 Nov 2025 10:10:03 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=oss.qualcomm.com; s=google; t=1762279269; x=1762884069;
- darn=lists.freedesktop.org; 
- h=content-transfer-encoding:in-reply-to:from:content-language
- :references:cc:to:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=62pxMELWDAsKAfPNLhqLMVBmVN0ymcdnSZ8wuYDyxfA=;
- b=cqA0Lv++Tw4fYED/dKtsHW27fLzwW2LdkL1VcadN5Vwi+HZvITm8CT1ietZaliedYl
- lSvdmhaP4EWEquR2nHbRUFc49z0ESIcmaL3ZN4bM5fjZiB+ui7yMcb83uWKw3Qpa5c5S
- 6biYKcZHKA9I2JObDTyIcRp2+XCnPBbRqFsWq0H/HrSqSWs2OGTlYL41EoxInsymtaZF
- oVmoLLAMJ7UpZAewLg/3mapVFdmNp4gVf2mfkhyDRScqAP9SidniJipovFMzSDA55boQ
- dcpQnhczk/nnoBqT8WhvR9OdBZ5gfFz3bBRY61MRNgpncO6QlBgmAuugyPbVMu4vl/JY
- sLSg==
+ d=gmail.com; s=20230601; t=1762279802; x=1762884602; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=HBEyfODAKvgwzHmkCm17lPDKK7nQ8zv0WCO9yDZDp4E=;
+ b=ZUdFFqClkpfJwwZaQYamXBij5zQPlpUGMioqOSLWcyobvl9PJrZy/wGWBvsYErpxDt
+ BeQ+YK6WshgdU1Qng0hbafBOL307tI4DqsxxnHCfp3BFqsckyvJBPtN9/XxKPP3PIllc
+ MXK6R5QIIe9Dptj5ALUDTP1lNfwOgjZ727baXJuYnthRPmzPut1zJb67heaD7RurEJZp
+ IyQT3nu8ixWd9rTfnv3nzFq3UvhP9ipaTXEbdCyb+qYg/4LEtjQDX7oW8w90pBlXynHw
+ abOrRrf7FG6vCNdroGvhKnLcjBdObg/eE9HcKgyfZudZxnXqqvoOO0l9WD7EeY03pjXX
+ VGrQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1762279269; x=1762884069;
- h=content-transfer-encoding:in-reply-to:from:content-language
- :references:cc:to:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=62pxMELWDAsKAfPNLhqLMVBmVN0ymcdnSZ8wuYDyxfA=;
- b=i2458uLk5N4f9zFrZrLpe7TujimZXWojGq37IUBggZjxQqb5UXp5M3W6cMy90jTXBE
- E6XNr/Gx1pZX0RxsAr2Xv0IjwfX/CDrPvEuZcpa1UWnicfupG3T87xgWTDJdMlNVRtPE
- 1Q394mYXPEQVatr0wbJnehO2ER4zZM4vGHCFZXsAWms+6DG3yo7lln6z2rD+gAPA6GOE
- qo17zcdMrpRpbJgh+Z47897k7gOoTcdTwDrxlAm6atAJNw5nZCs27t+Ti7fuhXvCcp7R
- j5TCe2AciJyCrxPYIVDgRbi5cHtBlbhbEeIzdsFgYPQiPoAuEZwu8L4S5En1cg90ohet
- a4zw==
+ d=1e100.net; s=20230601; t=1762279802; x=1762884602;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=HBEyfODAKvgwzHmkCm17lPDKK7nQ8zv0WCO9yDZDp4E=;
+ b=K9nsISGZyt+BZgGsJD4meVDdYj+byNSzGu4a0v831CsfBC7iAE7lRJgeJ/2U1ZFi7x
+ 4MUVxWcrQVFavI22INwe8KwINEsnaGjLjof6QBk8TKM+Qr2/6E4ZN/BnhAInK9QKPGge
+ qf0w2FeGkguowPu930rjyoua0BAax00UOtnQ3beVWm7ib+bnIvId1dwWN0I2lXDSebft
+ 4yzGjXjODMXCRYK2whpDBCZF668n/4rXCVyRxnTU3TVjF1kX0s80NrCQ8RkZd6CDRgAK
+ cTwAgRdzexo3ylHaDZBju7VvVbbIiWqwKVBkOphmmC5SLVH7TG2ds1sH9W6dJ16eCoWx
+ 8NFg==
 X-Forwarded-Encrypted: i=1;
- AJvYcCX2p3Jua5iUXMk8iSUW28TB2QUdLIAlSoVsiifnDThOUPwENJWolr1KddLjCBPJh1kc3GEQsECifVM=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Yx1pXwg1/DN8LuRoAG8iKj+fiCj24anzLIaLiSpPNg0+v6hO9Kt
- Ug5FHEtBrOD5XyjF5y5oDyYXjLITuE7Uy0xKpxemGERQnEvBjjxX7gaR3jEsOI30NfqqaBFi/dS
- Nhmg60vEpjYtb7utMnSfcMmCLTfVBmeT0nvVirKLErSdztmRohB+/v5d4ESUcRQBVqSaRuPI=
-X-Gm-Gg: ASbGncvn3DUzvpTBAgABbiE7bT1Zk8YZichx/8Hx+ECkGHSl4guBXczDNfbbSb/I1YV
- 4BIF72BQaM/0ZC+lXG378Ns6qjlGPRel80aL2DkP+LMkCuvQFQOusuhrghOi+3v1b5mLJYMkMxK
- hZIbKKnLWbiKlI9Css/lRekqcsQYa8wp1j3/ri63MGBEXSGUdRUcRmLsggv02d/PiLzw0+Akspc
- nNa/W6qjTUakLBXi1PJengM6DTQIexi1ljUly82Woy5aiisK/eFZwaCejZuoj8APPop4vTfzblj
- lNBp7vtni+5WbeifRHZ3jKJt17Byuu04x7ioRW5Nm567W81gf+oRx3F9ncpQ+GuSjd72YK64IMH
- GmZ44hH98bcRAKQrOGK28KOPTxku0kFhWQEptykTzkkzuxtwILqFA
-X-Received: by 2002:a05:6a00:1496:b0:781:556:f33 with SMTP id
- d2e1a72fcca58-7ae1cb64038mr237853b3a.5.1762279268811; 
- Tue, 04 Nov 2025 10:01:08 -0800 (PST)
-X-Google-Smtp-Source: AGHT+IFE9tugqN30bxmhx6FvT8pRNO4wEnXJbc3gujzL9VkJySc9thcO6lhWATMfnEzHJ9Ljz5Vt+g==
-X-Received: by 2002:a05:6a00:1496:b0:781:556:f33 with SMTP id
- d2e1a72fcca58-7ae1cb64038mr237781b3a.5.1762279268154; 
- Tue, 04 Nov 2025 10:01:08 -0800 (PST)
-Received: from [10.226.59.182] (i-global254.qualcomm.com. [199.106.103.254])
+ AJvYcCXfGaMQ5PvkxMzdtFUa4qyjixt/RorykvyW66R1l7CiTjAiItk+x14oggOHvLeinbZf8JEcYwkcHUU=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YyF50wSwZhAo5sK7JhVFgaquUMYJdQPpwgXpr0ELmvO7Hg69wY3
+ WPWevE4pUeylBxM15MXCGwCf/yX9kD7Hl/zSgd4MDMFfZTNVMaTIU2zT
+X-Gm-Gg: ASbGncuERdRfRN/qWs93azwOwestVJq4i4DOo1agczVQ9DDh9F+UPMkcvNP9DTvMdZL
+ fSqy7TJrKA9+4msA8ah9xI4SsCMmZvDIwv6SYKTqw4h/qTjPcW5qGcVrj2EQTGd7bCnp7RFg6Tt
+ 7Sus9XoholbeCm9EULeUiPvffOUVsm/8sCxaRm9SSVkDKL8gkq6dmf+PBRWj4BKpkgvUUCRMC5J
+ D1omzF1KHLZ9ZxkgfBQsFkVbwMJISfd55kxFu2rd42DjQmEu6heX2R1F+4TJuQnA7h1MzFsTWi+
+ DoTzExZloN9aeS5iuq+0cTvoBBFKsXkFbGGJcKsR/ott9uj/8Pwg4CvWAgO3aI1UaE+UqZUE1wF
+ eEsZAIPPLI2zwofLel4AjcZslUNz2qOFmEkTJpdyzrPnGLSl9FUFlgHixAMl6z8mFbjL4E0phc4
+ x6OIcmNZEpFamhXaAz+A==
+X-Google-Smtp-Source: AGHT+IE+3VWITYfmpHgFCOUqnzMrVHgHtPMl6DRBEJeRwc9yMJmO7cxC+Ce40qfK3g3txnNqIhsCKA==
+X-Received: by 2002:a05:600c:6388:b0:458:a7fa:211d with SMTP id
+ 5b1f17b1804b1-4775ce1874bmr2405065e9.29.1762279801598; 
+ Tue, 04 Nov 2025 10:10:01 -0800 (PST)
+Received: from jernej-laptop ([178.79.73.218])
  by smtp.gmail.com with ESMTPSA id
- d2e1a72fcca58-7acd586ccfcsm3684351b3a.41.2025.11.04.10.01.07
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 04 Nov 2025 10:01:07 -0800 (PST)
-Message-ID: <0ec71586-638b-4a9e-beb4-f7e95bfac14d@oss.qualcomm.com>
-Date: Tue, 4 Nov 2025 11:01:06 -0700
+ 5b1f17b1804b1-477558c1a03sm24688685e9.2.2025.11.04.10.10.00
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 04 Nov 2025 10:10:01 -0800 (PST)
+From: Jernej Skrabec <jernej.skrabec@gmail.com>
+To: wens@csie.org
+Cc: mripard@kernel.org, maarten.lankhorst@linux.intel.com, tzimmermann@suse.de,
+ airlied@gmail.com, simona@ffwll.ch, samuel@sholland.org,
+ dri-devel@lists.freedesktop.org, linux-arm-kernel@lists.infradead.org,
+ linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org,
+ Jernej Skrabec <jernej.skrabec@gmail.com>
+Subject: [PATCH v2 00/30] drm/sun4i: Refactor layer code for proper DE33
+ support
+Date: Tue,  4 Nov 2025 19:09:12 +0100
+Message-ID: <20251104180942.61538-1-jernej.skrabec@gmail.com>
+X-Mailer: git-send-email 2.51.2
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3] accel/ivpu: Improve debug and warning messages
-To: Karol Wachowski <karol.wachowski@linux.intel.com>,
- dri-devel@lists.freedesktop.org
-Cc: oded.gabbay@gmail.com, maciej.falkowski@linux.intel.com, lizhi.hou@amd.com,
- jani.nikula@linux.intel.com
-References: <20251104132418.970784-1-karol.wachowski@linux.intel.com>
-Content-Language: en-US
-From: Jeff Hugo <jeff.hugo@oss.qualcomm.com>
-In-Reply-To: <20251104132418.970784-1-karol.wachowski@linux.intel.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Proofpoint-GUID: AW2NhQXRaIv_kkqA0R11TPSXnb-KnV4Y
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUxMTA0MDE1MCBTYWx0ZWRfX5kYEJDfzC7KO
- VTvZo1wIq2FkDkVgfkgPwXegltaCdiK4UqZVcm5G2NDg+5OUBDSzrWrxHjEQDaNOyriiXxAUkoQ
- 4VlGXiABxxjaT2mT9gva7dk3p9CqyKa1ncHa0Vq/Tip6LktFgiT45G1miejdbGxZNaAv0MIvCaQ
- 1rksOihuKJYzdqdG8kNFc47xfZqzluxVlPiHGBFqlDnFs1bECvZ37mAK/GD3bJp6YUqyI/uWxK1
- aH5jsYfETR1x3c3olytljyyHTMGYoGkxvvKvl2TtUNkUEp2NNFz9Z4gVqO/V9bdxD8YGbrRnncq
- oQBv4iEHVkZB6B/UAQlNmp81Y02WA12+2sOgfWxfSWBuMZSNy8OxAVdipKJ5z8bLlTY7XRDv3bR
- BMV+o0MLnb7IUOHxKESgaNG9YYA56A==
-X-Proofpoint-ORIG-GUID: AW2NhQXRaIv_kkqA0R11TPSXnb-KnV4Y
-X-Authority-Analysis: v=2.4 cv=IpsTsb/g c=1 sm=1 tr=0 ts=690a3f65 cx=c_pps
- a=m5Vt/hrsBiPMCU0y4gIsQw==:117 a=JYp8KDb2vCoCEuGobkYCKw==:17
- a=IkcTkHD0fZMA:10 a=6UeiqGixMTsA:10 a=s4-Qcg_JpJYA:10
- a=VkNPw1HP01LnGYTKEx00:22 a=QyXUC8HyAAAA:8 a=EUspDBNiAAAA:8
- a=kfWVfVtVOl8sKu9Y-1QA:9 a=QEXdDO2ut3YA:10 a=IoOABgeZipijB_acs4fv:22
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.9,FMLib:17.12.100.49
- definitions=2025-11-04_02,2025-11-03_03,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- priorityscore=1501 lowpriorityscore=0 bulkscore=0 clxscore=1015
- malwarescore=0 adultscore=0 suspectscore=0 impostorscore=0 phishscore=0
- spamscore=0 classifier=typeunknown authscore=0 authtc= authcc= route=outbound
- adjust=0 reason=mlx scancount=1 engine=8.22.0-2510240001
- definitions=main-2511040150
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -140,18 +91,94 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 11/4/2025 6:24 AM, Karol Wachowski wrote:
-> Add IOCTL debug bit for logging user provided parameter validation
-> errors.
-> 
-> Refactor several warning and error messages to better reflect fault
-> reason. User generated faults should not flood kernel messages with
-> warnings or errors, so change those to ivpu_dbg(). Add additional debug
-> logs for parameter validation in IOCTLs.
-> 
-> Check size provided by in metric streamer start and return -EINVAL
-> together with a debug message print.
-> 
-> Signed-off-by: Karol Wachowski <karol.wachowski@linux.intel.com>
+Current DE33 support in sun4i-drm driver is based on my PoC code. It was
+written with *a lot* of hacks, because it was never meant to be upstreamed.
+Fortunately, DT parts were never merged which give us a chance to do it
+right.
 
-Reviewed-by: Jeff Hugo <jeff.hugo@oss.qualcomm.com>
+This is first of three series with proper DE33 support for H616 SoC. It's
+the longest, since it prepares terrain for new drivers in remaining series.
+Point of this work is to completely decouple mixer and layer code. Till
+DE3, mixer and layers were intimately connected. However, from DE33
+onwards, this is no longer the case. DE33 and upcoming DE35 planes are
+shared comodity between all mixers and can be assigned in any way driver
+(or user) prefers. This requires planes code to be completely independent
+from mixer. The only exception is mixer clock frequency which is used in
+VI scaler, but in that case mixer pointer is obtained through currently
+assigned CRTC.
+
+Second series will introduce separate driver for DE33 planes and adjust
+mixer code to new DT bindings. Third series will introduce TCON(-TOP)
+adjustments, HDMI PHY and finally, DT updates for several boards.
+
+Current WIP code for remaining two series can be found at [1]. Code has
+been tested on Tanix TX6, which has DE3, for any regressions and on Myir
+MYD-YT507H board [2], which has DE33, with HDMI and LVDS panel outputs
+running simultaneously and independently. This confirms that plane code
+is properly decoupled.
+
+Please review.
+
+Best regards,
+Jernej
+
+[1] https://github.com/jernejsk/linux-1/commits/sun4i-drm-refactor/
+[2] https://github.com/jernejsk/linux-1/commits/okt507c-v3
+
+Changes from v1:
+- collected tags
+- updated commit messages
+- added missing kerneldoc description
+- moved vi_scaler_num position
+
+Link: https://lore.kernel.org/linux-sunxi/64c0a4e1-15a5-4f41-9fba-852b0e83fd6f@app.fastmail.com/T/#t
+
+Jernej Skrabec (30):
+  drm/sun4i: mixer: Fix up DE33 channel macros
+  drm/sun4i: mixer: Remove ccsc cfg for >= DE3
+  drm/sun4i: de2: Initialize layer fields earlier
+  drm/sun4i: ui_layer: Move check from update to check callback
+  drm/sun4i: vi_layer: Move check from update to check callback
+  drm/sun4i: layers: Make atomic commit functions void
+  drm/sun4i: Move blender config from layers to mixer
+  drm/sun4i: ui layer: Write attributes in one go
+  drm/sun4i: vi layer: Write attributes in one go
+  drm/sun4i: mixer: Move layer enabling to atomic_update
+  drm/sun4i: de2/de3: Simplify CSC config interface
+  drm/sun4i: csc: Simplify arguments with taking plane state
+  drm/sun4i: de2/de3: Move plane type determination to mixer
+  drm/sun4i: ui_layer: Change index meaning
+  drm/sun4i: layer: move num of planes calc out of layer code
+  drm/sun4i: ui_layer: use layer struct instead of multiple args
+  drm/sun4i: vi_layer: use layer struct instead of multiple args
+  drm/sun4i: ui_scaler: use layer instead of mixer for args
+  drm/sun4i: vi_scaler: use layer instead of mixer for args
+  drm/sun4i: layers: Make regmap for layers configurable
+  drm/sun4i: csc: use layer arg instead of mixer
+  drm/sun4i: layers: add physical index arg
+  drm/sun4i: vi_scaler: Update DE33 base calculation
+  drm/sun4i: mixer: Convert heuristics to quirk
+  drm/sun4i: ui_scaler: drop sanity checks
+  drm/sun4i: mixer: Add quirk for number of VI scalers
+  drm/sun4i: mixer: split out layer config
+  drm/sun4i: layer: replace mixer with layer struct
+  drm/sun4i: vi_scaler: Find mixer from crtc
+  drm/sun4i: Nuke mixer pointer from layer code
+
+ drivers/gpu/drm/sun4i/sun8i_csc.c       | 113 ++++++-----
+ drivers/gpu/drm/sun4i/sun8i_csc.h       |  16 +-
+ drivers/gpu/drm/sun4i/sun8i_mixer.c     | 217 +++++++++++++--------
+ drivers/gpu/drm/sun4i/sun8i_mixer.h     |  65 ++++---
+ drivers/gpu/drm/sun4i/sun8i_ui_layer.c  | 183 +++++++-----------
+ drivers/gpu/drm/sun4i/sun8i_ui_layer.h  |   7 +-
+ drivers/gpu/drm/sun4i/sun8i_ui_scaler.c |  44 ++---
+ drivers/gpu/drm/sun4i/sun8i_ui_scaler.h |   4 +-
+ drivers/gpu/drm/sun4i/sun8i_vi_layer.c  | 244 +++++++++---------------
+ drivers/gpu/drm/sun4i/sun8i_vi_layer.h  |   7 +-
+ drivers/gpu/drm/sun4i/sun8i_vi_scaler.c |  51 ++---
+ drivers/gpu/drm/sun4i/sun8i_vi_scaler.h |   6 +-
+ 12 files changed, 475 insertions(+), 482 deletions(-)
+
+-- 
+2.51.2
+
