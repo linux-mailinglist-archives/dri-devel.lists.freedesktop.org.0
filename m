@@ -2,75 +2,207 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B2292C315FB
-	for <lists+dri-devel@lfdr.de>; Tue, 04 Nov 2025 15:05:03 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 93B8BC31619
+	for <lists+dri-devel@lfdr.de>; Tue, 04 Nov 2025 15:05:36 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 56CCC10E5E8;
-	Tue,  4 Nov 2025 14:05:01 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C408210E5F0;
+	Tue,  4 Nov 2025 14:05:34 +0000 (UTC)
+Authentication-Results: gabe.freedesktop.org;
+	dkim=pass (2048-bit key; unprotected) header.d=imgtec.com header.i=@imgtec.com header.b="KAwiiaYK";
+	dkim=pass (1024-bit key; unprotected) header.d=IMGTecCRM.onmicrosoft.com header.i=@IMGTecCRM.onmicrosoft.com header.b="Vn1GSymo";
+	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
- by gabe.freedesktop.org (Postfix) with ESMTP id 6B2AD10E5E7
- for <dri-devel@lists.freedesktop.org>; Tue,  4 Nov 2025 14:04:59 +0000 (UTC)
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
- by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 51F7C2C41
- for <dri-devel@lists.freedesktop.org>; Tue,  4 Nov 2025 06:04:51 -0800 (PST)
-Received: from e110455-lin.cambridge.arm.com (usa-sjc-imap-foss1.foss.arm.com
- [10.121.207.14])
- by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPA id DA0B33F694
- for <dri-devel@lists.freedesktop.org>; Tue,  4 Nov 2025 06:04:58 -0800 (PST)
-Date: Tue, 4 Nov 2025 14:04:54 +0000
-From: Liviu Dudau <liviu.dudau@arm.com>
-To: "Kandpal, Suraj" <suraj.kandpal@intel.com>
-Cc: "linux-arm-msm@vger.kernel.org" <linux-arm-msm@vger.kernel.org>,
- "freedreno@lists.freedesktop.org" <freedreno@lists.freedesktop.org>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
- "intel-xe@lists.freedesktop.org" <intel-xe@lists.freedesktop.org>,
- "intel-gfx@lists.freedesktop.org" <intel-gfx@lists.freedesktop.org>,
- "kernel-list@raspberrypi.com" <kernel-list@raspberrypi.com>,
- "amd-gfx@lists.freedesktop.org" <amd-gfx@lists.freedesktop.org>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- "linux-renesas-soc@vger.kernel.org" <linux-renesas-soc@vger.kernel.org>,
- "dmitry.baryshkov@oss.qualcomm.com" <dmitry.baryshkov@oss.qualcomm.com>,
- "Nautiyal, Ankit K" <ankit.k.nautiyal@intel.com>,
- "Murthy, Arun R" <arun.r.murthy@intel.com>,
- "Shankar, Uma" <uma.shankar@intel.com>,
- "Nikula, Jani" <jani.nikula@intel.com>,
- "harry.wentland@amd.com" <harry.wentland@amd.com>,
- "siqueira@igalia.com" <siqueira@igalia.com>,
- "alexander.deucher@amd.com" <alexander.deucher@amd.com>,
- "christian.koenig@amd.com" <christian.koenig@amd.com>,
- "airlied@gmail.com" <airlied@gmail.com>,
- "simona@ffwll.ch" <simona@ffwll.ch>,
- "maarten.lankhorst@linux.intel.com" <maarten.lankhorst@linux.intel.com>,
- "mripard@kernel.org" <mripard@kernel.org>,
- "robin.clark@oss.qualcomm.com" <robin.clark@oss.qualcomm.com>,
- "abhinav.kumar@linux.dev" <abhinav.kumar@linux.dev>,
- "tzimmermann@suse.de" <tzimmermann@suse.de>,
- "jessica.zhang@oss.qualcomm.com" <jessica.zhang@oss.qualcomm.com>,
- "sean@poorly.run" <sean@poorly.run>,
- "marijn.suijten@somainline.org" <marijn.suijten@somainline.org>,
- "laurent.pinchart+renesas@ideasonboard.com"
- <laurent.pinchart+renesas@ideasonboard.com>, 
- "mcanal@igalia.com" <mcanal@igalia.com>,
- "dave.stevenson@raspberrypi.com" <dave.stevenson@raspberrypi.com>,
- "tomi.valkeinen+renesas@ideasonboard.com"
- <tomi.valkeinen+renesas@ideasonboard.com>, 
- "kieran.bingham+renesas@ideasonboard.com"
- <kieran.bingham+renesas@ideasonboard.com>, 
- "louis.chauvet@bootlin.com" <louis.chauvet@bootlin.com>
-Subject: Re: [PATCH v2 1/7] drm: writeback: Refactor drm_writeback_connector
- structure
-Message-ID: <aQoIBroBqQc3B-RD@e110455-lin.cambridge.arm.com>
-References: <20251007054528.2900905-1-suraj.kandpal@intel.com>
- <20251007054528.2900905-2-suraj.kandpal@intel.com>
- <aQjDejhzGRYJT614@e110455-lin.cambridge.arm.com>
- <DM3PPF208195D8D5DDD56AA88E006E66AD9E3C4A@DM3PPF208195D8D.namprd11.prod.outlook.com>
+Received: from mx08-00376f01.pphosted.com (mx08-00376f01.pphosted.com
+ [91.207.212.86])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0D52A10E5F0
+ for <dri-devel@lists.freedesktop.org>; Tue,  4 Nov 2025 14:05:32 +0000 (UTC)
+Received: from pps.filterd (m0168888.ppops.net [127.0.0.1])
+ by mx08-00376f01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id
+ 5A46budK3758806; Tue, 4 Nov 2025 14:05:11 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=imgtec.com; h=cc
+ :content-type:date:from:in-reply-to:message-id:mime-version
+ :references:subject:to; s=dk201812; bh=AhOW74NLn0jVpRS8rsNN6UKTC
+ kI/wEICOhoMjq4Y5c4=; b=KAwiiaYKq/3NFyFrN0qPt4N63Pi7uLOV0gACtkL4b
+ wYhKCYJRhBvtJ+Px3Ddb/YH4NSr08GADWMYk0vHivNBUcoJ8sbxC2tl8xKUE1SC4
+ b/lwjZUF11IJMHUJFfhTxhIGJ6bRIs2CXya0jhPkazugle2LKdOssYZzc+W+bGiU
+ zkRFLy32rVaQ5n2wEIWTp2sFmmmlsz16vbO3WQAfZ7R3GT/kBzepc6FwI3Nl6tNf
+ dRrlMdpA0iA2YSaEtEZlzEaI1frodXDHXtlEdwtn6s25cLOaTNZ6m3oG27Z+1hb0
+ yX0RwRM63C2C1R5MulfxBGUtus7OQoQQr3U161lnvVq5w==
+Received: from cwxp265cu008.outbound.protection.outlook.com
+ (mail-ukwestazon11020119.outbound.protection.outlook.com [52.101.195.119])
+ by mx08-00376f01.pphosted.com (PPS) with ESMTPS id 4a59bst1dq-1
+ (version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 bits=256 verify=NOT);
+ Tue, 04 Nov 2025 14:05:10 +0000 (GMT)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=KZXdHQwjLAzSNYm+dTz+bUm9OCpI+78+Y1p/ZnSg0aUGheC5/muvspbd4MQo4W2VTbYahsD/Z7CzFzXgWUa/32l8s09UEKDRpbJFlYLrF6j61u4tIafLD8ehvAM5zpI+0avIVs1esk80fo+whCh8U31KFjQgx/MVtdwNrsxsty7P+GCAvGUBKNNvFDgwPOas1IoqpCUqZM4RRaWCRfDTzoCXTgEXFSiyNjO8+KT4Q3K+FsxC/AXlwf6V9hyRpEaYnD6w20svKKb0aN2J/ofHy9cibUCNERDTFi+DFa81UxIQn0aIj9H+AgqF2Is8+RsxjmoWsMJ2L4jRgawdg8stjw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=AhOW74NLn0jVpRS8rsNN6UKTCkI/wEICOhoMjq4Y5c4=;
+ b=n7IwiHzd9z7cYE8kEGqRuVvHxxBfgnNHyKfXHlajtd6jf+Syh/HPgJ/PvlbgXR7axj7NjdZdrIfkKqhsjcp0fF3ZoOGzdA9lyWULcxOYq6iOTTUz+KHD8Vv6glmnUaZv4K0LnYXAtn4u54xq3Q/YJxs4+AaUDjrfvT7sxnQLFGnRHyH6ksLFa0Q9c8C9eiN/XIuIb0KS8AbXn70FxeJr7bRzkuz5CsYSVlvlKzQOQk6J+88ySbmvMCzhM0b+O8T+xoC1lkwrprJU84iXXhgRBt5VXlMX+G08Q8RSb5cOF8P6LIfYh19QlSBAAg6y0nrkcdv0EEaOoJ7nOpoqTiukLw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=imgtec.com; dmarc=pass action=none header.from=imgtec.com;
+ dkim=pass header.d=imgtec.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=IMGTecCRM.onmicrosoft.com; s=selector2-IMGTecCRM-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=AhOW74NLn0jVpRS8rsNN6UKTCkI/wEICOhoMjq4Y5c4=;
+ b=Vn1GSymoSpKqv5Z46j/6eEUzyeuAMorY4fxBSVJBjnyERIYTOIibDuQ1a90RaCUNhqU5YNNZBz0JoX0rent3bRblgyS31OJHVbCL6O0YmID2ZN/vWo7u3+8ttDSitbfRquBnQi9Xc/XP0TaDm62guGqIer/GnHiIziNOHgR37eo=
+Received: from CWXP265MB3397.GBRP265.PROD.OUTLOOK.COM (2603:10a6:400:e7::8) by
+ LO0P265MB7331.GBRP265.PROD.OUTLOOK.COM (2603:10a6:600:2ec::7) with
+ Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.9275.16; Tue, 4 Nov 2025 14:05:06 +0000
+Received: from CWXP265MB3397.GBRP265.PROD.OUTLOOK.COM
+ ([fe80::8e9d:6b2f:9881:1e15]) by CWXP265MB3397.GBRP265.PROD.OUTLOOK.COM
+ ([fe80::8e9d:6b2f:9881:1e15%5]) with mapi id 15.20.9298.006; Tue, 4 Nov 2025
+ 14:05:04 +0000
+From: Matt Coster <Matt.Coster@imgtec.com>
+To: Marek Vasut <marek.vasut+renesas@mailbox.org>
+CC: Conor Dooley <conor+dt@kernel.org>, David Airlie <airlied@gmail.com>,
+ Frank Binns <Frank.Binns@imgtec.com>, Alessio Belle
+ <Alessio.Belle@imgtec.com>, Alexandru Dadu <Alexandru.Dadu@imgtec.com>,
+ Geert Uytterhoeven <geert+renesas@glider.be>, Krzysztof Kozlowski
+ <krzk+dt@kernel.org>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Magnus Damm <magnus.damm@gmail.com>, Maxime Ripard <mripard@kernel.org>,
+ =?utf-8?B?TmlrbGFzIFPDtmRlcmx1bmQ=?= <niklas.soderlund@ragnatech.se>, Rob
+ Herring <robh@kernel.org>, Simona Vetter <simona@ffwll.ch>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ "linux-arm-kernel@lists.infradead.org"
+ <linux-arm-kernel@lists.infradead.org>, "devicetree@vger.kernel.org"
+ <devicetree@vger.kernel.org>, "dri-devel@lists.freedesktop.org"
+ <dri-devel@lists.freedesktop.org>, "linux-renesas-soc@vger.kernel.org"
+ <linux-renesas-soc@vger.kernel.org>
+Subject: Re: [PATCH v2 1/3] dt-bindings: gpu: img,powervr-rogue: Keep lists
+ sorted alphabetically
+Thread-Topic: [PATCH v2 1/3] dt-bindings: gpu: img,powervr-rogue: Keep lists
+ sorted alphabetically
+Thread-Index: AQHcTZQEIRrSYqanrUSVjyN1d33SwQ==
+Date: Tue, 4 Nov 2025 14:05:04 +0000
+Message-ID: <b0403010-9f88-43f2-a6dc-b85ac741e82b@imgtec.com>
+References: <20251104135716.12497-1-marek.vasut+renesas@mailbox.org>
+In-Reply-To: <20251104135716.12497-1-marek.vasut+renesas@mailbox.org>
+Accept-Language: en-GB, en-US
+Content-Language: en-US
+X-MS-Has-Attach: yes
+X-MS-TNEF-Correlator: 
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: CWXP265MB3397:EE_|LO0P265MB7331:EE_
+x-ms-office365-filtering-correlation-id: 52275ed1-d50b-4958-9e2b-08de1bab26fe
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;
+ ARA:13230040|366016|7416014|376014|1800799024|4053099003|38070700021; 
+x-microsoft-antispam-message-info: =?utf-8?B?dmRyWUgxS283VDFMOEJUV2cvU1l6UmRaUk1UUTFVcUs1SUtxNDcyelpjd0p0?=
+ =?utf-8?B?ZE0xa1NDRkZsSllGbFpURmdsRUQwVHV1SjNTMEU2K1l4RkQ0Mk12Mi9xMFJJ?=
+ =?utf-8?B?dXlocG1NbDFnWjA3K0hSTzVWbzVXeXRYY2xBQ2w2bzFYNStQY3hUU1pBV0Zp?=
+ =?utf-8?B?Q0Y1K2h1VU5oeVh5R2h6TDhHeDhUbW56THhoOXRMbkh3b2JvdHFtZTlESWlw?=
+ =?utf-8?B?djlJRGhoVDByT2czNEZwV1hISDlCRUVGemZNdnljSlNTVFFLUlVURm5LSVBl?=
+ =?utf-8?B?dkJRY1kxa1FXaDMvZzJhM3RZZHNVOEZ1ZC9mdzdkaGlHZlAxem4xQW56R210?=
+ =?utf-8?B?S1BFTGhDTERScG9nVDZpZjNEVUxjV25yaGlaMjdSNGY4aXdHL1dCbCtJd2h6?=
+ =?utf-8?B?YS9oeXpaOEhJb1o2V0pmZ2VQRUFVWVpwem43OEhSWFJVRG5uLy9lWjlvbXFZ?=
+ =?utf-8?B?WkcrdlRSNENTcEdKWXhpUVZkUDAxUEpZSklDZFFHMHpSSkh0MnV3Sk52UXdC?=
+ =?utf-8?B?SXJNSVBDenVwV2c0ckhYT21UU3RNTFVvcEdrQ1lvcXFHWWJwYTBFc2svMnhX?=
+ =?utf-8?B?RE1nU2k0U0NOazNPakx5SjFzdHo2dWZEYW9uM0R1WXlQd2FqL2tMeE9TOFZW?=
+ =?utf-8?B?eTh1MTZmTGduWGdkbys1MVNTaHJlUlZCRXJheFFmTUxmdUxHSVRRRHg3TmVo?=
+ =?utf-8?B?NDQ3R2ZIZ09LdHl1dGhkUWVPaUlVU09SVGpVUUpEaTN1SHp0bnVKVnRyQ3BO?=
+ =?utf-8?B?UVZRa0hMUG9QNWdmMnZsdlJTZ1dhcjUwS3NGa2JwV2t2RkYrZWFDbnNHUzNa?=
+ =?utf-8?B?VnJWbzNLYUt5cDZVd3Yxa1U3NCt2UmJEaXVSN092RFFsL040VkU4UTExY1Z4?=
+ =?utf-8?B?NmZQblM3d1hZK29OODdQaXNGcHVFZHB2cnB5K3V2RzExQmJrRnpwSnVVMUQ3?=
+ =?utf-8?B?eEk4TU1MKzZVRjZ6YThqWHMxeENYdG9wNzBoeGRINkNDdWtWdE1pdThMQjAv?=
+ =?utf-8?B?N2xISC9Ba3ptWUdtc3habHRzRHhFRkJpWjdSTEQ4WFZWMUtsMmtIZ3o0UnNX?=
+ =?utf-8?B?K2FQWmV3bFpQeDBWb3NzVm0xSnJwRU51UGFDM0NvU3hmOFhXSXVHZThtMXl5?=
+ =?utf-8?B?Q0tKNE02cEY1WjVVZzhNbHY0YzljdC84NjQyZVgrZlBvL2tqdmQzRHNZTkVH?=
+ =?utf-8?B?Y0xVQzNqU05zRXdtWXozSjVLMHVwVHh3UkJWeDVqc0l0am5oeWx3S3RyV0dV?=
+ =?utf-8?B?ZWhsZjRXRTlubi9HSUxVUE9TTDJZaEphUlJSRllRc0pCbWtkUEFJYm9laGk1?=
+ =?utf-8?B?czJvc0FlR1I0bWsvU0FwYVZnYlFTMEY3NVF5bXROUkJoK01qYXJtSFpucDhn?=
+ =?utf-8?B?cjcwZlJVYnFXQmMrNlEyQm43YlU0RnhsMmZpZ24zdE1kbnlFMkYxOG9wWkxY?=
+ =?utf-8?B?NWVpeGEwMDh5ZlRaWXFqeFF5YmlDdUdhZmY1UnJTSEJaMGdtMDhnOG92QkJC?=
+ =?utf-8?B?Y3YyaFpGVWRyY2NCaW0vN2lOZ09aMHdmNWZRZnZCYjdpOWFNTDlNWjNHZ2hY?=
+ =?utf-8?B?T1hIL043MllYZU1oNmRDenlZM29yTDczUDVKRFNtLy9yUmxYanNqQk11a2lI?=
+ =?utf-8?B?a1BLZEM3b25vYWdlTWE5YjlWZUFtbHFpN2R3cUJtNnhoZXpQYzlhTjh6UG1o?=
+ =?utf-8?B?WGZ1QVdQMlNFbjRiKzVwT2RwODQ0V0RvWGt5L2V6dWl1V0haa25jb0RSWlg3?=
+ =?utf-8?B?QUFaT1d0dG9manhrQUFsTjlzNW5GbXRiVUJZL1VGUzlKcWt4TEp5SWlMNklR?=
+ =?utf-8?B?TmJPSUFzNjJJRVVUbmpGZThLbXB4dkpXNFUvMncvUlBCc0tQZHkxMy9WWjQy?=
+ =?utf-8?B?Y0x3R0dRS1dQTFVyOVJNQW42TzRObWUvREdpRXNjcXIxS2NEYjZFQTNVMkV4?=
+ =?utf-8?B?eFdrVGhWSlFNNS82U3F6YkFjSzNGU0NSdHg0N0JJYkZVRGhSYzdZQnJWSVhY?=
+ =?utf-8?B?WTNLK2l2N0V6UjRKcG1ua0xwbHYxT1NMUWYvOVpaa1E4ZzBod255YWhCRUJC?=
+ =?utf-8?Q?GK1+ix?=
+x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:CWXP265MB3397.GBRP265.PROD.OUTLOOK.COM; PTR:; CAT:NONE;
+ SFS:(13230040)(366016)(7416014)(376014)(1800799024)(4053099003)(38070700021);
+ DIR:OUT; SFP:1102; 
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: =?utf-8?B?ZUNOb3M2ZDVBVmNPQVBqL25HcHJXdVE3Ti9OKzV6RXNZK2U0RkVGWmFLalFy?=
+ =?utf-8?B?SERKbENUV0Z2dlJZT1ZBTUEwOW90VTFyYVEzUkhUQjBnVzVYWDYxTlk1MWxp?=
+ =?utf-8?B?QTQrd3VZNllRZVBucXdhQUw0UkVnSHM2NmZJTks1bUhmcFVHaklucEY5Zkk2?=
+ =?utf-8?B?ZUJqYVM1YkRYQVJTbkZjcC9OVVlGcWVpTmtnNjJmaDJYTUJXZzl0WEVLSlJt?=
+ =?utf-8?B?TlAzd2g0MG9YOUlCQzZzV2hzSkNQa21qcHlWZkJqYzZDeFU5R3g1YWl5S3Yz?=
+ =?utf-8?B?QmN3L0VlUTBBdkd0Tkcxc2IwQjNVZ2JVU1ErS3hzN0VpeUxDWmZ4NTFLR0h2?=
+ =?utf-8?B?V3NNeUtSU1NPUjEzU01RK3pSVTFTSHBrYmNRYUdmZEJxMG5YVlVRWGZybHZa?=
+ =?utf-8?B?VktlWG81NmQ3WU1CT04zMUFPN3B6aWlraEhDNlhDaFpIbllIMjhiWlNVL2N6?=
+ =?utf-8?B?TldKZWx1Tms4eTExK1VLbW1hbWUzMmJ5WU1DdlFyd2l4dWN3dXVFejdzd1ll?=
+ =?utf-8?B?TGNGMGIzRzhYNXFqb2lkcENRL2tOajloUndveTdCMmpoSUtuVXZ5ME94NERs?=
+ =?utf-8?B?OVdiTURvUHFjSHlpczJjZ1I4c2R5eEh3Yk1qMjhGQm1mY2JpMFhWL1FuTzdG?=
+ =?utf-8?B?SjNWSStiZUlrZE1jNThGcCtyNE9oQVNFemdKVVBUYVFlcTJYTkFZSUlza1d3?=
+ =?utf-8?B?Q1J4MGFuSmVwUXVVS3FkdXcxOFE2NWwrOE9sY21OUFhpZTI0Q2kxVC9XbWdj?=
+ =?utf-8?B?bmkwcC9yNkxCV0NJNUhwb01MQVQ4ZHptTkt6SmJMSHhjQ3N0dVZRY1IxN1BQ?=
+ =?utf-8?B?VnhZaW44UXl1YTF3aC9YN011bjJSa0VSYTdYa2o5SXgzekRicGc3cXJsSDRo?=
+ =?utf-8?B?R1VNVFZxaXpuMDBtcGVSdk5CUHdZM1pJUlF3eXI1RmxNMmZ1ZElmSm15Wnkv?=
+ =?utf-8?B?cWlsdmJ2R3pHVGJGenZVaFBzekpOVGthVDFSV3FiL2FWWVhqNkEyOXhFaUcy?=
+ =?utf-8?B?S2lCdFYwVmwycms0QVdUc0s3cFJCQVEyYTEwQ096YjJiYnpXWDJ0ZGw1QjQw?=
+ =?utf-8?B?ZS9jTnBFemdHUndNeVpyMEI1ellZK0hHQ2hIRGM3TW9nNElXTGdTU0RtUktR?=
+ =?utf-8?B?dllOK0JKOFV3ano0TWpUZWk5b1Y1UEF4RkhKOGN2RjBSN0hIc0xzOEtKM3Va?=
+ =?utf-8?B?UERkMThlZGFaL2d5YSticHpyT0NIdDk3bjU0cVV2bC9NRWkraWVBNEdYaEx3?=
+ =?utf-8?B?amE3U3dhTVJobnBtVStvMmFhdFByRDVtZGNLcWxtM0ttaXQ0bzlQRUZ4eUZj?=
+ =?utf-8?B?QTd3WHJ1bGNlTDZYRG1jUFo2N2x1UHJMRUpvWU9rRERKenNySVFiTzlhaC9S?=
+ =?utf-8?B?d1VHbTZZdmpCSWM0SHVUY2p5OXVKZ2dGYnd0TGtkd21tRld3cVB1aC9oejhV?=
+ =?utf-8?B?SUtCcDVQTXJteHlUWHduVi8zc1BxaTFueW8wV2NuT0VtSEw4QTdJWDlXZWVE?=
+ =?utf-8?B?NUoxeG1mQmdibUtra3lSYkNteGtQRXJkQW5pM1VHSldtTWxydjNZYjNLK3dK?=
+ =?utf-8?B?NnMwV0pyRmtJTExzWWpvSVVydm5ESi9yL1FVVjk0ckFtblA4Z1NQMVZ2dVpw?=
+ =?utf-8?B?YXBkY2VOMkJxVHJVYXZrZ0NObURCVit1dlZHeEdyZTcxRjhMYXFscjd5dncv?=
+ =?utf-8?B?aDhKL1pJQmJ3cTZJTFVNc1VnV0VtemhXc1dSSjlHODFFMHpxMlBYdU5Fby9Q?=
+ =?utf-8?B?c0gzVHVpS1lTRm4xOTg2bFpMUFRoZkh1NjBubXVSOFNTMXd3alc5ZFdKOUNw?=
+ =?utf-8?B?bitGYzEwWS83cDh5TFJQM0ZMWlNkWktRMDFTQnBNajJwVmxVbTVJRlJQS1Jh?=
+ =?utf-8?B?a1hvVklhZnFDL1ozUlF4VXMzUUVnTDlvYVo5VHlNRGw4Zi9EcXdiWGZjSGFK?=
+ =?utf-8?B?MnY5ZE4zVVRHSForOE14Z1JaaUZKdFFuSndKUlZoVDdpS0hOUjJzRGphYkly?=
+ =?utf-8?B?L05RVVRvZ1lsYi9uaSsybW9hTTQzeGVDNzNKUWs1dEltcXFTUWdRdUE5MDFG?=
+ =?utf-8?B?YnNFd3QzaXBMRGg3SzNGalMxNXdZemVwNGlqSzhqWFQ3TWxXczNzb0F4YTZq?=
+ =?utf-8?B?ZDViKys2WmRVckhYZGlRbzNGSXduSjlseWt4WEVJMDRVVEdHcEJnK3Z6dGUv?=
+ =?utf-8?B?QkE9PQ==?=
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature";
+ boundary="------------Ma3HjKS1nQVBGV0m3o8A49mb"
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <DM3PPF208195D8D5DDD56AA88E006E66AD9E3C4A@DM3PPF208195D8D.namprd11.prod.outlook.com>
+X-OriginatorOrg: imgtec.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: CWXP265MB3397.GBRP265.PROD.OUTLOOK.COM
+X-MS-Exchange-CrossTenant-Network-Message-Id: 52275ed1-d50b-4958-9e2b-08de1bab26fe
+X-MS-Exchange-CrossTenant-originalarrivaltime: 04 Nov 2025 14:05:04.0525 (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 0d5fd8bb-e8c2-4e0a-8dd5-2c264f7140fe
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: XGJcxEIqpSSykliWheDlcS/apPGAsaK9xaO72D6xrXl5VnSCQQFgFncYm0Ev/8bd/pjr3RVvCfiYiRWNyhQRFA==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: LO0P265MB7331
+X-Proofpoint-GUID: P7mzkjuKfTDXYKiWqvb9AohPD9Dtt7QV
+X-Proofpoint-ORIG-GUID: P7mzkjuKfTDXYKiWqvb9AohPD9Dtt7QV
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUxMTA0MDExNyBTYWx0ZWRfX02v2mnk8it8s
+ PnZeNQpyk2TkRz/n5wLU3wOklImnHFbLB4T1gERNFhnwCI8UWPGnj2TSIA1jm+pvYkdVM9lqoIt
+ s+nrieXxOR8Z22e8fHZiVgjOPEV5zUFpMSscCvpJ/4CO7pAgIJOJP5tlgiKsy1ZXC2axXNMFazQ
+ 1kP5JHpX3BuU2c0w0FEk9DNYGtRvCZxnyASW5bJM9Cl4IkgUt1/msOmfTqmLbF3maCUEHbIDPye
+ fhK1RAOW466h1PA7NQdD4Vb8c+vIEshoOS0Um5PtW1LZnJ7nYUAQojSmXful8HhHjJ58GIlcH3M
+ a+m+xNFkCaw/JH4EQQ8jBN7oGs7mUcRzYPvWZiVnU2CbeIcqUrRgJ4JysnzftmOyuof5qvLF2f1
+ +48MJ+En8cXmqJWSIP4lII8a50MSFA==
+X-Authority-Analysis: v=2.4 cv=Yb2wJgRf c=1 sm=1 tr=0 ts=690a0817 cx=c_pps
+ a=2+K8fcPkQ1vb4r61bGsGrw==:117 a=z/mQ4Ysz8XfWz/Q5cLBRGdckG28=:19
+ a=lCpzRmAYbLLaTzLvsPZ7Mbvzbb8=:19 a=xqWC_Br6kY4A:10 a=6UeiqGixMTsA:10
+ a=NgoYpvdbvlAA:10 a=VkNPw1HP01LnGYTKEx00:22 a=b3CbU_ItAAAA:8 a=r_1tXGB3AAAA:8
+ a=VwQbUJbxAAAA:8 a=pGLkceISAAAA:8 a=QyXUC8HyAAAA:8 a=e5mUnYsNAAAA:8
+ a=qtP4umix1bXqwJ3Z_ZEA:9 a=QEXdDO2ut3YA:10 a=OmomlU05d8J_A3Afy0QA:9
+ a=FfaGCDsud1wA:10 a=Rv2g8BkzVjQTVhhssdqe:22 a=t8nPyN_e6usw4ciXM-Pk:22
+ a=Vxmtnl_E_bksehYqCbjh:22 a=cPQSjfK2_nFv0Q5t_7PE:22
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -86,289 +218,97 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Nov 04, 2025 at 05:11:25AM +0000, Kandpal, Suraj wrote:
-> > Subject: Re: [PATCH v2 1/7] drm: writeback: Refactor
-> > drm_writeback_connector structure
-> > 
-> > On Tue, Oct 07, 2025 at 11:15:23AM +0530, Suraj Kandpal wrote:
-> > > Some drivers cannot work with the current design where the connector
-> > > is embedded within the drm_writeback_connector such as Intel and some
-> > > drivers that can get it working end up adding a lot of checks all
-> > > around the code to check if it's a writeback conenctor or not, this is
-> > > due to the limitation of inheritance in C.
-> > > To solve this move the drm_writeback_connector within the
-> > > drm_connector and remove the drm_connector base which was in
-> > > drm_writeback_connector. Make this drm_writeback_connector a union
-> > > with hdmi connector to save memory and since a connector can never be
-> > > both writeback and hdmi it should serve us well.
-> > > Do all other required modifications that come with these changes along
-> > > with addition of new function which returns the drm_connector when
-> > > drm_writeback_connector is present.
-> > > Modify drivers using the drm_writeback_connector to allow them to use
-> > > this connector without breaking them.
-> > > The drivers modified here are amd, komeda, mali, vc4, vkms, rcar_du,
-> > > msm
-> > >
-> > > Signed-off-by: Suraj Kandpal <suraj.kandpal@intel.com>
-> > > ---
-> > > V1 -> V2: Use &connector->writeback, make commit message imperative
-> > > (Dmitry)
-> > > ---
-> > >  .../gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c |  6 +-
-> > > .../gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.h |  2 +-
-> > > .../drm/amd/display/amdgpu_dm/amdgpu_dm_wb.c  |  8 +--
-> > > .../gpu/drm/arm/display/komeda/komeda_crtc.c  |  6 +-
-> > >  .../gpu/drm/arm/display/komeda/komeda_kms.h   |  6 +-
-> > >  .../arm/display/komeda/komeda_wb_connector.c  |  8 +--
-> > >  drivers/gpu/drm/arm/malidp_crtc.c             |  2 +-
-> > >  drivers/gpu/drm/arm/malidp_drv.h              |  2 +-
-> > >  drivers/gpu/drm/arm/malidp_hw.c               |  6 +-
-> > >  drivers/gpu/drm/arm/malidp_mw.c               |  8 +--
-> > >  drivers/gpu/drm/drm_atomic_uapi.c             |  2 +-
-> > >  drivers/gpu/drm/drm_writeback.c               | 35 ++++++----
-> > 
-> > For the komeda and malidp drivers, as well as for the drm_writeback.c
-> > changes:
-> > 
-> > Reviewed-by: Liviu Dudau <liviu.dudau@arm.com>
-> > 
-> > 
-> > [snip]
-> > 
-> > 
-> > > diff --git a/include/drm/drm_connector.h b/include/drm/drm_connector.h
-> > > index 8f34f4b8183d..1b090e6bddc1 100644
-> > > --- a/include/drm/drm_connector.h
-> > > +++ b/include/drm/drm_connector.h
-> > > @@ -1882,6 +1882,61 @@ struct drm_connector_cec {
-> > >  	void *data;
-> > >  };
-> > >
-> > > +/**
-> > > + * struct drm_writeback_connector - DRM writeback connector  */
-> > > +struct drm_writeback_connector {
-> > > +	/**
-> > > +	 * @pixel_formats_blob_ptr:
-> > > +	 *
-> > > +	 * DRM blob property data for the pixel formats list on writeback
-> > > +	 * connectors
-> > > +	 * See also drm_writeback_connector_init()
-> > > +	 */
-> > > +	struct drm_property_blob *pixel_formats_blob_ptr;
-> > > +
-> > > +	/** @job_lock: Protects job_queue */
-> > > +	spinlock_t job_lock;
-> > > +
-> > > +	/**
-> > > +	 * @job_queue:
-> > > +	 *
-> > > +	 * Holds a list of a connector's writeback jobs; the last item is the
-> > > +	 * most recent. The first item may be either waiting for the hardware
-> > > +	 * to begin writing, or currently being written.
-> > > +	 *
-> > > +	 * See also: drm_writeback_queue_job() and
-> > > +	 * drm_writeback_signal_completion()
-> > > +	 */
-> > > +	struct list_head job_queue;
-> > > +
-> > > +	/**
-> > > +	 * @fence_context:
-> > > +	 *
-> > > +	 * timeline context used for fence operations.
-> > > +	 */
-> > > +	unsigned int fence_context;
-> > > +	/**
-> > > +	 * @fence_lock:
-> > > +	 *
-> > > +	 * spinlock to protect the fences in the fence_context.
-> > > +	 */
-> > > +	spinlock_t fence_lock;
-> > > +	/**
-> > > +	 * @fence_seqno:
-> > > +	 *
-> > > +	 * Seqno variable used as monotonic counter for the fences
-> > > +	 * created on the connector's timeline.
-> > > +	 */
-> > > +	unsigned long fence_seqno;
-> > > +	/**
-> > > +	 * @timeline_name:
-> > > +	 *
-> > > +	 * The name of the connector's fence timeline.
-> > > +	 */
-> > > +	char timeline_name[32];
-> > > +};
-> > > +
-> > >  /**
-> > >   * struct drm_connector - central DRM connector control structure
-> > >   *
-> > > @@ -2291,10 +2346,16 @@ struct drm_connector {
-> > >  	 */
-> > >  	struct llist_node free_node;
-> > >
-> > > -	/**
-> > > -	 * @hdmi: HDMI-related variable and properties.
-> > > -	 */
-> > > -	struct drm_connector_hdmi hdmi;
-> > > +	union {
-> > 
-> > This is a surprising choice. Before this patch one had to have a separate
-> > writeback connector besides the HDMI connector. Going forward it looks like
-> > you still need two connectors, one that uses the writeback member and one
-> > that uses the hdmi one. Is that intended?
-> > 
-> > I was expecting that you're going to declare the writeback member next to the
-> > hdmi, without overlap. If you do that, then you also don't need to move the
-> > struct drm_writeback declaration from the header file and it should be enough
-> > to include the drm_writeback.h file.
-> 
-> Hi,
-> Thanks for the review
-> The reason for this came from the discussion on previous patches and was suggested by Dmitry.
-> The idea is that a connector can never be both an HDMI and writeback connector at the same time
-> Hence we save space if we pack them together.
+--------------Ma3HjKS1nQVBGV0m3o8A49mb
+Content-Type: multipart/mixed; boundary="------------tZ9rIXQHEnHaEDjbuG7zrH5E";
+ protected-headers="v1"
+From: Matt Coster <matt.coster@imgtec.com>
+To: Marek Vasut <marek.vasut+renesas@mailbox.org>
+Cc: Conor Dooley <conor+dt@kernel.org>, David Airlie <airlied@gmail.com>,
+ Frank Binns <frank.binns@imgtec.com>,
+ Alessio Belle <alessio.belle@imgtec.com>,
+ Alexandru Dadu <alexandru.dadu@imgtec.com>,
+ Geert Uytterhoeven <geert+renesas@glider.be>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Magnus Damm <magnus.damm@gmail.com>, Maxime Ripard <mripard@kernel.org>,
+ =?UTF-8?Q?Niklas_S=C3=B6derlund?= <niklas.soderlund@ragnatech.se>,
+ Rob Herring <robh@kernel.org>, Simona Vetter <simona@ffwll.ch>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ linux-arm-kernel@lists.infradead.org, devicetree@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, linux-renesas-soc@vger.kernel.org
+Message-ID: <b0403010-9f88-43f2-a6dc-b85ac741e82b@imgtec.com>
+Subject: Re: [PATCH v2 1/3] dt-bindings: gpu: img,powervr-rogue: Keep lists
+ sorted alphabetically
+References: <20251104135716.12497-1-marek.vasut+renesas@mailbox.org>
+In-Reply-To: <20251104135716.12497-1-marek.vasut+renesas@mailbox.org>
 
-Hmm, but you can still have all the CEC and HDMI codecs data in that connector,
-which feels strange.  Also, what's the issue with having a connector that has
-both a valid HDMI state and an associated writeback at the same time (i.e.
-don't use the union)? Writing back the memory the output that goes to HDMI is
-valid, right?
+--------------tZ9rIXQHEnHaEDjbuG7zrH5E
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
-Maybe that is not something that you considered, but with this patch (without union)
-we can drop the need to have a separate connector just for writeback. We're breaking
-user space compatibility, true, but it feels like a good change to be able to
-attach a writeback to any connector and get its output. The drivers that don't support
-that can reject the commit that attaches the writeback to the existing connector.
+On 04/11/2025 13:56, Marek Vasut wrote:
+> Sort the enum: list alphabetically. No functional change.
+>=20
+> Signed-off-by: Marek Vasut <marek.vasut+renesas@mailbox.org>
 
-Best regards,
-Liviu
+Reviewed-by: Matt Coster <matt.coster@imgtec.com>
 
-> 
-> Regards,
-> Suraj Kandpal
-> 
-> > 
-> > Best regards,
-> > Liviu
-> > 
-> > > +		/**
-> > > +		 * @hdmi: HDMI-related variable and properties.
-> > > +		 */
-> > > +		struct drm_connector_hdmi hdmi;
-> > > +		/**
-> > > +		 * @writeback: Writeback related valriables.
-> > > +		 */
-> > > +		struct drm_writeback_connector writeback;
-> > > +	};
-> > >
-> > >  	/**
-> > >  	 * @hdmi_audio: HDMI codec properties and non-DRM state.
-> > > diff --git a/include/drm/drm_writeback.h b/include/drm/drm_writeback.h
-> > > index 958466a05e60..702141099520 100644
-> > > --- a/include/drm/drm_writeback.h
-> > > +++ b/include/drm/drm_writeback.h
-> > > @@ -15,66 +15,6 @@
-> > >  #include <drm/drm_encoder.h>
-> > >  #include <linux/workqueue.h>
-> > >
-> > > -/**
-> > > - * struct drm_writeback_connector - DRM writeback connector
-> > > - */
-> > > -struct drm_writeback_connector {
-> > > -	/**
-> > > -	 * @base: base drm_connector object
-> > > -	 */
-> > > -	struct drm_connector base;
-> > > -
-> > > -	/**
-> > > -	 * @pixel_formats_blob_ptr:
-> > > -	 *
-> > > -	 * DRM blob property data for the pixel formats list on writeback
-> > > -	 * connectors
-> > > -	 * See also drm_writeback_connector_init()
-> > > -	 */
-> > > -	struct drm_property_blob *pixel_formats_blob_ptr;
-> > > -
-> > > -	/** @job_lock: Protects job_queue */
-> > > -	spinlock_t job_lock;
-> > > -
-> > > -	/**
-> > > -	 * @job_queue:
-> > > -	 *
-> > > -	 * Holds a list of a connector's writeback jobs; the last item is the
-> > > -	 * most recent. The first item may be either waiting for the hardware
-> > > -	 * to begin writing, or currently being written.
-> > > -	 *
-> > > -	 * See also: drm_writeback_queue_job() and
-> > > -	 * drm_writeback_signal_completion()
-> > > -	 */
-> > > -	struct list_head job_queue;
-> > > -
-> > > -	/**
-> > > -	 * @fence_context:
-> > > -	 *
-> > > -	 * timeline context used for fence operations.
-> > > -	 */
-> > > -	unsigned int fence_context;
-> > > -	/**
-> > > -	 * @fence_lock:
-> > > -	 *
-> > > -	 * spinlock to protect the fences in the fence_context.
-> > > -	 */
-> > > -	spinlock_t fence_lock;
-> > > -	/**
-> > > -	 * @fence_seqno:
-> > > -	 *
-> > > -	 * Seqno variable used as monotonic counter for the fences
-> > > -	 * created on the connector's timeline.
-> > > -	 */
-> > > -	unsigned long fence_seqno;
-> > > -	/**
-> > > -	 * @timeline_name:
-> > > -	 *
-> > > -	 * The name of the connector's fence timeline.
-> > > -	 */
-> > > -	char timeline_name[32];
-> > > -};
-> > > -
-> > >  /**
-> > >   * struct drm_writeback_job - DRM writeback job
-> > >   */
-> > > @@ -131,10 +71,10 @@ struct drm_writeback_job {
-> > >  	void *priv;
-> > >  };
-> > >
-> > > -static inline struct drm_writeback_connector *
-> > > -drm_connector_to_writeback(struct drm_connector *connector)
-> > > +static inline struct drm_connector *
-> > > +drm_writeback_to_connector(struct drm_writeback_connector
-> > > +*wb_connector)
-> > >  {
-> > > -	return container_of(connector, struct drm_writeback_connector,
-> > base);
-> > > +	return container_of(wb_connector, struct drm_connector, writeback);
-> > >  }
-> > >
-> > >  int drm_writeback_connector_init(struct drm_device *dev,
-> > > --
-> > > 2.34.1
-> > >
-> > 
-> > --
-> > ====================
-> > | I would like to |
-> > | fix the world,  |
-> > | but they're not |
-> > | giving me the   |
-> >  \ source code!  /
-> >   ---------------
-> >     ¯\_(ツ)_/¯
+> ---
+> Cc: Conor Dooley <conor+dt@kernel.org>
+> Cc: David Airlie <airlied@gmail.com>
+> Cc: Frank Binns <frank.binns@imgtec.com>
+> Cc: Geert Uytterhoeven <geert+renesas@glider.be>
+> Cc: Krzysztof Kozlowski <krzk+dt@kernel.org>
+> Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
+> Cc: Magnus Damm <magnus.damm@gmail.com>
+> Cc: Matt Coster <matt.coster@imgtec.com>
+> Cc: Maxime Ripard <mripard@kernel.org>
+> Cc: "Niklas S=C3=B6derlund" <niklas.soderlund@ragnatech.se>
+> Cc: Rob Herring <robh@kernel.org>
+> Cc: Simona Vetter <simona@ffwll.ch>
+> Cc: Thomas Zimmermann <tzimmermann@suse.de>
+> Cc: devicetree@vger.kernel.org
+> Cc: dri-devel@lists.freedesktop.org
+> Cc: linux-renesas-soc@vger.kernel.org
+> ---
+> V2: New patch
+> ---
+>  Documentation/devicetree/bindings/gpu/img,powervr-rogue.yaml | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+>=20
+> diff --git a/Documentation/devicetree/bindings/gpu/img,powervr-rogue.ya=
+ml b/Documentation/devicetree/bindings/gpu/img,powervr-rogue.yaml
+> index a7ca6d3fdf10..550da008629c 100644
+> --- a/Documentation/devicetree/bindings/gpu/img,powervr-rogue.yaml
+> +++ b/Documentation/devicetree/bindings/gpu/img,powervr-rogue.yaml
+> @@ -134,8 +134,8 @@ allOf:
+>          compatible:
+>            contains:
+>              enum:
+> -              - img,img-gx6250
+>                - img,img-bxs-4-64
+> +              - img,img-gx6250
+>      then:
+>        properties:
+>          power-domains:
 
--- 
-====================
-| I would like to |
-| fix the world,  |
-| but they're not |
-| giving me the   |
- \ source code!  /
-  ---------------
-    ¯\_(ツ)_/¯
+--=20
+Matt Coster
+E: matt.coster@imgtec.com
+
+--------------tZ9rIXQHEnHaEDjbuG7zrH5E--
+
+--------------Ma3HjKS1nQVBGV0m3o8A49mb
+Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="OpenPGP_signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+wnsEABYIACMWIQS4qDmoJvwmKhjY+nN5vBnz2d5qsAUCaQoIDwUDAAAAAAAKCRB5vBnz2d5qsL/U
+AP48wbgSrbt2E/cYXYOMEEGQESByZuxgFpwa3qfuYfd/BQD+JhvFsaHZs2iLt6lWEJ4adIGDKz4C
+tkzHQtY02sVTNAU=
+=BO2K
+-----END PGP SIGNATURE-----
+
+--------------Ma3HjKS1nQVBGV0m3o8A49mb--
