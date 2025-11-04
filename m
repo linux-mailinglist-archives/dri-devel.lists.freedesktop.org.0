@@ -2,47 +2,48 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6513CC30971
-	for <lists+dri-devel@lfdr.de>; Tue, 04 Nov 2025 11:50:01 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 35B88C3097A
+	for <lists+dri-devel@lfdr.de>; Tue, 04 Nov 2025 11:50:17 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B564010E5BB;
-	Tue,  4 Nov 2025 10:49:59 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 992CD10E5C0;
+	Tue,  4 Nov 2025 10:50:15 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=bootlin.com header.i=@bootlin.com header.b="B0svIPP1";
+	dkim=pass (2048-bit key; unprotected) header.d=bootlin.com header.i=@bootlin.com header.b="D9xp1rdR";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtpout-04.galae.net (smtpout-04.galae.net [185.171.202.116])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BF10710E5BB
- for <dri-devel@lists.freedesktop.org>; Tue,  4 Nov 2025 10:49:57 +0000 (UTC)
+Received: from smtpout-03.galae.net (smtpout-03.galae.net [185.246.85.4])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4F86710E5C0
+ for <dri-devel@lists.freedesktop.org>; Tue,  4 Nov 2025 10:50:14 +0000 (UTC)
 Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
- by smtpout-04.galae.net (Postfix) with ESMTPS id E7EB1C0E608;
- Tue,  4 Nov 2025 10:49:34 +0000 (UTC)
+ by smtpout-03.galae.net (Postfix) with ESMTPS id 148244E4149A;
+ Tue,  4 Nov 2025 10:50:13 +0000 (UTC)
 Received: from mail.galae.net (mail.galae.net [212.83.136.155])
- by smtpout-01.galae.net (Postfix) with ESMTPS id C9581606EF;
- Tue,  4 Nov 2025 10:49:55 +0000 (UTC)
+ by smtpout-01.galae.net (Postfix) with ESMTPS id DCEDE606EF;
+ Tue,  4 Nov 2025 10:50:12 +0000 (UTC)
 Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon)
- with ESMTPSA id 1E22F102F1CE8; Tue,  4 Nov 2025 11:49:53 +0100 (CET)
+ with ESMTPSA id 2425410B509F7; Tue,  4 Nov 2025 11:50:09 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
- t=1762253395; h=from:subject:date:message-id:to:cc:mime-version:content-type:
+ t=1762253411; h=from:subject:date:message-id:to:cc:mime-version:content-type:
  content-transfer-encoding:content-language:in-reply-to:references:autocrypt;
- bh=hlyea6D72jghryRgvFrFfQSWQQkIxtnahdErvANC6VY=;
- b=B0svIPP1mqXGU3/uQGJ0Lo2j4kT7ctJWQwWDFZdzIH2XOigbLIWCNVmSqYohrKyS1EVJQ8
- c4hfcl8WdT8ojTO+D4tVvGigmtneeU2MtEUUd/QDvL4t93Gfn6LleCMynQ36Dj8PbWqfq2
- E0J8boRentELetvFPcQuVNSl/PgNrhDnWG7OyglWbyk/voEhlE3aJT3rLqnsXza/WikDrq
- mn0C1X8QXmnXvs8TygXa8aGTRSlUmAH/awgOdD67dfpJaCe5Xx1/NeobvkxpH3mu+hUH0I
- hVKZtGGgxIpwiyrhj51/pY+aH9KQ/QLixC4a+VVSH27oOP1agnbU+nTZ1Bjimw==
-Message-ID: <9483fbed-5bf0-4fbd-a059-86cc330b8c71@bootlin.com>
-Date: Tue, 4 Nov 2025 11:49:52 +0100
+ bh=RWR2yfrQdoWsw6o8+j8mIm8NpaENKjX1fw5W+H557nM=;
+ b=D9xp1rdRFvQcRoo3pB3Vll0QTln5dxNRq/OBjNUHrGFRnufOvb2rBjjwdrgyD0Ug13oDT8
+ UwhwoKmIAVoBi+Q7NRS4cB2Fz740Tf4FqN1T2cOf8xP53qkVsxn9QWTHjICbfKEovOXwTF
+ SAsdgqT8mUrXpyRn9s9N4raHU4I1LmV5hsRZP7bEOCXFcyQDVbIGCLNYcqrccatJKvvSCa
+ ndHPYugP5U7RCYNiM3UqSCdwZm3Vj83d37B2lVQCPBgUafAVTUqGsQtSRo2y9AX6bZC3ja
+ uuOceQAUPybE8VhdOKYDqnaJog9SR0XPvM9xBuqLJTJGZIWUL1sTAVU0TdVhwQ==
+Message-ID: <1933ce64-af94-4605-912e-01e6c9da93b9@bootlin.com>
+Date: Tue, 4 Nov 2025 11:50:09 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 1/2] drm/vkms: Fix run-tests.sh script name
+Subject: Re: [PATCH 2/2] drm/vkms: Update testing with IGT IGT_DEVICE
 To: =?UTF-8?B?Sm9zw6kgRXhww7NzaXRv?= <jose.exposito89@gmail.com>
 Cc: hamohammed.sa@gmail.com, simona@ffwll.ch, melissa.srw@gmail.com,
  airlied@gmail.com, maarten.lankhorst@linux.intel.com, mripard@kernel.org,
  tzimmermann@suse.de, corbet@lwn.net, dri-devel@lists.freedesktop.org,
  linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
 References: <20251024110014.4614-1-jose.exposito89@gmail.com>
+ <20251024110014.4614-2-jose.exposito89@gmail.com>
 Content-Language: en-US, fr
 From: Louis Chauvet <louis.chauvet@bootlin.com>
 Autocrypt: addr=louis.chauvet@bootlin.com; keydata=
@@ -99,7 +100,7 @@ Autocrypt: addr=louis.chauvet@bootlin.com; keydata=
  wDN7ORknPndzxrq3CyB7b/Tk1e8Qx+6HU/pnMb4ZqwwMwZAMk24TZpsgg28o9MQiUNzad0h2
  gIszbeej9ryrtLHxMzyK8yKhHoI2i2ovxy5O+hsWeAoCPE9xwbqnAjLjOn4Jzd/pPovizrq/
  kUoX66YgvCuHfQMC/aBPLnVunZSP23J2CrkTrnsUzw==
-In-Reply-To: <20251024110014.4614-1-jose.exposito89@gmail.com>
+In-Reply-To: <20251024110014.4614-2-jose.exposito89@gmail.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 X-Last-TLS-Session-Version: TLSv1.3
@@ -121,29 +122,60 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
 Le 24/10/2025 à 13:00, José Expósito a écrit :
-> The script is "run-tests.sh", no "run-test.sh".
+> VKMS is no longer in the platform bus, instead, it is in the faux bus.
+> 
+> In addition, when present, IGT picks hardware drivers instead of virtual
+> drivers, like VKMS or vgem, if they are not forced.
+> 
+> Update the documentation to use IGT_FORCE_DRIVER instead of IGT_DEVICE.
 > 
 > Signed-off-by: José Expósito <jose.exposito89@gmail.com>
 
 Reviewed-by: Louis Chauvet <louis.chauvet@bootlin.com>
 
 > ---
->   Documentation/gpu/vkms.rst | 2 +-
->   1 file changed, 1 insertion(+), 1 deletion(-)
+>   Documentation/gpu/vkms.rst | 19 ++++++++-----------
+>   1 file changed, 8 insertions(+), 11 deletions(-)
 > 
 > diff --git a/Documentation/gpu/vkms.rst b/Documentation/gpu/vkms.rst
-> index 3574e01b928d..d8c445c417b7 100644
+> index d8c445c417b7..1e79e62a6bc4 100644
 > --- a/Documentation/gpu/vkms.rst
 > +++ b/Documentation/gpu/vkms.rst
-> @@ -161,7 +161,7 @@ To return to graphical mode, do::
+> @@ -159,26 +159,23 @@ To return to graphical mode, do::
 >   
->   Once you are in text only mode, you can run tests using the --device switch
->   or IGT_DEVICE variable to specify the device filter for the driver we want
-> -to test. IGT_DEVICE can also be used with the run-test.sh script to run the
-> +to test. IGT_DEVICE can also be used with the run-tests.sh script to run the
+>     sudo systemctl isolate graphical.target
+>   
+> -Once you are in text only mode, you can run tests using the --device switch
+> -or IGT_DEVICE variable to specify the device filter for the driver we want
+> -to test. IGT_DEVICE can also be used with the run-tests.sh script to run the
+> +Once you are in text only mode, you can run tests using the IGT_FORCE_DRIVER
+> +variable to specify the device filter for the driver we want to test.
+> +IGT_FORCE_DRIVER can also be used with the run-tests.sh script to run the
 >   tests for a specific driver::
 >   
->     sudo ./build/tests/<name of test> --device "sys:/sys/devices/platform/vkms"
+> -  sudo ./build/tests/<name of test> --device "sys:/sys/devices/platform/vkms"
+> -  sudo IGT_DEVICE="sys:/sys/devices/platform/vkms" ./build/tests/<name of test>
+> -  sudo IGT_DEVICE="sys:/sys/devices/platform/vkms" ./scripts/run-tests.sh -t <name of test>
+> +  sudo IGT_FORCE_DRIVER="vkms" ./build/tests/<name of test>
+> +  sudo IGT_FORCE_DRIVER="vkms" ./scripts/run-tests.sh -t <name of test>
+>   
+>   For example, to test the functionality of the writeback library,
+>   we can run the kms_writeback test::
+>   
+> -  sudo ./build/tests/kms_writeback --device "sys:/sys/devices/platform/vkms"
+> -  sudo IGT_DEVICE="sys:/sys/devices/platform/vkms" ./build/tests/kms_writeback
+> -  sudo IGT_DEVICE="sys:/sys/devices/platform/vkms" ./scripts/run-tests.sh -t kms_writeback
+> +  sudo IGT_FORCE_DRIVER="vkms" ./build/tests/kms_writeback
+> +  sudo IGT_FORCE_DRIVER="vkms" ./scripts/run-tests.sh -t kms_writeback
+>   
+>   You can also run subtests if you do not want to run the entire test::
+>   
+> -  sudo ./build/tests/kms_flip --run-subtest basic-plain-flip --device "sys:/sys/devices/platform/vkms"
+> -  sudo IGT_DEVICE="sys:/sys/devices/platform/vkms" ./build/tests/kms_flip --run-subtest basic-plain-flip
+> +  sudo IGT_FORCE_DRIVER="vkms" ./build/tests/kms_flip --run-subtest basic-plain-flip
+>   
+>   Testing With KUnit
+>   ==================
 
 -- 
 --
