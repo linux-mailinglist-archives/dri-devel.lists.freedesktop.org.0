@@ -2,52 +2,52 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C0275C307E4
-	for <lists+dri-devel@lfdr.de>; Tue, 04 Nov 2025 11:25:59 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 00F65C307E8
+	for <lists+dri-devel@lfdr.de>; Tue, 04 Nov 2025 11:26:04 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1FB0610E5B3;
-	Tue,  4 Nov 2025 10:25:58 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5609E10E5B0;
+	Tue,  4 Nov 2025 10:26:02 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="QaJ2+Rds";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="FnM1+Dvg";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D68C910E5B0
- for <dri-devel@lists.freedesktop.org>; Tue,  4 Nov 2025 10:25:56 +0000 (UTC)
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2CB3E10E5B0
+ for <dri-devel@lists.freedesktop.org>; Tue,  4 Nov 2025 10:26:01 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1762251957; x=1793787957;
+ t=1762251961; x=1793787961;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=QvHChvCUroVhbTdbUFuITkrf4Tbkg9rbiFEiw5K/YcM=;
- b=QaJ2+RdsKFG8nn+40oFaeehLqPglI6Fhx0OaJJd0mp/r6RngcLajgPyk
- VJ6/99C8CAtjDC1tnW7bAz83tm4IEo1jgfItoQACufrfNuHVis7w78JLO
- aPzUV7pcq81E0EwLZq+3Cs7a2V3lPYf0EHvLqPivnz4LLBgryZVskXf6+
- ug1eIQC3l1HLTrKKiFrRP1iNPWcMmuxvcqaeSZwazgwyr2yt3JaC5sfIm
- bc2Wq2oc+SNExC00dq8lDRmeUm5Eb9walHrpLdkPijf9BG9axe7ilt/E7
- i+/+4ZnOyrQZ622EOymI6eccnc9fge4aqQ88aQsdAW3tNIeWjS1jditHx g==;
-X-CSE-ConnectionGUID: WG4gIY9tTP60otMH/mxYKA==
-X-CSE-MsgGUID: SH0skDxtQDyCs19xjDhTKQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11602"; a="64039385"
-X-IronPort-AV: E=Sophos;i="6.19,278,1754982000"; d="scan'208";a="64039385"
-Received: from fmviesa007.fm.intel.com ([10.60.135.147])
- by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 04 Nov 2025 02:25:56 -0800
-X-CSE-ConnectionGUID: AHDDsc4NScyRhiVELYq3cw==
-X-CSE-MsgGUID: 4oaZiJKFTcKMn/scETqj5Q==
+ bh=3sShh53fYrSd4j62s8HuQPC8Xg7lkpvQY4CqIMvbLM0=;
+ b=FnM1+Dvg6XLf6fA1oETaWeO/ERlmCvJFZZRV3lmQfdEWoWNRRtZNmPXf
+ bA6pHq20EDhG4Yl127Ue7M2lojLe63T0MASsUtKg1CV4TvF1dzfR/7dYq
+ KfpG0LjTtXiOHxecPvGd54pCSD02Y4TJzdCrC4J0gu0pZ7VWOVqu1VWGN
+ EZAO84GdLsGiX8hFg64nSn0LsrJ+OzIiaeITcKvQrvSCRM2xoBYPW2DEc
+ e7lZSzYLKQjw5H4N9yqSS0VFQo/nHPhveRi0RXlx+ZujMg16fi5ugmShh
+ mOxVf/59BFBfCHpPTy2OrgMLIP7t3mzaHukznQgYwriMndiKe+2GsGuQI Q==;
+X-CSE-ConnectionGUID: aImSlS1hTIKfX3vapmTTOw==
+X-CSE-MsgGUID: i+FPUx/ISbudUZ+PHh2GHQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11602"; a="66955767"
+X-IronPort-AV: E=Sophos;i="6.19,278,1754982000"; d="scan'208";a="66955767"
+Received: from fmviesa006.fm.intel.com ([10.60.135.146])
+ by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 04 Nov 2025 02:26:00 -0800
+X-CSE-ConnectionGUID: IMOPaWJMSUu43LUXKAqIsQ==
+X-CSE-MsgGUID: PSDGeIPIQkSbdGYi2LSj0g==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.19,278,1754982000"; d="scan'208";a="186798819"
+X-IronPort-AV: E=Sophos;i="6.19,278,1754982000"; d="scan'208";a="186979553"
 Received: from hrotuna-mobl2.ger.corp.intel.com (HELO localhost)
  ([10.245.246.182])
- by fmviesa007-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 04 Nov 2025 02:25:55 -0800
+ by fmviesa006-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 04 Nov 2025 02:25:59 -0800
 From: Jani Nikula <jani.nikula@intel.com>
 To: dri-devel@lists.freedesktop.org
 Cc: jani.nikula@intel.com
-Subject: [PATCH 3/4] drm/Kconfig: move generic Kconfig options above drivers
-Date: Tue,  4 Nov 2025 12:25:37 +0200
-Message-ID: <a0f9e1a31a2190f535f2c2f94af6e22030db199f.1762251845.git.jani.nikula@intel.com>
+Subject: [PATCH 4/4] drm/Kconfig: sort driver Kconfig source list
+Date: Tue,  4 Nov 2025 12:25:38 +0200
+Message-ID: <4fa11ab0b938d5c726b6ad78d28c7527b830f696.1762251845.git.jani.nikula@intel.com>
 X-Mailer: git-send-email 2.47.3
 In-Reply-To: <cover.1762251845.git.jani.nikula@intel.com>
 References: <cover.1762251845.git.jani.nikula@intel.com>
@@ -69,58 +69,207 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Keep non-driver options together, above drivers.
-
-DRM_PANEL_ORIENTATION_QUIRKS remains alone at the end because it's
-outside of the whole "if DRM" block.
+Sort the driver Kconfig source list, and remove the superfluous blank
+lines in between.
 
 Signed-off-by: Jani Nikula <jani.nikula@intel.com>
+
 ---
- drivers/gpu/drm/Kconfig | 24 ++++++++++++------------
- 1 file changed, 12 insertions(+), 12 deletions(-)
+
+Tip: 'git show --color-moved' on the commit is the easiest way to
+review.
+---
+ drivers/gpu/drm/Kconfig | 162 +++++++++++++---------------------------
+ 1 file changed, 50 insertions(+), 112 deletions(-)
 
 diff --git a/drivers/gpu/drm/Kconfig b/drivers/gpu/drm/Kconfig
-index 8ec9c06b45b7..5a9b5f7a40e2 100644
+index 5a9b5f7a40e2..a33b90251530 100644
 --- a/drivers/gpu/drm/Kconfig
 +++ b/drivers/gpu/drm/Kconfig
-@@ -265,6 +265,18 @@ config DRM_SCHED
- 	tristate
- 	depends on DRM
+@@ -277,133 +277,71 @@ config DRM_PRIVACY_SCREEN
+ 	bool
+ 	default n
  
-+# Separate option as not all DRM drivers use it
-+config DRM_PANEL_BACKLIGHT_QUIRKS
-+	tristate
-+
-+config DRM_LIB_RANDOM
-+	bool
-+	default n
-+
-+config DRM_PRIVACY_SCREEN
-+	bool
-+	default n
-+
- source "drivers/gpu/drm/sysfb/Kconfig"
- 
- source "drivers/gpu/drm/arm/Kconfig"
-@@ -393,18 +405,6 @@ source "drivers/gpu/drm/tyr/Kconfig"
- 
- source "drivers/gpu/drm/hyperv/Kconfig"
- 
--# Separate option as not all DRM drivers use it
--config DRM_PANEL_BACKLIGHT_QUIRKS
--	tristate
+-source "drivers/gpu/drm/sysfb/Kconfig"
 -
--config DRM_LIB_RANDOM
--	bool
--	default n
+-source "drivers/gpu/drm/arm/Kconfig"
 -
--config DRM_PRIVACY_SCREEN
--	bool
--	default n
+-source "drivers/gpu/drm/radeon/Kconfig"
 -
++# DRM driver Kconfig files, sorted
++source "drivers/gpu/drm/adp/Kconfig"
+ source "drivers/gpu/drm/amd/amdgpu/Kconfig"
+-
+-source "drivers/gpu/drm/nouveau/Kconfig"
+-
+-source "drivers/gpu/drm/nova/Kconfig"
+-
+-source "drivers/gpu/drm/i915/Kconfig"
+-
+-source "drivers/gpu/drm/xe/Kconfig"
+-
+-source "drivers/gpu/drm/kmb/Kconfig"
+-
+-source "drivers/gpu/drm/vgem/Kconfig"
+-
+-source "drivers/gpu/drm/vkms/Kconfig"
+-
+-source "drivers/gpu/drm/exynos/Kconfig"
+-
+-source "drivers/gpu/drm/rockchip/Kconfig"
+-
+-source "drivers/gpu/drm/vmwgfx/Kconfig"
+-
+-source "drivers/gpu/drm/gma500/Kconfig"
+-
+-source "drivers/gpu/drm/udl/Kconfig"
+-
+-source "drivers/gpu/drm/ast/Kconfig"
+-
+-source "drivers/gpu/drm/mgag200/Kconfig"
+-
++source "drivers/gpu/drm/arm/Kconfig"
+ source "drivers/gpu/drm/armada/Kconfig"
+-
++source "drivers/gpu/drm/aspeed/Kconfig"
++source "drivers/gpu/drm/ast/Kconfig"
+ source "drivers/gpu/drm/atmel-hlcdc/Kconfig"
+-
+-source "drivers/gpu/drm/renesas/Kconfig"
+-
+-source "drivers/gpu/drm/sun4i/Kconfig"
+-
+-source "drivers/gpu/drm/omapdrm/Kconfig"
+-
+-source "drivers/gpu/drm/tilcdc/Kconfig"
+-
+-source "drivers/gpu/drm/qxl/Kconfig"
+-
+-source "drivers/gpu/drm/virtio/Kconfig"
+-
+-source "drivers/gpu/drm/msm/Kconfig"
+-
+-source "drivers/gpu/drm/fsl-dcu/Kconfig"
+-
+-source "drivers/gpu/drm/tegra/Kconfig"
+-
+-source "drivers/gpu/drm/stm/Kconfig"
+-
+-source "drivers/gpu/drm/panel/Kconfig"
+-
+ source "drivers/gpu/drm/bridge/Kconfig"
+-
+-source "drivers/gpu/drm/sti/Kconfig"
+-
+-source "drivers/gpu/drm/imx/Kconfig"
+-
+-source "drivers/gpu/drm/ingenic/Kconfig"
+-
+-source "drivers/gpu/drm/v3d/Kconfig"
+-
+-source "drivers/gpu/drm/vc4/Kconfig"
+-
+-source "drivers/gpu/drm/loongson/Kconfig"
+-
+ source "drivers/gpu/drm/etnaviv/Kconfig"
+-
++source "drivers/gpu/drm/exynos/Kconfig"
++source "drivers/gpu/drm/fsl-dcu/Kconfig"
++source "drivers/gpu/drm/gma500/Kconfig"
++source "drivers/gpu/drm/gud/Kconfig"
+ source "drivers/gpu/drm/hisilicon/Kconfig"
+-
++source "drivers/gpu/drm/hyperv/Kconfig"
++source "drivers/gpu/drm/i915/Kconfig"
++source "drivers/gpu/drm/imagination/Kconfig"
++source "drivers/gpu/drm/imx/Kconfig"
++source "drivers/gpu/drm/ingenic/Kconfig"
++source "drivers/gpu/drm/kmb/Kconfig"
++source "drivers/gpu/drm/lima/Kconfig"
+ source "drivers/gpu/drm/logicvc/Kconfig"
+-
++source "drivers/gpu/drm/loongson/Kconfig"
++source "drivers/gpu/drm/mcde/Kconfig"
+ source "drivers/gpu/drm/mediatek/Kconfig"
+-
+-source "drivers/gpu/drm/mxsfb/Kconfig"
+-
+ source "drivers/gpu/drm/meson/Kconfig"
+-
+-source "drivers/gpu/drm/tiny/Kconfig"
+-
+-source "drivers/gpu/drm/pl111/Kconfig"
+-
+-source "drivers/gpu/drm/tve200/Kconfig"
+-
+-source "drivers/gpu/drm/xen/Kconfig"
+-
+-source "drivers/gpu/drm/vboxvideo/Kconfig"
+-
+-source "drivers/gpu/drm/lima/Kconfig"
+-
++source "drivers/gpu/drm/mgag200/Kconfig"
++source "drivers/gpu/drm/msm/Kconfig"
++source "drivers/gpu/drm/mxsfb/Kconfig"
++source "drivers/gpu/drm/nouveau/Kconfig"
++source "drivers/gpu/drm/nova/Kconfig"
++source "drivers/gpu/drm/omapdrm/Kconfig"
++source "drivers/gpu/drm/panel/Kconfig"
+ source "drivers/gpu/drm/panfrost/Kconfig"
+-
+ source "drivers/gpu/drm/panthor/Kconfig"
+-
+-source "drivers/gpu/drm/aspeed/Kconfig"
+-
+-source "drivers/gpu/drm/mcde/Kconfig"
+-
+-source "drivers/gpu/drm/tidss/Kconfig"
+-
+-source "drivers/gpu/drm/adp/Kconfig"
+-
+-source "drivers/gpu/drm/xlnx/Kconfig"
+-
+-source "drivers/gpu/drm/gud/Kconfig"
+-
++source "drivers/gpu/drm/pl111/Kconfig"
++source "drivers/gpu/drm/qxl/Kconfig"
++source "drivers/gpu/drm/radeon/Kconfig"
++source "drivers/gpu/drm/renesas/Kconfig"
++source "drivers/gpu/drm/rockchip/Kconfig"
+ source "drivers/gpu/drm/sitronix/Kconfig"
+-
+ source "drivers/gpu/drm/solomon/Kconfig"
+-
+ source "drivers/gpu/drm/sprd/Kconfig"
+-
+-source "drivers/gpu/drm/imagination/Kconfig"
+-
++source "drivers/gpu/drm/sti/Kconfig"
++source "drivers/gpu/drm/stm/Kconfig"
++source "drivers/gpu/drm/sun4i/Kconfig"
++source "drivers/gpu/drm/sysfb/Kconfig"
++source "drivers/gpu/drm/tegra/Kconfig"
++source "drivers/gpu/drm/tidss/Kconfig"
++source "drivers/gpu/drm/tilcdc/Kconfig"
++source "drivers/gpu/drm/tiny/Kconfig"
++source "drivers/gpu/drm/tve200/Kconfig"
+ source "drivers/gpu/drm/tyr/Kconfig"
+-
+-source "drivers/gpu/drm/hyperv/Kconfig"
++source "drivers/gpu/drm/udl/Kconfig"
++source "drivers/gpu/drm/v3d/Kconfig"
++source "drivers/gpu/drm/vboxvideo/Kconfig"
++source "drivers/gpu/drm/vc4/Kconfig"
++source "drivers/gpu/drm/vgem/Kconfig"
++source "drivers/gpu/drm/virtio/Kconfig"
++source "drivers/gpu/drm/vkms/Kconfig"
++source "drivers/gpu/drm/vmwgfx/Kconfig"
++source "drivers/gpu/drm/xe/Kconfig"
++source "drivers/gpu/drm/xen/Kconfig"
++source "drivers/gpu/drm/xlnx/Kconfig"
+ 
  endif
  
- # Separate option because drm_panel_orientation_quirks.c is shared with fbdev
 -- 
 2.47.3
 
