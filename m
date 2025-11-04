@@ -2,166 +2,47 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4A1FCC2F5E3
-	for <lists+dri-devel@lfdr.de>; Tue, 04 Nov 2025 06:25:03 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 702CCC2F601
+	for <lists+dri-devel@lfdr.de>; Tue, 04 Nov 2025 06:29:36 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 22E4010E23E;
-	Tue,  4 Nov 2025 05:24:56 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0415810E51A;
+	Tue,  4 Nov 2025 05:29:33 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=nxp.com header.i=@nxp.com header.b="BFClKTU5";
+	dkim=fail reason="signature verification failed" (1024-bit key; unprotected) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="jLCjCx2o";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from PA4PR04CU001.outbound.protection.outlook.com
- (mail-francecentralazon11013009.outbound.protection.outlook.com
- [40.107.162.9])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6EDF110E23E
- for <dri-devel@lists.freedesktop.org>; Tue,  4 Nov 2025 05:24:54 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=ivhFVZ5cvBLBMks/EUoiM6MwtD/cgQCq1cWeG1XWRNLB1OqnoHKHDTf3jRvyDzR+s/Ud8EFT4zfAia2VvI3VfItJrX2Hy8udPmI+Mwdb4DMFUUdr+BFhoQrwGGFeDJp/VCHijDzLqlF1RjZd5LcXU7FWyzHYGUQAx6uuPfKDAvui6mJcuo2hVOrFmQnBfkb97j9fRANB9N//ghe1GKr61enk8QZZGBWFX7R5dDwofxDbjsjlZ4umRGfzn0svI7KJiU3R+WJuEuZgJ9hMKZkyIqWFzIs11p1rOqL6XUI2YIO2FpjZpfFc+d082Dk3e9Qh4C4AevMCmkl/3V9jdKFmcQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=H7LXzk9S7lDIBO20S8d+YIgPB+6a+4RBOFooXnx+ALY=;
- b=X5wEUeV1rWdukc/kVWVFN15MQBcDM1/dAkWrzUczb4pytc/+GBcjxe5daxBM27YQ4PD94iGzVizbLPwAeJoc6yTM6kkMeANPM6tggx8DH9NwRXB3wQ/njpK+VCm4JsGJNaOv5x6jJB2JsNeAm9G+eIrC5BncL53kD0+FOIbVYrWV771J34lHHbABJAAQPhaDXUhaJaclfusYQjJRPckY7Ydq37os//vflsPf6UIm+K1MCyfFqK69gLoCccbG6T1KzN84l/hquBWPrLflWbO95N5w0YPKIDThI+zY0nnFNigKLCO43qTLo2rttYKgiNBpWU11wnkmp9DMqezMMe1gxQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nxp.com; dmarc=pass action=none header.from=nxp.com; dkim=pass
- header.d=nxp.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nxp.com; s=selector1; 
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=H7LXzk9S7lDIBO20S8d+YIgPB+6a+4RBOFooXnx+ALY=;
- b=BFClKTU5M613jZXAsvygdaAEvvIyDdz6c8r41zNvahuhHkK/UbASqaraqtih40gzGjE857ysPDGz3wvh6/QafGJIy7IGTtSLDlm2FNR2cpOgbpKUFVe8dBPu7lUW0B8yhVmdQOOyMS4wmJBWSSFBVseu6wbQwvDHQMLEgU9doGNzbIATKYtS4k1coDBX01s7eDTg0ryVa9YKRz+XKsoa1/h7QKzQ4JKx/PaWeIWzqhQWTLuNy6fKRIop4MAFb6YyV0ycIvUwPqT3vMgtSu84KRUeo/CNLSdQfMavSMl14pWP/RaJQHrhwQbe14T+DbhzGWNXkA79DAOksUqS7vPSGA==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nxp.com;
-Received: from AM7PR04MB7046.eurprd04.prod.outlook.com (2603:10a6:20b:113::22)
- by AS8PR04MB8071.eurprd04.prod.outlook.com (2603:10a6:20b:3f9::15)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9275.16; Tue, 4 Nov
- 2025 05:24:51 +0000
-Received: from AM7PR04MB7046.eurprd04.prod.outlook.com
- ([fe80::4609:64af:8a4b:fd64]) by AM7PR04MB7046.eurprd04.prod.outlook.com
- ([fe80::4609:64af:8a4b:fd64%6]) with mapi id 15.20.9253.017; Tue, 4 Nov 2025
- 05:24:51 +0000
-Message-ID: <ac21053f-21d9-4844-9049-09deb3708a6d@nxp.com>
-Date: Tue, 4 Nov 2025 13:25:17 +0800
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] drm/bridge: fsl-ldb: Parse register offsets from DT
-To: Marek Vasut <marek.vasut@mailbox.org>, dri-devel@lists.freedesktop.org
-Cc: Abel Vesa <abelvesa@kernel.org>, Conor Dooley <conor+dt@kernel.org>,
- Fabio Estevam <festevam@gmail.com>, Krzysztof Kozlowski
- <krzk+dt@kernel.org>, Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Lucas Stach <l.stach@pengutronix.de>, Peng Fan <peng.fan@nxp.com>,
- Pengutronix Kernel Team <kernel@pengutronix.de>,
- Rob Herring <robh@kernel.org>, Shawn Guo <shawnguo@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, devicetree@vger.kernel.org,
- imx@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
- linux-clk@vger.kernel.org
-References: <20251017154029.105099-1-marek.vasut@mailbox.org>
- <dc4b1b65-542f-4bd2-bd91-af3fe4223b63@nxp.com>
- <55d44163-4f37-462f-b860-c862cb5ada5a@mailbox.org>
- <b65d9221-bdb3-4e69-beed-6b7646c5d5eb@nxp.com>
- <3064e20f-92c8-4e3b-82bc-ef949f312826@mailbox.org>
-From: Liu Ying <victor.liu@nxp.com>
-Content-Language: en-US
-In-Reply-To: <3064e20f-92c8-4e3b-82bc-ef949f312826@mailbox.org>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: SI2PR06CA0018.apcprd06.prod.outlook.com
- (2603:1096:4:186::8) To AM7PR04MB7046.eurprd04.prod.outlook.com
- (2603:10a6:20b:113::22)
+Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6D77B10E51A
+ for <dri-devel@lists.freedesktop.org>; Tue,  4 Nov 2025 05:29:30 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by tor.source.kernel.org (Postfix) with ESMTP id 4F9ED601E9;
+ Tue,  4 Nov 2025 05:29:29 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B347FC4CEF8;
+ Tue,  4 Nov 2025 05:29:28 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+ s=korg; t=1762234169;
+ bh=AXCssvaiEqsKEXptZagpn0ve09HQYBAV99hzJsgttRU=;
+ h=Subject:To:Cc:From:Date:In-Reply-To:From;
+ b=jLCjCx2oaVDi7lOt0g3so7X0i/rKQa4fBPhFtQwRaXWPemvs3eEtjFkHLCZEeqpjR
+ fkHplvS1btFGJ+ONDxFhHjGI5Kg+5indvkljdzJvzjzUdMXTjinKKKZ7k6LNHi70H6
+ Z4P6XoQDkTJ5zTuZEqLOrNaeSIbKzABNVHds2vMU=
+Subject: Patch "drm/sysfb: Do not dereference NULL pointer in plane reset" has
+ been added to the 5.15-stable tree
+To: airlied@gmail.com, dan.carpenter@linaro.org,
+ dri-devel@lists.freedesktop.org, gregkh@linuxfoundation.org,
+ javierm@redhat.com, maarten.lankhorst@linux.intel.com, melissa.srw@gmail.com,
+ mripard@kernel.org, sashal@kernel.org, simona@ffwll.ch, tzimmermann@suse.de
+Cc: <stable-commits@vger.kernel.org>
+From: <gregkh@linuxfoundation.org>
+Date: Tue, 04 Nov 2025 14:29:19 +0900
+In-Reply-To: <20251103150626.4044944-1-sashal@kernel.org>
+Message-ID: <2025110419-grass-number-3912@gregkh>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: AM7PR04MB7046:EE_|AS8PR04MB8071:EE_
-X-MS-Office365-Filtering-Correlation-Id: 3d3477be-0122-49cb-be33-08de1b627a6b
-X-LD-Processed: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635,ExtAddr
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
- ARA:13230040|376014|7416014|366016|1800799024|19092799006; 
-X-Microsoft-Antispam-Message-Info: =?utf-8?B?VGl4V213WWFCY2l5T3o1NllOZEJMK2puWkZoblFkWUR6Wld6VDJ6NkR0Z1FE?=
- =?utf-8?B?RnNJY1JJZTZaMGFHblVmbEVWdGZ5dFpyYW5DRGdwNXpMN25EU1JvZ2dDb28x?=
- =?utf-8?B?SWEzTmZ3S2NhdllMaUd2cjFQaENIRVA0c21EKzlZSVRCSmhkTUErYlhidXJY?=
- =?utf-8?B?VXhjYzZaWFRhNjlsalJsekI5emMwZjllOUhYM0d0aXFmTjczSnhGR21TUURH?=
- =?utf-8?B?M1c0cDFxL2hNMkNsQmJVcVJnRWhBVG16dERySHRTY2R6QnMrUHdBQ2hOWEVH?=
- =?utf-8?B?TERaVDM2Rk85RzlxbUtScHlpWm4rb1pyN1k1bHpnMFFSL25EeWkvcTRmNG1O?=
- =?utf-8?B?bCsvQllkODFNbVIzMXBUQ0cwWUZOQU1JK2NOVzlBS1UraHZtV0RvZUJyUDRj?=
- =?utf-8?B?eE1hYXdpWHdyTWkrY05waDBhN2F5R1RCbVBVQnZPNmV6cmRBQ3VBTG91ZEtV?=
- =?utf-8?B?dmVZdlBuaW9MQkRxMTluUVpoSGRVNE5MaEZuSDA2bFJTaHZRY3hNb092RUhL?=
- =?utf-8?B?S2xxYjNDK2Vzb3dzdjhXR2hobU5Vd1ZsYks4U3JEWjdrZ3hwTzM3THdlZlR3?=
- =?utf-8?B?Q1RxQ0NoME1ZeXFmRnFmL1VLeU9mZ0xTbVNoV0xCVDlidTAzbDBDOFJpTlJu?=
- =?utf-8?B?MUh6Vk4yS2JIS0NpTTYwU004Y1EySnJVbGdzVFp2U1RrOVFSUGRweU5hMUU4?=
- =?utf-8?B?LzR4bXdBQXQ2MjBERGppSTlMdlJ6RGs0OSt0TDdSdmF2dVhYeEhrOG1lMlRl?=
- =?utf-8?B?V2tVVTN6QTBPMGVMcDFJMVprNm13WmJQU3FiakNiNVFzaGtRVmk5WkJpdXNr?=
- =?utf-8?B?bDJ1ZWdpUHliWHlycStyYUROdlhjVFFqMjI3Q3BJcXRFclhEOGRqMmVzdjlq?=
- =?utf-8?B?OVVXMmFBM1lwRzZYTTBRU1FhdEk4UjNOdU04Z2V4NUdXZW1GL1Rib1ZnT2Vm?=
- =?utf-8?B?RUdSUDlkd01IN2hIVmxJQU1HMkNabk1zai8rMnZFTHp0Z2NhejNicUdDcnRs?=
- =?utf-8?B?eUIwT3QrcWxrcXg0NURXdEN0b09Hb3ZRcENEaTh0MnJRL1FETlJsY3oxbTl3?=
- =?utf-8?B?SWkvMDhwUjNPNk01RlRvUVBjclRML2dubkxSSk1VYUlqMkRra0NjNElRcW5L?=
- =?utf-8?B?SDJJclRjbHRDY0ZBOU4wL09NbittcGpzK1orYWF0OVdTYy9uMFY5dHRwMzBw?=
- =?utf-8?B?Y3grY2g0NVlKWUtLZnRkNzR3TlZ0V2NacFlWekN5SVk2VWhrNDdzWUh3YlRk?=
- =?utf-8?B?TUdZMEcrQVhoSVBTZzZEeXNIUEFOcVdhMlB6ZHRVNkN3S0tvU0VQRytSek13?=
- =?utf-8?B?WWRUd2hZNy9QRUdSbGNvK1lUTUIyeG4xQi9GbnJrNU9OcWN5YXVLcjg5SjZp?=
- =?utf-8?B?dEt0SENGVjNaTXBDVWJ6NTgvRkVmNkJnLzJ4aU5vamFVY01iRFhyT3FJWkFa?=
- =?utf-8?B?Z0g5aXBIcG1JVlZ2Ny9DMHMyM3dJOTJDTzhTZFZzV1pWaGZ3SUxZaUtHUkdx?=
- =?utf-8?B?VGR0YmcyMlIrZHhwTmp6WW5VVDhRUHpzUzNDVEVsWXdJUmlPS0txazJUUVVx?=
- =?utf-8?B?WW5PNlZvanZ5T2x5b0NGMWprVjdwMW5sLzZuMXJqTWlCdnRmTzBCSTZhTWZ1?=
- =?utf-8?B?QWU1bkFZZlB0MVdwNjdhakRpTW5KTVlzb3dnenhqWnVXaVJjQ0xwUnY4Zkc2?=
- =?utf-8?B?Y0RzOUVQK0pwb0xqbkthdGxZVDRxcXI0UDIzNVNIS1RKelFyOFFpc0R4eUla?=
- =?utf-8?B?WGw3eVMxZ3VVczJpdEdWRldRUjRRVko2dHI5NXlJT1paaUduTm9BUlBvSSt4?=
- =?utf-8?B?elhmSGpHTG1RTnBnUTJjcHozQmZkb2RRaWp0SytVQmlMOWNleklzbDlPS3hD?=
- =?utf-8?B?OU9RYXNHL2dicmJKUGRGOG9JQVkwL1BmT1dGZ2NNYURtNHB3azJTRTIzQ0dL?=
- =?utf-8?Q?dOF4USg2PlcBzKG8oJxxmLUUy4gv9QYx?=
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:AM7PR04MB7046.eurprd04.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230040)(376014)(7416014)(366016)(1800799024)(19092799006); DIR:OUT;
- SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?WWx6NWtad0ozOS8zWkpRT3lnMWdJTEsxVmxralpkQThvZkdjdko0T0VldFBV?=
- =?utf-8?B?dE5qS1kzaWlXY0FHYSt1Y3ZRYkxvb3BEOGFkbzhrWDdzMS9QeVU2RGM0Smk1?=
- =?utf-8?B?eVJnQTZ4R0VWR3V1QXpBaWpYMW9PNkQ2ek5hQzFaTUlTR2l4MURnMlU3Wjky?=
- =?utf-8?B?NllIeHc5ZzJDcnlqVGc0cm1LaDFhdEJjSkRvN0VGQW9RSndFKzBkeWRlUHlQ?=
- =?utf-8?B?UkV3MzlFNWJCTHp5VkIwVzExcHRWb080enU3NVp5Wjl6ZWFtNGRJRG4reXpU?=
- =?utf-8?B?TzR5NzFTUW1GSXpVZ3pyN1JXQjFPK3FsdTlxNDdDcGQ3SDAyZ0VDZVBZQzNC?=
- =?utf-8?B?RktvOGc3L2VNd3YxZEd3WDAzWFYwNHFodDdzVGhvbnM5amEydGFpc05KUUgr?=
- =?utf-8?B?dFBoeUtzOTJxU0lBTDd2dU8wdHJDakxvQWdibk9IcjAxMFFTV1ZTWmFYYVlu?=
- =?utf-8?B?T2M4NzhzbzZwOTJKZFFZTDhneGhTK0VZNVU2OUxYMCtXODBNZ0FDOFBBeDl1?=
- =?utf-8?B?Mi9qUTF3NnlaOXdYTFZlS0VlU05malF6NmxSRkFDaE13b0I3ZHFnbmFWOHVJ?=
- =?utf-8?B?clZXNFhyVWdmU28xQWVWWHlnQ2p3YVRmZG5IYmppQXNZZU9MOWJhdGVMR2Vm?=
- =?utf-8?B?Zmh6TFRQbWE2UVY3Q1RDWkxZdGQ3MTRsbVVGaU83NmV3T283OXJMT0cvelpp?=
- =?utf-8?B?YW5LSndWYktweVhCWnVOTWRTMzlkajJSZGhjM1FQOEFleEpHNVhTdWVGUFVv?=
- =?utf-8?B?aDI1di9GVnV3TXhoOTZFaGZ1OGdDbzhCTUNIWWxqMmJOTW92anhuWWRuby9G?=
- =?utf-8?B?R1MxZm9pRUJiUFZwWjZSVGhFSGduUnhvUmgyYmZTK0FlaDBCMm1tYzNQMzdN?=
- =?utf-8?B?eGxEait0Sjd5VERxRXhKUTZ3VHc4dW5QUXU4TmVXQmhGK1crdVZQY2F1UGhG?=
- =?utf-8?B?Z21BNjh6aUY0Q1pITTZNdHhxc21ROTAzNHE0S1ZZbmdkQ3JjMW9Za3cvUElR?=
- =?utf-8?B?YXpoaDFnOWJPc09LWXVmV0F0aWdlUUgyZ2xIbDNpc1lxS3kwbnRLTjJNMER6?=
- =?utf-8?B?endUeDdxSXZVTGdLME1qVTRWSnB6OXJRcUszZlZkNzluR0oyci81emQrOER0?=
- =?utf-8?B?MEhQc2tzRUgrdGdRa29zQ2ptb0tJQXNkY0pSVnNKTE4zTUlXbytwN2kzaCtI?=
- =?utf-8?B?WGUxVzQ1Wml4Y0ZrVERpVXN2MGlkUFE4cDI5OVJNR3BIa2xMRnBiRzNSMjBa?=
- =?utf-8?B?ZVBaVjE4MzBUZ3VMdEZUNkp4VStsSi9sRTh4WlZvTjJlelJ6bnVTNUlNMjlF?=
- =?utf-8?B?VlQ1OTFwMkFUYzIwQ1NIaS9sbUpJQk1DcEJkb3VGZjZhMEZEdjByM1pxck9h?=
- =?utf-8?B?SElrYnFObTh0SEJCSFhFWlg4VDdjSzFLZ2FOSkFIcm40MDRzUXFBa3Nzd2h3?=
- =?utf-8?B?NS9GSnBaNWJ1R0U1SHZrV0RTemVQN09ZWU5XTlErVjlvRWF3YllnMjcxb2dt?=
- =?utf-8?B?N3hYS2pnSks2V1ZGeTN5cS9QanBTYzhEOEoyU2hLWTFzMUIzd1BWblJNTE50?=
- =?utf-8?B?ZVhMb1AzUllJTk1HNzNwMlpaTWd1YnM3ZFdHNjN3ZDRaaHZNRkNqWmYwRWdv?=
- =?utf-8?B?YVU2WGJVZ2VuUml0eWVTMDR6Yk8wa2cxVjRFelhFTm0zdExYU3FZYmFJc01D?=
- =?utf-8?B?UTVBWnVaa2FacmVWUXQxWkNmN0VYcWwyODV5eVlKWUlSUlpGYjZYcGpBMmNV?=
- =?utf-8?B?VEY5L05vUEtFTGV4Zkk4RGxBWjYyV3Iva01BeEkxWklWbGljWDJPc3pPOEtL?=
- =?utf-8?B?R3hUQ2MvbEZ1SWpneVh4bXd1bHVMN1FRT1Y0YUF4cVFJOW1DZUVtcE5lYkZY?=
- =?utf-8?B?RTd0S1JIOVkxK0JkNVhRQUtZZWp4VjRVNThOZ3J3d0kvWDN4bU11Z1pEcm85?=
- =?utf-8?B?V1lEdGJWeGVlZXFqVDUrbTdNMHExRGNubDJQZ2FyamVzdkYrdXluMjVvY3JD?=
- =?utf-8?B?Mnc1dXlVUk5JMDNuSmxXcWVFblU0L2E0Qkx6LzVPOWJSS1pWb1VEZ0g4NVBk?=
- =?utf-8?B?djFaV1VUa0RnUk1iQzdKNkRMQmlJdjVjMG9xZ0VsYXJrTjRBMmkvZGc0ZExL?=
- =?utf-8?Q?ZuiO9MYDG/A+Ob9R/tyR6g2ot?=
-X-OriginatorOrg: nxp.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 3d3477be-0122-49cb-be33-08de1b627a6b
-X-MS-Exchange-CrossTenant-AuthSource: AM7PR04MB7046.eurprd04.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 04 Nov 2025 05:24:50.9377 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: +/DTIOu7El9UB+PE2Q9yKWkecMUekutukcnR+kbR2lImCsNWHnQGHYdDcynhgsCvUasP6BAlXU6WQsnW3B3d3Q==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AS8PR04MB8071
+Content-Type: text/plain; charset=ANSI_X3.4-1968
+Content-Transfer-Encoding: 8bit
+X-stable: commit
+X-Patchwork-Hint: ignore
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -177,75 +58,115 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 11/04/2025, Marek Vasut wrote:
-> On 11/4/25 3:26 AM, Liu Ying wrote:
-> 
-> Hello Liu,
 
-Hello Marek,
+This is a note to let you know that I've just added the patch titled
 
-> 
->>>>> +++ b/drivers/gpu/drm/bridge/fsl-ldb.c
->>>>> @@ -61,24 +61,16 @@ enum fsl_ldb_devtype {
->>>>>    };
->>>>>      struct fsl_ldb_devdata {
->>>>> -    u32 ldb_ctrl;
->>>>> -    u32 lvds_ctrl;
->>>>>        bool lvds_en_bit;
->>>>>        bool single_ctrl_reg;
->>>>
->>>> single_ctrl_reg can be dropped then, as it can be expressed by failing to
->>>> get the second register.
->>>>
->>>> Furthermore, with this done, lvds_en_bit is the only member left and hence
->>>> struct fsl_ldb_devdata can also be dropped, as IIRC there is no need to
->>>> use a structure for device data with only a flag.
->>> I plan to add more bits into the driver match data when adding the MX95,
->>> so I would like to retain these instead of removing them and the adding
->>> them back.
->>
->> i.MX95 LDB supports two LVDS channels.  Two DRM bridges are needed in single
->> or separate LDB mode, while one DRM bridge is needed in split LDB mode.
-> 
-> What do you refer to by "split LDB mode" , some interleaving or some such
-> thing ?
+    drm/sysfb: Do not dereference NULL pointer in plane reset
 
-I mean "Split Channel DI0" and "Split Channel DI1" use cases in the below
-table in i.MX95 TRM.
+to the 5.15-stable tree which can be found at:
+    http://www.kernel.org/git/?p=linux/kernel/git/stable/stable-queue.git;a=summary
 
-+------------------------------------------------------------+
-|Table: Channel Mapping                                      |
-|------------------------------------------------------------|
-|Use Case           |  LVDS Channel 0   |  LVDS Channel 1    |
-|------------------------------------------------------------|
-|Single Channel DI0 | DI0               | Disabled           |
-|------------------------------------------------------------|
-|Single Channel DI1 | Disabled          | DI1                |
-|------------------------------------------------------------|
-|Separate Channels  | DI0               | DI1                |
-|------------------------------------------------------------|
-|Dual Channels DI0  | DI0               | DI0                |
-|------------------------------------------------------------|
-|Dual Channels DI1  | DI1               | DI1                |
-|------------------------------------------------------------|
-|Split Channel DI0  | DI0 (first pixel) | DI0 (second pixel) |
-|------------------------------------------------------------|
-|Split Channel DI1  | DI1 (first pixel) | DI1 (second pixel) |
-+------------------------------------------------------------+
+The filename of the patch is:
+     drm-sysfb-do-not-dereference-null-pointer-in-plane-reset.patch
+and it can be found in the queue-5.15 subdirectory.
 
-> 
->> Also, each channel connects to a standalone LVDS PHY.  All these could make
->> it intrusive to support i.MX95 LDB in fsl-ldb.c.  Maybe, we could discuss
->> about this later, but IMO this patch should remove struct fsl_ldb_devdata.
->> It doesn't hurt if we really need to add it back.
-> OK. The current integration seems to be working fine. Which exact case are
-> you concerned about, do you have an example ?
+If you, or anyone else, feels it should not be added to the stable tree,
+please let <stable@vger.kernel.org> know about it.
 
-At least, "Separate Channels" use case on i.MX95 EVK to support two IT6263
-LVDS to HDMI bridges(see ite,it6263.yaml), meaning two active HDMI monitors.
-That also means "Single Channel DI0" and "Single Channel DI1" should work
-with one single HDMI monitor.
 
--- 
-Regards,
-Liu Ying
+From stable+bounces-192219-greg=kroah.com@vger.kernel.org Tue Nov  4 00:22:28 2025
+From: Sasha Levin <sashal@kernel.org>
+Date: Mon,  3 Nov 2025 10:06:26 -0500
+Subject: drm/sysfb: Do not dereference NULL pointer in plane reset
+To: stable@vger.kernel.org
+Cc: Thomas Zimmermann <tzimmermann@suse.de>, Dan Carpenter <dan.carpenter@linaro.org>, Melissa Wen <melissa.srw@gmail.com>, Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>, David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, dri-devel@lists.freedesktop.org, Javier Martinez Canillas <javierm@redhat.com>, Sasha Levin <sashal@kernel.org>
+Message-ID: <20251103150626.4044944-1-sashal@kernel.org>
+
+From: Thomas Zimmermann <tzimmermann@suse.de>
+
+[ Upstream commit 14e02ed3876f4ab0ed6d3f41972175f8b8df3d70 ]
+
+The plane state in __drm_gem_reset_shadow_plane() can be NULL. Do not
+deref that pointer, but forward NULL to the other plane-reset helpers.
+Clears plane->state to NULL.
+
+v2:
+- fix typo in commit description (Javier)
+
+Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
+Fixes: b71565022031 ("drm/gem: Export implementation of shadow-plane helpers")
+Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
+Closes: https://lore.kernel.org/dri-devel/aPIDAsHIUHp_qSW4@stanley.mountain/
+Cc: Thomas Zimmermann <tzimmermann@suse.de>
+Cc: Melissa Wen <melissa.srw@gmail.com>
+Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
+Cc: Maxime Ripard <mripard@kernel.org>
+Cc: David Airlie <airlied@gmail.com>
+Cc: Simona Vetter <simona@ffwll.ch>
+Cc: dri-devel@lists.freedesktop.org
+Cc: <stable@vger.kernel.org> # v5.15+
+Reviewed-by: Javier Martinez Canillas <javierm@redhat.com>
+Link: https://patch.msgid.link/20251017091407.58488-1-tzimmermann@suse.de
+[ removed drm_format_conv_state_init() call ]
+Signed-off-by: Sasha Levin <sashal@kernel.org>
+Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+---
+ drivers/gpu/drm/drm_gem_atomic_helper.c |    6 +++++-
+ 1 file changed, 5 insertions(+), 1 deletion(-)
+
+--- a/drivers/gpu/drm/drm_gem_atomic_helper.c
++++ b/drivers/gpu/drm/drm_gem_atomic_helper.c
+@@ -282,7 +282,11 @@ EXPORT_SYMBOL(drm_gem_destroy_shadow_pla
+ void __drm_gem_reset_shadow_plane(struct drm_plane *plane,
+ 				  struct drm_shadow_plane_state *shadow_plane_state)
+ {
+-	__drm_atomic_helper_plane_reset(plane, &shadow_plane_state->base);
++	if (shadow_plane_state) {
++		__drm_atomic_helper_plane_reset(plane, &shadow_plane_state->base);
++	} else {
++		__drm_atomic_helper_plane_reset(plane, NULL);
++	}
+ }
+ EXPORT_SYMBOL(__drm_gem_reset_shadow_plane);
+ 
+
+
+Patches currently in stable-queue which might be from sashal@kernel.org are
+
+queue-5.15/drm-amd-pm-powerplay-smumgr-fix-pciebootlinklevel-va.patch
+queue-5.15/wifi-ath10k-fix-memory-leak-on-unsupported-wmi-comma.patch
+queue-5.15/x86-bugs-fix-reporting-of-lfence-retpoline.patch
+queue-5.15/arch-back-to-std-gnu89-in-v5.18.patch
+queue-5.15/dt-bindings-usb-dwc3-imx8mp-dma-range-is-required-only-for-imx8mp.patch
+queue-5.15/btrfs-use-smp_mb__after_atomic-when-forcing-cow-in-c.patch
+queue-5.15/x86-boot-compile-boot-code-with-std-gnu11-too.patch
+queue-5.15/xhci-dbc-improve-performance-by-removing-delay-in-transfer-event-polling.patch
+queue-5.15/net-hns3-return-error-code-when-function-fails.patch
+queue-5.15/btrfs-scrub-replace-max_t-min_t-with-clamp-in-scrub_.patch
+queue-5.15/xhci-dbc-poll-at-different-rate-depending-on-data-transfer-activity.patch
+queue-5.15/xhci-dbc-avoid-event-polling-busyloop-if-pending-rx-transfers-are-inactive.patch
+queue-5.15/ravb-exclude-gptp-feature-support-for-rz-g2l.patch
+queue-5.15/drm-amd-pm-powerplay-smumgr-fix-pciebootlinklevel-va.patch-3340
+queue-5.15/mptcp-drop-bogus-optimization-in-__mptcp_check_push.patch
+queue-5.15/drm-etnaviv-fix-flush-sequence-logic.patch
+queue-5.15/serial-8250_dw-use-devm_add_action_or_reset.patch
+queue-5.15/xhci-dbc-allow-users-to-modify-dbc-poll-interval-via-sysfs.patch
+queue-5.15/drm-msm-a6xx-fix-gmu-firmware-parser.patch
+queue-5.15/serial-8250_dw-handle-reset-control-deassert-error.patch
+queue-5.15/drm-sched-fix-race-in-drm_sched_entity_select_rq.patch
+queue-5.15/bpf-sync-pending-irq-work-before-freeing-ring-buffer.patch
+queue-5.15/alsa-usb-audio-fix-control-pipe-direction.patch
+queue-5.15/drm-sysfb-do-not-dereference-null-pointer-in-plane-reset.patch
+queue-5.15/btrfs-always-drop-log-root-tree-reference-in-btrfs_r.patch
+queue-5.15/drm-amd-pm-fix-smu-table-id-bound-check-issue-in-smu.patch
+queue-5.15/xhci-dbc-provide-sysfs-option-to-configure-dbc-descriptors.patch
+queue-5.15/libbpf-normalize-pt_regs_xxx-macro-definitions.patch
+queue-5.15/block-make-req_op_zone_open-a-write-operation.patch
+queue-5.15/revert-docs-process-howto-replace-c89-with-c11.patch
+queue-5.15/usbnet-prevents-free-active-kevent.patch
+queue-5.15/net-ravb-enforce-descriptor-type-ordering.patch
+queue-5.15/xhci-dbc-fix-bogus-1024-byte-prefix-if-ttydbc-read-races-with-stall-event.patch
+queue-5.15/bpf-do-not-audit-capability-check-in-do_jit.patch
+queue-5.15/riscv-libbpf-add-risc-v-rv64-support-to-bpf_tracing..patch
+queue-5.15/net-phy-dp83867-disable-eee-support-as-not-implemented.patch
+queue-5.15/libbpf-fix-powerpc-s-stack-register-definition-in-bp.patch
