@@ -2,47 +2,47 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 15841C2EC59
-	for <lists+dri-devel@lfdr.de>; Tue, 04 Nov 2025 02:34:10 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 39BFFC2EC4D
+	for <lists+dri-devel@lfdr.de>; Tue, 04 Nov 2025 02:34:09 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1DB9010E505;
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1621810E503;
 	Tue,  4 Nov 2025 01:33:49 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="NlGdjSja";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="RyxqydML";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from sea.source.kernel.org (sea.source.kernel.org [172.234.252.31])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0E11110E4FD;
- Tue,  4 Nov 2025 01:33:48 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by sea.source.kernel.org (Postfix) with ESMTP id 5C7FD444A6;
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B96D510E4FD;
  Tue,  4 Nov 2025 01:33:47 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 1885EC116C6;
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by sea.source.kernel.org (Postfix) with ESMTP id 52C3444486;
+ Tue,  4 Nov 2025 01:33:47 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 1E1E5C19421;
  Tue,  4 Nov 2025 01:33:47 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
  s=k20201202; t=1762220027;
- bh=hfV6yFpSGRUXcLjVORiZFdp8dP2d/7/m9mfb2ai9LEA=;
+ bh=vZFRSlBnkAbUy3QVpx9sd6MjxR0UuLoqqLPobMHrovY=;
  h=From:Date:Subject:References:In-Reply-To:To:Cc:Reply-To:From;
- b=NlGdjSjaKS/K1bQzE2m0G9X8KFhTMAGBA+YcjiD+kgmE8HMXx8vgJEjak9ttNvqCu
- A+xizZMZSIrHoEwZIaWs5MarJM+8+3xOjUg1NUEaZxBVtqM/qVOI01D4n5bnThXaJa
- ECT9/3jZGg8zpPE4wc7NKs76iXNH3+LOe0jx8RaIeyuOyfUs20wenI+1HofPoXlgGh
- QKUk6snKlGIJ6wQPfDDO7aMc6QYqAEmTBDwHgdpD6ec7A9oY5kDg29KgUIvD8JR1zV
- w8u2fojp/qqlSWXmLYBhHAh99l1ya6NYiTnLFOCQ1bLcxPHLNdcnr9M+nga+cz5NmR
- 5lLj7JKo/rZRA==
+ b=RyxqydMLycEQDoJUWoHffPcnjS9Mtd8k5I9tiiekwYcNdl9ot4dTEsMXknOy4k6vG
+ yVz4WaH/ZBoD4XsiSEXq6hBkKlckFAXeiyibogMv9/BsMS9hkOMm5Ve7exs0pVsfJc
+ avMW8f6Bu/OKBK03Fxf4OlfwJYAb5i/X53g2qoxFmVTNjTQM/dnTVtYZpuEZubuM+a
+ MW+A10XMyAZkE7k8ntT7mPR2707wvKm7VCIJZHPbWaAffJHpOelPA3NCJwEiiGKwVn
+ EV1ALsjbSPIDidARgYRDWFmXNC3FfwiC6IwhhyH3U+/FgImpALka8Xbl2KysEhzK/U
+ 3z8XkwBqPzTKg==
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org
  (localhost.localdomain [127.0.0.1])
- by smtp.lore.kernel.org (Postfix) with ESMTP id 02F8FCCFA03;
+ by smtp.lore.kernel.org (Postfix) with ESMTP id 163E8CCFA07;
  Tue,  4 Nov 2025 01:33:47 +0000 (UTC)
 From: Xiangxu Yin via B4 Relay
  <devnull+xiangxu.yin.oss.qualcomm.com@kernel.org>
-Date: Tue, 04 Nov 2025 09:33:24 +0800
-Subject: [PATCH v7 2/4] dt-bindings: display: msm: sm6150-mdss: Fix example
- indentation and OPP values
+Date: Tue, 04 Nov 2025 09:33:25 +0800
+Subject: [PATCH v7 3/4] arm64: dts: qcom: talos: Add DisplayPort and QMP
+ USB3-DP PHY
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20251104-add-displayport-support-to-qcs615-devicetree-v7-2-e51669170a6f@oss.qualcomm.com>
+Message-Id: <20251104-add-displayport-support-to-qcs615-devicetree-v7-3-e51669170a6f@oss.qualcomm.com>
 References: <20251104-add-displayport-support-to-qcs615-devicetree-v7-0-e51669170a6f@oss.qualcomm.com>
 In-Reply-To: <20251104-add-displayport-support-to-qcs615-devicetree-v7-0-e51669170a6f@oss.qualcomm.com>
 To: Rob Clark <robin.clark@oss.qualcomm.com>, 
@@ -60,13 +60,15 @@ Cc: linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org,
  freedreno@lists.freedesktop.org, devicetree@vger.kernel.org, 
  linux-kernel@vger.kernel.org, fange.zhang@oss.qualcomm.com, 
  yongxing.mou@oss.qualcomm.com, li.liu@oss.qualcomm.com, 
- Xiangxu Yin <xiangxu.yin@oss.qualcomm.com>
+ Xiangxu Yin <xiangxu.yin@oss.qualcomm.com>, 
+ Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>, 
+ Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
 X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1762220025; l=2608;
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1762220025; l=4929;
  i=xiangxu.yin@oss.qualcomm.com; s=20241125; h=from:subject:message-id;
- bh=hrYLkUwYAU8obwGE7SDVX+uxOItffNgzBGR1+RWmW7E=;
- b=oWGKTdUvdtg+8f4otWaQLlqYn98bUDSy5m0LJRmtRJSF6kBM6+9xElbMw5MdaQestwrMyEJXg
- H7UFBcw3fa5BtYc7VP9mCUW0PmZXX56VPo2jY53xHS4ULe/kabfpsFG
+ bh=3EPRbc28Dl/QB/pDfVl4NSaf1ThQc9/OR79KsNbQKV0=;
+ b=EH2AAEy9ADoQQyvzNm4EIwHgTM31wez6Myw1X7//bRqBbSOCPi4UfZmL3v+0SuvqYAsiu+Og0
+ p1hPBQicpmMCaFVuEt6VVIeLYhfhOxSyArM2+LQTT52a1m2kmETCaG3
 X-Developer-Key: i=xiangxu.yin@oss.qualcomm.com; a=ed25519;
  pk=F1TwipJzpywfbt3n/RPi4l/A4AVF+QC89XzCHgZYaOc=
 X-Endpoint-Received: by B4 Relay for xiangxu.yin@oss.qualcomm.com/20241125
@@ -90,73 +92,171 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: Xiangxu Yin <xiangxu.yin@oss.qualcomm.com>
 
-Improve the binding example by fixing indentation and adding missing
-blank lines for better readability. Also correct the OPP clock values
-to match the actual SM6150 DTS configuration.
+Introduce DisplayPort controller node and associated QMP USB3-DP PHY
+for SM6150 SoC. Add data-lanes property to the DP endpoint and update
+clock assignments for proper DP integration.
 
-Reviewed-by: Rob Herring (Arm) <robh@kernel.org>
+Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
+Reviewed-by: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
 Signed-off-by: Xiangxu Yin <xiangxu.yin@oss.qualcomm.com>
 ---
- .../bindings/display/msm/qcom,sm6150-mdss.yaml     | 32 ++++++++++++----------
- 1 file changed, 17 insertions(+), 15 deletions(-)
+ arch/arm64/boot/dts/qcom/talos.dtsi | 115 +++++++++++++++++++++++++++++++++++-
+ 1 file changed, 113 insertions(+), 2 deletions(-)
 
-diff --git a/Documentation/devicetree/bindings/display/msm/qcom,sm6150-mdss.yaml b/Documentation/devicetree/bindings/display/msm/qcom,sm6150-mdss.yaml
-index 98949deed9ae0a23148c5bc9877e6b7250a2f64a..46e9335f849fe8afd8c92ad68876fd741a81c281 100644
---- a/Documentation/devicetree/bindings/display/msm/qcom,sm6150-mdss.yaml
-+++ b/Documentation/devicetree/bindings/display/msm/qcom,sm6150-mdss.yaml
-@@ -138,35 +138,37 @@ examples:
-                 #size-cells = <0>;
+diff --git a/arch/arm64/boot/dts/qcom/talos.dtsi b/arch/arm64/boot/dts/qcom/talos.dtsi
+index d1dbfa3bd81c3d999bd79fc92ad85312c2f83087..208344a1a832332912c804735e35219ab1a06a8f 100644
+--- a/arch/arm64/boot/dts/qcom/talos.dtsi
++++ b/arch/arm64/boot/dts/qcom/talos.dtsi
+@@ -15,6 +15,7 @@
+ #include <dt-bindings/interconnect/qcom,osm-l3.h>
+ #include <dt-bindings/interconnect/qcom,qcs615-rpmh.h>
+ #include <dt-bindings/interrupt-controller/arm-gic.h>
++#include <dt-bindings/phy/phy-qcom-qmp.h>
+ #include <dt-bindings/power/qcom-rpmpd.h>
+ #include <dt-bindings/power/qcom,rpmhpd.h>
+ #include <dt-bindings/soc/qcom,rpmh-rsc.h>
+@@ -3855,6 +3856,7 @@ port@0 {
+ 						reg = <0>;
  
-                 port@0 {
--                  reg = <0>;
--                  dpu_intf0_out: endpoint {
--                  };
-+                    reg = <0>;
+ 						dpu_intf0_out: endpoint {
++							remote-endpoint = <&mdss_dp0_in>;
+ 						};
+ 					};
+ 
+@@ -3887,6 +3889,89 @@ opp-307200000 {
+ 				};
+ 			};
+ 
++			mdss_dp0: displayport-controller@ae90000 {
++				compatible = "qcom,sm6150-dp", "qcom,sm8150-dp", "qcom,sm8350-dp";
 +
-+                    dpu_intf0_out: endpoint {
-+                    };
-                 };
- 
-                 port@1 {
--                  reg = <1>;
--                  dpu_intf1_out: endpoint {
--                      remote-endpoint = <&mdss_dsi0_in>;
--                  };
-+                    reg = <1>;
++				reg = <0x0 0x0ae90000 0x0 0x200>,
++				      <0x0 0x0ae90200 0x0 0x200>,
++				      <0x0 0x0ae90400 0x0 0x600>,
++				      <0x0 0x0ae90a00 0x0 0x600>,
++				      <0x0 0x0ae91000 0x0 0x600>;
 +
-+                    dpu_intf1_out: endpoint {
-+                        remote-endpoint = <&mdss_dsi0_in>;
-+                    };
-                 };
-             };
++				interrupt-parent = <&mdss>;
++				interrupts = <12>;
++
++				clocks = <&dispcc DISP_CC_MDSS_AHB_CLK>,
++					 <&dispcc DISP_CC_MDSS_DP_AUX_CLK>,
++					 <&dispcc DISP_CC_MDSS_DP_LINK_CLK>,
++					 <&dispcc DISP_CC_MDSS_DP_LINK_INTF_CLK>,
++					 <&dispcc DISP_CC_MDSS_DP_PIXEL_CLK>,
++					 <&dispcc DISP_CC_MDSS_DP_PIXEL1_CLK>;
++				clock-names = "core_iface",
++					      "core_aux",
++					      "ctrl_link",
++					      "ctrl_link_iface",
++					      "stream_pixel",
++					      "stream_1_pixel";
++
++				assigned-clocks = <&dispcc DISP_CC_MDSS_DP_LINK_CLK_SRC>,
++						  <&dispcc DISP_CC_MDSS_DP_PIXEL_CLK_SRC>,
++						  <&dispcc DISP_CC_MDSS_DP_PIXEL1_CLK_SRC>;
++				assigned-clock-parents = <&usb_qmpphy_2 QMP_USB43DP_DP_LINK_CLK>,
++							 <&usb_qmpphy_2 QMP_USB43DP_DP_VCO_DIV_CLK>,
++							 <&usb_qmpphy_2 QMP_USB43DP_DP_VCO_DIV_CLK>;
++
++				phys = <&usb_qmpphy_2 QMP_USB43DP_DP_PHY>;
++				phy-names = "dp";
++
++				operating-points-v2 = <&dp_opp_table>;
++				power-domains = <&rpmhpd RPMHPD_CX>;
++
++				#sound-dai-cells = <0>;
++
++				status = "disabled";
++
++				ports {
++					#address-cells = <1>;
++					#size-cells = <0>;
++
++					port@0 {
++						reg = <0>;
++
++						mdss_dp0_in: endpoint {
++							remote-endpoint = <&dpu_intf0_out>;
++						};
++					};
++
++					port@1 {
++						reg = <1>;
++
++						mdss_dp0_out: endpoint {
++							data-lanes = <3 2 0 1>;
++						};
++					};
++				};
++
++				dp_opp_table: opp-table {
++					compatible = "operating-points-v2";
++
++					opp-160000000 {
++						opp-hz = /bits/ 64 <160000000>;
++						required-opps = <&rpmhpd_opp_low_svs>;
++					};
++
++					opp-270000000 {
++						opp-hz = /bits/ 64 <270000000>;
++						required-opps = <&rpmhpd_opp_svs>;
++					};
++
++					opp-540000000 {
++						opp-hz = /bits/ 64 <540000000>;
++						required-opps = <&rpmhpd_opp_svs_l1>;
++					};
++				};
++			};
++
+ 			mdss_dsi0: dsi@ae94000 {
+ 				compatible = "qcom,sm6150-dsi-ctrl", "qcom,mdss-dsi-ctrl";
+ 				reg = <0x0 0x0ae94000 0x0 0x400>;
+@@ -3982,8 +4067,8 @@ dispcc: clock-controller@af00000 {
+ 				 <&mdss_dsi0_phy DSI_BYTE_PLL_CLK>,
+ 				 <&mdss_dsi0_phy DSI_PIXEL_PLL_CLK>,
+ 				 <0>,
+-				 <0>,
+-				 <0>;
++				 <&usb_qmpphy_2 QMP_USB43DP_DP_LINK_CLK>,
++				 <&usb_qmpphy_2 QMP_USB43DP_DP_VCO_DIV_CLK>;
  
-             mdp_opp_table: opp-table {
-                 compatible = "operating-points-v2";
+ 			#clock-cells = <1>;
+ 			#reset-cells = <1>;
+@@ -4362,6 +4447,32 @@ usb_qmpphy: phy@88e6000 {
+ 			status = "disabled";
+ 		};
  
--                opp-19200000 {
--                  opp-hz = /bits/ 64 <19200000>;
--                  required-opps = <&rpmhpd_opp_low_svs>;
-+                opp-192000000 {
-+                    opp-hz = /bits/ 64 <192000000>;
-+                    required-opps = <&rpmhpd_opp_low_svs>;
-                 };
- 
--                opp-25600000 {
--                  opp-hz = /bits/ 64 <25600000>;
--                  required-opps = <&rpmhpd_opp_svs>;
-+                opp-256000000 {
-+                    opp-hz = /bits/ 64 <256000000>;
-+                    required-opps = <&rpmhpd_opp_svs>;
-                 };
- 
-                 opp-307200000 {
--                  opp-hz = /bits/ 64 <307200000>;
--                  required-opps = <&rpmhpd_opp_nom>;
-+                    opp-hz = /bits/ 64 <307200000>;
-+                    required-opps = <&rpmhpd_opp_nom>;
-                 };
-             };
-         };
++		usb_qmpphy_2: phy@88e8000 {
++			compatible = "qcom,qcs615-qmp-usb3-dp-phy";
++			reg = <0x0 0x088e8000 0x0 0x2000>;
++
++			clocks = <&gcc GCC_USB2_SEC_PHY_AUX_CLK>,
++				 <&gcc GCC_USB3_SEC_CLKREF_CLK>,
++				 <&gcc GCC_AHB2PHY_WEST_CLK>,
++				 <&gcc GCC_USB2_SEC_PHY_PIPE_CLK>;
++			clock-names = "aux",
++				      "ref",
++				      "cfg_ahb",
++				      "pipe";
++
++			resets = <&gcc GCC_USB3PHY_PHY_SEC_BCR >,
++				 <&gcc GCC_USB3_DP_PHY_SEC_BCR>;
++			reset-names = "phy_phy",
++				      "dp_phy";
++
++			#clock-cells = <1>;
++			#phy-cells = <1>;
++
++			qcom,tcsr-reg = <&tcsr 0xbff0 0xb24c>;
++
++			status = "disabled";
++		};
++
+ 		usb_1: usb@a6f8800 {
+ 			compatible = "qcom,qcs615-dwc3", "qcom,dwc3";
+ 			reg = <0x0 0x0a6f8800 0x0 0x400>;
 
 -- 
 2.34.1
