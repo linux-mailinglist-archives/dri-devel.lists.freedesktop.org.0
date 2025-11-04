@@ -2,95 +2,71 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7F537C314E7
-	for <lists+dri-devel@lfdr.de>; Tue, 04 Nov 2025 14:52:20 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 85B53C3154D
+	for <lists+dri-devel@lfdr.de>; Tue, 04 Nov 2025 14:57:35 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DCC7910E5DB;
-	Tue,  4 Nov 2025 13:52:18 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D74CF10E5E0;
+	Tue,  4 Nov 2025 13:57:33 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="L1ztI35s";
+	dkim=fail reason="signature verification failed" (2048-bit key; secure) header.d=mailbox.org header.i=@mailbox.org header.b="QzxvE5Dg";
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b="XuAIPL/p";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pj1-f50.google.com (mail-pj1-f50.google.com
- [209.85.216.50])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B383310E5DB
- for <dri-devel@lists.freedesktop.org>; Tue,  4 Nov 2025 13:52:16 +0000 (UTC)
-Received: by mail-pj1-f50.google.com with SMTP id
- 98e67ed59e1d1-33e3018f113so890789a91.0
- for <dri-devel@lists.freedesktop.org>; Tue, 04 Nov 2025 05:52:16 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1762264336; x=1762869136; darn=lists.freedesktop.org;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=WgxSC2aKqxilandHAezVm5gKzGGQcz0P4+qV+dri/oU=;
- b=L1ztI35sVSOx+hFlHTBdwSkV6fYmyA7jTo0io5W3EV7SiLVDrnmq1D8+6wPs4fCy5F
- SAwdZdAvob8l3j6y3du0l8WAguilj5RW+emiE6zSsLY9lul+uVIFdKBXWUclP8028Y4A
- dlC4P0fd9X2TmqEfBf5/FzVtUN4F4HpiZ99aKSNYsXEgXLD9Ixv3hj7vOaYuYSIIqCUG
- ff7HtYRWT+NruF0S2dJF9seajxGaSrse7yhKbdCCVxbJ+JVFKmAYZVU1CdqdegXErQxm
- NYUPWeM+Zv+G2sHBstyuPjwPD1k9XW/nZJPKtmKBtU5YRzYzFnqaBVzGv58nOTZZqfaX
- V/ug==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1762264336; x=1762869136;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=WgxSC2aKqxilandHAezVm5gKzGGQcz0P4+qV+dri/oU=;
- b=pdbJ9EAsvjTN3bSJQ3NKbVIEIKXRg62tejc8JAzGY/zmpiBBpCzm2lGYhUWolBg3+2
- Y6Ob/qkhtuggFn0dTs6aLn6VJrwoRTRr96sRyzAkq051dw1eHDLdUJ6aLiO9cvTZzIMc
- LqSYoWLDd9g4SGYvOEnZuL2Lpn6u1ST1o4tEAjlNICYW/dOkWuIWWYxhRzECw/HO+xpx
- 9yBxUgL8bJKid0dOIhP1TOrizwGo5qDHij1IV6sbwDZKSELWi9b/k5bzgApKnzeLf7g/
- t++DC46YuUkxrei7SMdKhDfJLXz46yWgOsGZIsTF7g0q/0k9yOTPVcCI76Tdy3Fjc+ew
- nS4w==
-X-Forwarded-Encrypted: i=1;
- AJvYcCX86rlXNnWn83g5KJToxYW29T4t8s4xHCnl5gKm240C3VclmeW2UoLOITxDOj+SAfiA69pTHQhrI4Q=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Yxmu0GlmzdkAdOuDJpyrmaXlO3lPeh/iMx5FZB9MgXLGg6rTx+5
- 7GCKK6T0TaACQ4m1fMIqo3tEw/G0C6qXg5/UMq4JVxcv31tpILBBHT65x8gYtsKMkf7FlKG/9xA
- vxmfX4zHBksQjazP8RvH0R9BqXOqMCnM=
-X-Gm-Gg: ASbGncsSb75NBbRU3EY7BlAIykDesUKv1dKxSG49wr/SRx3wW/fUsnCSwqQS1+LQl+j
- OBHDSxZ3GxgpoE1BFdplsjsfTMHdbv9rVpqzqyD2jX94uxAE8ttxRB5sA4cr7OLPnkO9ryK8nA9
- jp2DcrrntEYaSdSus4p+dxcXvlGWsqnkC93aH9hzuy4CVFzVIzn23idstiTOQfYMtHAFtCPOE9g
- OGuXEB04mHE96sC43/o+kb4SCr4K7X4ieO3PZ7PHkSfFsCaieXMmnfPoB/docIQSMO3LgXJTe8M
- hF3BzVrskdv9gLqEht17PP29b8rjdLaNbOZjc3BLTN1DBjhYtmevEZ036hM02n2PV0hX9+tUkN2
- uzSw=
-X-Google-Smtp-Source: AGHT+IEHIHWibqjAZGWyvY0H8m2w47BvrG2lZbXh2UQMD9AI1DeCBy/GvhFpcB4QhflEwGDTQ3v2/JNfuI82Byb03zs=
-X-Received: by 2002:a17:90b:3b87:b0:340:b8f2:250c with SMTP id
- 98e67ed59e1d1-340b8f22df9mr9464706a91.1.1762264336293; Tue, 04 Nov 2025
- 05:52:16 -0800 (PST)
+Received: from mout-p-202.mailbox.org (mout-p-202.mailbox.org [80.241.56.172])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4A33A10E5E0
+ for <dri-devel@lists.freedesktop.org>; Tue,  4 Nov 2025 13:57:32 +0000 (UTC)
+Received: from smtp202.mailbox.org (smtp202.mailbox.org [10.196.197.202])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested)
+ by mout-p-202.mailbox.org (Postfix) with ESMTPS id 4d194p6Zggz9t27;
+ Tue,  4 Nov 2025 14:57:30 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org;
+ s=mail20150812; t=1762264650;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=00WHQBbuvCy+Iu0TttyHrGysG8aWQEbRKIjNtnlItpM=;
+ b=QzxvE5Dgn/3P5I0WBMJ9uQNOBPBqSn1WLcQafm+LAnDIvmgOkrmb1K4cbqlga0capxFzVq
+ DjbrBq69NA1dXkVSWOiFVST1mXqOvKDU40KP11BFw27k7z0yW/CnvDEs6dxmUh07CqXm5s
+ xTML1mbReyQ6AkFfi4qNB34myiTj/9saIH2rnAWcV4lAbQoS2rvDuW+Vcupi7tLFIaLnkQ
+ MucwQ/1eg10jsk3QWZdniW+PyStnqRj7DxgV6CV323w8AAY/Zn0GTW4fDoREaJ5EQ/vBPB
+ MY/Q7I1ViIJ2BGzkrWS6kzRtLHxZBdbLPs6RTGHQHn/GusZEC0tK1Xxpq1N37w==
+From: Marek Vasut <marek.vasut+renesas@mailbox.org>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org;
+ s=mail20150812; t=1762264648;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=00WHQBbuvCy+Iu0TttyHrGysG8aWQEbRKIjNtnlItpM=;
+ b=XuAIPL/pleVpOMtiG6KAUnTel2TS5JNoTv+cH+IVL1Lr3ENIh0Z2CX1snYXl3NomULKf8P
+ NcGwc5KB/xt0cg4wFoOvqCgMo7Fe0xpdLXItPPVFmw/SSsuego4ZG9x1Jbe8+bg51JOxjF
+ TpS/sr12qj9ml8IvziGdYJGlceXkHGN4gFEt+Pn5p1Wi1qJQ5IaGzsUMbZFAfDAgB3v6Uy
+ YxCB/1dJLuS4jX+aQGVxRJjL/nMExk7x+gVfmZcq5gQCqOxNP33YPDdJ51OZvNcPn6e4uj
+ MWMFX94gGE2Tf4j02Mxyqxzy6ekO3Rf/C8aUecDmLFqrA0q1c/3FRia+E0luwQ==
+To: linux-arm-kernel@lists.infradead.org
+Cc: Marek Vasut <marek.vasut+renesas@mailbox.org>,
+ Conor Dooley <conor+dt@kernel.org>, David Airlie <airlied@gmail.com>,
+ Frank Binns <frank.binns@imgtec.com>,
+ Geert Uytterhoeven <geert+renesas@glider.be>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Magnus Damm <magnus.damm@gmail.com>, Matt Coster <matt.coster@imgtec.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ =?UTF-8?q?Niklas=20S=C3=B6derlund?= <niklas.soderlund@ragnatech.se>,
+ Rob Herring <robh@kernel.org>, Simona Vetter <simona@ffwll.ch>,
+ Thomas Zimmermann <tzimmermann@suse.de>, devicetree@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, linux-renesas-soc@vger.kernel.org
+Subject: [PATCH v2 1/3] dt-bindings: gpu: img,
+ powervr-rogue: Keep lists sorted alphabetically
+Date: Tue,  4 Nov 2025 14:56:05 +0100
+Message-ID: <20251104135716.12497-1-marek.vasut+renesas@mailbox.org>
 MIME-Version: 1.0
-References: <20251030190613.1224287-1-joelagnelf@nvidia.com>
- <20251030190613.1224287-2-joelagnelf@nvidia.com>
- <DDX1WYWQNTAB.BBEICMO8NM30@nvidia.com>
- <20251104005812.GA2101511@joelbox2>
-In-Reply-To: <20251104005812.GA2101511@joelbox2>
-From: Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
-Date: Tue, 4 Nov 2025 14:52:03 +0100
-X-Gm-Features: AWmQ_blJ7jEt0nl7CKtiOJzaUdItBJ90fhDQUgIcURkC12jl_69-w8beSolcQvU
-Message-ID: <CANiq72m692bb+W32QN1G+LJa7sHs=gU8k6dri3mu95Smj7GiRw@mail.gmail.com>
-Subject: Re: [PATCH RFC 1/4] rust: clist: Add abstraction for iterating over C
- linked lists
-To: Joel Fernandes <joelagnelf@nvidia.com>
-Cc: Alexandre Courbot <acourbot@nvidia.com>, linux-kernel@vger.kernel.org, 
- rust-for-linux@vger.kernel.org, dri-devel@lists.freedesktop.org, 
- dakr@kernel.org, David Airlie <airlied@gmail.com>,
- Alistair Popple <apopple@nvidia.com>, 
- Miguel Ojeda <ojeda@kernel.org>, Alex Gaynor <alex.gaynor@gmail.com>, 
- Boqun Feng <boqun.feng@gmail.com>, Gary Guo <gary@garyguo.net>,
- bjorn3_gh@protonmail.com, 
- Benno Lossin <lossin@kernel.org>, Andreas Hindborg <a.hindborg@kernel.org>, 
- Alice Ryhl <aliceryhl@google.com>, Trevor Gross <tmgross@umich.edu>, 
- Simona Vetter <simona@ffwll.ch>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
- John Hubbard <jhubbard@nvidia.com>, Timur Tabi <ttabi@nvidia.com>,
- joel@joelfernandes.org, Elle Rhumsaa <elle@weathered-steel.dev>,
- Daniel Almeida <daniel.almeida@collabora.com>, 
- Andrea Righi <arighi@nvidia.com>, Philipp Stanner <phasta@kernel.org>,
- nouveau@lists.freedesktop.org, 
- Nouveau <nouveau-bounces@lists.freedesktop.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-MBO-RS-META: wg8q95iupj6tko68886b5ooww1sxemjx
+X-MBO-RS-ID: 0190ce7413311b3881e
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -106,17 +82,46 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Nov 4, 2025 at 1:58=E2=80=AFAM Joel Fernandes <joelagnelf@nvidia.co=
-m> wrote:
->
-> Perhaps wrapping it is #cfg is sufficient.
+Sort the enum: list alphabetically. No functional change.
 
-`cfg` attributes and the `cfg!` macro should work in doctests -- we
-have already a few instances, e.g. this hidden one:
+Signed-off-by: Marek Vasut <marek.vasut+renesas@mailbox.org>
+---
+Cc: Conor Dooley <conor+dt@kernel.org>
+Cc: David Airlie <airlied@gmail.com>
+Cc: Frank Binns <frank.binns@imgtec.com>
+Cc: Geert Uytterhoeven <geert+renesas@glider.be>
+Cc: Krzysztof Kozlowski <krzk+dt@kernel.org>
+Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
+Cc: Magnus Damm <magnus.damm@gmail.com>
+Cc: Matt Coster <matt.coster@imgtec.com>
+Cc: Maxime Ripard <mripard@kernel.org>
+Cc: "Niklas Söderlund" <niklas.soderlund@ragnatech.se>
+Cc: Rob Herring <robh@kernel.org>
+Cc: Simona Vetter <simona@ffwll.ch>
+Cc: Thomas Zimmermann <tzimmermann@suse.de>
+Cc: devicetree@vger.kernel.org
+Cc: dri-devel@lists.freedesktop.org
+Cc: linux-renesas-soc@vger.kernel.org
+---
+V2: New patch
+---
+ Documentation/devicetree/bindings/gpu/img,powervr-rogue.yaml | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-    /// ```
-    /// # #![cfg(CONFIG_OF)]
-    /// use kernel::clk::Hertz;
+diff --git a/Documentation/devicetree/bindings/gpu/img,powervr-rogue.yaml b/Documentation/devicetree/bindings/gpu/img,powervr-rogue.yaml
+index a7ca6d3fdf10..550da008629c 100644
+--- a/Documentation/devicetree/bindings/gpu/img,powervr-rogue.yaml
++++ b/Documentation/devicetree/bindings/gpu/img,powervr-rogue.yaml
+@@ -134,8 +134,8 @@ allOf:
+         compatible:
+           contains:
+             enum:
+-              - img,img-gx6250
+               - img,img-bxs-4-64
++              - img,img-gx6250
+     then:
+       properties:
+         power-domains:
+-- 
+2.51.0
 
-Cheers,
-Miguel
