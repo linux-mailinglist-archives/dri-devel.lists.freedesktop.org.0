@@ -2,56 +2,52 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C070AC33169
-	for <lists+dri-devel@lfdr.de>; Tue, 04 Nov 2025 22:34:18 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1DCC6C331C3
+	for <lists+dri-devel@lfdr.de>; Tue, 04 Nov 2025 22:54:01 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8465210E672;
-	Tue,  4 Nov 2025 21:34:15 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2A42910E2AF;
+	Tue,  4 Nov 2025 21:53:58 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; secure) header.d=mailbox.org header.i=@mailbox.org header.b="QT2Brp8Q";
+	dkim=pass (1024-bit key; unprotected) header.d=linux.dev header.i=@linux.dev header.b="UNNWkds2";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mout-p-201.mailbox.org (mout-p-201.mailbox.org [80.241.56.171])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6DE2110E672
- for <dri-devel@lists.freedesktop.org>; Tue,  4 Nov 2025 21:34:13 +0000 (UTC)
-Received: from smtp1.mailbox.org (smtp1.mailbox.org [10.196.197.1])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested)
- by mout-p-201.mailbox.org (Postfix) with ESMTPS id 4d1MCk0hwdz9v6t;
- Tue,  4 Nov 2025 22:34:10 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org;
- s=mail20150812; t=1762292050;
+Received: from out-184.mta0.migadu.com (out-184.mta0.migadu.com
+ [91.218.175.184])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3356D10E2AF
+ for <dri-devel@lists.freedesktop.org>; Tue,  4 Nov 2025 21:53:55 +0000 (UTC)
+Message-ID: <a8f0de1d-07e8-4e48-8495-9cafa0febcf5@linux.dev>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
+ t=1762293233;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=b+dDwJ+0qI41d3Nk94wkdQOdtSTxFTbLoEYJNyRM9I0=;
- b=QT2Brp8Q4z/2gGipDpcjXBAthS1OVn4Df9xhyWHNQm4oZP0QohMcTVAuZBaTrh0t0R+pAe
- rBUWOSJP6ZJ+g2PkpIWoSuh4AeYMZ6YVcEkuSdlUQ48y4e5xXF8yS5OWGASlLSt+/bx9FV
- 7i6C7On0YWeSViNFa5iMJzKilnWLLMNDp62kuKSuUJk8HwlRtGZdfh7lXjRzHNYCBUMPrk
- XqLXOGK1J4cwMYbazUxDiQ4aw/NkuRVtWzU67PrkmWu+ZzDyL0OTMI4Z8DoSCKRy3IP7of
- g1271tbxUxrTwgTo4E3mW4kWqB8SZE4NAydV9YNdSDUMZ5AkjJpLp4nuyCu7Kw==
-Message-ID: <4ac9dd98-adc8-4be9-9f5c-4e653f656453@mailbox.org>
-Date: Tue, 4 Nov 2025 22:34:07 +0100
+ bh=DYMd3nWuvWNKjSkxKxSoso9HfqmlhsjNjxbZY9/Zc/s=;
+ b=UNNWkds2nwFp2h/Ss2GzM+XwOsHS+/FnMptQDlclwRKWU4aOg4M+BMKR9GgFDdBfieqlYM
+ KS3CjbR4o93ZVWLhpu+ey/0Y5STKB5TOH+JRCmjnPCo8F1vrww3ckteDEEFOD9xa18URIN
+ VXkdKbi5wX4AKW+tyt34sd+olRk0I18=
+Date: Tue, 4 Nov 2025 16:53:48 -0500
 MIME-Version: 1.0
-Subject: Re: [PATCH] drm/etnaviv: add HWDB entry for GC8000 Nano Ultra VIP
- r6205
-To: Christian Gmeiner <christian.gmeiner@gmail.com>
-Cc: dri-devel@lists.freedesktop.org, David Airlie <airlied@gmail.com>,
- Lucas Stach <l.stach@pengutronix.de>, Simona Vetter <simona@ffwll.ch>,
- etnaviv@lists.freedesktop.org, linux-kernel@vger.kernel.org
-References: <20250919183042.273687-1-marek.vasut@mailbox.org>
- <CAH9NwWcK_z_4CcDBRYS2nf3AxYV9-XwirvTd+O9uJtHMhyA3Og@mail.gmail.com>
- <CAH9NwWdkjpV5YHmOpuCE=f7RVm1kXzqAOgN6=Sx1s-wxO_SGGA@mail.gmail.com>
+Subject: Re: [PATCH] drm: xlnx: zynqmp_dp: Support DRM_FORMAT_XRGB8888
+To: Mike Looijmans <mike.looijmans@topic.nl>, dri-devel@lists.freedesktop.org
+Cc: David Airlie <airlied@gmail.com>,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Michal Simek <michal.simek@amd.com>,
+ Simona Vetter <simona@ffwll.ch>, Thomas Zimmermann <tzimmermann@suse.de>,
+ Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
+ linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org
+References: <1b153bce-a66a-45ee-a5c6-963ea6fb1c82.949ef384-8293-46b8-903f-40a477c056ae.fb98a918-329e-4536-a0a5-a99b22ba0120@emailsignatures365.codetwo.com>
+ <20250627145058.6880-1-mike.looijmans@topic.nl>
 Content-Language: en-US
-From: Marek Vasut <marek.vasut@mailbox.org>
-In-Reply-To: <CAH9NwWdkjpV5YHmOpuCE=f7RVm1kXzqAOgN6=Sx1s-wxO_SGGA@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and
+ include these headers.
+From: Sean Anderson <sean.anderson@linux.dev>
+In-Reply-To: <20250627145058.6880-1-mike.looijmans@topic.nl>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
-X-MBO-RS-META: hgewqfoan3j377woijwwhgfm6xd9jmht
-X-MBO-RS-ID: 6c9625f36239ef4b00f
+X-Migadu-Flow: FLOW_OUT
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -67,75 +63,35 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 11/4/25 4:50 PM, Christian Gmeiner wrote:
->>> This is the GPU/NPU combined device found on the ST STM32MP25 SoC.
->>> Feature bits taken from the downstream kernel driver 6.4.21.
->>>
->>> Signed-off-by: Marek Vasut <marek.vasut@mailbox.org>
->>
->> Acked-by: Christian Gmeiner <cgmeiner@igalia.com>
->>
->>> ---
->>> Cc: Christian Gmeiner <christian.gmeiner@gmail.com>
->>> Cc: David Airlie <airlied@gmail.com>
->>> Cc: Lucas Stach <l.stach@pengutronix.de>
->>> Cc: Simona Vetter <simona@ffwll.ch>
->>> Cc: dri-devel@lists.freedesktop.org
->>> Cc: etnaviv@lists.freedesktop.org
->>> Cc: linux-kernel@vger.kernel.org
->>> ---
->>>   drivers/gpu/drm/etnaviv/etnaviv_hwdb.c | 32 ++++++++++++++++++++++++++
->>>   1 file changed, 32 insertions(+)
->>>
->>> diff --git a/drivers/gpu/drm/etnaviv/etnaviv_hwdb.c b/drivers/gpu/drm/etnaviv/etnaviv_hwdb.c
->>> index 8665f2658d51b..32d710baf17fe 100644
->>> --- a/drivers/gpu/drm/etnaviv/etnaviv_hwdb.c
->>> +++ b/drivers/gpu/drm/etnaviv/etnaviv_hwdb.c
->>> @@ -196,6 +196,38 @@ static const struct etnaviv_chip_identity etnaviv_chip_identities[] = {
->>>                  .minor_features10 = 0x90044250,
->>>                  .minor_features11 = 0x00000024,
->>>          },
->>> +       {
->>> +               .model = 0x8000,
->>> +               .revision = 0x6205,
->>> +               .product_id = 0x80003,
->>> +               .customer_id = 0x15,
->>> +               .eco_id = 0,
->>> +               .stream_count = 16,
->>> +               .register_max = 64,
->>> +               .thread_count = 512,
->>> +               .shader_core_count = 2,
->>> +               .nn_core_count = 2,
->>> +               .vertex_cache_size = 16,
->>> +               .vertex_output_buffer_size = 1024,
->>> +               .pixel_pipes = 1,
->>> +               .instruction_count = 512,
->>> +               .num_constants = 320,
->>> +               .buffer_size = 0,
->>> +               .varyings_count = 16,
->>> +               .features = 0xe0287c8d,
->>> +               .minor_features0 = 0xc1799eff,
->>> +               .minor_features1 = 0xfefbfad9,
->>> +               .minor_features2 = 0xeb9d4fbf,
->>> +               .minor_features3 = 0xedfffced,
->>> +               .minor_features4 = 0xdb0dafc7,
->>> +               .minor_features5 = 0x7b5ac333,
->>> +               .minor_features6 = 0xfcce6000,
->>> +               .minor_features7 = 0x03fbfa6f,
->>> +               .minor_features8 = 0x00ef0ef0,
->>> +               .minor_features9 = 0x0eca703c,
->>> +               .minor_features10 = 0x898048f0,
->>> +               .minor_features11 = 0x00000034,
->>> +       },
->>>          {
->>>                  .model = 0x8000,
->>>                  .revision = 0x7120,
->>> --
->>> 2.51.0
->>>
->>
+On 6/27/25 10:50, Mike Looijmans wrote:
+> XRGB8888 is the default mode that Xorg will want to use. Add support
+> for this to the Zynqmp DisplayPort driver, so that applications can use
+> 32-bit framebuffers. This solves that the X server would fail to start
+> unless one provided an xorg.conf that sets DefaultDepth to 16.
 > 
-> Applied to drm-misc-next.
-Thank you.
+> Signed-off-by: Mike Looijmans <mike.looijmans@topic.nl>
+> ---
+> 
+>  drivers/gpu/drm/xlnx/zynqmp_disp.c | 5 +++++
+>  1 file changed, 5 insertions(+)
+> 
+> diff --git a/drivers/gpu/drm/xlnx/zynqmp_disp.c b/drivers/gpu/drm/xlnx/zynqmp_disp.c
+> index 80d1e499a18d..501428437000 100644
+> --- a/drivers/gpu/drm/xlnx/zynqmp_disp.c
+> +++ b/drivers/gpu/drm/xlnx/zynqmp_disp.c
+> @@ -312,6 +312,11 @@ static const struct zynqmp_disp_format avbuf_gfx_fmts[] = {
+>  		.buf_fmt	= ZYNQMP_DISP_AV_BUF_FMT_NL_GFX_RGBA8888,
+>  		.swap		= true,
+>  		.sf		= scaling_factors_888,
+> +	}, {
+> +		.drm_fmt	= DRM_FORMAT_XRGB8888,
+> +		.buf_fmt	= ZYNQMP_DISP_AV_BUF_FMT_NL_GFX_RGBA8888,
+> +		.swap		= true,
+> +		.sf		= scaling_factors_888,
+>  	}, {
+>  		.drm_fmt	= DRM_FORMAT_RGBA8888,
+>  		.buf_fmt	= ZYNQMP_DISP_AV_BUF_FMT_NL_GFX_ABGR8888,
 
-I _think_ I will try to respin the flop reset patchset next.
+Tested-by: Sean Anderson <sean.anderson@linux.dev>
+
+I can confirm that this provides a nice performance boost :)
