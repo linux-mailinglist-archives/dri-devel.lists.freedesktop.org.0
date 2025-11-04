@@ -2,58 +2,58 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C51CFC31D2A
-	for <lists+dri-devel@lfdr.de>; Tue, 04 Nov 2025 16:24:38 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 56B64C31D51
+	for <lists+dri-devel@lfdr.de>; Tue, 04 Nov 2025 16:27:57 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 84CEA10E628;
-	Tue,  4 Nov 2025 15:24:36 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 734EA10E629;
+	Tue,  4 Nov 2025 15:27:55 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; secure) header.d=damsy.net header.i=@damsy.net header.b="fbMo2WAo";
-	dkim=permerror (0-bit key) header.d=damsy.net header.i=@damsy.net header.b="B/j8Nngl";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="MZ0uJvDe";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from jeth.damsy.net (jeth.damsy.net [51.159.152.102])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7345010E628
- for <dri-devel@lists.freedesktop.org>; Tue,  4 Nov 2025 15:24:34 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; s=202408r; d=damsy.net; c=relaxed/relaxed; 
- h=From:To:Subject:Date:Message-ID; t=1762269846;
- bh=Md3JXufxJqYTYDD+0LVVo5S
- jqxZHasmKDqpehjHw5dk=; b=fbMo2WAoOTSO/uU6bDOvUwhinhZTOHOaW/et4qJ8N6hq9rRgKL
- jJFDT46tFLjhEuxBQefWD+yVfJ8T2nwnZ5+kxPrEg6FNsfeHcIpdgM7x2BJNnHD/42lusVxeiEN
- xzGmoE1VirB7YKn19rKchyDTu9lM91XLEXwrQeSZ0h/NT3WDluxtwO3/guL+CkqFHfEIDXFnG85
- fqAZgqiIKq+Hv+NlhrT9O7zY+wLq9XeqetWUWps4gswIkMutfeQHhPr7TI0KQwA2NcEi2hQ/kNz
- dIk1iZ8DXibbbYdYKwMIBUjz9MhaW8Ir7/SopS/NOzc1LfzDpjn7bTCvfsMLfYcjjHg==;
-DKIM-Signature: v=1; a=ed25519-sha256; s=202408e; d=damsy.net;
- c=relaxed/relaxed; 
- h=From:To:Subject:Date:Message-ID; t=1762269846; bh=Md3JXufxJqYTYDD+0LVVo5S
- jqxZHasmKDqpehjHw5dk=; b=B/j8NnglB5dEWa4XIPmntCOh5fE1cR/Z/+Peyo/fB/Qv9AQ3+r
- Nb544jcRoJoMx3GlaVRGbghxkz3rY8QrQ8AQ==;
-Message-ID: <c1da66b4-3b71-4d83-8e8e-56151030b691@damsy.net>
-Date: Tue, 4 Nov 2025 16:24:05 +0100
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3] drm/sched: Fix deadlock in
- drm_sched_entity_kill_jobs_cb
-To: phasta@kernel.org,
- Pierre-Eric Pelloux-Prayer <pierre-eric.pelloux-prayer@amd.com>,
- Matthew Brost <matthew.brost@intel.com>, Danilo Krummrich <dakr@kernel.org>,
- =?UTF-8?Q?Christian_K=C3=B6nig?= <ckoenig.leichtzumerken@gmail.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Sumit Semwal <sumit.semwal@linaro.org>, Luben Tuikov <luben.tuikov@amd.com>
-Cc: Mikhail Gavrilov <mikhail.v.gavrilov@gmail.com>,
- =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- linux-media@vger.kernel.org, linaro-mm-sig@lists.linaro.org
-References: <20251104095358.15092-1-pierre-eric.pelloux-prayer@amd.com>
- <628cdf3a0c5b783c09fe2a40aca4a4a48c614e66.camel@mailbox.org>
-Content-Language: en-US
-From: Pierre-Eric Pelloux-Prayer <pierre-eric@damsy.net>
-In-Reply-To: <628cdf3a0c5b783c09fe2a40aca4a4a48c614e66.camel@mailbox.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+Received: from sea.source.kernel.org (sea.source.kernel.org [172.234.252.31])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E68B910E629
+ for <dri-devel@lists.freedesktop.org>; Tue,  4 Nov 2025 15:27:53 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by sea.source.kernel.org (Postfix) with ESMTP id 89A3944019;
+ Tue,  4 Nov 2025 15:27:53 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3A00CC116C6;
+ Tue,  4 Nov 2025 15:27:53 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1762270073;
+ bh=ZAOzcn+Y24e5q259yuXAm+6c2vpGYmPp9EQN94tzMzw=;
+ h=Date:From:Cc:To:In-Reply-To:References:Subject:From;
+ b=MZ0uJvDesJeSlvWhBkhwz71q6x3yiKQT/CFDtGUdvrtydeFDablFzi3+dIlTT79+n
+ nGwQM6tE9sOsmnB0QtrAnRmNv0rmkeN2NHCH3ohJYnb5hutlND0QyQFzee5aFMaBYa
+ LjkUPgwuNj0+XWV3Y48VutUuGu3CrqiMxEi0nGOpQMox6XlRsqE+Va0hKzaR6e7jou
+ a+5+kVNE9FQJVk3byho55M1a3IvmYw+pKyF1UtRN3wnYIngQ48hbinp0bQmIS/YcXj
+ fZnUjb6qcGPhXJg1KyH6eMuuLFkSIylgp1rO/d18ybZwj8mITjBEKsMEnV+OecJR8w
+ 30Go5VSu3jd6g==
+Date: Tue, 04 Nov 2025 09:27:51 -0600
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
+MIME-Version: 1.0
+From: "Rob Herring (Arm)" <robh@kernel.org>
+Cc: Geert Uytterhoeven <geert+renesas@glider.be>, 
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+ Magnus Damm <magnus.damm@gmail.com>, dri-devel@lists.freedesktop.org, 
+ Maxime Ripard <mripard@kernel.org>, 
+ Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>, 
+ devicetree@vger.kernel.org, Conor Dooley <conor+dt@kernel.org>, 
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+ Simona Vetter <simona@ffwll.ch>, Thomas Zimmermann <tzimmermann@suse.de>, 
+ linux-renesas-soc@vger.kernel.org, David Airlie <airlied@gmail.com>, 
+ =?utf-8?q?Niklas_S=C3=B6derlund?= <niklas.soderlund@ragnatech.se>, 
+ Matt Coster <matt.coster@imgtec.com>, Frank Binns <frank.binns@imgtec.com>, 
+ linux-arm-kernel@lists.infradead.org
+To: Marek Vasut <marek.vasut+renesas@mailbox.org>
+In-Reply-To: <20251104135716.12497-2-marek.vasut+renesas@mailbox.org>
+References: <20251104135716.12497-1-marek.vasut+renesas@mailbox.org>
+ <20251104135716.12497-2-marek.vasut+renesas@mailbox.org>
+Message-Id: <176227007159.2279193.11820331773038712744.robh@kernel.org>
+Subject: Re: [PATCH v2 2/3] dt-bindings: gpu: img,powervr-rogue: Document
+ GE7800 GPU in Renesas R-Car M3-N
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -70,126 +70,58 @@ Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
-
-Le 04/11/2025 à 13:43, Philipp Stanner a écrit :
-> On Tue, 2025-11-04 at 10:53 +0100, Pierre-Eric Pelloux-Prayer wrote:
->> The Mesa issue referenced below pointed out a possible deadlock:
->>
->> [ 1231.611031]  Possible interrupt unsafe locking scenario:
->>
->> [ 1231.611033]        CPU0                    CPU1
->> [ 1231.611034]        ----                    ----
->> [ 1231.611035]   lock(&xa->xa_lock#17);
->> [ 1231.611038]                                local_irq_disable();
->> [ 1231.611039]                                lock(&fence->lock);
->> [ 1231.611041]                                lock(&xa->xa_lock#17);
->> [ 1231.611044]   <Interrupt>
->> [ 1231.611045]     lock(&fence->lock);
->> [ 1231.611047]
->>                  *** DEADLOCK ***
->>
->> In this example, CPU0 would be any function accessing job->dependencies
->> through the xa_* functions that doesn't disable interrupts (eg:
->> drm_sched_job_add_dependency, drm_sched_entity_kill_jobs_cb).
->>
->> CPU1 is executing drm_sched_entity_kill_jobs_cb as a fence signalling
->> callback so in an interrupt context. It will deadlock when trying to
->> grab the xa_lock which is already held by CPU0.
->>
->> Replacing all xa_* usage by their xa_*_irq counterparts would fix
->> this issue, but Christian pointed out another issue: dma_fence_signal
->> takes fence.lock and so does dma_fence_add_callback.
->>
->>    dma_fence_signal() // locks f1.lock
->>    -> drm_sched_entity_kill_jobs_cb()
->>    -> foreach dependencies
->>       -> dma_fence_add_callback() // locks f2.lock
->>
->> This will deadlock if f1 and f2 share the same spinlock.
->>
->> To fix both issues, the code iterating on dependencies and re-arming them
->> is moved out to drm_sched_entity_kill_jobs_work.
->>
->> v2: reworded commit message (Philipp)
->> v3: added Fixes tag (Philipp)
+On Tue, 04 Nov 2025 14:56:06 +0100, Marek Vasut wrote:
+> Document Imagination Technologies PowerVR Rogue GE7800 BNVC 15.5.1.64
+> present in Renesas R-Car R8A77965 M3-N SoC.
 > 
-> Thx for the update.
-> In the future please put the changelog below between a pair of '---'
-> 
+> Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
+> Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+> Signed-off-by: Marek Vasut <marek.vasut+renesas@mailbox.org>
 > ---
-> v2: …
-> v3: …
+> Cc: Conor Dooley <conor+dt@kernel.org>
+> Cc: David Airlie <airlied@gmail.com>
+> Cc: Frank Binns <frank.binns@imgtec.com>
+> Cc: Geert Uytterhoeven <geert+renesas@glider.be>
+> Cc: Krzysztof Kozlowski <krzk+dt@kernel.org>
+> Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
+> Cc: Magnus Damm <magnus.damm@gmail.com>
+> Cc: Matt Coster <matt.coster@imgtec.com>
+> Cc: Maxime Ripard <mripard@kernel.org>
+> Cc: "Niklas Söderlund" <niklas.soderlund@ragnatech.se>
+> Cc: Rob Herring <robh@kernel.org>
+> Cc: Simona Vetter <simona@ffwll.ch>
+> Cc: Thomas Zimmermann <tzimmermann@suse.de>
+> Cc: devicetree@vger.kernel.org
+> Cc: dri-devel@lists.freedesktop.org
+> Cc: linux-renesas-soc@vger.kernel.org
 > ---
-
-OK.
-
-> 
-> Some things I have unfortunately overlooked below.
-> 
->>
->> Fixes: 2fdb8a8f07c2 ("drm/scheduler: rework entity flush, kill and fini")
-> 
-> We should +Cc stable. It's a deadlock after all.
-
-OK.
-
-> 
->> Link: https://gitlab.freedesktop.org/mesa/mesa/-/issues/13908
->> Reported-by: Mikhail Gavrilov <mikhail.v.gavrilov@gmail.com>
->> Suggested-by: Christian König <christian.koenig@amd.com>
->> Reviewed-by: Christian König <christian.koenig@amd.com>
->> Signed-off-by: Pierre-Eric Pelloux-Prayer <pierre-eric.pelloux-prayer@amd.com>
->> ---
->>   drivers/gpu/drm/scheduler/sched_entity.c | 34 +++++++++++++-----------
->>   1 file changed, 19 insertions(+), 15 deletions(-)
->>
->> diff --git a/drivers/gpu/drm/scheduler/sched_entity.c b/drivers/gpu/drm/scheduler/sched_entity.c
->> index c8e949f4a568..fe174a4857be 100644
->> --- a/drivers/gpu/drm/scheduler/sched_entity.c
->> +++ b/drivers/gpu/drm/scheduler/sched_entity.c
->> @@ -173,26 +173,15 @@ int drm_sched_entity_error(struct drm_sched_entity *entity)
->>   }
->>   EXPORT_SYMBOL(drm_sched_entity_error);
->>   
->> +static void drm_sched_entity_kill_jobs_cb(struct dma_fence *f,
->> +					  struct dma_fence_cb *cb);
-> 
-> It's far better to move the function up instead. Can you do that?
-
-Since drm_sched_entity_kill_jobs_cb uses drm_sched_entity_kill_jobs and vice 
-versa, I'll have to forward declare one of the 2 functions anyway.
-
-
-> 
->> +
->>
-> 
-> […]
-> 
->> +/* Signal the scheduler finished fence when the entity in question is killed. */
->> +static void drm_sched_entity_kill_jobs_cb(struct dma_fence *f,
->> +					  struct dma_fence_cb *cb)
->> +{
->> +	struct drm_sched_job *job = container_of(cb, struct drm_sched_job,
->> +						 finish_cb);
->> +
->> +	dma_fence_put(f);
-> 
-> It would be great if we knew what fence is being dropped here and why.
-> I know you're just moving the pre-existing code, but if you should
-> know, informing about that via comment would be great.
+> V2: Add RB from Geert and Krzysztof
+> ---
+>  .../devicetree/bindings/gpu/img,powervr-rogue.yaml          | 6 ++++++
+>  1 file changed, 6 insertions(+)
 > 
 
-As discussed offline, "f" is simply the fence being signaled, I'm not sure it 
-warrants a comment.
+My bot found errors running 'make dt_binding_check' on your patch:
 
-Regards,
-Pierre-Eric
+yamllint warnings/errors:
+./Documentation/devicetree/bindings/gpu/img,powervr-rogue.yaml:107:1: [warning] too many blank lines (2 > 1) (empty-lines)
 
-> Optional.
-> 
-> 
-> Rest of the code looks good. No further objections.
-> 
-> 
-> P.
+dtschema/dtc warnings/errors:
+
+doc reference errors (make refcheckdocs):
+
+See https://patchwork.ozlabs.org/project/devicetree-bindings/patch/20251104135716.12497-2-marek.vasut+renesas@mailbox.org
+
+The base for the series is generally the latest rc1. A different dependency
+should be noted in *this* patch.
+
+If you already ran 'make dt_binding_check' and didn't see the above
+error(s), then make sure 'yamllint' is installed and dt-schema is up to
+date:
+
+pip3 install dtschema --upgrade
+
+Please check and re-submit after running the above command yourself. Note
+that DT_SCHEMA_FILES can be set to your schema file to speed up checking
+your schema. However, it must be unset to test all examples with your schema.
+
