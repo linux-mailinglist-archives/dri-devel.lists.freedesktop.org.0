@@ -2,99 +2,56 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 01F09C33015
-	for <lists+dri-devel@lfdr.de>; Tue, 04 Nov 2025 22:15:36 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id C070AC33169
+	for <lists+dri-devel@lfdr.de>; Tue, 04 Nov 2025 22:34:18 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3663B10E66D;
-	Tue,  4 Nov 2025 21:15:34 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8465210E672;
+	Tue,  4 Nov 2025 21:34:15 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; secure) header.d=ixit.cz header.i=@ixit.cz header.b="agIlejlR";
+	dkim=pass (2048-bit key; secure) header.d=mailbox.org header.i=@mailbox.org header.b="QT2Brp8Q";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from ixit.cz (ip-94-112-25-9.bb.vodafone.cz [94.112.25.9])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 40BA710E66D
- for <dri-devel@lists.freedesktop.org>; Tue,  4 Nov 2025 21:15:32 +0000 (UTC)
-Received: from [10.0.0.200] (unknown [10.0.0.1])
- (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
- key-exchange x25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+Received: from mout-p-201.mailbox.org (mout-p-201.mailbox.org [80.241.56.171])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6DE2110E672
+ for <dri-devel@lists.freedesktop.org>; Tue,  4 Nov 2025 21:34:13 +0000 (UTC)
+Received: from smtp1.mailbox.org (smtp1.mailbox.org [10.196.197.1])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
  (No client certificate requested)
- by ixit.cz (Postfix) with ESMTPSA id 7D3B55340393;
- Tue, 04 Nov 2025 22:15:29 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ixit.cz; s=dkim;
- t=1762290929;
+ by mout-p-201.mailbox.org (Postfix) with ESMTPS id 4d1MCk0hwdz9v6t;
+ Tue,  4 Nov 2025 22:34:10 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org;
+ s=mail20150812; t=1762292050;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=cNuQ+5Drs6+yg4HIhF+sOnWrIA3v05bKuIfAJSP2Gxo=;
- b=agIlejlRZj2gu+Goge+iDD74ZBi5qqjNNiawiFQln2OVEBhbxB/Mj3MBNAvJdujzB1klPQ
- zDc8BMNBlyADq+LKfCyaE6WLImtdE7ZiAOrGvNdoaX7pq6EE4TJcEtjmNiCvDSSPE5vmEW
- IzIXnWaRAIPk4D4U6JU3yPHfB8tiWRw=
-Message-ID: <c3f5f52b-6159-4959-b7b4-6ecd7ba7daaa@ixit.cz>
-Date: Tue, 4 Nov 2025 22:15:29 +0100
+ in-reply-to:in-reply-to:references:references;
+ bh=b+dDwJ+0qI41d3Nk94wkdQOdtSTxFTbLoEYJNyRM9I0=;
+ b=QT2Brp8Q4z/2gGipDpcjXBAthS1OVn4Df9xhyWHNQm4oZP0QohMcTVAuZBaTrh0t0R+pAe
+ rBUWOSJP6ZJ+g2PkpIWoSuh4AeYMZ6YVcEkuSdlUQ48y4e5xXF8yS5OWGASlLSt+/bx9FV
+ 7i6C7On0YWeSViNFa5iMJzKilnWLLMNDp62kuKSuUJk8HwlRtGZdfh7lXjRzHNYCBUMPrk
+ XqLXOGK1J4cwMYbazUxDiQ4aw/NkuRVtWzU67PrkmWu+ZzDyL0OTMI4Z8DoSCKRy3IP7of
+ g1271tbxUxrTwgTo4E3mW4kWqB8SZE4NAydV9YNdSDUMZ5AkjJpLp4nuyCu7Kw==
+Message-ID: <4ac9dd98-adc8-4be9-9f5c-4e653f656453@mailbox.org>
+Date: Tue, 4 Nov 2025 22:34:07 +0100
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] drm/panel: samsung-sofef00: clean up panel description
- after s6e3fc2x01 removal
-To: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
-Cc: Neil Armstrong <neil.armstrong@linaro.org>,
- Jessica Zhang <jessica.zhang@oss.qualcomm.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Casey Connolly <casey.connolly@linaro.org>, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org
-References: <20250916-sofef00-cleanup-v1-1-b29e1664e898@ixit.cz>
- <m67lqbnli2zsdwj5x2vr52s5irjqleuxv3leqey7xkj6ekpdot@loawiqett4py>
+Subject: Re: [PATCH] drm/etnaviv: add HWDB entry for GC8000 Nano Ultra VIP
+ r6205
+To: Christian Gmeiner <christian.gmeiner@gmail.com>
+Cc: dri-devel@lists.freedesktop.org, David Airlie <airlied@gmail.com>,
+ Lucas Stach <l.stach@pengutronix.de>, Simona Vetter <simona@ffwll.ch>,
+ etnaviv@lists.freedesktop.org, linux-kernel@vger.kernel.org
+References: <20250919183042.273687-1-marek.vasut@mailbox.org>
+ <CAH9NwWcK_z_4CcDBRYS2nf3AxYV9-XwirvTd+O9uJtHMhyA3Og@mail.gmail.com>
+ <CAH9NwWdkjpV5YHmOpuCE=f7RVm1kXzqAOgN6=Sx1s-wxO_SGGA@mail.gmail.com>
 Content-Language: en-US
-From: David Heidelberg <david@ixit.cz>
-Autocrypt: addr=david@ixit.cz; keydata=
- xsFNBF5v1x4BEADS3EddwsNsvVAI1XF8uQKbdYPY/GhjaSLziwVnbwv5BGwqB1tfXoHnccoA
- 9kTgKAbiXG/CiZFhD6l4WCIskQDKzyQN3JhCUIxh16Xyw0lECI7iqoW9LmMoN1dNKcUmCO9g
- lZxQaOl+1bY/7ttd7DapLh9rmBXJ2lKiMEaIpUwb/Nw0d7Enp4Jy2TpkhPywIpUn8CoJCv3/
- 61qbvI9y5utB/UhfMAUXsaAgwEJyGPAqHlC0YZjaTwOu+YQUE3AFzhCbksq95CwDz4U4gdls
- dmv9tkATfu2OmzERZQ6vJTehK0Pu4l5KmCAzYg42I9Dy4E6b17x6NncKbcByQFOXMtG0qVUk
- F1yeeOQUHwu+8t3ZDMBUhCkRL/juuoqLmyDWKMc0hKNNeZ9BNXgB8fXkRLWEUfgDXsFyEkKp
- NxUy5bDRlivf6XfExnikk5kj9l2gGlNQwqROti/46bfbmlmc/a2GM4k8ZyalHNEAdwtXYSpP
- 8JJmlbQ7hNTLkc3HQLRsIocN5th/ur7pPMz1Beyp0gbE9GcOceqmdZQB80vJ01XDyCAihf6l
- AMnzwpXZsjqIqH9r7T7tM6tVEVbPSwPt4eZYXSoJijEBC/43TBbmxDX+5+3txRaSCRQrG9dY
- k3mMGM3xJLCps2KnaqMcgUnvb1KdTgEFUZQaItw7HyRd6RppewARAQABzSBEYXZpZCBIZWlk
- ZWxiZXJnIDxkYXZpZEBpeGl0LmN6PsLBlAQTAQgAPgIbAwULCQgHAgYVCgkICwIEFgIDAQIe
- AQIXgBYhBNd6Cc/u3Cu9U6cEdGACP8TTSSByBQJl+KksBQkPDaAOAAoJEGACP8TTSSBy6IAQ
- AMqFqVi9LLxCEcUWBn82ssQGiVSDniKpFE/tp7lMXflwhjD5xoftoWOmMYkiWE86t5x5Fsp7
- afALx7SEDz599F1K1bLnaga+budu55JEAYGudD2WwpLJ0kPzRhqBwGFIx8k6F+goZJzxPDsf
- loAtXQE62UvEKa4KRRcZmF0GGoRsgA7vE7OnV8LMeocdD3eb2CuXLzauHAfdvqF50IfPH/sE
- jbzROiAZU+WgrwU946aOzrN8jVU+Cy8XAccGAZxsmPBfhTY5f2VN1IqvfaRdkKKlmWVJWGw+
- ycFpAEJKFRdfcc5PSjUJcALn5C+hxzL2hBpIZJdfdfStn+DWHXNgBeRDiZj1x6vvyaC43RAb
- VXvRzOQfG4EaMVMIOvBjBA/FtIpb1gtXA42ewhvPnd5RVCqD9YYUxsVpJ9d+XsAy7uib3BsV
- W2idAEsPtoqhVhq8bCUs/G4sC2DdyGZK8MRFDJqciJSUbqA+5z1ZCuE8UOPDpZKiW6H/OuOM
- zDcjh0lOzr4p+/1TSg1PbUh7fQ+nbMuiT044sC1lLtJK0+Zyn0GwhR82oNM4fldNsaHRW42w
- QGD35+eNo5Pvb3We5XRMlBdhFnj7Siggp4J8/PJ6MJvRyC+RIJPGtbdMB2/RxWunFLn87e5w
- UgwR9jPMHAstuTR1yR23c4SIYoQ2fzkrRzuazsFNBF5v1x4BEADnlrbta2WL87BlEOotZUh0
- zXANMrNV15WxexsirLetfqbs0AGCaTRNj+uWlTUDJRXOVIwzmF76Us3I2796+Od2ocNpLheZ
- 7EIkq8budtLVd1c06qJ+GMraz51zfgSIazVInNMPk9T6fz0lembji5yEcNPNNBA4sHiFmXfo
- IhepHFOBApjS0CiOPqowYxSTPe/DLcJ/LDwWpTi37doKPhBwlHev1BwVCbrLEIFjY0MLM0aT
- jiBBlyLJaTqvE48gblonu2SGaNmGtkC3VoQUQFcVYDXtlL9CVbNo7BAt5gwPcNqEqkUL60Jh
- FtvVSKyQh6gn7HHsyMtgltjZ3NKjv8S3yQd7zxvCn79tCKwoeNevsvoMq/bzlKxc9QiKaRPO
- aDj3FtW7R/3XoKJBY8Hckyug6uc2qYWRpnuXc0as6S0wfek6gauExUttBKrtSbPPHiuTeNHt
- NsT4+dyvaJtQKPBTbPHkXpTO8e1+YAg7kPj3aKFToE/dakIh8iqUHLNxywDAamRVn8Ha67WO
- AEAA3iklJ49QQk2ZyS1RJ2Ul28ePFDZ3QSr9LoJiOBZv9XkbhXS164iRB7rBZk6ZRVgCz3V6
- hhhjkipYvpJ/fpjXNsVL8jvel1mYNf0a46T4QQDQx4KQj0zXJbC2fFikAtu1AULktF4iEXEI
- rSjFoqhd4euZ+QARAQABwsF8BBgBCAAmAhsMFiEE13oJz+7cK71TpwR0YAI/xNNJIHIFAmX4
- qVAFCQ8NoDIACgkQYAI/xNNJIHKN4A/+Ine2Ii7JiuGITjJkcV6pgKlfwYdEs4eFD1pTRb/K
- 5dprUz3QSLP41u9OJQ23HnESMvn31UENk9ffebNoW7WxZ/8cTQY0JY/cgTTrlNXtyAlGbR3/
- 3Q/VBJptf04Er7I6TaKAmqWzdVeKTw33LljpkHp02vrbOdylb4JQG/SginLV9purGAFptYRO
- 8JNa2J4FAQtQTrfOUjulOWMxy7XRkqK3QqLcPW79/CFn7q1yxamPkpoXUJq9/fVjlhk7P+da
- NYQpe4WQQnktBY29SkFnvfIAwqIVU8ix5Oz8rghuCcAdR7lEJ7hCX9bR0EE05FOXdZy5FWL9
- GHvFa/Opkq3DPmFl/0nt4HJqq1Nwrr+WR6d0414oo1n2hPEllge/6iD3ZYwptTvOFKEw/v0A
- yqOoYSiKX9F7Ko7QO+VnYeVDsDDevKic2T/4GDpcSVd9ipiKxCQvUAzKUH7RUpqDTa+rYurm
- zRKcgRumz2Tc1ouHj6qINlzEe3a5ldctIn/dvR1l2Ko7GBTG+VGp9U5NOAEkGpxHG9yg6eeY
- fFYnMme51H/HKiyUlFiE3yd5LSmv8Dhbf+vsI4x6BOOOq4Iyop/Exavj1owGxW0hpdUGcCl1
- ovlwVPO/6l/XLAmSGwdnGqok5eGZQzSst0tj9RC9O0dXO1TZocOsf0tJ8dR2egX4kxM=
-In-Reply-To: <m67lqbnli2zsdwj5x2vr52s5irjqleuxv3leqey7xkj6ekpdot@loawiqett4py>
+From: Marek Vasut <marek.vasut@mailbox.org>
+In-Reply-To: <CAH9NwWdkjpV5YHmOpuCE=f7RVm1kXzqAOgN6=Sx1s-wxO_SGGA@mail.gmail.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
+X-MBO-RS-META: hgewqfoan3j377woijwwhgfm6xd9jmht
+X-MBO-RS-ID: 6c9625f36239ef4b00f
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -110,27 +67,75 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 16/09/2025 12:52, Dmitry Baryshkov wrote:
-> On Tue, Sep 16, 2025 at 02:33:36AM +0200, David Heidelberg via B4 Relay wrote:
->> From: David Heidelberg <david@ixit.cz>
+On 11/4/25 4:50 PM, Christian Gmeiner wrote:
+>>> This is the GPU/NPU combined device found on the ST STM32MP25 SoC.
+>>> Feature bits taken from the downstream kernel driver 6.4.21.
+>>>
+>>> Signed-off-by: Marek Vasut <marek.vasut@mailbox.org>
 >>
->> Remove leftover from s6e3fc2x01 support drop.
+>> Acked-by: Christian Gmeiner <cgmeiner@igalia.com>
 >>
->> Fixes: e1eb7293ab41 ("drm/panel: samsung-sofef00: Drop s6e3fc2x01 support")
->> Signed-off-by: David Heidelberg <david@ixit.cz>
->> ---
->>   drivers/gpu/drm/panel/Kconfig                 | 6 +++---
->>   drivers/gpu/drm/panel/panel-samsung-sofef00.c | 2 +-
->>   2 files changed, 4 insertions(+), 4 deletions(-)
+>>> ---
+>>> Cc: Christian Gmeiner <christian.gmeiner@gmail.com>
+>>> Cc: David Airlie <airlied@gmail.com>
+>>> Cc: Lucas Stach <l.stach@pengutronix.de>
+>>> Cc: Simona Vetter <simona@ffwll.ch>
+>>> Cc: dri-devel@lists.freedesktop.org
+>>> Cc: etnaviv@lists.freedesktop.org
+>>> Cc: linux-kernel@vger.kernel.org
+>>> ---
+>>>   drivers/gpu/drm/etnaviv/etnaviv_hwdb.c | 32 ++++++++++++++++++++++++++
+>>>   1 file changed, 32 insertions(+)
+>>>
+>>> diff --git a/drivers/gpu/drm/etnaviv/etnaviv_hwdb.c b/drivers/gpu/drm/etnaviv/etnaviv_hwdb.c
+>>> index 8665f2658d51b..32d710baf17fe 100644
+>>> --- a/drivers/gpu/drm/etnaviv/etnaviv_hwdb.c
+>>> +++ b/drivers/gpu/drm/etnaviv/etnaviv_hwdb.c
+>>> @@ -196,6 +196,38 @@ static const struct etnaviv_chip_identity etnaviv_chip_identities[] = {
+>>>                  .minor_features10 = 0x90044250,
+>>>                  .minor_features11 = 0x00000024,
+>>>          },
+>>> +       {
+>>> +               .model = 0x8000,
+>>> +               .revision = 0x6205,
+>>> +               .product_id = 0x80003,
+>>> +               .customer_id = 0x15,
+>>> +               .eco_id = 0,
+>>> +               .stream_count = 16,
+>>> +               .register_max = 64,
+>>> +               .thread_count = 512,
+>>> +               .shader_core_count = 2,
+>>> +               .nn_core_count = 2,
+>>> +               .vertex_cache_size = 16,
+>>> +               .vertex_output_buffer_size = 1024,
+>>> +               .pixel_pipes = 1,
+>>> +               .instruction_count = 512,
+>>> +               .num_constants = 320,
+>>> +               .buffer_size = 0,
+>>> +               .varyings_count = 16,
+>>> +               .features = 0xe0287c8d,
+>>> +               .minor_features0 = 0xc1799eff,
+>>> +               .minor_features1 = 0xfefbfad9,
+>>> +               .minor_features2 = 0xeb9d4fbf,
+>>> +               .minor_features3 = 0xedfffced,
+>>> +               .minor_features4 = 0xdb0dafc7,
+>>> +               .minor_features5 = 0x7b5ac333,
+>>> +               .minor_features6 = 0xfcce6000,
+>>> +               .minor_features7 = 0x03fbfa6f,
+>>> +               .minor_features8 = 0x00ef0ef0,
+>>> +               .minor_features9 = 0x0eca703c,
+>>> +               .minor_features10 = 0x898048f0,
+>>> +               .minor_features11 = 0x00000034,
+>>> +       },
+>>>          {
+>>>                  .model = 0x8000,
+>>>                  .revision = 0x7120,
+>>> --
+>>> 2.51.0
+>>>
 >>
 > 
-> Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
+> Applied to drm-misc-next.
+Thank you.
 
-Please discard this patch, I improved the patch and put it as part of 
-SOFEF00 rework I'll send within few days.
-
-David>
-> 
--- 
-David Heidelberg
-
+I _think_ I will try to respin the flop reset patchset next.
