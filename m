@@ -2,102 +2,99 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2574DC32C56
-	for <lists+dri-devel@lfdr.de>; Tue, 04 Nov 2025 20:26:23 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 22BA4C32C71
+	for <lists+dri-devel@lfdr.de>; Tue, 04 Nov 2025 20:27:20 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3FA9E10E32A;
-	Tue,  4 Nov 2025 19:26:20 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 48A4E10E31F;
+	Tue,  4 Nov 2025 19:27:18 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; secure) header.d=ziepe.ca header.i=@ziepe.ca header.b="DlPZ1Hzi";
+	dkim=pass (2048-bit key; secure) header.d=ziepe.ca header.i=@ziepe.ca header.b="Xgq6KJRI";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-qk1-f171.google.com (mail-qk1-f171.google.com
- [209.85.222.171])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D0C2F10E32A
- for <dri-devel@lists.freedesktop.org>; Tue,  4 Nov 2025 19:26:18 +0000 (UTC)
-Received: by mail-qk1-f171.google.com with SMTP id
- af79cd13be357-88f2aebce7fso648613285a.3
- for <dri-devel@lists.freedesktop.org>; Tue, 04 Nov 2025 11:26:18 -0800 (PST)
+Received: from mail-qv1-f51.google.com (mail-qv1-f51.google.com
+ [209.85.219.51])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A455610E328
+ for <dri-devel@lists.freedesktop.org>; Tue,  4 Nov 2025 19:27:16 +0000 (UTC)
+Received: by mail-qv1-f51.google.com with SMTP id
+ 6a1803df08f44-880570bdef8so25885016d6.3
+ for <dri-devel@lists.freedesktop.org>; Tue, 04 Nov 2025 11:27:16 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=ziepe.ca; s=google; t=1762284378; x=1762889178; darn=lists.freedesktop.org; 
+ d=ziepe.ca; s=google; t=1762284435; x=1762889235; darn=lists.freedesktop.org; 
  h=in-reply-to:content-disposition:mime-version:references:message-id
  :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
- bh=b3vZ52GkNsJGLOkvon3L18RWVKcEn1c510aPuA199YI=;
- b=DlPZ1HziKX/eip8RuxEzt5JNKOgrbJGm1Ip9y9GxNizyL+MMxnlKHtmFrC9kBAVqDX
- Pcvg77FgcGBEw6XKjHA3xohG3pcZGoLjS8ZYivItAPXQ3EWUlVSooBHce/SGxQqUoQ/N
- huINx5kw4jE/Wwh6R4i6yt8O1menbVHUb4gI89w6PCFqZqpyQKWr2NLQz3UaPkknbzSn
- qbxDvTzrEt7uPqd6YuH7Dd0MsiyvK6z3j7gb3nJCcS7fMyPe8JnxwrUzKyD6fV7tFBZS
- /FErcs95Ljurv6vHbK5xUEr5s96w0lDmwsqDaDBNj8bWAunP4kxhsaN0EJChsMIfy2AN
- HGFQ==
+ bh=mUs2AdnuvvFczrN0XtEi+7TYEAruGEb9Cu+wb9VP03U=;
+ b=Xgq6KJRIfMGAmk1cGMW+0V6mCv3dsISz6mZxfOkCYyuWofvwUph/wsi9XN7hEv1DPi
+ JgQOdd8UmaWkMKqCLuPZWKRmpe7ltpxR0mMeVTHdGeFRnTnyVR+SjDR/l0g5TEo6vFyi
+ 7XB8sBExRALR/1GPRFcXY/CksJ6yANzUcCGsv7boG8Ik5Jy59fXZacDgjKkQu7DqpxJx
+ Dg04Z5F3jiOvmsrYtebHxW1yzp8d8ZIa+BKoe4KLpZpySFKSSaG7XeQrJv1EeALYQVOv
+ LwrqihtrIuV1sbwXAhW9gyGZ7lB4swWR8l3KbkAWMDIqtk0vGOLRux8XVVGBRharp+Bz
+ Fh7w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1762284378; x=1762889178;
+ d=1e100.net; s=20230601; t=1762284435; x=1762889235;
  h=in-reply-to:content-disposition:mime-version:references:message-id
  :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
  :message-id:reply-to;
- bh=b3vZ52GkNsJGLOkvon3L18RWVKcEn1c510aPuA199YI=;
- b=X0+yCfW9R58a7IsKoDzQ+458d1vBto3jKW6uTPl5QafiC20mNP0xgbr4SOkJUNQwqN
- zkBShRl6Pzl6Ik/3GdshbWT1xrYOyUsUeFY6/vSTsMYDqVQqanZRvAjdG8JT1BFccqG9
- 1wExsRqd2t3GahYoZgu56I2SfRXhNfd4aCRyoETMzALmvFcuW4EaHAHjUMJdNAdPorLP
- wQP0jOgoaDeHjA3onbZSuBTEoYQJ4dD3SqgT6GglT+prrDJTWZGzUZ5aYMf3+ntgDBzw
- NWkBGZ8KyKrkbEQ/PEWCsbetag2lwLKxjL98wMTKdmalVWqqp812f7ZhCrVXdS17y670
- Nb/Q==
+ bh=mUs2AdnuvvFczrN0XtEi+7TYEAruGEb9Cu+wb9VP03U=;
+ b=rvqBhVRFujY352bk5tmzBTBnJS2FmsdQTCEh4yP5HmmyhSjY1u2X9ododTOtUbWDTg
+ zkrIzUGWcUzx+ZKjicy5KjwZgBRurHXKaFKKbM8QIvbdMqUvcJC84utucUzWlBmSXMyA
+ jdnpHnxpkFlOT/GDLQAHKjpOBzqjtGA4UCZci79eUfqD7UsL4Q4F/9fy67eVtBIJNFCY
+ X7WadbygBSWpwGNCG7WfmCHlgx++ZigCKhgzLX4jWxw9KzPVBzPo2PQMlmNHor6xnm2j
+ hC8l3D/4nMcDImhJgcocgFrjbzTGYPnxXmxGdGgPqSbsjcjrng3dKcg967gITWOEf50X
+ GzIQ==
 X-Forwarded-Encrypted: i=1;
- AJvYcCV4fFmyvK15SxhcmhRRZkYRyMRhUgy2YosfNf7kMTvnnXMygPjQGVMXjlgZ9N34BEAeLtDIdVdUdc8=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YxrSZ7pnwUnCe00WedB0djxUVyIS2krsz+KUVNR43rfVHGt6Ngu
- svjAlrVe5ajuGPQVWBqG+xnkmB4YMulzIB6mZ976/FFc6EtRn8pD5C2e/HnMoMNiS9Y=
-X-Gm-Gg: ASbGncsHGIznPu9I8N6o+TP50eTiiYeAOiVsb5LQaYyxw992JX3C5ZztK2P3f6vLHAS
- ytsJdbWK2LEbjxcD/BrXMhNc7t1ahPzyTpAclq1fzzrIbWG2P4c/AEUC9a3xTMwc6t0S4PGO3TS
- PfAlRROmgpjzGG58ZOL2aA/Qcypc9dSu3ihhGqfvSVCVuGwxOa/o8xoY7uGm1g7u6Gltx+3PbkX
- RbnuLA8smqiccQ6wBt1KvDtr0kNJtUoDSTDGT+wk1LihlHdhj5vFXanANWlkF2tTMo0UGmqPcgC
- WXvQLVXn+kTBRq27Uh+nQFRk+FGHPRu7jDihM1f8zAigmAoepn7YogR9kPClqaM+v6wKdgQY28T
- QpwPAT8ToVZIGVitDdo0DDiUwJIQv8WAfLm34G8oUbJO+kh2+lfmnESZYv3DNtFPSj1Lym27TcB
- t5Oe3OgEogm384zeHkTTFXiB/Ujch/eaKWrkziOO3tgdUoKw==
-X-Google-Smtp-Source: AGHT+IFUVGYM+r9VlnujjXwSiyntNScv3JSZn85Gft/uvY+ZvhCxVbalAnSefdp5Rhr2H4+z2gOTFg==
-X-Received: by 2002:a05:620a:2a06:b0:86f:aee8:fcbc with SMTP id
- af79cd13be357-8b220b9ef27mr103417385a.79.1762284377655; 
- Tue, 04 Nov 2025 11:26:17 -0800 (PST)
+ AJvYcCXEACUpDyM9LtdIVdd7Il/5iPgMLMha2/O0tuw4iIm5G4iFZzwGR/cfsp/j4xTQa5NlBGJ9pEinA0U=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YyAKx6+VzFZJzxL2NpVR4J4HgvslMjFEgAcSMlk01qXuPQTDiB4
+ HHL9RBTuSBR0BV+WnkRPiNxsfXjuNL3V7r5lJqr2n6ov+MWNGAg74Fr4mmRJylWZZN4=
+X-Gm-Gg: ASbGnctDB4ya6vp0NpKjhZWzu7hHwo4Nzx+op71JJ2e0wbALvvgtakj7vCvEa3RwWjJ
+ FEGubbEkX1P9yeIMOpWI3yOfhasXIlz7xy97HFRmTdRPm4p9dRyCsmUmf9195fhDMy9m0aX7Bj3
+ RMfg46Ox9W0k2nVkSOH+pGCW4e2ZBHVKD4PmhZ6O37d5i/UDpQZcSIRVygLEDZRW8uz5d7lA/Hy
+ nHDS/z5O/6zAucEhglc9XAxUqiFHouJz8aIfwAmBtoxTIN2BcsdGnCv2yHVjpv0zRT0kvKeD0Cq
+ OD/iTXcCAkdvUnbuyPIWcb7ZSJF1GqfZ9Tgk2liaQ7Mghdtp8Vix1VaxlXL9uDk02hCQlusrMSF
+ 7ZWPeh7XK1WNIFJhjKAAgWevNd8f7Chd+YexfuaTXqvn6ikpvhgJKc0J4T2dvwBdMDcw2FPCObp
+ GrEFN0YDmFPIg4voQNvRCvzW3aIxVxthxC38peC9rR9+TBkySo6GWE0GyX
+X-Google-Smtp-Source: AGHT+IG0dhBeAR5RX27f2wfJWdOR7juDgLSbyDVJXq4BJqtIZIC/EimxFvt08yglge630ermzohXtg==
+X-Received: by 2002:a05:622a:2d3:b0:4ed:18d5:2140 with SMTP id
+ d75a77b69052e-4ed7262c198mr10018791cf.66.1762284435447; 
+ Tue, 04 Nov 2025 11:27:15 -0800 (PST)
 Received: from ziepe.ca
  (hlfxns017vw-47-55-120-4.dhcp-dynamic.fibreop.ns.bellaliant.net.
  [47.55.120.4]) by smtp.gmail.com with ESMTPSA id
- af79cd13be357-8b0f7bb3e33sm250495385a.39.2025.11.04.11.26.16
+ d75a77b69052e-4ed5faf6038sm22412071cf.11.2025.11.04.11.27.14
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 04 Nov 2025 11:26:16 -0800 (PST)
+ Tue, 04 Nov 2025 11:27:14 -0800 (PST)
 Received: from jgg by wakko with local (Exim 4.97)
- (envelope-from <jgg@ziepe.ca>) id 1vGMfY-000000073Bk-1Ldv;
- Tue, 04 Nov 2025 15:26:16 -0400
-Date: Tue, 4 Nov 2025 15:26:16 -0400
+ (envelope-from <jgg@ziepe.ca>) id 1vGMgU-000000073Cx-1Hyp;
+ Tue, 04 Nov 2025 15:27:14 -0400
+Date: Tue, 4 Nov 2025 15:27:14 -0400
 From: Jason Gunthorpe <jgg@ziepe.ca>
-To: Nicolin Chen <nicolinc@nvidia.com>
-Cc: Leon Romanovsky <leon@kernel.org>, Bjorn Helgaas <bhelgaas@google.com>,
- Logan Gunthorpe <logang@deltatee.com>, Jens Axboe <axboe@kernel.dk>,
- Robin Murphy <robin.murphy@arm.com>, Joerg Roedel <joro@8bytes.org>,
- Will Deacon <will@kernel.org>, Marek Szyprowski <m.szyprowski@samsung.com>,
- Andrew Morton <akpm@linux-foundation.org>,
- Jonathan Corbet <corbet@lwn.net>, Sumit Semwal <sumit.semwal@linaro.org>,
- Christian =?utf-8?B?S8O2bmln?= <christian.koenig@amd.com>,
- Alex Williamson <alex.williamson@redhat.com>, Kees Cook <kees@kernel.org>,
- "Gustavo A. R. Silva" <gustavoars@kernel.org>,
- Ankit Agrawal <ankita@nvidia.com>, Yishai Hadas <yishaih@nvidia.com>,
- Shameer Kolothum <skolothumtho@nvidia.com>,
+To: Lucas De Marchi <lucas.demarchi@intel.com>
+Cc: =?utf-8?Q?Micha=C5=82?= Winiarski <michal.winiarski@intel.com>,
+ Alex Williamson <alex@shazbot.org>,
+ Thomas =?utf-8?Q?Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>, Yishai Hadas <yishaih@nvidia.com>,
  Kevin Tian <kevin.tian@intel.com>,
- Krishnakant Jaju <kjaju@nvidia.com>, Matt Ochs <mochs@nvidia.com>,
- linux-pci@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-block@vger.kernel.org, iommu@lists.linux.dev,
- linux-mm@kvack.org, linux-doc@vger.kernel.org,
- linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
- linaro-mm-sig@lists.linaro.org, kvm@vger.kernel.org,
- linux-hardening@vger.kernel.org,
- Vivek Kasireddy <vivek.kasireddy@intel.com>
-Subject: Re: [PATCH v6 00/11] vfio/pci: Allow MMIO regions to be exported
- through dma-buf
-Message-ID: <20251104192616.GJ1204670@ziepe.ca>
-References: <20251102-dmabuf-vfio-v6-0-d773cff0db9f@nvidia.com>
- <aQpRz74RurfhZK15@Asurada-Nvidia>
+ Shameer Kolothum <skolothumtho@nvidia.com>,
+ intel-xe@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ kvm@vger.kernel.org, Matthew Brost <matthew.brost@intel.com>,
+ Michal Wajdeczko <michal.wajdeczko@intel.com>,
+ dri-devel@lists.freedesktop.org, Jani Nikula <jani.nikula@linux.intel.com>,
+ Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
+ Tvrtko Ursulin <tursulin@ursulin.net>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Lukasz Laguna <lukasz.laguna@intel.com>,
+ Christoph Hellwig <hch@infradead.org>
+Subject: Re: [PATCH v3 27/28] drm/intel/pciids: Add match with VFIO override
+Message-ID: <20251104192714.GK1204670@ziepe.ca>
+References: <20251030203135.337696-1-michal.winiarski@intel.com>
+ <20251030203135.337696-28-michal.winiarski@intel.com>
+ <cj3ohepcobrqmam5upr5nc6jbvb6wuhkv4akw2lm5g3rms7foo@4snkr5sui32w>
+ <xewec63623hktutmcnmrvuuq4wsmd5nvih5ptm7ovdlcjcgii2@lruzhh5raltm>
+ <3y2rsj2r27htdisspmulaoufy74w3rs7eramz4fezwcs6j5xuh@jzjrjasasryz>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <aQpRz74RurfhZK15@Asurada-Nvidia>
+In-Reply-To: <3y2rsj2r27htdisspmulaoufy74w3rs7eramz4fezwcs6j5xuh@jzjrjasasryz>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -113,39 +110,29 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Nov 04, 2025 at 11:19:43AM -0800, Nicolin Chen wrote:
-> On Sun, Nov 02, 2025 at 10:00:48AM +0200, Leon Romanovsky wrote:
-> > Changelog:
-> > v6:
-> >  * Fixed wrong error check from pcim_p2pdma_init().
-> >  * Documented pcim_p2pdma_provider() function.
-> >  * Improved commit messages.
-> >  * Added VFIO DMA-BUF selftest.
-> >  * Added __counted_by(nr_ranges) annotation to struct vfio_device_feature_dma_buf.
-> >  * Fixed error unwind when dma_buf_fd() fails.
-> >  * Document latest changes to p2pmem.
-> >  * Removed EXPORT_SYMBOL_GPL from pci_p2pdma_map_type.
-> >  * Moved DMA mapping logic to DMA-BUF.
-> >  * Removed types patch to avoid dependencies between subsystems.
-> >  * Moved vfio_pci_dma_buf_move() in err_undo block.
-> >  * Added nvgrace patch.
-> 
-> I have verified this v6 using Jason's iommufd dmabuf branch:
-> https://github.com/jgunthorpe/linux/commits/iommufd_dmabuf/
-> 
-> by drafting a QEMU patch on top of Shameer's vSMMU v5 series:
-> https://github.com/nicolinc/qemu/commits/wip/iommufd_dmabuf/
-> 
-> with that, I see GPU BAR memory be correctly fetched in the QEMU:
-> vfio_region_dmabuf Device 0009:01:00.0, region "0009:01:00.0 BAR 0", offset: 0x0, size: 0x1000000
-> vfio_region_dmabuf Device 0009:01:00.0, region "0009:01:00.0 BAR 2", offset: 0x0, size: 0x44f00000
-> vfio_region_dmabuf Device 0009:01:00.0, region "0009:01:00.0 BAR 4", offset: 0x0, size: 0x17a0000000
+On Tue, Nov 04, 2025 at 11:41:53AM -0600, Lucas De Marchi wrote:
 
-Great thanks! This means we finally have a solution to that follow_pfn
-lifetime problem in type 1! What a long journey :)
+> > > > +#define INTEL_VGA_VFIO_DEVICE(_id, _info) { \
+> > > > +	PCI_DEVICE(PCI_VENDOR_ID_INTEL, (_id)), \
+> > > > +	.class = PCI_BASE_CLASS_DISPLAY << 16, .class_mask = 0xff << 16, \
+> > > > +	.driver_data = (kernel_ulong_t)(_info), \
+> > > > +	.override_only = PCI_ID_F_VFIO_DRIVER_OVERRIDE, \
+> > > 
+> > > why do we need this and can't use PCI_DRIVER_OVERRIDE_DEVICE_VFIO()
+> > > directly? Note that there are GPUs that wouldn't match the display class
+> > > above.
+> > > 
+> > > 	edb660ad79ff ("drm/intel/pciids: Add match on vendor/id only")
+> > > 	5e0de2dfbc1b ("drm/xe/cri: Add CRI platform definition")
+> > > 
+> > > Lucas De Marchi
+> > > 
+> > 
+> > I'll define it on xe-vfio-pci side and use
+> 
+> but no matter where it's defined, why do you need it to match on the
+> class? The vid/devid should be sufficient.
 
-For those following along this same flow will be used with KVM to
-allow it to map VFIO as well. Confidential Compute will require this
-because some arches can't put confidential MMIO (or RAM) into a VMA.
++1
 
 Jason
