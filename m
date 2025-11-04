@@ -2,82 +2,72 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 480B8C31E7E
-	for <lists+dri-devel@lfdr.de>; Tue, 04 Nov 2025 16:45:48 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 986FBC31EDE
+	for <lists+dri-devel@lfdr.de>; Tue, 04 Nov 2025 16:50:53 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9F84910E634;
-	Tue,  4 Nov 2025 15:45:46 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id EF92210E639;
+	Tue,  4 Nov 2025 15:50:51 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=ursulin.net header.i=@ursulin.net header.b="Ob3nF446";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="J6sSuoi6";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-f51.google.com (mail-wr1-f51.google.com
- [209.85.221.51])
- by gabe.freedesktop.org (Postfix) with ESMTPS id AEF0110E635
- for <dri-devel@lists.freedesktop.org>; Tue,  4 Nov 2025 15:45:44 +0000 (UTC)
-Received: by mail-wr1-f51.google.com with SMTP id
- ffacd0b85a97d-3ee15b5435bso4144927f8f.0
- for <dri-devel@lists.freedesktop.org>; Tue, 04 Nov 2025 07:45:44 -0800 (PST)
+Received: from mail-pl1-f178.google.com (mail-pl1-f178.google.com
+ [209.85.214.178])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 862A210E639
+ for <dri-devel@lists.freedesktop.org>; Tue,  4 Nov 2025 15:50:50 +0000 (UTC)
+Received: by mail-pl1-f178.google.com with SMTP id
+ d9443c01a7336-290aaff555eso53096125ad.2
+ for <dri-devel@lists.freedesktop.org>; Tue, 04 Nov 2025 07:50:50 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=ursulin.net; s=google; t=1762271143; x=1762875943; darn=lists.freedesktop.org;
- h=content-transfer-encoding:in-reply-to:from:content-language
- :references:cc:to:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=Kz0hZBc3/xaNhkLSfrIHZyC0hOGqT/ceaujJ7HQsHCI=;
- b=Ob3nF446ANDiN0UyXj47ywLnh3wxE3W/i+RGYJe0yjKQB29kY0TKqLGelZC4NCxijL
- GosoX51KF7Vy4h26CDYgFaH7Jp/KFqU6b9liZvtcLXM1OyrMa6e/Qv/oo10QHyM/B1uI
- +XDW3Nkt0b4lbKzs8cNHymXEdX4GvHUOWQuzb23Rk2IV4xBwpv0/XJ8MHp7W2VHQJsjY
- WQzhCZUtP+wPnwV21XcYZTvJD0rYgHVlg5kD2A/pAPJuCEJHrff/I6VGbG7X3JjMGn4W
- r7thfoJfFsK8chIOqBOUI9cbllciu39W1rbXxe+mEZ5bgAmy2ulgLuaXrc7/DSJZuB4s
- GBXg==
+ d=gmail.com; s=20230601; t=1762271450; x=1762876250; darn=lists.freedesktop.org;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date:message-id:reply-to;
+ bh=DF+Xg0KfbjravoPnRqbNNYO0SUruQaoSS8eSZYe/j4M=;
+ b=J6sSuoi6y9bgH9itz8lsbANjM1Xz7DIBVHEGsZtcBT+9I40grjU3oBDGWkZxMWIC69
+ bA4t2cwpe1ynAW4vcnMQ8f57/TObDZFvjYexplR5IDz9lmhDSXBIXrmYimFzPwwOnjU4
+ YGmra9mekVX6mGBMaBE2LIjKdqwk0d4toJvgmVpBCERKwy7PXSR3CbPPJoRsOtfH4er3
+ bfQp8XKX2wzjMyOPjHQBIEYS3iW09OMwZayY7ycZVELirALQEx3P7TnQ3cz3JDJVHk9F
+ swI2+XvIy6ztlSajjj4L7/pKopMB1Qc9QoEPUrVUbGBzKG+ceULnEfQBGRDumChPmqx9
+ RT4w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1762271143; x=1762875943;
- h=content-transfer-encoding:in-reply-to:from:content-language
- :references:cc:to:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=Kz0hZBc3/xaNhkLSfrIHZyC0hOGqT/ceaujJ7HQsHCI=;
- b=OEZ2q1fXaA7c/uGEVzG/hg1iU13+xoDfA8dknYSOikplbizzwzCxkTRa5XJDN8ufn9
- /MI3+w+4tGDUP3ZarqhmcoHMx+51D/y2vXuQfPWJ3C2JWUX8OnxgZW/AwRmBjpcPc/nI
- y4JQYrt6esVHMATzQniw4oYODkcBtmo15VDMf9KyTurrbrv0NAUmXRqbqXHe7YE+IL3n
- RT5ItSQ9QRTHB6+Za1oDu8S1XoBlXbhzK1LyVonqQme4xiEnWj6ZtX62W6qQUijD2z6Y
- 3s13u1mD4zMZfdDb5ZOOfbujrQ/U/SmFRle8MncnOLwqNo2p8sFCHCS/nktgL6pNgnyM
- zvHA==
-X-Gm-Message-State: AOJu0YzdmdDPMDUj/hDNolttH2U324DHyJZLFroq+EX58G+U0GgQKo5w
- 2kdZpOS7DrkfUjyH0aNxrObLzn6OQWeC43qPDqTUop2Idq73nm5dFtj/BWzUFRujTpg=
-X-Gm-Gg: ASbGncuT5BrtOSBBic54GQvb+UhUxHnJ1lu73y1eCuoD/nxJKs3JeplvU+AzCSv3k0/
- g2zeyc91m/I9Ppgj1JsbLYLpjunbHy/KA4bZy7QPe2o+yg4CHDaSaRIaztrKaK5cV41zWZ4V1uQ
- nRAJSLLmv5cpHSIrYhpEnLE4FgJOnbyZVmVeJYPtjX/QyGCJpRrm+41DwPrL0OsLu/5MQb8gXSM
- o4okbER6LL69NWbnvz4eM4bLC1l5TxbABpFqSo9DDw4OyaC1d40ENif9Sds1t9Layk1PAdwPQYn
- Sb+0SveKO07GWkDOJqZmxm64cQ8kLT9krpPe/K6paspeQyvGUF9ZdSJKAmxPLXgd79xUMLp42r5
- mV2paP+IMgc4zPsGMij84lSG0W2dAmIJS56KQLFXKqpnV7qtRvYRdICLmd5bs3Sd6O251wWGDRu
- 8rSO5Vv/dR3nYXyxOD
-X-Google-Smtp-Source: AGHT+IEgq6iVAzz+YRuiS0ch5RS+BCQ7T4ZAOlkIya7vFL/1/F/3paJM0L+BsFB3BLOm707Nrfj+Yw==
-X-Received: by 2002:a05:6000:24c2:b0:427:167:c2ce with SMTP id
- ffacd0b85a97d-429bd6a607cmr14812430f8f.42.1762271143135; 
- Tue, 04 Nov 2025 07:45:43 -0800 (PST)
-Received: from [192.168.0.101] ([90.240.106.137])
- by smtp.gmail.com with ESMTPSA id
- ffacd0b85a97d-429dc1f5c72sm5521990f8f.26.2025.11.04.07.45.42
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 04 Nov 2025 07:45:42 -0800 (PST)
-Message-ID: <d3c9ca86-68d7-440f-98de-80fa1fcdea42@ursulin.net>
-Date: Tue, 4 Nov 2025 15:45:41 +0000
+ d=1e100.net; s=20230601; t=1762271450; x=1762876250;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=DF+Xg0KfbjravoPnRqbNNYO0SUruQaoSS8eSZYe/j4M=;
+ b=feEmQxokwhuEOEyre8/QsQe3avCVdB7Sf5ck98MKngL3BOyroot8owGy9IorQL5HhF
+ UXqkPrQlty2/TIqLxiQqk4B3g0EX7v3rxwndxqy1GtKJqWroCbnbUGK0P25WO36YAcBv
+ JwymBaTxAgeiZbA9aKOw0L9lyAdnWeNh5Y+EQU9ySbqkuhCqs4YuFHb3tkapenE/16oM
+ 7xHpeo9YU20zj6Ol9H6/IvlBSj2AmLVflZx/4SSBmoyVq9HqjJs3Bmb6HSMpvnaoPvQP
+ oIR7eegY7QunPGpJFM8mfVxn4EaeH0QTa1kOKHP0+WKOwYnlIsdHyPRxAJ+Rq3fKGEf3
+ /8lg==
+X-Gm-Message-State: AOJu0YyouY9P+ACq/Frv2+Ouzd5fulKEgtTo20mF0hV70yImRpTu2NpP
+ SX6egMA4RBnn9k8YpVszHfPXzPOH0Ao7LTyW+FGopmsqjAiHeLRFDzt48xg5xQVOvH9ZOero4cX
+ B0v9kEV5QGfTimrSym6URYZtwKBr6Exg=
+X-Gm-Gg: ASbGncv8LKZqwlyILLkqR56Gm6VwyjCUF6bZxBDT+iWtNrduSzU9llUL5477aLLB6cE
+ cS93EiVIPX5KomxKB6/tm96m9Q49SetfsZXiPj+iiR0fX9p/SJbaTBWduSD0CPe3Ko4aVkPIkrZ
+ qjVhXzRkqwMvEsR3CsN1Rfoq/m5F0NwU0S+/QjU7rR4NxG7eHgtwtfsFj2YFobkYNuHHzBM+4Fi
+ pWGqGn2sQ/VPxgdhLqLJg+JVNIu2wbWbAuk6olO+T28y7CSJygtNWFU6Myl9w==
+X-Google-Smtp-Source: AGHT+IFMX3GimODm1zGJLS3LPmzvdh2a8d1e8mZX8+bPjZowTFcWILNTw2aU/zYsH97Ej4/MFFRAuPJ+g4TDC+o8/KY=
+X-Received: by 2002:a17:902:c40d:b0:295:fe17:83e with SMTP id
+ d9443c01a7336-2962ad1c9a2mr1375335ad.19.1762271449948; Tue, 04 Nov 2025
+ 07:50:49 -0800 (PST)
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 14/20] drm/amdgpu: independence for the
- amdgpu_vm_tlb_fence!
-To: =?UTF-8?Q?Christian_K=C3=B6nig?= <ckoenig.leichtzumerken@gmail.com>,
- phasta@mailbox.org, alexdeucher@gmail.com, simona.vetter@ffwll.ch,
- airlied@gmail.com, felix.kuehling@amd.com, matthew.brost@intel.com
-Cc: dri-devel@lists.freedesktop.org, amd-gfx@lists.freedesktop.org
-References: <20251031134442.113648-1-christian.koenig@amd.com>
- <20251031134442.113648-15-christian.koenig@amd.com>
-Content-Language: en-GB
-From: Tvrtko Ursulin <tursulin@ursulin.net>
-In-Reply-To: <20251031134442.113648-15-christian.koenig@amd.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+References: <20250919183042.273687-1-marek.vasut@mailbox.org>
+ <CAH9NwWcK_z_4CcDBRYS2nf3AxYV9-XwirvTd+O9uJtHMhyA3Og@mail.gmail.com>
+In-Reply-To: <CAH9NwWcK_z_4CcDBRYS2nf3AxYV9-XwirvTd+O9uJtHMhyA3Og@mail.gmail.com>
+From: Christian Gmeiner <christian.gmeiner@gmail.com>
+Date: Tue, 4 Nov 2025 16:50:36 +0100
+X-Gm-Features: AWmQ_bkWGPLr80FTYocQH54j43c8QbQrHNTa44SWp_HgbPcP7OEt6fQrdnJo2z8
+Message-ID: <CAH9NwWdkjpV5YHmOpuCE=f7RVm1kXzqAOgN6=Sx1s-wxO_SGGA@mail.gmail.com>
+Subject: Re: [PATCH] drm/etnaviv: add HWDB entry for GC8000 Nano Ultra VIP
+ r6205
+To: Marek Vasut <marek.vasut@mailbox.org>
+Cc: dri-devel@lists.freedesktop.org, David Airlie <airlied@gmail.com>, 
+ Lucas Stach <l.stach@pengutronix.de>, Simona Vetter <simona@ffwll.ch>,
+ etnaviv@lists.freedesktop.org, linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -93,42 +83,78 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+> > This is the GPU/NPU combined device found on the ST STM32MP25 SoC.
+> > Feature bits taken from the downstream kernel driver 6.4.21.
+> >
+> > Signed-off-by: Marek Vasut <marek.vasut@mailbox.org>
+>
+> Acked-by: Christian Gmeiner <cgmeiner@igalia.com>
+>
+> > ---
+> > Cc: Christian Gmeiner <christian.gmeiner@gmail.com>
+> > Cc: David Airlie <airlied@gmail.com>
+> > Cc: Lucas Stach <l.stach@pengutronix.de>
+> > Cc: Simona Vetter <simona@ffwll.ch>
+> > Cc: dri-devel@lists.freedesktop.org
+> > Cc: etnaviv@lists.freedesktop.org
+> > Cc: linux-kernel@vger.kernel.org
+> > ---
+> >  drivers/gpu/drm/etnaviv/etnaviv_hwdb.c | 32 ++++++++++++++++++++++++++
+> >  1 file changed, 32 insertions(+)
+> >
+> > diff --git a/drivers/gpu/drm/etnaviv/etnaviv_hwdb.c b/drivers/gpu/drm/etnaviv/etnaviv_hwdb.c
+> > index 8665f2658d51b..32d710baf17fe 100644
+> > --- a/drivers/gpu/drm/etnaviv/etnaviv_hwdb.c
+> > +++ b/drivers/gpu/drm/etnaviv/etnaviv_hwdb.c
+> > @@ -196,6 +196,38 @@ static const struct etnaviv_chip_identity etnaviv_chip_identities[] = {
+> >                 .minor_features10 = 0x90044250,
+> >                 .minor_features11 = 0x00000024,
+> >         },
+> > +       {
+> > +               .model = 0x8000,
+> > +               .revision = 0x6205,
+> > +               .product_id = 0x80003,
+> > +               .customer_id = 0x15,
+> > +               .eco_id = 0,
+> > +               .stream_count = 16,
+> > +               .register_max = 64,
+> > +               .thread_count = 512,
+> > +               .shader_core_count = 2,
+> > +               .nn_core_count = 2,
+> > +               .vertex_cache_size = 16,
+> > +               .vertex_output_buffer_size = 1024,
+> > +               .pixel_pipes = 1,
+> > +               .instruction_count = 512,
+> > +               .num_constants = 320,
+> > +               .buffer_size = 0,
+> > +               .varyings_count = 16,
+> > +               .features = 0xe0287c8d,
+> > +               .minor_features0 = 0xc1799eff,
+> > +               .minor_features1 = 0xfefbfad9,
+> > +               .minor_features2 = 0xeb9d4fbf,
+> > +               .minor_features3 = 0xedfffced,
+> > +               .minor_features4 = 0xdb0dafc7,
+> > +               .minor_features5 = 0x7b5ac333,
+> > +               .minor_features6 = 0xfcce6000,
+> > +               .minor_features7 = 0x03fbfa6f,
+> > +               .minor_features8 = 0x00ef0ef0,
+> > +               .minor_features9 = 0x0eca703c,
+> > +               .minor_features10 = 0x898048f0,
+> > +               .minor_features11 = 0x00000034,
+> > +       },
+> >         {
+> >                 .model = 0x8000,
+> >                 .revision = 0x7120,
+> > --
+> > 2.51.0
+> >
+>
 
-On 31/10/2025 13:16, Christian König wrote:
-> This should allow amdgpu_vm_tlb_fences to outlive the amdgpu module.
-> 
-> Signed-off-by: Christian König <christian.koenig@amd.com>
-> ---
->   drivers/gpu/drm/amd/amdgpu/amdgpu_vm_tlb_fence.c | 4 +---
->   1 file changed, 1 insertion(+), 3 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_vm_tlb_fence.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_vm_tlb_fence.c
-> index 5d26797356a3..27bf1f569830 100644
-> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_vm_tlb_fence.c
-> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_vm_tlb_fence.c
-> @@ -33,7 +33,6 @@ struct amdgpu_tlb_fence {
->   	struct amdgpu_device	*adev;
->   	struct dma_fence	*dependency;
->   	struct work_struct	work;
-> -	spinlock_t		lock;
->   	uint16_t		pasid;
->   
->   };
-> @@ -98,9 +97,8 @@ void amdgpu_vm_tlb_fence_create(struct amdgpu_device *adev, struct amdgpu_vm *vm
->   	f->dependency = *fence;
->   	f->pasid = vm->pasid;
->   	INIT_WORK(&f->work, amdgpu_tlb_fence_work);
-> -	spin_lock_init(&f->lock);
->   
-> -	dma_fence_init64(&f->base, &amdgpu_tlb_fence_ops, &f->lock,
-> +	dma_fence_init64(&f->base, &amdgpu_tlb_fence_ops, NULL,
->   			 vm->tlb_fence_context, atomic64_read(&vm->tlb_seq));
->   
->   	/* TODO: We probably need a separate wq here */
+Applied to drm-misc-next.
 
-Reviewed-by: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
+-- 
+greets
+--
+Christian Gmeiner, MSc
 
-Regards,
-
-Tvrtko
-
+https://christian-gmeiner.info/privacypolicy
