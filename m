@@ -2,42 +2,42 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 702CCC2F601
-	for <lists+dri-devel@lfdr.de>; Tue, 04 Nov 2025 06:29:36 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 15542C2F604
+	for <lists+dri-devel@lfdr.de>; Tue, 04 Nov 2025 06:30:06 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0415810E51A;
-	Tue,  4 Nov 2025 05:29:33 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4DDDF10E51B;
+	Tue,  4 Nov 2025 05:30:04 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=fail reason="signature verification failed" (1024-bit key; unprotected) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="jLCjCx2o";
+	dkim=fail reason="signature verification failed" (1024-bit key; unprotected) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="KxmsLWe6";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6D77B10E51A
- for <dri-devel@lists.freedesktop.org>; Tue,  4 Nov 2025 05:29:30 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 971E010E51B
+ for <dri-devel@lists.freedesktop.org>; Tue,  4 Nov 2025 05:30:02 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by tor.source.kernel.org (Postfix) with ESMTP id 4F9ED601E9;
- Tue,  4 Nov 2025 05:29:29 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B347FC4CEF8;
- Tue,  4 Nov 2025 05:29:28 +0000 (UTC)
+ by tor.source.kernel.org (Postfix) with ESMTP id C395F601E9;
+ Tue,  4 Nov 2025 05:30:01 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0B888C4CEF7;
+ Tue,  4 Nov 2025 05:30:00 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
- s=korg; t=1762234169;
- bh=AXCssvaiEqsKEXptZagpn0ve09HQYBAV99hzJsgttRU=;
+ s=korg; t=1762234201;
+ bh=aC6B8UHi5aacgxMSscj/IHYzs5mWx5Z8rV5IeveKbfU=;
  h=Subject:To:Cc:From:Date:In-Reply-To:From;
- b=jLCjCx2oaVDi7lOt0g3so7X0i/rKQa4fBPhFtQwRaXWPemvs3eEtjFkHLCZEeqpjR
- fkHplvS1btFGJ+ONDxFhHjGI5Kg+5indvkljdzJvzjzUdMXTjinKKKZ7k6LNHi70H6
- Z4P6XoQDkTJ5zTuZEqLOrNaeSIbKzABNVHds2vMU=
+ b=KxmsLWe6llU51Iv6uTnwLbIxlDRYMRxAi7eSK/vNG6RwGZznah30dGtP9aXNLwlQ/
+ VeDILoY0klGE1knQAt7JtPLhUm3nmDSF0q6yh3/w8edbuJqTFlQT9JaUwMP/NNFkSQ
+ GY0ZEDdRKVECCPdHQu5fO3jgzepX6wEwlqc9ofbM=
 Subject: Patch "drm/sysfb: Do not dereference NULL pointer in plane reset" has
- been added to the 5.15-stable tree
+ been added to the 6.1-stable tree
 To: airlied@gmail.com, dan.carpenter@linaro.org,
  dri-devel@lists.freedesktop.org, gregkh@linuxfoundation.org,
  javierm@redhat.com, maarten.lankhorst@linux.intel.com, melissa.srw@gmail.com,
  mripard@kernel.org, sashal@kernel.org, simona@ffwll.ch, tzimmermann@suse.de
 Cc: <stable-commits@vger.kernel.org>
 From: <gregkh@linuxfoundation.org>
-Date: Tue, 04 Nov 2025 14:29:19 +0900
-In-Reply-To: <20251103150626.4044944-1-sashal@kernel.org>
-Message-ID: <2025110419-grass-number-3912@gregkh>
+Date: Tue, 04 Nov 2025 14:29:50 +0900
+In-Reply-To: <20251103145911.4040590-1-sashal@kernel.org>
+Message-ID: <2025110450-little-probe-8b14@gregkh>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=ANSI_X3.4-1968
 Content-Transfer-Encoding: 8bit
@@ -63,24 +63,24 @@ This is a note to let you know that I've just added the patch titled
 
     drm/sysfb: Do not dereference NULL pointer in plane reset
 
-to the 5.15-stable tree which can be found at:
+to the 6.1-stable tree which can be found at:
     http://www.kernel.org/git/?p=linux/kernel/git/stable/stable-queue.git;a=summary
 
 The filename of the patch is:
      drm-sysfb-do-not-dereference-null-pointer-in-plane-reset.patch
-and it can be found in the queue-5.15 subdirectory.
+and it can be found in the queue-6.1 subdirectory.
 
 If you, or anyone else, feels it should not be added to the stable tree,
 please let <stable@vger.kernel.org> know about it.
 
 
-From stable+bounces-192219-greg=kroah.com@vger.kernel.org Tue Nov  4 00:22:28 2025
+From stable+bounces-192216-greg=kroah.com@vger.kernel.org Tue Nov  4 00:37:33 2025
 From: Sasha Levin <sashal@kernel.org>
-Date: Mon,  3 Nov 2025 10:06:26 -0500
+Date: Mon,  3 Nov 2025 09:59:11 -0500
 Subject: drm/sysfb: Do not dereference NULL pointer in plane reset
 To: stable@vger.kernel.org
 Cc: Thomas Zimmermann <tzimmermann@suse.de>, Dan Carpenter <dan.carpenter@linaro.org>, Melissa Wen <melissa.srw@gmail.com>, Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>, David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, dri-devel@lists.freedesktop.org, Javier Martinez Canillas <javierm@redhat.com>, Sasha Levin <sashal@kernel.org>
-Message-ID: <20251103150626.4044944-1-sashal@kernel.org>
+Message-ID: <20251103145911.4040590-1-sashal@kernel.org>
 
 From: Thomas Zimmermann <tzimmermann@suse.de>
 
@@ -116,7 +116,7 @@ Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 
 --- a/drivers/gpu/drm/drm_gem_atomic_helper.c
 +++ b/drivers/gpu/drm/drm_gem_atomic_helper.c
-@@ -282,7 +282,11 @@ EXPORT_SYMBOL(drm_gem_destroy_shadow_pla
+@@ -330,7 +330,11 @@ EXPORT_SYMBOL(drm_gem_destroy_shadow_pla
  void __drm_gem_reset_shadow_plane(struct drm_plane *plane,
  				  struct drm_shadow_plane_state *shadow_plane_state)
  {
@@ -133,40 +133,52 @@ Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 
 Patches currently in stable-queue which might be from sashal@kernel.org are
 
-queue-5.15/drm-amd-pm-powerplay-smumgr-fix-pciebootlinklevel-va.patch
-queue-5.15/wifi-ath10k-fix-memory-leak-on-unsupported-wmi-comma.patch
-queue-5.15/x86-bugs-fix-reporting-of-lfence-retpoline.patch
-queue-5.15/arch-back-to-std-gnu89-in-v5.18.patch
-queue-5.15/dt-bindings-usb-dwc3-imx8mp-dma-range-is-required-only-for-imx8mp.patch
-queue-5.15/btrfs-use-smp_mb__after_atomic-when-forcing-cow-in-c.patch
-queue-5.15/x86-boot-compile-boot-code-with-std-gnu11-too.patch
-queue-5.15/xhci-dbc-improve-performance-by-removing-delay-in-transfer-event-polling.patch
-queue-5.15/net-hns3-return-error-code-when-function-fails.patch
-queue-5.15/btrfs-scrub-replace-max_t-min_t-with-clamp-in-scrub_.patch
-queue-5.15/xhci-dbc-poll-at-different-rate-depending-on-data-transfer-activity.patch
-queue-5.15/xhci-dbc-avoid-event-polling-busyloop-if-pending-rx-transfers-are-inactive.patch
-queue-5.15/ravb-exclude-gptp-feature-support-for-rz-g2l.patch
-queue-5.15/drm-amd-pm-powerplay-smumgr-fix-pciebootlinklevel-va.patch-3340
-queue-5.15/mptcp-drop-bogus-optimization-in-__mptcp_check_push.patch
-queue-5.15/drm-etnaviv-fix-flush-sequence-logic.patch
-queue-5.15/serial-8250_dw-use-devm_add_action_or_reset.patch
-queue-5.15/xhci-dbc-allow-users-to-modify-dbc-poll-interval-via-sysfs.patch
-queue-5.15/drm-msm-a6xx-fix-gmu-firmware-parser.patch
-queue-5.15/serial-8250_dw-handle-reset-control-deassert-error.patch
-queue-5.15/drm-sched-fix-race-in-drm_sched_entity_select_rq.patch
-queue-5.15/bpf-sync-pending-irq-work-before-freeing-ring-buffer.patch
-queue-5.15/alsa-usb-audio-fix-control-pipe-direction.patch
-queue-5.15/drm-sysfb-do-not-dereference-null-pointer-in-plane-reset.patch
-queue-5.15/btrfs-always-drop-log-root-tree-reference-in-btrfs_r.patch
-queue-5.15/drm-amd-pm-fix-smu-table-id-bound-check-issue-in-smu.patch
-queue-5.15/xhci-dbc-provide-sysfs-option-to-configure-dbc-descriptors.patch
-queue-5.15/libbpf-normalize-pt_regs_xxx-macro-definitions.patch
-queue-5.15/block-make-req_op_zone_open-a-write-operation.patch
-queue-5.15/revert-docs-process-howto-replace-c89-with-c11.patch
-queue-5.15/usbnet-prevents-free-active-kevent.patch
-queue-5.15/net-ravb-enforce-descriptor-type-ordering.patch
-queue-5.15/xhci-dbc-fix-bogus-1024-byte-prefix-if-ttydbc-read-races-with-stall-event.patch
-queue-5.15/bpf-do-not-audit-capability-check-in-do_jit.patch
-queue-5.15/riscv-libbpf-add-risc-v-rv64-support-to-bpf_tracing..patch
-queue-5.15/net-phy-dp83867-disable-eee-support-as-not-implemented.patch
-queue-5.15/libbpf-fix-powerpc-s-stack-register-definition-in-bp.patch
+queue-6.1/bluetooth-hci-fix-tracking-of-advertisement-set-inst.patch
+queue-6.1/drm-amd-pm-powerplay-smumgr-fix-pciebootlinklevel-va.patch-16017
+queue-6.1/drm-amd-pm-powerplay-smumgr-fix-pciebootlinklevel-va.patch
+queue-6.1/wifi-ath10k-fix-memory-leak-on-unsupported-wmi-comma.patch
+queue-6.1/x86-bugs-fix-reporting-of-lfence-retpoline.patch
+queue-6.1/dt-bindings-usb-dwc3-imx8mp-dma-range-is-required-only-for-imx8mp.patch
+queue-6.1/btrfs-use-smp_mb__after_atomic-when-forcing-cow-in-c.patch
+queue-6.1/arch-add-the-macro-compile_offsets-to-all-the-asm-of.patch
+queue-6.1/s390-pci-restore-irq-unconditionally-for-the-zpci-device.patch
+queue-6.1/xhci-dbc-improve-performance-by-removing-delay-in-transfer-event-polling.patch
+queue-6.1/asoc-fsl_sai-fix-bit-order-for-dsd-format.patch
+queue-6.1/edac-mc_sysfs-increase-legacy-channel-support-to-16.patch
+queue-6.1/net-hns3-return-error-code-when-function-fails.patch
+queue-6.1/btrfs-scrub-replace-max_t-min_t-with-clamp-in-scrub_.patch
+queue-6.1/xhci-dbc-poll-at-different-rate-depending-on-data-transfer-activity.patch
+queue-6.1/xhci-dbc-avoid-event-polling-busyloop-if-pending-rx-transfers-are-inactive.patch
+queue-6.1/serial-sc16is7xx-remove-unused-to_sc16is7xx_port-macro.patch
+queue-6.1/selftests-mptcp-join-mark-delete-re-add-signal-as-skipped-if-not-supported.patch
+queue-6.1/asoc-intel-avs-unprepare-a-stream-when-xrun-occurs.patch
+queue-6.1/mptcp-drop-bogus-optimization-in-__mptcp_check_push.patch
+queue-6.1/drm-etnaviv-fix-flush-sequence-logic.patch
+queue-6.1/serial-sc16is7xx-reorder-code-to-remove-prototype-declarations.patch
+queue-6.1/serial-sc16is7xx-refactor-efr-lock.patch
+queue-6.1/mptcp-pm-in-kernel-c-flag-handle-late-add_addr.patch
+queue-6.1/xhci-dbc-allow-users-to-modify-dbc-poll-interval-via-sysfs.patch
+queue-6.1/perf-have-get_perf_callchain-return-null-if-crosstas.patch
+queue-6.1/bluetooth-iso-fix-another-instance-of-dst_type-handl.patch
+queue-6.1/s390-pci-avoid-deadlock-between-pci-error-recovery-and-mlx5-crdump.patch
+queue-6.1/serial-sc16is7xx-remove-useless-enable-of-enhanced-features.patch
+queue-6.1/btrfs-zoned-refine-extent-allocator-hint-selection.patch
+queue-6.1/drm-msm-a6xx-fix-gmu-firmware-parser.patch
+queue-6.1/selftests-mptcp-disable-add_addr-retrans-in-endpoint_tests.patch
+queue-6.1/bluetooth-hci_sync-fix-race-in-hci_cmd_sync_dequeue_.patch
+queue-6.1/scsi-ufs-core-initialize-value-of-an-attribute-retur.patch
+queue-6.1/mptcp-change-first-as-a-parameter.patch
+queue-6.1/bluetooth-btmtksdio-add-pmctrl-handling-for-bt-close.patch
+queue-6.1/drm-sched-fix-race-in-drm_sched_entity_select_rq.patch
+queue-6.1/bpf-sync-pending-irq-work-before-freeing-ring-buffer.patch
+queue-6.1/alsa-usb-audio-fix-control-pipe-direction.patch
+queue-6.1/drm-sysfb-do-not-dereference-null-pointer-in-plane-reset.patch
+queue-6.1/btrfs-always-drop-log-root-tree-reference-in-btrfs_r.patch
+queue-6.1/drm-amd-pm-fix-smu-table-id-bound-check-issue-in-smu.patch
+queue-6.1/xhci-dbc-provide-sysfs-option-to-configure-dbc-descriptors.patch
+queue-6.1/bluetooth-iso-add-support-for-periodic-adv-reports-p.patch
+queue-6.1/usbnet-prevents-free-active-kevent.patch
+queue-6.1/xhci-dbc-fix-bogus-1024-byte-prefix-if-ttydbc-read-races-with-stall-event.patch
+queue-6.1/bpf-do-not-audit-capability-check-in-do_jit.patch
+queue-6.1/net-phy-dp83867-disable-eee-support-as-not-implemented.patch
+queue-6.1/libbpf-fix-powerpc-s-stack-register-definition-in-bp.patch
