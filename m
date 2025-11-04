@@ -2,108 +2,149 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 35B88C3097A
-	for <lists+dri-devel@lfdr.de>; Tue, 04 Nov 2025 11:50:17 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id D774EC309AD
+	for <lists+dri-devel@lfdr.de>; Tue, 04 Nov 2025 11:52:54 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 992CD10E5C0;
-	Tue,  4 Nov 2025 10:50:15 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6D47C10E5B7;
+	Tue,  4 Nov 2025 10:52:52 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=bootlin.com header.i=@bootlin.com header.b="D9xp1rdR";
+	dkim=pass (1024-bit key; unprotected) header.d=suse.de header.i=@suse.de header.b="iWPdxbMs";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="lWvS0vkB";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="iWPdxbMs";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="lWvS0vkB";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtpout-03.galae.net (smtpout-03.galae.net [185.246.85.4])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4F86710E5C0
- for <dri-devel@lists.freedesktop.org>; Tue,  4 Nov 2025 10:50:14 +0000 (UTC)
-Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
- by smtpout-03.galae.net (Postfix) with ESMTPS id 148244E4149A;
- Tue,  4 Nov 2025 10:50:13 +0000 (UTC)
-Received: from mail.galae.net (mail.galae.net [212.83.136.155])
- by smtpout-01.galae.net (Postfix) with ESMTPS id DCEDE606EF;
- Tue,  4 Nov 2025 10:50:12 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon)
- with ESMTPSA id 2425410B509F7; Tue,  4 Nov 2025 11:50:09 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
- t=1762253411; h=from:subject:date:message-id:to:cc:mime-version:content-type:
- content-transfer-encoding:content-language:in-reply-to:references:autocrypt;
- bh=RWR2yfrQdoWsw6o8+j8mIm8NpaENKjX1fw5W+H557nM=;
- b=D9xp1rdRFvQcRoo3pB3Vll0QTln5dxNRq/OBjNUHrGFRnufOvb2rBjjwdrgyD0Ug13oDT8
- UwhwoKmIAVoBi+Q7NRS4cB2Fz740Tf4FqN1T2cOf8xP53qkVsxn9QWTHjICbfKEovOXwTF
- SAsdgqT8mUrXpyRn9s9N4raHU4I1LmV5hsRZP7bEOCXFcyQDVbIGCLNYcqrccatJKvvSCa
- ndHPYugP5U7RCYNiM3UqSCdwZm3Vj83d37B2lVQCPBgUafAVTUqGsQtSRo2y9AX6bZC3ja
- uuOceQAUPybE8VhdOKYDqnaJog9SR0XPvM9xBuqLJTJGZIWUL1sTAVU0TdVhwQ==
-Message-ID: <1933ce64-af94-4605-912e-01e6c9da93b9@bootlin.com>
-Date: Tue, 4 Nov 2025 11:50:09 +0100
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CD5D210E25A
+ for <dri-devel@lists.freedesktop.org>; Tue,  4 Nov 2025 10:52:50 +0000 (UTC)
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org
+ [IPv6:2a07:de40:b281:104:10:150:64:97])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested)
+ by smtp-out1.suse.de (Postfix) with ESMTPS id 71213211A7;
+ Tue,  4 Nov 2025 10:52:49 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1762253569; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=FjK/eNFRjcNkRyaXx00ipERCuJByYaCzL9C8vxh03rA=;
+ b=iWPdxbMsTxpIt5mZjmSCNwKtNC7O4AQhAIU1ReXnkg9Tc2xtv/6af9diZOMDwIGj7oBvsl
+ SuH9Y/t2FXLWtSKywtTkaUGN5XeTJ2ucYCJTX0UdibpRiWL6LfAiL/VW4W7oMnEPsw6XD/
+ 4YT/vtjzowBGDHnBi0aTH3qFCoxm6eo=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1762253569;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=FjK/eNFRjcNkRyaXx00ipERCuJByYaCzL9C8vxh03rA=;
+ b=lWvS0vkBwgD6LTJczyaEiM22yQ++nJiMcHddmOtsiQUZwKxm6o1nr6BiudMrP62Q79GwQp
+ 0PLYiTfYKpLpgiDA==
+Authentication-Results: smtp-out1.suse.de;
+ dkim=pass header.d=suse.de header.s=susede2_rsa header.b=iWPdxbMs;
+ dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=lWvS0vkB
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1762253569; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=FjK/eNFRjcNkRyaXx00ipERCuJByYaCzL9C8vxh03rA=;
+ b=iWPdxbMsTxpIt5mZjmSCNwKtNC7O4AQhAIU1ReXnkg9Tc2xtv/6af9diZOMDwIGj7oBvsl
+ SuH9Y/t2FXLWtSKywtTkaUGN5XeTJ2ucYCJTX0UdibpRiWL6LfAiL/VW4W7oMnEPsw6XD/
+ 4YT/vtjzowBGDHnBi0aTH3qFCoxm6eo=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1762253569;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=FjK/eNFRjcNkRyaXx00ipERCuJByYaCzL9C8vxh03rA=;
+ b=lWvS0vkBwgD6LTJczyaEiM22yQ++nJiMcHddmOtsiQUZwKxm6o1nr6BiudMrP62Q79GwQp
+ 0PLYiTfYKpLpgiDA==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested)
+ by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 29955139A9;
+ Tue,  4 Nov 2025 10:52:49 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+ by imap1.dmz-prg2.suse.org with ESMTPSA id 2gb3CAHbCWkacAAAD6G6ig
+ (envelope-from <tzimmermann@suse.de>); Tue, 04 Nov 2025 10:52:49 +0000
+Message-ID: <977d2830-5042-46d8-865b-483c19c6fa4e@suse.de>
+Date: Tue, 4 Nov 2025 11:52:48 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 2/2] drm/vkms: Update testing with IGT IGT_DEVICE
-To: =?UTF-8?B?Sm9zw6kgRXhww7NzaXRv?= <jose.exposito89@gmail.com>
-Cc: hamohammed.sa@gmail.com, simona@ffwll.ch, melissa.srw@gmail.com,
- airlied@gmail.com, maarten.lankhorst@linux.intel.com, mripard@kernel.org,
- tzimmermann@suse.de, corbet@lwn.net, dri-devel@lists.freedesktop.org,
- linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-References: <20251024110014.4614-1-jose.exposito89@gmail.com>
- <20251024110014.4614-2-jose.exposito89@gmail.com>
-Content-Language: en-US, fr
-From: Louis Chauvet <louis.chauvet@bootlin.com>
-Autocrypt: addr=louis.chauvet@bootlin.com; keydata=
- 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
-In-Reply-To: <20251024110014.4614-2-jose.exposito89@gmail.com>
+Subject: Re: [REGRESSION][ASAN] drm/client: Deprecate struct
+ drm_client_buffer.gem
+To: Ian Forbes <ian.forbes@broadcom.com>
+Cc: Jocelyn Falempe <jfalempe@redhat.com>, javierm@redhat.com,
+ rrameshbabu@nvidia.com, Maarten Lankhorst
+ <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>,
+ francesco@valla.it, David Airlie <airlied@gmail.com>,
+ dri-devel@lists.freedesktop.org
+References: <20251027121042.143588-1-tzimmermann@suse.de>
+ <20251027121042.143588-5-tzimmermann@suse.de>
+ <CAO6MGtjg8PiRiSLomJQRBduTBSC0WkqX67tEZwA9qwOgRzchpw@mail.gmail.com>
+Content-Language: en-US
+From: Thomas Zimmermann <tzimmermann@suse.de>
+Autocrypt: addr=tzimmermann@suse.de; keydata=
+ xsBNBFs50uABCADEHPidWt974CaxBVbrIBwqcq/WURinJ3+2WlIrKWspiP83vfZKaXhFYsdg
+ XH47fDVbPPj+d6tQrw5lPQCyqjwrCPYnq3WlIBnGPJ4/jreTL6V+qfKRDlGLWFjZcsrPJGE0
+ BeB5BbqP5erN1qylK9i3gPoQjXGhpBpQYwRrEyQyjuvk+Ev0K1Jc5tVDeJAuau3TGNgah4Yc
+ hdHm3bkPjz9EErV85RwvImQ1dptvx6s7xzwXTgGAsaYZsL8WCwDaTuqFa1d1jjlaxg6+tZsB
+ 9GluwvIhSezPgnEmimZDkGnZRRSFiGP8yjqTjjWuf0bSj5rUnTGiyLyRZRNGcXmu6hjlABEB
+ AAHNJ1Rob21hcyBaaW1tZXJtYW5uIDx0emltbWVybWFubkBzdXNlLmRlPsLAjgQTAQgAOAIb
+ AwULCQgHAgYVCgkICwIEFgIDAQIeAQIXgBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftODH
+ AAoJEGgNwR1TC3ojx1wH/0hKGWugiqDgLNXLRD/4TfHBEKmxIrmfu9Z5t7vwUKfwhFL6hqvo
+ lXPJJKQpQ2z8+X2vZm/slsLn7J1yjrOsoJhKABDi+3QWWSGkaGwRJAdPVVyJMfJRNNNIKwVb
+ U6B1BkX2XDKDGffF4TxlOpSQzdtNI/9gleOoUA8+jy8knnDYzjBNOZqLG2FuTdicBXblz0Mf
+ vg41gd9kCwYXDnD91rJU8tzylXv03E75NCaTxTM+FBXPmsAVYQ4GYhhgFt8S2UWMoaaABLDe
+ 7l5FdnLdDEcbmd8uLU2CaG4W2cLrUaI4jz2XbkcPQkqTQ3EB67hYkjiEE6Zy3ggOitiQGcqp
+ j//OwE0EWznS4AEIAMYmP4M/V+T5RY5at/g7rUdNsLhWv1APYrh9RQefODYHrNRHUE9eosYb
+ T6XMryR9hT8XlGOYRwKWwiQBoWSDiTMo/Xi29jUnn4BXfI2px2DTXwc22LKtLAgTRjP+qbU6
+ 3Y0xnQN29UGDbYgyyK51DW3H0If2a3JNsheAAK+Xc9baj0LGIc8T9uiEWHBnCH+RdhgATnWW
+ GKdDegUR5BkDfDg5O/FISymJBHx2Dyoklv5g4BzkgqTqwmaYzsl8UxZKvbaxq0zbehDda8lv
+ hFXodNFMAgTLJlLuDYOGLK2AwbrS3Sp0AEbkpdJBb44qVlGm5bApZouHeJ/+n+7r12+lqdsA
+ EQEAAcLAdgQYAQgAIAIbDBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftOH6AAoJEGgNwR1T
+ C3ojVSkIALpAPkIJPQoURPb1VWjh34l0HlglmYHvZszJWTXYwavHR8+k6Baa6H7ufXNQtThR
+ yIxJrQLW6rV5lm7TjhffEhxVCn37+cg0zZ3j7zIsSS0rx/aMwi6VhFJA5hfn3T0TtrijKP4A
+ SAQO9xD1Zk9/61JWk8OysuIh7MXkl0fxbRKWE93XeQBhIJHQfnc+YBLprdnxR446Sh8Wn/2D
+ Ya8cavuWf2zrB6cZurs048xe0UbSW5AOSo4V9M0jzYI4nZqTmPxYyXbm30Kvmz0rYVRaitYJ
+ 4kyYYMhuULvrJDMjZRvaNe52tkKAvMevcGdt38H4KSVXAylqyQOW5zvPc4/sq9c=
+In-Reply-To: <CAO6MGtjg8PiRiSLomJQRBduTBSC0WkqX67tEZwA9qwOgRzchpw@mail.gmail.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-Last-TLS-Session-Version: TLSv1.3
+X-Rspamd-Queue-Id: 71213211A7
+X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
+X-Spamd-Result: default: False [-4.51 / 50.00]; BAYES_HAM(-3.00)[100.00%];
+ NEURAL_HAM_LONG(-1.00)[-1.000];
+ R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+ NEURAL_HAM_SHORT(-0.20)[-1.000]; MIME_GOOD(-0.10)[text/plain];
+ MX_GOOD(-0.01)[]; FREEMAIL_ENVRCPT(0.00)[gmail.com];
+ TO_MATCH_ENVRCPT_ALL(0.00)[];
+ DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+ FUZZY_RATELIMITED(0.00)[rspamd.com]; ARC_NA(0.00)[];
+ RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from]; 
+ TO_DN_SOME(0.00)[]; MIME_TRACE(0.00)[0:+];
+ FREEMAIL_CC(0.00)[redhat.com,nvidia.com,linux.intel.com,kernel.org,valla.it,gmail.com,lists.freedesktop.org];
+ RCVD_TLS_ALL(0.00)[]; DKIM_TRACE(0.00)[suse.de:+];
+ RCVD_COUNT_TWO(0.00)[2]; FROM_EQ_ENVFROM(0.00)[];
+ FROM_HAS_DN(0.00)[];
+ SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
+ DNSWL_BLOCKED(0.00)[2a07:de40:b281:104:10:150:64:97:from];
+ RCPT_COUNT_SEVEN(0.00)[9]; MID_RHS_MATCH_FROM(0.00)[];
+ RCVD_VIA_SMTP_AUTH(0.00)[];
+ RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
+ DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,
+ imap1.dmz-prg2.suse.org:rdns, suse.com:url, suse.de:email, suse.de:mid,
+ suse.de:dkim]
+X-Rspamd-Action: no action
+X-Spam-Flag: NO
+X-Spam-Score: -4.51
+X-Spam-Level: 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -119,67 +160,152 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+Hi
 
+Am 31.10.25 um 16:49 schrieb Ian Forbes:
+> On Mon, Oct 27, 2025 at 7:11 AM Thomas Zimmermann <tzimmermann@suse.de> wrote:
+>> The client buffer's framebuffer holds a reference and pointer on
+>> each of its GEM buffer objects. Thus the field gem in the client-
+>> buffer struct is not necessary. Deprecated the field and convert
+>> the client-buffer helpers to use the framebuffer's objects.
+>>
+>> In drm_client_buffer_delete(), do a possible vunmap before releasing
+>> the framebuffer. Otherwise we'd eventually release the framebuffer
+>> before unmaping its buffer objects.
+>>
+>> v2:
+>> - avoid dependency on CONFIG_DRM_KMS_HELPER
+>>
+>> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
+>> Reviewed-by: Jocelyn Falempe <jfalempe@redhat.com>
+>> ---
+> This patch has caused a crash on vmwgfx with ASAN enabled.
 
-Le 24/10/2025 à 13:00, José Expósito a écrit :
-> VKMS is no longer in the platform bus, instead, it is in the faux bus.
-> 
-> In addition, when present, IGT picks hardware drivers instead of virtual
-> drivers, like VKMS or vgem, if they are not forced.
-> 
-> Update the documentation to use IGT_FORCE_DRIVER instead of IGT_DEVICE.
-> 
-> Signed-off-by: José Expósito <jose.exposito89@gmail.com>
+A possible fix is available at 
+https://lore.kernel.org/dri-devel/20251104103611.167821-1-tzimmermann@suse.de/T/#u
 
-Reviewed-by: Louis Chauvet <louis.chauvet@bootlin.com>
+Best regards
+Thomas
 
-> ---
->   Documentation/gpu/vkms.rst | 19 ++++++++-----------
->   1 file changed, 8 insertions(+), 11 deletions(-)
-> 
-> diff --git a/Documentation/gpu/vkms.rst b/Documentation/gpu/vkms.rst
-> index d8c445c417b7..1e79e62a6bc4 100644
-> --- a/Documentation/gpu/vkms.rst
-> +++ b/Documentation/gpu/vkms.rst
-> @@ -159,26 +159,23 @@ To return to graphical mode, do::
->   
->     sudo systemctl isolate graphical.target
->   
-> -Once you are in text only mode, you can run tests using the --device switch
-> -or IGT_DEVICE variable to specify the device filter for the driver we want
-> -to test. IGT_DEVICE can also be used with the run-tests.sh script to run the
-> +Once you are in text only mode, you can run tests using the IGT_FORCE_DRIVER
-> +variable to specify the device filter for the driver we want to test.
-> +IGT_FORCE_DRIVER can also be used with the run-tests.sh script to run the
->   tests for a specific driver::
->   
-> -  sudo ./build/tests/<name of test> --device "sys:/sys/devices/platform/vkms"
-> -  sudo IGT_DEVICE="sys:/sys/devices/platform/vkms" ./build/tests/<name of test>
-> -  sudo IGT_DEVICE="sys:/sys/devices/platform/vkms" ./scripts/run-tests.sh -t <name of test>
-> +  sudo IGT_FORCE_DRIVER="vkms" ./build/tests/<name of test>
-> +  sudo IGT_FORCE_DRIVER="vkms" ./scripts/run-tests.sh -t <name of test>
->   
->   For example, to test the functionality of the writeback library,
->   we can run the kms_writeback test::
->   
-> -  sudo ./build/tests/kms_writeback --device "sys:/sys/devices/platform/vkms"
-> -  sudo IGT_DEVICE="sys:/sys/devices/platform/vkms" ./build/tests/kms_writeback
-> -  sudo IGT_DEVICE="sys:/sys/devices/platform/vkms" ./scripts/run-tests.sh -t kms_writeback
-> +  sudo IGT_FORCE_DRIVER="vkms" ./build/tests/kms_writeback
-> +  sudo IGT_FORCE_DRIVER="vkms" ./scripts/run-tests.sh -t kms_writeback
->   
->   You can also run subtests if you do not want to run the entire test::
->   
-> -  sudo ./build/tests/kms_flip --run-subtest basic-plain-flip --device "sys:/sys/devices/platform/vkms"
-> -  sudo IGT_DEVICE="sys:/sys/devices/platform/vkms" ./build/tests/kms_flip --run-subtest basic-plain-flip
-> +  sudo IGT_FORCE_DRIVER="vkms" ./build/tests/kms_flip --run-subtest basic-plain-flip
->   
->   Testing With KUnit
->   ==================
+>
+> [   22.286155] Console: switching to colour dummy device 80x25
+> [   22.359287] vmwgfx 0000:00:0f.0: vgaarb: deactivate vga console
+> [   22.388482] vmwgfx 0000:00:0f.0: [drm] FIFO at 0x00000000fb800000
+> size is 8192 KiB
+> [   22.390036] vmwgfx 0000:00:0f.0: [drm] VRAM at 0x00000000f0000000
+> size is 131072 KiB
+> [   22.391255] vmwgfx 0000:00:0f.0: [drm] Running on SVGA version 2.
+> [   22.392209] vmwgfx 0000:00:0f.0: [drm] Capabilities: rect copy,
+> cursor, cursor bypass, cursor bypass 2, 8bit emulation, alpha cursor,
+> 3D, extended fifo, multimon, pitchlock, irq mask, display topology,
+> gmr, traces, gmr2, screen object 2, command buffers, command buffers
+> 2, gbobject, dx, hp cmd queue, no bb restriction, cap2 register,
+> [   22.396463] vmwgfx 0000:00:0f.0: [drm] Capabilities2: grow otable,
+> intra surface copy, dx2, gb memsize 2, screendma reg, otable ptdepth2,
+> non ms to ms stretchblt, cursor mob, mshint, cb max size 4mb, dx3,
+> frame type, trace full fb, extra regs, lo staging,
+> [   22.400175] vmwgfx 0000:00:0f.0: [drm] DMA map mode: Caching DMA mappings.
+> [   22.400224] audit: type=1130 audit(1761925118.444:63): pid=1 uid=0
+> auid=4294967295 ses=4294967295 subj=system_u:system_r:init_t:s0
+> msg='unit=systemd-fsck@dev-disk-by\x2duuid-AFBE\x2d8A94 comm="systemd"
+> exe="/usr/lib/systemd/systemd" hostname=? addr=? terminal=?
+> res=success'
+> [   22.401320] vmwgfx 0000:00:0f.0: [drm] Legacy memory limits: VRAM =
+> 4096 KiB, FIFO = 256 KiB, surface = 0 KiB
+> [   22.406225] vmwgfx 0000:00:0f.0: [drm] MOB limits: max mob size =
+> 1048576 KiB, max mob pages = 524288
+> [   22.407602] vmwgfx 0000:00:0f.0: [drm] Max GMR ids is 64
+> [   22.408398] vmwgfx 0000:00:0f.0: [drm] Max number of GMR pages is 65536
+> [   22.409393] vmwgfx 0000:00:0f.0: [drm] Maximum display memory size
+> is 262144 KiB
+> [   22.419541] vmwgfx 0000:00:0f.0: [drm] Screen Target display unit initialized
+> [   22.422876] vmwgfx 0000:00:0f.0: [drm] Fifo max 0x00040000 min
+> 0x00001000 cap 0x0000077f
+> [   22.426030] vmwgfx 0000:00:0f.0: [drm] Using command buffers with DMA pool.
+> [   22.427664] vmwgfx 0000:00:0f.0: [drm] Available shader model: SM_5_1X.
+> [   22.621336] [drm] Initialized vmwgfx 2.21.0 for 0000:00:0f.0 on minor 0
+> [   22.627782] fbcon: vmwgfxdrmfb (fb0) is primary device
+> [   22.640191] Console: switching to colour frame buffer device 160x50
+> [   22.641788] Oops: general protection fault, probably for
+> non-canonical address 0xdffffc000000001f: 0000 [#1] SMP KASAN NOPTI
+> [   22.641795] KASAN: null-ptr-deref in range
+> [0x00000000000000f8-0x00000000000000ff]
+> [   22.641802] CPU: 6 UID: 0 PID: 134 Comm: kworker/6:1 Not tainted
+> 6.18.0-rc2+ #63 PREEMPT(lazy)
+> [   22.641809] Hardware name: VMware, Inc. VMware20,1/440BX Desktop
+> Reference Platform, BIOS VMW201.00V.24928539.B64.2508260915 08/26/2025
+> [   22.641812] Workqueue: events drm_fb_helper_damage_work
+> [   22.641824] RIP: 0010:drm_gem_lock+0x25/0x50
+> [   22.641831] Code: 90 90 90 90 90 f3 0f 1e fa 0f 1f 44 00 00 48 b8
+> 00 00 00 00 00 fc ff df 53 48 89 fb 48 81 c7 f8 00 00 00 48 89 fa 48
+> c1 ea 03 <80> 3c 02 00 75 0f 48 8b bb f8 00 00 00 31 f6 5b e9 16 2e 15
+> 01 e8
+> [   22.641835] RSP: 0018:ffff88810638fb78 EFLAGS: 00010202
+> [   22.641838] RAX: dffffc0000000000 RBX: 0000000000000000 RCX: ffffffff9e694d16
+> [   22.641841] RDX: 000000000000001f RSI: ffff88810638fbf0 RDI: 00000000000000f8
+> [   22.641844] RBP: ffff88810638fbb0 R08: 0000000000000001 R09: ffffed1020c71f6d
+> [   22.641847] R10: ffff88810638fb6f R11: 0000000000000006 R12: 0000000000000000
+> [   22.641849] R13: ffff88810bfc6710 R14: ffff88810638fbf0 R15: ffff88810638fbf0
+> [   22.641852] FS:  0000000000000000(0000) GS:ffff8882b6b3b000(0000)
+> knlGS:0000000000000000
+> [   22.641855] CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+> [   22.641858] CR2: 00007f7357b568a1 CR3: 0000000106a70006 CR4: 00000000007706f0
+> [   22.641887] PKRU: 55555554
+> [   22.641889] Call Trace:
+> [   22.641891]  <TASK>
+> [   22.641894]  drm_client_buffer_vmap_local+0x78/0x140
+> [   22.641903]  drm_fbdev_ttm_helper_fb_dirty+0x20c/0x510 [drm_ttm_helper]
+> [   22.641913]  ? __pfx_drm_fbdev_ttm_helper_fb_dirty+0x10/0x10 [drm_ttm_helper]
+> [   22.641918]  ? __raw_spin_lock_irqsave+0x8c/0xf0
+> [   22.641924]  ? __pfx___raw_spin_lock_irqsave+0x10/0x10
+> [   22.641928]  ? __pfx_mutex_lock+0x10/0x10
+> [   22.641936]  drm_fb_helper_fb_dirty+0x29a/0x5e0
+> [   22.641942]  ? __pfx_drm_fb_helper_fb_dirty+0x10/0x10
+> [   22.641946]  ? _raw_spin_lock_irq+0x8a/0xe0
+> [   22.641950]  ? __pfx__raw_spin_lock_irq+0x10/0x10
+> [   22.641955]  process_one_work+0x668/0xeb0
+> [   22.641962]  worker_thread+0x5f6/0x1060
+> [   22.641967]  ? __kthread_parkme+0x8d/0x170
+> [   22.641972]  ? __pfx_worker_thread+0x10/0x10
+> [   22.641976]  kthread+0x36f/0x710
+> [   22.641980]  ? __pfx_kthread+0x10/0x10
+> [   22.641983]  ? __pfx__raw_spin_lock_irq+0x10/0x10
+> [   22.641987]  ? __pfx_kthread+0x10/0x10
+> [   22.641990]  ret_from_fork+0x1c9/0x260
+> [   22.641995]  ? __pfx_kthread+0x10/0x10
+> [   22.641999]  ret_from_fork_asm+0x1a/0x30
+> [   22.642004]  </TASK>
+> [   22.642006] Modules linked in: vfat(+) snd_ac97_codec(+) vmxnet3(+)
+> ac97_bus fat snd_seq snd_pcm gameport vmwgfx(+) snd_rawmidi
+> snd_seq_device snd_timer drm_ttm_helper snd i2c_piix4 ttm i2c_smbus
+> joydev soundcore loop nfnetlink vsock_loopback
+> vmw_vsock_virtio_transport_common vmw_vsock_vmci_transport vsock zram
+> vmw_vmci lz4hc_compress lz4_compress polyval_clmulni
+> ghash_clmulni_intel ata_generic pata_acpi serio_raw fuse
+> [   22.642056] ---[ end trace 0000000000000000 ]---
+> [   22.642059] RIP: 0010:drm_gem_lock+0x25/0x50
+> [   22.642063] Code: 90 90 90 90 90 f3 0f 1e fa 0f 1f 44 00 00 48 b8
+> 00 00 00 00 00 fc ff df 53 48 89 fb 48 81 c7 f8 00 00 00 48 89 fa 48
+> c1 ea 03 <80> 3c 02 00 75 0f 48 8b bb f8 00 00 00 31 f6 5b e9 16 2e 15
+> 01 e8
+> [   22.642066] RSP: 0018:ffff88810638fb78 EFLAGS: 00010202
+> [   22.642069] RAX: dffffc0000000000 RBX: 0000000000000000 RCX: ffffffff9e694d16
+> [   22.642072] RDX: 000000000000001f RSI: ffff88810638fbf0 RDI: 00000000000000f8
+> [   22.642074] RBP: ffff88810638fbb0 R08: 0000000000000001 R09: ffffed1020c71f6d
+> [   22.642077] R10: ffff88810638fb6f R11: 0000000000000006 R12: 0000000000000000
+> [   22.642079] R13: ffff88810bfc6710 R14: ffff88810638fbf0 R15: ffff88810638fbf0
+> [   22.642082] FS:  0000000000000000(0000) GS:ffff8882b6b3b000(0000)
+> knlGS:0000000000000000
+> [   22.642085] CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+> [   22.642087] CR2: 00007f7357b568a1 CR3: 0000000106a70006 CR4: 00000000007706f0
+> [   22.642112] PKRU: 55555554
 
 -- 
 --
-Louis Chauvet, Bootlin
-Embedded Linux and Kernel engineering
-https://bootlin.com
+Thomas Zimmermann
+Graphics Driver Developer
+SUSE Software Solutions Germany GmbH
+Frankenstr. 146, 90461 Nürnberg, Germany, www.suse.com
+GF: Jochen Jaser, Andrew McDonald, Werner Knoblich, (HRB 36809, AG Nürnberg)
+
 
