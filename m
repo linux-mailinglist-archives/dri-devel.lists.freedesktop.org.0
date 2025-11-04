@@ -2,79 +2,120 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id EFD6DC3079C
-	for <lists+dri-devel@lfdr.de>; Tue, 04 Nov 2025 11:23:15 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id A34CBC307B2
+	for <lists+dri-devel@lfdr.de>; Tue, 04 Nov 2025 11:24:32 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 46C2E10E5A9;
-	Tue,  4 Nov 2025 10:23:14 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4589B10E5AC;
+	Tue,  4 Nov 2025 10:24:29 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="OdoUdPzq";
+	dkim=pass (2048-bit key; unprotected) header.d=bootlin.com header.i=@bootlin.com header.b="uwu7EiHC";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-f46.google.com (mail-wm1-f46.google.com
- [209.85.128.46])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8B8D710E5A9
- for <dri-devel@lists.freedesktop.org>; Tue,  4 Nov 2025 10:23:12 +0000 (UTC)
-Received: by mail-wm1-f46.google.com with SMTP id
- 5b1f17b1804b1-47112a73785so35158545e9.3
- for <dri-devel@lists.freedesktop.org>; Tue, 04 Nov 2025 02:23:12 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1762251790; x=1762856590; darn=lists.freedesktop.org;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:from:to:cc:subject:date:message-id:reply-to;
- bh=F20WkVDMnVuGhUdaFvlHMiL1gr9I2eF6DsUKNYkjzsw=;
- b=OdoUdPzqYIDRZ8xH6THPhYezXCC5IiI6QLDHYpkpcWr+Su0/rpCyUR3XYtSP/Ze5ys
- PFA4mF8rVN2uBHCm5NrwU+AeF4DxUo24WlKJkSYZKZBo0T0fEkRtIVXNs5QEKKkXWFoq
- 1MIq4oohn6hmdKzlUcNm/21Uzucfmy4z1wH/fBZeC6exgXCW2yZhJDcZSKkHBhoFyjLD
- YlPHBsZ1UAtyKkpU0jhImqepguFFe4xu2M6GCBurwoqjujs6p78R92fDygezUZz4BbUS
- 24BkNW35fFiuzvhqOGeUr0169QGEws1DHS2yQhSEgz0DYfIh76xMZ9+oOiEAa9+N2g5h
- VcSg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1762251790; x=1762856590;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=F20WkVDMnVuGhUdaFvlHMiL1gr9I2eF6DsUKNYkjzsw=;
- b=VmIaPtBIxoH36tFjRBTKsyzyms/EC/29v8cMmPGV+01jssjXR/YJIxm5wKalLrp2hM
- lBMYR1QGxx/v5id7/OwsQuA0zVdUSzpqlKrWvXRQ/3X0L/9f1mfeWDwd1awAidTiicfr
- 76AeYDTYAlgNI+oEoc7foCrvpRpimltI5pds4xCMbPyoFq9vRIdRVr4gdM1FzTex+Qd6
- qWKZ/HHp11ZnhY5qoTFoxMrrzMCU8fd/BX4X0VxN40K8nmaUMGGnUEPuGoZx+OX33wL+
- NxMytR6FGxDtXBf3XM2i3jHTu91Zn7F+c8xe+ZuRpW9pZbOsIRi9+7BCB1LdQn40N26j
- wtWQ==
-X-Forwarded-Encrypted: i=1;
- AJvYcCVGDHpV/vs2LLwIBLynIXmSR6esv6PPjjLdjEIrwX5mEh6nqrDIKplR0t7XM/CXOU5Jt4aJo3iTN4o=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YzEA9R5pRgXPlB806Tjb6GKxje8jVfBW3D/wAX0ny6MpRmLQ6NF
- qCBOLnu+FlnCXwikS4jqHAxQcjrPfU1M8IblTHJf1bwV+vqFzhK1mSys
-X-Gm-Gg: ASbGncuiYoOfdgfQ7YxJwGv2NvnL0UUBbYTRb+SGskJ+tLC0fiiQurE38A5si4AKnrI
- Hoe0cXoX68RIIHe92xET3R74SNLF/FsmPhtI3jWCMVuNlY28FSIm+aYHQLkKk1JZTv/wpxikbom
- EPtLmF4xZEjH7aqBuL84nUBd5ABF7tygDBfdqfZYpxuqnJOdCMNFl4GCKHglxvIbs86tl+WFU3N
- pOvH/Rt3T6JFjtlUAEzmsC7WpC0NfYQl9QTXC1xMYG1XyXmi6tI/4gQJhsGkGXgqJNrSnSs1zGO
- e1658paa0YFqJDR9YtynnIr+xuCwQt3d4S9YRBeTKQ3Qv9JcKUu1ZZWLRqTrWto+73m7eAwKy/N
- aYjaKHXdUVmgUihgjYhU9yZtevFycehpP9uOXZ4N3ijUkxtUrBnptz5+PzF483DgtDIu+d0+C1M
- /6xemZX1bH
-X-Google-Smtp-Source: AGHT+IGKjhzqQ3l/o85RnxG6GfkFOfaSy80wjqnRvBu8AXnNM14v9fVkT3kLxkcGNgrOpSZ18ecwTg==
-X-Received: by 2002:a05:600c:538e:b0:46e:33b2:c8da with SMTP id
- 5b1f17b1804b1-47730890e99mr156705115e9.32.1762251790205; 
- Tue, 04 Nov 2025 02:23:10 -0800 (PST)
-Received: from fedora ([94.73.38.14]) by smtp.gmail.com with ESMTPSA id
- 5b1f17b1804b1-47755932d9csm14426205e9.3.2025.11.04.02.23.09
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 04 Nov 2025 02:23:09 -0800 (PST)
-From: =?UTF-8?q?Jos=C3=A9=20Exp=C3=B3sito?= <jose.exposito89@gmail.com>
-To: mripard@kernel.org
-Cc: maarten.lankhorst@linux.intel.com, tzimmermann@suse.de, airlied@gmail.com,
- simona@ffwll.ch, cristian.ciocaltea@collabora.com, lumag@kernel.org,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- =?UTF-8?q?Jos=C3=A9=20Exp=C3=B3sito?= <jose.exposito89@gmail.com>
-Subject: [PATCH v2] drm/tests: hdmi: Handle
- drm_kunit_helper_enable_crtc_connector() returning EDEADLK
-Date: Tue,  4 Nov 2025 11:22:35 +0100
-Message-ID: <20251104102258.10026-1-jose.exposito89@gmail.com>
-X-Mailer: git-send-email 2.51.1
+Received: from smtpout-04.galae.net (smtpout-04.galae.net [185.171.202.116])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 47FC710E258
+ for <dri-devel@lists.freedesktop.org>; Tue,  4 Nov 2025 10:24:28 +0000 (UTC)
+Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
+ by smtpout-04.galae.net (Postfix) with ESMTPS id 775E4C0E609;
+ Tue,  4 Nov 2025 10:24:05 +0000 (UTC)
+Received: from mail.galae.net (mail.galae.net [212.83.136.155])
+ by smtpout-01.galae.net (Postfix) with ESMTPS id 30128606EF;
+ Tue,  4 Nov 2025 10:24:26 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon)
+ with ESMTPSA id F3E03102F1CE8; Tue,  4 Nov 2025 11:24:17 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
+ t=1762251864; h=from:subject:date:message-id:to:cc:mime-version:content-type:
+ content-transfer-encoding:content-language:in-reply-to:references:autocrypt;
+ bh=Yh/SOsjRqtgPLuq8QRVnn/lrGryn5Z5zYSTW9+Wd1lE=;
+ b=uwu7EiHCDvkOi+ZlaNqDmWa7sDjt1+KNUXllXXwIo7BBazhl8rSoPx6BVnpH9z+jfnu3AN
+ M704y1JCBh8jUjN0L1cESmxgAsuL/HG1dpnA8pkxVWp+V+NUYpIsRVSEdL1KPdP6GhPMtM
+ NMZcL50+dzYfv1YP7uz27gLG9O83Kv4TwoM5Vz1q/0Sgwyl5sDhiNrZVhWiFwVL0miKigv
+ QCIJ805towdU/JbBzlnj80L6OK/kU++DuYG/iG4h/SXHDnQjUn8N2K6QbLxM9f6YFvJw65
+ 6/5Bic3PvCFetE3+rKQiGGPaLwxTnrpCFS0pnzFfB44qrYnmLbrU8KLeS4N4vg==
+Message-ID: <d6545844-f7f6-4714-927f-cf985dc50a54@bootlin.com>
+Date: Tue, 4 Nov 2025 11:24:17 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 1/7] drm: writeback: Refactor drm_writeback_connector
+ structure
+To: Suraj Kandpal <suraj.kandpal@intel.com>, linux-arm-msm@vger.kernel.org,
+ freedreno@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ intel-xe@lists.freedesktop.org, intel-gfx@lists.freedesktop.org,
+ kernel-list@raspberrypi.com, amd-gfx@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, linux-renesas-soc@vger.kernel.org
+Cc: dmitry.baryshkov@oss.qualcomm.com, ankit.k.nautiyal@intel.com,
+ arun.r.murthy@intel.com, uma.shankar@intel.com, jani.nikula@intel.com,
+ harry.wentland@amd.com, siqueira@igalia.com, alexander.deucher@amd.com,
+ christian.koenig@amd.com, airlied@gmail.com, simona@ffwll.ch,
+ liviu.dudau@arm.com, maarten.lankhorst@linux.intel.com, mripard@kernel.org,
+ robin.clark@oss.qualcomm.com, abhinav.kumar@linux.dev, tzimmermann@suse.de,
+ jessica.zhang@oss.qualcomm.com, sean@poorly.run,
+ marijn.suijten@somainline.org, laurent.pinchart+renesas@ideasonboard.com,
+ mcanal@igalia.com, dave.stevenson@raspberrypi.com,
+ tomi.valkeinen+renesas@ideasonboard.com,
+ kieran.bingham+renesas@ideasonboard.com
+References: <20251007054528.2900905-1-suraj.kandpal@intel.com>
+ <20251007054528.2900905-2-suraj.kandpal@intel.com>
+Content-Language: en-US, fr
+From: Louis Chauvet <louis.chauvet@bootlin.com>
+Autocrypt: addr=louis.chauvet@bootlin.com; keydata=
+ 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
+In-Reply-To: <20251007054528.2900905-2-suraj.kandpal@intel.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
+X-Last-TLS-Session-Version: TLSv1.3
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -90,435 +131,47 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Fedora/CentOS/RHEL CI is reporting intermittent failures while running
-the KUnit tests present in drm_hdmi_state_helper_test.c [1].
 
-While the specific test causing the failure change between runs, all of
-them are caused by drm_kunit_helper_enable_crtc_connector() returning
--EDEADLK. The error trace always follow this structure:
 
-    # <test name>: ASSERTION FAILED at
-    # drivers/gpu/drm/tests/drm_hdmi_state_helper_test.c:<line>
-    Expected ret == 0, but
-        ret == -35 (0xffffffffffffffdd)
+Le 07/10/2025 à 07:45, Suraj Kandpal a écrit :
+> Some drivers cannot work with the current design where the connector
+> is embedded within the drm_writeback_connector such as Intel and
+> some drivers that can get it working end up adding a lot of checks
+> all around the code to check if it's a writeback conenctor or not,
+> this is due to the limitation of inheritance in C.
+> To solve this move the drm_writeback_connector within the
+> drm_connector and remove the drm_connector base which was in
+> drm_writeback_connector. Make this drm_writeback_connector
+> a union with hdmi connector to save memory and since a connector can
+> never be both writeback and hdmi it should serve us well.
+> Do all other required modifications that come with these changes
+> along with addition of new function which returns the drm_connector
+> when drm_writeback_connector is present.
+> Modify drivers using the drm_writeback_connector to
+> allow them to use this connector without breaking them.
+> The drivers modified here are amd, komeda, mali, vc4, vkms,
+> rcar_du, msm
+> 
+> Signed-off-by: Suraj Kandpal <suraj.kandpal@intel.com>
+> ---
+> V1 -> V2: Use &connector->writeback, make commit message imperative (Dmitry)
+> ---
 
-As documented, if the drm_kunit_helper_enable_crtc_connector() function
-returns -EDEADLK (-35), the entire atomic sequence must be restarted.
+[...]
 
-Handle this error code for all function calls.
+>   drivers/gpu/drm/vkms/vkms_composer.c          |  2 +-
+>   drivers/gpu/drm/vkms/vkms_drv.h               |  2 +-
+>   drivers/gpu/drm/vkms/vkms_writeback.c         | 13 ++--
 
-Closes: https://datawarehouse.cki-project.org/issue/4039  [1]
-Fixes: 6a5c0ad7e08e ("drm/tests: hdmi_state_helpers: Switch to new helper")
-Reviewed-by: Maxime Ripard <mripard@kernel.org>
-Signed-off-by: José Expósito <jose.exposito89@gmail.com>
+For the VKMS part:
 
----
+Reviewed-by: Louis Chauvet <louis.chauvet@bootlin.com>
 
-v2: Add Reviewed-by: Maxime Ripard
----
- .../drm/tests/drm_hdmi_state_helper_test.c    | 143 ++++++++++++++++++
- 1 file changed, 143 insertions(+)
+Thanks,
+Louis Chauvet
 
-diff --git a/drivers/gpu/drm/tests/drm_hdmi_state_helper_test.c b/drivers/gpu/drm/tests/drm_hdmi_state_helper_test.c
-index 8bd412735000..70f9aa702143 100644
---- a/drivers/gpu/drm/tests/drm_hdmi_state_helper_test.c
-+++ b/drivers/gpu/drm/tests/drm_hdmi_state_helper_test.c
-@@ -257,10 +257,16 @@ static void drm_test_check_broadcast_rgb_crtc_mode_changed(struct kunit *test)
- 
- 	drm_modeset_acquire_init(&ctx, 0);
- 
-+retry_conn_enable:
- 	ret = drm_kunit_helper_enable_crtc_connector(test, drm,
- 						     crtc, conn,
- 						     preferred,
- 						     &ctx);
-+	if (ret == -EDEADLK) {
-+		ret = drm_modeset_backoff(&ctx);
-+		if (!ret)
-+			goto retry_conn_enable;
-+	}
- 	KUNIT_ASSERT_EQ(test, ret, 0);
- 
- 	state = drm_kunit_helper_atomic_state_alloc(test, drm, &ctx);
-@@ -326,10 +332,16 @@ static void drm_test_check_broadcast_rgb_crtc_mode_not_changed(struct kunit *tes
- 
- 	drm_modeset_acquire_init(&ctx, 0);
- 
-+retry_conn_enable:
- 	ret = drm_kunit_helper_enable_crtc_connector(test, drm,
- 						     crtc, conn,
- 						     preferred,
- 						     &ctx);
-+	if (ret == -EDEADLK) {
-+		ret = drm_modeset_backoff(&ctx);
-+		if (!ret)
-+			goto retry_conn_enable;
-+	}
- 	KUNIT_ASSERT_EQ(test, ret, 0);
- 
- 	state = drm_kunit_helper_atomic_state_alloc(test, drm, &ctx);
-@@ -397,10 +409,16 @@ static void drm_test_check_broadcast_rgb_auto_cea_mode(struct kunit *test)
- 
- 	drm_modeset_acquire_init(&ctx, 0);
- 
-+retry_conn_enable:
- 	ret = drm_kunit_helper_enable_crtc_connector(test, drm,
- 						     crtc, conn,
- 						     preferred,
- 						     &ctx);
-+	if (ret == -EDEADLK) {
-+		ret = drm_modeset_backoff(&ctx);
-+		if (!ret)
-+			goto retry_conn_enable;
-+	}
- 	KUNIT_ASSERT_EQ(test, ret, 0);
- 
- 	state = drm_kunit_helper_atomic_state_alloc(test, drm, &ctx);
-@@ -457,10 +475,17 @@ static void drm_test_check_broadcast_rgb_auto_cea_mode_vic_1(struct kunit *test)
- 	KUNIT_ASSERT_NOT_NULL(test, mode);
- 
- 	crtc = priv->crtc;
-+
-+retry_conn_enable:
- 	ret = drm_kunit_helper_enable_crtc_connector(test, drm,
- 						     crtc, conn,
- 						     mode,
- 						     &ctx);
-+	if (ret == -EDEADLK) {
-+		ret = drm_modeset_backoff(&ctx);
-+		if (!ret)
-+			goto retry_conn_enable;
-+	}
- 	KUNIT_ASSERT_EQ(test, ret, 0);
- 
- 	state = drm_kunit_helper_atomic_state_alloc(test, drm, &ctx);
-@@ -518,10 +543,16 @@ static void drm_test_check_broadcast_rgb_full_cea_mode(struct kunit *test)
- 
- 	drm_modeset_acquire_init(&ctx, 0);
- 
-+retry_conn_enable:
- 	ret = drm_kunit_helper_enable_crtc_connector(test, drm,
- 						     crtc, conn,
- 						     preferred,
- 						     &ctx);
-+	if (ret == -EDEADLK) {
-+		ret = drm_modeset_backoff(&ctx);
-+		if (!ret)
-+			goto retry_conn_enable;
-+	}
- 	KUNIT_ASSERT_EQ(test, ret, 0);
- 
- 	state = drm_kunit_helper_atomic_state_alloc(test, drm, &ctx);
-@@ -580,10 +611,17 @@ static void drm_test_check_broadcast_rgb_full_cea_mode_vic_1(struct kunit *test)
- 	KUNIT_ASSERT_NOT_NULL(test, mode);
- 
- 	crtc = priv->crtc;
-+
-+retry_conn_enable:
- 	ret = drm_kunit_helper_enable_crtc_connector(test, drm,
- 						     crtc, conn,
- 						     mode,
- 						     &ctx);
-+	if (ret == -EDEADLK) {
-+		ret = drm_modeset_backoff(&ctx);
-+		if (!ret)
-+			goto retry_conn_enable;
-+	}
- 	KUNIT_ASSERT_EQ(test, ret, 0);
- 
- 	state = drm_kunit_helper_atomic_state_alloc(test, drm, &ctx);
-@@ -643,10 +681,16 @@ static void drm_test_check_broadcast_rgb_limited_cea_mode(struct kunit *test)
- 
- 	drm_modeset_acquire_init(&ctx, 0);
- 
-+retry_conn_enable:
- 	ret = drm_kunit_helper_enable_crtc_connector(test, drm,
- 						     crtc, conn,
- 						     preferred,
- 						     &ctx);
-+	if (ret == -EDEADLK) {
-+		ret = drm_modeset_backoff(&ctx);
-+		if (!ret)
-+			goto retry_conn_enable;
-+	}
- 	KUNIT_ASSERT_EQ(test, ret, 0);
- 
- 	state = drm_kunit_helper_atomic_state_alloc(test, drm, &ctx);
-@@ -705,10 +749,17 @@ static void drm_test_check_broadcast_rgb_limited_cea_mode_vic_1(struct kunit *te
- 	KUNIT_ASSERT_NOT_NULL(test, mode);
- 
- 	crtc = priv->crtc;
-+
-+retry_conn_enable:
- 	ret = drm_kunit_helper_enable_crtc_connector(test, drm,
- 						     crtc, conn,
- 						     mode,
- 						     &ctx);
-+	if (ret == -EDEADLK) {
-+		ret = drm_modeset_backoff(&ctx);
-+		if (!ret)
-+			goto retry_conn_enable;
-+	}
- 	KUNIT_ASSERT_EQ(test, ret, 0);
- 
- 	state = drm_kunit_helper_atomic_state_alloc(test, drm, &ctx);
-@@ -870,10 +921,16 @@ static void drm_test_check_output_bpc_crtc_mode_changed(struct kunit *test)
- 
- 	drm_modeset_acquire_init(&ctx, 0);
- 
-+retry_conn_enable:
- 	ret = drm_kunit_helper_enable_crtc_connector(test, drm,
- 						     crtc, conn,
- 						     preferred,
- 						     &ctx);
-+	if (ret == -EDEADLK) {
-+		ret = drm_modeset_backoff(&ctx);
-+		if (!ret)
-+			goto retry_conn_enable;
-+	}
- 	KUNIT_ASSERT_EQ(test, ret, 0);
- 
- 	state = drm_kunit_helper_atomic_state_alloc(test, drm, &ctx);
-@@ -946,10 +1003,16 @@ static void drm_test_check_output_bpc_crtc_mode_not_changed(struct kunit *test)
- 
- 	drm_modeset_acquire_init(&ctx, 0);
- 
-+retry_conn_enable:
- 	ret = drm_kunit_helper_enable_crtc_connector(test, drm,
- 						     crtc, conn,
- 						     preferred,
- 						     &ctx);
-+	if (ret == -EDEADLK) {
-+		ret = drm_modeset_backoff(&ctx);
-+		if (!ret)
-+			goto retry_conn_enable;
-+	}
- 	KUNIT_ASSERT_EQ(test, ret, 0);
- 
- 	state = drm_kunit_helper_atomic_state_alloc(test, drm, &ctx);
-@@ -1022,10 +1085,16 @@ static void drm_test_check_output_bpc_dvi(struct kunit *test)
- 
- 	drm_modeset_acquire_init(&ctx, 0);
- 
-+retry_conn_enable:
- 	ret = drm_kunit_helper_enable_crtc_connector(test, drm,
- 						     crtc, conn,
- 						     preferred,
- 						     &ctx);
-+	if (ret == -EDEADLK) {
-+		ret = drm_modeset_backoff(&ctx);
-+		if (!ret)
-+			goto retry_conn_enable;
-+	}
- 	KUNIT_ASSERT_EQ(test, ret, 0);
- 
- 	conn_state = conn->state;
-@@ -1069,10 +1138,16 @@ static void drm_test_check_tmds_char_rate_rgb_8bpc(struct kunit *test)
- 
- 	drm_modeset_acquire_init(&ctx, 0);
- 
-+retry_conn_enable:
- 	ret = drm_kunit_helper_enable_crtc_connector(test, drm,
- 						     crtc, conn,
- 						     preferred,
- 						     &ctx);
-+	if (ret == -EDEADLK) {
-+		ret = drm_modeset_backoff(&ctx);
-+		if (!ret)
-+			goto retry_conn_enable;
-+	}
- 	KUNIT_ASSERT_EQ(test, ret, 0);
- 
- 	conn_state = conn->state;
-@@ -1118,10 +1193,16 @@ static void drm_test_check_tmds_char_rate_rgb_10bpc(struct kunit *test)
- 
- 	drm_modeset_acquire_init(&ctx, 0);
- 
-+retry_conn_enable:
- 	ret = drm_kunit_helper_enable_crtc_connector(test, drm,
- 						     crtc, conn,
- 						     preferred,
- 						     &ctx);
-+	if (ret == -EDEADLK) {
-+		ret = drm_modeset_backoff(&ctx);
-+		if (!ret)
-+			goto retry_conn_enable;
-+	}
- 	KUNIT_ASSERT_EQ(test, ret, 0);
- 
- 	conn_state = conn->state;
-@@ -1167,10 +1248,16 @@ static void drm_test_check_tmds_char_rate_rgb_12bpc(struct kunit *test)
- 
- 	drm_modeset_acquire_init(&ctx, 0);
- 
-+retry_conn_enable:
- 	ret = drm_kunit_helper_enable_crtc_connector(test, drm,
- 						     crtc, conn,
- 						     preferred,
- 						     &ctx);
-+	if (ret == -EDEADLK) {
-+		ret = drm_modeset_backoff(&ctx);
-+		if (!ret)
-+			goto retry_conn_enable;
-+	}
- 	KUNIT_ASSERT_EQ(test, ret, 0);
- 
- 	conn_state = conn->state;
-@@ -1218,10 +1305,16 @@ static void drm_test_check_hdmi_funcs_reject_rate(struct kunit *test)
- 
- 	drm_modeset_acquire_init(&ctx, 0);
- 
-+retry_conn_enable:
- 	ret = drm_kunit_helper_enable_crtc_connector(test, drm,
- 						     crtc, conn,
- 						     preferred,
- 						     &ctx);
-+	if (ret == -EDEADLK) {
-+		ret = drm_modeset_backoff(&ctx);
-+		if (!ret)
-+			goto retry_conn_enable;
-+	}
- 	KUNIT_ASSERT_EQ(test, ret, 0);
- 
- 	/* You shouldn't be doing that at home. */
-@@ -1292,10 +1385,16 @@ static void drm_test_check_max_tmds_rate_bpc_fallback_rgb(struct kunit *test)
- 
- 	drm_modeset_acquire_init(&ctx, 0);
- 
-+retry_conn_enable:
- 	ret = drm_kunit_helper_enable_crtc_connector(test, drm,
- 						     crtc, conn,
- 						     preferred,
- 						     &ctx);
-+	if (ret == -EDEADLK) {
-+		ret = drm_modeset_backoff(&ctx);
-+		if (!ret)
-+			goto retry_conn_enable;
-+	}
- 	KUNIT_EXPECT_EQ(test, ret, 0);
- 
- 	conn_state = conn->state;
-@@ -1440,10 +1539,16 @@ static void drm_test_check_max_tmds_rate_bpc_fallback_ignore_yuv422(struct kunit
- 
- 	drm_modeset_acquire_init(&ctx, 0);
- 
-+retry_conn_enable:
- 	ret = drm_kunit_helper_enable_crtc_connector(test, drm,
- 						     crtc, conn,
- 						     preferred,
- 						     &ctx);
-+	if (ret == -EDEADLK) {
-+		ret = drm_modeset_backoff(&ctx);
-+		if (!ret)
-+			goto retry_conn_enable;
-+	}
- 	KUNIT_EXPECT_EQ(test, ret, 0);
- 
- 	conn_state = conn->state;
-@@ -1669,10 +1774,17 @@ static void drm_test_check_output_bpc_format_vic_1(struct kunit *test)
- 	drm_modeset_acquire_init(&ctx, 0);
- 
- 	crtc = priv->crtc;
-+
-+retry_conn_enable:
- 	ret = drm_kunit_helper_enable_crtc_connector(test, drm,
- 						     crtc, conn,
- 						     mode,
- 						     &ctx);
-+	if (ret == -EDEADLK) {
-+		ret = drm_modeset_backoff(&ctx);
-+		if (!ret)
-+			goto retry_conn_enable;
-+	}
- 	KUNIT_EXPECT_EQ(test, ret, 0);
- 
- 	conn_state = conn->state;
-@@ -1736,10 +1848,16 @@ static void drm_test_check_output_bpc_format_driver_rgb_only(struct kunit *test)
- 
- 	drm_modeset_acquire_init(&ctx, 0);
- 
-+retry_conn_enable:
- 	ret = drm_kunit_helper_enable_crtc_connector(test, drm,
- 						     crtc, conn,
- 						     preferred,
- 						     &ctx);
-+	if (ret == -EDEADLK) {
-+		ret = drm_modeset_backoff(&ctx);
-+		if (!ret)
-+			goto retry_conn_enable;
-+	}
- 	KUNIT_EXPECT_EQ(test, ret, 0);
- 
- 	conn_state = conn->state;
-@@ -1805,10 +1923,16 @@ static void drm_test_check_output_bpc_format_display_rgb_only(struct kunit *test
- 
- 	drm_modeset_acquire_init(&ctx, 0);
- 
-+retry_conn_enable:
- 	ret = drm_kunit_helper_enable_crtc_connector(test, drm,
- 						     crtc, conn,
- 						     preferred,
- 						     &ctx);
-+	if (ret == -EDEADLK) {
-+		ret = drm_modeset_backoff(&ctx);
-+		if (!ret)
-+			goto retry_conn_enable;
-+	}
- 	KUNIT_EXPECT_EQ(test, ret, 0);
- 
- 	conn_state = conn->state;
-@@ -1865,10 +1989,16 @@ static void drm_test_check_output_bpc_format_driver_8bpc_only(struct kunit *test
- 
- 	drm_modeset_acquire_init(&ctx, 0);
- 
-+retry_conn_enable:
- 	ret = drm_kunit_helper_enable_crtc_connector(test, drm,
- 						     crtc, conn,
- 						     preferred,
- 						     &ctx);
-+	if (ret == -EDEADLK) {
-+		ret = drm_modeset_backoff(&ctx);
-+		if (!ret)
-+			goto retry_conn_enable;
-+	}
- 	KUNIT_EXPECT_EQ(test, ret, 0);
- 
- 	conn_state = conn->state;
-@@ -1927,10 +2057,16 @@ static void drm_test_check_output_bpc_format_display_8bpc_only(struct kunit *tes
- 
- 	drm_modeset_acquire_init(&ctx, 0);
- 
-+retry_conn_enable:
- 	ret = drm_kunit_helper_enable_crtc_connector(test, drm,
- 						     crtc, conn,
- 						     preferred,
- 						     &ctx);
-+	if (ret == -EDEADLK) {
-+		ret = drm_modeset_backoff(&ctx);
-+		if (!ret)
-+			goto retry_conn_enable;
-+	}
- 	KUNIT_EXPECT_EQ(test, ret, 0);
- 
- 	conn_state = conn->state;
-@@ -1970,10 +2106,17 @@ static void drm_test_check_disable_connector(struct kunit *test)
- 
- 	drm = &priv->drm;
- 	crtc = priv->crtc;
-+
-+retry_conn_enable:
- 	ret = drm_kunit_helper_enable_crtc_connector(test, drm,
- 						     crtc, conn,
- 						     preferred,
- 						     &ctx);
-+	if (ret == -EDEADLK) {
-+		ret = drm_modeset_backoff(&ctx);
-+		if (!ret)
-+			goto retry_conn_enable;
-+	}
- 	KUNIT_ASSERT_EQ(test, ret, 0);
- 
- 	state = drm_kunit_helper_atomic_state_alloc(test, drm, &ctx);
--- 
-2.51.1
+--
+Louis Chauvet, Bootlin
+Embedded Linux and Kernel engineering
+https://bootlin.com
 
