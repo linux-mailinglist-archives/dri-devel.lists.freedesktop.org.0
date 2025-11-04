@@ -2,50 +2,82 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8AF4AC30D7B
-	for <lists+dri-devel@lfdr.de>; Tue, 04 Nov 2025 12:57:36 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 503DBC30F93
+	for <lists+dri-devel@lfdr.de>; Tue, 04 Nov 2025 13:25:35 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CFA8910E102;
-	Tue,  4 Nov 2025 11:57:34 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9B81410E25F;
+	Tue,  4 Nov 2025 12:25:33 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="ecuZbr++";
+	dkim=fail reason="signature verification failed" (2048-bit key; secure) header.d=mailbox.org header.i=@mailbox.org header.b="g+G8rnjd";
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b="BqWrGpiH";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
- [213.167.242.64])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 72BC310E5C8
- for <dri-devel@lists.freedesktop.org>; Tue,  4 Nov 2025 11:57:33 +0000 (UTC)
-Received: from pendragon.ideasonboard.com (82-203-160-149.bb.dnainternet.fi
- [82.203.160.149])
- by perceval.ideasonboard.com (Postfix) with UTF8SMTPSA id 365E61771;
- Tue,  4 Nov 2025 12:55:38 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
- s=mail; t=1762257338;
- bh=mil6O1YCCtchDDrpgObPO3pcuYJvfkebwXhtm8/K8PU=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=ecuZbr++hco180IzLOTqZrWzhP4piHeawlW+MVvnAG33cGs3h5N0Qih/J82OzWOc1
- n3+3aYdGeXpoRtnKjqEZyGjzLzQ8BwmPbvRtRYy2E8UwbvwV8uPW7tQceFezAyX69Q
- WfcRw5qaKu+PWusL/FfIcQ+iJz8bzZUvVo/ofCHs=
-Date: Tue, 4 Nov 2025 13:57:29 +0200
-From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
-Cc: airlied@gmail.com, alok.a.tiwari@oracle.com,
- dri-devel@lists.freedesktop.org, geert+renesas@glider.be,
- linux-renesas-soc@vger.kernel.org,
- maarten.lankhorst@linux.intel.com, magnus.damm@gmail.com,
- mripard@kernel.org, simona@ffwll.ch,
- tomi.valkeinen+renesas@ideasonboard.com, tzimmermann@suse.de,
- alok.a.tiwarilinux@gmail.com
-Subject: Re: [PATCH next] drm: rcar-du: fix incorrect return in
- rcar_du_crtc_cleanup()
-Message-ID: <20251104115729.GB27255@pendragon.ideasonboard.com>
-References: <20251017191634.1454201-1-alok.a.tiwari@oracle.com>
- <176098000464.199266.533603860929790380@ping.linuxembedded.co.uk>
+Received: from mout-p-202.mailbox.org (mout-p-202.mailbox.org [80.241.56.172])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DCBB910E25F
+ for <dri-devel@lists.freedesktop.org>; Tue,  4 Nov 2025 12:25:32 +0000 (UTC)
+Received: from smtp2.mailbox.org (smtp2.mailbox.org [10.196.197.2])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested)
+ by mout-p-202.mailbox.org (Postfix) with ESMTPS id 4d172g3pLNz9tR4;
+ Tue,  4 Nov 2025 13:25:31 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org;
+ s=mail20150812; t=1762259131;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=OQNURhsm7+otyKWxbaJyu299VPuCIPdmcaTYfoL8RWc=;
+ b=g+G8rnjd9PTtirRXTlc2fbxyKmgglE9u3/DSyal2w6a915fKI1Yhgq3iB5Uq40EToF951K
+ 8Oo8QVLegZc+0xUuVzu+DHmly43QVnQr5j8JkEWamhr9X3x+sCdRnsw3BEieThBGlXU2Sy
+ ogVSMdhwBTR2cZLPbvPAK4KNIW5aeeVg4JefTsTSGomCChG+sUp5fPWvvCMrgBwxQAfD2R
+ gfW8PdB5aJ1mPoon96BFTdSSp5FQHOIQex6igesKl+jg7XR1EsZBTfe16Tt6vsTJakV7g7
+ +OdCagH67R7XDuzP6VakeWB8jGjoT+gjFcrvYEJayM/WVvvnMvJjsFMixxEPVQ==
+Message-ID: <1353f904-aa15-4e24-9e43-7b91185bba17@mailbox.org>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org;
+ s=mail20150812; t=1762259129;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=OQNURhsm7+otyKWxbaJyu299VPuCIPdmcaTYfoL8RWc=;
+ b=BqWrGpiHMXDX7WMtb2foX5OjYRO809BJEiC8EP+awuR7sKqdSZsZAGTm2UIFe4+AXYWsiP
+ vSvyaTtaOZIoQ+tazkYd2bUdzlEG5hGJV4thzV8MxAR9UutQObInfREd6VLd2F1f5OLkEO
+ Sg51sFLu+PFp5PalM8i9OxzdIFqTXFyREnVfvo4BX489TWhA78q2ASHWYu7bosAMw7pCeX
+ cOxX5mWIQYkfVyC7lqAYnLmPdb6RjalZc3w7wqRtORFo7+IZwRX9ZgJDybLjBDIseeoLZ/
+ dAYiAAWDuHSRz5ojQSg9y1YJZ9sy7oMxQgUqkQmfXg71Mj9T93bpiGtC1VnVRw==
+Date: Tue, 4 Nov 2025 13:00:38 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <176098000464.199266.533603860929790380@ping.linuxembedded.co.uk>
+Subject: Re: [PATCH 1/2] dt-bindings: gpu: img, powervr-rogue: Document GE7800
+ GPU in Renesas R-Car M3-N
+To: Matt Coster <Matt.Coster@imgtec.com>,
+ Marek Vasut <marek.vasut+renesas@mailbox.org>
+Cc: Conor Dooley <conor+dt@kernel.org>, David Airlie <airlied@gmail.com>,
+ Frank Binns <Frank.Binns@imgtec.com>,
+ Alessio Belle <Alessio.Belle@imgtec.com>,
+ Alexandru Dadu <Alexandru.Dadu@imgtec.com>,
+ Geert Uytterhoeven <geert+renesas@glider.be>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Magnus Damm <magnus.damm@gmail.com>, Maxime Ripard <mripard@kernel.org>,
+ =?UTF-8?Q?Niklas_S=C3=B6derlund?= <niklas.soderlund@ragnatech.se>,
+ Rob Herring <robh@kernel.org>, Simona Vetter <simona@ffwll.ch>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ "linux-arm-kernel@lists.infradead.org"
+ <linux-arm-kernel@lists.infradead.org>,
+ "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+ "linux-renesas-soc@vger.kernel.org" <linux-renesas-soc@vger.kernel.org>
+References: <20251103200800.173440-1-marek.vasut+renesas@mailbox.org>
+ <10e39887-02b2-41bd-9ed1-f54481a3578c@imgtec.com>
+Content-Language: en-US
+From: Marek Vasut <marek.vasut@mailbox.org>
+In-Reply-To: <10e39887-02b2-41bd-9ed1-f54481a3578c@imgtec.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-MBO-RS-META: fi8weceksjtk1u8hozc8d9rra6f6bbax
+X-MBO-RS-ID: bcb4be923019a510140
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -61,52 +93,46 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Oct 20, 2025 at 06:06:44PM +0100, Kieran Bingham wrote:
-> Quoting Alok Tiwari (2025-10-17 20:16:21)
-> > The rcar_du_crtc_cleanup() function has a void return type, but
-> > incorrectly uses a return statement with a call to drm_crtc_cleanup(),
+On 11/4/25 12:52 PM, Matt Coster wrote:
 
-I don't know if it's incorrect as such, but it makes the code more
-readable.
+Hello Matt,
 
-Reviewed-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
+>> +++ b/Documentation/devicetree/bindings/gpu/img,powervr-rogue.yaml
+>> @@ -19,6 +19,10 @@ properties:
+>>                 - renesas,r8a77961-gpu
+>>             - const: img,img-gx6250
+>>             - const: img,img-rogue
+>> +      - items:
+>> +          - const: renesas,r8a77965-gpu
+>> +          - const: img,img-ge7800
+>> +          - const: img,img-rogue
+>>         - items:
+>>             - enum:
+>>                 - ti,am62-gpu
+>> @@ -105,6 +109,7 @@ allOf:
+>>           compatible:
+>>             contains:
+>>               enum:
+>> +              - img,img-ge7800
+>>                 - img,img-gx6250
+> 
+> Can you put these in the same order they're declared above? The way I
+> read it, the order is img,xxx in generational order followed by
+> soc-specific entries in alphabetical order (which is why we have
+> img,img-gx6250 before img,img-bxs-4-64 below).
 
-> > which also returns void.
-> > 
-> > Remove the return statement to ensure proper function semantics.
-> > No functional change intended.
-> > 
-> > Signed-off-by: Alok Tiwari <alok.a.tiwari@oracle.com>
-> > ---
-> >  drivers/gpu/drm/renesas/rcar-du/rcar_du_crtc.c | 2 +-
-> >  1 file changed, 1 insertion(+), 1 deletion(-)
-> > 
-> > diff --git a/drivers/gpu/drm/renesas/rcar-du/rcar_du_crtc.c b/drivers/gpu/drm/renesas/rcar-du/rcar_du_crtc.c
-> > index 7e175dbfd892..22bcd7db4195 100644
-> > --- a/drivers/gpu/drm/renesas/rcar-du/rcar_du_crtc.c
-> > +++ b/drivers/gpu/drm/renesas/rcar-du/rcar_du_crtc.c
-> > @@ -993,7 +993,7 @@ static void rcar_du_crtc_cleanup(struct drm_crtc *crtc)
-> 
-> This cleanup is called through .destroy which is:
-> 	void (*destroy)(struct drm_crtc *crtc);
-> 
-> >         rcar_du_crtc_crc_cleanup(rcrtc);
-> >  
-> > -       return drm_crtc_cleanup(crtc);
-> > +       drm_crtc_cleanup(crtc);
-> 
-> and drm_crtc_cleanup is:
-> 	void drm_crtc_cleanup(struct drm_crtc *crtc)
-> 
-> So it certainly can't return anything:
-> 
-> Reviewed-by: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
-> 
-> >  }
-> >  
-> >  static void rcar_du_crtc_reset(struct drm_crtc *crtc)
+In this enum, the entries are (should be) sorted alphabetically .
 
--- 
-Regards,
+Do you want to sort them generationally instead ?
 
-Laurent Pinchart
+>>                 - thead,th1520-gpu
+>>       then:
+>> @@ -134,6 +139,7 @@ allOf:
+>>           compatible:
+>>             contains:
+>>               enum:
+>> +              - img,img-ge7800
+>>                 - img,img-gx6250
+> 
+> Same again, otherwise lgtm.
+Please see above.
