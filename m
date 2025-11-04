@@ -2,76 +2,60 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E2331C2EC58
-	for <lists+dri-devel@lfdr.de>; Tue, 04 Nov 2025 02:34:09 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 76DCEC2EE37
+	for <lists+dri-devel@lfdr.de>; Tue, 04 Nov 2025 02:54:54 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2B5C210E50B;
-	Tue,  4 Nov 2025 01:33:53 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4CA0510E045;
+	Tue,  4 Nov 2025 01:54:51 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="e6Klvi7r";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="OHCHWg78";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sea.source.kernel.org (sea.source.kernel.org [172.234.252.31])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9C87C10E502;
- Tue,  4 Nov 2025 01:33:48 +0000 (UTC)
+Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BAC5510E045
+ for <dri-devel@lists.freedesktop.org>; Tue,  4 Nov 2025 01:54:49 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by sea.source.kernel.org (Postfix) with ESMTP id 749BB444CD;
- Tue,  4 Nov 2025 01:33:47 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 2D49AC2BC9E;
- Tue,  4 Nov 2025 01:33:47 +0000 (UTC)
+ by tor.source.kernel.org (Postfix) with ESMTP id EE78C601E3;
+ Tue,  4 Nov 2025 01:54:48 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3E7B7C4CEE7;
+ Tue,  4 Nov 2025 01:54:47 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1762220027;
- bh=dKK/EqIbC7RXoHraufPxWjhKrP9sGcj1RRvh9auQVQk=;
- h=From:Date:Subject:References:In-Reply-To:To:Cc:Reply-To:From;
- b=e6Klvi7roYXtebOvJjNGRSPopYcOrO98WYA8Oo1llRlfIW1r9e6NT+QU/k8cj1vcw
- 4GOdtZa8ZxcrKH/RH6zzNyDb6K0RESRemL2LF2mg8SSmPnkwtbmkLwG/7kAv+b4PGQ
- 2h5ZHG95cRhU8Sns3wHkzpl9ZsyRBnIJA52GZTwh0Md4FmbK4rDiRxqTaCZnGTLJq6
- Ky/uMl2Mdj0UXBWN9J4a8JYcMg0sawRdnFC+P/h0S52dtmmPAvI6w9MIg8aLveDtdt
- POuRxxwFNHt3DklWQ1c+ivaeuX7mGUslsYQkxzdb9Zxqrte62E3+5Ik4tPP+RQq16x
- Bmrxlmm+6vepw==
-Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org
- (localhost.localdomain [127.0.0.1])
- by smtp.lore.kernel.org (Postfix) with ESMTP id 2538ECCFA06;
- Tue,  4 Nov 2025 01:33:47 +0000 (UTC)
-From: Xiangxu Yin via B4 Relay
- <devnull+xiangxu.yin.oss.qualcomm.com@kernel.org>
-Date: Tue, 04 Nov 2025 09:33:26 +0800
-Subject: [PATCH v7 4/4] arm64: dts: qcom: qcs615-ride: Enable DisplayPort
+ s=k20201202; t=1762221288;
+ bh=EFH8iZ/G2w8bUIhBezkXWpFBQbj4f9VLSoXOG3u/BPI=;
+ h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+ b=OHCHWg78fFwg10Ibsbz8T+L3pQu8RwbXz52JXBPvCCG5gqqGsuvts3lAfPlIAW3yh
+ aADcxh+Ts2vEgQ1Qx1JEI40p4YjPHE55SXTd7sMdS2GuRltqyW0cLWvzkn4yPnPE8y
+ BI3mPT6fr5vUOreFJAFMGBli0WUodN+Vz23+isDdpGD4r7SNUzcTWy+8zw3WVigQS8
+ tGbw7afmeif/reBzT09R5e+a/r4x/hZfapiOgIVb55mXvgctbYwq9DVC2hZC34tVo3
+ zivWg5uc4H0HFmVBNohGUtTKRoqlqQN99/3kknto6nQlC8wxRoJqxLGv/6YTyiOjTX
+ Q+drWpv0D8+YQ==
+From: Bjorn Andersson <andersson@kernel.org>
+To: Neil Armstrong <neil.armstrong@linaro.org>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
+ Simona Vetter <simona@ffwll.ch>, Rob Herring <robh@kernel.org>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>,
+ Thierry Reding <thierry.reding@gmail.com>, Sam Ravnborg <sam@ravnborg.org>,
+ Konrad Dybcio <konradybcio@kernel.org>,
+ Casey Connolly <casey.connolly@linaro.org>,
+ Jessica Zhang <jesszhan0024@gmail.com>, David Heidelberg <david@ixit.cz>
+Cc: dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+ phone-devel@vger.kernel.org,
+ Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
+Subject: Re: [PATCH v6 0/4] (subset) Add OnePlus 6T display (Samsung
+ S6E3FC2X01 DDIC with AMS641RW panel)
+Date: Mon,  3 Nov 2025 19:58:14 -0600
+Message-ID: <176222149546.1132260.16054473586834002338.b4-ty@kernel.org>
+X-Mailer: git-send-email 2.51.0
+In-Reply-To: <20251103-s6e3fc2x01-v6-0-d4eb4abaefa4@ixit.cz>
+References: <20251103-s6e3fc2x01-v6-0-d4eb4abaefa4@ixit.cz>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20251104-add-displayport-support-to-qcs615-devicetree-v7-4-e51669170a6f@oss.qualcomm.com>
-References: <20251104-add-displayport-support-to-qcs615-devicetree-v7-0-e51669170a6f@oss.qualcomm.com>
-In-Reply-To: <20251104-add-displayport-support-to-qcs615-devicetree-v7-0-e51669170a6f@oss.qualcomm.com>
-To: Rob Clark <robin.clark@oss.qualcomm.com>, 
- Dmitry Baryshkov <lumag@kernel.org>, 
- Abhinav Kumar <abhinav.kumar@linux.dev>, 
- Jessica Zhang <jesszhan0024@gmail.com>, Sean Paul <sean@poorly.run>, 
- Marijn Suijten <marijn.suijten@somainline.org>, 
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
- Conor Dooley <conor+dt@kernel.org>, Bjorn Andersson <andersson@kernel.org>, 
- Konrad Dybcio <konradybcio@kernel.org>
-Cc: linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org, 
- freedreno@lists.freedesktop.org, devicetree@vger.kernel.org, 
- linux-kernel@vger.kernel.org, fange.zhang@oss.qualcomm.com, 
- yongxing.mou@oss.qualcomm.com, li.liu@oss.qualcomm.com, 
- Xiangxu Yin <xiangxu.yin@oss.qualcomm.com>, 
- Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
-X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1762220025; l=1609;
- i=xiangxu.yin@oss.qualcomm.com; s=20241125; h=from:subject:message-id;
- bh=UefwVFw5JL4lAwuEgs1CevP0v8Ntkh5qwaIuq5AJOpU=;
- b=vWo74HSLzDxGqV9nALtuOvNxJ4/G6KqBt8qKUbQ0evnO2cCkUudGnXfRgqCXmmitkHWsywbpJ
- cQdzLxao6hwC55cLwalIAZrLlQOdiEDXToatSwUMs193Eq5xlaFBkja
-X-Developer-Key: i=xiangxu.yin@oss.qualcomm.com; a=ed25519;
- pk=F1TwipJzpywfbt3n/RPi4l/A4AVF+QC89XzCHgZYaOc=
-X-Endpoint-Received: by B4 Relay for xiangxu.yin@oss.qualcomm.com/20241125
- with auth_id=542
-X-Original-From: Xiangxu Yin <xiangxu.yin@oss.qualcomm.com>
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -84,78 +68,31 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Reply-To: xiangxu.yin@oss.qualcomm.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Xiangxu Yin <xiangxu.yin@oss.qualcomm.com>
 
-Add DP connector node and configure MDSS DisplayPort controller for
-QCS615 Ride platform. Include PHY supply settings to support DP output.
+On Mon, 03 Nov 2025 12:45:49 +0100, David Heidelberg wrote:
+> This patchset enables the display on the OnePlus 6T smartphone.
+> 
+> (subset) Patches document the panel, pinctrls, and GPIOs.
+> 
+> Since the display node is shared between the OnePlus 6 and 6T,
+> the following warning appears:
+> 
+> [...]
 
-Reviewed-by: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
-Signed-off-by: Xiangxu Yin <xiangxu.yin@oss.qualcomm.com>
----
- arch/arm64/boot/dts/qcom/qcs615-ride.dts | 30 ++++++++++++++++++++++++++++++
- 1 file changed, 30 insertions(+)
+Applied, thanks!
 
-diff --git a/arch/arm64/boot/dts/qcom/qcs615-ride.dts b/arch/arm64/boot/dts/qcom/qcs615-ride.dts
-index be67eb173046f9e4ac58157f282c3af41e53d374..5a24c19c415e3fa92e3b543ed48b2fcd6b20c6ca 100644
---- a/arch/arm64/boot/dts/qcom/qcs615-ride.dts
-+++ b/arch/arm64/boot/dts/qcom/qcs615-ride.dts
-@@ -39,6 +39,20 @@ xo_board_clk: xo-board-clk {
- 		};
- 	};
- 
-+	dp0-connector {
-+		compatible = "dp-connector";
-+		label = "DP0";
-+		type = "mini";
-+
-+		hpd-gpios = <&io_expander 8 GPIO_ACTIVE_HIGH>;
-+
-+		port {
-+			dp0_connector_in: endpoint {
-+				remote-endpoint = <&mdss_dp0_out>;
-+			};
-+		};
-+	};
-+
- 	dp-dsi0-connector {
- 		compatible = "dp-connector";
- 		label = "DSI0";
-@@ -423,6 +437,15 @@ &mdss {
- 	status = "okay";
- };
- 
-+&mdss_dp0 {
-+	status = "okay";
-+};
-+
-+&mdss_dp0_out {
-+	link-frequencies = /bits/ 64 <1620000000 2700000000 5400000000>;
-+	remote-endpoint = <&dp0_connector_in>;
-+};
-+
- &mdss_dsi0 {
- 	vdda-supply = <&vreg_l11a>;
- 	status = "okay";
-@@ -624,6 +647,13 @@ &usb_qmpphy {
- 	status = "okay";
- };
- 
-+&usb_qmpphy_2 {
-+	vdda-phy-supply = <&vreg_l5a>;
-+	vdda-pll-supply = <&vreg_l12a>;
-+
-+	status = "okay";
-+};
-+
- &usb_1 {
- 	status = "okay";
- };
+[1/4] arm64: dts: qcom: sdm845-oneplus: Update compatbible and add DDIC supplies
+      commit: 69b8bbde238a1503ac45998a911ea56ddb7610cf
+[2/4] arm64: dts: qcom: sdm845-oneplus: Group panel pinctrl
+      commit: 6c55c3c261ed7c17fa7823daf4d8f716504ad46e
+[3/4] arm64: dts: qcom: sdm845-oneplus: Implement panel sleep pinctrl
+      commit: 8dda2fecf76b6c4db5f4c1b81a765b73a7a878ed
+[4/4] arm64: dts: qcom: sdm845-oneplus: Describe TE gpio
+      commit: a3da84c36b1a6b80814b5a72ca1546648aba9e75
 
+Best regards,
 -- 
-2.34.1
-
-
+Bjorn Andersson <andersson@kernel.org>
