@@ -2,172 +2,75 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8BF07C3160D
-	for <lists+dri-devel@lfdr.de>; Tue, 04 Nov 2025 15:05:16 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id B2292C315FB
+	for <lists+dri-devel@lfdr.de>; Tue, 04 Nov 2025 15:05:03 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DC15010E5ED;
-	Tue,  4 Nov 2025 14:05:14 +0000 (UTC)
-Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=Nvidia.com header.i=@Nvidia.com header.b="Xi873wuU";
-	dkim-atps=neutral
+	by gabe.freedesktop.org (Postfix) with ESMTP id 56CCC10E5E8;
+	Tue,  4 Nov 2025 14:05:01 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from PH0PR06CU001.outbound.protection.outlook.com
- (mail-westus3azon11011056.outbound.protection.outlook.com [40.107.208.56])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6A25B10E5ED;
- Tue,  4 Nov 2025 14:05:13 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=Xsr9ndEUoKsxwlezDJPBQyzR29LSf3Ywa6Z3i6ybNNaQhQb20eCcj6/eY6fsk9h8zaafzvoAj1KEG4pwGQpoGGF+qioHSOfy34ZOm0pfPcP2uXx2Skp/3CL2UqOmKlSi6uquoFsluyg4PmOBKvNEZBLCtFx9GMklVCd5wc6Mlj6VpKVHWPJ7OCZdscUeMWQz5jtF7X4o2DAbk2qpX0TVqOo89LEfQPxP2/MJSoDEv4RlXQItv5je7JgXDl72k5ZMuWmMgoepelx0Ros22M7MSICJh7Jd2tAuOKCB98vVjXZJvyqLPxOEV0QZms22xPw7GlpfVPtidqrSSaiFFk1U0w==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=DUt+W6etxZ3XN2UCTpLlJlo5Iod+pNvUGfZlGkSoONk=;
- b=wigQJ8+F6zjKVWANbwcmYUXB7bZTt176eOz4x8AjVnywltLa6J6ZunZT10+VtmCfRzBnu1u99T25oxJ58Beue5PC6MS9kk7NImWL+JqFhYnIZnmfsc1zn7FXtTwm3Hj+8KCcpoi9dFiKwU/MP/UGJYlHKkgKM+KoI00Hb48VY2Q00zdqlM9NaOMsll4aapjAJM4WRw6RqDicCYED9ZCkpi7QDaPHW5+J/L+5zapzCVUnu5e1vGOkxMXbXqnFIqX5vmF5kUe27eOro33aUqKIHfSF5kQ77ZtUorgbqXdjSR8KabixTQ4UAgimz5wq+NA42k9Qb+8+pef/7OmyLkJj2Q==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
- dkim=pass header.d=nvidia.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=DUt+W6etxZ3XN2UCTpLlJlo5Iod+pNvUGfZlGkSoONk=;
- b=Xi873wuUBxg4CyFckWfDb+XcGZWNjdcH698y6jePHHdriBAITYPekULaBVydah9hAH+1xcxzQKRYVDbQ7/ttv3rl+nEATpqDV8NN+RTLE4Q+fkRWbYCFqOIbz3NR39HjBKNeZE+XE2TIOrpsdzFh52F73Ie75xjtmXDNQipJwKDgpxsxFfZVy8pmffC4+2hJ7/F38cRV5FHsqfThEtYjCa7RnoAWtT2GPuZ9AugdQDpztfdr/z73lbqZDQAdoR2yE+t9+ap6Zgd2XTi8/h+JSfD4oBOsjxdvY2pXOIYTIEyFKsyyPspfnBxvo66clw+d7+Kfdnrp2xf/I+r+wnhnug==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nvidia.com;
-Received: from CH2PR12MB3990.namprd12.prod.outlook.com (2603:10b6:610:28::18)
- by LV3PR12MB9355.namprd12.prod.outlook.com (2603:10b6:408:216::21)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9298.7; Tue, 4 Nov
- 2025 14:05:08 +0000
-Received: from CH2PR12MB3990.namprd12.prod.outlook.com
- ([fe80::7de1:4fe5:8ead:5989]) by CH2PR12MB3990.namprd12.prod.outlook.com
- ([fe80::7de1:4fe5:8ead:5989%6]) with mapi id 15.20.9275.015; Tue, 4 Nov 2025
- 14:05:07 +0000
-From: Alexandre Courbot <acourbot@nvidia.com>
-Date: Tue, 04 Nov 2025 23:04:49 +0900
-Subject: [PATCH] firmware_loader: make RUST_FW_LOADER_ABSTRACTIONS select
- FW_LOADER
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20251104-b4-select-rust-fw-v1-1-afea175dba22@nvidia.com>
-X-B4-Tracking: v=1; b=H4sIAAAICmkC/x3M3QpAQBCG4VvRHJuyWopbkQO7PkwJ7fgruXebw
- +fgfR9SBIFSnTwUcIrKukSYNCE/dcsIlj6a8iwvjMksO8uKGX7ncOjOw8UdnIEtnQcqit0WMMj
- 9P5v2fT8Mq2hUYwAAAA==
-X-Change-ID: 20251104-b4-select-rust-fw-aeb1e46bcee9
-To: Luis Chamberlain <mcgrof@kernel.org>, 
- Russ Weight <russ.weight@linux.dev>, Danilo Krummrich <dakr@kernel.org>, 
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
- "Rafael J. Wysocki" <rafael@kernel.org>, Alice Ryhl <aliceryhl@google.com>, 
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
- Andrew Lunn <andrew@lunn.ch>, Heiner Kallweit <hkallweit1@gmail.com>, 
- Russell King <linux@armlinux.org.uk>, 
- "David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>, 
- Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, 
- Miguel Ojeda <ojeda@kernel.org>, Alex Gaynor <alex.gaynor@gmail.com>, 
- Boqun Feng <boqun.feng@gmail.com>, Gary Guo <gary@garyguo.net>, 
- =?utf-8?q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>, 
- Benno Lossin <lossin@kernel.org>, Andreas Hindborg <a.hindborg@kernel.org>, 
- Trevor Gross <tmgross@umich.edu>
-Cc: linux-kernel@vger.kernel.org, nouveau@lists.freedesktop.org, 
- dri-devel@lists.freedesktop.org, netdev@vger.kernel.org, 
- rust-for-linux@vger.kernel.org, Alexandre Courbot <acourbot@nvidia.com>
-X-Mailer: b4 0.14.3
-X-ClientProxiedBy: TY4P286CA0077.JPNP286.PROD.OUTLOOK.COM
- (2603:1096:405:36d::6) To CH2PR12MB3990.namprd12.prod.outlook.com
- (2603:10b6:610:28::18)
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 6B2AD10E5E7
+ for <dri-devel@lists.freedesktop.org>; Tue,  4 Nov 2025 14:04:59 +0000 (UTC)
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+ by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 51F7C2C41
+ for <dri-devel@lists.freedesktop.org>; Tue,  4 Nov 2025 06:04:51 -0800 (PST)
+Received: from e110455-lin.cambridge.arm.com (usa-sjc-imap-foss1.foss.arm.com
+ [10.121.207.14])
+ by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPA id DA0B33F694
+ for <dri-devel@lists.freedesktop.org>; Tue,  4 Nov 2025 06:04:58 -0800 (PST)
+Date: Tue, 4 Nov 2025 14:04:54 +0000
+From: Liviu Dudau <liviu.dudau@arm.com>
+To: "Kandpal, Suraj" <suraj.kandpal@intel.com>
+Cc: "linux-arm-msm@vger.kernel.org" <linux-arm-msm@vger.kernel.org>,
+ "freedreno@lists.freedesktop.org" <freedreno@lists.freedesktop.org>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+ "intel-xe@lists.freedesktop.org" <intel-xe@lists.freedesktop.org>,
+ "intel-gfx@lists.freedesktop.org" <intel-gfx@lists.freedesktop.org>,
+ "kernel-list@raspberrypi.com" <kernel-list@raspberrypi.com>,
+ "amd-gfx@lists.freedesktop.org" <amd-gfx@lists.freedesktop.org>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+ "linux-renesas-soc@vger.kernel.org" <linux-renesas-soc@vger.kernel.org>,
+ "dmitry.baryshkov@oss.qualcomm.com" <dmitry.baryshkov@oss.qualcomm.com>,
+ "Nautiyal, Ankit K" <ankit.k.nautiyal@intel.com>,
+ "Murthy, Arun R" <arun.r.murthy@intel.com>,
+ "Shankar, Uma" <uma.shankar@intel.com>,
+ "Nikula, Jani" <jani.nikula@intel.com>,
+ "harry.wentland@amd.com" <harry.wentland@amd.com>,
+ "siqueira@igalia.com" <siqueira@igalia.com>,
+ "alexander.deucher@amd.com" <alexander.deucher@amd.com>,
+ "christian.koenig@amd.com" <christian.koenig@amd.com>,
+ "airlied@gmail.com" <airlied@gmail.com>,
+ "simona@ffwll.ch" <simona@ffwll.ch>,
+ "maarten.lankhorst@linux.intel.com" <maarten.lankhorst@linux.intel.com>,
+ "mripard@kernel.org" <mripard@kernel.org>,
+ "robin.clark@oss.qualcomm.com" <robin.clark@oss.qualcomm.com>,
+ "abhinav.kumar@linux.dev" <abhinav.kumar@linux.dev>,
+ "tzimmermann@suse.de" <tzimmermann@suse.de>,
+ "jessica.zhang@oss.qualcomm.com" <jessica.zhang@oss.qualcomm.com>,
+ "sean@poorly.run" <sean@poorly.run>,
+ "marijn.suijten@somainline.org" <marijn.suijten@somainline.org>,
+ "laurent.pinchart+renesas@ideasonboard.com"
+ <laurent.pinchart+renesas@ideasonboard.com>, 
+ "mcanal@igalia.com" <mcanal@igalia.com>,
+ "dave.stevenson@raspberrypi.com" <dave.stevenson@raspberrypi.com>,
+ "tomi.valkeinen+renesas@ideasonboard.com"
+ <tomi.valkeinen+renesas@ideasonboard.com>, 
+ "kieran.bingham+renesas@ideasonboard.com"
+ <kieran.bingham+renesas@ideasonboard.com>, 
+ "louis.chauvet@bootlin.com" <louis.chauvet@bootlin.com>
+Subject: Re: [PATCH v2 1/7] drm: writeback: Refactor drm_writeback_connector
+ structure
+Message-ID: <aQoIBroBqQc3B-RD@e110455-lin.cambridge.arm.com>
+References: <20251007054528.2900905-1-suraj.kandpal@intel.com>
+ <20251007054528.2900905-2-suraj.kandpal@intel.com>
+ <aQjDejhzGRYJT614@e110455-lin.cambridge.arm.com>
+ <DM3PPF208195D8D5DDD56AA88E006E66AD9E3C4A@DM3PPF208195D8D.namprd11.prod.outlook.com>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: CH2PR12MB3990:EE_|LV3PR12MB9355:EE_
-X-MS-Office365-Filtering-Correlation-Id: 12401274-ca69-46e0-6214-08de1bab28f9
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
- ARA:13230040|1800799024|7416014|376014|10070799003|366016|921020; 
-X-Microsoft-Antispam-Message-Info: =?utf-8?B?c29jaFlJWkJiaVNJcERDaUVndDRjLzNmZm1UalZjajZRS2dBYnNxem1LaHpG?=
- =?utf-8?B?aVdPbi9wU3p1MGRGdzhmT1NpYk1DYUZYbXlmSXZNWjlvNmtKYy9PVExIdkFW?=
- =?utf-8?B?SEUxNXdFUXFRV1VOUmlocllFeWFBNXowME9CbU9McnQyWjQwSUNRV0cxTkNU?=
- =?utf-8?B?N2J2S3V1MDdvUVVCeXplRzZxTHpWSVhOYU9ocGFRaHlUSHVjVXFsN2dHM2Vo?=
- =?utf-8?B?SEl2ZGVMZ3ZyL3JOYzFnNURxbDh5NjJDVTYwMDBTVGxEaXVFWGpTMFRSaEZB?=
- =?utf-8?B?YjZTOGRORC9qZzYxWmpkMHRQMEY0QjZvRVcvMVF4Y29DVTk5NUcyald3NVI1?=
- =?utf-8?B?Y3FVMjJlbDFtWUIxdERXMTRBVTlDZUx6bjBOV0k3TnVyQ3FiWXpHMVlYdmMy?=
- =?utf-8?B?OHNFVGRwZVJyK3ZZaEE1UkwvUTB5ci9PcXNJRGc0TDlJeGhCaW5FU0d5T2FW?=
- =?utf-8?B?aHlFVXFOM054aHFhNFpmWHpoTmtmNVhGRUF0N3YyV0xXZFFCRVByWVFlMEhI?=
- =?utf-8?B?RTNxdlJjVWlMa1p2K29mL0hGL2YrbE5sRmVpVWtpOFdLTk1OR3dPMFUrcVJN?=
- =?utf-8?B?Z2JXSWNQRVhYdkN6UXlkczdMOHpibmx2aDZXTnBnS2tXdEJxeEJsM0VoMmhm?=
- =?utf-8?B?bmMzTXhGbnpMSENJOUMwSHpxUit1R2VtSEhQTVpaUzRVT1g2WU55TFlIbGFI?=
- =?utf-8?B?VkxGcFRHSmh4UkZyb1AwQnhYMjBUejFmQmExTWVMdE1nOXRYRmJzNFBwNS9u?=
- =?utf-8?B?dWRhWmorMGpycVlnUmRIU1VpakpsenBVR1c0SXoxYTROeTF1T2tScXRmLytz?=
- =?utf-8?B?a2NVRjI0Q29ncW9iRHVuRHRnaDgvK3N3ZU1jd2V4V2VRYlNtTFRFQjhWNExI?=
- =?utf-8?B?NGhNY0ZHaXpJcVVHK1p4RnZaV3ZZMVJtV0RZbUNLOURkb0Y2U05XeTZtRE9t?=
- =?utf-8?B?dXFhRUc5b3JCQWxLc0hKenhuQUxwdjNZRTVuZzlqNXB6RDdYcmZoN1YramNs?=
- =?utf-8?B?WGppWnFqWUtLaHVQcEZ5WVBWYmY1QlBTaXExR3dhVlcxRXJCZ3g4RjNzckxw?=
- =?utf-8?B?c3BwbUhVZFJoMFNOQUgyS1VHbDRwOFpzUzN1Z3pwbTVHQnhseWpNeFcxMGs1?=
- =?utf-8?B?WjdMS01ZekNaSk5ZNVh3SWZqMXBsYmprSjZrQ2ExMHI0R010VmpQWDZsekRy?=
- =?utf-8?B?dzExVWJGdUlZRExxcTl5R21rK3Yzb0FaS2FRMFBIM0dtNWpSMGM1em1VRGw1?=
- =?utf-8?B?TVdCZi81OG8rOWNmWEc0UGlSWkdKcWgyeGErT0ZEbkU4QVVlVHFTUks0QUhE?=
- =?utf-8?B?K0pCYy9tS0NNcnpzcnNtclBOcDE5V0x5M2RhZGVPVE5WakhVT1RUdXNXN0Fx?=
- =?utf-8?B?bHhpY1Z0WEMzL0NwQUFPaUNVeWhKc3VET2cwQkNRcWFrd21nQjU5NEZMTStv?=
- =?utf-8?B?L05kcjJpVmQvQlBYSnhpYmpKVUFmK01EeTA3VEdhNW9JUHprRWM2V1pjQnhE?=
- =?utf-8?B?aGpMbVVrSU0xdXJ4eER0UW8ySU44UWJmRDBuWFRFRTFsVjI4VVZIb1E1VUNa?=
- =?utf-8?B?aVpIeXdrbmsySVAyRWxQWFJqbUR2ZHBnWlNXKzlDZHQyZldxMGNJYW1JMXJq?=
- =?utf-8?B?YVpuZ1JQQXF1UWMvSU4vaWE4Rk9ZSnRyV1pJTnd0MXB4Ump6UTRSNFdhNC9B?=
- =?utf-8?B?anZ3cWxFNDFqcVVoazB2U3pBREovcFJRcjN5bUhTczlJQU1TaDVqUm5iQjBN?=
- =?utf-8?B?VEZvb0E4SUtvTXg3OExIUDdhc2JKdmhlWlZLQTZwWWlYREFVVUtpYUZmMnpm?=
- =?utf-8?B?eUh2ZXdHRW5qa28yazdnRVFwYXQvL2kvQzhqUG9pRVBoQi9sQkZiSmprOExz?=
- =?utf-8?B?OGVocTBVZE1Jb0hqNWl2RGVIQXlralEya3ZSWmtzcE5ZenNoVittdzhBMVA5?=
- =?utf-8?B?N0p5aG1HckJSamdnSi9qaE93M2pUUmZyUHV4ZW82eXhSUUxXcDFVWGJxK0Fu?=
- =?utf-8?Q?2WgWLCYAnAZ8a2Sb77JQB42l90Xc/4=3D?=
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:CH2PR12MB3990.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230040)(1800799024)(7416014)(376014)(10070799003)(366016)(921020);
- DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?R2ZBa2tkc2lzSW1KN1FqUzdSQmtZempzV01aVlNkdktJdmZJVHExdDZzbWtR?=
- =?utf-8?B?ODdhU1lobFZvb2NsZXJmbFIwSWZBQWJ0akU2alQrOWlpMExyTGd5cEordzVV?=
- =?utf-8?B?d3JhTGlDdjJrcCtzeTlOTjBLak9rT2wwR0tsQ2RqYk0zNm43ZnhQMVl2WVhq?=
- =?utf-8?B?Y25wdGllL29mSkRnY2YvbVFwM3N4alZrVmt4TXFIZmhZUVZzSlY5M2MzQXNq?=
- =?utf-8?B?cnpEREFjaHZNWTl1WTRiTkZPOUc1YmdocWU3U09nQmJ1d0U3TDVQTGcwb3Ir?=
- =?utf-8?B?eXRPU0tPRjhWcnBoZ3ZsR0tyOW9ac3pONG5RY2h4K3hnMVFwV002SWYyQnpS?=
- =?utf-8?B?M0xkaFBSc0J6Z1VnalphWENqeC9CMDkvMTVKdE9CNUlzMVRQQWhhSmh3Y3Rr?=
- =?utf-8?B?ZHRKV05QQ2pDZlRKL0hFTFhybjRYdlRkQXVhMG10T0FOa2ZUKzFPNW9BdWZM?=
- =?utf-8?B?VFRZTi9RUUhWdG80bno0cFJranlwaHJJajkyZnp3VVluZ0V1ZHR3SHlpdldJ?=
- =?utf-8?B?UW5ZNkw3MEZVSXByZEFNM3k2OHl2WHFtVlRXdlkxTE0raExEb05MdVoxVmR5?=
- =?utf-8?B?dHdOcFU4UGZ4QzhkbFBTWVNxdkNUMTd5RjQ5N25wUXVuOVdjdklVZ011TmJI?=
- =?utf-8?B?NUpUR3RXZXJETytaVWhzY3BFRGplQ20yU3hkQ1VTUGYzODdXNVZDalFpdld4?=
- =?utf-8?B?b0M1VXlJenhZdWxuYWRoc3hjMmtQTERXVGRMZ2ZST3ZWTWdhYzczZ0xqdFp3?=
- =?utf-8?B?aG1SMTcxbzhGZld5MEpQdFZtR08zMmhYOU1hMWgxUW04bE42NlhrNTJRSjNC?=
- =?utf-8?B?RCtoZ2tGZlpGYlByVTcxWktLOExBOHFIY1BzQzd3R3EzVFMydVFEOUtnWHFB?=
- =?utf-8?B?cFpPbFU0MDFsTWRVRlJxODk4L3J0ZVRuQjVtRlh5UjJJMEZLUWNZeTBNM3pD?=
- =?utf-8?B?cUZ3T0dPbUcvNThYSlRVcXVEdVdPL1BMMmw1RzRlbHltMG0yd2RTa3FCOGdp?=
- =?utf-8?B?YnNLbWZLVGVtNStuRENjOXlBZjI1WWxUTnVwSyt4Z04yMUMwaXZSZzZTOG5R?=
- =?utf-8?B?alFDN29LSU9ieDU3cU81YnIrTzQrRG9aejNPbXh5V0c0ekVERlJ3V3lWTzlM?=
- =?utf-8?B?SUxaQ1BjMFBkTmpRK1ZWNjVNMnB1SGJUYWhMbjFqTzR3VVQ0Vk9HRU94YnFL?=
- =?utf-8?B?WnVUTktqUHN6OVIwampmUklRdzc3RDR6dlEraW1EYmN5bGFOQzNsd0NtcHlz?=
- =?utf-8?B?Ry9OSFEvRnp4YXRMMUw0RVQ2cFVFRFpOR2xGRVhKQ29wQ3FaV0c4eFR6SHpK?=
- =?utf-8?B?Q1hIR1Bud2FhNlc2ZUs2OU9iMGtuMDRkVXo5WmsvSmVuSVdTYjdJQnlLRmZs?=
- =?utf-8?B?eXhHQmJQVnNmQnd6WkdCR3o4a0dYcUdUREc3L1VEZVZYVUxwczk1ZWQxdnRo?=
- =?utf-8?B?QWsxemtIMy9MQUY2UDUzSmpLUG1ZakdoUWhOZndkMzJ1TzJueWgvcDlKUzA3?=
- =?utf-8?B?N2NJd0lqM09RSWREa29uVGFseUIxZG84VDFhZFpmSDZJM0hoR3pvbVdPbWU5?=
- =?utf-8?B?YWcwcmwveXN6QllTa2xFSEJPbGRRakJpb1N0R3VYNmVyekZTcXhLUkhmQ0lG?=
- =?utf-8?B?clgvVUE5Tmd4T1ovWXZNb090eUxBS0tPMzNJVGVLVW9tcHVWZFJST2xYTVM1?=
- =?utf-8?B?S25YRFVpWHFOU0pqWmQwd0l1SGlKaUNiUUhFTEFBT1hSZlBrQVlMRUFDZ2Yz?=
- =?utf-8?B?S3pNcVJKclpDbXVuWVhrMW9EMjdWRUdOQjRtY2I4bmVmNjE3Mm1seGsxeHFu?=
- =?utf-8?B?MkY4TndSenk4VVZTYkNRZXZydVFSZ3I0ZGMzaEl4U3ErVGR3UDNIVFc5Vjhr?=
- =?utf-8?B?Y2JzakxvalRGNk9QUy9IcWNXSi8wR1I1ZnZGMHAycEx5NlA3dXNXTlZCWGhq?=
- =?utf-8?B?aGdKZWU5bDFKbFg5VTZTMkdaNFZrc1RBSHE4cmkvcVdUQ0F4TEVOd3FFeS83?=
- =?utf-8?B?VE56VkZXcDNGQ2hzaS9RM2MzSDU5Y05kM2FCUVZOc1FyYU9tSGQ1VlpPYmxB?=
- =?utf-8?B?YUxMZ0Z6V0gyOEpZcDAydDVIQnVLTC84dHkwNVNndXdsNnI0S2VaYUlQT29l?=
- =?utf-8?B?WDNyRGVQWUYwcUNHd202YmpsWEdKZWFISmdMb1hzbzJqUTBhN3NRbERDRzhK?=
- =?utf-8?Q?zXHn/mXQgMU+8wWQeAxLqmx4fOwfujY4Hx1WtKoqeFac?=
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 12401274-ca69-46e0-6214-08de1bab28f9
-X-MS-Exchange-CrossTenant-AuthSource: CH2PR12MB3990.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 04 Nov 2025 14:05:07.5363 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: CjQx4ldxU8kE1zj1Y/MonbfotxrAHkAZsI08+rIpbqqO5g2/jPtKFA0PHjvWbNM4x/dGWUic5OKAr9MtuND2TA==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: LV3PR12MB9355
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <DM3PPF208195D8D5DDD56AA88E006E66AD9E3C4A@DM3PPF208195D8D.namprd11.prod.outlook.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -183,82 +86,289 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-I have noticed that build will fail when doing the following:
+On Tue, Nov 04, 2025 at 05:11:25AM +0000, Kandpal, Suraj wrote:
+> > Subject: Re: [PATCH v2 1/7] drm: writeback: Refactor
+> > drm_writeback_connector structure
+> > 
+> > On Tue, Oct 07, 2025 at 11:15:23AM +0530, Suraj Kandpal wrote:
+> > > Some drivers cannot work with the current design where the connector
+> > > is embedded within the drm_writeback_connector such as Intel and some
+> > > drivers that can get it working end up adding a lot of checks all
+> > > around the code to check if it's a writeback conenctor or not, this is
+> > > due to the limitation of inheritance in C.
+> > > To solve this move the drm_writeback_connector within the
+> > > drm_connector and remove the drm_connector base which was in
+> > > drm_writeback_connector. Make this drm_writeback_connector a union
+> > > with hdmi connector to save memory and since a connector can never be
+> > > both writeback and hdmi it should serve us well.
+> > > Do all other required modifications that come with these changes along
+> > > with addition of new function which returns the drm_connector when
+> > > drm_writeback_connector is present.
+> > > Modify drivers using the drm_writeback_connector to allow them to use
+> > > this connector without breaking them.
+> > > The drivers modified here are amd, komeda, mali, vc4, vkms, rcar_du,
+> > > msm
+> > >
+> > > Signed-off-by: Suraj Kandpal <suraj.kandpal@intel.com>
+> > > ---
+> > > V1 -> V2: Use &connector->writeback, make commit message imperative
+> > > (Dmitry)
+> > > ---
+> > >  .../gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c |  6 +-
+> > > .../gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.h |  2 +-
+> > > .../drm/amd/display/amdgpu_dm/amdgpu_dm_wb.c  |  8 +--
+> > > .../gpu/drm/arm/display/komeda/komeda_crtc.c  |  6 +-
+> > >  .../gpu/drm/arm/display/komeda/komeda_kms.h   |  6 +-
+> > >  .../arm/display/komeda/komeda_wb_connector.c  |  8 +--
+> > >  drivers/gpu/drm/arm/malidp_crtc.c             |  2 +-
+> > >  drivers/gpu/drm/arm/malidp_drv.h              |  2 +-
+> > >  drivers/gpu/drm/arm/malidp_hw.c               |  6 +-
+> > >  drivers/gpu/drm/arm/malidp_mw.c               |  8 +--
+> > >  drivers/gpu/drm/drm_atomic_uapi.c             |  2 +-
+> > >  drivers/gpu/drm/drm_writeback.c               | 35 ++++++----
+> > 
+> > For the komeda and malidp drivers, as well as for the drm_writeback.c
+> > changes:
+> > 
+> > Reviewed-by: Liviu Dudau <liviu.dudau@arm.com>
+> > 
+> > 
+> > [snip]
+> > 
+> > 
+> > > diff --git a/include/drm/drm_connector.h b/include/drm/drm_connector.h
+> > > index 8f34f4b8183d..1b090e6bddc1 100644
+> > > --- a/include/drm/drm_connector.h
+> > > +++ b/include/drm/drm_connector.h
+> > > @@ -1882,6 +1882,61 @@ struct drm_connector_cec {
+> > >  	void *data;
+> > >  };
+> > >
+> > > +/**
+> > > + * struct drm_writeback_connector - DRM writeback connector  */
+> > > +struct drm_writeback_connector {
+> > > +	/**
+> > > +	 * @pixel_formats_blob_ptr:
+> > > +	 *
+> > > +	 * DRM blob property data for the pixel formats list on writeback
+> > > +	 * connectors
+> > > +	 * See also drm_writeback_connector_init()
+> > > +	 */
+> > > +	struct drm_property_blob *pixel_formats_blob_ptr;
+> > > +
+> > > +	/** @job_lock: Protects job_queue */
+> > > +	spinlock_t job_lock;
+> > > +
+> > > +	/**
+> > > +	 * @job_queue:
+> > > +	 *
+> > > +	 * Holds a list of a connector's writeback jobs; the last item is the
+> > > +	 * most recent. The first item may be either waiting for the hardware
+> > > +	 * to begin writing, or currently being written.
+> > > +	 *
+> > > +	 * See also: drm_writeback_queue_job() and
+> > > +	 * drm_writeback_signal_completion()
+> > > +	 */
+> > > +	struct list_head job_queue;
+> > > +
+> > > +	/**
+> > > +	 * @fence_context:
+> > > +	 *
+> > > +	 * timeline context used for fence operations.
+> > > +	 */
+> > > +	unsigned int fence_context;
+> > > +	/**
+> > > +	 * @fence_lock:
+> > > +	 *
+> > > +	 * spinlock to protect the fences in the fence_context.
+> > > +	 */
+> > > +	spinlock_t fence_lock;
+> > > +	/**
+> > > +	 * @fence_seqno:
+> > > +	 *
+> > > +	 * Seqno variable used as monotonic counter for the fences
+> > > +	 * created on the connector's timeline.
+> > > +	 */
+> > > +	unsigned long fence_seqno;
+> > > +	/**
+> > > +	 * @timeline_name:
+> > > +	 *
+> > > +	 * The name of the connector's fence timeline.
+> > > +	 */
+> > > +	char timeline_name[32];
+> > > +};
+> > > +
+> > >  /**
+> > >   * struct drm_connector - central DRM connector control structure
+> > >   *
+> > > @@ -2291,10 +2346,16 @@ struct drm_connector {
+> > >  	 */
+> > >  	struct llist_node free_node;
+> > >
+> > > -	/**
+> > > -	 * @hdmi: HDMI-related variable and properties.
+> > > -	 */
+> > > -	struct drm_connector_hdmi hdmi;
+> > > +	union {
+> > 
+> > This is a surprising choice. Before this patch one had to have a separate
+> > writeback connector besides the HDMI connector. Going forward it looks like
+> > you still need two connectors, one that uses the writeback member and one
+> > that uses the hdmi one. Is that intended?
+> > 
+> > I was expecting that you're going to declare the writeback member next to the
+> > hdmi, without overlap. If you do that, then you also don't need to move the
+> > struct drm_writeback declaration from the header file and it should be enough
+> > to include the drm_writeback.h file.
+> 
+> Hi,
+> Thanks for the review
+> The reason for this came from the discussion on previous patches and was suggested by Dmitry.
+> The idea is that a connector can never be both an HDMI and writeback connector at the same time
+> Hence we save space if we pack them together.
 
-- Start with the x86 defconfig,
-- Using nconfig, enable `CONFIG_RUST` and `CONFIG_DRM_NOVA`,
-- Start building.
+Hmm, but you can still have all the CEC and HDMI codecs data in that connector,
+which feels strange.  Also, what's the issue with having a connector that has
+both a valid HDMI state and an associated writeback at the same time (i.e.
+don't use the union)? Writing back the memory the output that goes to HDMI is
+valid, right?
 
-The problem is that `CONFIG_RUST_FW_LOADER_ABSTRACTIONS` remains
-unselected, despite it being a dependency of `CONFIG_NOVA_CORE`. This
-seems to happen because `CONFIG_DRM_NOVA` selects `CONFIG_NOVA_CORE`.
-
-Fix this by making `CONFIG_RUST_FW_LOADER_ABSTRACTIONS` select
-`CONFIG_FW_LOADER`, and by transition make all users of
-`CONFIG_RUST_FW_LOADER_ABSTRACTIONS` (so far, nova-core and net/phy)
-select it as well.
-
-`CONFIG_FW_LOADER` is more often selected than depended on, so this
-seems to make sense generally speaking.
-
-Signed-off-by: Alexandre Courbot <acourbot@nvidia.com>
----
-I am not 100% percent confident that this is the proper fix, but the
-problem is undeniable. :) I guess the alternative would be to make nova-drm
-depend on nova-core instead of selecting it, but I suspect that the
-`select` behavior is correct in this case - after all, firmware loading
-does not make sense without any user.
----
- drivers/base/firmware_loader/Kconfig | 2 +-
- drivers/gpu/nova-core/Kconfig        | 2 +-
- drivers/net/phy/Kconfig              | 2 +-
- 3 files changed, 3 insertions(+), 3 deletions(-)
-
-diff --git a/drivers/base/firmware_loader/Kconfig b/drivers/base/firmware_loader/Kconfig
-index 752b9a9bea03..15eff8a4b505 100644
---- a/drivers/base/firmware_loader/Kconfig
-+++ b/drivers/base/firmware_loader/Kconfig
-@@ -38,7 +38,7 @@ config FW_LOADER_DEBUG
- config RUST_FW_LOADER_ABSTRACTIONS
- 	bool "Rust Firmware Loader abstractions"
- 	depends on RUST
--	depends on FW_LOADER=y
-+	select FW_LOADER
- 	help
- 	  This enables the Rust abstractions for the firmware loader API.
- 
-diff --git a/drivers/gpu/nova-core/Kconfig b/drivers/gpu/nova-core/Kconfig
-index 20d3e6d0d796..527920f9c4d3 100644
---- a/drivers/gpu/nova-core/Kconfig
-+++ b/drivers/gpu/nova-core/Kconfig
-@@ -3,7 +3,7 @@ config NOVA_CORE
- 	depends on 64BIT
- 	depends on PCI
- 	depends on RUST
--	depends on RUST_FW_LOADER_ABSTRACTIONS
-+	select RUST_FW_LOADER_ABSTRACTIONS
- 	select AUXILIARY_BUS
- 	default n
- 	help
-diff --git a/drivers/net/phy/Kconfig b/drivers/net/phy/Kconfig
-index 98700d069191..d4987fc6b26c 100644
---- a/drivers/net/phy/Kconfig
-+++ b/drivers/net/phy/Kconfig
-@@ -132,7 +132,7 @@ config ADIN1100_PHY
- config AMCC_QT2025_PHY
- 	tristate "AMCC QT2025 PHY"
- 	depends on RUST_PHYLIB_ABSTRACTIONS
--	depends on RUST_FW_LOADER_ABSTRACTIONS
-+	select RUST_FW_LOADER_ABSTRACTIONS
- 	help
- 	  Adds support for the Applied Micro Circuits Corporation QT2025 PHY.
- 
-
----
-base-commit: 6553a8f168fb7941ae73d39eccac64f3a2b9b399
-change-id: 20251104-b4-select-rust-fw-aeb1e46bcee9
+Maybe that is not something that you considered, but with this patch (without union)
+we can drop the need to have a separate connector just for writeback. We're breaking
+user space compatibility, true, but it feels like a good change to be able to
+attach a writeback to any connector and get its output. The drivers that don't support
+that can reject the commit that attaches the writeback to the existing connector.
 
 Best regards,
--- 
-Alexandre Courbot <acourbot@nvidia.com>
+Liviu
 
+> 
+> Regards,
+> Suraj Kandpal
+> 
+> > 
+> > Best regards,
+> > Liviu
+> > 
+> > > +		/**
+> > > +		 * @hdmi: HDMI-related variable and properties.
+> > > +		 */
+> > > +		struct drm_connector_hdmi hdmi;
+> > > +		/**
+> > > +		 * @writeback: Writeback related valriables.
+> > > +		 */
+> > > +		struct drm_writeback_connector writeback;
+> > > +	};
+> > >
+> > >  	/**
+> > >  	 * @hdmi_audio: HDMI codec properties and non-DRM state.
+> > > diff --git a/include/drm/drm_writeback.h b/include/drm/drm_writeback.h
+> > > index 958466a05e60..702141099520 100644
+> > > --- a/include/drm/drm_writeback.h
+> > > +++ b/include/drm/drm_writeback.h
+> > > @@ -15,66 +15,6 @@
+> > >  #include <drm/drm_encoder.h>
+> > >  #include <linux/workqueue.h>
+> > >
+> > > -/**
+> > > - * struct drm_writeback_connector - DRM writeback connector
+> > > - */
+> > > -struct drm_writeback_connector {
+> > > -	/**
+> > > -	 * @base: base drm_connector object
+> > > -	 */
+> > > -	struct drm_connector base;
+> > > -
+> > > -	/**
+> > > -	 * @pixel_formats_blob_ptr:
+> > > -	 *
+> > > -	 * DRM blob property data for the pixel formats list on writeback
+> > > -	 * connectors
+> > > -	 * See also drm_writeback_connector_init()
+> > > -	 */
+> > > -	struct drm_property_blob *pixel_formats_blob_ptr;
+> > > -
+> > > -	/** @job_lock: Protects job_queue */
+> > > -	spinlock_t job_lock;
+> > > -
+> > > -	/**
+> > > -	 * @job_queue:
+> > > -	 *
+> > > -	 * Holds a list of a connector's writeback jobs; the last item is the
+> > > -	 * most recent. The first item may be either waiting for the hardware
+> > > -	 * to begin writing, or currently being written.
+> > > -	 *
+> > > -	 * See also: drm_writeback_queue_job() and
+> > > -	 * drm_writeback_signal_completion()
+> > > -	 */
+> > > -	struct list_head job_queue;
+> > > -
+> > > -	/**
+> > > -	 * @fence_context:
+> > > -	 *
+> > > -	 * timeline context used for fence operations.
+> > > -	 */
+> > > -	unsigned int fence_context;
+> > > -	/**
+> > > -	 * @fence_lock:
+> > > -	 *
+> > > -	 * spinlock to protect the fences in the fence_context.
+> > > -	 */
+> > > -	spinlock_t fence_lock;
+> > > -	/**
+> > > -	 * @fence_seqno:
+> > > -	 *
+> > > -	 * Seqno variable used as monotonic counter for the fences
+> > > -	 * created on the connector's timeline.
+> > > -	 */
+> > > -	unsigned long fence_seqno;
+> > > -	/**
+> > > -	 * @timeline_name:
+> > > -	 *
+> > > -	 * The name of the connector's fence timeline.
+> > > -	 */
+> > > -	char timeline_name[32];
+> > > -};
+> > > -
+> > >  /**
+> > >   * struct drm_writeback_job - DRM writeback job
+> > >   */
+> > > @@ -131,10 +71,10 @@ struct drm_writeback_job {
+> > >  	void *priv;
+> > >  };
+> > >
+> > > -static inline struct drm_writeback_connector *
+> > > -drm_connector_to_writeback(struct drm_connector *connector)
+> > > +static inline struct drm_connector *
+> > > +drm_writeback_to_connector(struct drm_writeback_connector
+> > > +*wb_connector)
+> > >  {
+> > > -	return container_of(connector, struct drm_writeback_connector,
+> > base);
+> > > +	return container_of(wb_connector, struct drm_connector, writeback);
+> > >  }
+> > >
+> > >  int drm_writeback_connector_init(struct drm_device *dev,
+> > > --
+> > > 2.34.1
+> > >
+> > 
+> > --
+> > ====================
+> > | I would like to |
+> > | fix the world,  |
+> > | but they're not |
+> > | giving me the   |
+> >  \ source code!  /
+> >   ---------------
+> >     ¯\_(ツ)_/¯
+
+-- 
+====================
+| I would like to |
+| fix the world,  |
+| but they're not |
+| giving me the   |
+ \ source code!  /
+  ---------------
+    ¯\_(ツ)_/¯
