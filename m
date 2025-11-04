@@ -2,91 +2,81 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 94A02C31CDC
-	for <lists+dri-devel@lfdr.de>; Tue, 04 Nov 2025 16:21:27 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id E3615C31B67
+	for <lists+dri-devel@lfdr.de>; Tue, 04 Nov 2025 16:05:55 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9B9E010E626;
-	Tue,  4 Nov 2025 15:21:24 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 691CC10E5D2;
+	Tue,  4 Nov 2025 15:05:52 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; secure) header.d=mailbox.org header.i=@mailbox.org header.b="AMQBiX6x";
-	dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b="DNTl9Vzb";
+	dkim=pass (2048-bit key; unprotected) header.d=ursulin.net header.i=@ursulin.net header.b="efGzd0Z/";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mout-p-102.mailbox.org (mout-p-102.mailbox.org [80.241.56.152])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 32D6610E639
- for <dri-devel@lists.freedesktop.org>; Tue,  4 Nov 2025 15:21:23 +0000 (UTC)
-Received: from smtp2.mailbox.org (smtp2.mailbox.org
- [IPv6:2001:67c:2050:b231:465::2])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested)
- by mout-p-102.mailbox.org (Postfix) with ESMTPS id 4d1BxY5y00z9tsS;
- Tue,  4 Nov 2025 16:21:21 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org;
- s=mail20150812; t=1762269681;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=Iyw2a6XGrVsDBi+ogcdblT77R4F5a2qgkSqZJ6Q4CEk=;
- b=AMQBiX6xFZmcOncbHcyQ7z5bWygUWTzLAQc9ScI5DoR8WB2yM7OVRybP4riyHquQeTzRrd
- mnNWOFAeyEOX1wrRHd0J9ZNlnghIuLmwFmQJNdNlftDV7nye3dGWJzAvqtrMy/igEDDSh8
- 7awOjrvcYo5jGPEamJZq4VTs2p7qxIhk8VZyspINdyhWvhFDPzZsrxne9aQ52giWq26bP9
- aDkfm2DFbHBirF8aJq+rqeOm5eMzQYR42D+6DN4rvHFmb49lJMDPblJxCmiZUidac2pGQO
- yerbz7/AttZb+yUXo9KK70V6eSfeQ5iJpes4ltktGO0iSSIFN3xtzawuy1BJ1g==
-Authentication-Results: outgoing_mbo_mout;
- dkim=pass header.d=mailbox.org header.s=mail20150812 header.b=DNTl9Vzb;
- spf=pass (outgoing_mbo_mout: domain of marek.vasut@mailbox.org designates
- 2001:67c:2050:b231:465::2 as permitted sender)
- smtp.mailfrom=marek.vasut@mailbox.org
-Message-ID: <d37adc12-4ba8-4f0d-aa9a-9071e153917f@mailbox.org>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org;
- s=mail20150812; t=1762269679;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=Iyw2a6XGrVsDBi+ogcdblT77R4F5a2qgkSqZJ6Q4CEk=;
- b=DNTl9VzbnMDKEG5USWEmX8/muXmK0aVd1LEOgDS+SbEUWHnql/Ft1diJV4ig6Z0VoDwoQ/
- D0HWfETWpmc6NcmUeWfhyHV56Ls2or9E35CX9vQFRMp4AV190d703EuO8BPHB3bApp4I4y
- 77HD78UA849bddwVTApTilR5PJ6bNsFwZlhzhHVOfEqTMLiJpf7rXTgWTbta+bvAmyIrcH
- NivudVHkKiKDhbBVwkt9Ojh2sMk1RjobQU6HnyCtqfvuUe2UVSDmUXvyU/dwHpPydvnAx2
- jk8COqU7wpQd8fwJL7/oa7DVwGVfwh1yWXTP+PZuaVNmJcFLOHcKB8jyIchnXQ==
-Date: Tue, 4 Nov 2025 15:23:08 +0100
+Received: from mail-wm1-f48.google.com (mail-wm1-f48.google.com
+ [209.85.128.48])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1A9AD10E283
+ for <dri-devel@lists.freedesktop.org>; Tue,  4 Nov 2025 15:05:51 +0000 (UTC)
+Received: by mail-wm1-f48.google.com with SMTP id
+ 5b1f17b1804b1-4710665e7deso26626565e9.1
+ for <dri-devel@lists.freedesktop.org>; Tue, 04 Nov 2025 07:05:51 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=ursulin.net; s=google; t=1762268749; x=1762873549; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:in-reply-to:from:content-language
+ :references:cc:to:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=AlvoX2iNCnI6J0QF0/fbI3mWGM7eomLwPcxMgnHgE+s=;
+ b=efGzd0Z/EzAhF1s23ifLv1yvoyTvGdnPfkpjBMAmJ/XXv0mCMkorZKjwApkiM+xuKG
+ YvXREJS2Fg92L0yihWGoI4lEj0ht9z9QHVUvqCI5mJw219+V2J5b9JN9Ikf40ZmoBIyh
+ r1U6HlwO8kuh+pmWYNKyTtwmE2EP8zbvFmScbE4clNHe3hdzMnSEoLxty8/LKZO5jXXj
+ cEEwMYLVQ9zQJrPoDqgskWWuhE+VgUmThkqwHoaZRbUG/6hZn8jTSrS/cZbpDn7XyBoE
+ va5VqskEDUgGWLJ+RiKGwz6kPycDTjdx+QPInmSz4qXJbWHgJnyS5j4+vZJ3ZvmUTyWN
+ EutQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1762268749; x=1762873549;
+ h=content-transfer-encoding:in-reply-to:from:content-language
+ :references:cc:to:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=AlvoX2iNCnI6J0QF0/fbI3mWGM7eomLwPcxMgnHgE+s=;
+ b=e2rW5ePPSuuDPXUUd1gesRdHodNNdkCIUcX1bcPXx73en0ys5WxDCDfOSfzrDP9ihx
+ xlL7vB9hEciPNoZWTWCucmcY5Q497N1swgOtluDaTuhmKSC3sEMAIQs5r5JdmLOC82/W
+ 2miYK1ok8pyicxgsQBeD4V67khE4C1uxtV/8NCtJS+Yb71UC1J/XCm03UMmfExwCKevy
+ lvNmr/Z9ueuRqtEK8dx8IP8xtD+5aTp2PbvZVqoFAHJpR8Lkucq6iOSTzNyfAfRajo3v
+ nN0Vh+giEOCDDhQHtPDHVeEbLtaQDpg9mWQnL+KfNV0AuxgYw+K1hH6zQtFjKQ3Le/C+
+ qrCw==
+X-Gm-Message-State: AOJu0Yzcf/TfvjAJoqT9lrv/fG5KbCUiQnzw93jF14OLbYU1y5kH85KD
+ qF0h84NN68au6siI3qhbszwo6+XWbUgwr82Y6M/alT4I3Qq5MLJtRLtL3mpODGNLb1w=
+X-Gm-Gg: ASbGncvNKs5vQtu7l6EtB11TosHz+EzNXsYK72a/UtergkgZ3AKZXbDfhiWU9Vx6Inh
+ 29xwMFFErHfbUbJm3XTYiSR7jRyJlVbduBknAFZft8f8sBhNicdYBZCX9/V4JpA93lwc0lfXUWo
+ KzlG0lI4lB7JeU+mG5G6Su5aCBqom89bSpe/KoZxdOETOtQa/13h+QoGSIbbGi9BVeUH2wz/8z9
+ rH7Xpn0VcbyYRVt+zMYdB0y8RjkgOxFhTjwHtJhOE+gHwtR8vKOIz5xXwMb7lrI0ONIgSry8g/r
+ Svxj3yjc5vM20x6JkpJMCeknCKJoh8Tf7a49f5g+GGyYoROrRa2l2cPvw0ZBt4HQQ88e582giid
+ JyK5WtD/YTRFIvb6MeJJm1XSu9d+83CEVSB9xCsfqKgwKlum0eYwmOPfLJO8HDfK9BLif7yhvJZ
+ BCxGbgRw7QfRca/jiS
+X-Google-Smtp-Source: AGHT+IE4uSgi6DaJG7/TnMZJ3RvykIHu+AT5e2DgQc/XYdPH4m3Do18Xs2kqXknHeNPsU8Lv4WNFuQ==
+X-Received: by 2002:a05:600c:45d3:b0:471:1716:11c4 with SMTP id
+ 5b1f17b1804b1-477308c263amr188249945e9.34.1762268749096; 
+ Tue, 04 Nov 2025 07:05:49 -0800 (PST)
+Received: from [192.168.0.101] ([90.240.106.137])
+ by smtp.gmail.com with ESMTPSA id
+ 5b1f17b1804b1-4773c383c20sm223253835e9.12.2025.11.04.07.05.48
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 04 Nov 2025 07:05:48 -0800 (PST)
+Message-ID: <ef721c8f-977d-4c10-90a9-379c3b86a3db@ursulin.net>
+Date: Tue, 4 Nov 2025 15:05:48 +0000
 MIME-Version: 1.0
-Subject: Re: [PATCH v2 2/3] dt-bindings: gpu: img,powervr-rogue: Document
- GE7800 GPU in Renesas R-Car M3-N
-To: Matt Coster <Matt.Coster@imgtec.com>,
- Marek Vasut <marek.vasut+renesas@mailbox.org>
-Cc: Geert Uytterhoeven <geert+renesas@glider.be>,
- Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
- Conor Dooley <conor+dt@kernel.org>, David Airlie <airlied@gmail.com>,
- Frank Binns <Frank.Binns@imgtec.com>,
- Alessio Belle <Alessio.Belle@imgtec.com>,
- Alexandru Dadu <Alexandru.Dadu@imgtec.com>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Magnus Damm <magnus.damm@gmail.com>, Maxime Ripard <mripard@kernel.org>,
- =?UTF-8?Q?Niklas_S=C3=B6derlund?= <niklas.soderlund@ragnatech.se>,
- Rob Herring <robh@kernel.org>, Simona Vetter <simona@ffwll.ch>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- "linux-arm-kernel@lists.infradead.org"
- <linux-arm-kernel@lists.infradead.org>,
- "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
- "linux-renesas-soc@vger.kernel.org" <linux-renesas-soc@vger.kernel.org>
-References: <20251104135716.12497-1-marek.vasut+renesas@mailbox.org>
- <20251104135716.12497-2-marek.vasut+renesas@mailbox.org>
- <5e2ea623-1e41-4cf3-a81e-2ab7d288c013@imgtec.com>
-Content-Language: en-US
-From: Marek Vasut <marek.vasut@mailbox.org>
-In-Reply-To: <5e2ea623-1e41-4cf3-a81e-2ab7d288c013@imgtec.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 06/20] dma-buf: use inline lock for the stub fence
+To: =?UTF-8?Q?Christian_K=C3=B6nig?= <ckoenig.leichtzumerken@gmail.com>,
+ phasta@mailbox.org, alexdeucher@gmail.com, simona.vetter@ffwll.ch,
+ airlied@gmail.com, felix.kuehling@amd.com, matthew.brost@intel.com
+Cc: dri-devel@lists.freedesktop.org, amd-gfx@lists.freedesktop.org
+References: <20251031134442.113648-1-christian.koenig@amd.com>
+ <20251031134442.113648-7-christian.koenig@amd.com>
+Content-Language: en-GB
+From: Tvrtko Ursulin <tursulin@ursulin.net>
+In-Reply-To: <20251031134442.113648-7-christian.koenig@amd.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-MBO-RS-META: fy383rnxybucsoo939z786g6im7yf389
-X-MBO-RS-ID: 3280eb3815e7cec32ef
-X-Rspamd-Queue-Id: 4d1BxY5y00z9tsS
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -102,16 +92,65 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 11/4/25 3:06 PM, Matt Coster wrote:
-> On 04/11/2025 13:56, Marek Vasut wrote:
->> Document Imagination Technologies PowerVR Rogue GE7800 BNVC 15.5.1.64
->> present in Renesas R-Car R8A77965 M3-N SoC.
->>
->> Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
->> Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
->> Signed-off-by: Marek Vasut <marek.vasut+renesas@mailbox.org>
+
+On 31/10/2025 13:16, Christian König wrote:
+> Just as proof of concept and minor cleanup.
 > 
-> Reviewed-by: Matt Coster <matt.coster@imgtec.com>
+> Signed-off-by: Christian König <christian.koenig@amd.com>
+> ---
+>   drivers/dma-buf/dma-fence.c | 20 ++++----------------
+>   1 file changed, 4 insertions(+), 16 deletions(-)
 > 
-> I'll take this and P1 via drm-misc-next later today.
-Thank you
+> diff --git a/drivers/dma-buf/dma-fence.c b/drivers/dma-buf/dma-fence.c
+> index f9d7439275d1..0dbd2f641f37 100644
+> --- a/drivers/dma-buf/dma-fence.c
+> +++ b/drivers/dma-buf/dma-fence.c
+> @@ -24,7 +24,6 @@ EXPORT_TRACEPOINT_SYMBOL(dma_fence_emit);
+>   EXPORT_TRACEPOINT_SYMBOL(dma_fence_enable_signal);
+>   EXPORT_TRACEPOINT_SYMBOL(dma_fence_signaled);
+>   
+> -static DEFINE_SPINLOCK(dma_fence_stub_lock);
+>   static struct dma_fence dma_fence_stub;
+>   
+>   /*
+> @@ -123,12 +122,8 @@ static const struct dma_fence_ops dma_fence_stub_ops = {
+>   
+>   static int __init dma_fence_init_stub(void)
+>   {
+> -	dma_fence_init(&dma_fence_stub, &dma_fence_stub_ops,
+> -		       &dma_fence_stub_lock, 0, 0);
+> -
+> -	set_bit(DMA_FENCE_FLAG_ENABLE_SIGNAL_BIT,
+> -		&dma_fence_stub.flags);
+> -
+> +	dma_fence_init(&dma_fence_stub, &dma_fence_stub_ops, NULL, 0, 0);
+> +	set_bit(DMA_FENCE_FLAG_ENABLE_SIGNAL_BIT, &dma_fence_stub.flags);
+>   	dma_fence_signal(&dma_fence_stub);
+>   	return 0;
+>   }
+> @@ -160,16 +155,9 @@ struct dma_fence *dma_fence_allocate_private_stub(ktime_t timestamp)
+>   	if (fence == NULL)
+>   		return NULL;
+>   
+> -	dma_fence_init(fence,
+> -		       &dma_fence_stub_ops,
+> -		       &dma_fence_stub_lock,
+> -		       0, 0);
+> -
+> -	set_bit(DMA_FENCE_FLAG_ENABLE_SIGNAL_BIT,
+> -		&fence->flags);
+> -
+> +	dma_fence_init(fence, &dma_fence_stub_ops, NULL, 0, 0);
+> +	set_bit(DMA_FENCE_FLAG_ENABLE_SIGNAL_BIT, &fence->flags);
+>   	dma_fence_signal_timestamp(fence, timestamp);
+> -
+>   	return fence;
+>   }
+>   EXPORT_SYMBOL(dma_fence_allocate_private_stub);
+
+Reviewed-by: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
+
+Regards,
+
+Tvrtko
+
