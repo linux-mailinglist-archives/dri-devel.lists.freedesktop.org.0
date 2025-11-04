@@ -2,50 +2,49 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 79D84C2EF65
-	for <lists+dri-devel@lfdr.de>; Tue, 04 Nov 2025 03:26:19 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 46786C2EFCB
+	for <lists+dri-devel@lfdr.de>; Tue, 04 Nov 2025 03:39:15 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3735E10E122;
-	Tue,  4 Nov 2025 02:26:16 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E443310E118;
+	Tue,  4 Nov 2025 02:39:11 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=nxp.com header.i=@nxp.com header.b="TRQeVesB";
+	dkim=pass (2048-bit key; unprotected) header.d=nxp.com header.i=@nxp.com header.b="X3ntksFw";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from GVXPR05CU001.outbound.protection.outlook.com
- (mail-swedencentralazon11013053.outbound.protection.outlook.com
- [52.101.83.53])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 008F010E122
- for <dri-devel@lists.freedesktop.org>; Tue,  4 Nov 2025 02:26:14 +0000 (UTC)
+Received: from AM0PR02CU008.outbound.protection.outlook.com
+ (mail-westeuropeazon11013035.outbound.protection.outlook.com [52.101.72.35])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8224A10E118
+ for <dri-devel@lists.freedesktop.org>; Tue,  4 Nov 2025 02:39:10 +0000 (UTC)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=ypUvXxSm+ujsGALPcRDXdmM/hKVBrOBxVBob+a4I1lhXJzLM+qphvNRPCF5zsBoEvotYfGF9MxaaMmXl3FFBO774nZSn4DFGEJsWquAcVngqXRrXB4wAaY2C9ACPpI6vDAzEZiycnJdSFOH9Nu4k9AmZ98CFsyqZIYNdFNKxMqcyVKfbVrBSARiOZR6p5KEaYi2+XzHE3EHOWCScz/bZPWkYZ5BBHPOtACS4lsS5zw27Q/+cvIM5IE004gHrNU3ALDsJYFPb8gQ1AX2w5Q0Mdecq+qDB7SDeCSufy2uMdGBfRGpWLkGkxvPV1E4a/LoHnxsZR/KdjWcSq3oZAecy0g==
+ b=ByOMS5bnvMYuiQmMgHgvNxntLfTRf57D5A1F2j6diXJsxy9uxDGjpnoMxxdV3HTZcJRtMCPfDkGk3G62AJLGhsOYF7oTNglUosww7b035l2JpDteUd7y9lhOSZ/JEEmK+uP6Im/YlB29DTPcu9wrYPNahoGRqfaVTQlWFv+p6c6Sg0COJJGSqmaAw/sxPCAm9m+2yTUHHCaGtyFhOvf56C4tUy+ZWEHrF1FgQrCVSJgcEYI7kO30lGFEbqGJ0XguKNNsMaAJkMbY41/vWWql0CltfImL5MUffyuWBv3/lysHvRnyQ4b0Mrszcvwvq0mzgwuML4m9rkdjPBG6dRCREA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=4vC0h4JnCfT/BdBqI3sBn0Eh0FDKHpY7Hd+ZiDbJzq8=;
- b=TW2g6ShSVWDFqB9jTEE7J2xNyYr2EZMWGPqecQZHXZ/gh4PGYw5ArCjiHucmvLwSAI6A8xa5CkpY1KrK5tbKL7DK3R2g4m0uRyWmK5KpQZsiMzJ+zUZZ6tktDm9UqB6wAqwxGv8bV3RmIxUZIf/JB3JLegcSNMEmp72h53IJiOgxLtn51PRu5UAm9KUtq7DSZvz1GJjlrznBwh6hFR4TmfEFwEiwHd49FBeEZJ6PIFukuuJnSD/sf2NG53eKTAi7quyFf/noTDcKy44rTKgCIN4jcLejEq5Tjs2LwGs7y/G8Ln1TfUXQMohdZdq9rzOJqdvMU/SbwXIu899FO4pcbQ==
+ bh=KKD9/4u++4dc1PsBobs0R+YRbXFllA4uhEaOWYDIV6E=;
+ b=xrcRdwNluZbvay6hIYa7Q8vv1Yo+d2kuf/5Q5aRrXNAD1DLltQd76b3VrRP49WfGuFeebXlfaNFSEkqMlhGTfei8bj+HdGLR52vKhIYOpXi+HQojOqs2fWTwN8UVs+aMGZCcAwSoY+1n1Mo5KaTLsppH/dS6+apHSPQVsfIrh2ufYjpxA2DG2L4Ycxb6Jl9klAlTc2+ALRKUcURBuiAdDducyqJV9fmx92l3OvE2UEwt3Aq80quwxlC98GYIkAIGRFnqrJXwo1sgGS3jkGBYMSY6DdDviHjkvYexqM865HVdhe8N17LwFkHjMyv26cuGzn4dY0r8xD6VRZZiBaD/ig==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=nxp.com; dmarc=pass action=none header.from=nxp.com; dkim=pass
  header.d=nxp.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nxp.com; s=selector1; 
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=4vC0h4JnCfT/BdBqI3sBn0Eh0FDKHpY7Hd+ZiDbJzq8=;
- b=TRQeVesBaQSm3DYet2pS/hV5jm+7DE1EY1A6gL4Qw4E/uJOCgAn75P8MllkNYcvON9kmNTvg9hCI6hlQtsHsxHEJh9t8s50COezkNKDh/iRMxcSyGhw2TXshqIc3l+zlA4ZbQJoZDoRwL6ZlGWK5wNHQj2syXIu3kN6BkhhUp5LoBMopkIpvRvuHSS0a//YWWGs5s/pSh+GrYLj7kORf4EtaIH2lGRwKNtLKzutjU/KU+JLabLp3CdqISqDtjquZ1TDdvRuzPwSPp3teAvoSbCdi4wzh79htre1On1C/nNNAG6vhXihXQwaOlyMrhbhcT+m+TFfkxiuH9duETsfN3w==
+ bh=KKD9/4u++4dc1PsBobs0R+YRbXFllA4uhEaOWYDIV6E=;
+ b=X3ntksFwbz3m33uNh/UAIc1KHJWT3XTwW+0SkWEOZv/S0LsybalBb2mW7j+EKT8wq3JZwz6O7B09He95sOgSp/JHtKiO54aolQS+ghOGV6XfWhXa4BCoCDxETA3KN+Jjc77ydZnSrfEHwek4keZFZJ8BR40pPGw1b3TAL9bUjgPlkSl1Gx5uTo0vw08eyjnB3PEj/n79vZCIlL7wBWInZChG75TqPQhNn4fdU2L0w2V+Vm6SrUrYOjm3opoqy+yjx2xktsHr+GZhC4gWhykYs4RkHcP4E4mkipCktU86OpoTzwkniCE6VwEH7lQ/irer4Hgap04llhKO3HslycwfIw==
 Authentication-Results: dkim=none (message not signed)
  header.d=none;dmarc=none action=none header.from=nxp.com;
 Received: from AM7PR04MB7046.eurprd04.prod.outlook.com (2603:10a6:20b:113::22)
- by GVXPR04MB10355.eurprd04.prod.outlook.com (2603:10a6:150:1db::20)
+ by AS8PR04MB8359.eurprd04.prod.outlook.com (2603:10a6:20b:3b3::17)
  with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9275.15; Tue, 4 Nov
- 2025 02:26:11 +0000
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9275.16; Tue, 4 Nov
+ 2025 02:39:07 +0000
 Received: from AM7PR04MB7046.eurprd04.prod.outlook.com
  ([fe80::4609:64af:8a4b:fd64]) by AM7PR04MB7046.eurprd04.prod.outlook.com
  ([fe80::4609:64af:8a4b:fd64%6]) with mapi id 15.20.9253.017; Tue, 4 Nov 2025
- 02:26:10 +0000
-Message-ID: <b65d9221-bdb3-4e69-beed-6b7646c5d5eb@nxp.com>
-Date: Tue, 4 Nov 2025 10:26:37 +0800
+ 02:39:06 +0000
+Message-ID: <4beeffe0-6ae4-4039-9904-3ec318533a1d@nxp.com>
+Date: Tue, 4 Nov 2025 10:39:31 +0800
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] drm/bridge: fsl-ldb: Parse register offsets from DT
+Subject: Re: [PATCH v2] drm/bridge: fsl-ldb: Parse register offsets from DT
 To: Marek Vasut <marek.vasut@mailbox.org>, dri-devel@lists.freedesktop.org
 Cc: Abel Vesa <abelvesa@kernel.org>, Conor Dooley <conor+dt@kernel.org>,
  Fabio Estevam <festevam@gmail.com>, Krzysztof Kozlowski
@@ -56,110 +55,107 @@ Cc: Abel Vesa <abelvesa@kernel.org>, Conor Dooley <conor+dt@kernel.org>,
  Thomas Zimmermann <tzimmermann@suse.de>, devicetree@vger.kernel.org,
  imx@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
  linux-clk@vger.kernel.org
-References: <20251017154029.105099-1-marek.vasut@mailbox.org>
- <dc4b1b65-542f-4bd2-bd91-af3fe4223b63@nxp.com>
- <55d44163-4f37-462f-b860-c862cb5ada5a@mailbox.org>
+References: <20251102170257.65491-1-marek.vasut@mailbox.org>
 From: Liu Ying <victor.liu@nxp.com>
 Content-Language: en-US
-In-Reply-To: <55d44163-4f37-462f-b860-c862cb5ada5a@mailbox.org>
+In-Reply-To: <20251102170257.65491-1-marek.vasut@mailbox.org>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: SI2PR01CA0042.apcprd01.prod.exchangelabs.com
- (2603:1096:4:193::23) To AM7PR04MB7046.eurprd04.prod.outlook.com
+X-ClientProxiedBy: MA5P287CA0105.INDP287.PROD.OUTLOOK.COM
+ (2603:1096:a01:1b5::7) To AM7PR04MB7046.eurprd04.prod.outlook.com
  (2603:10a6:20b:113::22)
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: AM7PR04MB7046:EE_|GVXPR04MB10355:EE_
-X-MS-Office365-Filtering-Correlation-Id: 853b5f21-6543-49a1-32bf-08de1b4984a3
+X-MS-TrafficTypeDiagnostic: AM7PR04MB7046:EE_|AS8PR04MB8359:EE_
+X-MS-Office365-Filtering-Correlation-Id: 76d5cf79-43bb-4915-c8f4-08de1b4b5321
 X-LD-Processed: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635,ExtAddr
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
- ARA:13230040|1800799024|366016|7416014|376014|19092799006; 
-X-Microsoft-Antispam-Message-Info: =?utf-8?B?RDVqZW1pZks1S3M3MUhHWnVGR1JqREJqbDMyQVdjeEZDdDZ2TzN4QVNJeGt6?=
- =?utf-8?B?ekttMy9hSmF6SFN5TlFsY21BM0xmaWlTUFNwV1ZRcTBrZDFTWld2ZlhQZmVV?=
- =?utf-8?B?cFFvTWFDNCt6QzJHMzhCTkUwU3FEcHIwY1dMTjBwT2haU3p5Y1BwcitLaUlQ?=
- =?utf-8?B?UmZPV2FFNjR1WThoeUlXUkZBcjRiZ2U4biswVytQSUs2UHAwWFpMYlNSTkRT?=
- =?utf-8?B?T0pDV1kvbnpDcmI0VTdvUjRnU3ZxaGNadjNDN0FWT0JMeDRkNkVLRWJ2SWtk?=
- =?utf-8?B?bGVCUHBsWUJseWE4TWF5TFdySWpTOURmZHBjQ01pSzJIMVA4U2g2aG4yRDJG?=
- =?utf-8?B?all3eklwYlNNZHdZaTNPUmNVK3RjcVVRWWZMeGVEUitnQjNsY1FkSzJnZUZM?=
- =?utf-8?B?VlA5SmkxMmw1OTQyWHMzN3N0UnNjVHpMaUpjWHVTWGloOENCcmZLVitwd1Rk?=
- =?utf-8?B?MUI0UGdPWEliNUErMFc1RkhIdVErL05lSHBod3FhSmVqU0FBYzBjdFVvWWtk?=
- =?utf-8?B?dGJMQXM5cVFWcjQ2ZFNTR3p6dzIwNlkzVlljSk8xeUxzNnNEMHFES0FwcUg5?=
- =?utf-8?B?TG9CTGszMzducm03L1JBKzh4OEJVSmtuUFJOS0tQc0p1RUNmejBFc3ZpM2tp?=
- =?utf-8?B?YzBaMUVzSjJLV0xHVkNtMTZ1K3M3emlTY0l1VHljOTR2bnFwU3M5SFdjOFVs?=
- =?utf-8?B?OUtCOURFWUhhQ3p0UGozMStPUXlhTTU0UUdnc0x4M0hPZlZGZnBiYXd2RWFl?=
- =?utf-8?B?Q3cvV25PTVhSaXNQWUJZWnQ5Mmd0WHVCOFo5Q1FLaGlxSVZYQnRibzcvVUJF?=
- =?utf-8?B?OVplTllFQ3JJdFVMM3NTbDFyZHpoa3dIMmg4cWdKUHRKV3NGN3BQUE51dWlB?=
- =?utf-8?B?N3JBb2tsR0cvVkxsdkhnb2M2dEVjMVhCcVV6U3M1REF2d3hlYWlLaUVPVzI3?=
- =?utf-8?B?dEdyZUt3NTVHTEZmWSthWXdqNTQ2QTZnU1BrK0MvK04zUUVkeDlnSG5Sa3Mz?=
- =?utf-8?B?Wi96SGl5TXZxTWZrSUFZWnZ4YlN4bStNdVJ2K2k3N3ArSHRvdjljR25ZYWRo?=
- =?utf-8?B?SHphZVM4RmdrbTR6NmRCMGJ2OWtqOWsrQW8walZFYU1DSDF0YklLYUZWT2hD?=
- =?utf-8?B?MnlCUG1DK0MzclRuQlZRdnhFNDNtRzkvRGdSTFllbVA0cHJLNDh1T0hCSkY5?=
- =?utf-8?B?OUV4VU1BZnA1ZnRVamxqdGRpcmxZZ21IR2Y0VUpYdXhjamVQZ0JGM0FPUVF3?=
- =?utf-8?B?TjlHbzl0cDJDNzdkNk40MHlPd1VqejRFWUhyOC9xRmtTQTNHekVKcWZQQUE4?=
- =?utf-8?B?MlpZNGdENVVWUnNKeG9zb0lkWkE5cUxtVlhkby91TVpWVU1lSEkvdG8rY2Vx?=
- =?utf-8?B?QjZLbGNDUWpnMWlSRHNKOFpiZ3ZYQ3pEV3lreUVkcVhoTVJNQWEvSGhvUjVr?=
- =?utf-8?B?WTFVV2ZYWm8zWmR4K3h2N1JlUnhPd2kzZGJWSFNiUVdlSFZSMVJQVDYzbmFJ?=
- =?utf-8?B?QVN4MFp2OVFuSkVlTTFRSGJ2N2ZMTWhJTXRMUHViOVNhbGt0WDJIY3M5TG5n?=
- =?utf-8?B?eExpTmpTUVVqSDBSSVArY3ZrWEZGRXlsbjFXZWErY1N0R1pxWXpSZlhjbjNY?=
- =?utf-8?B?UjY0VUNoQlZreUFJL0E0MitHSkV5dDJZRFNQNnBiSjZrZHBlRnFvaGRVQWJj?=
- =?utf-8?B?ZGVSenhuQ0tIdUtyS0krMXdkU1lZU2JmNFE5WHk5TTF2R0RMQnlpVzVTYVBK?=
- =?utf-8?B?eGF5L0pReTI1SzlHRFhxc2I2Y3NGbkkvYUp6Mk13YzNocUNZSFFZU2lPOUNr?=
- =?utf-8?B?RFJvYkJ5b3hTeFczc1VjTFJKQVZFdjkvMCtUZGRGNTFrMFoxOS84a1hISVc4?=
- =?utf-8?B?UmpXSy9BcFFzTEhuVzg4cmxiU0FtWUhEM2hrRFZWL0thS3JjeFJMTi9Bbmtl?=
- =?utf-8?Q?s9MKCW74tbjYvBl2F0Yifh2FA2L5j9Wk?=
+ ARA:13230040|376014|7416014|19092799006|1800799024|366016|7053199007; 
+X-Microsoft-Antispam-Message-Info: =?utf-8?B?R3hxZzdubFErZW9qd3Mrd1phakJFRXJNSklZNStkZGRBYVR5YkwwVFIvMzBo?=
+ =?utf-8?B?WkpqbTFCV3U1VUxha3ZPUUNLeGVCMVI2ck9UZjBJc09zOEQyUUtFZHRxNFJQ?=
+ =?utf-8?B?b2VhR1E2RW1MWlEwSFpmM3hubDA0dGFOdmxDdWZob2lSc1JCcXVXck1Od01G?=
+ =?utf-8?B?V0J5ZFJoS0FxMnhTWnE5enUrcFZIUHJ4WmdaQ3BVZU9uZmd1SWxmbHBNNnNy?=
+ =?utf-8?B?YkZjeDROaGpZWmhKbm5MbXdnWlNuSkJpc3VYd2FoejZXOGt3SEd2M1BudGtF?=
+ =?utf-8?B?dUZsQ3dlbTdCa0hlQndjbmdnWk9EVXQyTHdhcHBHandkVktNbUNtaDNDUStp?=
+ =?utf-8?B?R3d4TEFHYkNSenBzTGh3VWNwVnRPZ0xBOGVka05KVVRNNUQ4bGZVTmxsaGk1?=
+ =?utf-8?B?Vmd3QkNxYkdpTkZqQzgrQS8yNmdZM0ZoZUQvRVovK0g4aG1PbXBDM05SY1Mz?=
+ =?utf-8?B?MFRUZ0NrditTVUxjRFpEVHFHRGwxTlRsODV2UGF5OWM1cVluMWVPTDV0dDN0?=
+ =?utf-8?B?WFc1bC95NnNRMUR0NVVLL2ZYMXh6UmlQMDhoNTVGSmhzRnk0ZVRhQWJ6N2c2?=
+ =?utf-8?B?L2dWT2h0V0VkWHdEZkMrbTZKbDNxcngwbXlVQW5QZ1p6SkVCdWx0Wk81Tk1y?=
+ =?utf-8?B?NFFzSnNXMzgxK0xROEFheXJPemtGclovcTBtTzRDUXIwWUNxRTcyNXJNc2Zj?=
+ =?utf-8?B?WmFBSDJlWTZLc2pXR1hyWUcvNlE1czFQN0FYM2FCaVcrRktPUTN0a0Q1a202?=
+ =?utf-8?B?WjFGNUFXMkdhZHRzczF4MkFWMFRGbE9yQjVBcDhoemFIUG1JNzhDa0JHb3Rh?=
+ =?utf-8?B?WEVtNG9EOVRnUGdmVVhkUzVYWmY3cTRJTE1CNTZURjAybGlNSHRsd2lSZTUw?=
+ =?utf-8?B?SU96ZFZZVW1VK2I3MnFhVjBlaVdyRlZXcmc1MlMwbTFSTHFZL0M0Ulc5NjF0?=
+ =?utf-8?B?YzcxM2JCWjdoYy9pRmF2Z1NWM0NzblF6bXFhb05TQm03ang0UzRIc295WTBo?=
+ =?utf-8?B?eWtOWDlqUjBBWXFGeXZxUnlYbXhzamdRQlR3THFWWTFkQXh4eW1BSVV2ZVl3?=
+ =?utf-8?B?TnZwVmp4ZlB6Rk1yNXQ2K0dwaUdoZVQyci9WbWhoNEMwQ25Ka0tMM01XRy9y?=
+ =?utf-8?B?aGhEUllObFlHbTB1d2pPWHZCVkJpUThRNGF2YThjS2F0VElDc3ZWSzRURDhM?=
+ =?utf-8?B?dGVWYjVqNklidk9iV25wcUFkaHdRYVRDYWJNZEwwWUxyM0J3LzZYSUNKb3hu?=
+ =?utf-8?B?aGExZlR0M20rU2dpa20xREViQjJ4aWZXSTRIRVhVK1pMT0xaaURIQ0hHK3U1?=
+ =?utf-8?B?YUt6WmFtT2RyUzY1eEtGdnNiK2p1aUMybTZadUFhdU5MMEFVemEzcE9VOHp6?=
+ =?utf-8?B?eXppK25rZGRKOThXdVRpTlpaeDNrS3NtNXZWaWZ2cHh4bExoZWNTWDE3VWVU?=
+ =?utf-8?B?b3luQmRadE83Q1BnOHJOUGkwVkxLbGcvZllDNnFBd29EL3hXclVNZ1lEaHBz?=
+ =?utf-8?B?eVl0TC9PMjh5aW42UHh0bTRsbjJ4elU2Uk5JYmMwVm0rd0ZvRTVkTFVxeWY1?=
+ =?utf-8?B?QTREVHJ3NkN4VEhZNUozb0dnQzMxS0hHZTg3eE5LMk16ZHdwMUsvcmF4MFhQ?=
+ =?utf-8?B?VDBRaDRlaVhudnc0R2E5bUM1bmM4V2hJWjZVZDFNMmZsMllyb2N5cnBUWjNL?=
+ =?utf-8?B?UlJnTlNPenZ1cXpySTBnTTBhWkMvekdKT2VVcXRldkc4bUQ0UjFIMUdMNzFp?=
+ =?utf-8?B?dDB4UFdWOElvbG1TSEUxM0V6Y1N0SEY1NWFZVXBhakpnMUp3Z1Z3TEUrVXA3?=
+ =?utf-8?B?QnZBZWkwUDdUME9rbWhOdmRWRmpyT3orSDd3MmtSakRoQmR0dnhCUWZ0Q2ZT?=
+ =?utf-8?B?RTRJTFJOclBkSkZoSDI3bjB2Zit4azJybzlQamhEZ0hQSkE9PQ==?=
 X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
  IPV:NLI; SFV:NSPM; H:AM7PR04MB7046.eurprd04.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230040)(1800799024)(366016)(7416014)(376014)(19092799006); DIR:OUT;
- SFP:1101; 
+ SFS:(13230040)(376014)(7416014)(19092799006)(1800799024)(366016)(7053199007);
+ DIR:OUT; SFP:1101; 
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?NlpGa0UvdmhZMGsrdkZoK3ZPNkh6UEk3b29kYzR6SkovcEVoenNoR1o1SUNL?=
- =?utf-8?B?Tk9ZdHQ5SUFIUUQwbi8wWE9PN3phT1JyYWlyOXRoMlRpeWNEVUpQbVRsdGhm?=
- =?utf-8?B?cjluVVhmeUgrQkdRczJZenBBc295LzB0RWU5U05yd1RRdG0wcHI5SlMwd2Z2?=
- =?utf-8?B?cUgzVWNSUXRlN2NQZm1NWHpwN3JSdEhBeXlrSFRMNnh5dTRRN2M0OEhlT0hN?=
- =?utf-8?B?MnVIY21YS2wvODRUc2VMQjV4YXpRYm5DWXI1OEFCSFRKWjZOd0FVU0xQUkVX?=
- =?utf-8?B?SjZ0RUNWcnp2V0VGOUhvNU9yN0hENzJDTHdGM0FEYStvS0kwS3N4MFgvQmND?=
- =?utf-8?B?ekdqeHY2YWo0My83cmVETTJ5YWJOb1FhdEVzZU44MW53K2NyT1N0SmJabkJ2?=
- =?utf-8?B?aXU2WktGOFVCQXUzaDl0NktVTFZaMitJMHhIQXI3dHozTGVweDREaVJoTGJE?=
- =?utf-8?B?UjBpem12MENiSzVlVCtHeUJxN1pxb204TVB5OVFDSHlld2RzWjJxanZxcU9w?=
- =?utf-8?B?b2FrVll3bFJqelVGNit6VTRXUkNTOVg0RTdFWEQxYmtqSklhb2Y3elpvSVZs?=
- =?utf-8?B?YUF0ZVlrZ0E3cEVmY1gzU3crY1A3WDMzVVFVWHRSNm8rN1l1bmp6R3Q0NlN2?=
- =?utf-8?B?SkNObjF2UUh2aVBFRW4wbEFMY1ZXNmdVZ3hpZVhXTGZmZVNzT25UbFg1TG94?=
- =?utf-8?B?MWExVHdSVklQWjZ0VnNlRmdmc3JLQzh3V21qcDZkR2ozbU5tZ0J6QUhpa082?=
- =?utf-8?B?ZEJ6TjFqWHhFaTl5NkhaZ2VJbXlHQ0RIVFJHNnpzWVlVSEdpc1hlQk81cklS?=
- =?utf-8?B?WlFGRXZ6WmVjYmNUUURwK1Y5SE9MWUozYWU3ZDFhUm04V1FHbHhRQkxINzRk?=
- =?utf-8?B?bzEwclZGaE5IY2hUVlNMQ0FGMW5CTXA2dnk1TFNBT1V2a2xXbFk2U2tlOXZP?=
- =?utf-8?B?TEp3bjBHU2lEYnRacm5PaFFJTWwwWStaSUsweUVoLzhBZmRoczNaMzhVSmdv?=
- =?utf-8?B?eTAwQUlhd1o2RTNUTWplZndYSU82ZTIxSk4zeFdQblJTd25QT1R5Y21SRTFs?=
- =?utf-8?B?M0hlTFVyellMTjYzU1VWN0ZKb0ZsUnFDNU0rRWM0bEVKcVh4U2VodlZpTE5u?=
- =?utf-8?B?REhzTEE5eUxaM0MyTXR5cTliaVZJWHV0OXBOL21jeWtqU2RzQ2RIOFpsMDNi?=
- =?utf-8?B?cWttblBlRWpoOXlEMSt2eDlhRFQ2eU1yeFVCQlpLbmRxU3QrWjlhUnNOd1R2?=
- =?utf-8?B?TUkrQVBaTlBBdGJsSVBRaU92RHBpQ0tmTEZGZ2FDNmluM05SRXhKY0psSFlo?=
- =?utf-8?B?Y0tMUERIQ2FXUzR2Uy8vYTRKc1htSDhwbyt4ZFVGMVovV2ZCNi9PMWF6Rkx1?=
- =?utf-8?B?TjhIemRKL0Fzc2F5Ym41YTdWY2RQVVhzQzh0dHV3TkVRUEJlZXlGOUtGaWt2?=
- =?utf-8?B?YWRKUk05VTg3bE45VG40TGNhTXNEUm5QZmo0L1JydXVLendoY3MvUjRyZHow?=
- =?utf-8?B?ZkZ3eG5DNGxLbzRaSmRmUXV3TkM2YVl6YnZ0N2NNOElSTFcrM3ZGT202cGQx?=
- =?utf-8?B?OVIzSUdHNFV6TXd6SDBhOEdwUnJaSlhlZXNua2J2SHdmYXltcDkydHBpQWFY?=
- =?utf-8?B?aERwMEZ5MVhQSG9IUk5Ld1BTdloxeTZpdnJ6RFIxWVlDNEw1ZktvaElERzVy?=
- =?utf-8?B?U3VxcWJVaTFZbDkvZ2djQ1dHRTlxTFk1bHUycDdpZkRZZWtESStFdDFjUUVn?=
- =?utf-8?B?eldQNldyaWdNbXUyTlo2cDVGekdWR2FqcUpWRDdxUVk3ek5SVDhsTzlXekh5?=
- =?utf-8?B?MHpHNFBqemNTa0tzVGdlUkhtTHFGblZTZWlQNTkyczV5Q1FENmI0eTJ1SDB6?=
- =?utf-8?B?RUJSMUdNT2pWYzBzOFo5NUlhS0UyUWVOR2tLUVQwT0lVeWY3a0VBN0M3dCtR?=
- =?utf-8?B?dUVndVNtTU9IbTR0ckFZTENEbkNMZnlzTGZ2Tjg3aUgvS1VxV1lLOFNXYmQr?=
- =?utf-8?B?dG4zZlZkZzZrWlFXZzdDNUMzTCt2V0lHUEdhU2tqeFpqRGsvQjdFMWhMbGFX?=
- =?utf-8?B?cEhJSTJadVRpdzZza2NZbGczZTRuK2tZMlI0UzZVazdMRUo3RG8xQlk4UEk5?=
- =?utf-8?Q?0oYAy67OIJDlB2wPK1hTZxG7j?=
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?UWpYRk8vSlRmN0U5VWU0bDN6bzJZZ2ZvdFhyR1Z4N0NOaXZCLzNkRHFJdmVi?=
+ =?utf-8?B?ODN3TlpXbnNDYTFiVlRaM3J4RzFVYTNDZmg0REo3Z0REWW9yMWY3a3BjZ21m?=
+ =?utf-8?B?eGFWMEN4VEc1MTcvWS9FTWo3WG1LcVBYbEI4SXEySDFDbUdlcVpZYUtndmZ1?=
+ =?utf-8?B?bzI2MG5yK3JQUnFNbXE5T3pMSjRXQWt6Y1oxbE1yWEs1UGswU3oyOGxDOXZJ?=
+ =?utf-8?B?ZWQ4c2xnL2ZpRFg1cU4xUVdmRmFLK0Z6MExaRjlNUkxNaWxwMmNFcTRVSVhN?=
+ =?utf-8?B?aWhOd09kYVVManRURXpyY3ZFNDdEeThFRGUrQVlDM2V6cm9ITjlZdXlxZ0Fa?=
+ =?utf-8?B?S3JBU084TzFsL1MyQW1MWE56d3JaaDQwWVZCclpVQWluZjFkOWtUZS9POFdZ?=
+ =?utf-8?B?dzFzZUJIb3VVUFZGNmFVTkhSYklsVzBoNm1KME1wd09EWkpacERpUHpGSW1X?=
+ =?utf-8?B?VG9nTmx0cEN2UHdJelREZmdqbksvaHFBcmlrbWJRWEk2RjY4NEZWbU1vaXNl?=
+ =?utf-8?B?N010NlVubE9tRWNkK0t3UUJ1SkpHRWh5M2RiRVNpZzFheUlKeHBuVGFlY3RH?=
+ =?utf-8?B?SU16R1J1OG9saUhHRDhiRjJzUVpWbzVEYVVDV1B5dWtpMVZ1ekJqZGdZYzNN?=
+ =?utf-8?B?Zk5DSDcwWjUzVFJDVE9lMkVhbnFSTFJWQWppVC9nUlZrZEpBRUNJdjdwYjlO?=
+ =?utf-8?B?ZmgxUkk2ZE5PbE16SWJ5L1AzZ2trZHk3M0ZyZ0V1Q0ZQUW9EVnlQdG90ZnFM?=
+ =?utf-8?B?QnlkSUtsRWswSXFxSm1XZGlxeDQydExscUVvdXRDVEUrbW9iVlA0dW4vanZx?=
+ =?utf-8?B?NENySHgrYkVSK1hTQm13eFdWV2VzWjBJWW10MjFKNWgxbmcwUjByemNLT1dJ?=
+ =?utf-8?B?cGtGQUdQa0tSc3BaZ0MvcVk4NXNSQUpib0J0Z2pobG9mVi8yUW1EZU1uYndv?=
+ =?utf-8?B?L09TMjJaVW5naWtwNjd0QnhXWVpMc2JGZE9UeHFoaXd1a010bldXTUlobWlj?=
+ =?utf-8?B?bTRVNndDbU1ZdEpSakZBUUlwcUpjRCtjNnM3S3RWa043T3ZqY2dHOGoxSlZn?=
+ =?utf-8?B?QUs1d0lORElEVmFyak5HWTBrMWZ2K2x0dGVxSFd5Q2hvbi9EekFqOHc4aFJF?=
+ =?utf-8?B?NmU4VWNvNEZ3Ui9WTURqeUZEbmpaTzkrc3F6bk1oYnBpeXpzU052WW8rRVVp?=
+ =?utf-8?B?TXZTcHZVb2UzWGk5eExCQ1c3aVh2Um9vMzNqRlkzMHBKVXhGZGVoZUdTVnBE?=
+ =?utf-8?B?M3hTOGFKNC9EUm8wbmJXczgyMlc3NVN3bnVRRUtCVGt6VXdBTGRSVWJpQjJt?=
+ =?utf-8?B?MU1LWkpReDFSbUlpVHhJVFJYdFZJdDloak80UElPY0FlUlFxVCtZQVkxOHBq?=
+ =?utf-8?B?UTFQNXN6a3I1K2E3NUNiREJMUjFLUDd2TkJZV0dGRXRxL0YxUG1Ha0Q5aHBs?=
+ =?utf-8?B?S1hCcWV6UjFsWDdFWVpIek43ZWcyZGRKWFc4UTlZekFvYTdJZDBxQjJMbStB?=
+ =?utf-8?B?WnFPZXlML3hEM3o4UnZrbk9MYm9IZ2o0OGNVZ0ZZQ0tPZnBXRllaT3pFbWZI?=
+ =?utf-8?B?MTBFWFRSb2FMcDJQZ1RlUHpZV0ZjUCtCTFBVMnh5NnBFcnF5enFrYlFTVEJM?=
+ =?utf-8?B?QVBpL20yaC9YcUtwQ0JVcjJXbzJoWGhGZExrKzFsbHJzM09VeGZGUkEvbmE5?=
+ =?utf-8?B?RUt6clJadFN4VHRib1lJTzlGNC9ick5TeEJyNjgyNHJkdlRkN21uWEtwbXdj?=
+ =?utf-8?B?VmhMcDl1Y2ZQZlJ0UUVNeVpVdUU4WnlZZWJHb3U2aTltRy9ZRkx4bnF1SjRr?=
+ =?utf-8?B?ZmpaNWlUczJvUlJhZEk4bThEWlVwUUdpbEx3NVRRWGFMK3B0V2VYaElKMDE3?=
+ =?utf-8?B?aVhORVZMZHRISWZ1Z29ZVkxHTUNVUW9zN0orUDJ6bkpuTUxHcEZSays5eXBP?=
+ =?utf-8?B?TXNaTWliZE9HV2YvMDFEa3Bjb1hMTWV0WDlSVmtTa3prZ0kzUklpYVJaUXJY?=
+ =?utf-8?B?NGRrVlRIdnhqU3FXZ3drckFjbVFVUEhZOVFEUjVVa3dyTFBNZy9CYnBjVndj?=
+ =?utf-8?B?d0ttV2hUY1NVM0pSWFV0ajVhSFVORUN2MVgwTHcxK1BMQ1Vsc2JYU01HT0Iv?=
+ =?utf-8?Q?5bxEqiJ7mNvV06dZNstl5NpQY?=
 X-OriginatorOrg: nxp.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 853b5f21-6543-49a1-32bf-08de1b4984a3
+X-MS-Exchange-CrossTenant-Network-Message-Id: 76d5cf79-43bb-4915-c8f4-08de1b4b5321
 X-MS-Exchange-CrossTenant-AuthSource: AM7PR04MB7046.eurprd04.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 04 Nov 2025 02:26:10.7528 (UTC)
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 04 Nov 2025 02:39:06.5725 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: rnCoIP2VtwKMn7QRwmK28vKZh4k805lCBFB3k/UTL/VOznoZiIcmhLLHcSp+y7dusv4rtytRQiozniBCjqEEvg==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: GVXPR04MB10355
+X-MS-Exchange-CrossTenant-UserPrincipalName: 2pLqa6XU+AKiRwMpwguNSJEHuBjCU5Q9lVVBjJxdruew43TsE+NYTyKE3OCtNtIx1ImRcyofKvNOKFJhf8EPgQ==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: AS8PR04MB8359
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -175,42 +171,192 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 11/02/2025, Marek Vasut wrote:
-> On 10/20/25 8:21 AM, Liu Ying wrote:
+On 11/3/25 01:02, Marek Vasut wrote:
+> The DT binding for this bridge describe register offsets for the LDB,
+
+I'm repeating my comment on v1:
+s/describe/describes/
+
+> parse the register offsets from DT instead of hard-coding them in the
+> driver. No functional change.
 > 
-> Hello Liu,
-
-Hello Marek,
-
+> Signed-off-by: Marek Vasut <marek.vasut@mailbox.org>
+> ---
+> Cc: Abel Vesa <abelvesa@kernel.org>
+> Cc: Conor Dooley <conor+dt@kernel.org>
+> Cc: Fabio Estevam <festevam@gmail.com>
+> Cc: Krzysztof Kozlowski <krzk+dt@kernel.org>
+> Cc: Laurent Pinchart <Laurent.pinchart@ideasonboard.com>
+> Cc: Liu Ying <victor.liu@nxp.com>
+> Cc: Lucas Stach <l.stach@pengutronix.de>
+> Cc: Peng Fan <peng.fan@nxp.com>
+> Cc: Pengutronix Kernel Team <kernel@pengutronix.de>
+> Cc: Rob Herring <robh@kernel.org>
+> Cc: Shawn Guo <shawnguo@kernel.org>
+> Cc: Thomas Zimmermann <tzimmermann@suse.de>
+> Cc: devicetree@vger.kernel.org
+> Cc: dri-devel@lists.freedesktop.org
+> Cc: imx@lists.linux.dev
+> Cc: linux-arm-kernel@lists.infradead.org
+> Cc: linux-clk@vger.kernel.org
+> ---
+> V2: - Switch to of_property_read_reg()
+>     - Parse single-register LDB variants from DT too
+> ---
+>  drivers/gpu/drm/bridge/fsl-ldb.c | 58 ++++++++++++++++++++------------
+>  1 file changed, 36 insertions(+), 22 deletions(-)
 > 
->>> +++ b/drivers/gpu/drm/bridge/fsl-ldb.c
->>> @@ -61,24 +61,16 @@ enum fsl_ldb_devtype {
->>>   };
->>>     struct fsl_ldb_devdata {
->>> -    u32 ldb_ctrl;
->>> -    u32 lvds_ctrl;
->>>       bool lvds_en_bit;
->>>       bool single_ctrl_reg;
->>
->> single_ctrl_reg can be dropped then, as it can be expressed by failing to
->> get the second register.
->>
->> Furthermore, with this done, lvds_en_bit is the only member left and hence
->> struct fsl_ldb_devdata can also be dropped, as IIRC there is no need to
->> use a structure for device data with only a flag.
-> I plan to add more bits into the driver match data when adding the MX95,
-> so I would like to retain these instead of removing them and the adding
-> them back.
+> diff --git a/drivers/gpu/drm/bridge/fsl-ldb.c b/drivers/gpu/drm/bridge/fsl-ldb.c
+> index 5c3cf37200bce..2357cb2fbbe39 100644
+> --- a/drivers/gpu/drm/bridge/fsl-ldb.c
+> +++ b/drivers/gpu/drm/bridge/fsl-ldb.c
+> @@ -8,6 +8,7 @@
+>  #include <linux/mfd/syscon.h>
+>  #include <linux/module.h>
+>  #include <linux/of.h>
+> +#include <linux/of_address.h>
+>  #include <linux/of_graph.h>
+>  #include <linux/platform_device.h>
+>  #include <linux/regmap.h>
+> @@ -61,24 +62,13 @@ enum fsl_ldb_devtype {
+>  };
+>  
+>  struct fsl_ldb_devdata {
+> -	u32 ldb_ctrl;
+> -	u32 lvds_ctrl;
+>  	bool lvds_en_bit;
+> -	bool single_ctrl_reg;
+>  };
+>  
+>  static const struct fsl_ldb_devdata fsl_ldb_devdata[] = {
 
-i.MX95 LDB supports two LVDS channels.  Two DRM bridges are needed in single
-or separate LDB mode, while one DRM bridge is needed in split LDB mode.
-Also, each channel connects to a standalone LVDS PHY.  All these could make
-it intrusive to support i.MX95 LDB in fsl-ldb.c.  Maybe, we could discuss
-about this later, but IMO this patch should remove struct fsl_ldb_devdata.
-It doesn't hurt if we really need to add it back.
+As I pointed out in v1 comment, this patch should remove struct
+fsl_ldb_devdata.
 
-> 
-> The rest is fixed in V2, thanks !
+> -	[IMX6SX_LDB] = {
+> -		.ldb_ctrl = 0x18,
+> -		.single_ctrl_reg = true,
+> -	},
+> -	[IMX8MP_LDB] = {
+> -		.ldb_ctrl = 0x5c,
+> -		.lvds_ctrl = 0x128,
+> -	},
+> +	[IMX6SX_LDB] = { },
+> +	[IMX8MP_LDB] = { },
+>  	[IMX93_LDB] = {
+> -		.ldb_ctrl = 0x20,
+> -		.lvds_ctrl = 0x24,
+>  		.lvds_en_bit = true,
+>  	},
+>  };
+> @@ -90,8 +80,11 @@ struct fsl_ldb {
+>  	struct clk *clk;
+>  	struct regmap *regmap;
+>  	const struct fsl_ldb_devdata *devdata;
+> +	u64 ldb_ctrl;
+> +	u64 lvds_ctrl;
+>  	bool ch0_enabled;
+>  	bool ch1_enabled;
+> +	bool single_ctrl_reg;
+>  };
+>  
+>  static bool fsl_ldb_is_dual(const struct fsl_ldb *fsl_ldb)
+> @@ -204,15 +197,15 @@ static void fsl_ldb_atomic_enable(struct drm_bridge *bridge,
+>  		reg |=	(fsl_ldb->ch0_enabled ? LDB_CTRL_DI0_VSYNC_POLARITY : 0) |
+>  			(fsl_ldb->ch1_enabled ? LDB_CTRL_DI1_VSYNC_POLARITY : 0);
+>  
+> -	regmap_write(fsl_ldb->regmap, fsl_ldb->devdata->ldb_ctrl, reg);
+> +	regmap_write(fsl_ldb->regmap, fsl_ldb->ldb_ctrl, reg);
+>  
+> -	if (fsl_ldb->devdata->single_ctrl_reg)
+> +	if (fsl_ldb->single_ctrl_reg)
+>  		return;
+>  
+>  	/* Program LVDS_CTRL */
+>  	reg = LVDS_CTRL_CC_ADJ(2) | LVDS_CTRL_PRE_EMPH_EN |
+>  	      LVDS_CTRL_PRE_EMPH_ADJ(3) | LVDS_CTRL_VBG_EN;
+> -	regmap_write(fsl_ldb->regmap, fsl_ldb->devdata->lvds_ctrl, reg);
+> +	regmap_write(fsl_ldb->regmap, fsl_ldb->lvds_ctrl, reg);
+>  
+>  	/* Wait for VBG to stabilize. */
+>  	usleep_range(15, 20);
+> @@ -220,7 +213,7 @@ static void fsl_ldb_atomic_enable(struct drm_bridge *bridge,
+>  	reg |=	(fsl_ldb->ch0_enabled ? LVDS_CTRL_CH0_EN : 0) |
+>  		(fsl_ldb->ch1_enabled ? LVDS_CTRL_CH1_EN : 0);
+>  
+> -	regmap_write(fsl_ldb->regmap, fsl_ldb->devdata->lvds_ctrl, reg);
+> +	regmap_write(fsl_ldb->regmap, fsl_ldb->lvds_ctrl, reg);
+>  }
+>  
+>  static void fsl_ldb_atomic_disable(struct drm_bridge *bridge,
+> @@ -231,12 +224,12 @@ static void fsl_ldb_atomic_disable(struct drm_bridge *bridge,
+>  	/* Stop channel(s). */
+>  	if (fsl_ldb->devdata->lvds_en_bit)
+>  		/* Set LVDS_CTRL_LVDS_EN bit to disable. */
+> -		regmap_write(fsl_ldb->regmap, fsl_ldb->devdata->lvds_ctrl,
+> +		regmap_write(fsl_ldb->regmap, fsl_ldb->lvds_ctrl,
+>  			     LVDS_CTRL_LVDS_EN);
+>  	else
+> -		if (!fsl_ldb->devdata->single_ctrl_reg)
+> -			regmap_write(fsl_ldb->regmap, fsl_ldb->devdata->lvds_ctrl, 0);
+> -	regmap_write(fsl_ldb->regmap, fsl_ldb->devdata->ldb_ctrl, 0);
+> +		if (!fsl_ldb->single_ctrl_reg)
+> +			regmap_write(fsl_ldb->regmap, fsl_ldb->lvds_ctrl, 0);
+> +	regmap_write(fsl_ldb->regmap, fsl_ldb->ldb_ctrl, 0);
+>  
+>  	clk_disable_unprepare(fsl_ldb->clk);
+>  }
+> @@ -296,7 +289,7 @@ static int fsl_ldb_probe(struct platform_device *pdev)
+>  	struct device_node *remote1, *remote2;
+>  	struct drm_panel *panel;
+>  	struct fsl_ldb *fsl_ldb;
+> -	int dual_link;
+> +	int dual_link, idx, ret;
+>  
+>  	fsl_ldb = devm_drm_bridge_alloc(dev, struct fsl_ldb, bridge, &funcs);
+>  	if (IS_ERR(fsl_ldb))
+> @@ -309,6 +302,27 @@ static int fsl_ldb_probe(struct platform_device *pdev)
+>  	fsl_ldb->dev = &pdev->dev;
+>  	fsl_ldb->bridge.of_node = dev->of_node;
+>  
+> +	/* No "reg-names" property likely means single-register LDB */
+> +	idx = of_property_match_string(dev->of_node, "reg-names", "ldb");
+
+You don't need to match reg-names.  Instead, just call of_property_read_reg()
+twice to get the first reg and the second reg by passing indexes 0 and 1 to it.
+If the second reg is not found, then set fsl_ldb->single_ctrl_reg to true.
+
+It would be good to take this chance to clean up reg and reg-names properties
+in fsl,ldb.yaml.  See this complaint:
+
+DTC [C] arch/arm/boot/dts/nxp/imx/imx6sx-sdb.dtb
+arch/arm/boot/dts/nxp/imx/imx6sx-sdb.dtb: bridge@18 (fsl,imx6sx-ldb): reg: [[24, 4]] is too short
+	from schema $id: http://devicetree.org/schemas/display/bridge/fsl,ldb.yaml#
+
+
+> +	if (idx < 0) {
+> +		fsl_ldb->single_ctrl_reg = true;
+> +		idx = 0;
+> +	}
+> +
+> +	ret = of_property_read_reg(dev->of_node, idx, &fsl_ldb->ldb_ctrl, NULL);
+> +	if (ret)
+> +		return ret;
+> +
+> +	if (!fsl_ldb->single_ctrl_reg) {
+> +		idx = of_property_match_string(dev->of_node, "reg-names", "lvds");
+> +		if (idx < 0)
+> +			return idx;
+> +
+> +		ret = of_property_read_reg(dev->of_node, idx, &fsl_ldb->lvds_ctrl, NULL);
+> +		if (ret)
+> +			return ret;
+> +	}
+> +
+>  	fsl_ldb->clk = devm_clk_get(dev, "ldb");
+>  	if (IS_ERR(fsl_ldb->clk))
+>  		return PTR_ERR(fsl_ldb->clk);
+
 
 -- 
 Regards,
