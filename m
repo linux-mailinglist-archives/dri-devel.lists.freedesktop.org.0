@@ -2,64 +2,82 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B6C1DC32F1D
-	for <lists+dri-devel@lfdr.de>; Tue, 04 Nov 2025 21:41:44 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 39C43C32F32
+	for <lists+dri-devel@lfdr.de>; Tue, 04 Nov 2025 21:44:31 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7C6F410E668;
-	Tue,  4 Nov 2025 20:41:41 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0353A10E66C;
+	Tue,  4 Nov 2025 20:44:29 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=collabora.com header.i=deborah.brouwer@collabora.com header.b="BET+yYbf";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="hsKhbnnn";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sender4-op-o15.zoho.com (sender4-op-o15.zoho.com
- [136.143.188.15])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DD0BC10E668;
- Tue,  4 Nov 2025 20:41:40 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; t=1762288891; cv=none; 
- d=zohomail.com; s=zohoarc; 
- b=ipq8PWB3GgNQMZAmxyUQBtCYrvC1OR4VmMKYFK5oVoZV5sYq9uUjVb5Bj4UK/4XSi526AZrP97T6GXg0Qi3ivK68/0ySblWOgBoO4k8mxhptLw+lxKJUlnEVz+Aiy++TLmNJbjGmcbp92YEwpo7hAWzshNbX5jOeXT5k8kiVG5Q=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
- s=zohoarc; t=1762288891;
- h=Content-Type:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To;
- bh=UdNE52py5w5GbF1Vmt3kzvD/+HZJJNr5pY7ZeT6RQeo=; 
- b=CwmkK1TbEtK1poXQs7bT07nCJQX8GvIx6hj5BD7v/5zemhHs/QTcjTYJP379NX9W79FN4iVMYX5qfY91R3PMv55Kor6o1RUGMybyjvtaTMhi461NGeFNNEk00LaH6vOO9TJpLC7mf90MGwCgkfMhQDEMFyCOn6mAn7ZKId5TvXg=
-ARC-Authentication-Results: i=1; mx.zohomail.com;
- dkim=pass  header.i=collabora.com;
- spf=pass  smtp.mailfrom=deborah.brouwer@collabora.com;
- dmarc=pass header.from=<deborah.brouwer@collabora.com>
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1762288891; 
- s=zohomail; d=collabora.com; i=deborah.brouwer@collabora.com; 
- h=Date:Date:From:From:To:To:Cc:Cc:Subject:Subject:Message-ID:References:MIME-Version:Content-Type:In-Reply-To:Message-Id:Reply-To;
- bh=UdNE52py5w5GbF1Vmt3kzvD/+HZJJNr5pY7ZeT6RQeo=;
- b=BET+yYbfWgo+EJbuuxNlMXMu8LGS3T8Zg8XnTuqdbu8XK9qRRUfNrTc1hmAeE+kT
- l1BSocmWMSf69v1Bu6cn+7l4cKf8zhvpsxDrzNprpRbuwJP8Ef8hU8CzlRr58ZMXx4c
- zmmqqymtTPmzY764nZ3ZVQ4/GtAWueYJo/4s1Ewk=
-Received: by mx.zohomail.com with SMTPS id 1762288888762838.1883086250991;
- Tue, 4 Nov 2025 12:41:28 -0800 (PST)
-Date: Tue, 4 Nov 2025 12:41:27 -0800
-From: Deborah Brouwer <deborah.brouwer@collabora.com>
-To: Lyude Paul <lyude@redhat.com>
-Cc: dri-devel@lists.freedesktop.org, rust-for-linux@vger.kernel.org,
- Alice Ryhl <aliceryhl@google.com>,
- Daniel Almeida <daniel.almeida@collabora.com>,
- Danilo Krummrich <dakr@kernel.org>, linux-kernel@vger.kernel.org,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Miguel Ojeda <ojeda@kernel.org>, Alex Gaynor <alex.gaynor@gmail.com>,
- Boqun Feng <boqun.feng@gmail.com>, Gary Guo <gary@garyguo.net>,
- =?iso-8859-1?Q?Bj=F6rn?= Roy Baron <bjorn3_gh@protonmail.com>,
- Benno Lossin <lossin@kernel.org>, Andreas Hindborg <a.hindborg@kernel.org>,
- Trevor Gross <tmgross@umich.edu>, Asahi Lina <lina+kernel@asahilina.net>,
- Shankari Anand <shankari.ak0208@gmail.com>,
- "open list:DRM DRIVER FOR NVIDIA GPUS [RUST]" <nouveau@lists.freedesktop.org>
-Subject: Re: [PATCH v5 4/8] rust: gem: Introduce DriverObject::Args
-Message-ID: <aQpk98pvsZUdk3xa@um790>
-References: <20251023212540.1141999-1-lyude@redhat.com>
- <20251023212540.1141999-5-lyude@redhat.com>
+Received: from mail-lf1-f52.google.com (mail-lf1-f52.google.com
+ [209.85.167.52])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1692A10E66C
+ for <dri-devel@lists.freedesktop.org>; Tue,  4 Nov 2025 20:44:27 +0000 (UTC)
+Received: by mail-lf1-f52.google.com with SMTP id
+ 2adb3069b0e04-5943d1d6442so254209e87.0
+ for <dri-devel@lists.freedesktop.org>; Tue, 04 Nov 2025 12:44:27 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20230601; t=1762289065; x=1762893865; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=M2ENbKwT7lv9tz28/K2qju3sHWO/1gvFfQERib9t/N8=;
+ b=hsKhbnnnffRP2fbdyO+k9Z9dhqSiZdyKZZe5/VtRPTOlYm5Al4EkckhnRVAw3MSlp1
+ y++J8m+JWhC1kXLYoFShiRoGi4tZR5AI9W3HWhfZPMGK8BN38ztLZe/5LR5v1fwW4HOf
+ 2QIhMBOjZ2VkO/Fv+h/fTLfN+7ErSHpcen59TkdAnjnLW+nSccNeppnd4+QzefePyFRE
+ zrS+JI0FSPslJTdZRnsrA3Mn/DdspPjY+aCH26cb1Qx2vyLo8uRgpNnEtDC55QCHDSTz
+ l1+Zs7b9U3wqySXOY8WhwBEGjOurG61jeaqmf8QM1F89blw5lGS31IQ+CYBPV5tBIuLt
+ 3GKQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1762289065; x=1762893865;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=M2ENbKwT7lv9tz28/K2qju3sHWO/1gvFfQERib9t/N8=;
+ b=oEjfEW3g/gOfLot69rTHFgPPc4UJc9rhKc7/1cAC39ymPoULS/4QrLj8R6t+qOYjcK
+ g90M2PqJ/ReZATuCNFqDDfRMHGwuIlWL/kXbPMlMWC0HMdp/G447cadsDgljAfl49ZQ+
+ a63R9Iey4xLMdfpMIiudsaNbdtgMErdDsXaBtcPtYjEkrvSs21GXJqb1w/0PpmSMKiuY
+ /caiKEE7F8ALe9NajzQBu9ExO0mJC0gmuBPqd12r6WQP7C76j/en5dA+PJR7pyMtweOe
+ xvwsOdf97+FrWdyygICKpIDpZSb5nfVd6wK1+z7AoxS0WUpRvFsU/XcLsOUhlA+ULPL6
+ bXmQ==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCW7/dK3EmSP/w6a7bORLUUfNF5G1GX1QYKwUOdnWWU/CKu/qhq6oymRQWGhacLxr/efOiiPsmOVOxs=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Yz5wfJZ5qKw+Hk5xj7uoqG1lSWxWp7iaI0T+W0gYPJT0mUy0za+
+ flLY1BlmOF0aYubdEuNR3T/oEnxJ/SbbN3dYIzpkY0ufxzaPHPFwjfW3ri9902IXQceSj2dwyFY
+ 6BKS2CLXbQAhO1A2+C1DUzIAY3YB+GL8=
+X-Gm-Gg: ASbGncsOHqwcBGSnCLwH0u5BxIHELDXOJuc9sQz9wPX2baAOaB8k1JYfi+D/2/SAG7n
+ nLiTz5ExEDHuFbJIL1lmIS3SHyZXKXqJAhTr6bXqZP/i5O9L0da4BYLEbVqlVHumL+CpD+ViFln
+ qBjST797KmHzAC/E4SLq5rZyX/0TqlWL9Byti9Xrb8Y0v3ZAP06WLZb7uPGDYJSPt5FrW6v7aoM
+ wONrNupZ1Bw01wyOp0h7GkslXfFOENBIpBTL5PA0UzgwC3VfN9gDbOUux2beLR8jDT0xPyjsrZs
+ T5RBTGJzRyR8Wxqb
+X-Google-Smtp-Source: AGHT+IEgyDz6GgQ36aOhYZfcy+M9mJYKbg+MSqwHomwdqA+8oevBdUI0GcxGO3WedYpy3mCE8otuQ+c7+LgGwJyJeBc=
+X-Received: by 2002:a05:6512:114f:b0:594:3c08:4f05 with SMTP id
+ 2adb3069b0e04-5943d74dd99mr147323e87.14.1762289064896; Tue, 04 Nov 2025
+ 12:44:24 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20251023212540.1141999-5-lyude@redhat.com>
+References: <20251013205155.1187947-1-festevam@gmail.com>
+ <4bd512fd-b3df-484a-8a04-a1ed066c42fa@nxp.com>
+ <CAOMZO5AGRejEwNvkH0Di0HVi8QPduTeCSud+_GqOkD4tqEcsdA@mail.gmail.com>
+ <37b8d968-a725-404e-8fd4-84c2a0bb464c@nxp.com>
+In-Reply-To: <37b8d968-a725-404e-8fd4-84c2a0bb464c@nxp.com>
+From: Fabio Estevam <festevam@gmail.com>
+Date: Tue, 4 Nov 2025 17:44:13 -0300
+X-Gm-Features: AWmQ_bn9ScRQzwOew3nNnHj8C-mT5iCyP0mJjFFvOaLk_a5CcV4aEWSlDVa3aoE
+Message-ID: <CAOMZO5B+VcGxx9Xa6FFXxeka0qcqBmATrartguqMLMDK4fGduA@mail.gmail.com>
+Subject: Re: [PATCH RESEND v4 1/3] dt-bindings: lcdif: Document a imx6sx-lcdif
+ fallback
+To: Liu Ying <victor.liu@nxp.com>, Ahmad Fatoum <a.fatoum@pengutronix.de>
+Cc: marex@denx.de, stefan@agner.ch, airlied@gmail.com, simona@ffwll.ch, 
+ maarten.lankhorst@linux.intel.com, mripard@kernel.org, tzimmermann@suse.de, 
+ robh@kernel.org, krzk+dt@kernel.org, conor+dt@kernel.org, 
+ dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org, 
+ shawnguo@kernel.org, imx@lists.linux.dev, 
+ linux-arm-kernel@lists.infradead.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -75,88 +93,35 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Oct 23, 2025 at 05:22:06PM -0400, Lyude Paul wrote:
-> This is an associated type that may be used in order to specify a data-type
-> to pass to gem objects when construction them, allowing for drivers to more
-> easily initialize their private-data for gem objects.
-> 
-> Signed-off-by: Lyude Paul <lyude@redhat.com>
-> Reviewed-by: Alice Ryhl <aliceryhl@google.com>
-> 
-> ---
-> V3:
-> * s/BaseDriverObject/DriverObject/
-> V4:
-> * Fix leftover reference to BaseObjectDriver in rustdoc for
->   DriverObject::Args
-> 
->  drivers/gpu/drm/nova/gem.rs |  5 +++--
->  rust/kernel/drm/gem/mod.rs  | 13 ++++++++++---
->  2 files changed, 13 insertions(+), 5 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/nova/gem.rs b/drivers/gpu/drm/nova/gem.rs
-> index 2760ba4f3450b..173077eeb2def 100644
-> --- a/drivers/gpu/drm/nova/gem.rs
-> +++ b/drivers/gpu/drm/nova/gem.rs
-> @@ -18,8 +18,9 @@ pub(crate) struct NovaObject {}
->  
->  impl gem::DriverObject for NovaObject {
->      type Driver = NovaDriver;
-> +    type Args = ();
->  
-> -    fn new(_dev: &NovaDevice, _size: usize) -> impl PinInit<Self, Error> {
-> +    fn new(_dev: &NovaDevice, _size: usize, _args: Self::Args) -> impl PinInit<Self, Error> {
->          try_pin_init!(NovaObject {})
->      }
->  }
+Hi Ahmad,
 
-Hi Lyude - could you please add the same changes for Tyr so it will
-compile too
+On Mon, Oct 20, 2025 at 11:53=E2=80=AFPM Liu Ying <victor.liu@nxp.com> wrot=
+e:
+>
+> On 10/20/2025, Fabio Estevam wrote:
+> > Hi Liu,
+>
+> Hi Fabio,
+>
+> >
+> > On Tue, Oct 14, 2025 at 1:12=E2=80=AFAM Liu Ying <victor.liu@nxp.com> w=
+rote:
+> >
+> >> Strictly speaking, I don't think i.MX6SX LCDIF is compatible with i.MX=
+28 LCDIF
+> >> because at least i.MX28 LCDIF has the version and debug{0,1,2} registe=
+rs(at
+> >> 0x1c0, 0x1d0, 0x1e0 and 0x1f0) while i.MX6SX LCDIF hasn't.
+> >
+> > There are some DT users, such as Barebox that matches against
+> > fsl,imx28-lcdif, so we cannot remove it.
+>
+> Hmmm, it looks like software projects like Barebox don't really follow th=
+is DT
+> binding.  Is it possible to fix Barebox to avoid changing this DT binding=
+ by
+> this patch?  I'm assuming that Uboot has already been fixed.
 
-> @@ -33,7 +34,7 @@ pub(crate) fn new(dev: &NovaDevice, size: usize) -> Result<ARef<gem::Object<Self
->              return Err(EINVAL);
->          }
->  
-> -        gem::Object::new(dev, aligned_size)
-> +        gem::Object::new(dev, aligned_size, ())
->      }
->  
->      /// Look up a GEM object handle for a `File` and return an `ObjectRef` for it.
-> diff --git a/rust/kernel/drm/gem/mod.rs b/rust/kernel/drm/gem/mod.rs
-> index 67813cfb0db42..d448c65fe5e13 100644
-> --- a/rust/kernel/drm/gem/mod.rs
-> +++ b/rust/kernel/drm/gem/mod.rs
-> @@ -65,8 +65,15 @@ pub trait DriverObject: Sync + Send + Sized {
->      /// Parent `Driver` for this object.
->      type Driver: drm::Driver;
->  
-> +    /// The data type to use for passing arguments to [`DriverObject::new`].
-> +    type Args;
-> +
->      /// Create a new driver data object for a GEM object of a given size.
-> -    fn new(dev: &drm::Device<Self::Driver>, size: usize) -> impl PinInit<Self, Error>;
-> +    fn new(
-> +        dev: &drm::Device<Self::Driver>,
-> +        size: usize,
-> +        args: Self::Args,
-> +    ) -> impl PinInit<Self, Error>;
->  
->      /// Open a new handle to an existing object, associated with a File.
->      fn open(_obj: &<Self::Driver as drm::Driver>::Object, _file: &DriverFile<Self>) -> Result {
-> @@ -247,11 +254,11 @@ impl<T: DriverObject> Object<T> {
->      };
->  
->      /// Create a new GEM object.
-> -    pub fn new(dev: &drm::Device<T::Driver>, size: usize) -> Result<ARef<Self>> {
-> +    pub fn new(dev: &drm::Device<T::Driver>, size: usize, args: T::Args) -> Result<ARef<Self>> {
->          let obj: Pin<KBox<Self>> = KBox::pin_init(
->              try_pin_init!(Self {
->                  obj: Opaque::new(bindings::drm_gem_object::default()),
-> -                data <- T::new(dev, size),
-> +                data <- T::new(dev, size, args),
->                  // INVARIANT: The drm subsystem guarantees that the `struct drm_device` will live
->                  // as long as the GEM object lives.
->                  dev: dev.into(),
-> -- 
-> 2.51.0
-> 
+What do you think?
+
+Thanks
