@@ -2,120 +2,80 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A34CBC307B2
-	for <lists+dri-devel@lfdr.de>; Tue, 04 Nov 2025 11:24:32 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2D1E6C307DE
+	for <lists+dri-devel@lfdr.de>; Tue, 04 Nov 2025 11:25:53 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4589B10E5AC;
-	Tue,  4 Nov 2025 10:24:29 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id EA2D110E5AE;
+	Tue,  4 Nov 2025 10:25:50 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=bootlin.com header.i=@bootlin.com header.b="uwu7EiHC";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="PU5vG23J";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtpout-04.galae.net (smtpout-04.galae.net [185.171.202.116])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 47FC710E258
- for <dri-devel@lists.freedesktop.org>; Tue,  4 Nov 2025 10:24:28 +0000 (UTC)
-Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
- by smtpout-04.galae.net (Postfix) with ESMTPS id 775E4C0E609;
- Tue,  4 Nov 2025 10:24:05 +0000 (UTC)
-Received: from mail.galae.net (mail.galae.net [212.83.136.155])
- by smtpout-01.galae.net (Postfix) with ESMTPS id 30128606EF;
- Tue,  4 Nov 2025 10:24:26 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon)
- with ESMTPSA id F3E03102F1CE8; Tue,  4 Nov 2025 11:24:17 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
- t=1762251864; h=from:subject:date:message-id:to:cc:mime-version:content-type:
- content-transfer-encoding:content-language:in-reply-to:references:autocrypt;
- bh=Yh/SOsjRqtgPLuq8QRVnn/lrGryn5Z5zYSTW9+Wd1lE=;
- b=uwu7EiHCDvkOi+ZlaNqDmWa7sDjt1+KNUXllXXwIo7BBazhl8rSoPx6BVnpH9z+jfnu3AN
- M704y1JCBh8jUjN0L1cESmxgAsuL/HG1dpnA8pkxVWp+V+NUYpIsRVSEdL1KPdP6GhPMtM
- NMZcL50+dzYfv1YP7uz27gLG9O83Kv4TwoM5Vz1q/0Sgwyl5sDhiNrZVhWiFwVL0miKigv
- QCIJ805towdU/JbBzlnj80L6OK/kU++DuYG/iG4h/SXHDnQjUn8N2K6QbLxM9f6YFvJw65
- 6/5Bic3PvCFetE3+rKQiGGPaLwxTnrpCFS0pnzFfB44qrYnmLbrU8KLeS4N4vg==
-Message-ID: <d6545844-f7f6-4714-927f-cf985dc50a54@bootlin.com>
-Date: Tue, 4 Nov 2025 11:24:17 +0100
+Received: from mail-wr1-f47.google.com (mail-wr1-f47.google.com
+ [209.85.221.47])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DCCAA10E5AB
+ for <dri-devel@lists.freedesktop.org>; Tue,  4 Nov 2025 10:25:48 +0000 (UTC)
+Received: by mail-wr1-f47.google.com with SMTP id
+ ffacd0b85a97d-429b7eecf7cso3798930f8f.0
+ for <dri-devel@lists.freedesktop.org>; Tue, 04 Nov 2025 02:25:48 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20230601; t=1762251947; x=1762856747; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=JsUvrI+bVG+WlTg2GHY2axwhhFFNatFaC6KQ6ywH2FA=;
+ b=PU5vG23JQ7CpvLY5cAcR917BupMEyCoYhnoktynL1Daxqz2mU709pW+bVP22RY8hW4
+ Y9E40js7U6KVffNK16i+ctVgak4opHZi020agE5qewjSv6mTciaAfuGggLgVzZS+106f
+ BmSM65I7ZThU12Vu3tRMYXraXx1E4GabYeEY5K/op2XmCpG+U14z823A7mB6WuH5TSbs
+ YI8b4dGf6BbiWMoOOIekUqv5Ke2W21cHX50tDivXbMii1fSltbM+UtBp5UXxtsllO5j6
+ OEVrMaXrLW69UVMzT2guDm4ku3xrKbPbelnql/fruIhIiuE5JKv7VEOQPZZtLjyfJT7U
+ b2Qg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1762251947; x=1762856747;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=JsUvrI+bVG+WlTg2GHY2axwhhFFNatFaC6KQ6ywH2FA=;
+ b=o8OmtAOhw1oXY5pPWNg9NGYie+K6/rFEDISY9zG2zk1FZlXxol5OkwpxxmplQ6b2YD
+ MS8HGKEO5VGITFHB1hy3RYj29J8K87Vl52dHy8Vbc9Ejd1MmOI/YAewRQyJH2r+Db5Q7
+ 9Xb1MZC2RQhXRCH/IJXtB/xVUDTOMEeXuRKGZZ30UAfyxjwbn7KxzGeM7VOGCG/G727B
+ 5QkpX7UyGYmYH7tilw6Tsem32fFSihbPxi+xcH7so3QJtxvSK+HFj63o1w7kUKoAv42X
+ ytrZwScMMZGpASDBm+CmdxizRMbfL3hozmamBxhYFQTqAKTOnGQdqIXsiWZLgjlRGYMk
+ kdXg==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCVE0tG9hKN9+RAhnhvSOIcAAH35COvg+HGguM8UJSViSwXWyAqRwRL8gNEdXTszZeMY0Yeaolh/V8A=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Yxk8+PDSpEIuwwNb5EIKkgaw+wYnm44DbV23kMr+EprD3aYq6c/
+ bCoe4rcWRbkU1WAOu3dAsI2oxPy8l23mvhJlWSVjFUCQjphPlyr76F3f
+X-Gm-Gg: ASbGncuR6TplpiAsyYtbLXwww12HesAdTl2gwZBn/GZDxb3XCy+UvzirY3ZyBdsDi6j
+ ShPR8IxUu0wAsXrfyQ3SzYJKPTjBgJ6Mg2fVhVO/5uwHNealxp/tWDa7bwxyOfAMX0qV/XStq69
+ 6vHtcYLqu5IB5V8yJV18wbjNuIvvoIfrINvlXiHQylIy3T26pozE04a7NQL4yX/CDwWI6oGZshs
+ YuC/5G2nseyzKq6jjoIf8ynFxJSm061bPAwXrjvSxNzy8f4wTGHIDHT5BzOSBJteWi8fifE9N8k
+ C8a6bCwAdlJcyiKosDh3TxN+oNup72WkXI2cJ2tYSL20M/mLKr9jxOhTzyKugbNbCWB7/er9hsE
+ 4IMf1NIGnxKbKDnvDubWmSUd7I/EJE1eH/PF7AHJtSG9PDVlOvpmuwKXrMOi2IQ9beOpEfvIYRQ
+ ==
+X-Google-Smtp-Source: AGHT+IEFVm7U2UQsd537HSbXE97LuE8N/Q+Vgp/0beLP0A4bKl4h9zVL2B9q7Oj0nO4Hkut8N8AkMg==
+X-Received: by 2002:a05:6000:40dd:b0:429:cfa3:5fde with SMTP id
+ ffacd0b85a97d-429dbce00c7mr2483596f8f.11.1762251946685; 
+ Tue, 04 Nov 2025 02:25:46 -0800 (PST)
+Received: from fedora ([94.73.38.14]) by smtp.gmail.com with ESMTPSA id
+ ffacd0b85a97d-429dc1f98d9sm3798796f8f.32.2025.11.04.02.25.45
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 04 Nov 2025 02:25:45 -0800 (PST)
+From: =?UTF-8?q?Jos=C3=A9=20Exp=C3=B3sito?= <jose.exposito89@gmail.com>
+To: quic_jesszhan@quicinc.com
+Cc: maarten.lankhorst@linux.intel.com, mripard@kernel.org, tzimmermann@suse.de,
+ airlied@gmail.com, simona@ffwll.ch, lumag@kernel.org,
+ quic_abhinavk@quicinc.com, dan.carpenter@linaro.org,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ =?UTF-8?q?Jos=C3=A9=20Exp=C3=B3sito?= <jose.exposito89@gmail.com>
+Subject: [PATCH v2 1/2] drm/tests: Handle EDEADLK in
+ drm_test_check_valid_clones()
+Date: Tue,  4 Nov 2025 11:25:21 +0100
+Message-ID: <20251104102535.12212-1-jose.exposito89@gmail.com>
+X-Mailer: git-send-email 2.51.1
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 1/7] drm: writeback: Refactor drm_writeback_connector
- structure
-To: Suraj Kandpal <suraj.kandpal@intel.com>, linux-arm-msm@vger.kernel.org,
- freedreno@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- intel-xe@lists.freedesktop.org, intel-gfx@lists.freedesktop.org,
- kernel-list@raspberrypi.com, amd-gfx@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, linux-renesas-soc@vger.kernel.org
-Cc: dmitry.baryshkov@oss.qualcomm.com, ankit.k.nautiyal@intel.com,
- arun.r.murthy@intel.com, uma.shankar@intel.com, jani.nikula@intel.com,
- harry.wentland@amd.com, siqueira@igalia.com, alexander.deucher@amd.com,
- christian.koenig@amd.com, airlied@gmail.com, simona@ffwll.ch,
- liviu.dudau@arm.com, maarten.lankhorst@linux.intel.com, mripard@kernel.org,
- robin.clark@oss.qualcomm.com, abhinav.kumar@linux.dev, tzimmermann@suse.de,
- jessica.zhang@oss.qualcomm.com, sean@poorly.run,
- marijn.suijten@somainline.org, laurent.pinchart+renesas@ideasonboard.com,
- mcanal@igalia.com, dave.stevenson@raspberrypi.com,
- tomi.valkeinen+renesas@ideasonboard.com,
- kieran.bingham+renesas@ideasonboard.com
-References: <20251007054528.2900905-1-suraj.kandpal@intel.com>
- <20251007054528.2900905-2-suraj.kandpal@intel.com>
-Content-Language: en-US, fr
-From: Louis Chauvet <louis.chauvet@bootlin.com>
-Autocrypt: addr=louis.chauvet@bootlin.com; keydata=
- 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
-In-Reply-To: <20251007054528.2900905-2-suraj.kandpal@intel.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Last-TLS-Session-Version: TLSv1.3
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -131,47 +91,73 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+Fedora/CentOS/RHEL CI is reporting intermittent failures while running
+the drm_test_check_valid_clones() KUnit test.
 
+The error log can be either [1]:
 
-Le 07/10/2025 à 07:45, Suraj Kandpal a écrit :
-> Some drivers cannot work with the current design where the connector
-> is embedded within the drm_writeback_connector such as Intel and
-> some drivers that can get it working end up adding a lot of checks
-> all around the code to check if it's a writeback conenctor or not,
-> this is due to the limitation of inheritance in C.
-> To solve this move the drm_writeback_connector within the
-> drm_connector and remove the drm_connector base which was in
-> drm_writeback_connector. Make this drm_writeback_connector
-> a union with hdmi connector to save memory and since a connector can
-> never be both writeback and hdmi it should serve us well.
-> Do all other required modifications that come with these changes
-> along with addition of new function which returns the drm_connector
-> when drm_writeback_connector is present.
-> Modify drivers using the drm_writeback_connector to
-> allow them to use this connector without breaking them.
-> The drivers modified here are amd, komeda, mali, vc4, vkms,
-> rcar_du, msm
-> 
-> Signed-off-by: Suraj Kandpal <suraj.kandpal@intel.com>
-> ---
-> V1 -> V2: Use &connector->writeback, make commit message imperative (Dmitry)
-> ---
+    # drm_test_check_valid_clones: ASSERTION FAILED at
+    # drivers/gpu/drm/tests/drm_atomic_state_test.c:295
+    Expected ret == param->expected_result, but
+        ret == -35 (0xffffffffffffffdd)
+        param->expected_result == 0 (0x0)
 
-[...]
+Or [2] depending on the test case:
 
->   drivers/gpu/drm/vkms/vkms_composer.c          |  2 +-
->   drivers/gpu/drm/vkms/vkms_drv.h               |  2 +-
->   drivers/gpu/drm/vkms/vkms_writeback.c         | 13 ++--
+    # drm_test_check_valid_clones: ASSERTION FAILED at
+    # drivers/gpu/drm/tests/drm_atomic_state_test.c:295
+    Expected ret == param->expected_result, but
+        ret == -35 (0xffffffffffffffdd)
+        param->expected_result == -22 (0xffffffffffffffea)
 
-For the VKMS part:
+Restart the atomic sequence when EDEADLK is returned.
 
-Reviewed-by: Louis Chauvet <louis.chauvet@bootlin.com>
+[1] https://s3.amazonaws.com/arr-cki-prod-trusted-artifacts/trusted-artifacts/2113057246/test_x86_64/11802139999/artifacts/jobwatch/logs/recipes/19824965/tasks/204347800/results/946112713/logs/dmesg.log
+[2] https://s3.amazonaws.com/arr-cki-prod-trusted-artifacts/trusted-artifacts/2106744297/test_aarch64/11762450907/artifacts/jobwatch/logs/recipes/19797942/tasks/204139727/results/945094561/logs/dmesg.log
+Fixes: 88849f24e2ab ("drm/tests: Add test for drm_atomic_helper_check_modeset()")
+Closes: https://datawarehouse.cki-project.org/issue/4004
+Reviewed-by: Maxime Ripard <mripard@kernel.org>
+Signed-off-by: José Expósito <jose.exposito89@gmail.com>
 
-Thanks,
-Louis Chauvet
+---
 
---
-Louis Chauvet, Bootlin
-Embedded Linux and Kernel engineering
-https://bootlin.com
+v2: Added Reviewed-by: Maxime Ripard <mripard@kernel.org>
+---
+ drivers/gpu/drm/tests/drm_atomic_state_test.c | 13 +++++++++++++
+ 1 file changed, 13 insertions(+)
+
+diff --git a/drivers/gpu/drm/tests/drm_atomic_state_test.c b/drivers/gpu/drm/tests/drm_atomic_state_test.c
+index 2f6ac7a09f44..1e857d86574c 100644
+--- a/drivers/gpu/drm/tests/drm_atomic_state_test.c
++++ b/drivers/gpu/drm/tests/drm_atomic_state_test.c
+@@ -283,7 +283,14 @@ static void drm_test_check_valid_clones(struct kunit *test)
+ 	state = drm_kunit_helper_atomic_state_alloc(test, drm, &ctx);
+ 	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, state);
+ 
++retry:
+ 	crtc_state = drm_atomic_get_crtc_state(state, priv->crtc);
++	if (PTR_ERR(crtc_state) == -EDEADLK) {
++		drm_atomic_state_clear(state);
++		ret = drm_modeset_backoff(&ctx);
++		if (!ret)
++			goto retry;
++	}
+ 	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, crtc_state);
+ 
+ 	crtc_state->encoder_mask = param->encoder_mask;
+@@ -292,6 +299,12 @@ static void drm_test_check_valid_clones(struct kunit *test)
+ 	crtc_state->mode_changed = true;
+ 
+ 	ret = drm_atomic_helper_check_modeset(drm, state);
++	if (ret == -EDEADLK) {
++		drm_atomic_state_clear(state);
++		ret = drm_modeset_backoff(&ctx);
++		if (!ret)
++			goto retry;
++	}
+ 	KUNIT_ASSERT_EQ(test, ret, param->expected_result);
+ 
+ 	drm_modeset_drop_locks(&ctx);
+-- 
+2.51.1
 
