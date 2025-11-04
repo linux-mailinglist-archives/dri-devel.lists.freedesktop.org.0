@@ -2,195 +2,60 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4DB00C31196
-	for <lists+dri-devel@lfdr.de>; Tue, 04 Nov 2025 14:00:13 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id D8C98C311A2
+	for <lists+dri-devel@lfdr.de>; Tue, 04 Nov 2025 14:00:59 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 90F6A10E275;
-	Tue,  4 Nov 2025 13:00:02 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 20C1E10E5D4;
+	Tue,  4 Nov 2025 13:00:58 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="g3ssE+yN";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="RA8H3Mn3";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2AEAD10E275;
- Tue,  4 Nov 2025 13:00:00 +0000 (UTC)
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E461210E5D4
+ for <dri-devel@lists.freedesktop.org>; Tue,  4 Nov 2025 13:00:56 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1762261201; x=1793797201;
- h=date:from:to:cc:subject:message-id:references:
- content-transfer-encoding:in-reply-to:mime-version;
- bh=ScN6QYpL7sMVWSkZUSamJhnNZ8w4JDBQjwwsYAl/VPo=;
- b=g3ssE+yN/WstHUpJv2Nb+L2p/2qdkXgJ5Tz50UefkS+c58f8GjEa3/Rg
- Dmbkc7I9DK5Qhwn+IpcGakeoFfFkMPD5d2BtS/mp/dsnMDoHfFElHyTjG
- ZE5dYLN1COo5vHXL30Q4d1uRns1MxVe4vBncvyg/sdE3/BcuRoxwKt1lq
- o4vgitMKG/YYj6PgvMj3BgH6P8LITjxwOfNFbS4Kc5j1sGlQX8TFbmjj6
- T3yq1oiijoR4lmlQMU5h5/W1GZF54L2zu39UaRvOoBmK3UssmgyAhTghC
- UZWOGWEbOZY2iinxhvjmxrKZojdAeInGRoEKV5I3hvwJ4dYZqN5YreCjg w==;
-X-CSE-ConnectionGUID: SsZayCUhR3ulSDFNNdeYlg==
-X-CSE-MsgGUID: xJYFClErQuy7rukoP9ruQg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11602"; a="63557927"
-X-IronPort-AV: E=Sophos;i="6.19,279,1754982000"; d="scan'208";a="63557927"
-Received: from orviesa007.jf.intel.com ([10.64.159.147])
- by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 04 Nov 2025 04:59:58 -0800
-X-CSE-ConnectionGUID: D27LyaoxROWq6m+QLZpqMQ==
-X-CSE-MsgGUID: bf4zCqCTTOyd0BuKGZCahw==
+ t=1762261257; x=1793797257;
+ h=from:to:cc:subject:in-reply-to:references:date:
+ message-id:mime-version;
+ bh=tsV0V/fTN3JUUoXNh9wEO7fdhr/2j0Nb0+n6qdtscZ0=;
+ b=RA8H3Mn3V/pMJ6K0GMES1WOIg8BBqVWygOb+eVa8ucIYHBTIfGuj3xJR
+ HDG78MBRpUCYAVIy5xHb8ErCYzg84mZUr0rKqdF13Imebyy5xBwOYDeMC
+ dMAWEJgaMKl2kiyiscu7PKgTknkdEkQ8HZHOkFxUtcKvaLc+S2dQZzi23
+ mpU+wkUU6hR+zf3hKPg51UqIj9YlL5DZnIifXD6VWpJOK6XEuRA9+dX2B
+ BfkeKMpwM1jXy1tFo1aYgTm/De9vNRXFoAddg+tyi09Z66cdOBL9YAWiU
+ Ytx1E2ZU0Kkkf6zgaMdBEuK2mx9RCVsQpje3MVU25fAS79ckS0n1bH7JC A==;
+X-CSE-ConnectionGUID: ajlbYyoHSKiL/6Fck1n+Lg==
+X-CSE-MsgGUID: s5HHPdkdQk23IPxsXFR9hA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11602"; a="64239092"
+X-IronPort-AV: E=Sophos;i="6.19,279,1754982000"; d="scan'208";a="64239092"
+Received: from orviesa006.jf.intel.com ([10.64.159.146])
+ by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 04 Nov 2025 05:00:54 -0800
+X-CSE-ConnectionGUID: PHZ6ArmMSQOsdf7ITkCaTg==
+X-CSE-MsgGUID: DcA01tKbSCGW3lrDUFc72Q==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.19,279,1754982000"; d="scan'208";a="187102434"
-Received: from fmsmsx901.amr.corp.intel.com ([10.18.126.90])
- by orviesa007.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 04 Nov 2025 04:59:58 -0800
-Received: from FMSMSX901.amr.corp.intel.com (10.18.126.90) by
- fmsmsx901.amr.corp.intel.com (10.18.126.90) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.27; Tue, 4 Nov 2025 04:59:57 -0800
-Received: from fmsedg903.ED.cps.intel.com (10.1.192.145) by
- FMSMSX901.amr.corp.intel.com (10.18.126.90) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.27 via Frontend Transport; Tue, 4 Nov 2025 04:59:57 -0800
-Received: from PH0PR06CU001.outbound.protection.outlook.com (40.107.208.3) by
- edgegateway.intel.com (192.55.55.83) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.27; Tue, 4 Nov 2025 04:59:56 -0800
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=s2yI00gJYhdzP7uEv92o0ua0u/M6/iYL0UP54zkFUdmd5U8GMgwX8VIzoZQNV1fKGZ2wIdw+U2hV0mLiYF29ZbXy4VOupkTmhTohotdiUnYqVho91Iuai5i6ne0yB6/5MxCzpO/3qNXN9n1o1ItIDzl6PFQgopOq/u+HMlRMjgkRI48gugcpftJPVfDXrc/ss+53eK02nLqpTGVi41MsfSz7juN7BnN1wF4krHGOj6TAuHGyMRO2zI/DFn3ee8mXB3IzV0oOGDF6OnCEG0myM/Hs/bXgZaXQfa54HFSxOTi9QD11kH+QCGU0PU8ubV3ffOWQFrrXsm4gH0H7zWBQlA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=aEk2N3CzJYIK95Cyl2o40SWQuMxvTvQNYz61mRp0EzI=;
- b=LgGSLotDQ1VT73db6DCGenkDqt5JUqo9PniFOINGadorjmWjGPY67PbBU7jOMeHMMP0vpyIGzZRNT1akeeCT6XedEa9yycvI73MiG1xXVQRVHj5lS7qxBbUkitvEbHKks/oO2JM4jxYF8GdnYObYBtix5HSNg9LIAlyj9cKbl+UPSzHtu3514D5QVXuZVysJJoDEwXFsYEkmUXsX0buHBoo/3tTX4YSueE/7o1Po675kAXRtYbCVx5RuM4T9kHlWCP2bd9KmqNq7vkgm80hVGyGiNuxiSAQS9ycQinQWf4QxndUuDrwl+3OuU8sODUG3p9ACikcEwKk/q+h7HaFi8g==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=intel.com;
-Received: from DM4PR11MB5373.namprd11.prod.outlook.com (2603:10b6:5:394::7) by
- CYXPR11MB8729.namprd11.prod.outlook.com (2603:10b6:930:dc::17) with
- Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.9275.16; Tue, 4 Nov 2025 12:59:50 +0000
-Received: from DM4PR11MB5373.namprd11.prod.outlook.com
- ([fe80::927a:9c08:26f7:5b39]) by DM4PR11MB5373.namprd11.prod.outlook.com
- ([fe80::927a:9c08:26f7:5b39%5]) with mapi id 15.20.9275.011; Tue, 4 Nov 2025
- 12:59:50 +0000
-Date: Tue, 4 Nov 2025 13:59:45 +0100
-From: =?utf-8?Q?Micha=C5=82?= Winiarski <michal.winiarski@intel.com>
-To: Lucas De Marchi <lucas.demarchi@intel.com>
-CC: Alex Williamson <alex@shazbot.org>, Thomas =?utf-8?Q?Hellstr=C3=B6m?=
- <thomas.hellstrom@linux.intel.com>, Rodrigo Vivi <rodrigo.vivi@intel.com>,
- Jason Gunthorpe <jgg@ziepe.ca>, Yishai Hadas <yishaih@nvidia.com>, Kevin Tian
- <kevin.tian@intel.com>, Shameer Kolothum <skolothumtho@nvidia.com>,
- <intel-xe@lists.freedesktop.org>, <linux-kernel@vger.kernel.org>,
- <kvm@vger.kernel.org>, Matthew Brost <matthew.brost@intel.com>, "Michal
- Wajdeczko" <michal.wajdeczko@intel.com>, <dri-devel@lists.freedesktop.org>,
- Jani Nikula <jani.nikula@linux.intel.com>, Joonas Lahtinen
- <joonas.lahtinen@linux.intel.com>, Tvrtko Ursulin <tursulin@ursulin.net>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, "Lukasz
- Laguna" <lukasz.laguna@intel.com>, Christoph Hellwig <hch@infradead.org>
-Subject: Re: [PATCH v3 27/28] drm/intel/pciids: Add match with VFIO override
-Message-ID: <xewec63623hktutmcnmrvuuq4wsmd5nvih5ptm7ovdlcjcgii2@lruzhh5raltm>
-References: <20251030203135.337696-1-michal.winiarski@intel.com>
- <20251030203135.337696-28-michal.winiarski@intel.com>
- <cj3ohepcobrqmam5upr5nc6jbvb6wuhkv4akw2lm5g3rms7foo@4snkr5sui32w>
-Content-Type: text/plain; charset="utf-8"
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <cj3ohepcobrqmam5upr5nc6jbvb6wuhkv4akw2lm5g3rms7foo@4snkr5sui32w>
-X-ClientProxiedBy: BE1P281CA0130.DEUP281.PROD.OUTLOOK.COM
- (2603:10a6:b10:7a::11) To DM4PR11MB5373.namprd11.prod.outlook.com
- (2603:10b6:5:394::7)
+X-IronPort-AV: E=Sophos;i="6.19,279,1754982000"; d="scan'208";a="186395648"
+Received: from hrotuna-mobl2.ger.corp.intel.com (HELO localhost)
+ ([10.245.246.182])
+ by orviesa006-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 04 Nov 2025 05:00:51 -0800
+From: Jani Nikula <jani.nikula@linux.intel.com>
+To: Karol Wachowski <karol.wachowski@linux.intel.com>,
+ dri-devel@lists.freedesktop.org
+Cc: oded.gabbay@gmail.com, jeff.hugo@oss.qualcomm.com,
+ maciej.falkowski@linux.intel.com, lizhi.hou@amd.com, Karol Wachowski
+ <karol.wachowski@linux.intel.com>
+Subject: Re: [PATCH v2] accel/ivpu: Improve debug and warning messages
+In-Reply-To: <20251104090049.944152-1-karol.wachowski@linux.intel.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+References: <20251104090049.944152-1-karol.wachowski@linux.intel.com>
+Date: Tue, 04 Nov 2025 15:00:48 +0200
+Message-ID: <42f705ef5eb4c1b225d6e97007b900a51e24235e@intel.com>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: DM4PR11MB5373:EE_|CYXPR11MB8729:EE_
-X-MS-Office365-Filtering-Correlation-Id: ca7d8e73-84d2-4db8-afa5-08de1ba20960
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|7416014|376014|366016|1800799024;
-X-Microsoft-Antispam-Message-Info: =?utf-8?B?bkg3endLdklaUFVsRU93cnNyUlhKdEVWYVZsdVMxVnNnS09iWlE5Q3RTTEtq?=
- =?utf-8?B?Um1ZWCtoeUJWaEhKR08yV0JWSFl0Y0w2aktuOWNnRXRhM0xkeGl0SFd4aklM?=
- =?utf-8?B?anJlWWVsUUdZSllhWEd3RXVFYmZsbnc4MmlBbkV0dlpuSnF4WjhRd1N4NzBw?=
- =?utf-8?B?SFdTMGRyMHFtMzBxQ05abVk0UkkrTEZucFh6eFEwV2ljM3htbUFiL0lmTVhE?=
- =?utf-8?B?N05LaEorZGtHWENJS0R5UE90S2w3QmJiNkxBdTNmOVF1b1l0WVZ5U3g5NmxM?=
- =?utf-8?B?RXROTVNsYnkwVFVTbWNOcWo3RDlIN1ppQkN4MXFuVGRwMTQyRzRtam13SHUr?=
- =?utf-8?B?eEZrYS92eUtlZDFNRGxURUw0NzJTQUNuM21rcWZnRXE0TFd4SHB3S1N3eXVK?=
- =?utf-8?B?QXJBQzB0WG1xYWxMZ1JsVjY0bW82R1Y1SkVyMTU1VzJwd1RHUnFZd3UzM2Q2?=
- =?utf-8?B?ZGNaMFpFVUFHOXowbE1XZlltelFhMEZFV1JITGZER0xGZWVLQWUvelhpbm9D?=
- =?utf-8?B?RTN1Z2NXNUlPckZxNU5hNVFpNDVJSk5PMnJ5NHNzWUk1Zk1pb2pnUFVFYS9K?=
- =?utf-8?B?b0RpYlEwamQxSFBHbXpTaWpqa0dmUjRHMjVJU3JNNi9yM2RaZkRKcFIrRURK?=
- =?utf-8?B?eXRTZDBlSkxZcnlPY3RLYStoUlZjMTdmTlNzeWFuYmVIRE9COG1aaGpGcGtW?=
- =?utf-8?B?ZVl4cHl5TVduWlVCSmlmcUNvS1JJMHBYdndTQUlUREpwWjJYWjMxV3IyMG9S?=
- =?utf-8?B?T3BtS1lWdC92OFIwK0hJN2VrbW1iU21rUkFPbTE2K24rY3FPRkF5dUMwVHAx?=
- =?utf-8?B?cXVYNXpxUGxkQ3hnYWdkYXVueERzQm43ejdTTU1WUklwbVhSak9EK1luS2lK?=
- =?utf-8?B?N2g1WDhPSFIvT0VvQU5TSWVrT25QM3p0TWJHZnNZMWNFNkxXU2ZFZWVvY0Nu?=
- =?utf-8?B?V00rQzRCUWVuVGpkbjYzVGo4VURsU2Zta2ZIck54NDM1dlpRZHJucTFIYlYz?=
- =?utf-8?B?Nk1FVlRHcDMvWUJEaXluNnBTMnZOODBaUjJmdEJpSmo3eWFmNjNRNVJpU2pG?=
- =?utf-8?B?WGtoZno5UzhpWGRXTmprMnF0NGtsMUlmNWwxMTE1TTUyb3Q1b2xJbTRlQURT?=
- =?utf-8?B?Rk4wOUJlNVFKenh0YlpjV2hiQlF5SEdjNW4wdzgrSjJqQW5MOEhma1o4Q291?=
- =?utf-8?B?b1k2ZlNCb1dDODFYU21FYzNncEtvd3pCa3RmQ3htUW5UQUVuYXlWMjFMRHdI?=
- =?utf-8?B?ZTZYK0pOeHpobW5MRHZzUm1Nb1NQNXRpajNEUWFjSUZVUlA3aVJHSVlSZjVo?=
- =?utf-8?B?UVpybjNwblJZb3c3K01EL3o0OGIvZ1R2R1dvcW4wL1g2UE9zK2lDZ1psUDVZ?=
- =?utf-8?B?cWY1Q0I5KzBKYWFMWEpJS2NWZjNOVGZyM0dwV3A5MmpoeXBHTFVnM1JpNzgv?=
- =?utf-8?B?amw3RGh4Y2crdENHN2NoZTkyaTJZT1IxM3BUQ3BYTFZ4RzIvbVgvOTZOQUhx?=
- =?utf-8?B?c0gwK2QvT2cwM0UzbjYwSW52eUc5NXFqWUExeko2bVpyN0JNTytEcmJ1SW9M?=
- =?utf-8?B?TjlrcHRPclE3c1pqWkhLbFRQNG53ZVBjNUVGNUlhYjQrOEFnb1hGYWxkK3ds?=
- =?utf-8?B?WmtMYkhKZStlRHh1WWQzbXA3aHVuWHAxUkxmOVoyWWUycjM2bGpJWEdvQ1Uw?=
- =?utf-8?B?c2JUOVZCZk1GWTdLOWlWVlhpM3prS0JNM1VTSlh5SFUyZkRmMkxyRWRWUFZT?=
- =?utf-8?B?b3VteEo2U09qMVFmVUpPYWN3RkcyOWI0SjJ4Yk96a3BKWFh3b2VnK0JZZFF5?=
- =?utf-8?B?LzBrbCt2eEVHaEEvbmNUU01EVGNsWTd1bnIyTC9lMjNaWm5jbytEQVh2QUhW?=
- =?utf-8?B?dGg1K3IybnJUUXd2a1NDSEZYUldCYWd0RS9VZnJIcEVYZUErYXRwa2ZrQ3hn?=
- =?utf-8?Q?1DOdwr5K0khlS/z920dnF+Jg5N7/pPdO?=
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:DM4PR11MB5373.namprd11.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230040)(7416014)(376014)(366016)(1800799024); DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?OWRyQ0hZaUJwRjlvYTRDdHFZS3RzM3NWRFpYb0x0M0dEcHBieVh6YytXS2ND?=
- =?utf-8?B?ZE03UmE1UkZxTGRmNVhxNFI3ckkya1RWMDdUMGVTcVF2NHM5OGpweTFaeTdK?=
- =?utf-8?B?NWRFdGFPQnAySXd0cGErZm40SlpmbGVybFQ3ZldkOE5mOU55VzhSZkRSRUQ0?=
- =?utf-8?B?VENvMERBM1FnWE5uNkJMSldSYXZzM3NmZmE0N2RxOFhWNWRVbXBRS1AwbVpl?=
- =?utf-8?B?MnhETWptWFZiZnpMb0pRQm5rNUJra2NBZzdHelVNbm9xZWcrNHJPZXRSZndD?=
- =?utf-8?B?VFJoNEl5aE8vcEkzNDdWcm1EVW5HOTU3L1ZhaHdjZW9tRk1wTDBWWkNlWFp3?=
- =?utf-8?B?MlRTY1FHN1BPaVZTSlNiaHg0a2JGNDRzWS8yYmk0YlQ4ZzZrbS9ycGNTU09Y?=
- =?utf-8?B?V1RDbU03MlNxYzQ5QWk1VGYybzQzZnZSMlBzV0hmbzc5cVZaVmtUeDN4QkFk?=
- =?utf-8?B?eEFpeXpMUUwzQ1ZmeUYyeWkzemttVU9oMXNyZzNUcXRyY0tpSTNFQVA5Wm9Y?=
- =?utf-8?B?UVJZcjBSM2xoRkYwZGJ3NVlsZ3pFcGdTSWprVDU1T2RRcUNLalF1OGwvekRJ?=
- =?utf-8?B?Rm83TE81ekUrQU1pUVduMFA1dHlFU0ZrN1lRZWZPWllGVmZlRjYxcGdQVlhL?=
- =?utf-8?B?Wm9Fb2Y1UEpjSGErWitVcWhiZmxRVC8rVlZaRUgrUTdSaWJmSk9FZ3c0dW1u?=
- =?utf-8?B?OVhQVTA1dVM2cVN1NGdnd01PQUVpSVYvQ1VxQno1aitOLzNGNXkrSERPczJF?=
- =?utf-8?B?NER5NUhaaXN0QzNUNzgvZFlpT1ExeDBNMG8raWpxdlRNbzZ3cHBSMlNRb2xX?=
- =?utf-8?B?Q1lYZHR5QktEWjdLUE11TVIyS3hvWlc0NjVpTkE5Y2hreC9ETW5ucDQ1M2cw?=
- =?utf-8?B?TFMySUNwam1IUGxOenhwVHZEWXJCZTZvd3FsTG9mNjN3aGJxVWc4NUMxSDZE?=
- =?utf-8?B?WURiTWhjQnBLOWtBcDhiL3pJeEo5dEpMaFg3ZkpLWTJzZWV4UlQ5b3VGU2dl?=
- =?utf-8?B?alZoNjZlZVNGVXBIMXEvSTFUMkFqeGRFRTFZYmFtdHZDS2VQYmFwRlVRdklG?=
- =?utf-8?B?QklaM0k1QVNRR3liZTNrTGlLODFrYm55cHJMQ1YzUEFDL0lKOUErS1lrV2J1?=
- =?utf-8?B?N0pDTVNMMGd4TUlSNlhBOFAvY0FSR0gwRFFCOVMzaE9iRi95Tm1oTVh1dk5X?=
- =?utf-8?B?UVZEek1pci90SXYxQ3pmMzU5U3BDUG91S0huTGwxNTZDOUdUTzZSUVVCb1U0?=
- =?utf-8?B?WUw3U2pncmR3ZitndHhJUC82QkY1ZG12a3d0SmdkZWRCRzhTaUFnY0plUlUx?=
- =?utf-8?B?azN5RlYxVTh3REtXVWY4bXVBR1JhVDVZSmRaNWY4WGRsbkJKWUZENFhJTWJi?=
- =?utf-8?B?dEJ0Rm5pWGFUdm02WHVjbW1EQWgwN05ydy95cDZvQ09RUis0ZStpYlZzS3VY?=
- =?utf-8?B?Ly93QnRJVEIxYnFSYUxoNjRybFoxWnorZ2Y4VkVzejd1d0dKaDFZdVBRb2JJ?=
- =?utf-8?B?QUlFRlJsRUk5N2ZaWUJYODlCdjg4YzFmdnJMcC9XYXBXV3RNbVAzN3FpaEJV?=
- =?utf-8?B?RTZBWnE2RGJSUUphWGoyZjZwZjQ0STJ0cENKajdmSzVRZTR2Tk91Y1NSNk5Y?=
- =?utf-8?B?UTczQ1VMRVFQRDBzNmkwb3JQUFpZbHR2TG5PRElVbGtCMDg0QUJjWXJhL0RK?=
- =?utf-8?B?TmZKUVNPNXFFN2FqMWJadzYza3RtYS80eXpsQU1JRWlkaVhzQ2dNZzZTMDBJ?=
- =?utf-8?B?VmxPTnEvalNmSU5vL05xSnZoaXlnSzhNaEx6N1d6YXV4K2VKcFU2ZDNTSWZ4?=
- =?utf-8?B?dUNkZkcxeUxacGlqVVJqbjNDTTBwZXdnU2lBZGNadldqMXZtRHN4NitxRGpz?=
- =?utf-8?B?L2d6UENhWUdLWmpvZC9tMHBZWWNsU0ozVkdjZW5MMVI4djBOemllN0xCUGlO?=
- =?utf-8?B?TUlQK2ZkRmdrTGlMWnVjSXl2MitEVThvV0RLWWcvVjMwNTBYUEJNemFxYUg3?=
- =?utf-8?B?a3B2UWh3bjFkZ0RURFhDbGR3RVRpM3ZETVNHdENIdnZ2OVJHbGxmY2xrelJj?=
- =?utf-8?B?MFpoL21UYklWRURHTWlHUHhVT1VzMHpDZ1N0WU13LzU4U2FlSWswQm1jY05M?=
- =?utf-8?B?VTM4SkpSN240T0xGNlNKV0ROVlIrdHN1VmtKOWhrTktoTzJOdGVvMkwwaHda?=
- =?utf-8?B?blE9PQ==?=
-X-MS-Exchange-CrossTenant-Network-Message-Id: ca7d8e73-84d2-4db8-afa5-08de1ba20960
-X-MS-Exchange-CrossTenant-AuthSource: DM4PR11MB5373.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 04 Nov 2025 12:59:50.0941 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: XxE3Cy4xRETLbaOok4tGVepgcb0aogjJlG4ejpb1Tu8tZ6E/bNW9N9h/cWW2sJQp9NpN7NM9CwNzrDcrCMIRZtmk23saZHckHZ0VxhJKR2Y=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CYXPR11MB8729
-X-OriginatorOrg: intel.com
+Content-Type: text/plain
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -206,53 +71,531 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Nov 03, 2025 at 03:30:49PM -0600, Lucas De Marchi wrote:
-> On Thu, Oct 30, 2025 at 09:31:34PM +0100, Michał Winiarski wrote:
-> > In order to allow VFIO users to choose the right driver override, VFIO
-> > driver variant used for VF migration needs to use Intel Graphics PCI
-> > IDs.
-> > Add INTEL_VGA_VFIO_DEVICE match that sets VFIO override_only.
-> > 
-> > Signed-off-by: Michał Winiarski <michal.winiarski@intel.com>
-> > ---
-> > include/drm/intel/pciids.h | 7 +++++++
-> > 1 file changed, 7 insertions(+)
-> > 
-> > diff --git a/include/drm/intel/pciids.h b/include/drm/intel/pciids.h
-> > index b258e79b437ac..d14ce43139a28 100644
-> > --- a/include/drm/intel/pciids.h
-> > +++ b/include/drm/intel/pciids.h
-> > @@ -43,6 +43,13 @@
-> > 	.class = PCI_BASE_CLASS_DISPLAY << 16, .class_mask = 0xff << 16, \
-> > 	.driver_data = (kernel_ulong_t)(_info), \
-> > }
-> > +
-> > +#define INTEL_VGA_VFIO_DEVICE(_id, _info) { \
-> > +	PCI_DEVICE(PCI_VENDOR_ID_INTEL, (_id)), \
-> > +	.class = PCI_BASE_CLASS_DISPLAY << 16, .class_mask = 0xff << 16, \
-> > +	.driver_data = (kernel_ulong_t)(_info), \
-> > +	.override_only = PCI_ID_F_VFIO_DRIVER_OVERRIDE, \
-> 
-> why do we need this and can't use PCI_DRIVER_OVERRIDE_DEVICE_VFIO()
-> directly? Note that there are GPUs that wouldn't match the display class
-> above.
-> 
-> 	edb660ad79ff ("drm/intel/pciids: Add match on vendor/id only")
-> 	5e0de2dfbc1b ("drm/xe/cri: Add CRI platform definition")
-> 
-> Lucas De Marchi
-> 
+On Tue, 04 Nov 2025, Karol Wachowski <karol.wachowski@linux.intel.com> wrote:
+> Add IOCTL debug bit for logging user provided parameter validation
+> errors.
+>
+> Refactor several warning and error messages to better reflect fault
+> reason. User generated faults should not flood kernel messages with
+> warnings or errors, so change those to ivpu_dbg(). Add additional debug
+> logs for parameter validation in IOCTLs.
+>
+> Check size provided by in metric streamer start and return -EINVAL
+> together with a debug message print.
+>
+> Fix ivpu_warn_ratelimited() to properly use WARN logging level instead
+> of an ERROR.
+>
+> Signed-off-by: Karol Wachowski <karol.wachowski@linux.intel.com>
+> ---
+>  drivers/accel/ivpu/ivpu_drv.h         |  3 +-
+>  drivers/accel/ivpu/ivpu_gem.c         | 25 ++++---
+>  drivers/accel/ivpu/ivpu_gem_userptr.c | 29 +++++---
+>  drivers/accel/ivpu/ivpu_job.c         | 95 ++++++++++++++++++---------
+>  drivers/accel/ivpu/ivpu_mmu_context.c |  3 +-
+>  drivers/accel/ivpu/ivpu_ms.c          | 25 ++++---
+>  6 files changed, 121 insertions(+), 59 deletions(-)
+>
+> diff --git a/drivers/accel/ivpu/ivpu_drv.h b/drivers/accel/ivpu/ivpu_drv.h
+> index 98b274a8567f..1b1bf0a51ccc 100644
+> --- a/drivers/accel/ivpu/ivpu_drv.h
+> +++ b/drivers/accel/ivpu/ivpu_drv.h
+> @@ -79,6 +79,7 @@
+>  #define IVPU_DBG_KREF	 BIT(11)
+>  #define IVPU_DBG_RPM	 BIT(12)
+>  #define IVPU_DBG_MMU_MAP BIT(13)
+> +#define IVPU_DBG_IOCTL   BIT(14)
+>  
+>  #define ivpu_err(vdev, fmt, ...) \
+>  	drm_err(&(vdev)->drm, "%s(): " fmt, __func__, ##__VA_ARGS__)
+> @@ -90,7 +91,7 @@
+>  	drm_warn(&(vdev)->drm, "%s(): " fmt, __func__, ##__VA_ARGS__)
+>  
+>  #define ivpu_warn_ratelimited(vdev, fmt, ...) \
+> -	drm_err_ratelimited(&(vdev)->drm, "%s(): " fmt, __func__, ##__VA_ARGS__)
+> +	__drm_printk(&(vdev)->drm, warn, _ratelimited, fmt, ##__VA_ARGS__)
 
-I'll define it on xe-vfio-pci side and use
-PCI_DRIVER_OVERRIDE_DEVICE_VFIO() internally.
+The double underscore is a hint that it's private, don't use it outside
+of drm_print.h.
 
-Thanks,
--Michał
+BR,
+Jani.
 
-> > +}
-> > #endif
-> > 
-> > #define INTEL_I810_IDS(MACRO__, ...) \
-> > -- 
-> > 2.50.1
-> > 
+>  
+>  #define ivpu_info(vdev, fmt, ...) drm_info(&(vdev)->drm, fmt, ##__VA_ARGS__)
+>  
+> diff --git a/drivers/accel/ivpu/ivpu_gem.c b/drivers/accel/ivpu/ivpu_gem.c
+> index 03d39615ad37..74b12c7e6caf 100644
+> --- a/drivers/accel/ivpu/ivpu_gem.c
+> +++ b/drivers/accel/ivpu/ivpu_gem.c
+> @@ -128,8 +128,6 @@ ivpu_bo_alloc_vpu_addr(struct ivpu_bo *bo, struct ivpu_mmu_context *ctx,
+>  		bo->ctx_id = ctx->id;
+>  		bo->vpu_addr = bo->mm_node.start;
+>  		ivpu_dbg_bo(vdev, bo, "vaddr");
+> -	} else {
+> -		ivpu_err(vdev, "Failed to add BO to context %u: %d\n", ctx->id, ret);
+>  	}
+>  
+>  	ivpu_bo_unlock(bo);
+> @@ -289,8 +287,8 @@ static int ivpu_gem_bo_open(struct drm_gem_object *obj, struct drm_file *file)
+>  	struct ivpu_addr_range *range;
+>  
+>  	if (bo->ctx) {
+> -		ivpu_warn(vdev, "Can't add BO to ctx %u: already in ctx %u\n",
+> -			  file_priv->ctx.id, bo->ctx->id);
+> +		ivpu_dbg(vdev, IOCTL, "Can't add BO %pe to ctx %u: already in ctx %u\n",
+> +			 bo, file_priv->ctx.id, bo->ctx->id);
+>  		return -EALREADY;
+>  	}
+>  
+> @@ -357,15 +355,19 @@ int ivpu_bo_create_ioctl(struct drm_device *dev, void *data, struct drm_file *fi
+>  	struct ivpu_bo *bo;
+>  	int ret;
+>  
+> -	if (args->flags & ~DRM_IVPU_BO_FLAGS)
+> +	if (args->flags & ~DRM_IVPU_BO_FLAGS) {
+> +		ivpu_dbg(vdev, IOCTL, "Invalid BO flags 0x%x\n", args->flags);
+>  		return -EINVAL;
+> +	}
+>  
+> -	if (size == 0)
+> +	if (size == 0) {
+> +		ivpu_dbg(vdev, IOCTL, "Invalid BO size %llu\n", args->size);
+>  		return -EINVAL;
+> +	}
+>  
+>  	bo = ivpu_bo_alloc(vdev, size, args->flags);
+>  	if (IS_ERR(bo)) {
+> -		ivpu_err(vdev, "Failed to allocate BO: %pe (ctx %u size %llu flags 0x%x)",
+> +		ivpu_dbg(vdev, IOCTL, "Failed to allocate BO: %pe ctx %u size %llu flags 0x%x\n",
+>  			 bo, file_priv->ctx.id, args->size, args->flags);
+>  		return PTR_ERR(bo);
+>  	}
+> @@ -374,7 +376,7 @@ int ivpu_bo_create_ioctl(struct drm_device *dev, void *data, struct drm_file *fi
+>  
+>  	ret = drm_gem_handle_create(file, &bo->base.base, &args->handle);
+>  	if (ret) {
+> -		ivpu_err(vdev, "Failed to create handle for BO: %pe (ctx %u size %llu flags 0x%x)",
+> +		ivpu_dbg(vdev, IOCTL, "Failed to create handle for BO: %pe ctx %u size %llu flags 0x%x\n",
+>  			 bo, file_priv->ctx.id, args->size, args->flags);
+>  	} else {
+>  		args->vpu_addr = bo->vpu_addr;
+> @@ -403,14 +405,17 @@ ivpu_bo_create(struct ivpu_device *vdev, struct ivpu_mmu_context *ctx,
+>  
+>  	bo = ivpu_bo_alloc(vdev, size, flags);
+>  	if (IS_ERR(bo)) {
+> -		ivpu_err(vdev, "Failed to allocate BO: %pe (vpu_addr 0x%llx size %llu flags 0x%x)",
+> +		ivpu_err(vdev, "Failed to allocate BO: %pe vpu_addr 0x%llx size %llu flags 0x%x\n",
+>  			 bo, range->start, size, flags);
+>  		return NULL;
+>  	}
+>  
+>  	ret = ivpu_bo_alloc_vpu_addr(bo, ctx, range);
+> -	if (ret)
+> +	if (ret) {
+> +		ivpu_err(vdev, "Failed to allocate NPU address for BO: %pe ctx %u size %llu: %d\n",
+> +			 bo, ctx->id, size, ret);
+>  		goto err_put;
+> +	}
+>  
+>  	ret = ivpu_bo_bind(bo);
+>  	if (ret)
+> diff --git a/drivers/accel/ivpu/ivpu_gem_userptr.c b/drivers/accel/ivpu/ivpu_gem_userptr.c
+> index 235c67959453..25ba606164c0 100644
+> --- a/drivers/accel/ivpu/ivpu_gem_userptr.c
+> +++ b/drivers/accel/ivpu/ivpu_gem_userptr.c
+> @@ -84,12 +84,12 @@ ivpu_create_userptr_dmabuf(struct ivpu_device *vdev, void __user *user_ptr,
+>  	pinned = pin_user_pages_fast((unsigned long)user_ptr, nr_pages, gup_flags, pages);
+>  	if (pinned < 0) {
+>  		ret = pinned;
+> -		ivpu_warn(vdev, "Failed to pin user pages: %d\n", ret);
+> +		ivpu_dbg(vdev, IOCTL, "Failed to pin user pages: %d\n", ret);
+>  		goto free_pages_array;
+>  	}
+>  
+>  	if (pinned != nr_pages) {
+> -		ivpu_warn(vdev, "Pinned %d pages, expected %lu\n", pinned, nr_pages);
+> +		ivpu_dbg(vdev, IOCTL, "Pinned %d pages, expected %lu\n", pinned, nr_pages);
+>  		ret = -EFAULT;
+>  		goto unpin_pages;
+>  	}
+> @@ -102,7 +102,7 @@ ivpu_create_userptr_dmabuf(struct ivpu_device *vdev, void __user *user_ptr,
+>  
+>  	ret = sg_alloc_table_from_pages(sgt, pages, nr_pages, 0, size, GFP_KERNEL);
+>  	if (ret) {
+> -		ivpu_warn(vdev, "Failed to create sg table: %d\n", ret);
+> +		ivpu_dbg(vdev, IOCTL, "Failed to create sg table: %d\n", ret);
+>  		goto free_sgt;
+>  	}
+>  
+> @@ -116,7 +116,7 @@ ivpu_create_userptr_dmabuf(struct ivpu_device *vdev, void __user *user_ptr,
+>  	dma_buf = dma_buf_export(&exp_info);
+>  	if (IS_ERR(dma_buf)) {
+>  		ret = PTR_ERR(dma_buf);
+> -		ivpu_warn(vdev, "Failed to export userptr dma-buf: %d\n", ret);
+> +		ivpu_dbg(vdev, IOCTL, "Failed to export userptr dma-buf: %d\n", ret);
+>  		goto free_sg_table;
+>  	}
+>  
+> @@ -170,17 +170,28 @@ int ivpu_bo_create_from_userptr_ioctl(struct drm_device *dev, void *data, struct
+>  	struct ivpu_bo *bo;
+>  	int ret;
+>  
+> -	if (args->flags & ~(DRM_IVPU_BO_HIGH_MEM | DRM_IVPU_BO_DMA_MEM | DRM_IVPU_BO_READ_ONLY))
+> +	if (args->flags & ~(DRM_IVPU_BO_HIGH_MEM | DRM_IVPU_BO_DMA_MEM | DRM_IVPU_BO_READ_ONLY)) {
+> +		ivpu_dbg(vdev, IOCTL, "Invalid BO flags: 0x%x\n", args->flags);
+>  		return -EINVAL;
+> +	}
+>  
+> -	if (!args->user_ptr || !args->size)
+> +	if (!args->user_ptr || !args->size) {
+> +		ivpu_dbg(vdev, IOCTL, "Userptr or size are zero: ptr %llx size %llu\n",
+> +			 args->user_ptr, args->size);
+>  		return -EINVAL;
+> +	}
+>  
+> -	if (!PAGE_ALIGNED(args->user_ptr) || !PAGE_ALIGNED(args->size))
+> +	if (!PAGE_ALIGNED(args->user_ptr) || !PAGE_ALIGNED(args->size)) {
+> +		ivpu_dbg(vdev, IOCTL, "Userptr or size not page aligned: ptr %llx size %llu\n",
+> +			 args->user_ptr, args->size);
+>  		return -EINVAL;
+> +	}
+>  
+> -	if (!access_ok(user_ptr, args->size))
+> +	if (!access_ok(user_ptr, args->size)) {
+> +		ivpu_dbg(vdev, IOCTL, "Userptr is not accessible: ptr %llx size %llu\n",
+> +			 args->user_ptr, args->size);
+>  		return -EFAULT;
+> +	}
+>  
+>  	bo = ivpu_bo_create_from_userptr(vdev, user_ptr, args->size, args->flags);
+>  	if (IS_ERR(bo))
+> @@ -188,7 +199,7 @@ int ivpu_bo_create_from_userptr_ioctl(struct drm_device *dev, void *data, struct
+>  
+>  	ret = drm_gem_handle_create(file, &bo->base.base, &args->handle);
+>  	if (ret) {
+> -		ivpu_err(vdev, "Failed to create handle for BO: %pe (ctx %u size %llu flags 0x%x)",
+> +		ivpu_dbg(vdev, IOCTL, "Failed to create handle for BO: %pe ctx %u size %llu flags 0x%x\n",
+>  			 bo, file_priv->ctx.id, args->size, args->flags);
+>  	} else {
+>  		ivpu_dbg(vdev, BO, "Created userptr BO: handle=%u vpu_addr=0x%llx size=%llu flags=0x%x\n",
+> diff --git a/drivers/accel/ivpu/ivpu_job.c b/drivers/accel/ivpu/ivpu_job.c
+> index 081819886313..4f8564e2878a 100644
+> --- a/drivers/accel/ivpu/ivpu_job.c
+> +++ b/drivers/accel/ivpu/ivpu_job.c
+> @@ -348,7 +348,7 @@ static struct ivpu_cmdq *ivpu_cmdq_acquire(struct ivpu_file_priv *file_priv, u32
+>  
+>  	cmdq = xa_load(&file_priv->cmdq_xa, cmdq_id);
+>  	if (!cmdq) {
+> -		ivpu_warn_ratelimited(vdev, "Failed to find command queue with ID: %u\n", cmdq_id);
+> +		ivpu_dbg(vdev, IOCTL, "Failed to find command queue with ID: %u\n", cmdq_id);
+>  		return NULL;
+>  	}
+>  
+> @@ -534,7 +534,7 @@ ivpu_job_create(struct ivpu_file_priv *file_priv, u32 engine_idx, u32 bo_count)
+>  	job->bo_count = bo_count;
+>  	job->done_fence = ivpu_fence_create(vdev);
+>  	if (!job->done_fence) {
+> -		ivpu_warn_ratelimited(vdev, "Failed to create a fence\n");
+> +		ivpu_err(vdev, "Failed to create a fence\n");
+>  		goto err_free_job;
+>  	}
+>  
+> @@ -687,7 +687,6 @@ static int ivpu_job_submit(struct ivpu_job *job, u8 priority, u32 cmdq_id)
+>  	else
+>  		cmdq = ivpu_cmdq_acquire(file_priv, cmdq_id);
+>  	if (!cmdq) {
+> -		ivpu_warn_ratelimited(vdev, "Failed to get job queue, ctx %d\n", file_priv->ctx.id);
+>  		ret = -EINVAL;
+>  		goto err_unlock;
+>  	}
+> @@ -771,8 +770,11 @@ ivpu_job_prepare_bos_for_submit(struct drm_file *file, struct ivpu_job *job, u32
+>  	for (i = 0; i < buf_count; i++) {
+>  		struct drm_gem_object *obj = drm_gem_object_lookup(file, buf_handles[i]);
+>  
+> -		if (!obj)
+> +		if (!obj) {
+> +			ivpu_dbg(vdev, IOCTL, "Failed to lookup GEM object with handle %u\n",
+> +				 buf_handles[i]);
+>  			return -ENOENT;
+> +		}
+>  
+>  		job->bos[i] = to_ivpu_bo(obj);
+>  
+> @@ -783,12 +785,13 @@ ivpu_job_prepare_bos_for_submit(struct drm_file *file, struct ivpu_job *job, u32
+>  
+>  	bo = job->bos[CMD_BUF_IDX];
+>  	if (!dma_resv_test_signaled(bo->base.base.resv, DMA_RESV_USAGE_READ)) {
+> -		ivpu_warn(vdev, "Buffer is already in use\n");
+> +		ivpu_dbg(vdev, IOCTL, "Buffer is already in use by another job\n");
+>  		return -EBUSY;
+>  	}
+>  
+>  	if (commands_offset >= ivpu_bo_size(bo)) {
+> -		ivpu_warn(vdev, "Invalid command buffer offset %u\n", commands_offset);
+> +		ivpu_dbg(vdev, IOCTL, "Invalid commands offset %u for buffer size %zu\n",
+> +			 commands_offset, ivpu_bo_size(bo));
+>  		return -EINVAL;
+>  	}
+>  
+> @@ -798,11 +801,11 @@ ivpu_job_prepare_bos_for_submit(struct drm_file *file, struct ivpu_job *job, u32
+>  		struct ivpu_bo *preempt_bo = job->bos[preempt_buffer_index];
+>  
+>  		if (ivpu_bo_size(preempt_bo) < ivpu_fw_preempt_buf_size(vdev)) {
+> -			ivpu_warn(vdev, "Preemption buffer is too small\n");
+> +			ivpu_dbg(vdev, IOCTL, "Preemption buffer is too small\n");
+>  			return -EINVAL;
+>  		}
+>  		if (ivpu_bo_is_mappable(preempt_bo)) {
+> -			ivpu_warn(vdev, "Preemption buffer cannot be mappable\n");
+> +			ivpu_dbg(vdev, IOCTL, "Preemption buffer cannot be mappable\n");
+>  			return -EINVAL;
+>  		}
+>  		job->primary_preempt_buf = preempt_bo;
+> @@ -811,14 +814,14 @@ ivpu_job_prepare_bos_for_submit(struct drm_file *file, struct ivpu_job *job, u32
+>  	ret = drm_gem_lock_reservations((struct drm_gem_object **)job->bos, buf_count,
+>  					&acquire_ctx);
+>  	if (ret) {
+> -		ivpu_warn(vdev, "Failed to lock reservations: %d\n", ret);
+> +		ivpu_warn_ratelimited(vdev, "Failed to lock reservations: %d\n", ret);
+>  		return ret;
+>  	}
+>  
+>  	for (i = 0; i < buf_count; i++) {
+>  		ret = dma_resv_reserve_fences(job->bos[i]->base.base.resv, 1);
+>  		if (ret) {
+> -			ivpu_warn(vdev, "Failed to reserve fences: %d\n", ret);
+> +			ivpu_warn_ratelimited(vdev, "Failed to reserve fences: %d\n", ret);
+>  			goto unlock_reservations;
+>  		}
+>  	}
+> @@ -865,17 +868,14 @@ static int ivpu_submit(struct drm_file *file, struct ivpu_file_priv *file_priv,
+>  
+>  	job = ivpu_job_create(file_priv, engine, buffer_count);
+>  	if (!job) {
+> -		ivpu_err(vdev, "Failed to create job\n");
+>  		ret = -ENOMEM;
+>  		goto err_exit_dev;
+>  	}
+>  
+>  	ret = ivpu_job_prepare_bos_for_submit(file, job, buf_handles, buffer_count, cmds_offset,
+>  					      preempt_buffer_index);
+> -	if (ret) {
+> -		ivpu_err(vdev, "Failed to prepare job: %d\n", ret);
+> +	if (ret)
+>  		goto err_destroy_job;
+> -	}
+>  
+>  	down_read(&vdev->pm->reset_lock);
+>  	ret = ivpu_job_submit(job, priority, cmdq_id);
+> @@ -901,26 +901,39 @@ static int ivpu_submit(struct drm_file *file, struct ivpu_file_priv *file_priv,
+>  int ivpu_submit_ioctl(struct drm_device *dev, void *data, struct drm_file *file)
+>  {
+>  	struct ivpu_file_priv *file_priv = file->driver_priv;
+> +	struct ivpu_device *vdev = file_priv->vdev;
+>  	struct drm_ivpu_submit *args = data;
+>  	u8 priority;
+>  
+> -	if (args->engine != DRM_IVPU_ENGINE_COMPUTE)
+> +	if (args->engine != DRM_IVPU_ENGINE_COMPUTE) {
+> +		ivpu_dbg(vdev, IOCTL, "Invalid engine %d\n", args->engine);
+>  		return -EINVAL;
+> +	}
+>  
+> -	if (args->priority > DRM_IVPU_JOB_PRIORITY_REALTIME)
+> +	if (args->priority > DRM_IVPU_JOB_PRIORITY_REALTIME) {
+> +		ivpu_dbg(vdev, IOCTL, "Invalid priority %d\n", args->priority);
+>  		return -EINVAL;
+> +	}
+>  
+> -	if (args->buffer_count == 0 || args->buffer_count > JOB_MAX_BUFFER_COUNT)
+> +	if (args->buffer_count == 0 || args->buffer_count > JOB_MAX_BUFFER_COUNT) {
+> +		ivpu_dbg(vdev, IOCTL, "Invalid buffer count %u\n", args->buffer_count);
+>  		return -EINVAL;
+> +	}
+>  
+> -	if (!IS_ALIGNED(args->commands_offset, 8))
+> +	if (!IS_ALIGNED(args->commands_offset, 8)) {
+> +		ivpu_dbg(vdev, IOCTL, "Invalid commands offset %u\n", args->commands_offset);
+>  		return -EINVAL;
+> +	}
+>  
+> -	if (!file_priv->ctx.id)
+> +	if (!file_priv->ctx.id) {
+> +		ivpu_dbg(vdev, IOCTL, "Context not initialized\n");
+>  		return -EINVAL;
+> +	}
+>  
+> -	if (file_priv->has_mmu_faults)
+> +	if (file_priv->has_mmu_faults) {
+> +		ivpu_dbg(vdev, IOCTL, "Context %u has MMU faults\n", file_priv->ctx.id);
+>  		return -EBADFD;
+> +	}
+>  
+>  	priority = ivpu_job_to_jsm_priority(args->priority);
+>  
+> @@ -931,28 +944,44 @@ int ivpu_submit_ioctl(struct drm_device *dev, void *data, struct drm_file *file)
+>  int ivpu_cmdq_submit_ioctl(struct drm_device *dev, void *data, struct drm_file *file)
+>  {
+>  	struct ivpu_file_priv *file_priv = file->driver_priv;
+> +	struct ivpu_device *vdev = file_priv->vdev;
+>  	struct drm_ivpu_cmdq_submit *args = data;
+>  
+> -	if (!ivpu_is_capable(file_priv->vdev, DRM_IVPU_CAP_MANAGE_CMDQ))
+> +	if (!ivpu_is_capable(file_priv->vdev, DRM_IVPU_CAP_MANAGE_CMDQ)) {
+> +		ivpu_dbg(vdev, IOCTL, "Command queue management not supported\n");
+>  		return -ENODEV;
+> +	}
+>  
+> -	if (args->cmdq_id < IVPU_CMDQ_MIN_ID || args->cmdq_id > IVPU_CMDQ_MAX_ID)
+> +	if (args->cmdq_id < IVPU_CMDQ_MIN_ID || args->cmdq_id > IVPU_CMDQ_MAX_ID) {
+> +		ivpu_dbg(vdev, IOCTL, "Invalid command queue ID %u\n", args->cmdq_id);
+>  		return -EINVAL;
+> +	}
+>  
+> -	if (args->buffer_count == 0 || args->buffer_count > JOB_MAX_BUFFER_COUNT)
+> +	if (args->buffer_count == 0 || args->buffer_count > JOB_MAX_BUFFER_COUNT) {
+> +		ivpu_dbg(vdev, IOCTL, "Invalid buffer count %u\n", args->buffer_count);
+>  		return -EINVAL;
+> +	}
+>  
+> -	if (args->preempt_buffer_index >= args->buffer_count)
+> +	if (args->preempt_buffer_index >= args->buffer_count) {
+> +		ivpu_dbg(vdev, IOCTL, "Invalid preemption buffer index %u\n",
+> +			 args->preempt_buffer_index);
+>  		return -EINVAL;
+> +	}
+>  
+> -	if (!IS_ALIGNED(args->commands_offset, 8))
+> +	if (!IS_ALIGNED(args->commands_offset, 8)) {
+> +		ivpu_dbg(vdev, IOCTL, "Invalid commands offset %u\n", args->commands_offset);
+>  		return -EINVAL;
+> +	}
+>  
+> -	if (!file_priv->ctx.id)
+> +	if (!file_priv->ctx.id) {
+> +		ivpu_dbg(vdev, IOCTL, "Context not initialized\n");
+>  		return -EINVAL;
+> +	}
+>  
+> -	if (file_priv->has_mmu_faults)
+> +	if (file_priv->has_mmu_faults) {
+> +		ivpu_dbg(vdev, IOCTL, "Context %u has MMU faults\n", file_priv->ctx.id);
+>  		return -EBADFD;
+> +	}
+>  
+>  	return ivpu_submit(file, file_priv, args->cmdq_id, args->buffer_count, VPU_ENGINE_COMPUTE,
+>  			   (void __user *)args->buffers_ptr, args->commands_offset,
+> @@ -967,11 +996,15 @@ int ivpu_cmdq_create_ioctl(struct drm_device *dev, void *data, struct drm_file *
+>  	struct ivpu_cmdq *cmdq;
+>  	int ret;
+>  
+> -	if (!ivpu_is_capable(vdev, DRM_IVPU_CAP_MANAGE_CMDQ))
+> +	if (!ivpu_is_capable(vdev, DRM_IVPU_CAP_MANAGE_CMDQ)) {
+> +		ivpu_dbg(vdev, IOCTL, "Command queue management not supported\n");
+>  		return -ENODEV;
+> +	}
+>  
+> -	if (args->priority > DRM_IVPU_JOB_PRIORITY_REALTIME)
+> +	if (args->priority > DRM_IVPU_JOB_PRIORITY_REALTIME) {
+> +		ivpu_dbg(vdev, IOCTL, "Invalid priority %d\n", args->priority);
+>  		return -EINVAL;
+> +	}
+>  
+>  	ret = ivpu_rpm_get(vdev);
+>  	if (ret < 0)
+> @@ -999,8 +1032,10 @@ int ivpu_cmdq_destroy_ioctl(struct drm_device *dev, void *data, struct drm_file
+>  	u32 cmdq_id = 0;
+>  	int ret;
+>  
+> -	if (!ivpu_is_capable(vdev, DRM_IVPU_CAP_MANAGE_CMDQ))
+> +	if (!ivpu_is_capable(vdev, DRM_IVPU_CAP_MANAGE_CMDQ)) {
+> +		ivpu_dbg(vdev, IOCTL, "Command queue management not supported\n");
+>  		return -ENODEV;
+> +	}
+>  
+>  	ret = ivpu_rpm_get(vdev);
+>  	if (ret < 0)
+> diff --git a/drivers/accel/ivpu/ivpu_mmu_context.c b/drivers/accel/ivpu/ivpu_mmu_context.c
+> index d128e8961688..87ad593ef47d 100644
+> --- a/drivers/accel/ivpu/ivpu_mmu_context.c
+> +++ b/drivers/accel/ivpu/ivpu_mmu_context.c
+> @@ -529,7 +529,8 @@ ivpu_mmu_context_unmap_sgt(struct ivpu_device *vdev, struct ivpu_mmu_context *ct
+>  
+>  	ret = ivpu_mmu_invalidate_tlb(vdev, ctx->id);
+>  	if (ret)
+> -		ivpu_warn(vdev, "Failed to invalidate TLB for ctx %u: %d\n", ctx->id, ret);
+> +		ivpu_warn_ratelimited(vdev, "Failed to invalidate TLB for ctx %u: %d\n",
+> +				      ctx->id, ret);
+>  }
+>  
+>  int
+> diff --git a/drivers/accel/ivpu/ivpu_ms.c b/drivers/accel/ivpu/ivpu_ms.c
+> index 2a043baf10ca..1d9c1cb17924 100644
+> --- a/drivers/accel/ivpu/ivpu_ms.c
+> +++ b/drivers/accel/ivpu/ivpu_ms.c
+> @@ -8,6 +8,7 @@
+>  
+>  #include "ivpu_drv.h"
+>  #include "ivpu_gem.h"
+> +#include "ivpu_hw.h"
+>  #include "ivpu_jsm_msg.h"
+>  #include "ivpu_ms.h"
+>  #include "ivpu_pm.h"
+> @@ -37,8 +38,8 @@ int ivpu_ms_start_ioctl(struct drm_device *dev, void *data, struct drm_file *fil
+>  	struct drm_ivpu_metric_streamer_start *args = data;
+>  	struct ivpu_device *vdev = file_priv->vdev;
+>  	struct ivpu_ms_instance *ms;
+> -	u64 single_buff_size;
+>  	u32 sample_size;
+> +	u64 buf_size;
+>  	int ret;
+>  
+>  	if (!args->metric_group_mask || !args->read_period_samples ||
+> @@ -52,7 +53,8 @@ int ivpu_ms_start_ioctl(struct drm_device *dev, void *data, struct drm_file *fil
+>  	mutex_lock(&file_priv->ms_lock);
+>  
+>  	if (get_instance_by_mask(file_priv, args->metric_group_mask)) {
+> -		ivpu_err(vdev, "Instance already exists (mask %#llx)\n", args->metric_group_mask);
+> +		ivpu_dbg(vdev, IOCTL, "Instance already exists (mask %#llx)\n",
+> +			 args->metric_group_mask);
+>  		ret = -EALREADY;
+>  		goto unlock;
+>  	}
+> @@ -69,12 +71,18 @@ int ivpu_ms_start_ioctl(struct drm_device *dev, void *data, struct drm_file *fil
+>  	if (ret)
+>  		goto err_free_ms;
+>  
+> -	single_buff_size = sample_size *
+> -		((u64)args->read_period_samples * MS_READ_PERIOD_MULTIPLIER);
+> -	ms->bo = ivpu_bo_create_global(vdev, PAGE_ALIGN(single_buff_size * MS_NUM_BUFFERS),
+> -				       DRM_IVPU_BO_CACHED | DRM_IVPU_BO_MAPPABLE);
+> +	buf_size = PAGE_ALIGN((u64)args->read_period_samples * sample_size *
+> +			      MS_READ_PERIOD_MULTIPLIER * MS_NUM_BUFFERS);
+> +	if (buf_size > ivpu_hw_range_size(&vdev->hw->ranges.global)) {
+> +		ivpu_dbg(vdev, IOCTL, "Requested MS buffer size %llu exceeds range size %llu\n",
+> +			 buf_size, ivpu_hw_range_size(&vdev->hw->ranges.global));
+> +		ret = -EINVAL;
+> +		goto err_free_ms;
+> +	}
+> +
+> +	ms->bo = ivpu_bo_create_global(vdev, buf_size, DRM_IVPU_BO_CACHED | DRM_IVPU_BO_MAPPABLE);
+>  	if (!ms->bo) {
+> -		ivpu_err(vdev, "Failed to allocate MS buffer (size %llu)\n", single_buff_size);
+> +		ivpu_dbg(vdev, IOCTL, "Failed to allocate MS buffer (size %llu)\n", buf_size);
+>  		ret = -ENOMEM;
+>  		goto err_free_ms;
+>  	}
+> @@ -175,7 +183,8 @@ int ivpu_ms_get_data_ioctl(struct drm_device *dev, void *data, struct drm_file *
+>  
+>  	ms = get_instance_by_mask(file_priv, args->metric_group_mask);
+>  	if (!ms) {
+> -		ivpu_err(vdev, "Instance doesn't exist for mask: %#llx\n", args->metric_group_mask);
+> +		ivpu_dbg(vdev, IOCTL, "Instance doesn't exist for mask: %#llx\n",
+> +			 args->metric_group_mask);
+>  		ret = -EINVAL;
+>  		goto unlock;
+>  	}
+
+-- 
+Jani Nikula, Intel
