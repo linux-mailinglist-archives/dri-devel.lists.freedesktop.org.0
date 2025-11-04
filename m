@@ -2,67 +2,67 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D71F2C328AC
-	for <lists+dri-devel@lfdr.de>; Tue, 04 Nov 2025 19:10:26 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4D445C328B6
+	for <lists+dri-devel@lfdr.de>; Tue, 04 Nov 2025 19:10:28 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9956110E650;
-	Tue,  4 Nov 2025 18:10:24 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DA7B210E657;
+	Tue,  4 Nov 2025 18:10:25 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="azEhmrSS";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="eLl1b6Nt";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-f54.google.com (mail-wm1-f54.google.com
- [209.85.128.54])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D886810E651
- for <dri-devel@lists.freedesktop.org>; Tue,  4 Nov 2025 18:10:22 +0000 (UTC)
-Received: by mail-wm1-f54.google.com with SMTP id
- 5b1f17b1804b1-47755a7652eso8491905e9.0
- for <dri-devel@lists.freedesktop.org>; Tue, 04 Nov 2025 10:10:22 -0800 (PST)
+Received: from mail-wm1-f50.google.com (mail-wm1-f50.google.com
+ [209.85.128.50])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D43B010E651
+ for <dri-devel@lists.freedesktop.org>; Tue,  4 Nov 2025 18:10:23 +0000 (UTC)
+Received: by mail-wm1-f50.google.com with SMTP id
+ 5b1f17b1804b1-471b80b994bso75235555e9.3
+ for <dri-devel@lists.freedesktop.org>; Tue, 04 Nov 2025 10:10:23 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1762279821; x=1762884621; darn=lists.freedesktop.org;
+ d=gmail.com; s=20230601; t=1762279822; x=1762884622; darn=lists.freedesktop.org;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=clITce3FS5MOzvHgr4+g3DvGcjeJNYVgPXmRoIAMUA4=;
- b=azEhmrSSVF4FbmT52G3HTmXvbNKYBmeCXPgEBWFqgI//RN5W/JS5gySI3KiwUN128B
- i6hhbInk7y1cahbM1bIOaAnN0fXRvufBrdyd5AqMMY7EYYVROeYCXKK8SWhX3zBMkg+I
- YIBYDwkKQBol8Sr5fajXSg0RHZ7rnQFLyCx6kvZ6sS8pUjWcZUy5uMGZ/Vsq/wK5Wmlj
- ClRwTztrO3+fXbQG5LxOj3akMD2e7MU6MZDf2D3CPGuAFbJVzrS67cWh5JOaCY6v+AQp
- olre8gLlfomR5drnCQ0+XpasvmpVYsYwPci5YEwf0ysAZqsYC/ZhSyTakp518uW9dKIM
- k3sg==
+ bh=XDehL28Q27cYBAOVsoKs4qDMfKKiwU8P48oybsPCNMI=;
+ b=eLl1b6Ntbk7UMqwNwiuRXBkVrA4RXijFrq7gbrEhmeD1oCy6dVkklCbGlz4T3a9lD8
+ rtcVC0B8vtZoLXfY99YJwyAGc0MoiPNfYjfTrly1SLodSqSPOqqAEjvtzkObdwp6KO/k
+ v7bVZCCajLzpa3HVoZWX8Ry4/V0IU4CbceRU0LK9vPMo527DqhmIdZERM0hY1ZW/ayry
+ tIKJKjQiQxdM8KKbPReMR5ZaUNiOi9LFepcj+XmYhFRpB82vuUtltO/sNECVxIlMWfGK
+ 6N0T5b5F0R7cIP+2mbQssJme1fYjZoVgwudaOFDufx1q/ZCk7aJPMRkGA6fgOz8K5h9I
+ ASLg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1762279821; x=1762884621;
+ d=1e100.net; s=20230601; t=1762279822; x=1762884622;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=clITce3FS5MOzvHgr4+g3DvGcjeJNYVgPXmRoIAMUA4=;
- b=G62P4qR3Ktd8BIwGJjSD/nSRQ/VG6MzyLupYX05+ncx6+34BEjEcJ12nI3sus3F6J9
- YxFYc6nqCHwI0scMEF3vLtDnuErtpmdi7gto9vEtIBGDlCGIJhKKi/ry+EFt6iW42YzC
- 6fAr1WDHSzMig/7Uvrkuk0IFTX7s2AR5wzwDWrFX0diQLQqbdJakQLNgXxqxr8+V/eg7
- QnMbLi9O3/trzdOSgbRAlyF9A49LNA7+qDVhqz/PTw/DaodHfJEodOGKxVoUGv4Xqfj1
- sCRm/6nWDiB/US7WdZvPaL3KnjigAM7IuQsFUQ3kUQDwHSOAO5v4azW9IpHpfIJiQGpC
- r4+g==
+ bh=XDehL28Q27cYBAOVsoKs4qDMfKKiwU8P48oybsPCNMI=;
+ b=I3r/o96oPTOer/yr5yoL6wwN7rY+mFerzjjSYm6hXGwRLfy1q+BeIDDP9WaQi022y1
+ ziwLTu2wkiS/oKVbDwXwYv6QDQlFFgrKLuPawgHCGnYouSYc96SXtCqbIH9N43+dsKO6
+ yrqdtskG2ucPBpZdLokFiT9g50rGteYYimwZVW8rrb8QbPb936pMITYCqHa7Nv8N8Iz2
+ YOidZ4fph6MUpx0lLfLYH9sne2whXUQ3wlynqj4MaTtNqpjudU5zKcAxzJj6uSG/lMku
+ im82ID47IdPMuFDu8FBlKbk/Fr0vaDAtuUTE2m83yrm2oudZxprFyWmfovdPsUPLdoWh
+ pB/g==
 X-Forwarded-Encrypted: i=1;
- AJvYcCVnvDWnoaNSp1e1YyIZTjnbPHd8G1f5e9C7KAW56DUhrsuAxchElWhjsbZCZwk5KSovxxWFLcDvS2c=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YzLS4GOts9cw2fqkTVFKgXzo8A1l+2CytEHq3hmPMLPmKO0YsCT
- Uwrw9TevAEOzkfGGZpdfUPh6DyCecdadErMYS2TO6FJLmiw9yX/2y/1H
-X-Gm-Gg: ASbGnctjBoNdfapBP7FPFqrhrCEpeCuWWuB3PHTgq6Q61QrLAj/hbWFKVUi5ndis5IC
- /DOTPbmNU4tFSB0KWnVnNcgRqPfJoX3hEDqstuCq2fbHPcOkVY7gxOsRndkh1sU81GOBiICzdLI
- pL1ODm1As6lTrj8Svwv6VH2isO9JjQvHCOIcHAtM/6XiBu14NMu3+d34azq+rjbDVHFUiJHUPwR
- dpjl8lJrlgnTEFSc6zpxce3dxFDmzgcaaUd8R61jI5pARnaqbshitHwt1bO54FLcsWwCl6t4Eqe
- 1WTB/kGWOr+txB+Ey5tcdCk3kE4FaG3gl7J9lKUKLt87kxuPo0gu50GuCVJErsB4GtNjiKPZy3p
- trysBTd9lChCFpq6xBb96D+wglE7Vd4PeNXn8XS4f+IGBxmAgGWT8D2IPV3g48w7TVmWzU1s19a
- JaPtGZfPEfFr722xiSDw==
-X-Google-Smtp-Source: AGHT+IEpdaIz/ZPa95URReRW4HZDMqPLVxE4VqmgVrqWeDCwzW1Bh5UB6FP8v4QdEMy5HSG3J/kMpg==
-X-Received: by 2002:a05:600c:1994:b0:475:dd59:d8d8 with SMTP id
- 5b1f17b1804b1-4775ce9ba5cmr1916885e9.8.1762279821052; 
- Tue, 04 Nov 2025 10:10:21 -0800 (PST)
+ AJvYcCXDNkuaY2ASHnRVvOyr9arerx7/Znc2qZdWcSyqESjZcghEPY8QeSe+Gs5BZTyc5AYW/jyhfAJ1iPo=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Yze+VkHt0EEz/Odd6CYKFT0ddfNs81hY9KS/QgPnI2S93eK8Xz4
+ NB7OLUakLU+IzovsH9mHh73zzHc+7jqG5Ofrhb2v/J7OLZClrLrNO12G
+X-Gm-Gg: ASbGnctiw4cMYQLMM50Hm3dY9oZ7sA6Tm5yJViaZXiGmkZ0uCrXhvnsjIR5lZp+N1zz
+ N2WGBiXjaiCug4BBV13MNKh3Uf1j7Uq8jcLa/VUVc5Ux4jGx6m6MwkNoGB3vEGLpvNx7M7Q3I7T
+ 6BJRVa8fQh4oUTpMz7Hw0jKFNjqHPMLNwWQXjmJa92vZdMtBiHQxcBB7b0fhaMB9Mk4om87YE42
+ 00y+vT1tFjtagHnGOZlJKE77cqupJMMgcc1ZvfEWhYAmn9JRJLtk6+3UilJaUDXTyfNcSg9TtNy
+ iuJ3i3v/30IND1QJ9XMkBaQt8aIZ8WySXGVxskJzJre3mm/28UtsqnnkiMyPYe/jlGdyTpJzzZW
+ EM8oWb0aiHVg+yHXl+rDpqc7HYVps7jfyrHX3G5Zq7whf6SnpfY5Vgj5Oewg5+X0urZ8HXsKIdQ
+ AxAASkzk1Zk+Cn1uDedGEaRDyDSbrW
+X-Google-Smtp-Source: AGHT+IH/l6jplGcrJTw+MVPwop24SPu0Xraro0pVDB1OrwY3EC8U4W4qSO/6idS4O2pFVK6xDaJeuQ==
+X-Received: by 2002:a05:600c:a00c:b0:477:55ce:f3c8 with SMTP id
+ 5b1f17b1804b1-4775ce13215mr2324825e9.25.1762279822265; 
+ Tue, 04 Nov 2025 10:10:22 -0800 (PST)
 Received: from jernej-laptop ([178.79.73.218])
  by smtp.gmail.com with ESMTPSA id
- 5b1f17b1804b1-477558c1a03sm24688685e9.2.2025.11.04.10.10.19
+ 5b1f17b1804b1-477558c1a03sm24688685e9.2.2025.11.04.10.10.21
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 04 Nov 2025 10:10:20 -0800 (PST)
+ Tue, 04 Nov 2025 10:10:21 -0800 (PST)
 From: Jernej Skrabec <jernej.skrabec@gmail.com>
 To: wens@csie.org
 Cc: mripard@kernel.org, maarten.lankhorst@linux.intel.com, tzimmermann@suse.de,
@@ -71,10 +71,10 @@ Cc: mripard@kernel.org, maarten.lankhorst@linux.intel.com, tzimmermann@suse.de,
  linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org,
  Jernej Skrabec <jernej.skrabec@gmail.com>, Chen-Yu Tsai <wens@kernel.org>,
  Ryan Walklin <ryan@testtoast.com>
-Subject: [PATCH v2 15/30] drm/sun4i: layer: move num of planes calc out of
- layer code
-Date: Tue,  4 Nov 2025 19:09:27 +0100
-Message-ID: <20251104180942.61538-16-jernej.skrabec@gmail.com>
+Subject: [PATCH v2 16/30] drm/sun4i: ui_layer: use layer struct instead of
+ multiple args
+Date: Tue,  4 Nov 2025 19:09:28 +0100
+Message-ID: <20251104180942.61538-17-jernej.skrabec@gmail.com>
 X-Mailer: git-send-email 2.51.2
 In-Reply-To: <20251104180942.61538-1-jernej.skrabec@gmail.com>
 References: <20251104180942.61538-1-jernej.skrabec@gmail.com>
@@ -95,138 +95,178 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-With DE33, number of planes no longer depends on mixer because layers
-are shared between all mixers.
-
-Get this value via parameter, so DE specific code can fill in proper
-value.
+This change is equally a cleanup (less arguments) and preparation for
+DE33 separate plane driver. It will introduce additional register space.
 
 Reviewed-by: Chen-Yu Tsai <wens@kernel.org>
 Tested-by: Ryan Walklin <ryan@testtoast.com>
 Signed-off-by: Jernej Skrabec <jernej.skrabec@gmail.com>
 ---
- drivers/gpu/drm/sun4i/sun8i_mixer.c    | 10 +++++-----
- drivers/gpu/drm/sun4i/sun8i_ui_layer.c |  6 ++----
- drivers/gpu/drm/sun4i/sun8i_ui_layer.h |  3 ++-
- drivers/gpu/drm/sun4i/sun8i_vi_layer.c |  7 +++----
- drivers/gpu/drm/sun4i/sun8i_vi_layer.h |  3 ++-
- 5 files changed, 14 insertions(+), 15 deletions(-)
+ drivers/gpu/drm/sun4i/sun8i_ui_layer.c | 62 +++++++++++++-------------
+ 1 file changed, 30 insertions(+), 32 deletions(-)
 
-diff --git a/drivers/gpu/drm/sun4i/sun8i_mixer.c b/drivers/gpu/drm/sun4i/sun8i_mixer.c
-index 17c0ab5860b5..18dd998364ae 100644
---- a/drivers/gpu/drm/sun4i/sun8i_mixer.c
-+++ b/drivers/gpu/drm/sun4i/sun8i_mixer.c
-@@ -315,12 +315,11 @@ static struct drm_plane **sun8i_layers_init(struct drm_device *drm,
- {
- 	struct drm_plane **planes;
- 	struct sun8i_mixer *mixer = engine_to_sun8i_mixer(engine);
-+	int plane_cnt = mixer->cfg->ui_num + mixer->cfg->vi_num;
- 	enum drm_plane_type type;
- 	int i;
- 
--	planes = devm_kcalloc(drm->dev,
--			      mixer->cfg->vi_num + mixer->cfg->ui_num + 1,
--			      sizeof(*planes), GFP_KERNEL);
-+	planes = devm_kcalloc(drm->dev, plane_cnt, sizeof(*planes), GFP_KERNEL);
- 	if (!planes)
- 		return ERR_PTR(-ENOMEM);
- 
-@@ -332,7 +331,7 @@ static struct drm_plane **sun8i_layers_init(struct drm_device *drm,
- 		else
- 			type = DRM_PLANE_TYPE_OVERLAY;
- 
--		layer = sun8i_vi_layer_init_one(drm, mixer, type, i);
-+		layer = sun8i_vi_layer_init_one(drm, mixer, type, i, plane_cnt);
- 		if (IS_ERR(layer)) {
- 			dev_err(drm->dev,
- 				"Couldn't initialize overlay plane\n");
-@@ -351,7 +350,8 @@ static struct drm_plane **sun8i_layers_init(struct drm_device *drm,
- 		else
- 			type = DRM_PLANE_TYPE_OVERLAY;
- 
--		layer = sun8i_ui_layer_init_one(drm, mixer, type, index);
-+		layer = sun8i_ui_layer_init_one(drm, mixer, type, index,
-+						plane_cnt);
- 		if (IS_ERR(layer)) {
- 			dev_err(drm->dev, "Couldn't initialize %s plane\n",
- 				i ? "overlay" : "primary");
 diff --git a/drivers/gpu/drm/sun4i/sun8i_ui_layer.c b/drivers/gpu/drm/sun4i/sun8i_ui_layer.c
-index 4f6c8b0acba6..8f6fcdfcf52a 100644
+index 8f6fcdfcf52a..d5b7241acdea 100644
 --- a/drivers/gpu/drm/sun4i/sun8i_ui_layer.c
 +++ b/drivers/gpu/drm/sun4i/sun8i_ui_layer.c
-@@ -268,10 +268,10 @@ static const uint64_t sun8i_layer_modifiers[] = {
- struct sun8i_layer *sun8i_ui_layer_init_one(struct drm_device *drm,
- 					    struct sun8i_mixer *mixer,
- 					    enum drm_plane_type type,
--					    int index)
-+					    int index,
-+					    int plane_cnt)
- {
- 	struct sun8i_layer *layer;
--	unsigned int plane_cnt;
- 	int ret;
+@@ -25,24 +25,24 @@
+ #include "sun8i_ui_scaler.h"
+ #include "sun8i_vi_scaler.h"
  
- 	layer = devm_kzalloc(drm->dev, sizeof(*layer), GFP_KERNEL);
-@@ -294,8 +294,6 @@ struct sun8i_layer *sun8i_ui_layer_init_one(struct drm_device *drm,
- 		return ERR_PTR(ret);
+-static void sun8i_ui_layer_disable(struct sun8i_mixer *mixer,
+-				   int channel, int overlay)
++static void sun8i_ui_layer_disable(struct sun8i_layer *layer)
+ {
+-	u32 ch_base = sun8i_channel_base(mixer, channel);
++	struct sun8i_mixer *mixer = layer->mixer;
++	u32 ch_base = sun8i_channel_base(mixer, layer->channel);
+ 
+ 	regmap_write(mixer->engine.regs,
+-		     SUN8I_MIXER_CHAN_UI_LAYER_ATTR(ch_base, overlay), 0);
++		     SUN8I_MIXER_CHAN_UI_LAYER_ATTR(ch_base, layer->overlay), 0);
+ }
+ 
+-static void sun8i_ui_layer_update_attributes(struct sun8i_mixer *mixer,
+-					     int channel, int overlay,
++static void sun8i_ui_layer_update_attributes(struct sun8i_layer *layer,
+ 					     struct drm_plane *plane)
+ {
+ 	struct drm_plane_state *state = plane->state;
++	struct sun8i_mixer *mixer = layer->mixer;
+ 	const struct drm_format_info *fmt;
+ 	u32 val, ch_base, hw_fmt;
+ 
+-	ch_base = sun8i_channel_base(mixer, channel);
++	ch_base = sun8i_channel_base(mixer, layer->channel);
+ 	fmt = state->fb->format;
+ 	sun8i_mixer_drm_format_to_hw(fmt->format, &hw_fmt);
+ 
+@@ -54,22 +54,23 @@ static void sun8i_ui_layer_update_attributes(struct sun8i_mixer *mixer,
+ 	val |= SUN8I_MIXER_CHAN_UI_LAYER_ATTR_EN;
+ 
+ 	regmap_write(mixer->engine.regs,
+-		     SUN8I_MIXER_CHAN_UI_LAYER_ATTR(ch_base, overlay), val);
++		     SUN8I_MIXER_CHAN_UI_LAYER_ATTR(ch_base, layer->overlay), val);
+ }
+ 
+-static void sun8i_ui_layer_update_coord(struct sun8i_mixer *mixer, int channel,
+-					int overlay, struct drm_plane *plane)
++static void sun8i_ui_layer_update_coord(struct sun8i_layer *layer,
++					struct drm_plane *plane)
+ {
+ 	struct drm_plane_state *state = plane->state;
++	struct sun8i_mixer *mixer = layer->mixer;
+ 	u32 src_w, src_h, dst_w, dst_h;
+ 	u32 outsize, insize;
+ 	u32 hphase, vphase;
+ 	u32 ch_base;
+ 
+ 	DRM_DEBUG_DRIVER("Updating UI channel %d overlay %d\n",
+-			 channel, overlay);
++			 layer->channel, layer->overlay);
+ 
+-	ch_base = sun8i_channel_base(mixer, channel);
++	ch_base = sun8i_channel_base(mixer, layer->channel);
+ 
+ 	src_w = drm_rect_width(&state->src) >> 16;
+ 	src_h = drm_rect_height(&state->src) >> 16;
+@@ -87,7 +88,7 @@ static void sun8i_ui_layer_update_coord(struct sun8i_mixer *mixer, int channel,
+ 			 state->src.x1 >> 16, state->src.y1 >> 16);
+ 	DRM_DEBUG_DRIVER("Layer source size W: %d H: %d\n", src_w, src_h);
+ 	regmap_write(mixer->engine.regs,
+-		     SUN8I_MIXER_CHAN_UI_LAYER_SIZE(ch_base, overlay),
++		     SUN8I_MIXER_CHAN_UI_LAYER_SIZE(ch_base, layer->overlay),
+ 		     insize);
+ 	regmap_write(mixer->engine.regs,
+ 		     SUN8I_MIXER_CHAN_UI_OVL_SIZE(ch_base),
+@@ -102,37 +103,38 @@ static void sun8i_ui_layer_update_coord(struct sun8i_mixer *mixer, int channel,
+ 		vscale = state->src_h / state->crtc_h;
+ 
+ 		if (mixer->cfg->de_type == SUN8I_MIXER_DE33) {
+-			sun8i_vi_scaler_setup(mixer, channel, src_w, src_h,
++			sun8i_vi_scaler_setup(mixer, layer->channel, src_w, src_h,
+ 					      dst_w, dst_h, hscale, vscale,
+ 					      hphase, vphase,
+ 					      state->fb->format);
+-			sun8i_vi_scaler_enable(mixer, channel, true);
++			sun8i_vi_scaler_enable(mixer, layer->channel, true);
+ 		} else {
+-			sun8i_ui_scaler_setup(mixer, channel, src_w, src_h,
++			sun8i_ui_scaler_setup(mixer, layer->channel, src_w, src_h,
+ 					      dst_w, dst_h, hscale, vscale,
+ 					      hphase, vphase);
+-			sun8i_ui_scaler_enable(mixer, channel, true);
++			sun8i_ui_scaler_enable(mixer, layer->channel, true);
+ 		}
+ 	} else {
+ 		DRM_DEBUG_DRIVER("HW scaling is not needed\n");
+ 		if (mixer->cfg->de_type == SUN8I_MIXER_DE33)
+-			sun8i_vi_scaler_enable(mixer, channel, false);
++			sun8i_vi_scaler_enable(mixer, layer->channel, false);
+ 		else
+-			sun8i_ui_scaler_enable(mixer, channel, false);
++			sun8i_ui_scaler_enable(mixer, layer->channel, false);
+ 	}
+ }
+ 
+-static void sun8i_ui_layer_update_buffer(struct sun8i_mixer *mixer, int channel,
+-					 int overlay, struct drm_plane *plane)
++static void sun8i_ui_layer_update_buffer(struct sun8i_layer *layer,
++					 struct drm_plane *plane)
+ {
+ 	struct drm_plane_state *state = plane->state;
++	struct sun8i_mixer *mixer = layer->mixer;
+ 	struct drm_framebuffer *fb = state->fb;
+ 	struct drm_gem_dma_object *gem;
+ 	dma_addr_t dma_addr;
+ 	u32 ch_base;
+ 	int bpp;
+ 
+-	ch_base = sun8i_channel_base(mixer, channel);
++	ch_base = sun8i_channel_base(mixer, layer->channel);
+ 
+ 	/* Get the physical address of the buffer in memory */
+ 	gem = drm_fb_dma_get_gem_obj(fb, 0);
+@@ -150,13 +152,13 @@ static void sun8i_ui_layer_update_buffer(struct sun8i_mixer *mixer, int channel,
+ 	/* Set the line width */
+ 	DRM_DEBUG_DRIVER("Layer line width: %d bytes\n", fb->pitches[0]);
+ 	regmap_write(mixer->engine.regs,
+-		     SUN8I_MIXER_CHAN_UI_LAYER_PITCH(ch_base, overlay),
++		     SUN8I_MIXER_CHAN_UI_LAYER_PITCH(ch_base, layer->overlay),
+ 		     fb->pitches[0]);
+ 
+ 	DRM_DEBUG_DRIVER("Setting buffer address to %pad\n", &dma_addr);
+ 
+ 	regmap_write(mixer->engine.regs,
+-		     SUN8I_MIXER_CHAN_UI_LAYER_TOP_LADDR(ch_base, overlay),
++		     SUN8I_MIXER_CHAN_UI_LAYER_TOP_LADDR(ch_base, layer->overlay),
+ 		     lower_32_bits(dma_addr));
+ }
+ 
+@@ -208,19 +210,15 @@ static void sun8i_ui_layer_atomic_update(struct drm_plane *plane,
+ 	struct drm_plane_state *new_state = drm_atomic_get_new_plane_state(state,
+ 									   plane);
+ 	struct sun8i_layer *layer = plane_to_sun8i_layer(plane);
+-	struct sun8i_mixer *mixer = layer->mixer;
+ 
+ 	if (!new_state->crtc || !new_state->visible) {
+-		sun8i_ui_layer_disable(mixer, layer->channel, layer->overlay);
++		sun8i_ui_layer_disable(layer);
+ 		return;
  	}
  
--	plane_cnt = mixer->cfg->ui_num + mixer->cfg->vi_num;
--
- 	ret = drm_plane_create_alpha_property(&layer->plane);
- 	if (ret) {
- 		dev_err(drm->dev, "Couldn't add alpha property\n");
-diff --git a/drivers/gpu/drm/sun4i/sun8i_ui_layer.h b/drivers/gpu/drm/sun4i/sun8i_ui_layer.h
-index 7745aec32d76..0613b34d36e0 100644
---- a/drivers/gpu/drm/sun4i/sun8i_ui_layer.h
-+++ b/drivers/gpu/drm/sun4i/sun8i_ui_layer.h
-@@ -52,5 +52,6 @@ struct sun8i_layer;
- struct sun8i_layer *sun8i_ui_layer_init_one(struct drm_device *drm,
- 					    struct sun8i_mixer *mixer,
- 					    enum drm_plane_type type,
--					    int index);
-+					    int index,
-+					    int plane_cnt);
- #endif /* _SUN8I_UI_LAYER_H_ */
-diff --git a/drivers/gpu/drm/sun4i/sun8i_vi_layer.c b/drivers/gpu/drm/sun4i/sun8i_vi_layer.c
-index 1192b17726d1..805db4ea714b 100644
---- a/drivers/gpu/drm/sun4i/sun8i_vi_layer.c
-+++ b/drivers/gpu/drm/sun4i/sun8i_vi_layer.c
-@@ -413,10 +413,11 @@ static const uint64_t sun8i_layer_modifiers[] = {
- struct sun8i_layer *sun8i_vi_layer_init_one(struct drm_device *drm,
- 					    struct sun8i_mixer *mixer,
- 					    enum drm_plane_type type,
--					    int index)
-+					    int index,
-+					    int plane_cnt)
- {
- 	u32 supported_encodings, supported_ranges;
--	unsigned int plane_cnt, format_count;
-+	unsigned int format_count;
- 	struct sun8i_layer *layer;
- 	const u32 *formats;
- 	int ret;
-@@ -449,8 +450,6 @@ struct sun8i_layer *sun8i_vi_layer_init_one(struct drm_device *drm,
- 		return ERR_PTR(ret);
- 	}
+-	sun8i_ui_layer_update_attributes(mixer, layer->channel,
+-					 layer->overlay, plane);
+-	sun8i_ui_layer_update_coord(mixer, layer->channel,
+-				    layer->overlay, plane);
+-	sun8i_ui_layer_update_buffer(mixer, layer->channel,
+-				     layer->overlay, plane);
++	sun8i_ui_layer_update_attributes(layer, plane);
++	sun8i_ui_layer_update_coord(layer, plane);
++	sun8i_ui_layer_update_buffer(layer, plane);
+ }
  
--	plane_cnt = mixer->cfg->ui_num + mixer->cfg->vi_num;
--
- 	if (mixer->cfg->vi_num == 1 || mixer->cfg->de_type >= SUN8I_MIXER_DE3) {
- 		ret = drm_plane_create_alpha_property(&layer->plane);
- 		if (ret) {
-diff --git a/drivers/gpu/drm/sun4i/sun8i_vi_layer.h b/drivers/gpu/drm/sun4i/sun8i_vi_layer.h
-index fc22b9a6bd8d..a568e1db1e19 100644
---- a/drivers/gpu/drm/sun4i/sun8i_vi_layer.h
-+++ b/drivers/gpu/drm/sun4i/sun8i_vi_layer.h
-@@ -57,5 +57,6 @@ struct sun8i_layer;
- struct sun8i_layer *sun8i_vi_layer_init_one(struct drm_device *drm,
- 					    struct sun8i_mixer *mixer,
- 					    enum drm_plane_type type,
--					    int index);
-+					    int index,
-+					    int plane_cnt);
- #endif /* _SUN8I_VI_LAYER_H_ */
+ static const struct drm_plane_helper_funcs sun8i_ui_layer_helper_funcs = {
 -- 
 2.51.2
 
