@@ -2,127 +2,60 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id DDC84C2FFAF
-	for <lists+dri-devel@lfdr.de>; Tue, 04 Nov 2025 09:37:24 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 93C59C300B4
+	for <lists+dri-devel@lfdr.de>; Tue, 04 Nov 2025 09:49:51 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 052B610E587;
-	Tue,  4 Nov 2025 08:37:23 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 928F910E55F;
+	Tue,  4 Nov 2025 08:49:48 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=amd.com header.i=@amd.com header.b="G3nd8pI5";
+	dkim=pass (2048-bit key; unprotected) header.d=bootlin.com header.i=@bootlin.com header.b="0l18l1Ec";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from CO1PR03CU002.outbound.protection.outlook.com
- (mail-westus2azon11010053.outbound.protection.outlook.com [52.101.46.53])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 632ED10E58A;
- Tue,  4 Nov 2025 08:37:21 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=KiNp3z2KDCXU+W6li1x9D4zg8c5JKw2OaGm5FAxFvXx1tEBX30upBhk+95CMAo+GrWY7ePuPFkQLKWLqlTS0UnBfRX7RP3QCkEHbvvB35xHLjkEXOg/t5wEXk9ro+q05oXyzUsZZ9FifnkJYkTIjOjpCqLyptruzcV5bBcAqM5rIOkL5rXWVdvYCVjdWLFjIjhW2royQLTSJqJkoadax52NeLY47hx9h7hJNHPiz/Xp/Q2qe8UtKTZo+DaH2JCK9OQ0sGpyU6RuTwX/nQ4l3ME8CDjzHu+4cIKikJsaW5BJgEHEppgOi9D3K50qyV2ysIR2H1S2dAQ6nrRT56KJUCw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=LRG9v0rey5waBbHwMI6f6qH7XoZTbpm1KzC6oAG5ZeY=;
- b=kdf4XXi9vIPaJpmR7BnsH1120p8Z5l8QPsZyLD77FwYNVnz0IS/Kx8E0ZMf3oxp6toWc7+W8056va00wxrP0Y5H7X2ZYVfkSNmtVNq+fuMrUUo5nABlGjl1Bc9yLSq2271JFQ/k/GbxUtBxF9IKM6igxz3nnEHgz5jQtDOWl6+GqBdKGVa6SI+VS0YZhBI/2C4MZnl67b6hAjhE3ezAFnU/uc248fjadRFCqLN8lcr6MlItaz0Ne0ezmpZjo318sCS9ntLi3tbHkDCzr31VaaJCbq+J2ok7guz0RYgzLWeimOZrDEwrQFZcw6vrCpNh33bl5yqgsIplYMAfxG87eFw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 165.204.84.17) smtp.rcpttodomain=gmail.com smtp.mailfrom=amd.com; dmarc=pass
- (p=quarantine sp=quarantine pct=100) action=none header.from=amd.com;
- dkim=none (message not signed); arc=none (0)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=LRG9v0rey5waBbHwMI6f6qH7XoZTbpm1KzC6oAG5ZeY=;
- b=G3nd8pI5z+nuH6YMG+q6uPDVqJN7m6OvhseNMEFnP0tJ8ExB+S28+0EhqXFODMuwrxg8z6y4u7z1wfdf/R/4eXPVbyLsnYV1Q6ffpa6sP+KnBmMaIfGc8LtF2+i+T2LklQ3s1iAm2QN7M6IG/uKD5OYcDYY3dF0vNuQXGizQuUI=
-Received: from SJ0PR13CA0205.namprd13.prod.outlook.com (2603:10b6:a03:2c3::30)
- by CH3PR12MB8306.namprd12.prod.outlook.com (2603:10b6:610:12c::5)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9275.16; Tue, 4 Nov
- 2025 08:37:17 +0000
-Received: from CO1PEPF000042A7.namprd03.prod.outlook.com
- (2603:10b6:a03:2c3:cafe::a7) by SJ0PR13CA0205.outlook.office365.com
- (2603:10b6:a03:2c3::30) with Microsoft SMTP Server (version=TLS1_3,
- cipher=TLS_AES_256_GCM_SHA384) id 15.20.9298.7 via Frontend Transport; Tue, 4
- Nov 2025 08:36:40 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
- smtp.mailfrom=amd.com; dkim=none (message not signed)
- header.d=none;dmarc=pass action=none header.from=amd.com;
-Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
- 165.204.84.17 as permitted sender) receiver=protection.outlook.com;
- client-ip=165.204.84.17; helo=satlexmb07.amd.com; pr=C
-Received: from satlexmb07.amd.com (165.204.84.17) by
- CO1PEPF000042A7.mail.protection.outlook.com (10.167.243.36) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.9298.6 via Frontend Transport; Tue, 4 Nov 2025 08:37:17 +0000
-Received: from FRAPPELLOUX01-WSLPUB.amd.com (10.180.168.240) by
- satlexmb07.amd.com (10.181.42.216) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.17; Tue, 4 Nov 2025 00:37:14 -0800
-From: Pierre-Eric Pelloux-Prayer <pierre-eric.pelloux-prayer@amd.com>
-To: Alex Deucher <alexander.deucher@amd.com>,
- =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>, David Airlie
- <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>
-CC: Pierre-Eric Pelloux-Prayer <pierre-eric.pelloux-prayer@amd.com>,
- <amd-gfx@lists.freedesktop.org>, <dri-devel@lists.freedesktop.org>,
- <linux-kernel@vger.kernel.org>
-Subject: [PATCH v1 20/20] drm/amdgpu: double AMDGPU_GTT_MAX_TRANSFER_SIZE
-Date: Tue, 4 Nov 2025 09:35:35 +0100
-Message-ID: <20251104083605.13677-21-pierre-eric.pelloux-prayer@amd.com>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20251104083605.13677-1-pierre-eric.pelloux-prayer@amd.com>
-References: <20251104083605.13677-1-pierre-eric.pelloux-prayer@amd.com>
+Received: from smtpout-03.galae.net (smtpout-03.galae.net [185.246.85.4])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6C2B510E55F
+ for <dri-devel@lists.freedesktop.org>; Tue,  4 Nov 2025 08:49:46 +0000 (UTC)
+Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
+ by smtpout-03.galae.net (Postfix) with ESMTPS id B49384E414EF;
+ Tue,  4 Nov 2025 08:49:44 +0000 (UTC)
+Received: from mail.galae.net (mail.galae.net [212.83.136.155])
+ by smtpout-01.galae.net (Postfix) with ESMTPS id 873B5606EF;
+ Tue,  4 Nov 2025 08:49:44 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon)
+ with ESMTPSA id 2B3E110B50978; Tue,  4 Nov 2025 09:49:38 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
+ t=1762246183; h=from:subject:date:message-id:to:cc:mime-version:content-type:
+ content-transfer-encoding:in-reply-to:references;
+ bh=+tnp7G3ycwRnFF38hQrrWjWXR0KKwEMtXOrxp4e42tw=;
+ b=0l18l1EcsipvNaABsQ4OBR3pQhYZjQlb/sgy9nI/k3hijfsR0CbIIjE1gdyaJUb0Pe0mLX
+ fOrlQbZ+I9IkAqQK8psRVPIyZ+mO1/FGxGDzOsGNfRpRzzQhHWz8wPIvlW1RIre658qLEW
+ 5Ybapx3Yly8nvatPJBzrEUckVxQGX8NCKtA+uL+zxU//Tp1J8lFMLoegWHwmC5XdvqotNf
+ XDiAFVyqTRRUlNI2i9l8TmhPUUzwPsUbKtYn+DYBPMgMwGzvdPQQUALNN6Y8DGfzEaSRny
+ ti73SUEEWACLJPMtc3fkJroYNyJ6tQ17aaTnnK0P9T9YXxssJC1YpdujjxxXhQ==
+Date: Tue, 4 Nov 2025 09:49:37 +0100
+From: Herve Codina <herve.codina@bootlin.com>
+To: Neil Armstrong <neil.armstrong@linaro.org>
+Cc: Jessica Zhang <jessica.zhang@oss.qualcomm.com>, Maarten Lankhorst
+ <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
+ Simona Vetter <simona@ffwll.ch>, Rob Herring <robh@kernel.org>, Krzysztof
+ Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>,
+ dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org, Thomas Petazzoni
+ <thomas.petazzoni@bootlin.com>
+Subject: Re: [PATCH 2/3] drm/panel: Add support for the Leadtek LTK08QV25BYL
+ panel
+Message-ID: <20251104094937.042afc40@bootlin.com>
+In-Reply-To: <c47fc9bd-c041-4fc7-b08d-8f15622f4fba@linaro.org>
+References: <20251021073408.195959-1-herve.codina@bootlin.com>
+ <20251021073408.195959-3-herve.codina@bootlin.com>
+ <c47fc9bd-c041-4fc7-b08d-8f15622f4fba@linaro.org>
+Organization: Bootlin
+X-Mailer: Claws Mail 4.3.1 (GTK 3.24.43; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-Originating-IP: [10.180.168.240]
-X-ClientProxiedBy: satlexmb07.amd.com (10.181.42.216) To satlexmb07.amd.com
- (10.181.42.216)
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: CO1PEPF000042A7:EE_|CH3PR12MB8306:EE_
-X-MS-Office365-Filtering-Correlation-Id: 897dc282-784e-46ce-59e6-08de1b7d5c98
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
- ARA:13230040|376014|82310400026|36860700013|1800799024; 
-X-Microsoft-Antispam-Message-Info: =?us-ascii?Q?s9lxy2IsEeFYUTs/Ft1zkMM21oE3cEraONq0XZYRC0E7QpbAkfRay+8Ke+Rn?=
- =?us-ascii?Q?fwaGGeEW1UhN6VxT3947wAGTQLYN0FaQzg6JLO1WJEA1eK/7TOZ3pmPSm8CT?=
- =?us-ascii?Q?sJUDq9DONJe9ekE2CgDz7Oope75H2Gw6fag5+fYCA3D6hQNQrrSyV40lPaNf?=
- =?us-ascii?Q?J+VJk277N3kjA2csZ5K3T7X3SHKG1uM4KQjr8WHUIJb+Z7wd5jDzMlzL2jRX?=
- =?us-ascii?Q?UBCZZkZB1RrRYUGqJTIK2Kpv6iSVdR/0fqGgIwg4mWa6Ta7OUCd0r9gJeLHr?=
- =?us-ascii?Q?sSLl6BwLZ9RQNT0cKiAJfuzpLOJls5klXufwZpBnDCVa5GpXvjQMZX4Msx51?=
- =?us-ascii?Q?XcrUDThUhfbbIswZLrejD0cf+ficbnd2yIHZRRfeC56ts/NvOu0i1pv7m0Sg?=
- =?us-ascii?Q?NJZSco0nEfAfyapRw4/cYK3DQfUolV+UES9AVOxQJmLsld8HeZMrLdhl3i+P?=
- =?us-ascii?Q?KZvaJ9Z2b+jNuZP0kiJ66VJhH/RHdPSi0r7fWCve+pciGRn2AkkwFfHQAYq+?=
- =?us-ascii?Q?VXJaDNKh0s6/KC3NPkAZ75i6ts0mEsLubqk5ML0dfIBU25+6/qHyHKpaxgB9?=
- =?us-ascii?Q?cBILtPjw21lF0R1/Syln8kkvQREahtgAZenb0ifiwV3jJEW0TDEFmR+hx+5B?=
- =?us-ascii?Q?XtKcJlyd/D8kpY8faa3w/ioduSZZO+MEPuaIyLT7ZFtfSQfbJYOfUXX1za3H?=
- =?us-ascii?Q?F3bwRHOOqzmpKbBrgsmyWoBIaGTVoIkqShLsR9zyFsZ6wHEvcP8En6Wz9fj+?=
- =?us-ascii?Q?9LUhTRTb4wKFUC7/EiIgd3yfgPang+sP/IltvAm8g6+g7yfvhpZ55lGXOtBC?=
- =?us-ascii?Q?olYXbwc6BKQX5rADxxOjuZJ/AuSkdIf8E/ClUsDzAUUgh7H5VEZ4OaEgNgSB?=
- =?us-ascii?Q?kRttfgqu2e9mwEc3WQxNJ4krWZaEUZoVA+5qRnRJsES3EC052GWKVgM0a8WS?=
- =?us-ascii?Q?Xg2u8thkt8a6zF7L5FUXTVc8Pef6ggBTUtO4aDBRvdFAErxIlH298tU7ZT0P?=
- =?us-ascii?Q?CcMahpDHPwGnoRbXxMkYlbsmPNSb0JSrj8b9itc5M/Y8NJIG6ZOYnHwtQmrA?=
- =?us-ascii?Q?wg1TMPyNMA2H8Ydo7WiKc4T2rW4M468q/E7SCmAkmBv2AFqeaOdq/xuAlpeb?=
- =?us-ascii?Q?0KMtZQO5Yz9Q+u71SbbqoSvrjj6cyDAsHh34zX70iAHbJDjU1oNIG9kEvqLn?=
- =?us-ascii?Q?x8NcYQWAFBLimIc2uFzxKXqmT/ego1Vcjy6l05UV2mHeKN+l0zFkRoGFyPKX?=
- =?us-ascii?Q?cFN192QFHswUXYcMGFBneuHqai+LJODM5tDmvVs+WeJYWzxa7QQgYGlZSukB?=
- =?us-ascii?Q?Z4lOjvO7WiEsqzuh3vh+KDcrWA0IcbpH/xtUTrDBL6bNuFIDdA5ttRzxVRwT?=
- =?us-ascii?Q?CdEJFp8ycd1brbPSoIAp01XrYdL8al5C7omaL5YiDIVwuxwDKI5ql/P6gJvc?=
- =?us-ascii?Q?AJb9dHDiyLwmr2JXdTJgIrpNulg3JKOpvmFyQEYG/zc/XwMqAnhkf5QRq6Tv?=
- =?us-ascii?Q?WdrJLrMCaZfeWPQ/h4HjO/Q9r8Rsy8CMOBC1xI9wBXhk0LgH/VRcNU0FsfS5?=
- =?us-ascii?Q?xnpIxxNQ6YiMvT6hLIc=3D?=
-X-Forefront-Antispam-Report: CIP:165.204.84.17; CTRY:US; LANG:en; SCL:1; SRV:;
- IPV:CAL; SFV:NSPM; H:satlexmb07.amd.com; PTR:InfoDomainNonexistent; CAT:NONE;
- SFS:(13230040)(376014)(82310400026)(36860700013)(1800799024); DIR:OUT;
- SFP:1101; 
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 04 Nov 2025 08:37:17.0188 (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 897dc282-784e-46ce-59e6-08de1b7d5c98
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d; Ip=[165.204.84.17];
- Helo=[satlexmb07.amd.com]
-X-MS-Exchange-CrossTenant-AuthSource: CO1PEPF000042A7.namprd03.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CH3PR12MB8306
+X-Last-TLS-Session-Version: TLSv1.3
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -138,26 +71,56 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Makes copies/evictions faster when gart windows are required.
+Hi Neil,
 
-Signed-off-by: Pierre-Eric Pelloux-Prayer <pierre-eric.pelloux-prayer@amd.com>
----
- drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.h | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+On Wed, 29 Oct 2025 21:45:24 +0100
+Neil Armstrong <neil.armstrong@linaro.org> wrote:
 
-diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.h b/drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.h
-index b685bf207e43..82276eff511d 100644
---- a/drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.h
-+++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.h
-@@ -38,7 +38,7 @@
- #define AMDGPU_PL_MMIO_REMAP	(TTM_PL_PRIV + 5)
- #define __AMDGPU_PL_NUM	(TTM_PL_PRIV + 6)
- 
--#define AMDGPU_GTT_MAX_TRANSFER_SIZE	512
-+#define AMDGPU_GTT_MAX_TRANSFER_SIZE	1024
- 
- extern const struct attribute_group amdgpu_vram_mgr_attr_group;
- extern const struct attribute_group amdgpu_gtt_mgr_attr_group;
--- 
-2.43.0
+...
 
+> > +
+> > +static const struct drm_display_mode ltk028qv25byl_mode = {
+> > +	.hdisplay       = 240,
+> > +	.hsync_start    = 240 + 120,
+> > +	.hsync_end      = 240 + 120 + 4,
+> > +	.htotal         = 240 + 120 + 4 + 120,
+> > +	.vdisplay       = 320,
+> > +	.vsync_start    = 320 + 8,
+> > +	.vsync_end      = 320 + 8 + 2,
+> > +	.vtotal         = 320 + 8 + 2 + 6,
+> > +	.clock          = 10000000 / 1000,  
+> 
+> Usually we calculate the clock from the mode parameters, won't it work here ?
+> 
+
+The panel has an internal oscillator an the data transfer need to be sync with
+this oscillator.
+
+10M pixel per sec is the value set by the vendor.
+I tried to use a value based on other mode parameters such as
+  (240 + 120 + 4 + 120) * (320 + 8 + 2 + 6) * 60 / 1000
+
+and it didn't work. I also tried ' ... * 90 / 1000) and ' ... * 100 / 1000)
+without better results.
+
+I can add a comment if you want in the next iteration to spot the value:
+--- 8< ---
+	.clock          = 10000000 / 1000,  /* 10 Mbps, internal panel oscillator */
+--- 8< ---
+
+Let me know.
+
+
+...
+
+> > +	ctx->iovcc = devm_regulator_get(dev, "iovcc");
+> > +	if (IS_ERR(ctx->iovcc))
+> > +		return dev_err_probe(dev, PTR_ERR(ctx->iovcc),
+> > +				     "Failed to get iovcc regulator\n");  
+> 
+> Can you switch to devm_regulator_bulk_get_const() ?
+
+Yes, I will do that in the next iteration.
+
+Best regards,
+Hervé
