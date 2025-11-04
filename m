@@ -2,83 +2,78 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 67483C328E3
-	for <lists+dri-devel@lfdr.de>; Tue, 04 Nov 2025 19:10:44 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4EE76C328FB
+	for <lists+dri-devel@lfdr.de>; Tue, 04 Nov 2025 19:12:29 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8008910E65C;
-	Tue,  4 Nov 2025 18:10:42 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5950710E660;
+	Tue,  4 Nov 2025 18:12:27 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="HRQidB2F";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="bV0OzFVI";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-f51.google.com (mail-wm1-f51.google.com
- [209.85.128.51])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3AD6610E664
- for <dri-devel@lists.freedesktop.org>; Tue,  4 Nov 2025 18:10:41 +0000 (UTC)
-Received: by mail-wm1-f51.google.com with SMTP id
- 5b1f17b1804b1-4775895d69cso4842845e9.0
- for <dri-devel@lists.freedesktop.org>; Tue, 04 Nov 2025 10:10:41 -0800 (PST)
+Received: from mail-lj1-f175.google.com (mail-lj1-f175.google.com
+ [209.85.208.175])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A0A9B10E660
+ for <dri-devel@lists.freedesktop.org>; Tue,  4 Nov 2025 18:12:25 +0000 (UTC)
+Received: by mail-lj1-f175.google.com with SMTP id
+ 38308e7fff4ca-3717780ea70so64760291fa.1
+ for <dri-devel@lists.freedesktop.org>; Tue, 04 Nov 2025 10:12:25 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1762279840; x=1762884640; darn=lists.freedesktop.org;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+ d=gmail.com; s=20230601; t=1762279944; x=1762884744; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
  :message-id:reply-to;
- bh=YhWx9NyFnSAm1+R2uJGg2k+MOsOqirwBc3PWmOrvwX4=;
- b=HRQidB2FaVcpY/8meC79gRWrCag6l+f5v169hxBCq9Gi3zRAubd3wR9sjK9BuaszM1
- usDVlysxzSv2RQqpbM+p2ocjjDhtY2He9JktDW+pRXNgtr8I6LGz6nE/imuI3DfGd8pu
- /Ezf60OWQEpbNVtWVvXJ5fT0ylaLC5WzcF4R7JKuXs3dvwUQCoZi4lEHxk0WK8NP/HXy
- n2TLZSqkHVAKvbG2vHiSd2agXdVjOqJ1m1FvRoaQE8gJElaXbWXudIpaAUlik65sZ0Zf
- P/axPhV8NxL9snxr0hN+OmZbw8hpcMvX7JVUoe3svoiZSmJJ2CbQGM1cnJZrrjKXPWNm
- s6fw==
+ bh=pfboT1HRbq+3rQiXHdhZQOYYLi1wTFtTVKTz7vRyT3Q=;
+ b=bV0OzFVI15z4+hgaWkMB6UF/QCnlKNxcIgOeFYBCl7uwIlEe8G2Cn/PtfruJZlshdp
+ iRFhJVpBIg8sPEfORCNHpfR8dXNPMC8zsBl8ro5IKmKbcUqGMj3mOqch4fqMbJ0EQwTo
+ O+/xUk7BRHgG23J8lBfv3U/wF0mGFqOcXD2CXKJHPSnkCR7ilHus8aFW3OflcCRW1Wdy
+ C5NrXvNugCYd9CfHT5aYDIU0ZDq4qoT1CA8cI14+w5nLo+9r1YrbP3rmrWb1nB95/0wn
+ qIyEZKv8dNjJeHcAx4SRTTCIjbnTnoPS+goZ8gK9DiqmwVgmP4Klg1cAONWN2zB8oePB
+ eSCw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1762279840; x=1762884640;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+ d=1e100.net; s=20230601; t=1762279944; x=1762884744;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=YhWx9NyFnSAm1+R2uJGg2k+MOsOqirwBc3PWmOrvwX4=;
- b=qtxYVwn0Qpnb4SlA9O8yDkpVrA5CXU55MdgUjW7/9sTdcrE4B75T5XZ66DOD3toBtn
- GpYdbGt5YruE2vGaWSFIruLAe0WG3ftWMBf7IHyP53vfpJoxQNix8fVRtktkkkwy+hfr
- FUSdklZ14GcN5RKRcpI8JuG979S/xuTjOAmf9Ay1Vvjik4/wCS4lmZCUzRGHFCjAWB5k
- jEUbsccUm5FLMORnH/NPw//NStYkpF2xtsGEfhI2Xvi5pvRxXQk09XnHu/BCsaFecbzY
- 2cGJuFsOyr17myww3FQqPXgMZD1ECO6EcYOl4hrFc7aL/4UWbTdvxJrHquhWO0EbAFa9
- S4dA==
+ bh=pfboT1HRbq+3rQiXHdhZQOYYLi1wTFtTVKTz7vRyT3Q=;
+ b=AtwT/6b2jjORl5Z4m8T5DBDDjuyNypQZyop9Fjr/cSOcHcbAPu8wP4DzkPxceElMD6
+ fm8NM6Wix1E7rgou1FsA+wZLmKqk4CCzIyODLijFb5XDylRZmHxB0IOBi3wkq1Ic4yhZ
+ 9YQLduLprKtwpCoW+gI83Gowf1NhFeGx0oY1VKoAQrtv89Or5HFt0BZnYCDBI/GmrsrF
+ TUNOnASgEE+rCuuUjUI7KkLDMqaiwpXI4u4BH60cq79YJSlMTutMXuLg7HUDW/C1omDx
+ OyuBBckaeKBjd7wrHmHHR05fIgd5UBXRN2dZrBT9AZAhfXSjt6Ji/gfE6FaWOVI2N8FT
+ HdoA==
 X-Forwarded-Encrypted: i=1;
- AJvYcCUF6nKGlgQSuQr2aB6ZEB74ANwl0IW5NhE1LlPqrBf7mK6ukWfDZq+CXaDOPUCdcGXMuMFN/oUYd2M=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YzfcQfcYIawEJHdZy5zqLfWaRSooJsmrjTUdeI2EXwUqbvlNLy8
- KwshZ7h6r2MHCsrYa71slow/pk5H4bP4PKRxWdaR2XFtVO7UfMZOO2cv
-X-Gm-Gg: ASbGncuIjzGGy3GX2Qj+ceW+kG2bP5HyIfTUqXBABa2CfS88DnzjCCFmihn1px3vyA2
- kcMZDuOC1VAWLyjuKeuv8ardShh15FSAUfzfFTVqPI7doplerszbRbg5JJYT3FbAFLzyhDiKlh+
- /4VfF5vSLfRaM9pR6aoTrK/2SajyVqKqJZuDx6V8NN0nF9O1vNUPBfERNpKnPcK94a2h4nj37PL
- 1kuHsBLMQ6kA+YZNpX+4P3BlGzP5uk2da8ydZThqWZhBBphbl8wCyU6QaJTDt9n4bj2hqU/HK03
- rHqButMzsxi0IP/IQ7RUJ6/TQc7hPZe6CidYn710uUJuQV/i4q24NomXniMDsrA3i7vaYJBoREA
- B08TdldAdJFD598OHNIkV9xBLfJsfDFy7VQbMfq33R4gzlfALtZCy7G93CTJy/Ii1pp2tdMd83D
- 61WOQMsQS8QAQQ4mamag==
-X-Google-Smtp-Source: AGHT+IGiymh/TsRqhwN6N3A97NvG3Bqul+I8b68ZoyUR344zIADNYxpVaPkfS3GzPbVwVEx24Kp+Fg==
-X-Received: by 2002:a05:600c:6388:b0:458:a7fa:211d with SMTP id
- 5b1f17b1804b1-4775ce1874bmr2424725e9.29.1762279839699; 
- Tue, 04 Nov 2025 10:10:39 -0800 (PST)
-Received: from jernej-laptop ([178.79.73.218])
- by smtp.gmail.com with ESMTPSA id
- 5b1f17b1804b1-477558c1a03sm24688685e9.2.2025.11.04.10.10.38
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 04 Nov 2025 10:10:39 -0800 (PST)
-From: Jernej Skrabec <jernej.skrabec@gmail.com>
-To: wens@csie.org
-Cc: mripard@kernel.org, maarten.lankhorst@linux.intel.com, tzimmermann@suse.de,
- airlied@gmail.com, simona@ffwll.ch, samuel@sholland.org,
- dri-devel@lists.freedesktop.org, linux-arm-kernel@lists.infradead.org,
- linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org,
- Jernej Skrabec <jernej.skrabec@gmail.com>, Chen-Yu Tsai <wens@kernel.org>,
- Ryan Walklin <ryan@testtoast.com>
-Subject: [PATCH v2 30/30] drm/sun4i: Nuke mixer pointer from layer code
-Date: Tue,  4 Nov 2025 19:09:42 +0100
-Message-ID: <20251104180942.61538-31-jernej.skrabec@gmail.com>
-X-Mailer: git-send-email 2.51.2
-In-Reply-To: <20251104180942.61538-1-jernej.skrabec@gmail.com>
-References: <20251104180942.61538-1-jernej.skrabec@gmail.com>
+ AJvYcCU9vu9dXupWbweCVU/Grz6Svku532eX+w4KOk7//HcIoKCycGZfEA1ve9faXxXWWooi4c6gIbqR4yM=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YzmuBcjha0CulJm1nfUkof5vevJZCOKSTIec705n7OijvRZAjHX
+ mUZhTeUpsI2C5m3zAriWdu1mxrxLiT053KdVmAT4qAts2qg5ySzchB2pbD3WRnBoDFokrRHbYt/
+ tceoxdg6DsNkEJQhO5XQ/ePVo7ddgBzE=
+X-Gm-Gg: ASbGncs6NfzupLB+YOTuTWAl1oCUfhnGwtYxwOI0SbLsI2knVBl5o3llzDchoFd3jrM
+ n7jonHKO4oNindTsfD+VyS59w0brSRFA1A6WV2R4xVikfjjymQSWLuPzrTz0aliYSCk9aVKmGXO
+ oJn7fgV+Z23gtw/7q/HMlVIwF01OoG/2xsxs4dbk7N7UKkTuwHOrjixOfBrtkHkg5Cv0gtWUQMx
+ 0cBWe+YlgGaY3fHVZcva7yXRLpPlYEwyhDQG+gWJ1XbhsJmdJ4wcH2D31ma
+X-Google-Smtp-Source: AGHT+IGPRcVYUFkbfND1yCrXsYjPphzvBXM9kevVuqhVKPN4rVG7BAHQZtqPWdFIdx6QTyf/wx86XLa5cCF/q3DF/D4=
+X-Received: by 2002:a05:651c:25da:20b0:378:e88e:70b7 with SMTP id
+ 38308e7fff4ca-37a513db58bmr649531fa.8.1762279943566; Tue, 04 Nov 2025
+ 10:12:23 -0800 (PST)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20251101-tegra-drm-cmu-v1-1-211799755ab8@gmail.com>
+ <pedxgtvzfrfzihoshhfvntin3hwwi3znleilbz4abjad74nowb@un33lgiaa26z>
+ <CALHNRZ9-XrMUkQE0cwjq-HUYsy5uerhOQ9sNpirp23kKoaPuYw@mail.gmail.com>
+ <72llskwvuwyllvz24zoex4ad6v6t5skiehmwylj7exoh7bmzjo@xq3v7vja5w62>
+In-Reply-To: <72llskwvuwyllvz24zoex4ad6v6t5skiehmwylj7exoh7bmzjo@xq3v7vja5w62>
+From: Aaron Kling <webgeek1234@gmail.com>
+Date: Tue, 4 Nov 2025 12:12:11 -0600
+X-Gm-Features: AWmQ_bndq3GXj9nT0T7kbDH5M6YrNLEoNzE-jIY8SE3xqTqpn3-DYrXuXrQFrrc
+Message-ID: <CALHNRZ_k6e9ZRmpK6Pzpet=RzUQ0fRYmfnea6U+9E2oZc8=z7w@mail.gmail.com>
+Subject: Re: [PATCH] drm/tegra: Enable cmu for Tegra186 and Tegra194
+To: Thierry Reding <thierry.reding@gmail.com>
+Cc: Mikko Perttunen <mperttunen@nvidia.com>, David Airlie <airlied@gmail.com>, 
+ Simona Vetter <simona@ffwll.ch>, Jonathan Hunter <jonathanh@nvidia.com>,
+ dri-devel@lists.freedesktop.org, 
+ linux-tegra@vger.kernel.org, linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -94,134 +89,74 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-It's not used anymore, so remove it. This allows trully independent
-layer state from mixer.
+On Tue, Nov 4, 2025 at 3:14=E2=80=AFAM Thierry Reding <thierry.reding@gmail=
+.com> wrote:
+>
+> On Mon, Nov 03, 2025 at 12:39:57PM -0600, Aaron Kling wrote:
+> > On Mon, Nov 3, 2025 at 5:54=E2=80=AFAM Thierry Reding <thierry.reding@g=
+mail.com> wrote:
+> > >
+> > > On Sat, Nov 01, 2025 at 06:15:17PM -0500, Aaron Kling via B4 Relay wr=
+ote:
+> > > > From: Aaron Kling <webgeek1234@gmail.com>
+> > > >
+> > > > Without the cmu, nvdisplay will display colors that are notably dar=
+ker
+> > > > than intended. The vendor bootloader and the downstream display dri=
+ver
+> > > > enable the cmu and sets a sRGB table. Loading that table here resul=
+ts in
+> > > > the intended colors.
+> > > >
+> > > > Signed-off-by: Aaron Kling <webgeek1234@gmail.com>
+> > > > ---
+> > > >  drivers/gpu/drm/tegra/dc.h  |  13 +++
+> > > >  drivers/gpu/drm/tegra/sor.c | 206 ++++++++++++++++++++++++++++++++=
+++++++++++++
+> > > >  2 files changed, 219 insertions(+)
+> > >
+> > > What does "darker than intended" mean? Who defines the intention? How=
+ do
+> > > we know what the intention is? What this patch ultimately seems to be
+> > > doing is define sRGB to be the default colorspace. Is that always the
+> > > right default choice? What if people want to specify a different
+> > > colorspace?
+> >
+> > I reported this issue almost a month ago. See kernel lore [0] and
+> > freedesktop issue [1]. The pictures in the latter show what nvdisplay
+> > looks like right now. It's nigh unusably dark. When booted into
+> > Android with a tv launcher that has a black background, as is default
+> > for LineageOS, it is really hard to read anything. Is it correct as a
+> > default? Well, cboot hardcodes this, so... presumably? It would be
+> > more ideal to expose this and csc to userspace, but I'm not sure if
+> > drm has a standardized interface for that or if tegra would have to
+> > make something vendor specific. I think that would be a separate
+> > change concept compared to setting this default, though.
+>
+> The reason I'm asking is because I don't recall ever seeing "broken"
+> colors like you do. So I suspect that this may also be related to what
+> display is connected, or the mode that we're setting. It could perhaps
+> also be related to what infoframes we're sending and how these are
+> supported/interpreted by the attached display.
+>
+> All of that is to say that maybe this looks broken on the particular
+> setup that you have but may works fine on other setups. Changing the
+> default may fix your setup and break others.
 
-Reviewed-by: Chen-Yu Tsai <wens@kernel.org>
-Tested-by: Ryan Walklin <ryan@testtoast.com>
-Signed-off-by: Jernej Skrabec <jernej.skrabec@gmail.com>
----
- drivers/gpu/drm/sun4i/sun8i_mixer.c    | 12 +++++-------
- drivers/gpu/drm/sun4i/sun8i_mixer.h    |  1 -
- drivers/gpu/drm/sun4i/sun8i_ui_layer.c |  2 --
- drivers/gpu/drm/sun4i/sun8i_ui_layer.h |  1 -
- drivers/gpu/drm/sun4i/sun8i_vi_layer.c |  2 --
- drivers/gpu/drm/sun4i/sun8i_vi_layer.h |  1 -
- 6 files changed, 5 insertions(+), 14 deletions(-)
+Do you have a device set up so you can check? Or does the regression
+test bench have a display that can be forwarded?
 
-diff --git a/drivers/gpu/drm/sun4i/sun8i_mixer.c b/drivers/gpu/drm/sun4i/sun8i_mixer.c
-index 50fc20100c90..fde3b677e925 100644
---- a/drivers/gpu/drm/sun4i/sun8i_mixer.c
-+++ b/drivers/gpu/drm/sun4i/sun8i_mixer.c
-@@ -268,7 +268,7 @@ static void sun8i_mixer_commit(struct sunxi_engine *engine,
- 		int w, h, x, y, zpos;
- 		bool enable;
- 
--		if (!(plane->possible_crtcs & drm_crtc_mask(crtc)) || layer->mixer != mixer)
-+		if (!(plane->possible_crtcs & drm_crtc_mask(crtc)))
- 			continue;
- 
- 		plane_state = drm_atomic_get_new_plane_state(state, plane);
-@@ -336,9 +336,8 @@ static struct drm_plane **sun8i_layers_init(struct drm_device *drm,
- 		if (mixer->cfg->de_type == SUN8I_MIXER_DE33)
- 			phy_index = mixer->cfg->map[i];
- 
--		layer = sun8i_vi_layer_init_one(drm, mixer, type,
--						mixer->engine.regs, i,
--						phy_index, plane_cnt,
-+		layer = sun8i_vi_layer_init_one(drm, type, mixer->engine.regs,
-+						i, phy_index, plane_cnt,
- 						&mixer->cfg->lay_cfg);
- 		if (IS_ERR(layer)) {
- 			dev_err(drm->dev,
-@@ -362,9 +361,8 @@ static struct drm_plane **sun8i_layers_init(struct drm_device *drm,
- 		if (mixer->cfg->de_type == SUN8I_MIXER_DE33)
- 			phy_index = mixer->cfg->map[index];
- 
--		layer = sun8i_ui_layer_init_one(drm, mixer, type,
--						mixer->engine.regs, index,
--						phy_index, plane_cnt,
-+		layer = sun8i_ui_layer_init_one(drm, type, mixer->engine.regs,
-+						index, phy_index, plane_cnt,
- 						&mixer->cfg->lay_cfg);
- 		if (IS_ERR(layer)) {
- 			dev_err(drm->dev, "Couldn't initialize %s plane\n",
-diff --git a/drivers/gpu/drm/sun4i/sun8i_mixer.h b/drivers/gpu/drm/sun4i/sun8i_mixer.h
-index 3948023e095b..e2f83301aae8 100644
---- a/drivers/gpu/drm/sun4i/sun8i_mixer.h
-+++ b/drivers/gpu/drm/sun4i/sun8i_mixer.h
-@@ -226,7 +226,6 @@ enum {
- 
- struct sun8i_layer {
- 	struct drm_plane		plane;
--	struct sun8i_mixer		*mixer;
- 	int				type;
- 	int				index;
- 	int				channel;
-diff --git a/drivers/gpu/drm/sun4i/sun8i_ui_layer.c b/drivers/gpu/drm/sun4i/sun8i_ui_layer.c
-index dc4298590024..185e4ae8a11a 100644
---- a/drivers/gpu/drm/sun4i/sun8i_ui_layer.c
-+++ b/drivers/gpu/drm/sun4i/sun8i_ui_layer.c
-@@ -258,7 +258,6 @@ static const uint64_t sun8i_layer_modifiers[] = {
- };
- 
- struct sun8i_layer *sun8i_ui_layer_init_one(struct drm_device *drm,
--					    struct sun8i_mixer *mixer,
- 					    enum drm_plane_type type,
- 					    struct regmap *regs,
- 					    int index, int phy_index,
-@@ -272,7 +271,6 @@ struct sun8i_layer *sun8i_ui_layer_init_one(struct drm_device *drm,
- 	if (!layer)
- 		return ERR_PTR(-ENOMEM);
- 
--	layer->mixer = mixer;
- 	layer->type = SUN8I_LAYER_TYPE_UI;
- 	layer->index = index;
- 	layer->channel = phy_index;
-diff --git a/drivers/gpu/drm/sun4i/sun8i_ui_layer.h b/drivers/gpu/drm/sun4i/sun8i_ui_layer.h
-index c357b39999ff..1581ffc6d4e5 100644
---- a/drivers/gpu/drm/sun4i/sun8i_ui_layer.h
-+++ b/drivers/gpu/drm/sun4i/sun8i_ui_layer.h
-@@ -50,7 +50,6 @@ struct sun8i_mixer;
- struct sun8i_layer;
- 
- struct sun8i_layer *sun8i_ui_layer_init_one(struct drm_device *drm,
--					    struct sun8i_mixer *mixer,
- 					    enum drm_plane_type type,
- 					    struct regmap *regs,
- 					    int index, int phy_index,
-diff --git a/drivers/gpu/drm/sun4i/sun8i_vi_layer.c b/drivers/gpu/drm/sun4i/sun8i_vi_layer.c
-index 4534998af825..40008c38003d 100644
---- a/drivers/gpu/drm/sun4i/sun8i_vi_layer.c
-+++ b/drivers/gpu/drm/sun4i/sun8i_vi_layer.c
-@@ -409,7 +409,6 @@ static const uint64_t sun8i_layer_modifiers[] = {
- };
- 
- struct sun8i_layer *sun8i_vi_layer_init_one(struct drm_device *drm,
--					    struct sun8i_mixer *mixer,
- 					    enum drm_plane_type type,
- 					    struct regmap *regs,
- 					    int index, int phy_index,
-@@ -426,7 +425,6 @@ struct sun8i_layer *sun8i_vi_layer_init_one(struct drm_device *drm,
- 	if (!layer)
- 		return ERR_PTR(-ENOMEM);
- 
--	layer->mixer = mixer;
- 	layer->type = SUN8I_LAYER_TYPE_VI;
- 	layer->index = index;
- 	layer->channel = phy_index;
-diff --git a/drivers/gpu/drm/sun4i/sun8i_vi_layer.h b/drivers/gpu/drm/sun4i/sun8i_vi_layer.h
-index 6ec68baa2409..29cc5573691f 100644
---- a/drivers/gpu/drm/sun4i/sun8i_vi_layer.h
-+++ b/drivers/gpu/drm/sun4i/sun8i_vi_layer.h
-@@ -55,7 +55,6 @@ struct sun8i_mixer;
- struct sun8i_layer;
- 
- struct sun8i_layer *sun8i_vi_layer_init_one(struct drm_device *drm,
--					    struct sun8i_mixer *mixer,
- 					    enum drm_plane_type type,
- 					    struct regmap *regs,
- 					    int index, int phy_index,
--- 
-2.51.2
+My current setup is a rack of units plugged via hdmi to a kvm which is
+then plugged to a pikvm. I also observed this issue before I had this
+setup, plugged directly to a 1080p monitor. I have not checked
+displayport. I can cycle through a couple other displays without this
+patch to see if I get any other result. I am fairly certain I have
+consistently seen this issue since I started trying to work with
+tegra-drm on kernel 6.1 or maybe even 5.15. I've never seen it work to
+allow for a bisect.
 
+I am in contact with one other person with a tx2 devkit, who
+replicated the issue when I asked. Who plans to reply to this thread
+with setup info later.
+
+Aaron
