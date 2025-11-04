@@ -2,66 +2,67 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 587EDC32248
-	for <lists+dri-devel@lfdr.de>; Tue, 04 Nov 2025 17:52:25 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id C09C0C322C6
+	for <lists+dri-devel@lfdr.de>; Tue, 04 Nov 2025 17:57:43 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 23B0B10E29E;
-	Tue,  4 Nov 2025 16:52:23 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id F10A410E64C;
+	Tue,  4 Nov 2025 16:57:39 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=suse.com header.i=@suse.com header.b="e3IH48UT";
+	dkim=pass (2048-bit key; unprotected) header.d=suse.com header.i=@suse.com header.b="c7Dpujr+";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-f43.google.com (mail-wm1-f43.google.com
- [209.85.128.43])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 90D3B10E29E
- for <dri-devel@lists.freedesktop.org>; Tue,  4 Nov 2025 16:52:21 +0000 (UTC)
-Received: by mail-wm1-f43.google.com with SMTP id
- 5b1f17b1804b1-4710022571cso53844855e9.3
- for <dri-devel@lists.freedesktop.org>; Tue, 04 Nov 2025 08:52:21 -0800 (PST)
+Received: from mail-wm1-f41.google.com (mail-wm1-f41.google.com
+ [209.85.128.41])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id AD26D10E64C
+ for <dri-devel@lists.freedesktop.org>; Tue,  4 Nov 2025 16:57:39 +0000 (UTC)
+Received: by mail-wm1-f41.google.com with SMTP id
+ 5b1f17b1804b1-47112a73785so38249535e9.3
+ for <dri-devel@lists.freedesktop.org>; Tue, 04 Nov 2025 08:57:39 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=suse.com; s=google; t=1762275140; x=1762879940; darn=lists.freedesktop.org; 
+ d=suse.com; s=google; t=1762275458; x=1762880258; darn=lists.freedesktop.org; 
  h=content-transfer-encoding:mime-version:message-id:date:subject:cc
  :to:from:from:to:cc:subject:date:message-id:reply-to;
- bh=3I7l2wLDDwEsKZizWvufJnUJgFCRc38UnTb6EWKRbEM=;
- b=e3IH48UTnyHtGTm4wc3wLWipzMhViorecC/cUEDFBJleUcWinU9eHByOnJMMiRD65/
- Pgvf+8p9U0/wVut5H6EMB60ZNYUgTCIjZsmzEIzZdIZs1w37kz8f6ILCiFaVhny39PVD
- S2JrMGkyXakGVWFGQ8fiZfpYMV6Jf6hNUPF0PyUCHx2Kp3sHxzbiRPNHlJi9S+w0ac6J
- vXDCzPZzk++0eIUFqUiYegPEu3RhnxTWIBxczIUJCrQzqW+Up3JeZOzeH8WhVgAU6DYU
- genNHq0Yfg1Ah/GaI/Tf+BywMlyS2xPYoFrgia6BBOVmO/fZ2B2it9FisHlLNrt+AOnD
- p6WA==
+ bh=mlwXBKKEiD0RmcIOKolsb93Y5R8skb7DhUMfXKujcjY=;
+ b=c7Dpujr+6BfRHuz44qA5QFUh7qrpbjCHldfLJwmQcLawHdjk33Cj4qSFXdvk66eUFm
+ GfDhVsSliG1Yxn/TyWRrZv0mf/x8VBCvHMiS0OfC4WLfaGJr9TMFrRU789U9ZKhLLjwg
+ DsVsqyRPER3r+r8v6SM20ynHmGdnD7lLTTAoPSayrx/IHw6jBnv/bcWSR3KiGzSTNU1B
+ G5MXvppZrH0zCxZ0rd1Zpjc3QD3yDTEVsEYRITBUQov4srnx7ca3T1OASMlfD6PjSMiu
+ CyXY6ZkLpCNCmHrNcVrjCDXaKVXoKKT3XLG2/cXNdkY/v92BpJ/RljqDG6Ra99j9kLus
+ szmA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1762275140; x=1762879940;
+ d=1e100.net; s=20230601; t=1762275458; x=1762880258;
  h=content-transfer-encoding:mime-version:message-id:date:subject:cc
  :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
  :reply-to;
- bh=3I7l2wLDDwEsKZizWvufJnUJgFCRc38UnTb6EWKRbEM=;
- b=CkHqtwps3tzhYO44uQwnxAaoie1K6mI9xSTVX+u5G8u5HfJUmX2GAZ6N6I2U3DAbrh
- 40SAhAoabnfv+QF0NFytKS60OMABfjFms4FZNoSsyGzCZ0p2yM4IQMTjIYFYNRPbbfS9
- t5YK7PDLpxXUmadb1t+1urWED3vGkPyDbO6TFpDPa8HkgxFU+AE7aA+wpm+EZCVB81YU
- YzujskIYgQvnu9rsR1ybBZ/hBLfWECN21nJradwmUm6vLJiA4H2FLYvtftPHht/ISR8k
- LzTvhNtPvBkgHlhA0KZgxnxNczhkI9yjR/olIVQ96kIQSdubAktHwb6PC58uIbOYEYdd
- SQNw==
+ bh=mlwXBKKEiD0RmcIOKolsb93Y5R8skb7DhUMfXKujcjY=;
+ b=UQeOXNdb2sh65lTBsD+nZ4Tp4AIX+Zbtbn5jO8biGQ9V7iardb3ZuzGejrFtp7ExIa
+ os0AIS/AQ7QGQZIsy54Or0frViFml3pcgsMK4/HyAWODGLx+0fJ3XPIwd675uTDu/dJH
+ PlS4Vh0FLplKOFnAKsS6nOnmrv0hAAW8pmS7r6qZ2W08QkmIC4yKTNG7GqRhfOj4Es9L
+ oBgiUQdUigeA5ixctQ4J9yUDhqCCZC+lBzj8yN/2lt4AS4pmRulApJvpf5BYkFVXXegp
+ n0r9vA0mJjP47GQ9A3mJDiGx0oVNJoEDIelq+4qNtaWRUT6DQVoIJ2oub+mX+lOpmLEr
+ sCDw==
 X-Forwarded-Encrypted: i=1;
- AJvYcCV3+0rN0zQ5Cxa/ZDdTk53yRvEM2o3T9M7eS6WQ/+KawGAaVNHiG4ACcQS2gaizq261tEhUQJCDUv0=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YyS1fRn/w5lsRPvrk7LXpT9yOGeFWZ31fHP138mLLz0rdzMw8Qh
- A0eQyEdrXJ36XJfxfejuDhbzxWZIsaNI1ueskbUxuyK1uVhGSUpX9GVejUL5yQBSJKY=
-X-Gm-Gg: ASbGncvL9fte8FpH1vwIMFJwVaid8yHsxYDjE1WOsTOWV725WOpupnxalfD6BuY91mf
- 6K7ChUc+aq3oU0XKep1EKkchCYeb7VzhK9cf4RZjdSKV4ABotPnVIpUltdwayNaqxOD46hdGpio
- wqQ0FWboS3JxTYBX4ZDbbXQX+i2ZGvi8SrenjXR4u6LC65WGwSkguOvqv6enuN5oemmks9tkcAJ
- BBZZ0BaP1zdRUHhY7iYMQucnLQOmkynAVUbfllOCdThJoCdnYuHb1WZjWk4ihSmgFka42gjYUPH
- DTDWYaR0dPLKqKLLsM8fQIj/oRNkzesO7UfTr6b02WkpAxiK1AiTf39R8sLF5yWNuNfS5+UjbmR
- /8L6N5c3i/dolzg115t5Bsfk3h4RN+pU5B87+SQhcGvkgzs7CbDiuX5fsi7wCCrACDNf7+zykdH
- 36ACjsuOKU8x6xNpwfxnaR7as=
-X-Google-Smtp-Source: AGHT+IG3f1EiisRZ2Ghmy4+ZkeArsqoIDEncz9VaV8Ksohr2DwWKIXQ/Q+IucAz4uItuId/2mUvT7A==
-X-Received: by 2002:a05:600c:4e43:b0:477:e66:406e with SMTP id
- 5b1f17b1804b1-4773088be60mr168636915e9.29.1762275140054; 
- Tue, 04 Nov 2025 08:52:20 -0800 (PST)
+ AJvYcCVHdmmPk1WoW4cQASC5uiqS8JPqIC6+I8lbHHYj6yLkMM/Dv1P9RZGe5O4YUuXzXmcY01IJbgiLowk=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YwgUBxGLre6c7/IXjdyk72H2VG2g6jfaJ+AFX4r8Mvj3XqQyW9h
+ gGY7XkQzdo9zzd1mdP3XpGzPB0U9ta13Ua2GTffTKzmF1eMwbcOrQfWeN9hP3D5jg3IkVFRAa5L
+ HgKwk
+X-Gm-Gg: ASbGncuzAhVhXqzfw9XK1ZEVaVihq9+oj+mmvz9w7RKfPzRLfdhvBhUic0n1//io+zJ
+ cbyuhBnWvfzW8HauT06TA8niWotg578IUZ8V+S8axuGCPyYeKgAzmgPimOKaZr7gFpvRnvcp7Bg
+ kD3aFzCwaUpxItCj2htuVmxgwGoVWl5Jx4LxCkBgNISXjRoJl03umUBhUFtEGnVhzaRdHQGuM5L
+ feIH8HxS4n8VsGxBbkPimDmXSujy+VFDAub79HQoEP9qUQ2BrpEhPWJzHrahMbiWEUjQ5YuXWr3
+ Rp+SbFdAqrNgW32R0PaTYlSdGxL23sOwDur8D2F18HDaSxPOxRNNVjcjeirs1opRe1jeqZX7bYH
+ XC3koz8I+sW6mTi/GTIgUDMTsw6JpQ2Weqldf/q5jRxoglItIq2t23Vykg7eQqj/wFfZKZd9bty
+ Z0MkgKKXrDbrMJfyiUJmLYxVo=
+X-Google-Smtp-Source: AGHT+IGGpxciVU3IC52UvqvLQu7qBBlz9I1KHZxvhIU86nWuSc4WQ8BUqYR3aWCctDbQWiX1UN664A==
+X-Received: by 2002:a05:600c:1912:b0:477:1622:7f78 with SMTP id
+ 5b1f17b1804b1-477308a5e56mr150921885e9.40.1762275458183; 
+ Tue, 04 Nov 2025 08:57:38 -0800 (PST)
 Received: from localhost.localdomain ([2a00:6d43:105:c401:e307:1a37:2e76:ce91])
  by smtp.gmail.com with ESMTPSA id
- 5b1f17b1804b1-4773c394f17sm224276905e9.14.2025.11.04.08.52.19
+ 5b1f17b1804b1-4775cdc2d14sm200645e9.1.2025.11.04.08.57.37
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 04 Nov 2025 08:52:19 -0800 (PST)
+ Tue, 04 Nov 2025 08:57:37 -0800 (PST)
 From: Marco Crivellari <marco.crivellari@suse.com>
 To: linux-kernel@vger.kernel.org,
 	dri-devel@lists.freedesktop.org
@@ -69,16 +70,15 @@ Cc: Tejun Heo <tj@kernel.org>, Lai Jiangshan <jiangshanlai@gmail.com>,
  Frederic Weisbecker <frederic@kernel.org>,
  Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
  Marco Crivellari <marco.crivellari@suse.com>,
- Michal Hocko <mhocko@suse.com>, Matthew Brost <matthew.brost@intel.com>,
- Danilo Krummrich <dakr@kernel.org>, Philipp Stanner <phasta@kernel.org>,
- Christian Konig <ckoenig.leichtzumerken@gmail.com>,
+ Michal Hocko <mhocko@suse.com>, Jyri Sarha <jyri.sarha@iki.fi>,
  Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
  Maxime Ripard <mripard@kernel.org>,
  Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
  Simona Vetter <simona@ffwll.ch>
-Subject: [PATCH] drm/sched: replace use of system_wq with system_percpu_wq
-Date: Tue,  4 Nov 2025 17:52:09 +0100
-Message-ID: <20251104165209.309545-1-marco.crivellari@suse.com>
+Subject: [PATCH] drm/tilcdc: replace use of system_wq with system_percpu_wq
+Date: Tue,  4 Nov 2025 17:57:31 +0100
+Message-ID: <20251104165731.315074-1-marco.crivellari@suse.com>
 X-Mailer: git-send-email 2.51.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
@@ -119,22 +119,22 @@ The old wq (system_wq) will be kept for a few release cycles.
 Suggested-by: Tejun Heo <tj@kernel.org>
 Signed-off-by: Marco Crivellari <marco.crivellari@suse.com>
 ---
- drivers/gpu/drm/scheduler/sched_main.c | 2 +-
+ drivers/gpu/drm/tilcdc/tilcdc_crtc.c | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/gpu/drm/scheduler/sched_main.c b/drivers/gpu/drm/scheduler/sched_main.c
-index c39f0245e3a9..13192e99637a 100644
---- a/drivers/gpu/drm/scheduler/sched_main.c
-+++ b/drivers/gpu/drm/scheduler/sched_main.c
-@@ -1315,7 +1315,7 @@ int drm_sched_init(struct drm_gpu_scheduler *sched, const struct drm_sched_init_
- 	sched->name = args->name;
- 	sched->timeout = args->timeout;
- 	sched->hang_limit = args->hang_limit;
--	sched->timeout_wq = args->timeout_wq ? args->timeout_wq : system_wq;
-+	sched->timeout_wq = args->timeout_wq ? args->timeout_wq : system_percpu_wq;
- 	sched->score = args->score ? args->score : &sched->_score;
- 	sched->dev = args->dev;
- 
+diff --git a/drivers/gpu/drm/tilcdc/tilcdc_crtc.c b/drivers/gpu/drm/tilcdc/tilcdc_crtc.c
+index b5f60b2b2d0e..57518a4ab4e1 100644
+--- a/drivers/gpu/drm/tilcdc/tilcdc_crtc.c
++++ b/drivers/gpu/drm/tilcdc/tilcdc_crtc.c
+@@ -985,7 +985,7 @@ irqreturn_t tilcdc_crtc_irq(struct drm_crtc *crtc)
+ 				dev_err(dev->dev,
+ 					"%s(0x%08x): Sync lost flood detected, recovering",
+ 					__func__, stat);
+-				queue_work(system_wq,
++				queue_work(system_percpu_wq,
+ 					   &tilcdc_crtc->recover_work);
+ 				tilcdc_write(dev, LCDC_INT_ENABLE_CLR_REG,
+ 					     LCDC_SYNC_LOST);
 -- 
 2.51.1
 
