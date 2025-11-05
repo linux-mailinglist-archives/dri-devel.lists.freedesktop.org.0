@@ -2,155 +2,191 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E6102C34842
-	for <lists+dri-devel@lfdr.de>; Wed, 05 Nov 2025 09:41:42 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 65448C34856
+	for <lists+dri-devel@lfdr.de>; Wed, 05 Nov 2025 09:42:11 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E4AAF10E6CC;
-	Wed,  5 Nov 2025 08:41:24 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BA71010E6D8;
+	Wed,  5 Nov 2025 08:42:09 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=amd.com header.i=@amd.com header.b="ILzj+rNh";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="TjasIVx1";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from DM1PR04CU001.outbound.protection.outlook.com
- (mail-centralusazon11010029.outbound.protection.outlook.com [52.101.61.29])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9AE6E10E6CC;
- Wed,  5 Nov 2025 08:41:23 +0000 (UTC)
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 93A5810E173;
+ Wed,  5 Nov 2025 08:42:08 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1762332129; x=1793868129;
+ h=date:from:to:cc:subject:message-id:references:
+ in-reply-to:mime-version;
+ bh=KCpHpNWDsdkbqgu4FIIf9uei7J4XbHtgGPzQNi1drrI=;
+ b=TjasIVx12pQYNWmHeHdcejPTZ3DUyqVOPESi19nmNPhltfE9x7I7WHfV
+ 2vYq7CpyfXXKkVR88jMXSaZNnMzX1cxlU12X/3+F15lnqKdoFFu5IcRxm
+ cRuoNIpajtJN/pOt5vbVAWskjv7tf6MGe0AQOD4T7Xgw4xmhxBwH6Ixbl
+ +Ev4RC80MoDNuGmW0F8x1fAngJayLHuimB675TNi01L9pJwNIdMfof6Kj
+ OlC8jNuQgqlaYVHACCaPoirrhzECNSVi6Xgx+4Nr73Y0M0SN8PqSfKDVs
+ PfAl2bJo65aGcTyc9dN2FyW0lY7wwpklQ8RbqkrlReafWizbKLAK1wA5a Q==;
+X-CSE-ConnectionGUID: j0KZgZufTDm/h4YLsCLgqw==
+X-CSE-MsgGUID: y+eipTaFSwqhyvlpY0qtXA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11603"; a="64471520"
+X-IronPort-AV: E=Sophos;i="6.19,281,1754982000"; d="scan'208";a="64471520"
+Received: from fmviesa008.fm.intel.com ([10.60.135.148])
+ by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 05 Nov 2025 00:42:08 -0800
+X-CSE-ConnectionGUID: cAecrHmLRZireU1WYb2D7A==
+X-CSE-MsgGUID: Pwz7ZfzuT9yr2sCVCm3JlQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.19,281,1754982000"; d="scan'208";a="187695667"
+Received: from fmsmsx903.amr.corp.intel.com ([10.18.126.92])
+ by fmviesa008.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 05 Nov 2025 00:42:08 -0800
+Received: from FMSMSX901.amr.corp.intel.com (10.18.126.90) by
+ fmsmsx903.amr.corp.intel.com (10.18.126.92) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.2562.27; Wed, 5 Nov 2025 00:42:07 -0800
+Received: from fmsedg902.ED.cps.intel.com (10.1.192.144) by
+ FMSMSX901.amr.corp.intel.com (10.18.126.90) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.2562.27 via Frontend Transport; Wed, 5 Nov 2025 00:42:07 -0800
+Received: from PH0PR06CU001.outbound.protection.outlook.com (40.107.208.2) by
+ edgegateway.intel.com (192.55.55.82) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.2562.27; Wed, 5 Nov 2025 00:42:07 -0800
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=pFuA6uIq777r/vNawH9wuKpywKQJ9LRu4a6B1i4P+CNI7BbBebVstY24a3vOQxbpXO8I+vCm/jH/Y/OdJRLNtecpwYFwvdA/FpaiqKXjKWyMZrfirAvltydh0iaO/CZi93ek4xGe/G2W0Yk5f93Sk+6gNyEUYrrB8Z69CDmAJBAqEMpmAQhyyJTvaUN4WYDJZG08NIZ4Sb1TP/4IehncRtGmSsztisM9zEe6o2wXv6AVjWQeSBw4GkuIcKKL1KTo+0WWA4Bm0t979yR/YE6fdtbg8MudpzCjGUndC/zfJeXBa6YydMc4UY+wH5vxbOeiX3VG6ajaSwprHuuNouuz0A==
+ b=qzlREtGOcBSDjisO6LN/FIYm6ID2pMP8Wswc/+a5T5fp7Ubk4DmoO0VjbEE98ZiyHI487P66Wyj5QrJdgFHfh++hTWlLQKNGrPoorkZbeEFr+BJwXCOsxHYPZfIMrmXkEKMWx9grjftn2rRzcNmXqIrbPTuNynvJb912XIqHKPAeCROwiEOaBFykL0EnGmnWQGX2J12RVS9B6c73Fsx5+EsWWaejfiWIkKGHN2nEN+2GnbB1TFxRR+LWRSKxdS2y6yYsWV35nZ+OLUwB4YQdPo6IpfCCt3hfv2BrovRYK+lI9bm50dPs4qjLETYBFcI2t92RJbFzeRDff10pPAZrjA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=zsIbacMQuf9z7tPoFk2c86IusVho4ai/QA2mqKMskG8=;
- b=jyfH7hOByr5Oc7aqdp9XFNonwUxiYb1Q4fJETvmkS2jPCNQAwDXx2IUtciaUpRpDZF4vVRJan4UPZgIz9KB4xEZOxDk5cz3w9PWMRsAkiVxuaihnKK3L51icBe4bFBqZSbDr6zB6Ef+fbKF+zZ5O7y0bdFhx/hmRAaytnHcEgxKOnmfYfJ1AJ7gqe2M/sRCwhv5CoISEAMsH1yDTQXh8BNApPziIPShMTkQZ0g6gdxjYnc2OfTRtI4EFa/k0W8P/tmApoNpH+DLL7KIZb2rn738Q6visbvtjSPfXlugsHLx4oT+C72Bju5Dw76RFIvVic3cnVX/EA4RwV/P96F35Lg==
+ bh=uzhykCCI5nvEY6hkTSy3XOAqp+dVtrOvP+1zUz1ofUM=;
+ b=aKMVkjokFVFaZdDYjGit9B+IVvS9QsNIkNnocXhC8WEihGSnxj4Hm9/Dc6E6ck81j1XfkvprmvL9Ywx756BQeTVy6UKbpaniMS7RP/zXglQgVzdruR4XBcmAa9ZV+no7ThSLgaJ8lwn6Vm7L+CW2ivUmCJhspF6SC3t2jtXQ5BHyREakv4hYF8t9kdKgLNUz66KSuYqTtUKaeYrsdvwzZPXrkW8173jAjpSfxE/TMMz48tcaOg3H+BNcN9axnYf3mukGlZALgrcmNNrXxmERt8JDjc+qT2LJRV8eGEG556s09YvI5wYYjOg+XMhXiJZ28dUZ+OuuXSwJTp6DrBNQPg==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=zsIbacMQuf9z7tPoFk2c86IusVho4ai/QA2mqKMskG8=;
- b=ILzj+rNh7cMvGSaDA/BqfRfWpyZlwHvix5SMc9EaYrrWQLWj6PTIUN/YOHmiKG0oy6Qo5CC4dSwE8NQxSoXIXoojEwwrfDGMzoGpgbBlAQdOcNTW/GNc0ioS61/IjFvf/9yDfL2PCI0rhrDFCbyN9A7jgZ023tL/mGXRsZ97t10=
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
 Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=amd.com;
-Received: from PH7PR12MB5685.namprd12.prod.outlook.com (2603:10b6:510:13c::22)
- by SA1PR12MB8164.namprd12.prod.outlook.com (2603:10b6:806:338::9)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9275.16; Wed, 5 Nov
- 2025 08:41:20 +0000
-Received: from PH7PR12MB5685.namprd12.prod.outlook.com
- ([fe80::46fb:96f2:7667:7ca5]) by PH7PR12MB5685.namprd12.prod.outlook.com
- ([fe80::46fb:96f2:7667:7ca5%4]) with mapi id 15.20.9275.015; Wed, 5 Nov 2025
- 08:41:20 +0000
-Message-ID: <ef0ca8d0-d2a1-4a31-a7da-41c32b40c233@amd.com>
-Date: Wed, 5 Nov 2025 09:41:16 +0100
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v1 15/20] drm/amdgpu: introduce
- amdgpu_sdma_set_vm_pte_scheds
-To: Pierre-Eric Pelloux-Prayer <pierre-eric.pelloux-prayer@amd.com>,
- Alex Deucher <alexander.deucher@amd.com>, David Airlie <airlied@gmail.com>,
+ header.d=none;dmarc=none action=none header.from=intel.com;
+Received: from CO1PR11MB5057.namprd11.prod.outlook.com (2603:10b6:303:6c::15)
+ by CY8PR11MB6986.namprd11.prod.outlook.com (2603:10b6:930:56::7) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9298.7; Wed, 5 Nov
+ 2025 08:42:06 +0000
+Received: from CO1PR11MB5057.namprd11.prod.outlook.com
+ ([fe80::3b75:a8d2:464e:30cc]) by CO1PR11MB5057.namprd11.prod.outlook.com
+ ([fe80::3b75:a8d2:464e:30cc%3]) with mapi id 15.20.9298.006; Wed, 5 Nov 2025
+ 08:42:05 +0000
+Date: Wed, 5 Nov 2025 08:41:52 +0000
+From: Krzysztof Karas <krzysztof.karas@intel.com>
+To: Marco Crivellari <marco.crivellari@suse.com>
+CC: <linux-kernel@vger.kernel.org>, <intel-gfx@lists.freedesktop.org>,
+ <dri-devel@lists.freedesktop.org>, Tejun Heo <tj@kernel.org>, Lai Jiangshan
+ <jiangshanlai@gmail.com>, Frederic Weisbecker <frederic@kernel.org>,
+ Sebastian Andrzej Siewior <bigeasy@linutronix.de>, Michal Hocko
+ <mhocko@suse.com>, Jani Nikula <jani.nikula@linux.intel.com>, Joonas Lahtinen
+ <joonas.lahtinen@linux.intel.com>, Rodrigo Vivi <rodrigo.vivi@intel.com>,
+ Tvrtko Ursulin <tursulin@ursulin.net>, David Airlie <airlied@gmail.com>,
  Simona Vetter <simona@ffwll.ch>
-Cc: amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org
-References: <20251104083605.13677-1-pierre-eric.pelloux-prayer@amd.com>
- <20251104083605.13677-16-pierre-eric.pelloux-prayer@amd.com>
-Content-Language: en-US
-From: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
-In-Reply-To: <20251104083605.13677-16-pierre-eric.pelloux-prayer@amd.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: FR4P281CA0065.DEUP281.PROD.OUTLOOK.COM
- (2603:10a6:d10:ce::8) To PH7PR12MB5685.namprd12.prod.outlook.com
- (2603:10b6:510:13c::22)
+Subject: Re: [PATCH v3 0/3] replace old wq(s), add WQ_PERCPU to alloc_workqueue
+Message-ID: <34ozsv3e6ujs4rn6c2r4nrjcjifgazddy5jecwur6atfcop6vp@bunf3uyofmb4>
+"Organization: Intel Technology Poland sp. z o.o. - ul. Slowackiego 173,
+ 80-298 Gdansk - KRS 101882 - NIP 957-07-52-316"
+References: <20251104100032.61525-1-marco.crivellari@suse.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Disposition: inline
+In-Reply-To: <20251104100032.61525-1-marco.crivellari@suse.com>
+X-ClientProxiedBy: TLZP290CA0006.ISRP290.PROD.OUTLOOK.COM
+ (2603:1096:950:9::16) To CO1PR11MB5057.namprd11.prod.outlook.com
+ (2603:10b6:303:6c::15)
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: PH7PR12MB5685:EE_|SA1PR12MB8164:EE_
-X-MS-Office365-Filtering-Correlation-Id: 1f2d6f09-2c75-4d04-8da0-08de1c471804
+X-MS-TrafficTypeDiagnostic: CO1PR11MB5057:EE_|CY8PR11MB6986:EE_
+X-MS-Office365-Filtering-Correlation-Id: 9dd40125-b25c-49b1-bcc6-08de1c4732ed
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|1800799024|376014|366016;
-X-Microsoft-Antispam-Message-Info: =?utf-8?B?RjNyMGV0QWlMRFI3Z3AvSUJheDB0K2VTOTA5REt1OFROUXB6TDFpanAxYjdE?=
- =?utf-8?B?M3Q5QmlieEVxY3RINUZZZDRPRzRlaTF4RUFiOXpscVdEQkx0SmUralJmWjc5?=
- =?utf-8?B?TG5ueEpidDVOZ0VGS3l1OW5RT2hJV3pidzljUURObFFybTg0MWsyWWVTcEZZ?=
- =?utf-8?B?dnRMMy9qZmlldGVuTVlLWlhESUFxWjBEWTdUdERNVU1lM21QeHpvMTJZeVNT?=
- =?utf-8?B?aDAxcDNCaFZoSEt1aW5UUFhXK1hQVE5nQWRpUGdoalRXaXQ0b3JGOFpjNWhQ?=
- =?utf-8?B?Z2s4OGlaUVNaaFR3Ukp6NFcxNTB0bU9oVVdSR0VhZ2NtdWFWdmMyYmkydk9Z?=
- =?utf-8?B?eXN4d0VQM1F1ZVNFSVlMTDFXbFJ3R3VadDAxc2NtTU9GTGVhR0VvZzJaVUFh?=
- =?utf-8?B?czFDcmpHMzh4RXpoQ1o4SnZkNGZvaDdUQWRlaXk5eTJmNjMxN3pFQ2NKYzRF?=
- =?utf-8?B?ZTFTSEN1M3lmNXhSZVNjcWpKMXgydUVvdkdqZ3llWUE4Y21YK3VJOW9xQkU0?=
- =?utf-8?B?ODVkR1NicDJSVWlqam1CU1ZvaElrR0NOcVpMQkVMTVVFQjIyMFZCQXZsdnZu?=
- =?utf-8?B?cEIxQnBkWWgwV1g4YTlTdUdiSzVsYUdqcnBzUmlSbHEyeU1sV2d1ZElDYUgz?=
- =?utf-8?B?RFVWaDZGVS9sRTk5KytqV2VuS0ZRcFl2RHk1YUJQWVVLZDNHUHFqcm11U0Jj?=
- =?utf-8?B?VHQxQVVLYitDQ3FLeEN4MTlnR1llNWs5cThGMmxTRjZBMlZQVGNDbXVOR3pD?=
- =?utf-8?B?dkZPakMxT3pDODl5dVlLOTVaWTlrQVFITmthRll4bEUzQVl6ZmdobXNQdWcx?=
- =?utf-8?B?bUcwdG1pdzVhUDRkMngvOXJJRFozRkFSM3JXc040bHVLd2dCWFNKaXowcHhS?=
- =?utf-8?B?UlhJOFZpVVM5cjdNN1pKMHRzYnNPdnFObncrSk4vS3I0ZUEvaUpWN2U1NWFy?=
- =?utf-8?B?cmsxTUNIMmFUaThDZXovWDRBSFVrT3c3TGdpdFM2aG5zY2R3QmJYYzBFVER2?=
- =?utf-8?B?d3czZEFHYnY5UXBRRC9SSUhOS1EwSXRHeTdVZ1I1OEZRK015UW96b05VV3hH?=
- =?utf-8?B?SXBvMkJzaGUxVTFkNjJkQlFUd1VlVjgxbnRiejJRMXpNbFZpUGxoZnE0NGRF?=
- =?utf-8?B?cXJyemxxbGxiVWszcHZVV2Q3Qkd2RHBEci91UUZVdktxdHhpMHhTSHlmVUV4?=
- =?utf-8?B?YU1pTVQ1TVlIS1hMOVVrR2NRcTFIeS9iQUpDOW5DWDNSTld6MU5sNmZOcXo0?=
- =?utf-8?B?d2lVRDJNZFBLcU1VOXIxOVNvbDd6ZlZjTTg3NEIwYkxzdVp4QzhBdUxtMXky?=
- =?utf-8?B?SkVHR0VkcTFjU0tvSnd0SUtaR1pERDUrYmhlaktnTW54cHA1V0VTOVdFeGh0?=
- =?utf-8?B?alRnTHJNOWNPTWc3d2dIZjNGVnNLb24rbk5SV0w2bkZSZWMwckRMbW12Qk03?=
- =?utf-8?B?STU4QWE4UXNWOWtkdktSNFVPcnV4dUdxcnliU2RrdzVUVkg1S0oyNFhaMTBI?=
- =?utf-8?B?ODR0OTNYNHI0OHo3RVMrY1lNcXdvc3FsOEkxMTQ3Wi9rZEVhYnJVbi9aNXUz?=
- =?utf-8?B?UHc0c2tOdmtvaDIxSFBaQnE4Y0dNWGt0anRtbkJYaDY2eFo3eUVYanBsRzl0?=
- =?utf-8?B?Q1RtVmRFdWZnZkZDVE00QXhNV1ptYWxSZFRWeUlYNGFtVUlqYWxnbkcwVEJD?=
- =?utf-8?B?ZmtDc25CUW44T1l1eFBhVGYyWW1SdWxNVk11bFFVU1UrV2prSXBVWFlETFU3?=
- =?utf-8?B?ZU5VcUhOOTZBVnRnOEF1SUsyL1JkMW1pSXFLdldiTUM2VVZOazlyWmFJN3M1?=
- =?utf-8?B?ZDdvZnpCQnY1RmhER3VZM214TEUzeDluazhETHJCK0RTR3dFeFNJQ3hRQnJw?=
- =?utf-8?B?WlJXa3hUdVRuVm0xN0FWeFFwQVZRVG5pbEhTU1J6ZlZSUmxlOGRCRDlOcGxh?=
- =?utf-8?Q?WTKzrxYjPHwH++QpHt+IBYIfg5Prnr+v?=
+X-Microsoft-Antispam: BCL:0;ARA:13230040|366016|7416014|376014|1800799024;
+X-Microsoft-Antispam-Message-Info: =?utf-8?B?MUF5UExNdFpUb3FlYzJXalB0UmhObnVwOWlDaktZWkg2TWQxMFpJMm94SERY?=
+ =?utf-8?B?bGlWay8xVmVscGJiZnlNS0Z0M1lzUEhvazFVSkY2RkovUWE1U3FZT3MzRi9s?=
+ =?utf-8?B?Y0dlczZNcHk0WjN3UkdoTHYxeGxncmliNGkvRzVYeFM3QXlPUHoxaW5pRkdL?=
+ =?utf-8?B?REhqWDl6Y3FFa3I2SmdrMlNxZ1dKcTVod3dHb1A1VDVDWXBQd1JrcjNaeGVK?=
+ =?utf-8?B?aUxpandxdlBQTDNQMjV6M2NtYlJ6N05pMXBUaW1YRFEzR2VQd1NnUFJ4VnhP?=
+ =?utf-8?B?RmtEUTE1NDRJUTViRWV4TTM4MS92bE5pRHRROHB0dW54b2hRVHNpK29KRnhN?=
+ =?utf-8?B?TC8yUWg5V3pFTUwzdXlFVG1CYm9rTFo1eHlKYXNqdGlnWS9WL1ZQWlF1N2kr?=
+ =?utf-8?B?UDFkRVNiUW9WaW8rc3pZNjRGdWNmd1MxbXdhR1E1MlpDTm9kZTY2TVkrME9w?=
+ =?utf-8?B?ZUJuNmZmRXFIb2ZHcjZKRnJtTGEzQ2g5RU83TmlidVJyUFI3NnJoM0tIOXAy?=
+ =?utf-8?B?WGR2OVJrdmNiWUd1bWR6ZHllU041bXRYaVdNS3MrcDBkaWUzVmQ0Smoxekg2?=
+ =?utf-8?B?L25Za2ZLQm4xbnB6QUo4ZGxxUGsySllDRElKRnR1RnVFM3dCS1BzNU9lczRY?=
+ =?utf-8?B?Q2RaNE1mY3dEQktsTXZ3eno5VHovSVNlK2EwbXVwdHdoci9NWnFLMDBWTUds?=
+ =?utf-8?B?TjlBWHhCem9KL1QxaEdjakVtbjJ0ZmdzdWgzOVdkM0dXaFEzZk9YMUYwUHVa?=
+ =?utf-8?B?QnliZzFOSmZEV3ozdnU4a25vcW9IZlkzUllqL1liTGxjeXlxMU4xUURnNkR5?=
+ =?utf-8?B?cGJKM21MVklRR1owL0NIQ2FSQzk3SWFEOFFFRzExRFZqV1NzRE0yU2RZdHNB?=
+ =?utf-8?B?NjFPdDdPc0ZEWTJHdnRmV0FxVTRyRzFzRmltN2kxbEYyTzM1SjBXSEtnNWIz?=
+ =?utf-8?B?c3VUOXp3TmthN1BPVEcxc25FdnM2Ry93U014VWg3cUFIZS9mRmNnQ1pvTzhl?=
+ =?utf-8?B?OExkam5wbWdRUkQvVndwVkJudmcxK3ZSbkNIYVpJbmh4UU5jQjlxc3pldDN3?=
+ =?utf-8?B?UDltS3oyRmJyTmxuck9DeDBCVk80dFRTVE5SRjdKUTBKelpkSVpVbjM3ZDY5?=
+ =?utf-8?B?cEtidm4zTkV6a201WEJZY0Z5aGNsZWNoTEd6ZFNYUCs0NlltUlBsY3RwK01q?=
+ =?utf-8?B?bjFRQkJCL3h1c0o1TEZXb0RZVCtJcERMLzhYWmVvbms2RXBOcW0xOFpJR01L?=
+ =?utf-8?B?R2x6SUwvYW50M3hXdVpyUE1uUFB6YkQxS0tNZ0RDSlhzMURKOVZ2TWN6UDZo?=
+ =?utf-8?B?b2lOdkhER3lVcHQvdURBdFdOWUF1czBkMENwdjZOYzNFVFpPeWtqOTdnTTJY?=
+ =?utf-8?B?Sk1ScVl0djZqTkhiSHFnMlNxd0dUd1FMLzFOSEJ3VFVFZnZUWHhCaGxFaHhl?=
+ =?utf-8?B?QXk3R0xKUFBBMWRKK3BMQjQybEZvVDNjQ0hVanVudU44dEdIaDg3NGFLWC93?=
+ =?utf-8?B?WU9sa3dpNnBXM1JoMTRYekluQXlpWWV2UU4wYUM1dFUybEp6VUp0SXI2UU9z?=
+ =?utf-8?B?OHRGRFVkdUthanF2dUhsbHdZOHdCdHRMQWQxU2dUcTg2WHhCYnI2UzdGK3VH?=
+ =?utf-8?B?aklyQm51b2lvVk5kV0xiYU5kNEpvaFJmNVBhL3BwNGhIRFFNWHNuLy9BZTJ5?=
+ =?utf-8?B?K05tZWhHT2RhRUd1MnNQTXMxSjFqZUZGWHkrSjFQQ29MQTl2VXVOeFR6TjJa?=
+ =?utf-8?B?NUM3aDc5NTVZaXlWbExvMkIzODFtTUN1TlhpZHdMWEthVndpeTJaV3ErN2xl?=
+ =?utf-8?B?ODh3YzBuRGtZOFp6Zi95aGRqcVZuVEsxSjBNVi9CSU5jZjhtN0NYNU9qMFFk?=
+ =?utf-8?B?NzBjYnNtcVdOU0toS3kzZ1MybWZacEFpamNkQlRUWWNKdzZIeGljVnlZajZU?=
+ =?utf-8?Q?5PK2zaf7IrOqG65GphEZj3gy86v9rRD2?=
 X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:PH7PR12MB5685.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230040)(1800799024)(376014)(366016); DIR:OUT; SFP:1101; 
+ IPV:NLI; SFV:NSPM; H:CO1PR11MB5057.namprd11.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230040)(366016)(7416014)(376014)(1800799024); DIR:OUT; SFP:1101; 
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?UUtJU2IyUGpsMW5uME5ieDdXUTZmeS9NYzhiTlJzbXY4dG9oNmhWV3JkZ3dz?=
- =?utf-8?B?RnpDMGdtYzlpazJwZUZLN1ErS0FNRTM5V3ZUZ0xWczBCQjVQV3pnL0tvWFl0?=
- =?utf-8?B?SWNDNUM3d0RxUXdOblkxL3dJYUprUXlGakdmVDZqb1lXSDU3S1gzTUxkQmZ2?=
- =?utf-8?B?RFhUTW9Yek1MQ0Z6OWJ0VEJqcjRpc0dMSVM5a2tUMms1SWNVbThHbEliTGx6?=
- =?utf-8?B?Mm8rK2tBWHdDZUN5MDN2VVBJU2RzdFd3MU9iNy9nUytRUFYwMk9RSzN1eEJM?=
- =?utf-8?B?NzkrVTV1SkYxbFUwNXhhNzgyenMydHlUM1lVOWI0ZVVGWElGTXhMaWJTUE5v?=
- =?utf-8?B?RU1IbW4vQlJ4aDNPcFQ1NDFoUktPcW5adjRwa1lwTktXSEh3L2pUTUZWdFY5?=
- =?utf-8?B?OU5UUmVUbkVTRzd3NFFjU0FBdGRHNW1jZTZsME9TZzR1Y0ViazNvdTZ0bjZx?=
- =?utf-8?B?WUFxdzRuYzFDN3pHMTZMdVBLK2Rkanp3eFgyV25QZEQrcWYzSkFwQzN3cStl?=
- =?utf-8?B?M0wvMU55WXVYZk9FeEZqS1luZS95VVZ4RXk4RGgrLzlMbXBydkZnNXp5Q1gx?=
- =?utf-8?B?WURnWkdSWXFWTjFYSXFvL3p4aVF2L3A0MkNQTFJDQnp3WnNyUTVIYWltczg0?=
- =?utf-8?B?c0xmdjVyaEJ5ZC8xcEtYRTlocmx4aXAzbzhDV0JFdmkrSmJGWlpuVHk2UDFN?=
- =?utf-8?B?cWRYWUI2TVhBREkyRWs2b3A2MllpRTdCSEJCc0FwU1lvMENQWUVnWDRGYlQ5?=
- =?utf-8?B?Z29pa2dFY2QyZkk1elJkT1JlUldVUmtSVm9obTdKVnRYbGlDZFRzZ3E4MFFy?=
- =?utf-8?B?VzYvUlFwVHdQSzJJcWdVTzNla3d6d2E3MGJPdjVRZE1TVlUwS1BYcUFleEFv?=
- =?utf-8?B?eFZUb2hveURERldycUdybWxvS25sYWlQd29QTjRjemlMYUloRmtnTjZ1eFp6?=
- =?utf-8?B?QW1qMWN5TTRXbGV0K214SGFpOURGU1dQSVk3enVvL29HanFaL3FDYnpTbGhS?=
- =?utf-8?B?MnR1RU5zUFJqRHNFeWdWMmFNaCs4MjV0MTg5ZDkyeUtPNHlObCtuTlFPVUxX?=
- =?utf-8?B?ZDZhT0ZKVFMyYVArbnpwdFQwRkxyUkovRDdaQTUzNG1idVdXWDQ3bkxDVWtu?=
- =?utf-8?B?eU5SK3ViNElqNWN3amNpMFlIdlRHbklTRk01SW1EanZpVUszSS9oa0tpTVRo?=
- =?utf-8?B?VGoyNGNVdTBtaWR6M0ZxTXpnc2Zac0dTQldyalNFaGFlekd0NmRsbWF6cXhw?=
- =?utf-8?B?dFVFUXluTVl6SWlSQkpHYlY2ODhKb3hsdVFtUU5TWUJrQ1g4bUxKNWlWYnRE?=
- =?utf-8?B?WmJjbFhyUlZ2TkJpWGErZHZIaXFKQlovQXNQZXMyQ2c3SEVrLzE5WmY3KzU1?=
- =?utf-8?B?ZzZXaEVHTHJpcHZ5bXc1cXhmZlJLcXFiM2dxcW84emxlOTEzcktCUE9GZmgw?=
- =?utf-8?B?cU1HNWYrSUxYRlgzbFBvbjJzaUY2ZkUwMzZPU3c3cFB3b3JFdWIyVmVnU0Vj?=
- =?utf-8?B?ZVBuKytseHdDc3FGRm9JZGxFY3plQ0Y4NUEwTW9IMWVCNTZGUzZ4d1BXYkJW?=
- =?utf-8?B?R2NnelJoczZoZXQ0L0Z2cmlRWjc3ME9LVUZ3OGp2RVBrM2lYZHFpVDV0UG91?=
- =?utf-8?B?alBxUTVwamQvK1M0WVY3MWtNZlppU24xeGo1Z09yRFEzcWwwVTRXTy9WRHFO?=
- =?utf-8?B?UkNMVXowMVROUG1QQmxmWlQrYWRaTDlRZG51WTE5Sk44UzhRb0JFMk8zUGpo?=
- =?utf-8?B?VkpkcFRRMERxbk1NTHh2L2p6NG1pWTNzbUFYYzZmSFRGNFovaWFTclJWcHhX?=
- =?utf-8?B?N1lGQitQMGlXQ2FrQ1B5WndJL2ZmdURXT3ZMaEwyZnFyYWkvZlNOUCtuSFl3?=
- =?utf-8?B?eWpYSWJGeGsrQWFzVXRkTStPQkRXbk0zbDJMamxBelhRUmJoWWZMSmJQTUpK?=
- =?utf-8?B?WU9YOFZNWVM5M0wyUjBBeDBxeEptU1RRMTQvckxzQkRibzNNTXVIZ1NnditF?=
- =?utf-8?B?TFZyOWlCK3l2YjBRTkdJclBnWnNsRUxETUZHbWY5eXpoYVFPTTJwSHE0SU9T?=
- =?utf-8?B?NjJjRDllNm9Kb21LS0NMd0VEQTFQOVhuK0ZCb2d4Mk1mOFFPSVl4bzhQamF3?=
- =?utf-8?Q?0QoayDEcQvC3kjySC1K0XKG8f?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 1f2d6f09-2c75-4d04-8da0-08de1c471804
-X-MS-Exchange-CrossTenant-AuthSource: PH7PR12MB5685.namprd12.prod.outlook.com
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?OUhFeXpGY1A3eEdscVN0VERqTklQYWZWT0FMVWwzd2RDWnFSbnZpdnd0VXJR?=
+ =?utf-8?B?RnJUVkdSdC9yNm9RcGR5T2VPaFRjMDl5OWdxVmpTK1NEQVFVQ1lUYUJLYm9E?=
+ =?utf-8?B?Wng0Wk9wWkVFMExNQVpRUTA1OHA3K2R6Ry9DU2h4dDZjSzU2bnU4QTBrMWhx?=
+ =?utf-8?B?WS84NEhwWmV5aFZGSHMrbm9hL0NrSU5LOFYwNkU4aEpiNVNRVVNiYldiUDF2?=
+ =?utf-8?B?UU1lSFhKbEVpVXdEMEcrWUJ6ZjJOYmxWTG1pUmFCdkZxNEpKZ3pxZWxoTXRn?=
+ =?utf-8?B?b1hRa3JBalZHT1ozaGU0NXZKUHE4UUhuVzc3YVhhb0xiVEZzVnBUZFc2OVpw?=
+ =?utf-8?B?UnNsQjAvSk5kYVFXdFhMcW1yVk9ZQi9taXhVNTNvcWF6R3NPdnFUSmkxWFlT?=
+ =?utf-8?B?QVl0bUJsZTZqa1l4elhTZE5CL3VnK05ZVUlVbHZ6NWx2NlRTMFRZbGJ2amsz?=
+ =?utf-8?B?TGhnTG5SeGgyZ3BwQmczL0FyUXpCdThXcm5QUXJzQXJEU3M3akFsNHZZbkh5?=
+ =?utf-8?B?a08zZnBWcjFOVDJBUUFwd1MyblNybDQwbzZaNmt4Wm1wejFaUVVodUFZOHhV?=
+ =?utf-8?B?TTEvdXdHRUI0TjlHTUMxTVhPTldxc054SGJGeklISE5JSFpPeUhLMkZWWVZX?=
+ =?utf-8?B?Nkx4aDAvYnlrMU9meEt0N21QaWt0MDc1d1ZrQ0dnVVNlbWozUEhMcEVBVUp2?=
+ =?utf-8?B?QVFEOGNid1Q3cndSNmZPelE3eHhLZitUc0NHdUwxdlYyWXhTUWtMZk5QZDMw?=
+ =?utf-8?B?dTIvb0VxMXRua1NWSncwKzJyemNFRTZiNlFrMWcyOG1aWDdvK1VKNjZMT2JT?=
+ =?utf-8?B?b2J3MFY4Smdsc2VMNzRxN2lGV3VGcnBjdjJncmFBMDQ4R2E1U0lMdE9rU0wv?=
+ =?utf-8?B?SjlhaGRsWk85a1Jna3UvWlBFQnZBa2RidkNKNys0VyswQ3oyRVU4dnd1OW1o?=
+ =?utf-8?B?K055b1ZnU1VvQThNSHFueHBHakVXYTEwWlJwbnJKUkRzV1BvOGdwUjJMNFUz?=
+ =?utf-8?B?d0RmV1lqaDdsYmNVSkxEYm5nWHgveEZYL1F0MjdwL1R1eENmdEszN25kWFdJ?=
+ =?utf-8?B?U3VmZk13TUxVUHV2Y3hMV2tCUlpUaDd2eGZjRE9lTVQ4MlBHTDVOeWNNSjNQ?=
+ =?utf-8?B?OVNzUnhiU0NkcDJXZnhQY3pObTlJc29xb1hQc1U2T0VkdVNjbWVUOFBMVEN5?=
+ =?utf-8?B?cXlsUFovMnNhTmRiUTFFQ25TdHdIRXF6cGk0NDU5M1ZoKzdqT0YyQ2VBeldT?=
+ =?utf-8?B?ZFdZQTY4VzAxc0J6V081bDkrZUlVUnQwZ3dweFVwQk1ONnVGUDVNdVY1WVNB?=
+ =?utf-8?B?amcxTG1pVU01MzFUTk9mSk5RN0I3UjVLOWk5YWRSckRUS3NLU1Z5cjBwU2Ft?=
+ =?utf-8?B?S2lrdldlMzRRcVl5Wk1Ma1J0WGx4ZTBJTzZ2dzUwSWppdDRPaVAwbVRXWTJa?=
+ =?utf-8?B?Y3V3TUQ5NWZnMkg1UHRYdGlCVEwvQnk2TEN2S3BuOTZZYzhUd2ZhVkhFOUM3?=
+ =?utf-8?B?Nm1JdlgvWkY5YTVxRk9OMm9pZXpDNm5kN2R2RWxYaWVvV2l5SUQzM3ZERUli?=
+ =?utf-8?B?dXFyNW1XZVY5MGtBVU9od1pLbVRybDErRzZYTHorL1VoWjhncFg3bEtPNFZE?=
+ =?utf-8?B?VG5oeWtjUmtmZjNzZXVKUmlJa3VYazBJZEZtS01lcTQ5UGtRanhucHRLeDIy?=
+ =?utf-8?B?T2g3NDBTemovY0lxUFNSRVFTZlR4bEV3MjgxVWtLdmNEYVJWUmJId2w1clBJ?=
+ =?utf-8?B?MEk3aHB0dk9XRUZKZDdwdXAxTUhpYW1rL0hVNVdHK2ZVZVVkSDNEeFB0NVRN?=
+ =?utf-8?B?Z2FtYWJIL0tIc1NGcHNqRHl4TzRmUlBobkUzc2swbDc4RngvL2k4MkF5US9C?=
+ =?utf-8?B?RXF4ZFRTRW9PQnE4VXdueEtHY0t6ZU9GQTc1ZEhyd0tyV2JCUXJ2UmpZZktm?=
+ =?utf-8?B?a094WmtEUUZ3RnJIQjJnRUpkZVJ1QTdkbWVnSTV5YnpsOWlsTTNFYU42ZXNt?=
+ =?utf-8?B?TU9FY2lVV01hM1FQZ1RjbjIvSzN2Q0d2Rjl0TEdqS0pMMGl2RUJnUytlWVYy?=
+ =?utf-8?B?aGdOT2xuRUlHQkl3TDI3dFJhWFVUUC9GUDRHWXdzUjVNOFkvNmZLWUV2ZnRi?=
+ =?utf-8?B?VHZIbDhIWGFSYkw4R25VWUt0cUZEUktETnpEVnpYa1p2NCs4S3dpWFI4T1A0?=
+ =?utf-8?B?bEE9PQ==?=
+X-MS-Exchange-CrossTenant-Network-Message-Id: 9dd40125-b25c-49b1-bcc6-08de1c4732ed
+X-MS-Exchange-CrossTenant-AuthSource: CO1PR11MB5057.namprd11.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 05 Nov 2025 08:41:20.7776 (UTC)
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 05 Nov 2025 08:42:05.7444 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: bXje7/8GPSWqlgzXzLCco9h70ZMVSMg3XmQ+WqefjMUKWZ4qtEhBMrZ/+wIm+6US
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA1PR12MB8164
+X-MS-Exchange-CrossTenant-UserPrincipalName: HBbioRpewevDGesZNWPD18rE6RD4d5Ta/0N5Ht3zO8uhEgZtByjdhB9rspKPLU107gzL5jfSgdg5iYE8wkcTyUyzgc/iIwgWHqzqOotNjRk=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CY8PR11MB6986
+X-OriginatorOrg: intel.com
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -166,277 +202,112 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 11/4/25 09:35, Pierre-Eric Pelloux-Prayer wrote:
-> All sdma versions used the same logic, so add a helper and move the
-> common code to a single place.
+Hi Marco,
+
+thanks for addressing my comments!
+
+Reviewed-by: Krzysztof Karas <krzysztof.karas@intel.com>
+on the whole series.
+ 
+Best Regards,
+Krzysztof
+
+On 2025-11-04 at 11:00:29 +0100, Marco Crivellari wrote:
+> Hi,
 > 
-> Signed-off-by: Pierre-Eric Pelloux-Prayer <pierre-eric.pelloux-prayer@amd.com>
+> === Current situation: problems ===
+> 
+> Let's consider a nohz_full system with isolated CPUs: wq_unbound_cpumask is
+> set to the housekeeping CPUs, for !WQ_UNBOUND the local CPU is selected.
+> 
+> This leads to different scenarios if a work item is scheduled on an
+> isolated CPU where "delay" value is 0 or greater then 0:
+>         schedule_delayed_work(, 0);
+> 
+> This will be handled by __queue_work() that will queue the work item on the
+> current local (isolated) CPU, while:
+> 
+>         schedule_delayed_work(, 1);
+> 
+> Will move the timer on an housekeeping CPU, and schedule the work there.
+> 
+> Currently if a user enqueue a work item using schedule_delayed_work() the
+> used wq is "system_wq" (per-cpu wq) while queue_delayed_work() use
+> WORK_CPU_UNBOUND (used when a cpu is not specified). The same applies to
+> schedule_work() that is using system_wq and queue_work(), that makes use
+> again of WORK_CPU_UNBOUND.
+> 
+> This lack of consistency cannot be addressed without refactoring the API.
+> 
+> === Recent changes to the WQ API ===
+> 
+> The following, address the recent changes in the Workqueue API:
+> 
+> - commit 128ea9f6ccfb ("workqueue: Add system_percpu_wq and system_dfl_wq")
+> - commit 930c2ea566af ("workqueue: Add new WQ_PERCPU flag")
+> 
+> The old workqueues will be removed in a future release cycle.
+> 
+> === Introduced Changes by this series ===
+> 
+> 1) [P 1-2]  Replace uses of system_wq and system_unbound_wq
+> 
+>     system_wq is a per-CPU workqueue, but his name is not clear.
+>     system_unbound_wq is to be used when locality is not required.
+> 
+>     Because of that, system_wq has been replaced with system_percpu_wq, and
+>     system_unbound_wq has been replaced with system_dfl_wq.
+> 
+> 2) [P 3] WQ_PERCPU added to alloc_workqueue()
+> 
+>     This change adds a new WQ_PERCPU flag to explicitly request
+>     alloc_workqueue() to be per-cpu when WQ_UNBOUND has not been specified.
+> 
+> 
+> Thanks!
+> 
 > ---
->  drivers/gpu/drm/amd/amdgpu/amdgpu.h      |  1 +
->  drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c   | 15 +++++++++++++++
->  drivers/gpu/drm/amd/amdgpu/cik_sdma.c    |  8 +-------
->  drivers/gpu/drm/amd/amdgpu/sdma_v2_4.c   |  8 +-------
->  drivers/gpu/drm/amd/amdgpu/sdma_v3_0.c   |  8 +-------
->  drivers/gpu/drm/amd/amdgpu/sdma_v4_0.c   | 12 +-----------
->  drivers/gpu/drm/amd/amdgpu/sdma_v4_4_2.c | 12 +-----------
->  drivers/gpu/drm/amd/amdgpu/sdma_v5_0.c   |  8 +-------
->  drivers/gpu/drm/amd/amdgpu/sdma_v5_2.c   |  8 +-------
->  drivers/gpu/drm/amd/amdgpu/sdma_v6_0.c   |  8 +-------
->  drivers/gpu/drm/amd/amdgpu/sdma_v7_0.c   |  8 +-------
->  drivers/gpu/drm/amd/amdgpu/si_dma.c      |  8 +-------
->  12 files changed, 26 insertions(+), 78 deletions(-)
+> Changes in 3:
+> - Improved commit logs
 > 
-> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu.h b/drivers/gpu/drm/amd/amdgpu/amdgpu.h
-> index a9dc13659899..dead938a59a4 100644
-> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu.h
-> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu.h
-> @@ -1614,6 +1614,7 @@ bool amdgpu_device_has_display_hardware(struct amdgpu_device *adev);
->  ssize_t amdgpu_get_soft_full_reset_mask(struct amdgpu_ring *ring);
->  ssize_t amdgpu_show_reset_mask(char *buf, uint32_t supported_reset);
->  void amdgpu_sdma_set_buffer_funcs_rings(struct amdgpu_device *adev);
-> +void amdgpu_sdma_set_vm_pte_scheds(struct amdgpu_device *adev);
->  
->  /* atpx handler */
->  #if defined(CONFIG_VGA_SWITCHEROO)
-> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c
-> index bc11e212f08c..b66e41e979ad 100644
-> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c
-> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c
-> @@ -3210,3 +3210,18 @@ void amdgpu_vm_print_task_info(struct amdgpu_device *adev,
->  		task_info->process_name, task_info->tgid,
->  		task_info->task.comm, task_info->task.pid);
->  }
-> +
-> +void amdgpu_sdma_set_vm_pte_scheds(struct amdgpu_device *adev)
-
-Please also add the vm_pte_funcs as parameters since those should always be set at the same time as the scheduler instances.
-
-Apart from that looks good to me.
-
-Regards,
-Christian.
-
-> +{
-> +	struct drm_gpu_scheduler *sched;
-> +	int i;
-> +
-> +	for (i = 0; i < adev->sdma.num_instances; i++) {
-> +		if (adev->sdma.has_page_queue)
-> +			sched = &adev->sdma.instance[i].page.sched;
-> +		else
-> +			sched = &adev->sdma.instance[i].ring.sched;
-> +		adev->vm_manager.vm_pte_scheds[i] = sched;
-> +	}
-> +	adev->vm_manager.vm_pte_num_scheds = adev->sdma.num_instances;
-> +}
-> diff --git a/drivers/gpu/drm/amd/amdgpu/cik_sdma.c b/drivers/gpu/drm/amd/amdgpu/cik_sdma.c
-> index 25040997c367..f2515de65597 100644
-> --- a/drivers/gpu/drm/amd/amdgpu/cik_sdma.c
-> +++ b/drivers/gpu/drm/amd/amdgpu/cik_sdma.c
-> @@ -1347,14 +1347,8 @@ static const struct amdgpu_vm_pte_funcs cik_sdma_vm_pte_funcs = {
->  
->  static void cik_sdma_set_vm_pte_funcs(struct amdgpu_device *adev)
->  {
-> -	unsigned i;
-> -
->  	adev->vm_manager.vm_pte_funcs = &cik_sdma_vm_pte_funcs;
-> -	for (i = 0; i < adev->sdma.num_instances; i++) {
-> -		adev->vm_manager.vm_pte_scheds[i] =
-> -			&adev->sdma.instance[i].ring.sched;
-> -	}
-> -	adev->vm_manager.vm_pte_num_scheds = adev->sdma.num_instances;
-> +	amdgpu_sdma_set_vm_pte_scheds(adev);
->  }
->  
->  const struct amdgpu_ip_block_version cik_sdma_ip_block =
-> diff --git a/drivers/gpu/drm/amd/amdgpu/sdma_v2_4.c b/drivers/gpu/drm/amd/amdgpu/sdma_v2_4.c
-> index 149356c9346a..4b2c7f75eadb 100644
-> --- a/drivers/gpu/drm/amd/amdgpu/sdma_v2_4.c
-> +++ b/drivers/gpu/drm/amd/amdgpu/sdma_v2_4.c
-> @@ -1242,14 +1242,8 @@ static const struct amdgpu_vm_pte_funcs sdma_v2_4_vm_pte_funcs = {
->  
->  static void sdma_v2_4_set_vm_pte_funcs(struct amdgpu_device *adev)
->  {
-> -	unsigned i;
-> -
->  	adev->vm_manager.vm_pte_funcs = &sdma_v2_4_vm_pte_funcs;
-> -	for (i = 0; i < adev->sdma.num_instances; i++) {
-> -		adev->vm_manager.vm_pte_scheds[i] =
-> -			&adev->sdma.instance[i].ring.sched;
-> -	}
-> -	adev->vm_manager.vm_pte_num_scheds = adev->sdma.num_instances;
-> +	amdgpu_sdma_set_vm_pte_scheds(adev);
->  }
->  
->  const struct amdgpu_ip_block_version sdma_v2_4_ip_block = {
-> diff --git a/drivers/gpu/drm/amd/amdgpu/sdma_v3_0.c b/drivers/gpu/drm/amd/amdgpu/sdma_v3_0.c
-> index 6b538b6bd18f..fe0c855a803a 100644
-> --- a/drivers/gpu/drm/amd/amdgpu/sdma_v3_0.c
-> +++ b/drivers/gpu/drm/amd/amdgpu/sdma_v3_0.c
-> @@ -1684,14 +1684,8 @@ static const struct amdgpu_vm_pte_funcs sdma_v3_0_vm_pte_funcs = {
->  
->  static void sdma_v3_0_set_vm_pte_funcs(struct amdgpu_device *adev)
->  {
-> -	unsigned i;
-> -
->  	adev->vm_manager.vm_pte_funcs = &sdma_v3_0_vm_pte_funcs;
-> -	for (i = 0; i < adev->sdma.num_instances; i++) {
-> -		adev->vm_manager.vm_pte_scheds[i] =
-> -			 &adev->sdma.instance[i].ring.sched;
-> -	}
-> -	adev->vm_manager.vm_pte_num_scheds = adev->sdma.num_instances;
-> +	amdgpu_sdma_set_vm_pte_scheds(adev);
->  }
->  
->  const struct amdgpu_ip_block_version sdma_v3_0_ip_block =
-> diff --git a/drivers/gpu/drm/amd/amdgpu/sdma_v4_0.c b/drivers/gpu/drm/amd/amdgpu/sdma_v4_0.c
-> index 60a97d1a82f2..405ccdfbafad 100644
-> --- a/drivers/gpu/drm/amd/amdgpu/sdma_v4_0.c
-> +++ b/drivers/gpu/drm/amd/amdgpu/sdma_v4_0.c
-> @@ -2622,18 +2622,8 @@ static const struct amdgpu_vm_pte_funcs sdma_v4_0_vm_pte_funcs = {
->  
->  static void sdma_v4_0_set_vm_pte_funcs(struct amdgpu_device *adev)
->  {
-> -	struct drm_gpu_scheduler *sched;
-> -	unsigned i;
-> -
->  	adev->vm_manager.vm_pte_funcs = &sdma_v4_0_vm_pte_funcs;
-> -	for (i = 0; i < adev->sdma.num_instances; i++) {
-> -		if (adev->sdma.has_page_queue)
-> -			sched = &adev->sdma.instance[i].page.sched;
-> -		else
-> -			sched = &adev->sdma.instance[i].ring.sched;
-> -		adev->vm_manager.vm_pte_scheds[i] = sched;
-> -	}
-> -	adev->vm_manager.vm_pte_num_scheds = adev->sdma.num_instances;
-> +	amdgpu_sdma_set_vm_pte_scheds(adev);
->  }
->  
->  static void sdma_v4_0_get_ras_error_count(uint32_t value,
-> diff --git a/drivers/gpu/drm/amd/amdgpu/sdma_v4_4_2.c b/drivers/gpu/drm/amd/amdgpu/sdma_v4_4_2.c
-> index d265157bc4e1..1b2868b16859 100644
-> --- a/drivers/gpu/drm/amd/amdgpu/sdma_v4_4_2.c
-> +++ b/drivers/gpu/drm/amd/amdgpu/sdma_v4_4_2.c
-> @@ -2323,18 +2323,8 @@ static const struct amdgpu_vm_pte_funcs sdma_v4_4_2_vm_pte_funcs = {
->  
->  static void sdma_v4_4_2_set_vm_pte_funcs(struct amdgpu_device *adev)
->  {
-> -	struct drm_gpu_scheduler *sched;
-> -	unsigned i;
-> -
->  	adev->vm_manager.vm_pte_funcs = &sdma_v4_4_2_vm_pte_funcs;
-> -	for (i = 0; i < adev->sdma.num_instances; i++) {
-> -		if (adev->sdma.has_page_queue)
-> -			sched = &adev->sdma.instance[i].page.sched;
-> -		else
-> -			sched = &adev->sdma.instance[i].ring.sched;
-> -		adev->vm_manager.vm_pte_scheds[i] = sched;
-> -	}
-> -	adev->vm_manager.vm_pte_num_scheds = adev->sdma.num_instances;
-> +	amdgpu_sdma_set_vm_pte_scheds(adev);
->  }
->  
->  /**
-> diff --git a/drivers/gpu/drm/amd/amdgpu/sdma_v5_0.c b/drivers/gpu/drm/amd/amdgpu/sdma_v5_0.c
-> index 127f001ebb5a..af920e100400 100644
-> --- a/drivers/gpu/drm/amd/amdgpu/sdma_v5_0.c
-> +++ b/drivers/gpu/drm/amd/amdgpu/sdma_v5_0.c
-> @@ -2081,15 +2081,9 @@ static const struct amdgpu_vm_pte_funcs sdma_v5_0_vm_pte_funcs = {
->  
->  static void sdma_v5_0_set_vm_pte_funcs(struct amdgpu_device *adev)
->  {
-> -	unsigned i;
-> -
->  	if (adev->vm_manager.vm_pte_funcs == NULL) {
->  		adev->vm_manager.vm_pte_funcs = &sdma_v5_0_vm_pte_funcs;
-> -		for (i = 0; i < adev->sdma.num_instances; i++) {
-> -			adev->vm_manager.vm_pte_scheds[i] =
-> -				&adev->sdma.instance[i].ring.sched;
-> -		}
-> -		adev->vm_manager.vm_pte_num_scheds = adev->sdma.num_instances;
-> +		amdgpu_sdma_set_vm_pte_scheds(adev);
->  	}
->  }
->  
-> diff --git a/drivers/gpu/drm/amd/amdgpu/sdma_v5_2.c b/drivers/gpu/drm/amd/amdgpu/sdma_v5_2.c
-> index 78654ac3047d..29f597d56bcb 100644
-> --- a/drivers/gpu/drm/amd/amdgpu/sdma_v5_2.c
-> +++ b/drivers/gpu/drm/amd/amdgpu/sdma_v5_2.c
-> @@ -2091,15 +2091,9 @@ static const struct amdgpu_vm_pte_funcs sdma_v5_2_vm_pte_funcs = {
->  
->  static void sdma_v5_2_set_vm_pte_funcs(struct amdgpu_device *adev)
->  {
-> -	unsigned i;
-> -
->  	if (adev->vm_manager.vm_pte_funcs == NULL) {
->  		adev->vm_manager.vm_pte_funcs = &sdma_v5_2_vm_pte_funcs;
-> -		for (i = 0; i < adev->sdma.num_instances; i++) {
-> -			adev->vm_manager.vm_pte_scheds[i] =
-> -				&adev->sdma.instance[i].ring.sched;
-> -		}
-> -		adev->vm_manager.vm_pte_num_scheds = adev->sdma.num_instances;
-> +		amdgpu_sdma_set_vm_pte_scheds(adev);
->  	}
->  }
->  
-> diff --git a/drivers/gpu/drm/amd/amdgpu/sdma_v6_0.c b/drivers/gpu/drm/amd/amdgpu/sdma_v6_0.c
-> index d1a7eb6e7ce2..03365db70d9c 100644
-> --- a/drivers/gpu/drm/amd/amdgpu/sdma_v6_0.c
-> +++ b/drivers/gpu/drm/amd/amdgpu/sdma_v6_0.c
-> @@ -1897,14 +1897,8 @@ static const struct amdgpu_vm_pte_funcs sdma_v6_0_vm_pte_funcs = {
->  
->  static void sdma_v6_0_set_vm_pte_funcs(struct amdgpu_device *adev)
->  {
-> -	unsigned i;
-> -
->  	adev->vm_manager.vm_pte_funcs = &sdma_v6_0_vm_pte_funcs;
-> -	for (i = 0; i < adev->sdma.num_instances; i++) {
-> -		adev->vm_manager.vm_pte_scheds[i] =
-> -			&adev->sdma.instance[i].ring.sched;
-> -	}
-> -	adev->vm_manager.vm_pte_num_scheds = adev->sdma.num_instances;
-> +	amdgpu_sdma_set_vm_pte_scheds(adev);
->  }
->  
->  const struct amdgpu_ip_block_version sdma_v6_0_ip_block = {
-> diff --git a/drivers/gpu/drm/amd/amdgpu/sdma_v7_0.c b/drivers/gpu/drm/amd/amdgpu/sdma_v7_0.c
-> index 9f15aa1df636..90d291c304d3 100644
-> --- a/drivers/gpu/drm/amd/amdgpu/sdma_v7_0.c
-> +++ b/drivers/gpu/drm/amd/amdgpu/sdma_v7_0.c
-> @@ -1839,14 +1839,8 @@ static const struct amdgpu_vm_pte_funcs sdma_v7_0_vm_pte_funcs = {
->  
->  static void sdma_v7_0_set_vm_pte_funcs(struct amdgpu_device *adev)
->  {
-> -	unsigned i;
-> -
->  	adev->vm_manager.vm_pte_funcs = &sdma_v7_0_vm_pte_funcs;
-> -	for (i = 0; i < adev->sdma.num_instances; i++) {
-> -		adev->vm_manager.vm_pte_scheds[i] =
-> -			&adev->sdma.instance[i].ring.sched;
-> -	}
-> -	adev->vm_manager.vm_pte_num_scheds = adev->sdma.num_instances;
-> +	amdgpu_sdma_set_vm_pte_scheds(adev);
->  }
->  
->  const struct amdgpu_ip_block_version sdma_v7_0_ip_block = {
-> diff --git a/drivers/gpu/drm/amd/amdgpu/si_dma.c b/drivers/gpu/drm/amd/amdgpu/si_dma.c
-> index 621c6c17e6dd..4422aaeb99e3 100644
-> --- a/drivers/gpu/drm/amd/amdgpu/si_dma.c
-> +++ b/drivers/gpu/drm/amd/amdgpu/si_dma.c
-> @@ -840,14 +840,8 @@ static const struct amdgpu_vm_pte_funcs si_dma_vm_pte_funcs = {
->  
->  static void si_dma_set_vm_pte_funcs(struct amdgpu_device *adev)
->  {
-> -	unsigned i;
-> -
->  	adev->vm_manager.vm_pte_funcs = &si_dma_vm_pte_funcs;
-> -	for (i = 0; i < adev->sdma.num_instances; i++) {
-> -		adev->vm_manager.vm_pte_scheds[i] =
-> -			&adev->sdma.instance[i].ring.sched;
-> -	}
-> -	adev->vm_manager.vm_pte_num_scheds = adev->sdma.num_instances;
-> +	amdgpu_sdma_set_vm_pte_scheds(adev);
->  }
->  
->  const struct amdgpu_ip_block_version si_dma_ip_block =
+> Changes in v2:
+> - fix typo in patch subject (add instead of added).
+> 
+> - in every patch is also present the specific commit hash about the
+>   workqueue API change.
+> 
+> - fixed commit log of P1 (removed "Adding system_dfl_wq...").
+> 
+> - P2: subject changed reflecting the effective change.
+> 
+> - rebased to v6.18-rc4.
+> 
+> 
+> Marco Crivellari (3):
+>   drm/i915: replace use of system_unbound_wq with system_dfl_wq
+>   drm/i915: replace use of system_wq with system_percpu_wq in the
+>     documentation
+>   drm/i915: add WQ_PERCPU to alloc_workqueue users
+> 
+>  drivers/gpu/drm/i915/display/intel_display_driver.c | 4 ++--
+>  drivers/gpu/drm/i915/display/intel_display_power.c  | 2 +-
+>  drivers/gpu/drm/i915/display/intel_tc.c             | 4 ++--
+>  drivers/gpu/drm/i915/gem/i915_gem_ttm_move.c        | 2 +-
+>  drivers/gpu/drm/i915/gt/uc/intel_guc.c              | 4 ++--
+>  drivers/gpu/drm/i915/gt/uc/intel_guc_ct.c           | 4 ++--
+>  drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c   | 6 +++---
+>  drivers/gpu/drm/i915/i915_active.c                  | 2 +-
+>  drivers/gpu/drm/i915/i915_driver.c                  | 5 +++--
+>  drivers/gpu/drm/i915/i915_drv.h                     | 2 +-
+>  drivers/gpu/drm/i915/i915_sw_fence_work.c           | 2 +-
+>  drivers/gpu/drm/i915/i915_vma_resource.c            | 2 +-
+>  drivers/gpu/drm/i915/pxp/intel_pxp.c                | 2 +-
+>  drivers/gpu/drm/i915/pxp/intel_pxp_irq.c            | 2 +-
+>  drivers/gpu/drm/i915/selftests/i915_sw_fence.c      | 2 +-
+>  drivers/gpu/drm/i915/selftests/mock_gem_device.c    | 2 +-
+>  16 files changed, 24 insertions(+), 23 deletions(-)
+> 
+> -- 
+> 2.51.1
+> 
 
