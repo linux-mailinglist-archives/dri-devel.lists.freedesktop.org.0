@@ -2,140 +2,151 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 86479C338D5
-	for <lists+dri-devel@lfdr.de>; Wed, 05 Nov 2025 01:55:12 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id E78C6C33923
+	for <lists+dri-devel@lfdr.de>; Wed, 05 Nov 2025 01:59:42 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B922710E68E;
-	Wed,  5 Nov 2025 00:55:08 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9834D10E693;
+	Wed,  5 Nov 2025 00:59:38 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="I7bZM9HY";
-	dkim=pass (2048-bit key; unprotected) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="VqL6+oX3";
+	dkim=pass (2048-bit key; unprotected) header.d=Nvidia.com header.i=@Nvidia.com header.b="ns7F3xD6";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
- [205.220.180.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C329810E68E
- for <dri-devel@lists.freedesktop.org>; Wed,  5 Nov 2025 00:55:07 +0000 (UTC)
-Received: from pps.filterd (m0279872.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id
- 5A4LA2W33090437
- for <dri-devel@lists.freedesktop.org>; Wed, 5 Nov 2025 00:55:07 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
- cc:content-type:date:from:in-reply-to:message-id:mime-version
- :references:subject:to; s=qcppdkim1; bh=/ADOlbA/MeXRPk9nFlkw4G84
- 15r9Bnyhb0LknOuL9V0=; b=I7bZM9HY10F5/GmUHmO4M81orXypz+0HnoGDjVke
- xukl33suuLsKLPZVAhzwXstnM65gkGDZ4p/ZJOvdJZvb2UtX7fiyG1oTr93fqr/T
- /zfRT6jE0ZcvZ6uBiTa7Qc0S0HL2+wG5mxPHPHPResg6SNHhOBeFL+wqMaLiegf/
- YW5geElDoK7n1j16WtdjJK+kLIAZ8NmkRtsW42Xcc8xBmBCoLgKiHa8u3WGJ6iPi
- a9CeyLMAch9cWC/gP+deVxRE25TwEJuuyQkMbjHQLnSWoNtq1w73Ca1fiVoX+YV/
- tk72Sd0cwkiP2AGz7TTQAnaL3IWz38lt4QfdStI7ctXu2A==
-Received: from mail-qk1-f198.google.com (mail-qk1-f198.google.com
- [209.85.222.198])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4a7s5e8kgs-1
- (version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
- for <dri-devel@lists.freedesktop.org>; Wed, 05 Nov 2025 00:55:06 +0000 (GMT)
-Received: by mail-qk1-f198.google.com with SMTP id
- af79cd13be357-89f80890618so2516341485a.2
- for <dri-devel@lists.freedesktop.org>; Tue, 04 Nov 2025 16:55:06 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=oss.qualcomm.com; s=google; t=1762304106; x=1762908906;
- darn=lists.freedesktop.org; 
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
- bh=/ADOlbA/MeXRPk9nFlkw4G8415r9Bnyhb0LknOuL9V0=;
- b=VqL6+oX3BHpxaAzbCWGP1cbJqMJquca8tcUpcwheSGOgvE48m+0eAWBK8u+SiESmSn
- /kFSPnekbSBgPVN6bPuv2n0RniQ0t8dnMO2mGNDzwPjs4WR5vp4p+OSUFdrhXElWsmfG
- jjld4DsAPBNxhzPNvYQIeR1VOIJ+TVyi0G1hBU3nyPsj+gJFguVFLLsbjmZVXVmP2bIq
- x4S5+oGwvrKsW9+FMKcyfKCcrOoZGCd6OPG6/H2W4cava2VwbOnRwKzupti70cPNbeQw
- DuBXb9ytL+iGMbjthasRyNMvbGYbhg24EldUGLbwcI36T4Jj6YOon3thhK3xAlzY0bcp
- +/aQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1762304106; x=1762908906;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=/ADOlbA/MeXRPk9nFlkw4G8415r9Bnyhb0LknOuL9V0=;
- b=V7U85QB0wEZnwKFIvBRMIRjp/3Hpl02PpuRo+e2e8jntieuNZ31Fq6m1hKz1+cIzdZ
- mb7DIRJ/FibNnwahDoWpWCVt2HvkSeUTa7AT9VuqVBfP1FgIrZtbpiln6LLSxYLA7SrK
- jcnlCrOpHCWp+924QbaiKfQWRLMjPeJ8EcyRwXHFVCrXlNKDxELxtjQq6AIHr30VIfIs
- vPDm2/ccE7e7d/MCbhgtCuQiSr3bDuvp6lCG+4GPq2w614QGrxmLbsmJFjfFM1rXmwd4
- QJo4depljj2VJHm/Jn3jN3z38/aitlew9oFVOwl409HPH+Mae/xEwu0dwi6zM3y8Kxs0
- d05g==
-X-Forwarded-Encrypted: i=1;
- AJvYcCWn7gSDaMvl4kXVvfXVf4Yra6CEfNoKL96uy8/KaFwvEcZYR/mxWKm0kky/9lo/7p4JYAwTj7rODks=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YzGtjQRNZO+FiddbRvZvlTVFNwGHNekI9Jnbu/HkNw5aWgGJtCj
- Hcn5QUnjcF9dIWwxqkkN3UrCkW/Qi44xPhGMYVs23oDK8WCCJ5aCFba5S2agiHAe3eEG/LJeHL0
- x1HSw1eVwfZiwPIsX1Q54bDf08TmvyG6w0xuCY0EQ6gJFXucRzEmfHidZDXWK0KovTJtRHw4=
-X-Gm-Gg: ASbGncsSenl+E1KsyJdtrVsta6lyuNEAHUVWW8lOe7XUAblhLyARcYcGfX2+qxo6Dl8
- 188pO/8itxSChRZSr5ytr2HE6ZVTVKpGZTA4FqJSLGF47g8/89uEdqOi1WUz5zZseb1tdfIQVsn
- NhfAcKrkvTULrVO0QHEsVSaTEihD8w3Egs1BLxB0I+hWMDe6vkw60uh/LHhznid2DmjlclTCDT4
- PpN7ng3TsqZNv1YB0zh5itz9qYKuy5C9ytPT5eCXWQifdz7XciLY4gIregq7BA0rLw03r2IOWqP
- Mv5BZdvRR3RP80Z54heU8FcEmpWU4rbuCsaJffIzcWk5+6BQGpFKHCOH9asy4WocYbFVr47fQdz
- 1/cvBX7CRNIaqVfd4Z9Oc/o4LuCuVoOILZyS53pxOFkicIdc2zInIPMDWCNpwsBgPplre4KQiUp
- LEv+hAmH78nhtD
-X-Received: by 2002:a05:620a:28c9:b0:8a0:8627:30b8 with SMTP id
- af79cd13be357-8b220b9566cmr215544685a.59.1762304106164; 
- Tue, 04 Nov 2025 16:55:06 -0800 (PST)
-X-Google-Smtp-Source: AGHT+IFl2T8MaBy02VcjmjrLLsEC09nXbRPXngYX5Uir3OVPaxk5ZvRsK2epgIV03aGzl6YxHlPzXQ==
-X-Received: by 2002:a05:620a:28c9:b0:8a0:8627:30b8 with SMTP id
- af79cd13be357-8b220b9566cmr215541285a.59.1762304105532; 
- Tue, 04 Nov 2025 16:55:05 -0800 (PST)
-Received: from umbar.lan
- (2001-14ba-a0c3-3a00-264b-feff-fe8b-be8a.rev.dnainternet.fi.
- [2001:14ba:a0c3:3a00:264b:feff:fe8b:be8a])
- by smtp.gmail.com with ESMTPSA id
- 2adb3069b0e04-594343911bdsm1169861e87.33.2025.11.04.16.55.04
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 04 Nov 2025 16:55:04 -0800 (PST)
-Date: Wed, 5 Nov 2025 02:55:03 +0200
-From: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
-To: david@ixit.cz
-Cc: Neil Armstrong <neil.armstrong@linaro.org>,
- Jessica Zhang <jessica.zhang@oss.qualcomm.com>,
+Received: from DM1PR04CU001.outbound.protection.outlook.com
+ (mail-centralusazon11010002.outbound.protection.outlook.com [52.101.61.2])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A773710E00B;
+ Wed,  5 Nov 2025 00:59:36 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=Vt9PonjpUfHdEQ8Ip03j6lXb6o3qvbKK6PlNxrJSC9F4AwUZQFyZDzA8ns1q3OTWlwV5RlDN3jNsuRoTvSM+HOm8WvpSorirr394Dg0TrgAuaeBUrYpXoP3l0f3OfhgiX5dKuM4LIPLobEtyfAbCmqxEsXGKKug581c4jJxsipsS+AHVDyEXDgOBLpzShk/5Hy+O3R/bfSmEqAsV5dFene+avezhmTfQL/wiFrzRa2VWDqDzTpDwIxh+KpirN+XkdLOMRlS1rFDIFORJaY+bSB1tO0xY2oH3AjMV3w2DUB8NH/zs9cdXS6kCSqt5xR1SXZH8Bkifp+ytXNFOznLWzg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=Be9JBMNeTWXERLXe5Aq2ExsJudX+ZHmVOSYRJ4P5U0U=;
+ b=isYMLFQyYW92uz0r1w7e2FCNiohQ95NbLM6kxXsdV3LARo0AJx8qAtnX00CsZR9WPFqmXgOsBrSzoj6vfCkicxHpd+O58Gfe84V51pVf+sSchbunSwg9Gj7nlZXD/SmyIOGxrUyPZHempUJxGdMwYNtxN1Cn9B++qyIX483Qy0//+RaCMQZk2gAjA06daAuFwmtFHJ1fTHVY8sPkpHzvDHQrCei3vMGUtGbDwFs6YYCkvJ1xtcJwedy9BrnmtOL/Hivv1WX4AoF4aOmwI7Hf46NEP9hNSGZ09SlYXkCbRkX3ZGZihAt3keQ3WVbot8BESXjQ0uZWpSUiC7zvtYLWkA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
+ dkim=pass header.d=nvidia.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=Be9JBMNeTWXERLXe5Aq2ExsJudX+ZHmVOSYRJ4P5U0U=;
+ b=ns7F3xD6COhCKaTp5PDgRbf6yapgS02CLRTZTguIy7JeVWFUqlWSjMnI02HrEqtvh++86aJ7Nr7uCZImJkAB3V771pHftN8NyzhmNG/WJ0B1yEtjJtyrN7g2JF4nEjKHjzqXE2Fi4FzcWrx7OtuVNlL1snmo8TfOduozh1Hdfl+Sp6/dC3Uaa8zhNlXOfjTZl6HdwvpkiHBUoBcyoCJrl+HNoK1f0NHzPf/7rSfO9TEaFVCPyc/AXEzi7pYO6aD3TMs96rPjVHtdAo3AueLW95n/qQvkS6vTGFIIbFQzvaAZlBYb/qfW3Y3c+j0CvhMPFax1nxJ3cIWrv0kKQvHxdw==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=nvidia.com;
+Received: from SN7PR12MB8059.namprd12.prod.outlook.com (2603:10b6:806:32b::7)
+ by SA0PR12MB7090.namprd12.prod.outlook.com (2603:10b6:806:2d5::16)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9298.7; Wed, 5 Nov
+ 2025 00:59:33 +0000
+Received: from SN7PR12MB8059.namprd12.prod.outlook.com
+ ([fe80::4ee2:654e:1fe8:4b91]) by SN7PR12MB8059.namprd12.prod.outlook.com
+ ([fe80::4ee2:654e:1fe8:4b91%2]) with mapi id 15.20.9275.015; Wed, 5 Nov 2025
+ 00:59:33 +0000
+Date: Tue, 4 Nov 2025 19:59:31 -0500
+From: Joel Fernandes <joelagnelf@nvidia.com>
+To: Alexandre Courbot <acourbot@nvidia.com>
+Cc: linux-kernel@vger.kernel.org, rust-for-linux@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, dakr@kernel.org,
+ David Airlie <airlied@gmail.com>, Alistair Popple <apopple@nvidia.com>,
+ Miguel Ojeda <ojeda@kernel.org>, Alex Gaynor <alex.gaynor@gmail.com>,
+ Boqun Feng <boqun.feng@gmail.com>, Gary Guo <gary@garyguo.net>,
+ bjorn3_gh@protonmail.com, Benno Lossin <lossin@kernel.org>,
+ Andreas Hindborg <a.hindborg@kernel.org>,
+ Alice Ryhl <aliceryhl@google.com>, Trevor Gross <tmgross@umich.edu>,
+ Simona Vetter <simona@ffwll.ch>,
  Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
  Maxime Ripard <mripard@kernel.org>,
  Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>,
- Thierry Reding <thierry.reding@gmail.com>, Sam Ravnborg <sam@ravnborg.org>,
- Bjorn Andersson <andersson@kernel.org>,
- Konrad Dybcio <konradybcio@kernel.org>,
- Casey Connolly <casey.connolly@linaro.org>,
- dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-arm-msm@vger.kernel.org,
- phone-devel@vger.kernel.org
-Subject: Re: [PATCH 02/12] arch: arm64: qcom: sdm845-enchilada: Specify panel
- name within the compatible
-Message-ID: <neykh5ldiksowcyqomqlx7wwdo3jrofpn7cyndgsic5ckcemik@gngyem6bmdsy>
-References: <20251104-sofef00-rebuild-v1-0-dfcfa17eb176@ixit.cz>
- <20251104-sofef00-rebuild-v1-2-dfcfa17eb176@ixit.cz>
-MIME-Version: 1.0
+ John Hubbard <jhubbard@nvidia.com>, Timur Tabi <ttabi@nvidia.com>,
+ joel@joelfernandes.org, Elle Rhumsaa <elle@weathered-steel.dev>,
+ Daniel Almeida <daniel.almeida@collabora.com>,
+ Andrea Righi <arighi@nvidia.com>,
+ Philipp Stanner <phasta@kernel.org>, nouveau@lists.freedesktop.org,
+ Nouveau <nouveau-bounces@lists.freedesktop.org>
+Subject: Re: [PATCH RFC 3/4] rust: drm: Add DRM buddy allocator bindings
+Message-ID: <20251105005931.GA2278646@joelbox2>
+References: <20251030190613.1224287-1-joelagnelf@nvidia.com>
+ <20251030190613.1224287-4-joelagnelf@nvidia.com>
+ <DDX3K8BNA4DW.12U3WTKDD5GCF@nvidia.com>
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20251104-sofef00-rebuild-v1-2-dfcfa17eb176@ixit.cz>
-X-Proofpoint-GUID: JS19CvHGl1g8zt1Ytd3OG33C9fxtk-iK
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUxMTA1MDAwNSBTYWx0ZWRfX76/UsLQLSwwZ
- w3xE/xsaJmHBpCFOcrfBA9IqaLxZuV2mKF46RPulT8q9N/dc0dd2wn8pS+Tw0BCR8CwUi5xRsAH
- Jtc+6sYRTvI5THv0Yn0cTzcbwgmHrPhHRczXpzWc3ctTXpMCtDTtb/VPf3mKvwJRQ5YAnsTWa7Y
- XbLh9aRX7wb0ajiKmroKVApJ0Jvc+m2Nc9AbCsK4YdNrGfX8e3lh8Hax/ezaWUeEorvNhB0uzTZ
- OoGHKEYKAoriRxVW5yJCCbqxcTHOG+XxiD+39pWa4q559oKHAA/CP5T8ECRuIAKoUVjGGWoWZSJ
- 8eiDEG7b1UaHG1/YrDz3gd6ZkdDFniM9WEUSkgrmjm+316vfhmSV7e1NPBwrGlj45kldL91AhNV
- W1x2S7Y4QBXt96zPH1LVwLWTVWSMkg==
-X-Authority-Analysis: v=2.4 cv=OayVzxTY c=1 sm=1 tr=0 ts=690aa06a cx=c_pps
- a=qKBjSQ1v91RyAK45QCPf5w==:117 a=xqWC_Br6kY4A:10 a=kj9zAlcOel0A:10
- a=6UeiqGixMTsA:10 a=s4-Qcg_JpJYA:10 a=VkNPw1HP01LnGYTKEx00:22
- a=QsaZCVNBrwfq_IZkOpQA:9 a=CjuIK1q_8ugA:10 a=NFOGd7dJGGMPyQGDc5-O:22
-X-Proofpoint-ORIG-GUID: JS19CvHGl1g8zt1Ytd3OG33C9fxtk-iK
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.9,FMLib:17.12.100.49
- definitions=2025-11-05_01,2025-11-03_03,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- priorityscore=1501 clxscore=1015 phishscore=0 adultscore=0 impostorscore=0
- bulkscore=0 suspectscore=0 spamscore=0 lowpriorityscore=0 malwarescore=0
- classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.22.0-2510240001 definitions=main-2511050005
+In-Reply-To: <DDX3K8BNA4DW.12U3WTKDD5GCF@nvidia.com>
+X-ClientProxiedBy: BL1PR13CA0223.namprd13.prod.outlook.com
+ (2603:10b6:208:2bf::18) To SN7PR12MB8059.namprd12.prod.outlook.com
+ (2603:10b6:806:32b::7)
+MIME-Version: 1.0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: SN7PR12MB8059:EE_|SA0PR12MB7090:EE_
+X-MS-Office365-Filtering-Correlation-Id: f5b136c0-b7b1-49df-1b13-08de1c0694ec
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;ARA:13230040|366016|376014|7416014|1800799024;
+X-Microsoft-Antispam-Message-Info: =?us-ascii?Q?o00BFrEXzsMo9XqaXeJLCShMr/KD5C33BcvBHrFFYR1o9OBTE5PxUsmZr5o8?=
+ =?us-ascii?Q?AEPG2xUESE9go1FKlgBnx2cBwocKsfjfDGvzbcW7mCejPRtbgjam+4Fh9QcJ?=
+ =?us-ascii?Q?R+omSbxkKGYJa8/80Cd+58OfFnN4oBiUHVYOlsh8fKLTHwchyQ2y31uSpB+T?=
+ =?us-ascii?Q?yg0iPKDjK356s30TmOsTa753ea+Z/qcAl+/DBdoUjovXhLD3FK9Gi4bUXnHd?=
+ =?us-ascii?Q?uXSHGTZTvuWtWKJHqZZsqAMvcxdVQqIg+gqp43i49NIeP6z65VpxDfknaBoC?=
+ =?us-ascii?Q?xQhwV2jbOKJnV4OZXX3aoSC7YCe9FkIK3dLfArUfuyyOIrgfGSqYH8lg5iGf?=
+ =?us-ascii?Q?OiD26ko8kOolNhLEqrr9C/JP8sbdrMn9J7OZZm8zKOUzqFpMD6TNVI8571la?=
+ =?us-ascii?Q?xHFSr+PjRMI0GDZIP4RN+nGPI0mDPJagHYK2CiD+AbFfK2vE+avU69IWKPiQ?=
+ =?us-ascii?Q?xfhvYyBapGGjrEQA0fLlttmmSRwQwoayQPVLaKkdG2BPWnf8S7iVq4uqwonT?=
+ =?us-ascii?Q?D8GFb3swg6wY30TM3xGtVAKtoKebXWCNWI1+HRVCiND/k5qbl/0P/208O+oj?=
+ =?us-ascii?Q?MWkxDfFk9ydEJqjHAA+hX3U2a6gUsSjxlwYY/aX4+rAyvM95VKQq6TxM4He8?=
+ =?us-ascii?Q?4t864/Y+K8p23Zdd6Ul9wR54gAakC9QjDdsuG9GektVnyysVMZgQLyiGcZ1u?=
+ =?us-ascii?Q?ermfhIsjh4cRljvxAO8jbBPVeZQQWiuLyNydTM2OvTDKz+TGvGv1wp6G1Oq5?=
+ =?us-ascii?Q?gBTzAVt+dem1sO+7VF0e68YO3DxZWv4RFAcTX1Th+L1F/NQOt35VAlNqYOKy?=
+ =?us-ascii?Q?SCCpwTz4mk/7+Ru5En55a9x3iJNjtIFp/hk1wucEQ5PCLYTBL+Pq5xg1af6u?=
+ =?us-ascii?Q?feDV+23hdEPL13/rWv0rH0a9IXCPhPAdWIpB/KxhmQWdunPou0uEYQ7D5pju?=
+ =?us-ascii?Q?aYGXhoD5kJ2OKAEIvrFNyg4b7+gD53N53rywF1g9JeQuqh11/j+RazgSciVC?=
+ =?us-ascii?Q?5ckcDTEV6Z7ryW3wEXAxSNirOYRzC9nKP5GuVMbbkoqDtyR0hERPyN7fGl8J?=
+ =?us-ascii?Q?8KQf64cRaHcpmKLnKKvyOv4kzgUIeSEre6E6I2zhTwvWeZJ/8Ue2nx1xEYFK?=
+ =?us-ascii?Q?QWaEvW9+9+r7sZpQ1llcIARZw5qmMA9gn0qPg3evVBbZt5ecDxnQc2tWuHYZ?=
+ =?us-ascii?Q?qusnGZ3nU79//LxKl51SwizHVo91rnbpI5pBLjjiB/6dH7tySbXjzO1neWlI?=
+ =?us-ascii?Q?EFWC4JKkiwR3zyQ8By+g6ooKVbptUBNHYGoy1jLJu9ReYDzDU0OzOxwcc1lj?=
+ =?us-ascii?Q?4c5OLbYB+DSX15SE4eWaTmFFrV+QZM332PysnkRMJ/Dg9nMZu40TVpKnUXEY?=
+ =?us-ascii?Q?27/KFlp1hR2pt+b2WrHJn/C+VTRoO5qsOXnGN29v26jazyy0EsyRhBzkKeh/?=
+ =?us-ascii?Q?sv1yRSEFJLY4oduRjB7tfenGHTCQsDfe?=
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:SN7PR12MB8059.namprd12.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230040)(366016)(376014)(7416014)(1800799024); DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?/n0Ehoca4+PHULeBR9n3oVZ3tdu2EyUxGT0rINyhE4irFWidokXAK4WpHki6?=
+ =?us-ascii?Q?97Rh6GIHqn4lkBCadfyH76aikx83Nkz4Mj1U726jSzJ05HkhOt8kA61ehi5V?=
+ =?us-ascii?Q?75TC3KqXnbjsOjSKLF3w9roRuSpFx/GWpQ+pkBv5u9GzpoyjzfZmcfYLILUo?=
+ =?us-ascii?Q?HUAao4M5DBkl7Is4uzzsy2aJPddra7ZecgNe2auQICwpZ+l20G8HVTXAzlGw?=
+ =?us-ascii?Q?k+xVs8WM0XsPFh9WpwWR4PgXgc4c+MfDzYWugeCbvO4V+tl1r8v+R76Vcd43?=
+ =?us-ascii?Q?YPwPI4AJ/bgCAfS1VTQz1p+SXuhEuZGV0yXzVkkYKWSHUX7/JRvlYClrdo/k?=
+ =?us-ascii?Q?1oQigvb21Hne81qI+IeQJQ7Y2cXtwAZvWoOPayv5eE1h/73MEZ+2/KPYAJXd?=
+ =?us-ascii?Q?Wkzdq2da+c6MZy3+F8EQx1VjkxW6ULLLyI7uWBCF0bfIrePm8JFrUnj+KqYy?=
+ =?us-ascii?Q?LM/HzhjML7GOo1SSFKiaoatkA/9c4KLn3JaPmAYbtCpSiJm1SHvSfEZiJAcC?=
+ =?us-ascii?Q?mDmnRNJKk4TF8QRjOon/HBT2sjxr+0jmBM01yZwr9Xspf+GfQ+Rn+2s2C92q?=
+ =?us-ascii?Q?cPwLUksNTb/i/fmawZpwgcZYFKMZqC6vYe5/aw3x6h9vpDzMUyV6v+ntxmvI?=
+ =?us-ascii?Q?s5SqCndy2UL8GbtctI75CPWCgd2bzNkvdIlFv0gBWWzbcifBpXEw1rsZrOxq?=
+ =?us-ascii?Q?UXJZIpmHSQ8Yl2LsRwVbFj5hvHsSsKftFhmxp/A9a90eP52ZxjtWzOfKYTdK?=
+ =?us-ascii?Q?7MNrdFmvUAMpJJ+poxXQsFdNUqKizVonHno0tpCe8E+3g2gHSDd136uIXvp5?=
+ =?us-ascii?Q?KV3tjRn6j+/e2f6Qor+tdCAPLnI1Qb1FheZ+M2WXTfHisBDd/ScMQafqTYf5?=
+ =?us-ascii?Q?F/EYdZyEOeCdnSrjhc5xZfS3kyfX1RzOVXbjmD07ba4l4ti2YQkdtq+bHw7O?=
+ =?us-ascii?Q?gddgwxy/G1usf4ZKMuRJEQ8IYvVKF21zWFjzO7DwxJxY/fu5HR2FrvBTAZXQ?=
+ =?us-ascii?Q?g5dLZjVR/fabDNOvC7ZZ18wj5tvcDPzgZh8Sb0M86Wlh0x5LyAOlgfcZXypw?=
+ =?us-ascii?Q?4ZdHjPpGZbyDID5ReFvxBgZFeAugSDsB9JokNI5wOPWQh4fu63jN7d2oe6nu?=
+ =?us-ascii?Q?qIPdLp3CzhNc1w37PgRen84voKNVYjkMmVInD/35IgqjQuFsZxEYqwgwhLkz?=
+ =?us-ascii?Q?rzwJjHqNkvqYIltHIkWQDpPWeO267jjCt9TTl6r663pKCG5CfAlJScMbkhj0?=
+ =?us-ascii?Q?zsN6Glb5TdfSCS6IirIhdHtCtqeiZn3ODh3T3ANsEEdxetLdp33awWQdYV2l?=
+ =?us-ascii?Q?e+OtednjixCcKGU6jsupZgDz8fgEfRlebtjgWFAGSbs9hkqpv9Ocof91+CLp?=
+ =?us-ascii?Q?tEHlDBGdX7NAyGDx7tKuLNW+DvAJsS9dKnJYfyySyFT+W9x45F1xPImD8eZR?=
+ =?us-ascii?Q?vn4ZUlElCMCEPk5/thEYzZZuonvhrh04mFAcSLhHaJQGSfO6MbOUrcF0mxng?=
+ =?us-ascii?Q?mXb4Iq2Wk+r++TrrLMAXvbCF2KmkpANqFsgEXQDTLvTJJK0d8Fqs3v0xahrq?=
+ =?us-ascii?Q?tahInZrlI8o1BwQK5XpH229Zml7Klr0fArq9LcI2?=
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: f5b136c0-b7b1-49df-1b13-08de1c0694ec
+X-MS-Exchange-CrossTenant-AuthSource: SN7PR12MB8059.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 05 Nov 2025 00:59:32.9328 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: p1mFdTirZ9Au4FSUs8/rToSvbxjoEJFIDcKVZ42ggf9reBcwpr+VcyK+LOBbNRnbQRTyY/hhJp7Kj8RAXmjTdQ==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA0PR12MB7090
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -151,46 +162,159 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Nov 04, 2025 at 11:16:10PM +0100, David Heidelberg via B4 Relay wrote:
-> From: David Heidelberg <david@ixit.cz>
+On Sat, Nov 01, 2025 at 02:08:56PM +0900, Alexandre Courbot wrote:
+> On Fri Oct 31, 2025 at 4:06 AM JST, Joel Fernandes wrote:
+> <snip>
+> > +/// DRM buddy allocator instance.
+> > +///
+> > +/// This structure wraps the C `drm_buddy` allocator.
+> > +///
+> > +/// # Safety
+> > +///
+> > +/// Not thread-safe. Concurrent alloc/free operations require external
+> > +/// synchronization (e.g., wrapping in `Arc<Mutex<DrmBuddy>>`).
+> > +///
+> > +/// # Invariants
+> > +///
+> > +/// - `mm` is initialized via `drm_buddy_init()` and remains valid until Drop.
+> > +pub struct DrmBuddy {
+> > +    mm: Opaque<bindings::drm_buddy>,
+> > +}
 > 
-> sofef00 is name of the DDIC, it doesn't contain name of the panel used.
-> The DDIC is also paired with other panels, so make clear which panel is
-> used.
+> not a big deal, but usually such wrapping structures are defined as
+> follows:
 > 
-> cosmetic: sort the node.
-> 
-> Signed-off-by: David Heidelberg <david@ixit.cz>
-> ---
->  arch/arm64/boot/dts/qcom/sdm845-oneplus-enchilada.dts | 4 ++--
->  1 file changed, 2 insertions(+), 2 deletions(-)
-> 
-> diff --git a/arch/arm64/boot/dts/qcom/sdm845-oneplus-enchilada.dts b/arch/arm64/boot/dts/qcom/sdm845-oneplus-enchilada.dts
-> index a259eb9d45ae0..8aead6dc25e00 100644
-> --- a/arch/arm64/boot/dts/qcom/sdm845-oneplus-enchilada.dts
-> +++ b/arch/arm64/boot/dts/qcom/sdm845-oneplus-enchilada.dts
-> @@ -31,9 +31,9 @@ battery: battery {
->  };
->  
->  &display_panel {
-> -	status = "okay";
-> +	compatible = "samsung,sofef00-ams628nw01", "samsung,sofef00";
+> pub struct DrmBuddy(Opaque<bindings::drm_buddy>);
 
-This breaks the ABI. Please describe, why it is sensible. Other patches
-should describe whether the old DTs will continue to work or not.
+Sure.
 
->  
-> -	compatible = "samsung,sofef00";
-> +	status = "okay";
->  };
->  
->  &bq27441_fg {
 > 
-> -- 
-> 2.51.0
+> > +
+> > +impl DrmBuddy {
+> > +    /// Create a new buddy allocator.
+> > +    ///
+> > +    /// Creates a buddy allocator that manages a contiguous address space of the given
+> > +    /// size, with the specified minimum allocation unit (chunk_size must be at least 4KB).
+> > +    ///
+> > +    /// # Examples
+> > +    ///
+> > +    /// See the complete example in the documentation comments for [`AllocatedBlocks`].
+> > +    pub fn new(size: usize, chunk_size: usize) -> Result<Self> {
+> > +        // Create buddy allocator with zeroed memory.
+> > +        let buddy = Self {
+> > +            mm: Opaque::zeroed(),
 > 
+> Isn't `Opaque::uninit` more appropriate here, since `drm_buddy_init`
+> below will overwrite the data?
+
+Sure.
+
+> 
+> <snip>
+> > +// SAFETY: DrmBuddy can be sent between threads. Caller is responsible for
+> > +// ensuring thread-safe access if needed (e.g., via Mutex).
+> > +unsafe impl Send for DrmBuddy {}
+> > +
+> > +/// Allocated blocks from the buddy allocator with automatic cleanup.
+> > +///
+> > +/// This structure owns a list of allocated blocks and ensures they are
+> > +/// automatically freed when dropped. Blocks may be iterated over and are
+> > +/// read-only after allocation (iteration via [`IntoIterator`] and
+> > +/// automatic cleanup via [`Drop`] only). To share across threads, wrap
+> > +/// in `Arc<AllocatedBlocks>`. Rust owns the head list head of the
+> > +/// allocated blocks; C allocates blocks and links them to the head
+> > +/// list head. Clean up of the allocated blocks is handled by C code.
+> > +///
+> > +/// # Invariants
+> > +///
+> > +/// - `list_head` is an owned, valid, initialized list_head.
+> > +/// - `buddy` points to a valid, initialized [`DrmBuddy`].
+> > +pub struct AllocatedBlocks<'a> {
+> > +    list_head: KBox<bindings::list_head>,
+> > +    buddy: &'a DrmBuddy,
+> > +}
+> 
+> Isn't the lifetime going to severely restrict how this can be used?
+> 
+> For instance, after allocating a list of blocks I suppose you will want
+> to store it somewhere, do some other business, and free it much later in
+> a completely different code path. The lifetime is going to make this
+> very difficult.
+> 
+> For instance, try and adapt the unit test in the following patch to
+> allocate some driver object on the heap (representing a bound device),
+> and store both the `DrmBuddy` and the allocated blocks into it. I don't
+> think the borrow checker will let you do that.
+> 
+> I think this calls for a reference-counted design instead - this will
+> move lifetime management to runtime, and solve the issue.
 > 
 
--- 
-With best wishes
-Dmitry
+Agreed, I will use refcounting. I am also looking into Alice's suggestion
+about doing the same between the individual blocks and the AllocatedBlocks.
+
+> > +
+> > +impl Drop for AllocatedBlocks<'_> {
+> > +    fn drop(&mut self) {
+> > +        // Free all blocks automatically when dropped.
+> > +        // SAFETY: list_head is a valid list of blocks per the type's invariants.
+> > +        unsafe {
+> > +            bindings::drm_buddy_free_list(self.buddy.as_raw(), &mut *self.list_head as *mut _, 0);
+> > +        }
+> > +    }
+> > +}
+> > +
+> > +impl<'a> AllocatedBlocks<'a> {
+> > +    /// Check if the block list is empty.
+> > +    pub fn is_empty(&self) -> bool {
+> > +        // SAFETY: list_head is a valid list of blocks per the type's invariants.
+> > +        unsafe { clist::list_empty(&*self.list_head as *const _) }
+> > +    }
+> > +
+> > +    /// Iterate over allocated blocks.
+> > +    pub fn iter(&self) -> clist::ClistIter<'_, Block> {
+> > +        // SAFETY: list_head is a valid list of blocks per the type's invariants.
+> > +        clist::iter_list_head::<Block>(&*self.list_head)
+> > +    }
+> > +}
+> > +
+> > +/// Iteration support for allocated blocks.
+> > +///
+> > +/// # Examples
+> > +///
+> > +/// ```ignore
+> > +/// for block in &allocated_blocks {
+> > +///     // Use block.
+> > +/// }
+> > +/// ```
+> > +impl<'a> IntoIterator for &'a AllocatedBlocks<'_> {
+> > +    type Item = Block;
+> > +    type IntoIter = clist::ClistIter<'a, Block>;
+> > +
+> > +    fn into_iter(self) -> Self::IntoIter {
+> > +        self.iter()
+> > +    }
+> > +}
+> > +
+> > +/// A DRM buddy block.
+> > +///
+> > +/// Wraps a pointer to a C `drm_buddy_block` structure. This is returned
+> > +/// from allocation operations and used to free blocks.
+> > +///
+> > +/// # Invariants
+> > +///
+> > +/// `drm_buddy_block_ptr` points to a valid `drm_buddy_block` managed by the buddy allocator.
+> > +pub struct Block {
+> > +    drm_buddy_block_ptr: NonNull<bindings::drm_buddy_block>,
+> > +}
+> 
+> This also looks like a good change to use a transparent struct with an
+> opaque. I guess once you adapt the CList design as suggested it will
+> come to this naturally.
+> 
+
+Sure, sounds good, thanks!
+
+ - Joel
+
+
