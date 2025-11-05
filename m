@@ -2,103 +2,146 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 464CBC37003
-	for <lists+dri-devel@lfdr.de>; Wed, 05 Nov 2025 18:15:56 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id F0DB8C3706C
+	for <lists+dri-devel@lfdr.de>; Wed, 05 Nov 2025 18:19:21 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4088910E07E;
-	Wed,  5 Nov 2025 17:15:53 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CA98610E789;
+	Wed,  5 Nov 2025 17:19:19 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; secure) header.d=ziepe.ca header.i=@ziepe.ca header.b="GKUp+J/5";
+	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="R5e2Bclc";
+	dkim=pass (2048-bit key; unprotected) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="eanlEWJ5";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-qv1-f53.google.com (mail-qv1-f53.google.com
- [209.85.219.53])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 66B4A10E789
- for <dri-devel@lists.freedesktop.org>; Wed,  5 Nov 2025 17:15:51 +0000 (UTC)
-Received: by mail-qv1-f53.google.com with SMTP id
- 6a1803df08f44-8802b66c811so1435516d6.1
- for <dri-devel@lists.freedesktop.org>; Wed, 05 Nov 2025 09:15:51 -0800 (PST)
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
+ [205.220.168.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5E2E210E1ED
+ for <dri-devel@lists.freedesktop.org>; Wed,  5 Nov 2025 17:19:18 +0000 (UTC)
+Received: from pps.filterd (m0279866.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id
+ 5A5GokI8159501
+ for <dri-devel@lists.freedesktop.org>; Wed, 5 Nov 2025 17:19:17 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+ cc:content-transfer-encoding:content-type:date:from:in-reply-to
+ :message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+ d2jzqV8oJZ4plosAL5G1y0RTbjdNLT/7KsDqWwEv4zM=; b=R5e2BclcGpupn+E6
+ eJr6HC4KPCNehHfO+/Xi04jG6UhWi77hYWRyBXtfApIR5iGblyE+8gQ+nt/jEvbL
+ mhsU7wOdW/vXfopUc1TbT3Iqsqdv8LGkR4d/ECyg6lhi6hoqRDx0jJrymhRCgUbN
+ eE5sI2hl1QWubnFQt6y5c6BnyfchNIb04uHICuEbLWMtW3oqI/C5EIu+K5QVgqXk
+ qME0RkgcJjwQpByK8H5cS28W/DgJdXlQa5CEL0iLKK5AV8PLMwK9MS544hZG/7Pp
+ YzG1GUl9O7tczvX5rvXW3fIGfLcVfCkTmYUfDDyUDO07Ki5UfcQLpYANF7iMzKHO
+ DLl+AQ==
+Received: from mail-pj1-f70.google.com (mail-pj1-f70.google.com
+ [209.85.216.70])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4a82mt1mu8-1
+ (version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
+ for <dri-devel@lists.freedesktop.org>; Wed, 05 Nov 2025 17:19:17 +0000 (GMT)
+Received: by mail-pj1-f70.google.com with SMTP id
+ 98e67ed59e1d1-340c07119bfso559859a91.2
+ for <dri-devel@lists.freedesktop.org>; Wed, 05 Nov 2025 09:19:17 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=ziepe.ca; s=google; t=1762362950; x=1762967750; darn=lists.freedesktop.org; 
- h=in-reply-to:content-transfer-encoding:content-disposition
- :mime-version:references:message-id:subject:cc:to:from:date:from:to
- :cc:subject:date:message-id:reply-to;
- bh=waenEKCMjn97yqJgR3j8p8YSw3a8sLLocbZT7haat5A=;
- b=GKUp+J/5nYPILeILwImQdmVYS0MoDW6nfgm1boET/lLJDIRTM6ISdERYjo4j7LX5Yj
- F7DAvpFIpuTqZPVMG/tIie+XpZ0t2wExhA3PGlw4hjlTj5xFDtMMryanP/qL0yvVK8RP
- he5+P2oEayhDpXosSvPlLzsRq1+V9LLqmEdm02XF/F9ABg1bpilf6V3MCyJpslmDbSBt
- 5NlYhwGTaDn8XmsXZeOsr2TrwD3scIwKMWLt1vudkzqh92mdK9gcNxj/tCTXnusnvUa/
- yOKlexKahmAKRjhEm+cAyW/wpp2s+yUXBITNwCbxFnnLTxsZ4MEN8jMusfA/iIZ0zxLX
- neqA==
+ d=oss.qualcomm.com; s=google; t=1762363157; x=1762967957;
+ darn=lists.freedesktop.org; 
+ h=content-transfer-encoding:in-reply-to:from:content-language
+ :references:cc:to:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=d2jzqV8oJZ4plosAL5G1y0RTbjdNLT/7KsDqWwEv4zM=;
+ b=eanlEWJ5B8Ic0eL+ME+5EfxRoyZ6RUabmLvd0LHd5GXycMaxVpTIqn+h90e3dFdavO
+ q2MSLBoifVSUinIp6YpFotTJBpNtIjqNejrMvP46g/jpsaz0T2qMvsAu+ZRY4cvye+7z
+ NiqSiCoZzHPD412i3mEpMufkAST3TveIjQDoBf/U8dTUkh/ATSneSxVzm3IllAYmeNd1
+ MuvO9KDyk74mLjRSvpcc/hNTQg2z4htZs8CogZLVjGTsG1WWBGjXY1KyLQFWrFym48+y
+ bpuR4Jpv11kxUZs4fvMYHWzsjTj4wE0a8xe26d3mS/2n6QpgXPMta5R2nBR/NtMmDdzr
+ o9DQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1762362950; x=1762967750;
- h=in-reply-to:content-transfer-encoding:content-disposition
- :mime-version:references:message-id:subject:cc:to:from:date
+ d=1e100.net; s=20230601; t=1762363157; x=1762967957;
+ h=content-transfer-encoding:in-reply-to:from:content-language
+ :references:cc:to:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=waenEKCMjn97yqJgR3j8p8YSw3a8sLLocbZT7haat5A=;
- b=YvsuC76FKyIF+ODmfgI40/ZozR1MGPLW+SsrmsmVw8U2e9jPStnIMRNb43qLpiO4Vi
- 6Yh9s+/af/ssCZzggZEoEjs75xcjjIXsJ80re9qDrHVxGNaSPnC/tNi8SXcgAFMJOmhn
- +metVjYTWlf5L0j9PrvX1uK5Go/pwzn4x5vLALSUkEh6sEFDgfQRa0wOmfTSGDFtIp7t
- UxO8r+4xDaqKn8yJBWod95wU9h+0XnXKhC2magQnmNDI55Jm6pUsccEokSIA4zY69L39
- zcJhIr7Rb/+dcwOm10z3UoG8rCjC5o/RTW3Y0gDAIe53wKvETgtWkz1MhuXXzXIB5V/K
- T5WA==
+ bh=d2jzqV8oJZ4plosAL5G1y0RTbjdNLT/7KsDqWwEv4zM=;
+ b=MKN8WNFb1qlrHC61PNL+WmcpUAw+ouG7pMJSXTYpPk73xzb8DBs9dKRYg6sjaeygvH
+ WCQgTExeJHOGCxvP0C43UGmo9+cr/gJbe/75aNhkPgXqhX7xKCD4umAYLtrlLmglFbCq
+ k7r/OvQybV2uR+f/3zJPBBVWrr4p4LMU2XOi/OXiBPUNChRBLy1F4RJtbtKh+81w2ZB6
+ SK1U9UWmvxWCh66UesFKUTM+uaeabr4aYDbDJkJLUkepBbVc4KW2ryDwovt5YO7+zq68
+ HCoh6jjDeNS9gfZ09loVYWosYJBHxoBg8T71gUtQ+YPUPLWQVW1Yog2C+aa0TAGh+a2D
+ 36bA==
 X-Forwarded-Encrypted: i=1;
- AJvYcCX9k5qa1lbQ/h8GTuY3jM9/K93kFD1Dg7n/QgA1CBD6ZebfDfBpMmcaiN5Vw7rrM1LRbd33OgXkpAQ=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Yxy8MxEmUVn4iZ2L6+lWYHa1EtOq1ZuDb1BKcXDUnjwAU8C3Wbv
- 7ltkiZLGWXiELvLLX1PgI5DP2M+Q6SY04q+FDafIs/9rFmSIuWx7XrF0bQkLu7O33KY=
-X-Gm-Gg: ASbGncu4aTnRUoUdfk2rsagBnRF7HHIb5Iw0g1xf7dFnk8r2mqU6OtYUdm6lw9OCLRw
- 9Hwt7z4JoACkXisMb14mylBqGiiJ+4TNDOG8sqEhqxgoyRQ3pnSJbqLt4soZ7XD0i69w7z8LRIH
- th5f31KNIhi2PsCTuz5I7Y0piOTowHLUZmp8y/Njw6OgD2bWfIYDtreOrX3HN7EyIx2Ix9cMNww
- 8m8kIpg3GrCwsi6ENAcd9ybGS+cyGAwK798kK59OgbPNSNBqm4amfHX7b9llU/OGmqlDDnJRcwa
- c4pVW7RrcTwrNbOGxyL4hJCjsjXaMOtT2uGCi1oNaH5lDXQ6oZU3ptjNua+bxGoWVCwPfsIUT/G
- LUVXHMoQO3PZXDBnK8MVqJNeTHzJgp40Vq8dWVk6Xj3ZrAQbuJ8lNgsGQr39bUJvwc28Ayg5196
- /sEBiYOpTY6WYfheGLHhaXzuNX/6w3Iq373K85M3HnYFRMdg==
-X-Google-Smtp-Source: AGHT+IHujecuHKAp19SOjD1ziznvYD8tAwFGOLS3T8YEf0KUSZ8DObLM9JfUqnSghUiTTZ/sscfDOQ==
-X-Received: by 2002:a05:6214:2262:b0:880:4690:3bb8 with SMTP id
- 6a1803df08f44-880710ba284mr52063816d6.18.1762362949784; 
- Wed, 05 Nov 2025 09:15:49 -0800 (PST)
-Received: from ziepe.ca
- (hlfxns017vw-47-55-120-4.dhcp-dynamic.fibreop.ns.bellaliant.net.
- [47.55.120.4]) by smtp.gmail.com with ESMTPSA id
- 6a1803df08f44-88082a3ac4fsm551996d6.57.2025.11.05.09.15.48
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 05 Nov 2025 09:15:49 -0800 (PST)
-Received: from jgg by wakko with local (Exim 4.97)
- (envelope-from <jgg@ziepe.ca>) id 1vGh6p-00000007BtB-1oaJ;
- Wed, 05 Nov 2025 13:15:47 -0400
-Date: Wed, 5 Nov 2025 13:15:47 -0400
-From: Jason Gunthorpe <jgg@ziepe.ca>
-To: =?utf-8?Q?Micha=C5=82?= Winiarski <michal.winiarski@intel.com>
-Cc: Lucas De Marchi <lucas.demarchi@intel.com>,
- Alex Williamson <alex@shazbot.org>,
- Thomas =?utf-8?Q?Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>, Yishai Hadas <yishaih@nvidia.com>,
- Kevin Tian <kevin.tian@intel.com>,
- Shameer Kolothum <skolothumtho@nvidia.com>,
- intel-xe@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- kvm@vger.kernel.org, Matthew Brost <matthew.brost@intel.com>,
- Michal Wajdeczko <michal.wajdeczko@intel.com>,
- dri-devel@lists.freedesktop.org, Jani Nikula <jani.nikula@linux.intel.com>,
- Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
- Tvrtko Ursulin <tursulin@ursulin.net>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Lukasz Laguna <lukasz.laguna@intel.com>,
- Christoph Hellwig <hch@infradead.org>
-Subject: Re: [PATCH v3 27/28] drm/intel/pciids: Add match with VFIO override
-Message-ID: <20251105171547.GP1204670@ziepe.ca>
-References: <20251030203135.337696-1-michal.winiarski@intel.com>
- <20251030203135.337696-28-michal.winiarski@intel.com>
- <cj3ohepcobrqmam5upr5nc6jbvb6wuhkv4akw2lm5g3rms7foo@4snkr5sui32w>
- <xewec63623hktutmcnmrvuuq4wsmd5nvih5ptm7ovdlcjcgii2@lruzhh5raltm>
- <3y2rsj2r27htdisspmulaoufy74w3rs7eramz4fezwcs6j5xuh@jzjrjasasryz>
- <20251104192714.GK1204670@ziepe.ca>
- <r5c2d7zcz2xemyo4mlwpzwhiix7vysznp335dqzhx3zumafrs4@62tmcvj4ccao>
+ AJvYcCVMBAvxSIBHUOxEl5KklpL8MmBSSzMHd5UHoCDoN2Lg7gvJHH+mkcNRqqEosTWjfcC7jIIelg3M1xY=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YxextNZND4d+JqSRlnc48sRslVpGWd6nNRVcReDJ72OaSuhG5Oy
+ F//s6ziBsFW7M7gpchz5HsjCrNxIkJtnuZhyP6+XrLRITfj9qjunL7N07qV0av44SA17YDTLwgn
+ ulitOw1ABhKzwgsuHdAi3NZ9VNoQeT/zqHucCtBiS+eFaNq5tMaTe5I6Rl+PsuuPpmcnPBoE=
+X-Gm-Gg: ASbGncveXFahgF2/gX35CHWRfk0CTbl1SGJ+8JYgMzQUFU/ox/HdEybYvynD+nx4xKr
+ fbpSmp4bo2YhAkj4QLcQoBT2I77t5gBj9YCKPWc8jlDmyDr3iG5MWrmOaSGB0ikJ/dKnTUujasL
+ MXsN6795g22kYZLdol8OhIqsb6nhVpcDtWZ5nImAYggewIobdlKAxE63FtCBwLxS+j07wCpyXRV
+ GZw3V2q+wv4Hm4R8qgZCBprzwx/3KjDlSPGtIRKrEGyKS6GzolYjs/iUorHLKh+QMJMeo+FAo+0
+ 51L6wrnEy2ePn6POfyi7EB9FtflGMoSDHUcBXqptlcm7xSlVSefQpYKJXPBgoA5u29W0D7yCBg0
+ 8yFfMas8aUVR3F/97+2XXGQ==
+X-Received: by 2002:a17:90b:3c09:b0:335:2eef:4ca8 with SMTP id
+ 98e67ed59e1d1-341a7012182mr5029881a91.33.1762363156975; 
+ Wed, 05 Nov 2025 09:19:16 -0800 (PST)
+X-Google-Smtp-Source: AGHT+IFvzSRF+BBkWYVbOkPymWtRFgJ+GZ8PkUlrRHN+0DizYbOyTJnzSCGFEoQNIQNhQoPoiHhIfg==
+X-Received: by 2002:a17:90b:3c09:b0:335:2eef:4ca8 with SMTP id
+ 98e67ed59e1d1-341a7012182mr5029841a91.33.1762363156531; 
+ Wed, 05 Nov 2025 09:19:16 -0800 (PST)
+Received: from [10.204.104.20] ([202.46.23.25])
+ by smtp.gmail.com with ESMTPSA id
+ 41be03b00d2f7-ba1e7983986sm6231090a12.0.2025.11.05.09.19.10
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 05 Nov 2025 09:19:16 -0800 (PST)
+Message-ID: <e67bc77e-77f0-4744-a86e-73fc23dfa705@oss.qualcomm.com>
+Date: Wed, 5 Nov 2025 22:49:08 +0530
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <r5c2d7zcz2xemyo4mlwpzwhiix7vysznp335dqzhx3zumafrs4@62tmcvj4ccao>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v6 2/6] dt-bindings: nvmem: qfprom: Add sa8775p compatible
+To: Bjorn Andersson <andersson@kernel.org>
+Cc: Sean Paul <sean@poorly.run>, Konrad Dybcio <konradybcio@kernel.org>,
+ Marijn Suijten <marijn.suijten@somainline.org>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, Rob Herring <robh@kernel.org>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>, Connor Abbott <cwabbott0@gmail.com>,
+ Srinivas Kandagatla <srini@kernel.org>,
+ Rob Clark <robin.clark@oss.qualcomm.com>, Dmitry Baryshkov
+ <lumag@kernel.org>,
+ Gaurav Kohli <quic_gkohli@quicinc.com>, linux-arm-msm@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, freedreno@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, devicetree@vger.kernel.org,
+ Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
+ Srinivas Kandagatla <srinivas.kandagatla@oss.qualcomm.com>
+References: <20250910-a663-gpu-support-v6-0-5da15827b249@oss.qualcomm.com>
+ <20250910-a663-gpu-support-v6-2-5da15827b249@oss.qualcomm.com>
+ <8ff537c9-efa0-4aeb-987d-150bef8b7c00@oss.qualcomm.com>
+ <bkhjgw4mtfmkatxjl7enn4fqqjbutealhaqgxihdmcvhekyyd4@lsosso5ta74z>
+Content-Language: en-US
+From: Akhil P Oommen <akhilpo@oss.qualcomm.com>
+In-Reply-To: <bkhjgw4mtfmkatxjl7enn4fqqjbutealhaqgxihdmcvhekyyd4@lsosso5ta74z>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUxMTA1MDEzNCBTYWx0ZWRfX2SVD4bXljNpt
+ pOl4N2nTiZIlWdtg56UuLZ27gxJ18PGIUPJRZU+O1+sWH2TFHwxANYpOx2nKYmzrKX6wNU96xCA
+ P5gEd4EiTeCjVwapRCXbe776OCLNtCQWC/r5WYSpq6gVOuX4Sx/fK4qVFQQSN5C9jFLIIx7cB5R
+ mI1/9OKwBZzd8k+s/qTu8mXJuVPQhdnp9nRSCMa9J0INa5y7Vv+GSz/YaN4hkHv4lN0TzMiolYc
+ Dva+bwCxKBWoSKrkhhI2Olojb2PVwhrwqUy2E07eIKsH0dYSY+GiHFYTDGL6ioVRsj8/RpKI95x
+ iFf9e8h1lam8nAwVaat9VWOTgL+S599f3O+2tuTaRSG+9pCPxJWZSuguqIs3xHuKRXblhsMRgcy
+ Dp+rmBjcr0Cs94G8S/3Zp/Papy5bKg==
+X-Proofpoint-GUID: 9-8abACBBLIL67SpaCXGBYUUt4dEBpY4
+X-Authority-Analysis: v=2.4 cv=LLtrgZW9 c=1 sm=1 tr=0 ts=690b8715 cx=c_pps
+ a=0uOsjrqzRL749jD1oC5vDA==:117 a=ZePRamnt/+rB5gQjfz0u9A==:17
+ a=IkcTkHD0fZMA:10 a=6UeiqGixMTsA:10 a=s4-Qcg_JpJYA:10
+ a=VkNPw1HP01LnGYTKEx00:22 a=VwQbUJbxAAAA:8 a=EUspDBNiAAAA:8 a=KKAkSRfTAAAA:8
+ a=kynJYrAj6unHVJukPU4A:9 a=QEXdDO2ut3YA:10 a=mQ_c8vxmzFEMiUWkPHU9:22
+ a=cvBusfyB2V15izCimMoJ:22
+X-Proofpoint-ORIG-GUID: 9-8abACBBLIL67SpaCXGBYUUt4dEBpY4
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.9,FMLib:17.12.100.49
+ definitions=2025-11-05_06,2025-11-03_03,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ spamscore=0 phishscore=0 adultscore=0 malwarescore=0 bulkscore=0
+ lowpriorityscore=0 suspectscore=0 clxscore=1015 priorityscore=1501
+ impostorscore=0 classifier=typeunknown authscore=0 authtc= authcc=
+ route=outbound adjust=0 reason=mlx scancount=1 engine=8.22.0-2510240001
+ definitions=main-2511050134
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -114,51 +157,56 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Nov 05, 2025 at 04:20:33PM +0100, Michał Winiarski wrote:
-> On Tue, Nov 04, 2025 at 03:27:14PM -0400, Jason Gunthorpe wrote:
-> > On Tue, Nov 04, 2025 at 11:41:53AM -0600, Lucas De Marchi wrote:
-> > 
-> > > > > > +#define INTEL_VGA_VFIO_DEVICE(_id, _info) { \
-> > > > > > +	PCI_DEVICE(PCI_VENDOR_ID_INTEL, (_id)), \
-> > > > > > +	.class = PCI_BASE_CLASS_DISPLAY << 16, .class_mask = 0xff << 16, \
-> > > > > > +	.driver_data = (kernel_ulong_t)(_info), \
-> > > > > > +	.override_only = PCI_ID_F_VFIO_DRIVER_OVERRIDE, \
-> > > > > 
-> > > > > why do we need this and can't use PCI_DRIVER_OVERRIDE_DEVICE_VFIO()
-> > > > > directly? Note that there are GPUs that wouldn't match the display class
-> > > > > above.
-> > > > > 
-> > > > > 	edb660ad79ff ("drm/intel/pciids: Add match on vendor/id only")
-> > > > > 	5e0de2dfbc1b ("drm/xe/cri: Add CRI platform definition")
-> > > > > 
-> > > > > Lucas De Marchi
-> > > > > 
-> > > > 
-> > > > I'll define it on xe-vfio-pci side and use
-> > > 
-> > > but no matter where it's defined, why do you need it to match on the
-> > > class? The vid/devid should be sufficient.
-> > 
-> > +1
-> > 
-> > Jason
+On 11/4/2025 8:32 AM, Bjorn Andersson wrote:
+> On Mon, Sep 22, 2025 at 12:55:36PM +0100, Srinivas Kandagatla wrote:
+>> Hi Bjorn,
+>>
+>> On 9/10/25 12:25 PM, Akhil P Oommen wrote:
+>>> Document compatible string for the QFPROM on Lemans platform.
+>>>
+>>> Acked-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+>>> Signed-off-by: Akhil P Oommen <akhilpo@oss.qualcomm.com>
+>>> ---
+>>
+>> In case you plan to pick this up.
+>>
+>>
+>> Acked-by: Srinivas Kandagatla <srinivas.kandagatla@oss.qualcomm.com>
+>>
 > 
-> I don't need to match on class.
+> Thanks, it seems though that I missed your reply earlier.
 > 
-> With PCI_DRIVER_OVERRIDE_DEVICE_VFIO it just becomes:
-> #define INTEL_PCI_VFIO_DEVICE(_id) { \
-> 	PCI_DRIVER_OVERRIDE_DEVICE_VFIO(PCI_VENDOR_ID_INTEL, (_id)) \
-> }
-> 
-> static const struct pci_device_id xe_vfio_pci_table[] = {
-> 	INTEL_PTL_IDS(INTEL_PCI_VFIO_DEVICE),
-> 	INTEL_WCL_IDS(INTEL_PCI_VFIO_DEVICE),
-> 	INTEL_BMG_IDS(INTEL_PCI_VFIO_DEVICE),
-> 	{}
-> };
-> 
-> So, no matching on class, but I still do need a helper macro.
+> Please pick the binding through the driver branch if you can, then I'll
+> pick the dts changes.
 
-Yes, that looks right to me.
+Bjorn, Srini has picked up this patch today. So it should show up in
+linux-next tomorrow. And I have posted a rebased version of this series
+for you here:
 
-Jason
+https://lore.kernel.org/lkml/20251105-a663-gpu-support-v8-0-62a7aaa551e3@oss.qualcomm.com/
+
+-Akhil
+
+> 
+> Regards,
+> Bjorn
+> 
+>> --srini
+>>
+>>>  Documentation/devicetree/bindings/nvmem/qcom,qfprom.yaml | 1 +
+>>>  1 file changed, 1 insertion(+)
+>>>
+>>> diff --git a/Documentation/devicetree/bindings/nvmem/qcom,qfprom.yaml b/Documentation/devicetree/bindings/nvmem/qcom,qfprom.yaml
+>>> index 3f6dc6a3a9f1adc582a28cf71414b0e9d08629ed..7d1612acca48d24c3b54c4d25fa8a210176d3bb5 100644
+>>> --- a/Documentation/devicetree/bindings/nvmem/qcom,qfprom.yaml
+>>> +++ b/Documentation/devicetree/bindings/nvmem/qcom,qfprom.yaml
+>>> @@ -39,6 +39,7 @@ properties:
+>>>            - qcom,qcs404-qfprom
+>>>            - qcom,qcs615-qfprom
+>>>            - qcom,qcs8300-qfprom
+>>> +          - qcom,sa8775p-qfprom 
+>>>            - qcom,sar2130p-qfprom
+>>>            - qcom,sc7180-qfprom
+>>>            - qcom,sc7280-qfprom
+>>>
+>>
