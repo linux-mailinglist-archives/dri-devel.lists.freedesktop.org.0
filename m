@@ -2,168 +2,60 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D6711C356C5
-	for <lists+dri-devel@lfdr.de>; Wed, 05 Nov 2025 12:44:15 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id CA217C35951
+	for <lists+dri-devel@lfdr.de>; Wed, 05 Nov 2025 13:17:46 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2E38710E708;
-	Wed,  5 Nov 2025 11:44:12 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5BD4510E70E;
+	Wed,  5 Nov 2025 12:17:44 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=Nvidia.com header.i=@Nvidia.com header.b="Qlzokf4J";
+	dkim=pass (1024-bit key; unprotected) header.d=collabora.com header.i=adrian.larumbe@collabora.com header.b="A65U5Qr6";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from SJ2PR03CU001.outbound.protection.outlook.com
- (mail-westusazon11012039.outbound.protection.outlook.com [52.101.43.39])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DC4BB10E708;
- Wed,  5 Nov 2025 11:44:10 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=oEPv7BKx/tU7KX9Q608XHe6bfs0SXbh5ZIIibxVQoQ7YowMFo5awfiPI6r9tFYEFdmam8kpUvq/AbrRxYeqA+pfNf8rlasndLbmyj3aJWKyqCPqqGGkMR3CgRJJJFC1GUEOYROPClfmoVvtE4XlCQ2+lYkglKh0xggOza0PQAXxgbzcR5SzgriNhUirjSHfoWHZx/qMFCM9+5cvNwemnjKsZzw0b8dd3R9mp3ZLqFJ44jEEABhgapeBoJ81uFuesOON5jKctCUpC8pZ8PhgbS/DZeBShWMEVPKNGiReW3Tp41Y7CNBzlGtV5y7cWDlDbQ7lZosDoMmbdSvxKuhSb7A==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=nn9LtkKJZtSPSV41vVkkONR3Iqax0AnhhwWXV+7GsBw=;
- b=qwE+vDamdUf7fe7U1/nim1hlxoPY0/vWZ7Ao8BZQibuE0fEJFLczbCilVl6OERABIskt5bzPxLHF7C747aln3TYVeuqHSD8FML1ETsqeehP9Vq6chhH0J8w3NxdgohrZuI2P3e/jSX2DOBITsdGm0/MYDamO1l37z01L7o0CpwHL3P9hW89Q9HD0jDK1WtfJOGLQOmPczx+BfRt5JBHu1BjczHdh7uaySXvr6S+fvr92YafzbSUq5vPgOtUrEtR129w80hjOHyqGVKkGTXOFuVdcHpk/+mVcZYVj6kaayE2HAYwdN0tWAz0cKwCRiJs80K81YEiSgSoWpGg/rvyeag==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
- dkim=pass header.d=nvidia.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=nn9LtkKJZtSPSV41vVkkONR3Iqax0AnhhwWXV+7GsBw=;
- b=Qlzokf4J4bsa0bPA+N3Gr3FmBUES8u2h9l8yYcb1mpaSfIfL0nnOervGzUPSErB2evX3hkEL9Lk2lJjWruKiAzyVZ3Lav1Yi2UXR88hdjSyWMYX8eTsPagbgeUjVRk2knCEt+B0hohwxK6VEYYHezrbG9K2comMW2B18VjrQBAsIfeK8uN3ENP68qkqmEOidWfJwI9r6QXY2+N72iZL0KcQJo1Yo50A4uiG+FY525IG60S9UKg+Xc7fCxd+gKzSBiw3wjxVAMAqeKBdxq+uIw0oH/Q1q2SWSXrKH6WX+Oxo58LAgXOJYNu173wcnYxV52D4iN6Ssd7rRcv3y+tU8iA==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nvidia.com;
-Received: from MN2PR12MB3997.namprd12.prod.outlook.com (2603:10b6:208:161::11)
- by PH7PR12MB8427.namprd12.prod.outlook.com (2603:10b6:510:242::8)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9275.16; Wed, 5 Nov
- 2025 11:44:07 +0000
-Received: from MN2PR12MB3997.namprd12.prod.outlook.com
- ([fe80::d161:329:fdd3:e316]) by MN2PR12MB3997.namprd12.prod.outlook.com
- ([fe80::d161:329:fdd3:e316%4]) with mapi id 15.20.9298.007; Wed, 5 Nov 2025
- 11:44:07 +0000
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
-Date: Wed, 05 Nov 2025 20:44:04 +0900
-Message-Id: <DE0QGXOEPA7E.22KWRNULPUQ72@nvidia.com>
-Cc: "John Hubbard" <jhubbard@nvidia.com>, "Alistair Popple"
- <apopple@nvidia.com>, "Joel Fernandes" <joelagnelf@nvidia.com>, "Timur
- Tabi" <ttabi@nvidia.com>, "Edwin Peer" <epeer@nvidia.com>,
- <rust-for-linux@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
- <nouveau@lists.freedesktop.org>, <dri-devel@lists.freedesktop.org>,
- "Nouveau" <nouveau-bounces@lists.freedesktop.org>
-Subject: Re: [PATCH 0/5] gpu: nova-core: leverage FromBytes for VBIOS
- structures
-From: "Alexandre Courbot" <acourbot@nvidia.com>
-To: "Alexandre Courbot" <acourbot@nvidia.com>, "Miguel Ojeda"
- <ojeda@kernel.org>, "Alex Gaynor" <alex.gaynor@gmail.com>, "Boqun Feng"
- <boqun.feng@gmail.com>, "Gary Guo" <gary@garyguo.net>,
- =?utf-8?q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>, "Benno Lossin"
- <lossin@kernel.org>, "Andreas Hindborg" <a.hindborg@kernel.org>, "Alice
- Ryhl" <aliceryhl@google.com>, "Trevor Gross" <tmgross@umich.edu>, "Danilo
- Krummrich" <dakr@kernel.org>, "David Airlie" <airlied@gmail.com>, "Simona
- Vetter" <simona@ffwll.ch>
-X-Mailer: aerc 0.21.0-0-g5549850facc2
-References: <20251029-nova-vbios-frombytes-v1-0-ac441ebc1de3@nvidia.com>
-In-Reply-To: <20251029-nova-vbios-frombytes-v1-0-ac441ebc1de3@nvidia.com>
-X-ClientProxiedBy: TYCP301CA0040.JPNP301.PROD.OUTLOOK.COM
- (2603:1096:400:380::12) To MN2PR12MB3997.namprd12.prod.outlook.com
- (2603:10b6:208:161::11)
+Received: from sender4-pp-f112.zoho.com (sender4-pp-f112.zoho.com
+ [136.143.188.112])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1F4CE10E710
+ for <dri-devel@lists.freedesktop.org>; Wed,  5 Nov 2025 12:17:43 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; t=1762345056; cv=none; 
+ d=zohomail.com; s=zohoarc; 
+ b=CtYpgGFFlQq5hWQByru0uUaDdQsyieyoys6DD3Lsf2AIRPFZj6yuZ/MWRofK+3JOWEnDqU3OxdYZ1MaRbQnY5lmtsvlF6dncXrw7hizIw3xnSXr1L6wX4f1jtkynqlgfBNQsSP5BFsqztVU0gKcrm42J/a1RyNxZ4sctzWT+9zA=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
+ s=zohoarc; t=1762345056;
+ h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To;
+ bh=BIgj4cvHgmzHQnoWYNjkFEq+ULZ85aLtrBrysm9AVUE=; 
+ b=N/CwR2/y0uE0OSC3BPmaYFb1m8IBXJaoirrmqFkTLiAScx4IXB7JKPSA2592pECVH8mi64zJUP3xSdNFNWW4MiiBtOBhHhRyAMW1I/FM6F3TWp7Ad4zuKe8w4ON4FMo+ccB7MrkkiDIAkhJbTwstOTk6qS0OfeviKXjeWW/rZjo=
+ARC-Authentication-Results: i=1; mx.zohomail.com;
+ dkim=pass  header.i=collabora.com;
+ spf=pass  smtp.mailfrom=adrian.larumbe@collabora.com;
+ dmarc=pass header.from=<adrian.larumbe@collabora.com>
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1762345056; 
+ s=zohomail; d=collabora.com; i=adrian.larumbe@collabora.com;
+ h=Date:Date:From:From:To:To:Cc:Cc:Subject:Subject:Message-ID:References:MIME-Version:Content-Type:Content-Transfer-Encoding:In-Reply-To:Message-Id:Reply-To;
+ bh=BIgj4cvHgmzHQnoWYNjkFEq+ULZ85aLtrBrysm9AVUE=;
+ b=A65U5Qr6F/dkgiK3DlPN8IaG/feZXQKfBhWOTnXdW9Q7fDV9niKH3mCtnwqI1SLn
+ 5HlMJO5K4B6RoycIP33AL0KEQqKqZOp0TsR5qSmCGLMTKegzPsb1r56cJMto5BSixmG
+ QF7PfWLTyOXp/LixbgmQ8HeU8YbN606EN7lHni40=
+Received: by mx.zohomail.com with SMTPS id 1762345054671933.3853562090325;
+ Wed, 5 Nov 2025 04:17:34 -0800 (PST)
+Date: Wed, 5 Nov 2025 12:17:28 +0000
+From: =?utf-8?Q?Adri=C3=A1n?= Larumbe <adrian.larumbe@collabora.com>
+To: Lukas Zapolskas <lukas.zapolskas@arm.com>
+Cc: dri-devel@lists.freedesktop.org, nd@arm.com, 
+ Boris Brezillon <boris.brezillon@collabora.com>,
+ Steven Price <steven.price@arm.com>, Liviu Dudau <liviu.dudau@arm.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v5 7/7] drm/panthor: Expose the panthor perf ioctls
+Message-ID: <iz3qx32cezov2dz24azht3byitp62qzx4kvssxgy2isgmln7pr@conbiuyo3scd>
+References: <cover.1753449448.git.lukas.zapolskas@arm.com>
+ <727fa1ec673d45abb51a393d4772cb0a861b409d.1753449448.git.lukas.zapolskas@arm.com>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: MN2PR12MB3997:EE_|PH7PR12MB8427:EE_
-X-MS-Office365-Filtering-Correlation-Id: f3431210-e0ac-4c2b-ae35-08de1c60a0a1
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
- ARA:13230040|366016|376014|7416014|1800799024|10070799003|921020; 
-X-Microsoft-Antispam-Message-Info: =?utf-8?B?OTVqQkMxLzVvQkhrTk1SckpKdDNoa0lVSkdsZ3JuV0J2MDd2cFE1WVVmQXdi?=
- =?utf-8?B?U2UwUDVnOUVPLzJTZ0xTb3VNS1ozNmRxVGZvaTBWeEtNc3B1a1pCRDlKSy9v?=
- =?utf-8?B?bzFDaGxPazVRV2l6dnArZkhINDlMTGFHRWtSbW9EY1YzcDl0d1pVMERRUkxm?=
- =?utf-8?B?dG1jSnExbFZyZXZBS1p3MDNYT0RnZmsvMkhCQVhISWw1dFVSd1VOTFVuNWR5?=
- =?utf-8?B?TlNHRFFVRFhvM2ZNdkJyUTRrSDB3ek1MQlpKOXE2VVpxVklnNDFPRWZIUGZa?=
- =?utf-8?B?NXdOTk5UVXV4UzVHNHd0cW1ZK1JjbC9HUFBRQjJjdCtBa1RjTE95ZFltUi8y?=
- =?utf-8?B?R0ovVTVGR1d6d29iMWNiWmkxT3BnaWc1MFYyRWJnbERwaDE3SHRIR0gyUmVY?=
- =?utf-8?B?SXdNSlFUSStMdWhWMVhSNVVrdFBnei9OMVA2WjhFQ0JrNmJCVkRTVG0vc2VD?=
- =?utf-8?B?R1loeThxZkpSRENzOHhXMjNIOVpLUUc3dkszZHNJWFdKbzdEYjR2MDd5UTVF?=
- =?utf-8?B?TG9KZ0U1QzN2MldzVG5tMTFRa3RyZWpiN1NKRUZaOFhjalFoUmlHVEpOZjhw?=
- =?utf-8?B?WGNYcWpkcGpyMmZ6QlZNRWp1MU5tWmlNS21tamxCeWpRUjRlQkVXVlFoalNo?=
- =?utf-8?B?MVduUXh5R1lCWVBHU2pzMFgrb2ZhdDROU3llKzcyd282Ukk5enZYc3pXbEVs?=
- =?utf-8?B?bDQ0OWhyS0NNZzYzU2VlVndoY0tnWElVa2VMeXlvQU5LMitFZE83SXFBNGpz?=
- =?utf-8?B?OW83MU9ST2pPM2d0VG1kdEU5bGx3V3ZlQlJZK1pzR01pY3VwcUxSU3JBSTNM?=
- =?utf-8?B?Z1BMVDNnUStvWWluZkxxRE80NGRDTlRpbDVaVEE0QktGSkpzTGVxQmFBUzA4?=
- =?utf-8?B?TWNTL1MzMmxyMVRZcCtZWVYrNXVzd002bTI5ODN5QmVrREZ0QVJxZ2pLNXIv?=
- =?utf-8?B?YzkxZS9NcWkwNEh0akc3UjRvQWREU05RQlRlTnBYWkpmdGw4WFd3ZXdrZUVR?=
- =?utf-8?B?SzNXM2hBNlRtYU9oQ3R0bzdUV2Ftakk1dzR3U3BQaUtzb0cwTVZZVjZhVHdN?=
- =?utf-8?B?clR3MERNZlVldHo0eGdKbTBPakd6S2R0Kzd3aVlNWEtiWXNKRjJ2ZnllOU9l?=
- =?utf-8?B?Q29JNXhaeEY3NjU2eVkzSUx2anBVNXdJekhjNGRhbFNQWEs5VTZGbVZra0RO?=
- =?utf-8?B?NDI1a05wZzRMUHJ0MHFNZEVGaWVERzlaN0F0Mkk3T2JXaXpPR2I3RVlaaGdF?=
- =?utf-8?B?MUd6Sk5jWFFzZmdBUzhoWXhZS0M4b0s1Q2dtdWk1WXU1WVRYRG8wOFRFdjBu?=
- =?utf-8?B?VXZFTmhIMXJHbDRoQjRhY2s1aU5oMjd4bHJoOGg5bUFMK01kZ2ZtWHI1dGZB?=
- =?utf-8?B?c3VXN2N2UmdxdlVSNEVNdlJRaVVXWlVNY0FtdEJhMnNTZkU0SDhHRm5MMnkx?=
- =?utf-8?B?bDZjSzVnaW04eGFqb09QcEFHS1Z3bnU4bEx4NlRxQkJrUnZFSlFCSU8ya01k?=
- =?utf-8?B?dFEyKy94SVd2NVBMYk80Ykc0UzN4aGF0MzlYbWQycDFGL21hZ2l3SzRIZ204?=
- =?utf-8?B?cWwrbmhrQzZkY3JPZWg2a2xqT3JMQ3A0OHJyWWtkUHNHK2xzR3k4K09vSkhw?=
- =?utf-8?B?UVVGWEJPVzUyZS9STVpCTGpia2xzY1YvMFpDOE9mYXJ1WDR4OEVUTVI2d01C?=
- =?utf-8?B?R1MyNzdnZ1VVa2xUbFJwcUVXTStvOHM2WndHdStVb2RvL3gxV1ZTRnMvUFl3?=
- =?utf-8?B?aUROcDVsWW9ldWpPU1kzamozQnN2ZGZtVWI4cE9sMVFmRk4wU2gvQlYxZG1K?=
- =?utf-8?B?bVl0MVdqMHgzdzZuaEo1eDVxNHI5bVhqZDdHdDl5Mi9PUHFUWHpsK0dSaUgw?=
- =?utf-8?B?RjUzM09VSFAwWmVselYya1IrTjNjOHgyZkVDc0s5enlNLzlSdjN2b2srRFdV?=
- =?utf-8?B?Y0NDUEpWTW02aWxYc3VPWGp5aWo4UUVTcmVmbTBuOUdXWDNwcDBBdmxZTjZ3?=
- =?utf-8?B?aU1LTTNqYjhCUktGaXNRVDVtbVU4aWEvYWt3Y1BXSVlFMjEzZXVFVjVqSEdZ?=
- =?utf-8?Q?HofsSQ?=
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:MN2PR12MB3997.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230040)(366016)(376014)(7416014)(1800799024)(10070799003)(921020);
- DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?ZW9wenpBMjZaR0k0Q1ZBU203WUdTd3hxamZ3TXBtWEVZNjhZVWhSOFlsd0FI?=
- =?utf-8?B?R2NLN2phS29Ealh6MzVtZ0lhbys5SnJOdDNNVUhNNVpnTmhmUnBJZiswRUhZ?=
- =?utf-8?B?VTdVR1lDVFJoZVpHejR5VHl1WkoxUTMxN2ZMRDN1U0lrYXZRVkJIWVU0WVJp?=
- =?utf-8?B?MHlpZ2ordzZTK2xsOWVsQ1lESDZTUytXVXk5SWdWalF5c2RUZk53UWMzQU1k?=
- =?utf-8?B?Ky9GYlRwT1l6YjBHMk44U2dGZGpmd0szempCYnYzSTBHcW8rWjQ2aFYxc3Jn?=
- =?utf-8?B?NENlZUJmTFRuOEFkbDhTMlpueHZyZVdRVGYwaEw5SzMwb09uNEllai85TmNL?=
- =?utf-8?B?OGx2U05DaWZDY0d3UGMxaFZKYlJMK0hlUWErMUozRTRraTgyaU5qakVsQlhv?=
- =?utf-8?B?K3JwbnU2bE4xTmxRaUJ0SDliYkMxREp4dnBMYXBnbjRLRnhoUytHUUJMZG1P?=
- =?utf-8?B?MDVBSVg2bWdHYVZHeEF4czJMMHllT3pWNXprc0JwTFMyZjhwSlpLeStnd3lK?=
- =?utf-8?B?SlNIZEdYR3gwdk1zTUtwNDVqVHU2dmdCcm1GNjBlQWxZZFdTY3lxQVhZUnFr?=
- =?utf-8?B?WUFmNktnb1VMRE5qQ2ZtYXpGSStMbHhtN3RQa2cyR3ZKbk5DZm42WkQyMGxh?=
- =?utf-8?B?dml5TDRTU3ZpeGt1UlowT1lham9XQ01TMGJacXVieXdEaTJiZVhDaEhVY2Vl?=
- =?utf-8?B?bzN6MnpYcEg2dWNUcUl0YmljVC92ZnMwZ1NwRHM5aEFHOCtXbU56SnY1RWZ0?=
- =?utf-8?B?MWpwLzV6Z3NpVmFoS3Y5aVlXWWRFand1ZzIybjc2VGkwWlJKVWJmYTEyUlFJ?=
- =?utf-8?B?UGlLRlpxQmZyRi9lTEZ2dlRnS2VKcUxZRkZBTWtFNlVnSUhBV0FlN1FBTW5C?=
- =?utf-8?B?SktzbGt6bTNqb3J5aXlSZTl4ODErb0hGdGo2WSt6cjlhQWxLSDZQM1hKNkRP?=
- =?utf-8?B?anZQWjlXUFJxYlJNVmlpRTdCNXg2dHE5WHkrOXNQNVp6M0Mwc3lyNWpnRmZF?=
- =?utf-8?B?RUlEOGp3c25OYzRoYTBJQ0VDSE9vT3RkTEVOSU1tZ2kzQTFQby9veWRqejhU?=
- =?utf-8?B?ZU03cDFVTjUraEZRU2FGUUtJdDRlajVmNnZINkVqQy9mYmlqenpJazFwMlFk?=
- =?utf-8?B?S3QwRFh2bVFnYUhaQ0xTb2xoRk5VcnlVVytJdS9zcDVvaTV6TEYzMDNVdWd5?=
- =?utf-8?B?bXVEdms3RjBmdnBlVkViU0t3dXNyc0NUSmJ4VjduRm9aRWI1MFdQZ202UXcw?=
- =?utf-8?B?WkFmQkRYaEpIaWxyWThydkJXanhsc0NPc0Z4S2l3Ly9McDBBdWp1QXA3ZGhW?=
- =?utf-8?B?dzFTNThXRFNyVFJEd3RLUjgzRUZYd2k0YVJyRUZxZ1NDdzhtRkJLNVdsdFdT?=
- =?utf-8?B?K3UxTkQrMmVKRmhaTzhwK0lvdGpKLy9IcXRZV1dNa3Qvd29sdjF6MDZOdnJ1?=
- =?utf-8?B?d3dJZ1gwWVdaVG5LZGpXSUlQNTJtK0JieFR4cGM3NUNjQ1ZPRmZiWis4MzhK?=
- =?utf-8?B?WEQwRnE2Z0hQUUNHR3ZMMEsrV1FYUDkxb3dNdm5tUjZWblYyU0cvK0dJZE1B?=
- =?utf-8?B?RnZoMFgvL0hIOHhJZk5PeXh1emcybDVCR1ZLQTViUTh2NVByWGlpYlBnN1pN?=
- =?utf-8?B?N3NnL3RJbis5TEJjM040N29ib1FpTllHOGNZWmhoV1JBb2RwZzgxU1NDWnpT?=
- =?utf-8?B?K1dzcmNleGR3R2ZLRWd2MXdHMHN2MnAwcWpYQWhXaTBVdyt6MVo3VElkTmRZ?=
- =?utf-8?B?RUdVZEdVdXg2UTFqUGhWS2dMVjNMQUNyU0JPMk01bzIvTVZPdEw3NGRzblN4?=
- =?utf-8?B?R0pLNTBCb1ViNEJFcDE3RkxiZmlXQU42cWt4bEZ0U3lQY0pUbUtDQ1VXNVdK?=
- =?utf-8?B?NUJ2dVF4WkJJdWwxWisrZVJCN0doem9MSjBYUTY4UVE4T0ZGVjVEQnRWZUVL?=
- =?utf-8?B?WE1aOTFYWk11QkVNS2RnSjhSdTNVeWM4SWFJN1l5c3JLMElOdTNrTm0xallh?=
- =?utf-8?B?ZkFtTGdZMTVrOE4wc2tGajBFYXZ0SlNjVGt6Nlo4c1N6SDd0V3N5Q3NiOERI?=
- =?utf-8?B?Rit6cWpyQ2RLQTZYZG1raTYvNytoZTNOM0MrK2tUbTRXaURwaUVpbnhQSzZk?=
- =?utf-8?B?V1BleTBxSVhad0l6OFU0ZlZGclIyQVU1QjFpSk56SW9zVUJwTmVaLy9NMitP?=
- =?utf-8?Q?VWQnGECxzz9mG8brgOSe4SvDz6lSTqckqhDDTw5gARzj?=
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: f3431210-e0ac-4c2b-ae35-08de1c60a0a1
-X-MS-Exchange-CrossTenant-AuthSource: MN2PR12MB3997.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 05 Nov 2025 11:44:07.4620 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: WL4R7k2aaqesbOo+KnDyiQKIQ9gpDXypHzGSS8TwUBvjDrJDOu/LVvUYI4pFtA/Qwb/CH4O5pHpf3LCctx+eRw==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH7PR12MB8427
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <727fa1ec673d45abb51a393d4772cb0a861b409d.1753449448.git.lukas.zapolskas@arm.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -179,35 +71,230 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed Oct 29, 2025 at 12:07 AM JST, Alexandre Courbot wrote:
-> This series spawns from the discussion in [1], where it was noticed that
-> several structures of the VBIOS could just be read using `FromBytes`
-> instead of being built manually.
+On 25.07.2025 15:57, Lukas Zapolskas wrote:
+> This patch implements the PANTHOR_PERF_CONTROL ioctl series, and
+> a PANTHOR_GET_UOBJ wrapper to deal with the backwards and forwards
+> compatibility of the uAPI.
 >
-> While implementing it, I also noticed that we were repeating the
-> following pattern quite a bit in the code:
+> The minor version is bumped to indicate that the feature is now
+> supported.
 >
->     slice
->         .get(..size_of::<TargetType>())
->         .and_then(TargetType::from_bytes_copy)
+> Signed-off-by: Lukas Zapolskas <lukas.zapolskas@arm.com>
+> Reviewed-by: Adrián Larumbe <adrian.larumbe@collabora.com>
+> ---
+>  drivers/gpu/drm/panthor/panthor_drv.c | 142 +++++++++++++++++++++++++-
+>  1 file changed, 140 insertions(+), 2 deletions(-)
 >
-> ... which begs for dedicated methods doing this in the `FromBytes`
-> trait. This is what the first patch does, taking inspiration from a
-> similar feature in the `zerocopy` crate.
+> diff --git a/drivers/gpu/drm/panthor/panthor_drv.c b/drivers/gpu/drm/panthor/panthor_drv.c
+> index 8b1e3e38b12e..05e3c83b8129 100644
+> --- a/drivers/gpu/drm/panthor/panthor_drv.c
+> +++ b/drivers/gpu/drm/panthor/panthor_drv.c
+> @@ -31,6 +31,7 @@
+>  #include "panthor_gpu.h"
+>  #include "panthor_heap.h"
+>  #include "panthor_mmu.h"
+> +#include "panthor_perf.h"
+>  #include "panthor_regs.h"
+>  #include "panthor_sched.h"
 >
-> The remaining patches leverage these new methods to simplify the VBIOS
-> code a bit, accordingly.
+> @@ -73,6 +74,40 @@ panthor_set_uobj(u64 usr_ptr, u32 usr_size, u32 min_size, u32 kern_size, const v
+>  	return 0;
+>  }
 >
-> If patch 1 is deemed a valid idea, I hope we can merge it into the DRM
-> tree along with the rest of this series.
+> +/**
+> + * panthor_get_uobj() - Copy user object to kernel object.
+> + * @usr_ptr: Users pointer.
+> + * @usr_size: Size of the user object.
+> + * @min_size: Minimum size for this object.
+> + * @kern_size: Kernel size of the object.
+> + *
+> + * Helper automating user -> kernel object copies.
+> + *
+> + * Don't use this function directly, use PANTHOR_UOBJ_GET() instead.
+> + *
+> + * Return: valid pointer on success, an encoded error code otherwise.
+> + */
+> +static void*
+> +panthor_get_uobj(u64 usr_ptr, u32 usr_size, u32 min_size, u32 kern_size)
+> +{
+> +	int ret;
+> +	void *out_alloc __free(kvfree) = NULL;
+> +
+> +	/* User size shouldn't be smaller than the minimal object size. */
+> +	if (usr_size < min_size)
+> +		return ERR_PTR(-EINVAL);
+> +
+> +	out_alloc = kvmalloc(kern_size, GFP_KERNEL);
+> +	if (!out_alloc)
+> +		return ERR_PTR(-ENOMEM);
+> +
+> +	ret = copy_struct_from_user(out_alloc, kern_size, u64_to_user_ptr(usr_ptr), usr_size);
+> +	if (ret)
+> +		return ERR_PTR(ret);
+> +
+> +	return_ptr(out_alloc);
+> +}
+> +
+>  /**
+>   * panthor_get_uobj_array() - Copy a user object array into a kernel accessible object array.
+>   * @in: The object array to copy.
+> @@ -176,7 +211,11 @@ panthor_get_uobj_array(const struct drm_panthor_obj_array *in, u32 min_stride,
+>  		 PANTHOR_UOBJ_DECL(struct drm_panthor_queue_submit, syncs), \
+>  		 PANTHOR_UOBJ_DECL(struct drm_panthor_queue_create, ringbuf_size), \
+>  		 PANTHOR_UOBJ_DECL(struct drm_panthor_vm_bind_op, syncs), \
+> -		 PANTHOR_UOBJ_DECL(struct drm_panthor_perf_info, shader_blocks))
+> +		 PANTHOR_UOBJ_DECL(struct drm_panthor_perf_info, shader_blocks), \
+> +		 PANTHOR_UOBJ_DECL(struct drm_panthor_perf_cmd_setup, shader_enable_mask), \
+> +		 PANTHOR_UOBJ_DECL(struct drm_panthor_perf_cmd_start, user_data), \
+> +		 PANTHOR_UOBJ_DECL(struct drm_panthor_perf_cmd_stop, user_data), \
+> +		 PANTHOR_UOBJ_DECL(struct drm_panthor_perf_cmd_sample, user_data))
 >
-> The base for this work is `drm-rust-next`, with [2] applied.
+>  /**
+>   * PANTHOR_UOBJ_SET() - Copy a kernel object to a user object.
+> @@ -191,6 +230,25 @@ panthor_get_uobj_array(const struct drm_panthor_obj_array *in, u32 min_stride,
+>  			 PANTHOR_UOBJ_MIN_SIZE(_src_obj), \
+>  			 sizeof(_src_obj), &(_src_obj))
 >
-> [1] https://lore.kernel.org/rust-for-linux/DDTRW1P2I4PB.10ZTZDY95JBC5@nvi=
-dia.com/
-> [2] https://lore.kernel.org/rust-for-linux/20251026-nova-as-v1-1-60c78726=
-462d@nvidia.com/
+> +/**
+> + * PANTHOR_UOBJ_GET() - Copies a user object from _usr_ptr to a kernel accessible _dest_ptr.
+> + * @_dest_ptr: Local variable
+> + * @_usr_size: Size of the user object.
+> + * @_usr_ptr: The pointer of the object in userspace.
+> + *
+> + * Return: Error code. See panthor_get_uobj().
+> + */
+> +#define PANTHOR_UOBJ_GET(_dest_ptr, _usr_size, _usr_ptr) \
+> +	({ \
+> +		typeof(_dest_ptr) _tmp; \
+> +		_tmp = panthor_get_uobj(_usr_ptr, _usr_size, \
+> +				PANTHOR_UOBJ_MIN_SIZE(_tmp[0]), \
+> +				sizeof(_tmp[0])); \
+> +		if (!IS_ERR(_tmp)) \
+> +			_dest_ptr = _tmp; \
+> +		PTR_ERR_OR_ZERO(_tmp); \
+> +	})
+> +
+>  /**
+>   * PANTHOR_UOBJ_GET_ARRAY() - Copy a user object array to a kernel accessible
+>   * object array.
+> @@ -1402,6 +1460,83 @@ static int panthor_ioctl_set_user_mmio_offset(struct drm_device *ddev,
+>  	return 0;
+>  }
 >
-> Signed-off-by: Alexandre Courbot <acourbot@nvidia.com>
+> +#define perf_cmd(command) \
+> +	({ \
+> +		struct drm_panthor_perf_cmd_##command *command##_args __free(kvfree) = NULL; \
+> +		int _ret = PANTHOR_UOBJ_GET(command##_args, args->size, args->pointer); \
+> +		if (_ret) \
+> +			return _ret; \
+> +		return panthor_perf_session_##command(pfile, ptdev->perf, args->handle, \
+> +						      command##_args->user_data); \
+> +	})
+> +
+> +static int panthor_ioctl_perf_control(struct drm_device *ddev, void *data,
+> +				      struct drm_file *file)
+> +{
+> +	struct panthor_device *ptdev = container_of(ddev, struct panthor_device, base);
+> +	struct panthor_file *pfile = file->driver_priv;
+> +	struct drm_panthor_perf_control *args = data;
+> +	int ret;
+> +
+> +	if (!args->pointer) {
+> +		switch (args->cmd) {
+> +		case DRM_PANTHOR_PERF_COMMAND_SETUP:
+> +			args->size = sizeof(struct drm_panthor_perf_cmd_setup);
+> +			return 0;
+> +
+> +		case DRM_PANTHOR_PERF_COMMAND_TEARDOWN:
+> +			args->size = 0;
+> +			return 0;
+> +
+> +		case DRM_PANTHOR_PERF_COMMAND_START:
+> +			args->size = sizeof(struct drm_panthor_perf_cmd_start);
+> +			return 0;
+> +
+> +		case DRM_PANTHOR_PERF_COMMAND_STOP:
+> +			args->size = sizeof(struct drm_panthor_perf_cmd_stop);
+> +			return 0;
+> +
+> +		case DRM_PANTHOR_PERF_COMMAND_SAMPLE:
+> +			args->size = sizeof(struct drm_panthor_perf_cmd_sample);
+> +			return 0;
+> +
+> +		default:
+> +			return -EINVAL;
+> +		}
 
-Pushed to drm-rust-next, thanks for the reviews!
+After a second look at this, now I wonder what the point of passing these command struct values
+back to UM from inside the ioctl() is, because they're still part of the uAPI. That means for
+as long as the driver uAPI header files are kept in sync between UM and KM, then a client just
+has to call sizeof(struct drm_panthor_perf_cmd_*) to compute these values.
+
+> +	}
+> +
+> +	switch (args->cmd) {
+> +	case DRM_PANTHOR_PERF_COMMAND_SETUP:
+> +	{
+> +		struct drm_panthor_perf_cmd_setup *setup_args __free(kvfree) = NULL;
+> +
+> +		ret = PANTHOR_UOBJ_GET(setup_args, args->size, args->pointer);
+> +		if (ret)
+> +			return -EINVAL;
+> +
+> +		return panthor_perf_session_setup(file, ptdev->perf, setup_args);
+> +	}
+> +	case DRM_PANTHOR_PERF_COMMAND_TEARDOWN:
+> +	{
+> +		return panthor_perf_session_teardown(pfile, ptdev->perf, args->handle);
+> +	}
+> +	case DRM_PANTHOR_PERF_COMMAND_START:
+> +	{
+> +		perf_cmd(start);
+> +	}
+> +	case DRM_PANTHOR_PERF_COMMAND_STOP:
+> +	{
+> +		perf_cmd(stop);
+> +	}
+> +	case DRM_PANTHOR_PERF_COMMAND_SAMPLE:
+> +	{
+> +		perf_cmd(sample);
+> +	}
+> +	default:
+> +		return -EINVAL;
+> +	}
+> +}
+> +
+>  static int
+>  panthor_open(struct drm_device *ddev, struct drm_file *file)
+>  {
+> @@ -1476,6 +1611,7 @@ static const struct drm_ioctl_desc panthor_drm_driver_ioctls[] = {
+>  	PANTHOR_IOCTL(GROUP_SUBMIT, group_submit, DRM_RENDER_ALLOW),
+>  	PANTHOR_IOCTL(BO_SET_LABEL, bo_set_label, DRM_RENDER_ALLOW),
+>  	PANTHOR_IOCTL(SET_USER_MMIO_OFFSET, set_user_mmio_offset, DRM_RENDER_ALLOW),
+> +	PANTHOR_IOCTL(PERF_CONTROL, perf_control, DRM_RENDER_ALLOW),
+>  };
+>
+>  static int panthor_mmap(struct file *filp, struct vm_area_struct *vma)
+> @@ -1609,6 +1745,8 @@ static void panthor_debugfs_init(struct drm_minor *minor)
+>   * - 1.3 - adds DRM_PANTHOR_GROUP_STATE_INNOCENT flag
+>   * - 1.4 - adds DRM_IOCTL_PANTHOR_BO_SET_LABEL ioctl
+>   * - 1.5 - adds DRM_PANTHOR_SET_USER_MMIO_OFFSET ioctl
+> + * - 1.6 - adds DEV_QUERY_PERF_INFO query
+> + *       - adds PERF_CONTROL ioctl
+>   */
+>  static const struct drm_driver panthor_drm_driver = {
+>  	.driver_features = DRIVER_RENDER | DRIVER_GEM | DRIVER_SYNCOBJ |
+> @@ -1622,7 +1760,7 @@ static const struct drm_driver panthor_drm_driver = {
+>  	.name = "panthor",
+>  	.desc = "Panthor DRM driver",
+>  	.major = 1,
+> -	.minor = 5,
+> +	.minor = 6,
+>
+>  	.gem_create_object = panthor_gem_create_object,
+>  	.gem_prime_import_sg_table = drm_gem_shmem_prime_import_sg_table,
+> --
+> 2.33.0.dirty
+
+
+Adrian Larumbe
