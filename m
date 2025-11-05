@@ -2,165 +2,160 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0FBE7C35BDC
-	for <lists+dri-devel@lfdr.de>; Wed, 05 Nov 2025 14:00:41 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0842DC35C00
+	for <lists+dri-devel@lfdr.de>; Wed, 05 Nov 2025 14:03:22 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5827210E0B7;
-	Wed,  5 Nov 2025 13:00:38 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E6CA710E738;
+	Wed,  5 Nov 2025 13:03:18 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=amd.com header.i=@amd.com header.b="eLl9PV9a";
+	dkim=pass (1024-bit key; unprotected) header.d=amd.com header.i=@amd.com header.b="Z2dozj4Z";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from BL2PR02CU003.outbound.protection.outlook.com
- (mail-eastusazon11011023.outbound.protection.outlook.com [52.101.52.23])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 98B5D10E0B7;
- Wed,  5 Nov 2025 13:00:37 +0000 (UTC)
+Received: from SN4PR0501CU005.outbound.protection.outlook.com
+ (mail-southcentralusazon11011048.outbound.protection.outlook.com
+ [40.93.194.48])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D722510E738;
+ Wed,  5 Nov 2025 13:03:17 +0000 (UTC)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=EjxdKsKHMnuXF2x6Q6aOSd0W9rBt3+lEeirbx1I4y8xab90gUOSJ5+aIgDIezbVKHme8EGEl1Yt0v+vPJTcZQSAb0hiYW0UqFB+1oUaPBV508vXzEdmNmu8jRlz2ICJnClXxZmdFPgy1kvrfCqoTzgyxvFvMKSKOvuot+2p8baQrwTKZ8MIrzlZYd84PE6zG6065sP3pXQ1LbysoA0B3IcwnZ3FVScQB4OOuNy23zChMmyEODO/hyOQg6kOlZ9r4XxMlSGDYebf1IL3vBqjOoNdWhJ5iYYuEQ7HgkneYRvczn5TxpuipOSKRBfOWEvULFF30kg6yb7sYzVrM4uLBOA==
+ b=nqkd5oeqUrMOZYWIqZmojtVUzNct285UfeIDmla9VrLMh6DVaFkduN9BQ0o3yjaoXhfBUJVynAgWZwlSASgTC/F0X2PeCuCWxLgs55AfF+MPZfxktYjK7QRa1Ev7JDRG4sGbJ5Xw+VR33tjnhh9iiGzhq07m6nljcHFJ0PHWxEnem5oiRJrpmyzrRVKJshDXdS+xYavctPvCV9Qbfudf8Sx1umwJbsi2jB1rTr5RBVHu7NYWE6cEfO0fYUz4PeGUCVmnCbkry6pHR69vcGBnbkxg4KyuuRrkgUqL5TS3wrHbhpp1gpsouJDaiCDa5WTniFs5YvAssCImNxo42rzJ+w==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=/OHOCQqh5sNGG+6ssd03z2xmGGDE1if/tr6YKyczS4M=;
- b=s7HCsgO0t8x3Mj1RuK6tRGSPAFFyAk/fPMedSfNZWUSht/Hs3iz/FWGSAU9Atnr5fbtKOqrbwtqN4My4JhzONglf18zLsG+IPiYWlUnWdPveCXCIQeyQo3b8MJfz6Ln3KcB0rSKxFjIRF6QaT5ltIU4hksPe42yWCqjTCE8k6YTiDLwGzlJczFXloTYBb5SLWk0+klKB9mR4Bxv6FOOFY4HnhU5jiE/zJbWEF3y3SMFkhjptu1rcVEmY+x9YsCDBDm/YLKVJNwibKhxFPLn8DKQR0kH5k7kku+HEguiRM/O9/Ev7hsVdbrAaJG4TDtdyymGfB2/amm3Yep1nkBEz6A==
+ bh=8AmX7zzo0CxA+lXPCSIvrPAcsTRIhV8NKQx2aM/k06g=;
+ b=QXzecvXgCfb6ihppOm0dDJhVOu6aLlfNNCdNWLDZjxLtbRu0oNnJ9FMJlgjcUpCaAzgwDGppajmgWtW5hYRjdVwc20Xvyk0wkdu3su0qudUX44sBEjPka4Ly+QriDAKkUgpCVGSfz4nm5hk9t3c2PUdpnSNUac5NPUW5sGdlNU8yG5e4XMgdhfFUxNc7W9wvHZ8IhHhcDvbXpT+vSxy7Tn+c3b6Tdd6lwNOVrQFIqT4xvCtJfMx7DOzeCDuPFXzGW81HuQX/d1mTAY5crCv5ftpyTKkey7HZPY9bIfxg7wBkij5o/Va1+QwbD0GAb/RQZ+9gqbC4vtzS5up19Z3KrQ==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
  header.d=amd.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=/OHOCQqh5sNGG+6ssd03z2xmGGDE1if/tr6YKyczS4M=;
- b=eLl9PV9aM9a272h+mk4mP/YvClEzjS2FhXftZ9E6Uek9JLGWxvQtluIyLScPezBJCPp6b7FWJGyIXfFdYMyXh7Y+KCZpNkmrtNTHXe5wTiiTIAMEBYK1C3BY9G/1qSYetExVyKaW7Cd7GUptldlA+rpKmWCEagrBtepQVirmp+Q=
+ bh=8AmX7zzo0CxA+lXPCSIvrPAcsTRIhV8NKQx2aM/k06g=;
+ b=Z2dozj4Z/+cqdEqyiAo/oNPnvthwATQekqFswooL4BQvdx4oYIGEqRPxo30jLSfVKm4oZdUk5X2qbWfikZGketf5o40kA72aQ3J+MuinSd8O3BjMSq6gsuSn1uvYfCOWrIlgOlOX/+nMGdHK9V4zTbOTgZgXYr0sHlXVEd9W6B8=
 Authentication-Results: dkim=none (message not signed)
  header.d=none;dmarc=none action=none header.from=amd.com;
 Received: from PH7PR12MB5685.namprd12.prod.outlook.com (2603:10b6:510:13c::22)
- by CH3PR12MB7497.namprd12.prod.outlook.com (2603:10b6:610:153::16)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9298.10; Wed, 5 Nov
- 2025 13:00:31 +0000
+ by DM6PR12MB4106.namprd12.prod.outlook.com (2603:10b6:5:221::7) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9298.7; Wed, 5 Nov
+ 2025 13:03:15 +0000
 Received: from PH7PR12MB5685.namprd12.prod.outlook.com
  ([fe80::46fb:96f2:7667:7ca5]) by PH7PR12MB5685.namprd12.prod.outlook.com
  ([fe80::46fb:96f2:7667:7ca5%4]) with mapi id 15.20.9298.007; Wed, 5 Nov 2025
- 13:00:30 +0000
-Message-ID: <4c7011f0-5886-4e1e-a614-a6107d9b470c@amd.com>
-Date: Wed, 5 Nov 2025 14:00:24 +0100
+ 13:03:14 +0000
+Message-ID: <29c2e42d-6d94-4462-9302-af71f489a928@amd.com>
+Date: Wed, 5 Nov 2025 14:03:04 +0100
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v1 02/20] drm/ttm: rework pipelined eviction fence handling
+Subject: Re: [PATCH v1 11/20] drm/amdgpu: use multiple entities in
+ amdgpu_fill_buffer
 To: Pierre-Eric Pelloux-Prayer <pierre-eric@damsy.net>,
  Pierre-Eric Pelloux-Prayer <pierre-eric.pelloux-prayer@amd.com>,
  Alex Deucher <alexander.deucher@amd.com>, David Airlie <airlied@gmail.com>,
- Simona Vetter <simona@ffwll.ch>, Huang Rui <ray.huang@amd.com>,
- Matthew Auld <matthew.auld@intel.com>,
- Matthew Brost <matthew.brost@intel.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- Sumit Semwal <sumit.semwal@linaro.org>
+ Simona Vetter <simona@ffwll.ch>, Sumit Semwal <sumit.semwal@linaro.org>
 Cc: amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
  linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
  linaro-mm-sig@lists.linaro.org
 References: <20251104083605.13677-1-pierre-eric.pelloux-prayer@amd.com>
- <20251104083605.13677-3-pierre-eric.pelloux-prayer@amd.com>
- <13f0cda3-baae-42a4-a7c6-1fdd774bb5d2@amd.com>
- <5bf372ea-40ef-4b07-be13-53451828d3e1@damsy.net>
+ <20251104083605.13677-12-pierre-eric.pelloux-prayer@amd.com>
+ <0f9aa878-46c4-48d6-9ad5-774a0927b291@amd.com>
+ <7395bf47-68fd-4af6-8720-e51dc75253bc@damsy.net>
 Content-Language: en-US
 From: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
-In-Reply-To: <5bf372ea-40ef-4b07-be13-53451828d3e1@damsy.net>
+In-Reply-To: <7395bf47-68fd-4af6-8720-e51dc75253bc@damsy.net>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: BN9PR03CA0616.namprd03.prod.outlook.com
- (2603:10b6:408:106::21) To PH7PR12MB5685.namprd12.prod.outlook.com
+X-ClientProxiedBy: BN9PR03CA0778.namprd03.prod.outlook.com
+ (2603:10b6:408:13a::33) To PH7PR12MB5685.namprd12.prod.outlook.com
  (2603:10b6:510:13c::22)
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: PH7PR12MB5685:EE_|CH3PR12MB7497:EE_
-X-MS-Office365-Filtering-Correlation-Id: e1c1a412-77b8-480e-4358-08de1c6b4cab
+X-MS-TrafficTypeDiagnostic: PH7PR12MB5685:EE_|DM6PR12MB4106:EE_
+X-MS-Office365-Filtering-Correlation-Id: ad9ede8a-3b8f-4877-4164-08de1c6badee
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
- ARA:13230040|366016|376014|7416014|1800799024|921020; 
-X-Microsoft-Antispam-Message-Info: =?utf-8?B?WEVxZnNJT1pzZy9YaFJHbzQ0blVmYU9rQzZTV2lXUFVJdENpeC9pK09nZ1Uz?=
- =?utf-8?B?aTdhWnBFcit3MmNhanFqbEg4N05JWkhCUHQwTUZZV21MSXFtUUpEMlEvbFQ1?=
- =?utf-8?B?TGlWdStocWQ4emdTRVZVTjZ1SDZBNjhPVHFvZWM0RzNrRFRwY3ZSRS9mYWcr?=
- =?utf-8?B?WEdFOCtmZWZMd1FuRWFOM1N6bzVlVXhyeW1aVHh6K3ZzbjA5d01EeFZXUmxS?=
- =?utf-8?B?VHAyRGN1OHJYOHlVU1hTc0NBSmYyWW1FbUpwdjh5U1RocWVyOEU3MGxRVGt1?=
- =?utf-8?B?djFZVjhoYjRkTm5WSTZOWG4yUFVHcFd0ZnNpSENCYVk5cmh6eGI4RUZDdGZM?=
- =?utf-8?B?NnY0NzlFNU1FNmM0eUVQdmNxYWY4TmNqOTQ2NUVSU1pGazNTbGtBUmVVV3hM?=
- =?utf-8?B?UHRGYkpENHZHZjFWeHgrQnpHc0hqWi9oVzl2UFdQUUN3MWhlTWpuNlpzNEpH?=
- =?utf-8?B?OUMvWXloakYydy9HNWFneDRKbytQbnYzb0dvdDlGV2VwZGhTUW1zMXpiWU9T?=
- =?utf-8?B?YlB5aDFDcndUTjF6NVoycVRSZUc5a3hxd0w1eG9kZmJEcHJwTG9PZUszQ09C?=
- =?utf-8?B?MloyUUt0WVhXeHFQczc5YVBSbXo1Z1B3VzF2OVh3MGN0K1IvbENQWmJkZjZt?=
- =?utf-8?B?YkRvU3J4dWRKMStPK2JxU253c2VESGpFZFN5aExUMnRYYjhFeTc0cjdpb3JX?=
- =?utf-8?B?Tm5Ud0w5bjkwVXhaS3RlWTJsbWJMREFBcUx3S3V3YTRaeTFqZVl3SUhYYmZS?=
- =?utf-8?B?dUg3RkR1bEpqVmpWN1RzK2hUZzF5NmxhTFA5SjZvOHdNZUNmQjVORElhNkFq?=
- =?utf-8?B?YzluVWdOZjRJbkRmNk9jcVh0ZjA4Ujl0a3lFMnFxRGVNQnZWdFlBMWwyWktL?=
- =?utf-8?B?aHZlUDg5ZFUycEV2TlR5VUZZR2F2S2pGVGdQbEw5S1NQRmJBVlVDVWZhQTls?=
- =?utf-8?B?bkdEVUpYOTROZHd0a1k5SU1QRzZZRkdoV3VzTG1vcmdybkVURVIrNFlnaGtl?=
- =?utf-8?B?SWZ4M0Vaa1Z3Q3Q1K1BRZWpmUWdwSStzVk1tZkRLd0RTaVBndWVtNmdLdUtR?=
- =?utf-8?B?cWhSVGtEOG02NGY5bVB2ZUdWd1hLRFN3aHhuOTNCOUV2RUovbkl0SnVhUGYr?=
- =?utf-8?B?NzhHbnZSUUNLblpWeldoeXQ0NmNLVW50R3VJSVhvZjJEVm85d211QTFaOThl?=
- =?utf-8?B?aHhWMHh2UjhkQ2dOZzR1TytCWVYrMENETWpybUMxbWZpVG02UTd5anEzSzdq?=
- =?utf-8?B?NjJQVmlVL2t0QzB3R05aT1RBRCtJNjZvREMraWR3MkxtdEVvK1dzblZvWlh0?=
- =?utf-8?B?VEo1MTB2UW5BZVQ1VWJUeXY0M24vOWtvL2NwMk9zMGE5WUcwR1BwUW5id1V1?=
- =?utf-8?B?MVBVaFFSOEh4djUwVHF6Qzk2Y0tYUzBuaDZOUXUrVi96Zys0d2ZiRzIwVFRl?=
- =?utf-8?B?MEhGUDg5MjMzSUxPcGJWUkI3T1EvMkIzQ1FHZUtKbXJVZWNLNmUvekJLSDJJ?=
- =?utf-8?B?OWhZNngxY3pWZ1hVaUlJbkx3T1NkTWtHVXNLM0NWdW9la2NwVzVaS0p2enE2?=
- =?utf-8?B?NjRsT0hKNzVJYU94NjduaXhIL0gzZ2p6bEFET2lFaHg0ZUtYdTVlVmpIQWk0?=
- =?utf-8?B?QWxvTDNJRTFrbUlYYXE0M0s4TC9JbExWcGU3RHFvODdiQWdIbENjVnVRUm1n?=
- =?utf-8?B?Y2hDeXp0b0hHekhKcWFJNzN4SkU1ZlBpOVJMcGZoNjNDcUJuT1hKd2xPYk5l?=
- =?utf-8?B?allJMWJHT1pvWlJabmtZQzV5VTNXWXZqbEUxWFY4cExjVEJ5Q0pTS1pDTjRN?=
- =?utf-8?B?NGZWMGQyNFFCWDQzWkEwdEZpWXpxUFVlMklMUGgwRkJBSFMvV3hWNFBhRjRl?=
- =?utf-8?B?ZGdVM1pEU3l5MDVaS2MxRkZvRU5ZZUY0VHVsYUtHaTFQbTN5WWpQb0RDTHN1?=
- =?utf-8?B?bzZSaWVQRStFaW1Uc2ExcDFSUVpLYWpHZnZtVFhXSGw0VjVreHgzNzl3WGtT?=
- =?utf-8?Q?DDK8/EoMyNhihR12CC9VQBFnqs00WE=3D?=
+X-Microsoft-Antispam: BCL:0;ARA:13230040|366016|1800799024|376014|3122999009;
+X-Microsoft-Antispam-Message-Info: =?utf-8?B?b0ZjdlA1MUxUbGt0TjUra1FvSUp2R2FKb1dSRDlOckJJNEFYOGVWMWE2VXFj?=
+ =?utf-8?B?b0pOWms5K0FXWTV0OUxCRmVYcGZ0T1g2eWV5OGU1T2hDeCtYWndQNjV1OU42?=
+ =?utf-8?B?d0ZkeUxIQlBablpCa1ppQm1jZ0piOHY2bE84WUIwalFMcFExTEZHcEVGV002?=
+ =?utf-8?B?alNYa3pGdW1Oek5mRVc1MlpxQUFmMXJvYnR2TS9URk5oTnMxRTFzZU9Bb1JH?=
+ =?utf-8?B?eE1TbVU2ZmtMSTY3Sk15aVV0enlLZWhhcmxtcUoxUk5jRVNZSW91Tzg0QTRm?=
+ =?utf-8?B?OHhZZis0VGlRZnhvZVk1S0ZqSUVhMlZFMEdtSjF0c3liak5CaDkxUHdoWjBP?=
+ =?utf-8?B?Sjg3ZDNjRlBrNUZLZGNRNVE4VkwyWnlDNFhqNnFnamxkQksxVjZWUEVTQnc4?=
+ =?utf-8?B?RWwydUx0VERIMzNyalVtRkVGQ0NoY3dyVVB2cEo4ZzVtWjRMd1lsNkgzSnlk?=
+ =?utf-8?B?SjltVkw5bXNVRjNxQ3NLSTc5aUplS0QrK0s4K2FReHRzSm84UFBRMDg5eUdD?=
+ =?utf-8?B?cC82cjVOcGpnSEdKUVhWeU44cDdQUjdXNTNudXdRck9KdFJkLzY5UmloYkQz?=
+ =?utf-8?B?VFkwTmNheWJtcXZJNUNXdkh6NTFTSnU0ZlQ1MjVNcmszQk5RUUMwTnExV3F5?=
+ =?utf-8?B?UFVvN3h1QnA1TG9HdDNPb3RxcllBRi9PV0pXdFdvMnpqOWZMRHlRVW1oRzBT?=
+ =?utf-8?B?bjlBYWc3SDNBcjVqV294KzNaZ3hLTEdLaURXN3BiMVIvMVNtdjNFUDA5UnRM?=
+ =?utf-8?B?VkkremltbWRFUzFpaVArQThqRnE1OWxMS2crYmdvcjJyYllUL2syNXNmUUJ5?=
+ =?utf-8?B?V1NNRlcxeStreldwbE9DRmFuRjQvUTZRTmdrUTR0dXpETjZkV1J3VG1uQzVR?=
+ =?utf-8?B?R21yeDdKN2N0dVNHYzUvMGYyOFJySTdwaVQ2bnh2RTNNbHRMN0V2Tno0aEhO?=
+ =?utf-8?B?bUZESjJOd1pQMkVlQ3hxMThZblFGRTlXT2o4cnYwQXJ0Q2ZyWUw1c0pHRGpN?=
+ =?utf-8?B?NGNWQTNBU2dzZVNUcDYreTVUZDFNeTNFQWV1TG51NmltSGNCQ0RJeE9RNDNq?=
+ =?utf-8?B?WTZNRG15c1BXNG9WNm1WaHkwQXVuanFURkJZbS94a09Pd0wzdmxaall5Znpa?=
+ =?utf-8?B?Y0ZvVG9GYVFVYmM5ZzdMS0VEZmRxa20rSktIRnJ6a0YyQ01DNXhSeTh6WjZz?=
+ =?utf-8?B?VVRXV0ZHMXE1NDhMRG1maTJHSGRUMWdDNEZ0cWVBR21peUh0d0FFN2lVbXJU?=
+ =?utf-8?B?aGgyeXl0WEFzVjJNQi9ERUN5RjVXcUczRHFtY0QvK2ZDNnlJYUNobnI2UU9B?=
+ =?utf-8?B?Wi9EWDFrMXlBblI5djRsd2RWckt0eDZ4QzdXWEVyUWM0VWg2R2ZKZWs0bm9p?=
+ =?utf-8?B?bmhRd3BpVGNtRldBUUhXSTVjVE82S0dKNnhORWtTMzJKSEVMUWhkZFBiVFhH?=
+ =?utf-8?B?bUNLNmdxZnlBWXRKeDk5WXp3Q3Zkd1EvZ0l1RjNMckgyNnI3RWxFa0ZLVW9q?=
+ =?utf-8?B?TGRwR3BHdmw1L2JBQUtNcEU2WkRqaWNqZ28vZHVDNWI3ZXkxZFgwTEJyb3BU?=
+ =?utf-8?B?dWN1OHpORXJDbkpuZkdxQWZuaTRtY2xCRGtJUFcwTUw3WGg3L0l0Rk1JUW1U?=
+ =?utf-8?B?VU9aRmZGS0Y5QUU2ZFJMNytYZnZyWlZ4ZXM0YTN4dW1Eb1paaEdpR2VLUGxa?=
+ =?utf-8?B?dWludFlsYTBQcFpYcVJVUWhrVzF2QUJyczdXOWhnQmRVZnZEdStLRnFIU3RX?=
+ =?utf-8?B?NjlEQmRyNVFNR3FLa3VTSGVtZlgvRlZJZ1YwNUxMczFLUGJlZUtuTng4NS94?=
+ =?utf-8?B?LzVWS1Q4WFIxUDRTTUxwV1BEWVpxL2pvNFJOYjkzRzJ0VHV0b3dDenE4MlNQ?=
+ =?utf-8?B?V3hPbEN0UkFRNkNzR05mTXZSUVFEVHR2d2xCcGNFeXpFZHVGV3l3MHA1Wkg0?=
+ =?utf-8?Q?VjuxUcfub4nQFQG8GvSk4hZQiEfBGAh4?=
 X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
  IPV:NLI; SFV:NSPM; H:PH7PR12MB5685.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230040)(366016)(376014)(7416014)(1800799024)(921020); DIR:OUT; SFP:1101;
+ SFS:(13230040)(366016)(1800799024)(376014)(3122999009); DIR:OUT; SFP:1101; 
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?ZTRiK0NmY3hEMHpWWEh5OFYvSU5ZcTk0MU0zdlJHTWJKZStSOGFsUkVWUW1M?=
- =?utf-8?B?S0hmRk0vNDQ5bWJVK1JuRlBFWEpOWmVUdFRkRzhEZ0V5cjJENld3UTFQdzd0?=
- =?utf-8?B?TzNrNkk0UWJFSk4xR1hLSlhNU3EvUHFEaGVHRGdyZlRGUXR2cU5tQUQ0Qmw3?=
- =?utf-8?B?emFseGhwNjZKWG9wM3o2Uk5DVmJPcXlTbi9pV3dCek0rVGx1YnZRMGw5c3dM?=
- =?utf-8?B?b08zZlBOQUsrZ0t4VWM1RTZ2anlHVDh1TEJnTUZ1V29zM0NBU3FDcmJTM0dJ?=
- =?utf-8?B?SHhhdEt2MzhoTmJYRzhGVTBTdlRydVpxay9MQlJ4WFBUZ05CdVM5c1hvOWZw?=
- =?utf-8?B?d0lGQUIrVDN1WE5ySkNNNFFpdVhMOFN0RjcyYVkwNGptazh5aDljVG5RTFVu?=
- =?utf-8?B?eVlkekRqc1NHTmhYRXRGTTBrZHhWUjE5RjhyRTZyRkVYM0xGV0RxSDArUXNI?=
- =?utf-8?B?OWlhMFNwbkl6MGdidE9xZWhwdGtLMnBad3FIMTgzd0Z1dHl2bVFSL1F4cHQw?=
- =?utf-8?B?aVgrVlBFK24xdWY1OVh2SUt0VFhXVExlRWNhdFBYQ2xQK2p5RlQyZ1hueU1E?=
- =?utf-8?B?TlMrN015TEljaE5uZjBIQmJTcUVtdUZqaTExMXZVcGY1YkVtWE1wMllRYm9O?=
- =?utf-8?B?d2daNHlQU3AwM0VJaExtcGpXV0dPVmowVFRZUVBiUkNjaWVoN1o0ZVQ4Uk9i?=
- =?utf-8?B?a0hrRUw2TVJkeFd5Rm50QXRYQ29oek9Lc09NTVNKZ3VmaUFQNmpjamYzeVNa?=
- =?utf-8?B?bGNmbU9PU1B2dDhpOWdnNDJDL1lwazVrSTEyNVArbFArbkgxQjgrMVozTDUw?=
- =?utf-8?B?TjJHbzlUaUZOVE5ZMVdsTTRsbU03amhsYjVqdkgxU0M0cTJTVjZLc0gxSVpX?=
- =?utf-8?B?Ri9DY0taa1YvQktERk1mZHJtQlcxMGxlSHlMeWpoMytOV2ZjTFVOUEJmdDVM?=
- =?utf-8?B?TkFUcDR3eEJ2Qi9yVElaL1JqNVVmeEVkSWtFVEo0V0xuUExiZ0NhTHd1TGhO?=
- =?utf-8?B?Q08wcTRxTkVtN0NHQ015NFZ0VEtMdkZEMENNWTBzellHdnJmVmhvU0F4RXlF?=
- =?utf-8?B?ZW8xbXFiakVaYlIvS1JJbFl5OWhQN3BGN0tzNEw3Y2JvQ29DNHZYVnpLQUlF?=
- =?utf-8?B?NTVzV2VDbnRuTTA1elYxSzdIeXllRUdnWm1tTTNqZDViK0ozNDY3eHE3aWw5?=
- =?utf-8?B?RFhEc3NCM1pub2Yvclp1UUxpZ3FaQmxHTEk0NVJoeXZSUGJkNmJGVHY1Nllr?=
- =?utf-8?B?VmV4T25pbVpVb1VtbjhZWHJwOGZpbytNd2grZXRJTGo4WDJHODFxaFMrZnFF?=
- =?utf-8?B?VEtyNU9KdzU1ZXRVcDFjUHd5SUc0cVZZQndnYm56dUJWR3c1ZlNwZ0JNSktB?=
- =?utf-8?B?U2tINzduRjJkTklwVnY4MzBRUE9sb1JXaGNrUW1YV3lqQWxaN055QWhobkZ3?=
- =?utf-8?B?b08yV3EyRjhScEJwcVBkMkRsMDFES0U0Mk1uQzZ5ZUo0ZmxuRlZqN09ucE1L?=
- =?utf-8?B?Z0U1aTMxUFAzbGpjVkZoSjU5RmZqMmpsZFFsTTZwVG02c1RhcEJJTGZaaTl6?=
- =?utf-8?B?OE5sTExxOFEzMTlMU3ljaDFZeHAyZ1BscFhnVXh6eGVRSnFGU2dzS3AxT1VH?=
- =?utf-8?B?MXFISytEendianJGK0FjNUF2TVN0WHF2aHA0RXdzT0x1V3BMVnNjeFRUOFNl?=
- =?utf-8?B?bS84dlQwd1R0bnNoQjI0S2pydmN3YUlFM05PcU5DWUxRVllpeFRFbVN6WWxv?=
- =?utf-8?B?VCtrYmprN0FXMUhacVNiZjdpTSs5T2tMWk9KOWt2WGNQZlJ4ZTRxSXBxcy93?=
- =?utf-8?B?bkx5bVU0YU0xTmNTYnlQK0duR2JZZWFFU0F6dmR4K283SG5waWNXcHlMWkR5?=
- =?utf-8?B?RHQxalBQc2tpUEppc1l6SXp2V1NwcURmamQySlhTQmdYbkZQckdNQkZGbldZ?=
- =?utf-8?B?Mi9iME1vVkhSZ1FGa0UweklwU0VxeThVYlVMaVNjd0dlbUxjYWU1SXdVdXMw?=
- =?utf-8?B?MENMcGdhT2R4Mm1rM2xYSS9zdWxjYXlJQWJwM1ZSb1duSERLNFVqVCttMGlq?=
- =?utf-8?B?NGhibWliM0E5d2ZCQWk3U08rdThpcU4xcWdndzVKcDYzMzRoSHZsazF6TlpD?=
- =?utf-8?Q?2GcpKgG8p7Iu6ogwaO6l5lphc?=
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?TGRFWklROUdPMXBiRDg3M0xIV1hEQTd6bGFvVTFXNTZxYlVHVjlDcHNCcy83?=
+ =?utf-8?B?cXByYzNKKzhHZGRrb25jRW9JL2plcHZuOFlKeDZiOU1aS2JnZCtQczU3UU1C?=
+ =?utf-8?B?YnZBT056c2dQM2UzQ0xwN3kydDhFVDlDdFI2VzNET1FvcmJmU0NlbzFYeXlz?=
+ =?utf-8?B?TStHbS9xQ0NtMjkxNTZNVUNwV0J4M08wdVpYVDVWVnhheVZ6THRMeHZwR0Qy?=
+ =?utf-8?B?MFBCR0M2eWpDNEYzN3hLUk5hUTBXblNrNDU3ZnJNRithZXVWYngyS2RSSmVy?=
+ =?utf-8?B?dzFmcnliVFpEOU1GSGNIYlZuV29TYmNsdzltMGlQWXV2a1pUcEwyVml2VzJD?=
+ =?utf-8?B?eWhRL2NLdmtNTG9CZS9VdUxVTVFsTzZoZEk1MU5RZFVjTjZzQVVUemh6REls?=
+ =?utf-8?B?ZWdnRjVhNVRUNGlQNjJXelU0WjNteEVQQk5xajlTLzJLSmRWdkNWUmptaTd2?=
+ =?utf-8?B?a3drUjJDNjNvN3RGOWVWMDVSaW02T2FBNUFQSGZyT2dhRUJLVmhQWjB5c1ZJ?=
+ =?utf-8?B?UXdCUjZCTzlTWDJNZVAvbUNwdjFSZ0QrSlcyZG93S3JwUk15THBsMm5VRy9r?=
+ =?utf-8?B?UFZXVU1pZ3V0bjVLWTNxLzgwa2lXanJQRjlRSXFmbkZ4STEwM0VoVjBESnBq?=
+ =?utf-8?B?QWpkeE1NbkhrMGF3RnU0ZDVLTngxc0lhOUdDVzljVER4OGdlLzY2WUJCM1VE?=
+ =?utf-8?B?Y29pcWJiYzVMS1Y4QTNqMzFEcWJBY1dGUWVWNHU5Ymp4b0kvWm1xTWNwdlEz?=
+ =?utf-8?B?V0RmVnNuZXNBc1NEM1Y1TUMxWDRsTkVtTjVvc1ZYc1FrQi8zS2hvV3JSVmkv?=
+ =?utf-8?B?WDFYUUxESDFVQnBnTWgyRFVsT2xZNTZmS2FkU2UrMytnN3NzMmxxaEtnVTQw?=
+ =?utf-8?B?UlJpVER1TkQ3di9tOWpZV3BiZWtza3hQMmJ1RHNmdUpUMVFnUGtUTzFTZjRD?=
+ =?utf-8?B?QSs4QUprRkJZQTZjdDc5Y2xRcy9Nd1hVb0NJSUplN3JFeWYvd2g3ZGhYWDlZ?=
+ =?utf-8?B?VUNFbVY1b29RU1pBYW5KVnNtbUV0ODlwRHI4MWZXNHNsbkViT3pBYml1K29n?=
+ =?utf-8?B?R1JGQW5Zd282QW91ZzQxcTQrTk1jUjB6R1NaMUowSjlsc3R4YWpvcUJud3E4?=
+ =?utf-8?B?OC93TFdSU1dGWEtBNEpGT3R6dm5DZ3RLa21ySmdhVWZxQXhmTzZFOVVMc09R?=
+ =?utf-8?B?c1h6MDMzek9TVzdUTXptRG9Yd2ViblZHeFk1dmkvRmFZenAwdkdXWXNkMmVm?=
+ =?utf-8?B?a08wcFFRTm9KaHlmZkdUczJwY1hyZEluYTA1NVE0cVp6eHlnTVpzZDFlN1FG?=
+ =?utf-8?B?Q09xcVRPOEJpZmFyUWRXQURjK01OWG5CWDJCUU9QT0ZYanpvaUpBTDEwSGpZ?=
+ =?utf-8?B?cnl6eUkvYkZqOVJoejZJakdOZDA2c0NtRk41S2FwR01BdVpkVGM3M2s2S0xl?=
+ =?utf-8?B?S1hIY0NEWmZsYkUwVmJTRU42enkyNHpSMnAwSlIyZitoQmpTVzRKTGVqQmk2?=
+ =?utf-8?B?ZDJ4SnJOcy9ndTZhYjA0eHgxU0grY0paNlpKRVNTZGh6Q2MzYU9YNjZ1WEgx?=
+ =?utf-8?B?Um4yRVhzRTF4bHRmSk03ZzRFVklnUDVRcndxYWNiOHI4NkdGS3hIMERYOGhC?=
+ =?utf-8?B?RXM2Wm5TaStJVlJiWkdRZmM4RDUyZ1IzK2NIWDkwUC9xcjJmTkpsNC9vbEZL?=
+ =?utf-8?B?bEpRZW5JMktjZitYcHJ1S1J3dm55b0VMNGd6dmZadVdVM09QL2NqUFlINHZY?=
+ =?utf-8?B?NU9OZlphS2gzRUtPamZhckZiSUxSTmRwRzdjSUUxN0JmRjl4R1FmSE10bWpS?=
+ =?utf-8?B?cGh5eDdpbmlJWCtBbW93MHNtUFRQSjViU1ZNWi9ibmFvVThjNlRna0V2dmVo?=
+ =?utf-8?B?RlhGSHJFRXd5ZzJRSDFQdWx3U3JUMzc5TG4rbEFTS2JMUElhR2ptSy9pcklC?=
+ =?utf-8?B?blZYRGhIWGRXYVhpZndTZGQ5QzRWWW8venlmaXQ1YktLQVdzZ3UwMUV4K3Zu?=
+ =?utf-8?B?Sk12UVcxOHl4TW5KQmxhN1FZeDdnZENNc1NaSjJXNU5oMjkwZWN4TGlueHpE?=
+ =?utf-8?B?dUduUHR6UUdIcXk4S0VYR2MwR0hsSmQ4TGpiVWdFTHErVlB1V2JoaXRyaWFC?=
+ =?utf-8?Q?GNZRbYLo8Z9Y6V10SNHno+Glg?=
 X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: e1c1a412-77b8-480e-4358-08de1c6b4cab
+X-MS-Exchange-CrossTenant-Network-Message-Id: ad9ede8a-3b8f-4877-4164-08de1c6badee
 X-MS-Exchange-CrossTenant-AuthSource: PH7PR12MB5685.namprd12.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 05 Nov 2025 13:00:30.8611 (UTC)
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 05 Nov 2025 13:03:13.9958 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: 4u3aq2miD7S4JrAqIalWBGzWpEcHXVrBMX/WHwnskMUV3LjCJhH314HqQTV61wXq
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CH3PR12MB7497
+X-MS-Exchange-CrossTenant-UserPrincipalName: H1VcVt0bnp7B/c15ogX472CPAIGbF2d8tWGffqK6HlaCLptbuWrMe6FMLXf+WUDI
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM6PR12MB4106
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -176,267 +171,189 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 11/5/25 11:34, Pierre-Eric Pelloux-Prayer wrote:
+On 11/5/25 11:39, Pierre-Eric Pelloux-Prayer wrote:
+> Le 04/11/2025 à 17:40, Christian König a écrit :
+>> On 11/4/25 09:35, Pierre-Eric Pelloux-Prayer wrote:
+>>> The benefits of using multiple entities is that multiple fill jobs
+>>> can run in parallel. Otherwise, even if the entity has access
+>>> to multiple engines, a burst of N independent jobs will all
+>>> run on the same engine because an entity guarantees the ordering
+>>> of execution matches the ordering of the submission.
+>>>
+>>> Callers can opt-out of this behavior by passing the entity they
+>>> want to use (see amdgpu_move_blit).
 >>
->>> +        } else {
->>> +            all_signaled = false;
->>> +            if (no_wait_gpu) {
->>> +                spin_unlock(&man->pipelined_eviction.lock);
->>> +                return -EBUSY;
->>> +            }
->>> +            fences_to_add[n++] = dma_fence_get(fence);
->>> +        }
->>> +    }
->>> +    spin_unlock(&man->pipelined_eviction.lock);
->>> +
->>> +    if (all_signaled)
->>>           return 0;
->>>   -    if (no_wait_gpu) {
->>> -        ret = dma_fence_is_signaled(fence) ? 0 : -EBUSY;
->>> -        dma_fence_put(fence);
->>> -        return ret;
->>> +    for (i = 0; i < n; i++) {
->>> +        dma_resv_add_fence(bo->base.resv, fences_to_add[i], DMA_RESV_USAGE_KERNEL);
->>> +        dma_fence_put(fences_to_add[i]);
->>>       }
->>>   -    dma_resv_add_fence(bo->base.resv, fence, DMA_RESV_USAGE_KERNEL);
->>> -
->>> -    ret = dma_resv_reserve_fences(bo->base.resv, 1);
->>> -    dma_fence_put(fence);
->>> -    return ret;
->>> +    return dma_resv_reserve_fences(bo->base.resv, TTM_FENCES_MAX_SLOT_COUNT);
+>> That still sounds like a really bad idea to me.
 >>
->> Please separate out a patch where the call to dma_resv_reserve_fences() is removed here.
+>> First of all we can't reserve so many fence slots in the release handler, previously we basically just relied on the fact that the BO will most likely be mostly idle.
+>>
+>> I think we should just use a single SDMA engine for each clear and distribute clearing different BOs over multiple engines.
 > 
-> Can you remind me why it's not needed?
-
-Some years ago the dma_resv object had a fixed field for an exclusive fence.
-
-When we removed that we sprinkled calls like "dma_resv_reserve_fences(bo->base.resv, 1)" all over the place where we previously used this exclusive fence slot to prevent things from going boom!
-
-It could be that some old drivers like radeon or qxl still rely on that somewhere, but that would then clearly be a driver bug.
-
-What we could do is to either leave it alone or remove it, but changing it to reserving TTM_FENCES_MAX_SLOT_COUNT is clearly not correct.
-
->>
->>>   }
->>>     /**
->>> @@ -718,7 +732,7 @@ static int ttm_bo_alloc_resource(struct ttm_buffer_object *bo,
->>>       int i, ret;
->>>         ticket = dma_resv_locking_ctx(bo->base.resv);
->>> -    ret = dma_resv_reserve_fences(bo->base.resv, 1);
->>> +    ret = dma_resv_reserve_fences(bo->base.resv, TTM_FENCES_MAX_SLOT_COUNT);
->>>       if (unlikely(ret))
->>>           return ret;
->>>   @@ -757,7 +771,7 @@ static int ttm_bo_alloc_resource(struct ttm_buffer_object *bo,
->>>                   return ret;
->>>           }
->>>   -        ret = ttm_bo_add_move_fence(bo, man, ctx->no_wait_gpu);
->>> +        ret = ttm_bo_add_pipelined_eviction_fences(bo, man, ctx->no_wait_gpu);
->>>           if (unlikely(ret)) {
->>>               ttm_resource_free(bo, res);
->>>               if (ret == -EBUSY)
->>> diff --git a/drivers/gpu/drm/ttm/ttm_bo_util.c b/drivers/gpu/drm/ttm/ttm_bo_util.c
->>> index acbbca9d5c92..ada8af965acf 100644
->>> --- a/drivers/gpu/drm/ttm/ttm_bo_util.c
->>> +++ b/drivers/gpu/drm/ttm/ttm_bo_util.c
->>> @@ -258,7 +258,7 @@ static int ttm_buffer_object_transfer(struct ttm_buffer_object *bo,
->>>       ret = dma_resv_trylock(&fbo->base.base._resv);
->>>       WARN_ON(!ret);
->>>   -    ret = dma_resv_reserve_fences(&fbo->base.base._resv, 1);
->>> +    ret = dma_resv_reserve_fences(&fbo->base.base._resv, TTM_FENCES_MAX_SLOT_COUNT);
->>>       if (ret) {
->>>           dma_resv_unlock(&fbo->base.base._resv);
->>>           kfree(fbo);
->>> @@ -646,6 +646,8 @@ static void ttm_bo_move_pipeline_evict(struct ttm_buffer_object *bo,
->>>   {
->>>       struct ttm_device *bdev = bo->bdev;
->>>       struct ttm_resource_manager *from;
->>> +    struct dma_fence *tmp;
->>> +    int i, free_slot = -1;
->>>         from = ttm_manager_type(bdev, bo->resource->mem_type);
->>>   @@ -653,13 +655,35 @@ static void ttm_bo_move_pipeline_evict(struct ttm_buffer_object *bo,
->>>        * BO doesn't have a TTM we need to bind/unbind. Just remember
->>>        * this eviction and free up the allocation
->>>        */
->>> -    spin_lock(&from->move_lock);
->>> -    if (!from->move || dma_fence_is_later(fence, from->move)) {
->>> -        dma_fence_put(from->move);
->>> -        from->move = dma_fence_get(fence);
->>> +    spin_lock(&from->pipelined_eviction.lock);
->>> +    for (i = 0; i < from->pipelined_eviction.n_fences; i++) {
->>> +        tmp = from->pipelined_eviction.fences[i];
->>> +        if (!tmp) {
->>> +            if (free_slot < 0)
->>> +                free_slot = i;
->>> +            continue;
->>
->> Just break here.
+> So N clear entities, each one having access to a single engine. And all jobs to clear a single BO go to the same entity?
 > 
-> The logic here is to reuse context slots. Even if slot 0 is empty, I need to use slot 1 if slot 1's context is the same as fence->context.
+> Is that what you mean?
 
-Good point, but slot 0 should never be empty. See we fill the slots starting from 0 and then incrementing you either have NULL or a slot which doesn't match.
+More or less.
 
-> This way, we're guaranteed to find a slot for all contexts used by the driver.
-> 
->>
->>> +        }
->>> +        if (fence->context != tmp->context)
->>> +            continue;
->>> +        if (dma_fence_is_later(fence, tmp)) {
->>> +            dma_fence_put(tmp);
->>> +            free_slot = i;
->>> +            break;
->>> +        }
->>> +        goto unlock;
->>> +    }
->>> +    if (free_slot >= 0) {
->>
->> Drop free_slot and check i here.
->>
->>> +        from->pipelined_eviction.fences[free_slot] = dma_fence_get(fence);
->>> +    } else {
->>> +        WARN(1, "not enough fence slots for all fence contexts");
->>> +        spin_unlock(&from->pipelined_eviction.lock);
->>> +        dma_fence_wait(fence, false);
->>> +        goto end;
->>>       }
->>> -    spin_unlock(&from->move_lock);
->>>   +unlock:
->>> +    spin_unlock(&from->pipelined_eviction.lock);
->>> +end:
->>>       ttm_resource_free(bo, &bo->resource);
->>>   }
->>>   diff --git a/drivers/gpu/drm/ttm/ttm_resource.c b/drivers/gpu/drm/ttm/ttm_resource.c
->>> index e2c82ad07eb4..ae0d4621cc55 100644
->>> --- a/drivers/gpu/drm/ttm/ttm_resource.c
->>> +++ b/drivers/gpu/drm/ttm/ttm_resource.c
->>> @@ -523,14 +523,19 @@ void ttm_resource_manager_init(struct ttm_resource_manager *man,
->>>   {
->>>       unsigned i;
->>>   -    spin_lock_init(&man->move_lock);
->>>       man->bdev = bdev;
->>>       man->size = size;
->>>       man->usage = 0;
->>>         for (i = 0; i < TTM_MAX_BO_PRIORITY; ++i)
->>>           INIT_LIST_HEAD(&man->lru[i]);
->>> -    man->move = NULL;
->>> +    spin_lock_init(&man->pipelined_eviction.lock);
->>> +    for (i = 0; i < TTM_FENCES_MAX_SLOT_COUNT; i++)
->>> +        man->pipelined_eviction.fences[i] = NULL;
->>> +    /* Can be overridden by drivers that wants to use more than 1 entity
->>> +     * for moves and evictions (limited to TTM_FENCES_MAX_SLOT_COUNT).
->>> +     */
->>> +    man->pipelined_eviction.n_fences = 1;
->>>   }
->>>   EXPORT_SYMBOL(ttm_resource_manager_init);
->>>   @@ -551,7 +556,7 @@ int ttm_resource_manager_evict_all(struct ttm_device *bdev,
->>>           .no_wait_gpu = false,
->>>       };
->>>       struct dma_fence *fence;
->>> -    int ret;
->>> +    int ret, i;
->>>         do {
->>>           ret = ttm_bo_evict_first(bdev, man, &ctx);
->>> @@ -561,18 +566,32 @@ int ttm_resource_manager_evict_all(struct ttm_device *bdev,
->>>       if (ret && ret != -ENOENT)
->>>           return ret;
->>>   -    spin_lock(&man->move_lock);
->>> -    fence = dma_fence_get(man->move);
->>> -    spin_unlock(&man->move_lock);
->>> +    ret = 0;
->>>   -    if (fence) {
->>> -        ret = dma_fence_wait(fence, false);
->>> -        dma_fence_put(fence);
->>> -        if (ret)
->>> -            return ret;
->>> -    }
->>> +    do {
->>> +        fence = NULL;
->>>   -    return 0;
->>> +        spin_lock(&man->pipelined_eviction.lock);
->>> +        for (i = 0; i < man->pipelined_eviction.n_fences; i++) {
->>> +            fence = man->pipelined_eviction.fences[i];
->>
->>> +            man->pipelined_eviction.fences[i] = NULL;
->>
->> Drop that. We should never set man->pipelined_eviction.fences to NULL.
-> 
-> Why?
+N clear entities, each one has access to all engines. When a BO needs to be cleared it picks the next best entity and submits the jobs.
 
-To simplify the logic while filling the slots.
+This way clear entities still load balance with moves and page table updates but we can keep the clearing logic simple.
 
-dma_fences are made to be keept around for long.
-
->>
->>> +
->>>   /**
->>>    * enum ttm_lru_item_type - enumerate ttm_lru_item subclasses
->>>    */
->>> @@ -180,8 +189,10 @@ struct ttm_resource_manager_func {
->>>    * @size: Size of the managed region.
->>>    * @bdev: ttm device this manager belongs to
->>>    * @func: structure pointer implementing the range manager. See above
->>> - * @move_lock: lock for move fence
->>> - * @move: The fence of the last pipelined move operation.
->>> + * @pipelined_eviction.lock: lock for eviction fences
->>> + * @pipelined_eviction.n_fences: The number of fences allowed in the array. If
->>> + * 0, pipelined evictions aren't used.
->>> + * @pipelined_eviction.fences: The fences of the last pipelined move operation.
->>>    * @lru: The lru list for this memory type.
->>>    *
->>>    * This structure is used to identify and manage memory types for a device.
->>> @@ -195,12 +206,15 @@ struct ttm_resource_manager {
->>>       struct ttm_device *bdev;
->>>       uint64_t size;
->>>       const struct ttm_resource_manager_func *func;
->>> -    spinlock_t move_lock;
->>>   -    /*
->>> -     * Protected by @move_lock.
->>> +    /* This is very similar to a dma_resv object, but locking rules make
->>> +     * it difficult to use a it in this context.
->>>        */
->>> -    struct dma_fence *move;
->>> +    struct {
->>> +        spinlock_t lock;
->>> +        int n_fences;
->>> +        struct dma_fence *fences[TTM_FENCES_MAX_SLOT_COUNT];
->>> +    } pipelined_eviction;
->>
->> Drop the separate structure, just make move an array instead.
-> 
-> IMO pipelined_eviction.fences and pipelined_eviction.lock is clearer when reading the code than moves and move_lock but if you prefer I'll switch back to the old names.
-
-The name "pipelined_eviction" is just a bit to long. Maybe just eviction_fences and eviction_fences_lock?
-
-Regards,
 Christian.
->>
->> And also drop n_fences. Just always take a look at all fences.
+
 > 
-> OK.
-> 
-> Thanks,
 > Pierre-Eric
 > 
 >>
 >> Regards,
 >> Christian.
 >>
->>>         /*
->>>        * Protected by the bdev->lru_lock.
->>> @@ -421,8 +435,12 @@ static inline bool ttm_resource_manager_used(struct ttm_resource_manager *man)
->>>   static inline void
->>>   ttm_resource_manager_cleanup(struct ttm_resource_manager *man)
+>>>
+>>> Signed-off-by: Pierre-Eric Pelloux-Prayer <pierre-eric.pelloux-prayer@amd.com>
+>>> ---
+>>>   drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c | 84 ++++++++++++++++++-------
+>>>   drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.h |  1 +
+>>>   2 files changed, 64 insertions(+), 21 deletions(-)
+>>>
+>>> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c
+>>> index c357a6d9763a..839ea8c7f6be 100644
+>>> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c
+>>> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c
+>>> @@ -2224,6 +2224,7 @@ u32 amdgpu_ttm_set_buffer_funcs_status(struct amdgpu_device *adev, bool enable)
+>>>           adev->mman.clear_entities = kcalloc(num_clear_entities,
+>>>                               sizeof(struct amdgpu_ttm_entity),
+>>>                               GFP_KERNEL);
+>>> +        atomic_set(&adev->mman.next_clear_entity, 0);
+>>>           if (!adev->mman.clear_entities)
+>>>               goto error_free_entity;
+>>>   @@ -2498,10 +2499,12 @@ int amdgpu_fill_buffer(struct amdgpu_ttm_entity *entity,
 >>>   {
->>> -    dma_fence_put(man->move);
->>> -    man->move = NULL;
->>> +    int i;
+>>>       struct amdgpu_device *adev = amdgpu_ttm_adev(bo->tbo.bdev);
+>>>       struct amdgpu_ring *ring = adev->mman.buffer_funcs_ring;
+>>> +    struct dma_fence *fences[TTM_FENCES_MAX_SLOT_COUNT] = {};
+>>>       struct dma_fence *fence = NULL;
+>>>       struct dma_resv *resv = NULL;
+>>>       struct amdgpu_res_cursor dst;
+>>> -    int r;
+>>> +    uint64_t cur_size, to;
+>>> +    int r, e, n_fences;
+>>>         /* The fences will be either added to the resv object or the last fence
+>>>        * will be returned to the caller. In the latter case, all fill jobs will
+>>> @@ -2515,53 +2518,92 @@ int amdgpu_fill_buffer(struct amdgpu_ttm_entity *entity,
+>>>       }
+>>>         if (!entity) {
+>>> -        entity = &adev->mman.clear_entities[0];
+>>>           resv = &bo->tbo.base._resv;
+>>> -        r = dma_resv_reserve_fences(resv, 1);
 >>> +
->>> +    for (i = 0; i < TTM_FENCES_MAX_SLOT_COUNT; i++) {
->>> +        dma_fence_put(man->pipelined_eviction.fences[i]);
->>> +        man->pipelined_eviction.fences[i] = NULL;
+>>> +        /* Determine how much fences we're going to add to the
+>>> +         * resv object.
+>>> +         */
+>>> +        n_fences = 0;
+>>> +        amdgpu_res_first(bo->tbo.resource, 0, amdgpu_bo_size(bo), &dst);
+>>> +        while (dst.remaining) {
+>>> +            cur_size = min(dst.size, 256ULL << 20);
+>>> +
+>>> +            n_fences += 1;
+>>> +            amdgpu_res_next(&dst, cur_size);
+>>> +        }
+>>> +        if (n_fences == 0)
+>>> +            return 0;
+>>> +
+>>> +        /* One slot per entity at most. */
+>>> +        n_fences = MIN(n_fences, adev->mman.num_clear_entities);
+>>> +
+>>> +        r = dma_resv_reserve_fences(resv, n_fences);
+>>>           if (r)
+>>>               return r;
+>>> +    } else {
+>>> +        mutex_lock(&entity->gart_window_lock);
+>>>       }
+>>>         amdgpu_res_first(bo->tbo.resource, 0, amdgpu_bo_size(bo), &dst);
+>>>   -    mutex_lock(&entity->gart_window_lock);
+>>>       while (dst.remaining) {
+>>> -        struct dma_fence *next;
+>>> -        uint64_t cur_size, to;
+>>> -
+>>>           /* Never fill more than 256MiB at once to avoid timeouts */
+>>>           cur_size = min(dst.size, 256ULL << 20);
+>>>   +        if (resv) {
+>>> +            /* Pick a new entity for each partial clear so they can
+>>> +             * execute in parallel.
+>>> +             */
+>>> +            e = atomic_inc_return(&adev->mman.next_clear_entity) %
+>>> +                adev->mman.num_clear_entities;
+>>> +            entity = &adev->mman.clear_entities[e];
+>>> +            mutex_lock(&entity->gart_window_lock);
+>>> +        }
+>>> +
+>>>           r = amdgpu_ttm_map_buffer(&entity->base,
+>>>                         &bo->tbo, bo->tbo.resource, &dst,
+>>>                         entity->gart_window_id1, ring, false,
+>>>                         &cur_size, &to,
+>>>                         dependency,
+>>>                         resv);
+>>> -        if (r)
+>>> +        if (r) {
+>>> +            mutex_unlock(&entity->gart_window_lock);
+>>>               goto error;
+>>> +        }
+>>>             r = amdgpu_ttm_fill_mem(ring, &entity->base,
+>>>                       src_data, to, cur_size, resv,
+>>> -                    &next, true, k_job_id);
+>>> -        if (r)
+>>> +                    &fence, true, k_job_id);
+>>> +        if (r) {
+>>> +            mutex_unlock(&entity->gart_window_lock);
+>>>               goto error;
+>>> -
+>>> -        if (resv) {
+>>> -            dma_resv_add_fence(resv, next, DMA_RESV_USAGE_KERNEL);
+>>> -            dma_fence_put(next);
+>>> -        } else {
+>>> -            dma_fence_put(fence);
+>>> -            fence = next;
+>>>           }
+>>>             amdgpu_res_next(&dst, cur_size);
+>>> +
+>>> +        if (resv) {
+>>> +            /* Delay the addition of the fences to resv, otherwise the next partial
+>>> +             * clears will depend on this one.
+>>> +             */
+>>> +            fences[e] = fence;
+>>> +            mutex_unlock(&entity->gart_window_lock);
+>>> +        } else {
+>>> +            dma_fence_put(*f);
+>>> +            *f = fence;
+>>> +        }
+>>>       }
+>>>   error:
+>>> -    mutex_unlock(&entity->gart_window_lock);
+>>> -    if (f)
+>>> -        *f = dma_fence_get(fence);
+>>> -    dma_fence_put(fence);
+>>> +    if (resv) {
+>>> +        for (e = 0; e < adev->mman.num_clear_entities; e++) {
+>>> +            if (fences[e]) {
+>>> +                dma_resv_add_fence(resv, fences[e], DMA_RESV_USAGE_KERNEL);
+>>> +                dma_fence_put(fences[e]);
+>>> +            }
+>>> +        }
+>>> +    } else {
+>>> +        mutex_unlock(&entity->gart_window_lock);
 >>> +    }
+>>> +
+>>>       return r;
 >>>   }
->>>     void ttm_lru_bulk_move_init(struct ttm_lru_bulk_move *bulk);
+>>>   diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.h b/drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.h
+>>> index 38df2b5b4bc7..3fc31c7c6bfe 100644
+>>> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.h
+>>> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.h
+>>> @@ -73,6 +73,7 @@ struct amdgpu_mman {
+>>>         struct amdgpu_ttm_entity default_entity; /* has no gart windows */
+>>>       struct amdgpu_ttm_entity *clear_entities;
+>>> +    atomic_t next_clear_entity;
+>>>       u32 num_clear_entities;
+>>>       struct amdgpu_ttm_entity move_entities[TTM_FENCES_MAX_SLOT_COUNT];
+>>>       u32 num_move_entities;
 
