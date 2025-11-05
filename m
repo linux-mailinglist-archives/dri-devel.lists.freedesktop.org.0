@@ -2,79 +2,175 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 349DBC38175
-	for <lists+dri-devel@lfdr.de>; Wed, 05 Nov 2025 22:47:49 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3AA47C381E1
+	for <lists+dri-devel@lfdr.de>; Wed, 05 Nov 2025 22:55:41 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A272D10E327;
-	Wed,  5 Nov 2025 21:47:46 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7033E10E08B;
+	Wed,  5 Nov 2025 21:55:38 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="dyRuzY5N";
+	dkim=pass (2048-bit key; unprotected) header.d=Nvidia.com header.i=@Nvidia.com header.b="n8595GPl";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 59B7A10E327;
- Wed,  5 Nov 2025 21:47:45 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1762379265; x=1793915265;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:in-reply-to;
- bh=5xzsc/7T1gL0sCj7nOJv8DaIl+OnW9UaT5raFEotIik=;
- b=dyRuzY5NsE0BGgYmH6S4cB0xAux1CBAYY//BxHbtcF6cxrnkGHdwWuVm
- OBeMyimS75cInokLIfWRHD6OfVUEd1d1PjQQIBegfzgtGg4hlg3OLiwKg
- Y2IcIRcgT8JVLhGh/VauWZN4Z9rtLy5ccY2K56piozw14OOPwnLpLo9fC
- gijOf/Pk9DLOGODbynpqcF+Qzw3/U5fYBvM4zNI+j18/HrjEjtjh4nb0q
- W9ZfDVCSfDHaiX2NZqYLHV51UMt26w5kJ8PQjqv675ssCUUPzyR0Yupi1
- TocERRoXh9S3UEpP2W8WTubfP1g3bnVEfBuVGhjHY79GdsfWXvtCKJWYx w==;
-X-CSE-ConnectionGUID: cbxkoDT2TEm7NvfZnzxPKw==
-X-CSE-MsgGUID: PaivUNfzQ8iUh8G1Lokelg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11604"; a="75858877"
-X-IronPort-AV: E=Sophos;i="6.19,282,1754982000"; d="scan'208";a="75858877"
-Received: from fmviesa005.fm.intel.com ([10.60.135.145])
- by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 05 Nov 2025 13:47:45 -0800
-X-CSE-ConnectionGUID: 7giLDUKZQjShi4WYLTI2Tw==
-X-CSE-MsgGUID: lJP7Z8i6Qzydv1uaesmqjw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.19,282,1754982000"; d="scan'208";a="191859112"
-Received: from lkp-server02.sh.intel.com (HELO 66d7546c76b2) ([10.239.97.151])
- by fmviesa005.fm.intel.com with ESMTP; 05 Nov 2025 13:47:38 -0800
-Received: from kbuild by 66d7546c76b2 with local (Exim 4.96)
- (envelope-from <lkp@intel.com>) id 1vGlLX-000TA8-1m;
- Wed, 05 Nov 2025 21:47:20 +0000
-Date: Thu, 6 Nov 2025 05:47:03 +0800
-From: kernel test robot <lkp@intel.com>
-To: Alexandre Courbot <acourbot@nvidia.com>,
- Luis Chamberlain <mcgrof@kernel.org>, Russ Weight <russ.weight@linux.dev>,
- Danilo Krummrich <dakr@kernel.org>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- "Rafael J. Wysocki" <rafael@kernel.org>,
- Alice Ryhl <aliceryhl@google.com>, David Airlie <airlied@gmail.com>,
- Simona Vetter <simona@ffwll.ch>, Andrew Lunn <andrew@lunn.ch>,
- Heiner Kallweit <hkallweit1@gmail.com>,
- Russell King <linux@armlinux.org.uk>,
- "David S. Miller" <davem@davemloft.net>,
- Eric Dumazet <edumazet@google.com>,
- Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
- Miguel Ojeda <ojeda@kernel.org>, Alex Gaynor <alex.gaynor@gmail.com>,
- Boqun Feng <boqun.feng@gmail.com>, Gary Guo <gary@garyguo.net>,
- =?iso-8859-1?Q?Bj=F6rn?= Roy Baron <bjorn3_gh@protonmail.com>,
- Benno Lossin <lossin@kernel.org>, Andreas Hindborg <a.hindborg@kernel.org>,
- Trevor Gross <tmgross@umich.edu>,
- FUJITA Tomonori <fujita.tomonori@gmail.com>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
- netdev@vger.kernel.org, linux-kernel@vger.kernel.org,
- nouveau@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- rust-for-linux@vger.kernel.org, Alexandre Courbot <acourbot@nvidia.com>
-Subject: Re: [PATCH v2 1/3] firmware_loader: make RUST_FW_LOADER_ABSTRACTIONS
- select FW_LOADER
-Message-ID: <202511060527.knZk5HZP-lkp@intel.com>
-References: <20251105-b4-select-rust-fw-v2-1-156d9014ed3b@nvidia.com>
+Received: from SA9PR02CU001.outbound.protection.outlook.com
+ (mail-southcentralusazon11013029.outbound.protection.outlook.com
+ [40.93.196.29])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id EBC4E10E08B;
+ Wed,  5 Nov 2025 21:55:35 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=o6f73tclQXgIjZs/6omfXKwNsVlzxhdsKHv3NbgdxuUP3Iqa3ZgzyAZ1Dv52X/WAJ51ZKxYEhiwCaz0A3WJayuZHe03h0oJzj6BtAjrJ6TbPohsKkYmwtT1a5ZU4bxy/PClUEPbMxeJ7n7e8Rm1ro+R4GkF1hrLADMd1UwS6KqaVstCDxuH04TRHXTiyXlFZaQgEa1TAboH6h8bNcDjK66ijNVkDYP7OdiiVQfDPyO1GmheRxM56K+Tg9AzcTEWNluLAlLuRzn1tcOpF6FRFyizfxyNKtjZ5CCyvcohMVYKXG6IdnVjij4vIrju021Qg5hmEq1S8Etu/+3axieRP0Q==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=y4k3564xqw6aXzMzldUjODX4qU3BN39OY5mn6oHJq9M=;
+ b=l5kDZvFQr7nT60km6ITt7QSG6FpJmXk386bes08/H3bA6kGXPeoPPYIIfCGNfYgbfVojv4AAbb+lkXckn7W1oO5dTQ6q4T6mZOgNGbvJRRDmGp5NdAGAe6jCkZxSLCVk2JhdqU75/xRvW15FQN9Qw+nGQhnla+cU159nhRWh9itOePskJrmDJBI8DQFAJeg6Ggs9/daErqMvrqnZGRQpkpsS0T6PyAPDIPwOUONCkLITzezrEU44mkcNBdjrbNZz7WrO57HSZQgmGBMaD5+NPsCgF8wdBy4fXJjKoy+wAQW88phLqQgcEqhln2+9uQPv7H46PIiUIjKQGUFn3VJxwg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
+ dkim=pass header.d=nvidia.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=y4k3564xqw6aXzMzldUjODX4qU3BN39OY5mn6oHJq9M=;
+ b=n8595GPllc9DotIwrzZlTGna6HcaVfrFGcPBDfMlpZtjZiwzF1u0QVNQAg47unOFPDlwS8xQCffv/GdVxSps7Xx3cZ6Fr/jsct184oUTIGZNohDmjrKbjLtxqRGOoDS586M54nsqmGoMf9mHABMpfHaX0h7eLgrvQy+YMRHB3qAL/GCJ6zIMu+qgMEg+PzuCVf/9vVnR5nT81em+ZoYfaj+hQ8ftk8C12XTdaavuZZ6qZVPEAW2ng70breSO+8J8SrCpHsRcWl6tJtl1TOnMYoLDOZoCQp0s55lvg5JTv/rzKJBRB4/f6xkTp8hyD1XmYr+dYPcHdRxV1ng8eVIBsQ==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=nvidia.com;
+Received: from BY5PR12MB4116.namprd12.prod.outlook.com (2603:10b6:a03:210::13)
+ by SA1PR12MB6846.namprd12.prod.outlook.com (2603:10b6:806:25d::14)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9298.7; Wed, 5 Nov
+ 2025 21:55:32 +0000
+Received: from BY5PR12MB4116.namprd12.prod.outlook.com
+ ([fe80::81b6:1af8:921b:3fb4]) by BY5PR12MB4116.namprd12.prod.outlook.com
+ ([fe80::81b6:1af8:921b:3fb4%4]) with mapi id 15.20.9298.006; Wed, 5 Nov 2025
+ 21:55:32 +0000
+Message-ID: <3c625930-348a-4c96-a63a-6a3e98e59734@nvidia.com>
+Date: Wed, 5 Nov 2025 13:55:15 -0800
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 08/12] nova-core: sequencer: Add register opcodes
+To: Timur Tabi <ttabi@nvidia.com>, Joel Fernandes <joelagnelf@nvidia.com>
+Cc: Alexandre Courbot <acourbot@nvidia.com>,
+ "lossin@kernel.org" <lossin@kernel.org>,
+ "a.hindborg@kernel.org" <a.hindborg@kernel.org>,
+ "boqun.feng@gmail.com" <boqun.feng@gmail.com>,
+ "ojeda@kernel.org" <ojeda@kernel.org>, "simona@ffwll.ch" <simona@ffwll.ch>,
+ "tmgross@umich.edu" <tmgross@umich.edu>,
+ "alex.gaynor@gmail.com" <alex.gaynor@gmail.com>,
+ "mripard@kernel.org" <mripard@kernel.org>,
+ "joel@joelfernandes.org" <joel@joelfernandes.org>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+ "maarten.lankhorst@linux.intel.com" <maarten.lankhorst@linux.intel.com>,
+ "nouveau@lists.freedesktop.org" <nouveau@lists.freedesktop.org>,
+ "rust-for-linux@vger.kernel.org" <rust-for-linux@vger.kernel.org>,
+ "dakr@kernel.org" <dakr@kernel.org>,
+ "bjorn3_gh@protonmail.com" <bjorn3_gh@protonmail.com>,
+ "tzimmermann@suse.de" <tzimmermann@suse.de>,
+ "airlied@gmail.com" <airlied@gmail.com>,
+ "aliceryhl@google.com" <aliceryhl@google.com>,
+ "gary@garyguo.net" <gary@garyguo.net>, Alistair Popple <apopple@nvidia.com>
+References: <20251102235920.3784592-1-joelagnelf@nvidia.com>
+ <20251102235920.3784592-9-joelagnelf@nvidia.com>
+ <d6c9c7f2-098e-4b55-b754-4287b698fc1c@nvidia.com>
+ <0FF9536C-8740-42C3-8EF1-5C8CD5520E49@nvidia.com>
+ <93c758298250d2be9262256a698c243343b64ebc.camel@nvidia.com>
+Content-Language: en-US
+From: John Hubbard <jhubbard@nvidia.com>
+In-Reply-To: <93c758298250d2be9262256a698c243343b64ebc.camel@nvidia.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-ClientProxiedBy: SJ0PR03CA0166.namprd03.prod.outlook.com
+ (2603:10b6:a03:338::21) To BY5PR12MB4116.namprd12.prod.outlook.com
+ (2603:10b6:a03:210::13)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20251105-b4-select-rust-fw-v2-1-156d9014ed3b@nvidia.com>
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: BY5PR12MB4116:EE_|SA1PR12MB6846:EE_
+X-MS-Office365-Filtering-Correlation-Id: 0f7cff1d-79b8-4ec5-dfaa-08de1cb60a7e
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;ARA:13230040|376014|7416014|366016|1800799024;
+X-Microsoft-Antispam-Message-Info: =?utf-8?B?SFBScmJuZHNtU3VVNWxaYzlySDZxdGpoNjRLaUVpQkhaMjBRZDFNdG1SOEh2?=
+ =?utf-8?B?bTdZUXJYcnJMRnZvamN2Wk8xNXRXUVBzYUQwTUZUK0drMzVLdk51YS9LTmVP?=
+ =?utf-8?B?L1lDQWt5ckN4dHZNR2ZVTndOZkRPZFB5RjVBbHE0VE1tUGI5ZHRQMEdGdEtk?=
+ =?utf-8?B?NDNXYWRjT09WM3BxRENpQUcwb283czFSNkh4QVNUK0dwaW5MZGYvMURiOTdO?=
+ =?utf-8?B?YzI2RmZIencxZ2dzMUlnTnd4NG80UHRWRE9oaWY0WVVuT0w0OVc1MUt3b0lK?=
+ =?utf-8?B?Q0wvYjN4YWJZTTdFRU45OEN3ZVNKSDV5dzNqdDBTQkR2bHZ6WVdwOFZZOTRO?=
+ =?utf-8?B?eUJNME83bUNrNW1INGJNcmxBQS9TTEFvaW1UZFRqVzNvaHErWlk4dUluaE56?=
+ =?utf-8?B?VmdBTHF6Y2c0Z1F6NFE4S0dtVGxnR1kvaHQ2aEpjM0NkYUpyMjlvN2xZOHg2?=
+ =?utf-8?B?b212YlNNaVlKVGR4T2ZpZy9IMWFDWk5GTWJZU0VuWGFKRWllU0NRaVE3SFc3?=
+ =?utf-8?B?WWpLelpuUDVpZFVlNlVMeWZPRHNZYS9rTjdndFdrd3JoMHIyaVFKUUkrL3ly?=
+ =?utf-8?B?ZnFZQm5PcTlEai9aeTNKb0VlZnplUWJwQlV1aTRaOGM2S3J3a2pSWTdXVW5n?=
+ =?utf-8?B?TGUySUtjZUJvRG9Da1JPMFRvU05tTWRnVVF3VGsvajh1KzN0OFdwQ1VuWE1m?=
+ =?utf-8?B?RVJGd3VJcnp0U1BLZ3E0UFdoN2pQd2hCNFVySnBmM1F3eEV5WEJKd3lwRUFM?=
+ =?utf-8?B?em9tNU1MY094TjFWQU5RbVd3Z1dwd0Frb3lNbFJnakt3bll1dHpxeXg3dzJk?=
+ =?utf-8?B?L3lzMGR1RUk1VHJPSUNSVklTZVYyQW9BVTE1eXQxeHAzczJmNkFnVS8rQkR6?=
+ =?utf-8?B?NEt2QitZeVFlZDkwU0Z4UVVSUWh1ZzVXei9TNHpnMjVlV29YMEpvYnc3T3dL?=
+ =?utf-8?B?ZWpiSTQ5WW5XR0MwMWQyTGZaVnNHdG9uNXUxSUhBMy81YmNwdC80Z1dnTnA0?=
+ =?utf-8?B?ZDQwdDE3NnZqcjZjK3JaQi9iamdJdDh1ZUhITzVDRWpwWmRzQkw0NlcrTmZY?=
+ =?utf-8?B?TkE3UEUrb2JLaTRCUnJDQ0FyUkNPdlloNHI4dHJoVElidDhMNnM3REtKeUta?=
+ =?utf-8?B?VXZ2aGRsczR6Qm4vUFRjUERuaEI2RFJOMjVhTHBoekpNQmtNaGRjdEg0ZE4r?=
+ =?utf-8?B?Nzkxb3p5RVpZSTF5ZDgzSnAzOGhXZUdPNUtFL3hYSmxBSHlVV2VZdGk2TzBM?=
+ =?utf-8?B?RjU3ZVBMTHpwbTExWVE0bGRIQWt3Wm42L1ZMSU1SRU1yMTRCUzdVa01XV2U0?=
+ =?utf-8?B?eVBmWFJNMHdqdG9EZnY2bGtkeWhDYlhJUUYzaUZDR21XSklVSnRPSkx3cXRw?=
+ =?utf-8?B?TlNsdDZ6T3BKekpUR3A5TzJ5NmMzcjc4eDN0ck9tNVdTZTBKaURjOExFL3NS?=
+ =?utf-8?B?TmVYOGdUMVZaTUh5eHV1anZSazVHcjY1U3JVcitzaXlhTTJrMFB3UGVRN3NI?=
+ =?utf-8?B?b1R1MkdzbTJCelFvcWNVNjg1UDU0U2tXNG9WbDNMOFBHbDhrbkxsdUsvYncz?=
+ =?utf-8?B?NmpxUXN4NlRsYy9DRlFnNjgyYXM5NXRhNnhha2FmODJ6ZFJKdkNSalRFTzRo?=
+ =?utf-8?B?akRHa0ZseDdZdGpLamZVRzgydlUvVjFSbytYemlUdzE5SGNIZFhYZG5aZFo0?=
+ =?utf-8?B?Nnc5ZE9BQmRvR2xmaG5LT3gzeHpnR3ZjRkkxdU9rNXBDMGRHOTVzc0x2bldJ?=
+ =?utf-8?B?YXFhZUhCMEFLN1JjVzU4eDVQWW1MQ1IvL3gxMEJOaEVJNCtXYUNzRmRjS1k3?=
+ =?utf-8?B?SU9XdWZGK2wyS3lDR3piNTA0WW03NDVXNHErbG5wUFlwbDBYTThaNFVMSGxm?=
+ =?utf-8?B?L0ptWDJ3dGYrQTY1MVoyTjAwcGtrOW9DRVN5QllFS2IydzM1eWx5K0x1MWV0?=
+ =?utf-8?Q?LqbQeKnpfljWK2oSjnCiWn0lJWayCdBX?=
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:BY5PR12MB4116.namprd12.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230040)(376014)(7416014)(366016)(1800799024); DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?dmpyTEplanA3MFpJR1U3SjZ5ZDR2UEdDYnIxQXdwcXp3eFNScmp1MDI4eVZG?=
+ =?utf-8?B?TDhiUlVtN0UveU9BQU5YYzRGZFoyOHVWcWpLRWFUSVFoSXloUUNIVmZ5bHBn?=
+ =?utf-8?B?dVFjNjdXdGl0RXV4aWk4U05OZ3dBeFNpWjNicGcvZUVmbWh2SUNjTFB0V3hF?=
+ =?utf-8?B?OWFwdnJETVRMeDhsOTFrUVI0ZEZweEYrRERiWjY1L2lFS1o0dDl1UHVOelUy?=
+ =?utf-8?B?RVlHc1JxRVNXaytvVGo4anc1M3hpRlc3Qmk2ekI0ZFFnYk9zU1VXM0RoRlZL?=
+ =?utf-8?B?R1RTMlhuTUR5NWN1TnUzZTF3bDM1eFM5S205dVF3dmFmSUFTK0RXd2lDYXZy?=
+ =?utf-8?B?dlkvTzFJYzFWSms0dXN4NE44eXBRZElKK1BhVmlNYlczdU50cjZSdFhqbjNW?=
+ =?utf-8?B?dXNzTlgxTEJyLzhQS0pJVlhPNFhQTWJsWHNJM2d2bkJVZ0hKTVZhUERmdHdZ?=
+ =?utf-8?B?NXlyVk40SXJKUHN6TzVWbzM1Vm9HdXpYbFRzb0FMWDRzKzBTcHdWUzBDWkZU?=
+ =?utf-8?B?Z0NWNnBZVnVZcXNvSXVJdzdQNUI2eEhLQllwekJEQ1pNbk1QSkt4UDNoTHJ5?=
+ =?utf-8?B?djF1a3B5aVM3WlJtbFY5QUdqWVYwczd3VTMrdFpTTjdTZGJsY0luUmRiekFF?=
+ =?utf-8?B?K0xnTVJFOUVvRHhFdi91VHdhaStYSHBQZGV6TnQzNmV2MlZINWVmc0xyZzBN?=
+ =?utf-8?B?WFJkK0t6TDltN2ZwK1JReVlHTTRpMTdZT3FhQUdBS2RKQnVhMWp4QzlDSzdr?=
+ =?utf-8?B?OXQrSVN6RUROdFduZnh3ZHBud1hoM2FYRlk2dWNWUjU1N3g3cUpCN3kwU3R4?=
+ =?utf-8?B?czQyZEZGMktHOUt5dkFYZkF6NHZ5N3JTdkNUb3ZaOHB2eXFVMkZqT21lM0dm?=
+ =?utf-8?B?d1BiWDM1TUwvSmw0bWVaMm5lTUdvMXJXNGs2SWwvemhweHo5c3lMV2VlRnRS?=
+ =?utf-8?B?S01zcWxzOGlkZWpJWm5hcFRCbWxoYXBMWE1zY2VHU0dockVYeHRUc0g3V2gr?=
+ =?utf-8?B?WTFFTnFFeGJWbTl1dExtWWdFUENoa2Z3WjlVTS9WMUpyTHNUZmN4em9rTm4r?=
+ =?utf-8?B?aXRmZTlURFhZV0FqcVNEZS9wajl4Y2ptaVZEdHEwbFY1MWpqK1pIL2JDcVdP?=
+ =?utf-8?B?RFc1Q1F3N2Q2TDdseUpIWHpkUlBONElSWTNHSE85VlJNY1FEY0RoV2piVk53?=
+ =?utf-8?B?SjJILzdHV2svZEh2TE02b3Urb2drRlVLUFltK3o0cDR1L0UwdjdVc2tZSWVy?=
+ =?utf-8?B?Q0Q4TmhRb0JITXI5N1huWXp6eW10UlJ3YTZBZkhPRFhJeGZnU21RaENBOTRE?=
+ =?utf-8?B?bEJMK3dscTExd3RaNEs4WnFkWUFpUHVPWWpBM3dhY1R2Ukk1SGFvWTZzWitq?=
+ =?utf-8?B?OGFZSjV0SjgrS3EveDY4RStwREVyT05MT1EwNjNleDEyRjU5L05Kcno1ZHNp?=
+ =?utf-8?B?QWtNWG1TY2pjeDJoVU5OUktZT3V1eGhNeStZU3JBa1lhaDFReDFEUUd1T0Ry?=
+ =?utf-8?B?RjVqSjZtVm8zeXcwVEhjUjhXQ1lzME5nMlhYN2xUenJBQ3VaWjF1WGI1S1A4?=
+ =?utf-8?B?VnltTC9EdTlwT3JmRWlzZWgvODBaRUwvS1B0cXR2RVdxMDM3Ui85VVh4WWZR?=
+ =?utf-8?B?NWt2dkpURi9LeFVURWlVZEF0VmRqampjaXAvVUoxam95TTQvTlVld1pmeVpI?=
+ =?utf-8?B?K3FiLzh5K3hoazd0aFNYVXNmS05xS01CcEpLYU96anJjcWdVaEdHN3l4bjFU?=
+ =?utf-8?B?YTlYMmRQNzkwZ0svQTVQdEpQSFlkYzBRbEU1SkY1N0EzOEliTDVrdXYyNUlB?=
+ =?utf-8?B?aGtDWFpZRTh4U1ZhZG55S1FIK0lFR1VZZCt6T0J6dnZmTXh0aWdCWWtLRU9T?=
+ =?utf-8?B?U0JqZ1hHcE1hWWZjWUxybUNoVEIxS3l0VEo2RWkxUVZqeDRSM2RWM1h1OHBn?=
+ =?utf-8?B?aE1KRkw4S2w1Q0JTNlZuaW1hY2pmYzdNL1UxM25ibm1sODBWVWhRZy85U1J6?=
+ =?utf-8?B?OS9sUHNsaGppN3lBQkpsYkl5UFhPbUZQYXlYWVFIYVk3R1Mvd3pPZjdaUDhF?=
+ =?utf-8?B?ZCt5MFViQjRzeUQ2SmFIeVNSeHM0TW9rVFhrQlhxYjg0U2tJaEhFWFJGRVh4?=
+ =?utf-8?Q?U2dExNcTCSthZSqxcySZBY4L3?=
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 0f7cff1d-79b8-4ec5-dfaa-08de1cb60a7e
+X-MS-Exchange-CrossTenant-AuthSource: BY5PR12MB4116.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 05 Nov 2025 21:55:32.0072 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: otJXHKG+O0Kag7vjjU0HA4t0BPfRiS52XkP4r+D1gt+/Q0bLnvW4QYAD0D4DMmd123tSarZgHF/hUdU+ExGIOQ==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA1PR12MB6846
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -90,97 +186,37 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Alexandre,
+On 11/5/25 8:30 AM, Timur Tabi wrote:
+> On Wed, 2025-11-05 at 03:45 +0000, Joel Fernandes wrote:
+>>>> +        dev_dbg!(
+>>>> +            sequencer.dev,
+>>>> +            "RegWrite: addr=0x{:x}, val=0x{:x}\n",
+>>>
+>>> Hi Joel,
+>>>
+>>> The RegRead, RegWrite, RegPoll prints generate over 400 lines
+>>> per GPU, into the logs. This is too much, especially now that
+>>> it's been working for a while.
+>>>
+>>> I'm thinking let's delete these entirely. If we somehow get
+>>> into debugging this aspect of the sequencer, we can temporarily
+>>> add whatever printing we need, but I think it's one notch too
+>>> far for the final product, now that you have it working.
+>>
+>> Sure John, I am Ok with removing the prints. I will do so for the next spin.
+> 
+> Or, you could do what Nouveau does, and define two more printk levels below DBG specifically for
+> stuff like this:
+> 
+> #define nvdev_trace(d,f,a...) nvdev_printk((d), TRACE,   info, f, ##a)
+> #define nvdev_spam(d,f,a...)  nvdev_printk((d),  SPAM,    dbg, f, ##a)
 
-kernel test robot noticed the following build errors:
+...and those are unusable, unfortunately. I've tried.
 
-[auto build test ERROR on 6553a8f168fb7941ae73d39eccac64f3a2b9b399]
+ftrace/bpftrace, maybe those are the real way to "trace"...or something
+other than this.
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Alexandre-Courbot/firmware_loader-make-RUST_FW_LOADER_ABSTRACTIONS-select-FW_LOADER/20251105-160437
-base:   6553a8f168fb7941ae73d39eccac64f3a2b9b399
-patch link:    https://lore.kernel.org/r/20251105-b4-select-rust-fw-v2-1-156d9014ed3b%40nvidia.com
-patch subject: [PATCH v2 1/3] firmware_loader: make RUST_FW_LOADER_ABSTRACTIONS select FW_LOADER
-config: x86_64-kexec (attached as .config)
-compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251106/202511060527.knZk5HZP-lkp@intel.com/reproduce)
-
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202511060527.knZk5HZP-lkp@intel.com/
-
-All errors (new ones prefixed by >>):
-
->> drivers/base/firmware_loader/Kconfig:41: syntax error
-   drivers/base/firmware_loader/Kconfig:41: invalid statement
-   drivers/base/firmware_loader/Kconfig:42: invalid statement
-   drivers/base/firmware_loader/Kconfig:43:warning: ignoring unsupported character '.'
-   drivers/base/firmware_loader/Kconfig:43: unknown statement "This"
-   make[3]: *** [scripts/kconfig/Makefile:85: oldconfig] Error 1
-   make[2]: *** [Makefile:742: oldconfig] Error 2
-   make[1]: *** [Makefile:248: __sub-make] Error 2
-   make[1]: Target 'oldconfig' not remade because of errors.
-   make: *** [Makefile:248: __sub-make] Error 2
-   make: Target 'oldconfig' not remade because of errors.
---
->> drivers/base/firmware_loader/Kconfig:41: syntax error
-   drivers/base/firmware_loader/Kconfig:41: invalid statement
-   drivers/base/firmware_loader/Kconfig:42: invalid statement
-   drivers/base/firmware_loader/Kconfig:43:warning: ignoring unsupported character '.'
-   drivers/base/firmware_loader/Kconfig:43: unknown statement "This"
-   make[3]: *** [scripts/kconfig/Makefile:85: olddefconfig] Error 1
-   make[2]: *** [Makefile:742: olddefconfig] Error 2
-   make[1]: *** [Makefile:248: __sub-make] Error 2
-   make[1]: Target 'olddefconfig' not remade because of errors.
-   make: *** [Makefile:248: __sub-make] Error 2
-   make: Target 'olddefconfig' not remade because of errors.
-
-
-vim +41 drivers/base/firmware_loader/Kconfig
-
-     3	
-     4	config FW_LOADER
-     5		tristate "Firmware loading facility" if EXPERT
-     6		select CRYPTO_LIB_SHA256 if FW_LOADER_DEBUG
-     7		default y
-     8		help
-     9		  This enables the firmware loading facility in the kernel. The kernel
-    10		  will first look for built-in firmware, if it has any. Next, it will
-    11		  look for the requested firmware in a series of filesystem paths:
-    12	
-    13			o firmware_class path module parameter or kernel boot param
-    14			o /lib/firmware/updates/UTS_RELEASE
-    15			o /lib/firmware/updates
-    16			o /lib/firmware/UTS_RELEASE
-    17			o /lib/firmware
-    18	
-    19		  Enabling this feature only increases your kernel image by about
-    20		  828 bytes, enable this option unless you are certain you don't
-    21		  need firmware.
-    22	
-    23		  You typically want this built-in (=y) but you can also enable this
-    24		  as a module, in which case the firmware_class module will be built.
-    25		  You also want to be sure to enable this built-in if you are going to
-    26		  enable built-in firmware (CONFIG_EXTRA_FIRMWARE).
-    27	
-    28	config FW_LOADER_DEBUG
-    29		bool "Log filenames and checksums for loaded firmware"
-    30		depends on DYNAMIC_DEBUG
-    31		depends on FW_LOADER
-    32		default FW_LOADER
-    33		help
-    34		  Select this option to use dynamic debug to log firmware filenames and
-    35		  SHA256 checksums to the kernel log for each firmware file that is
-    36		  loaded.
-    37	
-    38	config RUST_FW_LOADER_ABSTRACTIONS
-    39		bool "Rust Firmware Loader abstractions"
-    40		depends on RUST
-  > 41		select FW_LOADER=y
-    42		help
-    43		  This enables the Rust abstractions for the firmware loader API.
-    44	
-
+thanks,
 -- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+John Hubbard
+
