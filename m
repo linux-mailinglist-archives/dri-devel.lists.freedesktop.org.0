@@ -2,173 +2,130 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9A531C3837A
-	for <lists+dri-devel@lfdr.de>; Wed, 05 Nov 2025 23:43:27 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id D452BC38395
+	for <lists+dri-devel@lfdr.de>; Wed, 05 Nov 2025 23:44:59 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D633510E329;
-	Wed,  5 Nov 2025 22:42:59 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 283B610E7B9;
+	Wed,  5 Nov 2025 22:44:57 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=Nvidia.com header.i=@Nvidia.com header.b="foW4JJHO";
+	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="noKnkKvP";
+	dkim=pass (2048-bit key; unprotected) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="V11lhurk";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from CY7PR03CU001.outbound.protection.outlook.com
- (mail-westcentralusazon11010023.outbound.protection.outlook.com
- [40.93.198.23])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5152E10E329;
- Wed,  5 Nov 2025 22:42:59 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=IT6RhQiyX5lveizpEyezmP5h2mregm5WwlvqdVgmOfTYg+neM//a6rj8YQ4n9yVlhZjIDCzWOAWfwQo7sJADcyciC5HEzaKa7qN6eR+2G5d2lbPFSza2svTLk896gWsXitfPfQvfXjYVxsQEfFMmsALFOVBcFTfBY0KaJdSDz7gJjBH1L2eq4XDwrryUdCPGxw46mHkYUoKt2J6agxA84nrLOFrfBO8Hw21ZMMJClyWw+HqeI29Y+hieGnNzsb14iLW8DIKe2d7qcHfIXiQfKym/5RQir7j7kuquOtbGoTjxKGcGpea8PqinkjDrSlATtVtUFxlbeXybJTi7ozdFzg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=yFWtcTVvY6gIh/g1YKdw5kSyN4rJXzViA4nQQ161DlI=;
- b=dajmXzuJPwShrtGlEXkP5jpo2qWrmKya7heGt927rxqElHLUER9akqVGrhrSpAsR4PZ9xRLIvMooLmAhaAjT1koecX/DBokVTa3jjI37Si65iije8vZ5H+oW5JaO77Ph36QR7rGbDU5EtiOMaTr134Fv3nY84D5gUB0DNsgfMX/24heEqzkzA+D+QCRI43KYnxbWpZDUMNys+VHogwVsfFVxBTSdJxxI1bvNeXV+3ks6BUzZUqcAFrRUmRREiYoLu/grQb2BPjqHVSFq/n5O0k32T8MoSMjqJyOmlSa6HKum6RGpgxzIKfdUlL75UV38RNHw9f99Fce+zFVrbJbxgQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
- dkim=pass header.d=nvidia.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=yFWtcTVvY6gIh/g1YKdw5kSyN4rJXzViA4nQQ161DlI=;
- b=foW4JJHOTP42ULCAFSuOFWTt/8y1z4cfp/fQLAOegcWKrPoJG6m0KZqBkkdLBwV9QslWSjv7ef6eapyTLs8JE7B0XUhRoSbcSfKJFhRDJn6UVisl7WRysegWBDi6zCAC9tvnCDVp9k/1jzWxIktQEy4ErOOJmofdm0WgBe8xjzBnpT3bxuLXhGi9zmSbremvwxvC2VUHvP33EUQt8jN21FnWK8cWyIdxjTTTyjPNxo1oM1FyWb3yPfrHhOQSYAne3odiMjMnLajK7UF8UB7yw0mlzdlPanpZPeQX3SLvLJEDllhurn+zPGfFcXuZm2i9A7R+vzqt3C61aJ38IFoyNg==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nvidia.com;
-Received: from PH7PR12MB8056.namprd12.prod.outlook.com (2603:10b6:510:269::21)
- by PH7PR12MB5805.namprd12.prod.outlook.com (2603:10b6:510:1d1::13)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9275.14; Wed, 5 Nov
- 2025 22:42:54 +0000
-Received: from PH7PR12MB8056.namprd12.prod.outlook.com
- ([fe80::5682:7bec:7be0:cbd6]) by PH7PR12MB8056.namprd12.prod.outlook.com
- ([fe80::5682:7bec:7be0:cbd6%4]) with mapi id 15.20.9298.007; Wed, 5 Nov 2025
- 22:42:54 +0000
-Message-ID: <b3a8e750-1991-494b-828a-59c377953870@nvidia.com>
-Date: Wed, 5 Nov 2025 17:42:50 -0500
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH RFC 1/4] rust: clist: Add abstraction for iterating over C
- linked lists
-To: Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
-Cc: Alexandre Courbot <acourbot@nvidia.com>, linux-kernel@vger.kernel.org,
- rust-for-linux@vger.kernel.org, dri-devel@lists.freedesktop.org,
- dakr@kernel.org, David Airlie <airlied@gmail.com>,
- Alistair Popple <apopple@nvidia.com>, Miguel Ojeda <ojeda@kernel.org>,
- Alex Gaynor <alex.gaynor@gmail.com>, Boqun Feng <boqun.feng@gmail.com>,
- Gary Guo <gary@garyguo.net>, bjorn3_gh@protonmail.com,
- Benno Lossin <lossin@kernel.org>, Andreas Hindborg <a.hindborg@kernel.org>,
- Alice Ryhl <aliceryhl@google.com>, Trevor Gross <tmgross@umich.edu>,
- Simona Vetter <simona@ffwll.ch>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- John Hubbard <jhubbard@nvidia.com>, Timur Tabi <ttabi@nvidia.com>,
- joel@joelfernandes.org, Elle Rhumsaa <elle@weathered-steel.dev>,
- Daniel Almeida <daniel.almeida@collabora.com>,
- Andrea Righi <arighi@nvidia.com>, Philipp Stanner <phasta@kernel.org>,
- nouveau@lists.freedesktop.org,
- Nouveau <nouveau-bounces@lists.freedesktop.org>
-References: <20251030190613.1224287-1-joelagnelf@nvidia.com>
- <20251030190613.1224287-2-joelagnelf@nvidia.com>
- <DDX1WYWQNTAB.BBEICMO8NM30@nvidia.com> <20251104005812.GA2101511@joelbox2>
- <CANiq72m692bb+W32QN1G+LJa7sHs=gU8k6dri3mu95Smj7GiRw@mail.gmail.com>
-Content-Language: en-US
-From: Joel Fernandes <joelagnelf@nvidia.com>
-In-Reply-To: <CANiq72m692bb+W32QN1G+LJa7sHs=gU8k6dri3mu95Smj7GiRw@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: BLAPR05CA0044.namprd05.prod.outlook.com
- (2603:10b6:208:335::27) To PH7PR12MB8056.namprd12.prod.outlook.com
- (2603:10b6:510:269::21)
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
+ [205.220.168.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4D59F10E7B9
+ for <dri-devel@lists.freedesktop.org>; Wed,  5 Nov 2025 22:44:55 +0000 (UTC)
+Received: from pps.filterd (m0279865.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id
+ 5A5KEx0m1784631
+ for <dri-devel@lists.freedesktop.org>; Wed, 5 Nov 2025 22:44:55 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+ cc:content-transfer-encoding:content-type:date:from:in-reply-to
+ :message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+ whD4rrMgKz5k0TcFiUB0yPuwca0R24xTiXw3wTTUxh0=; b=noKnkKvPYm73TfDx
+ 2p+zQ3ymkDzm/vdVNJWCHMX32ORuTKpxjIDwkgwdxN8Zc7d83WUbIpmxfU8Vp7Iv
+ d3uI6phgxxF+cpjAEfx9SyitpyLM5O71jfCkx3rnbu+vZSxm8MUOj452D7/mSDZC
+ N3jPnebuLgkURUDS5iXCfqtWsG62gvBg5i+thAiIKH7NPwhoSQDCgBszTONI+w1h
+ hae/quhe3gUTd8o9AtRlQDkJmxzNe8fJ2dYaluQHk4r3japtwbPsQe+tbwuq+Alw
+ YRUltC/UVhz+ApVpY3yIGmlaMEHG2advE5TV2jDcibrimF9J8EjKLbjAgJykpfRb
+ 6PdzRg==
+Received: from mail-pj1-f70.google.com (mail-pj1-f70.google.com
+ [209.85.216.70])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4a8amx8wux-1
+ (version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
+ for <dri-devel@lists.freedesktop.org>; Wed, 05 Nov 2025 22:44:54 +0000 (GMT)
+Received: by mail-pj1-f70.google.com with SMTP id
+ 98e67ed59e1d1-3407734d98bso468373a91.3
+ for <dri-devel@lists.freedesktop.org>; Wed, 05 Nov 2025 14:44:54 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=oss.qualcomm.com; s=google; t=1762382694; x=1762987494;
+ darn=lists.freedesktop.org; 
+ h=content-transfer-encoding:in-reply-to:from:content-language
+ :references:cc:to:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=whD4rrMgKz5k0TcFiUB0yPuwca0R24xTiXw3wTTUxh0=;
+ b=V11lhurk7i8leHst/Vt6XwfIJNtTEgS4fKYEUvVyRMAI4rd4Z8Shi0BMJMOkSRLUJC
+ CqMttY9sEPtqaN6hXKWKxqbF+1yMunmwkyzZZ8TtnGJSGqywh1F8kTH7DwVwmQV69MGf
+ rCzF6NEiSUSc9PwwsZiHywn2e/MWKbK5s8QZjDHFCH3l72NBGZnqaC3ZikwjDy4ZG8LD
+ 99bLHtkG4br+qCQ82LcK1r+x8SrmmI9HWdCt3VMdDAMSwg6QrveMwBBTczAmaEgGVTjW
+ WNINlx8G8+I4M2oU1Y+ump2vmTOekNbCJ7A8iLqdqZhoyKg4flPptI0A/bOdDATLpH5d
+ APuQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1762382694; x=1762987494;
+ h=content-transfer-encoding:in-reply-to:from:content-language
+ :references:cc:to:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=whD4rrMgKz5k0TcFiUB0yPuwca0R24xTiXw3wTTUxh0=;
+ b=qfia+uS6R+q2Ya9pftMZZfGFqCeMWcemDM44CiOqdkhigBnfElL63V0ep99NRd+GB9
+ 3eoMBJ4mIjxxPLaBPuVDUNnmqhLtLsn2RGJF/OrAbPABg43UpzeX6klYqiosF4yTEXcy
+ yh6bZeGg0KawbuT2gj90ALXuz5N/S9d55Mrf5AZ1GEJAPNtYLfVbDKKvARmLHSc7EKjw
+ ZmNJhbUhU4sGz7vsGbt1BJdvDaB10r7FrGcGnyid9ypV1uwJ8FwtSAD/bKh2YPuqsipj
+ pQHFkjc2v0Bcw7/JyDkA/O7IFIrc05b59Aj1HdWeXFDjIohJW67moRGzPrr9fVUrjjJp
+ vd6w==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCWkq+HRZZEo0Z7vGYlaEIJBo1WEJFTeI6pqrebEMztPh3GRf2U76wdD/nCPXCGGJjjdhsNAQnEwO6U=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YxYVTGcDOfiei02PyeK2lFj7knC+XzUfjT9uHVjqk9p3IVv0yzb
+ veUIRa/1yYfSKRDXgQ65Di4yrehxhUeGr+sYfsY6qfupOnCYQSQdsoVEbHSeS1AnO9Y9Q/ttJRv
+ tJMO04NqbuLQJ3yqcr33CRibxFMUJM+xoECFFCeC6vSve5qD0g68NaYE6sG5808+uYk9Us4Q=
+X-Gm-Gg: ASbGncsxFVd5u3xEzC4wbxldWYoTXlObdsSkWCQGATSMo6lqn2z5j3/IfS/YWE7RKep
+ oz+4zBx+vdHMLvRlY1tN1cDIHUjsidjjp3uXea9jcY8NksgmgPLzjrglccCHJsyCTU5OsKy50Fe
+ zGa9lk0X1aW8YRMDE+L4zIa6bMCizwuJ8QhnYqzGkmSCTnEiAj1sfqm5Pm4vx3Cv5OoabNKq4uO
+ hmX9DxVx4oLjA6iK/vSteaGAgD1YPAPqvWlSpkNptYBwEgDk76QD9Tl5ZmExNgsey3lEXDZx8mu
+ yy4O2U2NxctMjqG1d+DWIk8u2+wBWPBF7Ox9jtx/6+EBqUqVt6oxN4b9/aXfEJPb14Hyjbmj3sk
+ 7Vtxke3TQf8hNFE2ov9AuVbgJ55/MCZ2tAJw2leMqS4Yr1DeLwWJU
+X-Received: by 2002:a17:90b:3c11:b0:341:2150:4856 with SMTP id
+ 98e67ed59e1d1-341a6dd9a57mr6345348a91.17.1762382694099; 
+ Wed, 05 Nov 2025 14:44:54 -0800 (PST)
+X-Google-Smtp-Source: AGHT+IE63ghWY/re3DtQ0T2wbxh0aL5eHg3L3Lyoqu7VW2Z0ndWUR4MkwlpZJaYlnH/MyBsNXJwQYw==
+X-Received: by 2002:a17:90b:3c11:b0:341:2150:4856 with SMTP id
+ 98e67ed59e1d1-341a6dd9a57mr6345322a91.17.1762382693613; 
+ Wed, 05 Nov 2025 14:44:53 -0800 (PST)
+Received: from [10.226.59.182] (i-global254.qualcomm.com. [199.106.103.254])
+ by smtp.gmail.com with ESMTPSA id
+ 98e67ed59e1d1-341a68ce9e9sm3896933a91.9.2025.11.05.14.44.52
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 05 Nov 2025 14:44:53 -0800 (PST)
+Message-ID: <803ec0f2-31f5-443b-af3b-0ebae776d864@oss.qualcomm.com>
+Date: Wed, 5 Nov 2025 15:44:51 -0700
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: PH7PR12MB8056:EE_|PH7PR12MB5805:EE_
-X-MS-Office365-Filtering-Correlation-Id: 94fd5886-32ec-4dcb-f672-08de1cbca87f
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|7416014|1800799024|366016|376014;
-X-Microsoft-Antispam-Message-Info: =?utf-8?B?bktROGNWcmFONWticVFHdjUyc1ppdXk3N1pIQXJ3WjhaT3RKcnFrR01LN1Yy?=
- =?utf-8?B?d2UvNFZOcHRndFFYZmFSb3BTWlNTZ3dTR1U1UzgxZGl2NjBuZ21SNXkwTEg5?=
- =?utf-8?B?aGUzcG16YVBwVm5FVUhsNTF3SWFnRGY2aDR0K1dFZ1MrS05HS0kxODE4blVS?=
- =?utf-8?B?UGJaVlpKU0ZBcWdKRUlRUW1PSjRVS2Q1a25nbmVNM1ZKenBGNFJXV2dhQVRV?=
- =?utf-8?B?YzR0Q1pJYWZMdEE5MlQzU1p2MzhUTjJ4SythbWlVZ0JwWHdIa1dDS3IrSkVI?=
- =?utf-8?B?cUhBVU1SR3RaclIzQUNnajZSYWxBTmYwSHFabnJ0bFArQTg2MUptaldwNS8y?=
- =?utf-8?B?YitiSTJXTlJlalc4Vmw3Y09VV3JVY0V6V3NaK3pnODV5YTNYWk1qRGhXV1NV?=
- =?utf-8?B?WFpiSGRZdHBGRXZubHlZR3R0Y05rSlNMM2RQZXNScU1VditlZkNuOXRCbnc1?=
- =?utf-8?B?L254d1FoVDdPWWlRUnhOMlMyM0lTOTQ0QmcyQ1Y2eHZObmk1ajlEb25vakJZ?=
- =?utf-8?B?UkpUV08wTHZ5Q0xiOHZabWJhVmtXSFJ3ajdVVGxKTlVLYXBwNjBNdFppYkpn?=
- =?utf-8?B?TTFNb2lwQVdKWU4yYVBkQlVxYnlTbm5MVWtKTUtvbi9Gc2FWcDl3NHJ1emxi?=
- =?utf-8?B?UWlraG1HNkdOM1ZBUlhmQnJlTStlS2ZxUzRpQTU0bHVnV1R6SWd2d2Nidkoy?=
- =?utf-8?B?cDBSQTV5N2FGZ1NVYytYTTJwUWJ0bW80eDc0MXllVlFXK3IwNU1HM0twNkZF?=
- =?utf-8?B?OHBDSVZVbitTODdUL1BmZzNWSU5sRk9FOFhoVURLTWpOK1dTbWpRZlV4KzBF?=
- =?utf-8?B?eVlwSGh2L0lBZ25PNWUyemdIVUpRVXNJa0pOT2x5YzF4N1U5MHpBVTU2enpR?=
- =?utf-8?B?bDNCTFZwQ1M0RUluVWozOTNFd2UvMzVPRFlLQmJKRE96LzJLZ0x0MVVMWk1N?=
- =?utf-8?B?V3dlZzdGam92bUhOaVQydWlGS09wK05xMDN0YmNUZ2xTUTVDTzJUZGNvUEVE?=
- =?utf-8?B?RklyeVRhRFlOdGF2UmVMREJsU0d1TGZmVUhCNEV6Uk1KaHlYREs0MEY1M0dO?=
- =?utf-8?B?MFgxWm9ybElKbm5CT3dEakE2OFkrd01UTmIvZGk4TUN5cFZ0TGx3YkF4MzNp?=
- =?utf-8?B?NjVLWFhuZi9vTUg3ZlgrdkZEUWljTHE4dmpBV3lzY2MxRSs2VXJtd3p3S2I4?=
- =?utf-8?B?ZThDRHZUcTRvMDJOSVZWbjNyR0ttSnQyOE9HSEkzaFo3MGgvL05mcUJLMWlU?=
- =?utf-8?B?NkxRQWZZUVpoMzROQkV1K3B1YXV4L041R2VXSmxjVWU4UC9VTWlVbS83WndT?=
- =?utf-8?B?aDM1WU81MkFBclFTNTM3ZEJYK1N6THNUekhQaDJhbGFjNmw5bHV2RkFRRjlL?=
- =?utf-8?B?MEdVb1VuV2NKaGZFOTZZeXBrcVFudW9IakxnNWQ1b2EvVVNLOHN3cWFSU3hn?=
- =?utf-8?B?di9wWm9INXFMaUhhSE5paU8xOHJxYlg3TlhGVjdjSDZ5RElqMkh6WDlVZTBx?=
- =?utf-8?B?emo4VnI1eVdLOTFXRlFzdVZaLzhWQWx2R1EwZXVyWDl1NGZ1dTFkanA4UlVx?=
- =?utf-8?B?YXlVYkM4WlZOcmtpTDNJQ2NQVE5QR2hMY2Z2dTZ2aWQ1amJBV29RU09MSW5B?=
- =?utf-8?B?cGNpUDFzb2hQdjhUTnNSWUNhVGpRWTZJR1NnK3VYTUxIYitGU1pZNG5hUE8r?=
- =?utf-8?B?V3JoYWNJeE1uKzQ0ZVhYSFNrREdySEVuMml4Zm5EalNoMlRoUlo2RVY1VFNt?=
- =?utf-8?B?cHQrS0VUc1VieWtZTWVWU2M0a0s1SGgyby9SOXYyckg3K0ErMDR3TlZJUm9K?=
- =?utf-8?B?OXdSa1lGdmZBbWtHS1hTR3E0akkwb1dCQTBvbVpDZUJhK3k2eWpMZEUzSzh4?=
- =?utf-8?B?eEQzU2U3cERXbUZFbGp5VVl6RGJCMTR3V2JodXBGVldQNUFId0RYc0ZqNDg2?=
- =?utf-8?Q?f9levdQkPHZPHnSOX1+aV+WXGZkIEo2x?=
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:PH7PR12MB8056.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230040)(7416014)(1800799024)(366016)(376014); DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?VEgydEtzV3lxRmx4cHU2d2VORDhQT3I3WHNhV0lzZFJxVVdwamVpeWt6eVZu?=
- =?utf-8?B?ZFcwRUxZV3NSbUgrL205ZDVWZ0xkTmVnKy9MNjR1ZENCc3FGM0NDc0JPbU15?=
- =?utf-8?B?Z0IwQTZUWUFnWFNnc0RjR3Q4cUd2U2doSjV3UldINnRZQThrWWZYYkNYVktj?=
- =?utf-8?B?aHMweTMxWlJkdTBSWlZpUFM4enRYZis5K0RxYlNVL09ZUHI0bXMzZzdvVUhl?=
- =?utf-8?B?R1UwWUVGa2p3bkVTa3NCaTh4SkdJa3lMMGVvNWFZbzFpZE8zTFRCcGpWTlZB?=
- =?utf-8?B?OE40UGlkNHFpbGNROFNmd3NETGhWd3orMTQ5RlN4ckVBZE01SXl3b3hGYmpC?=
- =?utf-8?B?ZHpsYlZQRzJYSnhtbVhFSVgvUk5SZ3RjVm96N1ByRWljOXFZemdDYnB2YXl0?=
- =?utf-8?B?T2FJYWZiZ1BsZ2VkUy9pVTVGZlRvcTVrNWhMYU5BSmpkOWJockloeHR5d2J1?=
- =?utf-8?B?ZzM5aVF3bi92dFdWVFAvV2pEcExDTmJyQkFuVXZ1MmJHTEZLUHdRd2d5S0Yz?=
- =?utf-8?B?YVZxS0Q1b0RaSHVEYlFqc01OckE3MnRZMGV1RUdacHFtcGEyb2xBNDV3VEw3?=
- =?utf-8?B?V1luWFltOGZtaEEvU0RwM0lXUy9RUytnWkwxOW9CQnA2NkhtWUpWR3JXc2J6?=
- =?utf-8?B?SXdqcFY0ZkVlTlpHYnQyMnc5RlE3NnI4b3djWldCNEIyenVnb0oyYm1VVVZY?=
- =?utf-8?B?K0dIZGJvQ1lYSnhjRlZjMmtmVjNwSkpHbWc5NC9jZnFacDlhK0tFa3MvYkZw?=
- =?utf-8?B?bDY2bGEycm95anFETTZKSTR5Z2JnaVJLMmJnbkkvSHRtNDlKQnZRRldDcTBK?=
- =?utf-8?B?UFgzclFLaEVJU01tQjA4UjdRQjdWaC9iYmpIM2RXTDBmSGxET0M1dkFEbGFy?=
- =?utf-8?B?eTlQLzR3bkF2TGhRbldnQ1NuS0t1Ym54VDEzZVJlN1NWczMyVUpCYk1IY2NE?=
- =?utf-8?B?TFBFa3VxVU5mSktWT0cvbktva01yeDE0MEY4UWRvTE9YL3lRU0ZtaWFOWXNH?=
- =?utf-8?B?eGM3amZiMFJ3cHZZdjdRVDFJeDVOZEU3a0NoU2ZTYjFreks2Rk9ocWloZHVN?=
- =?utf-8?B?TmlKOUhRbTJpR1RCMEgzNFZ2ek5aN2ZtRHc4K0tsRnplSkZmOFJYS3JTRnVh?=
- =?utf-8?B?OG53SjNNQWdRc0wyT0xuQTFGamJsUHdPWXNDaVJMUE1icXBiWmVzdk9sSFhK?=
- =?utf-8?B?NnlYUFkyeSsyK1pyS0Nxd1JTRCt6eVFmZm0veERFSmZUbi9odFdaWGFXd0Er?=
- =?utf-8?B?eXhIT3J2Zk4xbzV2ZUQybHRnUjJtdHJITUNKcm5WY1k3M0Fadk9zVE85UkZk?=
- =?utf-8?B?LzNnK3Y2a2M5V01PakNvYkZlWUhEdjlJWDFqY2g2S2tNY01kTnlJeHR1eHNL?=
- =?utf-8?B?cy9VNnU4NFB4WCt4VlhYaUxFUTQvUSthOXNVM1BqekRqZm1EQ1JXZVcvYnpE?=
- =?utf-8?B?SWltcHJWemRXaGVKTkR6RWpzMWswcktBRkRXRDQ2VEc4YkFvRm5adTJkK3lM?=
- =?utf-8?B?d3VzVnczZFE0RTh5NG9zWEE3aGQra1IrUkV2Mmh5RmFyajhLV2owWmJMQkhS?=
- =?utf-8?B?RWRnUERNaGZOK3JNNW4vRWNqK1J6cXBEWHRwMXQvVk5Ra1VQenFnd01BRGNw?=
- =?utf-8?B?TW82YmFEZ1BML08xOE5zRUlsUXJJQU9WaHB1dkNla3ZyMW55T3dYQkFZUzl2?=
- =?utf-8?B?ODJnV2FiSlVrYXZuYXdwLzRUcG8zVCtjS2dUNDZ3WFpEeWU3eVNjVWFMc3RI?=
- =?utf-8?B?TjF2S1lTOGNUZ3lFb1gyUW9KWTZqek5LRnJVT2JXVnFTNkR5VXB4OWZnWGlO?=
- =?utf-8?B?N0JyNVRFbzhFaXkxZFFOanZ5WWJBUkVvdW5RSEJIdHZZVFdTTTVlaXBlS1hE?=
- =?utf-8?B?TjZmNXhyZDdnUloyanVIbERaUzNCb0pKRzM3SEJJZHJOMFhaNkREME4xdWI3?=
- =?utf-8?B?aDZLUWVFenQ5aDZ3ZGdOUDE0dm4rT3U4cXowVm1yanQxMG9xOS9Pb2g0eVda?=
- =?utf-8?B?MXJkU3ovakZqTklHTHFTVUxBK3N2eTlXSU9pOGhDZ0FsNmUzVmZkQXdGR09N?=
- =?utf-8?B?bXR1eTNkdWhYUzk1cFhZa2N6bHp0ZjZHSFpkdmhTUEJ4S2tBd2Q4SFNrTkFv?=
- =?utf-8?B?Ti9uOG0zd0xSQ2tReWx5eHFNMVROSGRoVEpISDkyV29EMEhZODFUWDRSME1B?=
- =?utf-8?B?S0E9PQ==?=
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 94fd5886-32ec-4dcb-f672-08de1cbca87f
-X-MS-Exchange-CrossTenant-AuthSource: PH7PR12MB8056.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 05 Nov 2025 22:42:54.0947 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: ht2Cynooy8BlsZMl+jluQwc6PnhK8lJ939xlPQeYr/urIsqD9kV27/W2mn7Oqvws+3Hd1zlivilZPSGx2Iddog==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH7PR12MB5805
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v3] accel/qaic: Add support for PM callbacks
+To: Zack McKevitt <zachary.mckevitt@oss.qualcomm.com>,
+ carl.vanderlip@oss.qualcomm.com, troy.hanson@oss.qualcomm.com,
+ youssef.abdulrahman@oss.qualcomm.com
+Cc: ogabbay@kernel.org, lizhi.hou@amd.com, karol.wachowski@linux.intel.com,
+ linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ andersson.kernel@gmail.com
+References: <20251029181808.1216466-1-zachary.mckevitt@oss.qualcomm.com>
+Content-Language: en-US
+From: Jeff Hugo <jeff.hugo@oss.qualcomm.com>
+In-Reply-To: <20251029181808.1216466-1-zachary.mckevitt@oss.qualcomm.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Proofpoint-GUID: X3_K_hEg5LVZn7Tx1hw-dQAtAVbdZ4ix
+X-Authority-Analysis: v=2.4 cv=P443RyAu c=1 sm=1 tr=0 ts=690bd366 cx=c_pps
+ a=0uOsjrqzRL749jD1oC5vDA==:117 a=JYp8KDb2vCoCEuGobkYCKw==:17
+ a=IkcTkHD0fZMA:10 a=6UeiqGixMTsA:10 a=s4-Qcg_JpJYA:10
+ a=VkNPw1HP01LnGYTKEx00:22 a=EUspDBNiAAAA:8 a=8xjd3bi9v8xYZN13gnkA:9
+ a=QEXdDO2ut3YA:10 a=ZXulRonScM0A:10 a=mQ_c8vxmzFEMiUWkPHU9:22
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUxMTA1MDE3OSBTYWx0ZWRfX/KMqTI4Uep0X
+ PUOv9OasVBmLgJEhBTWBKYy5HRLhWG4Fg0mZHVs30BiSrH3FL0mDF12AAYar6EV9/67oDZZgTuu
+ O776g2dY6+BC6HV4AB51Il1NtKpHbMs59+74RTwq3DBx3LhOul70ivGzD6cJ0vYTmwZnjbap52L
+ W3QpP9I1DfIc7Be9BScHS+1c8MfYIry7T7OBkGe0l9/sBwjcydUgqVNi7OO73rDpvHtMsPEQ80D
+ 5lDGh3N9xmSk4QmE1HK4R2q8RWhiLhgHg7f2wXlZYnflJmZpu9jSy2g1wT23jM1rLOlGlrpPD4M
+ znvHwEW6VWmj2X7pdv45ihn6TD1cW44ARBnul+ujMaeY2KNhkDMcBdmlT6s3F0XSULG+mKs5IYL
+ MRuk37D01z+fyia6+hklfgXEoilPzg==
+X-Proofpoint-ORIG-GUID: X3_K_hEg5LVZn7Tx1hw-dQAtAVbdZ4ix
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.9,FMLib:17.12.100.49
+ definitions=2025-11-05_08,2025-11-03_03,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ clxscore=1015 adultscore=0 priorityscore=1501 suspectscore=0 impostorscore=0
+ phishscore=0 malwarescore=0 bulkscore=0 lowpriorityscore=0 spamscore=0
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.22.0-2510240001 definitions=main-2511050179
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -184,20 +141,18 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
-
-On 11/4/2025 8:52 AM, Miguel Ojeda wrote:
-> On Tue, Nov 4, 2025 at 1:58 AM Joel Fernandes <joelagnelf@nvidia.com> wrote:
->>
->> Perhaps wrapping it is #cfg is sufficient.
+On 10/29/2025 12:18 PM, Zack McKevitt wrote:
+> From: Youssef Samir <youssef.abdulrahman@oss.qualcomm.com>
 > 
-> `cfg` attributes and the `cfg!` macro should work in doctests -- we
-> have already a few instances, e.g. this hidden one:
+> Add initial support for suspend and hibernation PM callbacks to QAIC.
+> The device can be suspended any time in which the data path is not
+> busy as queued I/O operations are lost on suspension and cannot be
+> resumed after suspend.
 > 
->     /// ```
->     /// # #![cfg(CONFIG_OF)]
->     /// use kernel::clk::Hertz;
+> Signed-off-by: Youssef Samir <youssef.abdulrahman@oss.qualcomm.com>
+> Reviewed-by: Carl Vanderlip <carl.vanderlip@oss.qualcomm.com>
+> Signed-off-by: Zack McKevitt <zachary.mckevitt@oss.qualcomm.com>
 
-Thanks for the example! I will guard it accordingly in my next posting.
+Pushed to drm-misc-next
 
- - Joel
+-Jeff
