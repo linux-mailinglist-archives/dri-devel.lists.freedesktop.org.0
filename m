@@ -2,160 +2,164 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0842DC35C00
-	for <lists+dri-devel@lfdr.de>; Wed, 05 Nov 2025 14:03:22 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id E56F0C35C8D
+	for <lists+dri-devel@lfdr.de>; Wed, 05 Nov 2025 14:15:36 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E6CA710E738;
-	Wed,  5 Nov 2025 13:03:18 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 482E610E751;
+	Wed,  5 Nov 2025 13:15:33 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=amd.com header.i=@amd.com header.b="Z2dozj4Z";
+	dkim=pass (1024-bit key; unprotected) header.d=amd.com header.i=@amd.com header.b="lPHmOsV6";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from SN4PR0501CU005.outbound.protection.outlook.com
- (mail-southcentralusazon11011048.outbound.protection.outlook.com
- [40.93.194.48])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D722510E738;
- Wed,  5 Nov 2025 13:03:17 +0000 (UTC)
+Received: from BN1PR04CU002.outbound.protection.outlook.com
+ (mail-eastus2azon11010065.outbound.protection.outlook.com [52.101.56.65])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0CD9A10E74E;
+ Wed,  5 Nov 2025 13:15:32 +0000 (UTC)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=nqkd5oeqUrMOZYWIqZmojtVUzNct285UfeIDmla9VrLMh6DVaFkduN9BQ0o3yjaoXhfBUJVynAgWZwlSASgTC/F0X2PeCuCWxLgs55AfF+MPZfxktYjK7QRa1Ev7JDRG4sGbJ5Xw+VR33tjnhh9iiGzhq07m6nljcHFJ0PHWxEnem5oiRJrpmyzrRVKJshDXdS+xYavctPvCV9Qbfudf8Sx1umwJbsi2jB1rTr5RBVHu7NYWE6cEfO0fYUz4PeGUCVmnCbkry6pHR69vcGBnbkxg4KyuuRrkgUqL5TS3wrHbhpp1gpsouJDaiCDa5WTniFs5YvAssCImNxo42rzJ+w==
+ b=rbRhNVGN+S08jf8uR6QDiPQJnk37dvY8yEWDlkzHnr1MawjSzRMUKgxcIikU3whhGKIqiOx0umvCNsCAcBAVduvUN1AqxzALmuwnOOQR9Z2l4hYnW45tZL0jQJub7oSK6m1cDkKfID/G7s8aqJiyspbahYw/uPBObPvB8jhZUiCdnvZKxT2b95C/Vm3RbOdXoKSTIRexoqVs+CspcjogCjZXEPHbyG5x/vLGvlSseBHwp6HdC/DxIWW/HG1ctcO5RIbS3GQM+6NVj3BIx/Gkr2j57xa0/rMBiA+c/sWB+ayjeVLYxRfFuClad8FxVJot+sxr0npSA6/z6LzFVBVgxA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=8AmX7zzo0CxA+lXPCSIvrPAcsTRIhV8NKQx2aM/k06g=;
- b=QXzecvXgCfb6ihppOm0dDJhVOu6aLlfNNCdNWLDZjxLtbRu0oNnJ9FMJlgjcUpCaAzgwDGppajmgWtW5hYRjdVwc20Xvyk0wkdu3su0qudUX44sBEjPka4Ly+QriDAKkUgpCVGSfz4nm5hk9t3c2PUdpnSNUac5NPUW5sGdlNU8yG5e4XMgdhfFUxNc7W9wvHZ8IhHhcDvbXpT+vSxy7Tn+c3b6Tdd6lwNOVrQFIqT4xvCtJfMx7DOzeCDuPFXzGW81HuQX/d1mTAY5crCv5ftpyTKkey7HZPY9bIfxg7wBkij5o/Va1+QwbD0GAb/RQZ+9gqbC4vtzS5up19Z3KrQ==
+ bh=lUtE511ff9/qfDP0LvmZ1AaZWuLS5KyegwDnhBd5YC0=;
+ b=C1q8+TtDzJzHD4nC46Kb3n4VviFbcrs2WhVx73oq706ykufIT2WOSVfIcJ5wRz//EJ2uSTjgD87lDdSix9H/bLCHhqR+YuhsrhgblG4xE/WzTQnLbk2tEk2X1mQ5GWebUFN2/pkUwCe6WIFkuLjFBSNIA6K0Xij6bBZMt4B4HM0Pf3xplr1oHVaSihfaOfR0lt59OJtTXCiLNkhpqEZq42rSXDXaOe58IdVXOoHh4Vpdy9SrQlZ6S0NOUUx9kxBHm8HV5Xq21zqoCrouVy18lS4qFpGecKxk3gjbxJ+39xAQQz+CUcvPgN+UAFeAo11gi9NEfymy17hH+x0OSSzEnQ==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
  header.d=amd.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=8AmX7zzo0CxA+lXPCSIvrPAcsTRIhV8NKQx2aM/k06g=;
- b=Z2dozj4Z/+cqdEqyiAo/oNPnvthwATQekqFswooL4BQvdx4oYIGEqRPxo30jLSfVKm4oZdUk5X2qbWfikZGketf5o40kA72aQ3J+MuinSd8O3BjMSq6gsuSn1uvYfCOWrIlgOlOX/+nMGdHK9V4zTbOTgZgXYr0sHlXVEd9W6B8=
+ bh=lUtE511ff9/qfDP0LvmZ1AaZWuLS5KyegwDnhBd5YC0=;
+ b=lPHmOsV6+4zybOXwnLpDMdKsnbQh0SkjehHccgVEseScU5365dPa0WYV1ozIJeyWGlNX6ZjEGEScc4IasPEcAPWQdHsY97xIo0dkY+K9RaOyDSnV0DnEMMFSeNdnpaNZnkDvdGfq1AAoubBAc9dMVsFW95T6SET0SmwT1DZZnk4=
 Authentication-Results: dkim=none (message not signed)
  header.d=none;dmarc=none action=none header.from=amd.com;
-Received: from PH7PR12MB5685.namprd12.prod.outlook.com (2603:10b6:510:13c::22)
- by DM6PR12MB4106.namprd12.prod.outlook.com (2603:10b6:5:221::7) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9298.7; Wed, 5 Nov
- 2025 13:03:15 +0000
-Received: from PH7PR12MB5685.namprd12.prod.outlook.com
- ([fe80::46fb:96f2:7667:7ca5]) by PH7PR12MB5685.namprd12.prod.outlook.com
- ([fe80::46fb:96f2:7667:7ca5%4]) with mapi id 15.20.9298.007; Wed, 5 Nov 2025
- 13:03:14 +0000
-Message-ID: <29c2e42d-6d94-4462-9302-af71f489a928@amd.com>
-Date: Wed, 5 Nov 2025 14:03:04 +0100
+Received: from BL1PR12MB5176.namprd12.prod.outlook.com (2603:10b6:208:311::19)
+ by CY8PR12MB7729.namprd12.prod.outlook.com (2603:10b6:930:84::21)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9298.8; Wed, 5 Nov
+ 2025 13:15:25 +0000
+Received: from BL1PR12MB5176.namprd12.prod.outlook.com
+ ([fe80::ed5b:dd2f:995a:bcf4]) by BL1PR12MB5176.namprd12.prod.outlook.com
+ ([fe80::ed5b:dd2f:995a:bcf4%6]) with mapi id 15.20.9275.013; Wed, 5 Nov 2025
+ 13:15:25 +0000
+Message-ID: <caa27d52-d668-4320-b40f-0e1fde8c0a9b@amd.com>
+Date: Wed, 5 Nov 2025 18:45:18 +0530
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v1 11/20] drm/amdgpu: use multiple entities in
- amdgpu_fill_buffer
-To: Pierre-Eric Pelloux-Prayer <pierre-eric@damsy.net>,
- Pierre-Eric Pelloux-Prayer <pierre-eric.pelloux-prayer@amd.com>,
- Alex Deucher <alexander.deucher@amd.com>, David Airlie <airlied@gmail.com>,
- Simona Vetter <simona@ffwll.ch>, Sumit Semwal <sumit.semwal@linaro.org>
-Cc: amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
- linaro-mm-sig@lists.linaro.org
-References: <20251104083605.13677-1-pierre-eric.pelloux-prayer@amd.com>
- <20251104083605.13677-12-pierre-eric.pelloux-prayer@amd.com>
- <0f9aa878-46c4-48d6-9ad5-774a0927b291@amd.com>
- <7395bf47-68fd-4af6-8720-e51dc75253bc@damsy.net>
+Subject: Re: [PATCH v1 1/3] platform/x86/amd/pmc: Add support for Van Gogh SoC
+To: Antheas Kapenekakis <lkml@antheas.dev>
+Cc: =?UTF-8?Q?Ilpo_J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>,
+ Mario Limonciello <mario.limonciello@amd.com>,
+ Alex Deucher <alexander.deucher@amd.com>, Perry Yuan <perry.yuan@amd.com>,
+ amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ LKML <linux-kernel@vger.kernel.org>, platform-driver-x86@vger.kernel.org,
+ Sanket Goswami <Sanket.Goswami@amd.com>
+References: <20251024152152.3981721-1-lkml@antheas.dev>
+ <20251024152152.3981721-2-lkml@antheas.dev>
+ <3792db59-7dc1-4e34-9436-84df4b6c3e10@amd.com>
+ <CAGwozwFTDD2QrHy37axhanwQYv6ty9K_hfhxS05djKpv8HfY6g@mail.gmail.com>
+ <2684d3ab-d7cf-4eab-acd4-91bdd5debb6b@amd.com>
+ <058eda7c-ab93-40a5-b387-54f7a18f3922@amd.com>
+ <13fd3b12-03a0-457f-a5da-fe018b032211@amd.com>
+ <CAGwozwGLfcYdpetwTk=QH+k29u8SdroFxfkxb-KbAXh36sr1XQ@mail.gmail.com>
+ <100c2f25-d1f4-5b82-4a76-a08394ece471@linux.intel.com>
+ <fe9bb350-6dc5-4911-ad32-a95911251167@amd.com>
+ <CAGwozwFRWiR4xQ422tp6H0R9knLjNkn4ewERyYtZgzOYfnJWxw@mail.gmail.com>
 Content-Language: en-US
-From: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
-In-Reply-To: <7395bf47-68fd-4af6-8720-e51dc75253bc@damsy.net>
+From: Shyam Sundar S K <Shyam-sundar.S-k@amd.com>
+In-Reply-To: <CAGwozwFRWiR4xQ422tp6H0R9knLjNkn4ewERyYtZgzOYfnJWxw@mail.gmail.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: BN9PR03CA0778.namprd03.prod.outlook.com
- (2603:10b6:408:13a::33) To PH7PR12MB5685.namprd12.prod.outlook.com
- (2603:10b6:510:13c::22)
+X-ClientProxiedBy: MA5PR01CA0186.INDPRD01.PROD.OUTLOOK.COM
+ (2603:1096:a01:1ac::9) To BL1PR12MB5176.namprd12.prod.outlook.com
+ (2603:10b6:208:311::19)
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: PH7PR12MB5685:EE_|DM6PR12MB4106:EE_
-X-MS-Office365-Filtering-Correlation-Id: ad9ede8a-3b8f-4877-4164-08de1c6badee
+X-MS-TrafficTypeDiagnostic: BL1PR12MB5176:EE_|CY8PR12MB7729:EE_
+X-MS-Office365-Filtering-Correlation-Id: f06e453b-376d-4760-b934-08de1c6d613e
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|366016|1800799024|376014|3122999009;
-X-Microsoft-Antispam-Message-Info: =?utf-8?B?b0ZjdlA1MUxUbGt0TjUra1FvSUp2R2FKb1dSRDlOckJJNEFYOGVWMWE2VXFj?=
- =?utf-8?B?b0pOWms5K0FXWTV0OUxCRmVYcGZ0T1g2eWV5OGU1T2hDeCtYWndQNjV1OU42?=
- =?utf-8?B?d0ZkeUxIQlBablpCa1ppQm1jZ0piOHY2bE84WUIwalFMcFExTEZHcEVGV002?=
- =?utf-8?B?alNYa3pGdW1Oek5mRVc1MlpxQUFmMXJvYnR2TS9URk5oTnMxRTFzZU9Bb1JH?=
- =?utf-8?B?eE1TbVU2ZmtMSTY3Sk15aVV0enlLZWhhcmxtcUoxUk5jRVNZSW91Tzg0QTRm?=
- =?utf-8?B?OHhZZis0VGlRZnhvZVk1S0ZqSUVhMlZFMEdtSjF0c3liak5CaDkxUHdoWjBP?=
- =?utf-8?B?Sjg3ZDNjRlBrNUZLZGNRNVE4VkwyWnlDNFhqNnFnamxkQksxVjZWUEVTQnc4?=
- =?utf-8?B?RWwydUx0VERIMzNyalVtRkVGQ0NoY3dyVVB2cEo4ZzVtWjRMd1lsNkgzSnlk?=
- =?utf-8?B?SjltVkw5bXNVRjNxQ3NLSTc5aUplS0QrK0s4K2FReHRzSm84UFBRMDg5eUdD?=
- =?utf-8?B?cC82cjVOcGpnSEdKUVhWeU44cDdQUjdXNTNudXdRck9KdFJkLzY5UmloYkQz?=
- =?utf-8?B?VFkwTmNheWJtcXZJNUNXdkh6NTFTSnU0ZlQ1MjVNcmszQk5RUUMwTnExV3F5?=
- =?utf-8?B?UFVvN3h1QnA1TG9HdDNPb3RxcllBRi9PV0pXdFdvMnpqOWZMRHlRVW1oRzBT?=
- =?utf-8?B?bjlBYWc3SDNBcjVqV294KzNaZ3hLTEdLaURXN3BiMVIvMVNtdjNFUDA5UnRM?=
- =?utf-8?B?VkkremltbWRFUzFpaVArQThqRnE1OWxMS2crYmdvcjJyYllUL2syNXNmUUJ5?=
- =?utf-8?B?V1NNRlcxeStreldwbE9DRmFuRjQvUTZRTmdrUTR0dXpETjZkV1J3VG1uQzVR?=
- =?utf-8?B?R21yeDdKN2N0dVNHYzUvMGYyOFJySTdwaVQ2bnh2RTNNbHRMN0V2Tno0aEhO?=
- =?utf-8?B?bUZESjJOd1pQMkVlQ3hxMThZblFGRTlXT2o4cnYwQXJ0Q2ZyWUw1c0pHRGpN?=
- =?utf-8?B?NGNWQTNBU2dzZVNUcDYreTVUZDFNeTNFQWV1TG51NmltSGNCQ0RJeE9RNDNq?=
- =?utf-8?B?WTZNRG15c1BXNG9WNm1WaHkwQXVuanFURkJZbS94a09Pd0wzdmxaall5Znpa?=
- =?utf-8?B?Y0ZvVG9GYVFVYmM5ZzdMS0VEZmRxa20rSktIRnJ6a0YyQ01DNXhSeTh6WjZz?=
- =?utf-8?B?VVRXV0ZHMXE1NDhMRG1maTJHSGRUMWdDNEZ0cWVBR21peUh0d0FFN2lVbXJU?=
- =?utf-8?B?aGgyeXl0WEFzVjJNQi9ERUN5RjVXcUczRHFtY0QvK2ZDNnlJYUNobnI2UU9B?=
- =?utf-8?B?Wi9EWDFrMXlBblI5djRsd2RWckt0eDZ4QzdXWEVyUWM0VWg2R2ZKZWs0bm9p?=
- =?utf-8?B?bmhRd3BpVGNtRldBUUhXSTVjVE82S0dKNnhORWtTMzJKSEVMUWhkZFBiVFhH?=
- =?utf-8?B?bUNLNmdxZnlBWXRKeDk5WXp3Q3Zkd1EvZ0l1RjNMckgyNnI3RWxFa0ZLVW9q?=
- =?utf-8?B?TGRwR3BHdmw1L2JBQUtNcEU2WkRqaWNqZ28vZHVDNWI3ZXkxZFgwTEJyb3BU?=
- =?utf-8?B?dWN1OHpORXJDbkpuZkdxQWZuaTRtY2xCRGtJUFcwTUw3WGg3L0l0Rk1JUW1U?=
- =?utf-8?B?VU9aRmZGS0Y5QUU2ZFJMNytYZnZyWlZ4ZXM0YTN4dW1Eb1paaEdpR2VLUGxa?=
- =?utf-8?B?dWludFlsYTBQcFpYcVJVUWhrVzF2QUJyczdXOWhnQmRVZnZEdStLRnFIU3RX?=
- =?utf-8?B?NjlEQmRyNVFNR3FLa3VTSGVtZlgvRlZJZ1YwNUxMczFLUGJlZUtuTng4NS94?=
- =?utf-8?B?LzVWS1Q4WFIxUDRTTUxwV1BEWVpxL2pvNFJOYjkzRzJ0VHV0b3dDenE4MlNQ?=
- =?utf-8?B?V3hPbEN0UkFRNkNzR05mTXZSUVFEVHR2d2xCcGNFeXpFZHVGV3l3MHA1Wkg0?=
- =?utf-8?Q?VjuxUcfub4nQFQG8GvSk4hZQiEfBGAh4?=
+X-Microsoft-Antispam: BCL:0;ARA:13230040|376014|366016|1800799024|7053199007;
+X-Microsoft-Antispam-Message-Info: =?utf-8?B?TnJsTEpDV3Z3bnpYZm1EMDUxQ1pydEZuZDdTRWJRelZxbndrazRoOTVTTU1s?=
+ =?utf-8?B?Wm9ramlRaEEvSVZXZzRGMERyUFU5c1ArbDkzckNjTlg4cWFwbGFjL08xVWdU?=
+ =?utf-8?B?SGs4ZmM1TjdLd05WVmdDenI0NVJDcDJYU2VQV3pHSzBEVXpOb3J3YkVzMEx3?=
+ =?utf-8?B?UXNCamdaWko2RUFvTlk1R2hQSG1oM1A3cVNNeWdlVjdaR0lBRmRONEdzdlh0?=
+ =?utf-8?B?a0Y2TnozSjRnL2lpSXp5WGwxZHB3ei9id2dJTE05ODJLSk5GcnJadXFFTDJj?=
+ =?utf-8?B?Z3F2L0JGelRCSUhaWXZZKzdJNnk5dnNpckdESDk1R0dWZHk0K3VZS3Q5U2Iw?=
+ =?utf-8?B?WHh0TWMrY2xGMjNnbVI0VCs1K1I1Um45c29DZE1EbWkxTDI5cm5rWC96ZUp6?=
+ =?utf-8?B?dlBJaUlldFdiOXpPWkhXSW1PODM1WU1IZFcyUkY3T2pHL0liL2loQ1RiYWFJ?=
+ =?utf-8?B?NzhkVEtJVzM4WmJ0Z2NIUCtLMUFqT1NBOEtadUc3VCszS1JabC9yRnlSYVZw?=
+ =?utf-8?B?eU5HbHJPNHJod3EwUTJGNTBIRElTQ2pITU9zbTRudkZFdWM3bEF5L09YSDZi?=
+ =?utf-8?B?STZhRlJ5VWl0UEtkYVd1U2ZhQ3dFL2lSRXR1U21PczNaY0FCUTgwSUYrRkRY?=
+ =?utf-8?B?cklMWVdyaEkrRFgrdXlmRWRsVzB5OFdYc1U1cG9LVCs2MElmbEpTSThveDhB?=
+ =?utf-8?B?dzl5RnRIQXJsbU93TVJ4VE9jUnUrV1JjMHdIbjdFd1dhbGsxVVpBWUxOck5r?=
+ =?utf-8?B?NmxYclRvWUtzN2E2dXlHN0hZR2RyZWRtN29iN0hzZHBnN3laMkdTSGF5MEo5?=
+ =?utf-8?B?WTZEV1MycVVIY3VCalhVRGtOeU9FYVhJVHh5OEJ6dXF0SCtOMlF3RWpTeGFp?=
+ =?utf-8?B?MXVrSExQdUp0NmYzWUF3dGs4bld5U1g3eFh0aVFtU3kza0VRSmRyL3ErZkFn?=
+ =?utf-8?B?dCs3SkRsbHFYb0ZFOTEyUFk2QVgrSU1jQmIwM0V0TGhDczBVZXB1bVRFMVZP?=
+ =?utf-8?B?VHhnb1Q4NVlmRzAxYUtWZWhYaVl5aWNVb2ZBTXVna1RiMENBemM2Q25jdzFu?=
+ =?utf-8?B?dnZ5elVEWTY2ZGl4bUZqZnZFM1BqZjhIWXJKNFlHMFRDRmRpTW5vMlFZK1Rp?=
+ =?utf-8?B?T3RQdFZoV3BLdjExMWZyTTFEeGRDUTlkN3hjNk5uVk1KNmpPZysyTkl2R3RF?=
+ =?utf-8?B?eGhXaC9BdDQ3cUJyR3dlQ2lYWHIwWkprNE5weEdXcWFnSFBGTW9jNlZVM1No?=
+ =?utf-8?B?djVlSlhVNkdEeFVzcW1pTVE5SjVWRjVBUXJaa1JkcVBjb3ZtczhMS2dMaXZK?=
+ =?utf-8?B?YnVJRjBPeGV5cm52NFIxSUFVOHE5aldyUi9EWWYxNmJzRWVkQjN6YjNGWlZN?=
+ =?utf-8?B?cGIyTGduWDNDaGd2cllvdFFIZ080Y3pZNkFhN2hZYm1WWjlEUE9XWUdldjVD?=
+ =?utf-8?B?ZUY0UVhaSkZIVkN5L3JuTWdnbjlTaU10Uko5dlF2STE2Z1NLMGtZZ2IveFNt?=
+ =?utf-8?B?RzhJRzBlbDlLWk5VZEl4ZnYwYjYyUmI3Qk9WOXd6c0VJVWE3RnlSM2YvZ2x4?=
+ =?utf-8?B?U3ZYZGx0Wlk3NHc3NnlYL0xJWWtoRHV2a0JxSlRyRDJFVmxQK2dUVlBFbmsy?=
+ =?utf-8?B?dmM3MUkwelhVN2h5SHdJc2I4NVdoWS9WTksrRW9sS1FiOXIzUkw1bHBHNWxP?=
+ =?utf-8?B?Nmp6S0M1VkcvUkg3Wi9IMVFCV2lQY2dSSGwwSGpRNzZ0YXNUMFY3Z1hIdzg2?=
+ =?utf-8?B?UjRWMHFNdFRhYmR5cW1sOFU2bUFUUDZKMm5jRFNnQmVraTIvMC9zUnZrZHZj?=
+ =?utf-8?B?SjVpdXJZejVTT0E5V1IvYjIrSzJTTWhVMStaR3I0K2ppUGQwRjM2TVpqTTV2?=
+ =?utf-8?B?bDZheWZldEE1a1lUSktSTTc0enhycTFOWTZGZ09vYjQyWXc9PQ==?=
 X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:PH7PR12MB5685.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230040)(366016)(1800799024)(376014)(3122999009); DIR:OUT; SFP:1101; 
+ IPV:NLI; SFV:NSPM; H:BL1PR12MB5176.namprd12.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230040)(376014)(366016)(1800799024)(7053199007); DIR:OUT; SFP:1101; 
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?TGRFWklROUdPMXBiRDg3M0xIV1hEQTd6bGFvVTFXNTZxYlVHVjlDcHNCcy83?=
- =?utf-8?B?cXByYzNKKzhHZGRrb25jRW9JL2plcHZuOFlKeDZiOU1aS2JnZCtQczU3UU1C?=
- =?utf-8?B?YnZBT056c2dQM2UzQ0xwN3kydDhFVDlDdFI2VzNET1FvcmJmU0NlbzFYeXlz?=
- =?utf-8?B?TStHbS9xQ0NtMjkxNTZNVUNwV0J4M08wdVpYVDVWVnhheVZ6THRMeHZwR0Qy?=
- =?utf-8?B?MFBCR0M2eWpDNEYzN3hLUk5hUTBXblNrNDU3ZnJNRithZXVWYngyS2RSSmVy?=
- =?utf-8?B?dzFmcnliVFpEOU1GSGNIYlZuV29TYmNsdzltMGlQWXV2a1pUcEwyVml2VzJD?=
- =?utf-8?B?eWhRL2NLdmtNTG9CZS9VdUxVTVFsTzZoZEk1MU5RZFVjTjZzQVVUemh6REls?=
- =?utf-8?B?ZWdnRjVhNVRUNGlQNjJXelU0WjNteEVQQk5xajlTLzJLSmRWdkNWUmptaTd2?=
- =?utf-8?B?a3drUjJDNjNvN3RGOWVWMDVSaW02T2FBNUFQSGZyT2dhRUJLVmhQWjB5c1ZJ?=
- =?utf-8?B?UXdCUjZCTzlTWDJNZVAvbUNwdjFSZ0QrSlcyZG93S3JwUk15THBsMm5VRy9r?=
- =?utf-8?B?UFZXVU1pZ3V0bjVLWTNxLzgwa2lXanJQRjlRSXFmbkZ4STEwM0VoVjBESnBq?=
- =?utf-8?B?QWpkeE1NbkhrMGF3RnU0ZDVLTngxc0lhOUdDVzljVER4OGdlLzY2WUJCM1VE?=
- =?utf-8?B?Y29pcWJiYzVMS1Y4QTNqMzFEcWJBY1dGUWVWNHU5Ymp4b0kvWm1xTWNwdlEz?=
- =?utf-8?B?V0RmVnNuZXNBc1NEM1Y1TUMxWDRsTkVtTjVvc1ZYc1FrQi8zS2hvV3JSVmkv?=
- =?utf-8?B?WDFYUUxESDFVQnBnTWgyRFVsT2xZNTZmS2FkU2UrMytnN3NzMmxxaEtnVTQw?=
- =?utf-8?B?UlJpVER1TkQ3di9tOWpZV3BiZWtza3hQMmJ1RHNmdUpUMVFnUGtUTzFTZjRD?=
- =?utf-8?B?QSs4QUprRkJZQTZjdDc5Y2xRcy9Nd1hVb0NJSUplN3JFeWYvd2g3ZGhYWDlZ?=
- =?utf-8?B?VUNFbVY1b29RU1pBYW5KVnNtbUV0ODlwRHI4MWZXNHNsbkViT3pBYml1K29n?=
- =?utf-8?B?R1JGQW5Zd282QW91ZzQxcTQrTk1jUjB6R1NaMUowSjlsc3R4YWpvcUJud3E4?=
- =?utf-8?B?OC93TFdSU1dGWEtBNEpGT3R6dm5DZ3RLa21ySmdhVWZxQXhmTzZFOVVMc09R?=
- =?utf-8?B?c1h6MDMzek9TVzdUTXptRG9Yd2ViblZHeFk1dmkvRmFZenAwdkdXWXNkMmVm?=
- =?utf-8?B?a08wcFFRTm9KaHlmZkdUczJwY1hyZEluYTA1NVE0cVp6eHlnTVpzZDFlN1FG?=
- =?utf-8?B?Q09xcVRPOEJpZmFyUWRXQURjK01OWG5CWDJCUU9QT0ZYanpvaUpBTDEwSGpZ?=
- =?utf-8?B?cnl6eUkvYkZqOVJoejZJakdOZDA2c0NtRk41S2FwR01BdVpkVGM3M2s2S0xl?=
- =?utf-8?B?S1hIY0NEWmZsYkUwVmJTRU42enkyNHpSMnAwSlIyZitoQmpTVzRKTGVqQmk2?=
- =?utf-8?B?ZDJ4SnJOcy9ndTZhYjA0eHgxU0grY0paNlpKRVNTZGh6Q2MzYU9YNjZ1WEgx?=
- =?utf-8?B?Um4yRVhzRTF4bHRmSk03ZzRFVklnUDVRcndxYWNiOHI4NkdGS3hIMERYOGhC?=
- =?utf-8?B?RXM2Wm5TaStJVlJiWkdRZmM4RDUyZ1IzK2NIWDkwUC9xcjJmTkpsNC9vbEZL?=
- =?utf-8?B?bEpRZW5JMktjZitYcHJ1S1J3dm55b0VMNGd6dmZadVdVM09QL2NqUFlINHZY?=
- =?utf-8?B?NU9OZlphS2gzRUtPamZhckZiSUxSTmRwRzdjSUUxN0JmRjl4R1FmSE10bWpS?=
- =?utf-8?B?cGh5eDdpbmlJWCtBbW93MHNtUFRQSjViU1ZNWi9ibmFvVThjNlRna0V2dmVo?=
- =?utf-8?B?RlhGSHJFRXd5ZzJRSDFQdWx3U3JUMzc5TG4rbEFTS2JMUElhR2ptSy9pcklC?=
- =?utf-8?B?blZYRGhIWGRXYVhpZndTZGQ5QzRWWW8venlmaXQ1YktLQVdzZ3UwMUV4K3Zu?=
- =?utf-8?B?Sk12UVcxOHl4TW5KQmxhN1FZeDdnZENNc1NaSjJXNU5oMjkwZWN4TGlueHpE?=
- =?utf-8?B?dUduUHR6UUdIcXk4S0VYR2MwR0hsSmQ4TGpiVWdFTHErVlB1V2JoaXRyaWFC?=
- =?utf-8?Q?GNZRbYLo8Z9Y6V10SNHno+Glg?=
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?Nm45MUdiMGFEczZVaWo1YlBKY0JTdUNKWUUwMDMrN3NZZ0Y1WmlocDFuSWE3?=
+ =?utf-8?B?YWJtRU80cmJQK09YMnJ1MEFQRDA2ZThRbWdJK0VDcVBndkI1TjVvREpKSXM3?=
+ =?utf-8?B?QmZ2TDd5RHZ1bzZ3NTBkU1JXdDJ3UW0yK1l6UzRXTi9aOU1mOGdCK2FjTktC?=
+ =?utf-8?B?NUw0Q0FOZWRZblJua0ZKZlF2QWNtTFkwdU5VM0dTMXJEVzhrbHdublJ2ZklI?=
+ =?utf-8?B?dDNuU05VWWJDdHVrbnpleDlQaTV1NjBTb3AyM2FJdUU0Z1lyRnVOWEJwZ2xz?=
+ =?utf-8?B?bUZxU2RVWGduYXYwTjIza0J5THlET0JzMkdhZWVVS0loMVBWSXBTeXp1RmRv?=
+ =?utf-8?B?Wm1DQldzTUx4ZlFvNXN0bjF4cEI5WERBYUgvSG1CZ0Y2b2xQNStrQzRUdWh6?=
+ =?utf-8?B?dGNpVEVuckpQbklDQWtBK1F3MWNSRjNBc2ZJejE3N3RXdnZWakxLQWxqaUI4?=
+ =?utf-8?B?a1lYR0xQNXNFQmFJeGNCaCsvSEVDbjM4WFMvTG4vRTBEa0U0ejBxYTJrK29w?=
+ =?utf-8?B?ZGlUK1NGQm1QUnNsM3NSYU5LVkR5cGtMUFFvYWNtaUcyb2JLUk1TaWJZUmh0?=
+ =?utf-8?B?NnB2Z0laZEMxVkFNVmVCeVFrNDF4ZmxNc0hzMGtQZ3phZ3NBNnJML01qc2xC?=
+ =?utf-8?B?WTlaZmFUWEg4MGZVa1h1OXNTUHJlc1QyWm1FbTVTbkJtcUVsTTdjeWE2aUFL?=
+ =?utf-8?B?WVRxTmIrNi83SVhJVnVIeXZYbjBONW1LVVlCcVlHR0VqZVN1K1BmcFlqR0xp?=
+ =?utf-8?B?dW00MkRRN3kzVTJQV1I2ai9GZThEcDVmMFVnQXp1cTM3SDV5aVBIcmpzZVBU?=
+ =?utf-8?B?aUxBcVJPbTVVanhaUUExV2xkUUQxaUkxbVYrUmI2dU1jZTI2WWlyOHluUmtt?=
+ =?utf-8?B?UFExV0wvQXBaSzU4bi95TlVqaUgrSG00UXdSWldFNENYKzFPakZSa2R6OXVl?=
+ =?utf-8?B?d2JKZW1GbXc1YkZnS3hLU3luM0N4S3B0ODNqcm05OXowdEF1U01JM09hNDlP?=
+ =?utf-8?B?VjJ4R096QWRUNGhHWk1pWDBRbnBvWFoxdGtrcnpjYTAwTVZWQ3k4MTcxL2xy?=
+ =?utf-8?B?Uy9nSUFJM05DenRZUmV2SkNITS9WUlR4UEhRM2ZaRmpleXd5MUNRdDlVQ0Ry?=
+ =?utf-8?B?TXZXTGFxMHRxalNxYjE5Y2tEdUxkdkJaVmY2N2taZlMvdVNrQ3lQVllxd1ls?=
+ =?utf-8?B?ZmpmblZZVEN5RE0vamxXZFkzMzU2MzZjQVl5TC9TZmZaaVlESDRocGdzUEVC?=
+ =?utf-8?B?SGVoZjNudllXaUE2L1JGUm45SzJSbGJ2aWZSaVNNV2IyekNiNUxHa1VhTmpn?=
+ =?utf-8?B?NXd3Qlp5R1NuUVpnWWplMFdiYS92SmFBRk9yeHlnOS82TmRVb0FBcWxhTEI4?=
+ =?utf-8?B?MGpoYjVMbStZUkdpNk02SlFaRWZOYW1TQW92QU9odG42QTZUTGprSW9pQ0VF?=
+ =?utf-8?B?RnI2VXp3WlBCQkJpa2gvcVgweGhVWDZ3Q0dWWVNyY29Tb05lWENFUkRLTUZF?=
+ =?utf-8?B?SjZPSFFQMDNLNllsK1JlaUdwYjBnZjRad3FhQ0RINWU0bEloRVF2Wlg2OFc2?=
+ =?utf-8?B?NHR3aFlzZFY5RU1LeEMvUnNCSUF2WjlnZUlCbVAwRWdYcURaWVF1eXRQWW1x?=
+ =?utf-8?B?REJZVWFDRCttZ1pDRTlsNVVaV3dKa2dQRGF2ZE03dVpEZ1BjZU5BUkt2ZmJI?=
+ =?utf-8?B?QjBFV1ZNckh6YlkrOFFaWXFDQ0RWUXRqWmJaeldWdHNYdHVtdXlBMVZ0emdw?=
+ =?utf-8?B?VHZOZU5NV3ZtWUVGZU0yeVhKejc0MHAwWjlhWXUzUERIWkdMdFowd0VlWDRU?=
+ =?utf-8?B?QnlrTlUza3VTdmpKb2dpVUNPOS9UdTZtVFZUWUJVU1VGc0tFbWlad2VZVGVa?=
+ =?utf-8?B?eElsT3BNZ3FyNC9nUWpobGx4MldwcUxzYStMbzBFSnlLRzYwQzJVdzk5VVJn?=
+ =?utf-8?B?ODV6Qytub3RqTGdXQXllRUdTMHdSVFpIendaZlNCeG14enlPNEhUNjlWYWxV?=
+ =?utf-8?B?ZVcyQ25aOHlUWVAycXZvYUQ5UlF1NTl5dWNqWnBBTzRtdHJzK1gwazhQT29o?=
+ =?utf-8?B?UWFDWkdsOFl0YU8veEJsSUpHMzJDdmJLQ2x0YWQ0OFlvVlY4WUIzakx6ZndO?=
+ =?utf-8?Q?jAEWvOPt4u2pcLl2H8dPOEAcL?=
 X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: ad9ede8a-3b8f-4877-4164-08de1c6badee
-X-MS-Exchange-CrossTenant-AuthSource: PH7PR12MB5685.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: f06e453b-376d-4760-b934-08de1c6d613e
+X-MS-Exchange-CrossTenant-AuthSource: BL1PR12MB5176.namprd12.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 05 Nov 2025 13:03:13.9958 (UTC)
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 05 Nov 2025 13:15:25.4178 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: H1VcVt0bnp7B/c15ogX472CPAIGbF2d8tWGffqK6HlaCLptbuWrMe6FMLXf+WUDI
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM6PR12MB4106
+X-MS-Exchange-CrossTenant-UserPrincipalName: 4CluPRrLDqs/NCSh5nuQGjZ652CpYkgGpsg38p9nABvLd0K/OaFVGgrsscRSCJdTvDS0y8rKEGESZwnorQwA5A==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CY8PR12MB7729
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -171,189 +175,239 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 11/5/25 11:39, Pierre-Eric Pelloux-Prayer wrote:
-> Le 04/11/2025 à 17:40, Christian König a écrit :
->> On 11/4/25 09:35, Pierre-Eric Pelloux-Prayer wrote:
->>> The benefits of using multiple entities is that multiple fill jobs
->>> can run in parallel. Otherwise, even if the entity has access
->>> to multiple engines, a burst of N independent jobs will all
->>> run on the same engine because an entity guarantees the ordering
->>> of execution matches the ordering of the submission.
+
+
+On 11/5/2025 17:04, Antheas Kapenekakis wrote:
+> On Wed, 5 Nov 2025 at 12:28, Shyam Sundar S K <Shyam-sundar.S-k@amd.com> wrote:
+>>
+>> Hi Ilpo,
+>>
+>> On 11/5/2025 16:43, Ilpo Järvinen wrote:
+>>> On Mon, 27 Oct 2025, Antheas Kapenekakis wrote:
 >>>
->>> Callers can opt-out of this behavior by passing the entity they
->>> want to use (see amdgpu_move_blit).
+>>>> On Mon, 27 Oct 2025 at 09:36, Shyam Sundar S K <Shyam-sundar.S-k@amd.com> wrote:
+>>>>>
+>>>>>
+>>>>>
+>>>>> On 10/27/2025 13:52, Shyam Sundar S K wrote:
+>>>>>>
+>>>>>>
+>>>>>> On 10/24/2025 22:02, Mario Limonciello wrote:
+>>>>>>>
+>>>>>>>
+>>>>>>> On 10/24/2025 11:08 AM, Antheas Kapenekakis wrote:
+>>>>>>>> On Fri, 24 Oct 2025 at 17:43, Mario Limonciello
+>>>>>>>> <mario.limonciello@amd.com> wrote:
+>>>>>>>>>
+>>>>>>>>>
+>>>>>>>>>
+>>>>>>>>> On 10/24/2025 10:21 AM, Antheas Kapenekakis wrote:
+>>>>>>>>>> The ROG Xbox Ally (non-X) SoC features a similar architecture to the
+>>>>>>>>>> Steam Deck. While the Steam Deck supports S3 (s2idle causes a crash),
+>>>>>>>>>> this support was dropped by the Xbox Ally which only S0ix suspend.
+>>>>>>>>>>
+>>>>>>>>>> Since the handler is missing here, this causes the device to not
+>>>>>>>>>> suspend
+>>>>>>>>>> and the AMD GPU driver to crash while trying to resume afterwards
+>>>>>>>>>> due to
+>>>>>>>>>> a power hang.
+>>>>>>>>>>
+>>>>>>>>>> Closes: https://gitlab.freedesktop.org/drm/amd/-/issues/4659
+>>>>>>>>>> Signed-off-by: Antheas Kapenekakis <lkml@antheas.dev>
+>>>>>>>>>> ---
+>>>>>>>>>>    drivers/platform/x86/amd/pmc/pmc.c | 3 +++
+>>>>>>>>>>    drivers/platform/x86/amd/pmc/pmc.h | 1 +
+>>>>>>>>>>    2 files changed, 4 insertions(+)
+>>>>>>>>>>
+>>>>>>>>>> diff --git a/drivers/platform/x86/amd/pmc/pmc.c b/drivers/
+>>>>>>>>>> platform/x86/amd/pmc/pmc.c
+>>>>>>>>>> index bd318fd02ccf..cae3fcafd4d7 100644
+>>>>>>>>>> --- a/drivers/platform/x86/amd/pmc/pmc.c
+>>>>>>>>>> +++ b/drivers/platform/x86/amd/pmc/pmc.c
+>>>>>>>>>> @@ -106,6 +106,7 @@ static void amd_pmc_get_ip_info(struct
+>>>>>>>>>> amd_pmc_dev *dev)
+>>>>>>>>>>        switch (dev->cpu_id) {
+>>>>>>>>>>        case AMD_CPU_ID_PCO:
+>>>>>>>>>>        case AMD_CPU_ID_RN:
+>>>>>>>>>> +     case AMD_CPU_ID_VG:
+>>>>>>>>>>        case AMD_CPU_ID_YC:
+>>>>>>>>>>        case AMD_CPU_ID_CB:
+>>>>>>>>>>                dev->num_ips = 12;
+>>>>>>>>>> @@ -517,6 +518,7 @@ static int amd_pmc_get_os_hint(struct
+>>>>>>>>>> amd_pmc_dev *dev)
+>>>>>>>>>>        case AMD_CPU_ID_PCO:
+>>>>>>>>>>                return MSG_OS_HINT_PCO;
+>>>>>>>>>>        case AMD_CPU_ID_RN:
+>>>>>>>>>> +     case AMD_CPU_ID_VG:
+>>>>>>>>>>        case AMD_CPU_ID_YC:
+>>>>>>>>>>        case AMD_CPU_ID_CB:
+>>>>>>>>>>        case AMD_CPU_ID_PS:
+>>>>>>>>>> @@ -717,6 +719,7 @@ static const struct pci_device_id
+>>>>>>>>>> pmc_pci_ids[] = {
+>>>>>>>>>>        { PCI_DEVICE(PCI_VENDOR_ID_AMD, AMD_CPU_ID_RV) },
+>>>>>>>>>>        { PCI_DEVICE(PCI_VENDOR_ID_AMD, AMD_CPU_ID_SP) },
+>>>>>>>>>>        { PCI_DEVICE(PCI_VENDOR_ID_AMD, AMD_CPU_ID_SHP) },
+>>>>>>>>>> +     { PCI_DEVICE(PCI_VENDOR_ID_AMD, AMD_CPU_ID_VG) },
+>>>>>>>>>>        { PCI_DEVICE(PCI_VENDOR_ID_AMD,
+>>>>>>>>>> PCI_DEVICE_ID_AMD_1AH_M20H_ROOT) },
+>>>>>>>>>>        { PCI_DEVICE(PCI_VENDOR_ID_AMD,
+>>>>>>>>>> PCI_DEVICE_ID_AMD_1AH_M60H_ROOT) },
+>>>>>>>>>>        { }
+>>>>>>>>>> diff --git a/drivers/platform/x86/amd/pmc/pmc.h b/drivers/
+>>>>>>>>>> platform/x86/amd/pmc/pmc.h
+>>>>>>>>>> index 62f3e51020fd..fe3f53eb5955 100644
+>>>>>>>>>> --- a/drivers/platform/x86/amd/pmc/pmc.h
+>>>>>>>>>> +++ b/drivers/platform/x86/amd/pmc/pmc.h
+>>>>>>>>>> @@ -156,6 +156,7 @@ void amd_mp2_stb_deinit(struct amd_pmc_dev *dev);
+>>>>>>>>>>    #define AMD_CPU_ID_RN                       0x1630
+>>>>>>>>>>    #define AMD_CPU_ID_PCO                      AMD_CPU_ID_RV
+>>>>>>>>>>    #define AMD_CPU_ID_CZN                      AMD_CPU_ID_RN
+>>>>>>>>>> +#define AMD_CPU_ID_VG                        0x1645
+>>>>>>>>>
+>>>>>>>>> Can you see if 0xF14 gives you a reasonable value for the idle mask if
+>>>>>>>>> you add it to amd_pmc_idlemask_read()?  Make a new define for it
+>>>>>>>>> though,
+>>>>>>>>> it shouldn't use the same define as 0x1a platforms.
+>>>>>>>>
+>>>>>>>> It does not work. Reports 0. I also tested the other ones, but the
+>>>>>>>> 0x1a was the same as you said. All report 0x0.
+>>>>>>>
+>>>>>>> It's possible the platform doesn't report an idle mask.
+>>>>>>>
+>>>>>>> 0xF14 is where I would have expected it to report.
+>>>>>>>
+>>>>>>> Shyam - can you look into this to see if it's in a different place
+>>>>>>> than 0xF14 for Van Gogh?
+>>>>>>
+>>>>>> Van Gogh is before Cezzane? I am bit surprised that pmc is getting
+>>>>>> loaded there.
+>>>>>>
+>>>>>> Antheas - what is the output of
+>>>>>>
+>>>>>> #lspci -s 00:00.0
+>>>>>
+>>>>> OK. I get it from the diff.
+>>>>>
+>>>>> +#define AMD_CPU_ID_VG                        0x1645
+>>>>>
+>>>>> S0 its 0x1645 that indicates SoC is 17h family and 90h model.
+>>>>>
+>>>>> What is the PMFW version running on your system?
+>>>>> amd_pmc_get_smu_version() tells you that information.
+>>>>
+>>>> cat /sys/devices/platform/AMDI0005:00/smu_fw_version
+>>>> 63.18.0
+>>>> cat /sys/devices/platform/AMDI0005:00/smu_program
+>>>> 7
+>>>>
+>>>>> Can you see if you put the scratch information same as Cezzane and if
+>>>>> that works? i.e.
+>>>>>
+>>>>> AMD_PMC_SCRATCH_REG_CZN(0x94) instead of AMD_PMC_SCRATCH_REG_1AH(0xF14)
+>>>>
+>>>> I tried all idle masks and they return 0
+>>>
+>>> Hi Shyam & Antheas,
+>>>
+>>> This discussion seems to have died down without clear indication what's
+>>> the best course of action here. Should I still wait?
+>>>
+>>> There's no particular hurry from my side but it seems Mario gave his
+>>> Reviewed-by already and there hasn't been any follow-ups between you two,
+>>> I'm left a bit unsure how to interpret that.
+>>>
 >>
->> That still sounds like a really bad idea to me.
+>> The thought process to was understand how do we debug the rest 5%
+>> failures when we do no not have idlemask concept, which got introduced
+>> after sometime. But both the patches should work independently, so I
+>> am ok with both patch 1/3 and 2/3.
 >>
->> First of all we can't reserve so many fence slots in the release handler, previously we basically just relied on the fact that the BO will most likely be mostly idle.
+>> Acked-by: Shyam Sundar S K <Shyam-sundar.S-k@amd.com>
 >>
->> I think we should just use a single SDMA engine for each clear and distribute clearing different BOs over multiple engines.
-> 
-> So N clear entities, each one having access to a single engine. And all jobs to clear a single BO go to the same entity?
-> 
-> Is that what you mean?
-
-More or less.
-
-N clear entities, each one has access to all engines. When a BO needs to be cleared it picks the next best entity and submits the jobs.
-
-This way clear entities still load balance with moves and page table updates but we can keep the clearing logic simple.
-
-Christian.
-
-> 
-> Pierre-Eric
-> 
->>
->> Regards,
->> Christian.
 >>
 >>>
->>> Signed-off-by: Pierre-Eric Pelloux-Prayer <pierre-eric.pelloux-prayer@amd.com>
->>> ---
->>>   drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c | 84 ++++++++++++++++++-------
->>>   drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.h |  1 +
->>>   2 files changed, 64 insertions(+), 21 deletions(-)
+>>> In addition, is the patch 3/3 entire independent from these two PMC ones?
+>>> (If yes, I don't know why they were submitted as a series as that just
+>>> manages to add a little bit of uncertainty when combined into a series.)
+>>
+>> I see a note from Mario on the cover letter that the patch 3/3 can be
+>> dropped from this series and a newer approach is being planned.
+> 
+> To be more specific, patch 3 became two separate patches that went through drm.
+> 
+> For the rare failure, it would be an additional patch (if appropriate)
+> that does not affect 1 and 2.
+> 
+> Do you have any idea of where the failure for the other 5% of cases
+> comes from? I noticed that after I hibernated my device and it booted
+> up, it would never go into LPS0, the OS hint stopped working, would
+> that be a hint?
+
+Possibly. If the PMC driver did send the hint but the PMFW didn’t act
+on it, that could explain it. However, your earlier logs don’t
+indicate that, and the PMFW response register shows success, so I am
+unsure about it.
+
+Thanks,
+Shyam
+
+> 
+> Antheas
+> 
+>> So, 1/3 and 2/3 of this series can be taken.
+>>
+>> Thanks,
+>> Shyam
 >>>
->>> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c
->>> index c357a6d9763a..839ea8c7f6be 100644
->>> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c
->>> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c
->>> @@ -2224,6 +2224,7 @@ u32 amdgpu_ttm_set_buffer_funcs_status(struct amdgpu_device *adev, bool enable)
->>>           adev->mman.clear_entities = kcalloc(num_clear_entities,
->>>                               sizeof(struct amdgpu_ttm_entity),
->>>                               GFP_KERNEL);
->>> +        atomic_set(&adev->mman.next_clear_entity, 0);
->>>           if (!adev->mman.clear_entities)
->>>               goto error_free_entity;
->>>   @@ -2498,10 +2499,12 @@ int amdgpu_fill_buffer(struct amdgpu_ttm_entity *entity,
->>>   {
->>>       struct amdgpu_device *adev = amdgpu_ttm_adev(bo->tbo.bdev);
->>>       struct amdgpu_ring *ring = adev->mman.buffer_funcs_ring;
->>> +    struct dma_fence *fences[TTM_FENCES_MAX_SLOT_COUNT] = {};
->>>       struct dma_fence *fence = NULL;
->>>       struct dma_resv *resv = NULL;
->>>       struct amdgpu_res_cursor dst;
->>> -    int r;
->>> +    uint64_t cur_size, to;
->>> +    int r, e, n_fences;
->>>         /* The fences will be either added to the resv object or the last fence
->>>        * will be returned to the caller. In the latter case, all fill jobs will
->>> @@ -2515,53 +2518,92 @@ int amdgpu_fill_buffer(struct amdgpu_ttm_entity *entity,
->>>       }
->>>         if (!entity) {
->>> -        entity = &adev->mman.clear_entities[0];
->>>           resv = &bo->tbo.base._resv;
->>> -        r = dma_resv_reserve_fences(resv, 1);
->>> +
->>> +        /* Determine how much fences we're going to add to the
->>> +         * resv object.
->>> +         */
->>> +        n_fences = 0;
->>> +        amdgpu_res_first(bo->tbo.resource, 0, amdgpu_bo_size(bo), &dst);
->>> +        while (dst.remaining) {
->>> +            cur_size = min(dst.size, 256ULL << 20);
->>> +
->>> +            n_fences += 1;
->>> +            amdgpu_res_next(&dst, cur_size);
->>> +        }
->>> +        if (n_fences == 0)
->>> +            return 0;
->>> +
->>> +        /* One slot per entity at most. */
->>> +        n_fences = MIN(n_fences, adev->mman.num_clear_entities);
->>> +
->>> +        r = dma_resv_reserve_fences(resv, n_fences);
->>>           if (r)
->>>               return r;
->>> +    } else {
->>> +        mutex_lock(&entity->gart_window_lock);
->>>       }
->>>         amdgpu_res_first(bo->tbo.resource, 0, amdgpu_bo_size(bo), &dst);
->>>   -    mutex_lock(&entity->gart_window_lock);
->>>       while (dst.remaining) {
->>> -        struct dma_fence *next;
->>> -        uint64_t cur_size, to;
->>> -
->>>           /* Never fill more than 256MiB at once to avoid timeouts */
->>>           cur_size = min(dst.size, 256ULL << 20);
->>>   +        if (resv) {
->>> +            /* Pick a new entity for each partial clear so they can
->>> +             * execute in parallel.
->>> +             */
->>> +            e = atomic_inc_return(&adev->mman.next_clear_entity) %
->>> +                adev->mman.num_clear_entities;
->>> +            entity = &adev->mman.clear_entities[e];
->>> +            mutex_lock(&entity->gart_window_lock);
->>> +        }
->>> +
->>>           r = amdgpu_ttm_map_buffer(&entity->base,
->>>                         &bo->tbo, bo->tbo.resource, &dst,
->>>                         entity->gart_window_id1, ring, false,
->>>                         &cur_size, &to,
->>>                         dependency,
->>>                         resv);
->>> -        if (r)
->>> +        if (r) {
->>> +            mutex_unlock(&entity->gart_window_lock);
->>>               goto error;
->>> +        }
->>>             r = amdgpu_ttm_fill_mem(ring, &entity->base,
->>>                       src_data, to, cur_size, resv,
->>> -                    &next, true, k_job_id);
->>> -        if (r)
->>> +                    &fence, true, k_job_id);
->>> +        if (r) {
->>> +            mutex_unlock(&entity->gart_window_lock);
->>>               goto error;
->>> -
->>> -        if (resv) {
->>> -            dma_resv_add_fence(resv, next, DMA_RESV_USAGE_KERNEL);
->>> -            dma_fence_put(next);
->>> -        } else {
->>> -            dma_fence_put(fence);
->>> -            fence = next;
->>>           }
->>>             amdgpu_res_next(&dst, cur_size);
->>> +
->>> +        if (resv) {
->>> +            /* Delay the addition of the fences to resv, otherwise the next partial
->>> +             * clears will depend on this one.
->>> +             */
->>> +            fences[e] = fence;
->>> +            mutex_unlock(&entity->gart_window_lock);
->>> +        } else {
->>> +            dma_fence_put(*f);
->>> +            *f = fence;
->>> +        }
->>>       }
->>>   error:
->>> -    mutex_unlock(&entity->gart_window_lock);
->>> -    if (f)
->>> -        *f = dma_fence_get(fence);
->>> -    dma_fence_put(fence);
->>> +    if (resv) {
->>> +        for (e = 0; e < adev->mman.num_clear_entities; e++) {
->>> +            if (fences[e]) {
->>> +                dma_resv_add_fence(resv, fences[e], DMA_RESV_USAGE_KERNEL);
->>> +                dma_fence_put(fences[e]);
->>> +            }
->>> +        }
->>> +    } else {
->>> +        mutex_unlock(&entity->gart_window_lock);
->>> +    }
->>> +
->>>       return r;
->>>   }
->>>   diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.h b/drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.h
->>> index 38df2b5b4bc7..3fc31c7c6bfe 100644
->>> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.h
->>> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.h
->>> @@ -73,6 +73,7 @@ struct amdgpu_mman {
->>>         struct amdgpu_ttm_entity default_entity; /* has no gart windows */
->>>       struct amdgpu_ttm_entity *clear_entities;
->>> +    atomic_t next_clear_entity;
->>>       u32 num_clear_entities;
->>>       struct amdgpu_ttm_entity move_entities[TTM_FENCES_MAX_SLOT_COUNT];
->>>       u32 num_move_entities;
+>>> Thanks in advance,
+>>>
+>>> --
+>>>  i.
+>>>
+>>>> Antheas
+>>>>
+>>>>> Thanks,
+>>>>> Shyam
+>>>>>
+>>>>>
+>>>>>>
+>>>>>> 0xF14 index is meant for 1Ah (i.e. Strix and above)
+>>>>>>
+>>>>>>>
+>>>>>>>>
+>>>>>>>> Any idea why the OS hint only works 90% of the time?
+>>>>>>
+>>>>>> What is the output of amd_pmc_dump_registers() when 10% of the time
+>>>>>> when the OS_HINT is not working?
+>>>>>>
+>>>>>> What I can surmise is, though pmc driver is sending the hint PMFW is
+>>>>>> not taking any action (since the support in FW is missing)
+>>>>>>
+>>>>>>>
+>>>>>>> If we get the idle mask reporting working we would have a better idea
+>>>>>>> if that is what is reported wrong.
+>>>>>>>
+>>>>>>
+>>>>>> IIRC, The concept of idlemask came only after cezzane that too after a
+>>>>>> certain PMFW version. So I am not sure if idlemask actually exists.
+>>>>>>
+>>>>>>
+>>>>>>> If I was to guess though; maybe GFX is still active.
+>>>>>>>
+>>>>>>> Depending upon what's going wrong smu_fw_info might have some more
+>>>>>>> information too.
+>>>>>>
+>>>>>> That's a good point to try it out.
+>>>>>>
+>>>>>> Thanks,
+>>>>>> Shyam
+>>>>>>
+>>>>>
+>>>>>
+>>>>
+>>>>
+>>>
+>>
+>>
+> 
 
