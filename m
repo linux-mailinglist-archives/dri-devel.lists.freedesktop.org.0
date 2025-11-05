@@ -2,82 +2,97 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 333EBC36943
-	for <lists+dri-devel@lfdr.de>; Wed, 05 Nov 2025 17:09:53 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4EC29C369D0
+	for <lists+dri-devel@lfdr.de>; Wed, 05 Nov 2025 17:15:57 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 500F010E759;
-	Wed,  5 Nov 2025 16:09:50 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2527F10E786;
+	Wed,  5 Nov 2025 16:15:55 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="ce5U6YSG";
+	dkim=pass (1024-bit key; unprotected) header.d=suse.de header.i=@suse.de header.b="lYAyi1cz";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="p8RfIe60";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="lYAyi1cz";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="p8RfIe60";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pl1-f176.google.com (mail-pl1-f176.google.com
- [209.85.214.176])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A198A10E2D8
- for <dri-devel@lists.freedesktop.org>; Wed,  5 Nov 2025 16:09:48 +0000 (UTC)
-Received: by mail-pl1-f176.google.com with SMTP id
- d9443c01a7336-292fd52d527so70109205ad.2
- for <dri-devel@lists.freedesktop.org>; Wed, 05 Nov 2025 08:09:48 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1762358988; x=1762963788; darn=lists.freedesktop.org;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:from:to:cc:subject:date
- :message-id:reply-to;
- bh=onKFYxz3qx1mgItW1GE5HTsCNQVbyGrPrKl8Wr6AIZk=;
- b=ce5U6YSG2tqIHeiL7itNkITQi4CV+V5za4qScu3JHNNeawg5GP08oAW06HBmKpKPg0
- BharTr+ij7WMRU2E+edtejKBQpKk/lHrfjN6Ynvv/ZAen0ZcvBVxd6gTAquHRV05mGEo
- nSmov9G+QVDXc1Jltj/vxzx3ndIrpFmW3A1ULAsRC2oizD8KGfGMVX0QHr/9ZcpiKFqe
- 8vs/PuXkMbP3nklGgpA6zKVP1hKtd5oK2qRU+iMGP28a9ALXN/9V6I777F6m4YmgEXr0
- 9TttImqINleR8sikObO5lxiUmvFpEQUvl2ToWJngjfGy1TcobYOgs1Ka6FAGTo6Xgx++
- yn7Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1762358988; x=1762963788;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=onKFYxz3qx1mgItW1GE5HTsCNQVbyGrPrKl8Wr6AIZk=;
- b=Jj5l9aYlRqcptQVDm11p3XUwIWUtHQogvKV9j1Yo31OhQo6tmsPY4Q6hch3Jqd4BIR
- 7zEYhTQVdTHWb/gEHJdat/4AjBJRFk6PdvY8lcviaTLW0o3V+02I6MaCm18tfsMXiTRU
- tjxN0VHfToASpsMwP8aPf1qL/+NgCt9tR5bBZjxoBhPwsKc4/Rmb0hwB7ql1K2FJhzzL
- S14/fMmOGqug7hfSrZEspONqBNuuWyjOuW6G9eIpdJaeoBAE3LztHlj5DN4GE9C7BRP6
- zjnZEqxMDcQNFN3C6fWORb6TpRs3RTrhzKox86gcyJZK5oCdJYxQHcYHSUURcOHn6rvb
- FGGw==
-X-Forwarded-Encrypted: i=1;
- AJvYcCVjpQLGF+Ft0HUYa0spHstn8WlCch8viZpvq1unsFFsbDYwHLF0n6tBCxzyVeD6bqu/PlaKpB4Hp7Y=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Yxx21CxFRT9oA9pf5BdKXZeZxzzuzbfUahBbc/lBFXBb34h5JEu
- iIu3Ev9nsTDHn+RiimZemKVyKEwrVJdyeY/Wz+58D9Pc1qk4cSszElaN
-X-Gm-Gg: ASbGncu42M0vqBeorTOFFsuFhicqH3zsB6ZcgLy33cTbTJo3TawdzhaiRnS3KRkd8Cv
- OgP2yN90Zvka6Ry8tbpuKRYgXD2iZRAhotlndetHmilm4G30nSpIZqmqcLs4kYKBgl7xCgwjG+n
- 15YM0zbDEqSr5MMz/m0kV/3nojJYv18I/Npeef7B0chQ5sPgUZZnuwNqPhrMkEyvdgXB0S83t+E
- q1dRWxavrVFcZbLRna0abLxVmzWgTDrduTUqmwbzqXHYxduGMW5HtKoiax1YxIJMjjcY6YDSBkt
- ESErJGkPmUVl5pFtBXrJqsXq6dzi6Ov/AoqZJLfAQFv9hDw78qPHS3k66CD4eaYVN2YNfN9beLd
- tGd39NnFx1D+b+ZKwHsYKuA5fDewFaBKgwFm8cwyjah9p6CmwAW1A4tEWrA2lTQFhy32Rj9+4Zn
- KWoQ==
-X-Google-Smtp-Source: AGHT+IFWoDv0xrc92js3LrPGZwOO07MytOUirYTiZ8qgebRNd+iZk6XliDM2euyp4xDmvx2GbYt9Sg==
-X-Received: by 2002:a17:903:240e:b0:295:3a79:e7e5 with SMTP id
- d9443c01a7336-2962ad88638mr48773485ad.34.1762358988099; 
- Wed, 05 Nov 2025 08:09:48 -0800 (PST)
-Received: from archlinux ([36.255.84.59]) by smtp.gmail.com with ESMTPSA id
- d9443c01a7336-29601a3a941sm64888105ad.57.2025.11.05.08.09.43
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 05 Nov 2025 08:09:47 -0800 (PST)
-From: Madhur Kumar <madhurkumar004@gmail.com>
-To: yongqin.liu@linaro.org
-Cc: airlied@gmail.com, dri-devel@lists.freedesktop.org, jstultz@google.com,
- kong.kongxinwei@hisilicon.com, linux-kernel@vger.kernel.org,
- maarten.lankhorst@linux.intel.com, mripard@kernel.org, simona@ffwll.ch,
- sumit.semwal@linaro.org, tiantao6@hisilicon.com, tzimmermann@suse.de,
- xinliang.liu@linaro.org, Madhur Kumar <madhurkumar004@gmail.com>
-Subject: [PATCH RESEND] drm/hisilicon: kirin: Convert to
- drmm_mode_config_init() and drop manual cleanup
-Date: Wed,  5 Nov 2025 21:39:31 +0530
-Message-ID: <20251105160931.466664-1-madhurkumar004@gmail.com>
-X-Mailer: git-send-email 2.51.2
-In-Reply-To: <20251022114438.1096382-1-madhurkumar004@gmail.com>
-References: <20251022114438.1096382-1-madhurkumar004@gmail.com>
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 870C010E2CF
+ for <dri-devel@lists.freedesktop.org>; Wed,  5 Nov 2025 16:15:53 +0000 (UTC)
+Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested)
+ by smtp-out1.suse.de (Postfix) with ESMTPS id 379DD2120C;
+ Wed,  5 Nov 2025 16:15:52 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1762359352; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version: content-transfer-encoding:content-transfer-encoding;
+ bh=pajwFlCpBgWZ62dV0PUsqFxNLgz+F0F3xL4KtatBMSA=;
+ b=lYAyi1czn68pAsBzLrTbssEoTehf5Ghz9czvUgD4zn33+v6v9JQ8bj88f2DUWJ6DQ0n/hd
+ 1r00L1uEN/0Pmod0cqt1sU1a67Im6cDFoXVKq7We+idMWefqhcVxkDC4KEiogIUWoslypw
+ 6mks9TF/imQYzwVstHAIcOJXrAt4K3U=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1762359352;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version: content-transfer-encoding:content-transfer-encoding;
+ bh=pajwFlCpBgWZ62dV0PUsqFxNLgz+F0F3xL4KtatBMSA=;
+ b=p8RfIe60dOSgBdlMmlOm4Gy2LKQxV41v4aRb916tnF2p8kS2aVZfkfjzkNCzYewS350CWe
+ NPuwc+mY+hWd9nBQ==
+Authentication-Results: smtp-out1.suse.de;
+	none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1762359352; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version: content-transfer-encoding:content-transfer-encoding;
+ bh=pajwFlCpBgWZ62dV0PUsqFxNLgz+F0F3xL4KtatBMSA=;
+ b=lYAyi1czn68pAsBzLrTbssEoTehf5Ghz9czvUgD4zn33+v6v9JQ8bj88f2DUWJ6DQ0n/hd
+ 1r00L1uEN/0Pmod0cqt1sU1a67Im6cDFoXVKq7We+idMWefqhcVxkDC4KEiogIUWoslypw
+ 6mks9TF/imQYzwVstHAIcOJXrAt4K3U=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1762359352;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version: content-transfer-encoding:content-transfer-encoding;
+ bh=pajwFlCpBgWZ62dV0PUsqFxNLgz+F0F3xL4KtatBMSA=;
+ b=p8RfIe60dOSgBdlMmlOm4Gy2LKQxV41v4aRb916tnF2p8kS2aVZfkfjzkNCzYewS350CWe
+ NPuwc+mY+hWd9nBQ==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested)
+ by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id D155F13699;
+ Wed,  5 Nov 2025 16:15:51 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+ by imap1.dmz-prg2.suse.org with ESMTPSA id 9rivMTd4C2kfOwAAD6G6ig
+ (envelope-from <tzimmermann@suse.de>); Wed, 05 Nov 2025 16:15:51 +0000
+From: Thomas Zimmermann <tzimmermann@suse.de>
+To: maarten.lankhorst@linux.intel.com, mripard@kernel.org, airlied@gmail.com,
+ simona@ffwll.ch, deller@gmx.de, lukas@wunner.de,
+ ville.syrjala@linux.intel.com, sam@ravnborg.org, javierm@redhat.com
+Cc: dri-devel@lists.freedesktop.org, linux-fbdev@vger.kernel.org,
+ Thomas Zimmermann <tzimmermann@suse.de>
+Subject: [PATCH] drm, fbcon,
+ vga_switcheroo: Avoid race condition in fbcon setup
+Date: Wed,  5 Nov 2025 17:14:49 +0100
+Message-ID: <20251105161549.98836-1-tzimmermann@suse.de>
+X-Mailer: git-send-email 2.51.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
+X-Spam-Level: 
+X-Spamd-Result: default: False [-2.80 / 50.00]; BAYES_HAM(-3.00)[100.00%];
+ NEURAL_HAM_LONG(-1.00)[-1.000]; MID_CONTAINS_FROM(1.00)[];
+ R_MISSING_CHARSET(0.50)[]; NEURAL_HAM_SHORT(-0.20)[-1.000];
+ MIME_GOOD(-0.10)[text/plain]; TO_MATCH_ENVRCPT_ALL(0.00)[];
+ ARC_NA(0.00)[]; RCVD_VIA_SMTP_AUTH(0.00)[];
+ FROM_HAS_DN(0.00)[]; RCPT_COUNT_TWELVE(0.00)[12];
+ MIME_TRACE(0.00)[0:+];
+ DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,suse.de:email,suse.de:mid];
+ FUZZY_RATELIMITED(0.00)[rspamd.com]; FROM_EQ_ENVFROM(0.00)[];
+ RCVD_COUNT_TWO(0.00)[2];
+ FREEMAIL_TO(0.00)[linux.intel.com,kernel.org,gmail.com,ffwll.ch,gmx.de,wunner.de,ravnborg.org,redhat.com];
+ RCVD_TLS_ALL(0.00)[]; TO_DN_SOME(0.00)[];
+ DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+ FREEMAIL_ENVRCPT(0.00)[gmail.com,gmx.de]
+X-Spam-Flag: NO
+X-Spam-Score: -2.80
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -93,58 +108,126 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-switch mode_config initialization to drmm_mode_config_init() so that the
-lifetime is tied to drm_device. Remove explicit drm_mode_config_cleanup()
-from error and cleanup path since cleanup is now managed by DRM.
+Protect vga_switcheroo_client_fb_set() with console lock. Avoids OOB
+access in fbcon_remap_all(). Without holding the console lock the call
+races with switching outputs.
 
-Signed-off-by: Madhur Kumar <madhurkumar004@gmail.com>
+VGA switcheroo calls fbcon_remap_all() when switching clients. The fbcon
+function uses struct fb_info.node, which is set by register_framebuffer().
+As the fb-helper code currently sets up VGA switcheroo before registering
+the framebuffer, the value of node is -1 and therefore not a legal value.
+For example, fbcon uses the value within set_con2fb_map() [1] as an index
+into an array.
+
+Moving vga_switcheroo_client_fb_set() after register_framebuffer() can
+result in VGA switching that does not switch fbcon correctly.
+
+Therefore move vga_switcheroo_client_fb_set() under fbcon_fb_registered(),
+which already holds the console lock. Fbdev calls fbcon_fb_registered()
+from within register_framebuffer(). Serializes the helper with VGA
+switcheroo's call to fbcon_remap_all().
+
+Although vga_switcheroo_client_fb_set() takes an instance of struct fb_info
+as parameter, it really only needs the contained fbcon state. Moving the
+call to fbcon initialization is therefore cleaner than before. Only amdgpu,
+i915, nouveau and radeon support vga_switcheroo. For all other drivers,
+this change does nothing.
+
+Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
+Link: https://elixir.bootlin.com/linux/v6.17/source/drivers/video/fbdev/core/fbcon.c#L2942 # [1]
 ---
- drivers/gpu/drm/hisilicon/kirin/kirin_drm_drv.c | 11 +++++------
- 1 file changed, 5 insertions(+), 6 deletions(-)
+ drivers/gpu/drm/drm_fb_helper.c  | 14 --------------
+ drivers/video/fbdev/core/fbcon.c |  9 +++++++++
+ 2 files changed, 9 insertions(+), 14 deletions(-)
 
-diff --git a/drivers/gpu/drm/hisilicon/kirin/kirin_drm_drv.c b/drivers/gpu/drm/hisilicon/kirin/kirin_drm_drv.c
-index 1e1c87be1204..47f682097615 100644
---- a/drivers/gpu/drm/hisilicon/kirin/kirin_drm_drv.c
-+++ b/drivers/gpu/drm/hisilicon/kirin/kirin_drm_drv.c
-@@ -160,7 +160,10 @@ static int kirin_drm_kms_init(struct drm_device *dev,
+diff --git a/drivers/gpu/drm/drm_fb_helper.c b/drivers/gpu/drm/drm_fb_helper.c
+index 53e9dc0543de..c0343ec16a57 100644
+--- a/drivers/gpu/drm/drm_fb_helper.c
++++ b/drivers/gpu/drm/drm_fb_helper.c
+@@ -31,9 +31,7 @@
+ 
+ #include <linux/console.h>
+ #include <linux/export.h>
+-#include <linux/pci.h>
+ #include <linux/sysrq.h>
+-#include <linux/vga_switcheroo.h>
+ 
+ #include <drm/drm_atomic.h>
+ #include <drm/drm_drv.h>
+@@ -570,11 +568,6 @@ EXPORT_SYMBOL(drm_fb_helper_release_info);
+  */
+ void drm_fb_helper_unregister_info(struct drm_fb_helper *fb_helper)
+ {
+-	struct fb_info *info = fb_helper->info;
+-	struct device *dev = info->device;
+-
+-	if (dev_is_pci(dev))
+-		vga_switcheroo_client_fb_set(to_pci_dev(dev), NULL);
+ 	unregister_framebuffer(fb_helper->info);
+ }
+ EXPORT_SYMBOL(drm_fb_helper_unregister_info);
+@@ -1614,7 +1607,6 @@ static int drm_fb_helper_single_fb_probe(struct drm_fb_helper *fb_helper)
+ 	struct drm_client_dev *client = &fb_helper->client;
+ 	struct drm_device *dev = fb_helper->dev;
+ 	struct drm_fb_helper_surface_size sizes;
+-	struct fb_info *info;
  	int ret;
  
- 	/* dev->mode_config initialization */
--	drm_mode_config_init(dev);
-+	ret = drmm_mode_config_init(dev);
-+	if (ret)
-+		return ret;
-+	
- 	dev->mode_config.min_width = 0;
- 	dev->mode_config.min_height = 0;
- 	dev->mode_config.max_width = driver_data->config_max_width;
-@@ -170,8 +173,7 @@ static int kirin_drm_kms_init(struct drm_device *dev,
- 	/* display controller init */
- 	ret = kirin_drm_private_init(dev, driver_data);
- 	if (ret)
--		goto err_mode_config_cleanup;
+ 	if (drm_WARN_ON(dev, !dev->driver->fbdev_probe))
+@@ -1635,12 +1627,6 @@ static int drm_fb_helper_single_fb_probe(struct drm_fb_helper *fb_helper)
+ 
+ 	strcpy(fb_helper->fb->comm, "[fbcon]");
+ 
+-	info = fb_helper->info;
 -
-+		return ret;
- 	/* bind and init sub drivers */
- 	ret = component_bind_all(dev->dev, dev);
- 	if (ret) {
-@@ -198,8 +200,6 @@ static int kirin_drm_kms_init(struct drm_device *dev,
- 	component_unbind_all(dev->dev, dev);
- err_private_cleanup:
- 	kirin_drm_private_cleanup(dev);
--err_mode_config_cleanup:
--	drm_mode_config_cleanup(dev);
+-	/* Set the fb info for vgaswitcheroo clients. Does nothing otherwise. */
+-	if (dev_is_pci(info->device))
+-		vga_switcheroo_client_fb_set(to_pci_dev(info->device), info);
+-
+ 	return 0;
+ }
+ 
+diff --git a/drivers/video/fbdev/core/fbcon.c b/drivers/video/fbdev/core/fbcon.c
+index 7f35ad66b462..863944530c8e 100644
+--- a/drivers/video/fbdev/core/fbcon.c
++++ b/drivers/video/fbdev/core/fbcon.c
+@@ -66,6 +66,7 @@
+ #include <linux/string.h>
+ #include <linux/kd.h>
+ #include <linux/panic.h>
++#include <linux/pci.h>
+ #include <linux/printk.h>
+ #include <linux/slab.h>
+ #include <linux/fb.h>
+@@ -78,6 +79,7 @@
+ #include <linux/interrupt.h>
+ #include <linux/crc32.h> /* For counting font checksums */
+ #include <linux/uaccess.h>
++#include <linux/vga_switcheroo.h>
+ #include <asm/irq.h>
+ 
+ #include "fbcon.h"
+@@ -2894,6 +2896,9 @@ void fbcon_fb_unregistered(struct fb_info *info)
+ 
+ 	console_lock();
+ 
++	if (info->device && dev_is_pci(info->device))
++		vga_switcheroo_client_fb_set(to_pci_dev(info->device), NULL);
++
+ 	fbcon_registered_fb[info->node] = NULL;
+ 	fbcon_num_registered_fb--;
+ 
+@@ -3027,6 +3032,10 @@ static int do_fb_registered(struct fb_info *info)
+ 		}
+ 	}
+ 
++	/* Set the fb info for vga_switcheroo clients. Does nothing otherwise. */
++	if (info->device && dev_is_pci(info->device))
++		vga_switcheroo_client_fb_set(to_pci_dev(info->device), info);
++
  	return ret;
  }
  
-@@ -208,7 +208,6 @@ static int kirin_drm_kms_cleanup(struct drm_device *dev)
- 	drm_kms_helper_poll_fini(dev);
- 	drm_atomic_helper_shutdown(dev);
- 	kirin_drm_private_cleanup(dev);
--	drm_mode_config_cleanup(dev);
- 
- 	return 0;
- }
 -- 
-2.51.1.dirty
+2.51.1
 
