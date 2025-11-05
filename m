@@ -2,144 +2,146 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C51C5C36E4F
-	for <lists+dri-devel@lfdr.de>; Wed, 05 Nov 2025 18:03:03 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id C4E1DC36EA3
+	for <lists+dri-devel@lfdr.de>; Wed, 05 Nov 2025 18:05:33 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6243D10E2F3;
-	Wed,  5 Nov 2025 17:03:01 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D1FE010E2DE;
+	Wed,  5 Nov 2025 17:05:29 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="Pv4jYy4I";
-	dkim=pass (2048-bit key; unprotected) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="G8PVcF0r";
+	dkim=pass (1024-bit key; unprotected) header.d=amd.com header.i=@amd.com header.b="xIxyWjtH";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
- [205.220.168.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7870210E2DE
- for <dri-devel@lists.freedesktop.org>; Wed,  5 Nov 2025 17:03:00 +0000 (UTC)
-Received: from pps.filterd (m0279864.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id
- 5A5E8CSG876646
- for <dri-devel@lists.freedesktop.org>; Wed, 5 Nov 2025 17:03:00 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
- cc:content-type:date:from:in-reply-to:message-id:mime-version
- :references:subject:to; s=qcppdkim1; bh=qyYx+66r12SMj/Ysz7zSUgAk
- oAonFWXlCXbOfXMij+Y=; b=Pv4jYy4I3b11wSUZ2im4uhyPzm/y+/stDpujl6ae
- SiNWLdcpi7Q11oQzcyjYzdYjIyNIV9TfBlxMNfiQJ1m+PJN5mUZoWSts3JG93ksJ
- UBkjQ64EkRdw/TMWyHM8bKnHGJJoYMkvYhUUNBWWf2IlinCVSQ6AgGl9KTH/WLF7
- F96b115k6lQXgRqyxp0hHDslt+Jl/+fl++2atmkU2kQFupy8OXAjI0Z1EvWZQprn
- Ktq5855P0EPs5kZjpDbjJP6/SRlwqS5jEsZDAK9b3EtlPjmjjn2M5EPrG6ALcTzN
- sOINubAo76eS/2Ob0dRw+m7S7oEbjs/Ltq6M46oKW84i0w==
-Received: from mail-yx1-f70.google.com (mail-yx1-f70.google.com
- [74.125.224.70])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4a88318jp7-1
- (version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
- for <dri-devel@lists.freedesktop.org>; Wed, 05 Nov 2025 17:02:59 +0000 (GMT)
-Received: by mail-yx1-f70.google.com with SMTP id
- 956f58d0204a3-63e0da26ae3so140151d50.0
- for <dri-devel@lists.freedesktop.org>; Wed, 05 Nov 2025 09:02:59 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=oss.qualcomm.com; s=google; t=1762362179; x=1762966979;
- darn=lists.freedesktop.org; 
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
- bh=qyYx+66r12SMj/Ysz7zSUgAkoAonFWXlCXbOfXMij+Y=;
- b=G8PVcF0rM7VtGl3RlEMJ/xB0MBPAGBGgyt+Pkj4s78zphIbMK4pk22/9TN3OZo+p11
- bxiCoys38+nkdCq/PLdSeVEQuROiYG5HDmeGbitnNFSqIZhhP2xsx+Fp1+QVMsxEWmrD
- 5ZMxkV4gvMjVZM4rATXjCg2ahwfwD0uJ6fdILBQaIl5iKxN1vdf06Ki8zPKKogOLIqkS
- t7elamOn5S7aNBHjD2if8/5wMqhzyg23ovwGXQSxokQPmOPcWJvn9RqPMLolgu+/Zd4Z
- 18MA9Dw4TVJ3IKxBJeFcOT/iVP+0lkzTOjOtgDgd1sBdEdmMVwg2oo2e/SIbvAweVyHG
- QqnQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1762362179; x=1762966979;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=qyYx+66r12SMj/Ysz7zSUgAkoAonFWXlCXbOfXMij+Y=;
- b=DntsUVX1O3G+EXHnVK0vArjuEzZQYg3GE84zylGOEdVKks8fGUE4ALSJBhO8ZIr+XS
- qb9vwgrtOcNih8QHN7wz/itilFR0BP1xQt6/pjb49XsGiQGhauQpiAcbDbN3MrD6GIY4
- Y79vPhqZGy+Fck/E4qq8qAUCDhtguNsqIwblMAjIQQSi07FiX9Iuo3RzNCKf0cxdQEeW
- VNoEYlI3h1CRHmbaKGjIcHTdoESq9kJT5mYP3WHJgRKnYrEb3h+EYcpOSTAc0uSCD4vc
- 8yy0Lh2dogwFV3LGd+R4CKqO9TuhUoBhOtbxT/1fk2mAfvV6PapfC1rGOOXt5ywQLKe5
- Fqig==
-X-Forwarded-Encrypted: i=1;
- AJvYcCX6de36L4gsZ8mnUMFYNJNhxACWdmCBlwID9SmtAdGUclZPrNzGY61guSlmYOlxE5cZuII07pr9lGw=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YyDdlunX+YXluL/q8Fn6QtAdp3Cy6MS3X63i3wfrhHFNd5sxwV3
- Sp7qO5e830o0GVsoxAsH2ELmxJiqdodEAsDMG9idUmow592GCBW1uhlJEgHQ+ul/unEVlzvLSK6
- YfAefLbwt2igzpND9/IO76p1MlXBtpwX13TbMWs2YHc5usE6JbulPZT3lsYe0gH+CkDpjyqk=
-X-Gm-Gg: ASbGncutY04v9UqetAYdW2gD7D1jTjqKzy6d6mUK2ZOctoOCOGRo6dfW0CGOi8o4vJj
- 4XuRFriM6mnKBXZPPeZi4lx9Q6mjhdTzK7Yn+qhUWCG3CebcHUHeFdg5wgUL3wVBCbDD55I2WHQ
- KpI55DHQ/fLeMrOlYdMHw4Zil8vdGj50atS/TLjjX3RVyZ0cknL/k3gtoGVErr6MnQlvjjx5hDb
- E0rdbp1MinOm6nMc616Au7k4jp4oxh4x5jf/wHAaBNt4ce4jIXB0LohUPnyU4kp5WxtgBA52OHM
- 9DjxZEwm8oBvkVtgXhEg+XLNRbU8e4MPtd9dyYpXzjE8Z1sh4jgxEZ/aOTtTADw58zGeso1eARO
- j0QdbKOXxRE7wYB9qynrNZLyWIdQqpHkyr/83qMXRWCOyvQNL8C8Uz9jl8IhEH6cMSobwx4tAJx
- +dZ+NErOneddhG
-X-Received: by 2002:a05:690e:c43:b0:63e:3099:fe7c with SMTP id
- 956f58d0204a3-63fd34c50f5mr3160645d50.16.1762362178866; 
- Wed, 05 Nov 2025 09:02:58 -0800 (PST)
-X-Google-Smtp-Source: AGHT+IFTAmyohmCTXGVTToGXMGdUogTSBLrIX4kz1aq4q66xM2USJqaQ352zw9xnhAw2RV1nJjCJjw==
-X-Received: by 2002:a05:690e:c43:b0:63e:3099:fe7c with SMTP id
- 956f58d0204a3-63fd34c50f5mr3160583d50.16.1762362178181; 
- Wed, 05 Nov 2025 09:02:58 -0800 (PST)
-Received: from umbar.lan
- (2001-14ba-a0c3-3a00-264b-feff-fe8b-be8a.rev.dnainternet.fi.
- [2001:14ba:a0c3:3a00:264b:feff:fe8b:be8a])
- by smtp.gmail.com with ESMTPSA id
- 2adb3069b0e04-594492b411esm34691e87.105.2025.11.05.09.02.56
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 05 Nov 2025 09:02:57 -0800 (PST)
-Date: Wed, 5 Nov 2025 19:02:55 +0200
-From: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
-To: Akhil P Oommen <akhilpo@oss.qualcomm.com>
-Cc: Sean Paul <sean@poorly.run>, Konrad Dybcio <konradybcio@kernel.org>,
- Marijn Suijten <marijn.suijten@somainline.org>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, Rob Herring <robh@kernel.org>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>, Bjorn Andersson <andersson@kernel.org>,
- Connor Abbott <cwabbott0@gmail.com>,
- Srinivas Kandagatla <srini@kernel.org>,
- Rob Clark <robin.clark@oss.qualcomm.com>,
- Dmitry Baryshkov <lumag@kernel.org>,
- Gaurav Kohli <quic_gkohli@quicinc.com>, linux-arm-msm@vger.kernel.org,
- dri-devel@lists.freedesktop.org, freedreno@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, devicetree@vger.kernel.org,
- Puranam V G Tejaswi <quic_pvgtejas@quicinc.com>,
- Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
-Subject: Re: [PATCH v7 2/5] arm64: dts: qcom: sa8775p: Add gpu and gmu nodes
-Message-ID: <motuct5ezykbkta2wz7ek2vwnfaamphrl7b2wpv2bvu7qnnbmc@4j4aurlva4iw>
-References: <20251105-a663-gpu-support-v7-0-1bcf7f151125@oss.qualcomm.com>
- <20251105-a663-gpu-support-v7-2-1bcf7f151125@oss.qualcomm.com>
+Received: from CH4PR04CU002.outbound.protection.outlook.com
+ (mail-northcentralusazon11013067.outbound.protection.outlook.com
+ [40.107.201.67])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 13FD810E2DE
+ for <dri-devel@lists.freedesktop.org>; Wed,  5 Nov 2025 17:05:28 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=GgoM04zjzd0xcRoqU34x5QQjBjBQJPBIQxIhBFKdXE7V6sivF7IIYbHOcSimMRycGKcDoM/SEAWG+jsNWMkTiQvG3oY/HXccdjCMobqBvqgM7RkKfIFaXCZ6E87CkNCuBqUOvsjJvoWluvjl8qnMfjacdlv43Nhh5kHliExgI4kFHnmn8mct4JEfoDrq1iQt+kiO6QliU0CSpVTo3+R1zu4eHUR1M46vMKD4qKCQnEmk+MSNwXTLKGBpGCG1qur/fEASRGhF9+Kw0q7jrduXnpjN6FHUlUbsKPrC8nH8jMiMjkNSsa/bt5b9sq85CZhW+93It2M6F6+97tPcs+medQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=1YDr7ho636c+K1EMNIPd/uhYFqEg8ViRIdekMUjNeys=;
+ b=FF/wfETD4OE+ApfEAMgC7vMw6PIn7DmjG/lg7Ba+1mjz7E8hmwiZZokvIPgkl0X5GzxRjDSLgUeSUG8SriummNropgqt/Tvns2VVl6HDQdpMt4m+rJQDU6CFn5JbzPMp9hPsXGH3OfnX+V8nVKBErjT7paN3Ngt1j7XFm5t2QrgtzWMztsq+uMpvh4Fw9FbAthTJMNN5hiD+4QZvwcLMNkXPFhbLx6SKXFpROS5CyCcuhU6pFMAVT+igJ+QOqaff/8CGOGvoB8i7WQ5rzhnhDxoxnbQpHkjt7k6TDflF6a5Iami8fTwD8jO2b7dOxRPO1WC3LcxPzNjaUBlWdvKESg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 165.204.84.17) smtp.rcpttodomain=kernel.org smtp.mailfrom=amd.com; dmarc=pass
+ (p=quarantine sp=quarantine pct=100) action=none header.from=amd.com;
+ dkim=none (message not signed); arc=none (0)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=1YDr7ho636c+K1EMNIPd/uhYFqEg8ViRIdekMUjNeys=;
+ b=xIxyWjtHbYYJ0EfsO2h2/TKGl0ivlOC7Ptd9B0Hfe3O8TwJ5+pKfntHqTEmxNDP2ES5tklugsYK6rKupj0cDzEMDqWOrQ2uBh/7hnsv1gdVGLb7igxjj7Tiu1iwDzwCmtcai9ki2VEbzhZQwfiK9bT7dwFELIetuYCo4s2HXjCA=
+Received: from DM5PR07CA0070.namprd07.prod.outlook.com (2603:10b6:4:ad::35) by
+ DM6PR12MB4249.namprd12.prod.outlook.com (2603:10b6:5:223::14) with
+ Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.9298.8; Wed, 5 Nov 2025 17:05:22 +0000
+Received: from DS1PEPF0001708E.namprd03.prod.outlook.com
+ (2603:10b6:4:ad:cafe::39) by DM5PR07CA0070.outlook.office365.com
+ (2603:10b6:4:ad::35) with Microsoft SMTP Server (version=TLS1_3,
+ cipher=TLS_AES_256_GCM_SHA384) id 15.20.9298.9 via Frontend Transport; Wed, 5
+ Nov 2025 17:05:22 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
+ smtp.mailfrom=amd.com; dkim=none (message not signed)
+ header.d=none;dmarc=pass action=none header.from=amd.com;
+Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
+ 165.204.84.17 as permitted sender) receiver=protection.outlook.com;
+ client-ip=165.204.84.17; helo=satlexmb07.amd.com; pr=C
+Received: from satlexmb07.amd.com (165.204.84.17) by
+ DS1PEPF0001708E.mail.protection.outlook.com (10.167.17.134) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.9298.6 via Frontend Transport; Wed, 5 Nov 2025 17:05:22 +0000
+Received: from SATLEXMB05.amd.com (10.181.40.146) by satlexmb07.amd.com
+ (10.181.42.216) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.2.2562.17; Wed, 5 Nov
+ 2025 09:05:22 -0800
+Received: from satlexmb08.amd.com (10.181.42.217) by SATLEXMB05.amd.com
+ (10.181.40.146) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.39; Wed, 5 Nov
+ 2025 11:05:22 -0600
+Received: from [172.19.71.207] (10.180.168.240) by satlexmb08.amd.com
+ (10.181.42.217) with Microsoft SMTP Server id 15.2.2562.17 via Frontend
+ Transport; Wed, 5 Nov 2025 09:05:21 -0800
+Message-ID: <29234ea6-5cb0-cfed-d9a3-be48a914ab4f@amd.com>
+Date: Wed, 5 Nov 2025 09:05:21 -0800
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20251105-a663-gpu-support-v7-2-1bcf7f151125@oss.qualcomm.com>
-X-Proofpoint-ORIG-GUID: -TrYwmxo-el7rzvZazfTxdpAq3EPWDGh
-X-Proofpoint-GUID: -TrYwmxo-el7rzvZazfTxdpAq3EPWDGh
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUxMTA1MDEzMiBTYWx0ZWRfX4+vvwk5eCwO7
- 8euOIwq0exzd5dGz+ClVWC+REfZF67J7ElPGaibkxirH6zq5aDW41T5/ArFSj0qY5++V25y57qG
- OPpHShQ4lhYJjhWMJVmeaJ0YWwnBXzLdHjJFIvXElP+WVTc6fCge247ZCwhGjdsDy9jGYxIm5lu
- 3PPi5Hlvn8DrsYDj/2KfCwzstVdXg/9/UdU1FVwAh9h/T4K6QbMRTkegyWCDTIw+fqjsMpAFnhT
- E3WCnAluY2B2uOI8SA2YdK5VTZ/ZPAt8DypkYTH/lYu8NmRM2gaFhtMA+R6E1Hq033BPWMxkRAK
- NSopq6EOazGynulPKbcY7QXIxqCLZlT41QCjc68y91xmMiQZnOyP3OvlitsKy7ExhNNUCIXyGjK
- kGNrwcWsBeKYBK+jhboWtT7wJH+lmg==
-X-Authority-Analysis: v=2.4 cv=Mdhhep/f c=1 sm=1 tr=0 ts=690b8343 cx=c_pps
- a=S/uc88zpIJVNbziUnJ6G4Q==:117 a=xqWC_Br6kY4A:10 a=kj9zAlcOel0A:10
- a=6UeiqGixMTsA:10 a=s4-Qcg_JpJYA:10 a=VkNPw1HP01LnGYTKEx00:22
- a=COk6AnOGAAAA:8 a=KKAkSRfTAAAA:8 a=EUspDBNiAAAA:8 a=UQAiW8fk4jwks4S4FoYA:9
- a=CjuIK1q_8ugA:10 a=nd2WpGr1bMy9NW-iytEl:22 a=TjNXssC_j7lpFel5tvFf:22
- a=cvBusfyB2V15izCimMoJ:22
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.9,FMLib:17.12.100.49
- definitions=2025-11-05_06,2025-11-03_03,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- lowpriorityscore=0 priorityscore=1501 impostorscore=0 bulkscore=0
- suspectscore=0 spamscore=0 clxscore=1015 malwarescore=0 adultscore=0
- phishscore=0 classifier=typeunknown authscore=0 authtc= authcc=
- route=outbound adjust=0 reason=mlx scancount=1 engine=8.22.0-2510240001
- definitions=main-2511050132
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.11.0
+Subject: Re: [PATCH V1] accel/amdxdna: Support preemption requests
+Content-Language: en-US
+To: Mario Limonciello <superm1@kernel.org>, <ogabbay@kernel.org>,
+ <quic_jhugo@quicinc.com>, <maciej.falkowski@linux.intel.com>,
+ <dri-devel@lists.freedesktop.org>
+CC: <linux-kernel@vger.kernel.org>, <max.zhen@amd.com>, <sonal.santan@amd.com>
+References: <20251104185340.897560-1-lizhi.hou@amd.com>
+ <6011b225-ac26-4e64-ae35-db35055f7552@amd.com>
+ <8c9b2d14-96c4-d917-226e-b1422d1390c8@amd.com>
+ <851cd32b-e64e-4e56-bf49-7c8b3336815f@kernel.org>
+From: Lizhi Hou <lizhi.hou@amd.com>
+In-Reply-To: <851cd32b-e64e-4e56-bf49-7c8b3336815f@kernel.org>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 8bit
+Received-SPF: None (SATLEXMB05.amd.com: lizhi.hou@amd.com does not designate
+ permitted sender hosts)
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: DS1PEPF0001708E:EE_|DM6PR12MB4249:EE_
+X-MS-Office365-Filtering-Correlation-Id: a3fd5f02-a9e1-4f35-094e-08de1c8d81c6
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+ ARA:13230040|376014|1800799024|82310400026|36860700013; 
+X-Microsoft-Antispam-Message-Info: =?utf-8?B?K3JqQzFNTnliMW15M0I4bGEwTGM5ZWY1YnJsSThnMDNpeVhtNjFBVVFmd2l3?=
+ =?utf-8?B?eDMwUmZsWFh6ZVROS0poNnNncitMOW4vNW5pS0NpRmFXc3h2U3hoSzNmMjdL?=
+ =?utf-8?B?N3M1blpnZjNvVTk1MVJybVZlbzZ6V3c3dytTbDhUVjJ4T1NBczlqTzdwaW1I?=
+ =?utf-8?B?M2dhazllS0hsMGU0cW9nUkVYb1dWOExVeXBOUnpSREJ4OGJBVXdRZGRJbVpo?=
+ =?utf-8?B?MlFKMS9pQ1d6ZkJnbkZBZEp0cE9uMFk2NnpzRXQ2TTExQnF1TVVTbmpFb3ha?=
+ =?utf-8?B?ZnBWZ1ErdUlzYjVIRmJFR3VzM1YyTm9CZ3JtTUdweG1aZ1EzamREaUYxNmU3?=
+ =?utf-8?B?QUE3RUZtOHZ0K2xXL0pOZ29oUjUvK2RKaG4yL2RWOWFrckJrVUsrWlpYeDE1?=
+ =?utf-8?B?SEp2SC9DRkZmRk94eFk1dmhTeExxVThYYk84L01XQ2tYT0hnVzNkMExJQjlU?=
+ =?utf-8?B?Qy9GOHBIVmtvd0FEYW1hdFlMMW1XbWhZeXFoRzlDcTJ4V0RQZkwrU0Y2R0kv?=
+ =?utf-8?B?blZBbzZ4WWowcmZ3VkEySENYKzNubzVoeFpuYnVFT0RLYThUOWd6UEhZSTRB?=
+ =?utf-8?B?UUlES1lXYkFKN3VHak5aUjhKZGY2QnFOK2lhazN1OEE2MC9DY1FBa3VKeHBZ?=
+ =?utf-8?B?K0MvOExtRUM0a2ZuUWp0U3dtK1BtaSsxc2NHT0dKVTdzcmlaV3JEK201clQ2?=
+ =?utf-8?B?aFZUUG43S25TSEJJYmZhbDZVUkJhNmw5SFRvd1ZPNDNoRlYwRW9rYW9NeitI?=
+ =?utf-8?B?MWFlNFRvNWpsZWErNm1rbWh3MG9kNFRWR3BHQk5yUVkrQXV3bjdUVHpiTGlS?=
+ =?utf-8?B?WVc1YzdXQTdmQS9TWWc5OWdQNU5NaWQ3QnRGR0ZzRHh6dVg5T3N3S0p1MlVz?=
+ =?utf-8?B?clAzSlhNNWFKSHBvNnZmVjBtSUIxM0tudXl3WnFVNGkzbTBlRVJpMEZqN2dG?=
+ =?utf-8?B?R0IwWGlsSWFjTWVSYjQvYVRCZnQ2OGZHQVp6S0ZaMFlrUHpBbTdwUVBVdjJU?=
+ =?utf-8?B?ZCtwdHp2QnJMRjBFeWpXL3NQdlpkdmxPWXdBTWVmanE2allXMDUxZVY3L09x?=
+ =?utf-8?B?SGR1VEx0c1VCOWFmRE9MK1JreEpqWGJuNUlLRFh5QjcvWENFVnkyWkVFVnZS?=
+ =?utf-8?B?SFlCOWFSQS9hbEo3TDFGcHdDMit4eFh3akNnS3hLWlg1bEtSSUZCSU9OKzlt?=
+ =?utf-8?B?N2xLZkdSTTQyWWJIbW8xWXVrQWpZbkRWaHhERzNXaEFYR1BPc3NoakhhOURB?=
+ =?utf-8?B?L0J0LzEvOG5QbW1HNmpjcHN3SmE5T2pRVnZMK0g2am5SMTZxM0ZpOXJ0K3BO?=
+ =?utf-8?B?VU9iZUlUSUt2c0F0MC9wQzllQytUM2Zhb2haZHQ5Z2lBNGdEV0JjZGJyRjg3?=
+ =?utf-8?B?VEtEbG81VU90Y0sraXdUTExidGI0d3NSNWNwa1JLVU9HN3RwNGhaN0tZb0kz?=
+ =?utf-8?B?VGErS0txRzNKRW9kUEpab0xkMWVudlZPSzQ5Q016YXY5WEowNG85T0U1NmlP?=
+ =?utf-8?B?VjZ6QjhlSG4waWVNVXlKajlDT28vb2R4dEtJQ1dSTW5sVThuZ1g3NWpRQUhH?=
+ =?utf-8?B?UStiRFhWTU9YUW03OGZDM3NsRXVsV0lOODlIM0RFMkN5MzJua1JDbzVpNmc5?=
+ =?utf-8?B?YWp5eHBoOE1pNTRlNG5RNDZaTG9tMytmMjdPRFphdXZKbkI4aE9CV1EvOXBo?=
+ =?utf-8?B?ZDVDdUZVM05yV1Yyd25yVWdzeG5oZ2cxcHdldCsrWm1iUGpSeXJsNmpSSFkr?=
+ =?utf-8?B?b3Z1TmU1dW9VQlgzNEZyNG5Ub0MyL2EzeHBHcUJUb3IwRlhHR2xnbWhpYW8r?=
+ =?utf-8?B?endiY2JjdFhUalJlaXBNVUlDWnR5UWZsS1JaeXRMZk0wWlFqdkdPQU5pNmE2?=
+ =?utf-8?B?MjNGR284ZGJ6eUxhclVQa1I2UUtpclM3SXpnSVJGMjVWc1FUQytSMDRIM2h4?=
+ =?utf-8?B?WHVSallIZjQ0WloxUXpKbVcySDZoUi9Dc2ZlNnl0YXRNc2U2TUpZMmNLTWtN?=
+ =?utf-8?B?UHZQZ2pTbmdIa1loeXcwWGMxUXhJZFZSQmdIWmVjZkw3RTlLdzlNZDFMeEJj?=
+ =?utf-8?B?eWphYW4yRU9EeWxtTXZrdHpDeXFxZ29tNFNIVGVuR25oTEd0N3RJQ1FVZk9v?=
+ =?utf-8?Q?NT4k=3D?=
+X-Forefront-Antispam-Report: CIP:165.204.84.17; CTRY:US; LANG:en; SCL:1; SRV:;
+ IPV:CAL; SFV:NSPM; H:satlexmb07.amd.com; PTR:InfoDomainNonexistent; CAT:NONE;
+ SFS:(13230040)(376014)(1800799024)(82310400026)(36860700013); DIR:OUT;
+ SFP:1101; 
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 05 Nov 2025 17:05:22.5607 (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: a3fd5f02-a9e1-4f35-094e-08de1c8d81c6
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d; Ip=[165.204.84.17];
+ Helo=[satlexmb07.amd.com]
+X-MS-Exchange-CrossTenant-AuthSource: DS1PEPF0001708E.namprd03.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM6PR12MB4249
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -155,25 +157,123 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Nov 05, 2025 at 10:15:46PM +0530, Akhil P Oommen wrote:
-> From: Puranam V G Tejaswi <quic_pvgtejas@quicinc.com>
-> 
-> Add gpu and gmu nodes for sa8775p chipset. Also, add the speedbin
-> qfprom node and wire it up with GPU node.
+Applied to drm-misc-next
 
-Technically the subject should be updated to use 'lemans:' instead of
-'sa8775p:'
-
-> 
-> Signed-off-by: Puranam V G Tejaswi <quic_pvgtejas@quicinc.com>
-> Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-> Reviewed-by: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
-> Signed-off-by: Akhil P Oommen <akhilpo@oss.qualcomm.com>
-> ---
->  arch/arm64/boot/dts/qcom/lemans.dtsi | 119 +++++++++++++++++++++++++++++++++++
->  1 file changed, 119 insertions(+)
-> 
-
--- 
-With best wishes
-Dmitry
+On 11/4/25 11:30, Mario Limonciello wrote:
+> On 11/4/25 1:28 PM, Lizhi Hou wrote:
+>>
+>> On 11/4/25 10:58, Mario Limonciello wrote:
+>>> On 11/4/25 12:53 PM, Lizhi Hou wrote:
+>>>> The driver checks the firmware version during initialization.If 
+>>>> preemption
+>>>> is supported, the driver configures preemption accordingly and handles
+>>>> userspace preemption requests. Otherwise, the driver returns an 
+>>>> error for
+>>>> userspace preemption requests.
+>>>>
+>>>> Signed-off-by: Lizhi Hou <lizhi.hou@amd.com>
+>>>> ---
+>>>>   drivers/accel/amdxdna/aie2_message.c    | 95 
+>>>> +++++++++++++++++++++++++
+>>>>   drivers/accel/amdxdna/aie2_msg_priv.h   |  3 +
+>>>>   drivers/accel/amdxdna/aie2_pci.c        | 63 ++++++++++++++++
+>>>>   drivers/accel/amdxdna/aie2_pci.h        |  8 +++
+>>>>   drivers/accel/amdxdna/amdxdna_ctx.h     | 17 +++++
+>>>>   drivers/accel/amdxdna/amdxdna_pci_drv.c |  3 +-
+>>>>   drivers/accel/amdxdna/npu4_regs.c       |  4 ++
+>>>>   include/uapi/drm/amdxdna_accel.h        | 16 ++++-
+>>>>   8 files changed, 207 insertions(+), 2 deletions(-)
+>>>>
+>>>> diff --git a/drivers/accel/amdxdna/aie2_message.c b/drivers/accel/ 
+>>>> amdxdna/aie2_message.c
+>>>> index 69cdce9ff208..d493bb1c3360 100644
+>>>> --- a/drivers/accel/amdxdna/aie2_message.c
+>>>> +++ b/drivers/accel/amdxdna/aie2_message.c
+>>>> @@ -210,6 +210,14 @@ int aie2_create_context(struct amdxdna_dev_hdl 
+>>>> *ndev, struct amdxdna_hwctx *hwct
+>>>>       hwctx->fw_ctx_id = resp.context_id;
+>>>>       WARN_ONCE(hwctx->fw_ctx_id == -1, "Unexpected context id");
+>>>>   +    if (ndev->force_preempt_enabled) {
+>>>> +        ret = aie2_runtime_cfg(ndev, AIE2_RT_CFG_FORCE_PREEMPT, 
+>>>> &hwctx->fw_ctx_id);
+>>>> +        if (ret) {
+>>>> +            XDNA_ERR(xdna, "failed to enable force preempt %d", ret);
+>>>> +            return ret;
+>>>> +        }
+>>>> +    }
+>>>> +
+>>>>       cq_pair = &resp.cq_pair[0];
+>>>>       x2i.mb_head_ptr_reg = AIE2_MBOX_OFF(ndev, cq_pair- 
+>>>> >x2i_q.head_addr);
+>>>>       x2i.mb_tail_ptr_reg = AIE2_MBOX_OFF(ndev, cq_pair- 
+>>>> >x2i_q.tail_addr);
+>>>> @@ -601,6 +609,11 @@ aie2_cmdlist_fill_dpu(struct amdxdna_gem_obj 
+>>>> *cmd_bo, void *slot, size_t *size)
+>>>>       return 0;
+>>>>   }
+>>>>   +static int aie2_cmdlist_unsupp(struct amdxdna_gem_obj *cmd_bo, 
+>>>> void *slot, size_t *size)
+>>>> +{
+>>>> +    return -EOPNOTSUPP;
+>>>> +}
+>>>> +
+>>>>   static u32 aie2_get_chain_msg_op(u32 cmd_op)
+>>>>   {
+>>>>       switch (cmd_op) {
+>>>> @@ -621,6 +634,8 @@ static struct aie2_exec_msg_ops 
+>>>> legacy_exec_message_ops = {
+>>>>       .init_chain_req = aie2_init_exec_chain_req,
+>>>>       .fill_cf_slot = aie2_cmdlist_fill_cf,
+>>>>       .fill_dpu_slot = aie2_cmdlist_fill_dpu,
+>>>> +    .fill_preempt_slot = aie2_cmdlist_unsupp,
+>>>> +    .fill_elf_slot = aie2_cmdlist_unsupp,
+>>>>       .get_chain_msg_op = aie2_get_chain_msg_op,
+>>>>   };
+>>>>   @@ -680,6 +695,74 @@ aie2_cmdlist_fill_npu_dpu(struct 
+>>>> amdxdna_gem_obj *cmd_bo, void *slot, size_t *si
+>>>>       return 0;
+>>>>   }
+>>>>   +static int
+>>>> +aie2_cmdlist_fill_npu_preempt(struct amdxdna_gem_obj *cmd_bo, void 
+>>>> *slot, size_t *size)
+>>>> +{
+>>>> +    struct cmd_chain_slot_npu *npu_slot = slot;
+>>>> +    struct amdxdna_cmd_preempt_data *pd;
+>>>> +    u32 cmd_len;
+>>>> +    u32 arg_sz;
+>>>> +
+>>>> +    pd = amdxdna_cmd_get_payload(cmd_bo, &cmd_len);
+>>>> +    arg_sz = cmd_len - sizeof(*pd);
+>>>> +    if (cmd_len < sizeof(*pd) || arg_sz > MAX_NPU_ARGS_SIZE)
+>>>> +        return -EINVAL;
+>>>> +
+>>>> +    if (*size < sizeof(*npu_slot) + arg_sz)
+>>>> +        return -EINVAL;
+>>>> +
+>>>> +    npu_slot->cu_idx = amdxdna_cmd_get_cu_idx(cmd_bo);
+>>>> +    if (npu_slot->cu_idx == INVALID_CU_IDX)
+>>>> +        return -EINVAL;
+>>>> +
+>>>> +    memset(npu_slot, 0, sizeof(*npu_slot));
+>>>> +    npu_slot->type = EXEC_NPU_TYPE_PREEMPT;
+>>>> +    npu_slot->inst_buf_addr = pd->inst_buf;
+>>>> +    npu_slot->save_buf_addr = pd->save_buf;
+>>>> +    npu_slot->restore_buf_addr = pd->restore_buf;
+>>>> +    npu_slot->inst_size = pd->inst_size;
+>>>> +    npu_slot->save_size = pd->save_size;
+>>>> +    npu_slot->restore_size = pd->restore_size;
+>>>> +    npu_slot->inst_prop_cnt = pd->inst_prop_cnt;
+>>>> +    npu_slot->arg_cnt = arg_sz / sizeof(u32);
+>>>> +    memcpy(npu_slot->args, pd->prop_args, arg_sz);
+>>>
+>>> Am I following this right?  I would think this should be:
+>>>
+>>> memcpy(npu_slot->args, pd->prop_args, npu_slot->arg_cnt);
+>>
+>> npu_slot->arg_cnt is the number of u32. So arg_sz is used for memcpy 
+>> here.
+>>
+>>
+> Got it thanks.  No other concerns.
+>
+> Reviewed-by: Mario Limonciello (AMD) <superm1@kernel.org>
