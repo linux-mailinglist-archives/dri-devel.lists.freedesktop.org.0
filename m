@@ -2,56 +2,52 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 67C44C351C9
-	for <lists+dri-devel@lfdr.de>; Wed, 05 Nov 2025 11:35:38 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 33663C35211
+	for <lists+dri-devel@lfdr.de>; Wed, 05 Nov 2025 11:39:37 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 975FA10E2B7;
-	Wed,  5 Nov 2025 10:35:34 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4DEDC10E70A;
+	Wed,  5 Nov 2025 10:39:34 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; secure) header.d=damsy.net header.i=@damsy.net header.b="KGxqcmcD";
-	dkim=permerror (0-bit key) header.d=damsy.net header.i=@damsy.net header.b="qtLmukZv";
+	dkim=pass (2048-bit key; secure) header.d=damsy.net header.i=@damsy.net header.b="hp8agkev";
+	dkim=permerror (0-bit key) header.d=damsy.net header.i=@damsy.net header.b="h4lfObt8";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from jeth.damsy.net (jeth.damsy.net [51.159.152.102])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 36B4510E196;
- Wed,  5 Nov 2025 10:35:32 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6A4EE10E6F7;
+ Wed,  5 Nov 2025 10:39:32 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; s=202408r; d=damsy.net; c=relaxed/relaxed; 
- h=From:To:Subject:Date:Message-ID; t=1762338897;
- bh=bqBYiyWlxDUdnNgsJSqCOZI
- JNIvP50J9OOyodzXZMwQ=; b=KGxqcmcDC/391Gski64qeDuNQXYPK0klHiQ6IU5cijMXPgIytf
- OqEGwxDf48QDcxq0VHVhewrysaV33hQ/UYYxsENvuvVhf0XY99YCa0upcyEK8hQMHGeIHaUB/Br
- Xhx1Q7bjVHj1SpLeQhaZ0EKmXP2o/BgPRgrfFrSefUB10Mf8ZqkQCcA6jieFVB6QDcTwVPwwuJ5
- ech9aPTMzMbx8q7bMw5tl4IcnbtZovHYvy3iu90ElQhnydoYAOw+rHzLkIJjL32ROA+zD6eymGO
- BhPVV42lIm4TUGH/c6/1EZuKBgqDQ0kNxhb018+zNucHraUSg3G0U7qXm9UNcW3wq+A==;
+ h=From:To:Subject:Date:Message-ID; t=1762339165;
+ bh=HynmbuF0tAM8tAN2lSgPkC7
+ JF426wpJcLDfO5uTi/hw=; b=hp8agkevPjedr1AzyG9EXs7Pj4KLzVByaNj3R3PtuEItpEKsCD
+ 1lUxDH1tWGRSNN1dRBkubGhuvktSa7YcSS0lqgq9SfcjSr93KBXdgXkugXiUSE4f9I7URLEKjou
+ Rvf810BMrjKZpA0A3IXzmuTwGkTTbeHHz03OdUaU2TfvkPLVix9EaEESb6z57zoSwxBUoiUjo+j
+ np+OsypheZS1C14Bx7DPyx0ERm8XTjhqcWy0+1o+GcAv6KcDE26oQjI4oNDoWqFlXE0bOBo+DOz
+ OrXWvYB7ySf3hDduNc4Beef/+eeeHHZjVaby+8XvHgc/Pmgf/6Ky2A07rxU2r6APm5Q==;
 DKIM-Signature: v=1; a=ed25519-sha256; s=202408e; d=damsy.net;
  c=relaxed/relaxed; 
- h=From:To:Subject:Date:Message-ID; t=1762338897; bh=bqBYiyWlxDUdnNgsJSqCOZI
- JNIvP50J9OOyodzXZMwQ=; b=qtLmukZvlE5csXU0v+0rrz6psZY9zFMr/pFXe28NibTMUSMaPl
- bNMt/xHjnuzYZl1fUg49oVa9LiTlMlt0U+BA==;
-Message-ID: <5bf372ea-40ef-4b07-be13-53451828d3e1@damsy.net>
-Date: Wed, 5 Nov 2025 11:34:56 +0100
+ h=From:To:Subject:Date:Message-ID; t=1762339165; bh=HynmbuF0tAM8tAN2lSgPkC7
+ JF426wpJcLDfO5uTi/hw=; b=h4lfObt87YD+sXiVRU4gpbddW33IRV3aJ5rc5zxRTD2bGFF1dU
+ qlI2txGneITbjhiq4+1tBFIRmL+IciImWpAA==;
+Message-ID: <7395bf47-68fd-4af6-8720-e51dc75253bc@damsy.net>
+Date: Wed, 5 Nov 2025 11:39:24 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v1 02/20] drm/ttm: rework pipelined eviction fence handling
+Subject: Re: [PATCH v1 11/20] drm/amdgpu: use multiple entities in
+ amdgpu_fill_buffer
 To: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
  Pierre-Eric Pelloux-Prayer <pierre-eric.pelloux-prayer@amd.com>,
  Alex Deucher <alexander.deucher@amd.com>, David Airlie <airlied@gmail.com>,
- Simona Vetter <simona@ffwll.ch>, Huang Rui <ray.huang@amd.com>,
- Matthew Auld <matthew.auld@intel.com>,
- Matthew Brost <matthew.brost@intel.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- Sumit Semwal <sumit.semwal@linaro.org>
+ Simona Vetter <simona@ffwll.ch>, Sumit Semwal <sumit.semwal@linaro.org>
 Cc: amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
  linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
  linaro-mm-sig@lists.linaro.org
 References: <20251104083605.13677-1-pierre-eric.pelloux-prayer@amd.com>
- <20251104083605.13677-3-pierre-eric.pelloux-prayer@amd.com>
- <13f0cda3-baae-42a4-a7c6-1fdd774bb5d2@amd.com>
+ <20251104083605.13677-12-pierre-eric.pelloux-prayer@amd.com>
+ <0f9aa878-46c4-48d6-9ad5-774a0927b291@amd.com>
 Content-Language: en-US
 From: Pierre-Eric Pelloux-Prayer <pierre-eric@damsy.net>
-In-Reply-To: <13f0cda3-baae-42a4-a7c6-1fdd774bb5d2@amd.com>
+In-Reply-To: <0f9aa878-46c4-48d6-9ad5-774a0927b291@amd.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -71,494 +67,189 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
 
-Le 04/11/2025 à 15:12, Christian König a écrit :
+Le 04/11/2025 à 17:40, Christian König a écrit :
 > On 11/4/25 09:35, Pierre-Eric Pelloux-Prayer wrote:
->> Until now ttm stored a single pipelined eviction fence which means
->> drivers had to use a single entity for these evictions.
+>> The benefits of using multiple entities is that multiple fill jobs
+>> can run in parallel. Otherwise, even if the entity has access
+>> to multiple engines, a burst of N independent jobs will all
+>> run on the same engine because an entity guarantees the ordering
+>> of execution matches the ordering of the submission.
 >>
->> To lift this requirement, this commit allows up to 8 entities to
->> be used.
->>
->> Ideally a dma_resv object would have been used as a container of
->> the eviction fences, but the locking rules makes it complex.
->> dma_resv all have the same ww_class, which means "Attempting to
->> lock more mutexes after ww_acquire_done." is an error.
->>
->> One alternative considered was to introduced a 2nd ww_class for
->> specific resv to hold a single "transient" lock (= the resv lock
->> would only be held for a short period, without taking any other
->> locks).
->>
->> The other option, is to statically reserve a fence array, and
->> extend the existing code to deal with N fences, instead of 1.
->>
->> The driver is still responsible to reserve the correct number
->> of fence slots.
->>
->> Lastly ttm_resource_manager.pipelined_eviction.n_fences is
->> initialized to 1, so the new behavior is opt-in.
->>
->> Signed-off-by: Pierre-Eric Pelloux-Prayer <pierre-eric.pelloux-prayer@amd.com>
->> ---
->>   drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c       |  8 ++-
->>   .../gpu/drm/ttm/tests/ttm_bo_validate_test.c  | 13 +++--
->>   drivers/gpu/drm/ttm/tests/ttm_resource_test.c |  5 +-
->>   drivers/gpu/drm/ttm/ttm_bo.c                  | 56 ++++++++++++-------
->>   drivers/gpu/drm/ttm/ttm_bo_util.c             | 36 ++++++++++--
->>   drivers/gpu/drm/ttm/ttm_resource.c            | 45 ++++++++++-----
->>   include/drm/ttm/ttm_resource.h                | 34 ++++++++---
->>   7 files changed, 139 insertions(+), 58 deletions(-)
->>
->> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c
->> index 326476089db3..c66f00434991 100644
->> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c
->> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c
->> @@ -2156,7 +2156,7 @@ void amdgpu_ttm_set_buffer_funcs_status(struct amdgpu_device *adev, bool enable)
->>   {
->>   	struct ttm_resource_manager *man = ttm_manager_type(&adev->mman.bdev, TTM_PL_VRAM);
->>   	uint64_t size;
->> -	int r;
->> +	int r, i;
->>   
->>   	if (!adev->mman.initialized || amdgpu_in_reset(adev) ||
->>   	    adev->mman.buffer_funcs_enabled == enable || adev->gmc.is_app_apu)
->> @@ -2190,8 +2190,10 @@ void amdgpu_ttm_set_buffer_funcs_status(struct amdgpu_device *adev, bool enable)
->>   	} else {
->>   		drm_sched_entity_destroy(&adev->mman.high_pr);
->>   		drm_sched_entity_destroy(&adev->mman.low_pr);
->> -		dma_fence_put(man->move);
->> -		man->move = NULL;
->> +		for (i = 0; i < TTM_FENCES_MAX_SLOT_COUNT; i++) {
->> +			dma_fence_put(man->pipelined_eviction.fences[i]);
->> +			man->pipelined_eviction.fences[i] = NULL;
->> +		}
->>   	}
->>   
->>   	/* this just adjusts TTM size idea, which sets lpfn to the correct value */
->> diff --git a/drivers/gpu/drm/ttm/tests/ttm_bo_validate_test.c b/drivers/gpu/drm/ttm/tests/ttm_bo_validate_test.c
->> index 3148f5d3dbd6..1396674e1923 100644
->> --- a/drivers/gpu/drm/ttm/tests/ttm_bo_validate_test.c
->> +++ b/drivers/gpu/drm/ttm/tests/ttm_bo_validate_test.c
->> @@ -651,7 +651,8 @@ static void ttm_bo_validate_move_fence_signaled(struct kunit *test)
->>   	int err;
->>   
->>   	man = ttm_manager_type(priv->ttm_dev, mem_type);
->> -	man->move = dma_fence_get_stub();
->> +	man->pipelined_eviction.n_fences = 1;
->> +	man->pipelined_eviction.fences[0] = dma_fence_get_stub();
->>   
->>   	bo = ttm_bo_kunit_init(test, test->priv, size, NULL);
->>   	bo->type = bo_type;
->> @@ -668,7 +669,7 @@ static void ttm_bo_validate_move_fence_signaled(struct kunit *test)
->>   	KUNIT_EXPECT_EQ(test, ctx.bytes_moved, size);
->>   
->>   	ttm_bo_put(bo);
->> -	dma_fence_put(man->move);
->> +	dma_fence_put(man->pipelined_eviction.fences[0]);
->>   }
->>   
->>   static const struct ttm_bo_validate_test_case ttm_bo_validate_wait_cases[] = {
->> @@ -732,9 +733,10 @@ static void ttm_bo_validate_move_fence_not_signaled(struct kunit *test)
->>   
->>   	spin_lock_init(&fence_lock);
->>   	man = ttm_manager_type(priv->ttm_dev, fst_mem);
->> -	man->move = alloc_mock_fence(test);
->> +	man->pipelined_eviction.n_fences = 1;
->> +	man->pipelined_eviction.fences[0] = alloc_mock_fence(test);
->>   
->> -	task = kthread_create(threaded_fence_signal, man->move, "move-fence-signal");
->> +	task = kthread_create(threaded_fence_signal, man->pipelined_eviction.fences[0], "move-fence-signal");
->>   	if (IS_ERR(task))
->>   		KUNIT_FAIL(test, "Couldn't create move fence signal task\n");
->>   
->> @@ -742,7 +744,8 @@ static void ttm_bo_validate_move_fence_not_signaled(struct kunit *test)
->>   	err = ttm_bo_validate(bo, placement_val, &ctx_val);
->>   	dma_resv_unlock(bo->base.resv);
->>   
->> -	dma_fence_wait_timeout(man->move, false, MAX_SCHEDULE_TIMEOUT);
->> +	dma_fence_wait_timeout(man->pipelined_eviction.fences[0], false, MAX_SCHEDULE_TIMEOUT);
->> +	man->pipelined_eviction.fences[0] = NULL;
->>   
->>   	KUNIT_EXPECT_EQ(test, err, 0);
->>   	KUNIT_EXPECT_EQ(test, ctx_val.bytes_moved, size);
->> diff --git a/drivers/gpu/drm/ttm/tests/ttm_resource_test.c b/drivers/gpu/drm/ttm/tests/ttm_resource_test.c
->> index e6ea2bd01f07..6dfdf759a491 100644
->> --- a/drivers/gpu/drm/ttm/tests/ttm_resource_test.c
->> +++ b/drivers/gpu/drm/ttm/tests/ttm_resource_test.c
->> @@ -207,6 +207,7 @@ static void ttm_resource_manager_init_basic(struct kunit *test)
->>   	struct ttm_resource_test_priv *priv = test->priv;
->>   	struct ttm_resource_manager *man;
->>   	size_t size = SZ_16K;
->> +	int i;
->>   
->>   	man = kunit_kzalloc(test, sizeof(*man), GFP_KERNEL);
->>   	KUNIT_ASSERT_NOT_NULL(test, man);
->> @@ -216,8 +217,8 @@ static void ttm_resource_manager_init_basic(struct kunit *test)
->>   	KUNIT_ASSERT_PTR_EQ(test, man->bdev, priv->devs->ttm_dev);
->>   	KUNIT_ASSERT_EQ(test, man->size, size);
->>   	KUNIT_ASSERT_EQ(test, man->usage, 0);
->> -	KUNIT_ASSERT_NULL(test, man->move);
->> -	KUNIT_ASSERT_NOT_NULL(test, &man->move_lock);
->> +	for (i = 0; i < TTM_FENCES_MAX_SLOT_COUNT; i++)
->> +		KUNIT_ASSERT_NULL(test, man->pipelined_eviction.fences[i]);
->>   
->>   	for (int i = 0; i < TTM_MAX_BO_PRIORITY; ++i)
->>   		KUNIT_ASSERT_TRUE(test, list_empty(&man->lru[i]));
->> diff --git a/drivers/gpu/drm/ttm/ttm_bo.c b/drivers/gpu/drm/ttm/ttm_bo.c
->> index f4d9e68b21e7..bc6d4a6c6d70 100644
->> --- a/drivers/gpu/drm/ttm/ttm_bo.c
->> +++ b/drivers/gpu/drm/ttm/ttm_bo.c
->> @@ -658,34 +658,48 @@ void ttm_bo_unpin(struct ttm_buffer_object *bo)
->>   EXPORT_SYMBOL(ttm_bo_unpin);
->>   
->>   /*
->> - * Add the last move fence to the BO as kernel dependency and reserve a new
->> - * fence slot.
->> + * Add the pipelined eviction fencesto the BO as kernel dependency and reserve new
->> + * fence slots.
->>    */
->> -static int ttm_bo_add_move_fence(struct ttm_buffer_object *bo,
->> -				 struct ttm_resource_manager *man,
->> -				 bool no_wait_gpu)
->> +static int ttm_bo_add_pipelined_eviction_fences(struct ttm_buffer_object *bo,
->> +						struct ttm_resource_manager *man,
->> +						bool no_wait_gpu)
->>   {
->> +	struct dma_fence *fences_to_add[TTM_FENCES_MAX_SLOT_COUNT] = {};
->>   	struct dma_fence *fence;
->> -	int ret;
->> +	bool all_signaled = true, signaled;
->> +	int i, n = 0;
->>   
->> -	spin_lock(&man->move_lock);
->> -	fence = dma_fence_get(man->move);
->> -	spin_unlock(&man->move_lock);
->> +	spin_lock(&man->pipelined_eviction.lock);
->> +	for (i = 0; i < man->pipelined_eviction.n_fences; i++) {
->> +		fence = man->pipelined_eviction.fences[i];
+>> Callers can opt-out of this behavior by passing the entity they
+>> want to use (see amdgpu_move_blit).
 > 
->> +		if (!fence)
->> +			continue;
->> +		signaled = dma_fence_is_signaled(fence);
->>   
->> -	if (!fence)
->> +		if (signaled) {
->> +			dma_fence_put(man->pipelined_eviction.fences[i]);
->> +			man->pipelined_eviction.fences[i] = NULL;
+> That still sounds like a really bad idea to me.
 > 
-> Please completely drop that, only check if the fences are signaled when the no_wait_gpu flag is set.
+> First of all we can't reserve so many fence slots in the release handler, previously we basically just relied on the fact that the BO will most likely be mostly idle.
+> 
+> I think we should just use a single SDMA engine for each clear and distribute clearing different BOs over multiple engines.
 
-ok.
+So N clear entities, each one having access to a single engine. And all jobs to 
+clear a single BO go to the same entity?
 
-> 
->> +		} else {
->> +			all_signaled = false;
->> +			if (no_wait_gpu) {
->> +				spin_unlock(&man->pipelined_eviction.lock);
->> +				return -EBUSY;
->> +			}
->> +			fences_to_add[n++] = dma_fence_get(fence);
->> +		}
->> +	}
->> +	spin_unlock(&man->pipelined_eviction.lock);
->> +
->> +	if (all_signaled)
->>   		return 0;
->>   
->> -	if (no_wait_gpu) {
->> -		ret = dma_fence_is_signaled(fence) ? 0 : -EBUSY;
->> -		dma_fence_put(fence);
->> -		return ret;
->> +	for (i = 0; i < n; i++) {
->> +		dma_resv_add_fence(bo->base.resv, fences_to_add[i], DMA_RESV_USAGE_KERNEL);
->> +		dma_fence_put(fences_to_add[i]);
->>   	}
->>   
->> -	dma_resv_add_fence(bo->base.resv, fence, DMA_RESV_USAGE_KERNEL);
->> -
->> -	ret = dma_resv_reserve_fences(bo->base.resv, 1);
->> -	dma_fence_put(fence);
->> -	return ret;
->> +	return dma_resv_reserve_fences(bo->base.resv, TTM_FENCES_MAX_SLOT_COUNT);
-> 
-> Please separate out a patch where the call to dma_resv_reserve_fences() is removed here.
+Is that what you mean?
 
-Can you remind me why it's not needed?
-
-> 
->>   }
->>   
->>   /**
->> @@ -718,7 +732,7 @@ static int ttm_bo_alloc_resource(struct ttm_buffer_object *bo,
->>   	int i, ret;
->>   
->>   	ticket = dma_resv_locking_ctx(bo->base.resv);
->> -	ret = dma_resv_reserve_fences(bo->base.resv, 1);
->> +	ret = dma_resv_reserve_fences(bo->base.resv, TTM_FENCES_MAX_SLOT_COUNT);
->>   	if (unlikely(ret))
->>   		return ret;
->>   
->> @@ -757,7 +771,7 @@ static int ttm_bo_alloc_resource(struct ttm_buffer_object *bo,
->>   				return ret;
->>   		}
->>   
->> -		ret = ttm_bo_add_move_fence(bo, man, ctx->no_wait_gpu);
->> +		ret = ttm_bo_add_pipelined_eviction_fences(bo, man, ctx->no_wait_gpu);
->>   		if (unlikely(ret)) {
->>   			ttm_resource_free(bo, res);
->>   			if (ret == -EBUSY)
->> diff --git a/drivers/gpu/drm/ttm/ttm_bo_util.c b/drivers/gpu/drm/ttm/ttm_bo_util.c
->> index acbbca9d5c92..ada8af965acf 100644
->> --- a/drivers/gpu/drm/ttm/ttm_bo_util.c
->> +++ b/drivers/gpu/drm/ttm/ttm_bo_util.c
->> @@ -258,7 +258,7 @@ static int ttm_buffer_object_transfer(struct ttm_buffer_object *bo,
->>   	ret = dma_resv_trylock(&fbo->base.base._resv);
->>   	WARN_ON(!ret);
->>   
->> -	ret = dma_resv_reserve_fences(&fbo->base.base._resv, 1);
->> +	ret = dma_resv_reserve_fences(&fbo->base.base._resv, TTM_FENCES_MAX_SLOT_COUNT);
->>   	if (ret) {
->>   		dma_resv_unlock(&fbo->base.base._resv);
->>   		kfree(fbo);
->> @@ -646,6 +646,8 @@ static void ttm_bo_move_pipeline_evict(struct ttm_buffer_object *bo,
->>   {
->>   	struct ttm_device *bdev = bo->bdev;
->>   	struct ttm_resource_manager *from;
->> +	struct dma_fence *tmp;
->> +	int i, free_slot = -1;
->>   
->>   	from = ttm_manager_type(bdev, bo->resource->mem_type);
->>   
->> @@ -653,13 +655,35 @@ static void ttm_bo_move_pipeline_evict(struct ttm_buffer_object *bo,
->>   	 * BO doesn't have a TTM we need to bind/unbind. Just remember
->>   	 * this eviction and free up the allocation
->>   	 */
->> -	spin_lock(&from->move_lock);
->> -	if (!from->move || dma_fence_is_later(fence, from->move)) {
->> -		dma_fence_put(from->move);
->> -		from->move = dma_fence_get(fence);
->> +	spin_lock(&from->pipelined_eviction.lock);
->> +	for (i = 0; i < from->pipelined_eviction.n_fences; i++) {
->> +		tmp = from->pipelined_eviction.fences[i];
->> +		if (!tmp) {
->> +			if (free_slot < 0)
->> +				free_slot = i;
->> +			continue;
-> 
-> Just break here.
-
-The logic here is to reuse context slots. Even if slot 0 is empty, I need to use 
-slot 1 if slot 1's context is the same as fence->context.
-
-This way, we're guaranteed to find a slot for all contexts used by the driver.
-
-> 
->> +		}
->> +		if (fence->context != tmp->context)
->> +			continue;
->> +		if (dma_fence_is_later(fence, tmp)) {
->> +			dma_fence_put(tmp);
->> +			free_slot = i;
->> +			break;
->> +		}
->> +		goto unlock;
->> +	}
->> +	if (free_slot >= 0) {
-> 
-> Drop free_slot and check i here.
-> 
->> +		from->pipelined_eviction.fences[free_slot] = dma_fence_get(fence);
->> +	} else {
->> +		WARN(1, "not enough fence slots for all fence contexts");
->> +		spin_unlock(&from->pipelined_eviction.lock);
->> +		dma_fence_wait(fence, false);
->> +		goto end;
->>   	}
->> -	spin_unlock(&from->move_lock);
->>   
->> +unlock:
->> +	spin_unlock(&from->pipelined_eviction.lock);
->> +end:
->>   	ttm_resource_free(bo, &bo->resource);
->>   }
->>   
->> diff --git a/drivers/gpu/drm/ttm/ttm_resource.c b/drivers/gpu/drm/ttm/ttm_resource.c
->> index e2c82ad07eb4..ae0d4621cc55 100644
->> --- a/drivers/gpu/drm/ttm/ttm_resource.c
->> +++ b/drivers/gpu/drm/ttm/ttm_resource.c
->> @@ -523,14 +523,19 @@ void ttm_resource_manager_init(struct ttm_resource_manager *man,
->>   {
->>   	unsigned i;
->>   
->> -	spin_lock_init(&man->move_lock);
->>   	man->bdev = bdev;
->>   	man->size = size;
->>   	man->usage = 0;
->>   
->>   	for (i = 0; i < TTM_MAX_BO_PRIORITY; ++i)
->>   		INIT_LIST_HEAD(&man->lru[i]);
->> -	man->move = NULL;
->> +	spin_lock_init(&man->pipelined_eviction.lock);
->> +	for (i = 0; i < TTM_FENCES_MAX_SLOT_COUNT; i++)
->> +		man->pipelined_eviction.fences[i] = NULL;
->> +	/* Can be overridden by drivers that wants to use more than 1 entity
->> +	 * for moves and evictions (limited to TTM_FENCES_MAX_SLOT_COUNT).
->> +	 */
->> +	man->pipelined_eviction.n_fences = 1;
->>   }
->>   EXPORT_SYMBOL(ttm_resource_manager_init);
->>   
->> @@ -551,7 +556,7 @@ int ttm_resource_manager_evict_all(struct ttm_device *bdev,
->>   		.no_wait_gpu = false,
->>   	};
->>   	struct dma_fence *fence;
->> -	int ret;
->> +	int ret, i;
->>   
->>   	do {
->>   		ret = ttm_bo_evict_first(bdev, man, &ctx);
->> @@ -561,18 +566,32 @@ int ttm_resource_manager_evict_all(struct ttm_device *bdev,
->>   	if (ret && ret != -ENOENT)
->>   		return ret;
->>   
->> -	spin_lock(&man->move_lock);
->> -	fence = dma_fence_get(man->move);
->> -	spin_unlock(&man->move_lock);
->> +	ret = 0;
->>   
->> -	if (fence) {
->> -		ret = dma_fence_wait(fence, false);
->> -		dma_fence_put(fence);
->> -		if (ret)
->> -			return ret;
->> -	}
->> +	do {
->> +		fence = NULL;
->>   
->> -	return 0;
->> +		spin_lock(&man->pipelined_eviction.lock);
->> +		for (i = 0; i < man->pipelined_eviction.n_fences; i++) {
->> +			fence = man->pipelined_eviction.fences[i];
-> 
->> +			man->pipelined_eviction.fences[i] = NULL;
-> 
-> Drop that. We should never set man->pipelined_eviction.fences to NULL.
-
-Why?
-
-> 
-> Potentially even initialize all move fences with a stub fence.
-> 
->> +			if (fence)
->> +				break;
->> +		}
->> +		spin_unlock(&man->pipelined_eviction.lock);
->> +
->> +		if (fence) {
->> +			ret = dma_fence_wait(fence, false);
->> +			dma_fence_put(fence);
->> +
->> +			if (ret)
->> +				break;
->> +		} else {
->> +			break;
->> +		}
->> +	} while (1);
->> +
->> +	return ret;
->>   }
->>   EXPORT_SYMBOL(ttm_resource_manager_evict_all);
->>   
->> diff --git a/include/drm/ttm/ttm_resource.h b/include/drm/ttm/ttm_resource.h
->> index f49daa504c36..898c429b37ad 100644
->> --- a/include/drm/ttm/ttm_resource.h
->> +++ b/include/drm/ttm/ttm_resource.h
->> @@ -50,6 +50,15 @@ struct io_mapping;
->>   struct sg_table;
->>   struct scatterlist;
->>   
->> +/**
->> + * define TTM_FENCES_MAX_SLOT_COUNT - How many entities can be used for evictions
->> + *
->> + * Pipelined evictions can be spread on multiple entities. This
->> + * is the max number of entities that can be used by the driver
->> + * for that purpose.
->> + */
->> +#define TTM_FENCES_MAX_SLOT_COUNT 8
-> 
-> Make that TTM_NUM_MOVE_FENCES.
-
-Ok.
-
-> 
->> +
->>   /**
->>    * enum ttm_lru_item_type - enumerate ttm_lru_item subclasses
->>    */
->> @@ -180,8 +189,10 @@ struct ttm_resource_manager_func {
->>    * @size: Size of the managed region.
->>    * @bdev: ttm device this manager belongs to
->>    * @func: structure pointer implementing the range manager. See above
->> - * @move_lock: lock for move fence
->> - * @move: The fence of the last pipelined move operation.
->> + * @pipelined_eviction.lock: lock for eviction fences
->> + * @pipelined_eviction.n_fences: The number of fences allowed in the array. If
->> + * 0, pipelined evictions aren't used.
->> + * @pipelined_eviction.fences: The fences of the last pipelined move operation.
->>    * @lru: The lru list for this memory type.
->>    *
->>    * This structure is used to identify and manage memory types for a device.
->> @@ -195,12 +206,15 @@ struct ttm_resource_manager {
->>   	struct ttm_device *bdev;
->>   	uint64_t size;
->>   	const struct ttm_resource_manager_func *func;
->> -	spinlock_t move_lock;
->>   
->> -	/*
->> -	 * Protected by @move_lock.
->> +	/* This is very similar to a dma_resv object, but locking rules make
->> +	 * it difficult to use a it in this context.
->>   	 */
->> -	struct dma_fence *move;
->> +	struct {
->> +		spinlock_t lock;
->> +		int n_fences;
->> +		struct dma_fence *fences[TTM_FENCES_MAX_SLOT_COUNT];
->> +	} pipelined_eviction;
-> 
-> Drop the separate structure, just make move an array instead.
-
-IMO pipelined_eviction.fences and pipelined_eviction.lock is clearer when 
-reading the code than moves and move_lock but if you prefer I'll switch back to 
-the old names.
-
-> 
-> And also drop n_fences. Just always take a look at all fences.
-
-OK.
-
-Thanks,
 Pierre-Eric
 
 > 
 > Regards,
 > Christian.
 > 
+>>
+>> Signed-off-by: Pierre-Eric Pelloux-Prayer <pierre-eric.pelloux-prayer@amd.com>
+>> ---
+>>   drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c | 84 ++++++++++++++++++-------
+>>   drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.h |  1 +
+>>   2 files changed, 64 insertions(+), 21 deletions(-)
+>>
+>> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c
+>> index c357a6d9763a..839ea8c7f6be 100644
+>> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c
+>> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c
+>> @@ -2224,6 +2224,7 @@ u32 amdgpu_ttm_set_buffer_funcs_status(struct amdgpu_device *adev, bool enable)
+>>   		adev->mman.clear_entities = kcalloc(num_clear_entities,
+>>   						    sizeof(struct amdgpu_ttm_entity),
+>>   						    GFP_KERNEL);
+>> +		atomic_set(&adev->mman.next_clear_entity, 0);
+>>   		if (!adev->mman.clear_entities)
+>>   			goto error_free_entity;
 >>   
->>   	/*
->>   	 * Protected by the bdev->lru_lock.
->> @@ -421,8 +435,12 @@ static inline bool ttm_resource_manager_used(struct ttm_resource_manager *man)
->>   static inline void
->>   ttm_resource_manager_cleanup(struct ttm_resource_manager *man)
+>> @@ -2498,10 +2499,12 @@ int amdgpu_fill_buffer(struct amdgpu_ttm_entity *entity,
 >>   {
->> -	dma_fence_put(man->move);
->> -	man->move = NULL;
->> +	int i;
+>>   	struct amdgpu_device *adev = amdgpu_ttm_adev(bo->tbo.bdev);
+>>   	struct amdgpu_ring *ring = adev->mman.buffer_funcs_ring;
+>> +	struct dma_fence *fences[TTM_FENCES_MAX_SLOT_COUNT] = {};
+>>   	struct dma_fence *fence = NULL;
+>>   	struct dma_resv *resv = NULL;
+>>   	struct amdgpu_res_cursor dst;
+>> -	int r;
+>> +	uint64_t cur_size, to;
+>> +	int r, e, n_fences;
+>>   
+>>   	/* The fences will be either added to the resv object or the last fence
+>>   	 * will be returned to the caller. In the latter case, all fill jobs will
+>> @@ -2515,53 +2518,92 @@ int amdgpu_fill_buffer(struct amdgpu_ttm_entity *entity,
+>>   	}
+>>   
+>>   	if (!entity) {
+>> -		entity = &adev->mman.clear_entities[0];
+>>   		resv = &bo->tbo.base._resv;
+>> -		r = dma_resv_reserve_fences(resv, 1);
 >> +
->> +	for (i = 0; i < TTM_FENCES_MAX_SLOT_COUNT; i++) {
->> +		dma_fence_put(man->pipelined_eviction.fences[i]);
->> +		man->pipelined_eviction.fences[i] = NULL;
+>> +		/* Determine how much fences we're going to add to the
+>> +		 * resv object.
+>> +		 */
+>> +		n_fences = 0;
+>> +		amdgpu_res_first(bo->tbo.resource, 0, amdgpu_bo_size(bo), &dst);
+>> +		while (dst.remaining) {
+>> +			cur_size = min(dst.size, 256ULL << 20);
+>> +
+>> +			n_fences += 1;
+>> +			amdgpu_res_next(&dst, cur_size);
+>> +		}
+>> +		if (n_fences == 0)
+>> +			return 0;
+>> +
+>> +		/* One slot per entity at most. */
+>> +		n_fences = MIN(n_fences, adev->mman.num_clear_entities);
+>> +
+>> +		r = dma_resv_reserve_fences(resv, n_fences);
+>>   		if (r)
+>>   			return r;
+>> +	} else {
+>> +		mutex_lock(&entity->gart_window_lock);
+>>   	}
+>>   
+>>   	amdgpu_res_first(bo->tbo.resource, 0, amdgpu_bo_size(bo), &dst);
+>>   
+>> -	mutex_lock(&entity->gart_window_lock);
+>>   	while (dst.remaining) {
+>> -		struct dma_fence *next;
+>> -		uint64_t cur_size, to;
+>> -
+>>   		/* Never fill more than 256MiB at once to avoid timeouts */
+>>   		cur_size = min(dst.size, 256ULL << 20);
+>>   
+>> +		if (resv) {
+>> +			/* Pick a new entity for each partial clear so they can
+>> +			 * execute in parallel.
+>> +			 */
+>> +			e = atomic_inc_return(&adev->mman.next_clear_entity) %
+>> +				adev->mman.num_clear_entities;
+>> +			entity = &adev->mman.clear_entities[e];
+>> +			mutex_lock(&entity->gart_window_lock);
+>> +		}
+>> +
+>>   		r = amdgpu_ttm_map_buffer(&entity->base,
+>>   					  &bo->tbo, bo->tbo.resource, &dst,
+>>   					  entity->gart_window_id1, ring, false,
+>>   					  &cur_size, &to,
+>>   					  dependency,
+>>   					  resv);
+>> -		if (r)
+>> +		if (r) {
+>> +			mutex_unlock(&entity->gart_window_lock);
+>>   			goto error;
+>> +		}
+>>   
+>>   		r = amdgpu_ttm_fill_mem(ring, &entity->base,
+>>   					src_data, to, cur_size, resv,
+>> -					&next, true, k_job_id);
+>> -		if (r)
+>> +					&fence, true, k_job_id);
+>> +		if (r) {
+>> +			mutex_unlock(&entity->gart_window_lock);
+>>   			goto error;
+>> -
+>> -		if (resv) {
+>> -			dma_resv_add_fence(resv, next, DMA_RESV_USAGE_KERNEL);
+>> -			dma_fence_put(next);
+>> -		} else {
+>> -			dma_fence_put(fence);
+>> -			fence = next;
+>>   		}
+>>   
+>>   		amdgpu_res_next(&dst, cur_size);
+>> +
+>> +		if (resv) {
+>> +			/* Delay the addition of the fences to resv, otherwise the next partial
+>> +			 * clears will depend on this one.
+>> +			 */
+>> +			fences[e] = fence;
+>> +			mutex_unlock(&entity->gart_window_lock);
+>> +		} else {
+>> +			dma_fence_put(*f);
+>> +			*f = fence;
+>> +		}
+>>   	}
+>>   error:
+>> -	mutex_unlock(&entity->gart_window_lock);
+>> -	if (f)
+>> -		*f = dma_fence_get(fence);
+>> -	dma_fence_put(fence);
+>> +	if (resv) {
+>> +		for (e = 0; e < adev->mman.num_clear_entities; e++) {
+>> +			if (fences[e]) {
+>> +				dma_resv_add_fence(resv, fences[e], DMA_RESV_USAGE_KERNEL);
+>> +				dma_fence_put(fences[e]);
+>> +			}
+>> +		}
+>> +	} else {
+>> +		mutex_unlock(&entity->gart_window_lock);
 >> +	}
+>> +
+>>   	return r;
 >>   }
 >>   
->>   void ttm_lru_bulk_move_init(struct ttm_lru_bulk_move *bulk);
+>> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.h b/drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.h
+>> index 38df2b5b4bc7..3fc31c7c6bfe 100644
+>> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.h
+>> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.h
+>> @@ -73,6 +73,7 @@ struct amdgpu_mman {
+>>   
+>>   	struct amdgpu_ttm_entity default_entity; /* has no gart windows */
+>>   	struct amdgpu_ttm_entity *clear_entities;
+>> +	atomic_t next_clear_entity;
+>>   	u32 num_clear_entities;
+>>   	struct amdgpu_ttm_entity move_entities[TTM_FENCES_MAX_SLOT_COUNT];
+>>   	u32 num_move_entities;
