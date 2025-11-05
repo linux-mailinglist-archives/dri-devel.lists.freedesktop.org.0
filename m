@@ -2,77 +2,77 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3A97EC38504
-	for <lists+dri-devel@lfdr.de>; Thu, 06 Nov 2025 00:16:22 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id AAE0BC38510
+	for <lists+dri-devel@lfdr.de>; Thu, 06 Nov 2025 00:16:58 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 055A310E7C2;
-	Wed,  5 Nov 2025 23:16:18 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0D1FA10E7C5;
+	Wed,  5 Nov 2025 23:16:57 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="H/iAxUWo";
+	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="DIgqadLE";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from us-smtp-delivery-124.mimecast.com
  (us-smtp-delivery-124.mimecast.com [170.10.133.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 99EF610E7C0
- for <dri-devel@lists.freedesktop.org>; Wed,  5 Nov 2025 23:16:16 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1CDF789B66
+ for <dri-devel@lists.freedesktop.org>; Wed,  5 Nov 2025 23:16:56 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1762384575;
+ s=mimecast20190719; t=1762384615;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=8UWu8ieEbxIfPkYXhviwvijXbVIPXvuDjQovAZ/e7uM=;
- b=H/iAxUWoMlMHAbBu1R7CEJsAKIO/LBScO43RYVaRDB9B+erRCc0jRYK3gnckbRVQEI09PJ
- +DQlP1pw/f1MDsu0g4ozf1c4oSw7gJrG/y+WB1Tk2jCXgF3wTMCJDqIWL9YQDzj/o/LHlV
- cubnJ7+fuAsIorxm0fWxc7j9I0BEZ48=
-Received: from mail-qk1-f200.google.com (mail-qk1-f200.google.com
- [209.85.222.200]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=tput/Zw9AQUUbDDsGVuJap2RAko1LzieZzenyzxEvEM=;
+ b=DIgqadLEQSGLz65HJZ90a3PDa4DN/epZf4wjPDd1oiNOj6LZIubcp7hmFGjdw7b/7zcTfI
+ qfr6O6Ye56xXMv+iHANz0/Xinz0dBmW//k9EUDQiAB5zF+Aw14ra+U+XnJI57gDNul6Xwu
+ 9Pw6V1ykWdvU5IovqBbw1tHKLwWlaWc=
+Received: from mail-qt1-f197.google.com (mail-qt1-f197.google.com
+ [209.85.160.197]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-600-eAlDLb6jMKmJXUupwnWSWQ-1; Wed, 05 Nov 2025 18:16:14 -0500
-X-MC-Unique: eAlDLb6jMKmJXUupwnWSWQ-1
-X-Mimecast-MFC-AGG-ID: eAlDLb6jMKmJXUupwnWSWQ_1762384574
-Received: by mail-qk1-f200.google.com with SMTP id
- af79cd13be357-89eb8ee2a79so184343885a.2
- for <dri-devel@lists.freedesktop.org>; Wed, 05 Nov 2025 15:16:14 -0800 (PST)
+ us-mta-82-IMnaZ2uzOcC6EvJKzhmHkw-1; Wed, 05 Nov 2025 18:16:52 -0500
+X-MC-Unique: IMnaZ2uzOcC6EvJKzhmHkw-1
+X-Mimecast-MFC-AGG-ID: IMnaZ2uzOcC6EvJKzhmHkw_1762384612
+Received: by mail-qt1-f197.google.com with SMTP id
+ d75a77b69052e-4ecf9548410so10413051cf.1
+ for <dri-devel@lists.freedesktop.org>; Wed, 05 Nov 2025 15:16:52 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1762384574; x=1762989374;
+ d=1e100.net; s=20230601; t=1762384612; x=1762989412;
  h=mime-version:user-agent:content-transfer-encoding:organization
  :references:in-reply-to:date:cc:to:from:subject:message-id
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=8UWu8ieEbxIfPkYXhviwvijXbVIPXvuDjQovAZ/e7uM=;
- b=JxurqGlNKGFP8T22lifh9vRTRUj6ZDJTpS6qsF+ugh17ojFAO464kX5gOO4/0Z70K+
- H4oTnzNU9YfMkmiDojigGfJCxoOMaXQKimfx1CYNaWRxlF6bq76UjKPbPi8r8VWyyFgH
- +LoPGbiDtYuJv8W0UryD3cNXpLlfTzVjype6f1gEmpF5xfYHw9yLZaaS24ipfCLebcjP
- toH6WVGToOBdy7J3ak6JjdZ60vmIyuMWlzS8Fp1Tr+YjvsQsoXNGdr407wUJuDjEwCsm
- zkmVAWaKZdgnGdra/NBUQwnZIq0oC/Dsw1YVsZ81lAYMxwy1fOswpZBW8WiFQfUKFbTy
- 1jLA==
+ bh=tput/Zw9AQUUbDDsGVuJap2RAko1LzieZzenyzxEvEM=;
+ b=nmyizREGwvzV+4WzY/n8F2d2G3P/J5r3pFqpZ+mzcce92eZZrp/H10xzVhfb72CJJT
+ RCeLtM3wPkwH7xgO1E/kwsKvfm8HPk+U1r+5OAnsRlCZVO54uB1Z4+b5EsqBHQvcm3l2
+ e7BZx3orbBUDvrYHE8z4Fo0MV0ykp+yoiEhLNoTdJjT3WZOEm5NFjtz/yEWwZPp37f0C
+ kcBj/79zWWjjc/0oLmqWiLNPJZrFZHGEWJpN/2bWugSjaHNTZhCmJWqkF3DTjmPWneSD
+ jiqv4Dt1Cmsbv8aW1aWxTwDFVF5Dh2Xk+1HvCHiH75YVyH/T2JITL7ZX+FxTHuQuMkZy
+ WQpA==
 X-Forwarded-Encrypted: i=1;
- AJvYcCXHD6hEK4V/3Gy4iNrU/lBWtZ+yRCcdzzDVMnRQFrhzvhAHqHFpejPCSJv58Kmj5YBub3nBtbB0+v4=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Yzt+UzUztzNUIt91DizWzY7ZpwqPvN0kl9xdxh+cftExPInFT2a
- 946jfejXTzcXrrMid4WcIBxMJbKJF0hb25mDl47sHhigMG2Y3oy5LpClHokD54Nu5r9tr+PjYTb
- z16ssRKav5zwIaNi1MTr+SPl8e48n6WSg+wvQ8Vtgj8gh47Ufo5m/5CxyHjSvFBA1capIWg==
-X-Gm-Gg: ASbGnct2OVCpYug4iXaxpXevwBbYWqOqaQSjntJD0BV8MEsg7l5OSoRsCcJAzZXxu8O
- zR7MsohoKQTZDxv27mOIRDy1DcP+tQHmrroNb7KvAWFJpw126HLarr8a4b2IpsIpOqT7fISUesd
- RPdw4gnxHaLMgs7TMVuBJPRrkxK+yjPHm3yj9GLsXmaLi1S8CvxeP9Roert5vRdSdXbB1bojpuY
- wKBsCcrNcQtR2nXmaDMWodJiA7iXGpuuHTuQPqsunVEsi1hqygxaASm89xx6Uyql7YxTkOfPoza
- UhrqVgqUrNgtbHJIAgcbbFfAbCdcj+9U9P6JdJvm8z+DTOzsNLCl79XtSlQze7ahuBWNHzutpcG
- NU/w5R3Y13CsZ8l9VnV8L8cHKkQtanMV8KWVZuysydIL3
-X-Received: by 2002:a05:620a:4441:b0:8ad:407a:16c4 with SMTP id
- af79cd13be357-8b220b03548mr542863285a.22.1762384573930; 
- Wed, 05 Nov 2025 15:16:13 -0800 (PST)
-X-Google-Smtp-Source: AGHT+IGTOZL8fe0o6xH6EadB1eJhxF+1hAo2EZd3eEtuEySeNIE6iH+Roy0T+51JTqOciZ25tvAO+g==
-X-Received: by 2002:a05:620a:4441:b0:8ad:407a:16c4 with SMTP id
- af79cd13be357-8b220b03548mr542859485a.22.1762384573345; 
- Wed, 05 Nov 2025 15:16:13 -0800 (PST)
+ AJvYcCUjPK9JrZDSc90/TfggbzCOm5AGIcsu6ns8hRZM99l8jZJuKOhvGFku92XA1aEy25+jEQlBXVjb9AA=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YwIy/atA711ZYFc4ogclebUDVPV2g1mCOHWsS053Nc+XKxMkfbf
+ B5mv6XKmkL/0cmCjDUXp0ZeZGR3y6x50TQP37KgwrVGfgjTZ74MRTWqhb0OYaTydI1IWVfsrd2x
+ V7JeCGtbl00VUyB4GUYoUgZrLXTGZXSRsd6FRA98JN+AwGrjz0BDwRMYlcs7MOznpEjodjA==
+X-Gm-Gg: ASbGncu6lYD6p94dXnyxXXOi2Lz0CpE1ffUXaWz/ASrz6PpdElqebWO/sme42f2cTUZ
+ 78N5iWyqRBJRHbKxuOPKw+UFYFnTaK25Gv0HK3Jb80ZkAGQomxHFuGcxHAAPy/tOtuLGod1MRdW
+ ZASqmlVx0ir9RyeS/0PV6o2uy2a1WciaEvgKx6fnrzvCVVvvUBNPR8qyFs1lfYhVbf0bHLshBMw
+ KufZScI9Wg18H5DCra9d7/3CgNMVDUQ3XmqDLLp9BIV4WPQND2xJ/2jEsWXYNikTuUZMuziCZLI
+ xcmDG6xNpdi47AtCR0PLWzfw3x6rrdr3AO3PYoCVXc2Rl4PKBoYSPeF50uFt6ZSQbGPv+WQzCw8
+ jKK+FcmH0gE5uBlWpRs9SOP3N9DeytYh3CG+xEoZSAR0g
+X-Received: by 2002:a05:622a:1910:b0:4ec:f23c:3b94 with SMTP id
+ d75a77b69052e-4ed72379c53mr61353151cf.36.1762384611798; 
+ Wed, 05 Nov 2025 15:16:51 -0800 (PST)
+X-Google-Smtp-Source: AGHT+IExR7ea0b75PnIXAR31C9rfSoGnxww34Bdp9ZLplHnHLlnlp8HJZnmXEH6R45TwD5UDPis6Ew==
+X-Received: by 2002:a05:622a:1910:b0:4ec:f23c:3b94 with SMTP id
+ d75a77b69052e-4ed72379c53mr61352701cf.36.1762384611394; 
+ Wed, 05 Nov 2025 15:16:51 -0800 (PST)
 Received: from [192.168.8.208] (pool-72-93-97-194.bstnma.fios.verizon.net.
  [72.93.97.194]) by smtp.gmail.com with ESMTPSA id
- af79cd13be357-8b2357dbc51sm69832685a.29.2025.11.05.15.16.11
+ 6a1803df08f44-880829f36a7sm6963776d6.44.2025.11.05.15.16.50
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 05 Nov 2025 15:16:12 -0800 (PST)
-Message-ID: <68a35fe3acb66bd8abe8df3cd41ff550fef73552.camel@redhat.com>
-Subject: Re: [PATCH v2 03/12] nova-core: falcon: Move mbox functionalities
- into helper
+ Wed, 05 Nov 2025 15:16:50 -0800 (PST)
+Message-ID: <d0c512416ac12a57a98b061a2810d4bba7bacded.camel@redhat.com>
+Subject: Re: [PATCH v2 04/12] nova-core: falcon: Move dma_reset
+ functionality into helper
 From: Lyude Paul <lyude@redhat.com>
 To: Joel Fernandes <joelagnelf@nvidia.com>, linux-kernel@vger.kernel.org, 
  rust-for-linux@vger.kernel.org, dri-devel@lists.freedesktop.org,
@@ -87,15 +87,15 @@ Cc: Alistair Popple <apopple@nvidia.com>, Miguel Ojeda <ojeda@kernel.org>,
  Thomas Zimmermann <tzimmermann@suse.de>, John Hubbard
  <jhubbard@nvidia.com>,  Timur Tabi <ttabi@nvidia.com>,
  joel@joelfernandes.org, nouveau@lists.freedesktop.org
-Date: Wed, 05 Nov 2025 18:16:11 -0500
-In-Reply-To: <20251102235920.3784592-4-joelagnelf@nvidia.com>
+Date: Wed, 05 Nov 2025 18:16:49 -0500
+In-Reply-To: <20251102235920.3784592-5-joelagnelf@nvidia.com>
 References: <20251102235920.3784592-1-joelagnelf@nvidia.com>
- <20251102235920.3784592-4-joelagnelf@nvidia.com>
+ <20251102235920.3784592-5-joelagnelf@nvidia.com>
 Organization: Red Hat Inc.
 User-Agent: Evolution 3.56.2 (3.56.2-2.fc42)
 MIME-Version: 1.0
 X-Mimecast-Spam-Score: 0
-X-Mimecast-MFC-PROC-ID: HvmSqcdJ0WIbz5XNlpogWgPcxy6qmlupx7_XHdlm3dQ_1762384574
+X-Mimecast-MFC-PROC-ID: sX-8zQTsdebSjlcSwpxQMczbkhuI6iZZzJKL8rco_vM_1762384612
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
@@ -117,102 +117,47 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 Reviewed-by: Lyude Paul <lyude@redhat.com>
 
 On Sun, 2025-11-02 at 18:59 -0500, Joel Fernandes wrote:
-> Move falcon reading/writing to mbox functionality into helper so we can
-> use it from the sequencer resume flow.
+> Move dma_reset so we can use it for the upcoming sequencer
+> functionality.
 >=20
 > Signed-off-by: Joel Fernandes <joelagnelf@nvidia.com>
 > ---
->  drivers/gpu/nova-core/falcon.rs | 51 +++++++++++++++++++++++----------
->  1 file changed, 36 insertions(+), 15 deletions(-)
+>  drivers/gpu/nova-core/falcon.rs | 9 +++++++--
+>  1 file changed, 7 insertions(+), 2 deletions(-)
 >=20
 > diff --git a/drivers/gpu/nova-core/falcon.rs b/drivers/gpu/nova-core/falc=
 on.rs
-> index 1bcee06fdec2..181347feb3ca 100644
+> index 181347feb3ca..964033ded3f2 100644
 > --- a/drivers/gpu/nova-core/falcon.rs
 > +++ b/drivers/gpu/nova-core/falcon.rs
-> @@ -567,19 +567,13 @@ pub(crate) fn start(&self, bar: &Bar0) -> Result<()=
-> {
->          Ok(())
+> @@ -371,6 +371,12 @@ pub(crate) fn new(dev: &device::Device, chipset: Chi=
+pset) -> Result<Self> {
+>          })
 >      }
 > =20
-> -    /// Start running the loaded firmware.
-> -    ///
-> -    /// `mbox0` and `mbox1` are optional parameters to write into the `M=
-BOX0` and `MBOX1` registers
-> -    /// prior to running.
-> -    ///
-> -    /// Wait up to two seconds for the firmware to complete, and return =
-its exit status read from
-> -    /// the `MBOX0` and `MBOX1` registers.
-> -    pub(crate) fn boot(
-> +    /// Writes values to the mailbox registers if provided.
-> +    pub(crate) fn write_mailboxes(
->          &self,
->          bar: &Bar0,
->          mbox0: Option<u32>,
->          mbox1: Option<u32>,
-> -    ) -> Result<(u32, u32)> {
-> +    ) -> Result<()> {
->          if let Some(mbox0) =3D mbox0 {
->              regs::NV_PFALCON_FALCON_MAILBOX0::default()
->                  .set_value(mbox0)
-> @@ -591,18 +585,45 @@ pub(crate) fn boot(
->                  .set_value(mbox1)
->                  .write(bar, &E::ID);
->          }
-> +        Ok(())
-> +    }
-> =20
-> -        self.start(bar)?;
-> -        self.wait_till_halted(bar)?;
-> +    /// Reads the value from mbox0 register.
-> +    pub(crate) fn read_mailbox0(&self, bar: &Bar0) -> Result<u32> {
-> +        Ok(regs::NV_PFALCON_FALCON_MAILBOX0::read(bar, &E::ID).value())
-> +    }
-> =20
-> -        let (mbox0, mbox1) =3D (
-> -            regs::NV_PFALCON_FALCON_MAILBOX0::read(bar, &E::ID).value(),
-> -            regs::NV_PFALCON_FALCON_MAILBOX1::read(bar, &E::ID).value(),
-> -        );
-> +    /// Reads the value from mbox1 register.
-> +    pub(crate) fn read_mailbox1(&self, bar: &Bar0) -> Result<u32> {
-> +        Ok(regs::NV_PFALCON_FALCON_MAILBOX1::read(bar, &E::ID).value())
-> +    }
-> =20
-> +    /// Reads values from both mailbox registers.
-> +    pub(crate) fn read_mailboxes(&self, bar: &Bar0) -> Result<(u32, u32)=
-> {
-> +        let mbox0 =3D self.read_mailbox0(bar)?;
-> +        let mbox1 =3D self.read_mailbox1(bar)?;
->          Ok((mbox0, mbox1))
->      }
-> =20
-> +    /// Start running the loaded firmware.
-> +    ///
-> +    /// `mbox0` and `mbox1` are optional parameters to write into the `M=
-BOX0` and `MBOX1` registers
-> +    /// prior to running.
-> +    ///
-> +    /// Wait up to two seconds for the firmware to complete, and return =
-its exit status read from
-> +    /// the `MBOX0` and `MBOX1` registers.
-> +    pub(crate) fn boot(
-> +        &self,
-> +        bar: &Bar0,
-> +        mbox0: Option<u32>,
-> +        mbox1: Option<u32>,
-> +    ) -> Result<(u32, u32)> {
-> +        self.write_mailboxes(bar, mbox0, mbox1)?;
-> +        self.start(bar)?;
-> +        self.wait_till_halted(bar)?;
-> +        self.read_mailboxes(bar)
+> +    /// Resets DMA-related registers.
+> +    pub(crate) fn dma_reset(&self, bar: &Bar0) {
+> +        regs::NV_PFALCON_FBIF_CTL::update(bar, &E::ID, |v| v.set_allow_p=
+hys_no_ctx(true));
+> +        regs::NV_PFALCON_FALCON_DMACTL::default().write(bar, &E::ID);
 > +    }
 > +
->      /// Returns the fused version of the signature to use in order to ru=
-n a HS firmware on this
->      /// falcon instance. `engine_id_mask` and `ucode_id` are obtained fr=
-om the firmware header.
->      pub(crate) fn signature_reg_fuse_version(
+>      /// Wait for memory scrubbing to complete.
+>      fn reset_wait_mem_scrubbing(&self, bar: &Bar0) -> Result {
+>          // TIMEOUT: memory scrubbing should complete in less than 20ms.
+> @@ -520,8 +526,7 @@ fn dma_wr<F: FalconFirmware<Target =3D E>>(
+> =20
+>      /// Perform a DMA load into `IMEM` and `DMEM` of `fw`, and prepare t=
+he falcon to run it.
+>      pub(crate) fn dma_load<F: FalconFirmware<Target =3D E>>(&self, bar: =
+&Bar0, fw: &F) -> Result {
+> -        regs::NV_PFALCON_FBIF_CTL::update(bar, &E::ID, |v| v.set_allow_p=
+hys_no_ctx(true));
+> -        regs::NV_PFALCON_FALCON_DMACTL::default().write(bar, &E::ID);
+> +        self.dma_reset(bar);
+>          regs::NV_PFALCON_FBIF_TRANSCFG::update(bar, &E::ID, 0, |v| {
+>              v.set_target(FalconFbifTarget::CoherentSysmem)
+>                  .set_mem_type(FalconFbifMemType::Physical)
 
 --=20
 Cheers,
