@@ -2,54 +2,54 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id BEFC6C39C89
-	for <lists+dri-devel@lfdr.de>; Thu, 06 Nov 2025 10:19:16 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9F6B8C39C8F
+	for <lists+dri-devel@lfdr.de>; Thu, 06 Nov 2025 10:19:18 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BD0FE10E84F;
-	Thu,  6 Nov 2025 09:19:12 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 371BE10E852;
+	Thu,  6 Nov 2025 09:19:13 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=ragnatech.se header.i=@ragnatech.se header.b="Z2rUmKEh";
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=messagingengine.com header.i=@messagingengine.com header.b="EhvbVEhF";
+	dkim=pass (2048-bit key; unprotected) header.d=ragnatech.se header.i=@ragnatech.se header.b="GhhawuCM";
+	dkim=pass (2048-bit key; unprotected) header.d=messagingengine.com header.i=@messagingengine.com header.b="zzHlfmaU";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from fhigh-a3-smtp.messagingengine.com
  (fhigh-a3-smtp.messagingengine.com [103.168.172.154])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9D3B610E7CC
- for <dri-devel@lists.freedesktop.org>; Wed,  5 Nov 2025 23:28:12 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B0F7910E7CC
+ for <dri-devel@lists.freedesktop.org>; Wed,  5 Nov 2025 23:28:14 +0000 (UTC)
 Received: from phl-compute-01.internal (phl-compute-01.internal [10.202.2.41])
- by mailfhigh.phl.internal (Postfix) with ESMTP id 0A8E71400171;
- Wed,  5 Nov 2025 18:28:12 -0500 (EST)
-Received: from phl-mailfrontend-01 ([10.202.2.162])
- by phl-compute-01.internal (MEProxy); Wed, 05 Nov 2025 18:28:12 -0500
+ by mailfhigh.phl.internal (Postfix) with ESMTP id 20183140017C;
+ Wed,  5 Nov 2025 18:28:14 -0500 (EST)
+Received: from phl-mailfrontend-02 ([10.202.2.163])
+ by phl-compute-01.internal (MEProxy); Wed, 05 Nov 2025 18:28:14 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ragnatech.se; h=
  cc:cc:content-transfer-encoding:content-type:content-type:date
  :date:from:from:in-reply-to:in-reply-to:message-id:mime-version
- :references:reply-to:subject:subject:to:to; s=fm2; t=1762385292;
- x=1762471692; bh=hQZul0dK84r+FCTzoIx7IdlSi1u+IUo4n5+Grf7gWWk=; b=
- Z2rUmKEhpEWWaXg3AjTgmbj4o8gF09CDLXcTuA66UlP7xGeISa80BfKfQkwptNHo
- zT/hK2yERPJEVkNiEaaFBTxrb3APGNAfHJ1KTWZAY46O0G+91WyoB6r88sHZ03X9
- OUqFFD5STN7S9RZfqQRGn5CJiHsxvwmR3i3w3HbzPMUMjaXw5maMGuJ9QnX3WdLq
- pjii7pjsKBKjIwM45efYbYKQlxvX7XQK/qLjHNCLXTep7OiAjtVAr2ke+31RxwB9
- ELPNIXSp42jBy2jt4guxVam9DVGY7+evy/jWAmNOyei3d90p2Rht1HdN2ljeExr0
- 62KNxTWllkdhu1KUat7mBQ==
+ :references:reply-to:subject:subject:to:to; s=fm2; t=1762385294;
+ x=1762471694; bh=oLpSACM42kKGdY/za8vwcdVsmh3G8zwjlfQ5ciPS7+8=; b=
+ GhhawuCMg8pDIshHE1UEn/VIMct4ODFpulNTBWlWKZgot24bQ/N6kTfiRj/A+Z0u
+ bvo9RjwZ73v5gdN7XgMvu9i82iiXUEiB5tlFqb/Mjw0gaPxJbNbqy/yB8cm0XyMI
+ AyVOp25ewlY0qJjEyiewiwArfThv6JwxlukGU8bAiXtKgpDk6PGwlISZs2mSeiNK
+ 7ewwBYFjuMVSyoP+Qk5XbNIpNqy/BpXPIgOqrFyy0DY3XczguD5oQb2VZGzME7c8
+ DxyxnPDRPOxP4fBbFvm4ozv82a19xGBfr4tWT0goYC4Rpx/RAjAMp5SSMrh4+M1q
+ 7C8ctC7HTlHtjYRFwADmTg==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
  messagingengine.com; h=cc:cc:content-transfer-encoding
  :content-type:content-type:date:date:feedback-id:feedback-id
  :from:from:in-reply-to:in-reply-to:message-id:mime-version
  :references:reply-to:subject:subject:to:to:x-me-proxy
- :x-me-sender:x-me-sender:x-sasl-enc; s=fm3; t=1762385292; x=
- 1762471692; bh=hQZul0dK84r+FCTzoIx7IdlSi1u+IUo4n5+Grf7gWWk=; b=E
- hvbVEhF/+/MFm8HVAT3bnO0WIzdgdJTxNv5nh4nSF4x0LHnkFPeSOVJUhtIip6+N
- vrKGIGHuRBb3JicLCd7QTxFGw0NCM1XvQO3OLje1CVmFxPXmBQcYRetH6oNIvXhU
- 7ogOdKt2T+/qZplEJK9OTu2btCob5nr5su4HaAwllppBetR8rESrgajGEvJnR2BI
- e9qVbaG6sRtGAUcy18TQx4cxiy/QDvsUnl0uJ0e0D5WEa/FethuZIDgeJrpzsAFD
- A1IP3AMbigOaEyE/Ogzftem3IXV4F8Kid3TsTlfDewUNWmeIZ/xeWavbilgBDLBc
- GOdb7kwTxh2Z5S9s8Ynag==
-X-ME-Sender: <xms:i90Ladwkrydrxz0CaP8j1LWF7WEQpLTQShPaRUmb9z-80diO5JuPVA>
- <xme:i90LaZkjArFS1sfRMFmKhQ6ZEaZjJCtTrKbWI_Sjew9kRwEYqRlR0KMEQpWtRT3Vb
- cq6F5OPX_hb9qgEnNBFlN_yAPaiGw3pbbrvV7Ag9jlOLQHbeaW0j5Q>
-X-ME-Received: <xmr:i90LaY9A5oIxweK6Vu9YNES_StrojzcPNOgEgo_aWC0We-utK5SufYa7VmCBu83S0DAhbIE3UMf6kBG0YazAqdI9>
+ :x-me-sender:x-me-sender:x-sasl-enc; s=fm3; t=1762385294; x=
+ 1762471694; bh=oLpSACM42kKGdY/za8vwcdVsmh3G8zwjlfQ5ciPS7+8=; b=z
+ zHlfmaUhQWtV9xbhAStdEzcZkdXP7E8WJlqoNeI/RwIXG+n29k5jqAqp4t7oqE3D
+ eTjF4D42M/IQVm0G60Mt2q68x4n9PVkrwoSs9A16akhR8/GIWelUDXhPpRojoMDM
+ UsCgLyHy/+BC9CeYDNIIUyoCaisQF0EcahBuoOIrJpoJXDoSuuu+K5YJmjRzhVU6
+ HV9nXg+/5Oixa0cjWFQz15VtpvQTcDIn9sW9bz4dprlt17PtB1DtBZrlO1cgVdCj
+ RqycKEvafyjblwhwiIdlBnYAtdOrMgv3Cq/o223tN8qKk34vPnEPSChMBsNgY3Ou
+ 4hd7WobkOtdJO4BJkqYsw==
+X-ME-Sender: <xms:jd0LaWP4Hs33h8ZCsMzvwQrVUI0A7o1gP1RqJcq-7UFiMnwICXAuDQ>
+ <xme:jd0LaRR-HqxfiF0IaNAVk-WxAM_tTNFlTVkGtpkawVmQzI4P1KjoA-AeqgBDvUzdl
+ z6Y1aON0BZAJgPrE0WBYt8UWkKKqx245Ta0OYkWq6kXK0MxVsm2vQE>
+X-ME-Received: <xmr:jd0Lae5Ip_puYiS1dF37mu5WP0Ftwz-zlPncE3ZIR-LQPY58WUblIoY_Dhi58ikDvFG6Obmm5JFUgaxxvo8yClmE>
 X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeeffedrtdeggddukeehvddvucetufdoteggodetrf
  dotffvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfurfetoffkrfgpnffqhgenuceu
  rghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujf
@@ -57,7 +57,7 @@ X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeeffedrtdeggddukeehvddvucetufdote
  shcuufpnuggvrhhluhhnugcuoehnihhklhgrshdrshhouggvrhhluhhnugdorhgvnhgvsh
  grshesrhgrghhnrghtvggthhdrshgvqeenucggtffrrghtthgvrhhnpeehiefgueevuedt
  fefhheegkeevtdelueeukeevfeduhefhhfejfffggeffleefgeenucevlhhushhtvghruf
- hiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpehnihhklhgrshdrshhouggvrhhl
+ hiiigvpedunecurfgrrhgrmhepmhgrihhlfhhrohhmpehnihhklhgrshdrshhouggvrhhl
  uhhnugesrhgrghhnrghtvggthhdrshgvpdhnsggprhgtphhtthhopedujedpmhhouggvpe
  hsmhhtphhouhhtpdhrtghpthhtohepmhgrrhgvkhdrvhgrshhuthdorhgvnhgvshgrshes
  mhgrihhlsghogidrohhrghdprhgtphhtthhopehgvggvrhhtodhrvghnvghsrghssehglh
@@ -68,14 +68,14 @@ X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeeffedrtdeggddukeehvddvucetufdote
  eslhhinhhugidrihhnthgvlhdrtghomhdprhgtphhtthhopehmrghgnhhushdruggrmhhm
  sehgmhgrihhlrdgtohhmpdhrtghpthhtohepmhgrthhtrdgtohhsthgvrhesihhmghhtvg
  gtrdgtohhm
-X-ME-Proxy: <xmx:i90Lacq1ImlRQG0zEQuLe8LMbDfs0UX8jYIAvucq_isqW4HlGpSe7A>
- <xmx:i90LaUJ_NHg8cUgaetkGaSRFPiPWFIN1mVqG6ZR7z69MOhS-GJKKBw>
- <xmx:i90Lae1TLQhj88K93mY50b5aEtoRo2ytAhLiT-pyUvBkzpMapEqCgA>
- <xmx:i90LabVc7yUpO6RyOh8ixCSNTChy6FdeSGNJmUAQbTDIE8hzJGOppA>
- <xmx:jN0Laamq6KYaQx7OwN4INHMChN6ZNBAfzwznZ3IITSJxHm1wr2mZoKfx>
+X-ME-Proxy: <xmx:jd0LaT2gbO0o_tlmLGfIp2KjbisJzE-OEXmNFKTYjFYZBxwi-kwwMA>
+ <xmx:jd0LaTmkVBA6lCCPwtcZvsg2vOetFA7oh_FOl9wTUGnzYmD3Hc64Kw>
+ <xmx:jd0LaRj7xvSvBtS8Qxh1kvkhxGu01sdGeH2Nnq9FJ1f8JX2SGWPr1A>
+ <xmx:jd0LaQQsMFWIqaWZiyLXbHU41H1FUfAIrcSOPlEIKLLDJWmAveQ-eQ>
+ <xmx:jt0LaQQ88JB3UPcMPAElGrnGxawl_6xhjkXMZTNrDgI_r8nQzU1sdnFr>
 Feedback-ID: i80c9496c:Fastmail
 Received: by mail.messagingengine.com (Postfix) with ESMTPA; Wed,
- 5 Nov 2025 18:28:10 -0500 (EST)
+ 5 Nov 2025 18:28:13 -0500 (EST)
 From: =?UTF-8?q?Niklas=20S=C3=B6derlund?=
  <niklas.soderlund+renesas@ragnatech.se>
 To: Marek Vasut <marek.vasut+renesas@mailbox.org>,
@@ -90,10 +90,9 @@ To: Marek Vasut <marek.vasut+renesas@mailbox.org>,
  devicetree@vger.kernel.org, dri-devel@lists.freedesktop.org,
  linux-renesas-soc@vger.kernel.org
 Cc: =?UTF-8?q?Niklas=20S=C3=B6derlund?= <niklas.soderlund+renesas@ragnatech.se>
-Subject: [PATCH 1/2] dt-bindings: gpu: img,
- powervr-rogue: Document GE7800 GPU in Renesas R-Car V3U
-Date: Thu,  6 Nov 2025 00:27:36 +0100
-Message-ID: <20251105232737.1933437-2-niklas.soderlund+renesas@ragnatech.se>
+Subject: [PATCH 2/2] arm64: dts: renesas: r8a779a0: Add GE7800 GPU node
+Date: Thu,  6 Nov 2025 00:27:37 +0100
+Message-ID: <20251105232737.1933437-3-niklas.soderlund+renesas@ragnatech.se>
 X-Mailer: git-send-email 2.51.1
 In-Reply-To: <20251105232737.1933437-1-niklas.soderlund+renesas@ragnatech.se>
 References: <20251105232737.1933437-1-niklas.soderlund+renesas@ragnatech.se>
@@ -116,29 +115,42 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Document Imagination Technologies PowerVR Rogue GE7800 BNVC 15.5.1.64
+Describe Imagination Technologies PowerVR Rogue GE7800 BNVC 15.5.1.64
 present in Renesas R-Car R8A779A0 V3U SoC.
 
 Signed-off-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
 ---
- Documentation/devicetree/bindings/gpu/img,powervr-rogue.yaml | 4 +++-
- 1 file changed, 3 insertions(+), 1 deletion(-)
+ arch/arm64/boot/dts/renesas/r8a779a0.dtsi | 17 +++++++++++++++++
+ 1 file changed, 17 insertions(+)
 
-diff --git a/Documentation/devicetree/bindings/gpu/img,powervr-rogue.yaml b/Documentation/devicetree/bindings/gpu/img,powervr-rogue.yaml
-index c89dbc92325a..142d6b0add85 100644
---- a/Documentation/devicetree/bindings/gpu/img,powervr-rogue.yaml
-+++ b/Documentation/devicetree/bindings/gpu/img,powervr-rogue.yaml
-@@ -20,7 +20,9 @@ properties:
-           - const: img,img-gx6250
-           - const: img,img-rogue
-       - items:
--          - const: renesas,r8a77965-gpu
-+          - enum:
-+              - renesas,r8a77965-gpu
-+              - renesas,r8a779a0-gpu
-           - const: img,img-ge7800
-           - const: img,img-rogue
-       - items:
+diff --git a/arch/arm64/boot/dts/renesas/r8a779a0.dtsi b/arch/arm64/boot/dts/renesas/r8a779a0.dtsi
+index b08865841476..aa347b699340 100644
+--- a/arch/arm64/boot/dts/renesas/r8a779a0.dtsi
++++ b/arch/arm64/boot/dts/renesas/r8a779a0.dtsi
+@@ -338,6 +338,23 @@ cmt3: timer@e6148000 {
+ 			status = "disabled";
+ 		};
+ 
++		gsx: gsx@fd000000 {
++			compatible = "renesas,r8a779a0-gpu",
++				     "img,img-ge7800",
++				     "img,img-rogue";
++			reg = <0 0xfd000000 0 0x40000>;
++			interrupts = <GIC_SPI 223 IRQ_TYPE_LEVEL_HIGH>;
++			clocks = <&cpg CPG_CORE R8A779A0_CLK_ZG>,
++				 <&cpg CPG_CORE R8A779A0_CLK_S3D1>,
++				 <&cpg CPG_MOD 0>;
++			clock-names = "core", "mem", "sys";
++			power-domains = <&sysc R8A779A0_PD_3DG_A>,
++					<&sysc R8A779A0_PD_3DG_B>;
++			power-domain-names = "a", "b";
++			resets = <&cpg 0>;
++			status = "disabled";
++		};
++
+ 		cpg: clock-controller@e6150000 {
+ 			compatible = "renesas,r8a779a0-cpg-mssr";
+ 			reg = <0 0xe6150000 0 0x4000>;
 -- 
 2.51.1
 
