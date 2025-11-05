@@ -2,70 +2,81 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 528CDC34560
-	for <lists+dri-devel@lfdr.de>; Wed, 05 Nov 2025 08:48:15 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id A81A1C34629
+	for <lists+dri-devel@lfdr.de>; Wed, 05 Nov 2025 09:04:09 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 518F110E1DB;
-	Wed,  5 Nov 2025 07:48:13 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0CC6110E6C5;
+	Wed,  5 Nov 2025 08:04:08 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=huawei.com header.i=@huawei.com header.b="VzMNRaSZ";
-	dkim=pass (1024-bit key) header.d=huawei.com header.i=@huawei.com header.b="VzMNRaSZ";
+	dkim=pass (2048-bit key; unprotected) header.d=fb.com header.i=@fb.com header.b="0AZehmGW";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from szxga01-in.huawei.com (szxga01-in.huawei.com [45.249.212.187])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D016510E1DB
- for <dri-devel@lists.freedesktop.org>; Wed,  5 Nov 2025 07:48:10 +0000 (UTC)
-dkim-signature: v=1; a=rsa-sha256; d=huawei.com; s=dkim;
- c=relaxed/relaxed; q=dns/txt; h=From;
- bh=FSvxpard0HoYpObyaKRQSED2eQFZNpC67juTQyAXQP4=;
- b=VzMNRaSZAK1+UZeC/FOn/pnT0pHf9SMW9Wr920WcLgu4W2dBHnDVyJEURP30T0VAyN1hsipP+
- 0ZhLfYAf49ypWYKSpIeCxSHfMxTmzNsZ4kXFMBtetmbhy3ryNbqahoCG6L5F8hIkFngwx4MTLqi
- rQpHyDDj4GR2CAvGL6BCJe8=
-Received: from canpmsgout05.his.huawei.com (unknown [172.19.92.145])
- by szxga01-in.huawei.com (SkyGuard) with ESMTPS id 4d1cqw3nFfz1BG7L
- for <dri-devel@lists.freedesktop.org>; Wed,  5 Nov 2025 15:47:56 +0800 (CST)
-dkim-signature: v=1; a=rsa-sha256; d=huawei.com; s=dkim;
- c=relaxed/relaxed; q=dns/txt; h=From;
- bh=FSvxpard0HoYpObyaKRQSED2eQFZNpC67juTQyAXQP4=;
- b=VzMNRaSZAK1+UZeC/FOn/pnT0pHf9SMW9Wr920WcLgu4W2dBHnDVyJEURP30T0VAyN1hsipP+
- 0ZhLfYAf49ypWYKSpIeCxSHfMxTmzNsZ4kXFMBtetmbhy3ryNbqahoCG6L5F8hIkFngwx4MTLqi
- rQpHyDDj4GR2CAvGL6BCJe8=
-Received: from mail.maildlp.com (unknown [172.19.163.174])
- by canpmsgout05.his.huawei.com (SkyGuard) with ESMTPS id 4d1cpD3pwKz12LDq;
- Wed,  5 Nov 2025 15:46:28 +0800 (CST)
-Received: from dggemv706-chm.china.huawei.com (unknown [10.3.19.33])
- by mail.maildlp.com (Postfix) with ESMTPS id 195401400CD;
- Wed,  5 Nov 2025 15:48:04 +0800 (CST)
-Received: from kwepemq100007.china.huawei.com (7.202.195.175) by
- dggemv706-chm.china.huawei.com (10.3.19.33) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1544.11; Wed, 5 Nov 2025 15:48:03 +0800
-Received: from [10.159.166.136] (10.159.166.136) by
- kwepemq100007.china.huawei.com (7.202.195.175) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1544.11; Wed, 5 Nov 2025 15:48:03 +0800
-Message-ID: <43a4d870-bb0e-4fdb-acac-6b564b4ea542@huawei.com>
-Date: Wed, 5 Nov 2025 15:48:01 +0800
+X-Greylist: delayed 322 seconds by postgrey-1.36 at gabe;
+ Wed, 05 Nov 2025 08:04:06 UTC
+Received: from mx0b-00082601.pphosted.com (mx0b-00082601.pphosted.com
+ [67.231.153.30])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D826410E6C5
+ for <dri-devel@lists.freedesktop.org>; Wed,  5 Nov 2025 08:04:06 +0000 (UTC)
+Received: from pps.filterd (m0109332.ppops.net [127.0.0.1])
+ by mx0a-00082601.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id
+ 5A55L2GY465486; Tue, 4 Nov 2025 23:58:30 -0800
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=fb.com; h=cc
+ :content-type:date:from:in-reply-to:message-id:mime-version
+ :references:subject:to; s=s2048-2025-q2; bh=QP8yWRbPuUYOOh9yRKCF
+ fuc9UFzcFCHQzQMKDZyG7Lk=; b=0AZehmGWd32aDJd6DXaUMtefNtrVrBqOS89e
+ F10YjCxOKKdSXY9x0eqTh/G0Gx5vopS3oO00b7XFUjwqK8zeeXDXc5alExdMphMd
+ z6LpRPPOPppaBWry80zPz5pFv9neCY21BAGHfgYlWecpm1KRmYW6fbdbBedb5XhZ
+ IhXNoyFEFJsb9pTYSCX1Fp9UCjeHIUw618CUlKCZqDuqhvzeqw6SZV+849QsUf1w
+ fXNLnMdV0Hp7QNKg/oJHCDCcTPMfGFjylNJupPNGfrFXgFaJwXncpWmN//T9hKGf
+ MtkhFGvNZ5F6UtmCp/3UA4SULhJK2ueCbVGK+ADKuWhKnAr6zA==
+Received: from mail.thefacebook.com ([163.114.134.16])
+ by mx0a-00082601.pphosted.com (PPS) with ESMTPS id 4a80by0n04-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT);
+ Tue, 04 Nov 2025 23:58:30 -0800 (PST)
+Received: from devgpu015.cco6.facebook.com (2620:10d:c085:108::150d) by
+ mail.thefacebook.com (2620:10d:c08b:78::c78f) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.2.2562.20; Wed, 5 Nov 2025 07:58:28 +0000
+Date: Tue, 4 Nov 2025 23:58:24 -0800
+From: Alex Mastro <amastro@fb.com>
+To: Jason Gunthorpe <jgg@nvidia.com>
+CC: Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
+ <dri-devel@lists.freedesktop.org>, <iommu@lists.linux.dev>, Joerg Roedel
+ <joro@8bytes.org>, Kevin Tian <kevin.tian@intel.com>,
+ <linaro-mm-sig@lists.linaro.org>, <linux-kselftest@vger.kernel.org>,
+ <linux-media@vger.kernel.org>, Robin Murphy <robin.murphy@arm.com>, Shuah
+ Khan <shuah@kernel.org>, Sumit Semwal <sumit.semwal@linaro.org>,
+ Will Deacon <will@kernel.org>, Leon Romanovsky <leon@kernel.org>,
+ Nicolin Chen <nicolinc@nvidia.com>, <patches@lists.linux.dev>,
+ Simona Vetter <simona.vetter@ffwll.ch>,
+ Vivek Kasireddy <vivek.kasireddy@intel.com>, Xu
+ Yilun <yilun.xu@linux.intel.com>
+Subject: Re: [PATCH 3/8] iommufd: Allow a DMABUF to be revoked
+Message-ID: <aQsDoHM+eGN0uLhk@devgpu015.cco6.facebook.com>
+References: <0-v1-64bed2430cdb+31b-iommufd_dmabuf_jgg@nvidia.com>
+ <3-v1-64bed2430cdb+31b-iommufd_dmabuf_jgg@nvidia.com>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v9 drm-dp 0/4] Fix hibmc driver bugs
-To: <xinliang.liu@linaro.org>, <tiantao6@hisilicon.com>,
- <maarten.lankhorst@linux.intel.com>, <mripard@kernel.org>,
- <tzimmermann@suse.de>, <airlied@gmail.com>, <daniel@ffwll.ch>,
- <kong.kongxinwei@hisilicon.com>, <dmitry.baryshkov@oss.qualcomm.com>
-CC: <liangjian010@huawei.com>, <chenjianmin@huawei.com>,
- <fengsheng5@huawei.com>, <libaihan@huawei.com>, <shenjian15@huawei.com>,
- <shaojijie@huawei.com>, <dri-devel@lists.freedesktop.org>,
- <linux-kernel@vger.kernel.org>, <shiyongbang@huawei.com>
-References: <20251017095907.2060834-1-shiyongbang@huawei.com>
-From: Yongbang Shi <shiyongbang@huawei.com>
-In-Reply-To: <20251017095907.2060834-1-shiyongbang@huawei.com>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.159.166.136]
-X-ClientProxiedBy: kwepems200002.china.huawei.com (7.221.188.68) To
- kwepemq100007.china.huawei.com (7.202.195.175)
+Content-Type: text/plain; charset="us-ascii"
+Content-Disposition: inline
+In-Reply-To: <3-v1-64bed2430cdb+31b-iommufd_dmabuf_jgg@nvidia.com>
+X-Originating-IP: [2620:10d:c085:108::150d]
+X-Proofpoint-GUID: qZJProPDOAPs2uyJdjZB9QHuvfQJCGRs
+X-Proofpoint-ORIG-GUID: qZJProPDOAPs2uyJdjZB9QHuvfQJCGRs
+X-Authority-Analysis: v=2.4 cv=Y9X1cxeN c=1 sm=1 tr=0 ts=690b03a6 cx=c_pps
+ a=CB4LiSf2rd0gKozIdrpkBw==:117 a=CB4LiSf2rd0gKozIdrpkBw==:17
+ a=kj9zAlcOel0A:10 a=6UeiqGixMTsA:10 a=VkNPw1HP01LnGYTKEx00:22
+ a=x0DUne6oTFOVQpvc-HAA:9 a=CjuIK1q_8ugA:10 a=cPQSjfK2_nFv0Q5t_7PE:22
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUxMTA1MDA1OCBTYWx0ZWRfX2Qkc85mMaTMS
+ oxLfWawui3IoOYFhh3mRL4dGLEZ4TjPEvzvRlQ4RHYbQpqwxFiqFD+gAb+DaEuGCTjbQZzWLKo6
+ fSK2287FfM4K6mzbY5PY20qKAH/XCFKBpJqMgh7LE1nAzPgxBBGv5U66r0e8ODUSxMkbWmUGtqR
+ VK84opxtnPF8WiiETdTLdr97FbNeBDuSMrWUIiVt6Ago/eFd8Vu0LDa4IjZaPmaOsnc83nBjTS2
+ XK0Lv+kBvo4fbIoxvPhF0SYIOWYwxX20dhlA7Fn7o2V8sGXbBF6Br5PDn00+d4W1OiTqujqfVUV
+ 4NMYzgq8IxX67+S3VZGfSdoKjLGktqKsxpfmfsXOK8nRv9t7lvDURkqI8H2NdBPnGd6O6Buzxmj
+ Tj1mxbkA0aSXWzLiIVpioH52IUEOBA==
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.9,FMLib:17.12.100.49
+ definitions=2025-11-05_03,2025-11-03_03,2025-10-01_01
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -81,62 +92,25 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Gently ping.
+On Mon, Oct 27, 2025 at 02:31:02PM -0300, Jason Gunthorpe wrote:
+> @@ -1024,8 +1027,15 @@ static int iopt_fill_domain(struct io_pagetable *iopt,
+>  			continue;
+>  
+>  		mutex_lock(&pages->mutex);
+> +		if (iopt_is_dmabuf(pages)) {
+> +			rc = iopt_dmabuf_track_domain(pages, area, domain);
+> +			if (rc)
+> +				goto out_unfill;
 
-Thanks,
-Baihan.
+I think this error path results in locking pages->mutex recursively. Needs a
+mutex_unlock(&pages->mutex)?
 
-
-> From: Baihan Li <libaihan@huawei.com>
->
-> There are some bugfix for hibmc-drm driver.
-> ---
-> ChangeLog:
-> v8 -> v9:
->    - refactor the hibmc_dp_check_hpd_status(), and add some checks
->      in dp_encoder_enable.
-> v7 -> v8:
->    - fix build errors reported by kernel test robot <lkp@intel.com>
->      Closes: https://lore.kernel.org/oe-kbuild-all/202509241625.o4mNleVb-lkp@intel.com/
-> v6 -> v7:
->    - add the check about branch devices, suggested by Dmitry Baryshkov.
-> v5 -> v6:
->    - use HPD status in DP detect_ctx(), suggested by Dmitry Baryshkov.
-> v4 -> v5:
->    - Because some of patches are applied, this series only contains the rest of them.
->    - fix the commit and DP detect_ctx(), suggested by Dmitry Baryshkov.
->    - fix bugfix commit ID, suggested by Dmitry Baryshkov.
->    - remove the 08/11 patch, I'll add in next series.
->    - combined 9 and 11 patch together, suggested by Dmitry Baryshkov.
-> v3 -> v4:
->    - remove link training process in hibmc_dp_detect(), suggested by Dmitry Baryshkov.
->    - remove if (dev->registered), suggested by Dmitry Baryshkov.
->    - remove non-related changes, suggested by Dmitry Baryshkov.
->    - Remove the clock check, suggested by Dmitry Baryshkov.
->    - ( I'll add them in next series after redesigning this part)
->    - add KVM edid in commit message, suggested by Dmitry Baryshkov.
->    - fix magic values, suggested by Dmitry Baryshkov.
->    - fix the commit subjects, suggested by Dmitry Baryshkov.
-> v2 -> v3:
->    - fix hibmc_connector_get_modes() and hibmc_vdac_detect() to realize BMC KVM, suggested by Dmitry Baryshkov.
->    - fix the issue commit ID, suggested by Dmitry Baryshkov.
->    - split into 2 commits, suggested by Dmitry Baryshkov.
->    - add more comments in commit log, suggested by Dmitry Baryshkov.
-> ---
->
-> Baihan Li (4):
->    drm/hisilicon/hibmc: fix dp probabilistical detect errors after HPD
->      irq
->    drm/hisilicon/hibmc: add dp mode valid check
->    drm/hisilicon/hibmc: fix no showing problem with loading hibmc
->      manually
->    drm/hisilicon/hibmc: Adding reset colorbar cfg in dp init.
->
->   drivers/gpu/drm/hisilicon/hibmc/dp/dp_comm.h  |  4 +
->   .../gpu/drm/hisilicon/hibmc/dp/dp_config.h    |  2 +
->   drivers/gpu/drm/hisilicon/hibmc/dp/dp_hw.c    | 40 +++++++++-
->   drivers/gpu/drm/hisilicon/hibmc/dp/dp_hw.h    |  8 ++
->   drivers/gpu/drm/hisilicon/hibmc/dp/dp_reg.h   |  3 +
->   .../gpu/drm/hisilicon/hibmc/hibmc_drm_dp.c    | 77 ++++++++++++++++++-
->   6 files changed, 128 insertions(+), 6 deletions(-)
->
+> +		}
+>  		rc = iopt_area_fill_domain(area, domain);
+>  		if (rc) {
+> +			if (iopt_is_dmabuf(pages))
+> +				iopt_dmabuf_untrack_domain(pages, area, domain);
+>  			mutex_unlock(&pages->mutex);
+>  			goto out_unfill;
+>  		}
+ 
