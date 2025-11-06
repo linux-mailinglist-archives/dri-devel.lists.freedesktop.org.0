@@ -2,34 +2,34 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id BDBECC38CA7
-	for <lists+dri-devel@lfdr.de>; Thu, 06 Nov 2025 03:06:49 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 46BA2C38CF2
+	for <lists+dri-devel@lfdr.de>; Thu, 06 Nov 2025 03:09:19 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 760E310E058;
-	Thu,  6 Nov 2025 02:06:46 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D148F10E7E5;
+	Thu,  6 Nov 2025 02:09:16 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=airkyi.com header.i=@airkyi.com header.b="Jz/mSUG8";
+	dkim=pass (1024-bit key; unprotected) header.d=airkyi.com header.i=@airkyi.com header.b="eAVNbjfY";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtpbgau1.qq.com (smtpbgau1.qq.com [54.206.16.166])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 69B7810E058
- for <dri-devel@lists.freedesktop.org>; Thu,  6 Nov 2025 02:06:45 +0000 (UTC)
+Received: from smtpbgsg1.qq.com (smtpbgsg1.qq.com [54.254.200.92])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DDC6110E7E5
+ for <dri-devel@lists.freedesktop.org>; Thu,  6 Nov 2025 02:09:14 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=airkyi.com;
- s=altu2504; t=1762394802;
- bh=VVl1Qjus8u0aUj8+6Bj8jBGW/g0TFXzsB/9E8b+TxZM=;
+ s=altu2504; t=1762394952;
+ bh=x0b6nYcdg7hiAcKdA4JhGlxHiilGQ3K7Dert+al7aoA=;
  h=From:To:Subject:Date:Message-Id;
- b=Jz/mSUG81JzjgYqtmrsoGxedEs9qCq/TV7Sc5FRXH49aYam1s9LeQZBgIZnnOflhh
- qPseJK8+qg1raZmWNV14RTkp5WXetzfinEneBxA7fTGOmK/nbrehIaVYAcDeSaWF5p
- PibFmGR/Ox+jwiA71qcpDSQ6Gjemx2ntXzwcJ+Eo=
-X-QQ-mid: esmtpgz15t1762394799t86ae74a2
-X-QQ-Originating-IP: yhNbobLVwNbY5V1jr9iOK5ifgRi7NiwMV1ECYKdCN10=
+ b=eAVNbjfYg0CL4Supsc+pa9TpjKXzERu2cVXtKnWZG4aAbb0OHjsEP9JqzWfYBFWV4
+ Tlk3Bcxzdu0FrL8ZFGjE5nEak0UJQZDpLMHGn3uRtU85XAWBO0xLGCy97cbOZRLVNb
+ NPPTeuceIWEl/q9TrMlLvhD0qhQ54HxHGjpXBh+o=
+X-QQ-mid: esmtpgz15t1762394808tb962b6a1
+X-QQ-Originating-IP: Kxt++LRpNywAhVRcx54Iw5qydXwjg4t+r/VQWDBNVZU=
 Received: from DESKTOP-8BT1A2O.localdomain ( [58.22.7.114])
  by bizesmtp.qq.com (ESMTP) with 
- id ; Thu, 06 Nov 2025 10:06:37 +0800 (CST)
+ id ; Thu, 06 Nov 2025 10:06:41 +0800 (CST)
 X-QQ-SSF: 0000000000000000000000000000000
 X-QQ-GoodBg: 0
-X-BIZMAIL-ID: 10766765311845532809
+X-BIZMAIL-ID: 3992485569025743558
 From: Chaoyi Chen <kernel@airkyi.com>
 To: Neil Armstrong <neil.armstrong@linaro.org>,
  Jessica Zhang <jessica.zhang@oss.qualcomm.com>,
@@ -46,28 +46,32 @@ Cc: dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
  linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
  linux-rockchip@lists.infradead.org, linux-phy@lists.infradead.org,
  Chaoyi Chen <chaoyi.chen@rock-chips.com>
-Subject: [PATCH 0/9] drm/rockchip: Introduce Rockchip RK3506 VOP
-Date: Thu,  6 Nov 2025 10:06:23 +0800
-Message-Id: <20251106020632.92-1-kernel@airkyi.com>
+Subject: [PATCH 1/9] dt-bindings: ili9881c: Add compatible string for
+ Wanchanglong w552946aaa
+Date: Thu,  6 Nov 2025 10:06:24 +0800
+Message-Id: <20251106020632.92-2-kernel@airkyi.com>
 X-Mailer: git-send-email 2.17.1
+In-Reply-To: <20251106020632.92-1-kernel@airkyi.com>
+References: <20251106020632.92-1-kernel@airkyi.com>
 X-QQ-SENDSIZE: 520
 Feedback-ID: esmtpgz:airkyi.com:qybglogicsvrgz:qybglogicsvrgz6b-0
-X-QQ-XMAILINFO: MaVe9I53f0M32r5fsRWj//W6nWaUspkMSaTtRW4c2N6Mdvr0+1ipAgD5
- JUlOS2AFXv2TT5iyKkQofrVkr4B6nVpxXL6F80oenAcFfNT6ZYS9VfFPbTdzHbAPbxlLTFr
- u3pn3DnIXAQoG4ecnn0xqL8Eh6kEScNs48pmFXkPacrGEJDKHpi+yv6oU/F8yyzEEWzdHNy
- rUySAbLVGX2lD3J0qtmrKEVQOUKGgisz6cKeY0iB1erxFWa4hODg3J337bFzjADIJX6RiqL
- IkssFhteJj/+JSxld1aapay3kY40f47vb0fRxFpqi3pYxrtg0wVEodRlDsNihgCmcYJKvDA
- IiYCt1v6RpYoQOUB5q9j/A7Xkn+LrNzQQ1KcflGdcH1xIXZ8bAdkxXuJFR90SAGUGvcNBAD
- 2nbQf6qZtfHKSbEzEaj4wCg0QlTTm42p5wBkyjgYS6LMolsYav3Q6MYQ8LE/co0LVlFAuL4
- nMVz4KyQwBPKb+dyswWvp/GHlbdYXKo/lwMUvMmjEYbppktIBc6r3UDUW2qh87xsRWzvVmZ
- yrc0RIuEl6MP3dW9bjbSqcRrE4h/u/rOZRFDHEVxAWA2xioLfemSHgun52czZWwv+uKnFzx
- r41bHUFf7TXnn9HsZqNd7C+9n8wtZNa90DhWZpYUOYwCt9L9KTlzg5nzHFxf48tI0oHn3S6
- 1K3P0HnVJeCZbZU2aAkEO6GNqUNjXIfvZ2bbkbpvC4qY773Ev1nh680PRo6ktxJ7sZ9s+w7
- Dak34WJKt3Pa7zrKnNozVPoF8dqH7TqtgopT7Y8/mKkd3w9n3uTcDl587GR1yorc1+KF1p5
- cVwFulLw8bk3SRXT2UktX9IVEeM6WLnWx9pAeS1Y1h0h+KDMaEpHiSQ1MspzojlC80Rkhxe
- MAnG3q57lQjueLxu/ciFBE7zyVkCiM6Cu1pY2NoKvPtQnkUhuMW8VdzmsDi6bfB+7Trm0h9
- R1rNpsQQ7Z51SMEVk8NCXUlrnT2Ylt9ZA5lQCCflYxPW4mg==
-X-QQ-XMRINFO: Nq+8W0+stu50PRdwbJxPCL0=
+X-QQ-XMAILINFO: N1UDvtkj1jv29kmTaVLc2WfWhigXiY2453h1mZCCKc8HgMbhn3zXe0dh
+ tHivpSIaeas+BAT+khDY5nM6HwK4YSLRi6fI2x7ftD86xsfkFYpJZxadqCPKAas9VAs39a+
+ kriFKGl1gejYEjw34DoPTEvM9ktcJyYQqrx3bwx9xfFVkH131QLA5lshOlZpanA6kv7fOxB
+ x+HOvh01E98syyMmh/RY2LGKCHLxJwpOolrp5vp4qUdVzYA2w9plSj8wwk/q3wqPT45NSoh
+ lJrxRz3MyjDBtAJr2gSXHEDsF6JonxfIV6z8EqjCPtWQJ6AXKDndzCCKSrFAvF29WEZS105
+ BmdPbY2Qwp/d0b20EkGJmRV+UxeZP0voMesNvX9oZFr2TAoP1vBVeQJP9WtyU2J0URJTD6l
+ 5m9OGLrpkCs69rzYcc4W+E0pm1FrrOj4Q1RzwgrDE2PKGjNgKIIE7J0pcvMqOKNDiTqe2et
+ Z3NDy7TWWYYWEWfSkDPRjW83tJYaP9i/Ns+BI6OReyg2V6zEMLr7ZYrJSm/Gq0hnyKTbo7R
+ 0tA8zyRWmR02aefjubYobV9nGb46jQX4jbQMEz/7xN6l213f6TqSFMTwXsYcvmkd/bAPKll
+ C6hUEXUdD/wH07EtyQ59ArUbqF1H+MB3h/SjYdCnEIWESjTvXkaJpqqD4xhiAZJk5/2XuFV
+ y1r80zi1jx5YZLJZYeOVJNW4hkJ58qVpWAurA7bI39hXiy4JCm/WNtVUpQ4L63dQ7tQHErG
+ 9H2ajqH0QJFvoT+V++m3mHgvWVIPqIV8Ln1kkWCtVAwE2hlJYMFBYPrSeV6Loy/Tp8XOx9G
+ WCYP2WsO3H6CVXSBQaGiO6PO83FqUTGCpkQSmAJqpqwVMjCa8OsvxgrVKunU8a21PXnkCzM
+ Vpt1N7Nn+NeMdDheQL9GT5Qse3uGWty3gIPm+IXIRau3dLN7zpxqqB+gA8jEgfGSHrFWnwA
+ kfN1hFt/RQ1Dkfs4XYJSkNk98QW3CiqTL1WpH4GsVNkKg2fQ9t9JfQ8IpSRuvljOcyM54Xo
+ unHZQsTTTD6BcXsMUW0yKWomSZhwChgQlIGL7r/g==
+X-QQ-XMRINFO: NI4Ajvh11aEj8Xl/2s1/T8w=
 X-QQ-RECHKSPAM: 0
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -86,41 +90,26 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: Chaoyi Chen <chaoyi.chen@rock-chips.com>
 
-The VOP on rk3506:
-- Support 2 lane MIPI DSI interface, 1.5Gbps/lane.
-- Support RGB interface.
-- Max output resolution is 1280x1280@60fps.
-- WIN1 layer support RGB888/ARGB8888/RGB565.
-- Support Gamma LUT.
+Like w552946aba, w552946aaa uses the Ilitek ILI9881D controller chip,
+and it supports up to 2 lanes.
 
-This series adds basic support for rk3506 VOP. And tested on the
-rk3506g-evb1-v10 board with a Wanchanglong W552946AAA DSI panel.
+Signed-off-by: Chaoyi Chen <chaoyi.chen@rock-chips.com>
+---
+ .../devicetree/bindings/display/panel/ilitek,ili9881c.yaml       | 1 +
+ 1 file changed, 1 insertion(+)
 
-Chaoyi Chen (9):
-  dt-bindings: ili9881c: Add compatible string for Wanchanglong
-    w552946aaa
-  dt-bindings: phy: rockchip-inno-dsidphy: Add compatible for rk3506
-  dt-bindings: display: rockchip,dw-mipi-dsi: Add compatible for rk3506
-  dt-bindings: display: rockchip,vop: Add compatible for rk3506
-  drm/panel: ilitek-ili9881d: Add support for Wanchanglong W552946AAA
-    panel
-  phy: rockchip: inno-dsidphy: Add support for rk3506
-  drm/rockchip: dsi: Add support for rk3506
-  drm/rockchip: Drop ROCKCHIP_IOMMU depend for DRM_ROCKCHIP
-  drm/rockchip: vop: Add support for rk3506
-
- .../display/panel/ilitek,ili9881c.yaml        |   1 +
- .../rockchip/rockchip,dw-mipi-dsi.yaml        |   1 +
- .../display/rockchip/rockchip-vop.yaml        |   1 +
- .../bindings/phy/rockchip,px30-dsi-dphy.yaml  |   1 +
- drivers/gpu/drm/panel/panel-ilitek-ili9881c.c | 225 ++++++++++++++++++
- drivers/gpu/drm/rockchip/Kconfig              |   3 +-
- .../gpu/drm/rockchip/dw-mipi-dsi-rockchip.c   |  20 ++
- drivers/gpu/drm/rockchip/rockchip_vop_reg.c   |  57 +++++
- drivers/gpu/drm/rockchip/rockchip_vop_reg.h   |  14 ++
- .../phy/rockchip/phy-rockchip-inno-dsidphy.c  |  91 ++++++-
- 10 files changed, 410 insertions(+), 4 deletions(-)
-
+diff --git a/Documentation/devicetree/bindings/display/panel/ilitek,ili9881c.yaml b/Documentation/devicetree/bindings/display/panel/ilitek,ili9881c.yaml
+index 434cc6af9c95..f331a47cc759 100644
+--- a/Documentation/devicetree/bindings/display/panel/ilitek,ili9881c.yaml
++++ b/Documentation/devicetree/bindings/display/panel/ilitek,ili9881c.yaml
+@@ -23,6 +23,7 @@ properties:
+           - raspberrypi,dsi-7inch
+           - startek,kd050hdfia020
+           - tdo,tl050hdv35
++          - wanchanglong,w552946aaa
+           - wanchanglong,w552946aba
+       - const: ilitek,ili9881c
+ 
 -- 
 2.51.1
 
