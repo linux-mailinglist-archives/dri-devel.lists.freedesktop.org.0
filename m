@@ -2,83 +2,137 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 392AAC3B5C2
-	for <lists+dri-devel@lfdr.de>; Thu, 06 Nov 2025 14:45:26 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 19643C3B647
+	for <lists+dri-devel@lfdr.de>; Thu, 06 Nov 2025 14:47:13 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2426110E8D0;
-	Thu,  6 Nov 2025 13:45:16 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C462010E8D9;
+	Thu,  6 Nov 2025 13:47:10 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=ursulin.net header.i=@ursulin.net header.b="U0wb6EbV";
+	dkim=pass (1024-bit key; unprotected) header.d=ti.com header.i=@ti.com header.b="LbI/LRLH";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-f54.google.com (mail-wm1-f54.google.com
- [209.85.128.54])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6E69010E8D0
- for <dri-devel@lists.freedesktop.org>; Thu,  6 Nov 2025 13:45:14 +0000 (UTC)
-Received: by mail-wm1-f54.google.com with SMTP id
- 5b1f17b1804b1-4710022571cso9624985e9.3
- for <dri-devel@lists.freedesktop.org>; Thu, 06 Nov 2025 05:45:14 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=ursulin.net; s=google; t=1762436713; x=1763041513; darn=lists.freedesktop.org;
- h=content-transfer-encoding:in-reply-to:from:content-language
- :references:cc:to:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=zd4PW3sXmEdbWHOmsnkpXm0o3Nt7CO0r5PvUcfh+07A=;
- b=U0wb6EbVDHQ8zilntvm7Up3UrwUVErV5zcWLHZk6V6HOwPJ3SzBy8HYc9fhktKhpsd
- 2TqaS9OI4IgN/gvTmAq4FJFKhyLayhzpzwWNcDVQ70tz04KMztEHIazFUAkBZP01htqh
- fzSV5pu9NA8AqsEQJMUs4yHLYHO6oTzV5mCbN0tx+AF0CLSzNyBy3K4psSoPc7UQXULu
- yjsqQN9WqmgkVwaXklybI31pNEOsNZPc+xKIvHpukanxEENlzR8yoBBhpP0FxJz3i+8i
- Y4Su8y3WzmbM9xf0DvQqwF5RW7lVJZKlZAO/so+YAIxiHQ9LDtXTX8lun4CclI4UuEa6
- eg3A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1762436713; x=1763041513;
- h=content-transfer-encoding:in-reply-to:from:content-language
- :references:cc:to:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=zd4PW3sXmEdbWHOmsnkpXm0o3Nt7CO0r5PvUcfh+07A=;
- b=J8y7NXrLQloVzZ5BK8XoeRcir0u0YQCpF0/21vPZx/ZO71zbH2GbRCGGc0KDPu1JFO
- qlAMbaKjgcCr6zoqryDtvcgtP1Qmoa4Xfh56qIgcQs+yLu4CHQF8flFzqAsgUYXqfeqB
- 29o3DgAOYoeqMRhalOSQOY6OKGZxmdeTnwL2YZJhZ3RqSfGyAnukTWHwfzqStOFz+1CH
- utdfAEPe+5LmjD1PQFdQ91dwdn/4cm7jQJ+Bt3ExkGb7VMVQ0ZapZhFzblyA36RNK/3i
- PRYcyAuCrt3eZ7ILqFw0tfnkuz+w4yVchF5S+tDujpKFYr8GcdUYownrf7bVNT2BU5FO
- Ag9A==
-X-Gm-Message-State: AOJu0YwDuIHI+GmZBhiRNkIFZkAh6agEvDahAmKIchOOGL1i5R8R98d9
- uJA8tVagfA1JfM5l0u0VVNZqEyTS9ew6ugrUKhITTIKXcu0HAcZ5Nld/a4QYJvXP74U=
-X-Gm-Gg: ASbGnculBgCp12eEgpLx2MK2sBsx9wV5P6s1ow018ZEknPD2h07CntGIad4ecE/YWZ6
- sKDI9OWz5NfJiPAjxxDDw1f2uzls6v87MW/eWdqZhG+9pwBsBGNuPCw7sBxtHQ7P+tq/67Aqiu1
- 1UqJGaHlimvnr4qUQ51lacjar4yM+5aQ73HrXJMQTEZGZcfIWjYItlon6lR8aUDapGHPBrfAyyF
- jOzmiYLD4To/5RM6qtD2DFvjcgXnKzURXVm2Ek28rREIHRlDQZQlOmecM7jxLwn6qPNRIr96hD2
- Ti90MjIUuzzfbHfy7uXf4cjCZXH65JSzzzXegrDSTKbCRK8+UWfhjdDPhi/fzIr17TFF3vbtQGX
- ubUadQV5VAJtrgka5W1jsTCRSADbeZaclutH4yeF1nGPpNgj2WgGqPAxQujZRsjS3KWPfX5JQzM
- j0lf2Vd8v4MNNsvA6bcAzm85PCnJQ=
-X-Google-Smtp-Source: AGHT+IELu2dIYWmTZrepW0xk0B/taELqbeMocm/0Iz7VdeAFvY/QqDYiHuSMbguwe/zRVyrvNR2BNA==
-X-Received: by 2002:a05:600c:1e21:b0:471:11a3:a6a9 with SMTP id
- 5b1f17b1804b1-4775ce8dc79mr63346545e9.37.1762436712661; 
- Thu, 06 Nov 2025 05:45:12 -0800 (PST)
-Received: from [192.168.0.101] ([90.240.106.137])
- by smtp.gmail.com with ESMTPSA id
- 5b1f17b1804b1-477640fba3esm17433165e9.6.2025.11.06.05.45.11
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 06 Nov 2025 05:45:12 -0800 (PST)
-Message-ID: <4ae8136e-8c12-40cd-b254-bc8ec55871e0@ursulin.net>
-Date: Thu, 6 Nov 2025 13:45:10 +0000
+Received: from BL2PR02CU003.outbound.protection.outlook.com
+ (mail-eastusazhn15011020.outbound.protection.outlook.com [52.102.137.20])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id F29B410E8D9
+ for <dri-devel@lists.freedesktop.org>; Thu,  6 Nov 2025 13:47:08 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=SWJ5cud3siIRIPfeqqSaoRgrbrCS3oKf0mu58e/B7FpGAtdAn9ZS/X0SHGRMkn/3f245rZ7KC0YzV1EIkNF3AKtUX060UGCSO7UdGBSMQrLXXZXQ4c6Z0R/iibSKPzf4cGBHk7NZzjU+BxBKZabJqXvWUP4amZhZ5iCmA57215fBoIEUzlIjuvaE8bZ516wjRJl7sQEfw2fggBWAQEUN7Cm03nQyJGF3i3U9bVmDQztQQPtlxUL6qXyZrLTO2ajMW6if9B9WEP5XCJlVQPxxPbiPZr6ozhng9Bxn8dWrr0dUyfQ+O2Y7LemAwGiOSKZib4028wOlAVxbWoCsOuEI5A==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=N+TlHiEnxW9jGZx72ciatQmh38sGCi822Wisx01uOwA=;
+ b=nLc6IvL4QnEde7acnsODf2gDVCGFZrhe01DtDhBDwYzDB8KNjZr5Omp4ci1km6xqgm8rEfN2mOfi3sbQmCj6de58TyQMIXGryAiPc9rsUkvX0F4e7wknYH9RCgcljkTaujhKw/ZwPd43MjlYqFqVhxAWO8ikgO53WBsOnrFzvXkE2G4UWbOCkZprlfpoEJBsPLm0uH+mwElDgbNZDWwlCBKaDmyk1zw0n3AwOmOpw3J+E0nBIMLWAsUA1cZ+qb9D1YBKa/2D35Nf8WrJmfooQPejNmRfG0Xl7xdNPA/mZkWmWcImYcV3N1c+DGHhcDQ3xMWYCmm5CDHazu55kwie3g==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 198.47.21.194) smtp.rcpttodomain=vger.kernel.org smtp.mailfrom=ti.com;
+ dmarc=pass (p=quarantine sp=none pct=100) action=none header.from=ti.com;
+ dkim=none (message not signed); arc=none (0)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=N+TlHiEnxW9jGZx72ciatQmh38sGCi822Wisx01uOwA=;
+ b=LbI/LRLHhMkRkHfcCP8GbBQEDxu/oNFBE7xEq8X7cvvfHpKwNdHfOp3mNk+Ourc5tIhWFiQGagz/2IjFVpLhGt2e3jc5bZnau1WPFzQKA5YxS9uyYh1sRGtwTj9qXEO0g+rtros2nYlaBEPeBTEi+ANveyRKf8FeDHRF9EVn8Oo=
+Received: from CH0PR03CA0320.namprd03.prod.outlook.com (2603:10b6:610:118::25)
+ by CO1PR10MB4673.namprd10.prod.outlook.com (2603:10b6:303:91::8) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9298.12; Thu, 6 Nov
+ 2025 13:47:06 +0000
+Received: from CH2PEPF0000009D.namprd02.prod.outlook.com
+ (2603:10b6:610:118:cafe::51) by CH0PR03CA0320.outlook.office365.com
+ (2603:10b6:610:118::25) with Microsoft SMTP Server (version=TLS1_3,
+ cipher=TLS_AES_256_GCM_SHA384) id 15.20.9298.12 via Frontend Transport; Thu,
+ 6 Nov 2025 13:46:59 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 198.47.21.194)
+ smtp.mailfrom=ti.com; dkim=none (message not signed) header.d=none; dmarc=pass
+ action=none header.from=ti.com;
+Received-SPF: Pass (protection.outlook.com: domain of ti.com designates
+ 198.47.21.194 as permitted sender) receiver=protection.outlook.com;
+ client-ip=198.47.21.194; helo=flwvzet200.ext.ti.com; pr=C
+Received: from flwvzet200.ext.ti.com (198.47.21.194) by
+ CH2PEPF0000009D.mail.protection.outlook.com (10.167.244.25) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.9298.6 via Frontend Transport; Thu, 6 Nov 2025 13:47:03 +0000
+Received: from DFLE202.ent.ti.com (10.64.6.60) by flwvzet200.ext.ti.com
+ (10.248.192.31) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.20; Thu, 6 Nov
+ 2025 07:46:59 -0600
+Received: from DFLE204.ent.ti.com (10.64.6.62) by DFLE202.ent.ti.com
+ (10.64.6.60) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.20; Thu, 6 Nov
+ 2025 07:46:58 -0600
+Received: from lelvem-mr05.itg.ti.com (10.180.75.9) by DFLE204.ent.ti.com
+ (10.64.6.62) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.20 via Frontend
+ Transport; Thu, 6 Nov 2025 07:46:58 -0600
+Received: from a0512632.dhcp.ti.com (a0512632.dhcp.ti.com [172.24.233.20])
+ by lelvem-mr05.itg.ti.com (8.18.1/8.18.1) with ESMTP id 5A6DkqDX1301720;
+ Thu, 6 Nov 2025 07:46:53 -0600
+From: Swamil Jain <s-jain1@ti.com>
+To: <jyri.sarha@iki.fi>, <tomi.valkeinen@ideasonboard.com>,
+ <maarten.lankhorst@linux.intel.com>, <mripard@kernel.org>,
+ <tzimmermann@suse.de>, <airlied@gmail.com>, <simona@ffwll.ch>, <nm@ti.com>,
+ <vigneshr@ti.com>, <kristo@kernel.org>, <robh@kernel.org>,
+ <krzk+dt@kernel.org>, <conor+dt@kernel.org>, <lee@kernel.org>,
+ <louis.chauvet@bootlin.com>, <aradhya.bhatia@linux.dev>
+CC: <devarsht@ti.com>, <praneeth@ti.com>, <h-shenoy@ti.com>,
+ <dri-devel@lists.freedesktop.org>, <linux-arm-kernel@lists.infradead.org>,
+ <devicetree@vger.kernel.org>, <linux-kernel@vger.kernel.org>
+Subject: [PATCH v2 0/5] drm/tidss: Fixes data edge sampling on AM62X and AM62A
+Date: Thu, 6 Nov 2025 19:16:47 +0530
+Message-ID: <20251106134652.883148-1-s-jain1@ti.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 09/20] drm/sched: use inline locks for the drm-sched-fence
-To: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
- phasta@mailbox.org, alexdeucher@gmail.com, simona.vetter@ffwll.ch,
- airlied@gmail.com, felix.kuehling@amd.com, matthew.brost@intel.com
-Cc: dri-devel@lists.freedesktop.org, amd-gfx@lists.freedesktop.org
-References: <20251031134442.113648-1-christian.koenig@amd.com>
- <20251031134442.113648-10-christian.koenig@amd.com>
- <21cbf337-45be-4418-b9dc-d3e2034b4962@ursulin.net>
- <1ddca1b3-e0d2-41bd-8708-10dd12f7e656@amd.com>
-Content-Language: en-GB
-From: Tvrtko Ursulin <tursulin@ursulin.net>
-In-Reply-To: <1ddca1b3-e0d2-41bd-8708-10dd12f7e656@amd.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-C2ProcessedOrg: 333ef613-75bf-4e12-a4b1-8e3623f5dcea
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: CH2PEPF0000009D:EE_|CO1PR10MB4673:EE_
+X-MS-Office365-Filtering-Correlation-Id: c069da01-719e-4ac6-50d8-08de1d3af7e3
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+ ARA:13230040|1800799024|7416014|376014|34020700016|36860700013|82310400026|921020|12100799066;
+X-Microsoft-Antispam-Message-Info: =?us-ascii?Q?wCl8+lkBPH0y1uiq992dyuiT+Bzxbv9015NRp4iCTVP5oLdZCalr5FPWL1jL?=
+ =?us-ascii?Q?9kCYLEm9+7ZfSm9raSL+flPWYVwlQMhh13XX5sIO5kUMD0MIgKxANpsGKyCJ?=
+ =?us-ascii?Q?BCbye9dy0u1dxjOIfyqg1PDMAo7v5fQItwju0WtFAg+m8ar6gTWxO7h+h9+I?=
+ =?us-ascii?Q?mqlF4Ffpw/dLg9XI00ItKHq9ujIQKW1XGntE0HxSqBubicvghbwwoysYCuG4?=
+ =?us-ascii?Q?hIPk0X5GFY/BDcdvvVknY0LuFlO8VQOfL1jkXLWGU/9m/kGyZv6Howov3clf?=
+ =?us-ascii?Q?0xz4kl1GZL5n082dEbplQ6MehtU7Tmqmllt7KnPUc2HUKNHROnoUfdemBhlr?=
+ =?us-ascii?Q?IGL/ivJCvFviS7pdHED2VudZKVttwAz3BB1hbniHfS77XSczPXFYQdlz6EsJ?=
+ =?us-ascii?Q?/Tt5LMve5adYVAYr5RrJl8S4RO7o5dIttWSaRfeocGEVXbNBXylAOBGjs7Ft?=
+ =?us-ascii?Q?myFdc5Oan9bvXqrtwGsjXDoorie3//gvdiP9Ra3qh8c8amGlYa4HQs6uZBds?=
+ =?us-ascii?Q?DepxzL1z4+e04uFYPxlSuNeVLbauKGd7h3OP2kOZLbwRHDIUTLa2EMgUVROe?=
+ =?us-ascii?Q?RV7onHfpYMm2Ll9kxOzazdK+eKvyGZxA+zzobtSNVpvgucwAnJlFxPXQe6eP?=
+ =?us-ascii?Q?RGJbM/zB0dRc3csK21GDICarttAQur0ZVf65KbUvHsBiVfdl8AnCingFMSIJ?=
+ =?us-ascii?Q?xt9ouynaO4lmSXsdGgEfH1UgbqFZ5vQTaTooTOwJt0E1Qf0rQAQNAyPsykr/?=
+ =?us-ascii?Q?8KI9eUrf7ELdr+33CO1Ujd9CL8C0fKe2QeE+3VFVmqFa6fQQJkmJatGTg0w9?=
+ =?us-ascii?Q?sWM6tR+EnkYEO5odUKaqM4jVR5Qz+uyjz3nM/xGeCg1LBnjHdEfglYCchDH8?=
+ =?us-ascii?Q?/qacDK2J1m4dtt6uhLqs1qiMcdPlVOx+JahcvYHJ0RQsfurOTDwwgTqbcmcs?=
+ =?us-ascii?Q?a5WmzwMy751BA6XKmV0GCSdIUDgvSilA4Qp/LhKJ4jU9+5bOkBNhHr1x8WYC?=
+ =?us-ascii?Q?5KmfSE+rssD1ZPL2Jut8o9XAUtDRMG1vY9qBQ6KhrU3uW1mDpBV/SwLvyjcA?=
+ =?us-ascii?Q?+itHTaKmN1VPMWvG5g9McFVCvFzbHhhtObkYeKqA9UKQhDlA0/w8bRX5Tor8?=
+ =?us-ascii?Q?xfpIdt9GNWIc24JLTL5WRZYooQqahAS7/GgMDn/k6iDaXzq96uMFayckdi5O?=
+ =?us-ascii?Q?N7cUR++u+0kJaf5PqNppwQupEu+2PXvKMaoCqj0hDVFjGt67BnVnS2f4OX2o?=
+ =?us-ascii?Q?aLg1fBtx6sPF/hPk1SGgzeM8bpkyrQyUmWYh+vG/pMofnCOiUN6RBo3Iubep?=
+ =?us-ascii?Q?g98pZIjawoYrr2CEgAnbe4dDIv3IIvfQYyT8IpsJMBPLaf4kdVyHlP+t3rAu?=
+ =?us-ascii?Q?jAPJ81E3Dy8WfLN58OLnWtoxi0TB+ilGC5fQKeZibXugrhCyqhIAgLWGz/py?=
+ =?us-ascii?Q?XlAOU69u4ptKJubkQN7faui6dH++kBoySXzO0vQGVntRNuo4cBcLWgxMbreV?=
+ =?us-ascii?Q?P3ubHBzix11I0je2wWXvHPejvvgTpUFFvtVjQjsBf8qzzSY2fmBnYGaG3PVD?=
+ =?us-ascii?Q?29OmgMrbop+1hKmIYeJIbyrgdhtItDDiCMWqrxZo?=
+X-Forefront-Antispam-Report: CIP:198.47.21.194; CTRY:US; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:flwvzet200.ext.ti.com; PTR:ErrorRetry; CAT:NONE;
+ SFS:(13230040)(1800799024)(7416014)(376014)(34020700016)(36860700013)(82310400026)(921020)(12100799066);
+ DIR:OUT; SFP:1501; 
+X-OriginatorOrg: ti.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 06 Nov 2025 13:47:03.6716 (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: c069da01-719e-4ac6-50d8-08de1d3af7e3
+X-MS-Exchange-CrossTenant-Id: e5b49634-450b-4709-8abb-1e2b19b982b7
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=e5b49634-450b-4709-8abb-1e2b19b982b7; Ip=[198.47.21.194];
+ Helo=[flwvzet200.ext.ti.com]
+X-MS-Exchange-CrossTenant-AuthSource: CH2PEPF0000009D.namprd02.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CO1PR10MB4673
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -94,117 +148,39 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+Currently the driver only configure the data edge sampling partially.
+AM62X, AM62A and AM62P require it to be configured in two distinct
+registers: one in tidss and one in the Control MMR registers.
 
-On 06/11/2025 13:23, Christian König wrote:
-> On 11/4/25 16:12, Tvrtko Ursulin wrote:
->>
->> On 31/10/2025 13:16, Christian König wrote:
->>> Just as proof of concept and minor cleanup.
->>>
->>> Signed-off-by: Christian König <christian.koenig@amd.com>
->>> ---
->>>    drivers/gpu/drm/scheduler/sched_fence.c | 11 +++++------
->>>    include/drm/gpu_scheduler.h             |  4 ----
->>>    2 files changed, 5 insertions(+), 10 deletions(-)
->>>
->>> diff --git a/drivers/gpu/drm/scheduler/sched_fence.c b/drivers/gpu/drm/scheduler/sched_fence.c
->>> index 9391d6f0dc01..7a94e03341cb 100644
->>> --- a/drivers/gpu/drm/scheduler/sched_fence.c
->>> +++ b/drivers/gpu/drm/scheduler/sched_fence.c
->>> @@ -156,19 +156,19 @@ static void drm_sched_fence_set_deadline_finished(struct dma_fence *f,
->>>        struct dma_fence *parent;
->>>        unsigned long flags;
->>>    -    spin_lock_irqsave(&fence->lock, flags);
->>> +    dma_fence_lock(f, flags);
->>
->> Moving to dma_fence_lock should either be a separate patch or squashed into the one which converts many other drivers. Even a separate patch before that previous patch would be better.
-> 
-> As far as I can see that won't work or would be at least rather tricky.
-> 
-> Previously from spin_lock_irqsave() locked drm_sched_fence->lock, but now it is locking dma_fence->lock.
-> 
-> That only works because we switched to using the internal lock.
+Introduce a new dt property to link the proper syscon node from the main 
+device registers into the tidss driver.
 
-What I meant here is to add a patch before the current 5/20.
+The series targets to fix the issue for AM62X and AM62A, later will add 
+the changes required for AM62P after DSS support gets upstreamed.
 
-Because in 5/20 one we have a lot of:
+Fixes: ad2ac9dc9426 ("drm/tidss: Add support for AM625 DSS")
+Fixes: 5cc5ea7b6d7b ("drm/tidss: Add support for AM62A7 DSS")
+---
+Cc: stable@vger.kernel.org
 
--	spin_lock_irqsave(fence->lock, flags);
-+	dma_fence_lock(fence, flags);
+Signed-off-by: Louis Chauvet <louis.chauvet@bootlin.com>
+Signed-off-by: Swamil Jain <s-jain1@ti.com>
+---
 
-If before it you insert a patch like "dma-fence: Add lock/unlock helper" 
-as standalone, then 5/20 simply touches the internal of the helper and 
-becomes smaller.
+Louis Chauvet (4):
+  dt-bindings: display: ti,am65x-dss: Add clk property for data edge
+    synchronization
+  dt-bindings: mfd: syscon: Add ti,am625-dss-clk-ctrl
+  arm64: dts: ti: k3-am62-main: Add tidss clk-ctrl property
+  drm/tidss: Fix sampling edge configuration
 
-That new patch would also include the drm/sched part where it would be a 
-straight replacement. At that point dma_fence->lock == 
-dma_sched_fence->lock.
+Swamil Jain (1):
+  arm64: dts: ti: k3-am62a-main: Add tidss clk-ctrl property
 
-Then at the point of this patch you remove dma_sched_fence->lock member 
-but dma_fence_lock_* already does the right thing before it, no?
-
-Sorry if I got confused somehow, I am jumping between topics.
-
-Regards,
-
-Tvrtko
->> Naming wise, I however still think dma_fence_lock_irqsave would probably be better to stick with the same pattern everyone is so used too.
-> 
-> Oh, that is a good idea. Going to apply this to the patch set.
-> 
-> Regards,
-> Christian.
-> 
->>
->> Regards,
->>
->> Tvrtko
->>
->>>          /* If we already have an earlier deadline, keep it: */
->>>        if (test_bit(DRM_SCHED_FENCE_FLAG_HAS_DEADLINE_BIT, &f->flags) &&
->>>            ktime_before(fence->deadline, deadline)) {
->>> -        spin_unlock_irqrestore(&fence->lock, flags);
->>> +        dma_fence_unlock(f, flags);
->>>            return;
->>>        }
->>>          fence->deadline = deadline;
->>>        set_bit(DRM_SCHED_FENCE_FLAG_HAS_DEADLINE_BIT, &f->flags);
->>>    -    spin_unlock_irqrestore(&fence->lock, flags);
->>> +    dma_fence_unlock(f, flags);
->>>          /*
->>>         * smp_load_aquire() to ensure that if we are racing another
->>> @@ -217,7 +217,6 @@ struct drm_sched_fence *drm_sched_fence_alloc(struct drm_sched_entity *entity,
->>>          fence->owner = owner;
->>>        fence->drm_client_id = drm_client_id;
->>> -    spin_lock_init(&fence->lock);
->>>          return fence;
->>>    }
->>> @@ -230,9 +229,9 @@ void drm_sched_fence_init(struct drm_sched_fence *fence,
->>>        fence->sched = entity->rq->sched;
->>>        seq = atomic_inc_return(&entity->fence_seq);
->>>        dma_fence_init(&fence->scheduled, &drm_sched_fence_ops_scheduled,
->>> -               &fence->lock, entity->fence_context, seq);
->>> +               NULL, entity->fence_context, seq);
->>>        dma_fence_init(&fence->finished, &drm_sched_fence_ops_finished,
->>> -               &fence->lock, entity->fence_context + 1, seq);
->>> +               NULL, entity->fence_context + 1, seq);
->>>    }
->>>      module_init(drm_sched_fence_slab_init);
->>> diff --git a/include/drm/gpu_scheduler.h b/include/drm/gpu_scheduler.h
->>> index fb88301b3c45..b77f24a783e3 100644
->>> --- a/include/drm/gpu_scheduler.h
->>> +++ b/include/drm/gpu_scheduler.h
->>> @@ -297,10 +297,6 @@ struct drm_sched_fence {
->>>             * belongs to.
->>>             */
->>>        struct drm_gpu_scheduler    *sched;
->>> -        /**
->>> -         * @lock: the lock used by the scheduled and the finished fences.
->>> -         */
->>> -    spinlock_t            lock;
->>>            /**
->>>             * @owner: job owner for debugging
->>>             */
->>
-> 
+ .../bindings/display/ti/ti,am65x-dss.yaml          |  6 ++++++
+ Documentation/devicetree/bindings/mfd/syscon.yaml  |  3 ++-
+ arch/arm64/boot/dts/ti/k3-am62-main.dtsi           |  6 ++++++
+ arch/arm64/boot/dts/ti/k3-am62a-main.dtsi          |  7 +++++++
+ drivers/gpu/drm/tidss/tidss_dispc.c                | 14 ++++++++++++++
+ 5 files changed, 35 insertions(+), 1 deletion(-)
 
