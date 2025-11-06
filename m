@@ -2,48 +2,54 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C4614C3CA91
-	for <lists+dri-devel@lfdr.de>; Thu, 06 Nov 2025 17:59:33 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6639AC3CAA6
+	for <lists+dri-devel@lfdr.de>; Thu, 06 Nov 2025 18:00:51 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id EBDD910E987;
-	Thu,  6 Nov 2025 16:59:13 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8A5CD10E98C;
+	Thu,  6 Nov 2025 17:00:48 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="RQiUFSZO";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="CDVjEKim";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sea.source.kernel.org (sea.source.kernel.org [172.234.252.31])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CF6DB10E987
- for <dri-devel@lists.freedesktop.org>; Thu,  6 Nov 2025 16:59:12 +0000 (UTC)
+Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E184410E989
+ for <dri-devel@lists.freedesktop.org>; Thu,  6 Nov 2025 17:00:46 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by sea.source.kernel.org (Postfix) with ESMTP id 8E89F43619;
- Thu,  6 Nov 2025 16:59:12 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 31DA6C116C6;
- Thu,  6 Nov 2025 16:59:10 +0000 (UTC)
+ by tor.source.kernel.org (Postfix) with ESMTP id 145AA6191C;
+ Thu,  6 Nov 2025 17:00:46 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 49F04C116C6;
+ Thu,  6 Nov 2025 17:00:42 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1762448352;
- bh=snXPP2sPZlmwx9IoETc7vmai7mDjCry6M8ACC/gwYNI=;
+ s=k20201202; t=1762448445;
+ bh=wrgqo59yPdMKQ+qoBa8t2ahWgAq+kcaeZ6wytvG29Mg=;
  h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
- b=RQiUFSZO7/QYncXJmZBRx8p0ksrpFY9UIbQeVlQC51Vea6u2Z6tiP4bxPv7CPT9Jw
- 4jFx3C1xwNnfOoaWobWvvu3bNHIzzdIBefPkAgLg/lc6z5MLZ4huiiK1ozZO1/r0Ce
- Rl+NanvmpPu2eNPtLh+p8+HRbAWJ9MRlKz9rTYptV9vpnfwztVmxBsQxq5WNFEwEBZ
- dc9tVrfNnh3jFKmFLyNYje3sZrNpPtKf480rykGJ2DBlBQKTC7wyiGldPmrbD4G3T3
- 27nTDDSbhrH1qttQJ3Mf/xHGQv5xyufINHRjqsZrGFem6x2EBtJXXuAd3qZ5/8Xbr9
- TIwh4Irf+32vA==
+ b=CDVjEKimD+y61aHoCmYDX5QWMc8JR5fO97SM3VpqLixV4RVE5077KJOYoWMdLJ3Zs
+ kMT11WBAQApMK5IRZ+Nnai0nz+rAJSnUAOsev17qnR9OrBUMLbxjh65Q6/ikm5k5n0
+ XdA30hWHZZY65tHzbJF0+7VAJzGAowheI7mUZzFN05g5HGDD/RBqA96jfQMbxWRI8M
+ 5RTfZcd5oCJ2Xyi78OzZ+fPnNOZowCslC110PCoaRhmIc+bMVyBe2gODV9qhtLKtjN
+ WmUeGSSJofZbYXfWtOYyxO0TuNjfn8aeoujoKUE091PMtFkuyuDkh8wHfx6f4nUqmQ
+ Puz/POu6iSt6A==
 From: Lee Jones <lee@kernel.org>
-To: =?utf-8?q?Uwe_Kleine-K=C3=B6nig?= <ukleinek@kernel.org>, 
- Lee Jones <lee@kernel.org>, Daniel Thompson <danielt@kernel.org>, 
+To: Lee Jones <lee@kernel.org>, Daniel Thompson <danielt@kernel.org>, 
  Jingoo Han <jingoohan1@gmail.com>, Helge Deller <deller@gmx.de>, 
- Michael Grzeschik <m.grzeschik@pengutronix.de>
-Cc: Pengutronix <kernel@pengutronix.de>, linux-pwm@vger.kernel.org, 
+ Tony Lindgren <tony@atomide.com>, Pavel Machek <pavel@ucw.cz>, 
+ Jean-Jacques Hiblot <jjhiblot@ti.com>, 
+ Tomi Valkeinen <tomi.valkeinen@ti.com>, 
+ Luca Ceresoli <luca.ceresoli@bootlin.com>
+Cc: Saravana Kannan <saravanak@google.com>, 
+ =?utf-8?q?Herv=C3=A9_Codina?= <herve.codina@bootlin.com>, 
+ Thomas Petazzoni <thomas.petazzoni@bootlin.com>, 
+ Daniel Thompson <daniel.thompson@linaro.org>, 
  dri-devel@lists.freedesktop.org, linux-fbdev@vger.kernel.org, 
- linux-kernel@vger.kernel.org
-In-Reply-To: <20250731-blpwm-v1-1-0171fd31bff9@pengutronix.de>
-References: <20250731-blpwm-v1-1-0171fd31bff9@pengutronix.de>
-Subject: Re: (subset) [PATCH] backlight: pwm_bl: apply the initial
- backlight state with sane defaults
-Message-Id: <176244834994.1961871.13787969990090168625.b4-ty@kernel.org>
-Date: Thu, 06 Nov 2025 16:59:09 +0000
+ linux-kernel@vger.kernel.org, 
+ Alexander Sverdlin <alexander.sverdlin@gmail.com>
+In-Reply-To: <20250519-led-backlight-add-devlink-to-supplier-class-device-v6-1-845224aeb2ce@bootlin.com>
+References: <20250519-led-backlight-add-devlink-to-supplier-class-device-v6-1-845224aeb2ce@bootlin.com>
+Subject: Re: (subset) [PATCH v6] backlight: led-backlight: add devlink to
+ supplier LEDs
+Message-Id: <176244844196.1963389.1499748337381220684.b4-ty@kernel.org>
+Date: Thu, 06 Nov 2025 17:00:41 +0000
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
@@ -63,21 +69,20 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, 31 Jul 2025 10:47:18 +0200, Michael Grzeschik wrote:
-> Currently when calling pwm_apply_might_sleep in the probe routine
-> the pwm will be configured with an not fully defined state.
+On Mon, 19 May 2025 22:19:11 +0200, Luca Ceresoli wrote:
+> led-backlight is a consumer of one or multiple LED class devices, but
+> devlink is currently unable to create correct supplier-producer links when
+> the supplier is a class device. It creates instead a link where the
+> supplier is the parent of the expected device.
 > 
-> The duty_cycle is not yet set in that moment. There is a final
-> backlight_update_status call that will have a properly setup state.
-> However this change in the backlight can create a short flicker if the
-> backlight was already preinitialised.
+> One consequence is that removal order is not correctly enforced.
 > 
 > [...]
 
 Applied, thanks!
 
-[1/1] backlight: pwm_bl: apply the initial backlight state with sane defaults
-      commit: c596a53cb0c607ccff34aac30ada774aa28b7dc0
+[1/1] backlight: led-backlight: add devlink to supplier LEDs
+      commit: 67d8eed26eadb1edd4873d24889be26aa9b73fe5
 
 --
 Lee Jones [李琼斯]
