@@ -2,149 +2,101 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A707DC3D69D
-	for <lists+dri-devel@lfdr.de>; Thu, 06 Nov 2025 21:51:12 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id F1E51C3D7C2
+	for <lists+dri-devel@lfdr.de>; Thu, 06 Nov 2025 22:24:06 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0B63510E9D4;
-	Thu,  6 Nov 2025 20:51:11 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id EF22710E9D6;
+	Thu,  6 Nov 2025 21:24:03 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="A5xvYBJW";
-	dkim=pass (2048-bit key; unprotected) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="F0TmmmRL";
+	dkim=pass (2048-bit key; unprotected) header.d=ragnatech.se header.i=@ragnatech.se header.b="DggvZJ/h";
+	dkim=pass (2048-bit key; unprotected) header.d=messagingengine.com header.i=@messagingengine.com header.b="Nqd1d4pV";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
- [205.220.180.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id ED56410E9DD
- for <dri-devel@lists.freedesktop.org>; Thu,  6 Nov 2025 20:51:08 +0000 (UTC)
-Received: from pps.filterd (m0279872.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id
- 5A6HUUHt3383360
- for <dri-devel@lists.freedesktop.org>; Thu, 6 Nov 2025 20:51:08 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
- cc:content-transfer-encoding:content-type:date:from:in-reply-to
- :message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
- YoEkueyGRAiMfd/Q7doMNmlVs1f6W8VCVBPpZYSbqeg=; b=A5xvYBJWCbow+CpC
- jzLRB/rLr3dmskeydY4gCfFWVkQo9mis7dUvKnt87XPjyb8Hg2ItLB/B/VwGp36V
- jPcpD4WwxstzgFBIkimLC/UKbNeEUU2Ii2LFYd4t0Qjm9UDRTUvTCjPPmxlymVwm
- Mjp75dKdHjCW3VYNiQnFGwEwgPCa/Mhs6fGnLM3+MmXM295LfccqdrBXMUbInvRd
- gUgz/64Nen7UzJ2Z8fwxGfoJbco2c2DA9Vpeoay6N3p7NfFZbiiSB6Ehz5uz1ZTL
- oA1QIwNyned7xvne+UjIfzkdBNpchtcEhX1WcSwfi49M7SGoaegAp5RvAUFuRNao
- MawqbA==
-Received: from mail-pl1-f197.google.com (mail-pl1-f197.google.com
- [209.85.214.197])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4a8reut5dc-1
- (version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
- for <dri-devel@lists.freedesktop.org>; Thu, 06 Nov 2025 20:51:08 +0000 (GMT)
-Received: by mail-pl1-f197.google.com with SMTP id
- d9443c01a7336-28eb14e3cafso1129975ad.1
- for <dri-devel@lists.freedesktop.org>; Thu, 06 Nov 2025 12:51:07 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=oss.qualcomm.com; s=google; t=1762462267; x=1763067067;
- darn=lists.freedesktop.org; 
- h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
- :mime-version:subject:date:from:from:to:cc:subject:date:message-id
- :reply-to; bh=YoEkueyGRAiMfd/Q7doMNmlVs1f6W8VCVBPpZYSbqeg=;
- b=F0TmmmRLgs0smXy8SFK371R9LrBIjuuKyXfBIOq0zm/KoQffXSLvooe+wcJB6ERX1T
- 9GFaq7H20ZArbAXHoF583nTE8ujz5LmO4SBQ44bA8NqAubt4ggg0ODq/b06zVEg0Us+n
- YPrIYDY/lIJjOwutqicIKEuDsRlhc+1z0JF/85oY04SFEPbsgHhESfpliiJoGG9zMtb9
- ZDkEZFzm8IljusrJCqvrVIYx+oQrxOP5XOfBLYIB/QiLetSYP9htacV09an1l5sE+Z4d
- /ItSnEXIzL3t/f0l5STV0sKGXgfzNJWxrlgub+2jJNCZf4d3VFtFOG49cSMwc97+oqW1
- +e8Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1762462267; x=1763067067;
- h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
- :mime-version:subject:date:from:x-gm-gg:x-gm-message-state:from:to
- :cc:subject:date:message-id:reply-to;
- bh=YoEkueyGRAiMfd/Q7doMNmlVs1f6W8VCVBPpZYSbqeg=;
- b=a2RgeiJ4Dqqtt8M2y3CIk5foii5kRxJxClVga/johcCgwMlVDn0WF363zZYccbXGMk
- zuashXL/UuByUdnGJt86nkWu6l09oU0+NP2vk08H3fCet3vE0FESsZvHX3LvaA5dPbcV
- LujXlwzH1rcJ7diqxFPThFG9cMfqofK8wIh0gyQK3Bfe3sldzXmvDCdIHCJMkQMpLfp5
- eylB95Zn2BYOlnv16pCAlfx6aQlFqoNDbhRAuNUTSXxKN+uRf+cvhd0hiJnjz2Iy0DDa
- p+wuYepR/t5D9NGFuHUZKJ4mL3wO66Vdj5+fPJ9BxIVMusYJDqCMMFoZcov9IoO9ratt
- PoFw==
-X-Forwarded-Encrypted: i=1;
- AJvYcCWEzGAiQHfD9MGeHClE8DJSG0JBvRzYymbweECp3zclla3q3JCzpW0W29dNQjI3RhiKbWlwt6B5AgQ=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YxM8QwTUfo5XYOPbJn7kgjXJyasDJMkc2bkaYg0v9p4GZ346/1z
- t0Jq5yU7YpYH4Cz9A/8PPevVPN/RnaSX4ewoQ4nZX2yu74EE4o4OwZYSuqo8RmkEb98atUuDdhT
- cVng+Anrhm9YVPEd/QfVa7QmGLHNiNBBcLj58bRqkmR/GTd0m8Us5EWM/sFuou+5xzGqTXaw=
-X-Gm-Gg: ASbGnctC+Ug4emIVCECrbMLNMCRW1nZ4bEE+dQUblAz61XNQvYx8v11Hg1kup1VSlKM
- 29vHxjjhaZihTZfT7DJ/WXeoM8wzxQeSrygwlyHsjxfBL4TItxTl3I7TPezoHgOfopQ95KW3vmh
- CXl9Q+aigsiXxt69HavMcTlIvNFBH/tni4421NNov6DB3WsJt6IOL7HAjcB0fVgiXZVTlGsVMJt
- EFd2DEabitmJ4pMUOnyzJR9MnokUBGHyQ5CcymCRMZxFj5CElNRjWb+g9IsTqSUj5Vpts1ijRKW
- 7drY5ebhnPwLDQq5kQeVBQSRFv5eAAvyGAEpt3fEmVXIbYg0T4pTHkvl0EudXEbwFz0UqFJ5sTb
- baIh9yS1YrlyHTrFJ357jPbw=
-X-Received: by 2002:a17:903:1a2e:b0:295:810d:df46 with SMTP id
- d9443c01a7336-297c038986fmr11173325ad.3.1762462267084; 
- Thu, 06 Nov 2025 12:51:07 -0800 (PST)
-X-Google-Smtp-Source: AGHT+IFUnykgTd4vSRne8AYjvHJFdmuR43flNPlXDxQA7vKQ4GlH5pGw+W4vj6jT3OxMKHe3MdZiZA==
-X-Received: by 2002:a17:903:1a2e:b0:295:810d:df46 with SMTP id
- d9443c01a7336-297c038986fmr11172885ad.3.1762462266561; 
- Thu, 06 Nov 2025 12:51:06 -0800 (PST)
-Received: from hu-akhilpo-hyd.qualcomm.com ([202.46.23.25])
- by smtp.gmail.com with ESMTPSA id
- d9443c01a7336-29651042c24sm37408815ad.50.2025.11.06.12.50.58
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 06 Nov 2025 12:51:06 -0800 (PST)
-From: Akhil P Oommen <akhilpo@oss.qualcomm.com>
-Date: Fri, 07 Nov 2025 02:20:11 +0530
-Subject: [PATCH v2 6/6] arm64: dts: qcom: qcs615-ride: Enable Adreno 612
- GPU
-MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20251107-qcs615-spin-2-v2-6-a2d7c4fbf6e6@oss.qualcomm.com>
-References: <20251107-qcs615-spin-2-v2-0-a2d7c4fbf6e6@oss.qualcomm.com>
-In-Reply-To: <20251107-qcs615-spin-2-v2-0-a2d7c4fbf6e6@oss.qualcomm.com>
-To: Rob Clark <robin.clark@oss.qualcomm.com>, Sean Paul <sean@poorly.run>,
- Konrad Dybcio <konradybcio@kernel.org>,
- Dmitry Baryshkov <lumag@kernel.org>,
- Abhinav Kumar <abhinav.kumar@linux.dev>,
- Marijn Suijten <marijn.suijten@somainline.org>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, Rob Herring <robh@kernel.org>,
+Received: from fout-a6-smtp.messagingengine.com
+ (fout-a6-smtp.messagingengine.com [103.168.172.149])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 35B3410E9D6
+ for <dri-devel@lists.freedesktop.org>; Thu,  6 Nov 2025 21:24:01 +0000 (UTC)
+Received: from phl-compute-06.internal (phl-compute-06.internal [10.202.2.46])
+ by mailfout.phl.internal (Postfix) with ESMTP id E51B7EC0469;
+ Thu,  6 Nov 2025 16:24:00 -0500 (EST)
+Received: from phl-mailfrontend-02 ([10.202.2.163])
+ by phl-compute-06.internal (MEProxy); Thu, 06 Nov 2025 16:24:00 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ragnatech.se; h=
+ cc:cc:content-transfer-encoding:content-type:content-type:date
+ :date:from:from:in-reply-to:message-id:mime-version:reply-to
+ :subject:subject:to:to; s=fm2; t=1762464240; x=1762550640; bh=9o
+ KQwTXEDExuDpePu4/IiryecEusRNGDeOjxnQACPII=; b=DggvZJ/hbuQo/reuDP
+ VgGrqgOoLIz7h2VTLuw3a8tLqjmqYsvcKxykOhB8vWU7aDjPMALXsIw3+9JoJY1N
+ OHB5APzbun/ATYquFKRFQGB1u0/omVBCfaWFA1cC2ZJ688hVPK8Ptwbpk48Iu3jX
+ murHM19Hy6SWrsb/V7TaLTmjF+Qkdu04o57RVI3uIELNLRCYX1oaCWEacEVXcR8T
+ Qk+C4hdwb3uLkJX5agPGtfPKKUIBAPC2mY+VYjw2xxdU3X9QuMYbsoegpH9t5rV8
+ QhIaV9pdNr2yIIFRQa9m6onh7TIMfJdn6XTTiT8VynNKT1A/xWYsl5Y+mgCMJjn4
+ qQXQ==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+ messagingengine.com; h=cc:cc:content-transfer-encoding
+ :content-type:content-type:date:date:feedback-id:feedback-id
+ :from:from:in-reply-to:message-id:mime-version:reply-to:subject
+ :subject:to:to:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
+ fm3; t=1762464240; x=1762550640; bh=9oKQwTXEDExuDpePu4/IiryecEus
+ RNGDeOjxnQACPII=; b=Nqd1d4pV5/FRV397u72ol8ZZHdnXjE5Lif3sFBr738Tr
+ 0AtV0FvimsKscOlMIaRgvEXE3V1XhnbWjH2rLO95fUHqekgcP/8TmMrxuFX2yzCT
+ 5ivXHG1s1aim7SADs489sYLIQeiL+tmi7+eNurKd6h/8Cwol2SL6Qj+yJo+rd3lY
+ ruMQSd9pel9QCxw+21mFay0h2Xl5cZcm34HGGQbbwPD+EZZNjqJ751cQskakvaJC
+ pjCxO6jdyWlkpMFu3b6CXTb3TOOqH+LhU0ITMpxCCdjS+QmE0qZ3oGSITnym0oNh
+ 1Us5ngAc9wQjIiCtJzF4mm488bTvcNhpRllFd1Uutg==
+X-ME-Sender: <xms:7xENaZKDQ-f0H8dipz7LmuqHyDvsvBVXBn1vUtZMY_l9C6rft_2VQg>
+ <xme:7xENaRf7DbT9_Fibb6JPXsQ4PFBHpYTr4b6UywKuv5NE7971hNpC1WiUMALSRo_EA
+ dnD5yiv8UnEF5Wfu8ffrhYT7sZz6QI1PaGniPuoW4dgHtZZJqaaw8U>
+X-ME-Received: <xmr:7xENaTU1tF6Q8lqvbuA1NHqKONFerS-Xlmi6xK-Cg0a4w2m1IdbGc39C-WX4XFCkhZGedQkWqfqlQ54Si2lYaCeo>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeeffedrtdeggddukeejkeehucetufdoteggodetrf
+ dotffvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfurfetoffkrfgpnffqhgenuceu
+ rghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujf
+ gurhephffvvefufffkofggtgfgsehtkeertdertdejnecuhfhrohhmpefpihhklhgrshcu
+ ufpnuggvrhhluhhnugcuoehnihhklhgrshdrshhouggvrhhluhhnugdorhgvnhgvshgrsh
+ esrhgrghhnrghtvggthhdrshgvqeenucggtffrrghtthgvrhhnpedtheevfeeitddvkeeh
+ ffdvtdfgffeigfduffeiveduvdefleeifeetkeegveegteenucffohhmrghinhepkhgvrh
+ hnvghlrdhorhhgpdhfrhgvvgguvghskhhtohhprdhorhhgnecuvehluhhsthgvrhfuihii
+ vgeptdenucfrrghrrghmpehmrghilhhfrhhomhepnhhikhhlrghsrdhsohguvghrlhhunh
+ gusehrrghgnhgrthgvtghhrdhsvgdpnhgspghrtghpthhtohepudejpdhmohguvgepshhm
+ thhpohhuthdprhgtphhtthhopehmrghrvghkrdhvrghsuhhtodhrvghnvghsrghssehmrg
+ hilhgsohigrdhorhhgpdhrtghpthhtohepghgvvghrthdorhgvnhgvshgrshesghhlihgu
+ vghrrdgsvgdprhgtphhtthhopegtohhnohhrodgutheskhgvrhhnvghlrdhorhhgpdhrtg
+ hpthhtoheprghirhhlihgvugesghhmrghilhdrtghomhdprhgtphhtthhopehfrhgrnhhk
+ rdgsihhnnhhssehimhhgthgvtgdrtghomhdprhgtphhtthhopehkrhiikhdoughtsehkvg
+ hrnhgvlhdrohhrghdprhgtphhtthhopehmrggrrhhtvghnrdhlrghnkhhhohhrshhtsehl
+ ihhnuhigrdhinhhtvghlrdgtohhmpdhrtghpthhtohepmhgrghhnuhhsrdgurghmmhesgh
+ hmrghilhdrtghomhdprhgtphhtthhopehmrghtthdrtghoshhtvghrsehimhhgthgvtgdr
+ tghomh
+X-ME-Proxy: <xmx:7xENaXgEqYayuUJsvDwpDXQjhsJ35rE8ywSxpnEExcn3FrlIwWLD7g>
+ <xmx:7xENaVhTfCFYfal8ykPc769Q9kIaKGlI6PrdPIYMVHE7NyXWsvpyIw>
+ <xmx:7xENaUtlljyWtdtu-hPN0kojZbiUf4acGChKgndGy1KlkWf3oAis-Q>
+ <xmx:7xENabs17mKqp3bZBnZBW-Iub0rf3vrbG_oJMKDHoSzCHiXEIa3evA>
+ <xmx:8BENaed0UvF0zQMsFzkA12fZkJueziqw9hu30RYi3qBYcaOIPZZ7EdUO>
+Feedback-ID: i80c9496c:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Thu,
+ 6 Nov 2025 16:23:59 -0500 (EST)
+From: =?UTF-8?q?Niklas=20S=C3=B6derlund?=
+ <niklas.soderlund+renesas@ragnatech.se>
+To: Marek Vasut <marek.vasut+renesas@mailbox.org>,
+ Geert Uytterhoeven <geert+renesas@glider.be>,
+ Conor Dooley <conor+dt@kernel.org>, David Airlie <airlied@gmail.com>,
+ Frank Binns <frank.binns@imgtec.com>,
  Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>, Bjorn Andersson <andersson@kernel.org>,
- Jessica Zhang <jesszhan0024@gmail.com>
-Cc: Dan Carpenter <dan.carpenter@linaro.org>, linux-arm-msm@vger.kernel.org,
- dri-devel@lists.freedesktop.org, freedreno@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, devicetree@vger.kernel.org,
- Akhil P Oommen <akhilpo@oss.qualcomm.com>,
- Jie Zhang <quic_jiezh@quicinc.com>,
- Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
-X-Mailer: b4 0.14.3
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1762462219; l=818;
- i=akhilpo@oss.qualcomm.com; s=20240726; h=from:subject:message-id;
- bh=G0zTCxAvZRtlsdP6kfDAlHz0/SPT4i0igeosXxhSpIs=;
- b=PHjlK5g55w0Vljmvd6L93DbkLlZ0jrruKXyjXDXNiFm9PcnV56qBp1QBFr2VB4n2Yv9U/GRVH
- CW7BSn4O84rCWgrOzB+qMcRbsbXntYcRqK6aEbUq/bRxSPUfdidq1vZ
-X-Developer-Key: i=akhilpo@oss.qualcomm.com; a=ed25519;
- pk=lmVtttSHmAUYFnJsQHX80IIRmYmXA4+CzpGcWOOsfKA=
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUxMTA2MDE2OSBTYWx0ZWRfX1nFrmMqTM54H
- S8mXfwJTP3FrO8FIjMYPkVBfZTvlH5WQW1qKqESmNczlaeUpy6PpDzUd/gdsWd35EBG1kzix9va
- W3lop0ueKt5OF8WDjVD7VoYCOihxOhQelTwEOc6FtLMwGopHzXU2/DiFD/ne1Cup4yak9ZoOnnz
- nyFUt++tBNH2fHLqQU3gxGxvVG4wqXLSR1pTcV5GmsdyDdF/oQ2Kfb3YZKAzxPC8dThcE8cL8eE
- uc+NOFigWSfsCMB1XtOTxnKlVzBYghD5gcrRZTfSfsegxCpleLk587lbbOw4GX5wtF6uVHNz5Ua
- n+dEl79lBtPCRl9f1hdjcJdiWjsXElDgzbel12LuzEqCn7lfwc9O6EyB5rfDoHVn8NeJ4MgH1PQ
- b1TUV20EnW9kNV+JL+K286NvxnCGUw==
-X-Proofpoint-ORIG-GUID: Ii9eCHnGrWag0cGdAqHVhlmdi8Q-fX4W
-X-Authority-Analysis: v=2.4 cv=RrDI7SmK c=1 sm=1 tr=0 ts=690d0a3c cx=c_pps
- a=cmESyDAEBpBGqyK7t0alAg==:117 a=ZePRamnt/+rB5gQjfz0u9A==:17
- a=IkcTkHD0fZMA:10 a=6UeiqGixMTsA:10 a=s4-Qcg_JpJYA:10
- a=VkNPw1HP01LnGYTKEx00:22 a=COk6AnOGAAAA:8 a=EUspDBNiAAAA:8
- a=Xl3f10jGzgz6Ja07nhwA:9 a=QEXdDO2ut3YA:10 a=1OuFwYUASf3TG4hYMiVC:22
- a=TjNXssC_j7lpFel5tvFf:22
-X-Proofpoint-GUID: Ii9eCHnGrWag0cGdAqHVhlmdi8Q-fX4W
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.9,FMLib:17.12.100.49
- definitions=2025-11-06_04,2025-11-06_01,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- spamscore=0 bulkscore=0 clxscore=1015 suspectscore=0 lowpriorityscore=0
- malwarescore=0 adultscore=0 priorityscore=1501 phishscore=0 impostorscore=0
- classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.22.0-2510240001 definitions=main-2511060169
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Magnus Damm <magnus.damm@gmail.com>, Matt Coster <matt.coster@imgtec.com>,
+ Maxime Ripard <mripard@kernel.org>, Rob Herring <robh@kernel.org>,
+ Simona Vetter <simona@ffwll.ch>, Thomas Zimmermann <tzimmermann@suse.de>,
+ devicetree@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ linux-renesas-soc@vger.kernel.org
+Cc: =?UTF-8?q?Niklas=20S=C3=B6derlund?= <niklas.soderlund+renesas@ragnatech.se>
+Subject: [PATCH v2 0/2] arm64: dts: renesas: Describe GPU on V3U
+Date: Thu,  6 Nov 2025 22:23:40 +0100
+Message-ID: <20251106212342.2771579-1-niklas.soderlund+renesas@ragnatech.se>
+X-Mailer: git-send-email 2.51.1
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -160,38 +112,106 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Jie Zhang <quic_jiezh@quicinc.com>
+Hello,
 
-Enable GPU for qcs615-ride platform and provide path for zap
-shader.
+This series adds the needed bindings to operate the PowerVR GPU on R-Car
+V3U SoCs. The works build on the efforts of Marek in [1], and patch 1/2
+depends that series. While patch 2/2 depends on the new clock id for the 
+ZG clock posted [2].
 
-Signed-off-by: Jie Zhang <quic_jiezh@quicinc.com>
-Reviewed-by: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
-Signed-off-by: Akhil P Oommen <akhilpo@oss.qualcomm.com>
----
- arch/arm64/boot/dts/qcom/qcs615-ride.dts | 8 ++++++++
- 1 file changed, 8 insertions(+)
+I'm able to load the firmware from [3].
 
-diff --git a/arch/arm64/boot/dts/qcom/qcs615-ride.dts b/arch/arm64/boot/dts/qcom/qcs615-ride.dts
-index be67eb173046..33e33aa54691 100644
---- a/arch/arm64/boot/dts/qcom/qcs615-ride.dts
-+++ b/arch/arm64/boot/dts/qcom/qcs615-ride.dts
-@@ -358,6 +358,14 @@ vreg_l17a: ldo17 {
- 	};
- };
- 
-+&gpu {
-+	status = "okay";
-+};
-+
-+&gpu_zap_shader {
-+	firmware-name = "qcom/qcs615/a612_zap.mbn";
-+};
-+
- &i2c2 {
- 	clock-frequency = <400000>;
- 	status = "okay";
+    powervr fd000000.gsx: [drm] loaded firmware powervr/rogue_15.5.1.64_v1.fw
+    powervr fd000000.gsx: [drm] FW version v1.0 (build 6889268 OS)
+    powervr fd000000.gsx: [drm] Unsupported quirks in firmware image
+    [drm] Initialized powervr 1.0.0 for fd000000.gsx on minor 1
+
+I can get run vulkaninfo from mesa.
+
+    # PVR_I_WANT_A_BROKEN_VULKAN_DRIVER=1 meson devenv -C builddir vulkaninfo --summary
+    'DISPLAY' environment variable not set... skipping surface info
+    WARNING: powervr is not a conformant Vulkan implementation, testing use only.
+    MESA: warning: ../src/imagination/vulkan/pvr_job_context.c:73: FINISHME: Missing reset support for brn58839
+    MESA: warning: ../src/imagination/vulkan/pvr_job_context.c:521: FINISHME: Missing support for brn62269
+    MESA: warning: ../src/imagination/vulkan/pvr_border.c:117: FINISHME: Devices without tpu_border_colour_enhanced require entries for compressed formats to be stored in the table pre-compressed.
+    ==========
+    VULKANINFO
+    ==========
+
+    Vulkan Instance Version: 1.4.328
+
+
+    Instance Extensions: count = 20
+    -------------------------------
+    VK_EXT_debug_report                    : extension revision 10
+    VK_EXT_debug_utils                     : extension revision 2
+    VK_EXT_headless_surface                : extension revision 1
+    VK_EXT_surface_maintenance1            : extension revision 1
+    VK_EXT_swapchain_colorspace            : extension revision 5
+    VK_KHR_device_group_creation           : extension revision 1
+    VK_KHR_display                         : extension revision 23
+    VK_KHR_external_fence_capabilities     : extension revision 1
+    VK_KHR_external_memory_capabilities    : extension revision 1
+    VK_KHR_external_semaphore_capabilities : extension revision 1
+    VK_KHR_get_display_properties2         : extension revision 1
+    VK_KHR_get_physical_device_properties2 : extension revision 2
+    VK_KHR_get_surface_capabilities2       : extension revision 1
+    VK_KHR_portability_enumeration         : extension revision 1
+    VK_KHR_surface                         : extension revision 25
+    VK_KHR_surface_protected_capabilities  : extension revision 1
+    VK_KHR_wayland_surface                 : extension revision 6
+    VK_KHR_xcb_surface                     : extension revision 6
+    VK_KHR_xlib_surface                    : extension revision 6
+    VK_LUNARG_direct_driver_loading        : extension revision 1
+
+    Instance Layers:
+    ----------------
+
+    Devices:
+    ========
+    GPU0:
+            apiVersion         = 1.2.330
+            driverVersion      = 25.99.99
+            vendorID           = 0x1010
+            deviceID           = 0x15001064
+            deviceType         = PHYSICAL_DEVICE_TYPE_INTEGRATED_GPU
+            deviceName         = PowerVR Rogue GE7800
+            driverID           = DRIVER_ID_IMAGINATION_OPEN_SOURCE_MESA
+            driverName         = Imagination open-source Mesa driver
+            driverInfo         = Mesa 26.0.0-devel (git-8fb0621f2d)
+            conformanceVersion = 1.3.8.4
+            deviceUUID         = 10131290-a76c-6b0d-6850-cdf5a340a60d
+            driverUUID         = 2e8b7d4b-71a8-3b5a-e19f-86a7a450b7ab
+    GPU1:
+            apiVersion         = 1.4.330
+            driverVersion      = 25.99.99
+            vendorID           = 0x10005
+            deviceID           = 0x0000
+            deviceType         = PHYSICAL_DEVICE_TYPE_CPU
+            deviceName         = llvmpipe (LLVM 21.1.4, 128 bits)
+            driverID           = DRIVER_ID_MESA_LLVMPIPE
+            driverName         = llvmpipe
+            driverInfo         = Mesa 26.0.0-devel (git-8fb0621f2d) (LLVM 21.1.4)
+            conformanceVersion = 1.3.1.1
+            deviceUUID         = 6d657361-3236-2e30-2e30-2d6465766500
+
+And test applications such as gears work as they should.
+
+See individual patch for changelog.
+
+1. https://lore.kernel.org/linux-renesas-soc/20251104135716.12497-1-marek.vasut+renesas@mailbox.org/
+2. https://lore.kernel.org/linux-renesas-soc/20251106211604.2766465-1-niklas.soderlund%2Brenesas@ragnatech.se/
+3. https://gitlab.freedesktop.org/imagination/linux-firmware/-/issues/13
+
+Niklas Söderlund (2):
+  dt-bindings: gpu: img,powervr-rogue: Document GE7800 GPU in Renesas
+    R-Car V3U
+  arm64: dts: renesas: r8a779a0: Add GE7800 GPU node
+
+ .../bindings/gpu/img,powervr-rogue.yaml         |  4 +++-
+ arch/arm64/boot/dts/renesas/r8a779a0.dtsi       | 17 +++++++++++++++++
+ 2 files changed, 20 insertions(+), 1 deletion(-)
 
 -- 
-2.51.0
+2.51.1
 
