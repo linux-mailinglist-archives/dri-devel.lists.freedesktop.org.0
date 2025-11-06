@@ -2,61 +2,85 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 155D3C39E67
-	for <lists+dri-devel@lfdr.de>; Thu, 06 Nov 2025 10:50:58 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id AD677C39F1C
+	for <lists+dri-devel@lfdr.de>; Thu, 06 Nov 2025 10:56:58 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 70B9010E868;
-	Thu,  6 Nov 2025 09:50:55 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1919B89262;
+	Thu,  6 Nov 2025 09:56:56 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; secure) header.d=mailbox.org header.i=@mailbox.org header.b="qovKgCVV";
+	dkim=pass (2048-bit key; unprotected) header.d=ursulin.net header.i=@ursulin.net header.b="NtvfKHtZ";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mout-p-101.mailbox.org (mout-p-101.mailbox.org [80.241.56.151])
- by gabe.freedesktop.org (Postfix) with ESMTPS id F36D510E868
- for <dri-devel@lists.freedesktop.org>; Thu,  6 Nov 2025 09:50:52 +0000 (UTC)
-Received: from smtp1.mailbox.org (smtp1.mailbox.org
- [IPv6:2001:67c:2050:b231:465::1])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested)
- by mout-p-101.mailbox.org (Postfix) with ESMTPS id 4d2HWF6KsWz9tQY;
- Thu,  6 Nov 2025 10:50:49 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org;
- s=mail20150812; 
- t=1762422649; h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=H8sLIsn41o2aLlhzZn+I7H/kW8FSsCLuLR2IghUfYRI=;
- b=qovKgCVVqfBQFCQ1I+nTvI0zAyLQdFAHMqy7g7j2Hq7liQJfJO+3/vTEWDyMzuLQVB3eL1
- n/gPs8Uzk4Gj6rkZnezyxbjh6M4hQH0gtnCIEjaNRXMOq6vR+Omx8X6SGSTk7OYEnNO4nj
- Y4rSygg6M0w79FI14Q2Sv1pi5XO8zrtjpNuERa1CjN11PB/jySRp3/KhrxVeNNuoKDiZp2
- xne5CgBLjziJNVbS0OQB5MPcZkmV8CEInH3W856Qa3DJHUa6xuWKIev3ro5vdOWfPoHd4D
- ywc7AbFY/1inTAZIOA4WMXvBO3roCO28v3WpUBxuZVVfDFgBIp2ahp63/JQuJA==
-Message-ID: <7317df627873853cfd2b91e5d2452ca1a9433a42.camel@mailbox.org>
-Subject: Re: [PATCH v3 4/4] drm/sched: limit sched score update to jobs change
-From: Philipp Stanner <phasta@mailbox.org>
-To: Pierre-Eric Pelloux-Prayer <pierre-eric.pelloux-prayer@amd.com>, 
- Matthew Brost <matthew.brost@intel.com>, Danilo Krummrich
- <dakr@kernel.org>, Philipp Stanner <phasta@kernel.org>,  Christian
- =?ISO-8859-1?Q?K=F6nig?= <ckoenig.leichtzumerken@gmail.com>, Maarten
- Lankhorst <maarten.lankhorst@linux.intel.com>, Maxime Ripard
- <mripard@kernel.org>,  Thomas Zimmermann <tzimmermann@suse.de>, David
- Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>
-Cc: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>, Tomeu Vizoso
- <tomeu@tomeuvizoso.net>, dri-devel@lists.freedesktop.org, 
- linux-kernel@vger.kernel.org
-Date: Thu, 06 Nov 2025 10:50:43 +0100
-In-Reply-To: <20251106093933.18859-4-pierre-eric.pelloux-prayer@amd.com>
-References: <20251106093933.18859-1-pierre-eric.pelloux-prayer@amd.com>
- <20251106093933.18859-4-pierre-eric.pelloux-prayer@amd.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Received: from mail-lf1-f46.google.com (mail-lf1-f46.google.com
+ [209.85.167.46])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 606B810E030
+ for <dri-devel@lists.freedesktop.org>; Thu,  6 Nov 2025 09:56:54 +0000 (UTC)
+Received: by mail-lf1-f46.google.com with SMTP id
+ 2adb3069b0e04-592ee9a16adso1056305e87.0
+ for <dri-devel@lists.freedesktop.org>; Thu, 06 Nov 2025 01:56:54 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=ursulin.net; s=google; t=1762423013; x=1763027813; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:in-reply-to:from:content-language
+ :references:cc:to:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=ah9B3sBKtJMQ90NKotd1CpXpyuKbVPGroKqtGBrjaj0=;
+ b=NtvfKHtZ6IlDoD9uR2knoXPAnT3NXubx2ajtnd0QZ5qb2Ul+B+IT5nythgVqCDalqo
+ 8KttgHApF7bqt1qxsd8IIqW0sGsOhHl2XAm90VQj5Coc4N3/cEGOCNETBlf6Rvu+hFf+
+ sdo3pR/x5qDSZmavBvUhdM1yimhK9Nz8aNj/676bNdNl6vnsI4SR/OaMtPa7A7hW12WJ
+ bCf8lVQEjld35w+nTvYe5P5htZgo7u2kTB6Ddyim1WfAOpb2rtfeTgLzEB36HX03jLVY
+ 1ZND/zT/MaDtpoF+51PnZCcge2SHCXU/aZSSqPhVXskccdqbDeE9bqkazMftCceXp9Dd
+ Eqpw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1762423013; x=1763027813;
+ h=content-transfer-encoding:in-reply-to:from:content-language
+ :references:cc:to:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=ah9B3sBKtJMQ90NKotd1CpXpyuKbVPGroKqtGBrjaj0=;
+ b=crLBRiLVhVIEADlOFfknjq0/QJAHNudZ+NY/4KgKMJMOEYs+YRlCkOFPb7iooeflW2
+ unXWDNiqF6PsAbuyWJNc5V0sZ4VZIybPjZblnC9Pj3ZMLBMgr9QGnf5xmfGfawUW+GMW
+ B7tydriT93C23y1zJ6TKKXZrNs7HlRtbcs7wtFNFzpZF2prVdxqvWhYLkFh7bqRSkplT
+ V4X33c+pgTacZ9SCAUxR96CEhl7T9BzNp7gPv7EyjOhzPVbCZxxLChzjU2mwOAlHiB4z
+ fVLsOr8xzogCKiwipLHXDpoLtpKVFEqxaVqKVkqpIhA9NQTvKfzLzxBHOKJPg+Jq43pW
+ oTLQ==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCVtcH0rANqrL3aWagixhuWjdiAXs7Itd5TZ+4CPuzScgzGYNOGqf8I5R6XscuLlBgVjyNCB36F7C1w=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YzKR8vi6DpA4nVz5/nF8r053jnUulJqhqmEYVVxhH1aycuj9gV6
+ v3SpoWUqcvGBKLfBN3bvVCeQk54IbCbSQEM2csLZWhmXzcw8OTflOPbykt50u0tHC8M=
+X-Gm-Gg: ASbGncvArBe1oXnLpm2zaj+2LrHM/dISTgOK3WyPVHMt7VF4bBe+p4i0DDM33iTc4pP
+ 0gMuqGtvwMWpWFa8LEwBHRvvwUN7JDnXvq7pQun61gTcJyY4Xgudw7IoYno18NIC8b+qhqNSleb
+ cc/xmIc4VsCqBK1BuBtu6cEgCB1UqfKUSxze9ACxiDzB5fodI9oK+C3NyzL/HSb8Z78QJA/WFro
+ 6ARRm3TRvC9BwrnRlxkQa6BL4bf5Wc6FQmVK2mlRIy225/BU4wtj9RTZ3Zrs+T386ExcWE60qI1
+ hrHSy+p2tUtbITd2t1ny+1NjuZ2SlztuHZC74qFyLFtzHaIroqNOn6snJvXYffB/Gv7NOK1PCGO
+ yEGcjfDJYAenPMuji3rA6i3C2lpZFHVb+u1XsajqIjDkuYKkFh8yZ2eVoGi5utgKUw9a1IF+zvF
+ S/EUrzckCe3OCb+3Uab67BX6aCOhg=
+X-Google-Smtp-Source: AGHT+IH87qGloTPs2IJda89ZYDWYxle19K2T13CnSFSXTtTGmwBkX5fIkNyS4ZGBOcmSluALoZwAiw==
+X-Received: by 2002:a05:6512:3988:b0:57d:6fca:f208 with SMTP id
+ 2adb3069b0e04-5943d7d5ed4mr1507581e87.45.1762423012315; 
+ Thu, 06 Nov 2025 01:56:52 -0800 (PST)
+Received: from [192.168.0.101] ([90.240.106.137])
+ by smtp.gmail.com with ESMTPSA id
+ 2adb3069b0e04-5944a019ef3sm594914e87.32.2025.11.06.01.56.51
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 06 Nov 2025 01:56:51 -0800 (PST)
+Message-ID: <63ce6781-439d-4425-a3e9-f1d233a5abea@ursulin.net>
+Date: Thu, 6 Nov 2025 09:56:50 +0000
 MIME-Version: 1.0
-X-MBO-RS-ID: 8514c36133ca0e4e967
-X-MBO-RS-META: yajwoktwpu53ojiixzwcxhidqxp35h51
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v3 2/4] drm/amdgpu: jump to the correct label on failure
+To: Pierre-Eric Pelloux-Prayer <pierre-eric.pelloux-prayer@amd.com>,
+ Alex Deucher <alexander.deucher@amd.com>,
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>
+Cc: amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org
+References: <20251106093933.18859-1-pierre-eric.pelloux-prayer@amd.com>
+ <20251106093933.18859-2-pierre-eric.pelloux-prayer@amd.com>
+Content-Language: en-GB
+From: Tvrtko Ursulin <tursulin@ursulin.net>
+In-Reply-To: <20251106093933.18859-2-pierre-eric.pelloux-prayer@amd.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -69,77 +93,38 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Reply-To: phasta@kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-nit: s/limit/Limit
 
-On Thu, 2025-11-06 at 10:39 +0100, Pierre-Eric Pelloux-Prayer wrote:
-> Currently, the scheduler score is incremented when a job is pushed to an
-> entity and when an entity is attached to the scheduler.
->=20
-> This leads to some bad scheduling decision where the score value is
-> largely made of idle entities.
->=20
-> For instance, a scenario with 2 schedulers and where 10 entities submit
-> a single job, then do nothing, each scheduler will probably end up with
-> a score of 5.
-> Now, 5 userspace apps exit, so their entities will be dropped. In
-
-s/Now,/Now, let's imagine
-
-> the worst case, these apps' entities where all attached to the same
-
-s/where/were
-
-> scheduler and we end up with score=3D5 (the 5 remaining entities) and
-> score=3D0, despite the 2 schedulers being idle.
-> When new entities show up, they will all select the second scheduler
-> based on its low score value, instead of alternating between the 2.
->=20
-> Some amdgpu rings depended on this feature, but the previous commit
-> implemented the same thing in amdgpu directly so it can be safely
-> removed from drm/sched.
->=20
-> Signed-off-by: Pierre-Eric Pelloux-Prayer <pierre-eric.pelloux-prayer@amd=
-.com>
-> Reviewed-by: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
-> Acked-by: Tomeu Vizoso <tomeu@tomeuvizoso.net>
-
-With the commit message fixed up a little bit:
-
-Acked-by: Philipp Stanner <phasta@kernel.org
-
-Apply how you want :)
-
-
-P.
-
+On 06/11/2025 09:39, Pierre-Eric Pelloux-Prayer wrote:
+> drm_sched_entity_init wasn't called yet, so the only thing to
+> do is to release allocated memory.
+> This doesn't fix any bug since entity is zero allocated and
+> drm_sched_entity_fini does nothing in this case.
+> 
+> Signed-off-by: Pierre-Eric Pelloux-Prayer <pierre-eric.pelloux-prayer@amd.com>
 > ---
-> =C2=A0drivers/gpu/drm/scheduler/sched_main.c | 2 --
-> =C2=A01 file changed, 2 deletions(-)
->=20
-> diff --git a/drivers/gpu/drm/scheduler/sched_main.c b/drivers/gpu/drm/sch=
-eduler/sched_main.c
-> index c39f0245e3a9..8a3d99a86090 100644
-> --- a/drivers/gpu/drm/scheduler/sched_main.c
-> +++ b/drivers/gpu/drm/scheduler/sched_main.c
-> @@ -206,7 +206,6 @@ void drm_sched_rq_add_entity(struct drm_sched_rq *rq,
-> =C2=A0	if (!list_empty(&entity->list))
-> =C2=A0		return;
-> =C2=A0
-> -	atomic_inc(rq->sched->score);
-> =C2=A0	list_add_tail(&entity->list, &rq->entities);
-> =C2=A0}
-> =C2=A0
-> @@ -228,7 +227,6 @@ void drm_sched_rq_remove_entity(struct drm_sched_rq *=
-rq,
-> =C2=A0
-> =C2=A0	spin_lock(&rq->lock);
-> =C2=A0
-> -	atomic_dec(rq->sched->score);
-> =C2=A0	list_del_init(&entity->list);
-> =C2=A0
-> =C2=A0	if (rq->current_entity =3D=3D entity)
+>   drivers/gpu/drm/amd/amdgpu/amdgpu_ctx.c | 2 +-
+>   1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_ctx.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_ctx.c
+> index f5d5c45ddc0d..afedea02188d 100644
+> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_ctx.c
+> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_ctx.c
+> @@ -236,7 +236,7 @@ static int amdgpu_ctx_init_entity(struct amdgpu_ctx *ctx, u32 hw_ip,
+>   		r = amdgpu_xcp_select_scheds(adev, hw_ip, hw_prio, fpriv,
+>   						&num_scheds, &scheds);
+>   		if (r)
+> -			goto cleanup_entity;
+> +			goto error_free_entity;
+>   	}
+>   
+>   	/* disable load balance if the hw engine retains context among dependent jobs */
+
+Reviewed-by: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
+
+Regards,
+
+Tvrtko
 
