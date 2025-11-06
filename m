@@ -2,164 +2,87 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1777DC38CAA
-	for <lists+dri-devel@lfdr.de>; Thu, 06 Nov 2025 03:06:52 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id BF685C38E4A
+	for <lists+dri-devel@lfdr.de>; Thu, 06 Nov 2025 03:41:03 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7AF4B10E110;
-	Thu,  6 Nov 2025 02:06:49 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DA77C10E7EB;
+	Thu,  6 Nov 2025 02:40:59 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=Nvidia.com header.i=@Nvidia.com header.b="c20y4YPG";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="ltdaPJt1";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from CY3PR05CU001.outbound.protection.outlook.com
- (mail-westcentralusazon11013053.outbound.protection.outlook.com
- [40.93.201.53])
- by gabe.freedesktop.org (Postfix) with ESMTPS id F0FF510E110;
- Thu,  6 Nov 2025 02:06:48 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=O0j5BzHuAjvYgPkzTvl7epq+cC+/YY6+/EVrpg6X+Jsw7gMz5biBEszDAR8CaJLjhDHwuDYc2BDZR2X2ftOUPG3BPpWAxj9lf3UmKh0bFK44xtKG7mbR//akAmWGSzJa1Ng4Q0ytx0z6IsDU/TDdP7U7uYBBe1lCbokQYRXFAEuGRU8iQWstVhWKVus7x0IM7Woi7ccsZUp/nG2h7RqvNBv6NaDqAFN+KXzpRL5iEJDvc0iirIkJr16fqjYru4z2cTBNWexRlj5zh+gQUBDufsJHKIZ/lRSpyUsKRgvLYuszmVTrPbCoNqOUdgzQaOWLsWAc7K+T83cGQqdcAxi+yg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=DEr9yASFKzCBxyKOW7CbKpMX67ulPH6iwB6PbHIZ7zo=;
- b=RpsEbfwHWkIhltaQFPImU7yWJSEvgf5ng6/xd4GWHpg8luJjtcgWoH7fhLekQ0lv+wiUd2HRdCjf+L1Ko43ZhDT2W/fdhRC05E+7+g573W/7xWgim5BDo6+qGtY3DGgtPsxWOX3PXkqIbZJkU6JHFwPvfXw5hZZSFx+7LzKnYzreg2AxwONbzIiuFrPwiy5XTeuDpDTU9fLEj4pkfX590Je+OESQzSyY9H3btjBBGAAK9fWq4kNqi3EvmUltfcJL8vtrENqujxK+PVsOwLYMLxAhqwuT7a5rSMNRQV/NIJ7NEbpGGEy+orYgNauW5yu4+vhQ/Ramm7LR8aWuJBaZFQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
- dkim=pass header.d=nvidia.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=DEr9yASFKzCBxyKOW7CbKpMX67ulPH6iwB6PbHIZ7zo=;
- b=c20y4YPGhjnB9dsyyME93i81vVdxMx6FZrRh9OlJ2ge4YhKwzZEKM6ij7CNyGAI47CBuisxyRvzDRxf4vuctpM/29NTuY6FcVEcAplu22I0N74CSDLcywkZ6RqMftrY06lC9aTiahUFYDnHHEJhLZp1ia6a2iBBbh2NpHmPaCng5o0mFBbxlq/MDyHibmmDLqPvQN1biTScEoannQbo3aOHacx+/LPUVw+ccovQeytMCEVDss1kNhCJlXIZ07OasdVniKqWeLzJqRYH+d7jboCXBQustzG9a/cZWqRfdosswFNnzCV6+kHM1HSzL3HIZGX6IJnXGeU2upQpPsxM61g==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nvidia.com;
-Received: from BY5PR12MB4116.namprd12.prod.outlook.com (2603:10b6:a03:210::13)
- by CH1PPF6B6BCC42C.namprd12.prod.outlook.com
- (2603:10b6:61f:fc00::612) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9275.16; Thu, 6 Nov
- 2025 02:06:42 +0000
-Received: from BY5PR12MB4116.namprd12.prod.outlook.com
- ([fe80::81b6:1af8:921b:3fb4]) by BY5PR12MB4116.namprd12.prod.outlook.com
- ([fe80::81b6:1af8:921b:3fb4%4]) with mapi id 15.20.9298.006; Thu, 6 Nov 2025
- 02:06:42 +0000
-Message-ID: <35642339-8913-45cc-869e-8bcf93553920@nvidia.com>
-Date: Wed, 5 Nov 2025 18:06:41 -0800
-User-Agent: Mozilla Thunderbird
-From: John Hubbard <jhubbard@nvidia.com>
-Subject: Re: [PATCH v2 00/12] nova-core: Complete GSP boot and begin RPC
- communication
-To: Joel Fernandes <joelagnelf@nvidia.com>, linux-kernel@vger.kernel.org,
- rust-for-linux@vger.kernel.org, dri-devel@lists.freedesktop.org,
- dakr@kernel.org, acourbot@nvidia.com
-Cc: Alistair Popple <apopple@nvidia.com>, Miguel Ojeda <ojeda@kernel.org>,
- Alex Gaynor <alex.gaynor@gmail.com>, Boqun Feng <boqun.feng@gmail.com>,
- Gary Guo <gary@garyguo.net>, bjorn3_gh@protonmail.com,
- Benno Lossin <lossin@kernel.org>, Andreas Hindborg <a.hindborg@kernel.org>,
- Alice Ryhl <aliceryhl@google.com>, Trevor Gross <tmgross@umich.edu>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- Timur Tabi <ttabi@nvidia.com>, joel@joelfernandes.org,
- nouveau@lists.freedesktop.org
-References: <20251102235920.3784592-1-joelagnelf@nvidia.com>
-Content-Language: en-US
-In-Reply-To: <20251102235920.3784592-1-joelagnelf@nvidia.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: BYAPR04CA0009.namprd04.prod.outlook.com
- (2603:10b6:a03:40::22) To BY5PR12MB4116.namprd12.prod.outlook.com
- (2603:10b6:a03:210::13)
+Received: from mail-vs1-f44.google.com (mail-vs1-f44.google.com
+ [209.85.217.44])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3052010E7EB
+ for <dri-devel@lists.freedesktop.org>; Thu,  6 Nov 2025 02:40:58 +0000 (UTC)
+Received: by mail-vs1-f44.google.com with SMTP id
+ ada2fe7eead31-5d967b67003so384749137.2
+ for <dri-devel@lists.freedesktop.org>; Wed, 05 Nov 2025 18:40:58 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20230601; t=1762396857; x=1763001657; darn=lists.freedesktop.org;
+ h=mime-version:user-agent:content-transfer-encoding:references
+ :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
+ :date:message-id:reply-to;
+ bh=Fz3VOOaK2WJzX49TNEhoEpdRHL0wcrha2M363m/VmQg=;
+ b=ltdaPJt1fgwyiaDtbvhT51QdVdYjjC75nydjokcdh/CkBg3Xtzp9KQPc5CsJwQNqlf
+ C8vcXTYkYg6felLuioj4OoNpN9eAOiez+bwfygidtiTTJdt8sfF+veorr+JNtWewGUNr
+ ytO3yIv2iPs1rVNGfVA2BVLVkdjW2ZqHdwxAXxxzLEeeUUAQZqUzFsuTXfjDZiv8yFAN
+ H3w0baQTy25k1UXUWr0iwrJZJRd1yZp+JALaKvGQ5TBB4aoW8SxLkH20lpfhMBY2YHr9
+ opwLoXAG3DwIDgYlGCfAf9M9bUy0rAdiCyuaj+5MKkxk1IbwKxz+cIALzJnVvGIpq9vZ
+ GRgQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1762396857; x=1763001657;
+ h=mime-version:user-agent:content-transfer-encoding:references
+ :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=Fz3VOOaK2WJzX49TNEhoEpdRHL0wcrha2M363m/VmQg=;
+ b=JYjw9fjg7A49kCboCctvUbiQpOkVT+GoF+UosVxkUUA0At5OeI9xTbOmfxV/vu77Ib
+ HuZkVWcDDwZa1n8mj/l25L8M6ozytKBtkROITCKkk9yPMaCpSY9YvCWsvPuinc9kX9Kx
+ 9QQ6PjIqq+9zYq0Qt/VHwHh+PmiyhHlIrhUx1+QKlAsl0RjsN6SupxqoilujYZUKwOgU
+ kKWzLEDZstF/BMoN3u+K4DbWwdn0plZzIENU+tgd5Sp53845eA1C+MAu3+b4GanDcdyX
+ W5iy6e5xmx3rof8Ks1dTunnMi9waX0J1TTyrAeZlgSqHOnH21aI9mHJgot6sApdmwr8s
+ WVXg==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCWtOkPWXCQgGMEuVbLLqeVvk9z2Z6A+HoHfZeHOHNYrq0KxjNoFUYaWSQPsoa52/yb8O0TDwDepftw=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YxeEDARhxUwCO7ZjUqwFFb6MkbZO6/8prEYiwbu1mjkshQhh9Ns
+ DWSeIzW4bf41oHa75hofI4utV5P5d4X8ZwJMUefzYZ6y59T8GA1wWmGE
+X-Gm-Gg: ASbGncuKcflWQIxyZnb2MvoUV4wqMMOH9BJkHnMVNqIBe+01OxZVq7EgtumwhObPyuo
+ Fpsco2rK+LoK2VHgaJY8UCiD/Smi+fjw0sf5E9mBHLE/XE1yXazAPsdxUAPIPSkA3z+dXjNGIXd
+ ffioULYiEUddap0/3JiMbRbEafrOK/2xUFYsOri9HHElot+l9uk26QryWTm+SOV+lCgETerXVmB
+ xaVygVEfgYGFndnQV92fQzYJjEAlWgjM/VUavyaVVQNxIHjf5fPC4qhDJOryKK0H/0rm3jm19ay
+ hSUNmPJa8IoSylYFiqOHadNkmWZN0fAMjE2s/g6dtdTb/IPOR/spaneb3lzlKEdvoC+IIDcO91l
+ vY2XD0FW8+Qo76odYTFcCKNbZViyJSml9iYIoMXx2I3Dm2Izy0P57FRutwpUcoPne+xtDq6ft8O
+ CbyWK+ezBqXHAQcz1Cgjm3KVYd3Jaod2tKg7aZiYhSvVJqh3fMOjwbcs0=
+X-Google-Smtp-Source: AGHT+IG48Ju4qzSiYeWrBUsxbdpp5+5EAVK8wecVkm+QFCx/tSKCn4HCOp+AQxx2reLlG02y/qKwQQ==
+X-Received: by 2002:a05:6102:304d:b0:59d:ad3:e1e4 with SMTP id
+ ada2fe7eead31-5dd89174feamr2084724137.5.1762396856783; 
+ Wed, 05 Nov 2025 18:40:56 -0800 (PST)
+Received: from ?IPv6:2001:4c4e:24ca:a400:c3d8:2d5a:cb81:c0d3?
+ ([2001:4c4e:24ca:a400:c3d8:2d5a:cb81:c0d3])
+ by smtp.gmail.com with ESMTPSA id
+ a1e0cc1a2514c-93708862f07sm500320241.7.2025.11.05.18.40.55
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 05 Nov 2025 18:40:56 -0800 (PST)
+Message-ID: <149f5bb52a21becedc17a5b0bf1a586672940af6.camel@gmail.com>
+Subject: Re: linux-next-20251029 - build error in amdgpu
+From: Timur =?ISO-8859-1?Q?Krist=F3f?= <timur.kristof@gmail.com>
+To: Amit Dhingra <mechanicalamit@gmail.com>
+Cc: Valdis =?UTF-8?Q?Kl=C4=93tnieks?= <valdis.kletnieks@vt.edu>, Alex
+ Deucher	 <alexander.deucher@amd.com>, Leo Li <sunpeng.li@amd.com>, David
+ Airlie	 <airlied@gmail.com>, amd-gfx list <amd-gfx@lists.freedesktop.org>,
+ dri-devel	 <dri-devel@lists.freedesktop.org>, linux-kernel@vger.kernel.org
+Date: Thu, 06 Nov 2025 03:40:52 +0100
+In-Reply-To: <CAO=gReF+sWpKZFa+wbtGxa3+wSjAQG1UMG3iJaDt2EOPmH-7mQ@mail.gmail.com>
+References: <1043551.1761844832@turing-police>
+ <32ed124e9d603cad950c4836c7a14a3ba8bc2068.camel@gmail.com>
+ <1296761.1762045181@turing-police>
+ <CAFF-SiU3XL5pZAzsB=eXi7e1LKzx5XwiNOyfGpPXOnnc6uo2cw@mail.gmail.com>
+ <CAO=gReF+sWpKZFa+wbtGxa3+wSjAQG1UMG3iJaDt2EOPmH-7mQ@mail.gmail.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.56.2 (3.56.2-2.fc42) 
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: BY5PR12MB4116:EE_|CH1PPF6B6BCC42C:EE_
-X-MS-Office365-Filtering-Correlation-Id: a6755680-acf9-46db-1a0e-08de1cd920e9
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|376014|7416014|366016|1800799024;
-X-Microsoft-Antispam-Message-Info: =?utf-8?B?dnRMOWVpbHhQV1VlVC9jdFRXeDAxOU53Yk5nY01XWThlTndJL3FCSnQzbS8z?=
- =?utf-8?B?QWg0cXJPcVdTWGtPNnIxRkRpbXdXQWJLU0pWY2V2TTA5cSsvektjZUVUbnE2?=
- =?utf-8?B?OFp0aHNpZkErdzRiSTFCRU1UMnhJallUYXNxdzh2aHdycGdsWXJPMXA5b0dm?=
- =?utf-8?B?VFVqR1l1cnBFNEN0RmhJWjVnS0c0WndoUjJ2MDdTM20wQlcxc3QwTVZ1MURq?=
- =?utf-8?B?UTZXMXFzSFgrL0gxNHhQSGVOWXJSWHJsYjk5cHVCUW9GRkxic1RDb0ZwVytn?=
- =?utf-8?B?Rlp5Vkd1WXIvL0xLMVNUblp0bDZWRXhFUFZtcDVLcXVtYXJ3M2xNYTIwMEVa?=
- =?utf-8?B?NC9oQ0UvN0p2OWpqS054ek0xM3FtM2xBenVpMFZCRUpLNVRUY0p5N0VPcG9x?=
- =?utf-8?B?RHRiVklpWmJkK0h2c0xEU0xWVi9xNVBBcy9lN2wxendiclFaeW5ROVJIN05j?=
- =?utf-8?B?TFhaV05tcSsvcjFSeUhzMXdEazlpWGUvNmlUUExURjZlaFpnd0hRV0wxV3dy?=
- =?utf-8?B?cks1blg3aG85bGV5N0dacG8vcURpYkE1akIvdnp1dDFLVS94VG9LazN5MSty?=
- =?utf-8?B?Mkx1N2Z2bE1HV3NpVnlzMWdLZHhwV0FDTy9SME1TazZGSEVwaFpxUWNwTEs2?=
- =?utf-8?B?S1pvTzFDbEtGS0hQQ2xabS90Zkl5b2I4ZWF4dG51dkw5ZGE2c3lOZGRNRHdl?=
- =?utf-8?B?djhtRjUzcjZHY29oZG1vNWUxVHgvWFdmWmppcm1KazNnYVhHdlhnaXdRamwv?=
- =?utf-8?B?RHJRb0gzR0JaZ3EreHN2b2tjOFpDT21HTEpoUWtBUUp5V0szVjdsc3BjNDlr?=
- =?utf-8?B?dUFtUFJHeUlMUkZ1N2sycm4vQTE0UnpTSnBNRS80NnhpZkFqUk9ZLzBQaHZF?=
- =?utf-8?B?aE1TY25CcHlqMURIRVhrQUplenRIOXB0UjVzUXoya1NIUDB6T005Wklnelp4?=
- =?utf-8?B?VnM0Znk0NWdFaENmZWZ2cjZOZmJYTFJMaGZTRHJ2N2dOMEFJS0dmazViU2hN?=
- =?utf-8?B?TGoyMWZYaEhUYVB4bkJ5YjlJVlVxL2pyM2ZYVjNodFNuMUtpbU4zUmsrcHNS?=
- =?utf-8?B?dnVJYWx4Wm41ZXhmQmRxbzZwOG8rbS9YMkVQVFJvWVpIeERxelMxU21CSm1M?=
- =?utf-8?B?YitDaXR5YTBLbE02VWQ1VC90QTh3TVhrL0psU2U0MTBjT0FIYk1wUWZJc3Yx?=
- =?utf-8?B?ZFc1QmJmYUF5SnN1VVd6dzBQUXEvVUxGYU5zblFzOVZWNGtRSXF5ZTNBc3FC?=
- =?utf-8?B?dkdQQ3BoMmw1cjMzbnhuR3RzWW91SVZONUN5WDh0ZmFlcGhrbnMveG1kT2ZW?=
- =?utf-8?B?bWNtZFJiamVFOXZKaE9jbk9HakJ3WFZxTVUwdXQ2alRGbHhMdEN0VXMweFZB?=
- =?utf-8?B?OGI0T1MrQkpWY0lCNnE4a2ZQQzlIUUcrSkt6Y1ludkprVCt5WWJXSDdWVGFq?=
- =?utf-8?B?dFNjKzRrRDcrZmVaZlZFQVB1UGVpZnE3RmxmcWxvYWJ4c3FpYWh0S0J3N1dM?=
- =?utf-8?B?VWxXOHZtamhHVjBuSXhpTFphUUwrbzlUMldUeDFVOU9ITXpCVGRYMjRBdXEw?=
- =?utf-8?B?MnJVZG9ZNUNiK3h1Umh5ZHNyM2l0Z3Qzb3d3WVpPZ0FBVG1YcjdCZU5ybW5h?=
- =?utf-8?B?NzR0dkpwdWRXLy9MUUNiQkMyZ2hSUWJKaEczLzRHbWFHeXkrQm9FUDVReUlz?=
- =?utf-8?B?OU5LcHNsZWVPaXlLQ2NHalk5bmROTER3WjNTMWRJT0ZsL3hpd2VtMDI4Nmwz?=
- =?utf-8?B?dUVpK1g0cTJYOUZzTmJOYjNXYTdud0Y4UCtIOWcrTkJFeFBpbHhwU0ZvNzFE?=
- =?utf-8?B?eGhaTUtHR0FYRFJBWHJEUy8rRU5PQjQwcTRzU0pCV3RoUDF3S2xmdWJaZ1lW?=
- =?utf-8?B?M0RHUlQ0dzFiRVdKTHJDTEJNa1N1c3Z0WE5LSGtZZThZczBkS3BGUXBJNlha?=
- =?utf-8?Q?oQ2v/hWRnHsUMsi5vP2avm7fJNchG+qn?=
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:BY5PR12MB4116.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230040)(376014)(7416014)(366016)(1800799024); DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?bk9yamU4YjVoY3hDaDY5aFNScWFPeXUyZDB1Z1c4UUlWcTlBbXQ4NjZkUTlD?=
- =?utf-8?B?bFUrUFNpaE0zcEpqbHhlUHIrbVJrK21TZ05UbHRWR2orUFFwTGpTZFMwU1pq?=
- =?utf-8?B?QVBkS1lSZ3plVWt6UStHZDZ0OW0yWFFiVFVKbGRabjNSWSs0SkhDZGlaRUZj?=
- =?utf-8?B?TXlZVnQyTDFWUXRmWHdtZUVXcDFCc0dTeTdLcWs2NEZ3MlJOL1hNdExQNWl2?=
- =?utf-8?B?TDFpYlVod0V3Y0w2REtkLzk0d1F2Q0FVNXJTUlJ6TXIrSUpxOUxYS3lrQWts?=
- =?utf-8?B?a1piOUxlZVpKUUtmZ2JCbERqdXkvYlU2L1IvSlB3eEdjNG5EcEN2VnRXVWd2?=
- =?utf-8?B?RWxGckN2U0dYRnUxaXFFQ2lBVlAzWC90ZjRHREVDb2hORHQ5ZTBUbXp0QUdj?=
- =?utf-8?B?MzBha0s0a0JoUFBUN0JSSEJ2SkRwMlZYcVA0SnFyZjRMMERDVjNxMXIrMHM4?=
- =?utf-8?B?ZHRocTUxbFpjTHl6S1ZWZGFJRCtyMVByWkFmSFlvWWRIQVRyL0s5aS94Tldx?=
- =?utf-8?B?bHUzTWhNM211MU5Jd2l5eFIyNHdYNG1hbnc4OWNESCtKVDZrQm5IdEZTN216?=
- =?utf-8?B?b1htWFQ0cEFCMkNrenhOSUVMRXJmbWF0NXA5aFIxOWF4THhVZW42aUlGSXpN?=
- =?utf-8?B?RklHZCtBaFZZZDlZaUZQRWlaMzVvaUZnOE1OQXBtcmZaZGFDeTViMkpmSlFI?=
- =?utf-8?B?WitRL2FWTXJEQXNmMWhNdW9uR21FRzR0TkVMTy9WNTY2M2sxOE5hVnRVWEZF?=
- =?utf-8?B?MTVFb0VWNlVkSE1sNU93a2dtbU0vVEZlNlFrRGJOYnBoMFJKM3VpTlBLTEM2?=
- =?utf-8?B?SHZ5MTVodHFqNDEvMXlLQS8rdzNZSlVjb1ZTaW1XcXE2dlZMeTd6U2JrYUhQ?=
- =?utf-8?B?cmdOOVdKWjJZaXE1bG9HczdNa3lDVE5KZCszcFozUGNlc00vRXE5N0NPMnVI?=
- =?utf-8?B?NlF6M1d2eEVadEJnZGdDL000OW5yb29OaUQ3dCsxWHpudDdMYUVlMnArcE1V?=
- =?utf-8?B?TE1VU3FoQkp1QzA3Wm83Z2tqdUFiQ3hVUy84NTdoMWtDU0x1NjRqNTRja01n?=
- =?utf-8?B?RWVNamFueDJxai9SUVUxK2g1dFEvU2FUS1UyVFcyZFJ3UGVKaWVvMFJkUFVH?=
- =?utf-8?B?SWYwS2JXMXcrbmZhd3B2aFQ0SDRneTdXbHFyL3ZtSFR6UDZkTDRQZzhGeDcr?=
- =?utf-8?B?bVEzN1lySkZLeE5jaW1LMDY3anN2YmNhTFUzcXlMU0F6L3VRRXIrR2tKbGpn?=
- =?utf-8?B?K3JtT095T0JZV3VpMkpoNTF6UExUSFV4MDRqY1QrZmRoTXBxdDFaa3dLdVVv?=
- =?utf-8?B?OWZzQjJ4ci9tUGdnTUVQNmlYNkNsZDNlOC9hd3E0dlQ5QldIMkFNSEZyc04w?=
- =?utf-8?B?cmErbnpBTWViSWttYXFJZ1g4VldCNGZwSEtkQ1p3SmlpRmo4ZDZRaXN6TWJW?=
- =?utf-8?B?cXM4OTE0c3RtWTVOQUV3UDJoVUxLYndXa0tYK1JKZ1Brb1B6Rytha3NnTG4w?=
- =?utf-8?B?OVE3NzFZNk9GY0I4UU5BSTlVL0lWK3k5a0VhMnVxM2dpRVRTSnlNbEV5Y0tE?=
- =?utf-8?B?MHB4WlRMeW90aFYvZTNjNkR3TUR3SVRhanJxRWVPWC9oRFlGL2lnaG5aRldk?=
- =?utf-8?B?UVdPMXA4S2JYd280R3RScjJCdGdhVTc4cVVkNnV6dlVNTTdwQjQ1K2ZKUFpq?=
- =?utf-8?B?OU00cXViSmx4OFp4aE1JOTNvTXgxZW9jOUtiVHlCa3JOU05vaUVrMnpPK0NR?=
- =?utf-8?B?UC9mTU1ZQnpHRXlDYWpvY3lZSGQ0OEdrb1JHVmcweXpnQmhicHk1U0NmVURH?=
- =?utf-8?B?VjM2d0NNSlUyaDZ6a25iNk0yUmdYRitEOWdCWC9ybGNtTXdYN1hTWDFBRWU0?=
- =?utf-8?B?UjFybEovUzZhVCtsUFcvVktwdGhuY2JqdWkyR0NQc1RmbG9ha3RFSWZ1YmVj?=
- =?utf-8?B?YlRDTkNUaW83M091Rjc3YXlVN0xXcTFvUEVSK1FCSHZXNXlsSUkzRmNIRWRW?=
- =?utf-8?B?bXd2SFkrR3hUdjF3cnNFbUYybkl4clhtZFM0N0dFQVZEV3dlNVNvUFJkL3cr?=
- =?utf-8?B?aWtzeTA2RE1wenFvTG92Zklhck9ieHB5WS95WXhSYlh6OWd3TDhxdmUzd3V5?=
- =?utf-8?Q?w14HShf4fZDQcQAHrpj7nY0BY?=
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: a6755680-acf9-46db-1a0e-08de1cd920e9
-X-MS-Exchange-CrossTenant-AuthSource: BY5PR12MB4116.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 06 Nov 2025 02:06:42.0654 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: j/Awm/YhrbNCgFRknZo7ylSbp4BP4j7e1EZTb27zZlI/ktSf2EPtuingzzIRHQ3Ze5zk3WxUwvvHFQi6GxS0wQ==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CH1PPF6B6BCC42C
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -175,31 +98,72 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 11/2/25 3:59 PM, Joel Fernandes wrote:
-...
-> Joel Fernandes (11):
->   nova-core: falcon: Move waiting until halted to a helper
->   nova-core: falcon: Move start functionality into separate helper
->   nova-core: falcon: Move mbox functionalities into helper
->   nova-core: falcon: Move dma_reset functionality into helper
->   nova-core: gsp: Add support for checking if GSP reloaded
->   nova-core: Add bindings required by GSP sequencer
->   nova-core: Implement the GSP sequencer
->   nova-core: sequencer: Add register opcodes
->   nova-core: sequencer: Add delay opcode support
->   nova-core: sequencer: Implement basic core operations
->   nova-core: sequencer: Implement core resume operation
+On Wed, 2025-11-05 at 18:34 -0800, Amit Dhingra wrote:
+>=20
+> >=20
+> > What do I need to do to trigger the warning?
+> >=20
+> I have the same problem.
+>=20
+> linux-next on Arch Linux
+> GCC : 15.2.1 20250813
+>=20
+>=20
+> Steps to reproduce the error
+> - make mrproper
+> - make allmodconfig
+> - make drivers/gpu/drm/amd/amdgpu/
+>=20
+> Turns out its due to randconfig, See [1]
+>=20
+> Setting RANDSTRUCT_NONE=3Dy seems to stop the error.
 
-Another quick note: while preparing another patchset for posting,
-I just noticed that the convention that Alex established for these
-is:
+Can you please try and see if this fixes the warning?
+https://pastebin.com/raw/b8j3UABj
 
-    gpu: nova-core: <remainder of patch one-liner>
+Alternatively, if anyone has other recommendations on how to fix it,
+I'm also open to suggestions.
 
-...since all of my tree is also old and using the "nova-core: "
-prefix, too.
+Thanks,
+Timur
 
 
-thanks,
--- 
-John Hubbard
+> >=20
+> > Valdis Kl=C4=93tnieks <valdis.kletnieks@vt.edu> ezt =C3=ADrta (id=C5=91=
+pont: 2025.
+> > nov.
+> > 2., Vas 1:59):
+> >=20
+> > > On Thu, 30 Oct 2025 19:05:30 +0100, Timur Krist=C3=B3f said:
+> > >=20
+> > > > Can you say how to reproduce that?
+> > > > I use the same version of GCC but it hasn't given me any
+> > > > warning or
+> > > > error for that patch.
+> > >=20
+> > > Upon further testing,
+> > >=20
+> > > [/usr/src/linux-next] make
+> > >=20
+> > > is sufficient on my system. Turns out that it errors out even
+> > > without W=3D1.
+> > > My
+> > > next guess was that it had to do with -Werror, which would cause
+> > > warnings
+> > > to
+> > > be treated as errors, but my .config has
+> > >=20
+> > > # CONFIG_WERROR is not set
+> > > # CONFIG_DRM_WERROR is not set
+> > > # CONFIG_DRM_AMDGPU_WERROR is not set
+> > >=20
+> > > Do you perhaps have patches in your tree that aren't in next-
+> > > 20251029?
+> > >=20
+> > > I wonder if Fedora's build of gcc 15.2.1 is different somehow
+> > > from the
+> > > build you're using....
+> > >=20
+> > >=20
+> > >=20
+> > >=20
