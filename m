@@ -2,42 +2,73 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6A7C9C38BC6
-	for <lists+dri-devel@lfdr.de>; Thu, 06 Nov 2025 02:48:05 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id BDBECC38CA7
+	for <lists+dri-devel@lfdr.de>; Thu, 06 Nov 2025 03:06:49 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3C76110E1ED;
-	Thu,  6 Nov 2025 01:48:02 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 760E310E058;
+	Thu,  6 Nov 2025 02:06:46 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=linux.alibaba.com header.i=@linux.alibaba.com header.b="vMbAMpaQ";
+	dkim=pass (1024-bit key; unprotected) header.d=airkyi.com header.i=@airkyi.com header.b="Jz/mSUG8";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from out30-110.freemail.mail.aliyun.com
- (out30-110.freemail.mail.aliyun.com [115.124.30.110])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 003D110E1ED;
- Thu,  6 Nov 2025 01:47:59 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linux.alibaba.com; s=default;
- t=1762393677; h=From:To:Subject:Date:Message-ID:MIME-Version;
- bh=JleXV2cElTuz2OqNV5twzdb7cDT+l16Orn/ETYLhCd4=;
- b=vMbAMpaQgyzCkRyV4DJkrlnYwJo1mDfPnZbQPUtDPNJH6PJdA80e9IwDDva8r47JtZ4yoZOgLT7TKCCu04C6oPbLbm6bXf6S7znBvlOKbawymaRw6Y+C7ALsoYH7+6V0vTYxTmySYRIzy4SWk0NxNanPVvAFDPquo0IeJB/t9J0=
-Received: from localhost(mailfrom:jiapeng.chong@linux.alibaba.com
- fp:SMTPD_---0WrnXrhY_1762393669 cluster:ay36) by smtp.aliyun-inc.com;
- Thu, 06 Nov 2025 09:47:56 +0800
-From: Jiapeng Chong <jiapeng.chong@linux.alibaba.com>
-To: alexander.deucher@amd.com
-Cc: christian.koenig@amd.com, airlied@gmail.com, simona@ffwll.ch,
- amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org,
- Jiapeng Chong <jiapeng.chong@linux.alibaba.com>,
- Abaci Robot <abaci@linux.alibaba.com>
-Subject: [PATCH -next] drm/amdgpu/userqueue: Remove duplicate amdgpu_reset.h
- header
-Date: Thu,  6 Nov 2025 09:47:47 +0800
-Message-ID: <20251106014747.46768-1-jiapeng.chong@linux.alibaba.com>
-X-Mailer: git-send-email 2.43.5
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Received: from smtpbgau1.qq.com (smtpbgau1.qq.com [54.206.16.166])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 69B7810E058
+ for <dri-devel@lists.freedesktop.org>; Thu,  6 Nov 2025 02:06:45 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=airkyi.com;
+ s=altu2504; t=1762394802;
+ bh=VVl1Qjus8u0aUj8+6Bj8jBGW/g0TFXzsB/9E8b+TxZM=;
+ h=From:To:Subject:Date:Message-Id;
+ b=Jz/mSUG81JzjgYqtmrsoGxedEs9qCq/TV7Sc5FRXH49aYam1s9LeQZBgIZnnOflhh
+ qPseJK8+qg1raZmWNV14RTkp5WXetzfinEneBxA7fTGOmK/nbrehIaVYAcDeSaWF5p
+ PibFmGR/Ox+jwiA71qcpDSQ6Gjemx2ntXzwcJ+Eo=
+X-QQ-mid: esmtpgz15t1762394799t86ae74a2
+X-QQ-Originating-IP: yhNbobLVwNbY5V1jr9iOK5ifgRi7NiwMV1ECYKdCN10=
+Received: from DESKTOP-8BT1A2O.localdomain ( [58.22.7.114])
+ by bizesmtp.qq.com (ESMTP) with 
+ id ; Thu, 06 Nov 2025 10:06:37 +0800 (CST)
+X-QQ-SSF: 0000000000000000000000000000000
+X-QQ-GoodBg: 0
+X-BIZMAIL-ID: 10766765311845532809
+From: Chaoyi Chen <kernel@airkyi.com>
+To: Neil Armstrong <neil.armstrong@linaro.org>,
+ Jessica Zhang <jessica.zhang@oss.qualcomm.com>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, Rob Herring <robh@kernel.org>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>, Sandy Huang <hjc@rock-chips.com>,
+ =?UTF-8?q?Heiko=20St=C3=BCbner?= <heiko@sntech.de>,
+ Andy Yan <andy.yan@rock-chips.com>, Vinod Koul <vkoul@kernel.org>,
+ Kishon Vijay Abraham I <kishon@kernel.org>
+Cc: dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+ linux-rockchip@lists.infradead.org, linux-phy@lists.infradead.org,
+ Chaoyi Chen <chaoyi.chen@rock-chips.com>
+Subject: [PATCH 0/9] drm/rockchip: Introduce Rockchip RK3506 VOP
+Date: Thu,  6 Nov 2025 10:06:23 +0800
+Message-Id: <20251106020632.92-1-kernel@airkyi.com>
+X-Mailer: git-send-email 2.17.1
+X-QQ-SENDSIZE: 520
+Feedback-ID: esmtpgz:airkyi.com:qybglogicsvrgz:qybglogicsvrgz6b-0
+X-QQ-XMAILINFO: MaVe9I53f0M32r5fsRWj//W6nWaUspkMSaTtRW4c2N6Mdvr0+1ipAgD5
+ JUlOS2AFXv2TT5iyKkQofrVkr4B6nVpxXL6F80oenAcFfNT6ZYS9VfFPbTdzHbAPbxlLTFr
+ u3pn3DnIXAQoG4ecnn0xqL8Eh6kEScNs48pmFXkPacrGEJDKHpi+yv6oU/F8yyzEEWzdHNy
+ rUySAbLVGX2lD3J0qtmrKEVQOUKGgisz6cKeY0iB1erxFWa4hODg3J337bFzjADIJX6RiqL
+ IkssFhteJj/+JSxld1aapay3kY40f47vb0fRxFpqi3pYxrtg0wVEodRlDsNihgCmcYJKvDA
+ IiYCt1v6RpYoQOUB5q9j/A7Xkn+LrNzQQ1KcflGdcH1xIXZ8bAdkxXuJFR90SAGUGvcNBAD
+ 2nbQf6qZtfHKSbEzEaj4wCg0QlTTm42p5wBkyjgYS6LMolsYav3Q6MYQ8LE/co0LVlFAuL4
+ nMVz4KyQwBPKb+dyswWvp/GHlbdYXKo/lwMUvMmjEYbppktIBc6r3UDUW2qh87xsRWzvVmZ
+ yrc0RIuEl6MP3dW9bjbSqcRrE4h/u/rOZRFDHEVxAWA2xioLfemSHgun52czZWwv+uKnFzx
+ r41bHUFf7TXnn9HsZqNd7C+9n8wtZNa90DhWZpYUOYwCt9L9KTlzg5nzHFxf48tI0oHn3S6
+ 1K3P0HnVJeCZbZU2aAkEO6GNqUNjXIfvZ2bbkbpvC4qY773Ev1nh680PRo6ktxJ7sZ9s+w7
+ Dak34WJKt3Pa7zrKnNozVPoF8dqH7TqtgopT7Y8/mKkd3w9n3uTcDl587GR1yorc1+KF1p5
+ cVwFulLw8bk3SRXT2UktX9IVEeM6WLnWx9pAeS1Y1h0h+KDMaEpHiSQ1MspzojlC80Rkhxe
+ MAnG3q57lQjueLxu/ciFBE7zyVkCiM6Cu1pY2NoKvPtQnkUhuMW8VdzmsDi6bfB+7Trm0h9
+ R1rNpsQQ7Z51SMEVk8NCXUlrnT2Ylt9ZA5lQCCflYxPW4mg==
+X-QQ-XMRINFO: Nq+8W0+stu50PRdwbJxPCL0=
+X-QQ-RECHKSPAM: 0
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -53,27 +84,43 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-./drivers/gpu/drm/amd/amdgpu/amdgpu_userq.c: amdgpu_reset.h is included more than once.
+From: Chaoyi Chen <chaoyi.chen@rock-chips.com>
 
-Reported-by: Abaci Robot <abaci@linux.alibaba.com>
-Closes: https://bugzilla.openanolis.cn/show_bug.cgi?id=26930
-Signed-off-by: Jiapeng Chong <jiapeng.chong@linux.alibaba.com>
----
- drivers/gpu/drm/amd/amdgpu/amdgpu_userq.c | 1 -
- 1 file changed, 1 deletion(-)
+The VOP on rk3506:
+- Support 2 lane MIPI DSI interface, 1.5Gbps/lane.
+- Support RGB interface.
+- Max output resolution is 1280x1280@60fps.
+- WIN1 layer support RGB888/ARGB8888/RGB565.
+- Support Gamma LUT.
 
-diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_userq.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_userq.c
-index 836a14ef0052..9a969175900e 100644
---- a/drivers/gpu/drm/amd/amdgpu/amdgpu_userq.c
-+++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_userq.c
-@@ -32,7 +32,6 @@
- #include "amdgpu_vm.h"
- #include "amdgpu_userq.h"
- #include "amdgpu_hmm.h"
--#include "amdgpu_reset.h"
- #include "amdgpu_userq_fence.h"
- 
- u32 amdgpu_userq_get_supported_ip_mask(struct amdgpu_device *adev)
+This series adds basic support for rk3506 VOP. And tested on the
+rk3506g-evb1-v10 board with a Wanchanglong W552946AAA DSI panel.
+
+Chaoyi Chen (9):
+  dt-bindings: ili9881c: Add compatible string for Wanchanglong
+    w552946aaa
+  dt-bindings: phy: rockchip-inno-dsidphy: Add compatible for rk3506
+  dt-bindings: display: rockchip,dw-mipi-dsi: Add compatible for rk3506
+  dt-bindings: display: rockchip,vop: Add compatible for rk3506
+  drm/panel: ilitek-ili9881d: Add support for Wanchanglong W552946AAA
+    panel
+  phy: rockchip: inno-dsidphy: Add support for rk3506
+  drm/rockchip: dsi: Add support for rk3506
+  drm/rockchip: Drop ROCKCHIP_IOMMU depend for DRM_ROCKCHIP
+  drm/rockchip: vop: Add support for rk3506
+
+ .../display/panel/ilitek,ili9881c.yaml        |   1 +
+ .../rockchip/rockchip,dw-mipi-dsi.yaml        |   1 +
+ .../display/rockchip/rockchip-vop.yaml        |   1 +
+ .../bindings/phy/rockchip,px30-dsi-dphy.yaml  |   1 +
+ drivers/gpu/drm/panel/panel-ilitek-ili9881c.c | 225 ++++++++++++++++++
+ drivers/gpu/drm/rockchip/Kconfig              |   3 +-
+ .../gpu/drm/rockchip/dw-mipi-dsi-rockchip.c   |  20 ++
+ drivers/gpu/drm/rockchip/rockchip_vop_reg.c   |  57 +++++
+ drivers/gpu/drm/rockchip/rockchip_vop_reg.h   |  14 ++
+ .../phy/rockchip/phy-rockchip-inno-dsidphy.c  |  91 ++++++-
+ 10 files changed, 410 insertions(+), 4 deletions(-)
+
 -- 
-2.43.5
+2.51.1
 
