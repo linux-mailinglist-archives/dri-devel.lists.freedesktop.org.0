@@ -2,98 +2,80 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C571DC3A555
-	for <lists+dri-devel@lfdr.de>; Thu, 06 Nov 2025 11:46:26 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3E0DDC3A629
+	for <lists+dri-devel@lfdr.de>; Thu, 06 Nov 2025 11:53:46 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1306810E88B;
-	Thu,  6 Nov 2025 10:46:25 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 700C110E897;
+	Thu,  6 Nov 2025 10:53:44 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="TjPO7Xuq";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="CTOQ3frv";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4FF3110E88B
- for <dri-devel@lists.freedesktop.org>; Thu,  6 Nov 2025 10:46:23 +0000 (UTC)
+Received: from sea.source.kernel.org (sea.source.kernel.org [172.234.252.31])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CB99110E89D
+ for <dri-devel@lists.freedesktop.org>; Thu,  6 Nov 2025 10:53:42 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by tor.source.kernel.org (Postfix) with ESMTP id 4DB55601DA;
- Thu,  6 Nov 2025 10:46:22 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A3CD2C113D0;
- Thu,  6 Nov 2025 10:46:18 +0000 (UTC)
+ by sea.source.kernel.org (Postfix) with ESMTP id 94719442AD;
+ Thu,  6 Nov 2025 10:53:42 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 6A290C113D0;
+ Thu,  6 Nov 2025 10:53:42 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1762425981;
- bh=eocbsLjMulhJ4y+gAx7UjWhXaT4sJVRs4VbUWIqIync=;
- h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
- b=TjPO7XuqE7pQCUVOSjrO5jlDhw1ANyBIdAbAimw82WI5OZBiJP+9xLWxT31p+rNI8
- xUV87rJTfZkjogVn8ebMOTpCLkpI7nuXFE5VS+EZHpWVFFfsGGx0KHTLybv9zsdWF0
- OrCXRSBxwRojymfU0XpFFTLJbq/ifkSfMbbH1OTdUa5mkvcplTajNIv12c15KYL8pT
- IemHeFzN8frxWmEWZ+rkGual92JB/G1QwxxsH5NvgKVG+Avk8EJjFOWlSJtXaWWpGs
- YeIrqgylepWDspJmKKj3sdu+lLJlPpEn+xUTgbp2bliT5okoGJ6jbbnDWUmzi5GuFZ
- OhJPTy96nTosQ==
-Message-ID: <530695ab-109a-4dd4-968b-e8624c53238d@kernel.org>
-Date: Thu, 6 Nov 2025 11:46:16 +0100
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] dt-bindings: panel: s6e3fc2x01: Sort and remove
+ s=k20201202; t=1762426422;
+ bh=Epp5YO2QE/d3UMrboGIdGCaW2vlY+8wmDJGCJi4/2V8=;
+ h=From:Date:Subject:To:Cc:Reply-To:From;
+ b=CTOQ3frvprYP22eUAb6vYVcbfZSWhBScQElSnxVOgQGlV4vEJ/t4j6NG/n84eB6uO
+ 0Gsuds4CTx14Z0PSz5FCo8prtDFTXAJgOP8KOftWaUZXJSUtMQ33tzBM2TlVYAxHB5
+ A13owtU/tKk2zZHJOWFsEDv9D9At8IrGGzCT2nc9Dh24p2spxepRh9aT7HkxSfER7x
+ TVWj710ZqRF0YTC4N+aQ+LddaHYbG+JQtYz/9aj9A+egOBHIiPqKSluwSN+QEyXZOY
+ vzyPm7XbfPCsOkrn/NVMgDNdsxgEo7Exih3s+XGuTovllrN8zWJcTkZw+oz+nX6zMI
+ sVvrmBgV0Walw==
+Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org
+ (localhost.localdomain [127.0.0.1])
+ by smtp.lore.kernel.org (Postfix) with ESMTP id 5B334CCFA03;
+ Thu,  6 Nov 2025 10:53:42 +0000 (UTC)
+From: David Heidelberg via B4 Relay <devnull+david.ixit.cz@kernel.org>
+Date: Thu, 06 Nov 2025 11:53:40 +0100
+Subject: [PATCH v2] dt-bindings: panel: s6e3fc2x01: Sort and remove
  unnecessary properties
-To: david@ixit.cz, Neil Armstrong <neil.armstrong@linaro.org>,
- Jessica Zhang <jesszhan0024@gmail.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>
-Cc: dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org, phone-devel@vger.kernel.org
-References: <20251106-dt-s6e3fc2x01-v1-1-0479f2d8b53f@ixit.cz>
-From: Krzysztof Kozlowski <krzk@kernel.org>
-Content-Language: en-US
-Autocrypt: addr=krzk@kernel.org; keydata=
- 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 a/A=
-In-Reply-To: <20251106-dt-s6e3fc2x01-v1-1-0479f2d8b53f@ixit.cz>
-Content-Type: text/plain; charset=UTF-8
+MIME-Version: 1.0
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
+Message-Id: <20251106-dt-s6e3fc2x01-v2-1-deb87727152e@ixit.cz>
+X-B4-Tracking: v=1; b=H4sIADN+DGkC/3XMQQ6CMBCF4auQWTumUwSUlfcwLKCdymzAtKSpk
+ t7dyt7l/5L37RDYCwfoqx08RwmyLiX0qQIzj8uTUWxp0Eo3RKpFu2FouXZGJ0Vou7GzdcsTTQb
+ K5+XZSTq8x1B6lrCt/n3wkX7rPykSEqpLd3PaXqemdndJsp3NB4ac8xdv7k+jqAAAAA==
+X-Change-ID: 20251106-dt-s6e3fc2x01-d7a7d36eb1bc
+To: Neil Armstrong <neil.armstrong@linaro.org>, 
+ Jessica Zhang <jesszhan0024@gmail.com>, 
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
+ Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+ Conor Dooley <conor+dt@kernel.org>
+Cc: dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, phone-devel@vger.kernel.org, 
+ Krzysztof Kozlowski <krzk@kernel.org>, David Heidelberg <david@ixit.cz>
+X-Mailer: b4 0.14.3
+X-Developer-Signature: v=1; a=openpgp-sha256; l=2065; i=david@ixit.cz;
+ h=from:subject:message-id;
+ bh=pgClw84QtPBlwZV86TtKjb3RNNcrtweHBH9CMqAbjKE=;
+ b=owEBbQKS/ZANAwAIAWACP8TTSSByAcsmYgBpDH41wJI/LnkhayCRRmgDzx03QNQa6cdxF8slQ
+ dKBnyNcL7uJAjMEAAEIAB0WIQTXegnP7twrvVOnBHRgAj/E00kgcgUCaQx+NQAKCRBgAj/E00kg
+ ci3IEAC6oNsRTnliM3ysSAzlOLeGie3TdehlTDk9zxe8oXnRlWr3K1iggTxVxBtAS1nt3qnPVCp
+ HscEX8BlvYYfiazFqGECPsaIEJ4twkzjTwaE9o70IYj1psxeQV+pRe64oTrbIAt9UWBzdwMvkfK
+ 9kZCuX8QfPRCyLGNRd98IiALZhC7FCmc6f8v6esKbVPc+n3lQoQhcXUZC8voUpigfZGRkVo3xHH
+ 5E2UDfBfjXUBEQ5B5jOKMmmxajCc7yb6YOvjQaiHcQHuOqJjOQ0+HbxN3v5phSQe288HUGYPxFC
+ ggJv8ZrNcGbf7BjuimnoDDIMAbRgpAEQ8qbHcSyf+e5OCDblIE4ioLs654uD8dSV0RWpIJpxjVj
+ QOjYMxTiaLazF/W3F7AllbJiTpFzXf80w0bOmfN5iVGZ+cZ6qC+oEtPiO4fRVEVZS8a0IcIuTWO
+ xVHbGcd+C2MgJkEnKKwMIl2dJMlumNCQAimB7DGDV3x67WXroXBGWJg3JxrvaGLXA77+FQq5Bsd
+ IsiEzwfaFV1TXNZN5flIYkd8jt//XdENYG4+HcPRPHNHJmlrDmXvq9z2JXtlnF/boh0jQnOoTb8
+ /ajqXY9QfOmfcuDl6CdUA+Y8eYZ/UY+AtAC6QzBnfDF5BnoR+pSsGCK0EI5v8fsU39KRt+d7Syz
+ jUH+8WIQia5VODw==
+X-Developer-Key: i=david@ixit.cz; a=openpgp;
+ fpr=D77A09CFEEDC2BBD53A7047460023FC4D3492072
+X-Endpoint-Received: by B4 Relay for david@ixit.cz/default with auth_id=355
+X-Original-From: David Heidelberg <david@ixit.cz>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -106,27 +88,84 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Reply-To: david@ixit.cz
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 06/11/2025 11:36, David Heidelberg via B4 Relay wrote:
-> From: David Heidelberg <david@ixit.cz>
-> 
-> Properties are now sorted, reset-gpio and port property dropped.
+From: David Heidelberg <david@ixit.cz>
 
-You need to explain why. Sorting is kind of obvious, but dropping
-property is not.
+Properties are now sorted, reset-gpio and port property dropped because
+they are already accepted here as part of panel-common and usage of
+unevaluatedProperties.
 
-"... because they are already accepted here as part of panel-common and
-usage of unevaluatedProperties.".
+Suggested-by: Krzysztof Kozlowski <krzk@kernel.org>
+Signed-off-by: David Heidelberg <david@ixit.cz>
+---
+Changes in v2:
+- EDITME: describe what is new in this series revision.
+- EDITME: use bulletpoints and terse descriptions.
+- Link to v1: https://lore.kernel.org/r/20251106-dt-s6e3fc2x01-v1-1-0479f2d8b53f@ixit.cz
+---
+ .../bindings/display/panel/samsung,s6e3fc2x01.yaml   | 20 ++++++++------------
+ 1 file changed, 8 insertions(+), 12 deletions(-)
 
-Or just "because they are redundant." if you think reason for redundancy
-is obvious.
+diff --git a/Documentation/devicetree/bindings/display/panel/samsung,s6e3fc2x01.yaml b/Documentation/devicetree/bindings/display/panel/samsung,s6e3fc2x01.yaml
+index d48354fb52ea0..fd4388f5fb118 100644
+--- a/Documentation/devicetree/bindings/display/panel/samsung,s6e3fc2x01.yaml
++++ b/Documentation/devicetree/bindings/display/panel/samsung,s6e3fc2x01.yaml
+@@ -6,11 +6,11 @@ $schema: http://devicetree.org/meta-schemas/core.yaml#
+ 
+ title: Samsung S6E3FC2X01 AMOLED DDIC
+ 
+-description: The S6E3FC2X01 is display driver IC with connected panel.
+-
+ maintainers:
+   - David Heidelberg <david@ixit.cz>
+ 
++description: The S6E3FC2X01 is display driver IC with connected panel.
++
+ allOf:
+   - $ref: panel-common.yaml#
+ 
+@@ -25,25 +25,21 @@ properties:
+   reg:
+     maxItems: 1
+ 
+-  reset-gpios: true
+-
+-  port: true
+-
+-  vddio-supply:
+-    description: VDD regulator
++  poc-supply:
++    description: POC regulator
+ 
+   vci-supply:
+     description: VCI regulator
+ 
+-  poc-supply:
+-    description: POC regulator
++  vddio-supply:
++    description: VDD regulator
+ 
+ required:
+   - compatible
+   - reset-gpios
+-  - vddio-supply
+-  - vci-supply
+   - poc-supply
++  - vci-supply
++  - vddio-supply
+ 
+ unevaluatedProperties: false
+ 
 
-> 
-> Fixes: 986f28f3a71e ("dt-bindings: panel: Add Samsung S6E3FC2X01 DDIC with panel")
-
-No issue/bug to fix here, it's just style. Please drop.
+---
+base-commit: df5d79720b152e7ff058f11ed7e88d5b5c8d2a0c
+change-id: 20251106-dt-s6e3fc2x01-d7a7d36eb1bc
 
 Best regards,
-Krzysztof
+-- 
+David Heidelberg <david@ixit.cz>
+
+
