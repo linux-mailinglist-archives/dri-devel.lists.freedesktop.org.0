@@ -2,97 +2,73 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4FDFEC38851
-	for <lists+dri-devel@lfdr.de>; Thu, 06 Nov 2025 01:53:00 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id E8FD9C38A8E
+	for <lists+dri-devel@lfdr.de>; Thu, 06 Nov 2025 02:10:41 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4C57910E0F9;
-	Thu,  6 Nov 2025 00:52:47 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DDA9B10E706;
+	Thu,  6 Nov 2025 01:10:38 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="mKRxAIwm";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="XJpThGMj";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ed1-f50.google.com (mail-ed1-f50.google.com
- [209.85.208.50])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5CC9710E7D8
- for <dri-devel@lists.freedesktop.org>; Thu,  6 Nov 2025 00:52:45 +0000 (UTC)
-Received: by mail-ed1-f50.google.com with SMTP id
- 4fb4d7f45d1cf-640860f97b5so546976a12.2
- for <dri-devel@lists.freedesktop.org>; Wed, 05 Nov 2025 16:52:45 -0800 (PST)
+Received: from mail-qk1-f181.google.com (mail-qk1-f181.google.com
+ [209.85.222.181])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 016D010E706
+ for <dri-devel@lists.freedesktop.org>; Thu,  6 Nov 2025 01:10:37 +0000 (UTC)
+Received: by mail-qk1-f181.google.com with SMTP id
+ af79cd13be357-88f8f346c2cso44653785a.0
+ for <dri-devel@lists.freedesktop.org>; Wed, 05 Nov 2025 17:10:37 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1762390364; x=1762995164; darn=lists.freedesktop.org;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:from:to:cc:subject:date:message-id:reply-to;
- bh=4TC3jknw27uusNIMn2p5lG+ecGQ+4uLN2sc869EijWA=;
- b=mKRxAIwmtAQgOxZ2IRS/G+HbMxInsNTVvGRf/l/+9UfxqTFjDFbx5zlf+bmoZubr1j
- V2b18u9fjGuR9fPRfU6iVRmvshkSdz/STshIL0e4jhIixV/tYru4jB4SiHWZVebJ6Oq1
- 02xqwQS261J4JmZdR9okQjGIShpkf/z7U2hy7H/nvYWQhss+u1wRo0Vf6p5hBHWGuWM8
- HiPE5XnWAsv+m++K7e+MkFFQa+x2PpWNNYd57vtXzQZlgDYvYxBxDhNoLRfa9Y4s+f18
- LtYCXUrxxZ21Jxp6zaZJnt5IMbTMv2eyUw6T0r/9SmcXp7bkeB8kZQS/Cik+4D/bVFJE
- W9UQ==
+ d=gmail.com; s=20230601; t=1762391437; x=1762996237; darn=lists.freedesktop.org;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date:message-id:reply-to;
+ bh=pyhS6jZpYBILAbqR+rnW9JcsPWV01j5CzZ2xzVsZ5pE=;
+ b=XJpThGMj/d/3TSTDao7nj9IvdiJBJ9dZplQsgAzE/XzAzEOS/v5M7+Jq9z9EsNTgYY
+ Med05nJj4Zt56qeV0rDlWdmyz/iajFAkMMRAg9uZurmSFmlEaqULr4UL8vgE3iPBovaL
+ +cvONp1Pwm2BJitLiDHBZsOFUYyEx1fj7G8WLZ/eT7E4CbFwuaWRwfVfsEru0gIZy4wa
+ 0+OnITr/v1VHoPbI5av5HTm12bPczVL2PhljM4+wydXLH593eecgvlrfHp1vsZ5HBq/d
+ y4P8cf3OfvkZ32WfQtyDsfoQ8/ACCPpiZhp0+aUNlT9ahLtjpvto6Xd3kmU0RNxSfjM/
+ UhaA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1762390364; x=1762995164;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ d=1e100.net; s=20230601; t=1762391437; x=1762996237;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
  :reply-to;
- bh=4TC3jknw27uusNIMn2p5lG+ecGQ+4uLN2sc869EijWA=;
- b=Wmk+XJVmw5mdCbQDGBh8WR6dNbWktKnAIVuPFqsCTTHs79c7Acrqs4sL5zyRPWwIA8
- C2nrnnSVrUTScsE1SRLtkvwf+kn+Mrj+jgJwBNnm59lbIeg8UfuTx4WGN4reXAUlUOd5
- HhLaAUHzKVZ5Tc/yF45dCtwbedqseeCvwAY6cwkFd79saQNYk9np3hl7cMSIOHMuDSRd
- 956tiCqDKKXnZsyXN4UNRB3JXARrkN3bZr0S+4ASXGXZyTMpKgeGLnm6dEqnW257dnx5
- Ctt9jY47vaNg5U5M1ZaLfhJgBC8MLZAGxn3/g5JPhMx8BjwFXQvqp3XolpEvS93v1Wr0
- ip1A==
+ bh=pyhS6jZpYBILAbqR+rnW9JcsPWV01j5CzZ2xzVsZ5pE=;
+ b=qF0P3f6tYO/FK0S4FTP9+gbHunmgcrvL7xAsr0t5vrwxcmHyxI6QA6LokfNYTVBhCE
+ iU3sJTc77HQqaJITl5ePcJ308pVAmuPJRDG/OmyntoPyTpgnLDzMOKnb3Ia82mAmrPeg
+ 32GuQxek25FAygMZzcdeHtFEjIlU21viLb9pgHbPiw6USpLXLvDb9eLNRYhwFCUwD9yn
+ QiUJhR8tdlmE8n77LE+ZR36J15FTISxq/taoDkN7DtVE3CGakG+1c9aZ9AgXnbZ9Ozm1
+ FWqBDGAj+AGs4OfzcIKFt3gM/gDAdxd67a6oH+n73ZP/bOq9nbap5d2xGVJdmlnKDv6M
+ In7A==
 X-Forwarded-Encrypted: i=1;
- AJvYcCWdBCCZXvYVOXKGDinE/CMNvIb07iViu1RbTiAZU1Qnu70x8oZdFZma6g4m8yCU5B4CSX95cl1nOnQ=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YxpcTl2F8yIey6cGdHKcmui9bomc+q1zHCee/KIxw+CUncvV3t2
- 3FTo0ZO2MhOj0UiOITU2IIFjU6AIKoTgVtzX+6igF7goM21VZs7n/3yT
-X-Gm-Gg: ASbGnctD/txJ0KLQKr2L2SX5Ytz66UZNjYmgmFSP13AinpQ7dzOizjM9fYXkAI5Ovfc
- dvI/yylOw8EICa4p9vMyOEyeJSYXSHSed2Lwpay7p/QMa3fXWVmgiY7a7MdlGuGI/XSeqv6bGSl
- v8yZX/KZ2wQUHZu8v5yUbaYkxAgzPqbfFPdwCjxbeKppwvJai0iDyzDIfpLJtbq/Yjl4UWYlfyB
- iJ9MRbpcNCKwciQO0eWx6BrEsL3BpinWQ1jHJL8KMR1abp1KA4LPWkkb1F3nZwrJWSjTGrHWp1M
- 9BZmJhSKrT23sztBWGLIy3WPtIBE+cMWLlWz7/Pm0lK+iYxO25KV+UWjy8tLCYoYKYIhEygloU3
- GuwDrpENiGME/lX0wU7onxBIjWeMYwL36PskSlY/iRF891S/IopdD4FTsd4WAjNxLVzpK173toX
- TcZVT+HfC7rR4rTrRzMsuMrQ==
-X-Google-Smtp-Source: AGHT+IGyPw3/1ye6s+MutCB7GxPiniSAjUqQCYxPkECNVoFIt+LeekKL8kDCX7wiOXbyde9uL5l1lQ==
-X-Received: by 2002:a05:6402:2417:b0:640:af04:d718 with SMTP id
- 4fb4d7f45d1cf-64105a5c7c8mr4938545a12.30.1762390363532; 
- Wed, 05 Nov 2025 16:52:43 -0800 (PST)
-Received: from archie.me ([210.87.74.117]) by smtp.gmail.com with ESMTPSA id
- 4fb4d7f45d1cf-6411f862697sm476807a12.25.2025.11.05.16.52.42
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 05 Nov 2025 16:52:42 -0800 (PST)
-Received: by archie.me (Postfix, from userid 1000)
- id D7F1D420A685; Thu, 06 Nov 2025 07:52:32 +0700 (WIB)
-From: Bagas Sanjaya <bagasdotme@gmail.com>
-To: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- Linux Documentation <linux-doc@vger.kernel.org>,
- Linux DRI Development <dri-devel@lists.freedesktop.org>,
- Linux Intel Graphics <intel-gfx@lists.freedesktop.org>
-Cc: Christian Koenig <christian.koenig@amd.com>, Huang Rui <ray.huang@amd.com>,
- Matthew Auld <matthew.auld@intel.com>,
- Matthew Brost <matthew.brost@intel.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
- Simona Vetter <simona@ffwll.ch>,
- Tvrtko Ursulin <tvrtko.ursulin@igalia.com>,
- =?UTF-8?q?Thomas=20Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>,
- Zack Rusin <zack.rusin@broadcom.com>, Bagas Sanjaya <bagasdotme@gmail.com>,
- Stephen Rothwell <sfr@canb.auug.org.au>
-Subject: [PATCH] drm/ttm: Fix @alloc_flags description
-Date: Thu,  6 Nov 2025 07:52:17 +0700
-Message-ID: <20251106005217.14026-1-bagasdotme@gmail.com>
-X-Mailer: git-send-email 2.51.2
+ AJvYcCW96Mf7t69riKlZ4FHmnGmtFLHGUp/7UVyihUrpYw7MM8133jbT1yw1SDKcacKlNnUJH05saUXGoJY=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YzDVuB4XMrDatQzISEUcQkywJRyuviap4kS/maAzgsO0UHawGiF
+ WsCpYEdjIn7htPEbGslKmNi7Vuv6vPCd7I5KMPahkuzG8DwmA6WgLWVl33HydckGWIzfCFE6ppX
+ Hb3TVTftMoGA5hVBESv4R5g9VoS+D5G0=
+X-Gm-Gg: ASbGnctc3rgCQ0L/t8lrDqyuDopgf6savdhf082UgjK7OwgHmbEr2+NLsRGHE3aGQnK
+ +rSKtzTyta/obHm+lKxmnOl5C2iOxHHsiTkoKq31CFo6antiwCl9qK+jkl7tDpq9tukCp73jEtg
+ QtulXu7evOyvtP7f3SWxMbuLGIASL1GBUbtxFP0Ofpre9v5mT9xYMdUkHqsJCvvIgCy8j2j8v57
+ yqGfgknL1LgCmh85wvqotBQ3jADrlinyuBC3sM+wtlFskD8NQVdXzSSALs=
+X-Google-Smtp-Source: AGHT+IGUC6+9UkrRywwWWGU2MV3s+qVzGfbXA45ue4Tsj/rDblSjV6K9yCuZbFoS90JE8TEkBbHhcXBLEr05S4MkH4s=
+X-Received: by 2002:a05:620a:d8b:b0:873:9fcc:3fb5 with SMTP id
+ af79cd13be357-8b22081b49dmr710776085a.1.1762391436933; Wed, 05 Nov 2025
+ 17:10:36 -0800 (PST)
 MIME-Version: 1.0
-X-Developer-Signature: v=1; a=openpgp-sha256; l=3498; i=bagasdotme@gmail.com;
- h=from:subject; bh=6OeZWmkLzPTDm0Nogt0/O0+112Y2Ks/sc1xjGQfLCtE=;
- b=owGbwMvMwCX2bWenZ2ig32LG02pJDJncH/IOLdgTFFyjsmVl+3nljed/3uFbIm99O3GxYOe+J
- Yz/uRW9O0pZGMS4GGTFFFkmJfI1nd5lJHKhfa0jzBxWJpAhDFycAjCRDj2Gf1qX/599FxLc3dGx
- 1uPH2qyjp6/3i5n+9A76y6zTvG+h0xKgCg67uoPm/TbK4WuldbNmSKTIGj6bW7dO4s5PFstb12V
- 4AA==
-X-Developer-Key: i=bagasdotme@gmail.com; a=openpgp;
- fpr=701B806FDCA5D3A58FFB8F7D7C276C64A5E44A1D
-Content-Transfer-Encoding: 8bit
+References: <20251030181153.1208-1-jajones@nvidia.com>
+In-Reply-To: <20251030181153.1208-1-jajones@nvidia.com>
+From: Dave Airlie <airlied@gmail.com>
+Date: Thu, 6 Nov 2025 11:10:25 +1000
+X-Gm-Features: AWmQ_bmCTQVuWSlyEeES5u_487iyQN-Bb540-HKjfSbJe_ACE1aHE1Bnc6YfQP8
+Message-ID: <CAPM=9tzMUi_9BRL8onjvXoj8Cb0eQFpFwmKHveGTCRU1Nc7O3Q@mail.gmail.com>
+Subject: Re: [PATCH v2 0/2] drm/nouveau: Advertise correct modifiers on GB20x
+To: James Jones <jajones@nvidia.com>
+Cc: Danilo Krummrich <dakr@kernel.org>, Lyude Paul <lyude@redhat.com>, 
+ Faith Ekstrand <faith.ekstrand@collabora.com>, nouveau@lists.freedesktop.org, 
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org, 
+ Simona Vetter <simona@ffwll.ch>, Joel Fernandes <joelagnelf@nvidia.com>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -108,83 +84,90 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Stephen Rothwell reports htmldocs warnings when merging drm-misc tree:
+I've pushed both of these to drm-misc-fixes.
 
-Documentation/gpu/drm-mm:40: include/drm/ttm/ttm_device.h:225: ERROR: Unknown target name: "ttm_allocation". [docutils]
-Documentation/gpu/drm-mm:43: drivers/gpu/drm/ttm/ttm_device.c:202: ERROR: Unknown target name: "ttm_allocation". [docutils]
-Documentation/gpu/drm-mm:73: include/drm/ttm/ttm_pool.h:68: ERROR: Unknown target name: "ttm_allocation_pool". [docutils]
-Documentation/gpu/drm-mm:76: drivers/gpu/drm/ttm/ttm_pool.c:1070: ERROR: Unknown target name: "ttm_allocation_pool". [docutils]
+Thanks,
+Dave.
 
-Fix these by adding missing wildcard on TTM_ALLOCATION_* and
-TTM_ALLOCATION_POOL_* in @alloc_flags description.
-
-Fixes: 0af5b6a8f8dd ("drm/ttm: Replace multiple booleans with flags in pool init")
-Fixes: 77e19f8d3297 ("drm/ttm: Replace multiple booleans with flags in device init")
-Fixes: 402b3a865090 ("drm/ttm: Add an allocation flag to propagate -ENOSPC on OOM")
-Reported-by: Stephen Rothwell <sfr@canb.auug.org.au>
-Closes: https://lore.kernel.org/linux-next/20251105161838.55b962a3@canb.auug.org.au/
-Signed-off-by: Bagas Sanjaya <bagasdotme@gmail.com>
----
- drivers/gpu/drm/ttm/ttm_device.c | 2 +-
- drivers/gpu/drm/ttm/ttm_pool.c   | 2 +-
- include/drm/ttm/ttm_device.h     | 2 +-
- include/drm/ttm/ttm_pool.h       | 2 +-
- 4 files changed, 4 insertions(+), 4 deletions(-)
-
-diff --git a/drivers/gpu/drm/ttm/ttm_device.c b/drivers/gpu/drm/ttm/ttm_device.c
-index 5c10e5fbf43b7f..9a51afaf0749e2 100644
---- a/drivers/gpu/drm/ttm/ttm_device.c
-+++ b/drivers/gpu/drm/ttm/ttm_device.c
-@@ -199,7 +199,7 @@ EXPORT_SYMBOL(ttm_device_swapout);
-  * @dev: The core kernel device pointer for DMA mappings and allocations.
-  * @mapping: The address space to use for this bo.
-  * @vma_manager: A pointer to a vma manager.
-- * @alloc_flags: TTM_ALLOCATION_ flags.
-+ * @alloc_flags: TTM_ALLOCATION_* flags.
-  *
-  * Initializes a struct ttm_device:
-  * Returns:
-diff --git a/drivers/gpu/drm/ttm/ttm_pool.c b/drivers/gpu/drm/ttm/ttm_pool.c
-index 97e9ce505cf68d..18b6db015619c0 100644
---- a/drivers/gpu/drm/ttm/ttm_pool.c
-+++ b/drivers/gpu/drm/ttm/ttm_pool.c
-@@ -1067,7 +1067,7 @@ long ttm_pool_backup(struct ttm_pool *pool, struct ttm_tt *tt,
-  * @pool: the pool to initialize
-  * @dev: device for DMA allocations and mappings
-  * @nid: NUMA node to use for allocations
-- * @alloc_flags: TTM_ALLOCATION_POOL_ flags
-+ * @alloc_flags: TTM_ALLOCATION_POOL_* flags
-  *
-  * Initialize the pool and its pool types.
-  */
-diff --git a/include/drm/ttm/ttm_device.h b/include/drm/ttm/ttm_device.h
-index d016360e5cebbc..5618aef462f21b 100644
---- a/include/drm/ttm/ttm_device.h
-+++ b/include/drm/ttm/ttm_device.h
-@@ -221,7 +221,7 @@ struct ttm_device {
- 	struct list_head device_list;
- 
- 	/**
--	 * @alloc_flags: TTM_ALLOCATION_ flags.
-+	 * @alloc_flags: TTM_ALLOCATION_* flags.
- 	 */
- 	unsigned int alloc_flags;
- 
-diff --git a/include/drm/ttm/ttm_pool.h b/include/drm/ttm/ttm_pool.h
-index 67c72de913bb9d..233581670e7825 100644
---- a/include/drm/ttm/ttm_pool.h
-+++ b/include/drm/ttm/ttm_pool.h
-@@ -64,7 +64,7 @@ struct ttm_pool_type {
-  *
-  * @dev: the device we allocate pages for
-  * @nid: which numa node to use
-- * @alloc_flags: TTM_ALLOCATION_POOL_ flags
-+ * @alloc_flags: TTM_ALLOCATION_POOL_* flags
-  * @caching: pools for each caching/order
-  */
- struct ttm_pool {
-
-base-commit: c553832116b8d0039b13ae84d1ed06e7ee4f1fdf
--- 
-An old man doll... just what I always wanted! - Clara
-
+On Fri, 31 Oct 2025 at 04:07, James Jones <jajones@nvidia.com> wrote:
+>
+> This series adds new format modifiers for 8 and 16-bit formats on GB20x
+> GPUs, preventing them from mistakenly sharing block-linear surfaces
+> using these formats with prior GPUs that use a different layout.
+>
+> There are a few ways the parameteric format modifier definition
+> could have been altered to handle the new layouts:
+>
+> -The GOB Height and Page Kind field has a reserved value that could
+>  have been used. However, the GOB height and page kind enums did
+>  not change relative to prior chips, so this is sort of a lie.
+>  However, this is the least-invasive change.
+>
+> -An entirely new field could have been added. This seems
+>  inappropriate given the presence of an existing appropriate field.
+>  The advantage here is it avoids splitting the sector layout field
+>  across two bitfields.
+>
+> The chosen approach is the logically consistent one, but has the
+> downside of being the most complex, and that it causes the
+> DRM_FORMAT_MOD_NVIDIA_BLOCK_LINEAR_2D() macro to evaluate its 's'
+> parameter twice. However, utilizing simple helper functions in
+> client code when accessing the parameteric format modifier fields
+> easily addresses the complexity, and I have audited the relevant code
+> and do not believe the double evaluation should cause any problems in
+> practice.
+>
+> Tested on GB20x and TU10x cards using the following:
+>
+> -kmscube w/NVK+Zink built with these patches applied:
+>
+>    https://gitlab.freedesktop.org/mesa/mesa/-/merge_requests/36336
+>
+>  with various manually specified formats
+>  and both manually specified and automatically
+>  selected modifiers.
+>
+> -drmfmtmods, a tiny test program that lists modifiers:
+>
+>    https://github.com/cubanismo/drmfmtmods
+>
+> Changes in v2:
+>
+> -Added "Fixes: 6cc6e08d4542" line since this can be considered a bug
+>  fix for the initial blackwell KMS support in nouveau.
+>
+> -Dropped the second patch from the v1 series as it has been merged.
+>
+> Changes since the RFC version here:
+>
+>   https://lore.kernel.org/nouveau/20250703223658.1457-1-jajones@nvidia.com/
+>
+> -Dropped the helper macros & static inlines in
+>  drm_fourcc.h as requested by Faith Ekstrand,
+>  who noted these aren't helpful for UMD code,
+>  which is all written in rust now. I may re-
+>  introduce some of these in a subsequent series,
+>  but we both agreed we do not want to delay
+>  progress on the modifiers themselves while we
+>  debate the details of those cometic details.
+>
+> -Reserved an extra bit for future sector
+>  layouts.
+>
+> -Fixed handling of linear modifiers on GB20x
+>  and NV5x/G8x/G9x/GT2xx chips.
+>
+> James Jones (2):
+>   drm: define NVIDIA DRM format modifiers for GB20x
+>   drm/nouveau: Advertise correct modifiers on GB20x
+>
+>  drivers/gpu/drm/nouveau/dispnv50/disp.c     |  4 ++-
+>  drivers/gpu/drm/nouveau/dispnv50/disp.h     |  1 +
+>  drivers/gpu/drm/nouveau/dispnv50/wndw.c     | 24 +++++++++++++--
+>  drivers/gpu/drm/nouveau/dispnv50/wndwca7e.c | 33 +++++++++++++++++++++
+>  include/uapi/drm/drm_fourcc.h               | 25 ++++++++++------
+>  5 files changed, 75 insertions(+), 12 deletions(-)
+>
+> --
+> 2.50.1
+>
