@@ -2,27 +2,28 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B77CFC3C5A2
-	for <lists+dri-devel@lfdr.de>; Thu, 06 Nov 2025 17:20:57 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3553EC3C5F3
+	for <lists+dri-devel@lfdr.de>; Thu, 06 Nov 2025 17:23:32 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0C2A410E94E;
-	Thu,  6 Nov 2025 16:20:55 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id EA83910E94A;
+	Thu,  6 Nov 2025 16:23:29 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from foss.arm.com (foss.arm.com [217.140.110.172])
- by gabe.freedesktop.org (Postfix) with ESMTP id 18BE610E94B
- for <dri-devel@lists.freedesktop.org>; Thu,  6 Nov 2025 16:20:54 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTP id 387E210E94A
+ for <dri-devel@lists.freedesktop.org>; Thu,  6 Nov 2025 16:23:29 +0000 (UTC)
 Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
- by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id EA47F12FC;
- Thu,  6 Nov 2025 08:20:45 -0800 (PST)
+ by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 26CEB12FC;
+ Thu,  6 Nov 2025 08:23:21 -0800 (PST)
 Received: from [10.57.72.2] (unknown [10.57.72.2])
- by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 112AA3F66E;
- Thu,  6 Nov 2025 08:20:51 -0800 (PST)
-Message-ID: <8a1dd381-9173-46de-91a9-8cfdab9a269b@arm.com>
-Date: Thu, 6 Nov 2025 16:20:50 +0000
+ by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 075243F66E;
+ Thu,  6 Nov 2025 08:23:26 -0800 (PST)
+Message-ID: <08c03b0b-79dc-4b4b-9c4d-81d188bc8f92@arm.com>
+Date: Thu, 6 Nov 2025 16:23:24 +0000
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v1 4/8] drm/panthor: Fix the full_tick check
+Subject: Re: [PATCH v1 5/8] drm/panthor: Fix immediate ticking on a disabled
+ tick
 To: Boris Brezillon <boris.brezillon@collabora.com>,
  Liviu Dudau <liviu.dudau@arm.com>,
  =?UTF-8?Q?Adri=C3=A1n_Larumbe?= <adrian.larumbe@collabora.com>
@@ -30,10 +31,10 @@ Cc: dri-devel@lists.freedesktop.org, Florent Tomasin
  <florent.tomasin@arm.com>, Heinrich Fink <hfink@snap.com>,
  kernel@collabora.com
 References: <20251106144656.1012274-1-boris.brezillon@collabora.com>
- <20251106144656.1012274-5-boris.brezillon@collabora.com>
+ <20251106144656.1012274-6-boris.brezillon@collabora.com>
 From: Steven Price <steven.price@arm.com>
 Content-Language: en-GB
-In-Reply-To: <20251106144656.1012274-5-boris.brezillon@collabora.com>
+In-Reply-To: <20251106144656.1012274-6-boris.brezillon@collabora.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -52,49 +53,52 @@ Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 On 06/11/2025 14:46, Boris Brezillon wrote:
-> We have a full tick when the remaining time to the next tick is zero,
-> not the other way around. Declare a full_tick variable so we don't get
-> that test wrong in other places.
+> We have a few path where we schedule the tick work immediately without
+NIT: s/path/paths/> changing the resched_target. If the tick was
+stopped, this would lead
+> to a remaining_jiffies that's always > 0, and it wouldn't force a full
+> tick in that case. Add extra checks to cover that case properly.
 > 
 > Fixes: de8548813824 ("drm/panthor: Add the scheduler logical block")
 > Signed-off-by: Boris Brezillon <boris.brezillon@collabora.com>
-
-Reviewed-by: Steven Price <steven.price@arm.com>
-
 > ---
->  drivers/gpu/drm/panthor/panthor_sched.c | 7 +++++--
->  1 file changed, 5 insertions(+), 2 deletions(-)
+>  drivers/gpu/drm/panthor/panthor_sched.c | 6 +++++-
+>  1 file changed, 5 insertions(+), 1 deletion(-)
 > 
 > diff --git a/drivers/gpu/drm/panthor/panthor_sched.c b/drivers/gpu/drm/panthor/panthor_sched.c
-> index 69cc1b4c23f2..b6489e9ba1f0 100644
+> index b6489e9ba1f0..1eba56e7360d 100644
 > --- a/drivers/gpu/drm/panthor/panthor_sched.c
 > +++ b/drivers/gpu/drm/panthor/panthor_sched.c
-> @@ -2349,6 +2349,7 @@ static void tick_work(struct work_struct *work)
->  	u64 remaining_jiffies = 0, resched_delay;
->  	u64 now = get_jiffies_64();
->  	int prio, ret, cookie;
-> +	bool full_tick;
+> @@ -2358,8 +2358,12 @@ static void tick_work(struct work_struct *work)
+>  	if (drm_WARN_ON(&ptdev->base, ret))
+>  		goto out_dev_exit;
 >  
->  	if (!drm_dev_enter(&ptdev->base, &cookie))
->  		return;
-> @@ -2360,15 +2361,17 @@ static void tick_work(struct work_struct *work)
->  	if (time_before64(now, sched->resched_target))
+> -	if (time_before64(now, sched->resched_target))
+> +	if (sched->resched_target != U64_MAX &&
+> +	    time_before64(now, sched->resched_target))
 >  		remaining_jiffies = sched->resched_target - now;
+> +	else if (sched->resched_target == U64_MAX &&
+> +		 time_before64(now, sched->last_tick + sched->tick_period))
+> +		remaining_jiffies = sched->last_tick + sched->tick_period - now;
+
+I'm wondering if this would be cleaner with an extra variable (and a
+comment):
+
+   u64 resched_target = sched->resched_target;
+
+   /* If the tick is stopped, calculate when the next tick would be */
+   if (resched_target == U64_MAX)
+	   resched_target = sched->last_tick + sched->tick_period;
+
+   if (time_before64(now, resched_target)
+	   remaining_jiffies = resched_target - now;
+
+It at least avoids some repetition.
+
+Thanks,
+Steve
+
 >  
-> +	full_tick = remaining_jiffies == 0;
-> +
->  	mutex_lock(&sched->lock);
->  	if (panthor_device_reset_is_pending(sched->ptdev))
->  		goto out_unlock;
+>  	full_tick = remaining_jiffies == 0;
 >  
-> -	tick_ctx_init(sched, &ctx, remaining_jiffies != 0);
-> +	tick_ctx_init(sched, &ctx, full_tick);
->  	if (ctx.csg_upd_failed_mask)
->  		goto out_cleanup_ctx;
->  
-> -	if (remaining_jiffies) {
-> +	if (!full_tick) {
->  		/* Scheduling forced in the middle of a tick. Only RT groups
->  		 * can preempt non-RT ones. Currently running RT groups can't be
->  		 * preempted.
 
