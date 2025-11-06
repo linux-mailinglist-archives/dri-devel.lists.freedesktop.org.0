@@ -2,19 +2,19 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 62ECFC3CA16
-	for <lists+dri-devel@lfdr.de>; Thu, 06 Nov 2025 17:56:51 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id E0039C3CA1E
+	for <lists+dri-devel@lfdr.de>; Thu, 06 Nov 2025 17:56:58 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9095C10E981;
-	Thu,  6 Nov 2025 16:56:49 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DFF2610E979;
+	Thu,  6 Nov 2025 16:56:56 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=igalia.com header.i=@igalia.com header.b="nf23C2TP";
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=igalia.com header.i=@igalia.com header.b="WO7lgAmZ";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from fanzine2.igalia.com (fanzine2.igalia.com [213.97.179.56])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 50C9210E983;
- Thu,  6 Nov 2025 16:56:48 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 92A8310E975;
+ Thu,  6 Nov 2025 16:56:55 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
  s=20170329;
  h=Content-Transfer-Encoding:MIME-Version:References:In-Reply-To:
@@ -22,16 +22,16 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com;
  Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
  :Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
  List-Post:List-Owner:List-Archive;
- bh=Gl9Hx3iLBzzEKz0hoXCBClZ51Qh9aRLBfguckgp6azY=; b=nf23C2TP6XwZCxVw1sER/ZvkwH
- 9V+ONGkTNDEwjE4jyEKoQ9YELynjao3OHcbF+HJ82nB7kFYthvXAvaNZMjmfs2vvlvacHpZoYlKgP
- MuDAp0GI6XHmxUlG3VGq2qDmL+eUCAwwm/rqowkatw57uqI18Wbg96SxZsFDCbUpk/a9a0eDtUP4w
- JSw99X+Iq4jPA2V/VTJgPMJGIWcD+a7odPqrZNgY7UYVIdr8I5SC7uMfaYg3lGE/7dL9czn/AOgg/
- dBDw3gth22dAWL6YxHc4774j1gFm8a31U6e0RduCDsHFQQMEWPtFTra7eyfz3qKiuC+cBfMkg3fhK
- 0795FH6A==;
+ bh=q6rJlgMLS2DeKnalJow+iyBCaQ24Epu5AgBVvMnSQwo=; b=WO7lgAmZ0VipKCsZ6zkL9ffRaP
+ 3QeFI8Q+hmCyo9Xq61FkM5cZpm+VQi1Q5N+GNQywhDleSht9Wj9JHKfCW1t1HZ80NafM7nJN6Bbn1
+ +REZ43A8GJyjRAlYDQPQhybtDy1iY4nJ2o42XvIEpZk0QHzH3oooHW2Wl4sOHkFb1340wkGCCqcAZ
+ I4mCFKcJZ9WkcEi/r66y21nXrRUnZ2+J+gBq7UlUBoJZBPOajZg79YJdCJ9KxnQsSRKDb4Sgjugwf
+ hcdMru6pnVUZwuN7mtwVbBpPPduSyFIzMNBIlR+ozl3RC++gNzri5IXagAMCnERYAPnlVryknls39
+ 0FXB2Yyg==;
 Received: from [186.208.74.26] (helo=killbill.home)
  by fanzine2.igalia.com with esmtpsa 
  (Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_256_GCM:256) (Exim)
- id 1vH3Ho-0035jh-Rk; Thu, 06 Nov 2025 17:56:37 +0100
+ id 1vH3Hu-0035jh-Og; Thu, 06 Nov 2025 17:56:43 +0100
 From: Melissa Wen <mwen@igalia.com>
 To: Harry Wentland <harry.wentland@amd.com>, Alex Hung <alex.hung@amd.com>,
  Mario Limonciello <mario.limonciello@amd.com>,
@@ -44,10 +44,10 @@ To: Harry Wentland <harry.wentland@amd.com>, Alex Hung <alex.hung@amd.com>,
 Cc: Michel Daenzer <michel.daenzer@mailbox.org>,
  Jani Nikula <jani.nikula@linux.intel.com>, amd-gfx@lists.freedesktop.org,
  dri-devel@lists.freedesktop.org, kernel-dev@igalia.com
-Subject: [PATCH v7 09/15] drm/amd/display: simplify dm_helpers_parse_edid_caps
- signature
-Date: Thu,  6 Nov 2025 13:49:12 -0300
-Message-ID: <20251106165536.161662-10-mwen@igalia.com>
+Subject: [PATCH v7 10/15] drm/amd/display: change DC functions to accept
+ private types for edid
+Date: Thu,  6 Nov 2025 13:49:13 -0300
+Message-ID: <20251106165536.161662-11-mwen@igalia.com>
 X-Mailer: git-send-email 2.51.0
 In-Reply-To: <20251106165536.161662-1-mwen@igalia.com>
 References: <20251106165536.161662-1-mwen@igalia.com>
@@ -68,121 +68,119 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Pass dc_sink to dm_helpers_parse_edid_caps(), since it already contains
-edid info. It's a groundwork to get rid of raw edid stored as dc_edid.
+There is an opaque obj in Linux/DRM to encapsulate edid data as
+`drm_edid`. This obj isn't present in other platforms but we need to
+pass it through DC when adding sink. To pass this data without
+compromise the independence of DC code, make some DC functions accept
+edid data as private options.
 
 Signed-off-by: Melissa Wen <mwen@igalia.com>
----
- .../gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c |  5 +---
- .../amd/display/amdgpu_dm/amdgpu_dm_helpers.c | 23 ++++++++-----------
- drivers/gpu/drm/amd/display/dc/dm_helpers.h   |  7 ++----
- .../drm/amd/display/dc/link/link_detection.c  |  5 +---
- 4 files changed, 13 insertions(+), 27 deletions(-)
 
-diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
-index a62f18ecd439..aaf6ffacca01 100644
---- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
-+++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
-@@ -7693,10 +7693,7 @@ static void amdgpu_dm_connector_funcs_force(struct drm_connector *connector)
- 		memset(&dc_em_sink->edid_caps, 0, sizeof(struct dc_edid_caps));
- 		memmove(dc_em_sink->dc_edid.raw_edid, edid,
- 			(edid->extensions + 1) * EDID_LENGTH);
--		dm_helpers_parse_edid_caps(
--			dc_link,
--			&dc_em_sink->dc_edid,
--			&dc_em_sink->edid_caps);
-+		dm_helpers_parse_edid_caps(dc_link, dc_em_sink);
- 	}
+---
+v7: change add_remote_sink in link_service.h too
+---
+ drivers/gpu/drm/amd/display/dc/core/dc_link_exports.c | 9 ++++-----
+ drivers/gpu/drm/amd/display/dc/dc.h                   | 9 ++++-----
+ drivers/gpu/drm/amd/display/dc/inc/link_service.h     | 2 +-
+ drivers/gpu/drm/amd/display/dc/link/link_detection.c  | 4 ++--
+ drivers/gpu/drm/amd/display/dc/link/link_detection.h  | 9 ++++-----
+ 5 files changed, 15 insertions(+), 18 deletions(-)
+
+diff --git a/drivers/gpu/drm/amd/display/dc/core/dc_link_exports.c b/drivers/gpu/drm/amd/display/dc/core/dc_link_exports.c
+index 9acd30019717..dd7a03ad8156 100644
+--- a/drivers/gpu/drm/amd/display/dc/core/dc_link_exports.c
++++ b/drivers/gpu/drm/amd/display/dc/core/dc_link_exports.c
+@@ -279,11 +279,10 @@ unsigned int dc_dp_trace_get_link_loss_count(struct dc_link *link)
+ 	return link->dc->link_srv->dp_trace_get_link_loss_count(link);
  }
  
-diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_helpers.c b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_helpers.c
-index 1a38b6505465..c14d62e63c08 100644
---- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_helpers.c
-+++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_helpers.c
-@@ -91,29 +91,27 @@ static void apply_edid_quirks(struct drm_device *dev,
- /**
-  * dm_helpers_parse_edid_caps() - Parse edid caps
-  *
-- * @link: current detected link
-- * @edid:	[in] pointer to edid
-- * @edid_caps:	[in] pointer to edid caps
-+ * @link: current detected link (connector)
-+ * @sink: current detected sink (display)
-  *
-  * Return: void
-  */
--enum dc_edid_status dm_helpers_parse_edid_caps(
+-struct dc_sink *dc_link_add_remote_sink(
 -		struct dc_link *link,
--		const struct dc_edid *edid,
--		struct dc_edid_caps *edid_caps)
-+enum dc_edid_status dm_helpers_parse_edid_caps(struct dc_link *link,
-+					       struct dc_sink *sink)
+-		const uint8_t *edid,
+-		int len,
+-		struct dc_sink_init_data *init_data)
++struct dc_sink *dc_link_add_remote_sink(struct dc_link *link,
++					const void *edid,
++					int len,
++					struct dc_sink_init_data *init_data)
  {
- 	struct amdgpu_dm_connector *aconnector = link->priv;
- 	struct drm_connector *connector = &aconnector->base;
- 	struct drm_device *dev = connector->dev;
--	struct edid *edid_buf = edid ? (struct edid *) edid->raw_edid : NULL;
-+	struct edid *edid_buf;
- 	const struct drm_edid *drm_edid;
- 	struct drm_edid_product_id product_id;
-+	struct dc_edid_caps *edid_caps = &sink->edid_caps;
- 	int sad_count;
- 	int i = 0;
- 	enum dc_edid_status result = EDID_OK;
+ 	return link->dc->link_srv->add_remote_sink(link, edid, len, init_data);
+ }
+diff --git a/drivers/gpu/drm/amd/display/dc/dc.h b/drivers/gpu/drm/amd/display/dc/dc.h
+index 5c19df8ef641..2efb9add13ff 100644
+--- a/drivers/gpu/drm/amd/display/dc/dc.h
++++ b/drivers/gpu/drm/amd/display/dc/dc.h
+@@ -2020,11 +2020,10 @@ struct dc_sink_init_data;
+  * @len - size of the edid in byte
+  * @init_data -
+  */
+-struct dc_sink *dc_link_add_remote_sink(
+-		struct dc_link *dc_link,
+-		const uint8_t *edid,
+-		int len,
+-		struct dc_sink_init_data *init_data);
++struct dc_sink *dc_link_add_remote_sink(struct dc_link *dc_link,
++					const void *edid,
++					int len,
++					struct dc_sink_init_data *init_data);
  
--
--	if (!edid_caps || !edid)
-+	edid_buf = (struct edid *) &sink->dc_edid.raw_edid;
-+	if (!edid_caps || !edid_buf)
- 		return EDID_BAD_INPUT;
- 
- 	drm_edid = drm_edid_alloc(edid_buf, EDID_LENGTH * (edid_buf->extensions + 1));
-@@ -1037,10 +1035,7 @@ enum dc_edid_status dm_helpers_read_local_edid(
- 		/* We don't need the original edid anymore */
- 		drm_edid_free(drm_edid);
- 
--		edid_status = dm_helpers_parse_edid_caps(
--						link,
--						&sink->dc_edid,
--						&sink->edid_caps);
-+		edid_status = dm_helpers_parse_edid_caps(link, sink);
- 
- 	} while (edid_status == EDID_BAD_CHECKSUM && --retry > 0);
- 
-diff --git a/drivers/gpu/drm/amd/display/dc/dm_helpers.h b/drivers/gpu/drm/amd/display/dc/dm_helpers.h
-index 9d160b39e8c5..ce6a70368bd0 100644
---- a/drivers/gpu/drm/amd/display/dc/dm_helpers.h
-+++ b/drivers/gpu/drm/amd/display/dc/dm_helpers.h
-@@ -59,11 +59,8 @@ void dm_helpers_free_gpu_mem(
- 		enum dc_gpu_mem_alloc_type type,
- 		void *pvMem);
- 
--enum dc_edid_status dm_helpers_parse_edid_caps(
--	struct dc_link *link,
--	const struct dc_edid *edid,
--	struct dc_edid_caps *edid_caps);
--
-+enum dc_edid_status dm_helpers_parse_edid_caps(struct dc_link *link,
-+					       struct dc_sink *sink);
- 
- /*
-  * Update DP branch info
+ /* Remove remote sink from a link with dc_connection_mst_branch connection type.
+  * @link - link the sink should be removed from
+diff --git a/drivers/gpu/drm/amd/display/dc/inc/link_service.h b/drivers/gpu/drm/amd/display/dc/inc/link_service.h
+index 1e34e84160aa..f1a6002b0182 100644
+--- a/drivers/gpu/drm/amd/display/dc/inc/link_service.h
++++ b/drivers/gpu/drm/amd/display/dc/inc/link_service.h
+@@ -109,7 +109,7 @@ struct link_service {
+ 			enum dc_connection_type *type);
+ 	struct dc_sink *(*add_remote_sink)(
+ 			struct dc_link *link,
+-			const uint8_t *edid,
++			const void *edid,
+ 			int len,
+ 			struct dc_sink_init_data *init_data);
+ 	void (*remove_remote_sink)(struct dc_link *link, struct dc_sink *sink);
 diff --git a/drivers/gpu/drm/amd/display/dc/link/link_detection.c b/drivers/gpu/drm/amd/display/dc/link/link_detection.c
-index 5d287874c125..c466c1404ed1 100644
+index c466c1404ed1..d2528e35ae0b 100644
 --- a/drivers/gpu/drm/amd/display/dc/link/link_detection.c
 +++ b/drivers/gpu/drm/amd/display/dc/link/link_detection.c
-@@ -1575,10 +1575,7 @@ struct dc_sink *link_add_remote_sink(
- 			dc_sink))
- 		goto fail_add_sink;
+@@ -1540,7 +1540,7 @@ static bool link_add_remote_sink_helper(struct dc_link *dc_link, struct dc_sink
  
--	edid_status = dm_helpers_parse_edid_caps(
--			link,
--			&dc_sink->dc_edid,
--			&dc_sink->edid_caps);
-+	edid_status = dm_helpers_parse_edid_caps(link, dc_sink);
+ struct dc_sink *link_add_remote_sink(
+ 		struct dc_link *link,
+-		const uint8_t *edid,
++		const void *edid,
+ 		int len,
+ 		struct dc_sink_init_data *init_data)
+ {
+@@ -1567,7 +1567,7 @@ struct dc_sink *link_add_remote_sink(
+ 	if (!dc_sink)
+ 		return NULL;
  
- 	/*
- 	 * Treat device as no EDID device if EDID
+-	memmove(dc_sink->dc_edid.raw_edid, edid, len);
++	memmove(dc_sink->dc_edid.raw_edid, (const uint8_t *) edid, len);
+ 	dc_sink->dc_edid.length = len;
+ 
+ 	if (!link_add_remote_sink_helper(
+diff --git a/drivers/gpu/drm/amd/display/dc/link/link_detection.h b/drivers/gpu/drm/amd/display/dc/link/link_detection.h
+index 1ab29476060b..d9097c1144ba 100644
+--- a/drivers/gpu/drm/amd/display/dc/link/link_detection.h
++++ b/drivers/gpu/drm/amd/display/dc/link/link_detection.h
+@@ -29,11 +29,10 @@
+ bool link_detect(struct dc_link *link, enum dc_detect_reason reason);
+ bool link_detect_connection_type(struct dc_link *link,
+ 		enum dc_connection_type *type);
+-struct dc_sink *link_add_remote_sink(
+-		struct dc_link *link,
+-		const uint8_t *edid,
+-		int len,
+-		struct dc_sink_init_data *init_data);
++struct dc_sink *link_add_remote_sink(struct dc_link *link,
++				     const void *edid,
++				     int len,
++				     struct dc_sink_init_data *init_data);
+ void link_remove_remote_sink(struct dc_link *link, struct dc_sink *sink);
+ bool link_reset_cur_dp_mst_topology(struct dc_link *link);
+ const struct dc_link_status *link_get_status(const struct dc_link *link);
 -- 
 2.51.0
 
