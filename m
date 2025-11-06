@@ -2,67 +2,67 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0C813C3D07D
-	for <lists+dri-devel@lfdr.de>; Thu, 06 Nov 2025 19:11:46 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 05C83C3D083
+	for <lists+dri-devel@lfdr.de>; Thu, 06 Nov 2025 19:11:47 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C125910E9A2;
-	Thu,  6 Nov 2025 18:11:41 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 764AB10E9A4;
+	Thu,  6 Nov 2025 18:11:43 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="dsBd+cJo";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="FiaMkmQv";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-oa1-f53.google.com (mail-oa1-f53.google.com
- [209.85.160.53])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 683D710E9A0
- for <dri-devel@lists.freedesktop.org>; Thu,  6 Nov 2025 18:11:40 +0000 (UTC)
-Received: by mail-oa1-f53.google.com with SMTP id
- 586e51a60fabf-3d56d0cb3dbso605364fac.3
- for <dri-devel@lists.freedesktop.org>; Thu, 06 Nov 2025 10:11:40 -0800 (PST)
+Received: from mail-oo1-f45.google.com (mail-oo1-f45.google.com
+ [209.85.161.45])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1C34F10E9A5
+ for <dri-devel@lists.freedesktop.org>; Thu,  6 Nov 2025 18:11:42 +0000 (UTC)
+Received: by mail-oo1-f45.google.com with SMTP id
+ 006d021491bc7-656b0bd47b8so339569eaf.0
+ for <dri-devel@lists.freedesktop.org>; Thu, 06 Nov 2025 10:11:42 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1762452699; x=1763057499; darn=lists.freedesktop.org;
+ d=gmail.com; s=20230601; t=1762452701; x=1763057501; darn=lists.freedesktop.org;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=5NgunL5KwvJK+2gOf+mj57OQ2fhqgmw6auCXGkvoKy8=;
- b=dsBd+cJousd6BwYe+JN2+MdfbMEog+6hhTlLuWn/zERkkWl6QNOb6bZXSu/F0UGxBd
- a6X9MOXfvLiL3hxQopaUTV2xb6KXRjNtab/0jcrsw4XOWRr51NZbAHacKdw4X3hM8vD3
- wv282nKEpWn8uZUbRchyCbpjUo7GMvUrh23pOmrp6Uasyu2P6+efnwF+e0uDhZ8gRaSn
- DTe9zw+kHV1JDYgdVsuDTunqB5G/yAi0BlRK8A/rMFVc2Vled4utfZYOUAoHAVbbSOtA
- wOMEBjpwmXWoMGd18xH4F6CvAZhfjJUghJssP34Ww6L5kzI8MZryhMJSLASippRUDTLc
- yKCw==
+ bh=nTvSrRIoFUcQoZC4cTRmqWQzhHQETi5HQX0+94VQOzE=;
+ b=FiaMkmQvZ2aQeYMrsEU/NON3bbdklex5BQgPGMC+fKaOIgNmNKq0eNuosNXEPAyf2O
+ ETEpJBXxMxtAeST5SkjqnwdyigKule/C5dprwuCGndfV1bUQPSoOVvIrIrMoNovXsav2
+ ZccwzNah42mOGRcQyEW4GiYIDctYGU7Y0exJj0zpqPExH23NbCmoWwEo7BS5MQmc7+yi
+ ax1fn5ZwYthi7v3cR5ZgYSDi0CEEl1+d93BBG/gneN/H2HF+igZd17EtH7z4vRlkjvP2
+ gTxPVuV/rjxQusQcCphqzJmngpJtkdUWIVqTi5O+bOu2+E7AlKPispOGeTHK2NyWHR6S
+ S5DA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1762452699; x=1763057499;
+ d=1e100.net; s=20230601; t=1762452701; x=1763057501;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
  :to:cc:subject:date:message-id:reply-to;
- bh=5NgunL5KwvJK+2gOf+mj57OQ2fhqgmw6auCXGkvoKy8=;
- b=AoCHvjCV+nVWouFESYvVhVulrSotezYcJ+yUSX2xdrtfUPU+kfUCJf+aCbX7G3iX2K
- K41urW+mwA8d7tUDM7BTaCiJ7iETJ9i67Xt1NnsHfY/9Fi4Wu3AmT1RmlLhxYj3Bdb5d
- ORsf0miU0rXKwq1J+P87Qb1JRB8abcApQ8jhYjHRXwU/yn/9MdZYL1MsbUoPM34rZwR5
- GthY883vg8ADsoSovEndJUa13qZMtiSYmBbpnTTTaBnm9jHy68vGET953Dy0CuKUbhl8
- fE065qTTlH/cCTrR4I1mCjaY/s+p7LZCrgfwV7WP4DcoBoeqSlEVvkInWRYycayk3mgB
- ODvA==
+ bh=nTvSrRIoFUcQoZC4cTRmqWQzhHQETi5HQX0+94VQOzE=;
+ b=KjwBaEl7K65ifERsccjpzDGTd40OhhhA+lACne2muql3OOehq9QFwc4G2WTv3xNehd
+ Ljk9TsAbwu/LerxsV2KKGOZMFvRLKFbRPKPabO/W9JrhC6XTXPfcIDC69fTRSilakOWo
+ GRiOJvu3vn561z34NiOnsUwdaikf7xl41cjYVgnGvopv5CwmK1qImRAm4ryb9H60YvWp
+ Gl4qpYB8qJf+E6HYLHLZcjGzUTc4G/hx5c7jl5k2dtMbWl7ErhugVmz89p/gh7vW+v/w
+ IFSeXUh0ulhu1GFsxf6VLfGoykxbdNe9fIR47lDZc0Fp4Mpzy5TTHfyzIk+3jLjUeEtm
+ GQMQ==
 X-Forwarded-Encrypted: i=1;
- AJvYcCVBDFiJynJ6tj0WdwKw+BMONXyo/xLC3atRLPwL7QkkU0GH6xxY5J9n7sEivU5dQmuwIdrMFYdoOT8=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Yw4BgAY+yVkBIkybcg3epuKTetc1rM7JM+OV99nlzQ04sEOwe7H
- UOrKAAnekspJ1xnzfUbMcBOr3ZmpwY5RiX+RkKWPxnjhbuG67PUreFLH
-X-Gm-Gg: ASbGncsaRGzAudp49FG0U7nWe47ZO6Uy2cntQ+fPdZRxuicYQMCWOlRCTt7ONsDmXxz
- S5+tocI3FcnolhaIjAbTTJzFwRRgO/OLUfxKmYNYP0uM8mQb48ajRZ045BMrAlXJUgYIdOzvcFM
- wSJ9w3Jni0O9vlFM/8q5MFjsPt3r/Y90R6a4t4u/q+U2EY1AaHgd74iXvh+1gfSpL7jypukv8dj
- RwsjRQ97tQwKOgUTzOGXkaPqbsMQ37znzRFcgtUn2zbGsYqxNOLC8JEQ6yOZS3mUptY6aoG4aVM
- pHVqBa2PnlT3WDFK99ywU1x977L6H4eVni+phmVKDP3tpVh0dE2VcfpLMM68YR/eGvspXjuNe6I
- V8U6/vnNxnXJJUVdtgHfleIUin3Mu0FN6fW5iY5dA1WA1BWitl/YbiZjtu9Kg7C5ofh7pa5yUlp
- LjHJnG/0X1/JOMIJlHs8w=
-X-Google-Smtp-Source: AGHT+IHma/9oT2QhA0Uh2NSevURHZ6LEIHNkUwqOc+ooh6n5wL5HT6VMsKbcFKmAmJ5kNfBQsS2VOA==
-X-Received: by 2002:a05:6871:5b0c:b0:3d9:2fe2:f5c8 with SMTP id
- 586e51a60fabf-3e41e608999mr373400fac.32.1762452699528; 
- Thu, 06 Nov 2025 10:11:39 -0800 (PST)
+ AJvYcCWuuibeBv2E86w3a/v4rq/EEBo+Vmjo2BixAwErhVsuZ3wxRATkjR8h/ve5diwbEN94RTuJutUzefE=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YwGrPtmQJxfg6uIB9oo9AD6ohCol0tmvGoPJUQdFo+2ln6JlzMH
+ BGq7io8BqrolRDEvEgGmj7u3P804pxcQakNGgY0YEvc0aPx3opTSXtp+
+X-Gm-Gg: ASbGncvd78AE8dem9mrJA1qGW0tXnuI0fUf2Sl1vqHrKrTJmoQf2Mm6yH8KN042jXrX
+ VbEAriOfApAaWz4U02QIRC7tvGrX0FWYLqLfna93EnuCf4imnVFMD6wdx23L54ITWjEwqhJyt2s
+ yxXZ/LVO5G3H5b03fqQ2RI9aUFfWNcxVWe1FoKabgexwbdZuYr1NaPgbvnux6u7aphWKVGX9JQm
+ AhjHHv1rV8zEpTuaBphJdpuxy8Hr5n6Jl5gis3sfN1tCIT9LptU/mjlSJaj9qNwIYJzz/gYTtQv
+ uLux4qb1xIi6sDIvHWmiOuAU8fTq8n3dnJO5H5wx/DdCK2E7KsgPQerRYFG+2T3RgqJvcjINCdb
+ 9KUz23K8u9JYBdL0bN60U+LZE5rZ40BU5NAGXrgMgJYPolJo5V/T/A4HbHyH0dz5awYBD0VjfCo
+ BBQghJIC+ALohmWSwTEbs=
+X-Google-Smtp-Source: AGHT+IEfuV69CL6SVcZpapKEvHBs4toFoMM6EFJyVvrWMOaDwcUJHXd4zzkXKqfcYAZxWxaA5cWcnw==
+X-Received: by 2002:a05:6871:2b22:b0:3e1:1de:9c0d with SMTP id
+ 586e51a60fabf-3e41e49bdefmr305404fac.17.1762452700826; 
+ Thu, 06 Nov 2025 10:11:40 -0800 (PST)
 Received: from localhost.localdomain ([2600:1700:fb0:1bc0:41f9:c9d3:db30:c36a])
  by smtp.gmail.com with ESMTPSA id
- 586e51a60fabf-3e41ed0aa06sm137739fac.8.2025.11.06.10.11.38
+ 586e51a60fabf-3e41ed0aa06sm137739fac.8.2025.11.06.10.11.39
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 06 Nov 2025 10:11:39 -0800 (PST)
+ Thu, 06 Nov 2025 10:11:40 -0800 (PST)
 From: Chris Morgan <macroalpha82@gmail.com>
 To: linux-rockchip@lists.infradead.org
 Cc: devicetree@vger.kernel.org, dri-devel@lists.freedesktop.org,
@@ -73,9 +73,9 @@ Cc: devicetree@vger.kernel.org, dri-devel@lists.freedesktop.org,
  krzk+dt@kernel.org, robh@kernel.org, tzimmermann@suse.de,
  mripard@kernel.org, andy.yan@rock-chips.com, heiko@sntech.de,
  Chris Morgan <macromorgan@hotmail.com>
-Subject: [PATCH 2/3] drm/bridge: dw-hdmi-qp: Add support for missing HPD
-Date: Thu,  6 Nov 2025 12:09:13 -0600
-Message-ID: <20251106180914.768502-3-macroalpha82@gmail.com>
+Subject: [PATCH 3/3] arm64: dts: rockchip: Add HDMI to Gameforce Ace
+Date: Thu,  6 Nov 2025 12:09:14 -0600
+Message-ID: <20251106180914.768502-4-macroalpha82@gmail.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20251106180914.768502-1-macroalpha82@gmail.com>
 References: <20251106180914.768502-1-macroalpha82@gmail.com>
@@ -98,103 +98,118 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: Chris Morgan <macromorgan@hotmail.com>
 
-Add support for the dw-hdmi-qp driver to handle devices with missing
-HPD pins.
-
-Since in this situation we are now polling for the EDID data via i2c
-change the error message to a debug message when we are unable to
-complete an i2c read, as a disconnected device would otherwise fill
-dmesg with i2c read errors.
+Add support for the HDMI port for the Gameforce Ace. The HDMI port
+has no HPD pin present (the manufacturer's devicetree states the pin
+is reused for an additional face button) so add the attribute of
+no_hpd to poll for connected devices.
 
 Signed-off-by: Chris Morgan <macromorgan@hotmail.com>
 ---
- drivers/gpu/drm/bridge/synopsys/dw-hdmi-qp.c | 35 +++++++++++++++++---
- 1 file changed, 31 insertions(+), 4 deletions(-)
+ .../dts/rockchip/rk3588s-gameforce-ace.dts    | 63 +++++++++++++++++++
+ 1 file changed, 63 insertions(+)
 
-diff --git a/drivers/gpu/drm/bridge/synopsys/dw-hdmi-qp.c b/drivers/gpu/drm/bridge/synopsys/dw-hdmi-qp.c
-index 39332c57f2c5..b221f797de3d 100644
---- a/drivers/gpu/drm/bridge/synopsys/dw-hdmi-qp.c
-+++ b/drivers/gpu/drm/bridge/synopsys/dw-hdmi-qp.c
-@@ -145,6 +145,7 @@ struct dw_hdmi_qp {
- 	struct regmap *regm;
+diff --git a/arch/arm64/boot/dts/rockchip/rk3588s-gameforce-ace.dts b/arch/arm64/boot/dts/rockchip/rk3588s-gameforce-ace.dts
+index f5894672fcbd..b98e1a3369dc 100644
+--- a/arch/arm64/boot/dts/rockchip/rk3588s-gameforce-ace.dts
++++ b/arch/arm64/boot/dts/rockchip/rk3588s-gameforce-ace.dts
+@@ -300,6 +300,20 @@ amp_headphone: headphone-amplifier {
+ 		sound-name-prefix = "Headphones Amplifier";
+ 	};
  
- 	unsigned long tmds_char_rate;
-+	bool no_hpd;
++	hdmi0-con {
++		compatible = "hdmi-connector";
++		ddc-en-gpios = <&gpio4 RK_PB3 GPIO_ACTIVE_HIGH>;
++		pinctrl-0 = <&hdmi0_en>;
++		pinctrl-names = "default";
++		type = "d";
++
++		port {
++			hdmi0_con_in: endpoint {
++				remote-endpoint = <&hdmi0_out_con>;
++			};
++		};
++	};
++
+ 	pwm_fan: pwm-fan {
+ 		compatible = "pwm-fan";
+ 		#cooling-cells = <2>;
+@@ -498,6 +512,34 @@ &gpu {
+ 	status = "okay";
  };
  
- static void dw_hdmi_qp_write(struct dw_hdmi_qp *hdmi, unsigned int val,
-@@ -520,6 +521,11 @@ static int dw_hdmi_qp_i2c_read(struct dw_hdmi_qp *hdmi,
- 		i2c->is_regaddr = true;
- 	}
- 
-+	/*
-+	 * Mark errors as debug messages when using no_hpd so no device
-+	 * attached does not fill up dmesg.
-+	 */
++&hdmi0 {
++	no-hpd;
++	pinctrl-0 = <&hdmim0_tx0_cec>, <&hdmim0_tx0_scl>,
++		    <&hdmim0_tx0_sda>;
++	pinctrl-names = "default";
++	status = "okay";
++};
 +
- 	while (length--) {
- 		reinit_completion(&i2c->cmp);
- 
-@@ -535,14 +541,20 @@ static int dw_hdmi_qp_i2c_read(struct dw_hdmi_qp *hdmi,
- 
- 		stat = wait_for_completion_timeout(&i2c->cmp, HZ / 10);
- 		if (!stat) {
--			dev_err(hdmi->dev, "i2c read timed out\n");
-+			if (hdmi->no_hpd)
-+				dev_dbg(hdmi->dev, "i2c read timed out\n");
-+			else
-+				dev_err(hdmi->dev, "i2c read timed out\n");
- 			dw_hdmi_qp_write(hdmi, 0x01, I2CM_CONTROL0);
- 			return -EAGAIN;
- 		}
- 
- 		/* Check for error condition on the bus */
- 		if (i2c->stat & I2CM_NACK_RCVD_IRQ) {
--			dev_err(hdmi->dev, "i2c read error\n");
-+			if (hdmi->no_hpd)
-+				dev_dbg(hdmi->dev, "i2c read error\n");
-+			else
-+				dev_err(hdmi->dev, "i2c read error\n");
- 			dw_hdmi_qp_write(hdmi, 0x01, I2CM_CONTROL0);
- 			return -EIO;
- 		}
-@@ -879,6 +891,15 @@ static enum drm_connector_status
- dw_hdmi_qp_bridge_detect(struct drm_bridge *bridge, struct drm_connector *connector)
- {
- 	struct dw_hdmi_qp *hdmi = bridge->driver_private;
-+	const struct drm_edid *drm_edid;
++&hdmi0_in {
++	hdmi0_in_vp0: endpoint {
++		remote-endpoint = <&vp0_out_hdmi0>;
++	};
++};
 +
-+	if (hdmi->no_hpd) {
-+		drm_edid = drm_edid_read_ddc(connector, bridge->ddc);
-+		if (drm_edid)
-+			return connector_status_connected;
-+		else
-+			return connector_status_disconnected;
-+	}
- 
- 	return hdmi->phy.ops->read_hpd(hdmi, hdmi->phy.data);
- }
-@@ -1074,12 +1095,18 @@ struct dw_hdmi_qp *dw_hdmi_qp_bind(struct platform_device *pdev,
- 	if (ret)
- 		return ERR_PTR(ret);
- 
-+	if (of_property_present(pdev->dev.of_node, "no-hpd"))
-+		hdmi->no_hpd = 1;
-+	else
-+		hdmi->no_hpd = 0;
++&hdmi0_out {
++	hdmi0_out_con: endpoint {
++		remote-endpoint = <&hdmi0_con_in>;
++	};
++};
 +
- 	hdmi->bridge.driver_private = hdmi;
- 	hdmi->bridge.ops = DRM_BRIDGE_OP_DETECT |
- 			   DRM_BRIDGE_OP_EDID |
- 			   DRM_BRIDGE_OP_HDMI |
--			   DRM_BRIDGE_OP_HDMI_AUDIO |
--			   DRM_BRIDGE_OP_HPD;
-+			   DRM_BRIDGE_OP_HDMI_AUDIO;
-+	if (!hdmi->no_hpd)
-+		hdmi->bridge.ops |= DRM_BRIDGE_OP_HPD;
- 	hdmi->bridge.of_node = pdev->dev.of_node;
- 	hdmi->bridge.type = DRM_MODE_CONNECTOR_HDMIA;
- 	hdmi->bridge.vendor = "Synopsys";
++&hdmi0_sound {
++	status = "okay";
++};
++
++&hdptxphy0 {
++	status = "okay";
++};
++
+ &i2c0 {
+ 	pinctrl-0 = <&i2c0m2_xfer>;
+ 	pinctrl-names = "default";
+@@ -746,6 +788,10 @@ &i2s0_sdi0
+ 	status = "okay";
+ };
+ 
++&i2s5_8ch {
++	status = "okay";
++};
++
+ &mipidcphy0 {
+ 	status = "okay";
+ };
+@@ -842,6 +888,13 @@ charger_int_h: charger-int-h {
+ 		};
+ 	};
+ 
++	hdmi {
++		hdmi0_en: hdmi0-en {
++			rockchip,pins =
++				<4 RK_PB3 RK_FUNC_GPIO &pcfg_pull_none>;
++		};
++	};
++
+ 	hym8563 {
+ 		hym8563_int: hym8563-int {
+ 			rockchip,pins =
+@@ -1416,6 +1469,16 @@ &vop_mmu {
+ 	status = "okay";
+ };
+ 
++&vp0 {
++	#address-cells = <1>;
++	#size-cells = <0>;
++
++	vp0_out_hdmi0: endpoint@ROCKCHIP_VOP2_EP_HDMI0 {
++		reg = <ROCKCHIP_VOP2_EP_HDMI0>;
++		remote-endpoint = <&hdmi0_in_vp0>;
++	};
++};
++
+ &vp3 {
+ 	#address-cells = <1>;
+ 	#size-cells = <0>;
 -- 
 2.43.0
 
