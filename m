@@ -2,103 +2,93 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D25B6C3D7D2
-	for <lists+dri-devel@lfdr.de>; Thu, 06 Nov 2025 22:24:10 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id BE441C3D7E0
+	for <lists+dri-devel@lfdr.de>; Thu, 06 Nov 2025 22:25:05 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CC7E010E9D9;
-	Thu,  6 Nov 2025 21:24:07 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0817910E9DA;
+	Thu,  6 Nov 2025 21:25:04 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=ragnatech.se header.i=@ragnatech.se header.b="N+mbpBjY";
-	dkim=pass (2048-bit key; unprotected) header.d=messagingengine.com header.i=@messagingengine.com header.b="o6m80hTS";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="CnQrDaOy";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from fhigh-a1-smtp.messagingengine.com
- (fhigh-a1-smtp.messagingengine.com [103.168.172.152])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B6E2A10E9D9
- for <dri-devel@lists.freedesktop.org>; Thu,  6 Nov 2025 21:24:06 +0000 (UTC)
-Received: from phl-compute-05.internal (phl-compute-05.internal [10.202.2.45])
- by mailfhigh.phl.internal (Postfix) with ESMTP id 0F85314000B8;
- Thu,  6 Nov 2025 16:24:06 -0500 (EST)
-Received: from phl-mailfrontend-01 ([10.202.2.162])
- by phl-compute-05.internal (MEProxy); Thu, 06 Nov 2025 16:24:06 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ragnatech.se; h=
- cc:cc:content-transfer-encoding:content-type:content-type:date
- :date:from:from:in-reply-to:in-reply-to:message-id:mime-version
- :references:reply-to:subject:subject:to:to; s=fm2; t=1762464246;
- x=1762550646; bh=2qCxCx4mvL7O/F6l6ezZJaJhcFM77/ZI3N0lNRey/ec=; b=
- N+mbpBjYFRsEm0UuUP8YwUM3n/gqbSVI4Vx6GO/1MB+wIm6Lcy5IhTyS8g9mYrKs
- h3HaL4qcV5Gw5mgs1C7yOpuwIrN84+L5Eb1hiPyH4e96jbXbLIjfLuTODMvAZ/JB
- QVCwbbE02qd/mlSPgHzS9kMJhVw5PQUdAplbyptHmLmFQOK39agXpZ1U+FvV4eqs
- z86yQ8zZFiTN2e4ynQP6VhWj60pui2/PsXpE8jkgfU8uU4Ti1e8QBt6zot/48tWz
- m4q4dNkctivMIHX6WS3So7xo1CU33EQRzsWCr1pNVDAO8M/VqhcaJv5jP+rDHU1K
- SJHUKalc6XVHsrs+tOOmuA==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:cc:content-transfer-encoding
- :content-type:content-type:date:date:feedback-id:feedback-id
- :from:from:in-reply-to:in-reply-to:message-id:mime-version
- :references:reply-to:subject:subject:to:to:x-me-proxy
- :x-me-sender:x-me-sender:x-sasl-enc; s=fm3; t=1762464246; x=
- 1762550646; bh=2qCxCx4mvL7O/F6l6ezZJaJhcFM77/ZI3N0lNRey/ec=; b=o
- 6m80hTSO1G/ORwRCSPiCJ6WnUZXuoCedH8y6XA2Uo1m/NX6zswXW3UjKujc5vdgV
- df0oiPgPDNqqYVxEmCDD07+CN+nhHga8mImSyayUc0iYErLyjp9VjRtn7EZA4iI0
- Bsc6wESEpcEsaGeOaCVwi7sH5WL+Z9vkSakl6fZbb0w+1shhDh2ZVmSuYyIqeoiE
- EoegcxEXt+w2bqE1eCinW6+BUFJU+RxBHAiiHl9oas8ui0E6ZP6UU7r4f0NdIPwC
- BV4aHDpCQIKjjdiss53ngWueMIrQlB/1Cc2jG4NAa0QLwmWDpci2FX3FLAtlvrah
- aTWzunb8EaBtcKBtNhnqg==
-X-ME-Sender: <xms:9RENaQFYMzRn7vLlEK5XlnyxD5TTmMfs9ZTvo1dx66Y2UsggXaDOrg>
- <xme:9RENadcAzxNBHuD1t3UVnUZAO2TWUUdTciLGmNhBU7ko8RnpUjepc1gHslA1ZBJkx
- sUE_vCx2VznSLrnzPJUtkmGQdfsebYGv_EALy43E6fmzo0-VLOX65Y>
-X-ME-Received: <xmr:9RENaXJEXeujiVM9oflzJbZg8X1yi4UvhTs6MOIlzyMn-Rjz0pUAmpCBbE4WG2RNDRjCZaFY8AMwrvPeOugW2SBX>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeeffedrtdeggddukeejkeehucetufdoteggodetrf
- dotffvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfurfetoffkrfgpnffqhgenuceu
- rghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujf
- gurhephffvvefufffkofgjfhggtgfgsehtkeertdertdejnecuhfhrohhmpefpihhklhgr
- shcuufpnuggvrhhluhhnugcuoehnihhklhgrshdrshhouggvrhhluhhnugdorhgvnhgvsh
- grshesrhgrghhnrghtvggthhdrshgvqeenucggtffrrghtthgvrhhnpeehiefgueevuedt
- fefhheegkeevtdelueeukeevfeduhefhhfejfffggeffleefgeenucevlhhushhtvghruf
- hiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpehnihhklhgrshdrshhouggvrhhl
- uhhnugesrhgrghhnrghtvggthhdrshgvpdhnsggprhgtphhtthhopedujedpmhhouggvpe
- hsmhhtphhouhhtpdhrtghpthhtohepmhgrrhgvkhdrvhgrshhuthdorhgvnhgvshgrshes
- mhgrihhlsghogidrohhrghdprhgtphhtthhopehgvggvrhhtodhrvghnvghsrghssehglh
- hiuggvrhdrsggvpdhrtghpthhtoheptghonhhorhdoughtsehkvghrnhgvlhdrohhrghdp
- rhgtphhtthhopegrihhrlhhivggusehgmhgrihhlrdgtohhmpdhrtghpthhtohepfhhrrg
- hnkhdrsghinhhnshesihhmghhtvggtrdgtohhmpdhrtghpthhtohepkhhriihkodguthes
- khgvrhhnvghlrdhorhhgpdhrtghpthhtohepmhgrrghrthgvnhdrlhgrnhhkhhhorhhsth
- eslhhinhhugidrihhnthgvlhdrtghomhdprhgtphhtthhopehmrghgnhhushdruggrmhhm
- sehgmhgrihhlrdgtohhmpdhrtghpthhtohepmhgrthhtrdgtohhsthgvrhesihhmghhtvg
- gtrdgtohhm
-X-ME-Proxy: <xmx:9RENacosLrqqO02nJ-dhObQn-dbVlCnU7q1e1xyJ-iOh5NDuiYlSLg>
- <xmx:9RENadVmxFqQGEpj_Rjyv6ipGw38L6OInEXIYDPRtRDpRw4f5_8y8Q>
- <xmx:9RENaX3ZHql4dpv3gKIgmubnsSu3GZO_zuOtvhGCMYkkeH8xGxpE5Q>
- <xmx:9RENae2D7Tt1DVXsfKXxEUSuQTNsgDOUZlSppVxRMJsQ9WJU5JFzLg>
- <xmx:9hENaSbmNKkqppbwiATQYPCZovbhlKUDAWWvtybIwQuXH88xRXrJOOAM>
-Feedback-ID: i80c9496c:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Thu,
- 6 Nov 2025 16:24:04 -0500 (EST)
-From: =?UTF-8?q?Niklas=20S=C3=B6derlund?=
- <niklas.soderlund+renesas@ragnatech.se>
-To: Marek Vasut <marek.vasut+renesas@mailbox.org>,
- Geert Uytterhoeven <geert+renesas@glider.be>,
- Conor Dooley <conor+dt@kernel.org>, David Airlie <airlied@gmail.com>,
- Frank Binns <frank.binns@imgtec.com>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Magnus Damm <magnus.damm@gmail.com>, Matt Coster <matt.coster@imgtec.com>,
- Maxime Ripard <mripard@kernel.org>, Rob Herring <robh@kernel.org>,
- Simona Vetter <simona@ffwll.ch>, Thomas Zimmermann <tzimmermann@suse.de>,
- devicetree@vger.kernel.org, dri-devel@lists.freedesktop.org,
- linux-renesas-soc@vger.kernel.org
-Cc: =?UTF-8?q?Niklas=20S=C3=B6derlund?= <niklas.soderlund+renesas@ragnatech.se>
-Subject: [PATCH v2 2/2] arm64: dts: renesas: r8a779a0: Add GE7800 GPU node
-Date: Thu,  6 Nov 2025 22:23:42 +0100
-Message-ID: <20251106212342.2771579-3-niklas.soderlund+renesas@ragnatech.se>
-X-Mailer: git-send-email 2.51.1
-In-Reply-To: <20251106212342.2771579-1-niklas.soderlund+renesas@ragnatech.se>
-References: <20251106212342.2771579-1-niklas.soderlund+renesas@ragnatech.se>
+Received: from mail-wm1-f48.google.com (mail-wm1-f48.google.com
+ [209.85.128.48])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id F3A1010E9DD
+ for <dri-devel@lists.freedesktop.org>; Thu,  6 Nov 2025 21:25:02 +0000 (UTC)
+Received: by mail-wm1-f48.google.com with SMTP id
+ 5b1f17b1804b1-47112edf9f7so425775e9.0
+ for <dri-devel@lists.freedesktop.org>; Thu, 06 Nov 2025 13:25:02 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20230601; t=1762464301; x=1763069101; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:in-reply-to:from:content-language
+ :references:cc:to:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=YKes0XVjNGJ2FggkAmqRR788Mxk3TjUGRm3n1mueSWg=;
+ b=CnQrDaOyC3tkAso3tecfhttGehls4MispX2XH6/Q+VLIeE1XTZP0NzKMxUbBFClU7v
+ pNaQDAevtX75LXlC7KL/AmUjX43V8CPfxMfvnRPFm5yaWkGOfBdjEsHdWDkjgPW9iW76
+ kz9SBcV047cW5fz87jd9MRWtYBLu8N82DA32uJ3m/HbL7s5U3sd4oEn6WL6278fj67Zf
+ nB3HLvixc7XEn7YOTfMRn6VU7jXlplkRHqxYA7PqcfoMhM53nn8GlaZKRY/tHw3KTOfl
+ Rrkkm9DW0TkMvG0th5Nzzqnh89RpR710e9hANgfyyaOUR0Y3L9RbbjKbsxpe44kAynUn
+ RvJQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1762464301; x=1763069101;
+ h=content-transfer-encoding:in-reply-to:from:content-language
+ :references:cc:to:subject:user-agent:mime-version:date:message-id
+ :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=YKes0XVjNGJ2FggkAmqRR788Mxk3TjUGRm3n1mueSWg=;
+ b=oxDeLLofQ3d2VLKf2H+KrxoxXjQxcVfCfavEXxRHqFloTCFhZ2Sv8RYtgUwKak+S6l
+ omm9xvATnnYckncV62Lwtzpx59eACqTeuMgXNOYHRXE+aXQKum7L1b/rXhhxkyMM//E6
+ oGw/yYPh8MrnfmtcbjaD7M1wqQLPbEUHDedjVNNbVokuiTNkL+4I8zEqiCOAT0dSpDU1
+ 6ajWD3wxUR8B4ua8IVTo5MP2wE2k40yoHK3C6I0strXLiO7mwW70mnxtL4Aw444Ork6R
+ 7+KSeaF6Dyf0oau7zIBFeGZtCgRl3kdJquQFtszLadnWVxozB3D5Hiz65EXRIRIgUHPM
+ 4Smg==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCVeH4Po+wzbn1MpTfCNR8eQS8UdGNtvuJACBKVJBsVyfmrqzunwD820FtpR8cGs4FqNAtjCkQcTYQk=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YxG21I1oKSTEgSa1uXU7pPHgRqeIsxGjwqL6QtATMAVrJGqu8GQ
+ iclvlHHAaOvWNikPLxmakRxAASRmxfLO83zQ8DGrZ5/AaagbGaGH6cgj
+X-Gm-Gg: ASbGnctNGXXYf/H4gxdPSAjmLUFwE4tGp8I/gfgdZYLAFFjZiQwxoJapZQE+1MmhQXo
+ c/4WFwM/NwxEslQex6KYNKqZCuai8ly5g5DeyhRUdm4jO30NtMcJ7m+r+WTKOp1M2JXak6frY12
+ i3ya5/zonbjlsrXLruyHG5tLL+ybfHDmb7xYrzslkIzpsYg/v0tErlOLtXiNU+DTJCXkQXL0+JI
+ QC2XNUJxgxkj7VmAnQeNNSoiPk4Pww7hHFvagH3gO+/QFr7N5uxbxqgUTV3OCaOnGMOFz0ahv0p
+ FU0pNBMCv/Ffj03BpWaUExRim1IKjITlZ/GpXV4Cxn8o4Cic9Se9sRvvZqe+a3B64GGpHXpZUIf
+ VB9NEHc1/k7QliJ19oLhyOeD9WM8Y2xCPd+oaZiZVoPzyVKgx4tTOWhU/pLSyTfwsyaF1EdeN/n
+ OcX4eJVQ1zaYlB6PjsT/GjLiwYy104jXgNYWinSJ8bkLNXCFaf6xb/Y45cKv3x6zv/HQo=
+X-Google-Smtp-Source: AGHT+IFRtleD8p3GDaRn7y4cLlgvtrJ8k9u0N/dFUXsYAq553rRak+Diry9dTEA+SBjhoD9RJ2Xd8A==
+X-Received: by 2002:a05:600c:1384:b0:46f:aac5:daf with SMTP id
+ 5b1f17b1804b1-4776bcfd091mr7371805e9.35.1762464301183; 
+ Thu, 06 Nov 2025 13:25:01 -0800 (PST)
+Received: from ?IPV6:2a01:e0a:acc:bb60:756b:64e3:20ef:1d08?
+ ([2a01:e0a:acc:bb60:756b:64e3:20ef:1d08])
+ by smtp.gmail.com with ESMTPSA id
+ ffacd0b85a97d-42ac67920fcsm1257502f8f.39.2025.11.06.13.24.59
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 06 Nov 2025 13:25:00 -0800 (PST)
+Message-ID: <ff95096e-83de-433c-9048-55a35dab3dde@gmail.com>
+Date: Thu, 6 Nov 2025 22:24:59 +0100
 MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v3 1/4] nova-core: Simplify `transmute` and
+ `transmute_mut` in fwsec.rs
+To: Alexandre Courbot <acourbot@nvidia.com>,
+ Danilo Krummrich <dakr@kernel.org>, David Airlie <airlied@gmail.com>,
+ Simona Vetter <simona@ffwll.ch>, Miguel Ojeda <ojeda@kernel.org>,
+ Alex Gaynor <alex.gaynor@gmail.com>
+Cc: nouveau@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, Boqun Feng <boqun.feng@gmail.com>,
+ Gary Guo <gary@garyguo.net>, =?UTF-8?Q?Bj=C3=B6rn_Roy_Baron?=
+ <bjorn3_gh@protonmail.com>, Benno Lossin <lossin@kernel.org>,
+ Andreas Hindborg <a.hindborg@kernel.org>, Alice Ryhl <aliceryhl@google.com>,
+ Trevor Gross <tmgross@umich.edu>, rust-for-linux@vger.kernel.org,
+ dri-devel <dri-devel-bounces@lists.freedesktop.org>
+References: <20251104193756.57726-1-delcastillodelarosadaniel@gmail.com>
+ <DE1H0USFAGNU.FFRA802H95RG@nvidia.com>
+Content-Language: en-US
+From: Daniel del Castillo <delcastillodelarosadaniel@gmail.com>
+In-Reply-To: <DE1H0USFAGNU.FFRA802H95RG@nvidia.com>
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -114,48 +104,24 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Describe Imagination Technologies PowerVR Rogue GE7800 BNVC 15.5.1.64
-present in Renesas R-Car R8A779A0 V3U SoC.
+Hi Alexandre,
 
-Signed-off-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
-Reviewed-by: Marek Vasut <marek.vasut+renesas@mailbox.org>
-Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
----
-* Changes since v1
-- Rename node gpu from gsx.
-- Fix sort order (by unit address) in DTS file.
----
- arch/arm64/boot/dts/renesas/r8a779a0.dtsi | 17 +++++++++++++++++
- 1 file changed, 17 insertions(+)
+On 11/6/25 09:32, Alexandre Courbot wrote:
+> On Wed Nov 5, 2025 at 4:37 AM JST, Daniel del Castillo wrote:
+>> This patch solves one of the existing mentions of COHA, a task
+>> in the Nova task list about improving the `CoherentAllocation` API.
+>> It uses the new `from_bytes` method from the `FromBytes` trait as
+>> well as the `as_slice` and `as_slice_mut` methods from
+>> `CoherentAllocation`.
+>>
+>> Signed-off-by: Daniel del Castillo <delcastillodelarosadaniel@gmail.com>
+> 
+> Thanks, this looks great so I am staging this series for pushing after a
+> short grace period (probably tomorrow if nobody screams).
 
-diff --git a/arch/arm64/boot/dts/renesas/r8a779a0.dtsi b/arch/arm64/boot/dts/renesas/r8a779a0.dtsi
-index b08865841476..4b101a6dc49d 100644
---- a/arch/arm64/boot/dts/renesas/r8a779a0.dtsi
-+++ b/arch/arm64/boot/dts/renesas/r8a779a0.dtsi
-@@ -2337,6 +2337,23 @@ gic: interrupt-controller@f1000000 {
- 			interrupts = <GIC_PPI 9 IRQ_TYPE_LEVEL_HIGH>;
- 		};
- 
-+		gpu: gpu@fd000000 {
-+			compatible = "renesas,r8a779a0-gpu",
-+				     "img,img-ge7800",
-+				     "img,img-rogue";
-+			reg = <0 0xfd000000 0 0x40000>;
-+			interrupts = <GIC_SPI 223 IRQ_TYPE_LEVEL_HIGH>;
-+			clocks = <&cpg CPG_CORE R8A779A0_CLK_ZG>,
-+				 <&cpg CPG_CORE R8A779A0_CLK_S3D1>,
-+				 <&cpg CPG_MOD 0>;
-+			clock-names = "core", "mem", "sys";
-+			power-domains = <&sysc R8A779A0_PD_3DG_A>,
-+					<&sysc R8A779A0_PD_3DG_B>;
-+			power-domain-names = "a", "b";
-+			resets = <&cpg 0>;
-+			status = "disabled";
-+		};
-+
- 		fcpvd0: fcp@fea10000 {
- 			compatible = "renesas,fcpv";
- 			reg = <0 0xfea10000 0 0x200>;
--- 
-2.51.1
+Perfect. Thanks for all the help!
 
+> One nit, the prefix for Nova patches is typically "gpu: nova-core:", but
+> I will fix it when pushing.
+
+I'll keep it in mind for the next time ;)
