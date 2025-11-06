@@ -2,34 +2,34 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 98C87C3BA41
-	for <lists+dri-devel@lfdr.de>; Thu, 06 Nov 2025 15:17:34 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id A3007C3BA2F
+	for <lists+dri-devel@lfdr.de>; Thu, 06 Nov 2025 15:17:23 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 02D0B10E8FA;
-	Thu,  6 Nov 2025 14:17:33 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 10E4F10E8F6;
+	Thu,  6 Nov 2025 14:17:22 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="fzqy63mR";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="EVBBjh9M";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sea.source.kernel.org (sea.source.kernel.org [172.234.252.31])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 24E1F10E8FA
- for <dri-devel@lists.freedesktop.org>; Thu,  6 Nov 2025 14:17:31 +0000 (UTC)
+Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4E28E10E8F3
+ for <dri-devel@lists.freedesktop.org>; Thu,  6 Nov 2025 14:17:20 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by sea.source.kernel.org (Postfix) with ESMTP id F1AC943C32;
- Thu,  6 Nov 2025 14:17:30 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 21EE0C16AAE;
- Thu,  6 Nov 2025 14:17:30 +0000 (UTC)
+ by tor.source.kernel.org (Postfix) with ESMTP id B8EA06023B;
+ Thu,  6 Nov 2025 14:17:19 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id CF6B0C116C6;
+ Thu,  6 Nov 2025 14:17:18 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1762438650;
- bh=toF5THSZHOeJ/QvtdnZ6Wy9PsXvPdD6mPNagdzYgFMc=;
+ s=k20201202; t=1762438639;
+ bh=onb2Sujb111P2CO88DPIeX8mZgFkrHXz9Iju6/1tMSo=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=fzqy63mRk0H3tg29gwLTZH/cTlIPmqxphVfyUtq26pZ0XiuN9j75SNelw3hCfgKKh
- mXWhZJtQEQ/pJnnHfBBjUFMrr8VF/zQwqtrIHAX0RCeQeWUkomRk6U8r8i/BL+9HlZ
- +TDe1P54EX3GW0Lv6v3fUdh4aP27BgPbqoBaHF3B233+l5jgOHzgTolDNjzI0KOZ/M
- lkVEpE13znSftvQYnljsIDgAdXL8uXHA7+xrgunTbdj9xRlIEl50uYGYp8F851zS7p
- T1sEek1LpRUc97A9uUGBFLWozCN4PBFbIOlHx4a5why6KArbuUayjuyLHFTW0omU3c
- qcQGAUYLfDqpA==
+ b=EVBBjh9MYGe2n4pRrl4zubjJVj73VuXok0tD6kvzYqCV8uHogzKmk3cN1oR79IbWS
+ SLgvhoyqxEvHtbEjJ3lCaB5wQbk4E4RL+ijuKXFkK4/fJazaj/Db2p0LtGTs/M/Uz3
+ EPdODgiGxIz51iQmfc7R2i/+38ihmy0E8TEXZbvHGKS3ouS3xLdG/IdNd3RabySUeN
+ 9PxUucNCFmVMZM44R5Ws/lMGd1gbrEzp1aYwSCFcVaSiUV5ai6bNtbpJkSBL7JyukC
+ 1SZFyDycrQ5LURbrFSpWUpIBGhzuhCSSX69o1MJoAkmLvNNlxDsMjgvIva5svyon7Y
+ y5BVKnnw4koeg==
 From: Leon Romanovsky <leon@kernel.org>
 To: Bjorn Helgaas <bhelgaas@google.com>, Logan Gunthorpe <logang@deltatee.com>,
  Jens Axboe <axboe@kernel.dk>, Robin Murphy <robin.murphy@arm.com>,
@@ -48,12 +48,10 @@ Cc: Krishnakant Jaju <kjaju@nvidia.com>, Matt Ochs <mochs@nvidia.com>,
  linux-block@vger.kernel.org, iommu@lists.linux.dev, linux-mm@kvack.org,
  linux-doc@vger.kernel.org, linux-media@vger.kernel.org,
  dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org,
- kvm@vger.kernel.org, linux-hardening@vger.kernel.org,
- Alex Mastro <amastro@fb.com>, Nicolin Chen <nicolinc@nvidia.com>
-Subject: [PATCH v7 04/11] PCI/P2PDMA: Provide an access to
- pci_p2pdma_map_type() function
-Date: Thu,  6 Nov 2025 16:16:49 +0200
-Message-ID: <20251106-dmabuf-vfio-v7-4-2503bf390699@nvidia.com>
+ kvm@vger.kernel.org, linux-hardening@vger.kernel.org
+Subject: [PATCH v7 05/11] PCI/P2PDMA: Document DMABUF model
+Date: Thu,  6 Nov 2025 16:16:50 +0200
+Message-ID: <20251106-dmabuf-vfio-v7-5-2503bf390699@nvidia.com>
 X-Mailer: git-send-email 2.51.1
 In-Reply-To: <20251106-dmabuf-vfio-v7-0-2503bf390699@nvidia.com>
 References: <20251106-dmabuf-vfio-v7-0-2503bf390699@nvidia.com>
@@ -76,175 +74,130 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Leon Romanovsky <leonro@nvidia.com>
+From: Jason Gunthorpe <jgg@nvidia.com>
 
-Provide an access to pci_p2pdma_map_type() function to allow subsystems
-to determine the appropriate mapping type for P2PDMA transfers between
-a provider and target device.
+Reflect latest changes in p2p implementation to support DMABUF lifecycle.
 
-The pci_p2pdma_map_type() function is the core P2P layer version of
-the existing public, but struct page focused, pci_p2pdma_state()
-function. It returns the same result. It is required to use the p2p
-subsystem from drivers that don't use the struct page layer.
-
-Like __pci_p2pdma_update_state() it is not an exported function. The
-idea is that only subsystem code will implement mapping helpers for
-taking in phys_addr_t lists, this is deliberately not made accessible
-to every driver to prevent abuse.
-
-Following patches will use this function to implement a shared DMA
-mapping helper for DMABUF.
-
-Tested-by: Alex Mastro <amastro@fb.com>
-Tested-by: Nicolin Chen <nicolinc@nvidia.com>
 Signed-off-by: Leon Romanovsky <leonro@nvidia.com>
+Signed-off-by: Jason Gunthorpe <jgg@nvidia.com>
 ---
- drivers/pci/p2pdma.c       | 14 ++++++--
- include/linux/pci-p2pdma.h | 85 +++++++++++++++++++++++++---------------------
- 2 files changed, 58 insertions(+), 41 deletions(-)
+ Documentation/driver-api/pci/p2pdma.rst | 95 +++++++++++++++++++++++++--------
+ 1 file changed, 72 insertions(+), 23 deletions(-)
 
-diff --git a/drivers/pci/p2pdma.c b/drivers/pci/p2pdma.c
-index 664ea3272d73..11526e3c83fc 100644
---- a/drivers/pci/p2pdma.c
-+++ b/drivers/pci/p2pdma.c
-@@ -1056,8 +1056,18 @@ void pci_p2pmem_publish(struct pci_dev *pdev, bool publish)
- }
- EXPORT_SYMBOL_GPL(pci_p2pmem_publish);
+diff --git a/Documentation/driver-api/pci/p2pdma.rst b/Documentation/driver-api/pci/p2pdma.rst
+index d0b241628cf1..69adea45f73e 100644
+--- a/Documentation/driver-api/pci/p2pdma.rst
++++ b/Documentation/driver-api/pci/p2pdma.rst
+@@ -9,22 +9,47 @@ between two devices on the bus. This type of transaction is henceforth
+ called Peer-to-Peer (or P2P). However, there are a number of issues that
+ make P2P transactions tricky to do in a perfectly safe way.
  
--static enum pci_p2pdma_map_type
--pci_p2pdma_map_type(struct p2pdma_provider *provider, struct device *dev)
-+/**
-+ * pci_p2pdma_map_type - Determine the mapping type for P2PDMA transfers
-+ * @provider: P2PDMA provider structure
-+ * @dev: Target device for the transfer
-+ *
-+ * Determines how peer-to-peer DMA transfers should be mapped between
-+ * the provider and the target device. The mapping type indicates whether
-+ * the transfer can be done directly through PCI switches or must go
-+ * through the host bridge.
-+ */
-+enum pci_p2pdma_map_type pci_p2pdma_map_type(struct p2pdma_provider *provider,
-+					     struct device *dev)
- {
- 	enum pci_p2pdma_map_type type = PCI_P2PDMA_MAP_NOT_SUPPORTED;
- 	struct pci_dev *pdev = to_pci_dev(provider->owner);
-diff --git a/include/linux/pci-p2pdma.h b/include/linux/pci-p2pdma.h
-index e307c9380d46..1e499a8e0099 100644
---- a/include/linux/pci-p2pdma.h
-+++ b/include/linux/pci-p2pdma.h
-@@ -26,6 +26,45 @@ struct p2pdma_provider {
- 	u64 bus_offset;
- };
- 
-+enum pci_p2pdma_map_type {
-+	/*
-+	 * PCI_P2PDMA_MAP_UNKNOWN: Used internally as an initial state before
-+	 * the mapping type has been calculated. Exported routines for the API
-+	 * will never return this value.
-+	 */
-+	PCI_P2PDMA_MAP_UNKNOWN = 0,
+-One of the biggest issues is that PCI doesn't require forwarding
+-transactions between hierarchy domains, and in PCIe, each Root Port
+-defines a separate hierarchy domain. To make things worse, there is no
+-simple way to determine if a given Root Complex supports this or not.
+-(See PCIe r4.0, sec 1.3.1). Therefore, as of this writing, the kernel
+-only supports doing P2P when the endpoints involved are all behind the
+-same PCI bridge, as such devices are all in the same PCI hierarchy
+-domain, and the spec guarantees that all transactions within the
+-hierarchy will be routable, but it does not require routing
+-between hierarchies.
+-
+-The second issue is that to make use of existing interfaces in Linux,
+-memory that is used for P2P transactions needs to be backed by struct
+-pages. However, PCI BARs are not typically cache coherent so there are
+-a few corner case gotchas with these pages so developers need to
+-be careful about what they do with them.
++For PCIe the routing of TLPs is well defined up until they reach a host bridge
++or root port. If the path includes PCIe switches then based on the ACS settings
++the transaction can route entirely within the PCIe hierarchy and never reach the
++root port. The kernel will evaluate the PCIe topology and always permit P2P
++in these well defined cases.
 +
-+	/*
-+	 * Not a PCI P2PDMA transfer.
-+	 */
-+	PCI_P2PDMA_MAP_NONE,
++However, if the P2P transaction reaches the host bridge then it might have to
++hairpin back out the same root port, be routed inside the CPU SOC to another
++PCIe root port, or routed internally to the SOC.
 +
-+	/*
-+	 * PCI_P2PDMA_MAP_NOT_SUPPORTED: Indicates the transaction will
-+	 * traverse the host bridge and the host bridge is not in the
-+	 * allowlist. DMA Mapping routines should return an error when
-+	 * this is returned.
-+	 */
-+	PCI_P2PDMA_MAP_NOT_SUPPORTED,
++As this is not well defined or well supported in real HW the kernel defaults to
++blocking such routing. There is an allow list to allow detecting known-good HW,
++in which case P2P between any two PCIe devices will be permitted.
 +
-+	/*
-+	 * PCI_P2PDMA_MAP_BUS_ADDR: Indicates that two devices can talk to
-+	 * each other directly through a PCI switch and the transaction will
-+	 * not traverse the host bridge. Such a mapping should program
-+	 * the DMA engine with PCI bus addresses.
-+	 */
-+	PCI_P2PDMA_MAP_BUS_ADDR,
++Since P2P inherently is doing transactions between two devices it requires two
++drivers to be co-operating inside the kernel. The providing driver has to convey
++its MMIO to the consuming driver. To meet the driver model lifecycle rules the
++MMIO must have all DMA mapping removed, all CPU accesses prevented, all page
++table mappings undone before the providing driver completes remove().
 +
-+	/*
-+	 * PCI_P2PDMA_MAP_THRU_HOST_BRIDGE: Indicates two devices can talk
-+	 * to each other, but the transaction traverses a host bridge on the
-+	 * allowlist. In this case, a normal mapping either with CPU physical
-+	 * addresses (in the case of dma-direct) or IOVA addresses (in the
-+	 * case of IOMMUs) should be used to program the DMA engine.
-+	 */
-+	PCI_P2PDMA_MAP_THRU_HOST_BRIDGE,
-+};
++This requires the providing and consuming driver to actively work together to
++guarantee that the consuming driver has stopped using the MMIO during a removal
++cycle. This is done by either a synchronous invalidation shutdown or waiting
++for all usage refcounts to reach zero.
 +
- #ifdef CONFIG_PCI_P2PDMA
- int pcim_p2pdma_init(struct pci_dev *pdev);
- struct p2pdma_provider *pcim_p2pdma_provider(struct pci_dev *pdev, int bar);
-@@ -45,6 +84,8 @@ int pci_p2pdma_enable_store(const char *page, struct pci_dev **p2p_dev,
- 			    bool *use_p2pdma);
- ssize_t pci_p2pdma_enable_show(char *page, struct pci_dev *p2p_dev,
- 			       bool use_p2pdma);
-+enum pci_p2pdma_map_type pci_p2pdma_map_type(struct p2pdma_provider *provider,
-+					     struct device *dev);
- #else /* CONFIG_PCI_P2PDMA */
- static inline int pcim_p2pdma_init(struct pci_dev *pdev)
- {
-@@ -106,6 +147,11 @@ static inline ssize_t pci_p2pdma_enable_show(char *page,
- {
- 	return sprintf(page, "none\n");
- }
-+static inline enum pci_p2pdma_map_type
-+pci_p2pdma_map_type(struct p2pdma_provider *provider, struct device *dev)
-+{
-+	return PCI_P2PDMA_MAP_NOT_SUPPORTED;
-+}
- #endif /* CONFIG_PCI_P2PDMA */
++At the lowest level the P2P subsystem offers a naked struct p2p_provider that
++delegates lifecycle management to the providing driver. It is expected that
++drivers using this option will wrap their MMIO memory in DMABUF and use DMABUF
++to provide an invalidation shutdown. These MMIO pages have no struct page, and
++if used with mmap() must create special PTEs. As such there are very few
++kernel uAPIs that can accept pointers to them, in particular they cannot be used
++with read()/write(), including O_DIRECT.
++
++Building on this, the subsystem offers a layer to wrap the MMIO in a ZONE_DEVICE
++pgmap of MEMORY_DEVICE_PCI_P2PDMA to create struct pages. The lifecycle of
++pgmap ensures that when the pgmap is destroyed all other drivers have stopped
++using the MMIO. This option works with O_DIRECT flows, in some cases, if the
++underlying subsystem supports handling MEMORY_DEVICE_PCI_P2PDMA through
++FOLL_PCI_P2PDMA. The use of FOLL_LONGTERM is prevented. As this relies on pgmap
++it also relies on architecture support along with alignment and minimum size
++limitations.
  
  
-@@ -120,45 +166,6 @@ static inline struct pci_dev *pci_p2pmem_find(struct device *client)
- 	return pci_p2pmem_find_many(&client, 1);
- }
+ Driver Writer's Guide
+@@ -114,14 +139,38 @@ allocating scatter-gather lists with P2P memory.
+ Struct Page Caveats
+ -------------------
  
--enum pci_p2pdma_map_type {
--	/*
--	 * PCI_P2PDMA_MAP_UNKNOWN: Used internally as an initial state before
--	 * the mapping type has been calculated. Exported routines for the API
--	 * will never return this value.
--	 */
--	PCI_P2PDMA_MAP_UNKNOWN = 0,
--
--	/*
--	 * Not a PCI P2PDMA transfer.
--	 */
--	PCI_P2PDMA_MAP_NONE,
--
--	/*
--	 * PCI_P2PDMA_MAP_NOT_SUPPORTED: Indicates the transaction will
--	 * traverse the host bridge and the host bridge is not in the
--	 * allowlist. DMA Mapping routines should return an error when
--	 * this is returned.
--	 */
--	PCI_P2PDMA_MAP_NOT_SUPPORTED,
--
--	/*
--	 * PCI_P2PDMA_MAP_BUS_ADDR: Indicates that two devices can talk to
--	 * each other directly through a PCI switch and the transaction will
--	 * not traverse the host bridge. Such a mapping should program
--	 * the DMA engine with PCI bus addresses.
--	 */
--	PCI_P2PDMA_MAP_BUS_ADDR,
--
--	/*
--	 * PCI_P2PDMA_MAP_THRU_HOST_BRIDGE: Indicates two devices can talk
--	 * to each other, but the transaction traverses a host bridge on the
--	 * allowlist. In this case, a normal mapping either with CPU physical
--	 * addresses (in the case of dma-direct) or IOVA addresses (in the
--	 * case of IOMMUs) should be used to program the DMA engine.
--	 */
--	PCI_P2PDMA_MAP_THRU_HOST_BRIDGE,
--};
--
- struct pci_p2pdma_map_state {
- 	struct p2pdma_provider *mem;
- 	enum pci_p2pdma_map_type map;
+-Driver writers should be very careful about not passing these special
+-struct pages to code that isn't prepared for it. At this time, the kernel
+-interfaces do not have any checks for ensuring this. This obviously
+-precludes passing these pages to userspace.
++While the MEMORY_DEVICE_PCI_P2PDMA pages can be installed in VMAs,
++pin_user_pages() and related will not return them unless FOLL_PCI_P2PDMA is set.
+ 
+-P2P memory is also technically IO memory but should never have any side
+-effects behind it. Thus, the order of loads and stores should not be important
+-and ioreadX(), iowriteX() and friends should not be necessary.
++The MEMORY_DEVICE_PCI_P2PDMA pages require care to support in the kernel. The
++KVA is still MMIO and must still be accessed through the normal
++readX()/writeX()/etc helpers. Direct CPU access (e.g. memcpy) is forbidden, just
++like any other MMIO mapping. While this will actually work on some
++architectures, others will experience corruption or just crash in the kernel.
++Supporting FOLL_PCI_P2PDMA in a subsystem requires scrubbing it to ensure no CPU
++access happens.
++
++
++Usage With DMABUF
++=================
++
++DMABUF provides an alternative to the above struct page based
++client/provider/orchestrator system. In this mode the exporting driver will wrap
++some of its MMIO in a DMABUF and give the DMABUF FD to userspace.
++
++Userspace can then pass the FD to an importing driver which will ask the
++exporting driver to map it.
++
++In this case the initiator and target pci_devices are known and the P2P subsystem
++is used to determine the mapping type. The phys_addr_t based DMA API is used to
++establish the dma_addr_t.
++
++Lifecycle is controlled by DMABUF move_notify(), when the exporting driver wants
++to remove() it must deliver an invalidation shutdown to all DMABUF importing
++drivers through move_notify() and synchronously DMA unmap all the MMIO.
++
++No importing driver can continue to have a DMA map to the MMIO after the
++exporting driver has destroyed its p2p_provider.
+ 
+ 
+ P2P DMA Support Library
 
 -- 
 2.51.1
