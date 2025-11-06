@@ -2,41 +2,41 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 93E95C398FA
-	for <lists+dri-devel@lfdr.de>; Thu, 06 Nov 2025 09:22:18 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id B9157C398FD
+	for <lists+dri-devel@lfdr.de>; Thu, 06 Nov 2025 09:22:24 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E3C6010E835;
-	Thu,  6 Nov 2025 08:22:16 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1EA5A10E836;
+	Thu,  6 Nov 2025 08:22:23 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="a0G0wbWC";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="IWbRvyNc";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4E0A410E835
- for <dri-devel@lists.freedesktop.org>; Thu,  6 Nov 2025 08:22:16 +0000 (UTC)
+Received: from sea.source.kernel.org (sea.source.kernel.org [172.234.252.31])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D3DBB10E836
+ for <dri-devel@lists.freedesktop.org>; Thu,  6 Nov 2025 08:22:21 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by tor.source.kernel.org (Postfix) with ESMTP id 6EECC60216
- for <dri-devel@lists.freedesktop.org>; Thu,  6 Nov 2025 08:22:15 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 1B8A0C16AAE
- for <dri-devel@lists.freedesktop.org>; Thu,  6 Nov 2025 08:22:15 +0000 (UTC)
+ by sea.source.kernel.org (Postfix) with ESMTP id 71EE8407A1
+ for <dri-devel@lists.freedesktop.org>; Thu,  6 Nov 2025 08:22:21 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 52870C4CEF7
+ for <dri-devel@lists.freedesktop.org>; Thu,  6 Nov 2025 08:22:21 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1762417335;
- bh=B4HjBWGqaP4LSRceU8uHqJ7R70LALMAanVmF2xXoLrA=;
+ s=k20201202; t=1762417341;
+ bh=yp3F6d4lKr3OLBUeevYFJbavUpg3pTTxc+w6lCfPq4w=;
  h=From:To:Subject:Date:In-Reply-To:References:From;
- b=a0G0wbWC6aYJ4fV7xyzeZ382ZuTu0i9uobRqcG8x0e7zOSZ8YSruP6iEi3w3HP74e
- +fZEO5AjUaxDSO2hegKLRPfARmg2yRAgY1GlsopaZVUc18EG7YZSzuIS04ky/st+uL
- dvF+jSGoo11Y6ykXvWyYs5fNKAciZBm8Xdo398clmVW0NUTp6LvaofjX8zu420M90N
- Bim27OWimzuRGBWZN/r8HcHMKw1UjsdvghyIdLREHdmNNm0GXk5nGjxJ1530hAW/Kj
- as/DUAsfjDhQvOxkcWBAnACmabg4BUM6czS2Eah9Gwy6AToTThxXe90qTOtWxazLVb
- NKbFZD8HpQy6Q==
+ b=IWbRvyNcfCsEGIh0xwiv2yixsb5qruSKd0m9uA8k8+0H/z97DYA+vrWDudFALkBgA
+ pyFZA2zDqaWMOfHoEgIHyw+YI5g37pyiavNrnuU0ziy9WqCgCIp2eqakfGvrNpXgKX
+ ejZTYVrnTNLJWBnd/H9Yd6tFiENIJ459eFijww6GVKDy6Sg+qOYE4eo0+ZStq9yaq5
+ VW1v1Adk3CM24dcBhAGaydZyc0edFo59rFKHo5KefiFWq3E0jjeCYv69dYv1bbE8V7
+ +tEh/a7rz8AmAPut9SGDWmGwpknoYreYXrV4XAAfzJeeOU4WVxxc/EoDY+/2DZ4Sh2
+ fS2279AnzEnkA==
 Received: by aws-us-west-2-korg-bugzilla-1.web.codeaurora.org (Postfix,
- from userid 48) id 0F9A6C53BBF; Thu,  6 Nov 2025 08:22:15 +0000 (UTC)
+ from userid 48) id 4B7B0C53BC5; Thu,  6 Nov 2025 08:22:21 +0000 (UTC)
 From: bugzilla-daemon@kernel.org
 To: dri-devel@lists.freedesktop.org
 Subject: [Bug 220130] Display not working when connected via displayport
  (purple screen)
-Date: Thu, 06 Nov 2025 08:22:14 +0000
+Date: Thu, 06 Nov 2025 08:22:21 +0000
 X-Bugzilla-Reason: None
 X-Bugzilla-Type: changed
 X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
@@ -47,12 +47,12 @@ X-Bugzilla-Keywords:
 X-Bugzilla-Severity: normal
 X-Bugzilla-Who: jani.nikula@intel.com
 X-Bugzilla-Status: RESOLVED
-X-Bugzilla-Resolution: DISTRO_KERNEL
+X-Bugzilla-Resolution: INVALID
 X-Bugzilla-Priority: P3
 X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
 X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: bug_status resolution
-Message-ID: <bug-220130-2300-o1WmVcMrYc@https.bugzilla.kernel.org/>
+X-Bugzilla-Changed-Fields: resolution
+Message-ID: <bug-220130-2300-mlTnmUP3q6@https.bugzilla.kernel.org/>
 In-Reply-To: <bug-220130-2300@https.bugzilla.kernel.org/>
 References: <bug-220130-2300@https.bugzilla.kernel.org/>
 Content-Type: text/plain; charset="UTF-8"
@@ -81,11 +81,7 @@ Jani Nikula (jani.nikula@intel.com) changed:
 
            What    |Removed                     |Added
 ----------------------------------------------------------------------------
-             Status|REOPENED                    |RESOLVED
-         Resolution|---                         |DISTRO_KERNEL
-
---- Comment #3 from Jani Nikula (jani.nikula@intel.com) ---
-There's no support for proprietary drivers here.
+         Resolution|DISTRO_KERNEL               |INVALID
 
 --=20
 You may reply to this email to add a comment.
