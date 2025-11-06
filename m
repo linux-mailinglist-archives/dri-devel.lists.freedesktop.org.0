@@ -2,46 +2,46 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 32414C3B997
-	for <lists+dri-devel@lfdr.de>; Thu, 06 Nov 2025 15:13:09 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3B79DC3B9A3
+	for <lists+dri-devel@lfdr.de>; Thu, 06 Nov 2025 15:13:17 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8B59310E8E8;
-	Thu,  6 Nov 2025 14:13:07 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9F56A10E8EE;
+	Thu,  6 Nov 2025 14:13:15 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=ti.com header.i=@ti.com header.b="OrJp/mhH";
+	dkim=pass (1024-bit key; unprotected) header.d=ti.com header.i=@ti.com header.b="XcI4EWlD";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from CH5PR02CU005.outbound.protection.outlook.com
- (mail-northcentralusazhn15012043.outbound.protection.outlook.com
- [52.102.146.43])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4634910E8E8
- for <dri-devel@lists.freedesktop.org>; Thu,  6 Nov 2025 14:13:06 +0000 (UTC)
+Received: from SN4PR0501CU005.outbound.protection.outlook.com
+ (mail-southcentralusazhn15011021.outbound.protection.outlook.com
+ [52.102.140.21])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 862E410E8EE
+ for <dri-devel@lists.freedesktop.org>; Thu,  6 Nov 2025 14:13:13 +0000 (UTC)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=nXimBz3I0kdBDnycoL/xfP4QCCj40J1TA7JLQ4EGzI75FqdN6yRyKjW4LOFyDSXl/9M7wz805dlc4u5zXJsasY97Eubq+/y6olGcRNY6qjCynzjXhrtMbCNAPNp7ofsz0gkYfLmIwbjQHJejLEHuLXpZYSCxYPfxafCUtnfgVCUmqAnJ8nHxdnPf3QNvNajxfZC107uEt9Ub+fKC/y3RjqSzXRFT9yBkRpFwe7gT55tLtWl7Y6D447mPbr5NGlTDGo2AGmgcnrzx/fHWipAU4wbKtYK6XI1XkctbF65alue6y19mIJy6/evlS+H2i2WA9oxhNJltVmu0lGdm9IYFfA==
+ b=VfqNU8FpgZfB4HGnIqvenCyi7aeeskmWt2lhIbXgUcWGyeEyHZBgreElriY8gehM5rI0q2rZeYRneOaX25tXjD+/cWObC4KbnSBDWrnqJCBOIXhVAPiB2K0xsHbDvodcswy+nOq5gCsQnX2sETwIle+L+wljDFaIZd28OJnsBaU9F3Zj3HthRzm6J5uIQCDVQgWHQfidjXxp0MTHV5WlEm+vk1m3VPdvRjcuUwbQVa4SF6RekDuh5PeOdBKPuC8+b83NhzNcyAjpQK2DDuvI3tPIoN5Z0pxhAO7uORHmwT5nivKWHIhZbocQJ68YOPHUpkNwFFypz+FGayP4HgVSNg==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=FvjQ34tEKk6TlSM12t43K0+W3g5wjGZVzj6ghfXpzOE=;
- b=mD9tqdEBKHP3Uuy/cHu2gJjDG9/VpT7L1eOKBEBjXTEEXowTtxFXdKihGPd0dLIc3kKjxR9gFbtAApF0Cy5ruIDrOxAk1AYZU+dIWKV+GQrXxGjpvBr316/uKUXwyeAGjPK3xp+Rpqp653CpiJ2cDWvJrOuB4Yo2PVaY2LMANKqkk57g7LNegZm+t1AkwKSjTf+Lt7FA9b41jpTNguv27mkvUrWcB4PDrgriKAHog0XwOD/ODBWgBsjZa5tTVcC2B+0yfZbbA1Ko4gxPXpvXAtb43rDACJDSxyK2B+vWzl+Nr6XlKe2OkcIr/NV/zNg3iaxZWTgA/0VBYKTIuJmKsA==
+ bh=wwlKsDXAyd4qlaamF8RAvN3x3zyji7/h09GYHZOJ980=;
+ b=taGh7VEHPUs18qRCPApLi6Zs+g2thncbSKErql9JK0Nti1CLzZl/0k20wsC+PDGBQNRafI4FokO+EHuAm1JFGeWDQ8PcG/a2bG0vHpvCrPrMqdyvnf0rqasujqhe1NhuEKGsDXqWdza0mPbj4u6NbG4RVkIJFrngqgdsgHaD6D9wPTVnOQsvfbf2E5PAJACSLZb3nyNl39Hi/SVhOvNcCOl6k3zT/gWAmyQiUbbtqokzdHFGxF2NHs/srMljkX0N3ZTbDIxpXb6okDHGtlyVuHxJGiKsz3/EqxzlXgr9gRy5zGoueDSGxNWkpmSMkSa3UUJL0Ls02oF2SOJ986/FwQ==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
  198.47.23.195) smtp.rcpttodomain=vger.kernel.org smtp.mailfrom=ti.com;
  dmarc=pass (p=quarantine sp=none pct=100) action=none header.from=ti.com;
  dkim=none (message not signed); arc=none (0)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com; s=selector1;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=FvjQ34tEKk6TlSM12t43K0+W3g5wjGZVzj6ghfXpzOE=;
- b=OrJp/mhHjIWPPPTgsuR5zB9fUzMhnXBIOM+xyST1PYtYDNTu4tO/i/t1tkJ3no4gLDp1rPHoJykD5l6pG4M3oy2lDBEfCzbsjlKaVTditTHKdZ++F4WpHXbM/Zc2GUuLvHvX38Hyr+H2YlVA/ExC4DzTR6+dwavlLVp8mfhqL1M=
-Received: from BYAPR08CA0017.namprd08.prod.outlook.com (2603:10b6:a03:100::30)
- by IA1PR10MB6781.namprd10.prod.outlook.com (2603:10b6:208:42b::9)
- with Microsoft SMTP Server (version=TLS1_2,
+ bh=wwlKsDXAyd4qlaamF8RAvN3x3zyji7/h09GYHZOJ980=;
+ b=XcI4EWlD2wdN1nPaEcMYssyX+Xy6IFX1Sx1SF9tWwNrYvslxfqEHluGeLB/8KvuZ9C7NmUox4PsYnRpghkpxZzoREVFOcw48IINfD9TWgP1NtpdZ5W3Rr56OnVpOy48aD/hhXug5JfdHmKQrW1iQKLUSfEnsa9h1VVKR4uiUzuc=
+Received: from PH5P220CA0008.NAMP220.PROD.OUTLOOK.COM (2603:10b6:510:34a::6)
+ by SA1PR10MB7683.namprd10.prod.outlook.com (2603:10b6:806:386::12) with
+ Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9298.7; Thu, 6 Nov
- 2025 14:13:03 +0000
-Received: from SJ1PEPF000023D6.namprd21.prod.outlook.com
- (2603:10b6:a03:100:cafe::8b) by BYAPR08CA0017.outlook.office365.com
- (2603:10b6:a03:100::30) with Microsoft SMTP Server (version=TLS1_3,
+ 2025 14:13:08 +0000
+Received: from CY4PEPF0000EE3E.namprd03.prod.outlook.com
+ (2603:10b6:510:34a:cafe::d2) by PH5P220CA0008.outlook.office365.com
+ (2603:10b6:510:34a::6) with Microsoft SMTP Server (version=TLS1_3,
  cipher=TLS_AES_256_GCM_SHA384) id 15.20.9298.12 via Frontend Transport; Thu,
- 6 Nov 2025 14:13:03 +0000
+ 6 Nov 2025 14:13:18 +0000
 X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 198.47.23.195)
  smtp.mailfrom=ti.com; dkim=none (message not signed) header.d=none; dmarc=pass
  action=none header.from=ti.com;
@@ -49,24 +49,24 @@ Received-SPF: Pass (protection.outlook.com: domain of ti.com designates
  198.47.23.195 as permitted sender) receiver=protection.outlook.com;
  client-ip=198.47.23.195; helo=lewvzet201.ext.ti.com; pr=C
 Received: from lewvzet201.ext.ti.com (198.47.23.195) by
- SJ1PEPF000023D6.mail.protection.outlook.com (10.167.244.71) with Microsoft
+ CY4PEPF0000EE3E.mail.protection.outlook.com (10.167.242.16) with Microsoft
  SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.9320.0 via Frontend Transport; Thu, 6 Nov 2025 14:13:01 +0000
-Received: from DLEE212.ent.ti.com (157.170.170.114) by lewvzet201.ext.ti.com
+ 15.20.9298.6 via Frontend Transport; Thu, 6 Nov 2025 14:13:08 +0000
+Received: from DLEE203.ent.ti.com (157.170.170.78) by lewvzet201.ext.ti.com
  (10.4.14.104) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.20; Thu, 6 Nov
- 2025 08:12:58 -0600
-Received: from DLEE213.ent.ti.com (157.170.170.116) by DLEE212.ent.ti.com
- (157.170.170.114) with Microsoft SMTP Server (version=TLS1_2,
+ 2025 08:13:04 -0600
+Received: from DLEE202.ent.ti.com (157.170.170.77) by DLEE203.ent.ti.com
+ (157.170.170.78) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.20; Thu, 6 Nov
- 2025 08:12:58 -0600
-Received: from lelvem-mr05.itg.ti.com (10.180.75.9) by DLEE213.ent.ti.com
- (157.170.170.116) with Microsoft SMTP Server (version=TLS1_2,
+ 2025 08:13:04 -0600
+Received: from lelvem-mr05.itg.ti.com (10.180.75.9) by DLEE202.ent.ti.com
+ (157.170.170.77) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.20 via Frontend
- Transport; Thu, 6 Nov 2025 08:12:58 -0600
+ Transport; Thu, 6 Nov 2025 08:13:04 -0600
 Received: from a0512632.dhcp.ti.com (a0512632.dhcp.ti.com [172.24.233.20])
- by lelvem-mr05.itg.ti.com (8.18.1/8.18.1) with ESMTP id 5A6ECRER1335893;
- Thu, 6 Nov 2025 08:12:52 -0600
+ by lelvem-mr05.itg.ti.com (8.18.1/8.18.1) with ESMTP id 5A6ECRES1335893;
+ Thu, 6 Nov 2025 08:12:58 -0600
 From: Swamil Jain <s-jain1@ti.com>
 To: <jyri.sarha@iki.fi>, <tomi.valkeinen@ideasonboard.com>,
  <maarten.lankhorst@linux.intel.com>, <mripard@kernel.org>,
@@ -77,10 +77,9 @@ To: <jyri.sarha@iki.fi>, <tomi.valkeinen@ideasonboard.com>,
 CC: <devarsht@ti.com>, <praneeth@ti.com>, <h-shenoy@ti.com>,
  <dri-devel@lists.freedesktop.org>, <linux-arm-kernel@lists.infradead.org>,
  <devicetree@vger.kernel.org>, <linux-kernel@vger.kernel.org>
-Subject: [RESEND PATCH v2 4/5] arm64: dts: ti: k3-am62a-main: Add tidss
- clk-ctrl property
-Date: Thu, 6 Nov 2025 19:42:26 +0530
-Message-ID: <20251106141227.899054-5-s-jain1@ti.com>
+Subject: [RESEND PATCH v2 5/5] drm/tidss: Fix sampling edge configuration
+Date: Thu, 6 Nov 2025 19:42:27 +0530
+Message-ID: <20251106141227.899054-6-s-jain1@ti.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20251106141227.899054-1-s-jain1@ti.com>
 References: <20251106141227.899054-1-s-jain1@ti.com>
@@ -90,54 +89,54 @@ Content-Type: text/plain
 X-C2ProcessedOrg: 333ef613-75bf-4e12-a4b1-8e3623f5dcea
 X-EOPAttributedMessage: 0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: SJ1PEPF000023D6:EE_|IA1PR10MB6781:EE_
-X-MS-Office365-Filtering-Correlation-Id: 61555a7e-58fd-400a-fac4-08de1d3e98a1
+X-MS-TrafficTypeDiagnostic: CY4PEPF0000EE3E:EE_|SA1PR10MB7683:EE_
+X-MS-Office365-Filtering-Correlation-Id: 5eb7caa7-a774-454c-96e1-08de1d3e9c9d
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
- ARA:13230040|82310400026|36860700013|7416014|376014|1800799024|34020700016|921020|12100799066;
-X-Microsoft-Antispam-Message-Info: =?us-ascii?Q?t5+vPqkV7yb7kUbl3KYo+SahJmk4G6AWzasQWicUy6jhYhfno2ChRs/INLub?=
- =?us-ascii?Q?OKzRzWv88crj38klJzlVPdfpJgi+X2P8JGOs7f9tilJYU1FB/7A0Um4Yw+EA?=
- =?us-ascii?Q?S4KLASsSdTpKrwx4q4Cf0Hwh8TE+N9oM28OMHrEyUGO0IIsNWIPvhRKnajbW?=
- =?us-ascii?Q?plm/qMq58o9RNSBp2LPs1c7H0lMKk+anq64KyPtUmrK1QGI3MIXLgVzipv8r?=
- =?us-ascii?Q?KYiCcrBsJ+RtDliCGebL/CtS87ooVCWnUGlE1cTSEjtB+27PbvM7zZXS+9qX?=
- =?us-ascii?Q?BxU27zFhrr8wvTFosPLhkfbPTdQJAAHOGjjmr5p6WOkUqsXbojIgWo3J+CBR?=
- =?us-ascii?Q?lRqhyQx1VyhCF1oxqJ3L6OBpijpX9UnwD3NAqEXqOrQ+iyZUyhuaIZDN9s7v?=
- =?us-ascii?Q?ofQRJTtQ2LZtmj9HO6fyGEUUvjs/cgAm3sQe3R/BDwPg1Tt3Mi68VFYw2mBw?=
- =?us-ascii?Q?wCnFphcOpY+QkuwycX3KfyWVZkPv8s9VmuBkOx5drBYUhOc/HU0D0+6vX931?=
- =?us-ascii?Q?GuQxuU1eXS33m2+sXV+gblZFR7Y4tSnEIdHNQzig1ar/esApluoTihCFGlWD?=
- =?us-ascii?Q?PaMi2vkxExYNgB/tI8fkU14t1DQYR1bHsZV6A16/Bf/USYp4A78aMXAbZ8Ew?=
- =?us-ascii?Q?e0MFU4smVmtfKNUn6v+Ry0chYICmggG9/Hz6+9oYpuMhb/LHRmAAU6i62FPv?=
- =?us-ascii?Q?9gHApboAa0a48RgrUDztVNEBbQy3hkJaNen+qjz3FIg9eNpdv3lOjb055/YZ?=
- =?us-ascii?Q?/ifTil2tgyU8M6uTxDVlSu50NfB94BbjZQIkYF78+wcQsyZigY+WVP9CTPeK?=
- =?us-ascii?Q?BS2f8D7PQPZSiW43Y6aRZPEQSqiGKscqStnnAlGJwwzVQRgpMLSDT4SXhlTJ?=
- =?us-ascii?Q?+Cwpr9z7uRo5OX4yVBWNsBvNMX6k1C3vGectjwWwNnCFS5wRJ4HfU0r2yxaW?=
- =?us-ascii?Q?kGCSOLeC1umZqum5KIV5oNO4m1vGa4sJXEd75LfrikAuQ+tpPReZKwR4/NG/?=
- =?us-ascii?Q?gyapFosnFOinoNWCd3yzRlZ7K2yvTDFChFYnXskUevMxiXj79lEB//NoVQjr?=
- =?us-ascii?Q?cxGNpZ/b6wJMCCTU4L4UfFoAnkY0sSLWGw7Mqn15Rjx37pHcbgVQ7jrKDeWf?=
- =?us-ascii?Q?4Nh5JfLbvtS+c4JomfZBf5q5wm9yLoP66tH76KMlzqIFtBaYzzUC2R1mmLUT?=
- =?us-ascii?Q?CegD3mqb5D6PUeyMeLxNPeGHiWYDXMsrXOeW7zTW9GETb/ceQMvmoFYOllr+?=
- =?us-ascii?Q?x/pcKMMXbFrpu1MswisK2OT9WrigfozZ1Zbxm6MsnrfcDfA/RumSlkv8H8k1?=
- =?us-ascii?Q?whEp+S2OSQaN99W1L6wqz4mwsbH8fOFfxA033NMYsCe4qg8KCdeyEVfnxoE/?=
- =?us-ascii?Q?IVhaDjZkimEupQaws7fvyCJonYq9Qxsg+LQ6zerS6//rzOF1nhVTV3nno3qx?=
- =?us-ascii?Q?Z/5O8raEtTWVhjtxwhZoHaaLUtPzDOO5h1IPsFXgh9YzTxQ1GL6ruONeW6jH?=
- =?us-ascii?Q?VLQGLLP22vJ9KE9yYWHYGqYJRHUfCcxfJrv+kULvqZNP6TMjiqCNxD/28hZW?=
- =?us-ascii?Q?/MCYXZ1uLeNke+kGCNDN6uiz6nPzf+BSPxAfZXPk?=
+ ARA:13230040|1800799024|82310400026|376014|7416014|36860700013|34020700016|921020|12100799066;
+X-Microsoft-Antispam-Message-Info: =?us-ascii?Q?M0cGdcT3VbW6LcL+M5y1NsTkdTQ4w0M38hZG0gDHveWtOKT5V22EXme8q7/T?=
+ =?us-ascii?Q?MgnhXdrLhoP8MlZ61v5iv+QKS5f/Swlt4Uw4WQdyqU1G5qgNNWoevjSWpUSd?=
+ =?us-ascii?Q?jKds3yAsC3GOQwa4mg7ziUpnx0xIW5wkM1Y88QQWDQRVSMklpCtwSMR4qSpS?=
+ =?us-ascii?Q?wZ+lqqhFI0+FK0inpP5HkgB8u53lk1qfbEwWPt8upFQeXfOk5/jheq6U6Afj?=
+ =?us-ascii?Q?6HKZeRtM6neYN62/lMcpCF9Cenji9IkLDGcTspZi6ju/i/OVKNM6BljnJZfU?=
+ =?us-ascii?Q?BRwBfaahU3FOnDP8805o8TmfMJVmx2aeBpineQRJzEeJ9B2Gf7/Z7kcj7gXt?=
+ =?us-ascii?Q?7NjjqbLBQwE2sZg8GWGRdWrrDyheV0qvbh1/tFb7KJICJ6gH9TPuigBjW0NV?=
+ =?us-ascii?Q?+vdJQJim1y11gE/XtcIv4Xc1yLOtlxi8dDdPOw6MVWcUVCalMx+60sA4qaCe?=
+ =?us-ascii?Q?5PTRq4RTP6bVc3lrDlW6vqjOojsaPQEAImh0pDYozUFCAHHfK7PlZR1juQ3p?=
+ =?us-ascii?Q?Fd7RmhxTF7hEUOcRVqJY9//gtZDNFhFXPsA/HLNgS9+VlLNeloisKogIfPge?=
+ =?us-ascii?Q?twjZN3mwhPsFRxXLMxa7kDS6E6rrJ8iSlEe7oltGpScd5XSHQg/3cKWtuB/J?=
+ =?us-ascii?Q?RmtGX02Fz0OUHqOtLg1HzGJqW3QC/vtMG2dGtZ9RTrgkdgG5T8sakpCDwzLv?=
+ =?us-ascii?Q?YOiJmu7uZe0GlykPo9Lv2NUk+6HAojvlW0MljjLSo2Bd4hr9oYZG6MGERI+y?=
+ =?us-ascii?Q?9cW3VB+DjFnzWMUEPTnSiOKDzmuJqASwPbVuvZ4bpaWIP6+Ox5J9pjFIKAkb?=
+ =?us-ascii?Q?II5iKbxeEW2OukkDErzxnJO51BujpcWgE0YOhs+uf7P3/nUYg+lXE6r/P29i?=
+ =?us-ascii?Q?i5JCnH2u8Hger3pHwHZd3t3WqGj5zUuIYTTD1RjQ+jpvO6MNbsOWYdNJYhCJ?=
+ =?us-ascii?Q?nCCowy/x5JC44Yzz+m2X3uq1TektCwIXZdK7LTJNMbIxBZ5tOX4op2BBZ436?=
+ =?us-ascii?Q?eYrKJzCUpOwR3uAOTmiF3L0PJ8v8L02VS9fDdQLyRraM+aD9g5A8UW0twUcH?=
+ =?us-ascii?Q?I++LFtczji6ptETNqMYwkADocXOGLe5cGUrfSwWsbZTYIrO+Y92g+wd/fWZX?=
+ =?us-ascii?Q?DKI11IYtxQqOF5uRgIFKwDvQzRxNnfXgLsLXjrPXOBD/R4AujFwxF/4r7RFc?=
+ =?us-ascii?Q?mpWLcfB+ozx8jxvjZI/K1xk0Jmq0SBGUWxwzCTO/Q7wgV6u/6LvL+RQyDgXA?=
+ =?us-ascii?Q?PE/8s6uPkJPFy+dgk52V+3WJzncd+0b6I71tnM1tShLS4SehZwvbtsnvsEkd?=
+ =?us-ascii?Q?lA29ZZFNo/REFdr8HLi0a2aQYlJg1iaoZMmq6xUxNTykRTum3FInZYkCKFpx?=
+ =?us-ascii?Q?7jtj4V0i4Fhhg6O41Wyp4ca/r8Mh+xEtJxCRZ1dugX33qQmHGhwLO1HJsRxU?=
+ =?us-ascii?Q?kn9pJ49KA7wrUq0xyOYLObM/WxwbRfsYCKT5i7Hz/jn1Mee8ehrRCPAcEOVD?=
+ =?us-ascii?Q?6D3/ITjm5uN8h0YezUyjFuz4y+g6XdKZGqozXfYFZNl4BdeNg4DIWomix/Oa?=
+ =?us-ascii?Q?HqoIVwTa51hYjtPYnktGku05mfkCHDMRiMD8lO0/?=
 X-Forefront-Antispam-Report: CIP:198.47.23.195; CTRY:US; LANG:en; SCL:1; SRV:;
  IPV:NLI; SFV:NSPM; H:lewvzet201.ext.ti.com; PTR:InfoDomainNonexistent;
  CAT:NONE;
- SFS:(13230040)(82310400026)(36860700013)(7416014)(376014)(1800799024)(34020700016)(921020)(12100799066);
+ SFS:(13230040)(1800799024)(82310400026)(376014)(7416014)(36860700013)(34020700016)(921020)(12100799066);
  DIR:OUT; SFP:1501; 
 X-OriginatorOrg: ti.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 06 Nov 2025 14:13:01.8387 (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 61555a7e-58fd-400a-fac4-08de1d3e98a1
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 06 Nov 2025 14:13:08.5509 (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 5eb7caa7-a774-454c-96e1-08de1d3e9c9d
 X-MS-Exchange-CrossTenant-Id: e5b49634-450b-4709-8abb-1e2b19b982b7
 X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=e5b49634-450b-4709-8abb-1e2b19b982b7; Ip=[198.47.23.195];
  Helo=[lewvzet201.ext.ti.com]
-X-MS-Exchange-CrossTenant-AuthSource: SJ1PEPF000023D6.namprd21.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthSource: CY4PEPF0000EE3E.namprd03.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Anonymous
 X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: IA1PR10MB6781
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA1PR10MB7683
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -153,39 +152,64 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-For AM62A, we need to use the newly created clk-ctrl property to
-properly handle data edge sampling configuration. Add them in main
-device tree.
+From: Louis Chauvet <louis.chauvet@bootlin.com>
 
+As stated in the AM62x Technical Reference Manual (SPRUIV7B)[1], the data
+sampling edge needs to be configured in two distinct registers: one in the
+TIDSS IP and another in the memory-mapped control register modules. Since
+the latter is not within the same address range, a phandle to a syscon
+device is used to access the regmap.
+
+Configure the CTRL_MMR register, as mentioned in the Technical Reference
+Manual to fix sampling edge.
+
+[1]: https://www.ti.com/lit/ug/spruiv7b/spruiv7b.pdf
+
+Fixes: ad2ac9dc9426 ("drm/tidss: Add support for AM625 DSS")
 Fixes: 5cc5ea7b6d7b ("drm/tidss: Add support for AM62A7 DSS")
 Cc: stable@vger.kernel.org
+Signed-off-by: Louis Chauvet <louis.chauvet@bootlin.com>
 Signed-off-by: Swamil Jain <s-jain1@ti.com>
 ---
- arch/arm64/boot/dts/ti/k3-am62a-main.dtsi | 7 +++++++
- 1 file changed, 7 insertions(+)
+ drivers/gpu/drm/tidss/tidss_dispc.c | 14 ++++++++++++++
+ 1 file changed, 14 insertions(+)
 
-diff --git a/arch/arm64/boot/dts/ti/k3-am62a-main.dtsi b/arch/arm64/boot/dts/ti/k3-am62a-main.dtsi
-index 9e5b75a4e88e..15a9ee35dbce 100644
---- a/arch/arm64/boot/dts/ti/k3-am62a-main.dtsi
-+++ b/arch/arm64/boot/dts/ti/k3-am62a-main.dtsi
-@@ -77,6 +77,12 @@ audio_refclk1: clock-controller@82e4 {
- 			assigned-clock-parents = <&k3_clks 157 18>;
- 			#clock-cells = <0>;
- 		};
-+
-+		dss_clk_ctrl: dss-clk-ctrl@8300 {
-+			compatible = "ti,am625-dss-clk-ctrl", "syscon";
-+			reg = <0x8300 0x4>;
-+		};
-+
- 	};
+diff --git a/drivers/gpu/drm/tidss/tidss_dispc.c b/drivers/gpu/drm/tidss/tidss_dispc.c
+index d8e1a1bcd660..d09eecb72dc0 100644
+--- a/drivers/gpu/drm/tidss/tidss_dispc.c
++++ b/drivers/gpu/drm/tidss/tidss_dispc.c
+@@ -500,6 +500,7 @@ struct dispc_device {
+ 	const struct dispc_features *feat;
  
- 	dmss: bus@48000000 {
-@@ -1136,6 +1142,7 @@ dss: dss@30200000 {
- 			 <&k3_clks 186 2>;
- 		clock-names = "fck", "vp1", "vp2";
- 		interrupts = <GIC_SPI 84 IRQ_TYPE_LEVEL_HIGH>;
-+		ti,clk-ctrl = <&dss_clk_ctrl>;
- 		status = "disabled";
+ 	struct clk *fclk;
++	struct regmap *clk_ctrl;
  
- 		dss_ports: ports {
+ 	bool is_enabled;
+ 
+@@ -1234,6 +1235,11 @@ void dispc_vp_prepare(struct dispc_device *dispc, u32 hw_videoport,
+ 				  mode->crtc_hdisplay - 1) |
+ 		       FIELD_PREP(DISPC_VP_SIZE_SCREEN_VDISPLAY_MASK,
+ 				  mode->crtc_vdisplay - 1));
++
++	if (dispc->clk_ctrl) {
++		regmap_update_bits(dispc->clk_ctrl, 0, 0x100, ipc ? 0x100 : 0x000);
++		regmap_update_bits(dispc->clk_ctrl, 0, 0x200, rf ? 0x200 : 0x000);
++	}
+ }
+ 
+ void dispc_vp_enable(struct dispc_device *dispc, u32 hw_videoport)
+@@ -3003,6 +3009,14 @@ int dispc_init(struct tidss_device *tidss)
+ 
+ 	dispc_init_errata(dispc);
+ 
++	dispc->clk_ctrl = syscon_regmap_lookup_by_phandle_optional(tidss->dev->of_node,
++								   "ti,clk-ctrl");
++	if (IS_ERR(dispc->clk_ctrl)) {
++		r = dev_err_probe(dispc->dev, PTR_ERR(dispc->clk_ctrl),
++				  "DISPC: syscon_regmap_lookup_by_phandle failed.\n");
++		return r;
++	}
++
+ 	dispc->fourccs = devm_kcalloc(dev, ARRAY_SIZE(dispc_color_formats),
+ 				      sizeof(*dispc->fourccs), GFP_KERNEL);
+ 	if (!dispc->fourccs)
