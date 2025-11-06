@@ -2,162 +2,151 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0B78AC3D604
-	for <lists+dri-devel@lfdr.de>; Thu, 06 Nov 2025 21:37:37 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 22A29C3D65E
+	for <lists+dri-devel@lfdr.de>; Thu, 06 Nov 2025 21:50:33 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BD28710E9C9;
-	Thu,  6 Nov 2025 20:37:33 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5BCFF10E9CB;
+	Thu,  6 Nov 2025 20:50:30 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=Nvidia.com header.i=@Nvidia.com header.b="tdJDXDcZ";
+	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="T/2HigNQ";
+	dkim=pass (2048-bit key; unprotected) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="PStDqdT4";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from SA9PR02CU001.outbound.protection.outlook.com
- (mail-southcentralusazon11013020.outbound.protection.outlook.com
- [40.93.196.20])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 423F110E9C8;
- Thu,  6 Nov 2025 20:37:32 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=l+KQAr9DC9mJabtNxPkzcvMFWWmlGwUebLkRaBGKeAVxJW3yrk9EJ5T4cl0fNYoM21aO09eZyxGCKXY8A39vKIkbnYpvcn+GCy8X3mazEEIdbBIXx6XRFizNsfvlq3gyeP0tAybfHxbjIb/p4s2TSb7R+VCecPaEGRI0J6QFMRcbcPjynTxFGPjpuxiruHSJ7fGjPt3pErbEU9nuEKxEut7cHdIjIfbmruMEjCw2dKV5Zj2MslXxcsR5r+oxNHIURDX8XQlYGPo95kwKTgE9hm/7VWtUzCortR3bueAXMgJHyxH7lsH8rHWCTtxbwr/cwhMStOHFnaj+IPyc9aL1rQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=MkUtyqX3nJpBQC11Y8c3g5Y606BWIS3BkyBHkbnQVEs=;
- b=Ce/lB1CS7AbzwVtQXsDaLHTKegIqWO57nTw0cuvZmjpIkwe7ObYhueFa5J79IPZ21C+uuI88eOk82q0KNTBExkzX1Xn1k79rr1vE33Tr/ZvpW0wq8XhCqLkkQYReXvOfz7Vx0omXb5HQ72e/lNEJ9FFzGiwvWSIyUrQ3ROYfIt19tk13xrwWwC44fRiQWl3GHjrit9DWhKrK0h7KNDf9BolksHQHd9HIJhS1QA0gA2AxeyaWGk6TEzGhOCKijjithOVckSu+S4dt5cqPvyNgP6uUPE5XlLo8SDIM+jedqP2p/4qyhNgD8MRFfqAW9I6t9RXbo0TVPAhKdmnwPcxNaA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
- dkim=pass header.d=nvidia.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=MkUtyqX3nJpBQC11Y8c3g5Y606BWIS3BkyBHkbnQVEs=;
- b=tdJDXDcZrVOECC+D1EavieBP3HO7HnpVwmxIXJtB60rydsGJpu054YBGSVf3CDsnY2XQ9WcLXQUX6L06y//pmaaI/ZTzIadJQxsc78uYe+SrOmucIPB2C/H++PueCWNzekmN060DDAKLFIinW2/ARSanCx5dO+oNSHpnr/yg8rceRmXN/bLSu3UjI8r/DgDkjbDJdonYv/dvyimpscEiYBK/WLDCPOk/0MmupadjGlo00IPeNQRwKHSSP0twOAU81co+UAYpmc16XPyrMiCkRNHFLeLTFSUsSqGvEFFaUc6zZU0cl6TPFTKWPoKldX2j3KgJdKuj2gpCIiQqkBc7Ew==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nvidia.com;
-Received: from MN2PR12MB3613.namprd12.prod.outlook.com (2603:10b6:208:c1::17)
- by SN7PR12MB7108.namprd12.prod.outlook.com (2603:10b6:806:2a3::21)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9275.13; Thu, 6 Nov
- 2025 20:37:28 +0000
-Received: from MN2PR12MB3613.namprd12.prod.outlook.com
- ([fe80::1b3b:64f5:9211:608b]) by MN2PR12MB3613.namprd12.prod.outlook.com
- ([fe80::1b3b:64f5:9211:608b%4]) with mapi id 15.20.9298.006; Thu, 6 Nov 2025
- 20:37:27 +0000
-Date: Thu, 6 Nov 2025 16:37:21 -0400
-From: Jason Gunthorpe <jgg@nvidia.com>
-To: Alex Williamson <alex@shazbot.org>
-Cc: Mostafa Saleh <smostafa@google.com>,
- Alexander Gordeev <agordeev@linux.ibm.com>,
- David Airlie <airlied@gmail.com>,
- Alex Williamson <alex.williamson@redhat.com>,
- Ankit Agrawal <ankita@nvidia.com>,
- Christian Borntraeger <borntraeger@linux.ibm.com>,
- Brett Creeley <brett.creeley@amd.com>,
- dri-devel@lists.freedesktop.org, Eric Auger <eric.auger@redhat.com>,
- Eric Farman <farman@linux.ibm.com>,
- Giovanni Cabiddu <giovanni.cabiddu@intel.com>,
- Vasily Gorbik <gor@linux.ibm.com>,
- Heiko Carstens <hca@linux.ibm.com>, intel-gfx@lists.freedesktop.org,
- Jani Nikula <jani.nikula@linux.intel.com>,
- Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
- Kevin Tian <kevin.tian@intel.com>, kvm@vger.kernel.org,
- Kirti Wankhede <kwankhede@nvidia.com>, linux-s390@vger.kernel.org,
- Longfang Liu <liulongfang@huawei.com>,
- Matthew Rosato <mjrosato@linux.ibm.com>,
- Nikhil Agarwal <nikhil.agarwal@amd.com>, Nipun Gupta <nipun.gupta@amd.com>,
- Peter Oberparleiter <oberpar@linux.ibm.com>,
- Halil Pasic <pasic@linux.ibm.com>,
- Pranjal Shrivastava <praan@google.com>, qat-linux@intel.com,
- Rodrigo Vivi <rodrigo.vivi@intel.com>, Simona Vetter <simona@ffwll.ch>,
- Shameer Kolothum <skolothumtho@nvidia.com>,
- Sven Schnelle <svens@linux.ibm.com>, Tvrtko Ursulin <tursulin@ursulin.net>,
- virtualization@lists.linux.dev, Vineeth Vijayan <vneethv@linux.ibm.com>,
- Yishai Hadas <yishaih@nvidia.com>, Zhenyu Wang <zhenyuw.linux@gmail.com>,
- Zhi Wang <zhi.wang.linux@gmail.com>, patches@lists.linux.dev
-Subject: Re: [PATCH 00/22] vfio: Give VFIO_DEVICE_GET_REGION_INFO its own op
-Message-ID: <20251106203721.GH1732817@nvidia.com>
-References: <0-v1-679a6fa27d31+209-vfio_get_region_info_op_jgg@nvidia.com>
- <aQh7gG3IAEgEaKY_@google.com>
- <20251105135804.0cb3b340.alex@shazbot.org>
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20251105135804.0cb3b340.alex@shazbot.org>
-X-ClientProxiedBy: BLAP220CA0007.NAMP220.PROD.OUTLOOK.COM
- (2603:10b6:208:32c::12) To MN2PR12MB3613.namprd12.prod.outlook.com
- (2603:10b6:208:c1::17)
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
+ [205.220.180.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 923BE10E9CB
+ for <dri-devel@lists.freedesktop.org>; Thu,  6 Nov 2025 20:50:29 +0000 (UTC)
+Received: from pps.filterd (m0279871.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id
+ 5A6HHDkw2326852
+ for <dri-devel@lists.freedesktop.org>; Thu, 6 Nov 2025 20:50:28 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+ cc:content-transfer-encoding:content-type:date:from:message-id
+ :mime-version:subject:to; s=qcppdkim1; bh=c+0CI3phAGYDyHILGmN1e2
+ d0RUo7uh44/KkruqoJ1dY=; b=T/2HigNQHaN0BouYmyS5QtddKOx9hJPk/6ad0F
+ PvddoEMsl2o6YwVa2KfdH2QrsTuvectw4Vb1hbHDCeDda6yJBpcUdcJaAoFPcLXa
+ r3oarwSJk4HQTpwV40KX9W6kpfkGwwwF2P1FvWIZVOYoqTXiE8O2paawM5hMbADF
+ ZFKVQXt28EtWdmPiz7MBxPIsELSA7YxO0W3HJIhNMSV1P6uIvy1Dqm4ubIMVnj9H
+ Afocj0Z+0eGkk+klLMsj+5SDLrG4M5xZ9luB/TeLsSZnvKBgZCp5XVwUQhB7O/za
+ SHyVkRv+SwQZda1+OpiNzECY+hDH/YV3r39+biVhITh9xcpg==
+Received: from mail-pl1-f200.google.com (mail-pl1-f200.google.com
+ [209.85.214.200])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4a8h0v3ehb-1
+ (version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
+ for <dri-devel@lists.freedesktop.org>; Thu, 06 Nov 2025 20:50:28 +0000 (GMT)
+Received: by mail-pl1-f200.google.com with SMTP id
+ d9443c01a7336-28bd8b3fa67so587885ad.2
+ for <dri-devel@lists.freedesktop.org>; Thu, 06 Nov 2025 12:50:28 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=oss.qualcomm.com; s=google; t=1762462227; x=1763067027;
+ darn=lists.freedesktop.org; 
+ h=cc:to:content-transfer-encoding:mime-version:message-id:date
+ :subject:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=c+0CI3phAGYDyHILGmN1e2d0RUo7uh44/KkruqoJ1dY=;
+ b=PStDqdT4eQexbAFCfWI3Ejab3dXit9pyLmN6wEwcY5mUcRfY954bzhh1Ijl0KxfA1j
+ VOwyL5B5DGofSJ8sb512oNRsKl/NBPs5fH64I4/XiVSqMQFyWiD+H1QeWICTxCSeqBNM
+ rUT2nPbrmdV9P9Dh7alyvO4fb/FlxGZ/i+9jfyG5l27iibOwxtQO6W1dJZfDBbNzr0HH
+ TvoJXg/e27PFcXQ1iI/mxHUmUhS/aOYvd0jewkoh0qxR0nVa5cY+IV754++AX4Fq5KLk
+ ZTuGUWxX6nT714zD+12SKvYqABJAeyU57kpMtGBaDInVBcCuqX3MaySZIdKE5fCc4AWe
+ 1KSA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1762462227; x=1763067027;
+ h=cc:to:content-transfer-encoding:mime-version:message-id:date
+ :subject:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=c+0CI3phAGYDyHILGmN1e2d0RUo7uh44/KkruqoJ1dY=;
+ b=IR15LHlxgxY+RK+tWOSWn5APi/6E8ghoADT/jVYZVncfDPdeGI1ZdE7HyBTvWR2CYm
+ cfLtxEMCeelBKL7rbgzHQ/BlOGKpHmaVdOlwc902ztLS6phNrMg9JMN4S56L7WQ18bcT
+ sQ9Epj9OC1/LJidjd8qlIbF7rfhiBHIoSmNUbgI0BfdVkOGxfBWp3PiUCcNQ5Mz0UUE8
+ U/+pxkh+5ymKDJo61i3nz8yC9U4UKEYistPYLYjd8Kf53v8Js9/h7dAxMTvOsvTorb5h
+ crN1zu8sLXtd3N66U9zXdNnmjxt2tt8P1KmQCTH/BWFCgGLuQfPHSW2OGuCqgQ29DIIH
+ AKrA==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCWJg16ozI/BalaAfgT+yU9uyOExin2Ih3tvP6qcGrhxiYkiyjQ6riw4JHcT+I8heW2o7JeDi2UuJzc=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YzeJCmxVSup7bWWedZ3hTUWSomX2KeBHDsJ1v7aJUWIffQms++/
+ 9/Y/JFzPJG9Mqa+ih7kqMwWpep439bjNNMPJnSP1b2uCZyOMKwac+fhw5CBC7ViJv6MuAfd+JGq
+ q4l44LmBl5f1ZooGqV00sv9+7kcyQQbuncFe1ChgcNEPknYyVfGKBlrvE/YWd0yv+nQy3pgw=
+X-Gm-Gg: ASbGncs4Cl6GRX+qAOmn/Ypa2BGe3v0wVJOddY12nt5f6NsW+9BPs593wNaRBVJouiI
+ x8nduOMzmCuJU280CLGJnc/51oE14DdS6UgQZ+6U8jr3vf/RpbqNIQZf49zOM/AznnIuHs8g8Vk
+ gddGfmZ5lItMHItV7RXmVgnm+YJtMjHNC/01Y3LIXqXHPW0OvoZzpcbm3j65aBtx7DjfE+lomn0
+ AGeK4RyU3W9vVDKueimi5uUkUtr1Df9q0CPobyZBwAruOlVsVUlWYZ6oM0NEKEbKF0WmO1YdamC
+ VwgUD4pfz434D5vUOq2iJoVf3UuqklCjPRlR9ZmPYydYCY2Q/Y0BL1HxrnCkvAPI9qKJfjxfsfx
+ E9JRzccE2oaOxhuYYyXvqcx4=
+X-Received: by 2002:a17:902:c942:b0:295:9e4e:4090 with SMTP id
+ d9443c01a7336-297c048e1aamr9267705ad.52.1762462227028; 
+ Thu, 06 Nov 2025 12:50:27 -0800 (PST)
+X-Google-Smtp-Source: AGHT+IFkVL9sBwSB/OhF4GGfbkM9glVzBtBg9nKvK1YYv7yR04xbzRA1HMup/agqqeQtSQa4DhZ1vA==
+X-Received: by 2002:a17:902:c942:b0:295:9e4e:4090 with SMTP id
+ d9443c01a7336-297c048e1aamr9267445ad.52.1762462226464; 
+ Thu, 06 Nov 2025 12:50:26 -0800 (PST)
+Received: from hu-akhilpo-hyd.qualcomm.com ([202.46.23.25])
+ by smtp.gmail.com with ESMTPSA id
+ d9443c01a7336-29651042c24sm37408815ad.50.2025.11.06.12.50.19
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 06 Nov 2025 12:50:26 -0800 (PST)
+From: Akhil P Oommen <akhilpo@oss.qualcomm.com>
+Subject: [PATCH v2 0/6] Support for Adreno 612 GPU - Respin
+Date: Fri, 07 Nov 2025 02:20:05 +0530
+Message-Id: <20251107-qcs615-spin-2-v2-0-a2d7c4fbf6e6@oss.qualcomm.com>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: MN2PR12MB3613:EE_|SN7PR12MB7108:EE_
-X-MS-Office365-Filtering-Correlation-Id: c3a41b10-b9d2-47a0-bffb-08de1d744a96
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|376014|366016|7416014|1800799024;
-X-Microsoft-Antispam-Message-Info: =?us-ascii?Q?G3rVEdXWNWrdUYWP2uC2vijH4VnN0Yc5fIkyMyG89CNlB9WlBDOqM2fa0jJn?=
- =?us-ascii?Q?wLz8eUTV8Pm6BdEyB6a+bQKPZs6s2+phca/qZvvU0MtXFhZwJxkgSB5mI0LI?=
- =?us-ascii?Q?hjh6A1k+OpcyA7j2C9jJvW7es2YWAbClvnyWmsTbnYzI9bEjzzXiAqff9Mg3?=
- =?us-ascii?Q?crkgWWImbbiPZc8ZFCoRZnjGMHdRX1wIfIIAjSMMOgtU7IR7DkT1BdRbRwMN?=
- =?us-ascii?Q?qG8XDuJE6iWAuS4q9tfED1k0yF7wjnfw6bF4vGUQnYrigXBzzsTffkiVAHPI?=
- =?us-ascii?Q?RKbyN7GyiQwKY/ckRbKVfdbz/Hd7jdmt+80TkkX2MV6seAaR5+mcP5/LYrc9?=
- =?us-ascii?Q?tz/pFB37AuYug59ArdVXzPcw955MambibJebqZJfVubrkpHjz3uUxqJ+MN8/?=
- =?us-ascii?Q?2k9QWl5DqIQCabdYe0wzxiHAlfKEGzK9QejL7pE7AE6DNSuFLdI7p6N3DhZZ?=
- =?us-ascii?Q?8VbyBKq5qOZ39rDeCeR9+S3K296L6fcX7oNogljA4gTWWcTDSoycJy3idTH5?=
- =?us-ascii?Q?yKA8gdWLVTVCrvjzC59vmPaiKiEid9tA1V+5pS/95ej23SMhpVRDqgCf7OnC?=
- =?us-ascii?Q?co4jU1hcf8KybjqvZR14DoNaMOz7NANQRaZQnRsTOmdNvzfAozwI60N6nIW4?=
- =?us-ascii?Q?sOvS3htyfhluTUOAFSAjDXgPjz6sfhehzxH6tks6qdq9JNj8dxaG/Z7Xptix?=
- =?us-ascii?Q?9NnG6oTfxDWqqghobqWqZKDMBTjtrvbZKPDfoDVqei068KdsCnG2rVslCOf/?=
- =?us-ascii?Q?nFYifa2eacDY8n1d9wMcLLzWHjPKpas66oj28RYfFOEJ5w7XPFH9zKFWnTFD?=
- =?us-ascii?Q?OS7AvRMj0w0aN7jxZb7lFxJJQIOAcJ222Gnt376H6mzB2opY/3lxhf3I4Bc7?=
- =?us-ascii?Q?suxkncZYv5n9xLhrQlxZEOM738v/E4e9DBhSyP9ON1McpkRaSE3SJTm5U/4Y?=
- =?us-ascii?Q?7i+eUgnhz9h6E6fXWDGmnnDSxctzNL+jJ6wVJKXY6mSBYXBv8OPSSaiCPIOE?=
- =?us-ascii?Q?b3zww4XudlgTECC+ungfJBcauQL+EdW/9t658SWkMtXe/xkAhM9reW0mIMw9?=
- =?us-ascii?Q?XtcHKfb7wGT6KUWbV2QMQ0bpP1fvjA0zkLEnOKvSAxxh9tW+nW6vIEFP8m1F?=
- =?us-ascii?Q?0d+jokt/dom4DB9EjD5G55xiild708pXCuA8BFKp2frcMGY3Is2sDANVmf1S?=
- =?us-ascii?Q?u+q2n2UevE4QmzH1p47GzjVqIZj3GqaF7niYqaQNznIOtaYox6qnJZ3pPTkx?=
- =?us-ascii?Q?8ZAKIk/w8da3yVRB0btdlJ39MDLRYYrwl6jZFiEo1pNN7ajxv1y1fGDolAQP?=
- =?us-ascii?Q?hNfaIHFc1G5vma1L3XLY6npgSgdqdtbFPWjePWIw3E5pvNAVfMUxwO2xLk3X?=
- =?us-ascii?Q?xy+fxmcT8jMp941hY7eP6g/jrmYe8gw/gOoSLGPMovucfgKDPGwmp8k7WtOm?=
- =?us-ascii?Q?NE2ui52SrmiuZcQ/BKb+QePXSk8qEFOj?=
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:MN2PR12MB3613.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230040)(376014)(366016)(7416014)(1800799024); DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?vbpq4bZ4ejcembgna0TBuNMaQy8j7PLMEq/HDg82STai6NsB1MmFSL9iZ4YO?=
- =?us-ascii?Q?TA+K4ft0XB0JjyQXUuWrMo/mieR98GDFhykPEeqq/bymZXmSqWxUkGpPwp4B?=
- =?us-ascii?Q?+apVSbY3SQMK6k04OdeoEt0VNG22A4r55/NuQ3uzXO6FPNkGlbJfuaCP0ipK?=
- =?us-ascii?Q?LGAsg3+FK4mWui8RYe4aTnes3VuHDTN0HFUfwDp5oKJPYhpj3AfQFDC+/XEZ?=
- =?us-ascii?Q?fQFrhDnXTpocVBz3eCUMHE8BRADOl6e9yujDFlz9SkswcIgAa7zVKxi5N3cJ?=
- =?us-ascii?Q?Sfvayvpgg2rWGCuz81qH2jaZKZltFlj+QqqegMb0LnwAmKXE+o6554xAx0tu?=
- =?us-ascii?Q?TBftGja7Cth5/CgFuBou6dBHW+M3mCanaIBZsABJkMCUqvHyx9sIEsRwfsPe?=
- =?us-ascii?Q?O1p19ljkAenmzdHQW0tVF+g5HlKa4nqMJOx5Y4573XmHdrGXPiBAFWeZCLDc?=
- =?us-ascii?Q?vUrewXz/aFwTl6AYK4v37MGexmn9p2alEg01j60mQcnsn1PEpWA8w1DM8Gsh?=
- =?us-ascii?Q?UQ9gPE13/Ti6YEeI2dNiQhVf28BEA1gVTcXn+8E4PCKXPmKb3cKREDWV7U/T?=
- =?us-ascii?Q?gwz1N+wuykOGS2yNLsylPjTgF3tTwiMkpf/BGFcmSZV671UEcNBhvrXI864H?=
- =?us-ascii?Q?Eh47bgN7lUI+NTwjohPobbBqOODhJpTKSgpYyZwKLGbfwfzkJwHSqja8HlUs?=
- =?us-ascii?Q?NO2RD8blNyQ2C9QRSUxFTx2F/AVvK6LChegDKv6qeGAQqC0t+dr/EfZ+7mOD?=
- =?us-ascii?Q?CJ/rtltqPrrpIBRpuH8rqOw6MR89QkKK/dXFrSkkbb2fPQ97b0dYNODoqPHN?=
- =?us-ascii?Q?1MtFcwlubS6fgfWnDd9oQ+tSEyHeYWjMSkRB8dYthrU+w1iWTkjFcGp4i3OC?=
- =?us-ascii?Q?QpD1W0tqjztccHRM3jB9q5wNBJvzK4+Q1qz5VML0ZDsk2U6rtSC9FBxfzbYo?=
- =?us-ascii?Q?dBQ2sVSZpuoiC+7vESVB7Tbm46RGXjRAptireIpnaDeMJZx3RHcq9tx/+FPy?=
- =?us-ascii?Q?0bnkmNoKWBM7eH+IJPaXX76jibXAJLEI6kJqJfxC3TdWGJkmWf5Z14liZAjQ?=
- =?us-ascii?Q?QfIfTtBxUzGQMNcD+Yl2+mPvcBnvj2Y8P9yHkI5wCWfJtnlfmw8tEjJYVD4M?=
- =?us-ascii?Q?u+vL67m5xdSdM0/d4THE1eSSYqLHP6kUeAZgyekcOZoyUSByyO4c+S4ZTuJC?=
- =?us-ascii?Q?sMZhDSJQbyTROXGceVkJncHQtI+UpiUfJmMhmN7A61ki+EJUdTi6gOdYlKd7?=
- =?us-ascii?Q?sDSbVuURshTNtyaX5iJ3FXzEjp0MGXPoOyu0DWGCNjCA6B21QjwrcXet4s3L?=
- =?us-ascii?Q?wRho0KcC69cQxC8AIlhLd/szRFSHvekG7P7pvVYpFCSopCojreKgrLpyHCpJ?=
- =?us-ascii?Q?RZ20ooIMQmYv+bnkxTl207G6NL9O4BN0We5aBYMCoxkqx6F3o69GhNS6J0IN?=
- =?us-ascii?Q?6SCniI2a6EI4N/Twtm4KVoqZVjzE3PuzQDGFlJOMx4nf0IvLT2gtuAxl1n5y?=
- =?us-ascii?Q?TCmSo7wh74I0UcH2RvabJLpMB1zoHhi+PkdcTY/+bjPRgFueBMpec9TpNYCm?=
- =?us-ascii?Q?ZdmnUOzw+IvwYd0wR+k=3D?=
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: c3a41b10-b9d2-47a0-bffb-08de1d744a96
-X-MS-Exchange-CrossTenant-AuthSource: MN2PR12MB3613.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 06 Nov 2025 20:37:26.1468 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: Z3pLKo3KQueBf7+vRQ3qOcnO3Ni7/4Ro2tlYtYjy+Gp/LUf0AILJxL9iGkliQIVi
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SN7PR12MB7108
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAP0JDWkC/12OSw6DMAwFr4K8rlESkRa66j0qFgFMiVR+cUBUi
+ Ls3QFfd2BpLb55XYHKWGO7RCo5my7bvAqhLBGVjuhehrQKDEkpLITWOJV/D4sF2qJCqRBeioiL
+ LUgiZwVFtl8P3zE92NE5B688jFIYJy75trb9HHS0eD7UUGvZAY9n37nP8M8sj8au+/VXPEgWKw
+ pgkqVORCf3omeNxMu/dHocB+bZtX5rPe2riAAAA
+X-Change-ID: 20251015-qcs615-spin-2-ed45b0deb998
+To: Rob Clark <robin.clark@oss.qualcomm.com>, Sean Paul <sean@poorly.run>,
+ Konrad Dybcio <konradybcio@kernel.org>,
+ Dmitry Baryshkov <lumag@kernel.org>,
+ Abhinav Kumar <abhinav.kumar@linux.dev>,
+ Marijn Suijten <marijn.suijten@somainline.org>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, Rob Herring <robh@kernel.org>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>, Bjorn Andersson <andersson@kernel.org>,
+ Jessica Zhang <jesszhan0024@gmail.com>
+Cc: Dan Carpenter <dan.carpenter@linaro.org>, linux-arm-msm@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, freedreno@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, devicetree@vger.kernel.org,
+ Akhil P Oommen <akhilpo@oss.qualcomm.com>,
+ Jie Zhang <quic_jiezh@quicinc.com>, Jie Zhang <jie.zhang@oss.qualcomm.com>,
+ Qingqing Zhou <quic_qqzhou@quicinc.com>,
+ Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
+X-Mailer: b4 0.14.3
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1762462219; l=3492;
+ i=akhilpo@oss.qualcomm.com; s=20240726; h=from:subject:message-id;
+ bh=EYt1DO1LqTfFqHj16/ypXH3yHHgYuudVfxTIn/PI/Ts=;
+ b=QRE7PA3UltZ/UcjZenH28Rd68rTh2wo2ssJfBfKhgw2eKzacmjm4dKSrkedIYMUuaqQCDC4Sj
+ zTAHQ7Fd8ccAmb14wyxpPBWg5/A2tNJ5kFxFc3O+ef8h2KfKeL/v39U
+X-Developer-Key: i=akhilpo@oss.qualcomm.com; a=ed25519;
+ pk=lmVtttSHmAUYFnJsQHX80IIRmYmXA4+CzpGcWOOsfKA=
+X-Proofpoint-ORIG-GUID: 9AGm-EBnpq7tZYLvE_ZDCFUAKDClRebT
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUxMTA2MDE2OSBTYWx0ZWRfX9QyCFWE8L0U6
+ Wh3CIXYYaQdoCeJqPefMXgzrIxCnsrrgViXOKuGRfx67UK85V0z/ufmq7JYX88SSMdxmA7xmjnJ
+ wmlrtw/yj8la68YuebM2uBVXqOuImpzsh3WCDLL8+H5Izw93LsyNd9Y7i9CpWfX/+uY9plkXNK5
+ 1q+X+eR4cgcLfbj2NFhnHUYRQ0eKjO03Un1ELRj3/4WNKlXF6gHxv6WgElQSUEWt4s0Zc1L6mim
+ yHXjQcw1QLcAjH2oNWNGe80KUC5L1ufv9quv6RB73ya73/lMZ29nV5gZp1kU2d7Spcxy+U8w5gO
+ qCv9dsIfP2gbMfEFAGT3rvg9UPtVJIGibHn+OYtmwz4JjVx6yqAHRKZh9N9ldOG5l4W5qRtCxJR
+ xqPuXHq3Y5aW4R12FqN3BtqkdpwP1w==
+X-Proofpoint-GUID: 9AGm-EBnpq7tZYLvE_ZDCFUAKDClRebT
+X-Authority-Analysis: v=2.4 cv=PoyergM3 c=1 sm=1 tr=0 ts=690d0a14 cx=c_pps
+ a=IZJwPbhc+fLeJZngyXXI0A==:117 a=ZePRamnt/+rB5gQjfz0u9A==:17
+ a=IkcTkHD0fZMA:10 a=6UeiqGixMTsA:10 a=s4-Qcg_JpJYA:10
+ a=VkNPw1HP01LnGYTKEx00:22 a=VwQbUJbxAAAA:8 a=COk6AnOGAAAA:8 a=EUspDBNiAAAA:8
+ a=vemyJuc05ARF21wryp8A:9 a=QEXdDO2ut3YA:10 a=uG9DUKGECoFWVXl0Dc02:22
+ a=TjNXssC_j7lpFel5tvFf:22
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.9,FMLib:17.12.100.49
+ definitions=2025-11-06_04,2025-11-06_01,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ lowpriorityscore=0 clxscore=1015 priorityscore=1501 phishscore=0 spamscore=0
+ adultscore=0 impostorscore=0 malwarescore=0 bulkscore=0 suspectscore=0
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.22.0-2510240001 definitions=main-2511060169
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -173,52 +162,78 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Nov 05, 2025 at 01:58:04PM -0700, Alex Williamson wrote:
-> On Mon, 3 Nov 2025 09:53:04 +0000
-> Mostafa Saleh <smostafa@google.com> wrote:
-> 
-> > On Thu, Oct 23, 2025 at 08:09:14PM -0300, Jason Gunthorpe wrote:
-> > > There is alot of duplicated code in the drivers for processing
-> > > VFIO_DEVICE_GET_REGION_INFO. Introduce a new op get_region_info_caps()
-> > > which provides a struct vfio_info_cap and handles the cap chain logic
-> > > to write the caps back to userspace and remove all of this duplication
-> > > from drivers.
-> > > 
-> > > This is done in two steps, the first is a largely mechanical introduction
-> > > of the get_region_info(). These patches are best viewed with the diff
-> > > option to ignore whitespace (-b) as most of the lines are re-indending
-> > > things.
-> > > 
-> > > Then drivers are updated to remove the duplicate cap related code. Some
-> > > drivers are converted to use vfio_info_add_capability() instead of open
-> > > coding a version of it.  
-> > 
-> > The series as a whole looks good.
-> > However, I got confused walking through it as almost all non-PCI drivers
-> > had to transition to get_region_info then get_region_info_caps then
-> > removing get_region_info completely from core code after introducing
-> > it in this series.
+This is a respin of an old series [1] that aimed to add support for
+Adreno 612 GPU found in SM6150/QCS615 chipsets. In this version, we
+have consolidated the previously separate series for DT and driver
+support, along with some significant rework.
 
-This makes it alot easier to read as most of the lines are just
-re-indenting code. If you try to do it in one shot the patches would
-be much more dense. The stopping point at get_region_info() lets it be
-more incremental..
+Regarding A612 GPU, it falls under ADRENO_6XX_GEN1 family and is a cut
+down version of A615 GPU. A612 has a new IP called Reduced Graphics
+Management Unit or RGMU, a small state machine which helps to toggle
+GX GDSC (connected to CX rail) to implement the IFPC feature. Unlike a
+full-fledged GMU, the RGMU does not support features such as clock
+control, resource voting via RPMh, HFI etc. Therefore, we require linux
+clock driver support similar to gmu-wrapper implementations to control
+gpu core clock and GX GDSC.
 
-> > IMO, the series should start with just consolidating PCI based implementation
-> > and then add get_region_info_caps for all drivers at the end.
-> > Anyway, no really strong opinion as the final outcome makes sense.
-> 
-> I agree it was a bit indirect to get there, but the result still makes
-> sense and I don't think it's worth reworking the series.
->
-> I think Eric has some outstanding naming concerns and Praan noted that
-> either a comment or gratuitous kfree(caps.buf) might be worthwhile to
-> keep call-outs in check regarding cap buffer leaks.  I don't think we
-> have any such cases, but it can't hurt to note the policy at least.
-> 
-> Otherwise, LGTM.  Should these be addressed as follow-ups rather than a
-> re-spin?  Thanks,
+In this series, the description of RGMU hardware in devicetree is more
+complete than in previous version. However, the RGMU core is not
+initialized from the driver as there is currently no need for it. We do
+perform a dummy load of RGMU firmware (now available in linux-firmware)
+to ensure that enabling RGMU core in the future won't break backward
+compatibility for users.
 
-I was planning to respin it but time keeps ticking away..
+Due to significant changes compared to the old series, all R-b tags have
+been dropped. Please review with fresh eyes.
 
-Jason
+Last 3 patches are for Bjorn and the rest are for Rob Clark for pick up.
+
+[1] Driver: https://lore.kernel.org/lkml/20241213-a612-gpu-support-v3-1-0e9b25570a69@quicinc.com/
+    Devicetree: https://lore.kernel.org/lkml/fu4rayftf3i4arf6l6bzqyzsctomglhpiniljkeuj74ftvzlpo@vklca2giwjlw/
+
+Signed-off-by: Akhil P Oommen <akhilpo@oss.qualcomm.com>
+---
+Changes in v2:
+- Rebased on next-20251105
+- Fix hwcg configuration (Dan)
+- Reuse a few gmu-wrapper routines (Konrad)
+- Split out rgmu dt schema (Krzysztof/Dmitry)
+- Fixes for GPU dt binding doc (Krzysztof)
+- Removed VDD_CX from rgmu dt node. Will post a separate series to
+address the gpucc changes (Konrad)
+- Fix the reg range size for adreno smmu node and reorder the properties (Konrad)
+- Link to v1: https://lore.kernel.org/r/20251017-qcs615-spin-2-v1-0-0baa44f80905@oss.qualcomm.com
+
+---
+Akhil P Oommen (1):
+      dt-bindings: display/msm: gpu: Document A612 GPU
+
+Jie Zhang (4):
+      drm/msm/a6xx: Add support for Adreno 612
+      dt-bindings: display/msm/rgmu: Document A612 RGMU
+      arm64: dts: qcom: sm6150: Add gpu and rgmu nodes
+      arm64: dts: qcom: qcs615-ride: Enable Adreno 612 GPU
+
+Qingqing Zhou (1):
+      arm64: dts: qcom: sm6150: add the GPU SMMU node
+
+ .../devicetree/bindings/display/msm/gpu.yaml       |  32 ++++-
+ .../devicetree/bindings/display/msm/rgmu.yaml      | 131 +++++++++++++++++++
+ MAINTAINERS                                        |   1 +
+ arch/arm64/boot/dts/qcom/qcs615-ride.dts           |   8 ++
+ arch/arm64/boot/dts/qcom/talos.dtsi                | 138 +++++++++++++++++++++
+ drivers/gpu/drm/msm/adreno/a6xx_catalog.c          |  16 +++
+ drivers/gpu/drm/msm/adreno/a6xx_gmu.c              |  23 +++-
+ drivers/gpu/drm/msm/adreno/a6xx_gpu.c              |  45 +++++--
+ drivers/gpu/drm/msm/adreno/a6xx_gpu_state.c        |   3 +-
+ drivers/gpu/drm/msm/adreno/adreno_gpu.c            |   1 +
+ drivers/gpu/drm/msm/adreno/adreno_gpu.h            |  16 ++-
+ 11 files changed, 398 insertions(+), 16 deletions(-)
+---
+base-commit: 185cd3dc1a12b97194a62eba9d217d280ef74135
+change-id: 20251015-qcs615-spin-2-ed45b0deb998
+
+Best regards,
+-- 
+Akhil P Oommen <akhilpo@oss.qualcomm.com>
+
