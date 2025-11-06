@@ -2,76 +2,63 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 32EC7C3D85F
-	for <lists+dri-devel@lfdr.de>; Thu, 06 Nov 2025 22:47:08 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 30C91C3DBC6
+	for <lists+dri-devel@lfdr.de>; Fri, 07 Nov 2025 00:10:33 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2411110E6D5;
-	Thu,  6 Nov 2025 21:47:05 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0F11710E9E7;
+	Thu,  6 Nov 2025 23:10:30 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="g7O+223H";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="YaLGa4Xb";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pl1-f169.google.com (mail-pl1-f169.google.com
- [209.85.214.169])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8CAC310E6D5
- for <dri-devel@lists.freedesktop.org>; Thu,  6 Nov 2025 21:47:04 +0000 (UTC)
-Received: by mail-pl1-f169.google.com with SMTP id
- d9443c01a7336-28d18e933a9so74355ad.3
- for <dri-devel@lists.freedesktop.org>; Thu, 06 Nov 2025 13:47:04 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1762465624; x=1763070424; darn=lists.freedesktop.org;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=uWPFs84U37BlV4HR4UfJZaWnurNpPXzSHUa9OWSU1Mk=;
- b=g7O+223Hh0w9Q4sO2QWPgvjs+BGq1eEWuVK1yeQg5AtupmuEYVGYeL5CSqoD8E7rBZ
- mZEfxzOvPAhEO5oqCpgHiy/orHTaQ9pW1cF6GKAvJeT48pvfAP6fI1G5/Dkoqbxz0clc
- jFQ04ppF/xkZpGfgfh829YgF0RW/kpEQF1QXNlkq3685PQY2s25lu6/q/5DNuSFnYbwo
- tJ3OwVwfJ1Uuup+/P9qr53FwDf/wKm1forMXcJH8v1GNpe5JsilPKgyFJzoxjj9HSG8o
- 56suGVKVEhbplRZVUebPx9wp6UlzAtRpfrlwBzskoGCrPXeQvYrHs1X9BWyUsvT7t+U1
- h1zQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1762465624; x=1763070424;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
- :to:cc:subject:date:message-id:reply-to;
- bh=uWPFs84U37BlV4HR4UfJZaWnurNpPXzSHUa9OWSU1Mk=;
- b=n1Tk8Vt49TtT3hPgQsg19lmk3fqYAx0ghXsZl88upcXXCZjwILjsvu2oJEfIWKcDL1
- Q9Ptslcy8GZLpaiWuzglI7SJi5roqwYIQSTGJy8ZSyaSeus5HrG2QS5HzeQ96qE5Kkmo
- 6nxnT4AzMl43eX82Xf0+refkLBUivHIp4Nnhc369Cv67k82kbDvknJsbz1krK5iLrRkd
- lqPMzwVsVvRTtN6+sOGsb0TCOvDf2VM8fbSJAPdUdV7RNsw419N8HGYi0esd1h8KI2VD
- HTGJbXfe5OqS5cx326IvqXG6lURRYy2XoL0GAggYB8s9CUEPb4IkPR3h3M6g8hH9MmXe
- TK6Q==
-X-Forwarded-Encrypted: i=1;
- AJvYcCUO/MOFcYfcwizPoABPPgQ1Y8pe+PIi6q9wz/Z1wlP6EaaEOwRh4VXPD4q5e0erb2sx4eCKzf8zWRI=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YwvlegPTLhV5hT5KjjZQ5XTubmbwfnDjhNq16mATunARoi9awUg
- MLZqy/wybBLQ0XhlMXdI+NnaLd0k0uETV/dlbwL6bH7G597HAzd1tZlMC1tV7I+wZkqY/4RCAUb
- zuy7DwdlVhWRcpzjmNZzYDBkU/1slLQE=
-X-Gm-Gg: ASbGncvo7Tj5KefHAYbj8SEedZOJnyjM6i/le4Q3iecsaUKVeq2wISDlfoKcnzcN0kD
- 5zLpz8q6SZNWvgK6MYPRu2gZD8eQqLpxzONwGC5iR7+yVHlXodXKwtY7k/zTu3FXidstGRzDL8q
- gf80045bPWtKxOLNwBeGuEDFkuZS1jVrZUZRgUsuwy/Ww15Z9VdEr7SBwvaLxpxztxQWKY3TD70
- cSLGbezGL99+jO3Tb5PtYMWhopistw6b2nSfnChmNnW0nDI8HKjTRxeVdg7
-X-Google-Smtp-Source: AGHT+IGwLxGeQwObIqsiRu60FgdR14mXv74V9sIBJquRbETpjgO/u71xJ576vnpk0XVXFQIkzHnAysyK3vaO7ZiVXAg=
-X-Received: by 2002:a17:902:e552:b0:295:2cab:dbc2 with SMTP id
- d9443c01a7336-297c045708bmr8072615ad.6.1762465624074; Thu, 06 Nov 2025
- 13:47:04 -0800 (PST)
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 30C3210E9E7
+ for <dri-devel@lists.freedesktop.org>; Thu,  6 Nov 2025 23:10:28 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1762470628; x=1794006628;
+ h=date:from:to:cc:subject:message-id:references:
+ mime-version:in-reply-to;
+ bh=Qn1cLNw/ZdYkoUu0PFZUu6fhlZmfcJ9+jGdH/jwjq9Q=;
+ b=YaLGa4XbHQWQBCcICHxjq3YG3vjIe/jNcJ0iv6UK2gmlt1FNwulAI1Bm
+ 2JpzU6ZydkjA5bHv++HjM9c5u8IMJbJnGPMhjqb3xcWryCotQR3LO9xF+
+ xYyFzCJiDujoKwHiTvlg8VBhD7b1HOX1TdyWtepryC/+HpCsm37xLKIDV
+ 2sH9Jzsn7F76jLryJduL3414WcmZVaSLVO+KOtQQdrO01M9wdm/zet2vT
+ ovjWRUg2nS8dZBT1zIgCn59TnYgYRSBnBrIp6GQyNqb9xjS1fJNhol048
+ uVcEan2oLzl0o4EKiSMtxqonIZiOkNBkcvgpnoK3dMjo8trA/w+/1MUDn A==;
+X-CSE-ConnectionGUID: lYDKF8CBTz+Oy+GdJOEdIg==
+X-CSE-MsgGUID: a4+hBtMxSYKyoqAqVF7Nvw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11605"; a="64717020"
+X-IronPort-AV: E=Sophos;i="6.19,285,1754982000"; d="scan'208";a="64717020"
+Received: from orviesa005.jf.intel.com ([10.64.159.145])
+ by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 06 Nov 2025 15:10:28 -0800
+X-CSE-ConnectionGUID: YT3as7ZPR9Sglz5/WbQByA==
+X-CSE-MsgGUID: LsWtj38tTaGnpyEZ4i0kXw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.19,285,1754982000"; d="scan'208";a="193058155"
+Received: from lkp-server02.sh.intel.com (HELO 66d7546c76b2) ([10.239.97.151])
+ by orviesa005.jf.intel.com with ESMTP; 06 Nov 2025 15:10:25 -0800
+Received: from kbuild by 66d7546c76b2 with local (Exim 4.96)
+ (envelope-from <lkp@intel.com>) id 1vH97W-000UQi-2I;
+ Thu, 06 Nov 2025 23:10:22 +0000
+Date: Fri, 7 Nov 2025 07:10:15 +0800
+From: kernel test robot <lkp@intel.com>
+To: Ekansh Gupta <ekansh.gupta@oss.qualcomm.com>, srini@kernel.org,
+ linux-arm-msm@vger.kernel.org
+Cc: oe-kbuild-all@lists.linux.dev, gregkh@linuxfoundation.org,
+ quic_bkumar@quicinc.com, linux-kernel@vger.kernel.org,
+ quic_chennak@quicinc.com, dri-devel@lists.freedesktop.org,
+ arnd@arndb.de, dmitry.baryshkov@oss.qualcomm.com
+Subject: Re: [PATCH v2 3/3] misc: fastrpc: Add polling mode support for
+ fastRPC driver
+Message-ID: <202511070654.mdaukM8U-lkp@intel.com>
+References: <20251106050839.3091707-4-ekansh.gupta@oss.qualcomm.com>
 MIME-Version: 1.0
-References: <20251106014747.46768-1-jiapeng.chong@linux.alibaba.com>
-In-Reply-To: <20251106014747.46768-1-jiapeng.chong@linux.alibaba.com>
-From: Alex Deucher <alexdeucher@gmail.com>
-Date: Thu, 6 Nov 2025 16:46:51 -0500
-X-Gm-Features: AWmQ_bnzUjJ6HcFWpYUZnTLKwOZeb_N2f4pDuMRdliAyH8rVEieFGHJCx9d4LU4
-Message-ID: <CADnq5_N5bZ20A4gwfKevVgzTrTRw=pGPmXEB+1wTMNMqfOHy2Q@mail.gmail.com>
-Subject: Re: [PATCH -next] drm/amdgpu/userqueue: Remove duplicate
- amdgpu_reset.h header
-To: Jiapeng Chong <jiapeng.chong@linux.alibaba.com>
-Cc: alexander.deucher@amd.com, christian.koenig@amd.com, airlied@gmail.com, 
- simona@ffwll.ch, amd-gfx@lists.freedesktop.org, 
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org, 
- Abaci Robot <abaci@linux.alibaba.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20251106050839.3091707-4-ekansh.gupta@oss.qualcomm.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -87,34 +74,82 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Applied.  Thanks!
+Hi Ekansh,
 
-On Thu, Nov 6, 2025 at 3:56=E2=80=AFAM Jiapeng Chong
-<jiapeng.chong@linux.alibaba.com> wrote:
->
-> ./drivers/gpu/drm/amd/amdgpu/amdgpu_userq.c: amdgpu_reset.h is included m=
-ore than once.
->
-> Reported-by: Abaci Robot <abaci@linux.alibaba.com>
-> Closes: https://bugzilla.openanolis.cn/show_bug.cgi?id=3D26930
-> Signed-off-by: Jiapeng Chong <jiapeng.chong@linux.alibaba.com>
-> ---
->  drivers/gpu/drm/amd/amdgpu/amdgpu_userq.c | 1 -
->  1 file changed, 1 deletion(-)
->
-> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_userq.c b/drivers/gpu/drm/=
-amd/amdgpu/amdgpu_userq.c
-> index 836a14ef0052..9a969175900e 100644
-> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_userq.c
-> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_userq.c
-> @@ -32,7 +32,6 @@
->  #include "amdgpu_vm.h"
->  #include "amdgpu_userq.h"
->  #include "amdgpu_hmm.h"
-> -#include "amdgpu_reset.h"
->  #include "amdgpu_userq_fence.h"
->
->  u32 amdgpu_userq_get_supported_ip_mask(struct amdgpu_device *adev)
-> --
-> 2.43.5
->
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on char-misc/char-misc-testing]
+[also build test WARNING on char-misc/char-misc-next char-misc/char-misc-linus linus/master v6.18-rc4 next-20251106]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Ekansh-Gupta/misc-fastrpc-Move-fdlist-to-invoke-context-structure/20251106-131118
+base:   char-misc/char-misc-testing
+patch link:    https://lore.kernel.org/r/20251106050839.3091707-4-ekansh.gupta%40oss.qualcomm.com
+patch subject: [PATCH v2 3/3] misc: fastrpc: Add polling mode support for fastRPC driver
+config: parisc-randconfig-001-20251107 (https://download.01.org/0day-ci/archive/20251107/202511070654.mdaukM8U-lkp@intel.com/config)
+compiler: hppa-linux-gcc (GCC) 8.5.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251107/202511070654.mdaukM8U-lkp@intel.com/reproduce)
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202511070654.mdaukM8U-lkp@intel.com/
+
+All warnings (new ones prefixed by >>):
+
+   drivers/misc/fastrpc.c: In function 'fastrpc_set_option':
+>> drivers/misc/fastrpc.c:1883:9: warning: unused variable 'err' [-Wunused-variable]
+     int i, err = 0;
+            ^~~
+
+Kconfig warnings: (for reference only)
+   WARNING: unmet direct dependencies detected for OF_GPIO
+   Depends on [n]: GPIOLIB [=y] && OF [=n] && HAS_IOMEM [=y]
+   Selected by [y]:
+   - GPIO_TB10X [=y] && GPIOLIB [=y] && HAS_IOMEM [=y] && (ARC_PLAT_TB10X || COMPILE_TEST [=y])
+   WARNING: unmet direct dependencies detected for MFD_STMFX
+   Depends on [n]: HAS_IOMEM [=y] && I2C [=y] && OF [=n]
+   Selected by [y]:
+   - PINCTRL_STMFX [=y] && PINCTRL [=y] && I2C [=y] && OF_GPIO [=y] && HAS_IOMEM [=y]
+   WARNING: unmet direct dependencies detected for GPIO_SYSCON
+   Depends on [n]: GPIOLIB [=y] && HAS_IOMEM [=y] && MFD_SYSCON [=y] && OF [=n]
+   Selected by [y]:
+   - GPIO_SAMA5D2_PIOBU [=y] && GPIOLIB [=y] && HAS_IOMEM [=y] && MFD_SYSCON [=y] && OF_GPIO [=y] && (ARCH_AT91 || COMPILE_TEST [=y])
+   WARNING: unmet direct dependencies detected for I2C_K1
+   Depends on [n]: I2C [=y] && HAS_IOMEM [=y] && (ARCH_SPACEMIT || COMPILE_TEST [=y]) && OF [=n]
+   Selected by [y]:
+   - MFD_SPACEMIT_P1 [=y] && HAS_IOMEM [=y] && (ARCH_SPACEMIT || COMPILE_TEST [=y]) && I2C [=y]
+
+
+vim +/err +1883 drivers/misc/fastrpc.c
+
+  1879	
+  1880	static int fastrpc_set_option(struct fastrpc_user *fl, char __user *argp)
+  1881	{
+  1882		struct fastrpc_ioctl_set_option opt = {0};
+> 1883		int i, err = 0;
+  1884	
+  1885		if (copy_from_user(&opt, argp, sizeof(opt)))
+  1886			return -EFAULT;
+  1887	
+  1888		for (i = 0; i < ARRAY_SIZE(opt.reserved); i++) {
+  1889			if (opt.reserved[i] != 0)
+  1890				return -EINVAL;
+  1891		}
+  1892		if (opt.req != FASTRPC_POLL_MODE)
+  1893			return -EINVAL;
+  1894	
+  1895		if (opt.enable)
+  1896			fl->poll_mode = true;
+  1897		else
+  1898			fl->poll_mode = false;
+  1899	
+  1900		return 0;
+  1901	}
+  1902	
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
