@@ -2,170 +2,97 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3C027C38778
-	for <lists+dri-devel@lfdr.de>; Thu, 06 Nov 2025 01:26:17 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4FDFEC38851
+	for <lists+dri-devel@lfdr.de>; Thu, 06 Nov 2025 01:53:00 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1730010E7D5;
-	Thu,  6 Nov 2025 00:26:13 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4C57910E0F9;
+	Thu,  6 Nov 2025 00:52:47 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=Nvidia.com header.i=@Nvidia.com header.b="EwsAW4ce";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="mKRxAIwm";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from MW6PR02CU001.outbound.protection.outlook.com
- (mail-westus2azon11012053.outbound.protection.outlook.com [52.101.48.53])
- by gabe.freedesktop.org (Postfix) with ESMTPS id EF83910E7D5;
- Thu,  6 Nov 2025 00:26:11 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=ytVDC50D36Pvt7qghBrZP0KWQMMzRjfcjWkIWcTnM91bOrgiTg4IqBKBGHpjE4SZJWWVBAlU+Tt1O8bAf3gUHWa7jD6rr38XMqmQVneAopnrGssE2ri0aK9VaSRrBNpTWCmABp8NiK7lWTWG6DwS7leh8QpOFi7FFFmwTBeA+mW2+ZkZ3XVDDva22qB3+FPnbcOuQuxWTic7PVHtaPopgEL4JNIgxGrFU7hN42R56AJFEVwu4pHi9GZXi3bEhTMgp6Lm7sycHtfavS1v6gcbERH3XNwpiD9LMgnfrDS1lUVr5O1Z5uehpK8WrjmwgPygTAXgA9ruoB+diGhi/xS9gQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=DFe/F96PftlRh1tvRlA4Vy3OZ9sMBqIlcfrZEPr44v4=;
- b=lHCH77Qyx2Oxx3+8yTfEKO4P1Nes2jcOMf7HUGjfU7bvjuCI3Bj2QjYtqE/Hu01FWSeUcEu9HjOwr3BFcIqHxZJcg3czSmlGn/V4rnSmWaSkCLL94k3eCES/ZDq2iiwnAtm2NLARuJNrptjaJ2g0HB61R31fAKQka8xTXI0JN7aUz2h32fKBJuVmIcw4ZJSlJO/NarVFapEyJgbmdhoy2uYZ7CR8jgIGw7fZL5iBy7O1W9Ltf0npkP2ZN/QisfIwPBREdFUcNTUQcBiXkL3KXRyzsKegLWKEUo97W5bDDD/UenIEYRS/WrfMp9S45UjYfPRxYwIXd26sv2xLdHh6vQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
- dkim=pass header.d=nvidia.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=DFe/F96PftlRh1tvRlA4Vy3OZ9sMBqIlcfrZEPr44v4=;
- b=EwsAW4ceK2lZhxh3PvHlDg9G8K1yBq2CKC24GJcjFsF/huUeWETwZs80kkmwxR0Ajour+IpXqLHKIYY1tyWyAHSidIfO2A6GyOuK646T1AbqmaLvwFQlNh+stOoJF0vnk7N0IgnTgwJbHWhpVbasgKK9W4+uOBj2sgkNP3BTf7fRVlQ+9reFG3N0LKZgfbLahcNLPyVLrBZYXG2hWyqahroIIw9UZp4YqsM3GjI74Sr/Hfz+6PVJBIJKD2RyGMKvBIJ7MJlZcFDbuRK1eIYU0VDOF34rvpi4Hwis+iBUC4B/HReO+bhz/ZgXJ9lhH+4yPog4jpAZvHWVjt+n/RrKZA==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nvidia.com;
-Received: from CH2PR12MB3990.namprd12.prod.outlook.com (2603:10b6:610:28::18)
- by SJ2PR12MB7848.namprd12.prod.outlook.com (2603:10b6:a03:4ca::20)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9275.15; Thu, 6 Nov
- 2025 00:26:08 +0000
-Received: from CH2PR12MB3990.namprd12.prod.outlook.com
- ([fe80::7de1:4fe5:8ead:5989]) by CH2PR12MB3990.namprd12.prod.outlook.com
- ([fe80::7de1:4fe5:8ead:5989%6]) with mapi id 15.20.9298.007; Thu, 6 Nov 2025
- 00:26:08 +0000
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
-Date: Thu, 06 Nov 2025 09:26:03 +0900
-Message-Id: <DE16OCTBYT7G.3FMDZ8CPMGJKM@nvidia.com>
-Cc: "Alistair Popple" <apopple@nvidia.com>, "Miguel Ojeda"
- <ojeda@kernel.org>, "Alex Gaynor" <alex.gaynor@gmail.com>, "Boqun Feng"
- <boqun.feng@gmail.com>, "Gary Guo" <gary@garyguo.net>,
- <bjorn3_gh@protonmail.com>, "Benno Lossin" <lossin@kernel.org>, "Andreas
- Hindborg" <a.hindborg@kernel.org>, "Alice Ryhl" <aliceryhl@google.com>,
- "Trevor Gross" <tmgross@umich.edu>, "David Airlie" <airlied@gmail.com>,
- "Simona Vetter" <simona@ffwll.ch>, "Maarten Lankhorst"
- <maarten.lankhorst@linux.intel.com>, "Maxime Ripard" <mripard@kernel.org>,
- "Thomas Zimmermann" <tzimmermann@suse.de>, "John Hubbard"
- <jhubbard@nvidia.com>, "Timur Tabi" <ttabi@nvidia.com>,
- <joel@joelfernandes.org>, <nouveau@lists.freedesktop.org>, "Nouveau"
- <nouveau-bounces@lists.freedesktop.org>
-Subject: Re: [PATCH v2 05/12] nova-core: gsp: Add support for checking if
- GSP reloaded
-From: "Alexandre Courbot" <acourbot@nvidia.com>
-To: "Lyude Paul" <lyude@redhat.com>, "Joel Fernandes"
- <joelagnelf@nvidia.com>, <linux-kernel@vger.kernel.org>,
- <rust-for-linux@vger.kernel.org>, <dri-devel@lists.freedesktop.org>,
- <dakr@kernel.org>, <acourbot@nvidia.com>
-X-Mailer: aerc 0.21.0-0-g5549850facc2
-References: <20251102235920.3784592-1-joelagnelf@nvidia.com>
- <20251102235920.3784592-6-joelagnelf@nvidia.com>
- <8cc10b6ec1fce03aa41eae76dc48a6a27a58d7d9.camel@redhat.com>
-In-Reply-To: <8cc10b6ec1fce03aa41eae76dc48a6a27a58d7d9.camel@redhat.com>
-X-ClientProxiedBy: TYCP286CA0299.JPNP286.PROD.OUTLOOK.COM
- (2603:1096:400:3c8::19) To CH2PR12MB3990.namprd12.prod.outlook.com
- (2603:10b6:610:28::18)
+Received: from mail-ed1-f50.google.com (mail-ed1-f50.google.com
+ [209.85.208.50])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5CC9710E7D8
+ for <dri-devel@lists.freedesktop.org>; Thu,  6 Nov 2025 00:52:45 +0000 (UTC)
+Received: by mail-ed1-f50.google.com with SMTP id
+ 4fb4d7f45d1cf-640860f97b5so546976a12.2
+ for <dri-devel@lists.freedesktop.org>; Wed, 05 Nov 2025 16:52:45 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20230601; t=1762390364; x=1762995164; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=4TC3jknw27uusNIMn2p5lG+ecGQ+4uLN2sc869EijWA=;
+ b=mKRxAIwmtAQgOxZ2IRS/G+HbMxInsNTVvGRf/l/+9UfxqTFjDFbx5zlf+bmoZubr1j
+ V2b18u9fjGuR9fPRfU6iVRmvshkSdz/STshIL0e4jhIixV/tYru4jB4SiHWZVebJ6Oq1
+ 02xqwQS261J4JmZdR9okQjGIShpkf/z7U2hy7H/nvYWQhss+u1wRo0Vf6p5hBHWGuWM8
+ HiPE5XnWAsv+m++K7e+MkFFQa+x2PpWNNYd57vtXzQZlgDYvYxBxDhNoLRfa9Y4s+f18
+ LtYCXUrxxZ21Jxp6zaZJnt5IMbTMv2eyUw6T0r/9SmcXp7bkeB8kZQS/Cik+4D/bVFJE
+ W9UQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1762390364; x=1762995164;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=4TC3jknw27uusNIMn2p5lG+ecGQ+4uLN2sc869EijWA=;
+ b=Wmk+XJVmw5mdCbQDGBh8WR6dNbWktKnAIVuPFqsCTTHs79c7Acrqs4sL5zyRPWwIA8
+ C2nrnnSVrUTScsE1SRLtkvwf+kn+Mrj+jgJwBNnm59lbIeg8UfuTx4WGN4reXAUlUOd5
+ HhLaAUHzKVZ5Tc/yF45dCtwbedqseeCvwAY6cwkFd79saQNYk9np3hl7cMSIOHMuDSRd
+ 956tiCqDKKXnZsyXN4UNRB3JXARrkN3bZr0S+4ASXGXZyTMpKgeGLnm6dEqnW257dnx5
+ Ctt9jY47vaNg5U5M1ZaLfhJgBC8MLZAGxn3/g5JPhMx8BjwFXQvqp3XolpEvS93v1Wr0
+ ip1A==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCWdBCCZXvYVOXKGDinE/CMNvIb07iViu1RbTiAZU1Qnu70x8oZdFZma6g4m8yCU5B4CSX95cl1nOnQ=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YxpcTl2F8yIey6cGdHKcmui9bomc+q1zHCee/KIxw+CUncvV3t2
+ 3FTo0ZO2MhOj0UiOITU2IIFjU6AIKoTgVtzX+6igF7goM21VZs7n/3yT
+X-Gm-Gg: ASbGnctD/txJ0KLQKr2L2SX5Ytz66UZNjYmgmFSP13AinpQ7dzOizjM9fYXkAI5Ovfc
+ dvI/yylOw8EICa4p9vMyOEyeJSYXSHSed2Lwpay7p/QMa3fXWVmgiY7a7MdlGuGI/XSeqv6bGSl
+ v8yZX/KZ2wQUHZu8v5yUbaYkxAgzPqbfFPdwCjxbeKppwvJai0iDyzDIfpLJtbq/Yjl4UWYlfyB
+ iJ9MRbpcNCKwciQO0eWx6BrEsL3BpinWQ1jHJL8KMR1abp1KA4LPWkkb1F3nZwrJWSjTGrHWp1M
+ 9BZmJhSKrT23sztBWGLIy3WPtIBE+cMWLlWz7/Pm0lK+iYxO25KV+UWjy8tLCYoYKYIhEygloU3
+ GuwDrpENiGME/lX0wU7onxBIjWeMYwL36PskSlY/iRF891S/IopdD4FTsd4WAjNxLVzpK173toX
+ TcZVT+HfC7rR4rTrRzMsuMrQ==
+X-Google-Smtp-Source: AGHT+IGyPw3/1ye6s+MutCB7GxPiniSAjUqQCYxPkECNVoFIt+LeekKL8kDCX7wiOXbyde9uL5l1lQ==
+X-Received: by 2002:a05:6402:2417:b0:640:af04:d718 with SMTP id
+ 4fb4d7f45d1cf-64105a5c7c8mr4938545a12.30.1762390363532; 
+ Wed, 05 Nov 2025 16:52:43 -0800 (PST)
+Received: from archie.me ([210.87.74.117]) by smtp.gmail.com with ESMTPSA id
+ 4fb4d7f45d1cf-6411f862697sm476807a12.25.2025.11.05.16.52.42
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 05 Nov 2025 16:52:42 -0800 (PST)
+Received: by archie.me (Postfix, from userid 1000)
+ id D7F1D420A685; Thu, 06 Nov 2025 07:52:32 +0700 (WIB)
+From: Bagas Sanjaya <bagasdotme@gmail.com>
+To: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ Linux Documentation <linux-doc@vger.kernel.org>,
+ Linux DRI Development <dri-devel@lists.freedesktop.org>,
+ Linux Intel Graphics <intel-gfx@lists.freedesktop.org>
+Cc: Christian Koenig <christian.koenig@amd.com>, Huang Rui <ray.huang@amd.com>,
+ Matthew Auld <matthew.auld@intel.com>,
+ Matthew Brost <matthew.brost@intel.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
+ Simona Vetter <simona@ffwll.ch>,
+ Tvrtko Ursulin <tvrtko.ursulin@igalia.com>,
+ =?UTF-8?q?Thomas=20Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>,
+ Zack Rusin <zack.rusin@broadcom.com>, Bagas Sanjaya <bagasdotme@gmail.com>,
+ Stephen Rothwell <sfr@canb.auug.org.au>
+Subject: [PATCH] drm/ttm: Fix @alloc_flags description
+Date: Thu,  6 Nov 2025 07:52:17 +0700
+Message-ID: <20251106005217.14026-1-bagasdotme@gmail.com>
+X-Mailer: git-send-email 2.51.2
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: CH2PR12MB3990:EE_|SJ2PR12MB7848:EE_
-X-MS-Office365-Filtering-Correlation-Id: fdd5900f-7b3e-4a6b-d4fb-08de1ccb14ad
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
- ARA:13230040|10070799003|366016|1800799024|376014|7416014; 
-X-Microsoft-Antispam-Message-Info: =?utf-8?B?cXhJZEV0YUVaTEszY0JHRnpSdTFFZ2NuL2RPR2JYQk5ZWTlaY0tVWHoyV0U4?=
- =?utf-8?B?cGV3anErcjNUZzl3eHV3bk4wR014YzB6VXB6Tm81QlhNQUtnL0Q0NFQxQmVn?=
- =?utf-8?B?TlRKREZPNzIzam5jYkxHNkM2eHRXRWV6UTFhdWpXeXpPN3VhdUpDalpWdUdw?=
- =?utf-8?B?aHRma0FaMW5kL2ZNRzhFZUlwcXZ5NVkxaWJVVklCV2FZdy9ZYW9HYlBTbmFS?=
- =?utf-8?B?WDVNdHdUYXJETEtYQ0xweHhFR0hiUmZJVHM2N1RpUndCN3lLUkVvdlBFNG1K?=
- =?utf-8?B?WXMvVVp0MHlCWVMxUmkzbmdVOU9wQzBhRG9YbFlmSVA0bkxqZDI2bnZMb1Vo?=
- =?utf-8?B?eFlOaldqb0tzV0VWcHdKN3I2MVk5ckdjMnYrRi9xbGk2MDNhMjIzZ1JIMGtK?=
- =?utf-8?B?T1JHQkVSNkVuOEpxbXV3OWVKY0JkSGhVTW8zVk9JR0FBNWRHc3REZm9hNWE3?=
- =?utf-8?B?QzF2VGQ0c3Q0bzFwdXc0ME4wOThndjRjNkRoSTgxOVlwNzkxV2trUlBWWDU1?=
- =?utf-8?B?Y1dpQ2M3M1I4VTh1V0phWVlWZUR0QlNmS2M1R0FKQ1BGTnl3T1pQY25WTGU2?=
- =?utf-8?B?VWVXWmw4QlhJOEIyZTZSNDdOcXAwcVZTandCcVFaVUtzRmhYbnU5b00vMUkw?=
- =?utf-8?B?NEZqL1ZYdWpmR2w0UGxxd2l1OU9KUVJhR2x1WnRpNHdyVmV4MThuK2FFRU9Y?=
- =?utf-8?B?V2Z0WFROMzQ1UlNERzUxU1hVYytFYkRFMDI5TThyTExER0RwMGl3MUVDV0c4?=
- =?utf-8?B?TGdQeXYxTnc2eGZ6TGYybHdFaDVuUDMwU3BwZzhuazBndEI3M28wWFhabkNW?=
- =?utf-8?B?bjUyRmRRZm50cnlNb2NSWmEydHJXRVNVakhLN2Vqa1RGVWh0NjhtRXNmai9Y?=
- =?utf-8?B?NG0zMy9LVW9kM1F0L3QzSjAxOXdQY09qOGVLdFYxR0JXS2k5WWFyT3BLYy95?=
- =?utf-8?B?WFFXR2Ztd1EyaVNIeTdwczJiUURyMHB1SFVvRWNKd1owaHZTSHkrN0hvTndH?=
- =?utf-8?B?aVliVkY4b2RxTHJDai82QXlEa3BuQVJCeEFMR0wrWkpkd1IzVy9LcUoxQU5h?=
- =?utf-8?B?Q2IwUnIrVjRkZXNLaDlBTFdrTFNSbGdlNXFuMXNHVWJ1SE9FVkNpNCtDbjlS?=
- =?utf-8?B?aWJxN0ZBb2Z6bzBZYmFqU2NlczBFMUJiWmhiV2F2ei94bWsxd1RxQk1IbzFz?=
- =?utf-8?B?NzBSZjdFUzF0Wk92d1pKd0pkUDcwSldhMXF6d1hneTFPQ2g2YzVTVkJuQndx?=
- =?utf-8?B?ZHM4M1JlVGdLQU9nb0NLZXhhMUNPaThKaVNJOGs5bzA1S1NrU1ZEVFRCeGVJ?=
- =?utf-8?B?WHQ0ak1qUk9ITTk0emI2REJwTUJDVjRZL0QxMklETTZWZHJmSko0QVBqL2lC?=
- =?utf-8?B?ZGlJNFRKSjA4TnV3bFdrTFMzM0M0bENhYUdPNjhyTTR0NTdhNTFZNnNzUzFL?=
- =?utf-8?B?WStDeThOKzQwS2NyQmJmakhSNVcyKzBhSzlnVkNWZmF4NkFYTEsvSnlTcmFE?=
- =?utf-8?B?K1NXbFRPcVE1UlZWOWdWbWZYaWNmR0hnOVhsc01pRUZUNFNiNlVMQldoWEl0?=
- =?utf-8?B?cVBQQXNObXdmYStXTnVYQWZITUJmR3hPayt0VGxZUFI4MEhxTW5adi94Z0xN?=
- =?utf-8?B?aTFGSEw5R2tBS0syMENZMlY2UzJkZlpWVTlzUk5YWlhKcnlJeVRJTHNOWnBh?=
- =?utf-8?B?Y1JpUDcxSHNOeFFGN0JJNVM5OUpPa2FkT1pnWVU1dFVRWWpDRTNHV0FkRmtt?=
- =?utf-8?B?TisrRW9nSWlhckVDRFRwVHNSNDFHZzdlSy92MW5hWVJLKzJ2TXdZSUxtMWk1?=
- =?utf-8?B?ZmpJQjhnMVYyRDk2WUJHbHNYN2hFU1E2YXRBRXRNVVJySTZPYnYxRTlya3FB?=
- =?utf-8?B?eFd4OElkSHNoWHRYRXBLTjMzUGZIUzhCeVNZSFhRT3JHaHFOd29LTG9tTmI2?=
- =?utf-8?Q?TRe0op93fqEEfhiZJqY/PbIyIOMZEaYx?=
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:CH2PR12MB3990.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230040)(10070799003)(366016)(1800799024)(376014)(7416014); DIR:OUT;
- SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?OTVtTTU0YWRpYUV1TzIyUjBjaGU0ZzhQK2VuTDIvVEJyOXFBa0NCVG5DY1hK?=
- =?utf-8?B?N0VOZURKNXBXVmNsV2lyb3R3SUVZQjZSem1MRkNhb0lrUTBXT1pPYjRoSFBD?=
- =?utf-8?B?bmpMbjltbmVYNHRORThoTG9hbWVsMXVxbFdVdEptUXpzMnMzQWF5STlUeUZ6?=
- =?utf-8?B?T05hRDRHaGZkS0lYWVhHMk02Yk8xT1JQZHlTd0xiZWxoYlBkb0xTZWlaR0tV?=
- =?utf-8?B?bVhFYTcvRHcrZ3NHcjRwK25XdjZmWjAwSURabTAxWjFPK1Q0eFhYZVI4QW9K?=
- =?utf-8?B?Y2lmcm9LOWJrd0tqUktSZ1g4RDRkdDF2V2pMczhqejFXbzk5NE1jME56dWVM?=
- =?utf-8?B?UWZTb3RIWkFPRlRXMWw3ZWhqYUx2V3czQlVlOHhRTDdBUmZoYk9ZQVFjOEFa?=
- =?utf-8?B?N05wUitOekxqcDl3WTFqSEVaNENYYUtmTWd0MHFPTjBTcGxWV3hrNGRMUE96?=
- =?utf-8?B?U2ptcTRyNTZpMXpUZHdkOHg5cHg0QUhFUnNxM204MnRHREc1bFcyQUhTMEVU?=
- =?utf-8?B?d2t1TkJFRnVaN2tFZlFhSDZ0UzcrQWZQUXNSQmhpbmJVK2kwTmFlWTNxVzl6?=
- =?utf-8?B?SGpPSXU3N1RibGdxdkMyNGtLNXJtY1g5cWtVbWpmWjJ6RWR2d0c4SDBiMUF3?=
- =?utf-8?B?MC82cExMRnZEamI2RmpnMUlZaTlpcEdUdzdGVG42NnljSE5kNjltRFpXMG1r?=
- =?utf-8?B?WlN3aThTZis3R1B3Qms3TlpQV0wrdDFGcDk2NWRhVmJndEtSTWlUZEVBNUN6?=
- =?utf-8?B?dDZuaWhyWnFwaG11OXcvZk45WTVZM1VqUUVzM1Zua25CR3FBR1pYQ1FJK1ZO?=
- =?utf-8?B?KzhDT1djV01zOThBUWpxRkNQMXF1MkhwM3JCMkhiZWp6OHozTDhoNUJOd3dV?=
- =?utf-8?B?QUtJNkcwVnpEWDVMQ1NBUExZYzNpaXZYNSthQi9NTjFOR040UWhyLzFWaUZC?=
- =?utf-8?B?cVFCWmpSWU9QeWI2NXhla1p4RjBsSjhpa1lmVUxEWDRFaUhVZk5PVHcyb2pN?=
- =?utf-8?B?VUVtUEs5WFkvQnVyWFcvQU15R2o3QkNubXg4a2R3eXM4SDdrNGpXVURpM3k5?=
- =?utf-8?B?b1RmaENaT0drcWZ5cHgwTDlSRStxNE92cHJua3paWmVWOEx2RVEvZnFTUjkz?=
- =?utf-8?B?Qzl1M09iRnNXUnE2SVFoa3R3cXI5VjJnSDNQb1R4aHdIZzUxNXlBdTJyaU45?=
- =?utf-8?B?RmhjdHhOV2VNbFdWbmI2U3Nad0p4eGwwdmhyZnFYQXRDaFU1cnlBNWRaUUdR?=
- =?utf-8?B?V3ZjVG1BM2FtRyt6ZWdoWGkzc3pnQ0x5MVBSZkVLQW9zSjdaMExqTWV1cjJr?=
- =?utf-8?B?anVLS1BsRCtGSHdQRWo3Q2FUQXlOVWxCMHNnUFpGL0tFSFdYM2ZvTGUrbVdH?=
- =?utf-8?B?VmNIYXZ4NWpXY3VnVlhzUVBMRkNJUWtFK1BNQWwzTG92ekdmWG9hcG5BWUtn?=
- =?utf-8?B?NHlCYW93Y3lFTGZuWk8xZkVCcURHVUxkbkFtR1NpL0dWQUVQRkNPb2xXVmp0?=
- =?utf-8?B?T0ExTXFPL01ocXpkT1J5ZW5hMWlvSGRla1pISnpuaDRqaFUvOWFueVZIZjY4?=
- =?utf-8?B?NTYwdjVHRHlrWHFTbENucTA2OENrUXBXUW50NmsrUkhOQ3JUMW90SUF5Y1hu?=
- =?utf-8?B?ODYrcUdtaFhHYkJwL21JQjBielBESFNYUzVCQllva0V3TlJXMHh3U3ZrdDZ0?=
- =?utf-8?B?blEzUStITkxSSDNIVkVraGFQSG1WbFdqaFFlTUlVUHlxT3Jnd0h3aU8yOWRI?=
- =?utf-8?B?YVNmb2xtT2R3dUp6Y2xBdTBhMU9qUHp5MVFvTG9NMndnaWxJa0xHWmNhMFdY?=
- =?utf-8?B?T1QrUkI0Z3lTdXBHcXFuc2duN1VmcWJrczB5VHVzMHlQOSticHV4OG1hSHhB?=
- =?utf-8?B?U1lDZjNadDRhZnRjWUlLcENkT0FWM0VpT09nSWdFbU9aWTJvYzByTHUrcEVa?=
- =?utf-8?B?cVJaSDMzTSt2aWw0aHhDNFRNUWVrRHM2WGswV1o1VVEweUZ0cnJNdHFRMzZX?=
- =?utf-8?B?MEh1ZWg2cWN3NGRjNVMzbGhDOHhROTdkQUQrVkUwckpveTBzd3Jyem1scjc0?=
- =?utf-8?B?VFhoV2NJNURiKy9Qd1JQWnp3M1VsaVdvSXlMbVQ3ODBwYnJWVHhmNjlHTGNt?=
- =?utf-8?B?b2tDK1EvcWNJZEd2ZGQ2RXdDK1A2Yzl2OCs2T3ZCMVF3WjFWWFdzN2NZYm12?=
- =?utf-8?Q?/g9HvQSMQAQHUwknsrWCpaMg4dSS4zh47DKCVEW3pQ0B?=
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: fdd5900f-7b3e-4a6b-d4fb-08de1ccb14ad
-X-MS-Exchange-CrossTenant-AuthSource: CH2PR12MB3990.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 06 Nov 2025 00:26:08.6987 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: U65k1qt+Pd6iHvKSxlJmS056Jf7AH7MNDdgM5KlupYHfIhut9oBd75RA9O3KcPoSf0p1/qGFfC6QJs5icxjmkQ==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SJ2PR12MB7848
+X-Developer-Signature: v=1; a=openpgp-sha256; l=3498; i=bagasdotme@gmail.com;
+ h=from:subject; bh=6OeZWmkLzPTDm0Nogt0/O0+112Y2Ks/sc1xjGQfLCtE=;
+ b=owGbwMvMwCX2bWenZ2ig32LG02pJDJncH/IOLdgTFFyjsmVl+3nljed/3uFbIm99O3GxYOe+J
+ Yz/uRW9O0pZGMS4GGTFFFkmJfI1nd5lJHKhfa0jzBxWJpAhDFycAjCRDj2Gf1qX/599FxLc3dGx
+ 1uPH2qyjp6/3i5n+9A76y6zTvG+h0xKgCg67uoPm/TbK4WuldbNmSKTIGj6bW7dO4s5PFstb12V
+ 4AA==
+X-Developer-Key: i=bagasdotme@gmail.com; a=openpgp;
+ fpr=701B806FDCA5D3A58FFB8F7D7C276C64A5E44A1D
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -181,37 +108,83 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu Nov 6, 2025 at 8:18 AM JST, Lyude Paul wrote:
-> Minor comments:
->
-> On Sun, 2025-11-02 at 18:59 -0500, Joel Fernandes wrote:
->> During the sequencer process, we need to check if GSP was successfully
->> reloaded. Add functionality to check for the same.
->>=20
->> Signed-off-by: Joel Fernandes <joelagnelf@nvidia.com>
->> ---
->>  drivers/gpu/nova-core/falcon/gsp.rs | 18 ++++++++++++++++++
->>  drivers/gpu/nova-core/regs.rs       |  6 ++++++
->>  2 files changed, 24 insertions(+)
->>=20
->> diff --git a/drivers/gpu/nova-core/falcon/gsp.rs b/drivers/gpu/nova-core=
-/falcon/gsp.rs
->> index f17599cb49fa..e0c0b18ec5bf 100644
->> --- a/drivers/gpu/nova-core/falcon/gsp.rs
->> +++ b/drivers/gpu/nova-core/falcon/gsp.rs
->> @@ -1,5 +1,11 @@
->>  // SPDX-License-Identifier: GPL-2.0
->> =20
->> +use kernel::{
->> +    io::poll::read_poll_timeout,
->> +    prelude::*,
->> +    time::Delta, //
->
-> Looks like a wild // got loose!
+Stephen Rothwell reports htmldocs warnings when merging drm-misc tree:
 
-It's a bit confusing at first but this is to conform with the new rules
-for imports. :)
+Documentation/gpu/drm-mm:40: include/drm/ttm/ttm_device.h:225: ERROR: Unknown target name: "ttm_allocation". [docutils]
+Documentation/gpu/drm-mm:43: drivers/gpu/drm/ttm/ttm_device.c:202: ERROR: Unknown target name: "ttm_allocation". [docutils]
+Documentation/gpu/drm-mm:73: include/drm/ttm/ttm_pool.h:68: ERROR: Unknown target name: "ttm_allocation_pool". [docutils]
+Documentation/gpu/drm-mm:76: drivers/gpu/drm/ttm/ttm_pool.c:1070: ERROR: Unknown target name: "ttm_allocation_pool". [docutils]
 
-https://docs.kernel.org/rust/coding-guidelines.html#imports
+Fix these by adding missing wildcard on TTM_ALLOCATION_* and
+TTM_ALLOCATION_POOL_* in @alloc_flags description.
 
-Thanks for the reviews!
+Fixes: 0af5b6a8f8dd ("drm/ttm: Replace multiple booleans with flags in pool init")
+Fixes: 77e19f8d3297 ("drm/ttm: Replace multiple booleans with flags in device init")
+Fixes: 402b3a865090 ("drm/ttm: Add an allocation flag to propagate -ENOSPC on OOM")
+Reported-by: Stephen Rothwell <sfr@canb.auug.org.au>
+Closes: https://lore.kernel.org/linux-next/20251105161838.55b962a3@canb.auug.org.au/
+Signed-off-by: Bagas Sanjaya <bagasdotme@gmail.com>
+---
+ drivers/gpu/drm/ttm/ttm_device.c | 2 +-
+ drivers/gpu/drm/ttm/ttm_pool.c   | 2 +-
+ include/drm/ttm/ttm_device.h     | 2 +-
+ include/drm/ttm/ttm_pool.h       | 2 +-
+ 4 files changed, 4 insertions(+), 4 deletions(-)
+
+diff --git a/drivers/gpu/drm/ttm/ttm_device.c b/drivers/gpu/drm/ttm/ttm_device.c
+index 5c10e5fbf43b7f..9a51afaf0749e2 100644
+--- a/drivers/gpu/drm/ttm/ttm_device.c
++++ b/drivers/gpu/drm/ttm/ttm_device.c
+@@ -199,7 +199,7 @@ EXPORT_SYMBOL(ttm_device_swapout);
+  * @dev: The core kernel device pointer for DMA mappings and allocations.
+  * @mapping: The address space to use for this bo.
+  * @vma_manager: A pointer to a vma manager.
+- * @alloc_flags: TTM_ALLOCATION_ flags.
++ * @alloc_flags: TTM_ALLOCATION_* flags.
+  *
+  * Initializes a struct ttm_device:
+  * Returns:
+diff --git a/drivers/gpu/drm/ttm/ttm_pool.c b/drivers/gpu/drm/ttm/ttm_pool.c
+index 97e9ce505cf68d..18b6db015619c0 100644
+--- a/drivers/gpu/drm/ttm/ttm_pool.c
++++ b/drivers/gpu/drm/ttm/ttm_pool.c
+@@ -1067,7 +1067,7 @@ long ttm_pool_backup(struct ttm_pool *pool, struct ttm_tt *tt,
+  * @pool: the pool to initialize
+  * @dev: device for DMA allocations and mappings
+  * @nid: NUMA node to use for allocations
+- * @alloc_flags: TTM_ALLOCATION_POOL_ flags
++ * @alloc_flags: TTM_ALLOCATION_POOL_* flags
+  *
+  * Initialize the pool and its pool types.
+  */
+diff --git a/include/drm/ttm/ttm_device.h b/include/drm/ttm/ttm_device.h
+index d016360e5cebbc..5618aef462f21b 100644
+--- a/include/drm/ttm/ttm_device.h
++++ b/include/drm/ttm/ttm_device.h
+@@ -221,7 +221,7 @@ struct ttm_device {
+ 	struct list_head device_list;
+ 
+ 	/**
+-	 * @alloc_flags: TTM_ALLOCATION_ flags.
++	 * @alloc_flags: TTM_ALLOCATION_* flags.
+ 	 */
+ 	unsigned int alloc_flags;
+ 
+diff --git a/include/drm/ttm/ttm_pool.h b/include/drm/ttm/ttm_pool.h
+index 67c72de913bb9d..233581670e7825 100644
+--- a/include/drm/ttm/ttm_pool.h
++++ b/include/drm/ttm/ttm_pool.h
+@@ -64,7 +64,7 @@ struct ttm_pool_type {
+  *
+  * @dev: the device we allocate pages for
+  * @nid: which numa node to use
+- * @alloc_flags: TTM_ALLOCATION_POOL_ flags
++ * @alloc_flags: TTM_ALLOCATION_POOL_* flags
+  * @caching: pools for each caching/order
+  */
+ struct ttm_pool {
+
+base-commit: c553832116b8d0039b13ae84d1ed06e7ee4f1fdf
+-- 
+An old man doll... just what I always wanted! - Clara
+
