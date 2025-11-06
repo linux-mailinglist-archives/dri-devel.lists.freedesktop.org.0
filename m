@@ -2,19 +2,19 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8958AC3CA36
-	for <lists+dri-devel@lfdr.de>; Thu, 06 Nov 2025 17:57:17 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 626EBC3CA3D
+	for <lists+dri-devel@lfdr.de>; Thu, 06 Nov 2025 17:57:21 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id ABC4110E97A;
-	Thu,  6 Nov 2025 16:57:15 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5172D10E980;
+	Thu,  6 Nov 2025 16:57:19 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=igalia.com header.i=@igalia.com header.b="iIOhY956";
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=igalia.com header.i=@igalia.com header.b="Jgemp5m0";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from fanzine2.igalia.com (fanzine2.igalia.com [213.97.179.56])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8D83F10E97A;
- Thu,  6 Nov 2025 16:57:14 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A99DB10E980;
+ Thu,  6 Nov 2025 16:57:17 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
  s=20170329;
  h=Content-Transfer-Encoding:MIME-Version:References:In-Reply-To:
@@ -22,16 +22,16 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com;
  Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
  :Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
  List-Post:List-Owner:List-Archive;
- bh=ULWs+JR6upxP76gQTkWg4b0Np1iWN+8W+DlAqWRyCBs=; b=iIOhY956nkqpbipiT5ZntyYlxE
- Ajg2q3/UBgCB8l6oFbGeA63vKKWeA3urI8njNDM7z6NOPd6BuhFpR6fMnTJIyyGiNjOAqiPSPPA9q
- dUHfv6tu8Tj9uM8XBGXvPUMLXeFLyvaPE8H/wRvK0K4IKDp3itr4idn/1XxiJZQrpmv99tywzf687
- xTQgmmy4Wh2gz9D/F+LsuI8lndijkRapttRFjFXPfEZAc+Z6CRge0yBIj8lTZaRxfJoatFzGZsJyB
- lQ/HKZkHftlxOHUFc5QkCSlCadZW5pgn1gLGhFjBffYGjWR9shNWTDJPZ0ojMIffP29pjf8AvvpYo
- 81gM46Rw==;
+ bh=/Ktsf4+VbIHhXAjXsmYoQTCg+4Tu+vTfea1bDmSTiDE=; b=Jgemp5m0PIu+5S2haWJYBvHTWr
+ K9xUU1XvWyMFThNUngcDEY6KWofCuUuvDhVgapb0gIy4P+O3QdkXUlTvM4SyIDIVVrC7RR4Qgkxb2
+ Vm5z/cASvjqKxbl1/n+hiGY8BmKKXVJ83fW0UnRuKrvhRiXnFB7KvbKfU2xKFHTi0S2hmFBD83YoI
+ 3BATLAAPC0hJ3vrkXWvNFVF4R827EiDISEnjb2R6dCfrhOw/rD4LGh2I6u/WDaJxzE+IuYcCan6Qb
+ n5cwMZFvllvZdTG900zLRdgU+5S93tiP/5bs9GCnMqIYcU2bqpPRzDAAqxgPCLDGGjw1Wj9kN7/ni
+ HDQ4CQSA==;
 Received: from [186.208.74.26] (helo=killbill.home)
  by fanzine2.igalia.com with esmtpsa 
  (Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_256_GCM:256) (Exim)
- id 1vH3IC-0035jh-AX; Thu, 06 Nov 2025 17:57:00 +0100
+ id 1vH3II-0035jh-82; Thu, 06 Nov 2025 17:57:06 +0100
 From: Melissa Wen <mwen@igalia.com>
 To: Harry Wentland <harry.wentland@amd.com>, Alex Hung <alex.hung@amd.com>,
  Mario Limonciello <mario.limonciello@amd.com>,
@@ -42,13 +42,11 @@ To: Harry Wentland <harry.wentland@amd.com>, Alex Hung <alex.hung@amd.com>,
  mripard@kernel.org, mwen@igalia.com, neil.armstrong@linaro.org,
  rfoss@kernel.org, simona@ffwll.ch, sunpeng.li@amd.com, tzimmermann@suse.de
 Cc: Michel Daenzer <michel.daenzer@mailbox.org>,
- Jani Nikula <jani.nikula@linux.intel.com>,
- Jani Nikula <jani.nikula@intel.com>, amd-gfx@lists.freedesktop.org,
+ Jani Nikula <jani.nikula@linux.intel.com>, amd-gfx@lists.freedesktop.org,
  dri-devel@lists.freedesktop.org, kernel-dev@igalia.com
-Subject: [PATCH v7 13/15] drm/edid: introduce a helper that compares edid data
- from two drm_edid
-Date: Thu,  6 Nov 2025 13:49:16 -0300
-Message-ID: <20251106165536.161662-14-mwen@igalia.com>
+Subject: [PATCH v7 14/15] drm/amd/display: add drm_edid to dc_sink
+Date: Thu,  6 Nov 2025 13:49:17 -0300
+Message-ID: <20251106165536.161662-15-mwen@igalia.com>
 X-Mailer: git-send-email 2.51.0
 In-Reply-To: <20251106165536.161662-1-mwen@igalia.com>
 References: <20251106165536.161662-1-mwen@igalia.com>
@@ -69,88 +67,74 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-AMD driver has a function used to compare if two edid are the same; this
-is useful to some of the link detection algorithms implemented by
-amdgpu. Since the amdgpu function can be helpful for other drivers, this
-commit abstracts the AMD function to make it available at the DRM level
-by wrapping existent drm_edid_eq().
+Add Linux opaque object to dc_sink for storing EDID data cross driver,
+drm_edid. Also include the Linux call to free this object, the
+drm_edid_free()
 
-v2:
-- rename drm_edid_eq to drm_edid_eq_buf (jani)
-- add NULL checks (jani)
+v7:
+- put new edid-related helpers in dm_helpers (Harry)
 
-v3:
-- fix kernel-doc (jani)
-- fix parameter names
-
-Reviewed-by: Jani Nikula <jani.nikula@intel.com>
-Co-developed-by: Rodrigo Siqueira <siqueira@igalia.com>
-Signed-off-by: Rodrigo Siqueira <siqueira@igalia.com>
 Signed-off-by: Melissa Wen <mwen@igalia.com>
 ---
- drivers/gpu/drm/drm_edid.c | 24 +++++++++++++++++++++---
- include/drm/drm_edid.h     |  2 ++
- 2 files changed, 23 insertions(+), 3 deletions(-)
+ drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_helpers.c | 5 +++++
+ drivers/gpu/drm/amd/display/dc/core/dc_sink.c             | 2 ++
+ drivers/gpu/drm/amd/display/dc/dc.h                       | 1 +
+ drivers/gpu/drm/amd/display/dc/dm_helpers.h               | 1 +
+ 4 files changed, 9 insertions(+)
 
-diff --git a/drivers/gpu/drm/drm_edid.c b/drivers/gpu/drm/drm_edid.c
-index 5ed8e683987e..87b10f051250 100644
---- a/drivers/gpu/drm/drm_edid.c
-+++ b/drivers/gpu/drm/drm_edid.c
-@@ -1831,8 +1831,8 @@ static bool edid_block_is_zero(const void *edid)
- 	return mem_is_zero(edid, EDID_LENGTH);
+diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_helpers.c b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_helpers.c
+index a7ad93c2eb5f..419852dfc237 100644
+--- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_helpers.c
++++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_helpers.c
+@@ -1007,6 +1007,11 @@ void dm_helpers_copy_edid_to_dc(struct dc_sink *dc_sink,
+ 	dc_sink->dc_edid.length = len;
  }
  
--static bool drm_edid_eq(const struct drm_edid *drm_edid,
--			const void *raw_edid, size_t raw_edid_size)
-+static bool drm_edid_eq_buf(const struct drm_edid *drm_edid,
-+			    const void *raw_edid, size_t raw_edid_size)
- {
- 	bool edid1_present = drm_edid && drm_edid->edid && drm_edid->size;
- 	bool edid2_present = raw_edid && raw_edid_size;
-@@ -7001,7 +7001,7 @@ static int _drm_edid_connector_property_update(struct drm_connector *connector,
- 		const void *old_edid = connector->edid_blob_ptr->data;
- 		size_t old_edid_size = connector->edid_blob_ptr->length;
- 
--		if (old_edid && !drm_edid_eq(drm_edid, old_edid, old_edid_size)) {
-+		if (old_edid && !drm_edid_eq_buf(drm_edid, old_edid, old_edid_size)) {
- 			connector->epoch_counter++;
- 			drm_dbg_kms(dev, "[CONNECTOR:%d:%s] EDID changed, epoch counter %llu\n",
- 				    connector->base.id, connector->name,
-@@ -7600,3 +7600,21 @@ bool drm_edid_is_digital(const struct drm_edid *drm_edid)
- 		drm_edid->edid->input & DRM_EDID_INPUT_DIGITAL;
- }
- EXPORT_SYMBOL(drm_edid_is_digital);
-+
-+/**
-+ * drm_edid_eq - Check if EDIDs are equal
-+ *
-+ * @drm_edid_1: first drm_edid to compare edid
-+ * @drm_edid_2: second drm_edid to compare edid
-+ *
-+ * Return true if EDIDs are equal.
-+ */
-+bool drm_edid_eq(const struct drm_edid *drm_edid_1,
-+		 const struct drm_edid *drm_edid_2)
++void dm_helpers_sink_edid_free(struct dc_sink *sink)
 +{
-+	const void *edid_1 = drm_edid_1 ? drm_edid_1->edid : NULL;
-+	size_t edid_1_size = drm_edid_1 ? drm_edid_1->size : 0;
-+
-+	return drm_edid_eq_buf(drm_edid_2, edid_1, edid_1_size);
++	drm_edid_free(sink->drm_edid);
 +}
-+EXPORT_SYMBOL(drm_edid_eq);
-diff --git a/include/drm/drm_edid.h b/include/drm/drm_edid.h
-index 44ef3498a169..df15ae170fe7 100644
---- a/include/drm/drm_edid.h
-+++ b/include/drm/drm_edid.h
-@@ -476,6 +476,8 @@ int drm_edid_connector_update(struct drm_connector *connector,
- 			      const struct drm_edid *edid);
- int drm_edid_connector_add_modes(struct drm_connector *connector);
- bool drm_edid_is_digital(const struct drm_edid *drm_edid);
-+bool drm_edid_eq(const struct drm_edid *drm_edid_1,
-+		 const struct drm_edid *drm_edid_2);
- void drm_edid_get_product_id(const struct drm_edid *drm_edid,
- 			     struct drm_edid_product_id *id);
- void drm_edid_print_product_id(struct drm_printer *p,
++
+ enum dc_edid_status dm_helpers_read_local_edid(
+ 		struct dc_context *ctx,
+ 		struct dc_link *link,
+diff --git a/drivers/gpu/drm/amd/display/dc/core/dc_sink.c b/drivers/gpu/drm/amd/display/dc/core/dc_sink.c
+index 455fa5dd1420..a5b9081879e3 100644
+--- a/drivers/gpu/drm/amd/display/dc/core/dc_sink.c
++++ b/drivers/gpu/drm/amd/display/dc/core/dc_sink.c
+@@ -65,6 +65,8 @@ void dc_sink_retain(struct dc_sink *sink)
+ static void dc_sink_free(struct kref *kref)
+ {
+ 	struct dc_sink *sink = container_of(kref, struct dc_sink, refcount);
++
++	dm_helpers_sink_edid_free(sink);
+ 	kfree(sink->dc_container_id);
+ 	kfree(sink);
+ }
+diff --git a/drivers/gpu/drm/amd/display/dc/dc.h b/drivers/gpu/drm/amd/display/dc/dc.h
+index 2efb9add13ff..3cf7507d11fa 100644
+--- a/drivers/gpu/drm/amd/display/dc/dc.h
++++ b/drivers/gpu/drm/amd/display/dc/dc.h
+@@ -2576,6 +2576,7 @@ struct scdc_caps {
+ struct dc_sink {
+ 	enum signal_type sink_signal;
+ 	struct dc_edid dc_edid; /* raw edid */
++	const struct drm_edid *drm_edid; /* Linux DRM EDID */
+ 	struct dc_edid_caps edid_caps; /* parse display caps */
+ 	struct dc_container_id *dc_container_id;
+ 	uint32_t dongle_max_pix_clk;
+diff --git a/drivers/gpu/drm/amd/display/dc/dm_helpers.h b/drivers/gpu/drm/amd/display/dc/dm_helpers.h
+index 0415cb50fe32..e23204fdd3f5 100644
+--- a/drivers/gpu/drm/amd/display/dc/dm_helpers.h
++++ b/drivers/gpu/drm/amd/display/dc/dm_helpers.h
+@@ -68,6 +68,7 @@ bool dm_helpers_is_same_edid(struct dc_sink *prev_sink,
+ void dm_helpers_copy_edid_to_dc(struct dc_sink *dc_sink,
+ 				const void *edid, int len);
+ 
++void dm_helpers_sink_edid_free(struct dc_sink *sink);
+ 
+ /*
+  * Update DP branch info
 -- 
 2.51.0
 
