@@ -2,64 +2,60 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B9157C398FD
-	for <lists+dri-devel@lfdr.de>; Thu, 06 Nov 2025 09:22:24 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 425A8C3994E
+	for <lists+dri-devel@lfdr.de>; Thu, 06 Nov 2025 09:28:28 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1EA5A10E836;
-	Thu,  6 Nov 2025 08:22:23 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DF90810E82E;
+	Thu,  6 Nov 2025 08:28:25 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="IWbRvyNc";
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=igalia.com header.i=@igalia.com header.b="oaACdWU1";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sea.source.kernel.org (sea.source.kernel.org [172.234.252.31])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D3DBB10E836
- for <dri-devel@lists.freedesktop.org>; Thu,  6 Nov 2025 08:22:21 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by sea.source.kernel.org (Postfix) with ESMTP id 71EE8407A1
- for <dri-devel@lists.freedesktop.org>; Thu,  6 Nov 2025 08:22:21 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 52870C4CEF7
- for <dri-devel@lists.freedesktop.org>; Thu,  6 Nov 2025 08:22:21 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1762417341;
- bh=yp3F6d4lKr3OLBUeevYFJbavUpg3pTTxc+w6lCfPq4w=;
- h=From:To:Subject:Date:In-Reply-To:References:From;
- b=IWbRvyNcfCsEGIh0xwiv2yixsb5qruSKd0m9uA8k8+0H/z97DYA+vrWDudFALkBgA
- pyFZA2zDqaWMOfHoEgIHyw+YI5g37pyiavNrnuU0ziy9WqCgCIp2eqakfGvrNpXgKX
- ejZTYVrnTNLJWBnd/H9Yd6tFiENIJ459eFijww6GVKDy6Sg+qOYE4eo0+ZStq9yaq5
- VW1v1Adk3CM24dcBhAGaydZyc0edFo59rFKHo5KefiFWq3E0jjeCYv69dYv1bbE8V7
- +tEh/a7rz8AmAPut9SGDWmGwpknoYreYXrV4XAAfzJeeOU4WVxxc/EoDY+/2DZ4Sh2
- fS2279AnzEnkA==
-Received: by aws-us-west-2-korg-bugzilla-1.web.codeaurora.org (Postfix,
- from userid 48) id 4B7B0C53BC5; Thu,  6 Nov 2025 08:22:21 +0000 (UTC)
-From: bugzilla-daemon@kernel.org
-To: dri-devel@lists.freedesktop.org
-Subject: [Bug 220130] Display not working when connected via displayport
- (purple screen)
-Date: Thu, 06 Nov 2025 08:22:21 +0000
-X-Bugzilla-Reason: None
-X-Bugzilla-Type: changed
-X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
-X-Bugzilla-Product: Drivers
-X-Bugzilla-Component: Video(DRI - non Intel)
-X-Bugzilla-Version: 2.5
-X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: normal
-X-Bugzilla-Who: jani.nikula@intel.com
-X-Bugzilla-Status: RESOLVED
-X-Bugzilla-Resolution: INVALID
-X-Bugzilla-Priority: P3
-X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
-X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: resolution
-Message-ID: <bug-220130-2300-mlTnmUP3q6@https.bugzilla.kernel.org/>
-In-Reply-To: <bug-220130-2300@https.bugzilla.kernel.org/>
-References: <bug-220130-2300@https.bugzilla.kernel.org/>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: https://bugzilla.kernel.org/
-Auto-Submitted: auto-generated
+Received: from fanzine2.igalia.com (fanzine2.igalia.com [213.97.179.56])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B356B10E82E;
+ Thu,  6 Nov 2025 08:28:22 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
+ s=20170329;
+ h=Content-Transfer-Encoding:Content-Type:In-Reply-To:From:
+ References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender:Reply-To:
+ Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+ Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
+ List-Subscribe:List-Post:List-Owner:List-Archive;
+ bh=WwUoGTNmbk4GL2R/z8jgKT7x4qoL8qPfVciTM25oRN4=; b=oaACdWU11vzx7y9yl+WQ7YyetM
+ aoDWzy+EKCf1wJQvAgAUOGwGawC75YrhbT7KaMu0Vc49ukacvQeSVxo3+h8EnpRfMSQ3VA1r2D3iM
+ fLuSkbX8cni9zYAHuflPh1YTWVsY1bF1kYQVQri4E1+KMOPb49SQ/C/524oD0vr1dPAYfYokC4iIw
+ MBIwiyRpuE5ZFALUA05JXrv2gm2I739cxXzA0nv4gjwOsimS/73pe87c42sFK0/wNTjoS9pQSt6l1
+ g1L1YWEuVAd2B0qPzBMw2dLJYGqVddYrCaaJhz3xm+B67gPY1eAjmasMdyi3qKuDQ9vA+JNhMdiwU
+ ydoU65GA==;
+Received: from [90.240.106.137] (helo=[192.168.0.101])
+ by fanzine2.igalia.com with esmtpsa 
+ (Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_128_GCM:128) (Exim)
+ id 1vGvLt-002sf6-3a; Thu, 06 Nov 2025 09:28:17 +0100
+Message-ID: <f935574c-67d1-4a7c-bd8e-e9dff7aa97ea@igalia.com>
+Date: Thu, 6 Nov 2025 08:28:15 +0000
 MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] drm/ttm: Fix @alloc_flags description
+To: Bagas Sanjaya <bagasdotme@gmail.com>,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ Linux Documentation <linux-doc@vger.kernel.org>,
+ Linux DRI Development <dri-devel@lists.freedesktop.org>,
+ Linux Intel Graphics <intel-gfx@lists.freedesktop.org>
+Cc: Christian Koenig <christian.koenig@amd.com>, Huang Rui
+ <ray.huang@amd.com>, Matthew Auld <matthew.auld@intel.com>,
+ Matthew Brost <matthew.brost@intel.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ =?UTF-8?Q?Thomas_Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>,
+ Zack Rusin <zack.rusin@broadcom.com>, Stephen Rothwell <sfr@canb.auug.org.au>
+References: <20251106005217.14026-1-bagasdotme@gmail.com>
+Content-Language: en-GB
+From: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
+In-Reply-To: <20251106005217.14026-1-bagasdotme@gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -75,16 +71,95 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-https://bugzilla.kernel.org/show_bug.cgi?id=3D220130
 
-Jani Nikula (jani.nikula@intel.com) changed:
+On 06/11/2025 00:52, Bagas Sanjaya wrote:
+> Stephen Rothwell reports htmldocs warnings when merging drm-misc tree:
+> 
+> Documentation/gpu/drm-mm:40: include/drm/ttm/ttm_device.h:225: ERROR: Unknown target name: "ttm_allocation". [docutils]
+> Documentation/gpu/drm-mm:43: drivers/gpu/drm/ttm/ttm_device.c:202: ERROR: Unknown target name: "ttm_allocation". [docutils]
+> Documentation/gpu/drm-mm:73: include/drm/ttm/ttm_pool.h:68: ERROR: Unknown target name: "ttm_allocation_pool". [docutils]
+> Documentation/gpu/drm-mm:76: drivers/gpu/drm/ttm/ttm_pool.c:1070: ERROR: Unknown target name: "ttm_allocation_pool". [docutils]
+> 
+> Fix these by adding missing wildcard on TTM_ALLOCATION_* and
+> TTM_ALLOCATION_POOL_* in @alloc_flags description.
 
-           What    |Removed                     |Added
-----------------------------------------------------------------------------
-         Resolution|DISTRO_KERNEL               |INVALID
+Interesting, I did not realize it would see special meaning in text 
+followed by underscore. Thanks for fixing it up!
 
---=20
-You may reply to this email to add a comment.
+Acked-by: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
 
-You are receiving this mail because:
-You are watching the assignee of the bug.=
+I assume no one merged it yet to any branch so I can push it to 
+drm-misc-next?
+
+Regards,
+
+Tvrtko
+
+> Fixes: 0af5b6a8f8dd ("drm/ttm: Replace multiple booleans with flags in pool init")
+> Fixes: 77e19f8d3297 ("drm/ttm: Replace multiple booleans with flags in device init")
+> Fixes: 402b3a865090 ("drm/ttm: Add an allocation flag to propagate -ENOSPC on OOM")
+> Reported-by: Stephen Rothwell <sfr@canb.auug.org.au>
+> Closes: https://lore.kernel.org/linux-next/20251105161838.55b962a3@canb.auug.org.au/
+> Signed-off-by: Bagas Sanjaya <bagasdotme@gmail.com>
+> ---
+>   drivers/gpu/drm/ttm/ttm_device.c | 2 +-
+>   drivers/gpu/drm/ttm/ttm_pool.c   | 2 +-
+>   include/drm/ttm/ttm_device.h     | 2 +-
+>   include/drm/ttm/ttm_pool.h       | 2 +-
+>   4 files changed, 4 insertions(+), 4 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/ttm/ttm_device.c b/drivers/gpu/drm/ttm/ttm_device.c
+> index 5c10e5fbf43b7f..9a51afaf0749e2 100644
+> --- a/drivers/gpu/drm/ttm/ttm_device.c
+> +++ b/drivers/gpu/drm/ttm/ttm_device.c
+> @@ -199,7 +199,7 @@ EXPORT_SYMBOL(ttm_device_swapout);
+>    * @dev: The core kernel device pointer for DMA mappings and allocations.
+>    * @mapping: The address space to use for this bo.
+>    * @vma_manager: A pointer to a vma manager.
+> - * @alloc_flags: TTM_ALLOCATION_ flags.
+> + * @alloc_flags: TTM_ALLOCATION_* flags.
+>    *
+>    * Initializes a struct ttm_device:
+>    * Returns:
+> diff --git a/drivers/gpu/drm/ttm/ttm_pool.c b/drivers/gpu/drm/ttm/ttm_pool.c
+> index 97e9ce505cf68d..18b6db015619c0 100644
+> --- a/drivers/gpu/drm/ttm/ttm_pool.c
+> +++ b/drivers/gpu/drm/ttm/ttm_pool.c
+> @@ -1067,7 +1067,7 @@ long ttm_pool_backup(struct ttm_pool *pool, struct ttm_tt *tt,
+>    * @pool: the pool to initialize
+>    * @dev: device for DMA allocations and mappings
+>    * @nid: NUMA node to use for allocations
+> - * @alloc_flags: TTM_ALLOCATION_POOL_ flags
+> + * @alloc_flags: TTM_ALLOCATION_POOL_* flags
+>    *
+>    * Initialize the pool and its pool types.
+>    */
+> diff --git a/include/drm/ttm/ttm_device.h b/include/drm/ttm/ttm_device.h
+> index d016360e5cebbc..5618aef462f21b 100644
+> --- a/include/drm/ttm/ttm_device.h
+> +++ b/include/drm/ttm/ttm_device.h
+> @@ -221,7 +221,7 @@ struct ttm_device {
+>   	struct list_head device_list;
+>   
+>   	/**
+> -	 * @alloc_flags: TTM_ALLOCATION_ flags.
+> +	 * @alloc_flags: TTM_ALLOCATION_* flags.
+>   	 */
+>   	unsigned int alloc_flags;
+>   
+> diff --git a/include/drm/ttm/ttm_pool.h b/include/drm/ttm/ttm_pool.h
+> index 67c72de913bb9d..233581670e7825 100644
+> --- a/include/drm/ttm/ttm_pool.h
+> +++ b/include/drm/ttm/ttm_pool.h
+> @@ -64,7 +64,7 @@ struct ttm_pool_type {
+>    *
+>    * @dev: the device we allocate pages for
+>    * @nid: which numa node to use
+> - * @alloc_flags: TTM_ALLOCATION_POOL_ flags
+> + * @alloc_flags: TTM_ALLOCATION_POOL_* flags
+>    * @caching: pools for each caching/order
+>    */
+>   struct ttm_pool {
+> 
+> base-commit: c553832116b8d0039b13ae84d1ed06e7ee4f1fdf
+
