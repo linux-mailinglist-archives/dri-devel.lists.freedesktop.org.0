@@ -2,46 +2,49 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7DF1CC39B5F
-	for <lists+dri-devel@lfdr.de>; Thu, 06 Nov 2025 10:01:43 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9BEA0C39B73
+	for <lists+dri-devel@lfdr.de>; Thu, 06 Nov 2025 10:02:44 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9F04210E849;
-	Thu,  6 Nov 2025 09:01:41 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 109D110E2C3;
+	Thu,  6 Nov 2025 09:02:43 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=bootlin.com header.i=@bootlin.com header.b="MF8XXhV6";
+	dkim=pass (2048-bit key; unprotected) header.d=bootlin.com header.i=@bootlin.com header.b="fWpcasVF";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from smtpout-04.galae.net (smtpout-04.galae.net [185.171.202.116])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6023710E849
- for <dri-devel@lists.freedesktop.org>; Thu,  6 Nov 2025 09:01:40 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0825A10E2C3
+ for <dri-devel@lists.freedesktop.org>; Thu,  6 Nov 2025 09:02:42 +0000 (UTC)
 Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
- by smtpout-04.galae.net (Postfix) with ESMTPS id 955C3C0FA88;
- Thu,  6 Nov 2025 09:01:16 +0000 (UTC)
+ by smtpout-04.galae.net (Postfix) with ESMTPS id 7686DC0FA8A;
+ Thu,  6 Nov 2025 09:02:19 +0000 (UTC)
 Received: from mail.galae.net (mail.galae.net [212.83.136.155])
- by smtpout-01.galae.net (Postfix) with ESMTPS id 9ADB76068C;
- Thu,  6 Nov 2025 09:01:32 +0000 (UTC)
+ by smtpout-01.galae.net (Postfix) with ESMTPS id 815866068C;
+ Thu,  6 Nov 2025 09:02:40 +0000 (UTC)
 Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon)
- with ESMTPSA id 3CE7E1185075F; Thu,  6 Nov 2025 10:01:24 +0100 (CET)
+ with ESMTPSA id EEBC91185075F; Thu,  6 Nov 2025 10:02:36 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
- t=1762419688; h=from:subject:date:message-id:to:cc:mime-version:content-type:
+ t=1762419759; h=from:subject:date:message-id:to:cc:mime-version:content-type:
  content-transfer-encoding:content-language:in-reply-to:references:autocrypt;
- bh=0gw3svpbd7oXpruhrFgk54lR+8bzO9XSPKVJmJDja8M=;
- b=MF8XXhV6Sh+rbVmevU726n+YjCjYwMIM9mLRgMd8EdX11WdIcZupgUw7yPtZvOg6Fz1je6
- 3VE6cBOs1lmzfGXS30q0p4sb4kEt2Xlze/eXcY8weectRx0gbWeMCmWDemOUiR3q1+CdI+
- S/oVolCplxiX77eZOJKz1wKFCF749JMrDgi61IcvIHdR1IGtt2nJpDLC6eQdi8lk4o6KT5
- 9fBy9w4hL7cZdmxztelS/7N9kKYi9BoFdVuKtPM5uSucSUy2s1JVHTjyHJFVGUsyE2Us7S
- ZO3D3U/s4FA6JUi1enbto7dVUzpHb+6m7emZRHyjPPsSccwWaHZyXXUdBRJE2Q==
-Message-ID: <39070b36-75e8-4dfa-a31c-671e679fc3da@bootlin.com>
-Date: Thu, 6 Nov 2025 10:01:23 +0100
+ bh=f078UojWE0VpYxjs1DoEL0Omm+9Iq3KqJfAoCFG0lj8=;
+ b=fWpcasVFqNPzgfUscMnEvCCqpwUQxWYIYMZN96Wxu8cJoKVXr5PS4BAa0+vjEwVJtU1c/m
+ eO9akXbk1NLq8S/SHNB7wU0BCjDIxrZbAvLeGfwYJrLC1L54qhRdx1EFp6RiZ9A31ncQlE
+ gvDkycGhpItL3yWQ+DQ4MLktjkI+w3qqRu3W3WgsIVktDsB986QR4en9Hc65UKe0FCvb6L
+ 6/YIKq3NkMUimp9SBhpd1Kypf1scAEKuhzOPhv2S1I+2yR+nIPwC7BV0kHVEjY0XcWZQlp
+ rvDuBttirFsN7xIgpZ/idYw1p0D6nVX4HcT8ZS15BHfyEA97pZwa+dJT6jh3eA==
+Message-ID: <1e76e3de-6bf6-4886-83ed-407c96a049ae@bootlin.com>
+Date: Thu, 6 Nov 2025 10:02:36 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] drm/vblank: Fix kernel docs for vblank timer
-To: Thomas Zimmermann <tzimmermann@suse.de>,
- maarten.lankhorst@linux.intel.com, mripard@kernel.org, airlied@gmail.com,
- simona@ffwll.ch, javierm@redhat.com, sfr@canb.auug.org.au
-Cc: dri-devel@lists.freedesktop.org
-References: <20251106073207.11192-1-tzimmermann@suse.de>
+Subject: Re: [PATCH v4 3/3] drm/vkms: Add polling for HPD
+To: Marius Vlad <marius.vlad@collabora.com>
+Cc: dri-devel@lists.freedesktop.org, dmitry.baryshkov@oss.qualcomm.com,
+ tzimmermann@suse.de, simona.vetter@ffwll.ch, jani.nikula@linux.intel.com,
+ ian.forbes@broadcom.com, daniel.stone@collabora.com
+References: <20251103174558.7709-1-marius.vlad@collabora.com>
+ <20251103174558.7709-4-marius.vlad@collabora.com>
+ <cb53bb27-66d8-44ef-beec-48b093f50d8c@bootlin.com>
+ <aQoLifqzUrYpZnWW@xpredator>
 Content-Language: en-US, fr
 From: Louis Chauvet <louis.chauvet@bootlin.com>
 Autocrypt: addr=louis.chauvet@bootlin.com; keydata=
@@ -98,7 +101,7 @@ Autocrypt: addr=louis.chauvet@bootlin.com; keydata=
  wDN7ORknPndzxrq3CyB7b/Tk1e8Qx+6HU/pnMb4ZqwwMwZAMk24TZpsgg28o9MQiUNzad0h2
  gIszbeej9ryrtLHxMzyK8yKhHoI2i2ovxy5O+hsWeAoCPE9xwbqnAjLjOn4Jzd/pPovizrq/
  kUoX66YgvCuHfQMC/aBPLnVunZSP23J2CrkTrnsUzw==
-In-Reply-To: <20251106073207.11192-1-tzimmermann@suse.de>
+In-Reply-To: <aQoLifqzUrYpZnWW@xpredator>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 X-Last-TLS-Session-Version: TLSv1.3
@@ -119,42 +122,93 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
 
-Le 06/11/2025 à 08:31, Thomas Zimmermann a écrit :
-> Fix documentation for drm_crtc_vblank_start_timer(), which referred
-> to drm_crtc_vblank_cancel_timer().
-> 
-> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
-> Reported-by: Stephen Rothwell <sfr@canb.auug.org.au>
-> Closes: https://lore.kernel.org/dri-devel/20251106152201.6f248c09@canb.auug.org.au/
-> Fixes: 74afeb812850 ("drm/vblank: Add vblank timer")
-> Cc: Thomas Zimmermann <tzimmermann@suse.de>
-> Cc: Louis Chauvet <louis.chauvet@bootlin.com>
-> Cc: Javier Martinez Canillas <javierm@redhat.com>
-> Cc: David Airlie <airlied@gmail.com>
-> Cc: Simona Vetter <simona@ffwll.ch>
-> Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
-> Cc: Maxime Ripard <mripard@kernel.org>
-> Cc: dri-devel@lists.freedesktop.org
+Le 04/11/2025 à 15:19, Marius Vlad a écrit :
+> On Tue, Nov 04, 2025 at 11:21:28AM +0100, Louis Chauvet wrote:
+>>
+>>
+>> Le 03/11/2025 à 18:45, Marius Vlad a écrit :
+>>> vkms is missing any kind of HPD (polling/irq), so add polling to handle
+>>> hotplug events.
+>>
+>> Hi,
+> Hi Louis, thanks for the quick reply!
+>>
+>> I am a bit surprised by this addition, we currently have hotplug/unplug in
+>> VKMS using configFS, and it seems to work. The current "irq" system is
+>> writing in configFS the status and call drm_kms_helper_hotplug_event after
+>> the status is updated [1].
+> The situation is that the VKMS connectors/card are also being exposed
+> through sysfs similar to real devices. That's where we trigger/simulate
+> a connector hot-plug without physically unplugging cables. Wasn't aware
+> that VKMS had something similar to that with ConfigFS, so that needs
+> adjusting.
 
-Reviewed-by: Louis Chauvet <louis.chauvet@bootlin.com>
+Yes, that very recent, I am not surprised that you missed it.
 
-> ---
->   drivers/gpu/drm/drm_vblank.c | 2 +-
->   1 file changed, 1 insertion(+), 1 deletion(-)
+>> I think the polling will not work, I read in the drm_kms_helper_poll_init
+>> documentation that the connector is not polled if some connector flags are
+>> not set [2]/[3].
+> In this case the loop will be no-op, but prior to the loop
+> `changed` is set to `changed = dev->mode_config.delayed_event` [1] so
+> the code at [2] will do run.
+
+Ho, make sense, thanks for the explanation!
+
+>>
+>> If the polling works, I don't think it will be enough for the current VKMS
+>> implementation. Currently setting status using configFS will do everything
+>> synchronously:
+>> - Set the connector status (next call to connector->detect will have the new
+>> value)
+>> - Call drm_kms_helper_hotplug_event
+>>
+>> With your implementation, I think you expect something to update
+>> connector->status_changed in between, using polling if I understood
+>> correctly, which will probably happen after the call to
+>> drm_kms_helper_hotplug_event.
+> Right, that's another path for VKMS.
+
+Let me know if you have any question about the current implementation, I 
+can help if needed.
+
+> [1] https://elixir.bootlin.com/linux/v6.17.7/source/drivers/gpu/drm/drm_probe_helper.c#L769
+> [2] https://elixir.bootlin.com/linux/v6.17.7/source/drivers/gpu/drm/drm_probe_helper.c#L846
 > 
-> diff --git a/drivers/gpu/drm/drm_vblank.c b/drivers/gpu/drm/drm_vblank.c
-> index 61e211fd3c9c..451ec9620226 100644
-> --- a/drivers/gpu/drm/drm_vblank.c
-> +++ b/drivers/gpu/drm/drm_vblank.c
-> @@ -2258,7 +2258,7 @@ int drm_crtc_vblank_start_timer(struct drm_crtc *crtc)
->   EXPORT_SYMBOL(drm_crtc_vblank_start_timer);
->   
->   /**
-> - * drm_crtc_vblank_start_timer - Cancels the given CRTC's vblank timer
-> + * drm_crtc_vblank_cancel_timer - Cancels the given CRTC's vblank timer
->    * @crtc: the CRTC
->    *
->    * Drivers should call this function from their CRTC's disable_vblank
+>>
+>> [1]:https://gitlab.freedesktop.org/drm/misc/kernel/-/blob/drm-misc-next/drivers/gpu/drm/vkms/vkms_connector.c?ref_type=heads#L91-96
+>> [2]:https://elixir.bootlin.com/linux/v6.17.7/source/drivers/gpu/drm/drm_probe_helper.c#L917-L918
+>> [3]:https://elixir.bootlin.com/linux/v6.17.7/source/drivers/gpu/drm/drm_probe_helper.c#L793
+>>
+>>> Signed-off-by: Marius Vlad <marius.vlad@collabora.com>
+>>> ---
+>>>    drivers/gpu/drm/vkms/vkms_drv.c | 4 ++++
+>>>    1 file changed, 4 insertions(+)
+>>>
+>>> diff --git a/drivers/gpu/drm/vkms/vkms_drv.c b/drivers/gpu/drm/vkms/vkms_drv.c
+>>> index e8472d9b6e3b..ec815c42ef04 100644
+>>> --- a/drivers/gpu/drm/vkms/vkms_drv.c
+>>> +++ b/drivers/gpu/drm/vkms/vkms_drv.c
+>>> @@ -198,6 +198,9 @@ static int vkms_create(struct vkms_config *config)
+>>>    	if (ret)
+>>>    		goto out_devres;
+>>> +	/* init kms poll for handling hpd */
+>>> +	drm_kms_helper_poll_init(&vkms_device->drm);
+>>> +
+>>>    	drm_client_setup(&vkms_device->drm, NULL);
+>>>    	return 0;
+>>> @@ -240,6 +243,7 @@ static void vkms_destroy(struct vkms_config *config)
+>>>    	fdev = config->dev->faux_dev;
+>>> +	drm_kms_helper_poll_fini(&config->dev->drm);
+>>>    	drm_dev_unregister(&config->dev->drm);
+>>>    	drm_atomic_helper_shutdown(&config->dev->drm);
+>>>    	devres_release_group(&fdev->dev, NULL);
+>>
+>> -- 
+>> --
+>> Louis Chauvet, Bootlin
+>> Embedded Linux and Kernel engineering
+>> https://bootlin.com
+>>
 
 -- 
 --
