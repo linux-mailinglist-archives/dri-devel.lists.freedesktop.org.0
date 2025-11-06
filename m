@@ -2,68 +2,84 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C90F6C3B8C3
-	for <lists+dri-devel@lfdr.de>; Thu, 06 Nov 2025 15:04:04 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id DFB7FC3B942
+	for <lists+dri-devel@lfdr.de>; Thu, 06 Nov 2025 15:09:05 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1654810E8E5;
-	Thu,  6 Nov 2025 14:04:03 +0000 (UTC)
-Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="X3ExHMKl";
-	dkim-atps=neutral
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3C2E010E8E4;
+	Thu,  6 Nov 2025 14:09:03 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E346510E8DE;
- Thu,  6 Nov 2025 14:04:01 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1762437842; x=1793973842;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:content-transfer-encoding:in-reply-to;
- bh=XsKoKCJUyaXtGWfJzy6ovo9M30gDGcuFn8pFzErVQzQ=;
- b=X3ExHMKlhPszD17H1T0AbQfgRpMJYHyN+PKFvX7pJxsnryouawTBKhTN
- hxScrUv31PSVrkOWaqeyTXxQ7nNVKl6gojiNZkpO1laInO/csnw6lEBAV
- KcoXaDexDIHo1FoWFWAw/FErsz5Opl8DbJankWMABnZIBor/DLpOhwQne
- nklAQFATvbFHxk1jDNiG1AOrtEZb0W4UOB4cHQVSz/1xX2agfbER9fORw
- ytLf12d77c26pa6AviBsdJSmQBRjEpTzTNiYGMErzSEtRz7lTW0ZGEY+X
- 2G0de5ne3YxVRy5Lslx1axJC8qgr0JwX/UG7I/55GVtUQ+3Fe5cCHq4Zc w==;
-X-CSE-ConnectionGUID: z5lyubx5RhCPa6U331w39g==
-X-CSE-MsgGUID: 5t+o+NTsTWa1aCzWhjWfXA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11604"; a="75181740"
-X-IronPort-AV: E=Sophos;i="6.19,284,1754982000"; d="scan'208";a="75181740"
-Received: from fmviesa005.fm.intel.com ([10.60.135.145])
- by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 06 Nov 2025 06:04:02 -0800
-X-CSE-ConnectionGUID: a3poRIfRTmyKokEdlZVRDg==
-X-CSE-MsgGUID: T+rRKSimStirho1IiirNUw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.19,284,1754982000"; d="scan'208";a="192041508"
-Received: from egrumbac-mobl6.ger.corp.intel.com (HELO localhost)
- ([10.245.244.173])
- by fmviesa005-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 06 Nov 2025 06:03:57 -0800
-Date: Thu, 6 Nov 2025 15:03:55 +0100
-From: Pawel Sikora <pawel.sikora@linux.intel.com>
-To: Daniel Almeida <daniel.almeida@collabora.com>
-Cc: Boris Brezillon <boris.brezillon@collabora.com>, adrinael@adrinael.net,
- arek@hiler.eu, kamil.konieczny@linux.intel.com,
- juhapekka.heikkila@gmail.com, bhanuprakash.modem@gmail.com,
- ashutosh.dixit@intel.com, karthik.b.s@intel.com,
- liviu.dudau@arm.com, steven.price@arm.com, aliceryhl@google.com,
- jeffv@google.com, intel-gfx@lists.freedesktop.org,
- igt-dev@lists.freedesktop.org, pawel.sikora@intel.com,
- dri-devel@lists.freedesktop.org
-Subject: Re: [PATCH i-g-t v3 3/3] tests/panthor: add panthor tests
-Message-ID: <20251106140355.lpsgbj7i6hlx2jji@pawelsik-desk>
-References: <20251104202845.2879460-1-daniel.almeida@collabora.com>
- <20251104202845.2879460-4-daniel.almeida@collabora.com>
- <20251104220412.24b4b454@fedora>
- <F3A3F344-2406-41E4-906E-481A4A56AC1A@collabora.com>
+Received: from mail-ej1-f41.google.com (mail-ej1-f41.google.com
+ [209.85.218.41])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A53E810E8E4
+ for <dri-devel@lists.freedesktop.org>; Thu,  6 Nov 2025 14:09:02 +0000 (UTC)
+Received: by mail-ej1-f41.google.com with SMTP id
+ a640c23a62f3a-b3e9d633b78so173165166b.1
+ for <dri-devel@lists.freedesktop.org>; Thu, 06 Nov 2025 06:09:02 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1762438141; x=1763042941;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
+ :to:cc:subject:date:message-id:reply-to;
+ bh=lizrVusrsLOAQyowXz5s1Qp7I158lhdEAu4sLj0s0D8=;
+ b=wNxiJErYinDu1lzlEc7jecA55D9Vf90/3XcccXlbrFW9DuSyQKSmZ056uaOJeqvN6U
+ sGxhzRLoFnV6fSiC8zUN4xXYeBeLdk39jHbeXEGxAEXETlnfNjlrACo/4LnyoBrn5l/G
+ wS1gNzTiekRd+F6mc2p9K7ododgYjNYR1j++Dj5AJfb1UJGi/PVdWvkrC0CzkdDmxVFI
+ lK/p9MsSSxM3s4JictGx1ocbejMHE1QjgQCsQ+INdROhAh8vVKconEbcel8ecfyBxA2M
+ JWWACCPiKwIOjOCfLDsAlWp5BJsEr9QTu/NDBClhm9PTu2MdcyBVB8LDCAPqIJ5rVVBV
+ V0vg==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCVvEP6lyswl2vzjx5ENYsohpxltvBNo6YxgLuG8ERc2US19SeifOcUqwLoc8//ghZUeP/1Ls4Xufzs=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YwAfnD5d7465DEI0hiiJf+/vvEUHbkiY8hDk6dv3eUFC5r9RuXD
+ yGgYftQxcBnNQfhjSyC0Klfm3gNMkZ1FN//thFmXMp0lQIcabe4kKdR7IMiqGHgQco8=
+X-Gm-Gg: ASbGnctLO713zCmg7at7VhCQmPCk5bD8tsEbUh6dprI8YXGP57nxAMDx1R6w9eqd5jr
+ CCRnQ7ipIr0+3Yv9qdpqWWumrnFQi2aOPcfsOBPoLegAX/UhSeEsH8CVim5O/4w1y3H3Ii3Y+n8
+ bNUF21xuGlN1Lkel8wP8zf2mBvAUzZzW9qQTNwKmBGoeFuB4Fso8yfnlYQge9y64hIGb2k/BghV
+ YMkLgwvhmxfV9MelgTNz5+1SKcM8iLtx6iPWlPEzrC6jBOKPxd5Mxshaj7dCusXXghHlrgwZgHL
+ FNlo9vNm5MeWc23/vDvHfQizwY+8v59Ji/QU0i/j0/d59a1+Uj863eCQsDrpYcyyRm0wihlkfb9
+ aiEmZDgdCDHAIcqs9zXlBXVDVDLh1esiUdaKI/H555Hi1cnC+sBeoQY+KuZtwbUjqv/7piiBw6E
+ mJEXyHAkCEgYq9eutClS+wCg0OBDQqhVgXrZmOmVcb3/Ym0IXT
+X-Google-Smtp-Source: AGHT+IFFdCFDS1kC2wPMF+HQJ3KFqcmMvcD5FxqyBlj7GexpRGDlhh7cBSUBJecZAwmhnMABGSPntA==
+X-Received: by 2002:a17:907:1c17:b0:b61:e088:b560 with SMTP id
+ a640c23a62f3a-b72892ac5b7mr390269166b.4.1762438140895; 
+ Thu, 06 Nov 2025 06:09:00 -0800 (PST)
+Received: from mail-ed1-f48.google.com (mail-ed1-f48.google.com.
+ [209.85.208.48]) by smtp.gmail.com with ESMTPSA id
+ a640c23a62f3a-b72896454d2sm223905066b.46.2025.11.06.06.09.00
+ for <dri-devel@lists.freedesktop.org>
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 06 Nov 2025 06:09:00 -0800 (PST)
+Received: by mail-ed1-f48.google.com with SMTP id
+ 4fb4d7f45d1cf-6407e617ad4so2096479a12.0
+ for <dri-devel@lists.freedesktop.org>; Thu, 06 Nov 2025 06:09:00 -0800 (PST)
+X-Forwarded-Encrypted: i=1;
+ AJvYcCUAhAahELNhiUT5FjiXKLY6DjgITt3M06ONRqkA20hm4fDa66dgmsnu7917izD0RP41IgVyf9oluYI=@lists.freedesktop.org
+X-Received: by 2002:aa7:d343:0:b0:640:931e:ccac with SMTP id
+ 4fb4d7f45d1cf-6411d17972dmr2555913a12.7.1762438140350; Thu, 06 Nov 2025
+ 06:09:00 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <F3A3F344-2406-41E4-906E-481A4A56AC1A@collabora.com>
+References: <20251105232737.1933437-1-niklas.soderlund+renesas@ragnatech.se>
+ <20251105232737.1933437-3-niklas.soderlund+renesas@ragnatech.se>
+In-Reply-To: <20251105232737.1933437-3-niklas.soderlund+renesas@ragnatech.se>
+From: Geert Uytterhoeven <geert@linux-m68k.org>
+Date: Thu, 6 Nov 2025 15:08:45 +0100
+X-Gmail-Original-Message-ID: <CAMuHMdWGZa6E_Yu-hF9O6yi3rRemWnFdkUeKg3SucqmmLFUUAg@mail.gmail.com>
+X-Gm-Features: AWmQ_bmyVoqHrTmXlpr1ElP362H1OrWvK3sMuHRjQlEwD_rKvK_e3yJJeGhG1Kc
+Message-ID: <CAMuHMdWGZa6E_Yu-hF9O6yi3rRemWnFdkUeKg3SucqmmLFUUAg@mail.gmail.com>
+Subject: Re: [PATCH 2/2] arm64: dts: renesas: r8a779a0: Add GE7800 GPU node
+To: =?UTF-8?Q?Niklas_S=C3=B6derlund?= <niklas.soderlund+renesas@ragnatech.se>
+Cc: Marek Vasut <marek.vasut+renesas@mailbox.org>,
+ Conor Dooley <conor+dt@kernel.org>, 
+ David Airlie <airlied@gmail.com>, Frank Binns <frank.binns@imgtec.com>, 
+ Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+ Magnus Damm <magnus.damm@gmail.com>, Matt Coster <matt.coster@imgtec.com>, 
+ Maxime Ripard <mripard@kernel.org>, Rob Herring <robh@kernel.org>,
+ Simona Vetter <simona@ffwll.ch>, 
+ Thomas Zimmermann <tzimmermann@suse.de>, devicetree@vger.kernel.org, 
+ dri-devel@lists.freedesktop.org, linux-renesas-soc@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -79,72 +95,61 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Daniel,
+Hi Niklas,
 
-There is a new IGT GPU tools documentation site:
-https://drm.pages.freedesktop.org/igt-gpu-tools/ which is available via Gitlab Pages.
+On Thu, 6 Nov 2025 at 00:28, Niklas S=C3=B6derlund
+<niklas.soderlund+renesas@ragnatech.se> wrote:
+> Describe Imagination Technologies PowerVR Rogue GE7800 BNVC 15.5.1.64
+> present in Renesas R-Car R8A779A0 V3U SoC.
+>
+> Signed-off-by: Niklas S=C3=B6derlund <niklas.soderlund+renesas@ragnatech.=
+se>
 
-Especially the part regarding hw platforms might be interested for you in case you
-would like to add something about your tests:
-https://drm.pages.freedesktop.org/igt-gpu-tools/platforms/
-Modifications can be made in docs directory in markdown files and posted here(Patchwork)
-for review for this or a new patch:
-https://gitlab.freedesktop.org/drm/igt-gpu-tools/-/blob/master/docs/platforms.md
+Thanks for your patch!
 
-Please have a look in case you would like to add some note for others.
+> --- a/arch/arm64/boot/dts/renesas/r8a779a0.dtsi
+> +++ b/arch/arm64/boot/dts/renesas/r8a779a0.dtsi
+> @@ -338,6 +338,23 @@ cmt3: timer@e6148000 {
+>                         status =3D "disabled";
+>                 };
+>
+> +               gsx: gsx@fd000000 {
 
-Kind Regards,
-Pawel
+Please preserve sort order (by unit address).
 
-On Thu, Nov 06, 2025 at 08:13:14AM -0300, Daniel Almeida wrote:
-> Kamil, 
-> 
-> > On 4 Nov 2025, at 18:04, Boris Brezillon <boris.brezillon@collabora.com> wrote:
-> > 
-> > On Tue,  4 Nov 2025 17:28:43 -0300
-> > Daniel Almeida <daniel.almeida@collabora.com> wrote:
-> > 
-> >> +igt_main {
-> >> + int fd;
-> >> +
-> >> + igt_fixture {
-> >> + fd = drm_open_driver(DRIVER_PANTHOR);
-> >> + }
-> >> +
-> >> + igt_describe("Create and destroy a CSF group.");
-> >> + igt_subtest("group_create") {
-> >> + struct drm_panthor_vm_create vm_create = {};
-> >> + struct drm_panthor_vm_destroy vm_destroy = {};
-> >> + uint32_t group_handle;
-> >> +
-> >> + vm_create.flags = 0;
-> >> + do_ioctl(fd, DRM_IOCTL_PANTHOR_VM_CREATE, &vm_create);
-> >> + igt_assert_neq(vm_create.id, 0);
-> >> +
-> >> + group_handle = igt_panthor_group_create_simple(fd, vm_create.id, 0);
-> >> + igt_assert_neq(group_handle, 0);
-> >> +
-> >> + igt_panthor_group_destroy(fd, group_handle, 0);
-> >> +
-> >> + vm_destroy = (struct drm_panthor_vm_destroy) { .id = vm_create.id };
-> >> + do_ioctl(fd, DRM_IOCTL_PANTHOR_VM_DESTROY, &vm_destroy);
-> >> + }
-> >> +
-> >> + igt_describe("Submit a job to a group and wait for completion. "
-> >> + "The job writes a known value to a buffer object that is then "
-> >> + "mmaped and checked.");
-> > 
-> > nit: indentation is off ^
-> > 
-> > igt_describe("Submit a job to a group and wait for completion. "
-> >     "The job writes a known value to a buffer object that is then "
-> >     "mmaped and checked.");
-> 
-> What should I do here?
-> 
-> Usually sending new versions so soon would be confusing. Given it's a trivial
-> fix, can you do it while applying? If not, should I wait a few days so that
-> this collects a few more tags?
-> 
-> — Daniel
-> 
+> +                       compatible =3D "renesas,r8a779a0-gpu",
+> +                                    "img,img-ge7800",
+> +                                    "img,img-rogue";
+> +                       reg =3D <0 0xfd000000 0 0x40000>;
+> +                       interrupts =3D <GIC_SPI 223 IRQ_TYPE_LEVEL_HIGH>;
+> +                       clocks =3D <&cpg CPG_CORE R8A779A0_CLK_ZG>,
+> +                                <&cpg CPG_CORE R8A779A0_CLK_S3D1>,
+> +                                <&cpg CPG_MOD 0>;
+> +                       clock-names =3D "core", "mem", "sys";
+> +                       power-domains =3D <&sysc R8A779A0_PD_3DG_A>,
+> +                                       <&sysc R8A779A0_PD_3DG_B>;
+> +                       power-domain-names =3D "a", "b";
+> +                       resets =3D <&cpg 0>;
+> +                       status =3D "disabled";
+> +               };
+> +
+>                 cpg: clock-controller@e6150000 {
+>                         compatible =3D "renesas,r8a779a0-cpg-mssr";
+>                         reg =3D <0 0xe6150000 0 0x4000>;
+
+The rest LGTM, so with the node name and sort order fixed:
+Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
+
+Gr{oetje,eeting}s,
+
+                        Geert
+
+--
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k=
+.org
+
+In personal conversations with technical people, I call myself a hacker. Bu=
+t
+when I'm talking to journalists I just say "programmer" or something like t=
+hat.
+                                -- Linus Torvalds
