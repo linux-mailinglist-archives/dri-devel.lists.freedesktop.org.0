@@ -2,57 +2,96 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8275AC3CA45
-	for <lists+dri-devel@lfdr.de>; Thu, 06 Nov 2025 17:57:28 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6B965C3C9DF
+	for <lists+dri-devel@lfdr.de>; Thu, 06 Nov 2025 17:56:26 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D62F310E984;
-	Thu,  6 Nov 2025 16:57:25 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4467A10E96E;
+	Thu,  6 Nov 2025 16:56:24 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=igalia.com header.i=@igalia.com header.b="h1fL2F+q";
+	dkim=pass (1024-bit key; unprotected) header.d=chromium.org header.i=@chromium.org header.b="QkzvN7T0";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from fanzine2.igalia.com (fanzine2.igalia.com [213.97.179.56])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A785E10E984;
- Thu,  6 Nov 2025 16:57:24 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
- s=20170329;
- h=Content-Transfer-Encoding:MIME-Version:References:In-Reply-To:
- Message-ID:Date:Subject:Cc:To:From:Sender:Reply-To:Content-Type:Content-ID:
- Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
- :Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
- List-Post:List-Owner:List-Archive;
- bh=uI1kEK2ZV54+Xrcrsx3lVrFxrdiiy5ChZh3QIctrmw4=; b=h1fL2F+qk9BEkVRx1/5IGajs+L
- KecVSaOAUCvo9jPi123RIWvNhSHZBDEJmmyQsZYwhNSn7cTAaf8FmCA4YKYZmYYDStCZkQESxsTV5
- GZZ9k2TAORKoD/zsKDe9mjn38fImeTEKyzJA6LF9FAnu/na4PK41TOWXBKcGS8/5mTFA2L6TQMVTa
- szNwFjfA4XJME24ZdVBAMs71BnJ1PgxyKBWIq2CPJmINK0b1HUVNMsXfF8yTqU0+n0rtbTpb5Er0Q
- 1ugv602/WsiRFidGNv8FXD5HNJN1/WPeGzL0xQ0xAnYuLv/3oimPbleBylIFJCcupwmgNbzCqKy1h
- 7K0/f7Ww==;
-Received: from [186.208.74.26] (helo=killbill.home)
- by fanzine2.igalia.com with esmtpsa 
- (Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_256_GCM:256) (Exim)
- id 1vH3IO-0035jh-3J; Thu, 06 Nov 2025 17:57:12 +0100
-From: Melissa Wen <mwen@igalia.com>
-To: Harry Wentland <harry.wentland@amd.com>, Alex Hung <alex.hung@amd.com>,
- Mario Limonciello <mario.limonciello@amd.com>,
- Rodrigo Siqueira <siqueira@igalia.com>, airlied@gmail.com,
- alexander.deucher@amd.com, andrzej.hajda@intel.com,
- christian.koenig@amd.com, jernej.skrabec@gmail.com, jonas@kwiboo.se,
- Laurent.pinchart@ideasonboard.com, maarten.lankhorst@linux.intel.com,
- mripard@kernel.org, mwen@igalia.com, neil.armstrong@linaro.org,
- rfoss@kernel.org, simona@ffwll.ch, sunpeng.li@amd.com, tzimmermann@suse.de
-Cc: Michel Daenzer <michel.daenzer@mailbox.org>,
- Jani Nikula <jani.nikula@linux.intel.com>, amd-gfx@lists.freedesktop.org,
- dri-devel@lists.freedesktop.org, kernel-dev@igalia.com
-Subject: [PATCH v7 15/15] drm/amd/display: move dc_sink from dc_edid to
- drm_edid
-Date: Thu,  6 Nov 2025 13:49:18 -0300
-Message-ID: <20251106165536.161662-16-mwen@igalia.com>
-X-Mailer: git-send-email 2.51.0
-In-Reply-To: <20251106165536.161662-1-mwen@igalia.com>
-References: <20251106165536.161662-1-mwen@igalia.com>
+Received: from mail-ed1-f42.google.com (mail-ed1-f42.google.com
+ [209.85.208.42])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1F58510E966
+ for <dri-devel@lists.freedesktop.org>; Thu,  6 Nov 2025 16:56:22 +0000 (UTC)
+Received: by mail-ed1-f42.google.com with SMTP id
+ 4fb4d7f45d1cf-640bd9039fbso2048291a12.2
+ for <dri-devel@lists.freedesktop.org>; Thu, 06 Nov 2025 08:56:22 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=chromium.org; s=google; t=1762448178; x=1763052978;
+ darn=lists.freedesktop.org; 
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=y1d33Qfkr/UySDlVInSW41vMX+/10XV70RYaxgiV9H4=;
+ b=QkzvN7T0i6Akr3G6dOi+8O/jQNvMo2mREOK34EoKRxskozp7XPhbqkHuZMedohNzE0
+ tTvH3WlgOqnDnwsiW1NeTm3Km1W/+1+Qq8LWBQYoqEREWhY6Zr+NAio6wss56VLx1VUN
+ uNmTPjhF2omLA8L9TvQIBvf8WHfw7kLUfgOj4=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1762448178; x=1763052978;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
+ :to:cc:subject:date:message-id:reply-to;
+ bh=y1d33Qfkr/UySDlVInSW41vMX+/10XV70RYaxgiV9H4=;
+ b=G2GpGSm1A+p2+sVr/lWn7a+8mq86ci0Qe+F43N18q9xVnMS714kwJUz/c+j1b59zvv
+ 1wz41fLA8nuzpbRkgoGSUXwjs2T8WVE19HaHIdNnDU6/hQ8olaRwBRDRFrKuCjJDC+Me
+ P9IkLdpsc2qN0TUkuYEjddbiYCKZGQpJ46GZv2cWIpe4exUTsG6UpkgLmYURk2lVEkMm
+ DBsyhg3HOylKHpOh6uckD6weRXqE1SW9UoHZywQLZtMOO6e+8uwZAI7ldtE7KS0SQ/LJ
+ xouAwzPBjVSp/K5HT+WJly5Bv2HBm1cXDMi+/+he56jtZXxEPJm0Ey4/3xpbJudNC8AM
+ XShQ==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCWs5zfLquXFfAkUJ+OXz6z4/d3xnv4Vuv02X2fyL7yUwPMmnw2ScDV/OwveR9uCN3NhdSQ347eu17E=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YzQy9bOtvAZsJ+tyfGoF73AI4783KNWlW2UFdT3hDV3ie4NCL2P
+ uqq7cL1LpErP/IdGp51rrRkNkwMcJtsludNKgp9Ye0gJIA+GLANXSRtaNO3AXF0V5GQvAeJVHG8
+ Yfjs=
+X-Gm-Gg: ASbGncvcNsXDWW1K4L9gAgl2c4rn9tF4OSHdmAm8Ss/JC0pMR6/4EIglFSHjs7bq3Xj
+ Le+OQviHlEgd+O/2oO8ktzuZmWIPhQm3TU52bvePCw4mQF9IdiX47sGxDP3cBjLqLj5SX4L1Gnm
+ ZMCKynIuyAEGWD4qiRRg41eZ14oqL7ipSQ272kqTrcc+tueZ7lbwSQE/dwpEDphlCHdi+gySqCL
+ 4FhjSMDqq6mvhezTuJ+6EgY2FDUaknYLfSED5CMDil6V5xjAa1kgysZ2bh2CrXGl5IJS8EG5uXL
+ W6D4JwgV3FKPE4DZW5nKL/PWQYjewm2DblKw/6kmIBnNLixQSUgZ15UWFf7CeosMHFpixsZS/Qw
+ LkwOoyJj3c/NBTcHZ5bL4FLK4jORMhYaOM2CbWOfv0/usQ52uZ/VjWI8dro+ysUI5s5ca9CLdPe
+ brzPLqlBuKjbTHH4aKoD1HDrKYK/1AuQUN2kLZwTjdl/nppQGfpg==
+X-Google-Smtp-Source: AGHT+IEuEFvMyAygIde9XFTZfOd5DQJJxWysDFeEatShsMjbvIDIhtXGT2QqTNv1gEgCxyHsLqMnNg==
+X-Received: by 2002:a05:6402:210f:b0:640:9d56:50a7 with SMTP id
+ 4fb4d7f45d1cf-6413f070524mr40625a12.9.1762448177608; 
+ Thu, 06 Nov 2025 08:56:17 -0800 (PST)
+Received: from mail-wr1-f48.google.com (mail-wr1-f48.google.com.
+ [209.85.221.48]) by smtp.gmail.com with ESMTPSA id
+ 4fb4d7f45d1cf-6411f8578dfsm2261066a12.24.2025.11.06.08.56.15
+ for <dri-devel@lists.freedesktop.org>
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 06 Nov 2025 08:56:15 -0800 (PST)
+Received: by mail-wr1-f48.google.com with SMTP id
+ ffacd0b85a97d-429b895458cso694347f8f.1
+ for <dri-devel@lists.freedesktop.org>; Thu, 06 Nov 2025 08:56:15 -0800 (PST)
+X-Forwarded-Encrypted: i=1;
+ AJvYcCWYjdUngBv2q24St8ZXAAA8X5sJy+lykXR1th7QdBuOVLUxGXPl/F9FXrnmAlB856xGJ90YDEU40+g=@lists.freedesktop.org
+X-Received: by 2002:a5d:5887:0:b0:429:c505:99d0 with SMTP id
+ ffacd0b85a97d-429e32e4484mr7115033f8f.25.1762448175160; Thu, 06 Nov 2025
+ 08:56:15 -0800 (PST)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20251101040043.3768848-1-ajye_huang@compal.corp-partner.google.com>
+ <CAD=FV=XqgkgLLOeozooypbwiO-8j0ZNy_GJ1UD2sXL1EKzC=Fw@mail.gmail.com>
+In-Reply-To: <CAD=FV=XqgkgLLOeozooypbwiO-8j0ZNy_GJ1UD2sXL1EKzC=Fw@mail.gmail.com>
+From: Doug Anderson <dianders@chromium.org>
+Date: Thu, 6 Nov 2025 08:56:04 -0800
+X-Gmail-Original-Message-ID: <CAD=FV=UoiSAhHOs=HUoGU-kX_ARc_EJP5p7_Ozo7u5vcY33GSg@mail.gmail.com>
+X-Gm-Features: AWmQ_bkJiA0NM5kHBq2AiPq1aBIwz3sEY3uTcdzu4ZMGksAVclFhXHwVsuamfP4
+Message-ID: <CAD=FV=UoiSAhHOs=HUoGU-kX_ARc_EJP5p7_Ozo7u5vcY33GSg@mail.gmail.com>
+Subject: Re: [PATCH v2] drm/edid: add 6 bpc quirk to the Sharp LQ116M1JW10
+To: Ajye Huang <ajye_huang@compal.corp-partner.google.com>
+Cc: linux-kernel@vger.kernel.org, Jani Nikula <jani.nikula@intel.com>, 
+ Neil Armstrong <neil.armstrong@linaro.org>,
+ Jessica Zhang <jesszhan0024@gmail.com>, 
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, 
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
+ Simona Vetter <simona@ffwll.ch>, 
+ dri-devel@lists.freedesktop.org, jazhan@google.com
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -68,313 +107,40 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Reduce direct handling of edid data by resorting to drm helpers that
-deal with this info inside drm_edid infrastructure.
+Hi,
 
-v3:
-- use dc_edid_sink_edid_free in link_detection
+On Mon, Nov 3, 2025 at 8:38=E2=80=AFAM Doug Anderson <dianders@chromium.org=
+> wrote:
+>
+> Hi,
+>
+> On Fri, Oct 31, 2025 at 9:01=E2=80=AFPM Ajye Huang
+> <ajye_huang@compal.corp-partner.google.com> wrote:
+> >
+> > The Sharp LQ116M1JW105 reports that it supports 8 bpc modes,
+> > but it will happen display noise in some videos.
+> > So, limit it to 6 bpc modes.
+> >
+> > Signed-off-by: Ajye Huang <ajye_huang@compal.corp-partner.google.com>
+> > ---
+> > changes from v1->v2:
+> > * Change EDID_QUIRK_FORCE_6BPC to BIT(EDID_QUIRK_FORCE_6BPC)
+> >
+> >  drivers/gpu/drm/drm_edid.c | 3 +++
+> >  1 file changed, 3 insertions(+)
+>
+> There was some extra testing and summarization on the internal
+> discussion about this problem that cleared up my confusion and I agree
+> that this is the right fix. While the panel does properly link train
+> at 8bpp and generally displays images OK, showing certain images on
+> the screen displays consistent corruption on just this panel (other
+> 8bpp panels are fine). It seems like there's some sort of subtle bug
+> in the panel at 8bpp. Limiting it to 6bpp, which is what the panel was
+> originally tested with, is the right thing to do.
+>
+> Reviewed-by: Douglas Anderson <dianders@chromium.org>
 
-v5:
-- no need of drm_edid duplication (Mario)
-- fix mem leak on dc_sink->drm_edid
+Pushed to drm-misc-next:
 
-v6:
-- fix NULL pointer dereference (Alex H)
-
-v7:
-- rename new edid-related helpers to dm_helpers (Harry)
-
-Signed-off-by: Melissa Wen <mwen@igalia.com>
----
- .../gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c | 25 +++-----
- .../amd/display/amdgpu_dm/amdgpu_dm_helpers.c | 62 ++++++++-----------
- .../display/amdgpu_dm/amdgpu_dm_mst_types.c   | 21 +++----
- drivers/gpu/drm/amd/display/dc/dm_helpers.h   |  2 +-
- .../drm/amd/display/dc/link/link_detection.c  |  3 +-
- 5 files changed, 46 insertions(+), 67 deletions(-)
-
-diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
-index aaf6ffacca01..9e5f708a32a6 100644
---- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
-+++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
-@@ -3853,6 +3853,8 @@ void amdgpu_dm_update_connector_after_detect(
- 	 * 2. Send an event and let userspace tell us what to do
- 	 */
- 	if (sink) {
-+		const struct drm_edid *drm_edid = sink->drm_edid;
-+
- 		/*
- 		 * TODO: check if we still need the S3 mode update workaround.
- 		 * If yes, put it here.
-@@ -3864,16 +3866,15 @@ void amdgpu_dm_update_connector_after_detect(
- 
- 		aconnector->dc_sink = sink;
- 		dc_sink_retain(aconnector->dc_sink);
--		if (sink->dc_edid.length == 0) {
-+
-+		if (!drm_edid_valid(drm_edid)) {
- 			aconnector->drm_edid = NULL;
- 			hdmi_cec_unset_edid(aconnector);
- 			if (aconnector->dc_link->aux_mode) {
- 				drm_dp_cec_unset_edid(&aconnector->dm_dp_aux.aux);
- 			}
- 		} else {
--			const struct edid *edid = (const struct edid *)sink->dc_edid.raw_edid;
--
--			aconnector->drm_edid = drm_edid_alloc(edid, sink->dc_edid.length);
-+			aconnector->drm_edid = drm_edid_dup(sink->drm_edid);
- 			drm_edid_connector_update(connector, aconnector->drm_edid);
- 
- 			hdmi_cec_set_edid(aconnector);
-@@ -7687,12 +7688,8 @@ static void amdgpu_dm_connector_funcs_force(struct drm_connector *connector)
- 	aconnector->drm_edid = drm_edid;
- 	/* Update emulated (virtual) sink's EDID */
- 	if (dc_em_sink && dc_link) {
--		// FIXME: Get rid of drm_edid_raw()
--		const struct edid *edid = drm_edid_raw(drm_edid);
--
- 		memset(&dc_em_sink->edid_caps, 0, sizeof(struct dc_edid_caps));
--		memmove(dc_em_sink->dc_edid.raw_edid, edid,
--			(edid->extensions + 1) * EDID_LENGTH);
-+		dm_helpers_copy_edid_to_dc(dc_em_sink, drm_edid, 0);
- 		dm_helpers_parse_edid_caps(dc_link, dc_em_sink);
- 	}
- }
-@@ -7725,7 +7722,6 @@ static void create_eml_sink(struct amdgpu_dm_connector *aconnector)
- 			.sink_signal = SIGNAL_TYPE_VIRTUAL
- 	};
- 	const struct drm_edid *drm_edid;
--	const struct edid *edid;
- 	struct i2c_adapter *ddc;
- 
- 	if (dc_link && dc_link->aux_mode)
-@@ -7745,12 +7741,9 @@ static void create_eml_sink(struct amdgpu_dm_connector *aconnector)
- 
- 	aconnector->drm_edid = drm_edid;
- 
--	edid = drm_edid_raw(drm_edid); // FIXME: Get rid of drm_edid_raw()
--	aconnector->dc_em_sink = dc_link_add_remote_sink(
--		aconnector->dc_link,
--		(uint8_t *)edid,
--		(edid->extensions + 1) * EDID_LENGTH,
--		&init_params);
-+	aconnector->dc_em_sink = dc_link_add_remote_sink(aconnector->dc_link,
-+							 drm_edid, 0,
-+							 &init_params);
- 
- 	if (aconnector->base.force == DRM_FORCE_ON) {
- 		aconnector->dc_sink = aconnector->dc_link->local_sink ?
-diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_helpers.c b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_helpers.c
-index 419852dfc237..e3f629fb604d 100644
---- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_helpers.c
-+++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_helpers.c
-@@ -102,20 +102,16 @@ enum dc_edid_status dm_helpers_parse_edid_caps(struct dc_link *link,
- 	struct amdgpu_dm_connector *aconnector = link->priv;
- 	struct drm_connector *connector = &aconnector->base;
- 	struct drm_device *dev = connector->dev;
--	struct edid *edid_buf;
--	const struct drm_edid *drm_edid;
-+	const struct drm_edid *drm_edid = sink->drm_edid;
- 	struct drm_edid_product_id product_id;
- 	struct dc_edid_caps *edid_caps = &sink->edid_caps;
- 	int sad_count;
- 	int i = 0;
- 	enum dc_edid_status result = EDID_OK;
- 
--	edid_buf = (struct edid *) &sink->dc_edid.raw_edid;
--	if (!edid_caps || !edid_buf)
-+	if (!edid_caps || !drm_edid)
- 		return EDID_BAD_INPUT;
- 
--	drm_edid = drm_edid_alloc(edid_buf, EDID_LENGTH * (edid_buf->extensions + 1));
--
- 	if (!drm_edid_valid(drm_edid))
- 		result = EDID_BAD_CHECKSUM;
- 
-@@ -138,10 +134,8 @@ enum dc_edid_status dm_helpers_parse_edid_caps(struct dc_link *link,
- 	apply_edid_quirks(dev, drm_edid, edid_caps);
- 
- 	sad_count = drm_eld_sad_count(connector->eld);
--	if (sad_count <= 0) {
--		drm_edid_free(drm_edid);
-+	if (sad_count <= 0)
- 		return result;
--	}
- 
- 	edid_caps->audio_mode_count = min(sad_count, DC_MAX_AUDIO_DESC_COUNT);
- 	for (i = 0; i < edid_caps->audio_mode_count; ++i) {
-@@ -161,8 +155,6 @@ enum dc_edid_status dm_helpers_parse_edid_caps(struct dc_link *link,
- 	else
- 		edid_caps->speaker_flags = DEFAULT_SPEAKER_LOCATION;
- 
--	drm_edid_free(drm_edid);
--
- 	return result;
- }
- 
-@@ -986,25 +978,31 @@ dm_helpers_read_acpi_edid(struct amdgpu_dm_connector *aconnector)
- bool dm_helpers_is_same_edid(struct dc_sink *prev_sink,
- 			     struct dc_sink *current_sink)
- {
--	struct dc_edid *old_edid = &prev_sink->dc_edid;
--	struct dc_edid *new_edid = &current_sink->dc_edid;
--
--       if (old_edid->length != new_edid->length)
--               return false;
--
--       if (new_edid->length == 0)
--               return false;
--
--       return (memcmp(old_edid->raw_edid,
--                      new_edid->raw_edid, new_edid->length) == 0);
-+	return drm_edid_eq(prev_sink->drm_edid, current_sink->drm_edid);
- }
- 
- void dm_helpers_copy_edid_to_dc(struct dc_sink *dc_sink,
- 				const void *edid,
- 				int len)
- {
--	memmove(dc_sink->dc_edid.raw_edid, edid, len);
--	dc_sink->dc_edid.length = len;
-+	dc_sink->drm_edid = drm_edid_dup((const struct drm_edid *) edid);
-+}
-+
-+void dm_helpers_copy_edid_to_sink(struct dc_sink *sink)
-+{
-+	const struct edid *edid;
-+
-+	edid = drm_edid_raw(sink->drm_edid); // FIXME: Get rid of drm_edid_raw()
-+	if (!edid ||
-+	    edid->extensions >= sizeof(sink->dc_edid.raw_edid) / EDID_LENGTH) {
-+		memset(sink->dc_edid.raw_edid, 0, sizeof(sink->dc_edid.raw_edid));
-+		sink->dc_edid.length = 0;
-+		return;
-+	}
-+
-+	sink->dc_edid.length = EDID_LENGTH * (edid->extensions + 1);
-+	memcpy(sink->dc_edid.raw_edid, (uint8_t *) edid,
-+	       sink->dc_edid.length);
- }
- 
- void dm_helpers_sink_edid_free(struct dc_sink *sink)
-@@ -1023,7 +1021,6 @@ enum dc_edid_status dm_helpers_read_local_edid(
- 	int retry = 3;
- 	enum dc_edid_status edid_status;
- 	const struct drm_edid *drm_edid;
--	const struct edid *edid;
- 
- 	if (link->aux_mode)
- 		ddc = &aconnector->dm_dp_aux.aux.ddc;
-@@ -1034,6 +1031,8 @@ enum dc_edid_status dm_helpers_read_local_edid(
- 	 * do check sum and retry to make sure read correct edid.
- 	 */
- 	do {
-+		drm_edid_free(sink->drm_edid);
-+
- 		drm_edid = dm_helpers_read_acpi_edid(aconnector);
- 		if (drm_edid)
- 			drm_info(connector->dev, "Using ACPI provided EDID for %s\n", connector->name);
-@@ -1053,16 +1052,7 @@ enum dc_edid_status dm_helpers_read_local_edid(
- 		if (!drm_edid)
- 			return EDID_NO_RESPONSE;
- 
--		edid = drm_edid_raw(drm_edid); // FIXME: Get rid of drm_edid_raw()
--		if (!edid ||
--		    edid->extensions >= sizeof(sink->dc_edid.raw_edid) / EDID_LENGTH)
--			return EDID_BAD_INPUT;
--
--		sink->dc_edid.length = EDID_LENGTH * (edid->extensions + 1);
--		memmove(sink->dc_edid.raw_edid, (uint8_t *)edid, sink->dc_edid.length);
--
--		/* We don't need the original edid anymore */
--		drm_edid_free(drm_edid);
-+		sink->drm_edid = drm_edid;
- 
- 		edid_status = dm_helpers_parse_edid_caps(link, sink);
- 
-@@ -1087,6 +1077,8 @@ enum dc_edid_status dm_helpers_read_local_edid(
- 
- 		test_response.bits.EDID_CHECKSUM_WRITE = 1;
- 
-+		// TODO: drm_edid doesn't have a helper for dp_write_dpcd yet
-+		dm_helpers_copy_edid_to_sink(sink);
- 		dm_helpers_dp_write_dpcd(ctx,
- 					link,
- 					DP_TEST_EDID_CHECKSUM,
-diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_mst_types.c b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_mst_types.c
-index 5e92eaa67aa3..73b8e45f8a0e 100644
---- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_mst_types.c
-+++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_mst_types.c
-@@ -388,12 +388,10 @@ static int dm_dp_mst_get_modes(struct drm_connector *connector)
- 					.link = aconnector->dc_link,
- 					.sink_signal = SIGNAL_TYPE_DISPLAY_PORT_MST };
- 
--				dc_sink = dc_link_add_remote_sink(
--					aconnector->dc_link,
--					NULL,
--					0,
--					&init_params);
--
-+				dc_sink = dc_link_add_remote_sink(aconnector->dc_link,
-+								  NULL,
-+								  0,
-+								  &init_params);
- 				if (!dc_sink) {
- 					DRM_ERROR("Unable to add a remote sink\n");
- 					return 0;
-@@ -426,15 +424,10 @@ static int dm_dp_mst_get_modes(struct drm_connector *connector)
- 		struct dc_sink_init_data init_params = {
- 				.link = aconnector->dc_link,
- 				.sink_signal = SIGNAL_TYPE_DISPLAY_PORT_MST };
--		const struct edid *edid;
--
--		edid = drm_edid_raw(aconnector->drm_edid); // FIXME: Get rid of drm_edid_raw()
--		dc_sink = dc_link_add_remote_sink(
--			aconnector->dc_link,
--			(uint8_t *)edid,
--			(edid->extensions + 1) * EDID_LENGTH,
--			&init_params);
- 
-+		dc_sink = dc_link_add_remote_sink(aconnector->dc_link,
-+						  aconnector->drm_edid, 0,
-+						  &init_params);
- 		if (!dc_sink) {
- 			DRM_ERROR("Unable to add a remote sink\n");
- 			return 0;
-diff --git a/drivers/gpu/drm/amd/display/dc/dm_helpers.h b/drivers/gpu/drm/amd/display/dc/dm_helpers.h
-index e23204fdd3f5..0e7c67af1e2d 100644
---- a/drivers/gpu/drm/amd/display/dc/dm_helpers.h
-+++ b/drivers/gpu/drm/amd/display/dc/dm_helpers.h
-@@ -67,7 +67,7 @@ bool dm_helpers_is_same_edid(struct dc_sink *prev_sink,
- 			     struct dc_sink *current_sink);
- void dm_helpers_copy_edid_to_dc(struct dc_sink *dc_sink,
- 				const void *edid, int len);
--
-+void dm_helpers_copy_edid_to_sink(struct dc_sink *sink);
- void dm_helpers_sink_edid_free(struct dc_sink *sink);
- 
- /*
-diff --git a/drivers/gpu/drm/amd/display/dc/link/link_detection.c b/drivers/gpu/drm/amd/display/dc/link/link_detection.c
-index 2ab1f28d0d19..ffa98f7e9729 100644
---- a/drivers/gpu/drm/amd/display/dc/link/link_detection.c
-+++ b/drivers/gpu/drm/amd/display/dc/link/link_detection.c
-@@ -1253,6 +1253,7 @@ static bool detect_link_and_local_sink(struct dc_link *link,
- 			dp_trace_init(link);
- 
- 		/* Connectivity log: detection */
-+		dm_helpers_copy_edid_to_sink(sink);
- 		for (i = 0; i < sink->dc_edid.length / DC_EDID_BLOCK_SIZE; i++) {
- 			CONN_DATA_DETECT(link,
- 					 &sink->dc_edid.raw_edid[i * DC_EDID_BLOCK_SIZE],
-@@ -1568,7 +1569,7 @@ struct dc_sink *link_add_remote_sink(
- 	 * parsing fails
- 	 */
- 	if (edid_status != EDID_OK && edid_status != EDID_PARTIAL_VALID) {
--		dc_sink->dc_edid.length = 0;
-+		dm_helpers_sink_edid_free(dc_sink);
- 		dm_error("Bad EDID, status%d!\n", edid_status);
- 	}
- 
--- 
-2.51.0
-
+[1/1] drm/edid: add 6 bpc quirk to the Sharp LQ116M1JW10
+      commit: f23e40e378a0858da26e8d5a6f09f82ecd95e247
