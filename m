@@ -2,62 +2,134 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9CFDFC3A7BC
-	for <lists+dri-devel@lfdr.de>; Thu, 06 Nov 2025 12:13:43 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id C2699C3A853
+	for <lists+dri-devel@lfdr.de>; Thu, 06 Nov 2025 12:21:57 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id F155810E8A2;
-	Thu,  6 Nov 2025 11:13:40 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 95FD810E899;
+	Thu,  6 Nov 2025 11:21:54 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=collabora.com header.i=daniel.almeida@collabora.com header.b="X3NL/ffl";
+	dkim=pass (1024-bit key; unprotected) header.d=suse.de header.i=@suse.de header.b="mCWdfpw9";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="7KsETbu6";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="mCWdfpw9";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="7KsETbu6";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sender4-pp-f112.zoho.com (sender4-pp-f112.zoho.com
- [136.143.188.112])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C6A0910E899;
- Thu,  6 Nov 2025 11:13:38 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; t=1762427615; cv=none; 
- d=zohomail.com; s=zohoarc; 
- b=adOuD/ALVCrL7wrmQE63YI+Z8moce5XJHZP71B/ipg+bONa6330uYvStzkTtc0wWefW7+NceyH+9P+3ZBiKKILypNuP65+IEjGIC3pXs5YJ76Th8jnHi+VZh8O2o9sxjIy0bFHI73eicJbcg8uCaU8mDJRClNFJXlr/JtKLhCm8=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
- s=zohoarc; t=1762427615;
- h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To;
- bh=IN3FkxPf/HVRB03kCeAWIKsVrYJYY3FKuwGDMNd46Ps=; 
- b=YF2mNkX2qS1OODcTyEfMuPHaTYFbvglMu3GmyHUV9OyqcZ7VP4yDoleKWGgMl11Y6Ow1F/bOzrvD69rllj3vsgRqQIZQsaH8fu4QzsEb51l/ehRbkYDg6ExHr+lAXUXPReNTjyDB7BfGpYTeKN4MJ9/32D1ZPnbOt8RUZzSfvu0=
-ARC-Authentication-Results: i=1; mx.zohomail.com;
- dkim=pass  header.i=collabora.com;
- spf=pass  smtp.mailfrom=daniel.almeida@collabora.com;
- dmarc=pass header.from=<daniel.almeida@collabora.com>
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1762427615; 
- s=zohomail; d=collabora.com; i=daniel.almeida@collabora.com;
- h=Content-Type:Mime-Version:Subject:Subject:From:From:In-Reply-To:Date:Date:Cc:Cc:Content-Transfer-Encoding:Message-Id:Message-Id:References:To:To:Reply-To;
- bh=IN3FkxPf/HVRB03kCeAWIKsVrYJYY3FKuwGDMNd46Ps=;
- b=X3NL/fflZQf/781C0cwHGOOQ+XqJRedVEuQB8yLT43K8IJzHuUaOY0DbQV1zuA5e
- 5wy2vdEayfMP2v6d1nDjtEp8aBkJ7wmwz6TfpgHIIS/uqMABE2jriVr+qBby1p6sztp
- GDMvMFfKD1rPeVHmoGGHCqRHNSv7ZE0+QlbfENdk=
-Received: by mx.zohomail.com with SMTPS id 1762427613049477.1183157802411;
- Thu, 6 Nov 2025 03:13:33 -0800 (PST)
-Content-Type: text/plain;
-	charset=utf-8
-Mime-Version: 1.0 (Mac OS X Mail 16.0 \(3826.700.81\))
-Subject: Re: [PATCH i-g-t v3 3/3] tests/panthor: add panthor tests
-From: Daniel Almeida <daniel.almeida@collabora.com>
-In-Reply-To: <20251104220412.24b4b454@fedora>
-Date: Thu, 6 Nov 2025 08:13:14 -0300
-Cc: adrinael@adrinael.net, arek@hiler.eu, kamil.konieczny@linux.intel.com,
- juhapekka.heikkila@gmail.com, bhanuprakash.modem@gmail.com,
- ashutosh.dixit@intel.com, karthik.b.s@intel.com, liviu.dudau@arm.com,
- steven.price@arm.com, aliceryhl@google.com, jeffv@google.com,
- intel-gfx@lists.freedesktop.org, igt-dev@lists.freedesktop.org,
- dri-devel@lists.freedesktop.org
-Content-Transfer-Encoding: quoted-printable
-Message-Id: <F3A3F344-2406-41E4-906E-481A4A56AC1A@collabora.com>
-References: <20251104202845.2879460-1-daniel.almeida@collabora.com>
- <20251104202845.2879460-4-daniel.almeida@collabora.com>
- <20251104220412.24b4b454@fedora>
-To: Boris Brezillon <boris.brezillon@collabora.com>
-X-Mailer: Apple Mail (2.3826.700.81)
-X-ZohoMailClient: External
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1A2E910E899
+ for <dri-devel@lists.freedesktop.org>; Thu,  6 Nov 2025 11:21:53 +0000 (UTC)
+Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested)
+ by smtp-out1.suse.de (Postfix) with ESMTPS id A9D1921167;
+ Thu,  6 Nov 2025 11:21:51 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1762428111; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=nCLK0JACbHXLigZ6nEKG/UmaSG0t7b0G4wJCqcJWWgk=;
+ b=mCWdfpw9DA3hCNy+BA8Ui0AIHY6ZGnqtBhiXBl+JJSjcfUjkpaG3VOGk/LPkXW9u3nUamJ
+ 1HlTPmkXnAuFN+ggvyXMeC6p4auJzw94AVNToeQYWZ5JfTvXQwxnt2pVQO+wRGHGmnqEM7
+ hYqfWyx5qNzgHPUCqenZ8BLi8QzPLl0=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1762428111;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=nCLK0JACbHXLigZ6nEKG/UmaSG0t7b0G4wJCqcJWWgk=;
+ b=7KsETbu618Q3ZjcGUS8hMbQYWNZtrJVYtrk/XEchP3aCBCHw67E/u7nm0nDjLj/BhPbaoH
+ KpRypsBpmu7hZGDg==
+Authentication-Results: smtp-out1.suse.de;
+	none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1762428111; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=nCLK0JACbHXLigZ6nEKG/UmaSG0t7b0G4wJCqcJWWgk=;
+ b=mCWdfpw9DA3hCNy+BA8Ui0AIHY6ZGnqtBhiXBl+JJSjcfUjkpaG3VOGk/LPkXW9u3nUamJ
+ 1HlTPmkXnAuFN+ggvyXMeC6p4auJzw94AVNToeQYWZ5JfTvXQwxnt2pVQO+wRGHGmnqEM7
+ hYqfWyx5qNzgHPUCqenZ8BLi8QzPLl0=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1762428111;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=nCLK0JACbHXLigZ6nEKG/UmaSG0t7b0G4wJCqcJWWgk=;
+ b=7KsETbu618Q3ZjcGUS8hMbQYWNZtrJVYtrk/XEchP3aCBCHw67E/u7nm0nDjLj/BhPbaoH
+ KpRypsBpmu7hZGDg==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested)
+ by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 6252C139A9;
+ Thu,  6 Nov 2025 11:21:51 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+ by imap1.dmz-prg2.suse.org with ESMTPSA id gxNeFs+EDGkbCQAAD6G6ig
+ (envelope-from <tzimmermann@suse.de>); Thu, 06 Nov 2025 11:21:51 +0000
+Message-ID: <d5d39307-cbdf-437c-9d74-dbaf1cc45d24@suse.de>
+Date: Thu, 6 Nov 2025 12:21:50 +0100
+MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 RESEND] drm/udl: Increase GET_URB_TIMEOUT
+To: oushixiong1025@163.com, Dave Airlie <airlied@redhat.com>
+Cc: Sean Paul <sean@poorly.run>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, David Airlie <airlied@gmail.com>,
+ Simona Vetter <simona@ffwll.ch>, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, Shixiong Ou <oushixiong@kylinos.cn>
+References: <20251106103556.111503-1-oushixiong1025@163.com>
+Content-Language: en-US
+From: Thomas Zimmermann <tzimmermann@suse.de>
+Autocrypt: addr=tzimmermann@suse.de; keydata=
+ xsBNBFs50uABCADEHPidWt974CaxBVbrIBwqcq/WURinJ3+2WlIrKWspiP83vfZKaXhFYsdg
+ XH47fDVbPPj+d6tQrw5lPQCyqjwrCPYnq3WlIBnGPJ4/jreTL6V+qfKRDlGLWFjZcsrPJGE0
+ BeB5BbqP5erN1qylK9i3gPoQjXGhpBpQYwRrEyQyjuvk+Ev0K1Jc5tVDeJAuau3TGNgah4Yc
+ hdHm3bkPjz9EErV85RwvImQ1dptvx6s7xzwXTgGAsaYZsL8WCwDaTuqFa1d1jjlaxg6+tZsB
+ 9GluwvIhSezPgnEmimZDkGnZRRSFiGP8yjqTjjWuf0bSj5rUnTGiyLyRZRNGcXmu6hjlABEB
+ AAHNJ1Rob21hcyBaaW1tZXJtYW5uIDx0emltbWVybWFubkBzdXNlLmRlPsLAjgQTAQgAOAIb
+ AwULCQgHAgYVCgkICwIEFgIDAQIeAQIXgBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftODH
+ AAoJEGgNwR1TC3ojx1wH/0hKGWugiqDgLNXLRD/4TfHBEKmxIrmfu9Z5t7vwUKfwhFL6hqvo
+ lXPJJKQpQ2z8+X2vZm/slsLn7J1yjrOsoJhKABDi+3QWWSGkaGwRJAdPVVyJMfJRNNNIKwVb
+ U6B1BkX2XDKDGffF4TxlOpSQzdtNI/9gleOoUA8+jy8knnDYzjBNOZqLG2FuTdicBXblz0Mf
+ vg41gd9kCwYXDnD91rJU8tzylXv03E75NCaTxTM+FBXPmsAVYQ4GYhhgFt8S2UWMoaaABLDe
+ 7l5FdnLdDEcbmd8uLU2CaG4W2cLrUaI4jz2XbkcPQkqTQ3EB67hYkjiEE6Zy3ggOitiQGcqp
+ j//OwE0EWznS4AEIAMYmP4M/V+T5RY5at/g7rUdNsLhWv1APYrh9RQefODYHrNRHUE9eosYb
+ T6XMryR9hT8XlGOYRwKWwiQBoWSDiTMo/Xi29jUnn4BXfI2px2DTXwc22LKtLAgTRjP+qbU6
+ 3Y0xnQN29UGDbYgyyK51DW3H0If2a3JNsheAAK+Xc9baj0LGIc8T9uiEWHBnCH+RdhgATnWW
+ GKdDegUR5BkDfDg5O/FISymJBHx2Dyoklv5g4BzkgqTqwmaYzsl8UxZKvbaxq0zbehDda8lv
+ hFXodNFMAgTLJlLuDYOGLK2AwbrS3Sp0AEbkpdJBb44qVlGm5bApZouHeJ/+n+7r12+lqdsA
+ EQEAAcLAdgQYAQgAIAIbDBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftOH6AAoJEGgNwR1T
+ C3ojVSkIALpAPkIJPQoURPb1VWjh34l0HlglmYHvZszJWTXYwavHR8+k6Baa6H7ufXNQtThR
+ yIxJrQLW6rV5lm7TjhffEhxVCn37+cg0zZ3j7zIsSS0rx/aMwi6VhFJA5hfn3T0TtrijKP4A
+ SAQO9xD1Zk9/61JWk8OysuIh7MXkl0fxbRKWE93XeQBhIJHQfnc+YBLprdnxR446Sh8Wn/2D
+ Ya8cavuWf2zrB6cZurs048xe0UbSW5AOSo4V9M0jzYI4nZqTmPxYyXbm30Kvmz0rYVRaitYJ
+ 4kyYYMhuULvrJDMjZRvaNe52tkKAvMevcGdt38H4KSVXAylqyQOW5zvPc4/sq9c=
+In-Reply-To: <20251106103556.111503-1-oushixiong1025@163.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Spam-Level: 
+X-Spamd-Result: default: False [-4.30 / 50.00]; BAYES_HAM(-3.00)[100.00%];
+ NEURAL_HAM_LONG(-1.00)[-1.000];
+ NEURAL_HAM_SHORT(-0.20)[-1.000]; MIME_GOOD(-0.10)[text/plain];
+ RCVD_TLS_ALL(0.00)[]; FUZZY_RATELIMITED(0.00)[rspamd.com];
+ FREEMAIL_ENVRCPT(0.00)[163.com,gmail.com];
+ RCVD_VIA_SMTP_AUTH(0.00)[]; ARC_NA(0.00)[]; TO_DN_SOME(0.00)[];
+ MIME_TRACE(0.00)[0:+]; FREEMAIL_TO(0.00)[163.com,redhat.com];
+ MID_RHS_MATCH_FROM(0.00)[];
+ DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+ FROM_HAS_DN(0.00)[];
+ FREEMAIL_CC(0.00)[poorly.run,linux.intel.com,kernel.org,gmail.com,ffwll.ch,lists.freedesktop.org,vger.kernel.org,kylinos.cn];
+ RCPT_COUNT_SEVEN(0.00)[10]; FROM_EQ_ENVFROM(0.00)[];
+ TO_MATCH_ENVRCPT_ALL(0.00)[]; RCVD_COUNT_TWO(0.00)[2];
+ DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:email, suse.de:mid, suse.com:url,
+ imap1.dmz-prg2.suse.org:helo]
+X-Spam-Flag: NO
+X-Spam-Score: -4.30
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -73,59 +145,75 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Kamil,=20
 
-> On 4 Nov 2025, at 18:04, Boris Brezillon =
-<boris.brezillon@collabora.com> wrote:
->=20
-> On Tue,  4 Nov 2025 17:28:43 -0300
-> Daniel Almeida <daniel.almeida@collabora.com> wrote:
->=20
->> +igt_main {
->> + int fd;
->> +
->> + igt_fixture {
->> + fd =3D drm_open_driver(DRIVER_PANTHOR);
->> + }
->> +
->> + igt_describe("Create and destroy a CSF group.");
->> + igt_subtest("group_create") {
->> + struct drm_panthor_vm_create vm_create =3D {};
->> + struct drm_panthor_vm_destroy vm_destroy =3D {};
->> + uint32_t group_handle;
->> +
->> + vm_create.flags =3D 0;
->> + do_ioctl(fd, DRM_IOCTL_PANTHOR_VM_CREATE, &vm_create);
->> + igt_assert_neq(vm_create.id, 0);
->> +
->> + group_handle =3D igt_panthor_group_create_simple(fd, vm_create.id, =
-0);
->> + igt_assert_neq(group_handle, 0);
->> +
->> + igt_panthor_group_destroy(fd, group_handle, 0);
->> +
->> + vm_destroy =3D (struct drm_panthor_vm_destroy) { .id =3D =
-vm_create.id };
->> + do_ioctl(fd, DRM_IOCTL_PANTHOR_VM_DESTROY, &vm_destroy);
->> + }
->> +
->> + igt_describe("Submit a job to a group and wait for completion. "
->> + "The job writes a known value to a buffer object that is then "
->> + "mmaped and checked.");
->=20
-> nit: indentation is off ^
->=20
-> igt_describe("Submit a job to a group and wait for completion. "
->     "The job writes a known value to a buffer object that is then "
->     "mmaped and checked.");
 
-What should I do here?
+Am 06.11.25 um 11:35 schrieb oushixiong1025@163.com:
+> From: Shixiong Ou <oushixiong@kylinos.cn>
+>
+> [WHY]
+> A situation has occurred where udl_handle_damage() executed successfully
+> and the kernel log appears normal, but the display fails to show any output.
+> This is because the call to udl_get_urb() in udl_crtc_helper_atomic_enable()
+> failed without generating any error message.
+>
+> [HOW]
+> 1. Increase GET_URB_TIMEOUT.
+> 2. Add error messages when calling udl_get_urb() failed in
+> udl_crtc_helper_atomic_enable().
+>
+> Signed-off-by: Shixiong Ou <oushixiong@kylinos.cn>
 
-Usually sending new versions so soon would be confusing. Given it's a =
-trivial
-fix, can you do it while applying? If not, should I wait a few days so =
-that
-this collects a few more tags?
+Reviewed-by: Thomas Zimmermann <tzimmermann@suse.de>
 
-=E2=80=94 Daniel
+> ---
+>   drivers/gpu/drm/udl/udl_main.c    | 2 +-
+>   drivers/gpu/drm/udl/udl_modeset.c | 5 ++++-
+>   2 files changed, 5 insertions(+), 2 deletions(-)
+>
+> diff --git a/drivers/gpu/drm/udl/udl_main.c b/drivers/gpu/drm/udl/udl_main.c
+> index bc58991a6f14..dd9576fd4ff0 100644
+> --- a/drivers/gpu/drm/udl/udl_main.c
+> +++ b/drivers/gpu/drm/udl/udl_main.c
+> @@ -285,7 +285,7 @@ static struct urb *udl_get_urb_locked(struct udl_device *udl, long timeout)
+>   	return unode->urb;
+>   }
+>   
+> -#define GET_URB_TIMEOUT	HZ
+> +#define GET_URB_TIMEOUT	(HZ * 2)
+>   struct urb *udl_get_urb(struct udl_device *udl)
+>   {
+>   	struct urb *urb;
+> diff --git a/drivers/gpu/drm/udl/udl_modeset.c b/drivers/gpu/drm/udl/udl_modeset.c
+> index 231e829bd709..2df5bd291b0a 100644
+> --- a/drivers/gpu/drm/udl/udl_modeset.c
+> +++ b/drivers/gpu/drm/udl/udl_modeset.c
+> @@ -21,6 +21,7 @@
+>   #include <drm/drm_gem_framebuffer_helper.h>
+>   #include <drm/drm_gem_shmem_helper.h>
+>   #include <drm/drm_modeset_helper_vtables.h>
+> +#include <drm/drm_print.h>
+>   #include <drm/drm_probe_helper.h>
+>   #include <drm/drm_vblank.h>
+>   
+> @@ -342,8 +343,10 @@ static void udl_crtc_helper_atomic_enable(struct drm_crtc *crtc, struct drm_atom
+>   		return;
+>   
+>   	urb = udl_get_urb(udl);
+> -	if (!urb)
+> +	if (!urb) {
+> +		drm_err_ratelimited(dev, "Get urb failed when enabling crtc\n");
+>   		goto out;
+> +	}
+>   
+>   	buf = (char *)urb->transfer_buffer;
+>   	buf = udl_vidreg_lock(buf);
+
+-- 
+--
+Thomas Zimmermann
+Graphics Driver Developer
+SUSE Software Solutions Germany GmbH
+Frankenstr. 146, 90461 Nürnberg, Germany, www.suse.com
+GF: Jochen Jaser, Andrew McDonald, Werner Knoblich, (HRB 36809, AG Nürnberg)
+
 
