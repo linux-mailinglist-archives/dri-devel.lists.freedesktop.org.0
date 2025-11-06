@@ -2,50 +2,52 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id BB126C3BD99
-	for <lists+dri-devel@lfdr.de>; Thu, 06 Nov 2025 15:47:18 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id AE8A8C3BE92
+	for <lists+dri-devel@lfdr.de>; Thu, 06 Nov 2025 15:58:08 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 718D810E927;
-	Thu,  6 Nov 2025 14:47:11 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DEA7710E914;
+	Thu,  6 Nov 2025 14:58:05 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="BEjW82N2";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="S0cxmtmR";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from bali.collaboradmins.com (bali.collaboradmins.com
- [148.251.105.195])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 81EE410E90E
- for <dri-devel@lists.freedesktop.org>; Thu,  6 Nov 2025 14:47:10 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1762440429;
- bh=YODmaT0UcferATflyXEOJmULOHgTUZmwflRFnBOixo4=;
- h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=BEjW82N2sJk72UomA+euOAPFm44tScRGEyIQG7RluGL5HIhjMlqNqbDqLExQUX0ku
- GybSVZyYnQTqQaF64wYjxNN4AhnzSpX99QyDzWrSCWV8imUzWz150cBMZUn2MggkWn
- YeOhwK04xMQE29xa+6kGZoCfEVZ+Y+PCwukwcTVv/3DNL2VETBv2/MVakwFzGgcCoP
- /gv95utg9yiEUDgB4WWQGj/fpVlW1JqN4TgzPusfaqbUj/jygS3S1v5ODiJ+12AUIC
- gSpqXUD0tirNFckTnM6eRh0vNeRLFeg/jIU06BAus+04eCZxwPUDr19fVWRmnQZAql
- akYGewUhzkFfQ==
-Received: from fedora (unknown [IPv6:2a01:e0a:2c:6930:a2a7:f53:ebb0:945e])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested) (Authenticated sender: bbrezillon)
- by bali.collaboradmins.com (Postfix) with ESMTPSA id DC25D17E0CA1;
- Thu,  6 Nov 2025 15:47:08 +0100 (CET)
-From: Boris Brezillon <boris.brezillon@collabora.com>
-To: Boris Brezillon <boris.brezillon@collabora.com>,
- Steven Price <steven.price@arm.com>, Liviu Dudau <liviu.dudau@arm.com>,
- =?UTF-8?q?Adri=C3=A1n=20Larumbe?= <adrian.larumbe@collabora.com>
-Cc: dri-devel@lists.freedesktop.org, Florent Tomasin <florent.tomasin@arm.com>,
- Heinrich Fink <hfink@snap.com>, kernel@collabora.com
-Subject: [PATCH v1 8/8] drm/panthor: Kill panthor_sched_immediate_tick()
-Date: Thu,  6 Nov 2025 15:46:56 +0100
-Message-ID: <20251106144656.1012274-9-boris.brezillon@collabora.com>
-X-Mailer: git-send-email 2.51.1
-In-Reply-To: <20251106144656.1012274-1-boris.brezillon@collabora.com>
-References: <20251106144656.1012274-1-boris.brezillon@collabora.com>
+Received: from sea.source.kernel.org (sea.source.kernel.org [172.234.252.31])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B7BAC10E908;
+ Thu,  6 Nov 2025 14:58:04 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by sea.source.kernel.org (Postfix) with ESMTP id 33DF44165A;
+ Thu,  6 Nov 2025 14:58:04 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A6199C4CEF7;
+ Thu,  6 Nov 2025 14:58:03 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1762441084;
+ bh=3MzzI7eda1HcBKQQLuDs92NFebxA65nvy9xo/gSXejE=;
+ h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+ b=S0cxmtmRiyLuJnpNgUqFMrYRYHP/Sn3IgwSPXA8zVNJ27uJVauSMUd3DujH71CqqQ
+ FT3LlbX89aDaiTBvzk0ucsearN8iQvLDJgZTogLtm+FBd8IYX5rCKzq4ogBK+t57eN
+ 0/JFB7NXK0SKQs3mkT+qRI4K5VsW/vx0SxLbc3wkUor4L3aBB/ASw4HbPgFa94ssjB
+ Q3RsecprggSAaQMRQJju9/TzV/dUo6iOfjP+8JJQnluWV4LzUqcanJ7oibMmd5fhxN
+ CTn/6n/TfbDuTjs8i2OUjKFRf4x504KwZwRe4fXlpH241YkgORAn0vKMM1ZBVrkkvg
+ CYEtvZSJUynWA==
+Date: Thu, 6 Nov 2025 06:58:02 -0800
+From: Jakub Kicinski <kuba@kernel.org>
+To: Rodrigo Vivi <rodrigo.vivi@intel.com>
+Cc: <dri-devel@lists.freedesktop.org>, <intel-xe@lists.freedesktop.org>,
+ "Zack McKevitt" <zachary.mckevitt@oss.qualcomm.com>, Lukas Wunner
+ <lukas@wunner.de>, Lijo Lazar <lijo.lazar@amd.com>, Hawking Zhang
+ <Hawking.Zhang@amd.com>, Aravind Iddamsetty
+ <aravind.iddamsetty@linux.intel.com>
+Subject: Re: [PATCH 1/2] drm/ras: Introduce the DRM RAS infrastructure over
+ generic netlink
+Message-ID: <20251106065802.76d8ac77@kernel.org>
+In-Reply-To: <aQyi_VL5AzzXsYtT@intel.com>
+References: <20250929214415.326414-4-rodrigo.vivi@intel.com>
+ <20250929214415.326414-5-rodrigo.vivi@intel.com>
+ <20251030183254.10d64ee1@kernel.org> <aQyi_VL5AzzXsYtT@intel.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -61,49 +63,30 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-It's only used in a couple places and everyone else is just using
-sched_queue_delayed_work(sched, tick, 0) directly, so let's make
-this consistent.
+On Thu, 6 Nov 2025 08:30:37 -0500 Rodrigo Vivi wrote:
+> > If you're using Fedora or another good distro ynl CLI is packaged (for
+> > Fedora in kernel-tools). The in-tree syntax is a bit verbose.  
+> 
+> I didn't know this tool was getting package with the kernel-tools
+> I thought it was only helping for debug during the development.
+> 
+> Now I'm even wondering if we really need to code a user-space tool
+> for this drm-ras, or simply recommending the kernel-tools/ynl as
+> the official consumer of this API.
 
-Signed-off-by: Boris Brezillon <boris.brezillon@collabora.com>
----
- drivers/gpu/drm/panthor/panthor_sched.c | 11 ++---------
- 1 file changed, 2 insertions(+), 9 deletions(-)
+Right, depends on the intended use of the API. In many cases,
+especially for configuration interfaces we no longer write separate 
+CLI tools. But for certain things typing in the JSON gets a bit
+tedious, and other cases need some sort of summarization if the kernel
+output is too verbose. So YMMV.
 
-diff --git a/drivers/gpu/drm/panthor/panthor_sched.c b/drivers/gpu/drm/panthor/panthor_sched.c
-index 923816397751..6b8428ca8145 100644
---- a/drivers/gpu/drm/panthor/panthor_sched.c
-+++ b/drivers/gpu/drm/panthor/panthor_sched.c
-@@ -2668,13 +2668,6 @@ static void panthor_group_start(struct panthor_group *group)
- 	group_put(group);
- }
- 
--static void panthor_sched_immediate_tick(struct panthor_device *ptdev)
--{
--	struct panthor_scheduler *sched = ptdev->scheduler;
--
--	sched_queue_delayed_work(sched, tick, 0);
--}
--
- /**
-  * panthor_sched_report_mmu_fault() - Report MMU faults to the scheduler.
-  */
-@@ -2682,13 +2675,13 @@ void panthor_sched_report_mmu_fault(struct panthor_device *ptdev)
- {
- 	/* Force a tick to immediately kill faulty groups. */
- 	if (ptdev->scheduler)
--		panthor_sched_immediate_tick(ptdev);
-+		sched_queue_delayed_work(ptdev->scheduler, tick, 0);
- }
- 
- void panthor_sched_resume(struct panthor_device *ptdev)
- {
- 	/* Force a tick to re-evaluate after a resume. */
--	panthor_sched_immediate_tick(ptdev);
-+	sched_queue_delayed_work(ptdev->scheduler, tick, 0);
- }
- 
- void panthor_sched_suspend(struct panthor_device *ptdev)
--- 
-2.51.1
+> > Separate handling of -EMSGSIZE and returning skb->len is not necessary
+> > as of a few releases ago. Just return ret; core will do the right thing
+> > if ret == -EMSGSIZE and skb->len != 0  
+> 
+> Any good modern example that I could get the right inspiration from?
 
+It's a moving target but:
+
+net/core/netdev-genl.c
+net/psp/psp_nl.c
