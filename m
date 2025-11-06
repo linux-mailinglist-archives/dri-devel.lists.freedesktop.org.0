@@ -2,52 +2,53 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 04CB6C3A1C4
-	for <lists+dri-devel@lfdr.de>; Thu, 06 Nov 2025 11:11:13 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2993FC3A1C7
+	for <lists+dri-devel@lfdr.de>; Thu, 06 Nov 2025 11:11:14 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C127A10E879;
-	Thu,  6 Nov 2025 10:11:09 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0CBDA10E87A;
+	Thu,  6 Nov 2025 10:11:12 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="VwKj0yJ8";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="YRzpA71u";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9C12610E878
- for <dri-devel@lists.freedesktop.org>; Thu,  6 Nov 2025 10:11:07 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5612A10E879
+ for <dri-devel@lists.freedesktop.org>; Thu,  6 Nov 2025 10:11:09 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1762423868; x=1793959868;
+ t=1762423870; x=1793959870;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=FeKreRzpTf4oUVOJN00C52acwIvKWUx/DaXpk6X5XN8=;
- b=VwKj0yJ8w4v7+w94a4xH2oYZ1lk812qvzwarQTsBbs/LoLdEgTeqmg8X
- HBEkUL78NjlKyA6LLIHrVhJ0bRTDMNgLTNnwz89SsYxTRykYUgs0Cgxoi
- 80PyUXXE/K931drIrOB6QoIGlDvMszl/55T97B0rDbZiJ+YPGVt9rYxrf
- /BnBZE5L02JoJVG3mcQcadp9NLsiZOFmmTc8uCDcAjRJECQY6WPYwzEGR
- ta3oken+Q0KiuYveEeLSDxl8r9CYYMckuqtsb9gbYGo/ObJZcDiBqpUaf
- Hzl3IlkdLkxbuAlKrgmCt4OX6tK5IHjasUbDVespL1k/v7cwqkNWh2Z4z w==;
-X-CSE-ConnectionGUID: 6DOhdLX5TDyAMk2qArQXeQ==
-X-CSE-MsgGUID: EwQ5gjzgQcq7dido1BKLDQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11604"; a="81959757"
-X-IronPort-AV: E=Sophos;i="6.19,284,1754982000"; d="scan'208";a="81959757"
+ bh=tHRgJUV7fw11PCL9ZjuhSLK792/6NscEF0NKWyyp2ek=;
+ b=YRzpA71uQQ/W/1eablEdjI/tQ6/q1/l/wDYNr7G2DyucJS2yzI9UmhKY
+ Pc9+6yQ6LGQ2zhME1JQ0by7vPROdlk5nW5bEnlN9+0hU4QEsIyRaxkkTU
+ OHmcVWRl5zVH4Z+ubRcscbR/06RyMrSfAllyVW/bHeANWVnWFx7TKznNd
+ GCwpUZtA/t+2UEUgr7+sC7t1qSpgDuUiibo/vUtDeYm8QfWVgFTohqzvo
+ qTtnm9feHW0inQ1ecFX+OL/Rb5C/JSyWNx2jnKwozX73p+acDah1MIVX0
+ iVfE3D6XYeubZHlc2dfDGLBWfHlR7lnQ4/wkSY66/oEDzYEcP7wA5A9Q4 A==;
+X-CSE-ConnectionGUID: MWTR7u5TQDW84rL7yFdcMQ==
+X-CSE-MsgGUID: RfJCPE4cSh+jr1jek9xdMA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11604"; a="81959765"
+X-IronPort-AV: E=Sophos;i="6.19,284,1754982000"; d="scan'208";a="81959765"
 Received: from fmviesa003.fm.intel.com ([10.60.135.143])
  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 06 Nov 2025 02:11:08 -0800
-X-CSE-ConnectionGUID: Tvn9hG7QTOqGy+F6WnG1nw==
-X-CSE-MsgGUID: ajSUi699TIio5sSYhx9gmg==
+ 06 Nov 2025 02:11:09 -0800
+X-CSE-ConnectionGUID: Em48tqKYRGqmVqDoZuAT9g==
+X-CSE-MsgGUID: sxn4ftVfR/OSILirmtSOxg==
 X-ExtLoop1: 1
 Received: from pl-npu-pc-kwachow.igk.intel.com ([10.91.220.239])
  by fmviesa003-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 06 Nov 2025 02:11:06 -0800
+ 06 Nov 2025 02:11:07 -0800
 From: Karol Wachowski <karol.wachowski@linux.intel.com>
 To: dri-devel@lists.freedesktop.org
 Cc: oded.gabbay@gmail.com, jeff.hugo@oss.qualcomm.com,
  maciej.falkowski@linux.intel.com, lizhi.hou@amd.com,
  Karol Wachowski <karol.wachowski@linux.intel.com>
-Subject: [PATCH 1/2] accel/ivpu: Add fdinfo support for memory statistics
-Date: Thu,  6 Nov 2025 11:10:51 +0100
-Message-ID: <20251106101052.1050348-2-karol.wachowski@linux.intel.com>
+Subject: [PATCH 2/2] accel/ivpu: Count only resident buffers in memory
+ utilization
+Date: Thu,  6 Nov 2025 11:10:52 +0100
+Message-ID: <20251106101052.1050348-3-karol.wachowski@linux.intel.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20251106101052.1050348-1-karol.wachowski@linux.intel.com>
 References: <20251106101052.1050348-1-karol.wachowski@linux.intel.com>
@@ -68,88 +69,35 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Implement DRM fdinfo interface to expose memory usage statistics
-for NPU device file descriptors. Exclude unpinned and imported
-buffers from resident memory calculations to provide accurate
-memory usage reporting.
+Do not count buffer objects that have no backing pages, including imported
+buffers where pages are set by VM faults triggered by userspace or pinned
+by other drivers. Instead, return information about actual memory used by
+the NPU.
 
+Counting imported buffers results in incorrect calculations when
+the same pages are counted multiple times, giving overly high
+results.
+
+Fixes: 7bfc9fa99580 ("accel/ivpu: Expose NPU memory utilization info in sysfs")
 Signed-off-by: Karol Wachowski <karol.wachowski@linux.intel.com>
 ---
- drivers/accel/ivpu/ivpu_drv.c |  6 ++++++
- drivers/accel/ivpu/ivpu_gem.c | 12 ++++++++++++
- drivers/accel/ivpu/ivpu_gem.h |  5 +++++
- 3 files changed, 23 insertions(+)
+ drivers/accel/ivpu/ivpu_sysfs.c | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
-diff --git a/drivers/accel/ivpu/ivpu_drv.c b/drivers/accel/ivpu/ivpu_drv.c
-index b305effcf003..ce7dbd473059 100644
---- a/drivers/accel/ivpu/ivpu_drv.c
-+++ b/drivers/accel/ivpu/ivpu_drv.c
-@@ -455,6 +455,9 @@ int ivpu_shutdown(struct ivpu_device *vdev)
- static const struct file_operations ivpu_fops = {
- 	.owner		= THIS_MODULE,
- 	DRM_ACCEL_FOPS,
-+#if CONFIG_PROC_FS
-+	.show_fdinfo = drm_show_fdinfo,
-+#endif
- };
+diff --git a/drivers/accel/ivpu/ivpu_sysfs.c b/drivers/accel/ivpu/ivpu_sysfs.c
+index 268ab7744a8b..d250a10caca9 100644
+--- a/drivers/accel/ivpu/ivpu_sysfs.c
++++ b/drivers/accel/ivpu/ivpu_sysfs.c
+@@ -63,7 +63,8 @@ npu_memory_utilization_show(struct device *dev, struct device_attribute *attr, c
  
- static const struct drm_driver driver = {
-@@ -469,6 +472,9 @@ static const struct drm_driver driver = {
- 	.ioctls = ivpu_drm_ioctls,
- 	.num_ioctls = ARRAY_SIZE(ivpu_drm_ioctls),
- 	.fops = &ivpu_fops,
-+#if CONFIG_PROC_FS
-+	.show_fdinfo = drm_show_memory_stats,
-+#endif
+ 	mutex_lock(&vdev->bo_list_lock);
+ 	list_for_each_entry(bo, &vdev->bo_list, bo_list_node)
+-		total_npu_memory += bo->base.base.size;
++		if (ivpu_bo_is_resident(bo))
++			total_npu_memory += ivpu_bo_size(bo);
+ 	mutex_unlock(&vdev->bo_list_lock);
  
- 	.name = DRIVER_NAME,
- 	.desc = DRIVER_DESC,
-diff --git a/drivers/accel/ivpu/ivpu_gem.c b/drivers/accel/ivpu/ivpu_gem.c
-index 03d39615ad37..a460cef4e0a0 100644
---- a/drivers/accel/ivpu/ivpu_gem.c
-+++ b/drivers/accel/ivpu/ivpu_gem.c
-@@ -335,6 +335,17 @@ static void ivpu_gem_bo_free(struct drm_gem_object *obj)
- 	drm_gem_shmem_free(&bo->base);
- }
- 
-+static enum drm_gem_object_status ivpu_gem_status(struct drm_gem_object *obj)
-+{
-+	struct ivpu_bo *bo = to_ivpu_bo(obj);
-+	enum drm_gem_object_status status = 0;
-+
-+	if (ivpu_bo_is_resident(bo))
-+		status |= DRM_GEM_OBJECT_RESIDENT;
-+
-+	return status;
-+}
-+
- static const struct drm_gem_object_funcs ivpu_gem_funcs = {
- 	.free = ivpu_gem_bo_free,
- 	.open = ivpu_gem_bo_open,
-@@ -345,6 +356,7 @@ static const struct drm_gem_object_funcs ivpu_gem_funcs = {
- 	.vmap = drm_gem_shmem_object_vmap,
- 	.vunmap = drm_gem_shmem_object_vunmap,
- 	.mmap = drm_gem_shmem_object_mmap,
-+	.status = ivpu_gem_status,
- 	.vm_ops = &drm_gem_shmem_vm_ops,
- };
- 
-diff --git a/drivers/accel/ivpu/ivpu_gem.h b/drivers/accel/ivpu/ivpu_gem.h
-index 2dcd7eba9cb7..0c3350f22b55 100644
---- a/drivers/accel/ivpu/ivpu_gem.h
-+++ b/drivers/accel/ivpu/ivpu_gem.h
-@@ -82,6 +82,11 @@ static inline bool ivpu_bo_is_read_only(struct ivpu_bo *bo)
- 	return bo->flags & DRM_IVPU_BO_READ_ONLY;
- }
- 
-+static inline bool ivpu_bo_is_resident(struct ivpu_bo *bo)
-+{
-+	return !!bo->base.pages;
-+}
-+
- static inline void *ivpu_to_cpu_addr(struct ivpu_bo *bo, u32 vpu_addr)
- {
- 	if (vpu_addr < bo->vpu_addr)
+ 	return sysfs_emit(buf, "%lld\n", total_npu_memory);
 -- 
 2.43.0
 
