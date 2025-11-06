@@ -2,159 +2,63 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C63BAC3AD7A
-	for <lists+dri-devel@lfdr.de>; Thu, 06 Nov 2025 13:17:17 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 601C4C3AEAC
+	for <lists+dri-devel@lfdr.de>; Thu, 06 Nov 2025 13:41:50 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A0B0410E14A;
-	Thu,  6 Nov 2025 12:17:14 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 692E010E077;
+	Thu,  6 Nov 2025 12:41:47 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="gDQV/Edl";
-	dkim=pass (2048-bit key; unprotected) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="Xqos2jtK";
+	dkim=pass (1024-bit key; unprotected) header.d=rong.moe header.i=i@rong.moe header.b="QfGAbc/q";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
- [205.220.180.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id AB2A410E8A8
- for <dri-devel@lists.freedesktop.org>; Thu,  6 Nov 2025 12:17:13 +0000 (UTC)
-Received: from pps.filterd (m0279872.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id
- 5A68k3QQ3384604
- for <dri-devel@lists.freedesktop.org>; Thu, 6 Nov 2025 12:17:12 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
- cc:content-type:date:from:in-reply-to:message-id:mime-version
- :references:subject:to; s=qcppdkim1; bh=gNvmCJ0hrdNJ/9zdjaCrkfGY
- VdoeuP9Y/SBDObi2LCM=; b=gDQV/Edl2ZgDxe6dhgFYWDLZG28wb5c1VGrHAh+R
- 1PC7QB7edlWtyn+Xu9Ifd/eFaBRVue653TzMdWcCNCoyBcBkokdy8lvWjEoSshGf
- D/mVJkcKdaPbF2dDOc9zc4cpzXCOsICzMq9/CzkIVkzLV+r+z/UIzNfYF+l5Z35S
- FSAHA2tcw1SpdjqNWeK2IEvnsksy8Zmuzz4CDgjhI/IQ7X54rKJncJkTfe9Qt8NH
- ZOo7EId1Z4l7AWaN2+hzRyBnENv6jbkwTcelMRkJB83a2QDVlE83kT1vR7r9dugJ
- /TJGXVqm0WfBaGkeP3vQ7WYLhucX6u/Is1OJoed1UNBezQ==
-Received: from mail-pl1-f198.google.com (mail-pl1-f198.google.com
- [209.85.214.198])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4a8reurhwt-1
- (version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
- for <dri-devel@lists.freedesktop.org>; Thu, 06 Nov 2025 12:17:12 +0000 (GMT)
-Received: by mail-pl1-f198.google.com with SMTP id
- d9443c01a7336-272b7bdf41fso6857575ad.0
- for <dri-devel@lists.freedesktop.org>; Thu, 06 Nov 2025 04:17:12 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=oss.qualcomm.com; s=google; t=1762431432; x=1763036232;
- darn=lists.freedesktop.org; 
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=gNvmCJ0hrdNJ/9zdjaCrkfGYVdoeuP9Y/SBDObi2LCM=;
- b=Xqos2jtKozzLJe2oobRbW2ez3nzjaUxdWyjAwwVdEEBjKaEPrrmmOVhKpT3PW9Njld
- niFjqU8Pj5LTjIYiIrREzilwgPoI0Cb//vmqzRzQ6YVLA0pB6V+HGrNvE8RJMLaG6A4R
- oUAGmBXasrzL+lNtheAc94Va4W386OZ4Vnc3oT0sTt8RBPjWuNxNOngJXjeCX4il7L5M
- 1AHT4HWsXSjlz3J3HgGih4tdi6AkewhtCjNTpuT/73f4rxtq/mHpHbMHOANC3/N42CkW
- Z7ZxlZQ9YR6mzYlsv10SFrMMP602qF320y1oZUV7zCJXf9+sA1PgMw4IDxF2qoqJgNKg
- /f8w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1762431432; x=1763036232;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=gNvmCJ0hrdNJ/9zdjaCrkfGYVdoeuP9Y/SBDObi2LCM=;
- b=Vr10nlEIE3B3mDVskDc9Aqtqe/IQu2zqR4FywLOIPP4uB3Ei4GpbYt4PGVOxP0QUJF
- kDitZwwbx3leMyq0qokKjuFIsPkf4iYHXY1Fh6eCbZ6rW3KNxVPjhkJHk4hk97pTl/bo
- 9laRamFs0k9N0c3ACn2N80jIBKaC4KOvymBkkmZBKiLOkvPXDej78kGwDSiJRELUd+sA
- AukrOaK/OiIMU3EQ2vNatP/rJCYVgjahLOQADWR9OS3FbTBspKF0hk2vq23HOzLobc60
- +U1o/M1Dh8CNuRzc8Y5ped/jw0IzbxotVyIRbEt/uSzgtwxN6kEA8G7NHdonkQJoBXyc
- KwzQ==
-X-Forwarded-Encrypted: i=1;
- AJvYcCV2f7g5KeEDRoPIzv1RGFKqC5wk6yv2rNMnHqXK3ssalMCoCzLrEVRPFp5/CQTY1Wq5hqszcZ66AU8=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YzFfjTvE2DisieznFzHNIOrdv1pc9zMJdvni+Z18kEXdbWapvoN
- dwDPzMx5AjLhbie8BHfjsQFAAE6ZevRXK9Djle1qLpi73xJmbqP3VfJRSQGcxc0vW7/uDrR1dx5
- yxETwnW4GN7hPVprDewUVmlplRpgPjriFhu6jPJN7c++PB1YG9S1zy00jVy3oXnePoHJFx8NKDh
- dsTuRsaX0n+VdX0Vn1juZElyiWiZ1VwP6GG8ouwnik/CkYXQ==
-X-Gm-Gg: ASbGncuJaqBUcKz/4c+kzG+Zj9t4tKMMuGN4/UHvsDA9WEJe/y/9cgsGrnFglGorVtu
- spFD5IjeAuH1JlBvyUiEAgMxnMUqabGKuB1+eP1qPUh18skBRYwUktEkI99gnjKH0WxQ0DWyFke
- /5P6aGmbgPVnQYiylEs2c/hcKqB1LvSJmXDNj29MukoUp58VX3IDI3ADVMtzHA8XtSA2q8WzvPT
- uobxKqSyNWeiQ==
-X-Received: by 2002:a17:903:1ce:b0:290:7e29:f59f with SMTP id
- d9443c01a7336-2962ad3d72fmr86648095ad.27.1762431431432; 
- Thu, 06 Nov 2025 04:17:11 -0800 (PST)
-X-Google-Smtp-Source: AGHT+IGTXH8NGkIDg7Ywz6RX10UIWewqyu96hZrjWXSo9nV+y7WP4ZxR0xQhes+p81qNvau23TvKRF0R0V1UeWn9oko=
-X-Received: by 2002:a17:903:1ce:b0:290:7e29:f59f with SMTP id
- d9443c01a7336-2962ad3d72fmr86647725ad.27.1762431430643; Thu, 06 Nov 2025
- 04:17:10 -0800 (PST)
-MIME-Version: 1.0
-References: <20251007054528.2900905-1-suraj.kandpal@intel.com>
- <20251007054528.2900905-2-suraj.kandpal@intel.com>
- <aQjDejhzGRYJT614@e110455-lin.cambridge.arm.com>
- <DM3PPF208195D8D5DDD56AA88E006E66AD9E3C4A@DM3PPF208195D8D.namprd11.prod.outlook.com>
- <aQoIBroBqQc3B-RD@e110455-lin.cambridge.arm.com>
- <CAO9ioeX2qEyjwi9LsnUh-cRv88iaRcdZtFr_yidf55A9_ZbLWw@mail.gmail.com>
- <aQyApokLttxf9spU@e110455-lin.cambridge.arm.com>
-In-Reply-To: <aQyApokLttxf9spU@e110455-lin.cambridge.arm.com>
-From: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
-Date: Thu, 6 Nov 2025 14:17:02 +0200
-X-Gm-Features: AWmQ_bmmb7qkmOjV1MvJBVbTKPSje7kfBu1HmXRF-M95TYAq_55qEAFRaKc2Oxc
-Message-ID: <CAO9ioeUwt2aR5y9FkMPOKz-4dPO8pUvxeEYUqGrGVZWaUHYw-g@mail.gmail.com>
-Subject: Re: [PATCH v2 1/7] drm: writeback: Refactor drm_writeback_connector
- structure
-To: Liviu Dudau <liviu.dudau@arm.com>
-Cc: "Kandpal, Suraj" <suraj.kandpal@intel.com>,
- "linux-arm-msm@vger.kernel.org" <linux-arm-msm@vger.kernel.org>,
- "freedreno@lists.freedesktop.org" <freedreno@lists.freedesktop.org>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
- "intel-xe@lists.freedesktop.org" <intel-xe@lists.freedesktop.org>,
- "intel-gfx@lists.freedesktop.org" <intel-gfx@lists.freedesktop.org>,
- "kernel-list@raspberrypi.com" <kernel-list@raspberrypi.com>,
- "amd-gfx@lists.freedesktop.org" <amd-gfx@lists.freedesktop.org>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- "linux-renesas-soc@vger.kernel.org" <linux-renesas-soc@vger.kernel.org>,
- "Nautiyal, Ankit K" <ankit.k.nautiyal@intel.com>,
- "Murthy, Arun R" <arun.r.murthy@intel.com>,
- "Shankar, Uma" <uma.shankar@intel.com>,
- "Nikula, Jani" <jani.nikula@intel.com>,
- "harry.wentland@amd.com" <harry.wentland@amd.com>,
- "siqueira@igalia.com" <siqueira@igalia.com>,
- "alexander.deucher@amd.com" <alexander.deucher@amd.com>,
- "christian.koenig@amd.com" <christian.koenig@amd.com>,
- "airlied@gmail.com" <airlied@gmail.com>,
- "simona@ffwll.ch" <simona@ffwll.ch>,
- "maarten.lankhorst@linux.intel.com" <maarten.lankhorst@linux.intel.com>,
- "mripard@kernel.org" <mripard@kernel.org>,
- "robin.clark@oss.qualcomm.com" <robin.clark@oss.qualcomm.com>,
- "abhinav.kumar@linux.dev" <abhinav.kumar@linux.dev>,
- "tzimmermann@suse.de" <tzimmermann@suse.de>,
- "jessica.zhang@oss.qualcomm.com" <jessica.zhang@oss.qualcomm.com>,
- "sean@poorly.run" <sean@poorly.run>,
- "marijn.suijten@somainline.org" <marijn.suijten@somainline.org>,
- "laurent.pinchart+renesas@ideasonboard.com"
- <laurent.pinchart+renesas@ideasonboard.com>, 
- "mcanal@igalia.com" <mcanal@igalia.com>,
- "dave.stevenson@raspberrypi.com" <dave.stevenson@raspberrypi.com>,
- "tomi.valkeinen+renesas@ideasonboard.com"
- <tomi.valkeinen+renesas@ideasonboard.com>, 
- "kieran.bingham+renesas@ideasonboard.com"
- <kieran.bingham+renesas@ideasonboard.com>, 
- "louis.chauvet@bootlin.com" <louis.chauvet@bootlin.com>
+Received: from sender4-op-o15.zoho.com (sender4-op-o15.zoho.com
+ [136.143.188.15])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1A50010E077
+ for <dri-devel@lists.freedesktop.org>; Thu,  6 Nov 2025 12:41:46 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; t=1762432901; cv=none; 
+ d=zohomail.com; s=zohoarc; 
+ b=la8Jv6VoCJ1t+wRpHzJAWump87dZv6lHs8UtjeEfRV4tk9alJMbGYqzVibLH1Q+8WOkP8pUIg+hhaDcS0+NmjGvLit2iqzSJ/sgjBH8aATqsL0JcibjQt4eYScnWXUCUsDbOVJ3AwrTMtnfCiF5NbYydx+an05WE5+1uBQZ2w3U=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
+ s=zohoarc; t=1762432901;
+ h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To;
+ bh=umAQldbHt4xCwgeTveAZyIjqcrTM7ksONTztY46bUSk=; 
+ b=lCGXO/yaWIQSZlQ+88fyJaXzh9NwqCCkX9fgIwtJ7Ivrlov9E76OOWRQbow0FEC0wxpO5d6VFiEnbsD8IIqqR4/l66Iv1WBeqV8gmSR56NJc15SEb5OuaA9kGH/rGXbcCDrcXLsGpQUpVXB3Ga7GkQjGPkjN7BY3plBfhQ4RaS8=
+ARC-Authentication-Results: i=1; mx.zohomail.com; dkim=pass  header.i=rong.moe;
+ spf=pass  smtp.mailfrom=i@rong.moe;
+ dmarc=pass header.from=<i@rong.moe>
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1762432901; 
+ s=zmail; d=rong.moe; i=i@rong.moe;
+ h=Message-ID:Subject:Subject:From:From:To:To:Cc:Cc:In-Reply-To:References:Content-Type:Content-Transfer-Encoding:Date:Date:MIME-Version:Message-Id:Reply-To;
+ bh=umAQldbHt4xCwgeTveAZyIjqcrTM7ksONTztY46bUSk=;
+ b=QfGAbc/q2WNjq172hUBI8GgX79zZZA1q+qXTM8YLGbqfRJtKVLLFqcmkeHVa2sEL
+ RIyNdXgHZIzmmTojredNhX19eInmEOh6SsFELn7OnEG3g7/DPz7wtDP0g6qHaX6rw+i
+ sfWX6PtGSwx6lCT8EkXNh+gn34corIFOzeQM/6uc=
+Received: by mx.zohomail.com with SMTPS id 1762432898973577.5467817578633;
+ Thu, 6 Nov 2025 04:41:38 -0800 (PST)
+Message-ID: <dd93f38bc0129b4b75e2dbde676d402376bc301c.camel@rong.moe>
+Subject: Re: [PATCH v3 3/6] platform/x86: lenovo-wmi-{capdata,other}:
+ Support multiple Capability Data
+From: Rong Zhang <i@rong.moe>
+To: Armin Wolf <W_Armin@gmx.de>, Mark Pearson <mpearson-lenovo@squebb.ca>, 
+ "Derek J. Clark" <derekjohn.clark@gmail.com>, Hans de Goede
+ <hansg@kernel.org>, Ilpo =?ISO-8859-1?Q?J=E4rvinen?=	
+ <ilpo.jarvinen@linux.intel.com>
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, "Rafael J. Wysocki"
+ <rafael@kernel.org>, Danilo Krummrich <dakr@kernel.org>, 
+ dri-devel@lists.freedesktop.org, Guenter Roeck <linux@roeck-us.net>, 
+ platform-driver-x86@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ linux-hwmon@vger.kernel.org
+In-Reply-To: <8c14706f-f3cc-45e9-bdef-db2c9171f46e@gmx.de>
+References: <20251031155349.24693-1-i@rong.moe>
+ <20251031155349.24693-4-i@rong.moe>
+ <8c14706f-f3cc-45e9-bdef-db2c9171f46e@gmx.de>
 Content-Type: text/plain; charset="UTF-8"
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUxMTA2MDA5NyBTYWx0ZWRfX+u8/9OQUwebn
- ZD5gO6dCkYPQQH6Ktvj2YB5OCKwr1Ml9V21KZycBVYjWxN0eH2GVS7PtExbJNpDpn7ojasiSMP2
- gqWZWsFntJGAozQaDnkzv22KJtmsMPS8N6/+wNQLgsdZxRUICR1u/yGZ+CdCqjdm1R4L7y35YyP
- 1wEAOZEn3bz1mbph/RAzayKw8DXMTQ3IH6LUmJIseUYukwJ3Ue7OVKJFa9mqZTjkmGGf9FYqI/B
- VonU66+TS2SDMP1mmfx7DE3vmniWbkfSu+xxoTlYUpF8ghaECOXlok6v7Z6EgzRwP7+El0GdKrZ
- YGHKp8PHvxTpvrBFglgQK+613D0/Pr1EhVCugxV44Ek2GCZmipSl3zWwttZYGd0VwZ0S/eMNw8B
- t4hljxbBuk3PWZaqhlOmPNWhi4u3sA==
-X-Proofpoint-ORIG-GUID: 8y0Ptlb_hto4_Hnu-poFCmUHCXPzLhIb
-X-Authority-Analysis: v=2.4 cv=RrDI7SmK c=1 sm=1 tr=0 ts=690c91c8 cx=c_pps
- a=MTSHoo12Qbhz2p7MsH1ifg==:117 a=IkcTkHD0fZMA:10 a=6UeiqGixMTsA:10
- a=s4-Qcg_JpJYA:10 a=VkNPw1HP01LnGYTKEx00:22 a=7CQSdrXTAAAA:8 a=QyXUC8HyAAAA:8
- a=_xLGP-AJQIWHLRMqBqIA:9 a=QEXdDO2ut3YA:10 a=GvdueXVYPmCkWapjIL-Q:22
- a=a-qgeE7W1pNrGK8U0ZQC:22 a=HhbK4dLum7pmb74im6QT:22
-X-Proofpoint-GUID: 8y0Ptlb_hto4_Hnu-poFCmUHCXPzLhIb
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.9,FMLib:17.12.100.49
- definitions=2025-11-06_03,2025-11-06_01,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- spamscore=0 bulkscore=0 clxscore=1015 suspectscore=0 lowpriorityscore=0
- malwarescore=0 adultscore=0 priorityscore=1501 phishscore=0 impostorscore=0
- classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.22.0-2510240001 definitions=main-2511060097
+Content-Transfer-Encoding: quoted-printable
+Date: Thu, 06 Nov 2025 20:36:28 +0800
+MIME-Version: 1.0
+User-Agent: Evolution 3.56.2-7 
+X-ZohoMailClient: External
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -170,184 +74,602 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, 6 Nov 2025 at 13:04, Liviu Dudau <liviu.dudau@arm.com> wrote:
->
-> On Wed, Nov 05, 2025 at 02:39:15AM +0200, Dmitry Baryshkov wrote:
-> > On Tue, 4 Nov 2025 at 16:05, Liviu Dudau <liviu.dudau@arm.com> wrote:
-> > >
-> > > On Tue, Nov 04, 2025 at 05:11:25AM +0000, Kandpal, Suraj wrote:
-> > > > > Subject: Re: [PATCH v2 1/7] drm: writeback: Refactor
-> > > > > drm_writeback_connector structure
-> > > > >
-> > > > > On Tue, Oct 07, 2025 at 11:15:23AM +0530, Suraj Kandpal wrote:
-> > > > > > Some drivers cannot work with the current design where the connector
-> > > > > > is embedded within the drm_writeback_connector such as Intel and some
-> > > > > > drivers that can get it working end up adding a lot of checks all
-> > > > > > around the code to check if it's a writeback conenctor or not, this is
-> > > > > > due to the limitation of inheritance in C.
-> > > > > > To solve this move the drm_writeback_connector within the
-> > > > > > drm_connector and remove the drm_connector base which was in
-> > > > > > drm_writeback_connector. Make this drm_writeback_connector a union
-> > > > > > with hdmi connector to save memory and since a connector can never be
-> > > > > > both writeback and hdmi it should serve us well.
-> > > > > > Do all other required modifications that come with these changes along
-> > > > > > with addition of new function which returns the drm_connector when
-> > > > > > drm_writeback_connector is present.
-> > > > > > Modify drivers using the drm_writeback_connector to allow them to use
-> > > > > > this connector without breaking them.
-> > > > > > The drivers modified here are amd, komeda, mali, vc4, vkms, rcar_du,
-> > > > > > msm
-> > > > > >
-> > > > > > Signed-off-by: Suraj Kandpal <suraj.kandpal@intel.com>
-> > > > > > ---
-> > > > > > V1 -> V2: Use &connector->writeback, make commit message imperative
-> > > > > > (Dmitry)
-> > > > > > ---
-> > > > > >  .../gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c |  6 +-
-> > > > > > .../gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.h |  2 +-
-> > > > > > .../drm/amd/display/amdgpu_dm/amdgpu_dm_wb.c  |  8 +--
-> > > > > > .../gpu/drm/arm/display/komeda/komeda_crtc.c  |  6 +-
-> > > > > >  .../gpu/drm/arm/display/komeda/komeda_kms.h   |  6 +-
-> > > > > >  .../arm/display/komeda/komeda_wb_connector.c  |  8 +--
-> > > > > >  drivers/gpu/drm/arm/malidp_crtc.c             |  2 +-
-> > > > > >  drivers/gpu/drm/arm/malidp_drv.h              |  2 +-
-> > > > > >  drivers/gpu/drm/arm/malidp_hw.c               |  6 +-
-> > > > > >  drivers/gpu/drm/arm/malidp_mw.c               |  8 +--
-> > > > > >  drivers/gpu/drm/drm_atomic_uapi.c             |  2 +-
-> > > > > >  drivers/gpu/drm/drm_writeback.c               | 35 ++++++----
-> > > > >
-> > > > > For the komeda and malidp drivers, as well as for the drm_writeback.c
-> > > > > changes:
-> > > > >
-> > > > > Reviewed-by: Liviu Dudau <liviu.dudau@arm.com>
-> > > > >
-> > > > >
-> > > > > [snip]
-> > > > >
-> > > > >
-> > > > > > diff --git a/include/drm/drm_connector.h b/include/drm/drm_connector.h
-> > > > > > index 8f34f4b8183d..1b090e6bddc1 100644
-> > > > > > --- a/include/drm/drm_connector.h
-> > > > > > +++ b/include/drm/drm_connector.h
-> > > > > > @@ -1882,6 +1882,61 @@ struct drm_connector_cec {
-> > > > > >   void *data;
-> > > > > >  };
-> > > > > >
-> > > > > > +/**
-> > > > > > + * struct drm_writeback_connector - DRM writeback connector  */
-> > > > > > +struct drm_writeback_connector {
-> > > > > > + /**
-> > > > > > +  * @pixel_formats_blob_ptr:
-> > > > > > +  *
-> > > > > > +  * DRM blob property data for the pixel formats list on writeback
-> > > > > > +  * connectors
-> > > > > > +  * See also drm_writeback_connector_init()
-> > > > > > +  */
-> > > > > > + struct drm_property_blob *pixel_formats_blob_ptr;
-> > > > > > +
-> > > > > > + /** @job_lock: Protects job_queue */
-> > > > > > + spinlock_t job_lock;
-> > > > > > +
-> > > > > > + /**
-> > > > > > +  * @job_queue:
-> > > > > > +  *
-> > > > > > +  * Holds a list of a connector's writeback jobs; the last item is the
-> > > > > > +  * most recent. The first item may be either waiting for the hardware
-> > > > > > +  * to begin writing, or currently being written.
-> > > > > > +  *
-> > > > > > +  * See also: drm_writeback_queue_job() and
-> > > > > > +  * drm_writeback_signal_completion()
-> > > > > > +  */
-> > > > > > + struct list_head job_queue;
-> > > > > > +
-> > > > > > + /**
-> > > > > > +  * @fence_context:
-> > > > > > +  *
-> > > > > > +  * timeline context used for fence operations.
-> > > > > > +  */
-> > > > > > + unsigned int fence_context;
-> > > > > > + /**
-> > > > > > +  * @fence_lock:
-> > > > > > +  *
-> > > > > > +  * spinlock to protect the fences in the fence_context.
-> > > > > > +  */
-> > > > > > + spinlock_t fence_lock;
-> > > > > > + /**
-> > > > > > +  * @fence_seqno:
-> > > > > > +  *
-> > > > > > +  * Seqno variable used as monotonic counter for the fences
-> > > > > > +  * created on the connector's timeline.
-> > > > > > +  */
-> > > > > > + unsigned long fence_seqno;
-> > > > > > + /**
-> > > > > > +  * @timeline_name:
-> > > > > > +  *
-> > > > > > +  * The name of the connector's fence timeline.
-> > > > > > +  */
-> > > > > > + char timeline_name[32];
-> > > > > > +};
-> > > > > > +
-> > > > > >  /**
-> > > > > >   * struct drm_connector - central DRM connector control structure
-> > > > > >   *
-> > > > > > @@ -2291,10 +2346,16 @@ struct drm_connector {
-> > > > > >    */
-> > > > > >   struct llist_node free_node;
-> > > > > >
-> > > > > > - /**
-> > > > > > -  * @hdmi: HDMI-related variable and properties.
-> > > > > > -  */
-> > > > > > - struct drm_connector_hdmi hdmi;
-> > > > > > + union {
-> > > > >
-> > > > > This is a surprising choice. Before this patch one had to have a separate
-> > > > > writeback connector besides the HDMI connector. Going forward it looks like
-> > > > > you still need two connectors, one that uses the writeback member and one
-> > > > > that uses the hdmi one. Is that intended?
-> > > > >
-> > > > > I was expecting that you're going to declare the writeback member next to the
-> > > > > hdmi, without overlap. If you do that, then you also don't need to move the
-> > > > > struct drm_writeback declaration from the header file and it should be enough
-> > > > > to include the drm_writeback.h file.
-> > > >
-> > > > Hi,
-> > > > Thanks for the review
-> > > > The reason for this came from the discussion on previous patches and was suggested by Dmitry.
-> > > > The idea is that a connector can never be both an HDMI and writeback connector at the same time
-> > > > Hence we save space if we pack them together.
-> > >
-> > > Hmm, but you can still have all the CEC and HDMI codecs data in that connector,
-> > > which feels strange.  Also, what's the issue with having a connector that has
-> > > both a valid HDMI state and an associated writeback at the same time (i.e.
-> > > don't use the union)? Writing back the memory the output that goes to HDMI is
-> > > valid, right?
-> >
-> > Writing back to memory requires a separate connector (with separate
-> > setup). The CRTC should also support outputting data to both HDMI
-> > _and_ Writeback connectors at the same time (aka cloning). Not all
-> > configurations are possible, writeback requires additional bandwidth,
-> > etc., etc.
-> >
-> > >
-> > > Maybe that is not something that you considered, but with this patch (without union)
-> > > we can drop the need to have a separate connector just for writeback. We're breaking
-> > > user space compatibility, true, but it feels like a good change to be able to
-> > > attach a writeback to any connector and get its output. The drivers that don't support
-> > > that can reject the commit that attaches the writeback to the existing connector.
-> >
-> > Well... No. It's not how it is being handled in the (existing)
-> > hardware. Nor does it make it easier to handle resources for the
-> > writeback.
->
-> Which (existing) hardware? Komeda can do it mainly because it doesn't have an HDMI connector,
-> but an output that can be cloned to writeback while it is being sent out on a bus to an encoder.
-> You have to remember that writeback is a connector because we didn't have a better concept for
-> it. It doesn't have to be a separate connector from an HDMI or eDP or DP.
+Hi Armin,
 
-drm/msm. It requires a separate setup for the Writeback, which is
-described as an encoder. As such, we need a separate connector for the
-writeback.
+On Tue, 2025-11-04 at 21:20 +0100, Armin Wolf wrote:
+> Am 31.10.25 um 16:51 schrieb Rong Zhang:
+>=20
+> > The current implementation are heavily bound to capdata01. Rewrite it s=
+o
+> > that it is suitable to utilize other Capability Data as well.
+> >=20
+> > No functional change intended.
+> >=20
+> > Signed-off-by: Rong Zhang <i@rong.moe>
+> > Reviewed-by: Derek J. Clark <derekjohn.clark@gmail.com>
+> > Tested-by: Derek J. Clark <derekjohn.clark@gmail.com>
+> > ---
+> > Changes in v2:
+> > - Fix function parameter 'type' not described in 'lwmi_cd_match' (thank=
+s
+> >    kernel test bot)
+> > ---
+> >   drivers/platform/x86/lenovo/wmi-capdata.c | 208 +++++++++++++++++----=
+-
+> >   drivers/platform/x86/lenovo/wmi-capdata.h |   7 +-
+> >   drivers/platform/x86/lenovo/wmi-other.c   |  27 ++-
+> >   3 files changed, 190 insertions(+), 52 deletions(-)
+> >=20
+> > diff --git a/drivers/platform/x86/lenovo/wmi-capdata.c b/drivers/platfo=
+rm/x86/lenovo/wmi-capdata.c
+> > index c5e74b2bfeb3..1f7fc09b7c3f 100644
+> > --- a/drivers/platform/x86/lenovo/wmi-capdata.c
+> > +++ b/drivers/platform/x86/lenovo/wmi-capdata.c
+> > @@ -12,8 +12,13 @@
+> >    *
+> >    * Copyright (C) 2025 Derek J. Clark <derekjohn.clark@gmail.com>
+> >    *   - Initial implementation (formerly named lenovo-wmi-capdata01)
+> > + *
+> > + * Copyright (C) 2025 Rong Zhang <i@rong.moe>
+> > + *   - Unified implementation
+> >    */
+> >  =20
+> > +#define pr_fmt(fmt) KBUILD_MODNAME ": " fmt
+> > +
+> >   #include <linux/acpi.h>
+> >   #include <linux/cleanup.h>
+> >   #include <linux/component.h>
+> > @@ -36,6 +41,25 @@
+> >   #define ACPI_AC_CLASS "ac_adapter"
+> >   #define ACPI_AC_NOTIFY_STATUS 0x80
+> >  =20
+> > +enum lwmi_cd_type {
+> > +	LENOVO_CAPABILITY_DATA_01,
+> > +};
+> > +
+> > +#define LWMI_CD_TABLE_ITEM(_type)		\
+> > +	[_type] =3D {				\
+> > +		.guid_string =3D _type##_GUID,	\
+> > +		.name =3D #_type,			\
+> > +		.type =3D _type,			\
+> > +	}
+> > +
+> > +static const struct lwmi_cd_info {
+> > +	const char *guid_string;
+> > +	const char *name;
+> > +	enum lwmi_cd_type type;
+> > +} lwmi_cd_table[] =3D {
+> > +	LWMI_CD_TABLE_ITEM(LENOVO_CAPABILITY_DATA_01),
+> > +};
+> > +
+> >   struct lwmi_cd_priv {
+> >   	struct notifier_block acpi_nb; /* ACPI events */
+> >   	struct wmi_device *wdev;
+> > @@ -44,15 +68,19 @@ struct lwmi_cd_priv {
+> >  =20
+> >   struct cd_list {
+> >   	struct mutex list_mutex; /* list R/W mutex */
+> > +	enum lwmi_cd_type type;
+> >   	u8 count;
+> > -	struct capdata01 data[];
+> > +
+> > +	union {
+> > +		DECLARE_FLEX_ARRAY(struct capdata01, cd01);
+> > +	};
+> >   };
+> >  =20
+> >   /**
+> >    * lwmi_cd_component_bind() - Bind component to master device.
+> >    * @cd_dev: Pointer to the lenovo-wmi-capdata driver parent device.
+> >    * @om_dev: Pointer to the lenovo-wmi-other driver parent device.
+> > - * @data: cd_list object pointer used to return the capability data.
+> > + * @data: lwmi_cd_binder object pointer used to return the capability =
+data.
+> >    *
+> >    * On lenovo-wmi-other's master bind, provide a pointer to the local =
+capdata
+> >    * list. This is used to call lwmi_cd*_get_data to look up attribute =
+data
+> > @@ -64,9 +92,15 @@ static int lwmi_cd_component_bind(struct device *cd_=
+dev,
+> >   				  struct device *om_dev, void *data)
+> >   {
+> >   	struct lwmi_cd_priv *priv =3D dev_get_drvdata(cd_dev);
+> > -	struct cd_list **cd_list =3D data;
+> > +	struct lwmi_cd_binder *binder =3D data;
+> >  =20
+> > -	*cd_list =3D priv->list;
+> > +	switch (priv->list->type) {
+> > +	case LENOVO_CAPABILITY_DATA_01:
+> > +		binder->cd01_list =3D priv->list;
+> > +		break;
+> > +	default:
+> > +		return -EINVAL;
+> > +	}
+> >  =20
+> >   	return 0;
+> >   }
+> > @@ -76,30 +110,33 @@ static const struct component_ops lwmi_cd_componen=
+t_ops =3D {
+> >   };
+> >  =20
+> >   /**
+> > - * lwmi_cd01_get_data - Get the data of the specified attribute
+> > + * lwmi_cd*_get_data - Get the data of the specified attribute
+> >    * @list: The lenovo-wmi-capdata pointer to its cd_list struct.
+> >    * @attribute_id: The capdata attribute ID to be found.
+> > - * @output: Pointer to a capdata01 struct to return the data.
+> > + * @output: Pointer to a capdata* struct to return the data.
+> >    *
+> > - * Retrieves the capability data 01 struct pointer for the given
+> > - * attribute for its specified thermal mode.
+> > + * Retrieves the capability data struct pointer for the given
+> > + * attribute.
+> >    *
+> >    * Return: 0 on success, or -EINVAL.
+> >    */
+> > -int lwmi_cd01_get_data(struct cd_list *list, u32 attribute_id, struct =
+capdata01 *output)
+> > -{
+> > -	u8 idx;
+> > -
+> > -	guard(mutex)(&list->list_mutex);
+> > -	for (idx =3D 0; idx < list->count; idx++) {
+> > -		if (list->data[idx].id !=3D attribute_id)
+> > -			continue;
+> > -		memcpy(output, &list->data[idx], sizeof(list->data[idx]));
+> > -		return 0;
+> > +#define DEF_LWMI_CDXX_GET_DATA(_cdxx, _cd_type, _output_t)					\
+> > +	int lwmi_##_cdxx##_get_data(struct cd_list *list, u32 attribute_id, _=
+output_t *output)	\
+> > +	{											\
+> > +		u8 idx;										\
+> > +		if (WARN_ON(list->type !=3D _cd_type))						\
+> > +			return -EINVAL;								\
+> > +		guard(mutex)(&list->list_mutex);						\
+> > +		for (idx =3D 0; idx < list->count; idx++) {					\
+> > +			if (list->_cdxx[idx].id !=3D attribute_id)				\
+> > +				continue;							\
+> > +			memcpy(output, &list->_cdxx[idx], sizeof(list->_cdxx[idx]));		\
+> > +			return 0;								\
+> > +		}										\
+> > +		return -EINVAL;									\
+> >   	}
+> >  =20
+> > -	return -EINVAL;
+> > -}
+> > +DEF_LWMI_CDXX_GET_DATA(cd01, LENOVO_CAPABILITY_DATA_01, struct capdata=
+01);
+> >   EXPORT_SYMBOL_NS_GPL(lwmi_cd01_get_data, "LENOVO_WMI_CD");
+> >  =20
+> >   /**
+> > @@ -112,10 +149,21 @@ EXPORT_SYMBOL_NS_GPL(lwmi_cd01_get_data, "LENOVO_=
+WMI_CD");
+> >    */
+> >   static int lwmi_cd_cache(struct lwmi_cd_priv *priv)
+> >   {
+> > +	size_t size;
+> >   	int idx;
+> > +	void *p;
+> > +
+> > +	switch (priv->list->type) {
+> > +	case LENOVO_CAPABILITY_DATA_01:
+> > +		p =3D &priv->list->cd01[0];
+> > +		size =3D sizeof(priv->list->cd01[0]);
+> > +		break;
+> > +	default:
+> > +		return -EINVAL;
+> > +	}
+> >  =20
+> >   	guard(mutex)(&priv->list->list_mutex);
+> > -	for (idx =3D 0; idx < priv->list->count; idx++) {
+> > +	for (idx =3D 0; idx < priv->list->count; idx++, p +=3D size) {
+> >   		union acpi_object *ret_obj __free(kfree) =3D NULL;
+> >  =20
+> >   		ret_obj =3D wmidev_block_query(priv->wdev, idx);
+> > @@ -123,11 +171,10 @@ static int lwmi_cd_cache(struct lwmi_cd_priv *pri=
+v)
+> >   			return -ENODEV;
+> >  =20
+> >   		if (ret_obj->type !=3D ACPI_TYPE_BUFFER ||
+> > -		    ret_obj->buffer.length < sizeof(priv->list->data[idx]))
+> > +		    ret_obj->buffer.length < size)
+> >   			continue;
+> >  =20
+> > -		memcpy(&priv->list->data[idx], ret_obj->buffer.pointer,
+> > -		       ret_obj->buffer.length);
+> > +		memcpy(p, ret_obj->buffer.pointer, size);
+> >   	}
+> >  =20
+> >   	return 0;
+> > @@ -136,20 +183,28 @@ static int lwmi_cd_cache(struct lwmi_cd_priv *pri=
+v)
+> >   /**
+> >    * lwmi_cd_alloc() - Allocate a cd_list struct in drvdata
+> >    * @priv: lenovo-wmi-capdata driver data.
+> > + * @type: The type of capability data.
+> >    *
+> >    * Allocate a cd_list struct large enough to contain data from all WM=
+I data
+> >    * blocks provided by the interface.
+> >    *
+> >    * Return: 0 on success, or an error.
+> >    */
+> > -static int lwmi_cd_alloc(struct lwmi_cd_priv *priv)
+> > +static int lwmi_cd_alloc(struct lwmi_cd_priv *priv, enum lwmi_cd_type =
+type)
+> >   {
+> >   	struct cd_list *list;
+> >   	size_t list_size;
+> >   	int count, ret;
+> >  =20
+> >   	count =3D wmidev_instance_count(priv->wdev);
+> > -	list_size =3D struct_size(list, data, count);
+> > +
+> > +	switch (type) {
+> > +	case LENOVO_CAPABILITY_DATA_01:
+> > +		list_size =3D struct_size(list, cd01, count);
+> > +		break;
+> > +	default:
+> > +		return -EINVAL;
+> > +	}
+> >  =20
+> >   	list =3D devm_kzalloc(&priv->wdev->dev, list_size, GFP_KERNEL);
+> >   	if (!list)
+> > @@ -159,6 +214,7 @@ static int lwmi_cd_alloc(struct lwmi_cd_priv *priv)
+> >   	if (ret)
+> >   		return ret;
+> >  =20
+> > +	list->type =3D type;
+> >   	list->count =3D count;
+> >   	priv->list =3D list;
+> >  =20
+> > @@ -168,6 +224,7 @@ static int lwmi_cd_alloc(struct lwmi_cd_priv *priv)
+> >   /**
+> >    * lwmi_cd_setup() - Cache all WMI data block information
+> >    * @priv: lenovo-wmi-capdata driver data.
+> > + * @type: The type of capability data.
+> >    *
+> >    * Allocate a cd_list struct large enough to contain data from all WM=
+I data
+> >    * blocks provided by the interface. Then loop through each data bloc=
+k and
+> > @@ -175,11 +232,11 @@ static int lwmi_cd_alloc(struct lwmi_cd_priv *pri=
+v)
+> >    *
+> >    * Return: 0 on success, or an error code.
+> >    */
+> > -static int lwmi_cd_setup(struct lwmi_cd_priv *priv)
+> > +static int lwmi_cd_setup(struct lwmi_cd_priv *priv, enum lwmi_cd_type =
+type)
+> >   {
+> >   	int ret;
+> >  =20
+> > -	ret =3D lwmi_cd_alloc(priv);
+> > +	ret =3D lwmi_cd_alloc(priv, type);
+> >   	if (ret)
+> >   		return ret;
+> >  =20
+> > @@ -235,9 +292,13 @@ static void lwmi_cd01_unregister(void *data)
+> >  =20
+> >   static int lwmi_cd_probe(struct wmi_device *wdev, const void *context=
+)
+> >   {
+> > +	const struct lwmi_cd_info *info =3D context;
+> >   	struct lwmi_cd_priv *priv;
+> >   	int ret;
+> >  =20
+> > +	if (!info)
+> > +		return -EINVAL;
+> > +
+> >   	priv =3D devm_kzalloc(&wdev->dev, sizeof(*priv), GFP_KERNEL);
+> >   	if (!priv)
+> >   		return -ENOMEM;
+> > @@ -245,21 +306,34 @@ static int lwmi_cd_probe(struct wmi_device *wdev,=
+ const void *context)
+> >   	priv->wdev =3D wdev;
+> >   	dev_set_drvdata(&wdev->dev, priv);
+> >  =20
+> > -	ret =3D lwmi_cd_setup(priv);
+> > +	ret =3D lwmi_cd_setup(priv, info->type);
+> >   	if (ret)
+> > -		return ret;
+> > +		goto out;
+> >  =20
+> > -	priv->acpi_nb.notifier_call =3D lwmi_cd01_notifier_call;
+> > +	if (info->type =3D=3D LENOVO_CAPABILITY_DATA_01) {
+> > +		priv->acpi_nb.notifier_call =3D lwmi_cd01_notifier_call;
+> >  =20
+> > -	ret =3D register_acpi_notifier(&priv->acpi_nb);
+> > -	if (ret)
+> > -		return ret;
+> > +		ret =3D register_acpi_notifier(&priv->acpi_nb);
+> > +		if (ret)
+> > +			goto out;
+> >  =20
+> > -	ret =3D devm_add_action_or_reset(&wdev->dev, lwmi_cd01_unregister, &p=
+riv->acpi_nb);
+> > -	if (ret)
+> > -		return ret;
+> > +		ret =3D devm_add_action_or_reset(&wdev->dev, lwmi_cd01_unregister,
+> > +					       &priv->acpi_nb);
+> > +		if (ret)
+> > +			goto out;
+> > +	}
+> > +
+> > +	ret =3D component_add(&wdev->dev, &lwmi_cd_component_ops);
+> >  =20
+> > -	return component_add(&wdev->dev, &lwmi_cd_component_ops);
+> > +out:
+> > +	if (ret) {
+> > +		dev_err(&wdev->dev, "failed to register %s: %d\n",
+> > +			info->name, ret);
+> > +	} else {
+> > +		dev_info(&wdev->dev, "registered %s with %u items\n",
+> > +			 info->name, priv->list->count);
+> > +	}
+> > +	return ret;
+> >   }
+> >  =20
+> >   static void lwmi_cd_remove(struct wmi_device *wdev)
+> > @@ -267,8 +341,12 @@ static void lwmi_cd_remove(struct wmi_device *wdev=
+)
+> >   	component_del(&wdev->dev, &lwmi_cd_component_ops);
+> >   }
+> >  =20
+> > +#define LWMI_CD_WDEV_ID(_type)				\
+> > +	.guid_string =3D _type##_GUID,			\
+> > +	.context =3D &lwmi_cd_table[_type]
+> > +
+> >   static const struct wmi_device_id lwmi_cd_id_table[] =3D {
+> > -	{ LENOVO_CAPABILITY_DATA_01_GUID, NULL },
+> > +	{ LWMI_CD_WDEV_ID(LENOVO_CAPABILITY_DATA_01) },
+> >   	{}
+> >   };
+> >  =20
+> > @@ -284,21 +362,61 @@ static struct wmi_driver lwmi_cd_driver =3D {
+> >   };
+> >  =20
+> >   /**
+> > - * lwmi_cd01_match() - Match rule for the master driver.
+> > - * @dev: Pointer to the capability data 01 parent device.
+> > - * @data: Unused void pointer for passing match criteria.
+> > + * lwmi_cd_match() - Match rule for the master driver.
+> > + * @dev: Pointer to the capability data parent device.
+> > + * @type: Pointer to capability data type (enum lwmi_cd_type *) to mat=
+ch.
+> >    *
+> >    * Return: int.
+> >    */
+> > -int lwmi_cd01_match(struct device *dev, void *data)
+> > +static int lwmi_cd_match(struct device *dev, void *type)
+> > +{
+> > +	struct lwmi_cd_priv *priv;
+> > +
+> > +	if (dev->driver !=3D &lwmi_cd_driver.driver)
+> > +		return false;
+> > +
+> > +	priv =3D dev_get_drvdata(dev);
+> > +	return priv->list->type =3D=3D *(enum lwmi_cd_type *)type;
+> > +}
+> > +
+> > +/**
+> > + * lwmi_cd_match_add_all() - Add all match rule for the master driver.
+> > + * @master: Pointer to the master device.
+> > + * @matchptr: Pointer to the returned component_match pointer.
+> > + *
+> > + * Adds all component matches to the list stored in @matchptr for the =
+@master
+> > + * device. @matchptr must be initialized to NULL. This matches all ava=
+ilable
+> > + * capdata types on the machine.
+> > + */
+> > +void lwmi_cd_match_add_all(struct device *master, struct component_mat=
+ch **matchptr)
+> >   {
+> > -	return dev->driver =3D=3D &lwmi_cd_driver.driver;
+> > +	int i;
+> > +
+> > +	if (WARN_ON(*matchptr))
+> > +		return;
+> > +
+> > +	for (i =3D 0; i < ARRAY_SIZE(lwmi_cd_table); i++) {
+> > +		if (!lwmi_cd_table[i].guid_string ||
+> > +		    !wmi_has_guid(lwmi_cd_table[i].guid_string))
+> > +			continue;
+>=20
+> I am still not happy about this. AFAIK as soon as the ordinary capdata WM=
+I devices are bound together,
+> the firmware tells you whether or not the additional fan data WMI device =
+is available. Maybe you can do
+> something like this:
+>=20
+> 1. Bind both capdata WMI devices as usual.
+> 2. Check if a fan data WMI device is available (you can use a DMI-based q=
+uirk list for devices were
+>     the firmware reports invalid data).
+> 3. Register an additional component that binds to the fan data WMI device=
+.
+> 4. Bind both the additional component and the component registered by the=
+ fan data WMI device.
+> 5. Register the hwmon device with additional fan data.
+>=20
+> If the fan data WMI device is not available, you can simply skip steps 3 =
+and 4 and simply
+> register the hwmon device with any additional fan data.
+>=20
+> What do you think?
 
--- 
-With best wishes
-Dmitry
+I tried your approach. I looks pretty well except for step 4:
+
+   debugfs: 'DC2A8805-3A8C-41BA-A6F7-092E0089CD3B-21' already exists in 'de=
+vice_component'
+
+Moreover, component_[un]bind_all() calls __aggregate_find() with ops =3D=3D
+NULL, which implies that it can't really distinguish the two aggregate
+devices we have. Thus, we are rely on the insertion sequence of
+aggregate_devices (see component_master_add_with_match()) to make it
+just work. Pseudo code:
+
+   lwmi_other_probe()
+   {
+   	component_match_add(..., lwmi_cd00_match, ...);
+   	component_match_add(..., lwmi_cd01_match, ...);
+   	component_master_add_with_match(..., &ops1, ...);
+   	component_match_add(..., lwmi_cd_fan_match, ...);
+   	component_master_add_with_match(..., &ops2, ...);
+   }
+  =20
+   lwmi_other_remove()
+   {
+   	/* This just works (TM). */
+   	component_master_del(..., &ops2); /* unbinds cd_fan */
+   	component_master_del(..., &ops1); /* unbinds cd00/01 */
+  =20
+   	/* WARNING: at drivers/base/component.c:589 */
+   	/*
+   	component_master_del(..., &ops1); /* unbinds cd_fan!!! */
+   	component_master_del(..., &ops2); /* unbinds cd_fan!!! */
+   	*/
+   }
+
+It seems that the component framework is not prepared to allow multi-
+aggregation master device.
+
+Since we are talking about the component framework: all efforts we made
+here is to work around one of its limitations -- all components must be
+found or else it won't bring up the aggregate device. Do you think
+allowing partially bound aggregate device a good idea? E.g., adding a
+flag, indicating the master device opts in to such behavior, to the
+definition of struct component_master_ops. I can prepare a separate
+patch for that.
+
+CC'ing maintainers and lists of driver core and component framework.
+
+> Thanks,
+> Armin Wolf
+
+Thanks,
+Rong
+
+> > +
+> > +		component_match_add(master, matchptr, lwmi_cd_match,
+> > +				    (void *)&lwmi_cd_table[i].type);
+> > +		if (IS_ERR(matchptr))
+> > +			return;
+> > +	}
+> > +
+> > +	if (!*matchptr) {
+> > +		pr_warn("a master driver requested capability data, but nothing is a=
+vailable\n");
+> > +		*matchptr =3D ERR_PTR(-ENODEV);
+> > +	}
+> >   }
+> > -EXPORT_SYMBOL_NS_GPL(lwmi_cd01_match, "LENOVO_WMI_CD");
+> > +EXPORT_SYMBOL_NS_GPL(lwmi_cd_match_add_all, "LENOVO_WMI_CD");
+> >  =20
+> >   module_wmi_driver(lwmi_cd_driver);
+> >  =20
+> >   MODULE_DEVICE_TABLE(wmi, lwmi_cd_id_table);
+> >   MODULE_AUTHOR("Derek J. Clark <derekjohn.clark@gmail.com>");
+> > +MODULE_AUTHOR("Rong Zhang <i@rong.moe>");
+> >   MODULE_DESCRIPTION("Lenovo Capability Data WMI Driver");
+> >   MODULE_LICENSE("GPL");
+> > diff --git a/drivers/platform/x86/lenovo/wmi-capdata.h b/drivers/platfo=
+rm/x86/lenovo/wmi-capdata.h
+> > index 2a4746e38ad4..1e5fce7836cb 100644
+> > --- a/drivers/platform/x86/lenovo/wmi-capdata.h
+> > +++ b/drivers/platform/x86/lenovo/wmi-capdata.h
+> > @@ -7,6 +7,7 @@
+> >  =20
+> >   #include <linux/types.h>
+> >  =20
+> > +struct component_match;
+> >   struct device;
+> >   struct cd_list;
+> >  =20
+> > @@ -19,7 +20,11 @@ struct capdata01 {
+> >   	u32 max_value;
+> >   };
+> >  =20
+> > +struct lwmi_cd_binder {
+> > +	struct cd_list *cd01_list;
+> > +};
+> > +
+> >   int lwmi_cd01_get_data(struct cd_list *list, u32 attribute_id, struct=
+ capdata01 *output);
+> > -int lwmi_cd01_match(struct device *dev, void *data);
+> > +void lwmi_cd_match_add_all(struct device *master, struct component_mat=
+ch **matchptr);
+> >  =20
+> >   #endif /* !_LENOVO_WMI_CAPDATA_H_ */
+> > diff --git a/drivers/platform/x86/lenovo/wmi-other.c b/drivers/platform=
+/x86/lenovo/wmi-other.c
+> > index c6dc1b4cff84..20c6ff0be37a 100644
+> > --- a/drivers/platform/x86/lenovo/wmi-other.c
+> > +++ b/drivers/platform/x86/lenovo/wmi-other.c
+> > @@ -579,14 +579,14 @@ static void lwmi_om_fw_attr_remove(struct lwmi_om=
+_priv *priv)
+> >   static int lwmi_om_master_bind(struct device *dev)
+> >   {
+> >   	struct lwmi_om_priv *priv =3D dev_get_drvdata(dev);
+> > -	struct cd_list *tmp_list;
+> > +	struct lwmi_cd_binder binder =3D { 0 };
+> >   	int ret;
+> >  =20
+> > -	ret =3D component_bind_all(dev, &tmp_list);
+> > +	ret =3D component_bind_all(dev, &binder);
+> >   	if (ret)
+> >   		return ret;
+> >  =20
+> > -	priv->cd01_list =3D tmp_list;
+> > +	priv->cd01_list =3D binder.cd01_list;
+> >   	if (!priv->cd01_list)
+> >   		return -ENODEV;
+> >  =20
+> > @@ -618,6 +618,7 @@ static int lwmi_other_probe(struct wmi_device *wdev=
+, const void *context)
+> >   {
+> >   	struct component_match *master_match =3D NULL;
+> >   	struct lwmi_om_priv *priv;
+> > +	int ret;
+> >  =20
+> >   	priv =3D devm_kzalloc(&wdev->dev, sizeof(*priv), GFP_KERNEL);
+> >   	if (!priv)
+> > @@ -626,12 +627,26 @@ static int lwmi_other_probe(struct wmi_device *wd=
+ev, const void *context)
+> >   	priv->wdev =3D wdev;
+> >   	dev_set_drvdata(&wdev->dev, priv);
+> >  =20
+> > -	component_match_add(&wdev->dev, &master_match, lwmi_cd01_match, NULL)=
+;
+> > +	lwmi_cd_match_add_all(&wdev->dev, &master_match);
+> >   	if (IS_ERR(master_match))
+> >   		return PTR_ERR(master_match);
+> >  =20
+> > -	return component_master_add_with_match(&wdev->dev, &lwmi_om_master_op=
+s,
+> > -					       master_match);
+> > +	ret =3D component_master_add_with_match(&wdev->dev, &lwmi_om_master_o=
+ps,
+> > +					      master_match);
+> > +	if (ret)
+> > +		return ret;
+> > +
+> > +	if (likely(component_master_is_bound(&wdev->dev, &lwmi_om_master_ops)=
+))
+> > +		return 0;
+> > +
+> > +	/*
+> > +	 * The bind callbacks of both master and components were never called=
+ in
+> > +	 * this case - this driver won't work at all. Failing...
+> > +	 */
+> > +	dev_err(&wdev->dev, "unbound master; is any component failing to be p=
+robed?");
+> > +
+> > +	component_master_del(&wdev->dev, &lwmi_om_master_ops);
+> > +	return -EXDEV;
+> >   }
+> >  =20
+> >   static void lwmi_other_remove(struct wmi_device *wdev)
