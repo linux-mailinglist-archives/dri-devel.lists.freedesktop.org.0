@@ -2,197 +2,78 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4B846C3A955
-	for <lists+dri-devel@lfdr.de>; Thu, 06 Nov 2025 12:32:02 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0D859C3AACC
+	for <lists+dri-devel@lfdr.de>; Thu, 06 Nov 2025 12:48:31 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6C91910E8A6;
-	Thu,  6 Nov 2025 11:32:00 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1A4CB10E069;
+	Thu,  6 Nov 2025 11:48:29 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="VLhvYaGt";
+	dkim=pass (2048-bit key; unprotected) header.d=huaqin-corp-partner-google-com.20230601.gappssmtp.com header.i=@huaqin-corp-partner-google-com.20230601.gappssmtp.com header.b="LN2s84ue";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6D7E710E722;
- Thu,  6 Nov 2025 11:31:59 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1762428720; x=1793964720;
- h=date:from:to:cc:subject:message-id:references:
- content-transfer-encoding:in-reply-to:mime-version;
- bh=lO9CeFNh0AoKTpNLCVb6s1fE7w6QTeK4FCD+nL2rOHI=;
- b=VLhvYaGtHpHGp2cwY6vp+1jeysXUUrGZC+Nbb05TPVpKAmvzy8Bt6OIU
- 95R5ueGMTi0aqskyn9fQv/oQCzDm6fS+LCegtbPA1Lm2nuFIKfyxahrlL
- 8btUKmN7r7jx/eXW1StDscpZYhnxOP/SXhgCD+KcnNok3sILsyoxlA/59
- 43Qr4dQOcrHxqFMGOYn/SLK1LJVWJRTg3vHw7nIMaZPLtCjHf84TbWk5W
- gcSRgx6yAX5so3RRZwHmGoKjSMjY6TroHbe6Fa83UvNkyWuPLdUFtB/6s
- drzrzzwGvEa4pUK/vX1yMlcArBUBqX9tnKxjbOTyVpqaWe8WqR+a8vmgr Q==;
-X-CSE-ConnectionGUID: XX9OLUrpTUOBwq849viQUA==
-X-CSE-MsgGUID: nV8EVuibTpeJq9/niK45Mg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11531"; a="64469071"
-X-IronPort-AV: E=Sophos;i="6.17,312,1747724400"; d="scan'208";a="64469071"
-Received: from orviesa010.jf.intel.com ([10.64.159.150])
- by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 06 Nov 2025 03:32:00 -0800
-X-CSE-ConnectionGUID: YhyqM2fQQDKplw5A28XUWw==
-X-CSE-MsgGUID: GnTetCkkTeOqQufAhrp2yg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.19,284,1754982000"; d="scan'208";a="187023535"
-Received: from orsmsx903.amr.corp.intel.com ([10.22.229.25])
- by orviesa010.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 06 Nov 2025 03:31:59 -0800
-Received: from ORSMSX902.amr.corp.intel.com (10.22.229.24) by
- ORSMSX903.amr.corp.intel.com (10.22.229.25) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.27; Thu, 6 Nov 2025 03:31:58 -0800
-Received: from ORSEDG902.ED.cps.intel.com (10.7.248.12) by
- ORSMSX902.amr.corp.intel.com (10.22.229.24) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.27 via Frontend Transport; Thu, 6 Nov 2025 03:31:58 -0800
-Received: from BYAPR05CU005.outbound.protection.outlook.com (52.101.85.58) by
- edgegateway.intel.com (134.134.137.112) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.27; Thu, 6 Nov 2025 03:31:58 -0800
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=xANbolwmhIq/+WEh/uWZObbYsiiDs/P+zkC6UtYKjH+/KSEaM2ZNajbILlPidH4fJdyKmdxvs7YWfITqyyRa6Hj3XHUNzNmN678KCaps06wa6w2TLacsGFf+CRzDXSLLjrpayujTetjAmDlUEMtlYymSneeghfLwGBVkRmyFqvOwxUK3I08c15+4KizT82W5vchfuK+SWdFJ3C4NM1707VkCYDny1GKUbYtbapa78SguH8h/sKXkK2I1AFNzeoMofMacWmn6y8ymviXEsaNtZVvkU3cgs/LhnC/ImoBoJjyHUc+9ORLDdD5JSSspHMNYD6bpTz/W0M3H7j+PBKDMWg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=qlfWwleACoFWoeHWHc3hhmU1B4m+/pTshxn1OdmlqSY=;
- b=wnubY3wwoMn/oVwKW0XTNWCnf7Vmfk6RnCPO7CKwOcA451qddKjx27qPt1jb6PbaqWXVdioqA9z0HiBqig56qXBsQL0tA9kAFXgEaeRVUA503tEaCa8OQqQTCaYPqMmhEn7hiQjzGrChO47qRthDfN3Na5NOKh/5RANqQfxrRSgLzYpFcRicPMaut1mWHPsB+GA7rMBKVq7urfkj67mMSThLI4JQRm4nTqYBLlenO0Nvl6FuJnnMzXCb8xEbqNHWuFTxD4UQgY/CZ40hrJT0YipnqkIuUp9FMdfJkzRD9eE/3YQDla+9UcgN4hW8bESoKtle6kP9feaG3h4TI0Qm5Q==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=intel.com;
-Received: from DM4PR11MB5373.namprd11.prod.outlook.com (2603:10b6:5:394::7) by
- IA0PR11MB7331.namprd11.prod.outlook.com (2603:10b6:208:435::21) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9298.8; Thu, 6 Nov
- 2025 11:31:55 +0000
-Received: from DM4PR11MB5373.namprd11.prod.outlook.com
- ([fe80::927a:9c08:26f7:5b39]) by DM4PR11MB5373.namprd11.prod.outlook.com
- ([fe80::927a:9c08:26f7:5b39%5]) with mapi id 15.20.9298.010; Thu, 6 Nov 2025
- 11:31:55 +0000
-Date: Thu, 6 Nov 2025 12:31:52 +0100
-From: =?utf-8?Q?Micha=C5=82?= Winiarski <michal.winiarski@intel.com>
-To: Michal Wajdeczko <michal.wajdeczko@intel.com>
-CC: Alex Williamson <alex@shazbot.org>, Lucas De Marchi
- <lucas.demarchi@intel.com>, Thomas =?utf-8?Q?Hellstr=C3=B6m?=
- <thomas.hellstrom@linux.intel.com>, Rodrigo Vivi <rodrigo.vivi@intel.com>,
- Jason Gunthorpe <jgg@ziepe.ca>, Yishai Hadas <yishaih@nvidia.com>, Kevin Tian
- <kevin.tian@intel.com>, Shameer Kolothum <skolothumtho@nvidia.com>,
- <intel-xe@lists.freedesktop.org>, <linux-kernel@vger.kernel.org>,
- <kvm@vger.kernel.org>, Matthew Brost <matthew.brost@intel.com>,
- <dri-devel@lists.freedesktop.org>, Jani Nikula <jani.nikula@linux.intel.com>, 
- Joonas Lahtinen <joonas.lahtinen@linux.intel.com>, Tvrtko Ursulin
- <tursulin@ursulin.net>, David Airlie <airlied@gmail.com>, Simona Vetter
- <simona@ffwll.ch>, Lukasz Laguna <lukasz.laguna@intel.com>, Christoph Hellwig
- <hch@infradead.org>
-Subject: Re: [PATCH v4 17/28] drm/xe/pf: Add helpers for VF GGTT migration
- data handling
-Message-ID: <bb7buf73okuyux7vz7i5yymw5s3an3t5zhomevyevhbw5px6do@atv3se34mure>
-References: <20251105151027.540712-1-michal.winiarski@intel.com>
- <20251105151027.540712-18-michal.winiarski@intel.com>
- <23e04171-5b1a-4d56-9a6f-7bde65691e9d@intel.com>
-Content-Type: text/plain; charset="utf-8"
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <23e04171-5b1a-4d56-9a6f-7bde65691e9d@intel.com>
-X-ClientProxiedBy: BEXP281CA0016.DEUP281.PROD.OUTLOOK.COM (2603:10a6:b10::26)
- To DM4PR11MB5373.namprd11.prod.outlook.com
- (2603:10b6:5:394::7)
+Received: from mail-pf1-f173.google.com (mail-pf1-f173.google.com
+ [209.85.210.173])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 10A0210E027
+ for <dri-devel@lists.freedesktop.org>; Thu,  6 Nov 2025 11:48:28 +0000 (UTC)
+Received: by mail-pf1-f173.google.com with SMTP id
+ d2e1a72fcca58-7acd9a03ba9so849922b3a.1
+ for <dri-devel@lists.freedesktop.org>; Thu, 06 Nov 2025 03:48:28 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=huaqin-corp-partner-google-com.20230601.gappssmtp.com; s=20230601;
+ t=1762429707; x=1763034507; darn=lists.freedesktop.org; 
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=Aiu6UYObNyFRnGMMXknuXL/ChxL/XTeOYAU4v8VOrrE=;
+ b=LN2s84ue8oy3dl8ydNPK34iXTCJdrSRPCK1iDcsLqx03q3HvjgjPIwqB6B669zyadJ
+ HOFkn+RxgI3Pf60UnyT6l5LEYbpJwQ/zCjJISk3qk3ak41GJBNNMM4+k2/Qowsv9dFcF
+ gyzSRJTGUos0Ahb5HlPoraNnjgh18RcBdAk08ivPf7Yqc6DPEXDn5UlIGG1Jn+72zMg5
+ BkMKvybfwULE4D8Q7Srs0drebt0CAp1KyW88RVJFHUgvHvMhk9B9wGd88DF/kJXsJd1j
+ ykOvUR1TKJjdjTK30TaChzUNAJ96L4EJbLBXzyVNxIEOtzOPDDBYtyvch5NdgAHaEDtN
+ 7uag==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1762429707; x=1763034507;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=Aiu6UYObNyFRnGMMXknuXL/ChxL/XTeOYAU4v8VOrrE=;
+ b=JtnVsnV4m8m3xtVVT7gZIup0sxY7dNF6RE8frRBQ3HuP27RkjbkqnluzuY/gxuajaf
+ zydqfS6ERhYIAi1TTXaAlso0BNn2zCDGU/ICBxm/1W8waJk9udTgmloRwgC5mWoRFk5p
+ lDdaq9aHbu340jnBa9kyNNy2l1dxu3ND6O2ruqbaIoRj4nElcIveFrY5nZFgZdIglRZK
+ 53sdf0JZdLWmmDLx43QBl0K/0TPVUSxYBcQRaIxDNXp0OnQf8QwJVXmlfaNZVGpu0wuY
+ ThZ5hA8pXFPIBt016ZypN3BNSlkGdKUNdPhMKQRRNm8IwhG2uzMOr+Txb9D+BBYR0yYq
+ qc5w==
+X-Gm-Message-State: AOJu0YwlxYMJvuLa6vynm8QtYeCF/NDidCN7hZBx2qaTjDJAsEvrJ22H
+ OSQS6kBqbx6kT/06L/ZeaByh41Yjtz9purBbW19LfA5z8T3vYLWwxS4zQirC64pOLzs=
+X-Gm-Gg: ASbGncvQHpvGQ8mm6Cf2fPurd/5n5YHbHIoFtGi47D++2t6wpOsWIZwhNO2PyCOXrAU
+ jAlNs6fZGRNqhg/LwYlEqiBuxwSIZB/I35G4NtKFr6kbJDnI97gwrAx8Jv1rDEMl23aQHZlFFAI
+ gBocLx1ovuqKMnOuCwmRzoujw5dXm3vNdk/9Nud2TNC6mnl3x/ZDiCE45zwjamLzllfyX8xAgvh
+ ZtZLkndAODUKAuQHn0J13vwiFcSvV6usKhHjw0T5JZ1SQaOQKL25S2ckvqnH14MEYB5wO/d9Kko
+ wQEx5AcRwQ9FjKtfXSGeX0gVafLTzwuNGj31Slf5b/ZkHxmyODnMOjb909mrT1NHy8NzM3U6SCw
+ oeoki7Zp18erM+o5dJpm6Szw61dunHB7bu5VSaTnY89K+5omh8LmGawCtTRkwhU/XbZPZ7f7FvK
+ 8cRPFJ/ReQkhUDaO4T3E3IfTqNrbxpnZJYrE/oh+dcUXA4jFA=
+X-Google-Smtp-Source: AGHT+IE1xrlkqIX5O8nY5UQVTJetxH1Fz5NjUVVU0aIlEE+5symWHBD9ac08zk8Z6ZitGMR4+vdyNw==
+X-Received: by 2002:a05:6a00:4b0c:b0:7ab:c5b9:615f with SMTP id
+ d2e1a72fcca58-7ae1f881089mr7680773b3a.22.1762429707539; 
+ Thu, 06 Nov 2025 03:48:27 -0800 (PST)
+Received: from dgp100339560-01.huaqin.com ([103.117.77.121])
+ by smtp.gmail.com with ESMTPSA id
+ d2e1a72fcca58-7af827effebsm2478330b3a.57.2025.11.06.03.48.25
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 06 Nov 2025 03:48:27 -0800 (PST)
+From: Langyan Ye <yelangyan@huaqin.corp-partner.google.com>
+To: neil.armstrong@linaro.org, jesszhan0024@gmail.com,
+ maarten.lankhorst@linux.intel.com, mripard@kernel.org, tzimmermann@suse.de,
+ airlied@gmail.com, simona@ffwll.ch
+Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ Langyan Ye <yelangyan@huaqin.corp-partner.google.com>
+Subject: [PATCH] drm/panel: ilitek-ili9882t: Switch Tianma TL121BVMS07 to DSC
+ 120Hz mode
+Date: Thu,  6 Nov 2025 19:48:18 +0800
+Message-Id: <20251106114818.1871161-1-yelangyan@huaqin.corp-partner.google.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: DM4PR11MB5373:EE_|IA0PR11MB7331:EE_
-X-MS-Office365-Filtering-Correlation-Id: 9f58ac57-076f-4297-2725-08de1d2816d5
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|376014|7416014|366016|1800799024;
-X-Microsoft-Antispam-Message-Info: =?utf-8?B?VE9EODE2aTNYRWVBWGtidTgwU3cvckViWEJEUENpVHhLK3ZRWXJPMjE4YVB1?=
- =?utf-8?B?V0JlWkNPdmlxNml4blFIeUhjUEZ3TU5IajBSbEZ4d2pRTjhoS1EvTmx3enBI?=
- =?utf-8?B?YUcrWmV5Nk5Fa1NPWm56WXEzYWlvSnA4QTBQRS8waXd0aFVkL0xuSGE5b1o5?=
- =?utf-8?B?Z3lpZXJCci9hOENJc25EUmpPdHZHMVY4dElIK0I1U2w4QnUzcG1IaExhUWhP?=
- =?utf-8?B?SzBSUU1aVkhDUGR1ZEp1SWVpdGJYRGtSQ0x3dlZpVlMxVDVYZEQ4RVNhTTIy?=
- =?utf-8?B?WDQvRTBONFpVRzBFcnFpdWFua2lsRVZ5Rm5JZUVCcFpqVElXeUd4SEJ3Tkds?=
- =?utf-8?B?WDM4VzJ5ZjFIa1R1dkhiSkVMalhLTTM2VGpjVlh6Yk1odjhGUkRqNmhVOE1k?=
- =?utf-8?B?N1ZHdnk5SDhUN0d4MjFVMEtnNTZ1WFVBaWRTa21ENncvSG5EVTJuVlpGZ0dv?=
- =?utf-8?B?N2FPWFpjUHpjRkpkaGplQlkrNWVmNkNsV1hZSVYrenU3aC9Mbkw3ZmlRQnJu?=
- =?utf-8?B?Q0h1U2ZhN2pHYTdTMU5OWVc4NjlzQkZFajM2VCs4eHMzRkpBOTRiY3h0emQw?=
- =?utf-8?B?VUY1U3F1d2t1bk1xT201WmJPYTlOSTcyOUpLUEVIdmZ0YXBKZHBlMGt6eG5N?=
- =?utf-8?B?bFV6d1d6bXNlUis5OWh2MGxrM0dMaCs4NUpWQXJ2bXRrYmVFazBXNVZla2da?=
- =?utf-8?B?QklMR0lUWGhLamsxSktiVVNjanQwclVsZnZJOWRObTZHZmV1N1M0TVdaT2t1?=
- =?utf-8?B?QXNwSkZtaWhvMU52eENOd2ZqRXVEdGNJY2ROMUtjUXZUSDl0M0VncmVNcHBo?=
- =?utf-8?B?TVIwSmx1R3UyT0ttbkF2K2ZGaE5LRG9UdVJId3pMaklVVmxQMFdUSmkzMEJT?=
- =?utf-8?B?WTlCRm53bXBaWkdzendQdkRJYW9nU2psbGYzK0xySWpYUk9NTW5wd25wd0VZ?=
- =?utf-8?B?TDZ2OGlRbTNaZGo4RlBINlBmcUFLL1ZmcllsU3hBRDg4WnNtSDdYc2d3dmxY?=
- =?utf-8?B?RWUvbGV0YUg3TzNlRWh1Vk53TWxQMmhzNHZKMk5qWDdUblRmcTkyN0FVL25O?=
- =?utf-8?B?d0dTSFo3azBVellKU29ESC9CYkdoR000VlJmd3ZuMm45VkRYN09TN0wrVkkr?=
- =?utf-8?B?Y1htVWI5ZEZLVmx3dGxVZmVyWm5ENGhBYmtqTUNISVZWajhQSUtTSE1jQVA0?=
- =?utf-8?B?ZDJ3cWFCa0xBcjY0ZU4vS3dyMEFMWXlvSUVJMUc4MFh6QzRjdGErVzlQN0hK?=
- =?utf-8?B?YTF0cmNoNGMrMGRZNk9iNXlKS2hsUVl2SWYvWTBxQ2QxeENiWFdFNkdVdk42?=
- =?utf-8?B?a2FkZ1BKOGlFNGJiZk9uSzVFNHlQSDVaekdUaWFTeCtrbmdEQTJraElFRnQ5?=
- =?utf-8?B?K1cxMExveFRsSDhGd2JyVzF5QzJjRzM3VlFya01SL0NzYWlDeURCeVorVFc2?=
- =?utf-8?B?RzZ0YVVrditiVmZpVk16S2E5MVFtWXUvbWpLejY0Z3dlN2dmZmZ2Um9WL05Y?=
- =?utf-8?B?UUkyaHNOVTVKZnVMbEhlMGpZYXR0NEZXUTFkRUEwd0Y4YU0ySndTaW0xb0hV?=
- =?utf-8?B?TUR5SzA4dGNXTWhDN1VZeWFEa3c2SnhwTGg0UlYzbndZUG43bU1vUUV1RWdN?=
- =?utf-8?B?WUR5SXJTbzNtZEJWT21IZ1BDY1ZDOGdUYUxEczdZbHdiZFVxbk81cUliNERR?=
- =?utf-8?B?SXZidWk4dVZYN3lHdGF1MS9HTUJ2bFJZNXdaeC8yN0lBekEyUEZOVmdUT2hj?=
- =?utf-8?B?a3hBb3FMa2UrZktmNVZReGxVZnN2VnlFVXdBNklDdWVmelRWMkdHRG5qOUtW?=
- =?utf-8?B?b2xLOUZLN2xMNFhSekFrNG5KMWtUUjRtdjlVR0E1SnJ5SlZwTlhuUVg2K0Jk?=
- =?utf-8?B?WW1HcmM3VmRYVlRwNlRqOHA3Yzl6VzAyY3FDQWswRXhPOEZjMHBjQ2lMdFR4?=
- =?utf-8?Q?Lz5AAIKFBfKmjYUlLQ618J05CWtYYNa0?=
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:DM4PR11MB5373.namprd11.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230040)(376014)(7416014)(366016)(1800799024); DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?aWJxSGl1UTc4VTRBRlBZdERralJHRklLTmhtVmRtd0ZOd09OVmhNSlJPL0Fk?=
- =?utf-8?B?aHpFWkRVNHQzeFZrODZZMTAwMWE2NUlnY2VTUG9vblJTOFlHOFhMUUtaVTFl?=
- =?utf-8?B?enNZV3ZGa3hRQ0pBbzJTUjRhL3FFK1ZPcnByNUtVMHYrMVJyRnFTaWdPdHlU?=
- =?utf-8?B?d2ZjNS8rM3U3R3kxMzc0NnByZFB0ZlZ6MHlYRlBGY2lqR3pvQSs1V00xbWpS?=
- =?utf-8?B?MFU2VTN5c2EvTHBsSEllbG5kZkhxVEFINTM3VUwxQUhyTzVCbUphTWh5OFBE?=
- =?utf-8?B?cTB4ZHpOL0w2N2lkOXNLMjNlRXg4WjNpNE1jdmxIVUcyMCt1RTVHMHNRRjlM?=
- =?utf-8?B?V0NaV2NlbGtWOWNsNDREK3AzNEs2eEZ2SWFXcDQ0cFVLOG9JMit1WDVMc1Jq?=
- =?utf-8?B?ekF1ODhDbGh6cnVBQW9RcmluOUJyenlYcFEyLzN5bm5aYW9XdXhmZU91cG1J?=
- =?utf-8?B?bU9oUHhycTA1QnF3NG1MM25DSjNNU242eHloWW1QQ21XbzFXWllmempqTU15?=
- =?utf-8?B?SXRRanJmdy8zeWFNVitySUdvd2MvRVY5ZVdPT2doRTVPYnB4Snh1anBkOFZX?=
- =?utf-8?B?VkRNUWZ3SXhTMi9sZS9KTCs5dGJZemx1K3pvY1JnSXN4Q2RVS3l6RVM0bmhn?=
- =?utf-8?B?SFRJcU81Y0RPemJUWkIzeHB3elZ5L3pFQWdIRXFoQThwWW9DQ0RiSnpxU2Rl?=
- =?utf-8?B?RVBmdjBBbHdwZTlsclhNeGhxOTcyOWh0ZlMzQzY4eklqeitETWZlVDlQQTJT?=
- =?utf-8?B?Y0hKb2FFRG5DZGFnNDZoZTU1UHUycmlTb1B5MnNoY0JCdEdxVnl6YWwvNU1w?=
- =?utf-8?B?TGFnUTJoNUoraHBXcWFkUUkza2xqdDVQWVhBZjFkQWM2M1Q0eGRITnBOdVBs?=
- =?utf-8?B?a2Y4UUlySWE2WElkNjhCREZiVGhrVFVWTVcwUkdGU2pUMTNPY2J3aGRkZTNI?=
- =?utf-8?B?dG9mKy9HR1NuSEg5bnExc2pJSkY2c3JnNml5SlNLYjIrTDdVNnF4VjdDSGFP?=
- =?utf-8?B?WCtjamViN20vWFhqSGlKYnZWNVpBM3pFa1FWY3BGSE1laUJhWTFhYjlrU09X?=
- =?utf-8?B?cVlKMU9pVjdDQ1BBN3d1ZzhMUkF4WDR2OGRqSEN0cnd0RnFmU1ZDTDFVK1BK?=
- =?utf-8?B?TWV4K25wS2ZuaUJVcXdGeXhSWUhEYkU5ZDBOdWlSQlNhMHNCcUZqbTF4endu?=
- =?utf-8?B?b1VXUGZQNENXWFlZaFQ3S2plWXJHNWVBQWtuZk4rZy96OHZBNW1BVi9xM2ds?=
- =?utf-8?B?U1duZFhkTDZCTnhVNU9QelFhTFkwMXJOcUxMSDdqUlFLUTBIUE5EcmpSN3Zk?=
- =?utf-8?B?NzJYYVZNVmpLdGhmTUlGY01aSjVNK1RRUTNpVjBhblArdzEvaU84S0RKZm9W?=
- =?utf-8?B?Skp2S0hCNHdZUXpBVlIxVENlSnRjemtFdXdGbTREU3hMalRrTmNOam95S3FR?=
- =?utf-8?B?VnBSc1RiNjVqK2EwbTZrYU51UWYyaVdaajNhbndMK2I5YjFSYlI2TDJwL3g0?=
- =?utf-8?B?QkhmOEY4ZENtWDBLSmd0NzhsclFwREdOUlYySlo4N1RkL2Q3TkpiU1hZRGs0?=
- =?utf-8?B?L21NenhQdnJzSnhDOFRUb09vcTBCZzRxSElYSUhPcnRTOHlHNjRucFZMREFQ?=
- =?utf-8?B?M1NldHRsVUlqbjRpSDd1TUZxQlN0SkFlb3YrVStqajFtWktoeXlTVnYwcW1T?=
- =?utf-8?B?Zmd4WExQRzUvcDhYS0ZYWmtDTG9jNHRodWZLRVJEMk9aLzZ3d25CUEhmd1Vx?=
- =?utf-8?B?VDJxRmxacS9WclZBaXcyaVBwb0pqdElDTUs2UFZ2QlZNZU8vakNSamVRdEd1?=
- =?utf-8?B?ck90ZkN2MEtJWVNrVyt2cExjcGJhY2lNWm81SVRKeTE0ckp2aGFhVjdZZVpT?=
- =?utf-8?B?dUgyQ2tBOWNCaHpybkx0aXJIYURIemRBKzFLYmt6TmVNVTJLaGo3K2loV0RM?=
- =?utf-8?B?OWVMQUtxa0k4U3dxOWMyYk9zRitMUW5uMWtCd21EN3N3ZjN4eDBlUEZFSnAr?=
- =?utf-8?B?NUdvc2NPTmJ6aEs2TkNjaGRIdkIybVBjZ2NySXRYaXc2cE1aUG5PR3ZVRE8y?=
- =?utf-8?B?RGlLL3lKSlJBc1FxRGlTV0RhU29ubVQrMFJwUmVvOUVNZXBLUlA5MDllNktQ?=
- =?utf-8?B?Yllkc1JEREhKbTZHL3dPcUZXSzBHM1pKbm9rSXBkeGp0ZDZNSG9ZRzJhTUh6?=
- =?utf-8?B?Y2c9PQ==?=
-X-MS-Exchange-CrossTenant-Network-Message-Id: 9f58ac57-076f-4297-2725-08de1d2816d5
-X-MS-Exchange-CrossTenant-AuthSource: DM4PR11MB5373.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 06 Nov 2025 11:31:55.3502 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: K7m7+u+lP957GEAdXmUqHfj0AjCm/Aw5ANhxabL973PiZ+EmL/cGZIm0CEVKMpcKk/k9iKeJlwkuD9O2JQMhUHCJWaIdqb+UdHIQTvJbWBk=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: IA0PR11MB7331
-X-OriginatorOrg: intel.com
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -208,300 +89,252 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Nov 05, 2025 at 10:45:47PM +0100, Michal Wajdeczko wrote:
-> 
-> 
-> On 11/5/2025 4:10 PM, Michał Winiarski wrote:
-> > In an upcoming change, the VF GGTT migration data will be handled as
-> > part of VF control state machine. Add the necessary helpers to allow the
-> > migration data transfer to/from the HW GGTT resource.
-> > 
-> > Signed-off-by: Michał Winiarski <michal.winiarski@intel.com>
-> > ---
-> >  drivers/gpu/drm/xe/xe_ggtt.c               | 104 +++++++++++++++++++++
-> >  drivers/gpu/drm/xe/xe_ggtt.h               |   4 +
-> >  drivers/gpu/drm/xe/xe_ggtt_types.h         |   2 +
-> >  drivers/gpu/drm/xe/xe_gt_sriov_pf_config.c |  52 +++++++++++
-> >  drivers/gpu/drm/xe/xe_gt_sriov_pf_config.h |   5 +
-> >  5 files changed, 167 insertions(+)
-> > 
-> > diff --git a/drivers/gpu/drm/xe/xe_ggtt.c b/drivers/gpu/drm/xe/xe_ggtt.c
-> > index 20d226d90c50f..2c4f752d76996 100644
-> > --- a/drivers/gpu/drm/xe/xe_ggtt.c
-> > +++ b/drivers/gpu/drm/xe/xe_ggtt.c
-> > @@ -151,6 +151,14 @@ static void xe_ggtt_set_pte_and_flush(struct xe_ggtt *ggtt, u64 addr, u64 pte)
-> >  	ggtt_update_access_counter(ggtt);
-> >  }
-> >  
-> > +static u64 xe_ggtt_get_pte(struct xe_ggtt *ggtt, u64 addr)
-> > +{
-> > +	xe_tile_assert(ggtt->tile, !(addr & XE_PTE_MASK));
-> > +	xe_tile_assert(ggtt->tile, addr < ggtt->size);
-> > +
-> > +	return readq(&ggtt->gsm[addr >> XE_PTE_SHIFT]);
-> > +}
-> > +
-> >  static void xe_ggtt_clear(struct xe_ggtt *ggtt, u64 start, u64 size)
-> >  {
-> >  	u16 pat_index = tile_to_xe(ggtt->tile)->pat.idx[XE_CACHE_WB];
-> > @@ -233,16 +241,19 @@ void xe_ggtt_might_lock(struct xe_ggtt *ggtt)
-> >  static const struct xe_ggtt_pt_ops xelp_pt_ops = {
-> >  	.pte_encode_flags = xelp_ggtt_pte_flags,
-> >  	.ggtt_set_pte = xe_ggtt_set_pte,
-> > +	.ggtt_get_pte = xe_ggtt_get_pte,
-> >  };
-> >  
-> >  static const struct xe_ggtt_pt_ops xelpg_pt_ops = {
-> >  	.pte_encode_flags = xelpg_ggtt_pte_flags,
-> >  	.ggtt_set_pte = xe_ggtt_set_pte,
-> > +	.ggtt_get_pte = xe_ggtt_get_pte,
-> >  };
-> >  
-> >  static const struct xe_ggtt_pt_ops xelpg_pt_wa_ops = {
-> >  	.pte_encode_flags = xelpg_ggtt_pte_flags,
-> >  	.ggtt_set_pte = xe_ggtt_set_pte_and_flush,
-> > +	.ggtt_get_pte = xe_ggtt_get_pte,
-> >  };
-> >  
-> >  static void __xe_ggtt_init_early(struct xe_ggtt *ggtt, u32 reserved)
-> > @@ -889,6 +900,20 @@ u64 xe_ggtt_largest_hole(struct xe_ggtt *ggtt, u64 alignment, u64 *spare)
-> >  	return max_hole;
-> >  }
-> >  
-> > +/**
-> > + * xe_ggtt_node_pt_size() - Convert GGTT node size to its page table entries size.
-> > + * @node: the &xe_ggtt_node
-> > + *
-> > + * Return: GGTT node page table entries size in bytes.
-> > + */
-> > +size_t xe_ggtt_node_pt_size(const struct xe_ggtt_node *node)
-> > +{
-> > +	if (!node)
-> > +		return 0;
-> > +
-> > +	return node->base.size / XE_PAGE_SIZE * sizeof(u64);
-> > +}
-> > +
-> >  #ifdef CONFIG_PCI_IOV
-> >  static u64 xe_encode_vfid_pte(u16 vfid)
-> >  {
-> > @@ -930,6 +955,85 @@ void xe_ggtt_assign(const struct xe_ggtt_node *node, u16 vfid)
-> >  	xe_ggtt_assign_locked(node->ggtt, &node->base, vfid);
-> >  	mutex_unlock(&node->ggtt->lock);
-> >  }
-> > +
-> > +/**
-> > + * xe_ggtt_node_save() - Save a &xe_ggtt_node to a buffer.
-> > + * @node: the &xe_ggtt_node to be saved
-> > + * @dst: destination buffer
-> > + * @size: destination buffer size in bytes
-> > + * @vfid: VF identifier
-> > + *
-> > + * Return: 0 on success or a negative error code on failure.
-> > + */
-> > +int xe_ggtt_node_save(struct xe_ggtt_node *node, void *dst, size_t size, u16 vfid)
-> > +{
-> > +	struct xe_ggtt *ggtt;
-> > +	u64 start, end;
-> > +	u64 *buf = dst;
-> > +	u64 pte;
-> > +
-> > +	if (!node)
-> > +		return -ENOENT;
-> > +
-> > +	guard(mutex)(&node->ggtt->lock);
-> > +
-> > +	if (xe_ggtt_node_pt_size(node) != size)
-> > +		return -EINVAL;
-> > +
-> > +	ggtt = node->ggtt;
-> > +	start = node->base.start;
-> > +	end = start + node->base.size - 1;
-> > +
-> > +	while (start < end) {
-> > +		pte = ggtt->pt_ops->ggtt_get_pte(ggtt, start);
-> > +		if (vfid != u64_get_bits(pte, GGTT_PTE_VFID))
-> > +			return -EPERM;
-> > +
-> > +		*buf++ = u64_replace_bits(pte, 0, GGTT_PTE_VFID);
-> > +		start += XE_PAGE_SIZE;
-> > +	}
-> > +
-> > +	return 0;
-> > +}
-> > +
-> > +/**
-> > + * xe_ggtt_node_load() - Load a &xe_ggtt_node from a buffer.
-> > + * @node: the &xe_ggtt_node to be loaded
-> > + * @src: source buffer
-> > + * @size: source buffer size in bytes
-> > + * @vfid: VF identifier
-> > + *
-> > + * Return: 0 on success or a negative error code on failure.
-> > + */
-> > +int xe_ggtt_node_load(struct xe_ggtt_node *node, const void *src, size_t size, u16 vfid)
-> > +{
-> > +	u64 vfid_pte = xe_encode_vfid_pte(vfid);
-> > +	const u64 *buf = src;
-> > +	struct xe_ggtt *ggtt;
-> > +	u64 start, end;
-> > +
-> > +	if (!node)
-> > +		return -ENOENT;
-> > +
-> > +	guard(mutex)(&node->ggtt->lock);
-> > +
-> > +	if (xe_ggtt_node_pt_size(node) != size)
-> > +		return -EINVAL;
-> > +
-> > +	ggtt = node->ggtt;
-> > +	start = node->base.start;
-> > +	end = start + node->base.size - 1;
-> > +
-> > +	while (start < end) {
-> > +		vfid_pte = u64_replace_bits(*buf++, vfid, GGTT_PTE_VFID);
-> > +		ggtt->pt_ops->ggtt_set_pte(ggtt, start, vfid_pte);
-> > +		start += XE_PAGE_SIZE;
-> > +	}
-> > +	xe_ggtt_invalidate(ggtt);
-> > +
-> > +	return 0;
-> > +}
-> > +
-> >  #endif
-> >  
-> >  /**
-> > diff --git a/drivers/gpu/drm/xe/xe_ggtt.h b/drivers/gpu/drm/xe/xe_ggtt.h
-> > index 75fc7a1efea76..1edf27608d39a 100644
-> > --- a/drivers/gpu/drm/xe/xe_ggtt.h
-> > +++ b/drivers/gpu/drm/xe/xe_ggtt.h
-> > @@ -41,8 +41,12 @@ u64 xe_ggtt_largest_hole(struct xe_ggtt *ggtt, u64 alignment, u64 *spare);
-> >  int xe_ggtt_dump(struct xe_ggtt *ggtt, struct drm_printer *p);
-> >  u64 xe_ggtt_print_holes(struct xe_ggtt *ggtt, u64 alignment, struct drm_printer *p);
-> >  
-> > +size_t xe_ggtt_node_pt_size(const struct xe_ggtt_node *node);
-> 
-> nit: maybe it should be placed near other "node" related functions
+Migrate the TL121BVMS07 panel from non-DSC 60 Hz to DSC-enabled 120 Hz,
+including updated init sequence, DSC configuration, and display timings.
 
-Ok.
+Signed-off-by: Langyan Ye <yelangyan@huaqin.corp-partner.google.com>
+---
+ drivers/gpu/drm/panel/panel-ilitek-ili9882t.c | 147 ++++++++++++++++--
+ 1 file changed, 136 insertions(+), 11 deletions(-)
 
->  > +
-> >  #ifdef CONFIG_PCI_IOV
-> >  void xe_ggtt_assign(const struct xe_ggtt_node *node, u16 vfid);
-> > +int xe_ggtt_node_save(struct xe_ggtt_node *node, void *dst, size_t size, u16 vfid);
-> > +int xe_ggtt_node_load(struct xe_ggtt_node *node, const void *src, size_t size, u16 vfid);
-> >  #endif
-> >  
-> >  #ifndef CONFIG_LOCKDEP
-> > diff --git a/drivers/gpu/drm/xe/xe_ggtt_types.h b/drivers/gpu/drm/xe/xe_ggtt_types.h
-> > index c5e999d58ff2a..dacd796f81844 100644
-> > --- a/drivers/gpu/drm/xe/xe_ggtt_types.h
-> > +++ b/drivers/gpu/drm/xe/xe_ggtt_types.h
-> > @@ -78,6 +78,8 @@ struct xe_ggtt_pt_ops {
-> >  	u64 (*pte_encode_flags)(struct xe_bo *bo, u16 pat_index);
-> >  	/** @ggtt_set_pte: Directly write into GGTT's PTE */
-> >  	void (*ggtt_set_pte)(struct xe_ggtt *ggtt, u64 addr, u64 pte);
-> > +	/** @ggtt_get_pte: Directly read from GGTT's PTE */
-> > +	u64 (*ggtt_get_pte)(struct xe_ggtt *ggtt, u64 addr);
-> >  };
-> >  
-> >  #endif
-> > diff --git a/drivers/gpu/drm/xe/xe_gt_sriov_pf_config.c b/drivers/gpu/drm/xe/xe_gt_sriov_pf_config.c
-> > index d90261a7ab7ca..2786f516a9440 100644
-> > --- a/drivers/gpu/drm/xe/xe_gt_sriov_pf_config.c
-> > +++ b/drivers/gpu/drm/xe/xe_gt_sriov_pf_config.c
-> > @@ -726,6 +726,58 @@ int xe_gt_sriov_pf_config_set_fair_ggtt(struct xe_gt *gt, unsigned int vfid,
-> >  	return xe_gt_sriov_pf_config_bulk_set_ggtt(gt, vfid, num_vfs, fair);
-> >  }
-> >  
-> > +/**
-> > + * xe_gt_sriov_pf_config_ggtt_save() - Save a VF provisioned GGTT data into a buffer.
-> > + * @gt: the &xe_gt
-> > + * @vfid: VF identifier (can't be 0)
-> > + * @buf: the GGTT data destination buffer (or NULL to query the buf size)
-> > + * @size: the size of the buffer (or 0 to query the buf size)
-> > + *
-> > + * This function can only be called on PF.
-> > + *
-> > + * Return: size of the buffer needed to save GGTT data if querying,
-> > + *         0 on successful save or a negative error code on failure.
-> > + */
-> > +ssize_t xe_gt_sriov_pf_config_ggtt_save(struct xe_gt *gt, unsigned int vfid,
-> > +					void *buf, size_t size)
-> > +{
-> > +	struct xe_ggtt_node *node;
-> > +
-> > +	xe_gt_assert(gt, IS_SRIOV_PF(gt_to_xe(gt)));
-> > +	xe_gt_assert(gt, vfid);
-> > +	xe_gt_assert(gt, !(!buf ^ !size));
-> > +
-> > +	guard(mutex)(xe_gt_sriov_pf_master_mutex(gt));
-> 
-> new line here wouldn't hurt
+diff --git a/drivers/gpu/drm/panel/panel-ilitek-ili9882t.c b/drivers/gpu/drm/panel/panel-ilitek-ili9882t.c
+index c52f20863fc7..370424ddfc80 100644
+--- a/drivers/gpu/drm/panel/panel-ilitek-ili9882t.c
++++ b/drivers/gpu/drm/panel/panel-ilitek-ili9882t.c
+@@ -8,6 +8,8 @@
+ #include <linux/of.h>
+ #include <linux/regulator/consumer.h>
+ 
++#include <drm/display/drm_dsc.h>
++#include <drm/display/drm_dsc_helper.h>
+ #include <drm/drm_connector.h>
+ #include <drm/drm_crtc.h>
+ #include <drm/drm_mipi_dsi.h>
+@@ -15,6 +17,8 @@
+ 
+ #include <video/mipi_display.h>
+ 
++#define DSC_BPG_OFFSET(x)	((u8)((x) & DSC_RANGE_BPG_OFFSET_MASK))
++
+ struct ili9882t;
+ 
+ /*
+@@ -23,6 +27,7 @@ struct ili9882t;
+  */
+ struct panel_desc {
+ 	const struct drm_display_mode *modes;
++	const struct drm_dsc_config *dsc;
+ 	unsigned int bpc;
+ 
+ 	/**
+@@ -52,6 +57,8 @@ struct ili9882t {
+ 	struct regulator *avee;
+ 	struct regulator *avdd;
+ 	struct gpio_desc *enable_gpio;
++
++	struct drm_dsc_config dsc;
+ };
+ 
+ /* ILI9882-specific commands, add new commands as you decode them */
+@@ -68,6 +75,67 @@ struct ili9882t {
+ 	mipi_dsi_dcs_write_seq_multi(ctx, IL79900A_DCS_SWITCH_PAGE, \
+ 				     0x5a, 0xa5, (page))
+ 
++static const struct drm_dsc_config tianma_il79900a_dsc = {
++	.dsc_version_major = 1,
++	.dsc_version_minor = 2,
++	.slice_height = 8,
++	.slice_width = 800,
++	.slice_count = 2,
++	.bits_per_component = 8,
++	.bits_per_pixel = 8 << 4,
++	.block_pred_enable = true,
++	.native_420 = false,
++	.native_422 = false,
++	.simple_422 = false,
++	.vbr_enable = false,
++	.rc_model_size = DSC_RC_MODEL_SIZE_CONST,
++	.pic_width = 1600,
++	.pic_height = 2560,
++	.convert_rgb = 0,
++	.vbr_enable = 0,
++	.rc_buf_thresh = {14, 28, 42, 56, 70, 84, 98, 105, 112, 119, 121, 123, 125, 126},
++	.rc_model_size = DSC_RC_MODEL_SIZE_CONST,
++	.rc_edge_factor = DSC_RC_EDGE_FACTOR_CONST,
++	.rc_tgt_offset_high = DSC_RC_TGT_OFFSET_HI_CONST,
++	.rc_tgt_offset_low = DSC_RC_TGT_OFFSET_LO_CONST,
++	.mux_word_size = DSC_MUX_WORD_SIZE_8_10_BPC,
++	.line_buf_depth = 9,
++	.first_line_bpg_offset = 12,
++	.initial_xmit_delay = 512,
++	.initial_offset = 6144,
++	.rc_quant_incr_limit0 = 11,
++	.rc_quant_incr_limit1 = 11,
++	.nfl_bpg_offset = 1402,
++	.rc_range_params = {
++		{ 0,  4, DSC_BPG_OFFSET(2)},
++		{ 0,  4, DSC_BPG_OFFSET(0)},
++		{ 1,  5, DSC_BPG_OFFSET(0)},
++		{ 1,  6, DSC_BPG_OFFSET(-2)},
++		{ 3,  7, DSC_BPG_OFFSET(-4)},
++		{ 3,  7, DSC_BPG_OFFSET(-6)},
++		{ 3,  7, DSC_BPG_OFFSET(-8)},
++		{ 3,  8, DSC_BPG_OFFSET(-8)},
++		{ 3,  9, DSC_BPG_OFFSET(-8)},
++		{ 3, 10, DSC_BPG_OFFSET(-10)},
++		{ 5, 10, DSC_BPG_OFFSET(-10)},
++		{ 5, 11, DSC_BPG_OFFSET(-12)},
++		{ 5, 11, DSC_BPG_OFFSET(-12)},
++		{ 9, 12, DSC_BPG_OFFSET(-12)},
++		{12, 13, DSC_BPG_OFFSET(-12)},
++	},
++	.initial_scale_value = 32,
++	.slice_chunk_size = 800,
++	.initial_dec_delay = 657,
++	.final_offset = 4320,
++	.scale_increment_interval = 222,
++	.scale_decrement_interval = 11,
++	.initial_scale_value = 32,
++	.nfl_bpg_offset = 3511,
++	.slice_bpg_offset = 2179,
++	.flatness_max_qp = 12,
++	.flatness_min_qp = 3,
++};
++
+ static int starry_ili9882t_init(struct ili9882t *ili)
+ {
+ 	struct mipi_dsi_multi_context ctx = { .dsi = ili->dsi };
+@@ -423,22 +491,72 @@ static int starry_ili9882t_init(struct ili9882t *ili)
+ static int tianma_il79900a_init(struct ili9882t *ili)
+ {
+ 	struct mipi_dsi_multi_context ctx = { .dsi = ili->dsi };
++	struct drm_dsc_picture_parameter_set pps;
+ 
+ 	mipi_dsi_usleep_range(&ctx, 5000, 5100);
+ 
+ 	il79900a_switch_page(&ctx, 0x06);
+ 	mipi_dsi_dcs_write_seq_multi(&ctx, 0x3e, 0x62);
+ 
++	il79900a_switch_page(&ctx, 0x01);
++	mipi_dsi_dcs_write_seq_multi(&ctx, 0xb0, 0x00);
++
+ 	il79900a_switch_page(&ctx, 0x02);
+-	mipi_dsi_dcs_write_seq_multi(&ctx, 0x1b, 0x20);
++	mipi_dsi_dcs_write_seq_multi(&ctx, 0x1b, 0x00);
+ 	mipi_dsi_dcs_write_seq_multi(&ctx, 0x5d, 0x00);
+ 	mipi_dsi_dcs_write_seq_multi(&ctx, 0x5e, 0x40);
+ 
++	il79900a_switch_page(&ctx, 0x05);
++	mipi_dsi_dcs_write_seq_multi(&ctx, 0X9e, 0xe9);
++
+ 	il79900a_switch_page(&ctx, 0x07);
+-	mipi_dsi_dcs_write_seq_multi(&ctx, 0X29, 0x00);
++	mipi_dsi_dcs_write_seq_multi(&ctx, 0X29, 0x01);
++
++	il79900a_switch_page(&ctx, 0x17);
++	mipi_dsi_dcs_write_seq_multi(&ctx, 0x20, 0x00, 0x00, 0x00, 0x00, 0x00, 0x12, 0x00,
++				     0x00, 0x89, 0x30, 0x80, 0x0a, 0x00, 0x06, 0x40, 0x00,
++				     0x08, 0x03, 0x20, 0x03, 0x20, 0x02, 0x00, 0x02, 0x91,
++				     0x00, 0x20, 0x00, 0xde, 0x00, 0x0b, 0x00, 0x0c, 0x0d,
++				     0xb7, 0x08, 0x83, 0x18, 0x00, 0x10, 0xe0, 0x03, 0x0c,
++				     0x20, 0x00, 0x06, 0x0b, 0x0b, 0x33, 0x0e, 0x1c, 0x2a,
++				     0x38, 0x46, 0x54, 0x62, 0x69, 0x70, 0x77, 0x79, 0x7b,
++				     0x7d, 0x7e, 0x01, 0x02, 0x01, 0x00, 0x09, 0x40, 0x09,
++				     0xbe, 0x19, 0xfc, 0x19, 0xfa, 0x19, 0xf8, 0x1a, 0x38,
++				     0x1a, 0x78, 0x1a, 0xb6, 0x2a, 0xb6, 0x2a, 0xf4, 0x2a,
++				     0xf4, 0x4b, 0x34, 0x63, 0x74);
+ 
+ 	il79900a_switch_page(&ctx, 0x06);
+-	mipi_dsi_dcs_write_seq_multi(&ctx, 0x92, 0x22);
++	mipi_dsi_dcs_write_seq_multi(&ctx, 0x91, 0x45);
++
++	il79900a_switch_page(&ctx, 0x16);
++	mipi_dsi_dcs_write_seq_multi(&ctx, 0x03, 0x4b);
++	mipi_dsi_dcs_write_seq_multi(&ctx, 0x04, 0x73);
++	mipi_dsi_dcs_write_seq_multi(&ctx, 0x05, 0xdf);
++	mipi_dsi_dcs_write_seq_multi(&ctx, 0x00, 0x01);
++
++	il79900a_switch_page(&ctx, 0x10);
++	mipi_dsi_dcs_write_seq_multi(&ctx, 0x12, 0x8c);
++	mipi_dsi_dcs_write_seq_multi(&ctx, 0x14, 0x3c);
++	mipi_dsi_dcs_write_seq_multi(&ctx, 0x15, 0x3d);
++	mipi_dsi_dcs_write_seq_multi(&ctx, 0x1d, 0xfc);
++	mipi_dsi_dcs_write_seq_multi(&ctx, 0x25, 0x9d);
++
++	il79900a_switch_page(&ctx, 0x0e);
++	mipi_dsi_dcs_write_seq_multi(&ctx, 0xc0, 0x18);
++	mipi_dsi_dcs_write_seq_multi(&ctx, 0x2a, 0x0e);
++	mipi_dsi_dcs_write_seq_multi(&ctx, 0x38, 0xcd);
++	mipi_dsi_dcs_write_seq_multi(&ctx, 0x80, 0x53);
++	mipi_dsi_dcs_write_seq_multi(&ctx, 0x81, 0x0e);
++
++	il79900a_switch_page(&ctx, 0x1e);
++	mipi_dsi_dcs_write_seq_multi(&ctx, 0x61, 0x5c);
++
++	drm_dsc_pps_payload_pack(&pps, &tianma_il79900a_dsc);
++
++	mipi_dsi_picture_parameter_set_multi(&ctx, &pps);
++
++	mipi_dsi_compression_mode_ext_multi(&ctx, true,
++					    MIPI_DSI_COMPRESSION_DSC, 1);
+ 
+ 	il79900a_switch_page(&ctx, 0x00);
+ 	mipi_dsi_dcs_exit_sleep_mode_multi(&ctx);
+@@ -447,9 +565,9 @@ static int tianma_il79900a_init(struct ili9882t *ili)
+ 
+ 	mipi_dsi_dcs_set_display_on_multi(&ctx);
+ 
+-	mipi_dsi_msleep(&ctx, 80);
++	mipi_dsi_msleep(&ctx, 20);
+ 
+-	return 0;
++	return ctx.accum_err;
+ };
+ 
+ static inline struct ili9882t *to_ili9882t(struct drm_panel *panel)
+@@ -569,15 +687,15 @@ static const struct drm_display_mode starry_ili9882t_default_mode = {
+ };
+ 
+ static const struct drm_display_mode tianma_il79900a_default_mode = {
+-	.clock = 264355,
++	.clock = 543850,
+ 	.hdisplay = 1600,
+ 	.hsync_start = 1600 + 20,
+-	.hsync_end = 1600 + 20 + 4,
+-	.htotal = 1600 + 20 + 4 + 20,
++	.hsync_end = 1600 + 20 + 2,
++	.htotal = 1600 + 20 + 2 + 20,
+ 	.vdisplay = 2560,
+-	.vsync_start = 2560 + 82,
+-	.vsync_end = 2560 + 82 + 2,
+-	.vtotal = 2560 + 82 + 2 + 36,
++	.vsync_start = 2560 + 62,
++	.vsync_end = 2560 + 62 + 2,
++	.vtotal = 2560 + 62 + 2 + 136,
+ 	.type = DRM_MODE_TYPE_DRIVER | DRM_MODE_TYPE_PREFERRED,
+ };
+ 
+@@ -597,6 +715,7 @@ static const struct panel_desc starry_ili9882t_desc = {
+ 
+ static const struct panel_desc tianma_tl121bvms07_desc = {
+ 	.modes = &tianma_il79900a_default_mode,
++	.dsc = &tianma_il79900a_dsc,
+ 	.bpc = 8,
+ 	.size = {
+ 		.width_mm = 163,
+@@ -716,6 +835,12 @@ static int ili9882t_probe(struct mipi_dsi_device *dsi)
+ 	dsi->mode_flags = desc->mode_flags;
+ 	ili->desc = desc;
+ 	ili->dsi = dsi;
++
++	if (desc->dsc) {
++		ili->dsc = *desc->dsc;
++		dsi->dsc = &ili->dsc;
++	}
++
+ 	ret = ili9882t_add(ili);
+ 	if (ret < 0)
+ 		return ret;
+-- 
+2.34.1
 
-Ok.
-
-> 
-> > +	node = pf_pick_vf_config(gt, vfid)->ggtt_region;
-> > +
-> > +	if (!buf)
-> > +		return xe_ggtt_node_pt_size(node);
-> > +
-> > +	return xe_ggtt_node_save(node, buf, size, vfid);
-> > +}
-> > +
-> > +/**
-> > + * xe_gt_sriov_pf_config_ggtt_restore() - Restore a VF provisioned GGTT data from a buffer.
-> > + * @gt: the &xe_gt
-> > + * @vfid: VF identifier (can't be 0)
-> > + * @buf: the GGTT data source buffer
-> > + * @size: the size of the buffer
-> > + *
-> > + * This function can only be called on PF.
-> > + *
-> > + * Return: 0 on success or a negative error code on failure.
-> > + */
-> > +int xe_gt_sriov_pf_config_ggtt_restore(struct xe_gt *gt, unsigned int vfid,
-> > +				       const void *buf, size_t size)
-> > +{
-> > +	xe_gt_assert(gt, IS_SRIOV_PF(gt_to_xe(gt)));
-> > +	xe_gt_assert(gt, vfid);
-> > +
-> > +	guard(mutex)(xe_gt_sriov_pf_master_mutex(gt));
-> > +
-> > +	return xe_ggtt_node_load(pf_pick_vf_config(gt, vfid)->ggtt_region, buf, size, vfid);
-> 
-> nit: not very clear, better to have node* var
-
-Ok.
-
-> 
-> > +}
-> > +
-> >  static u32 pf_get_min_spare_ctxs(struct xe_gt *gt)
-> >  {
-> >  	/* XXX: preliminary */
-> > diff --git a/drivers/gpu/drm/xe/xe_gt_sriov_pf_config.h b/drivers/gpu/drm/xe/xe_gt_sriov_pf_config.h
-> > index 14d036790695d..66223c0e948db 100644
-> > --- a/drivers/gpu/drm/xe/xe_gt_sriov_pf_config.h
-> > +++ b/drivers/gpu/drm/xe/xe_gt_sriov_pf_config.h
-> > @@ -71,6 +71,11 @@ ssize_t xe_gt_sriov_pf_config_save(struct xe_gt *gt, unsigned int vfid, void *bu
-> >  int xe_gt_sriov_pf_config_restore(struct xe_gt *gt, unsigned int vfid,
-> >  				  const void *buf, size_t size);
-> >  
-> > +ssize_t xe_gt_sriov_pf_config_ggtt_save(struct xe_gt *gt, unsigned int vfid,
-> > +					void *buf, size_t size);
-> > +int xe_gt_sriov_pf_config_ggtt_restore(struct xe_gt *gt, unsigned int vfid,
-> > +				       const void *buf, size_t size);
-> > +
-> >  bool xe_gt_sriov_pf_config_is_empty(struct xe_gt *gt, unsigned int vfid);
-> >  
-> >  int xe_gt_sriov_pf_config_init(struct xe_gt *gt);
-> 
-> few nits, but LGTM
-> 
-> Reviewed-by: Michal Wajdeczko <michal.wajdeczko@intel.com>
-> 
-
-Thanks,
--Michał
