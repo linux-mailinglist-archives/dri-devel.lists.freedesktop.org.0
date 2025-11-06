@@ -2,35 +2,35 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6349FC3CD35
-	for <lists+dri-devel@lfdr.de>; Thu, 06 Nov 2025 18:28:08 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 28103C3CD47
+	for <lists+dri-devel@lfdr.de>; Thu, 06 Nov 2025 18:28:31 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A500D10E99A;
-	Thu,  6 Nov 2025 17:28:06 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 694D410E99C;
+	Thu,  6 Nov 2025 17:28:29 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="FLwc/b9C";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="sZ/RhAlP";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from sea.source.kernel.org (sea.source.kernel.org [172.234.252.31])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 275D210E99A
- for <dri-devel@lists.freedesktop.org>; Thu,  6 Nov 2025 17:28:05 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id F376210E99C
+ for <dri-devel@lists.freedesktop.org>; Thu,  6 Nov 2025 17:28:27 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by sea.source.kernel.org (Postfix) with ESMTP id F0EF8432E5;
- Thu,  6 Nov 2025 17:28:04 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C585BC4CEFB;
- Thu,  6 Nov 2025 17:28:00 +0000 (UTC)
+ by sea.source.kernel.org (Postfix) with ESMTP id BC5FD419A7;
+ Thu,  6 Nov 2025 17:28:27 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 818A5C116B1;
+ Thu,  6 Nov 2025 17:28:23 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1762450084;
- bh=bgxrGX1ncCHXXJp1kwwkg1TSvCMea4zbZRphFSfsxhA=;
+ s=k20201202; t=1762450107;
+ bh=iC6Sx3olaO5GIbhILXITGGp5LFe0wk6ZVESyi6YJa2c=;
  h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=FLwc/b9Cj6k5hUXPM9oYxjeswD8Vb1ej4/mcZDVLV0MmuNFlo+hLSwLEDhVYG9FgW
- 2onU3Rj3cj25Sp6p7wA78X45e3lV0E274Qj4/fFwJbhu6X02vf+tVHiDX5nFbppzKk
- 50GP1FEbI7eV5/ocbikVTV9B1i5WUB0+NiRUrBhyEl6byOJ25Ik3kariC2esEEJYPw
- iFULGRyotJ1WnSPGN6Y933gUd0H5d1YejDHnubSFeTWJy6dWVhtGODA1g5Hvpfxlm7
- utgvNAHF6d4dpnoaEdW6rUJJPrGoEMTe3GNBVRY6uuAj65ErVMlp986qDmisjXmPK/
- /8bCy4V5KvAnA==
-Date: Thu, 6 Nov 2025 17:27:58 +0000
+ b=sZ/RhAlPp91Mcy1gWTPrw7f3QWkfcTayy9dLFwOf2tcTfXVkM0kPETL+M35yIWeD8
+ Z7vRAcMc7Gih4uILpZ85GUThjO5PmTL3ZoynkD1DBRl0/Ra4aCjINSqgAIGGZbjI0Y
+ 5vevItUdsd7wjA69sCF7U4GKYAbVy06qJRMCmq9Pm9IIUzOQzvSKXxqGotopm95QEz
+ v26R4Zc4ZhQdM2K1xSmJMhM2K63QMdZkXTPOkDnW3GFF7pvdhh16q380+vw4TfLEO+
+ 1hpDKGr1+VtdnU7UeJdRDBqjpJStrgXPORz2PDGKWkFI3nn7c4X2v13DY1r/FVY83d
+ Ucj6JVHe60/Eg==
+Date: Thu, 6 Nov 2025 17:28:21 +0000
 From: Conor Dooley <conor@kernel.org>
 To: Chaoyi Chen <kernel@airkyi.com>
 Cc: Neil Armstrong <neil.armstrong@linaro.org>,
@@ -48,16 +48,16 @@ Cc: Neil Armstrong <neil.armstrong@linaro.org>,
  linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
  linux-rockchip@lists.infradead.org, linux-phy@lists.infradead.org,
  Chaoyi Chen <chaoyi.chen@rock-chips.com>
-Subject: Re: [PATCH 3/9] dt-bindings: display: rockchip,dw-mipi-dsi: Add
- compatible for rk3506
-Message-ID: <20251106-watch-confining-6a3800cf81eb@spud>
+Subject: Re: [PATCH 1/9] dt-bindings: ili9881c: Add compatible string for
+ Wanchanglong w552946aaa
+Message-ID: <20251106-kung-lunacy-c5d7abc9208d@spud>
 References: <20251106020632.92-1-kernel@airkyi.com>
- <20251106020632.92-4-kernel@airkyi.com>
+ <20251106020632.92-2-kernel@airkyi.com>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha512;
- protocol="application/pgp-signature"; boundary="3yjg8hVehVxlP0SN"
+ protocol="application/pgp-signature"; boundary="ofQ0I7gBfCHdH+8t"
 Content-Disposition: inline
-In-Reply-To: <20251106020632.92-4-kernel@airkyi.com>
+In-Reply-To: <20251106020632.92-2-kernel@airkyi.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -74,22 +74,22 @@ Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
---3yjg8hVehVxlP0SN
+--ofQ0I7gBfCHdH+8t
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
 Acked-by: Conor Dooley <conor.dooley@microchip.com>
 pw-bot: not-applicable
 
---3yjg8hVehVxlP0SN
+--ofQ0I7gBfCHdH+8t
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iHUEABYKAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCaQzangAKCRB4tDGHoIJi
-0mJSAP9jViavOmW7ijllM9pi+5hpceEFSeVprT+VVdypRaeBggEAraipNDFhLqIW
-QknuBgh9VzGzJrCnn5mz8n4Ul7FO0Aw=
-=9Uh8
+iHUEABYKAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCaQzatQAKCRB4tDGHoIJi
+0rwnAQDmcL+k21bj18YzPi7gOSkRemWwpLsYjKt9s2bYSP+QyQEAxoCT6xwaVu0E
+/KkqsLi7QzzgY/xbeYqQKIK693W4pwI=
+=sGc8
 -----END PGP SIGNATURE-----
 
---3yjg8hVehVxlP0SN--
+--ofQ0I7gBfCHdH+8t--
