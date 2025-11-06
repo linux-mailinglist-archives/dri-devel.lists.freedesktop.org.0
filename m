@@ -2,141 +2,65 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3B79DC3B9A3
-	for <lists+dri-devel@lfdr.de>; Thu, 06 Nov 2025 15:13:17 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1CC27C3BA17
+	for <lists+dri-devel@lfdr.de>; Thu, 06 Nov 2025 15:17:08 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9F56A10E8EE;
-	Thu,  6 Nov 2025 14:13:15 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A82D310E8F9;
+	Thu,  6 Nov 2025 14:17:05 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=ti.com header.i=@ti.com header.b="XcI4EWlD";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="nCbgfcJJ";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from SN4PR0501CU005.outbound.protection.outlook.com
- (mail-southcentralusazhn15011021.outbound.protection.outlook.com
- [52.102.140.21])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 862E410E8EE
- for <dri-devel@lists.freedesktop.org>; Thu,  6 Nov 2025 14:13:13 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=VfqNU8FpgZfB4HGnIqvenCyi7aeeskmWt2lhIbXgUcWGyeEyHZBgreElriY8gehM5rI0q2rZeYRneOaX25tXjD+/cWObC4KbnSBDWrnqJCBOIXhVAPiB2K0xsHbDvodcswy+nOq5gCsQnX2sETwIle+L+wljDFaIZd28OJnsBaU9F3Zj3HthRzm6J5uIQCDVQgWHQfidjXxp0MTHV5WlEm+vk1m3VPdvRjcuUwbQVa4SF6RekDuh5PeOdBKPuC8+b83NhzNcyAjpQK2DDuvI3tPIoN5Z0pxhAO7uORHmwT5nivKWHIhZbocQJ68YOPHUpkNwFFypz+FGayP4HgVSNg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=wwlKsDXAyd4qlaamF8RAvN3x3zyji7/h09GYHZOJ980=;
- b=taGh7VEHPUs18qRCPApLi6Zs+g2thncbSKErql9JK0Nti1CLzZl/0k20wsC+PDGBQNRafI4FokO+EHuAm1JFGeWDQ8PcG/a2bG0vHpvCrPrMqdyvnf0rqasujqhe1NhuEKGsDXqWdza0mPbj4u6NbG4RVkIJFrngqgdsgHaD6D9wPTVnOQsvfbf2E5PAJACSLZb3nyNl39Hi/SVhOvNcCOl6k3zT/gWAmyQiUbbtqokzdHFGxF2NHs/srMljkX0N3ZTbDIxpXb6okDHGtlyVuHxJGiKsz3/EqxzlXgr9gRy5zGoueDSGxNWkpmSMkSa3UUJL0Ls02oF2SOJ986/FwQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 198.47.23.195) smtp.rcpttodomain=vger.kernel.org smtp.mailfrom=ti.com;
- dmarc=pass (p=quarantine sp=none pct=100) action=none header.from=ti.com;
- dkim=none (message not signed); arc=none (0)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=wwlKsDXAyd4qlaamF8RAvN3x3zyji7/h09GYHZOJ980=;
- b=XcI4EWlD2wdN1nPaEcMYssyX+Xy6IFX1Sx1SF9tWwNrYvslxfqEHluGeLB/8KvuZ9C7NmUox4PsYnRpghkpxZzoREVFOcw48IINfD9TWgP1NtpdZ5W3Rr56OnVpOy48aD/hhXug5JfdHmKQrW1iQKLUSfEnsa9h1VVKR4uiUzuc=
-Received: from PH5P220CA0008.NAMP220.PROD.OUTLOOK.COM (2603:10b6:510:34a::6)
- by SA1PR10MB7683.namprd10.prod.outlook.com (2603:10b6:806:386::12) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9298.7; Thu, 6 Nov
- 2025 14:13:08 +0000
-Received: from CY4PEPF0000EE3E.namprd03.prod.outlook.com
- (2603:10b6:510:34a:cafe::d2) by PH5P220CA0008.outlook.office365.com
- (2603:10b6:510:34a::6) with Microsoft SMTP Server (version=TLS1_3,
- cipher=TLS_AES_256_GCM_SHA384) id 15.20.9298.12 via Frontend Transport; Thu,
- 6 Nov 2025 14:13:18 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 198.47.23.195)
- smtp.mailfrom=ti.com; dkim=none (message not signed) header.d=none; dmarc=pass
- action=none header.from=ti.com;
-Received-SPF: Pass (protection.outlook.com: domain of ti.com designates
- 198.47.23.195 as permitted sender) receiver=protection.outlook.com;
- client-ip=198.47.23.195; helo=lewvzet201.ext.ti.com; pr=C
-Received: from lewvzet201.ext.ti.com (198.47.23.195) by
- CY4PEPF0000EE3E.mail.protection.outlook.com (10.167.242.16) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.9298.6 via Frontend Transport; Thu, 6 Nov 2025 14:13:08 +0000
-Received: from DLEE203.ent.ti.com (157.170.170.78) by lewvzet201.ext.ti.com
- (10.4.14.104) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.20; Thu, 6 Nov
- 2025 08:13:04 -0600
-Received: from DLEE202.ent.ti.com (157.170.170.77) by DLEE203.ent.ti.com
- (157.170.170.78) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.20; Thu, 6 Nov
- 2025 08:13:04 -0600
-Received: from lelvem-mr05.itg.ti.com (10.180.75.9) by DLEE202.ent.ti.com
- (157.170.170.77) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.20 via Frontend
- Transport; Thu, 6 Nov 2025 08:13:04 -0600
-Received: from a0512632.dhcp.ti.com (a0512632.dhcp.ti.com [172.24.233.20])
- by lelvem-mr05.itg.ti.com (8.18.1/8.18.1) with ESMTP id 5A6ECRES1335893;
- Thu, 6 Nov 2025 08:12:58 -0600
-From: Swamil Jain <s-jain1@ti.com>
-To: <jyri.sarha@iki.fi>, <tomi.valkeinen@ideasonboard.com>,
- <maarten.lankhorst@linux.intel.com>, <mripard@kernel.org>,
- <tzimmermann@suse.de>, <airlied@gmail.com>, <simona@ffwll.ch>, <nm@ti.com>,
- <vigneshr@ti.com>, <kristo@kernel.org>, <robh@kernel.org>,
- <krzk+dt@kernel.org>, <conor+dt@kernel.org>, <lee@kernel.org>,
- <louis.chauvet@bootlin.com>, <aradhya.bhatia@linux.dev>
-CC: <devarsht@ti.com>, <praneeth@ti.com>, <h-shenoy@ti.com>,
- <dri-devel@lists.freedesktop.org>, <linux-arm-kernel@lists.infradead.org>,
- <devicetree@vger.kernel.org>, <linux-kernel@vger.kernel.org>
-Subject: [RESEND PATCH v2 5/5] drm/tidss: Fix sampling edge configuration
-Date: Thu, 6 Nov 2025 19:42:27 +0530
-Message-ID: <20251106141227.899054-6-s-jain1@ti.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20251106141227.899054-1-s-jain1@ti.com>
-References: <20251106141227.899054-1-s-jain1@ti.com>
+Received: from sea.source.kernel.org (sea.source.kernel.org [172.234.252.31])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0B24310E8F2
+ for <dri-devel@lists.freedesktop.org>; Thu,  6 Nov 2025 14:17:05 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by sea.source.kernel.org (Postfix) with ESMTP id C4148404CD;
+ Thu,  6 Nov 2025 14:17:04 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 03904C116C6;
+ Thu,  6 Nov 2025 14:17:04 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1762438624;
+ bh=ZavZy68UqW1iEHt3XxoVBWkpiyDI0Ett9ka52Qq65eI=;
+ h=From:To:Cc:Subject:Date:From;
+ b=nCbgfcJJVAgp+47hn67gndUHr6jEkmDHYevSsgdB5u5pebS46j/IfiyAve50aSXBu
+ aE2CpvHtBtgp9TYWeQB60v7v8aRp13S181ShG8FUfQm0nstDguR221Vb7BHMPQbpIs
+ egK4YhZbKb2yklQGRma1CORzcRTPN2v4cpKPf/hy5ca1rFZywrLH5IPrUHSmWl4qQv
+ +l2Zjq3BoFBbOZCfoc90fijvuepqQT7tFLnc1Nz76CuWE2FH8bdQraHWWHdp/0/bcB
+ gRpfVwIYMmpMY+6eqM7EkWVLT6tUZ34cKVrMY7m/bLt3v6xx0uKDgyPb7fgUXscM6r
+ 5e5y+vSnehUtw==
+From: Leon Romanovsky <leon@kernel.org>
+To: Bjorn Helgaas <bhelgaas@google.com>, Logan Gunthorpe <logang@deltatee.com>,
+ Jens Axboe <axboe@kernel.dk>, Robin Murphy <robin.murphy@arm.com>,
+ Joerg Roedel <joro@8bytes.org>, Will Deacon <will@kernel.org>,
+ Marek Szyprowski <m.szyprowski@samsung.com>,
+ Jason Gunthorpe <jgg@ziepe.ca>, Leon Romanovsky <leon@kernel.org>,
+ Andrew Morton <akpm@linux-foundation.org>,
+ Jonathan Corbet <corbet@lwn.net>, Sumit Semwal <sumit.semwal@linaro.org>,
+ =?utf-8?q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
+ Kees Cook <kees@kernel.org>, "Gustavo A. R. Silva" <gustavoars@kernel.org>,
+ Ankit Agrawal <ankita@nvidia.com>, Yishai Hadas <yishaih@nvidia.com>,
+ Shameer Kolothum <skolothumtho@nvidia.com>,
+ Kevin Tian <kevin.tian@intel.com>, Alex Williamson <alex@shazbot.org>
+Cc: Krishnakant Jaju <kjaju@nvidia.com>, Matt Ochs <mochs@nvidia.com>,
+ linux-pci@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-block@vger.kernel.org, iommu@lists.linux.dev, linux-mm@kvack.org,
+ linux-doc@vger.kernel.org, linux-media@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org,
+ kvm@vger.kernel.org, linux-hardening@vger.kernel.org,
+ Alex Mastro <amastro@fb.com>, Nicolin Chen <nicolinc@nvidia.com>,
+ Vivek Kasireddy <vivek.kasireddy@intel.com>
+Subject: [PATCH v7 00/11] vfio/pci: Allow MMIO regions to be exported through
+ dma-buf
+Date: Thu,  6 Nov 2025 16:16:45 +0200
+Message-ID: <20251106-dmabuf-vfio-v7-0-2503bf390699@nvidia.com>
+X-Mailer: git-send-email 2.51.1
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-C2ProcessedOrg: 333ef613-75bf-4e12-a4b1-8e3623f5dcea
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: CY4PEPF0000EE3E:EE_|SA1PR10MB7683:EE_
-X-MS-Office365-Filtering-Correlation-Id: 5eb7caa7-a774-454c-96e1-08de1d3e9c9d
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
- ARA:13230040|1800799024|82310400026|376014|7416014|36860700013|34020700016|921020|12100799066;
-X-Microsoft-Antispam-Message-Info: =?us-ascii?Q?M0cGdcT3VbW6LcL+M5y1NsTkdTQ4w0M38hZG0gDHveWtOKT5V22EXme8q7/T?=
- =?us-ascii?Q?MgnhXdrLhoP8MlZ61v5iv+QKS5f/Swlt4Uw4WQdyqU1G5qgNNWoevjSWpUSd?=
- =?us-ascii?Q?jKds3yAsC3GOQwa4mg7ziUpnx0xIW5wkM1Y88QQWDQRVSMklpCtwSMR4qSpS?=
- =?us-ascii?Q?wZ+lqqhFI0+FK0inpP5HkgB8u53lk1qfbEwWPt8upFQeXfOk5/jheq6U6Afj?=
- =?us-ascii?Q?6HKZeRtM6neYN62/lMcpCF9Cenji9IkLDGcTspZi6ju/i/OVKNM6BljnJZfU?=
- =?us-ascii?Q?BRwBfaahU3FOnDP8805o8TmfMJVmx2aeBpineQRJzEeJ9B2Gf7/Z7kcj7gXt?=
- =?us-ascii?Q?7NjjqbLBQwE2sZg8GWGRdWrrDyheV0qvbh1/tFb7KJICJ6gH9TPuigBjW0NV?=
- =?us-ascii?Q?+vdJQJim1y11gE/XtcIv4Xc1yLOtlxi8dDdPOw6MVWcUVCalMx+60sA4qaCe?=
- =?us-ascii?Q?5PTRq4RTP6bVc3lrDlW6vqjOojsaPQEAImh0pDYozUFCAHHfK7PlZR1juQ3p?=
- =?us-ascii?Q?Fd7RmhxTF7hEUOcRVqJY9//gtZDNFhFXPsA/HLNgS9+VlLNeloisKogIfPge?=
- =?us-ascii?Q?twjZN3mwhPsFRxXLMxa7kDS6E6rrJ8iSlEe7oltGpScd5XSHQg/3cKWtuB/J?=
- =?us-ascii?Q?RmtGX02Fz0OUHqOtLg1HzGJqW3QC/vtMG2dGtZ9RTrgkdgG5T8sakpCDwzLv?=
- =?us-ascii?Q?YOiJmu7uZe0GlykPo9Lv2NUk+6HAojvlW0MljjLSo2Bd4hr9oYZG6MGERI+y?=
- =?us-ascii?Q?9cW3VB+DjFnzWMUEPTnSiOKDzmuJqASwPbVuvZ4bpaWIP6+Ox5J9pjFIKAkb?=
- =?us-ascii?Q?II5iKbxeEW2OukkDErzxnJO51BujpcWgE0YOhs+uf7P3/nUYg+lXE6r/P29i?=
- =?us-ascii?Q?i5JCnH2u8Hger3pHwHZd3t3WqGj5zUuIYTTD1RjQ+jpvO6MNbsOWYdNJYhCJ?=
- =?us-ascii?Q?nCCowy/x5JC44Yzz+m2X3uq1TektCwIXZdK7LTJNMbIxBZ5tOX4op2BBZ436?=
- =?us-ascii?Q?eYrKJzCUpOwR3uAOTmiF3L0PJ8v8L02VS9fDdQLyRraM+aD9g5A8UW0twUcH?=
- =?us-ascii?Q?I++LFtczji6ptETNqMYwkADocXOGLe5cGUrfSwWsbZTYIrO+Y92g+wd/fWZX?=
- =?us-ascii?Q?DKI11IYtxQqOF5uRgIFKwDvQzRxNnfXgLsLXjrPXOBD/R4AujFwxF/4r7RFc?=
- =?us-ascii?Q?mpWLcfB+ozx8jxvjZI/K1xk0Jmq0SBGUWxwzCTO/Q7wgV6u/6LvL+RQyDgXA?=
- =?us-ascii?Q?PE/8s6uPkJPFy+dgk52V+3WJzncd+0b6I71tnM1tShLS4SehZwvbtsnvsEkd?=
- =?us-ascii?Q?lA29ZZFNo/REFdr8HLi0a2aQYlJg1iaoZMmq6xUxNTykRTum3FInZYkCKFpx?=
- =?us-ascii?Q?7jtj4V0i4Fhhg6O41Wyp4ca/r8Mh+xEtJxCRZ1dugX33qQmHGhwLO1HJsRxU?=
- =?us-ascii?Q?kn9pJ49KA7wrUq0xyOYLObM/WxwbRfsYCKT5i7Hz/jn1Mee8ehrRCPAcEOVD?=
- =?us-ascii?Q?6D3/ITjm5uN8h0YezUyjFuz4y+g6XdKZGqozXfYFZNl4BdeNg4DIWomix/Oa?=
- =?us-ascii?Q?HqoIVwTa51hYjtPYnktGku05mfkCHDMRiMD8lO0/?=
-X-Forefront-Antispam-Report: CIP:198.47.23.195; CTRY:US; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:lewvzet201.ext.ti.com; PTR:InfoDomainNonexistent;
- CAT:NONE;
- SFS:(13230040)(1800799024)(82310400026)(376014)(7416014)(36860700013)(34020700016)(921020)(12100799066);
- DIR:OUT; SFP:1501; 
-X-OriginatorOrg: ti.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 06 Nov 2025 14:13:08.5509 (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 5eb7caa7-a774-454c-96e1-08de1d3e9c9d
-X-MS-Exchange-CrossTenant-Id: e5b49634-450b-4709-8abb-1e2b19b982b7
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=e5b49634-450b-4709-8abb-1e2b19b982b7; Ip=[198.47.23.195];
- Helo=[lewvzet201.ext.ti.com]
-X-MS-Exchange-CrossTenant-AuthSource: CY4PEPF0000EE3E.namprd03.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA1PR10MB7683
+Content-Type: text/plain; charset="utf-8"
+X-Change-ID: 20251016-dmabuf-vfio-6cef732adf5a
+X-Mailer: b4 0.15-dev-3ae27
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -152,64 +76,166 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Louis Chauvet <louis.chauvet@bootlin.com>
-
-As stated in the AM62x Technical Reference Manual (SPRUIV7B)[1], the data
-sampling edge needs to be configured in two distinct registers: one in the
-TIDSS IP and another in the memory-mapped control register modules. Since
-the latter is not within the same address range, a phandle to a syscon
-device is used to access the regmap.
-
-Configure the CTRL_MMR register, as mentioned in the Technical Reference
-Manual to fix sampling edge.
-
-[1]: https://www.ti.com/lit/ug/spruiv7b/spruiv7b.pdf
-
-Fixes: ad2ac9dc9426 ("drm/tidss: Add support for AM625 DSS")
-Fixes: 5cc5ea7b6d7b ("drm/tidss: Add support for AM62A7 DSS")
-Cc: stable@vger.kernel.org
-Signed-off-by: Louis Chauvet <louis.chauvet@bootlin.com>
-Signed-off-by: Swamil Jain <s-jain1@ti.com>
----
- drivers/gpu/drm/tidss/tidss_dispc.c | 14 ++++++++++++++
- 1 file changed, 14 insertions(+)
-
-diff --git a/drivers/gpu/drm/tidss/tidss_dispc.c b/drivers/gpu/drm/tidss/tidss_dispc.c
-index d8e1a1bcd660..d09eecb72dc0 100644
---- a/drivers/gpu/drm/tidss/tidss_dispc.c
-+++ b/drivers/gpu/drm/tidss/tidss_dispc.c
-@@ -500,6 +500,7 @@ struct dispc_device {
- 	const struct dispc_features *feat;
- 
- 	struct clk *fclk;
-+	struct regmap *clk_ctrl;
- 
- 	bool is_enabled;
- 
-@@ -1234,6 +1235,11 @@ void dispc_vp_prepare(struct dispc_device *dispc, u32 hw_videoport,
- 				  mode->crtc_hdisplay - 1) |
- 		       FIELD_PREP(DISPC_VP_SIZE_SCREEN_VDISPLAY_MASK,
- 				  mode->crtc_vdisplay - 1));
-+
-+	if (dispc->clk_ctrl) {
-+		regmap_update_bits(dispc->clk_ctrl, 0, 0x100, ipc ? 0x100 : 0x000);
-+		regmap_update_bits(dispc->clk_ctrl, 0, 0x200, rf ? 0x200 : 0x000);
-+	}
- }
- 
- void dispc_vp_enable(struct dispc_device *dispc, u32 hw_videoport)
-@@ -3003,6 +3009,14 @@ int dispc_init(struct tidss_device *tidss)
- 
- 	dispc_init_errata(dispc);
- 
-+	dispc->clk_ctrl = syscon_regmap_lookup_by_phandle_optional(tidss->dev->of_node,
-+								   "ti,clk-ctrl");
-+	if (IS_ERR(dispc->clk_ctrl)) {
-+		r = dev_err_probe(dispc->dev, PTR_ERR(dispc->clk_ctrl),
-+				  "DISPC: syscon_regmap_lookup_by_phandle failed.\n");
-+		return r;
-+	}
-+
- 	dispc->fourccs = devm_kcalloc(dev, ARRAY_SIZE(dispc_color_formats),
- 				      sizeof(*dispc->fourccs), GFP_KERNEL);
- 	if (!dispc->fourccs)
+Changelog:=0D
+v7:=0D
+ * Dropped restore_revoke flag and added vfio_pci_dma_buf_move=0D
+   to reverse loop.=0D
+ * Fixed spelling errors in documentation patch.=0D
+ * Rebased on top of v6.18-rc3.=0D
+ * Added include to stddef.h to vfio.h, to keep uapi header file independen=
+t.=0D
+v6: https://patch.msgid.link/20251102-dmabuf-vfio-v6-0-d773cff0db9f@nvidia.=
+com=0D
+ * Fixed wrong error check from pcim_p2pdma_init().=0D
+ * Documented pcim_p2pdma_provider() function.=0D
+ * Improved commit messages.=0D
+ * Added VFIO DMA-BUF selftest, not sent yet.=0D
+ * Added __counted_by(nr_ranges) annotation to struct vfio_device_feature_d=
+ma_buf.=0D
+ * Fixed error unwind when dma_buf_fd() fails.=0D
+ * Document latest changes to p2pmem.=0D
+ * Removed EXPORT_SYMBOL_GPL from pci_p2pdma_map_type.=0D
+ * Moved DMA mapping logic to DMA-BUF.=0D
+ * Removed types patch to avoid dependencies between subsystems.=0D
+ * Moved vfio_pci_dma_buf_move() in err_undo block.=0D
+ * Added nvgrace patch.=0D
+v5: https://lore.kernel.org/all/cover.1760368250.git.leon@kernel.org=0D
+ * Rebased on top of v6.18-rc1.=0D
+ * Added more validation logic to make sure that DMA-BUF length doesn't=0D
+   overflow in various scenarios.=0D
+ * Hide kernel config from the users.=0D
+ * Fixed type conversion issue. DMA ranges are exposed with u64 length,=0D
+   but DMA-BUF uses "unsigned int" as a length for SG entries.=0D
+ * Added check to prevent from VFIO drivers which reports BAR size=0D
+   different from PCI, do not use DMA-BUF functionality.=0D
+v4: https://lore.kernel.org/all/cover.1759070796.git.leon@kernel.org=0D
+ * Split pcim_p2pdma_provider() to two functions, one that initializes=0D
+   array of providers and another to return right provider pointer.=0D
+v3: https://lore.kernel.org/all/cover.1758804980.git.leon@kernel.org=0D
+ * Changed pcim_p2pdma_enable() to be pcim_p2pdma_provider().=0D
+ * Cache provider in vfio_pci_dma_buf struct instead of BAR index.=0D
+ * Removed misleading comment from pcim_p2pdma_provider().=0D
+ * Moved MMIO check to be in pcim_p2pdma_provider().=0D
+v2: https://lore.kernel.org/all/cover.1757589589.git.leon@kernel.org/=0D
+ * Added extra patch which adds new CONFIG, so next patches can reuse=0D
+ * it.=0D
+ * Squashed "PCI/P2PDMA: Remove redundant bus_offset from map state"=0D
+   into the other patch.=0D
+ * Fixed revoke calls to be aligned with true->false semantics.=0D
+ * Extended p2pdma_providers to be per-BAR and not global to whole=0D
+ * device.=0D
+ * Fixed possible race between dmabuf states and revoke.=0D
+ * Moved revoke to PCI BAR zap block.=0D
+v1: https://lore.kernel.org/all/cover.1754311439.git.leon@kernel.org=0D
+ * Changed commit messages.=0D
+ * Reused DMA_ATTR_MMIO attribute.=0D
+ * Returned support for multiple DMA ranges per-dMABUF.=0D
+v0: https://lore.kernel.org/all/cover.1753274085.git.leonro@nvidia.com=0D
+=0D
+---------------------------------------------------------------------------=
+=0D
+Based on "[PATCH v6 00/16] dma-mapping: migrate to physical address-based A=
+PI"=0D
+https://lore.kernel.org/all/cover.1757423202.git.leonro@nvidia.com/ series.=
+=0D
+---------------------------------------------------------------------------=
+=0D
+=0D
+This series extends the VFIO PCI subsystem to support exporting MMIO=0D
+regions from PCI device BARs as dma-buf objects, enabling safe sharing of=0D
+non-struct page memory with controlled lifetime management. This allows RDM=
+A=0D
+and other subsystems to import dma-buf FDs and build them into memory regio=
+ns=0D
+for PCI P2P operations.=0D
+=0D
+The series supports a use case for SPDK where a NVMe device will be=0D
+owned by SPDK through VFIO but interacting with a RDMA device. The RDMA=0D
+device may directly access the NVMe CMB or directly manipulate the NVMe=0D
+device's doorbell using PCI P2P.=0D
+=0D
+However, as a general mechanism, it can support many other scenarios with=0D
+VFIO. This dmabuf approach can be usable by iommufd as well for generic=0D
+and safe P2P mappings.=0D
+=0D
+In addition to the SPDK use-case mentioned above, the capability added=0D
+in this patch series can also be useful when a buffer (located in device=0D
+memory such as VRAM) needs to be shared between any two dGPU devices or=0D
+instances (assuming one of them is bound to VFIO PCI) as long as they=0D
+are P2P DMA compatible.=0D
+=0D
+The implementation provides a revocable attachment mechanism using dma-buf=
+=0D
+move operations. MMIO regions are normally pinned as BARs don't change=0D
+physical addresses, but access is revoked when the VFIO device is closed=0D
+or a PCI reset is issued. This ensures kernel self-defense against=0D
+potentially hostile userspace.=0D
+=0D
+The series includes significant refactoring of the PCI P2PDMA subsystem=0D
+to separate core P2P functionality from memory allocation features,=0D
+making it more modular and suitable for VFIO use cases that don't need=0D
+struct page support.=0D
+=0D
+-----------------------------------------------------------------------=0D
+The series is based originally on=0D
+https://lore.kernel.org/all/20250307052248.405803-1-vivek.kasireddy@intel.c=
+om/=0D
+but heavily rewritten to be based on DMA physical API.=0D
+-----------------------------------------------------------------------=0D
+The WIP branch can be found here:=0D
+https://git.kernel.org/pub/scm/linux/kernel/git/leon/linux-rdma.git/log/?h=
+=3Ddmabuf-vfio-v7=0D
+=0D
+Thanks=0D
+=0D
+---=0D
+Jason Gunthorpe (2):=0D
+      PCI/P2PDMA: Document DMABUF model=0D
+      vfio/nvgrace: Support get_dmabuf_phys=0D
+=0D
+Leon Romanovsky (7):=0D
+      PCI/P2PDMA: Separate the mmap() support from the core logic=0D
+      PCI/P2PDMA: Simplify bus address mapping API=0D
+      PCI/P2PDMA: Refactor to separate core P2P functionality from memory a=
+llocation=0D
+      PCI/P2PDMA: Provide an access to pci_p2pdma_map_type() function=0D
+      dma-buf: provide phys_vec to scatter-gather mapping routine=0D
+      vfio/pci: Enable peer-to-peer DMA transactions by default=0D
+      vfio/pci: Add dma-buf export support for MMIO regions=0D
+=0D
+Vivek Kasireddy (2):=0D
+      vfio: Export vfio device get and put registration helpers=0D
+      vfio/pci: Share the core device pointer while invoking feature functi=
+ons=0D
+=0D
+ Documentation/driver-api/pci/p2pdma.rst |  95 +++++++---=0D
+ block/blk-mq-dma.c                      |   2 +-=0D
+ drivers/dma-buf/dma-buf.c               | 235 ++++++++++++++++++++++++=0D
+ drivers/iommu/dma-iommu.c               |   4 +-=0D
+ drivers/pci/p2pdma.c                    | 182 +++++++++++++-----=0D
+ drivers/vfio/pci/Kconfig                |   3 +=0D
+ drivers/vfio/pci/Makefile               |   1 +=0D
+ drivers/vfio/pci/nvgrace-gpu/main.c     |  56 ++++++=0D
+ drivers/vfio/pci/vfio_pci.c             |   5 +=0D
+ drivers/vfio/pci/vfio_pci_config.c      |  22 ++-=0D
+ drivers/vfio/pci/vfio_pci_core.c        |  53 ++++--=0D
+ drivers/vfio/pci/vfio_pci_dmabuf.c      | 315 ++++++++++++++++++++++++++++=
+++++=0D
+ drivers/vfio/pci/vfio_pci_priv.h        |  23 +++=0D
+ drivers/vfio/vfio_main.c                |   2 +=0D
+ include/linux/dma-buf.h                 |  18 ++=0D
+ include/linux/pci-p2pdma.h              | 120 +++++++-----=0D
+ include/linux/vfio.h                    |   2 +=0D
+ include/linux/vfio_pci_core.h           |  42 +++++=0D
+ include/uapi/linux/vfio.h               |  28 +++=0D
+ kernel/dma/direct.c                     |   4 +-=0D
+ mm/hmm.c                                |   2 +-=0D
+ 21 files changed, 1074 insertions(+), 140 deletions(-)=0D
+---=0D
+base-commit: dcb6fa37fd7bc9c3d2b066329b0d27dedf8becaa=0D
+change-id: 20251016-dmabuf-vfio-6cef732adf5a=0D
+=0D
+Best regards,=0D
+--  =0D
+Leon Romanovsky <leonro@nvidia.com>=0D
+=0D
