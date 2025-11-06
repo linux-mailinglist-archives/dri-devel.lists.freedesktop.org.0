@@ -2,59 +2,91 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 20518C39A1F
-	for <lists+dri-devel@lfdr.de>; Thu, 06 Nov 2025 09:48:25 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id BBC06C39A67
+	for <lists+dri-devel@lfdr.de>; Thu, 06 Nov 2025 09:50:58 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6349210E83F;
-	Thu,  6 Nov 2025 08:48:23 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E9C7010E846;
+	Thu,  6 Nov 2025 08:50:55 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="tmDL8kr5";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="ljSTjTtx";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sea.source.kernel.org (sea.source.kernel.org [172.234.252.31])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9090710E83F
- for <dri-devel@lists.freedesktop.org>; Thu,  6 Nov 2025 08:48:22 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by sea.source.kernel.org (Postfix) with ESMTP id 370AB441DC;
- Thu,  6 Nov 2025 08:48:22 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 870F6C116C6;
- Thu,  6 Nov 2025 08:48:21 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1762418902;
- bh=zckLRNukcp03dx43dCWtDB8En+8nFsNdYJbK7sYTUZM=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=tmDL8kr51DyTy99fAvpjF42DJxyl9vb9C54R2cbSW/SrQCkL/yd26tEj/EqR5fJUg
- GBHKPly/rLMv1rz9xGwfnq1EIZGOty1sDFIzq5GJjH3MjsM6mkcgUXLwIK+eGnJimU
- 4L+dI2D4MkmrqmigeBJbKcM1H4D6hs1lapYS61EYLJl2GdkBZjFjOieGcYW4UE+Z8n
- Jpl7mYbIC9qarWF7+lkGeyNPyAMrIijFJ01JyE23AtC3U+yYD234NQGhEN2j+NLw9W
- fWIcCkq/IHRZ4HzBSFFu0NwlMBxU38UlyGd0M7bvi36oiBo7EfRitObQbAy04zx329
- wKfQ72AQCzBww==
-Date: Thu, 6 Nov 2025 09:48:19 +0100
-From: Krzysztof Kozlowski <krzk@kernel.org>
-To: David Heidelberg <david@ixit.cz>
-Cc: Neil Armstrong <neil.armstrong@linaro.org>, 
- Jessica Zhang <jessica.zhang@oss.qualcomm.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Rob Herring <robh@kernel.org>, 
- Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
- Thierry Reding <thierry.reding@gmail.com>, Sam Ravnborg <sam@ravnborg.org>, 
- Bjorn Andersson <andersson@kernel.org>, Konrad Dybcio <konradybcio@kernel.org>,
- Casey Connolly <casey.connolly@linaro.org>, dri-devel@lists.freedesktop.org,
- devicetree@vger.kernel.org, 
- linux-kernel@vger.kernel.org, linux-arm-msm@vger.kernel.org,
- phone-devel@vger.kernel.org
-Subject: Re: [PATCH 01/12] dt-bindings: panel: Add Samsung SOFEF00 DDIC with
- panel
-Message-ID: <20251106-enlightened-centipede-of-tempering-3cfa50@kuoka>
-References: <20251104-sofef00-rebuild-v1-0-dfcfa17eb176@ixit.cz>
- <20251104-sofef00-rebuild-v1-1-dfcfa17eb176@ixit.cz>
+Received: from mail-wr1-f54.google.com (mail-wr1-f54.google.com
+ [209.85.221.54])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0B0F810E842
+ for <dri-devel@lists.freedesktop.org>; Thu,  6 Nov 2025 08:50:55 +0000 (UTC)
+Received: by mail-wr1-f54.google.com with SMTP id
+ ffacd0b85a97d-429b9b6ce96so500035f8f.3
+ for <dri-devel@lists.freedesktop.org>; Thu, 06 Nov 2025 00:50:54 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1762419053; x=1763023853; darn=lists.freedesktop.org;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+ bh=0O1+Bk0V1ecJIiIZPiuBQsoCpD34teqnebEkC3KejHk=;
+ b=ljSTjTtx/1qygIyKEbFDScEovOg1YZtmtYfGiEp5GIiKQpgpO68pYfIYsa8E7Hx8r2
+ maL/5A7rqw9A/dbk8N7IjOsLvnUjs2kihxP3h31Hi+82F7YWLqKXycFNkS7ezHoaE3Pd
+ hJqqPQjuMc1ewwkaGgZDxmN+sEHfLHCqdQ0ImZh+1F1T5Zc0ygXwq9po8PT+HXs7yOLn
+ JDXobhy2Cp8NsceKvRl3kVtamyZ/Ts5i11dF+COs4u9QKyNj2dAfPgqkDTOge3dJroNA
+ avcAcPu0VS39tLsjf9F/4r2Wz5+O1EKnHnFaDR7a1dFAcTaOaUtrmk9DAXZvxweDGMb6
+ 5grA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1762419053; x=1763023853;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=0O1+Bk0V1ecJIiIZPiuBQsoCpD34teqnebEkC3KejHk=;
+ b=mazQCfjRDhAU9jTWR4KFz4Q1O/LeGB8rqvABp4gtRsH85+x94fyhQULagjB0kBhLH0
+ ufOXGVKNBaMO76zvHjYhS/pV2OZX1l8v1iqiJ4ZYX/6wTYuTcwYWy05w2nN5HX/V5lCZ
+ tzCv/IbYlNCgUPqsymLmSwlVGuyjYj42oS06nxfpYjD3rRFRen9AIi7kAkUikDtX3iZw
+ As4IeZAPGw5+Hb6ukulT5IuZJzduFTupyyjzNQgjL4Irmd0IP1FejLZtUJHt0PizPoPT
+ oU/AJK02n+OfOka5Zib/kD22YwR71VuiLyCVB9SJBUikyt4ba9bFQJIJ1SlLGGG48jr4
+ 8hig==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCVZ1f5rv0GXXhzilOckcUU2B6dlSxvu66foBYbq9SMFDR2UcRuyIbdh/QXaBI9F4ZQj5irml2vXJbQ=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Yy4KncOvgkIO1ryCNO144FEu+NPIj4kOhenCSsyZ2kjDi+JNFdC
+ g0bbeLsIfWFOF5YVN6jRL7tky+IP0jM0I/hWRUaqPcStvnp8qibXXyaPFiEhe0bfLfI=
+X-Gm-Gg: ASbGncs5ITeOOeYoAq2F0gnCAD+Eo76e96v5lzbw+HNq+dCXfiO48+3AR9qjZozJCOH
+ UnHnBbDXW5vOZm63cZNsqe64yNzRw1QM7j+qKuFGZSVttFEg+lfI0zDzykJQ8iBhxLUHxizxfTY
+ kkIj7ZjRUdShp0LwQOVVQaOv17T1GSwg7kvNpmOh2Xx+akvr6KK0YTSMDD9TXO86LVeIovUhXzS
+ uHz8kCCTKi4JJVKTWm+poFBkvcWsAQTJFceym2Hp+TREykxGmt50j+Z8pi3/hidzkpC4ZracLHY
+ f6QWMfJgLp6UOfMjVRTk3HFq/i78eOJ0DpZ4XxWUt5FC/H65NkMzbKGhZ+xv1PK9TApIFizU2F5
+ WkgKeq4R2nCp+SEKt8Us8zqlgl8w1ZyJbcYvGCyjBBsfTcfMVTBsnXM5NYUQDWEbxbyvurjxh
+X-Google-Smtp-Source: AGHT+IEpNkwrjClS3MRT6aT/Q6UAaN6LRZvZHXmcxt93frsHr0y/6tOsqdtfdy9Fugmh28HWQ5XyVg==
+X-Received: by 2002:a05:6000:2a0c:b0:429:bb40:eecd with SMTP id
+ ffacd0b85a97d-429e33120cfmr4859897f8f.52.1762419053386; 
+ Thu, 06 Nov 2025 00:50:53 -0800 (PST)
+Received: from linaro.org ([86.121.7.169]) by smtp.gmail.com with ESMTPSA id
+ ffacd0b85a97d-429eb49a079sm3648338f8f.32.2025.11.06.00.50.50
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 06 Nov 2025 00:50:52 -0800 (PST)
+Date: Thu, 6 Nov 2025 10:50:49 +0200
+From: Abel Vesa <abel.vesa@linaro.org>
+To: Ritesh Kumar <riteshk@qti.qualcomm.com>
+Cc: robin.clark@oss.qualcomm.com, lumag@kernel.org, 
+ abhinav.kumar@linux.dev, jessica.zhang@oss.qualcomm.com, sean@poorly.run, 
+ marijn.suijten@somainline.org, maarten.lankhorst@linux.intel.com,
+ mripard@kernel.org, 
+ tzimmermann@suse.de, airlied@gmail.com, simona@ffwll.ch, robh@kernel.org, 
+ krzk+dt@kernel.org, conor+dt@kernel.org, quic_mahap@quicinc.com, 
+ andersson@kernel.org, konradybcio@kernel.org, mani@kernel.org, 
+ James.Bottomley@hansenpartnership.com, martin.petersen@oracle.com,
+ vkoul@kernel.org, kishon@kernel.org, 
+ cros-qcom-dts-watchers@chromium.org, Ritesh Kumar <quic_riteshk@quicinc.com>, 
+ linux-phy@lists.infradead.org, linux-arm-msm@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, 
+ freedreno@lists.freedesktop.org, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org, 
+ linux-scsi@vger.kernel.org, quic_vproddut@quicinc.com
+Subject: Re: [PATCH v3 2/2] arm64: dts: qcom: lemans: Add eDP ref clk for eDP
+ PHYs
+Message-ID: <x7ej2ne3lwn66xwgavdom45hj5imncczd5h5owufvvx4e3cblu@rdhb2adstev6>
+References: <20251104114327.27842-1-riteshk@qti.qualcomm.com>
+ <20251104114327.27842-3-riteshk@qti.qualcomm.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20251104-sofef00-rebuild-v1-1-dfcfa17eb176@ixit.cz>
+In-Reply-To: <20251104114327.27842-3-riteshk@qti.qualcomm.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -70,105 +102,10 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Nov 04, 2025 at 11:16:09PM +0100, David Heidelberg wrote:
-> Basic description for S6E3FC2X01 DDIC with attached panels
+On 25-11-04 17:13:27, Ritesh Kumar wrote:
+> From: Ritesh Kumar <quic_riteshk@quicinc.com>
 > 
->  - Samsung AMS601NT22 6.01 inch, 1080x2160 pixels, 18:9 ratio
->  - Samsung AMS628NW01 6.28 inch, 1080x2280 pixels, 19:9 ratio
-> 
-> This panel has three supplies, while panel-simple-dsi is limited to one.
-> There is no user of this compatible, nor the compatible make sense.
+> Add eDP reference clock for eDP PHYs on lemans chipset.
 
-There are. git grep samsung,sofef00, gives me two users.
-
-> Remove it from simple DSI panel definitions.
-> 
-> Signed-off-by: David Heidelberg <david@ixit.cz>
-
-..
-
->  additionalProperties: false
->  
->  required:
->    - compatible
-> +  - power-supply
->    - reg
->  
->  examples:
-> diff --git a/Documentation/devicetree/bindings/display/panel/samsung,sofef00.yaml b/Documentation/devicetree/bindings/display/panel/samsung,sofef00.yaml
-> new file mode 100644
-> index 0000000000000..527a10e3b798e
-> --- /dev/null
-> +++ b/Documentation/devicetree/bindings/display/panel/samsung,sofef00.yaml
-> @@ -0,0 +1,83 @@
-> +# SPDX-License-Identifier: GPL-2.0-only OR BSD-2-Clause
-> +%YAML 1.2
-> +---
-> +$id: http://devicetree.org/schemas/display/panel/samsung,sofef00.yaml#
-> +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> +
-> +title: Samsung SOFEF00 AMOLED DDIC
-> +
-> +description: The SOFEF00 is display driver IC with connected panel.
-
-Description goes below maintainers, see example-schema.
-
-> +
-> +maintainers:
-> +  - David Heidelberg <david@ixit.cz>
-> +
-> +allOf:
-> +  - $ref: panel-common.yaml#
-> +
-> +properties:
-> +  compatible:
-> +    items:
-> +      - enum:
-> +            # Samsung 6.01 inch, 1080x2160 pixels, 18:9 ratio
-> +          - samsung,sofef00-ams601nt22
-> +            # Samsung 6.28 inch, 1080x2280 pixels, 19:9 ratio
-> +          - samsung,sofef00-ams628nw01
-
-These were not in the old binding, so please explain in the commit msg
-reasons for adding new front compatibles.
-
-> +      - const: samsung,sofef00
-> +
-> +  reg:
-> +    maxItems: 1
-> +
-> +  reset-gpios: true
-
-Drop, not needed. It can stay required, though.
-
-> +
-> +  port: true
-
-Drop
-
-> +
-> +  vddio-supply:
-> +    description: VDD regulator
-> +
-> +  vci-supply:
-> +    description: VCI regulator
-> +
-> +  poc-supply:
-> +    description: POC regulator
-
-1st poc, then vci then vddio to keep it more-or-less sorted. Same in
-required list.
-
-> +
-> +required:
-> +  - compatible
-> +  - reset-gpios
-> +  - vddio-supply
-> +  - vci-supply
-> +  - poc-supply
-> +
-> +unevaluatedProperties: false
-
-Best regards,
-Krzysztof
-
+I'd add more information in here as to why this is needed,
+specially since this is a fix.
