@@ -2,153 +2,69 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4C5B1C41AEF
-	for <lists+dri-devel@lfdr.de>; Fri, 07 Nov 2025 22:07:09 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 53B1DC41CBB
+	for <lists+dri-devel@lfdr.de>; Fri, 07 Nov 2025 23:08:56 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 367DF10EB88;
-	Fri,  7 Nov 2025 21:07:06 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CE4EB10EB7E;
+	Fri,  7 Nov 2025 22:08:53 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=renesas.com header.i=@renesas.com header.b="P6KmBn1d";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="FaGI4Hj0";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from TYVP286CU001.outbound.protection.outlook.com
- (mail-japaneastazon11011060.outbound.protection.outlook.com [52.101.125.60])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CDF6A10EB7E
- for <dri-devel@lists.freedesktop.org>; Fri,  7 Nov 2025 21:07:04 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=ZTkDeA9XAtS8s+Sb5qlSY9dpjnJFJhKymis4CN3wlZsC4FGobtM2Jv0lm+RDULbuzx0Fz34cCEsqSURj5bEmpoZkamcDtJjsGSLiqwqYoSWiqUidEBbmQbj/sFWuFdoVBm2vHif7bthoTRo4Q1i4JBLx0z50gr6m4gzcStvoWjZ25ykAuHgdZnU1c+AroOSOy7ZpRLHw6m8Fnnw9USoCjQQGOMujgF1l3n1HvThUdsqcmA55H8KrpMn24PNAHBQj+4vqnJ8HDT22UrUAy83zl3DqCaNnvTf1SIcmkz5GnVvlxE4B3AiPveQGkfTPwCqMEZFR8k+Izhpue/HOcUZ1og==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=cMT3TWEhVwKHWy2zkrjYsM5R/aW8ddEgr/WVJC8n6gw=;
- b=bCIicIGcu/RtlPP+fAE5zJ0zH4IHNrfb0PvVW+fbaUrQzX2IO7KCXJQPB3Wy04aeejarIjwSAIpxc3GYvg57uEcvHRS1jZwkc6Iam64la9UuCrsy1iNxPbByyXUiKCMtmW3RH3BJXwXj4rrPN0H5LZLDPrJLRpANz4GsBlQdw/mh7ekogiRMy/JiUmTumEHiGdoN1fVdErtIo0uG6LGlOpz5QskIwDWiNq7hsmqMcJhwGxjNLNNSeXIcnuAqYtSWZ7fLQo2bSfs7moOCfsBkoJhaqrfHq9cBpYg0ykhRwShDyj4YpsuGHgQInQTwybIrT6LxZLCF2Y8EFNIz5rNa2g==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=renesas.com; dmarc=pass action=none header.from=renesas.com;
- dkim=pass header.d=renesas.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=renesas.com;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=cMT3TWEhVwKHWy2zkrjYsM5R/aW8ddEgr/WVJC8n6gw=;
- b=P6KmBn1dEIdSzezrmoP5RK1xremjIzW+i736kr6fLxGRpOPI25+5E7W7skvDIWwkBN+qNUOGPlZ1PA8FiGH6JLvyCRPP23guZXd+wEWiZtJvavucJJzFMmfvXRegsPfbI1yfaEqAMwQvn6FjQPDa0zd4WJPWz6ZTyPwN5N2TDXk=
-Received: from OS3PR01MB8319.jpnprd01.prod.outlook.com (2603:1096:604:1a2::11)
- by TY4PR01MB14830.jpnprd01.prod.outlook.com (2603:1096:405:25b::7)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9320.11; Fri, 7 Nov
- 2025 21:07:00 +0000
-Received: from OS3PR01MB8319.jpnprd01.prod.outlook.com
- ([fe80::6473:1660:bdc2:c983]) by OS3PR01MB8319.jpnprd01.prod.outlook.com
- ([fe80::6473:1660:bdc2:c983%6]) with mapi id 15.20.9298.010; Fri, 7 Nov 2025
- 21:07:00 +0000
-From: Chris Brandt <Chris.Brandt@renesas.com>
-To: Hugo Villeneuve <hugo@hugovil.com>
-CC: Geert Uytterhoeven <geert+renesas@glider.be>, Michael Turquette
- <mturquette@baylibre.com>, Stephen Boyd <sboyd@kernel.org>, Biju Das
- <biju.das.jz@bp.renesas.com>, Maarten Lankhorst
- <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
- Simona Vetter <simona@ffwll.ch>, Hien Huynh <hien.huynh.px@renesas.com>,
- Nghia Vo <nghia.vo.zn@renesas.com>, "linux-renesas-soc@vger.kernel.org"
- <linux-renesas-soc@vger.kernel.org>, "linux-clk@vger.kernel.org"
- <linux-clk@vger.kernel.org>, "dri-devel@lists.freedesktop.org"
- <dri-devel@lists.freedesktop.org>
-Subject: RE: [PATCH v4 1/2] clk: renesas: rzg2l: Remove DSI clock rate
- restrictions
-Thread-Topic: [PATCH v4 1/2] clk: renesas: rzg2l: Remove DSI clock rate
- restrictions
-Thread-Index: AQHcTqM02+OCahzeqkGZBdprKCVrd7TnaoQAgAAejkCAAA1GAIAAHs9Q
-Date: Fri, 7 Nov 2025 21:07:00 +0000
-Message-ID: <OS3PR01MB8319E496A32EDBF5719BAB478AC3A@OS3PR01MB8319.jpnprd01.prod.outlook.com>
-References: <20251105222530.979537-1-chris.brandt@renesas.com>
- <20251105222530.979537-2-chris.brandt@renesas.com>
- <20251107113058.f334957151d1a8dd94dd740b@hugovil.com>
- <OS3PR01MB83195AF3F1964548E1512FBE8AC3A@OS3PR01MB8319.jpnprd01.prod.outlook.com>
- <20251107140750.00bf68e4b2f5354015e65ad4@hugovil.com>
-In-Reply-To: <20251107140750.00bf68e4b2f5354015e65ad4@hugovil.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=renesas.com;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: OS3PR01MB8319:EE_|TY4PR01MB14830:EE_
-x-ms-office365-filtering-correlation-id: 76d3edea-dd9e-4307-5c4a-08de1e41981d
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;
- ARA:13230040|7416014|376014|366016|1800799024|38070700021; 
-x-microsoft-antispam-message-info: =?us-ascii?Q?i3WKUZ0KHSfs3MiVpaKH49+2EBR71rkeMo+opGw41thhdqPrRtexpnQw0f93?=
- =?us-ascii?Q?U2HqOwWRwLy6ttU+ZMQoFoPBYAbuCUfSiI7aYqur10Jn7sjZWDu781eS6XSW?=
- =?us-ascii?Q?cIsRCSm6YeHYerx3YVxFpTR6c2qF/I4F7GJrWh+W7oMvI3Tyo70AWt2EQzd/?=
- =?us-ascii?Q?dOXgUCsoJE4GnziDNkODMmYgkgJZRm1pFKrcdKleHnI0MedK7Zg/q2esiuGY?=
- =?us-ascii?Q?JUXsVjmqW+pFhhcWPkSrUDB4u05VoSxPmrh4rSEELjRMI08Fgumurs22fbDG?=
- =?us-ascii?Q?0hMlAXQWlOkRERG/yVuWMyHmh24oJZbN7I9jIoW60ZG5XYedwhoZZU/rkJJD?=
- =?us-ascii?Q?lzTOzER5bdSRCwIctRKe8WTebBBFbvLdwSRT7O1rBhvHADues0t4s3VhlaWz?=
- =?us-ascii?Q?oQRB0ds2c/uz8jmk2ZOdHphqW2ZMJ/fqbTIbqSxfjAoHtBd38q02OlE4G8IC?=
- =?us-ascii?Q?kuwEf5ebj59F0/HK1MGYfO7H/oqMZtqmczpOpqTp7slKQvcjvixM5PmyNDC+?=
- =?us-ascii?Q?RoI5tCGVIJssJ8VUsQY9Jd5zIlG1u6IpLDTYKP87U+Y+ysG9lTx2tP/3G/HO?=
- =?us-ascii?Q?qU2ogK9Ycq7TkCHDYGsBBzk4nb8SXfcjGGx/uWvyI2f2us6q73JWqDH827Bj?=
- =?us-ascii?Q?c9J8US6ENHzsQTurw2mf5Li5UeK2FVVFqHrQQcjNrpJ8bdXfEKzVAStW1RPj?=
- =?us-ascii?Q?ybVwlt+lpdzVh4HtROUFsQGItKT3+lzBRsdxDL82vPTZ1hoqCk/4UztoNgoG?=
- =?us-ascii?Q?eTq93qnHhP63UCbjfOa6gt06lbMpTWs+Bz2/4WcwJFXjKxhnny+ofk12irrA?=
- =?us-ascii?Q?qbz6kKf7fh+0kLWVXWOg+ZejuKPiUB7rUJfnR86JF2xq0d2ARWZz/vOvSyzX?=
- =?us-ascii?Q?WaXBNmSZDQLC9Z6myftNWx4A2eGL9r1eXH7Mr3aN5KvUJdupdx+5IQ796ejr?=
- =?us-ascii?Q?j1L8bcbN8zqNI/O0wbbYAxB3cDrpri5ejEgB2H7tMTXknChVavuaWgi7UceG?=
- =?us-ascii?Q?d8av6dtL6t/mqzhVX0Gt9IJ15Cn5W91t36+MA2zVSnQh7is+Hl0OrBuMiH+c?=
- =?us-ascii?Q?vY/JwHTe/N8QW4Xol1ToGvnHfnZpwxKkxmgCzU1YAsh8rIcUT5Rit3PJwmY8?=
- =?us-ascii?Q?HExyyVWgl9YQ0WbLBVL26cwm+ViCAW9AdbxtCW8nQmfScNNzYiVmLo10BXZT?=
- =?us-ascii?Q?0YZAvKnJd/Bv5mgMKuPOwv0G/xKljrjcOC7tSlhvqCJBjsOZM3/muP2540TT?=
- =?us-ascii?Q?KSkY/ulpSzhrlytsYvHb1m8FduOCA8LWO/UzHDsyakbzU4F3OMex00ciJg/b?=
- =?us-ascii?Q?5Dyksiaj89CcUU2m4lDJdKKKIyrGp7VPHSIcGuo3/YMzGpSM5XMwAmygIE0E?=
- =?us-ascii?Q?alYGWqLN999YAnmE1FhaEYlyRqmWuCIiz9cKGnKQQkyLixP29tZSw307rVEN?=
- =?us-ascii?Q?GyodsQwSXwiW5do59XbaIGoVFH0oQ4do+PzwvGR/mOqgx5aDyJXhIfzxJ7ol?=
- =?us-ascii?Q?suIEMcGz8KjekmTEg1iUun1AuSs/RWhvXz8f?=
-x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:OS3PR01MB8319.jpnprd01.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230040)(7416014)(376014)(366016)(1800799024)(38070700021); DIR:OUT;
- SFP:1101; 
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?us-ascii?Q?mSAJY405eYcxCz/KbclMSNxLZYyGb3TzBjmuNq+KMY/+YC8uKghMlrmEBBOO?=
- =?us-ascii?Q?OWyYduikIIxjrM4qvsyoaUzuitMzwSMU9YtZFCwb0ZW+rilQ5WN8OfWRPoNT?=
- =?us-ascii?Q?HCS9Q/HA30mOLkqQVtS1r1O2FpgAv9mXjCD0bPEMprCgul7cZd2m5VfoIv0L?=
- =?us-ascii?Q?0zpsIthKTTrEdDogTn26cgD443UgEkgzPji/WEyHsXXMBwOVhXqAsZl9Y+kN?=
- =?us-ascii?Q?2SZ1nNXGZ25LTsfWaT80SLp87GPe/i0Jwo8bGDdHbDCdgcIkc+qAoWjsSOW/?=
- =?us-ascii?Q?FP/ImYjGI2XyNwQi3rsYJJssdmPnlqKe0YWMKFrzSJwUPhqzwKK1/WeeD5bK?=
- =?us-ascii?Q?c+HITs5mNidpJfA0l+Q5H5t4vaR76JKtvNe9UKc+iU8F0wfFCo03cm+ONU47?=
- =?us-ascii?Q?rRj6ukfQfwQPUjGW70C8+eDgAOQPTqa8f/ufbgcVRD6ZiM/b5uCaKoI5vlhG?=
- =?us-ascii?Q?8GAQ9Y90ZxySuDEAcxPUyU9tU5tnZy+Vf0nQ7yEc8bttgpvdnXfcsU8lX9Cb?=
- =?us-ascii?Q?QORv5+VD3pZhQkvCnwHXwuz42q9MSBu9gQv8fWfGX/wZVvYab4Ve5W5OXDT4?=
- =?us-ascii?Q?vMOM28CO+xok3QxNat5R6Yj6HtJMgGD2CcvmyM5tVfaz24pAfMyLm3n0ASmB?=
- =?us-ascii?Q?jarcGaCNfTjGktSwzmT1S7DZklPpDlcPQvZ61fVL+Mp0C2CWAufqzIuIf8n9?=
- =?us-ascii?Q?9RZLH3xx0xXVq9miK5+jPKT3kXkivJVueRO5XGa5fg08InbZ5R/2QbuEytI8?=
- =?us-ascii?Q?ADamV70l9lg6GAuBReOqcTPm7AUEaPZUp2POxUUnke2Llq5mlwd3sgB29kf0?=
- =?us-ascii?Q?aHUf7jhxPkEPdMCBLRl94Yy+L5DwUHnuy/uuUleaWlwyu8UQHOX2XruxrS8k?=
- =?us-ascii?Q?s2n0FZZr59G4IkrUXpN4JNnbOODS05L/dJ14Kh6GNNz3xYZcFRpe6tVdIImL?=
- =?us-ascii?Q?zyEmH3MXHkTja7AJv6nVKc21FMUKn/svvtDmKMQW/TxqyAmBXsJEj6+WiJ3J?=
- =?us-ascii?Q?QNfIDBm1k0rfjg+nEj8+gP4oCsn4k/LJJZ/0XRuzYSjNDLWmN8+jIzRFpvHR?=
- =?us-ascii?Q?GBl8lPUCjMI9Ty6pySldfOnwwb6naN4Dv30AOvBxhOiANPIbQKVQ2Upj5lK0?=
- =?us-ascii?Q?iP89x+otHM2dHprTXi88LOiJhFLd/W7i0hlUesdS2thyb1ypMh3yNvw6esWJ?=
- =?us-ascii?Q?WXfEqWQv8THB4pvi4RS2gQPu29+sOQ7cL2W2Hg/EIQJIwwXgOCPICfVroeiU?=
- =?us-ascii?Q?bIhXbsew5Tz+jfmz2ZYRO4Us5Q7KJnG3SpBOp8+eJfOlr7HLb68YpHF/BELN?=
- =?us-ascii?Q?FX9u1/SNny1tjal3Ruw/Y1T4feLiTm24qYIp3r5uRmsNCpuhp/bYvczdduyA?=
- =?us-ascii?Q?4vWuGro+ggbSi82VdJoHc+AWF8hEU4RI9kdzkYxXXqrMLkWgCiYATqzgca7W?=
- =?us-ascii?Q?yUHW0vomGva+WC+qmU5fASMmqspol8MyD+NkngNDabm8/lwGW+xW3McHs+AC?=
- =?us-ascii?Q?9qfR66eT9Nttu68xhzHp5lFEkwawp0pxbsO1ICzI+q6D0LF7loOlj9s6KkLr?=
- =?us-ascii?Q?Y+4xOZmTwLJ/AV4JxXdMg8NLWRvB88AsF9ozUz75?=
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+Received: from mail-qk1-f169.google.com (mail-qk1-f169.google.com
+ [209.85.222.169])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 018F810EB83
+ for <dri-devel@lists.freedesktop.org>; Fri,  7 Nov 2025 22:08:51 +0000 (UTC)
+Received: by mail-qk1-f169.google.com with SMTP id
+ af79cd13be357-8909f01bd00so123559185a.0
+ for <dri-devel@lists.freedesktop.org>; Fri, 07 Nov 2025 14:08:51 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20230601; t=1762553331; x=1763158131; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :mime-version:from:to:cc:subject:date:message-id:reply-to;
+ bh=01pzKBDiqVli+bpe2zFIkuZQy1Np00Dk6ZGYQl/DblI=;
+ b=FaGI4Hj09B4O/iTw5oVZJr2j4+FUhTkIQ1ZUfdjQ60NrlA6oAf9Y4KKia4OGvq0FBc
+ 5UglIVIZlZYi5XJldYwCBk8AYEehy5DyIugHTWRptPw24QTcB4kdtbcl4Iy6sBSbcyfd
+ maAW5bCUsI4p/w/8m6bq4gFPJbgpXvMqemvAArtucpuFJSwKxy0J4d5SLRq93WLeLI94
+ ay68dnMmzRt6a/qQPDxuGG8VVXHXbckCFMQ/MDJXsfvWGTutOUd7eydQp1DEDMmgC+nQ
+ KwfINhB3fWOwnvoAiCoCkGR5ZPwdiN1QdfHEGKaOJtWMKUEO/ws4g7GHyKyb5LQC2mOF
+ 9zrQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1762553331; x=1763158131;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=01pzKBDiqVli+bpe2zFIkuZQy1Np00Dk6ZGYQl/DblI=;
+ b=moreKHXEy0NWkrXBf7MStjb2I6FU68n+E2M2DHgIyxUYM4mEAm0niaP00HYE7/h9Ia
+ PwE+ym28ToN7BqfujN5GAIuqsZOqkuIWzjC6JwqI6nTYwZ19RJ6Bz2G8ClxwZx+1ZjL/
+ DslFOj5fMGv5i8pCvEAMEGVhd/Kq0mawfhFC9oqQAgDuI+wQ7B/JXapy7e3M4jy/52A9
+ qyHjq31JRcfo+dyC1i+PzpmbIzVLLIckyM9MZDRjsZjUzGSAqMRyN0NuuB/zRUCB7+jS
+ QG6YmjWMvS66SrzRuON0pchOwiREIpg9LCe49SqGAISl+ZgoDBYd7abO5JEk52nXbbOa
+ ElhA==
+X-Gm-Message-State: AOJu0Yw34ID05UuAQyQCYNEJtzkElpBg+r3jJsC00Iammof/ApYxOEWK
+ a8wfsoPpoSyl4Zp3hd38KWdopBGA5/hXuqeAluz5wZh1byzlqKJbHJXSW+C/JmS9k5Tc7SnVVsx
+ Yl20NZcFyVAv3CFrbu6IYI0z/iAqFbWc=
+X-Gm-Gg: ASbGncswv1VKjGBzsw58wktVzE6cBkXAv70lNxeUxysxgZ0WXf0vWWDeRzX7eP6mS1A
+ rkNvb5E8GW6NbQNJdXrFAGSZzsC9u2dMWH48t/Or1Z3qZAOaRzqeBI19IbtdPTlGn1siISKMbjL
+ tieSN7/MNvmLqSB4JTs58bYwAQt4Q4Z1koCvFKnXlWxjN1FAcXvggUd47uwOs5nmnSDVmg7etcU
+ Z3MZ1gNLsxW51RqeyfS0u2Nc39Tl8S7Z21y7Z8JFIMpAqNtHMcs4EzNx2I=
+X-Google-Smtp-Source: AGHT+IEzYzQmeeVeXDG23zQ8MrHHuuq9MmLbSEPhthEbo253f2i4Kiwi3LynISbfiO+JjVeQ9BYuT079AAcp4oQ90jg=
+X-Received: by 2002:a05:620a:294d:b0:8b2:2800:d646 with SMTP id
+ af79cd13be357-8b257f87105mr115152485a.88.1762553330861; Fri, 07 Nov 2025
+ 14:08:50 -0800 (PST)
 MIME-Version: 1.0
-X-OriginatorOrg: renesas.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: OS3PR01MB8319.jpnprd01.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 76d3edea-dd9e-4307-5c4a-08de1e41981d
-X-MS-Exchange-CrossTenant-originalarrivaltime: 07 Nov 2025 21:07:00.6469 (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 53d82571-da19-47e4-9cb4-625a166a4a2a
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: z9Gx+FyqbtHWjN6ErG3eI/3v7zHsALThCGqXgZOA2WG7C9HFh6w6tEsDoMj4Dqze+8YjHzp+7XqpUQIABuBBVsia3PAGnP2LnE6FalRCQVU=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: TY4PR01MB14830
+From: Dave Airlie <airlied@gmail.com>
+Date: Sat, 8 Nov 2025 08:08:39 +1000
+X-Gm-Features: AWmQ_bl4fJKuoszi5FUAbI1Tcjc2zge1wQUwnNCNCt8rT_VZHdC889N-xr6DgjA
+Message-ID: <CAPM=9tx60Q0o7v1hK-GJ_iKs7J0dVgQENM44T=gM_KWZXoA4YA@mail.gmail.com>
+Subject: [git pull] drm fixes for 6.18-rc5
+To: Linus Torvalds <torvalds@linux-foundation.org>,
+ Simona Vetter <simona@ffwll.ch>
+Cc: dri-devel <dri-devel@lists.freedesktop.org>,
+ LKML <linux-kernel@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -164,27 +80,247 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Hugo,
+Hi Linus,
 
-On Fri, Nov 7, 2025 2:08 PM, Hugo Villeneuve wrote:
-> You can add the "Fixes" tag (not "Fixed" as I incorrectly stated):
->
->     Fixes: 1561380ee72f ("clk: renesas: rzg2l: Add FOUTPOSTDIV clk suppor=
-t")
+Back from travel, thanks to Simona for handling things. regular fixes,
+seems about the right size, but spread out a bit.
 
-Thanks for looking it up.
+amdgpu has the usual range of fixes, xe has a few fixes, and nouveau
+has a couple of fixes, one for blackwell modifiers on 8/16 bit
+surfaces.
 
-I'll also add you with a Reported-by
+Otherwise a few small fixes for mediatek, sched, imagination and pixpaper.
 
-I'll see if there are any other comments, then I'll resubmit the patch seri=
-es by adding this new patch at the beginning.
+Dave.
 
-If nothing else, this review was good because it forced me to go back and r=
-eview internally what the hardware manual
-says as compared to the driver that we have been using for the last couple =
-years.
+drm-fixes-2025-11-08:
+drm fixes for 6.18-rc5
 
-Cheers
+sched:
+- Fix deadlock
 
-Chris
+amdgpu:
+- Reset fixes
+- Misc fixes
+- Panel scaling fixes
+- HDMI fix
+- S0ix fixes
+- Hibernation fix
+- Secure display fix
+- Suspend fix
+- MST fix
 
+amdkfd:
+- Process cleanup fix
+
+xe:
+- Fix missing  synchronization on unbind
+- Fix device shutdown when doing FLR
+- Fix user fence signaling order
+
+i915:
+- Avoid lock inversion when pinning to GGTT on CHV/BXT+VTD
+- Fix conversion between clock ticks and nanoseconds
+
+mediatek:
+- Disable AFBC support on Mediatek DRM driver
+- Add pm_runtime support for GCE power control
+
+imagination:
+- kconfig: Fix dependencies
+
+nouveau:
+- Set DMA mask earlier
+- Advertize correct modifiers for GB20x
+
+pixpaper:
+- kconfig: Fix dependencies
+The following changes since commit 6146a0f1dfae5d37442a9ddcba012add260bceb0=
+:
+
+  Linux 6.18-rc4 (2025-11-02 11:28:02 -0800)
+
+are available in the Git repository at:
+
+  https://gitlab.freedesktop.org/drm/kernel.git tags/drm-fixes-2025-11-08
+
+for you to fetch changes up to d439acbbfb9a982f152c5f806b4592431a80c4fd:
+
+  Merge tag 'drm-xe-fixes-2025-11-07' of
+https://gitlab.freedesktop.org/drm/xe/kernel into drm-fixes
+(2025-11-08 07:39:54 +1000)
+
+----------------------------------------------------------------
+drm fixes for 6.18-rc5
+
+sched:
+- Fix deadlock
+
+amdgpu:
+- Reset fixes
+- Misc fixes
+- Panel scaling fixes
+- HDMI fix
+- S0ix fixes
+- Hibernation fix
+- Secure display fix
+- Suspend fix
+- MST fix
+
+amdkfd:
+- Process cleanup fix
+
+xe:
+- Fix missing  synchronization on unbind
+- Fix device shutdown when doing FLR
+- Fix user fence signaling order
+
+i915:
+- Avoid lock inversion when pinning to GGTT on CHV/BXT+VTD
+- Fix conversion between clock ticks and nanoseconds
+
+mediatek:
+- Disable AFBC support on Mediatek DRM driver
+- Add pm_runtime support for GCE power control
+
+imagination:
+- kconfig: Fix dependencies
+
+nouveau:
+- Set DMA mask earlier
+- Advertize correct modifiers for GB20x
+
+pixpaper:
+- kconfig: Fix dependencies
+
+----------------------------------------------------------------
+Alex Deucher (3):
+      drm/amdgpu: set default gfx reset masks for gfx6-8
+      drm/amdgpu: Drop PMFW RLC notifier from amdgpu_device_suspend()
+      drm/amdgpu/smu: Handle S0ix for vangogh
+
+Alex Hung (1):
+      drm/amd/display: Fix black screen with HDMI outputs
+
+Ariel D'Alessandro (1):
+      drm/mediatek: Disable AFBC support on Mediatek DRM driver
+
+Balasubramani Vivekanandan (1):
+      drm/xe/guc: Synchronize Dead CT worker with unbind
+
+Dave Airlie (5):
+      Merge tag 'drm-misc-fixes-2025-11-06' of
+https://gitlab.freedesktop.org/drm/misc/kernel into drm-fixes
+      Merge tag 'drm-intel-fixes-2025-11-06' of
+https://gitlab.freedesktop.org/drm/i915/kernel into drm-fixes
+      Merge tag 'amd-drm-fixes-6.18-2025-11-06' of
+https://gitlab.freedesktop.org/agd5f/linux into drm-fixes
+      Merge tag 'mediatek-drm-fixes-20251105' of
+https://git.kernel.org/pub/scm/linux/kernel/git/chunkuang.hu/linux
+into drm-fixes
+      Merge tag 'drm-xe-fixes-2025-11-07' of
+https://gitlab.freedesktop.org/drm/xe/kernel into drm-fixes
+
+James Jones (2):
+      drm: define NVIDIA DRM format modifiers for GB20x
+      drm/nouveau: Advertise correct modifiers on GB20x
+
+Janusz Krzysztofik (1):
+      drm/i915: Avoid lock inversion when pinning to GGTT on CHV/BXT+VTD
+
+Jason-JH Lin (1):
+      drm/mediatek: Add pm_runtime support for GCE power control
+
+Jouni H=C3=B6gander (1):
+      drm/xe: Do clean shutdown also when using flr
+
+LiangCheng Wang (1):
+      drm/tiny: pixpaper: add explicit dependency on MMU
+
+Lijo Lazar (1):
+      drm/amdgpu: Fix wait after reset sequence in S3
+
+Mario Limonciello (1):
+      drm/amd: Fix suspend failure with secure display TA
+
+Mario Limonciello (AMD) (1):
+      drm/amd/display: Don't stretch non-native images by default in eDP
+
+Matt Coster (1):
+      drm/imagination: Optionally depend on POWER_SEQUENCING
+
+Matthew Brost (1):
+      drm/xe: Enforce correct user fence signaling order using
+
+Philip Yang (1):
+      drm/amdkfd: Don't clear PT after process killed
+
+Pierre-Eric Pelloux-Prayer (1):
+      drm/sched: Fix deadlock in drm_sched_entity_kill_jobs_cb
+
+Rong Zhang (1):
+      drm/amd/display: Fix NULL deref in debugfs odm_combine_segments
+
+Samuel Zhang (1):
+      drm/amdgpu: fix gpu page fault after hibernation on PF passthrough
+
+Tejas Upadhyay (1):
+      drm/xe: Move declarations under conditional branch
+
+Timur Tabi (1):
+      drm/nouveau: set DMA mask before creating the flush page
+
+Umesh Nerlige Ramappa (1):
+      drm/i915: Fix conversion between clock ticks and nanoseconds
+
+Wayne Lin (1):
+      drm/amd/display: Enable mst when it's detected but yet to be initiali=
+zed
+
+Yang Wang (1):
+      drm/amd/pm: fix missing device_attr cleanup in amdgpu_pm_sysfs_init()
+
+ drivers/gpu/drm/amd/amdgpu/amdgpu_amdkfd_gpuvm.c   |  4 ++
+ drivers/gpu/drm/amd/amdgpu/amdgpu_device.c         |  4 --
+ drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c            |  9 ++++-
+ drivers/gpu/drm/amd/amdgpu/amdgpu_psp.c            |  5 ++-
+ drivers/gpu/drm/amd/amdgpu/aqua_vanjaram.c         |  3 +-
+ drivers/gpu/drm/amd/amdgpu/gfx_v6_0.c              |  5 +++
+ drivers/gpu/drm/amd/amdgpu/gfx_v7_0.c              |  5 +++
+ drivers/gpu/drm/amd/amdgpu/gfx_v8_0.c              |  5 +++
+ drivers/gpu/drm/amd/amdgpu/gfx_v9_4_3.c            |  4 +-
+ drivers/gpu/drm/amd/amdgpu/psp_v11_0.c             | 26 ++++++++++++-
+ drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c  | 12 +++++-
+ .../drm/amd/display/amdgpu_dm/amdgpu_dm_debugfs.c  |  3 +-
+ .../gpu/drm/amd/display/dc/link/link_detection.c   |  1 +
+ drivers/gpu/drm/amd/pm/amdgpu_dpm.c                | 18 ---------
+ drivers/gpu/drm/amd/pm/amdgpu_pm.c                 |  4 +-
+ drivers/gpu/drm/amd/pm/inc/amdgpu_dpm.h            |  2 -
+ drivers/gpu/drm/amd/pm/swsmu/amdgpu_smu.c          |  6 +++
+ drivers/gpu/drm/amd/pm/swsmu/smu11/vangogh_ppt.c   |  3 ++
+ drivers/gpu/drm/i915/gt/intel_gt_clock_utils.c     |  4 +-
+ drivers/gpu/drm/i915/i915_vma.c                    | 16 +++++++-
+ drivers/gpu/drm/imagination/Kconfig                |  1 +
+ drivers/gpu/drm/mediatek/mtk_crtc.c                |  7 ++++
+ drivers/gpu/drm/mediatek/mtk_plane.c               | 24 +-----------
+ drivers/gpu/drm/nouveau/dispnv50/disp.c            |  4 +-
+ drivers/gpu/drm/nouveau/dispnv50/disp.h            |  1 +
+ drivers/gpu/drm/nouveau/dispnv50/wndw.c            | 24 +++++++++++-
+ drivers/gpu/drm/nouveau/dispnv50/wndwca7e.c        | 33 ++++++++++++++++
+ drivers/gpu/drm/nouveau/nvkm/engine/device/pci.c   | 24 ++++++------
+ drivers/gpu/drm/scheduler/sched_entity.c           | 34 ++++++++--------
+ drivers/gpu/drm/tiny/Kconfig                       |  1 +
+ drivers/gpu/drm/xe/xe_device.c                     | 14 +++----
+ drivers/gpu/drm/xe/xe_exec.c                       |  3 +-
+ drivers/gpu/drm/xe/xe_exec_queue.c                 | 14 +++++++
+ drivers/gpu/drm/xe/xe_exec_queue_types.h           |  7 ++++
+ drivers/gpu/drm/xe/xe_guc_ct.c                     |  3 ++
+ drivers/gpu/drm/xe/xe_oa.c                         | 45 ++++++++++++++----=
+----
+ drivers/gpu/drm/xe/xe_oa_types.h                   |  8 ++++
+ drivers/gpu/drm/xe/xe_sync.c                       | 17 +++++++-
+ drivers/gpu/drm/xe/xe_sync.h                       |  3 ++
+ drivers/gpu/drm/xe/xe_sync_types.h                 |  3 ++
+ drivers/gpu/drm/xe/xe_vm.c                         |  4 ++
+ include/uapi/drm/drm_fourcc.h                      | 23 +++++++----
+ 42 files changed, 311 insertions(+), 125 deletions(-)
