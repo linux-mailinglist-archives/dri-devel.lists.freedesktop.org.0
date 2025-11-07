@@ -2,40 +2,107 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 45786C3F6B6
-	for <lists+dri-devel@lfdr.de>; Fri, 07 Nov 2025 11:26:55 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 672E3C3F72E
+	for <lists+dri-devel@lfdr.de>; Fri, 07 Nov 2025 11:30:34 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A10B110EA70;
-	Fri,  7 Nov 2025 10:26:53 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2ED5510EA6E;
+	Fri,  7 Nov 2025 10:30:32 +0000 (UTC)
+Authentication-Results: gabe.freedesktop.org;
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="JJ6l5huu";
+	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
- by gabe.freedesktop.org (Postfix) with ESMTP id 8208510EA6C
- for <dri-devel@lists.freedesktop.org>; Fri,  7 Nov 2025 10:26:52 +0000 (UTC)
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
- by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 1A8DC1515;
- Fri,  7 Nov 2025 02:26:44 -0800 (PST)
-Received: from [10.57.72.216] (unknown [10.57.72.216])
- by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 1E1EF3F66E;
- Fri,  7 Nov 2025 02:26:48 -0800 (PST)
-Message-ID: <4d23e26a-17db-42f8-bbf2-78acbe6925b8@arm.com>
-Date: Fri, 7 Nov 2025 10:26:47 +0000
+Received: from mail-wm1-f47.google.com (mail-wm1-f47.google.com
+ [209.85.128.47])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id EBBE410EA6D
+ for <dri-devel@lists.freedesktop.org>; Fri,  7 Nov 2025 10:30:30 +0000 (UTC)
+Received: by mail-wm1-f47.google.com with SMTP id
+ 5b1f17b1804b1-477563bcbbcso2663865e9.0
+ for <dri-devel@lists.freedesktop.org>; Fri, 07 Nov 2025 02:30:30 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1762511429; x=1763116229; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:in-reply-to:organization:autocrypt
+ :content-language:from:references:cc:to:subject:reply-to:user-agent
+ :mime-version:date:message-id:from:to:cc:subject:date:message-id
+ :reply-to; bh=JdXi1VUn5WnebblzEeFtNSpH8JjcIBHUGIXhJ5CQTgk=;
+ b=JJ6l5huuAOE2b8ByVJvJkh9AnKJZwdfgA+B1oOOp6yl3wP4pZ8XkACh/H6+ZPhOR1m
+ fNfGbsSyONiAzGjpm1XV+qEmVpAcrlhHZcxOVOuqeNKKvYo5JcrprmhytfnPZvStvYWi
+ Mvp37zbMZFbbHHtnrfZe8/8RSabafwx1JU/tR2sfEupsE3C6M4fgOD1exvFMIAzYTDBr
+ Nx+xashlBeb8Tunad0o3Xn9cCSIqVpnA7X42PrXRHMU68GbBU71h4dxR6jc8d8tTE2Sp
+ OnsWL31yIjHt890S1bAvyy7W4mM7ZN2EpyFY32hrO4Il9eYAjOtQ5MMOSnHIgGqr8pdC
+ fDoQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1762511429; x=1763116229;
+ h=content-transfer-encoding:in-reply-to:organization:autocrypt
+ :content-language:from:references:cc:to:subject:reply-to:user-agent
+ :mime-version:date:message-id:x-gm-gg:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=JdXi1VUn5WnebblzEeFtNSpH8JjcIBHUGIXhJ5CQTgk=;
+ b=bv6G71dJXqEC2Eog+S5ONRme63F24xNCYrCYuSkcf/GqbXhykj+3U5vABEY7qc8719
+ YWyquEjPvr6ds5gBGNZ47BkOXiLS3T+W30N6A5Sdtl9ZUsYsBwtHqWmf4unRp9XQc4Fi
+ YPskexofF1ljd+93zRwcls9BxBdCBndKxM8YLa8A6opSyGXC32OzinmLSrxGnSr+Aeu7
+ T/YxbTM5cgWIX8ycVSLtYWBpcOjMF8JqojZKc/VWyTkNH5i4c72sOWXQ8OD2QKYljSt5
+ 0rsRrzVepa7+5dsOKuAkE0TiE601b0QxgVGm/PMXWK/Ege1uO+xJnU8t6zrvzVbCUmUQ
+ x4KA==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCV2zlvq3or262Cro5bI6yKaJGNCBjUjJ6MfpiAdnp9X9KSkgXXGwDhQk+AqJGgCNjbmtGjGqgY9jlM=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Yx+kHNlnoqU8Bm56xaKfyDNZ40r2SPHcMIsMNULiiOM3xJzRHfO
+ FGz9oggx/m2Xyl25F7Fprf2k6y/53aT9mAzXSHwZOle232VmoljmZzXzCua9xOL0qdI=
+X-Gm-Gg: ASbGnct6ty1JFz76wA5jZaDj7Lt4QBOevemypTKPOj/bF4YKL9Tv8C8Ul9WGG5apw3x
+ HxmfEytJoGG6E4tnG96Mbcv/oBIy4VSXODmIK0vTXJCnLZgPrkUblfMkCW0tICul4o65pbeh3bP
+ rXH6SgDDaqFwQIDe02D4t7YI5IskpUbDYG9XBpY1VYjeFJRjXwb8IcGJQmhU2iSRFbLEMI/uCun
+ GdkMtbJePRwqPbQvfPzDOwqfc/D07b2MtXhIgunEy4k77Lwo9iln2MbNNu/BFk+hLVjRxC1WXRu
+ nnvEpWCIVbe9ZQEnJk2Y5t53BMIlEHZmWejaMO6KYjYhFXycmjQ67Smz4sQW9etvbiJUWXbtnHD
+ jdbRL/X1BHi747CP4s/UL0z6skej2bow2ASm8QN8Ngmxmy8npMIbDqHc4ho4jwHqJQyBPCdJWyd
+ x74MsfU/wBIG99t4QXA5Dj5yl3WnZd084xzw==
+X-Google-Smtp-Source: AGHT+IE6wGGrTa2Of4J6WHqQuB5miuumaX9005ll7uHOZgbpYuJ46LLqftJ0moP7xlPSeD3ujFGq5g==
+X-Received: by 2002:a05:600c:35d0:b0:477:6d96:b3e7 with SMTP id
+ 5b1f17b1804b1-4776d96b678mr16427785e9.33.1762511429427; 
+ Fri, 07 Nov 2025 02:30:29 -0800 (PST)
+Received: from [192.168.27.65] (home.rastines.starnux.net. [82.64.67.166])
+ by smtp.gmail.com with ESMTPSA id
+ 5b1f17b1804b1-4776bcdd8e3sm39799555e9.10.2025.11.07.02.30.28
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 07 Nov 2025 02:30:29 -0800 (PST)
+Message-ID: <e928b078-ad35-461e-8aaf-d5ec036ac4db@linaro.org>
+Date: Fri, 7 Nov 2025 11:30:28 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 5/8] drm/panthor: Implement soft reset via PWR_CONTROL
-To: Karunika Choo <karunika.choo@arm.com>, dri-devel@lists.freedesktop.org
-Cc: nd@arm.com, Boris Brezillon <boris.brezillon@collabora.com>,
- Liviu Dudau <liviu.dudau@arm.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- linux-kernel@vger.kernel.org
-References: <20251027161334.854650-1-karunika.choo@arm.com>
- <20251027161334.854650-6-karunika.choo@arm.com>
-From: Steven Price <steven.price@arm.com>
-Content-Language: en-GB
-In-Reply-To: <20251027161334.854650-6-karunika.choo@arm.com>
-Content-Type: text/plain; charset=UTF-8
+Subject: Re: [PATCH] MAINTAINERS: Add Akhil as a reviewer for the Adreno driver
+To: Rob Clark <robin.clark@oss.qualcomm.com>, dri-devel@lists.freedesktop.org
+Cc: linux-arm-msm@vger.kernel.org, freedreno@lists.freedesktop.org,
+ Akhil P Oommen <akhilpo@oss.qualcomm.com>,
+ open list <linux-kernel@vger.kernel.org>
+References: <20251104220245.240480-1-robin.clark@oss.qualcomm.com>
+From: Neil Armstrong <neil.armstrong@linaro.org>
+Content-Language: en-US, fr
+Autocrypt: addr=neil.armstrong@linaro.org; keydata=
+ xsBNBE1ZBs8BCAD78xVLsXPwV/2qQx2FaO/7mhWL0Qodw8UcQJnkrWmgTFRobtTWxuRx8WWP
+ GTjuhvbleoQ5Cxjr+v+1ARGCH46MxFP5DwauzPekwJUD5QKZlaw/bURTLmS2id5wWi3lqVH4
+ BVF2WzvGyyeV1o4RTCYDnZ9VLLylJ9bneEaIs/7cjCEbipGGFlfIML3sfqnIvMAxIMZrvcl9
+ qPV2k+KQ7q+aXavU5W+yLNn7QtXUB530Zlk/d2ETgzQ5FLYYnUDAaRl+8JUTjc0CNOTpCeik
+ 80TZcE6f8M76Xa6yU8VcNko94Ck7iB4vj70q76P/J7kt98hklrr85/3NU3oti3nrIHmHABEB
+ AAHNKk5laWwgQXJtc3Ryb25nIDxuZWlsLmFybXN0cm9uZ0BsaW5hcm8ub3JnPsLAkQQTAQoA
+ OwIbIwULCQgHAwUVCgkICwUWAgMBAAIeAQIXgBYhBInsPQWERiF0UPIoSBaat7Gkz/iuBQJk
+ Q5wSAhkBAAoJEBaat7Gkz/iuyhMIANiD94qDtUTJRfEW6GwXmtKWwl/mvqQtaTtZID2dos04
+ YqBbshiJbejgVJjy+HODcNUIKBB3PSLaln4ltdsV73SBcwUNdzebfKspAQunCM22Mn6FBIxQ
+ GizsMLcP/0FX4en9NaKGfK6ZdKK6kN1GR9YffMJd2P08EO8mHowmSRe/ExAODhAs9W7XXExw
+ UNCY4pVJyRPpEhv373vvff60bHxc1k/FF9WaPscMt7hlkbFLUs85kHtQAmr8pV5Hy9ezsSRa
+ GzJmiVclkPc2BY592IGBXRDQ38urXeM4nfhhvqA50b/nAEXc6FzqgXqDkEIwR66/Gbp0t3+r
+ yQzpKRyQif3OwE0ETVkGzwEIALyKDN/OGURaHBVzwjgYq+ZtifvekdrSNl8TIDH8g1xicBYp
+ QTbPn6bbSZbdvfeQPNCcD4/EhXZuhQXMcoJsQQQnO4vwVULmPGgtGf8PVc7dxKOeta+qUh6+
+ SRh3vIcAUFHDT3f/Zdspz+e2E0hPV2hiSvICLk11qO6cyJE13zeNFoeY3ggrKY+IzbFomIZY
+ 4yG6xI99NIPEVE9lNBXBKIlewIyVlkOaYvJWSV+p5gdJXOvScNN1epm5YHmf9aE2ZjnqZGoM
+ Mtsyw18YoX9BqMFInxqYQQ3j/HpVgTSvmo5ea5qQDDUaCsaTf8UeDcwYOtgI8iL4oHcsGtUX
+ oUk33HEAEQEAAcLAXwQYAQIACQUCTVkGzwIbDAAKCRAWmrexpM/4rrXiB/sGbkQ6itMrAIfn
+ M7IbRuiSZS1unlySUVYu3SD6YBYnNi3G5EpbwfBNuT3H8//rVvtOFK4OD8cRYkxXRQmTvqa3
+ 3eDIHu/zr1HMKErm+2SD6PO9umRef8V82o2oaCLvf4WeIssFjwB0b6a12opuRP7yo3E3gTCS
+ KmbUuLv1CtxKQF+fUV1cVaTPMyT25Od+RC1K+iOR0F54oUJvJeq7fUzbn/KdlhA8XPGzwGRy
+ 4zcsPWvwnXgfe5tk680fEKZVwOZKIEuJC3v+/yZpQzDvGYJvbyix0lHnrCzq43WefRHI5XTT
+ QbM0WUIBIcGmq38+OgUsMYu4NzLu7uZFAcmp6h8g
+Organization: Linaro
+In-Reply-To: <20251104220245.240480-1-robin.clark@oss.qualcomm.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -49,126 +116,30 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Reply-To: Neil Armstrong <neil.armstrong@linaro.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 27/10/2025 16:13, Karunika Choo wrote:
-> Add helpers to issue reset commands through the PWR_CONTROL interface
-> and wait for reset completion using IRQ signaling. This enables support
-> for RESET_SOFT operations with timeout handling and status verification.
+On 11/4/25 23:02, Rob Clark wrote:
+> Akhil should be getting tagged to review GPU patches.
 > 
-> Signed-off-by: Karunika Choo <karunika.choo@arm.com>
-
-Reviewed-by: Steven Price <steven.price@arm.com>
-
+> Cc: Akhil P Oommen <akhilpo@oss.qualcomm.com>
+> Signed-off-by: Rob Clark <robin.clark@oss.qualcomm.com>
 > ---
-> v2:
->  * Dropped RESET_FAST implementation as it is not currently being used.
->  * Renamed reset_completed to reset_pending to align with underlying
->    logic and fixed the logic of its callers accordingly.
->  * Improved readability of panthor_pwr_reset() and removed inline
->    ternary expressions.
-> ---
->  drivers/gpu/drm/panthor/panthor_pwr.c | 50 +++++++++++++++++++++++++++
->  drivers/gpu/drm/panthor/panthor_pwr.h |  2 ++
->  2 files changed, 52 insertions(+)
+>   MAINTAINERS | 1 +
+>   1 file changed, 1 insertion(+)
 > 
-> diff --git a/drivers/gpu/drm/panthor/panthor_pwr.c b/drivers/gpu/drm/panthor/panthor_pwr.c
-> index cd529660a276..4edb818c7ac4 100644
-> --- a/drivers/gpu/drm/panthor/panthor_pwr.c
-> +++ b/drivers/gpu/drm/panthor/panthor_pwr.c
-> @@ -3,6 +3,7 @@
-> 
->  #include <linux/platform_device.h>
->  #include <linux/interrupt.h>
-> +#include <linux/cleanup.h>
->  #include <linux/iopoll.h>
->  #include <linux/wait.h>
-> 
-> @@ -31,6 +32,8 @@
-> 
->  #define PWR_RETRACT_TIMEOUT_US		(2ULL * USEC_PER_MSEC)
-> 
-> +#define PWR_RESET_TIMEOUT_MS		500
-> +
->  /**
->   * struct panthor_pwr - PWR_CONTROL block management data.
->   */
-> @@ -75,6 +78,43 @@ static void panthor_pwr_write_command(struct panthor_device *ptdev, u32 command,
->  	gpu_write(ptdev, PWR_COMMAND, command);
->  }
-> 
-> +static bool reset_irq_raised(struct panthor_device *ptdev)
-> +{
-> +	return gpu_read(ptdev, PWR_INT_RAWSTAT) & PWR_IRQ_RESET_COMPLETED;
-> +}
-> +
-> +static bool reset_pending(struct panthor_device *ptdev)
-> +{
-> +	return (ptdev->pwr->pending_reqs & PWR_IRQ_RESET_COMPLETED);
-> +}
-> +
-> +static int panthor_pwr_reset(struct panthor_device *ptdev, u32 reset_cmd)
-> +{
-> +	scoped_guard(spinlock_irqsave, &ptdev->pwr->reqs_lock) {
-> +		if (reset_pending(ptdev)) {
-> +			drm_WARN(&ptdev->base, 1, "Reset already pending");
-> +		} else {
-> +			ptdev->pwr->pending_reqs |= PWR_IRQ_RESET_COMPLETED;
-> +			gpu_write(ptdev, PWR_INT_CLEAR, PWR_IRQ_RESET_COMPLETED);
-> +			panthor_pwr_write_command(ptdev, reset_cmd, 0);
-> +		}
-> +	}
-> +
-> +	if (!wait_event_timeout(ptdev->pwr->reqs_acked, !reset_pending(ptdev),
-> +				msecs_to_jiffies(PWR_RESET_TIMEOUT_MS))) {
-> +		guard(spinlock_irqsave)(&ptdev->pwr->reqs_lock);
-> +
-> +		if (reset_pending(ptdev) && !reset_irq_raised(ptdev)) {
-> +			drm_err(&ptdev->base, "RESET timed out (0x%x)", reset_cmd);
-> +			return -ETIMEDOUT;
-> +		}
-> +
-> +		ptdev->pwr->pending_reqs &= ~PWR_IRQ_RESET_COMPLETED;
-> +	}
-> +
-> +	return 0;
-> +}
-> +
->  static const char *get_domain_name(u8 domain)
->  {
->  	switch (domain) {
-> @@ -428,6 +468,16 @@ int panthor_pwr_init(struct panthor_device *ptdev)
->  	return 0;
->  }
-> 
-> +int panthor_pwr_reset_soft(struct panthor_device *ptdev)
-> +{
-> +	if (!(gpu_read64(ptdev, PWR_STATUS) & PWR_STATUS_ALLOW_SOFT_RESET)) {
-> +		drm_err(&ptdev->base, "RESET_SOFT not allowed");
-> +		return -EOPNOTSUPP;
-> +	}
-> +
-> +	return panthor_pwr_reset(ptdev, PWR_COMMAND_RESET_SOFT);
-> +}
-> +
->  void panthor_pwr_l2_power_off(struct panthor_device *ptdev)
->  {
->  	const u64 l2_allow_mask = PWR_STATUS_DOMAIN_ALLOWED(PWR_COMMAND_DOMAIN_L2);
-> diff --git a/drivers/gpu/drm/panthor/panthor_pwr.h b/drivers/gpu/drm/panthor/panthor_pwr.h
-> index 3c834059a860..adf1f6136abc 100644
-> --- a/drivers/gpu/drm/panthor/panthor_pwr.h
-> +++ b/drivers/gpu/drm/panthor/panthor_pwr.h
-> @@ -10,6 +10,8 @@ void panthor_pwr_unplug(struct panthor_device *ptdev);
-> 
->  int panthor_pwr_init(struct panthor_device *ptdev);
-> 
-> +int panthor_pwr_reset_soft(struct panthor_device *ptdev);
-> +
->  void panthor_pwr_l2_power_off(struct panthor_device *ptdev);
-> 
->  int panthor_pwr_l2_power_on(struct panthor_device *ptdev);
-> --
-> 2.49.0
-> 
+> diff --git a/MAINTAINERS b/MAINTAINERS
+> index 1083598bb2b6..033675aab0d0 100644
+> --- a/MAINTAINERS
+> +++ b/MAINTAINERS
+> @@ -7880,6 +7880,7 @@ DRM DRIVER for Qualcomm Adreno GPUs
+>   M:	Rob Clark <robin.clark@oss.qualcomm.com>
+>   R:	Sean Paul <sean@poorly.run>
+>   R:	Konrad Dybcio <konradybcio@kernel.org>
+> +R:	Akhil P Oommen <akhilpo@oss.qualcomm.com>
+>   L:	linux-arm-msm@vger.kernel.org
+>   L:	dri-devel@lists.freedesktop.org
+>   L:	freedreno@lists.freedesktop.org
 
+Reviewed-by: Neil Armstrong <neil.armstrong@linaro.org>
