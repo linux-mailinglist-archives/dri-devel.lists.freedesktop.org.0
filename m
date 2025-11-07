@@ -2,66 +2,84 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 90858C408CE
-	for <lists+dri-devel@lfdr.de>; Fri, 07 Nov 2025 16:11:32 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 425E9C408F7
+	for <lists+dri-devel@lfdr.de>; Fri, 07 Nov 2025 16:18:15 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 33C2410EAEE;
-	Fri,  7 Nov 2025 15:11:29 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 20BF410EAFA;
+	Fri,  7 Nov 2025 15:18:13 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; secure) header.d=mailbox.org header.i=@mailbox.org header.b="cJZE8GZg";
+	dkim=pass (2048-bit key; unprotected) header.d=ursulin.net header.i=@ursulin.net header.b="CrmuZlxd";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mout-p-101.mailbox.org (mout-p-101.mailbox.org [80.241.56.151])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 401DE10EAEE
- for <dri-devel@lists.freedesktop.org>; Fri,  7 Nov 2025 15:11:27 +0000 (UTC)
-Received: from smtp2.mailbox.org (smtp2.mailbox.org [10.196.197.2])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested)
- by mout-p-101.mailbox.org (Postfix) with ESMTPS id 4d32Zg6GRGz9tNR;
- Fri,  7 Nov 2025 16:11:23 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org;
- s=mail20150812; t=1762528284;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=Vy+NNLP394OwYxNRijQPvvDO7IMwiwg8RBHcds0M8FQ=;
- b=cJZE8GZg+N198UtZfYrAVmdKAtJBrrVVkioaD4ZOc9/TDy1z63PTOeAv6j+SNs8/bPzYC9
- JOs9bWu2tpIO6uuFgG6AKrXOPYr5cteqWw+aGCwS2s2/qWM3CU7j1k1wkKJXuRv2yIGHhU
- DK4p0zb8zrtlKhxpafKd6RV9/K4EEpYV/ahYx5idiMrpFIddLaL+V5Q3V+Cc1RhUz4jGl/
- E/AaRx5C1kIUJU1pS9Nn8HcZujIGvbsObt1nkRrcFHviOZLerSOkKniqitprQbzSq/oEDb
- uS0DAVnEXSiH0xp/lumQsu6fIDy2GC3b8MMUDf+FwXsA4/0CnqCC1cLaUd6dbg==
-Message-ID: <d2c9cac9-17cc-4bc6-8322-bc43edbf45d1@mailbox.org>
-Date: Fri, 7 Nov 2025 16:11:15 +0100
+Received: from mail-wm1-f50.google.com (mail-wm1-f50.google.com
+ [209.85.128.50])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 70DD310EAFA
+ for <dri-devel@lists.freedesktop.org>; Fri,  7 Nov 2025 15:18:12 +0000 (UTC)
+Received: by mail-wm1-f50.google.com with SMTP id
+ 5b1f17b1804b1-4711810948aso6277565e9.2
+ for <dri-devel@lists.freedesktop.org>; Fri, 07 Nov 2025 07:18:12 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=ursulin.net; s=google; t=1762528691; x=1763133491; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:in-reply-to:content-language:references
+ :cc:to:from:subject:user-agent:mime-version:date:message-id:from:to
+ :cc:subject:date:message-id:reply-to;
+ bh=d9dTI72UNi4STgQlM1dTHrD8kffrsq2tlv/hqqGXE+g=;
+ b=CrmuZlxdRH4y0aPAHKphPaRyRUhj4kA3qSh9ySVz6swpswmlQjeMdWZT8ZrpOONogh
+ Cs6zrqGGKMrfltRUdOJIs7sgZXMcYDkAWRQBsfZIolxnhhlunE1HCHQe9imQpgSTVFPc
+ ItkiXd3hmdVlJVhDIR4La2DSPSg7GEpwVJKx/j3mZI+ArcwxJkMEiOI9od0+sxdyOtID
+ Ltm4jWO+BwWTrMwN8K1eDPBTt+T1dUL6VmtW2mEIntP9iCmxo1iepx+K9fNVP5CDzdgr
+ MhoHM8U/FPKjM2uLKs50CC8FXd5rdtwGguZ1Vhz3ImAGmyGzgZ/lPWTGUz8k52v6Jk14
+ mTnw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1762528691; x=1763133491;
+ h=content-transfer-encoding:in-reply-to:content-language:references
+ :cc:to:from:subject:user-agent:mime-version:date:message-id:x-gm-gg
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=d9dTI72UNi4STgQlM1dTHrD8kffrsq2tlv/hqqGXE+g=;
+ b=UVlqkPxlwoLJhOHFDX2oHpZRw7UePq8jYXpD+Yfcx7t3Z77kXBiSdzfLVUiO0LL1dP
+ gkyK/4CinuOnX5DKyXEdgvRxIyzgYhboB7kv0xP0CHGoT9PFL4nic7/zYF5NuNsYjFAb
+ jGhfsN+YXahMWP5nTDaEHemJZA9pnKdS7i4ItQR+Nz/M/1eGst0r/HOGx+i3pCJAkLqd
+ sO4GZlFg/nfP/RgV1yCyaPSXTE0CA253PJF8MQrXY/unmr4BRSku4LJP7kU9LdWWZc9/
+ b0egLDwGd56Lgoa+p0dZOjYS3iZ/+sF+MokGuSOtz1undSgIvA7ByVeI1MZngi38U9mZ
+ wTDQ==
+X-Gm-Message-State: AOJu0YxU99VB0hpt2NXzKcnnuSKoYcY0uZLBdZOE09MTwoMTgZNDpuAB
+ HZzUG5v6gVWPCmgT0KpeN4fokhT+3ebyIDym8YbronOvtbzTg18rKDKp8GLA8ggXzsc=
+X-Gm-Gg: ASbGnct0CiXFR8fuy052v1I7WMcmcCeVdr9yupmWHQjXnMizMQeCC7CXIWm0byT/1Wk
+ nLSt5H/R8o37bLp0swPCkquTbJXjOYKIeZKM1I9GYlteMfzkoqsBdlQSwcwo/MFW0CsCIajhiyE
+ Y5ncM/kILw8tC1a/spdF7x/MItqul3fmfi4LqB08JtcWnDMKqFrSHjkGIIh/L2EkopsN42a9XxW
+ ICK03aK8KYCOS/PC70Ff8h5uHuX+Xx2wJLnnD4K/Kf28pxnomnYOObdcuxtOqFrKBN1pkMPFAqG
+ +0r04Dnj8Sh9CTHcQn7l5JzbF8dfKm5/MuSuL1mahb2xLtUILb3AKxaiV8JU75E8WFnE6RtZOW7
+ sBnVFkGFKj4tPAWCjtiTq4oV2Pf2D5yhZ6/ecw/oy/4JuBzRFsyK5J5gPGXxfd+nHPyucHHo2jG
+ 9VNB8xEtizCumMy9TT
+X-Google-Smtp-Source: AGHT+IG4EIX5fyema2IYjt2l3Vyqv0iu4sditV/Gh2C/YUsbpK5YmKbRpuXDfxNtaO5SVbSj16Xs3w==
+X-Received: by 2002:a05:600c:3114:b0:471:9da:5232 with SMTP id
+ 5b1f17b1804b1-4776bcbbb2dmr30521885e9.15.1762528689958; 
+ Fri, 07 Nov 2025 07:18:09 -0800 (PST)
+Received: from [192.168.0.101] ([90.240.106.137])
+ by smtp.gmail.com with ESMTPSA id
+ 5b1f17b1804b1-4776bcd521fsm66664195e9.6.2025.11.07.07.18.09
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 07 Nov 2025 07:18:09 -0800 (PST)
+Message-ID: <f39d38c8-8a07-4a63-a09f-3319b5ebb5f6@ursulin.net>
+Date: Fri, 7 Nov 2025 15:18:08 +0000
 MIME-Version: 1.0
-Subject: Re: [PATCH v2 2/2] drm/bridge: add support for lontium lt9211c bridge
-To: Nilesh Laad <nilesh.laad@oss.qualcomm.com>
-Cc: Andrzej Hajda <andrzej.hajda@intel.com>,
- Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] drm/sched: Don't crash kernel on wrong params
+From: Tvrtko Ursulin <tursulin@ursulin.net>
+To: Philipp Stanner <phasta@kernel.org>,
+ Matthew Brost <matthew.brost@intel.com>, Danilo Krummrich <dakr@kernel.org>,
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <ckoenig.leichtzumerken@gmail.com>,
  Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
  Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>, Marek Vasut <marex@denx.de>,
- dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org, venkata.valluru@oss.qualcomm.com,
- jessica.zhang@oss.qualcomm.com, Yi Zhang <zhanyi@qti.qualcomm.com>,
- Gopi Botlagunta <venkata.botlagunta@oss.qualcomm.com>
-References: <20251107-add-lt9211c-bridge-v2-0-b0616e23407c@oss.qualcomm.com>
- <20251107-add-lt9211c-bridge-v2-2-b0616e23407c@oss.qualcomm.com>
- <30b5f19b-1ce9-4239-bf0a-d83d647608ce@mailbox.org>
- <aQ35tvwp90qm57Cl@hu-nlaad-hyd.qualcomm.com>
-Content-Language: en-US
-From: Marek Vasut <marek.vasut@mailbox.org>
-In-Reply-To: <aQ35tvwp90qm57Cl@hu-nlaad-hyd.qualcomm.com>
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>
+Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
+References: <20251107125508.235449-2-phasta@kernel.org>
+ <c4a10ad7-22c0-412c-a456-d2dd0f049ac9@ursulin.net>
+Content-Language: en-GB
+In-Reply-To: <c4a10ad7-22c0-412c-a456-d2dd0f049ac9@ursulin.net>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-MBO-RS-ID: f902cdf5302f7a21187
-X-MBO-RS-META: ii1978emft34czfyu9hytrgg97y7df3e
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -77,33 +95,70 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 11/7/25 2:52 PM, Nilesh Laad wrote:
-> On Fri, Nov 07, 2025 at 02:20:58PM +0100, Marek Vasut wrote:
->> On 11/7/25 2:02 PM, Nilesh Laad wrote:
->>> From: Yi Zhang <zhanyi@qti.qualcomm.com>
->>>
->>> LT9211c is a Single/Dual-Link DSI/LVDS or Single DPI input to
->>> Single-link/Dual-Link DSI/LVDS or Single DPI output bridge chip.
->>> Add support for DSI to LVDS bridge configuration.
->> How does this differ from existing drivers/gpu/drm/bridge/lontium-lt9211.c ?
->> Can existing lt9211 driver be extended instead ? If not, why ? Details
->> please ...
-> LT9211 and LT9211C differ completely in register programming sequences.
-> Even lontium mentioned that register configuration are different for lt9211 and lt9211c.
 
-Lontium seems to often suggest, that users should use their provided 
-register patches without thinking about the content at all.
+On 07/11/2025 14:42, Tvrtko Ursulin wrote:
+> 
+> On 07/11/2025 12:55, Philipp Stanner wrote:
+>> drm_sched_job_arm() just panics the kernel with BUG_ON() in case of an
+>> entity being NULL. While drm_sched_job_arm() crashing or not effectively
+>> arming jobs is certainly a huge issue that needs to be noticed,
+>> completely shooting down the kernel reduces the probability of reaching
+>> and debugging a system to 0.
+>>
+>> Moreover, the checkpatch script by now strongly discourages all new uses
+>> of BUG_ON() for this reason.
+>>
+>> Replace the BUG_ON() in drm_sched_job_arm() with a WARN_ON().
+>>
+>> Signed-off-by: Philipp Stanner <phasta@kernel.org>
+>> ---
+>>   drivers/gpu/drm/scheduler/sched_main.c | 2 +-
+>>   1 file changed, 1 insertion(+), 1 deletion(-)
+>>
+>> diff --git a/drivers/gpu/drm/scheduler/sched_main.c b/drivers/gpu/drm/ 
+>> scheduler/sched_main.c
+>> index 1d4f1b822e7b..3bf4ae0ca4bc 100644
+>> --- a/drivers/gpu/drm/scheduler/sched_main.c
+>> +++ b/drivers/gpu/drm/scheduler/sched_main.c
+>> @@ -857,7 +857,7 @@ void drm_sched_job_arm(struct drm_sched_job *job)
+>>       struct drm_gpu_scheduler *sched;
+>>       struct drm_sched_entity *entity = job->entity;
+>> -    BUG_ON(!entity);
+>> +    WARN_ON(!entity);
+>>       drm_sched_entity_select_rq(entity);
+> 
+> void drm_sched_entity_select_rq(struct drm_sched_entity *entity)
+> {
+>      struct dma_fence *fence;
+>      struct drm_gpu_scheduler *sched;
+>      struct drm_sched_rq *rq;
+> 
+>      /* single possible engine and already selected */
+>      if (!entity->sched_list)
+> 
+> Still the same end result.
+> 
+> I believe best practice is to simply not have BUG_ON's followed by null 
 
-Do you have access to the register documentation, and can you compare 
-LT9211 and LT9211C register layout? Are they identical or do they differ?
+Sorry I meant WARN_ONs. If we think there is scope for bad things to 
+happen after letting the execution proceed then I would add an early 
+return to the WARN_ON (_ONCE?). That probably means to push job as well.
 
-> Nearly every function would require duplicated logic with if (chip_type) branching,
-> as register sequence are completely different.
-> Having both sequences in single file is not looking good, hence want to merge as separate driver.
+Regards,
 
-Can we somehow use regmap_register_patch() and register patches in 
-driver data to avoid duplication ?
+Tvrtko
 
--- 
-Best regards,
-Marek Vasut
+> pointer dereferences since they add no value. Ie. it should just be 
+> removed and not replaced.
+> 
+> Regards,
+> 
+> Tvrtko
+> 
+> Regards,
+> 
+> Tvrtko
+> 
+>>       sched = entity->rq->sched;
+> 
+
