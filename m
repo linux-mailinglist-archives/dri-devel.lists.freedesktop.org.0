@@ -2,68 +2,140 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 66F32C4124E
-	for <lists+dri-devel@lfdr.de>; Fri, 07 Nov 2025 18:48:45 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9340DC4127E
+	for <lists+dri-devel@lfdr.de>; Fri, 07 Nov 2025 18:53:18 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8CBE510EB25;
-	Fri,  7 Nov 2025 17:48:43 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4DBB610EB46;
+	Fri,  7 Nov 2025 17:53:16 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="LbBrPZTH";
+	dkim=pass (2048-bit key; unprotected) header.d=Nvidia.com header.i=@Nvidia.com header.b="Fg52mxGH";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sea.source.kernel.org (sea.source.kernel.org [172.234.252.31])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 185FE10EB25
- for <dri-devel@lists.freedesktop.org>; Fri,  7 Nov 2025 17:48:42 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by sea.source.kernel.org (Postfix) with ESMTP id B45B64385E;
- Fri,  7 Nov 2025 17:48:41 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0C145C113D0;
- Fri,  7 Nov 2025 17:48:35 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1762537721;
- bh=tvD9gG0Rr9652jF+dmwkHloaVheVup3vGLAOVr0Cclw=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=LbBrPZTHP9790hXjz8W5gFMTY6U6EZ9xMudqw8cNp2fuc9XcIsvaJlR9Fn121/pFT
- ejvHsi9TvMhq0roGgWGdDfZAmWYSlWFkPNnCceH6F++LlzWYTD7XJDyGYYoqJZyunZ
- PK11xIlA/yLpWFsVbwKA7wcI3xyNcEeglB5idacnS7T3fe6ruSNiU2oBQO8LX/CAJx
- IAtDRtXU8qwuVZQCJGgEAgo4uH5yYQOqolvMsuvN7WsosjWLWpH2Ko4jOE4Xnz+FqL
- aFkj+iaaEf9qo4xSb8lufcme6AN4mstXJ/ZS6x3gu8fkBrJ/LUtVqlrGMH/VgoWAId
- m0Hl8nQayiW2w==
-Date: Fri, 7 Nov 2025 17:48:33 +0000
-From: Conor Dooley <conor@kernel.org>
-To: Josua Mayer <josua@solid-run.com>
-Cc: Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>, Shawn Guo <shawnguo@kernel.org>,
- Neil Armstrong <neil.armstrong@linaro.org>,
- Jessica Zhang <jessica.zhang@oss.qualcomm.com>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- Dmitry Torokhov <dmitry.torokhov@gmail.com>,
- Sascha Hauer <s.hauer@pengutronix.de>,
- Pengutronix Kernel Team <kernel@pengutronix.de>,
- Fabio Estevam <festevam@gmail.com>,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
- Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
- Thierry Reding <thierry.reding@gmail.com>,
- Jon Nettleton <jon@solid-run.com>,
- Mikhail Anikin <mikhail.anikin@solid-run.com>,
- Yazan Shhady <yazan.shhady@solid-run.com>,
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, linux-input@vger.kernel.org,
- imx@lists.linux.dev, linux-arm-kernel@lists.infradead.org
-Subject: Re: [PATCH v2 02/11] dt-bindings: display: panel: ronbo,rb070d30:
- panel-common ref
-Message-ID: <20251107-cornbread-juggling-2e7e69bcac10@spud>
-References: <20251107-imx8mp-hb-iiot-v2-0-d8233ded999e@solid-run.com>
- <20251107-imx8mp-hb-iiot-v2-2-d8233ded999e@solid-run.com>
+Received: from CO1PR03CU002.outbound.protection.outlook.com
+ (mail-westus2azon11010065.outbound.protection.outlook.com [52.101.46.65])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3706510EB46
+ for <dri-devel@lists.freedesktop.org>; Fri,  7 Nov 2025 17:53:14 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=H2SKIqQUIARAu+C1QqVCgbptpQ9xuaazEjU4oJRQ9XZqA5gV9Ul+NP4NBFlQW3f3shi6F80gsHiyHhH0Piky9bCIIgT9pLXVbJqKyrj+35jPA7qhjBijmSvUIKmIoCpfgbwZPL/C+qcEN8vD4NUHURBiRB9A0j2Y0Z9AVslmdPG7BTW+eV8IJ40G5Vmh9YSNFX9q3d+rh4lEYDrq9qMdLkARVb+CyUH+1vljAnBONTDPK1HNJAbe3sao22J3/lN9vxGJfyQAtb44ND+O1Gf7s/IBBR12jt2n3U9wT52tDpyKU9yX4dgkFPIF8llWYodXQ9eb+UWBNyQF8eT5JCVtYg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=yY7noPUHA4SbRdl6rgASjsCdr+Huz31vC/2Dvp53Xxs=;
+ b=nsa+yPbvwwGWMEQlXQlV/hneQUcSSiGVd8YM625DAJb/kNl2O51Y0gckC1tIcbu1wVu/8GpCVTRwyJt+I9X2EPAlnKvDY9T+DZ32qptitUG21CFQuvcoIDz/8ApLqhSvklSfwrbwdACoDN8caXIaeC0tvgPLC4r0dMz4UHWZcta9dJLe0skgs2Z7VrEn6ig89Q2mApmW5vIgxQWP5uCvTO9Z0mFBQXSzi8BJ8e5wYlsUz7DovKcZaGID9f9l+myi4cHydbgiEnYHg4Ao/JOhKsMb8T3Py77gPL3DoDDK3vL87QC5NlRNxasr1/5EoCMu9Uba807C3IqCMrkl53kdaQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 216.228.117.161) smtp.rcpttodomain=ffwll.ch smtp.mailfrom=nvidia.com;
+ dmarc=pass (p=reject sp=reject pct=100) action=none header.from=nvidia.com;
+ dkim=none (message not signed); arc=none (0)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=yY7noPUHA4SbRdl6rgASjsCdr+Huz31vC/2Dvp53Xxs=;
+ b=Fg52mxGHWUaMfjcnu7j2GcKXa3IpBCWCAG1mATc4HqsZJx3SmN4EmLJUghuNVc8fMeDJ91YUy7x/VnltkG2U/PQS6AM+ix7yGHUyyJ8ndGKaKthQatq01oRhOLDro/zDKpTuv7M5sm5oelnTUWpPM4JZz914UDL0mW4fZfiExzIPk+qDZpusky66Eo8TPYlcpSQJUV7c8wWeldlpSsEPvWZhZsHKXQwg9RG87quJhJc6W5TXxI/fiKZY8byrHsXcVbN0FrHla3NE4aTSlSuNh2dnGu89tIY44g81IjJtdg4JWxcoiV9kKD4yQ5UTpkxa+BPdjidcfyW/R9rJiv3ckA==
+Received: from BN9PR03CA0654.namprd03.prod.outlook.com (2603:10b6:408:13b::29)
+ by DM4PR12MB6230.namprd12.prod.outlook.com (2603:10b6:8:a7::10) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9298.12; Fri, 7 Nov
+ 2025 17:53:09 +0000
+Received: from BN3PEPF0000B072.namprd04.prod.outlook.com
+ (2603:10b6:408:13b:cafe::37) by BN9PR03CA0654.outlook.office365.com
+ (2603:10b6:408:13b::29) with Microsoft SMTP Server (version=TLS1_3,
+ cipher=TLS_AES_256_GCM_SHA384) id 15.20.9298.12 via Frontend Transport; Fri,
+ 7 Nov 2025 17:52:54 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 216.228.117.161)
+ smtp.mailfrom=nvidia.com;
+ dkim=none (message not signed)
+ header.d=none;dmarc=pass action=none header.from=nvidia.com;
+Received-SPF: Pass (protection.outlook.com: domain of nvidia.com designates
+ 216.228.117.161 as permitted sender) receiver=protection.outlook.com;
+ client-ip=216.228.117.161; helo=mail.nvidia.com; pr=C
+Received: from mail.nvidia.com (216.228.117.161) by
+ BN3PEPF0000B072.mail.protection.outlook.com (10.167.243.117) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.9298.6 via Frontend Transport; Fri, 7 Nov 2025 17:53:08 +0000
+Received: from rnnvmail202.nvidia.com (10.129.68.7) by mail.nvidia.com
+ (10.129.200.67) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.20; Fri, 7 Nov
+ 2025 09:52:49 -0800
+Received: from rnnvmail205.nvidia.com (10.129.68.10) by rnnvmail202.nvidia.com
+ (10.129.68.7) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.20; Fri, 7 Nov
+ 2025 09:52:48 -0800
+Received: from Asurada-Nvidia (10.127.8.11) by mail.nvidia.com (10.129.68.10)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.20 via Frontend
+ Transport; Fri, 7 Nov 2025 09:52:47 -0800
+Date: Fri, 7 Nov 2025 09:52:45 -0800
+From: Nicolin Chen <nicolinc@nvidia.com>
+To: Jason Gunthorpe <jgg@nvidia.com>
+CC: Alex Williamson <alex@shazbot.org>, Christian =?iso-8859-1?Q?K=F6nig?=
+ <christian.koenig@amd.com>, <dri-devel@lists.freedesktop.org>,
+ <iommu@lists.linux.dev>, Joerg Roedel <joro@8bytes.org>, Kevin Tian
+ <kevin.tian@intel.com>, <kvm@vger.kernel.org>,
+ <linaro-mm-sig@lists.linaro.org>, <linux-kselftest@vger.kernel.org>,
+ <linux-media@vger.kernel.org>, Robin Murphy <robin.murphy@arm.com>, "Shuah
+ Khan" <shuah@kernel.org>, Sumit Semwal <sumit.semwal@linaro.org>, Will Deacon
+ <will@kernel.org>, Krishnakant Jaju <kjaju@nvidia.com>, Leon Romanovsky
+ <leon@kernel.org>, Matt Ochs <mochs@nvidia.com>, <patches@lists.linux.dev>,
+ Simona Vetter <simona.vetter@ffwll.ch>, Vivek Kasireddy
+ <vivek.kasireddy@intel.com>, Xu Yilun <yilun.xu@linux.intel.com>
+Subject: Re: [PATCH 0/9] Initial DMABUF support for iommufd
+Message-ID: <aQ4x7UiMMCB0m0dH@Asurada-Nvidia>
+References: <0-v1-af84a3ab44f5+f68-iommufd_buf_jgg@nvidia.com>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
- protocol="application/pgp-signature"; boundary="E1JSShyRa8hSS1cg"
+Content-Type: text/plain; charset="us-ascii"
 Content-Disposition: inline
-In-Reply-To: <20251107-imx8mp-hb-iiot-v2-2-d8233ded999e@solid-run.com>
+In-Reply-To: <0-v1-af84a3ab44f5+f68-iommufd_buf_jgg@nvidia.com>
+X-NV-OnPremToCloud: ExternallySecured
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: BN3PEPF0000B072:EE_|DM4PR12MB6230:EE_
+X-MS-Office365-Filtering-Correlation-Id: e28cb06e-ca58-4c16-7e26-08de1e268332
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+ ARA:13230040|1800799024|82310400026|376014|7416014|36860700013|13003099007; 
+X-Microsoft-Antispam-Message-Info: =?us-ascii?Q?fXUN2uL9Q176+BdCcdfFgIywP7PDpR8VZQMB4A4F/Al4k2QTCEf6iZQy8Yxh?=
+ =?us-ascii?Q?LP9F/tugt/yn7LeHjNzOXrD9TIAYjk45r+q3ZGx4O3tihKoZkk5FrXHgpmMQ?=
+ =?us-ascii?Q?VrlgxLfn+jzHSdF+r7KEUiIrTqZuz2yr4v3xwOHyiYbUolXiwSwm4ArSQ468?=
+ =?us-ascii?Q?V6gsTFddsb2/nc8P/5aMjPJ0fNh0JUz5irYXDveXvVyPdFrNdPV8L+Lmum5D?=
+ =?us-ascii?Q?YoGZ62jCfxLypj3prMsGUNzgKauXTPkWGE9RNySnq1W9dY3ouOywJj1okwWC?=
+ =?us-ascii?Q?MjMI2OoOANBg4A6xHyb2v78v6lXbVwnb3LSmTwrCj7+QkhcuxhSRblgcE59X?=
+ =?us-ascii?Q?NLtbDYctK1plOvO93yqZCYIc0fezkHVxOeCNy8SlaIYE0/Tyw6PvwbzDO8SF?=
+ =?us-ascii?Q?yxRvVZ/xU4dKsj/AnNWIqdfKREHFjKbLR9DBqoqm1/OywHw2JuV3KOlyRoNW?=
+ =?us-ascii?Q?x/+6VUvzZL/cunVk2rYvCI+ksdZTdrWo3+HQgMkDVpfLyUTFGdYjJt9rKOG1?=
+ =?us-ascii?Q?9FaRy3htP19Kwj+HNWIDG2tlHoKi5aN+CapO48OG2uh0pVITZmSW4s2WCdtQ?=
+ =?us-ascii?Q?I/OJo8dwbl5gSjxGYVgUFc3kRrN1LwJOSfaXRqOOCNZo+/qbxV+0xhUpN3Jf?=
+ =?us-ascii?Q?gRUwxlQBBodVE5hIzacSOsewX9iEm5senC0wnkEuebAryaevhZcptwmRCE0d?=
+ =?us-ascii?Q?CWdBlFHNTyUTn8f88RQ/dJvqPucgqfRG2SPXe/fJfF9mC9ZHtEJZPMi4vz0/?=
+ =?us-ascii?Q?KVvIdtYuMdmpew3eXcMlGJvJg6Kx1+93DnPAxtnHUM+0o8wn5SIaBpNCKQR8?=
+ =?us-ascii?Q?phdc9vnO5OS4G7drWVpYUo/Th26QnMhV/hMxbpnqEHPZFG6UBfe/dgqPHwaN?=
+ =?us-ascii?Q?utMtWo0k/N2Fuj7wQeomGMnAuAAU74s+6tW4gRxfkbyjLtgSd9f+v6av1TGJ?=
+ =?us-ascii?Q?YBfBnaN/ZAtJpnEHiEeS7C22zQ0uJTnuUrLL88eTDWv+IFAGukymKlEqIjUH?=
+ =?us-ascii?Q?6x1DXI7/ykc0cPBVSZ7COizrf0+5NEzkyjWRjk/UCvd/wXymv8YtZXcH2P0o?=
+ =?us-ascii?Q?hdMfdZHvYBtD7tgt/EDMFWcDIaeMgtjuxALBJw8FPnukjAnmYgduhOZltRv5?=
+ =?us-ascii?Q?DaeAMUwWROEVlQ++q5fzuX6V1XYRh+zCOqlVq3lsNOmPmvpDif/Za3RD9mls?=
+ =?us-ascii?Q?/lWH/L7PrxWkAm6nuoEk1lZ+OloXw1/nwWBwEtA9oXbIne9tnUoZaeogxBaK?=
+ =?us-ascii?Q?99jzF6wPYLibraR/zaOcCxliyo1maNw/ISMxpm9Tt22EFHZUViYJ/gVazV9f?=
+ =?us-ascii?Q?pOo4FPuPWPpAJ9oj9yg4lAs3TfSb19TEfWP3AdiQdvcOlGROKnFc/PpAsTLD?=
+ =?us-ascii?Q?JIwHQGOFjpeIN7p/nMuXTUdH1Na8WiesbZRapfFTdQuuQApzyVMcqfJcsf6m?=
+ =?us-ascii?Q?5ajReyl0qAuCQqN/x42/BtnbeKI5nkWIvjBAK4f4JStn5ascq/fiNM0bNgKX?=
+ =?us-ascii?Q?PqRaL8eM7RDGwQ22sb0CaKg4m2Gs180fDeBSrr4T/PvTRLVjcJuMgPA5gmK7?=
+ =?us-ascii?Q?huPa+gNYXQNg3EMb0xiQBjHLKd+nMawc/0Cv8xqX?=
+X-Forefront-Antispam-Report: CIP:216.228.117.161; CTRY:US; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:mail.nvidia.com; PTR:dc6edge2.nvidia.com; CAT:NONE;
+ SFS:(13230040)(1800799024)(82310400026)(376014)(7416014)(36860700013)(13003099007);
+ DIR:OUT; SFP:1101; 
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 07 Nov 2025 17:53:08.9998 (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: e28cb06e-ca58-4c16-7e26-08de1e268332
+X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=43083d15-7273-40c1-b7db-39efd9ccc17a; Ip=[216.228.117.161];
+ Helo=[mail.nvidia.com]
+X-MS-Exchange-CrossTenant-AuthSource: BN3PEPF0000B072.namprd04.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM4PR12MB6230
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -79,38 +151,20 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+On Fri, Nov 07, 2025 at 12:49:32PM -0400, Jason Gunthorpe wrote:
+> This is on github: https://github.com/jgunthorpe/linux/commits/iommufd_dmabuf
+> 
+> v2:
+>  - Rebase on Leon's v7
+>  - Fix mislocking in an iopt_fill_domain() error path
 
---E1JSShyRa8hSS1cg
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+I have verified this v2 using the branch above, by drafting a QEMU
+patch for dmabuf on top of Shameer's vSMMU v5 series:
+https://github.com/nicolinc/qemu/commits/wip/iommufd_dmabuf/
 
-On Fri, Nov 07, 2025 at 12:46:09PM +0100, Josua Mayer wrote:
-> Add missing ref on panel-common.yaml for this dsi panel so that common
-> properties can be shared.
->=20
-> Drop reset-gpios and backlight as they are already in panel-common.
->=20
-> Switch from additionalProperties to unevaluatedProperties so that common
-> panel properties are available without repeating them in this binding.
->=20
-> Notably panel-common defines the "port" property for linking panels to a
-> source - which was missing from this panel. Mark it as required.
->=20
-> Signed-off-by: Josua Mayer <josua@solid-run.com>
+With that, I see GPU BAR memory be correctly fetched in the QEMU:
+vfio_region_dmabuf Device 0009:01:00.0, region "0009:01:00.0 BAR 0", offset: 0x0, size: 0x1000000
+vfio_region_dmabuf Device 0009:01:00.0, region "0009:01:00.0 BAR 2", offset: 0x0, size: 0x44f00000
+vfio_region_dmabuf Device 0009:01:00.0, region "0009:01:00.0 BAR 4", offset: 0x0, size: 0x17a0000000
 
-Acked-by: Conor Dooley <conor.dooley@microchip.com>
-pw-bot: not-applicable
-
---E1JSShyRa8hSS1cg
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYKAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCaQ4w8QAKCRB4tDGHoIJi
-0lf8AP9B3ouklPfp54vvg9I3TJdfddEIiCt1NbmFTMHP0V8FsgEAlb/T0FlPIhwK
-pozK27QDQ5mObhibwyqfrqzCa6WnmA4=
-=sj27
------END PGP SIGNATURE-----
-
---E1JSShyRa8hSS1cg--
+Tested-by: Nicolin Chen <nicolinc@nvidia.com>
