@@ -2,54 +2,42 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id CD116C3F130
-	for <lists+dri-devel@lfdr.de>; Fri, 07 Nov 2025 10:05:58 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 86EAAC3F23F
+	for <lists+dri-devel@lfdr.de>; Fri, 07 Nov 2025 10:24:38 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1A8F110E1C3;
-	Fri,  7 Nov 2025 09:05:57 +0000 (UTC)
-Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; secure) header.d=damsy.net header.i=@damsy.net header.b="vtQDhEWO";
-	dkim=permerror (0-bit key) header.d=damsy.net header.i=@damsy.net header.b="7R90nlcQ";
-	dkim-atps=neutral
+	by gabe.freedesktop.org (Postfix) with ESMTP id DEC0510EA3E;
+	Fri,  7 Nov 2025 09:24:35 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from jeth.damsy.net (jeth.damsy.net [51.159.152.102])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5B89B10E1C3;
- Fri,  7 Nov 2025 09:05:55 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; s=202408r; d=damsy.net; c=relaxed/relaxed; 
- h=From:To:Subject:Date:Message-ID; t=1762506344;
- bh=tTI34LZ3z6i+FtVXKAd28Fi
- 8WidGpxoyI6ggyYiU8IU=; b=vtQDhEWObGUg+2qDCPwifV8Rwpaki930n6br/SKWIumecBjOXr
- /wB+2hEM2fphA44YyBUg87PVn/F5L6aOUk3SJjJuee3BkLIlfS4l2QOrJ/QetIquIC/wOe30RIK
- VYnxvVIyVQQS5CUejbmPLJIUrCB/rYJ9GWSj3B/9w+C4RIlrSizrChhXccXI1RAlLU8Qnt1v0Mt
- MEt865qw/K6GyBlTLFWxQgCezqzS4wDyD4CR3Vki62Y1QWSMhM93HtbrvcUIdwBPqcGM7hL1kUG
- 3C4GgjP7Buokug3QdsoTVzPBK2M4Lg7C04YWVKsRFVc4lusSC9Gw4KW2q3hFew77lDw==;
-DKIM-Signature: v=1; a=ed25519-sha256; s=202408e; d=damsy.net;
- c=relaxed/relaxed; 
- h=From:To:Subject:Date:Message-ID; t=1762506344; bh=tTI34LZ3z6i+FtVXKAd28Fi
- 8WidGpxoyI6ggyYiU8IU=; b=7R90nlcQiNFoRgx9aXkOWMa0mCH7i9wTC0VSXvwYR//CFfdguc
- cFKTD4vrOZ8TQXnVZ+3QONOvJJPdIO1a7pCA==;
-Message-ID: <4d93fd3b-84dd-45fb-b5e4-a8d8ab38112d@damsy.net>
-Date: Fri, 7 Nov 2025 10:05:44 +0100
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 3960C10EA3E
+ for <dri-devel@lists.freedesktop.org>; Fri,  7 Nov 2025 09:24:34 +0000 (UTC)
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+ by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 13F721007;
+ Fri,  7 Nov 2025 01:24:26 -0800 (PST)
+Received: from [10.57.72.216] (unknown [10.57.72.216])
+ by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id B59683F63F;
+ Fri,  7 Nov 2025 01:24:31 -0800 (PST)
+Message-ID: <93055453-1177-4840-86cf-1a6fc8836470@arm.com>
+Date: Fri, 7 Nov 2025 09:24:29 +0000
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 2/4] drm/amdgpu: jump to the correct label on failure
-To: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
- Tvrtko Ursulin <tursulin@ursulin.net>,
- Pierre-Eric Pelloux-Prayer <pierre-eric.pelloux-prayer@amd.com>,
- Alex Deucher <alexander.deucher@amd.com>, David Airlie <airlied@gmail.com>,
- Simona Vetter <simona@ffwll.ch>
-Cc: amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+Subject: Re: [PATCH v3 1/8] drm/panthor: Add arch-specific panthor_hw binding
+To: Liviu Dudau <liviu.dudau@arm.com>, Karunika Choo <karunika.choo@arm.com>
+Cc: dri-devel@lists.freedesktop.org, nd@arm.com,
+ Boris Brezillon <boris.brezillon@collabora.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
  linux-kernel@vger.kernel.org
-References: <20251106093933.18859-1-pierre-eric.pelloux-prayer@amd.com>
- <20251106093933.18859-2-pierre-eric.pelloux-prayer@amd.com>
- <63ce6781-439d-4425-a3e9-f1d233a5abea@ursulin.net>
- <a3830a0e-5491-4bb7-8685-3427f4874d95@amd.com>
-Content-Language: en-US
-From: Pierre-Eric Pelloux-Prayer <pierre-eric@damsy.net>
-In-Reply-To: <a3830a0e-5491-4bb7-8685-3427f4874d95@amd.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+References: <20251027161334.854650-1-karunika.choo@arm.com>
+ <20251027161334.854650-2-karunika.choo@arm.com>
+ <aQDsW3xf2NNUvBN-@e110455-lin.cambridge.arm.com>
+From: Steven Price <steven.price@arm.com>
+Content-Language: en-GB
+In-Reply-To: <aQDsW3xf2NNUvBN-@e110455-lin.cambridge.arm.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -65,41 +53,208 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
-
-Le 06/11/2025 à 11:21, Christian König a écrit :
-> On 11/6/25 10:56, Tvrtko Ursulin wrote:
->>
->> On 06/11/2025 09:39, Pierre-Eric Pelloux-Prayer wrote:
->>> drm_sched_entity_init wasn't called yet, so the only thing to
->>> do is to release allocated memory.
->>> This doesn't fix any bug since entity is zero allocated and
->>> drm_sched_entity_fini does nothing in this case.
->>>
->>> Signed-off-by: Pierre-Eric Pelloux-Prayer <pierre-eric.pelloux-prayer@amd.com>
->>> ---
->>>    drivers/gpu/drm/amd/amdgpu/amdgpu_ctx.c | 2 +-
->>>    1 file changed, 1 insertion(+), 1 deletion(-)
->>>
->>> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_ctx.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_ctx.c
->>> index f5d5c45ddc0d..afedea02188d 100644
->>> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_ctx.c
->>> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_ctx.c
->>> @@ -236,7 +236,7 @@ static int amdgpu_ctx_init_entity(struct amdgpu_ctx *ctx, u32 hw_ip,
->>>            r = amdgpu_xcp_select_scheds(adev, hw_ip, hw_prio, fpriv,
->>>                            &num_scheds, &scheds);
->>>            if (r)
->>> -            goto cleanup_entity;
->>> +            goto error_free_entity;
->>>        }
->>>          /* disable load balance if the hw engine retains context among dependent jobs */
->>
->> Reviewed-by: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
+On 28/10/2025 16:16, Liviu Dudau wrote:
+> Hello,
 > 
-> Acked-by: Christian König <christian.koenig@amd.com>
+> On Mon, Oct 27, 2025 at 04:13:27PM +0000, Karunika Choo wrote:
+>> This patch adds the framework for binding to a specific panthor_hw
+>> structure based on the architecture major value parsed from the GPU_ID
+>> register. This is in preparation of enabling architecture-specific
+>> behaviours based on GPU_ID. As such, it also splits the GPU_ID register
+>> read operation into its own helper function.
+>>
+>> This framework allows a single panthor_hw structure to be shared across
+>> multiple architectures should there be minimal changes between them via
+>> the arch_min and arch_max field of the panthor_hw_entry structure,
+>> instead of duplicating the structure across multiple architectures.
+>>
+>> Signed-off-by: Karunika Choo <karunika.choo@arm.com>
+
+Reviewed-by: Steven Price <steven.price@arm.com>
+
+>> ---
+>> v2:
+>>  * merged GPU_ID refactoring patch with the arch-specific panthor_hw
+>>    binding patch (PATCH 01/10 and PATCH 02/10 in v1).
+>> ---
+>>  drivers/gpu/drm/panthor/panthor_device.h |  4 ++
+>>  drivers/gpu/drm/panthor/panthor_hw.c     | 65 +++++++++++++++++++++++-
+>>  drivers/gpu/drm/panthor/panthor_hw.h     |  6 +++
+>>  3 files changed, 74 insertions(+), 1 deletion(-)
+>>
+>> diff --git a/drivers/gpu/drm/panthor/panthor_device.h b/drivers/gpu/drm/panthor/panthor_device.h
+>> index a764111359d2..1457c1255f1f 100644
+>> --- a/drivers/gpu/drm/panthor/panthor_device.h
+>> +++ b/drivers/gpu/drm/panthor/panthor_device.h
+>> @@ -26,6 +26,7 @@ struct panthor_device;
+>>  struct panthor_gpu;
+>>  struct panthor_group_pool;
+>>  struct panthor_heap_pool;
+>> +struct panthor_hw;
+>>  struct panthor_job;
+>>  struct panthor_mmu;
+>>  struct panthor_fw;
+>> @@ -122,6 +123,9 @@ struct panthor_device {
+>>  	/** @csif_info: Command stream interface information. */
+>>  	struct drm_panthor_csif_info csif_info;
+>>
+>> +	/** @hw: GPU-specific data. */
+>> +	struct panthor_hw *hw;
+>> +
+>>  	/** @gpu: GPU management data. */
+>>  	struct panthor_gpu *gpu;
+>>
+>> diff --git a/drivers/gpu/drm/panthor/panthor_hw.c b/drivers/gpu/drm/panthor/panthor_hw.c
+>> index 4f2858114e5e..b6e7401327c3 100644
+>> --- a/drivers/gpu/drm/panthor/panthor_hw.c
+>> +++ b/drivers/gpu/drm/panthor/panthor_hw.c
+>> @@ -8,6 +8,28 @@
+>>  #define GPU_PROD_ID_MAKE(arch_major, prod_major) \
+>>  	(((arch_major) << 24) | (prod_major))
+>>
+>> +/** struct panthor_hw_entry - HW arch major to panthor_hw binding entry */
+>> +struct panthor_hw_entry {
+>> +	/** @arch_min: Minimum supported architecture major value (inclusive) */
+>> +	u8 arch_min;
+>> +
+>> +	/** @arch_max: Maximum supported architecture major value (inclusive) */
+>> +	u8 arch_max;
 > 
-> Since this is still a fix please push it to amd-staging-drm-next independent of the remaining patch set.
+> I'm not a big fan of this [min, max] range definition. I would expect that,
+> unless a new panthor_hw_entry is defined, the one covering arch X will also
+> cover arch X+1 automatically. With the current implementation we will have
+> to add a patch extending arch_max for an existing panthor_hw_entry when a new
+> GPU architecture is released that is compatible with the previous one at the
+> panthor_hw level *and backport the patch* for older kernels if they can
+> support that hardware.
 
-Ok, I removed this patch from v4 and will push it to amd-staging-drm-next.
+I see your point, but I'm not sure it's necessarily a good idea for
+kernels to pretend to support architectures that haven't been released
+yet. Historically we haven't been great at keeping compatibility with
+newer hardware and we might otherwise end up backporting patches just to
+explicitly break compatibility if we didn't have a max.
 
-Pierre-Eric
+Of course you have a much better idea of what's in the pipeline and
+whether future GPUs are going to be better at backwards compatiblity...
+
+> My suggestion is to drop this structure entirely and change panthor_hw_bind_device()
+> to a cascade of if()s starting with the latest arch to have a struct panthor_hw
+> defined. For this patch the function will actually just set ptdev->hw to panthor_hw_arch_v10
+> without any ifs.
+
+I'm not a fan of cascades of if()s. If we can express it as a simple
+table it will be much easier to read and maintain.
+
+> Also (this is my personal preference) I would merge patch 1/8 and 2/8 so that we
+> don't have just empty structures defined.
+
+I'd usually agree, but there's a rename in the following patch which I
+think should be kept separate from these changes. So I think you'd still
+need a rename patch (panthor_gpu_soft_reset => panthor_hw_soft_reset
+etc) separate.
+
+Thanks,
+Steve
+
+> Best regards,
+> Liviu
+> 
+>> +
+>> +	/** @hwdev: Pointer to panthor_hw structure */
+>> +	struct panthor_hw *hwdev;
+>> +};
+>> +
+>> +static struct panthor_hw panthor_hw_arch_v10 = {};
+>> +
+>> +static struct panthor_hw_entry panthor_hw_match[] = {
+>> +	{
+>> +		.arch_min = 10,
+>> +		.arch_max = 13,
+>> +		.hwdev = &panthor_hw_arch_v10,
+>> +	},
+>> +};
+>> +
+>>  static char *get_gpu_model_name(struct panthor_device *ptdev)
+>>  {
+>>  	const u32 gpu_id = ptdev->gpu_info.gpu_id;
+>> @@ -62,7 +84,6 @@ static void panthor_gpu_info_init(struct panthor_device *ptdev)
+>>  {
+>>  	unsigned int i;
+>>
+>> -	ptdev->gpu_info.gpu_id = gpu_read(ptdev, GPU_ID);
+>>  	ptdev->gpu_info.csf_id = gpu_read(ptdev, GPU_CSF_ID);
+>>  	ptdev->gpu_info.gpu_rev = gpu_read(ptdev, GPU_REVID);
+>>  	ptdev->gpu_info.core_features = gpu_read(ptdev, GPU_CORE_FEATURES);
+>> @@ -117,8 +138,50 @@ static void panthor_hw_info_init(struct panthor_device *ptdev)
+>>  		 ptdev->gpu_info.tiler_present);
+>>  }
+>>
+>> +static int panthor_hw_bind_device(struct panthor_device *ptdev)
+>> +{
+>> +	struct panthor_hw *hdev = NULL;
+>> +	const u32 arch_major = GPU_ARCH_MAJOR(ptdev->gpu_info.gpu_id);
+>> +	int i = 0;
+>> +
+>> +	for (i = 0; i < ARRAY_SIZE(panthor_hw_match); i++) {
+>> +		struct panthor_hw_entry *entry = &panthor_hw_match[i];
+>> +
+>> +		if (arch_major >= entry->arch_min && arch_major <= entry->arch_max) {
+>> +			hdev = entry->hwdev;
+>> +			break;
+>> +		}
+>> +	}
+>> +
+>> +	if (!hdev)
+>> +		return -EOPNOTSUPP;
+>> +
+>> +	ptdev->hw = hdev;
+>> +
+>> +	return 0;
+>> +}
+>> +
+>> +static int panthor_hw_gpu_id_init(struct panthor_device *ptdev)
+>> +{
+>> +	ptdev->gpu_info.gpu_id = gpu_read(ptdev, GPU_ID);
+>> +	if (!ptdev->gpu_info.gpu_id)
+>> +		return -ENXIO;
+>> +
+>> +	return 0;
+>> +}
+>> +
+>>  int panthor_hw_init(struct panthor_device *ptdev)
+>>  {
+>> +	int ret = 0;
+>> +
+>> +	ret = panthor_hw_gpu_id_init(ptdev);
+>> +	if (ret)
+>> +		return ret;
+>> +
+>> +	ret = panthor_hw_bind_device(ptdev);
+>> +	if (ret)
+>> +		return ret;
+>> +
+>>  	panthor_hw_info_init(ptdev);
+>>
+>>  	return 0;
+>> diff --git a/drivers/gpu/drm/panthor/panthor_hw.h b/drivers/gpu/drm/panthor/panthor_hw.h
+>> index 0af6acc6aa6a..39752de3e7ad 100644
+>> --- a/drivers/gpu/drm/panthor/panthor_hw.h
+>> +++ b/drivers/gpu/drm/panthor/panthor_hw.h
+>> @@ -6,6 +6,12 @@
+>>
+>>  struct panthor_device;
+>>
+>> +/**
+>> + * struct panthor_hw - GPU specific register mapping and functions
+>> + */
+>> +struct panthor_hw {
+>> +};
+>> +
+>>  int panthor_hw_init(struct panthor_device *ptdev);
+>>
+>>  #endif /* __PANTHOR_HW_H__ */
+>> --
+>> 2.49.0
+>>
+> 
+
