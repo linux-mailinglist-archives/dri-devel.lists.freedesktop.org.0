@@ -2,131 +2,141 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A2828C4147D
-	for <lists+dri-devel@lfdr.de>; Fri, 07 Nov 2025 19:29:44 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5B0F9C41489
+	for <lists+dri-devel@lfdr.de>; Fri, 07 Nov 2025 19:30:57 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B251010EAFD;
-	Fri,  7 Nov 2025 18:29:40 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7BA6D10EB55;
+	Fri,  7 Nov 2025 18:30:55 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="NzwFIR/2";
-	dkim=pass (2048-bit key; unprotected) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="AcXiAhMM";
+	dkim=pass (2048-bit key; unprotected) header.d=Nvidia.com header.i=@Nvidia.com header.b="RJJ1uBJB";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
- [205.220.180.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 036D310EAFD
- for <dri-devel@lists.freedesktop.org>; Fri,  7 Nov 2025 18:29:39 +0000 (UTC)
-Received: from pps.filterd (m0279871.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id
- 5A7CYAcI2281722
- for <dri-devel@lists.freedesktop.org>; Fri, 7 Nov 2025 18:29:39 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
- cc:content-transfer-encoding:content-type:date:from:in-reply-to
- :message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
- MpjK2rA+NNwU9b5o/GD7Ujhzx79pLwNclFBxZ3L2HUo=; b=NzwFIR/2D58AtxLI
- 5vkTuMR7EJxjYHwRtLXdEVdikBcDLg7E3jA+JGkvevSgH2KpCcJaNkH5s+UiDg2q
- o36nIqic8WjGCXrh3RoS9XX+ZPs/5c7rGK3lyCCOUQ2UNlTFHhe+Zl/UmoSO5M5K
- P/rJ1W9A34S7yhpIj/6HSCYM+MAHDgwGywmcycPyBxT/t7rYN0jYqoMl7CsKyL5R
- a6iTMWjUwIdfSQ4yMG8QymktKzXE6+PCh4GtLAZsoekbrdykMz8E0TAAGeF0eWNF
- /geBRHEUJh1pF4pIaJNOFGFHWKiH7x53op1rA/kDpT39+lpjJztQkr9HaaDDVZCD
- tBNuEw==
-Received: from mail-pl1-f198.google.com (mail-pl1-f198.google.com
- [209.85.214.198])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4a9a9sj7f0-1
- (version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
- for <dri-devel@lists.freedesktop.org>; Fri, 07 Nov 2025 18:29:38 +0000 (GMT)
-Received: by mail-pl1-f198.google.com with SMTP id
- d9443c01a7336-27c62320f16so16593125ad.1
- for <dri-devel@lists.freedesktop.org>; Fri, 07 Nov 2025 10:29:38 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=oss.qualcomm.com; s=google; t=1762540178; x=1763144978;
- darn=lists.freedesktop.org; 
- h=content-transfer-encoding:in-reply-to:from:content-language
- :references:cc:to:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=MpjK2rA+NNwU9b5o/GD7Ujhzx79pLwNclFBxZ3L2HUo=;
- b=AcXiAhMMWR3Fvh6w0au4Sm4WsvBwaR1dfN16XCJ8G8o50I4i5JPzY3gXsjh35ptAIR
- r+MgW+93DnxRHJQY4BLOjSE87DuzWMqP8T3dswSpEK97u9bm6f5whV9TmyNk6YLKj1g9
- Ozg6J1vwyuxftzhmaRRwIcpMN/PkTk70hePAlNWWen0099drcp0v8i3i/dinx+gUbRpO
- w0Gc16I/rpPQT0lwZUtMUqfJwhfNQUKjG2QQQurcIyshFTH5dCDvuSs9Yy4Tm8d5ei/d
- eP9+HB/4WqX4RkS+Qobf1NWme9kXlNGi59Tb+sVN7x3LY6yv47NMjs6+yTtcyxlTjc6R
- dGlg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1762540178; x=1763144978;
- h=content-transfer-encoding:in-reply-to:from:content-language
- :references:cc:to:subject:user-agent:mime-version:date:message-id
- :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=MpjK2rA+NNwU9b5o/GD7Ujhzx79pLwNclFBxZ3L2HUo=;
- b=nHue8sCCBVib4U31YsHHGj4K2IWHlKGOS6TIDhBDWRz5PLgvsHrHTeGMwrssEb4X1w
- m4IiZv5fXIqF2e/j2JJ63KImxF26XLJ863gTJA/TCGMPFiDLaHijaSFG47U4pvk6iSwD
- c6v+QAjr2wMyvuIGEhPGHa3Dbs0arSTZ5/F9IoCZ7Tu0lj/IhDKXSFZ2Ds++FmuyNkS2
- OH7Bc5K9QIkXm/Sh0wwCkrp5kggtIzKS+hD7urBOR6Tos/DJBPv4OGH9GPHwv722EvTI
- ISrTK0ZbbODKxCBxsTvLqSppku/p/w5StY+D2DnACjIh2CWvU6E1ZYfxdHCiSXaOcoM7
- uK9Q==
-X-Forwarded-Encrypted: i=1;
- AJvYcCWYeJBSBLlgTq9EkJpEFwOGv1sG9YcGWJP5BSaL64FOh0e9VWPmDVZLQdYwlEXNStpIiwxZr4Fddqk=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YwCr86uZjs+lbXaCCMkZZleiUp0hPbuN5k08AkmIxcZPtNEQBHn
- UPOspt4E3f1s17LD+TADD9MQ/EAvh9wkVL71y5PjhLQkExuAYfciwl9MQYBGTWGo3g8vqSD3R5V
- B9ERppCVk1u8/kfYYcE4dlP/K7Qki5qnkrdlKlqsyCw13t9rIO1Mh0HK3WmW2q8rILcwZvWU=
-X-Gm-Gg: ASbGncsh4YpCDBZIXK8C6ooxshO8zS23DBN285oplOq1dBmySQ1ykEtzNMJZvpgiMWg
- MjdNg/iGIKc+VPICXSLx0cXrf9YF6GhD3sE5bZ05yKXX4s6ogLg2C6LYcOF6X3mlVQiw2XVbFEx
- fYIyc66c3IQzq71T8NJcd2tfTBswyv9HP+DJFJjHL1LykX5cp7nO4bEHwPKMr2nJvkzmgmTec6T
- wjCd+oc5g+ZcSLWvlpDvrrg78IWvqQl8Aul0nm1tw8Res2Hro1MTVs7aDeizb9zon6w47tmgMrp
- zNSNb/va5W7bHWu0jU/BsiHJJaPLJ71hSPPGk13FtIhx+37lU+qYcGZyZ4YbC1WlUXdKi+hNX/v
- NmpehBCXxX8+CA3MJwS/G7EhQjMqP66kzbgv/AaQinJwNo4wKBtoJ
-X-Received: by 2002:a17:902:e80e:b0:295:987d:f7ef with SMTP id
- d9443c01a7336-297e56191b3mr1004265ad.10.1762540177962; 
- Fri, 07 Nov 2025 10:29:37 -0800 (PST)
-X-Google-Smtp-Source: AGHT+IGqRuxfjVyRZCDf3BXcIUPdAAopn2/c6Fn4uA4ymDQ0hrtducOxKth5m6lXQGzuYY/M3lL16g==
-X-Received: by 2002:a17:902:e80e:b0:295:987d:f7ef with SMTP id
- d9443c01a7336-297e56191b3mr1004045ad.10.1762540177465; 
- Fri, 07 Nov 2025 10:29:37 -0800 (PST)
-Received: from [10.226.59.182] (i-global254.qualcomm.com. [199.106.103.254])
- by smtp.gmail.com with ESMTPSA id
- d9443c01a7336-29651c6f797sm66983025ad.56.2025.11.07.10.29.35
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 07 Nov 2025 10:29:36 -0800 (PST)
-Message-ID: <2adbeb5b-2b52-4763-bc69-ec09b7637e86@oss.qualcomm.com>
-Date: Fri, 7 Nov 2025 11:29:35 -0700
+Received: from DM5PR21CU001.outbound.protection.outlook.com
+ (mail-centralusazon11011015.outbound.protection.outlook.com [52.101.62.15])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4B7AD10EB55
+ for <dri-devel@lists.freedesktop.org>; Fri,  7 Nov 2025 18:30:54 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=dwMHxPIamM2hdHJWLZsJDh6ocRAngDliIgluG1VXmRwhj8mOMlM+8XGmDhKh48w86RPHYXeqqcgTvLiTLMZUDUagOVftnrzcoaWIlY6L5xeq4R5wSvT1XuJ+9bnCr9FTi/3PXKLzsR35c2QWZD/LvDFOIskVNO6kAEHUJMgVP69/0+y1WOYG2Q3xXQILATabJnNTZm7F6MhFI+2Cr9WMc7qCtG8mwqdtDi9n0dwCpeQoGJRZB4vlPB+5tR4HvGHpBqUuYZmo2Z9OxqT1nbF/z8S7BClyp49jDVAeneCWJ+wkZ/kwukjsCOBpFLT9rxNhT/1ei0P49p3m99vem4njXA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=EijLTAgbzGD1tZGlQC/q6aW2CBGYpMQ2FcplgY5THjg=;
+ b=UF+VHoa6bjYOJvPCYsvjXsUl0XXKRkuLw6OB2flmZFo4hbVK3QIn7QPsYAp90lYQ6jZx2sb2/gaY8IFtJKyy9yhPAWdRtORRO9kONRWq6veywozEb1hT31wD6VDEyZHjkzv/wtD61rI4FUnMOMZfscCacDLXRjk3PWYfMgBHhdhck05d1CCB6FqxprBnBUDnIwMtDnjy7KYtyQiBQLXr8yNnhH+2NOeiLZa3uZQ6BkaH4m0I558hbcroCl5B9k2OPprKpUyUO8eASpBTIQmWI4yb5tYSloLX2pBEb2rDn3AGaXCvR5Khs684o+tbv95+DhAjFtIVeHBbJi5SPSNM4g==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 216.228.117.160) smtp.rcpttodomain=ffwll.ch smtp.mailfrom=nvidia.com;
+ dmarc=pass (p=reject sp=reject pct=100) action=none header.from=nvidia.com;
+ dkim=none (message not signed); arc=none (0)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=EijLTAgbzGD1tZGlQC/q6aW2CBGYpMQ2FcplgY5THjg=;
+ b=RJJ1uBJBxbOAnFzbRhDku8aJbDi5EYiY4QK8N8g7/eOpoqGDVfZvvA1MOUa+ZoqmD6Sbp1L6hVF0Y7odlTFfixBj4NndXkO81df1sZYeWnHxhI93BuYD50bZg7+180+vp8JbCWQp0F8fqc9vd/50llnFKgvBA/asjbufwvgq0sUrk26ffoWMHhHD9x0GVpJvbKteIbB1jWDZ6IWvh0YrQwTazWJ5sVRS+3uIhBmWF8gDcQP1LFKr/cLwpdmGcvj01IH9LFPyZ1UEed+tGzuZI0t9SKGzQ1Bpff/4OCFT9SjB1ZbUpzpiyzs/sN/dILbhgaEcPxZChHBWu+Ft7mbL+g==
+Received: from SN7PR04CA0216.namprd04.prod.outlook.com (2603:10b6:806:127::11)
+ by SN7PR12MB8147.namprd12.prod.outlook.com (2603:10b6:806:32e::5)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9298.12; Fri, 7 Nov
+ 2025 18:30:49 +0000
+Received: from SN1PEPF0002636B.namprd02.prod.outlook.com
+ (2603:10b6:806:127:cafe::4) by SN7PR04CA0216.outlook.office365.com
+ (2603:10b6:806:127::11) with Microsoft SMTP Server (version=TLS1_3,
+ cipher=TLS_AES_256_GCM_SHA384) id 15.20.9298.13 via Frontend Transport; Fri,
+ 7 Nov 2025 18:30:47 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 216.228.117.160)
+ smtp.mailfrom=nvidia.com;
+ dkim=none (message not signed)
+ header.d=none;dmarc=pass action=none header.from=nvidia.com;
+Received-SPF: Pass (protection.outlook.com: domain of nvidia.com designates
+ 216.228.117.160 as permitted sender) receiver=protection.outlook.com;
+ client-ip=216.228.117.160; helo=mail.nvidia.com; pr=C
+Received: from mail.nvidia.com (216.228.117.160) by
+ SN1PEPF0002636B.mail.protection.outlook.com (10.167.241.136) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.9298.6 via Frontend Transport; Fri, 7 Nov 2025 18:30:47 +0000
+Received: from rnnvmail204.nvidia.com (10.129.68.6) by mail.nvidia.com
+ (10.129.200.66) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.20; Fri, 7 Nov
+ 2025 10:30:26 -0800
+Received: from rnnvmail203.nvidia.com (10.129.68.9) by rnnvmail204.nvidia.com
+ (10.129.68.6) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.20; Fri, 7 Nov
+ 2025 10:30:25 -0800
+Received: from Asurada-Nvidia (10.127.8.11) by mail.nvidia.com (10.129.68.9)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.20 via Frontend
+ Transport; Fri, 7 Nov 2025 10:30:24 -0800
+Date: Fri, 7 Nov 2025 10:30:23 -0800
+From: Nicolin Chen <nicolinc@nvidia.com>
+To: Jason Gunthorpe <jgg@nvidia.com>
+CC: Alex Williamson <alex@shazbot.org>, Christian =?iso-8859-1?Q?K=F6nig?=
+ <christian.koenig@amd.com>, <dri-devel@lists.freedesktop.org>,
+ <iommu@lists.linux.dev>, Joerg Roedel <joro@8bytes.org>, Kevin Tian
+ <kevin.tian@intel.com>, <kvm@vger.kernel.org>,
+ <linaro-mm-sig@lists.linaro.org>, <linux-kselftest@vger.kernel.org>,
+ <linux-media@vger.kernel.org>, Robin Murphy <robin.murphy@arm.com>, "Shuah
+ Khan" <shuah@kernel.org>, Sumit Semwal <sumit.semwal@linaro.org>, Will Deacon
+ <will@kernel.org>, Krishnakant Jaju <kjaju@nvidia.com>, Leon Romanovsky
+ <leon@kernel.org>, Matt Ochs <mochs@nvidia.com>, <patches@lists.linux.dev>,
+ Simona Vetter <simona.vetter@ffwll.ch>, Vivek Kasireddy
+ <vivek.kasireddy@intel.com>, Xu Yilun <yilun.xu@linux.intel.com>
+Subject: Re: [PATCH 3/9] iommufd: Do not map/unmap revoked DMABUFs
+Message-ID: <aQ46v1p6BgzLOOQD@Asurada-Nvidia>
+References: <0-v1-af84a3ab44f5+f68-iommufd_buf_jgg@nvidia.com>
+ <3-v1-af84a3ab44f5+f68-iommufd_buf_jgg@nvidia.com>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] accel/qaic: Add qaic_ prefix to irq_polling_work
-To: Zack McKevitt <zachary.mckevitt@oss.qualcomm.com>,
- carl.vanderlip@oss.qualcomm.com, troy.hanson@oss.qualcomm.com,
- youssef.abdulrahman@oss.qualcomm.com
-Cc: ogabbay@kernel.org, lizhi.hou@amd.com, karol.wachowski@linux.intel.com,
- linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org,
- andersson@kernel.org
-References: <20251031192511.3179130-1-zachary.mckevitt@oss.qualcomm.com>
-Content-Language: en-US
-From: Jeff Hugo <jeff.hugo@oss.qualcomm.com>
-In-Reply-To: <20251031192511.3179130-1-zachary.mckevitt@oss.qualcomm.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Authority-Analysis: v=2.4 cv=CdgFJbrl c=1 sm=1 tr=0 ts=690e3a92 cx=c_pps
- a=MTSHoo12Qbhz2p7MsH1ifg==:117 a=JYp8KDb2vCoCEuGobkYCKw==:17
- a=IkcTkHD0fZMA:10 a=6UeiqGixMTsA:10 a=s4-Qcg_JpJYA:10
- a=VkNPw1HP01LnGYTKEx00:22 a=EUspDBNiAAAA:8 a=QMP_p6KWfhAjlvo0swIA:9
- a=QEXdDO2ut3YA:10 a=zZCYzV9kfG8A:10 a=GvdueXVYPmCkWapjIL-Q:22
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUxMTA3MDE1MyBTYWx0ZWRfXwh0K9LR6R5j3
- i+xArLRcDFJghc4ZNFtZ9phnQzCtyBfZ1yyiov6Fm4xYXtN3j0rPyKqt92jmQ1Vt+Zp12/7nYs3
- IHg516Gjts74PCs2AxFl7ZIHxSpAbColVIxcbYrdKmssbezvzSqV19Xf6Cj05go4gta17ZpO61O
- HHfl1aQGM3q4KAApDJYJfMRSRLsYvlaX8aLtUQYRO5FNOPY4A+oYtOGWK4B76HUc54yy6B4dCki
- MU0vpuH6XUnlNaImpGvRrBZN/Q2W2VbvNZgfxNgu06GuJkgRzmPHP9NyTPqmGrxI5cVCgltkEEd
- pxzYy8G5R90tVB8KPJ64TCxaYLoEcrhPB8Dkx30zH9+WY+1S2CXNYlX4tFr0qguh1onB4bs2iah
- dU6YNUwPINVKEOAK5IyP+0CViWKl1w==
-X-Proofpoint-ORIG-GUID: jwLLLRF9I4FBIjZdQXpdfW5knBhN0fgV
-X-Proofpoint-GUID: jwLLLRF9I4FBIjZdQXpdfW5knBhN0fgV
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.9,FMLib:17.12.100.49
- definitions=2025-11-07_05,2025-11-06_01,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- priorityscore=1501 adultscore=0 malwarescore=0 spamscore=0 bulkscore=0
- phishscore=0 lowpriorityscore=0 clxscore=1015 impostorscore=0 suspectscore=0
- classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.22.0-2510240001 definitions=main-2511070153
+Content-Type: text/plain; charset="us-ascii"
+Content-Disposition: inline
+In-Reply-To: <3-v1-af84a3ab44f5+f68-iommufd_buf_jgg@nvidia.com>
+X-NV-OnPremToCloud: ExternallySecured
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: SN1PEPF0002636B:EE_|SN7PR12MB8147:EE_
+X-MS-Office365-Filtering-Correlation-Id: 5a156704-2480-4dca-057d-08de1e2bc579
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+ ARA:13230040|376014|1800799024|7416014|36860700013|82310400026; 
+X-Microsoft-Antispam-Message-Info: =?us-ascii?Q?oRqXdV9Il7LHMRFd10i6UNhvYD5M0lcXJl9ZrZfQRhBkHp8yuMALNrMQQxD7?=
+ =?us-ascii?Q?e5SUweui9Ls0+QDJw862EJsQ6sv6lQkzc6HAATuK0imohy2qplEyvsrb7u41?=
+ =?us-ascii?Q?1uf8xaCv/JvwDRZXc4jen2MzZW2kYUx6U+I2K/vw6wcbm88QCaTMe4jfjEva?=
+ =?us-ascii?Q?erUxd7kq18mKFouZ9iOYZ77FwioSIHNx96RISIdL1jcANIzcnkYJFeuethI2?=
+ =?us-ascii?Q?fLscr+vvaJ8rTxyHFTXTbVohYZ4lFVsJxesv6lOvr0Dfv2NBl1iMj+AgEFIC?=
+ =?us-ascii?Q?Rz8e08Pwh00Nt8Smsr6BB8OaFTL4zGiIhIJyusem92AwHSDXFBFDYL+EvBkx?=
+ =?us-ascii?Q?eqHrzr3OPBb7W7wDGlr/rR2ha0xf5bZZmYAZm5qZBVojALVdB1pTsOzDQK3i?=
+ =?us-ascii?Q?gNzDoaSXkY/u/gsLJL7vIBs8u9v9fSgOHaq4Tnnme7pQrJGvfguXPieo4wy/?=
+ =?us-ascii?Q?1cBhZtUmAPcngysQhUZvsp2YTdRwGKkCoBou4OYEorGvRNkF0RgxY4+7iIQm?=
+ =?us-ascii?Q?nKlko3dUnP/h7TwOpSkQbNZm9EKXTYoKL4fo3xL+fDLpJV9WrJHSIi0aEUSO?=
+ =?us-ascii?Q?IOR8tEKuVUpUbnkXfPM2dTPU456uASSIA0KIrUJ1d98CU3UXe9gc7rGgL+c8?=
+ =?us-ascii?Q?qsbdh7IBiwWYniLj9A7L8ze39Y+YjSpqEMnchaBfc/pJyHCS53e8WSGZ8sZk?=
+ =?us-ascii?Q?8l6lkV9SzEoj8Ft7/47V+MeJEdHwlM3MdnlqYjBsQ47pY2iPNR+MP21pewvJ?=
+ =?us-ascii?Q?61/nKAk02nzaUyXK6MAfK0f1qeERQf7VlTVfLUCET/QUeF4+q6WpnnOlB1p4?=
+ =?us-ascii?Q?luQTtMRc3WYwKmiz6ag9Oo9gaCrnBLVXal/2yeUX1e9v0h4HRhOSGoa6oQEo?=
+ =?us-ascii?Q?dRDrxp9gW12MXgudpuwvDXIBvbBSPQeVeIBbhM7riOzfw4mqCwXgz7P8DCc9?=
+ =?us-ascii?Q?XR44ozJIlpUYh+Vzy9tZ8iVYjpF2uhgt9gQgRz+gQapPRGOPaBIhjL9RcKdD?=
+ =?us-ascii?Q?Oiy3tEah2F2WSyqxYsnueXVeSfl2U6lj/KOa7lOSGoxGRlKW/Ki0hgSHl0wM?=
+ =?us-ascii?Q?lnjArJGBonTXUvIJ288qASfcNIikuQWPaHibWSUR0tDG9kMwmMt303RRSHYV?=
+ =?us-ascii?Q?C6YjE/PxRy7UijMYieCkBUgevUQSJdJVdxObmwEZdMMhfUn+WHIVUONz0Z8j?=
+ =?us-ascii?Q?agyn/ybouoLhyvWDCM1kYhHNGjt4dSQl7n+nYa5XFgLYU6ULPzY++Aa+cO4/?=
+ =?us-ascii?Q?WGm11EGfoT8rdog+24/1EGfZRcaAlGVu6Pp9M/5Gd/z1FhfL/C/uhkbYS82o?=
+ =?us-ascii?Q?n90KMMJHy/yoA6TwaQamDPOOo2NJsLklS4z3sjzCGIDUF8rGIsQlBE4phI98?=
+ =?us-ascii?Q?5aswJBv2v01fXHrXzXLr5nXBjM3/RsE2XQqKeWCzcCa4xc17MHPdJHMZe/qQ?=
+ =?us-ascii?Q?QVCBL2BrHKpPCyoOAdR6+o/ef6Ti5UluS3YhpxNzgubUtjwboZPMiC941bAR?=
+ =?us-ascii?Q?V2HCWq4kjSD1NOzjTgsKHlsB/Rjsw5GicqBAfha2bYCEP8RCfhn2GPsDU01x?=
+ =?us-ascii?Q?QKj8+wtzMzCRSXfzrc0=3D?=
+X-Forefront-Antispam-Report: CIP:216.228.117.160; CTRY:US; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:mail.nvidia.com; PTR:dc6edge1.nvidia.com; CAT:NONE;
+ SFS:(13230040)(376014)(1800799024)(7416014)(36860700013)(82310400026); DIR:OUT;
+ SFP:1101; 
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 07 Nov 2025 18:30:47.7159 (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 5a156704-2480-4dca-057d-08de1e2bc579
+X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=43083d15-7273-40c1-b7db-39efd9ccc17a; Ip=[216.228.117.160];
+ Helo=[mail.nvidia.com]
+X-MS-Exchange-CrossTenant-AuthSource: SN1PEPF0002636B.namprd02.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SN7PR12MB8147
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -142,12 +152,25 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 10/31/2025 1:25 PM, Zack McKevitt wrote:
-> Rename irq_polling_work to qaic_irq_polling_work to reduce ambiguity
-> and avoid potential naming conflicts in the future.
+On Fri, Nov 07, 2025 at 12:49:35PM -0400, Jason Gunthorpe wrote:
+> Once a DMABUF is revoked the domain will be unmapped under the pages
+> mutex. Double unmapping will trigger a WARN, and mapping while revoked
+> will fail.
 > 
-> Signed-off-by: Zack McKevitt <zachary.mckevitt@oss.qualcomm.com>
+> Check for revoked DMABUFs along all the map and unmap paths to resolve
+> this. Ensure that map/unmap is always done under the pages mutex so it is
+> synchronized with the revoke notifier.
+> 
+> If a revoke happens between allocating the iopt_pages and the population
+> to a domain then the population will succeed, and leave things unmapped as
+> though revoke had happened immediately after.
+> 
+> Currently there is no way to repopulate the domains. Userspace is expected
+> to know if it is going to do something that would trigger revoke (eg if it
+> is about to do a FLR) then it should go and remove the DMABUF mappings
+> before and put the back after. The revoke is only to protect the kernel
+> from mis-behaving userspace.
+> 
+> Signed-off-by: Jason Gunthorpe <jgg@nvidia.com>
 
-Pushed to drm-misc-next
-
--Jeff
+Reviewed-by: Nicolin Chen <nicolinc@nvidia.com>
