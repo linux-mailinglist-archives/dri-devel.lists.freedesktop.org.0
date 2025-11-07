@@ -2,42 +2,49 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 86EAAC3F23F
-	for <lists+dri-devel@lfdr.de>; Fri, 07 Nov 2025 10:24:38 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id AADAAC3F275
+	for <lists+dri-devel@lfdr.de>; Fri, 07 Nov 2025 10:27:29 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DEC0510EA3E;
-	Fri,  7 Nov 2025 09:24:35 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E203510E040;
+	Fri,  7 Nov 2025 09:27:27 +0000 (UTC)
+Authentication-Results: gabe.freedesktop.org;
+	dkim=pass (1024-bit key; unprotected) header.d=163.com header.i=@163.com header.b="fhEFB3AS";
+	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
- by gabe.freedesktop.org (Postfix) with ESMTP id 3960C10EA3E
- for <dri-devel@lists.freedesktop.org>; Fri,  7 Nov 2025 09:24:34 +0000 (UTC)
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
- by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 13F721007;
- Fri,  7 Nov 2025 01:24:26 -0800 (PST)
-Received: from [10.57.72.216] (unknown [10.57.72.216])
- by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id B59683F63F;
- Fri,  7 Nov 2025 01:24:31 -0800 (PST)
-Message-ID: <93055453-1177-4840-86cf-1a6fc8836470@arm.com>
-Date: Fri, 7 Nov 2025 09:24:29 +0000
+Received: from m16.mail.163.com (m16.mail.163.com [220.197.31.4])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 12E0B10E040
+ for <dri-devel@lists.freedesktop.org>; Fri,  7 Nov 2025 09:27:24 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=163.com;
+ s=s110527; h=From:To:Subject:Date:Message-Id:MIME-Version; bh=SQ
+ 6/DT7d0y656zGChdvpEtQN2UlsTQvlp/F01LtJh4A=; b=fhEFB3ASFtiUhaaY5v
+ dr3GDv16x7/otolIc0Fzl35czQCWPNxYs5zT5ZXGCKs/z7ZaZN9i0p1kspmnph8u
+ G0n42C3vM4vjGSymGum8uHCcGEDc1punTa0d7SCNrvQlW/IaPplxZdjgyO7UorVC
+ IDLk6fCiFMLvUKv0KS9Y+EG3U=
+Received: from localhost.localdomain (unknown [])
+ by gzga-smtp-mtada-g1-0 (Coremail) with SMTP id
+ _____wDXj99iuw1p+3QvCQ--.20605S2; 
+ Fri, 07 Nov 2025 17:26:59 +0800 (CST)
+From: oushixiong1025@163.com
+To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
+Cc: Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
+ Simona Vetter <simona@ffwll.ch>, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, Shixiong Ou <oushixiong@kylinos.cn>,
+ Tiger Liu <liuyihu@kylinos.cn>
+Subject: [PATCH] drm/fb-helper: add fbdev screen expended mode display support
+Date: Fri,  7 Nov 2025 17:26:41 +0800
+Message-Id: <20251107092641.111431-1-oushixiong1025@163.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 1/8] drm/panthor: Add arch-specific panthor_hw binding
-To: Liviu Dudau <liviu.dudau@arm.com>, Karunika Choo <karunika.choo@arm.com>
-Cc: dri-devel@lists.freedesktop.org, nd@arm.com,
- Boris Brezillon <boris.brezillon@collabora.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- linux-kernel@vger.kernel.org
-References: <20251027161334.854650-1-karunika.choo@arm.com>
- <20251027161334.854650-2-karunika.choo@arm.com>
- <aQDsW3xf2NNUvBN-@e110455-lin.cambridge.arm.com>
-From: Steven Price <steven.price@arm.com>
-Content-Language: en-GB
-In-Reply-To: <aQDsW3xf2NNUvBN-@e110455-lin.cambridge.arm.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
+X-CM-TRANSID: _____wDXj99iuw1p+3QvCQ--.20605S2
+X-Coremail-Antispam: 1Uf129KBjvJXoW3Jr4kJFWrGr18WFW8trW7twb_yoWxAF4xpF
+ 47WayfKr1UJF93Gay8tws7Zwn3GwsxAr48JrWfG3WfCr1Dtr9a9F4UA3sruFWfGr18Gr15
+ Jrn0kF429F1kCaUanT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+ 9KBjDUYxBIdaVFxhVjvjDU0xZFpf9x07j8J5rUUUUU=
+X-Originating-IP: [116.128.244.169]
+X-CM-SenderInfo: xrxvxxx0lr0wirqskqqrwthudrp/xtbBYwn+D2kNtT2h6wAAs9
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -53,208 +60,203 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 28/10/2025 16:16, Liviu Dudau wrote:
-> Hello,
-> 
-> On Mon, Oct 27, 2025 at 04:13:27PM +0000, Karunika Choo wrote:
->> This patch adds the framework for binding to a specific panthor_hw
->> structure based on the architecture major value parsed from the GPU_ID
->> register. This is in preparation of enabling architecture-specific
->> behaviours based on GPU_ID. As such, it also splits the GPU_ID register
->> read operation into its own helper function.
->>
->> This framework allows a single panthor_hw structure to be shared across
->> multiple architectures should there be minimal changes between them via
->> the arch_min and arch_max field of the panthor_hw_entry structure,
->> instead of duplicating the structure across multiple architectures.
->>
->> Signed-off-by: Karunika Choo <karunika.choo@arm.com>
+From: Shixiong Ou <oushixiong@kylinos.cn>
 
-Reviewed-by: Steven Price <steven.price@arm.com>
+Add fbdev screen extended mode display support
 
->> ---
->> v2:
->>  * merged GPU_ID refactoring patch with the arch-specific panthor_hw
->>    binding patch (PATCH 01/10 and PATCH 02/10 in v1).
->> ---
->>  drivers/gpu/drm/panthor/panthor_device.h |  4 ++
->>  drivers/gpu/drm/panthor/panthor_hw.c     | 65 +++++++++++++++++++++++-
->>  drivers/gpu/drm/panthor/panthor_hw.h     |  6 +++
->>  3 files changed, 74 insertions(+), 1 deletion(-)
->>
->> diff --git a/drivers/gpu/drm/panthor/panthor_device.h b/drivers/gpu/drm/panthor/panthor_device.h
->> index a764111359d2..1457c1255f1f 100644
->> --- a/drivers/gpu/drm/panthor/panthor_device.h
->> +++ b/drivers/gpu/drm/panthor/panthor_device.h
->> @@ -26,6 +26,7 @@ struct panthor_device;
->>  struct panthor_gpu;
->>  struct panthor_group_pool;
->>  struct panthor_heap_pool;
->> +struct panthor_hw;
->>  struct panthor_job;
->>  struct panthor_mmu;
->>  struct panthor_fw;
->> @@ -122,6 +123,9 @@ struct panthor_device {
->>  	/** @csif_info: Command stream interface information. */
->>  	struct drm_panthor_csif_info csif_info;
->>
->> +	/** @hw: GPU-specific data. */
->> +	struct panthor_hw *hw;
->> +
->>  	/** @gpu: GPU management data. */
->>  	struct panthor_gpu *gpu;
->>
->> diff --git a/drivers/gpu/drm/panthor/panthor_hw.c b/drivers/gpu/drm/panthor/panthor_hw.c
->> index 4f2858114e5e..b6e7401327c3 100644
->> --- a/drivers/gpu/drm/panthor/panthor_hw.c
->> +++ b/drivers/gpu/drm/panthor/panthor_hw.c
->> @@ -8,6 +8,28 @@
->>  #define GPU_PROD_ID_MAKE(arch_major, prod_major) \
->>  	(((arch_major) << 24) | (prod_major))
->>
->> +/** struct panthor_hw_entry - HW arch major to panthor_hw binding entry */
->> +struct panthor_hw_entry {
->> +	/** @arch_min: Minimum supported architecture major value (inclusive) */
->> +	u8 arch_min;
->> +
->> +	/** @arch_max: Maximum supported architecture major value (inclusive) */
->> +	u8 arch_max;
-> 
-> I'm not a big fan of this [min, max] range definition. I would expect that,
-> unless a new panthor_hw_entry is defined, the one covering arch X will also
-> cover arch X+1 automatically. With the current implementation we will have
-> to add a patch extending arch_max for an existing panthor_hw_entry when a new
-> GPU architecture is released that is compatible with the previous one at the
-> panthor_hw level *and backport the patch* for older kernels if they can
-> support that hardware.
+Signed-off-by: Tiger Liu <liuyihu@kylinos.cn>
+Signed-off-by: Shixiong Ou <oushixiong@kylinos.cn>
+---
+ drivers/gpu/drm/drm_fb_helper.c | 143 ++++++++++++++++++++++++++++++--
+ 1 file changed, 135 insertions(+), 8 deletions(-)
 
-I see your point, but I'm not sure it's necessarily a good idea for
-kernels to pretend to support architectures that haven't been released
-yet. Historically we haven't been great at keeping compatibility with
-newer hardware and we might otherwise end up backporting patches just to
-explicitly break compatibility if we didn't have a max.
-
-Of course you have a much better idea of what's in the pipeline and
-whether future GPUs are going to be better at backwards compatiblity...
-
-> My suggestion is to drop this structure entirely and change panthor_hw_bind_device()
-> to a cascade of if()s starting with the latest arch to have a struct panthor_hw
-> defined. For this patch the function will actually just set ptdev->hw to panthor_hw_arch_v10
-> without any ifs.
-
-I'm not a fan of cascades of if()s. If we can express it as a simple
-table it will be much easier to read and maintain.
-
-> Also (this is my personal preference) I would merge patch 1/8 and 2/8 so that we
-> don't have just empty structures defined.
-
-I'd usually agree, but there's a rename in the following patch which I
-think should be kept separate from these changes. So I think you'd still
-need a rename patch (panthor_gpu_soft_reset => panthor_hw_soft_reset
-etc) separate.
-
-Thanks,
-Steve
-
-> Best regards,
-> Liviu
-> 
->> +
->> +	/** @hwdev: Pointer to panthor_hw structure */
->> +	struct panthor_hw *hwdev;
->> +};
->> +
->> +static struct panthor_hw panthor_hw_arch_v10 = {};
->> +
->> +static struct panthor_hw_entry panthor_hw_match[] = {
->> +	{
->> +		.arch_min = 10,
->> +		.arch_max = 13,
->> +		.hwdev = &panthor_hw_arch_v10,
->> +	},
->> +};
->> +
->>  static char *get_gpu_model_name(struct panthor_device *ptdev)
->>  {
->>  	const u32 gpu_id = ptdev->gpu_info.gpu_id;
->> @@ -62,7 +84,6 @@ static void panthor_gpu_info_init(struct panthor_device *ptdev)
->>  {
->>  	unsigned int i;
->>
->> -	ptdev->gpu_info.gpu_id = gpu_read(ptdev, GPU_ID);
->>  	ptdev->gpu_info.csf_id = gpu_read(ptdev, GPU_CSF_ID);
->>  	ptdev->gpu_info.gpu_rev = gpu_read(ptdev, GPU_REVID);
->>  	ptdev->gpu_info.core_features = gpu_read(ptdev, GPU_CORE_FEATURES);
->> @@ -117,8 +138,50 @@ static void panthor_hw_info_init(struct panthor_device *ptdev)
->>  		 ptdev->gpu_info.tiler_present);
->>  }
->>
->> +static int panthor_hw_bind_device(struct panthor_device *ptdev)
->> +{
->> +	struct panthor_hw *hdev = NULL;
->> +	const u32 arch_major = GPU_ARCH_MAJOR(ptdev->gpu_info.gpu_id);
->> +	int i = 0;
->> +
->> +	for (i = 0; i < ARRAY_SIZE(panthor_hw_match); i++) {
->> +		struct panthor_hw_entry *entry = &panthor_hw_match[i];
->> +
->> +		if (arch_major >= entry->arch_min && arch_major <= entry->arch_max) {
->> +			hdev = entry->hwdev;
->> +			break;
->> +		}
->> +	}
->> +
->> +	if (!hdev)
->> +		return -EOPNOTSUPP;
->> +
->> +	ptdev->hw = hdev;
->> +
->> +	return 0;
->> +}
->> +
->> +static int panthor_hw_gpu_id_init(struct panthor_device *ptdev)
->> +{
->> +	ptdev->gpu_info.gpu_id = gpu_read(ptdev, GPU_ID);
->> +	if (!ptdev->gpu_info.gpu_id)
->> +		return -ENXIO;
->> +
->> +	return 0;
->> +}
->> +
->>  int panthor_hw_init(struct panthor_device *ptdev)
->>  {
->> +	int ret = 0;
->> +
->> +	ret = panthor_hw_gpu_id_init(ptdev);
->> +	if (ret)
->> +		return ret;
->> +
->> +	ret = panthor_hw_bind_device(ptdev);
->> +	if (ret)
->> +		return ret;
->> +
->>  	panthor_hw_info_init(ptdev);
->>
->>  	return 0;
->> diff --git a/drivers/gpu/drm/panthor/panthor_hw.h b/drivers/gpu/drm/panthor/panthor_hw.h
->> index 0af6acc6aa6a..39752de3e7ad 100644
->> --- a/drivers/gpu/drm/panthor/panthor_hw.h
->> +++ b/drivers/gpu/drm/panthor/panthor_hw.h
->> @@ -6,6 +6,12 @@
->>
->>  struct panthor_device;
->>
->> +/**
->> + * struct panthor_hw - GPU specific register mapping and functions
->> + */
->> +struct panthor_hw {
->> +};
->> +
->>  int panthor_hw_init(struct panthor_device *ptdev);
->>
->>  #endif /* __PANTHOR_HW_H__ */
->> --
->> 2.49.0
->>
-> 
+diff --git a/drivers/gpu/drm/drm_fb_helper.c b/drivers/gpu/drm/drm_fb_helper.c
+index 53e9dc0543de..a6ec03bf3aef 100644
+--- a/drivers/gpu/drm/drm_fb_helper.c
++++ b/drivers/gpu/drm/drm_fb_helper.c
+@@ -78,6 +78,17 @@ MODULE_PARM_DESC(drm_leak_fbdev_smem,
+ 		 "Allow unsafe leaking fbdev physical smem address [default=false]");
+ #endif
+ 
++#define SCREEN_CLONE			0x0
++#define SCREEN_EXPAND_HORIZONTAL	0x1
++#define SCREEN_EXPAND_VERTICAL		0x2
++
++static bool drm_fbdev_screen_expand_mode_enabled;
++static int drm_fbdev_screen_mode = SCREEN_CLONE;
++module_param_named(screen_mode, drm_fbdev_screen_mode, int, 0444);
++MODULE_PARM_DESC(screen_mode,
++		 "Screen display of the fbdev. [0 = clone(default), 1 = expand horizontally,"
++		 "2 = expand vertically]");
++
+ static LIST_HEAD(kernel_fb_helper_list);
+ static DEFINE_MUTEX(kernel_fb_helper_lock);
+ 
+@@ -1345,15 +1356,35 @@ int drm_fb_helper_set_par(struct fb_info *info)
+ }
+ EXPORT_SYMBOL(drm_fb_helper_set_par);
+ 
+-static void pan_set(struct drm_fb_helper *fb_helper, int dx, int dy)
++static void pan_set_locked(struct drm_client_dev *client,
++			   int dx, int dy)
+ {
+ 	struct drm_mode_set *mode_set;
++	int screen_x_offset = dx;
++	int screen_y_offset = dy;
+ 
+-	mutex_lock(&fb_helper->client.modeset_mutex);
+-	drm_client_for_each_modeset(mode_set, &fb_helper->client) {
+-		mode_set->x += dx;
+-		mode_set->y += dy;
++	drm_client_for_each_modeset(mode_set, client) {
++		if (drm_fbdev_screen_expand_mode_enabled) {
++			if (drm_fbdev_screen_mode == SCREEN_EXPAND_HORIZONTAL) {
++				mode_set->x += screen_x_offset;
++				mode_set->y += screen_y_offset;
++				screen_x_offset += mode_set->mode->hdisplay;
++			} else if (drm_fbdev_screen_mode == SCREEN_EXPAND_VERTICAL) {
++				mode_set->x += screen_x_offset;
++				mode_set->y += screen_y_offset;
++				screen_y_offset += mode_set->mode->vdisplay;
++			}
++		} else {
++			mode_set->x = screen_x_offset;
++			mode_set->y = screen_y_offset;
++		}
+ 	}
++}
++
++static void pan_set(struct drm_fb_helper *fb_helper, int dx, int dy)
++{
++	mutex_lock(&fb_helper->client.modeset_mutex);
++	pan_set_locked(&fb_helper->client, dx, dy);
+ 	mutex_unlock(&fb_helper->client.modeset_mutex);
+ }
+ 
+@@ -1387,10 +1418,8 @@ static int pan_display_legacy(struct fb_var_screeninfo *var,
+ 
+ 	mutex_lock(&client->modeset_mutex);
+ 	drm_modeset_lock_all(fb_helper->dev);
++	pan_set_locked(client, var->xoffset, var->yoffset);
+ 	drm_client_for_each_modeset(modeset, client) {
+-		modeset->x = var->xoffset;
+-		modeset->y = var->yoffset;
+-
+ 		if (modeset->num_connectors) {
+ 			ret = drm_mode_set_config_internal(modeset);
+ 			if (!ret) {
+@@ -1461,6 +1490,94 @@ static uint32_t drm_fb_helper_find_format(struct drm_fb_helper *fb_helper, const
+ 	return DRM_FORMAT_INVALID;
+ }
+ 
++/*
++ * Check if the device supports extended mode
++ *
++ * return true if the device supports extended mode,
++ * otherwise return false.
++ */
++static bool drm_fb_helper_validate_extended_mode(struct drm_fb_helper *fb_helper,
++						 struct drm_fb_helper_surface_size *sizes)
++{
++	struct drm_client_dev *client = &fb_helper->client;
++	struct drm_device *dev = fb_helper->dev;
++	struct drm_mode_config *config = &dev->mode_config;
++	struct drm_mode_set *mode_set;
++	u32 crtc_count;
++
++	drm_client_for_each_modeset(mode_set, client) {
++		crtc_count++;
++
++		for (int j = 0; j < mode_set->num_connectors; j++) {
++			struct drm_connector *connector = mode_set->connectors[j];
++
++			if (connector->has_tile) {
++				drm_dbg_kms(client->dev,
++					    "Don't support extended with tile mode connector yet\n");
++				return false;
++			}
++		}
++	}
++
++	if (crtc_count < 2) {
++		drm_dbg_kms(client->dev,
++			    "Only support extended mode when device have mult-crtcs\n");
++		return false;
++	}
++
++	if (drm_fbdev_screen_mode == SCREEN_EXPAND_HORIZONTAL) {
++		u32 x = 0;
++
++		drm_client_for_each_modeset(mode_set, client) {
++			struct drm_display_mode *desired_mode;
++
++			desired_mode = mode_set->mode;
++			x = mode_set->x;
++			sizes->fb_width = sizes->surface_width  += desired_mode->hdisplay;
++			sizes->surface_height =
++				min_t(u32, desired_mode->vdisplay + mode_set->y,
++				      sizes->surface_height);
++			sizes->fb_height = min_t(u32, desired_mode->vdisplay + mode_set->y,
++						 sizes->fb_height);
++		}
++		sizes->fb_width = sizes->surface_width += x;
++
++		if (sizes->fb_width > config->max_width) {
++			drm_dbg_kms(client->dev,
++				    "screen_buffer total width %d > config width %d\n",
++				    sizes->fb_width, config->max_width);
++			return false;
++		}
++	} else if (drm_fbdev_screen_mode == SCREEN_EXPAND_VERTICAL) {
++		u32 y = 0;
++
++		drm_client_for_each_modeset(mode_set, client) {
++			struct drm_display_mode *desired_mode;
++
++			desired_mode = mode_set->mode;
++			y = mode_set->y;
++			sizes->fb_height = sizes->surface_height += desired_mode->vdisplay;
++			sizes->surface_width =
++				min_t(u32, desired_mode->hdisplay + mode_set->x,
++				      sizes->surface_width);
++			sizes->fb_width = min_t(u32, desired_mode->hdisplay + mode_set->x,
++						sizes->fb_width);
++		}
++		sizes->fb_height = sizes->surface_height += y;
++
++		if (sizes->fb_height > config->max_height) {
++			drm_dbg_kms(client->dev,
++				    "screen_buffer_total_height %d > config height %d\n",
++				    sizes->fb_height, config->max_height);
++			return false;
++		}
++	} else {
++		return false;
++	}
++
++	return true;
++}
++
+ static int __drm_fb_helper_find_sizes(struct drm_fb_helper *fb_helper,
+ 				      struct drm_fb_helper_surface_size *sizes)
+ {
+@@ -1527,6 +1644,16 @@ static int __drm_fb_helper_find_sizes(struct drm_fb_helper *fb_helper,
+ 
+ 	/* first up get a count of crtcs now in use and new min/maxes width/heights */
+ 	crtc_count = 0;
++
++	/* Check if we support extended mode. If we do, we will adjust the sizes accordingly. */
++	if (drm_fbdev_screen_mode &&
++		drm_fb_helper_validate_extended_mode(fb_helper, sizes)) {
++		drm_fbdev_screen_expand_mode_enabled = true;
++		drm_dbg_kms(dev, "Extended mode: horizontal expansion, width: %d, height: %d\n",
++			    sizes->surface_width, sizes->surface_height);
++		return 0;
++	}
++
+ 	drm_client_for_each_modeset(mode_set, client) {
+ 		struct drm_display_mode *desired_mode;
+ 		int x, y, j;
+-- 
+2.25.1
 
