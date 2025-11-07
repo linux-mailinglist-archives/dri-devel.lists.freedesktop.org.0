@@ -2,140 +2,135 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9340DC4127E
-	for <lists+dri-devel@lfdr.de>; Fri, 07 Nov 2025 18:53:18 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4BFF5C41290
+	for <lists+dri-devel@lfdr.de>; Fri, 07 Nov 2025 18:53:53 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4DBB610EB46;
-	Fri,  7 Nov 2025 17:53:16 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 641E710EB4D;
+	Fri,  7 Nov 2025 17:53:51 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=Nvidia.com header.i=@Nvidia.com header.b="Fg52mxGH";
+	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="dTutqEhg";
+	dkim=pass (2048-bit key; unprotected) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="RbLroRSr";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from CO1PR03CU002.outbound.protection.outlook.com
- (mail-westus2azon11010065.outbound.protection.outlook.com [52.101.46.65])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3706510EB46
- for <dri-devel@lists.freedesktop.org>; Fri,  7 Nov 2025 17:53:14 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=H2SKIqQUIARAu+C1QqVCgbptpQ9xuaazEjU4oJRQ9XZqA5gV9Ul+NP4NBFlQW3f3shi6F80gsHiyHhH0Piky9bCIIgT9pLXVbJqKyrj+35jPA7qhjBijmSvUIKmIoCpfgbwZPL/C+qcEN8vD4NUHURBiRB9A0j2Y0Z9AVslmdPG7BTW+eV8IJ40G5Vmh9YSNFX9q3d+rh4lEYDrq9qMdLkARVb+CyUH+1vljAnBONTDPK1HNJAbe3sao22J3/lN9vxGJfyQAtb44ND+O1Gf7s/IBBR12jt2n3U9wT52tDpyKU9yX4dgkFPIF8llWYodXQ9eb+UWBNyQF8eT5JCVtYg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=yY7noPUHA4SbRdl6rgASjsCdr+Huz31vC/2Dvp53Xxs=;
- b=nsa+yPbvwwGWMEQlXQlV/hneQUcSSiGVd8YM625DAJb/kNl2O51Y0gckC1tIcbu1wVu/8GpCVTRwyJt+I9X2EPAlnKvDY9T+DZ32qptitUG21CFQuvcoIDz/8ApLqhSvklSfwrbwdACoDN8caXIaeC0tvgPLC4r0dMz4UHWZcta9dJLe0skgs2Z7VrEn6ig89Q2mApmW5vIgxQWP5uCvTO9Z0mFBQXSzi8BJ8e5wYlsUz7DovKcZaGID9f9l+myi4cHydbgiEnYHg4Ao/JOhKsMb8T3Py77gPL3DoDDK3vL87QC5NlRNxasr1/5EoCMu9Uba807C3IqCMrkl53kdaQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 216.228.117.161) smtp.rcpttodomain=ffwll.ch smtp.mailfrom=nvidia.com;
- dmarc=pass (p=reject sp=reject pct=100) action=none header.from=nvidia.com;
- dkim=none (message not signed); arc=none (0)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=yY7noPUHA4SbRdl6rgASjsCdr+Huz31vC/2Dvp53Xxs=;
- b=Fg52mxGHWUaMfjcnu7j2GcKXa3IpBCWCAG1mATc4HqsZJx3SmN4EmLJUghuNVc8fMeDJ91YUy7x/VnltkG2U/PQS6AM+ix7yGHUyyJ8ndGKaKthQatq01oRhOLDro/zDKpTuv7M5sm5oelnTUWpPM4JZz914UDL0mW4fZfiExzIPk+qDZpusky66Eo8TPYlcpSQJUV7c8wWeldlpSsEPvWZhZsHKXQwg9RG87quJhJc6W5TXxI/fiKZY8byrHsXcVbN0FrHla3NE4aTSlSuNh2dnGu89tIY44g81IjJtdg4JWxcoiV9kKD4yQ5UTpkxa+BPdjidcfyW/R9rJiv3ckA==
-Received: from BN9PR03CA0654.namprd03.prod.outlook.com (2603:10b6:408:13b::29)
- by DM4PR12MB6230.namprd12.prod.outlook.com (2603:10b6:8:a7::10) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9298.12; Fri, 7 Nov
- 2025 17:53:09 +0000
-Received: from BN3PEPF0000B072.namprd04.prod.outlook.com
- (2603:10b6:408:13b:cafe::37) by BN9PR03CA0654.outlook.office365.com
- (2603:10b6:408:13b::29) with Microsoft SMTP Server (version=TLS1_3,
- cipher=TLS_AES_256_GCM_SHA384) id 15.20.9298.12 via Frontend Transport; Fri,
- 7 Nov 2025 17:52:54 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 216.228.117.161)
- smtp.mailfrom=nvidia.com;
- dkim=none (message not signed)
- header.d=none;dmarc=pass action=none header.from=nvidia.com;
-Received-SPF: Pass (protection.outlook.com: domain of nvidia.com designates
- 216.228.117.161 as permitted sender) receiver=protection.outlook.com;
- client-ip=216.228.117.161; helo=mail.nvidia.com; pr=C
-Received: from mail.nvidia.com (216.228.117.161) by
- BN3PEPF0000B072.mail.protection.outlook.com (10.167.243.117) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.9298.6 via Frontend Transport; Fri, 7 Nov 2025 17:53:08 +0000
-Received: from rnnvmail202.nvidia.com (10.129.68.7) by mail.nvidia.com
- (10.129.200.67) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.20; Fri, 7 Nov
- 2025 09:52:49 -0800
-Received: from rnnvmail205.nvidia.com (10.129.68.10) by rnnvmail202.nvidia.com
- (10.129.68.7) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.20; Fri, 7 Nov
- 2025 09:52:48 -0800
-Received: from Asurada-Nvidia (10.127.8.11) by mail.nvidia.com (10.129.68.10)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.20 via Frontend
- Transport; Fri, 7 Nov 2025 09:52:47 -0800
-Date: Fri, 7 Nov 2025 09:52:45 -0800
-From: Nicolin Chen <nicolinc@nvidia.com>
-To: Jason Gunthorpe <jgg@nvidia.com>
-CC: Alex Williamson <alex@shazbot.org>, Christian =?iso-8859-1?Q?K=F6nig?=
- <christian.koenig@amd.com>, <dri-devel@lists.freedesktop.org>,
- <iommu@lists.linux.dev>, Joerg Roedel <joro@8bytes.org>, Kevin Tian
- <kevin.tian@intel.com>, <kvm@vger.kernel.org>,
- <linaro-mm-sig@lists.linaro.org>, <linux-kselftest@vger.kernel.org>,
- <linux-media@vger.kernel.org>, Robin Murphy <robin.murphy@arm.com>, "Shuah
- Khan" <shuah@kernel.org>, Sumit Semwal <sumit.semwal@linaro.org>, Will Deacon
- <will@kernel.org>, Krishnakant Jaju <kjaju@nvidia.com>, Leon Romanovsky
- <leon@kernel.org>, Matt Ochs <mochs@nvidia.com>, <patches@lists.linux.dev>,
- Simona Vetter <simona.vetter@ffwll.ch>, Vivek Kasireddy
- <vivek.kasireddy@intel.com>, Xu Yilun <yilun.xu@linux.intel.com>
-Subject: Re: [PATCH 0/9] Initial DMABUF support for iommufd
-Message-ID: <aQ4x7UiMMCB0m0dH@Asurada-Nvidia>
-References: <0-v1-af84a3ab44f5+f68-iommufd_buf_jgg@nvidia.com>
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
+ [205.220.168.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E37A010EB49
+ for <dri-devel@lists.freedesktop.org>; Fri,  7 Nov 2025 17:53:49 +0000 (UTC)
+Received: from pps.filterd (m0279866.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id
+ 5A7DPQXH3129784
+ for <dri-devel@lists.freedesktop.org>; Fri, 7 Nov 2025 17:53:49 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+ cc:content-transfer-encoding:content-type:date:from:in-reply-to
+ :message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+ vDu4LquDYbCXg/gjVsJ2LPTxaSnh0taMI7ccEl+/wdk=; b=dTutqEhgfL0pRnRa
+ /au75FIAkEMbWWBlNvFhFq2IDL4P5NPOdiU6hAUQsLHMXiZx9qtOU+x984Bycf5f
+ l0a+Tr53IkSe4LP3qZ1OionEcVPUPNeAiC8Ecqyx6fChwFa9RmdSAF/mXLqbPxo8
+ DZLQZigWWvQh2Z6gNwTjVyaqbBU/hey99DaesHuFH7hZ9u5xz5fOi0XppqmoBm8P
+ KJjVnR80EVsuewWmmUbmiQTHjxLns0fjSSCwLQcVn4iYLq4oVt5Pmki5OHsd7ZLI
+ ux36CMwOp+FuOuTuzZPdM8tjz+q8qzSF2Qpu9G0yn00awjuuAtPdpkywpMkAlX8z
+ LavGtQ==
+Received: from mail-pj1-f71.google.com (mail-pj1-f71.google.com
+ [209.85.216.71])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4a9hn08rh5-1
+ (version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
+ for <dri-devel@lists.freedesktop.org>; Fri, 07 Nov 2025 17:53:49 +0000 (GMT)
+Received: by mail-pj1-f71.google.com with SMTP id
+ 98e67ed59e1d1-3418ada9e6cso1233705a91.1
+ for <dri-devel@lists.freedesktop.org>; Fri, 07 Nov 2025 09:53:49 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=oss.qualcomm.com; s=google; t=1762538029; x=1763142829;
+ darn=lists.freedesktop.org; 
+ h=content-transfer-encoding:in-reply-to:from:content-language
+ :references:cc:to:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=vDu4LquDYbCXg/gjVsJ2LPTxaSnh0taMI7ccEl+/wdk=;
+ b=RbLroRSr1MSl4di6/XGIpQG1IfufMJ7+Dp/d3EU1TZMRNDHHgY1aThKJaa6WzEz/N+
+ 7NsvoJpXRXEmvvhexM1u3+t6TzNyYXSsE8OkZI4O5Kx0BL6LIU5k82fdOsxyN+/j2BlW
+ cKNmxnraQPjDiFH55trcr/l9/5FTrZpNwc9AiOKnre27YtmerevEqOj2QTUANZfYWu70
+ qWfP/aor9kpiSHNjwDXWBcC72l0QwdDbuDc5ZnflaAHc7lF3ik1aUvh4QHUXpLX2jvvf
+ GDXdZJSi0e0IhihYXfaeGcRP+G5QTuoauI7WAPVNwcTv5LxmnODbxRc9MkHNHAjVIGsv
+ GpZA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1762538029; x=1763142829;
+ h=content-transfer-encoding:in-reply-to:from:content-language
+ :references:cc:to:subject:user-agent:mime-version:date:message-id
+ :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=vDu4LquDYbCXg/gjVsJ2LPTxaSnh0taMI7ccEl+/wdk=;
+ b=driYHxdbNY3LFxiTvzmCD2KDX2yoH/TCKGihYVsHEfsnhsTSIhsYn6WxeZGZhgsjaM
+ /ktH9Mbk0xvLKF0w2O4PxA0nywWJ9minVRxnSkDaM5ZsbVxdoYjWzPFRVcRg5ZvgGngh
+ ZDrBa7Mk2aer3TmVrzKnfxCrgpggIlbRJ32ohZYYzqi7auvs88k4tu4wUFgOSwDIEtou
+ vqf8djIiswOSP1lnpIE8OPj3eh/ICaLQmhuzfH9u/SLf2fSxiMNn07MZRINclhgnpxyU
+ A3f6UHdd+y825PXCq1VvK+Ae3aRlqJEMgqcQMyYpACRKO2FIU6KZM0ZAnhf7A4iNKmkr
+ +09g==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCVOewLwacJ0vXrHbSR+80lKUTTVsQ6ZnaS/yyNgNWVwsm9uMC/Dk5+2mzEg12bqrHDB1fSopkFS988=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YxPNtExbGwhPzKbqGkT5JqChD7bjPwB/+kQWTIrkeJCIUIArrDR
+ QnssUbvmthhjhZ6DccN1dpU3tmn99smnBx6SqVrLQ78aSQDKd7aif3A1sY9tqJiIgpt+apXHOoe
+ Wa+7hsrl+8deUweC9BKNpl1yB90a59B//WSkv4s0D6o/ZboyFFyDcPeVXQ0yi8uUs6yVw74M=
+X-Gm-Gg: ASbGncsIxaO25EmHTDcgJXeCITOuudJ6c1wCHz1J1V0xSTlkLhb9UfQ4CDGMdVWdL90
+ ewTKDL6HcpzyLKs9d8ejcTy9NO36omWYecS7Ktx1tM1S8d/7geQL8j0HIrJjIuez3RpyouJIcBq
+ KOs6S+eu+OWnPiwx0/9R+QmUGdDyzCHZ8NsRqPjR6rw/0yq4Tv5p68XGafGUzYhE/EYaNCsFNbN
+ 5M00IEsO329f86kfyqKWPNVFj+Rq6zCsFXSMSD2Wz07aJlx3yvJ8mz1Xh8fLmAkMagtJuSyx8r+
+ af0NQjhjX5elenBdNTC7HgsSFgr1oMmh1lPG5SelNMexVgjAOpDR8VI204p2OJS0p9LjiYLxZs7
+ MxytTIZgOvxbLCe2YYdmJsMuuArk1SuL7w8lIu0JPXvYKvTKFZL2Z
+X-Received: by 2002:a17:90b:3885:b0:341:c964:125b with SMTP id
+ 98e67ed59e1d1-3436cbab0aamr7845a91.31.1762538028560; 
+ Fri, 07 Nov 2025 09:53:48 -0800 (PST)
+X-Google-Smtp-Source: AGHT+IHIy6+m+Kcij6vt6xRBKl9qnx3FLlJzZPykP0VRDcFrX0sJmh9Kw6gWYAzSNXcrbLBEDZWv/g==
+X-Received: by 2002:a17:90b:3885:b0:341:c964:125b with SMTP id
+ 98e67ed59e1d1-3436cbab0aamr7819a91.31.1762538028061; 
+ Fri, 07 Nov 2025 09:53:48 -0800 (PST)
+Received: from [10.226.59.182] (i-global254.qualcomm.com. [199.106.103.254])
+ by smtp.gmail.com with ESMTPSA id
+ 98e67ed59e1d1-341d11e2336sm3278610a91.1.2025.11.07.09.53.45
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 07 Nov 2025 09:53:47 -0800 (PST)
+Message-ID: <13f0921d-d018-4c5c-a01b-9d4c89d3a4ed@oss.qualcomm.com>
+Date: Fri, 7 Nov 2025 10:53:45 -0700
 MIME-Version: 1.0
-Content-Type: text/plain; charset="us-ascii"
-Content-Disposition: inline
-In-Reply-To: <0-v1-af84a3ab44f5+f68-iommufd_buf_jgg@nvidia.com>
-X-NV-OnPremToCloud: ExternallySecured
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: BN3PEPF0000B072:EE_|DM4PR12MB6230:EE_
-X-MS-Office365-Filtering-Correlation-Id: e28cb06e-ca58-4c16-7e26-08de1e268332
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
- ARA:13230040|1800799024|82310400026|376014|7416014|36860700013|13003099007; 
-X-Microsoft-Antispam-Message-Info: =?us-ascii?Q?fXUN2uL9Q176+BdCcdfFgIywP7PDpR8VZQMB4A4F/Al4k2QTCEf6iZQy8Yxh?=
- =?us-ascii?Q?LP9F/tugt/yn7LeHjNzOXrD9TIAYjk45r+q3ZGx4O3tihKoZkk5FrXHgpmMQ?=
- =?us-ascii?Q?VrlgxLfn+jzHSdF+r7KEUiIrTqZuz2yr4v3xwOHyiYbUolXiwSwm4ArSQ468?=
- =?us-ascii?Q?V6gsTFddsb2/nc8P/5aMjPJ0fNh0JUz5irYXDveXvVyPdFrNdPV8L+Lmum5D?=
- =?us-ascii?Q?YoGZ62jCfxLypj3prMsGUNzgKauXTPkWGE9RNySnq1W9dY3ouOywJj1okwWC?=
- =?us-ascii?Q?MjMI2OoOANBg4A6xHyb2v78v6lXbVwnb3LSmTwrCj7+QkhcuxhSRblgcE59X?=
- =?us-ascii?Q?NLtbDYctK1plOvO93yqZCYIc0fezkHVxOeCNy8SlaIYE0/Tyw6PvwbzDO8SF?=
- =?us-ascii?Q?yxRvVZ/xU4dKsj/AnNWIqdfKREHFjKbLR9DBqoqm1/OywHw2JuV3KOlyRoNW?=
- =?us-ascii?Q?x/+6VUvzZL/cunVk2rYvCI+ksdZTdrWo3+HQgMkDVpfLyUTFGdYjJt9rKOG1?=
- =?us-ascii?Q?9FaRy3htP19Kwj+HNWIDG2tlHoKi5aN+CapO48OG2uh0pVITZmSW4s2WCdtQ?=
- =?us-ascii?Q?I/OJo8dwbl5gSjxGYVgUFc3kRrN1LwJOSfaXRqOOCNZo+/qbxV+0xhUpN3Jf?=
- =?us-ascii?Q?gRUwxlQBBodVE5hIzacSOsewX9iEm5senC0wnkEuebAryaevhZcptwmRCE0d?=
- =?us-ascii?Q?CWdBlFHNTyUTn8f88RQ/dJvqPucgqfRG2SPXe/fJfF9mC9ZHtEJZPMi4vz0/?=
- =?us-ascii?Q?KVvIdtYuMdmpew3eXcMlGJvJg6Kx1+93DnPAxtnHUM+0o8wn5SIaBpNCKQR8?=
- =?us-ascii?Q?phdc9vnO5OS4G7drWVpYUo/Th26QnMhV/hMxbpnqEHPZFG6UBfe/dgqPHwaN?=
- =?us-ascii?Q?utMtWo0k/N2Fuj7wQeomGMnAuAAU74s+6tW4gRxfkbyjLtgSd9f+v6av1TGJ?=
- =?us-ascii?Q?YBfBnaN/ZAtJpnEHiEeS7C22zQ0uJTnuUrLL88eTDWv+IFAGukymKlEqIjUH?=
- =?us-ascii?Q?6x1DXI7/ykc0cPBVSZ7COizrf0+5NEzkyjWRjk/UCvd/wXymv8YtZXcH2P0o?=
- =?us-ascii?Q?hdMfdZHvYBtD7tgt/EDMFWcDIaeMgtjuxALBJw8FPnukjAnmYgduhOZltRv5?=
- =?us-ascii?Q?DaeAMUwWROEVlQ++q5fzuX6V1XYRh+zCOqlVq3lsNOmPmvpDif/Za3RD9mls?=
- =?us-ascii?Q?/lWH/L7PrxWkAm6nuoEk1lZ+OloXw1/nwWBwEtA9oXbIne9tnUoZaeogxBaK?=
- =?us-ascii?Q?99jzF6wPYLibraR/zaOcCxliyo1maNw/ISMxpm9Tt22EFHZUViYJ/gVazV9f?=
- =?us-ascii?Q?pOo4FPuPWPpAJ9oj9yg4lAs3TfSb19TEfWP3AdiQdvcOlGROKnFc/PpAsTLD?=
- =?us-ascii?Q?JIwHQGOFjpeIN7p/nMuXTUdH1Na8WiesbZRapfFTdQuuQApzyVMcqfJcsf6m?=
- =?us-ascii?Q?5ajReyl0qAuCQqN/x42/BtnbeKI5nkWIvjBAK4f4JStn5ascq/fiNM0bNgKX?=
- =?us-ascii?Q?PqRaL8eM7RDGwQ22sb0CaKg4m2Gs180fDeBSrr4T/PvTRLVjcJuMgPA5gmK7?=
- =?us-ascii?Q?huPa+gNYXQNg3EMb0xiQBjHLKd+nMawc/0Cv8xqX?=
-X-Forefront-Antispam-Report: CIP:216.228.117.161; CTRY:US; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:mail.nvidia.com; PTR:dc6edge2.nvidia.com; CAT:NONE;
- SFS:(13230040)(1800799024)(82310400026)(376014)(7416014)(36860700013)(13003099007);
- DIR:OUT; SFP:1101; 
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 07 Nov 2025 17:53:08.9998 (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: e28cb06e-ca58-4c16-7e26-08de1e268332
-X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=43083d15-7273-40c1-b7db-39efd9ccc17a; Ip=[216.228.117.161];
- Helo=[mail.nvidia.com]
-X-MS-Exchange-CrossTenant-AuthSource: BN3PEPF0000B072.namprd04.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM4PR12MB6230
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v3 1/3] accel/qaic: Add DMA Bridge Channel(DBC) sysfs and
+ uevents
+To: Zack McKevitt <zachary.mckevitt@oss.qualcomm.com>,
+ carl.vanderlip@oss.qualcomm.com, troy.hanson@oss.qualcomm.com,
+ youssef.abdulrahman@oss.qualcomm.com
+Cc: ogabbay@kernel.org, lizhi.hou@amd.com, karol.wachowski@linux.intel.com,
+ linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ andersson@kernel.org,
+ Pranjal Ramajor Asha Kanojiya <quic_pkanojiy@quicinc.com>
+References: <20251031174059.2814445-1-zachary.mckevitt@oss.qualcomm.com>
+ <20251031174059.2814445-2-zachary.mckevitt@oss.qualcomm.com>
+Content-Language: en-US
+From: Jeff Hugo <jeff.hugo@oss.qualcomm.com>
+In-Reply-To: <20251031174059.2814445-2-zachary.mckevitt@oss.qualcomm.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUxMTA3MDE0OCBTYWx0ZWRfX3aTwh1vDtOyY
+ 9PqmGUXJeFSLHoNsFz6gRjJpNQxfbvTJ78Jjry7aNHV9B28K+ekfa1JjHgkgTjQvmc/JhH+4DRE
+ QASKzjp5SzSfxczQ0uDNcEDwS7GEyo0EnvXJpchMUFL7/1V95QovD2bpY+NwTajws/Ba0pgCfDX
+ vrhamdWMXQhHTFKTemjRUJuEdRHW4NJ1brKcXNt44CtGHh0zKMK6Knmp19m3UIhR1VBCbxRLc2m
+ TJJEpxK2pA+L+AUyU6J5VMROZbyPlS5t2uCNn1z9t0PeGhvs2jKekWNsZ3pvHzUm54VHQI/S2dz
+ 8KSQPKNkoV9dAgE4NjXYhK13C5Y7q4AfRk+zqGy9OlEb3F+gfAruO0xWaoFyK/4VnI5FjWQD+pP
+ H1fduqxSUqRqayljqh1UVCcD7ct3cA==
+X-Proofpoint-GUID: rN4Wm5F43jmc1x_a268zMADiTzhed7kK
+X-Authority-Analysis: v=2.4 cv=MsJfKmae c=1 sm=1 tr=0 ts=690e322d cx=c_pps
+ a=UNFcQwm+pnOIJct1K4W+Mw==:117 a=JYp8KDb2vCoCEuGobkYCKw==:17
+ a=IkcTkHD0fZMA:10 a=6UeiqGixMTsA:10 a=s4-Qcg_JpJYA:10
+ a=VkNPw1HP01LnGYTKEx00:22 a=COk6AnOGAAAA:8 a=EUspDBNiAAAA:8
+ a=zlVAGa64hwdQekzuOJMA:9 a=QEXdDO2ut3YA:10 a=uKXjsCUrEbL0IQVhDsJ9:22
+ a=TjNXssC_j7lpFel5tvFf:22
+X-Proofpoint-ORIG-GUID: rN4Wm5F43jmc1x_a268zMADiTzhed7kK
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.9,FMLib:17.12.100.49
+ definitions=2025-11-07_05,2025-11-06_01,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ impostorscore=0 suspectscore=0 bulkscore=0 adultscore=0 malwarescore=0
+ spamscore=0 priorityscore=1501 clxscore=1015 phishscore=0 lowpriorityscore=0
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.22.0-2510240001 definitions=main-2511070148
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -151,20 +146,24 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, Nov 07, 2025 at 12:49:32PM -0400, Jason Gunthorpe wrote:
-> This is on github: https://github.com/jgunthorpe/linux/commits/iommufd_dmabuf
+On 10/31/2025 11:41 AM, Zack McKevitt wrote:
+> From: Pranjal Ramajor Asha Kanojiya <quic_pkanojiy@quicinc.com>
 > 
-> v2:
->  - Rebase on Leon's v7
->  - Fix mislocking in an iopt_fill_domain() error path
+> Expose sysfs files for each DBC representing the current state of that DBC.
+> For example, sysfs for DBC ID 0 and accel minor number 0 looks like this,
+> 
+> /sys/class/accel/accel0/dbc0_state
+> 
+> Following are the states and their corresponding values,
+> DBC_STATE_IDLE (0)
+> DBC_STATE_ASSIGNED (1)
+> DBC_STATE_BEFORE_SHUTDOWN (2)
+> DBC_STATE_AFTER_SHUTDOWN (3)
+> DBC_STATE_BEFORE_POWER_UP (4)
+> DBC_STATE_AFTER_POWER_UP (5)
+> 
+> Signed-off-by: Pranjal Ramajor Asha Kanojiya <quic_pkanojiy@quicinc.com>
+> Signed-off-by: Youssef Samir <youssef.abdulrahman@oss.qualcomm.com>
+> Signed-off-by: Zack McKevitt <zachary.mckevitt@oss.qualcomm.com>
 
-I have verified this v2 using the branch above, by drafting a QEMU
-patch for dmabuf on top of Shameer's vSMMU v5 series:
-https://github.com/nicolinc/qemu/commits/wip/iommufd_dmabuf/
-
-With that, I see GPU BAR memory be correctly fetched in the QEMU:
-vfio_region_dmabuf Device 0009:01:00.0, region "0009:01:00.0 BAR 0", offset: 0x0, size: 0x1000000
-vfio_region_dmabuf Device 0009:01:00.0, region "0009:01:00.0 BAR 2", offset: 0x0, size: 0x44f00000
-vfio_region_dmabuf Device 0009:01:00.0, region "0009:01:00.0 BAR 4", offset: 0x0, size: 0x17a0000000
-
-Tested-by: Nicolin Chen <nicolinc@nvidia.com>
+Reviewed-by: Jeff Hugo <jeff.hugo@oss.qualcomm.com>
