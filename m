@@ -2,46 +2,61 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D2253C39154
-	for <lists+dri-devel@lfdr.de>; Thu, 06 Nov 2025 05:22:08 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id CECB8C38FE5
+	for <lists+dri-devel@lfdr.de>; Thu, 06 Nov 2025 04:35:56 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9752C10E03C;
-	Thu,  6 Nov 2025 04:22:05 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id EC46A10E310;
+	Thu,  6 Nov 2025 03:35:53 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; secure) header.d=canb.auug.org.au header.i=@canb.auug.org.au header.b="R/MMluLQ";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="ErGzO9Tp";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail.ozlabs.org (gandalf.ozlabs.org [150.107.74.76])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CCDA810E03C
- for <dri-devel@lists.freedesktop.org>; Thu,  6 Nov 2025 04:22:03 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=canb.auug.org.au;
- s=202503; t=1762402922;
- bh=MRQkcWineOBwMrRNd1qXJWRdZB0PlL23f7QJgSyfj3E=;
- h=Date:From:To:Cc:Subject:From;
- b=R/MMluLQmeFadc/gNya+J3lmyPe8SmiOGFJ6K7I40HvcWO5zjPi6sQn07Z1Jzp/Jl
- CAs80KiByknpmsjl4Pwxt8x+s7uWLYcUamh0upyBOzhq9awQcYA9sCJwrGPZgBhtHx
- eREyXZ5NSSkqflEQMmPxzSsadO6HPP0Kz4NTxmcN6bF8SbNGVuLZULq9Z/1QX/xI4R
- e1C3jfexpYwJcRIxDlI0i0rhJZ3FSSu63ZyRIcdcCU1ADyrZT23sI/HtmdSUjrpgn+
- NGWxQB8773YRH/pgAjPwVoJ3lh4/g8c3hBlaJ0PtqkoMp1d0WWe9kHRaz7FHzhBnEu
- jO3eDxPdUptqw==
-Received: from authenticated.ozlabs.org (localhost [127.0.0.1])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange secp256r1 server-signature RSA-PSS (4096 bits) server-digest
- SHA256) (Client did not present a certificate)
- by mail.ozlabs.org (Postfix) with ESMTPSA id 4d28Cs6yj3z4xGp;
- Thu, 06 Nov 2025 15:22:01 +1100 (AEDT)
-Date: Thu, 6 Nov 2025 15:22:01 +1100
-From: Stephen Rothwell <sfr@canb.auug.org.au>
-To: Dave Airlie <airlied@redhat.com>, DRI <dri-devel@lists.freedesktop.org>
-Cc: Thomas Zimmermann <tzimmermann@suse.de>, Linux Kernel Mailing List
- <linux-kernel@vger.kernel.org>, Linux Next Mailing List
- <linux-next@vger.kernel.org>
-Subject: linux-next: build warning after merge of the drm tree
-Message-ID: <20251106152201.6f248c09@canb.auug.org.au>
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2987510E310;
+ Thu,  6 Nov 2025 03:35:53 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1762400153; x=1793936153;
+ h=from:to:cc:subject:date:message-id:mime-version:
+ content-transfer-encoding;
+ bh=zgNTFpCXM3o9g2ZXsFBLXyEVmzMgXOrMc94PnKAGIk4=;
+ b=ErGzO9TpEgJcIzowgQW0hZOVFzq7goc0tFreBFSgD+mliayLMDRqAsc/
+ 7G8ZvIEQz04Pg8osSDmDoo3ksJ0vb1wiUolJbCiSOwoQr+kTwCpbGCoYp
+ MaKvAXwd4zbyNYumPkswtcv+qfpYuQFeSnC8+7S8ZTPUD+o0c6UQQDWE+
+ DLewftXlsPnCFO2VKg2eqGPnqgPayaHUlu+YRV6YkVCICJzFC0/vBT2+4
+ 66Q8NAcelDMHHvqcuo0kDQSgDblTE/yTA0DtYGYVv5K9I+bsc32IJn850
+ CQFk9YmWK+CpHD0t2LyJ2Bhnvev6R63jTUTYt2/a6aRlSZZJKpczUtXsB g==;
+X-CSE-ConnectionGUID: 5xQVDF3zS9KzGknaqVLryA==
+X-CSE-MsgGUID: u6PXnHzOSzWQGJYuik6H3g==
+X-IronPort-AV: E=McAfee;i="6800,10657,11531"; a="68367886"
+X-IronPort-AV: E=Sophos;i="6.17,312,1747724400"; d="scan'208";a="68367886"
+Received: from orviesa009.jf.intel.com ([10.64.159.149])
+ by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 05 Nov 2025 19:35:53 -0800
+X-CSE-ConnectionGUID: 8eewTtwKTtSfZG6ABkdL9A==
+X-CSE-MsgGUID: 9FhqImc5SwqqvQ0/2wOfbw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.19,283,1754982000"; d="scan'208";a="187351125"
+Received: from junxiao.bj.intel.com ([10.238.152.69])
+ by orviesa009-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 05 Nov 2025 19:35:49 -0800
+From: Junxiao Chang <junxiao.chang@intel.com>
+To: lucas.demarchi@intel.com, thomas.hellstrom@linux.intel.com,
+ rodrigo.vivi@intel.com, airlied@gmail.com, simona@ffwll.ch,
+ bigeasy@linutronix.de, clrkwllms@kernel.org, rostedt@goodmis.org,
+ daniele.ceraolospurio@intel.com, alexander.usyskin@intel.com,
+ intel-xe@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, linux-rt-devel@lists.linux.dev
+Cc: baoli.zhang@intel.com,
+	junxiao.chang@intel.com
+Subject: [PATCH] drm/me/gsc: mei interrupt top half should be in irq disabled
+ context
+Date: Fri,  7 Nov 2025 11:31:52 +0800
+Message-ID: <20251107033152.834960-1-junxiao.chang@intel.com>
+X-Mailer: git-send-email 2.43.0
 MIME-Version: 1.0
-Content-Type: multipart/signed; boundary="Sig_/BNYysu0WmGJ3V1lS4mK8O3n";
- protocol="application/pgp-signature"; micalg=pgp-sha256
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -57,41 +72,47 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
---Sig_/BNYysu0WmGJ3V1lS4mK8O3n
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: quoted-printable
+MEI GSC interrupt comes from i915 or xe driver. It has top half and
+bottom half. Top half is called from i915/xe interrupt handler. It
+should be in irq disabled context.
 
-Hi all,
+With RT kernel(PREEMPT_RT enabled), by default IRQ handler is in
+threaded IRQ. MEI GSC top half might be in threaded IRQ context.
+generic_handle_irq_safe API could be called from either IRQ or
+process context, it disables local IRQ then calls MEI GSC interrupt
+top half.
 
-After merging the drm tree, today's linux-next build (htmldocs) produced
-this warning:
+This change fixes B580 GPU boot issue with RT enabled.
 
-WARNING: drivers/gpu/drm/drm_vblank.c:2267 expecting prototype for drm_crtc=
-_vblank_start_timer(). Prototype was for drm_crtc_vblank_cancel_timer() ins=
-tead
+Fixes: e02cea83d32d ("drm/xe/gsc: add Battlemage support")
+Tested-by: Baoli Zhang <baoli.zhang@intel.com>
+Signed-off-by: Junxiao Chang <junxiao.chang@intel.com>
+---
+ drivers/gpu/drm/xe/xe_heci_gsc.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-Introduced by commit
+diff --git a/drivers/gpu/drm/xe/xe_heci_gsc.c b/drivers/gpu/drm/xe/xe_heci_gsc.c
+index a415ca4887914..32d509b113915 100644
+--- a/drivers/gpu/drm/xe/xe_heci_gsc.c
++++ b/drivers/gpu/drm/xe/xe_heci_gsc.c
+@@ -221,7 +221,7 @@ void xe_heci_gsc_irq_handler(struct xe_device *xe, u32 iir)
+ 	if (xe->heci_gsc.irq < 0)
+ 		return;
+ 
+-	ret = generic_handle_irq(xe->heci_gsc.irq);
++	ret = generic_handle_irq_safe(xe->heci_gsc.irq);
+ 	if (ret)
+ 		drm_err_ratelimited(&xe->drm, "error handling GSC irq: %d\n", ret);
+ }
+@@ -241,7 +241,7 @@ void xe_heci_csc_irq_handler(struct xe_device *xe, u32 iir)
+ 	if (xe->heci_gsc.irq < 0)
+ 		return;
+ 
+-	ret = generic_handle_irq(xe->heci_gsc.irq);
++	ret = generic_handle_irq_safe(xe->heci_gsc.irq);
+ 	if (ret)
+ 		drm_err_ratelimited(&xe->drm, "error handling GSC irq: %d\n", ret);
+ }
+-- 
+2.43.0
 
-  74afeb812850 ("drm/vblank: Add vblank timer")
-
---=20
-Cheers,
-Stephen Rothwell
-
---Sig_/BNYysu0WmGJ3V1lS4mK8O3n
-Content-Type: application/pgp-signature
-Content-Description: OpenPGP digital signature
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCAAdFiEENIC96giZ81tWdLgKAVBC80lX0GwFAmkMImkACgkQAVBC80lX
-0GzEVgf/UOcduoHTMaZDA5XVaDMAD757BQ4TS29IU2ZT+JjY/s/7Ivq1xVC5aOae
-QiPjvq4yrX+W863v4TslZKviFP67inr4/vXL0QvWI6VsoOqcIUSSjdNDRIAhwy3C
-nlWrxFl390gjm//UoqTqJWPGcIHIxzEGthlPxgILHDVgrxNuyacbT2MF8BkJJfrL
-xm3RtteztJ1oIrChN6RugSKmipDm6SVn8FDTxbo1h1QFeh2uJGkRuRck9/7sth8A
-DrH+IyXtSJTp2n0M7ZCoyo3lVksF/7jZOPw5hDk73gLsAYAV87T3sq7CbnpKzb5F
-GcOSesIDb1xmhRdoWaDRxDdJ8XuzIg==
-=2CKm
------END PGP SIGNATURE-----
-
---Sig_/BNYysu0WmGJ3V1lS4mK8O3n--
