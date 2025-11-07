@@ -2,28 +2,29 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id F33D6C40524
-	for <lists+dri-devel@lfdr.de>; Fri, 07 Nov 2025 15:26:04 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id EE11AC40527
+	for <lists+dri-devel@lfdr.de>; Fri, 07 Nov 2025 15:26:07 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2CD7510EAE5;
-	Fri,  7 Nov 2025 14:26:03 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2117810EAE4;
+	Fri,  7 Nov 2025 14:26:06 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=arm.com header.i=@arm.com header.b="OAIEStU+";
-	dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b="OAIEStU+";
+	dkim=pass (1024-bit key; unprotected) header.d=arm.com header.i=@arm.com header.b="qbVYjQKN";
+	dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b="qbVYjQKN";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from DB3PR0202CU003.outbound.protection.outlook.com
- (mail-northeuropeazon11010032.outbound.protection.outlook.com [52.101.84.32])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8D98110EAE3
- for <dri-devel@lists.freedesktop.org>; Fri,  7 Nov 2025 14:25:59 +0000 (UTC)
+Received: from GVXPR05CU001.outbound.protection.outlook.com
+ (mail-swedencentralazon11013053.outbound.protection.outlook.com
+ [52.101.83.53])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9017410EAE3
+ for <dri-devel@lists.freedesktop.org>; Fri,  7 Nov 2025 14:26:04 +0000 (UTC)
 ARC-Seal: i=2; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=pass;
- b=larxTAA85U/oJ1MEnxstRBCzbwaCBniF7MsGJvJzGUGEBRq5ewM1aAlA+lMuyhZ8tqN3EHUsjB36MmUHLHOz1HLrfDSfH7+BFIBpBJrEeX8IfK1p9EOD+uLLa1Q7W4tdEZhyeFB0IP69cLT1X/6ZpER2iINpzFfJ8Tq/QXt103TvjWcRIunEpW/zrkmNjCAhic/lxdJwmMDCxdwUbRNhbw4zTTLk6S3s0IYfJ/c6MqhwSNTOYYhmzp3oeGjYA4Fhqa9CfxKbfwjOl6NIV7gYsuL4qUECupAGze+K44h0jMoPyCpfYGf0oVIXJQVhopE4gIoNg+6/n8nYhi1UnCLblA==
+ b=X1/B6bC3Zf9L0zJgsu+fmO/CPWDjjxi56YsSV0VmmHWKwlNVs4Phm/GNWltWOt3FZUzjlsCLhSWubMRJVc0xQ4mK4OTw5kQAu6uqtdA+o53YY3H79+Ii1erLPVO4OSlbT115YDUWduBVBLZLSHQFwahgx+aSCMNNZ1V5vm4oQSnBE5gqnyRQ/n/OB3OE+WfWFbI3hKbfHsUo5uaZ5RXWJMnBVcVkKFWL8Ec5obOQ5Q55upU7QBvLqoXl5eJPszC/kIPmrjzc3oXuucxJ3fpXQuvV2BX6zM0jRbMkH0+rptjRgCRrq/uREM4f7CI6apvN32nZ+UjZYikPmFzjncgBaQ==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=kJJnioYh015k1OUfawW9USWrx1lWTBPRtn1PHF187eQ=;
- b=ch5jwSq3Ct3HyJMoaKaACCfDJozl1x5CNYIVBxKU5aQqcLm9rEaH9qfFrYPQ0E7ibXqht7YSrVzpJgPEDyb5dDh1s4DnAaiIlNBMWuKEw2ZPhDlVJIgWSgH+up8R+CpOgTvW/dWeZ8LRPwvgwnzsb5WSVsY9cA9EfR7bTGG9Q8UYHXDPaRN5FvdoGgkXJtlOpJqkijZhKl7D/nSbFzJKq8YCusFRXhhG3WdQWmY67p7wwfqFfLIhG4xhxkccmkL8oMQ5jWaVfv/fqtuvtLiVbPOnZfS5AkDp24vXqvE4F64jebHhsc/ROFf8a2qgVrlrGSbDk76m5k8CMjL6UbE0Nw==
+ bh=1RCOejdss8AxGUVSnfnSHwp9QIoVg2l4egJtmEIwohg=;
+ b=sc5PTlmnJ7wccSmUUNWU3cfiOeY1o284jiM/bphaPvEXRn0tklrH3ZrZzaq2tuw6KEFSsOENeRF2DPoHJVgzH4mlnJ6goDXbTTSNJ3kmqo6fqExLlfvUOjQlehA7hAmYllo0y5/vK27lfY+H2KopXA5AStYPrnd6CiHjZVn29L1ZP29jmzYKi8AL2Q+crCzXDY2+etWCb2NxHxI7jYd4M14tPB3yz/0Wvwl6A/uLfvEyxa7SvowwiYXFdZaaWB6EhsIt8DqzMJ+ayygzNHEyp5N2Ab75qjUDWipAvUm074eFYnQSqRYKs5usUSj3Zd2HE6kqw704Ii1UzioTESZtQQ==
 ARC-Authentication-Results: i=2; mx.microsoft.com 1; spf=pass (sender ip is
  4.158.2.129) smtp.rcpttodomain=lists.freedesktop.org smtp.mailfrom=arm.com;
  dmarc=pass (p=none sp=none pct=100) action=none header.from=arm.com;
@@ -32,16 +33,16 @@ ARC-Authentication-Results: i=2; mx.microsoft.com 1; spf=pass (sender ip is
  dmarc=[1,1,header.from=arm.com])
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=arm.com; s=selector1; 
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=kJJnioYh015k1OUfawW9USWrx1lWTBPRtn1PHF187eQ=;
- b=OAIEStU+6vZTuLS4f4rXwThLHbWvhCwqpwJS3tLFyBtR8HGlrNbWHovdQfBP4GCPhDQ0p/enFHdgI50d2r5mHWSh+OVA3Rj0HDTN5fPTFpmaZ6Z3ADbyRlS7d3AJuDwxdnf+Hk9sPvFJIkzzu/LwEiZnkNs8/WsI1txT26OZKJc=
-Received: from AM9P195CA0002.EURP195.PROD.OUTLOOK.COM (2603:10a6:20b:21f::7)
- by GV1PR08MB10669.eurprd08.prod.outlook.com (2603:10a6:150:167::20) with
+ bh=1RCOejdss8AxGUVSnfnSHwp9QIoVg2l4egJtmEIwohg=;
+ b=qbVYjQKNUunvzaEJj3Lz/5pN2kIKUGK6SqLaty8g6JqyMI2pVI6ZQSa0vkICyst3/MXhfflWFvL4Cw+9e5rNYbt6jjf0CK6F3mqCpIieYZVTSr2T4GaPNbmSchi065PZNU3luUmyfhWMpe+wQTQTldLac088tgWntGN114iURos=
+Received: from DU7P191CA0010.EURP191.PROD.OUTLOOK.COM (2603:10a6:10:54e::35)
+ by VI1PR08MB10148.eurprd08.prod.outlook.com (2603:10a6:800:1bc::10) with
  Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9298.9; Fri, 7 Nov
- 2025 14:25:54 +0000
-Received: from AMS1EPF0000004B.eurprd04.prod.outlook.com
- (2603:10a6:20b:21f:cafe::b0) by AM9P195CA0002.outlook.office365.com
- (2603:10a6:20b:21f::7) with Microsoft SMTP Server (version=TLS1_3,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9298.12; Fri, 7 Nov
+ 2025 14:25:57 +0000
+Received: from DU2PEPF00028D0F.eurprd03.prod.outlook.com
+ (2603:10a6:10:54e:cafe::62) by DU7P191CA0010.outlook.office365.com
+ (2603:10a6:10:54e::35) with Microsoft SMTP Server (version=TLS1_3,
  cipher=TLS_AES_256_GCM_SHA384) id 15.20.9298.12 via Frontend Transport; Fri,
  7 Nov 2025 14:25:51 +0000
 X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 4.158.2.129)
@@ -51,34 +52,34 @@ Received-SPF: Pass (protection.outlook.com: domain of arm.com designates
  4.158.2.129 as permitted sender) receiver=protection.outlook.com;
  client-ip=4.158.2.129; helo=outbound-uk1.az.dlp.m.darktrace.com; pr=C
 Received: from outbound-uk1.az.dlp.m.darktrace.com (4.158.2.129) by
- AMS1EPF0000004B.mail.protection.outlook.com (10.167.16.136) with Microsoft
- SMTP Server (version=TLS1_3, cipher=TLS_AES_256_GCM_SHA384) id 15.20.9298.6
- via Frontend Transport; Fri, 7 Nov 2025 14:25:53 +0000
+ DU2PEPF00028D0F.mail.protection.outlook.com (10.167.242.23) with Microsoft
+ SMTP Server (version=TLS1_3, cipher=TLS_AES_256_GCM_SHA384) id 15.20.9275.10
+ via Frontend Transport; Fri, 7 Nov 2025 14:25:56 +0000
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=jme+r/eNhZKagjuwe8aAVbZ+auyeTW+3IZ+K0GlbbawbM91wStQmYrj7NEF+WbE6tfs6e9pQ7p+BA/AZK15qwYNosrXCp3q8sczUAY1fC02i+C27EF9GopEtqSUF8eUUvrXJLpx6XSDdE6+7B0WKosNQ7XNRAEv99VuQO7PI4NzsDO6ie7tdhyZqqlUEg4yPj2D3J+smFuVk6DpzwN3jU5qTgAwJe1nDnpbI1z8sfdQ9eSoRsAOipGkBsxA5eCugqMg+DSAAQguzRsZruS3UY7R29vsuijGtuY6ic7yk06HsMhw2UB3pxqwXEmEuBFq8unjmbbc1IR5fUwxXhZOriQ==
+ b=Yq4ovleqiq165LTaChQo1TMStOqOhTnt7QP0pIxngKe4zxsryohRoIuzRDM63YWjedYUByW/DfTdfCYKH9U6drrV9qPAx29Q/2h2EUt38eHYOWNgjmHeZygaVRJfaM1eA371G/OEkvEMan77GJ3YIW3ChGNF5u0b/c4IImo3x1Art6tNrL5uTZ4R2T+SHiIduZgmNb7htPu0YFb7EgM+BFGwbr4m9ruI5OleL179g75cXRppCJAkXKDgIbQ/H7EmE4oZGmnakjApDwb9vWswaDL06bb1AjB212xj1GDChHrPj+41tUkxkp3o2YnH+nBMaRFPwCi27V8oEWAtkGIpeg==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=kJJnioYh015k1OUfawW9USWrx1lWTBPRtn1PHF187eQ=;
- b=teXp8/5DPURk88XazaIdWe0+xIYXO99h0h6hzsyPBapBVXN0SqugBenmZXF77e3MHD4989JpSjtbk0t3x01sDR44TG8x9Csm0uOC4Dt+AS9eknulljNOWQwBhqRK5biCFsDZYOqpAKnATI6M5hp0iuiIcEnjvaiKVDrDeypakkjA5ujA1XL3aIYINez2L6fWNOZvNZxYljq9fTiwLEH5/w+2wgE2QrFZ0tEpbtUQqrHZ4zX6zsUon0938RIuI20/+WdaVzYBmgzdQ+yzygTPLvdiDrFQe8nyVuj0ph7nPAOyfQ+P+ThwSFGf6vyBswTN1YiCDqPs4Psyg51mBIRCAw==
+ bh=1RCOejdss8AxGUVSnfnSHwp9QIoVg2l4egJtmEIwohg=;
+ b=rmnaTVFHV9V8DI1DF6q0JcZeX3B9l2bY0lXiSonUqqUk24/BTpDvBK0FqRWvR34glC6Uxle3u394ctB7+PTR2vsDsxPTaDuvsLq8o1q3GPxHoOrkdnphIaPlszXuAL0RUb3keAvMyCAiLmn1eX8sMuXnEftEs726tenYgp0RUjYdkpALc2ZvkPIAsXL1felEEDNq58aBsVRS3FCYVp4Bsy7P0RI57frX6i5lXv1shEUFuYqml8p96TrJGfOr6luZ1EeO3JcvM31y6HNiAcJ3kFw3s88WsnZhuaiHcFRN32VVgvIHejDY+/nasyCUK2euMKwmT1beB0megH7StH4LSQ==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=arm.com; dmarc=pass action=none header.from=arm.com; dkim=pass
  header.d=arm.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=arm.com; s=selector1; 
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=kJJnioYh015k1OUfawW9USWrx1lWTBPRtn1PHF187eQ=;
- b=OAIEStU+6vZTuLS4f4rXwThLHbWvhCwqpwJS3tLFyBtR8HGlrNbWHovdQfBP4GCPhDQ0p/enFHdgI50d2r5mHWSh+OVA3Rj0HDTN5fPTFpmaZ6Z3ADbyRlS7d3AJuDwxdnf+Hk9sPvFJIkzzu/LwEiZnkNs8/WsI1txT26OZKJc=
+ bh=1RCOejdss8AxGUVSnfnSHwp9QIoVg2l4egJtmEIwohg=;
+ b=qbVYjQKNUunvzaEJj3Lz/5pN2kIKUGK6SqLaty8g6JqyMI2pVI6ZQSa0vkICyst3/MXhfflWFvL4Cw+9e5rNYbt6jjf0CK6F3mqCpIieYZVTSr2T4GaPNbmSchi065PZNU3luUmyfhWMpe+wQTQTldLac088tgWntGN114iURos=
 Authentication-Results-Original: dkim=none (message not signed)
  header.d=none;dmarc=none action=none header.from=arm.com;
 Received: from VI0PR08MB11200.eurprd08.prod.outlook.com
  (2603:10a6:800:257::18) by AS4PR08MB7505.eurprd08.prod.outlook.com
  (2603:10a6:20b:4f7::15) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9298.12; Fri, 7 Nov
- 2025 14:25:21 +0000
+ 2025 14:25:24 +0000
 Received: from VI0PR08MB11200.eurprd08.prod.outlook.com
  ([fe80::d594:64a:dfc:db74]) by VI0PR08MB11200.eurprd08.prod.outlook.com
  ([fe80::d594:64a:dfc:db74%7]) with mapi id 15.20.9298.007; Fri, 7 Nov 2025
- 14:25:21 +0000
+ 14:25:24 +0000
 From: Karunika Choo <karunika.choo@arm.com>
 To: dri-devel@lists.freedesktop.org
 Cc: nd@arm.com, Boris Brezillon <boris.brezillon@collabora.com>,
@@ -87,104 +88,104 @@ Cc: nd@arm.com, Boris Brezillon <boris.brezillon@collabora.com>,
  Maxime Ripard <mripard@kernel.org>,
  Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
  Simona Vetter <simona@ffwll.ch>, linux-kernel@vger.kernel.org
-Subject: [PATCH v4 6/8] drm/panthor: Support GLB_REQ.STATE field for Mali-G1
- GPUs
-Date: Fri,  7 Nov 2025 14:24:38 +0000
-Message-ID: <20251107142440.1134528-7-karunika.choo@arm.com>
+Subject: [PATCH v4 7/8] drm/panthor: Support 64-bit endpoint_req register for
+ Mali-G1
+Date: Fri,  7 Nov 2025 14:24:39 +0000
+Message-ID: <20251107142440.1134528-8-karunika.choo@arm.com>
 X-Mailer: git-send-email 2.49.0
 In-Reply-To: <20251107142440.1134528-1-karunika.choo@arm.com>
 References: <20251107142440.1134528-1-karunika.choo@arm.com>
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain
-X-ClientProxiedBy: LNXP265CA0044.GBRP265.PROD.OUTLOOK.COM
- (2603:10a6:600:5c::32) To VI0PR08MB11200.eurprd08.prod.outlook.com
+X-ClientProxiedBy: LO4P265CA0023.GBRP265.PROD.OUTLOOK.COM
+ (2603:10a6:600:2ae::13) To VI0PR08MB11200.eurprd08.prod.outlook.com
  (2603:10a6:800:257::18)
 MIME-Version: 1.0
-X-MS-TrafficTypeDiagnostic: VI0PR08MB11200:EE_|AS4PR08MB7505:EE_|AMS1EPF0000004B:EE_|GV1PR08MB10669:EE_
-X-MS-Office365-Filtering-Correlation-Id: b57dad7a-9c3a-4733-3afe-08de1e098f26
+X-MS-TrafficTypeDiagnostic: VI0PR08MB11200:EE_|AS4PR08MB7505:EE_|DU2PEPF00028D0F:EE_|VI1PR08MB10148:EE_
+X-MS-Office365-Filtering-Correlation-Id: 00cdf630-e198-4a14-2c18-08de1e0990ba
 X-LD-Processed: f34e5979-57d9-4aaa-ad4d-b122a662184d,ExtAddr,ExtAddr
 x-checkrecipientrouted: true
 NoDisclaimer: true
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam-Untrusted: BCL:0;ARA:13230040|1800799024|376014|366016;
-X-Microsoft-Antispam-Message-Info-Original: =?us-ascii?Q?I4VsM6MBJh5eXYs5bk9FwSLdBEC9HQaqdCuihtP2w/Gs7ZoN6xLYa0xDwLhH?=
- =?us-ascii?Q?2uv0YtlL+U+tj6Ns4gzCF2rSaOCpQVkRoZdW0RjJnDpphQ43xNwMQ8ROozKT?=
- =?us-ascii?Q?BIYghtSsUdfX6Lz2cD1KcKaNj8N1jkE9IVEAIMSwuhlMh1l7KXBXC1+YxdUz?=
- =?us-ascii?Q?e+xJTlNuosuvnlJ2GM+DSFpXbnICRNhjRRpSoJ+KjKwV3cJqVSF+tw2ON59I?=
- =?us-ascii?Q?URdAadsfAOp1Cn+8/+E6+891KM/Y+LbkAg/Y4ElcwpMf1nhW0eNM+VDepLo6?=
- =?us-ascii?Q?zqmWneT1d8VLjs9PtJTJ7X+xLaYdjzhyuvAbjF08XhEua4WE/ocVPPkl/m1S?=
- =?us-ascii?Q?aIgTJOhBjS7v25mWCa/aHb3QF/NBc4hLGlVTfZw0rr1PztS7cxDmBTDPaleL?=
- =?us-ascii?Q?8I5tHbmiNvIQGsvgS2gt/pCrMp8nJ9HGNnFX09GKcSFmaR+MMChb6VG00AIq?=
- =?us-ascii?Q?owyVxCHmsHn5/XZGbNc+LSjCo52AUNSKJV7fkskw/yM9yIQ61FlKT5pF7/Dx?=
- =?us-ascii?Q?ES4h83P9XyinvkFP50H+RRb81c4xBJNn5RpwBs5kBbe8v3yDLHwaLw5gFfqH?=
- =?us-ascii?Q?hrmsKw1mqu4fbrnG/vXGr1Un0u0IQvY9+N0pyVllesIr+9MY/VFUfOGGA4R2?=
- =?us-ascii?Q?UyvqTLXYC1uvUEvTEnHdEAvaGxR6ZmJVRDDrI7B4NvGChREmWtzRWNpXNSS7?=
- =?us-ascii?Q?djiK4c7RkoGyapYNjE79B2Deos24HpIhrGgPIA879R5NMfuPIW0O7fpi4xb3?=
- =?us-ascii?Q?vqmYHPH0y0TqNvJw15ZOFz2wsRSeLBSS7bB/s7ObFlyx+q7Xm8xtbFAOI6AV?=
- =?us-ascii?Q?Ks6mCF4XptejSMfZCIK+1PDHXaqzogV9O3mWgBk53y9fEVmIJv+isNiILnHq?=
- =?us-ascii?Q?Z8YSYgKxvjEHOFPCNfO6yQy0ecgVWU/Zf4+RyuLsAhniyKYZXUilzPYTCrgE?=
- =?us-ascii?Q?ZnkrqZoEz4j+6WAvQ/3c84M0wkCickg52bgLP/q/obJdIXXGL3VddFOIQPGD?=
- =?us-ascii?Q?QcpGaTgru6YWB1315PMcchCt1x8YlMiHcBD1OOoHqiwXYPLHYx+KdCPWZzyo?=
- =?us-ascii?Q?d9M1hGLK18lDyjKteroPYzyBPydTtTn0275s6M+uR/y1Ig+eiscueM7h6Ekt?=
- =?us-ascii?Q?NezxCDpPKZDGoXmVzF772PpPyPPNmFaeDP4pZ+31TElHyaRyVxHvND7uvHjA?=
- =?us-ascii?Q?KzmBmFyelFRWVnpvbcBzvVvEDbe71C/OQYs1q9KqMn6NVlA34KPWugMxn5EY?=
- =?us-ascii?Q?x/ZbAGuRV9fVkimEpINhX/FXHeefRU98f3jpj9r8XEMqA2nEl/CZyO8VyojQ?=
- =?us-ascii?Q?PYJzkKshelvIoKN3mLXuZNqFANx52jTabWXu5+E92sfdkZzK7c8WGnE6Js29?=
- =?us-ascii?Q?iIFLZpUsZXbljFQfMp9I914YsB/ReAVjD90t9EtobWb1mbDF2HWuWaTuxPrn?=
- =?us-ascii?Q?sbrWHe+1Rf9asg/rIMGaqL4Ilg05vTNM?=
+X-Microsoft-Antispam-Message-Info-Original: =?us-ascii?Q?ygDj0O+KBN8r/Fxtxmi590JHAZ9zu0cK9n4mbWRuT9r4e6Bh++E0TWeR7UWA?=
+ =?us-ascii?Q?PMaSf6fx+Gp0Qp3IkG/255y8CCSprWamDENm7awzudWeMwixMp+uL/L7iSHy?=
+ =?us-ascii?Q?Zjflh4Zya82vZjRrr58i/gA/ZbdcdSNRnHPD7sDw/208XDKKpmZcK7omyQ4l?=
+ =?us-ascii?Q?S0XKqeGOQ0TOIEqSpCo5loLSKlfb1l4HeHhBYSPjYeF/fz8N3frtkV2VTemO?=
+ =?us-ascii?Q?e1S/JQZhOcVPzdNooauSg44ciZET+dUr+et2CtlT5JbabuQa/9qpvpOOcvEl?=
+ =?us-ascii?Q?ZRvTYn45e8DxKRvm7QkpIuv4fNMTUf192He4TmODIo6a229jKR+7k2TP1LKH?=
+ =?us-ascii?Q?TYSWgnWN3rIN5L1HtaAeVX2YUQBVdNsgnkPcAm/XKMvZxcSRdy8sM0sphi8C?=
+ =?us-ascii?Q?IPrmKMVwJXjvYtmTt9om3BXm8xgWWguVpNw9cZOlOHadTfXJUCVoloixxhMo?=
+ =?us-ascii?Q?FAF9JwQ2e99buMEpxCjJLh7lEiwag7MIEnnCU1jHNGH5EUuLflnvYZlunoew?=
+ =?us-ascii?Q?Hh6erzIb4Fb4aH/GIpgU8pXY4HxGLBaiSgpBhvN4hiV+1uYh3vCZVrB/hDvU?=
+ =?us-ascii?Q?WqjgOtgOploUxbJKn6KJk9GKv3+meFu3X1eyISU+Sgh1TXolCt4tLDRhi/Ds?=
+ =?us-ascii?Q?/nceJ9wofe2+fsiz3HrmlA+PdXKzn//xnbFovtAu/TVxxgHaWGQAbdDMoVTY?=
+ =?us-ascii?Q?+25F7a1DBeTGzLQ6yRlh3VnYAnZCNf+JArf8O48nZXQ/aqjfcqY+UTZuYtVS?=
+ =?us-ascii?Q?JtK2e4fzGad2nKCWbt6obEb8AlNMJ+k2P9LrHydndZw18xQKsBS0G7WV4O6v?=
+ =?us-ascii?Q?2eXroaFTrWasO/SETXubfC2sLJ+0Ymgmu2pyx8o7spsvU2CAewU82Wl7U+Yq?=
+ =?us-ascii?Q?xk8trTHJLGyRr4i1ABCJRqB29yEhvDOaIl4o42bagtwymJO2T7w0vUC2CEyx?=
+ =?us-ascii?Q?1V9G9OnfURJmpeya5ZA0TQIFg5gceVytmM9kF6CSocgfsZMOtElJ8wqhmGo7?=
+ =?us-ascii?Q?fuJo8XJjBD4bcXkigmxldpPuv2YyBfcdG0mZpnANQH7whw/vxjokE5G5BHJQ?=
+ =?us-ascii?Q?Vm/dd6iWT2zf4+WxctcdcwZ8LZskqPr7xTu6d93fm8Pqv6KdoTEKOoWx+sQS?=
+ =?us-ascii?Q?P71WcfQI2EXcnaJ+jmohJrQ4tJDEmrn1yPXwxjcEAI7D5gMLpmQt1qJPBBPg?=
+ =?us-ascii?Q?TJKXSxIvVbO5Dzdp506QhPGff83PzYgQPcOKwNNHeHQ0B4yJrxZMxuhmZCZx?=
+ =?us-ascii?Q?UOg9nKl2B76g6IFN8qVheFXZn3CQ1jzAeXmBvo9BgfOrUwmAgHV49xRozWT+?=
+ =?us-ascii?Q?hXJwZs+V5UvtXqsfZaCxA8R8G8dBwMCYjzUD3sWKjxUuPp0NQ4jgc4ATXVc2?=
+ =?us-ascii?Q?EoMt91lqam8zJAatxzEE/CKFwYvOmuUGaVwRqZumWDai9Z23jbu4d9Iqq+V9?=
+ =?us-ascii?Q?SgNoc2xzBVUJ9Gt500wcja2AgcEoxgdC?=
 X-Forefront-Antispam-Report-Untrusted: CIP:255.255.255.255; CTRY:; LANG:en;
  SCL:1; SRV:; IPV:NLI; SFV:NSPM; H:VI0PR08MB11200.eurprd08.prod.outlook.com;
  PTR:; CAT:NONE; SFS:(13230040)(1800799024)(376014)(366016); DIR:OUT; SFP:1101;
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: AS4PR08MB7505
 X-EOPAttributedMessage: 0
-X-MS-Exchange-Transport-CrossTenantHeadersStripped: AMS1EPF0000004B.eurprd04.prod.outlook.com
+X-MS-Exchange-Transport-CrossTenantHeadersStripped: DU2PEPF00028D0F.eurprd03.prod.outlook.com
 X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id-Prvs: 43b14c11-3d08-4cd3-e8db-08de1e097b70
+X-MS-Office365-Filtering-Correlation-Id-Prvs: fedc19e7-097c-43ab-d878-08de1e097d54
 X-Microsoft-Antispam: BCL:0;
- ARA:13230040|82310400026|14060799003|35042699022|376014|1800799024|36860700013;
-X-Microsoft-Antispam-Message-Info: =?us-ascii?Q?zY0tc++rqq6DtiianT5eYOn0lCYtErA0g65zZpEtBLtTE7zLk4qMcwzdNgpb?=
- =?us-ascii?Q?pdGPzMMfhg0+wz10s+TVp44RYjyqWFI9DVjH6oQPh7u45taiMWbi4whm8omA?=
- =?us-ascii?Q?Xqok8SW8x//Iv5/zLWNvaFRysyBHbAFRMYrN5Rra8HQ6bjiubcokdGMNfxHo?=
- =?us-ascii?Q?3LgC/ygwdtcfmbV0ti+UXcH+vL+LQ0jCnlOuZHLLOm889AeCOdwEMy0/gfxf?=
- =?us-ascii?Q?2B8efWOOajdpvwhKujBeAwJIjc7Rm5e/31vFs6ndxYY29dIVxhEGLJEfPBLJ?=
- =?us-ascii?Q?FnMK85RAnTBcONu8hIf4Z4CNVes3cnRIcWa6566XRbo5MWJdESXV2nKNv3N0?=
- =?us-ascii?Q?vgw4/xXoVN2b6V6FtbD8SUatp28wkXkAipWbtrnIx//Pjv8fXaCBW7tQQDcJ?=
- =?us-ascii?Q?OwsE6tt6qG7aNUAYhhk5L/6tclE+UpRFI0VoSs7SQD6M/co3gbZ0HCUDh54V?=
- =?us-ascii?Q?u6hJVt+C9vuOqrhLhnnp8ld1vBx3y2gh5M/qsxSIXH3qxWiyKmYogWDpz1BE?=
- =?us-ascii?Q?zOYphRKmVrWFcTENwst0YlZF4pqslhE35u4UWI8rEKdkmz/YQ6Ci7lu7ppDc?=
- =?us-ascii?Q?Mhz+mnTt+5ggXVaYX4PY9vtTyGyMtvBiGlv9Zhv4be8pmmfsgS3BBS6MrXSb?=
- =?us-ascii?Q?v+camSfG7kn1q9OpFl7Wuu3iB78UQNDulYPEosI3zDbE7cDUv19xSDnXJwmx?=
- =?us-ascii?Q?9XzPjynBixFt2w6Z9OmLEhXuP8w5n/QySKYGFPqJT5Wspok3+DwxbovnNxNq?=
- =?us-ascii?Q?anttV2v3Zze8RjDBCoYZAxcwnD9kv59JpMFMrG8MDQgAkeXvVj5PmD0c3cN5?=
- =?us-ascii?Q?ftu3tBkNAKjFK1CWgfCHBy3VthGM6P8WGBngfrzToBYj6V3D+u0qQBmYy2wy?=
- =?us-ascii?Q?0mhasUb31ZXP6P0aEiaRlTzyt2xm8aTbgOoqdrfpcIecCxsAejnGm1LRpKf0?=
- =?us-ascii?Q?QcKgYQpusKV5EHP4QaJQ2/E2tMerespvdLI53IEUuqaiaHZLxwELSXmrZtG2?=
- =?us-ascii?Q?B+7/v2sD0wL7OKYDZHJg6nj2Cgdo6YYcLahixurehxG2jL6+j6KS/qyv4vnu?=
- =?us-ascii?Q?EIofiVPYyfbXOrRls7pKdchdIaphOShHigqNhVhfPVA381zB6pf86zjwPJaI?=
- =?us-ascii?Q?vXl6pgLomIEUYU56lGg7rQoVOKt9EsZbkHR0JqZpO7dIXcYDpFaHWFhD0kWl?=
- =?us-ascii?Q?/oNSewD0YRJWh68TLmqkzDV0mtCB2VL/Op4MSsgX8FgOJAnYj3qYlq6gPxl4?=
- =?us-ascii?Q?QgwFRuXZOFkXYGODMzLTdh902RNZ8J41DF42YPTgHqT/Ot3/1S2tr9QFpC0w?=
- =?us-ascii?Q?Zb472rV8ddpOCrpUiws+ruZH4N0eCX2vfOQAJ9zA9v17gnI+zIcevyCeQXC0?=
- =?us-ascii?Q?aNTYQuGYp4xjdLJut0IzjtYrBg+iz7DEZ9wFDMlV/8rwC4k4jNxylzR4VCy1?=
- =?us-ascii?Q?CGQoS2/gf+3UIUe4RSFYnryuUMi2KC9fz2HVWJwMqr54so12Id93MLwZcg0p?=
- =?us-ascii?Q?sTditTacY57goGV3gL1VOeW4+dI2B6IrAaefmiv9ivzme/tTuKQj3yXq4YYW?=
- =?us-ascii?Q?URSfGVOkAoSvn+tHbpc=3D?=
+ ARA:13230040|376014|14060799003|82310400026|1800799024|35042699022|36860700013;
+X-Microsoft-Antispam-Message-Info: =?us-ascii?Q?D1zBETDAmaKJQImQsvzQy9qB1zx11ZU9YdfD3RAsXd4/RwMmk8+lkK1c4EoE?=
+ =?us-ascii?Q?zVTHH0VX4AwR5W53h5z832M7RMuqCcX42s9fZ5dC8Q6cE1Kz9rofSsJdIoMa?=
+ =?us-ascii?Q?3244KfieueSX5Ret92UbJwgdv1ADSg2Ot+Rn4SaSJV0l9hrHMIYmSjP/qSxq?=
+ =?us-ascii?Q?ReB6KaIHlApA2JZ+AxB9u/oHdo5IXJyyRzvbWrVBD1+1W3eiw2x3R1fe1YlU?=
+ =?us-ascii?Q?b1pA4AMq7z9VesYTfrDSC8h7y7NOhxJadtTTH2VLxZ297y7DqxSDdDvzJDVi?=
+ =?us-ascii?Q?BeiQijl21LTt1hivJPSnKEAUn3jTG6tXbfbeWwioWH9uVhBRwsua7nRHENLo?=
+ =?us-ascii?Q?YziD6Z3JJSsjqkHs1Gv7JW8VcT/PYaZ1XRLSFE8wlnzduV0jChS5b4u+0WRD?=
+ =?us-ascii?Q?9Mud3+6SZ3z3m4e4G121bLJJwZ8Ez3j2TzDOQlsMlO63W6j06UeMJhHxWDDX?=
+ =?us-ascii?Q?xQp99/c8St1Vs4djT4CALr20aGuDvJU5iOOfS1Lw3Y75Zp3EoIw7VjOxXcdE?=
+ =?us-ascii?Q?lSjBiSaB6Eoxf2HU3trYlUoQySoA446SzqJh69e6RtN1mDX/BDADt+lN+O6R?=
+ =?us-ascii?Q?ic803mECnl+Arla7SOst2G3/osRTKXQONn2jRLON6XTuZnIPX5gl6eG9zf1x?=
+ =?us-ascii?Q?Z+NeaYNSFXVzTqNskFJQhjLbPAlrqFfeW70/xg7SXVcyacEfsg6+BJQ+Y8LR?=
+ =?us-ascii?Q?ZfqOdaDilQdXVzqYNDHlUC1siTUMX0umQZxNt629eA87PX2AhZNFp4Cd8ztU?=
+ =?us-ascii?Q?ckZoQxlpbCFIigFnYV7UjKPMCnYc6WjzrMCDaUEVVeHIO55P0iMLNw1iQ2m9?=
+ =?us-ascii?Q?TQm19Z+CHsoQyir/brlyGQZ6O9UwpdC/8EwZwUww8nYVw820C/G5VJaLlAgp?=
+ =?us-ascii?Q?IQHlLpWRJrjBJEtpxP11h0f65OI5RXnJ5hIya3uRnqjUPAt2Ij4rhzEvq/I8?=
+ =?us-ascii?Q?DalA5bKi8pJaM6Fm9njpnaV0FdvAUSVvrY+fKgzc+SExcuLnivwSpO0ZalSK?=
+ =?us-ascii?Q?U2lnXf7h5pL1YG4p8DSwHRYlpzt4lKt1gczbfie8cM6UpXF3cWcG0G5Yw1L8?=
+ =?us-ascii?Q?Yk2bReXS3Ns06i5wghswFonN66jgEvo+4ig5KtqeHQ/98ce/IliX48YjCaSh?=
+ =?us-ascii?Q?uj+QwAyxoATZ+Uu+WH6utqJSa2tYKXog3jtQnRbhA36CeBHA/pMRDX7eRMFt?=
+ =?us-ascii?Q?SCYHw7Wl7HOf72z5oSl//mr66OOHrf6r2ZSlC+dUulmQ4D+jieN5P8fCyx5l?=
+ =?us-ascii?Q?ijVwbNgzljl7/9ky6jcDzoipv/QwCjligjt4OMbAav/P+fITJkguj7P8q2SC?=
+ =?us-ascii?Q?fQPfma6MqnyHMPyGWslxkmN5DdhpGtcZzKMFlbu3mK3P6xr825H4bpjo3MT7?=
+ =?us-ascii?Q?pDmZB2Xme1Q+LzSrJten7zIFS1FHb+MAZzvQ0xLPUwYLd2qCjlYLQmAX2fzc?=
+ =?us-ascii?Q?ObIfQI4f5dZpmvWzJt+Wrrgios556KvNOYeWlR5lHX4F/tJSsNOrjryHTGsD?=
+ =?us-ascii?Q?umYuovo0nKSJ2BkvKxh9qQq+MwOEJobgsNB2P6RuuBHZfKnBRfK8aGbu5V/N?=
+ =?us-ascii?Q?MwZ24FkoIM4nY257Oow=3D?=
 X-Forefront-Antispam-Report: CIP:4.158.2.129; CTRY:GB; LANG:en; SCL:1; SRV:;
  IPV:NLI; SFV:NSPM; H:outbound-uk1.az.dlp.m.darktrace.com;
  PTR:InfoDomainNonexistent; CAT:NONE;
- SFS:(13230040)(82310400026)(14060799003)(35042699022)(376014)(1800799024)(36860700013);
+ SFS:(13230040)(376014)(14060799003)(82310400026)(1800799024)(35042699022)(36860700013);
  DIR:OUT; SFP:1101; 
 X-OriginatorOrg: arm.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 07 Nov 2025 14:25:53.7239 (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: b57dad7a-9c3a-4733-3afe-08de1e098f26
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 07 Nov 2025 14:25:56.3764 (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 00cdf630-e198-4a14-2c18-08de1e0990ba
 X-MS-Exchange-CrossTenant-Id: f34e5979-57d9-4aaa-ad4d-b122a662184d
 X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=f34e5979-57d9-4aaa-ad4d-b122a662184d; Ip=[4.158.2.129];
  Helo=[outbound-uk1.az.dlp.m.darktrace.com]
-X-MS-Exchange-CrossTenant-AuthSource: AMS1EPF0000004B.eurprd04.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthSource: DU2PEPF00028D0F.eurprd03.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Anonymous
 X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: GV1PR08MB10669
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: VI1PR08MB10148
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -200,197 +201,192 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Add support for the GLB_REQ.STATE field introduced in CSF v4.1+, which
-replaces the HALT bit to provide finer control over the MCU state. This
-change implements basic handling for transitioning the MCU between
-ACTIVE and HALT states on Mali-G1 GPUs.
+Add support for the 64-bit endpoint_req register introduced in CSF v4.0+
+GPUs. Unlike a simple register widening, the 64-bit variant occupies the
+next 64 bits after the original 32-bit field, requiring
+version-dependent access.
 
-The update introduces new helpers to issue the state change requests,
-poll for MCU halt completion, and restore the MCU to an active state
-after halting.
+This change introduces helper functions to read, write, and update the
+endpoint_req register, ensuring correct handling on both pre-v4.0 and
+v4.0+ firmwares.
 
 Reviewed-by: Steven Price <steven.price@arm.com>
 Signed-off-by: Karunika Choo <karunika.choo@arm.com>
 ---
 v4:
  * Picked up R-b from Steve.
-v3:
- * Fixed missed CSF_IFACE_VERSION check with pathor_fw_has_glb_state().
 v2:
- * Reduced MCU_HALT_TIMEOUT_US to 1 second.
- * Wrap the CSG_IFACE_VERSION checks for v4.1.0 with
-   panthor_fw_has_glb_state().
- * Removed use of undefined panthor_fw_csf_version() MACRO.
+ * Wrap the CSG_IFACE_VERSION checks for v4.0.0 with
+   panthor_fw_has_64bit_ep_req().
+ * Removed wrongly included code from previous patch.
+ * Reordered CSG_EP_REQ_PRIORITY_GET() and CSG_EP_REQ_PRIORITY() to
+   reuse CSG_EP_REQ_PRIORITY_MASK definition.
+ * Updated panthor_fw_csg_endpoint_req_*() functions to accept CSG iface
+   structure instead of a CSG id.
+ * Update endpoint_req variables to u64.
+ * Minor readability and code quality fixes.
 ---
- drivers/gpu/drm/panthor/panthor_fw.c | 89 +++++++++++++++++++++++-----
- drivers/gpu/drm/panthor/panthor_fw.h |  7 +++
- 2 files changed, 80 insertions(+), 16 deletions(-)
+ drivers/gpu/drm/panthor/panthor_fw.c    | 36 +++++++++++++++++++++++++
+ drivers/gpu/drm/panthor/panthor_fw.h    | 25 +++++++++++++++--
+ drivers/gpu/drm/panthor/panthor_sched.c | 21 +++++++++------
+ 3 files changed, 72 insertions(+), 10 deletions(-)
 
 diff --git a/drivers/gpu/drm/panthor/panthor_fw.c b/drivers/gpu/drm/panthor/panthor_fw.c
-index e6c39c70d348..fb1f69ef76fb 100644
+index fb1f69ef76fb..2ab974c9a09d 100644
 --- a/drivers/gpu/drm/panthor/panthor_fw.c
 +++ b/drivers/gpu/drm/panthor/panthor_fw.c
-@@ -33,6 +33,7 @@
- #define PROGRESS_TIMEOUT_SCALE_SHIFT		10
- #define IDLE_HYSTERESIS_US			800
- #define PWROFF_HYSTERESIS_US			10000
-+#define MCU_HALT_TIMEOUT_US			(1ULL * USEC_PER_SEC)
-
- /**
-  * struct panthor_fw_binary_hdr - Firmware binary header.
-@@ -317,6 +318,13 @@ panthor_fw_get_cs_iface(struct panthor_device *ptdev, u32 csg_slot, u32 cs_slot)
- 	return &ptdev->fw->iface.streams[csg_slot][cs_slot];
+@@ -325,6 +325,42 @@ static bool panthor_fw_has_glb_state(struct panthor_device *ptdev)
+ 	return glb_iface->control->version >= CSF_IFACE_VERSION(4, 1, 0);
  }
 
-+static bool panthor_fw_has_glb_state(struct panthor_device *ptdev)
++static bool panthor_fw_has_64bit_ep_req(struct panthor_device *ptdev)
 +{
 +	struct panthor_fw_global_iface *glb_iface = panthor_fw_get_glb_iface(ptdev);
 +
-+	return glb_iface->control->version >= CSF_IFACE_VERSION(4, 1, 0);
++	return glb_iface->control->version >= CSF_IFACE_VERSION(4, 0, 0);
++}
++
++u64 panthor_fw_csg_endpoint_req_get(struct panthor_device *ptdev,
++				    struct panthor_fw_csg_iface *csg_iface)
++{
++	if (panthor_fw_has_64bit_ep_req(ptdev))
++		return csg_iface->input->endpoint_req2;
++	else
++		return csg_iface->input->endpoint_req;
++}
++
++void panthor_fw_csg_endpoint_req_set(struct panthor_device *ptdev,
++				     struct panthor_fw_csg_iface *csg_iface, u64 value)
++{
++	if (panthor_fw_has_64bit_ep_req(ptdev))
++		csg_iface->input->endpoint_req2 = value;
++	else
++		csg_iface->input->endpoint_req = lower_32_bits(value);
++}
++
++void panthor_fw_csg_endpoint_req_update(struct panthor_device *ptdev,
++					struct panthor_fw_csg_iface *csg_iface, u64 value,
++					u64 mask)
++{
++	if (panthor_fw_has_64bit_ep_req(ptdev))
++		panthor_fw_update_reqs64(csg_iface, endpoint_req2, value, mask);
++	else
++		panthor_fw_update_reqs(csg_iface, endpoint_req, lower_32_bits(value),
++				       lower_32_bits(mask));
 +}
 +
  /**
   * panthor_fw_conv_timeout() - Convert a timeout into a cycle-count
   * @ptdev: Device.
-@@ -996,6 +1004,9 @@ static void panthor_fw_init_global_iface(struct panthor_device *ptdev)
- 					 GLB_IDLE_EN |
- 					 GLB_IDLE;
-
-+	if (panthor_fw_has_glb_state(ptdev))
-+		glb_iface->input->ack_irq_mask |= GLB_STATE_MASK;
-+
- 	panthor_fw_update_reqs(glb_iface, req, GLB_IDLE_EN, GLB_IDLE_EN);
- 	panthor_fw_toggle_reqs(glb_iface, req, ack,
- 			       GLB_CFG_ALLOC_EN |
-@@ -1069,6 +1080,54 @@ static void panthor_fw_stop(struct panthor_device *ptdev)
- 		drm_err(&ptdev->base, "Failed to stop MCU");
- }
-
-+static bool panthor_fw_mcu_halted(struct panthor_device *ptdev)
-+{
-+	struct panthor_fw_global_iface *glb_iface = panthor_fw_get_glb_iface(ptdev);
-+	bool halted;
-+
-+	halted = gpu_read(ptdev, MCU_STATUS) == MCU_STATUS_HALT;
-+
-+	if (panthor_fw_has_glb_state(ptdev))
-+		halted &= (GLB_STATE_GET(glb_iface->output->ack) == GLB_STATE_HALT);
-+
-+	return halted;
-+}
-+
-+static void panthor_fw_halt_mcu(struct panthor_device *ptdev)
-+{
-+	struct panthor_fw_global_iface *glb_iface = panthor_fw_get_glb_iface(ptdev);
-+
-+	if (panthor_fw_has_glb_state(ptdev))
-+		panthor_fw_update_reqs(glb_iface, req, GLB_STATE(GLB_STATE_HALT), GLB_STATE_MASK);
-+	else
-+		panthor_fw_update_reqs(glb_iface, req, GLB_HALT, GLB_HALT);
-+
-+	gpu_write(ptdev, CSF_DOORBELL(CSF_GLB_DOORBELL_ID), 1);
-+}
-+
-+static bool panthor_fw_wait_mcu_halted(struct panthor_device *ptdev)
-+{
-+	bool halted = false;
-+
-+	if (read_poll_timeout_atomic(panthor_fw_mcu_halted, halted, halted, 10,
-+				     MCU_HALT_TIMEOUT_US, 0, ptdev)) {
-+		drm_warn(&ptdev->base, "Timed out waiting for MCU to halt");
-+		return false;
-+	}
-+
-+	return true;
-+}
-+
-+static void panthor_fw_mcu_set_active(struct panthor_device *ptdev)
-+{
-+	struct panthor_fw_global_iface *glb_iface = panthor_fw_get_glb_iface(ptdev);
-+
-+	if (panthor_fw_has_glb_state(ptdev))
-+		panthor_fw_update_reqs(glb_iface, req, GLB_STATE(GLB_STATE_ACTIVE), GLB_STATE_MASK);
-+	else
-+		panthor_fw_update_reqs(glb_iface, req, 0, GLB_HALT);
-+}
-+
- /**
-  * panthor_fw_pre_reset() - Call before a reset.
-  * @ptdev: Device.
-@@ -1085,19 +1144,13 @@ void panthor_fw_pre_reset(struct panthor_device *ptdev, bool on_hang)
- 	ptdev->reset.fast = false;
-
- 	if (!on_hang) {
--		struct panthor_fw_global_iface *glb_iface = panthor_fw_get_glb_iface(ptdev);
--		u32 status;
--
--		panthor_fw_update_reqs(glb_iface, req, GLB_HALT, GLB_HALT);
--		gpu_write(ptdev, CSF_DOORBELL(CSF_GLB_DOORBELL_ID), 1);
--		if (!gpu_read_poll_timeout(ptdev, MCU_STATUS, status,
--					   status == MCU_STATUS_HALT, 10,
--					   100000)) {
--			ptdev->reset.fast = true;
--		} else {
-+		panthor_fw_halt_mcu(ptdev);
-+		if (!panthor_fw_wait_mcu_halted(ptdev))
- 			drm_warn(&ptdev->base, "Failed to cleanly suspend MCU");
--		}
-+		else
-+			ptdev->reset.fast = true;
- 	}
-+	panthor_fw_stop(ptdev);
-
- 	panthor_job_irq_suspend(&ptdev->fw->irq);
- }
-@@ -1125,14 +1178,14 @@ int panthor_fw_post_reset(struct panthor_device *ptdev)
- 		 */
- 		panthor_reload_fw_sections(ptdev, true);
- 	} else {
--		/* The FW detects 0 -> 1 transitions. Make sure we reset
--		 * the HALT bit before the FW is rebooted.
-+		/*
-+		 * If the FW was previously successfully halted in the pre-reset
-+		 * operation, we need to transition it to active again before
-+		 * the FW is rebooted.
- 		 * This is not needed on a slow reset because FW sections are
- 		 * re-initialized.
- 		 */
--		struct panthor_fw_global_iface *glb_iface = panthor_fw_get_glb_iface(ptdev);
--
--		panthor_fw_update_reqs(glb_iface, req, 0, GLB_HALT);
-+		panthor_fw_mcu_set_active(ptdev);
- 	}
-
- 	ret = panthor_fw_start(ptdev);
-@@ -1170,6 +1223,10 @@ void panthor_fw_unplug(struct panthor_device *ptdev)
- 		if (ptdev->fw->irq.irq)
- 			panthor_job_irq_suspend(&ptdev->fw->irq);
-
-+		panthor_fw_halt_mcu(ptdev);
-+		if (!panthor_fw_wait_mcu_halted(ptdev))
-+			drm_warn(&ptdev->base, "Failed to halt MCU on unplug");
-+
- 		panthor_fw_stop(ptdev);
- 	}
-
 diff --git a/drivers/gpu/drm/panthor/panthor_fw.h b/drivers/gpu/drm/panthor/panthor_fw.h
-index 6598d96c6d2a..a19ed48b2d0b 100644
+index a19ed48b2d0b..fbdc21469ba3 100644
 --- a/drivers/gpu/drm/panthor/panthor_fw.h
 +++ b/drivers/gpu/drm/panthor/panthor_fw.h
-@@ -214,6 +214,13 @@ struct panthor_fw_global_input_iface {
- #define GLB_FWCFG_UPDATE			BIT(9)
- #define GLB_IDLE_EN				BIT(10)
- #define GLB_SLEEP				BIT(12)
-+#define GLB_STATE_MASK				GENMASK(14, 12)
-+#define   GLB_STATE_ACTIVE			0
-+#define   GLB_STATE_HALT			1
-+#define   GLB_STATE_SLEEP			2
-+#define   GLB_STATE_SUSPEND			3
-+#define   GLB_STATE(x)				(((x) << 12) & GLB_STATE_MASK)
-+#define   GLB_STATE_GET(x)			(((x) & GLB_STATE_MASK) >> 12)
- #define GLB_INACTIVE_COMPUTE			BIT(20)
- #define GLB_INACTIVE_FRAGMENT			BIT(21)
- #define GLB_INACTIVE_TILER			BIT(22)
+@@ -167,10 +167,11 @@ struct panthor_fw_csg_input_iface {
+ #define CSG_EP_REQ_TILER(x)			(((x) << 16) & GENMASK(19, 16))
+ #define CSG_EP_REQ_EXCL_COMPUTE			BIT(20)
+ #define CSG_EP_REQ_EXCL_FRAGMENT		BIT(21)
+-#define CSG_EP_REQ_PRIORITY(x)			(((x) << 28) & GENMASK(31, 28))
+ #define CSG_EP_REQ_PRIORITY_MASK		GENMASK(31, 28)
++#define CSG_EP_REQ_PRIORITY(x)			(((x) << 28) & CSG_EP_REQ_PRIORITY_MASK)
++#define CSG_EP_REQ_PRIORITY_GET(x)		(((x) & CSG_EP_REQ_PRIORITY_MASK) >> 28)
+ 	u32 endpoint_req;
+-	u32 reserved2[2];
++	u64 endpoint_req2;
+ 	u64 suspend_buf;
+ 	u64 protm_suspend_buf;
+ 	u32 config;
+@@ -464,6 +465,16 @@ struct panthor_fw_global_iface {
+ 		spin_unlock(&(__iface)->lock); \
+ 	} while (0)
+
++#define panthor_fw_update_reqs64(__iface, __in_reg, __val, __mask) \
++	do { \
++		u64 __cur_val, __new_val; \
++		spin_lock(&(__iface)->lock); \
++		__cur_val = READ_ONCE((__iface)->input->__in_reg); \
++		__new_val = (__cur_val & ~(__mask)) | ((__val) & (__mask)); \
++		WRITE_ONCE((__iface)->input->__in_reg, __new_val); \
++		spin_unlock(&(__iface)->lock); \
++	} while (0)
++
+ struct panthor_fw_global_iface *
+ panthor_fw_get_glb_iface(struct panthor_device *ptdev);
+
+@@ -473,6 +484,16 @@ panthor_fw_get_csg_iface(struct panthor_device *ptdev, u32 csg_slot);
+ struct panthor_fw_cs_iface *
+ panthor_fw_get_cs_iface(struct panthor_device *ptdev, u32 csg_slot, u32 cs_slot);
+
++u64 panthor_fw_csg_endpoint_req_get(struct panthor_device *ptdev,
++				    struct panthor_fw_csg_iface *csg_iface);
++
++void panthor_fw_csg_endpoint_req_set(struct panthor_device *ptdev,
++				     struct panthor_fw_csg_iface *csg_iface, u64 value);
++
++void panthor_fw_csg_endpoint_req_update(struct panthor_device *ptdev,
++					struct panthor_fw_csg_iface *csg_iface, u64 value,
++					u64 mask);
++
+ int panthor_fw_csg_wait_acks(struct panthor_device *ptdev, u32 csg_id, u32 req_mask,
+ 			     u32 *acked, u32 timeout_ms);
+
+diff --git a/drivers/gpu/drm/panthor/panthor_sched.c b/drivers/gpu/drm/panthor/panthor_sched.c
+index 0cc9055f4ee5..d6f5efc10312 100644
+--- a/drivers/gpu/drm/panthor/panthor_sched.c
++++ b/drivers/gpu/drm/panthor/panthor_sched.c
+@@ -1139,11 +1139,13 @@ csg_slot_sync_priority_locked(struct panthor_device *ptdev, u32 csg_id)
+ {
+ 	struct panthor_csg_slot *csg_slot = &ptdev->scheduler->csg_slots[csg_id];
+ 	struct panthor_fw_csg_iface *csg_iface;
++	u64 endpoint_req;
+
+ 	lockdep_assert_held(&ptdev->scheduler->lock);
+
+ 	csg_iface = panthor_fw_get_csg_iface(ptdev, csg_id);
+-	csg_slot->priority = (csg_iface->input->endpoint_req & CSG_EP_REQ_PRIORITY_MASK) >> 28;
++	endpoint_req = panthor_fw_csg_endpoint_req_get(ptdev, csg_iface);
++	csg_slot->priority = CSG_EP_REQ_PRIORITY_GET(endpoint_req);
+ }
+
+ /**
+@@ -1303,6 +1305,7 @@ csg_slot_prog_locked(struct panthor_device *ptdev, u32 csg_id, u32 priority)
+ 	struct panthor_csg_slot *csg_slot;
+ 	struct panthor_group *group;
+ 	u32 queue_mask = 0, i;
++	u64 endpoint_req;
+
+ 	lockdep_assert_held(&ptdev->scheduler->lock);
+
+@@ -1329,10 +1332,12 @@ csg_slot_prog_locked(struct panthor_device *ptdev, u32 csg_id, u32 priority)
+ 	csg_iface->input->allow_compute = group->compute_core_mask;
+ 	csg_iface->input->allow_fragment = group->fragment_core_mask;
+ 	csg_iface->input->allow_other = group->tiler_core_mask;
+-	csg_iface->input->endpoint_req = CSG_EP_REQ_COMPUTE(group->max_compute_cores) |
+-					 CSG_EP_REQ_FRAGMENT(group->max_fragment_cores) |
+-					 CSG_EP_REQ_TILER(group->max_tiler_cores) |
+-					 CSG_EP_REQ_PRIORITY(priority);
++	endpoint_req = CSG_EP_REQ_COMPUTE(group->max_compute_cores) |
++		       CSG_EP_REQ_FRAGMENT(group->max_fragment_cores) |
++		       CSG_EP_REQ_TILER(group->max_tiler_cores) |
++		       CSG_EP_REQ_PRIORITY(priority);
++	panthor_fw_csg_endpoint_req_set(ptdev, csg_iface, endpoint_req);
++
+ 	csg_iface->input->config = panthor_vm_as(group->vm);
+
+ 	if (group->suspend_buf)
+@@ -2230,9 +2235,9 @@ tick_ctx_apply(struct panthor_scheduler *sched, struct panthor_sched_tick_ctx *c
+ 				continue;
+ 			}
+
+-			panthor_fw_update_reqs(csg_iface, endpoint_req,
+-					       CSG_EP_REQ_PRIORITY(new_csg_prio),
+-					       CSG_EP_REQ_PRIORITY_MASK);
++			panthor_fw_csg_endpoint_req_update(ptdev, csg_iface,
++							   CSG_EP_REQ_PRIORITY(new_csg_prio),
++							   CSG_EP_REQ_PRIORITY_MASK);
+ 			csgs_upd_ctx_queue_reqs(ptdev, &upd_ctx, csg_id,
+ 						csg_iface->output->ack ^ CSG_ENDPOINT_CONFIG,
+ 						CSG_ENDPOINT_CONFIG);
 --
 2.49.0
 
