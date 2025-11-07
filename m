@@ -2,42 +2,106 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id DA133C40473
-	for <lists+dri-devel@lfdr.de>; Fri, 07 Nov 2025 15:17:27 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id D7B1AC40530
+	for <lists+dri-devel@lfdr.de>; Fri, 07 Nov 2025 15:26:20 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id AD66810EAD9;
-	Fri,  7 Nov 2025 14:17:25 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 37DB410EAE3;
+	Fri,  7 Nov 2025 14:26:19 +0000 (UTC)
+Authentication-Results: gabe.freedesktop.org;
+	dkim=pass (1024-bit key; unprotected) header.d=suse.de header.i=@suse.de header.b="pQ/dg+jg";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="rszn3W2+";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="pQ/dg+jg";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="rszn3W2+";
+	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
- by gabe.freedesktop.org (Postfix) with ESMTP id 4D63310EAD9
- for <dri-devel@lists.freedesktop.org>; Fri,  7 Nov 2025 14:17:24 +0000 (UTC)
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
- by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 005B01515;
- Fri,  7 Nov 2025 06:17:16 -0800 (PST)
-Received: from [10.57.72.216] (unknown [10.57.72.216])
- by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 999D93F66E;
- Fri,  7 Nov 2025 06:17:21 -0800 (PST)
-Message-ID: <af6bca71-a316-48c7-8b56-ee5dab00b28a@arm.com>
-Date: Fri, 7 Nov 2025 14:17:19 +0000
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D96E510EAE6
+ for <dri-devel@lists.freedesktop.org>; Fri,  7 Nov 2025 14:26:17 +0000 (UTC)
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org
+ [IPv6:2a07:de40:b281:104:10:150:64:97])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested)
+ by smtp-out2.suse.de (Postfix) with ESMTPS id 822A01F395;
+ Fri,  7 Nov 2025 14:26:16 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1762525576; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version: content-transfer-encoding:content-transfer-encoding;
+ bh=xmQwIoRc7TlHSgfQQifkqcsWbo9+VSI/CRM1jkwOePk=;
+ b=pQ/dg+jgtwHf9uexU0fAQyokEYRtH7YMpY2fxgdyVyjXrv/HkRB7gvrwtPUMPjHS/VGPUh
+ J5djd/FCtoOa6Wx3oKBXgpKS2ZmIPcRyw4RHvwNa86csuy+/C3HheyEoTSN9sV4a2erqyZ
+ 249MbUauGlvJj1Kpucm85Bf8tqWpTXA=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1762525576;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version: content-transfer-encoding:content-transfer-encoding;
+ bh=xmQwIoRc7TlHSgfQQifkqcsWbo9+VSI/CRM1jkwOePk=;
+ b=rszn3W2+SfJKCZ+7vuckDJ4q0RY+8PMDC+zPocEGwtfl8NszPAw3jTFrrZhA3Slzp8JioB
+ J1rjKlksZz1tglAA==
+Authentication-Results: smtp-out2.suse.de;
+ dkim=pass header.d=suse.de header.s=susede2_rsa header.b="pQ/dg+jg";
+ dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=rszn3W2+
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1762525576; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version: content-transfer-encoding:content-transfer-encoding;
+ bh=xmQwIoRc7TlHSgfQQifkqcsWbo9+VSI/CRM1jkwOePk=;
+ b=pQ/dg+jgtwHf9uexU0fAQyokEYRtH7YMpY2fxgdyVyjXrv/HkRB7gvrwtPUMPjHS/VGPUh
+ J5djd/FCtoOa6Wx3oKBXgpKS2ZmIPcRyw4RHvwNa86csuy+/C3HheyEoTSN9sV4a2erqyZ
+ 249MbUauGlvJj1Kpucm85Bf8tqWpTXA=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1762525576;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version: content-transfer-encoding:content-transfer-encoding;
+ bh=xmQwIoRc7TlHSgfQQifkqcsWbo9+VSI/CRM1jkwOePk=;
+ b=rszn3W2+SfJKCZ+7vuckDJ4q0RY+8PMDC+zPocEGwtfl8NszPAw3jTFrrZhA3Slzp8JioB
+ J1rjKlksZz1tglAA==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested)
+ by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 334C81395F;
+ Fri,  7 Nov 2025 14:26:16 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+ by imap1.dmz-prg2.suse.org with ESMTPSA id 4pVVC4gBDmkaLgAAD6G6ig
+ (envelope-from <tzimmermann@suse.de>); Fri, 07 Nov 2025 14:26:16 +0000
+From: Thomas Zimmermann <tzimmermann@suse.de>
+To: jfalempe@redhat.com, javierm@redhat.com, simona@ffwll.ch,
+ airlied@gmail.com, mripard@kernel.org, maarten.lankhorst@linux.intel.com,
+ gregkh@linuxfoundation.org, jirislaby@kernel.org
+Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ linux-serial@vger.kernel.org, Thomas Zimmermann <tzimmermann@suse.de>
+Subject: [PATCH 0/3] drm/client: Wire up sysrq for all clients and update
+ drm_log
+Date: Fri,  7 Nov 2025 15:19:24 +0100
+Message-ID: <20251107142612.467817-1-tzimmermann@suse.de>
+X-Mailer: git-send-email 2.51.1
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v6 2/2] drm/panthor: Reset queue slots if termination fails
-To: Boris Brezillon <boris.brezillon@collabora.com>,
- Liviu Dudau <liviu.dudau@arm.com>,
- =?UTF-8?Q?Adri=C3=A1n_Larumbe?= <adrian.larumbe@collabora.com>
-Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- dri-devel@lists.freedesktop.org,
- Detlev Casanova <detlev.casanova@collabora.com>,
- Ashley Smith <ashley.smith@collabora.com>, kernel@collabora.com
-References: <20251103150154.31056-1-boris.brezillon@collabora.com>
- <20251103150154.31056-3-boris.brezillon@collabora.com>
-From: Steven Price <steven.price@arm.com>
-Content-Language: en-GB
-In-Reply-To: <20251103150154.31056-3-boris.brezillon@collabora.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
+X-Spam-Level: 
+X-Spam-Flag: NO
+X-Rspamd-Queue-Id: 822A01F395
+X-Rspamd-Action: no action
+X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
+X-Spamd-Result: default: False [-3.01 / 50.00]; BAYES_HAM(-3.00)[100.00%];
+ NEURAL_HAM_LONG(-1.00)[-1.000]; MID_CONTAINS_FROM(1.00)[];
+ R_MISSING_CHARSET(0.50)[];
+ R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+ NEURAL_HAM_SHORT(-0.20)[-0.999]; MIME_GOOD(-0.10)[text/plain];
+ MX_GOOD(-0.01)[]; ARC_NA(0.00)[]; RCVD_TLS_ALL(0.00)[];
+ RCVD_COUNT_TWO(0.00)[2]; RCVD_VIA_SMTP_AUTH(0.00)[];
+ MIME_TRACE(0.00)[0:+]; FUZZY_RATELIMITED(0.00)[rspamd.com];
+ RCPT_COUNT_TWELVE(0.00)[12];
+ DNSWL_BLOCKED(0.00)[2a07:de40:b281:106:10:150:64:167:received,2a07:de40:b281:104:10:150:64:97:from];
+ FREEMAIL_TO(0.00)[redhat.com,ffwll.ch,gmail.com,kernel.org,linux.intel.com,linuxfoundation.org];
+ FREEMAIL_ENVRCPT(0.00)[gmail.com];
+ TO_MATCH_ENVRCPT_ALL(0.00)[];
+ DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:rdns,imap1.dmz-prg2.suse.org:helo,suse.de:dkim,suse.de:mid];
+ FROM_EQ_ENVFROM(0.00)[]; FROM_HAS_DN(0.00)[];
+ TO_DN_SOME(0.00)[];
+ DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+ DKIM_TRACE(0.00)[suse.de:+]
+X-Spam-Score: -3.01
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -53,72 +117,43 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 03/11/2025 15:01, Boris Brezillon wrote:
-> From: Ashley Smith <ashley.smith@collabora.com>
-> 
-> Make sure the queue slot is reset even if we failed termination so
-> we don't have garbage in the CS input interface after a reset. In
-> practice that's not a problem because we zero out all RW sections when
-> a hangs occurs, but it's safer to reset things manually, in case we
-> decide to not conditionally reload RW sections based on the type of
-> hang.
-> 
-> v4: Split the changes in two separate patches
-> 
-> v5:
-> - No changes
-> 
-> v6:
-> - Adjust the explanation in the commit message
-> - Drop the Fixes tag
-> - Put after the timeout changes and make the two patches independent
->   so one can be backported, and the other not
-> 
-> Signed-off-by: Ashley Smith <ashley.smith@collabora.com>
-> Signed-off-by: Boris Brezillon <boris.brezillon@collabora.com>
+DRM's fbdev emulation has long supported SysRq+v to bring up the
+framebuffer console for emergency output. Wire up sysrq for all
+DRM clients and make it work with drm_log.
 
-One nit below, but either way:
+Patch 1 and 2 set up DRM client functionality for sysrq. The patches
+adopt existing conventions from fbdev emulation, so that there's no
+visible change to users. Invoke SysRq+v to bring up the in-kernel DRM
+client.
 
-Reviewed-by: Steven Price <steven.price@arm.com>
+Patch 3 adds restore functionality to drm_log. This enables SysRq, but
+also brings back drm_log when the user-space releases control of the
+display.
 
-> ---
->  drivers/gpu/drm/panthor/panthor_sched.c | 14 ++++++++++++--
->  1 file changed, 12 insertions(+), 2 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/panthor/panthor_sched.c b/drivers/gpu/drm/panthor/panthor_sched.c
-> index b440187798dd..f9a52252b268 100644
-> --- a/drivers/gpu/drm/panthor/panthor_sched.c
-> +++ b/drivers/gpu/drm/panthor/panthor_sched.c
-> @@ -2836,13 +2836,23 @@ void panthor_sched_suspend(struct panthor_device *ptdev)
->  		while (slot_mask) {
->  			u32 csg_id = ffs(slot_mask) - 1;
->  			struct panthor_csg_slot *csg_slot = &sched->csg_slots[csg_id];
-> +			struct panthor_group *group = csg_slot->group;
->  
->  			/* Terminate command timedout, but the soft-reset will
->  			 * automatically terminate all active groups, so let's
->  			 * force the state to halted here.
->  			 */
-> -			if (csg_slot->group->state != PANTHOR_CS_GROUP_TERMINATED)
-> -				csg_slot->group->state = PANTHOR_CS_GROUP_TERMINATED;
-> +			if (group->state != PANTHOR_CS_GROUP_TERMINATED) {
-> +				group->state = PANTHOR_CS_GROUP_TERMINATED;
-> +
-> +				/* Reset the queue slots manually if the termination
-> +				 * request failed.
-> +				 */
-> +				for (i = 0; i < csg_slot->group->queue_count; i++) {
-> +					if (csg_slot->group->queues[i])
+Tested on amdgpu and bochs.
 
-NIT: You've introduced a "group" variable and used it above, but not here.
+Thomas Zimmermann (3):
+  drm/client: Pass force parameter to client restore
+  drm/client: Support emergency restore via sysrq for all clients
+  drm/client: log: Implement struct drm_client_funcs.restore
 
-Thanks,
-Steve
+ drivers/gpu/drm/Makefile                   |  3 +-
+ drivers/gpu/drm/clients/drm_fbdev_client.c |  6 +-
+ drivers/gpu/drm/clients/drm_log.c          | 13 ++++
+ drivers/gpu/drm/drm_client.c               |  1 +
+ drivers/gpu/drm/drm_client_event.c         |  4 +-
+ drivers/gpu/drm/drm_client_sysrq.c         | 65 ++++++++++++++++++++
+ drivers/gpu/drm/drm_drv.c                  |  3 +
+ drivers/gpu/drm/drm_fb_helper.c            | 69 +++-------------------
+ drivers/gpu/drm/drm_file.c                 |  2 +-
+ drivers/gpu/drm/drm_internal.h             | 11 ++++
+ include/drm/drm_client.h                   |  8 ++-
+ include/drm/drm_client_event.h             |  4 +-
+ include/drm/drm_device.h                   |  8 +++
+ include/drm/drm_fb_helper.h                |  8 +--
+ 14 files changed, 126 insertions(+), 79 deletions(-)
+ create mode 100644 drivers/gpu/drm/drm_client_sysrq.c
 
-> +						cs_slot_reset_locked(ptdev, csg_id, i);
-> +				}
-> +			}
->  			slot_mask &= ~BIT(csg_id);
->  		}
->  	}
+-- 
+2.51.1
 
