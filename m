@@ -2,61 +2,57 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 643ABC3EF15
-	for <lists+dri-devel@lfdr.de>; Fri, 07 Nov 2025 09:28:18 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0F13CC3EF97
+	for <lists+dri-devel@lfdr.de>; Fri, 07 Nov 2025 09:33:49 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2EF6410E1AC;
-	Fri,  7 Nov 2025 08:28:11 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6453010EA3D;
+	Fri,  7 Nov 2025 08:33:47 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; secure) header.d=mailbox.org header.i=@mailbox.org header.b="allEpq75";
+	dkim=pass (2048-bit key; secure) header.d=mailbox.org header.i=@mailbox.org header.b="puG4CNvx";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mout-p-102.mailbox.org (mout-p-102.mailbox.org [80.241.56.152])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 50B5510E1AC
- for <dri-devel@lists.freedesktop.org>; Fri,  7 Nov 2025 08:28:10 +0000 (UTC)
-Received: from smtp202.mailbox.org (smtp202.mailbox.org [10.196.197.202])
+Received: from mout-p-103.mailbox.org (mout-p-103.mailbox.org [80.241.56.161])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4300710EA3E;
+ Fri,  7 Nov 2025 08:33:45 +0000 (UTC)
+Received: from smtp202.mailbox.org (smtp202.mailbox.org
+ [IPv6:2001:67c:2050:b231:465::202])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
  (No client certificate requested)
- by mout-p-102.mailbox.org (Postfix) with ESMTPS id 4d2sdL5n5Bz9v92;
- Fri,  7 Nov 2025 09:28:06 +0100 (CET)
+ by mout-p-103.mailbox.org (Postfix) with ESMTPS id 4d2slp1Qtrz9tX6;
+ Fri,  7 Nov 2025 09:33:42 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org;
  s=mail20150812; 
- t=1762504086; h=from:from:reply-to:reply-to:subject:subject:date:date:
+ t=1762504422; h=from:from:reply-to:reply-to:subject:subject:date:date:
  message-id:message-id:to:to:cc:cc:mime-version:mime-version:
  content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=g6c+wR5OUX7a2v3uoQXxO3f6A3/Jg6yxUDY1v6h0RlM=;
- b=allEpq75HTp0dm+F3EGqJbCpsw/xZ6bs1pnpHxmFyRRv40d/qrdzHEnXr8AECKK1rZxArq
- 4ClprlOnpVL5i6lKvyUvX2IYj+Bn+ohpiZPc3bGQv9SzkNgyV2csJgGDAm91wE4NN+oieu
- qrHCkceZMafCPjuCqeq5S8oSSkE7DrDtLmR5NXsYkQrENabaom34ONWWXv54mzAlbzxiCh
- hsUbeJpXOrUzRwxzkqDoKzgKSUwAAN9gWdI0Rj7rLbfkbLeRwCbMbIs/OeTU41NoQHD4Fr
- sO3NCzlEYeSuyuyfUkoRLAK4Efn54FZCkv4oeh0YhG4WLNYD+bHUa1WbhWvNDg==
-Message-ID: <3b6c211d4da50273ac5441bc939dfadb537c655d.camel@mailbox.org>
-Subject: Re: [PATCH v2] drm/sched: Replace use of system_wq with
- system_percpu_wq
+ bh=TwOucyxdKzHHsR2SHO5/ChzLIhCyXMTTWSRL4ngYFyQ=;
+ b=puG4CNvxO5QVUNAXS6dw7R3alVmnBNtWJsD7pZwc7ILXlT5pYV7Oey+kstxe/xgf+BMlar
+ 4HisVWt1hCDiXXynxR0UqEWdaJgrwnuj+Y5OdYXJkqOTgixoXquS6F9e8CnO9b4diDBZH2
+ ltPm8wzSEEC+viUe18Mtkg9RhJZNgAr52FHbybg3CogWACnrCZ+f8tZJ0X7BiMfwoEJ70M
+ xt3r4pUejcGgnqojBt9M0bpPURFsR792ml9S9ueNKStO5mIea1Pc1t7chyd8o5DHlofPA9
+ yULQnvfiPIcUttQkl8uzsRvWsdP14KNaFNQNVyfv6UsxTKJhD+Rgo8D5IAm2nw==
+Message-ID: <6f7b62fa37650c0a1bfdfe77e2b7b9e9a19eb234.camel@mailbox.org>
+Subject: Re: [PATCH 09/20] drm/sched: use inline locks for the drm-sched-fence
 From: Philipp Stanner <phasta@mailbox.org>
-To: Marco Crivellari <marco.crivellari@suse.com>, 
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org
-Cc: Tejun Heo <tj@kernel.org>, Lai Jiangshan <jiangshanlai@gmail.com>, 
- Frederic Weisbecker <frederic@kernel.org>, Sebastian Andrzej Siewior
- <bigeasy@linutronix.de>,  Michal Hocko <mhocko@suse.com>, Matthew Brost
- <matthew.brost@intel.com>, Danilo Krummrich <dakr@kernel.org>,  Philipp
- Stanner <phasta@kernel.org>, Christian Konig
- <ckoenig.leichtzumerken@gmail.com>, Maarten Lankhorst
- <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>, 
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
- Simona Vetter <simona@ffwll.ch>
-Date: Fri, 07 Nov 2025 09:28:00 +0100
-In-Reply-To: <20251106150121.256367-1-marco.crivellari@suse.com>
-References: <20251106150121.256367-1-marco.crivellari@suse.com>
+To: Tvrtko Ursulin <tursulin@ursulin.net>, Christian
+ =?ISO-8859-1?Q?K=F6nig?= <ckoenig.leichtzumerken@gmail.com>,
+ alexdeucher@gmail.com,  simona.vetter@ffwll.ch, airlied@gmail.com,
+ felix.kuehling@amd.com,  matthew.brost@intel.com
+Cc: dri-devel@lists.freedesktop.org, amd-gfx@lists.freedesktop.org
+Date: Fri, 07 Nov 2025 09:33:38 +0100
+In-Reply-To: <21cbf337-45be-4418-b9dc-d3e2034b4962@ursulin.net>
+References: <20251031134442.113648-1-christian.koenig@amd.com>
+ <20251031134442.113648-10-christian.koenig@amd.com>
+ <21cbf337-45be-4418-b9dc-d3e2034b4962@ursulin.net>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 MIME-Version: 1.0
-X-MBO-RS-ID: 1d6f8abc1971d72ad65
-X-MBO-RS-META: b3x6mitjoinicedcwpy6bbgd61fqqxf5
+X-MBO-RS-ID: ffe30a0436634e732ff
+X-MBO-RS-META: 4sbbiej76wc3q3nnbi7abr8ck3yn44f7
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -73,53 +69,78 @@ Reply-To: phasta@kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, 2025-11-06 at 16:01 +0100, Marco Crivellari wrote:
-> In the general workqueue implementation, if a user enqueues a work item
-> using schedule_delayed_work() the used wq is "system_wq" (per-cpu wq)
-> while queue_delayed_work() use WORK_CPU_UNBOUND (used when a cpu is not
-> specified). The same applies to schedule_work() that is using system_wq
-> and queue_work(), that makes use again of WORK_CPU_UNBOUND.
+On Tue, 2025-11-04 at 15:12 +0000, Tvrtko Ursulin wrote:
 >=20
-> This lack of consistency cannot be addressed without refactoring the API.
-> For more details see the Link tag below.
->=20
-> This continues the effort to refactor worqueue APIs, which has begun
-> with the change introducing new workqueues and a new alloc_workqueue flag=
-:
->=20
-> commit 128ea9f6ccfb ("workqueue: Add system_percpu_wq and system_dfl_wq")
-> commit 930c2ea566af ("workqueue: Add new WQ_PERCPU flag")
->=20
-> Use the successor of system_wq, system_percpu_wq, for the scheduler's
-> default timeout_wq. system_wq will be removed in a few release cycles.
->=20
-> Link: https://lore.kernel.org/all/20250221112003.1dSuoGyc@linutronix.de/
-> Suggested-by: Tejun Heo <tj@kernel.org>
-> Signed-off-by: Marco Crivellari <marco.crivellari@suse.com>
+> On 31/10/2025 13:16, Christian K=C3=B6nig wrote:
+> > Just as proof of concept and minor cleanup.
 
-Applied to drm-misc-next.
+That's by the way why I'm asking whether this series is intended as an
+RFC.
 
-Thanks a lot
+> >=20
+> > Signed-off-by: Christian K=C3=B6nig <christian.koenig@amd.com>
+> > ---
+> > =C2=A0 drivers/gpu/drm/scheduler/sched_fence.c | 11 +++++------
+> > =C2=A0 include/drm/gpu_scheduler.h=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 |=C2=A0 4 ----
+> > =C2=A0 2 files changed, 5 insertions(+), 10 deletions(-)
+> >=20
+> > diff --git a/drivers/gpu/drm/scheduler/sched_fence.c b/drivers/gpu/drm/=
+scheduler/sched_fence.c
+> > index 9391d6f0dc01..7a94e03341cb 100644
+> > --- a/drivers/gpu/drm/scheduler/sched_fence.c
+> > +++ b/drivers/gpu/drm/scheduler/sched_fence.c
+> > @@ -156,19 +156,19 @@ static void drm_sched_fence_set_deadline_finished=
+(struct dma_fence *f,
+> > =C2=A0=C2=A0	struct dma_fence *parent;
+> > =C2=A0=C2=A0	unsigned long flags;
+> > =C2=A0=20
+> > -	spin_lock_irqsave(&fence->lock, flags);
+> > +	dma_fence_lock(f, flags);
+>=20
+> Moving to dma_fence_lock should either be a separate patch or squashed=
+=20
+> into the one which converts many other drivers. Even a separate patch
+> before that previous patch would be better.
+
+Yes. +1
+
+>=20
+> Naming wise, I however still think dma_fence_lock_irqsave would probably=
+=20
+> be better to stick with the same pattern everyone is so used too.
+
+I also think this would be better. Who knows, one day maybe someone
+really wants a lock that definitely must not be irqsave for some
+reason, and then the naming pattern would completely break.
+
+> >=20
+> >=20
+
+[=E2=80=A6]
+
+> > @@ -230,9 +229,9 @@ void drm_sched_fence_init(struct drm_sched_fence *f=
+ence,
+> > =C2=A0=C2=A0	fence->sched =3D entity->rq->sched;
+> > =C2=A0=C2=A0	seq =3D atomic_inc_return(&entity->fence_seq);
+> > =C2=A0=C2=A0	dma_fence_init(&fence->scheduled, &drm_sched_fence_ops_sch=
+eduled,
+> > -		=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 &fence->lock, entity->fence_con=
+text, seq);
+> > +		=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 NULL, entity->fence_context, se=
+q);
+> > =C2=A0=C2=A0	dma_fence_init(&fence->finished, &drm_sched_fence_ops_fini=
+shed,
+> > -		=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 &fence->lock, entity->fence_con=
+text + 1, seq);
+> > +		=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 NULL, entity->fence_context + 1=
+, seq);
+> > =C2=A0 }
+
+Do we agree that there is no benefit in porting the scheduler to the
+non-shared spinlock?
+
+If so, I really prefer to not do it.
+
+
 P.
-
-> ---
-> =C2=A0drivers/gpu/drm/scheduler/sched_main.c | 2 +-
-> =C2=A01 file changed, 1 insertion(+), 1 deletion(-)
->=20
-> diff --git a/drivers/gpu/drm/scheduler/sched_main.c b/drivers/gpu/drm/sch=
-eduler/sched_main.c
-> index c39f0245e3a9..13192e99637a 100644
-> --- a/drivers/gpu/drm/scheduler/sched_main.c
-> +++ b/drivers/gpu/drm/scheduler/sched_main.c
-> @@ -1315,7 +1315,7 @@ int drm_sched_init(struct drm_gpu_scheduler *sched,=
- const struct drm_sched_init_
-> =C2=A0	sched->name =3D args->name;
-> =C2=A0	sched->timeout =3D args->timeout;
-> =C2=A0	sched->hang_limit =3D args->hang_limit;
-> -	sched->timeout_wq =3D args->timeout_wq ? args->timeout_wq : system_wq;
-> +	sched->timeout_wq =3D args->timeout_wq ? args->timeout_wq : system_perc=
-pu_wq;
-> =C2=A0	sched->score =3D args->score ? args->score : &sched->_score;
-> =C2=A0	sched->dev =3D args->dev;
-> =C2=A0
-
