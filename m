@@ -2,85 +2,120 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id AE1E7C3FA7D
-	for <lists+dri-devel@lfdr.de>; Fri, 07 Nov 2025 12:09:46 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9772AC3FB7D
+	for <lists+dri-devel@lfdr.de>; Fri, 07 Nov 2025 12:23:22 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 03A6E10EA87;
-	Fri,  7 Nov 2025 11:09:45 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id F3E8010E02F;
+	Fri,  7 Nov 2025 11:23:19 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=ursulin.net header.i=@ursulin.net header.b="yCl9Z74S";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="OqCK3xYP";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-f49.google.com (mail-wm1-f49.google.com
- [209.85.128.49])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9786510EA8F
- for <dri-devel@lists.freedesktop.org>; Fri,  7 Nov 2025 11:09:43 +0000 (UTC)
-Received: by mail-wm1-f49.google.com with SMTP id
- 5b1f17b1804b1-47755de027eso4269645e9.0
- for <dri-devel@lists.freedesktop.org>; Fri, 07 Nov 2025 03:09:43 -0800 (PST)
+Received: from mail-wr1-f44.google.com (mail-wr1-f44.google.com
+ [209.85.221.44])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 00CE010E02F
+ for <dri-devel@lists.freedesktop.org>; Fri,  7 Nov 2025 11:23:17 +0000 (UTC)
+Received: by mail-wr1-f44.google.com with SMTP id
+ ffacd0b85a97d-42b2a0c18caso15569f8f.1
+ for <dri-devel@lists.freedesktop.org>; Fri, 07 Nov 2025 03:23:17 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=ursulin.net; s=google; t=1762513782; x=1763118582; darn=lists.freedesktop.org;
- h=content-transfer-encoding:in-reply-to:from:content-language
- :references:cc:to:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=Hucu1UhZREYkJANtmE9hQ/FaRpYzftzgN7wW8361yT4=;
- b=yCl9Z74SLpnfmEdf4/FP0Sv8PjzGXrf1qflp/I/N8V5AG5OMexupTcs6UUc79m4D7y
- P6NvfFwcH8auC7aRAlvCqrmmDwvn3hSZnbu3ZrxPWFYYIESB6t/nXbU1Cw0vWZ1Qfai3
- VfJphaBK3flqUPar9oN8r5Y3lywZ+wsHc23F9a5etfrxmnGyKpKftukVd4QWduB2h+fZ
- BQtlLhnaUWEQLqxAfFg/XV8cfpwEwCmZqrINJcfB5R1DIWE/LBiD7Vwjl097qgmeb5UH
- 4T0fQRfODYeBRQiuGoFl9JXV3VkIG3Sa20F0PR0Nf+sIkFPvih5DN1aL+/pbeUdbGpS/
- Xl7w==
+ d=linaro.org; s=google; t=1762514596; x=1763119396; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:in-reply-to:organization:autocrypt
+ :content-language:references:cc:to:subject:reply-to:from:user-agent
+ :mime-version:date:message-id:from:to:cc:subject:date:message-id
+ :reply-to; bh=VtAgMzQLUEkWjhbFNDOre6KPF58LB5AVVftjd0cwizQ=;
+ b=OqCK3xYPb2NlmsgYl69cjBqWuQsAYQFINPgiHQ7uVGirZ/fH0i3MqE43EVV+buucwO
+ 2hlJfM95Cyc44XncqLlUiLMwIySOQvyNdiMVTdmn7L9J/mP9kjtaIPbl6RoamA10hQNE
+ F6kECXoBgIGiLQHszBrpFQpbXPCtTFff8rYu8x0hOnMCxLXQZo0b2Df1uVB8GpbUFvbV
+ 3aQU5p9FoS8mTgZGzCOtMHFLlNRTkT7xsr+Iz8kGja6kORs+tCJ/+0BXbmIdJzMM2eR0
+ A/39Nxd9TzVOiYBwBngqY6oj0BQ44JfTfLyOtILm8rOdiOxM6WJWlvOKMnQyPB04A9tw
+ 0BtA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1762513782; x=1763118582;
- h=content-transfer-encoding:in-reply-to:from:content-language
- :references:cc:to:subject:user-agent:mime-version:date:message-id
- :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=Hucu1UhZREYkJANtmE9hQ/FaRpYzftzgN7wW8361yT4=;
- b=dkEzYYFiDEGr6jJ6IZsMtYJvCSFHhTP3Ve+C6ezE2BTSLrv5mBEOmGPAELfD7sDJVy
- 8jlr77MvOIAKpzIJ11BFJ7iopFPI29/BUa+cyDhHoOPpiJzk+/zYn+NRqdYH+V7vm+08
- PgRU1JRwfWTEMc6urJemn5K5ed7rIMEMRZt1JdcjVQ808vPl6XPd06+Q5gc2TZW4c7cr
- uJtovKv77o7tQcAQX/5o6b5xaflcpdq93HstNW9Oum3iNA7ursWuz6Omh/X873LRPqTa
- KVJ/iJu8Ys5L++JC84HRV+kFhHNePJK34MVva0xnvzMRu2cZxsVPzmEMxAT0NoZaxlB6
- 8ARg==
-X-Gm-Message-State: AOJu0YwIAi/WILHV8RA2Xf+ct8dTpRmhgVCs0df+NdG3GiGtSNuNw2XD
- DUNslE8FW4YxQd69w/ApoxlvDLIm/OBr7HAQwb9F3FvEiPqKhVer2bU3yuejtOA0kjmJHBkkePK
- YMhKN
-X-Gm-Gg: ASbGncsCe39MkAObcVSWx+jtM+iZRJKOJgGrQ1LEde92WNydMy5x1NekQ8AZfkFcdLw
- Gv1hAjLa1iZZg1cVFXuULlOeVhd8UcNy3YIOxU1LCdCcWB+bUnaifiuoNVqxk/1pTonGBkxnQ2E
- Jmq7DlP5GTxrltp6fo4RsYCmAzq7ffApBFKh2pUCHJ1iH0D9deuuHhtCH9T25oPXgLGCPYsjGhh
- XclOu+RfLXUxc7inwPOJ86isSN46/eAbYyjsIVMl2MTd2s/cvx79ilP/ht7Adp0gGW3R0Qooqi9
- axFXZijzN49IjbehrP77pJtmiZTPhsUGut1j6qvXGR9I0xpGeUv1miqxYYDBnSUFKYwm2iPdJLb
- i1ZVwvrh7wOyEBAstTGUGf6JKuWf2SWIe9Ns7sfIPddYpBNOdGDLbWlr/i5rjfpLRcWZYf+pa0W
- 81DOwBm8UToR5OR8vzsTu9QLUGhTE=
-X-Google-Smtp-Source: AGHT+IGghjP1J1/jVtKwY64jaxXE+ADd+Tl/GDBehY3RxN3iNDvUoBZ7EnOvmfsJo/j+jZT6GNPRCA==
-X-Received: by 2002:a05:600c:4f8e:b0:477:1af2:f40a with SMTP id
- 5b1f17b1804b1-4776bc9bd43mr19306985e9.17.1762513781985; 
- Fri, 07 Nov 2025 03:09:41 -0800 (PST)
-Received: from [192.168.0.101] ([90.240.106.137])
+ d=1e100.net; s=20230601; t=1762514596; x=1763119396;
+ h=content-transfer-encoding:in-reply-to:organization:autocrypt
+ :content-language:references:cc:to:subject:reply-to:from:user-agent
+ :mime-version:date:message-id:x-gm-gg:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=VtAgMzQLUEkWjhbFNDOre6KPF58LB5AVVftjd0cwizQ=;
+ b=B37EuNN43TQohZaqr0/ex+f9ezCnhBI/sYbjABoSbiEQUf8Jt2/N9LTUteVtYEXusr
+ ZcoZTFKCSQvkQEyA1LD1yuRMrKTEFU0oYEGzRQ38/iByAkp1GYOU2BhUZm1h4DkL68pN
+ z4w2eOiRTkF5IINlDsptWqZAx5vARgOOQRALyiajaXVkLKwJmY8iq6Xlw8Dd88MwlSzb
+ oq/o4WnsC9JX/TJ30JF7A/4GGhXylPmnMyZIKXQ6LfZuNgzYKgVPtJftlwB4XiCwE9U6
+ VTPvKzJE2+nTc/pILudmZg+jgYhjGlgVB+u1o8/RRUq/kkIybiHwEcqLoKlXWnOSj+XX
+ B3UQ==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCVk5Mh5P2Ngo18xN0MhBdX/3agSXQ2yM6CQhXsTkgEOkzCaScWNDxRhX2r8NjwcUPkQtjMPDBuJTek=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Ywx8BbcCMVJfcoBAuDoeM02jO6X7hbnnIea5nRK/D+r+nVsxCCP
+ KbHQdRoqkTP/xHEnjlzlmxW0XAU4hgWKCbFZqlFvvATTSZKoLuaN8/EO1VzfLxlTZz8=
+X-Gm-Gg: ASbGnctgoC0xHhfuJFLrsqlE+r8TgLikT/7xxOl1ghuogdWVjsDH603akI6E1SXSwSU
+ LoXC3x+enqlcHN/SgmpHYj0/h3SqeF4WuhQmSQPoywXbT1321EOEb/nLSE5CrfF9B93i7JFRsGw
+ cEW6RCC9D3mAxov/cBrJQR4k/Z9OpdF6u4w3LygsGz2r91vE0J6ZCl+HH3WUY0vNCVQv1Gv30//
+ uBYd8Jy5oqoEGS1AVszjP4cmgrS1Bm1XHJEzD5ShReqFqvtGJzbsjihgBDA6dN9i0WYyn0HI7L4
+ QVII45l4F7IREmtrHkrz0WmSM3tgCZhEjCydJeyotu2NYQf4zz8Prc/3rWE3WfARX/eqKO1apCY
+ qQu7g3OcfKDZDEP2EvtArK0HrHw+MNYJtuFgc5ouNz8PHhMkyW6Z/Rkt9rSpp8MQfbtqFfCU1Br
+ HQmrmvWR5rKsE4NZk6seSoHmKHij4hYcmD6DOXkL78n6Zt
+X-Google-Smtp-Source: AGHT+IFC6PS8CD4thOKnMt/0x6DHF4pMfb9zQG3hVlwbO9wPH+DcI/MNv2cBuknKQz9EdnzfI0iTFw==
+X-Received: by 2002:a05:6000:458f:b0:429:d66b:508f with SMTP id
+ ffacd0b85a97d-42ae5ac408fmr1620035f8f.30.1762514596332; 
+ Fri, 07 Nov 2025 03:23:16 -0800 (PST)
+Received: from [192.168.27.65] (home.rastines.starnux.net. [82.64.67.166])
  by smtp.gmail.com with ESMTPSA id
- 5b1f17b1804b1-4775ce20ff3sm155700715e9.10.2025.11.07.03.09.41
+ ffacd0b85a97d-42ac67921c3sm4745735f8f.40.2025.11.07.03.23.14
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 07 Nov 2025 03:09:41 -0800 (PST)
-Message-ID: <54466a0e-1019-4fd1-b8a8-1b9448698b67@ursulin.net>
-Date: Fri, 7 Nov 2025 11:09:40 +0000
+ Fri, 07 Nov 2025 03:23:15 -0800 (PST)
+Message-ID: <be1b6e34-40ab-4587-8dbe-84e08bf83dcb@linaro.org>
+Date: Fri, 7 Nov 2025 12:23:13 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 03/20] dma-buf: protected fence ops by RCU v2
-To: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
- phasta@mailbox.org, alexdeucher@gmail.com, simona.vetter@ffwll.ch,
- airlied@gmail.com, felix.kuehling@amd.com, matthew.brost@intel.com
-Cc: dri-devel@lists.freedesktop.org, amd-gfx@lists.freedesktop.org
-References: <20251031134442.113648-1-christian.koenig@amd.com>
- <20251031134442.113648-4-christian.koenig@amd.com>
- <0bdc899f-8c03-40fa-92ad-1b907a015c77@ursulin.net>
- <59fb14d3-63b6-4943-be80-dfad7f59028c@amd.com>
-Content-Language: en-GB
-From: Tvrtko Ursulin <tursulin@ursulin.net>
-In-Reply-To: <59fb14d3-63b6-4943-be80-dfad7f59028c@amd.com>
+From: Neil Armstrong <neil.armstrong@linaro.org>
+Subject: Re: [PATCH 01/12] dt-bindings: panel: Add Samsung SOFEF00 DDIC with
+ panel
+To: Krzysztof Kozlowski <krzk@kernel.org>, David Heidelberg <david@ixit.cz>
+Cc: Jessica Zhang <jessica.zhang@oss.qualcomm.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>, Thierry Reding
+ <thierry.reding@gmail.com>, Sam Ravnborg <sam@ravnborg.org>,
+ Bjorn Andersson <andersson@kernel.org>,
+ Konrad Dybcio <konradybcio@kernel.org>,
+ Casey Connolly <casey.connolly@linaro.org>, dri-devel@lists.freedesktop.org,
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-arm-msm@vger.kernel.org, phone-devel@vger.kernel.org
+References: <20251104-sofef00-rebuild-v1-0-dfcfa17eb176@ixit.cz>
+ <20251104-sofef00-rebuild-v1-1-dfcfa17eb176@ixit.cz>
+ <20251106-enlightened-centipede-of-tempering-3cfa50@kuoka>
+Content-Language: en-US, fr
+Autocrypt: addr=neil.armstrong@linaro.org; keydata=
+ xsBNBE1ZBs8BCAD78xVLsXPwV/2qQx2FaO/7mhWL0Qodw8UcQJnkrWmgTFRobtTWxuRx8WWP
+ GTjuhvbleoQ5Cxjr+v+1ARGCH46MxFP5DwauzPekwJUD5QKZlaw/bURTLmS2id5wWi3lqVH4
+ BVF2WzvGyyeV1o4RTCYDnZ9VLLylJ9bneEaIs/7cjCEbipGGFlfIML3sfqnIvMAxIMZrvcl9
+ qPV2k+KQ7q+aXavU5W+yLNn7QtXUB530Zlk/d2ETgzQ5FLYYnUDAaRl+8JUTjc0CNOTpCeik
+ 80TZcE6f8M76Xa6yU8VcNko94Ck7iB4vj70q76P/J7kt98hklrr85/3NU3oti3nrIHmHABEB
+ AAHNKk5laWwgQXJtc3Ryb25nIDxuZWlsLmFybXN0cm9uZ0BsaW5hcm8ub3JnPsLAkQQTAQoA
+ OwIbIwULCQgHAwUVCgkICwUWAgMBAAIeAQIXgBYhBInsPQWERiF0UPIoSBaat7Gkz/iuBQJk
+ Q5wSAhkBAAoJEBaat7Gkz/iuyhMIANiD94qDtUTJRfEW6GwXmtKWwl/mvqQtaTtZID2dos04
+ YqBbshiJbejgVJjy+HODcNUIKBB3PSLaln4ltdsV73SBcwUNdzebfKspAQunCM22Mn6FBIxQ
+ GizsMLcP/0FX4en9NaKGfK6ZdKK6kN1GR9YffMJd2P08EO8mHowmSRe/ExAODhAs9W7XXExw
+ UNCY4pVJyRPpEhv373vvff60bHxc1k/FF9WaPscMt7hlkbFLUs85kHtQAmr8pV5Hy9ezsSRa
+ GzJmiVclkPc2BY592IGBXRDQ38urXeM4nfhhvqA50b/nAEXc6FzqgXqDkEIwR66/Gbp0t3+r
+ yQzpKRyQif3OwE0ETVkGzwEIALyKDN/OGURaHBVzwjgYq+ZtifvekdrSNl8TIDH8g1xicBYp
+ QTbPn6bbSZbdvfeQPNCcD4/EhXZuhQXMcoJsQQQnO4vwVULmPGgtGf8PVc7dxKOeta+qUh6+
+ SRh3vIcAUFHDT3f/Zdspz+e2E0hPV2hiSvICLk11qO6cyJE13zeNFoeY3ggrKY+IzbFomIZY
+ 4yG6xI99NIPEVE9lNBXBKIlewIyVlkOaYvJWSV+p5gdJXOvScNN1epm5YHmf9aE2ZjnqZGoM
+ Mtsyw18YoX9BqMFInxqYQQ3j/HpVgTSvmo5ea5qQDDUaCsaTf8UeDcwYOtgI8iL4oHcsGtUX
+ oUk33HEAEQEAAcLAXwQYAQIACQUCTVkGzwIbDAAKCRAWmrexpM/4rrXiB/sGbkQ6itMrAIfn
+ M7IbRuiSZS1unlySUVYu3SD6YBYnNi3G5EpbwfBNuT3H8//rVvtOFK4OD8cRYkxXRQmTvqa3
+ 3eDIHu/zr1HMKErm+2SD6PO9umRef8V82o2oaCLvf4WeIssFjwB0b6a12opuRP7yo3E3gTCS
+ KmbUuLv1CtxKQF+fUV1cVaTPMyT25Od+RC1K+iOR0F54oUJvJeq7fUzbn/KdlhA8XPGzwGRy
+ 4zcsPWvwnXgfe5tk680fEKZVwOZKIEuJC3v+/yZpQzDvGYJvbyix0lHnrCzq43WefRHI5XTT
+ QbM0WUIBIcGmq38+OgUsMYu4NzLu7uZFAcmp6h8g
+Organization: Linaro
+In-Reply-To: <20251106-enlightened-centipede-of-tempering-3cfa50@kuoka>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -93,241 +128,120 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Reply-To: Neil Armstrong <neil.armstrong@linaro.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
-On 06/11/2025 13:14, Christian König wrote:
-> On 10/31/25 15:29, Tvrtko Ursulin wrote:
->> On 31/10/2025 13:16, Christian König wrote:
->>> At first glance it is counter intuitive to protect a constant function
->>> pointer table by RCU, but this allows modules providing the function
->>> table to unload by waiting for an RCU grace period.
->>>
->>> v2: make one the now duplicated lockdep warnings a comment instead.
->>>
->>> Signed-off-by: Christian König <christian.koenig@amd.com>
->>> ---
->>>    drivers/dma-buf/dma-fence.c | 69 +++++++++++++++++++++++++------------
->>>    include/linux/dma-fence.h   | 18 ++++++++--
->>>    2 files changed, 62 insertions(+), 25 deletions(-)
->>>
->>> diff --git a/drivers/dma-buf/dma-fence.c b/drivers/dma-buf/dma-fence.c
->>> index b229d96f551c..ed82e8361096 100644
->>> --- a/drivers/dma-buf/dma-fence.c
->>> +++ b/drivers/dma-buf/dma-fence.c
->>> @@ -498,6 +498,7 @@ EXPORT_SYMBOL(dma_fence_signal);
->>>    signed long
->>>    dma_fence_wait_timeout(struct dma_fence *fence, bool intr, signed long timeout)
->>>    {
->>> +    const struct dma_fence_ops *ops;
->>>        signed long ret;
->>>          if (WARN_ON(timeout < 0))
->>> @@ -509,15 +510,21 @@ dma_fence_wait_timeout(struct dma_fence *fence, bool intr, signed long timeout)
->>>          dma_fence_enable_sw_signaling(fence);
->>>    -    if (trace_dma_fence_wait_start_enabled()) {
->>> -        rcu_read_lock();
->>> -        trace_dma_fence_wait_start(fence);
->>> +    rcu_read_lock();
->>> +    ops = rcu_dereference(fence->ops);
->>> +    trace_dma_fence_wait_start(fence);
->>> +    if (ops->wait) {
->>> +        /*
->>> +         * Implementing the wait ops is deprecated and not supported for
->>> +         * issuer independent fences, so it is ok to use the ops outside
->>> +         * the RCU protected section.
->>> +         */
+On 11/6/25 09:48, Krzysztof Kozlowski wrote:
+> On Tue, Nov 04, 2025 at 11:16:09PM +0100, David Heidelberg wrote:
+>> Basic description for S6E3FC2X01 DDIC with attached panels
 >>
->> Probably a good idea to put this explanation about issue independent fences to struct dma_fence_ops kerneldoc. At the moment only .wait is documented as deprecated, so both it and .release can be expanded with this additional angle.
-> 
-> Done, but I'm not sure if my documentation is sufficient. You should probably take a look at the next version.
-
-Will do.
-
->>> +        rcu_read_unlock();
->>> +        ret = ops->wait(fence, intr, timeout);
->>> +    } else {
->>>            rcu_read_unlock();
->>> -    }
->>> -    if (fence->ops->wait)
->>> -        ret = fence->ops->wait(fence, intr, timeout);
->>> -    else
->>>            ret = dma_fence_default_wait(fence, intr, timeout);
->>> +    }
->>>        if (trace_dma_fence_wait_end_enabled()) {
->>>            rcu_read_lock();
->>>            trace_dma_fence_wait_end(fence);
->>> @@ -538,6 +545,7 @@ void dma_fence_release(struct kref *kref)
->>>    {
->>>        struct dma_fence *fence =
->>>            container_of(kref, struct dma_fence, refcount);
->>> +    const struct dma_fence_ops *ops;
->>>          rcu_read_lock();
->>>        trace_dma_fence_destroy(fence);
->>> @@ -569,12 +577,12 @@ void dma_fence_release(struct kref *kref)
->>>            spin_unlock_irqrestore(fence->lock, flags);
->>>        }
->>>    -    rcu_read_unlock();
->>> -
->>> -    if (fence->ops->release)
->>> -        fence->ops->release(fence);
->>> +    ops = rcu_dereference(fence->ops);
->>> +    if (ops->release)
->>> +        ops->release(fence);
->>>        else
->>>            dma_fence_free(fence);
->>> +    rcu_read_unlock();
->>>    }
->>>    EXPORT_SYMBOL(dma_fence_release);
->>>    @@ -593,6 +601,7 @@ EXPORT_SYMBOL(dma_fence_free);
->>>      static bool __dma_fence_enable_signaling(struct dma_fence *fence)
->>>    {
->>> +    const struct dma_fence_ops *ops;
->>>        bool was_set;
->>>          lockdep_assert_held(fence->lock);
->>> @@ -603,14 +612,18 @@ static bool __dma_fence_enable_signaling(struct dma_fence *fence)
->>>        if (test_bit(DMA_FENCE_FLAG_SIGNALED_BIT, &fence->flags))
->>>            return false;
->>>    -    if (!was_set && fence->ops->enable_signaling) {
->>> +    rcu_read_lock();
->>> +    ops = rcu_dereference(fence->ops);
->>> +    if (!was_set && ops->enable_signaling) {
->>>            trace_dma_fence_enable_signal(fence);
->>>    -        if (!fence->ops->enable_signaling(fence)) {
->>> +        if (!ops->enable_signaling(fence)) {
+>>   - Samsung AMS601NT22 6.01 inch, 1080x2160 pixels, 18:9 ratio
+>>   - Samsung AMS628NW01 6.28 inch, 1080x2280 pixels, 19:9 ratio
 >>
->> Have you tried the series with PREEMPT_RT enabled?
+>> This panel has three supplies, while panel-simple-dsi is limited to one.
+>> There is no user of this compatible, nor the compatible make sense.
 > 
-> No, that is not something we usually test with.
+> There are. git grep samsung,sofef00, gives me two users.
+
+Hmm, on -next I only see a single one:
+
+$ grep samsung,sofef00 arch/*/boot/dts/ -R
+arch/arm64/boot/dts/qcom/sdm845-oneplus-enchilada.dts:  compatible = "samsung,sofef00";
+
 > 
->> I am worried about spin locks in any fence ops callbacks which now run with preemption disabled.
-> 
-> Hui? Why would spin_locks be problematic here?
+>> Remove it from simple DSI panel definitions.
 
-They become sleeping locks and IIRC there's a might_sleep equivalent in 
-there somewhere which fires when inside the preempt_disable section.
+Can't you mark is deprecated at first ?
 
-Regards,
-
-Tvrtko
-
->>> +            rcu_read_unlock();
->>>                dma_fence_signal_locked(fence);
->>>                return false;
->>>            }
->>>        }
->>> +    rcu_read_unlock();
->>>          return true;
->>>    }
->>> @@ -983,8 +996,13 @@ EXPORT_SYMBOL(dma_fence_wait_any_timeout);
->>>     */
->>>    void dma_fence_set_deadline(struct dma_fence *fence, ktime_t deadline)
->>>    {
->>> -    if (fence->ops->set_deadline && !dma_fence_is_signaled(fence))
->>> -        fence->ops->set_deadline(fence, deadline);
->>> +    const struct dma_fence_ops *ops;
->>> +
->>> +    rcu_read_lock();
->>> +    ops = rcu_dereference(fence->ops);
->>> +    if (ops->set_deadline && !dma_fence_is_signaled(fence))
->>> +        ops->set_deadline(fence, deadline);
->>> +    rcu_read_unlock();
->>>    }
->>>    EXPORT_SYMBOL(dma_fence_set_deadline);
->>>    @@ -1024,7 +1042,12 @@ __dma_fence_init(struct dma_fence *fence, const struct dma_fence_ops *ops,
->>>        BUG_ON(!ops || !ops->get_driver_name || !ops->get_timeline_name);
->>>          kref_init(&fence->refcount);
->>> -    fence->ops = ops;
->>> +    /*
->>> +     * At first glance it is counter intuitive to protect a constant
->>> +     * function pointer table by RCU, but this allows modules providing the
->>> +     * function table to unload by waiting for an RCU grace period.
->>> +     */
->>> +    RCU_INIT_POINTER(fence->ops, ops);
->>>        INIT_LIST_HEAD(&fence->cb_list);
->>>        fence->lock = lock;
->>>        fence->context = context;
->>> @@ -1104,11 +1127,12 @@ EXPORT_SYMBOL(dma_fence_init64);
->>>     */
->>>    const char __rcu *dma_fence_driver_name(struct dma_fence *fence)
->>>    {
->>> -    RCU_LOCKDEP_WARN(!rcu_read_lock_held(),
->>> -             "RCU protection is required for safe access to returned string");
->>> +    const struct dma_fence_ops *ops;
->>>    +    /* RCU protection is required for safe access to returned string */
->>> +    ops = rcu_dereference(fence->ops);
->>>        if (!test_bit(DMA_FENCE_FLAG_SIGNALED_BIT, &fence->flags))
->>> -        return fence->ops->get_driver_name(fence);
->>> +        return ops->get_driver_name(fence);
->>>        else
->>>            return "detached-driver";
->>>    }
->>> @@ -1136,11 +1160,12 @@ EXPORT_SYMBOL(dma_fence_driver_name);
->>>     */
->>>    const char __rcu *dma_fence_timeline_name(struct dma_fence *fence)
->>>    {
->>> -    RCU_LOCKDEP_WARN(!rcu_read_lock_held(),
->>> -             "RCU protection is required for safe access to returned string");
->>> +    const struct dma_fence_ops *ops;
->>>    +    /* RCU protection is required for safe access to returned string */
->>> +    ops = rcu_dereference(fence->ops);
->>>        if (!test_bit(DMA_FENCE_FLAG_SIGNALED_BIT, &fence->flags))
->>> -        return fence->ops->get_timeline_name(fence);
->>> +        return ops->get_timeline_name(fence);
->>>        else
->>>            return "signaled-timeline";
->>>    }
->>> diff --git a/include/linux/dma-fence.h b/include/linux/dma-fence.h
->>> index 64639e104110..38421a0c7c5b 100644
->>> --- a/include/linux/dma-fence.h
->>> +++ b/include/linux/dma-fence.h
->>> @@ -66,7 +66,7 @@ struct seq_file;
->>>     */
->>>    struct dma_fence {
->>>        spinlock_t *lock;
->>> -    const struct dma_fence_ops *ops;
->>> +    const struct dma_fence_ops __rcu *ops;
->>>        /*
->>>         * We clear the callback list on kref_put so that by the time we
->>>         * release the fence it is unused. No one should be adding to the
->>> @@ -418,13 +418,19 @@ const char __rcu *dma_fence_timeline_name(struct dma_fence *fence);
->>>    static inline bool
->>>    dma_fence_is_signaled_locked(struct dma_fence *fence)
->>>    {
->>> +    const struct dma_fence_ops *ops;
->>> +
->>>        if (test_bit(DMA_FENCE_FLAG_SIGNALED_BIT, &fence->flags))
->>>            return true;
->>>    -    if (fence->ops->signaled && fence->ops->signaled(fence)) {
->>> +    rcu_read_lock();
->>> +    ops = rcu_dereference(fence->ops);
->>> +    if (ops->signaled && ops->signaled(fence)) {
->>> +        rcu_read_unlock();
->>>            dma_fence_signal_locked(fence);
->>>            return true;
->>>        }
->>> +    rcu_read_unlock();
->>>          return false;
->>>    }
->>> @@ -448,13 +454,19 @@ dma_fence_is_signaled_locked(struct dma_fence *fence)
->>>    static inline bool
->>>    dma_fence_is_signaled(struct dma_fence *fence)
->>>    {
->>> +    const struct dma_fence_ops *ops;
->>> +
->>>        if (test_bit(DMA_FENCE_FLAG_SIGNALED_BIT, &fence->flags))
->>>            return true;
->>>    -    if (fence->ops->signaled && fence->ops->signaled(fence)) {
->>> +    rcu_read_lock();
->>> +    ops = rcu_dereference(fence->ops);
->>> +    if (ops->signaled && ops->signaled(fence)) {
->>> +        rcu_read_unlock();
->>>            dma_fence_signal(fence);
->>>            return true;
->>>        }
->>> +    rcu_read_unlock();
->>>          return false;
->>>    }
 >>
+>> Signed-off-by: David Heidelberg <david@ixit.cz>
+> 
+> ..
+> 
+>>   additionalProperties: false
+>>   
+>>   required:
+>>     - compatible
+>> +  - power-supply
+>>     - reg
+>>   
+>>   examples:
+>> diff --git a/Documentation/devicetree/bindings/display/panel/samsung,sofef00.yaml b/Documentation/devicetree/bindings/display/panel/samsung,sofef00.yaml
+>> new file mode 100644
+>> index 0000000000000..527a10e3b798e
+>> --- /dev/null
+>> +++ b/Documentation/devicetree/bindings/display/panel/samsung,sofef00.yaml
+>> @@ -0,0 +1,83 @@
+>> +# SPDX-License-Identifier: GPL-2.0-only OR BSD-2-Clause
+>> +%YAML 1.2
+>> +---
+>> +$id: http://devicetree.org/schemas/display/panel/samsung,sofef00.yaml#
+>> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+>> +
+>> +title: Samsung SOFEF00 AMOLED DDIC
+>> +
+>> +description: The SOFEF00 is display driver IC with connected panel.
+> 
+> Description goes below maintainers, see example-schema.
+> 
+>> +
+>> +maintainers:
+>> +  - David Heidelberg <david@ixit.cz>
+>> +
+>> +allOf:
+>> +  - $ref: panel-common.yaml#
+>> +
+>> +properties:
+>> +  compatible:
+>> +    items:
+>> +      - enum:
+>> +            # Samsung 6.01 inch, 1080x2160 pixels, 18:9 ratio
+>> +          - samsung,sofef00-ams601nt22
+>> +            # Samsung 6.28 inch, 1080x2280 pixels, 19:9 ratio
+>> +          - samsung,sofef00-ams628nw01
+> 
+> These were not in the old binding, so please explain in the commit msg
+> reasons for adding new front compatibles.
+> 
+>> +      - const: samsung,sofef00
+>> +
+>> +  reg:
+>> +    maxItems: 1
+>> +
+>> +  reset-gpios: true
+> 
+> Drop, not needed. It can stay required, though.
+> 
+>> +
+>> +  port: true
+> 
+> Drop
+> 
+>> +
+>> +  vddio-supply:
+>> +    description: VDD regulator
+>> +
+>> +  vci-supply:
+>> +    description: VCI regulator
+>> +
+>> +  poc-supply:
+>> +    description: POC regulator
+> 
+> 1st poc, then vci then vddio to keep it more-or-less sorted. Same in
+> required list.
+> 
+>> +
+>> +required:
+>> +  - compatible
+>> +  - reset-gpios
+>> +  - vddio-supply
+>> +  - vci-supply
+>> +  - poc-supply
+>> +
+>> +unevaluatedProperties: false
+> 
+> Best regards,
+> Krzysztof
 > 
 
