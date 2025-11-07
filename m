@@ -2,98 +2,86 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D3EBBC41A01
-	for <lists+dri-devel@lfdr.de>; Fri, 07 Nov 2025 21:46:48 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id BDF43C41A0A
+	for <lists+dri-devel@lfdr.de>; Fri, 07 Nov 2025 21:48:57 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0530A10EB81;
-	Fri,  7 Nov 2025 20:46:46 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6347610E035;
+	Fri,  7 Nov 2025 20:48:55 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=broadcom.com header.i=@broadcom.com header.b="O6NegaYS";
+	dkim=pass (2048-bit key; unprotected) header.d=ursulin.net header.i=@ursulin.net header.b="rIcU70MQ";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-yw1-f225.google.com (mail-yw1-f225.google.com
- [209.85.128.225])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7742310EB81
- for <dri-devel@lists.freedesktop.org>; Fri,  7 Nov 2025 20:46:45 +0000 (UTC)
-Received: by mail-yw1-f225.google.com with SMTP id
- 00721157ae682-78488cdc20aso12568617b3.1
- for <dri-devel@lists.freedesktop.org>; Fri, 07 Nov 2025 12:46:45 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1762548404; x=1763153204;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:dkim-signature:x-gm-gg
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=fY79u9w4g4VAY4ytGsRsNKKSlfTg0Gdlek9vIpobFt4=;
- b=kx1wEff4EK2otZpUD8c9GIBK3Tp7QbNOmU2k6rqoNp3G2jT9bPWmZBSAce/2M9E3+h
- RYH7Uu0dY56RpSr/Uf9kNK2jaIv05PsquT9yYdFoUBxzHnMvx8p+Ngu0C52eKaDQ70Vm
- C6CLe8SIvhfwrOqIcJnurid+kE/VMDfI6xCk5TgZAHayV331tNcVxfi38REZrG5cc7Op
- 7aZsg1KM6Wvaok7dhufWCbkn1HPh5EpSz6Pa6gpA8E+ADBXfISvUQXipI6ByofMS3EfZ
- yzpMeCdMJyRnltz88LDHJtwbV+qwsB4tLe4SP3KrYS2yAR5BcvpdaUuSJwfo+SsPUNd0
- litg==
-X-Gm-Message-State: AOJu0YxXenQdasAmROw5a7ht73Ntu6ZEPk7+ERYHeZrepVdKM4MdXdli
- LNZFiBtNzpM+NQKnyJ9EOD8bHGehYzEWLVbr7xiva9h+9515MLEgZvQiVDSLSLzkvVmN/43ijqm
- mik1SXtkxxJz0j71d4ZOWWHIauglLfJeQrPgh37gG4ZpRj2cCiaWK6goOT+PDLYoLrvHADWRtjA
- hTcqvU5jVfeRdXwCG0+7cgl0YivsswrqAO0diJbVcd8jPJy2JIW3xT7LG2rh6/XK0EBz63uowno
- LCxfvHsccnMJ2T4Xucb
-X-Gm-Gg: ASbGncsG0EKHjLP05TskRTXj8AOtDmzwglfDk0KEkv3oMwGkkN7hv/eoUaT58vwDohH
- vWmDEuu+OqKg3AeXTqMBq7YZwIL8+5PYSstLKfNGUML7U/SYjWa4B7fv8IkGBjx2m+wMWl/xWwW
- TXUbfgM8xh55jmLUbSgAeSv4WHNP5VZF49MR2L0uvyvC84P1gixWL+TGrtcGQJopoWiQ7gQ3wim
- 8z3qLUjW/OdW7fbmco2ALAj9qHANmE9Gy8U2UnCG0TMjJx+ijbLsMngISW4o+SDLMpGa3a2eny3
- 0DL5xkeDfjqV0ChdVVBdLzVzj62aComuGd+pS5DibETaZo148lKjL2h5dsLj1o+aSy2+++9z1Fn
- tvfMf8hiVyyNdRrvQy+hf8GEECZVuJAqcalLsse7ZzdU/VXTUn0OeWqqEysiB0yHpqVuilX0cTP
- h5YId2oaunA86UgXV1VCigf8rtxQZUrh8=
-X-Google-Smtp-Source: AGHT+IF0hC0lKVOo5CFsF5Qx0oYA0ZInrrIFrKRIGmGYY4cthAQPBZS1fRM5COzJ0Szv6OvEARmBTRqwi2Dn
-X-Received: by 2002:a05:690e:2547:b0:63f:a7fc:694d with SMTP id
- 956f58d0204a3-640d45eae05mr406551d50.55.1762548403978; 
- Fri, 07 Nov 2025 12:46:43 -0800 (PST)
-Received: from smtp-us-east1-p01-i01-si01.dlp.protect.broadcom.com
- (address-144-49-247-11.dlp.protect.broadcom.com. [144.49.247.11])
- by smtp-relay.gmail.com with ESMTPS id
- 956f58d0204a3-640b5dba71csm355405d50.13.2025.11.07.12.46.43
- for <dri-devel@lists.freedesktop.org>
- (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
- Fri, 07 Nov 2025 12:46:43 -0800 (PST)
-X-Relaying-Domain: broadcom.com
-X-CFilter-Loop: Reflected
-Received: by mail-pl1-f199.google.com with SMTP id
- d9443c01a7336-297b35951b7so24085905ad.3
- for <dri-devel@lists.freedesktop.org>; Fri, 07 Nov 2025 12:46:43 -0800 (PST)
+Received: from mail-wm1-f49.google.com (mail-wm1-f49.google.com
+ [209.85.128.49])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 55EC510E035
+ for <dri-devel@lists.freedesktop.org>; Fri,  7 Nov 2025 20:48:54 +0000 (UTC)
+Received: by mail-wm1-f49.google.com with SMTP id
+ 5b1f17b1804b1-4711810948aso8412055e9.2
+ for <dri-devel@lists.freedesktop.org>; Fri, 07 Nov 2025 12:48:54 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=broadcom.com; s=google; t=1762548402; x=1763153202;
- darn=lists.freedesktop.org; 
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:from:to:cc:subject:date
- :message-id:reply-to;
- bh=fY79u9w4g4VAY4ytGsRsNKKSlfTg0Gdlek9vIpobFt4=;
- b=O6NegaYSQeT214B0Ivxl18PmWGq9OqRAw9EvcilELXT2IYvwl7fOLcTMl/ZaajFrcF
- pOYzgW903NkVcjxhMCdEMDbzJAL+1pwYRSFgRgJAOKjYpCB0fNkEv91Zs6gSlUAgeMS+
- ojuaU0bSgxZTrlaWssRnwX4H6HFrum+y2K8Ls=
-X-Received: by 2002:a17:902:fc46:b0:269:4759:904b with SMTP id
- d9443c01a7336-297e570bf23mr4515225ad.58.1762548402464; 
- Fri, 07 Nov 2025 12:46:42 -0800 (PST)
-X-Received: by 2002:a17:902:fc46:b0:269:4759:904b with SMTP id
- d9443c01a7336-297e570bf23mr4514975ad.58.1762548401956; 
- Fri, 07 Nov 2025 12:46:41 -0800 (PST)
-Received: from plasma.dhcp.broadcom.net ([192.19.144.250])
+ d=ursulin.net; s=google; t=1762548533; x=1763153333; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:in-reply-to:from:content-language
+ :references:cc:to:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=JOrW5Q8xydcVXM43dd9aQAu40I7etAmkHTRU8lGajvI=;
+ b=rIcU70MQ6PIcEj/pod8kvPx1EQzzUEDkfpJaykHFeRqtJbVFhBYEd2TbCUtjLYpsmk
+ G8Inb2ourGynDGd8MsQVGRbrK8Tx8Bu2wF6XXJeRsWJOs6YuFbyRCkq4gSWCAXs7p1iP
+ HfJRrlCaqCmAi3/3qq/VYOgLo7CwRPQsaMDxsn8HQFJsFVZEDXuUqUZU0S2yCoNtoyR6
+ /B0jsAxh2ceoBIWSv1Tt8bx9XuVGtV5y4FRpwr8yBBNW8nPamTimCcro+Ac9ETEqsHz7
+ 1H7+fKxlEYEggxQH0N9m9oOJoctIkzJUlU3ssd8fQFFt9S+fGLUxf3BzyylRVNZFsECL
+ IvmQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1762548533; x=1763153333;
+ h=content-transfer-encoding:in-reply-to:from:content-language
+ :references:cc:to:subject:user-agent:mime-version:date:message-id
+ :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=JOrW5Q8xydcVXM43dd9aQAu40I7etAmkHTRU8lGajvI=;
+ b=J7TjUoobxrprHRv301oXj5+1+vUFpXvSJ0I3r8FYJ2+5PEoDNsYsYSnIWh/sLczxA1
+ HGFRNuLkDXeqUHGL/zO5S+N9aNw2xEqS3ytpNZ7athJQTy5FPbpIYLFqjxHGee98GvAa
+ sMuGVlCiK6p8lGPe9M+iFwkpW+V97cWBRQa/dWYfr7TWFxEz1BfZWvB/mCVQsocticIl
+ gwq64ef33Pn3SL/Pv8vHFU9npW4+jLyPGYODT3uwjvHbWJYwJRn0C4GIKFSov3McLLwP
+ 2Qka+Zb82hmVpUl7ZSALt/6/nQwGfeEPWyqAS0pubiKev9arvQmErWcxUTp4R8LMdB98
+ F4rA==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCU1mYUtRIVQPdp0kZf53mOhA8FX4AXTaJULa/sYbVYe4Qt0NKOeWFout+4ogpByA1kjPVOTMbOndb0=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YzD5HfVmTdtcDMPqQuLot+pEuORI5oy4RZvvyP/fsBAkMHwKLmc
+ 5x9orbL18a/leVbZ5Cl0NyTQQ2vFyCHsJ6QSYCgcf6fAy/IWHqYfRq7QL1sEe6FU3sM=
+X-Gm-Gg: ASbGnctM8TrvSZAUWkk4ZnJzAOFeTlQR+LkCmvaHozZt7Hn1XsfoM/VGTNNzZXLVA1r
+ 9cQD9A8di4p9YmTkY/2tbJ4WHFi1E1TBf8WIup9ccphy/FTgnf5EYkRa6JgzaxzHWpOA0IHEnW8
+ BuI407aes+JUWe+sR2JgnPfxoo2xGGJNiN24rK7nxY7g2vpti2aKdtYPVZRbqx/UNMrm7Esse8A
+ /GlXtoL+pXpyJ9GtYXbQBpEvP+vhLSk/hvinOgh7UJzROOOuLWt6L5dsGmuFEKUmrB+ku9hVYM+
+ EjPYk/UKOCnjtLsBHsY29w+s5llP+K+imvz6bCrrS4YAhxrMNof1qKWSEzVjz5v+/kQBmiNfhtX
+ sp7giwom1jpVehH0k0O0ZhghN6AMFl6T6My8I36zX/gGGJz/kQRCH6zTQAw+hQknhbDWgUxVQe7
+ xpRx6J62eGFu9rJeDh
+X-Google-Smtp-Source: AGHT+IGa8NQ+H5fu5Ot6rFuuXBzldd5AfEsvjMI89lcmjBY68BYTS+xXWss+yNFMorFaomhESv3lIA==
+X-Received: by 2002:a05:600c:8b4c:b0:46e:4a60:ea2c with SMTP id
+ 5b1f17b1804b1-47773293987mr2821745e9.37.1762548532683; 
+ Fri, 07 Nov 2025 12:48:52 -0800 (PST)
+Received: from [192.168.0.101] ([90.240.106.137])
  by smtp.gmail.com with ESMTPSA id
- d9443c01a7336-29651c94abasm69459435ad.82.2025.11.07.12.46.40
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 07 Nov 2025 12:46:41 -0800 (PST)
-From: Ian Forbes <ian.forbes@broadcom.com>
-To: dri-devel@lists.freedesktop.org
-Cc: bcm-kernel-feedback-list@broadcom.com, zack.rusin@broadcom.com,
- maaz.mombasawala@broadcom.com, Ian Forbes <ian.forbes@broadcom.com>,
- Ryosuke Yasuoka <ryasuoka@redhat.com>
-Subject: [PATCH v2] drm/vmwgfx: Add drm_panic support
-Date: Fri,  7 Nov 2025 14:46:17 -0600
-Message-ID: <20251107204620.1021749-1-ian.forbes@broadcom.com>
-X-Mailer: git-send-email 2.51.1
-In-Reply-To: <20251023200447.206834-1-ian.forbes@broadcom.com>
-References: <20251023200447.206834-1-ian.forbes@broadcom.com>
+ 5b1f17b1804b1-47763b5359esm53398575e9.0.2025.11.07.12.48.51
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 07 Nov 2025 12:48:52 -0800 (PST)
+Message-ID: <14ca1b28-df1d-4065-ad7a-97a3ff81a5a4@ursulin.net>
+Date: Fri, 7 Nov 2025 20:48:51 +0000
 MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] drm/i195: Fix format string truncation warning
+To: Ard Biesheuvel <ardb+git@google.com>, linux-kernel@vger.kernel.org
+Cc: Ard Biesheuvel <ardb@kernel.org>,
+ Jani Nikula <jani.nikula@linux.intel.com>,
+ Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>, David Airlie <airlied@gmail.com>,
+ Simona Vetter <simona@ffwll.ch>, intel-gfx@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org
+References: <20251107164240.2023366-2-ardb+git@google.com>
+Content-Language: en-GB
+From: Tvrtko Ursulin <tursulin@ursulin.net>
+In-Reply-To: <20251107164240.2023366-2-ardb+git@google.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-DetectorID-Processed: b00c1d49-9d2e-4205-b15f-d015386d3d5e
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -109,99 +97,72 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Sets up VRAM as the scanout buffer then switches to legacy mode.
 
-Suggested-by: Ryosuke Yasuoka <ryasuoka@redhat.com>
-Signed-off-by: Ian Forbes <ian.forbes@broadcom.com>
----
+On 07/11/2025 16:42, Ard Biesheuvel wrote:
+> From: Ard Biesheuvel <ardb@kernel.org>
+> 
+> GCC notices that the 16-byte uabi_name field could theoretically be too
+> small for the formatted string if the instance number exceeds 100.
+> 
+> Given that there are apparently ABI concerns here, this is the minimal
+> fix that shuts up the compiler without changing the output or the
+> maximum length for existing values < 100.
 
-v2:
- - Set SVGA_REG_CONFIG_DONE=false so that SVGA3 works correctly
+What would be those ABI concerns? I don't immediately see any.
+> drivers/gpu/drm/i915/intel_memory_region.c: In function ‘intel_memory_region_create’:
+> drivers/gpu/drm/i915/intel_memory_region.c:273:61: error: ‘%u’ directive output may be truncated writing between 1 and 5 bytes into a region of size between 3 and 11 [-Werror=format-truncation=]
+>    273 |         snprintf(mem->uabi_name, sizeof(mem->uabi_name), "%s%u",
+>        |                                                             ^~
+> drivers/gpu/drm/i915/intel_memory_region.c:273:58: note: directive argument in the range [0, 65535]
+>    273 |         snprintf(mem->uabi_name, sizeof(mem->uabi_name), "%s%u",
+>        |                                                          ^~~~~~
+> drivers/gpu/drm/i915/intel_memory_region.c:273:9: note: ‘snprintf’ output between 7 and 19 bytes into a destination of size 16
+>    273 |         snprintf(mem->uabi_name, sizeof(mem->uabi_name), "%s%u",
+>        |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+>    274 |                  intel_memory_type_str(type), instance);
+>        |                  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+> 
+> Signed-off-by: Ard Biesheuvel <ardb@kernel.org>
+> ---
+> Cc: Jani Nikula <jani.nikula@linux.intel.com>
+> Cc: Joonas Lahtinen <joonas.lahtinen@linux.intel.com>
+> Cc: Rodrigo Vivi <rodrigo.vivi@intel.com>
+> Cc: Tvrtko Ursulin <tursulin@ursulin.net>
+> Cc: David Airlie <airlied@gmail.com>
+> Cc: Simona Vetter <simona@ffwll.ch>
+> Cc: intel-gfx@lists.freedesktop.org
+> Cc: dri-devel@lists.freedesktop.org
+> 
+> This is unlikely to be the right fix, but sending a wrong patch is
+> usually a better way to elicit a response than just sending a bug
+> report.
+> 
+>   drivers/gpu/drm/i915/intel_memory_region.c | 2 +-
+>   1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/drivers/gpu/drm/i915/intel_memory_region.c b/drivers/gpu/drm/i915/intel_memory_region.c
+> index 59bd603e6deb..ad4afcf0c58a 100644
+> --- a/drivers/gpu/drm/i915/intel_memory_region.c
+> +++ b/drivers/gpu/drm/i915/intel_memory_region.c
+> @@ -271,7 +271,7 @@ intel_memory_region_create(struct drm_i915_private *i915,
+>   	mem->instance = instance;
+>   
+>   	snprintf(mem->uabi_name, sizeof(mem->uabi_name), "%s%u",
+> -		 intel_memory_type_str(type), instance);
+> +		 intel_memory_type_str(type), instance % 100);
+It's a theoretical issue only since there is no hardware with a double 
+digit number of instances.
 
- drivers/gpu/drm/vmwgfx/vmwgfx_kms.c  | 35 ++++++++++++++++++++++++++++
- drivers/gpu/drm/vmwgfx/vmwgfx_kms.h  |  5 ++++
- drivers/gpu/drm/vmwgfx/vmwgfx_stdu.c |  2 ++
- 3 files changed, 42 insertions(+)
+But I guess much prettier fix would be to simply grow the buffer.
 
-diff --git a/drivers/gpu/drm/vmwgfx/vmwgfx_kms.c b/drivers/gpu/drm/vmwgfx/vmwgfx_kms.c
-index efdbb67a4966..87448e86d3b3 100644
---- a/drivers/gpu/drm/vmwgfx/vmwgfx_kms.c
-+++ b/drivers/gpu/drm/vmwgfx/vmwgfx_kms.c
-@@ -20,6 +20,7 @@
- #include <drm/drm_rect.h>
- #include <drm/drm_sysfs.h>
- #include <drm/drm_edid.h>
-+#include <drm/drm_panic.h>
- 
- void vmw_du_init(struct vmw_display_unit *du)
- {
-@@ -2025,3 +2026,37 @@ bool vmw_user_object_is_null(struct vmw_user_object *uo)
- {
- 	return !uo->buffer && !uo->surface;
- }
-+
-+int
-+vmw_get_scanout_buffer(struct drm_plane *plane, struct drm_scanout_buffer *sb)
-+{
-+	void  *vram;
-+	struct vmw_private *vmw_priv = container_of(plane->dev, struct vmw_private, drm);
-+
-+	// Only call on the primary display
-+	if (container_of(plane, struct vmw_display_unit, primary)->unit != 0)
-+		return -EINVAL;
-+
-+	vmw_write(vmw_priv, SVGA_REG_CONFIG_DONE, false);
-+
-+	vram = memremap(vmw_priv->vram_start, vmw_priv->vram_size,
-+			MEMREMAP_WB | MEMREMAP_DEC);
-+	if (!vram)
-+		return -ENOMEM;
-+
-+	sb->map[0].vaddr = vram;
-+	sb->format = drm_format_info(DRM_FORMAT_RGB565);
-+	sb->width  = vmw_priv->initial_width;
-+	sb->height = vmw_priv->initial_height;
-+	sb->pitch[0] = sb->width * 2;
-+	return 0;
-+}
-+
-+void vmw_panic_flush(struct drm_plane *plane)
-+{
-+	struct vmw_private *vmw_priv = container_of(plane->dev, struct vmw_private, drm);
-+
-+	vmw_kms_write_svga(vmw_priv,
-+			   vmw_priv->initial_width, vmw_priv->initial_height,
-+			   vmw_priv->initial_width * 2, 16, 16);
-+}
-diff --git a/drivers/gpu/drm/vmwgfx/vmwgfx_kms.h b/drivers/gpu/drm/vmwgfx/vmwgfx_kms.h
-index 445471fe9be6..8e37561cd527 100644
---- a/drivers/gpu/drm/vmwgfx/vmwgfx_kms.h
-+++ b/drivers/gpu/drm/vmwgfx/vmwgfx_kms.h
-@@ -500,6 +500,11 @@ int vmw_kms_stdu_readback(struct vmw_private *dev_priv,
- 
- int vmw_du_helper_plane_update(struct vmw_du_update_plane *update);
- 
-+struct drm_scanout_buffer;
-+
-+int vmw_get_scanout_buffer(struct drm_plane *pl, struct drm_scanout_buffer *sb);
-+void vmw_panic_flush(struct drm_plane *plane);
-+
- /**
-  * vmw_du_translate_to_crtc - Translate a rect from framebuffer to crtc
-  * @state: Plane state.
-diff --git a/drivers/gpu/drm/vmwgfx/vmwgfx_stdu.c b/drivers/gpu/drm/vmwgfx/vmwgfx_stdu.c
-index add13294fb7c..faacfef7baa5 100644
---- a/drivers/gpu/drm/vmwgfx/vmwgfx_stdu.c
-+++ b/drivers/gpu/drm/vmwgfx/vmwgfx_stdu.c
-@@ -1506,6 +1506,8 @@ drm_plane_helper_funcs vmw_stdu_primary_plane_helper_funcs = {
- 	.atomic_update = vmw_stdu_primary_plane_atomic_update,
- 	.prepare_fb = vmw_stdu_primary_plane_prepare_fb,
- 	.cleanup_fb = vmw_stdu_primary_plane_cleanup_fb,
-+	.get_scanout_buffer = vmw_get_scanout_buffer,
-+	.panic_flush = vmw_panic_flush,
- };
- 
- static const struct drm_crtc_helper_funcs vmw_stdu_crtc_helper_funcs = {
--- 
-2.51.1
+Also, hm, how come gcc does not find the mem->name vsnprintf from 
+intel_memory_region_set_name?
+
+Regards,
+
+Tvrtko
+
+>   
+>   	mutex_init(&mem->objects.lock);
+>   	INIT_LIST_HEAD(&mem->objects.list);
 
