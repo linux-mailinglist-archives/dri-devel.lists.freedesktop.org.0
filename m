@@ -2,34 +2,34 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2243AC4038B
-	for <lists+dri-devel@lfdr.de>; Fri, 07 Nov 2025 14:57:26 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3F2A1C4038E
+	for <lists+dri-devel@lfdr.de>; Fri, 07 Nov 2025 14:57:28 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2FBEA10EACD;
-	Fri,  7 Nov 2025 13:57:24 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8A7A210EACE;
+	Fri,  7 Nov 2025 13:57:26 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="uZ+2Qw+d";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="trWAvWOR";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8EB7C10EACD
- for <dri-devel@lists.freedesktop.org>; Fri,  7 Nov 2025 13:57:23 +0000 (UTC)
+Received: from sea.source.kernel.org (sea.source.kernel.org [172.234.252.31])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5B72F10EACE
+ for <dri-devel@lists.freedesktop.org>; Fri,  7 Nov 2025 13:57:25 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by tor.source.kernel.org (Postfix) with ESMTP id A9B746190E;
+ by sea.source.kernel.org (Postfix) with ESMTP id 3CEFD446BA;
+ Fri,  7 Nov 2025 13:57:25 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C81A4C4CEF8;
  Fri,  7 Nov 2025 13:57:22 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E9F80C19423;
- Fri,  7 Nov 2025 13:57:19 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1762523842;
- bh=zT7yJtnaqDGXDO589aaFEUqUScUGnxwCLG7F4lbEeTQ=;
+ s=k20201202; t=1762523845;
+ bh=Z8U/akBsldXiiAXmfTRDia6T57dNa1mxa22yotGMNtI=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=uZ+2Qw+d62NRPggJZhj5nQqWclnslQbXHVlTuBTc5WDnQCVhk0C7xQuNMjMXYsbZr
- tcg/Kv9BoHfAHNn5q7oxs+3irrVJnGjWlAf9sgOp6cXDuuUGvkDwdLMFG1pTJ744ei
- E14I92eGwalKkixrWpxnXGNf4NgmnxVj31USHjrt9n/c3OFAmq8V5ncAtjWYgJQRWN
- Hzgk9AWBYz5o9AntRmhs/4le9FncKlgTSeovjuCeTO8z7YoBOQnpGRHiMsKbUR1Gu1
- JA8rz/zeiQ9xISUD8QkI0jD2BAWifSNmL463j99ZaPGjy66jh0LMaRePYpN9duXopZ
- 7XKHkH5wK/e+A==
+ b=trWAvWOR9eqC8BxkMy6CDLWzGBj9gNBPrMD7XJW4DAu65A0bEzxzvNY3EDq5j8Slc
+ PZ5pg6Nfr11YJHQCZ+JyMWzIBMQs1kYHApIl+vkSCyIF6PHTJPcQY4lwLx8T91eBpI
+ oDElKg2AylMW4SeZoCAvcgiKAVNFL7S1g0575a71DMsVaP0J+KhGcg8cmahb2WUbgS
+ DsMWTd8lPy2KzJalhXpaf8IO9ncfkHQZYiVC6XGULKyLGeyL+IH9LhnQ6fkKX832Jt
+ pQ3HwVqztpAVOUlqbw9zganTTSxsQRpk+WC8RwtKGBpji1yYlZnXhBfqBpuKZ4xC+m
+ 43YAwYv1ungnQ==
 From: Philipp Stanner <phasta@kernel.org>
 To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
  Maxime Ripard <mripard@kernel.org>,
@@ -37,9 +37,9 @@ To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
  Simona Vetter <simona@ffwll.ch>, Jonathan Corbet <corbet@lwn.net>
 Cc: dri-devel@lists.freedesktop.org, linux-doc@vger.kernel.org,
  linux-kernel@vger.kernel.org, Philipp Stanner <phasta@kernel.org>
-Subject: [PATCH v2 1/2] drm/todo: Add section with task for GPU scheduler
-Date: Fri,  7 Nov 2025 14:57:00 +0100
-Message-ID: <20251107135701.244659-3-phasta@kernel.org>
+Subject: [PATCH v2 2/2] drm/todo: Add entry for unlocked drm/sched rq readers
+Date: Fri,  7 Nov 2025 14:57:01 +0100
+Message-ID: <20251107135701.244659-4-phasta@kernel.org>
 X-Mailer: git-send-email 2.49.0
 In-Reply-To: <20251107135701.244659-2-phasta@kernel.org>
 References: <20251107135701.244659-2-phasta@kernel.org>
@@ -61,55 +61,38 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The GPU scheduler has a great many problems and deserves its own TODO
-section.
+Runqueues are currently almost everywhere being read unlocked in
+drm/sched. At XDC 2025, the assembled developers were unsure whether
+that's legal and whether it can be fixed. Someone should find out.
 
-Add a section and a first task describing the problem of
-drm_sched_resubmit_jobs() being deprecated without a successor.
+Add a todo entry for the unlocked runqueue reader problem.
 
 Signed-off-by: Philipp Stanner <phasta@kernel.org>
 ---
- Documentation/gpu/todo.rst | 31 +++++++++++++++++++++++++++++++
- 1 file changed, 31 insertions(+)
+ Documentation/gpu/todo.rst | 14 ++++++++++++++
+ 1 file changed, 14 insertions(+)
 
 diff --git a/Documentation/gpu/todo.rst b/Documentation/gpu/todo.rst
-index 9013ced318cb..084e148e78c1 100644
+index 084e148e78c1..fc8bafd593d8 100644
 --- a/Documentation/gpu/todo.rst
 +++ b/Documentation/gpu/todo.rst
-@@ -878,6 +878,37 @@ Contact: Christian König
+@@ -909,6 +909,20 @@ Contact: Christian König <ckoenig.leichtzumerken@gmail.com>
  
- Level: Starter
+ Level: Advanced
  
-+DRM GPU Scheduler
-+=================
++Add locking for runqueues
++-------------------------
 +
-+Provide a universal successor for drm_sched_resubmit_jobs()
-+------------------------------------------------------------
++There is an old FIXME by Sima in include/drm/gpu_scheduler.h. It details that
++struct drm_sched_rq is read at many places without any locks, not even with a
++READ_ONCE. At XDC 2025 no one could really tell why that is the case, whether
++locks are needed and whether they could be added. (But for real, that should
++probably be locked!). Check whether it's possible to add locks everywhere, and
++do so if yes.
 +
-+drm_sched_resubmit_jobs() is deprecated. Main reason being that it leads to
-+reinitializing dma_fences. See that function's docu for details. The better
-+approach for valid resubmissions by amdgpu and Xe is (apparently) to figure out
-+which job (and, through association: which entity) caused the hang. Then, the
-+job's buffer data, together with all other jobs' buffer data currently in the
-+same hardware ring, must be invalidated. This can for example be done by
-+overwriting it. amdgpu currently determines which jobs are in the ring and need
-+to be overwritten by keeping copies of the job. Xe obtains that information by
-+directly accessing drm_sched's pending_list.
++Contact: Philipp Stanner <phasta@kernel.org>
 +
-+Tasks:
-+
-+1. implement scheduler functionality through which the driver can obtain the
-+   information which *broken* jobs are currently in the hardware ring.
-+2. Such infrastructure would then typically be used in
-+   drm_sched_backend_ops.timedout_job(). Document that.
-+3. Port a driver as first user.
-+4. Document the new alternative in the docu of deprecated
-+   drm_sched_resubmit_jobs().
-+
-+Contact: Christian König <ckoenig.leichtzumerken@gmail.com>
-+         Philipp Stanner <phasta@kernel.org>
-+
-+Level: Advanced
++Level: Intermediate
 +
  Outside DRM
  ===========
