@@ -2,75 +2,49 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9B586C3E212
-	for <lists+dri-devel@lfdr.de>; Fri, 07 Nov 2025 02:29:40 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 65C48C3E46F
+	for <lists+dri-devel@lfdr.de>; Fri, 07 Nov 2025 03:46:38 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id F017110EA1C;
-	Fri,  7 Nov 2025 01:29:37 +0000 (UTC)
-Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=huawei.com header.i=@huawei.com header.b="ewhpz3Pd";
-	dkim-atps=neutral
+	by gabe.freedesktop.org (Postfix) with ESMTP id E471010E17B;
+	Fri,  7 Nov 2025 02:46:34 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from szxga02-in.huawei.com (szxga02-in.huawei.com [45.249.212.188])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BB03D10E175;
- Fri,  7 Nov 2025 01:29:35 +0000 (UTC)
-Received: from canpmsgout03.his.huawei.com (unknown [172.19.92.159])
- by szxga02-in.huawei.com (SkyGuard) with ESMTP id 4d2hDw2rcmzFs5C;
- Fri,  7 Nov 2025 09:24:48 +0800 (CST)
-dkim-signature: v=1; a=rsa-sha256; d=huawei.com; s=dkim;
- c=relaxed/relaxed; q=dns/txt; h=From;
- bh=xeRQu+SYyXX4GV9ChTkeRHphOYQxpyYIT8412wlVrEE=;
- b=ewhpz3Pd5N8b+zREBJhYALlUCEZD+ZqBQj3IP36ZRJp8z6vbRJONBBHKLPdl9t15MEoGvtzdn
- ISg06aXnQWFhToZmVPm/T3Gvr3pZZl6p5AozEhn5wiCa4+aPK2U6dN3eyJlB0Cv2fJyTOCpCdlr
- UqklBc8/YX0jBIIqXZVpwmI=
-Received: from mail.maildlp.com (unknown [172.19.163.174])
- by canpmsgout03.his.huawei.com (SkyGuard) with ESMTPS id 4d2hJX39z7zpSt8;
- Fri,  7 Nov 2025 09:27:56 +0800 (CST)
-Received: from dggpemf500015.china.huawei.com (unknown [7.185.36.143])
- by mail.maildlp.com (Postfix) with ESMTPS id 0B687140109;
- Fri,  7 Nov 2025 09:29:30 +0800 (CST)
-Received: from [10.67.121.110] (10.67.121.110) by
- dggpemf500015.china.huawei.com (7.185.36.143) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1544.11; Fri, 7 Nov 2025 09:29:27 +0800
-Subject: Re: [PATCH 02/22] vfio/hisi: Convert to the get_region_info op
-To: Pranjal Shrivastava <praan@google.com>, Jason Gunthorpe <jgg@nvidia.com>
-CC: Alexander Gordeev <agordeev@linux.ibm.com>, David Airlie
- <airlied@gmail.com>, Alex Williamson <alex.williamson@redhat.com>, Ankit
- Agrawal <ankita@nvidia.com>, Christian Borntraeger
- <borntraeger@linux.ibm.com>, Brett Creeley <brett.creeley@amd.com>,
- <dri-devel@lists.freedesktop.org>, Eric Auger <eric.auger@redhat.com>, Eric
- Farman <farman@linux.ibm.com>, Giovanni Cabiddu <giovanni.cabiddu@intel.com>, 
- Vasily Gorbik <gor@linux.ibm.com>, Heiko Carstens <hca@linux.ibm.com>,
- <intel-gfx@lists.freedesktop.org>, Jani Nikula <jani.nikula@linux.intel.com>, 
- Joonas Lahtinen <joonas.lahtinen@linux.intel.com>, Kevin Tian
- <kevin.tian@intel.com>, <kvm@vger.kernel.org>, Kirti Wankhede
- <kwankhede@nvidia.com>, <linux-s390@vger.kernel.org>, Matthew Rosato
- <mjrosato@linux.ibm.com>, Nikhil Agarwal <nikhil.agarwal@amd.com>, Nipun
- Gupta <nipun.gupta@amd.com>, Peter Oberparleiter <oberpar@linux.ibm.com>,
- Halil Pasic <pasic@linux.ibm.com>, <qat-linux@intel.com>, Rodrigo Vivi
- <rodrigo.vivi@intel.com>, Simona Vetter <simona@ffwll.ch>, Shameer Kolothum
- <skolothumtho@nvidia.com>, Mostafa Saleh <smostafa@google.com>, Sven Schnelle
- <svens@linux.ibm.com>, Tvrtko Ursulin <tursulin@ursulin.net>,
- <virtualization@lists.linux.dev>, Vineeth Vijayan <vneethv@linux.ibm.com>,
- Yishai Hadas <yishaih@nvidia.com>, Zhenyu Wang <zhenyuw.linux@gmail.com>, Zhi
- Wang <zhi.wang.linux@gmail.com>, <patches@lists.linux.dev>
-References: <0-v1-679a6fa27d31+209-vfio_get_region_info_op_jgg@nvidia.com>
- <2-v1-679a6fa27d31+209-vfio_get_region_info_op_jgg@nvidia.com>
- <aQhGTwg4kpuP8pgF@google.com>
-From: liulongfang <liulongfang@huawei.com>
-Message-ID: <3f7f1781-6d39-a452-ffcc-053c286950a4@huawei.com>
-Date: Fri, 7 Nov 2025 09:29:27 +0800
-User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:60.0) Gecko/20100101
- Thunderbird/60.8.0
+Received: from mailgw.kylinos.cn (mailgw.kylinos.cn [124.126.103.232])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6AE3E10E17B
+ for <dri-devel@lists.freedesktop.org>; Fri,  7 Nov 2025 02:46:33 +0000 (UTC)
+X-UUID: f376a834bb8311f0a38c85956e01ac42-20251107
+X-CID-P-RULE: Release_Ham
+X-CID-O-INFO: VERSION:1.3.6, REQID:59d87bc8-a230-4055-88ca-d90d54663399, IP:0,
+ UR
+ L:0,TC:0,Content:0,EDM:25,RT:0,SF:0,FILE:0,BULK:0,RULE:Release_Ham,ACTION:
+ release,TS:25
+X-CID-META: VersionHash:a9d874c, CLOUDID:2418c3808d3b5942ec5250576dd24885,
+ BulkI
+ D:nil,BulkQuantity:0,Recheck:0,SF:102|850,TC:nil,Content:0|15|50,EDM:5,IP:
+ nil,URL:0,File:nil,RT:nil,Bulk:nil,QS:nil,BEC:nil,COL:0,OSI:0,OSA:0,AV:0,L
+ ES:1,SPR:NO,DKR:0,DKP:0,BRR:0,BRE:0,ARC:0
+X-CID-BVR: 2,SSN|SDN
+X-CID-BAS: 2,SSN|SDN,0,_
+X-CID-FACTOR: TF_CID_SPAM_SNR
+X-CID-RHF: D41D8CD98F00B204E9800998ECF8427E
+X-UUID: f376a834bb8311f0a38c85956e01ac42-20251107
+X-User: liqiang01@kylinos.cn
+Received: from localhost.localdomain [(10.44.16.150)] by mailgw.kylinos.cn
+ (envelope-from <liqiang01@kylinos.cn>)
+ (Generic MTA with TLSv1.3 TLS_AES_256_GCM_SHA384 256/256)
+ with ESMTP id 1342834673; Fri, 07 Nov 2025 10:46:24 +0800
+From: Li Qiang <liqiang01@kylinos.cn>
+To: tomeu@tomeuvizoso.net,
+	ogabbay@kernel.org
+Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ Li Qiang <liqiang01@kylinos.cn>
+Subject: [PATCH] drm/rocket: Add scheds pointer to file_priv and fix memory
+ leaks
+Date: Fri,  7 Nov 2025 10:46:20 +0800
+Message-Id: <20251107024620.912403-1-liqiang01@kylinos.cn>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-In-Reply-To: <aQhGTwg4kpuP8pgF@google.com>
-Content-Type: text/plain; charset="gbk"
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.67.121.110]
-X-ClientProxiedBy: kwepems500001.china.huawei.com (7.221.188.70) To
- dggpemf500015.china.huawei.com (7.185.36.143)
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -86,115 +60,72 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 2025/11/3 14:06, Pranjal Shrivastava wrote:
-> On Thu, Oct 23, 2025 at 08:09:16PM -0300, Jason Gunthorpe wrote:
->> Change the function signature of hisi_acc_vfio_pci_ioctl()
->> and re-indent it.
->>
->> Signed-off-by: Jason Gunthorpe <jgg@nvidia.com>
->> ---
->>  .../vfio/pci/hisilicon/hisi_acc_vfio_pci.c    | 57 +++++++++----------
->>  1 file changed, 27 insertions(+), 30 deletions(-)
->>
->> diff --git a/drivers/vfio/pci/hisilicon/hisi_acc_vfio_pci.c b/drivers/vfio/pci/hisilicon/hisi_acc_vfio_pci.c
->> index fde33f54e99ec5..f06dcfcf09599f 100644
->> --- a/drivers/vfio/pci/hisilicon/hisi_acc_vfio_pci.c
->> +++ b/drivers/vfio/pci/hisilicon/hisi_acc_vfio_pci.c
->> @@ -1324,43 +1324,39 @@ static ssize_t hisi_acc_vfio_pci_read(struct vfio_device *core_vdev,
->>  	return vfio_pci_core_read(core_vdev, buf, new_count, ppos);
->>  }
->>  
->> -static long hisi_acc_vfio_pci_ioctl(struct vfio_device *core_vdev, unsigned int cmd,
->> -				    unsigned long arg)
->> +static int hisi_acc_vfio_get_region(struct vfio_device *core_vdev,
->> +				    struct vfio_region_info __user *arg)
->>  {
->> -	if (cmd == VFIO_DEVICE_GET_REGION_INFO) {
->> -		struct vfio_pci_core_device *vdev =
->> -			container_of(core_vdev, struct vfio_pci_core_device, vdev);
->> -		struct pci_dev *pdev = vdev->pdev;
->> -		struct vfio_region_info info;
->> -		unsigned long minsz;
->> +	struct vfio_pci_core_device *vdev =
->> +		container_of(core_vdev, struct vfio_pci_core_device, vdev);
->> +	struct pci_dev *pdev = vdev->pdev;
->> +	struct vfio_region_info info;
->> +	unsigned long minsz;
->>  
->> -		minsz = offsetofend(struct vfio_region_info, offset);
->> +	minsz = offsetofend(struct vfio_region_info, offset);
->>  
->> -		if (copy_from_user(&info, (void __user *)arg, minsz))
->> -			return -EFAULT;
->> +	if (copy_from_user(&info, arg, minsz))
->> +		return -EFAULT;
->>  
->> -		if (info.argsz < minsz)
->> -			return -EINVAL;
->> +	if (info.argsz < minsz)
->> +		return -EINVAL;
->>  
->> -		if (info.index == VFIO_PCI_BAR2_REGION_INDEX) {
->> -			info.offset = VFIO_PCI_INDEX_TO_OFFSET(info.index);
->> +	if (info.index != VFIO_PCI_BAR2_REGION_INDEX)
->> +		return vfio_pci_ioctl_get_region_info(core_vdev, arg);
->>  
-> 
-> I'm curious to learn the reason for flipping polarity here? (apart from
-> readability).
->
+The rocket driver allocates an array of struct drm_gpu_scheduler pointers
+for each file via kmalloc_array() in rocket_job_open(). However, the
+allocated memory was not stored in rocket_file_priv and therefore never
+freed on file close, leading to a memory leak.
 
-Here, since the function's behavior has been reversed, the internal processing
-is also inverted accordingly.
+This patch introduces a new `scheds` field in struct rocket_file_priv to
+store the allocated pointer array, and frees it properly in
+rocket_job_close() after the scheduler entity is destroyed.
 
-Thanks.
-Longfang.
+This ensures correct lifetime tracking of scheduler arrays and resolves
+the leak detected by code review and potential KASAN reports.
 
->> -			/*
->> -			 * ACC VF dev BAR2 region consists of both functional
->> -			 * register space and migration control register space.
->> -			 * Report only the functional region to Guest.
->> -			 */
->> -			info.size = pci_resource_len(pdev, info.index) / 2;
->> +	info.offset = VFIO_PCI_INDEX_TO_OFFSET(info.index);
->>  
->> -			info.flags = VFIO_REGION_INFO_FLAG_READ |
->> -					VFIO_REGION_INFO_FLAG_WRITE |
->> -					VFIO_REGION_INFO_FLAG_MMAP;
->> +	/*
->> +	 * ACC VF dev BAR2 region consists of both functional
->> +	 * register space and migration control register space.
->> +	 * Report only the functional region to Guest.
->> +	 */
->> +	info.size = pci_resource_len(pdev, info.index) / 2;
->>  
->> -			return copy_to_user((void __user *)arg, &info, minsz) ?
->> -					    -EFAULT : 0;
->> -		}
->> -	}
->> -	return vfio_pci_core_ioctl(core_vdev, cmd, arg);
->> +	info.flags = VFIO_REGION_INFO_FLAG_READ | VFIO_REGION_INFO_FLAG_WRITE |
->> +		     VFIO_REGION_INFO_FLAG_MMAP;
->> +
->> +	return copy_to_user(arg, &info, minsz) ? -EFAULT : 0;
->>  }
->>  
->>  static int hisi_acc_vf_debug_check(struct seq_file *seq, struct vfio_device *vdev)
->> @@ -1557,7 +1553,8 @@ static const struct vfio_device_ops hisi_acc_vfio_pci_migrn_ops = {
->>  	.release = vfio_pci_core_release_dev,
->>  	.open_device = hisi_acc_vfio_pci_open_device,
->>  	.close_device = hisi_acc_vfio_pci_close_device,
->> -	.ioctl = hisi_acc_vfio_pci_ioctl,
->> +	.ioctl = vfio_pci_core_ioctl,
->> +	.get_region_info = hisi_acc_vfio_get_region,
->>  	.device_feature = vfio_pci_core_ioctl_feature,
->>  	.read = hisi_acc_vfio_pci_read,
->>  	.write = hisi_acc_vfio_pci_write,
-> 
-> The change seems to maintain original functionality and LGTM.
-> Acked-by: Pranjal Shrivastava <praan@google.com>
-> 
-> Thanks,
-> Praan
-> .
-> 
+Signed-off-by: Li Qiang <liqiang01@kylinos.cn>
+---
+ drivers/accel/rocket/rocket_drv.h |  1 +
+ drivers/accel/rocket/rocket_job.c | 10 +++++++++-
+ 2 files changed, 10 insertions(+), 1 deletion(-)
+
+diff --git a/drivers/accel/rocket/rocket_drv.h b/drivers/accel/rocket/rocket_drv.h
+index 2c673bb99ccc..759a08596dad 100644
+--- a/drivers/accel/rocket/rocket_drv.h
++++ b/drivers/accel/rocket/rocket_drv.h
+@@ -24,6 +24,7 @@ struct rocket_file_priv {
+ 	struct mutex mm_lock;
+ 
+ 	struct drm_sched_entity sched_entity;
++	struct drm_gpu_scheduler **scheds;
+ };
+ 
+ struct rocket_iommu_domain *rocket_iommu_domain_get(struct rocket_file_priv *rocket_priv);
+diff --git a/drivers/accel/rocket/rocket_job.c b/drivers/accel/rocket/rocket_job.c
+index acd606160dc9..820d96f010f2 100644
+--- a/drivers/accel/rocket/rocket_job.c
++++ b/drivers/accel/rocket/rocket_job.c
+@@ -502,6 +502,9 @@ int rocket_job_open(struct rocket_file_priv *rocket_priv)
+ 	unsigned int core;
+ 	int ret;
+ 
++	if (unlikely(!scheds))
++		return -ENOMEM;
++
+ 	for (core = 0; core < rdev->num_cores; core++)
+ 		scheds[core] = &rdev->cores[core].sched;
+ 
+@@ -509,8 +512,12 @@ int rocket_job_open(struct rocket_file_priv *rocket_priv)
+ 				    DRM_SCHED_PRIORITY_NORMAL,
+ 				    scheds,
+ 				    rdev->num_cores, NULL);
+-	if (WARN_ON(ret))
++	if (WARN_ON(ret)) {
++		kfree(scheds);
+ 		return ret;
++	}
++
++	rocket_priv->scheds = scheds;
+ 
+ 	return 0;
+ }
+@@ -520,6 +527,7 @@ void rocket_job_close(struct rocket_file_priv *rocket_priv)
+ 	struct drm_sched_entity *entity = &rocket_priv->sched_entity;
+ 
+ 	kfree(entity->sched_list);
++	kfree(rocket_priv->scheds);
+ 	drm_sched_entity_destroy(entity);
+ }
+ 
+-- 
+2.25.1
+
