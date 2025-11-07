@@ -2,55 +2,85 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5D8DCC3FA29
-	for <lists+dri-devel@lfdr.de>; Fri, 07 Nov 2025 12:05:22 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id AE1E7C3FA7D
+	for <lists+dri-devel@lfdr.de>; Fri, 07 Nov 2025 12:09:46 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id AEF6A10EA90;
-	Fri,  7 Nov 2025 11:05:20 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 03A6E10EA87;
+	Fri,  7 Nov 2025 11:09:45 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="iYRsj9oY";
+	dkim=pass (2048-bit key; unprotected) header.d=ursulin.net header.i=@ursulin.net header.b="yCl9Z74S";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from bali.collaboradmins.com (bali.collaboradmins.com
- [148.251.105.195])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 83AD010EA9B
- for <dri-devel@lists.freedesktop.org>; Fri,  7 Nov 2025 11:05:17 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1762513515;
- bh=ODcL8SYb76gPGjPes1ZBf9PDcCYTi757gqJ3YtFG4OA=;
- h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
- b=iYRsj9oYBywQlKcO0CzXLtxljnmCgh//zajN6afaUsbHIHpK0E0scsMrx/dl2jxD9
- /frEXcivxX6gTPtuxThXgqWzPbNgj2fUVEHgcdEQJGI2KxllHrK+rYgG2NyPsfq03F
- oWzoSFLb6PcZQur+7Z0W7kliEA+lUHYvJhnGU63SccIkDVYAmd5lTAEZJqu223YIkZ
- BteoygNI+lb2NNr9Jub6dDBSXOpKHk0/xgtaASndXdFw1Hz3vCcld/woFdTezrmZ5g
- FwpCNySIO2EEfnJBffLZLl36c1oUR9IcfB42nUjkYVivPDm6nr/Us3K+/HTXs16+Kd
- DGiYf+hxCb7iw==
-Received: from fedora (unknown [IPv6:2a01:e0a:2c:6930:d919:a6e:5ea1:8a9f])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange ECDHE (prime256v1) server-signature RSA-PSS (4096 bits)
- server-digest SHA256) (No client certificate requested)
- (Authenticated sender: bbrezillon)
- by bali.collaboradmins.com (Postfix) with ESMTPSA id 3E8C617E04D6;
- Fri,  7 Nov 2025 12:05:15 +0100 (CET)
-Date: Fri, 7 Nov 2025 12:05:10 +0100
-From: Boris Brezillon <boris.brezillon@collabora.com>
-To: Karunika Choo <karunika.choo@arm.com>
-Cc: dri-devel@lists.freedesktop.org, nd@arm.com, Steven Price
- <steven.price@arm.com>, Liviu Dudau <liviu.dudau@arm.com>, Maarten
- Lankhorst <maarten.lankhorst@linux.intel.com>, Maxime Ripard
- <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, David Airlie
- <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v3 0/8] drm/panthor: Add support for Mali-G1 GPUs
-Message-ID: <20251107120510.1ad142f9@fedora>
-In-Reply-To: <20251027161334.854650-1-karunika.choo@arm.com>
-References: <20251027161334.854650-1-karunika.choo@arm.com>
-Organization: Collabora
-X-Mailer: Claws Mail 4.3.1 (GTK 3.24.51; x86_64-redhat-linux-gnu)
+Received: from mail-wm1-f49.google.com (mail-wm1-f49.google.com
+ [209.85.128.49])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9786510EA8F
+ for <dri-devel@lists.freedesktop.org>; Fri,  7 Nov 2025 11:09:43 +0000 (UTC)
+Received: by mail-wm1-f49.google.com with SMTP id
+ 5b1f17b1804b1-47755de027eso4269645e9.0
+ for <dri-devel@lists.freedesktop.org>; Fri, 07 Nov 2025 03:09:43 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=ursulin.net; s=google; t=1762513782; x=1763118582; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:in-reply-to:from:content-language
+ :references:cc:to:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=Hucu1UhZREYkJANtmE9hQ/FaRpYzftzgN7wW8361yT4=;
+ b=yCl9Z74SLpnfmEdf4/FP0Sv8PjzGXrf1qflp/I/N8V5AG5OMexupTcs6UUc79m4D7y
+ P6NvfFwcH8auC7aRAlvCqrmmDwvn3hSZnbu3ZrxPWFYYIESB6t/nXbU1Cw0vWZ1Qfai3
+ VfJphaBK3flqUPar9oN8r5Y3lywZ+wsHc23F9a5etfrxmnGyKpKftukVd4QWduB2h+fZ
+ BQtlLhnaUWEQLqxAfFg/XV8cfpwEwCmZqrINJcfB5R1DIWE/LBiD7Vwjl097qgmeb5UH
+ 4T0fQRfODYeBRQiuGoFl9JXV3VkIG3Sa20F0PR0Nf+sIkFPvih5DN1aL+/pbeUdbGpS/
+ Xl7w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1762513782; x=1763118582;
+ h=content-transfer-encoding:in-reply-to:from:content-language
+ :references:cc:to:subject:user-agent:mime-version:date:message-id
+ :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=Hucu1UhZREYkJANtmE9hQ/FaRpYzftzgN7wW8361yT4=;
+ b=dkEzYYFiDEGr6jJ6IZsMtYJvCSFHhTP3Ve+C6ezE2BTSLrv5mBEOmGPAELfD7sDJVy
+ 8jlr77MvOIAKpzIJ11BFJ7iopFPI29/BUa+cyDhHoOPpiJzk+/zYn+NRqdYH+V7vm+08
+ PgRU1JRwfWTEMc6urJemn5K5ed7rIMEMRZt1JdcjVQ808vPl6XPd06+Q5gc2TZW4c7cr
+ uJtovKv77o7tQcAQX/5o6b5xaflcpdq93HstNW9Oum3iNA7ursWuz6Omh/X873LRPqTa
+ KVJ/iJu8Ys5L++JC84HRV+kFhHNePJK34MVva0xnvzMRu2cZxsVPzmEMxAT0NoZaxlB6
+ 8ARg==
+X-Gm-Message-State: AOJu0YwIAi/WILHV8RA2Xf+ct8dTpRmhgVCs0df+NdG3GiGtSNuNw2XD
+ DUNslE8FW4YxQd69w/ApoxlvDLIm/OBr7HAQwb9F3FvEiPqKhVer2bU3yuejtOA0kjmJHBkkePK
+ YMhKN
+X-Gm-Gg: ASbGncsCe39MkAObcVSWx+jtM+iZRJKOJgGrQ1LEde92WNydMy5x1NekQ8AZfkFcdLw
+ Gv1hAjLa1iZZg1cVFXuULlOeVhd8UcNy3YIOxU1LCdCcWB+bUnaifiuoNVqxk/1pTonGBkxnQ2E
+ Jmq7DlP5GTxrltp6fo4RsYCmAzq7ffApBFKh2pUCHJ1iH0D9deuuHhtCH9T25oPXgLGCPYsjGhh
+ XclOu+RfLXUxc7inwPOJ86isSN46/eAbYyjsIVMl2MTd2s/cvx79ilP/ht7Adp0gGW3R0Qooqi9
+ axFXZijzN49IjbehrP77pJtmiZTPhsUGut1j6qvXGR9I0xpGeUv1miqxYYDBnSUFKYwm2iPdJLb
+ i1ZVwvrh7wOyEBAstTGUGf6JKuWf2SWIe9Ns7sfIPddYpBNOdGDLbWlr/i5rjfpLRcWZYf+pa0W
+ 81DOwBm8UToR5OR8vzsTu9QLUGhTE=
+X-Google-Smtp-Source: AGHT+IGghjP1J1/jVtKwY64jaxXE+ADd+Tl/GDBehY3RxN3iNDvUoBZ7EnOvmfsJo/j+jZT6GNPRCA==
+X-Received: by 2002:a05:600c:4f8e:b0:477:1af2:f40a with SMTP id
+ 5b1f17b1804b1-4776bc9bd43mr19306985e9.17.1762513781985; 
+ Fri, 07 Nov 2025 03:09:41 -0800 (PST)
+Received: from [192.168.0.101] ([90.240.106.137])
+ by smtp.gmail.com with ESMTPSA id
+ 5b1f17b1804b1-4775ce20ff3sm155700715e9.10.2025.11.07.03.09.41
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 07 Nov 2025 03:09:41 -0800 (PST)
+Message-ID: <54466a0e-1019-4fd1-b8a8-1b9448698b67@ursulin.net>
+Date: Fri, 7 Nov 2025 11:09:40 +0000
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 03/20] dma-buf: protected fence ops by RCU v2
+To: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
+ phasta@mailbox.org, alexdeucher@gmail.com, simona.vetter@ffwll.ch,
+ airlied@gmail.com, felix.kuehling@amd.com, matthew.brost@intel.com
+Cc: dri-devel@lists.freedesktop.org, amd-gfx@lists.freedesktop.org
+References: <20251031134442.113648-1-christian.koenig@amd.com>
+ <20251031134442.113648-4-christian.koenig@amd.com>
+ <0bdc899f-8c03-40fa-92ad-1b907a015c77@ursulin.net>
+ <59fb14d3-63b6-4943-be80-dfad7f59028c@amd.com>
+Content-Language: en-GB
+From: Tvrtko Ursulin <tursulin@ursulin.net>
+In-Reply-To: <59fb14d3-63b6-4943-be80-dfad7f59028c@amd.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -66,92 +96,238 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, 27 Oct 2025 16:13:26 +0000
-Karunika Choo <karunika.choo@arm.com> wrote:
 
-> This patch series extends the Panthor driver with basic support for
-> Mali-G1 GPUs.
+On 06/11/2025 13:14, Christian König wrote:
+> On 10/31/25 15:29, Tvrtko Ursulin wrote:
+>> On 31/10/2025 13:16, Christian König wrote:
+>>> At first glance it is counter intuitive to protect a constant function
+>>> pointer table by RCU, but this allows modules providing the function
+>>> table to unload by waiting for an RCU grace period.
+>>>
+>>> v2: make one the now duplicated lockdep warnings a comment instead.
+>>>
+>>> Signed-off-by: Christian König <christian.koenig@amd.com>
+>>> ---
+>>>    drivers/dma-buf/dma-fence.c | 69 +++++++++++++++++++++++++------------
+>>>    include/linux/dma-fence.h   | 18 ++++++++--
+>>>    2 files changed, 62 insertions(+), 25 deletions(-)
+>>>
+>>> diff --git a/drivers/dma-buf/dma-fence.c b/drivers/dma-buf/dma-fence.c
+>>> index b229d96f551c..ed82e8361096 100644
+>>> --- a/drivers/dma-buf/dma-fence.c
+>>> +++ b/drivers/dma-buf/dma-fence.c
+>>> @@ -498,6 +498,7 @@ EXPORT_SYMBOL(dma_fence_signal);
+>>>    signed long
+>>>    dma_fence_wait_timeout(struct dma_fence *fence, bool intr, signed long timeout)
+>>>    {
+>>> +    const struct dma_fence_ops *ops;
+>>>        signed long ret;
+>>>          if (WARN_ON(timeout < 0))
+>>> @@ -509,15 +510,21 @@ dma_fence_wait_timeout(struct dma_fence *fence, bool intr, signed long timeout)
+>>>          dma_fence_enable_sw_signaling(fence);
+>>>    -    if (trace_dma_fence_wait_start_enabled()) {
+>>> -        rcu_read_lock();
+>>> -        trace_dma_fence_wait_start(fence);
+>>> +    rcu_read_lock();
+>>> +    ops = rcu_dereference(fence->ops);
+>>> +    trace_dma_fence_wait_start(fence);
+>>> +    if (ops->wait) {
+>>> +        /*
+>>> +         * Implementing the wait ops is deprecated and not supported for
+>>> +         * issuer independent fences, so it is ok to use the ops outside
+>>> +         * the RCU protected section.
+>>> +         */
+>>
+>> Probably a good idea to put this explanation about issue independent fences to struct dma_fence_ops kerneldoc. At the moment only .wait is documented as deprecated, so both it and .release can be expanded with this additional angle.
 > 
-> The v14 architecture introduces several hardware and register-level
-> changes compared to prior GPUs. This series adds the necessary
-> architecture-specific support infrastructure, power control and reset
-> handling for Mali-G1 GPUs.
-> 
-> Patch Breakdown:
-> [Patch 1-2]:  Refactor panthor_hw to introduce architecture-specific
->               hooks and abstractions to support the v14 architecture.
->               These patches introduce architecture-specific HW binding
->               for function pointers.
-> [Patch 3-5]:  Adds basic L2 power on/off and soft reset support for the
->               PWR_CONTROL block introduced in v14.
-> [Patch 6]:    Update MCU halt and warm boot operations to reflect the
->               GLB_REQ.STATE changes in v14. This ensures that the MCU is
->               properly halted and the correct operations are performed
->               on warm boot depending on the FW version.
-> [Patch 7]:    Align endpoint_req with changes introduced in v14, where
->               the register is widened to 64-bit and shifed down by
->               4-bytes. This patch adds the necessary infrastructure to
->               discern the correct endpoint_req register to use.
-> [Patch 8]:    Enables Mali-G1 support on Panthor by adding HW bindings
->               for v14 architecture, product names and path to FW binary.
-> 
-> v3:
->  * Updated include logic to enable static inline functions in
->    panthor_hw.h for function pointers and feature checks.
->  * Fixed missed replacement of CSF_IFACE_VERSION check with
->    panthor_fw_has_glb_state() check.
->  * Link to v2: https://lore.kernel.org/all/20251024202117.3241292-1-karunika.choo@arm.com/
+> Done, but I'm not sure if my documentation is sufficient. You should probably take a look at the next version.
 
-Didn't thoroughly review the patchset, but I'm happy with the feature
-checking changes, and I see that Steve has reviewed the whole thing, so
-feel free to stick my
+Will do.
 
-Acked-by: Boris Brezillon <boris.brezillon@collabora.com>
+>>> +        rcu_read_unlock();
+>>> +        ret = ops->wait(fence, intr, timeout);
+>>> +    } else {
+>>>            rcu_read_unlock();
+>>> -    }
+>>> -    if (fence->ops->wait)
+>>> -        ret = fence->ops->wait(fence, intr, timeout);
+>>> -    else
+>>>            ret = dma_fence_default_wait(fence, intr, timeout);
+>>> +    }
+>>>        if (trace_dma_fence_wait_end_enabled()) {
+>>>            rcu_read_lock();
+>>>            trace_dma_fence_wait_end(fence);
+>>> @@ -538,6 +545,7 @@ void dma_fence_release(struct kref *kref)
+>>>    {
+>>>        struct dma_fence *fence =
+>>>            container_of(kref, struct dma_fence, refcount);
+>>> +    const struct dma_fence_ops *ops;
+>>>          rcu_read_lock();
+>>>        trace_dma_fence_destroy(fence);
+>>> @@ -569,12 +577,12 @@ void dma_fence_release(struct kref *kref)
+>>>            spin_unlock_irqrestore(fence->lock, flags);
+>>>        }
+>>>    -    rcu_read_unlock();
+>>> -
+>>> -    if (fence->ops->release)
+>>> -        fence->ops->release(fence);
+>>> +    ops = rcu_dereference(fence->ops);
+>>> +    if (ops->release)
+>>> +        ops->release(fence);
+>>>        else
+>>>            dma_fence_free(fence);
+>>> +    rcu_read_unlock();
+>>>    }
+>>>    EXPORT_SYMBOL(dma_fence_release);
+>>>    @@ -593,6 +601,7 @@ EXPORT_SYMBOL(dma_fence_free);
+>>>      static bool __dma_fence_enable_signaling(struct dma_fence *fence)
+>>>    {
+>>> +    const struct dma_fence_ops *ops;
+>>>        bool was_set;
+>>>          lockdep_assert_held(fence->lock);
+>>> @@ -603,14 +612,18 @@ static bool __dma_fence_enable_signaling(struct dma_fence *fence)
+>>>        if (test_bit(DMA_FENCE_FLAG_SIGNALED_BIT, &fence->flags))
+>>>            return false;
+>>>    -    if (!was_set && fence->ops->enable_signaling) {
+>>> +    rcu_read_lock();
+>>> +    ops = rcu_dereference(fence->ops);
+>>> +    if (!was_set && ops->enable_signaling) {
+>>>            trace_dma_fence_enable_signal(fence);
+>>>    -        if (!fence->ops->enable_signaling(fence)) {
+>>> +        if (!ops->enable_signaling(fence)) {
+>>
+>> Have you tried the series with PREEMPT_RT enabled?
+> 
+> No, that is not something we usually test with.
+> 
+>> I am worried about spin locks in any fence ops callbacks which now run with preemption disabled.
+> 
+> Hui? Why would spin_locks be problematic here?
 
-> v2:
->  * Merged GPU_ID refactoring patch with the arch-specific panthor_hw
->    binding patch (formerly PATCH 01/10 and PATCH 02/10).
->  * Dropped panthor_hw feature bitmap patch in favor of functions that
->    performs the relevant architecture version checks.
->  * Fixed kernel test bot warnings.
->  * Replaced function pointer accessor MACROs with static inline
->    functions.
->  * Refined power control logic, removed unnecessary checks and redundant
->    stubs.
->  * Replaced explicit CSG_IFACE_VERSION checks with functions describing
->    the feature being checked for.
->  * General readability improvements, more consistent error handling,
->    behaviour clarifications, and formatting fixes.
->  * Link to v1: https://lore.kernel.org/all/20251014094337.1009601-1-karunika.choo@arm.com/
-> 
-> Karunika Choo (8):
->   drm/panthor: Add arch-specific panthor_hw binding
->   drm/panthor: Add architecture-specific function operations
->   drm/panthor: Introduce panthor_pwr API and power control framework
->   drm/panthor: Implement L2 power on/off via PWR_CONTROL
->   drm/panthor: Implement soft reset via PWR_CONTROL
->   drm/panthor: Support GLB_REQ.STATE field for Mali-G1 GPUs
->   drm/panthor: Support 64-bit endpoint_req register for Mali-G1
->   drm/panthor: Add support for Mali-G1 GPUs
-> 
->  drivers/gpu/drm/panthor/Makefile         |   1 +
->  drivers/gpu/drm/panthor/panthor_device.c |  18 +-
->  drivers/gpu/drm/panthor/panthor_device.h |   7 +
->  drivers/gpu/drm/panthor/panthor_fw.c     | 131 +++++-
->  drivers/gpu/drm/panthor/panthor_fw.h     |  32 +-
->  drivers/gpu/drm/panthor/panthor_gpu.c    |  12 +-
->  drivers/gpu/drm/panthor/panthor_gpu.h    |   1 +
->  drivers/gpu/drm/panthor/panthor_hw.c     | 108 ++++-
->  drivers/gpu/drm/panthor/panthor_hw.h     |  47 +-
->  drivers/gpu/drm/panthor/panthor_pwr.c    | 548 +++++++++++++++++++++++
->  drivers/gpu/drm/panthor/panthor_pwr.h    |  23 +
->  drivers/gpu/drm/panthor/panthor_regs.h   |  79 ++++
->  drivers/gpu/drm/panthor/panthor_sched.c  |  21 +-
->  13 files changed, 987 insertions(+), 41 deletions(-)
->  create mode 100644 drivers/gpu/drm/panthor/panthor_pwr.c
->  create mode 100644 drivers/gpu/drm/panthor/panthor_pwr.h
-> 
-> --
-> 2.49.0
+They become sleeping locks and IIRC there's a might_sleep equivalent in 
+there somewhere which fires when inside the preempt_disable section.
+
+Regards,
+
+Tvrtko
+
+>>> +            rcu_read_unlock();
+>>>                dma_fence_signal_locked(fence);
+>>>                return false;
+>>>            }
+>>>        }
+>>> +    rcu_read_unlock();
+>>>          return true;
+>>>    }
+>>> @@ -983,8 +996,13 @@ EXPORT_SYMBOL(dma_fence_wait_any_timeout);
+>>>     */
+>>>    void dma_fence_set_deadline(struct dma_fence *fence, ktime_t deadline)
+>>>    {
+>>> -    if (fence->ops->set_deadline && !dma_fence_is_signaled(fence))
+>>> -        fence->ops->set_deadline(fence, deadline);
+>>> +    const struct dma_fence_ops *ops;
+>>> +
+>>> +    rcu_read_lock();
+>>> +    ops = rcu_dereference(fence->ops);
+>>> +    if (ops->set_deadline && !dma_fence_is_signaled(fence))
+>>> +        ops->set_deadline(fence, deadline);
+>>> +    rcu_read_unlock();
+>>>    }
+>>>    EXPORT_SYMBOL(dma_fence_set_deadline);
+>>>    @@ -1024,7 +1042,12 @@ __dma_fence_init(struct dma_fence *fence, const struct dma_fence_ops *ops,
+>>>        BUG_ON(!ops || !ops->get_driver_name || !ops->get_timeline_name);
+>>>          kref_init(&fence->refcount);
+>>> -    fence->ops = ops;
+>>> +    /*
+>>> +     * At first glance it is counter intuitive to protect a constant
+>>> +     * function pointer table by RCU, but this allows modules providing the
+>>> +     * function table to unload by waiting for an RCU grace period.
+>>> +     */
+>>> +    RCU_INIT_POINTER(fence->ops, ops);
+>>>        INIT_LIST_HEAD(&fence->cb_list);
+>>>        fence->lock = lock;
+>>>        fence->context = context;
+>>> @@ -1104,11 +1127,12 @@ EXPORT_SYMBOL(dma_fence_init64);
+>>>     */
+>>>    const char __rcu *dma_fence_driver_name(struct dma_fence *fence)
+>>>    {
+>>> -    RCU_LOCKDEP_WARN(!rcu_read_lock_held(),
+>>> -             "RCU protection is required for safe access to returned string");
+>>> +    const struct dma_fence_ops *ops;
+>>>    +    /* RCU protection is required for safe access to returned string */
+>>> +    ops = rcu_dereference(fence->ops);
+>>>        if (!test_bit(DMA_FENCE_FLAG_SIGNALED_BIT, &fence->flags))
+>>> -        return fence->ops->get_driver_name(fence);
+>>> +        return ops->get_driver_name(fence);
+>>>        else
+>>>            return "detached-driver";
+>>>    }
+>>> @@ -1136,11 +1160,12 @@ EXPORT_SYMBOL(dma_fence_driver_name);
+>>>     */
+>>>    const char __rcu *dma_fence_timeline_name(struct dma_fence *fence)
+>>>    {
+>>> -    RCU_LOCKDEP_WARN(!rcu_read_lock_held(),
+>>> -             "RCU protection is required for safe access to returned string");
+>>> +    const struct dma_fence_ops *ops;
+>>>    +    /* RCU protection is required for safe access to returned string */
+>>> +    ops = rcu_dereference(fence->ops);
+>>>        if (!test_bit(DMA_FENCE_FLAG_SIGNALED_BIT, &fence->flags))
+>>> -        return fence->ops->get_timeline_name(fence);
+>>> +        return ops->get_timeline_name(fence);
+>>>        else
+>>>            return "signaled-timeline";
+>>>    }
+>>> diff --git a/include/linux/dma-fence.h b/include/linux/dma-fence.h
+>>> index 64639e104110..38421a0c7c5b 100644
+>>> --- a/include/linux/dma-fence.h
+>>> +++ b/include/linux/dma-fence.h
+>>> @@ -66,7 +66,7 @@ struct seq_file;
+>>>     */
+>>>    struct dma_fence {
+>>>        spinlock_t *lock;
+>>> -    const struct dma_fence_ops *ops;
+>>> +    const struct dma_fence_ops __rcu *ops;
+>>>        /*
+>>>         * We clear the callback list on kref_put so that by the time we
+>>>         * release the fence it is unused. No one should be adding to the
+>>> @@ -418,13 +418,19 @@ const char __rcu *dma_fence_timeline_name(struct dma_fence *fence);
+>>>    static inline bool
+>>>    dma_fence_is_signaled_locked(struct dma_fence *fence)
+>>>    {
+>>> +    const struct dma_fence_ops *ops;
+>>> +
+>>>        if (test_bit(DMA_FENCE_FLAG_SIGNALED_BIT, &fence->flags))
+>>>            return true;
+>>>    -    if (fence->ops->signaled && fence->ops->signaled(fence)) {
+>>> +    rcu_read_lock();
+>>> +    ops = rcu_dereference(fence->ops);
+>>> +    if (ops->signaled && ops->signaled(fence)) {
+>>> +        rcu_read_unlock();
+>>>            dma_fence_signal_locked(fence);
+>>>            return true;
+>>>        }
+>>> +    rcu_read_unlock();
+>>>          return false;
+>>>    }
+>>> @@ -448,13 +454,19 @@ dma_fence_is_signaled_locked(struct dma_fence *fence)
+>>>    static inline bool
+>>>    dma_fence_is_signaled(struct dma_fence *fence)
+>>>    {
+>>> +    const struct dma_fence_ops *ops;
+>>> +
+>>>        if (test_bit(DMA_FENCE_FLAG_SIGNALED_BIT, &fence->flags))
+>>>            return true;
+>>>    -    if (fence->ops->signaled && fence->ops->signaled(fence)) {
+>>> +    rcu_read_lock();
+>>> +    ops = rcu_dereference(fence->ops);
+>>> +    if (ops->signaled && ops->signaled(fence)) {
+>>> +        rcu_read_unlock();
+>>>            dma_fence_signal(fence);
+>>>            return true;
+>>>        }
+>>> +    rcu_read_unlock();
+>>>          return false;
+>>>    }
+>>
 > 
 
