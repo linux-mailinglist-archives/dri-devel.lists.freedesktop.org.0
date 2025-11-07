@@ -2,145 +2,61 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id CC380C40F52
-	for <lists+dri-devel@lfdr.de>; Fri, 07 Nov 2025 17:57:30 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id EAE78C40FA7
+	for <lists+dri-devel@lfdr.de>; Fri, 07 Nov 2025 18:07:07 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E9DE010E103;
-	Fri,  7 Nov 2025 16:57:27 +0000 (UTC)
-Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=amd.com header.i=@amd.com header.b="zGHP78wb";
-	dkim-atps=neutral
+	by gabe.freedesktop.org (Postfix) with ESMTP id C59C010EB21;
+	Fri,  7 Nov 2025 17:07:04 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from SN4PR0501CU005.outbound.protection.outlook.com
- (mail-southcentralusazon11011068.outbound.protection.outlook.com
- [40.93.194.68])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D9D9910E103
- for <dri-devel@lists.freedesktop.org>; Fri,  7 Nov 2025 16:57:26 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=Go4wpySoH3ry3wUP90OXMkvQnoI3NtXTQxtWUEpZU8fUBOCPNZihWi4kYotYkG9CuGokzDBGkvG0v5iIwRtC3nzF/gze9HG6tV0Kpst7pUmsG1gxMccgoEad9CH4riuLIG23Omgh2xBqK7ee8bNZUJG27iPWYpOs+Nb7lMXUzsaQ8qSigI3X7GLIo5eXNtPwrOcfBpDhO/gl3ITn7O9wpkxztxzXFSq6kUoweWyk9UfsRE9gFKUtNuCyFfY7+jSuAorEBSdwnPTxRoPRMQ2v9XqM2Eq7Buex+12hUONTRdl4cOboyKjwwRneRpdeFZhXivaGkahV180a4sA9US4B4w==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=DmWwot1++YJUNzgqkRNs7sJL7Mr7rA5NBk2k9Z07JRs=;
- b=TE9yZ9JqVpLbAH7Nis0C91xwrxgUls3tR4hPobgMKrKmHGThy8xIKzhgMtQ4gcUxHMNUJ/VRtnihnoxuhADSzyCB1YhyPMHFGsR45Ceq3iBl7gpbmfkKa4RwGzmvlGFCF2HV4VHc5LNJ6np8bnTjCFGzZVwxKLpN+3BYluqyseDK8AE0dBbAEfJfbtWKnPFW/DznZwhJ5vqvSwiVKcRX2+L+kvoyFk2qK5i/TZIjqEWFg/IDW3PV5ytQKsptmQp45lCc3/6YTSGbvHga+2TyDIH4Na7FTzxE2yU6HyM0hMlTA5/1jMl4qgMH5ulCh+8Q+3zIG38zifjDV7kK99CsHA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 165.204.84.17) smtp.rcpttodomain=kernel.org smtp.mailfrom=amd.com; dmarc=pass
- (p=quarantine sp=quarantine pct=100) action=none header.from=amd.com;
- dkim=none (message not signed); arc=none (0)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=DmWwot1++YJUNzgqkRNs7sJL7Mr7rA5NBk2k9Z07JRs=;
- b=zGHP78wbxU9zQi9W50TDkQYYiWZpZUFxo7iJSozQj+apWHyGWQ2Ih8tW7ULksTV5dIGgh6jc8YQuk1bsg7x1nmSnIJ6Pbr9FZBWDMfMi3RZDCYKfoinPYVrGVsBkz6eKURRL4KEErCoI/cfeT+MbzO+gp7Pu6B2L+xoHc4HSdO0=
-Received: from PH8PR02CA0036.namprd02.prod.outlook.com (2603:10b6:510:2da::28)
- by BN5PR12MB9510.namprd12.prod.outlook.com (2603:10b6:408:2ac::9)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9298.12; Fri, 7 Nov
- 2025 16:57:22 +0000
-Received: from CY4PEPF0000E9D7.namprd05.prod.outlook.com
- (2603:10b6:510:2da:cafe::13) by PH8PR02CA0036.outlook.office365.com
- (2603:10b6:510:2da::28) with Microsoft SMTP Server (version=TLS1_3,
- cipher=TLS_AES_256_GCM_SHA384) id 15.20.9298.13 via Frontend Transport; Fri,
- 7 Nov 2025 16:57:22 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
- smtp.mailfrom=amd.com; dkim=none (message not signed)
- header.d=none;dmarc=pass action=none header.from=amd.com;
-Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
- 165.204.84.17 as permitted sender) receiver=protection.outlook.com;
- client-ip=165.204.84.17; helo=satlexmb07.amd.com; pr=C
-Received: from satlexmb07.amd.com (165.204.84.17) by
- CY4PEPF0000E9D7.mail.protection.outlook.com (10.167.241.70) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.9298.6 via Frontend Transport; Fri, 7 Nov 2025 16:57:21 +0000
-Received: from SATLEXMB06.amd.com (10.181.40.147) by satlexmb07.amd.com
- (10.181.42.216) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.2.2562.17; Fri, 7 Nov
- 2025 08:57:18 -0800
-Received: from satlexmb08.amd.com (10.181.42.217) by SATLEXMB06.amd.com
- (10.181.40.147) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.39; Fri, 7 Nov
- 2025 10:57:18 -0600
-Received: from [172.19.71.207] (10.180.168.240) by satlexmb08.amd.com
- (10.181.42.217) with Microsoft SMTP Server id 15.2.2562.17 via Frontend
- Transport; Fri, 7 Nov 2025 08:57:18 -0800
-Message-ID: <2888a0ce-6d30-1911-0870-0ea37e392cbc@amd.com>
-Date: Fri, 7 Nov 2025 08:57:17 -0800
+Received: from metis.whiteo.stw.pengutronix.de
+ (metis.whiteo.stw.pengutronix.de [185.203.201.7])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 87A1D10E0E4
+ for <dri-devel@lists.freedesktop.org>; Fri,  7 Nov 2025 15:48:53 +0000 (UTC)
+Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
+ by metis.whiteo.stw.pengutronix.de with esmtps
+ (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.92)
+ (envelope-from <mgr@pengutronix.de>)
+ id 1vHOhh-0003vL-EO; Fri, 07 Nov 2025 16:48:45 +0100
+Received: from pty.whiteo.stw.pengutronix.de ([2a0a:edc0:2:b01:1d::c5])
+ by drehscheibe.grey.stw.pengutronix.de with esmtps (TLS1.3) tls
+ TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384 (Exim 4.96)
+ (envelope-from <mgr@pengutronix.de>) id 1vHOhg-007YOX-2q;
+ Fri, 07 Nov 2025 16:48:44 +0100
+Received: from mgr by pty.whiteo.stw.pengutronix.de with local (Exim 4.96)
+ (envelope-from <mgr@pengutronix.de>) id 1vHOhg-006qle-2T;
+ Fri, 07 Nov 2025 16:48:44 +0100
+Date: Fri, 7 Nov 2025 16:48:44 +0100
+From: Michael Grzeschik <mgr@pengutronix.de>
+To: Daniel Thompson <daniel@riscstar.com>
+Cc: Uwe =?iso-8859-15?Q?Kleine-K=F6nig?= <ukleinek@kernel.org>,
+ Daniel Thompson <danielt@kernel.org>, Lee Jones <lee@kernel.org>,
+ Jingoo Han <jingoohan1@gmail.com>, Helge Deller <deller@gmx.de>,
+ Pengutronix <kernel@pengutronix.de>, linux-pwm@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, linux-fbdev@vger.kernel.org,
+ linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] backlight: pwm_bl: apply the initial backlight state
+ with sane defaults
+Message-ID: <aQ4U3LHBQ7WcYKUd@pengutronix.de>
+References: <20250731-blpwm-v1-1-0171fd31bff9@pengutronix.de>
+ <aQNRK5ksNDMMve0x@aspen.lan>
+ <t6wtfnmnclnzwdpbmdcalvyf3mulmpexnryolxkygqkpx7vdwz@dqwbwvlzawrr>
+ <aQ4HY5Hncv1fvxVk@aspen.lan>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.11.0
-Subject: Re: [PATCH] accel/amdxdna: Treat power-off failure as unrecoverable
- error
-Content-Language: en-US
-To: Mario Limonciello <superm1@kernel.org>, <ogabbay@kernel.org>,
- <quic_jhugo@quicinc.com>, <maciej.falkowski@linux.intel.com>,
- <dri-devel@lists.freedesktop.org>
-CC: <linux-kernel@vger.kernel.org>, <max.zhen@amd.com>, <sonal.santan@amd.com>
-References: <20251106180521.1095218-1-lizhi.hou@amd.com>
- <d21ece5b-d27b-447f-8a8e-5d672fa0c473@amd.com>
- <978dcea6-4d25-3b33-695a-632a9f58884c@amd.com>
- <2dcb4668-2c4d-4c73-9805-1af1338c9e7d@kernel.org>
-From: Lizhi Hou <lizhi.hou@amd.com>
-In-Reply-To: <2dcb4668-2c4d-4c73-9805-1af1338c9e7d@kernel.org>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 8bit
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: CY4PEPF0000E9D7:EE_|BN5PR12MB9510:EE_
-X-MS-Office365-Filtering-Correlation-Id: 285997f6-47e4-4fc3-4040-08de1e1eb7f8
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
- ARA:13230040|36860700013|82310400026|1800799024|376014|7053199007; 
-X-Microsoft-Antispam-Message-Info: =?utf-8?B?cldUYnRSTTJSMVBEOGxETFM2TXJNMENVVWhkblF4bHdOVnYwUnhoUGNUZDgr?=
- =?utf-8?B?NkpDdGM4U2tBZ0dtRFdhWmtLNG1Bemt4emJKaDBiNDNCNWxJV1ZEZ2l3bnkx?=
- =?utf-8?B?ckpzR0ora3RpcVdDNnRyMHpVRGlNaldyN1pQR0VqU0k3NGtIaHRndHpSYXc1?=
- =?utf-8?B?ZStEMGp4UWhZV1JIall6QWhBTjF5eCtwcXg4dDRzT1dzNEZwbVU4OHhPUkcw?=
- =?utf-8?B?a3lhSVJoMTFMWk5heTVFM2oxVks1WUhHRFFJNGdKMDYxVkcyY3FHaDI0NVJr?=
- =?utf-8?B?RzNITTF6OUxNb21MYzBHZ3lvOUFLbHlncGpKczhOdk92cmhQa1Z0M3JlLzNI?=
- =?utf-8?B?SXhBK3dkZERaNXJSM01jOVExdmpjQURpRHhuYmR4dUVCQk1WaExQZW5NYnUr?=
- =?utf-8?B?OFVUd2tDdEFybnJlYzhzaGlDcUZjVXBpSkFXK2hmVU11TFJyNTdkOGRqR044?=
- =?utf-8?B?cCtOUTF4cnRzaFAwL1c3UFFUSkhlOEdxUzZiREJtV3VYSjdpc0dGT1R6enI1?=
- =?utf-8?B?a1Y2cjlBV2VBazYxQ09TSmlMa1dlRllvanA1blhBTDR5TDJXZnkvNmtreE1K?=
- =?utf-8?B?eXJ5cTE5SG50RzUvSUl5T0kvMS94ZHh1QVdDQmM5d3BxcWJ1L01jSFQ1M1pI?=
- =?utf-8?B?UTdkNmh3N0dSZEZyTm1STHVQeVF0eTFxc1Z0djhkNy9kZkVJYTBrYzdKanZK?=
- =?utf-8?B?ZWcrN0V5d3M0R3VuaTRVMHpQSWVwMDl0WHdSTmxRWnZsZ3FEazJFZHhNeFNm?=
- =?utf-8?B?ZDFrRE9YNHo0RTVzallldXg3N0MybmlHeXBPMzlSZkNwdmx6aWIwZEEyQzU0?=
- =?utf-8?B?TFlXcG5sbmZLZ2VhbTl4bk12SDZ3SzcyYmdqbDFXSmd5TGI0RG9OSTdUQ2Jz?=
- =?utf-8?B?dFZuU3dsL3I0SDF5TzlIay9EVGhMWmM3S2FhM3g3Ti9vNUFCVml4ZEJQWmU5?=
- =?utf-8?B?c1J1M2FXanNKeDNHSm85KzJjaU1zRndnUyt6bm9CaVBCVXlTejEySCtydlVt?=
- =?utf-8?B?em5UUzhGekttQU1ObGdVQzYwMkV5bkFVZmlzN2ZYWlFYVjl4T2hGalo1SDNH?=
- =?utf-8?B?MXZsZ3RndnZiTTBkNW5LczFGRTBkclc1RDN2VndBUXhrS1I1Y3ZBVndDUFVR?=
- =?utf-8?B?M2VaZHkzRWZlS1FGQWJ0QXNoVjIzbGo0a2FXSGt6NmhuZFhxZGFsTmJXTU9X?=
- =?utf-8?B?Qko0OUlNRFg3S0xqNVRZNGpnRlJ0cExQQTRHS2ZMNkxjM05YV2RDWWt2S0VM?=
- =?utf-8?B?VnFnOGdtaUhDRm5LMkNPZXdDeHBHODF3WFYzb1VCMnp6ZUpiTzB6bWFSVEFh?=
- =?utf-8?B?VHppOWRESGZZUmJtVzE5ZTM1TXN2RzN1Q1BzSkR5YXpDQ25ISUoxY2txQ0VL?=
- =?utf-8?B?ejZicHhrY3I3U0t4WVBHcVZsM2NKN1MwT2F4T09Ga0xzK2huL1Njd3ZiTExU?=
- =?utf-8?B?TEUxV1RNNFhIdFhnMHlpOHVnR0dFZU5McWtJOHI2ekhzeGFxOEdWZTY0ck83?=
- =?utf-8?B?VTZHa1VjMmFCSFVraWR4MDd0MC9MSTJQZ0tOMVo0YVhGVjJrT3dVTEtDSUNB?=
- =?utf-8?B?N3BJTmVNZUtoZ0FhTGNnRC9hb3lmb1dvVEZNVWtFWWpRdXgybEVRZVFiVlhQ?=
- =?utf-8?B?YWhvTUhhWW5vcnl2aWtyZlNyRTlqdDFZUUJ1cGhWdFFtSW0yTVRseFh3SVpn?=
- =?utf-8?B?WngzU2UvMElJazQrZXd1WWQ4SEhvdDlhc0Z5dXB0cTBsazBjNFkrU01vMWVq?=
- =?utf-8?B?UTl1TjVHaWQwTk9NR3JxYUhST1NwK2VLMDJDMlA1T2dvVjNoOGY3OHkvZWds?=
- =?utf-8?B?bW1zS2RRMFYzY0FwWEg1Y3MwanE4bE9UR2xHYUhUa0hKZk9qT3RqSy9PK1Jz?=
- =?utf-8?B?ZEVROTFRaU0zaTI5Tmt0cSs0Z1lqMFdZMUp2dlQyZTNHaG1MMmJCZHNrdllG?=
- =?utf-8?B?NjI0S0gyRmI3M2M2b1d3aGJXYXhiNzZBT2Y1cmNUbTl0WUdCR2dUODVtdDZp?=
- =?utf-8?B?d1VaNkdWOGxyUnNmWlo2NTlsMTJYdFZ5Z1ZlR0hFVDRzWTNoV1JpZ2xPcHlC?=
- =?utf-8?B?ZzlsSWwvc3FrK1hTbXhlSC9LSEZnZkJWSXBKNlBZWlp2ZEZHdEhibUtsQXVQ?=
- =?utf-8?Q?wSks=3D?=
-X-Forefront-Antispam-Report: CIP:165.204.84.17; CTRY:US; LANG:en; SCL:1; SRV:;
- IPV:CAL; SFV:NSPM; H:satlexmb07.amd.com; PTR:InfoDomainNonexistent; CAT:NONE;
- SFS:(13230040)(36860700013)(82310400026)(1800799024)(376014)(7053199007);
- DIR:OUT; SFP:1101; 
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 07 Nov 2025 16:57:21.6664 (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 285997f6-47e4-4fc3-4040-08de1e1eb7f8
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d; Ip=[165.204.84.17];
- Helo=[satlexmb07.amd.com]
-X-MS-Exchange-CrossTenant-AuthSource: CY4PEPF0000E9D7.namprd05.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BN5PR12MB9510
+Content-Type: multipart/signed; micalg=pgp-sha512;
+ protocol="application/pgp-signature"; boundary="/DGy73+seDFVJgbs"
+Content-Disposition: inline
+In-Reply-To: <aQ4HY5Hncv1fvxVk@aspen.lan>
+X-Sent-From: Pengutronix Hildesheim
+X-URL: http://www.pengutronix.de/
+X-Accept-Language: de,en
+X-Accept-Content-Type: text/plain
+X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
+X-SA-Exim-Mail-From: mgr@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.whiteo.stw.pengutronix.de);
+ SAEximRunCond expanded to false
+X-PTX-Original-Recipient: dri-devel@lists.freedesktop.org
+X-Mailman-Approved-At: Fri, 07 Nov 2025 17:07:03 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -156,64 +72,91 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Applied to drm-misc-next.
 
-On 11/6/25 10:31, Mario Limonciello wrote:
-> On 11/6/25 12:19 PM, Lizhi Hou wrote:
+--/DGy73+seDFVJgbs
+Content-Type: text/plain; charset=iso-8859-15; format=flowed
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+
+On Fri, Nov 07, 2025 at 02:51:15PM +0000, Daniel Thompson wrote:
+>On Fri, Nov 07, 2025 at 09:00:33AM +0100, Uwe Kleine-K=F6nig wrote:
+>> On Thu, Oct 30, 2025 at 11:51:07AM +0000, Daniel Thompson wrote:
+>> > On Thu, Jul 31, 2025 at 10:47:18AM +0200, Michael Grzeschik wrote:
+>> > > Currently when calling pwm_apply_might_sleep in the probe routine
+>> > > the pwm will be configured with an not fully defined state.
+>> > >
+>> > > The duty_cycle is not yet set in that moment. There is a final
+>> > > backlight_update_status call that will have a properly setup state.
+>> > > However this change in the backlight can create a short flicker if t=
+he
+>> > > backlight was already preinitialised.
+>> > >
+>> > > We fix the flicker by moving the pwm_apply after the default duty_cy=
+cle
+>> > > can be calculated.
+>> > >
+>> > > Signed-off-by: Michael Grzeschik <m.grzeschik@pengutronix.de>
+>> >
+>> > Reviewed-by: Daniel Thompson (RISCstar) <danielt@kernel.org>
 >>
->> On 11/6/25 10:12, Mario Limonciello wrote:
->>> On 11/6/25 12:05 PM, Lizhi Hou wrote:
->>>> Failing to set power off indicates an unrecoverable hardware or 
->>>> firmware
->>>> error. Update the driver to treat such a failure as a fatal condition
->>>> and stop further operations that depend on successful power state
->>>> transition.
->>>>
->>>> This prevents undefined behavior when the hardware remains in an
->>>> unexpected state after a failed power-off attempt.
->>>>
->>>> Signed-off-by: Lizhi Hou <lizhi.hou@amd.com>
->>>
->>> Presumably all versions of hardware in the wild can handle receiving 
->>> a power off command if they're already powered off?
->>
->> Yes for the aie2 platforms. This was verified by xdna-driver pipeline 
->> tests.
->>
->>
+>> I guess this tag resulted in Lee picking up the change. I wonder if you
+>> share my concern and who's responsibility it is now to address it.
 >
-> OK LGTM then.
+>You mean the ordering the backlight registration versus setting the
+>properties in the probe method?
 >
-> Reviewed-by: Mario Limonciello (AMD) <superm1@kernel.org>
+>I definitely share the concern that there's a short window where
+>something could request a brightness via sysfs and then have it
+>overwritten by the remains of the probe method. Likewise I can't see
+>why there would be any problem moving the call to
+>pwm_backlight_initial_power_state() before the backlight is registered.
+>Thus I'd be happy to see the backlight registered later in the probe
+>method.
 >
->> Lizhi
->>
->>>
->>>> ---
->>>>   drivers/accel/amdxdna/aie2_smu.c | 10 ++++++++++
->>>>   1 file changed, 10 insertions(+)
->>>>
->>>> diff --git a/drivers/accel/amdxdna/aie2_smu.c b/drivers/accel/ 
->>>> amdxdna/aie2_smu.c
->>>> index 11c0e9e7b03a..bd94ee96c2bc 100644
->>>> --- a/drivers/accel/amdxdna/aie2_smu.c
->>>> +++ b/drivers/accel/amdxdna/aie2_smu.c
->>>> @@ -147,6 +147,16 @@ int aie2_smu_init(struct amdxdna_dev_hdl *ndev)
->>>>   {
->>>>       int ret;
->>>>   +    /*
->>>> +     * Failing to set power off indicates an unrecoverable 
->>>> hardware or
->>>> +     * firmware error.
->>>> +     */
->>>> +    ret = aie2_smu_exec(ndev, AIE2_SMU_POWER_OFF, 0, NULL);
->>>> +    if (ret) {
->>>> +        XDNA_ERR(ndev->xdna, "Access power failed, ret %d", ret);
->>>> +        return ret;
->>>> +    }
->>>> +
->>>>       ret = aie2_smu_exec(ndev, AIE2_SMU_POWER_ON, 0, NULL);
->>>>       if (ret) {
->>>>           XDNA_ERR(ndev->xdna, "Power on failed, ret %d", ret);
->>>
+>On the other hand I don't see any problem calling
+>backlight_update_status() from the probe method. This is a relatively
+>common approach in backlight drivers to impose the initial brightness
+>on the hardware without needing extra code paths.
+>backlight_update_status() is guarded with a mutex and should be
+>idempotent for most drivers. Therefore it is OK even if something gets
+>in via sysfs and provokes an update before the probe method has started
+>it's own update.
 >
+>In terms of who should follow up I've got no strong opinions on that.
+>It's worth noting that I don't own any hardware that uses a PWM
+>backlight so I'm not in a position to test it!
+
+Depending on the setup of the hardware, calling pwm_apply_might_sleep
+inbetween before having a fixed definition of how the pwm should be
+setup, makes the backlight flicker. Therefor it is better to touch
+it as late as possible.
+
+Michael
+
+--=20
+Pengutronix e.K.                           |                             |
+Steuerwalder Str. 21                       | http://www.pengutronix.de/  |
+31137 Hildesheim, Germany                  | Phone: +49-5121-206917-0    |
+Amtsgericht Hildesheim, HRA 2686           | Fax:   +49-5121-206917-5555 |
+
+--/DGy73+seDFVJgbs
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAABCgAdFiEElXvEUs6VPX6mDPT8C+njFXoeLGQFAmkOFNkACgkQC+njFXoe
+LGSKTQ//bm8FDOeYWnsvF9jE4OYmkN9C6U7e/pvbXazGuOH2vAskda9idMA38/4d
+8w4cTUgMUCU3IzaTBXOnDC1Zsh1baUbrknKw40Zfp80S9GWubKljfkpjh8OANL8a
+JP0SL+txKMAp0wC5KfNR1j4fDqwiYhTnc+G8nTL5idsmXuVWYOxKTydGJ/PHG2l5
+1DEsDBKHMpA1p9m+oSlGuE4P0GjB/mQseJYvyS4GSVlI+PlqqR58PUSPqpCDQFVA
+4kwvXbFnhZbuFTlgFUoCrZfHKO1CMCuEH384v2QoJiAl9P0jWsbWEOkf5CAqRRU9
+CSA9R4ZOQ834QBhDUdCsTyhMPuSmex5tGLmvkeqtcq16n5SkJzL8BMYHGQHl8RQN
+oI3/rwNIGJKGGWumv3kHIJsCcnDAcFS+cDgGbVdFfF+dpsGWiCO3BWCXXO7KMH4l
+cWl2fUk9FgYAyqB8pUSFEmNdbx0/yIhtKjvSUq5ZTrwqtevSa67hpAijc8G+VorT
+7l7f6Evl+iuQisHKRkdKgcpgWsRyekdnYa6JwVGak5oIj2FeymkxVY4+uMEBKaD9
+8uP4/zJ1wMCMC6U/n87nzL/VR9oXDPtoM8LFeFF6BwQ5KuPxudKAVbTnm1P0NTmg
+IpO5OUhlXOu4eQcEIFv7iJ8CVF7vvUcHNz0FSJIJHIm1sh8/Mn0=
+=nlcW
+-----END PGP SIGNATURE-----
+
+--/DGy73+seDFVJgbs--
