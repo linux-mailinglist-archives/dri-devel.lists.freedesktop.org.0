@@ -2,42 +2,69 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A8E15C3F527
-	for <lists+dri-devel@lfdr.de>; Fri, 07 Nov 2025 11:07:25 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 23371C3F55A
+	for <lists+dri-devel@lfdr.de>; Fri, 07 Nov 2025 11:09:03 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E340510EA5E;
-	Fri,  7 Nov 2025 10:07:23 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6338810EA63;
+	Fri,  7 Nov 2025 10:09:01 +0000 (UTC)
+Authentication-Results: gabe.freedesktop.org;
+	dkim=pass (1024-bit key; unprotected) header.d=collabora.com header.i=sebastian.reichel@collabora.com header.b="ZzFCkw2I";
+	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
- by gabe.freedesktop.org (Postfix) with ESMTP id B074710EA5E
- for <dri-devel@lists.freedesktop.org>; Fri,  7 Nov 2025 10:07:22 +0000 (UTC)
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
- by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 9415614BF;
- Fri,  7 Nov 2025 02:07:14 -0800 (PST)
-Received: from [10.57.72.216] (unknown [10.57.72.216])
- by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 9B3EA3F66E;
- Fri,  7 Nov 2025 02:07:19 -0800 (PST)
-Message-ID: <0fb39de0-669f-4875-ac2a-01b3bd233bb5@arm.com>
-Date: Fri, 7 Nov 2025 10:07:17 +0000
+Received: from sender4-pp-f112.zoho.com (sender4-pp-f112.zoho.com
+ [136.143.188.112])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6ACB610EA63
+ for <dri-devel@lists.freedesktop.org>; Fri,  7 Nov 2025 10:08:59 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; t=1762510137; cv=none; 
+ d=zohomail.com; s=zohoarc; 
+ b=jek+MO6su+JnNf2oK/4HLjqS6KZXmcdkXtaZpqSoOPl30Xm6O7jq+xJUVKrLOuIGSt+8ra7DvpBQlAMkOoKaSHdhL58DYzcfFTVIVb/VSxtQHUCe4Om8Hjbzd70BWcqWfSjfei+chljljP0+7SACjgcGDUx16t9Gxa91nnOUgBY=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
+ s=zohoarc; t=1762510137;
+ h=Content-Type:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To;
+ bh=98TqscCcNhUxJylsQVAEJl9l2MzJi9aTy8uuvxcVZdE=; 
+ b=FqBipcHrFJO7n/8jpHtUaHKjI6qd6Li+ZAsrRxtGcvzy3EhWJY+7+dImFydGXlNr6mHLZJdyMC2OJqzLtEH0MsrpziQwrJucgOia9vANyyPFuVV0wdHHZJeJZXFuz0kI8B3UWYDVyokz3LYQNMEqeOeiG3YBQ/sRJoYrGbTTsVk=
+ARC-Authentication-Results: i=1; mx.zohomail.com;
+ dkim=pass  header.i=collabora.com;
+ spf=pass  smtp.mailfrom=sebastian.reichel@collabora.com;
+ dmarc=pass header.from=<sebastian.reichel@collabora.com>
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1762510137; 
+ s=zohomail; d=collabora.com; i=sebastian.reichel@collabora.com;
+ h=Date:Date:From:From:To:To:Cc:Cc:Subject:Subject:Message-ID:References:MIME-Version:Content-Type:In-Reply-To:Message-Id:Reply-To;
+ bh=98TqscCcNhUxJylsQVAEJl9l2MzJi9aTy8uuvxcVZdE=;
+ b=ZzFCkw2I/m+SXWQqpmgHchiu/y6sItbI+9iViJenDAvEo/k0dmLdVoLQjqAG2UX5
+ mOtdWUzH77eV9f4T/YAnP73osGNhf2jttotC0j2knwIpwU31ZWyiqNxjaV9AuWB+YIV
+ 867LfpeOH89wSCFSmuk0864EyZayCsaWy3Om6SdI=
+Received: by mx.zohomail.com with SMTPS id 1762510134822762.4949881758118;
+ Fri, 7 Nov 2025 02:08:54 -0800 (PST)
+Received: by venus (Postfix, from userid 1000)
+ id 8F7B7180CB6; Fri, 07 Nov 2025 11:08:47 +0100 (CET)
+Date: Fri, 7 Nov 2025 11:08:47 +0100
+From: Sebastian Reichel <sebastian.reichel@collabora.com>
+To: Heiko Stuebner <heiko@sntech.de>
+Cc: linux-rockchip@lists.infradead.org, 
+ Chris Morgan <macroalpha82@gmail.com>, devicetree@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, 
+ cristian.ciocaltea@collabora.com, jernej.skrabec@gmail.com, jonas@kwiboo.se, 
+ Laurent.pinchart@ideasonboard.com, rfoss@kernel.org, neil.armstrong@linaro.org,
+ andrzej.hajda@intel.com, conor+dt@kernel.org, krzk+dt@kernel.org,
+ robh@kernel.org, 
+ tzimmermann@suse.de, mripard@kernel.org, andy.yan@rock-chips.com, 
+ Chris Morgan <macromorgan@hotmail.com>
+Subject: Re: [PATCH 2/3] drm/bridge: dw-hdmi-qp: Add support for missing HPD
+Message-ID: <z3qwk6o5exump4c6ot4wkh7sn4ihlu6gzeknoqbaop3ftvs5wc@hl7svwf25mvw>
+References: <20251106180914.768502-1-macroalpha82@gmail.com>
+ <20251106180914.768502-3-macroalpha82@gmail.com>
+ <2301926.irdbgypaU6@phil>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 3/8] drm/panthor: Introduce panthor_pwr API and power
- control framework
-To: Karunika Choo <karunika.choo@arm.com>, dri-devel@lists.freedesktop.org
-Cc: nd@arm.com, Boris Brezillon <boris.brezillon@collabora.com>,
- Liviu Dudau <liviu.dudau@arm.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- linux-kernel@vger.kernel.org
-References: <20251027161334.854650-1-karunika.choo@arm.com>
- <20251027161334.854650-4-karunika.choo@arm.com>
-From: Steven Price <steven.price@arm.com>
-Content-Language: en-GB
-In-Reply-To: <20251027161334.854650-4-karunika.choo@arm.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: multipart/signed; micalg=pgp-sha512;
+ protocol="application/pgp-signature"; boundary="hu7kkvok6sorts4o"
+Content-Disposition: inline
+In-Reply-To: <2301926.irdbgypaU6@phil>
+X-Zoho-Virus-Status: 1
+X-Zoho-Virus-Status: 1
+X-Zoho-AV-Stamp: zmail-av-1.5.1/262.482.93
+X-ZohoMailClient: External
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -53,431 +80,73 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 27/10/2025 16:13, Karunika Choo wrote:
-> Add the new panthor_pwr module, which provides basic power control
-> management for Mali-G1 GPUs. The initial implementation includes
-> infrastructure for initializing the PWR_CONTROL block, requesting and
-> handling its IRQ, and checking for PWR_CONTROL support based on GPU
-> architecture.
-> 
-> The patch also integrates panthor_pwr with the device lifecycle (init,
-> suspend, resume, and unplug) through the new API functions. It also
-> registers the IRQ handler under the 'gpu' IRQ as the PWR_CONTROL block
-> is located within the GPU_CONTROL block.
-> 
-> Signed-off-by: Karunika Choo <karunika.choo@arm.com>
 
-Generally fine, but two issues below.
+--hu7kkvok6sorts4o
+Content-Type: text/plain; protected-headers=v1; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+Subject: Re: [PATCH 2/3] drm/bridge: dw-hdmi-qp: Add support for missing HPD
+MIME-Version: 1.0
 
-> ---
-> v3:
->  * Turned panthor_hw_has_pwr_ctrl() into a static inline function.
-> v2:
->  * Removed stub functions.
->  * Updated BIT() definitions for 64-bit fields to use BIT_U64() to
->    address kernel test robot warnings for 32-bit systems.
->  * Moved GPU_FEATURES_RAY_TRAVERSAL definition to the next patch where
->    it is being used.
->  * Drop the use of feature bits in favour of a function that performs a
->    GPU_ARCH_MAJOR check instead.
-> ---
->  drivers/gpu/drm/panthor/Makefile         |   1 +
->  drivers/gpu/drm/panthor/panthor_device.c |  14 ++-
->  drivers/gpu/drm/panthor/panthor_device.h |   4 +
->  drivers/gpu/drm/panthor/panthor_hw.c     |   1 -
->  drivers/gpu/drm/panthor/panthor_hw.h     |   6 ++
->  drivers/gpu/drm/panthor/panthor_pwr.c    | 120 +++++++++++++++++++++++
->  drivers/gpu/drm/panthor/panthor_pwr.h    |  17 ++++
->  drivers/gpu/drm/panthor/panthor_regs.h   |  78 +++++++++++++++
->  8 files changed, 239 insertions(+), 2 deletions(-)
->  create mode 100644 drivers/gpu/drm/panthor/panthor_pwr.c
->  create mode 100644 drivers/gpu/drm/panthor/panthor_pwr.h
-> 
-> diff --git a/drivers/gpu/drm/panthor/Makefile b/drivers/gpu/drm/panthor/Makefile
-> index 02db21748c12..753a32c446df 100644
-> --- a/drivers/gpu/drm/panthor/Makefile
-> +++ b/drivers/gpu/drm/panthor/Makefile
-> @@ -10,6 +10,7 @@ panthor-y := \
->  	panthor_heap.o \
->  	panthor_hw.o \
->  	panthor_mmu.o \
-> +	panthor_pwr.o \
->  	panthor_sched.o
-> 
->  obj-$(CONFIG_DRM_PANTHOR) += panthor.o
-> diff --git a/drivers/gpu/drm/panthor/panthor_device.c b/drivers/gpu/drm/panthor/panthor_device.c
-> index 847dea458682..d3e16da0b24e 100644
-> --- a/drivers/gpu/drm/panthor/panthor_device.c
-> +++ b/drivers/gpu/drm/panthor/panthor_device.c
-> @@ -20,6 +20,7 @@
->  #include "panthor_gpu.h"
->  #include "panthor_hw.h"
->  #include "panthor_mmu.h"
-> +#include "panthor_pwr.h"
->  #include "panthor_regs.h"
->  #include "panthor_sched.h"
-> 
-> @@ -102,6 +103,7 @@ void panthor_device_unplug(struct panthor_device *ptdev)
->  	panthor_fw_unplug(ptdev);
->  	panthor_mmu_unplug(ptdev);
->  	panthor_gpu_unplug(ptdev);
-> +	panthor_pwr_unplug(ptdev);
-> 
->  	pm_runtime_dont_use_autosuspend(ptdev->base.dev);
->  	pm_runtime_put_sync_suspend(ptdev->base.dev);
-> @@ -249,10 +251,14 @@ int panthor_device_init(struct panthor_device *ptdev)
->  	if (ret)
->  		goto err_rpm_put;
-> 
-> -	ret = panthor_gpu_init(ptdev);
-> +	ret = panthor_pwr_init(ptdev);
->  	if (ret)
->  		goto err_rpm_put;
-> 
-> +	ret = panthor_gpu_init(ptdev);
-> +	if (ret)
-> +		goto err_unplug_pwr;
-> +
->  	ret = panthor_gpu_coherency_init(ptdev);
->  	if (ret)
->  		goto err_unplug_gpu;
-> @@ -293,6 +299,9 @@ int panthor_device_init(struct panthor_device *ptdev)
->  err_unplug_gpu:
->  	panthor_gpu_unplug(ptdev);
-> 
-> +err_unplug_pwr:
-> +	panthor_pwr_unplug(ptdev);
-> +
->  err_rpm_put:
->  	pm_runtime_put_sync_suspend(ptdev->base.dev);
->  	return ret;
-> @@ -446,6 +455,7 @@ static int panthor_device_resume_hw_components(struct panthor_device *ptdev)
->  {
->  	int ret;
-> 
-> +	panthor_pwr_resume(ptdev);
->  	panthor_gpu_resume(ptdev);
->  	panthor_mmu_resume(ptdev);
-> 
-> @@ -455,6 +465,7 @@ static int panthor_device_resume_hw_components(struct panthor_device *ptdev)
-> 
->  	panthor_mmu_suspend(ptdev);
->  	panthor_gpu_suspend(ptdev);
-> +	panthor_pwr_suspend(ptdev);
->  	return ret;
->  }
-> 
-> @@ -568,6 +579,7 @@ int panthor_device_suspend(struct device *dev)
->  		panthor_fw_suspend(ptdev);
->  		panthor_mmu_suspend(ptdev);
->  		panthor_gpu_suspend(ptdev);
-> +		panthor_pwr_suspend(ptdev);
->  		drm_dev_exit(cookie);
->  	}
-> 
-> diff --git a/drivers/gpu/drm/panthor/panthor_device.h b/drivers/gpu/drm/panthor/panthor_device.h
-> index f8e37a24d081..5afa9fdfbc31 100644
-> --- a/drivers/gpu/drm/panthor/panthor_device.h
-> +++ b/drivers/gpu/drm/panthor/panthor_device.h
-> @@ -30,6 +30,7 @@ struct panthor_job;
->  struct panthor_mmu;
->  struct panthor_fw;
->  struct panthor_perfcnt;
-> +struct panthor_pwr;
->  struct panthor_vm;
->  struct panthor_vm_pool;
-> 
-> @@ -125,6 +126,9 @@ struct panthor_device {
->  	/** @hw: GPU-specific data. */
->  	struct panthor_hw *hw;
-> 
-> +	/** @pwr: Power control management data. */
-> +	struct panthor_pwr *pwr;
-> +
->  	/** @gpu: GPU management data. */
->  	struct panthor_gpu *gpu;
-> 
-> diff --git a/drivers/gpu/drm/panthor/panthor_hw.c b/drivers/gpu/drm/panthor/panthor_hw.c
-> index ed0ebd53f4ba..1041201d83e5 100644
-> --- a/drivers/gpu/drm/panthor/panthor_hw.c
-> +++ b/drivers/gpu/drm/panthor/panthor_hw.c
-> @@ -4,7 +4,6 @@
->  #include "panthor_device.h"
->  #include "panthor_gpu.h"
->  #include "panthor_hw.h"
-> -#include "panthor_regs.h"
+Hi,
 
-I'm not a fan of relying on indirect includes. If we're using something
-from panthor_regs.h then we should be including it.
+On Thu, Nov 06, 2025 at 08:40:55PM +0100, Heiko Stuebner wrote:
+> Am Donnerstag, 6. November 2025, 19:09:13 Mitteleurop=E4ische Normalzeit =
+schrieb Chris Morgan:
+> > From: Chris Morgan <macromorgan@hotmail.com>
+> >=20
+> > Add support for the dw-hdmi-qp driver to handle devices with missing
+> > HPD pins.
+> >=20
+> > Since in this situation we are now polling for the EDID data via i2c
+> > change the error message to a debug message when we are unable to
+> > complete an i2c read, as a disconnected device would otherwise fill
+> > dmesg with i2c read errors.
+> >=20
+> > Signed-off-by: Chris Morgan <macromorgan@hotmail.com>
+>=20
+> > @@ -1074,12 +1095,18 @@ struct dw_hdmi_qp *dw_hdmi_qp_bind(struct platf=
+orm_device *pdev,
+> >  	if (ret)
+> >  		return ERR_PTR(ret);
+> > =20
+> > +	if (of_property_present(pdev->dev.of_node, "no-hpd"))
+> > +		hdmi->no_hpd =3D 1;
+> > +	else
+> > +		hdmi->no_hpd =3D 0;
+> > +
+>=20
+> what is the argument against
+>=20
+> hdmi->no_hpd =3D of_property_read_bool(pdev->dev.of_node, "no-hpd")); ?
 
-> 
->  #define GPU_PROD_ID_MAKE(arch_major, prod_major) \
->  	(((arch_major) << 24) | (prod_major))
-> diff --git a/drivers/gpu/drm/panthor/panthor_hw.h b/drivers/gpu/drm/panthor/panthor_hw.h
-> index 64616caa6f05..56c68c1e9c26 100644
-> --- a/drivers/gpu/drm/panthor/panthor_hw.h
-> +++ b/drivers/gpu/drm/panthor/panthor_hw.h
-> @@ -5,6 +5,7 @@
->  #define __PANTHOR_HW_H__
-> 
->  #include "panthor_device.h"
-> +#include "panthor_regs.h"
-> 
->  /**
->   * struct panthor_hw_ops - HW operations that are specific to a GPU
-> @@ -47,4 +48,9 @@ static inline void panthor_hw_l2_power_off(struct panthor_device *ptdev)
->  	ptdev->hw->ops.l2_power_off(ptdev);
->  }
-> 
-> +static inline bool panthor_hw_has_pwr_ctrl(struct panthor_device *ptdev)
-> +{
-> +	return GPU_ARCH_MAJOR(ptdev->gpu_info.gpu_id) >= 14;
-> +}
-> +
->  #endif /* __PANTHOR_HW_H__ */
-> diff --git a/drivers/gpu/drm/panthor/panthor_pwr.c b/drivers/gpu/drm/panthor/panthor_pwr.c
-> new file mode 100644
-> index 000000000000..da64fe006a8b
-> --- /dev/null
-> +++ b/drivers/gpu/drm/panthor/panthor_pwr.c
-> @@ -0,0 +1,120 @@
-> +// SPDX-License-Identifier: GPL-2.0 or MIT
-> +/* Copyright 2025 ARM Limited. All rights reserved. */
-> +
-> +#include <linux/platform_device.h>
-> +#include <linux/interrupt.h>
-> +#include <linux/iopoll.h>
-> +#include <linux/wait.h>
-> +
-> +#include <drm/drm_managed.h>
-> +
-> +#include "panthor_device.h"
-> +#include "panthor_hw.h"
-> +#include "panthor_pwr.h"
-> +#include "panthor_regs.h"
-> +
-> +#define PWR_INTERRUPTS_MASK \
-> +	(PWR_IRQ_POWER_CHANGED_SINGLE | \
-> +	 PWR_IRQ_POWER_CHANGED_ALL | \
-> +	 PWR_IRQ_DELEGATION_CHANGED | \
-> +	 PWR_IRQ_RESET_COMPLETED | \
-> +	 PWR_IRQ_RETRACT_COMPLETED | \
-> +	 PWR_IRQ_INSPECT_COMPLETED | \
-> +	 PWR_IRQ_COMMAND_NOT_ALLOWED | \
-> +	 PWR_IRQ_COMMAND_INVALID)
-> +
-> +/**
-> + * struct panthor_pwr - PWR_CONTROL block management data.
-> + */
-> +struct panthor_pwr {
-> +	/** @irq: PWR irq. */
-> +	struct panthor_irq irq;
-> +
-> +	/** @reqs_lock: Lock protecting access to pending_reqs. */
-> +	spinlock_t reqs_lock;
-> +
-> +	/** @pending_reqs: Pending PWR requests. */
-> +	u32 pending_reqs;
-> +
-> +	/** @reqs_acked: PWR request wait queue. */
-> +	wait_queue_head_t reqs_acked;
-> +};
-> +
-> +static void panthor_pwr_irq_handler(struct panthor_device *ptdev, u32 status)
-> +{
-> +	spin_lock(&ptdev->pwr->reqs_lock);
-> +	gpu_write(ptdev, PWR_INT_CLEAR, status);
-> +
-> +	if (unlikely(status & PWR_IRQ_COMMAND_NOT_ALLOWED))
-> +		drm_err(&ptdev->base, "PWR_IRQ: COMMAND_NOT_ALLOWED");
+Would be even better to use this, which avoids adding DT specific
+code to the bridge driver:
 
-My test build shows you're missing an include of drm_print.h
+hdmi->no_hpd =3D device_property_read_bool(pdev->dev, "no-hpd");
 
-Thanks,
-Steve
+Greetings,
 
-> +
-> +	if (unlikely(status & PWR_IRQ_COMMAND_INVALID))
-> +		drm_err(&ptdev->base, "PWR_IRQ: COMMAND_INVALID");
-> +
-> +	if (status & ptdev->pwr->pending_reqs) {
-> +		ptdev->pwr->pending_reqs &= ~status;
-> +		wake_up_all(&ptdev->pwr->reqs_acked);
-> +	}
-> +	spin_unlock(&ptdev->pwr->reqs_lock);
-> +}
-> +PANTHOR_IRQ_HANDLER(pwr, PWR, panthor_pwr_irq_handler);
-> +
-> +void panthor_pwr_unplug(struct panthor_device *ptdev)
-> +{
-> +	unsigned long flags;
-> +
-> +	if (!ptdev->pwr)
-> +		return;
-> +
-> +	/* Make sure the IRQ handler is not running after that point. */
-> +	panthor_pwr_irq_suspend(&ptdev->pwr->irq);
-> +
-> +	/* Wake-up all waiters. */
-> +	spin_lock_irqsave(&ptdev->pwr->reqs_lock, flags);
-> +	ptdev->pwr->pending_reqs = 0;
-> +	wake_up_all(&ptdev->pwr->reqs_acked);
-> +	spin_unlock_irqrestore(&ptdev->pwr->reqs_lock, flags);
-> +}
-> +
-> +int panthor_pwr_init(struct panthor_device *ptdev)
-> +{
-> +	struct panthor_pwr *pwr;
-> +	int err, irq;
-> +
-> +	if (!panthor_hw_has_pwr_ctrl(ptdev))
-> +		return 0;
-> +
-> +	pwr = drmm_kzalloc(&ptdev->base, sizeof(*pwr), GFP_KERNEL);
-> +	if (!pwr)
-> +		return -ENOMEM;
-> +
-> +	spin_lock_init(&pwr->reqs_lock);
-> +	init_waitqueue_head(&pwr->reqs_acked);
-> +	ptdev->pwr = pwr;
-> +
-> +	irq = platform_get_irq_byname(to_platform_device(ptdev->base.dev), "gpu");
-> +	if (irq < 0)
-> +		return irq;
-> +
-> +	err = panthor_request_pwr_irq(ptdev, &pwr->irq, irq, PWR_INTERRUPTS_MASK);
-> +	if (err)
-> +		return err;
-> +
-> +	return 0;
-> +}
-> +
-> +void panthor_pwr_suspend(struct panthor_device *ptdev)
-> +{
-> +	if (!ptdev->pwr)
-> +		return;
-> +
-> +	panthor_pwr_irq_suspend(&ptdev->pwr->irq);
-> +}
-> +
-> +void panthor_pwr_resume(struct panthor_device *ptdev)
-> +{
-> +	if (!ptdev->pwr)
-> +		return;
-> +
-> +	panthor_pwr_irq_resume(&ptdev->pwr->irq, PWR_INTERRUPTS_MASK);
-> +}
-> diff --git a/drivers/gpu/drm/panthor/panthor_pwr.h b/drivers/gpu/drm/panthor/panthor_pwr.h
-> new file mode 100644
-> index 000000000000..b325e5b7eba3
-> --- /dev/null
-> +++ b/drivers/gpu/drm/panthor/panthor_pwr.h
-> @@ -0,0 +1,17 @@
-> +/* SPDX-License-Identifier: GPL-2.0 or MIT */
-> +/* Copyright 2025 ARM Limited. All rights reserved. */
-> +
-> +#ifndef __PANTHOR_PWR_H__
-> +#define __PANTHOR_PWR_H__
-> +
-> +struct panthor_device;
-> +
-> +void panthor_pwr_unplug(struct panthor_device *ptdev);
-> +
-> +int panthor_pwr_init(struct panthor_device *ptdev);
-> +
-> +void panthor_pwr_suspend(struct panthor_device *ptdev);
-> +
-> +void panthor_pwr_resume(struct panthor_device *ptdev);
-> +
-> +#endif /* __PANTHOR_PWR_H__ */
-> diff --git a/drivers/gpu/drm/panthor/panthor_regs.h b/drivers/gpu/drm/panthor/panthor_regs.h
-> index 8bee76d01bf8..5469eec02178 100644
-> --- a/drivers/gpu/drm/panthor/panthor_regs.h
-> +++ b/drivers/gpu/drm/panthor/panthor_regs.h
-> @@ -205,4 +205,82 @@
->  #define CSF_DOORBELL(i)					(0x80000 + ((i) * 0x10000))
->  #define CSF_GLB_DOORBELL_ID				0
-> 
-> +/* PWR Control registers */
-> +
-> +#define PWR_CONTROL_BASE				0x800
-> +#define PWR_CTRL_REG(x)					(PWR_CONTROL_BASE + (x))
-> +
-> +#define PWR_INT_RAWSTAT					PWR_CTRL_REG(0x0)
-> +#define PWR_INT_CLEAR					PWR_CTRL_REG(0x4)
-> +#define PWR_INT_MASK					PWR_CTRL_REG(0x8)
-> +#define PWR_INT_STAT					PWR_CTRL_REG(0xc)
-> +#define   PWR_IRQ_POWER_CHANGED_SINGLE			BIT(0)
-> +#define   PWR_IRQ_POWER_CHANGED_ALL			BIT(1)
-> +#define   PWR_IRQ_DELEGATION_CHANGED			BIT(2)
-> +#define   PWR_IRQ_RESET_COMPLETED			BIT(3)
-> +#define   PWR_IRQ_RETRACT_COMPLETED			BIT(4)
-> +#define   PWR_IRQ_INSPECT_COMPLETED			BIT(5)
-> +#define   PWR_IRQ_COMMAND_NOT_ALLOWED			BIT(30)
-> +#define   PWR_IRQ_COMMAND_INVALID			BIT(31)
-> +
-> +#define PWR_STATUS					PWR_CTRL_REG(0x20)
-> +#define   PWR_STATUS_ALLOW_L2				BIT_U64(0)
-> +#define   PWR_STATUS_ALLOW_TILER			BIT_U64(1)
-> +#define   PWR_STATUS_ALLOW_SHADER			BIT_U64(8)
-> +#define   PWR_STATUS_ALLOW_BASE				BIT_U64(14)
-> +#define   PWR_STATUS_ALLOW_STACK			BIT_U64(15)
-> +#define   PWR_STATUS_DOMAIN_ALLOWED(x)			BIT_U64(x)
-> +#define   PWR_STATUS_DELEGATED_L2			BIT_U64(16)
-> +#define   PWR_STATUS_DELEGATED_TILER			BIT_U64(17)
-> +#define   PWR_STATUS_DELEGATED_SHADER			BIT_U64(24)
-> +#define   PWR_STATUS_DELEGATED_BASE			BIT_U64(30)
-> +#define   PWR_STATUS_DELEGATED_STACK			BIT_U64(31)
-> +#define   PWR_STATUS_DELEGATED_SHIFT			16
-> +#define   PWR_STATUS_DOMAIN_DELEGATED(x)		BIT_U64((x) + PWR_STATUS_DELEGATED_SHIFT)
-> +#define   PWR_STATUS_ALLOW_SOFT_RESET			BIT_U64(33)
-> +#define   PWR_STATUS_ALLOW_FAST_RESET			BIT_U64(34)
-> +#define   PWR_STATUS_POWER_PENDING			BIT_U64(41)
-> +#define   PWR_STATUS_RESET_PENDING			BIT_U64(42)
-> +#define   PWR_STATUS_RETRACT_PENDING			BIT_U64(43)
-> +#define   PWR_STATUS_INSPECT_PENDING			BIT_U64(44)
-> +
-> +#define PWR_COMMAND					PWR_CTRL_REG(0x28)
-> +#define   PWR_COMMAND_POWER_UP				0x10
-> +#define   PWR_COMMAND_POWER_DOWN			0x11
-> +#define   PWR_COMMAND_DELEGATE				0x20
-> +#define   PWR_COMMAND_RETRACT				0x21
-> +#define   PWR_COMMAND_RESET_SOFT			0x31
-> +#define   PWR_COMMAND_RESET_FAST			0x32
-> +#define   PWR_COMMAND_INSPECT				0xF0
-> +#define   PWR_COMMAND_DOMAIN_L2				0
-> +#define   PWR_COMMAND_DOMAIN_TILER			1
-> +#define   PWR_COMMAND_DOMAIN_SHADER			8
-> +#define   PWR_COMMAND_DOMAIN_BASE			14
-> +#define   PWR_COMMAND_DOMAIN_STACK			15
-> +#define   PWR_COMMAND_SUBDOMAIN_RTU			BIT(0)
-> +#define   PWR_COMMAND_DEF(cmd, domain, subdomain)	\
-> +	(((subdomain) << 16) | ((domain) << 8) | (cmd))
-> +
-> +#define PWR_CMDARG					PWR_CTRL_REG(0x30)
-> +
-> +#define PWR_L2_PRESENT					PWR_CTRL_REG(0x100)
-> +#define PWR_L2_READY					PWR_CTRL_REG(0x108)
-> +#define PWR_L2_PWRTRANS					PWR_CTRL_REG(0x110)
-> +#define PWR_L2_PWRACTIVE				PWR_CTRL_REG(0x118)
-> +#define PWR_TILER_PRESENT				PWR_CTRL_REG(0x140)
-> +#define PWR_TILER_READY					PWR_CTRL_REG(0x148)
-> +#define PWR_TILER_PWRTRANS				PWR_CTRL_REG(0x150)
-> +#define PWR_TILER_PWRACTIVE				PWR_CTRL_REG(0x158)
-> +#define PWR_SHADER_PRESENT				PWR_CTRL_REG(0x200)
-> +#define PWR_SHADER_READY				PWR_CTRL_REG(0x208)
-> +#define PWR_SHADER_PWRTRANS				PWR_CTRL_REG(0x210)
-> +#define PWR_SHADER_PWRACTIVE				PWR_CTRL_REG(0x218)
-> +#define PWR_BASE_PRESENT				PWR_CTRL_REG(0x380)
-> +#define PWR_BASE_READY					PWR_CTRL_REG(0x388)
-> +#define PWR_BASE_PWRTRANS				PWR_CTRL_REG(0x390)
-> +#define PWR_BASE_PWRACTIVE				PWR_CTRL_REG(0x398)
-> +#define PWR_STACK_PRESENT				PWR_CTRL_REG(0x3c0)
-> +#define PWR_STACK_READY					PWR_CTRL_REG(0x3c8)
-> +#define PWR_STACK_PWRTRANS				PWR_CTRL_REG(0x3d0)
-> +
->  #endif
-> --
-> 2.49.0
-> 
+-- Sebastian
 
+--hu7kkvok6sorts4o
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAABCgAdFiEE72YNB0Y/i3JqeVQT2O7X88g7+poFAmkNxSsACgkQ2O7X88g7
++pphnA/+KJLgFYW6CJj690bGUxkP/uHjY+EL5qckmjFL5nNMDue8dV5mfn0n4aUi
+nbZU3ESB88foP+Q1J4rXiuVd7cd0W/ZPfMDIRkAVGy/TkzSSZlw+h3oVQSN3lJda
+hWL9y2S1RChF5aO1bV2ru0poijuqyuH2nVjoU/nifgM3Oq8u2fJpfMHlcryUxZfc
+gnX0PafzLg3kVhj1n6a9Db5jgo6zUjQrCjim5KrpZp4uYrt6aN7/LkshV5508eOD
+OULm6T4gBctztOzCySLGG+8oBexum25wv8DPerA2RYgpoJHTqrzzCCvaVLu7OdBo
+i3ka0nvGiQr6hJNsKFJ/6A6BxG9Bj9+/Eek7WY8uMurXp/oN79dGDJy9HNwq53iX
+mlnK3l0UXOHMuNF88DjdEfsT0E/akCPzIOA0zNBfVGVqdFePikc5sdjf7ffAjKg9
+Z1gFqTz/X8EBLbIZlA7+Qbs6/3b3BBHg6DeFjr90tYCcj5Jamkp7dEVKiQhlM3f6
+uGj/WKfaioCDokhrIwmyKNcKp1jr3kwknkWmSF+yy1x0dKsRYfKZKqwWXa1d9u5I
+zOlXNukg9Pui23Y5mSCIVv+ym/BkSyAC8lPx+UkRjiS32EiUj3/t1rW0iZov70P5
+kG3V9xt5r3OXIVBVP9c1amU5vbScbM0lVcE5LVyk0ClbCFIJ6GQ=
+=ZSDS
+-----END PGP SIGNATURE-----
+
+--hu7kkvok6sorts4o--
