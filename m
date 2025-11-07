@@ -2,62 +2,129 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 98513C3E98C
-	for <lists+dri-devel@lfdr.de>; Fri, 07 Nov 2025 07:15:29 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9D357C3EAF0
+	for <lists+dri-devel@lfdr.de>; Fri, 07 Nov 2025 08:03:09 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 717F510E195;
-	Fri,  7 Nov 2025 06:15:26 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3F45310E19D;
+	Fri,  7 Nov 2025 07:03:07 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; secure) header.d=infradead.org header.i=@infradead.org header.b="wvMjfD9U";
+	dkim=pass (1024-bit key; unprotected) header.d=suse.de header.i=@suse.de header.b="Aacc5KGD";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="ewvCidHS";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="yl+arSRS";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="D9kONvfG";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from bombadil.infradead.org (bombadil.infradead.org
- [198.137.202.133])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0D1F110E195
- for <dri-devel@lists.freedesktop.org>; Fri,  7 Nov 2025 06:15:23 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
- d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
- Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
- Message-ID:Sender:Reply-To:Content-ID:Content-Description;
- bh=0pvYkku9B0Yn9Tva4Hva9YRPLFO4fPY61E/RWmTzPOE=; b=wvMjfD9UaT3srkTJPow+61yh3N
- OkqKLwST4F525xsesZaRDbQI9izo2FfdhHtCjqZ3ddTVdax7Lbdgnf3nwx9GqRsSsOg9py4xU5yxh
- bPCADIElPjneqxaGddELsdxhLXoiqP4M/8r7MreKn0SZbf+EhyjNv7u7QgJqPc2ZScsbeGgSGitqe
- Kp+se6E94iE6eytcZ6nxR+//81zWQ00AfcMbb5fV4pm5JvbLV6094pdLiv6j8n2ddM00wptAT43yq
- DfNQo+F2OVUd3YbNTBAvqviVZrXwl/dKKcX3sKfwlN3RPj1b1LBIVRhqzil1G0Ezlc9ba4An/rhpu
- 5dyhj6jQ==;
-Received: from [50.53.43.113] (helo=[192.168.254.34])
- by bombadil.infradead.org with esmtpsa (Exim 4.98.2 #2 (Red Hat Linux))
- id 1vHFka-0000000Givm-3DWD; Fri, 07 Nov 2025 06:15:08 +0000
-Message-ID: <135df7eb-9291-428b-9c86-d58c2e19e052@infradead.org>
-Date: Thu, 6 Nov 2025 22:15:07 -0800
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 58AA089D8E
+ for <dri-devel@lists.freedesktop.org>; Fri,  7 Nov 2025 07:03:06 +0000 (UTC)
+Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested)
+ by smtp-out1.suse.de (Postfix) with ESMTPS id B61362122D;
+ Fri,  7 Nov 2025 07:03:03 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1762498984; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=dkEIIQJ0+7fAB2++d0teBNNzb0HgdmwvHvhIkldA0Kk=;
+ b=Aacc5KGDqMVeMEq5GClJZefl9m5t4ot0LosYGY0MDuMQ0VVXVNTPU5/RIh8QRPabpStqRT
+ K1bMhe4at1gaPJ+Y7XVGIsNkWZaHOGnP4LorPMNglehHm05Hv0Nin/E+sZ+l8yVSjyrVJB
+ In+A+X7fHUIarlSCenz6PjpZN0berIY=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1762498984;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=dkEIIQJ0+7fAB2++d0teBNNzb0HgdmwvHvhIkldA0Kk=;
+ b=ewvCidHSqfeiQhjZJBmVugnIxsnQy/snkoo8JT9HvYUO+PWyElVcLkEh/ZJm+RiOJPBNar
+ cu8x6jdi/CWjDdBw==
+Authentication-Results: smtp-out1.suse.de;
+	none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1762498983; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=dkEIIQJ0+7fAB2++d0teBNNzb0HgdmwvHvhIkldA0Kk=;
+ b=yl+arSRSy5Kv0KBlVm6S/Ft5Rl/3DgtyQqfSOWGGPkMfDc4uQQrccyMGWB71Nk85IxwFQY
+ tNbpPWwVEy2eZ1/fNSVFl/4wty5cXDIByZbeHXtRk++bmZLYqt+pbPWXWYUQUQuBwkFCeT
+ QVMI2/J1ibEvr0EbNuIl1h/h3b5vCAY=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1762498983;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=dkEIIQJ0+7fAB2++d0teBNNzb0HgdmwvHvhIkldA0Kk=;
+ b=D9kONvfGfbnS9wR33SIuWPwysa1Kz9r8wCBhsNDO6PCKYm38yUk7DXBA0aAVL9AUbUSyIg
+ y+eaiynYdq4YgTCQ==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested)
+ by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 9FEED132DD;
+ Fri,  7 Nov 2025 07:03:03 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+ by imap1.dmz-prg2.suse.org with ESMTPSA id CE2aJaeZDWmUdQAAD6G6ig
+ (envelope-from <tzimmermann@suse.de>); Fri, 07 Nov 2025 07:03:03 +0000
+Message-ID: <6f440db9-c224-49f7-95b9-1465ed2cb29a@suse.de>
+Date: Fri, 7 Nov 2025 08:03:03 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v7 05/11] PCI/P2PDMA: Document DMABUF model
-To: Leon Romanovsky <leon@kernel.org>, Bjorn Helgaas <bhelgaas@google.com>,
- Logan Gunthorpe <logang@deltatee.com>, Jens Axboe <axboe@kernel.dk>,
- Robin Murphy <robin.murphy@arm.com>, Joerg Roedel <joro@8bytes.org>,
- Will Deacon <will@kernel.org>, Marek Szyprowski <m.szyprowski@samsung.com>,
- Jason Gunthorpe <jgg@ziepe.ca>, Andrew Morton <akpm@linux-foundation.org>,
- Jonathan Corbet <corbet@lwn.net>, Sumit Semwal <sumit.semwal@linaro.org>,
- =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
- Kees Cook <kees@kernel.org>, "Gustavo A. R. Silva" <gustavoars@kernel.org>,
- Ankit Agrawal <ankita@nvidia.com>, Yishai Hadas <yishaih@nvidia.com>,
- Shameer Kolothum <skolothumtho@nvidia.com>, Kevin Tian
- <kevin.tian@intel.com>, Alex Williamson <alex@shazbot.org>
-Cc: Krishnakant Jaju <kjaju@nvidia.com>, Matt Ochs <mochs@nvidia.com>,
- linux-pci@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-block@vger.kernel.org, iommu@lists.linux.dev, linux-mm@kvack.org,
- linux-doc@vger.kernel.org, linux-media@vger.kernel.org,
- dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org,
- kvm@vger.kernel.org, linux-hardening@vger.kernel.org
-References: <20251106-dmabuf-vfio-v7-0-2503bf390699@nvidia.com>
- <20251106-dmabuf-vfio-v7-5-2503bf390699@nvidia.com>
+Subject: Re: [PATCH] drm/vmwgfx: Set surface-framebuffer GEM objects
+From: Thomas Zimmermann <tzimmermann@suse.de>
+To: Zack Rusin <zack.rusin@broadcom.com>
+References: <20251104103611.167821-1-tzimmermann@suse.de>
+ <CABQX2QPP-m8mFr5Ze3Ry1Yi70wT2neKf7OsbSjKqzcH9MMFe8A@mail.gmail.com>
+ <2abf4e25-d081-40bd-9a83-79bb026d5239@suse.de>
 Content-Language: en-US
-From: Randy Dunlap <rdunlap@infradead.org>
-In-Reply-To: <20251106-dmabuf-vfio-v7-5-2503bf390699@nvidia.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Cc: dri-devel <dri-devel@lists.freedesktop.org>
+Autocrypt: addr=tzimmermann@suse.de; keydata=
+ xsBNBFs50uABCADEHPidWt974CaxBVbrIBwqcq/WURinJ3+2WlIrKWspiP83vfZKaXhFYsdg
+ XH47fDVbPPj+d6tQrw5lPQCyqjwrCPYnq3WlIBnGPJ4/jreTL6V+qfKRDlGLWFjZcsrPJGE0
+ BeB5BbqP5erN1qylK9i3gPoQjXGhpBpQYwRrEyQyjuvk+Ev0K1Jc5tVDeJAuau3TGNgah4Yc
+ hdHm3bkPjz9EErV85RwvImQ1dptvx6s7xzwXTgGAsaYZsL8WCwDaTuqFa1d1jjlaxg6+tZsB
+ 9GluwvIhSezPgnEmimZDkGnZRRSFiGP8yjqTjjWuf0bSj5rUnTGiyLyRZRNGcXmu6hjlABEB
+ AAHNJ1Rob21hcyBaaW1tZXJtYW5uIDx0emltbWVybWFubkBzdXNlLmRlPsLAjgQTAQgAOAIb
+ AwULCQgHAgYVCgkICwIEFgIDAQIeAQIXgBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftODH
+ AAoJEGgNwR1TC3ojx1wH/0hKGWugiqDgLNXLRD/4TfHBEKmxIrmfu9Z5t7vwUKfwhFL6hqvo
+ lXPJJKQpQ2z8+X2vZm/slsLn7J1yjrOsoJhKABDi+3QWWSGkaGwRJAdPVVyJMfJRNNNIKwVb
+ U6B1BkX2XDKDGffF4TxlOpSQzdtNI/9gleOoUA8+jy8knnDYzjBNOZqLG2FuTdicBXblz0Mf
+ vg41gd9kCwYXDnD91rJU8tzylXv03E75NCaTxTM+FBXPmsAVYQ4GYhhgFt8S2UWMoaaABLDe
+ 7l5FdnLdDEcbmd8uLU2CaG4W2cLrUaI4jz2XbkcPQkqTQ3EB67hYkjiEE6Zy3ggOitiQGcqp
+ j//OwE0EWznS4AEIAMYmP4M/V+T5RY5at/g7rUdNsLhWv1APYrh9RQefODYHrNRHUE9eosYb
+ T6XMryR9hT8XlGOYRwKWwiQBoWSDiTMo/Xi29jUnn4BXfI2px2DTXwc22LKtLAgTRjP+qbU6
+ 3Y0xnQN29UGDbYgyyK51DW3H0If2a3JNsheAAK+Xc9baj0LGIc8T9uiEWHBnCH+RdhgATnWW
+ GKdDegUR5BkDfDg5O/FISymJBHx2Dyoklv5g4BzkgqTqwmaYzsl8UxZKvbaxq0zbehDda8lv
+ hFXodNFMAgTLJlLuDYOGLK2AwbrS3Sp0AEbkpdJBb44qVlGm5bApZouHeJ/+n+7r12+lqdsA
+ EQEAAcLAdgQYAQgAIAIbDBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftOH6AAoJEGgNwR1T
+ C3ojVSkIALpAPkIJPQoURPb1VWjh34l0HlglmYHvZszJWTXYwavHR8+k6Baa6H7ufXNQtThR
+ yIxJrQLW6rV5lm7TjhffEhxVCn37+cg0zZ3j7zIsSS0rx/aMwi6VhFJA5hfn3T0TtrijKP4A
+ SAQO9xD1Zk9/61JWk8OysuIh7MXkl0fxbRKWE93XeQBhIJHQfnc+YBLprdnxR446Sh8Wn/2D
+ Ya8cavuWf2zrB6cZurs048xe0UbSW5AOSo4V9M0jzYI4nZqTmPxYyXbm30Kvmz0rYVRaitYJ
+ 4kyYYMhuULvrJDMjZRvaNe52tkKAvMevcGdt38H4KSVXAylqyQOW5zvPc4/sq9c=
+In-Reply-To: <2abf4e25-d081-40bd-9a83-79bb026d5239@suse.de>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Spam-Level: 
+X-Spamd-Result: default: False [-4.30 / 50.00]; BAYES_HAM(-3.00)[100.00%];
+ NEURAL_HAM_LONG(-1.00)[-1.000];
+ NEURAL_HAM_SHORT(-0.20)[-1.000]; MIME_GOOD(-0.10)[text/plain];
+ FUZZY_RATELIMITED(0.00)[rspamd.com];
+ MID_RHS_MATCH_FROM(0.00)[]; RCVD_VIA_SMTP_AUTH(0.00)[];
+ ARC_NA(0.00)[]; RCPT_COUNT_TWO(0.00)[2]; RCVD_TLS_ALL(0.00)[];
+ DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+ TO_DN_ALL(0.00)[]; FROM_HAS_DN(0.00)[]; MIME_TRACE(0.00)[0:+];
+ FROM_EQ_ENVFROM(0.00)[]; TO_MATCH_ENVRCPT_ALL(0.00)[];
+ RCVD_COUNT_TWO(0.00)[2];
+ DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:email, suse.de:mid, suse.com:url,
+ intel.com:email, broadcom.com:email, lists.freedesktop.org:email]
+X-Spam-Flag: NO
+X-Spam-Score: -4.30
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -73,157 +140,114 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+cc'ing dri-devel, which apparently got lost somehow
 
-
-On 11/6/25 6:16 AM, Leon Romanovsky wrote:
-> From: Jason Gunthorpe <jgg@nvidia.com>
-> 
-> Reflect latest changes in p2p implementation to support DMABUF lifecycle.
-> 
-> Signed-off-by: Leon Romanovsky <leonro@nvidia.com>
-> Signed-off-by: Jason Gunthorpe <jgg@nvidia.com>
-> ---
->  Documentation/driver-api/pci/p2pdma.rst | 95 +++++++++++++++++++++++++--------
->  1 file changed, 72 insertions(+), 23 deletions(-)
-> 
-> diff --git a/Documentation/driver-api/pci/p2pdma.rst b/Documentation/driver-api/pci/p2pdma.rst
-> index d0b241628cf1..69adea45f73e 100644
-> --- a/Documentation/driver-api/pci/p2pdma.rst
-> +++ b/Documentation/driver-api/pci/p2pdma.rst
-> @@ -9,22 +9,47 @@ between two devices on the bus. This type of transaction is henceforth
->  called Peer-to-Peer (or P2P). However, there are a number of issues that
->  make P2P transactions tricky to do in a perfectly safe way.
->  
-> -One of the biggest issues is that PCI doesn't require forwarding
-> -transactions between hierarchy domains, and in PCIe, each Root Port
-> -defines a separate hierarchy domain. To make things worse, there is no
-> -simple way to determine if a given Root Complex supports this or not.
-> -(See PCIe r4.0, sec 1.3.1). Therefore, as of this writing, the kernel
-> -only supports doing P2P when the endpoints involved are all behind the
-> -same PCI bridge, as such devices are all in the same PCI hierarchy
-> -domain, and the spec guarantees that all transactions within the
-> -hierarchy will be routable, but it does not require routing
-> -between hierarchies.
-> -
-> -The second issue is that to make use of existing interfaces in Linux,
-> -memory that is used for P2P transactions needs to be backed by struct
-> -pages. However, PCI BARs are not typically cache coherent so there are
-> -a few corner case gotchas with these pages so developers need to
-> -be careful about what they do with them.
-> +For PCIe the routing of TLPs is well defined up until they reach a host bridge
-
-Define what TLP means?
-                                   well-defined
-
-> +or root port. If the path includes PCIe switches then based on the ACS settings
-> +the transaction can route entirely within the PCIe hierarchy and never reach the
-> +root port. The kernel will evaluate the PCIe topology and always permit P2P
-> +in these well defined cases.
-
-            well-defined
-
-> +
-> +However, if the P2P transaction reaches the host bridge then it might have to
-> +hairpin back out the same root port, be routed inside the CPU SOC to another
-> +PCIe root port, or routed internally to the SOC.
-> +
-> +As this is not well defined or well supported in real HW the kernel defaults to
-
-                  well-defined or well-supported
-
-> +blocking such routing. There is an allow list to allow detecting known-good HW,
-> +in which case P2P between any two PCIe devices will be permitted.
-> +
-> +Since P2P inherently is doing transactions between two devices it requires two
-> +drivers to be co-operating inside the kernel. The providing driver has to convey
-> +its MMIO to the consuming driver. To meet the driver model lifecycle rules the
-> +MMIO must have all DMA mapping removed, all CPU accesses prevented, all page
-> +table mappings undone before the providing driver completes remove().
-> +
-> +This requires the providing and consuming driver to actively work together to
-> +guarantee that the consuming driver has stopped using the MMIO during a removal
-> +cycle. This is done by either a synchronous invalidation shutdown or waiting
-> +for all usage refcounts to reach zero.
-> +
-> +At the lowest level the P2P subsystem offers a naked struct p2p_provider that
-> +delegates lifecycle management to the providing driver. It is expected that
-> +drivers using this option will wrap their MMIO memory in DMABUF and use DMABUF
-> +to provide an invalidation shutdown. These MMIO pages have no struct page, and
-> +if used with mmap() must create special PTEs. As such there are very few
-> +kernel uAPIs that can accept pointers to them, in particular they cannot be used
-
-                                            them;
-
-> +with read()/write(), including O_DIRECT.
-> +
-> +Building on this, the subsystem offers a layer to wrap the MMIO in a ZONE_DEVICE
-> +pgmap of MEMORY_DEVICE_PCI_P2PDMA to create struct pages. The lifecycle of
-> +pgmap ensures that when the pgmap is destroyed all other drivers have stopped
-> +using the MMIO. This option works with O_DIRECT flows, in some cases, if the
-> +underlying subsystem supports handling MEMORY_DEVICE_PCI_P2PDMA through
-> +FOLL_PCI_P2PDMA. The use of FOLL_LONGTERM is prevented. As this relies on pgmap
-> +it also relies on architecture support along with alignment and minimum size
-> +limitations.
->  
->  
->  Driver Writer's Guide
-> @@ -114,14 +139,38 @@ allocating scatter-gather lists with P2P memory.
->  Struct Page Caveats
->  -------------------
->  
-> -Driver writers should be very careful about not passing these special
-> -struct pages to code that isn't prepared for it. At this time, the kernel
-> -interfaces do not have any checks for ensuring this. This obviously
-> -precludes passing these pages to userspace.
-> +While the MEMORY_DEVICE_PCI_P2PDMA pages can be installed in VMAs,
-> +pin_user_pages() and related will not return them unless FOLL_PCI_P2PDMA is set.
->  
-> -P2P memory is also technically IO memory but should never have any side
-> -effects behind it. Thus, the order of loads and stores should not be important
-> -and ioreadX(), iowriteX() and friends should not be necessary.
-> +The MEMORY_DEVICE_PCI_P2PDMA pages require care to support in the kernel. The
-> +KVA is still MMIO and must still be accessed through the normal
-> +readX()/writeX()/etc helpers. Direct CPU access (e.g. memcpy) is forbidden, just
-> +like any other MMIO mapping. While this will actually work on some
-> +architectures, others will experience corruption or just crash in the kernel.
-> +Supporting FOLL_PCI_P2PDMA in a subsystem requires scrubbing it to ensure no CPU
-> +access happens.
-> +
-> +
-> +Usage With DMABUF
-> +=================
-> +
-> +DMABUF provides an alternative to the above struct page based
-
-                                                      page-based
-
-> +client/provider/orchestrator system. In this mode the exporting driver will wrap
-> +some of its MMIO in a DMABUF and give the DMABUF FD to userspace.
-> +
-> +Userspace can then pass the FD to an importing driver which will ask the
-> +exporting driver to map it.
-> +
-> +In this case the initiator and target pci_devices are known and the P2P subsystem
-> +is used to determine the mapping type. The phys_addr_t based DMA API is used to
-
-                                              phys_addr_t-based
-
-> +establish the dma_addr_t.
-> +
-> +Lifecycle is controlled by DMABUF move_notify(), when the exporting driver wants
-
-                                     move_notify(). When
-
-> +to remove() it must deliver an invalidation shutdown to all DMABUF importing
-> +drivers through move_notify() and synchronously DMA unmap all the MMIO.
-> +
-> +No importing driver can continue to have a DMA map to the MMIO after the
-> +exporting driver has destroyed its p2p_provider.
->  
->  
->  P2P DMA Support Library
-> 
+Am 07.11.25 um 08:02 schrieb Thomas Zimmermann:
+> Hi
+>
+> Am 07.11.25 um 06:06 schrieb Zack Rusin:
+>> On Tue, Nov 4, 2025 at 5:36 AM Thomas Zimmermann 
+>> <tzimmermann@suse.de> wrote:
+>>> Set struct drm_framebuffer.obj[0] to the allocated GEM buffer object
+>>> for surface framebuffers. Avoids a NULL-pointer deref in the client's
+>>> vmap helpers.
+>>>
+>>> [   22.640191] Console: switching to colour frame buffer device 160x50
+>>> [   22.641788] Oops: general protection fault, probably for
+>>>    non-canonical address 0xdffffc000000001f: 0000 [#1] SMP KASAN NOPTI
+>>> [   22.641795] KASAN: null-ptr-deref in range
+>>> [0x00000000000000f8-0x00000000000000ff]
+>>> [...]
+>>> [   22.641809] Hardware name: VMware, Inc. VMware20,1/440BX Desktop
+>>>    Reference Platform, BIOS VMW201.00V.24928539.B64.2508260915 
+>>> 08/26/2025
+>>> [   22.641812] Workqueue: events drm_fb_helper_damage_work
+>>> [   22.641824] RIP: 0010:drm_gem_lock+0x25/0x50
+>>> [   22.641831] Code: 90 90 90 90 90 f3 0f 1e fa 0f 1f 44 00 00 48 b8
+>>>    00 00 00 00 00 fc ff df 53 48 89 fb 48 81 c7 f8 00 00 00 48 89 fa 48
+>>>    c1 ea 03 <80> 3c 02 00 75 0f 48 8b bb f8 00 00 00 31 f6 5b e9 16 
+>>> 2e 15
+>>>    01 e8
+>>> [...]
+>>> [   22.641889] Call Trace:
+>>> [   22.641891]  <TASK>
+>>> [   22.641894]  drm_client_buffer_vmap_local+0x78/0x140
+>>> [   22.641903]  drm_fbdev_ttm_helper_fb_dirty+0x20c/0x510 
+>>> [drm_ttm_helper]
+>>> [   22.641913]  ? __pfx_drm_fbdev_ttm_helper_fb_dirty+0x10/0x10 
+>>> [drm_ttm_helper]
+>>> [   22.641918]  ? __raw_spin_lock_irqsave+0x8c/0xf0
+>>> [   22.641924]  ? __pfx___raw_spin_lock_irqsave+0x10/0x10
+>>> [   22.641928]  ? __pfx_mutex_lock+0x10/0x10
+>>> [   22.641936]  drm_fb_helper_fb_dirty+0x29a/0x5e0
+>>> [   22.641942]  ? __pfx_drm_fb_helper_fb_dirty+0x10/0x10
+>>> [...]
+>>>
+>>> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
+>>> Fixes: ea39f2e66e61 ("drm/client: Deprecate struct 
+>>> drm_client_buffer.gem")
+>>> Reported-by: Ian Forbes <ian.forbes@broadcom.com>
+>>> Closes: 
+>>> https://lore.kernel.org/dri-devel/CAO6MGtjg8PiRiSLomJQRBduTBSC0WkqX67tEZwA9qwOgRzchpw@mail.gmail.com/
+>>> Cc: Thomas Zimmermann <tzimmermann@suse.de>
+>>> Cc: Jocelyn Falempe <jfalempe@redhat.com>
+>>> Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
+>>> Cc: Maxime Ripard <mripard@kernel.org>
+>>> Cc: David Airlie <airlied@gmail.com>
+>>> Cc: Simona Vetter <simona@ffwll.ch>
+>>> Cc: dri-devel@lists.freedesktop.org
+>>> ---
+>>>   drivers/gpu/drm/vmwgfx/vmwgfx_kms.c | 3 +++
+>>>   1 file changed, 3 insertions(+)
+>>>
+>>> diff --git a/drivers/gpu/drm/vmwgfx/vmwgfx_kms.c 
+>>> b/drivers/gpu/drm/vmwgfx/vmwgfx_kms.c
+>>> index 54ea1b513950..d32ce1cb579e 100644
+>>> --- a/drivers/gpu/drm/vmwgfx/vmwgfx_kms.c
+>>> +++ b/drivers/gpu/drm/vmwgfx/vmwgfx_kms.c
+>>> @@ -553,6 +553,9 @@ static int 
+>>> vmw_kms_new_framebuffer_surface(struct vmw_private *dev_priv,
+>>>          memcpy(&vfbs->uo, uo, sizeof(vfbs->uo));
+>>>          vmw_user_object_ref(&vfbs->uo);
+>>>
+>>> +       if (vfbs->uo.buffer)
+>>> +               vfbs->base.base.obj[0] = &vfbs->uo.buffer->tbo.base;
+>>> +
+>>>          *out = &vfbs->base;
+>>>
+>>>          ret = drm_framebuffer_init(dev, &vfbs->base.base,
+>>> -- 
+>>> 2.51.1
+>>>
+>> Thanks Thomas, that looks good. We'll have to figure out how to make
+>> sure there's always a gem buffer backing those surfaces.
+>
+> That might not be much of a problem in practice. The commit that the 
+> Fixes tag points to only streamlines some of the code around 
+> drm_client_dev. But it always relied on having a GEM buffer allocated. 
+> So AFAICT nothing really has changed; except that drm_client now looks 
+> at the standard place for the GEM object.
+>
+>>
+>> Would you like me to push it to drm-misc-next, or do you want to do it?
+>
+> I'll push it out in a bit.
+>
+> Best regards
+> Thomas
+>
+>>
+>> Reviewed-by: Zack Rusin <zack.rusin@broadcom.com>
+>>
+>> z
+>
 
 -- 
-~Randy
+--
+Thomas Zimmermann
+Graphics Driver Developer
+SUSE Software Solutions Germany GmbH
+Frankenstr. 146, 90461 Nürnberg, Germany, www.suse.com
+GF: Jochen Jaser, Andrew McDonald, Werner Knoblich, (HRB 36809, AG Nürnberg)
+
 
