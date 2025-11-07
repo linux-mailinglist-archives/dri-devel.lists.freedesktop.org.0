@@ -2,85 +2,41 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 93EB7C3F5C2
-	for <lists+dri-devel@lfdr.de>; Fri, 07 Nov 2025 11:14:37 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 08B71C3F626
+	for <lists+dri-devel@lfdr.de>; Fri, 07 Nov 2025 11:18:56 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DF4B510EA66;
-	Fri,  7 Nov 2025 10:14:35 +0000 (UTC)
-Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=ursulin.net header.i=@ursulin.net header.b="hmPxzHhZ";
-	dkim-atps=neutral
+	by gabe.freedesktop.org (Postfix) with ESMTP id CEF3410EA60;
+	Fri,  7 Nov 2025 10:18:52 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-f47.google.com (mail-wm1-f47.google.com
- [209.85.128.47])
- by gabe.freedesktop.org (Postfix) with ESMTPS id EFB3610EA66
- for <dri-devel@lists.freedesktop.org>; Fri,  7 Nov 2025 10:14:34 +0000 (UTC)
-Received: by mail-wm1-f47.google.com with SMTP id
- 5b1f17b1804b1-471191ac79dso6296015e9.3
- for <dri-devel@lists.freedesktop.org>; Fri, 07 Nov 2025 02:14:34 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=ursulin.net; s=google; t=1762510473; x=1763115273; darn=lists.freedesktop.org;
- h=content-transfer-encoding:in-reply-to:from:content-language
- :references:cc:to:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=7BfazoHqWYQE87lslY9CXnZpsO5TV9TIgLU45i4jh/o=;
- b=hmPxzHhZBI2kji3SdHQJ7hjfwEyvRkncQI0UiAZZZfV5fTPvXedzCcscg5jKOCeuUT
- C937JVfeVmJgSMFJ3eB1e/lU/hZ+YAASuDrbfUvSDIn7PrIZKz3Nq3832Yk5gF8zd5mi
- otWmVHKzheW2gEbUpowyX3COY0C+IbRZwdxs038jZLlAVj7xtle+8AopQgxlYJnGi60e
- /puQJylw4TzlOg2GLdaR2z6erZmRK7qo5+d7geTet5ExAMPl7Wg4Eji/Xfi+qXczxf/w
- 5RJVPMnc2jtKsTq1Bx1gyxmrtdnoZWiv6tkvEKenMizzQvAvBlFZ4LdiZYDoDDMRZZm0
- vLjw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1762510473; x=1763115273;
- h=content-transfer-encoding:in-reply-to:from:content-language
- :references:cc:to:subject:user-agent:mime-version:date:message-id
- :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=7BfazoHqWYQE87lslY9CXnZpsO5TV9TIgLU45i4jh/o=;
- b=Z++AqmGZEj3xPdPhEs5Hf0yVgewhz1wmRVs42hsR4q9qzhPxqL+k6Srbn5T5zVP6G5
- 0YaRs2kkY0x/vaa1QorQsMM80Z2sZyXbSX7BHOGJ2sFSm0lkZDszXoF1KmcukmMpXTJ4
- FZLdAbGftZSZjlZxDk+n/N7qbRwivmlvK0jG2/MHEFlQBQ6qpbF1+FJJqRdf4COBQnaP
- xncAs2whLBuAUY+R/5nOb668BcNzp65CbTTSmeoyDjsbRgOfmo9YRwdKmM0WOxDe8frg
- ofjuoj1Rm0W4UX2QJTUoon7x6kW4A6+l9m6puQ3BglncOMCT3t8AWYiVlO01L8Q57GVT
- MKIA==
-X-Forwarded-Encrypted: i=1;
- AJvYcCUN67aO0E874Dl+XyEAA4C8vHySl238WoILpvfrzGjH6H8YlAJK4FkKKYJybizszs9mQFnEcGiVuIY=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YzEGYics9CsC1f9GA9RdFcJUiwlaHVNHeWOJlAzjohhXkZTqAjj
- GH7Uqk2hKx+bb2vexecCJYWkUqFokzZst9O5Ab3R6vMPoXlduaj0ioSfeOjiuFmiX6k=
-X-Gm-Gg: ASbGncvYGpSXAt3gJtsUqf9fBbV07AfumQDiL+X3dzU2nQuYNMyVbi+7Dos9W33OuTx
- yMvWks8wfK284ICfBtB7TFu53wlr9dpD9aq7lpoJzB5ACNDoGJGVnKD67kIAyPWTBCx6/G+nDbj
- 0te3WLacKC/PzKpLYn4OWRoQnK6ie8WoylSNhuwQCsRhVmj7ltuaDlZTkX/Eqwdmhhy3xbDBAeQ
- kD43sEmrmBK7UIdFY3FBJ8x+mBnVQQZn/OTri1m+wLzDhkTtlI7Rc4Q3ngPuReUyU3unvC8McHI
- Br58N+GRmR7m9N6yUNjHLSBiaKxnNodxy9ex8OttQzCAzPj0fyGu8u5N4m8ykGoOHpUeZnEsmOS
- 0jCUoGTrEJze0zq4EnUuttyYuqzBUIBAP4fqJIpxiSyoRLgsARHpOuGvxsu2R9R28NIMv/XAGr+
- Kz8SjMYeTLHraQ+6FQTwQGgkM5Dpg=
-X-Google-Smtp-Source: AGHT+IEp8JUAaMnZ4SnBSr0rcVN4Klwf8IQ64WyYmOuRgmzLuIy7MJXiArG0X6gqQXD8QWQtn8IntQ==
-X-Received: by 2002:a05:600c:3ba9:b0:477:c71:1fc1 with SMTP id
- 5b1f17b1804b1-4776bcbbc90mr27048055e9.19.1762510472824; 
- Fri, 07 Nov 2025 02:14:32 -0800 (PST)
-Received: from [192.168.0.101] ([90.240.106.137])
- by smtp.gmail.com with ESMTPSA id
- 5b1f17b1804b1-4776bcfcfc7sm47399045e9.12.2025.11.07.02.14.31
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 07 Nov 2025 02:14:32 -0800 (PST)
-Message-ID: <6d2a4e81-8cfe-4ce8-82da-e5b0718ccbc7@ursulin.net>
-Date: Fri, 7 Nov 2025 10:14:31 +0000
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+ by gabe.freedesktop.org (Postfix) with ESMTP id E18DA10EA60
+ for <dri-devel@lists.freedesktop.org>; Fri,  7 Nov 2025 10:18:50 +0000 (UTC)
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+ by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id CE1961515;
+ Fri,  7 Nov 2025 02:18:42 -0800 (PST)
+Received: from [10.57.72.216] (unknown [10.57.72.216])
+ by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id DF9453F66E;
+ Fri,  7 Nov 2025 02:18:47 -0800 (PST)
+Message-ID: <e4484277-d362-4b47-900c-a77d1f2c29a9@arm.com>
+Date: Fri, 7 Nov 2025 10:18:45 +0000
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v4 1/3] drm/amdgpu: add engine_retains_context to
- amdgpu_ring_funcs
-To: Pierre-Eric Pelloux-Prayer <pierre-eric.pelloux-prayer@amd.com>,
- Alex Deucher <alexander.deucher@amd.com>,
- =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>
-Cc: amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+Subject: Re: [PATCH v3 4/8] drm/panthor: Implement L2 power on/off via
+ PWR_CONTROL
+To: Karunika Choo <karunika.choo@arm.com>, dri-devel@lists.freedesktop.org
+Cc: nd@arm.com, Boris Brezillon <boris.brezillon@collabora.com>,
+ Liviu Dudau <liviu.dudau@arm.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
  linux-kernel@vger.kernel.org
-References: <20251107090425.23199-1-pierre-eric.pelloux-prayer@amd.com>
+References: <20251027161334.854650-1-karunika.choo@arm.com>
+ <20251027161334.854650-5-karunika.choo@arm.com>
+From: Steven Price <steven.price@arm.com>
 Content-Language: en-GB
-From: Tvrtko Ursulin <tursulin@ursulin.net>
-In-Reply-To: <20251107090425.23199-1-pierre-eric.pelloux-prayer@amd.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+In-Reply-To: <20251027161334.854650-5-karunika.choo@arm.com>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -97,284 +53,488 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+On 27/10/2025 16:13, Karunika Choo wrote:
+> This patch adds common helpers to issue power commands, poll
+> transitions, and validate domain state, then wires them into the L2
+> on/off paths.
+> 
+> The L2 power-on sequence now delegates control of the SHADER and TILER
+> domains to the MCU when allowed, while the L2 itself is never delegated.
+> On power-off, dependent domains beneath the L2 are checked, and if
+> necessary, retracted and powered down to maintain proper domain
+> ordering.
+> 
+> Signed-off-by: Karunika Choo <karunika.choo@arm.com>
 
-On 07/11/2025 09:04, Pierre-Eric Pelloux-Prayer wrote:
-> If true, the hw engine retains context among dependent jobs, which means
-> load balancing between schedulers cannot be used at the job level.
-> 
-> amdgpu_ctx_init_entity uses this information to disable load balancing,
-> but it's best to store it as a property rather than deduce it based on
-> hw_ip.
-> 
-> Signed-off-by: Pierre-Eric Pelloux-Prayer <pierre-eric.pelloux-prayer@amd.com>
+One NIT below, but otherwise,
+
+Reviewed-by: Steven Price <steven.price@arm.com>
+
 > ---
->   drivers/gpu/drm/amd/amdgpu/amdgpu_ring.h | 1 +
->   drivers/gpu/drm/amd/amdgpu/uvd_v3_1.c    | 1 +
->   drivers/gpu/drm/amd/amdgpu/uvd_v4_2.c    | 1 +
->   drivers/gpu/drm/amd/amdgpu/uvd_v5_0.c    | 1 +
->   drivers/gpu/drm/amd/amdgpu/uvd_v6_0.c    | 3 +++
->   drivers/gpu/drm/amd/amdgpu/uvd_v7_0.c    | 2 ++
->   drivers/gpu/drm/amd/amdgpu/vcn_v1_0.c    | 2 ++
->   drivers/gpu/drm/amd/amdgpu/vcn_v2_0.c    | 2 ++
->   drivers/gpu/drm/amd/amdgpu/vcn_v2_5.c    | 2 ++
->   drivers/gpu/drm/amd/amdgpu/vcn_v3_0.c    | 3 +++
->   drivers/gpu/drm/amd/amdgpu/vcn_v4_0.c    | 1 +
->   drivers/gpu/drm/amd/amdgpu/vcn_v4_0_3.c  | 1 +
->   drivers/gpu/drm/amd/amdgpu/vcn_v4_0_5.c  | 1 +
->   drivers/gpu/drm/amd/amdgpu/vcn_v5_0_0.c  | 1 +
->   drivers/gpu/drm/amd/amdgpu/vcn_v5_0_1.c  | 1 +
->   15 files changed, 23 insertions(+)
+> v2:
+>  * Updated GENMASK to GENMASK_U64 to address kernel test robot warnings
+>    for 32-bit systems.
+>  * Removed panthor_pwr_read_status() in favour of a simple gpu_read64()
+>    operation on the PWR_STATUS register.
+>  * Renamed panthor_pwr_info_show() to panthor_pwr_debug_info_show() for
+>    more clarity.
+>  * Added additional WARN_ON for an invalid domain when requesting power
+>    domain transition.
+>  * Made panthor_pwr_domain_transition()'s expected val logic more
+>    readable and clearer.
+>  * Wait on domain power transition instead of failing the operation.
+>  * Fixed inconsistent error return value vs kerneldoc.
+>  * Removed confusing drm_dbg in delegate_domain() in favor of a comment.
+>  * Add unwind to panthor_pwr_delegate_domains().
+>  * Moved child domain handling logic from panthor_pwr_l2_power_off()
+>    into panthor_pwr_domain_force_off().
+>  * Added additional clarification regarding delegation and retraction of
+>    power domains.
+>  * Minor formatting and readability changes and remove unnecessary
+>    checks.
+> ---
+>  drivers/gpu/drm/panthor/panthor_pwr.c  | 378 +++++++++++++++++++++++++
+>  drivers/gpu/drm/panthor/panthor_pwr.h  |   4 +
+>  drivers/gpu/drm/panthor/panthor_regs.h |   1 +
+>  3 files changed, 383 insertions(+)
 > 
-> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_ring.h b/drivers/gpu/drm/amd/amdgpu/amdgpu_ring.h
-> index 4b46e3c26ff3..a10efac2fc54 100644
-> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_ring.h
-> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_ring.h
-> @@ -211,6 +211,7 @@ struct amdgpu_ring_funcs {
->   	bool			support_64bit_ptrs;
->   	bool			no_user_fence;
->   	bool			secure_submission_supported;
-> +	bool			engine_retains_context;
->   
->   	/**
->   	 * @extra_bytes:
-> diff --git a/drivers/gpu/drm/amd/amdgpu/uvd_v3_1.c b/drivers/gpu/drm/amd/amdgpu/uvd_v3_1.c
-> index 2e79a3afc774..4a85b5465bb2 100644
-> --- a/drivers/gpu/drm/amd/amdgpu/uvd_v3_1.c
-> +++ b/drivers/gpu/drm/amd/amdgpu/uvd_v3_1.c
-> @@ -181,6 +181,7 @@ static const struct amdgpu_ring_funcs uvd_v3_1_ring_funcs = {
->   	.align_mask = 0xf,
->   	.support_64bit_ptrs = false,
->   	.no_user_fence = true,
-> +	.engine_retains_context = true,
->   	.get_rptr = uvd_v3_1_ring_get_rptr,
->   	.get_wptr = uvd_v3_1_ring_get_wptr,
->   	.set_wptr = uvd_v3_1_ring_set_wptr,
-> diff --git a/drivers/gpu/drm/amd/amdgpu/uvd_v4_2.c b/drivers/gpu/drm/amd/amdgpu/uvd_v4_2.c
-> index 4b96fd583772..e7c1d12f0596 100644
-> --- a/drivers/gpu/drm/amd/amdgpu/uvd_v4_2.c
-> +++ b/drivers/gpu/drm/amd/amdgpu/uvd_v4_2.c
-> @@ -775,6 +775,7 @@ static const struct amdgpu_ring_funcs uvd_v4_2_ring_funcs = {
->   	.align_mask = 0xf,
->   	.support_64bit_ptrs = false,
->   	.no_user_fence = true,
-> +	.engine_retains_context = true,
->   	.get_rptr = uvd_v4_2_ring_get_rptr,
->   	.get_wptr = uvd_v4_2_ring_get_wptr,
->   	.set_wptr = uvd_v4_2_ring_set_wptr,
-> diff --git a/drivers/gpu/drm/amd/amdgpu/uvd_v5_0.c b/drivers/gpu/drm/amd/amdgpu/uvd_v5_0.c
-> index 71409ad8b7ed..a62788e4af96 100644
-> --- a/drivers/gpu/drm/amd/amdgpu/uvd_v5_0.c
-> +++ b/drivers/gpu/drm/amd/amdgpu/uvd_v5_0.c
-> @@ -882,6 +882,7 @@ static const struct amdgpu_ring_funcs uvd_v5_0_ring_funcs = {
->   	.align_mask = 0xf,
->   	.support_64bit_ptrs = false,
->   	.no_user_fence = true,
-> +	.engine_retains_context = true,
->   	.get_rptr = uvd_v5_0_ring_get_rptr,
->   	.get_wptr = uvd_v5_0_ring_get_wptr,
->   	.set_wptr = uvd_v5_0_ring_set_wptr,
-> diff --git a/drivers/gpu/drm/amd/amdgpu/uvd_v6_0.c b/drivers/gpu/drm/amd/amdgpu/uvd_v6_0.c
-> index ceb94bbb03a4..0435577b9b3b 100644
-> --- a/drivers/gpu/drm/amd/amdgpu/uvd_v6_0.c
-> +++ b/drivers/gpu/drm/amd/amdgpu/uvd_v6_0.c
-> @@ -1552,6 +1552,7 @@ static const struct amdgpu_ring_funcs uvd_v6_0_ring_phys_funcs = {
->   	.align_mask = 0xf,
->   	.support_64bit_ptrs = false,
->   	.no_user_fence = true,
-> +	.engine_retains_context = true,
->   	.get_rptr = uvd_v6_0_ring_get_rptr,
->   	.get_wptr = uvd_v6_0_ring_get_wptr,
->   	.set_wptr = uvd_v6_0_ring_set_wptr,
-> @@ -1578,6 +1579,7 @@ static const struct amdgpu_ring_funcs uvd_v6_0_ring_vm_funcs = {
->   	.align_mask = 0xf,
->   	.support_64bit_ptrs = false,
->   	.no_user_fence = true,
-> +	.engine_retains_context = true,
->   	.get_rptr = uvd_v6_0_ring_get_rptr,
->   	.get_wptr = uvd_v6_0_ring_get_wptr,
->   	.set_wptr = uvd_v6_0_ring_set_wptr,
-> @@ -1607,6 +1609,7 @@ static const struct amdgpu_ring_funcs uvd_v6_0_enc_ring_vm_funcs = {
->   	.nop = HEVC_ENC_CMD_NO_OP,
->   	.support_64bit_ptrs = false,
->   	.no_user_fence = true,
-> +	.engine_retains_context = true,
->   	.get_rptr = uvd_v6_0_enc_ring_get_rptr,
->   	.get_wptr = uvd_v6_0_enc_ring_get_wptr,
->   	.set_wptr = uvd_v6_0_enc_ring_set_wptr,
-> diff --git a/drivers/gpu/drm/amd/amdgpu/uvd_v7_0.c b/drivers/gpu/drm/amd/amdgpu/uvd_v7_0.c
-> index 1f8866f3f63c..3720d72f2c3e 100644
-> --- a/drivers/gpu/drm/amd/amdgpu/uvd_v7_0.c
-> +++ b/drivers/gpu/drm/amd/amdgpu/uvd_v7_0.c
-> @@ -1539,6 +1539,7 @@ static const struct amdgpu_ring_funcs uvd_v7_0_ring_vm_funcs = {
->   	.align_mask = 0xf,
->   	.support_64bit_ptrs = false,
->   	.no_user_fence = true,
-> +	.engine_retains_context = true,
->   	.get_rptr = uvd_v7_0_ring_get_rptr,
->   	.get_wptr = uvd_v7_0_ring_get_wptr,
->   	.set_wptr = uvd_v7_0_ring_set_wptr,
-> @@ -1571,6 +1572,7 @@ static const struct amdgpu_ring_funcs uvd_v7_0_enc_ring_vm_funcs = {
->   	.nop = HEVC_ENC_CMD_NO_OP,
->   	.support_64bit_ptrs = false,
->   	.no_user_fence = true,
-> +	.engine_retains_context = true,
->   	.get_rptr = uvd_v7_0_enc_ring_get_rptr,
->   	.get_wptr = uvd_v7_0_enc_ring_get_wptr,
->   	.set_wptr = uvd_v7_0_enc_ring_set_wptr,
-> diff --git a/drivers/gpu/drm/amd/amdgpu/vcn_v1_0.c b/drivers/gpu/drm/amd/amdgpu/vcn_v1_0.c
-> index a316797875a8..1691d0f955a9 100644
-> --- a/drivers/gpu/drm/amd/amdgpu/vcn_v1_0.c
-> +++ b/drivers/gpu/drm/amd/amdgpu/vcn_v1_0.c
-> @@ -2117,6 +2117,7 @@ static const struct amdgpu_ring_funcs vcn_v1_0_dec_ring_vm_funcs = {
->   	.support_64bit_ptrs = false,
->   	.no_user_fence = true,
->   	.secure_submission_supported = true,
-> +	.engine_retains_context = true,
->   	.get_rptr = vcn_v1_0_dec_ring_get_rptr,
->   	.get_wptr = vcn_v1_0_dec_ring_get_wptr,
->   	.set_wptr = vcn_v1_0_dec_ring_set_wptr,
-> @@ -2150,6 +2151,7 @@ static const struct amdgpu_ring_funcs vcn_v1_0_enc_ring_vm_funcs = {
->   	.align_mask = 0x3f,
->   	.nop = VCN_ENC_CMD_NO_OP,
->   	.support_64bit_ptrs = false,
-> +	.engine_retains_context = true,
->   	.no_user_fence = true,
->   	.get_rptr = vcn_v1_0_enc_ring_get_rptr,
->   	.get_wptr = vcn_v1_0_enc_ring_get_wptr,
-> diff --git a/drivers/gpu/drm/amd/amdgpu/vcn_v2_0.c b/drivers/gpu/drm/amd/amdgpu/vcn_v2_0.c
-> index 8897dcc9c1a0..046dd6b216e9 100644
-> --- a/drivers/gpu/drm/amd/amdgpu/vcn_v2_0.c
-> +++ b/drivers/gpu/drm/amd/amdgpu/vcn_v2_0.c
-> @@ -2113,6 +2113,7 @@ static const struct amdgpu_ring_funcs vcn_v2_0_dec_ring_vm_funcs = {
->   	.type = AMDGPU_RING_TYPE_VCN_DEC,
->   	.align_mask = 0xf,
->   	.secure_submission_supported = true,
-> +	.engine_retains_context = true,
->   	.get_rptr = vcn_v2_0_dec_ring_get_rptr,
->   	.get_wptr = vcn_v2_0_dec_ring_get_wptr,
->   	.set_wptr = vcn_v2_0_dec_ring_set_wptr,
-> @@ -2144,6 +2145,7 @@ static const struct amdgpu_ring_funcs vcn_v2_0_enc_ring_vm_funcs = {
->   	.type = AMDGPU_RING_TYPE_VCN_ENC,
->   	.align_mask = 0x3f,
->   	.nop = VCN_ENC_CMD_NO_OP,
-> +	.engine_retains_context = true,
->   	.get_rptr = vcn_v2_0_enc_ring_get_rptr,
->   	.get_wptr = vcn_v2_0_enc_ring_get_wptr,
->   	.set_wptr = vcn_v2_0_enc_ring_set_wptr,
-> diff --git a/drivers/gpu/drm/amd/amdgpu/vcn_v2_5.c b/drivers/gpu/drm/amd/amdgpu/vcn_v2_5.c
-> index cebee453871c..063f88da120b 100644
-> --- a/drivers/gpu/drm/amd/amdgpu/vcn_v2_5.c
-> +++ b/drivers/gpu/drm/amd/amdgpu/vcn_v2_5.c
-> @@ -1777,6 +1777,7 @@ static const struct amdgpu_ring_funcs vcn_v2_5_dec_ring_vm_funcs = {
->   	.type = AMDGPU_RING_TYPE_VCN_DEC,
->   	.align_mask = 0xf,
->   	.secure_submission_supported = true,
-> +	.engine_retains_context = true,
->   	.get_rptr = vcn_v2_5_dec_ring_get_rptr,
->   	.get_wptr = vcn_v2_5_dec_ring_get_wptr,
->   	.set_wptr = vcn_v2_5_dec_ring_set_wptr,
-> @@ -1877,6 +1878,7 @@ static const struct amdgpu_ring_funcs vcn_v2_5_enc_ring_vm_funcs = {
->   	.type = AMDGPU_RING_TYPE_VCN_ENC,
->   	.align_mask = 0x3f,
->   	.nop = VCN_ENC_CMD_NO_OP,
-> +	.engine_retains_context = true,
->   	.get_rptr = vcn_v2_5_enc_ring_get_rptr,
->   	.get_wptr = vcn_v2_5_enc_ring_get_wptr,
->   	.set_wptr = vcn_v2_5_enc_ring_set_wptr,
-> diff --git a/drivers/gpu/drm/amd/amdgpu/vcn_v3_0.c b/drivers/gpu/drm/amd/amdgpu/vcn_v3_0.c
-> index d9cf8f0feeb3..8dcc07b3f631 100644
-> --- a/drivers/gpu/drm/amd/amdgpu/vcn_v3_0.c
-> +++ b/drivers/gpu/drm/amd/amdgpu/vcn_v3_0.c
-> @@ -1857,6 +1857,7 @@ static const struct amdgpu_ring_funcs vcn_v3_0_dec_sw_ring_vm_funcs = {
->   	.align_mask = 0x3f,
->   	.nop = VCN_DEC_SW_CMD_NO_OP,
->   	.secure_submission_supported = true,
-> +	.engine_retains_context = true,
->   	.get_rptr = vcn_v3_0_dec_ring_get_rptr,
->   	.get_wptr = vcn_v3_0_dec_ring_get_wptr,
->   	.set_wptr = vcn_v3_0_dec_ring_set_wptr,
-> @@ -2021,6 +2022,7 @@ static const struct amdgpu_ring_funcs vcn_v3_0_dec_ring_vm_funcs = {
->   	.type = AMDGPU_RING_TYPE_VCN_DEC,
->   	.align_mask = 0xf,
->   	.secure_submission_supported = true,
-> +	.engine_retains_context = true,
->   	.get_rptr = vcn_v3_0_dec_ring_get_rptr,
->   	.get_wptr = vcn_v3_0_dec_ring_get_wptr,
->   	.set_wptr = vcn_v3_0_dec_ring_set_wptr,
-> @@ -2122,6 +2124,7 @@ static const struct amdgpu_ring_funcs vcn_v3_0_enc_ring_vm_funcs = {
->   	.type = AMDGPU_RING_TYPE_VCN_ENC,
->   	.align_mask = 0x3f,
->   	.nop = VCN_ENC_CMD_NO_OP,
-> +	.engine_retains_context = true,
->   	.get_rptr = vcn_v3_0_enc_ring_get_rptr,
->   	.get_wptr = vcn_v3_0_enc_ring_get_wptr,
->   	.set_wptr = vcn_v3_0_enc_ring_set_wptr,
-> diff --git a/drivers/gpu/drm/amd/amdgpu/vcn_v4_0.c b/drivers/gpu/drm/amd/amdgpu/vcn_v4_0.c
-> index 3ae666522d57..f1306316dc3c 100644
-> --- a/drivers/gpu/drm/amd/amdgpu/vcn_v4_0.c
-> +++ b/drivers/gpu/drm/amd/amdgpu/vcn_v4_0.c
-> @@ -1977,6 +1977,7 @@ static struct amdgpu_ring_funcs vcn_v4_0_unified_ring_vm_funcs = {
->   	.type = AMDGPU_RING_TYPE_VCN_ENC,
->   	.align_mask = 0x3f,
->   	.nop = VCN_ENC_CMD_NO_OP,
-> +	.engine_retains_context = true,
->   	.extra_bytes = sizeof(struct amdgpu_vcn_rb_metadata),
->   	.get_rptr = vcn_v4_0_unified_ring_get_rptr,
->   	.get_wptr = vcn_v4_0_unified_ring_get_wptr,
-> diff --git a/drivers/gpu/drm/amd/amdgpu/vcn_v4_0_3.c b/drivers/gpu/drm/amd/amdgpu/vcn_v4_0_3.c
-> index eacf4e93ba2f..5a935c07352a 100644
-> --- a/drivers/gpu/drm/amd/amdgpu/vcn_v4_0_3.c
-> +++ b/drivers/gpu/drm/amd/amdgpu/vcn_v4_0_3.c
-> @@ -1628,6 +1628,7 @@ static const struct amdgpu_ring_funcs vcn_v4_0_3_unified_ring_vm_funcs = {
->   	.type = AMDGPU_RING_TYPE_VCN_ENC,
->   	.align_mask = 0x3f,
->   	.nop = VCN_ENC_CMD_NO_OP,
-> +	.engine_retains_context = true,
->   	.get_rptr = vcn_v4_0_3_unified_ring_get_rptr,
->   	.get_wptr = vcn_v4_0_3_unified_ring_get_wptr,
->   	.set_wptr = vcn_v4_0_3_unified_ring_set_wptr,
-> diff --git a/drivers/gpu/drm/amd/amdgpu/vcn_v4_0_5.c b/drivers/gpu/drm/amd/amdgpu/vcn_v4_0_5.c
-> index b107ee80e472..1a485f5825dd 100644
-> --- a/drivers/gpu/drm/amd/amdgpu/vcn_v4_0_5.c
-> +++ b/drivers/gpu/drm/amd/amdgpu/vcn_v4_0_5.c
-> @@ -1481,6 +1481,7 @@ static struct amdgpu_ring_funcs vcn_v4_0_5_unified_ring_vm_funcs = {
->   	.type = AMDGPU_RING_TYPE_VCN_ENC,
->   	.align_mask = 0x3f,
->   	.nop = VCN_ENC_CMD_NO_OP,
-> +	.engine_retains_context = true,
->   	.get_rptr = vcn_v4_0_5_unified_ring_get_rptr,
->   	.get_wptr = vcn_v4_0_5_unified_ring_get_wptr,
->   	.set_wptr = vcn_v4_0_5_unified_ring_set_wptr,
-> diff --git a/drivers/gpu/drm/amd/amdgpu/vcn_v5_0_0.c b/drivers/gpu/drm/amd/amdgpu/vcn_v5_0_0.c
-> index 0202df5db1e1..2d8214f591f1 100644
-> --- a/drivers/gpu/drm/amd/amdgpu/vcn_v5_0_0.c
-> +++ b/drivers/gpu/drm/amd/amdgpu/vcn_v5_0_0.c
-> @@ -1203,6 +1203,7 @@ static const struct amdgpu_ring_funcs vcn_v5_0_0_unified_ring_vm_funcs = {
->   	.type = AMDGPU_RING_TYPE_VCN_ENC,
->   	.align_mask = 0x3f,
->   	.nop = VCN_ENC_CMD_NO_OP,
-> +	.engine_retains_context = true,
->   	.get_rptr = vcn_v5_0_0_unified_ring_get_rptr,
->   	.get_wptr = vcn_v5_0_0_unified_ring_get_wptr,
->   	.set_wptr = vcn_v5_0_0_unified_ring_set_wptr,
-> diff --git a/drivers/gpu/drm/amd/amdgpu/vcn_v5_0_1.c b/drivers/gpu/drm/amd/amdgpu/vcn_v5_0_1.c
-> index 714350cabf2f..bd3a04f1414d 100644
-> --- a/drivers/gpu/drm/amd/amdgpu/vcn_v5_0_1.c
-> +++ b/drivers/gpu/drm/amd/amdgpu/vcn_v5_0_1.c
-> @@ -1328,6 +1328,7 @@ static const struct amdgpu_ring_funcs vcn_v5_0_1_unified_ring_vm_funcs = {
->   	.type = AMDGPU_RING_TYPE_VCN_ENC,
->   	.align_mask = 0x3f,
->   	.nop = VCN_ENC_CMD_NO_OP,
-> +	.engine_retains_context = true,
->   	.get_rptr = vcn_v5_0_1_unified_ring_get_rptr,
->   	.get_wptr = vcn_v5_0_1_unified_ring_get_wptr,
->   	.set_wptr = vcn_v5_0_1_unified_ring_set_wptr,
+> diff --git a/drivers/gpu/drm/panthor/panthor_pwr.c b/drivers/gpu/drm/panthor/panthor_pwr.c
+> index da64fe006a8b..cd529660a276 100644
+> --- a/drivers/gpu/drm/panthor/panthor_pwr.c
+> +++ b/drivers/gpu/drm/panthor/panthor_pwr.c
+> @@ -23,6 +23,14 @@
+>  	 PWR_IRQ_COMMAND_NOT_ALLOWED | \
+>  	 PWR_IRQ_COMMAND_INVALID)
+> 
+> +#define PWR_ALL_CORES_MASK		GENMASK_U64(63, 0)
+> +
+> +#define PWR_DOMAIN_MAX_BITS		16
+> +
+> +#define PWR_TRANSITION_TIMEOUT_US	(2ULL * USEC_PER_SEC)
+> +
+> +#define PWR_RETRACT_TIMEOUT_US		(2ULL * USEC_PER_MSEC)
+> +
+>  /**
+>   * struct panthor_pwr - PWR_CONTROL block management data.
+>   */
+> @@ -59,6 +67,323 @@ static void panthor_pwr_irq_handler(struct panthor_device *ptdev, u32 status)
+>  }
+>  PANTHOR_IRQ_HANDLER(pwr, PWR, panthor_pwr_irq_handler);
+> 
+> +static void panthor_pwr_write_command(struct panthor_device *ptdev, u32 command, u64 args)
+> +{
+> +	if (args)
+> +		gpu_write64(ptdev, PWR_CMDARG, args);
+> +
+> +	gpu_write(ptdev, PWR_COMMAND, command);
+> +}
+> +
+> +static const char *get_domain_name(u8 domain)
+> +{
+> +	switch (domain) {
+> +	case PWR_COMMAND_DOMAIN_L2:
+> +		return "L2";
+> +	case PWR_COMMAND_DOMAIN_TILER:
+> +		return "Tiler";
+> +	case PWR_COMMAND_DOMAIN_SHADER:
+> +		return "Shader";
+> +	case PWR_COMMAND_DOMAIN_BASE:
+> +		return "Base";
+> +	case PWR_COMMAND_DOMAIN_STACK:
+> +		return "Stack";
+> +	}
+> +	return "Unknown";
+> +}
+> +
+> +static u32 get_domain_base(u8 domain)
+> +{
+> +	switch (domain) {
+> +	case PWR_COMMAND_DOMAIN_L2:
+> +		return PWR_L2_PRESENT;
+> +	case PWR_COMMAND_DOMAIN_TILER:
+> +		return PWR_TILER_PRESENT;
+> +	case PWR_COMMAND_DOMAIN_SHADER:
+> +		return PWR_SHADER_PRESENT;
+> +	case PWR_COMMAND_DOMAIN_BASE:
+> +		return PWR_BASE_PRESENT;
+> +	case PWR_COMMAND_DOMAIN_STACK:
+> +		return PWR_STACK_PRESENT;
+> +	}
+> +	return 0;
+> +}
+> +
+> +static u32 get_domain_ready_reg(u32 domain)
+> +{
+> +	return get_domain_base(domain) + (PWR_L2_READY - PWR_L2_PRESENT);
+> +}
+> +
+> +static u32 get_domain_pwrtrans_reg(u32 domain)
+> +{
+> +	return get_domain_base(domain) + (PWR_L2_PWRTRANS - PWR_L2_PRESENT);
+> +}
+> +
+> +static bool is_valid_domain(u32 domain)
+> +{
+> +	return get_domain_base(domain) != 0;
+> +}
+> +
+> +static bool has_rtu(struct panthor_device *ptdev)
+> +{
+> +	return ptdev->gpu_info.gpu_features & GPU_FEATURES_RAY_TRAVERSAL;
+> +}
+> +
+> +static u8 get_domain_subdomain(struct panthor_device *ptdev, u32 domain)
+> +{
+> +	if ((domain == PWR_COMMAND_DOMAIN_SHADER) && has_rtu(ptdev))
 
-All checks out, nothing seems forgotten.
+NIT: Extra brackets
 
-Reviewed-by: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
+Thanks,
+Steve
 
-Regards,
-
-Tvrtko
+> +		return PWR_COMMAND_SUBDOMAIN_RTU;
+> +
+> +	return 0;
+> +}
+> +
+> +static int panthor_pwr_domain_wait_transition(struct panthor_device *ptdev, u32 domain,
+> +					      u32 timeout_us)
+> +{
+> +	u32 pwrtrans_reg = get_domain_pwrtrans_reg(domain);
+> +	u64 val;
+> +	int ret = 0;
+> +
+> +	ret = gpu_read64_poll_timeout(ptdev, pwrtrans_reg, val, !(PWR_ALL_CORES_MASK & val), 100,
+> +				      timeout_us);
+> +	if (ret) {
+> +		drm_err(&ptdev->base, "%s domain power in transition, pwrtrans(0x%llx)",
+> +			get_domain_name(domain), val);
+> +		return ret;
+> +	}
+> +
+> +	return 0;
+> +}
+> +
+> +static void panthor_pwr_debug_info_show(struct panthor_device *ptdev)
+> +{
+> +	drm_info(&ptdev->base, "GPU_FEATURES:    0x%016llx", gpu_read64(ptdev, GPU_FEATURES));
+> +	drm_info(&ptdev->base, "PWR_STATUS:      0x%016llx", gpu_read64(ptdev, PWR_STATUS));
+> +	drm_info(&ptdev->base, "L2_PRESENT:      0x%016llx", gpu_read64(ptdev, PWR_L2_PRESENT));
+> +	drm_info(&ptdev->base, "L2_PWRTRANS:     0x%016llx", gpu_read64(ptdev, PWR_L2_PWRTRANS));
+> +	drm_info(&ptdev->base, "L2_READY:        0x%016llx", gpu_read64(ptdev, PWR_L2_READY));
+> +	drm_info(&ptdev->base, "TILER_PRESENT:   0x%016llx", gpu_read64(ptdev, PWR_TILER_PRESENT));
+> +	drm_info(&ptdev->base, "TILER_PWRTRANS:  0x%016llx", gpu_read64(ptdev, PWR_TILER_PWRTRANS));
+> +	drm_info(&ptdev->base, "TILER_READY:     0x%016llx", gpu_read64(ptdev, PWR_TILER_READY));
+> +	drm_info(&ptdev->base, "SHADER_PRESENT:  0x%016llx", gpu_read64(ptdev, PWR_SHADER_PRESENT));
+> +	drm_info(&ptdev->base, "SHADER_PWRTRANS: 0x%016llx", gpu_read64(ptdev, PWR_SHADER_PWRTRANS));
+> +	drm_info(&ptdev->base, "SHADER_READY:    0x%016llx", gpu_read64(ptdev, PWR_SHADER_READY));
+> +}
+> +
+> +static int panthor_pwr_domain_transition(struct panthor_device *ptdev, u32 cmd, u32 domain,
+> +					 u64 mask, u32 timeout_us)
+> +{
+> +	u32 ready_reg = get_domain_ready_reg(domain);
+> +	u32 pwr_cmd = PWR_COMMAND_DEF(cmd, domain, get_domain_subdomain(ptdev, domain));
+> +	u64 expected_val = 0;
+> +	u64 val;
+> +	int ret = 0;
+> +
+> +	if (drm_WARN_ON(&ptdev->base, !is_valid_domain(domain)))
+> +		return -EINVAL;
+> +
+> +	switch (cmd) {
+> +	case PWR_COMMAND_POWER_DOWN:
+> +		expected_val = 0;
+> +		break;
+> +	case PWR_COMMAND_POWER_UP:
+> +		expected_val = mask;
+> +		break;
+> +	default:
+> +		drm_err(&ptdev->base, "Invalid power domain transition command (0x%x)", cmd);
+> +		return -EINVAL;
+> +	}
+> +
+> +	ret = panthor_pwr_domain_wait_transition(ptdev, domain, timeout_us);
+> +	if (ret)
+> +		return ret;
+> +
+> +	/* domain already in target state, return early */
+> +	if ((gpu_read64(ptdev, ready_reg) & mask) == expected_val)
+> +		return 0;
+> +
+> +	panthor_pwr_write_command(ptdev, pwr_cmd, mask);
+> +
+> +	ret = gpu_read64_poll_timeout(ptdev, ready_reg, val, (mask & val) == expected_val, 100,
+> +				      timeout_us);
+> +	if (ret) {
+> +		drm_err(&ptdev->base,
+> +			"timeout waiting on %s power domain transition, cmd(0x%x), arg(0x%llx)",
+> +			get_domain_name(domain), pwr_cmd, mask);
+> +		panthor_pwr_debug_info_show(ptdev);
+> +		return ret;
+> +	}
+> +
+> +	return 0;
+> +}
+> +
+> +#define panthor_pwr_domain_power_off(__ptdev, __domain, __mask, __timeout_us)            \
+> +	panthor_pwr_domain_transition(__ptdev, PWR_COMMAND_POWER_DOWN, __domain, __mask, \
+> +				      __timeout_us)
+> +
+> +#define panthor_pwr_domain_power_on(__ptdev, __domain, __mask, __timeout_us) \
+> +	panthor_pwr_domain_transition(__ptdev, PWR_COMMAND_POWER_UP, __domain, __mask, __timeout_us)
+> +
+> +/**
+> + * retract_domain() - Retract control of a domain from MCU
+> + * @ptdev: Device.
+> + * @domain: Domain to retract the control
+> + *
+> + * Retracting L2 domain is not expected since it won't be delegated.
+> + *
+> + * Return: 0 on success or retracted already.
+> + *         -EPERM if domain is L2.
+> + *         A negative error code otherwise.
+> + */
+> +static int retract_domain(struct panthor_device *ptdev, u32 domain)
+> +{
+> +	const u32 pwr_cmd = PWR_COMMAND_DEF(PWR_COMMAND_RETRACT, domain, 0);
+> +	const u64 pwr_status = gpu_read64(ptdev, PWR_STATUS);
+> +	const u64 delegated_mask = PWR_STATUS_DOMAIN_DELEGATED(domain);
+> +	const u64 allow_mask = PWR_STATUS_DOMAIN_ALLOWED(domain);
+> +	u64 val;
+> +	int ret;
+> +
+> +	if (drm_WARN_ON(&ptdev->base, domain == PWR_COMMAND_DOMAIN_L2))
+> +		return -EPERM;
+> +
+> +	ret = gpu_read64_poll_timeout(ptdev, PWR_STATUS, val, !(PWR_STATUS_RETRACT_PENDING & val),
+> +				      0, PWR_RETRACT_TIMEOUT_US);
+> +	if (ret) {
+> +		drm_err(&ptdev->base, "%s domain retract pending", get_domain_name(domain));
+> +		return ret;
+> +	}
+> +
+> +	if (!(pwr_status & delegated_mask)) {
+> +		drm_dbg(&ptdev->base, "%s domain already retracted", get_domain_name(domain));
+> +		return 0;
+> +	}
+> +
+> +	panthor_pwr_write_command(ptdev, pwr_cmd, 0);
+> +
+> +	/*
+> +	 * On successful retraction
+> +	 * allow-flag will be set with delegated-flag being cleared.
+> +	 */
+> +	ret = gpu_read64_poll_timeout(ptdev, PWR_STATUS, val,
+> +				      ((delegated_mask | allow_mask) & val) == allow_mask, 10,
+> +				      PWR_TRANSITION_TIMEOUT_US);
+> +	if (ret) {
+> +		drm_err(&ptdev->base, "Retracting %s domain timeout, cmd(0x%x)",
+> +			get_domain_name(domain), pwr_cmd);
+> +		return ret;
+> +	}
+> +
+> +	return 0;
+> +}
+> +
+> +/**
+> + * delegate_domain() - Delegate control of a domain to MCU
+> + * @ptdev: Device.
+> + * @domain: Domain to delegate the control
+> + *
+> + * Delegating L2 domain is prohibited.
+> + *
+> + * Return:
+> + * *       0 on success or delegated already.
+> + * *       -EPERM if domain is L2.
+> + * *       A negative error code otherwise.
+> + */
+> +static int delegate_domain(struct panthor_device *ptdev, u32 domain)
+> +{
+> +	const u32 pwr_cmd = PWR_COMMAND_DEF(PWR_COMMAND_DELEGATE, domain, 0);
+> +	const u64 pwr_status = gpu_read64(ptdev, PWR_STATUS);
+> +	const u64 allow_mask = PWR_STATUS_DOMAIN_ALLOWED(domain);
+> +	const u64 delegated_mask = PWR_STATUS_DOMAIN_DELEGATED(domain);
+> +	u64 val;
+> +	int ret;
+> +
+> +	if (drm_WARN_ON(&ptdev->base, domain == PWR_COMMAND_DOMAIN_L2))
+> +		return -EPERM;
+> +
+> +	/* Already delegated, exit early */
+> +	if (pwr_status & delegated_mask)
+> +		return 0;
+> +
+> +	/* Check if the command is allowed before delegating. */
+> +	if (!(pwr_status & allow_mask)) {
+> +		drm_warn(&ptdev->base, "Delegating %s domain not allowed", get_domain_name(domain));
+> +		return -EPERM;
+> +	}
+> +
+> +	ret = panthor_pwr_domain_wait_transition(ptdev, domain, PWR_TRANSITION_TIMEOUT_US);
+> +	if (ret)
+> +		return ret;
+> +
+> +	panthor_pwr_write_command(ptdev, pwr_cmd, 0);
+> +
+> +	/*
+> +	 * On successful delegation
+> +	 * allow-flag will be cleared with delegated-flag being set.
+> +	 */
+> +	ret = gpu_read64_poll_timeout(ptdev, PWR_STATUS, val,
+> +				      ((delegated_mask | allow_mask) & val) == delegated_mask,
+> +				      10, PWR_TRANSITION_TIMEOUT_US);
+> +	if (ret) {
+> +		drm_err(&ptdev->base, "Delegating %s domain timeout, cmd(0x%x)",
+> +			get_domain_name(domain), pwr_cmd);
+> +		return ret;
+> +	}
+> +
+> +	return 0;
+> +}
+> +
+> +static int panthor_pwr_delegate_domains(struct panthor_device *ptdev)
+> +{
+> +	int ret;
+> +
+> +	if (!ptdev->pwr)
+> +		return 0;
+> +
+> +	ret = delegate_domain(ptdev, PWR_COMMAND_DOMAIN_SHADER);
+> +	if (ret)
+> +		return ret;
+> +
+> +	ret = delegate_domain(ptdev, PWR_COMMAND_DOMAIN_TILER);
+> +	if (ret)
+> +		goto err_retract_shader;
+> +
+> +	return 0;
+> +
+> +err_retract_shader:
+> +	retract_domain(ptdev, PWR_COMMAND_DOMAIN_SHADER);
+> +
+> +	return ret;
+> +}
+> +
+> +/**
+> + * panthor_pwr_domain_force_off - Forcefully power down a domain.
+> + * @ptdev: Device.
+> + * @domain: Domain to forcefully power down.
+> + *
+> + * This function will attempt to retract and power off the requested power
+> + * domain. However, if retraction fails, the operation is aborted. If power off
+> + * fails, the domain will remain retracted and under the host control.
+> + *
+> + * Return: 0 on success or a negative error code on failure.
+> + */
+> +static int panthor_pwr_domain_force_off(struct panthor_device *ptdev, u32 domain)
+> +{
+> +	const u64 domain_ready = gpu_read64(ptdev, get_domain_ready_reg(domain));
+> +	int ret;
+> +
+> +	/* Domain already powered down, early exit. */
+> +	if (!domain_ready)
+> +		return 0;
+> +
+> +	/* Domain has to be in host control to issue power off command. */
+> +	ret = retract_domain(ptdev, domain);
+> +	if (ret)
+> +		return ret;
+> +
+> +	return panthor_pwr_domain_power_off(ptdev, domain, domain_ready, PWR_TRANSITION_TIMEOUT_US);
+> +}
+> +
+>  void panthor_pwr_unplug(struct panthor_device *ptdev)
+>  {
+>  	unsigned long flags;
+> @@ -103,6 +428,59 @@ int panthor_pwr_init(struct panthor_device *ptdev)
+>  	return 0;
+>  }
+> 
+> +void panthor_pwr_l2_power_off(struct panthor_device *ptdev)
+> +{
+> +	const u64 l2_allow_mask = PWR_STATUS_DOMAIN_ALLOWED(PWR_COMMAND_DOMAIN_L2);
+> +	const u64 pwr_status = gpu_read64(ptdev, PWR_STATUS);
+> +
+> +	/* Abort if L2 power off constraints are not satisfied */
+> +	if (!(pwr_status & l2_allow_mask)) {
+> +		drm_warn(&ptdev->base, "Power off L2 domain not allowed");
+> +		return;
+> +	}
+> +
+> +	/* It is expected that when halting the MCU, it would power down its
+> +	 * delegated domains. However, an unresponsive or hung MCU may not do
+> +	 * so, which is why we need to check and retract the domains back into
+> +	 * host control to be powered down in the right order before powering
+> +	 * down the L2.
+> +	 */
+> +	if (panthor_pwr_domain_force_off(ptdev, PWR_COMMAND_DOMAIN_TILER))
+> +		return;
+> +
+> +	if (panthor_pwr_domain_force_off(ptdev, PWR_COMMAND_DOMAIN_SHADER))
+> +		return;
+> +
+> +	panthor_pwr_domain_power_off(ptdev, PWR_COMMAND_DOMAIN_L2, ptdev->gpu_info.l2_present,
+> +				     PWR_TRANSITION_TIMEOUT_US);
+> +}
+> +
+> +int panthor_pwr_l2_power_on(struct panthor_device *ptdev)
+> +{
+> +	const u32 pwr_status = gpu_read64(ptdev, PWR_STATUS);
+> +	const u32 l2_allow_mask = PWR_STATUS_DOMAIN_ALLOWED(PWR_COMMAND_DOMAIN_L2);
+> +	int ret;
+> +
+> +	if ((pwr_status & l2_allow_mask) == 0) {
+> +		drm_warn(&ptdev->base, "Power on L2 domain not allowed");
+> +		return -EPERM;
+> +	}
+> +
+> +	ret = panthor_pwr_domain_power_on(ptdev, PWR_COMMAND_DOMAIN_L2, ptdev->gpu_info.l2_present,
+> +					  PWR_TRANSITION_TIMEOUT_US);
+> +	if (ret)
+> +		return ret;
+> +
+> +	/* Delegate control of the shader and tiler power domains to the MCU as
+> +	 * it can better manage which shader/tiler cores need to be powered up
+> +	 * or can be powered down based on currently running jobs.
+> +	 *
+> +	 * If the shader and tiler domains are already delegated to the MCU,
+> +	 * this call would just return early.
+> +	 */
+> +	return panthor_pwr_delegate_domains(ptdev);
+> +}
+> +
+>  void panthor_pwr_suspend(struct panthor_device *ptdev)
+>  {
+>  	if (!ptdev->pwr)
+> diff --git a/drivers/gpu/drm/panthor/panthor_pwr.h b/drivers/gpu/drm/panthor/panthor_pwr.h
+> index b325e5b7eba3..3c834059a860 100644
+> --- a/drivers/gpu/drm/panthor/panthor_pwr.h
+> +++ b/drivers/gpu/drm/panthor/panthor_pwr.h
+> @@ -10,6 +10,10 @@ void panthor_pwr_unplug(struct panthor_device *ptdev);
+> 
+>  int panthor_pwr_init(struct panthor_device *ptdev);
+> 
+> +void panthor_pwr_l2_power_off(struct panthor_device *ptdev);
+> +
+> +int panthor_pwr_l2_power_on(struct panthor_device *ptdev);
+> +
+>  void panthor_pwr_suspend(struct panthor_device *ptdev);
+> 
+>  void panthor_pwr_resume(struct panthor_device *ptdev);
+> diff --git a/drivers/gpu/drm/panthor/panthor_regs.h b/drivers/gpu/drm/panthor/panthor_regs.h
+> index 5469eec02178..18702d7001e2 100644
+> --- a/drivers/gpu/drm/panthor/panthor_regs.h
+> +++ b/drivers/gpu/drm/panthor/panthor_regs.h
+> @@ -72,6 +72,7 @@
+> 
+>  #define GPU_FEATURES					0x60
+>  #define   GPU_FEATURES_RAY_INTERSECTION			BIT(2)
+> +#define   GPU_FEATURES_RAY_TRAVERSAL			BIT(5)
+> 
+>  #define GPU_TIMESTAMP_OFFSET				0x88
+>  #define GPU_CYCLE_COUNT					0x90
+> --
+> 2.49.0
+> 
 
