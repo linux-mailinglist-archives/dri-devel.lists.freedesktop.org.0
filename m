@@ -2,57 +2,131 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 30683C41401
-	for <lists+dri-devel@lfdr.de>; Fri, 07 Nov 2025 19:17:00 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id E530CC41432
+	for <lists+dri-devel@lfdr.de>; Fri, 07 Nov 2025 19:19:12 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5DE8F88668;
-	Fri,  7 Nov 2025 18:16:56 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7800C10EB58;
+	Fri,  7 Nov 2025 18:19:10 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="PFNFhJgp";
+	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="MgO1357d";
+	dkim=pass (2048-bit key; unprotected) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="bxcw+QZf";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C638610EB81
- for <dri-devel@lists.freedesktop.org>; Fri,  7 Nov 2025 18:16:54 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by tor.source.kernel.org (Postfix) with ESMTP id EE8D661904;
- Fri,  7 Nov 2025 18:16:53 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9B05AC4CEF8;
- Fri,  7 Nov 2025 18:16:49 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1762539413;
- bh=+3LGRZ/i95R9G46DjnQ4oDzhvETIPYCKtlLIAK2PNBI=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=PFNFhJgp1kZkEshiNLZQa1cH8HdVHFyKXEiX2/j3WpQOAshi2ICDcRGNrbQvnzZIu
- Ev1WbzWkDfvPNUzHcb4LcvA+ipD97IetYPlu+Bb/1dqxVuqvBFDJ0TR79zhIOy0Vu9
- 6M0+Xp272845UHA5ZY1C92R9+tlxfcQg+IA7NhONIBlu+HLKAzySAQs1ZgZKmkrIAW
- nAx7tA+IWU5iFp+Stamqd8v3/LebxTy/Asu4r/w29O/xHPtjqKMr1d1eP4Xd2UO6Kk
- M84g2J9d8qCpEK3SHXStSFYcTiUKJWx9JKd1a9QHRZ4kfUrH3VuOINxiFdGueKP44C
- 8MZdLTWnobWpA==
-Date: Fri, 7 Nov 2025 18:16:47 +0000
-From: Conor Dooley <conor@kernel.org>
-To: maudspierings@gocontroll.com
-Cc: Lee Jones <lee@kernel.org>, Daniel Thompson <danielt@kernel.org>,
- Jingoo Han <jingoohan1@gmail.com>, Pavel Machek <pavel@kernel.org>,
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>, Helge Deller <deller@gmx.de>,
- Shawn Guo <shawnguo@kernel.org>, Sascha Hauer <s.hauer@pengutronix.de>,
- Pengutronix Kernel Team <kernel@pengutronix.de>,
- Fabio Estevam <festevam@gmail.com>, Liam Girdwood <lgirdwood@gmail.com>,
- Mark Brown <broonie@kernel.org>, dri-devel@lists.freedesktop.org,
- linux-leds@vger.kernel.org, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-fbdev@vger.kernel.org,
- imx@lists.linux.dev, linux-arm-kernel@lists.infradead.org
-Subject: Re: [PATCH v5 1/4] dt-bindings: backlight: Add max25014 support
-Message-ID: <20251107-qualified-varsity-78953d06d7c6@spud>
-References: <20251107-max25014-v5-0-9a6aa57306bf@gocontroll.com>
- <20251107-max25014-v5-1-9a6aa57306bf@gocontroll.com>
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
+ [205.220.180.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DF83410EB58
+ for <dri-devel@lists.freedesktop.org>; Fri,  7 Nov 2025 18:19:09 +0000 (UTC)
+Received: from pps.filterd (m0279871.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id
+ 5A7CqVaN2281086
+ for <dri-devel@lists.freedesktop.org>; Fri, 7 Nov 2025 18:19:09 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+ cc:content-transfer-encoding:content-type:date:from:in-reply-to
+ :message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+ +I4isfTsZMgK3HQJ/niSfIoQ03VYJyMU2PJWo0GDYFw=; b=MgO1357d9IzxLLrf
+ xCN2Tlx8X5da1tgWRoJTRVuY56YIfqh27JcRPJDn6PRMPojU0Ni2PPF2ITZQIdOW
+ ykVJUengOjH5m//g66px0Cg3VBl+Y7zcToHp9cN5uDIBQ/NiPMPkIzfZsdOSFczY
+ BJOzBL2pkbmkgN9+gxsUMQ6EcNKuOFjokj7Uvw8ZZPLlsVNxucK+rKz2CIg8EBA+
+ jFhaCuYccXfII1hQArANQ9TtBL2O5alC7t9W14XU0KPLVsHl18/kNctV7bK+VkRQ
+ BfXjJTnt+VL+rwqmrxVnhDM1EVUeFIRkyeVKPkgajOvy/KCK31CsiAbNgAEiI8hZ
+ 50yfjA==
+Received: from mail-pj1-f72.google.com (mail-pj1-f72.google.com
+ [209.85.216.72])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4a9a9sj6k8-1
+ (version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
+ for <dri-devel@lists.freedesktop.org>; Fri, 07 Nov 2025 18:19:08 +0000 (GMT)
+Received: by mail-pj1-f72.google.com with SMTP id
+ 98e67ed59e1d1-340bc4ef67fso1307010a91.3
+ for <dri-devel@lists.freedesktop.org>; Fri, 07 Nov 2025 10:19:08 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=oss.qualcomm.com; s=google; t=1762539548; x=1763144348;
+ darn=lists.freedesktop.org; 
+ h=content-transfer-encoding:in-reply-to:from:content-language
+ :references:cc:to:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=+I4isfTsZMgK3HQJ/niSfIoQ03VYJyMU2PJWo0GDYFw=;
+ b=bxcw+QZfmZLDVcAoSysviriC/sx7fN5FmEdCfmfrNAa31XmWFwFIR7XXmXp0LYsD9D
+ qfFPi7Qi/PvHXdREOZ1GWFIBFkV7iRqcDBvBEh3iZev46g/vmpsbFsNraG8+mpDN8Xl8
+ YV1BbMXGCS4If3Xp1wVoEhVCCiBEhlSVtt0onowNsWqm4+70owgRKhllgXmPbpTau7FM
+ 2f1XhoYAKqKYkm8FlcPtd20GJZzwlV8dxioiS7Q8gaCO6pZPEbeBSogtTXrihYEosZ/2
+ YjcrtaZNxT+mNXD36fhk8yx4fVhInYBnSxy87iSvTrraU4h/caRMRwVsALxuS9VsP/4d
+ gGsg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1762539548; x=1763144348;
+ h=content-transfer-encoding:in-reply-to:from:content-language
+ :references:cc:to:subject:user-agent:mime-version:date:message-id
+ :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=+I4isfTsZMgK3HQJ/niSfIoQ03VYJyMU2PJWo0GDYFw=;
+ b=k3vlpTJpkCQ1cO0t7uXEdwNy5TwUseFnVdWgm+vy51uKf4Pp+UTYeB+dnwmqtdGTq9
+ GQUoJur8oYrs7h4Ts7s4uZ+d3vU5msqMXFE7Poa6YsrU/MMxeDt9CVR2FZ55dsh+zzFx
+ BU/L8wd4TI2nUWAhN0OOM3IsKL8FtQKEjAUQEr6fdrVKG/EWdJFYjf2bHeVoqQcgx6Pz
+ s28nR1hn6YJPNxHR5uFk83OxQXBEOySFwxkg7z+5ydHnjU8eh8PNvwa8fhlI+RdlHLYT
+ XJfw/WgYVyZNaw7oCsrUpv60KAsJdaI0kh5oKcZIqKiOD5cGn2uTxBwnGEMNgQxLCsK6
+ 5SNg==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCXhjWuQKUk+IEKidQg0S10bQOjvY/+jsxet4IibvNXM0QAZ00DZBQGQoJK5T3OISGflGxalhZRG0+g=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Yxxn4BB1GEJtcfe0vq142rOpFBMJ3Kq+yYKCq9yvB0k8FVXOXec
+ zZkZOUZSZO9u/ceC4VIicyNwsASoiyfPkQ3wrPGMC+v+x53YiuRVjSoxgitP1tBByxDjMLsqlWu
+ 8I2s+uv5IJufXRWohW2waeJ0peq5vAYIMN6zPq5Xi6JpKaww9DaK7kUIYVHxczXN48tqcA7I=
+X-Gm-Gg: ASbGncu0tVjjmKFQWH8SJMIVBSON5Ara+clNTgOwl8piv9WyOKMl+GqPvp1uE+tspLz
+ OvRLAdG5XZz8Pl/WwsgW1/vRpmVGa+/WQGB3xoqYcuDxTwdMwDKNRbnOCPGNNKsLqAwdskcJLGM
+ TlCgrPa/hN15naAYqswasTTfizSvr0d1WJkUxPiPX2xGcKc7vmTclOgPDzo3wxpAKIadvBZWyY1
+ YhBEcpBvyDo6kM0lzcoFVW2LUw5LlnhhjuUKhpoPyYAXVKjk9vn159aWGaR5y65j9AyS979cY6U
+ rVnEfVSFSSJrH27pz3V4Jp/A9wc02U8fkuRiznSo7NeEvi1YZ/e4it8UVLCzvbXjFi8Ps97qVvx
+ ZgizN2hE3HdVw8N6De9hPcYi8UH9G+xV4CyWJNGCDuzKfqfx18fDl
+X-Received: by 2002:a17:90b:5245:b0:340:2f48:b51a with SMTP id
+ 98e67ed59e1d1-3436cb9ec36mr93033a91.15.1762539547802; 
+ Fri, 07 Nov 2025 10:19:07 -0800 (PST)
+X-Google-Smtp-Source: AGHT+IE/aPM7Fku/fLdv5H7g4SGu2ruwxhBFHeg/MhpCokILK1V0/5ddbWwnqaxOSxLb4vF4WcTk+A==
+X-Received: by 2002:a17:90b:5245:b0:340:2f48:b51a with SMTP id
+ 98e67ed59e1d1-3436cb9ec36mr93014a91.15.1762539547328; 
+ Fri, 07 Nov 2025 10:19:07 -0800 (PST)
+Received: from [10.226.59.182] (i-global254.qualcomm.com. [199.106.103.254])
+ by smtp.gmail.com with ESMTPSA id
+ 98e67ed59e1d1-341d13a6031sm3168921a91.6.2025.11.07.10.19.05
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 07 Nov 2025 10:19:06 -0800 (PST)
+Message-ID: <b0d851eb-0889-4ec9-8c95-65f14877b878@oss.qualcomm.com>
+Date: Fri, 7 Nov 2025 11:19:04 -0700
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
- protocol="application/pgp-signature"; boundary="8J53olo9onoOkYiP"
-Content-Disposition: inline
-In-Reply-To: <20251107-max25014-v5-1-9a6aa57306bf@gocontroll.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v3 0/3] accel/qaic: Add Sub-system restart (SSR)
+To: Zack McKevitt <zachary.mckevitt@oss.qualcomm.com>,
+ carl.vanderlip@oss.qualcomm.com, troy.hanson@oss.qualcomm.com,
+ youssef.abdulrahman@oss.qualcomm.com
+Cc: ogabbay@kernel.org, lizhi.hou@amd.com, karol.wachowski@linux.intel.com,
+ linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ andersson@kernel.org
+References: <20251031174059.2814445-1-zachary.mckevitt@oss.qualcomm.com>
+Content-Language: en-US
+From: Jeff Hugo <jeff.hugo@oss.qualcomm.com>
+In-Reply-To: <20251031174059.2814445-1-zachary.mckevitt@oss.qualcomm.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Authority-Analysis: v=2.4 cv=CdgFJbrl c=1 sm=1 tr=0 ts=690e381c cx=c_pps
+ a=RP+M6JBNLl+fLTcSJhASfg==:117 a=JYp8KDb2vCoCEuGobkYCKw==:17
+ a=IkcTkHD0fZMA:10 a=6UeiqGixMTsA:10 a=s4-Qcg_JpJYA:10
+ a=VkNPw1HP01LnGYTKEx00:22 a=SR50krzvgNCArfR1BZEA:9 a=QEXdDO2ut3YA:10
+ a=iS9zxrgQBfv6-_F4QbHw:22
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUxMTA3MDE1MiBTYWx0ZWRfXwkyZtxI8LYSM
+ qlxKLmFo/NIsKAD4h8A8TovkqscfjrhqTVevZfU7x1hhOYvAP8sCh6kKleWbouqOmNm6o+7c9CM
+ 8Ad0j2Ra1r9my5c8Bid2EvOs6m7s1wqBYa1z6KEIvqa0YkW/fyV2d6QszmGsA4fjy5DmYeZfCE8
+ BsDFva75lt/5o6uvjAA0BHFl7MDK2XBnjck1Ci+DrRO0dFknfDIso7eqw59RVZv8ddB6pYv0Aym
+ cpc5L83TZTDg+g4qOCMSJ17X08Ie8DVqNZWQqU6l8LhAVYb+0CdmL/cio94pUN/EwS3TjII7xL7
+ jMtv8CYfoRZ/VleiTBYb7MFOvO2h7dSL+KrLCSB6Yo3YWB73dF4DkpWDKWWsCXodz8/0cBB5Mbp
+ TOFXYSwUpCAIYPOJDt/oZz9+AKk6XQ==
+X-Proofpoint-ORIG-GUID: fu68VuIjnpA5srbXrGOuUCI_Y7kodQMU
+X-Proofpoint-GUID: fu68VuIjnpA5srbXrGOuUCI_Y7kodQMU
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.9,FMLib:17.12.100.49
+ definitions=2025-11-07_05,2025-11-06_01,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ priorityscore=1501 adultscore=0 malwarescore=0 spamscore=0 bulkscore=0
+ phishscore=0 lowpriorityscore=0 clxscore=1015 impostorscore=0 suspectscore=0
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.22.0-2510240001 definitions=main-2511070152
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -68,191 +142,25 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+On 10/31/2025 11:40 AM, Zack McKevitt wrote:
+> SSR is a feature that mitigates a crash in device sub-system. Usually,
+> after a workload (using a sub-system) has crashed on the device, the
+> entire device crashes affecting all the workloads on device.
+> SSR is used to limit the damage only to that particular workload and
+> releases the resources used by it, leaving the decision to the user.
+> Applications are informed when SSR starts and ends via udev notifications.
+> All ongoing requests for that particular workload will be lost.
+> 
+> During SSR the affected DBC changes state as follows:
+> DBC_STATE_BEFORE_SHUTDOWN
+> DBC_STATE_AFTER_SHUTDOWN
+> DBC_STATE_BEFORE_POWER_UP
+> DBC_STATE_AFTER_POWER_UP
+> 
+> In addition to supporting the sub-system to recover from a crash, the
+> device can optionally use SSR to send a crashdump.
+> 
 
---8J53olo9onoOkYiP
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Series pushed to drm-misc-next.
 
-On Fri, Nov 07, 2025 at 01:49:58PM +0100, Maud Spierings via B4 Relay wrote:
-> From: Maud Spierings <maudspierings@gocontroll.com>
->=20
-> The Maxim MAX25014 is a 4-channel automotive grade backlight driver IC
-> with integrated boost controller.
->=20
-> Signed-off-by: Maud Spierings <maudspierings@gocontroll.com>
->=20
-> ---
->=20
-> In the current implementation the control registers for channel 1,
-> control all channels. So only one led subnode with led-sources is
-> supported right now. If at some point the driver functionality is
-> expanded the bindings can be easily extended with it.
-
-I'm sorry if I asked this before and forgot or w/e, but how backwards
-compatible is this? If they control all channels and it gets changed to
-only control channel one, how will a changed kernel understand the
-difference between a new devicetree that only wants to control channel 1
-and an old devicetree that is trying to use channel 1 to control all
-channels?
-
-Cheers,
-Conor.
-
-> ---
->  .../bindings/leds/backlight/maxim,max25014.yaml    | 107 +++++++++++++++=
-++++++
->  MAINTAINERS                                        |   5 +
->  2 files changed, 112 insertions(+)
->=20
-> diff --git a/Documentation/devicetree/bindings/leds/backlight/maxim,max25=
-014.yaml b/Documentation/devicetree/bindings/leds/backlight/maxim,max25014.=
-yaml
-> new file mode 100644
-> index 000000000000..e83723224b07
-> --- /dev/null
-> +++ b/Documentation/devicetree/bindings/leds/backlight/maxim,max25014.yaml
-> @@ -0,0 +1,107 @@
-> +# SPDX-License-Identifier: (GPL-2.0 OR BSD-2-Clause)
-> +%YAML 1.2
-> +---
-> +$id: http://devicetree.org/schemas/leds/backlight/maxim,max25014.yaml#
-> +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> +
-> +title: Maxim max25014 backlight controller
-> +
-> +maintainers:
-> +  - Maud Spierings <maudspierings@gocontroll.com>
-> +
-> +properties:
-> +  compatible:
-> +    enum:
-> +      - maxim,max25014
-> +
-> +  reg:
-> +    maxItems: 1
-> +
-> +  "#address-cells":
-> +    const: 1
-> +
-> +  "#size-cells":
-> +    const: 0
-> +
-> +  enable-gpios:
-> +    maxItems: 1
-> +
-> +  interrupts:
-> +    maxItems: 1
-> +
-> +  power-supply:
-> +    description: Regulator which controls the boost converter input rail.
-> +
-> +  pwms:
-> +    maxItems: 1
-> +
-> +  maxim,iset:
-> +    $ref: /schemas/types.yaml#/definitions/uint32
-> +    maximum: 15
-> +    default: 11
-> +    description:
-> +      Value of the ISET field in the ISET register. This controls the cu=
-rrent
-> +      scale of the outputs, a higher number means more current.
-> +
-> +  led@0:
-> +    type: object
-> +    description: Properties for a string of connected LEDs.
-> +    $ref: common.yaml#
-> +
-> +    properties:
-> +      reg:
-> +        const: 0
-> +
-> +      led-sources:
-> +        allOf:
-> +          - minItems: 1
-> +            maxItems: 4
-> +            items:
-> +              minimum: 0
-> +              maximum: 3
-> +            default: [0, 1, 2, 3]
-> +
-> +      default-brightness:
-> +        minimum: 0
-> +        maximum: 100
-> +        default: 50
-> +
-> +    required:
-> +      - reg
-> +
-> +    additionalProperties: false
-> +
-> +required:
-> +  - compatible
-> +  - reg
-> +
-> +additionalProperties: false
-> +
-> +examples:
-> +  - |
-> +    #include <dt-bindings/gpio/gpio.h>
-> +    #include <dt-bindings/interrupt-controller/irq.h>
-> +
-> +    i2c {
-> +        #address-cells =3D <1>;
-> +        #size-cells =3D <0>;
-> +
-> +        backlight@6f {
-> +            compatible =3D "maxim,max25014";
-> +            reg =3D <0x6f>;
-> +            #address-cells =3D <1>;
-> +            #size-cells =3D <0>;
-> +            enable-gpios =3D <&gpio1 4 GPIO_ACTIVE_HIGH>;
-> +            interrupt-parent =3D <&gpio1>;
-> +            interrupts =3D <2 IRQ_TYPE_EDGE_FALLING>;
-> +            power-supply =3D <&reg_backlight>;
-> +            pwms =3D <&pwm1>;
-> +            maxim,iset =3D <7>;
-> +
-> +            led@0 {
-> +                reg =3D <0>;
-> +                led-sources =3D <0 1 2 3>;
-> +                default-brightness =3D <50>;
-> +            };
-> +        };
-> +    };
-> diff --git a/MAINTAINERS b/MAINTAINERS
-> index 58c7e3f678d8..606ce086f758 100644
-> --- a/MAINTAINERS
-> +++ b/MAINTAINERS
-> @@ -15261,6 +15261,11 @@ F:	Documentation/userspace-api/media/drivers/max=
-2175.rst
->  F:	drivers/media/i2c/max2175*
->  F:	include/uapi/linux/max2175.h
-> =20
-> +MAX25014 BACKLIGHT DRIVER
-> +M:	Maud Spierings <maudspierings@gocontroll.com>
-> +S:	Maintained
-> +F:	Documentation/devicetree/bindings/leds/backlight/maxim,max25014.yaml
-> +
->  MAX31335 RTC DRIVER
->  M:	Antoniu Miclaus <antoniu.miclaus@analog.com>
->  L:	linux-rtc@vger.kernel.org
->=20
-> --=20
-> 2.51.2
->=20
->=20
-
---8J53olo9onoOkYiP
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYKAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCaQ43jwAKCRB4tDGHoIJi
-0tpBAP9NLDHquHkJaGHZdDJjqdtnkqN8QoB5tbL4dVfi7f3PDwD/aSxRFOqlWV2V
-MTS/83/dLZduN46XgS8bQuVOD/bkww8=
-=ExWz
------END PGP SIGNATURE-----
-
---8J53olo9onoOkYiP--
+-Jeff
