@@ -2,41 +2,61 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4F235C40DE7
-	for <lists+dri-devel@lfdr.de>; Fri, 07 Nov 2025 17:27:07 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id D2B7BC40E41
+	for <lists+dri-devel@lfdr.de>; Fri, 07 Nov 2025 17:31:20 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D544910EB1C;
-	Fri,  7 Nov 2025 16:27:03 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D4C1F10E0EE;
+	Fri,  7 Nov 2025 16:31:17 +0000 (UTC)
+Authentication-Results: gabe.freedesktop.org;
+	dkim=pass (1024-bit key; unprotected) header.d=hugovil.com header.i=@hugovil.com header.b="BzOuFLI6";
+	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
- by gabe.freedesktop.org (Postfix) with ESMTP id 8AE5510EB16
- for <dri-devel@lists.freedesktop.org>; Fri,  7 Nov 2025 16:27:02 +0000 (UTC)
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
- by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 588441515;
- Fri,  7 Nov 2025 08:26:54 -0800 (PST)
-Received: from [10.57.72.216] (unknown [10.57.72.216])
- by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id C2F043F66E;
- Fri,  7 Nov 2025 08:26:56 -0800 (PST)
-Message-ID: <6d6b2e09-5093-4a91-aa81-b39147515107@arm.com>
-Date: Fri, 7 Nov 2025 16:26:54 +0000
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v1 2/4] drm/panthor: Add support for atomic page table
- updates
-To: Boris Brezillon <boris.brezillon@collabora.com>,
- Liviu Dudau <liviu.dudau@arm.com>,
- =?UTF-8?Q?Adri=C3=A1n_Larumbe?= <adrian.larumbe@collabora.com>
-Cc: dri-devel@lists.freedesktop.org,
- Lars-Ivar Hesselberg Simonsen <lars-ivar.simonsen@arm.com>,
- kernel@collabora.com, Karunika Choo <karunika.choo@arm.com>
-References: <20251031154818.821054-1-boris.brezillon@collabora.com>
- <20251031154818.821054-3-boris.brezillon@collabora.com>
-From: Steven Price <steven.price@arm.com>
-Content-Language: en-GB
-In-Reply-To: <20251031154818.821054-3-boris.brezillon@collabora.com>
-Content-Type: text/plain; charset=UTF-8
+Received: from mail.hugovil.com (mail.hugovil.com [162.243.120.170])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 574D010E0EE
+ for <dri-devel@lists.freedesktop.org>; Fri,  7 Nov 2025 16:31:16 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=hugovil.com
+ ; s=x;
+ h=Subject:Content-Transfer-Encoding:Mime-Version:Message-Id:Cc:To:From
+ :Date:subject:date:message-id:reply-to;
+ bh=zMKhJG1K1xlLlbs49/vRAdrd++Uf98my/gqCV3VP4m8=; b=BzOuFLI6O9wpo3w2M+GKssjD94
+ XqKPqDCoXRdYZRUlaNkRypcL7iZRkok/zJkGsiW9mrdEymqm0jTvRIpYKjyB1wbUwkGcNPUVp0ukv
+ KZ7NrhDPhp1EcUHRlrauZGNUouUiC1gbEm7h82fDi9dBrjEkoWa8+yXQT3RB/Q1s2LKc=;
+Received: from modemcable061.19-161-184.mc.videotron.ca ([184.161.19.61]:53684
+ helo=debian-lenovo) by mail.hugovil.com with esmtpa (Exim 4.92)
+ (envelope-from <hugo@hugovil.com>)
+ id 1vHPMZ-0008NK-MP; Fri, 07 Nov 2025 11:31:00 -0500
+Date: Fri, 7 Nov 2025 11:30:58 -0500
+From: Hugo Villeneuve <hugo@hugovil.com>
+To: Chris Brandt <chris.brandt@renesas.com>
+Cc: Geert Uytterhoeven <geert+renesas@glider.be>, Michael Turquette
+ <mturquette@baylibre.com>, Stephen Boyd <sboyd@kernel.org>, Biju Das
+ <biju.das.jz@bp.renesas.com>, Maarten Lankhorst
+ <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
+ Simona Vetter <simona@ffwll.ch>, Hien Huynh <hien.huynh.px@renesas.com>,
+ Nghia Vo <nghia.vo.zn@renesas.com>, linux-renesas-soc@vger.kernel.org,
+ linux-clk@vger.kernel.org, dri-devel@lists.freedesktop.org
+Message-Id: <20251107113058.f334957151d1a8dd94dd740b@hugovil.com>
+In-Reply-To: <20251105222530.979537-2-chris.brandt@renesas.com>
+References: <20251105222530.979537-1-chris.brandt@renesas.com>
+ <20251105222530.979537-2-chris.brandt@renesas.com>
+X-Mailer: Sylpheed 3.8.0beta1 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
+Mime-Version: 1.0
+Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 7bit
+X-SA-Exim-Connect-IP: 184.161.19.61
+X-SA-Exim-Mail-From: hugo@hugovil.com
+X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on mail.hugovil.com
+X-Spam-Level: 
+X-Spam-Report: * -1.0 ALL_TRUSTED Passed through trusted hosts only via SMTP
+ * -1.8 NICE_REPLY_A Looks like a legit reply (A)
+X-Spam-Status: No, score=-2.8 required=5.0 tests=ALL_TRUSTED,NICE_REPLY_A
+ autolearn=ham autolearn_force=no version=3.4.2
+Subject: Re: [PATCH v4 1/2] clk: renesas: rzg2l: Remove DSI clock rate
+ restrictions
+X-SA-Exim-Version: 4.2.1 (built Wed, 08 May 2019 21:11:16 +0000)
+X-SA-Exim-Scanned: Yes (on mail.hugovil.com)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -52,351 +72,315 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 31/10/2025 15:48, Boris Brezillon wrote:
-> Move the lock/flush_mem operations around the gpuvm_sm_[un]map() calls
-> so we can implement true atomic page updates, where any access in the
-> locked range done by the GPU has to wait for the page table updates
-> to land before proceeding.
+Hi Chris,
+
+On Wed,  5 Nov 2025 17:25:29 -0500
+Chris Brandt <chris.brandt@renesas.com> wrote:
+
+> Convert the limited MIPI clock calculations to a full range of settings
+> based on math including H/W limitation validation.
+> Since the required DSI division setting must be specified from external
+> sources before calculations, expose a new API to set it.
 > 
-> This is needed for vkQueueBindSparse(), so we can replace the dummy
-> page mapped over the entire object by actual BO backed pages in an atomic
-> way. But it's also useful to avoid "AS_ACTIVE bit stuck" failures in
-> the sm_[un]map() path, leading to gpuvm state inconsistencies.
+> Signed-off-by: Chris Brandt <chris.brandt@renesas.com>
+> Reviewed-by: Biju Das <biju.das.jz@bp.renesas.com>
+> Tested-by: Biju Das <biju.das.jz@bp.renesas.com>
 > 
-> Signed-off-by: Boris Brezillon <boris.brezillon@collabora.com>
-
-+CC: Karunika
-
-The concept here looks good, but...
-
-This is effectively undoing the changes that Karunika did in commit
-dd11c7dec74b ("drm/panthor: Make MMU cache maintenance use FLUSH_CACHES
-command"). The FLUSH_MEM/FLUSH_PT commands have been deprecated in
-Mali-Gx20, so either this needs refactoring to use the newer
-FLUSH_CACHES GPU_COMMAND.
-
-I believe the expected ideal approach on later GPUs is:
-
-1. LOCK
-2. Make page table updates
-3. FLUSH_RANGE to GPU_COMMAND flushing the *physical* address ranges
-4. UNLOCK
-
-Note that on earlier GPUs we don't have FLUSH_RANGE so FLUSH_CACHES
-replaces step 3 (and is what we have upstream). But I think this is the
-reason why FLUSH_MEM/FLUSH_PT are deprecated because those work on a
-virtual address range.
-
-Thanks,
-Steve
-
 > ---
->  drivers/gpu/drm/panthor/panthor_mmu.c | 182 +++++++++++++-------------
->  1 file changed, 90 insertions(+), 92 deletions(-)
+> v1->v2:
+> - Remove unnecessary parentheses
+> - Add target argument to new API
+> - DPI mode has more restrictions on DIV_A and DIV_B
 > 
-> diff --git a/drivers/gpu/drm/panthor/panthor_mmu.c b/drivers/gpu/drm/panthor/panthor_mmu.c
-> index 58fead90533a..ea886c8ac97f 100644
-> --- a/drivers/gpu/drm/panthor/panthor_mmu.c
-> +++ b/drivers/gpu/drm/panthor/panthor_mmu.c
-> @@ -389,6 +389,15 @@ struct panthor_vm {
->  	 * flagged as faulty as a result.
->  	 */
->  	bool unhandled_fault;
+> v2->v3:
+> - Removed Empty lines (Hugo)
+> - Add dummy for compile-testing CONFIG_CLK_RZG2L=n case (Geert)
+> - Renamed label found_dsi_div to calc_pll_clk (Hugo)
+> - Renamed label found_clk to clk_valid (Hugo)
+> - Removed 'found' var because not needed
+> - Move 'foutpostdiv_rate =' after if(foutvco_rate > 1500000000) (Hugo)
+> - Move PLL5_TARGET_* for new API to renesas.h (Hugo,Geert)
+> - Convert #define macros PLL5_TARGET_* to enum (Geert)
+> - static {unsigned} int dsi_div_ab; (Geert)
+> - {unsigned} int a, b;  (Geert)
+> - Change "((1 << a) * (b + 1))" to "(b + 1) << a"  (Geert)
+> - Change "foutvco_rate = rate * (1 << xxx ) * ..." to " = rate * ... * << xxx (Geert)
+> - Move (u64) outside of modulo operation to avoid helper on 32-bit compiles (Geert)
+> - Change DIV_ROUND_CLOSEST_ULL() to DIV_ROUND_CLOSEST() (Geert)
+> - void rzg2l_cpg_dsi_div_set_divider({unsinged} int divider, int target)
+> - Change "dsi_div_ab = (1 << AAA) * (BBB + 1)" to " = (BBB + 1) << AAA (Geert)
+> - Added Reviewed-by and Tested-by (Biju)
+> 
+> v3->v4:
+> - Changed <,> to <=,>=  (Hugo)
+> - Removed duplicate code bock (copy/paste mistake) (Hugo)
+> - Fix dummy for rzg2l_cpg_dsi_div_set_divider when CONFIG_CLK_RZG2L=n (Geert)
+> - Remove comment "Below conditions must be set.." (Hugo)
+> - Remove +1,-1 from pl5_intin comparison math (kernel test robot)
+> - Remove default register settings (PLL5_xxx_DEF) because makes no sense
+> - If any calcualtion error, print a message and return a rate of 0
+> - Rename global var "dsi_div_ab" to "dsi_div_ab_desired"
+> - Check the range of hsclk
+> - The correct clock parent is determined by if the divider is even/odd
+> - Add in all the restrictions from DIV A,B from the hardware manual
+> - No more need to be a recursive function
+> - DPI settings must have DSI_DIV_B be '0' (divide 1/1)
+> ---
+>  drivers/clk/renesas/rzg2l-cpg.c | 147 +++++++++++++++++++++++++++++---
+>  include/linux/clk/renesas.h     |  12 +++
+>  2 files changed, 146 insertions(+), 13 deletions(-)
+> 
+> diff --git a/drivers/clk/renesas/rzg2l-cpg.c b/drivers/clk/renesas/rzg2l-cpg.c
+> index 07909e80bae2..1a552ea1c535 100644
+> --- a/drivers/clk/renesas/rzg2l-cpg.c
+> +++ b/drivers/clk/renesas/rzg2l-cpg.c
+> @@ -74,6 +74,17 @@
+>  #define MSTOP_OFF(conf)		FIELD_GET(GENMASK(31, 16), (conf))
+>  #define MSTOP_MASK(conf)	FIELD_GET(GENMASK(15, 0), (conf))
+>  
+> +#define PLL5_FOUTVCO_MIN	800000000
+> +#define PLL5_FOUTVCO_MAX	3000000000
+> +#define PLL5_POSTDIV_MIN	1
+> +#define PLL5_POSTDIV_MAX	7
+> +#define PLL5_REFDIV_MIN		1
+> +#define PLL5_REFDIV_MAX		2
+> +#define PLL5_INTIN_MIN		20
+> +#define PLL5_INTIN_MAX		320
+> +#define PLL5_HSCLK_MIN		10000000
+> +#define PLL5_HSCLK_MAX		187500000
 > +
-> +	/** @locked_region: Information about the currently locked region currently. */
-> +	struct {
-> +		/** @locked_region.start: Start of the locked region. */
-> +		u64 start;
-> +
-> +		/** @locked_region.size: Size of the locked region. */
-> +		u64 size;
-> +	} locked_region;
+>  /**
+>   * struct clk_hw_data - clock hardware data
+>   * @hw: clock hw
+> @@ -129,6 +140,12 @@ struct rzg2l_pll5_param {
+>  	u8 pl5_spread;
 >  };
 >  
->  /**
-> @@ -570,79 +579,9 @@ static void lock_region(struct panthor_device *ptdev, u32 as_nr,
->  	write_cmd(ptdev, as_nr, AS_COMMAND_LOCK);
->  }
->  
-> -static int mmu_hw_do_operation_locked(struct panthor_device *ptdev, int as_nr,
-> -				      u64 iova, u64 size, u32 op)
-> -{
-> -	const u32 l2_flush_op = CACHE_CLEAN | CACHE_INV;
-> -	u32 lsc_flush_op;
-> -	int ret;
-> -
-> -	lockdep_assert_held(&ptdev->mmu->as.slots_lock);
-> -
-> -	switch (op) {
-> -	case AS_COMMAND_FLUSH_MEM:
-> -		lsc_flush_op = CACHE_CLEAN | CACHE_INV;
-> -		break;
-> -	case AS_COMMAND_FLUSH_PT:
-> -		lsc_flush_op = 0;
-> -		break;
-> -	default:
-> -		drm_WARN(&ptdev->base, 1, "Unexpected AS_COMMAND: %d", op);
-> -		return -EINVAL;
-> -	}
-> -
-> -	if (as_nr < 0)
-> -		return 0;
-> -
-> -	/*
-> -	 * If the AS number is greater than zero, then we can be sure
-> -	 * the device is up and running, so we don't need to explicitly
-> -	 * power it up
-> -	 */
-> -
-> -	lock_region(ptdev, as_nr, iova, size);
-> -
-> -	ret = wait_ready(ptdev, as_nr);
-> -	if (ret)
-> -		return ret;
-> -
-> -	ret = panthor_gpu_flush_caches(ptdev, l2_flush_op, lsc_flush_op, 0);
-> -	if (ret)
-> -		return ret;
-> -
-> -	/*
-> -	 * Explicitly unlock the region as the AS is not unlocked automatically
-> -	 * at the end of the GPU_CONTROL cache flush command, unlike
-> -	 * AS_COMMAND_FLUSH_MEM or AS_COMMAND_FLUSH_PT.
-> -	 */
-> -	write_cmd(ptdev, as_nr, AS_COMMAND_UNLOCK);
-> -
-> -	/* Wait for the unlock command to complete */
-> -	return wait_ready(ptdev, as_nr);
-> -}
-> -
-> -static int mmu_hw_do_operation(struct panthor_vm *vm,
-> -			       u64 iova, u64 size, u32 op)
-> -{
-> -	struct panthor_device *ptdev = vm->ptdev;
-> -	int ret;
-> -
-> -	mutex_lock(&ptdev->mmu->as.slots_lock);
-> -	ret = mmu_hw_do_operation_locked(ptdev, vm->as.id, iova, size, op);
-> -	mutex_unlock(&ptdev->mmu->as.slots_lock);
-> -
-> -	return ret;
-> -}
-> -
->  static int panthor_mmu_as_enable(struct panthor_device *ptdev, u32 as_nr,
->  				 u64 transtab, u64 transcfg, u64 memattr)
->  {
-> -	int ret;
-> -
-> -	ret = mmu_hw_do_operation_locked(ptdev, as_nr, 0, ~0ULL, AS_COMMAND_FLUSH_MEM);
-> -	if (ret)
-> -		return ret;
-> -
->  	gpu_write64(ptdev, AS_TRANSTAB(as_nr), transtab);
->  	gpu_write64(ptdev, AS_MEMATTR(as_nr), memattr);
->  	gpu_write64(ptdev, AS_TRANSCFG(as_nr), transcfg);
-> @@ -654,7 +593,9 @@ static int panthor_mmu_as_disable(struct panthor_device *ptdev, u32 as_nr)
->  {
->  	int ret;
->  
-> -	ret = mmu_hw_do_operation_locked(ptdev, as_nr, 0, ~0ULL, AS_COMMAND_FLUSH_MEM);
-> +	/* Flush and invalidate all caches. */
-> +	write_cmd(ptdev, as_nr, AS_COMMAND_FLUSH_MEM);
-> +	ret = wait_ready(ptdev, as_nr);
->  	if (ret)
->  		return ret;
->  
-> @@ -736,6 +677,10 @@ int panthor_vm_active(struct panthor_vm *vm)
->  	if (refcount_inc_not_zero(&vm->as.active_cnt))
->  		goto out_dev_exit;
->  
-> +	/* Make sure we don't race with lock/unlock_region() calls
-> +	 * happening around VM bind operations.
-> +	 */
-> +	mutex_lock(&vm->op_lock);
->  	mutex_lock(&ptdev->mmu->as.slots_lock);
->  
->  	if (refcount_inc_not_zero(&vm->as.active_cnt))
-> @@ -803,6 +748,10 @@ int panthor_vm_active(struct panthor_vm *vm)
->  		gpu_write(ptdev, MMU_INT_MASK, ~ptdev->mmu->as.faulty_mask);
->  	}
->  
-> +	/* The VM update is guarded by ::op_lock, which we take at the beginning
-> +	 * of this function, so we don't expect any locked region here.
-> +	 */
-> +	drm_WARN_ON(&vm->ptdev->base, vm->locked_region.size > 0);
->  	ret = panthor_mmu_as_enable(vm->ptdev, vm->as.id, transtab, transcfg, vm->memattr);
->  
->  out_make_active:
-> @@ -813,6 +762,7 @@ int panthor_vm_active(struct panthor_vm *vm)
->  
->  out_unlock:
->  	mutex_unlock(&ptdev->mmu->as.slots_lock);
-> +	mutex_unlock(&vm->op_lock);
->  
->  out_dev_exit:
->  	drm_dev_exit(cookie);
-> @@ -896,30 +846,15 @@ static size_t get_pgsize(u64 addr, size_t size, size_t *count)
->  	return SZ_2M;
->  }
->  
-> -static int panthor_vm_flush_range(struct panthor_vm *vm, u64 iova, u64 size)
-> -{
-> -	struct panthor_device *ptdev = vm->ptdev;
-> -	int ret = 0, cookie;
-> -
-> -	if (vm->as.id < 0)
-> -		return 0;
-> -
-> -	/* If the device is unplugged, we just silently skip the flush. */
-> -	if (!drm_dev_enter(&ptdev->base, &cookie))
-> -		return 0;
-> -
-> -	ret = mmu_hw_do_operation(vm, iova, size, AS_COMMAND_FLUSH_PT);
-> -
-> -	drm_dev_exit(cookie);
-> -	return ret;
-> -}
-> -
->  static int panthor_vm_unmap_pages(struct panthor_vm *vm, u64 iova, u64 size)
->  {
->  	struct panthor_device *ptdev = vm->ptdev;
->  	struct io_pgtable_ops *ops = vm->pgtbl_ops;
->  	u64 offset = 0;
->  
-> +	drm_WARN_ON(&ptdev->base,
-> +		    (iova < vm->locked_region.start) ||
-> +		    (iova + size > vm->locked_region.start + vm->locked_region.size));
->  	drm_dbg(&ptdev->base, "unmap: as=%d, iova=%llx, len=%llx", vm->as.id, iova, size);
->  
->  	while (offset < size) {
-> @@ -933,13 +868,12 @@ static int panthor_vm_unmap_pages(struct panthor_vm *vm, u64 iova, u64 size)
->  				iova + offset + unmapped_sz,
->  				iova + offset + pgsize * pgcount,
->  				iova, iova + size);
-> -			panthor_vm_flush_range(vm, iova, offset + unmapped_sz);
->  			return  -EINVAL;
->  		}
->  		offset += unmapped_sz;
->  	}
->  
-> -	return panthor_vm_flush_range(vm, iova, size);
-> +	return 0;
->  }
->  
->  static int
-> @@ -956,6 +890,10 @@ panthor_vm_map_pages(struct panthor_vm *vm, u64 iova, int prot,
->  	if (!size)
->  		return 0;
->  
-> +	drm_WARN_ON(&ptdev->base,
-> +		    (iova < vm->locked_region.start) ||
-> +		    (iova + size > vm->locked_region.start + vm->locked_region.size));
+> +/* PLL5 output will be used for DPI or MIPI-DSI */
+> +static int dsi_div_target = PLL5_TARGET_DPI;
 > +
->  	for_each_sgtable_dma_sg(sgt, sgl, count) {
->  		dma_addr_t paddr = sg_dma_address(sgl);
->  		size_t len = sg_dma_len(sgl);
-> @@ -1003,7 +941,7 @@ panthor_vm_map_pages(struct panthor_vm *vm, u64 iova, int prot,
->  		offset = 0;
->  	}
->  
-> -	return panthor_vm_flush_range(vm, start_iova, iova - start_iova);
-> +	return 0;
+> +/* Required division ratio for MIPI D-PHY clock depending on number of lanes and bpp. */
+> +static unsigned int dsi_div_ab_desired;
+> +
+>  struct rzg2l_pll5_mux_dsi_div_param {
+>  	u8 clksrc;
+>  	u8 dsi_div_a;
+> @@ -557,23 +574,118 @@ rzg2l_cpg_sd_mux_clk_register(const struct cpg_core_clk *core,
 >  }
 >  
->  static int flags_to_prot(u32 flags)
-> @@ -1672,6 +1610,56 @@ static const char *access_type_name(struct panthor_device *ptdev,
->  	}
->  }
+>  static unsigned long
+> -rzg2l_cpg_get_foutpostdiv_rate(struct rzg2l_pll5_param *params,
+> +rzg2l_cpg_get_foutpostdiv_rate(struct rzg2l_cpg_priv *priv,
+> +			       struct rzg2l_pll5_param *params,
+>  			       unsigned long rate)
+>  {
+>  	unsigned long foutpostdiv_rate, foutvco_rate;
+> +	unsigned long hsclk;
+> +	unsigned int a, b, odd;
+> +	unsigned int dsi_div_ab_calc;
+> +
+> +	if (dsi_div_target == PLL5_TARGET_DSI) {
+> +		/*
+> +		 * VCO-->[POSTDIV1,2]--FOUTPOSTDIV-->|   |-->[1/(DSI DIV A * B)]--> MIPI_DSI_VCLK
+> +		 *            |                      |-->|
+> +		 *            |-->[1/2]---FOUT1PH0-->|   |-->[1/16]---------------> hsclk (MIPI-PHY)
+> +		 */
+> +
+> +		/* Check hsclk */
+> +		hsclk = rate * dsi_div_ab_desired / 16;
+> +		if (hsclk < PLL5_HSCLK_MIN || hsclk > PLL5_HSCLK_MAX) {
+> +			dev_err(priv->dev, "hsclk out of range\n");
+> +			return 0;
+> +		}
+> +
+> +		/* Determine the correct clock source based on even/odd of the divider */
+> +		odd = dsi_div_ab_desired & 1;
+> +		if (odd) {
+> +			/* divider is odd */
+> +			priv->mux_dsi_div_params.clksrc = 0;	/* FOUTPOSTDIV */
+> +			dsi_div_ab_calc = dsi_div_ab_desired;
+> +		} else {
+> +			/* divider is even */
+> +			priv->mux_dsi_div_params.clksrc = 1;	/*  FOUT1PH0 */
+> +			dsi_div_ab_calc = dsi_div_ab_desired / 2;
+> +		}
+> +
+> +		/* Calculate the DIV_DSI_A and DIV_DSI_B based on the desired divider */
+> +		for (a = 0; a < 4; a++) {
+> +			/* FOUT1PH0: Max output of DIV_DSI_A is 750MHz so at least 1/2 to be safe */
+> +			if (!odd && a == 0)
+> +				continue;
+> +
+> +			/* FOUTPOSTDIV: DIV_DSI_A must always be 1/1 */
+> +			if (odd && a != 0)
+> +				continue;
+> +
+> +			for (b = 0; b < 16; b++) {
+> +				/* FOUTPOSTDIV: DIV_DSI_B must always be odd divider 1/(b+1) */
+> +				if (odd && b & 1)
+> +					continue;
+> +
+> +				if ((b + 1) << a == dsi_div_ab_calc) {
+> +					priv->mux_dsi_div_params.dsi_div_a = a;
+> +					priv->mux_dsi_div_params.dsi_div_b = b;
+> +					goto calc_pll_clk;
+> +				}
+> +			}
+> +		}
 >  
-> +static int panthor_vm_lock_region(struct panthor_vm *vm, u64 start, u64 size)
-> +{
-> +	struct panthor_device *ptdev = vm->ptdev;
-> +	int ret = 0;
+> -	params->pl5_intin = rate / MEGA;
+> -	params->pl5_fracin = div_u64(((u64)rate % MEGA) << 24, MEGA);
+> -	params->pl5_refdiv = 2;
+> -	params->pl5_postdiv1 = 1;
+> -	params->pl5_postdiv2 = 1;
+> +		dev_err(priv->dev, "Failed to calculate DIV_DSI_A,B\n");
+> +		return 0;
+> +	}
 > +
-> +	mutex_lock(&ptdev->mmu->as.slots_lock);
-> +	drm_WARN_ON(&ptdev->base, vm->locked_region.start || vm->locked_region.size);
-> +	vm->locked_region.start = start;
-> +	vm->locked_region.size = size;
-> +	if (vm->as.id >= 0) {
-> +		lock_region(ptdev, vm->as.id, start, size);
+> +	if (dsi_div_target == PLL5_TARGET_DPI) {
+> +		/* Fixed settings for DPI */
+> +		priv->mux_dsi_div_params.clksrc = 0;
+> +		priv->mux_dsi_div_params.dsi_div_a = 3; /* Divided by 8 */
+> +		priv->mux_dsi_div_params.dsi_div_b = 0; /* Divided by 1 */
+> +		dsi_div_ab_desired = 8;			/* (1 << a) * (b + 1) */
+> +	}
 > +
-> +		/* If the lock failed, reset the locked region. */
-> +		ret = wait_ready(ptdev, vm->as.id);
-> +		if (ret) {
-> +			vm->locked_region.start = 0;
-> +			vm->locked_region.size = 0;
+> +calc_pll_clk:
+> +	/* PLL5 (MIPI_DSI_PLLCLK) = VCO / POSTDIV1 / POSTDIV2 */
+> +	for (params->pl5_postdiv1 = PLL5_POSTDIV_MIN;
+> +	     params->pl5_postdiv1 <= PLL5_POSTDIV_MAX;
+> +	     params->pl5_postdiv1++) {
+> +		for (params->pl5_postdiv2 = PLL5_POSTDIV_MIN;
+> +		     params->pl5_postdiv2 <= PLL5_POSTDIV_MAX;
+> +		     params->pl5_postdiv2++) {
+> +			foutvco_rate = rate * params->pl5_postdiv1 * params->pl5_postdiv2 *
+> +				       dsi_div_ab_desired;
+> +			if (foutvco_rate <= PLL5_FOUTVCO_MIN || foutvco_rate >= PLL5_FOUTVCO_MAX)
+> +				continue;
+> +
+> +			for (params->pl5_refdiv = PLL5_REFDIV_MIN;
+> +			     params->pl5_refdiv <= PLL5_REFDIV_MAX;
+> +			     params->pl5_refdiv++) {
+> +				params->pl5_intin = (foutvco_rate * params->pl5_refdiv) /
+> +						    (EXTAL_FREQ_IN_MEGA_HZ * MEGA);
+> +				if (params->pl5_intin < PLL5_INTIN_MIN ||
+> +				    params->pl5_intin > PLL5_INTIN_MAX)
+
+Your patch comments indicate that you removed +1 and -1 for kernel test robot issue, but I do not understand why.
+
+pl5_intin is still defined as u8 (max 255), and therefore the result of "params->pl5_intin > PLL5_INTIN_MAX" will always be false because PLL5_INTIN_MAX is 320.
+
+It seems to me that pl5_intin type should be modified to account for its maximum value (u16?), and this should probably goes into a separate patch (with a Fixed: tag), that can be backported (if necessary).
+
+And if you want the same behavior as before, shouldn't the comparison be with "<=" and ">=" ?
+
+> +					continue;
+> +				params->pl5_fracin = div_u64(((u64)
+> +						     (foutvco_rate * params->pl5_refdiv) %
+> +						     (EXTAL_FREQ_IN_MEGA_HZ * MEGA)) << 24,
+> +						     EXTAL_FREQ_IN_MEGA_HZ * MEGA);
+> +				goto clk_valid;
+> +			}
 > +		}
 > +	}
-> +	mutex_unlock(&ptdev->mmu->as.slots_lock);
 > +
-> +	return ret;
-> +}
+> +	dev_err(priv->dev, "Failed to calculate PLL5 settings\n");
+> +	return 0;
 > +
-> +static void panthor_vm_unlock_region(struct panthor_vm *vm)
+> +clk_valid:
+>  	params->pl5_spread = 0x16;
+>  
+>  	foutvco_rate = div_u64(mul_u32_u32(EXTAL_FREQ_IN_MEGA_HZ * MEGA,
+>  					   (params->pl5_intin << 24) + params->pl5_fracin),
+>  			       params->pl5_refdiv) >> 24;
+> -	foutpostdiv_rate = DIV_ROUND_CLOSEST_ULL(foutvco_rate,
+> -						 params->pl5_postdiv1 * params->pl5_postdiv2);
+> +
+> +	foutpostdiv_rate = DIV_ROUND_CLOSEST(foutvco_rate,
+> +					     params->pl5_postdiv1 * params->pl5_postdiv2);
+>  
+>  	return foutpostdiv_rate;
+>  }
+> @@ -607,7 +719,7 @@ static unsigned long rzg2l_cpg_get_vclk_parent_rate(struct clk_hw *hw,
+>  	struct rzg2l_pll5_param params;
+>  	unsigned long parent_rate;
+>  
+> -	parent_rate = rzg2l_cpg_get_foutpostdiv_rate(&params, rate);
+> +	parent_rate = rzg2l_cpg_get_foutpostdiv_rate(priv, &params, rate);
+>  
+>  	if (priv->mux_dsi_div_params.clksrc)
+>  		parent_rate /= 2;
+> @@ -626,6 +738,13 @@ static int rzg2l_cpg_dsi_div_determine_rate(struct clk_hw *hw,
+>  	return 0;
+>  }
+>  
+> +void rzg2l_cpg_dsi_div_set_divider(unsigned int divider, int target)
 > +{
-> +	struct panthor_device *ptdev = vm->ptdev;
-> +
-> +	mutex_lock(&ptdev->mmu->as.slots_lock);
-> +	if (vm->as.id >= 0) {
-> +		int ret;
-> +
-> +		/* FLUSH_MEM will flush all cache entries covering
-> +		 * the locked region and unlock it.
-> +		 */
-> +		ret = write_cmd(ptdev, vm->as.id, AS_COMMAND_FLUSH_MEM);
-> +		if (!ret)
-> +			ret = wait_ready(ptdev, vm->as.id);
-> +
-> +		/* If we fail to unlock the region, schedule a GPU reset
-> +		 * to unblock the situation.
-> +		 */
-> +		if (drm_WARN_ON(&ptdev->base, ret))
-> +			panthor_device_schedule_reset(ptdev);
-> +	}
-> +	vm->locked_region.start = 0;
-> +	vm->locked_region.size = 0;
-> +	mutex_unlock(&ptdev->mmu->as.slots_lock);
+> +	dsi_div_ab_desired = divider;
+> +	dsi_div_target = target;
 > +}
+> +EXPORT_SYMBOL_GPL(rzg2l_cpg_dsi_div_set_divider);
 > +
->  static void panthor_mmu_irq_handler(struct panthor_device *ptdev, u32 status)
->  {
->  	bool has_unhandled_faults = false;
-> @@ -1876,6 +1864,7 @@ static void panthor_vm_free(struct drm_gpuvm *gpuvm)
->  	drm_sched_entity_destroy(&vm->entity);
->  	drm_sched_fini(&vm->sched);
+>  static int rzg2l_cpg_dsi_div_set_rate(struct clk_hw *hw,
+>  				      unsigned long rate,
+>  				      unsigned long parent_rate)
+> @@ -858,7 +977,7 @@ static int rzg2l_cpg_sipll5_set_rate(struct clk_hw *hw,
 >  
-> +	mutex_lock(&vm->op_lock);
->  	mutex_lock(&ptdev->mmu->as.slots_lock);
->  	if (vm->as.id >= 0) {
->  		int cookie;
-> @@ -1890,6 +1879,7 @@ static void panthor_vm_free(struct drm_gpuvm *gpuvm)
->  		list_del(&vm->as.lru_node);
->  	}
->  	mutex_unlock(&ptdev->mmu->as.slots_lock);
-> +	mutex_unlock(&vm->op_lock);
+>  	vclk_rate = rzg2l_cpg_get_vclk_rate(hw, rate);
+>  	sipll5->foutpostdiv_rate =
+> -		rzg2l_cpg_get_foutpostdiv_rate(&params, vclk_rate);
+> +		rzg2l_cpg_get_foutpostdiv_rate(priv, &params, vclk_rate);
 >  
->  	free_io_pgtable_ops(vm->pgtbl_ops);
+>  	/* Put PLL5 into standby mode */
+>  	writel(CPG_SIPLL5_STBY_RESETB_WEN, priv->base + CPG_SIPLL5_STBY);
+> @@ -945,9 +1064,11 @@ rzg2l_cpg_sipll5_register(const struct cpg_core_clk *core,
+>  	if (ret)
+>  		return ERR_PTR(ret);
 >  
-> @@ -2197,6 +2187,11 @@ panthor_vm_exec_op(struct panthor_vm *vm, struct panthor_vm_op_ctx *op,
+> -	priv->mux_dsi_div_params.clksrc = 1; /* Use clk src 1 for DSI */
+> -	priv->mux_dsi_div_params.dsi_div_a = 1; /* Divided by 2 */
+> -	priv->mux_dsi_div_params.dsi_div_b = 2; /* Divided by 3 */
+> +	/* Default settings for DPI */
+> +	priv->mux_dsi_div_params.clksrc = 0;
+> +	priv->mux_dsi_div_params.dsi_div_a = 3; /* Divided by 8 */
+> +	priv->mux_dsi_div_params.dsi_div_b = 0; /* Divided by 1 */
+> +	dsi_div_ab_desired = 8;			/* (1 << a) * (b + 1) */
 >  
->  	mutex_lock(&vm->op_lock);
->  	vm->op_ctx = op;
+>  	return clk_hw->clk;
+>  }
+> diff --git a/include/linux/clk/renesas.h b/include/linux/clk/renesas.h
+> index 0ebbe2f0b45e..dc8ae83460f4 100644
+> --- a/include/linux/clk/renesas.h
+> +++ b/include/linux/clk/renesas.h
+> @@ -16,6 +16,11 @@ struct device;
+>  struct device_node;
+>  struct generic_pm_domain;
+>  
+> +enum {
+> +	PLL5_TARGET_DPI,
+> +	PLL5_TARGET_DSI
+> +};
 > +
-> +	ret = panthor_vm_lock_region(vm, op->va.addr, op->va.range);
-> +	if (ret)
-> +		goto out;
+>  void cpg_mstp_add_clk_domain(struct device_node *np);
+>  #ifdef CONFIG_CLK_RENESAS_CPG_MSTP
+>  int cpg_mstp_attach_dev(struct generic_pm_domain *unused, struct device *dev);
+> @@ -32,4 +37,11 @@ void cpg_mssr_detach_dev(struct generic_pm_domain *unused, struct device *dev);
+>  #define cpg_mssr_attach_dev	NULL
+>  #define cpg_mssr_detach_dev	NULL
+>  #endif
 > +
->  	switch (op_type) {
->  	case DRM_PANTHOR_VM_BIND_OP_TYPE_MAP: {
->  		const struct drm_gpuvm_map_req map_req = {
-> @@ -2224,6 +2219,9 @@ panthor_vm_exec_op(struct panthor_vm *vm, struct panthor_vm_op_ctx *op,
->  		break;
->  	}
->  
-> +	panthor_vm_unlock_region(vm);
+> +#ifdef CONFIG_CLK_RZG2L
+> +void rzg2l_cpg_dsi_div_set_divider(unsigned int divider, int target);
+> +#else
+> +static inline void rzg2l_cpg_dsi_div_set_divider(int divider, int target) { }
+> +#endif
 > +
-> +out:
->  	if (ret && flag_vm_unusable_on_failure)
->  		vm->unusable = true;
->  
+>  #endif
+> -- 
+> 2.50.1
+> 
+> 
 
+
+-- 
+Hugo Villeneuve <hugo@hugovil.com>
