@@ -2,61 +2,83 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id DA5D1C427F2
-	for <lists+dri-devel@lfdr.de>; Sat, 08 Nov 2025 07:06:44 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 99CE1C42AA3
+	for <lists+dri-devel@lfdr.de>; Sat, 08 Nov 2025 10:39:34 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E54CC10E0C0;
-	Sat,  8 Nov 2025 06:06:21 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5261E10E17E;
+	Sat,  8 Nov 2025 09:39:29 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="Fyprrcxo";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="RxyO+Z1T";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D68A010E0C0
- for <dri-devel@lists.freedesktop.org>; Sat,  8 Nov 2025 06:06:19 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1762581980; x=1794117980;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:in-reply-to;
- bh=TRpoUUsVZmme6u5QhPW7y29sfrAWHxI97Fy1In+RQB4=;
- b=FyprrcxoqCoQ8/JEGgQ7Xqr9eZK4geMfJeEeCKe4YBKuPrtzigK/hYRb
- akhuQEvSkL3qo+UiZV1VDWzoQE0xq9uoEK7XBsj4HlJCOl1mnsnm40fcW
- pL+uTlihDeUnBCZ9GWOkewVSy0YaHDn9bWXarsZIFTwma1WoH5eMKXntt
- 5yKwDQod+ASeRlOIb1nkbkRh6OMruDaDULr4Z6En5ClBjICzCWN6z2eAA
- RK5vKfWgdrUqryHxErN40any1Vq6oxD7npnURs+WPrpC9a5I1c90OJ1Yv
- eMMkHGM11kZHIRJ0QFq/8OLuS1X/T+Hh5ORQLecrpsKgA6hsbdpfknlOo g==;
-X-CSE-ConnectionGUID: ZeHvlqcyQ16GRWoD1s2ozw==
-X-CSE-MsgGUID: ACkfRVpZRBKIQjnQp8vWPQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11606"; a="64424123"
-X-IronPort-AV: E=Sophos;i="6.19,289,1754982000"; d="scan'208";a="64424123"
-Received: from fmviesa005.fm.intel.com ([10.60.135.145])
- by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 07 Nov 2025 22:06:20 -0800
-X-CSE-ConnectionGUID: KfyO6pvMTWibF3ajQdMNTA==
-X-CSE-MsgGUID: TjpO9g3LQBesWvTtXhxEmg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.19,289,1754982000"; d="scan'208";a="192487870"
-Received: from lkp-server01.sh.intel.com (HELO 6ef82f2de774) ([10.239.97.150])
- by fmviesa005.fm.intel.com with ESMTP; 07 Nov 2025 22:06:17 -0800
-Received: from kbuild by 6ef82f2de774 with local (Exim 4.96)
- (envelope-from <lkp@intel.com>) id 1vHc5X-0000nD-0X;
- Sat, 08 Nov 2025 06:06:15 +0000
-Date: Sat, 8 Nov 2025 14:05:44 +0800
-From: kernel test robot <lkp@intel.com>
-To: Karol Wachowski <karol.wachowski@linux.intel.com>,
- dri-devel@lists.freedesktop.org
-Cc: oe-kbuild-all@lists.linux.dev, oded.gabbay@gmail.com,
- jeff.hugo@oss.qualcomm.com, maciej.falkowski@linux.intel.com,
- lizhi.hou@amd.com, Karol Wachowski <karol.wachowski@linux.intel.com>
-Subject: Re: [PATCH 1/2] accel/ivpu: Add fdinfo support for memory statistics
-Message-ID: <202511081303.INWfFdzI-lkp@intel.com>
-References: <20251106101052.1050348-2-karol.wachowski@linux.intel.com>
+Received: from mail-qv1-f49.google.com (mail-qv1-f49.google.com
+ [209.85.219.49])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 28E5510E27A
+ for <dri-devel@lists.freedesktop.org>; Sat,  8 Nov 2025 02:24:21 +0000 (UTC)
+Received: by mail-qv1-f49.google.com with SMTP id
+ 6a1803df08f44-7ea50f94045so12697156d6.1
+ for <dri-devel@lists.freedesktop.org>; Fri, 07 Nov 2025 18:24:21 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20230601; t=1762568660; x=1763173460; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=NY2LbgvIY/fMzsfOBXS1nVDAgZLdeObOtoX1Ris2Kn0=;
+ b=RxyO+Z1TbWZEkCs9M8De9DIy8Ua1n2elYntKXMEYuQnn9f/eVRVyyIeIWMhmQUaVNZ
+ xOIwm33TXCB+G7rpl1VvAnM5GCLNzXTcpRE9WzZ8GZaYJPRCI7dYvOTKSMSt7pGmiXFq
+ zI+zS3SoCLqXbF97y5e4C1osxJAeJMpMn54/QR0pO6x+SKqrJ4KROgfkw3mSHYjEm33y
+ h/MnOkgIe/pR3RE7LJaQx8gYTAnoEtilNW1D3lmlKTMltLxz666JYT1SVBbqAg7rzQtV
+ 9g6w/AyjSoQFL+ERGSTfJq5quFLLPu0Awz98olReFJDg8i4ZWJ5qqgP8PmqV43kI6dAF
+ DZGg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1762568660; x=1763173460;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=NY2LbgvIY/fMzsfOBXS1nVDAgZLdeObOtoX1Ris2Kn0=;
+ b=Qyn2LG/bN3usQuyrdddMpoxMrmK6zbKNdEGjAf62NWY7QWaH654HrBWvef0v0uqRZA
+ VvlBdUMhsp2j1q5ot44RTJ0LJLDacWzSnQtiqYtJOKvLEDbXtqXYbIFa1A9AEFhSUC2w
+ V8i/dU9Lo1RmywKzifli+jC4CgHv043EaY8x/+02+ePdX2/TCyZLkM69T+hfiOkIDVmW
+ X8jPdKmQp+EXYU9oqIBUo64vXzNfZa4B6uTkoE7UrAMLI7I7h4rt4AYP3acMhGI1Wz1v
+ Ji75dmybUQY7IvcVOoM2eLLwh71qa0zH76JFYHFbU8kJrMLdnkK/iMllB2dHVcT4lyXh
+ Xg1w==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCX8c/IQ80EE+8P0rqnXUbUraDMfQZXmt1X8gIc0U+xCzra3H3sc/1+FVuqe81PaAMzIqSzXCddSXAU=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YxKB7HvCYKmHlOI7wuyNxpyA++EAHIq6ClznbPjjLhY0n/+YDqY
+ ajiAG13zwIfYBpe2TpUJb5F+DDK0leYYeozp9nTcOKp0K6YuZLdqM17n
+X-Gm-Gg: ASbGncuPWXzfey6nWQYfHMP/wSz0fWrraZdPk2ATDpuruoyiHMY19/gdlXSR+q5/PNu
+ MmWzpQt0BSEDMQ9QSXCjZTUbtFZOp5rRf+cukYQKCILyxD7upmxC4zLcyFKPcpS/TTlRmFQ4gsI
+ 4SsdMALmLURgAMEtIfAkIjRaCVa5K9vQ89TLvZKhw6XXPFNC0+8Znm28Nw0zMiQ08Qucb+tR0Wl
+ bU0dUECQVFHwFTISlgIEtm9wsH8MOv2rg6owgkK5c0SiN/+6V4bNl2GzGjjraDTcv2BGo7LOK8b
+ douXh258Ert0a2qKPkKLqZgwQ144nT1t2hkqm1x+8qDfVWd4ohTsqnVP1+aWm2bbRteWhvn5HDu
+ pKN5YEaqvuSktJjqLLhLR8EwIDqlYMO8m7hHrX0KLwPGFxNk=
+X-Google-Smtp-Source: AGHT+IFg9wz6lhJl8Q0/MXiDVkvZKRCFkQJ5hkPlMaUqnbTVBXvIucOF1fAknSssoiuUZ/XVQ1oB7g==
+X-Received: by 2002:a05:6214:2aad:b0:880:580f:27c8 with SMTP id
+ 6a1803df08f44-8822f4d3cbemr47329436d6.6.1762568659947; 
+ Fri, 07 Nov 2025 18:24:19 -0800 (PST)
+Received: from ryzen ([2601:644:8000:8e26::ea0])
+ by smtp.gmail.com with ESMTPSA id
+ 6a1803df08f44-88238928af8sm7493646d6.6.2025.11.07.18.24.18
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 07 Nov 2025 18:24:19 -0800 (PST)
+From: Rosen Penev <rosenp@gmail.com>
+To: dri-devel@vger.kernel.org
+Cc: Harry Wentland <harry.wentland@amd.com>, Leo Li <sunpeng.li@amd.com>,
+ Rodrigo Siqueira <siqueira@igalia.com>,
+ Alex Deucher <alexander.deucher@amd.com>,
+ =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ amd-gfx@lists.freedesktop.org (open list:AMD DISPLAY CORE),
+ dri-devel@lists.freedesktop.org (open list:DRM DRIVERS),
+ linux-kernel@vger.kernel.org (open list)
+Subject: [PATCH] drm/amd/display:: fix designated initializer error
+Date: Fri,  7 Nov 2025 18:24:01 -0800
+Message-ID: <20251108022401.270909-1-rosenp@gmail.com>
+X-Mailer: git-send-email 2.51.2
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20251106101052.1050348-2-karol.wachowski@linux.intel.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-Mailman-Approved-At: Sat, 08 Nov 2025 09:39:27 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -72,65 +94,29 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Karol,
+{} instead of {0} avoids the error with W=1
 
-kernel test robot noticed the following build warnings:
+error: positional initialization of field in ‘struct’ declared
+with ‘designated_init’ attribute [-Werror=designated-init]
 
-[auto build test WARNING on next-20251106]
-[cannot apply to drm-misc/drm-misc-next drm-tip/drm-tip linus/master v6.18-rc4 v6.18-rc3 v6.18-rc2 v6.18-rc4]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+Signed-off-by: Rosen Penev <rosenp@gmail.com>
+---
+ drivers/gpu/drm/amd/display/dc/dce/dce_stream_encoder.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Karol-Wachowski/accel-ivpu-Add-fdinfo-support-for-memory-statistics/20251106-181300
-base:   next-20251106
-patch link:    https://lore.kernel.org/r/20251106101052.1050348-2-karol.wachowski%40linux.intel.com
-patch subject: [PATCH 1/2] accel/ivpu: Add fdinfo support for memory statistics
-config: x86_64-buildonly-randconfig-005-20251108 (https://download.01.org/0day-ci/archive/20251108/202511081303.INWfFdzI-lkp@intel.com/config)
-compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251108/202511081303.INWfFdzI-lkp@intel.com/reproduce)
-
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202511081303.INWfFdzI-lkp@intel.com/
-
-All warnings (new ones prefixed by >>):
-
->> drivers/accel/ivpu/ivpu_drv.c:458:5: warning: "CONFIG_PROC_FS" is not defined, evaluates to 0 [-Wundef]
-     458 | #if CONFIG_PROC_FS
-         |     ^~~~~~~~~~~~~~
-   drivers/accel/ivpu/ivpu_drv.c:475:5: warning: "CONFIG_PROC_FS" is not defined, evaluates to 0 [-Wundef]
-     475 | #if CONFIG_PROC_FS
-         |     ^~~~~~~~~~~~~~
-
-Kconfig warnings: (for reference only)
-   WARNING: unmet direct dependencies detected for OF_GPIO
-   Depends on [n]: GPIOLIB [=y] && OF [=n] && HAS_IOMEM [=y]
-   Selected by [y]:
-   - GPIO_TB10X [=y] && GPIOLIB [=y] && HAS_IOMEM [=y] && (ARC_PLAT_TB10X || COMPILE_TEST [=y])
-   WARNING: unmet direct dependencies detected for MFD_STMFX
-   Depends on [n]: HAS_IOMEM [=y] && I2C [=y] && OF [=n]
-   Selected by [y]:
-   - PINCTRL_STMFX [=y] && PINCTRL [=y] && I2C [=y] && OF_GPIO [=y] && HAS_IOMEM [=y]
-   WARNING: unmet direct dependencies detected for I2C_K1
-   Depends on [n]: I2C [=y] && HAS_IOMEM [=y] && (ARCH_SPACEMIT || COMPILE_TEST [=y]) && OF [=n]
-   Selected by [y]:
-   - MFD_SPACEMIT_P1 [=y] && HAS_IOMEM [=y] && (ARCH_SPACEMIT || COMPILE_TEST [=y]) && I2C [=y]
-
-
-vim +/CONFIG_PROC_FS +458 drivers/accel/ivpu/ivpu_drv.c
-
-   454	
-   455	static const struct file_operations ivpu_fops = {
-   456		.owner		= THIS_MODULE,
-   457		DRM_ACCEL_FOPS,
- > 458	#if CONFIG_PROC_FS
-   459		.show_fdinfo = drm_show_fdinfo,
-   460	#endif
-   461	};
-   462	
-
+diff --git a/drivers/gpu/drm/amd/display/dc/dce/dce_stream_encoder.c b/drivers/gpu/drm/amd/display/dc/dce/dce_stream_encoder.c
+index f8996ee2856b..574618d5d4a4 100644
+--- a/drivers/gpu/drm/amd/display/dc/dce/dce_stream_encoder.c
++++ b/drivers/gpu/drm/amd/display/dc/dce/dce_stream_encoder.c
+@@ -1568,7 +1568,7 @@ void dce110_stream_encoder_construct(
+ 	enc110->se_mask = se_mask;
+ }
+ 
+-static const struct stream_encoder_funcs dce110_an_str_enc_funcs = {0};
++static const struct stream_encoder_funcs dce110_an_str_enc_funcs = {};
+ 
+ void dce110_analog_stream_encoder_construct(
+ 	struct dce110_stream_encoder *enc110,
 -- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+2.51.2
+
