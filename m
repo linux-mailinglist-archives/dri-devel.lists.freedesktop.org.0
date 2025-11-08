@@ -2,79 +2,84 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7D9C9C432E0
-	for <lists+dri-devel@lfdr.de>; Sat, 08 Nov 2025 19:05:32 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id D5392C433BA
+	for <lists+dri-devel@lfdr.de>; Sat, 08 Nov 2025 20:30:38 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CBA9E10E147;
-	Sat,  8 Nov 2025 18:05:28 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6F0AA10E1AB;
+	Sat,  8 Nov 2025 19:30:23 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="X4S+y831";
+	dkim=pass (2048-bit key; secure) header.d=mary.zone header.i=@mary.zone header.b="MlqUYMJs";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pl1-f182.google.com (mail-pl1-f182.google.com
- [209.85.214.182])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 92F5C10E1F1
- for <dri-devel@lists.freedesktop.org>; Sat,  8 Nov 2025 17:41:05 +0000 (UTC)
-Received: by mail-pl1-f182.google.com with SMTP id
- d9443c01a7336-297d4a56f97so10483005ad.1
- for <dri-devel@lists.freedesktop.org>; Sat, 08 Nov 2025 09:41:05 -0800 (PST)
+Received: from mail-yw1-f169.google.com (mail-yw1-f169.google.com
+ [209.85.128.169])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8DBFF10E1F8
+ for <dri-devel@lists.freedesktop.org>; Sat,  8 Nov 2025 19:30:21 +0000 (UTC)
+Received: by mail-yw1-f169.google.com with SMTP id
+ 00721157ae682-786943affbaso13514757b3.0
+ for <dri-devel@lists.freedesktop.org>; Sat, 08 Nov 2025 11:30:20 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1762623665; x=1763228465; darn=lists.freedesktop.org;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:from:to:cc:subject:date:message-id:reply-to;
- bh=KjRGzSVrFGVIo2LvU9W8/+cuvbxA+DYtLbsyShtQ9uA=;
- b=X4S+y831LmQvbuFLMeRjzJ67opMbib5XzJeBTK2/JB+B4U0FlTEstj/BKY7Xr3grJ8
- SC7t5IsVutulrGioJ9u7/k5D8M84PL0ZvDbbvm/r8xvB5UhiZJHR5eXPl0mqkWXpyHpj
- J1Xz8NExfOdtxpLVPr7lUqMjtiZ8SZe9AY3n9oR9UIKYP3GZlUobbHYfd2g1dJrMQEWg
- lJjARS2DQ+AaoCODqK201PDB+KQONi4BOSi4exvQoMPlyADQhg+/EVWHdsjYRannQh2E
- 32W6HTHwJ3AS4ga+x7X3sF+7mQZ0EcAHyFq7vh8fx+zIhpmNMY8bY8RkIG2z6rTAdd6D
- QWTA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1762623665; x=1763228465;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+ d=mary.zone; s=google; t=1762630220; x=1763235020; darn=lists.freedesktop.org; 
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
  :message-id:reply-to;
- bh=KjRGzSVrFGVIo2LvU9W8/+cuvbxA+DYtLbsyShtQ9uA=;
- b=Rl8+IUq+P/5YS+uifgNt0YUQCKcq2pZkHyRjWfhnVk26iRnfRC63oFh9Xt4J0My9n5
- b3oCt0IVqLqef+eU6ZwOrG0112F4LilDAmbeALHdJDWruwbhacZnpHxIluusx3by4bZN
- EBUIHCHmW6rSsGr3owXcia8/0b+FUP8t/MuIV4tcTiiyaXwh8zqPH2EUcmrYC61tV2+G
- 0BgTUaWs5yUOIM5hMcL3KLA9D76kN313pro+LAFuE3KfG6tJjOkFtxk0PiAc22/VFoxp
- 4w4wWvGpSwPTNcBl8dcq4VIxpJJ8o/uvOnan4fpFNy8Sznte+RVLLj7Mu8X05LgxISje
- X0xw==
-X-Gm-Message-State: AOJu0YzyNfWjBQcJXZcX4hFy622Ll27GK8tN3jgQZteyMuQdumKNzRsH
- QW6P5Nqz7LjFuYYAOF9qQYxu/JiHyZ3dTpKLAZ4aBmPoKTOowsQRH1SwX5iUVw==
-X-Gm-Gg: ASbGnctUfyiTMku9I5K60poQzfNLLsY5IOkww3LveJJZPYznannrhGO+kmKyoEONuvd
- pHLFrrTIna5hJ4c4VHOo31gTtedUfbVe3vv5jy6NBp1NGISUdHMOnuYxuCwZf4YxS04u9rHCJ+J
- u6RLLvd7lQxJ8D+NXSedJKWmfPfvLlfi2WmSioVvjGVbctrQc2GF+UZUoNnJmK6zV4drJeNy/bN
- R4V6KD/cl2zitvPqMKMc63dSAVVXn993Etd6QQ4hat+8ZX/JSIxC1L+4ijKVi9aWcUOIaq81fTA
- GuiAl6sKYpLiHQlaCTt9g55Ou0Rolr262PJcHH71Ym6pNSqbfEMY5jnye7hCtRoHAjYh+aGJz8i
- 24pORNUf8C/P/D0xwGRfhUXT0e0++DeWxYU0TyKi6twWW4fA=
-X-Google-Smtp-Source: AGHT+IGHulV1SjTVkaEnfmlUppgot/eDXD6crirZT1rmC/ueBEuHwHH/akpWt3ntSVv9RzINXXUgwA==
-X-Received: by 2002:a17:902:f54d:b0:295:7423:4be2 with SMTP id
- d9443c01a7336-297e540d866mr38620785ad.3.1762623664852; 
- Sat, 08 Nov 2025 09:41:04 -0800 (PST)
-Received: from ryzen ([2601:644:8000:8e26::ea0])
- by smtp.gmail.com with ESMTPSA id
- d9443c01a7336-29651c740a9sm94585115ad.53.2025.11.08.09.41.03
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 08 Nov 2025 09:41:04 -0800 (PST)
-From: Rosen Penev <rosenp@gmail.com>
-To: dri-devel@lists.freedesktop.org
-Cc: Harry Wentland <harry.wentland@amd.com>, Leo Li <sunpeng.li@amd.com>,
- Rodrigo Siqueira <siqueira@igalia.com>,
- Alex Deucher <alexander.deucher@amd.com>,
- =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- amd-gfx@lists.freedesktop.org (open list:AMD DISPLAY CORE),
- linux-kernel@vger.kernel.org (open list)
-Subject: [PATCH] drm: amd: display: shrink struct members
-Date: Sat,  8 Nov 2025 09:40:47 -0800
-Message-ID: <20251108174047.7029-1-rosenp@gmail.com>
-X-Mailer: git-send-email 2.51.2
+ bh=KyRJZiWrQiGWx3CFD7wgOdd2jyZ0NCxb1AABBCZa0vs=;
+ b=MlqUYMJsRW3e5jAGnvyAAk2ElqnqFdd/7HI9zWE3MzScZLew2Qxw+XYhOxdsn6Qrvp
+ qa73AkvPT9J04konvL537ReuObFu6g71NGwIsO7hjMgrAevY1ESuT1sIZIQURJ0eDjNU
+ O+ucI4cz/HQMUQVz/u7Gp0ljQ2GAVpWGJm0Ccy5LSp73JZBVMXaEH5kE0o/OJk4g8K35
+ A/jHFe9onbo0NEwMCko0pwqPHROWIijn40cu725EajuCNTmikSrX60/36n4LT/qgKMe7
+ 6QRTHiINpeNuZKAxvbrhmkpbuHtjSFY2fllh+yHBQpAlnp+eADg/OamM/Y/7q7msIXpQ
+ YGew==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1762630220; x=1763235020;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
+ :to:cc:subject:date:message-id:reply-to;
+ bh=KyRJZiWrQiGWx3CFD7wgOdd2jyZ0NCxb1AABBCZa0vs=;
+ b=qsXzYKmAdBjDswZXhY75nIvkZs65mzh6ZkAcnS+E2HZhlXx6mlsSIO8Fn/vTDFa2dv
+ vu4gBP4tlbNduiP6p4GeTSU9EDl6CHxsytZMfQW1aNg2LTCJ9MFpFw16dUO9PEuTXbq+
+ ehQ+OvKBC0eL2weelft9KpCJAbyxAxPWwKEgopcEP0/s0QxgDECRLci1bXm+NS3xbBID
+ 3Y+1t7hRNCl2aDT3jD/4bVeZ+/05sirgjEZbNTdG5G2+4KmppBtoGdB/Tw6SwdD0em3k
+ UhGKHxpBJOTsTl5kqTyUpfz3+Ih/MwaqvvdK1xQrUMMIWjU+jtyUIfvLwlQQoLENJ9N+
+ iLAA==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCWt57Uzb/2H/rRiQuFM68OFhr2oDbC+G0p5qIai/JOUHjI65YM+pAPXbp7Q2xqzGCfixukRA8Y8WnU=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Yw08f0yfV2I3a5p1GTzAOL1BPb6dFCbCyDgJk1FAFwTyeCMB7Ca
+ 4YVwr8KpaOCc2YWnfslR2lYdvct3N9opL7EwRlK1qWIk+yH4e/WE3EshUA1/OBoCOdsiAZYInY8
+ tx9zYS2dM8P0mfYnNHHYX/Evij5rsDTvmWKQt4fuM0A==
+X-Gm-Gg: ASbGncviuERxh798DuMRbnKzB/rx84RpqHY/xjemzKD1mjdMcn8LTbMm7P9opnGsJu7
+ lzRpeyDzWYF70K1nvfY5XpTadmtW/An48YiDFwQKDPO1ODoJdioBMbrrS9YzcM0cV+BYGtIZLHn
+ ZAgtM0NXtj19Bf1D2BJMMj9rSKNBzJGg1pEYTVfootnVR9r0ITsgL39g5uuPl9RIcMueWIit+js
+ POvHWcP4G3eCs7DCr+EtsKFxw62QdOjivLe7DDbvvc5D3LgX0IWqRdzPVMKnPdLuPUB4snE/wiD
+ rqGyfq3GlLBlnmrqSOSdILUbPdI=
+X-Google-Smtp-Source: AGHT+IGIYT+SUHEWS8jwXTJD4hh40k1duU3pvKoIO6/tM9I7kWkKHb17WkBAF0kaIdPn4lajaFC8l3EQAoBHjvEIEk4=
+X-Received: by 2002:a05:690c:a4c1:10b0:785:fd34:a355 with SMTP id
+ 00721157ae682-787d53fccf1mr27702217b3.40.1762630219745; Sat, 08 Nov 2025
+ 11:30:19 -0800 (PST)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Mailman-Approved-At: Sat, 08 Nov 2025 18:05:27 +0000
+References: <20251031104924.10631-1-mohamedahmedegypt2001@gmail.com>
+ <20251031104924.10631-3-mohamedahmedegypt2001@gmail.com>
+ <0bffd718-3659-4add-90fc-fb0e098f2897@nvidia.com>
+ <CAA+WOBtmbPHigscFQCFgDo=9WSM6V-JMXGCO7orP=01XOqTPHQ@mail.gmail.com>
+ <4d07932e-8b53-4ee3-8d08-6f49d433f005@kernel.org>
+In-Reply-To: <4d07932e-8b53-4ee3-8d08-6f49d433f005@kernel.org>
+From: Mary Guillemard <mary@mary.zone>
+Date: Sat, 8 Nov 2025 20:30:09 +0100
+X-Gm-Features: AWmQ_bmUShDzVgDbCjXaRk8KzGqVzibLvo1soC_Ryl9pqm71yycsphufLLwaE8g
+Message-ID: <CAPv6GL3+Fs-7DCHGgk-rBpJjNHBLYvubbcBK-0U_Ew93_ka3Og@mail.gmail.com>
+Subject: Re: [PATCH v4 2/5] drm/nouveau/uvmm: Allow larger pages
+To: Danilo Krummrich <dakr@kernel.org>
+Cc: Mohamed Ahmed <mohamedahmedegypt2001@gmail.com>,
+ James Jones <jajones@nvidia.com>, 
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org, 
+ Faith Ekstrand <faith.ekstrand@collabora.com>, Lyude Paul <lyude@redhat.com>, 
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, 
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
+ Simona Vetter <simona@ffwll.ch>, nouveau@lists.freedesktop.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -90,82 +95,34 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On a 32-bit ARM system, the audio_decoder struct ends up being too large
-for dp_retrain_link_dp_test.
+Hi,
 
-link_dp_cts.c:157:1: error: the frame size of 1328 bytes is larger than
-1280 bytes [-Werror=frame-larger-than=]
+On Wed, Nov 5, 2025 at 11:50=E2=80=AFPM Danilo Krummrich <dakr@kernel.org> =
+wrote:
+>
+> On 11/4/25 12:53 AM, Mohamed Ahmed wrote:
+> > Thanks a lot for the shout out! Looking more at things, the logic here
+> > is actually redundant. It was originally copied over directly from the
+> > bo allocation code to stay on the safer side (basically the idea back
+> > then was to make both the bo and vmm sides match exactly). We aren't
+> > at risk of having an aligned address that is in the wrong memory type
+> > because the bo allocation code (nouveau_bo.c:321) forces anything that
+> > has the GART flag to have a page size of 4K. Anything getting a page
+> > size higher than that is exclusively VRAM only. Additionally,
+> > currently things marked VRAM only don't get evicted to host memory
+> > except under high memory pressure and in that case, the context is
+> > paused until the objects in question are paged back in, so we also
+> > don't have to worry about memory placement there.
+> >
+> > The memory placement check in the vmm code could be removed but I am
+> > leaning more towards leaving it as is just to stay on the safer side.
+>
+> If it is not necessary, please remove it. We should not carry dead code.
+>
 
-This is mitigated by shrinking the members of the struct and avoids
-having to deal with dynamic allocation.
+For correctness, this code path needs to refuse incompatible domains
+to decide the appropriate page size.
+As such those checks should remain.
 
-feed_back_divider is assigned but otherwise unused. Remove both.
-
-pixel_repetition looks like it should be a bool since it's only ever
-assigned to 1. But there are checks for 2 and 4. Reduce to uint8_t.
-
-Remove ss_percentage_divider. Unused.
-
-Shrink refresh_rate as it gets assigned to at most a 3 digit integer
-value.
-
-Signed-off-by: Rosen Penev <rosenp@gmail.com>
----
- .../drm/amd/display/dc/hwss/dce110/dce110_hwseq.c    |  3 ---
- drivers/gpu/drm/amd/display/include/audio_types.h    | 12 +++++-------
- 2 files changed, 5 insertions(+), 10 deletions(-)
-
-diff --git a/drivers/gpu/drm/amd/display/dc/hwss/dce110/dce110_hwseq.c b/drivers/gpu/drm/amd/display/dc/hwss/dce110/dce110_hwseq.c
-index 3005115c8505..852c117fe5b6 100644
---- a/drivers/gpu/drm/amd/display/dc/hwss/dce110/dce110_hwseq.c
-+++ b/drivers/gpu/drm/amd/display/dc/hwss/dce110/dce110_hwseq.c
-@@ -1480,9 +1480,6 @@ void build_audio_output(
- 						state->clk_mgr);
- 	}
- 
--	audio_output->pll_info.feed_back_divider =
--			pipe_ctx->pll_settings.feedback_divider;
--
- 	audio_output->pll_info.dto_source =
- 		translate_to_dto_source(
- 			pipe_ctx->stream_res.tg->inst + 1);
-diff --git a/drivers/gpu/drm/amd/display/include/audio_types.h b/drivers/gpu/drm/amd/display/include/audio_types.h
-index e4a26143f14c..6699ad4fa825 100644
---- a/drivers/gpu/drm/amd/display/include/audio_types.h
-+++ b/drivers/gpu/drm/amd/display/include/audio_types.h
-@@ -47,15 +47,15 @@ struct audio_crtc_info {
- 	uint32_t h_total;
- 	uint32_t h_active;
- 	uint32_t v_active;
--	uint32_t pixel_repetition;
- 	uint32_t requested_pixel_clock_100Hz; /* in 100Hz */
- 	uint32_t calculated_pixel_clock_100Hz; /* in 100Hz */
--	uint32_t refresh_rate;
-+	uint32_t dsc_bits_per_pixel;
-+	uint32_t dsc_num_slices;
- 	enum dc_color_depth color_depth;
- 	enum dc_pixel_encoding pixel_encoding;
-+	uint16_t refresh_rate;
-+	uint8_t pixel_repetition;
- 	bool interlaced;
--	uint32_t dsc_bits_per_pixel;
--	uint32_t dsc_num_slices;
- };
- struct azalia_clock_info {
- 	uint32_t pixel_clock_in_10khz;
-@@ -78,11 +78,9 @@ enum audio_dto_source {
- 
- struct audio_pll_info {
- 	uint32_t audio_dto_source_clock_in_khz;
--	uint32_t feed_back_divider;
-+	uint32_t ss_percentage;
- 	enum audio_dto_source dto_source;
- 	bool ss_enabled;
--	uint32_t ss_percentage;
--	uint32_t ss_percentage_divider;
- };
- 
- struct audio_channel_associate_info {
--- 
-2.51.2
-
+Regards,
+Mary
