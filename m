@@ -2,64 +2,64 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9C0D7C4342E
-	for <lists+dri-devel@lfdr.de>; Sat, 08 Nov 2025 20:50:07 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id C4CBAC43435
+	for <lists+dri-devel@lfdr.de>; Sat, 08 Nov 2025 20:50:14 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7C31C10E1FC;
-	Sat,  8 Nov 2025 19:50:05 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A3E9210E201;
+	Sat,  8 Nov 2025 19:50:12 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="CmfyjO78";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="cDMIDSpL";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-f50.google.com (mail-wm1-f50.google.com
- [209.85.128.50])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 007FD10E201
- for <dri-devel@lists.freedesktop.org>; Sat,  8 Nov 2025 19:50:03 +0000 (UTC)
-Received: by mail-wm1-f50.google.com with SMTP id
- 5b1f17b1804b1-475ca9237c2so9308765e9.3
- for <dri-devel@lists.freedesktop.org>; Sat, 08 Nov 2025 11:50:03 -0800 (PST)
+Received: from mail-wm1-f51.google.com (mail-wm1-f51.google.com
+ [209.85.128.51])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 63AE410E201
+ for <dri-devel@lists.freedesktop.org>; Sat,  8 Nov 2025 19:50:11 +0000 (UTC)
+Received: by mail-wm1-f51.google.com with SMTP id
+ 5b1f17b1804b1-4775e891b5eso9004695e9.2
+ for <dri-devel@lists.freedesktop.org>; Sat, 08 Nov 2025 11:50:11 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1762631402; x=1763236202; darn=lists.freedesktop.org;
+ d=gmail.com; s=20230601; t=1762631410; x=1763236210; darn=lists.freedesktop.org;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=YzVBO3wygi8AtPeTVGw8SAvM16hukiPubsoP12gEgLs=;
- b=CmfyjO78TamDQO62wDfPPhWX7DBPwcbYakvxDsW8QgTOKZ9ZA/ZVAPpeJfLoOBxA+6
- 5lfencOhLl9ycJg8icX2CBhxdhFOLkjeo1wUKyB708XixLthdzxgxHjt7IbclhcDMtFr
- /W1wxOovTIIYZcVRkVkUo0/Cgn/u4Syc87fWKXwRw8W636wcAP0bKCfuxD4G9Og/3YIX
- wxPbA2AJ+sDEH9vq0dMBDOG5IB8R/FC3fLxFbEtCpEoQKKqEp76CzQOFUkcDN4jyV+Cu
- B5irhM3o8oXEQYFFMwPJwllfzTdGskE/seau72VAhCqCjmI4DSHj58wypKMq5b4Bf29y
- oiEQ==
+ bh=qi8xQlvzBSlmsDVPhecyLavK8NOYFA3LF8oQkJrVx+g=;
+ b=cDMIDSpL4jH/bn5lsqqOqeNyawBzWOse7Lj9ukiZq4N+P7JRDPSt8OIS8HwJhOFM64
+ HF/OdwB+3C4rQVcOo70Nne3O1a/8gpcODOsEo9SZn+wLlwHg0ksC0HiS8X8/AVU1Amka
+ 6i991RCaY98LxW4E+/zrMMgMUrLWXk4ch4rqbAG10ae1gIsgIX5GzgkK/gscRyEEhLNx
+ ZjYvj4buPsuh6XqnuxVrZqQU4KCk+r0orq4qc96u3vy+tq9H0FPa6N2M4yCslhk3kRWY
+ GAICRt5uhugV5788pzOKM1DBpbVkHjEZWA+TwBb1MdPWK5HRFSEMUD0RsLiTETFMdrFR
+ 6nkA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1762631402; x=1763236202;
+ d=1e100.net; s=20230601; t=1762631410; x=1763236210;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
  :to:cc:subject:date:message-id:reply-to;
- bh=YzVBO3wygi8AtPeTVGw8SAvM16hukiPubsoP12gEgLs=;
- b=Ygn8h5niGUqtVZAgKr5p/mXEyC70Aah+XW9A0BpQFrr7rcYYtNQYQONepgHIASFTq6
- VyMmYN/OKHMEbXxFIS9AHKKdD42Wf+hkBVQFnZDqq3BjxmtWy1xtKPgVx4TjhQxUuupp
- RWIpXFjaroSwh4+Q3Soj6Cq1hgRH8ZPM2Yqo5rBtMYV2bul5TXfkbOVYbqVaEF79rNl1
- gA0GJ8K78dEw9kWyD8mhWOH/O+vl8z2YgtqpRWw0G26qJHVC4BQsRmOz4wqw9LGymxY8
- azkHyq2gkPD4hQEmd2p8d9bU9vxXCmfiUwbxfkbA0xlCsJ5wv65JCG8ssxHXNDH05kv6
- SIXA==
-X-Gm-Message-State: AOJu0Yz5aqpq1DXK2DlZYD+XmuSeLyzuRFv7UTsacKpTf4ya0fwwIbbg
- u7EzR5XLuIyBdNVLnBeUGz12l9Uc2p1QT16sn1a3yYBk+sEOQuplQlfD
-X-Gm-Gg: ASbGncslyEtpaK0BZuBqFdIAnC3LIespWWqTdRejeK3u9RtKM9TkE4KQ8Mw/CNKMWAT
- BG3Ts4cfrft6ViWmkeBHhTuJEXeLDr3TXcV9Hkbs66MQnmrcFc34pipBprVVPWq7E+z38yeTG7D
- uW5mgCdWQpNyAyP25vbXXDK4vNNtK+TftxiZQor4rbw2iRIsaeZ7axeYYnmCUdEY/ejENr/32on
- iRO++9XjYVf2V9tl7VT/mEqrlxGNUMPZcxS2r86TF7M0QV2+faOTjpdaPRM5nba0u5/JYnKbWnJ
- oCARqhWxbBndZlgXFbVUjD2BngUc4hHrqfWyJLMSMSsEMDBwjEDvXyl6vPweWY/FeaJkZOznYKO
- dfX1r5yO2n2EYxGELKBPchDg5Ybs+wlbptOHru4/NkXfTPtG7I7QTh+iRweXEfckbKFtapz7ACz
- iFU0s9nlOz/g==
-X-Google-Smtp-Source: AGHT+IFKRtnzr6h/yDOoNnlfXZI3TwwKRMvaZxn/CG3D9oz1Xwc15sQ3+kUt+r2cqQSOgU1wH0tHyw==
-X-Received: by 2002:a05:600c:46d5:b0:477:4345:7c5c with SMTP id
- 5b1f17b1804b1-47773297851mr27813065e9.38.1762631402423; 
- Sat, 08 Nov 2025 11:50:02 -0800 (PST)
+ bh=qi8xQlvzBSlmsDVPhecyLavK8NOYFA3LF8oQkJrVx+g=;
+ b=ThAME+7N4Yz2dhQAe4FxnyzZxuVkpUPxb2vaZpQgjx3ZH0hCJdkhjY0mMayUmUCzPI
+ V0VTRVAJUnO2zqowr7FLhXMS+v5es9A/XPj7pWF+liCSK+hAMsjLcW+s1+Q5pN3Bcw9L
+ ylfSrEhYhN9bXxqT9AxB8Q628uhek6a6xIgwp1gO2IYLYqdiirq+mPHXZpZNMboLNv6N
+ ev8W1XMXsKU0Y6mRGWaapdQMHph27oMxkeRsMw6zCm9A+ovRD1SiKXjdd2FiPLeivq1f
+ KgPWjm2PsZVG3v3ISqFtW8pEtZ2QR4czGdkeR3yOsQaYd6uS8mPAQVCWpCuHpxe5XXxs
+ NBkg==
+X-Gm-Message-State: AOJu0Yz1TYBI29IdARsEM4ywmhL6wPb+CgBvyXJXvNfmaqaafdvqLWkg
+ TX4y7HPPdlnTR2MKVy/rOuihxjMz0NFP9dMQWF1kRnY0vLyFxQXNuoVL
+X-Gm-Gg: ASbGnct8Mt6/ob14heD77BIS2oYEJkwvGT7QxHcm3YxRzSa6W9O0bLbNC5jpwCN2zZL
+ ecou2dq4YawjBiUWbU2ujTOwApix16brccuqUboorbvd9OLuHYpD0LKiLxUBlC+z0FGdkEuk2E+
+ 6FKIZBXJ0jxiY7O5inE6atPDiiUoRkDgAnrawpIURLxXWiOm/md4T1M6dEjRP5zWhjtdIJsoBQ+
+ 33fzskEeENCLECLzUNdRoJpVj96HcKtVYGJVedCBIUjlUawZv9hmDwBzZ33TdMQ+SyB/jLhAlWy
+ ARoBVQVoSRDOR4lrmrzLh153DjKQ0Xqh4LJT6g4rsY08s7/mKoeuvwym9kkP7b0leGPR7aD9Re+
+ zoxFFl5gn14Cb/XrY5szachQuDKrE0aV6uEWnMqIJwLm8a4I0aYXpwc0JOcmA/rcq1Bg9A1iU+/
+ 1r2j9gHQPef8y+JcnHfcSb
+X-Google-Smtp-Source: AGHT+IGJ0mquGZTUHobdRtGScO/j12gECXAEL4G/mW7xZCyE1L9MtsLoPR7OPQcLTRH+LMInpSE23A==
+X-Received: by 2002:a05:600c:138b:b0:475:ddf7:995e with SMTP id
+ 5b1f17b1804b1-477732341demr30177645e9.12.1762631409686; 
+ Sat, 08 Nov 2025 11:50:09 -0800 (PST)
 Received: from fedora ([156.208.73.128]) by smtp.gmail.com with ESMTPSA id
- 5b1f17b1804b1-4775cdc33bdsm233461435e9.1.2025.11.08.11.49.59
+ 5b1f17b1804b1-4775cdc33bdsm233461435e9.1.2025.11.08.11.50.06
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 08 Nov 2025 11:50:01 -0800 (PST)
+ Sat, 08 Nov 2025 11:50:09 -0800 (PST)
 From: Mohamed Ahmed <mohamedahmedegypt2001@gmail.com>
 To: linux-kernel@vger.kernel.org
 Cc: dri-devel@lists.freedesktop.org, Mary Guillemard <mary@mary.zone>,
@@ -69,11 +69,13 @@ Cc: dri-devel@lists.freedesktop.org, Mary Guillemard <mary@mary.zone>,
  Maxime Ripard <mripard@kernel.org>,
  Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
  Simona Vetter <simona@ffwll.ch>, nouveau@lists.freedesktop.org,
+ Ben Skeggs <bskeggs@nvidia.com>,
  Mohamed Ahmed <mohamedahmedegypt2001@gmail.com>,
  James Jones <jajones@nvidia.com>
-Subject: [PATCH v5 2/5] drm/nouveau/uvmm: Allow larger pages
-Date: Sat,  8 Nov 2025 21:49:16 +0200
-Message-ID: <20251108194919.68754-3-mohamedahmedegypt2001@gmail.com>
+Subject: [PATCH v5 3/5] drm/nouveau/mmu/gp100: Remove unused/broken support
+ for compression
+Date: Sat,  8 Nov 2025 21:49:17 +0200
+Message-ID: <20251108194919.68754-4-mohamedahmedegypt2001@gmail.com>
 X-Mailer: git-send-email 2.51.1
 In-Reply-To: <20251108194919.68754-1-mohamedahmedegypt2001@gmail.com>
 References: <20251108194919.68754-1-mohamedahmedegypt2001@gmail.com>
@@ -94,109 +96,135 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Mary Guillemard <mary@mary.zone>
+From: Ben Skeggs <bskeggs@nvidia.com>
 
-Now that everything in UVMM knows about the variable page shift, we can
-select larger values.
+From GP100 onwards it's not possible to initialise comptag RAM without
+PMU firmware, which nouveau has no support for.
 
-The proposed approach relies on nouveau_bo::page unless if it would cause
-alignment issues (in which case we fall back to searching for an
-appropriate shift)
+As such, this code is essentially a no-op and will always revert to the
+equivalent non-compressed kind due to comptag allocation failure.  It's
+also broken for the needs of VM_BIND/Vulkan.
 
-Signed-off-by: Mary Guillemard <mary@mary.zone>
-Co-developed-by: Mohamed Ahmed <mohamedahmedegypt2001@gmail.com>
+Remove the code entirely to make way for supporting compression on GPUs
+that support GSM-RM.
+
+Signed-off-by: Ben Skeggs <bskeggs@nvidia.com>
 Signed-off-by: Mohamed Ahmed <mohamedahmedegypt2001@gmail.com>
 Reviewed-by: Lyude Paul <lyude@redhat.com>
 Reviewed-by: James Jones <jajones@nvidia.com>
 ---
- drivers/gpu/drm/nouveau/nouveau_uvmm.c | 60 +++++++++++++++++++++++++-
- 1 file changed, 58 insertions(+), 2 deletions(-)
+ .../drm/nouveau/nvkm/subdev/mmu/vmmgp100.c    | 39 ++-----------------
+ .../drm/nouveau/nvkm/subdev/mmu/vmmgp10b.c    |  4 +-
+ 2 files changed, 6 insertions(+), 37 deletions(-)
 
-diff --git a/drivers/gpu/drm/nouveau/nouveau_uvmm.c b/drivers/gpu/drm/nouveau/nouveau_uvmm.c
-index 2cd0835b05e8..acc1556d1ef4 100644
---- a/drivers/gpu/drm/nouveau/nouveau_uvmm.c
-+++ b/drivers/gpu/drm/nouveau/nouveau_uvmm.c
-@@ -454,6 +454,62 @@ op_unmap_prepare_unwind(struct drm_gpuva *va)
- 	drm_gpuva_insert(va->vm, va);
- }
+diff --git a/drivers/gpu/drm/nouveau/nvkm/subdev/mmu/vmmgp100.c b/drivers/gpu/drm/nouveau/nvkm/subdev/mmu/vmmgp100.c
+index 851fd847a2a9..ecff1096a1bb 100644
+--- a/drivers/gpu/drm/nouveau/nvkm/subdev/mmu/vmmgp100.c
++++ b/drivers/gpu/drm/nouveau/nvkm/subdev/mmu/vmmgp100.c
+@@ -21,9 +21,7 @@
+  */
+ #include "vmm.h"
  
-+static bool
-+op_map_aligned_to_page_shift(const struct drm_gpuva_op_map *op, u8 page_shift)
-+{
-+	u64 non_page_bits = (1ULL << page_shift) - 1;
-+
-+	return (op->va.addr & non_page_bits) == 0 &&
-+	       (op->va.range & non_page_bits) == 0 &&
-+	       (op->gem.offset & non_page_bits) == 0;
-+}
-+
-+static u8
-+select_page_shift(struct nouveau_uvmm *uvmm, struct drm_gpuva_op_map *op)
-+{
-+	struct nouveau_bo *nvbo = nouveau_gem_object(op->gem.obj);
-+
-+	/* nouveau_bo_fixup_align() guarantees that the page size will be aligned
-+	 * for most cases, but it can't handle cases where userspace allocates with
-+	 * a size and then binds with a smaller granularity. So in order to avoid
-+	 * breaking old userspace, we need to ensure that the VA is actually
-+	 * aligned before using it, and if it isn't, then we downgrade to the first
-+	 * granularity that will fit, which is optimal from a correctness and
-+	 * performance perspective.
-+	 */
-+	if (op_map_aligned_to_page_shift(op, nvbo->page))
-+		return nvbo->page;
-+
-+	struct nouveau_mem *mem = nouveau_mem(nvbo->bo.resource);
-+	struct nvif_vmm *vmm = &uvmm->vmm.vmm;
-+	int i;
-+
-+	/* If the given granularity doesn't fit, let's find one that will fit. */
-+	for (i = 0; i < vmm->page_nr; i++) {
-+		/* Ignore anything that is bigger or identical to the BO preference. */
-+		if (vmm->page[i].shift >= nvbo->page)
-+			continue;
-+
-+		/* Skip incompatible domains. */
-+		if ((mem->mem.type & NVIF_MEM_VRAM) && !vmm->page[i].vram)
-+			continue;
-+		if ((mem->mem.type & NVIF_MEM_HOST) &&
-+		    (!vmm->page[i].host || vmm->page[i].shift > PAGE_SHIFT))
-+			continue;
-+
-+		/* If it fits, return the proposed shift. */
-+		if (op_map_aligned_to_page_shift(op, vmm->page[i].shift))
-+			return vmm->page[i].shift;
-+	}
-+
-+	/* If we get here then nothing can reconcile the requirements. This should never
-+	 * happen.
-+	 */
-+	dev_warn_once(op->gem.obj->dev, "Could not find an appropriate page size.\n");
-+
-+	return PAGE_SHIFT;
-+}
-+
- static void
- nouveau_uvmm_sm_prepare_unwind(struct nouveau_uvmm *uvmm,
- 			       struct nouveau_uvma_prealloc *new,
-@@ -506,7 +562,7 @@ nouveau_uvmm_sm_prepare_unwind(struct nouveau_uvmm *uvmm,
- 			if (vmm_get_range)
- 				nouveau_uvmm_vmm_put(uvmm, vmm_get_start,
- 						     vmm_get_range,
--						     PAGE_SHIFT);
-+						     select_page_shift(uvmm, &op->map));
- 			break;
+-#include <core/client.h>
+ #include <subdev/fb.h>
+-#include <subdev/ltc.h>
+ #include <subdev/timer.h>
+ #include <engine/gr.h>
+ 
+@@ -117,8 +115,6 @@ gp100_vmm_pgt_pte(struct nvkm_vmm *vmm, struct nvkm_mmu_pt *pt,
+ {
+ 	u64 data = (addr >> 4) | map->type;
+ 
+-	map->type += ptes * map->ctag;
+-
+ 	while (ptes--) {
+ 		VMM_WO064(pt, vmm, ptei++ * 8, data);
+ 		data += map->next;
+@@ -142,7 +138,6 @@ gp100_vmm_pgt_dma(struct nvkm_vmm *vmm, struct nvkm_mmu_pt *pt,
+ 		while (ptes--) {
+ 			const u64 data = (*map->dma++ >> 4) | map->type;
+ 			VMM_WO064(pt, vmm, ptei++ * 8, data);
+-			map->type += map->ctag;
  		}
- 		case DRM_GPUVA_OP_REMAP: {
-@@ -599,7 +655,7 @@ op_map_prepare(struct nouveau_uvmm *uvmm,
+ 		nvkm_done(pt->memory);
+ 		return;
+@@ -200,8 +195,6 @@ gp100_vmm_pd0_pte(struct nvkm_vmm *vmm, struct nvkm_mmu_pt *pt,
+ {
+ 	u64 data = (addr >> 4) | map->type;
  
- 	uvma->region = args->region;
- 	uvma->kind = args->kind;
--	uvma->page_shift = PAGE_SHIFT;
-+	uvma->page_shift = select_page_shift(uvmm, op);
+-	map->type += ptes * map->ctag;
+-
+ 	while (ptes--) {
+ 		VMM_WO128(pt, vmm, ptei++ * 0x10, data, 0ULL);
+ 		data += map->next;
+@@ -411,8 +404,6 @@ gp100_vmm_valid(struct nvkm_vmm *vmm, void *argv, u32 argc,
+ 		struct gp100_vmm_map_vn vn;
+ 		struct gp100_vmm_map_v0 v0;
+ 	} *args = argv;
+-	struct nvkm_device *device = vmm->mmu->subdev.device;
+-	struct nvkm_memory *memory = map->memory;
+ 	u8  kind, kind_inv, priv, ro, vol;
+ 	int kindn, aper, ret = -ENOSYS;
+ 	const u8 *kindm;
+@@ -450,30 +441,8 @@ gp100_vmm_valid(struct nvkm_vmm *vmm, void *argv, u32 argc,
+ 	}
  
- 	drm_gpuva_map(&uvmm->base, &uvma->va, op);
+ 	if (kindm[kind] != kind) {
+-		u64 tags = nvkm_memory_size(memory) >> 16;
+-		if (aper != 0 || !(page->type & NVKM_VMM_PAGE_COMP)) {
+-			VMM_DEBUG(vmm, "comp %d %02x", aper, page->type);
+-			return -EINVAL;
+-		}
+-
+-		if (!map->no_comp) {
+-			ret = nvkm_memory_tags_get(memory, device, tags,
+-						   nvkm_ltc_tags_clear,
+-						   &map->tags);
+-			if (ret) {
+-				VMM_DEBUG(vmm, "comp %d", ret);
+-				return ret;
+-			}
+-		}
+-
+-		if (!map->no_comp && map->tags->mn) {
+-			tags = map->tags->mn->offset + (map->offset >> 16);
+-			map->ctag |= ((1ULL << page->shift) >> 16) << 36;
+-			map->type |= tags << 36;
+-			map->next |= map->ctag;
+-		} else {
+-			kind = kindm[kind];
+-		}
++		/* Revert to non-compressed kind. */
++		kind = kindm[kind];
+ 	}
  
+ 	map->type |= BIT(0);
+@@ -592,8 +561,8 @@ gp100_vmm = {
+ 		{ 47, &gp100_vmm_desc_16[4], NVKM_VMM_PAGE_Sxxx },
+ 		{ 38, &gp100_vmm_desc_16[3], NVKM_VMM_PAGE_Sxxx },
+ 		{ 29, &gp100_vmm_desc_16[2], NVKM_VMM_PAGE_Sxxx },
+-		{ 21, &gp100_vmm_desc_16[1], NVKM_VMM_PAGE_SVxC },
+-		{ 16, &gp100_vmm_desc_16[0], NVKM_VMM_PAGE_SVxC },
++		{ 21, &gp100_vmm_desc_16[1], NVKM_VMM_PAGE_SVxx },
++		{ 16, &gp100_vmm_desc_16[0], NVKM_VMM_PAGE_SVxx },
+ 		{ 12, &gp100_vmm_desc_12[0], NVKM_VMM_PAGE_SVHx },
+ 		{}
+ 	}
+diff --git a/drivers/gpu/drm/nouveau/nvkm/subdev/mmu/vmmgp10b.c b/drivers/gpu/drm/nouveau/nvkm/subdev/mmu/vmmgp10b.c
+index e081239afe58..5791d134962b 100644
+--- a/drivers/gpu/drm/nouveau/nvkm/subdev/mmu/vmmgp10b.c
++++ b/drivers/gpu/drm/nouveau/nvkm/subdev/mmu/vmmgp10b.c
+@@ -34,8 +34,8 @@ gp10b_vmm = {
+ 		{ 47, &gp100_vmm_desc_16[4], NVKM_VMM_PAGE_Sxxx },
+ 		{ 38, &gp100_vmm_desc_16[3], NVKM_VMM_PAGE_Sxxx },
+ 		{ 29, &gp100_vmm_desc_16[2], NVKM_VMM_PAGE_Sxxx },
+-		{ 21, &gp100_vmm_desc_16[1], NVKM_VMM_PAGE_SxHC },
+-		{ 16, &gp100_vmm_desc_16[0], NVKM_VMM_PAGE_SxHC },
++		{ 21, &gp100_vmm_desc_16[1], NVKM_VMM_PAGE_SxHx },
++		{ 16, &gp100_vmm_desc_16[0], NVKM_VMM_PAGE_SxHx },
+ 		{ 12, &gp100_vmm_desc_12[0], NVKM_VMM_PAGE_SxHx },
+ 		{}
+ 	}
 -- 
 2.51.1
 
