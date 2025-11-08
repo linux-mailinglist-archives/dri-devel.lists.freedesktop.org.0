@@ -2,132 +2,79 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4AC96C4304E
-	for <lists+dri-devel@lfdr.de>; Sat, 08 Nov 2025 18:00:56 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7D9C9C432E0
+	for <lists+dri-devel@lfdr.de>; Sat, 08 Nov 2025 19:05:32 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7022F10E1E9;
-	Sat,  8 Nov 2025 17:00:53 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CBA9E10E147;
+	Sat,  8 Nov 2025 18:05:28 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="W8zryxwm";
-	dkim=pass (2048-bit key; unprotected) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="NzTkGw5L";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="X4S+y831";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
- [205.220.168.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id EE18B10E1D3
- for <dri-devel@lists.freedesktop.org>; Sat,  8 Nov 2025 17:00:51 +0000 (UTC)
-Received: from pps.filterd (m0279866.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id
- 5A88PaCZ1246446
- for <dri-devel@lists.freedesktop.org>; Sat, 8 Nov 2025 17:00:51 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
- cc:content-type:date:from:in-reply-to:message-id:mime-version
- :references:subject:to; s=qcppdkim1; bh=SymD3woxruHShZlmzgGQ9Ao5
- sdm1n6xaKEBnyNrZI5I=; b=W8zryxwmyyS0uVOxyZdcWyJS7fEeS3r+4YSWjwAH
- 0XsaGqv6tzTMZ3Pco9DdQqZSl2SDWFk+/GcF1CEWld8UTkEY7RcdX9bKPUdaI2ik
- MSIKK6If78PXQokl1VbgYqrE5UvCY+1p9ZJBIaWBsgSb6OftqJwRpa9N+iuLz5vB
- avPoz9QgcFuCQL2t785LjXPrOr1AK8mCQqaSlh1MolBFH71HQZrkAHq1hHm+/gCU
- I0F8y/Nkh2WkGUffdAXDrjwTEUKkD8SFX3r0sqWdBpsRrZ9yPnS5lTYruEkH1hSU
- eYtSU1MHNq9GN6+HMgz5HbHRaH0yn9NpB+Hwr5A+7khPgg==
-Received: from mail-qt1-f200.google.com (mail-qt1-f200.google.com
- [209.85.160.200])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4a9y56runc-1
- (version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
- for <dri-devel@lists.freedesktop.org>; Sat, 08 Nov 2025 17:00:51 +0000 (GMT)
-Received: by mail-qt1-f200.google.com with SMTP id
- d75a77b69052e-4ed6ceab125so55021261cf.1
- for <dri-devel@lists.freedesktop.org>; Sat, 08 Nov 2025 09:00:51 -0800 (PST)
+Received: from mail-pl1-f182.google.com (mail-pl1-f182.google.com
+ [209.85.214.182])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 92F5C10E1F1
+ for <dri-devel@lists.freedesktop.org>; Sat,  8 Nov 2025 17:41:05 +0000 (UTC)
+Received: by mail-pl1-f182.google.com with SMTP id
+ d9443c01a7336-297d4a56f97so10483005ad.1
+ for <dri-devel@lists.freedesktop.org>; Sat, 08 Nov 2025 09:41:05 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=oss.qualcomm.com; s=google; t=1762621250; x=1763226050;
- darn=lists.freedesktop.org; 
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
- bh=SymD3woxruHShZlmzgGQ9Ao5sdm1n6xaKEBnyNrZI5I=;
- b=NzTkGw5LqsizL6ssv3i86nmILDQ95960u1JZqF/rTg47inBLvXPjcpboWIOtuLcHAQ
- 4XMgPyuugaafTwRcM+cHDKDrpQmjy+fHFxhtfCblvO4BS1T22Erm/73PeQRNXi/l6Kry
- tEYaJIK30IsoQMX1uKkaC3F/QDDUPmD9Mcv7+e9qboHznr2EdFLkEbQ/CX0Y4yspARDV
- O4jeM2Mc7TERQgLKl1dMJXmeIy21qtL97azKYkKAn/tlW5yNKFJFh4pzDslevT3+qaaP
- qIcjf6ffb/AndCRFKZRaM4JlxTviEVw3MekfuaV/7Bxw9IOvNULaFhqFR6d+nXJQMp9d
- YlSw==
+ d=gmail.com; s=20230601; t=1762623665; x=1763228465; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=KjRGzSVrFGVIo2LvU9W8/+cuvbxA+DYtLbsyShtQ9uA=;
+ b=X4S+y831LmQvbuFLMeRjzJ67opMbib5XzJeBTK2/JB+B4U0FlTEstj/BKY7Xr3grJ8
+ SC7t5IsVutulrGioJ9u7/k5D8M84PL0ZvDbbvm/r8xvB5UhiZJHR5eXPl0mqkWXpyHpj
+ J1Xz8NExfOdtxpLVPr7lUqMjtiZ8SZe9AY3n9oR9UIKYP3GZlUobbHYfd2g1dJrMQEWg
+ lJjARS2DQ+AaoCODqK201PDB+KQONi4BOSi4exvQoMPlyADQhg+/EVWHdsjYRannQh2E
+ 32W6HTHwJ3AS4ga+x7X3sF+7mQZ0EcAHyFq7vh8fx+zIhpmNMY8bY8RkIG2z6rTAdd6D
+ QWTA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1762621250; x=1763226050;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=SymD3woxruHShZlmzgGQ9Ao5sdm1n6xaKEBnyNrZI5I=;
- b=NwG4N0SpeU08TN0eGSX521vG2syBUs9pUgpP8uLb4w0X/UOrsuJ2Uy/o+mbaGdSsKb
- Ftd0dzThL9/Pfb+4zUJ/YNh6i7Z1CYSZoQoh5LNMZb+eI5qnCwYpcYFkLEfjMyEW5ok6
- 4db3/A9B0MgB+mk9DTTzXD/RZTiHfw81nD137tjoFTg6BZH3Cnp/aODs7HSKbJf5s14N
- FFAJXnY/AtN2QRZCWIH0/JeYeSpzbC2jU+0rbWRrXpxMa9XEasTBx7GqWX3aGQcv0M7m
- hadfJ9cKFlWT+O6YbqDX5IzIShrb6TXhtjNbxMV57a0U3e8iJFyx93WyWwoYuZXWEMBe
- BU7A==
-X-Gm-Message-State: AOJu0Yz7HxEcvCO1Anz3x9Ihk23C6XXO3sldOB3ihnU0Dbj7i1ZHYz7M
- Gsk2DRCifokLNdM9/ud5c+0fSLlUGuF/D3f6ZA0F6SHFMGdAflAzUezF+YeNNNRnhgx/2mwdK4E
- SqbqpK01u9w6cJIySkk+Z1KySYggR3hid4EdULFLk3mmol26CL+ufQYz2E6EdCeXeafc1ZjE=
-X-Gm-Gg: ASbGncswHwzsAjIGskWr7/oEzc9QlWRCXKfR5Xt8tiFOdZIffSCxOdMC4Pv+/APPOp9
- kdiGZjLq5m8M6GfEC/Xkt5mXNGAXIafgXGp62c5isu/4L7xDeUJqyysjyj53JyUCgjfMFgULEga
- KGpvZLMknvDoYBkN4iKnUjw2lLfaKUYdedigv/sTzM5AdakEugolDcJbBstTcL0nMH0GjvvPoio
- Hzwm2GlVmRzxK07eoYk2XdOCFXDYzkw67N1qOHUkQYP+iETrT/+cOW3B+gE9gPXTY+O6Dh3w2Af
- pxOQ1+L/NIaqth9vlu6si5d4mC9+71u2rALMu1yAfrpxjGoKLzWBJNetlBDUcu2mNcLNZ85q1Bm
- NA7t9rAjjiuJ47apBqDH3gRI1mj8XPOuJnI9F6ft43RUE6LoSDoSq6WSnqJmuoyuXvC+WEM3MoS
- mbC8QowpNYW3hq
-X-Received: by 2002:ac8:5acd:0:b0:4ed:43c4:5e79 with SMTP id
- d75a77b69052e-4eda4e7bf1cmr44278711cf.12.1762621250277; 
- Sat, 08 Nov 2025 09:00:50 -0800 (PST)
-X-Google-Smtp-Source: AGHT+IF1ot36r/5empkRXCspZfcIecbvIzABkFl724CS94Vw2gQkEMA6LYJRcTmCK9inn074sbu6tw==
-X-Received: by 2002:ac8:5acd:0:b0:4ed:43c4:5e79 with SMTP id
- d75a77b69052e-4eda4e7bf1cmr44277961cf.12.1762621249762; 
- Sat, 08 Nov 2025 09:00:49 -0800 (PST)
-Received: from umbar.lan
- (2001-14ba-a0c3-3a00-264b-feff-fe8b-be8a.rev.dnainternet.fi.
- [2001:14ba:a0c3:3a00:264b:feff:fe8b:be8a])
+ d=1e100.net; s=20230601; t=1762623665; x=1763228465;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=KjRGzSVrFGVIo2LvU9W8/+cuvbxA+DYtLbsyShtQ9uA=;
+ b=Rl8+IUq+P/5YS+uifgNt0YUQCKcq2pZkHyRjWfhnVk26iRnfRC63oFh9Xt4J0My9n5
+ b3oCt0IVqLqef+eU6ZwOrG0112F4LilDAmbeALHdJDWruwbhacZnpHxIluusx3by4bZN
+ EBUIHCHmW6rSsGr3owXcia8/0b+FUP8t/MuIV4tcTiiyaXwh8zqPH2EUcmrYC61tV2+G
+ 0BgTUaWs5yUOIM5hMcL3KLA9D76kN313pro+LAFuE3KfG6tJjOkFtxk0PiAc22/VFoxp
+ 4w4wWvGpSwPTNcBl8dcq4VIxpJJ8o/uvOnan4fpFNy8Sznte+RVLLj7Mu8X05LgxISje
+ X0xw==
+X-Gm-Message-State: AOJu0YzyNfWjBQcJXZcX4hFy622Ll27GK8tN3jgQZteyMuQdumKNzRsH
+ QW6P5Nqz7LjFuYYAOF9qQYxu/JiHyZ3dTpKLAZ4aBmPoKTOowsQRH1SwX5iUVw==
+X-Gm-Gg: ASbGnctUfyiTMku9I5K60poQzfNLLsY5IOkww3LveJJZPYznannrhGO+kmKyoEONuvd
+ pHLFrrTIna5hJ4c4VHOo31gTtedUfbVe3vv5jy6NBp1NGISUdHMOnuYxuCwZf4YxS04u9rHCJ+J
+ u6RLLvd7lQxJ8D+NXSedJKWmfPfvLlfi2WmSioVvjGVbctrQc2GF+UZUoNnJmK6zV4drJeNy/bN
+ R4V6KD/cl2zitvPqMKMc63dSAVVXn993Etd6QQ4hat+8ZX/JSIxC1L+4ijKVi9aWcUOIaq81fTA
+ GuiAl6sKYpLiHQlaCTt9g55Ou0Rolr262PJcHH71Ym6pNSqbfEMY5jnye7hCtRoHAjYh+aGJz8i
+ 24pORNUf8C/P/D0xwGRfhUXT0e0++DeWxYU0TyKi6twWW4fA=
+X-Google-Smtp-Source: AGHT+IGHulV1SjTVkaEnfmlUppgot/eDXD6crirZT1rmC/ueBEuHwHH/akpWt3ntSVv9RzINXXUgwA==
+X-Received: by 2002:a17:902:f54d:b0:295:7423:4be2 with SMTP id
+ d9443c01a7336-297e540d866mr38620785ad.3.1762623664852; 
+ Sat, 08 Nov 2025 09:41:04 -0800 (PST)
+Received: from ryzen ([2601:644:8000:8e26::ea0])
  by smtp.gmail.com with ESMTPSA id
- 2adb3069b0e04-5944a01a67asm2305233e87.38.2025.11.08.09.00.48
+ d9443c01a7336-29651c740a9sm94585115ad.53.2025.11.08.09.41.03
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 08 Nov 2025 09:00:49 -0800 (PST)
-Date: Sat, 8 Nov 2025 19:00:47 +0200
-From: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
-To: Jani Nikula <jani.nikula@intel.com>
-Cc: dri-devel@lists.freedesktop.org, intel-gfx@lists.freedesktop.org,
- intel-xe@lists.freedesktop.org, ville.syrjala@linux.intel.com,
- Rob Clark <robin.clark@oss.qualcomm.com>,
- Dmitry Baryshkov <lumag@kernel.org>,
- Abhinav Kumar <abhinav.kumar@linux.dev>,
- Jessica Zhang <jesszhan0024@gmail.com>, Sean Paul <sean@poorly.run>,
- Marijn Suijten <marijn.suijten@somainline.org>,
- linux-arm-msm@vger.kernel.org, freedreno@lists.freedesktop.org
-Subject: Re: [PATCH 3/6] drm/msm: use drm_crtc_vblank_waitqueue()
-Message-ID: <hvbwatl37zseui27epzns5btxdzrjehamtua34ja6flenjxz3q@ac57pl6niv62>
-References: <cover.1762513240.git.jani.nikula@intel.com>
- <5917fd537f4a775a1c135a68f294df3917980943.1762513240.git.jani.nikula@intel.com>
+ Sat, 08 Nov 2025 09:41:04 -0800 (PST)
+From: Rosen Penev <rosenp@gmail.com>
+To: dri-devel@lists.freedesktop.org
+Cc: Harry Wentland <harry.wentland@amd.com>, Leo Li <sunpeng.li@amd.com>,
+ Rodrigo Siqueira <siqueira@igalia.com>,
+ Alex Deucher <alexander.deucher@amd.com>,
+ =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ amd-gfx@lists.freedesktop.org (open list:AMD DISPLAY CORE),
+ linux-kernel@vger.kernel.org (open list)
+Subject: [PATCH] drm: amd: display: shrink struct members
+Date: Sat,  8 Nov 2025 09:40:47 -0800
+Message-ID: <20251108174047.7029-1-rosenp@gmail.com>
+X-Mailer: git-send-email 2.51.2
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <5917fd537f4a775a1c135a68f294df3917980943.1762513240.git.jani.nikula@intel.com>
-X-Proofpoint-GUID: -_hLtKIsjrKGeeDIf6A8xZXrJRTvhn8J
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUxMTA4MDEzNiBTYWx0ZWRfXxMPacQHK+Nlj
- /+ipl+u7Fw98UJvTYGCNZywSW83hWdmuLqe5vNrww2aExPOMTl617o/wvwVonnJXutN/8z3p13y
- 86zepmpgyZc6oXEwb+8U8lP+choA52UTH+shiQW1UQOo1DGhGMTTUTaTPXF0VOCT8WrzQw2t9Eu
- WoNMca+NAJh17w1OVDzqZpjwzae0/E4P8TesRBPOeTkBj972Kt9PWsB/WPSNRQe/b4NdRbsB/D4
- Aiq3hS1qzlCCYqXxr+IhFEl8AsZw5eM17wuuUeedQNyLR7KpLdTjJIaOefQQlF6IM4BPcxXyixu
- feqBXdjp7TqLtSC2VR4cf7Lo0NEMdolEYCvkr56WZYkF3YYpwSPgWBAZ/uoVuzbCEYxn1i+fu/m
- yb+5nl2mB6U5RS0JKxzHWAhjJ8ki+A==
-X-Authority-Analysis: v=2.4 cv=V8xwEOni c=1 sm=1 tr=0 ts=690f7743 cx=c_pps
- a=JbAStetqSzwMeJznSMzCyw==:117 a=xqWC_Br6kY4A:10 a=kj9zAlcOel0A:10
- a=6UeiqGixMTsA:10 a=s4-Qcg_JpJYA:10 a=VkNPw1HP01LnGYTKEx00:22
- a=EUspDBNiAAAA:8 a=VwQbUJbxAAAA:8 a=pGLkceISAAAA:8 a=tVI0ZWmoAAAA:8
- a=e5mUnYsNAAAA:8 a=QyXUC8HyAAAA:8 a=32IxprGEISmnaGXNLfEA:9 a=CjuIK1q_8ugA:10
- a=uxP6HrT_eTzRwkO_Te1X:22 a=-BPWgnxRz2uhmvdm1NTO:22 a=Vxmtnl_E_bksehYqCbjh:22
-X-Proofpoint-ORIG-GUID: -_hLtKIsjrKGeeDIf6A8xZXrJRTvhn8J
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.9,FMLib:17.12.100.49
- definitions=2025-11-08_04,2025-11-06_01,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- clxscore=1015 suspectscore=0 malwarescore=0 impostorscore=0 spamscore=0
- phishscore=0 adultscore=0 lowpriorityscore=0 priorityscore=1501 bulkscore=0
- classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.22.0-2510240001 definitions=main-2511080136
+Content-Transfer-Encoding: 8bit
+X-Mailman-Approved-At: Sat, 08 Nov 2025 18:05:27 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -143,32 +90,82 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, Nov 07, 2025 at 01:04:57PM +0200, Jani Nikula wrote:
-> We have drm_crtc_vblank_waitqueue() to get the wait_queue_head_t pointer
-> for a vblank. Use it instead of poking at dev->vblank[] directly.
-> 
-> Due to the macro maze of wait_event_timeout() that uses the address-of
-> operator on the argument, we have to pass it in with the indirection
-> operator.
-> 
-> Cc: Rob Clark <robin.clark@oss.qualcomm.com>
-> Cc: Dmitry Baryshkov <lumag@kernel.org>
-> Cc: Abhinav Kumar <abhinav.kumar@linux.dev>
-> Cc: Jessica Zhang <jesszhan0024@gmail.com>
-> Cc: Sean Paul <sean@poorly.run>
-> Cc: Marijn Suijten <marijn.suijten@somainline.org>
-> Cc: linux-arm-msm@vger.kernel.org
-> Cc: freedreno@lists.freedesktop.org
-> Signed-off-by: Jani Nikula <jani.nikula@intel.com>
-> ---
->  drivers/gpu/drm/msm/disp/mdp4/mdp4_crtc.c | 3 ++-
->  drivers/gpu/drm/msm/disp/mdp5/mdp5_crtc.c | 3 ++-
->  2 files changed, 4 insertions(+), 2 deletions(-)
-> 
+On a 32-bit ARM system, the audio_decoder struct ends up being too large
+for dp_retrain_link_dp_test.
 
-Acked-by: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
+link_dp_cts.c:157:1: error: the frame size of 1328 bytes is larger than
+1280 bytes [-Werror=frame-larger-than=]
 
+This is mitigated by shrinking the members of the struct and avoids
+having to deal with dynamic allocation.
 
+feed_back_divider is assigned but otherwise unused. Remove both.
+
+pixel_repetition looks like it should be a bool since it's only ever
+assigned to 1. But there are checks for 2 and 4. Reduce to uint8_t.
+
+Remove ss_percentage_divider. Unused.
+
+Shrink refresh_rate as it gets assigned to at most a 3 digit integer
+value.
+
+Signed-off-by: Rosen Penev <rosenp@gmail.com>
+---
+ .../drm/amd/display/dc/hwss/dce110/dce110_hwseq.c    |  3 ---
+ drivers/gpu/drm/amd/display/include/audio_types.h    | 12 +++++-------
+ 2 files changed, 5 insertions(+), 10 deletions(-)
+
+diff --git a/drivers/gpu/drm/amd/display/dc/hwss/dce110/dce110_hwseq.c b/drivers/gpu/drm/amd/display/dc/hwss/dce110/dce110_hwseq.c
+index 3005115c8505..852c117fe5b6 100644
+--- a/drivers/gpu/drm/amd/display/dc/hwss/dce110/dce110_hwseq.c
++++ b/drivers/gpu/drm/amd/display/dc/hwss/dce110/dce110_hwseq.c
+@@ -1480,9 +1480,6 @@ void build_audio_output(
+ 						state->clk_mgr);
+ 	}
+ 
+-	audio_output->pll_info.feed_back_divider =
+-			pipe_ctx->pll_settings.feedback_divider;
+-
+ 	audio_output->pll_info.dto_source =
+ 		translate_to_dto_source(
+ 			pipe_ctx->stream_res.tg->inst + 1);
+diff --git a/drivers/gpu/drm/amd/display/include/audio_types.h b/drivers/gpu/drm/amd/display/include/audio_types.h
+index e4a26143f14c..6699ad4fa825 100644
+--- a/drivers/gpu/drm/amd/display/include/audio_types.h
++++ b/drivers/gpu/drm/amd/display/include/audio_types.h
+@@ -47,15 +47,15 @@ struct audio_crtc_info {
+ 	uint32_t h_total;
+ 	uint32_t h_active;
+ 	uint32_t v_active;
+-	uint32_t pixel_repetition;
+ 	uint32_t requested_pixel_clock_100Hz; /* in 100Hz */
+ 	uint32_t calculated_pixel_clock_100Hz; /* in 100Hz */
+-	uint32_t refresh_rate;
++	uint32_t dsc_bits_per_pixel;
++	uint32_t dsc_num_slices;
+ 	enum dc_color_depth color_depth;
+ 	enum dc_pixel_encoding pixel_encoding;
++	uint16_t refresh_rate;
++	uint8_t pixel_repetition;
+ 	bool interlaced;
+-	uint32_t dsc_bits_per_pixel;
+-	uint32_t dsc_num_slices;
+ };
+ struct azalia_clock_info {
+ 	uint32_t pixel_clock_in_10khz;
+@@ -78,11 +78,9 @@ enum audio_dto_source {
+ 
+ struct audio_pll_info {
+ 	uint32_t audio_dto_source_clock_in_khz;
+-	uint32_t feed_back_divider;
++	uint32_t ss_percentage;
+ 	enum audio_dto_source dto_source;
+ 	bool ss_enabled;
+-	uint32_t ss_percentage;
+-	uint32_t ss_percentage_divider;
+ };
+ 
+ struct audio_channel_associate_info {
 -- 
-With best wishes
-Dmitry
+2.51.2
+
