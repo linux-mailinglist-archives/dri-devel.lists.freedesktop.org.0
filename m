@@ -2,80 +2,161 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 25985C47C1D
-	for <lists+dri-devel@lfdr.de>; Mon, 10 Nov 2025 17:04:45 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6F514C47C77
+	for <lists+dri-devel@lfdr.de>; Mon, 10 Nov 2025 17:08:25 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E4F2510E426;
-	Mon, 10 Nov 2025 16:04:42 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3D71C10E06F;
+	Mon, 10 Nov 2025 16:08:23 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=aol.com header.i=@aol.com header.b="RPqvduyt";
+	dkim=pass (1024-bit key; unprotected) header.d=amd.com header.i=@amd.com header.b="yPSS3aRN";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sonic308-55.consmr.mail.gq1.yahoo.com
- (sonic308-55.consmr.mail.gq1.yahoo.com [98.137.68.31])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D14F310E426
- for <dri-devel@lists.freedesktop.org>; Mon, 10 Nov 2025 16:04:41 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=aol.com; s=a2048;
- t=1762790681; bh=Pyxxz3sJeIKzQj7AY7hI1qzmmPZh5XlDzRXwvWT7J00=;
- h=From:To:Cc:Subject:Date:References:From:Subject:Reply-To;
- b=RPqvduytdK2Lp8OXw17TPsjWoEO3B+xBJ5Gj+f//MOlGiNwm8xj7OAaglcfAwtvxkDo5SBaJ4JQOwzMJTrEZW07d9goZStbN4Ff43piT5eGtDUyU8Hg+tbZZJOlhXkogIqeaGervPy4hbBXqEgs7fGMU6lyzvgrOwNuL9v9rxIdD/T5RO3LtQlcqprEPm7V2206k8kcAoi2ro8hhaYL+oW0Uefq9IjGuzIOVGbaLwyvpa3bAuzPZGarGMCWFrfIRfJFG08ql49z0rUmTr87lhA9wBfSySnfTYsPlH44ZvlWZADsPh/fsOE3+ryEDJ0LdTTolMFHRWx/Xp1fwoyt5Aw==
-X-SONIC-DKIM-SIGN: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yahoo.com; s=s2048;
- t=1762790681; bh=lWlMtPp2szLmmF8Q76XS9Zs2866k12VmQKcj6HbM8Fv=;
- h=X-Sonic-MF:From:To:Subject:Date:From:Subject;
- b=uLef4tFbadm7ccBhigsaqfDWCkvdFSWj2kSXDmAbWoiUSRrlkTRW6tXWIl3uF7Ycuz3iGQDwkw3pGh+5/+/CqmxgBS7PbdT8FQJI3Jdp8oI3BEWUMwPnoVmA0+deqhd6ZvkC4iFf+UzuNy2sf6pbePZcNzYlhaghC5HUyS3EJxFP026O0mEo98nPF5szJtg+F+/A9vtQH0cxZPjYp+mL4UzQ3Bu4y4FRNW3N+7rD7Gjxenc+Aj/D42P6nrHln48Xi7I4EB49IUkfOCKNeqAjX/Lpdtj1JpR8Rru4feqlfxdcJRZbxx/jDvje2zSRLNPsdCFU2GF0rcf+y2gvD+B5qQ==
-X-YMail-OSG: uNTLnVoVM1nsWakd2XuyHpGFBC6ztzpWSBNdJRreqGnJOsBH9jse7eHPBCNm77R
- O8UTT4vWu9y4Pzvo8BqIPA_77VEu27QepYG0Ka1RwMeeL78WcO2SsWM_UW99E1tYoDLKRx.1FLCc
- FpF4eCRyjm2BJ3HjN2lKi7pCvjGDqKawoAS0sR4giBKEA0m8WBH3.p86QX_d7SkecTbCnDKsD7WN
- KflVp2kFJiZRoodJujnfMUADwGoW86gmgArtJDJYTst_bY6N4IoKDQYNm1a1g_uy28khPAUxfMAp
- 2FcQgODZeAMJaAtFJ2ZvdwUfHpdIaWufncKu.Xakjv3lYcRKas_T7KtB8hMI_g.4IxCFcFEAXTVB
- jkM2KvdzZ8qzxXTsri5ceWIIve18Qrwcur4cRxqZN.ExivZIE30btTlMFVrxgFZjtkOqkacj3Y6N
- eC5mdZCYqMm3nRWNZctlk0M0qG59MiXDOSCBv_0IoHj2nxCrVum3j3J3ohk_zhhPu4xZ.eP0N7z9
- LZNTzR4gb3M2wqJ6ls0OXNXdpfpQrDWjlVElnLFWTmdEs6hb39hs.wLm2sbzoR8oVgnPAbNtgZ8V
- x5b.PJcGBuXuH2sjSZDGcZfFdSCd_GgTUMPmMhEF2dbVJiaX5jiox8GwxIYQacYBIt8QoYxrIXkA
- R8nRhpDaxsKYLIoPXKnyUqMVWo3L1yGou8zciZzkLJQGFUAnQfL4gGAkIO0m66clcFQ6HNgI.Eae
- GYUjwpTrOHY8rgtWQl83E.kuB737phlg_uvriLRXuwWx4qhYkj1lnTaZt0GinDfnp_IEUY5IddkV
- inGqmMAzRW7PAF.hNkF6qTTxaunDT.TywAK2gyWln1LTRJpcbaQ4eURz8LMCty5fGzMS_gQllyts
- IK14DVxu6rDWGtCZ8udlTsRRAX_kGpxlQilmDIUojOV1CVipzUjLs5RfnP4nkARcUjwNZcjoF6BF
- Nh73U6oeaydHJtbSZGfq.DiRc.ioIR8B7XgUgP.cJ_nnkPIZJtIjsN7Y8NmqIvKq9CaY3nQjvaj4
- a808vaBeQ4RTvTJ_TtpPZqwMWiRxsN8jXvC4hK2gAc5_U4EAIN6zkHSSGJdgvWJKusJuszCyW577
- Neg3Paezhxp_aY8NvNEvIcgCeaChOF4z8DOfB.CDyFeyrvuMNFGCUi3X8RbglS2aNyzlDEwFoVXb
- 1YhZkQI5yg5dbDHoYkzAVsvpbQrkm0sbHVXnPHIFEmyCQlYRVPifvELPhFwevNH_Z8C8D448umPL
- KCvto73Rn4NmAq7dbVBqsjUERuCfsG5hFFX9Duqzy0Ggk2WEh4eJd89qEPXhAE0WIasqR5PPHkZH
- E1YWu7yUIHmGCUtfWQUJTwc3smxCs08.zFJq6zImli87dsQEJ5b7iERaMJFJ3UJZoenuJmB3arH8
- UisPYhwu5yGFM6.d38LMfrJDy.AnoF1ZHoUyYAm.GNSmamkq6XIjf9B70uR.6tdP2.1Elpp16HfV
- FiyPOqcOAY2cF64DNbVuOUwAmCMxyJz1NS52VuK9kDV_hx1.EkF0mIdYMivAPJ9ycYqzcuzP0Dm4
- Xf8K.Z8bpXz5nnOtlG8EdlLSAgmJ1zsr0S43fIQntrXySALKXxgmNlvlKBVZHTrgDNEBEytaK7eu
- uhaBuky.VWeSVg5XZ3f4ZRbTs7J_ns_mzQvDcemx.tJJI6AivVXOj0SoPY4o.CKcEzyYu8ocZR6f
- sgtK70_WwpsG4UYLcd7jp9.MLS680vHNUUQwyZ9Ei3yPuioHD4JDyNqaFMCk5m4ModhdeHFQx_uo
- 6.M_S9ULaZNwdMpE7K1pfIAa2e6P5e50zGFf8oXG2LhthzYTnniPB_H7cPKqIiBevgcHjHW_0wbX
- LjCK6h7.hvk_1Voq.Dd1erEtrNpvTHVRO.9Gc9BsQKO8z5PvozOdSheql8xUoEqYdk4OdOmy2lFu
- QEw9KYy9Ue0Ofa3YNV_VwNoEI9qE2Gsep77NvBq.tScFb9w74Uu8sxuJAwFgW1HSEZdzfz38nINA
- ZQvHnqNe5rqJTLYO_Cipcpv.BY.ZDdOj_eX.4a0dsG_jygp3ZIpBvhpi3Rrygep5xu3RcAq_jE4R
- MBwLsTEgABcGer0A_Bn.iPxTvKly6ngaYYwbmNVrxR4EHebwS6WFAanzCU83_nL5gycxtciP8tqg
- fXa3hAhEo1dylplykY0hb9DTHiQEhlkVwfxaywRB_bMEJZQNJiJlAHy1Xr.UNk3N2V6TNQQSCQlg
- ytfzzX524gYB5JRO4M7e8xxjSJiPCLZ1IJxfKCJSosx0C
-X-Sonic-MF: <rubenru09@aol.com>
-X-Sonic-ID: 6325990e-a261-47d8-8bb7-be8ee11a054d
-Received: from sonic.gate.mail.ne1.yahoo.com by
- sonic308.consmr.mail.gq1.yahoo.com with HTTP; Mon, 10 Nov 2025 16:04:41 +0000
-Received: by hermes--production-ir2-5fcfdd8d7f-lcc2j (Yahoo Inc. Hermes SMTP
- Server) with ESMTPA ID 5ea617d40ce08f4b80d4ea87648baf4a; 
- Mon, 10 Nov 2025 16:04:35 +0000 (UTC)
-From: Ruben Wauters <rubenru09@aol.com>
-To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
- Simona Vetter <simona@ffwll.ch>
-Cc: Ruben Wauters <rubenru09@aol.com>, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org
-Subject: [PATCH] drm/gud: move format init from gud_probe()
-Date: Mon, 10 Nov 2025 16:03:00 +0000
-Message-ID: <20251110160428.2456-1-rubenru09@aol.com>
-X-Mailer: git-send-email 2.51.0
-MIME-Version: 1.0
+Received: from CY7PR03CU001.outbound.protection.outlook.com
+ (mail-westcentralusazon11010066.outbound.protection.outlook.com
+ [40.93.198.66])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 529B810E06F
+ for <dri-devel@lists.freedesktop.org>; Mon, 10 Nov 2025 16:08:21 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=MJUpJISgsFNKqE2K+YcTpJltjseqffrabs8+LsOYXeBMhmsrwnjC5Kv3ZHKTCCy91T7BuMnwlte1r+UbLA/PpW+jc0ieoQ06j06zzLDlJh0Iu4DmDkQpd5EMitqregZlzoNyBwX1oYucSxLJUVIxbT4pmtmUamf7AjFokzNEyj5ktfLUNl54394Gmlxq2rp8w8aO1gYz0PrZDQ8Jjw8xSuZUhVqMlINX8jjX2XGXX8axn2wrgbd97Xm3e9rQRUBvZYsilFZUbmTTiQB/lwWfhZ6ABszJ7qss8KNh6litKaZLj4nO0pG6AAfoActXzJk9MKU0+dlbm93GvB6+tCSWtg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=p1LqqCDaUtiA/v+wmW7NacoD9/18UOWOZEvmpahLmRo=;
+ b=PpcXMAUhXXzWPeZ0QzImD25nQ0aAgENHUeZQz3jrDQqxG8SxLVu+3wiOibIHclB+PXVacU/ukpgdZGjCqjgLd/OG/gKrM+GGLa42GTr2TFv4+5fqLE3Y1c/ZxLzPsTOkXg/gEk+PONOBGukt0C8pf0ZsHQ2eJ1A2KeIx9qdriOBgps5VvAg2Us/25tmXtJIn9O6F7ZNqXDSTrbpzK/Enk9jcRjrAT30SLHkogd0yPGWQ7pqQ/PO1olOexoxOFoJF3mgx+HZWAEFC/Z5Q2L/RUwpwhfMaEAS/T0bEbqOTj2pZQBCROxHfS+0i7SW49qB4TPz0+1lk6V5VSXsB5rJ9Nw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=p1LqqCDaUtiA/v+wmW7NacoD9/18UOWOZEvmpahLmRo=;
+ b=yPSS3aRNfh0JVlU8f2Tr3fXPFZAwsL7d56o6Ry/MeYJhI60ZIiSsOPCT8Rekcqrq0eYafMWNz4RSoi44tS+SB8rZrHkbR+U/MC7/m0Pgc29TBmMi8EEHiDg1sluVDfF9ofTPI4ZWo7kltnfhqJH7MNfV2vs1S8rNw9dgGhHz23k=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=amd.com;
+Received: from PH7PR12MB5685.namprd12.prod.outlook.com (2603:10b6:510:13c::22)
+ by SJ1PR12MB6049.namprd12.prod.outlook.com (2603:10b6:a03:48c::22)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9298.16; Mon, 10 Nov
+ 2025 16:08:17 +0000
+Received: from PH7PR12MB5685.namprd12.prod.outlook.com
+ ([fe80::46fb:96f2:7667:7ca5]) by PH7PR12MB5685.namprd12.prod.outlook.com
+ ([fe80::46fb:96f2:7667:7ca5%4]) with mapi id 15.20.9298.015; Mon, 10 Nov 2025
+ 16:08:17 +0000
+Message-ID: <a3eefc87-2678-4a4d-82c8-f6aedf74be75@amd.com>
+Date: Mon, 10 Nov 2025 17:08:11 +0100
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] drm/sched: Fix UB in spsc_queue
+To: phasta@kernel.org, David Airlie <airlied@gmail.com>,
+ Simona Vetter <simona@ffwll.ch>, Alex Deucher <alexander.deucher@amd.com>,
+ Andrey Grodzovsky <Andrey.Grodzovsky@amd.com>, dakr@kernel.org,
+ Matthew Brost <matthew.brost@intel.com>
+Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ stable@vger.kernel.org
+References: <20251110081903.11539-2-phasta@kernel.org>
+ <ee63ca7d-77d2-44d8-973b-7276f8c4d4a5@amd.com>
+ <ee9fe54f3764bc0ee4ebafe5c10ad4afe748ef19.camel@mailbox.org>
+ <2c72eb6e-7792-4212-b06f-5300bc9a42f9@amd.com>
+ <987527ead1fe93877139a9ee8b6d2ee55eefa1ee.camel@mailbox.org>
+ <05603d39-0aeb-493e-a1ed-8051a99dfc41@amd.com>
+ <589a1be140f3c8623a2647b107a1130289eb00ba.camel@mailbox.org>
+Content-Language: en-US
+From: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
+In-Reply-To: <589a1be140f3c8623a2647b107a1130289eb00ba.camel@mailbox.org>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-References: <20251110160428.2456-1-rubenru09.ref@aol.com>
+X-ClientProxiedBy: FR2P281CA0059.DEUP281.PROD.OUTLOOK.COM
+ (2603:10a6:d10:93::13) To PH7PR12MB5685.namprd12.prod.outlook.com
+ (2603:10b6:510:13c::22)
+MIME-Version: 1.0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: PH7PR12MB5685:EE_|SJ1PR12MB6049:EE_
+X-MS-Office365-Filtering-Correlation-Id: 614abe3f-66ca-4da9-3f2e-08de20735c11
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;ARA:13230040|1800799024|366016|376014;
+X-Microsoft-Antispam-Message-Info: =?utf-8?B?ZmhjZDRBbno2RlFFOGo3aVllNW95MFZRSlpiV1grRU5hVU1nS2taYUEyNFRq?=
+ =?utf-8?B?ZVpXeHRaVGNlOVM3SVQ1d200NEdKVkkxcWUxd2RaS3FxZW5yY0taZDZEMVRm?=
+ =?utf-8?B?M0RBeTlSbzM3N2IrN1NuMGRvZkxhbGlMRUpmTmxYRW1FVWRmVUYvY3ZMM21Q?=
+ =?utf-8?B?bUFmK0hIc1QyVlJHSWEvZmJkcUdTZGQ2MlBkSGorQ21GNk9zaWtBbnJGWXBv?=
+ =?utf-8?B?eno4azllL0oxekVDdlFTYzFrRHpwNXdQNVFrMloxS1FuOGsvcG5XQTNRSEhW?=
+ =?utf-8?B?VFJCUVQ2dU05a2FweTJDUHoyNDQ1SkpVRURYOTY2MEFwTnpJc05KcDFPVGdm?=
+ =?utf-8?B?eXZ2a2s2USs2eUFOOUJHRVpnVURVckY4Qmk1MXVQeWszUldaWVBNVEtMaWNl?=
+ =?utf-8?B?UlJqM3B2NmNGaU1sS29HTFZVMmxrZW5nS0ZRb3hYc1BMOFh0d21haE5tS3Vm?=
+ =?utf-8?B?QzFZVE1DSUdYTDZjN0lmMW9kVHRkMGhURXUzeFJFTkhuNEZSc0Y5LzM0WkpO?=
+ =?utf-8?B?TE9HdG5saEJRYVRpZ2VRbFVSMVlQaXNFUjV6RWtLdFJNR0xYNGR1eU4wUnNk?=
+ =?utf-8?B?N1VVT0tsM3B1VmRwRWthREVSYXlGaUdid0h0MWxJNUNLMVE2K2NrbFhwVEc1?=
+ =?utf-8?B?Si9QeW5pOTM5YlhXdldMZkUya0RRMjRpRlFvWDRST0wzazRZc05KMGhVZzdu?=
+ =?utf-8?B?Y3ZLalpla1RpbjdoWUM0SU9obDhpQ3dNaVh0Q1d3d0pPd2VMTE9oMnpvK01Q?=
+ =?utf-8?B?Tm9ubEsxRkZHUFlpcEZPNDFCajdHZ2MzbGhlRVZLdHRKTzBVa0NNRkZHaEYv?=
+ =?utf-8?B?VHhtMCtaekhPUFZhRmNlRXRCcUJjSlkvcWpNTE5iK05oMUNaVWpCTU0zUS83?=
+ =?utf-8?B?a0pOcUhDYW82WDVMTGJVNTZ0NVBpN2xFYUFQRzJJZ2E1V0g3a1pySTZpK0Ns?=
+ =?utf-8?B?MTdsSE5ha1FGS3MwN21FNndRenI2WmRDejlJUHJKN1duTnplempmekZKNXlE?=
+ =?utf-8?B?SzFDVHNNNW1qdFFseEI0VVZpdWQrTjMyVE02YnlpbkdnZWpQYlNjZjdnN0ZI?=
+ =?utf-8?B?T3g2WkR0aGlUWm1ocWRIeERZYVpFemZwa1BwWHFOSlFmRnhuQlFaYWlDS0FV?=
+ =?utf-8?B?MVVrRUtVWFRTNEFTblV1bnMrbEp4M1UyZGx6bU9BZ2hrVXp0QVM1Z2xsOVc3?=
+ =?utf-8?B?bWVheEpvNHFleFlwcjJBem0rV1NockVMaGtVYlBpZDJzS3Y3dWhSbVc3VVd2?=
+ =?utf-8?B?d1FyUmdCMEZVbythMzRDUnJ0VGM1SUVkdk91SUYzWlhJaXNlMHk0Q040V3oy?=
+ =?utf-8?B?VEx2a1ZmQnJkZzRuN1dZa1NmWWRMVmZCTWY2UGtqMFEyM3kvTmhqeVRxbGw1?=
+ =?utf-8?B?SzI0bCtvd0F5SndzMVZZN05PaStqdy9uV2EyMjEwV1ZjV3EzUFpkdHo1NkdY?=
+ =?utf-8?B?Y1EyZW1yS29uMUg5VnFBTkU2ZEsrQlVTL3lCMlNFdmVQZzlPOVVyZVlNV21F?=
+ =?utf-8?B?eVNuQWhweW1zZjRqZDNqdFNmUk1mQ0dRTU13N2ludjBxK1lsOXhhZ3grdjVJ?=
+ =?utf-8?B?QnVOSnNvV21Yd3U4ZmN4MGp4VGtVQ2tiMjk4Wng3c2RrVlBOS3d0RkpsVUhJ?=
+ =?utf-8?B?R3BzbzQ3ME54WjBvcVJCUGNVYWIrcUY3S05DK0xNLzA0aERiYTQrWC9IWU9h?=
+ =?utf-8?B?NUxPTHM5Ym1UTUhlY3gyaUE5RXduSGZnWXlqNUJkaWlrb3MxUk1XbGo5NEhn?=
+ =?utf-8?B?am1IcWR2VnFRNEhRYXRnbmoyV1E0aW44MTE1Y0p1T3lTQ0VwdTlGV3ZpbXdB?=
+ =?utf-8?B?bTZVYTVUelhiYVNNa043M2pWNzFSdTZuY1B3UkRGckNQNXhHN2J2dkQrazUv?=
+ =?utf-8?B?STMxcDQzbDNFRXF5Q1JMbmxyZ3B0SHdHMktSUmZ6WFdGQ1l6Y0hSZnJYVnZM?=
+ =?utf-8?Q?h0zO+3E/uh1rUBIZvg9hB0dN6VJI3VSl?=
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:PH7PR12MB5685.namprd12.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230040)(1800799024)(366016)(376014); DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?Q090U1lnZlhKSmhwNk1LOEkwT3RYbFlxenlDaVFhRW54U3VPLzVWYWNBVWd6?=
+ =?utf-8?B?cGE0NWpGcHVoV1dpSSt6MW1sRjlwTUFidm9tNXFkdXJXUXZYR0l1WXlsYlJQ?=
+ =?utf-8?B?aUFSdDJzbml4OHNGcFo3SUVlYVk5eDltZzBPNVdxekszVXJyNzNTVG5nUlBB?=
+ =?utf-8?B?bGNqUG5vYm8rZmh5eE9QdkJHRktiblAzYTBRZVIyRzNValNZSDl4NytxRjZL?=
+ =?utf-8?B?WnZ1OHV0L0d6UW1ja0duV1JsUjA5SWFEQWFkTHMvYTZMWnBtb2JjYytReGwy?=
+ =?utf-8?B?dnRUeURQYnZCbU5UVHRYeWFEeDZ6OW8zNTV4VGJSTmtkNlVFOG4xSG10L3cz?=
+ =?utf-8?B?aElQZU1vZnNOQ2xiUW9sRXMvckloTW9kOXN1WnQyTkdoNW12ZG1nVEtyZ3BD?=
+ =?utf-8?B?bGgwQVQvQk1SWWVBQTM0UmVRVjY1ckJHUjErL0xkNitONHI1ZVB0UTVmM29R?=
+ =?utf-8?B?R0NoYUdQRys0TFZMVUJzL1d5OGNWV1JkeDM0Tjk3QVFFcjhXUlUvNG5SVUts?=
+ =?utf-8?B?dFQ5U0ZmMHhIT2VFc3NZQTlRQjgvUTBabUpBK0tJUllJN0RlOXh1bkpqSmFt?=
+ =?utf-8?B?T2dIb2srcm1qbGdtVWk0UnF0Y1Fjd1ZxVndDci80ZlNCZXA5ZW9nREVWNloy?=
+ =?utf-8?B?UmRFOXY4ekQ1TndjN3NsMHMxSmdvRVV5YnlUbWdEQ1VMM2V6Z0Y2ckdQRTQr?=
+ =?utf-8?B?Y2NMVjJOY1ZrOHUwdTNxTGJLWTJPZHREbUtjVGxEVm1TZ3hlWC9XdFJjRzZ4?=
+ =?utf-8?B?K1E0OVFOVWdGTzVZTkMvK1NqY2ZhazdQdTRvUnJ3azZ1aFE2OUFBYUc3Mm42?=
+ =?utf-8?B?bEk2NCtCU3FJamh4eWhMMzJrNXE3dFdYNy9lRnBhOS9PN3hiN3FrZVhrMEY2?=
+ =?utf-8?B?OCtFUkJabzAydlZidlhSV1JGRExLV2VpZnU4eXk5QVFDUkZFZGhxUzNveDQ1?=
+ =?utf-8?B?a0Q3cDBubVY4MnpPOVorRDB4TFJiOXNwd3p0cjhyWllqQWZQTHVCblo2YXIx?=
+ =?utf-8?B?S2EvSnU4NkVIT09vM3c2NThjdG9HYnFTaGMzb1JJaWp1MHhuVWxhUXRYbW1C?=
+ =?utf-8?B?V2tOTFhtUWo4OWJWenlrTWtUMzdSdkJiRVRveUxpaCs4dFlYSXllYU1BY25J?=
+ =?utf-8?B?MzFVOVNJVnRKZjZsbGFiRE1NdzBMWm1GbXdaeUNsU2lQRzJlS2wwS1FDWmNk?=
+ =?utf-8?B?aXVyRzlzMVNsRDBmanNnajdCc1RWbUNvNGxPQVR0L2tyMmJuQ2hDUTZzKzZ0?=
+ =?utf-8?B?ZG1LZmR0U0pnVDJiTUZmUkJ3Tk1rbGt2THA2eU8zWC9DZ3h1eWVzRS9WSEpV?=
+ =?utf-8?B?SlVlVllISWVpRjVxMFJJVGtpRVlpamxhODlMSktROXZYL3EwVC96Ny9wb1FQ?=
+ =?utf-8?B?aWhWM21TVUJSU2FMWWFXOU1NenFBenlISm1pbzh6aUU2MGQwWHJIU1JtZFVR?=
+ =?utf-8?B?ODdRckNwNjlBWFZ5b243N1dENkdyU0lGeHZOcmJISUh2NU9BajhjdVk1WDlQ?=
+ =?utf-8?B?NnBWRnQ4NUVacndDcTUrUjM2azlQNmZNOVVCMS9XbVp3MFBHbmt5YXBhblRO?=
+ =?utf-8?B?Nm5NUWQrVnc2L3RPdWwxYUhZMHhTSEZyakJwbzRKRzdhRkRmNEhPRnNkQVE2?=
+ =?utf-8?B?WFA5QVFPTkFOOEE5WlRxTCtjTGRKb0ZEM3RQa3VXQ3dOZ3QwaFpHRzZmOGNB?=
+ =?utf-8?B?UWpuYi9HRzJDVEM3ckp0aXZ4VHpvNXhYLzJSTXQ1d3N3eHMyODJ0YkZqc3BR?=
+ =?utf-8?B?aVhkVnMzYk5mMEZoMXlOWHY2bUozaDFyOGRoZGJpVzJGdXlyTWZvYWw2VVBo?=
+ =?utf-8?B?bXRRMlJDZG0rZldJNk9LZ1BOamptRk82Rm9GZER3QVViMTRubkxDb04xZ3o4?=
+ =?utf-8?B?My9pVUlETkxrWUtZWDVodkZnSmxNcWtWeVp0QXZmUFpZcXByV1IyQ3hsLzE0?=
+ =?utf-8?B?eFFmUThsM3hBZE1oYlRjZkxVMEdTRy9tUEFTakxuY1BOTUF2SFRuaGtHbHRq?=
+ =?utf-8?B?MWt3QjNlVFVoUTdQR0dZUEx4YURWU09DQ3l2RG5RN25sMGVvVGc4cFAwM2M3?=
+ =?utf-8?B?MGJpSzluYWN4SVB5cVpPeGhGWXFLc1Btd3RKajlFZitRVVN5MG50VHpYaGw5?=
+ =?utf-8?Q?wzfjHJhmhcTMx1gqatO7XwC3C?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 614abe3f-66ca-4da9-3f2e-08de20735c11
+X-MS-Exchange-CrossTenant-AuthSource: PH7PR12MB5685.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 10 Nov 2025 16:08:17.3599 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: ivnPC9R0Hvt6IrucKDcJWF6oWtqwKAWcWwGSaX6n9epeKqYW9OBwmLWxdatGhqNs
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SJ1PR12MB6049
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -91,229 +172,104 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-As part of the cleanup of gud_probe(), this patch splits off format init
-code from gud_probe into it's own function. This makes the code more
-compartmentalised and easier to follow, and makes gud_probe() smaller
-and also easier to read.
+On 11/10/25 16:55, Philipp Stanner wrote:
+> On Mon, 2025-11-10 at 16:14 +0100, Christian König wrote:
+>> On 11/10/25 15:20, Philipp Stanner wrote:
+>>> On Mon, 2025-11-10 at 15:07 +0100, Christian König wrote:
+>>>> On 11/10/25 13:27, Philipp Stanner wrote:
+>>>> The problem isn't the burned CPU cycles, but rather the cache lines moved between CPUs.
+>>>
+>>> Which cache lines? The spinlock's?
+>>>
+>>> The queue data needs to move from one CPU to the other in either case.
+>>> It's the same data that is being moved with spinlock protection.
+>>>
+>>> A spinlock doesn't lead to more cache line moves as long as there's
+>>> still just a single consumer / producer.
+>>
+>> Looking at a couple of examples:
+>>
+>> 1. spinlock + double linked list (which is what the scheduler used initially).
+>>
+>>    You have to touch 3-4 different cache lines, the lock, the previous, the current and the next element (next and prev are usually the same with the lock).
+> 
+> list when pushing:
+> 
+> Lock + head (same cache line) + head->next
+> head->next->next
+> 
+> when popping:
+> 
+> Lock + head + head->previous
+> head->previous->previous
+> 
+> I don't see why you need a "current" element when you're always only
+> touching head or tail.
 
-Signed-off-by: Ruben Wauters <rubenru09@aol.com>
----
- drivers/gpu/drm/gud/gud_drv.c | 167 +++++++++++++++++++---------------
- 1 file changed, 93 insertions(+), 74 deletions(-)
+The current element is the one you insert or remove.
 
-diff --git a/drivers/gpu/drm/gud/gud_drv.c b/drivers/gpu/drm/gud/gud_drv.c
-index 42135a48d92e..22524601d463 100644
---- a/drivers/gpu/drm/gud/gud_drv.c
-+++ b/drivers/gpu/drm/gud/gud_drv.c
-@@ -427,84 +427,18 @@ static void gud_free_buffers_and_mutex(void *data)
- 	mutex_destroy(&gdrm->ctrl_lock);
- }
- 
--static int gud_probe(struct usb_interface *intf, const struct usb_device_id *id)
-+static int gud_get_formats(struct gud_device *gdrm, struct device *usb_device, u32 *formats,
-+			   size_t *max_buffer_size, unsigned int *num_formats_ret)
- {
- 	const struct drm_format_info *xrgb8888_emulation_format = NULL;
- 	bool rgb565_supported = false, xrgb8888_supported = false;
- 	unsigned int num_formats_dev, num_formats = 0;
--	struct usb_endpoint_descriptor *bulk_out;
--	struct gud_display_descriptor_req desc;
--	struct device *dev = &intf->dev;
--	size_t max_buffer_size = 0;
--	struct gud_device *gdrm;
--	struct drm_device *drm;
--	struct device *dma_dev;
- 	u8 *formats_dev;
--	u32 *formats;
-+	struct drm_device *drm = &gdrm->drm;
- 	int ret, i;
- 
--	ret = usb_find_bulk_out_endpoint(intf->cur_altsetting, &bulk_out);
--	if (ret)
--		return ret;
--
--	ret = gud_get_display_descriptor(intf, &desc);
--	if (ret) {
--		DRM_DEV_DEBUG_DRIVER(dev, "Not a display interface: ret=%d\n", ret);
--		return -ENODEV;
--	}
--
--	if (desc.version > 1) {
--		dev_err(dev, "Protocol version %u is not supported\n", desc.version);
--		return -ENODEV;
--	}
--
--	gdrm = devm_drm_dev_alloc(dev, &gud_drm_driver, struct gud_device, drm);
--	if (IS_ERR(gdrm))
--		return PTR_ERR(gdrm);
--
--	drm = &gdrm->drm;
--
--	gdrm->flags = le32_to_cpu(desc.flags);
--	gdrm->compression = desc.compression & GUD_COMPRESSION_LZ4;
--
--	if (gdrm->flags & GUD_DISPLAY_FLAG_FULL_UPDATE && gdrm->compression)
--		return -EINVAL;
--
--	mutex_init(&gdrm->ctrl_lock);
--	mutex_init(&gdrm->damage_lock);
--	INIT_WORK(&gdrm->work, gud_flush_work);
--	gud_clear_damage(gdrm);
--
--	ret = devm_add_action(dev, gud_free_buffers_and_mutex, gdrm);
--	if (ret)
--		return ret;
--
--	usb_set_intfdata(intf, gdrm);
--
--	dma_dev = usb_intf_get_dma_device(intf);
--	if (dma_dev) {
--		drm_dev_set_dma_dev(drm, dma_dev);
--		put_device(dma_dev);
--	} else {
--		dev_warn(dev, "buffer sharing not supported"); /* not an error */
--	}
--
--	/* Mode config init */
--	ret = drmm_mode_config_init(drm);
--	if (ret)
--		return ret;
--
--	drm->mode_config.min_width = le32_to_cpu(desc.min_width);
--	drm->mode_config.max_width = le32_to_cpu(desc.max_width);
--	drm->mode_config.min_height = le32_to_cpu(desc.min_height);
--	drm->mode_config.max_height = le32_to_cpu(desc.max_height);
--	drm->mode_config.funcs = &gud_mode_config_funcs;
--
--	/* Format init */
--	formats_dev = devm_kmalloc(dev, GUD_FORMATS_MAX_NUM, GFP_KERNEL);
--	/* Add room for emulated XRGB8888 */
--	formats = devm_kmalloc_array(dev, GUD_FORMATS_MAX_NUM + 1, sizeof(*formats), GFP_KERNEL);
--	if (!formats_dev || !formats)
-+	formats_dev = devm_kmalloc(usb_device, GUD_FORMATS_MAX_NUM, GFP_KERNEL);
-+	if (!formats_dev)
- 		return -ENOMEM;
- 
- 	ret = gud_usb_get(gdrm, GUD_REQ_GET_FORMATS, 0, formats_dev, GUD_FORMATS_MAX_NUM);
-@@ -555,7 +489,7 @@ static int gud_probe(struct usb_interface *intf, const struct usb_device_id *id)
- 
- 		fmt_buf_size = drm_format_info_min_pitch(info, 0, drm->mode_config.max_width) *
- 			       drm->mode_config.max_height;
--		max_buffer_size = max(max_buffer_size, fmt_buf_size);
-+		*max_buffer_size = max(*max_buffer_size, fmt_buf_size);
- 
- 		if (format == GUD_DRM_FORMAT_R1 || format == GUD_DRM_FORMAT_XRGB1111)
- 			continue; /* Internal not for userspace */
-@@ -564,7 +498,7 @@ static int gud_probe(struct usb_interface *intf, const struct usb_device_id *id)
- 	}
- 
- 	if (!num_formats && !xrgb8888_emulation_format) {
--		dev_err(dev, "No supported pixel formats found\n");
-+		dev_err(usb_device, "No supported pixel formats found\n");
- 		return -EINVAL;
- 	}
- 
-@@ -577,6 +511,92 @@ static int gud_probe(struct usb_interface *intf, const struct usb_device_id *id)
- 		formats[num_formats++] = DRM_FORMAT_XRGB8888;
- 	}
- 
-+	devm_kfree(usb_device, formats_dev);
-+	*num_formats_ret = num_formats;
-+
-+	return 0;
-+}
-+
-+static int gud_probe(struct usb_interface *intf, const struct usb_device_id *id)
-+{
-+	unsigned int num_formats = 0;
-+	struct usb_endpoint_descriptor *bulk_out;
-+	struct gud_display_descriptor_req desc;
-+	struct device *dev = &intf->dev;
-+	size_t max_buffer_size = 0;
-+	struct gud_device *gdrm;
-+	struct drm_device *drm;
-+	struct device *dma_dev;
-+	u32 *formats;
-+	int ret;
-+
-+	ret = usb_find_bulk_out_endpoint(intf->cur_altsetting, &bulk_out);
-+	if (ret)
-+		return ret;
-+
-+	ret = gud_get_display_descriptor(intf, &desc);
-+	if (ret) {
-+		DRM_DEV_DEBUG_DRIVER(dev, "Not a display interface: ret=%d\n", ret);
-+		return -ENODEV;
-+	}
-+
-+	if (desc.version > 1) {
-+		dev_err(dev, "Protocol version %u is not supported\n", desc.version);
-+		return -ENODEV;
-+	}
-+
-+	gdrm = devm_drm_dev_alloc(dev, &gud_drm_driver, struct gud_device, drm);
-+	if (IS_ERR(gdrm))
-+		return PTR_ERR(gdrm);
-+
-+	drm = &gdrm->drm;
-+
-+	gdrm->flags = le32_to_cpu(desc.flags);
-+	gdrm->compression = desc.compression & GUD_COMPRESSION_LZ4;
-+
-+	if (gdrm->flags & GUD_DISPLAY_FLAG_FULL_UPDATE && gdrm->compression)
-+		return -EINVAL;
-+
-+	mutex_init(&gdrm->ctrl_lock);
-+	mutex_init(&gdrm->damage_lock);
-+	INIT_WORK(&gdrm->work, gud_flush_work);
-+	gud_clear_damage(gdrm);
-+
-+	ret = devm_add_action(dev, gud_free_buffers_and_mutex, gdrm);
-+	if (ret)
-+		return ret;
-+
-+	usb_set_intfdata(intf, gdrm);
-+
-+	dma_dev = usb_intf_get_dma_device(intf);
-+	if (dma_dev) {
-+		drm_dev_set_dma_dev(drm, dma_dev);
-+		put_device(dma_dev);
-+	} else {
-+		dev_warn(dev, "buffer sharing not supported"); /* not an error */
-+	}
-+
-+	/* Mode config init */
-+	ret = drmm_mode_config_init(drm);
-+	if (ret)
-+		return ret;
-+
-+	drm->mode_config.min_width = le32_to_cpu(desc.min_width);
-+	drm->mode_config.max_width = le32_to_cpu(desc.max_width);
-+	drm->mode_config.min_height = le32_to_cpu(desc.min_height);
-+	drm->mode_config.max_height = le32_to_cpu(desc.max_height);
-+	drm->mode_config.funcs = &gud_mode_config_funcs;
-+
-+	/* Format init */
-+	/* Add room for emulated XRGB8888 */
-+	formats = devm_kmalloc_array(dev, GUD_FORMATS_MAX_NUM + 1, sizeof(*formats), GFP_KERNEL);
-+	if (!formats)
-+		return -ENOMEM;
-+
-+	ret = gud_get_formats(gdrm, dev, formats, &max_buffer_size, &num_formats);
-+	if (ret)
-+		return ret;
-+
- 	if (desc.max_buffer_size)
- 		max_buffer_size = le32_to_cpu(desc.max_buffer_size);
- 	/* Prevent a misbehaving device from allocating loads of RAM. 4096x4096@XRGB8888 = 64 MB */
-@@ -641,7 +661,6 @@ static int gud_probe(struct usb_interface *intf, const struct usb_device_id *id)
- 		return ret;
- 
- 	devm_kfree(dev, formats);
--	devm_kfree(dev, formats_dev);
- 
- 	drm_client_setup(drm, NULL);
- 
--- 
-2.51.0
+>>
+>> 2. kfifo (attempt #2):
+>>
+>>    3 cache lines, one for the array, one for the rptr/wptr and one for the element.
+>>    Plus the problem that you need to come up with some upper bound for it.
+>>
+>> 3. spsc (attempt #3)
+>>
+>>    2-3 cache lines, one for the queue (head/tail), one for the element and one for the previous element (but it is quite likely that this is pre-fetched).
+>>
+>> Saying this I just realized we could potentially trivially replace the spsc with an single linked list+pointer to the end+spinlock and have the same efficiency. We don't need all the lockless stuff for that at all.
+>>
+> 
+> Now we're speaking mostly the same language :]
+> 
+> If you could RB my DRM TODO patches we'd have a section for drm/sched,
+> and there we could then soonish add an item for getting rid of spsc.
+> 
+> https://lore.kernel.org/dri-devel/20251107135701.244659-2-phasta@kernel.org/
+
+I can't find that in my inbox anywhere. Can you send it out one more with my AMD mail address on explicit CC? Thanks in advance.
+
+>>>> The problem is really to separate the push from the pop side so that as few cache lines as possible are transferred from one CPU to another. 
+>>>
+>>> With a doubly linked list you can attach at the front and pull from the
+>>> tail. How is that transferring many cache lines?
+>>
+>> See above.
+>>
+>> We have some tests for old and trivial use cases (e.g. GLmark2) which on todays standards pretty much only depend on how fast you can push things to the HW.
+>>
+>> We could just extend the scheduler test cases to see how many submissions per second we can pump through a dummy implementation where both producer and consumer are nailed to separate CPUs.
+>>
+> 
+> I disagree. That would be a microbenchmark for a very narrow use case.
+
+That is actually a rather common use case (unfortunately).
+
+> It would only tell us that a specific patch slows things done for the
+> microbenchmark, and we could only detect that if a developer runs the
+> unit tests with and without his patches.
+
+I could trigger adding that to AMDs CI systems.
+
+> 
+> The few major reworks that touch such essentials have good realistic
+> tests anyways, see Tvrtko's CFS series.
+> 
+> 
+> Lockless magic should always be justified by real world use cases.
+> 
+> By the way, back when spsc_queue was implemented, how large were the
+> real world performance gains you meassured by saving that 1 cache line?
+
+That was actually quite a bit. If you want a real world test case use glMark2 on any modern HW.
+
+And yeah I know how ridicules that is, the problem is that we still have people using this as indicator for the command submission overhead.
+
+Regards,
+Christian.
+
+> 
+> 
+> P.
 
