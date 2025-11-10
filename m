@@ -2,85 +2,98 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6DD1BC478F6
-	for <lists+dri-devel@lfdr.de>; Mon, 10 Nov 2025 16:33:15 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1465AC479FE
+	for <lists+dri-devel@lfdr.de>; Mon, 10 Nov 2025 16:46:29 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id EF11E10E40B;
-	Mon, 10 Nov 2025 15:33:12 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B574D10E40D;
+	Mon, 10 Nov 2025 15:46:26 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; secure) header.d=mary.zone header.i=@mary.zone header.b="hBCKe4yA";
+	dkim=pass (1024-bit key; unprotected) header.d=suse.de header.i=@suse.de header.b="FyBqNXII";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="IQgr6j/B";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="eUjB/tiS";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="T8OCU6Zq";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ed1-f54.google.com (mail-ed1-f54.google.com
- [209.85.208.54])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 98C6710E400
- for <dri-devel@lists.freedesktop.org>; Mon, 10 Nov 2025 15:33:07 +0000 (UTC)
-Received: by mail-ed1-f54.google.com with SMTP id
- 4fb4d7f45d1cf-640b0639dabso5439766a12.3
- for <dri-devel@lists.freedesktop.org>; Mon, 10 Nov 2025 07:33:07 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=mary.zone; s=google; t=1762788786; x=1763393586; darn=lists.freedesktop.org; 
- h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
- :mime-version:subject:date:from:from:to:cc:subject:date:message-id
- :reply-to; bh=MhhZbSaUsVQtnfyfSsZMoa+Z0ZmaAqoEvexpVHXnJtU=;
- b=hBCKe4yA1k2gC7e9XdPMkKOK+fvuzZa86d8qjt/ndgI785OWzMEiCCRNsCdjTdyhNH
- pftA4aeH0U0dJgx6WE6dhbdgyNCn8A8Y7PYLjzaEIkLQVoI2ljO43YBxWiqjTojgVdTn
- jntuO++1tIl5BRGgmAT9IqTc1cEqAB1gSP193y6923TGq6u+5l3yQ49hVwsIZbrGCxre
- 4I+G0zdI+8utLcx9LXnhiTlr73OiLBE6pLTVPDULNh4Tmzy+M01OIHe97jM7isdntjGB
- LBl1aE2EOpcfbde+MGwAY/LiOBnx+yPrT65A6htydylffK2GOGzxJbzClnc4CqAb+czC
- zWdQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1762788786; x=1763393586;
- h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
- :mime-version:subject:date:from:x-gm-gg:x-gm-message-state:from:to
- :cc:subject:date:message-id:reply-to;
- bh=MhhZbSaUsVQtnfyfSsZMoa+Z0ZmaAqoEvexpVHXnJtU=;
- b=J+VNUZjexqvS63DT851OmxZCY6WuSlOqUWnd+WvGT2QQGC3gVEP3S7sYubwhDg/Fp6
- BmS1eBNUQjM3J/H1AkHr5QPL8+uo6sO7RNqUg8AYi0/tbM6sc7Hg27cBWCw2MuJMjNWK
- LmbzQhpmoaQ4qFQnYIWeE5074UQV1OOmPFtCNBob/A4TnM0BdpE9gpF7GlatcT+qm4Bd
- xJ2dmpm9XzdlLUzLA2OY7LuWxbYoGpkijaEInG31hegHSuTavGJnB+jy2I8ZYY8wYQWD
- WgNXxHHuFRp3ub9xhPhCGVMw/9rym8q3bJh/W3PL2quLGxf0JgrOmP0JVoarC+FChjkp
- gQ/Q==
-X-Gm-Message-State: AOJu0Ywj15SRNGnvQFQTHfKUbAtQALXRPQFT1y40zrd/dbdmh9GpRgFd
- FBuPBwYg0BOaClrtDYaii15RfT0bf8wEJkbXq+8dEEbcT0mBHRIQJMsbDbx6ixwOOUk=
-X-Gm-Gg: ASbGncvVTAvvzgXmzFLsB3NnWv0oCSc85lQOKOX+IqksyXkiFIP0BxhnO+y1C0N0Q56
- /E0rikPsAxdYoK7lYJvvEWEnmbFD4oPxu0ytZz/4Ieb4KJx/jamh+v0TEfJFX9vHbliLa5p/v8u
- /BDSTV7ME3cpV3IQdJZQ+aQUYsJr3TVrWplRHf//oS2F8dzbrJPx7emxnSAG8FlLCG09Zau/0Kn
- oeE7jW7wC24c300P0I2I2rjUSeo5CSSov+b1ZF3F+jMDsLttUZI0M6vy7MSGc0VvsMXc/Jp2LCm
- qXu6lfhaJSnFqM9zjWkqCQ+332ypN13vGfNmkSulZXqW34kiaKoA1dmZu6pmejoH4e9dYYp3fys
- lcdzTBxGehDG6Pz/grofx6m7vVuTuqYZ66ktY4mbFUBlEAlrPkg9YYEA48+FDvLa7NzX1Wv2Bh7
- OKC94R7m6xtOQ6a8t34qBI1SYKImXn8gObTVlXEPRsATk2f/XkZn6FIzJ1S4sc
-X-Google-Smtp-Source: AGHT+IGuCDl8/NKwayI0umUFRt4zezOzmyPdXdzg64sqFdiOt0b+BRNMtdKq/wRK1BA8tF9mTTYKDA==
-X-Received: by 2002:a17:907:7fa6:b0:b70:c6ee:894b with SMTP id
- a640c23a62f3a-b72e055ffe0mr832947066b.51.1762788786091; 
- Mon, 10 Nov 2025 07:33:06 -0800 (PST)
-Received: from [192.168.1.42]
- (2a01cb0405e83a000cb38cfe29807c1e.ipv6.abo.wanadoo.fr.
- [2a01:cb04:5e8:3a00:cb3:8cfe:2980:7c1e])
- by smtp.gmail.com with ESMTPSA id
- a640c23a62f3a-b72bf7231dcsm1115978466b.31.2025.11.10.07.33.05
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 10 Nov 2025 07:33:05 -0800 (PST)
-From: Mary Guillemard <mary@mary.zone>
-Date: Mon, 10 Nov 2025 16:33:00 +0100
-Subject: [PATCH v6 5/5] drm/nouveau/drm: Bump the driver version to 1.4.1
- to report new features
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A010010E40A
+ for <dri-devel@lists.freedesktop.org>; Mon, 10 Nov 2025 15:46:22 +0000 (UTC)
+Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested)
+ by smtp-out2.suse.de (Postfix) with ESMTPS id E67921F81C;
+ Mon, 10 Nov 2025 15:46:20 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1762789581; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version: content-transfer-encoding:content-transfer-encoding;
+ bh=H+gyrLQ2twDoaaLxcUfklHs12upNHsyrZM7lOdeN4zI=;
+ b=FyBqNXIIXw0MVbe4HGkG1ARc49NgwTVlZ5kM4Y/6C9hOcTS+FUjAqRz4hmZvafomHtpbWJ
+ ToUWNuCkwzYuG0fhBfUZasYd3EJfjukHB3CBL0cGlRQ1VW06GWNpq1oACVA6KPjXGsHHLs
+ oeSGHwP2jXxmw1VBjSyFkZj6K0Mxmho=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1762789581;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version: content-transfer-encoding:content-transfer-encoding;
+ bh=H+gyrLQ2twDoaaLxcUfklHs12upNHsyrZM7lOdeN4zI=;
+ b=IQgr6j/Bu3qSTQVqdu67DDl7gAuDC0Aa7JoBkwxrvCE/+3FLOG8IQVEaZoLWGgv2P+DbgK
+ FHtchQWd8Jnt7+Bw==
+Authentication-Results: smtp-out2.suse.de;
+	none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1762789580; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version: content-transfer-encoding:content-transfer-encoding;
+ bh=H+gyrLQ2twDoaaLxcUfklHs12upNHsyrZM7lOdeN4zI=;
+ b=eUjB/tiSHsSetunQDNaILQYArEVwDVXf51FC/xhchCmCBULLBLmkoCiCLTjY9Np52DmR5R
+ PWl+zpzduIiK4Ps5OjByi60CsbdVF0Pnqs9r+TysLIWUYFROmMEvOG0KDh0mt1LJYsMrxt
+ 9YRpAwsW0x5yKpz6l4pKSja7VKI2tKE=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1762789580;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version: content-transfer-encoding:content-transfer-encoding;
+ bh=H+gyrLQ2twDoaaLxcUfklHs12upNHsyrZM7lOdeN4zI=;
+ b=T8OCU6ZqF1GJ7r7qXmKnNPukCEwh8lbko6b95lYMIm0hBFMKYSd33eWY0WEyM4cYpNR2Or
+ QAoSv5q7Hscd1xAQ==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested)
+ by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 8229014483;
+ Mon, 10 Nov 2025 15:46:20 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+ by imap1.dmz-prg2.suse.org with ESMTPSA id kNVjHswIEmlHXQAAD6G6ig
+ (envelope-from <tzimmermann@suse.de>); Mon, 10 Nov 2025 15:46:20 +0000
+From: Thomas Zimmermann <tzimmermann@suse.de>
+To: jfalempe@redhat.com, javierm@redhat.com, francesco@valla.it,
+ rrameshbabu@nvidia.com, simona@ffwll.ch, airlied@gmail.com,
+ mripard@kernel.org, maarten.lankhorst@linux.intel.com,
+ gregkh@linuxfoundation.org, jirislaby@kernel.org
+Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ linux-serial@vger.kernel.org, Thomas Zimmermann <tzimmermann@suse.de>
+Subject: [PATCH v2 0/3] drm/client: Wire up sysrq for all clients and update
+ drm_log
+Date: Mon, 10 Nov 2025 16:44:20 +0100
+Message-ID: <20251110154616.539328-1-tzimmermann@suse.de>
+X-Mailer: git-send-email 2.51.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20251110-nouveau-compv6-v6-5-83b05475f57c@mary.zone>
-References: <20251110-nouveau-compv6-v6-0-83b05475f57c@mary.zone>
-In-Reply-To: <20251110-nouveau-compv6-v6-0-83b05475f57c@mary.zone>
-To: Mohamed Ahmed <mohamedahmedegypt2001@gmail.com>, 
- James Jones <jajones@nvidia.com>, Lyude Paul <lyude@redhat.com>, 
- Danilo Krummrich <dakr@kernel.org>, 
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>
-Cc: dri-devel@lists.freedesktop.org, nouveau@lists.freedesktop.org, 
- linux-kernel@vger.kernel.org, Mary Guillemard <mary@mary.zone>
-X-Mailer: b4 0.14.3
+Content-Transfer-Encoding: 8bit
+X-Spam-Level: 
+X-Spamd-Result: default: False [-2.80 / 50.00]; BAYES_HAM(-3.00)[100.00%];
+ NEURAL_HAM_LONG(-1.00)[-1.000]; MID_CONTAINS_FROM(1.00)[];
+ R_MISSING_CHARSET(0.50)[]; NEURAL_HAM_SHORT(-0.20)[-1.000];
+ MIME_GOOD(-0.10)[text/plain]; TO_MATCH_ENVRCPT_ALL(0.00)[];
+ ARC_NA(0.00)[]; RCVD_VIA_SMTP_AUTH(0.00)[];
+ FROM_HAS_DN(0.00)[]; RCPT_COUNT_TWELVE(0.00)[14];
+ MIME_TRACE(0.00)[0:+];
+ DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,suse.de:mid];
+ FUZZY_RATELIMITED(0.00)[rspamd.com]; FROM_EQ_ENVFROM(0.00)[];
+ RCVD_COUNT_TWO(0.00)[2];
+ FREEMAIL_TO(0.00)[redhat.com,valla.it,nvidia.com,ffwll.ch,gmail.com,kernel.org,linux.intel.com,linuxfoundation.org];
+ RCVD_TLS_ALL(0.00)[]; TO_DN_SOME(0.00)[];
+ DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+ FREEMAIL_ENVRCPT(0.00)[gmail.com]
+X-Spam-Flag: NO
+X-Spam-Score: -2.80
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -96,49 +109,45 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Mohamed Ahmed <mohamedahmedegypt2001@gmail.com>
+DRM's fbdev emulation has long supported SysRq+v to bring up the
+framebuffer console for emergency output. Wire up sysrq for all
+DRM clients and make it work with drm_log.
 
-The HW can only do compression on large and huge pages, and enabling it on
-4K pages leads to a MMU fault. Compression also needs kernel support for
-handling the compressed kinds and managing the compression tags.
+Patch 1 and 2 set up DRM client functionality for sysrq. The patches
+adopt existing conventions from fbdev emulation, so that there's no
+visible change to users. Invoke SysRq+v to bring up the in-kernel DRM
+client.
 
-This increments the nouveau version number which allows NVK to enable it
-only when the kernel actually supports both features and avoid breaking
-the system if a newer mesa version is paired with an older kernel version.
+Patch 3 adds restore functionality to drm_log. This enables SysRq, but
+also brings back drm_log when user space releases control of the display.
 
-For the associated userspace MR, please see !36450:
-https://gitlab.freedesktop.org/mesa/mesa/-/merge_requests/36450
+Tested on amdgpu and bochs.
 
-Signed-off-by: Mohamed Ahmed <mohamedahmedegypt2001@gmail.com>
-Signed-off-by: Mary Guillemard <mary@mary.zone>
-Reviewed-by: Lyude Paul <lyude@redhat.com>
-Reviewed-by: James Jones <jajones@nvidia.com>
----
- drivers/gpu/drm/nouveau/nouveau_drv.h | 4 +++-
- 1 file changed, 3 insertions(+), 1 deletion(-)
+v2:
+- fix placeholder functions
+- fix grammar in commit descriptions
 
-diff --git a/drivers/gpu/drm/nouveau/nouveau_drv.h b/drivers/gpu/drm/nouveau/nouveau_drv.h
-index 84a275b06295..0e409414f44d 100644
---- a/drivers/gpu/drm/nouveau/nouveau_drv.h
-+++ b/drivers/gpu/drm/nouveau/nouveau_drv.h
-@@ -10,7 +10,7 @@
- 
- #define DRIVER_MAJOR		1
- #define DRIVER_MINOR		4
--#define DRIVER_PATCHLEVEL	0
-+#define DRIVER_PATCHLEVEL	1
- 
- /*
-  * 1.1.1:
-@@ -35,6 +35,8 @@
-  *        programs that get directly linked with NVKM.
-  * 1.3.1:
-  *      - implemented limited ABI16/NVIF interop
-+ * 1.4.1:
-+ *      - add variable page sizes and compression for Turing+
-  */
- 
- #include <linux/notifier.h>
+Thomas Zimmermann (3):
+  drm/client: Pass force parameter to client restore
+  drm/client: Support emergency restore via sysrq for all clients
+  drm/client: log: Implement struct drm_client_funcs.restore
+
+ drivers/gpu/drm/Makefile                   |  3 +-
+ drivers/gpu/drm/clients/drm_fbdev_client.c |  6 +-
+ drivers/gpu/drm/clients/drm_log.c          | 13 ++++
+ drivers/gpu/drm/drm_client.c               |  1 +
+ drivers/gpu/drm/drm_client_event.c         |  4 +-
+ drivers/gpu/drm/drm_client_sysrq.c         | 65 ++++++++++++++++++++
+ drivers/gpu/drm/drm_drv.c                  |  3 +
+ drivers/gpu/drm/drm_fb_helper.c            | 69 +++-------------------
+ drivers/gpu/drm/drm_file.c                 |  2 +-
+ drivers/gpu/drm/drm_internal.h             | 11 ++++
+ include/drm/drm_client.h                   |  8 ++-
+ include/drm/drm_client_event.h             |  4 +-
+ include/drm/drm_device.h                   |  8 +++
+ include/drm/drm_fb_helper.h                |  8 +--
+ 14 files changed, 126 insertions(+), 79 deletions(-)
+ create mode 100644 drivers/gpu/drm/drm_client_sysrq.c
 
 -- 
 2.51.1
