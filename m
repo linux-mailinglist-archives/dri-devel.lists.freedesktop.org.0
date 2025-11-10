@@ -2,141 +2,92 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 04612C45C5C
-	for <lists+dri-devel@lfdr.de>; Mon, 10 Nov 2025 10:58:00 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3A35DC45C6E
+	for <lists+dri-devel@lfdr.de>; Mon, 10 Nov 2025 10:59:05 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E509410E2C1;
-	Mon, 10 Nov 2025 09:57:56 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8725D10E36F;
+	Mon, 10 Nov 2025 09:59:03 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=suse.de header.i=@suse.de header.b="xHWfjebd";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="nb2DrwK7";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="xHWfjebd";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="nb2DrwK7";
+	dkim=pass (2048-bit key; unprotected) header.d=riscstar-com.20230601.gappssmtp.com header.i=@riscstar-com.20230601.gappssmtp.com header.b="bpoH+2eE";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E832310E378
- for <dri-devel@lists.freedesktop.org>; Mon, 10 Nov 2025 09:57:55 +0000 (UTC)
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org
- [IPv6:2a07:de40:b281:104:10:150:64:97])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested)
- by smtp-out1.suse.de (Postfix) with ESMTPS id 7BC4A21DA1;
- Mon, 10 Nov 2025 09:57:54 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1762768674; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=EcrznZYzunxe9HV8ThxOMfBLRQxklnJy5TcUr85YSdo=;
- b=xHWfjebdIXu0anVMHuHAgh39BcyDJ6PVh13pOIyMiZwSBQGfze3zq/myh3CZBrZ9igS40P
- fgpWXlUNsNdvJ+EG/HrJEdLTfl3lXloYYnoiuUsTMdEljICCz0yR57kUGcC5vYCUHr/KYt
- zZ6kl3O/U3fEG/IX1d5JETA/B4HPFmo=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1762768674;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=EcrznZYzunxe9HV8ThxOMfBLRQxklnJy5TcUr85YSdo=;
- b=nb2DrwK7pINHcO+mf8yy8Gx6cMKdnp1GKT3FK8517w53kY9td10ApbtkWGW6PjtPc8tuxX
- FqPfVOhHcedZX+DA==
-Authentication-Results: smtp-out1.suse.de;
- dkim=pass header.d=suse.de header.s=susede2_rsa header.b=xHWfjebd;
- dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=nb2DrwK7
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1762768674; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=EcrznZYzunxe9HV8ThxOMfBLRQxklnJy5TcUr85YSdo=;
- b=xHWfjebdIXu0anVMHuHAgh39BcyDJ6PVh13pOIyMiZwSBQGfze3zq/myh3CZBrZ9igS40P
- fgpWXlUNsNdvJ+EG/HrJEdLTfl3lXloYYnoiuUsTMdEljICCz0yR57kUGcC5vYCUHr/KYt
- zZ6kl3O/U3fEG/IX1d5JETA/B4HPFmo=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1762768674;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=EcrznZYzunxe9HV8ThxOMfBLRQxklnJy5TcUr85YSdo=;
- b=nb2DrwK7pINHcO+mf8yy8Gx6cMKdnp1GKT3FK8517w53kY9td10ApbtkWGW6PjtPc8tuxX
- FqPfVOhHcedZX+DA==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested)
- by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 5723514328;
- Mon, 10 Nov 2025 09:57:54 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
- by imap1.dmz-prg2.suse.org with ESMTPSA id zU0VFCK3EWmUBgAAD6G6ig
- (envelope-from <tzimmermann@suse.de>); Mon, 10 Nov 2025 09:57:54 +0000
-Message-ID: <29b1cc39-7868-4b15-bac6-7dc97869dbdb@suse.de>
-Date: Mon, 10 Nov 2025 10:57:53 +0100
+Received: from mail-wr1-f46.google.com (mail-wr1-f46.google.com
+ [209.85.221.46])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 479C310E36F
+ for <dri-devel@lists.freedesktop.org>; Mon, 10 Nov 2025 09:59:02 +0000 (UTC)
+Received: by mail-wr1-f46.google.com with SMTP id
+ ffacd0b85a97d-42b31507ed8so1414179f8f.1
+ for <dri-devel@lists.freedesktop.org>; Mon, 10 Nov 2025 01:59:02 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=riscstar-com.20230601.gappssmtp.com; s=20230601; t=1762768741; x=1763373541;
+ darn=lists.freedesktop.org; 
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+ bh=wKdtCn/XoTBMU0W91zbNyyVRdCbCwPGBIxEuE5k5q+8=;
+ b=bpoH+2eEdnxmENQhF+nq9ga240aFthTPUzEOc6+ShR8UcqF+rZ4GcyLJ6tCg7xVfBd
+ 63R7rlhwMgADcjWpLdaRVi9R4d68uVOehv8HTYUdNd9u6+DGL/58mOFy3Nf3PAOei9YY
+ AKS+CI1ITqkuvRxyDLI2TAefrL1PB/qX/zvMpm15OkeE/blxZJ+/fHzk1VTv17a9sSvk
+ yiejyU0wk9VVT0KBzxQJ1PK3TylCNQQIFYK2JJCB0DN17ExsjFrmEi+RvbCEa6fIF8pH
+ mjC3OOqvONSd/PLS7PXd1nt3lPcP5WuEYvAn/qUaWomPH0OPU8VQAjaO/EbMhV3x4/3l
+ cFyw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1762768741; x=1763373541;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=wKdtCn/XoTBMU0W91zbNyyVRdCbCwPGBIxEuE5k5q+8=;
+ b=VFija+EBuTRUsAWtDc6mSoMj+dWWHIxFo/sWsEnSPzMUNptLfccUCpREnayA6ekRge
+ gJgX4H3or+vxyo6IRazk5PxoIFf5aAJmnuLnPAy00rc9CCW5Ww12iDopgwUPHlY5t5T/
+ vBYMOG4YKMaiMLK+YxSi6rRyfy8sev0dlxkLuyTP//22LkZHZOzVMxvWSkFYdXDP+fbi
+ j7Zh7WWEh+EgO+f3O9Bog0wFIHs3YDpQRYUkFewOcoNaVGI0T81QjeSzBpT4CiOd8sFo
+ nuG5wRVFh9r2oHIVsqUIXBMFeCIU0pRDo7O//SWIY9RuOksUNz8G3EOPMbuJGwlPBxAq
+ ZWAQ==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCVjpc3bGdyMCsXh3XT+e7xcR9AKEDhoE6aGNqqXSUWCMR752sFM+98bUn8hHlxQiSoF9P0u8TFKP/s=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YyKDPoxB2haQGZtNnrzWIJjaibQrxvUt+JU+hZMOkmXXO8ZSgML
+ HFcbNoj9Su38+19GefhyTHfyAHabJoPvzegYVo/wZlo7E15tXNyL1CK3KDZPRnC5bj0=
+X-Gm-Gg: ASbGncsMGCl0B333GdhaYotXxHFZgrJL+oe2jC7Al3n5+XgzgEYXhcxjMpdy6suBj1w
+ 6HNL3WQymhUGj9z/mF9vkJqyUIJLCZvRnKSKxKp1H+zMyirx0Hsx7ihvikwyPGynCLzeEHFSLU3
+ IZshgVCth9G1QP+QqmlCxioby3G6GkyBGziCwnvJc+83X58RRYw+/fJKleLfqsvLqn+T+1PqYLU
+ l2Gsulf/qy+plEqESGwZseDQxUSEmnw7jfgH9F/qynLcAhRbzqyMfw5FBdwfFdgJxrxq2lSVfIM
+ htHdSCf4YFMTIqrqfip1qHw9De+OhK0qu4AzvgxAuJkg8DB49SBFMxZ8TMUpclTktIzbVajRPDQ
+ j87hSEVYzO9R/jewrNlWOJeiN6xq1UXKspqMlykdm98sJLRaYh2Vj9RBAnLMcjSDKaWpvRUBDpK
+ lK8Wj2hdWjOh4lPHtICjdWW+D9+fxFvsnyYDRNjFsun/1tktzX0qmdKtCDmc4=
+X-Google-Smtp-Source: AGHT+IESDCHlcbXRXRa2TG5aApGtSH2moJB6JVIAkSw02ybwWPI2qmXCnmEZcdOIcRiKJ320ee1qvg==
+X-Received: by 2002:a5d:5885:0:b0:429:d19f:d959 with SMTP id
+ ffacd0b85a97d-42b2dc1ab24mr7071023f8f.15.1762768740534; 
+ Mon, 10 Nov 2025 01:59:00 -0800 (PST)
+Received: from aspen.lan
+ (aztw-34-b2-v4wan-166919-cust780.vm26.cable.virginm.net. [82.37.195.13])
+ by smtp.gmail.com with ESMTPSA id
+ ffacd0b85a97d-42b32ecf522sm9799000f8f.45.2025.11.10.01.58.59
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 10 Nov 2025 01:58:59 -0800 (PST)
+Date: Mon, 10 Nov 2025 10:01:11 +0000
+From: Daniel Thompson <daniel@riscstar.com>
+To: Maud Spierings <maudspierings@gocontroll.com>
+Cc: Lee Jones <lee@kernel.org>, Daniel Thompson <danielt@kernel.org>,
+ Jingoo Han <jingoohan1@gmail.com>, Pavel Machek <pavel@kernel.org>,
+ Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>, Helge Deller <deller@gmx.de>,
+ Shawn Guo <shawnguo@kernel.org>, Sascha Hauer <s.hauer@pengutronix.de>,
+ Pengutronix Kernel Team <kernel@pengutronix.de>,
+ Fabio Estevam <festevam@gmail.com>, Liam Girdwood <lgirdwood@gmail.com>,
+ Mark Brown <broonie@kernel.org>, dri-devel@lists.freedesktop.org,
+ linux-leds@vger.kernel.org, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-fbdev@vger.kernel.org,
+ imx@lists.linux.dev, linux-arm-kernel@lists.infradead.org
+Subject: Re: [PATCH v5 2/4] backlight: add max25014atg backlight
+Message-ID: <aRG359gIeP48V2ZZ@aspen.lan>
+References: <20251107-max25014-v5-0-9a6aa57306bf@gocontroll.com>
+ <20251107-max25014-v5-2-9a6aa57306bf@gocontroll.com>
+ <aQ4a2SBDldYgQb56@aspen.lan>
+ <f4e52cc1-9c5f-4069-9079-83be794ab2b3@gocontroll.com>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 2/6] drm/atomic: use drm_crtc_vblank_waitqueue()
-To: Jani Nikula <jani.nikula@intel.com>, dri-devel@lists.freedesktop.org
-Cc: intel-gfx@lists.freedesktop.org, intel-xe@lists.freedesktop.org,
- ville.syrjala@linux.intel.com
-References: <cover.1762513240.git.jani.nikula@intel.com>
- <1097348197acea9110da8baebbbc189890d01660.1762513240.git.jani.nikula@intel.com>
-Content-Language: en-US
-From: Thomas Zimmermann <tzimmermann@suse.de>
-Autocrypt: addr=tzimmermann@suse.de; keydata=
- xsBNBFs50uABCADEHPidWt974CaxBVbrIBwqcq/WURinJ3+2WlIrKWspiP83vfZKaXhFYsdg
- XH47fDVbPPj+d6tQrw5lPQCyqjwrCPYnq3WlIBnGPJ4/jreTL6V+qfKRDlGLWFjZcsrPJGE0
- BeB5BbqP5erN1qylK9i3gPoQjXGhpBpQYwRrEyQyjuvk+Ev0K1Jc5tVDeJAuau3TGNgah4Yc
- hdHm3bkPjz9EErV85RwvImQ1dptvx6s7xzwXTgGAsaYZsL8WCwDaTuqFa1d1jjlaxg6+tZsB
- 9GluwvIhSezPgnEmimZDkGnZRRSFiGP8yjqTjjWuf0bSj5rUnTGiyLyRZRNGcXmu6hjlABEB
- AAHNJ1Rob21hcyBaaW1tZXJtYW5uIDx0emltbWVybWFubkBzdXNlLmRlPsLAjgQTAQgAOAIb
- AwULCQgHAgYVCgkICwIEFgIDAQIeAQIXgBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftODH
- AAoJEGgNwR1TC3ojx1wH/0hKGWugiqDgLNXLRD/4TfHBEKmxIrmfu9Z5t7vwUKfwhFL6hqvo
- lXPJJKQpQ2z8+X2vZm/slsLn7J1yjrOsoJhKABDi+3QWWSGkaGwRJAdPVVyJMfJRNNNIKwVb
- U6B1BkX2XDKDGffF4TxlOpSQzdtNI/9gleOoUA8+jy8knnDYzjBNOZqLG2FuTdicBXblz0Mf
- vg41gd9kCwYXDnD91rJU8tzylXv03E75NCaTxTM+FBXPmsAVYQ4GYhhgFt8S2UWMoaaABLDe
- 7l5FdnLdDEcbmd8uLU2CaG4W2cLrUaI4jz2XbkcPQkqTQ3EB67hYkjiEE6Zy3ggOitiQGcqp
- j//OwE0EWznS4AEIAMYmP4M/V+T5RY5at/g7rUdNsLhWv1APYrh9RQefODYHrNRHUE9eosYb
- T6XMryR9hT8XlGOYRwKWwiQBoWSDiTMo/Xi29jUnn4BXfI2px2DTXwc22LKtLAgTRjP+qbU6
- 3Y0xnQN29UGDbYgyyK51DW3H0If2a3JNsheAAK+Xc9baj0LGIc8T9uiEWHBnCH+RdhgATnWW
- GKdDegUR5BkDfDg5O/FISymJBHx2Dyoklv5g4BzkgqTqwmaYzsl8UxZKvbaxq0zbehDda8lv
- hFXodNFMAgTLJlLuDYOGLK2AwbrS3Sp0AEbkpdJBb44qVlGm5bApZouHeJ/+n+7r12+lqdsA
- EQEAAcLAdgQYAQgAIAIbDBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftOH6AAoJEGgNwR1T
- C3ojVSkIALpAPkIJPQoURPb1VWjh34l0HlglmYHvZszJWTXYwavHR8+k6Baa6H7ufXNQtThR
- yIxJrQLW6rV5lm7TjhffEhxVCn37+cg0zZ3j7zIsSS0rx/aMwi6VhFJA5hfn3T0TtrijKP4A
- SAQO9xD1Zk9/61JWk8OysuIh7MXkl0fxbRKWE93XeQBhIJHQfnc+YBLprdnxR446Sh8Wn/2D
- Ya8cavuWf2zrB6cZurs048xe0UbSW5AOSo4V9M0jzYI4nZqTmPxYyXbm30Kvmz0rYVRaitYJ
- 4kyYYMhuULvrJDMjZRvaNe52tkKAvMevcGdt38H4KSVXAylqyQOW5zvPc4/sq9c=
-In-Reply-To: <1097348197acea9110da8baebbbc189890d01660.1762513240.git.jani.nikula@intel.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Spam-Level: 
-X-Spam-Flag: NO
-X-Rspamd-Queue-Id: 7BC4A21DA1
-X-Rspamd-Action: no action
-X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
-X-Spamd-Result: default: False [-4.51 / 50.00]; BAYES_HAM(-3.00)[100.00%];
- NEURAL_HAM_LONG(-1.00)[-1.000];
- R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
- NEURAL_HAM_SHORT(-0.20)[-1.000]; MIME_GOOD(-0.10)[text/plain];
- MX_GOOD(-0.01)[]; RCVD_VIA_SMTP_AUTH(0.00)[];
- FUZZY_RATELIMITED(0.00)[rspamd.com]; ARC_NA(0.00)[];
- RCVD_TLS_ALL(0.00)[]; MIME_TRACE(0.00)[0:+];
- RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from]; 
- SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
- TO_DN_SOME(0.00)[];
- RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
- MID_RHS_MATCH_FROM(0.00)[];
- DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
- FROM_EQ_ENVFROM(0.00)[]; FROM_HAS_DN(0.00)[];
- RCPT_COUNT_FIVE(0.00)[5]; RCVD_COUNT_TWO(0.00)[2];
- TO_MATCH_ENVRCPT_ALL(0.00)[];
- DBL_BLOCKED_OPENRESOLVER(0.00)[intel.com:email,imap1.dmz-prg2.suse.org:rdns,imap1.dmz-prg2.suse.org:helo,bootlin.com:url,suse.de:dkim,suse.de:mid,suse.de:email,suse.com:url];
- URIBL_BLOCKED(0.00)[intel.com:email,imap1.dmz-prg2.suse.org:rdns,imap1.dmz-prg2.suse.org:helo,suse.de:dkim,suse.de:mid,suse.de:email,suse.com:url,bootlin.com:url];
- DKIM_TRACE(0.00)[suse.de:+]
-X-Spam-Score: -4.51
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <f4e52cc1-9c5f-4069-9079-83be794ab2b3@gocontroll.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -152,72 +103,72 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi
-
-Am 07.11.25 um 12:04 schrieb Jani Nikula:
-> We have drm_crtc_vblank_waitqueue() to get the wait_queue_head_t pointer
-> for a vblank. Use it instead of poking at dev->vblank[] directly.
+On Mon, Nov 10, 2025 at 09:40:07AM +0100, Maud Spierings wrote:
+> On 11/7/25 17:14, Daniel Thompson wrote:
+> > On Fri, Nov 07, 2025 at 01:49:59PM +0100, Maud Spierings via B4 Relay wrote:
+> > > +/**
+> > > + * @brief control the brightness with i2c registers
+> > > + *
+> > > + * @param regmap trivial
+> > > + * @param brt brightness
+> > > + * @return int
+> > > + */
+> > > +static int max25014_register_control(struct regmap *regmap, uint32_t brt)
+> >
+> > This isn't a good name for a function. It doesn't really say what it
+> > does. Please find a more descriptive name.
 >
-> Due to the macro maze of wait_event_timeout() that uses the address-of
-> operator on the argument, we have to pass it in with the indirection
-> operator.
+> Having a lot of difficulties find a succinct name that fits better,
+> max25014_register_brightness_control()?
+> max25014_i2c_brightness_control()?
+
+I'd focus on what it does rather than how it does it meaning something
+like max25014_update_brightness() would work.
+
+However, at present, this code is only called from
+max25014_update_status() so the simplest thing to do is to move the
+code into max25014_update_status() and remove this function entirely
+(then it doesn't matter what it is called ;-) ).
+
+
+> > > +/*
+> > > + * 1. disable unused strings
+> > > + * 2. set dim mode
+> > > + * 3. set initial brightness
+> >
+> > How does this code set the initial brightness? It doens't set the
+> > MAX25014_TON* registers.
 >
-> Signed-off-by: Jani Nikula <jani.nikula@intel.com>
+> Yep forgot to remove that, I discovered the backlight core takes care of the
+> default brightness, so I removed it from here.
 
-Reviewed-by Thomas Zimmermann <tzimmermann@suse.de>
+What do you mean by this? Are you sure you aren't relying on another
+driver to enable the backlight rather than the backlight core?
 
-But... drm_crtc_vblank_waitqueue() is a terrible interface IMHO, as it 
-exports internal details of the vblank implementation.
+> > > + * 4. set setting register
+> > > + * 5. enable the backlight
+> > > + */
+> > > +static int max25014_configure(struct max25014 *maxim)
 
-I wonder if the existing users at [1] and [2] couldn't be replaced with 
-a common vblank helper.
 
-And there's drm_wait_one_vblank() [3] and the waiting that's being fixed 
-here [4]. The latter looks like [3] but with multiple CRTC waiting for 
-their next vblank. I'd say this could be a single implementation within 
-the vblank code.
-
-[1] 
-https://elixir.bootlin.com/linux/v6.18-rc4/source/drivers/gpu/drm/i915/display/intel_display_rps.c#L73
-[2] 
-https://elixir.bootlin.com/linux/v6.18-rc4/source/drivers/gpu/drm/i915/display/intel_vblank.c#L715
-[3] 
-https://elixir.bootlin.com/linux/v6.18-rc4/source/drivers/gpu/drm/drm_vblank.c#L1304
-[4] 
-https://elixir.bootlin.com/linux/v6.18-rc4/source/drivers/gpu/drm/drm_atomic_helper.c#L1837
-
-Best regards
-Thomas
-
-> ---
->   drivers/gpu/drm/drm_atomic_helper.c | 4 +++-
->   1 file changed, 3 insertions(+), 1 deletion(-)
+> > > +static int max25014_probe(struct i2c_client *cl)
+> > > <snip>
+> > > +
+> > > +	/* Enable can be tied to vin rail wait if either is available */
+> > > +	if (maxim->enable || maxim->vin) {
+> > > +		/* Datasheet Electrical Characteristics tSTARTUP 2ms */
+> > > +		usleep_range(2000, 2500);
+> > > +	}
+> >
+> > If you really want to keep the devm_regulator_get_optional() I guess
+> > maybe you could persuade me it's need to avoid this sleep... although
+> > I'd be fairly happy to remove the NULL checks here too!
 >
-> diff --git a/drivers/gpu/drm/drm_atomic_helper.c b/drivers/gpu/drm/drm_atomic_helper.c
-> index 5a473a274ff0..e641fcf8c568 100644
-> --- a/drivers/gpu/drm/drm_atomic_helper.c
-> +++ b/drivers/gpu/drm/drm_atomic_helper.c
-> @@ -1831,10 +1831,12 @@ drm_atomic_helper_wait_for_vblanks(struct drm_device *dev,
->   	}
->   
->   	for_each_old_crtc_in_state(state, crtc, old_crtc_state, i) {
-> +		wait_queue_head_t *queue = drm_crtc_vblank_waitqueue(crtc);
-> +
->   		if (!(crtc_mask & drm_crtc_mask(crtc)))
->   			continue;
->   
-> -		ret = wait_event_timeout(dev->vblank[i].queue,
-> +		ret = wait_event_timeout(*queue,
->   					 state->crtcs[i].last_vblank_count !=
->   						drm_crtc_vblank_count(crtc),
->   					 msecs_to_jiffies(100));
+> Just wait unconditionally?
 
--- 
---
-Thomas Zimmermann
-Graphics Driver Developer
-SUSE Software Solutions Germany GmbH
-Frankenstr. 146, 90461 Nürnberg, Germany, www.suse.com
-GF: Jochen Jaser, Andrew McDonald, Werner Knoblich, (HRB 36809, AG Nürnberg)
+If you think it will be unusual for the driver to be used without enable
+or regulator then it's ok to wait unconditionally (all examples you
+have added so far have an enable pin).
 
 
+Daniel.
