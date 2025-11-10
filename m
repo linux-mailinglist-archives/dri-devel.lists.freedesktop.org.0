@@ -2,60 +2,88 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7F5CBC49AD0
-	for <lists+dri-devel@lfdr.de>; Tue, 11 Nov 2025 00:00:18 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8046FC49B75
+	for <lists+dri-devel@lfdr.de>; Tue, 11 Nov 2025 00:16:02 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8B91D10E32F;
-	Mon, 10 Nov 2025 23:00:02 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9BCAC10E0B4;
+	Mon, 10 Nov 2025 23:15:59 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="Fq25NlIc";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="l2xgqcl4";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sea.source.kernel.org (sea.source.kernel.org [172.234.252.31])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5D24E10E0F7;
- Mon, 10 Nov 2025 23:00:01 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by sea.source.kernel.org (Postfix) with ESMTP id 267E144289;
- Mon, 10 Nov 2025 23:00:01 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D9D6EC116B1;
- Mon, 10 Nov 2025 23:00:00 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1762815601;
- bh=BujzcxiDCu1XUvYvuSazspHPPX6uO2Q49KTJHCnBteM=;
- h=Date:From:To:Cc:Subject:In-Reply-To:From;
- b=Fq25NlIcNfb7ZrirU5L6qzWU2I/qH/CWKW/w8OQC2ZXdZNuXWy0/pVOpyDz+PppPs
- 3cnnoS0+U7zqxefMGHK+GcEJ1bPvMoc9WS5T/PFJNOdssnEq8A1E4C/BY8kNYJO98f
- YAfdrTMd2JgFSj+9TM8Va4dY/j+X06X1GOXnZDGrWg3G4JdxW+BZrft8hp8xxrEbtN
- a1v++eycBKbmZ0FpC1z3pgSkWip7JeVzveINO/Tl8Sc09OVUpiRhUagLR5vm58ignH
- 7BjniRQXXNFTzb/SlajwviaVC9iw2kmcUH4O/at9YIK46ab2ZALQt8lHOIBaXVqYGS
- 0zWwumfG8/b8w==
-Date: Mon, 10 Nov 2025 16:59:58 -0600
-From: Bjorn Helgaas <helgaas@kernel.org>
-To: Ilpo =?utf-8?B?SsOkcnZpbmVu?= <ilpo.jarvinen@linux.intel.com>
-Cc: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>,
- Simon Richter <Simon.Richter@hogyros.de>,
- Lucas De Marchi <lucas.demarchi@intel.com>,
- Alex Deucher <alexander.deucher@amd.com>,
- amd-gfx@lists.freedesktop.org, Bjorn Helgaas <bhelgaas@google.com>,
- David Airlie <airlied@gmail.com>, dri-devel@lists.freedesktop.org,
- intel-gfx@lists.freedesktop.org, intel-xe@lists.freedesktop.org,
- Jani Nikula <jani.nikula@linux.intel.com>,
- Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
- linux-pci@vger.kernel.org, Rodrigo Vivi <rodrigo.vivi@intel.com>,
- Simona Vetter <simona@ffwll.ch>, Tvrtko Ursulin <tursulin@ursulin.net>,
- Christian =?utf-8?B?S8O2bmln?= <christian.koenig@amd.com>,
- Thomas =?utf-8?Q?Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>,
- =?utf-8?Q?Micha=C5=82?= Winiarski <michal.winiarski@intel.com>,
- LKML <linux-kernel@vger.kernel.org>
-Subject: Re: [PATCH 1/9] PCI: Prevent resource tree corruption when BAR
- resize fails
-Message-ID: <20251110225958.GA2142254@bhelgaas>
+Received: from mail-pl1-f172.google.com (mail-pl1-f172.google.com
+ [209.85.214.172])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id ACD6410E0B4
+ for <dri-devel@lists.freedesktop.org>; Mon, 10 Nov 2025 23:15:58 +0000 (UTC)
+Received: by mail-pl1-f172.google.com with SMTP id
+ d9443c01a7336-297d4ac44fbso2311975ad.0
+ for <dri-devel@lists.freedesktop.org>; Mon, 10 Nov 2025 15:15:58 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20230601; t=1762816558; x=1763421358; darn=lists.freedesktop.org;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+ bh=tTCBfyjKL85nI7lncbdUck6wtAuHEbruuMTez3UdOuA=;
+ b=l2xgqcl4J+OZFodF/QXCfjcJ26eiK+S4ZCV+Xi1T/mySwVWbqzepR8f2hUGI2dyXxa
+ Ws26HFpQ24zMoFAEhRiH75Vi8+hMqhkkYzaYQUAjBoJpjphTMndPJk/QMmmq0xYkPSKp
+ AV5aTMoae+dMR5iZRUOoKUzYJ2V0bVPdW0gKFTt0hNJMEW6+ddaf1WIdcQ42Dtopvn0x
+ gPJjbR0fOQrUENeNSmQnEtAKrlgjAIJfGKksgtbaRZy11GsLrBm57kqZzQwcrnK7P0A7
+ EYGZ6kcRoP3uW6VQVjjYplvhuWsu/+thbLxCSvB54Zl3NH5S7VtqFBt3qvDMUGXuZdKr
+ 47IA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1762816558; x=1763421358;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=tTCBfyjKL85nI7lncbdUck6wtAuHEbruuMTez3UdOuA=;
+ b=TIMaRSk3uhC/F8hRnKhbwvyTzhUDe7NlXZUmWHmOsIRCrxFVDN6PXXi1wFUrCdPFL9
+ ShNH8HOJYjadmkDs6N1dtqkzk62gPNP7JHIdbLVUrqO0xZ7U5j2iBpd/fRnE7h0S+iIb
+ 3Hj43p4EbB9Z1d5Reg2DFxhB2e9/azOmkRv5K7092rXVwClmsuN4Nh0zDBQKZYvRxi1E
+ MDTsk8oni+97HoHhZEEodWR5D+sDd6XhnEMCyNCk6M2ioDZLiqVLYMfzO4Bho0pKkJ3a
+ O//OKSz/Vp5McfyznoAHryTGkuo4Kufj+EO2gfWHOKhiqex7vL++dT/QWoFsP0mPCIS8
+ uF7Q==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCXCg0awV5zFI4+UKs2S0Wx6PZi6kxDGqPfLrKrf1BaaHAAEy4bFLQdqFS0u3YWRJOSEuQQZrFfhNaI=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Yx/Vb8jUlDruxxr6DxYhgeitSVBXj2nB4gxQy+Cl2N7mCcG3uQ1
+ EuPMauujGTBCKNnVIzwzEQWV3iJftwwgnrgU1xcRejkUcfNE2/rkiEpB
+X-Gm-Gg: ASbGncttRC5N9wtJyGM7mgdQzYRVW3Jh2R51TLt5oX8ErHV5csXVDR74AKCES2Uq2yi
+ WOg6H7Q/lBaPqcLuttMubbRrRwT0C8gFLexxg52LQE2rheDLmBPEVWBIqRklMRNPp+qIaFchARB
+ +hEsN0bkDc4lCrhzLEgbtQzevy0c9OV8CHJWoktN/8hg3f6pFLfUrBcsfiR+Y0KH8Qj6YyCJ98D
+ 1pmFVvR5nJrUNylHpVQtZ8ZkAZ4laZ3fBvnXOnA91AdRFBdY6Zecr7FTOT9GUkIq5/lF401wY0a
+ Ra7a0Of1ce1a33m6sbDREG34rHvBe4Q6mv65WqCOnXHAMnhtwv3YTRUHpTYAhkgYR+5IgSiX486
+ KTUEonxLkdv4Z0bKRZZUPohZbrwpT3llLX612MiJ+1s4IRrIKprRWrgX0qiYAwMLyMhvby6sCyf
+ Vc
+X-Google-Smtp-Source: AGHT+IGwvLf3ZgdUd4iAsN+CriZ8KUEaW9yxRhFdFBiIvi5V0uUTvjVhxvMH6yq504eeDgLltAEolQ==
+X-Received: by 2002:a17:903:18d:b0:297:df99:6bd4 with SMTP id
+ d9443c01a7336-29840842cb3mr12574055ad.18.1762816557960; 
+ Mon, 10 Nov 2025 15:15:57 -0800 (PST)
+Received: from archie.me ([210.87.74.117]) by smtp.gmail.com with ESMTPSA id
+ d9443c01a7336-29836cce339sm25144965ad.59.2025.11.10.15.15.56
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 10 Nov 2025 15:15:57 -0800 (PST)
+Received: by archie.me (Postfix, from userid 1000)
+ id 34C6A4206925; Tue, 11 Nov 2025 06:15:55 +0700 (WIB)
+Date: Tue, 11 Nov 2025 06:15:54 +0700
+From: Bagas Sanjaya <bagasdotme@gmail.com>
+To: Jeff Hugo <jeff.hugo@oss.qualcomm.com>,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ Linux Documentation <linux-doc@vger.kernel.org>,
+ Linux ARM MSM <linux-arm-msm@vger.kernel.org>,
+ Linux DRI Development <dri-devel@lists.freedesktop.org>
+Cc: Carl Vanderlip <carl.vanderlip@oss.qualcomm.com>,
+ Oded Gabbay <ogabbay@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
+ Youssef Samir <youssef.abdulrahman@oss.qualcomm.com>,
+ Pranjal Ramajor Asha Kanojiya <quic_pkanojiy@quicinc.com>,
+ Zack McKevitt <zachary.mckevitt@oss.qualcomm.com>,
+ Aswin Venkatesan <aswivenk@qti.qualcomm.com>
+Subject: Re: [PATCH 0/2] accel/qaic documentation fixes
+Message-ID: <aRJyKlRkihq1OcGk@archie.me>
+References: <20251110035952.25778-2-bagasdotme@gmail.com>
+ <e44c8f40-b6ff-4369-8d86-ded225b41544@oss.qualcomm.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <d697c9e1-580e-6449-796c-a3f5198e0934@linux.intel.com>
+In-Reply-To: <e44c8f40-b6ff-4369-8d86-ded225b41544@oss.qualcomm.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -71,35 +99,14 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Oct 30, 2025 at 10:22:27AM +0200, Ilpo Järvinen wrote:
-> On Wed, 29 Oct 2025, Bjorn Helgaas wrote:
+On Mon, Nov 10, 2025 at 11:54:59AM -0700, Jeff Hugo wrote:
+> Thank you for the fixes. Yet again I am impressed by having your fixes in my
+> inbox before I even see the reports.
 > 
-> > On Tue, Oct 28, 2025 at 07:35:43PM +0200, Ilpo Järvinen wrote:
-> > > pbus_reassign_bridge_resources() saves bridge windows into the saved
-> > > list before attempting to adjust resource assignments to perform a BAR
-> > > resize operation. If resource adjustments cannot be completed fully,
-> > > rollback is attempted by restoring the resource from the saved list.
-> > 
-> > > Fixes: 8bb705e3e79d ("PCI: Add pci_resize_resource() for resizing BARs")
-> > > Reported-by: Simon Richter <Simon.Richter@hogyros.de>
-> > > Reported-by: Alex Bennée <alex.bennee@linaro.org>
-> > 
-> > If these reports were public, can we include lore URLs for them?
-> > 
-> > Same question for [PATCH 5/9] PCI: Fix restoring BARs on BAR resize
-> > rollback path.
-> > 
-> > I put these all on pci/resource for build testing.  I assume we'll
-> > tweak these based on testing reports and sorting out the pci/rebar
-> > conflicts.
-> 
-> Thanks, the links will come in v2 along with fixing a few things found by 
-> more extensive tests by LKP. E.g., it seems clang thinks guard() cannot be 
-> used here because goto jumps over it (auto variable initialization gets 
-> skipped so it's kind of understandable limitation).
+> I'll get these merged to drm-misc-next where the offending issues currently
+> reside.  I anticipate getting that done later today.
 
-Just a ping on this.  The lkp robot did build this fine:
-https://lore.kernel.org/r/202510311139.1VIkw3Ez-lkp@intel.com
+Thank you for the compliment!
 
-I'm happy to put it in pci/next as-is, especially if the amdgpu and
-i915 folks are ok with it.
+-- 
+An old man doll... just what I always wanted! - Clara
