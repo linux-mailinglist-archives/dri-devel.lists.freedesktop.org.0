@@ -2,77 +2,70 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1275BC481DB
-	for <lists+dri-devel@lfdr.de>; Mon, 10 Nov 2025 17:52:24 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0A897C4835C
+	for <lists+dri-devel@lfdr.de>; Mon, 10 Nov 2025 18:08:50 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 661B510E43D;
-	Mon, 10 Nov 2025 16:52:22 +0000 (UTC)
-Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="BqWgfWEN";
-	dkim-atps=neutral
+	by gabe.freedesktop.org (Postfix) with ESMTP id DA18710E43C;
+	Mon, 10 Nov 2025 17:08:47 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-f46.google.com (mail-wm1-f46.google.com
- [209.85.128.46])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DA2E410E43D
- for <dri-devel@lists.freedesktop.org>; Mon, 10 Nov 2025 16:52:20 +0000 (UTC)
-Received: by mail-wm1-f46.google.com with SMTP id
- 5b1f17b1804b1-4777771ed1aso13633835e9.2
- for <dri-devel@lists.freedesktop.org>; Mon, 10 Nov 2025 08:52:20 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1762793539; x=1763398339; darn=lists.freedesktop.org;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:from:to:cc:subject:date:message-id:reply-to;
- bh=u+yoMHzq4OWCUa/io8A/Ge/syIs6RyyUhmU2sJkLMP4=;
- b=BqWgfWENHRySLp+nkcVdDaxzYzq5ylYwyDqfw1y+PM8z02G5PWg3LhuAcCgXUDcCMd
- Ap2ddcQgBDiYKK+6qjq0LD/QbB9tskVLHoC3QmCnUWyMDD/qgmlH+NO4MOUr3Ya1+z2x
- ljZ67dgmSaM0Ticdo+M4lLHtSkIMtCiwE2hqcPbMWeIiUgqMrQGis83oMPVsEDX25gQr
- AGfl1Ba9RUNzx/TpNYmU7XAKtGKqucX7ucMk3phLrx/qxQWloxFLpv6BLPyIR2oogRkL
- 3mnDDX6c6p7ZkhghKYldIFQwHXwJrJXSqNRDd3CuM0OchOxSuOcOlf92GRyWRXZoR/gp
- bVFQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1762793539; x=1763398339;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=u+yoMHzq4OWCUa/io8A/Ge/syIs6RyyUhmU2sJkLMP4=;
- b=dpP6dS6vrYiyVN+Irash5Sg56YLZjB7xjdEm7sY9YH+/3AWPta2dgjGt/fdIwHt+ba
- jHqxP/qGfiyxW5dIcG8dRNULL2MNAa0OS19+/D9fQ7ncmsAQUS/SLpI3l5kL/A2lOAc2
- YEx1JQh79dg0i8qKGhcmfPWoV9mAFqd6apxgggP44H+8gn/A7LL+7mqtlPKjc4WjRuWA
- 8QE6cY8tNk8QwuHaXTkcHnyNf0oPojtNIqQf2yeEj+RRPhQd0lVbqwzwKPZBTNXmwgYi
- RyPGwgZrdV1MdWGO0UeM3HXn70OClaiN8r9emgDjnCXKpSysHvTrCDxw6KvbDWvNihqs
- /bHA==
-X-Forwarded-Encrypted: i=1;
- AJvYcCUA+D5CpuaojnAskcZaoQho+rNHKL2E4u0ovVicBucRzSGFjq2T6emjhnEAdkfPp0FTgl7v0hjnCWQ=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Yw7Klp2oE9hDTxqQ6RsQuKckByHUoC3tJHviTRZ5UKuCd+0tUgz
- Rtk9WnMrCMzo9GyqvGhQU6ZYSymOajN3AAltDNY8NOX+V1R0yhflednD
-X-Gm-Gg: ASbGnctnbruchVbduyA4hoiaPOyaizCTwAqXSvB2o2lxLrfXkPyi3JS5fD3/JJ3pQa6
- kD6s1QuoeBoWZNjkuQl5L5iZgiQW8DIdx4WEVYtDprUofFCQ6JLQ9d1Ag7s13gy2GoNZcTsP/Pw
- isG5Fx4Ylvor6yY58+vConQNMnMilKfL+F7hgWzVgLUOEeSzwNSOpOd0MRnSFM/eiivjr9nnAIN
- KNvQ2f5UiTIgBL9yJ9PUKKPE5zkKSz6XT8KXxL8UXQyP8SBjQZdg9l15TkoRiGV+NxKy/R7ZJY9
- EhC3mtpJYpIcd5DOv6TT3d8h5uF73PC740jDMEWWzEfWN8NcdIyFQJc1coB2HcQNx7L0Wb49Zlx
- tQI+ciifkI3uAHPwqjETR0Sg19VOx9rd4sg2qC0NcnR1CwAp1b4JR3JLCC3PNnpXvIQrgIlGQSl
- 9DzgaNXkVTyKMQfLbGMVJWLvo7l5I69DrtvWwPmjKsa90PCY2mXMLl26W883Q=
-X-Google-Smtp-Source: AGHT+IFEBkHfG5WjmgHWOwlDV9Phr4+xIjNcsuxFIG53bO4xWInLPdps27JCx6DYqmMEKGbWLuk6Dw==
-X-Received: by 2002:a05:600c:6384:b0:477:5aaa:57a6 with SMTP id
- 5b1f17b1804b1-477732372aemr64753305e9.10.1762793538848; 
- Mon, 10 Nov 2025 08:52:18 -0800 (PST)
-Received: from dell (229.red-88-1-12.dynamicip.rima-tde.net. [88.1.12.229])
- by smtp.gmail.com with ESMTPSA id
- 5b1f17b1804b1-4777f1b61acsm32926005e9.3.2025.11.10.08.52.16
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 10 Nov 2025 08:52:17 -0800 (PST)
-From: Javier Garcia <rampxxxx@gmail.com>
-To: deller@gmx.de
-Cc: linux-fbdev@vger.kernel.org, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, shuah@kernel.org,
- Javier Garcia <rampxxxx@gmail.com>
-Subject: [PATCH] fbdev/gxt4500: Use dev_err instead printk leftover.
-Date: Mon, 10 Nov 2025 17:52:14 +0100
-Message-ID: <20251110165214.3076586-1-rampxxxx@gmail.com>
-X-Mailer: git-send-email 2.50.1
+X-Greylist: delayed 582 seconds by postgrey-1.36 at gabe;
+ Mon, 10 Nov 2025 17:08:47 UTC
+Received: from relay.hostedemail.com (smtprelay0014.hostedemail.com
+ [216.40.44.14])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1ECB410E43C;
+ Mon, 10 Nov 2025 17:08:47 +0000 (UTC)
+Received: from omf14.hostedemail.com (a10.router.float.18 [10.200.18.1])
+ by unirelay01.hostedemail.com (Postfix) with ESMTP id 220901DE3A8;
+ Mon, 10 Nov 2025 16:59:02 +0000 (UTC)
+Received: from [HIDDEN] (Authenticated sender: rostedt@goodmis.org) by
+ omf14.hostedemail.com (Postfix) with ESMTPA id 150E433; 
+ Mon, 10 Nov 2025 16:58:56 +0000 (UTC)
+Date: Mon, 10 Nov 2025 11:59:05 -0500
+From: Steven Rostedt <rostedt@goodmis.org>
+To: Joel Fernandes <joelagnelf@nvidia.com>
+Cc: Timur Tabi <ttabi@nvidia.com>, John Hubbard <jhubbard@nvidia.com>,
+ "dakr@kernel.org" <dakr@kernel.org>, "lossin@kernel.org"
+ <lossin@kernel.org>, "ojeda@kernel.org" <ojeda@kernel.org>,
+ "boqun.feng@gmail.com" <boqun.feng@gmail.com>, "a.hindborg@kernel.org"
+ <a.hindborg@kernel.org>, "simona@ffwll.ch" <simona@ffwll.ch>,
+ "tmgross@umich.edu" <tmgross@umich.edu>, "alex.gaynor@gmail.com"
+ <alex.gaynor@gmail.com>, "mripard@kernel.org" <mripard@kernel.org>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+ "maarten.lankhorst@linux.intel.com" <maarten.lankhorst@linux.intel.com>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+ "nouveau@lists.freedesktop.org" <nouveau@lists.freedesktop.org>,
+ "rust-for-linux@vger.kernel.org" <rust-for-linux@vger.kernel.org>,
+ "gary@garyguo.net" <gary@garyguo.net>, "bjorn3_gh@protonmail.com"
+ <bjorn3_gh@protonmail.com>, "tzimmermann@suse.de" <tzimmermann@suse.de>,
+ "airlied@gmail.com" <airlied@gmail.com>, "aliceryhl@google.com"
+ <aliceryhl@google.com>, Alexandre Courbot <acourbot@nvidia.com>,
+ "joel@joelfernandes.org" <joel@joelfernandes.org>, Alistair Popple
+ <apopple@nvidia.com>
+Subject: Re: [PATCH v2 08/12] nova-core: sequencer: Add register opcodes
+Message-ID: <20251110115905.68bd2826@gandalf.local.home>
+In-Reply-To: <b07b21e8-5dd4-4d40-bcad-dd8dc4fbaef4@nvidia.com>
+References: <20251102235920.3784592-1-joelagnelf@nvidia.com>
+ <20251102235920.3784592-9-joelagnelf@nvidia.com>
+ <d6c9c7f2-098e-4b55-b754-4287b698fc1c@nvidia.com>
+ <0FF9536C-8740-42C3-8EF1-5C8CD5520E49@nvidia.com>
+ <93c758298250d2be9262256a698c243343b64ebc.camel@nvidia.com>
+ <3c625930-348a-4c96-a63a-6a3e98e59734@nvidia.com>
+ <acc56fbb56c3f40119e5a6abf9f13093d7f4c7e7.camel@nvidia.com>
+ <ac85d8be-3cbd-4a51-a627-3a1a9926d801@nvidia.com>
+ <b07b21e8-5dd4-4d40-bcad-dd8dc4fbaef4@nvidia.com>
+X-Mailer: Claws Mail 3.20.0git84 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
+X-Stat-Signature: bo8n554brdybxe8tzkoe4zkojd6htetn
+X-Spam-Status: No, score=1.37
+X-Rspamd-Server: rspamout01
+X-Rspamd-Queue-Id: 150E433
+X-Session-Marker: 726F737465647440676F6F646D69732E6F7267
+X-Session-ID: U2FsdGVkX1+H1piAeME0Nak4QTI1kjlWaClalfQMSFM=
+X-HE-Tag: 1762793936-15452
+X-HE-Meta: U2FsdGVkX18TeH8c44PwmQl/1Qx235QkyrGTE7kzUCFZNeIues/vHHR9gVsLOKSe70MgRYhlbKVtXukGhUco+yVUjRsy9xPF+C8Y6/xUVN5JPLrB93Fwkk+2uuXkJjtAhswbXwYHgrCXgdQD1BfUR5/5QQyUoDoJHnFAhiQDpwM4PX63cOWwTdQKoO+XwzmFExHfqne3daMVosLc3oQ91W7DlejwGHdcbYTjjLoD/wmQl5oDz8Sq3jfGi7KsTCxslWalMmXuHYU/O0p3AaaTW/IHAEv2no9GbmaY7vN9KIk+Ae3tCkrmiWoPoe1qBt0iabYI3JpUK9WBEmdsWBaqrBOTGQFbwqXz
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -88,28 +81,39 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-I coundn't test as not have that hw but cross compiled to check the code
-change.
+On Mon, 10 Nov 2025 10:16:45 -0500
+Joel Fernandes <joelagnelf@nvidia.com> wrote:
 
-Fixes: a3d899839064 ("[PATCH] Fbdev driver for IBM GXT4500P videocards")
-Signed-off-by: Javier Garcia <rampxxxx@gmail.com>
----
- drivers/video/fbdev/gxt4500.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+> > IMO, the best way to do this is the tracing subsystem. It is the lowest overhead
+> > runtime kernel logging system that I know off, lockless, independent of the
+> > serial console etc, next to no runtime overhead when off, etc.
+> > 
+> > I recommend we use the tracing subsystem for "trace" and even "spam" level
+> > logging levels for Nova. The brave souls can always ask the tracing subsystem to
+> > also spam to kernel logs if they so wish.
+> > 
+> > ++ Tracing Czar Steven Rostedt as well. Steve, Nova is a new modern Nvidia GPU
+> > driver.
 
-diff --git a/drivers/video/fbdev/gxt4500.c b/drivers/video/fbdev/gxt4500.c
-index 15a82c6b609e..27a46e364419 100644
---- a/drivers/video/fbdev/gxt4500.c
-+++ b/drivers/video/fbdev/gxt4500.c
-@@ -704,7 +704,7 @@ static int gxt4500_probe(struct pci_dev *pdev, const struct pci_device_id *ent)
- 	}
- 	info->var = var;
- 	if (gxt4500_set_par(info)) {
--		printk(KERN_ERR "gxt4500: cannot set video mode\n");
-+		dev_err(&pdev->dev, "gxt4500: cannot set video mode\n");
- 		goto err_free_cmap;
- 	}
- 
--- 
-2.50.1
+Not sure if there was a question here, but you can enable tracing via the
+kernel command line and it will record into the ring buffer, and read it
+out via /sys/kernel/tracing/trace. You could also create instances by the
+kernel command line that will place events in different ring buffer
+instances (/sys/kernel/tracing/instances/<instance>/trace). You could even
+filter the events based on the trace event fields, process ID, CPU, etc.
 
+There's also a tp_printk kernel command line option that will turn every
+trace event into a printk() statement. You need to be careful of what
+events you enable when doing this, as some events (like locking events) can
+live lock the system if they are piped to printk().
+
+After boot up, you can turn off the tp_printk with:
+
+  echo 0 > /proc/sys/kernel/tracepoint_printk
+
+-- Steve
+
+> > 
+> > I guess we have to decide how to do this - what kind of tracepoints do we need
+> > for Nova. One use case that just came up is RPC message buffer dumps for
+> > debugging communication with the firmware.
