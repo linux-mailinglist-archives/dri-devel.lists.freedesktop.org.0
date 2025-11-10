@@ -2,46 +2,46 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 94B77C48AAB
-	for <lists+dri-devel@lfdr.de>; Mon, 10 Nov 2025 19:48:18 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1F67AC48AB1
+	for <lists+dri-devel@lfdr.de>; Mon, 10 Nov 2025 19:48:20 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D766310E46F;
-	Mon, 10 Nov 2025 18:48:16 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4434A10E4B4;
+	Mon, 10 Nov 2025 18:48:18 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="i//J1rP8";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="QrD8nQIY";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8A90210E2E6;
- Mon, 10 Nov 2025 18:48:06 +0000 (UTC)
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 14AD510E4B1;
+ Mon, 10 Nov 2025 18:48:08 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1762800486; x=1794336486;
+ t=1762800488; x=1794336488;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=2GLm4NVkdUuOv+K7T0bT1SYFkvMIdVSo+0VB+hLNaFU=;
- b=i//J1rP8ssbNe/joZv2rkYUrq7zmD5QTIsGtoalT2HRvijanGcFpnuVX
- kkQLQ7ctNdblwND5Xz1ZWtkOPjxqTEx1l0QdCmZHTxk9YYb+pt3dNvfM/
- msQsjYuGOORj0h+qoX9d9ZAzzPndQbuiwA0001KaOnp7OMrmiH5AxkQsA
- K5yCDcN1ZRfeB1ztErompNctj5Hgll+G9uC7C99qrOqum9clNg5IvkUqn
- 3nFmvXJlzd3+Gv1PRN6XzRV0eJ+ht7Fv7adllbrHasKG9HzJ430AZZjrj
- 73f0x4pP8F/rvGGxnCA5nmuTwI1dPfRKimoAbPy3f3vCSfr2LHPRyyjDo Q==;
-X-CSE-ConnectionGUID: 898UvrgUR6+lEfxTCLjRiA==
-X-CSE-MsgGUID: O3UetNPrQZeCJwtCibMdQg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11609"; a="68705409"
-X-IronPort-AV: E=Sophos;i="6.19,294,1754982000"; d="scan'208";a="68705409"
-Received: from fmviesa008.fm.intel.com ([10.60.135.148])
- by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 10 Nov 2025 10:48:06 -0800
-X-CSE-ConnectionGUID: T9JvXfd2RP6uhr7fMRGrgQ==
-X-CSE-MsgGUID: Pv4wkjngReqizgRny5HiIw==
+ bh=QGRUCvRhLj/TwbX4dQMKGketmqckWUD9lEEl/Hr0Xm0=;
+ b=QrD8nQIYrnDtdaaSaHWIyzrAH7HPg1HwbEPI8pokhWniu6TmTRoU14KG
+ Y+Q7dQzOnvzu1zj4tz6E53GZmCu8X/mi3t6nx1QjPI8jPY3AyKHkufz7x
+ YXvRDpP1XMQSMfRlJST7jxHAVsmF8cuBi534SU+IRfdNnaLHh84xEjEYF
+ zB7KRjLUQvJk9BgQ+Zq/D+cTeHT+/P2JEUEnx7coPBk4LIZpUIM2ynozq
+ 75qRSvya+lTZLfM5fiy088idTIgalEo9U9Lr1QEVFk5xGCuIj/R6LqscR
+ BCytYfSSzGOamjua6sAgutC3xZOudwS2HnXzAWzOHmO/9dlM5Xl03fMuz g==;
+X-CSE-ConnectionGUID: dYmhplxQT+GraNvcyz71Qw==
+X-CSE-MsgGUID: 6kZL/p9OT46jJXcnGpG3Iw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11609"; a="64945525"
+X-IronPort-AV: E=Sophos;i="6.19,294,1754982000"; d="scan'208";a="64945525"
+Received: from orviesa002.jf.intel.com ([10.64.159.142])
+ by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 10 Nov 2025 10:48:08 -0800
+X-CSE-ConnectionGUID: nY+7EE6iTdmlvdOdF/MRgA==
+X-CSE-MsgGUID: ur4itLZhTBu7r9UEfABuHA==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.19,294,1754982000"; d="scan'208";a="188985842"
+X-IronPort-AV: E=Sophos;i="6.19,294,1754982000"; d="scan'208";a="219402036"
 Received: from black.igk.intel.com ([10.91.253.5])
- by fmviesa008.fm.intel.com with ESMTP; 10 Nov 2025 10:47:58 -0800
+ by orviesa002.jf.intel.com with ESMTP; 10 Nov 2025 10:47:58 -0800
 Received: by black.igk.intel.com (Postfix, from userid 1003)
- id 71F03A8; Mon, 10 Nov 2025 19:47:29 +0100 (CET)
+ id 78395A9; Mon, 10 Nov 2025 19:47:29 +0100 (CET)
 From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
 To: Corey Minyard <corey@minyard.net>,
  =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
@@ -114,9 +114,9 @@ Cc: Rasmus Villemoes <linux@rasmusvillemoes.dk>,
  Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
  Andrew Morton <akpm@linux-foundation.org>,
  Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>
-Subject: [PATCH v1 19/23] ptp: ocp: Switch to use %ptSp
-Date: Mon, 10 Nov 2025 19:40:38 +0100
-Message-ID: <20251110184727.666591-20-andriy.shevchenko@linux.intel.com>
+Subject: [PATCH v1 20/23] s390/dasd: Switch to use %ptSp
+Date: Mon, 10 Nov 2025 19:40:39 +0100
+Message-ID: <20251110184727.666591-21-andriy.shevchenko@linux.intel.com>
 X-Mailer: git-send-email 2.50.1
 In-Reply-To: <20251110184727.666591-1-andriy.shevchenko@linux.intel.com>
 References: <20251110184727.666591-1-andriy.shevchenko@linux.intel.com>
@@ -140,56 +140,25 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 Use %ptSp instead of open coded variants to print content of
 struct timespec64 in human readable format.
 
-While at it, fix wrong use of %ptT against struct timespec64.
-It's kinda lucky that it worked just because the first member
-there 64-bit and it's of time64_t type. Now with %ptS it may
-be used correctly.
-
 Signed-off-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
 ---
- drivers/ptp/ptp_ocp.c | 15 ++++++---------
- 1 file changed, 6 insertions(+), 9 deletions(-)
+ drivers/s390/block/dasd.c | 3 +--
+ 1 file changed, 1 insertion(+), 2 deletions(-)
 
-diff --git a/drivers/ptp/ptp_ocp.c b/drivers/ptp/ptp_ocp.c
-index a5c363252986..a0bb8d3045d2 100644
---- a/drivers/ptp/ptp_ocp.c
-+++ b/drivers/ptp/ptp_ocp.c
-@@ -3261,7 +3261,7 @@ signal_show(struct device *dev, struct device_attribute *attr, char *buf)
- 			   signal->duty, signal->phase, signal->polarity);
- 
- 	ts = ktime_to_timespec64(signal->start);
--	count += sysfs_emit_at(buf, count, " %ptT TAI\n", &ts);
-+	count += sysfs_emit_at(buf, count, " %ptS TAI\n", &ts);
- 
- 	return count;
- }
-@@ -4287,11 +4287,9 @@ ptp_ocp_summary_show(struct seq_file *s, void *data)
- 		ns += (s64)bp->utc_tai_offset * NSEC_PER_SEC;
- 		sys_ts = ns_to_timespec64(ns);
- 
--		seq_printf(s, "%7s: %lld.%ld == %ptT TAI\n", "PHC",
--			   ts.tv_sec, ts.tv_nsec, &ts);
--		seq_printf(s, "%7s: %lld.%ld == %ptT UTC offset %d\n", "SYS",
--			   sys_ts.tv_sec, sys_ts.tv_nsec, &sys_ts,
--			   bp->utc_tai_offset);
-+		seq_printf(s, "%7s: %ptSp == %ptS TAI\n", "PHC", &ts, &ts);
-+		seq_printf(s, "%7s: %ptSp == %ptS UTC offset %d\n", "SYS",
-+			   &sys_ts, &sys_ts, bp->utc_tai_offset);
- 		seq_printf(s, "%7s: PHC:SYS offset: %lld  window: %lld\n", "",
- 			   timespec64_to_ns(&ts) - ns,
- 			   post_ns - pre_ns);
-@@ -4499,9 +4497,8 @@ ptp_ocp_phc_info(struct ptp_ocp *bp)
- 		 ptp_clock_index(bp->ptp));
- 
- 	if (!ptp_ocp_gettimex(&bp->ptp_info, &ts, NULL))
--		dev_info(&bp->pdev->dev, "Time: %lld.%ld, %s\n",
--			 ts.tv_sec, ts.tv_nsec,
--			 bp->sync ? "in-sync" : "UNSYNCED");
-+		dev_info(&bp->pdev->dev, "Time: %ptSp, %s\n",
-+			 &ts, bp->sync ? "in-sync" : "UNSYNCED");
- }
- 
- static void
+diff --git a/drivers/s390/block/dasd.c b/drivers/s390/block/dasd.c
+index 7765e40f7cea..97dcc70f669e 100644
+--- a/drivers/s390/block/dasd.c
++++ b/drivers/s390/block/dasd.c
+@@ -974,8 +974,7 @@ static void dasd_stats_array(struct seq_file *m, unsigned int *array)
+ static void dasd_stats_seq_print(struct seq_file *m,
+ 				 struct dasd_profile_info *data)
+ {
+-	seq_printf(m, "start_time %lld.%09ld\n",
+-		   (s64)data->starttod.tv_sec, data->starttod.tv_nsec);
++	seq_printf(m, "start_time %ptSp\n", &data->starttod);
+ 	seq_printf(m, "total_requests %u\n", data->dasd_io_reqs);
+ 	seq_printf(m, "total_sectors %u\n", data->dasd_io_sects);
+ 	seq_printf(m, "total_pav %u\n", data->dasd_io_alias);
 -- 
 2.50.1
 
