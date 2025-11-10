@@ -2,57 +2,79 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C1E00C450DD
-	for <lists+dri-devel@lfdr.de>; Mon, 10 Nov 2025 06:59:18 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 65914C451DD
+	for <lists+dri-devel@lfdr.de>; Mon, 10 Nov 2025 07:45:28 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3916410E2A7;
-	Mon, 10 Nov 2025 05:59:16 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7D04610E049;
+	Mon, 10 Nov 2025 06:45:25 +0000 (UTC)
+Authentication-Results: gabe.freedesktop.org;
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="lm5OedKf";
+	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 301 seconds by postgrey-1.36 at gabe;
- Mon, 10 Nov 2025 05:59:14 UTC
-Received: from mailgw.kylinos.cn (mailgw.kylinos.cn [124.126.103.232])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E2FCA10E2A7
- for <dri-devel@lists.freedesktop.org>; Mon, 10 Nov 2025 05:59:14 +0000 (UTC)
-X-UUID: ab57b4d0bdf911f0a38c85956e01ac42-20251110
-X-CID-P-RULE: Release_Ham
-X-CID-O-INFO: VERSION:1.3.6, REQID:2f6e72d8-d770-4979-b607-3281a7764172, IP:0,
- UR
- L:0,TC:0,Content:0,EDM:0,RT:0,SF:0,FILE:0,BULK:0,RULE:Release_Ham,ACTION:r
- elease,TS:0
-X-CID-META: VersionHash:a9d874c, CLOUDID:b0e8edb61dd256a2a58d8e2f3ba068b7,
- BulkI
- D:nil,BulkQuantity:0,Recheck:0,SF:80|81|82|83|102,TC:nil,Content:0|15|52,E
- DM:-3,IP:nil,URL:0,File:nil,RT:nil,Bulk:nil,QS:nil,BEC:nil,COL:0,OSI:0,OSA
- :0,AV:0,LES:1,SPR:NO,DKR:0,DKP:0,BRR:0,BRE:0,ARC:0
-X-CID-BVR: 2,SSN|SDN
-X-CID-BAS: 2,SSN|SDN,0,_
-X-CID-FACTOR: TF_CID_SPAM_SNR
-X-CID-RHF: D41D8CD98F00B204E9800998ECF8427E
-X-UUID: ab57b4d0bdf911f0a38c85956e01ac42-20251110
-X-User: oushixiong@kylinos.cn
-Received: from [10.42.17.251] [(10.44.16.150)] by mailgw.kylinos.cn
- (envelope-from <oushixiong@kylinos.cn>)
- (Generic MTA with TLSv1.3 TLS_AES_128_GCM_SHA256 128/128)
- with ESMTP id 1072133735; Mon, 10 Nov 2025 13:54:06 +0800
-Message-ID: <376a4a95-5428-47d6-9da5-51c8141e71d1@kylinos.cn>
-Date: Mon, 10 Nov 2025 13:54:04 +0800
+Received: from mail-ua1-f51.google.com (mail-ua1-f51.google.com
+ [209.85.222.51])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A7D0E10E049
+ for <dri-devel@lists.freedesktop.org>; Mon, 10 Nov 2025 06:45:24 +0000 (UTC)
+Received: by mail-ua1-f51.google.com with SMTP id
+ a1e0cc1a2514c-93515cb8c2bso1559805241.1
+ for <dri-devel@lists.freedesktop.org>; Sun, 09 Nov 2025 22:45:24 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20230601; t=1762757123; x=1763361923; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=TJ7LYF5rARcfLsBpxePOybR+1y8/o3ZLz4XlyN978+M=;
+ b=lm5OedKfGW4fT5BlaaSuxGsm5oa7T8I4fzWLNU21e50d+U7unlePENb9XgBf+JppJr
+ +fU4/Wqstr/QjudZWsewUbXfj8REX2O0fYa8sB+F/Nc8LQHljA3D0w2mH0Qvtg2gSiPu
+ jNh5ATqFk2Ucuoi4S9yUQCxdpx1pvI2ln0iE9I53bBsBktzmVYe+f6/eNuigc1D8dLkK
+ bbsjO73QduyyEBpU2Tex1iNpfCvHKR96hLThyvwM4R9U387p9YSqxNJcDslDhlcuwLum
+ hUHLukoNwYSx69rzjVnf2BjdCce55AkiyfHiWnL6GKLYFQzPToWpbdKg1QRPAsQa1rvb
+ ymPA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1762757123; x=1763361923;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
+ :to:cc:subject:date:message-id:reply-to;
+ bh=TJ7LYF5rARcfLsBpxePOybR+1y8/o3ZLz4XlyN978+M=;
+ b=KveO6ezHOgR19E8NSsFktFwPik2Goc0c0w/VY6tBzJC1Bzd4NZ1vsBaxahyxvVEHW+
+ 5zIfEYkfN45pic6aF/U0ZcQS6wWHcmnTfr5jhTO0bvgBZPs2g0FvxVb6k4Lr6h0gWOfQ
+ VG8nKP7qfWUD10PAlyHyLHXCX4teuXvhDNpsPpzvxh+aAzQ8eRkT0LHOwA4POOEYzY3r
+ dZKxeXoU/OuLV3Z3ED5Re/4eLwAN9DL/Ca9qUARB3rWxRjsH0bQCo3dg0rtcI5n+BMkd
+ eFa2d1MeQr4di8I2RQzugiyoPk/cjRmDi/YHq2qxYvH/a30+gwytv/buvsRCmYO6HHnW
+ g2hw==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCXp4+64U3ZhVj4oWpN7bqYM+DKv89QFfAizHmSD/uY/djdw37mJ9TN2ADsSNc+eItsvwGfuq5fAaTM=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YzXe3giGcKFX34lpikp00C0UEvidfzi345dGuX6OJWwzHPrcmGi
+ aG6HgZkDy4KdPKFGDtEVzNI1dOdjDAUXym2X+XvkQlgmaK2EohAl1469hLwYc27QeZvbXLPi2GN
+ U3rDXfbIMz4l7TO4AOHcllzmDioJD1l4=
+X-Gm-Gg: ASbGncvj+EDBET+70XqwS79iHdpnRSd4AipwX18yoO58iner6eMpenm3v1W1CnCLd9G
+ WVi4xM6kekdaBCmCmNlijFivAH29YzB4h2Ob6dNLCxjI2s1bppk+aGFK1QMJE8sxq+I9fc/ARXq
+ WSnhMjIQaPQKMPuINVMT+a/TapI2Ba0PCYVY9uB/e7doRA8xvgzowdrDpKsGL1W9Gin+/CmlrL5
+ jrCZumpLq6piauBumWxpnrEqQT/m3Oi7B3HREZ87NjbMscS7RTgSsaYYTgrT2Sn3hRjgQ==
+X-Google-Smtp-Source: AGHT+IF+gs9QIahGISXKJRHjGuXprvZlDgmBa+ZvpM71d+5sssU4cyVVLoFXELWcuPET2oDoTXg/lkyadapsy4GEvcw=
+X-Received: by 2002:a05:6102:c51:b0:5dd:a69a:b935 with SMTP id
+ ada2fe7eead31-5ddc468ea63mr2373148137.16.1762757123612; Sun, 09 Nov 2025
+ 22:45:23 -0800 (PST)
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] drm/fb-helper: add fbdev screen expended mode display
- support
-To: Thomas Zimmermann <tzimmermann@suse.de>, oushixiong1025@163.com,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
-Cc: Maxime Ripard <mripard@kernel.org>, David Airlie <airlied@gmail.com>,
- Simona Vetter <simona@ffwll.ch>, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, Tiger Liu <liuyihu@kylinos.cn>
-References: <20251107092641.111431-1-oushixiong1025@163.com>
- <15166a78-b603-464a-8fa5-b7dd43d55029@suse.de>
-Content-Language: en-US
-From: Shixiong Ou <oushixiong@kylinos.cn>
-In-Reply-To: <15166a78-b603-464a-8fa5-b7dd43d55029@suse.de>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+References: <CGME20250929042917epcas2p43d95408c9c43ff49ff6674136d7c64d3@epcas2p4.samsung.com>
+ <20250929043110.3631025-1-hy_fifty.lee@samsung.com>
+ <20250929043110.3631025-4-hy_fifty.lee@samsung.com>
+In-Reply-To: <20250929043110.3631025-4-hy_fifty.lee@samsung.com>
+From: Inki Dae <daeinki@gmail.com>
+Date: Mon, 10 Nov 2025 15:44:46 +0900
+X-Gm-Features: AWmQ_bnm9xQ99kNtPGcygx_UKQxpZ_ctsO76xXZQ0SPcCmu0BnofZ2Xoq2-JZF4
+Message-ID: <CAAQKjZMDe-nXN14qQQTHR9HMwqCcbTospjMg_P98G0e=XAO5NQ@mail.gmail.com>
+Subject: Re: [PATCH 3/3] drm/exynos: Move mode_config setup from fb.c to drv.c
+To: Hoyoung Lee <hy_fifty.lee@samsung.com>
+Cc: Seung-Woo Kim <sw0312.kim@samsung.com>,
+ Kyungmin Park <kyungmin.park@samsung.com>, 
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
+ Krzysztof Kozlowski <krzk@kernel.org>, Alim Akhtar <alim.akhtar@samsung.com>, 
+ dri-devel@lists.freedesktop.org, linux-arm-kernel@lists.infradead.org, 
+ linux-samsung-soc@vger.kernel.org, linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -68,228 +90,204 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+2025=EB=85=84 9=EC=9B=94 29=EC=9D=BC (=EC=9B=94) =EC=98=A4=ED=9B=84 1:29, H=
+oyoung Lee <hy_fifty.lee@samsung.com>=EB=8B=98=EC=9D=B4 =EC=9E=91=EC=84=B1:
+>
+> Relocate exynos_drm_mode_config_init() and the mode_config funcs/helpers
+> from exynos_drm_fb.c to exynos_drm_drv.c, and invoke
+> drm_mode_config_init() from inside exynos_drm_mode_config_init().
+>
+> Rationale: resolve the historical fb.c placement, align with common DRM
+> layering (mode_config is device-wide policy that belongs in the core
+> driver), and make initialization order explicit before creating KMS
+> objects and binding components.
+>
+> No functional change intended.
 
-在 2025/11/7 18:06, Thomas Zimmermann 写道:
->
->
-> Am 07.11.25 um 10:26 schrieb oushixiong1025@163.com:
->> From: Shixiong Ou <oushixiong@kylinos.cn>
->>
->> Add fbdev screen extended mode display support
->
-> What? What is this about?
->
-If an fbdev device has multiple screens, they are mirrored by default.
-This patch aims to enable extended display for the tty, allowing 
-horizontal or
-vertical expansion to achieve a screen splicing effect in the tty terminal.
+This patch looks fine to me.
+However, since the second patch should be applied first, please repost
+them as v2.
 
-Best regards,
-Shixiong
+Thanks,
+Inki Dae
 
->>
->> Signed-off-by: Tiger Liu <liuyihu@kylinos.cn>
->> Signed-off-by: Shixiong Ou <oushixiong@kylinos.cn>
->> ---
->>   drivers/gpu/drm/drm_fb_helper.c | 143 ++++++++++++++++++++++++++++++--
->>   1 file changed, 135 insertions(+), 8 deletions(-)
->>
->> diff --git a/drivers/gpu/drm/drm_fb_helper.c 
->> b/drivers/gpu/drm/drm_fb_helper.c
->> index 53e9dc0543de..a6ec03bf3aef 100644
->> --- a/drivers/gpu/drm/drm_fb_helper.c
->> +++ b/drivers/gpu/drm/drm_fb_helper.c
->> @@ -78,6 +78,17 @@ MODULE_PARM_DESC(drm_leak_fbdev_smem,
->>            "Allow unsafe leaking fbdev physical smem address 
->> [default=false]");
->>   #endif
->>   +#define SCREEN_CLONE            0x0
->> +#define SCREEN_EXPAND_HORIZONTAL    0x1
->> +#define SCREEN_EXPAND_VERTICAL        0x2
->> +
->> +static bool drm_fbdev_screen_expand_mode_enabled;
->> +static int drm_fbdev_screen_mode = SCREEN_CLONE;
->> +module_param_named(screen_mode, drm_fbdev_screen_mode, int, 0444);
->> +MODULE_PARM_DESC(screen_mode,
->> +         "Screen display of the fbdev. [0 = clone(default), 1 = 
->> expand horizontally,"
->> +         "2 = expand vertically]");
->> +
->>   static LIST_HEAD(kernel_fb_helper_list);
->>   static DEFINE_MUTEX(kernel_fb_helper_lock);
->>   @@ -1345,15 +1356,35 @@ int drm_fb_helper_set_par(struct fb_info 
->> *info)
->>   }
->>   EXPORT_SYMBOL(drm_fb_helper_set_par);
->>   -static void pan_set(struct drm_fb_helper *fb_helper, int dx, int dy)
->> +static void pan_set_locked(struct drm_client_dev *client,
->> +               int dx, int dy)
->>   {
->>       struct drm_mode_set *mode_set;
->> +    int screen_x_offset = dx;
->> +    int screen_y_offset = dy;
->>   -    mutex_lock(&fb_helper->client.modeset_mutex);
->> -    drm_client_for_each_modeset(mode_set, &fb_helper->client) {
->> -        mode_set->x += dx;
->> -        mode_set->y += dy;
->> +    drm_client_for_each_modeset(mode_set, client) {
->> +        if (drm_fbdev_screen_expand_mode_enabled) {
->> +            if (drm_fbdev_screen_mode == SCREEN_EXPAND_HORIZONTAL) {
->> +                mode_set->x += screen_x_offset;
->> +                mode_set->y += screen_y_offset;
->> +                screen_x_offset += mode_set->mode->hdisplay;
->> +            } else if (drm_fbdev_screen_mode == 
->> SCREEN_EXPAND_VERTICAL) {
->> +                mode_set->x += screen_x_offset;
->> +                mode_set->y += screen_y_offset;
->> +                screen_y_offset += mode_set->mode->vdisplay;
->> +            }
->> +        } else {
->> +            mode_set->x = screen_x_offset;
->> +            mode_set->y = screen_y_offset;
->> +        }
->>       }
->> +}
->> +
->> +static void pan_set(struct drm_fb_helper *fb_helper, int dx, int dy)
->> +{
->> +    mutex_lock(&fb_helper->client.modeset_mutex);
->> +    pan_set_locked(&fb_helper->client, dx, dy);
->>       mutex_unlock(&fb_helper->client.modeset_mutex);
->>   }
->>   @@ -1387,10 +1418,8 @@ static int pan_display_legacy(struct 
->> fb_var_screeninfo *var,
->>         mutex_lock(&client->modeset_mutex);
->>       drm_modeset_lock_all(fb_helper->dev);
->> +    pan_set_locked(client, var->xoffset, var->yoffset);
->>       drm_client_for_each_modeset(modeset, client) {
->> -        modeset->x = var->xoffset;
->> -        modeset->y = var->yoffset;
->> -
->>           if (modeset->num_connectors) {
->>               ret = drm_mode_set_config_internal(modeset);
->>               if (!ret) {
->> @@ -1461,6 +1490,94 @@ static uint32_t 
->> drm_fb_helper_find_format(struct drm_fb_helper *fb_helper, const
->>       return DRM_FORMAT_INVALID;
->>   }
->>   +/*
->> + * Check if the device supports extended mode
->> + *
->> + * return true if the device supports extended mode,
->> + * otherwise return false.
->> + */
->> +static bool drm_fb_helper_validate_extended_mode(struct 
->> drm_fb_helper *fb_helper,
->> +                         struct drm_fb_helper_surface_size *sizes)
->> +{
->> +    struct drm_client_dev *client = &fb_helper->client;
->> +    struct drm_device *dev = fb_helper->dev;
->> +    struct drm_mode_config *config = &dev->mode_config;
->> +    struct drm_mode_set *mode_set;
->> +    u32 crtc_count;
->> +
->> +    drm_client_for_each_modeset(mode_set, client) {
->> +        crtc_count++;
->> +
->> +        for (int j = 0; j < mode_set->num_connectors; j++) {
->> +            struct drm_connector *connector = mode_set->connectors[j];
->> +
->> +            if (connector->has_tile) {
->> +                drm_dbg_kms(client->dev,
->> +                        "Don't support extended with tile mode 
->> connector yet\n");
->> +                return false;
->> +            }
->> +        }
->> +    }
->> +
->> +    if (crtc_count < 2) {
->> +        drm_dbg_kms(client->dev,
->> +                "Only support extended mode when device have 
->> mult-crtcs\n");
->> +        return false;
->> +    }
->> +
->> +    if (drm_fbdev_screen_mode == SCREEN_EXPAND_HORIZONTAL) {
->> +        u32 x = 0;
->> +
->> +        drm_client_for_each_modeset(mode_set, client) {
->> +            struct drm_display_mode *desired_mode;
->> +
->> +            desired_mode = mode_set->mode;
->> +            x = mode_set->x;
->> +            sizes->fb_width = sizes->surface_width  += 
->> desired_mode->hdisplay;
->> +            sizes->surface_height =
->> +                min_t(u32, desired_mode->vdisplay + mode_set->y,
->> +                      sizes->surface_height);
->> +            sizes->fb_height = min_t(u32, desired_mode->vdisplay + 
->> mode_set->y,
->> +                         sizes->fb_height);
->> +        }
->> +        sizes->fb_width = sizes->surface_width += x;
->> +
->> +        if (sizes->fb_width > config->max_width) {
->> +            drm_dbg_kms(client->dev,
->> +                    "screen_buffer total width %d > config width %d\n",
->> +                    sizes->fb_width, config->max_width);
->> +            return false;
->> +        }
->> +    } else if (drm_fbdev_screen_mode == SCREEN_EXPAND_VERTICAL) {
->> +        u32 y = 0;
->> +
->> +        drm_client_for_each_modeset(mode_set, client) {
->> +            struct drm_display_mode *desired_mode;
->> +
->> +            desired_mode = mode_set->mode;
->> +            y = mode_set->y;
->> +            sizes->fb_height = sizes->surface_height += 
->> desired_mode->vdisplay;
->> +            sizes->surface_width =
->> +                min_t(u32, desired_mode->hdisplay + mode_set->x,
->> +                      sizes->surface_width);
->> +            sizes->fb_width = min_t(u32, desired_mode->hdisplay + 
->> mode_set->x,
->> +                        sizes->fb_width);
->> +        }
->> +        sizes->fb_height = sizes->surface_height += y;
->> +
->> +        if (sizes->fb_height > config->max_height) {
->> +            drm_dbg_kms(client->dev,
->> +                    "screen_buffer_total_height %d > config height 
->> %d\n",
->> +                    sizes->fb_height, config->max_height);
->> +            return false;
->> +        }
->> +    } else {
->> +        return false;
->> +    }
->> +
->> +    return true;
->> +}
->> +
->>   static int __drm_fb_helper_find_sizes(struct drm_fb_helper *fb_helper,
->>                         struct drm_fb_helper_surface_size *sizes)
->>   {
->> @@ -1527,6 +1644,16 @@ static int __drm_fb_helper_find_sizes(struct 
->> drm_fb_helper *fb_helper,
->>         /* first up get a count of crtcs now in use and new min/maxes 
->> width/heights */
->>       crtc_count = 0;
->> +
->> +    /* Check if we support extended mode. If we do, we will adjust 
->> the sizes accordingly. */
->> +    if (drm_fbdev_screen_mode &&
->> +        drm_fb_helper_validate_extended_mode(fb_helper, sizes)) {
->> +        drm_fbdev_screen_expand_mode_enabled = true;
->> +        drm_dbg_kms(dev, "Extended mode: horizontal expansion, 
->> width: %d, height: %d\n",
->> +                sizes->surface_width, sizes->surface_height);
->> +        return 0;
->> +    }
->> +
->>       drm_client_for_each_modeset(mode_set, client) {
->>           struct drm_display_mode *desired_mode;
->>           int x, y, j;
+>
+> Signed-off-by: Hoyoung Lee <hy_fifty.lee@samsung.com>
+> ---
+>  drivers/gpu/drm/exynos/exynos_drm_drv.c | 47 ++++++++++++++++++++++---
+>  drivers/gpu/drm/exynos/exynos_drm_fb.c  | 34 ++----------------
+>  drivers/gpu/drm/exynos/exynos_drm_fb.h  |  7 ++--
+>  3 files changed, 49 insertions(+), 39 deletions(-)
+>
+> diff --git a/drivers/gpu/drm/exynos/exynos_drm_drv.c b/drivers/gpu/drm/ex=
+ynos/exynos_drm_drv.c
+> index 1aea71778ab1..6362cd417a4e 100644
+> --- a/drivers/gpu/drm/exynos/exynos_drm_drv.c
+> +++ b/drivers/gpu/drm/exynos/exynos_drm_drv.c
+> @@ -233,6 +233,43 @@ static struct component_match *exynos_drm_match_add(=
+struct device *dev)
+>         return match ?: ERR_PTR(-ENODEV);
+>  }
+>
+> +static struct drm_mode_config_helper_funcs exynos_drm_mode_config_helper=
+s =3D {
+> +       .atomic_commit_tail =3D drm_atomic_helper_commit_tail_rpm,
+> +};
+> +
+> +static const struct drm_mode_config_funcs exynos_drm_mode_config_funcs =
+=3D {
+> +       .fb_create =3D exynos_user_fb_create,
+> +       .atomic_check =3D drm_atomic_helper_check,
+> +       .atomic_commit =3D drm_atomic_helper_commit,
+> +};
+> +
+> +static int exynos_drm_mode_config_init(struct drm_device *dev)
+> +{
+> +       int ret;
+> +
+> +       ret =3D drmm_mode_config_init(dev);
+> +       if (ret)
+> +               return ret;
+> +
+> +       dev->mode_config.min_width =3D 0;
+> +       dev->mode_config.min_height =3D 0;
+> +
+> +       /*
+> +        * set max width and height as default value(4096x4096).
+> +        * this value would be used to check framebuffer size limitation
+> +        * at drm_mode_addfb().
+> +        */
+> +       dev->mode_config.max_width =3D 4096;
+> +       dev->mode_config.max_height =3D 4096;
+> +
+> +       dev->mode_config.funcs =3D &exynos_drm_mode_config_funcs;
+> +       dev->mode_config.helper_private =3D &exynos_drm_mode_config_helpe=
+rs;
+> +
+> +       dev->mode_config.normalize_zpos =3D true;
+> +
+> +       return 0;
+> +}
+> +
+>  static int exynos_drm_bind(struct device *dev)
+>  {
+>         struct exynos_drm_private *private;
+> @@ -257,9 +294,9 @@ static int exynos_drm_bind(struct device *dev)
+>         dev_set_drvdata(dev, drm);
+>         drm->dev_private =3D (void *)private;
+>
+> -       drmm_mode_config_init(drm);
+> -
+> -       exynos_drm_mode_config_init(drm);
+> +       ret =3D exynos_drm_mode_config_init(drm);
+> +       if (ret)
+> +               goto err_free_private;
+>
+>         /* setup possible_clones. */
+>         clone_mask =3D 0;
+> @@ -272,7 +309,7 @@ static int exynos_drm_bind(struct device *dev)
+>         /* Try to bind all sub drivers. */
+>         ret =3D component_bind_all(drm->dev, drm);
+>         if (ret)
+> -               goto err_mode_config_cleanup;
+> +               goto err_free_private;
+>
+>         ret =3D drm_vblank_init(drm, drm->mode_config.num_crtc);
+>         if (ret)
+> @@ -296,7 +333,7 @@ static int exynos_drm_bind(struct device *dev)
+>         drm_kms_helper_poll_fini(drm);
+>  err_unbind_all:
+>         component_unbind_all(drm->dev, drm);
+> -err_mode_config_cleanup:
+> +err_free_private:
+>         exynos_drm_cleanup_dma(drm);
+>         kfree(private);
+>         dev_set_drvdata(dev, NULL);
+> diff --git a/drivers/gpu/drm/exynos/exynos_drm_fb.c b/drivers/gpu/drm/exy=
+nos/exynos_drm_fb.c
+> index ddd73e7f26a3..c118a079d308 100644
+> --- a/drivers/gpu/drm/exynos/exynos_drm_fb.c
+> +++ b/drivers/gpu/drm/exynos/exynos_drm_fb.c
+> @@ -8,8 +8,7 @@
+>   *     Seung-Woo Kim <sw0312.kim@samsung.com>
+>   */
+>
+> -#include <drm/drm_atomic.h>
+> -#include <drm/drm_atomic_helper.h>
+> +#include <drm/drm_modeset_helper.h>
+>  #include <drm/drm_crtc.h>
+>  #include <drm/drm_framebuffer.h>
+>  #include <drm/drm_fourcc.h>
+> @@ -93,7 +92,7 @@ exynos_drm_framebuffer_init(struct drm_device *dev,
+>         return ERR_PTR(ret);
+>  }
+>
+> -static struct drm_framebuffer *
+> +struct drm_framebuffer *
+>  exynos_user_fb_create(struct drm_device *dev, struct drm_file *file_priv=
+,
+>                       const struct drm_format_info *info,
+>                       const struct drm_mode_fb_cmd2 *mode_cmd)
+> @@ -150,32 +149,3 @@ dma_addr_t exynos_drm_fb_dma_addr(struct drm_framebu=
+ffer *fb, int index)
+>         exynos_gem =3D to_exynos_gem(fb->obj[index]);
+>         return exynos_gem->dma_addr + fb->offsets[index];
+>  }
+> -
+> -static struct drm_mode_config_helper_funcs exynos_drm_mode_config_helper=
+s =3D {
+> -       .atomic_commit_tail =3D drm_atomic_helper_commit_tail_rpm,
+> -};
+> -
+> -static const struct drm_mode_config_funcs exynos_drm_mode_config_funcs =
+=3D {
+> -       .fb_create =3D exynos_user_fb_create,
+> -       .atomic_check =3D drm_atomic_helper_check,
+> -       .atomic_commit =3D drm_atomic_helper_commit,
+> -};
+> -
+> -void exynos_drm_mode_config_init(struct drm_device *dev)
+> -{
+> -       dev->mode_config.min_width =3D 0;
+> -       dev->mode_config.min_height =3D 0;
+> -
+> -       /*
+> -        * set max width and height as default value(4096x4096).
+> -        * this value would be used to check framebuffer size limitation
+> -        * at drm_mode_addfb().
+> -        */
+> -       dev->mode_config.max_width =3D 4096;
+> -       dev->mode_config.max_height =3D 4096;
+> -
+> -       dev->mode_config.funcs =3D &exynos_drm_mode_config_funcs;
+> -       dev->mode_config.helper_private =3D &exynos_drm_mode_config_helpe=
+rs;
+> -
+> -       dev->mode_config.normalize_zpos =3D true;
+> -}
+> diff --git a/drivers/gpu/drm/exynos/exynos_drm_fb.h b/drivers/gpu/drm/exy=
+nos/exynos_drm_fb.h
+> index fdc6cb40cc9c..0c79ce5d4a8d 100644
+> --- a/drivers/gpu/drm/exynos/exynos_drm_fb.h
+> +++ b/drivers/gpu/drm/exynos/exynos_drm_fb.h
+> @@ -19,8 +19,11 @@ exynos_drm_framebuffer_init(struct drm_device *dev,
+>                             struct exynos_drm_gem **exynos_gem,
+>                             int count);
+>
+> -dma_addr_t exynos_drm_fb_dma_addr(struct drm_framebuffer *fb, int index)=
+;
+> +struct drm_framebuffer *
+> +exynos_user_fb_create(struct drm_device *dev, struct drm_file *file_priv=
+,
+> +                     const struct drm_format_info *info,
+> +                     const struct drm_mode_fb_cmd2 *mode_cmd);
+>
+> -void exynos_drm_mode_config_init(struct drm_device *dev);
+> +dma_addr_t exynos_drm_fb_dma_addr(struct drm_framebuffer *fb, int index)=
+;
+>
+>  #endif
+> --
+> 2.34.1
+>
 >
