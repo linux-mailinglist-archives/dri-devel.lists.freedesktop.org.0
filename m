@@ -2,66 +2,64 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5D5B0C467EB
-	for <lists+dri-devel@lfdr.de>; Mon, 10 Nov 2025 13:12:10 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7E316C4680D
+	for <lists+dri-devel@lfdr.de>; Mon, 10 Nov 2025 13:12:46 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7CF6010E395;
-	Mon, 10 Nov 2025 12:12:06 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D69F810E067;
+	Mon, 10 Nov 2025 12:12:44 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="G1omGA0h";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="gwR0dnz4";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2914D10E387;
- Mon, 10 Nov 2025 12:12:05 +0000 (UTC)
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BDD9D10E067
+ for <dri-devel@lists.freedesktop.org>; Mon, 10 Nov 2025 12:12:42 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1762776725; x=1794312725;
- h=from:to:cc:subject:in-reply-to:references:date:
- message-id:mime-version;
- bh=Gq1Qz9de0zDdr7Qza9fayAQEpXpfGWwvApSfAxEFrck=;
- b=G1omGA0hXOppyDbA6On8JSz01FLJWAggrdfYozTMuPlzwn4YLSKvwQb2
- OpBtrdvAlIjYJZAdp/dCQuI4WyX8ZkuH2qhUTXPxvKG+TWsNBDEuOHD50
- EL+zszhDaJSSbhn1l3h6NIGXbcgMHygAFBvSPH2QPK3JS3Hk4tPL1poWl
- Wji6fMiO6UZSP1fVmGosPSZyaLOWYSxwqLY45wfYIpeO1s93n06P4VV0Q
- Ta/4+UZoC5OTIW6SSRM2P2OyzE2WFcLv5/DlJyqUDqRw9aAX0RPvXBCcF
- ScCYNEyht4+oBCfcsbvzfxybL57FRDvgz2cL3ns2atgYipmhfMTPj22qw A==;
-X-CSE-ConnectionGUID: uksbPI6eTaC66d0iOuJn7w==
-X-CSE-MsgGUID: yceLlf4wTHSdTozkuo5OCA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11531"; a="64734782"
-X-IronPort-AV: E=Sophos;i="6.17,312,1747724400"; d="scan'208";a="64734782"
-Received: from fmviesa010.fm.intel.com ([10.60.135.150])
- by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 10 Nov 2025 04:12:05 -0800
-X-CSE-ConnectionGUID: HH7CDWeHTiWebboaKijKWA==
-X-CSE-MsgGUID: BnoiTsyASuSg/n0lzooiUg==
+ t=1762776763; x=1794312763;
+ h=date:from:to:cc:subject:message-id:references:
+ mime-version:in-reply-to;
+ bh=yzGSD1deVr4Tn78N15H/ci6TxRT1XXPF04nElnFf1xY=;
+ b=gwR0dnz4ZBt9JYfZ7dHdlTrwvDLz1FcjwoIdTWnbOZ+1bjkvSqNqNK9R
+ KWRRkSbcaIyinvkJ9m9ApwrD2D2lVdKPzdaBoxccrLL3glYI70fm34JPj
+ 2rFuD1Q0AkYFAwTorigrojaZiydlBcuUB+VaZ4O0DZiMZezQS3Wtsdi60
+ TSUpglwsfiVkBEmAC5dXiVeUlvyGhWxZF3ea+FfNeetSzutix4KQyvR+c
+ Fbu99o0n44PcO/OCX1Pxzj9hIw+uOSeI2fSw8uLgK1k/maPYYxliEDi+f
+ Jt3PyTA2b8j7TwIUIhhO8zYsffel/g9aMfOATC2nkbZ2E4v0dx8M+cDGl g==;
+X-CSE-ConnectionGUID: tKm5VujgSFSojK2OqO1bbw==
+X-CSE-MsgGUID: n1irvUZ7SGGmM7kHgdsKaw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11608"; a="68467779"
+X-IronPort-AV: E=Sophos;i="6.19,293,1754982000"; d="scan'208";a="68467779"
+Received: from fmviesa006.fm.intel.com ([10.60.135.146])
+ by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 10 Nov 2025 04:12:42 -0800
+X-CSE-ConnectionGUID: 8+TWTtMwSYW5Hzc880c7CA==
+X-CSE-MsgGUID: 4XqcJeUdQIC5ubqAW2QpFg==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.19,293,1754982000"; d="scan'208";a="189379199"
-Received: from ettammin-mobl2.ger.corp.intel.com (HELO localhost)
- ([10.245.246.202])
- by fmviesa010-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 10 Nov 2025 04:11:59 -0800
-From: Jani Nikula <jani.nikula@linux.intel.com>
-To: Krzysztof Karas <krzysztof.karas@intel.com>, Marco Crivellari
- <marco.crivellari@suse.com>
-Cc: linux-kernel@vger.kernel.org, intel-gfx@lists.freedesktop.org,
- dri-devel@lists.freedesktop.org, Tejun Heo <tj@kernel.org>, Lai Jiangshan
- <jiangshanlai@gmail.com>, Frederic Weisbecker <frederic@kernel.org>,
- Sebastian Andrzej Siewior <bigeasy@linutronix.de>, Michal Hocko
- <mhocko@suse.com>, Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>, Tvrtko Ursulin
- <tursulin@ursulin.net>, David Airlie <airlied@gmail.com>, Simona Vetter
- <simona@ffwll.ch>
-Subject: Re: [PATCH v3 0/3] replace old wq(s), add WQ_PERCPU to alloc_workqueue
-In-Reply-To: <34ozsv3e6ujs4rn6c2r4nrjcjifgazddy5jecwur6atfcop6vp@bunf3uyofmb4>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-References: <20251104100032.61525-1-marco.crivellari@suse.com>
- <34ozsv3e6ujs4rn6c2r4nrjcjifgazddy5jecwur6atfcop6vp@bunf3uyofmb4>
-Date: Mon, 10 Nov 2025 14:11:56 +0200
-Message-ID: <aaac1c9b25d0fc2500e67d05948a22d77dcc72e7@intel.com>
+X-IronPort-AV: E=Sophos;i="6.19,293,1754982000"; d="scan'208";a="188496676"
+Received: from lkp-server01.sh.intel.com (HELO 7b01c990427b) ([10.239.97.150])
+ by fmviesa006.fm.intel.com with ESMTP; 10 Nov 2025 04:12:39 -0800
+Received: from kbuild by 7b01c990427b with local (Exim 4.96)
+ (envelope-from <lkp@intel.com>) id 1vIQlA-0000Op-2P;
+ Mon, 10 Nov 2025 12:12:36 +0000
+Date: Mon, 10 Nov 2025 20:12:27 +0800
+From: kernel test robot <lkp@intel.com>
+To: Thomas Zimmermann <tzimmermann@suse.de>, jfalempe@redhat.com,
+ javierm@redhat.com, simona@ffwll.ch, airlied@gmail.com,
+ mripard@kernel.org, maarten.lankhorst@linux.intel.com,
+ gregkh@linuxfoundation.org, jirislaby@kernel.org
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ linux-serial@vger.kernel.org, Thomas Zimmermann <tzimmermann@suse.de>
+Subject: Re: [PATCH 2/3] drm/client: Support emergency restore via sysrq for
+ all clients
+Message-ID: <202511101950.bIUDG3LX-lkp@intel.com>
+References: <20251107142612.467817-3-tzimmermann@suse.de>
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20251107142612.467817-3-tzimmermann@suse.de>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -77,123 +75,64 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, 05 Nov 2025, Krzysztof Karas <krzysztof.karas@intel.com> wrote:
-> Hi Marco,
->
-> thanks for addressing my comments!
->
-> Reviewed-by: Krzysztof Karas <krzysztof.karas@intel.com>
-> on the whole series.
+Hi Thomas,
 
-The series absolutely must go through both i915 and xe CI before
-merging. Krzysztof, can you please make follow through with that?
+kernel test robot noticed the following build warnings:
 
-BR,
-Jani.
+[auto build test WARNING on next-20251107]
+[cannot apply to drm/drm-next drm-exynos/exynos-drm-next drm-intel/for-linux-next drm-intel/for-linux-next-fixes drm-misc/drm-misc-next drm-tip/drm-tip linus/master v6.18-rc4 v6.18-rc3 v6.18-rc2 v6.18-rc5]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
->  
-> Best Regards,
-> Krzysztof
->
-> On 2025-11-04 at 11:00:29 +0100, Marco Crivellari wrote:
->> Hi,
->> 
->> === Current situation: problems ===
->> 
->> Let's consider a nohz_full system with isolated CPUs: wq_unbound_cpumask is
->> set to the housekeeping CPUs, for !WQ_UNBOUND the local CPU is selected.
->> 
->> This leads to different scenarios if a work item is scheduled on an
->> isolated CPU where "delay" value is 0 or greater then 0:
->>         schedule_delayed_work(, 0);
->> 
->> This will be handled by __queue_work() that will queue the work item on the
->> current local (isolated) CPU, while:
->> 
->>         schedule_delayed_work(, 1);
->> 
->> Will move the timer on an housekeeping CPU, and schedule the work there.
->> 
->> Currently if a user enqueue a work item using schedule_delayed_work() the
->> used wq is "system_wq" (per-cpu wq) while queue_delayed_work() use
->> WORK_CPU_UNBOUND (used when a cpu is not specified). The same applies to
->> schedule_work() that is using system_wq and queue_work(), that makes use
->> again of WORK_CPU_UNBOUND.
->> 
->> This lack of consistency cannot be addressed without refactoring the API.
->> 
->> === Recent changes to the WQ API ===
->> 
->> The following, address the recent changes in the Workqueue API:
->> 
->> - commit 128ea9f6ccfb ("workqueue: Add system_percpu_wq and system_dfl_wq")
->> - commit 930c2ea566af ("workqueue: Add new WQ_PERCPU flag")
->> 
->> The old workqueues will be removed in a future release cycle.
->> 
->> === Introduced Changes by this series ===
->> 
->> 1) [P 1-2]  Replace uses of system_wq and system_unbound_wq
->> 
->>     system_wq is a per-CPU workqueue, but his name is not clear.
->>     system_unbound_wq is to be used when locality is not required.
->> 
->>     Because of that, system_wq has been replaced with system_percpu_wq, and
->>     system_unbound_wq has been replaced with system_dfl_wq.
->> 
->> 2) [P 3] WQ_PERCPU added to alloc_workqueue()
->> 
->>     This change adds a new WQ_PERCPU flag to explicitly request
->>     alloc_workqueue() to be per-cpu when WQ_UNBOUND has not been specified.
->> 
->> 
->> Thanks!
->> 
->> ---
->> Changes in 3:
->> - Improved commit logs
->> 
->> Changes in v2:
->> - fix typo in patch subject (add instead of added).
->> 
->> - in every patch is also present the specific commit hash about the
->>   workqueue API change.
->> 
->> - fixed commit log of P1 (removed "Adding system_dfl_wq...").
->> 
->> - P2: subject changed reflecting the effective change.
->> 
->> - rebased to v6.18-rc4.
->> 
->> 
->> Marco Crivellari (3):
->>   drm/i915: replace use of system_unbound_wq with system_dfl_wq
->>   drm/i915: replace use of system_wq with system_percpu_wq in the
->>     documentation
->>   drm/i915: add WQ_PERCPU to alloc_workqueue users
->> 
->>  drivers/gpu/drm/i915/display/intel_display_driver.c | 4 ++--
->>  drivers/gpu/drm/i915/display/intel_display_power.c  | 2 +-
->>  drivers/gpu/drm/i915/display/intel_tc.c             | 4 ++--
->>  drivers/gpu/drm/i915/gem/i915_gem_ttm_move.c        | 2 +-
->>  drivers/gpu/drm/i915/gt/uc/intel_guc.c              | 4 ++--
->>  drivers/gpu/drm/i915/gt/uc/intel_guc_ct.c           | 4 ++--
->>  drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c   | 6 +++---
->>  drivers/gpu/drm/i915/i915_active.c                  | 2 +-
->>  drivers/gpu/drm/i915/i915_driver.c                  | 5 +++--
->>  drivers/gpu/drm/i915/i915_drv.h                     | 2 +-
->>  drivers/gpu/drm/i915/i915_sw_fence_work.c           | 2 +-
->>  drivers/gpu/drm/i915/i915_vma_resource.c            | 2 +-
->>  drivers/gpu/drm/i915/pxp/intel_pxp.c                | 2 +-
->>  drivers/gpu/drm/i915/pxp/intel_pxp_irq.c            | 2 +-
->>  drivers/gpu/drm/i915/selftests/i915_sw_fence.c      | 2 +-
->>  drivers/gpu/drm/i915/selftests/mock_gem_device.c    | 2 +-
->>  16 files changed, 24 insertions(+), 23 deletions(-)
->> 
->> -- 
->> 2.51.1
->> 
->
+url:    https://github.com/intel-lab-lkp/linux/commits/Thomas-Zimmermann/drm-client-Pass-force-parameter-to-client-restore/20251107-223026
+base:   next-20251107
+patch link:    https://lore.kernel.org/r/20251107142612.467817-3-tzimmermann%40suse.de
+patch subject: [PATCH 2/3] drm/client: Support emergency restore via sysrq for all clients
+config: powerpc64-randconfig-001-20251110 (https://download.01.org/0day-ci/archive/20251110/202511101950.bIUDG3LX-lkp@intel.com/config)
+compiler: clang version 22.0.0git (https://github.com/llvm/llvm-project 0d786b9a207aa0e6d88dde7fd9ffe0b364db69a4)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251110/202511101950.bIUDG3LX-lkp@intel.com/reproduce)
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202511101950.bIUDG3LX-lkp@intel.com/
+
+All warnings (new ones prefixed by >>):
+
+   In file included from drivers/gpu/drm/drm_debugfs_crc.c:41:
+>> drivers/gpu/drm/drm_internal.h:64:6: warning: no previous prototype for function 'drm_client_sysrq_register' [-Wmissing-prototypes]
+      64 | void drm_client_sysrq_register(struct drm_device *dev)
+         |      ^
+   drivers/gpu/drm/drm_internal.h:64:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+      64 | void drm_client_sysrq_register(struct drm_device *dev)
+         | ^
+         | static 
+>> drivers/gpu/drm/drm_internal.h:66:6: warning: no previous prototype for function 'drm_client_sysrq_unregister' [-Wmissing-prototypes]
+      66 | void drm_client_sysrq_unregister(struct drm_device *dev)
+         |      ^
+   drivers/gpu/drm/drm_internal.h:66:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+      66 | void drm_client_sysrq_unregister(struct drm_device *dev)
+         | ^
+         | static 
+   2 warnings generated.
+
+
+vim +/drm_client_sysrq_register +64 drivers/gpu/drm/drm_internal.h
+
+    58	
+    59	/* drm_client_sysrq.c */
+    60	#if defined(CONFIG_DRM_CLIENT) && defined(CONFIG_MAGIC_SYSRQ)
+    61	void drm_client_sysrq_register(struct drm_device *dev);
+    62	void drm_client_sysrq_unregister(struct drm_device *dev);
+    63	#else
+  > 64	void drm_client_sysrq_register(struct drm_device *dev)
+    65	{ }
+  > 66	void drm_client_sysrq_unregister(struct drm_device *dev)
+    67	{ }
+    68	#endif
+    69	
 
 -- 
-Jani Nikula, Intel
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
