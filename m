@@ -2,54 +2,55 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id DEB56C47E15
-	for <lists+dri-devel@lfdr.de>; Mon, 10 Nov 2025 17:19:24 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 661B5C47E1E
+	for <lists+dri-devel@lfdr.de>; Mon, 10 Nov 2025 17:19:29 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8DA9B10E467;
-	Mon, 10 Nov 2025 16:19:22 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9D85410E46A;
+	Mon, 10 Nov 2025 16:19:27 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="LKZ1KIpU";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="Wz00vKjL";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 43C8310E464;
- Mon, 10 Nov 2025 16:19:21 +0000 (UTC)
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3254710E46A;
+ Mon, 10 Nov 2025 16:19:26 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1762791561; x=1794327561;
+ t=1762791566; x=1794327566;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=h28ZHwPHOrZKWd0drtgHrwwVWUui4Z5iE7ptBD847YE=;
- b=LKZ1KIpUZwS7RWXFqNBRzCZhPX097n5Nyxz7xxMYh+2wig4gyb8xuxlO
- yDnchWXeadd2OSKBfbah84Ia4KmkmvtE6gkxjeHRw0AJiMzZyogoPheqs
- 9vHyMf+qCwqR2beuUlwMTmZJ1ZFULw2pdu/QD3oGPAjhipdlSCO9c2Jlj
- bdxOOuJQ+Ti5c1MIiPxRfq2oi0kLIjSeMeUof47JPSBx6IjDvlK8v24GM
- apUIk6jMW9YUgyNQzwQPY3KX4/tFFt7vsMR9iztP7+GqI93y/ytOy3FFh
- zfkc7u8ElLYeDJt30Y5lAEvQebRD4SsAu7+P7M2cRoMtERCsgEM3jciev g==;
-X-CSE-ConnectionGUID: oAImwU+tRuemQdONX2izCg==
-X-CSE-MsgGUID: Jq7I0PUSTJOwheaRa0D7Bw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11609"; a="76191728"
-X-IronPort-AV: E=Sophos;i="6.19,294,1754982000"; d="scan'208";a="76191728"
-Received: from orviesa007.jf.intel.com ([10.64.159.147])
- by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 10 Nov 2025 08:19:21 -0800
-X-CSE-ConnectionGUID: dWa97XNsSMOMOSWU4NW/Dw==
-X-CSE-MsgGUID: BOPNPb87T/CkR4CFFwZo4A==
+ bh=rN9uH3WVuJs2cSY9nh98mtOVScC9aybdMVr1fYnI5Lk=;
+ b=Wz00vKjLrMWzoqq38aJVW1gIda5Y9Wilgvq5zKNW3tYvp4IcHjBCgjxi
+ 1qlzBH9lP8hsEmIruqxSb4p28L4pwX+kg3J76sbACr7dv4/Vue1trbB2g
+ EIcBBDxnEFlZ+eOb98r7HsQTI6o7MwUxF9OhJF2QCIgaYmyGsO/nPnBhI
+ hGSB6dq4motXMDYkRgfPGNQaqQKyrGJ5wwKDDJtKEyHxssCErePQAilon
+ CxAMoYhMAWSUJdLKc+DvO9/Ethqtx/RaICqEX88bgieSB1Aw6Hsa2pLe0
+ PbgURXGS9n0RCDwLiUp9DlJIH8bwiCM0vlAzGZxZIFWIJ+BmfV/92c2Bc g==;
+X-CSE-ConnectionGUID: dJJUqhVnSpWtECRDIjoenA==
+X-CSE-MsgGUID: vtReqDz4Q0GX7eSJuANYiQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11609"; a="82471569"
+X-IronPort-AV: E=Sophos;i="6.19,294,1754982000"; d="scan'208";a="82471569"
+Received: from orviesa006.jf.intel.com ([10.64.159.146])
+ by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 10 Nov 2025 08:19:25 -0800
+X-CSE-ConnectionGUID: rJfuOQ30QJieY5E30QqYjQ==
+X-CSE-MsgGUID: 3a94mRZZRraHs/gZuC1s0A==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.19,294,1754982000"; d="scan'208";a="188665498"
+X-IronPort-AV: E=Sophos;i="6.19,294,1754982000"; d="scan'208";a="187967321"
 Received: from ettammin-mobl2.ger.corp.intel.com (HELO localhost)
  ([10.245.246.202])
- by orviesa007-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 10 Nov 2025 08:19:19 -0800
+ by orviesa006-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 10 Nov 2025 08:19:23 -0800
 From: Jani Nikula <jani.nikula@intel.com>
 To: dri-devel@lists.freedesktop.org
 Cc: intel-gfx@lists.freedesktop.org, intel-xe@lists.freedesktop.org,
  jani.nikula@intel.com, ville.syrjala@linux.intel.com,
  Thomas Zimmermann <tzimmermann@suse.de>
-Subject: [PATCH 18/24] drm/vblank: add drm_crtc_from_vblank() helper
-Date: Mon, 10 Nov 2025 18:17:36 +0200
-Message-ID: <20b6cbb09fb5d3075c9642d8e5cc633a4d8a8d15.1762791343.git.jani.nikula@intel.com>
+Subject: [PATCH 19/24] drm/vblank: pass vblank to __get_vblank_counter() and
+ drm_max_vblank_count()
+Date: Mon, 10 Nov 2025 18:17:37 +0200
+Message-ID: <c2e143b5c10f6f1e02840078a52e9fc467e9bc24.1762791343.git.jani.nikula@intel.com>
 X-Mailer: git-send-email 2.47.3
 In-Reply-To: <cover.1762791343.git.jani.nikula@intel.com>
 References: <cover.1762791343.git.jani.nikula@intel.com>
@@ -71,48 +72,116 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-We have a handful of places where we need to get the crtc from the
-vblank. Add a small helper for it.
+Use the vblank pointer instead of a dev, pipe pair to simplify code.
 
 Signed-off-by: Jani Nikula <jani.nikula@intel.com>
 ---
- drivers/gpu/drm/drm_vblank.c | 9 +++++++--
- 1 file changed, 7 insertions(+), 2 deletions(-)
+ drivers/gpu/drm/drm_vblank.c | 34 +++++++++++++++++-----------------
+ 1 file changed, 17 insertions(+), 17 deletions(-)
 
 diff --git a/drivers/gpu/drm/drm_vblank.c b/drivers/gpu/drm/drm_vblank.c
-index 64cd96207ad5..34d0b6939d52 100644
+index 34d0b6939d52..955cea949d3d 100644
 --- a/drivers/gpu/drm/drm_vblank.c
 +++ b/drivers/gpu/drm/drm_vblank.c
-@@ -188,6 +188,11 @@ drm_crtc_vblank_crtc(struct drm_crtc *crtc)
+@@ -209,27 +209,27 @@ static void store_vblank(struct drm_vblank_crtc *vblank,
+ 	write_sequnlock(&vblank->seqlock);
  }
- EXPORT_SYMBOL(drm_crtc_vblank_crtc);
  
-+static struct drm_crtc *drm_crtc_from_vblank(struct drm_vblank_crtc *vblank)
-+{
-+	return drm_crtc_from_index(vblank->dev, vblank->pipe);
-+}
+-static u32 drm_max_vblank_count(struct drm_device *dev, unsigned int pipe)
++static u32 drm_max_vblank_count(struct drm_vblank_crtc *vblank)
+ {
+-	struct drm_vblank_crtc *vblank = drm_vblank_crtc(dev, pipe);
+-
+-	return vblank->max_vblank_count ?: dev->max_vblank_count;
++	return vblank->max_vblank_count ?: vblank->dev->max_vblank_count;
+ }
+ 
+ /*
+  * "No hw counter" fallback implementation of .get_vblank_counter() hook,
+  * if there is no usable hardware frame counter available.
+  */
+-static u32 drm_vblank_no_hw_counter(struct drm_device *dev, unsigned int pipe)
++static u32 drm_vblank_no_hw_counter(struct drm_vblank_crtc *vblank)
+ {
+-	drm_WARN_ON_ONCE(dev, drm_max_vblank_count(dev, pipe) != 0);
++	drm_WARN_ON_ONCE(vblank->dev, drm_max_vblank_count(vblank) != 0);
+ 	return 0;
+ }
+ 
+-static u32 __get_vblank_counter(struct drm_device *dev, unsigned int pipe)
++static u32 __get_vblank_counter(struct drm_vblank_crtc *vblank)
+ {
++	struct drm_device *dev = vblank->dev;
 +
- static void store_vblank(struct drm_vblank_crtc *vblank,
- 			 u32 vblank_count_inc,
- 			 ktime_t t_vblank, u32 last)
-@@ -1605,7 +1610,7 @@ static int drm_queue_vblank_event(struct drm_vblank_crtc *vblank,
- 	e->event.vbl.user_data = vblwait->request.signal;
- 	e->event.vbl.crtc_id = 0;
  	if (drm_core_check_feature(dev, DRIVER_MODESET)) {
 -		struct drm_crtc *crtc = drm_crtc_from_index(dev, pipe);
 +		struct drm_crtc *crtc = drm_crtc_from_vblank(vblank);
  
- 		if (crtc)
- 			e->event.vbl.crtc_id = crtc->base.id;
-@@ -1855,7 +1860,7 @@ static void drm_handle_vblank_events(struct drm_vblank_crtc *vblank)
- {
- 	struct drm_device *dev = vblank->dev;
- 	unsigned int pipe = vblank->pipe;
--	struct drm_crtc *crtc = drm_crtc_from_index(dev, pipe);
-+	struct drm_crtc *crtc = drm_crtc_from_vblank(vblank);
- 	bool high_prec = false;
- 	struct drm_pending_vblank_event *e, *t;
- 	ktime_t now;
+ 		if (drm_WARN_ON(dev, !crtc))
+ 			return 0;
+@@ -238,7 +238,7 @@ static u32 __get_vblank_counter(struct drm_device *dev, unsigned int pipe)
+ 			return crtc->funcs->get_vblank_counter(crtc);
+ 	}
+ 
+-	return drm_vblank_no_hw_counter(dev, pipe);
++	return drm_vblank_no_hw_counter(vblank);
+ }
+ 
+ /*
+@@ -266,9 +266,9 @@ static void drm_reset_vblank_timestamp(struct drm_vblank_crtc *vblank)
+ 	 * when drm_vblank_enable() applies the diff
+ 	 */
+ 	do {
+-		cur_vblank = __get_vblank_counter(dev, pipe);
++		cur_vblank = __get_vblank_counter(vblank);
+ 		rc = drm_get_last_vbltimestamp(dev, pipe, &t_vblank, false);
+-	} while (cur_vblank != __get_vblank_counter(dev, pipe) && --count > 0);
++	} while (cur_vblank != __get_vblank_counter(vblank) && --count > 0);
+ 
+ 	/*
+ 	 * Only reinitialize corresponding vblank timestamp if high-precision query
+@@ -309,7 +309,7 @@ static void drm_update_vblank_count(struct drm_vblank_crtc *vblank,
+ 	ktime_t t_vblank;
+ 	int count = DRM_TIMESTAMP_MAXRETRIES;
+ 	int framedur_ns = vblank->framedur_ns;
+-	u32 max_vblank_count = drm_max_vblank_count(dev, pipe);
++	u32 max_vblank_count = drm_max_vblank_count(vblank);
+ 
+ 	/*
+ 	 * Interrupts were disabled prior to this call, so deal with counter
+@@ -324,9 +324,9 @@ static void drm_update_vblank_count(struct drm_vblank_crtc *vblank,
+ 	 * corresponding vblank timestamp.
+ 	 */
+ 	do {
+-		cur_vblank = __get_vblank_counter(dev, pipe);
++		cur_vblank = __get_vblank_counter(vblank);
+ 		rc = drm_get_last_vbltimestamp(dev, pipe, &t_vblank, in_vblank_irq);
+-	} while (cur_vblank != __get_vblank_counter(dev, pipe) && --count > 0);
++	} while (cur_vblank != __get_vblank_counter(vblank) && --count > 0);
+ 
+ 	if (max_vblank_count) {
+ 		/* trust the hw counter when it's around */
+@@ -1555,7 +1555,7 @@ void drm_crtc_vblank_restore(struct drm_crtc *crtc)
+ 	u64 diff_ns;
+ 	u32 cur_vblank, diff = 1;
+ 	int count = DRM_TIMESTAMP_MAXRETRIES;
+-	u32 max_vblank_count = drm_max_vblank_count(dev, pipe);
++	u32 max_vblank_count = drm_max_vblank_count(vblank);
+ 
+ 	drm_WARN_ON_ONCE(dev, !crtc->funcs->get_vblank_timestamp);
+ 	drm_WARN_ON_ONCE(dev, vblank->inmodeset);
+@@ -1570,9 +1570,9 @@ void drm_crtc_vblank_restore(struct drm_crtc *crtc)
+ 	framedur_ns = vblank->framedur_ns;
+ 
+ 	do {
+-		cur_vblank = __get_vblank_counter(dev, pipe);
++		cur_vblank = __get_vblank_counter(vblank);
+ 		drm_get_last_vbltimestamp(dev, pipe, &t_vblank, false);
+-	} while (cur_vblank != __get_vblank_counter(dev, pipe) && --count > 0);
++	} while (cur_vblank != __get_vblank_counter(vblank) && --count > 0);
+ 
+ 	diff_ns = ktime_to_ns(ktime_sub(t_vblank, vblank->time));
+ 	if (framedur_ns)
 -- 
 2.47.3
 
