@@ -2,80 +2,59 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1653EC44FF5
-	for <lists+dri-devel@lfdr.de>; Mon, 10 Nov 2025 06:22:43 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id D5AA9C4509E
+	for <lists+dri-devel@lfdr.de>; Mon, 10 Nov 2025 06:52:53 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id AEFC48930B;
-	Mon, 10 Nov 2025 05:22:40 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7AB9310E279;
+	Mon, 10 Nov 2025 05:52:51 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="lQBhBHaj";
+	dkim=fail reason="signature verification failed" (2048-bit key; secure) header.d=infradead.org header.i=@infradead.org header.b="2Gy3//a6";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-vs1-f42.google.com (mail-vs1-f42.google.com
- [209.85.217.42])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1F83A8930B
- for <dri-devel@lists.freedesktop.org>; Mon, 10 Nov 2025 05:22:40 +0000 (UTC)
-Received: by mail-vs1-f42.google.com with SMTP id
- ada2fe7eead31-5dde4444e0cso189462137.0
- for <dri-devel@lists.freedesktop.org>; Sun, 09 Nov 2025 21:22:40 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1762752159; x=1763356959; darn=lists.freedesktop.org;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=tVbcQdsxhGJ251GekmogRgMgrAHB7EALgaSbuq0BgLg=;
- b=lQBhBHajntJSHJCKUm7HqffZKCdWGUhl219w98BEHlcc7obp0QpGfPl8ERUQMX7ADd
- QkHNtFuhzJoVbe6WiJWKSoGxBBNNQM4iY2abYQsjKv8o317Q7NlFG17XcmTWjuPRAZAT
- Z7OWsWg20D2zRe9kOjYKqYr1VvUJ1A+H01+2SUy7jM7goKs4C8BzzrHKsCylSOAPRKsw
- gONI5sbaCRnp4vfc9t7IQIOjwPMfXW4R90W+Q3vwMGhCVC9ekP2wQ0eJj7LKFTLUCVmB
- 9Kayco2BRuVQaF9BKBMuF39pvUXlWs8kY59dvDUXU2cyp5JRPkbHEd+FFcISyF5Of0Ea
- eMFA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1762752159; x=1763356959;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
- :to:cc:subject:date:message-id:reply-to;
- bh=tVbcQdsxhGJ251GekmogRgMgrAHB7EALgaSbuq0BgLg=;
- b=Acybidep6H5m0fG++1yEG6HsSelmm4nImxRu2zpMaXGJ46oZ0dGhMZvJUwoISjJtHJ
- sX87mS6TTXZrul4EspxKT9/+BSF8Jb3zQ1eG29BBVnP3zTSsI2eGDi4AxCt8J5smtlyh
- 2VdIbg9ifqe/kmj+X92g3JqyVCHzWF035gb2LrwOWhqPsmc8c98QWxXnwIp9wmBT3WEL
- N44u00PPJ1aMCAcUUw9k4nQw8EAffK8NcPdvMrYkiIHATAs4T7Qb7KVukBvJ3T20nXFU
- XVobLbMy/vcFiWfXvq8Rjj9R8zkzSC7/L2xKdr3/m/FouzenazOWlI6mNB1jItzvq9hx
- uilw==
-X-Forwarded-Encrypted: i=1;
- AJvYcCWTsboE7VIQ5nsn5qu858Djr9SJgPxQ8p9d1AugSkVQ+Z23AWK8XaGuKPNIoV8iXaYtLjWsP6Ydck0=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YxupLuEKYMwAW/8BgqVItHvR8ygHx0tWJyvqaEcqhEOuiF8GnrB
- qDxTRwxZdjLn/R/8bgJEQ3gYSqlZmtHpnXYNt7P0S7MPQZ0gghVBmvfHirW+9urzrAmPQBfNMk7
- 6/Mv+1GQEyG9BM3Pytjm1uUAX1KU4aU0=
-X-Gm-Gg: ASbGncuwLfwLqjP40RbsgTlgmc1vqGfvL1ZDLaptgCtqFcQOXbeMINltqx9EzoqlYhM
- ySbVqlWCW6giom2YJ/OE3IyhuqcBnBzzrZ5vMg8w2bK9O634rQ3ridcpCgzQGJvb5nQrzV6tbfv
- i28uE37rA5WFfNpi1YCGNrugVRERDlVQYpfGZF4d70KrQ8fD9dtBvF8fLzN+sKIWcGSOOwxama6
- 8L+nxmNmvyXwQnLJhRMzGmWB+d4zwepIuKk3jziNK/pOAKr4SrSBQstnfQ=
-X-Google-Smtp-Source: AGHT+IEeFVULUntPJGmAB60bMxKjcERl9eTW1jbOHV8XuGq9ZMrcrkcUimjG5F2o26/OwntJmcCh8HHKGulh3BYrYP4=
-X-Received: by 2002:a05:6102:390f:b0:5dd:8c81:d7ab with SMTP id
- ada2fe7eead31-5ddc452d062mr2218860137.0.1762752159000; Sun, 09 Nov 2025
- 21:22:39 -0800 (PST)
+Received: from bombadil.infradead.org (bombadil.infradead.org
+ [198.137.202.133])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1A4E810E279
+ for <dri-devel@lists.freedesktop.org>; Mon, 10 Nov 2025 05:52:48 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+ d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
+ Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+ Message-ID:Sender:Reply-To:Content-ID:Content-Description;
+ bh=dlGtUJhDtfIO4wsN+b5wZaU1sv9YpDEMHaPl8mff6cM=; b=2Gy3//a626W6kFbHFHLfIpohJE
+ gCl5BNmuw1v4+spdaV6qW9bzZcdB5oEMz1Cs+ZA2dXsIcotjYYRS2dmYn7UMGLPpXFky6mzesAcfi
+ UMTJzj9hLnmJ7wjMWZ9vQBYU7Z1LDGsialWICFNR6AHavAfQ8yoMhA/fXwo0+lzyqJFDA8YqLfPD7
+ HFZJ0/pqOwoPTQNieKQIEsFUkAsHm4gy0LmluPdvh2tRFDSCosFaFH9J+JrbsYSoekUVHoIu29XGc
+ zdeTrhCD49banweQdnnkvD3B1t7BQFiYLOP/0V+zBtbtySbtK6QcUg/5gEAYc4btNqF3jNgfoAyC5
+ e9NwTGjA==;
+Received: from [50.53.43.113] (helo=[192.168.254.34])
+ by bombadil.infradead.org with esmtpsa (Exim 4.98.2 #2 (Red Hat Linux))
+ id 1vIKpZ-00000004nbU-48x9; Mon, 10 Nov 2025 05:52:46 +0000
+Message-ID: <0c6eb45b-0e9a-4bb0-9ee0-71752cbbe9c5@infradead.org>
+Date: Sun, 9 Nov 2025 21:52:45 -0800
 MIME-Version: 1.0
-References: <CGME20250929042917epcas2p2569e213500997dfa6ba43c8f361f50f7@epcas2p2.samsung.com>
- <20250929043110.3631025-1-hy_fifty.lee@samsung.com>
- <20250929043110.3631025-3-hy_fifty.lee@samsung.com>
-In-Reply-To: <20250929043110.3631025-3-hy_fifty.lee@samsung.com>
-From: Inki Dae <daeinki@gmail.com>
-Date: Mon, 10 Nov 2025 14:22:01 +0900
-X-Gm-Features: AWmQ_bnqaqpr6mbii-XcWKvzW_ttKXH-Eb8J1UjIIWLeqzt5jQH_vRs30wQTWl8
-Message-ID: <CAAQKjZNCpK4rq6DFUtiQ2rxCeb_34Mp54quVto+9LRJMH3=ZhQ@mail.gmail.com>
-Subject: Re: [PATCH 2/3] drm/exynos: Convert to drmm_mode_config_init() and
- drop manual cleanup
-To: Hoyoung Lee <hy_fifty.lee@samsung.com>
-Cc: Seung-Woo Kim <sw0312.kim@samsung.com>,
- Kyungmin Park <kyungmin.park@samsung.com>, 
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
- Krzysztof Kozlowski <krzk@kernel.org>, Alim Akhtar <alim.akhtar@samsung.com>, 
- dri-devel@lists.freedesktop.org, linux-arm-kernel@lists.infradead.org, 
- linux-samsung-soc@vger.kernel.org, linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 2/2] accel/qaic: Format DBC states table in sysfs ABI
+ documentation
+To: Bagas Sanjaya <bagasdotme@gmail.com>,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ Linux Documentation <linux-doc@vger.kernel.org>,
+ Linux ARM MSM <linux-arm-msm@vger.kernel.org>,
+ Linux DRI Development <dri-devel@lists.freedesktop.org>
+Cc: Jeff Hugo <jeff.hugo@oss.qualcomm.com>,
+ Carl Vanderlip <carl.vanderlip@oss.qualcomm.com>,
+ Oded Gabbay <ogabbay@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
+ Youssef Samir <youssef.abdulrahman@oss.qualcomm.com>,
+ Pranjal Ramajor Asha Kanojiya <quic_pkanojiy@quicinc.com>,
+ Zack McKevitt <zachary.mckevitt@oss.qualcomm.com>,
+ Aswin Venkatesan <aswivenk@qti.qualcomm.com>,
+ Stephen Rothwell <sfr@canb.auug.org.au>
+References: <20251110035952.25778-2-bagasdotme@gmail.com>
+ <20251110035952.25778-4-bagasdotme@gmail.com>
+Content-Language: en-US
+From: Randy Dunlap <rdunlap@infradead.org>
+In-Reply-To: <20251110035952.25778-4-bagasdotme@gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -91,85 +70,59 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-2025=EB=85=84 9=EC=9B=94 29=EC=9D=BC (=EC=9B=94) =EC=98=A4=ED=9B=84 1:54, H=
-oyoung Lee <hy_fifty.lee@samsung.com>=EB=8B=98=EC=9D=B4 =EC=9E=91=EC=84=B1:
->
-> Switch mode-config initialization to drmm_mode_config_init() so that the
-> lifetime is tied to drm_device. Remove explicit drm_mode_config_cleanup()
-> from error and unbind paths since cleanup is now managed by DRM.
->
-> No functional change intended.
->
-> Signed-off-by: Hoyoung Lee <hy_fifty.lee@samsung.com>
+
+
+On 11/9/25 7:59 PM, Bagas Sanjaya wrote:
+> Stephen Rothwell reports htmldocs warnings when merging drm-misc tree:
+> 
+> Documentation/ABI/stable/sysfs-driver-qaic:1: ERROR: Unexpected indentation. [docutils]
+> Documentation/ABI/stable/sysfs-driver-qaic:1: WARNING: Block quote ends without a blank line; unexpected unindent. [docutils]
+> Documentation/ABI/stable/sysfs-driver-qaic:1: WARNING: Definition list ends without a blank line; unexpected unindent. [docutils]
+> 
+> These are caused by DMA Bridge channel (DBC) states list in sysfs ABI
+> docs. Format it as a table to fix them.
+> 
+> Fixes: f286066ed9df38 ("accel/qaic: Add DMA Bridge Channel(DBC) sysfs and uevents")
+> Reported-by: Stephen Rothwell <sfr@canb.auug.org.au>
+> Closes: https://lore.kernel.org/linux-next/20251110135038.29e96051@canb.auug.org.au/
+> Signed-off-by: Bagas Sanjaya <bagasdotme@gmail.com>
+
+Reviewed-by: Randy Dunlap <rdunlap@infradead.org>
+Tested-by: Randy Dunlap <rdunlap@infradead.org>
+
 > ---
->  drivers/gpu/drm/exynos/exynos_drm_drv.c | 4 +---
->  1 file changed, 1 insertion(+), 3 deletions(-)
->
-> diff --git a/drivers/gpu/drm/exynos/exynos_drm_drv.c b/drivers/gpu/drm/ex=
-ynos/exynos_drm_drv.c
-> index 6cc7bf77bcac..1aea71778ab1 100644
-> --- a/drivers/gpu/drm/exynos/exynos_drm_drv.c
-> +++ b/drivers/gpu/drm/exynos/exynos_drm_drv.c
-> @@ -257,7 +257,7 @@ static int exynos_drm_bind(struct device *dev)
->         dev_set_drvdata(dev, drm);
->         drm->dev_private =3D (void *)private;
->
-> -       drm_mode_config_init(drm);
-> +       drmm_mode_config_init(drm);
->
->         exynos_drm_mode_config_init(drm);
->
-> @@ -297,7 +297,6 @@ static int exynos_drm_bind(struct device *dev)
->  err_unbind_all:
->         component_unbind_all(drm->dev, drm);
->  err_mode_config_cleanup:
-> -       drm_mode_config_cleanup(drm);
+>  Documentation/ABI/stable/sysfs-driver-qaic | 17 ++++++++++-------
+>  1 file changed, 10 insertions(+), 7 deletions(-)
+> 
+> diff --git a/Documentation/ABI/stable/sysfs-driver-qaic b/Documentation/ABI/stable/sysfs-driver-qaic
+> index e5876935e62b34..c767a93342b3c9 100644
+> --- a/Documentation/ABI/stable/sysfs-driver-qaic
+> +++ b/Documentation/ABI/stable/sysfs-driver-qaic
+> @@ -3,14 +3,17 @@ Date:		October 2025
+>  KernelVersion:	6.19
+>  Contact:	Jeff Hugo <jeff.hugo@oss.qualcomm.com>
+>  Description:	Represents the current state of DMA Bridge channel (DBC). Below are the possible
+> -		states,
+> -		IDLE (0) -		DBC is free and can be activated
+> -		ASSIGNED (1) -		DBC is activated and a workload is running on device
+> -		BEFORE_SHUTDOWN (2) -	Sub-system associated with this workload has crashed and
+> +		states:
+> +
+> +		===================	==========================================================
+> +		IDLE (0)		DBC is free and can be activated
+> +		ASSIGNED (1)		DBC is activated and a workload is running on device
+> +		BEFORE_SHUTDOWN (2)	Sub-system associated with this workload has crashed and
+>  					it will shutdown soon
+> -		AFTER_SHUTDOWN (3) -	Sub-system associated with this workload has crashed and
+> +		AFTER_SHUTDOWN (3)	Sub-system associated with this workload has crashed and
+>  					it has shutdown
+> -		BEFORE_POWER_UP (4) -	Sub-system associated with this workload is shutdown and
+> +		BEFORE_POWER_UP (4)	Sub-system associated with this workload is shutdown and
+>  					it will be powered up soon
+> -		AFTER_POWER_UP (5) -	Sub-system associated with this workload is now powered up
+> +		AFTER_POWER_UP (5)	Sub-system associated with this workload is now powered up
+> +		===================	==========================================================
+>  Users:		Any userspace application or clients interested in DBC state.
 
-In the current implementation, there is a potential dereference issue
-because the private object may be freed before to_dma_dev(dev) is
-called.
-When drmm_mode_config_init() is invoked, it registers
-drm_mode_config_cleanup() as a managed action. This means that the
-cleanup function will be automatically executed later when
-drm_dev_put() is called.
-
-The problem arises when drm_dev_put() is called without explicitly
-invoking drm_mode_config_cleanup() first, as in the original code. In
-that case, the managed cleanup is performed later, which allows
-to_dma_dev(dev) to be called after the private object has already been
-released.
-
-For reference, the following sequence may occur internally when
-drm_mode_config_cleanup() is executed:
-1. drm_mode_config_cleanup() is called.
-2. During the cleanup of FBs, planes, CRTCs, encoders, and connectors,
-framebuffers or GEM objects may be released.
-3. At this point, Exynos-specific code could invoke to_dma_dev(dev).
-
-Therefore, the private object must remain valid until
-drm_mode_config_cleanup() completes.
-It would be safer to adjust the code so that kfree(private) is
-performed after drm_dev_put(drm) to ensure the private data remains
-available during cleanup.
-
-Thanks,
-Inki Dae
-
->         exynos_drm_cleanup_dma(drm);
->         kfree(private);
->         dev_set_drvdata(dev, NULL);
-> @@ -317,7 +316,6 @@ static void exynos_drm_unbind(struct device *dev)
->         drm_atomic_helper_shutdown(drm);
->
->         component_unbind_all(drm->dev, drm);
-> -       drm_mode_config_cleanup(drm);
-
-Ditto.
-
->         exynos_drm_cleanup_dma(drm);
->
->         kfree(drm->dev_private);
-> --
-> 2.34.1
->
->
+-- 
+~Randy
