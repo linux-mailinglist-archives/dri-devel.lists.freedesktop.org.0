@@ -2,72 +2,109 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2C317C4915A
-	for <lists+dri-devel@lfdr.de>; Mon, 10 Nov 2025 20:36:20 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id B4D19C4932B
+	for <lists+dri-devel@lfdr.de>; Mon, 10 Nov 2025 21:11:11 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3056C10E2E8;
-	Mon, 10 Nov 2025 19:36:09 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6BF7F10E1A3;
+	Mon, 10 Nov 2025 20:11:06 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="r/JiLWNH";
+	dkim=pass (2048-bit key; unprotected) header.d=shazbot.org header.i=@shazbot.org header.b="VTtNveK1";
+	dkim=pass (2048-bit key; unprotected) header.d=messagingengine.com header.i=@messagingengine.com header.b="ehVjo0kN";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 17F2E10E2E8
- for <dri-devel@lists.freedesktop.org>; Mon, 10 Nov 2025 19:36:08 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by tor.source.kernel.org (Postfix) with ESMTP id 206FE60195;
- Mon, 10 Nov 2025 19:36:07 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id DACD7C2BCB4;
- Mon, 10 Nov 2025 19:35:59 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1762803366;
- bh=jpF83hZl4+ePN40ExsHilbddxNFc1Cve8pvPWp8/Bmc=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=r/JiLWNHjEYRmruV9LdKTJJTd45+gaNqMVxx3rKwEocvH5raBmPhaOaSVmu3LB1qB
- v0a/a1UV73eEVavjBqelijRtLfPFA7zKLv5pcjNmrBX6zODp941N/MZ9YvQE2P7+Ta
- 23tHNDBX6X+G+I1EZMllpz83zr6Mj/te6SLxVm8+Eq9mSpu4z8sygEjiBDcf+ZBRNT
- nmcZDBXr7Q/x9Tn8j8zhBnrVMkPBuhyS5p81Tj270JsMuhgtxrYD8fPwYXHH0bQmlJ
- LPzeEDTvL4PZR5+MfOyG851q9+zXYhus/EQScPYQGY2xw+9LabgDNqmWOGy5TkWuXL
- fmQFkqDEx/eVA==
-Date: Mon, 10 Nov 2025 19:35:57 +0000
-From: Conor Dooley <conor@kernel.org>
-To: Michal Wilczynski <m.wilczynski@samsung.com>
-Cc: Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Emil Renner Berthing <kernel@esmil.dk>,
- Hal Feng <hal.feng@starfivetech.com>,
- Michael Turquette <mturquette@baylibre.com>,
- Stephen Boyd <sboyd@kernel.org>, Conor Dooley <conor+dt@kernel.org>,
- Xingyu Wu <xingyu.wu@starfivetech.com>, Vinod Koul <vkoul@kernel.org>,
- Kishon Vijay Abraham I <kishon@kernel.org>,
- Andrzej Hajda <andrzej.hajda@intel.com>,
- Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, Lee Jones <lee@kernel.org>,
- Philipp Zabel <p.zabel@pengutronix.de>,
- Paul Walmsley <paul.walmsley@sifive.com>,
- Palmer Dabbelt <palmer@dabbelt.com>,
- Albert Ou <aou@eecs.berkeley.edu>, Alexandre Ghiti <alex@ghiti.fr>,
- Marek Szyprowski <m.szyprowski@samsung.com>,
- Icenowy Zheng <uwu@icenowy.me>,
- Maud Spierings <maudspierings@gocontroll.com>,
- Andy Yan <andyshrk@163.com>, Heiko Stuebner <heiko@sntech.de>,
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-clk@vger.kernel.org, linux-phy@lists.infradead.org,
- dri-devel@lists.freedesktop.org, linux-riscv@lists.infradead.org
-Subject: Re: [PATCH RFC 00/13] drm: starfive: jh7110: Enable display subsystem
-Message-ID: <20251110-clang-baking-b8b27730356e@spud>
-References: <CGME20251108010451eucas1p1c7bf340dbd2b1b7cbfb53d6debce7a2e@eucas1p1.samsung.com>
- <20251108-jh7110-clean-send-v1-0-06bf43bb76b1@samsung.com>
+X-Greylist: delayed 330 seconds by postgrey-1.36 at gabe;
+ Mon, 10 Nov 2025 20:11:04 UTC
+Received: from fout-b7-smtp.messagingengine.com
+ (fout-b7-smtp.messagingengine.com [202.12.124.150])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 926C210E0D0
+ for <dri-devel@lists.freedesktop.org>; Mon, 10 Nov 2025 20:11:04 +0000 (UTC)
+Received: from phl-compute-04.internal (phl-compute-04.internal [10.202.2.44])
+ by mailfout.stl.internal (Postfix) with ESMTP id 6D7811D00147;
+ Mon, 10 Nov 2025 15:05:33 -0500 (EST)
+Received: from phl-mailfrontend-02 ([10.202.2.163])
+ by phl-compute-04.internal (MEProxy); Mon, 10 Nov 2025 15:05:34 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=shazbot.org; h=
+ cc:cc:content-transfer-encoding:content-type:content-type:date
+ :date:from:from:in-reply-to:in-reply-to:message-id:mime-version
+ :references:reply-to:subject:subject:to:to; s=fm2; t=1762805133;
+ x=1762891533; bh=LRTbnDgOZdkcWyYb0TrSsTJyowo8VQnXM0W6ONAWUts=; b=
+ VTtNveK1sP3RdPO0iA1mluhOTIezB/pxiWEOpTMtRrXpqSxqoom2HwDYk67QuWkW
+ sPYOFU9wblpXDKzCcGaz76SsbUIjzORvB2iixAZGqW2fpsMJzqP5XDSLJZuUeose
+ gUs7geKqCEZxyILKTVR1G6bjEdT1IDPI9lORfC7uU7VXjawAWvGl2cthKxtM67hg
+ 2LGDVSp2fb5+OY7d95VBUt3xXcg4zmyZNGQJvu4WmoOyjyktai2rEvD59ntUSPrz
+ noD0hx+3MnVDFBYoEm291EVo6ioNy0I4iVxIt4URSUSibY5VQFYlMAenBohjrrqE
+ 5M+jBIsmcKEZFKzLT7cG6Q==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+ messagingengine.com; h=cc:cc:content-transfer-encoding
+ :content-type:content-type:date:date:feedback-id:feedback-id
+ :from:from:in-reply-to:in-reply-to:message-id:mime-version
+ :references:reply-to:subject:subject:to:to:x-me-proxy
+ :x-me-sender:x-me-sender:x-sasl-enc; s=fm3; t=1762805133; x=
+ 1762891533; bh=LRTbnDgOZdkcWyYb0TrSsTJyowo8VQnXM0W6ONAWUts=; b=e
+ hVjo0kNkpXpEnjyGLa3/HioTTAA5OcK4yDT+dT+kSj8VoCNpXQicmGnR1r8kl3i4
+ n/q1SGSEgGz8mmhYlrkKrESCZwS6ZmjcXz2B3B9WVYhcun1l7NR44AgVENlnLqvu
+ a1zJZ2CuMWjHrlkgrKrx6rKTVBu03wGm/PEyRLxXjeJPUmeJkA1RNRcTv4vkR077
+ UeYkeuPv7KXX5jjN3Q3Admhq/wVV39C97HYyXRwatVk2JzsEizOnKtCy3nYrgUV0
+ f16CdLzVqw7okI7dfupJaRHAfGhXWIUe34rM5F+7RmgptMF8UZmdovDBQ67FlOmL
+ bbZtZ4jSrTcVOKqnpDH4g==
+X-ME-Sender: <xms:i0USacfcdiFukOkHlGoqV_M4dCc620hY4NSllrMdUQNN1jhyNXA0dA>
+ <xme:i0USaebmv-CqTmGTtMURt40eSNK-Wx58zPcA6lUAMFk6_sJ7kTrwfXO5-hJI7QP35
+ WOjketLVpgzAmupEQaOyA0CSU46lUmN1quCAYwRJCTFcTgJGFD4>
+X-ME-Received: <xmr:i0USaQJZE78F87doANetcSybuW5K51r7sW1QPQxDU2rb0XeXgAf-OVXV>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeeffedrtdeggdduleelvdefucetufdoteggodetrf
+ dotffvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfurfetoffkrfgpnffqhgenuceu
+ rghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujf
+ gurhepfffhvfevuffkjghfgggtgfesthejredttddtvdenucfhrhhomheptehlvgigucgh
+ ihhllhhirghmshhonhcuoegrlhgvgiesshhhrgiisghothdrohhrgheqnecuggftrfgrth
+ htvghrnhepteetudelgeekieegudegleeuvdffgeehleeivddtfeektdekkeehffehudet
+ hffhnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomheprg
+ hlvgigsehshhgriigsohhtrdhorhhgpdhnsggprhgtphhtthhopeeffedpmhhouggvpehs
+ mhhtphhouhhtpdhrtghpthhtoheplhgvohhnsehkvghrnhgvlhdrohhrghdprhgtphhtth
+ hopegshhgvlhhgrggrshesghhoohhglhgvrdgtohhmpdhrtghpthhtoheplhhoghgrnhhg
+ seguvghlthgrthgvvgdrtghomhdprhgtphhtthhopegrgigsohgvsehkvghrnhgvlhdrug
+ hkpdhrtghpthhtoheprhhosghinhdrmhhurhhphhihsegrrhhmrdgtohhmpdhrtghpthht
+ ohepjhhorhhoseeksgihthgvshdrohhrghdprhgtphhtthhopeifihhllheskhgvrhhnvg
+ hlrdhorhhgpdhrtghpthhtohepmhdrshiihihprhhofihskhhisehsrghmshhunhhgrdgt
+ ohhmpdhrtghpthhtohepjhhgghesiihivghpvgdrtggr
+X-ME-Proxy: <xmx:i0USadiojN3-M4EVjjaRRugj8V8QuJnr5MsQlLluVx8g5hN9fuNwjw>
+ <xmx:i0USacvol4BakuBUda4qcSsYifPCPIwHmQFFbRa4tQipabSTTp737w>
+ <xmx:i0USaREDw4I87L0odND3wJ85uUDm4QaLw4uwBFQIJ-AXU7QEY82_xw>
+ <xmx:i0USaS_gEbCoj0gRiNt7PSMpEk5gV19bFOSSEZSZfZgUVR07IZj5bA>
+ <xmx:jUUSaRJMGClENgI7ttLAOXLiOuPL8ZATIaHOyPe6Y_F7QjCcID7VjG5j>
+Feedback-ID: i03f14258:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Mon,
+ 10 Nov 2025 15:05:29 -0500 (EST)
+Date: Mon, 10 Nov 2025 13:05:25 -0700
+From: Alex Williamson <alex@shazbot.org>
+To: Leon Romanovsky <leon@kernel.org>
+Cc: Bjorn Helgaas <bhelgaas@google.com>,
+ Logan Gunthorpe <logang@deltatee.com>, Jens Axboe <axboe@kernel.dk>,
+ Robin Murphy <robin.murphy@arm.com>, Joerg Roedel <joro@8bytes.org>,
+ Will Deacon <will@kernel.org>, Marek Szyprowski <m.szyprowski@samsung.com>,
+ Jason Gunthorpe <jgg@ziepe.ca>, Andrew Morton <akpm@linux-foundation.org>,
+ Jonathan Corbet <corbet@lwn.net>, Sumit Semwal <sumit.semwal@linaro.org>,
+ Christian =?UTF-8?B?S8O2bmln?= <christian.koenig@amd.com>,
+ Kees Cook <kees@kernel.org>, "Gustavo A. R. Silva" <gustavoars@kernel.org>,
+ Ankit Agrawal <ankita@nvidia.com>, Yishai Hadas <yishaih@nvidia.com>,
+ Shameer Kolothum <skolothumtho@nvidia.com>,
+ Kevin Tian <kevin.tian@intel.com>, Krishnakant Jaju <kjaju@nvidia.com>,
+ Matt Ochs <mochs@nvidia.com>, linux-pci@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-block@vger.kernel.org,
+ iommu@lists.linux.dev, linux-mm@kvack.org, linux-doc@vger.kernel.org,
+ linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ linaro-mm-sig@lists.linaro.org, kvm@vger.kernel.org,
+ linux-hardening@vger.kernel.org,
+ Vivek Kasireddy <vivek.kasireddy@intel.com>
+Subject: Re: [PATCH v7 10/11] vfio/pci: Add dma-buf export support for MMIO
+ regions
+Message-ID: <20251110130525.6712552b.alex@shazbot.org>
+In-Reply-To: <20251106-dmabuf-vfio-v7-10-2503bf390699@nvidia.com>
+References: <20251106-dmabuf-vfio-v7-0-2503bf390699@nvidia.com>
+ <20251106-dmabuf-vfio-v7-10-2503bf390699@nvidia.com>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
- protocol="application/pgp-signature"; boundary="cv1rMoP+ljYav3Y/"
-Content-Disposition: inline
-In-Reply-To: <20251108-jh7110-clean-send-v1-0-06bf43bb76b1@samsung.com>
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -83,48 +120,30 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+On Thu,  6 Nov 2025 16:16:55 +0200
+Leon Romanovsky <leon@kernel.org> wrote:
+> diff --git a/drivers/vfio/pci/vfio_pci_dmabuf.c b/drivers/vfio/pci/vfio_pci_dmabuf.c
+> new file mode 100644
+> index 000000000000..cbf502b14e3c
+> --- /dev/null
+> +++ b/drivers/vfio/pci/vfio_pci_dmabuf.c
+...
+> +
+> +int vfio_pci_core_feature_dma_buf(struct vfio_pci_core_device *vdev, u32 flags,
+> +				  struct vfio_device_feature_dma_buf __user *arg,
+> +				  size_t argsz)
+> +{
+> +	struct vfio_device_feature_dma_buf get_dma_buf = {};
+> +	struct vfio_region_dma_range *dma_ranges;
+> +	DEFINE_DMA_BUF_EXPORT_INFO(exp_info);
+> +	struct vfio_pci_dma_buf *priv;
+> +	size_t length;
+> +	int ret;
+> +
+> +	if (!vdev->pci_ops->get_dmabuf_phys)
 
---cv1rMoP+ljYav3Y/
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
 
-On Sat, Nov 08, 2025 at 02:04:34AM +0100, Michal Wilczynski wrote:
-> This series enables the display subsystem on the StarFive JH7110 SoC.
-> This hardware has a complex set of dependencies that this series aims to
-> solve.
->=20
-> I believe this is a PHY tuning issue that can be fixed in the new
-> phy-jh7110-inno-hdmi.c driver without changing the overall architecture.
-> I plan to continue debugging these modes and will submit follow up fixes
-> as needed.
->=20
-> The core architectural plumbing is sound and ready for review.
->=20
-> Notes:
-> - The JH7110 does not have a centralized MAINTAINERS entry like the
->   TH1520, and driver maintainership seems fragmented. I have therefore
->   added a MAINTAINERS entry for the display subsystem and am willing to
->   help with its maintenance.
+vdev->pci_ops can be NULL.
 
-Yeah, bunch of different folks wrote the drivers, so lots of entries.
-Pretty much all as you've done here, authors are responsible for the
-individual components and Emil is the platform maintainer but
-responsible for most drivers.
-
-Do you need any feedback dt wise on the RFC, or is it too likely that
-we'll both waste our breath if the DRM folks don't approve of your
-approach for the rest of this series?
-
---cv1rMoP+ljYav3Y/
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYKAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCaRI+nQAKCRB4tDGHoIJi
-0mgxAP9S65gNYTUGl4G/hjuQeRD2OPtB7jDPJa2U+Nb1h9guXgD/ZYh57W7dimb0
-HC9nSRLUedngvCWxlTKXCDULpQjSKg8=
-=vQrF
------END PGP SIGNATURE-----
-
---cv1rMoP+ljYav3Y/--
+Thanks,
+Alex
