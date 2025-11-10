@@ -2,35 +2,35 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 410B7C48FF4
-	for <lists+dri-devel@lfdr.de>; Mon, 10 Nov 2025 20:25:38 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2C317C4915A
+	for <lists+dri-devel@lfdr.de>; Mon, 10 Nov 2025 20:36:20 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7F98A10E2F8;
-	Mon, 10 Nov 2025 19:25:36 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3056C10E2E8;
+	Mon, 10 Nov 2025 19:36:09 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="cpqC+x8V";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="r/JiLWNH";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sea.source.kernel.org (sea.source.kernel.org [172.234.252.31])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 789FF10E2F8
- for <dri-devel@lists.freedesktop.org>; Mon, 10 Nov 2025 19:25:35 +0000 (UTC)
+Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 17F2E10E2E8
+ for <dri-devel@lists.freedesktop.org>; Mon, 10 Nov 2025 19:36:08 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by sea.source.kernel.org (Postfix) with ESMTP id 38DEA4097F;
- Mon, 10 Nov 2025 19:25:35 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 17E9CC16AAE;
- Mon, 10 Nov 2025 19:25:27 +0000 (UTC)
+ by tor.source.kernel.org (Postfix) with ESMTP id 206FE60195;
+ Mon, 10 Nov 2025 19:36:07 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id DACD7C2BCB4;
+ Mon, 10 Nov 2025 19:35:59 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1762802735;
- bh=GrymXJeErTy9u70PVzPmfw43ubyTayEwBn+LiCzgBE4=;
+ s=k20201202; t=1762803366;
+ bh=jpF83hZl4+ePN40ExsHilbddxNFc1Cve8pvPWp8/Bmc=;
  h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=cpqC+x8V3BJ6v7fmFkIt+t3dVhDH0GKKdgDZh1nM0OX818sGDugtU8rjaIBwPdmKF
- QiEAvjcAlzFdMnYeBsYbJXlzbd53uuAdTpD+Si2EO8CF5/l2w6IkrAGj7h0drqhYHk
- zhs/qLZU8Ti3aUUAB6VDwUTDs4Yc2BpZCv3bMcgTEKKeKpHHPWiGfrGv1HUUY6bbaa
- 8eiRsMGt3WbjCUNz2oUWjf+1KVcEWr4yHx07JgpWdX5GZ2IBw0Wn0s6pCx+ubse27h
- ay/YPZh79ewOXvUjiJMCAOmnLNtXfMj0c/YXq+74ER4kBPBH6xuu+hsRw8IefMlFcX
- kRcF6RUdPZdug==
-Date: Mon, 10 Nov 2025 19:25:25 +0000
+ b=r/JiLWNHjEYRmruV9LdKTJJTd45+gaNqMVxx3rKwEocvH5raBmPhaOaSVmu3LB1qB
+ v0a/a1UV73eEVavjBqelijRtLfPFA7zKLv5pcjNmrBX6zODp941N/MZ9YvQE2P7+Ta
+ 23tHNDBX6X+G+I1EZMllpz83zr6Mj/te6SLxVm8+Eq9mSpu4z8sygEjiBDcf+ZBRNT
+ nmcZDBXr7Q/x9Tn8j8zhBnrVMkPBuhyS5p81Tj270JsMuhgtxrYD8fPwYXHH0bQmlJ
+ LPzeEDTvL4PZR5+MfOyG851q9+zXYhus/EQScPYQGY2xw+9LabgDNqmWOGy5TkWuXL
+ fmQFkqDEx/eVA==
+Date: Mon, 10 Nov 2025 19:35:57 +0000
 From: Conor Dooley <conor@kernel.org>
 To: Michal Wilczynski <m.wilczynski@samsung.com>
 Cc: Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
@@ -59,16 +59,15 @@ Cc: Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
  devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
  linux-clk@vger.kernel.org, linux-phy@lists.infradead.org,
  dri-devel@lists.freedesktop.org, linux-riscv@lists.infradead.org
-Subject: Re: [PATCH RFC 08/13] soc: starfive: Add jh7110-vout-subsystem driver
-Message-ID: <20251110-acetone-slinky-0f8e81291371@spud>
-References: <20251108-jh7110-clean-send-v1-0-06bf43bb76b1@samsung.com>
- <CGME20251108010504eucas1p26e8ee9aa88ab75bebd832eaea81720e9@eucas1p2.samsung.com>
- <20251108-jh7110-clean-send-v1-8-06bf43bb76b1@samsung.com>
+Subject: Re: [PATCH RFC 00/13] drm: starfive: jh7110: Enable display subsystem
+Message-ID: <20251110-clang-baking-b8b27730356e@spud>
+References: <CGME20251108010451eucas1p1c7bf340dbd2b1b7cbfb53d6debce7a2e@eucas1p1.samsung.com>
+ <20251108-jh7110-clean-send-v1-0-06bf43bb76b1@samsung.com>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha512;
- protocol="application/pgp-signature"; boundary="d6w1nrcqngNa0tVG"
+ protocol="application/pgp-signature"; boundary="cv1rMoP+ljYav3Y/"
 Content-Disposition: inline
-In-Reply-To: <20251108-jh7110-clean-send-v1-8-06bf43bb76b1@samsung.com>
+In-Reply-To: <20251108-jh7110-clean-send-v1-0-06bf43bb76b1@samsung.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -85,64 +84,47 @@ Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
---d6w1nrcqngNa0tVG
+--cv1rMoP+ljYav3Y/
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Sat, Nov 08, 2025 at 02:04:42AM +0100, Michal Wilczynski wrote:
-> Add the wrapper driver for the StarFive JH7110 VOUT subsystem.
+On Sat, Nov 08, 2025 at 02:04:34AM +0100, Michal Wilczynski wrote:
+> This series enables the display subsystem on the StarFive JH7110 SoC.
+> This hardware has a complex set of dependencies that this series aims to
+> solve.
 >=20
-> This driver is responsible for managing the shared resources for all
-> video output devices. It enables the PD_VOUT power domain, enables the
-> top-level NoC bus clock, and deasserts the main bus reset.
+> I believe this is a PHY tuning issue that can be fixed in the new
+> phy-jh7110-inno-hdmi.c driver without changing the overall architecture.
+> I plan to continue debugging these modes and will submit follow up fixes
+> as needed.
 >=20
-> Once these resources are active, it calls of_platform_populate() to
-> create and probe the child devices (DC8200, VOUTCRG, HDMI MFD) that
-> reside within this subsystem.
+> The core architectural plumbing is sound and ready for review.
 >=20
-> Signed-off-by: Michal Wilczynski <m.wilczynski@samsung.com>
-> ---
->  MAINTAINERS                                  |   1 +
->  drivers/soc/Kconfig                          |   1 +
->  drivers/soc/Makefile                         |   1 +
->  drivers/soc/starfive/Kconfig                 |  25 ++++++
->  drivers/soc/starfive/Makefile                |   2 +
->  drivers/soc/starfive/jh7110-vout-subsystem.c | 117 +++++++++++++++++++++=
-++++++
->  6 files changed, 147 insertions(+)
->=20
-> diff --git a/MAINTAINERS b/MAINTAINERS
-> index 052876c6538f980f75ff64e78b6ebea460307904..74e562a6b57ac9f776c4be2d6=
-f0977c62bc03d46 100644
-> --- a/MAINTAINERS
-> +++ b/MAINTAINERS
-> @@ -24051,6 +24051,7 @@ F:	Documentation/devicetree/bindings/display/brid=
-ge/starfive,jh7110-inno-hdmi-co
->  F:	Documentation/devicetree/bindings/mfd/starfive,jh7110-hdmi-mfd.yaml
->  F:	Documentation/devicetree/bindings/phy/starfive,jh7110-inno-hdmi-phy.y=
-aml
->  F:	Documentation/devicetree/bindings/soc/starfive/starfive,jh7110-vout-s=
-ubsystem.yaml
-> +F:	drivers/soc/starfive/jh7110-vout-subsystem.c
+> Notes:
+> - The JH7110 does not have a centralized MAINTAINERS entry like the
+>   TH1520, and driver maintainership seems fragmented. I have therefore
+>   added a MAINTAINERS entry for the display subsystem and am willing to
+>   help with its maintenance.
 
-The parent directory that you've created here for the driver (or created
-in a different patch) should probably be added to the "RISC-V MISC SOC
-SUPPORT" entry, along with the binding directory. Otherwise I'm probably
-not going to see the patches for the former (Emil maintains the
-plarform, but for $reasons I'm the one who applies patches and sends the
-PRs to Arnd). Think it used to be there, but got removed when the last
-(only?) driver was moved out.
+Yeah, bunch of different folks wrote the drivers, so lots of entries.
+Pretty much all as you've done here, authors are responsible for the
+individual components and Emil is the platform maintainer but
+responsible for most drivers.
 
---d6w1nrcqngNa0tVG
+Do you need any feedback dt wise on the RFC, or is it too likely that
+we'll both waste our breath if the DRM folks don't approve of your
+approach for the rest of this series?
+
+--cv1rMoP+ljYav3Y/
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iHUEABYKAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCaRI8JQAKCRB4tDGHoIJi
-0iL7AQCiyLJiCSE3NKVn/dTVaRDq4/xjTR7nxORX6exO8YKwTAD/f4qo7cSk4n8+
-BG25eAfUyQihtYUjB8FnpYKCw2j6mQ8=
-=kAFU
+iHUEABYKAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCaRI+nQAKCRB4tDGHoIJi
+0mgxAP9S65gNYTUGl4G/hjuQeRD2OPtB7jDPJa2U+Nb1h9guXgD/ZYh57W7dimb0
+HC9nSRLUedngvCWxlTKXCDULpQjSKg8=
+=vQrF
 -----END PGP SIGNATURE-----
 
---d6w1nrcqngNa0tVG--
+--cv1rMoP+ljYav3Y/--
