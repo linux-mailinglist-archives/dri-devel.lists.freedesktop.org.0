@@ -2,107 +2,81 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5447DC4946D
-	for <lists+dri-devel@lfdr.de>; Mon, 10 Nov 2025 21:42:29 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id CD0CAC49A4D
+	for <lists+dri-devel@lfdr.de>; Mon, 10 Nov 2025 23:46:55 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 98DDD10E2FF;
-	Mon, 10 Nov 2025 20:42:26 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BA32910E0FB;
+	Mon, 10 Nov 2025 22:46:49 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=shazbot.org header.i=@shazbot.org header.b="htuAqLZ4";
-	dkim=pass (2048-bit key; unprotected) header.d=messagingengine.com header.i=@messagingengine.com header.b="W1pcFNtX";
+	dkim=pass (2048-bit key; unprotected) header.d=cse-iitm-ac-in.20230601.gappssmtp.com header.i=@cse-iitm-ac-in.20230601.gappssmtp.com header.b="ETvnV6Wt";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from fout-b7-smtp.messagingengine.com
- (fout-b7-smtp.messagingengine.com [202.12.124.150])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 250C910E2FF
- for <dri-devel@lists.freedesktop.org>; Mon, 10 Nov 2025 20:42:25 +0000 (UTC)
-Received: from phl-compute-01.internal (phl-compute-01.internal [10.202.2.41])
- by mailfout.stl.internal (Postfix) with ESMTP id C4D701D000F8;
- Mon, 10 Nov 2025 15:42:23 -0500 (EST)
-Received: from phl-mailfrontend-01 ([10.202.2.162])
- by phl-compute-01.internal (MEProxy); Mon, 10 Nov 2025 15:42:24 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=shazbot.org; h=
- cc:cc:content-transfer-encoding:content-type:content-type:date
- :date:from:from:in-reply-to:in-reply-to:message-id:mime-version
- :references:reply-to:subject:subject:to:to; s=fm2; t=1762807343;
- x=1762893743; bh=gqeX2If3HYh30yCslpotpD1eSH8ukdg4bxJbH47uciI=; b=
- htuAqLZ4SouJYoITuzsRhJjEXMvYg51jdhYpfuNbonoAiCijob/69evbidTgy+sh
- iRd/focxifhKHG29GSovKjpd+ZahK1KX4u/ZS5xwu1cwXqVC/UCcfTwYH5JPDv12
- hGHLp/nV+WavmCJRl9wTrZikJq0k+REA/xuHpzuBgd81DF7sIwQG9Nn6LXDccuBp
- Kcbv2MQHhh0bNcI9y7090F/H/ONHQBQn0M3YoNGcqHaUJhgJYpUOx9LyevwJdnFy
- Ict245DxpPf6jiaMEQZaHVfubTy/2FN5JOeKQcWBk3z0YAlBC9LITZ62vdXk1Y/c
- Rd49/UzrTC9Hg0y+GBi9Hg==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:cc:content-transfer-encoding
- :content-type:content-type:date:date:feedback-id:feedback-id
- :from:from:in-reply-to:in-reply-to:message-id:mime-version
- :references:reply-to:subject:subject:to:to:x-me-proxy
- :x-me-sender:x-me-sender:x-sasl-enc; s=fm3; t=1762807343; x=
- 1762893743; bh=gqeX2If3HYh30yCslpotpD1eSH8ukdg4bxJbH47uciI=; b=W
- 1pcFNtXWP9fMq2c7Go8PGx8HwIWpuPF2lBF5s8fzNuWqlubpSf71I4RGXc/+pwcE
- wq+IM4acQDpUfJS8lOK336Hg+6Yhp/JfxC5SEFBEOLYskuuF1zMvdgewgnWx52X/
- fNOBJyzaAv96LswEo/scIGTSRxWJi2ZUU5XAvFuOshhDJGBo38Xa+K5zj1omajl4
- 9Nzw2IiBoN/XHZmZW4L1O2XuQ5m2ygcV/Ej73MJG4tl8Yp+XoKJ+BgkgvopLu2GH
- obrv7xcViS0KT+tbc+wUE4u16+09BsabKp6VUrTPLyomAqmaiXC7s3Fr/VvCaEMh
- I3yt1TVyxJAxtgG24ZoJw==
-X-ME-Sender: <xms:Lk4SadPf7Z_61ugy1UZG-S0z50mLGWjkeWFW-KUtptz0WE1qSwYswA>
- <xme:Lk4SaWQnTbNosFeU6S8-IkOOxvD-vMp6PSlA7UVcS1gFInm63zNeLDUnY47L26hp1
- UJx5XZp5pVS_p1iGPb8C2-PW03MLsP60V0ld5GGp6ghlpo8mHKR>
-X-ME-Received: <xmr:Lk4SaSQT-qKgrv4djpFBdctnnMfQHHqqcvgPYrMcvkpGGEF5Ve9ebvTg>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeeffedrtdeggdduleelfedtucetufdoteggodetrf
- dotffvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfurfetoffkrfgpnffqhgenuceu
- rghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujf
- gurhepfffhvfevuffkjghfgggtgfesthejredttddtvdenucfhrhhomheptehlvgigucgh
- ihhllhhirghmshhonhcuoegrlhgvgiesshhhrgiisghothdrohhrgheqnecuggftrfgrth
- htvghrnhepteetudelgeekieegudegleeuvdffgeehleeivddtfeektdekkeehffehudet
- hffhnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomheprg
- hlvgigsehshhgriigsohhtrdhorhhgpdhnsggprhgtphhtthhopeefhedpmhhouggvpehs
- mhhtphhouhhtpdhrtghpthhtoheplhgvohhnsehkvghrnhgvlhdrohhrghdprhgtphhtth
- hopegshhgvlhhgrggrshesghhoohhglhgvrdgtohhmpdhrtghpthhtoheplhhoghgrnhhg
- seguvghlthgrthgvvgdrtghomhdprhgtphhtthhopegrgigsohgvsehkvghrnhgvlhdrug
- hkpdhrtghpthhtoheprhhosghinhdrmhhurhhphhihsegrrhhmrdgtohhmpdhrtghpthht
- ohepjhhorhhoseeksgihthgvshdrohhrghdprhgtphhtthhopeifihhllheskhgvrhhnvg
- hlrdhorhhgpdhrtghpthhtohepmhdrshiihihprhhofihskhhisehsrghmshhunhhgrdgt
- ohhmpdhrtghpthhtohepjhhgghesiihivghpvgdrtggr
-X-ME-Proxy: <xmx:Lk4SaXAf2U3xTIUQxs8i0IsnHoTy1Jl7o0BH0TlVy7zhF4WWB901JA>
- <xmx:Lk4SacCXUZGgOPwzyeCst1KYlCMu_DTngssMm-yanfi8GAiSreZfOA>
- <xmx:Lk4SaYxVBS9qwrWpCA566IQDcrCbii10ahjD77GRLJBh3SrN6LWZAw>
- <xmx:Lk4SaejgdRKg7EjLQE1Gk-cfpzoWXZw-pFjsodEgU8MMWqFzLPeaiQ>
- <xmx:L04SaZr36QwMGCQIKH-kIOIQH3332nOSuBo78ltSYdTNpyhWUvhiqLCC>
-Feedback-ID: i03f14258:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Mon,
- 10 Nov 2025 15:42:19 -0500 (EST)
-Date: Mon, 10 Nov 2025 13:42:18 -0700
-From: Alex Williamson <alex@shazbot.org>
-To: Leon Romanovsky <leon@kernel.org>
-Cc: Bjorn Helgaas <bhelgaas@google.com>,
- Logan Gunthorpe <logang@deltatee.com>, Jens Axboe <axboe@kernel.dk>,
- Robin Murphy <robin.murphy@arm.com>, Joerg Roedel <joro@8bytes.org>,
- Will Deacon <will@kernel.org>, Marek Szyprowski <m.szyprowski@samsung.com>,
- Jason Gunthorpe <jgg@ziepe.ca>, Andrew Morton <akpm@linux-foundation.org>,
- Jonathan Corbet <corbet@lwn.net>, Sumit Semwal <sumit.semwal@linaro.org>,
- Christian =?UTF-8?B?S8O2bmln?= <christian.koenig@amd.com>,
- Kees Cook <kees@kernel.org>, "Gustavo A. R. Silva" <gustavoars@kernel.org>,
- Ankit Agrawal <ankita@nvidia.com>, Yishai Hadas <yishaih@nvidia.com>,
- Shameer Kolothum <skolothumtho@nvidia.com>,
- Kevin Tian <kevin.tian@intel.com>, Krishnakant Jaju <kjaju@nvidia.com>,
- Matt Ochs <mochs@nvidia.com>, linux-pci@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-block@vger.kernel.org,
- iommu@lists.linux.dev, linux-mm@kvack.org, linux-doc@vger.kernel.org,
- linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
- linaro-mm-sig@lists.linaro.org, kvm@vger.kernel.org,
- linux-hardening@vger.kernel.org, Alex Mastro <amastro@fb.com>,
- Nicolin Chen <nicolinc@nvidia.com>,
- Vivek Kasireddy <vivek.kasireddy@intel.com>
-Subject: Re: [PATCH v7 00/11] vfio/pci: Allow MMIO regions to be exported
- through dma-buf
-Message-ID: <20251110134218.5e399b0f.alex@shazbot.org>
-In-Reply-To: <20251106-dmabuf-vfio-v7-0-2503bf390699@nvidia.com>
-References: <20251106-dmabuf-vfio-v7-0-2503bf390699@nvidia.com>
+Received: from mail-pf1-f180.google.com (mail-pf1-f180.google.com
+ [209.85.210.180])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A22BF10E414
+ for <dri-devel@lists.freedesktop.org>; Mon, 10 Nov 2025 15:48:31 +0000 (UTC)
+Received: by mail-pf1-f180.google.com with SMTP id
+ d2e1a72fcca58-782e93932ffso2631220b3a.3
+ for <dri-devel@lists.freedesktop.org>; Mon, 10 Nov 2025 07:48:31 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=cse-iitm-ac-in.20230601.gappssmtp.com; s=20230601; t=1762789711; x=1763394511;
+ darn=lists.freedesktop.org; 
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=RxG8U113OCt23H5vQ5qb7boZb0Fnj6MtbM9jk8M6/fE=;
+ b=ETvnV6WtAlbBs6iYvwU8QmxWWWnBtjX56cHOYMqsF7j+jL2rLJzg5TKiGIJ6JEsw8G
+ JfHudGcIxPZ7OXeIy/d2j6HhcqxWS9hQjTpx/QwmfwxJ2YOPNhFyy5U8l8QFoFpCClYC
+ qDTmJonG7XMHVvPw7onigvwXO1wiF6FsQWF8Yqwe07l/q9RtrcyrkEVfuEGFB9quOFhV
+ LrUQcLv0578uHkOluO/+xasUksqFI3Ttpy1GzRWNdnrz197ijgyr+UjQsjpTyJ+EYuDy
+ 8OwLKFibt3NY98IXWxjtAu9dpU8g95H4N8yPAjTPGYzDAdWLE/fehAMI4RT/djWuC0oH
+ TtdA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1762789711; x=1763394511;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=RxG8U113OCt23H5vQ5qb7boZb0Fnj6MtbM9jk8M6/fE=;
+ b=Q6bZF/oXiqAb0HUSvKCh9TgrgMRyX1FD8EQGABaUulxMsCGWfE2p+0Aecn+9cO0mtY
+ YOLWxUx7LxkE+mXeSpl+KLATEXjZ6zCRO2IF/1SYi15/y0j0v0sij5oMAAkkAc8PZL0l
+ 7yEfiDAMSfBrs7K4dd5pNahas07wI1NuUJGpCBxk2amd/mbDny1C0tyKoimuwYBdbwK/
+ TEs5pLRGZUBSd22XtoGWiYAJIHRtx/CzB9+2GfWAqIRp7mVBb26zwlMN9EUX3Rm5cGCg
+ hSqMjG1Vk1chgSrF3f4Ci49efFdq2KU9ZNPdqoJKx1VNiAHJ2zXkFhE8Ct2F2STXaOE7
+ E9NA==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCU/RA2+Y+vp9Jl2vYNwztr897WOaWBCazSi8R+Q21YMK2s8vT9tKFc6qadaLudvl2lluZlPgayfYk8=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YxecV/Hy4bbtY4L5+XZgxUHEx7CttVWmmeKZyjJWPIIunGe/2ma
+ c0igxIpAE97ePPT2FemrANOcoBKlNbkALQB8b+tkMwCROX00q7fpEqS3/fHTi6JFC1k=
+X-Gm-Gg: ASbGncsNvH9eaauMu3Wot2Pk9lmbvbcUa7nxmD5MC8ewMhtMdR0m42jjB82aoGAd1Ww
+ 6fvQWpR/OdsnQX2T1bWz+xKwQrrAHmHFd9Wuk8l8Z3EIaVVMvmTBLj5DXtwksGSw29Gdv+5azbt
+ Dn/EyMmATdX9/55B9oEArsKDPYV70gPCIj4hLiSQsEuE0486ymt7vp0ltGKS+5gw4FIIv78vRg8
+ lxL2WqfDrUFIWSIFe6HDOflxNtXx73I3mEa67836TNGHL/BleCjl7EdN7wU95OxRDFO7Rfbz0kS
+ 1KFZZNlwLaC5fFI2KFopPr22YNBMggqwM1FXd9o/dTDN6Iy2SrOJeg7N04HHRc8o4vCBAcf+NT4
+ DltGFH5TJk2jyRJYqEDdIlNRt8iH2lP6Rtl7mklKLNFgLF6WJugIr5/2+u5OdnRq8CIEEPUNAI4
+ 07g3lXJs2+dbxC/Q==
+X-Google-Smtp-Source: AGHT+IGX0/sQPJZ9IFWURUjUR6+qkfpN6BmZpg4nLetcbOD7FksfDUtQyFd6hLj0vw2F7Br4vT6eeg==
+X-Received: by 2002:a05:6a00:2e25:b0:7ab:78be:3212 with SMTP id
+ d2e1a72fcca58-7b2266a90abmr10078556b3a.19.1762789710801; 
+ Mon, 10 Nov 2025 07:48:30 -0800 (PST)
+Received: from localhost.localdomain ([49.37.219.248])
+ by smtp.googlemail.com with ESMTPSA id
+ d2e1a72fcca58-7b0ccc59de7sm12151593b3a.65.2025.11.10.07.48.26
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 10 Nov 2025 07:48:30 -0800 (PST)
+From: Abdun Nihaal <nihaal@cse.iitm.ac.in>
+To: zack.rusin@broadcom.com
+Cc: Abdun Nihaal <nihaal@cse.iitm.ac.in>,
+ bcm-kernel-feedback-list@broadcom.com, maarten.lankhorst@linux.intel.com,
+ mripard@kernel.org, tzimmermann@suse.de, airlied@gmail.com,
+ simona@ffwll.ch, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org
+Subject: [PATCH] drm/vmwgfx: Fix potential memory leak in vmw_fifo_create()
+Date: Mon, 10 Nov 2025 21:18:09 +0530
+Message-ID: <20251110154812.85766-1-nihaal@cse.iitm.ac.in>
+X-Mailer: git-send-email 2.43.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
+X-Mailman-Approved-At: Mon, 10 Nov 2025 22:46:48 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -118,19 +92,30 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu,  6 Nov 2025 16:16:45 +0200
-Leon Romanovsky <leon@kernel.org> wrote:
+The memory allocated for fifo and fifo->static_buffer is not freed on
+one of the error paths. Fix that by freeing them.
 
-> Changelog:
-> v7:
->  * Dropped restore_revoke flag and added vfio_pci_dma_buf_move
->    to reverse loop.
->  * Fixed spelling errors in documentation patch.
->  * Rebased on top of v6.18-rc3.
->  * Added include to stddef.h to vfio.h, to keep uapi header file independent.
+Fixes: c451af78f301 ("drm/vmwgfx: Fail to initialize on broken configs")
+Signed-off-by: Abdun Nihaal <nihaal@cse.iitm.ac.in>
+---
+Compile tested only. Found using static analysis.
 
-I think we're winding down on review comments.  It'd be great to get
-p2pdma and dma-buf acks on this series.  Otherwise it's been posted
-enough that we'll assume no objections.  Thanks,
+ drivers/gpu/drm/vmwgfx/vmwgfx_cmd.c | 2 ++
+ 1 file changed, 2 insertions(+)
 
-Alex
+diff --git a/drivers/gpu/drm/vmwgfx/vmwgfx_cmd.c b/drivers/gpu/drm/vmwgfx/vmwgfx_cmd.c
+index 8fe02131a6c4..a9fbdfd3a718 100644
+--- a/drivers/gpu/drm/vmwgfx/vmwgfx_cmd.c
++++ b/drivers/gpu/drm/vmwgfx/vmwgfx_cmd.c
+@@ -150,6 +150,8 @@ struct vmw_fifo_state *vmw_fifo_create(struct vmw_private *dev_priv)
+ 	if (unlikely(min >= max)) {
+ 		drm_warn(&dev_priv->drm,
+ 			 "FIFO memory is not usable. Driver failed to initialize.");
++		vfree(fifo->static_buffer);
++		kfree(fifo);
+ 		return ERR_PTR(-ENXIO);
+ 	}
+ 
+-- 
+2.43.0
+
