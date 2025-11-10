@@ -2,136 +2,50 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0D8ABC452FC
-	for <lists+dri-devel@lfdr.de>; Mon, 10 Nov 2025 08:18:02 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 36395C453B7
+	for <lists+dri-devel@lfdr.de>; Mon, 10 Nov 2025 08:38:32 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8A5AA10E2E0;
-	Mon, 10 Nov 2025 07:17:59 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DDD2E10E1E7;
+	Mon, 10 Nov 2025 07:38:18 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=suse.de header.i=@suse.de header.b="a28kpJhC";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="fVwUbWUa";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="a28kpJhC";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="fVwUbWUa";
+	dkim=pass (1024-bit key; secure) header.d=natalenko.name header.i=@natalenko.name header.b="LAyObUYC";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3B01410E1E7
- for <dri-devel@lists.freedesktop.org>; Mon, 10 Nov 2025 07:17:57 +0000 (UTC)
-Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
+X-Greylist: delayed 587 seconds by postgrey-1.36 at gabe;
+ Mon, 10 Nov 2025 07:38:16 UTC
+Received: from prime.voidband.net (prime.voidband.net [199.247.17.104])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 49C3710E2A2;
+ Mon, 10 Nov 2025 07:38:16 +0000 (UTC)
+Received: from spock.localnet (unknown [212.20.115.26])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ key-exchange x25519 server-signature ECDSA (prime256v1) server-digest SHA256)
  (No client certificate requested)
- by smtp-out2.suse.de (Postfix) with ESMTPS id CF7A31F842;
- Mon, 10 Nov 2025 07:17:55 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1762759075; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=Nu7dUyi2CSr1Tyel//XhTl3M+aUM6hWD8e/NI6gsNYI=;
- b=a28kpJhC/Is2PpFLGvQbywmRXkZSI+so1ENuhLdCo4ebbnsacPSrg4xMiyeVtpbU60qVRC
- qvWRP5/QCfpIAwPFMzBP6XHeNkZ9rlz53Kxr1jZYFG9M94sOxYhHfqRu3ttcH9OmjSafk6
- nOqB3DEE4hM79rYfFW9Kc+DGrOm2w74=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1762759075;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=Nu7dUyi2CSr1Tyel//XhTl3M+aUM6hWD8e/NI6gsNYI=;
- b=fVwUbWUaiOlUKgKIXYhxVMXY4SN9k8K6SieB+HeRtE4SS6iFQcsLEcPaO4oVSY+a+Z8wJl
- kKVnpuqIXpByZ+BQ==
-Authentication-Results: smtp-out2.suse.de;
-	none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1762759075; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=Nu7dUyi2CSr1Tyel//XhTl3M+aUM6hWD8e/NI6gsNYI=;
- b=a28kpJhC/Is2PpFLGvQbywmRXkZSI+so1ENuhLdCo4ebbnsacPSrg4xMiyeVtpbU60qVRC
- qvWRP5/QCfpIAwPFMzBP6XHeNkZ9rlz53Kxr1jZYFG9M94sOxYhHfqRu3ttcH9OmjSafk6
- nOqB3DEE4hM79rYfFW9Kc+DGrOm2w74=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1762759075;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=Nu7dUyi2CSr1Tyel//XhTl3M+aUM6hWD8e/NI6gsNYI=;
- b=fVwUbWUaiOlUKgKIXYhxVMXY4SN9k8K6SieB+HeRtE4SS6iFQcsLEcPaO4oVSY+a+Z8wJl
- kKVnpuqIXpByZ+BQ==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested)
- by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 7FDE213B62;
- Mon, 10 Nov 2025 07:17:55 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
- by imap1.dmz-prg2.suse.org with ESMTPSA id CRIpHaOREWmOaAAAD6G6ig
- (envelope-from <tzimmermann@suse.de>); Mon, 10 Nov 2025 07:17:55 +0000
-Message-ID: <e02c03ba-1a95-45bb-9291-5b247333f55d@suse.de>
-Date: Mon, 10 Nov 2025 08:17:54 +0100
+ by prime.voidband.net (Postfix) with ESMTPSA id 2D271635B041;
+ Mon, 10 Nov 2025 08:28:25 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=natalenko.name;
+ s=dkim-20170712; t=1762759705;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=BFX8HjHRy+Iigy+inpDUN8qKkzpCG3IHAa/v/R5/veE=;
+ b=LAyObUYCiDeDWmI0C722Sq7EqQATzMVmHDMUPDRy54ja6mLM7tcbKNq28p1E5cnAUp5nWT
+ 1JKIkUxdMUTBBxiFPYqrftt0/Fzz9g4pslbozbeWuK4vklV3RW0jPaqO09wNL3e7kSJO45
+ 9cVSYKm9/41haQkG/Wp9r4Atqg/X6YI=
+From: Oleksandr Natalenko <oleksandr@natalenko.name>
+To: dri-devel@lists.freedesktop.org, amd-gfx@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, Brady Norander <bradynorander@gmail.com>
+Cc: alexander.deucher@amd.com, christian.koenig@amd.com, airlied@gmail.com,
+ simona@ffwll.ch, sunil.khatri@amd.com, boyuan.zhang@amd.com
+Subject: Re: [PATCH] drm/amdgpu: use static ids for ACP platform devs
+Date: Mon, 10 Nov 2025 08:28:10 +0100
+Message-ID: <2804615.mvXUDI8C0e@natalenko.name>
+In-Reply-To: <20250325210517.2097188-1-bradynorander@gmail.com>
+References: <20250325210517.2097188-1-bradynorander@gmail.com>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] drm/fb-helper: add fbdev screen expended mode display
- support
-To: Shixiong Ou <oushixiong@kylinos.cn>, oushixiong1025@163.com,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
-Cc: Maxime Ripard <mripard@kernel.org>, David Airlie <airlied@gmail.com>,
- Simona Vetter <simona@ffwll.ch>, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, Tiger Liu <liuyihu@kylinos.cn>
-References: <20251107092641.111431-1-oushixiong1025@163.com>
- <15166a78-b603-464a-8fa5-b7dd43d55029@suse.de>
- <376a4a95-5428-47d6-9da5-51c8141e71d1@kylinos.cn>
-Content-Language: en-US
-From: Thomas Zimmermann <tzimmermann@suse.de>
-Autocrypt: addr=tzimmermann@suse.de; keydata=
- xsBNBFs50uABCADEHPidWt974CaxBVbrIBwqcq/WURinJ3+2WlIrKWspiP83vfZKaXhFYsdg
- XH47fDVbPPj+d6tQrw5lPQCyqjwrCPYnq3WlIBnGPJ4/jreTL6V+qfKRDlGLWFjZcsrPJGE0
- BeB5BbqP5erN1qylK9i3gPoQjXGhpBpQYwRrEyQyjuvk+Ev0K1Jc5tVDeJAuau3TGNgah4Yc
- hdHm3bkPjz9EErV85RwvImQ1dptvx6s7xzwXTgGAsaYZsL8WCwDaTuqFa1d1jjlaxg6+tZsB
- 9GluwvIhSezPgnEmimZDkGnZRRSFiGP8yjqTjjWuf0bSj5rUnTGiyLyRZRNGcXmu6hjlABEB
- AAHNJ1Rob21hcyBaaW1tZXJtYW5uIDx0emltbWVybWFubkBzdXNlLmRlPsLAjgQTAQgAOAIb
- AwULCQgHAgYVCgkICwIEFgIDAQIeAQIXgBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftODH
- AAoJEGgNwR1TC3ojx1wH/0hKGWugiqDgLNXLRD/4TfHBEKmxIrmfu9Z5t7vwUKfwhFL6hqvo
- lXPJJKQpQ2z8+X2vZm/slsLn7J1yjrOsoJhKABDi+3QWWSGkaGwRJAdPVVyJMfJRNNNIKwVb
- U6B1BkX2XDKDGffF4TxlOpSQzdtNI/9gleOoUA8+jy8knnDYzjBNOZqLG2FuTdicBXblz0Mf
- vg41gd9kCwYXDnD91rJU8tzylXv03E75NCaTxTM+FBXPmsAVYQ4GYhhgFt8S2UWMoaaABLDe
- 7l5FdnLdDEcbmd8uLU2CaG4W2cLrUaI4jz2XbkcPQkqTQ3EB67hYkjiEE6Zy3ggOitiQGcqp
- j//OwE0EWznS4AEIAMYmP4M/V+T5RY5at/g7rUdNsLhWv1APYrh9RQefODYHrNRHUE9eosYb
- T6XMryR9hT8XlGOYRwKWwiQBoWSDiTMo/Xi29jUnn4BXfI2px2DTXwc22LKtLAgTRjP+qbU6
- 3Y0xnQN29UGDbYgyyK51DW3H0If2a3JNsheAAK+Xc9baj0LGIc8T9uiEWHBnCH+RdhgATnWW
- GKdDegUR5BkDfDg5O/FISymJBHx2Dyoklv5g4BzkgqTqwmaYzsl8UxZKvbaxq0zbehDda8lv
- hFXodNFMAgTLJlLuDYOGLK2AwbrS3Sp0AEbkpdJBb44qVlGm5bApZouHeJ/+n+7r12+lqdsA
- EQEAAcLAdgQYAQgAIAIbDBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftOH6AAoJEGgNwR1T
- C3ojVSkIALpAPkIJPQoURPb1VWjh34l0HlglmYHvZszJWTXYwavHR8+k6Baa6H7ufXNQtThR
- yIxJrQLW6rV5lm7TjhffEhxVCn37+cg0zZ3j7zIsSS0rx/aMwi6VhFJA5hfn3T0TtrijKP4A
- SAQO9xD1Zk9/61JWk8OysuIh7MXkl0fxbRKWE93XeQBhIJHQfnc+YBLprdnxR446Sh8Wn/2D
- Ya8cavuWf2zrB6cZurs048xe0UbSW5AOSo4V9M0jzYI4nZqTmPxYyXbm30Kvmz0rYVRaitYJ
- 4kyYYMhuULvrJDMjZRvaNe52tkKAvMevcGdt38H4KSVXAylqyQOW5zvPc4/sq9c=
-In-Reply-To: <376a4a95-5428-47d6-9da5-51c8141e71d1@kylinos.cn>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Spamd-Result: default: False [-4.30 / 50.00]; BAYES_HAM(-3.00)[100.00%];
- NEURAL_HAM_LONG(-1.00)[-1.000];
- NEURAL_HAM_SHORT(-0.20)[-1.000]; MIME_GOOD(-0.10)[text/plain];
- RCVD_TLS_ALL(0.00)[]; FUZZY_RATELIMITED(0.00)[rspamd.com];
- FREEMAIL_ENVRCPT(0.00)[163.com,gmail.com];
- RCVD_VIA_SMTP_AUTH(0.00)[]; ARC_NA(0.00)[]; TO_DN_SOME(0.00)[];
- MIME_TRACE(0.00)[0:+];
- FREEMAIL_TO(0.00)[kylinos.cn,163.com,linux.intel.com];
- MID_RHS_MATCH_FROM(0.00)[];
- DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
- FROM_HAS_DN(0.00)[];
- FREEMAIL_CC(0.00)[kernel.org,gmail.com,ffwll.ch,lists.freedesktop.org,vger.kernel.org,kylinos.cn];
- RCPT_COUNT_SEVEN(0.00)[9]; FROM_EQ_ENVFROM(0.00)[];
- TO_MATCH_ENVRCPT_ALL(0.00)[]; RCVD_COUNT_TWO(0.00)[2];
- DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:mid,kylinos.cn:email,suse.com:url]
-X-Spam-Flag: NO
-X-Spam-Score: -4.30
-X-Spam-Level: 
+Content-Type: multipart/signed; boundary="nextPart12775757.O9o76ZdvQC";
+ micalg="pgp-sha512"; protocol="application/pgp-signature"
+x-ms-reactions: disallow
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -147,259 +61,128 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi
+--nextPart12775757.O9o76ZdvQC
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="utf-8"; protected-headers="v1"
+From: Oleksandr Natalenko <oleksandr@natalenko.name>
+Subject: Re: [PATCH] drm/amdgpu: use static ids for ACP platform devs
+Date: Mon, 10 Nov 2025 08:28:10 +0100
+Message-ID: <2804615.mvXUDI8C0e@natalenko.name>
+In-Reply-To: <20250325210517.2097188-1-bradynorander@gmail.com>
+References: <20250325210517.2097188-1-bradynorander@gmail.com>
+MIME-Version: 1.0
 
-Am 10.11.25 um 06:54 schrieb Shixiong Ou:
->
-> 在 2025/11/7 18:06, Thomas Zimmermann 写道:
->>
->>
->> Am 07.11.25 um 10:26 schrieb oushixiong1025@163.com:
->>> From: Shixiong Ou <oushixiong@kylinos.cn>
->>>
->>> Add fbdev screen extended mode display support
->>
->> What? What is this about?
->>
-> If an fbdev device has multiple screens, they are mirrored by default.
-> This patch aims to enable extended display for the tty, allowing 
-> horizontal or
-> vertical expansion to achieve a screen splicing effect in the tty 
-> terminal.
+Hello.
 
-We won't merge that. The mirroring happens because we cannot easily say 
-which display is the correct one. But the console is a necessity that we 
-cannot not provide. Its code is already badly maintained and overly 
-complicated for what it does. Therefore in the framebuffer console we 
-want to reduce complexity, not add more.
+On =C3=BAter=C3=BD 25. b=C5=99ezna 2025 22:05:17, st=C5=99edoevropsk=C3=BD =
+standardn=C3=AD =C4=8Das Brady Norander wrote:
+> mfd_add_hotplug_devices() assigns child platform devices with
+> PLATFORM_DEVID_AUTO, but the ACP machine drivers expect the platform
+> device names to never change. Use mfd_add_devices() instead and give
+> each cell a unique id.
+>=20
+> Signed-off-by: Brady Norander <bradynorander@gmail.com>
+> ---
+>  drivers/gpu/drm/amd/amdgpu/amdgpu_acp.c | 10 ++++++++--
+>  1 file changed, 8 insertions(+), 2 deletions(-)
+>=20
+> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_acp.c b/drivers/gpu/drm/am=
+d/amdgpu/amdgpu_acp.c
+> index deb0785350e8..9c657637d317 100644
+> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_acp.c
+> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_acp.c
+> @@ -302,17 +302,19 @@ static int acp_hw_init(struct amdgpu_ip_block *ip_b=
+lock)
+>  		adev->acp.acp_res[2].end =3D adev->acp.acp_res[2].start;
+> =20
+>  		adev->acp.acp_cell[0].name =3D "acp_audio_dma";
+> +		adev->acp.acp_cell[0].id =3D 0;
+>  		adev->acp.acp_cell[0].num_resources =3D 3;
+>  		adev->acp.acp_cell[0].resources =3D &adev->acp.acp_res[0];
+>  		adev->acp.acp_cell[0].platform_data =3D &adev->asic_type;
+>  		adev->acp.acp_cell[0].pdata_size =3D sizeof(adev->asic_type);
+> =20
+>  		adev->acp.acp_cell[1].name =3D "designware-i2s";
+> +		adev->acp.acp_cell[1].id =3D 1;
+>  		adev->acp.acp_cell[1].num_resources =3D 1;
+>  		adev->acp.acp_cell[1].resources =3D &adev->acp.acp_res[1];
+>  		adev->acp.acp_cell[1].platform_data =3D &i2s_pdata[0];
+>  		adev->acp.acp_cell[1].pdata_size =3D sizeof(struct i2s_platform_data);
+> -		r =3D mfd_add_hotplug_devices(adev->acp.parent, adev->acp.acp_cell, 2);
+> +		r =3D mfd_add_devices(adev->acp.parent, 0, adev->acp.acp_cell, 2, NULL=
+, 0, NULL);
+>  		if (r)
+>  			goto failure;
+>  		r =3D device_for_each_child(adev->acp.parent, &adev->acp.acp_genpd->gp=
+d,
+> @@ -410,30 +412,34 @@ static int acp_hw_init(struct amdgpu_ip_block *ip_b=
+lock)
+>  		adev->acp.acp_res[4].end =3D adev->acp.acp_res[4].start;
+> =20
+>  		adev->acp.acp_cell[0].name =3D "acp_audio_dma";
+> +		adev->acp.acp_cell[0].id =3D 0;
+>  		adev->acp.acp_cell[0].num_resources =3D 5;
+>  		adev->acp.acp_cell[0].resources =3D &adev->acp.acp_res[0];
+>  		adev->acp.acp_cell[0].platform_data =3D &adev->asic_type;
+>  		adev->acp.acp_cell[0].pdata_size =3D sizeof(adev->asic_type);
+> =20
+>  		adev->acp.acp_cell[1].name =3D "designware-i2s";
+> +		adev->acp.acp_cell[1].id =3D 1;
+>  		adev->acp.acp_cell[1].num_resources =3D 1;
+>  		adev->acp.acp_cell[1].resources =3D &adev->acp.acp_res[1];
+>  		adev->acp.acp_cell[1].platform_data =3D &i2s_pdata[0];
+>  		adev->acp.acp_cell[1].pdata_size =3D sizeof(struct i2s_platform_data);
+> =20
+>  		adev->acp.acp_cell[2].name =3D "designware-i2s";
+> +		adev->acp.acp_cell[2].id =3D 2;
+>  		adev->acp.acp_cell[2].num_resources =3D 1;
+>  		adev->acp.acp_cell[2].resources =3D &adev->acp.acp_res[2];
+>  		adev->acp.acp_cell[2].platform_data =3D &i2s_pdata[1];
+>  		adev->acp.acp_cell[2].pdata_size =3D sizeof(struct i2s_platform_data);
+> =20
+>  		adev->acp.acp_cell[3].name =3D "designware-i2s";
+> +		adev->acp.acp_cell[3].id =3D 3;
+>  		adev->acp.acp_cell[3].num_resources =3D 1;
+>  		adev->acp.acp_cell[3].resources =3D &adev->acp.acp_res[3];
+>  		adev->acp.acp_cell[3].platform_data =3D &i2s_pdata[2];
+>  		adev->acp.acp_cell[3].pdata_size =3D sizeof(struct i2s_platform_data);
+> =20
+> -		r =3D mfd_add_hotplug_devices(adev->acp.parent, adev->acp.acp_cell, AC=
+P_DEVS);
+> +		r =3D mfd_add_devices(adev->acp.parent, 0, adev->acp.acp_cell, ACP_DEV=
+S, NULL, 0, NULL);
+>  		if (r)
+>  			goto failure;
 
-If you want complex screen layouts, please implement a console in user 
-space or use a compositor.
+Is this patch still supposed to be applied?
 
-Best regards
-Thomas
+Thank you.
 
+=2D-=20
+Oleksandr Natalenko, MSE
+--nextPart12775757.O9o76ZdvQC
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: This is a digitally signed message part.
+Content-Transfer-Encoding: 7Bit
 
->
-> Best regards,
-> Shixiong
->
->>>
->>> Signed-off-by: Tiger Liu <liuyihu@kylinos.cn>
->>> Signed-off-by: Shixiong Ou <oushixiong@kylinos.cn>
->>> ---
->>>   drivers/gpu/drm/drm_fb_helper.c | 143 
->>> ++++++++++++++++++++++++++++++--
->>>   1 file changed, 135 insertions(+), 8 deletions(-)
->>>
->>> diff --git a/drivers/gpu/drm/drm_fb_helper.c 
->>> b/drivers/gpu/drm/drm_fb_helper.c
->>> index 53e9dc0543de..a6ec03bf3aef 100644
->>> --- a/drivers/gpu/drm/drm_fb_helper.c
->>> +++ b/drivers/gpu/drm/drm_fb_helper.c
->>> @@ -78,6 +78,17 @@ MODULE_PARM_DESC(drm_leak_fbdev_smem,
->>>            "Allow unsafe leaking fbdev physical smem address 
->>> [default=false]");
->>>   #endif
->>>   +#define SCREEN_CLONE            0x0
->>> +#define SCREEN_EXPAND_HORIZONTAL    0x1
->>> +#define SCREEN_EXPAND_VERTICAL        0x2
->>> +
->>> +static bool drm_fbdev_screen_expand_mode_enabled;
->>> +static int drm_fbdev_screen_mode = SCREEN_CLONE;
->>> +module_param_named(screen_mode, drm_fbdev_screen_mode, int, 0444);
->>> +MODULE_PARM_DESC(screen_mode,
->>> +         "Screen display of the fbdev. [0 = clone(default), 1 = 
->>> expand horizontally,"
->>> +         "2 = expand vertically]");
->>> +
->>>   static LIST_HEAD(kernel_fb_helper_list);
->>>   static DEFINE_MUTEX(kernel_fb_helper_lock);
->>>   @@ -1345,15 +1356,35 @@ int drm_fb_helper_set_par(struct fb_info 
->>> *info)
->>>   }
->>>   EXPORT_SYMBOL(drm_fb_helper_set_par);
->>>   -static void pan_set(struct drm_fb_helper *fb_helper, int dx, int dy)
->>> +static void pan_set_locked(struct drm_client_dev *client,
->>> +               int dx, int dy)
->>>   {
->>>       struct drm_mode_set *mode_set;
->>> +    int screen_x_offset = dx;
->>> +    int screen_y_offset = dy;
->>>   -    mutex_lock(&fb_helper->client.modeset_mutex);
->>> -    drm_client_for_each_modeset(mode_set, &fb_helper->client) {
->>> -        mode_set->x += dx;
->>> -        mode_set->y += dy;
->>> +    drm_client_for_each_modeset(mode_set, client) {
->>> +        if (drm_fbdev_screen_expand_mode_enabled) {
->>> +            if (drm_fbdev_screen_mode == SCREEN_EXPAND_HORIZONTAL) {
->>> +                mode_set->x += screen_x_offset;
->>> +                mode_set->y += screen_y_offset;
->>> +                screen_x_offset += mode_set->mode->hdisplay;
->>> +            } else if (drm_fbdev_screen_mode == 
->>> SCREEN_EXPAND_VERTICAL) {
->>> +                mode_set->x += screen_x_offset;
->>> +                mode_set->y += screen_y_offset;
->>> +                screen_y_offset += mode_set->mode->vdisplay;
->>> +            }
->>> +        } else {
->>> +            mode_set->x = screen_x_offset;
->>> +            mode_set->y = screen_y_offset;
->>> +        }
->>>       }
->>> +}
->>> +
->>> +static void pan_set(struct drm_fb_helper *fb_helper, int dx, int dy)
->>> +{
->>> +    mutex_lock(&fb_helper->client.modeset_mutex);
->>> +    pan_set_locked(&fb_helper->client, dx, dy);
->>>       mutex_unlock(&fb_helper->client.modeset_mutex);
->>>   }
->>>   @@ -1387,10 +1418,8 @@ static int pan_display_legacy(struct 
->>> fb_var_screeninfo *var,
->>>         mutex_lock(&client->modeset_mutex);
->>>       drm_modeset_lock_all(fb_helper->dev);
->>> +    pan_set_locked(client, var->xoffset, var->yoffset);
->>>       drm_client_for_each_modeset(modeset, client) {
->>> -        modeset->x = var->xoffset;
->>> -        modeset->y = var->yoffset;
->>> -
->>>           if (modeset->num_connectors) {
->>>               ret = drm_mode_set_config_internal(modeset);
->>>               if (!ret) {
->>> @@ -1461,6 +1490,94 @@ static uint32_t 
->>> drm_fb_helper_find_format(struct drm_fb_helper *fb_helper, const
->>>       return DRM_FORMAT_INVALID;
->>>   }
->>>   +/*
->>> + * Check if the device supports extended mode
->>> + *
->>> + * return true if the device supports extended mode,
->>> + * otherwise return false.
->>> + */
->>> +static bool drm_fb_helper_validate_extended_mode(struct 
->>> drm_fb_helper *fb_helper,
->>> +                         struct drm_fb_helper_surface_size *sizes)
->>> +{
->>> +    struct drm_client_dev *client = &fb_helper->client;
->>> +    struct drm_device *dev = fb_helper->dev;
->>> +    struct drm_mode_config *config = &dev->mode_config;
->>> +    struct drm_mode_set *mode_set;
->>> +    u32 crtc_count;
->>> +
->>> +    drm_client_for_each_modeset(mode_set, client) {
->>> +        crtc_count++;
->>> +
->>> +        for (int j = 0; j < mode_set->num_connectors; j++) {
->>> +            struct drm_connector *connector = mode_set->connectors[j];
->>> +
->>> +            if (connector->has_tile) {
->>> +                drm_dbg_kms(client->dev,
->>> +                        "Don't support extended with tile mode 
->>> connector yet\n");
->>> +                return false;
->>> +            }
->>> +        }
->>> +    }
->>> +
->>> +    if (crtc_count < 2) {
->>> +        drm_dbg_kms(client->dev,
->>> +                "Only support extended mode when device have 
->>> mult-crtcs\n");
->>> +        return false;
->>> +    }
->>> +
->>> +    if (drm_fbdev_screen_mode == SCREEN_EXPAND_HORIZONTAL) {
->>> +        u32 x = 0;
->>> +
->>> +        drm_client_for_each_modeset(mode_set, client) {
->>> +            struct drm_display_mode *desired_mode;
->>> +
->>> +            desired_mode = mode_set->mode;
->>> +            x = mode_set->x;
->>> +            sizes->fb_width = sizes->surface_width  += 
->>> desired_mode->hdisplay;
->>> +            sizes->surface_height =
->>> +                min_t(u32, desired_mode->vdisplay + mode_set->y,
->>> +                      sizes->surface_height);
->>> +            sizes->fb_height = min_t(u32, desired_mode->vdisplay + 
->>> mode_set->y,
->>> +                         sizes->fb_height);
->>> +        }
->>> +        sizes->fb_width = sizes->surface_width += x;
->>> +
->>> +        if (sizes->fb_width > config->max_width) {
->>> +            drm_dbg_kms(client->dev,
->>> +                    "screen_buffer total width %d > config width 
->>> %d\n",
->>> +                    sizes->fb_width, config->max_width);
->>> +            return false;
->>> +        }
->>> +    } else if (drm_fbdev_screen_mode == SCREEN_EXPAND_VERTICAL) {
->>> +        u32 y = 0;
->>> +
->>> +        drm_client_for_each_modeset(mode_set, client) {
->>> +            struct drm_display_mode *desired_mode;
->>> +
->>> +            desired_mode = mode_set->mode;
->>> +            y = mode_set->y;
->>> +            sizes->fb_height = sizes->surface_height += 
->>> desired_mode->vdisplay;
->>> +            sizes->surface_width =
->>> +                min_t(u32, desired_mode->hdisplay + mode_set->x,
->>> +                      sizes->surface_width);
->>> +            sizes->fb_width = min_t(u32, desired_mode->hdisplay + 
->>> mode_set->x,
->>> +                        sizes->fb_width);
->>> +        }
->>> +        sizes->fb_height = sizes->surface_height += y;
->>> +
->>> +        if (sizes->fb_height > config->max_height) {
->>> +            drm_dbg_kms(client->dev,
->>> +                    "screen_buffer_total_height %d > config height 
->>> %d\n",
->>> +                    sizes->fb_height, config->max_height);
->>> +            return false;
->>> +        }
->>> +    } else {
->>> +        return false;
->>> +    }
->>> +
->>> +    return true;
->>> +}
->>> +
->>>   static int __drm_fb_helper_find_sizes(struct drm_fb_helper 
->>> *fb_helper,
->>>                         struct drm_fb_helper_surface_size *sizes)
->>>   {
->>> @@ -1527,6 +1644,16 @@ static int __drm_fb_helper_find_sizes(struct 
->>> drm_fb_helper *fb_helper,
->>>         /* first up get a count of crtcs now in use and new 
->>> min/maxes width/heights */
->>>       crtc_count = 0;
->>> +
->>> +    /* Check if we support extended mode. If we do, we will adjust 
->>> the sizes accordingly. */
->>> +    if (drm_fbdev_screen_mode &&
->>> +        drm_fb_helper_validate_extended_mode(fb_helper, sizes)) {
->>> +        drm_fbdev_screen_expand_mode_enabled = true;
->>> +        drm_dbg_kms(dev, "Extended mode: horizontal expansion, 
->>> width: %d, height: %d\n",
->>> +                sizes->surface_width, sizes->surface_height);
->>> +        return 0;
->>> +    }
->>> +
->>>       drm_client_for_each_modeset(mode_set, client) {
->>>           struct drm_display_mode *desired_mode;
->>>           int x, y, j;
->>
+-----BEGIN PGP SIGNATURE-----
 
--- 
---
-Thomas Zimmermann
-Graphics Driver Developer
-SUSE Software Solutions Germany GmbH
-Frankenstr. 146, 90461 Nürnberg, Germany, www.suse.com
-GF: Jochen Jaser, Andrew McDonald, Werner Knoblich, (HRB 36809, AG Nürnberg)
+iQIzBAABCgAdFiEEZUOOw5ESFLHZZtOKil/iNcg8M0sFAmkRlAoACgkQil/iNcg8
+M0upCRAAznBKt2hrp2RHMh7VAjnb5D+v3EJ7DHNtNDCe+yen7/KRsUo6eJWV9OpT
+3mXP189NsqaI29dEosz8MJB3i3E8oO+vr1wO7DXsWCDJpZpHCdwLyv97VaW5tlpL
+JGB8UZ24GIwnp+z+ZvYg77/NZvbppfUo2sqak+CHbVU9iwx2fwOTOj2GPco74xhx
+8ynKcdDQbkO6J4ags1YdV0g63Pvz6YqqkxiIVUZGfBgt+YoIkUIp3X63VqoMwf1s
+e+kgTgirDBTlYhKoP5+X7EfRf/XSV2yN0YmWcifOSrHamv2w7zDOgeuMCDgPXC54
+vs2o+DdbK8899KaS+Ir8U8x6+ZiIdJyUx2QoJWOQ4orwgapKf1uC+AuuqxTHsfmy
+y4+2KpVEUbGxYMWJyTIhw3DMwl/eeBfmiVgW23MakN7LYZia8Ssvel8k9FpplaO3
+ifCrD/XyHtcjPIg60Of/+9P1m+O1BL7orA5DdnrGY45QEFJF0kkP/jHMLeK0fbdd
+lRXny0K5j4rEX/htPpI71LAJV/iodVk6aoM+Dbse3JOT8a5ROWGQtMO3oDh985OB
+l+tF24HNGtyJg7hGqqNL9TuSoug9MBBerruQuG7I76n3aqvpAtwyRWZWr/jpgycJ
+5GoRx4E4JvwueScadNTOH5Y3XzlAu8pQMXAIjjBv6IBFXEccQEk=
+=N2yv
+-----END PGP SIGNATURE-----
+
+--nextPart12775757.O9o76ZdvQC--
+
 
 
