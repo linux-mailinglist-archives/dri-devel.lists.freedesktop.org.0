@@ -2,54 +2,52 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 61380C46EBB
-	for <lists+dri-devel@lfdr.de>; Mon, 10 Nov 2025 14:34:49 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 589B5C46EC1
+	for <lists+dri-devel@lfdr.de>; Mon, 10 Nov 2025 14:34:52 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8923210E39D;
-	Mon, 10 Nov 2025 13:34:47 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 93B4710E3AB;
+	Mon, 10 Nov 2025 13:34:50 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=Nvidia.com header.i=@Nvidia.com header.b="oyRm24J+";
+	dkim=pass (2048-bit key; unprotected) header.d=Nvidia.com header.i=@Nvidia.com header.b="hvYxC5aS";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from CH5PR02CU005.outbound.protection.outlook.com
- (mail-northcentralusazon11012017.outbound.protection.outlook.com
- [40.107.200.17])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3F02310E39D;
- Mon, 10 Nov 2025 13:34:46 +0000 (UTC)
+Received: from PH8PR06CU001.outbound.protection.outlook.com
+ (mail-westus3azon11012003.outbound.protection.outlook.com [40.107.209.3])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2265E10E3A6;
+ Mon, 10 Nov 2025 13:34:49 +0000 (UTC)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=oNUTgmyMZ4dZQN3OE60jkbHZHNQ5561/3EK+qZ9LiVH7BeBOglKSb9NUzIbfQ/8dJ4MROIbzjhvkRXcJx9cTWNMKAdqye+r6i+0h1j+MR5vVAhWxdg/t4mWinlDSsPJKMzjiVsYX+wuqnJTwSEll0XZzkWBWWnL1D+eW9gNBcWEvKp0WD8xVdsn5SwWNuvzcO7sfUk4yXUW198gDdKJshZnrmgWTR4bC2EzV2gOGqQfKwiyCJJsrINAUwyhxltHKAWbwZ5/XLJ5ZM7Y/tlPyUK5HckqqqE0cS0xhB4HbP2KjWaDaxJsdt14EQB4V6FQlcbb42eCIQ/Nqxxda3sGd5A==
+ b=cdZg7RQEwtzpcHh/WtgnDAEqm+g58gbxM+tTs9JA++xyRY92IAkRoO97H7ts0VNdH1bAyv8QNNLEshbg6YiTU26/pIQmzQ8OTqEAWaUE9ZT36dUKjPqPLC2BeVZH66qBCnVL28OSE9u/LjRW97icY6J+kaI0+7S19yv5+vPGeWCTN3nACuxhncOXXrCcnymOhOk5EiDyg5ebVz4vamZismU4uc6QDVF/TQykGsp+I3WPmOVBg7ZP46VPtGzTFz8EMra8tOwEVDkf56mmNUVlm+3qr9+2jHC50mPRkU2OBuhvMu/A+8o1PRncACpBza6broR4FKNckw4gboqwOt7x6g==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=JXwDERina842nUovIixLBdlVzhiPzu1gj8a3vbvYrSg=;
- b=RDLAY6S2HQEQrtUus6S+M3hPazNwkYOTbdYXh7/FCIGuuHNVpXeqnXK75oFi9VoKOOPf6Rl5/fA7b3BtvB0FMWt5G0oCs+qJrtDRPnNM5Ekz1aXEGdstoMmjhU0o1D7DwyY9rALV32cgLu+z4GWufjnb5XOhBe61hJcPtgIF6kcVKEfSAtLbnSZkGCe0+uGuP8JuRhWwAaWQ8eRksZ9woxpKzIeQxoEaghVbg8wVCiVYVn25Iubble2/Tz9hRhrTfZvQ0/6NQqHRUWECXOZti3oYHz+xwOq6tUP1tRVkS0a0U+f+kZzdnV5PSj7+N8g24RvRBnt/murXXZDSy5740w==
+ bh=f8BB6ezZKHSTe6ULwJSFFyNmeqRIn+CATCI2DgUFCcE=;
+ b=AJo37ySjwkEPict2AZgiFwtVobBu3q9Yw/YNWjkaT4dGb//d6vmd9L9c72nKKlYw315xwVxRMmhiy2Nk+mk3wjjDK9ZFw+JANt5xgbu9rUzBAeDGLdCYcDOQXvKZ/+ShDssTbbPWxoH9qBWMNVq0MVwcVklqbECr62Jv3Sy2P4BTDbdHv+fE/z32NzatGVAPJ+XVIA5rCSgjn1n3iLxt2eCB9aAkBjzdAqStZZbyqMjC4U46hHQypfHWrt0nxM5bvR4tzkWtPvtVz/nguMRQhnEuQcS+rFBoVsDnCWHBmtAmTtQqSr/1+Lx+8rdJyp5Ybncfd2HARRv+JHATL4J3Hw==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
  dkim=pass header.d=nvidia.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
  s=selector2;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=JXwDERina842nUovIixLBdlVzhiPzu1gj8a3vbvYrSg=;
- b=oyRm24J+yh1P63PMC+EUnZ4I+3/Vqk9zRT8fUT7vC6yuZStX2Ul6q2xGrUwGr3uRyRC2t3j65zHVoQuYZah1GHUf+aF13cs12zE4he7oT9uZR9FvdyRLSwXnwG646K1YO8HNn0tPbMwjxNOb0KD7sBCmZ6No7uEQvhpe/sCPtyhml0lqK3AsEaWor9NOwxLWhLk+J6bh4bxd3g/cMMbJ5IIaY4Ng3ecklPJM01oSAcMiB0x4ScRVTr0vN1rTKk5RYomyXLgfl0XZ+mjwK0wzt4fgPXWfuwJyrXHZcgNu3ab+anUzxbjRr/IptCke2Rp5T6XYGoZuH0Euuyjc5jv+5Q==
+ bh=f8BB6ezZKHSTe6ULwJSFFyNmeqRIn+CATCI2DgUFCcE=;
+ b=hvYxC5aSXP0Ve7DsvkTxFoyY+w1K0dglB0nU94E8VM4+z4/RGEekij7EaEsBisT96TZYKz5nuwCB/wAnZSxJ1Zblgf276Fp0gV+1HAkFoAyaljobxRXGGCL40FJBHGAb0kb55AqrvaGJ/HuzTJBHfvl07rtZOwUugGtCIizaFJQf4lMnMon2ajkRN35ZWAM07ag2ZS4fao2ip3NlPDaAb+zzE/D2VJFDpzYL8joaS2bWfZX8S8AafSlhRRNTQTZq9p9btpF6y7mIfqQqJYerKQbCEZq6EQ1Afc1K5rjN79shARFH34O2trTwNl08yMLHuoXSId1q9ofxMKC/CuVwBA==
 Authentication-Results: dkim=none (message not signed)
  header.d=none;dmarc=none action=none header.from=nvidia.com;
 Received: from CH2PR12MB3990.namprd12.prod.outlook.com (2603:10b6:610:28::18)
  by SA3PR12MB7784.namprd12.prod.outlook.com (2603:10b6:806:317::20)
  with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9298.16; Mon, 10 Nov
- 2025 13:34:42 +0000
+ 2025 13:34:46 +0000
 Received: from CH2PR12MB3990.namprd12.prod.outlook.com
  ([fe80::7de1:4fe5:8ead:5989]) by CH2PR12MB3990.namprd12.prod.outlook.com
  ([fe80::7de1:4fe5:8ead:5989%6]) with mapi id 15.20.9298.015; Mon, 10 Nov 2025
- 13:34:42 +0000
+ 13:34:46 +0000
 From: Alexandre Courbot <acourbot@nvidia.com>
-Date: Mon, 10 Nov 2025 22:34:14 +0900
-Subject: [PATCH v9 06/15] gpu: nova-core: Add a slice-buffer (sbuffer)
- datastructure
+Date: Mon, 10 Nov 2025 22:34:15 +0900
+Subject: [PATCH v9 07/15] gpu: nova-core: Add zeroable trait to bindings
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20251110-gsp_boot-v9-6-8ae4058e3c0e@nvidia.com>
+Message-Id: <20251110-gsp_boot-v9-7-8ae4058e3c0e@nvidia.com>
 References: <20251110-gsp_boot-v9-0-8ae4058e3c0e@nvidia.com>
 In-Reply-To: <20251110-gsp_boot-v9-0-8ae4058e3c0e@nvidia.com>
 To: Danilo Krummrich <dakr@kernel.org>, Alice Ryhl <aliceryhl@google.com>, 
@@ -62,105 +60,104 @@ Cc: John Hubbard <jhubbard@nvidia.com>, Alistair Popple <apopple@nvidia.com>,
  Joel Fernandes <joelagnelf@nvidia.com>, Timur Tabi <ttabi@nvidia.com>, 
  Edwin Peer <epeer@nvidia.com>, nouveau@lists.freedesktop.org, 
  dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org, 
- rust-for-linux@vger.kernel.org, Alexandre Courbot <acourbot@nvidia.com>, 
- Lyude Paul <lyude@redhat.com>
+ rust-for-linux@vger.kernel.org, Alexandre Courbot <acourbot@nvidia.com>
 X-Mailer: b4 0.14.3
-X-ClientProxiedBy: TY4P286CA0090.JPNP286.PROD.OUTLOOK.COM
- (2603:1096:405:369::17) To CH2PR12MB3990.namprd12.prod.outlook.com
+X-ClientProxiedBy: TYWPR01CA0009.jpnprd01.prod.outlook.com
+ (2603:1096:400:a9::14) To CH2PR12MB3990.namprd12.prod.outlook.com
  (2603:10b6:610:28::18)
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
 X-MS-TrafficTypeDiagnostic: CH2PR12MB3990:EE_|SA3PR12MB7784:EE_
-X-MS-Office365-Filtering-Correlation-Id: a721fe8f-3040-4e6d-a1a3-08de205de7bf
+X-MS-Office365-Filtering-Correlation-Id: ddf24578-9da9-4ac4-c87a-08de205dea14
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
  ARA:13230040|376014|7416014|366016|10070799003|1800799024|921020; 
-X-Microsoft-Antispam-Message-Info: =?utf-8?B?Z3J2ZlptcUxvZDJCenF5QzE4bDF4RjRGUC9WQUpVV2FFdjlRVXpTL0ZvaFh4?=
- =?utf-8?B?SlNnNXA1YjhvK3FZcGRVVzczMUQ0VEJISjVxdHc4bk1MWll3TnBBSEo0WXhQ?=
- =?utf-8?B?MHEwYlJxVHBjbCsrVzcrTkJycnVhYm51MStJUkV5akVOQUlkUURBYUJtTzBN?=
- =?utf-8?B?a2pPS0dCcXZDWE43ZFh1TzIyVTI4dVNpdFRjT1kvWkNEa3dUbjFlUTdKMzdp?=
- =?utf-8?B?L3ZtWWJuZ05qeVhCQWYzZVZ3UWxBTUY1TEwwYzVUendLWUpPQnFveG9qM2d5?=
- =?utf-8?B?dUsyeXBjMW1BTHc2Sm5wRklNQnQrMnRFcUpxWmU3UXhtZ0tCRnI2aVVKUHVV?=
- =?utf-8?B?WHZnQ25mdU1SMHJnTzRDWmRpSTErWnhLbnJTZ1VvREk4aXo4Y1lVekt4WlpS?=
- =?utf-8?B?WWpTQTcyVWpTRGNueVFvK0FIWHZMdVJNMFRtSEFYUjdWUFhzeFNsQW1sZE5i?=
- =?utf-8?B?TTc2aWJNVGNYMHBTQlIxMm5CU0lsamZDU1ByRnkxM3BmSkViMjhqYlVQYlZk?=
- =?utf-8?B?WnJHaytpa3N3ZnhQYS9UVEhyTXNlR1pmVU9GSU9MY2dOVHNRZEJFZzZ0citv?=
- =?utf-8?B?WnNZdmR2d3MxNWN5S0k1ZStIRDBKTENYcE93a1BaNGIvMm0wbGpXTG8rTlVp?=
- =?utf-8?B?Wk5vdzVOVXlvVzhEams0SS80Q09FS2IycHdBeDhuaHBOT3U0SXoxbnprdWR4?=
- =?utf-8?B?OXBlZVZVU09INEdtSDkwMGgyRUNvZkNBRmhBMXJmUGJ6UzhwcVQwdk1mQ3RP?=
- =?utf-8?B?SzFjTG5HeGZOeDIwa3RnRXJDV1l5czdYdUdNbEFyZ08xcUZ4ZkJzV0xwK2dK?=
- =?utf-8?B?RDltWnhiaVcrejJPTEJ0aEdMMVA4N3JXaVc4dmRBZldhdWpZd3dlRTRmTy9t?=
- =?utf-8?B?MllSYld2OWpJY0dnVi9MaVBOSlJvaElBVWUzYXhHaGx2UWYxSkR2UnNSYjI2?=
- =?utf-8?B?dmVsWXZmUXVBM1lnaTFtdUdCcVdXdk51R0ZjeDNJWDduSm9hY3FoVzBHOU5q?=
- =?utf-8?B?a0M1Z3cySmtnaEZRZmFDeE5zdzgvRjRPNGJQVEJMRGdQZnBTbUpLbTZKdTZN?=
- =?utf-8?B?MkM0RXFqQ3BNVXVDbHJKVW93bnNyV2RBNnc2SnJYNjBibmoxSElQc1BaYVdT?=
- =?utf-8?B?YnNJZEZhY05YbG1QQzJkNlRoVUdZbkpwc3pWU2JKb3VEdkRFQzdFTTJBSGVl?=
- =?utf-8?B?U1RxbnRzeWgyTWQ5eHovU3IvODI2dG5LNVUrbG9QR3BtR0dYRXVyWVZTSVJ3?=
- =?utf-8?B?enZrUGFsQXhucGV6UXRLR2RFdU5aZDlCUmk3M00wS1ZYMThkdDVCcG9yOWpO?=
- =?utf-8?B?cThjbHJEUmVoRktlbnh2TlQ2c0ZuTWwyQzRheTZ4alMyZGY1emZXZGxuTGQ5?=
- =?utf-8?B?U1BRSisrVUhIS01tS2RTYkVlYmgvb2lrVmJtWXNwUjc5UW1idmg2R1hnQmly?=
- =?utf-8?B?Ry9sUTUySlhRa2RpSWhXd3VUUnhJTWVGUDl3YU93dzYrdTVVQTZHcmZ5Tmpu?=
- =?utf-8?B?azUxWmFGcURma0dyVUdLTEI2a2FKck5KUXZDRXRXYUE2ODR6ZkNQSjlxclN4?=
- =?utf-8?B?by9KVDVBSmxLUTBmRWFXa0xvMHFkbnVGcURLbHhhejFmV1FPN1hjSCswOTBw?=
- =?utf-8?B?VGJYbTgwYzRuN1paRURPVGMzQlovbDZsR29QUlRxT1VoM0E4eGxJOHVsTVVY?=
- =?utf-8?B?Ni9RL0doQXk3dC9WNXlqL3ZTUDYyd0RoZFVqR2JxNHFnL3RXTzdvUWxCVmtt?=
- =?utf-8?B?NmNTSHB1ajdjYlFoajNNY2lhVU9yNmJscUdjSElVQ0hzYitSdXVSVml0d2h5?=
- =?utf-8?B?TWd3OFhaNjhIR2NLMERHKzc1aGQ5RlBFSnNvMHNYT1ViM2Nucmxubkc0ckFG?=
- =?utf-8?B?ZVczK3ZtazVRNnY2c0ZWdTFwdUNkUm10RUVFWFVsdHU0d0lVK0FSRWd1TGoz?=
- =?utf-8?B?ZG52Q3g5Q2M2Ny9JSUU3SmZRZ3Fvd1RFRzNncmxiT1c2dmxkSy9zTmVTVUI1?=
- =?utf-8?Q?hW9sIS9czKIrsrkUTGNtoSW7qieGn8=3D?=
+X-Microsoft-Antispam-Message-Info: =?utf-8?B?TkNzb0w5U3dXMnFhaXJkb1F6dmRnM21ySUlDaUtIb0E3QzluNngrekhIRVkz?=
+ =?utf-8?B?bVZXZWdJY1JqY1hQd3NxelU5YTlBcktpYkZXMTdKOHZSbkQyMTNTallqdmNJ?=
+ =?utf-8?B?UzVFanJ5VnJNQWlaUjhiSnpuM3NkYkNFcTVzQmI3NGMwS0w5THI2a3ZMVVhD?=
+ =?utf-8?B?MXg2TGVGcys5S0pxT2crWkRxWUhydDZBbVlYWUF2L0NXOFFVTzNVbkJqdERr?=
+ =?utf-8?B?YnYwbXdoSExMay96MmhXaDRPdXpuQTZOdGwxL2NKTGdkbStsQ2Y0cXlvZWt0?=
+ =?utf-8?B?R2NqNUpoUzR3MFJpR3RRVldTT1ZsZEtWazNheVAyNEZKUWF6eDltMm83Z2Rt?=
+ =?utf-8?B?eHlCcWRScnBaVDBjZ2VlWGhMdHBhR0I5eElzNXd6aU5ObDE4aVJhSXpGWm5w?=
+ =?utf-8?B?M2xnWHBWZWFqM0pWYVY1Qk43ekcvTWNlZk5yZERhVWlodHQxNFd6MTg3R1FS?=
+ =?utf-8?B?STMzTlpQVURianAxNUYwR3pwSmVWMkgyODJwNlNCcERiMzV3WCtQeDgzeWdO?=
+ =?utf-8?B?d1BxYTI5TVM0K3o2N3h0Y3plMnhUOUozS3pjd3VtazA0UytZR2dyMS9TUWc2?=
+ =?utf-8?B?R1FUczRqNnlIQmRvN1pvbUJLRndNd1A0QmNZa0xDR1FCVkIvc1ExbkxIUWsy?=
+ =?utf-8?B?a0dSSjNhYjQxTndkL3c5emRSaVEzc3J0clE5bi9VcVJnOUpTZXlxN3Jmcm9T?=
+ =?utf-8?B?R0FVZVIrSUpHVFp0cENqTFhZbFRMZEI3L2V1NkFZTHMwRFVUYjdJTml1SVRt?=
+ =?utf-8?B?Q0dLazkwdVA3TXQvWDJOQ1lDSTRySmIycVo5N0xCeWpveEplS1Y1RmxDUFp3?=
+ =?utf-8?B?SGJLU2RhbVA2VXB1MDFlTGNJVWE1WCtjYjkzUDRBVlBSUTBnc2Q1ZS94Kzcr?=
+ =?utf-8?B?dUdCUHo3a08walZnRjdqNEpCWXNmM25HdHdqRHI4bVJtSjNJSXdOMVBCajlX?=
+ =?utf-8?B?M3UwNXp4MzBJYmp2UHRRQU5ic1h1SWxaRUdoREpOVndOQ3kvSDkrUmtpcFRV?=
+ =?utf-8?B?RTRYcDUzQjczZnZPK2M1SkphUytWUTVLK3FPck8wYSs0cTlUNjlxMWdZbXVq?=
+ =?utf-8?B?R3Z2SHI3aUU2bURKaWtjMDRRTDc2U3N4em1SU28vMkJXcklSa0FHRHJGeFNV?=
+ =?utf-8?B?VDYzVEsxcnF6R1JReXI0YmlRRk5mdnRPRHBUaW93MFVCZThPWkszTHZXTGtQ?=
+ =?utf-8?B?cDlRQStqRlBGcTlLTjRBaGNJQm91a2pPaWJoeG03U0ZUazJPSndlQmhVUURi?=
+ =?utf-8?B?czFmVHJnWVJWUmg5aVBRWmtOWENySlQxYmpZMXQzOFIzczZXTVk2NjJ1UURH?=
+ =?utf-8?B?WjA1eFladVhRaHdIUXllaCtKUERjQWFPcG5NR1pvQkcxUmVvWTczU3lVZFJT?=
+ =?utf-8?B?SUhiNk5FOStVYjFBNzJyWGMrQ1k0MVFHeFY0L1g3K3BBU3IyY3JTWGQ3aVpS?=
+ =?utf-8?B?Mkh1VEJQdGQ2dXgzTlorMDlsbURFZk5vMVNJRHZTSGEyOVRuN3o4ZnExajd5?=
+ =?utf-8?B?Ui94eThpbmZuWWNTc1pCcDRoT2w1YWNGNnRzQWVjMzZWYkhsTU9UemZYWGEv?=
+ =?utf-8?B?em9zcjBlcDgrYUxWbWZ5WmJ2b2RQZjQ5VjJENG5VMHhqVFRURVlINUJDbHZt?=
+ =?utf-8?B?aXl0NnFhanF0Tks5MG1mYmwwWXZXOGdRTVBTYzdldzdIbEJjZ0h4UDBNTHg3?=
+ =?utf-8?B?QlYzaDl0U3hXNnBwcXVUN1BnTlN6TW5kVk96cmtEZVN4bm9OWnhybWhKTTBX?=
+ =?utf-8?B?Tk9VTG44elJYd2FjMXgrNFF6d0hjS0VMempMOEh5dXdQRUJuVUg0YnZmNjBF?=
+ =?utf-8?B?dEQ5QTB1eW13MXoxMmEya1BwT2U4bmxja25KVVdQSGtCVXA5bUdMV0IrN3ht?=
+ =?utf-8?B?amJ6NlBTWDkzazVHQThVK3VuaHRKdTkyQlphL08zeTliOVA3SHN0azdTMEpD?=
+ =?utf-8?B?SU1LanFlb3o3M0xOSndONzdlNWIwdDg5S0xHaTBOZ2o0eDRYZ3FLaVFDbUZE?=
+ =?utf-8?Q?FBl1Q7z3PmPmqlqdp2rGHPM8/xQxhk=3D?=
 X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
  IPV:NLI; SFV:NSPM; H:CH2PR12MB3990.namprd12.prod.outlook.com; PTR:; CAT:NONE;
  SFS:(13230040)(376014)(7416014)(366016)(10070799003)(1800799024)(921020);
  DIR:OUT; SFP:1101; 
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?NmxhZkphUnk3SXIyb0J5aGk1RlVpZUF0SnVxNlFyTTdrelRneG9GRGMzN0N2?=
- =?utf-8?B?ek5KZUNMdjU2VkcyQkphRkhqZnhBM1NseUdKNG1saGpMckdlWU96ckJJOXA3?=
- =?utf-8?B?dGIyaUMxb2ZRLzBxWTNPczZJejRUQXVySmNKaTg2VzRDb2xBVStIRnhWL01P?=
- =?utf-8?B?bTR4MC9nR2xoUU95dEs3MUdjRkdJKzloaERnTzdBZVJaU2txeTdvMU9Sa0hv?=
- =?utf-8?B?TS9HYk1FRjJLZTNWblVvRW1VME9wcnRUL0JZY29VTlF5aStTMmhQRUVEQTFr?=
- =?utf-8?B?VXQ0UXpzbXpwY2VYRWFBcnhsMng5ZzRGUGRHa2N2VklkUzlvWUhGVlp6cVA1?=
- =?utf-8?B?RkZYaDAzZHdubThFdjc2Wm5YajZEcjdjMUdZbjRkRUVnQmJDeVFZTDR2MzUv?=
- =?utf-8?B?U1JXQW85MWJ2a0YzaEZ6aVloTjJjYUdmVEhEcThKZmJKWitFL3lvWXZLTERS?=
- =?utf-8?B?UnJtZ2h0b3lyVDVsR3RQLzZ3RXpqKzZXblpRNlkxSSs1SmFKdzZKcVdrY0xG?=
- =?utf-8?B?Ri8rR1gzUFMyclhVL0Jqbzl5Ym04S3ZyWVBvQy9SbnNxeEkyVVZGVVhScGdH?=
- =?utf-8?B?Z0R0STBES085dk9YNnFWUTgxMmNpNzZPQXZ2c3pyNm5QNEVmQnh5NmNoSkpa?=
- =?utf-8?B?cFlpL0VSQWdpQkxGYXFRNVlWU1BucllKTW1XUWQ5WU1VSFRGdGRVT3d3T3Fm?=
- =?utf-8?B?U0M1VGJIakJVckxhUHB1U3kvUzRodlZ5M1FCNnNMbGgyQWZCQTdZMjhlN0hL?=
- =?utf-8?B?bS9lajZVOE9xZTFsa2o4eVVha3JmcW4yRWVManlaY0NUQWhOMFVPTkRvenJD?=
- =?utf-8?B?SUZmZnNVWTluNGc0TXVhQUdFRUhBaTdCVlpuRFF1MThocXVhMG4wWHZ6Yldj?=
- =?utf-8?B?RGl5ejcwcjlEYjByN1U1R3lmR0pyK0o2cm83OFh4cFZJY1NDbVg2REdxakRY?=
- =?utf-8?B?R2xFeE90cklzMWVya3VZSDJtZm1ZUHdBcklXOEZYeGlFdHB4b2ZoTnhFa1ZB?=
- =?utf-8?B?YkZUWit0bks2TUYwWXpCMEtEYnl3SHNWVjRINnhjVEY5QTZOWlhqN3pPeWUw?=
- =?utf-8?B?RU1pV2puSzlFdGlQRE9uZHJJdkp5b2RvQWh4aWNseGxHYWZTeGJkcm9oTERI?=
- =?utf-8?B?bXkxQksrWnB4cUgzcVQ4N3UvS1BNTEl5UGczbU5OWUNXQzRPVW5tVEszRjJm?=
- =?utf-8?B?L1oyd014bFFqZWR0R1JkcUk0Mzh2UXRpK1NqcC83UXdTZFR2b0swbXZVRkhr?=
- =?utf-8?B?TlZGZGpYZXk3WTAwOEdBbXVJZjl5ejBiQXZtTndRK0t5Y1lhWktkc215VEkx?=
- =?utf-8?B?NVd2ZVQrV0Z4a3Z3TGwvZ0x3RDhObDYySTVza3ZMWXJXOWxxOHlnYlRkY1Mx?=
- =?utf-8?B?L2hnaVk5Q3ZiQVd3ZlQ3VHBxQ0laenB5azlOV0pNZEZrZVNVMGxwbDF4Slhi?=
- =?utf-8?B?c3BGTGpkVEM3TFRKTUZ4SXI0dTgzNUM4N2F1dDNITXh4L0FsNVBMZjdycnhu?=
- =?utf-8?B?ZThidDlLaFEvQzQ3R0o2OHk5QjNvdmozQldMTWxHM1BiNGtnd2dCMGVyYllz?=
- =?utf-8?B?QmNuWEY0WjZNWXRodElPdlAyZU12YThGSnF0RW5hTkZBb0pETDVIQ2hvNjI1?=
- =?utf-8?B?d2o0ZHM4b3NhVEdtY0E2Qnd5UnRMUUs2V1hsMHBsVGV3emlXRDNFNXBvaTB4?=
- =?utf-8?B?VGFaWUFSQmFOQ3NsVWc1MzJDdGtoN0tkeStRQkFPTmtFcm1PT3Qxdk0zUFVt?=
- =?utf-8?B?RVIySWlPU05kUVZrQzZRT0orakFWaXZQV2dpd2hna1ZjWStvbll1d2NQdFoy?=
- =?utf-8?B?NERBNjlibW9jUWtKN2VkUE1vTjJubVlaUnFKU0hGbEF6ajZSeENvMDdpS3hW?=
- =?utf-8?B?NklVZzhSZUZNWGQ4TjVlMEVKeS9hTHcyZjZ3eGRnejhiaUw1a2RRSVZGNTJo?=
- =?utf-8?B?bnFPNHNFR0ZySko2bStob3M0R3ZhNytuSGxhYzNmNGtTT3gxUEtPRnlLUzh4?=
- =?utf-8?B?dUFCa3JkdU9LV3ZCZjZnUXZYTlBuQjVRT0d3NGxnZkJRektjWkgyeis4azJ3?=
- =?utf-8?B?RnI0MXc0UFlWdTg1djUydGtpdVduaTdabk91SzdrR3ltK1VHQ0VLWEhwemhI?=
- =?utf-8?B?TS81WGVqdVoreDBCSnBpK0RqU3RvL2N0VS9HYzdOTWZHNmttS2FSUmdncm40?=
- =?utf-8?Q?b9IS/E/LDnj2j6Gaxd22S9OwcRSOKeUmNXUdwOU+uHIS?=
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?dTNNbzRCUHRaUlZwSGRCN09IM2R0QjNncGRWWkNVUUlKNXp5cE81TURlcDhh?=
+ =?utf-8?B?SkF0eERadmNweEdETFdEZGc1d01FaHV4VkxzblpuSmo4dGFpbExkeUlFeTIz?=
+ =?utf-8?B?QjlrSTVReXlabEF1Z0wvMGxqN0lMRGNuVG5YaUZXK1lLOWhoU3I5L3dwSlVN?=
+ =?utf-8?B?Tk1PRm93WFE1VWl4MGhweEd6N3lITzBVcE5KbWJnNkRJdjhTeFhZV3BCTWdP?=
+ =?utf-8?B?ZUNTZzF0VWpDZzJQNUkxcDBXSlpVUmxFMkFRNGduM0ErNVBzODAxdmt1YU0r?=
+ =?utf-8?B?UHhGMFp2VklIdU4xVStXNkF2bnJ1UzV4WTlNZWhBUGExUlhpVUMwcnJHZGZW?=
+ =?utf-8?B?Tmh1UWkxRFlVbXZpVmZFNk5GaTNXcGMyYW9RSWtzMXVtVzRZb1pFYlk3RStJ?=
+ =?utf-8?B?UUZYcVRPRUhXeHhvWWo1eVVodHpLVzJuODcyVVZXdjIrYUFVSTNuTVVZRS9z?=
+ =?utf-8?B?eWRPc29sLy9Yb0JoT1h2Z21uSHNrcnpSZ1ZJaEQ3dVlrWlVBYnJYZEkyc0dq?=
+ =?utf-8?B?V1AwNUJJNVIvZDJ2aDEzUkh2KzJ0YzB2akg2dVRlN2VJWkZ5MndIYzdYMC8x?=
+ =?utf-8?B?RlVEbDB6a2pRU1VVTWQ5R3NvbmoxTGxvT0cxQnRTUGppaUxuT2c5QXhSSE5E?=
+ =?utf-8?B?MSt6RXp4cHNjbjZWTFBiSTdwMVNEZ1NSU21MTDFPcG40cjA0REZCd0ZlMTdN?=
+ =?utf-8?B?K0ZmSkF1eHhrQ2dUd2lCY3E0Ym0yamRMR2R2TVZLY3FUclpvTXh1bCtyc3JO?=
+ =?utf-8?B?bDBZblBEVkpacUN3Ym4vVXRybkhDSnNFaGRBaFZqRTZKdTA5N0w3c0FJVGRU?=
+ =?utf-8?B?TVc4b2FXYVRrU1dzLzUrblpuTmxqVzBucUZGOCs2L1lvWFNaSCs1T2dNWHFl?=
+ =?utf-8?B?bkEzVU9YeXMybGlOeU9xMU5MdDRUcEk2bFFxTk41b0diUVJSV1VHcHkveUtn?=
+ =?utf-8?B?WlZVd3FNem1HUGJTSTdBRzEzTnlnMkpBdWhEa0dBclVVT3ovQStRNHhMU2R5?=
+ =?utf-8?B?ZWRWWTVqY1pZczAzVUlwdktWZnllT2kweFJ0TUFnMDI2QlcvOXFCeVdaUVo4?=
+ =?utf-8?B?WG9KU3hua3YwL2NiUFFLbVczeW5LRlRrNlNsNGFzem41MVgrQ3JBbWFzSVpB?=
+ =?utf-8?B?V2RrMmlLdzJ4U0pTNFJRcEVaWnN0V3lDRHNSUjV2TVZOajQ2QlUvd1JNN3c4?=
+ =?utf-8?B?T25GYTdQVy8rM1RyVEQ0VFBJaVExb2hoTjlyYnZ1Mm4xS2pQQlFtRUp2Mklz?=
+ =?utf-8?B?aWxYcG9id0x4MlZ4STBXN0FJYlpVc0ZzYVFZNWQwVWtueHN0SFhodjRCdm9L?=
+ =?utf-8?B?QkxvemxPSnYrU1JvVDFMVUZrQkRoNk9XZ1JwY25JanNSRDdacmlySjRLekZk?=
+ =?utf-8?B?OWUzYXF6UjhTOEIwSEdIazY0Q1lRNldwY2hJTDZ3OGI3dHhPQm53bHFTNFdl?=
+ =?utf-8?B?WWRaejA1U0pWSzBSZ0hVWlo3b1JEMFpaSHRoSStSZ1BsZEZqaURXMWRzTEdm?=
+ =?utf-8?B?WkxxK2VaLzJuVUlrcVljK1Iza2IrQXV5SEZ5OUtaSnNodVlNU25saVR2WGFI?=
+ =?utf-8?B?YVdBT0RNUkY1eWQ2S0c5bkJQeTduQURiZW0rL2EveWduMzFoMXM3aVJuaFlH?=
+ =?utf-8?B?a1N4R1lja2JCVDVKd3pXSlRJdEJ0ZEpEaEZGbnJPYjRaZC91U3JXclN5V0tr?=
+ =?utf-8?B?WUg3YURPWE8zaUJENktDNnl0YVloSitWTStwRHErOFNyd09ZdnZQdGp4NG9E?=
+ =?utf-8?B?NGtGWS9raVFmV3BNYlpSdndSZ0dxUEJOeVNkU2xwS0ZlWWZiM3gzS1JFMVMr?=
+ =?utf-8?B?Uit1UHNIa3VtS2xJMWZkVE5GZ0FSUVpSb0x3cUhBSkZmb09mY2thTnNrOHht?=
+ =?utf-8?B?eU9ZY0N4OVB2SzEyZis4b3U4N0Z1cDFVM0RIVjcxVTIybWllRUFBbVNHYnlu?=
+ =?utf-8?B?QXgvb2MzbUZYUmZyaWhJOHd2VkYybkpaQkZqRTlSbzhIY0hscTdGRzdPL2Nh?=
+ =?utf-8?B?RDVNREdpemdEdnc2Q3J3LzBwV05yMGNGRFpMNWJZamk4WitKVXRhUXRYbkgz?=
+ =?utf-8?B?VXZKMVpTQ2dTMFZrV3ZsTm94QWozK2ptT09Qams5aWRwUVdJcjRnZzd1Z3ZL?=
+ =?utf-8?B?VUJnaUtCMUh6R2x6MjgyN2ptaEZhVHpKTS9iZlZwcTRsS3dQWTF4eXNYWUNC?=
+ =?utf-8?Q?xF/qItps7MIseWfOHyHDd3MgVcngGDUcGValIiC8Cnmc?=
 X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: a721fe8f-3040-4e6d-a1a3-08de205de7bf
+X-MS-Exchange-CrossTenant-Network-Message-Id: ddf24578-9da9-4ac4-c87a-08de205dea14
 X-MS-Exchange-CrossTenant-AuthSource: CH2PR12MB3990.namprd12.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 10 Nov 2025 13:34:42.6963 (UTC)
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 10 Nov 2025 13:34:46.6680 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: LSxXwrn2r8fawr7xLxJlpd5LSas2I1p+ssloykdBA4L+G/5Njx4D4ACwaci2ETUCTyq7u0vtn3bB1QdPFl3DBw==
+X-MS-Exchange-CrossTenant-UserPrincipalName: HPax87nYsFhgp964Uu6oc02CeePL4vVU4u/nL4acIRwLYM5bv194jlDXXFC+SktWB8ZCnF3SptPwxqoR+6Dl3g==
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA3PR12MB7784
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -177,281 +174,103 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Joel Fernandes <joelagnelf@nvidia.com>
+From: Alistair Popple <apopple@nvidia.com>
 
-A data structure that can be used to write across multiple slices which
-may be out of order in memory. This lets SBuffer user correctly and
-safely write out of memory order, without error-prone tracking of
-pointers/offsets.
+Derive the Zeroable trait for existing bindgen generated bindings. This
+is safe because all bindgen generated types are simple integer types for
+which any bit pattern, including all zeros, is valid.
 
-    let mut buf1 = [0u8; 3];
-    let mut buf2 = [0u8; 5];
-    let mut sbuffer = SBuffer::new([&mut buf1[..], &mut buf2[..]]);
-
-    let data = b"hello";
-    let result = sbuffer.write(data);
-
-Reviewed-by: Lyude Paul <lyude@redhat.com>
-Co-developed-by: Alistair Popple <apopple@nvidia.com>
 Signed-off-by: Alistair Popple <apopple@nvidia.com>
-Co-developed-by: Alexandre Courbot <acourbot@nvidia.com>
 Signed-off-by: Alexandre Courbot <acourbot@nvidia.com>
-Signed-off-by: Joel Fernandes <joelagnelf@nvidia.com>
 ---
- drivers/gpu/nova-core/nova_core.rs |   1 +
- drivers/gpu/nova-core/sbuffer.rs   | 232 +++++++++++++++++++++++++++++++++++++
- 2 files changed, 233 insertions(+)
+ drivers/gpu/nova-core/gsp/fw/r570_144.rs          |  5 ++++-
+ drivers/gpu/nova-core/gsp/fw/r570_144/bindings.rs | 16 ++++++++--------
+ 2 files changed, 12 insertions(+), 9 deletions(-)
 
-diff --git a/drivers/gpu/nova-core/nova_core.rs b/drivers/gpu/nova-core/nova_core.rs
-index 9180ec9c27ef..c1121e7c64c5 100644
---- a/drivers/gpu/nova-core/nova_core.rs
-+++ b/drivers/gpu/nova-core/nova_core.rs
-@@ -15,6 +15,7 @@
- mod gsp;
- mod num;
- mod regs;
-+mod sbuffer;
- mod vbios;
- 
- pub(crate) const MODULE_NAME: &kernel::str::CStr = <LocalModule as kernel::ModuleMetadata>::NAME;
-diff --git a/drivers/gpu/nova-core/sbuffer.rs b/drivers/gpu/nova-core/sbuffer.rs
-new file mode 100644
-index 000000000000..f0cecbcb81be
---- /dev/null
-+++ b/drivers/gpu/nova-core/sbuffer.rs
-@@ -0,0 +1,232 @@
-+// SPDX-License-Identifier: GPL-2.0
-+
-+use core::ops::Deref;
-+
+diff --git a/drivers/gpu/nova-core/gsp/fw/r570_144.rs b/drivers/gpu/nova-core/gsp/fw/r570_144.rs
+index 82a973cd99c3..048234d1a9d1 100644
+--- a/drivers/gpu/nova-core/gsp/fw/r570_144.rs
++++ b/drivers/gpu/nova-core/gsp/fw/r570_144.rs
+@@ -24,5 +24,8 @@
+     unreachable_pub,
+     unsafe_op_in_unsafe_fn
+ )]
+-use kernel::ffi;
 +use kernel::{
-+    alloc::KVec,
-+    prelude::*, //
++    ffi,
++    prelude::Zeroable, //
 +};
-+
-+/// A buffer abstraction for discontiguous byte slices.
-+///
-+/// This allows you to treat multiple non-contiguous `&mut [u8]` slices
-+/// of the same length as a single stream-like read/write buffer.
-+///
-+/// # Examples
-+///
-+/// ```
-+// let mut buf1 = [0u8; 5];
-+/// let mut buf2 = [0u8; 5];
-+/// let mut sbuffer = SBufferIter::new_writer([&mut buf1[..], &mut buf2[..]]);
-+///
-+/// let data = b"hi world!";
-+/// sbuffer.write_all(data)?;
-+/// drop(sbuffer);
-+///
-+/// assert_eq!(buf1, *b"hi wo");
-+/// assert_eq!(buf2, *b"rld!\0");
-+///
-+/// # Ok::<(), Error>(())
-+/// ```
-+pub(crate) struct SBufferIter<I: Iterator> {
-+    // [`Some`] if we are not at the end of the data yet.
-+    cur_slice: Option<I::Item>,
-+    // All the slices remaining after `cur_slice`.
-+    slices: I,
-+}
-+
-+impl<'a, I> SBufferIter<I>
-+where
-+    I: Iterator,
-+{
-+    /// Creates a reader buffer for a discontiguous set of byte slices.
-+    ///
-+    /// # Examples
-+    ///
-+    /// ```
-+    /// let buf1: [u8; 5] = [0, 1, 2, 3, 4];
-+    /// let buf2: [u8; 5] = [5, 6, 7, 8, 9];
-+    /// let sbuffer = SBufferIter::new_reader([&buf1[..], &buf2[..]]);
-+    /// let sum: u8 = sbuffer.sum();
-+    /// assert_eq!(sum, 45);
-+    /// ```
-+    #[expect(unused)]
-+    pub(crate) fn new_reader(slices: impl IntoIterator<IntoIter = I>) -> Self
-+    where
-+        I: Iterator<Item = &'a [u8]>,
-+    {
-+        Self::new(slices)
-+    }
-+
-+    /// Creates a writeable buffer for a discontiguous set of byte slices.
-+    ///
-+    /// # Examples
-+    ///
-+    /// ```
-+    /// let mut buf1 = [0u8; 5];
-+    /// let mut buf2 = [0u8; 5];
-+    /// let mut sbuffer = SBufferIter::new_writer([&mut buf1[..], &mut buf2[..]]);
-+    /// sbuffer.write_all(&[0u8, 1, 2, 3, 4, 5, 6, 7, 8, 9][..])?;
-+    /// drop(sbuffer);
-+    /// assert_eq!(buf1, [0, 1, 2, 3, 4]);
-+    /// assert_eq!(buf2, [5, 6, 7, 8, 9]);
-+    ///
-+    /// ```
-+    #[expect(unused)]
-+    pub(crate) fn new_writer(slices: impl IntoIterator<IntoIter = I>) -> Self
-+    where
-+        I: Iterator<Item = &'a mut [u8]>,
-+    {
-+        Self::new(slices)
-+    }
-+
-+    fn new(slices: impl IntoIterator<IntoIter = I>) -> Self
-+    where
-+        I::Item: Deref<Target = [u8]>,
-+    {
-+        let mut slices = slices.into_iter();
-+
-+        Self {
-+            // Skip empty slices.
-+            cur_slice: slices.find(|s| !s.deref().is_empty()),
-+            slices,
-+        }
-+    }
-+
-+    /// Returns a slice of at most `len` bytes, or [`None`] if we are at the end of the data.
-+    ///
-+    /// If a slice shorter than `len` bytes has been returned, the caller can call this method
-+    /// again until it returns [`None`] to try and obtain the remainder of the data.
-+    ///
-+    /// The closure `f` should split the slice received in it's first parameter
-+    /// at the position given in the second parameter.
-+    fn get_slice_internal(
-+        &mut self,
-+        len: usize,
-+        mut f: impl FnMut(I::Item, usize) -> (I::Item, I::Item),
-+    ) -> Option<I::Item>
-+    where
-+        I::Item: Deref<Target = [u8]>,
-+    {
-+        match self.cur_slice.take() {
-+            None => None,
-+            Some(cur_slice) => {
-+                if len >= cur_slice.len() {
-+                    // Caller requested more data than is in the current slice, return it entirely
-+                    // and prepare the following slice for being used. Skip empty slices to avoid
-+                    // trouble.
-+                    self.cur_slice = self.slices.find(|s| !s.is_empty());
-+
-+                    Some(cur_slice)
-+                } else {
-+                    // The current slice can satisfy the request, split it and return a slice of
-+                    // the requested size.
-+                    let (ret, next) = f(cur_slice, len);
-+                    self.cur_slice = Some(next);
-+
-+                    Some(ret)
-+                }
-+            }
-+        }
-+    }
-+
-+    /// Returns whether this buffer still has data available.
-+    #[expect(unused)]
-+    pub(crate) fn is_empty(&self) -> bool {
-+        self.cur_slice.is_none()
-+    }
-+}
-+
-+/// Provides a way to get non-mutable slices of data to read from.
-+impl<'a, I> SBufferIter<I>
-+where
-+    I: Iterator<Item = &'a [u8]>,
-+{
-+    /// Returns a slice of at most `len` bytes, or [`None`] if we are at the end of the data.
-+    ///
-+    /// If a slice shorter than `len` bytes has been returned, the caller can call this method
-+    /// again until it returns [`None`] to try and obtain the remainder of the data.
-+    fn get_slice(&mut self, len: usize) -> Option<&'a [u8]> {
-+        self.get_slice_internal(len, |s, pos| s.split_at(pos))
-+    }
-+
-+    /// Ideally we would implement `Read`, but it is not available in `core`.
-+    /// So mimic `std::io::Read::read_exact`.
-+    #[expect(unused)]
-+    pub(crate) fn read_exact(&mut self, mut dst: &mut [u8]) -> Result {
-+        while !dst.is_empty() {
-+            match self.get_slice(dst.len()) {
-+                None => return Err(EINVAL),
-+                Some(src) => {
-+                    let dst_slice;
-+                    (dst_slice, dst) = dst.split_at_mut(src.len());
-+                    dst_slice.copy_from_slice(src);
-+                }
-+            }
-+        }
-+
-+        Ok(())
-+    }
-+
-+    /// Read all the remaining data into a [`KVec`].
-+    ///
-+    /// `self` will be empty after this operation.
-+    #[expect(unused)]
-+    pub(crate) fn flush_into_kvec(&mut self, flags: kernel::alloc::Flags) -> Result<KVec<u8>> {
-+        let mut buf = KVec::<u8>::new();
-+
-+        if let Some(slice) = core::mem::take(&mut self.cur_slice) {
-+            buf.extend_from_slice(slice, flags)?;
-+        }
-+        for slice in &mut self.slices {
-+            buf.extend_from_slice(slice, flags)?;
-+        }
-+
-+        Ok(buf)
-+    }
-+}
-+
-+/// Provides a way to get mutable slices of data to write into.
-+impl<'a, I> SBufferIter<I>
-+where
-+    I: Iterator<Item = &'a mut [u8]>,
-+{
-+    /// Returns a mutable slice of at most `len` bytes, or [`None`] if we are at the end of the
-+    /// data.
-+    ///
-+    /// If a slice shorter than `len` bytes has been returned, the caller can call this method
-+    /// again until it returns `None` to try and obtain the remainder of the data.
-+    fn get_slice_mut(&mut self, len: usize) -> Option<&'a mut [u8]> {
-+        self.get_slice_internal(len, |s, pos| s.split_at_mut(pos))
-+    }
-+
-+    /// Ideally we would implement [`Write`], but it is not available in `core`.
-+    /// So mimic `std::io::Write::write_all`.
-+    #[expect(unused)]
-+    pub(crate) fn write_all(&mut self, mut src: &[u8]) -> Result {
-+        while !src.is_empty() {
-+            match self.get_slice_mut(src.len()) {
-+                None => return Err(ETOOSMALL),
-+                Some(dst) => {
-+                    let src_slice;
-+                    (src_slice, src) = src.split_at(dst.len());
-+                    dst.copy_from_slice(src_slice);
-+                }
-+            }
-+        }
-+
-+        Ok(())
-+    }
-+}
-+
-+impl<'a, I> Iterator for SBufferIter<I>
-+where
-+    I: Iterator<Item = &'a [u8]>,
-+{
-+    type Item = u8;
-+
-+    fn next(&mut self) -> Option<Self::Item> {
-+        // Returned slices are guaranteed to not be empty so we can safely index the first entry.
-+        self.get_slice(1).map(|s| s[0])
-+    }
-+}
+ include!("r570_144/bindings.rs");
+diff --git a/drivers/gpu/nova-core/gsp/fw/r570_144/bindings.rs b/drivers/gpu/nova-core/gsp/fw/r570_144/bindings.rs
+index 392b25dc6991..f7b38978c5f8 100644
+--- a/drivers/gpu/nova-core/gsp/fw/r570_144/bindings.rs
++++ b/drivers/gpu/nova-core/gsp/fw/r570_144/bindings.rs
+@@ -20,7 +20,7 @@
+ pub type u32_ = __u32;
+ pub type u64_ = __u64;
+ #[repr(C)]
+-#[derive(Copy, Clone)]
++#[derive(Copy, Clone, Zeroable)]
+ pub struct GspFwWprMeta {
+     pub magic: u64_,
+     pub revision: u64_,
+@@ -55,19 +55,19 @@ pub struct GspFwWprMeta {
+     pub verified: u64_,
+ }
+ #[repr(C)]
+-#[derive(Copy, Clone)]
++#[derive(Copy, Clone, Zeroable)]
+ pub union GspFwWprMeta__bindgen_ty_1 {
+     pub __bindgen_anon_1: GspFwWprMeta__bindgen_ty_1__bindgen_ty_1,
+     pub __bindgen_anon_2: GspFwWprMeta__bindgen_ty_1__bindgen_ty_2,
+ }
+ #[repr(C)]
+-#[derive(Debug, Default, Copy, Clone)]
++#[derive(Debug, Default, Copy, Clone, Zeroable)]
+ pub struct GspFwWprMeta__bindgen_ty_1__bindgen_ty_1 {
+     pub sysmemAddrOfSignature: u64_,
+     pub sizeOfSignature: u64_,
+ }
+ #[repr(C)]
+-#[derive(Debug, Default, Copy, Clone)]
++#[derive(Debug, Default, Copy, Clone, Zeroable)]
+ pub struct GspFwWprMeta__bindgen_ty_1__bindgen_ty_2 {
+     pub gspFwHeapFreeListWprOffset: u32_,
+     pub unused0: u32_,
+@@ -83,13 +83,13 @@ fn default() -> Self {
+     }
+ }
+ #[repr(C)]
+-#[derive(Copy, Clone)]
++#[derive(Copy, Clone, Zeroable)]
+ pub union GspFwWprMeta__bindgen_ty_2 {
+     pub __bindgen_anon_1: GspFwWprMeta__bindgen_ty_2__bindgen_ty_1,
+     pub __bindgen_anon_2: GspFwWprMeta__bindgen_ty_2__bindgen_ty_2,
+ }
+ #[repr(C)]
+-#[derive(Debug, Default, Copy, Clone)]
++#[derive(Debug, Default, Copy, Clone, Zeroable)]
+ pub struct GspFwWprMeta__bindgen_ty_2__bindgen_ty_1 {
+     pub partitionRpcAddr: u64_,
+     pub partitionRpcRequestOffset: u16_,
+@@ -101,7 +101,7 @@ pub struct GspFwWprMeta__bindgen_ty_2__bindgen_ty_1 {
+     pub lsUcodeVersion: u32_,
+ }
+ #[repr(C)]
+-#[derive(Debug, Default, Copy, Clone)]
++#[derive(Debug, Default, Copy, Clone, Zeroable)]
+ pub struct GspFwWprMeta__bindgen_ty_2__bindgen_ty_2 {
+     pub partitionRpcPadding: [u32_; 4usize],
+     pub sysmemAddrOfCrashReportQueue: u64_,
+@@ -136,7 +136,7 @@ fn default() -> Self {
+ pub const LibosMemoryRegionLoc_LIBOS_MEMORY_REGION_LOC_FB: LibosMemoryRegionLoc = 2;
+ pub type LibosMemoryRegionLoc = ffi::c_uint;
+ #[repr(C)]
+-#[derive(Debug, Default, Copy, Clone)]
++#[derive(Debug, Default, Copy, Clone, Zeroable)]
+ pub struct LibosMemoryRegionInitArgument {
+     pub id8: LibosAddress,
+     pub pa: LibosAddress,
 
 -- 
 2.51.2
