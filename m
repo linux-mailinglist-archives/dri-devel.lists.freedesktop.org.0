@@ -2,62 +2,71 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7501AC47A04
-	for <lists+dri-devel@lfdr.de>; Mon, 10 Nov 2025 16:46:33 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id BC712C47A4C
+	for <lists+dri-devel@lfdr.de>; Mon, 10 Nov 2025 16:50:13 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C537710E410;
-	Mon, 10 Nov 2025 15:46:31 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 289D610E40F;
+	Mon, 10 Nov 2025 15:50:10 +0000 (UTC)
+Authentication-Results: gabe.freedesktop.org;
+	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="kVBeK96T";
+	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2193C10E410
- for <dri-devel@lists.freedesktop.org>; Mon, 10 Nov 2025 15:46:30 +0000 (UTC)
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org
- [IPv6:2a07:de40:b281:104:10:150:64:97])
+Received: from bali.collaboradmins.com (bali.collaboradmins.com
+ [148.251.105.195])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7586910E40F;
+ Mon, 10 Nov 2025 15:50:08 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+ s=mail; t=1762789806;
+ bh=p9SPlBZbb3hx77u0jsPbAy3OBjtm4qTHZI5QsOsS5bA=;
+ h=From:To:Cc:Subject:Date:From;
+ b=kVBeK96TLCe4OlS9VXlxGINkfLW8tU/oB5kw9/AbkQHxF73BkOfwfxQLi+26ZXDMb
+ WInTDEH0EMCseRiBqOTjCLSl1K3lqr/Yb/snuB6GzH1UEmc/L3w6JzyRCo3hEwLbm/
+ eT3V6sEySoSXmfdUDitLjBu5NDzCxolhrvLFco/LretkDrmxAyLwriOEtsnNFVvqSe
+ hP6AHszaNWp2O3aemirJ8fJfNLWWueZ+0M+wmKMT/3257BIYNXlarAvPrXsGYeZIwY
+ 7cW9TLLGOycPOegO3iNIqcnnknyxcSkF0Irh+BC9XsaknN2HG3mNU/gSElbUPVIS4n
+ yyz7QV1R2pkOA==
+Received: from debian-rockchip-rock5b-rk3588.. (unknown
+ [IPv6:2a01:e0a:5e3:6100:826d:bc07:e98c:84a])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
  (No client certificate requested)
- by smtp-out2.suse.de (Postfix) with ESMTPS id 431BF204AB;
- Mon, 10 Nov 2025 15:46:22 +0000 (UTC)
-Authentication-Results: smtp-out2.suse.de;
-	none
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested)
- by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id CA51B14485;
- Mon, 10 Nov 2025 15:46:21 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
- by imap1.dmz-prg2.suse.org with ESMTPSA id aKbzL80IEmlHXQAAD6G6ig
- (envelope-from <tzimmermann@suse.de>); Mon, 10 Nov 2025 15:46:21 +0000
-From: Thomas Zimmermann <tzimmermann@suse.de>
-To: jfalempe@redhat.com, javierm@redhat.com, francesco@valla.it,
- rrameshbabu@nvidia.com, simona@ffwll.ch, airlied@gmail.com,
- mripard@kernel.org, maarten.lankhorst@linux.intel.com,
- gregkh@linuxfoundation.org, jirislaby@kernel.org
-Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- linux-serial@vger.kernel.org, Thomas Zimmermann <tzimmermann@suse.de>
-Subject: [PATCH v2 3/3] drm/client: log: Implement struct
- drm_client_funcs.restore
-Date: Mon, 10 Nov 2025 16:44:23 +0100
-Message-ID: <20251110154616.539328-4-tzimmermann@suse.de>
-X-Mailer: git-send-email 2.51.1
-In-Reply-To: <20251110154616.539328-1-tzimmermann@suse.de>
-References: <20251110154616.539328-1-tzimmermann@suse.de>
+ (Authenticated sender: loicmolinari)
+ by bali.collaboradmins.com (Postfix) with ESMTPSA id 0961117E0610;
+ Mon, 10 Nov 2025 16:50:06 +0100 (CET)
+From: =?UTF-8?q?Lo=C3=AFc=20Molinari?= <loic.molinari@collabora.com>
+To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
+ Simona Vetter <simona@ffwll.ch>, Jani Nikula <jani.nikula@linux.intel.com>,
+ Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>,
+ Tvrtko Ursulin <tursulin@ursulin.net>,
+ Boris Brezillon <boris.brezillon@collabora.com>,
+ Rob Herring <robh@kernel.org>, Steven Price <steven.price@arm.com>,
+ Liviu Dudau <liviu.dudau@arm.com>, Melissa Wen <mwen@igalia.com>,
+ =?UTF-8?q?Ma=C3=ADra=20Canal?= <mcanal@igalia.com>,
+ Hugh Dickins <hughd@google.com>,
+ Baolin Wang <baolin.wang@linux.alibaba.com>,
+ Andrew Morton <akpm@linux-foundation.org>,
+ =?UTF-8?q?Lo=C3=AFc=20Molinari?= <loic.molinari@collabora.com>,
+ Al Viro <viro@zeniv.linux.org.uk>,
+ =?UTF-8?q?Miko=C5=82aj=20Wasiak?= <mikolaj.wasiak@intel.com>,
+ Christian Brauner <brauner@kernel.org>,
+ Nitin Gote <nitin.r.gote@intel.com>,
+ Andi Shyti <andi.shyti@linux.intel.com>, Jonathan Corbet <corbet@lwn.net>,
+ Christopher Healy <healych@amazon.com>,
+ Matthew Wilcox <willy@infradead.org>, Bagas Sanjaya <bagasdotme@gmail.com>
+Cc: linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ intel-gfx@lists.freedesktop.org, linux-mm@kvack.org,
+ linux-doc@vger.kernel.org, kernel@collabora.com
+Subject: [PATCH v7 00/11] drm: Reduce page tables overhead with THP
+Date: Mon, 10 Nov 2025 16:49:48 +0100
+Message-ID: <20251110155000.2936-1-loic.molinari@collabora.com>
+X-Mailer: git-send-email 2.47.3
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Rspamd-Pre-Result: action=no action; module=replies;
- Message is reply to one we originated
-X-Rspamd-Queue-Id: 431BF204AB
-X-Rspamd-Pre-Result: action=no action; module=replies;
- Message is reply to one we originated
-X-Rspamd-Action: no action
-X-Spam-Flag: NO
-X-Spam-Score: -4.00
-X-Spam-Level: 
-X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
-X-Spamd-Result: default: False [-4.00 / 50.00];
-	REPLY(-4.00)[]
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -73,62 +82,81 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Restore the log client's output when the DRM core invokes the restore
-callback. Follow the existing behavior of fbdev emulation wrt. the
-value of the force parameter.
+This series aims to reduce the page tables overhead of DRM drivers for
+builds with CONFIG_TRANSPARENT_HUGEPAGE enabled and either the sysfs
+knob '/sys/kernel/mm/transparent_hugepage/shmem_enabled' appropriately
+set or drivers using a dedicated huge tmpfs mount point.
 
-If force is false, acquire the DRM master lock and reprogram the
-display. This is the case when the user-space compositor exits and
-the DRM core transfers the display back to the in-kernel client. This
-also enables drm_log output during reboot and shutdown.
+It starts by checking whether a faulty address in the page fault
+handler is part of a huge page in order to attempt a PMD sized PFN
+insertion into the VMA. It then introduces a dedicated
+get_unmapped_area file operation on the DRM file descriptor for GEM
+objects to get the best virtual address alignment for the underlying
+shmem buffers.
 
-If force is true, reprogram without considering the master lock. This
-overrides the current compositor and prints the log to the screen. In
-case of system malfunction, users can enter SysRq+v to invoke the
-emergency error reporting. See Documentation/admin-guide/sysrq.rst for
-more information.
+The remaining commits propose shmem helpers to create and release huge
+tmpfs mount points and adapt the i915 and V3D drivers. The helpers are
+then used to optionally enable Transparent Hugepage for Panfrost and
+Panthor.
 
-v2:
-- s/exists/exits/ in second paragraph of commit description
-- fix grammar in commit description
+For Panthor on a Rock 5B, this series makes the first memcpy() to an
+entire BO object mapped in userspace about twice as fast with
+Transparent Hugepage enabled.
 
-Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
-Reviewed-by: Jocelyn Falempe <jfalempe@redhat.com>
----
- drivers/gpu/drm/clients/drm_log.c | 13 +++++++++++++
- 1 file changed, 13 insertions(+)
+Implementing a fault-around handler using the arm64 contiguous page
+hint (contptes) could also greatly help reduce page tables overhead
+for small pages by mapping several contiguous pages around a faulty
+address at once. This will be proposed in another patch series.
 
-diff --git a/drivers/gpu/drm/clients/drm_log.c b/drivers/gpu/drm/clients/drm_log.c
-index 19e55aa0ed74..4d3005273b27 100644
---- a/drivers/gpu/drm/clients/drm_log.c
-+++ b/drivers/gpu/drm/clients/drm_log.c
-@@ -315,6 +315,18 @@ static void drm_log_client_unregister(struct drm_client_dev *client)
- 	drm_client_release(client);
- }
- 
-+static int drm_log_client_restore(struct drm_client_dev *client, bool force)
-+{
-+	int ret;
-+
-+	if (force)
-+		ret = drm_client_modeset_commit_locked(client);
-+	else
-+		ret = drm_client_modeset_commit(client);
-+
-+	return ret;
-+}
-+
- static int drm_log_client_hotplug(struct drm_client_dev *client)
- {
- 	struct drm_log *dlog = client_to_drm_log(client);
-@@ -348,6 +360,7 @@ static const struct drm_client_funcs drm_log_client_funcs = {
- 	.owner		= THIS_MODULE,
- 	.free		= drm_log_client_free,
- 	.unregister	= drm_log_client_unregister,
-+	.restore	= drm_log_client_restore,
- 	.hotplug	= drm_log_client_hotplug,
- 	.suspend	= drm_log_client_suspend,
- 	.resume		= drm_log_client_resume,
+Loïc Molinari (11):
+  drm/shmem-helper: Simplify page offset calculation in fault handler
+  drm/shmem-helper: Map huge pages in fault handler
+  drm/gem: Introduce drm_gem_get_unmapped_area() fop
+  drm/gem: Add huge tmpfs mountpoint helpers
+  drm/i915: Use huge tmpfs mountpoint helpers
+  drm/v3d: Use huge tmpfs mountpoint helpers
+  drm/gem: Get rid of *_with_mnt helpers
+  drm/panthor: Introduce huge tmpfs mountpoint option
+  drm/panthor: Improve IOMMU map/unmap debugging logs
+  drm/panfrost: Introduce huge tmpfs mountpoint option
+  Documentation/gpu/drm-mm: Add THP paragraph to GEM mapping section
+
+ Documentation/gpu/drm-mm.rst                  |  22 +-
+ drivers/gpu/drm/drm_gem.c                     | 203 +++++++++++++-----
+ drivers/gpu/drm/drm_gem_shmem_helper.c        |  97 +++++----
+ drivers/gpu/drm/i915/Makefile                 |   3 +-
+ drivers/gpu/drm/i915/gem/i915_gem_shmem.c     |  48 +++--
+ drivers/gpu/drm/i915/gem/i915_gemfs.c         |  71 ------
+ drivers/gpu/drm/i915/gem/i915_gemfs.h         |  14 --
+ .../gpu/drm/i915/gem/selftests/huge_pages.c   |  11 +-
+ drivers/gpu/drm/i915/i915_drv.h               |   5 -
+ drivers/gpu/drm/panfrost/panfrost_device.c    |   3 +
+ drivers/gpu/drm/panfrost/panfrost_drv.c       |   6 +
+ drivers/gpu/drm/panfrost/panfrost_drv.h       |   9 +
+ drivers/gpu/drm/panfrost/panfrost_gem.c       |  18 ++
+ drivers/gpu/drm/panfrost/panfrost_gem.h       |   2 +
+ drivers/gpu/drm/panthor/panthor_device.c      |   3 +
+ drivers/gpu/drm/panthor/panthor_drv.c         |   7 +
+ drivers/gpu/drm/panthor/panthor_drv.h         |   9 +
+ drivers/gpu/drm/panthor/panthor_gem.c         |  18 ++
+ drivers/gpu/drm/panthor/panthor_gem.h         |   2 +
+ drivers/gpu/drm/panthor/panthor_mmu.c         |  19 +-
+ drivers/gpu/drm/v3d/Makefile                  |   3 +-
+ drivers/gpu/drm/v3d/v3d_bo.c                  |   6 +-
+ drivers/gpu/drm/v3d/v3d_drv.c                 |   2 +-
+ drivers/gpu/drm/v3d/v3d_drv.h                 |  11 +-
+ drivers/gpu/drm/v3d/v3d_gem.c                 |  27 ++-
+ drivers/gpu/drm/v3d/v3d_gemfs.c               |  62 ------
+ include/drm/drm_device.h                      |  15 ++
+ include/drm/drm_gem.h                         |  40 +++-
+ include/drm/drm_gem_shmem_helper.h            |   3 -
+ 29 files changed, 443 insertions(+), 296 deletions(-)
+ delete mode 100644 drivers/gpu/drm/i915/gem/i915_gemfs.c
+ delete mode 100644 drivers/gpu/drm/i915/gem/i915_gemfs.h
+ create mode 100644 drivers/gpu/drm/panfrost/panfrost_drv.h
+ create mode 100644 drivers/gpu/drm/panthor/panthor_drv.h
+ delete mode 100644 drivers/gpu/drm/v3d/v3d_gemfs.c
+
 -- 
-2.51.1
+2.47.3
 
