@@ -2,69 +2,94 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9DA55C45CFB
-	for <lists+dri-devel@lfdr.de>; Mon, 10 Nov 2025 11:06:36 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9AAD4C45DEA
+	for <lists+dri-devel@lfdr.de>; Mon, 10 Nov 2025 11:17:50 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2125010E2A0;
-	Mon, 10 Nov 2025 10:06:33 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id F06DD10E18A;
+	Mon, 10 Nov 2025 10:17:48 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="giRz8wQD";
+	dkim=pass (2048-bit key; unprotected) header.d=riscstar-com.20230601.gappssmtp.com header.i=@riscstar-com.20230601.gappssmtp.com header.b="eFT2QYkg";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C54ED10E080;
- Mon, 10 Nov 2025 10:06:30 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1762769191; x=1794305191;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:in-reply-to;
- bh=njMvkb3GKogZWduhp71RZ/0zgC5Z05aRgumYU/Ofx3k=;
- b=giRz8wQDVQoUYMDCrehXgXrZpLGwTg8rRwOx4+5s4E8EMKHqyRK9L3+U
- IR4z70zPF5sNMUQ133bZg6BPjWC2NJj25WIxD3a4pCRCfe7SukAEPN651
- ahNVvTOf1I6HJP9F/2trp/TZ9lYivopw4lH7YM63f9Wo0EH+kp+3tfzHH
- ee18mLtpFvamhgyC00C2t59AWLshQD0zczYee47bV9PMy840lk6jBGk9z
- n92NZ9/WId0RTVcdKQKudigj5UwU6QMBloTtb6g/+i7NkD7X0zgJnwYn8
- IVWnPlV+CQB0ZbrJviUbVsS8YKTINpMdUVXgaEww92EWjJaU9uhTYkL+t A==;
-X-CSE-ConnectionGUID: nGEYRZ4NRj+pQyyaAaNFwA==
-X-CSE-MsgGUID: tCbAtojCQveptV5WvD00wQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11608"; a="64857314"
-X-IronPort-AV: E=Sophos;i="6.19,293,1754982000"; d="scan'208";a="64857314"
-Received: from fmviesa002.fm.intel.com ([10.60.135.142])
- by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 10 Nov 2025 02:06:31 -0800
-X-CSE-ConnectionGUID: NKU8XwPTQqCuTvGu0yP1NQ==
-X-CSE-MsgGUID: GSJ8l7dqQwCwM32MrKNugw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.19,293,1754982000"; d="scan'208";a="212032316"
-Received: from lkp-server01.sh.intel.com (HELO 7b01c990427b) ([10.239.97.150])
- by fmviesa002.fm.intel.com with ESMTP; 10 Nov 2025 02:06:26 -0800
-Received: from kbuild by 7b01c990427b with local (Exim 4.96)
- (envelope-from <lkp@intel.com>) id 1vIOn2-0000HD-1v;
- Mon, 10 Nov 2025 10:06:24 +0000
-Date: Mon, 10 Nov 2025 18:06:19 +0800
-From: kernel test robot <lkp@intel.com>
-To: Mohamed Ahmed <mohamedahmedegypt2001@gmail.com>,
- linux-kernel@vger.kernel.org
-Cc: oe-kbuild-all@lists.linux.dev, dri-devel@lists.freedesktop.org,
- Mary Guillemard <mary@mary.zone>,
- Faith Ekstrand <faith.ekstrand@collabora.com>,
- Lyude Paul <lyude@redhat.com>, Danilo Krummrich <dakr@kernel.org>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- nouveau@lists.freedesktop.org,
- Mohamed Ahmed <mohamedahmedegypt2001@gmail.com>,
- James Jones <jajones@nvidia.com>
-Subject: Re: [PATCH v5 2/5] drm/nouveau/uvmm: Allow larger pages
-Message-ID: <202511101750.gQGInWw5-lkp@intel.com>
-References: <20251108194919.68754-3-mohamedahmedegypt2001@gmail.com>
+Received: from mail-wr1-f46.google.com (mail-wr1-f46.google.com
+ [209.85.221.46])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E8DC510E2A2
+ for <dri-devel@lists.freedesktop.org>; Mon, 10 Nov 2025 10:17:47 +0000 (UTC)
+Received: by mail-wr1-f46.google.com with SMTP id
+ ffacd0b85a97d-42b3c965cc4so230239f8f.0
+ for <dri-devel@lists.freedesktop.org>; Mon, 10 Nov 2025 02:17:47 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=riscstar-com.20230601.gappssmtp.com; s=20230601; t=1762769866; x=1763374666;
+ darn=lists.freedesktop.org; 
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+ bh=+cGOOrdlJvwUvrBTIxkNqf0S9KSK2YAvxzQBiD0nhFs=;
+ b=eFT2QYkgolgguhBK6twBxCA8aNyik3/TUg7NxqCBY1PyB9mcw9bGVrd0/jzlL3tN4T
+ m+r28OQ/QZ1PGlYYX28hMzB40KfDEx/01zUar+KjkfEM1YPNRC4kgxo9BAdiWAX3bjhK
+ frewin0FeybJBOWrsuSGuRAv0cn7tEU68/IfdshrdX6NTtjk1ENZs+RTYnL33jowkthl
+ H7q271P7Ix0eBxdswGMoELOxRfB4gIDZHaTRwLBAQ5H11Z+tf5A+8wOeUO9vk1nojJyB
+ vBHcKdZ2FfwDlD8u0JtfNjTsAmYt8PXt9q+hanQgt3Hzg6I82lNOnIHoJW4PPJQ+h2jB
+ ecIA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1762769866; x=1763374666;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=+cGOOrdlJvwUvrBTIxkNqf0S9KSK2YAvxzQBiD0nhFs=;
+ b=LZ4SgszS5ZqQvlw3tqxFM7gMU4RHKSnREGBbV4gYRtBqJYm63DbtC5B76Z91kAwkfp
+ erBsWEiwN8Xv903NoH0OZp1Ca5SsAnnLIcB5Lr6WwULA9h6Vzw4BZDIiM0kqNKq/PY4E
+ vLODliLd6TtzrxkmwWKTkxsDEpAlU/P98EwDZlx5p0lKiejDiVF2xFg0QXGNU0Ge2w4S
+ spSEacj4HG9/giLobW/oUDroXmnLagxskL4XBHxz+/cNomLKRc/LiPK90px0jgxzqI0R
+ FZkt4Js/ghj7jnAJ6eqU/LFAXDvzsUeOljiyooCrzQ9AOMSnWIy0fSjmH+xPtJGESrNf
+ LP5g==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCV1+JHIuj7SAVruNwfgKyPjHf0zlxeXAnHjeV0lDLb7GL4REHDYaezNmevfl3gC72Zc0SDlIhHoZ4I=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YxF2n5/OLD34V0e+nIT/zM3oj2YkpQ5xGzEMpCWngxjivwR9xhJ
+ WjfbMhb3obyBCjACoG0WsZOgMnWDELtB/FFFwJttdxaxJjFtJSfaHu21yi3ZGX/LHrM=
+X-Gm-Gg: ASbGnctIdmcvi3ZkW36xPS/bJq2wg3MXK46UzxpkPBBp+HGNdR7ofa6rNvvERHdaIMO
+ b8LKAfXZqdCcokG5Thg7S3GUAP7RlngozmzlKpjGBtY3o/H2mYURHuyz2ul62zB1J3fmN4gXfy9
+ RKB9kDR2ltGOsP9rVLi/SFT8yTf7iixxJvlJUmcDFzmLcIsdWJ77wje6qWxeXafRCaPj9kpNPoD
+ 6u6hDo2jfA7gLC45iXWOdhN2YXGVLH+wPiHfUv9BtdMotqyRzuwXEp7k6jbh8zyEyDebVEvnOpm
+ idDz8zSfkNvt2XqY5cWHbdeLknWYhpvLyGQFpAhlThpSrkiwIk5YIxryDMMkBrQM+pJxsN7KuLD
+ hr1o2/WuBMKfvBZ/Vr33CcgAw17DJo34wf7+HE13u8OyeBeW+D8x+PjWvK41sL7WupTaFfC0oI2
+ bDtHz36vbA71hApuWuFwoQZKh5TfYLatYYpAELuznZ1L6fCROKtDh3kNDCCZM=
+X-Google-Smtp-Source: AGHT+IGUpHSfeagdIBM88vePaTs3yIVY9gCWpK2lN42s3k1Y6AfvZPuuxOVOOc+I4rI5U6e1xXLxSw==
+X-Received: by 2002:a05:6000:228a:b0:429:f088:7fb with SMTP id
+ ffacd0b85a97d-42b2c655058mr7359131f8f.7.1762769866339; 
+ Mon, 10 Nov 2025 02:17:46 -0800 (PST)
+Received: from aspen.lan
+ (aztw-34-b2-v4wan-166919-cust780.vm26.cable.virginm.net. [82.37.195.13])
+ by smtp.gmail.com with ESMTPSA id
+ ffacd0b85a97d-42b2e96441dsm13918929f8f.23.2025.11.10.02.17.44
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 10 Nov 2025 02:17:44 -0800 (PST)
+Date: Mon, 10 Nov 2025 10:19:56 +0000
+From: Daniel Thompson <daniel@riscstar.com>
+To: Maud Spierings <maudspierings@gocontroll.com>
+Cc: Lee Jones <lee@kernel.org>, Daniel Thompson <danielt@kernel.org>,
+ Jingoo Han <jingoohan1@gmail.com>, Pavel Machek <pavel@kernel.org>,
+ Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>, Helge Deller <deller@gmx.de>,
+ Shawn Guo <shawnguo@kernel.org>, Sascha Hauer <s.hauer@pengutronix.de>,
+ Pengutronix Kernel Team <kernel@pengutronix.de>,
+ Fabio Estevam <festevam@gmail.com>, Liam Girdwood <lgirdwood@gmail.com>,
+ Mark Brown <broonie@kernel.org>, dri-devel@lists.freedesktop.org,
+ linux-leds@vger.kernel.org, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-fbdev@vger.kernel.org,
+ imx@lists.linux.dev, linux-arm-kernel@lists.infradead.org
+Subject: Re: [PATCH v5 2/4] backlight: add max25014atg backlight
+Message-ID: <aRG8TMqehv-oR6v1@aspen.lan>
+References: <20251107-max25014-v5-0-9a6aa57306bf@gocontroll.com>
+ <20251107-max25014-v5-2-9a6aa57306bf@gocontroll.com>
+ <aQ4a2SBDldYgQb56@aspen.lan>
+ <f4e52cc1-9c5f-4069-9079-83be794ab2b3@gocontroll.com>
+ <aRG359gIeP48V2ZZ@aspen.lan>
+ <59c36699-ee54-467f-9342-6756a0092a98@gocontroll.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20251108194919.68754-3-mohamedahmedegypt2001@gmail.com>
+In-Reply-To: <59c36699-ee54-467f-9342-6756a0092a98@gocontroll.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -80,111 +105,73 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Mohamed,
+On Mon, Nov 10, 2025 at 11:03:27AM +0100, Maud Spierings wrote:
+> On 11/10/25 11:01, Daniel Thompson wrote:
+> > On Mon, Nov 10, 2025 at 09:40:07AM +0100, Maud Spierings wrote:
+> > > On 11/7/25 17:14, Daniel Thompson wrote:
+> > > > On Fri, Nov 07, 2025 at 01:49:59PM +0100, Maud Spierings via B4 Relay wrote:
+> > > > > +/*
+> > > > > + * 1. disable unused strings
+> > > > > + * 2. set dim mode
+> > > > > + * 3. set initial brightness
+> > > >
+> > > > How does this code set the initial brightness? It doens't set the
+> > > > MAX25014_TON* registers.
+> > >
+> > > Yep forgot to remove that, I discovered the backlight core takes care of the
+> > > default brightness, so I removed it from here.
+> >
+> > What do you mean by this? Are you sure you aren't relying on another
+> > driver to enable the backlight rather than the backlight core?
+>
+> Not that I know of, there is the systemd backlight service, but I am pretty
+> sure I can see it first turn on, then get switched to the old value by the
+> systemd service. Unless the simple-panel driver controls it? The backlight
+> is linked to that.
 
-kernel test robot noticed the following build errors:
+I think you should look at the code. I think it's likely the backlight
+is only coming on due to the link to simple-panel.
 
-[auto build test ERROR on drm-misc/drm-misc-next]
-[also build test ERROR on drm/drm-next drm-exynos/exynos-drm-next drm-intel/for-linux-next drm-intel/for-linux-next-fixes drm-tip/drm-tip linus/master v6.18-rc5 next-20251110]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+Normal way to handle that case (if you want to avoid the backlight
+turning on "too early") is to set the power mode to BACKLIGHT_POWER_OFF
+if (and only off) the backlight is linked to a panel. See
+pwm_backlight_initial_power_state() for an example.
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Mohamed-Ahmed/drm-nouveau-uvmm-Prepare-for-larger-pages/20251109-035142
-base:   git://anongit.freedesktop.org/drm/drm-misc drm-misc-next
-patch link:    https://lore.kernel.org/r/20251108194919.68754-3-mohamedahmedegypt2001%40gmail.com
-patch subject: [PATCH v5 2/5] drm/nouveau/uvmm: Allow larger pages
-config: parisc-defconfig (https://download.01.org/0day-ci/archive/20251110/202511101750.gQGInWw5-lkp@intel.com/config)
-compiler: hppa-linux-gcc (GCC) 15.1.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251110/202511101750.gQGInWw5-lkp@intel.com/reproduce)
-
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202511101750.gQGInWw5-lkp@intel.com/
-
-All errors (new ones prefixed by >>):
-
-   In file included from include/linux/device.h:15,
-                    from include/linux/pci.h:37,
-                    from drivers/gpu/drm/nouveau/include/nvif/os.h:8,
-                    from drivers/gpu/drm/nouveau/include/nvif/object.h:4,
-                    from drivers/gpu/drm/nouveau/include/nvif/client.h:5,
-                    from drivers/gpu/drm/nouveau/nouveau_drv.h:42,
-                    from drivers/gpu/drm/nouveau/nouveau_uvmm.c:23:
-   drivers/gpu/drm/nouveau/nouveau_uvmm.c: In function 'select_page_shift':
->> drivers/gpu/drm/nouveau/nouveau_uvmm.c:508:34: error: passing argument 1 of '_dev_warn' from incompatible pointer type [-Wincompatible-pointer-types]
-     508 |         dev_warn_once(op->gem.obj->dev, "Could not find an appropriate page size.\n");
-         |                       ~~~~~~~~~~~^~~~~
-         |                                  |
-         |                                  struct drm_device *
-   include/linux/dev_printk.h:110:25: note: in definition of macro 'dev_printk_index_wrap'
-     110 |                 _p_func(dev, fmt, ##__VA_ARGS__);                       \
-         |                         ^~~
-   include/linux/dev_printk.h:181:17: note: in expansion of macro 'dev_warn'
-     181 |                 dev_level(dev, fmt, ##__VA_ARGS__);                     \
-         |                 ^~~~~~~~~
-   include/linux/dev_printk.h:201:9: note: in expansion of macro 'dev_level_once'
-     201 |         dev_level_once(dev_warn, dev, fmt, ##__VA_ARGS__)
-         |         ^~~~~~~~~~~~~~
-   drivers/gpu/drm/nouveau/nouveau_uvmm.c:508:9: note: in expansion of macro 'dev_warn_once'
-     508 |         dev_warn_once(op->gem.obj->dev, "Could not find an appropriate page size.\n");
-         |         ^~~~~~~~~~~~~
-   include/linux/dev_printk.h:52:37: note: expected 'const struct device *' but argument is of type 'struct drm_device *'
-      52 | void _dev_warn(const struct device *dev, const char *fmt, ...);
-         |                ~~~~~~~~~~~~~~~~~~~~~^~~
+If you are relying on "the backlight core [to take] care of the default
+brightness" then you have to request it in the driver (by calling
+backlight_update_status() after registering the backlight).
 
 
-vim +/_dev_warn +508 drivers/gpu/drm/nouveau/nouveau_uvmm.c
+> > > > > + * 4. set setting register
+> > > > > + * 5. enable the backlight
+> > > > > + */
+> > > > > +static int max25014_configure(struct max25014 *maxim)
+> >
+> >
+> > > > > +static int max25014_probe(struct i2c_client *cl)
+> > > > > <snip>
+> > > > > +
+> > > > > +	/* Enable can be tied to vin rail wait if either is available */
+> > > > > +	if (maxim->enable || maxim->vin) {
+> > > > > +		/* Datasheet Electrical Characteristics tSTARTUP 2ms */
+> > > > > +		usleep_range(2000, 2500);
+> > > > > +	}
+> > > >
+> > > > If you really want to keep the devm_regulator_get_optional() I guess
+> > > > maybe you could persuade me it's need to avoid this sleep... although
+> > > > I'd be fairly happy to remove the NULL checks here too!
+> > >
+> > > Just wait unconditionally?
+> >
+> > If you think it will be unusual for the driver to be used without enable
+> > or regulator then it's ok to wait unconditionally (all examples you
+> > have added so far have an enable pin).
+>
+> I think it may actually be a very common implementation to have the enable
+> pin attached to Vin, we don't have it set up that way. But it is displayed
+> that way in an example schematic in the datasheet.
 
-   466	
-   467	static u8
-   468	select_page_shift(struct nouveau_uvmm *uvmm, struct drm_gpuva_op_map *op)
-   469	{
-   470		struct nouveau_bo *nvbo = nouveau_gem_object(op->gem.obj);
-   471	
-   472		/* nouveau_bo_fixup_align() guarantees that the page size will be aligned
-   473		 * for most cases, but it can't handle cases where userspace allocates with
-   474		 * a size and then binds with a smaller granularity. So in order to avoid
-   475		 * breaking old userspace, we need to ensure that the VA is actually
-   476		 * aligned before using it, and if it isn't, then we downgrade to the first
-   477		 * granularity that will fit, which is optimal from a correctness and
-   478		 * performance perspective.
-   479		 */
-   480		if (op_map_aligned_to_page_shift(op, nvbo->page))
-   481			return nvbo->page;
-   482	
-   483		struct nouveau_mem *mem = nouveau_mem(nvbo->bo.resource);
-   484		struct nvif_vmm *vmm = &uvmm->vmm.vmm;
-   485		int i;
-   486	
-   487		/* If the given granularity doesn't fit, let's find one that will fit. */
-   488		for (i = 0; i < vmm->page_nr; i++) {
-   489			/* Ignore anything that is bigger or identical to the BO preference. */
-   490			if (vmm->page[i].shift >= nvbo->page)
-   491				continue;
-   492	
-   493			/* Skip incompatible domains. */
-   494			if ((mem->mem.type & NVIF_MEM_VRAM) && !vmm->page[i].vram)
-   495				continue;
-   496			if ((mem->mem.type & NVIF_MEM_HOST) &&
-   497			    (!vmm->page[i].host || vmm->page[i].shift > PAGE_SHIFT))
-   498				continue;
-   499	
-   500			/* If it fits, return the proposed shift. */
-   501			if (op_map_aligned_to_page_shift(op, vmm->page[i].shift))
-   502				return vmm->page[i].shift;
-   503		}
-   504	
-   505		/* If we get here then nothing can reconcile the requirements. This should never
-   506		 * happen.
-   507		 */
- > 508		dev_warn_once(op->gem.obj->dev, "Could not find an appropriate page size.\n");
-   509	
-   510		return PAGE_SHIFT;
-   511	}
-   512	
+Your call.
 
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+
+Daniel.
