@@ -2,46 +2,46 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E5E95C48A78
-	for <lists+dri-devel@lfdr.de>; Mon, 10 Nov 2025 19:48:09 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 42CBAC48A63
+	for <lists+dri-devel@lfdr.de>; Mon, 10 Nov 2025 19:48:06 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id EB08F10E4A8;
-	Mon, 10 Nov 2025 18:48:03 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id AE93310E496;
+	Mon, 10 Nov 2025 18:48:00 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="QHyU5y9t";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="Sj4SGBwa";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
- by gabe.freedesktop.org (Postfix) with ESMTPS id AC88510E2F7;
- Mon, 10 Nov 2025 18:47:58 +0000 (UTC)
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7E35C10E2F7;
+ Mon, 10 Nov 2025 18:47:59 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1762800479; x=1794336479;
+ t=1762800480; x=1794336480;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=vfFJiF5Jws09gjgjKdTNrvEfoqRScmV1z1nMj3uwJf8=;
- b=QHyU5y9tZ3RJBaMiW18bpC7LjVXa2cjLvtc3iIOFkMwsMuUqwSuAK2rZ
- LCOHddPoVdp61cD+B9QI1T+FtA1TntIN0fDMpqUgYtCYvHVqzTAWg9zgj
- kBMOO2RhwtqoGTfKopQBq29SiaBqr8J6G2kDoPgRSTiUXq6eKxtk2mGWx
- LzpjOrsBk5QbZzCZx4S1lDS2TOhMw9UpcJa9zdaxNO603Tyaalart13Sl
- gMXGIymCR9tQExes2ad6MGvLppps5SqbiztMhFphhD9PK1W9zQSGl4U9G
- BbZlTwAbgWshORR9y0aKQ7m6Mh3OuQhZbc6LjnbsoKiI8AkvkwiIpIqj8 Q==;
-X-CSE-ConnectionGUID: hccwTlBNRES/u+EULuF2TA==
-X-CSE-MsgGUID: McDDhQNCSYG4pn3c9G8ioA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11609"; a="76307331"
-X-IronPort-AV: E=Sophos;i="6.19,294,1754982000"; d="scan'208";a="76307331"
-Received: from orviesa001.jf.intel.com ([10.64.159.141])
- by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ bh=OzdF6HTk4h3/oUsmY5IfpSD2bmNX4EBLpymNpYyHIRk=;
+ b=Sj4SGBwa/i6v67ca+t6yf1wvHlIA7sLHK3aYtH+wfHQYua/KACfXBzSz
+ D3y0tWnmOq6W+LRzqFI3QepUVgrcBUcnmeoFNJypOGdIQEek7SxO9C/Dn
+ 3AnxVmujiYSJHw84kBoSyV4gtvprDtEObWHr5SDMZazDhCztbHXqFHA2d
+ l3JfabHujyBIKT5DMdYhvxG0gCEadbLTaJwynxikkyOUi5Ps6rJnvKiYe
+ ZlaVLSUEIhJbOxIkn7aS9tBFMHQRH7U5x5LzouM2TzR4X1v08GO5OyOkm
+ 5WlVv42+y7t454biU8YwDQsqwoNWezm5QJ2/b9IuuqtQg1vXAH724TCVA A==;
+X-CSE-ConnectionGUID: Ol1x1V1RRZGuhzCbgcoupA==
+X-CSE-MsgGUID: Z99uX4+DSSGrGl/0uYjlbw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11609"; a="90327173"
+X-IronPort-AV: E=Sophos;i="6.19,294,1754982000"; d="scan'208";a="90327173"
+Received: from orviesa002.jf.intel.com ([10.64.159.142])
+ by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
  10 Nov 2025 10:47:59 -0800
-X-CSE-ConnectionGUID: Ht2etEAvTa2/P79MAcMXVw==
-X-CSE-MsgGUID: q70WGSfeRhCBG0Zd32Rwgg==
+X-CSE-ConnectionGUID: KOb4f4b3RM6tdzmNBqgdkw==
+X-CSE-MsgGUID: yn8eDI+aQmWsr3VL9QEEYA==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.19,294,1754982000"; d="scan'208";a="226005244"
+X-IronPort-AV: E=Sophos;i="6.19,294,1754982000"; d="scan'208";a="219401997"
 Received: from black.igk.intel.com ([10.91.253.5])
- by orviesa001.jf.intel.com with ESMTP; 10 Nov 2025 10:47:49 -0800
+ by orviesa002.jf.intel.com with ESMTP; 10 Nov 2025 10:47:49 -0800
 Received: by black.igk.intel.com (Postfix, from userid 1003)
- id 499D5A2; Mon, 10 Nov 2025 19:47:29 +0100 (CET)
+ id 508CAA3; Mon, 10 Nov 2025 19:47:29 +0100 (CET)
 From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
 To: Corey Minyard <corey@minyard.net>,
  =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
@@ -114,9 +114,9 @@ Cc: Rasmus Villemoes <linux@rasmusvillemoes.dk>,
  Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
  Andrew Morton <akpm@linux-foundation.org>,
  Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>
-Subject: [PATCH v1 13/23] media: av7110: Switch to use %ptSp
-Date: Mon, 10 Nov 2025 19:40:32 +0100
-Message-ID: <20251110184727.666591-14-andriy.shevchenko@linux.intel.com>
+Subject: [PATCH v1 14/23] media: v4l2-ioctl: Switch to use %ptSp
+Date: Mon, 10 Nov 2025 19:40:33 +0100
+Message-ID: <20251110184727.666591-15-andriy.shevchenko@linux.intel.com>
 X-Mailer: git-send-email 2.50.1
 In-Reply-To: <20251110184727.666591-1-andriy.shevchenko@linux.intel.com>
 References: <20251110184727.666591-1-andriy.shevchenko@linux.intel.com>
@@ -142,22 +142,25 @@ struct timespec64 in human readable format.
 
 Signed-off-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
 ---
- drivers/staging/media/av7110/av7110.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ drivers/media/v4l2-core/v4l2-ioctl.c | 5 ++---
+ 1 file changed, 2 insertions(+), 3 deletions(-)
 
-diff --git a/drivers/staging/media/av7110/av7110.c b/drivers/staging/media/av7110/av7110.c
-index bc9a2a40afcb..602342d1174f 100644
---- a/drivers/staging/media/av7110/av7110.c
-+++ b/drivers/staging/media/av7110/av7110.c
-@@ -321,7 +321,7 @@ static inline void print_time(char *s)
- 	struct timespec64 ts;
+diff --git a/drivers/media/v4l2-core/v4l2-ioctl.c b/drivers/media/v4l2-core/v4l2-ioctl.c
+index 01cf52c3ea33..edc4d97b4161 100644
+--- a/drivers/media/v4l2-core/v4l2-ioctl.c
++++ b/drivers/media/v4l2-core/v4l2-ioctl.c
+@@ -791,9 +791,8 @@ static void v4l_print_event(const void *arg, bool write_only)
+ 	const struct v4l2_event *p = arg;
+ 	const struct v4l2_event_ctrl *c;
  
- 	ktime_get_real_ts64(&ts);
--	pr_info("%s(): %lld.%09ld\n", s, (s64)ts.tv_sec, ts.tv_nsec);
-+	pr_info("%s(): %ptSp\n", s, &ts);
- #endif
- }
- 
+-	pr_cont("type=0x%x, pending=%u, sequence=%u, id=%u, timestamp=%llu.%9.9llu\n",
+-			p->type, p->pending, p->sequence, p->id,
+-			p->timestamp.tv_sec, p->timestamp.tv_nsec);
++	pr_cont("type=0x%x, pending=%u, sequence=%u, id=%u, timestamp=%ptSp\n",
++		p->type, p->pending, p->sequence, p->id, &p->timestamp);
+ 	switch (p->type) {
+ 	case V4L2_EVENT_VSYNC:
+ 		printk(KERN_DEBUG "field=%s\n",
 -- 
 2.50.1
 
