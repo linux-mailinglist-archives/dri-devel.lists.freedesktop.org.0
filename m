@@ -2,154 +2,145 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E4184C45E6B
-	for <lists+dri-devel@lfdr.de>; Mon, 10 Nov 2025 11:23:48 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 928FDC46039
+	for <lists+dri-devel@lfdr.de>; Mon, 10 Nov 2025 11:43:10 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9584B10E173;
-	Mon, 10 Nov 2025 10:23:46 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3665B10E065;
+	Mon, 10 Nov 2025 10:43:08 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=ti.com header.i=@ti.com header.b="PYqRD8XT";
+	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="D/MhN+5F";
+	dkim=pass (2048-bit key; unprotected) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="iOi1Jt51";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from SN4PR0501CU005.outbound.protection.outlook.com
- (mail-southcentralusazon11011035.outbound.protection.outlook.com
- [40.93.194.35])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 312A310E173
- for <dri-devel@lists.freedesktop.org>; Mon, 10 Nov 2025 10:23:45 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=Xo0qEqnUU84vnVukiVX9zhJ8EqanvxClrtOnIs9yi7iiUZd/zsc17LGTZ6hCrXAVwudGyQfcNmPL6HgdoWUnzPMTVEURK1kbAJELuSaO2X8EdKRrJwdKr7WtiGtIEP96JZ/GdEhXtfAMAnA/UQvQ4L4MzW7im5tdA0xrXJkn+QwhXWlj4EE8XOgxJCGsgsDAY5puB7x/+FQ0/UWqL8vAmn676QgEHpwPJfkxGWHMRc5EMEjOpgHHz2WThiYzYHchVV0foxpXWcg7KD2p/25Fq9P/pl7oqF4m6sNq0skmCMRzlrE6M8/EDsjADmkDJFPPJFzBOrcRJrGtY46qwXNm7Q==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=4W15p7EqUW1KYLNj+2vDKch75XkoOa2lrxI3zR1eWb4=;
- b=lZ+jsoR58MIhC8W6TlPyojQepnMe4sJRDugDyaSoQE8jKz1yTkxpP4F8alLVD+nG11MykbCPHdlAIaSbkwNURbyXdRqABrJkybhocYa4blxRlAsGgVis5NZ7qsa8cmCwHQ2QvEWgoD4iZuuvXAmpkSRjnBltH15pzadHrlZNT5c/wTii5QmpEZj7I/Ltgg3qnsr7q3eLK3Pbeh+j3U+hmsVuc55nKkIfzcWahycTV8+sa8Err0Q9JfZceSUouVHWsq2jgrAup1f5wnX+s86e2/iNlKSKYDG8tjrkMYHVClOKbH3/NlwlU8FL01yxbvp2QtTTIi7yBJtw5oM4PpsRXg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 198.47.23.195) smtp.rcpttodomain=cadence.com smtp.mailfrom=ti.com; dmarc=pass
- (p=quarantine sp=none pct=100) action=none header.from=ti.com; dkim=none
- (message not signed); arc=none (0)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=4W15p7EqUW1KYLNj+2vDKch75XkoOa2lrxI3zR1eWb4=;
- b=PYqRD8XTPvVWIeHHx9LkkedhT/ndbZZQdI14Xj8c0aYQ9erHDWimbeH+zfPwP3it6Mz8CjqiPPnpbkLGzfp5VxMyNFfcWewfI/x6qsr044BKNxTxXM++hI7ykds+NsYLWsBseTXtG0Xoxe+Xg8jB04jDfE/E6lRmXjMdwKfy0k4=
-Received: from BN1PR14CA0017.namprd14.prod.outlook.com (2603:10b6:408:e3::22)
- by IA1PR10MB7333.namprd10.prod.outlook.com (2603:10b6:208:3fa::10)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9298.16; Mon, 10 Nov
- 2025 10:23:42 +0000
-Received: from BN1PEPF00006003.namprd05.prod.outlook.com
- (2603:10b6:408:e3:cafe::b5) by BN1PR14CA0017.outlook.office365.com
- (2603:10b6:408:e3::22) with Microsoft SMTP Server (version=TLS1_3,
- cipher=TLS_AES_256_GCM_SHA384) id 15.20.9298.16 via Frontend Transport; Mon,
- 10 Nov 2025 10:23:41 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 198.47.23.195)
- smtp.mailfrom=ti.com; dkim=none (message not signed) header.d=none; dmarc=pass
- action=none header.from=ti.com;
-Received-SPF: Pass (protection.outlook.com: domain of ti.com designates
- 198.47.23.195 as permitted sender) receiver=protection.outlook.com;
- client-ip=198.47.23.195; helo=lewvzet201.ext.ti.com; pr=C
-Received: from lewvzet201.ext.ti.com (198.47.23.195) by
- BN1PEPF00006003.mail.protection.outlook.com (10.167.243.235) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.9320.13 via Frontend Transport; Mon, 10 Nov 2025 10:23:41 +0000
-Received: from DLEE207.ent.ti.com (157.170.170.95) by lewvzet201.ext.ti.com
- (10.4.14.104) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.20; Mon, 10 Nov
- 2025 04:23:38 -0600
-Received: from DLEE202.ent.ti.com (157.170.170.77) by DLEE207.ent.ti.com
- (157.170.170.95) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.20; Mon, 10 Nov
- 2025 04:23:38 -0600
-Received: from lelvem-mr06.itg.ti.com (10.180.75.8) by DLEE202.ent.ti.com
- (157.170.170.77) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.20 via Frontend
- Transport; Mon, 10 Nov 2025 04:23:38 -0600
-Received: from [172.24.235.208] (hkshenoy.dhcp.ti.com [172.24.235.208])
- by lelvem-mr06.itg.ti.com (8.18.1/8.18.1) with ESMTP id 5AAANVjC3251357;
- Mon, 10 Nov 2025 04:23:32 -0600
-Message-ID: <9599e17c-96d5-448f-96a2-bbcfcc3657a2@ti.com>
-Date: Mon, 10 Nov 2025 15:53:31 +0530
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
+ [205.220.168.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 305C310E13F
+ for <dri-devel@lists.freedesktop.org>; Mon, 10 Nov 2025 10:43:07 +0000 (UTC)
+Received: from pps.filterd (m0279867.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id
+ 5AA8YAtn1809151
+ for <dri-devel@lists.freedesktop.org>; Mon, 10 Nov 2025 10:43:06 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+ cc:content-transfer-encoding:content-type:date:from:in-reply-to
+ :message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+ eSqXKqt4w5CGKMXelCEmeHZsf36l7BOGUQpou8ggYx8=; b=D/MhN+5FBDmQwyrk
+ yi8sgc/Z54izzyQvKikz3VpJaZAEosoUWlESfrTOsSbpkE7HwWTuuQpmgusrDQdY
+ vbqd+7oqP9K97GOyzT3kEazUqnyODoaRT9E72MJDwkFGwZ2zin+TQ9qwcjDrkHPV
+ ibm/DiITFTiA+r8bzgysLVaG5o2vtuUyvRMjlhtHXg7MdK2B9QtgOULdaSBwbJMe
+ 9Oym9tBjAuT4P5MAaq2v+uCtSSmDShgROhL4wpz7zmoqqp2dqr7ND7DOQDkFLR96
+ 44iX0YOEn3lAkp9LBanGb3QQeUP/80rAHKpjM8pyhpldsDaH2q4eCRBwXuQ2qdM0
+ kfm+Tg==
+Received: from mail-pl1-f199.google.com (mail-pl1-f199.google.com
+ [209.85.214.199])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4ab5m1hhwn-1
+ (version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
+ for <dri-devel@lists.freedesktop.org>; Mon, 10 Nov 2025 10:43:06 +0000 (GMT)
+Received: by mail-pl1-f199.google.com with SMTP id
+ d9443c01a7336-298389232c4so1652385ad.2
+ for <dri-devel@lists.freedesktop.org>; Mon, 10 Nov 2025 02:43:06 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=oss.qualcomm.com; s=google; t=1762771386; x=1763376186;
+ darn=lists.freedesktop.org; 
+ h=content-transfer-encoding:in-reply-to:from:content-language
+ :references:cc:to:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=eSqXKqt4w5CGKMXelCEmeHZsf36l7BOGUQpou8ggYx8=;
+ b=iOi1Jt51VbszOW/BL/Qn/+1KbQn+hTxrOVm9ow6KpBoYOjj5GH/+e3kihszGtMPBsr
+ BZxmKjLrkfAg96rtPTM3Ml/6yVRFVCMSC1v4nS1JhZ9BL51lSSpd+U0oG1ujG4wHgUJ6
+ J9mOJVPgb0vhf7Ew4jzUS+JcN5Dl7zcz22bFnfvk+pQE9mdSq6E5bMj/hHTiKxy8uVZp
+ tGRyjkjgNQB6zlm/dwLuE3idkoCyvBGbgLqfWutkSyN1ZrFgyfMYpGmRvw6v1BFly/Ee
+ 6krIcoMqxCs2voX65Qqp/q+C5t9zqQpZRcwtXOHWF0aCxyDxoL7ZWuftFwTZKnoMHA6H
+ oOlA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1762771386; x=1763376186;
+ h=content-transfer-encoding:in-reply-to:from:content-language
+ :references:cc:to:subject:user-agent:mime-version:date:message-id
+ :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=eSqXKqt4w5CGKMXelCEmeHZsf36l7BOGUQpou8ggYx8=;
+ b=kM3qYKXNQTaR8PcwJJ4VC/7iCvmC3wU6OSxoTYIGbNtAxicMRLlkELtD02XVblnQfr
+ MXM7E0v9EI4FGOoiwuQaydna6nwFOfBuqZCWW6doGegT+Me2GJdiKBrjpiTAOGNZyEIC
+ KMfbZdqH3RPI1eUJ1eOP7rEaZOlMUvMPSwUbHSdG2usKfU3XrTvZq6BXUCUnTj90q9mp
+ lE0Z2VYUog7Ai1JKixnHIxsmOkx1PF8SaQl7Z5qoA+zcxvf+RuuF7n8iTvLz1iQedgwq
+ utChiM33vlAWOTYjmzsHrfS4oY/1tLGJ6JwA5+iopk4aTy4m/3cPa5PjKg5GtYLpGXEP
+ FWpA==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCV3dLpfXF4aE9PNyYhm80E68DbcXc64Mfq8alkynLC9/hOkhPETHPj//fgOtU+AteFa+zBjp5fUT1U=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YzyksIBVOYoZ5TduuPLTFpWuhbAPMWCCbJoQ8+Wujrxgwe3oCpu
+ D/JYVOMxQv5Fci38XGN02uAK5aXXGY/H8WsfYuA3WmnnqMxZDNE6kBgkdDf0J33cRplNPEibjkw
+ S2Voh2ix3tIMvtEHeVl2s37CWpQuanmFUgfKcc26xbjtVFsoLxSURO+hJMw5jAI5YKHN3/hg=
+X-Gm-Gg: ASbGncuoBQRrovo98O2mVeJcfcYSMfpdRxJZU3qJMmh/QOPgIZ/lWh2qk5J3PEuBqwM
+ 4axLsVufMEliclDFkvGu03GeFtf2evCe3mkMl0P/zgGFvcAxRp6qppUuAxUBjH8Ag3szqfupUgO
+ EvnWc19rgCocnKc8oz20bRkt3FHslxS+ZuDbiVnE1y8qN05YpCY3uXaxdyKt7EpPPriMxVJt7jh
+ Z2z6trsloizWMka91jUNejuODz8XXpypfjkAnM8Y7OVzSiXDQr1e6OWI8GuNu7hNWggmI6r4IuX
+ TpK51YDnIkqqDABYezKhb0b0CekjMzXrZd3ySvEQujJvmQdks+OrZbhD2ovmSiiU/LMaaO4cH0K
+ 81634VV2+3CAz3dmMC9hH/Q==
+X-Received: by 2002:a17:902:f790:b0:295:9a46:a1d0 with SMTP id
+ d9443c01a7336-297e56df960mr102724385ad.45.1762771385976; 
+ Mon, 10 Nov 2025 02:43:05 -0800 (PST)
+X-Google-Smtp-Source: AGHT+IEF/4A52+hPm+KGskAyqtu2lioNjT9Bv0FG/S2i/1sn1bpC5Zjl0LIeTPyJfY/iBBpamPtPaQ==
+X-Received: by 2002:a17:902:f790:b0:295:9a46:a1d0 with SMTP id
+ d9443c01a7336-297e56df960mr102723845ad.45.1762771385447; 
+ Mon, 10 Nov 2025 02:43:05 -0800 (PST)
+Received: from [10.204.104.20] ([202.46.23.25])
+ by smtp.gmail.com with ESMTPSA id
+ d9443c01a7336-297ddde1e7esm82040835ad.77.2025.11.10.02.42.59
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 10 Nov 2025 02:43:05 -0800 (PST)
+Message-ID: <1d31c371-0b74-4584-9f2b-dafa76197492@oss.qualcomm.com>
+Date: Mon, 10 Nov 2025 16:12:58 +0530
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] dt-bindings: drm/bridge: Update reg-name list for
- cdns,mhdp8546 compatible
-To: Krzysztof Kozlowski <krzk@kernel.org>, <robh@kernel.org>,
- <Laurent.pinchart@ideasonboard.com>, <airlied@gmail.com>,
- <andrzej.hajda@intel.com>, <conor+dt@kernel.org>, <devarsht@ti.com>,
- <devicetree@vger.kernel.org>, <dri-devel@lists.freedesktop.org>,
- <jernej.skrabec@gmail.com>, <jonas@kwiboo.se>, <krzk+dt@kernel.org>,
- <linux-kernel@vger.kernel.org>, <maarten.lankhorst@linux.intel.com>,
- <mripard@kernel.org>, <neil.armstrong@linaro.org>, <rfoss@kernel.org>,
- <s-jain1@ti.com>, <simona@ffwll.ch>, <sjakhade@cadence.com>,
- <tzimmermann@suse.de>, <u-kumar1@ti.com>, <yamonkar@cadence.com>,
- <pthombar@cadence.com>
-References: <20251107131535.1841393-1-h-shenoy@ti.com>
- <eb86cb58-6520-4a24-9e04-f10e2466fac6@kernel.org>
+Subject: Re: [PATCH v2 5/6] arm64: dts: qcom: sm6150: Add gpu and rgmu nodes
+To: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>,
+ Rob Clark <robin.clark@oss.qualcomm.com>, Sean Paul <sean@poorly.run>,
+ Konrad Dybcio <konradybcio@kernel.org>,
+ Dmitry Baryshkov <lumag@kernel.org>,
+ Abhinav Kumar <abhinav.kumar@linux.dev>,
+ Marijn Suijten <marijn.suijten@somainline.org>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, Rob Herring <robh@kernel.org>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>, Bjorn Andersson <andersson@kernel.org>,
+ Jessica Zhang <jesszhan0024@gmail.com>
+Cc: Dan Carpenter <dan.carpenter@linaro.org>, linux-arm-msm@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, freedreno@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, devicetree@vger.kernel.org,
+ Jie Zhang <quic_jiezh@quicinc.com>
+References: <20251107-qcs615-spin-2-v2-0-a2d7c4fbf6e6@oss.qualcomm.com>
+ <20251107-qcs615-spin-2-v2-5-a2d7c4fbf6e6@oss.qualcomm.com>
+ <defc450a-1699-4682-a41e-59035bafccbe@oss.qualcomm.com>
 Content-Language: en-US
-From: Harikrishna shenoy <h-shenoy@ti.com>
-In-Reply-To: <eb86cb58-6520-4a24-9e04-f10e2466fac6@kernel.org>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
+From: Akhil P Oommen <akhilpo@oss.qualcomm.com>
+In-Reply-To: <defc450a-1699-4682-a41e-59035bafccbe@oss.qualcomm.com>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
-X-C2ProcessedOrg: 333ef613-75bf-4e12-a4b1-8e3623f5dcea
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: BN1PEPF00006003:EE_|IA1PR10MB7333:EE_
-X-MS-Office365-Filtering-Correlation-Id: 9f6c8a4e-1daa-4ca7-323a-08de204338b7
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
- ARA:13230040|1800799024|36860700013|82310400026|376014|7416014|921020; 
-X-Microsoft-Antispam-Message-Info: =?utf-8?B?b0tjOEwySmFoWE5WMzN1NmZ5ZG9xR0xNTVBmU0w4YkJhazlhNWMxVW9XbjR3?=
- =?utf-8?B?V2ZRTjJncHFhMm5OT2lpQ00xaHhCcDQvVk9pMHhUektWZDNDTVdLOXNHeTJl?=
- =?utf-8?B?WGw0K0FHV2lmZjljMFVsUU1ibExBWGVVYjFoSUdRMW4zYVBIa2UwbkJINlRQ?=
- =?utf-8?B?Q3QwWi8rV3BxenJmbWJybG5SYlZyZGt0VWpXOUNpUjYyU2VvQWFsZWF4b3l6?=
- =?utf-8?B?WlNVYURoM2phWjEzdlVQMi93ODhIcklWZW9XK2hjcTd2VFJSTTdJbWhPY0Nw?=
- =?utf-8?B?OXQ4T2l4UEt6ZS9aZks5L24zWEgxZURYOXFxTlQvTmlmTU5PL0F3VS9GNE5O?=
- =?utf-8?B?TnczUVQ1Z2JKYlFKdUlKR2V0b1BTSlNQMlRpSTZ0Q2VtYlpUVjlvcGhXRnhw?=
- =?utf-8?B?Qm40L3J4QXNZRlAwc2dEaS9EVTNzL2JhN0VocVBQSVhBbmlNUDhmRlJURmN1?=
- =?utf-8?B?WGlLN01MaGdlc3E2czk5bFBPWmt1Mk4wOHp2aFNhcWVmdTdzUDhlcmc4Umpn?=
- =?utf-8?B?VU1LMG53NjRPVEpuS0lWQVNNOTRBYkI4Q1ZPdGJrSVlEZk9xU1NPZ282dGRX?=
- =?utf-8?B?VHZVNnFGUU1raHFOZ3ZiNVJCYmw4bm02aVFTSzBqOFhKT0NsbTF1MXlxRnZX?=
- =?utf-8?B?dXBTQVZ1ZzczR1pIaURxQUhtejg5a2x5T2ErNUR6T1ZhaWpmUTVFSW54eUhU?=
- =?utf-8?B?djd3NDJwdWdwMVNhSUpab0gyekQ0NUtTZE0zcE9kaHZNdm9tNDhaYUx1SzJz?=
- =?utf-8?B?ZTg3VHVlTmV3cUc3K3FwVVUrVnYzOUo1UVRHK1hxQVBQME1tSmdjTEo2Z295?=
- =?utf-8?B?Z3VZa1I0VGoyczFzeHg4eFVNWEttZHFDSHZYM2U5Q1BzY3g1V2JiMHV6WUhn?=
- =?utf-8?B?L011OGV6aGZUWWxqM0doQVNmTkVhd1piTHVlM1JNd3JtM3RIOTRNcXF6YXVO?=
- =?utf-8?B?K0RDYjRENUxFWmJDQkJYNGgzS2NqOW16WXRwUEk3dk1YcklsSUd6RzRjRXE1?=
- =?utf-8?B?R2w0YlFSbi85N3Z0ZjZtazlkSE5xQUVNaXk1aS9peXAxV0tzb2t3UTdBeE5J?=
- =?utf-8?B?WUVuMDMyc2JOZmFBM2Rpa1l5WlpLdnE1a0x2SCtmS0h1QXBQcVJMOGlkZGha?=
- =?utf-8?B?M1ZtQnZrbFBjYnhQRjduOHNyT3B2ZVdla2dNcnljTXhNNW1KamVYVjFaeUI0?=
- =?utf-8?B?amxnajI0aVlCY3lFRFFKRXdNZERiZFpzWEIwR3EyWCtoaTZ1MHRoaitRQnFJ?=
- =?utf-8?B?Z2hSVXBqWGtsckVaK1JFQlJoNWVHWlVUY3hoMVV6b1NNTjdjNmZuNUNNVmFz?=
- =?utf-8?B?L1A1NmpUb040eFB5VVQ5cUJEdFVUQ25jMWRxUkJDUGJPblBKQmJEYXNIbnF2?=
- =?utf-8?B?OW1XZ0dyNjdWNlh3M25UZmFzSDNyU0VBZExwQzM2NlpDcUF1SlhkY3BINHFt?=
- =?utf-8?B?a1dPcTF2QWtzZElXTlRlM0pwaEJDbmtNdmVSREtaQ1M0dlVpeWhwUkxsZUg3?=
- =?utf-8?B?ekVxVlFVVXN0R3hLSUw0a2NyRFpncDJqcGprUG9HWnhDWlJLdWg3endQZ1NW?=
- =?utf-8?B?cUpPWHhUUzZOMHB1MjVHY3d3bm5EVzFyTEdzUWROMGVvQkEvQ2liVTJvNXNu?=
- =?utf-8?B?OE1ZVEFtaDRXdCtMUTVaOXFuTFRWbDB5QVMyNmZFYU1vK2tkSkZLQVJlNzNH?=
- =?utf-8?B?ajB2M003UllBRk01cXV3Y0dueWhoZUYzcnJyRTE1ci9zdlJFaHJkOTNuNTFr?=
- =?utf-8?B?UTUwbTlIMUxTelFkL2tkNW44M3pVZzJIaXk2WExWOGlQemNDaXJyc3JpSWlj?=
- =?utf-8?B?MVpTKzBnQ1FsK1hDMWFQdVZCTWdSNHlObWFFS1JMeXUyaWdFRVRiTHQyTFBP?=
- =?utf-8?B?dEk5MVA2UHpkTkMyRWNyWVloWVRpQ0Vrc09QQloxODRhcmxzc05sV05zcUtU?=
- =?utf-8?B?ekJxMDZFZnBxb3VRZFN0d3pWd1ZmNzNHY3Z2ZVZiUXBrczVkenNLS1E5TXFP?=
- =?utf-8?B?QXRZU2RSL1VuRk9KM0oyVWtnY3VIcTdjdkdhekxJMFU3emcyR0lJNjFwZ0Nr?=
- =?utf-8?B?c1hqd1VQM0tTQ0hDb0E4ZVZ0blRWREhVUTIyRXFTV2phdTFHWU5XVDR2Smov?=
- =?utf-8?Q?CcPN5UYzxu/kTTrjFlB2aGAfq?=
-X-Forefront-Antispam-Report: CIP:198.47.23.195; CTRY:US; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:lewvzet201.ext.ti.com; PTR:InfoDomainNonexistent;
- CAT:NONE;
- SFS:(13230040)(1800799024)(36860700013)(82310400026)(376014)(7416014)(921020);
- DIR:OUT; SFP:1101; 
-X-OriginatorOrg: ti.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 10 Nov 2025 10:23:41.8464 (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 9f6c8a4e-1daa-4ca7-323a-08de204338b7
-X-MS-Exchange-CrossTenant-Id: e5b49634-450b-4709-8abb-1e2b19b982b7
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=e5b49634-450b-4709-8abb-1e2b19b982b7; Ip=[198.47.23.195];
- Helo=[lewvzet201.ext.ti.com]
-X-MS-Exchange-CrossTenant-AuthSource: BN1PEPF00006003.namprd05.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: IA1PR10MB7333
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUxMTEwMDA5MyBTYWx0ZWRfX4600aIIrgrHp
+ 9z367GExjCxq2r0YnxWnm2qbuzdpdsSzGuSTJf2UGEQeGIMR7HjW/aMypDgqZ7vA6iG6GFZvxq+
+ lvIsXPfehdAQhAf+5w0BaIR19dluFl5ck8rYox8/OlDm4xYHu1CJBYXrC2HjBxsFeSdlILGtuez
+ 1WBiu0gLoq08cGCDq+ocrCEzq0N1m1GTr81uVJpg0TnOKlKU6s1+qXxAjnQKs6D8oTziStEmuSd
+ XnHDTZH3IiZS8l9Ea/xUXPCHojDdMEylqNrrerAk+cCUYUcB5D4WVpHMR5tZbNBL0cx/LUXfYre
+ RU6mpMvdIhZl1eeTI9CQISCK4qD5oL4cny8NX8z6ewgMrl8sXmJNt/pQWXjoYmnEmpiEyDsDYQu
+ EKoTRw/+bN9t+17WZoPh59LxRu44cg==
+X-Authority-Analysis: v=2.4 cv=TsXrRTXh c=1 sm=1 tr=0 ts=6911c1ba cx=c_pps
+ a=JL+w9abYAAE89/QcEU+0QA==:117 a=ZePRamnt/+rB5gQjfz0u9A==:17
+ a=IkcTkHD0fZMA:10 a=6UeiqGixMTsA:10 a=s4-Qcg_JpJYA:10
+ a=VkNPw1HP01LnGYTKEx00:22 a=COk6AnOGAAAA:8 a=EUspDBNiAAAA:8
+ a=I_p1zpMzltXwdS2KmfMA:9 a=QEXdDO2ut3YA:10 a=324X-CrmTo6CU4MGRt3R:22
+ a=TjNXssC_j7lpFel5tvFf:22
+X-Proofpoint-ORIG-GUID: Kp_0J5U5h9j4PQqmZLq9S6J1UpwaW7C-
+X-Proofpoint-GUID: Kp_0J5U5h9j4PQqmZLq9S6J1UpwaW7C-
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.9,FMLib:17.12.100.49
+ definitions=2025-11-10_04,2025-11-06_01,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ adultscore=0 lowpriorityscore=0 clxscore=1015 phishscore=0 spamscore=0
+ malwarescore=0 impostorscore=0 priorityscore=1501 bulkscore=0 suspectscore=0
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.22.0-2510240001 definitions=main-2511100093
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -165,89 +156,37 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
-
-On 07/11/25 18:57, Krzysztof Kozlowski wrote:
-> On 07/11/2025 14:15, Harikrishna Shenoy wrote:
->> Remove j721e-intg register name from reg-name list for cdns,mhdp8546
->> compatible. The j721e-intg registers are specific to TI SoCs, so they
->> are not required for compatibles other than ti,j721e-mhdp8546.
+On 11/7/2025 2:31 PM, Konrad Dybcio wrote:
+> On 11/6/25 9:50 PM, Akhil P Oommen wrote:
+>> From: Jie Zhang <quic_jiezh@quicinc.com>
 >>
->> Move the register name constraints to the appropriate compatibility
->> sections to ensure the correct register names are used with each
->> compatible value.
+>> Add gpu and rgmu nodes for qcs615 chipset.
 >>
->> Fixes: 7169d082e7e6 ("dt-bindings: drm/bridge: MHDP8546 bridge binding changes for HDCP")
->> Signed-off-by: Harikrishna Shenoy <h-shenoy@ti.com>
+>> Signed-off-by: Jie Zhang <quic_jiezh@quicinc.com>
+>> Signed-off-by: Akhil P Oommen <akhilpo@oss.qualcomm.com>
 >> ---
->>
->> Links to some discussions pointing to need for a fixes patch:
->> https://lore.kernel.org/all/20250903220312.GA2903503-robh@kernel.org/
->> https://lore.kernel.org/all/d2367789-6b54-4fc2-bb7c-609c0fe084d3@ti.com/
->>
->>   .../bindings/display/bridge/cdns,mhdp8546.yaml      | 13 +++++++------
->>   1 file changed, 7 insertions(+), 6 deletions(-)
->>
->> diff --git a/Documentation/devicetree/bindings/display/bridge/cdns,mhdp8546.yaml b/Documentation/devicetree/bindings/display/bridge/cdns,mhdp8546.yaml
->> index c2b369456e4e2..2fdb4f7108ed5 100644
->> --- a/Documentation/devicetree/bindings/display/bridge/cdns,mhdp8546.yaml
->> +++ b/Documentation/devicetree/bindings/display/bridge/cdns,mhdp8546.yaml
->> @@ -30,10 +30,6 @@ properties:
->>   
->>     reg-names:
->>       minItems: 1
->> -    items:
->> -      - const: mhdptx
->> -      - const: j721e-intg
->> -      - const: mhdptx-sapb
->>   
->>     clocks:
->>       maxItems: 1
->> @@ -103,7 +99,10 @@ allOf:
->>             maxItems: 3
->>           reg-names:
->>             minItems: 2
->> -          maxItems: 3
->> +          items:
->> +            - const: mhdptx
->> +            - const: j721e-intg
->> +            - const: mhdptx-sapb
->>       else:
->>         properties:
->>           reg:
->> @@ -111,7 +110,9 @@ allOf:
->>             maxItems: 2
->>           reg-names:
->>             minItems: 1
->> -          maxItems: 2
->> +          items:
->> +            - const: mhdptx
->> +            - const: mhdptx-sapb
 > 
-> This does not match regs now. Look which entry is the second - it is
-> always DSS_EDP0_INTG_CFG_VP
-> Optional item should be the last, not the middle. That's why DT
+> [...]
+> 
+>> +		rgmu: rgmu@506a000 {
+>> +			compatible = "qcom,adreno-rgmu-612.0", "qcom,adreno-rgmu";
+>> +			reg = <0x0 0x0506a000 0x0 0x34000>;
+>> +			reg-names = "gmu";
+>> +
+>> +			clocks = <&gpucc GPU_CC_CX_GMU_CLK>,
+>> +				 <&gpucc GPU_CC_CXO_CLK>,
+>> +				 <&gcc GCC_DDRSS_GPU_AXI_CLK>,
+>> +				 <&gcc GCC_GPU_MEMNOC_GFX_CLK>,
+>> +				 <&gpucc GPU_CC_HLOS1_VOTE_GPU_SMMU_CLK>;
+> 
+> Is this last clock really necessary?
 
-Hi Krzysztof,
+Downstream votes for this. So we are aligning with that.
 
-Thanks for the review, will update the reg-description for 
-ti,j721e-mhdp8546 j721e-intg is mandatory and for cdns,mhdp8546 
-j721e-intg is
-not needed, will update and separate the reg description list according
-to compatibles as well.
+-Akhil
 
-> maintainers ask (and it is even documented) to post complete bindings.
-> Complete means all registers, entire address space.
->
+> 
+> Konrad
+> 
 
-I understand the need to post complete bindings, but this is a fixes 
-patch which tries to address the concerns raised in previous 
-discussions, not sure if it would be appropriate to add other register
-in address space like DSC which have not been updated in binding?
-
-Regards,
-Hari
-
-> Best regards,
-> Krzysztof
 
