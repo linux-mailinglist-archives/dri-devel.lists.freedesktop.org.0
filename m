@@ -2,124 +2,76 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 32196C48AAE
-	for <lists+dri-devel@lfdr.de>; Mon, 10 Nov 2025 19:48:19 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 81E0BC489E8
+	for <lists+dri-devel@lfdr.de>; Mon, 10 Nov 2025 19:43:29 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4946210E4B1;
-	Mon, 10 Nov 2025 18:48:17 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BED6510E073;
+	Mon, 10 Nov 2025 18:43:27 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="ftM6UnUf";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="IBcG7+Ek";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
- by gabe.freedesktop.org (Postfix) with ESMTPS id EAB0E10E4AF;
- Mon, 10 Nov 2025 18:48:07 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1762800488; x=1794336488;
- h=from:to:cc:subject:date:message-id:in-reply-to:
- references:mime-version:content-transfer-encoding;
- bh=4juQ99p3e3KtM6te/hbvKyOPptF+QeNnwr8ndteNapw=;
- b=ftM6UnUf8GKrrx2cEUo2JRnFF3PuIB2puWGck/l9Q3QqMXc2UdVDbNiZ
- akrW+xf71cB4p7t8WUjmT1ftA4usBogvB/xIXrAmOLSnVBTZc/GorqFJP
- dJt53RB0WE7S9r5Zvdq1nPb0IuKOfyvnmIsUNfog+CCQqoVgyanxJlPm0
- aKPdJK8Knqw25NZHw99Qe8ayhql3M2PmhFa/fp0mYpqbTm1ZCiEUdUjvt
- qOl0HpjHlSM320HIYzpJIUCnlcEMKeAHpc4e+A2bM7wL3VjX5roTfNGNr
- NHQdr7PSchGdN43aF4zhVf3nR5Fab0icirGwidkpFNLfs74dQRn7Wi/5N Q==;
-X-CSE-ConnectionGUID: Ut0tbh2uRviy6mA1AT8cSA==
-X-CSE-MsgGUID: y8WMg/dJQ8qdbW3qHQOilw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11609"; a="82484656"
-X-IronPort-AV: E=Sophos;i="6.19,294,1754982000"; d="scan'208";a="82484656"
-Received: from fmviesa010.fm.intel.com ([10.60.135.150])
- by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 10 Nov 2025 10:48:07 -0800
-X-CSE-ConnectionGUID: 3ynojx9aTemebvQa2QUulQ==
-X-CSE-MsgGUID: twHEdvfkR26b2l2EM+qABw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.19,294,1754982000"; d="scan'208";a="189472138"
-Received: from black.igk.intel.com ([10.91.253.5])
- by fmviesa010.fm.intel.com with ESMTP; 10 Nov 2025 10:47:59 -0800
-Received: by black.igk.intel.com (Postfix, from userid 1003)
- id 8C76DAC; Mon, 10 Nov 2025 19:47:29 +0100 (CET)
-From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-To: Corey Minyard <corey@minyard.net>,
- =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
- "Dr. David Alan Gilbert" <linux@treblig.org>,
- Alex Deucher <alexander.deucher@amd.com>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>,
- Rob Clark <robin.clark@oss.qualcomm.com>,
- Matthew Brost <matthew.brost@intel.com>,
- Hans Verkuil <hverkuil@kernel.org>,
- Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
- Ulf Hansson <ulf.hansson@linaro.org>,
- Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
- Vitaly Lifshits <vitaly.lifshits@intel.com>,
- Manivannan Sadhasivam <mani@kernel.org>, Niklas Cassel <cassel@kernel.org>,
- Calvin Owens <calvin@wbinvd.org>, Sagi Maimon <maimon.sagi@gmail.com>,
- "Martin K. Petersen" <martin.petersen@oracle.com>,
- Karan Tilak Kumar <kartilak@cisco.com>,
- Casey Schaufler <casey@schaufler-ca.com>,
- Steven Rostedt <rostedt@goodmis.org>, Petr Mladek <pmladek@suse.com>,
- Max Kellermann <max.kellermann@ionos.com>, Takashi Iwai <tiwai@suse.de>,
- linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
- openipmi-developer@lists.sourceforge.net, linux-media@vger.kernel.org,
- dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org,
- amd-gfx@lists.freedesktop.org, linux-arm-msm@vger.kernel.org,
- freedreno@lists.freedesktop.org, intel-xe@lists.freedesktop.org,
- linux-mmc@vger.kernel.org, netdev@vger.kernel.org,
- intel-wired-lan@lists.osuosl.org, linux-pci@vger.kernel.org,
- linux-s390@vger.kernel.org, linux-scsi@vger.kernel.org,
- linux-staging@lists.linux.dev, ceph-devel@vger.kernel.org,
- linux-trace-kernel@vger.kernel.org, linux-sound@vger.kernel.org
-Cc: Rasmus Villemoes <linux@rasmusvillemoes.dk>,
- Sergey Senozhatsky <senozhatsky@chromium.org>,
- Jonathan Corbet <corbet@lwn.net>, Sumit Semwal <sumit.semwal@linaro.org>,
- Gustavo Padovan <gustavo@padovan.org>, David Airlie <airlied@gmail.com>,
- Simona Vetter <simona@ffwll.ch>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Dmitry Baryshkov <lumag@kernel.org>,
- Abhinav Kumar <abhinav.kumar@linux.dev>,
- Jessica Zhang <jesszhan0024@gmail.com>, Sean Paul <sean@poorly.run>,
- Marijn Suijten <marijn.suijten@somainline.org>,
- Konrad Dybcio <konradybcio@kernel.org>,
- Lucas De Marchi <lucas.demarchi@intel.com>,
- =?UTF-8?q?Thomas=20Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>,
- Mauro Carvalho Chehab <mchehab@kernel.org>,
- Vladimir Oltean <olteanv@gmail.com>, Andrew Lunn <andrew@lunn.ch>,
- "David S. Miller" <davem@davemloft.net>,
- Eric Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>,
- Paolo Abeni <pabeni@redhat.com>, Tony Nguyen <anthony.l.nguyen@intel.com>,
- Przemek Kitszel <przemyslaw.kitszel@intel.com>,
- =?UTF-8?q?Krzysztof=20Wilczy=C5=84ski?= <kwilczynski@kernel.org>,
- Kishon Vijay Abraham I <kishon@kernel.org>,
- Bjorn Helgaas <bhelgaas@google.com>,
- Rodolfo Giometti <giometti@enneenne.com>,
- Jonathan Lemon <jonathan.lemon@gmail.com>,
- Vadim Fedorenko <vadim.fedorenko@linux.dev>,
- Richard Cochran <richardcochran@gmail.com>,
- Stefan Haberland <sth@linux.ibm.com>,
- Jan Hoeppner <hoeppner@linux.ibm.com>, Heiko Carstens <hca@linux.ibm.com>,
- Vasily Gorbik <gor@linux.ibm.com>,
- Alexander Gordeev <agordeev@linux.ibm.com>,
- Christian Borntraeger <borntraeger@linux.ibm.com>,
- Sven Schnelle <svens@linux.ibm.com>, Satish Kharat <satishkh@cisco.com>,
- Sesidhar Baddela <sebaddel@cisco.com>,
- "James E.J. Bottomley" <James.Bottomley@HansenPartnership.com>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Xiubo Li <xiubli@redhat.com>, Ilya Dryomov <idryomov@gmail.com>,
- Masami Hiramatsu <mhiramat@kernel.org>,
- Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
- Andrew Morton <akpm@linux-foundation.org>,
- Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>
-Subject: [PATCH v1 23/23] tracing: Switch to use %ptSp
-Date: Mon, 10 Nov 2025 19:40:42 +0100
-Message-ID: <20251110184727.666591-24-andriy.shevchenko@linux.intel.com>
-X-Mailer: git-send-email 2.50.1
-In-Reply-To: <20251110184727.666591-1-andriy.shevchenko@linux.intel.com>
-References: <20251110184727.666591-1-andriy.shevchenko@linux.intel.com>
+Received: from mail-pj1-f45.google.com (mail-pj1-f45.google.com
+ [209.85.216.45])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9CEEE10E073
+ for <dri-devel@lists.freedesktop.org>; Mon, 10 Nov 2025 18:43:26 +0000 (UTC)
+Received: by mail-pj1-f45.google.com with SMTP id
+ 98e67ed59e1d1-3437c093ef5so1670826a91.0
+ for <dri-devel@lists.freedesktop.org>; Mon, 10 Nov 2025 10:43:26 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20230601; t=1762800206; x=1763405006; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=qTyxgohfMyFm4qb2O3+6usfTAZwsXPA5PRmH04j0Qmo=;
+ b=IBcG7+EkFMbDd0gppNbMC8/E5KEROm5I2pI75nTjadrOKS68AVIVjJb0omvcyAPyY4
+ qa/PbvLezPh+4opsxGNAhFd9y72Vd8l8eFQefzFDLtvVbIDY3UPJemifiJ64Gg462zjW
+ KJOJhvKbjWwqgLHKzHVtL0njTibA50tjjkwXihIpeXy/U+R6LF0eYxYGWkhn6T2ZnaHT
+ bWNgP8lfJpqwWbDOhA2hS76j9znkidEotA9lvDWxTTDkxadgNrCdODs7qb0aeJ2fRbgC
+ +k2QB09NrB57BH7mVgGCVGYH9x23XZwhCGF+TsPZ+TvdIwMh45sZdXZEsm1tuH0h/FjV
+ Zxzw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1762800206; x=1763405006;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=qTyxgohfMyFm4qb2O3+6usfTAZwsXPA5PRmH04j0Qmo=;
+ b=w1uRcL99iif0M4QfQAS7z7lMbuLJ6RQPYtV7k+omOPsQO5u/XV8r1m/AGjr1w7qUnM
+ YxKCWMBNqZx+JRMyvLleWf2mqAskWBPXlfzkbyUilU+RihXxO6ZDyU5KNXfR8N1RMUhe
+ 8MIrsLM69jFijoiITCBLcK2vh5ZiK6R+xN0mlzTgJBbgd9rN0HM0E6CvdbciHcdG6XbY
+ xsb0tQ0GFwbUUzd0z2SEVYQvwmdw9bs6eJpgBgu/YCLWMDKD8BJmkOoBG8H9RCI+WBff
+ tjxfBv2JrNRFcNGtTtwsOYglrPeNm+ZpelMVc4WrLjv28REMjKdNjyKPMI5GqsFX7qRk
+ vuow==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCVEL8cJPXKsYmC87VI5A1ZTS6Ax59qMT5T5fOQiUtExMUn0jEU1cRe5saR12Q27j7gp69d8JI9QTZo=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YzOSVTjlS6GR+2jLgBmgSXYCWXuBFxmmJWajHHzR9jeCclsignk
+ J/OLx9LQDdy/R8DoC/RO/Oglinf+SHZu008+/KYL/sxGeoahtiudynSl
+X-Gm-Gg: ASbGncsPnJbNh505zqbjxbrBpj7W7kaYDDO0KAF50GdPLrpXoyTGwuhlptUpsv/NG0m
+ gl1AunHuJnde1XQ4rhluQf4so89FmoStqUfF+7tB1LV/p5shN7KCZe2EY+XlqvlU2NkgZSnoQJY
+ xGqJoaN12ksjhPuno4q96tRP9aI/JpJP99Et/QjiNvzVjDBXQcmN6BC0LxyTzHWoITci+qFtmXi
+ falnNUyNdQUAo/IyRmB04J7RO8cCzrejGARF5KtDDmaDtYF5l8hzwEZ0q/ss9tHwbrcKa5my8j4
+ 71KXza5PW+300Bth6KPUpWGQN07fcyQruupbv/CFzF7hCYGabSLHm7P/+7YHgx2Vld2s5wJbsG0
+ XNQq6U34z7OwH2ZGtYQodvNU3gSKNJGupAtMuYZfeXCbtGJTQrElayRJ65mZV0xCxyyce+wq7MQ
+ vwP5hOp+iDyG239z6Y
+X-Google-Smtp-Source: AGHT+IF4fMPiC1+hZjj42Db+3of7c2CrTI3c2MCrSQNXvPFvgkM/x/aKN8kmrrpZocQqP6cAFKLHxw==
+X-Received: by 2002:a17:90b:4a10:b0:340:9d52:44c1 with SMTP id
+ 98e67ed59e1d1-3436cd0bd74mr12391588a91.35.1762800206045; 
+ Mon, 10 Nov 2025 10:43:26 -0800 (PST)
+Received: from crl-3.node2.local ([125.63.65.162])
+ by smtp.gmail.com with ESMTPSA id
+ 98e67ed59e1d1-343bf922ef8sm65515a91.0.2025.11.10.10.43.22
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 10 Nov 2025 10:43:25 -0800 (PST)
+From: Kriish Sharma <kriish.sharma2006@gmail.com>
+To: lucas.demarchi@intel.com, thomas.hellstrom@linux.intel.com,
+ rodrigo.vivi@intel.com, airlied@gmail.com, simona@ffwll.ch
+Cc: intel-xe@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, Kriish Sharma <kriish.sharma2006@gmail.com>,
+ kernel test robot <lkp@intel.com>
+Subject: [PATCH] drm/xe: fix kernel-doc function name mismatch in xe_pm.c
+Date: Mon, 10 Nov 2025 18:42:06 +0000
+Message-Id: <20251110184206.2113830-1-kriish.sharma2006@gmail.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -137,34 +89,37 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Use %ptSp instead of open coded variants to print content of
-struct timespec64 in human readable format.
+Documentation build reported:
 
-Signed-off-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+   WARNING: ./drivers/gpu/drm/xe/xe_pm.c:131 expecting prototype for xe_pm_might_block_on_suspend(). Prototype was for xe_pm_block_on_suspend() instead
+
+The kernel-doc comment for xe_pm_block_on_suspend() incorrectly used
+the function name xe_pm_might_block_on_suspend(). Fix the header to
+match the actual function prototype.
+
+No functional changes.
+
+Fixes: f73f6dd312a5 ("drm/xe/pm: Add lockdep annotation for the pm_block completion")
+Reported-by: kernel test robot <lkp@intel.com>
+Closes: https://lore.kernel.org/oe-kbuild-all/202511061736.CiuroL7H-lkp@intel.com/
+Signed-off-by: Kriish Sharma <kriish.sharma2006@gmail.com>
 ---
- kernel/trace/trace_output.c | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
+ drivers/gpu/drm/xe/xe_pm.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/kernel/trace/trace_output.c b/kernel/trace/trace_output.c
-index ebbab3e9622b..cc2d3306bb60 100644
---- a/kernel/trace/trace_output.c
-+++ b/kernel/trace/trace_output.c
-@@ -1490,12 +1490,12 @@ trace_hwlat_print(struct trace_iterator *iter, int flags,
+diff --git a/drivers/gpu/drm/xe/xe_pm.c b/drivers/gpu/drm/xe/xe_pm.c
+index 7b089e6fb63f..44924512830f 100644
+--- a/drivers/gpu/drm/xe/xe_pm.c
++++ b/drivers/gpu/drm/xe/xe_pm.c
+@@ -112,7 +112,7 @@ void xe_pm_might_block_on_suspend(void)
+ }
  
- 	trace_assign_type(field, entry);
- 
--	trace_seq_printf(s, "#%-5u inner/outer(us): %4llu/%-5llu ts:%lld.%09ld count:%d",
-+	trace_seq_printf(s, "#%-5u inner/outer(us): %4llu/%-5llu ts:%ptSp count:%d",
- 			 field->seqnum,
- 			 field->duration,
- 			 field->outer_duration,
--			 (long long)field->timestamp.tv_sec,
--			 field->timestamp.tv_nsec, field->count);
-+			 &field->timestamp,
-+			 field->count);
- 
- 	if (field->nmi_count) {
- 		/*
+ /**
+- * xe_pm_might_block_on_suspend() - Block pending suspend.
++ * xe_pm_block_on_suspend() - Block pending suspend.
+  * @xe: The xe device about to be suspended.
+  *
+  * Block if the pm notifier has start evicting bos, to avoid
 -- 
-2.50.1
+2.34.1
 
