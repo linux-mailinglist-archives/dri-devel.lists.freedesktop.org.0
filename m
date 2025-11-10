@@ -2,67 +2,68 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id BA147C44E07
-	for <lists+dri-devel@lfdr.de>; Mon, 10 Nov 2025 05:00:25 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 97A51C44DFE
+	for <lists+dri-devel@lfdr.de>; Mon, 10 Nov 2025 05:00:22 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 20AB910E297;
-	Mon, 10 Nov 2025 04:00:20 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C621E10E16E;
+	Mon, 10 Nov 2025 04:00:19 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="Pnos2SN9";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="al6sTfaS";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pj1-f41.google.com (mail-pj1-f41.google.com
- [209.85.216.41])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E8FCE10E16E
+Received: from mail-pf1-f179.google.com (mail-pf1-f179.google.com
+ [209.85.210.179])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 93F1E10E16E
  for <dri-devel@lists.freedesktop.org>; Mon, 10 Nov 2025 04:00:18 +0000 (UTC)
-Received: by mail-pj1-f41.google.com with SMTP id
- 98e67ed59e1d1-3436d6ca17bso1613105a91.3
+Received: by mail-pf1-f179.google.com with SMTP id
+ d2e1a72fcca58-7aa2170adf9so1980155b3a.0
  for <dri-devel@lists.freedesktop.org>; Sun, 09 Nov 2025 20:00:18 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=gmail.com; s=20230601; t=1762747218; x=1763352018; darn=lists.freedesktop.org;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:from:to:cc:subject:date:message-id:reply-to;
- bh=FMUfG6d8YJVoEPCuzvVWiCBdiIaGW3adtjAXZfiawOQ=;
- b=Pnos2SN9RPdqVdUhWPii/LvuJ9bg74gg1u03VIHDAfsObbBQbT4M4ieclToBeLkRgu
- gW3dQcUNVm9eg+SYAdc+NZCLL9NsS3CkwtVAQ7jX87Mve1PB7qTfWzl4jXHkj3E3C6tm
- eCMEyxkvGY0auOnEZEl7XjS38lwCt9gOG1ll0upaIi7VGHFoGuj4jXhxvFn0B1f3Tsvl
- elPCxyu9H+OYs7fphyxUUdVCNoLZhWSV5MFiKkCOVB6JtPN3vCtdEU0yTMTszhrhrOLl
- qa9aeN36Ft70INJVXsFdv4ugV0UEI3Mwhx1JECHQYWwO0iFTVJcSkiPpO5FRynESVC0f
- gaGA==
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=ARePJZFcum0I2UcsNc1I6X6ypbFo44099GunaYErXsE=;
+ b=al6sTfaSasLR36MhzTIlh4nkm9nUCmG76OOgeSZ8BuLXK46nh3UHCDbWW1KtCuYHhI
+ O3aVQi4mYF4mF1ph9dZsSNmjMw7WFc7Y8O4mPwfO4d36Iq7LszZ6NmP9k4J4gvGtBp/c
+ POqZjikvzAV2h7O3zgnc3dwLgcIktCmTZZafwYwJqfciqCcIVq1wE6ICbOBygGx39TuU
+ RXeueTJ+XYguTb3VgngIWn0/hZQLWE6qlGY54XnqW6yGlQGkn3nR+E85khvsUelE9ywt
+ UYkQ6dpW6JlbHMYOBGeqpyduIPTpryK4uLMPw/ZpM7ZXUgJPwHNXixrJTEwb010t1wer
+ ea+g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20230601; t=1762747218; x=1763352018;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=FMUfG6d8YJVoEPCuzvVWiCBdiIaGW3adtjAXZfiawOQ=;
- b=FRtbdHbEM8YlMNVjaetnq4Vho8ugtwN4OtpnPpINPXVC5Vqo/2V5x3EdgqqFbYzLJe
- mw1X/gi3y5mgBBwdehtzQ8MKQdifNUIZbR/7Jl2ROfL3Gzja/TslWFrDusfmI0mkUoJ5
- iNh/jDlxeh5tG749Ojoz91t0M5qfz29z5N8+h0G6E5UgEpwwIYfJllrwThhmu0IMaXlv
- OJFSLGk4BzqDauQrOM3/Y7pcSXSnsqyBZTiUP80hCeadO5izYbRWs/TIxCkYbv+pPcPd
- A1hqDn7xLnTjscC0mEN9Ow6TuLVSAFkzxzwoegjaLview/ZZYGrSGcqcJh96yf/Gh0YP
- 2QXA==
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
+ :to:cc:subject:date:message-id:reply-to;
+ bh=ARePJZFcum0I2UcsNc1I6X6ypbFo44099GunaYErXsE=;
+ b=SMup9YkLoloF8HxHQO62S1N5FP3CKhXW4AF1o9lOBbIxBW27aP21vnlCuoC/m5H84s
+ yy/zfzNPNa91qGNcb57O06E5hIZfb/Ojg0OiLUK3cvUjueWPWkAA1IJwcKicjqsI55jW
+ 5MoIBGmmPd4sAOam5OBHC1XukZrMBsjqvxXM0i2dNAcWTFitfjnxxHSR4o8ZM/ELj5Yj
+ 3+dMQftf2NwjYgYT/WW637lBSxaO8qGBIEX6t6Lteud3Yi23YAqP1BGKHs6/K9fmDiPC
+ RWmFKtTVQwcVoHueNrRGJgSWx7nBHNL5uSvYnWwvg4i4SQGz4ebPnF655/m9kJ+95J1J
+ +DfA==
 X-Forwarded-Encrypted: i=1;
- AJvYcCWcEUAAzRMRNnha6iATo51zvEx3qJFw8K9vL6DEYnIDO+3o8ge2XdOv76zmjqWp25RpJbncalBS9wg=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YzlmNf92zuNcbATqEMTqD7ZHW5+bFM1vHoA2n4Zoxa0B70kmRkb
- 4ViMpEtbaa092ABM7FxDtiXjcNKrmq8e3oPAA82CM0zSdHOYCtZHAKlw
-X-Gm-Gg: ASbGncuW6s2LLskufwRXuFrgCD4X0BnKxqdFJfO4ZnTxs7Uxq4gWCZ3JFHELLeZJSK3
- 0hqbb/xBYzG6NaPiljG5xkoKkI3oWU8u6dxXHUtFgAk1g8k+6NHdq018wZN4R/Ahawpv2HfpLLk
- 5qNReQfiZY2cPnCHqvWjKkJmGNuTQZ7/haWnQg6fhExhC8XpOIdOD7jJUKThtUSqqZormjSsb96
- ySfuJuQFV04tEtUIm0PkBSOhpvwU6Wjl249uMswhDUYp5GuzkSCaZtC9o6HMjWtV+lJDjhyp8Tf
- A8acPc8j/yHufvsxczeZale5Vyu6GtV0VU8Wybz0nJY1ze6o1V37V52O40HZhFvk/yYPmeGWS50
- fe6QFjBjYlNlEhL5qOFXjIkYfLPKMfqtfLR93JGlnVJaeUMYLIvrdJc/RAsGIIAF+tChE/fWv7l
- 4PtaEMwNHnX2s=
-X-Google-Smtp-Source: AGHT+IGylS3DANSimRKsqAmshVHWUS6uHhBsurOh5pZoC5DU/3TeXp2D1eGJLyuUWjqFxc7R7ZxiJw==
-X-Received: by 2002:a17:90b:5588:b0:343:60ab:ca8e with SMTP id
- 98e67ed59e1d1-3436ccf9da2mr10566796a91.17.1762747216926; 
- Sun, 09 Nov 2025 20:00:16 -0800 (PST)
+ AJvYcCUDInafkcGEF+sqGbEvcW4TbtqIk3vh3TWjH6oxus8/Ri/fZR2BFl50sqSanPozsv9ExNwZ2ZryCsk=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Yyvpixs9Zi5VoYkpfLJHUqkmuTNMubt0Q1cx7KkHrJa43B26xT4
+ b1PZ45H7ZsYNwUtDmbAeU3W6EbsFjy8qEX9SDmkdjcdl4bgpACqaehYw
+X-Gm-Gg: ASbGnctSMjI8f52cppfHzpUZ86+MCCUZ/40dbAqcvcmyZh9WpRAx1t3kCL0qJrYQQim
+ SbWLk8KJ7SHYkVJ32uWoQ/krQbRiS4oiEdAznK74rkZQLqpHQcYK8XRx3qYhhNdBZ0YgRADIML5
+ rlcsJng1U93PiHA6RFp9kZYSk0JpXYn81Ba+l/nfKGP0ZvCqHtuU1QlUfX2EddzJNQ2iapEb746
+ Z9eGQt8HKuC7TNEs/+E5fWhRlgOAmqKkw8H3oHxLTRUg0ZggwIxwV8H8D+r4JCgEAnay0SssTYh
+ tHBWwfOq/ySAGryCYQlbRDMQzVCi6CO9IR0VxSZLWzjYI4L2fmL1tFJpAtDTxMA/1uAZzYXu8cx
+ RGjUK+wjLPaICORYeD+mWqDhg567UWZY82CkCtk0kbhSaL5MpWwsyyBNNS0iOxLNSg58CVGx7t+
+ ZB
+X-Google-Smtp-Source: AGHT+IG3yPz6YTXE7nA7vJNdAshD2gcVhiabblc07+gqriIOoO3eDQGJ9UaYyrZ7ijemvVvAFWSB9w==
+X-Received: by 2002:a05:6a00:2d8b:b0:7ab:2fd6:5d42 with SMTP id
+ d2e1a72fcca58-7b22668fd88mr8043382b3a.16.1762747217714; 
+ Sun, 09 Nov 2025 20:00:17 -0800 (PST)
 Received: from archie.me ([210.87.74.117]) by smtp.gmail.com with ESMTPSA id
- 98e67ed59e1d1-3437221b329sm5519516a91.16.2025.11.09.20.00.15
+ d2e1a72fcca58-7b0c9c09f22sm9978570b3a.20.2025.11.09.20.00.16
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
  Sun, 09 Nov 2025 20:00:16 -0800 (PST)
 Received: by archie.me (Postfix, from userid 1000)
- id B7B4B41F3D47; Mon, 10 Nov 2025 11:00:13 +0700 (WIB)
+ id 10B0B418F1BD; Mon, 10 Nov 2025 11:00:13 +0700 (WIB)
 From: Bagas Sanjaya <bagasdotme@gmail.com>
 To: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
  Linux Documentation <linux-doc@vger.kernel.org>,
@@ -75,18 +76,21 @@ Cc: Jeff Hugo <jeff.hugo@oss.qualcomm.com>,
  Youssef Samir <youssef.abdulrahman@oss.qualcomm.com>,
  Pranjal Ramajor Asha Kanojiya <quic_pkanojiy@quicinc.com>,
  Zack McKevitt <zachary.mckevitt@oss.qualcomm.com>,
- Aswin Venkatesan <aswivenk@qti.qualcomm.com>
-Subject: [PATCH 0/2] accel/qaic documentation fixes
-Date: Mon, 10 Nov 2025 10:59:51 +0700
-Message-ID: <20251110035952.25778-2-bagasdotme@gmail.com>
+ Aswin Venkatesan <aswivenk@qti.qualcomm.com>,
+ Stephen Rothwell <sfr@canb.auug.org.au>
+Subject: [PATCH 1/2] accel/qaic: Separate DBC_STATE_* definition list
+Date: Mon, 10 Nov 2025 10:59:52 +0700
+Message-ID: <20251110035952.25778-3-bagasdotme@gmail.com>
 X-Mailer: git-send-email 2.51.2
+In-Reply-To: <20251110035952.25778-2-bagasdotme@gmail.com>
+References: <20251110035952.25778-2-bagasdotme@gmail.com>
 MIME-Version: 1.0
-X-Developer-Signature: v=1; a=openpgp-sha256; l=720; i=bagasdotme@gmail.com;
- h=from:subject; bh=+YLA1pF2u5tBPkoi+r5JyGU4phxXNOGQYDiMD+cdBrs=;
- b=owGbwMvMwCX2bWenZ2ig32LG02pJDJmCSfFXI9PM/p+54WFUsvFkzdomDv+PhZf0hNiuf5x+e
- YX0/Z2sHaUsDGJcDLJiiiyTEvmaTu8yErnQvtYRZg4rE8gQBi5OAZhIpxfDPwOD25v26U9xXiG9
- 6GKHacdzFTmGCRYnJPqjNNidFmq++svwP0i4nOsFx8qwC3+U1ijM3X1phaSvyUbbokzDizxrGYO
- eMAAA
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1277; i=bagasdotme@gmail.com;
+ h=from:subject; bh=MYUt4S+k12lqQeD8erIncNYSK/N6bNXBnqfxnjwY2Q4=;
+ b=owGbwMvMwCX2bWenZ2ig32LG02pJDJmCSVlPHn654866fXaGkX/vH67K4Gkd2k9zdJoDwoQT3
+ p+bFNTTUcrCIMbFICumyDIpka/p9C4jkQvtax1h5rAygQxh4OIUgIlY5TH8lbIT33DD/n601bro
+ TaYzsh79fvNBrYTVsmn/lBXlDPcCFzD8Fb91IKb6vL9g211jWYVt1/omn5/3nn3rha8PrVLzzCc
+ 3MQMA
 X-Developer-Key: i=bagasdotme@gmail.com; a=openpgp;
  fpr=701B806FDCA5D3A58FFB8F7D7C276C64A5E44A1D
 Content-Transfer-Encoding: 8bit
@@ -105,26 +109,34 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,
+Stephen Rothwell reports htmldocs warnings when merging drm-misc tree:
 
-Here are two documentation (indentation) fixes for accel/qaic as reported in
-linux-next ([1], [2]).
+Documentation/accel/qaic/aic100.rst:502: ERROR: Unexpected indentation. [docutils]
+Documentation/accel/qaic/aic100.rst:504: WARNING: Block quote ends without a blank line; unexpected unindent. [docutils]
 
-Enjoy!
+Fix these by separating DBC_STATE_* definition list from preceding
+paragraph.
 
-[1]: https://lore.kernel.org/linux-next/20251110132401.200d88bd@canb.auug.org.au/
-[2]: https://lore.kernel.org/linux-next/20251110135038.29e96051@canb.auug.org.au/
+Fixes: 9675093acea04c ("accel/qaic: Implement basic SSR handling")
+Reported-by: Stephen Rothwell <sfr@canb.auug.org.au>
+Closes: https://lore.kernel.org/linux-next/20251110132401.200d88bd@canb.auug.org.au/
+Signed-off-by: Bagas Sanjaya <bagasdotme@gmail.com>
+---
+ Documentation/accel/qaic/aic100.rst | 1 +
+ 1 file changed, 1 insertion(+)
 
-Bagas Sanjaya (2):
-  accel/qaic: Separate DBC_STATE_* definition list
-  accel/qaic: Format DBC states table in sysfs ABI documentation
-
- Documentation/ABI/stable/sysfs-driver-qaic | 17 ++++++++++-------
- Documentation/accel/qaic/aic100.rst        |  1 +
- 2 files changed, 11 insertions(+), 7 deletions(-)
-
-
-base-commit: a2b0c33e9423cd06133304e2f81c713849059b10
+diff --git a/Documentation/accel/qaic/aic100.rst b/Documentation/accel/qaic/aic100.rst
+index 3b287c3987d269..41331cf580b118 100644
+--- a/Documentation/accel/qaic/aic100.rst
++++ b/Documentation/accel/qaic/aic100.rst
+@@ -498,6 +498,7 @@ it desires to recover the workload.
+ 
+ When SSR occurs for a specific NSP, the assigned DBC goes through the
+ following state transactions in order:
++
+ DBC_STATE_BEFORE_SHUTDOWN
+ 	Indicates that the affected NSP was found in an unrecoverable error
+ 	condition.
 -- 
 An old man doll... just what I always wanted! - Clara
 
