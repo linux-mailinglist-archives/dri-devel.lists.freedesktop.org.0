@@ -2,74 +2,77 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 92610C47AA0
-	for <lists+dri-devel@lfdr.de>; Mon, 10 Nov 2025 16:50:26 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 24138C47B1B
+	for <lists+dri-devel@lfdr.de>; Mon, 10 Nov 2025 16:53:56 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D4AFB10E42E;
-	Mon, 10 Nov 2025 15:50:20 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 23F0989B62;
+	Mon, 10 Nov 2025 15:53:54 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="YaqYP3BY";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="gZF3di3x";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from bali.collaboradmins.com (bali.collaboradmins.com
- [148.251.105.195])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6778410E429;
- Mon, 10 Nov 2025 15:50:19 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1762789818;
- bh=40WG8/2e61IMWsDRpUFUHulUyBgQPDILQimEoI6b3o0=;
- h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=YaqYP3BYvVXp0RXTFrTVDF4A/I7xHNeDivG/xTI2MY0FwQuRsUvecjSJKhlVo7qLc
- K/nwzBWJAFb/N7lzH0T+FKNRytciqwTzNDOIo8mrmlVxMDoaObzqT4WxrQtcs+BBLq
- WpSeDlotcm7Lq18kiR0amNlSkEa8qqOI0Q1nZTSdupPdf8wHNoKdCNgUfC7Q2W/gvE
- Ie0bBykl7eaA6dzrY2ixza+QNyH3Qv5/AXou8oA6k/BN71QT85PyQ3xWkJc7yN2Vz1
- w/SKZkkQLurmWGEV3gXNhJBekN7CP8t7KsDKXTxaIqNJHimPG6zjDWlRVDehTRsnVE
- GfDus8gNJFZjA==
-Received: from debian-rockchip-rock5b-rk3588.. (unknown
- [IPv6:2a01:e0a:5e3:6100:826d:bc07:e98c:84a])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested)
- (Authenticated sender: loicmolinari)
- by bali.collaboradmins.com (Postfix) with ESMTPSA id 30D3317E15C9;
- Mon, 10 Nov 2025 16:50:17 +0100 (CET)
-From: =?UTF-8?q?Lo=C3=AFc=20Molinari?= <loic.molinari@collabora.com>
-To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
- Simona Vetter <simona@ffwll.ch>, Jani Nikula <jani.nikula@linux.intel.com>,
- Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>,
- Tvrtko Ursulin <tursulin@ursulin.net>,
- Boris Brezillon <boris.brezillon@collabora.com>,
- Rob Herring <robh@kernel.org>, Steven Price <steven.price@arm.com>,
- Liviu Dudau <liviu.dudau@arm.com>, Melissa Wen <mwen@igalia.com>,
- =?UTF-8?q?Ma=C3=ADra=20Canal?= <mcanal@igalia.com>,
- Hugh Dickins <hughd@google.com>,
- Baolin Wang <baolin.wang@linux.alibaba.com>,
- Andrew Morton <akpm@linux-foundation.org>,
- =?UTF-8?q?Lo=C3=AFc=20Molinari?= <loic.molinari@collabora.com>,
- Al Viro <viro@zeniv.linux.org.uk>,
- =?UTF-8?q?Miko=C5=82aj=20Wasiak?= <mikolaj.wasiak@intel.com>,
- Christian Brauner <brauner@kernel.org>,
- Nitin Gote <nitin.r.gote@intel.com>,
- Andi Shyti <andi.shyti@linux.intel.com>, Jonathan Corbet <corbet@lwn.net>,
- Christopher Healy <healych@amazon.com>,
- Matthew Wilcox <willy@infradead.org>, Bagas Sanjaya <bagasdotme@gmail.com>
-Cc: linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- intel-gfx@lists.freedesktop.org, linux-mm@kvack.org,
- linux-doc@vger.kernel.org, kernel@collabora.com
-Subject: [PATCH v7 11/11] Documentation/gpu/drm-mm: Add THP paragraph to GEM
- mapping section
-Date: Mon, 10 Nov 2025 16:49:59 +0100
-Message-ID: <20251110155000.2936-12-loic.molinari@collabora.com>
-X-Mailer: git-send-email 2.47.3
-In-Reply-To: <20251110155000.2936-1-loic.molinari@collabora.com>
-References: <20251110155000.2936-1-loic.molinari@collabora.com>
+Received: from mail-pj1-f54.google.com (mail-pj1-f54.google.com
+ [209.85.216.54])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1AABE89B62
+ for <dri-devel@lists.freedesktop.org>; Mon, 10 Nov 2025 15:53:52 +0000 (UTC)
+Received: by mail-pj1-f54.google.com with SMTP id
+ 98e67ed59e1d1-33ff5149ae8so1895717a91.3
+ for <dri-devel@lists.freedesktop.org>; Mon, 10 Nov 2025 07:53:52 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20230601; t=1762790031; x=1763394831; darn=lists.freedesktop.org;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date:message-id:reply-to;
+ bh=SjOzrVVqoN3/fu4/RlfN/tt8R12NRcTY3oo2BszH4iI=;
+ b=gZF3di3xQP3oSunKyp3MNu+KVR53/d+IN6CFmzfP0Bp7YjxeBPpAj/j52JHNJLjWw4
+ qaYJhFd6Vl5rfB3D1igBU8zG+I39p/Q/BjVNMYYt+o1hJNxS6uBu6mqdQ83vqC9DsZBo
+ JEkLotmE9Jly6iSMeg/avRoOXH8z6mVVlbciHBWLvdtbbNv+7ogo1ASMB/9fgb4s8kba
+ 2XZdq9rf6f72xvnMavogwyIrnnkLiXIzQhh8riHd3S4gWJW87QsGpkPGs6nQ3z33CHvK
+ DdAncf+tIr6QjNxuwUm1NjPkFH0cU8f6PEEAhZS6FabwIaGt2Wv4W8dgOTxhq9+21o7s
+ qyLg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1762790031; x=1763394831;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=SjOzrVVqoN3/fu4/RlfN/tt8R12NRcTY3oo2BszH4iI=;
+ b=NHGLhbSPJjaR9jK8FYt7nfcTIDt1TOiE1KPB63AoT7I0cv4VvzF3YKRwJP/eCcYfZ6
+ Ka95Ip7/73/Br+loz9KBxWUhS8bmL+HpCX6GI2k2ECAnyACLcs/Lt89w4MNaLsRPypfE
+ aVfh1lkd82CJ0QSUawzeFuAdHA43meU3mtSGaAzpxoap2nm2go4QZo6Mf7GFq5kpQOry
+ 4ta2i0yp1s8blVHXjzZT8pml0EfdcAZAg25ypRaCx7BDh6VqIdu58TaKrhgfoTGkGSIA
+ u+pCZHBupZ65mxGt3nmA2w7lHd64ykOt9iqqd2Nt+9Vnf8KE6EVuj63nWYi7LYlzHDMy
+ S3sQ==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCVIzA3DqaWvcgC7i8inBQgF4tKa/ltKqKJb/kxW2B2PUILzAGZJuiwM1UGLLpzb3tm6oK7q/RFogk8=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Yx13cIbd0ScXhoAjUHbe453I7nOv172aAyCVfQ7sfej/0PiP0mY
+ 9BToqbi5Xdzbd6K6zKZi+p2cE20pWFFGJZcJyg/rs9Do0jgJSWypoiiYNc1GdyMdm4N0uTnnVky
+ RkzlO+XhlrXNKLVSfvmeJTTjKknrck2Y=
+X-Gm-Gg: ASbGncv5ii/7j6dPtMJRYw4PP9LjQ3jwXVMelPQGn8T524PSNF8bIVpA/PisoCkzvS0
+ z4cJ9ZL07UwWR+x9IZrcK8cjLJoBQ2FmG2RkvhjEhg3GK8TruAtyIk5iVRwfLBq2OgP5FMSqBJL
+ jpLV4JJOn+i+39GITMwk8fTzZPPTeGMny/dGRn8vRxDGxkZfk/5tgXFZ0jVDrPsWoP5/6nvP7J7
+ HwH2HOa1avDLCzA1/wCMSWveFyOPtEC0WVkWV3fwub2SrwICN8+QbdRxqD81Ufk+emSFw==
+X-Google-Smtp-Source: AGHT+IHwofBfxv3uf6UTJA+nG/6elxBUHAGiuiZgIJf8LSdifcxj/UCi0qF/Jl1IG2tMfvgt6HThdUni33rI90wW01k=
+X-Received: by 2002:a17:90a:e18b:b0:340:bb5c:7dd7 with SMTP id
+ 98e67ed59e1d1-3436cb7ad33mr9591676a91.5.1762790031464; Mon, 10 Nov 2025
+ 07:53:51 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+References: <20250630202703.13844-1-gert.wollny@collabora.com>
+ <20251110144625.18653-1-gert.wollny@collabora.com>
+ <20251110144625.18653-3-gert.wollny@collabora.com>
+In-Reply-To: <20251110144625.18653-3-gert.wollny@collabora.com>
+From: Christian Gmeiner <christian.gmeiner@gmail.com>
+Date: Mon, 10 Nov 2025 16:53:39 +0100
+X-Gm-Features: AWmQ_bnENdxpeUHNoYb1iPcyeu_sjQjTbH3dxEXcrczuKmzcLLDFO1caKW3SHpY
+Message-ID: <CAH9NwWfuBF=fZMxU2QnGVWkeXqk-y8NiATjhixY-JS6xxmc-oQ@mail.gmail.com>
+Subject: Re: [PATCH v4 2/5] drm/etnaviv: move some functions to a header to be
+ able to use them externally
+To: gert.wollny@collabora.com
+Cc: Lucas Stach <l.stach@pengutronix.de>,
+ Russell King <linux+etnaviv@armlinux.org.uk>, 
+ David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
+ etnaviv@lists.freedesktop.org, 
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -85,58 +88,226 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Add a paragraph to the GEM objects mapping section explaining how
-transparent huge pages are handled by GEM.
+Hi, thanks for the patch.
 
-v4:
-- fix wording after huge_pages handler removal
+>
+> From: Gert Wollny <gert.wollny@collabora.com>
+>
+> v2: Add license info to header
+>
+> Signed-off-by: Gert Wollny <gert.wollny@collabora.com>
+> ---
+>  drivers/gpu/drm/etnaviv/etnaviv_buffer.c | 71 +------------------
+>  drivers/gpu/drm/etnaviv/etnaviv_buffer.h | 86 ++++++++++++++++++++++++
+>  2 files changed, 87 insertions(+), 70 deletions(-)
+>  create mode 100644 drivers/gpu/drm/etnaviv/etnaviv_buffer.h
+>
+> diff --git a/drivers/gpu/drm/etnaviv/etnaviv_buffer.c b/drivers/gpu/drm/etnaviv/etnaviv_buffer.c
+> index d4f1307d574f..5be9978e34d9 100644
+> --- a/drivers/gpu/drm/etnaviv/etnaviv_buffer.c
+> +++ b/drivers/gpu/drm/etnaviv/etnaviv_buffer.c
+> @@ -10,6 +10,7 @@
+>  #include "etnaviv_gpu.h"
+>  #include "etnaviv_gem.h"
+>  #include "etnaviv_mmu.h"
+> +#include "etnaviv_buffer.h"
+>
+>  #include "common.xml.h"
+>  #include "state.xml.h"
+> @@ -18,76 +19,6 @@
+>  #include "state_3d.xml.h"
+>  #include "cmdstream.xml.h"
+>
+> -/*
+> - * Command Buffer helper:
+> - */
+> -
+> -
+> -static inline void OUT(struct etnaviv_cmdbuf *buffer, u32 data)
+> -{
+> -       u32 *vaddr = (u32 *)buffer->vaddr;
+> -
+> -       BUG_ON(buffer->user_size >= buffer->size);
+> -
+> -       vaddr[buffer->user_size / 4] = data;
+> -       buffer->user_size += 4;
+> -}
+> -
+> -static inline void CMD_LOAD_STATE(struct etnaviv_cmdbuf *buffer,
+> -       u32 reg, u32 value)
+> -{
+> -       u32 index = reg >> VIV_FE_LOAD_STATE_HEADER_OFFSET__SHR;
+> -
+> -       buffer->user_size = ALIGN(buffer->user_size, 8);
+> -
+> -       /* write a register via cmd stream */
+> -       OUT(buffer, VIV_FE_LOAD_STATE_HEADER_OP_LOAD_STATE |
+> -                   VIV_FE_LOAD_STATE_HEADER_COUNT(1) |
+> -                   VIV_FE_LOAD_STATE_HEADER_OFFSET(index));
+> -       OUT(buffer, value);
+> -}
+> -
+> -static inline void CMD_END(struct etnaviv_cmdbuf *buffer)
+> -{
+> -       buffer->user_size = ALIGN(buffer->user_size, 8);
+> -
+> -       OUT(buffer, VIV_FE_END_HEADER_OP_END);
+> -}
+> -
+> -static inline void CMD_WAIT(struct etnaviv_cmdbuf *buffer,
+> -                           unsigned int waitcycles)
+> -{
+> -       buffer->user_size = ALIGN(buffer->user_size, 8);
+> -
+> -       OUT(buffer, VIV_FE_WAIT_HEADER_OP_WAIT | waitcycles);
+> -}
+> -
+> -static inline void CMD_LINK(struct etnaviv_cmdbuf *buffer,
+> -       u16 prefetch, u32 address)
+> -{
+> -       buffer->user_size = ALIGN(buffer->user_size, 8);
+> -
+> -       OUT(buffer, VIV_FE_LINK_HEADER_OP_LINK |
+> -                   VIV_FE_LINK_HEADER_PREFETCH(prefetch));
+> -       OUT(buffer, address);
+> -}
+> -
+> -static inline void CMD_STALL(struct etnaviv_cmdbuf *buffer,
+> -       u32 from, u32 to)
+> -{
+> -       buffer->user_size = ALIGN(buffer->user_size, 8);
+> -
+> -       OUT(buffer, VIV_FE_STALL_HEADER_OP_STALL);
+> -       OUT(buffer, VIV_FE_STALL_TOKEN_FROM(from) | VIV_FE_STALL_TOKEN_TO(to));
+> -}
+> -
+> -static inline void CMD_SEM(struct etnaviv_cmdbuf *buffer, u32 from, u32 to)
+> -{
+> -       CMD_LOAD_STATE(buffer, VIVS_GL_SEMAPHORE_TOKEN,
+> -                      VIVS_GL_SEMAPHORE_TOKEN_FROM(from) |
+> -                      VIVS_GL_SEMAPHORE_TOKEN_TO(to));
+> -}
+> -
+>  static void etnaviv_cmd_select_pipe(struct etnaviv_gpu *gpu,
+>         struct etnaviv_cmdbuf *buffer, u8 pipe)
+>  {
+> diff --git a/drivers/gpu/drm/etnaviv/etnaviv_buffer.h b/drivers/gpu/drm/etnaviv/etnaviv_buffer.h
+> new file mode 100644
+> index 000000000000..ae1ba1db6c8a
+> --- /dev/null
+> +++ b/drivers/gpu/drm/etnaviv/etnaviv_buffer.h
+> @@ -0,0 +1,86 @@
+> +// SPDX-License-Identifier: GPL-2.0
+> +/*
+> + * Copyright (C) 2014-2025 Etnaviv Project
+> + */
+> +
+> +#ifndef etnaviv_buffer_h
+> +#define etnaviv_buffer_h
 
-v6:
-- fix wording after map_pages handler removal
+#ifndef __ETNAVIV_BUFFER_H__
+#define __ETNAVIV_BUFFER_H__
 
-Signed-off-by: Loïc Molinari <loic.molinari@collabora.com>
-Reviewed-by: Bagas Sanjaya <bagasdotme@gmail.com>
----
- Documentation/gpu/drm-mm.rst | 22 +++++++++++++++++-----
- 1 file changed, 17 insertions(+), 5 deletions(-)
+> +
+> +#include "etnaviv_cmdbuf.h"
+> +#include "etnaviv_gpu.h"
+I don't think we need this include."
 
-diff --git a/Documentation/gpu/drm-mm.rst b/Documentation/gpu/drm-mm.rst
-index d55751cad67c..d69eab0b4093 100644
---- a/Documentation/gpu/drm-mm.rst
-+++ b/Documentation/gpu/drm-mm.rst
-@@ -290,15 +290,27 @@ The open and close operations must update the GEM object reference
- count. Drivers can use the drm_gem_vm_open() and drm_gem_vm_close() helper
- functions directly as open and close handlers.
- 
--The fault operation handler is responsible for mapping individual pages
--to userspace when a page fault occurs. Depending on the memory
--allocation scheme, drivers can allocate pages at fault time, or can
--decide to allocate memory for the GEM object at the time the object is
--created.
-+The fault operation handler is responsible for mapping pages to
-+userspace when a page fault occurs. Depending on the memory allocation
-+scheme, drivers can allocate pages at fault time, or can decide to
-+allocate memory for the GEM object at the time the object is created.
- 
- Drivers that want to map the GEM object upfront instead of handling page
- faults can implement their own mmap file operation handler.
- 
-+In order to reduce page table overhead, if the internal shmem mountpoint
-+"shm_mnt" is configured to use transparent huge pages (for builds with
-+CONFIG_TRANSPARENT_HUGEPAGE enabled) and if the shmem backing store
-+managed to allocate a huge page for a faulty address, the fault handler
-+will first attempt to insert that huge page into the VMA before falling
-+back to individual page insertion. mmap() user address alignment for GEM
-+objects is handled by providing a custom get_unmapped_area file
-+operation which forwards to the shmem backing store. For most drivers,
-+which don't create a huge mountpoint by default or through a module
-+parameter, transparent huge pages can be enabled by either setting the
-+"transparent_hugepage_shmem" kernel parameter or the
-+"/sys/kernel/mm/transparent_hugepage/shmem_enabled" sysfs knob.
-+
- For platforms without MMU the GEM core provides a helper method
- drm_gem_dma_get_unmapped_area(). The mmap() routines will call this to get a
- proposed address for the mapping.
+> +#include "etnaviv_gem.h"
+I don't think we need this include."
+
+> +#include "etnaviv_mmu.h"
+I don't think we need this include."
+
+> +
+> +#include "common.xml.h"
+> +#include "linux/printk.h"
+I don't think we need this include."
+
+> +#include "state.xml.h"
+> +#include "state_blt.xml.h"
+I don't think we need this include."
+
+> +#include "state_hi.xml.h"
+I don't think we need this include."
+
+> +#include "state_3d.xml.h"
+I don't think we need this include."
+
+> +#include "cmdstream.xml.h"
+> +
+> +static inline void OUT(struct etnaviv_cmdbuf *buffer, u32 data)
+> +{
+> +       u32 *vaddr = (u32 *)buffer->vaddr;
+> +
+> +       BUG_ON(buffer->user_size >= buffer->size);
+> +
+> +       vaddr[buffer->user_size / 4] = data;
+> +       buffer->user_size += 4;
+> +}
+> +
+> +static inline void CMD_LOAD_STATE(struct etnaviv_cmdbuf *buffer, u32 reg,
+> +                                 u32 value)
+> +{
+> +       u32 index = reg >> VIV_FE_LOAD_STATE_HEADER_OFFSET__SHR;
+> +
+> +       buffer->user_size = ALIGN(buffer->user_size, 8);
+> +
+> +       /* write a register via cmd stream */
+> +       OUT(buffer, VIV_FE_LOAD_STATE_HEADER_OP_LOAD_STATE |
+> +                           VIV_FE_LOAD_STATE_HEADER_COUNT(1) |
+> +                           VIV_FE_LOAD_STATE_HEADER_OFFSET(index));
+> +       OUT(buffer, value);
+> +}
+> +
+> +static inline void CMD_END(struct etnaviv_cmdbuf *buffer)
+> +{
+> +       buffer->user_size = ALIGN(buffer->user_size, 8);
+> +
+> +       OUT(buffer, VIV_FE_END_HEADER_OP_END);
+> +}
+> +
+> +static inline void CMD_WAIT(struct etnaviv_cmdbuf *buffer,
+> +                           unsigned int waitcycles)
+> +{
+> +       buffer->user_size = ALIGN(buffer->user_size, 8);
+> +
+> +       OUT(buffer, VIV_FE_WAIT_HEADER_OP_WAIT | waitcycles);
+> +}
+> +
+> +static inline void CMD_LINK(struct etnaviv_cmdbuf *buffer, u16 prefetch,
+> +                           u32 address)
+> +{
+> +       buffer->user_size = ALIGN(buffer->user_size, 8);
+> +
+> +       OUT(buffer,
+> +           VIV_FE_LINK_HEADER_OP_LINK | VIV_FE_LINK_HEADER_PREFETCH(prefetch));
+> +       OUT(buffer, address);
+> +}
+> +
+> +static inline void CMD_STALL(struct etnaviv_cmdbuf *buffer, u32 from, u32 to)
+> +{
+> +       buffer->user_size = ALIGN(buffer->user_size, 8);
+> +
+> +       OUT(buffer, VIV_FE_STALL_HEADER_OP_STALL);
+> +       OUT(buffer, VIV_FE_STALL_TOKEN_FROM(from) | VIV_FE_STALL_TOKEN_TO(to));
+> +}
+> +
+> +static inline void CMD_SEM(struct etnaviv_cmdbuf *buffer, u32 from, u32 to)
+> +{
+> +       CMD_LOAD_STATE(buffer, VIVS_GL_SEMAPHORE_TOKEN,
+> +                      VIVS_GL_SEMAPHORE_TOKEN_FROM(from) |
+> +                              VIVS_GL_SEMAPHORE_TOKEN_TO(to));
+> +}
+> +
+> +#endif
+> --
+> 2.51.0
+>
+
 -- 
-2.47.3
+greets
+--
+Christian Gmeiner, MSc
 
+https://christian-gmeiner.info/privacypolicy
