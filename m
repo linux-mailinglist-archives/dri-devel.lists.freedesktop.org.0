@@ -2,52 +2,75 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4EE8CC474D7
-	for <lists+dri-devel@lfdr.de>; Mon, 10 Nov 2025 15:44:59 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 428FBC47424
+	for <lists+dri-devel@lfdr.de>; Mon, 10 Nov 2025 15:39:45 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3CDFB10E404;
-	Mon, 10 Nov 2025 14:43:59 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 05AA010E22E;
+	Mon, 10 Nov 2025 14:39:42 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="PjxFJlwK";
+	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="fq/6bZr3";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from bali.collaboradmins.com (bali.collaboradmins.com
  [148.251.105.195])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2275410E402;
- Mon, 10 Nov 2025 14:43:57 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id ED52C10E072;
+ Mon, 10 Nov 2025 14:39:40 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1762785835;
- bh=WGSF1+2qqoDh4Y4z7LPzg1vrBUYL/ctGtWrdC8hI3eE=;
- h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=PjxFJlwKmyvDepr4EXByCeYc3IPTxrnilt8BCsYYk1F7DENnCxbxfORcpP9dXUIlq
- e++Z0YDFF6j2cZvGDGIaL2SkrJcMcIwXEcQfaummgVMHhhsV3JTKcSnQ4RJrmsNzPf
- oZn473XI6E9FIvpSZDVM/zfMjqcFA7LlbDZaLEdWezEKD3EfqP7as1zK4ApCkS2qVa
- iZ5xVMw7eov6THIDpeTvebUTqckj85IpAFevJyJIgtAmQbjKAFi6GbKPRz1O3I8nxF
- JIsDbX6X07IzzdPWQja4yzZ1AbXZeYVrf3fAtyg94sUziNcHNaFWKM9o4qfx99GSBO
- IOlDnkBcCM8Rg==
-Received: from localhost.localdomain (unknown [92.206.121.173])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested) (Authenticated sender: gerddie)
- by bali.collaboradmins.com (Postfix) with ESMTPSA id 6637617E1313;
- Mon, 10 Nov 2025 15:43:55 +0100 (CET)
-From: gert.wollny@collabora.com
-To: Christian Gmeiner <christian.gmeiner@gmail.com>
-Cc: Lucas Stach <l.stach@pengutronix.de>,
- Russell King <linux+etnaviv@armlinux.org.uk>,
- David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
- etnaviv@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, Gert Wollny <gert.wollny@collabora.com>
-Subject: [PATCH v4 5/5] drm/etnaviv: Add module parameter to force PPU flop
- reset
-Date: Mon, 10 Nov 2025 15:37:51 +0100
-Message-ID: <20251110144625.18653-6-gert.wollny@collabora.com>
-X-Mailer: git-send-email 2.51.0
-In-Reply-To: <20251110144625.18653-1-gert.wollny@collabora.com>
-References: <20250630202703.13844-1-gert.wollny@collabora.com>
- <20251110144625.18653-1-gert.wollny@collabora.com>
+ s=mail; t=1762785579;
+ bh=PmfHj5puT5EuJo5jMH3r8sbaCa9NbA7iIIBw3q5tS7U=;
+ h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+ b=fq/6bZr3AF2h2wkMNGSn1bXsocPuQEeBd+ezF2avzPXvHo/lvHsrcNC+tZbS8E5Iq
+ xkJB4+am2a5IfxqIp+ehb9NPVKFSgvleVHdn4CivlgZRwnuPF9SnL8ajyR0NknfvP2
+ s7xp9Kqk+2jipyZbRtQfHx9eyAwAhm/ABmTkeAkIjdOiTtc2+8qqtYFcn7QauIky0J
+ qi2AkZfthvSdYWmtrRTHuQs5oTa836l4Rwoz4pKgCE7iGHMIdDFb3F2YXgGACOPt1d
+ jxQdyUfGkeW7/htZh8Ig5e8reM+6vEQVZbJRkW4WM4vf5Ct5o9PibWgvFUQrFyq3hO
+ 0R67ZlTin9JNA==
+Received: from [IPV6:2a01:e0a:5e3:6100:7aed:fe0e:8590:cbaa] (unknown
+ [IPv6:2a01:e0a:5e3:6100:7aed:fe0e:8590:cbaa])
+ (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits))
+ (No client certificate requested)
+ (Authenticated sender: loicmolinari)
+ by bali.collaboradmins.com (Postfix) with ESMTPSA id 17CAE17E0610;
+ Mon, 10 Nov 2025 15:39:38 +0100 (CET)
+Message-ID: <e19cdd3a-0d33-4c06-9c9a-7e9e2df51c4b@collabora.com>
+Date: Mon, 10 Nov 2025 15:39:37 +0100
 MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v4 03/13] drm/shmem-helper: Map huge pages in fault
+ handlers
+To: Matthew Wilcox <willy@infradead.org>
+Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Jani Nikula <jani.nikula@linux.intel.com>,
+ Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>, Tvrtko Ursulin
+ <tursulin@ursulin.net>, Boris Brezillon <boris.brezillon@collabora.com>,
+ Rob Herring <robh@kernel.org>, Steven Price <steven.price@arm.com>,
+ Liviu Dudau <liviu.dudau@arm.com>, Melissa Wen <mwen@igalia.com>,
+ =?UTF-8?Q?Ma=C3=ADra_Canal?= <mcanal@igalia.com>,
+ Hugh Dickins <hughd@google.com>, Baolin Wang
+ <baolin.wang@linux.alibaba.com>, Andrew Morton <akpm@linux-foundation.org>,
+ Al Viro <viro@zeniv.linux.org.uk>, =?UTF-8?Q?Miko=C5=82aj_Wasiak?=
+ <mikolaj.wasiak@intel.com>, Christian Brauner <brauner@kernel.org>,
+ Nitin Gote <nitin.r.gote@intel.com>, Andi Shyti
+ <andi.shyti@linux.intel.com>, Jonathan Corbet <corbet@lwn.net>,
+ Christopher Healy <healych@amazon.com>, Bagas Sanjaya
+ <bagasdotme@gmail.com>, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, intel-gfx@lists.freedesktop.org,
+ linux-mm@kvack.org, linux-doc@vger.kernel.org, kernel@collabora.com
+References: <20251015153018.43735-1-loic.molinari@collabora.com>
+ <20251015153018.43735-4-loic.molinari@collabora.com>
+ <aO_ZmA6yoqbzTKt9@casper.infradead.org>
+ <f564735b-7cbd-486c-9dd4-a4555e73edde@collabora.com>
+ <aPK4YwMmYTDsKHcL@casper.infradead.org>
+Content-Language: fr
+From: =?UTF-8?Q?Lo=C3=AFc_Molinari?= <loic.molinari@collabora.com>
+Organization: Collabora Ltd
+In-Reply-To: <aPK4YwMmYTDsKHcL@casper.infradead.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -64,53 +87,63 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Gert Wollny <gert.wollny@collabora.com>
+Hi Matthew,
 
-v2: Check for feature PIPE_3D when forcing PPU flop reset (Lucas)
+On 17/10/2025 23:42, Matthew Wilcox wrote:
+> On Thu, Oct 16, 2025 at 01:17:07PM +0200, Loïc Molinari wrote:
+>>> It looks to me like we have an opportunity to do better here by
+>>> adding a vmf_insert_pfns() interface.  I don't think we should delay
+>>> your patch series to add it, but let's not forget to do that; it can
+>>> have very good performnce effects on ARM to use contptes.
+>>
+>> Agreed. I initially wanted to provide such an interface based on set_ptes()
+>> to benefit from arm64 contptes but thought it'd better be a distinct patch
+>> series.
+> 
+> Agreed.
+> 
+>>>
+>>>> @@ -617,8 +645,9 @@ static vm_fault_t drm_gem_shmem_fault(struct vm_fault *vmf)
+>>> [...]
+>>>> -		ret = vmf_insert_pfn(vma, vmf->address, page_to_pfn(page));
+>>>> +	if (drm_gem_shmem_map_pmd(vmf, vmf->address, pages[page_offset])) {
+>>>> +		ret = VM_FAULT_NOPAGE;
+>>>> +		goto out;
+>>>>    	}
+>>>
+>>> Does this actually work?
+>>
+>> Yes, it does. Huge pages are successfully mapped from both map_pages and
+>> fault handlers. Anything wrong with it?
+> 
+> No, I just wasn't sure that this would work correctly.
+> 
+>> There seems to be an another issue thought. There are failures [1], all
+>> looking like that one [2]. I think it's because map_pages is called with the
+>> RCU read lock taken and the DRM GEM map_pages handler must lock the GEM
+>> object before accessing pages with dma_resv_lock(). The locking doc says:
+>> "If it's not possible to reach a page without blocking, filesystem should
+>> skip it.". Unlocking the RCU read lock in the handler seems wrong and doing
+>> without a map_pages implementation would be unfortunate. What would you
+>> recommend here?
+> 
+> I'm not familiar with GEM locking, so let me describe briefly how
+> pagecache locking works.
+> 
+> Calling mmap bumps the refcount on the inode.  That keeps the inode
+> around while the page fault handler runs.  For each folio, we
+> get a refcount on it, then we trylock it.  Then we map each page in the
+> folio.
+> 
+> So maybe you can trylock the GEM object?  It isn't clear to me whether
+> you want finer grained locking than that.  If the trylock fails, no big
+> deal, you just fall through to the fault path (with the slightly more
+> heavy-weight locking that allows you to sleep).
 
-v3: - drop use of ppu_flop_reset enum (Christian Gmeiner)
-    - don't initialize module parameter to zero (checkpatch)
-    - avoid multi-line string in warning message (checkpatch)
+I proposed a series v5 using dma_resv_trylock(). This actually fails 
+later because the vmf_insert_pfn*() functions end up locking too. Not 
+sure how to fix that yet so I proposed a v6 with no fault-around path 
+and will get back to it (along with contptes) later.
 
-Signed-off-by: Gert Wollny <gert.wollny@collabora.com>
----
- drivers/gpu/drm/etnaviv/etnaviv_flop_reset.c | 16 ++++++++++++++++
- 1 file changed, 16 insertions(+)
-
-diff --git a/drivers/gpu/drm/etnaviv/etnaviv_flop_reset.c b/drivers/gpu/drm/etnaviv/etnaviv_flop_reset.c
-index 7c0112b3b3ad..75fe8cce1177 100644
---- a/drivers/gpu/drm/etnaviv/etnaviv_flop_reset.c
-+++ b/drivers/gpu/drm/etnaviv/etnaviv_flop_reset.c
-@@ -13,6 +13,9 @@
- 
- #include "etnaviv_flop_reset.h"
- 
-+static int etnaviv_force_flop_reset;
-+module_param_named(force_flop_reset, etnaviv_force_flop_reset, int, 0);
-+
- #define PPU_IMAGE_STRIDE 64
- #define PPU_IMAGE_XSIZE 64
- #define PPU_IMAGE_YSIZE 6
-@@ -148,6 +151,19 @@ bool etnaviv_flop_reset_ppu_require(const struct etnaviv_chip_identity *chip_id)
- 			return true;
- 	}
- 
-+	if (etnaviv_force_flop_reset) {
-+		if (!(chip_id->features & chipFeatures_PIPE_3D)) {
-+			pr_warn("Etnaviv: model: 0x%04x, revision: 0x%04x does not support PIPE_3D\n",
-+				chip_id->model, chip_id->revision);
-+			pr_warn("Request to force PPU flop reset ignored.\n");
-+			return false;
-+		}
-+
-+		pr_info("Force PPU flop reset for model: 0x%04x, revision: 0x%04x\n",
-+			chip_id->model, chip_id->revision);
-+		return true;
-+	}
-+
- 	return false;
- }
- 
--- 
-2.51.0
+Loïc
 
