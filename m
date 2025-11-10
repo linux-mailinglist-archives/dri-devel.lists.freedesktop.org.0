@@ -2,46 +2,46 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 94FFCC48A4E
-	for <lists+dri-devel@lfdr.de>; Mon, 10 Nov 2025 19:48:02 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id BEFD5C48A46
+	for <lists+dri-devel@lfdr.de>; Mon, 10 Nov 2025 19:48:01 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E3EF110E48A;
+	by gabe.freedesktop.org (Postfix) with ESMTP id B86A010E48E;
 	Mon, 10 Nov 2025 18:47:59 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="Le9JGOfk";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="LMcZKX6z";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 93AFF10E2F7;
- Mon, 10 Nov 2025 18:47:57 +0000 (UTC)
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 49CFB10E2F7;
+ Mon, 10 Nov 2025 18:47:58 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1762800477; x=1794336477;
+ t=1762800479; x=1794336479;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=Owa/uZSyQflLahGS6CmSwDqgbO1CL5jfKyID5Cl9frQ=;
- b=Le9JGOfkPCOJhGhRZIwyXMH3Ujz1AZ4f8KDc59pl7hRsIScnewKEH8sx
- EBItoA+RWEjU+jVVejh/2WVXTARVIt9+kvjm9YAxY0uymymwNjaIR4cPQ
- /pJMT3al4S2Q3MDlA+coxc8Vag+3BAEn4nMy1EAYLFcosU+xQciBfgor3
- DEOck375Wyqi0+f+NWcI2INHihlJY2cfLzwg9Y939jE3DD6XXyrrzqLrt
- cswBzZUmezcvRLtNY8ihNcdkubBXv5mHftAMD1mMsgJ0t7HpcxpMsGCPM
- 9fWRKy38ihvDkTul4hVgmgQhdWTMwOE3eLtV6SpU4wZEZ+NnLmQkA4X5o Q==;
-X-CSE-ConnectionGUID: 7CGpLZSbRs6sZolQ+9/CWQ==
-X-CSE-MsgGUID: O6W4kAviQYuwRmaOvsWcEg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11609"; a="64897585"
-X-IronPort-AV: E=Sophos;i="6.19,294,1754982000"; d="scan'208";a="64897585"
-Received: from fmviesa009.fm.intel.com ([10.60.135.149])
- by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 10 Nov 2025 10:47:57 -0800
-X-CSE-ConnectionGUID: 2eJVkzqZS9eMe6nzc5hX5g==
-X-CSE-MsgGUID: eXHDXNSIQoOeoIXPu177HQ==
+ bh=A5irvzi0m0e4oJb0NFNZM1AgnebZZ4FvmhneqXXMsfY=;
+ b=LMcZKX6zvsVSIw1AY6g/jSwtEzr5VdhdCSR5jWnvf3MFiymQqsKhNGFV
+ 2O4RmPISq3XsRJ/404ps6hsyK0BrrjYqmrNGvK4qtH3vFb/saWDJ0NBSz
+ k94CBIRv0aGSkFjDlP0uBvdxHTAphT5NcdBOsU4UEUsz9Oxp4Nsm8Ff7w
+ 0WNPNXUbDO/978sipAOjGg3Lu7cRabhYuzeWvCTwdJwF8eyX2uhaWpLT3
+ ooswoypxyBPMkOX2NoplxRtS4A9kN+uL2eSfBE7QALichpsw8NhpkFVPJ
+ v/CPCG7V2JJdmtnf7K2/HxW/09M0VBktLN+JVbj09fSS4ekZRV2vJ4Z7S w==;
+X-CSE-ConnectionGUID: e7swTR0BSMKQuBAwO4qrcA==
+X-CSE-MsgGUID: zH2u3gDKSLqiZHZhf4NmvA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11609"; a="76307327"
+X-IronPort-AV: E=Sophos;i="6.19,294,1754982000"; d="scan'208";a="76307327"
+Received: from orviesa003.jf.intel.com ([10.64.159.143])
+ by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 10 Nov 2025 10:47:59 -0800
+X-CSE-ConnectionGUID: IbVxk6lrRy6vvOzUHLOBGg==
+X-CSE-MsgGUID: 3cH2l3wUQWCPg1NmGkue4g==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.19,294,1754982000"; d="scan'208";a="189190257"
+X-IronPort-AV: E=Sophos;i="6.19,294,1754982000"; d="scan'208";a="192851956"
 Received: from black.igk.intel.com ([10.91.253.5])
- by fmviesa009.fm.intel.com with ESMTP; 10 Nov 2025 10:47:49 -0800
+ by orviesa003.jf.intel.com with ESMTP; 10 Nov 2025 10:47:49 -0800
 Received: by black.igk.intel.com (Postfix, from userid 1003)
- id 356449F; Mon, 10 Nov 2025 19:47:29 +0100 (CET)
+ id 3C100A0; Mon, 10 Nov 2025 19:47:29 +0100 (CET)
 From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
 To: Corey Minyard <corey@minyard.net>,
  =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
@@ -114,9 +114,9 @@ Cc: Rasmus Villemoes <linux@rasmusvillemoes.dk>,
  Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
  Andrew Morton <akpm@linux-foundation.org>,
  Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>
-Subject: [PATCH v1 10/23] e1000e: Switch to use %ptSp
-Date: Mon, 10 Nov 2025 19:40:29 +0100
-Message-ID: <20251110184727.666591-11-andriy.shevchenko@linux.intel.com>
+Subject: [PATCH v1 11/23] igb: Switch to use %ptSp
+Date: Mon, 10 Nov 2025 19:40:30 +0100
+Message-ID: <20251110184727.666591-12-andriy.shevchenko@linux.intel.com>
 X-Mailer: git-send-email 2.50.1
 In-Reply-To: <20251110184727.666591-1-andriy.shevchenko@linux.intel.com>
 References: <20251110184727.666591-1-andriy.shevchenko@linux.intel.com>
@@ -142,30 +142,30 @@ struct timespec64 in human readable format.
 
 Signed-off-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
 ---
- drivers/net/ethernet/intel/e1000e/ptp.c | 7 ++-----
+ drivers/net/ethernet/intel/igb/igb_ptp.c | 7 ++-----
  1 file changed, 2 insertions(+), 5 deletions(-)
 
-diff --git a/drivers/net/ethernet/intel/e1000e/ptp.c b/drivers/net/ethernet/intel/e1000e/ptp.c
-index ea3c3eb2ef20..ec39e35f3857 100644
---- a/drivers/net/ethernet/intel/e1000e/ptp.c
-+++ b/drivers/net/ethernet/intel/e1000e/ptp.c
-@@ -229,14 +229,11 @@ static void e1000e_systim_overflow_work(struct work_struct *work)
- 						     systim_overflow_work.work);
- 	struct e1000_hw *hw = &adapter->hw;
+diff --git a/drivers/net/ethernet/intel/igb/igb_ptp.c b/drivers/net/ethernet/intel/igb/igb_ptp.c
+index a7876882aeaf..bd85d02ecadd 100644
+--- a/drivers/net/ethernet/intel/igb/igb_ptp.c
++++ b/drivers/net/ethernet/intel/igb/igb_ptp.c
+@@ -840,14 +840,11 @@ static void igb_ptp_overflow_check(struct work_struct *work)
+ 	struct igb_adapter *igb =
+ 		container_of(work, struct igb_adapter, ptp_overflow_work.work);
  	struct timespec64 ts;
 -	u64 ns;
  
  	/* Update the timecounter */
--	ns = timecounter_read(&adapter->tc);
-+	ts = ns_to_timespec64(timecounter_read(&adapter->tc));
+-	ns = timecounter_read(&igb->tc);
++	ts = ns_to_timespec64(timecounter_read(&igb->tc));
  
 -	ts = ns_to_timespec64(ns);
--	e_dbg("SYSTIM overflow check at %lld.%09lu\n",
--	      (long long) ts.tv_sec, ts.tv_nsec);
-+	e_dbg("SYSTIM overflow check at %ptSp\n", &ts);
+-	pr_debug("igb overflow check at %lld.%09lu\n",
+-		 (long long) ts.tv_sec, ts.tv_nsec);
++	pr_debug("igb overflow check at %ptSp\n", &ts);
  
- 	schedule_delayed_work(&adapter->systim_overflow_work,
- 			      E1000_SYSTIM_OVERFLOW_PERIOD);
+ 	schedule_delayed_work(&igb->ptp_overflow_work,
+ 			      IGB_SYSTIM_OVERFLOW_PERIOD);
 -- 
 2.50.1
 
