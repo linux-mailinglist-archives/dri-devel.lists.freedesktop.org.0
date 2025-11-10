@@ -2,54 +2,62 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 44C4EC4579B
-	for <lists+dri-devel@lfdr.de>; Mon, 10 Nov 2025 09:59:00 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id E7E63C457C0
+	for <lists+dri-devel@lfdr.de>; Mon, 10 Nov 2025 10:01:23 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9B0A110E2BA;
-	Mon, 10 Nov 2025 08:58:58 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 24C6710E357;
+	Mon, 10 Nov 2025 09:01:20 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=rock-chips.com header.i=@rock-chips.com header.b="O3rVIxIe";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="NufPMWjB";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-m1973182.qiye.163.com (mail-m1973182.qiye.163.com
- [220.197.31.82])
- by gabe.freedesktop.org (Postfix) with ESMTPS id F172E10E2BB
- for <dri-devel@lists.freedesktop.org>; Mon, 10 Nov 2025 08:58:56 +0000 (UTC)
-Received: from zyb-HP-ProDesk-680-G2-MT.. (unknown [58.22.7.114])
- by smtp.qiye.163.com (Hmail) with ESMTP id 29068b539;
- Mon, 10 Nov 2025 16:58:50 +0800 (GMT+08:00)
-From: Damon Ding <damon.ding@rock-chips.com>
-To: andrzej.hajda@intel.com,
-	neil.armstrong@linaro.org,
-	rfoss@kernel.org
-Cc: Laurent.pinchart@ideasonboard.com, jonas@kwiboo.se,
- jernej.skrabec@gmail.com, maarten.lankhorst@linux.intel.com,
- mripard@kernel.org, tzimmermann@suse.de, airlied@gmail.com,
- simona@ffwll.ch, dmitry.baryshkov@oss.qualcomm.com, dianders@chromium.org,
- m.szyprowski@samsung.com, andy.yan@rock-chips.com,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- Damon Ding <damon.ding@rock-chips.com>
-Subject: [PATCH v3 4/4] drm/bridge: analogix_dp: Apply DP helper APIs to get
- adjusted voltages and pre-emphasises
-Date: Mon, 10 Nov 2025 16:58:23 +0800
-Message-Id: <20251110085823.1197472-5-damon.ding@rock-chips.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20251110085823.1197472-1-damon.ding@rock-chips.com>
-References: <20251110085823.1197472-1-damon.ding@rock-chips.com>
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 30C2210E2BB;
+ Mon, 10 Nov 2025 09:01:18 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1762765278; x=1794301278;
+ h=from:to:cc:subject:in-reply-to:references:date:
+ message-id:mime-version:content-transfer-encoding;
+ bh=rFuZa7dKf76hceJUsRj0n7/jwtJX6t5t3NBBHzI/ToQ=;
+ b=NufPMWjBs7dgcyOXG8jlOgh2t4q6WGHyZnR4+uhuPmL8Yq2EOOCOnFgf
+ +Vlq2y9HSJxJiUU8vzNcvLqFr42mCvyATYY74BngFWoUk9FXeWbAf0BB3
+ 7y5FH8fZuzYiO+IkDOpWnBOMSVys4E/pstaq/Q16Brn4N8EQEixXTBHnY
+ UZd4lMkSCZwW0njHd7rFArxy3N7AKyLLjd613sbyeHwvobFG8KF7d7bry
+ /F0Bmg1LyRDSE0gikcGIQZ1yRmXRCnDoTSiujq5Mvn72Qy3ClzpfGd0xb
+ Tg0uDeaLHDWNM5CfBCVaJ2MJ1XTY6bCkKuy+rIBgZT7irT72yxWy9W7LI w==;
+X-CSE-ConnectionGUID: 3UPLOZe/TAWF3eDKHbV8Dw==
+X-CSE-MsgGUID: 4q9kwib9RJmm90rViEOXUw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11608"; a="75422302"
+X-IronPort-AV: E=Sophos;i="6.19,293,1754982000"; d="scan'208";a="75422302"
+Received: from orviesa007.jf.intel.com ([10.64.159.147])
+ by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 10 Nov 2025 01:01:18 -0800
+X-CSE-ConnectionGUID: A10F5xs8QgqHc98CnHjhNQ==
+X-CSE-MsgGUID: 0SoiTq0pS5ihY2TIwpAMHA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.19,293,1754982000"; d="scan'208";a="188577199"
+Received: from ettammin-mobl2.ger.corp.intel.com (HELO localhost)
+ ([10.245.246.202])
+ by orviesa007-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 10 Nov 2025 01:01:15 -0800
+From: Jani Nikula <jani.nikula@intel.com>
+To: Animesh Manna <animesh.manna@intel.com>,
+ intel-gfx@lists.freedesktop.org, intel-xe@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org
+Cc: Animesh Manna <animesh.manna@intel.com>, Jouni =?utf-8?Q?H=C3=B6gander?=
+ <jouni.hogander@intel.com>
+Subject: Re: [PATCH v2 02/10] drm/i915/alpm: alpm_init() for DP2.1
+In-Reply-To: <20251103220957.1229608-3-animesh.manna@intel.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+References: <20251103220957.1229608-1-animesh.manna@intel.com>
+ <20251103220957.1229608-3-animesh.manna@intel.com>
+Date: Mon, 10 Nov 2025 11:01:12 +0200
+Message-ID: <7c735321b2c5c08ce1fac9f2d358ae06e9ad0b60@intel.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-HM-Tid: 0a9a6cfd4baf03a3kunm91e8d29910ac63a
-X-HM-MType: 1
-X-HM-Spam-Status: e1kfGhgUHx5ZQUpXWQgPGg8OCBgUHx5ZQUlOS1dZFg8aDwILHllBWSg2Ly
- tZV1koWUFDSUNOT01LS0k3V1ktWUFJV1kPCRoVCBIfWUFZQhgfSFZNHkpPHx0fGkhLSENWFRQJFh
- oXVRMBExYaEhckFA4PWVdZGBILWUFZTkNVSUlVTFVKSk9ZV1kWGg8SFR0UWUFZT0tIVUpLSU9PT0
- hVSktLVUpCS0tZBg++
-DKIM-Signature: a=rsa-sha256;
- b=O3rVIxIeKj031LO6gC8cXthXGkyG4plX49kBzyYvzXi0wSxDYYzhUhxz7fm1nH6y5ySln8sCkNVijuHvfSYhUxL7WlUdiinr21ebE3cRqy2MpRSWbjfFvyhHdYMEa9Ye1MhmeaKT17LBK0GWTy2WrHi+dDBv1jRubn7w4gAKYQw=;
- c=relaxed/relaxed; s=default; d=rock-chips.com; v=1; 
- bh=3gW86vskonft7Jl2Q50EbOmDui7TylloSuDk8Dc/iLU=;
- h=date:mime-version:subject:message-id:from;
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -65,127 +73,86 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Replace analogix_dp_get_adjust_request_voltage() and
-analogix_dp_get_adjust_request_pre_emphasis() with existing DP helper
-APIs with the same function.
+On Tue, 04 Nov 2025, Animesh Manna <animesh.manna@intel.com> wrote:
+> Initialize alpm for DP2.1 and separate out alpm mutex-init
+> from alpm-init.
+>
+> v1: Initial version.
+> v2: Separate out mutex-init. [Jani]
 
-Signed-off-by: Damon Ding <damon.ding@rock-chips.com>
-Tested-by: Marek Szyprowski <m.szyprowski@samsung.com>
-Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
----
- .../drm/bridge/analogix/analogix_dp_core.c    | 49 ++++---------------
- 1 file changed, 9 insertions(+), 40 deletions(-)
+Under no circumstances should you have two places and code paths to
+initialize a mutex.
 
-diff --git a/drivers/gpu/drm/bridge/analogix/analogix_dp_core.c b/drivers/gpu/drm/bridge/analogix/analogix_dp_core.c
-index 227ef30b8a9e..6ec3d811b5f0 100644
---- a/drivers/gpu/drm/bridge/analogix/analogix_dp_core.c
-+++ b/drivers/gpu/drm/bridge/analogix/analogix_dp_core.c
-@@ -293,25 +293,6 @@ static int analogix_dp_link_start(struct analogix_dp_device *dp)
- 	return 0;
- }
- 
--static unsigned char
--analogix_dp_get_adjust_request_voltage(u8 adjust_request[2], int lane)
--{
--	int shift = (lane & 1) * 4;
--	u8 link_value = adjust_request[lane >> 1];
--
--	return (link_value >> shift) & 0x3;
--}
--
--static unsigned char analogix_dp_get_adjust_request_pre_emphasis(
--					u8 adjust_request[2],
--					int lane)
--{
--	int shift = (lane & 1) * 4;
--	u8 link_value = adjust_request[lane >> 1];
--
--	return ((link_value >> shift) & 0xc) >> 2;
--}
--
- static void analogix_dp_reduce_link_rate(struct analogix_dp_device *dp)
- {
- 	analogix_dp_training_pattern_dis(dp);
-@@ -321,17 +302,15 @@ static void analogix_dp_reduce_link_rate(struct analogix_dp_device *dp)
- }
- 
- static void analogix_dp_get_adjust_training_lane(struct analogix_dp_device *dp,
--						 u8 adjust_request[2])
-+						 u8 link_status[DP_LINK_STATUS_SIZE])
- {
- 	int lane, lane_count;
- 	u8 voltage_swing, pre_emphasis, training_lane;
- 
- 	lane_count = dp->link_train.lane_count;
- 	for (lane = 0; lane < lane_count; lane++) {
--		voltage_swing = analogix_dp_get_adjust_request_voltage(
--						adjust_request, lane);
--		pre_emphasis = analogix_dp_get_adjust_request_pre_emphasis(
--						adjust_request, lane);
-+		voltage_swing = drm_dp_get_adjust_request_voltage(link_status, lane);
-+		pre_emphasis = drm_dp_get_adjust_request_pre_emphasis(link_status, lane);
- 		training_lane = DPCD_VOLTAGE_SWING_SET(voltage_swing) |
- 				DPCD_PRE_EMPHASIS_SET(pre_emphasis);
- 
-@@ -348,7 +327,7 @@ static int analogix_dp_process_clock_recovery(struct analogix_dp_device *dp)
- {
- 	int lane, lane_count, retval;
- 	u8 voltage_swing, pre_emphasis, training_lane;
--	u8 link_status[DP_LINK_STATUS_SIZE], adjust_request[2];
-+	u8 link_status[DP_LINK_STATUS_SIZE];
- 
- 	usleep_range(100, 101);
- 
-@@ -374,15 +353,10 @@ static int analogix_dp_process_clock_recovery(struct analogix_dp_device *dp)
- 		return 0;
- 	}
- 
--	retval = drm_dp_dpcd_read(&dp->aux, DP_ADJUST_REQUEST_LANE0_1,
--				  adjust_request, 2);
--	if (retval < 0)
--		return retval;
--
- 	for (lane = 0; lane < lane_count; lane++) {
- 		training_lane = analogix_dp_get_lane_link_training(dp, lane);
--		voltage_swing = analogix_dp_get_adjust_request_voltage(adjust_request, lane);
--		pre_emphasis = analogix_dp_get_adjust_request_pre_emphasis(adjust_request, lane);
-+		voltage_swing = drm_dp_get_adjust_request_voltage(link_status, lane);
-+		pre_emphasis = drm_dp_get_adjust_request_pre_emphasis(link_status, lane);
- 
- 		if (DPCD_VOLTAGE_SWING_GET(training_lane) == voltage_swing &&
- 		    DPCD_PRE_EMPHASIS_GET(training_lane) == pre_emphasis)
-@@ -399,7 +373,7 @@ static int analogix_dp_process_clock_recovery(struct analogix_dp_device *dp)
- 		}
- 	}
- 
--	analogix_dp_get_adjust_training_lane(dp, adjust_request);
-+	analogix_dp_get_adjust_training_lane(dp, link_status);
- 	analogix_dp_set_lane_link_training(dp);
- 
- 	retval = drm_dp_dpcd_write(&dp->aux, DP_TRAINING_LANE0_SET,
-@@ -414,7 +388,7 @@ static int analogix_dp_process_equalizer_training(struct analogix_dp_device *dp)
- {
- 	int lane_count, retval;
- 	u32 reg;
--	u8 link_status[DP_LINK_STATUS_SIZE], adjust_request[2];
-+	u8 link_status[DP_LINK_STATUS_SIZE];
- 
- 	usleep_range(400, 401);
- 
-@@ -429,12 +403,7 @@ static int analogix_dp_process_equalizer_training(struct analogix_dp_device *dp)
- 		return -EIO;
- 	}
- 
--	retval = drm_dp_dpcd_read(&dp->aux, DP_ADJUST_REQUEST_LANE0_1,
--				  adjust_request, 2);
--	if (retval < 0)
--		return retval;
--
--	analogix_dp_get_adjust_training_lane(dp, adjust_request);
-+	analogix_dp_get_adjust_training_lane(dp, link_status);
- 
- 	if (drm_dp_channel_eq_ok(link_status, lane_count)) {
- 		/* traing pattern Set to Normal */
--- 
-2.34.1
+I think you need two or three functions, one for initializing the mutex
+(and potentially other similar stuff), one for dynamic initialization
+for eDP and one for DP. Don't sprinkle the display version checks all
+over the place.
 
+BR,
+Jani.
+
+>
+> Cc: Jouni H=C3=B6gander <jouni.hogander@intel.com>
+> Signed-off-by: Animesh Manna <animesh.manna@intel.com>
+> ---
+>  drivers/gpu/drm/i915/display/intel_alpm.c |  1 -
+>  drivers/gpu/drm/i915/display/intel_dp.c   | 11 ++++++++++-
+>  2 files changed, 10 insertions(+), 2 deletions(-)
+>
+> diff --git a/drivers/gpu/drm/i915/display/intel_alpm.c b/drivers/gpu/drm/=
+i915/display/intel_alpm.c
+> index 6372f533f65b..639941e332f3 100644
+> --- a/drivers/gpu/drm/i915/display/intel_alpm.c
+> +++ b/drivers/gpu/drm/i915/display/intel_alpm.c
+> @@ -49,7 +49,6 @@ void intel_alpm_init(struct intel_dp *intel_dp)
+>  		return;
+>=20=20
+>  	intel_dp->alpm_dpcd =3D dpcd;
+> -	mutex_init(&intel_dp->alpm.lock);
+>  }
+>=20=20
+>  static int get_silence_period_symbols(const struct intel_crtc_state *crt=
+c_state)
+> diff --git a/drivers/gpu/drm/i915/display/intel_dp.c b/drivers/gpu/drm/i9=
+15/display/intel_dp.c
+> index 0ec82fcbcf48..f995a98df2c3 100644
+> --- a/drivers/gpu/drm/i915/display/intel_dp.c
+> +++ b/drivers/gpu/drm/i915/display/intel_dp.c
+> @@ -6074,8 +6074,12 @@ intel_dp_detect(struct drm_connector *_connector,
+>  	if (ret =3D=3D 1)
+>  		connector->base.epoch_counter++;
+>=20=20
+> -	if (!intel_dp_is_edp(intel_dp))
+> +	if (!intel_dp_is_edp(intel_dp)) {
+> +		if (DISPLAY_VER(display) >=3D 35)
+> +			intel_alpm_init(intel_dp);
+> +
+>  		intel_psr_init_dpcd(intel_dp);
+> +	}
+>=20=20
+>  	intel_dp_detect_dsc_caps(intel_dp, connector);
+>=20=20
+> @@ -6717,6 +6721,8 @@ static bool intel_edp_init_connector(struct intel_d=
+p *intel_dp,
+>  	intel_hpd_enable_detection(encoder);
+>=20=20
+>  	intel_alpm_init(intel_dp);
+> +	if (intel_dp->alpm_dpcd)
+> +		mutex_init(&intel_dp->alpm.lock);
+>=20=20
+>  	/* Cache DPCD and EDID for edp. */
+>  	has_dpcd =3D intel_edp_init_dpcd(intel_dp, connector);
+> @@ -6932,6 +6938,9 @@ intel_dp_init_connector(struct intel_digital_port *=
+dig_port,
+>=20=20
+>  	intel_psr_init(intel_dp);
+>=20=20
+> +	if (DISPLAY_VER(display) >=3D 35)
+> +		mutex_init(&intel_dp->alpm.lock);
+> +
+>  	return true;
+>=20=20
+>  fail:
+
+--=20
+Jani Nikula, Intel
