@@ -2,47 +2,47 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 49367C46B4D
-	for <lists+dri-devel@lfdr.de>; Mon, 10 Nov 2025 13:52:43 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5D7A2C46B53
+	for <lists+dri-devel@lfdr.de>; Mon, 10 Nov 2025 13:52:50 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A7EFE10E38B;
-	Mon, 10 Nov 2025 12:52:41 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B635410E38D;
+	Mon, 10 Nov 2025 12:52:48 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="Ba5sb8JT";
+	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="FVCq0OuU";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.133.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 866D710E38B
- for <dri-devel@lists.freedesktop.org>; Mon, 10 Nov 2025 12:52:40 +0000 (UTC)
+ (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 256B910E38C
+ for <dri-devel@lists.freedesktop.org>; Mon, 10 Nov 2025 12:52:47 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1762779159;
+ s=mimecast20190719; t=1762779166;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=jdF0qcLAT3KqrA3rNU9xsRjKWO55qxtf2gsPNynjwVI=;
- b=Ba5sb8JTHnHbiiQ4pfvY+FSx86oCnWCp0TteJM4k33/ATVWPJgFPpa/bX/2XPDSdqKieMt
- LS3AjZo53DrmCYUWku0OL/VSAQnZUtBEDp4L8jp/zBdgnHbFnObA+3cODx04c2kBlLSHOJ
- /XQm3Ax+81TXb5H7R+kWLvUevKqH6To=
-Received: from mx-prod-mc-05.mail-002.prod.us-west-2.aws.redhat.com
+ bh=jKsIDGP2A6MVPtV5Pql3fmpnvf+qSOjFLDwKwKmalio=;
+ b=FVCq0OuUJZPride37Q5XjfyDkG3MKvV4FxZ+DvRB3zp0BhG3+lOcMYLSGRKU7l79a0P0aI
+ h556ieni51QJdYTcziuMZssIKL2Gey2wPdMQNd3OdfaTSBidEssO56X8zrvTuksGDpfpZ/
+ O3C1CEWTYVqkK39o54IkLS1IAq0DLwM=
+Received: from mx-prod-mc-03.mail-002.prod.us-west-2.aws.redhat.com
  (ec2-54-186-198-63.us-west-2.compute.amazonaws.com [54.186.198.63]) by
  relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
- cipher=TLS_AES_256_GCM_SHA384) id us-mta-590-LhhL5zLGMpid6bnqNvANMQ-1; Mon,
- 10 Nov 2025 07:52:36 -0500
-X-MC-Unique: LhhL5zLGMpid6bnqNvANMQ-1
-X-Mimecast-MFC-AGG-ID: LhhL5zLGMpid6bnqNvANMQ_1762779154
+ cipher=TLS_AES_256_GCM_SHA384) id us-mta-53-Qb9ZmxY6Muq1JJPQhs2AsA-1; Mon,
+ 10 Nov 2025 07:52:42 -0500
+X-MC-Unique: Qb9ZmxY6Muq1JJPQhs2AsA-1
+X-Mimecast-MFC-AGG-ID: Qb9ZmxY6Muq1JJPQhs2AsA_1762779161
 Received: from mx-prod-int-01.mail-002.prod.us-west-2.aws.redhat.com
  (mx-prod-int-01.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.4])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
  (No client certificate requested)
- by mx-prod-mc-05.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS
- id 4288D195608E; Mon, 10 Nov 2025 12:52:34 +0000 (UTC)
+ by mx-prod-mc-03.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS
+ id AE24519560B2; Mon, 10 Nov 2025 12:52:40 +0000 (UTC)
 Received: from slp-asahi.redhat.com (unknown [10.44.32.9])
  by mx-prod-int-01.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP
- id 8214230001B9; Mon, 10 Nov 2025 12:52:28 +0000 (UTC)
+ id CA85F30001B9; Mon, 10 Nov 2025 12:52:34 +0000 (UTC)
 From: Sergio Lopez <slp@redhat.com>
 To: David Airlie <airlied@redhat.com>, Gerd Hoffmann <kraxel@redhat.com>,
  Dmitry Osipenko <dmitry.osipenko@collabora.com>,
@@ -57,9 +57,9 @@ To: David Airlie <airlied@redhat.com>, Gerd Hoffmann <kraxel@redhat.com>,
  dri-devel@lists.freedesktop.org, virtualization@lists.linux.dev,
  linux-kernel@vger.kernel.org
 Cc: Sergio Lopez <slp@redhat.com>
-Subject: [PATCH 2/3] drm/virtio: honor blob_alignment requirements
-Date: Mon, 10 Nov 2025 13:52:12 +0100
-Message-ID: <20251110125213.12633-3-slp@redhat.com>
+Subject: [PATCH 3/3] drm/virtio: add VIRTGPU_PARAM_BLOB_ALIGNMENT to params
+Date: Mon, 10 Nov 2025 13:52:13 +0100
+Message-ID: <20251110125213.12633-4-slp@redhat.com>
 In-Reply-To: <20251110125213.12633-1-slp@redhat.com>
 References: <20251110125213.12633-1-slp@redhat.com>
 MIME-Version: 1.0
@@ -80,134 +80,45 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-If VIRTIO_GPU_F_BLOB_ALIGNMENT has been negotiated, both
-CREATE_BLOB and MAP_BLOB requests must be aligned to blob_alignment.
-
-Introduce checks to ensure we don't send invalid requests to the
-device.
+Add VIRTGPU_PARAM_BLOB_ALIGNMENT as a param that can be read with
+VIRTGPU_GETPARAM by userspace applications running in the guest to
+obtain the host's page size and find out the right alignment to be used
+in shared memory allocations.
 
 Signed-off-by: Sergio Lopez <slp@redhat.com>
 ---
- drivers/gpu/drm/virtio/virtgpu_drv.h    |  2 +-
- drivers/gpu/drm/virtio/virtgpu_object.c |  6 ++++--
- drivers/gpu/drm/virtio/virtgpu_prime.c  |  7 +++++--
- drivers/gpu/drm/virtio/virtgpu_vq.c     | 12 +++++++++++-
- drivers/gpu/drm/virtio/virtgpu_vram.c   | 10 ++++++++--
- 5 files changed, 29 insertions(+), 8 deletions(-)
+ drivers/gpu/drm/virtio/virtgpu_ioctl.c | 5 +++++
+ include/uapi/drm/virtgpu_drm.h         | 1 +
+ 2 files changed, 6 insertions(+)
 
-diff --git a/drivers/gpu/drm/virtio/virtgpu_drv.h b/drivers/gpu/drm/virtio/virtgpu_drv.h
-index d1fa386a5a99..11a55d4ccd54 100644
---- a/drivers/gpu/drm/virtio/virtgpu_drv.h
-+++ b/drivers/gpu/drm/virtio/virtgpu_drv.h
-@@ -433,7 +433,7 @@ int virtio_gpu_cmd_map(struct virtio_gpu_device *vgdev,
- void virtio_gpu_cmd_unmap(struct virtio_gpu_device *vgdev,
- 			  struct virtio_gpu_object *bo);
- 
--void
-+int
- virtio_gpu_cmd_resource_create_blob(struct virtio_gpu_device *vgdev,
- 				    struct virtio_gpu_object *bo,
- 				    struct virtio_gpu_object_params *params,
-diff --git a/drivers/gpu/drm/virtio/virtgpu_object.c b/drivers/gpu/drm/virtio/virtgpu_object.c
-index e6363c887500..6118344bff84 100644
---- a/drivers/gpu/drm/virtio/virtgpu_object.c
-+++ b/drivers/gpu/drm/virtio/virtgpu_object.c
-@@ -246,8 +246,10 @@ int virtio_gpu_object_create(struct virtio_gpu_device *vgdev,
- 		if (params->blob_mem == VIRTGPU_BLOB_MEM_GUEST)
- 			bo->guest_blob = true;
- 
--		virtio_gpu_cmd_resource_create_blob(vgdev, bo, params,
--						    ents, nents);
-+		ret = virtio_gpu_cmd_resource_create_blob(vgdev, bo, params,
-+							  ents, nents);
-+		if (ret)
-+			goto err_put_objs;
- 	} else if (params->virgl) {
- 		virtio_gpu_cmd_resource_create_3d(vgdev, bo, params,
- 						  objs, fence);
-diff --git a/drivers/gpu/drm/virtio/virtgpu_prime.c b/drivers/gpu/drm/virtio/virtgpu_prime.c
-index ce49282198cb..06593496c53f 100644
---- a/drivers/gpu/drm/virtio/virtgpu_prime.c
-+++ b/drivers/gpu/drm/virtio/virtgpu_prime.c
-@@ -257,8 +257,11 @@ static int virtgpu_dma_buf_init_obj(struct drm_device *dev,
- 	params.blob_flags = VIRTGPU_BLOB_FLAG_USE_SHAREABLE;
- 	params.size = attach->dmabuf->size;
- 
--	virtio_gpu_cmd_resource_create_blob(vgdev, bo, &params,
--					    ents, nents);
-+	ret = virtio_gpu_cmd_resource_create_blob(vgdev, bo, &params,
-+						  ents, nents);
-+	if (ret)
-+		goto err_import;
-+
- 	bo->guest_blob = true;
- 
- 	dma_buf_unpin(attach);
-diff --git a/drivers/gpu/drm/virtio/virtgpu_vq.c b/drivers/gpu/drm/virtio/virtgpu_vq.c
-index 8181b22b9b46..d558ba2d213a 100644
---- a/drivers/gpu/drm/virtio/virtgpu_vq.c
-+++ b/drivers/gpu/drm/virtio/virtgpu_vq.c
-@@ -1393,6 +1393,10 @@ int virtio_gpu_cmd_map(struct virtio_gpu_device *vgdev,
- 	struct virtio_gpu_vbuffer *vbuf;
- 	struct virtio_gpu_resp_map_info *resp_buf;
- 
-+	if (vgdev->has_blob_alignment &&
-+	    !IS_ALIGNED(offset, vgdev->blob_alignment))
-+		return -EINVAL;
-+
- 	resp_buf = kzalloc(sizeof(*resp_buf), GFP_KERNEL);
- 	if (!resp_buf)
- 		return -ENOMEM;
-@@ -1426,7 +1430,7 @@ void virtio_gpu_cmd_unmap(struct virtio_gpu_device *vgdev,
- 	virtio_gpu_queue_ctrl_buffer(vgdev, vbuf);
- }
- 
--void
-+int
- virtio_gpu_cmd_resource_create_blob(struct virtio_gpu_device *vgdev,
- 				    struct virtio_gpu_object *bo,
- 				    struct virtio_gpu_object_params *params,
-@@ -1436,6 +1440,10 @@ virtio_gpu_cmd_resource_create_blob(struct virtio_gpu_device *vgdev,
- 	struct virtio_gpu_resource_create_blob *cmd_p;
- 	struct virtio_gpu_vbuffer *vbuf;
- 
-+	if (vgdev->has_blob_alignment &&
-+	    !IS_ALIGNED(params->size, vgdev->blob_alignment))
-+		return -EINVAL;
-+
- 	cmd_p = virtio_gpu_alloc_cmd(vgdev, &vbuf, sizeof(*cmd_p));
- 	memset(cmd_p, 0, sizeof(*cmd_p));
- 
-@@ -1456,6 +1464,8 @@ virtio_gpu_cmd_resource_create_blob(struct virtio_gpu_device *vgdev,
- 
- 	if (nents)
- 		bo->attached = true;
-+
-+	return 0;
- }
- 
- void virtio_gpu_cmd_set_scanout_blob(struct virtio_gpu_device *vgdev,
-diff --git a/drivers/gpu/drm/virtio/virtgpu_vram.c b/drivers/gpu/drm/virtio/virtgpu_vram.c
-index 5ad3b7c6f73c..6c402eca5726 100644
---- a/drivers/gpu/drm/virtio/virtgpu_vram.c
-+++ b/drivers/gpu/drm/virtio/virtgpu_vram.c
-@@ -216,8 +216,14 @@ int virtio_gpu_vram_create(struct virtio_gpu_device *vgdev,
- 		return ret;
+diff --git a/drivers/gpu/drm/virtio/virtgpu_ioctl.c b/drivers/gpu/drm/virtio/virtgpu_ioctl.c
+index c33c057365f8..b7651f504f00 100644
+--- a/drivers/gpu/drm/virtio/virtgpu_ioctl.c
++++ b/drivers/gpu/drm/virtio/virtgpu_ioctl.c
+@@ -117,6 +117,11 @@ static int virtio_gpu_getparam_ioctl(struct drm_device *dev, void *data,
+ 	case VIRTGPU_PARAM_EXPLICIT_DEBUG_NAME:
+ 		value = vgdev->has_context_init ? 1 : 0;
+ 		break;
++	case VIRTGPU_PARAM_BLOB_ALIGNMENT:
++		if (!vgdev->has_blob_alignment)
++			return -ENOENT;
++		value = vgdev->blob_alignment;
++		break;
+ 	default:
+ 		return -EINVAL;
  	}
+diff --git a/include/uapi/drm/virtgpu_drm.h b/include/uapi/drm/virtgpu_drm.h
+index 9debb320c34b..7d4e4884d942 100644
+--- a/include/uapi/drm/virtgpu_drm.h
++++ b/include/uapi/drm/virtgpu_drm.h
+@@ -98,6 +98,7 @@ struct drm_virtgpu_execbuffer {
+ #define VIRTGPU_PARAM_CONTEXT_INIT 6 /* DRM_VIRTGPU_CONTEXT_INIT */
+ #define VIRTGPU_PARAM_SUPPORTED_CAPSET_IDs 7 /* Bitmask of supported capability set ids */
+ #define VIRTGPU_PARAM_EXPLICIT_DEBUG_NAME 8 /* Ability to set debug name from userspace */
++#define VIRTGPU_PARAM_BLOB_ALIGNMENT 9 /* Device alignment requirements for blobs */
  
--	virtio_gpu_cmd_resource_create_blob(vgdev, &vram->base, params, NULL,
--					    0);
-+	ret = virtio_gpu_cmd_resource_create_blob(vgdev, &vram->base, params,
-+						  NULL, 0);
-+	if (ret) {
-+		drm_gem_free_mmap_offset(obj);
-+		kfree(vram);
-+		return ret;
-+	}
-+
- 	if (params->blob_flags & VIRTGPU_BLOB_FLAG_USE_MAPPABLE) {
- 		ret = virtio_gpu_vram_map(&vram->base);
- 		if (ret) {
+ struct drm_virtgpu_getparam {
+ 	__u64 param;
 -- 
 2.51.0
 
