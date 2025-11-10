@@ -2,88 +2,112 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8046FC49B75
-	for <lists+dri-devel@lfdr.de>; Tue, 11 Nov 2025 00:16:02 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 59D70C49CE6
+	for <lists+dri-devel@lfdr.de>; Tue, 11 Nov 2025 00:45:41 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9BCAC10E0B4;
-	Mon, 10 Nov 2025 23:15:59 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1503010E0FF;
+	Mon, 10 Nov 2025 23:45:38 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="l2xgqcl4";
+	dkim=pass (1024-bit key; unprotected) header.d=linux.dev header.i=@linux.dev header.b="U0xyIRec";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pl1-f172.google.com (mail-pl1-f172.google.com
- [209.85.214.172])
- by gabe.freedesktop.org (Postfix) with ESMTPS id ACD6410E0B4
- for <dri-devel@lists.freedesktop.org>; Mon, 10 Nov 2025 23:15:58 +0000 (UTC)
-Received: by mail-pl1-f172.google.com with SMTP id
- d9443c01a7336-297d4ac44fbso2311975ad.0
- for <dri-devel@lists.freedesktop.org>; Mon, 10 Nov 2025 15:15:58 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1762816558; x=1763421358; darn=lists.freedesktop.org;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
- bh=tTCBfyjKL85nI7lncbdUck6wtAuHEbruuMTez3UdOuA=;
- b=l2xgqcl4J+OZFodF/QXCfjcJ26eiK+S4ZCV+Xi1T/mySwVWbqzepR8f2hUGI2dyXxa
- Ws26HFpQ24zMoFAEhRiH75Vi8+hMqhkkYzaYQUAjBoJpjphTMndPJk/QMmmq0xYkPSKp
- AV5aTMoae+dMR5iZRUOoKUzYJ2V0bVPdW0gKFTt0hNJMEW6+ddaf1WIdcQ42Dtopvn0x
- gPJjbR0fOQrUENeNSmQnEtAKrlgjAIJfGKksgtbaRZy11GsLrBm57kqZzQwcrnK7P0A7
- EYGZ6kcRoP3uW6VQVjjYplvhuWsu/+thbLxCSvB54Zl3NH5S7VtqFBt3qvDMUGXuZdKr
- 47IA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1762816558; x=1763421358;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=tTCBfyjKL85nI7lncbdUck6wtAuHEbruuMTez3UdOuA=;
- b=TIMaRSk3uhC/F8hRnKhbwvyTzhUDe7NlXZUmWHmOsIRCrxFVDN6PXXi1wFUrCdPFL9
- ShNH8HOJYjadmkDs6N1dtqkzk62gPNP7JHIdbLVUrqO0xZ7U5j2iBpd/fRnE7h0S+iIb
- 3Hj43p4EbB9Z1d5Reg2DFxhB2e9/azOmkRv5K7092rXVwClmsuN4Nh0zDBQKZYvRxi1E
- MDTsk8oni+97HoHhZEEodWR5D+sDd6XhnEMCyNCk6M2ioDZLiqVLYMfzO4Bho0pKkJ3a
- O//OKSz/Vp5McfyznoAHryTGkuo4Kufj+EO2gfWHOKhiqex7vL++dT/QWoFsP0mPCIS8
- uF7Q==
-X-Forwarded-Encrypted: i=1;
- AJvYcCXCg0awV5zFI4+UKs2S0Wx6PZi6kxDGqPfLrKrf1BaaHAAEy4bFLQdqFS0u3YWRJOSEuQQZrFfhNaI=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Yx/Vb8jUlDruxxr6DxYhgeitSVBXj2nB4gxQy+Cl2N7mCcG3uQ1
- EuPMauujGTBCKNnVIzwzEQWV3iJftwwgnrgU1xcRejkUcfNE2/rkiEpB
-X-Gm-Gg: ASbGncttRC5N9wtJyGM7mgdQzYRVW3Jh2R51TLt5oX8ErHV5csXVDR74AKCES2Uq2yi
- WOg6H7Q/lBaPqcLuttMubbRrRwT0C8gFLexxg52LQE2rheDLmBPEVWBIqRklMRNPp+qIaFchARB
- +hEsN0bkDc4lCrhzLEgbtQzevy0c9OV8CHJWoktN/8hg3f6pFLfUrBcsfiR+Y0KH8Qj6YyCJ98D
- 1pmFVvR5nJrUNylHpVQtZ8ZkAZ4laZ3fBvnXOnA91AdRFBdY6Zecr7FTOT9GUkIq5/lF401wY0a
- Ra7a0Of1ce1a33m6sbDREG34rHvBe4Q6mv65WqCOnXHAMnhtwv3YTRUHpTYAhkgYR+5IgSiX486
- KTUEonxLkdv4Z0bKRZZUPohZbrwpT3llLX612MiJ+1s4IRrIKprRWrgX0qiYAwMLyMhvby6sCyf
- Vc
-X-Google-Smtp-Source: AGHT+IGwvLf3ZgdUd4iAsN+CriZ8KUEaW9yxRhFdFBiIvi5V0uUTvjVhxvMH6yq504eeDgLltAEolQ==
-X-Received: by 2002:a17:903:18d:b0:297:df99:6bd4 with SMTP id
- d9443c01a7336-29840842cb3mr12574055ad.18.1762816557960; 
- Mon, 10 Nov 2025 15:15:57 -0800 (PST)
-Received: from archie.me ([210.87.74.117]) by smtp.gmail.com with ESMTPSA id
- d9443c01a7336-29836cce339sm25144965ad.59.2025.11.10.15.15.56
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 10 Nov 2025 15:15:57 -0800 (PST)
-Received: by archie.me (Postfix, from userid 1000)
- id 34C6A4206925; Tue, 11 Nov 2025 06:15:55 +0700 (WIB)
-Date: Tue, 11 Nov 2025 06:15:54 +0700
-From: Bagas Sanjaya <bagasdotme@gmail.com>
-To: Jeff Hugo <jeff.hugo@oss.qualcomm.com>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- Linux Documentation <linux-doc@vger.kernel.org>,
- Linux ARM MSM <linux-arm-msm@vger.kernel.org>,
- Linux DRI Development <dri-devel@lists.freedesktop.org>
-Cc: Carl Vanderlip <carl.vanderlip@oss.qualcomm.com>,
- Oded Gabbay <ogabbay@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
- Youssef Samir <youssef.abdulrahman@oss.qualcomm.com>,
- Pranjal Ramajor Asha Kanojiya <quic_pkanojiy@quicinc.com>,
- Zack McKevitt <zachary.mckevitt@oss.qualcomm.com>,
- Aswin Venkatesan <aswivenk@qti.qualcomm.com>
-Subject: Re: [PATCH 0/2] accel/qaic documentation fixes
-Message-ID: <aRJyKlRkihq1OcGk@archie.me>
-References: <20251110035952.25778-2-bagasdotme@gmail.com>
- <e44c8f40-b6ff-4369-8d86-ded225b41544@oss.qualcomm.com>
+X-Greylist: delayed 454 seconds by postgrey-1.36 at gabe;
+ Mon, 10 Nov 2025 23:45:33 UTC
+Received: from out-188.mta0.migadu.com (out-188.mta0.migadu.com
+ [91.218.175.188])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8480710E338
+ for <dri-devel@lists.freedesktop.org>; Mon, 10 Nov 2025 23:45:33 +0000 (UTC)
+Message-ID: <3eb5379f-c7ad-4aea-ab9a-20e07b7f34d0@linux.dev>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
+ t=1762817866;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=N5NdZ3Il1D+l8lwQLcK5dXwNIadjasDY9t8ilnV/mV0=;
+ b=U0xyIRecUBR+iYd+jFcmevJu/4H+A2bbNJnN96yfE0hlgn9ZMrH3LxAIKYqZS4s3cJ1uvm
+ +7WK+gk43pd/VuQQ8rDReqm1AlKlWm8GBWmK3v11GgPPZIdbI1RU8LPuoyCqW5EbUBDj5d
+ 3Ou4TSlLX99wMRUdq/vNAC0vrqSI3Ow=
+Date: Mon, 10 Nov 2025 23:37:33 +0000
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <e44c8f40-b6ff-4369-8d86-ded225b41544@oss.qualcomm.com>
+Subject: Re: [PATCH v1 19/23] ptp: ocp: Switch to use %ptSp
+To: Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+ Corey Minyard <corey@minyard.net>, =?UTF-8?Q?Christian_K=C3=B6nig?=
+ <christian.koenig@amd.com>, "Dr. David Alan Gilbert" <linux@treblig.org>,
+ Alex Deucher <alexander.deucher@amd.com>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>,
+ Rob Clark <robin.clark@oss.qualcomm.com>,
+ Matthew Brost <matthew.brost@intel.com>, Hans Verkuil <hverkuil@kernel.org>,
+ Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
+ Ulf Hansson <ulf.hansson@linaro.org>,
+ Vitaly Lifshits <vitaly.lifshits@intel.com>,
+ Manivannan Sadhasivam <mani@kernel.org>, Niklas Cassel <cassel@kernel.org>,
+ Calvin Owens <calvin@wbinvd.org>, Sagi Maimon <maimon.sagi@gmail.com>,
+ "Martin K. Petersen" <martin.petersen@oracle.com>,
+ Karan Tilak Kumar <kartilak@cisco.com>,
+ Casey Schaufler <casey@schaufler-ca.com>,
+ Steven Rostedt <rostedt@goodmis.org>, Petr Mladek <pmladek@suse.com>,
+ Max Kellermann <max.kellermann@ionos.com>, Takashi Iwai <tiwai@suse.de>,
+ linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+ openipmi-developer@lists.sourceforge.net, linux-media@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org,
+ amd-gfx@lists.freedesktop.org, linux-arm-msm@vger.kernel.org,
+ freedreno@lists.freedesktop.org, intel-xe@lists.freedesktop.org,
+ linux-mmc@vger.kernel.org, netdev@vger.kernel.org,
+ intel-wired-lan@lists.osuosl.org, linux-pci@vger.kernel.org,
+ linux-s390@vger.kernel.org, linux-scsi@vger.kernel.org,
+ linux-staging@lists.linux.dev, ceph-devel@vger.kernel.org,
+ linux-trace-kernel@vger.kernel.org, linux-sound@vger.kernel.org
+Cc: Rasmus Villemoes <linux@rasmusvillemoes.dk>,
+ Sergey Senozhatsky <senozhatsky@chromium.org>,
+ Jonathan Corbet <corbet@lwn.net>, Sumit Semwal <sumit.semwal@linaro.org>,
+ Gustavo Padovan <gustavo@padovan.org>, David Airlie <airlied@gmail.com>,
+ Simona Vetter <simona@ffwll.ch>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Dmitry Baryshkov <lumag@kernel.org>,
+ Abhinav Kumar <abhinav.kumar@linux.dev>,
+ Jessica Zhang <jesszhan0024@gmail.com>, Sean Paul <sean@poorly.run>,
+ Marijn Suijten <marijn.suijten@somainline.org>,
+ Konrad Dybcio <konradybcio@kernel.org>,
+ Lucas De Marchi <lucas.demarchi@intel.com>,
+ =?UTF-8?Q?Thomas_Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>,
+ Vladimir Oltean <olteanv@gmail.com>, Andrew Lunn <andrew@lunn.ch>,
+ "David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>,
+ Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+ Tony Nguyen <anthony.l.nguyen@intel.com>,
+ Przemek Kitszel <przemyslaw.kitszel@intel.com>,
+ =?UTF-8?Q?Krzysztof_Wilczy=C5=84ski?= <kwilczynski@kernel.org>,
+ Kishon Vijay Abraham I <kishon@kernel.org>,
+ Bjorn Helgaas <bhelgaas@google.com>, Rodolfo Giometti
+ <giometti@enneenne.com>, Jonathan Lemon <jonathan.lemon@gmail.com>,
+ Richard Cochran <richardcochran@gmail.com>,
+ Stefan Haberland <sth@linux.ibm.com>, Jan Hoeppner <hoeppner@linux.ibm.com>,
+ Heiko Carstens <hca@linux.ibm.com>, Vasily Gorbik <gor@linux.ibm.com>,
+ Alexander Gordeev <agordeev@linux.ibm.com>,
+ Christian Borntraeger <borntraeger@linux.ibm.com>,
+ Sven Schnelle <svens@linux.ibm.com>, Satish Kharat <satishkh@cisco.com>,
+ Sesidhar Baddela <sebaddel@cisco.com>,
+ "James E.J. Bottomley" <James.Bottomley@HansenPartnership.com>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Xiubo Li
+ <xiubli@redhat.com>, Ilya Dryomov <idryomov@gmail.com>,
+ Masami Hiramatsu <mhiramat@kernel.org>,
+ Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
+ Andrew Morton <akpm@linux-foundation.org>, Jaroslav Kysela <perex@perex.cz>,
+ Takashi Iwai <tiwai@suse.com>
+References: <20251110184727.666591-1-andriy.shevchenko@linux.intel.com>
+ <20251110184727.666591-20-andriy.shevchenko@linux.intel.com>
+Content-Language: en-US
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and
+ include these headers.
+From: Vadim Fedorenko <vadim.fedorenko@linux.dev>
+In-Reply-To: <20251110184727.666591-20-andriy.shevchenko@linux.intel.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Migadu-Flow: FLOW_OUT
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -99,14 +123,59 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Nov 10, 2025 at 11:54:59AM -0700, Jeff Hugo wrote:
-> Thank you for the fixes. Yet again I am impressed by having your fixes in my
-> inbox before I even see the reports.
+On 10/11/2025 18:40, Andy Shevchenko wrote:
+> Use %ptSp instead of open coded variants to print content of
+> struct timespec64 in human readable format.
 > 
-> I'll get these merged to drm-misc-next where the offending issues currently
-> reside.  I anticipate getting that done later today.
+> While at it, fix wrong use of %ptT against struct timespec64.
+> It's kinda lucky that it worked just because the first member
+> there 64-bit and it's of time64_t type. Now with %ptS it may
+> be used correctly.
+> 
+> Signed-off-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+> ---
+>   drivers/ptp/ptp_ocp.c | 15 ++++++---------
+>   1 file changed, 6 insertions(+), 9 deletions(-)
+> 
+> diff --git a/drivers/ptp/ptp_ocp.c b/drivers/ptp/ptp_ocp.c
+> index a5c363252986..a0bb8d3045d2 100644
+> --- a/drivers/ptp/ptp_ocp.c
+> +++ b/drivers/ptp/ptp_ocp.c
+> @@ -3261,7 +3261,7 @@ signal_show(struct device *dev, struct device_attribute *attr, char *buf)
+>   			   signal->duty, signal->phase, signal->polarity);
+>   
+>   	ts = ktime_to_timespec64(signal->start);
+> -	count += sysfs_emit_at(buf, count, " %ptT TAI\n", &ts);
+> +	count += sysfs_emit_at(buf, count, " %ptS TAI\n", &ts);
+>   
+>   	return count;
+>   }
+> @@ -4287,11 +4287,9 @@ ptp_ocp_summary_show(struct seq_file *s, void *data)
+>   		ns += (s64)bp->utc_tai_offset * NSEC_PER_SEC;
+>   		sys_ts = ns_to_timespec64(ns);
+>   
+> -		seq_printf(s, "%7s: %lld.%ld == %ptT TAI\n", "PHC",
+> -			   ts.tv_sec, ts.tv_nsec, &ts);
+> -		seq_printf(s, "%7s: %lld.%ld == %ptT UTC offset %d\n", "SYS",
+> -			   sys_ts.tv_sec, sys_ts.tv_nsec, &sys_ts,
+> -			   bp->utc_tai_offset);
+> +		seq_printf(s, "%7s: %ptSp == %ptS TAI\n", "PHC", &ts, &ts);
+> +		seq_printf(s, "%7s: %ptSp == %ptS UTC offset %d\n", "SYS",
+> +			   &sys_ts, &sys_ts, bp->utc_tai_offset);
+>   		seq_printf(s, "%7s: PHC:SYS offset: %lld  window: %lld\n", "",
+>   			   timespec64_to_ns(&ts) - ns,
+>   			   post_ns - pre_ns);
+> @@ -4499,9 +4497,8 @@ ptp_ocp_phc_info(struct ptp_ocp *bp)
+>   		 ptp_clock_index(bp->ptp));
+>   
+>   	if (!ptp_ocp_gettimex(&bp->ptp_info, &ts, NULL))
+> -		dev_info(&bp->pdev->dev, "Time: %lld.%ld, %s\n",
+> -			 ts.tv_sec, ts.tv_nsec,
+> -			 bp->sync ? "in-sync" : "UNSYNCED");
+> +		dev_info(&bp->pdev->dev, "Time: %ptSp, %s\n",
+> +			 &ts, bp->sync ? "in-sync" : "UNSYNCED");
+>   }
+>   
+>   static void
 
-Thank you for the compliment!
-
--- 
-An old man doll... just what I always wanted! - Clara
+Acked-by: Vadim Fedorenko <vadim.fedorenko@linux.dev>
