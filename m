@@ -2,154 +2,64 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 90359C4638A
-	for <lists+dri-devel@lfdr.de>; Mon, 10 Nov 2025 12:24:56 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 73CB5C46453
+	for <lists+dri-devel@lfdr.de>; Mon, 10 Nov 2025 12:30:43 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 66DA810E0F4;
-	Mon, 10 Nov 2025 11:24:53 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C574E10E372;
+	Mon, 10 Nov 2025 11:30:39 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=amd.com header.i=@amd.com header.b="FLcCjLas";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="W+L0gK5Q";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from MW6PR02CU001.outbound.protection.outlook.com
- (mail-westus2azon11012016.outbound.protection.outlook.com [52.101.48.16])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2308610E0F4
- for <dri-devel@lists.freedesktop.org>; Mon, 10 Nov 2025 11:24:52 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=rKTMSqmyd2NX6AG75/8hln02qEZ1AZ6cadOXaqURb2Fk5cnyMTV31hYe7cj4unQ5r5GS4nv28lCK5xgXJGQOMsAuTzYQP2mZNHNrD3icIga1XGAzh48ydypHk6D3sEvgHj9tufVn8vpJTihH0Wmz8HLd7ZzSKmHyLPg7e/rOfTyA8Ks9Xfi5tZun8Tubme3X8ALFMPtFol7m7IiI+VNk40d97QOoKxdlay58k/qPnqDic3rXCMwDP7cj4MNiF9UexfCh1pT3bqCtPS/8dqbaXAR10yjANIwiHXwAdOjIAxQDA2cm1V4R5Tx5zyqai/hIaLXo3erPXDLUBdD5R6H8vQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=bMocElK0rErTnx6NUK+Xg/GaiXLnnDzflwg8eU6RjIo=;
- b=puZjxO68kBUAhvRUqfdPtyA7ib85JbkPIwVT88RJuaLuzjf5k9qD2+UqBWtDXhsGSqwRPpSKrRUWh3ZUqtthMpe4xji7XY1CzMpw/iz9CC7HxN+xu3sylnm/uAZUcIf85mHhKZQjOQvBWV81BIiXqFzZyfCcj+vvF8JLJG5kEbsvF0ndxojXOfP09W7TCdjnhZMvdkZ/E43OLwSBFoI95NiTdZ9DcBkRbe5HL50g4Uo3wvStsc6PefqO7IIvnXEBnzM2zFoDdaXxFR9wzPX7chzV/0hpGZGlF8mbr6x1ZnFkq9j2dG0hgQ3NfGEBtwIX/2XVY8wMxy/WDBbwXsNccw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=bMocElK0rErTnx6NUK+Xg/GaiXLnnDzflwg8eU6RjIo=;
- b=FLcCjLasbxiN7g8TbW3V83/C4lNEoLDZ4EmiEBZwbRfrBAZTbqWgSWyjZXDi8/IZzYlFgxApV8RH57l+yy4Jk3y5QlJOt0daupmao7rnpNX5VFjUNglv4mbc7ZeSc7lDu/YHXvJI6sr1tklb7qUZpWVM1mQTYndXCydIUMwF5sU=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=amd.com;
-Received: from PH7PR12MB5685.namprd12.prod.outlook.com (2603:10b6:510:13c::22)
- by CYYPR12MB8891.namprd12.prod.outlook.com (2603:10b6:930:c0::7) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9298.16; Mon, 10 Nov
- 2025 11:24:50 +0000
-Received: from PH7PR12MB5685.namprd12.prod.outlook.com
- ([fe80::46fb:96f2:7667:7ca5]) by PH7PR12MB5685.namprd12.prod.outlook.com
- ([fe80::46fb:96f2:7667:7ca5%4]) with mapi id 15.20.9298.015; Mon, 10 Nov 2025
- 11:24:50 +0000
-Message-ID: <ee63ca7d-77d2-44d8-973b-7276f8c4d4a5@amd.com>
-Date: Mon, 10 Nov 2025 12:24:46 +0100
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] drm/sched: Fix UB in spsc_queue
-To: Philipp Stanner <phasta@kernel.org>, David Airlie <airlied@gmail.com>,
- Simona Vetter <simona@ffwll.ch>, Alex Deucher <alexander.deucher@amd.com>,
- Andrey Grodzovsky <Andrey.Grodzovsky@amd.com>, dakr@kernel.org,
- Matthew Brost <matthew.brost@intel.com>
-Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- stable@vger.kernel.org
-References: <20251110081903.11539-2-phasta@kernel.org>
-Content-Language: en-US
-From: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
-In-Reply-To: <20251110081903.11539-2-phasta@kernel.org>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: FR4P281CA0157.DEUP281.PROD.OUTLOOK.COM
- (2603:10a6:d10:ba::12) To PH7PR12MB5685.namprd12.prod.outlook.com
- (2603:10b6:510:13c::22)
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C8D5C10E388
+ for <dri-devel@lists.freedesktop.org>; Mon, 10 Nov 2025 11:30:37 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1762774238; x=1794310238;
+ h=date:from:to:cc:subject:message-id:references:
+ mime-version:in-reply-to;
+ bh=RxfqoO+yHS7u10hkcKNl7hz+iD8IaI6bqSG+tV23NGM=;
+ b=W+L0gK5QuH5DtLuKE4/HMopDdQxcnNNdyeu6cypQCh21WyCKA2uw7/tR
+ hOdj7lx9OGRcbc8hZhUckBQSh1+3iW7DLQwJjKnZtY7WSEVh6x75aygi5
+ xeKF4jFiPW10+/3XmokOX0wbHH7QS3kFCwR4TXaAVzCBytNwzc2Y6VxvZ
+ PPsUaA8ZcU9wqFbCNyjvLuQKwFQWUJtLp6b97y9guXzCCOT/U2o9nb9u7
+ QOoglFPhHOqc9/AUslZtct0gImLXqyaR8Dr6VJEa8JuLycviK/xbvmqDf
+ x962Qr9USTtjyII+NfZ+491rzFpaOipfpJa5ZREsmaOrDaD+KA0AwOvcD g==;
+X-CSE-ConnectionGUID: NAwWeONQR8OnmUrMRgxUyQ==
+X-CSE-MsgGUID: xwW27oJzR+ejMNVT6TsC/A==
+X-IronPort-AV: E=McAfee;i="6800,10657,11608"; a="75507983"
+X-IronPort-AV: E=Sophos;i="6.19,293,1754982000"; d="scan'208";a="75507983"
+Received: from fmviesa004.fm.intel.com ([10.60.135.144])
+ by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 10 Nov 2025 03:30:37 -0800
+X-CSE-ConnectionGUID: CpyNSRr8R8+L7o4h4wO8uA==
+X-CSE-MsgGUID: eNsO4S4xQoaPjpnkFF2swQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.19,293,1754982000"; d="scan'208";a="193661718"
+Received: from lkp-server01.sh.intel.com (HELO 7b01c990427b) ([10.239.97.150])
+ by fmviesa004.fm.intel.com with ESMTP; 10 Nov 2025 03:30:34 -0800
+Received: from kbuild by 7b01c990427b with local (Exim 4.96)
+ (envelope-from <lkp@intel.com>) id 1vIQ6S-0000LH-0z;
+ Mon, 10 Nov 2025 11:30:32 +0000
+Date: Mon, 10 Nov 2025 19:29:58 +0800
+From: kernel test robot <lkp@intel.com>
+To: Thomas Zimmermann <tzimmermann@suse.de>, jfalempe@redhat.com,
+ javierm@redhat.com, simona@ffwll.ch, airlied@gmail.com,
+ mripard@kernel.org, maarten.lankhorst@linux.intel.com,
+ gregkh@linuxfoundation.org, jirislaby@kernel.org
+Cc: oe-kbuild-all@lists.linux.dev, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, linux-serial@vger.kernel.org,
+ Thomas Zimmermann <tzimmermann@suse.de>
+Subject: Re: [PATCH 2/3] drm/client: Support emergency restore via sysrq for
+ all clients
+Message-ID: <202511101914.Rt1WtmfO-lkp@intel.com>
+References: <20251107142612.467817-3-tzimmermann@suse.de>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: PH7PR12MB5685:EE_|CYYPR12MB8891:EE_
-X-MS-Office365-Filtering-Correlation-Id: d9f0d517-1cab-42c2-663f-08de204bc316
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|1800799024|376014|366016|7053199007;
-X-Microsoft-Antispam-Message-Info: =?utf-8?B?eGdSR2tpWWsxcEE2U0VxUWFDazZJTXBRczFMYTU5TW45c3BsdWNud1gzd1pr?=
- =?utf-8?B?S0pkVWNvZGVOS2ZsUlgva1o3NmZMYTlPTzQrOU1vM0RhaThLOCtKOStRdVFC?=
- =?utf-8?B?L1hVVGo5aHNKL3ZpYzMrTzJQQkVob3Z3VWc1dm9lNmRLRmFkemFNM1ViWEdU?=
- =?utf-8?B?SEdKRVU1SncramFXSk5keW04T3FoWktjcDIyNmdGWWtTaTBMOExxL29LaVBj?=
- =?utf-8?B?RmRwOExOc3dQQ29WbG9lSnF1OFhGODFRNHdOcnJJc1NhNFJOUVZqYSt5OURT?=
- =?utf-8?B?N0Rvcy9zUFNBdjYyd2xuaVV4QUVaOCsvUDdwNjdCSHNjKzdzWWFRdlRpNnZM?=
- =?utf-8?B?Q1JybDBvZ1lOYXhWODJSZ21rWkxGWHVHRVQzU2VQcXFha3dhWXowZWg2WkFk?=
- =?utf-8?B?bGROeHBKaDhjVVhkTVh6WUN3R0xkaWU1VnZSR2d3b1hOek5BK25POC9lbzNT?=
- =?utf-8?B?RDZyQjF1KytVVW9oWGsxVnVSZEd6V3o0TSttNDFGRlQ5TWFBWk1zVWtYTVNK?=
- =?utf-8?B?UjFZZFdlMjg0WUhDcTBpbnBScmE5VlBnY1ZSK2dtMlFmYk43K3JOdDBnaWx6?=
- =?utf-8?B?bjNVV1BxMmFtaWtkempYWmppTHROTEYwcTBtTklZRDJFMk5FclYxbkVPSVB0?=
- =?utf-8?B?OExOQnAwUnJYemFvV2xOamJuK0dqT3NlU1lkcExEMTBKOHd4dkdnNHFnUndC?=
- =?utf-8?B?c3R4NXYyNkswSVlBRG5nTTJNSDFHTjI3YUU3MEZPMm0wNHByVCthODNMNE8x?=
- =?utf-8?B?ejRkK1NMTVN3djJKQ0RLeWE1TEZ0dkRUWWtjVVJSV3JqSlFST0dBUFFHc05y?=
- =?utf-8?B?a041VUJEMG5lS0M4amFjZHBsdWc1K2hKVVdBMEV2RXZDN0FVQzlrMFhkZ1da?=
- =?utf-8?B?NGZRdS90L0dsNFFHbzE5VW5TU2d5aG9HWVVmK3N6QzFKUitKTW9tTHpEUVFD?=
- =?utf-8?B?bndISDFQVG51d2psVllNZlRIaVZGZFlNc2xtTkh4bzlYOElQdGtoMUx1NVNM?=
- =?utf-8?B?bkFkRTdyWjZZcm1tZWlENDhIL3BNTEFkWGNrL0pOMlN3YjJYUExOWE84QWtG?=
- =?utf-8?B?cXJGTTFIeFhLbDV2bmtRZWF3RmQ2YzZPMTdxYkJLa0NrMzVuUUdUd21xZ01W?=
- =?utf-8?B?V3hHcWMrY1pmc3l4TDdGNFppdGI1VitBUVo4UEx2ZHB0YWhsN04xKzBrUkxJ?=
- =?utf-8?B?OEx4aFVmZFN2VklWTlkySk1iZkVWQVVjeEgzbkdmS0p1aE5idmRGdWd2Z2x0?=
- =?utf-8?B?M3I5T3gwb3dNYzJZNTBZSXBSc3ZoNTdrUnVMTmdZblgraDlHUURkbm5BandH?=
- =?utf-8?B?bURoTEk3Mk44YVBMaC9wSllxaSsrSzVjYUJMTlBUeGFzRUJXMHd3ZS9QVCsz?=
- =?utf-8?B?OHQwY2Z1TFB1eTZDWS9ySVRsdnJ6MzluZGJPV0VlTEY1V0k0Kzgzd1h6L09T?=
- =?utf-8?B?QVVYZ3J1VkFHTXRUdTdtM2E4TnYvVkVBb04xaER5Y095UHVJU1FpUXhMMnhm?=
- =?utf-8?B?c3BheVpjVUhKNXZJa1RjWHVVc2Z3ZGdUZ1h4QXZIaURtRUtlam9vZFlqWUda?=
- =?utf-8?B?NVRSSUlVdlBJMS81R2laYm9rUEwwcmlaOVRGS0NOV3ppVTlHcEtZRGNDTzM2?=
- =?utf-8?B?NlRsQVZlUHA1cForcnY1Nk1DNVBELzc1cU9mZzFBMVJCRHZHcmU5UHU5M3Fz?=
- =?utf-8?B?RmtzWnFSdmdqTzl5YUhIWjVEYkcrWVRFM2FuQTdlZVZPRWZEcHUrMW5tMndG?=
- =?utf-8?B?eG5EZFZwOHkrQ1lyc2ZON0ZDN1owRUdzWFcxTmFYa2czT1BTTEltZ2t2d0Mv?=
- =?utf-8?B?dlRkbU13SFRHanZIeVNabDNVaEo0WUxwQXJqMGd0QmUxYWhMeEY5UGN3blpX?=
- =?utf-8?B?SXpQMjhoSzJ2Y1dxYnk5WEJjNjNsVWNPY09JSE9ma0xucERhbXpQK1V0RkRu?=
- =?utf-8?Q?jZUNEjQRw3aoIQGy+hYiuDdKKZ5Bt4RS?=
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:PH7PR12MB5685.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230040)(1800799024)(376014)(366016)(7053199007); DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?REZCcmk0Smh5Q2JBM2VJeTNsUWJlQzBwYlZaRkdHMFNuMDNFMkc4YzljaThz?=
- =?utf-8?B?aldCZU91SWJQWHZxNkZ1dktwRFNQR1VqSFpsdHM2c1VKZU1TbXZ6djF3SmF4?=
- =?utf-8?B?U3MzMk9WZVRXQWZTSklQTEJ2M2VCUlFtUStGNHRFd0RITWd0MXB3S1dTTmEr?=
- =?utf-8?B?VkJaTXRPSDZTV2hKT2tGbEk0ZVdVM2ExOGlBdENpSUF1Vk90MFBYTXlEVVdi?=
- =?utf-8?B?dkxPNnZvZHRlOGQyMlV2UEw4VTkwcUswYm1CdWRmNlEzMUdzNDc0cGVLbVhp?=
- =?utf-8?B?ZFdmZlhCbFliSGVCY0I4YnNDa0VrODNZUnFJWUtUTUMrdkxUbFgxRXFNVUdx?=
- =?utf-8?B?UGZQbmRsVXRONEhwMHBKT0pTQTZBZ2ZzY05sZGdHcWs4N21qaTFhRStUeE9r?=
- =?utf-8?B?NFQ0amt4eE1oNkxBcU03SDJuNFd1dHVnRmRjQXp6ZXBZOEZnNFJGbHIvMzdD?=
- =?utf-8?B?UUJPU2FHQWRiRXUyckoySUtBZWtvZmhHT0xoeXVsZnpDT3JyQkpyWUI5N3NE?=
- =?utf-8?B?cktiQkx2d25pb29IWFJwMDJjbXArcll5T2hIdmJqKzZnMmRCZHNwMFlNSlFX?=
- =?utf-8?B?NHVSYVd4Y0Y0bVUyRXNIazlRK3JzMGR4S2VBNzgxeDloby9tTXNnUnNGeEdt?=
- =?utf-8?B?S1hxQ3JJRGtKS0ZFVHhlSTJKcHBCRy9RS1RTNENjRDRNWWxjNFQ0MUhKUGhG?=
- =?utf-8?B?cGxxc2hSb0lscnFzNGFSdmhVLy85eXY4aXFaN2hBeWs5WkMveWkzUXNrNDA2?=
- =?utf-8?B?Ym1wK1BCUmg5cUZZSjkvY0xISVIzNHY2UXBSdk1lYXRxVEdXa3oyWloyUWJo?=
- =?utf-8?B?TlRFamg5NXZKb2duY25xSGJlR2lFNmhLMXNWYTRabHB0T3dLVG5SZEE4b1ll?=
- =?utf-8?B?eFhwOGxyNStKbVFqSW83UCtxdXYzVzUydVpMT1VtNnVhVXp5RjZ3bHRTeWZq?=
- =?utf-8?B?MThuVlkrcFVaNlhBK3NzUHhveUREVmNrd2pSTEd5SDZGbmdOS2NxRWtUM01Z?=
- =?utf-8?B?Y01JYXJpS0NISHFMS29GcHlBVHVySWJCUzViWUZFNDVpOGhIWUtFZEkrQkVR?=
- =?utf-8?B?ZkZZVkg5VU5CdFgvbHd2OE84Z29LSjJjMVNEYTJMZ09obHdlcEVaM0p0Z1VC?=
- =?utf-8?B?WTlsRFlhZHpzWXNwMzdLdjA0RCtLRXZiNjdVcXl3aHVxdmd5ODFML3hOQzVN?=
- =?utf-8?B?aUIrS2UxemthdnI0VlcvRERJQ3pMNzZYTkRrTWV4MGs5eWQrMlVtbnhwSDRN?=
- =?utf-8?B?RG9GR2JtbFl1bnc1L01acWZhc1lIcWFBNGxmN2JOcG1yOE84ZmY3eGJUUHBO?=
- =?utf-8?B?MnZhSEU1UjJ3NkwxaEE5ays0SkxIQ1JnbGJmZ1d3VmcvTGl6UWlPc0ZHZXh0?=
- =?utf-8?B?TDRwRFVLVkJaWkRKeWhtNTFGa3NXdGVvbGNNWHRJVVE2NytGVmZRZHhFQllm?=
- =?utf-8?B?R0p4UVplRU9HbHk0d2lZd1ZoMExWZlpXRVhYOFBESEpXRmk1V2JSNWl5VllU?=
- =?utf-8?B?YmIwQWUrdisyUjVHaTNGQTJCMjNXaWRYd1gxUGlMQ0NxTUhidjZhcWNsV1ps?=
- =?utf-8?B?UHNIQ2NFbmd1RU1sT1czV2pTM2lMSm9VemhDOFVoeEVsYVBOdDRJdkFWYTNy?=
- =?utf-8?B?YVdrYlNIYW5nYTFua09wbExlbUppR2g2cEhydHM0Tmc4SlBFOGF1QWQzMzFK?=
- =?utf-8?B?UUJESllaWGZBelM4U2NxbHBFa29yRXkzcTQ2Z3ZMSXhDNGwvWmFaVGNhQnpN?=
- =?utf-8?B?TnUxa1lPQkMrN1VRWWkwOXdvWkw5QkhXSWNvOSszanJOOWtmMUpPSlY2cGo2?=
- =?utf-8?B?MWV3azV0NFVodUZydjExQTJ6RzNEQVBoSElBNnNpdkhYN2NQK3d6TXJJNnRv?=
- =?utf-8?B?SEJvWmVqUnlGbGlDZmlrYzI4WnBpT1FmdEVsb2FQdkhicFpHZWNWZ1U0RTR1?=
- =?utf-8?B?dWR6bTF3QTh3aTdrbFA5ZldFNE5ndzlaZkZEQnc2UkVBZFJGMG1MSEN1M2V4?=
- =?utf-8?B?NHVwL0hCZXBVQ3FMdUlNK21uREt3MERQZHVubUx0cm9WRUt0ZXZvUEowMmNF?=
- =?utf-8?B?YTFENjU1WnBkbkM3NURMeWo3ZWtUS1ZQVnlPZmhtamlWbEdCdk5vZUtsZllC?=
- =?utf-8?Q?oEFdzcOBdAe8agsorwt4iJcni?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: d9f0d517-1cab-42c2-663f-08de204bc316
-X-MS-Exchange-CrossTenant-AuthSource: PH7PR12MB5685.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 10 Nov 2025 11:24:50.4242 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: Fb4cotuu2d+oOwlJhsHXT90rRwnKComXJO37nBQTv4yZDmbezSUXwycRRC0/2fSE
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CYYPR12MB8891
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20251107142612.467817-3-tzimmermann@suse.de>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -165,85 +75,166 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-As far as I can see that is not correct or rather not complete.
+Hi Thomas,
 
-The peek function should only be used to opportunistically look at the top of the queue. It would only be problematic if it returns a non NULL value once and then a NULL value later.
+kernel test robot noticed the following build errors:
 
-The whole idea of the SPSC is that it is barrier-free and the signaling of new entries to the consumer side is providing the barrier.
+[auto build test ERROR on next-20251107]
+[cannot apply to drm/drm-next drm-exynos/exynos-drm-next drm-intel/for-linux-next drm-intel/for-linux-next-fixes drm-misc/drm-misc-next drm-tip/drm-tip linus/master v6.18-rc4 v6.18-rc3 v6.18-rc2 v6.18-rc5]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-So basically on the provider side you have
-spsc_push(entry)
-wake_up(consumer)
+url:    https://github.com/intel-lab-lkp/linux/commits/Thomas-Zimmermann/drm-client-Pass-force-parameter-to-client-restore/20251107-223026
+base:   next-20251107
+patch link:    https://lore.kernel.org/r/20251107142612.467817-3-tzimmermann%40suse.de
+patch subject: [PATCH 2/3] drm/client: Support emergency restore via sysrq for all clients
+config: parisc-randconfig-002-20251110 (https://download.01.org/0day-ci/archive/20251110/202511101914.Rt1WtmfO-lkp@intel.com/config)
+compiler: hppa-linux-gcc (GCC) 14.3.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251110/202511101914.Rt1WtmfO-lkp@intel.com/reproduce)
 
-And on the consumer side you have:
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202511101914.Rt1WtmfO-lkp@intel.com/
 
-woken_up_by_provider() {
-	entry = spsc_peek();
-	...
-	spsc_pop();
-}
+All error/warnings (new ones prefixed by >>):
 
-The problem we are facing here is that the spsc only provides the guarantee that you see the entry pointer, but not the content of entry itself.
+   In file included from drivers/gpu/drm/drm_dumb_buffers.c:35:
+>> drivers/gpu/drm/drm_internal.h:64:6: warning: no previous prototype for 'drm_client_sysrq_register' [-Wmissing-prototypes]
+      64 | void drm_client_sysrq_register(struct drm_device *dev)
+         |      ^~~~~~~~~~~~~~~~~~~~~~~~~
+>> drivers/gpu/drm/drm_internal.h:66:6: warning: no previous prototype for 'drm_client_sysrq_unregister' [-Wmissing-prototypes]
+      66 | void drm_client_sysrq_unregister(struct drm_device *dev)
+         |      ^~~~~~~~~~~~~~~~~~~~~~~~~~~
+--
+   In file included from drivers/gpu/drm/clients/drm_log.c:22:
+>> drivers/gpu/drm/clients/../drm_internal.h:64:6: warning: no previous prototype for 'drm_client_sysrq_register' [-Wmissing-prototypes]
+      64 | void drm_client_sysrq_register(struct drm_device *dev)
+         |      ^~~~~~~~~~~~~~~~~~~~~~~~~
+>> drivers/gpu/drm/clients/../drm_internal.h:66:6: warning: no previous prototype for 'drm_client_sysrq_unregister' [-Wmissing-prototypes]
+      66 | void drm_client_sysrq_unregister(struct drm_device *dev)
+         |      ^~~~~~~~~~~~~~~~~~~~~~~~~~~
+--
+   hppa-linux-ld: drivers/gpu/drm/drm_auth.o: in function `drm_client_sysrq_register':
+>> (.text+0x45c): multiple definition of `drm_client_sysrq_register'; drivers/gpu/drm/drm_atomic.o:(.text+0x2e18): first defined here
+   hppa-linux-ld: drivers/gpu/drm/drm_auth.o: in function `drm_client_sysrq_unregister':
+>> (.text+0x460): multiple definition of `drm_client_sysrq_unregister'; drivers/gpu/drm/drm_atomic.o:(.text+0x2e1c): first defined here
+   hppa-linux-ld: drivers/gpu/drm/drm_connector.o: in function `drm_client_sysrq_register':
+   (.text+0x1e90): multiple definition of `drm_client_sysrq_register'; drivers/gpu/drm/drm_atomic.o:(.text+0x2e18): first defined here
+   hppa-linux-ld: drivers/gpu/drm/drm_connector.o: in function `drm_client_sysrq_unregister':
+   (.text+0x1e94): multiple definition of `drm_client_sysrq_unregister'; drivers/gpu/drm/drm_atomic.o:(.text+0x2e1c): first defined here
+   hppa-linux-ld: drivers/gpu/drm/drm_crtc.o: in function `drm_client_sysrq_register':
+   (.text+0xab8): multiple definition of `drm_client_sysrq_register'; drivers/gpu/drm/drm_atomic.o:(.text+0x2e18): first defined here
+   hppa-linux-ld: drivers/gpu/drm/drm_crtc.o: in function `drm_client_sysrq_unregister':
+   (.text+0xabc): multiple definition of `drm_client_sysrq_unregister'; drivers/gpu/drm/drm_atomic.o:(.text+0x2e1c): first defined here
+   hppa-linux-ld: drivers/gpu/drm/drm_drv.o: in function `drm_client_sysrq_register':
+   (.text+0x14f4): multiple definition of `drm_client_sysrq_register'; drivers/gpu/drm/drm_atomic.o:(.text+0x2e18): first defined here
+   hppa-linux-ld: drivers/gpu/drm/drm_drv.o: in function `drm_client_sysrq_unregister':
+   (.text+0x14f8): multiple definition of `drm_client_sysrq_unregister'; drivers/gpu/drm/drm_atomic.o:(.text+0x2e1c): first defined here
+   hppa-linux-ld: drivers/gpu/drm/drm_dumb_buffers.o: in function `drm_client_sysrq_register':
+   (.text+0x20c): multiple definition of `drm_client_sysrq_register'; drivers/gpu/drm/drm_atomic.o:(.text+0x2e18): first defined here
+   hppa-linux-ld: drivers/gpu/drm/drm_dumb_buffers.o: in function `drm_client_sysrq_unregister':
+   (.text+0x210): multiple definition of `drm_client_sysrq_unregister'; drivers/gpu/drm/drm_atomic.o:(.text+0x2e1c): first defined here
+   hppa-linux-ld: drivers/gpu/drm/drm_edid.o: in function `drm_client_sysrq_register':
+   (.text+0x734c): multiple definition of `drm_client_sysrq_register'; drivers/gpu/drm/drm_atomic.o:(.text+0x2e18): first defined here
+   hppa-linux-ld: drivers/gpu/drm/drm_edid.o: in function `drm_client_sysrq_unregister':
+   (.text+0x7350): multiple definition of `drm_client_sysrq_unregister'; drivers/gpu/drm/drm_atomic.o:(.text+0x2e1c): first defined here
+   hppa-linux-ld: drivers/gpu/drm/drm_encoder.o: in function `drm_client_sysrq_register':
+   (.text+0x444): multiple definition of `drm_client_sysrq_register'; drivers/gpu/drm/drm_atomic.o:(.text+0x2e18): first defined here
+   hppa-linux-ld: drivers/gpu/drm/drm_encoder.o: in function `drm_client_sysrq_unregister':
+   (.text+0x448): multiple definition of `drm_client_sysrq_unregister'; drivers/gpu/drm/drm_atomic.o:(.text+0x2e1c): first defined here
+   hppa-linux-ld: drivers/gpu/drm/drm_file.o: in function `drm_client_sysrq_register':
+   (.text+0xf10): multiple definition of `drm_client_sysrq_register'; drivers/gpu/drm/drm_atomic.o:(.text+0x2e18): first defined here
+   hppa-linux-ld: drivers/gpu/drm/drm_file.o: in function `drm_client_sysrq_unregister':
+   (.text+0xf14): multiple definition of `drm_client_sysrq_unregister'; drivers/gpu/drm/drm_atomic.o:(.text+0x2e1c): first defined here
+   hppa-linux-ld: drivers/gpu/drm/drm_framebuffer.o: in function `drm_client_sysrq_register':
+   (.text+0x1028): multiple definition of `drm_client_sysrq_register'; drivers/gpu/drm/drm_atomic.o:(.text+0x2e18): first defined here
+   hppa-linux-ld: drivers/gpu/drm/drm_framebuffer.o: in function `drm_client_sysrq_unregister':
+   (.text+0x102c): multiple definition of `drm_client_sysrq_unregister'; drivers/gpu/drm/drm_atomic.o:(.text+0x2e1c): first defined here
+   hppa-linux-ld: drivers/gpu/drm/drm_gem.o: in function `drm_client_sysrq_register':
+   (.text+0x1738): multiple definition of `drm_client_sysrq_register'; drivers/gpu/drm/drm_atomic.o:(.text+0x2e18): first defined here
+   hppa-linux-ld: drivers/gpu/drm/drm_gem.o: in function `drm_client_sysrq_unregister':
+   (.text+0x173c): multiple definition of `drm_client_sysrq_unregister'; drivers/gpu/drm/drm_atomic.o:(.text+0x2e1c): first defined here
+   hppa-linux-ld: drivers/gpu/drm/drm_ioctl.o: in function `drm_client_sysrq_register':
+   (.text+0xe10): multiple definition of `drm_client_sysrq_register'; drivers/gpu/drm/drm_atomic.o:(.text+0x2e18): first defined here
+   hppa-linux-ld: drivers/gpu/drm/drm_ioctl.o: in function `drm_client_sysrq_unregister':
+   (.text+0xe14): multiple definition of `drm_client_sysrq_unregister'; drivers/gpu/drm/drm_atomic.o:(.text+0x2e1c): first defined here
+   hppa-linux-ld: drivers/gpu/drm/drm_lease.o: in function `drm_client_sysrq_register':
+   (.text+0x7a0): multiple definition of `drm_client_sysrq_register'; drivers/gpu/drm/drm_atomic.o:(.text+0x2e18): first defined here
+   hppa-linux-ld: drivers/gpu/drm/drm_lease.o: in function `drm_client_sysrq_unregister':
+   (.text+0x7a4): multiple definition of `drm_client_sysrq_unregister'; drivers/gpu/drm/drm_atomic.o:(.text+0x2e1c): first defined here
+   hppa-linux-ld: drivers/gpu/drm/drm_managed.o: in function `drm_client_sysrq_register':
+   (.text+0x6b8): multiple definition of `drm_client_sysrq_register'; drivers/gpu/drm/drm_atomic.o:(.text+0x2e18): first defined here
+   hppa-linux-ld: drivers/gpu/drm/drm_managed.o: in function `drm_client_sysrq_unregister':
+   (.text+0x6bc): multiple definition of `drm_client_sysrq_unregister'; drivers/gpu/drm/drm_atomic.o:(.text+0x2e1c): first defined here
+   hppa-linux-ld: drivers/gpu/drm/drm_mode_config.o: in function `drm_client_sysrq_register':
+   (.text+0xc34): multiple definition of `drm_client_sysrq_register'; drivers/gpu/drm/drm_atomic.o:(.text+0x2e18): first defined here
+   hppa-linux-ld: drivers/gpu/drm/drm_mode_config.o: in function `drm_client_sysrq_unregister':
+   (.text+0xc38): multiple definition of `drm_client_sysrq_unregister'; drivers/gpu/drm/drm_atomic.o:(.text+0x2e1c): first defined here
+   hppa-linux-ld: drivers/gpu/drm/drm_prime.o: in function `drm_client_sysrq_register':
+   (.text+0xb74): multiple definition of `drm_client_sysrq_register'; drivers/gpu/drm/drm_atomic.o:(.text+0x2e18): first defined here
+   hppa-linux-ld: drivers/gpu/drm/drm_prime.o: in function `drm_client_sysrq_unregister':
+   (.text+0xb78): multiple definition of `drm_client_sysrq_unregister'; drivers/gpu/drm/drm_atomic.o:(.text+0x2e1c): first defined here
+   hppa-linux-ld: drivers/gpu/drm/drm_syncobj.o: in function `drm_client_sysrq_register':
+   (.text+0x174c): multiple definition of `drm_client_sysrq_register'; drivers/gpu/drm/drm_atomic.o:(.text+0x2e18): first defined here
+   hppa-linux-ld: drivers/gpu/drm/drm_syncobj.o: in function `drm_client_sysrq_unregister':
+   (.text+0x1750): multiple definition of `drm_client_sysrq_unregister'; drivers/gpu/drm/drm_atomic.o:(.text+0x2e1c): first defined here
+   hppa-linux-ld: drivers/gpu/drm/drm_sysfs.o: in function `drm_client_sysrq_register':
+   (.text+0x758): multiple definition of `drm_client_sysrq_register'; drivers/gpu/drm/drm_atomic.o:(.text+0x2e18): first defined here
+   hppa-linux-ld: drivers/gpu/drm/drm_sysfs.o: in function `drm_client_sysrq_unregister':
+   (.text+0x75c): multiple definition of `drm_client_sysrq_unregister'; drivers/gpu/drm/drm_atomic.o:(.text+0x2e1c): first defined here
+   hppa-linux-ld: drivers/gpu/drm/drm_vblank.o: in function `drm_client_sysrq_register':
+   (.text+0x2458): multiple definition of `drm_client_sysrq_register'; drivers/gpu/drm/drm_atomic.o:(.text+0x2e18): first defined here
+   hppa-linux-ld: drivers/gpu/drm/drm_vblank.o: in function `drm_client_sysrq_unregister':
+   (.text+0x245c): multiple definition of `drm_client_sysrq_unregister'; drivers/gpu/drm/drm_atomic.o:(.text+0x2e1c): first defined here
+   hppa-linux-ld: drivers/gpu/drm/drm_vblank_work.o: in function `drm_client_sysrq_register':
+   (.text+0x594): multiple definition of `drm_client_sysrq_register'; drivers/gpu/drm/drm_atomic.o:(.text+0x2e18): first defined here
+   hppa-linux-ld: drivers/gpu/drm/drm_vblank_work.o: in function `drm_client_sysrq_unregister':
+   (.text+0x598): multiple definition of `drm_client_sysrq_unregister'; drivers/gpu/drm/drm_atomic.o:(.text+0x2e1c): first defined here
+   hppa-linux-ld: drivers/gpu/drm/drm_client.o: in function `drm_client_sysrq_register':
+   (.text+0x830): multiple definition of `drm_client_sysrq_register'; drivers/gpu/drm/drm_atomic.o:(.text+0x2e18): first defined here
+   hppa-linux-ld: drivers/gpu/drm/drm_client.o: in function `drm_client_sysrq_unregister':
+   (.text+0x834): multiple definition of `drm_client_sysrq_unregister'; drivers/gpu/drm/drm_atomic.o:(.text+0x2e1c): first defined here
+   hppa-linux-ld: drivers/gpu/drm/drm_client_event.o: in function `drm_client_sysrq_register':
+   (.text+0x544): multiple definition of `drm_client_sysrq_register'; drivers/gpu/drm/drm_atomic.o:(.text+0x2e18): first defined here
+   hppa-linux-ld: drivers/gpu/drm/drm_client_event.o: in function `drm_client_sysrq_unregister':
+   (.text+0x548): multiple definition of `drm_client_sysrq_unregister'; drivers/gpu/drm/drm_atomic.o:(.text+0x2e1c): first defined here
+   hppa-linux-ld: drivers/gpu/drm/drm_client_modeset.o: in function `drm_client_sysrq_register':
+   (.text+0x2d90): multiple definition of `drm_client_sysrq_register'; drivers/gpu/drm/drm_atomic.o:(.text+0x2e18): first defined here
+   hppa-linux-ld: drivers/gpu/drm/drm_client_modeset.o: in function `drm_client_sysrq_unregister':
+   (.text+0x2d94): multiple definition of `drm_client_sysrq_unregister'; drivers/gpu/drm/drm_atomic.o:(.text+0x2e1c): first defined here
+   hppa-linux-ld: drivers/gpu/drm/drm_client_sysrq.o: in function `drm_client_sysrq_register':
+   (.text+0x0): multiple definition of `drm_client_sysrq_register'; drivers/gpu/drm/drm_atomic.o:(.text+0x2e18): first defined here
+   hppa-linux-ld: drivers/gpu/drm/drm_client_sysrq.o: in function `drm_client_sysrq_unregister':
+   (.text+0x4): multiple definition of `drm_client_sysrq_unregister'; drivers/gpu/drm/drm_atomic.o:(.text+0x2e1c): first defined here
+   hppa-linux-ld: drivers/gpu/drm/drm_debugfs.o: in function `drm_client_sysrq_register':
+   (.text+0x1048): multiple definition of `drm_client_sysrq_register'; drivers/gpu/drm/drm_atomic.o:(.text+0x2e18): first defined here
+   hppa-linux-ld: drivers/gpu/drm/drm_debugfs.o: in function `drm_client_sysrq_unregister':
+   (.text+0x104c): multiple definition of `drm_client_sysrq_unregister'; drivers/gpu/drm/drm_atomic.o:(.text+0x2e1c): first defined here
+   hppa-linux-ld: drivers/gpu/drm/drm_debugfs_crc.o: in function `drm_client_sysrq_register':
+   (.text+0x9c0): multiple definition of `drm_client_sysrq_register'; drivers/gpu/drm/drm_atomic.o:(.text+0x2e18): first defined here
+   hppa-linux-ld: drivers/gpu/drm/drm_debugfs_crc.o: in function `drm_client_sysrq_unregister':
+   (.text+0x9c4): multiple definition of `drm_client_sysrq_unregister'; drivers/gpu/drm/drm_atomic.o:(.text+0x2e1c): first defined here
+   hppa-linux-ld: drivers/gpu/drm/drm_gem_atomic_helper.o: in function `drm_client_sysrq_register':
+   (.text+0x5c8): multiple definition of `drm_client_sysrq_register'; drivers/gpu/drm/drm_atomic.o:(.text+0x2e18): first defined here
+   hppa-linux-ld: drivers/gpu/drm/drm_gem_atomic_helper.o: in function `drm_client_sysrq_unregister':
+   (.text+0x5cc): multiple definition of `drm_client_sysrq_unregister'; drivers/gpu/drm/drm_atomic.o:(.text+0x2e1c): first defined here
 
-So use cases like:
+Kconfig warnings: (for reference only)
+   WARNING: unmet direct dependencies detected for OF_GPIO
+   Depends on [n]: GPIOLIB [=y] && OF [=n] && HAS_IOMEM [=y]
+   Selected by [y]:
+   - GPIO_TB10X [=y] && GPIOLIB [=y] && HAS_IOMEM [=y] && (ARC_PLAT_TB10X || COMPILE_TEST [=y])
+   WARNING: unmet direct dependencies detected for MFD_STMFX
+   Depends on [n]: HAS_IOMEM [=y] && I2C [=y] && OF [=n]
+   Selected by [y]:
+   - PINCTRL_STMFX [=y] && PINCTRL [=y] && I2C [=y] && OF_GPIO [=y] && HAS_IOMEM [=y]
+   WARNING: unmet direct dependencies detected for I2C_K1
+   Depends on [n]: I2C [=y] && HAS_IOMEM [=y] && (ARCH_SPACEMIT || COMPILE_TEST [=y]) && OF [=n]
+   Selected by [y]:
+   - MFD_SPACEMIT_P1 [=y] && HAS_IOMEM [=y] && (ARCH_SPACEMIT || COMPILE_TEST [=y]) && I2C [=y]
 
-woken_up_by_provider() {
-	while (entry = spsc_peek()) {
-		...
-		spsc_pop();
-	}
-}
-
-Are illegal since you don't have the correct memory barriers any more.
-
-Took me an eternity to understand that as well, so bear with me that I didn't previously explained that.
-
-Question is what should we do?
-
-Regards,
-Christian.
-
-On 11/10/25 09:19, Philipp Stanner wrote:
-> The spsc_queue is an unlocked, highly asynchronous piece of
-> infrastructure. Its inline function spsc_queue_peek() obtains the head
-> entry of the queue.
-> 
-> This access is performed without READ_ONCE() and is, therefore,
-> undefined behavior. In order to prevent the compiler from ever
-> reordering that access, or even optimizing it away, a READ_ONCE() is
-> strictly necessary. This is easily proven by the fact that
-> spsc_queue_pop() uses this very pattern to access the head.
-> 
-> Add READ_ONCE() to spsc_queue_peek().
-> 
-> Cc: stable@vger.kernel.org # v4.16+
-> Fixes: 27105db6c63a ("drm/amdgpu: Add SPSC queue to scheduler.")
-> Signed-off-by: Philipp Stanner <phasta@kernel.org>
-> ---
-> I think this makes it less broken, but I'm not even sure if it's enough
-> or more memory barriers or an rcu_dereference() would be correct. The
-> spsc_queue is, of course, not documented and the existing barrier
-> comments are either false or not telling.
-> 
-> If someone has an idea, shoot us the info. Otherwise I think this is the
-> right thing to do for now.
-> 
-> P.
-> ---
->  include/drm/spsc_queue.h | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/include/drm/spsc_queue.h b/include/drm/spsc_queue.h
-> index ee9df8cc67b7..39bada748ffc 100644
-> --- a/include/drm/spsc_queue.h
-> +++ b/include/drm/spsc_queue.h
-> @@ -54,7 +54,7 @@ static inline void spsc_queue_init(struct spsc_queue *queue)
->  
->  static inline struct spsc_node *spsc_queue_peek(struct spsc_queue *queue)
->  {
-> -	return queue->head;
-> +	return READ_ONCE(queue->head);
->  }
->  
->  static inline int spsc_queue_count(struct spsc_queue *queue)
-
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
