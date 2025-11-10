@@ -2,38 +2,51 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1916AC460AC
-	for <lists+dri-devel@lfdr.de>; Mon, 10 Nov 2025 11:48:29 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id DA687C46910
+	for <lists+dri-devel@lfdr.de>; Mon, 10 Nov 2025 13:22:51 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5FBCE10E2D7;
-	Mon, 10 Nov 2025 10:48:27 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D88F310E2C0;
+	Mon, 10 Nov 2025 12:22:48 +0000 (UTC)
+Authentication-Results: gabe.freedesktop.org;
+	dkim=pass (1024-bit key; unprotected) header.d=seu.edu.cn header.i=@seu.edu.cn header.b="ZIqpqclA";
+	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
- by gabe.freedesktop.org (Postfix) with ESMTP id 569CD10E2D7
- for <dri-devel@lists.freedesktop.org>; Mon, 10 Nov 2025 10:48:25 +0000 (UTC)
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
- by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 1A1A5FEC
- for <dri-devel@lists.freedesktop.org>; Mon, 10 Nov 2025 02:48:17 -0800 (PST)
-Received: from e110455-lin.cambridge.arm.com (usa-sjc-imap-foss1.foss.arm.com
- [10.121.207.14])
- by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPA id 906003F66E
- for <dri-devel@lists.freedesktop.org>; Mon, 10 Nov 2025 02:48:24 -0800 (PST)
-Date: Mon, 10 Nov 2025 10:48:20 +0000
-From: Liviu Dudau <liviu.dudau@arm.com>
-To: Boris Brezillon <boris.brezillon@collabora.com>
-Cc: Steven Price <steven.price@arm.com>,
- =?utf-8?Q?Adri=C3=A1n?= Larumbe <adrian.larumbe@collabora.com>,
- dri-devel@lists.freedesktop.org, kernel@collabora.com
-Subject: Re: [PATCH] drm/panthor: Flush shmem writes before mapping buffers
- CPU-uncached
-Message-ID: <aRHC9PVV38ORvzDs@e110455-lin.cambridge.arm.com>
-References: <20251107171214.1186299-1-boris.brezillon@collabora.com>
+X-Greylist: delayed 302 seconds by postgrey-1.36 at gabe;
+ Mon, 10 Nov 2025 08:54:04 UTC
+Received: from mail-m49197.qiye.163.com (mail-m49197.qiye.163.com
+ [45.254.49.197])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7D02210E0F0;
+ Mon, 10 Nov 2025 08:54:04 +0000 (UTC)
+Received: from LAPTOP-N070L597.localdomain (unknown [58.241.16.34])
+ by smtp.qiye.163.com (Hmail) with ESMTP id 29056fe23;
+ Mon, 10 Nov 2025 16:48:58 +0800 (GMT+08:00)
+From: Zilin Guan <zilin@seu.edu.cn>
+To: jani.nikula@linux.intel.com
+Cc: joonas.lahtinen@linux.intel.com, rodrigo.vivi@intel.com,
+ tursulin@ursulin.net, airlied@gmail.com, simona@ffwll.ch,
+ andi.shyti@linux.intel.com, mikolaj.wasiak@intel.com,
+ krzysztof.karas@intel.com, nitin.r.gote@intel.com,
+ intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, jianhao.xu@seu.edu.cn,
+ Zilin Guan <zilin@seu.edu.cn>
+Subject: [PATCH] drm/i915: Fix improper freeing of GTT resources
+Date: Mon, 10 Nov 2025 08:48:54 +0000
+Message-Id: <20251110084854.750219-1-zilin@seu.edu.cn>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20251107171214.1186299-1-boris.brezillon@collabora.com>
+X-HM-Tid: 0a9a6cf4407703a1kunm60fb54dea58d19
+X-HM-MType: 10
+X-HM-Spam-Status: e1kfGhgUHx5ZQUtXWQgPGg8OCBgUHx5ZQUlOS1dZFg8aDwILHllBWSg2Ly
+ tZV1koWUFITzdXWS1ZQUlXWQ8JGhUIEh9ZQVlCShkaVksZHR8aGh5KSkMeT1YeHw5VEwETFhoSFy
+ QUDg9ZV1kYEgtZQVlOQ1VJT0pVSk1VSE9ZV1kWGg8SFR0UWUFZS1VLVUtVS1kG
+DKIM-Signature: a=rsa-sha256;
+ b=ZIqpqclAxMTuBpVxDXAljoWPvTLRG4w9zf+DU7lfiJeSbYcGmcO6BZ+kOJUjmg2tvwpLcfzIEG3AsXjtpDXI50Q8qXN005DeIdmcbXN3ZiWto+BCEXJ8uS2po2ezzV883E9sKJisMQ+GsrcdXR9oq+VPX5GZJfFOXEhjArebiEo=;
+ s=default; c=relaxed/relaxed; d=seu.edu.cn; v=1; 
+ bh=NNeu8X5AfKIaZAoYrzMFyvH5cUOsd9q1DZT/gH4VelI=;
+ h=date:mime-version:subject:message-id:from;
+X-Mailman-Approved-At: Mon, 10 Nov 2025 12:22:48 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -49,70 +62,46 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, Nov 07, 2025 at 06:12:14PM +0100, Boris Brezillon wrote:
-> The shmem layer zeroes out the new pages using cached mappings, and if
-> we don't CPU-flush we might leave dirty cachelines behind, leading to
-> potential data leaks and/or asynchronous buffer corruption when dirty
-> cachelines are evicted.
-> 
-> Fixes: 8a1cc07578bf ("drm/panthor: Add GEM logical block")
-> Signed-off-by: Boris Brezillon <boris.brezillon@collabora.com>
+In the error paths of reserve_gtt_with_resource() and
+insert_gtt_with_resource(), a vma_res object allocated via
+i915_vma_resource_alloc() was incorrectly released using kfree().
 
-Reviewed-by: Liviu Dudau <liviu.dudau@arm.com>
+Since i915_vma_resource_alloc() allocates objects from a dedicated
+kmem_cache, using kfree() instead of the corresponding
+i915_vma_resource_free() causes a mismatch between allocation and
+deallocation routines, potentially leading to memory corruption.
 
-Best regards,
-Liviu
+Fix this by calling i915_vma_resource_free() to properly release the
+vma_res object in both functions.
 
-> ---
->  drivers/gpu/drm/panthor/panthor_gem.c | 18 ++++++++++++++++++
->  1 file changed, 18 insertions(+)
-> 
-> diff --git a/drivers/gpu/drm/panthor/panthor_gem.c b/drivers/gpu/drm/panthor/panthor_gem.c
-> index f369cc3e2a5f..2c12c1c58e2b 100644
-> --- a/drivers/gpu/drm/panthor/panthor_gem.c
-> +++ b/drivers/gpu/drm/panthor/panthor_gem.c
-> @@ -281,6 +281,23 @@ panthor_gem_create_with_handle(struct drm_file *file,
->  
->  	panthor_gem_debugfs_set_usage_flags(bo, 0);
->  
-> +	/* If this is a write-combine mapping, we query the sgt to force a CPU
-> +	 * cache flush (dma_map_sgtable() is called when the sgt is created).
-> +	 * This ensures the zero-ing is visible to any uncached mapping created
-> +	 * by vmap/mmap.
-> +	 * FIXME: Ideally this should be done when pages are allocated, not at
-> +	 * BO creation time.
-> +	 */
-> +	if (shmem->map_wc) {
-> +		struct sg_table *sgt;
-> +
-> +		sgt = drm_gem_shmem_get_pages_sgt(shmem);
-> +		if (IS_ERR(sgt)) {
-> +			ret = PTR_ERR(sgt);
-> +			goto out_put_gem;
-> +		}
-> +	}
-> +
->  	/*
->  	 * Allocate an id of idr table where the obj is registered
->  	 * and handle has the id what user can see.
-> @@ -289,6 +306,7 @@ panthor_gem_create_with_handle(struct drm_file *file,
->  	if (!ret)
->  		*size = bo->base.base.size;
->  
-> +out_put_gem:
->  	/* drop reference from allocate - handle holds it now. */
->  	drm_gem_object_put(&shmem->base);
->  
-> -- 
-> 2.51.1
-> 
+Fixes: e1a4bbb6e837d ("drm/i915: Initial introduction of vma resources")
+Signed-off-by: Zilin Guan <zilin@seu.edu.cn>
+---
+ drivers/gpu/drm/i915/selftests/i915_gem_gtt.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
+diff --git a/drivers/gpu/drm/i915/selftests/i915_gem_gtt.c b/drivers/gpu/drm/i915/selftests/i915_gem_gtt.c
+index 7ab4c4e60264..16e72ef57bed 100644
+--- a/drivers/gpu/drm/i915/selftests/i915_gem_gtt.c
++++ b/drivers/gpu/drm/i915/selftests/i915_gem_gtt.c
+@@ -1524,7 +1524,7 @@ static int reserve_gtt_with_resource(struct i915_vma *vma, u64 offset)
+ 		i915_vma_resource_init_from_vma(vma_res, vma);
+ 		vma->resource = vma_res;
+ 	} else {
+-		kfree(vma_res);
++		i915_vma_resource_free(vma_res);
+ 	}
+ 	mutex_unlock(&vm->mutex);
+ 
+@@ -1704,7 +1704,7 @@ static int insert_gtt_with_resource(struct i915_vma *vma)
+ 		i915_vma_resource_init_from_vma(vma_res, vma);
+ 		vma->resource = vma_res;
+ 	} else {
+-		kfree(vma_res);
++		i915_vma_resource_free(vma_res);
+ 	}
+ 	mutex_unlock(&vm->mutex);
+ 
 -- 
-====================
-| I would like to |
-| fix the world,  |
-| but they're not |
-| giving me the   |
- \ source code!  /
-  ---------------
-    ¯\_(ツ)_/¯
+2.34.1
+
