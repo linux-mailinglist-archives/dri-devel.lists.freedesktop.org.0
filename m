@@ -2,58 +2,143 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 67A01C46D41
-	for <lists+dri-devel@lfdr.de>; Mon, 10 Nov 2025 14:18:41 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id B70B9C46D53
+	for <lists+dri-devel@lfdr.de>; Mon, 10 Nov 2025 14:19:00 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E648010E386;
-	Mon, 10 Nov 2025 13:18:38 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9E22410E391;
+	Mon, 10 Nov 2025 13:18:58 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="Awepr4/2";
+	dkim=pass (1024-bit key; unprotected) header.d=suse.de header.i=@suse.de header.b="Gjc3UfHy";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="ABNX7bmN";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="TEcL47Rh";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="/DdmTomV";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from bali.collaboradmins.com (bali.collaboradmins.com
- [148.251.105.195])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8B35E10E386;
- Mon, 10 Nov 2025 13:18:37 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1762780716;
- bh=tjWjbZez+jeeg8E2wv4o2/fvFb63tGgqen521+zuFgM=;
- h=From:Date:Subject:To:Cc:From;
- b=Awepr4/2JmKBRcxQZeATqn9nBAkrRDcpOfEAR5aV09s0rLKysfCJgypk094I80cCl
- 9qxVk/EO71m4y+Mj2A2jE37+uF8D+LkByFQl5EIxc4iXjy1J2FdpOflRTxACEExwOI
- 9RiP/ne1Y6mkaDdCm0h7IZ0eTAIpE/EkhlTSQkx9K+IyPAnRwcprjG5Lw1JUWd2/Ut
- Dxt/yBCBRVfoktp6f5N9fhF7etQx1fRxo+xwKggzftW93CqbZxiBiux4Y6xKleOdoL
- aiIEWLRQytourre2NUQaKTU4uxr0qfRkv/UN5wgj/tElikBn+4lO7w0tmixChOFi6o
- UK69cpFXXkw+Q==
-Received: from localhost (unknown [82.79.138.145])
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6295310E38F
+ for <dri-devel@lists.freedesktop.org>; Mon, 10 Nov 2025 13:18:57 +0000 (UTC)
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org
+ [IPv6:2a07:de40:b281:104:10:150:64:97])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange ECDHE (prime256v1) server-signature RSA-PSS (4096 bits)
- server-digest SHA256) (No client certificate requested)
- (Authenticated sender: cristicc)
- by bali.collaboradmins.com (Postfix) with UTF8SMTPSA id CF20917E12C4;
- Mon, 10 Nov 2025 14:18:35 +0100 (CET)
-From: Cristian Ciocaltea <cristian.ciocaltea@collabora.com>
-Date: Mon, 10 Nov 2025 15:18:05 +0200
-Subject: [PATCH i-g-t] tests: (Re)add kms_crtc_background_color test
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested)
+ by smtp-out1.suse.de (Postfix) with ESMTPS id A8AD4337B9;
+ Mon, 10 Nov 2025 13:18:53 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1762780736; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=ljfzBcqH5qpE4v1MruiYtYz4MaLfaGD2t+fulO6F7gw=;
+ b=Gjc3UfHyzPz71blN2Ygx2nlvyFy1IMSHPK159oxpOZPNcArqK9j9VL5IKo9ooWm+SRX2Ao
+ F/iQOoL/wzjk93KBnc3yczLiPcQzhzaU6l1DwND0bZfFTArGTNmDx41+ipjRRMmf3IDw+2
+ aPXJX93VWUsJ25VPR84yP135Ey0AN3Q=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1762780736;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=ljfzBcqH5qpE4v1MruiYtYz4MaLfaGD2t+fulO6F7gw=;
+ b=ABNX7bmNwgigbZGsweV0639FJWiESM1Bx5S+nU89ePPR0dyTMFTeHPXwk6TiZ19yqNT9gv
+ 70jo25WvfLGf6+BQ==
+Authentication-Results: smtp-out1.suse.de;
+ dkim=pass header.d=suse.de header.s=susede2_rsa header.b=TEcL47Rh;
+ dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b="/DdmTomV"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1762780733; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=ljfzBcqH5qpE4v1MruiYtYz4MaLfaGD2t+fulO6F7gw=;
+ b=TEcL47RhrFDWH0+8KD20ItnaxnXIiV7ej1hpIcd+4sif+q3bEEBvhGN2X6Wb0/EeHqiMzg
+ imOs76GEBd3dOg5xGmgbA0Grwfjbo2MQ5xG5OxGf8+/i5cUl3PsdjK0VIVHWZFNLQJ1b6X
+ llbhHBjFDtHr2OzygQ4mZm4SkJvoH0g=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1762780733;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=ljfzBcqH5qpE4v1MruiYtYz4MaLfaGD2t+fulO6F7gw=;
+ b=/DdmTomVs4KoIzEaLXbAgVmKpShM6TqCJK5UGRMS8HajIwPfh1P67eCXTTArW9F/m/21Pe
+ K1MzgWes3mMeXvDQ==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested)
+ by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 6B0CB143F1;
+ Mon, 10 Nov 2025 13:18:53 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+ by imap1.dmz-prg2.suse.org with ESMTPSA id gLO0GD3mEWnOSwAAD6G6ig
+ (envelope-from <tzimmermann@suse.de>); Mon, 10 Nov 2025 13:18:53 +0000
+Message-ID: <b85b321f-9ce7-4c1e-910b-01a5265009ef@suse.de>
+Date: Mon, 10 Nov 2025 14:18:52 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 2/6] drm/atomic: use drm_crtc_vblank_waitqueue()
+To: Jani Nikula <jani.nikula@intel.com>, dri-devel@lists.freedesktop.org
+Cc: intel-gfx@lists.freedesktop.org, intel-xe@lists.freedesktop.org,
+ ville.syrjala@linux.intel.com
+References: <cover.1762513240.git.jani.nikula@intel.com>
+ <1097348197acea9110da8baebbbc189890d01660.1762513240.git.jani.nikula@intel.com>
+ <29b1cc39-7868-4b15-bac6-7dc97869dbdb@suse.de>
+ <a605efb1745f0d2c96ff986fed7bdeeb6226b7ad@intel.com>
+Content-Language: en-US
+From: Thomas Zimmermann <tzimmermann@suse.de>
+Autocrypt: addr=tzimmermann@suse.de; keydata=
+ xsBNBFs50uABCADEHPidWt974CaxBVbrIBwqcq/WURinJ3+2WlIrKWspiP83vfZKaXhFYsdg
+ XH47fDVbPPj+d6tQrw5lPQCyqjwrCPYnq3WlIBnGPJ4/jreTL6V+qfKRDlGLWFjZcsrPJGE0
+ BeB5BbqP5erN1qylK9i3gPoQjXGhpBpQYwRrEyQyjuvk+Ev0K1Jc5tVDeJAuau3TGNgah4Yc
+ hdHm3bkPjz9EErV85RwvImQ1dptvx6s7xzwXTgGAsaYZsL8WCwDaTuqFa1d1jjlaxg6+tZsB
+ 9GluwvIhSezPgnEmimZDkGnZRRSFiGP8yjqTjjWuf0bSj5rUnTGiyLyRZRNGcXmu6hjlABEB
+ AAHNJ1Rob21hcyBaaW1tZXJtYW5uIDx0emltbWVybWFubkBzdXNlLmRlPsLAjgQTAQgAOAIb
+ AwULCQgHAgYVCgkICwIEFgIDAQIeAQIXgBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftODH
+ AAoJEGgNwR1TC3ojx1wH/0hKGWugiqDgLNXLRD/4TfHBEKmxIrmfu9Z5t7vwUKfwhFL6hqvo
+ lXPJJKQpQ2z8+X2vZm/slsLn7J1yjrOsoJhKABDi+3QWWSGkaGwRJAdPVVyJMfJRNNNIKwVb
+ U6B1BkX2XDKDGffF4TxlOpSQzdtNI/9gleOoUA8+jy8knnDYzjBNOZqLG2FuTdicBXblz0Mf
+ vg41gd9kCwYXDnD91rJU8tzylXv03E75NCaTxTM+FBXPmsAVYQ4GYhhgFt8S2UWMoaaABLDe
+ 7l5FdnLdDEcbmd8uLU2CaG4W2cLrUaI4jz2XbkcPQkqTQ3EB67hYkjiEE6Zy3ggOitiQGcqp
+ j//OwE0EWznS4AEIAMYmP4M/V+T5RY5at/g7rUdNsLhWv1APYrh9RQefODYHrNRHUE9eosYb
+ T6XMryR9hT8XlGOYRwKWwiQBoWSDiTMo/Xi29jUnn4BXfI2px2DTXwc22LKtLAgTRjP+qbU6
+ 3Y0xnQN29UGDbYgyyK51DW3H0If2a3JNsheAAK+Xc9baj0LGIc8T9uiEWHBnCH+RdhgATnWW
+ GKdDegUR5BkDfDg5O/FISymJBHx2Dyoklv5g4BzkgqTqwmaYzsl8UxZKvbaxq0zbehDda8lv
+ hFXodNFMAgTLJlLuDYOGLK2AwbrS3Sp0AEbkpdJBb44qVlGm5bApZouHeJ/+n+7r12+lqdsA
+ EQEAAcLAdgQYAQgAIAIbDBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftOH6AAoJEGgNwR1T
+ C3ojVSkIALpAPkIJPQoURPb1VWjh34l0HlglmYHvZszJWTXYwavHR8+k6Baa6H7ufXNQtThR
+ yIxJrQLW6rV5lm7TjhffEhxVCn37+cg0zZ3j7zIsSS0rx/aMwi6VhFJA5hfn3T0TtrijKP4A
+ SAQO9xD1Zk9/61JWk8OysuIh7MXkl0fxbRKWE93XeQBhIJHQfnc+YBLprdnxR446Sh8Wn/2D
+ Ya8cavuWf2zrB6cZurs048xe0UbSW5AOSo4V9M0jzYI4nZqTmPxYyXbm30Kvmz0rYVRaitYJ
+ 4kyYYMhuULvrJDMjZRvaNe52tkKAvMevcGdt38H4KSVXAylqyQOW5zvPc4/sq9c=
+In-Reply-To: <a605efb1745f0d2c96ff986fed7bdeeb6226b7ad@intel.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Message-Id: <20251110-crtc-bgcolor-v1-1-28669b692970@collabora.com>
-X-B4-Tracking: v=1; b=H4sIAAzmEWkC/x3MQQqAIBBA0avErBvQoKiuEi1KRxsIjTEiEO+et
- HyL/zMkEqYEc5NB6OHEMVTotgFzbMETsq2GTnW91lqhkdvg7k08o6AbyE5bP5LaHdTkEnL8/rs
- FGD3esJbyAYMZ7hFlAAAA
-X-Change-ID: 20251110-crtc-bgcolor-f6ed9a58e0bf
-To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
- Maxime Ripard <mripard@kernel.org>, 
- Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>, 
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, 
- Simona Vetter <simona@ffwll.ch>, Sandy Huang <hjc@rock-chips.com>, 
- =?utf-8?q?Heiko_St=C3=BCbner?= <heiko@sntech.de>, 
- Andy Yan <andy.yan@rock-chips.com>
-Cc: igt-dev@lists.freedesktop.org, dri-devel@lists.freedesktop.org, 
- linux-rockchip@lists.infradead.org, kernel@collabora.com
-X-Mailer: b4 0.14.3
+X-Spam-Level: 
+X-Spam-Flag: NO
+X-Rspamd-Queue-Id: A8AD4337B9
+X-Rspamd-Action: no action
+X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
+X-Spamd-Result: default: False [-4.51 / 50.00]; BAYES_HAM(-3.00)[100.00%];
+ NEURAL_HAM_LONG(-1.00)[-1.000];
+ R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+ NEURAL_HAM_SHORT(-0.20)[-0.996]; MIME_GOOD(-0.10)[text/plain];
+ MX_GOOD(-0.01)[]; RCVD_VIA_SMTP_AUTH(0.00)[];
+ FUZZY_RATELIMITED(0.00)[rspamd.com]; ARC_NA(0.00)[];
+ RCVD_TLS_ALL(0.00)[]; MIME_TRACE(0.00)[0:+];
+ RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from]; 
+ SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
+ TO_DN_SOME(0.00)[];
+ RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
+ MID_RHS_MATCH_FROM(0.00)[];
+ DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+ FROM_EQ_ENVFROM(0.00)[]; FROM_HAS_DN(0.00)[];
+ RCPT_COUNT_FIVE(0.00)[5]; RCVD_COUNT_TWO(0.00)[2];
+ TO_MATCH_ENVRCPT_ALL(0.00)[];
+ DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:rdns,imap1.dmz-prg2.suse.org:helo,suse.de:dkim,suse.de:mid,suse.de:email,suse.com:url];
+ URIBL_BLOCKED(0.00)[bootlin.com:url,imap1.dmz-prg2.suse.org:rdns,imap1.dmz-prg2.suse.org:helo,intel.com:email,suse.com:url,suse.de:dkim,suse.de:mid,suse.de:email];
+ DKIM_TRACE(0.00)[suse.de:+]
+X-Spam-Score: -4.51
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -69,294 +154,93 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Provide test to verify the behavior of BACKGROUND_COLOR DRM CRTC
-property.
+Hi
 
-This is done by filling a full-screen primary plane with a given color
-and comparing the resulting CRC with the one obtained after turning off
-all planes while having the CRTC background set to the same color.
+Am 10.11.25 um 13:51 schrieb Jani Nikula:
+> On Mon, 10 Nov 2025, Thomas Zimmermann <tzimmermann@suse.de> wrote:
+>> Hi
+>>
+>> Am 07.11.25 um 12:04 schrieb Jani Nikula:
+>>> We have drm_crtc_vblank_waitqueue() to get the wait_queue_head_t pointer
+>>> for a vblank. Use it instead of poking at dev->vblank[] directly.
+>>>
+>>> Due to the macro maze of wait_event_timeout() that uses the address-of
+>>> operator on the argument, we have to pass it in with the indirection
+>>> operator.
+>>>
+>>> Signed-off-by: Jani Nikula <jani.nikula@intel.com>
+>> Reviewed-by Thomas Zimmermann <tzimmermann@suse.de>
+>>
+>> But... drm_crtc_vblank_waitqueue() is a terrible interface IMHO, as it
+>> exports internal details of the vblank implementation.
+>>
+>> I wonder if the existing users at [1] and [2] couldn't be replaced with
+>> a common vblank helper.
+>>
+>> And there's drm_wait_one_vblank() [3] and the waiting that's being fixed
+>> here [4]. The latter looks like [3] but with multiple CRTC waiting for
+>> their next vblank. I'd say this could be a single implementation within
+>> the vblank code.
+> I don't disagree, but getting that done is a bit more involved than what
+> I have time for right now. Need to think.
+>
+> In the mean time, pushed the drm_crtc_vblank_crtc() related patches in
+> the series, and left the drm_crtc_vblank_waitqueue() ones to simmer.
 
-It's worth noting this is a reworked version of the test that has been
-dropped over 5 years ago via commit 33f07391e5f6 ("tests: Remove
-kms_crtc_background_color test"), as the required kernel changes never
-landed because of missing userspace support.
+Please also merge the rest of the series. These patches are an 
+improvement to open-coding the access to the fields.
 
-Signed-off-by: Cristian Ciocaltea <cristian.ciocaltea@collabora.com>
----
-This has been tested on a Radxa ROCK 5B board which is based on Rockchip
-RK3588 SoC.  It relies on the kernel series [1] introducing the
-BACKGROUND_COLOR CRTC property and a few additional patches from [2]
-enabling the required CRC functionality for the Rockchip platform (still
-require a bit more work before sending those upstream).
+Best regards
+Thomas
 
-It's worth noting CRC is only supported by the display controller (VOP2)
-present in the RK3576 SoC variant.  However, the computation is done by
-the hardware before applying the background color, hence it has limited
-usage in IGT testing.
+>
+> Thanks for the reviews.
+>
+> BR,
+> Jani.
+>
+>
+>> [1]
+>> https://elixir.bootlin.com/linux/v6.18-rc4/source/drivers/gpu/drm/i915/display/intel_display_rps.c#L73
+>> [2]
+>> https://elixir.bootlin.com/linux/v6.18-rc4/source/drivers/gpu/drm/i915/display/intel_vblank.c#L715
+>> [3]
+>> https://elixir.bootlin.com/linux/v6.18-rc4/source/drivers/gpu/drm/drm_vblank.c#L1304
+>> [4]
+>> https://elixir.bootlin.com/linux/v6.18-rc4/source/drivers/gpu/drm/drm_atomic_helper.c#L1837
+>>
+>> Best regards
+>> Thomas
+>>
+>>> ---
+>>>    drivers/gpu/drm/drm_atomic_helper.c | 4 +++-
+>>>    1 file changed, 3 insertions(+), 1 deletion(-)
+>>>
+>>> diff --git a/drivers/gpu/drm/drm_atomic_helper.c b/drivers/gpu/drm/drm_atomic_helper.c
+>>> index 5a473a274ff0..e641fcf8c568 100644
+>>> --- a/drivers/gpu/drm/drm_atomic_helper.c
+>>> +++ b/drivers/gpu/drm/drm_atomic_helper.c
+>>> @@ -1831,10 +1831,12 @@ drm_atomic_helper_wait_for_vblanks(struct drm_device *dev,
+>>>    	}
+>>>    
+>>>    	for_each_old_crtc_in_state(state, crtc, old_crtc_state, i) {
+>>> +		wait_queue_head_t *queue = drm_crtc_vblank_waitqueue(crtc);
+>>> +
+>>>    		if (!(crtc_mask & drm_crtc_mask(crtc)))
+>>>    			continue;
+>>>    
+>>> -		ret = wait_event_timeout(dev->vblank[i].queue,
+>>> +		ret = wait_event_timeout(*queue,
+>>>    					 state->crtcs[i].last_vblank_count !=
+>>>    						drm_crtc_vblank_count(crtc),
+>>>    					 msecs_to_jiffies(100));
 
-Luckily, the frame CRCs can be captured through DPCD, i.e. at
-DisplayPort AUX channel level, hence I used the USB-C DP AltMode capable
-port of the aforementioned board to perform the actual validation.
+-- 
+--
+Thomas Zimmermann
+Graphics Driver Developer
+SUSE Software Solutions Germany GmbH
+Frankenstr. 146, 90461 Nürnberg, Germany, www.suse.com
+GF: Jochen Jaser, Andrew McDonald, Werner Knoblich, (HRB 36809, AG Nürnberg)
 
-[1] https://lore.kernel.org/all/20251013-rk3588-bgcolor-v2-0-25cc3810ba8c@collabora.com/
-[2] https://gitlab.collabora.com/hardware-enablement/rockchip-3588/linux/-/commits/cristicc/rk3588-vop2-crc
-
-root@rock5b$ cat /sys/kernel/debug/dri/1/vop2/summary
-
-cat /sys/kernel/debug/dri/1/vop2/summary
-Video Port0: DISABLED
-Video Port1: DISABLED
-Video Port2: ACTIVE
-    Connector: DP-1
-	bus_format[1018]: RGB101010_1X30
-	output_mode[f] color_space[0]
-	background color (10bpc): r=0x0 g=0x0 b=0x0
-    Display mode: 3840x2160p60
-	clk[594000] real_clk[594000] type[48] flag[9]
-	H: 3840 4016 4104 4400
-	V: 2160 2164 2174 2250
-    Cluster2-win0: ACTIVE
-	win_id: 2
-	format: XR24 little-endian (0x34325258) glb_alpha[0xff]
-	rotate: xmirror: 0 ymirror: 0 rotate_90: 0 rotate_270: 0
-	zpos: 0
-	src: pos[0, 0] rect[3840 x 2160]
-	dst: pos[0, 0] rect[3840 x 2160]
-	buf[0]: addr: 0x0000000000000000 pitch: 15360 offset: 0
-
-root@rock5b$ ./kms_crtc_background_color --device drm:/dev/dri/card1
-
-IGT-Version: 2.2-g3e4ec308e (aarch64) (Linux: 6.18.0-rc1 aarch64)
-Using IGT_SRANDOM=1762774806 for randomisation
-Opened device: /dev/dri/card1
-Starting subtest: background-color-red
-Starting dynamic subtest: pipe-C-DP-1
-Dynamic subtest pipe-C-DP-1: SUCCESS (0.491s)
-Subtest background-color-red: SUCCESS (0.493s)
-Starting subtest: background-color-green
-Starting dynamic subtest: pipe-C-DP-1
-Dynamic subtest pipe-C-DP-1: SUCCESS (0.533s)
-Subtest background-color-green: SUCCESS (0.535s)
-Starting subtest: background-color-blue
-Starting dynamic subtest: pipe-C-DP-1
-Dynamic subtest pipe-C-DP-1: SUCCESS (0.541s)
-Subtest background-color-blue: SUCCESS (0.544s)
-Starting subtest: background-color-yellow
-Starting dynamic subtest: pipe-C-DP-1
-Dynamic subtest pipe-C-DP-1: SUCCESS (0.535s)
-Subtest background-color-yellow: SUCCESS (0.537s)
-Starting subtest: background-color-purple
-Starting dynamic subtest: pipe-C-DP-1
-Dynamic subtest pipe-C-DP-1: SUCCESS (0.536s)
-Subtest background-color-purple: SUCCESS (0.538s)
-Starting subtest: background-color-cyan
-Starting dynamic subtest: pipe-C-DP-1
-Dynamic subtest pipe-C-DP-1: SUCCESS (0.539s)
-Subtest background-color-cyan: SUCCESS (0.541s)
-Starting subtest: background-color-black
-Starting dynamic subtest: pipe-C-DP-1
-(kms_crtc_background_color:744) igt_pipe_crc-WARNING: Warning on condition all_zero in function crc_sanity_checks, file ../lib/igt_pipe_crc.c:475
-(kms_crtc_background_color:744) igt_pipe_crc-WARNING: Suspicious CRC: All values are 0.
-(kms_crtc_background_color:744) igt_pipe_crc-WARNING: Warning on condition all_zero in function crc_sanity_checks, file ../lib/igt_pipe_crc.c:475
-(kms_crtc_background_color:744) igt_pipe_crc-WARNING: Suspicious CRC: All values are 0.
-Dynamic subtest pipe-C-DP-1: SUCCESS (0.535s)
-Subtest background-color-black: SUCCESS (0.537s)
-Starting subtest: background-color-white
-Starting dynamic subtest: pipe-C-DP-1
-Dynamic subtest pipe-C-DP-1: SUCCESS (0.540s)
-Subtest background-color-white: SUCCESS (0.542s)
----
- lib/igt_kms.c                     |   1 +
- lib/igt_kms.h                     |   3 +-
- tests/kms_crtc_background_color.c | 139 ++++++++++++++++++++++++++++++++++++++
- tests/meson.build                 |   1 +
- 4 files changed, 143 insertions(+), 1 deletion(-)
-
-diff --git a/lib/igt_kms.c b/lib/igt_kms.c
-index 9208c8dbfc86..7c0848865038 100644
---- a/lib/igt_kms.c
-+++ b/lib/igt_kms.c
-@@ -705,6 +705,7 @@ const char * const igt_plane_prop_names[IGT_NUM_PLANE_PROPS] = {
- };
- 
- const char * const igt_crtc_prop_names[IGT_NUM_CRTC_PROPS] = {
-+	[IGT_CRTC_BACKGROUND] = "BACKGROUND_COLOR",
- 	[IGT_CRTC_CTM] = "CTM",
- 	[IGT_CRTC_GAMMA_LUT] = "GAMMA_LUT",
- 	[IGT_CRTC_GAMMA_LUT_SIZE] = "GAMMA_LUT_SIZE",
-diff --git a/lib/igt_kms.h b/lib/igt_kms.h
-index eff76f0de0b3..a19f8d126a8d 100644
---- a/lib/igt_kms.h
-+++ b/lib/igt_kms.h
-@@ -156,7 +156,8 @@ void kmstest_restore_vt_mode(void);
- void kmstest_set_vt_text_mode(void);
- 
- enum igt_atomic_crtc_properties {
--       IGT_CRTC_CTM = 0,
-+       IGT_CRTC_BACKGROUND = 0,
-+       IGT_CRTC_CTM,
-        IGT_CRTC_GAMMA_LUT,
-        IGT_CRTC_GAMMA_LUT_SIZE,
-        IGT_CRTC_DEGAMMA_LUT,
-diff --git a/tests/kms_crtc_background_color.c b/tests/kms_crtc_background_color.c
-new file mode 100644
-index 000000000000..4e6d183b736d
---- /dev/null
-+++ b/tests/kms_crtc_background_color.c
-@@ -0,0 +1,139 @@
-+// SPDX-License-Identifier: MIT
-+/*
-+ * Copyright © 2013,2014 Intel Corporation
-+ * Copyright © 2025 Collabora, Ltd.
-+ */
-+
-+#include "igt.h"
-+
-+IGT_TEST_DESCRIPTION("Test crtc background color feature");
-+
-+typedef struct {
-+	int drm_fd;
-+	int debugfs;
-+	igt_display_t display;
-+} data_t;
-+
-+#define __DRM_ARGB64_PREP(c, shift, bpc)			\
-+	(((__u64)(c) << (16 - (bpc)) & 0xffffU) << (shift))
-+
-+#define DRM_ARGB64_PREP_BPC(alpha, red, green, blue, bpc)	\
-+	(__DRM_ARGB64_PREP(alpha, 48, bpc) |			\
-+	 __DRM_ARGB64_PREP(red,   32, bpc) |			\
-+	 __DRM_ARGB64_PREP(green, 16, bpc) |			\
-+	 __DRM_ARGB64_PREP(blue,   0, bpc))
-+
-+static void test_background(data_t *data, enum pipe pipe, igt_output_t *output,
-+			    __u16 red, __u16 green, __u16 blue)
-+{
-+	igt_display_t *display = &data->display;
-+	igt_crc_t plane_crc, bg_crc;
-+	igt_pipe_crc_t *pipe_crc;
-+	igt_plane_t *plane;
-+	drmModeModeInfo *mode;
-+	struct igt_fb fb;
-+
-+	igt_display_reset(display);
-+
-+	igt_output_set_pipe(output, pipe);
-+	mode = igt_output_get_mode(output);
-+
-+	plane = igt_output_get_plane_type(output, DRM_PLANE_TYPE_PRIMARY);
-+
-+	/* Fill the primary plane and set the background to the same color */
-+	igt_create_color_fb(data->drm_fd,
-+			    mode->hdisplay, mode->vdisplay,
-+			    DRM_FORMAT_XRGB8888,
-+			    DRM_FORMAT_MOD_NONE,
-+			    (double)red / 0xffff,
-+			    (double)green / 0xffff,
-+			    (double)blue / 0xffff,
-+			    &fb);
-+
-+	igt_plane_set_fb(plane, &fb);
-+	igt_pipe_set_prop_value(&data->display, pipe, IGT_CRTC_BACKGROUND,
-+				DRM_ARGB64_PREP_BPC(0xffff, red, green, blue, 8));
-+	igt_display_commit2(&data->display, COMMIT_ATOMIC);
-+
-+	pipe_crc = igt_pipe_crc_new(data->drm_fd, pipe, IGT_PIPE_CRC_SOURCE_AUTO);
-+	igt_pipe_crc_collect_crc(pipe_crc, &plane_crc);
-+
-+	/* Turn off the primary plane so that only the background is visible */
-+	igt_plane_set_fb(plane, NULL);
-+	igt_display_commit2(&data->display, COMMIT_ATOMIC);
-+	igt_pipe_crc_collect_crc(pipe_crc, &bg_crc);
-+
-+	/*
-+	 * The test assumes hardware is able to generate valid CRCs when setting
-+	 * the background color. Some platforms, e.g. Intel, might require at
-+	 * least one plane to be visible before reading the pipe-level ("dmux")
-+	 * CRC. Other platforms, e.g. Rockchip, do not take background color
-+	 * into account when computing CRC at CRTC level.
-+	 * A possible workaround would be to use alternative CRC sources, e.g.
-+	 * where computation is performed at encoder or sink level.
-+	 */
-+	igt_assert_crc_equal(&plane_crc, &bg_crc);
-+
-+	/* Clean-up */
-+	igt_pipe_set_prop_value(&data->display, pipe, IGT_CRTC_BACKGROUND,
-+				DRM_ARGB64_PREP_BPC(0xffff, 0, 0, 0, 8));
-+	igt_pipe_crc_free(pipe_crc);
-+	igt_output_set_pipe(output, PIPE_NONE);
-+	igt_display_commit(display);
-+	igt_remove_fb(data->drm_fd, &fb);
-+}
-+
-+igt_main
-+{
-+	igt_output_t *output;
-+	data_t data = {};
-+	enum pipe pipe;
-+	int i;
-+
-+	struct {
-+		const char *color;
-+		__u16 red;
-+		__u16 green;
-+		__u16 blue;
-+	} tests[] = {
-+		{ "red",    0xffff, 0x0000, 0x0000, },
-+		{ "green",  0x0000, 0xffff, 0x0000, },
-+		{ "blue",   0x0000, 0x0000, 0xffff, },
-+		{ "yellow", 0xffff, 0xffff, 0x0000, },
-+		{ "purple", 0xffff, 0x0000, 0xffff, },
-+		{ "cyan",   0x0000, 0xffff, 0xffff, },
-+		{ "black",  0x0000, 0x0000, 0x0000, },
-+		{ "white",  0xffff, 0xffff, 0xffff, },
-+	};
-+
-+	igt_fixture {
-+		data.drm_fd = drm_open_driver_master(DRIVER_ANY);
-+
-+		kmstest_set_vt_graphics_mode();
-+
-+		igt_display_require(&data.display, data.drm_fd);
-+		igt_display_require_output(&data.display);
-+		igt_require_pipe_crc(data.drm_fd);
-+
-+		data.debugfs = igt_debugfs_dir(data.drm_fd);
-+	}
-+
-+	for (i = 0; i < ARRAY_SIZE(tests); i++) {
-+		igt_describe_f("Test crtc background color %s", tests[i].color);
-+		igt_subtest_with_dynamic_f("background-color-%s", tests[i].color) {
-+			for_each_pipe_with_single_output(&data.display, pipe, output) {
-+				igt_require(igt_pipe_has_prop(&data.display, pipe,
-+							      IGT_CRTC_BACKGROUND));
-+
-+				igt_dynamic_f("pipe-%s-%s", kmstest_pipe_name(pipe), output->name)
-+					test_background(&data, pipe, output, tests[i].red,
-+							tests[i].green, tests[i].blue);
-+			}
-+		}
-+	}
-+
-+	igt_fixture {
-+		igt_display_fini(&data.display);
-+		drm_close_driver(data.drm_fd);
-+	}
-+}
-diff --git a/tests/meson.build b/tests/meson.build
-index 9736f2338507..06827b41a00c 100644
---- a/tests/meson.build
-+++ b/tests/meson.build
-@@ -27,6 +27,7 @@ test_progs = [
- 	'kms_color',
- 	'kms_concurrent',
- 	'kms_content_protection',
-+	'kms_crtc_background_color',
- 	'kms_cursor_crc',
- 	'kms_cursor_edge_walk',
- 	'kms_cursor_legacy',
-
----
-base-commit: 862eb176244feac8ee711f381fe1be1fdc6a7ede
-change-id: 20251110-crtc-bgcolor-f6ed9a58e0bf
 
