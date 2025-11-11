@@ -2,73 +2,73 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 77236C4CF40
-	for <lists+dri-devel@lfdr.de>; Tue, 11 Nov 2025 11:15:51 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id CB29CC4CF34
+	for <lists+dri-devel@lfdr.de>; Tue, 11 Nov 2025 11:15:46 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 52A4110E542;
-	Tue, 11 Nov 2025 10:15:44 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3E6DF10E53A;
+	Tue, 11 Nov 2025 10:15:43 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=ti.com header.i=@ti.com header.b="wxj83rRx";
+	dkim=pass (1024-bit key; unprotected) header.d=ti.com header.i=@ti.com header.b="JThhB2AM";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from CO1PR03CU002.outbound.protection.outlook.com
- (mail-westus2azon11010020.outbound.protection.outlook.com [52.101.46.20])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A4EA210E53A
- for <dri-devel@lists.freedesktop.org>; Tue, 11 Nov 2025 10:15:42 +0000 (UTC)
+Received: from PH8PR06CU001.outbound.protection.outlook.com
+ (mail-westus3azon11012004.outbound.protection.outlook.com [40.107.209.4])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4073610E53A
+ for <dri-devel@lists.freedesktop.org>; Tue, 11 Nov 2025 10:15:41 +0000 (UTC)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=aZ67XHG2TjNSKlz5emEa/LQBgi9XxMtuU2DQhhZp8n+rd7bZT5/wP7i+s3UBd9ODGs2Pzodai51dMoG/3pVzFf7a5wNc9FNEBMfNfIWlY+bXTLBXbFJp1wWs9GY9Vy7p/YMnvhKTcpjC/skbXw77yM8hTnAtOAJU46zFKlSYhVeRZURj6ruuphuwAvJTc5r7Z79bEkBpE2XkQL4FSfmEHiNbp9HzbHWE8W8gcurYwFaEFICLFMsa3l87DYGzA/LWWkBcngkc2uEhrEUgTM6011dqmW5V9wq9XtzqeeFmz86jafN7kDRoDH3PtpfV8d37bFifvCE63HKQo4EOk42Cig==
+ b=AlYB73TCpHH0XEtObg6YlMeHZLO+bdexRHUnYoWR0qOKF0CRJV8xvLsE5sXMXaAnDttIEMsHqDMcxnhbjjVx/HQCnwx3a7TvvUEJuy0gu4sGiIV7NMTqTmZaJ5LY7tEg6I3KIg1We04+EDPFUG/im3pHhEPyV0xmPh9doB3oEf9o0o2dACSDQURolr3jTLfHMkNQ4TyIOvpaNmEN+ZlBgZb5RAukK8IMj396KRTraYV/VWX1zxymmRqYQVX34G2fo4ehRo1jVub0WEXtgJOyH7w2x8yMysKJBNC5p0UYf0jsT8E9oloKYNm9VBuMl2CXXncddAg041U6lZmzxHiCMg==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=oUL6mUBmyFLtF8BBUUM3B/wi8ahS+qpSyhNahi34T9Y=;
- b=F4eMozWvRNS2rG1g5tCJYByfvTDlLFAM1/lJxHH3V2z1/UPjDO9F9c2CSWiNCzrQgpJF9iNyOheMZC0kqhMFLRBS3GhBIM/UFgwhiTx+2Vd7d6yqcF9lT2/8Sr8BzG8YZgeLbyklGefzJsjWYdLd6PZdyJNZvrcAoKzuT8SFMG+o8SB2ZlWqz9r0PZFxee2KN+JyP5sqnOJDK7pwfPM3TfKevw5S0V+caqFjUjTGHumNSXhDwjuaMPNclsynRQ+V0LK5mmGs/FsLhNvVftpfy7zlKtSiHcp4ZlYvi+xjRnv5H7OALVuDaa9Nazih65wOpMs2fTAuW7bD/rQtjaLiJg==
+ bh=LG5T1SYsEKJP1K2KSvTJd8/+7I09mhmV9RjweHVK5BI=;
+ b=FSW2JGnuydtnOpyUbgRk766gVT1MYmy9Gf6vKT4jNB2npUjZio1g/czyOPp9qpLXvXbzlbapkZWxvODzu2cfFcuamIP7I/O6nKQcaVxvPDW6U2waflN9Pq9qeJnc7dZIOBn6cVGC2LTjLdZILgtcjcVc6JFIxXnPFLnRcyu0s/40p4s6mYh9Qe5AJnpVPQUjhaPpXHyyAqyBzzEV7xBMBcvbEGiKNoiSpholD7afvbxUZxv2x70G9hBTtEJFna+YEJkvw8VCT2yWpQWJTJLk82oMIdA7AAbX/2THc/UAB5pX5WcwcuPx1V5WWQVmwGE1H2lYpzNtnIO0pECjRr6fHA==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 198.47.23.194) smtp.rcpttodomain=kernel.org smtp.mailfrom=ti.com; dmarc=pass
+ 198.47.23.195) smtp.rcpttodomain=kernel.org smtp.mailfrom=ti.com; dmarc=pass
  (p=quarantine sp=none pct=100) action=none header.from=ti.com; dkim=none
  (message not signed); arc=none (0)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com; s=selector1;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=oUL6mUBmyFLtF8BBUUM3B/wi8ahS+qpSyhNahi34T9Y=;
- b=wxj83rRxJ5VsbG/RMl5ZYH1E3FOV2h9Zgxt8jmbCLa0viHZW1aEwvd9YlR7rZ+i2M+EG3qFAXsV1DUlmZDQzrXm/ieB871El6yZC/W4p9DoyxH1qKGyVIuqW00qpT8YXkNeh1rIRP288E7AP3HUqUxRVtX89gMN8q4vqnVNpnXk=
-Received: from BY3PR05CA0043.namprd05.prod.outlook.com (2603:10b6:a03:39b::18)
- by PH3PPF262994532.namprd10.prod.outlook.com (2603:10b6:518:1::78f)
+ bh=LG5T1SYsEKJP1K2KSvTJd8/+7I09mhmV9RjweHVK5BI=;
+ b=JThhB2AMKyW5SuEUykuLGEgpBsI4bVFu6p48ucJh18CnQ96u8gFF91hESz8/QA1YPH/F5egDtIGRUDBdKFw/L0slISPB7K0Ej++GRZbKmbmwp1E11X1gCHPz6uoPA3l+bzOIXydxME0Swh1U/4HJEY7li5dJxBi0LXf0oPtRIIs=
+Received: from BN9PR03CA0943.namprd03.prod.outlook.com (2603:10b6:408:108::18)
+ by PH7PR10MB6403.namprd10.prod.outlook.com (2603:10b6:510:1ad::7)
  with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9298.16; Tue, 11 Nov
- 2025 10:15:39 +0000
-Received: from SJ1PEPF00002311.namprd03.prod.outlook.com
- (2603:10b6:a03:39b:cafe::62) by BY3PR05CA0043.outlook.office365.com
- (2603:10b6:a03:39b::18) with Microsoft SMTP Server (version=TLS1_3,
- cipher=TLS_AES_256_GCM_SHA384) id 15.20.9320.15 via Frontend Transport; Tue,
- 11 Nov 2025 10:15:39 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 198.47.23.194)
+ 2025 10:15:37 +0000
+Received: from BN2PEPF000055E1.namprd21.prod.outlook.com
+ (2603:10b6:408:108:cafe::c) by BN9PR03CA0943.outlook.office365.com
+ (2603:10b6:408:108::18) with Microsoft SMTP Server (version=TLS1_3,
+ cipher=TLS_AES_256_GCM_SHA384) id 15.20.9298.14 via Frontend Transport; Tue,
+ 11 Nov 2025 10:15:35 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 198.47.23.195)
  smtp.mailfrom=ti.com; dkim=none (message not signed) header.d=none; dmarc=pass
  action=none header.from=ti.com;
 Received-SPF: Pass (protection.outlook.com: domain of ti.com designates
- 198.47.23.194 as permitted sender) receiver=protection.outlook.com;
- client-ip=198.47.23.194; helo=lewvzet200.ext.ti.com; pr=C
-Received: from lewvzet200.ext.ti.com (198.47.23.194) by
- SJ1PEPF00002311.mail.protection.outlook.com (10.167.242.165) with Microsoft
+ 198.47.23.195 as permitted sender) receiver=protection.outlook.com;
+ client-ip=198.47.23.195; helo=lewvzet201.ext.ti.com; pr=C
+Received: from lewvzet201.ext.ti.com (198.47.23.195) by
+ BN2PEPF000055E1.mail.protection.outlook.com (10.167.245.11) with Microsoft
  SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.9320.13 via Frontend Transport; Tue, 11 Nov 2025 10:15:39 +0000
-Received: from DLEE209.ent.ti.com (157.170.170.98) by lewvzet200.ext.ti.com
- (10.4.14.103) with Microsoft SMTP Server (version=TLS1_2,
+ 15.20.9343.0 via Frontend Transport; Tue, 11 Nov 2025 10:15:37 +0000
+Received: from DLEE210.ent.ti.com (157.170.170.112) by lewvzet201.ext.ti.com
+ (10.4.14.104) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.20; Tue, 11 Nov
- 2025 04:15:31 -0600
-Received: from DLEE215.ent.ti.com (157.170.170.118) by DLEE209.ent.ti.com
- (157.170.170.98) with Microsoft SMTP Server (version=TLS1_2,
+ 2025 04:15:34 -0600
+Received: from DLEE208.ent.ti.com (157.170.170.97) by DLEE210.ent.ti.com
+ (157.170.170.112) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.20; Tue, 11 Nov
- 2025 04:15:31 -0600
-Received: from lelvem-mr06.itg.ti.com (10.180.75.8) by DLEE215.ent.ti.com
- (157.170.170.118) with Microsoft SMTP Server (version=TLS1_2,
+ 2025 04:15:33 -0600
+Received: from fllvem-mr07.itg.ti.com (10.64.41.89) by DLEE208.ent.ti.com
+ (157.170.170.97) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.20 via Frontend
- Transport; Tue, 11 Nov 2025 04:15:31 -0600
+ Transport; Tue, 11 Nov 2025 04:15:33 -0600
 Received: from fllv0122.itg.ti.com (fllv0122.itg.ti.com [10.247.120.72])
- by lelvem-mr06.itg.ti.com (8.18.1/8.18.1) with ESMTP id 5ABAFVSk783931;
- Tue, 11 Nov 2025 04:15:31 -0600
+ by fllvem-mr07.itg.ti.com (8.18.1/8.18.1) with ESMTP id 5ABAFXKg1758595;
+ Tue, 11 Nov 2025 04:15:33 -0600
 Received: from localhost (meghana-pc.dhcp.ti.com [10.24.69.13] (may be forged))
- by fllv0122.itg.ti.com (8.14.7/8.14.7) with ESMTP id 5ABAFUR3011896;
- Tue, 11 Nov 2025 04:15:31 -0600
+ by fllv0122.itg.ti.com (8.14.7/8.14.7) with ESMTP id 5ABAFWc1011902;
+ Tue, 11 Nov 2025 04:15:33 -0600
 From: Meghana Malladi <m-malladi@ti.com>
 To: <horms@kernel.org>, <namcao@linutronix.de>, <vadim.fedorenko@linux.dev>,
  <jacob.e.keller@intel.com>, <m-malladi@ti.com>, <christian.koenig@amd.com>,
@@ -81,10 +81,9 @@ CC: <linaro-mm-sig@lists.linaro.org>, <dri-devel@lists.freedesktop.org>,
  <linux-kernel@vger.kernel.org>, <netdev@vger.kernel.org>,
  <linux-arm-kernel@lists.infradead.org>, <srk@ti.com>, Vignesh Raghavendra
  <vigneshr@ti.com>, Roger Quadros <rogerq@kernel.org>, <danishanwar@ti.com>
-Subject: [PATCH net-next v5 1/6] net: ti: icssg-prueth: Add functions to
- create and destroy Rx/Tx queues
-Date: Tue, 11 Nov 2025 15:45:18 +0530
-Message-ID: <20251111101523.3160680-2-m-malladi@ti.com>
+Subject: [PATCH net-next v5 2/6] net: ti: icssg-prueth: Add XSK pool helpers
+Date: Tue, 11 Nov 2025 15:45:19 +0530
+Message-ID: <20251111101523.3160680-3-m-malladi@ti.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20251111101523.3160680-1-m-malladi@ti.com>
 References: <20251111101523.3160680-1-m-malladi@ti.com>
@@ -94,54 +93,54 @@ Content-Type: text/plain
 X-C2ProcessedOrg: 333ef613-75bf-4e12-a4b1-8e3623f5dcea
 X-EOPAttributedMessage: 0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: SJ1PEPF00002311:EE_|PH3PPF262994532:EE_
-X-MS-Office365-Filtering-Correlation-Id: 4b89fa5f-0211-4e20-9cbb-08de210b4388
+X-MS-TrafficTypeDiagnostic: BN2PEPF000055E1:EE_|PH7PR10MB6403:EE_
+X-MS-Office365-Filtering-Correlation-Id: 6966e9bc-e9ab-4ee2-3af3-08de210b425e
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
- ARA:13230040|1800799024|82310400026|376014|7416014|36860700013|921020; 
-X-Microsoft-Antispam-Message-Info: =?us-ascii?Q?yRDUx4XnpHltiQBpaSTOpXWWlo4ebK1+Wzg8Y8N+oxTVRTzg5xFWRvlZYYiZ?=
- =?us-ascii?Q?kkVlRt+ombnErb9j4aBBeXwQCNl2kJ6160PgEcAW/2b5gtH8/GSgDg7vykc4?=
- =?us-ascii?Q?ZROgutMdyq3Ce/EY4iBGBKIFAyWhAAUw2345lfIJ3R6DSrBXkly40i0VDLvV?=
- =?us-ascii?Q?O91u6J4XToxKxYDcO/YHrbqpslH176zirU3zpfek6X6nA+6CP3nAw/FWUJd8?=
- =?us-ascii?Q?nNNUsiMEs5MikNxxcwq9krYMC5sManyM+8nArn3nBc+Ttb/YakqLvM7jkxbQ?=
- =?us-ascii?Q?A8xhFv/SalrFMpp/MSUqTctAaFBBYVjWNmph8nm3pp29rKFVW26xgX4TDu90?=
- =?us-ascii?Q?fQETcxwBDrfF6pMitwbxJvhs8yD2P+fJXA818kMuwZYxBgI1HFM4a9cWMbQm?=
- =?us-ascii?Q?AWIoQuPa5BiumFp8zxIX6bshNgayphj6PbgrUSEinPqiD5IYB47Fhn7nIBWx?=
- =?us-ascii?Q?wHRcMdmTiVA41JHlnKjCe9qsIieD/dw53d4RwiCn/RDyHCpfxNiy2WaFBvj6?=
- =?us-ascii?Q?7HkDX0FBv/tBEvjM6dejvwWyaXPfse9Hn8/xxyQA88xf8eJNknTg3iQTXBp3?=
- =?us-ascii?Q?4oAc69mWEkMiuMt10DulqQdYnCp1VIc3scrTiSDOyVv1pkoH7cBP+mUnXSPi?=
- =?us-ascii?Q?tDcZgt1hugwkIXqlPXj27DpfrKJnSl2D3LFc1713GK7qqncqI8nLZ8lBzTJV?=
- =?us-ascii?Q?FwPmVZGIpMbkrDG2f+GICKlSiTnTpmTvbC5IhsqwqyV7f7iYpK1LcPLyryiu?=
- =?us-ascii?Q?YBlJEM08f3yV8W5yMss/ZoRyMxtdTj09ioLqpROKpQq864gzs+axV2Z1HjFh?=
- =?us-ascii?Q?Iy4znCYdoBxrPYFFZPbhkMxkrdj6vxYoySjmLj9NEuCKIihYwVSd0bOkuV6w?=
- =?us-ascii?Q?71uvE3OHQqjvDeuTnYMAWMI34EMzOif5BTOlYsSVHUoQv8IJfPledqQJ1rrr?=
- =?us-ascii?Q?yyvce3hOas4v1HP3lRz/CacqqUgTT6/F6rus9pf5tuqLj5vlRniziZGPeQ4U?=
- =?us-ascii?Q?rCG4AWxMLNisefZrISxr2SOom5RGCbCldZfH0CC7mRJrgRQK9Z9N1Fdd5iSE?=
- =?us-ascii?Q?TB/v16qV9XDc1t4i6Xb6M2KvmVimTd24VnJ/tJPINVtnmSzUG+R2Rq/BYIA1?=
- =?us-ascii?Q?mcZz7dBu5it//NGBcuIfMt/YZyuokgKqHq41O9tFkrI8kSpCkgkucgzVHHgz?=
- =?us-ascii?Q?ZHtO6Jv0lAfNgLJ81c3WJ3dgtfnApnfaiF5MvBX1zNnjKusm9HSZJ7s0Ekvn?=
- =?us-ascii?Q?DLEFafxLBQOiq740kQAMAlh1VSSOKPI907PFB4lwmAi8NWDo0RFtNp707a95?=
- =?us-ascii?Q?Vf+IRZtiOVizaVOtvg2woAQtaPjpFaj3zVoSp7ZAm2PKXYfp5yvwCY3CqXZv?=
- =?us-ascii?Q?x1t33b0qxKwbQ8su+xV4WyF550lJCMwWFwcuSQoLs0uc/MW9PIpFb7kYgDQ1?=
- =?us-ascii?Q?tVoj+bqB/bsKsTnWA2ZI/xW2zZqs7UwinoS+ERp/V1QzctkoL9xB63uQ6WaT?=
- =?us-ascii?Q?6qTjle9i8IVACws3NaO8Igxd/ZGz/kgRkrwRBFKzOoM7Jo/rivJ68wMrscEk?=
- =?us-ascii?Q?50eaps02dKQGaqeHDZ7UDA5KZf+9msUnFgkUZKBE?=
-X-Forefront-Antispam-Report: CIP:198.47.23.194; CTRY:US; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:lewvzet200.ext.ti.com; PTR:InfoDomainNonexistent;
+ ARA:13230040|1800799024|7416014|376014|82310400026|36860700013|921020; 
+X-Microsoft-Antispam-Message-Info: =?us-ascii?Q?Xzs3NTHhFZdvdiymRYM9MyL8EKlDlLP2PKGk4Wn0fpzSHXP/VZnKyVISHtjo?=
+ =?us-ascii?Q?3sn84IGPYHeMClZVKLxhNbeyE0EjRpXpr+MMrM6D2838Hl4WWMQVRun4bwo2?=
+ =?us-ascii?Q?VrkOAoF+e/25xY87ZAKzltKRm5vSeOrPjycA9ZPShe3NKsbpb660C1i5Ja7u?=
+ =?us-ascii?Q?PHrtvQpYKAM+Yq0wc+7LiBNobHgvy91SJiWP82hIFj0M9Jzcupd+LhTdNgdr?=
+ =?us-ascii?Q?UdVlv7jHccRXpoC2P/BuufkLz8kw7JO/dYNCW60ZctzlAGhTHIlvkS0ibNay?=
+ =?us-ascii?Q?LJIG4umU+rypCG+Y5wOAKrN/9y2zvlJ7/3d3qkskrq3B1JQh3axCNSwVfxoH?=
+ =?us-ascii?Q?Kwcw1xMcKUmLng0ozMkXoFMzz8QWl8Vz/3vIl2bja/i3B080y1348Fr70o+y?=
+ =?us-ascii?Q?gOlDjNHanNJnZrg1yo9Ll+llXHoL7yQ275g3vabwk3z/g5ALyiTKwf7MerZm?=
+ =?us-ascii?Q?2ggI2kT9dTPWmmCPUCBy5/o/nnI+8m6U6qktFTgabd/j95DF/AG8K/69f+jq?=
+ =?us-ascii?Q?ZT07LdnC1Nmm1e8uvi3plfFKascGD+rAAG+GlcD6hHiHMC57AVFPYXBk7TJ/?=
+ =?us-ascii?Q?G0eKHpLvdD8IHyIT8arDi+RDQrqRIMFTec0MwDqTg1RwlEJs0KEaLCmksC2/?=
+ =?us-ascii?Q?rtWGvxeH/6w+Mk/m7fCVJHQHdGnole6xRSi6iZdpKtBN2Fbnrq6PHywuloqG?=
+ =?us-ascii?Q?CvjEL6J34i0UGXVUREOBpqvOklib+ZO0SnJnh24+sjk7lU6RjmCrgPCpEQNv?=
+ =?us-ascii?Q?wS5vk6DMFjd9Zv9e4NAJrAoazv/nlEVA0mjQHWRoiG/lLrBOLl0Gwl8uQQgc?=
+ =?us-ascii?Q?HEvcxsVed3mS1Qo/7hx0J2nPXZ3gIlhtKC4RsQMKhvqGdcHCjz+s0ChSvfTk?=
+ =?us-ascii?Q?WxV5FTSRwpYEsvBsBcEoAMy001rRwsu4rlc0jUkZ+ag0j7A6D9pBC+LoOcWr?=
+ =?us-ascii?Q?Tjv6sKYv8YJCREsw3H9SUHvqtFsNxBBjsyvzTGmzUDejWhs9++ucwZ0NNYhy?=
+ =?us-ascii?Q?SYiVkNFJaz+vqw2xYDGQQStZOOthtWL084vlxRweSjM4x65hNGIQNnDFAEDY?=
+ =?us-ascii?Q?t0wwhjwqihEIfm1tUY1H0K31vG3YWFzGqxqE3S+KONmD9nGvxCnf7poI1edc?=
+ =?us-ascii?Q?jm6ARQwtOSgqnMjOryMFpZRb0PKUMiIm1L943n7IPh4DlACtnxJvr+FGWmX8?=
+ =?us-ascii?Q?GuwM8e7xAyxh8rYpikUE5pPBFqfmBaEQTDSzn5YbwnxA5miVqFM9oPH3Qpjl?=
+ =?us-ascii?Q?+czyTe4j5iM/KJLsIWHxTEtMpgsFKC5wLlZiE2qFybzAVsWRM+jaEy+7/0Lk?=
+ =?us-ascii?Q?BlH2pAhwllGZT6lZL/mBdEhNis1FhHql0QvcpkYlq1wC8O4CUjhScEkfActh?=
+ =?us-ascii?Q?QDVkN8jXdYW5anW0rBy6HDGRlvX+Q1hAf/S+37CYUI9qmJjZci0dRgoilTWI?=
+ =?us-ascii?Q?+ai/oTb1TZixwLp7nmc9qTzDJPYtPMB5BMfi9JSmgBx9y1/1OGYKDHRUKRKM?=
+ =?us-ascii?Q?10tYFDHAXgWJjuzX3gDDeqeEXAWto/kQpWmCHfkx5T+fxSvyuGvWo4MPaalr?=
+ =?us-ascii?Q?S2nomF80OLA/+ZuTAzItWcSaVBGQSsSPi9uq9B3D?=
+X-Forefront-Antispam-Report: CIP:198.47.23.195; CTRY:US; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:lewvzet201.ext.ti.com; PTR:InfoDomainNonexistent;
  CAT:NONE;
- SFS:(13230040)(1800799024)(82310400026)(376014)(7416014)(36860700013)(921020);
+ SFS:(13230040)(1800799024)(7416014)(376014)(82310400026)(36860700013)(921020);
  DIR:OUT; SFP:1101; 
 X-OriginatorOrg: ti.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 11 Nov 2025 10:15:39.3911 (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 4b89fa5f-0211-4e20-9cbb-08de210b4388
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 11 Nov 2025 10:15:37.3834 (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 6966e9bc-e9ab-4ee2-3af3-08de210b425e
 X-MS-Exchange-CrossTenant-Id: e5b49634-450b-4709-8abb-1e2b19b982b7
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=e5b49634-450b-4709-8abb-1e2b19b982b7; Ip=[198.47.23.194];
- Helo=[lewvzet200.ext.ti.com]
-X-MS-Exchange-CrossTenant-AuthSource: SJ1PEPF00002311.namprd03.prod.outlook.com
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=e5b49634-450b-4709-8abb-1e2b19b982b7; Ip=[198.47.23.195];
+ Helo=[lewvzet201.ext.ti.com]
+X-MS-Exchange-CrossTenant-AuthSource: BN2PEPF000055E1.namprd21.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Anonymous
 X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH3PPF262994532
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH7PR10MB6403
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -157,320 +156,274 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Each port for a given ICSSG instance has their own set of
-Tx and Rx queues. Add functions to create and destroy these
-queues, which will be further used while performing ndo_bpf
-operations to set up XSK Tx/Rx queues for a given port.
+Implement XSK NDOs (setup, wakeup) and create XSK
+Rx and Tx queues. xsk_qid stores the queue id for
+a given port which has been registered for zero copy
+AF_XDP and used to acquire UMEM pointer if registered.
 
-In the destroy Rx queue sequence add teardown wait to ensure
-that all the descriptors including the TDCM (teardown completion
-marker) have been serviced and freed to avoid any sort of descriptor
-leaks.
+Based on the xsk_qid and the xsk_pool (umem) the driver
+is either in copy or zero copy mode. In case of copy mode
+the xsk_qid value will be invalid and will be set to valid
+queue id when enabling zero copy. To enable zero copy, the
+Rx queues are destroyed, i.e., descriptors pushed to fq
+and cq are freed to remap them to xdp buffers from the umem.
 
 Reviewed-by: Jacob Keller <jacob.e.keller@intel.com>
 Signed-off-by: Meghana Malladi <m-malladi@ti.com>
 ---
- drivers/net/ethernet/ti/icssg/icssg_common.c |  10 +-
- drivers/net/ethernet/ti/icssg/icssg_prueth.c | 177 ++++++++++++-------
- drivers/net/ethernet/ti/icssg/icssg_prueth.h |   2 +
- 3 files changed, 127 insertions(+), 62 deletions(-)
+ drivers/net/ethernet/ti/icssg/icssg_common.c |   2 +-
+ drivers/net/ethernet/ti/icssg/icssg_prueth.c | 138 +++++++++++++++++++
+ drivers/net/ethernet/ti/icssg/icssg_prueth.h |  10 ++
+ 3 files changed, 149 insertions(+), 1 deletion(-)
 
 diff --git a/drivers/net/ethernet/ti/icssg/icssg_common.c b/drivers/net/ethernet/ti/icssg/icssg_common.c
-index 0eed29d6187a..94021751b6b7 100644
+index 94021751b6b7..cc52cff70d7e 100644
 --- a/drivers/net/ethernet/ti/icssg/icssg_common.c
 +++ b/drivers/net/ethernet/ti/icssg/icssg_common.c
-@@ -719,8 +719,10 @@ static int emac_rx_packet(struct prueth_emac *emac, u32 flow_id, u32 *xdp_state)
+@@ -754,7 +754,7 @@ static int emac_rx_packet(struct prueth_emac *emac, u32 flow_id, u32 *xdp_state)
+ 	}
+ 
+ 	pa = page_address(page);
+-	if (emac->xdp_prog) {
++	if (prueth_xdp_is_enabled(emac)) {
+ 		xdp_init_buff(&xdp, PAGE_SIZE, &rx_chn->xdp_rxq);
+ 		xdp_prepare_buff(&xdp, pa, PRUETH_HEADROOM, pkt_len, false);
+ 
+diff --git a/drivers/net/ethernet/ti/icssg/icssg_prueth.c b/drivers/net/ethernet/ti/icssg/icssg_prueth.c
+index b66ffbfb499c..e4c3b6b152ea 100644
+--- a/drivers/net/ethernet/ti/icssg/icssg_prueth.c
++++ b/drivers/net/ethernet/ti/icssg/icssg_prueth.c
+@@ -47,6 +47,9 @@
+ 						 NETIF_F_HW_HSR_TAG_INS | \
+ 						 NETIF_F_HW_HSR_TAG_RM)
+ 
++#define PRUETH_RX_DMA_ATTR			(DMA_ATTR_SKIP_CPU_SYNC |\
++						 DMA_ATTR_WEAK_ORDERING)
++
+ /* CTRLMMR_ICSSG_RGMII_CTRL register bits */
+ #define ICSSG_CTRL_RGMII_ID_MODE                BIT(24)
+ 
+@@ -735,6 +738,20 @@ static int icssg_update_vlan_mcast(struct net_device *vdev, int vid,
+ 	return 0;
+ }
+ 
++static void prueth_set_xsk_pool(struct prueth_emac *emac, u16 queue_id)
++{
++	struct prueth_tx_chn *tx_chn = &emac->tx_chns[queue_id];
++	struct prueth_rx_chn *rx_chn = &emac->rx_chns;
++
++	if (emac->xsk_qid != queue_id) {
++		rx_chn->xsk_pool = NULL;
++		tx_chn->xsk_pool = NULL;
++	} else {
++		rx_chn->xsk_pool = xsk_get_pool_from_qid(emac->ndev, queue_id);
++		tx_chn->xsk_pool = xsk_get_pool_from_qid(emac->ndev, queue_id);
++	}
++}
++
+ static void prueth_destroy_txq(struct prueth_emac *emac)
+ {
+ 	int ret, i;
+@@ -875,6 +892,7 @@ static int emac_ndo_open(struct net_device *ndev)
  		return ret;
  	}
  
--	if (cppi5_desc_is_tdcm(desc_dma)) /* Teardown ? */
-+	if (cppi5_desc_is_tdcm(desc_dma)) {
-+		complete(&emac->tdown_complete);
- 		return 0;
-+	}
- 
- 	desc_rx = k3_cppi_desc_pool_dma2virt(rx_chn->desc_pool, desc_dma);
- 	swdata = cppi5_hdesc_get_swdata(desc_rx);
-@@ -804,7 +806,7 @@ static int emac_rx_packet(struct prueth_emac *emac, u32 flow_id, u32 *xdp_state)
- 	return ret;
- }
- 
--static void prueth_rx_cleanup(void *data, dma_addr_t desc_dma)
-+void prueth_rx_cleanup(void *data, dma_addr_t desc_dma)
- {
- 	struct prueth_rx_chn *rx_chn = data;
- 	struct cppi5_host_desc_t *desc_rx;
-@@ -822,6 +824,7 @@ static void prueth_rx_cleanup(void *data, dma_addr_t desc_dma)
- 
- 	k3_cppi_desc_pool_free(rx_chn->desc_pool, desc_rx);
- }
-+EXPORT_SYMBOL_GPL(prueth_rx_cleanup);
- 
- static int prueth_tx_ts_cookie_get(struct prueth_emac *emac)
- {
-@@ -1025,7 +1028,7 @@ enum netdev_tx icssg_ndo_start_xmit(struct sk_buff *skb, struct net_device *ndev
- }
- EXPORT_SYMBOL_GPL(icssg_ndo_start_xmit);
- 
--static void prueth_tx_cleanup(void *data, dma_addr_t desc_dma)
-+void prueth_tx_cleanup(void *data, dma_addr_t desc_dma)
- {
- 	struct prueth_tx_chn *tx_chn = data;
- 	struct cppi5_host_desc_t *desc_tx;
-@@ -1051,6 +1054,7 @@ static void prueth_tx_cleanup(void *data, dma_addr_t desc_dma)
- 
- 	prueth_xmit_free(tx_chn, desc_tx);
- }
-+EXPORT_SYMBOL_GPL(prueth_tx_cleanup);
- 
- irqreturn_t prueth_rx_irq(int irq, void *dev_id)
- {
-diff --git a/drivers/net/ethernet/ti/icssg/icssg_prueth.c b/drivers/net/ethernet/ti/icssg/icssg_prueth.c
-index 57a7d1ceab08..b66ffbfb499c 100644
---- a/drivers/net/ethernet/ti/icssg/icssg_prueth.c
-+++ b/drivers/net/ethernet/ti/icssg/icssg_prueth.c
-@@ -735,6 +735,114 @@ static int icssg_update_vlan_mcast(struct net_device *vdev, int vid,
++	emac->xsk_qid = -EINVAL;
+ 	init_completion(&emac->cmd_complete);
+ 	ret = prueth_init_tx_chns(emac);
+ 	if (ret) {
+@@ -1200,6 +1218,109 @@ static int emac_xdp_setup(struct prueth_emac *emac, struct netdev_bpf *bpf)
  	return 0;
  }
  
-+static void prueth_destroy_txq(struct prueth_emac *emac)
++static int prueth_xsk_pool_enable(struct prueth_emac *emac,
++				  struct xsk_buff_pool *pool, u16 queue_id)
 +{
-+	int ret, i;
-+
-+	atomic_set(&emac->tdown_cnt, emac->tx_ch_num);
-+	/* ensure new tdown_cnt value is visible */
-+	smp_mb__after_atomic();
-+	/* tear down and disable UDMA channels */
-+	reinit_completion(&emac->tdown_complete);
-+	for (i = 0; i < emac->tx_ch_num; i++)
-+		k3_udma_glue_tdown_tx_chn(emac->tx_chns[i].tx_chn, false);
-+
-+	ret = wait_for_completion_timeout(&emac->tdown_complete,
-+					  msecs_to_jiffies(1000));
-+	if (!ret)
-+		netdev_err(emac->ndev, "tx teardown timeout\n");
-+
-+	for (i = 0; i < emac->tx_ch_num; i++) {
-+		napi_disable(&emac->tx_chns[i].napi_tx);
-+		hrtimer_cancel(&emac->tx_chns[i].tx_hrtimer);
-+		k3_udma_glue_reset_tx_chn(emac->tx_chns[i].tx_chn,
-+					  &emac->tx_chns[i],
-+					  prueth_tx_cleanup);
-+		k3_udma_glue_disable_tx_chn(emac->tx_chns[i].tx_chn);
-+	}
-+}
-+
-+static void prueth_destroy_rxq(struct prueth_emac *emac)
-+{
-+	int i, ret;
-+
-+	/* tear down and disable UDMA channels */
-+	reinit_completion(&emac->tdown_complete);
-+	k3_udma_glue_tdown_rx_chn(emac->rx_chns.rx_chn, true);
-+
-+	/* When RX DMA Channel Teardown is initiated, it will result in an
-+	 * interrupt and a Teardown Completion Marker (TDCM) is queued into
-+	 * the RX Completion queue. Acknowledging the interrupt involves
-+	 * popping the TDCM descriptor from the RX Completion queue via the
-+	 * RX NAPI Handler. To avoid timing out when waiting for the TDCM to
-+	 * be popped, schedule the RX NAPI handler to run immediately.
-+	 */
-+	if (!napi_if_scheduled_mark_missed(&emac->napi_rx)) {
-+		if (napi_schedule_prep(&emac->napi_rx))
-+			__napi_schedule(&emac->napi_rx);
-+	}
-+
-+	ret = wait_for_completion_timeout(&emac->tdown_complete,
-+					  msecs_to_jiffies(1000));
-+	if (!ret)
-+		netdev_err(emac->ndev, "rx teardown timeout\n");
-+
-+	for (i = 0; i < PRUETH_MAX_RX_FLOWS; i++) {
-+		napi_disable(&emac->napi_rx);
-+		hrtimer_cancel(&emac->rx_hrtimer);
-+		k3_udma_glue_reset_rx_chn(emac->rx_chns.rx_chn, i,
-+					  &emac->rx_chns,
-+					  prueth_rx_cleanup);
-+	}
-+
-+	prueth_destroy_xdp_rxqs(emac);
-+	k3_udma_glue_disable_rx_chn(emac->rx_chns.rx_chn);
-+}
-+
-+static int prueth_create_txq(struct prueth_emac *emac)
-+{
-+	int ret, i;
-+
-+	for (i = 0; i < emac->tx_ch_num; i++) {
-+		ret = k3_udma_glue_enable_tx_chn(emac->tx_chns[i].tx_chn);
-+		if (ret)
-+			goto reset_tx_chan;
-+		napi_enable(&emac->tx_chns[i].napi_tx);
-+	}
-+	return 0;
-+
-+reset_tx_chan:
-+	/* Since interface is not yet up, there is wouldn't be
-+	 * any SKB for completion. So set false to free_skb
-+	 */
-+	prueth_reset_tx_chan(emac, i, false);
-+	return ret;
-+}
-+
-+static int prueth_create_rxq(struct prueth_emac *emac)
-+{
++	struct prueth_rx_chn *rx_chn = &emac->rx_chns;
++	u32 frame_size;
 +	int ret;
 +
-+	ret = prueth_prepare_rx_chan(emac, &emac->rx_chns, PRUETH_MAX_PKT_SIZE);
-+	if (ret)
++	if (queue_id >= PRUETH_MAX_RX_FLOWS ||
++	    queue_id >= emac->tx_ch_num) {
++		netdev_err(emac->ndev, "Invalid XSK queue ID %d\n", queue_id);
++		return -EINVAL;
++	}
++
++	frame_size = xsk_pool_get_rx_frame_size(pool);
++	if (frame_size < PRUETH_MAX_PKT_SIZE)
++		return -EOPNOTSUPP;
++
++	ret = xsk_pool_dma_map(pool, rx_chn->dma_dev, PRUETH_RX_DMA_ATTR);
++	if (ret) {
++		netdev_err(emac->ndev, "Failed to map XSK pool: %d\n", ret);
 +		return ret;
++	}
 +
-+	ret = k3_udma_glue_enable_rx_chn(emac->rx_chns.rx_chn);
-+	if (ret)
-+		goto reset_rx_chn;
++	if (netif_running(emac->ndev)) {
++		/* stop packets from wire for graceful teardown */
++		ret = icssg_set_port_state(emac, ICSSG_EMAC_PORT_DISABLE);
++		if (ret)
++			return ret;
++		prueth_destroy_rxq(emac);
++	}
 +
-+	ret = prueth_create_xdp_rxqs(emac);
-+	if (ret)
-+		goto reset_rx_chn;
++	emac->xsk_qid = queue_id;
++	prueth_set_xsk_pool(emac, queue_id);
 +
-+	napi_enable(&emac->napi_rx);
++	if (netif_running(emac->ndev)) {
++		ret = prueth_create_rxq(emac);
++		if (ret) {
++			netdev_err(emac->ndev, "Failed to create RX queue: %d\n", ret);
++			return ret;
++		}
++		ret = icssg_set_port_state(emac, ICSSG_EMAC_PORT_FORWARD);
++		if (ret) {
++			prueth_destroy_rxq(emac);
++			return ret;
++		}
++		ret = prueth_xsk_wakeup(emac->ndev, queue_id, XDP_WAKEUP_RX);
++		if (ret)
++			return ret;
++	}
++
 +	return 0;
++}
 +
-+reset_rx_chn:
-+	prueth_reset_rx_chan(&emac->rx_chns, PRUETH_MAX_RX_FLOWS, false);
-+	return ret;
++static int prueth_xsk_pool_disable(struct prueth_emac *emac, u16 queue_id)
++{
++	struct xsk_buff_pool *pool;
++	int ret;
++
++	if (queue_id >= PRUETH_MAX_RX_FLOWS ||
++	    queue_id >= emac->tx_ch_num) {
++		netdev_err(emac->ndev, "Invalid XSK queue ID %d\n", queue_id);
++		return -EINVAL;
++	}
++
++	if (emac->xsk_qid != queue_id) {
++		netdev_err(emac->ndev, "XSK queue ID %d not registered\n", queue_id);
++		return -EINVAL;
++	}
++
++	pool = xsk_get_pool_from_qid(emac->ndev, queue_id);
++	if (!pool) {
++		netdev_err(emac->ndev, "No XSK pool registered for queue %d\n", queue_id);
++		return -EINVAL;
++	}
++
++	if (netif_running(emac->ndev)) {
++		/* stop packets from wire for graceful teardown */
++		ret = icssg_set_port_state(emac, ICSSG_EMAC_PORT_DISABLE);
++		if (ret)
++			return ret;
++		prueth_destroy_rxq(emac);
++	}
++
++	xsk_pool_dma_unmap(pool, PRUETH_RX_DMA_ATTR);
++	emac->xsk_qid = -EINVAL;
++	prueth_set_xsk_pool(emac, queue_id);
++
++	if (netif_running(emac->ndev)) {
++		ret = prueth_create_rxq(emac);
++		if (ret) {
++			netdev_err(emac->ndev, "Failed to create RX queue: %d\n", ret);
++			return ret;
++		}
++		ret = icssg_set_port_state(emac, ICSSG_EMAC_PORT_FORWARD);
++		if (ret) {
++			prueth_destroy_rxq(emac);
++			return ret;
++		}
++	}
++
++	return 0;
 +}
 +
  /**
-  * emac_ndo_open - EMAC device open
+  * emac_ndo_bpf - implements ndo_bpf for icssg_prueth
   * @ndev: network adapter device
-@@ -746,7 +854,7 @@ static int icssg_update_vlan_mcast(struct net_device *vdev, int vid,
- static int emac_ndo_open(struct net_device *ndev)
- {
- 	struct prueth_emac *emac = netdev_priv(ndev);
--	int ret, i, num_data_chn = emac->tx_ch_num;
-+	int ret, num_data_chn = emac->tx_ch_num;
- 	struct icssg_flow_cfg __iomem *flow_cfg;
- 	struct prueth *prueth = emac->prueth;
- 	int slice = prueth_emac_slice(emac);
-@@ -819,28 +927,13 @@ static int emac_ndo_open(struct net_device *ndev)
- 		goto stop;
+@@ -1214,11 +1335,27 @@ static int emac_ndo_bpf(struct net_device *ndev, struct netdev_bpf *bpf)
+ 	switch (bpf->command) {
+ 	case XDP_SETUP_PROG:
+ 		return emac_xdp_setup(emac, bpf);
++	case XDP_SETUP_XSK_POOL:
++		return bpf->xsk.pool ?
++			prueth_xsk_pool_enable(emac, bpf->xsk.pool, bpf->xsk.queue_id) :
++			prueth_xsk_pool_disable(emac, bpf->xsk.queue_id);
+ 	default:
+ 		return -EINVAL;
+ 	}
+ }
  
- 	/* Prepare RX */
--	ret = prueth_prepare_rx_chan(emac, &emac->rx_chns, PRUETH_MAX_PKT_SIZE);
-+	ret = prueth_create_rxq(emac);
- 	if (ret)
- 		goto free_tx_ts_irq;
++int prueth_xsk_wakeup(struct net_device *ndev, u32 qid, u32 flags)
++{
++	struct prueth_emac *emac = netdev_priv(ndev);
++
++	if (qid >= PRUETH_MAX_RX_FLOWS || qid >= emac->tx_ch_num) {
++		netdev_err(ndev, "Invalid XSK queue ID %d\n", qid);
++		return -EINVAL;
++	}
++
++	return 0;
++}
++
+ static const struct net_device_ops emac_netdev_ops = {
+ 	.ndo_open = emac_ndo_open,
+ 	.ndo_stop = emac_ndo_stop,
+@@ -1237,6 +1374,7 @@ static const struct net_device_ops emac_netdev_ops = {
+ 	.ndo_xdp_xmit = emac_xdp_xmit,
+ 	.ndo_hwtstamp_get = icssg_ndo_get_ts_config,
+ 	.ndo_hwtstamp_set = icssg_ndo_set_ts_config,
++	.ndo_xsk_wakeup = prueth_xsk_wakeup,
+ };
  
--	ret = prueth_create_xdp_rxqs(emac);
--	if (ret)
--		goto reset_rx_chn;
--
--	ret = k3_udma_glue_enable_rx_chn(emac->rx_chns.rx_chn);
-+	ret = prueth_create_txq(emac);
- 	if (ret)
--		goto destroy_xdp_rxqs;
--
--	for (i = 0; i < emac->tx_ch_num; i++) {
--		ret = k3_udma_glue_enable_tx_chn(emac->tx_chns[i].tx_chn);
--		if (ret)
--			goto reset_tx_chan;
--	}
--
--	/* Enable NAPI in Tx and Rx direction */
--	for (i = 0; i < emac->tx_ch_num; i++)
--		napi_enable(&emac->tx_chns[i].napi_tx);
--	napi_enable(&emac->napi_rx);
-+		goto destroy_rxq;
- 
- 	/* start PHY */
- 	phy_start(ndev->phydev);
-@@ -851,15 +944,8 @@ static int emac_ndo_open(struct net_device *ndev)
- 
- 	return 0;
- 
--reset_tx_chan:
--	/* Since interface is not yet up, there is wouldn't be
--	 * any SKB for completion. So set false to free_skb
--	 */
--	prueth_reset_tx_chan(emac, i, false);
--destroy_xdp_rxqs:
--	prueth_destroy_xdp_rxqs(emac);
--reset_rx_chn:
--	prueth_reset_rx_chan(&emac->rx_chns, max_rx_flows, false);
-+destroy_rxq:
-+	prueth_destroy_rxq(emac);
- free_tx_ts_irq:
- 	free_irq(emac->tx_ts_irq, emac);
- stop:
-@@ -889,9 +975,6 @@ static int emac_ndo_stop(struct net_device *ndev)
- {
- 	struct prueth_emac *emac = netdev_priv(ndev);
- 	struct prueth *prueth = emac->prueth;
--	int rx_flow = PRUETH_RX_FLOW_DATA;
--	int max_rx_flows;
--	int ret, i;
- 
- 	/* inform the upper layers. */
- 	netif_tx_stop_all_queues(ndev);
-@@ -905,32 +988,8 @@ static int emac_ndo_stop(struct net_device *ndev)
- 	else
- 		__dev_mc_unsync(ndev, icssg_prueth_del_mcast);
- 
--	atomic_set(&emac->tdown_cnt, emac->tx_ch_num);
--	/* ensure new tdown_cnt value is visible */
--	smp_mb__after_atomic();
--	/* tear down and disable UDMA channels */
--	reinit_completion(&emac->tdown_complete);
--	for (i = 0; i < emac->tx_ch_num; i++)
--		k3_udma_glue_tdown_tx_chn(emac->tx_chns[i].tx_chn, false);
--
--	ret = wait_for_completion_timeout(&emac->tdown_complete,
--					  msecs_to_jiffies(1000));
--	if (!ret)
--		netdev_err(ndev, "tx teardown timeout\n");
--
--	prueth_reset_tx_chan(emac, emac->tx_ch_num, true);
--	for (i = 0; i < emac->tx_ch_num; i++) {
--		napi_disable(&emac->tx_chns[i].napi_tx);
--		hrtimer_cancel(&emac->tx_chns[i].tx_hrtimer);
--	}
--
--	max_rx_flows = PRUETH_MAX_RX_FLOWS;
--	k3_udma_glue_tdown_rx_chn(emac->rx_chns.rx_chn, true);
--
--	prueth_reset_rx_chan(&emac->rx_chns, max_rx_flows, true);
--	prueth_destroy_xdp_rxqs(emac);
--	napi_disable(&emac->napi_rx);
--	hrtimer_cancel(&emac->rx_hrtimer);
-+	prueth_destroy_txq(emac);
-+	prueth_destroy_rxq(emac);
- 
- 	cancel_work_sync(&emac->rx_mode_work);
- 
-@@ -943,10 +1002,10 @@ static int emac_ndo_stop(struct net_device *ndev)
- 
- 	free_irq(emac->tx_ts_irq, emac);
- 
--	free_irq(emac->rx_chns.irq[rx_flow], emac);
-+	free_irq(emac->rx_chns.irq[PRUETH_RX_FLOW_DATA], emac);
- 	prueth_ndev_del_tx_napi(emac, emac->tx_ch_num);
- 
--	prueth_cleanup_rx_chns(emac, &emac->rx_chns, max_rx_flows);
-+	prueth_cleanup_rx_chns(emac, &emac->rx_chns, PRUETH_MAX_RX_FLOWS);
- 	prueth_cleanup_tx_chns(emac);
- 
- 	prueth->emacs_initialized--;
+ static int prueth_netdev_init(struct prueth *prueth,
 diff --git a/drivers/net/ethernet/ti/icssg/icssg_prueth.h b/drivers/net/ethernet/ti/icssg/icssg_prueth.h
-index f0fa9688d9a0..5cc90b66035a 100644
+index 5cc90b66035a..a5e3774b0388 100644
 --- a/drivers/net/ethernet/ti/icssg/icssg_prueth.h
 +++ b/drivers/net/ethernet/ti/icssg/icssg_prueth.h
-@@ -501,5 +501,7 @@ u32 emac_xmit_xdp_frame(struct prueth_emac *emac,
- 			struct xdp_frame *xdpf,
- 			struct page *page,
+@@ -38,6 +38,8 @@
+ #include <net/devlink.h>
+ #include <net/xdp.h>
+ #include <net/page_pool/helpers.h>
++#include <net/xsk_buff_pool.h>
++#include <net/xdp_sock_drv.h>
+ 
+ #include "icssg_config.h"
+ #include "icss_iep.h"
+@@ -126,6 +128,7 @@ struct prueth_tx_chn {
+ 	char name[32];
+ 	struct hrtimer tx_hrtimer;
+ 	unsigned long tx_pace_timeout_ns;
++	struct xsk_buff_pool *xsk_pool;
+ };
+ 
+ struct prueth_rx_chn {
+@@ -138,6 +141,7 @@ struct prueth_rx_chn {
+ 	char name[32];
+ 	struct page_pool *pg_pool;
+ 	struct xdp_rxq_info xdp_rxq;
++	struct xsk_buff_pool *xsk_pool;
+ };
+ 
+ enum prueth_swdata_type {
+@@ -241,6 +245,7 @@ struct prueth_emac {
+ 	struct netdev_hw_addr_list vlan_mcast_list[MAX_VLAN_ID];
+ 	struct bpf_prog *xdp_prog;
+ 	struct xdp_attachment_info xdpi;
++	int xsk_qid;
+ };
+ 
+ /* The buf includes headroom compatible with both skb and xdpf */
+@@ -503,5 +508,10 @@ u32 emac_xmit_xdp_frame(struct prueth_emac *emac,
  			unsigned int q_idx);
-+void prueth_rx_cleanup(void *data, dma_addr_t desc_dma);
-+void prueth_tx_cleanup(void *data, dma_addr_t desc_dma);
+ void prueth_rx_cleanup(void *data, dma_addr_t desc_dma);
+ void prueth_tx_cleanup(void *data, dma_addr_t desc_dma);
++int prueth_xsk_wakeup(struct net_device *ndev, u32 qid, u32 flags);
++static inline bool prueth_xdp_is_enabled(struct prueth_emac *emac)
++{
++	return !!READ_ONCE(emac->xdp_prog);
++}
  
  #endif /* __NET_TI_ICSSG_PRUETH_H */
 -- 
