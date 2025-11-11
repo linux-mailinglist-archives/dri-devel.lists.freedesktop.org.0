@@ -2,38 +2,74 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 48D38C4F6D2
-	for <lists+dri-devel@lfdr.de>; Tue, 11 Nov 2025 19:25:25 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id E9955C4F6ED
+	for <lists+dri-devel@lfdr.de>; Tue, 11 Nov 2025 19:26:52 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3D08110E16A;
-	Tue, 11 Nov 2025 18:25:23 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id F21DB10E638;
+	Tue, 11 Nov 2025 18:26:50 +0000 (UTC)
+Authentication-Results: gabe.freedesktop.org;
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="EB2mwsKZ";
+	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
- by gabe.freedesktop.org (Postfix) with ESMTP id 79D1F10E16A
- for <dri-devel@lists.freedesktop.org>; Tue, 11 Nov 2025 18:25:21 +0000 (UTC)
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
- by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 4F4841655
- for <dri-devel@lists.freedesktop.org>; Tue, 11 Nov 2025 10:25:13 -0800 (PST)
-Received: from e110455-lin.cambridge.arm.com (usa-sjc-imap-foss1.foss.arm.com
- [10.121.207.14])
- by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPA id BF5BB3F63F
- for <dri-devel@lists.freedesktop.org>; Tue, 11 Nov 2025 10:25:20 -0800 (PST)
-Date: Tue, 11 Nov 2025 18:25:13 +0000
-From: Liviu Dudau <liviu.dudau@arm.com>
-To: Abhishek Rajput <abhiraj21put@gmail.com>
-Cc: maarten.lankhorst@linux.intel.com, mripard@kernel.org,
- tzimmermann@suse.de, airlied@gmail.com, simona@ffwll.ch,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] drm/komeda: Convert logging in d71_component.c to drm_*
- with drm_device parameter
-Message-ID: <aRN_ierYW0i1VT0E@e110455-lin.cambridge.arm.com>
-References: <20251111113717.139401-1-abhiraj21put@gmail.com>
+Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A61BF10E638
+ for <dri-devel@lists.freedesktop.org>; Tue, 11 Nov 2025 18:26:49 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by tor.source.kernel.org (Postfix) with ESMTP id C80CF60202;
+ Tue, 11 Nov 2025 18:26:48 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9F9E1C19425;
+ Tue, 11 Nov 2025 18:26:41 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1762885608;
+ bh=4blQyKrzAkck3w71C86EM4tTASTGHoqXfv8ZZdP8GD4=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=EB2mwsKZOt26mhFmlqmAt9TTcx7m6KIb/2WmEWg5hTkTbVNjMZ68QCkYgdgAbKGaI
+ SCUt+TbxjpFPqboSNBYoirqVLfH+IZOo4cEr62NOv0oTgrlMfn6xbWsJhnuvXeFLP6
+ pv3/NlemTf6Woija8Glpv8xiia4HhybsEihrAeVOvKHggrgJ+l4moLeNc1dorNyypH
+ CkTe4MkpfDXHl0UtVXcbUKBelzOp38ocz7DiPMTLpo941vemDQAxR+uKJbJhGIIosV
+ YOmKRqVAh6U6SN5/qfjjLKdrNAWwd2wAIx2uwkS3DyVZxwmgiANwyOOftdkrNT4bdx
+ ujiA35zkLOvug==
+Date: Tue, 11 Nov 2025 18:26:39 +0000
+From: Conor Dooley <conor@kernel.org>
+To: Michal Wilczynski <m.wilczynski@samsung.com>
+Cc: Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Emil Renner Berthing <kernel@esmil.dk>,
+ Hal Feng <hal.feng@starfivetech.com>,
+ Michael Turquette <mturquette@baylibre.com>,
+ Stephen Boyd <sboyd@kernel.org>, Conor Dooley <conor+dt@kernel.org>,
+ Xingyu Wu <xingyu.wu@starfivetech.com>, Vinod Koul <vkoul@kernel.org>,
+ Kishon Vijay Abraham I <kishon@kernel.org>,
+ Andrzej Hajda <andrzej.hajda@intel.com>,
+ Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, Lee Jones <lee@kernel.org>,
+ Philipp Zabel <p.zabel@pengutronix.de>,
+ Paul Walmsley <paul.walmsley@sifive.com>,
+ Palmer Dabbelt <palmer@dabbelt.com>,
+ Albert Ou <aou@eecs.berkeley.edu>, Alexandre Ghiti <alex@ghiti.fr>,
+ Marek Szyprowski <m.szyprowski@samsung.com>,
+ Icenowy Zheng <uwu@icenowy.me>,
+ Maud Spierings <maudspierings@gocontroll.com>,
+ Andy Yan <andyshrk@163.com>, Heiko Stuebner <heiko@sntech.de>,
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-clk@vger.kernel.org, linux-phy@lists.infradead.org,
+ dri-devel@lists.freedesktop.org, linux-riscv@lists.infradead.org
+Subject: Re: [PATCH RFC 02/13] dt-bindings: clock: jh7110: Make power-domain
+ optional
+Message-ID: <20251111-brim-circling-0d5a364519a8@spud>
+References: <20251108-jh7110-clean-send-v1-0-06bf43bb76b1@samsung.com>
+ <CGME20251108010454eucas1p103697b195125d853bd9f4d40662b681e@eucas1p1.samsung.com>
+ <20251108-jh7110-clean-send-v1-2-06bf43bb76b1@samsung.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: multipart/signed; micalg=pgp-sha512;
+ protocol="application/pgp-signature"; boundary="EoykeO/vcnmrhIyh"
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20251111113717.139401-1-abhiraj21put@gmail.com>
+In-Reply-To: <20251108-jh7110-clean-send-v1-2-06bf43bb76b1@samsung.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -49,207 +85,67 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Nov 11, 2025 at 05:07:17PM +0530, Abhishek Rajput wrote:
-> Replace DRM_ERROR() calls in
-> drivers/gpu/drm/arm/display/komeda/d71/d71_component.c
-> with the corresponding drm_err() helper.
-> 
-> The drm_*() logging helpers take a struct drm_device * as the first
-> argument, allowing the DRM core to prefix log messages with the
-> corresponding device instance. This improves log traceability when
-> multiple display controllers are present.
-> 
-> The drm_device pointer is now safely obtained using
-> komeda_kms_attach(d71->mdev), ensuring proper initialization and
-> alignment with Komeda’s internal design.
 
-That is absolutely not safe! komeda_kms_attach() is a heavy operation
-that allocates a new drm device and it is meant to be used only at
-probe time to "attach" a komeda KMS device. You cannot call it
-from deep inside the implementation of a komeda_component.
+--EoykeO/vcnmrhIyh
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-When you've sent the previous patch I did have a look at d71_component.c
-before replying but I've realised that it is not that easy to convert
-to drm_err(). So we either remove all the error messages, which I'm
-reluctant to do as they are useful for bring up, or we leave the file
-alone.
+On Sat, Nov 08, 2025 at 02:04:36AM +0100, Michal Wilczynski wrote:
+> The voutcrg (Video Output Clock Generator) hardware resides within
+> the PD_VOUT power domain. In the new display subsystem model,
+> this power domain is managed by the top-level 'vout-subsystem'
+> parent driver.
+>=20
+> Because the parent driver now handles power management, the voutcrg
+> node in the device tree no longer needs a 'power-domains' property.
+> This patch updates the voutcrg binding to reflect this by removing
+> 'power-domains' from the list of required properties.
 
-For this patch:
+I don't like how driver-centred your commit message is, but I think you
+can just explain this by saying that the appropriate place for this
+power domain is in the node that uses it, not some other supplier to the
+vout subsystem.
 
-NACKED by Liviu Dudau <liviu.dudau@arm.com>
-
-Best regards,
-Liviu
-
-> 
-> This change aligns komeda with the DRM TODO item:
-> "Convert logging to drm_* functions with drm_device parameter".
-> 
-> Signed-off-by: Abhishek Rajput <abhiraj21put@gmail.com>
+>=20
+> This fixes a dtbs_check warning that would be triggered by the
+> updated device tree.
+>=20
+> Signed-off-by: Michal Wilczynski <m.wilczynski@samsung.com>
 > ---
->  .../arm/display/komeda/d71/d71_component.c    | 34 ++++++++++++++-----
->  1 file changed, 25 insertions(+), 9 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/arm/display/komeda/d71/d71_component.c b/drivers/gpu/drm/arm/display/komeda/d71/d71_component.c
-> index 67e5d3b4190f..3524ca623d6e 100644
-> --- a/drivers/gpu/drm/arm/display/komeda/d71/d71_component.c
-> +++ b/drivers/gpu/drm/arm/display/komeda/d71/d71_component.c
-> @@ -409,6 +409,8 @@ static const struct komeda_component_funcs d71_layer_funcs = {
->  static int d71_layer_init(struct d71_dev *d71,
->  			  struct block_header *blk, u32 __iomem *reg)
->  {
-> +	struct komeda_kms_dev *kms = komeda_kms_attach(d71->mdev);
-> +	struct drm_device *drm = &kms->base;
->  	struct komeda_component *c;
->  	struct komeda_layer *layer;
->  	u32 pipe_id, layer_id, layer_info;
-> @@ -421,7 +423,7 @@ static int d71_layer_init(struct d71_dev *d71,
->  				 get_valid_inputs(blk),
->  				 1, reg, "LPU%d_LAYER%d", pipe_id, layer_id);
->  	if (IS_ERR(c)) {
-> -		DRM_ERROR("Failed to add layer component\n");
-> +		drm_err(drm, "Failed to add layer component\n");
->  		return PTR_ERR(c);
->  	}
->  
-> @@ -527,6 +529,8 @@ static const struct komeda_component_funcs d71_wb_layer_funcs = {
->  static int d71_wb_layer_init(struct d71_dev *d71,
->  			     struct block_header *blk, u32 __iomem *reg)
->  {
-> +	struct komeda_kms_dev *kms = komeda_kms_attach(d71->mdev);
-> +	struct drm_device *drm = &kms->base;
->  	struct komeda_component *c;
->  	struct komeda_layer *wb_layer;
->  	u32 pipe_id, layer_id;
-> @@ -539,7 +543,7 @@ static int d71_wb_layer_init(struct d71_dev *d71,
->  				 1, get_valid_inputs(blk), 0, reg,
->  				 "LPU%d_LAYER_WR", pipe_id);
->  	if (IS_ERR(c)) {
-> -		DRM_ERROR("Failed to add wb_layer component\n");
-> +		drm_err(drm, "Failed to add wb_layer component\n");
->  		return PTR_ERR(c);
->  	}
->  
-> @@ -837,6 +841,8 @@ static const struct komeda_component_funcs d71_scaler_funcs = {
->  static int d71_scaler_init(struct d71_dev *d71,
->  			   struct block_header *blk, u32 __iomem *reg)
->  {
-> +	struct komeda_kms_dev *kms = komeda_kms_attach(d71->mdev);
-> +	struct drm_device *drm = &kms->base;
->  	struct komeda_component *c;
->  	struct komeda_scaler *scaler;
->  	u32 pipe_id, comp_id;
-> @@ -851,7 +857,7 @@ static int d71_scaler_init(struct d71_dev *d71,
->  				 pipe_id, BLOCK_INFO_BLK_ID(blk->block_info));
->  
->  	if (IS_ERR(c)) {
-> -		DRM_ERROR("Failed to initialize scaler");
-> +		drm_err(drm, "Failed to initialize scaler");
->  		return PTR_ERR(c);
->  	}
->  
-> @@ -945,6 +951,8 @@ static const struct komeda_component_funcs d71_splitter_funcs = {
->  static int d71_splitter_init(struct d71_dev *d71,
->  			     struct block_header *blk, u32 __iomem *reg)
->  {
-> +	struct komeda_kms_dev *kms = komeda_kms_attach(d71->mdev);
-> +	struct drm_device *drm = &kms->base;
->  	struct komeda_component *c;
->  	struct komeda_splitter *splitter;
->  	u32 pipe_id, comp_id;
-> @@ -959,7 +967,7 @@ static int d71_splitter_init(struct d71_dev *d71,
->  				 "CU%d_SPLITTER", pipe_id);
->  
->  	if (IS_ERR(c)) {
-> -		DRM_ERROR("Failed to initialize splitter");
-> +		drm_err(drm, "Failed to initialize splitter");
->  		return -1;
->  	}
->  
-> @@ -1015,6 +1023,8 @@ static const struct komeda_component_funcs d71_merger_funcs = {
->  static int d71_merger_init(struct d71_dev *d71,
->  			   struct block_header *blk, u32 __iomem *reg)
->  {
-> +	struct komeda_kms_dev *kms = komeda_kms_attach(d71->mdev);
-> +	struct drm_device *drm = &kms->base;
->  	struct komeda_component *c;
->  	struct komeda_merger *merger;
->  	u32 pipe_id, comp_id;
-> @@ -1030,7 +1040,7 @@ static int d71_merger_init(struct d71_dev *d71,
->  				 "CU%d_MERGER", pipe_id);
->  
->  	if (IS_ERR(c)) {
-> -		DRM_ERROR("Failed to initialize merger.\n");
-> +		drm_err(drm, "Failed to initialize merger.\n");
->  		return PTR_ERR(c);
->  	}
->  
-> @@ -1126,6 +1136,8 @@ static const struct komeda_component_funcs d71_improc_funcs = {
->  static int d71_improc_init(struct d71_dev *d71,
->  			   struct block_header *blk, u32 __iomem *reg)
->  {
-> +	struct komeda_kms_dev *kms = komeda_kms_attach(d71->mdev);
-> +	struct drm_device *drm = &kms->base;
->  	struct komeda_component *c;
->  	struct komeda_improc *improc;
->  	u32 pipe_id, comp_id, value;
-> @@ -1139,7 +1151,7 @@ static int d71_improc_init(struct d71_dev *d71,
->  				 get_valid_inputs(blk),
->  				 IPS_NUM_OUTPUT_IDS, reg, "DOU%d_IPS", pipe_id);
->  	if (IS_ERR(c)) {
-> -		DRM_ERROR("Failed to add improc component\n");
-> +		drm_err(drm, "Failed to add improc component\n");
->  		return PTR_ERR(c);
->  	}
->  
-> @@ -1253,6 +1265,8 @@ static const struct komeda_component_funcs d71_timing_ctrlr_funcs = {
->  static int d71_timing_ctrlr_init(struct d71_dev *d71,
->  				 struct block_header *blk, u32 __iomem *reg)
->  {
-> +	struct komeda_kms_dev *kms = komeda_kms_attach(d71->mdev);
-> +	struct drm_device *drm = &kms->base;
->  	struct komeda_component *c;
->  	struct komeda_timing_ctrlr *ctrlr;
->  	u32 pipe_id, comp_id;
-> @@ -1266,7 +1280,7 @@ static int d71_timing_ctrlr_init(struct d71_dev *d71,
->  				 1, BIT(KOMEDA_COMPONENT_IPS0 + pipe_id),
->  				 BS_NUM_OUTPUT_IDS, reg, "DOU%d_BS", pipe_id);
->  	if (IS_ERR(c)) {
-> -		DRM_ERROR("Failed to add display_ctrl component\n");
-> +		drm_err(drm, "Failed to add display_ctrl component\n");
->  		return PTR_ERR(c);
->  	}
->  
-> @@ -1280,6 +1294,8 @@ static int d71_timing_ctrlr_init(struct d71_dev *d71,
->  int d71_probe_block(struct d71_dev *d71,
->  		    struct block_header *blk, u32 __iomem *reg)
->  {
-> +	struct komeda_kms_dev *kms = komeda_kms_attach(d71->mdev);
-> +	struct drm_device *drm = &kms->base;
->  	struct d71_pipeline *pipe;
->  	int blk_id = BLOCK_INFO_BLK_ID(blk->block_info);
->  
-> @@ -1346,8 +1362,8 @@ int d71_probe_block(struct d71_dev *d71,
->  		break;
->  
->  	default:
-> -		DRM_ERROR("Unknown block (block_info: 0x%x) is found\n",
-> -			  blk->block_info);
-> +		drm_err(drm, "Unknown block (block_info: 0x%x) is found\n",
-> +			blk->block_info);
->  		err = -EINVAL;
->  		break;
->  	}
-> -- 
-> 2.43.0
-> 
+>  Documentation/devicetree/bindings/clock/starfive,jh7110-voutcrg.yaml | 1=
+ -
+>  1 file changed, 1 deletion(-)
+>=20
+> diff --git a/Documentation/devicetree/bindings/clock/starfive,jh7110-vout=
+crg.yaml b/Documentation/devicetree/bindings/clock/starfive,jh7110-voutcrg.=
+yaml
+> index af77bd8c86b12e667b79ffbaeae5f8a82e6d3f37..deff69037e5072002e06aa5a8=
+99f4488b7264f47 100644
+> --- a/Documentation/devicetree/bindings/clock/starfive,jh7110-voutcrg.yaml
+> +++ b/Documentation/devicetree/bindings/clock/starfive,jh7110-voutcrg.yaml
+> @@ -61,7 +61,6 @@ required:
+>    - resets
+>    - '#clock-cells'
+>    - '#reset-cells'
+> -  - power-domains
+> =20
+>  additionalProperties: false
+> =20
+>=20
+> --=20
+> 2.34.1
+>=20
 
--- 
-====================
-| I would like to |
-| fix the world,  |
-| but they're not |
-| giving me the   |
- \ source code!  /
-  ---------------
-    ¯\_(ツ)_/¯
+--EoykeO/vcnmrhIyh
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYKAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCaRN/3wAKCRB4tDGHoIJi
+0jcGAQCm8zdZi4Rj0XsEx0Qzj/K0aGmz4WEQWzpBc5W/wiIwsQEAx+y3uu9T8sp/
+Aamgu97ttBdRylrGg+l4YxZE4C+V2wY=
+=l4qk
+-----END PGP SIGNATURE-----
+
+--EoykeO/vcnmrhIyh--
