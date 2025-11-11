@@ -2,65 +2,150 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5D20CC4F8C8
-	for <lists+dri-devel@lfdr.de>; Tue, 11 Nov 2025 20:13:17 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6E14EC4F9FB
+	for <lists+dri-devel@lfdr.de>; Tue, 11 Nov 2025 20:39:39 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C725610E650;
-	Tue, 11 Nov 2025 19:13:13 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5D9D710E15C;
+	Tue, 11 Nov 2025 19:39:36 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="ckrTSBFd";
+	dkim=pass (1024-bit key; unprotected) header.d=renesas.com header.i=@renesas.com header.b="ZsptZrvr";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2291E10E64B
- for <dri-devel@lists.freedesktop.org>; Tue, 11 Nov 2025 19:13:12 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1762888392; x=1794424392;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:content-transfer-encoding:in-reply-to;
- bh=nvTr23+YncuulO8vBSApK5WbVJrnsjkpAwE68SrEFzo=;
- b=ckrTSBFdje/lHBi2IWWNFvI1lTfCxt6KoZ51SQeKu+hxp8gA7eW0DAHC
- dGywtlgkmUrsQVXew/o+HocY1RzHYR/8hNVyCFEu669rte3PRz9EblaVf
- dS/QvSjnUfO5fjearwQb9NNGQMzQfuaN9F7+Fj1qRAceqds2hsdlSn0kb
- V3XzyzCnSTcmUcz+aJ4T4PLJdLNF+DA7bXHUH11UFlQxgJnPTRmXeOT+H
- yFK+vhBiMoWNurmpuRpTc79meIcf9EO7SNV1Qx6+rzdw78sEJURTJ14TG
- 8EcHJGCuA4Vos4TB3DrghpuJxkZKbpquApTmGq00SeHMCBwiv3bZNJzt1 w==;
-X-CSE-ConnectionGUID: vxj5Ez3FQ72wVTuBz1jqqg==
-X-CSE-MsgGUID: gZpzktuORHmPK+loap1qDQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11610"; a="64993308"
-X-IronPort-AV: E=Sophos;i="6.19,297,1754982000"; d="scan'208";a="64993308"
-Received: from orviesa010.jf.intel.com ([10.64.159.150])
- by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 11 Nov 2025 11:13:12 -0800
-X-CSE-ConnectionGUID: OzLXTfIzQ+ibNxuAZDVodg==
-X-CSE-MsgGUID: sqCzTmmAQj2vlMacMS/Qsw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.19,297,1754982000"; d="scan'208";a="188334697"
-Received: from bjrankin-mobl3.amr.corp.intel.com (HELO localhost)
- ([10.124.223.47])
- by orviesa010-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 11 Nov 2025 11:13:09 -0800
-Date: Tue, 11 Nov 2025 21:13:06 +0200
-From: Ville =?iso-8859-1?Q?Syrj=E4l=E4?= <ville.syrjala@linux.intel.com>
-To: Marius Vlad <marius.vlad@collabora.com>
-Cc: dri-devel@lists.freedesktop.org, dmitry.baryshkov@oss.qualcomm.com,
- tzimmermann@suse.de, simona.vetter@ffwll.ch,
- jani.nikula@linux.intel.com, ian.forbes@broadcom.com,
- louis.chauvet@bootlin.com, daniel.stone@collabora.com
-Subject: Re: [PATCH 1/4] drm: Introduce a new connector status
-Message-ID: <aROKwmZxFt52g4ed@intel.com>
-References: <20251111162338.15141-1-marius.vlad@collabora.com>
- <20251111162338.15141-2-marius.vlad@collabora.com>
- <aROGg9-ra30e4HRZ@intel.com>
+Received: from OS0P286CU011.outbound.protection.outlook.com
+ (mail-japanwestazon11010022.outbound.protection.outlook.com [52.101.228.22])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E11D710E15C
+ for <dri-devel@lists.freedesktop.org>; Tue, 11 Nov 2025 19:39:34 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=HpfTVontF3e8gqK052l2NU5obkVw0mK55HLo6faadO2Jd5q4JSCumzN8aHq24qf6XZTNhh+EJdeKevVefK0G30iWyLtqbztbkM4UuxpJQeh+jjSV97oUpfPqlkhOeocyyiZ3UpFMDFqm5amcZ0WfM6suk6oiw9miBE/b3JGX8rWlcuaGxebfokuHilfMO+6aqBMxXNXqV+PmSoJV/8JPs3LrRJCZGpID6q/npg/PJDBOpDqXNt9XmeLRB68SxXaRHafH4965VQ9GjaCTMXyTDnDba0qpFVsequ7zCdBqUKpdImwaxqAimNP8XqhnSDGQonfgBTpYYMARkYgwlzoleA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=YZ1g6dqsPMUtc8o0iucbJMu24o4R+ABmM2Fp6HSBy/E=;
+ b=LotE780tNM9MHkMWhI1fskbtBHwUHON6aWQDwMfREILztt5FpjNWRH0aRJb58qvNguflxDlIn1LyZQeFFyiBS7ENF/l6yv+OFiwSDnM9nrFJtP2QrmhZlAeuXCh/bzFi1quZux323HAmfgd+snTIEgijqJpA1UMwQB799cCpkgUFiR+sRFQUefcugacEFOj5uwD6OLaXpYHGX79TFX/mLd+ln9tI8kKMOcPDPIL0DTalp60eIc0h/xR/Hcm3O3EMhSj8VpYumO43d6Gf961ayGfNG+eMcUrU59FaXKn8TjftYiiQnDZv706eHr/afb2xKFtU19aB0BGu3kdqxgf4bw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=renesas.com; dmarc=pass action=none header.from=renesas.com;
+ dkim=pass header.d=renesas.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=renesas.com;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=YZ1g6dqsPMUtc8o0iucbJMu24o4R+ABmM2Fp6HSBy/E=;
+ b=ZsptZrvrGAZtbUwRIwxvjlIjtMYyCAHNb4/CDoIbGoReKBCFIbI+dnfKTxKvAZbDGhZ840hO1+LnVpMHC4Qy8F4PeTxoWjs2AHE//+8qjDRDI8XR8kxST513hbLnLmmi0mccOY51JHK+xDPK+cwa1OlvUkxpS/ALzU6tYVxkF48=
+Received: from TYCPR01MB8327.jpnprd01.prod.outlook.com (2603:1096:400:15c::5)
+ by OS9PR01MB14168.jpnprd01.prod.outlook.com (2603:1096:604:361::12)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9320.16; Tue, 11 Nov
+ 2025 19:39:30 +0000
+Received: from TYCPR01MB8327.jpnprd01.prod.outlook.com
+ ([fe80::483a:c2dc:6c8a:420a]) by TYCPR01MB8327.jpnprd01.prod.outlook.com
+ ([fe80::483a:c2dc:6c8a:420a%5]) with mapi id 15.20.9320.013; Tue, 11 Nov 2025
+ 19:39:26 +0000
+From: Chris Brandt <Chris.Brandt@renesas.com>
+To: Hugo Villeneuve <hugo@hugovil.com>
+CC: Geert Uytterhoeven <geert+renesas@glider.be>, Michael Turquette
+ <mturquette@baylibre.com>, Stephen Boyd <sboyd@kernel.org>, Biju Das
+ <biju.das.jz@bp.renesas.com>, Maarten Lankhorst
+ <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
+ Simona Vetter <simona@ffwll.ch>, Hien Huynh <hien.huynh.px@renesas.com>,
+ Nghia Vo <nghia.vo.zn@renesas.com>, "linux-renesas-soc@vger.kernel.org"
+ <linux-renesas-soc@vger.kernel.org>, "linux-clk@vger.kernel.org"
+ <linux-clk@vger.kernel.org>, "dri-devel@lists.freedesktop.org"
+ <dri-devel@lists.freedesktop.org>
+Subject: RE: [PATCH v4 0/2] Remove hard coded values for MIPI-DSI
+Thread-Topic: [PATCH v4 0/2] Remove hard coded values for MIPI-DSI
+Thread-Index: AQHcTqMq7HmTg5AWsEKO+ner0HLbLrTtvHUAgAAMAXCAAAqeAIAAFFSg
+Date: Tue, 11 Nov 2025 19:39:25 +0000
+Message-ID: <TYCPR01MB83273CEE6D5B665179456A2A8ACFA@TYCPR01MB8327.jpnprd01.prod.outlook.com>
+References: <20251105222530.979537-1-chris.brandt@renesas.com>
+ <20251111120148.943a0e193a65469a53a0cbc8@hugovil.com>
+ <OS3PR01MB8319C8A2BD72FC7787ACFEFA8ACFA@OS3PR01MB8319.jpnprd01.prod.outlook.com>
+ <20251111132246.eef0faf1177691a07a1df47e@hugovil.com>
+In-Reply-To: <20251111132246.eef0faf1177691a07a1df47e@hugovil.com>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=renesas.com;
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: TYCPR01MB8327:EE_|OS9PR01MB14168:EE_
+x-ms-office365-filtering-correlation-id: da1e0d1e-9bfe-4a2a-fd67-08de215a05b7
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;
+ ARA:13230040|366016|1800799024|376014|7416014|38070700021; 
+x-microsoft-antispam-message-info: =?us-ascii?Q?hNx6u6lSFpR3U/wjtrYDe5tkrA7fWn23c2EL+sEKSEt4DLYc06t1ytmh/Z+0?=
+ =?us-ascii?Q?rZbaRxI1tXBAr24nyfYAwTemNMyf6zUwLaHHX44c4ODS9ia2FXhAv1OItbVF?=
+ =?us-ascii?Q?N220jzgeTbBSEbqa0d8n2h4CIQSCls7foGsSM9f1WX2XdMSu4fZdoXB9qt/X?=
+ =?us-ascii?Q?/ilkeqXM76N9nv7Q1zrK1TnQiIcuI9aTnYmzAr40plzJPL338AtD+pXmWawy?=
+ =?us-ascii?Q?+8i1wnhO+47wSmGjdzVbmzF/slZpYZvDZWiwkqDSDwY5BJtmZ9vYPeP+DCcU?=
+ =?us-ascii?Q?xvzHfWxqzAIDpjILywDNAv3J40ceqK2olb4vUWfqyIaqh4q+OAjIXv8dsTve?=
+ =?us-ascii?Q?Ak0wuE92Og6hBVsdhbVnZXou28uEZ5ubjmpO7gr816LBfejdeVFsvJvT7HoU?=
+ =?us-ascii?Q?x1KS4K8dH9yp8KryYrnSNmggf8fUeFgAumsp4/9rPGYtz/lsE//hIIpTpdEL?=
+ =?us-ascii?Q?EoFnIlYdC108SHrAezjFdVJz3JPmmEtEeHG1xnUrQoBpHo73WP9VXa97pI0q?=
+ =?us-ascii?Q?TF47+KD6K/u65SbV5tBgHoURUeKZcd26jhLi8qIdzORwQKfeqSvSBG2k58IF?=
+ =?us-ascii?Q?ve8agnLf+wvHNjT4vNCBLzO83v6lqk4v0/hv/JGV4Mwlbk2b6o+h4gnQU9lW?=
+ =?us-ascii?Q?/9hjD/3kmgzQmUoTpoR6W5VCIfYKfxHLj87u9WmaI7i74iDgGubZUyyZv+Rd?=
+ =?us-ascii?Q?s4QYEUUZanycwKtoCrjWGyTU2gVaX4IKeTUY3OWJ3TsfkkmASrueETTPuWmk?=
+ =?us-ascii?Q?DxbnQ7Y0sF19KlIB+Lj3AVCJjcO2GL6RxRihaswCvonjzd31dF4JyPtbgCpc?=
+ =?us-ascii?Q?e3u+Ez0WAcO/TSkfl0A6+4PUDHCO4CFqKNtDbWwMVGbd8S3gxK3kW4iNNnZ9?=
+ =?us-ascii?Q?VCeHsICP5UpO3oI5wDujAAyiee6vTsLn9iDjGR79JCC2SIbpD6bhSftGklSp?=
+ =?us-ascii?Q?zyqoR+V9cdsKlS4wRzfG54kQReQ14PNzlHeyGztuIluq26ulZtVoKSqQ5/K6?=
+ =?us-ascii?Q?lceyL95FtbUIVIb5CLG/cdMS4NulVzJFXE8NYhPfTlHXAcWW34GKt/XPcMk8?=
+ =?us-ascii?Q?xBiSP+jZ0WkpUisTBryASl0QwmBKvZiy+8WouS7g72O3sUoOg1D7Ao/EwCbL?=
+ =?us-ascii?Q?QyDMAuH2E+lVvbnHBX19lZfyoj1ktrbul29of+02ora7kOoR9SSa6HDMpv1e?=
+ =?us-ascii?Q?8pQ4zo48VBdm4ZDrBZV0INt4SuEzGP3mWutSTI5/9IIMn8F/0EFUWDBC2dD3?=
+ =?us-ascii?Q?ZPlkR4JoNdwBzhh+5Fc4Rlt/7LUoF6sOh8fiOREie+bJzss5OPcBNOMyZ5aM?=
+ =?us-ascii?Q?M/XCyTALE7JlYCtBm3zE/yCkJWOMvO6PqqVFs8kjbxZDr6d9WS7ydkngG6BG?=
+ =?us-ascii?Q?SmIJYj/mtI8j5TvPWqjF5LgrftY1vyNIOh1Vm6jYn0WSbTtg+bQDnmsXdrgW?=
+ =?us-ascii?Q?RgjFOCT5oNoNMLw37Vmk9idit4t3DnNBgTrOIpbL6RZ4OKx1/taepUzYnGDj?=
+ =?us-ascii?Q?zKMagXusewyTp+YUnz7mO5DxbLSe+u/uAukB?=
+x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:TYCPR01MB8327.jpnprd01.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230040)(366016)(1800799024)(376014)(7416014)(38070700021); DIR:OUT;
+ SFP:1101; 
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: =?us-ascii?Q?LdIpPHzMzSJ9GXN9FQ5o2pznQqIVSM4qPUBs1ltp05sOugzGhNGTiQWuu7od?=
+ =?us-ascii?Q?FIYS4UQLMLlBpRex0smFJpbgfKqVsFpiOhZ2+Ul92r/IvrLbwd1qWGqu0NBw?=
+ =?us-ascii?Q?BEo/9tD+ny5lMY4gzsJpcAARz+BgNVN+cxyqUygPw/aT5pqURVzFXvFRSNBw?=
+ =?us-ascii?Q?bPb3CDPIy2vS8JzC+NAU4Nb8Q9eqdj2DpBjh9fTLwFlEjmAggTjWf9sWEu2D?=
+ =?us-ascii?Q?nfGXoLxaxVtOe9W3G6TnrGFIxsItWtMLFLJVbOniXS84c2GZYHTnlojjKLvT?=
+ =?us-ascii?Q?HZkTnww3kK+tzRkj60wzTSNyA2r0Z/N19GjgVJ2U3eiz5UjMmMqW3xQzCM3p?=
+ =?us-ascii?Q?rsjXgQN+YIfAlbfOghDzncpGjkpmoye8+P95J+K4AGMipWZeTKW/VQhlXzNf?=
+ =?us-ascii?Q?eKQ5H/9Xw8XvHH3Z9j3nkM1z0rcT1d4SdcjJqlHDiLrS05m/oWsT+gQxrNR6?=
+ =?us-ascii?Q?McLoFJCyDRsQ1zTSp5JtWo2s6RDufT4w3lgQfrJMWp/ZbQrgzZTPV9hI1KY7?=
+ =?us-ascii?Q?9qvwvL1Rr2MQKwSK3Ljym+9zUqGMkLiRKdGNy5BpeqgzIRSx+yGzscYhl2sX?=
+ =?us-ascii?Q?CI0rY7prlpP9LYctMvjoOCGrUFVLsqUzf36moUQ86+BfqB+iyoZGEHF2pHe/?=
+ =?us-ascii?Q?jLVxCD5vxY/QGglh4xVKWbDvJMtdLbuoPyFu5dR6MxMK5N50gQNLpaRRlup6?=
+ =?us-ascii?Q?9yUs5wwvvxFNgYlespPItMgz9e6KpV5XACMIUd2YWo62fLEzeMKMZnMeIjqD?=
+ =?us-ascii?Q?o8A3pFUQ64VAKZt5BIY2QlomVvnWOaIYY+0A5YfzKTTQkXOjCOpq3YJzQRzX?=
+ =?us-ascii?Q?N3wrUWqtMmQ1TguiuIlhBfXEvWtEubCotUFEEdZrvtfPHkttwK1cKnROcMyr?=
+ =?us-ascii?Q?svyuP8GgPSoMv7UUpDi4Gydi3yQI6NWBhHrVz2gDB69+iQd6B35lLLWx96NB?=
+ =?us-ascii?Q?XjrlmumV7qvKzztJeIWEVKuenLd2aSw/S1Szzo0Hx9116mTKtaVfY9wbK7hr?=
+ =?us-ascii?Q?pT1ns2JkjFGwc76mdDtjrMaBpFJOD0ETEcKyr8m7jzVzwPyJfWeicIYy0zai?=
+ =?us-ascii?Q?jjPv9wwSPZWP+wqVvhCvOL3PjsNrqETS67QV45da2gOic4mt2ZYsx1wYcTOQ?=
+ =?us-ascii?Q?WHmSvulBR8z29Jbf5ZrenxsWACJEcfSSuDLunwKWMmFZNbyDPOEnXiidcC1K?=
+ =?us-ascii?Q?tzOSkDumqyQKh2nE40+l7BrkCnSqk86FpMMxAcrvzNA4pJnF1CI+JaARja6d?=
+ =?us-ascii?Q?4ifWHSZGlNjYsfLsVzS3fed5Pb3Bafwedb0a0Oy/pVjQGsKsYVEkr96U4QK1?=
+ =?us-ascii?Q?zDulZpaSMKGsoCK7B9Eo1cFKyjRaRyESYCEhEk1WioUOOybZ9Fd/G6wNjSkb?=
+ =?us-ascii?Q?TpRHf8aZJgLm36qO5/MW7Q3SlTFOYABi4ZSmWpIoKvwK61cLw4c895hhOEn4?=
+ =?us-ascii?Q?gLXwF1xaW/YvvWBlwhaqiN9citnYQSwWIIp3hOB8FsB4gVjGNp6lk1CDmpOh?=
+ =?us-ascii?Q?kyx5YBfrrfDn3hahLWjWL2zDsgKoM2nl251hd9J5NOl6J6s5sOx0whmmzMvA?=
+ =?us-ascii?Q?rqrIVHZwUdOUFERK81CZ4NQFEtmd0WjmKxeDFevF?=
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <aROGg9-ra30e4HRZ@intel.com>
-X-Patchwork-Hint: comment
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+X-OriginatorOrg: renesas.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: TYCPR01MB8327.jpnprd01.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: da1e0d1e-9bfe-4a2a-fd67-08de215a05b7
+X-MS-Exchange-CrossTenant-originalarrivaltime: 11 Nov 2025 19:39:25.9509 (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 53d82571-da19-47e4-9cb4-625a166a4a2a
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: bZlF/y7J2IItPJ2NO5+7iOFEFCm3Qw+EwC5ZbDFrFlvpdkxk0S2FHzmm3Kf1UZ0i0m2Mbn9Ja4uhv/01rx1K9nC+zLc8wVQvWwXikoG9fM0=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: OS9PR01MB14168
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -76,146 +161,18 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Nov 11, 2025 at 08:54:59PM +0200, Ville Syrjälä wrote:
-> On Tue, Nov 11, 2025 at 06:23:35PM +0200, Marius Vlad wrote:
-> > Introduce a new boolean variable used to track connector's
-> > connect/disconnect status and it is being used on both polling and the
-> > HPD (Hot Plug Detect) paths.
-> > 
-> > A subsequent change would make use of this connector status to propagate
-> > per-connector udev hotplug events.
-> > 
-> > The connector status is set in the drm_connector_funcs.fill_modes/vkms
-> > ConfigFS connector's status and cleared out when firing out KMS uevents.
-> > 
-> > Allows user-space to receive the connector's ID, rather than having a
-> > generic hot-plug event for all connectors, or in the HPD path, just the
-> > first one found with a connection status change.
-> > 
-> > Signed-off-by: Marius Vlad <marius.vlad@collabora.com>
-> > ---
-> >  drivers/gpu/drm/drm_connector.c      |  1 +
-> >  drivers/gpu/drm/drm_probe_helper.c   | 17 +++++++++++++++++
-> >  drivers/gpu/drm/drm_sysfs.c          |  1 +
-> >  drivers/gpu/drm/vkms/vkms_configfs.c |  6 ++++++
-> >  include/drm/drm_connector.h          |  3 +++
-> >  5 files changed, 28 insertions(+)
-> > 
-> > diff --git a/drivers/gpu/drm/drm_connector.c b/drivers/gpu/drm/drm_connector.c
-> > index 272d6254ea47..3c6628ee3096 100644
-> > --- a/drivers/gpu/drm/drm_connector.c
-> > +++ b/drivers/gpu/drm/drm_connector.c
-> > @@ -274,6 +274,7 @@ static int drm_connector_init_only(struct drm_device *dev,
-> >  
-> >  	/* provide ddc symlink in sysfs */
-> >  	connector->ddc = ddc;
-> > +	connector->status_changed = false;
-> >  
-> >  	INIT_LIST_HEAD(&connector->head);
-> >  	INIT_LIST_HEAD(&connector->global_connector_list_entry);
-> > diff --git a/drivers/gpu/drm/drm_probe_helper.c b/drivers/gpu/drm/drm_probe_helper.c
-> > index 09b12c30df69..f0474368e98d 100644
-> > --- a/drivers/gpu/drm/drm_probe_helper.c
-> > +++ b/drivers/gpu/drm/drm_probe_helper.c
-> > @@ -629,6 +629,8 @@ int drm_helper_probe_single_connector_modes(struct drm_connector *connector,
-> >  			mod_delayed_work(system_wq,
-> >  					 &dev->mode_config.output_poll_work,
-> >  					 0);
-> > +
-> > +		connector->status_changed = true;
-> 
-> .fill_modes() gets exectued from the getconnector() ioctl which userspace
-> issues in response to the uevent. Not the other way around. So looks
-> like you have the chicken and egg the wrong way around here.
+Hi Hugo,
 
-Oh, and we already have a connector->epoch_counter which is supposed
-track whether anything on the connector has changed. So I'm not sure
-what extra this new boolean is supposed to achieve on top of that?
+On Tue, Nov 11, 2025 1:23 PM, Hugo Villeneuve wrote:
+> I still don't know on which tree you based your patchset, just to be sure=
+ that I am not missing anything.
+>
+> Should it work on 6.17.7 stable tree or torvalds/master tree?
 
-> >  	}
-> >  
-> >  	/*
-> > @@ -732,6 +734,17 @@ EXPORT_SYMBOL(drm_helper_probe_single_connector_modes);
-> >   */
-> >  void drm_kms_helper_hotplug_event(struct drm_device *dev)
-> >  {
-> > +	struct drm_connector *connector;
-> > +	struct drm_connector_list_iter conn_iter;
-> > +
-> > +	mutex_lock(&dev->mode_config.mutex);
-> > +	drm_connector_list_iter_begin(dev, &conn_iter);
-> > +	drm_for_each_connector_iter(connector, &conn_iter) {
-> > +		connector->status_changed = false;
-> > +	}
-> > +	drm_connector_list_iter_end(&conn_iter);
-> > +	mutex_unlock(&dev->mode_config.mutex);
-> > +
-> >  	drm_sysfs_hotplug_event(dev);
-> >  	drm_client_dev_hotplug(dev);
-> >  }
-> > @@ -748,6 +761,10 @@ void drm_kms_helper_connector_hotplug_event(struct drm_connector *connector)
-> >  {
-> >  	struct drm_device *dev = connector->dev;
-> >  
-> > +	mutex_lock(&dev->mode_config.mutex);
-> > +	connector->status_changed = false;
-> > +	mutex_unlock(&dev->mode_config.mutex);
-> > +
-> >  	drm_sysfs_connector_hotplug_event(connector);
-> >  	drm_client_dev_hotplug(dev);
-> >  }
-> > diff --git a/drivers/gpu/drm/drm_sysfs.c b/drivers/gpu/drm/drm_sysfs.c
-> > index b01ffa4d6509..bd9161490116 100644
-> > --- a/drivers/gpu/drm/drm_sysfs.c
-> > +++ b/drivers/gpu/drm/drm_sysfs.c
-> > @@ -199,6 +199,7 @@ static ssize_t status_store(struct device *device,
-> >  		return ret;
-> >  
-> >  	old_force = connector->force;
-> > +	connector->status_changed = true;
-> >  
-> >  	if (sysfs_streq(buf, "detect"))
-> >  		connector->force = 0;
-> > diff --git a/drivers/gpu/drm/vkms/vkms_configfs.c b/drivers/gpu/drm/vkms/vkms_configfs.c
-> > index 506666e21c91..6d6dd1a2c3a6 100644
-> > --- a/drivers/gpu/drm/vkms/vkms_configfs.c
-> > +++ b/drivers/gpu/drm/vkms/vkms_configfs.c
-> > @@ -537,8 +537,14 @@ static ssize_t connector_status_store(struct config_item *item,
-> >  {
-> >  	struct vkms_configfs_connector *connector;
-> >  	enum drm_connector_status status;
-> > +	struct vkms_connector *vkms_connector;
-> > +	struct vkms_device *vkms_dev;
-> >  
-> >  	connector = connector_item_to_vkms_configfs_connector(item);
-> > +	vkms_connector = connector->config->connector;
-> > +	vkms_dev = connector->config->config->dev;
-> > +	scoped_guard(mutex, &vkms_dev->drm.mode_config.mutex)
-> > +		vkms_connector->base.status_changed = true;
-> >  
-> >  	if (kstrtouint(page, 10, &status))
-> >  		return -EINVAL;
-> > diff --git a/include/drm/drm_connector.h b/include/drm/drm_connector.h
-> > index 8f34f4b8183d..e4310df3d55c 100644
-> > --- a/include/drm/drm_connector.h
-> > +++ b/include/drm/drm_connector.h
-> > @@ -2146,6 +2146,9 @@ struct drm_connector {
-> >  	/** @force: a DRM_FORCE_<foo> state for forced mode sets */
-> >  	enum drm_connector_force force;
-> >  
-> > +	/** @status_changed: if the old status doesn't match current connection status */
-> > +	bool status_changed;
-> > +
-> >  	/**
-> >  	 * @edid_override: Override EDID set via debugfs.
-> >  	 *
-> > -- 
-> > 2.47.2
-> 
-> -- 
-> Ville Syrjälä
-> Intel
+I am using=20
+https://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-devel.git
 
--- 
-Ville Syrjälä
-Intel
+I have been testing with v6-18-rc2   (I have not pulled in the latest yet)
+
+Chris
+
