@@ -2,55 +2,54 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 406CFC4CB54
-	for <lists+dri-devel@lfdr.de>; Tue, 11 Nov 2025 10:38:34 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9B842C4CBDA
+	for <lists+dri-devel@lfdr.de>; Tue, 11 Nov 2025 10:44:38 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6880010E0CE;
-	Tue, 11 Nov 2025 09:38:31 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E247310E4E8;
+	Tue, 11 Nov 2025 09:44:19 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=wanadoo.fr header.i=@wanadoo.fr header.b="dxduQ7ps";
+	dkim=pass (2048-bit key; unprotected) header.d=wanadoo.fr header.i=@wanadoo.fr header.b="MyrqbHIw";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp.smtpout.orange.fr (smtp-13.smtpout.orange.fr
- [80.12.242.13])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8059410E0CE
- for <dri-devel@lists.freedesktop.org>; Tue, 11 Nov 2025 09:38:29 +0000 (UTC)
+Received: from smtp.smtpout.orange.fr (smtp-18.smtpout.orange.fr
+ [80.12.242.18])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8C99710E4E8
+ for <dri-devel@lists.freedesktop.org>; Tue, 11 Nov 2025 09:44:18 +0000 (UTC)
 Received: from [IPV6:2a01:cb10:785:b00:8347:f260:7456:7662]
  ([IPv6:2a01:cb10:785:b00:8347:f260:7456:7662])
  by smtp.orange.fr with ESMTPA
- id IkpUvNVrnw5gXIkpUvZHmg; Tue, 11 Nov 2025 10:38:27 +0100
+ id Ikv8vvv4mV77oIkv9vtG0N; Tue, 11 Nov 2025 10:44:16 +0100
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=wanadoo.fr;
- s=t20230301; t=1762853907;
- bh=CD71TS+f0jBrjomTVL8fc9Sskt5DCQsvmFsPOOKDSDg=;
+ s=t20230301; t=1762854257;
+ bh=CHfLli/YyfFwV3T0yFA5G67pC7Ph9J6EzmMhdJSTX8Q=;
  h=Message-ID:Date:MIME-Version:Subject:To:From;
- b=dxduQ7psZTs8B8HCU2xIs+rtlY6iD6SukMsvtmTHlMVDyQrMLIvSw56EJhOjwG2uO
- v7glFRMXtZBfaUDaQaILHII+5k5/XsLX9r+U0hzXDtnlCsNe69977nVdxUpFMe0/VW
- 6Y3VXxAx5XMaJLEN5ihiMS2Ej6iJfC8qVRlKjKKAXQ3OlBFL7CV3h8jja63Q/++lkP
- 5FLfV4EuQfaexqlYVtYsqHhttBv3uGAenfhQlU0b57c4bYU8C+Djd+ut2O3J72U9Dq
- 8JcclhNkiQCRR2ZGV4bOF1VEmPYHQSTYba7egq1VTigRKer+xeis55R8mnDJuvAu5k
- Yc7j8M2NsMKpA==
+ b=MyrqbHIwDIIicrv0dBc9pNSUOif9qqZ3Q74BUyuUG1+zXfgFU0lbDirwv10WniNvE
+ rpD9UL+grgg+40XvtnkngWeCx8xhVlpzXrzr+M6KEmQ7UsG5MF+EbVTJrLlSagSQHC
+ yEyuCfK2BpKelwB1h9BXz6G+vP2I6Fn8Lt4Cdy2lDhrpL7kMVVWdGTTz0Ej4bmLF7i
+ MpsGvTklr9drVCRxy29UCnCESthcl6okud7P0l+RvE5YWQTq1yowP+MBboUpug4UsI
+ 97D612mB25qwdaNeavvsy/yFeH8vQiL2LYklYvLkHqeUFaVvh1Nu9D6qbnCANbKFPE
+ CbzWXS+pBLuQA==
 X-ME-Helo: [IPV6:2a01:cb10:785:b00:8347:f260:7456:7662]
 X-ME-Auth: Y2hyaXN0b3BoZS5qYWlsbGV0QHdhbmFkb28uZnI=
-X-ME-Date: Tue, 11 Nov 2025 10:38:27 +0100
+X-ME-Date: Tue, 11 Nov 2025 10:44:17 +0100
 X-ME-IP: 2a01:cb10:785:b00:8347:f260:7456:7662
-Message-ID: <91aad9d6-f408-4716-a45f-7ad3199ee36f@wanadoo.fr>
-Date: Tue, 11 Nov 2025 10:38:23 +0100
+Message-ID: <269e26c5-556c-47c5-bd1a-163bf2386365@wanadoo.fr>
+Date: Tue, 11 Nov 2025 10:44:14 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH V1 2/5] accel/amd_vpci: Add new driver for AMD Versal PCI
- accelerator
+Subject: Re: [PATCH V1 3/5] accel/amd_vpci: Add Remote Management(RM) queue
+ infrastructure
 To: David Zhang <yidong.zhang@amd.com>, ogabbay@kernel.org,
  quic_jhugo@quicinc.com, maciej.falkowski@linux.intel.com,
  dri-devel@lists.freedesktop.org
 Cc: linux-kernel@vger.kernel.org, sonal.santan@amd.com,
- mario.limonciello@amd.com, lizhi.hou@amd.com,
- DMG Karthik <Karthik.DMG@amd.com>, Nishad Saraf <nishads@amd.com>
+ mario.limonciello@amd.com, lizhi.hou@amd.com, Nishad Saraf <nishads@amd.com>
 References: <20251111011550.439157-1-yidong.zhang@amd.com>
- <20251111011550.439157-3-yidong.zhang@amd.com>
+ <20251111011550.439157-4-yidong.zhang@amd.com>
 From: Christophe JAILLET <christophe.jaillet@wanadoo.fr>
 Content-Language: en-US, fr-FR
-In-Reply-To: <20251111011550.439157-3-yidong.zhang@amd.com>
+In-Reply-To: <20251111011550.439157-4-yidong.zhang@amd.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -69,101 +68,59 @@ Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 Le 11/11/2025 à 02:15, David Zhang a écrit :
-> This patch introduces a new PCI driver for AMD Versal-based accelerator
-> cards.
+> This patch introduces a Remote Management (RM) queue service, which
+> provides a way to communicate between the management PCIe function (PF0)
+> and the embedded firmware running on AMD Versal SoCs.
 > 
-> The driver provides basic module and PCI device initialization, based on
-> BAR resources used to establish a hardware queue-based ring buffer between
-> the PCIe host and the Versal Management Runtime (VMR) service running on
-> the embedded SoC. This interface enables firmware management and board
-> health monitoring.
+> The RM service implements a hardware-based ring buffer for bidirectional
+> command and response exchange between the host driver and the firmware.
 > 
-> Key features:
->     - PCI probe and BAR resource initialization.
->     - Integration with configfs for firmware management
->     - Compatibility check using firmware-reported UUIDs
+> This patch adds the core infrastructure for:
+>    - Initializing and managing the RM queue
+>    - Submitting commands to the embedded firmware
+>    - Polling for command completion
 > 
-> The base firmware image is expected under /lib/firmware/xilinx/<fw_name>
-> and can be programmed to the device through the configfs interface.
-> Firmware transfer is handled via a remote queue service (added in a later
-> patch).
+> Subsequent patches will integrate the infrastructure with the firmware
+> management logic to enable firmware download, status query, and other
+> control operations.
 > 
-> Co-developed-by: DMG Karthik <Karthik.DMG@amd.com>
-> Signed-off-by: DMG Karthik <Karthik.DMG@amd.com>
 > Co-developed-by: Nishad Saraf <nishads@amd.com>
 > Signed-off-by: Nishad Saraf <nishads@amd.com>
 > Signed-off-by: David Zhang <yidong.zhang@amd.com>
-> ---
 
 ...
 
-> +static int versal_pci_device_setup(struct versal_pci_device *vdev)
-> +{
-> +	int ret;
-> +
-> +	ret = versal_pci_fw_init(vdev);
-> +	if (ret) {
-> +		vdev_err(vdev, "Failed to init fw, err %d", ret);
-> +		goto comm_chan_fini;
-> +	}
-> +
-> +	ret = versal_pci_cfs_init(vdev);
-> +	if (ret) {
-
-Do we need to call versal_pci_fw_fini()?
-(here or in the error handling path to be future proof)
-
-> +		vdev_err(vdev, "Failed to init configfs subsys, err %d", ret);
-> +		goto comm_chan_fini;
-> +	}
-> +
-> +	return 0;
-> +
-> +comm_chan_fini:
-> +
-> +	return ret;
-> +}
-
-...
-
-> diff --git a/drivers/accel/amd_vpci/versal-pci.h b/drivers/accel/amd_vpci/versal-pci.h
+> diff --git a/drivers/accel/amd_vpci/versal-pci-rm-service.h b/drivers/accel/amd_vpci/versal-pci-rm-service.h
 > new file mode 100644
-> index 000000000000..ca309aee87ad
+> index 000000000000..d2397a1a672c
 > --- /dev/null
-> +++ b/drivers/accel/amd_vpci/versal-pci.h
-> @@ -0,0 +1,62 @@
-> +/* SPDX-License-Identifier: GPL-2.0 */
-> +/*
-> + * Driver for Versal PCIe device
-> + *
-> + * Copyright (C) 2025 Advanced Micro Devices, Inc. All rights reserved.
-> + */
-> +
-> +#ifndef __VERSAL_PCI_H
-> +#define __VERSAL_PCI_H
-> +
-> +#include <linux/configfs.h>
-> +#include <linux/firmware.h>
-> +
-> +#define MGMT_BAR		0
-> +
-> +#define vdev_info(vdev, fmt, args...)					\
-> +	dev_info(&(vdev)->pdev->dev, "%s: "fmt, __func__, ##args)
+> +++ b/drivers/accel/amd_vpci/versal-pci-rm-service.h
 
-\n could be added after fmt, as it is not included in the messages 
-themselves, when used.
+...
 
-Same for the other macro below.
+> +#define RM_CMD_ID_MIN			1
+> +#define RM_CMD_ID_MAX			(BIT(17) - 1)
+> +#define RM_CMD_SQ_HDR_OPS_MSK		GENMASK(15, 0)
+> +#define RM_CMD_SQ_HDR_SIZE_MSK		GENMASK(14, 0)
+> +#define RM_CMD_SQ_SLOT_SIZE		SZ_512
+> +#define RM_CMD_CQ_SLOT_SIZE		SZ_16
+> +#define RM_CMD_CQ_BUFFER_SIZE		(1024 * 1024)
+
+SZ_1M to be consistent with other xx_SIZE macro?
+
+> +#define RM_CMD_CQ_BUFFER_OFFSET		0x0
+> +#define RM_CMD_LOG_PAGE_TYPE_MASK	GENMASK(15, 0)
+> +#define RM_CMD_VMR_CONTROL_MSK		GENMASK(10, 8)
+> +#define RM_CMD_VMR_CONTROL_PS_MASK	BIT(9)
+> +
+> +#define RM_CMD_WAIT_CONFIG_TIMEOUT	msecs_to_jiffies(10 * 1000)
+> +#define RM_CMD_WAIT_DOWNLOAD_TIMEOUT	msecs_to_jiffies(300 * 1000)
+
+secs_to_jiffies() maybe to be less verbose?
 
 > +
-> +#define vdev_warn(vdev, fmt, args...)					\
-> +	dev_warn(&(vdev)->pdev->dev, "%s: "fmt, __func__, ##args)
-> +
-> +#define vdev_err(vdev, fmt, args...)					\
-> +	dev_err(&(vdev)->pdev->dev, "%s: "fmt, __func__, ##args)
-> +
-> +#define vdev_dbg(vdev, fmt, args...)					\
-> +	dev_dbg(&(vdev)->pdev->dev, fmt, ##args)
+> +#define RM_COMPLETION_TIMER		(HZ / 10)
+> +#define RM_HEALTH_CHECK_TIMER		(HZ)
 
 ...
 
