@@ -2,64 +2,59 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 28AAAC4F197
-	for <lists+dri-devel@lfdr.de>; Tue, 11 Nov 2025 17:45:28 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 59BD3C4F297
+	for <lists+dri-devel@lfdr.de>; Tue, 11 Nov 2025 18:02:08 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4D2EA10E62A;
-	Tue, 11 Nov 2025 16:45:26 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D586010E11C;
+	Tue, 11 Nov 2025 17:02:04 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="dvKio0UA";
+	dkim=pass (1024-bit key; unprotected) header.d=hugovil.com header.i=@hugovil.com header.b="mxIpK6I7";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0F2C210E628;
- Tue, 11 Nov 2025 16:45:25 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1762879525; x=1794415525;
- h=from:to:cc:subject:date:message-id:in-reply-to:
- references:mime-version:content-transfer-encoding;
- bh=bD7vg0Imwvw+C2f4GGwhVmom6OFe1El4o2bBLXiS8nM=;
- b=dvKio0UAFLkeYS5FFsneh5ZI5BVvBvP2qrhIXVR5xmaImCCsUypdfO5q
- GN2A8TOu6+BnxXbxuQBA+BTthIvOQHWlXXICMf8168GdkTfDFiGqSytuI
- dhbTHd4K1UO4OZPP9QZobrewroaS78iGk2+L/qG/dUBRcAyO7w2Yy4EKU
- u0PXT8EBSp8C/ZqwJJSrpGePtXgCjn+pM3aFEW5IobMnaTX5+5oAc2yDm
- 9YLBmizV16+zOax/5mmlYtKQ+TaQvaWg6MYnrXlNK6V9M213x+YbmGPT+
- mIcqiT0lH+Bo8hz9iPcIuSKEuwAYt0cFOOmgd9COQ2PvWyuq7jgbtkNJB w==;
-X-CSE-ConnectionGUID: WYddKrt/Rri2QPkDr67LQw==
-X-CSE-MsgGUID: NNywEKbDQmqMZMZc5fZEaw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11610"; a="75244801"
-X-IronPort-AV: E=Sophos;i="6.19,297,1754982000"; d="scan'208";a="75244801"
-Received: from fmviesa007.fm.intel.com ([10.60.135.147])
- by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 11 Nov 2025 08:45:25 -0800
-X-CSE-ConnectionGUID: tlKP5hqQSDKPQYzMMs1toQ==
-X-CSE-MsgGUID: lTrMO2/xTe+aZ2GM8OMSNw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.19,297,1754982000"; d="scan'208";a="188647005"
-Received: from rvuia-mobl.ger.corp.intel.com (HELO fedora) ([10.245.244.91])
- by fmviesa007-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 11 Nov 2025 08:45:22 -0800
-From: =?UTF-8?q?Thomas=20Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>
-To: intel-xe@lists.freedesktop.org
-Cc: =?UTF-8?q?Thomas=20Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>,
- Matthew Brost <matthew.brost@intel.com>, dri-devel@lists.freedesktop.org,
- himal.prasad.ghimiray@intel.com, apopple@nvidia.com, airlied@gmail.com,
- Simona Vetter <simona.vetter@ffwll.ch>, felix.kuehling@amd.com,
- =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
- dakr@kernel.org, "Mrozek, Michal" <michal.mrozek@intel.com>,
- Joonas Lahtinen <joonas.lahtinen@linux.intel.com>
-Subject: [PATCH v2 17/17] drm/xe/svm: Document how xe keeps drm_pagemap
- references
-Date: Tue, 11 Nov 2025 17:44:07 +0100
-Message-ID: <20251111164408.113070-18-thomas.hellstrom@linux.intel.com>
-X-Mailer: git-send-email 2.51.1
-In-Reply-To: <20251111164408.113070-1-thomas.hellstrom@linux.intel.com>
-References: <20251111164408.113070-1-thomas.hellstrom@linux.intel.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Received: from mail.hugovil.com (mail.hugovil.com [162.243.120.170])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6BBA510E11C
+ for <dri-devel@lists.freedesktop.org>; Tue, 11 Nov 2025 17:02:03 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=hugovil.com
+ ; s=x;
+ h=Subject:Content-Transfer-Encoding:Mime-Version:Message-Id:Cc:To:From
+ :Date:subject:date:message-id:reply-to;
+ bh=tZoyP+M9xPo/FMe8WDOuLaf2cyBC7RlyzUKhtEPI9nc=; b=mxIpK6I7kAN9KIiGfCR48J8j04
+ wUO0r6jU92y2dc0fUGhQCfVXaxMwNdqYsekltmjnfBwZDx4E2zzukpbOuB36oHlKp2keVGURxmbgM
+ laLjnj5DtO+QXLk8E+xjZYGl1BIEUvk5ZZ9DJnWyuY4Xb5TjcAHL+tuDBLJHrhK+gtJM=;
+Received: from modemcable168.174-80-70.mc.videotron.ca ([70.80.174.168]:43624
+ helo=pettiford) by mail.hugovil.com with esmtpa (Exim 4.92)
+ (envelope-from <hugo@hugovil.com>)
+ id 1vIrkb-00064X-2x; Tue, 11 Nov 2025 12:01:49 -0500
+Date: Tue, 11 Nov 2025 12:01:48 -0500
+From: Hugo Villeneuve <hugo@hugovil.com>
+To: Chris Brandt <chris.brandt@renesas.com>
+Cc: Geert Uytterhoeven <geert+renesas@glider.be>, Michael Turquette
+ <mturquette@baylibre.com>, Stephen Boyd <sboyd@kernel.org>, Biju Das
+ <biju.das.jz@bp.renesas.com>, Maarten Lankhorst
+ <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
+ Simona Vetter <simona@ffwll.ch>, Hien Huynh <hien.huynh.px@renesas.com>,
+ Nghia Vo <nghia.vo.zn@renesas.com>, linux-renesas-soc@vger.kernel.org,
+ linux-clk@vger.kernel.org, dri-devel@lists.freedesktop.org
+Message-Id: <20251111120148.943a0e193a65469a53a0cbc8@hugovil.com>
+In-Reply-To: <20251105222530.979537-1-chris.brandt@renesas.com>
+References: <20251105222530.979537-1-chris.brandt@renesas.com>
+X-Mailer: Sylpheed 3.8.0beta1 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
+Mime-Version: 1.0
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
+X-SA-Exim-Connect-IP: 70.80.174.168
+X-SA-Exim-Mail-From: hugo@hugovil.com
+X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on mail.hugovil.com
+X-Spam-Level: 
+X-Spam-Report: * -1.0 ALL_TRUSTED Passed through trusted hosts only via SMTP
+ * -1.9 NICE_REPLY_A Looks like a legit reply (A)
+X-Spam-Status: No, score=-2.9 required=5.0 tests=ALL_TRUSTED,NICE_REPLY_A
+ autolearn=ham autolearn_force=no version=3.4.2
+Subject: Re: [PATCH v4 0/2] Remove hard coded values for MIPI-DSI
+X-SA-Exim-Version: 4.2.1 (built Wed, 08 May 2019 21:11:16 +0000)
+X-SA-Exim-Scanned: Yes (on mail.hugovil.com)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -75,49 +70,60 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-As an aid to understanding the lifetime of the drm_pagemaps used
-by the xe driver, document how the xe driver keeps the
-drm_pagemap references.
+Hi Chris,
 
-Suggested-by: Matthew Brost <matthew.brost@intel.com>
-Signed-off-by: Thomas Hellström <thomas.hellstrom@linux.intel.com>
----
- drivers/gpu/drm/xe/xe_svm.c | 22 ++++++++++++++++++++++
- 1 file changed, 22 insertions(+)
+On Wed,  5 Nov 2025 17:25:28 -0500
+Chris Brandt <chris.brandt@renesas.com> wrote:
 
-diff --git a/drivers/gpu/drm/xe/xe_svm.c b/drivers/gpu/drm/xe/xe_svm.c
-index 56bb3896b89a..c1d6eb2f97d1 100644
---- a/drivers/gpu/drm/xe/xe_svm.c
-+++ b/drivers/gpu/drm/xe/xe_svm.c
-@@ -28,6 +28,28 @@
- #define XE_PEER_PAGEMAP ((void *)0ul)
- #define XE_PEER_VM ((void *)1ul)
+> When the initial drivers were submitted, some of the timing was hard coded and
+> did not allow for any MIPI-DSI panel to be attached.
+> In general, panels or bridges can only be supported if MIPI-DSI lanes were 4.
+> If the number of lanes were 3,2,1, the math no longer works out.
+> 
+> A new API was created for the clock driver because the behaivior of the clock
+> driver depends on DPI vs MIPI, the bpp, and the number of MIPI lanes.
+> 
+> 
+> Testing:
+> * RZ/G2L SMARC  (MIPI-DSI to HDMI bridge, lanes = 4)
+> * RZ/G2L-SBC    (MIPI-DSI to LCD panel, lanes = 2)
+> * RZ/G2UL SMARC (DPI to HDMI bridge)
+> * Multiple monitors, multiple resolutions
+> 
+> 
+> 
+> Chris Brandt (2):
+>   clk: renesas: rzg2l: Remove DSI clock rate restrictions
+>   drm: renesas: rz-du: Set DSI divider based on target MIPI device
+> 
+>  drivers/clk/renesas/rzg2l-cpg.c               | 147 ++++++++++++++++--
+>  .../gpu/drm/renesas/rz-du/rzg2l_mipi_dsi.c    |  18 +++
+>  include/linux/clk/renesas.h                   |  12 ++
+>  3 files changed, 164 insertions(+), 13 deletions(-)
+> 
+> --
+> 2.50.1
  
-+/**
-+ * DOC: drm_pagemap reference-counting in xe:
-+ *
-+ * In addition to the drm_pagemap internal reference counting by
-+ * its zone device data, the xe driver holds the following
-+ * long-time references:
-+ *
-+ * - struct xe_pagemap:
-+ *      The xe_pagemap struct derives from struct drm_pagemap and
-+ *      uses its reference count.
-+ * - SVM-enabled VMs:
-+ *      SVM-enabled VMs look up and keeps a reference to all
-+ *      xe_pagemaps on the same device.
-+ * - VMAs:
-+ *      vmas keep a reference on the drm_pagemap indicated by a gpu_madvise()
-+ *      call.
-+ *
-+ * In addition, all drm_pagemap or xe_pagemap pointers where lifetime cannot
-+ * be guaranteed by a vma reference under the vm lock should keep a reference.
-+ * That includes the range->pages.dpagemap pointer.
-+ */
-+
- static int xe_svm_get_pagemaps(struct xe_vm *vm);
- 
- void *xe_svm_private_page_owner(struct xe_vm *vm, bool force_smem)
+Your patchset is missing the base-commit tag like in this example:
+
+    base-commit: 4e68ae36422e85ec1a86aded26a211319649426d
+
+This helps when testing to know on which tree/commit you based your
+patches.
+
+See "Providing base tree information" here:
+    https://docs.kernel.org/process/submitting-patches.html
+
+I just tested your patchset on kernel 6.17.7, and my display no longer
+works.
+
+Also tested on torvalds/master tree commit 4427259cc7f7, with similar
+results:
+
+    rzg2l-cpg 11010000.clock-controller: hsclk out of range
+
+Hugo.
+
+
 -- 
-2.51.1
-
+Hugo Villeneuve
