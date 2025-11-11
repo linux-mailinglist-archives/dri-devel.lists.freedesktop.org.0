@@ -2,89 +2,128 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 054DBC4D326
-	for <lists+dri-devel@lfdr.de>; Tue, 11 Nov 2025 11:53:11 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 32DCAC4D4C2
+	for <lists+dri-devel@lfdr.de>; Tue, 11 Nov 2025 12:07:38 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4B00D89FA7;
-	Tue, 11 Nov 2025 10:53:09 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6A13010E554;
+	Tue, 11 Nov 2025 11:07:35 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=airkyi.com header.i=@airkyi.com header.b="ZOhriZKG";
+	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="UlPAFqnu";
+	dkim=pass (2048-bit key; unprotected) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="jad0VAGM";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtpbguseast3.qq.com (smtpbguseast3.qq.com [54.243.244.52])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2796589FA7
- for <dri-devel@lists.freedesktop.org>; Tue, 11 Nov 2025 10:53:06 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=airkyi.com;
- s=altu2504; t=1762858357;
- bh=fg2TKuNBAB7TuYxIVNS/NsLi1w/3kkBrg4QejE4Xpiw=;
- h=From:To:Subject:Date:Message-Id;
- b=ZOhriZKGuKyQTqx5/baZczgp0SHBpkpLVTxOTgN7zmx1UomZHFkVCPMaO30/Piehw
- dpU9jwhCRz+VOMwQpDIVkH0NgfzobMAErkhVnNVmZyBXoFWTo+Xe2PYYZQKYLKal/t
- oIa+hkO/i8xJA/2AL65gYOgZYHMbuqb2NjhvFkxc=
-X-QQ-mid: zesmtpsz9t1762858291te7294ff4
-X-QQ-Originating-IP: exeCqqoIeGySwZLpWAlGG7yGEO1UuQ9aEdXrUWr2v7o=
-Received: from DESKTOP-8BT1A2O.localdomain ( [58.22.7.114])
- by bizesmtp.qq.com (ESMTP) with 
- id ; Tue, 11 Nov 2025 18:51:28 +0800 (CST)
-X-QQ-SSF: 0000000000000000000000000000000
-X-QQ-GoodBg: 0
-X-BIZMAIL-ID: 3148432019982431225
-From: Chaoyi Chen <kernel@airkyi.com>
-To: Heikki Krogerus <heikki.krogerus@linux.intel.com>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>,
- Peter Chen <hzpeterchen@gmail.com>, Rob Herring <robh@kernel.org>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>, Vinod Koul <vkoul@kernel.org>,
- Kishon Vijay Abraham I <kishon@kernel.org>,
- Heiko Stuebner <heiko@sntech.de>, Sandy Huang <hjc@rock-chips.com>,
- Andy Yan <andy.yan@rock-chips.com>,
- Yubing Zhang <yubing.zhang@rock-chips.com>,
- Frank Wang <frank.wang@rock-chips.com>,
- Andrzej Hajda <andrzej.hajda@intel.com>,
- Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
- Simona Vetter <simona@ffwll.ch>, Amit Sunil Dhamne <amitsd@google.com>,
- Chaoyi Chen <chaoyi.chen@rock-chips.com>,
- Dragan Simic <dsimic@manjaro.org>, Johan Jonker <jbx6244@gmail.com>,
- Diederik de Haas <didi.debian@cknow.org>,
- Peter Robinson <pbrobinson@gmail.com>
-Cc: linux-usb@vger.kernel.org, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-phy@lists.infradead.org,
- linux-arm-kernel@lists.infradead.org, linux-rockchip@lists.infradead.org,
- dri-devel@lists.freedesktop.org
-Subject: [PATCH v9 10/10] arm64: dts: rockchip: rk3399-evb-ind: Add support
- for DisplayPort
-Date: Tue, 11 Nov 2025 18:50:40 +0800
-Message-Id: <20251111105040.94-11-kernel@airkyi.com>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20251111105040.94-1-kernel@airkyi.com>
-References: <20251111105040.94-1-kernel@airkyi.com>
-X-QQ-SENDSIZE: 520
-Feedback-ID: zesmtpsz:airkyi.com:qybglogicsvrgz:qybglogicsvrgz6b-0
-X-QQ-XMAILINFO: NOc1LUZ0GKQa5acaKcxIkj3MH9SnAJA42lvXmmQEjfIA44+IT1alBTIW
- +Ja0T8eO8wOjxJXb7SvfvQLqCcE0rXBknt9yG+RDH5Vyf2jQNgdyJPwntUjixoQQMKOJxPz
- ZV7NlsmbGRdsmlVNpagGA47DGh23RyRoxszCY62MnsARUXSNv3r1GFNr+pkwgBLx0mfFCAd
- 3vZVUVzu3UncwNaBkwMPggMpW+3x+CgvtviSsHDqNylbIpGrxpPNAI/L/pyZOOGAutC039C
- 5gFVbk7iSRRKWvmTj9ozoZwAUS11GkbDOZF7OzcXwDb37098IwrDTPpS6Voyzl6yKLRSctB
- ohskkgEgc1vr4LDkZY71bodqoA0AWuTlQWzmIu2FZ7JJUXxVBr4z0q/nSnU3VGs4R+U/2nT
- h6jFDvdw1htchc+DxudO/DGI/RJVDjhf75GA4ubipIKHGMv8UJjhqW4wGVHf3i747HIZGcN
- bSlc3dbwZmC4nH9lmJU6q3ihLN7G7i/P2onA+E+mDKnhgYgt0gTDS5zCP6qDZQ879qnB5O+
- e/DaGiX0NS4ghjYHcs7DNXVqgnYMSRoK6tPbpoQnBAQJt0FsybXVB9j4+RGoPyY0603W7yG
- 84SSWGVrtPte4kTHrB328KEK6LreFoh9PjihfdlW1zKpMUboSVAMUB4bibBPzz8NNgJx6/j
- yNZr/rghnhpA/njPNCmweL2cVnCMiZ6gc+eSEp3D0HeyY0U8azULbAQGpd0agPBhfMNiWp/
- hnX2JhblLqCTqjx/2g6gjPBnbfhxfX21C3Bq9AzwphykMBwzEBNnP/To8zS6hc4wVhoBxqh
- YJzzaMv2nidjpXrkMGMeE6NmoddDoq4LLfzDInzf0OBot76NTvt4nf0kyBUgIzYOx5ZX1oZ
- N6D0knxpSzcy+JIOEw6FL7celY6mdFsCnuOBNzXyi5clXjAnGoskNLtIn8a68PhAY/oJcxy
- RAwZb5O0gvpZx6tPb7PkSN+GTohzaD4MlGGrbTtQ4Hpqzg/7l/UvYLXFwLFNCoGZ7bX0XR1
- 73zj5LBkq2vIx2yFclD5gAxWIjnCY2cTt0+3zjDw==
-X-QQ-XMRINFO: M/715EihBoGSf6IYSX1iLFg=
-X-QQ-RECHKSPAM: 0
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
+ [205.220.168.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1631810E552
+ for <dri-devel@lists.freedesktop.org>; Tue, 11 Nov 2025 11:07:34 +0000 (UTC)
+Received: from pps.filterd (m0279865.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id
+ 5AB4so7n1327083
+ for <dri-devel@lists.freedesktop.org>; Tue, 11 Nov 2025 11:07:33 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+ cc:content-type:date:from:in-reply-to:message-id:mime-version
+ :references:subject:to; s=qcppdkim1; bh=0GL6AX4f5B9v3LxUu9tCxDTR
+ Pg4Nz4OvpM8/ZiJ/lrY=; b=UlPAFqnulsjL+DwWS1zu3xe0s9DCw1MO29glbnsn
+ yD0AegAg+J/6OTRR/XiC3QLJXrF0JcGTHmsS7rbg/nXCYp8Kdw2RsCvDdIWPIMjH
+ XkuLaKnT/puCnnQghjV0rogyGH7Up6ifp9033bCvleniOn/ida+HKGc8bGENNMQj
+ 2JlEJT1xvdHTdL1Il+jhiQiWxha8iZJgLep4ziQ89zDuA1DO+2HsAMJfrmsaeE+h
+ /VyWsCA2b8RPkzpru6yHsTvP9hJ3/oSeoO5DtkrAOgimkIi9uqwQFkE3pDQgfYgX
+ /z/zmmPtlYcDLmT9gvu0txkPzM83Ty1WpMQN5vRaPrYUqg==
+Received: from mail-qt1-f200.google.com (mail-qt1-f200.google.com
+ [209.85.160.200])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4abxhhh2d3-1
+ (version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
+ for <dri-devel@lists.freedesktop.org>; Tue, 11 Nov 2025 11:07:33 +0000 (GMT)
+Received: by mail-qt1-f200.google.com with SMTP id
+ d75a77b69052e-4e8b33c1d8eso115231201cf.2
+ for <dri-devel@lists.freedesktop.org>; Tue, 11 Nov 2025 03:07:33 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=oss.qualcomm.com; s=google; t=1762859252; x=1763464052;
+ darn=lists.freedesktop.org; 
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+ bh=0GL6AX4f5B9v3LxUu9tCxDTRPg4Nz4OvpM8/ZiJ/lrY=;
+ b=jad0VAGMJDP2omNiHv/LdEsMZI2NB6V/Ww1sFXzkDKURUraDCs8UIRtYXiWzL3nR5l
+ Sly0/DQCpqwKMfuiWeMC5+K6LZnJ63itFvWtb80mDfITqvKUkH3t7YKJkCSccrE0KmzR
+ zECn0RdmriS/CCw6oPfolmTCi7Fd34fTYMlyRaqqSGo+I/EcUt2PXYu451LsgKoTmKcw
+ wK+w9wiF0A/hH0QVTKPmnoSBkxZl3q34IGO1wi3XmXXVEGzf1MHmDI1Vdj8VKjrYvjIX
+ SP7l4Zhw9ikURx7nXI7hCTBWyZn895QSkztiU/vUmOtU2UTz8tFrKi2fpfyVT9oWHmgi
+ dQjQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1762859252; x=1763464052;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=0GL6AX4f5B9v3LxUu9tCxDTRPg4Nz4OvpM8/ZiJ/lrY=;
+ b=bdzgnAsKZy0d87HFGD+mR+gmGB5iiHAPN52rAVml8IFrTnB8w418A0hSejMiDTRJ6J
+ o4fOsO+ZJRmat5662d5bYWtw6SKOpj9scmwe2V1golPEKmDj6lr1quMLgXXLgDlI83Se
+ /o5ZtQRQTh1HtMal6qgsdC1UWIeu1Uyeb7+orOO8qQmBnBizORhRs1iEkSqn579G+8j2
+ RIf2DAW064aVlE3aMMb1HmX/+X/Q1TMAaEy3KE/Qy4FRVUn51UHGKW3CgeZos2JhG8Zr
+ d1rMXjTwR9X3sW8ffU91ZL3vTSnP5TbGtJr5r86WgEBz3LksqtDJd1Zsl38Haqpr4c5E
+ cRNw==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCWOPXcnEHYUF33WumytmY18NKigrzxfInM+LQR/G89XQLKCF9U4IzSr44BWQ8FTJDCGgeALmFlFZJs=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YyAh5UKvbDCpxySelwG1Cay89OJHPXPPP1acymJR+ycsB0KgzyV
+ wvIV7GDc1PhzsSeM11PjhoDTAd1xaMPmz7uaVOl3Mu9Vvbq5N2Jl2l9e3PE9/6TYFJ4boRQPHK1
+ WHybw7P8tNgLOpN6JTxfy/FSXiQ8tmWoim+vsuiKQYqYteU8//UOmcufTR0AgAKhz6aJNALE=
+X-Gm-Gg: ASbGnctlgotiZCdy5jCQKko1yT1aDh3+G+g0AuPoPzHAlN2AiWdyN+Z8qP+YtTi6kgh
+ UCPa2bhWeTAQo3UmAMSdRMFJeb19nXmXHY3M4i+qoCNOy9Iyw1rAD4Lt9jGCbqBVHNOF2P1p2Iw
+ ubeL1G6A5D2oAsXoqtlqh+izdd5jIDIRN42fzFu0MmU5ghxRh1oC70EK7DtlnHTe1GyBi/A+aP7
+ 3ANVWu10NJu4PoR35irhyOtheAck1KMIrv3gTK8AT+H1bTKUtzGQW3NiC6i02oYSjAxzxNIWbkI
+ Qa4I7jBLOYaDOzJHJk5YBgags+AnlbZOk9pCPsKORJotpCgVUR2ZfjU+hbMqGe5fDqfATBhG+LW
+ QGJgrmykfMoAGcBj6N7eLuf9oHYfn3H9kKFj+HDWTTpLlEvwTQ8zmj9lXo3+mYwQEIOaU0B8YNn
+ b2SY56T3yxyZuC
+X-Received: by 2002:ac8:7d0a:0:b0:4b5:f7d4:39fa with SMTP id
+ d75a77b69052e-4eda4e7ac76mr154971211cf.12.1762859252090; 
+ Tue, 11 Nov 2025 03:07:32 -0800 (PST)
+X-Google-Smtp-Source: AGHT+IGOyvBNAS3QLH6jY8Fp3DqOwKCqP04zJqQg9X/UOenGRTF/Rnu3xscXAQAT73TcBrpZ7gagDw==
+X-Received: by 2002:ac8:7d0a:0:b0:4b5:f7d4:39fa with SMTP id
+ d75a77b69052e-4eda4e7ac76mr154970351cf.12.1762859251305; 
+ Tue, 11 Nov 2025 03:07:31 -0800 (PST)
+Received: from umbar.lan
+ (2001-14ba-a0c3-3a00-264b-feff-fe8b-be8a.rev.dnainternet.fi.
+ [2001:14ba:a0c3:3a00:264b:feff:fe8b:be8a])
+ by smtp.gmail.com with ESMTPSA id
+ 38308e7fff4ca-37a5f0ee523sm41794201fa.42.2025.11.11.03.07.30
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 11 Nov 2025 03:07:30 -0800 (PST)
+Date: Tue, 11 Nov 2025 13:07:28 +0200
+From: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
+To: Sudarshan Shetty <tessolveupstream@gmail.com>
+Cc: neil.armstrong@linaro.org, jessica.zhang@oss.qualcomm.com,
+ maarten.lankhorst@linux.intel.com, mripard@kernel.org,
+ tzimmermann@suse.de, airlied@gmail.com, simona@ffwll.ch,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v1] drm: panel: Add Waveshare MIPI-DSI panel driver
+Message-ID: <tggz6tsbzsydhi7hmwpacqea7o2nzstm4ta3cye5nbse2dh32y@lxlqnyyfhmfc>
+References: <20251111104309.3424018-1-tessolveupstream@gmail.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20251111104309.3424018-1-tessolveupstream@gmail.com>
+X-Authority-Analysis: v=2.4 cv=Pc3yRyhd c=1 sm=1 tr=0 ts=691318f5 cx=c_pps
+ a=JbAStetqSzwMeJznSMzCyw==:117 a=xqWC_Br6kY4A:10 a=kj9zAlcOel0A:10
+ a=6UeiqGixMTsA:10 a=s4-Qcg_JpJYA:10 a=VkNPw1HP01LnGYTKEx00:22
+ a=pGLkceISAAAA:8 a=V4Th9uXqAAAA:8 a=LbDzrTjz2W1hcEXESF0A:9 a=CjuIK1q_8ugA:10
+ a=uxP6HrT_eTzRwkO_Te1X:22 a=NPz-sUGDo_RSEfLfxCKS:22
+X-Proofpoint-ORIG-GUID: kMpHxyAyOgaRsSRsbV_KkzBcbENwh7Wx
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUxMTExMDA4NyBTYWx0ZWRfXz2i2za8yI/x6
+ mFWCFGmmA/5TxeIgZGp+sC6ki5dsCDkciQOQEEIkgYd+Br/OaP3PUZrV8wa9Jk7m9gSCJhO1JPT
+ rbOIbcW76nJhbo0OKS4TY5v3noi8ivGnaV0LM6EwL+u9n4kb+DZlv9cb3UJHTDZ+REM1zDENFIk
+ b2Jscd1Cc2gkmiBXMZsJgwdKKT9DaUm69W4z5PAQEIdY2lKFWiD8u0tdtXe99ErwK+Y5NtJex7P
+ FNtRmfk/YxciTdDOTcBeMzxvt/b7MosHwb8ScG4wqkZmzAUYU/aE3lGpNO9Q5ZMHXzFApRpfQc/
+ qZt1fUHgBgO3IFbgxIpd8We1GsKh3f6RTTsZRU7i/6M8PPcU5A5B6ZIWkYrHD4zqBbpqGL5O9BA
+ 3ZVsEokUpz6ko/S4YohyvQVFoTP88A==
+X-Proofpoint-GUID: kMpHxyAyOgaRsSRsbV_KkzBcbENwh7Wx
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.9,FMLib:17.12.100.49
+ definitions=2025-11-11_02,2025-11-11_02,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ phishscore=0 lowpriorityscore=0 malwarescore=0 spamscore=0 clxscore=1015
+ suspectscore=0 priorityscore=1501 bulkscore=0 adultscore=0 impostorscore=0
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.22.0-2510240001 definitions=main-2511110087
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -100,245 +139,784 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Chaoyi Chen <chaoyi.chen@rock-chips.com>
+On Tue, Nov 11, 2025 at 04:13:09PM +0530, Sudarshan Shetty wrote:
+> This patch adds a DRM panel driver for Waveshare MIPI-DSI panels
+> of various sizes (5.0", 5.5", 7.0", 8.0", and 10.1") with integrated
+> touch functionality.
+> 
+> The driver provides:
+>  - Initialization and reset sequencing
+>  - MIPI-DSI command transfer for panel setup
+>  - Backlight integration through the backlight class device
+>  - Support for multiple panel variants via compatible strings
+> 
+> These panels are commonly used with Waveshare development kits
+> and require proper power sequencing and regulator support.
+> 
+> Signed-off-by: Sudarshan Shetty <tessolveupstream@gmail.com>
+> ---
+>  arch/arm64/configs/defconfig                  |    1 +
+>  drivers/gpu/drm/panel/Kconfig                 |   11 +
+>  drivers/gpu/drm/panel/Makefile                |    1 +
+>  .../gpu/drm/panel/panel-waveshare-dsi-v2.c    | 2687 +++++++++++++++++
 
-The RK3399 EVB IND board has a Type-C interface DisplayPort.
-It use fusb302 chip as Type-C controller.
 
-fusb302 chip ---> USB/DP PHY0 <----> CDN-DP controller
+This was sent to the internal ML, got negative feedback and still
+reached the public ML. May I ask, WHY?
 
-Signed-off-by: Chaoyi Chen <chaoyi.chen@rock-chips.com>
----
 
-Changes in v9:
-- Add usb role switch for Type-C.
-- Remove USB2 PHY in Type-C connection.
+Anyway, you missed the bindings for the driver.
 
-(no changes since v4)
+>  4 files changed, 2700 insertions(+)
+>  create mode 100644 drivers/gpu/drm/panel/panel-waveshare-dsi-v2.c
+> 
+> diff --git a/arch/arm64/configs/defconfig b/arch/arm64/configs/defconfig
+> index a1e564024be2..178c8699f86c 100644
+> --- a/arch/arm64/configs/defconfig
+> +++ b/arch/arm64/configs/defconfig
+> @@ -1823,4 +1823,5 @@ CONFIG_CORESIGHT_STM=m
+>  CONFIG_CORESIGHT_CPU_DEBUG=m
+>  CONFIG_CORESIGHT_CTI=m
+>  CONFIG_MEMTEST=y
+> +CONFIG_DRM_PANEL_WAVESHARE_TOUCHSCREEN_V2=y
+>  CONFIG_REGULATOR_WAVESHARE_TOUCHSCREEN=y
 
-Changes in v3:
-- Fix wrong vdo value.
-- Fix port node in usb-c-connector.
+Separate commit, the entry is out of place there is no reason to build
+the driver into the kernel, etc.
 
-Changes in v2:
-- Add endpoint to link DP PHY and DP controller.
-- Fix devicetree coding style.
+> diff --git a/drivers/gpu/drm/panel/Kconfig b/drivers/gpu/drm/panel/Kconfig
+> index 407c5f6a268b..b771817af8f8 100644
+> --- a/drivers/gpu/drm/panel/Kconfig
+> +++ b/drivers/gpu/drm/panel/Kconfig
+> @@ -1137,6 +1137,17 @@ config DRM_PANEL_VISIONOX_VTDR6130
+>  	  Say Y here if you want to enable support for Visionox
+>  	  VTDR6130 1080x2400 AMOLED DSI panel.
+>  
+> +config DRM_PANEL_WAVESHARE_TOUCHSCREEN_V2
+> +	tristate "Waveshare touchscreen panels V2"
+> +	depends on DRM_MIPI_DSI
+> +	depends on I2C
+> +	depends on BACKLIGHT_CLASS_DEVICE
+> +	help
+> +	  Enable support for Waveshare DSI touchscreen panels,
+> +	  Say Y here if you want to enable support for the Waveshare
+> +	  DSI Touchscreens.  To compile this driver as a module,
+> +	  choose M here.
+> +
+>  config DRM_PANEL_WIDECHIPS_WS2401
+>  	tristate "Widechips WS2401 DPI panel driver"
+>  	depends on SPI && GPIOLIB
+> diff --git a/drivers/gpu/drm/panel/Makefile b/drivers/gpu/drm/panel/Makefile
+> index 3615a761b44f..3947e28addde 100644
+> --- a/drivers/gpu/drm/panel/Makefile
+> +++ b/drivers/gpu/drm/panel/Makefile
+> @@ -114,5 +114,6 @@ obj-$(CONFIG_DRM_PANEL_VISIONOX_RM69299) += panel-visionox-rm69299.o
+>  obj-$(CONFIG_DRM_PANEL_VISIONOX_RM692E5) += panel-visionox-rm692e5.o
+>  obj-$(CONFIG_DRM_PANEL_VISIONOX_VTDR6130) += panel-visionox-vtdr6130.o
+>  obj-$(CONFIG_DRM_PANEL_VISIONOX_R66451) += panel-visionox-r66451.o
+> +obj-$(CONFIG_DRM_PANEL_WAVESHARE_TOUCHSCREEN_V2) += panel-waveshare-dsi-v2.o
+>  obj-$(CONFIG_DRM_PANEL_WIDECHIPS_WS2401) += panel-widechips-ws2401.o
+>  obj-$(CONFIG_DRM_PANEL_XINPENG_XPP055C272) += panel-xinpeng-xpp055c272.o
+> diff --git a/drivers/gpu/drm/panel/panel-waveshare-dsi-v2.c b/drivers/gpu/drm/panel/panel-waveshare-dsi-v2.c
+> new file mode 100644
+> index 000000000000..7af11fdc026f
+> --- /dev/null
+> +++ b/drivers/gpu/drm/panel/panel-waveshare-dsi-v2.c
+> @@ -0,0 +1,2687 @@
+> +// SPDX-License-Identifier: GPL-2.0
+> +/*
+> + * Copyright (C) 2024 Waveshare International Limited
+> + *
+> + * Based on panel-raspberrypi-touchscreen by Broadcom
+> + */
+> +
+> +#include <linux/delay.h>
+> +#include <linux/device.h>
+> +#include <linux/err.h>
+> +#include <linux/errno.h>
+> +#include <linux/kernel.h>
+> +#include <linux/module.h>
+> +#include <linux/of.h>
+> +
+> +#include <linux/gpio/consumer.h>
+> +#include <linux/regulator/consumer.h>
+> +
+> +#include <drm/drm_mipi_dsi.h>
+> +#include <drm/drm_modes.h>
+> +#include <drm/drm_panel.h>
+> +
+> +#include <video/mipi_display.h>
+> +
+> +struct ws_panel_desc {
+> +	int (*init)(struct mipi_dsi_device *dsi);
+> +	const struct drm_display_mode *mode;
+> +	const unsigned long mode_flags;
+> +	unsigned int lanes;
+> +	enum mipi_dsi_pixel_format format;
+> +};
+> +
+> +struct ws_panel {
+> +	struct drm_panel panel;
+> +	struct mipi_dsi_device *dsi;
+> +	const struct ws_panel_desc *desc;
+> +
+> +	struct regulator *power;
+> +	struct gpio_desc *reset;
+> +	struct gpio_desc *iovcc;
+> +	struct gpio_desc *avdd;
 
- .../boot/dts/rockchip/rk3399-evb-ind.dts      | 147 ++++++++++++++++++
- 1 file changed, 147 insertions(+)
+Don't use GPIOs for regulators. Use proper regulator framework devices.
 
-diff --git a/arch/arm64/boot/dts/rockchip/rk3399-evb-ind.dts b/arch/arm64/boot/dts/rockchip/rk3399-evb-ind.dts
-index 70aee1ab904c..be1e90f7a453 100644
---- a/arch/arm64/boot/dts/rockchip/rk3399-evb-ind.dts
-+++ b/arch/arm64/boot/dts/rockchip/rk3399-evb-ind.dts
-@@ -4,6 +4,7 @@
-  */
- 
- /dts-v1/;
-+#include <dt-bindings/usb/pd.h>
- #include "rk3399.dtsi"
- 
- / {
-@@ -19,6 +20,21 @@ chosen {
- 		stdout-path = "serial2:1500000n8";
- 	};
- 
-+	sound: sound {
-+		compatible = "rockchip,rk3399-gru-sound";
-+		rockchip,cpu = <&i2s0 &spdif>;
-+	};
-+
-+	vbus_typec: regulator-vbus-typec {
-+		compatible = "regulator-fixed";
-+		enable-active-high;
-+		gpio = <&gpio1 RK_PC2 GPIO_ACTIVE_HIGH>;
-+		pinctrl-names = "default";
-+		pinctrl-0 = <&vcc5v0_typec0_en>;
-+		regulator-name = "vbus_typec";
-+		vin-supply = <&vcc5v0_sys>;
-+	};
-+
- 	vcc5v0_sys: regulator-vcc5v0-sys {
- 		compatible = "regulator-fixed";
- 		enable-active-high;
-@@ -31,6 +47,11 @@ vcc5v0_sys: regulator-vcc5v0-sys {
- 	};
- };
- 
-+&cdn_dp {
-+	phys = <&tcphy0_dp>;
-+	status = "okay";
-+};
-+
- &cpu_b0 {
- 	cpu-supply = <&vdd_cpu_b>;
- };
-@@ -55,6 +76,12 @@ &cpu_l3 {
- 	cpu-supply = <&vdd_cpu_l>;
- };
- 
-+&dp_out {
-+	dp_controller_output: endpoint {
-+		remote-endpoint = <&dp_phy_in>;
-+	};
-+};
-+
- &emmc_phy {
- 	status = "okay";
- };
-@@ -341,6 +368,71 @@ regulator-state-mem {
- 	};
- };
- 
-+&i2c4 {
-+	i2c-scl-rising-time-ns = <475>;
-+	i2c-scl-falling-time-ns = <26>;
-+	status = "okay";
-+
-+	usbc0: typec-portc@22 {
-+		compatible = "fcs,fusb302";
-+		reg = <0x22>;
-+		interrupt-parent = <&gpio1>;
-+		interrupts = <RK_PA2 IRQ_TYPE_LEVEL_LOW>;
-+		pinctrl-names = "default";
-+		pinctrl-0 = <&usbc0_int>;
-+		vbus-supply = <&vbus_typec>;
-+
-+		usb_con: connector {
-+			compatible = "usb-c-connector";
-+			label = "USB-C";
-+			data-role = "dual";
-+			power-role = "dual";
-+			try-power-role = "sink";
-+			op-sink-microwatt = <1000000>;
-+			sink-pdos =
-+				<PDO_FIXED(5000, 2500, PDO_FIXED_USB_COMM)>;
-+			source-pdos =
-+				<PDO_FIXED(5000, 1500, PDO_FIXED_USB_COMM)>;
-+
-+			altmodes {
-+				displayport {
-+					svid = /bits/ 16 <0xff01>;
-+					vdo = <0x00001c46>;
-+				};
-+			};
-+
-+			ports {
-+				#address-cells = <1>;
-+				#size-cells = <0>;
-+
-+				port@0 {
-+					reg = <0>;
-+
-+					usbc0_orien_sw: endpoint {
-+						remote-endpoint = <&tcphy0_orientation_switch>;
-+					};
-+				};
-+
-+				port@1 {
-+					reg = <1>;
-+
-+					usbc0_role_sw: endpoint {
-+						remote-endpoint = <&dwc3_0_role_switch>;
-+					};
-+				};
-+
-+				port@2 {
-+					reg = <2>;
-+
-+					dp_altmode_mux: endpoint {
-+						remote-endpoint = <&tcphy0_typec_dp>;
-+					};
-+				};
-+			};
-+		};
-+	};
-+};
-+
- &i2s2 {
- 	status = "okay";
- };
-@@ -354,6 +446,16 @@ &io_domains {
- };
- 
- &pinctrl {
-+	usb-typec {
-+		usbc0_int: usbc0-int {
-+			rockchip,pins = <1 RK_PA2 RK_FUNC_GPIO &pcfg_pull_up>;
-+		};
-+
-+		vcc5v0_typec0_en: vcc5v0-typec0-en {
-+			rockchip,pins = <1 RK_PC2 RK_FUNC_GPIO &pcfg_pull_none>;
-+		};
-+	};
-+
- 	pmic {
- 		pmic_int_l: pmic-int-l {
- 			rockchip,pins = <1 RK_PC5 RK_FUNC_GPIO &pcfg_pull_up>;
-@@ -400,10 +502,48 @@ &sdmmc {
- 	status = "okay";
- };
- 
-+&sound {
-+	rockchip,codec = <&cdn_dp>;
-+	status = "okay";
-+};
-+
-+&spdif {
-+	status = "okay";
-+};
-+
- &tcphy0 {
- 	status = "okay";
- };
- 
-+&tcphy0_dp {
-+	mode-switch;
-+
-+	port {
-+		#address-cells = <1>;
-+		#size-cells = <0>;
-+
-+		tcphy0_typec_dp: endpoint@0 {
-+			reg = <0>;
-+			remote-endpoint = <&dp_altmode_mux>;
-+		};
-+
-+		dp_phy_in: endpoint@1 {
-+			reg = <1>;
-+			remote-endpoint = <&dp_controller_output>;
-+		};
-+	};
-+};
-+
-+&tcphy0_usb3 {
-+	orientation-switch;
-+
-+	port {
-+		tcphy0_orientation_switch: endpoint {
-+			remote-endpoint = <&usbc0_orien_sw>;
-+		};
-+	};
-+};
-+
- &tcphy1 {
- 	status = "okay";
- };
-@@ -461,7 +601,14 @@ &usb_host1_ohci {
- };
- 
- &usbdrd_dwc3_0 {
-+	usb-role-switch;
- 	status = "okay";
-+
-+	port {
-+		dwc3_0_role_switch: endpoint {
-+			remote-endpoint = <&usbc0_role_sw>;
-+		};
-+	};
- };
- 
- &usbdrd3_0 {
+> +
+> +	enum drm_panel_orientation orientation;
+> +};
+> +
+> +enum dsi_cmd_type {
+> +	INIT_DCS_CMD,
+> +	DELAY_CMD,
+> +};
+
+Unused
+
+> +
+> +struct panel_init_cmd {
+> +	enum dsi_cmd_type type;
+> +	size_t len;
+> +	const char *data;
+> +};
+
+Unused
+
+> +
+> +static int ws_panel_12_3_a_4lane_init(struct mipi_dsi_device *dsi)
+> +{
+> +	struct mipi_dsi_multi_context ctx = { .dsi = dsi };
+> +
+> +	mipi_dsi_dcs_write_seq_multi(&ctx, 0xB9, 0x83, 0x10, 0x2E);
+
+- Please don't group panels by vendor. Panel drivers are grouped by the
+  controlling IC. In this driver you've tried to stuff together several
+  panels with different controllers. Instead add these to the drivers
+  with the corresponding controllers. Feel free to rework existing
+  drivers in order to be able to do it.
+
+- Also, lowercase the hex.
+
+> +	mipi_dsi_dcs_write_seq_multi(&ctx, 0xBD, 0x00);
+> +	mipi_dsi_dcs_write_seq_multi(&ctx, 0x11);
+
+exit_sleep_mode
+
+> +	msleep(120);
+
+Use a proper wrapper
+
+> +	mipi_dsi_dcs_write_seq_multi(&ctx, 0x29);
+
+set_display_on
+
+> +	msleep(20);
+> +
+> +	return 0;
+
+Return error code.
+
+> +};
+> +
+> +static int ws_panel_10_1_a_4lane_init(struct mipi_dsi_device *dsi)
+> +{
+> +	struct mipi_dsi_multi_context ctx = { .dsi = dsi };
+> +
+> +	mipi_dsi_dcs_write_seq_multi(&ctx, 0xE0, 0x00);
+
+As you can see, it's a completely different init sequence.
+
+> +
+> +static int ws_panel_prepare(struct drm_panel *panel)
+> +{
+> +	struct ws_panel *ctx = panel_to_ws(panel);
+> +	int ret;
+> +
+> +	if (ctx->iovcc) {
+> +		gpiod_set_value_cansleep(ctx->iovcc, 1);
+> +		msleep(20);
+> +	}
+> +
+> +	if (ctx->avdd) {
+> +		gpiod_set_value_cansleep(ctx->avdd, 1);
+> +		msleep(20);
+> +	}
+
+Yuck
+
+> +
+> +	if (ctx->reset) {
+> +		gpiod_set_value_cansleep(ctx->reset, 0);
+> +		msleep(60);
+> +		gpiod_set_value_cansleep(ctx->reset, 1);
+> +		msleep(60);
+> +	}
+> +
+> +	ret = ctx->desc->init(ctx->dsi);
+> +	if (ret < 0)
+> +		dev_err(panel->dev, "failed to init panel: %d\n", ret);
+> +
+> +	return 0;
+> +}
+> +
+> +static int ws_panel_unprepare(struct drm_panel *panel)
+> +{
+> +	struct ws_panel *ctx = panel_to_ws(panel);
+> +
+> +	mipi_dsi_dcs_set_display_off(ctx->dsi);
+> +	mipi_dsi_dcs_enter_sleep_mode(ctx->dsi);
+> +
+> +	if (ctx->reset) {
+> +		gpiod_set_value_cansleep(ctx->reset, 0);
+> +		msleep(5);
+> +	}
+> +
+> +	if (ctx->avdd) {
+> +		gpiod_set_value_cansleep(ctx->avdd, 0);
+> +		msleep(5);
+> +	}
+> +
+> +	if (ctx->iovcc) {
+> +		gpiod_set_value_cansleep(ctx->iovcc, 0);
+> +		msleep(5);
+> +	}
+> +
+> +	return 0;
+> +}
+> +
+> +static const struct drm_display_mode ws_panel_12_3_a_4lane_mode = {
+> +	.clock = 95000,
+
+My preference is to define mode.clock clearly as (720 + 10 + 10 + 12)
+* (1920 + 64 + 18 + 4) * 63 / 1000 (why 63 though?)
+
+> +	.hdisplay = 720,
+> +	.hsync_start = 720 + 10,
+> +	.hsync_end = 720 + 10 + 10,
+> +	.htotal = 720 + 10 + 10 + 12,
+> +	.vdisplay = 1920,
+> +	.vsync_start = 1920 + 64,
+> +	.vsync_end = 1920 + 64 + 18,
+> +	.vtotal = 1920 + 64 + 18 + 4,
+> +	.width_mm = 109,
+> +	.height_mm = 292,
+> +};
+> +
+> +static const struct drm_display_mode ws_panel_10_1_a_mode = {
+> +	.clock = 70000,
+> +	.hdisplay = 800,
+> +	.hsync_start = 800 + 40,
+> +	.hsync_end = 800 + 40 + 20,
+> +	.htotal = 800 + 40 + 20 + 20,
+> +	.vdisplay = 1280,
+> +	.vsync_start = 1280 + 20,
+> +	.vsync_end = 1280 + 20 + 20,
+> +	.vtotal = 1280 + 20 + 20 + 4,
+> +	.width_mm = 135,
+> +	.height_mm = 216,
+> +};
+> +
+> +static const struct drm_display_mode ws_panel_10_1_b_4lane_mode = {
+> +	.clock = 66000,
+> +	.hdisplay = 720,
+> +	.hsync_start = 720 + 60,
+> +	.hsync_end = 720 + 60 + 60,
+> +	.htotal = 720 + 60 + 60 + 4,
+> +	.vdisplay = 1280,
+> +	.vsync_start = 1280 + 16,
+> +	.vsync_end = 1280 + 16 + 12,
+> +	.vtotal = 1280 + 16 + 12 + 4,
+> +	.width_mm = 125,
+> +	.height_mm = 222,
+> +};
+> +
+> +static const struct drm_display_mode ws_panel_10_1_b_mode = {
+> +	.clock = 69000,
+> +	.hdisplay = 720,
+> +	.hsync_start = 720 + 50,
+> +	.hsync_end = 720 + 50 + 50,
+> +	.htotal = 720 + 50 + 50 + 50,
+> +	.vdisplay = 1280,
+> +	.vsync_start = 1280 + 26,
+> +	.vsync_end = 1280 + 26 + 12,
+> +	.vtotal = 1280 + 26 + 12 + 4,
+> +	.width_mm = 125,
+> +	.height_mm = 222,
+> +};
+> +
+> +static const struct drm_display_mode ws_panel_9_b_4lane_mode = {
+> +	.clock = 66000,
+> +	.hdisplay = 720,
+> +	.hsync_start = 720 + 60,
+> +	.hsync_end = 720 + 60 + 60,
+> +	.htotal = 720 + 60 + 60 + 4,
+> +	.vdisplay = 1280,
+> +	.vsync_start = 1280 + 16,
+> +	.vsync_end = 1280 + 16 + 12,
+> +	.vtotal = 1280 + 16 + 12 + 4,
+> +	.width_mm = 114,
+> +	.height_mm = 196,
+> +};
+> +
+> +static const struct drm_display_mode ws_panel_9_b_mode = {
+> +	.clock = 69000,
+> +	.hdisplay = 720,
+> +	.hsync_start = 720 + 50,
+> +	.hsync_end = 720 + 50 + 50,
+> +	.htotal = 720 + 50 + 50 + 50,
+> +	.vdisplay = 1280,
+> +	.vsync_start = 1280 + 26,
+> +	.vsync_end = 1280 + 26 + 12,
+> +	.vtotal = 1280 + 26 + 12 + 4,
+> +	.width_mm = 114,
+> +	.height_mm = 196,
+> +};
+> +
+> +static const struct drm_display_mode ws_panel_8_8_a_mode = {
+> +	.clock = 75000,
+> +	.hdisplay = 480,
+> +	.hsync_start = 480 + 50,
+> +	.hsync_end = 480 + 50 + 50,
+> +	.htotal = 480 + 50 + 50 + 50,
+> +	.vdisplay = 1920,
+> +	.vsync_start = 1920 + 20,
+> +	.vsync_end = 1920 + 20 + 20,
+> +	.vtotal = 1920 + 20 + 20 + 20,
+> +	.width_mm = 68,
+> +	.height_mm = 219,
+> +};
+> +
+> +static const struct drm_display_mode ws_panel_8_a_mode = {
+> +	.clock = 70000,
+> +	.hdisplay = 800,
+> +	.hsync_start = 800 + 40,
+> +	.hsync_end = 800 + 40 + 20,
+> +	.htotal = 800 + 40 + 20 + 20,
+> +	.vdisplay = 1280,
+> +	.vsync_start = 1280 + 30,
+> +	.vsync_end = 1280 + 30 + 12,
+> +	.vtotal = 1280 + 30 + 12 + 4,
+> +	.width_mm = 107,
+> +	.height_mm = 172,
+> +};
+> +
+> +static const struct drm_display_mode ws_panel_7_a_mode = {
+> +	.clock = 83333,
+> +	.hdisplay = 720,
+> +	.hsync_start = 720 + 120,
+> +	.hsync_end = 720 + 120 + 100,
+> +	.htotal = 720 + 120 + 100 + 100,
+> +	.vdisplay = 1280,
+> +	.vsync_start = 1280 + 10,
+> +	.vsync_end = 1280 + 10 + 10,
+> +	.vtotal = 1280 + 10 + 10 + 10,
+> +	.width_mm = 85,
+> +	.height_mm = 154,
+> +};
+> +
+> +static const struct drm_display_mode ws_panel_5_5_a_mode = {
+> +	.clock = 65000,
+> +	.hdisplay = 720,
+> +	.hsync_start = 720 + 50,
+> +	.hsync_end = 720 + 50 + 50,
+> +	.htotal = 720 + 50 + 50 + 10,
+> +	.vdisplay = 1280,
+> +	.vsync_start = 1280 + 15,
+> +	.vsync_end = 1280 + 15 + 12,
+> +	.vtotal = 1280 + 15 + 12 + 4,
+> +	.width_mm = 62,
+> +	.height_mm = 110,
+> +};
+> +
+> +static const struct drm_display_mode ws_panel_5_a_mode = {
+> +	.clock = 70000,
+> +	.hdisplay = 720,
+> +	.hsync_start = 720 + 40,
+> +	.hsync_end = 720 + 40 + 20,
+> +	.htotal = 720 + 40 + 20 + 20,
+> +	.vdisplay = 1280,
+> +	.vsync_start = 1280 + 30,
+> +	.vsync_end = 1280 + 30 + 10,
+> +	.vtotal = 1280 + 30 + 10 + 4,
+> +	.width_mm = 62,
+> +	.height_mm = 110,
+> +};
+> +
+> +static const struct drm_display_mode ws_panel_4_c_mode = {
+> +	.clock       = 36500,
+> +	.hdisplay    = 720,
+> +	.hsync_start = 720 + 40,
+> +	.hsync_end   = 720 + 40 + 20,
+> +	.htotal      = 720 + 40 + 20 + 20,
+> +	.vdisplay    = 720,
+> +	.vsync_start = 720 + 24,
+> +	.vsync_end   = 720 + 24 + 4,
+> +	.vtotal      = 720 + 24 + 4 + 12,
+> +	.width_mm	 = 88,
+> +	.height_mm	 = 88,
+> +};
+> +
+> +static const struct drm_display_mode ws_panel_3_4_c_mode = {
+> +	.clock       = 44300,
+> +	.hdisplay    = 800,
+> +	.hsync_start = 800 + 40,
+> +	.hsync_end   = 800 + 40 + 20,
+> +	.htotal      = 800 + 40 + 20 + 20,
+> +	.vdisplay    = 800,
+> +	.vsync_start = 800 + 24,
+> +	.vsync_end   = 800 + 24 + 4,
+> +	.vtotal      = 800 + 24 + 4 + 12,
+> +	.width_mm	 = 88,
+> +	.height_mm	 = 88,
+> +};
+> +
+> +static int ws_panel_get_modes(struct drm_panel *panel,
+> +			      struct drm_connector *connector)
+> +{
+> +	struct ws_panel *ctx = panel_to_ws(panel);
+> +	struct drm_display_mode *mode;
+> +
+> +	mode = drm_mode_duplicate(connector->dev, ctx->desc->mode);
+> +	if (!mode) {
+> +		dev_err(&ctx->dsi->dev, "failed to add mode %ux%ux@%u\n",
+> +			ctx->desc->mode->hdisplay, ctx->desc->mode->vdisplay,
+> +			drm_mode_vrefresh(ctx->desc->mode));
+> +		return -ENOMEM;
+> +	}
+> +
+> +	drm_mode_set_name(mode);
+> +
+> +	mode->type = DRM_MODE_TYPE_DRIVER | DRM_MODE_TYPE_PREFERRED;
+> +	drm_mode_probed_add(connector, mode);
+> +
+> +	connector->display_info.width_mm = mode->width_mm;
+> +	connector->display_info.height_mm = mode->height_mm;
+
+drm_connector_helper_get_modes_fixed()
+
+> +
+> +	drm_connector_set_panel_orientation(connector, ctx->orientation);
+> +
+> +	return 1;
+> +}
+> +
+> +static enum drm_panel_orientation
+> +ws_panel_get_orientation(struct drm_panel *panel)
+> +{
+> +	struct ws_panel *ctx = panel_to_ws(panel);
+> +
+> +	return ctx->orientation;
+> +}
+> +
+> +static const struct drm_panel_funcs ws_panel_funcs = {
+> +	.prepare = ws_panel_prepare,
+> +	.unprepare = ws_panel_unprepare,
+> +	.get_modes = ws_panel_get_modes,
+> +	.get_orientation = ws_panel_get_orientation,
+> +};
+> +
+> +static int ws_panel_dsi_probe(struct mipi_dsi_device *dsi)
+> +{
+> +	struct ws_panel *ctx;
+> +	int ret;
+> +
+> +	dev_info(&dsi->dev, "dsi panel: %s\n",
+> +		 (char *)of_get_property(
+> +			 dsi->dev.of_node, "compatible", NULL));
+> +
+> +	ctx = devm_kzalloc(&dsi->dev, sizeof(*ctx), GFP_KERNEL);
+> +	if (!ctx)
+> +		return -ENOMEM;
+> +	mipi_dsi_set_drvdata(dsi, ctx);
+> +	ctx->dsi = dsi;
+> +	ctx->desc = of_device_get_match_data(&dsi->dev);
+> +
+> +	ctx->panel.prepare_prev_first = true;
+> +	drm_panel_init(&ctx->panel, &dsi->dev, &ws_panel_funcs,
+> +		       DRM_MODE_CONNECTOR_DSI);
+> +
+> +	ctx->reset = devm_gpiod_get_optional(
+> +			&dsi->dev, "reset", GPIOD_OUT_LOW);
+> +	if (IS_ERR(ctx->reset))
+> +		return dev_err_probe(&dsi->dev, PTR_ERR(ctx->reset),
+> +				     "Couldn't get our reset GPIO\n");
+> +
+> +	ctx->iovcc = devm_gpiod_get_optional(
+> +			&dsi->dev, "iovcc", GPIOD_OUT_LOW);
+> +	if (IS_ERR(ctx->iovcc))
+> +		return dev_err_probe(&dsi->dev, PTR_ERR(ctx->iovcc),
+> +					"Couldn't get our iovcc GPIO\n");
+> +
+> +	ctx->avdd = devm_gpiod_get_optional(&dsi->dev, "avdd", GPIOD_OUT_LOW);
+> +	if (IS_ERR(ctx->avdd))
+> +		return dev_err_probe(&dsi->dev, PTR_ERR(ctx->avdd),
+> +					"Couldn't get our avdd GPIO\n");
+> +
+> +	ret = of_drm_get_panel_orientation(
+> +			dsi->dev.of_node, &ctx->orientation);
+> +	if (ret) {
+> +		dev_err(&dsi->dev, "%pOF: failed to get orientation: %d\n",
+> +			dsi->dev.of_node, ret);
+> +		return ret;
+> +	}
+> +
+> +	ret = drm_panel_of_backlight(&ctx->panel);
+> +	if (ret)
+> +		return ret;
+> +
+> +	drm_panel_add(&ctx->panel);
+> +
+> +	dsi->mode_flags = ctx->desc->mode_flags;
+> +	dsi->format = ctx->desc->format;
+> +	dsi->lanes = ctx->desc->lanes;
+> +	dev_info(&dsi->dev, "lanes: %d\n", dsi->lanes);
+> +
+> +	ret = mipi_dsi_attach(dsi);
+> +	if (ret)
+> +		drm_panel_remove(&ctx->panel);
+> +
+> +	return ret;
+> +}
+> +
+> +static void ws_panel_dsi_remove(struct mipi_dsi_device *dsi)
+> +{
+> +	struct ws_panel *ctx = mipi_dsi_get_drvdata(dsi);
+> +
+> +	mipi_dsi_detach(dsi);
+> +	drm_panel_remove(&ctx->panel);
+> +	if (ctx->reset) {
+> +		gpiod_set_value_cansleep(ctx->reset, 0);
+> +		msleep(5);
+> +	}
+> +
+> +	if (ctx->avdd) {
+> +		gpiod_set_value_cansleep(ctx->avdd, 0);
+> +		msleep(5);
+> +	}
+> +
+> +	if (ctx->iovcc) {
+> +		gpiod_set_value_cansleep(ctx->iovcc, 0);
+> +		msleep(5);
+> +	}
+> +}
+> +
+> +static void ws_panel_dsi_shutdown(struct mipi_dsi_device *dsi)
+> +{
+> +	struct ws_panel *ctx = mipi_dsi_get_drvdata(dsi);
+> +
+> +	if (ctx->reset) {
+> +		dev_info(&dsi->dev, "shutdown\n");
+> +		gpiod_set_value_cansleep(ctx->reset, 0);
+> +		msleep(5);
+> +	}
+> +
+> +	if (ctx->avdd) {
+> +		gpiod_set_value_cansleep(ctx->avdd, 0);
+> +		msleep(5);
+> +	}
+> +
+> +	if (ctx->iovcc) {
+> +		gpiod_set_value_cansleep(ctx->iovcc, 0);
+> +		msleep(5);
+> +	}
+> +}
+> +
+> +static const struct ws_panel_desc ws_panel_12_3_inch_a_4lane_desc = {
+> +	.init = ws_panel_12_3_a_4lane_init,
+> +	.mode = &ws_panel_12_3_a_4lane_mode,
+> +	.mode_flags = MIPI_DSI_MODE_VIDEO_HSE | MIPI_DSI_MODE_VIDEO |
+> +		      MIPI_DSI_MODE_LPM | MIPI_DSI_CLOCK_NON_CONTINUOUS,
+> +	.lanes = 4,
+> +	.format = MIPI_DSI_FMT_RGB888,
+> +};
+> +
+> +static const struct ws_panel_desc ws_panel_10_1_inch_a_4lane_desc = {
+> +	.init = ws_panel_10_1_a_4lane_init,
+> +	.mode = &ws_panel_10_1_a_mode,
+> +	.mode_flags = MIPI_DSI_MODE_VIDEO_HSE | MIPI_DSI_MODE_VIDEO |
+> +		      MIPI_DSI_MODE_LPM | MIPI_DSI_CLOCK_NON_CONTINUOUS,
+> +	.lanes = 4,
+> +	.format = MIPI_DSI_FMT_RGB888,
+> +};
+> +
+> +static const struct ws_panel_desc ws_panel_10_1_inch_a_desc = {
+> +	.init = ws_panel_10_1_a_init,
+> +	.mode = &ws_panel_10_1_a_mode,
+> +	.mode_flags = MIPI_DSI_MODE_VIDEO_HSE | MIPI_DSI_MODE_VIDEO |
+> +		      MIPI_DSI_MODE_LPM | MIPI_DSI_CLOCK_NON_CONTINUOUS,
+> +	.lanes = 2,
+> +	.format = MIPI_DSI_FMT_RGB888,
+> +};
+> +
+> +static const struct ws_panel_desc ws_panel_10_1_inch_b_4lane_desc = {
+> +	.init = ws_panel_10_1_b_4lane_init,
+> +	.mode = &ws_panel_10_1_b_4lane_mode,
+> +	.mode_flags = MIPI_DSI_MODE_VIDEO_HSE | MIPI_DSI_MODE_VIDEO |
+> +		      MIPI_DSI_MODE_LPM | MIPI_DSI_CLOCK_NON_CONTINUOUS,
+> +	.lanes = 4,
+> +	.format = MIPI_DSI_FMT_RGB888,
+> +};
+> +
+> +static const struct ws_panel_desc ws_panel_10_1_inch_b_desc = {
+> +	.init = ws_panel_10_1_b_init,
+> +	.mode = &ws_panel_10_1_b_mode,
+> +	.mode_flags = MIPI_DSI_MODE_VIDEO_HSE | MIPI_DSI_MODE_VIDEO |
+> +		      MIPI_DSI_MODE_LPM | MIPI_DSI_CLOCK_NON_CONTINUOUS,
+> +	.lanes = 2,
+> +	.format = MIPI_DSI_FMT_RGB888,
+> +};
+> +
+> +static const struct ws_panel_desc ws_panel_9_inch_b_4lane_desc = {
+> +	.init = ws_panel_10_1_b_4lane_init,
+> +	.mode = &ws_panel_9_b_4lane_mode,
+> +	.mode_flags = MIPI_DSI_MODE_VIDEO_HSE | MIPI_DSI_MODE_VIDEO |
+> +		      MIPI_DSI_MODE_LPM | MIPI_DSI_CLOCK_NON_CONTINUOUS,
+> +	.lanes = 4,
+> +	.format = MIPI_DSI_FMT_RGB888,
+> +};
+> +
+> +static const struct ws_panel_desc ws_panel_9_inch_b_desc = {
+> +	.init = ws_panel_10_1_b_init,
+> +	.mode = &ws_panel_9_b_mode,
+> +	.mode_flags = MIPI_DSI_MODE_VIDEO_HSE | MIPI_DSI_MODE_VIDEO |
+> +		      MIPI_DSI_MODE_LPM | MIPI_DSI_CLOCK_NON_CONTINUOUS,
+> +	.lanes = 2,
+> +	.format = MIPI_DSI_FMT_RGB888,
+> +};
+> +
+> +static const struct ws_panel_desc ws_panel_8_8_inch_a_desc = {
+> +	.init = ws_panel_8_8_a_init,
+> +	.mode = &ws_panel_8_8_a_mode,
+> +	.mode_flags = MIPI_DSI_MODE_VIDEO_HSE | MIPI_DSI_MODE_VIDEO |
+> +		      MIPI_DSI_MODE_LPM | MIPI_DSI_CLOCK_NON_CONTINUOUS,
+> +	.lanes = 2,
+> +	.format = MIPI_DSI_FMT_RGB888,
+> +};
+> +
+> +static const struct ws_panel_desc ws_panel_8_inch_a_4lane_desc = {
+> +	.init = ws_panel_8_a_4lane_init,
+> +	.mode = &ws_panel_8_a_mode,
+> +	.mode_flags = MIPI_DSI_MODE_VIDEO_HSE | MIPI_DSI_MODE_VIDEO |
+> +		      MIPI_DSI_MODE_LPM | MIPI_DSI_CLOCK_NON_CONTINUOUS,
+> +	.lanes = 4,
+> +	.format = MIPI_DSI_FMT_RGB888,
+> +};
+> +
+> +static const struct ws_panel_desc ws_panel_8_inch_a_desc = {
+> +	.init = ws_panel_8_a_init,
+> +	.mode = &ws_panel_8_a_mode,
+> +	.mode_flags = MIPI_DSI_MODE_VIDEO_HSE | MIPI_DSI_MODE_VIDEO |
+> +		      MIPI_DSI_MODE_LPM | MIPI_DSI_CLOCK_NON_CONTINUOUS,
+> +	.lanes = 2,
+> +	.format = MIPI_DSI_FMT_RGB888,
+> +};
+> +
+> +static const struct ws_panel_desc ws_panel_7_inch_a_desc = {
+> +	.init = ws_panel_7_a_init,
+> +	.mode = &ws_panel_7_a_mode,
+> +	.mode_flags = MIPI_DSI_MODE_VIDEO_HSE | MIPI_DSI_MODE_VIDEO |
+> +		      MIPI_DSI_MODE_LPM | MIPI_DSI_CLOCK_NON_CONTINUOUS,
+> +	.lanes = 2,
+> +	.format = MIPI_DSI_FMT_RGB888,
+> +};
+> +
+> +static const struct ws_panel_desc ws_panel_5_5_inch_a_desc = {
+> +	.init = ws_panel_5_5_a_init,
+> +	.mode = &ws_panel_5_5_a_mode,
+> +	.mode_flags = MIPI_DSI_MODE_VIDEO_HSE | MIPI_DSI_MODE_VIDEO |
+> +		      MIPI_DSI_MODE_LPM | MIPI_DSI_CLOCK_NON_CONTINUOUS,
+> +	.lanes = 2,
+> +	.format = MIPI_DSI_FMT_RGB888,
+> +};
+> +
+> +static const struct ws_panel_desc ws_panel_5_inch_a_desc = {
+> +	.init = ws_panel_5_a_init,
+> +	.mode = &ws_panel_5_a_mode,
+> +	.mode_flags = MIPI_DSI_MODE_VIDEO_HSE | MIPI_DSI_MODE_VIDEO |
+> +		      MIPI_DSI_MODE_LPM | MIPI_DSI_CLOCK_NON_CONTINUOUS,
+> +	.lanes = 2,
+> +	.format = MIPI_DSI_FMT_RGB888,
+> +};
+> +
+> +static const struct ws_panel_desc ws_panel_4_inch_c_desc = {
+> +	.init = ws_panel_4_c_init,
+> +	.mode = &ws_panel_4_c_mode,
+> +	.mode_flags = MIPI_DSI_MODE_VIDEO_HSE | MIPI_DSI_MODE_VIDEO |
+> +		      MIPI_DSI_MODE_LPM | MIPI_DSI_CLOCK_NON_CONTINUOUS,
+> +	.lanes = 2,
+> +	.format = MIPI_DSI_FMT_RGB888,
+> +};
+> +
+> +static const struct ws_panel_desc ws_panel_3_4_inch_c_desc = {
+> +	.init = ws_panel_3_4_c_init,
+> +	.mode = &ws_panel_3_4_c_mode,
+> +	.mode_flags = MIPI_DSI_MODE_VIDEO_HSE | MIPI_DSI_MODE_VIDEO |
+> +		      MIPI_DSI_MODE_LPM | MIPI_DSI_CLOCK_NON_CONTINUOUS,
+> +	.lanes = 2,
+> +	.format = MIPI_DSI_FMT_RGB888,
+> +};
+> +
+> +static const struct of_device_id ws_panel_of_match[] = {
+> +	{ .compatible = "waveshare,12.3-dsi-touch-a,4lane",
+> +	  &ws_panel_12_3_inch_a_4lane_desc },
+> +	{ .compatible = "waveshare,10.1-dsi-touch-a-4lane",
+> +	  &ws_panel_10_1_inch_a_4lane_desc },
+> +	{ .compatible = "waveshare,10.1-dsi-touch-a",
+
+Is it the same panel but connected differently? Or are those two
+different panels?
+
+The same question applies to several other panels here.
+
+> +	  &ws_panel_10_1_inch_a_desc },
+> +	{ .compatible = "waveshare,10.1-dsi-touch-b,4lane",
+> +	  &ws_panel_10_1_inch_b_4lane_desc },
+> +	{ .compatible = "waveshare,10.1-dsi-touch-b",
+> +	  &ws_panel_10_1_inch_b_desc },
+> +	{ .compatible = "waveshare,9.0-dsi-touch-b,4lane",
+> +	  &ws_panel_9_inch_b_4lane_desc },
+> +	{ .compatible = "waveshare,9.0-dsi-touch-b",
+> +	  &ws_panel_9_inch_b_desc },
+> +	{ .compatible = "waveshare,8.8-dsi-touch-a",
+> +	  &ws_panel_8_8_inch_a_desc },
+> +	{ .compatible = "waveshare,8.0-dsi-touch-a-4lane",
+> +	  &ws_panel_8_inch_a_4lane_desc },
+> +	{ .compatible = "waveshare,8.0-dsi-touch-a", &ws_panel_8_inch_a_desc },
+> +	{ .compatible = "waveshare,7.0-dsi-touch-a", &ws_panel_7_inch_a_desc },
+> +	{ .compatible = "waveshare,7.0-dsi-touch-b", &ws_panel_7_inch_a_desc },
+> +	{ .compatible = "waveshare,5.5-dsi-touch-a",
+> +	  &ws_panel_5_5_inch_a_desc },
+> +	{ .compatible = "waveshare,5.0-dsi-touch-a", &ws_panel_5_inch_a_desc },
+> +	{ .compatible = "waveshare,4.0-dsi-touch-c", &ws_panel_4_inch_c_desc },
+> +	{ .compatible = "waveshare,3.4-dsi-touch-c",
+> +		&ws_panel_3_4_inch_c_desc },
+> +	{}
+> +};
+> +MODULE_DEVICE_TABLE(of, ws_panel_of_match);
+> +
+> +static struct mipi_dsi_driver ws_panel_dsi_driver = {
+> +	.probe		= ws_panel_dsi_probe,
+> +	.remove		= ws_panel_dsi_remove,
+> +	.shutdown	= ws_panel_dsi_shutdown,
+> +	.driver = {
+> +		.name		= "waveshare-dsi",
+> +		.of_match_table	= ws_panel_of_match,
+> +	},
+> +};
+> +module_mipi_dsi_driver(ws_panel_dsi_driver);
+> +
+> +MODULE_AUTHOR("Waveshare Team <support@waveshare.com>");
+> +MODULE_DESCRIPTION("Waveshare DSI panel driver");
+> +MODULE_LICENSE("GPL");
+> -- 
+> 2.34.1
+> 
+
 -- 
-2.51.1
-
+With best wishes
+Dmitry
