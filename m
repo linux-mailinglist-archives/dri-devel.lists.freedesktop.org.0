@@ -2,61 +2,65 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1F483C4C7E9
-	for <lists+dri-devel@lfdr.de>; Tue, 11 Nov 2025 09:57:04 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id A93CBC4C817
+	for <lists+dri-devel@lfdr.de>; Tue, 11 Nov 2025 10:02:19 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C239310E51F;
-	Tue, 11 Nov 2025 08:57:00 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id F062F10E51D;
+	Tue, 11 Nov 2025 09:02:15 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="fw1WMMyE";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="YZ9dUpoL";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 83F5410E51D;
- Tue, 11 Nov 2025 08:56:59 +0000 (UTC)
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9CA2710E12C;
+ Tue, 11 Nov 2025 09:02:14 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1762851419; x=1794387419;
+ t=1762851735; x=1794387735;
  h=from:to:cc:subject:in-reply-to:references:date:
- message-id:mime-version:content-transfer-encoding;
- bh=HTEmhdFJ+rUJlnS17ycVCj916TLWNWBPgq0iBkIyQVQ=;
- b=fw1WMMyEwhxt5ooYUKVNYR8nxgHoCACXtyI23tgg7i0zxsjEZ6NTZY9M
- AlHrVdaTPHryfvT2fasAlrt9YZg+Ckxgv8X/TG+Y5TKsL1mb/xp06hst8
- Ai/PNbxsMrLGCEQHstFvPodSVDiVBE4mOkPlt1VS2k5CHV+pdSKD99NKu
- kX9+rQOMNWk421srab9SIutRawSZoRmUGge4yisedc4V+12cOsEPG+/VD
- q8PQIhODIeCjnkxLQf01aZ+lFmodYMyKKJYN85W/VczKuWLTaDcfigUbv
- YToGMtbkyDoD0KfKm/jp4Zuc5dtAZInsgrxv4wgv5kUIO6xL8vcoAj9vC Q==;
-X-CSE-ConnectionGUID: aDRw4e7JRzy6/ohB3lgKmg==
-X-CSE-MsgGUID: grqMHIvmQG6L0ZcSljfSyw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11609"; a="64946252"
-X-IronPort-AV: E=Sophos;i="6.19,296,1754982000"; d="scan'208";a="64946252"
-Received: from orviesa006.jf.intel.com ([10.64.159.146])
- by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 11 Nov 2025 00:56:56 -0800
-X-CSE-ConnectionGUID: YP0FqPY8T6ix5PeesNhSBA==
-X-CSE-MsgGUID: 2jXVqgMeQx+e0GO+TeBI1w==
+ message-id:mime-version;
+ bh=f9HzI/+bQ8na/xTvfwlsXScGrbgL7vC3Dz7bjmQQ0fI=;
+ b=YZ9dUpoLCILQltEeQQxKBuqiRjkERx5OgEN0RqUnr0K2OjpIVme0KNKw
+ 4mikirhCqUk+A6nRfMtzkhjIhFdNWIV/kBHcwtv93pbaQM884gJfAe+vG
+ yzeiFFFa7wUV7Gahb6cnjrw+PvZD+CDGk/B44V6ZhpNKwwq7s31wyfhCM
+ IEPo/MCD4EKSNTjmWyTJR1UtIZz0qdqHyUwJGo8eZQqHBe8NuOfrV7F/Q
+ +Eadanr2uJo7nv3Kk19b7wme59WWUySWgocpdboLJCGREQ2iL6DBJ2ikY
+ Hq9GJ02Wyc86POGsFkkDHGzWo46bXPpEbTVs0XYT0F/jhSR92dl28goK3 Q==;
+X-CSE-ConnectionGUID: TRP8GfIkSxqOu9NftG0mDA==
+X-CSE-MsgGUID: krBIgETTTzi2C2dZE6lZtA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11609"; a="68760088"
+X-IronPort-AV: E=Sophos;i="6.19,296,1754982000"; d="scan'208";a="68760088"
+Received: from fmviesa009.fm.intel.com ([10.60.135.149])
+ by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 11 Nov 2025 01:02:14 -0800
+X-CSE-ConnectionGUID: 0MBHKRweRXePxZdclQNHGw==
+X-CSE-MsgGUID: z1GMCsMYS7KNfUoA6UP3HQ==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.19,296,1754982000"; d="scan'208";a="188171972"
+X-IronPort-AV: E=Sophos;i="6.19,296,1754982000"; d="scan'208";a="189346160"
 Received: from mjarzebo-mobl1.ger.corp.intel.com (HELO localhost)
  ([10.245.246.239])
- by orviesa006-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 11 Nov 2025 00:56:55 -0800
+ by fmviesa009-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 11 Nov 2025 01:02:08 -0800
 From: Jani Nikula <jani.nikula@intel.com>
-To: Ville =?utf-8?B?U3lyasOkbMOk?= <ville.syrjala@linux.intel.com>
-Cc: dri-devel@lists.freedesktop.org, intel-gfx@lists.freedesktop.org,
- intel-xe@lists.freedesktop.org, Thomas Zimmermann <tzimmermann@suse.de>
-Subject: Re: [PATCH 23/24] drm/vblank: reduce pipe checks
-In-Reply-To: <aRIk1Q6ivG6temIY@intel.com>
+To: "Borah, Chaitanya Kumar" <chaitanya.kumar.borah@intel.com>, Uma Shankar
+ <uma.shankar@intel.com>, intel-gfx@lists.freedesktop.org,
+ intel-xe@lists.freedesktop.org, dri-devel@lists.freedesktop.org
+Cc: ville.syrjala@linux.intel.com, pekka.paalanen@collabora.com,
+ contact@emersion.fr, harry.wentland@amd.com, mwen@igalia.com,
+ jadahl@redhat.com, sebastian.wick@redhat.com, shashank.sharma@amd.com,
+ swati2.sharma@intel.com, alex.hung@amd.com
+Subject: Re: [v6 15/16] drm/i915/color: Add 3D LUT to color pipeline
+In-Reply-To: <b01cade8-ba63-472a-a95f-bba9af57afbb@intel.com>
 Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-References: <cover.1762791343.git.jani.nikula@intel.com>
- <472777431de3c0f8a8d43e2ee7a55b3a170d138c.1762791343.git.jani.nikula@intel.com>
- <aRIk1Q6ivG6temIY@intel.com>
-Date: Tue, 11 Nov 2025 10:56:51 +0200
-Message-ID: <2a50f09057ac709a360bfbf042a2398d0d1763b1@intel.com>
+References: <20251105123413.2671075-1-uma.shankar@intel.com>
+ <20251105123413.2671075-16-uma.shankar@intel.com>
+ <6a310c6396adb711e5f996136a4f3c813c71e2bc@intel.com>
+ <b01cade8-ba63-472a-a95f-bba9af57afbb@intel.com>
+Date: Tue, 11 Nov 2025 11:02:05 +0200
+Message-ID: <f3d7e6c6aad5e74a2ff515b974ea15fd274970fb@intel.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -72,162 +76,294 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, 10 Nov 2025, Ville Syrj=C3=A4l=C3=A4 <ville.syrjala@linux.intel.com=
-> wrote:
-> On Mon, Nov 10, 2025 at 06:17:41PM +0200, Jani Nikula wrote:
->> Now that drm_vblank_crtc() is the only place that indexes dev->vblank[],
->> and its usage has reduced considerably, add the primary pipe
->> out-of-bounds check there, and return NULL. Expect callers to check it
->> and act accordingly.
->>=20
->> In drm_crtc_vblank_crtc(), warn and return NULL, and let it go boom. If
->> the crtc->pipe is out of bounds, it's a driver error that needs to be
->> fixed.
->>=20
->> Remove superfluous pipe checks all around.
->>=20
->> Signed-off-by: Jani Nikula <jani.nikula@intel.com>
->> ---
->>  drivers/gpu/drm/drm_vblank.c | 36 +++++++++++++++---------------------
->>  1 file changed, 15 insertions(+), 21 deletions(-)
->>=20
->> diff --git a/drivers/gpu/drm/drm_vblank.c b/drivers/gpu/drm/drm_vblank.c
->> index 44fb8d225485..7829e64e42b4 100644
->> --- a/drivers/gpu/drm/drm_vblank.c
->> +++ b/drivers/gpu/drm/drm_vblank.c
->> @@ -177,13 +177,22 @@ MODULE_PARM_DESC(timestamp_precision_usec, "Max. e=
-rror on timestamps [usecs]");
->>  static struct drm_vblank_crtc *
->>  drm_vblank_crtc(struct drm_device *dev, unsigned int pipe)
->>  {
->> +	if (pipe >=3D dev->num_crtcs)
->> +		return NULL;
->> +
->>  	return &dev->vblank[pipe];
->>  }
->>=20=20
->>  struct drm_vblank_crtc *
->>  drm_crtc_vblank_crtc(struct drm_crtc *crtc)
->>  {
->> -	return drm_vblank_crtc(crtc->dev, drm_crtc_index(crtc));
->> +	struct drm_vblank_crtc *vblank;
->> +
->> +	vblank =3D drm_vblank_crtc(crtc->dev, drm_crtc_index(crtc));
->> +	if (drm_WARN_ON(crtc->dev, !vblank))
->> +		return NULL;
->> +
->> +	return vblank;
->>  }
->>  EXPORT_SYMBOL(drm_crtc_vblank_crtc);
->>=20=20
->> @@ -631,7 +640,6 @@ void drm_calc_timestamping_constants(struct drm_crtc=
- *crtc,
->>  				     const struct drm_display_mode *mode)
->>  {
->>  	struct drm_device *dev =3D crtc->dev;
->> -	unsigned int pipe =3D drm_crtc_index(crtc);
->>  	struct drm_vblank_crtc *vblank =3D drm_crtc_vblank_crtc(crtc);
->>  	int linedur_ns =3D 0, framedur_ns =3D 0;
->>  	int dotclock =3D mode->crtc_clock;
->> @@ -639,9 +647,6 @@ void drm_calc_timestamping_constants(struct drm_crtc=
- *crtc,
->>  	if (!drm_dev_has_vblank(dev))
->>  		return;
+On Tue, 11 Nov 2025, "Borah, Chaitanya Kumar" <chaitanya.kumar.borah@intel.com> wrote:
+> On 11/10/2025 5:39 PM, Jani Nikula wrote:
+>> On Wed, 05 Nov 2025, Uma Shankar <uma.shankar@intel.com> wrote:
+>>> From: Chaitanya Kumar Borah <chaitanya.kumar.borah@intel.com>
+>>>
+>>> Add helpers to program the 3D LUT registers and arm them.
+>>>
+>>> Signed-off-by: Chaitanya Kumar Borah <chaitanya.kumar.borah@intel.com>
+>>> Signed-off-by: Uma Shankar <uma.shankar@intel.com>
+>>> ---
+>>>   drivers/gpu/drm/i915/display/intel_color.c    | 57 +++++++++++++++++++
+>>>   drivers/gpu/drm/i915/display/intel_color.h    |  2 +
+>>>   .../drm/i915/display/intel_color_pipeline.c   | 35 +++++++++++-
+>>>   .../drm/i915/display/intel_color_pipeline.h   |  3 +-
+>>>   .../drm/i915/display/intel_display_limits.h   |  1 +
+>>>   .../drm/i915/display/intel_display_types.h    |  2 +-
+>>>   drivers/gpu/drm/i915/display/intel_plane.c    |  2 +
+>>>   7 files changed, 97 insertions(+), 5 deletions(-)
+>>>
+>>> diff --git a/drivers/gpu/drm/i915/display/intel_color.c b/drivers/gpu/drm/i915/display/intel_color.c
+>>> index f290432f3c31..ab9e889ce19f 100644
+>>> --- a/drivers/gpu/drm/i915/display/intel_color.c
+>>> +++ b/drivers/gpu/drm/i915/display/intel_color.c
+>>> @@ -4061,6 +4061,44 @@ xelpd_plane_load_luts(struct intel_dsb *dsb, const struct intel_plane_state *pla
+>>>   		xelpd_program_plane_post_csc_lut(dsb, plane_state);
+>>>   }
+>>>   
+>>> +static u32 glk_3dlut_10(const struct drm_color_lut32 *color)
+>>> +{
+>>> +	return REG_FIELD_PREP(LUT_3D_DATA_RED_MASK, drm_color_lut32_extract(color->red, 10)) |
+>>> +		REG_FIELD_PREP(LUT_3D_DATA_GREEN_MASK, drm_color_lut32_extract(color->green, 10)) |
+>>> +		REG_FIELD_PREP(LUT_3D_DATA_BLUE_MASK, drm_color_lut32_extract(color->blue, 10));
+>>> +}
+>>> +
+>>> +static void glk_load_lut_3d(struct intel_dsb *dsb,
+>>> +			    struct intel_crtc *crtc,
+>>> +			    const struct drm_property_blob *blob)
+>>> +{
+>>> +	struct intel_display *display = to_intel_display(crtc->base.dev);
+>>> +	const struct drm_color_lut32 *lut = blob->data;
+>>> +	int i, lut_size = drm_color_lut32_size(blob);
+>>> +	enum pipe pipe = crtc->pipe;
+>>> +
+>>> +	WARN_ON(intel_de_read(display, LUT_3D_CTL(pipe)) & LUT_3D_READY);
+>> 
+>> Why?
+>> 
+> ...
 >
-> I belive this at least gets called from the atomic helpers even
-> for drivers that don't have vblank support. In which case the
-> drm_crtc_vblank_crtc() call would have to be done after the
-> drm_dev_has_vblank() check or else you'll get spurious WARNs.
+>>> +	intel_de_write_dsb(display, dsb, LUT_3D_INDEX(pipe), LUT_3D_AUTO_INCREMENT);
+>>> +	for (i = 0; i < lut_size; i++)
+>>> +		intel_de_write_dsb(display, dsb, LUT_3D_DATA(pipe), glk_3dlut_10(&lut[i]));
+>>> +	intel_de_write_dsb(display, dsb, LUT_3D_INDEX(pipe), 0);
+>>> +}
+>>> +
+>>> +static void glk_lut_3d_commit(struct intel_dsb *dsb, struct intel_crtc *crtc, bool enable)
+>>> +{
+>>> +	struct intel_display *display = to_intel_display(crtc);
+>>> +	enum pipe pipe = crtc->pipe;
+>>> +	u32 val;
+>>> +
+>>> +	WARN_ON(intel_de_read(display, LUT_3D_CTL(pipe)) & LUT_3D_READY);
+>> 
+>> Why?
+>> 
 >
-> I don't remember if there are other cases like this as well.
+> LUT_3D_READY is cleared off by the HW once the LUT buffer is loaded into 
+> it's internal working RAM.
+>
+> So by the time we reach here (or above) this bit should be cleared off.
+> This warn on was added to indicate if we are writing 3DLUT data while 
+> hardware is still processing previous values.
+>
+> TOL, we should perhaps move it to the state checker in the same commit 
+> or poll on it if there are precendance for doing such thing.
 
-Good catch! Yeah, not all places can be converted to struct
-drm_vblank_crtc. I need to go through these.
+Yeah. The thing I dislike about throwing in random assert type checks
+here and there is that they're incredibly long-lasting and hard to get
+rid of.
 
-There are a handful of places now that grab the vblank pointer (even
-with NULL dev->vblank) and check has vblank afterwards, which is a bit
-iffy. And actually mislead me here.
+In some cases (though unlikely here) you get static analyzer warnings on
+things that are being checked as WARNs but not acted on, and then people
+add error handling on them. Piles and piles of code get added for
+reasons that become completely blurred over time. Especially so when
+there's not even a mention of the reason in the commit message.
 
 BR,
 Jani.
 
->
->>=20=20
->> -	if (drm_WARN_ON(dev, pipe >=3D dev->num_crtcs))
->> -		return;
->> -
->>  	/* Valid dotclock? */
->>  	if (dotclock > 0) {
->>  		int frame_size =3D mode->crtc_htotal * mode->crtc_vtotal;
->> @@ -724,11 +729,6 @@ drm_crtc_vblank_helper_get_vblank_timestamp_interna=
-l(
->>  	int vpos, hpos, i;
->>  	int delta_ns, duration_ns;
->>=20=20
->> -	if (pipe >=3D dev->num_crtcs) {
->> -		drm_err(dev, "Invalid crtc %u\n", pipe);
->> -		return false;
->> -	}
->> -
->>  	/* Scanout position query not supported? Should not happen. */
->>  	if (!get_scanout_position) {
->>  		drm_err(dev, "Called from CRTC w/o get_scanout_position()!?\n");
->> @@ -1339,9 +1339,6 @@ void drm_crtc_vblank_off(struct drm_crtc *crtc)
->>  	ktime_t now;
->>  	u64 seq;
->>=20=20
->> -	if (drm_WARN_ON(dev, pipe >=3D dev->num_crtcs))
->> -		return;
->> -
->>  	/*
->>  	 * Grab event_lock early to prevent vblank work from being scheduled
->>  	 * while we're in the middle of shutting down vblank interrupts
->> @@ -1480,9 +1477,6 @@ void drm_crtc_vblank_on_config(struct drm_crtc *cr=
-tc,
->>  	unsigned int pipe =3D drm_crtc_index(crtc);
->>  	struct drm_vblank_crtc *vblank =3D drm_crtc_vblank_crtc(crtc);
->>=20=20
->> -	if (drm_WARN_ON(dev, pipe >=3D dev->num_crtcs))
->> -		return;
->> -
->>  	spin_lock_irq(&dev->vbl_lock);
->>  	drm_dbg_vbl(dev, "crtc %d, vblank enabled %d, inmodeset %d\n",
->>  		    pipe, vblank->enabled, vblank->inmodeset);
->> @@ -1764,10 +1758,9 @@ int drm_wait_vblank_ioctl(struct drm_device *dev,=
- void *data,
->>  		pipe =3D pipe_index;
->>  	}
->>=20=20
->> -	if (pipe >=3D dev->num_crtcs)
->> -		return -EINVAL;
->> -
->>  	vblank =3D drm_vblank_crtc(dev, pipe);
->> +	if (!vblank)
->> +		return -EINVAL;
->>=20=20
->>  	/* If the counter is currently enabled and accurate, short-circuit
->>  	 * queries to return the cached timestamp of the last vblank.
->> @@ -1902,14 +1895,15 @@ static void drm_handle_vblank_events(struct drm_=
-vblank_crtc *vblank)
->>   */
->>  bool drm_handle_vblank(struct drm_device *dev, unsigned int pipe)
->>  {
->> -	struct drm_vblank_crtc *vblank =3D drm_vblank_crtc(dev, pipe);
->> +	struct drm_vblank_crtc *vblank;
->>  	unsigned long irqflags;
->>  	bool disable_irq;
->>=20=20
->>  	if (drm_WARN_ON_ONCE(dev, !drm_dev_has_vblank(dev)))
->>  		return false;
->>=20=20
->> -	if (drm_WARN_ON(dev, pipe >=3D dev->num_crtcs))
->> +	vblank =3D drm_vblank_crtc(dev, pipe);
->> +	if (drm_WARN_ON(dev, !vblank))
->>  		return false;
->>=20=20
->>  	spin_lock_irqsave(&dev->event_lock, irqflags);
->> --=20
->> 2.47.3
 
---=20
+
+
+
+
+
+
+>
+> ==
+> Chaitanya
+>
+>
+>>> +
+>>> +	if (enable)
+>>> +		val = LUT_3D_ENABLE | LUT_3D_READY | LUT_3D_BIND_PLANE_1;
+>>> +	else
+>>> +		val = 0;
+>>> +	intel_de_write_dsb(display, dsb, LUT_3D_CTL(pipe), val);
+>>> +}
+>>> +
+>>>   static const struct intel_color_funcs chv_color_funcs = {
+>>>   	.color_check = chv_color_check,
+>>>   	.color_commit_arm = i9xx_color_commit_arm,
+>>> @@ -4190,6 +4228,14 @@ static const struct intel_color_funcs ilk_color_funcs = {
+>>>   	.get_config = ilk_get_config,
+>>>   };
+>>>   
+>>> +void intel_color_plane_commit_arm(struct intel_dsb *dsb,
+>>> +				  const struct intel_plane_state *plane_state)
+>>> +{
+>>> +	struct intel_crtc *crtc = to_intel_crtc(plane_state->uapi.crtc);
+>>> +
+>>> +	glk_lut_3d_commit(dsb, crtc, !!plane_state->hw.lut_3d);
+>>> +}
+>>> +
+>>>   static void
+>>>   intel_color_load_plane_csc_matrix(struct intel_dsb *dsb,
+>>>   				  const struct intel_plane_state *plane_state)
+>>> @@ -4210,6 +4256,15 @@ intel_color_load_plane_luts(struct intel_dsb *dsb,
+>>>   		display->funcs.color->load_plane_luts(dsb, plane_state);
+>>>   }
+>>>   
+>>> +static void
+>>> +intel_color_load_3dlut(struct intel_dsb *dsb,
+>>> +		       const struct intel_plane_state *plane_state)
+>>> +{
+>>> +	struct intel_crtc *crtc = to_intel_crtc(plane_state->uapi.crtc);
+>>> +
+>>> +	glk_load_lut_3d(dsb, crtc, plane_state->hw.lut_3d);
+>>> +}
+>>> +
+>>>   void intel_color_plane_program_pipeline(struct intel_dsb *dsb,
+>>>   					const struct intel_plane_state *plane_state)
+>>>   {
+>>> @@ -4217,6 +4272,8 @@ void intel_color_plane_program_pipeline(struct intel_dsb *dsb,
+>>>   		intel_color_load_plane_csc_matrix(dsb, plane_state);
+>>>   	if (plane_state->hw.degamma_lut || plane_state->hw.gamma_lut)
+>>>   		intel_color_load_plane_luts(dsb, plane_state);
+>>> +	if (plane_state->hw.lut_3d)
+>>> +		intel_color_load_3dlut(dsb, plane_state);
+>>>   }
+>>>   
+>>>   void intel_color_crtc_init(struct intel_crtc *crtc)
+>>> diff --git a/drivers/gpu/drm/i915/display/intel_color.h b/drivers/gpu/drm/i915/display/intel_color.h
+>>> index 8051c827a1d8..a70df0c2bd9a 100644
+>>> --- a/drivers/gpu/drm/i915/display/intel_color.h
+>>> +++ b/drivers/gpu/drm/i915/display/intel_color.h
+>>> @@ -43,4 +43,6 @@ bool intel_color_lut_equal(const struct intel_crtc_state *crtc_state,
+>>>   void intel_color_assert_luts(const struct intel_crtc_state *crtc_state);
+>>>   void intel_color_plane_program_pipeline(struct intel_dsb *dsb,
+>>>   					const struct intel_plane_state *plane_state);
+>>> +void intel_color_plane_commit_arm(struct intel_dsb *dsb,
+>>> +				  const struct intel_plane_state *plane_state);
+>>>   #endif /* __INTEL_COLOR_H__ */
+>>> diff --git a/drivers/gpu/drm/i915/display/intel_color_pipeline.c b/drivers/gpu/drm/i915/display/intel_color_pipeline.c
+>>> index b6e6ebdd0dff..fd7d63ce6d9f 100644
+>>> --- a/drivers/gpu/drm/i915/display/intel_color_pipeline.c
+>>> +++ b/drivers/gpu/drm/i915/display/intel_color_pipeline.c
+>>> @@ -12,11 +12,24 @@
+>>>   #define PLANE_DEGAMMA_SIZE 128
+>>>   #define PLANE_GAMMA_SIZE 32
+>>>   
+>>> +static inline bool
+>>> +intel_crtc_has_lut_3d(struct intel_display *display, enum pipe pipe)
+>>> +{
+>>> +	if (DISPLAY_VER(display) >= 12)
+>>> +		return pipe == PIPE_A || pipe == PIPE_B;
+>>> +	else if (DISPLAY_VER(display) >= 10 /*|| IS_GEMINILAKE(display)*/)
+>>> +		return pipe == PIPE_A;
+>>> +	else
+>>> +		return false;
+>>> +}
+>>> +
+>>>   static
+>>> -int _intel_color_pipeline_plane_init(struct drm_plane *plane, struct drm_prop_enum_list *list)
+>>> +int _intel_color_pipeline_plane_init(struct drm_plane *plane, struct drm_prop_enum_list *list,
+>>> +				     enum pipe pipe)
+>>>   {
+>>>   	struct intel_colorop *colorop;
+>>>   	struct drm_device *dev = plane->dev;
+>>> +	struct intel_display *display = to_intel_display(dev);
+>>>   	int ret;
+>>>   	struct drm_colorop *prev_op;
+>>>   
+>>> @@ -36,6 +49,22 @@ int _intel_color_pipeline_plane_init(struct drm_plane *plane, struct drm_prop_en
+>>>   	/* TODO: handle failures and clean up */
+>>>   	prev_op = &colorop->base;
+>>>   
+>>> +	if (DISPLAY_VER(display) >= 35 &&
+>>> +	    intel_crtc_has_lut_3d(display, pipe) &&
+>>> +	    plane->type == DRM_PLANE_TYPE_PRIMARY) {
+>>> +		colorop = intel_colorop_create(INTEL_PLANE_CB_3DLUT);
+>>> +
+>>> +		ret = drm_plane_colorop_3dlut_init(dev, &colorop->base, plane, 17,
+>>> +						   DRM_COLOROP_LUT3D_INTERPOLATION_TETRAHEDRAL,
+>>> +						   true);
+>>> +		if (ret)
+>>> +			return ret;
+>>> +
+>>> +		drm_colorop_set_next_property(prev_op, &colorop->base);
+>>> +
+>>> +		prev_op = &colorop->base;
+>>> +	}
+>>> +
+>>>   	colorop = intel_colorop_create(INTEL_PLANE_CB_CSC);
+>>>   	ret = drm_plane_colorop_ctm_3x4_init(dev, &colorop->base, plane,
+>>>   					     DRM_COLOROP_FLAG_ALLOW_BYPASS);
+>>> @@ -58,7 +87,7 @@ int _intel_color_pipeline_plane_init(struct drm_plane *plane, struct drm_prop_en
+>>>   	return 0;
+>>>   }
+>>>   
+>>> -int intel_color_pipeline_plane_init(struct drm_plane *plane)
+>>> +int intel_color_pipeline_plane_init(struct drm_plane *plane, enum pipe pipe)
+>>>   {
+>>>   	struct drm_device *dev = plane->dev;
+>>>   	struct intel_display *display = to_intel_display(dev);
+>>> @@ -77,7 +106,7 @@ int intel_color_pipeline_plane_init(struct drm_plane *plane)
+>>>   	len++;
+>>>   
+>>>   	/* Add pipeline consisting of transfer functions */
+>>> -	ret = _intel_color_pipeline_plane_init(plane, &pipelines[len]);
+>>> +	ret = _intel_color_pipeline_plane_init(plane, &pipelines[len], pipe);
+>>>   	if (ret)
+>>>   		return ret;
+>>>   	len++;
+>>> diff --git a/drivers/gpu/drm/i915/display/intel_color_pipeline.h b/drivers/gpu/drm/i915/display/intel_color_pipeline.h
+>>> index 7f1d32bc9202..a457d306da7f 100644
+>>> --- a/drivers/gpu/drm/i915/display/intel_color_pipeline.h
+>>> +++ b/drivers/gpu/drm/i915/display/intel_color_pipeline.h
+>>> @@ -7,7 +7,8 @@
+>>>   #define __INTEL_COLOR_PIPELINE_H__
+>>>   
+>>>   struct drm_plane;
+>>> +enum pipe;
+>>>   
+>>> -int intel_color_pipeline_plane_init(struct drm_plane *plane);
+>>> +int intel_color_pipeline_plane_init(struct drm_plane *plane, enum pipe pipe);
+>>>   
+>>>   #endif /* __INTEL_COLOR_PIPELINE_H__ */
+>>> diff --git a/drivers/gpu/drm/i915/display/intel_display_limits.h b/drivers/gpu/drm/i915/display/intel_display_limits.h
+>>> index 55fd574ba313..cb3c9c665c44 100644
+>>> --- a/drivers/gpu/drm/i915/display/intel_display_limits.h
+>>> +++ b/drivers/gpu/drm/i915/display/intel_display_limits.h
+>>> @@ -142,6 +142,7 @@ enum intel_color_block {
+>>>   	INTEL_PLANE_CB_PRE_CSC_LUT,
+>>>   	INTEL_PLANE_CB_CSC,
+>>>   	INTEL_PLANE_CB_POST_CSC_LUT,
+>>> +	INTEL_PLANE_CB_3DLUT,
+>>>   
+>>>   	INTEL_CB_MAX
+>>>   };
+>>> diff --git a/drivers/gpu/drm/i915/display/intel_display_types.h b/drivers/gpu/drm/i915/display/intel_display_types.h
+>>> index d8fe80a55601..50a14f75b727 100644
+>>> --- a/drivers/gpu/drm/i915/display/intel_display_types.h
+>>> +++ b/drivers/gpu/drm/i915/display/intel_display_types.h
+>>> @@ -646,7 +646,7 @@ struct intel_plane_state {
+>>>   		enum drm_color_encoding color_encoding;
+>>>   		enum drm_color_range color_range;
+>>>   		enum drm_scaling_filter scaling_filter;
+>>> -		struct drm_property_blob *ctm, *degamma_lut, *gamma_lut;
+>>> +		struct drm_property_blob *ctm, *degamma_lut, *gamma_lut, *lut_3d;
+>>>   	} hw;
+>>>   
+>>>   	struct i915_vma *ggtt_vma;
+>>> diff --git a/drivers/gpu/drm/i915/display/intel_plane.c b/drivers/gpu/drm/i915/display/intel_plane.c
+>>> index 298f8e186fee..7c230a2832c2 100644
+>>> --- a/drivers/gpu/drm/i915/display/intel_plane.c
+>>> +++ b/drivers/gpu/drm/i915/display/intel_plane.c
+>>> @@ -348,6 +348,8 @@ intel_plane_colorop_replace_blob(struct intel_plane_state *plane_state,
+>>>   		return	drm_property_replace_blob(&plane_state->hw.degamma_lut, blob);
+>>>   	else if (intel_colorop->id == INTEL_PLANE_CB_POST_CSC_LUT)
+>>>   		return drm_property_replace_blob(&plane_state->hw.gamma_lut, blob);
+>>> +	else if (intel_colorop->id == INTEL_PLANE_CB_3DLUT)
+>>> +		return	drm_property_replace_blob(&plane_state->hw.lut_3d, blob);
+>>>   
+>>>   	return false;
+>>>   }
+>> 
+>
+
+-- 
 Jani Nikula, Intel
