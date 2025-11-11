@@ -2,46 +2,48 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 01F7DC4A00D
-	for <lists+dri-devel@lfdr.de>; Tue, 11 Nov 2025 01:53:50 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 05A1CC4A076
+	for <lists+dri-devel@lfdr.de>; Tue, 11 Nov 2025 01:55:21 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5BC5010E36B;
-	Tue, 11 Nov 2025 00:53:48 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4E16D10E385;
+	Tue, 11 Nov 2025 00:55:19 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="LJZvAgs2";
+	dkim=pass (1024-bit key; unprotected) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="0w5geyyp";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from sea.source.kernel.org (sea.source.kernel.org [172.234.252.31])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3C83B10E36B
- for <dri-devel@lists.freedesktop.org>; Tue, 11 Nov 2025 00:53:46 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2F3F810E385
+ for <dri-devel@lists.freedesktop.org>; Tue, 11 Nov 2025 00:55:18 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by sea.source.kernel.org (Postfix) with ESMTP id EAE344074E;
- Tue, 11 Nov 2025 00:53:45 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 89222C4CEFB;
- Tue, 11 Nov 2025 00:53:45 +0000 (UTC)
+ by sea.source.kernel.org (Postfix) with ESMTP id E4D124381B;
+ Tue, 11 Nov 2025 00:55:17 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 706D9C113D0;
+ Tue, 11 Nov 2025 00:55:17 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
- s=korg; t=1762822425;
- bh=kRavFmBcNnNUBWeEZFiNAvVT6t5ZefIdV4zOY2VFu+M=;
+ s=korg; t=1762822517;
+ bh=MeiCOYirxYR3uP+B/dzbVUNE5+aQug5PiSZDwp6VMA0=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=LJZvAgs2jwZ41KUg1oR9PVTBA4qQjSpw4qzuFwWd6Ok9biqbS2/MYfX3AW8VdbqsT
- VYOJptyt7xn22D5lpWERsPp/nV601jv0i5lbQeHufiB12ZayukB1q0Mhg0V3HxuGfn
- eSEbW3uF2B6J7klgHbYYSrBZcIVT2DKT3RbrTnpo=
+ b=0w5geyypRDguODmk9dcDi2AgcqosEDFaopDnjEadgiuSjro63zcyJXAp/p+udKRgH
+ zZaoFuMUdGcFACAVKLC7KIGmHU9dwg63chBB6R1HaBTqTLAmM0I0iUAIiYOwAceHQs
+ yoHdgO7JMoW0OzqWSaUu+T+crf9zfd1EycXm/3i0=
 From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 To: stable@vger.kernel.org
 Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, patches@lists.linux.dev,
  Thomas Zimmermann <tzimmermann@suse.de>,
- Peter Schneider <pschneider1968@googlemail.com>,
- Jocelyn Falempe <jfalempe@redhat.com>, Nick Bowler <nbowler@draconx.ca>,
- Douglas Anderson <dianders@chromium.org>, Dave Airlie <airlied@redhat.com>,
- dri-devel@lists.freedesktop.org
-Subject: [PATCH 6.17 105/849] drm/ast: Clear preserved bits from register
- output value
-Date: Tue, 11 Nov 2025 09:34:35 +0900
-Message-ID: <20251111004538.940185021@linuxfoundation.org>
+ Dan Carpenter <dan.carpenter@linaro.org>,
+ Melissa Wen <melissa.srw@gmail.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, David Airlie <airlied@gmail.com>,
+ Simona Vetter <simona@ffwll.ch>, dri-devel@lists.freedesktop.org,
+ Javier Martinez Canillas <javierm@redhat.com>
+Subject: [PATCH 6.12 066/565] drm/sysfb: Do not dereference NULL pointer in
+ plane reset
+Date: Tue, 11 Nov 2025 09:38:42 +0900
+Message-ID: <20251111004528.430436499@linuxfoundation.org>
 X-Mailer: git-send-email 2.51.2
-In-Reply-To: <20251111004536.460310036@linuxfoundation.org>
-References: <20251111004536.460310036@linuxfoundation.org>
+In-Reply-To: <20251111004526.816196597@linuxfoundation.org>
+References: <20251111004526.816196597@linuxfoundation.org>
 User-Agent: quilt/0.69
 X-stable: review
 X-Patchwork-Hint: ignore
@@ -62,63 +64,56 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-6.17-stable review patch.  If anyone has any objections, please let me know.
+6.12-stable review patch.  If anyone has any objections, please let me know.
 
 ------------------
 
 From: Thomas Zimmermann <tzimmermann@suse.de>
 
-commit a9fb41b5def8e1e0103d5fd1453787993587281e upstream.
+commit 14e02ed3876f4ab0ed6d3f41972175f8b8df3d70 upstream.
 
-Preserve the I/O register bits in __ast_write8_i_masked() as specified
-by preserve_mask. Accidentally OR-ing the output value into these will
-overwrite the register's previous settings.
+The plane state in __drm_gem_reset_shadow_plane() can be NULL. Do not
+deref that pointer, but forward NULL to the other plane-reset helpers.
+Clears plane->state to NULL.
 
-Fixes display output on the AST2300, where the screen can go blank at
-boot. The driver's original commit 312fec1405dd ("drm: Initial KMS
-driver for AST (ASpeed Technologies) 2000 series (v2)") already added
-the broken code. Commit 6f719373b943 ("drm/ast: Blank with VGACR17 sync
-enable, always clear VGACRB6 sync off") triggered the bug.
+v2:
+- fix typo in commit description (Javier)
 
 Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
-Reported-by: Peter Schneider <pschneider1968@googlemail.com>
-Closes: https://lore.kernel.org/dri-devel/a40caf8e-58ad-4f9c-af7f-54f6f69c29bb@googlemail.com/
-Tested-by: Peter Schneider <pschneider1968@googlemail.com>
-Reviewed-by: Jocelyn Falempe <jfalempe@redhat.com>
-Fixes: 6f719373b943 ("drm/ast: Blank with VGACR17 sync enable, always clear VGACRB6 sync off")
-Fixes: 312fec1405dd ("drm: Initial KMS driver for AST (ASpeed Technologies) 2000 series (v2)")
+Fixes: b71565022031 ("drm/gem: Export implementation of shadow-plane helpers")
+Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
+Closes: https://lore.kernel.org/dri-devel/aPIDAsHIUHp_qSW4@stanley.mountain/
 Cc: Thomas Zimmermann <tzimmermann@suse.de>
-Cc: Nick Bowler <nbowler@draconx.ca>
-Cc: Douglas Anderson <dianders@chromium.org>
-Cc: Dave Airlie <airlied@redhat.com>
-Cc: Jocelyn Falempe <jfalempe@redhat.com>
+Cc: Melissa Wen <melissa.srw@gmail.com>
+Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
+Cc: Maxime Ripard <mripard@kernel.org>
+Cc: David Airlie <airlied@gmail.com>
+Cc: Simona Vetter <simona@ffwll.ch>
 Cc: dri-devel@lists.freedesktop.org
-Cc: <stable@vger.kernel.org> # v3.5+
-Link: https://patch.msgid.link/20251024073626.129032-1-tzimmermann@suse.de
+Cc: <stable@vger.kernel.org> # v5.15+
+Reviewed-by: Javier Martinez Canillas <javierm@redhat.com>
+Link: https://patch.msgid.link/20251017091407.58488-1-tzimmermann@suse.de
 Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 ---
- drivers/gpu/drm/ast/ast_drv.h |    8 ++++----
- 1 file changed, 4 insertions(+), 4 deletions(-)
+ drivers/gpu/drm/drm_gem_atomic_helper.c |    8 ++++++--
+ 1 file changed, 6 insertions(+), 2 deletions(-)
 
---- a/drivers/gpu/drm/ast/ast_drv.h
-+++ b/drivers/gpu/drm/ast/ast_drv.h
-@@ -284,13 +284,13 @@ static inline void __ast_write8_i(void _
- 	__ast_write8(addr, reg + 1, val);
- }
- 
--static inline void __ast_write8_i_masked(void __iomem *addr, u32 reg, u8 index, u8 read_mask,
-+static inline void __ast_write8_i_masked(void __iomem *addr, u32 reg, u8 index, u8 preserve_mask,
- 					 u8 val)
+--- a/drivers/gpu/drm/drm_gem_atomic_helper.c
++++ b/drivers/gpu/drm/drm_gem_atomic_helper.c
+@@ -309,8 +309,12 @@ EXPORT_SYMBOL(drm_gem_destroy_shadow_pla
+ void __drm_gem_reset_shadow_plane(struct drm_plane *plane,
+ 				  struct drm_shadow_plane_state *shadow_plane_state)
  {
--	u8 tmp = __ast_read8_i_masked(addr, reg, index, read_mask);
-+	u8 tmp = __ast_read8_i_masked(addr, reg, index, preserve_mask);
- 
--	tmp |= val;
--	__ast_write8_i(addr, reg, index, tmp);
-+	val &= ~preserve_mask;
-+	__ast_write8_i(addr, reg, index, tmp | val);
+-	__drm_atomic_helper_plane_reset(plane, &shadow_plane_state->base);
+-	drm_format_conv_state_init(&shadow_plane_state->fmtcnv_state);
++	if (shadow_plane_state) {
++		__drm_atomic_helper_plane_reset(plane, &shadow_plane_state->base);
++		drm_format_conv_state_init(&shadow_plane_state->fmtcnv_state);
++	} else {
++		__drm_atomic_helper_plane_reset(plane, NULL);
++	}
  }
+ EXPORT_SYMBOL(__drm_gem_reset_shadow_plane);
  
- static inline u32 ast_read32(struct ast_device *ast, u32 reg)
 
 
