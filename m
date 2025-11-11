@@ -2,46 +2,46 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 24943C4DACD
-	for <lists+dri-devel@lfdr.de>; Tue, 11 Nov 2025 13:28:03 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1BFBFC4DAD1
+	for <lists+dri-devel@lfdr.de>; Tue, 11 Nov 2025 13:28:04 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 686F210E582;
-	Tue, 11 Nov 2025 12:28:00 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 50DAE10E569;
+	Tue, 11 Nov 2025 12:28:02 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="TFi8xe2K";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="aFTW6WX3";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B730D10E02D;
- Tue, 11 Nov 2025 12:27:56 +0000 (UTC)
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4462910E56D;
+ Tue, 11 Nov 2025 12:27:58 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1762864077; x=1794400077;
+ t=1762864078; x=1794400078;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=7NmptH2LCRnhyIJyupG4avq6FRBgd39PfdnreF6zDIE=;
- b=TFi8xe2K/4vktLVMZK2MJHYG49+JNWsc5VVM6HQ0gfdMpmH+EEEY5oCy
- xqpRkJg/P2CQEGVwWGp/mPeNDFvweoS7VUVqgWJSvVjOkTUhk+h8BbCfW
- 9N6/LmBfLjmAziz12bnkRPsWVIpXhp/SevXn/J74TfTnjKH6UDba7muT7
- HjocU84B+igep6kTrSc6TXIz8Buv/wdTcco5U8cyOB7wlr/L08uH5TjuA
- bwu2aWiDdTpFA1pORKkl/e4QuS2WyuxyFWIYtRYJhS2xPqNRDxexx2nmf
- ef4Kp2HF8hGsg5vqAuiE3UTdT+6pAbgp8fOkibjerN77r4K5aPSI7IjNQ Q==;
-X-CSE-ConnectionGUID: zClPusAXRZ+evfzuPJdUhg==
-X-CSE-MsgGUID: zBqHkEqEQI2GwSapwHHQ/Q==
-X-IronPort-AV: E=McAfee;i="6800,10657,11609"; a="75606880"
-X-IronPort-AV: E=Sophos;i="6.19,296,1754982000"; d="scan'208";a="75606880"
-Received: from fmviesa007.fm.intel.com ([10.60.135.147])
- by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ bh=EAZPhqK1RMT/qk5MrCQgSpebw1/0a3p3ZrELaAc3EQY=;
+ b=aFTW6WX3Y+R7rEN/RSnGPib8+/q3SRQUooWF0p6NRo/ydgoR01PzMQYf
+ FG1m7LgeXouJBSJYy9iacb6A1DXq4xxBGtEnZppOU4OhBmpqUhhyJkpHH
+ 9or4AsOzdzMY1ebB0tsvTXQHR1s6KkV60pCJLrXSOOQe/05AzZ22oWViv
+ Hx1XbVrKUJ4/Ch7JJoP+tJzxf3dV2madXJXFBJk2CgVwViw+2vmjYYDMc
+ Rxg0TyQoca1QqsDx+90AKFYWc1WaRpdNZiQcontsvwauZkD+1+833Lgzr
+ L6R4piWFOhAAZAMmpzmYvFUhVgmlHy1dxBx4Nyk/F0XPctUg5YpnYWNoE w==;
+X-CSE-ConnectionGUID: zPADOQXUTJi5Ng/FoZYL/w==
+X-CSE-MsgGUID: foGFEztQQ8CK5Xbfmt4grQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11609"; a="82552973"
+X-IronPort-AV: E=Sophos;i="6.19,296,1754982000"; d="scan'208";a="82552973"
+Received: from fmviesa002.fm.intel.com ([10.60.135.142])
+ by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
  11 Nov 2025 04:27:56 -0800
-X-CSE-ConnectionGUID: 2mA0XXKwRcyvJwy0xrWdNg==
-X-CSE-MsgGUID: XLws0vWwRP+2xdWEpmA1HQ==
+X-CSE-ConnectionGUID: Zn0AdvczRVOldKWv1Tt+SQ==
+X-CSE-MsgGUID: DQ9az50KRrCwju9FrTfLVQ==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.19,296,1754982000"; d="scan'208";a="188592907"
+X-IronPort-AV: E=Sophos;i="6.19,296,1754982000"; d="scan'208";a="212343298"
 Received: from black.igk.intel.com ([10.91.253.5])
- by fmviesa007.fm.intel.com with ESMTP; 11 Nov 2025 04:27:49 -0800
+ by fmviesa002.fm.intel.com with ESMTP; 11 Nov 2025 04:27:49 -0800
 Received: by black.igk.intel.com (Postfix, from userid 1003)
- id E57149A; Tue, 11 Nov 2025 13:27:37 +0100 (CET)
+ id EBC3D9B; Tue, 11 Nov 2025 13:27:37 +0100 (CET)
 From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
 To: Corey Minyard <corey@minyard.net>,
  =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
@@ -112,14 +112,13 @@ Cc: Rasmus Villemoes <linux@rasmusvillemoes.dk>,
  Masami Hiramatsu <mhiramat@kernel.org>,
  Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
  Andrew Morton <akpm@linux-foundation.org>
-Subject: [PATCH v2 04/21] dma-buf: Switch to use %ptSp
-Date: Tue, 11 Nov 2025 13:20:04 +0100
-Message-ID: <20251111122735.880607-5-andriy.shevchenko@linux.intel.com>
+Subject: [PATCH v2 05/21] drm/amdgpu: Switch to use %ptSp
+Date: Tue, 11 Nov 2025 13:20:05 +0100
+Message-ID: <20251111122735.880607-6-andriy.shevchenko@linux.intel.com>
 X-Mailer: git-send-email 2.50.1
 In-Reply-To: <20251111122735.880607-1-andriy.shevchenko@linux.intel.com>
 References: <20251111122735.880607-1-andriy.shevchenko@linux.intel.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -139,25 +138,25 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 Use %ptSp instead of open coded variants to print content of
 struct timespec64 in human readable format.
 
-Reviewed-by: Christian König <christian.koenig@amd.com>
 Signed-off-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
 ---
- drivers/dma-buf/sync_debug.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ drivers/gpu/drm/amd/amdgpu/amdgpu_dev_coredump.c | 3 +--
+ 1 file changed, 1 insertion(+), 2 deletions(-)
 
-diff --git a/drivers/dma-buf/sync_debug.c b/drivers/dma-buf/sync_debug.c
-index 67cd69551e42..9e5d662cd4e8 100644
---- a/drivers/dma-buf/sync_debug.c
-+++ b/drivers/dma-buf/sync_debug.c
-@@ -59,7 +59,7 @@ static void sync_print_fence(struct seq_file *s,
- 		struct timespec64 ts64 =
- 			ktime_to_timespec64(fence->timestamp);
+diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_dev_coredump.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_dev_coredump.c
+index 8a026bc9ea44..4e2fe6674db8 100644
+--- a/drivers/gpu/drm/amd/amdgpu/amdgpu_dev_coredump.c
++++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_dev_coredump.c
+@@ -217,8 +217,7 @@ amdgpu_devcoredump_read(char *buffer, loff_t offset, size_t count,
+ 	drm_printf(&p, "version: " AMDGPU_COREDUMP_VERSION "\n");
+ 	drm_printf(&p, "kernel: " UTS_RELEASE "\n");
+ 	drm_printf(&p, "module: " KBUILD_MODNAME "\n");
+-	drm_printf(&p, "time: %lld.%09ld\n", coredump->reset_time.tv_sec,
+-		   coredump->reset_time.tv_nsec);
++	drm_printf(&p, "time: %ptSp\n", &coredump->reset_time);
  
--		seq_printf(s, "@%lld.%09ld", (s64)ts64.tv_sec, ts64.tv_nsec);
-+		seq_printf(s, "@%ptSp", &ts64);
- 	}
- 
- 	seq_printf(s, ": %lld", fence->seqno);
+ 	if (coredump->reset_task_info.task.pid)
+ 		drm_printf(&p, "process_name: %s PID: %d\n",
 -- 
 2.50.1
 
