@@ -2,63 +2,61 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 817EBC4BBC6
-	for <lists+dri-devel@lfdr.de>; Tue, 11 Nov 2025 07:52:44 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6F11EC4BBD5
+	for <lists+dri-devel@lfdr.de>; Tue, 11 Nov 2025 07:54:00 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0DED410E097;
-	Tue, 11 Nov 2025 06:52:42 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C613510E337;
+	Tue, 11 Nov 2025 06:53:58 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; secure) header.d=mailbox.org header.i=@mailbox.org header.b="xAFMq6S5";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="DN22A1Fg";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mout-p-101.mailbox.org (mout-p-101.mailbox.org [80.241.56.151])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CD93F10E097
- for <dri-devel@lists.freedesktop.org>; Tue, 11 Nov 2025 06:52:40 +0000 (UTC)
-Received: from smtp102.mailbox.org (smtp102.mailbox.org [10.196.197.102])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested)
- by mout-p-101.mailbox.org (Postfix) with ESMTPS id 4d5HKK1fsjz9sVh;
- Tue, 11 Nov 2025 07:52:37 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org;
- s=mail20150812; 
- t=1762843957; h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=fy7+wkF0oQv3oCtjE+5B16eRZULzNqc8FDFTQSP8DsI=;
- b=xAFMq6S5K91Awn1CzwfbwM6gkDU8YecjxplnJ9+RK2FygFCof5IcSlmtVESDLw9RAxXHfQ
- Qj2vM+YhHhr0zIAVq5KO9IESZ7PnWaM78uhx7HCOe2yn5HSk2l+EFNjNXvLOIH+ZnCy/PH
- 1WtWJotKx2Maly+UnonpmY/wjKNJfrEOYp0ex20ctpbIHrfC4JKYcqD0tVEX0UYurBZRZY
- zzp6a61rsTXnYZ5KnHZRH3k1ZJq23xjQeW9ifCXIbuAHlRIsCVS1tNkUyR/bNHZVI8O0C4
- 2fzN9tR3mo3eXnHAOP4gosItViM0whSi4IFCjFR3COgUsRWgFv+9iR+LORvxdw==
-Message-ID: <9e74c7a8614591c1f7c08bac1460f7043173c856.camel@mailbox.org>
-Subject: Re: [PATCH] drm/sched: Fix UB in spsc_queue
-From: Philipp Stanner <phasta@mailbox.org>
-To: Christian =?ISO-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>, 
- phasta@kernel.org, David Airlie <airlied@gmail.com>, Simona Vetter
- <simona@ffwll.ch>, Alex Deucher <alexander.deucher@amd.com>, Andrey
- Grodzovsky <Andrey.Grodzovsky@amd.com>, dakr@kernel.org, Matthew Brost
- <matthew.brost@intel.com>
-Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org, 
- stable@vger.kernel.org
-Date: Tue, 11 Nov 2025 07:52:32 +0100
-In-Reply-To: <a3eefc87-2678-4a4d-82c8-f6aedf74be75@amd.com>
-References: <20251110081903.11539-2-phasta@kernel.org>
- <ee63ca7d-77d2-44d8-973b-7276f8c4d4a5@amd.com>
- <ee9fe54f3764bc0ee4ebafe5c10ad4afe748ef19.camel@mailbox.org>
- <2c72eb6e-7792-4212-b06f-5300bc9a42f9@amd.com>
- <987527ead1fe93877139a9ee8b6d2ee55eefa1ee.camel@mailbox.org>
- <05603d39-0aeb-493e-a1ed-8051a99dfc41@amd.com>
- <589a1be140f3c8623a2647b107a1130289eb00ba.camel@mailbox.org>
- <a3eefc87-2678-4a4d-82c8-f6aedf74be75@amd.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1FB1910E337;
+ Tue, 11 Nov 2025 06:53:58 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1762844038; x=1794380038;
+ h=date:from:to:cc:subject:message-id:references:
+ mime-version:in-reply-to;
+ bh=EC2gxUnljDATsyKRjwf6LU4khea07FYDr3Y7yqvUHXQ=;
+ b=DN22A1FgcQmzA0lfRv1jrK6Cn+WglxywwNy9RVB84SA/cwfGct335iVz
+ bPGro+XdRpeDpQ5ekHwBEYDdimQ0OVcohznsDbY0to5KNU85aGqr5oXNy
+ UNK2QDJrnZytoiDv/mnqEg4aNYaJ3pF2ocl9QyYyeWLjoNfDttN1eVTU7
+ GdtJqkzcsM3021xv4k6D2RAnh1OcTMSPnmrco7E9W9NVhagJDIlw+mlrb
+ DagYvH4uiBnPuHQANU6nvs4LKqiiE5oaJIbbQUp5vbKmLL0dC6Ru8iFDO
+ 1YY852dQimiAxmEolJPxrcxfYaemRr8xDrMxfYLXsIZDKCzd/GklWcNv6 g==;
+X-CSE-ConnectionGUID: VEjSg3BMTK+8u338TZv94w==
+X-CSE-MsgGUID: w1TZEFkHRWudKZ5EgLGBXQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11609"; a="65058780"
+X-IronPort-AV: E=Sophos;i="6.19,295,1754982000"; d="scan'208";a="65058780"
+Received: from orviesa005.jf.intel.com ([10.64.159.145])
+ by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 10 Nov 2025 22:53:58 -0800
+X-CSE-ConnectionGUID: 5ScXENYnSbibb+G69kMoLw==
+X-CSE-MsgGUID: IYpuK8w5T/+x+omZ2UJn9g==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.19,295,1754982000"; d="scan'208";a="194075963"
+Received: from lkp-server01.sh.intel.com (HELO 7b01c990427b) ([10.239.97.150])
+ by orviesa005.jf.intel.com with ESMTP; 10 Nov 2025 22:53:56 -0800
+Received: from kbuild by 7b01c990427b with local (Exim 4.96)
+ (envelope-from <lkp@intel.com>) id 1vIiGH-0002sB-1a;
+ Tue, 11 Nov 2025 06:53:53 +0000
+Date: Tue, 11 Nov 2025 14:52:55 +0800
+From: kernel test robot <lkp@intel.com>
+To: Jani Nikula <jani.nikula@intel.com>, dri-devel@lists.freedesktop.org
+Cc: oe-kbuild-all@lists.linux.dev, intel-gfx@lists.freedesktop.org,
+ intel-xe@lists.freedesktop.org, jani.nikula@intel.com,
+ ville.syrjala@linux.intel.com, Thomas Zimmermann <tzimmermann@suse.de>
+Subject: Re: [PATCH 13/24] drm/vblank: pass vblank to
+ drm_vblank_count_and_time()
+Message-ID: <202511111453.UaceJIMy-lkp@intel.com>
+References: <39a203dcc71aa4bfcf349d9c85672a6b9db4201f.1762791343.git.jani.nikula@intel.com>
 MIME-Version: 1.0
-X-MBO-RS-ID: 1effdb85b9b9436c5dd
-X-MBO-RS-META: fcjbgqxjfgnpt3kh36rkzrjh4wufkjus
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <39a203dcc71aa4bfcf349d9c85672a6b9db4201f.1762791343.git.jani.nikula@intel.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -71,69 +69,37 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Reply-To: phasta@kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, 2025-11-10 at 17:08 +0100, Christian K=C3=B6nig wrote:
-> On 11/10/25 16:55, Philipp Stanner wrote:
-> > Lock + head (same cache line) + head->next
-> > head->next->next
-> >=20
-> > when popping:
-> >=20
-> > Lock + head + head->previous
-> > head->previous->previous
-> >=20
-> > I don't see why you need a "current" element when you're always only
-> > touching head or tail.
->=20
-> The current element is the one you insert or remove.
+Hi Jani,
 
-That won't cause a cache miss because you have just created that
-element in the submitting CPU, owning it exclusively.
+kernel test robot noticed the following build warnings:
 
->=20
-> >=20
-> > Now we're speaking mostly the same language :]
-> >=20
-> > If you could RB my DRM TODO patches we'd have a section for drm/sched,
-> > and there we could then soonish add an item for getting rid of spsc.
-> >=20
-> > https://lore.kernel.org/dri-devel/20251107135701.244659-2-phasta@kernel=
-.org/
->=20
-> I can't find that in my inbox anywhere. Can you send it out one more with=
- my AMD mail address on explicit CC? Thanks in advance.
+[auto build test WARNING on next-20251110]
+[cannot apply to drm-intel/for-linux-next drm-intel/for-linux-next-fixes drm-tip/drm-tip drm-misc/drm-misc-next linus/master v6.18-rc5 v6.18-rc4 v6.18-rc3 v6.18-rc5]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-I can see to it. But can't you download the mbox file on the link and
-import it in your mail client?
+url:    https://github.com/intel-lab-lkp/linux/commits/Jani-Nikula/drm-vblank-Unexport-drm_wait_one_vblank/20251111-024823
+base:   next-20251110
+patch link:    https://lore.kernel.org/r/39a203dcc71aa4bfcf349d9c85672a6b9db4201f.1762791343.git.jani.nikula%40intel.com
+patch subject: [PATCH 13/24] drm/vblank: pass vblank to drm_vblank_count_and_time()
+config: openrisc-randconfig-r071-20251111 (https://download.01.org/0day-ci/archive/20251111/202511111453.UaceJIMy-lkp@intel.com/config)
+compiler: or1k-linux-gcc (GCC) 9.5.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251111/202511111453.UaceJIMy-lkp@intel.com/reproduce)
 
-> > Lockless magic should always be justified by real world use cases.
-> >=20
-> > By the way, back when spsc_queue was implemented, how large were the
-> > real world performance gains you meassured by saving that 1 cache line?
->=20
-> That was actually quite a bit. If you want a real world test case use glM=
-ark2 on any modern HW.
->=20
-> And yeah I know how ridicules that is, the problem is that we still have =
-people using this as indicator for the command submission overhead.
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202511111453.UaceJIMy-lkp@intel.com/
 
-If we were living in a world were you'd always need 5 cache lines than
-that would just be the reality. And 5 would already be better than 8.
-So what's the deal? It seems this was not about "too slow" but about
-"faster than".
+All warnings (new ones prefixed by >>):
 
-There's two topics which often make us pay the high price of buggyness
-and low maintainability. One of them being limitless performance
-optimizations.
+>> Warning: drivers/gpu/drm/drm_vblank.c:954 function parameter 'vblank' not described in 'drm_vblank_count_and_time'
+>> Warning: drivers/gpu/drm/drm_vblank.c:954 function parameter 'vblank' not described in 'drm_vblank_count_and_time'
 
-I think that correctness always trumps speed. How happy does it make
-your customer if your driver delivers 5 fps more, but the game crashes
-2 times per hour? (which btw happens to me with Steam on my amd card.
-Sometimes there are even hangs without a reset happening, which is
-strange. I'll open a ticket next time I see it happen).
-
-
-P.
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
