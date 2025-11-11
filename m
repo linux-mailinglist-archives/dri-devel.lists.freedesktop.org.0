@@ -2,48 +2,148 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 85CBCC4F3A6
-	for <lists+dri-devel@lfdr.de>; Tue, 11 Nov 2025 18:21:36 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 79E5DC4F4EB
+	for <lists+dri-devel@lfdr.de>; Tue, 11 Nov 2025 18:49:01 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8290210E344;
-	Tue, 11 Nov 2025 17:21:33 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9D24B10E630;
+	Tue, 11 Nov 2025 17:48:58 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="dGzxIXGt";
+	dkim=pass (1024-bit key; unprotected) header.d=renesas.com header.i=@renesas.com header.b="oUsfT4Af";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
- [213.167.242.64])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BC94710E344
- for <dri-devel@lists.freedesktop.org>; Tue, 11 Nov 2025 17:21:31 +0000 (UTC)
-Received: from pendragon.ideasonboard.com (82-203-161-95.bb.dnainternet.fi
- [82.203.161.95])
- by perceval.ideasonboard.com (Postfix) with UTF8SMTPSA id 204461D29;
- Tue, 11 Nov 2025 18:19:31 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
- s=mail; t=1762881571;
- bh=O8mHQn3liP2UUlM+m+8C3tF9osLYbychnmMSAfVoFLk=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=dGzxIXGtlQ5L+Iapz2cmB+eUbSgZNY7dVy0UcLiiGUG0eP7hLLH5gUYeh9o+lwAKU
- PWYr+Xg9mdInlXCnKvMk9bfBuzWtZGvyj0KpOUJilAMPOdwReU1BngnydP+FN05gbq
- MrbJgZEI03PSVgnUe/cmZKyLWcIN13Mq6iCRmUzg=
-Date: Tue, 11 Nov 2025 19:21:24 +0200
-From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-Cc: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
- Mauro Carvalho Chehab <mchehab@kernel.org>,
- linux-media@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- Duy Nguyen <duy.nguyen.rh@renesas.com>
-Subject: Re: [PATCH] Revert "media: vsp1: Add underrun debug print"
-Message-ID: <20251111172124.GH4270@pendragon.ideasonboard.com>
-References: <20250910-rcar-vsp-underrun-revert-v1-1-2fa8d3b1b879@ideasonboard.com>
- <176286282930.2141792.17722042639840544380@ping.linuxembedded.co.uk>
- <c5ab80df-0d60-4984-ad21-7dd1182b990f@ideasonboard.com>
+Received: from OS0P286CU011.outbound.protection.outlook.com
+ (mail-japanwestazon11010055.outbound.protection.outlook.com [52.101.228.55])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E7E4410E630
+ for <dri-devel@lists.freedesktop.org>; Tue, 11 Nov 2025 17:48:56 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=BvB64nKhZunyj5T4TYw1q1KcGORqkmR2Q5s6YuXgeGbUN9cC6MlmLxmcdAwbAozHLokpab7p/tE+LGWYnwYEIFJt3pzOrbENkYSN/0puilhdJY2U4N4HgZZPv1rqN1gx/P1JDluxl8g+YWOeUIAQAPIFeFFByL9UltgAXGMltwoYTAEs1t1+zC1E6Q05xaTKJdk7dgGr5sFzzDfNo25kSsBTc68U/CaaVuuXbm4/GWWk9/BNFDXSn/QMqQsrea59C59iNBZR0ubLl4vpWSiFF99SHC7EkyEKxCevipUlQrnNqKFJc3EKF0XttTJYL1H285ugWAidXDQfnKSghzCtQQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=ZJ93Zc882msbIgJOr1JIIOpg7Kh5nWIgRSocTSiCMUw=;
+ b=LzqgZ7HLJ+dejUNsgXZrL8tcJIjbUSLzfVKDrkFqCXP2YBK9s7tNC7rNE5RDYbVwZOv75n4p09PPV3u52Sg9BAHabC+LqWDtpc+qId5YJ1aLAtEHlDtxFpvk89uGJPIM9jYwUBqRwrI8bAJGRWXvpDh4gDicVTAbtXXYq4JkNikaevpDkVNtRsSInyjZPip3iFOCapdojTtm1GNEMUwCbHRPDFhdbYsvB7tEUgomlR5WD4yHNfE95z/3//yiUEj2oBcRAaq90Yw46QfNYhc9t56+1w7BGnVSOwCjxU1q8zmk70BbCsKJMaXcC9johA491R9vCOsD2jJchtPZIY5MHw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=renesas.com; dmarc=pass action=none header.from=renesas.com;
+ dkim=pass header.d=renesas.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=renesas.com;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=ZJ93Zc882msbIgJOr1JIIOpg7Kh5nWIgRSocTSiCMUw=;
+ b=oUsfT4Af746Y/SPM72gPJr70FMy1qgx81ET0hD0nPJ88IcbvPP67xhl2KbI3sVZ9secIhH+fmGQ3YMOESej2EqU94uieDU2K+/HIFdHqz88kxmy+5T3SylcQ2fa0nThKt9LcPN3kA6jBIVx1NHBjLsOIOdeqrmZNbVjr0iE3nCc=
+Received: from OS3PR01MB8319.jpnprd01.prod.outlook.com (2603:1096:604:1a2::11)
+ by TY7PR01MB14553.jpnprd01.prod.outlook.com (2603:1096:405:23f::7)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9320.15; Tue, 11 Nov
+ 2025 17:48:54 +0000
+Received: from OS3PR01MB8319.jpnprd01.prod.outlook.com
+ ([fe80::6473:1660:bdc2:c983]) by OS3PR01MB8319.jpnprd01.prod.outlook.com
+ ([fe80::6473:1660:bdc2:c983%6]) with mapi id 15.20.9320.013; Tue, 11 Nov 2025
+ 17:48:53 +0000
+From: Chris Brandt <Chris.Brandt@renesas.com>
+To: Hugo Villeneuve <hugo@hugovil.com>
+CC: Geert Uytterhoeven <geert+renesas@glider.be>, Michael Turquette
+ <mturquette@baylibre.com>, Stephen Boyd <sboyd@kernel.org>, Biju Das
+ <biju.das.jz@bp.renesas.com>, Maarten Lankhorst
+ <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
+ Simona Vetter <simona@ffwll.ch>, Hien Huynh <hien.huynh.px@renesas.com>,
+ Nghia Vo <nghia.vo.zn@renesas.com>, "linux-renesas-soc@vger.kernel.org"
+ <linux-renesas-soc@vger.kernel.org>, "linux-clk@vger.kernel.org"
+ <linux-clk@vger.kernel.org>, "dri-devel@lists.freedesktop.org"
+ <dri-devel@lists.freedesktop.org>
+Subject: RE: [PATCH v4 0/2] Remove hard coded values for MIPI-DSI
+Thread-Topic: [PATCH v4 0/2] Remove hard coded values for MIPI-DSI
+Thread-Index: AQHcTqMq7HmTg5AWsEKO+ner0HLbLrTtvHUAgAAMAXA=
+Date: Tue, 11 Nov 2025 17:48:53 +0000
+Message-ID: <OS3PR01MB8319C8A2BD72FC7787ACFEFA8ACFA@OS3PR01MB8319.jpnprd01.prod.outlook.com>
+References: <20251105222530.979537-1-chris.brandt@renesas.com>
+ <20251111120148.943a0e193a65469a53a0cbc8@hugovil.com>
+In-Reply-To: <20251111120148.943a0e193a65469a53a0cbc8@hugovil.com>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=renesas.com;
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: OS3PR01MB8319:EE_|TY7PR01MB14553:EE_
+x-ms-office365-filtering-correlation-id: 331dd724-d8e3-49ea-3c13-08de214a94b5
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;
+ ARA:13230040|7416014|376014|366016|1800799024|38070700021; 
+x-microsoft-antispam-message-info: =?us-ascii?Q?//WYPVfBEDnVS9y3y6Ly8YHCC3IGrfpegDBXO56kv/z7Yf9ADrA6rbiiVYU9?=
+ =?us-ascii?Q?+WM9y2F6xAAfbfmcM5QDdo6kRpwSYFjwU83t2BlNdMDta9mNvics2s1IpMrY?=
+ =?us-ascii?Q?G96fZabGSygHwkHwumnOutWfzy93670kIFSVSqS7ME1ghxJayxh9e6b23jfo?=
+ =?us-ascii?Q?TeEiHReYm/koSFfMecvq9QlIOJMK+6AVxZQtroCUAkj3ogRyA346n2nnrpdY?=
+ =?us-ascii?Q?CpnLW6O+kzCdg6davQnyn2oajjHrt5TY2nHMdF7NE6kn5ZJS5OxERGrIzIc2?=
+ =?us-ascii?Q?+5XWBWBQRA1nQ25EvdftbzbWIvXtsaH5j6CI6Z7ijpRMjtY41P09nlCckiRu?=
+ =?us-ascii?Q?XlFiSo4T4mJtxpQqF12txvMfdMBzjBtHztB77Sb/wOhOhCDThKw3m4I2rCdB?=
+ =?us-ascii?Q?Tx72mC9EkOSKSxLrVxFH7dbPVqh4iOKzGjAwcDnPtCdMKNaE+aC+zDVH1Bga?=
+ =?us-ascii?Q?LcTHHNqMEUZNBV2edIAK1ogiUR3JTAOIcjFVfxpSI7zNK751MUHYirQASztO?=
+ =?us-ascii?Q?rpIeCvvgyRR7aSlcigMdHsNGgtlpkVnDcY0cgxrWfH/mzNCUqG1fJWD29vWK?=
+ =?us-ascii?Q?o5wp/OEmfwjiiRUz+E6EnRBW99QAx4oUQJFPi/jhokXLk/vXeZP6/5C44vaG?=
+ =?us-ascii?Q?c0DtWgDnisC8oJxVNib2cBd+UlwgmU8kojG2NBMfxhVTSEnnh2e0enx7DODN?=
+ =?us-ascii?Q?u1Z9G0g29utxLpPCQB6KNQrIorwFqY01BpeRxD9PvcM3cO/3VjZzdLKnsr1u?=
+ =?us-ascii?Q?G4VmKh9jfMKTFLv2xdQkUymfHZF8t1UNGxFZz5G0T1QJ43/kZ43nZ8xUfS5X?=
+ =?us-ascii?Q?GeTdd9mV4owuq6PF+wYphYBslkIY3Eod6hHG3dIWtn7MCgpn0HGhQkqTLFG3?=
+ =?us-ascii?Q?uqsE9ZuCRqKo5OVrRB289/uwTn56bKPkFLHJbsUHX+0O4wNgAxvW+ymw0cWT?=
+ =?us-ascii?Q?yjqfsZbAVVbqC7woWSyyI/1ByYnxrWX5D9ut998hLj1tXig3kxxnUM86wOOU?=
+ =?us-ascii?Q?bCl6IzBrQJnjwnGjgk/3YoLSay0BzDcl/oVCtEfCGWVWFtESKnOs5Gt1I/PZ?=
+ =?us-ascii?Q?a7nr2bcTR2Y1gqPGeU/GKIIekTMWN3avr/i7bm1NbWmZfz+bD4ACzdtMUEbI?=
+ =?us-ascii?Q?x5wDFOU7mDHkTanWH29Ec/nLA0RBKTDRMvk+EPNvhvsZusPWKFeqXRWiPcnJ?=
+ =?us-ascii?Q?DsFH33Vu+pzKG3F/7Qw3cDneqyfgEhD+bzs5e/3epebKNAMfOdTDz6ksOuXj?=
+ =?us-ascii?Q?R1hnhk4MSpJPpoMRjy+uXSx1adPYFL+y/vZO4ZqoJX3JAdhEe5szNC7V6k2+?=
+ =?us-ascii?Q?z3z6Ys2tlbmspPFcYR391WUhUTARCnUfNJ1NtExoM0HMi0HFzHNoZ12EnHP0?=
+ =?us-ascii?Q?Oog9SzOf1kyGz+MfPix8aMnDBAaoDiKbbZ9MMcjCPbSJIl1O2KJju8/5SxQO?=
+ =?us-ascii?Q?CS2+5dhkkeBAcjPCCAUkRNrQgKGggoZ3Qrag6mzKyoQVRZh32LMxxlIbmhFb?=
+ =?us-ascii?Q?NwEWyDNn126T+Ux+69TmJB+RERa+G/PlJ8kT?=
+x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:OS3PR01MB8319.jpnprd01.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230040)(7416014)(376014)(366016)(1800799024)(38070700021); DIR:OUT;
+ SFP:1101; 
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: =?us-ascii?Q?rR8bwJTHGswBwSDYqUjfuBPjzp07XOZd4W//mDZljnp3XNXjkEBNhUJ+cg/P?=
+ =?us-ascii?Q?LG5MnMsGwiFPcKiqfTQQ2ijMWumrQERQW+udHu7K/ea6lX6CvDmbxEobGZcq?=
+ =?us-ascii?Q?+hc/I7FtWChM9Th1fvLOHdDTwYMkHmppY2uuHmAAYddZJbXwEOHWR84v2gkC?=
+ =?us-ascii?Q?Dery17/KRvouU/XVUdRSYd0SO7CU9Pi1HHoEgedOy2gIRoTx7C86RYUhG7m2?=
+ =?us-ascii?Q?F4+7rxyrJYVkh2cUoQX6cX6h3iENtNGRkJJwSvLhr+Dzj6HTvtA4iMbAwL4v?=
+ =?us-ascii?Q?yP1q4CXrOVLqM4wstOvx8R9LeugefnesoIQVgvKsr1ZOu3mjmvZNkWkFWN0T?=
+ =?us-ascii?Q?mjQR2C7HALWGyJvf7W9ynhi3bvn0tN/KT0oJd7g7Ri8HVtMe0wJRQ5zAXSZ1?=
+ =?us-ascii?Q?yPpOl8xlToA/K6dJF6UbO8goRK38K/IMxKqr69Kzf/1nXSpBM11XATdWmotS?=
+ =?us-ascii?Q?6ryYvk6yxkYY0rzwpcpdYEmxwnK/8GuAAHPyBptY4feivJBSuhaOkMLY9BXG?=
+ =?us-ascii?Q?V9GPGrdf5OH88GwMfjQWy3fgOmgc6v9yBXIqEyglBaTV92h8UTuTrJZgWJs7?=
+ =?us-ascii?Q?8v9YlDUpRLBFzPU5wREh8/f045bWBEPhOH7GK62GIjOq9Hmv095/Q/EVDB31?=
+ =?us-ascii?Q?PfO5jw6ZYe86ZJnlWHmDwdBhiaOged5fxN3ClICfSHooN/fUrS80Fe4am7vZ?=
+ =?us-ascii?Q?+Rm/VNy7uZR+ABUgAQUtLhXsPvQKJnf+fApXstCrw9eqG0kq2PeAeqjVmkgW?=
+ =?us-ascii?Q?htvAQoAjo+wx1xSpX9QPX0HyAnU6SncnCsQwgFJeQs6ejmTvYwZII0imfCQZ?=
+ =?us-ascii?Q?KOPbdQ+s8KSsHUGH5FkCQMSXh0hX0UKzbgBJ07gWExXyoWgqTu9Wx929Qsbr?=
+ =?us-ascii?Q?V+xKVD9qvCHhaH/iljjytJIuAl/8R2z3UujA/dce9Q8SxZDMtwXWcGmpwX/6?=
+ =?us-ascii?Q?gf1juCRd8Cg91ksrpov+GvSoT3Cg1Hi0yosUmpum5P8gM/8b7ouHnlaFUXWQ?=
+ =?us-ascii?Q?bgoLroOMmldgB4W9L06vv8M1p6vjduJZqQ3TgCujBiqsePx+4qlNRz1Cetc5?=
+ =?us-ascii?Q?megZcdqfUiNMS2aOefYQN7N3olTrPNsMtPi5v9hxmY54yNwua2fplcZdvMot?=
+ =?us-ascii?Q?sha4ewOhEwCmJAyM4wyPVm6Y4THnVfzLNTEf/gs4d+Ux7nfY3rhdEf+RIXRa?=
+ =?us-ascii?Q?LMtOUOS0/wVLSwXUHSzQU7QEpDVOuVKp5ewYHM0OeiwahRYiBjABdZxdlaHg?=
+ =?us-ascii?Q?JCKb9558mtLXmBHikCA7qenpviOGNnwgQ0P9dberX1TkVAuuSUne+UrUaakh?=
+ =?us-ascii?Q?V4/UrkLfUiEh0oIXRTkBIZMYvlbNOuyCThjmGBgWRgSOOCf6tawl0gyK2E7b?=
+ =?us-ascii?Q?M5vmOiZm802CQwR8COYv2DTdegknZrDJdKCDLxmJKR4WoaTulNdzsgRDFCZK?=
+ =?us-ascii?Q?YjHvN6B3OA7gWKI2VUsVsCJSv5OmbP9CSbJavDYZio8ePOvFWNQpPXseIW2N?=
+ =?us-ascii?Q?erfj+u72X5IbF+dF2D2kNy0xmrtwYrYKHpH9YmC4M5k08s93dNDeXVf3fGaG?=
+ =?us-ascii?Q?l//keCyMQ2QkqrJkcc1ZMkW/O+h/L0GAAfgRz+1z?=
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <c5ab80df-0d60-4984-ad21-7dd1182b990f@ideasonboard.com>
+X-OriginatorOrg: renesas.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: OS3PR01MB8319.jpnprd01.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 331dd724-d8e3-49ea-3c13-08de214a94b5
+X-MS-Exchange-CrossTenant-originalarrivaltime: 11 Nov 2025 17:48:53.9271 (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 53d82571-da19-47e4-9cb4-625a166a4a2a
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: S2P27++2qUGb/xjREmnuaLaLdSXUC9qoMXA5JsjQMehCCMFAKxhskv2K3yDny1XpciXrfnv29nSy+deVO4/T77o2oUZxVf3YZkc149tGy6c=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: TY7PR01MB14553
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -59,171 +159,24 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Nov 11, 2025 at 02:23:05PM +0200, Tomi Valkeinen wrote:
-> On 11/11/2025 14:07, Kieran Bingham wrote:
-> > Quoting Tomi Valkeinen (2025-09-10 08:26:43)
-> >> This reverts commit 1dc30075fb0fe02b74b1ea7fd1c1c734a89f1448.
-> >>
-> >> There have been reports of lots of underruns happening on earlier
-> >> generation SoCs (M3, E3) with display use cases, e.g.:
-> >>
-> >> vsp1 fea28000.vsp: Underrun occurred at WPF0 (total underruns 1)
-> >>
-> >> but the display still working fine, and reverting the above commit,
-> >> which added underrun prints, makes the prints go away (obviously).
-> >>
-> >> I made some tests on a remote M3, with no display connected, and I can
-> >> confirm that there seem to be a single underrun report quite often when
-> >> enabling a display, and an underrun flood when using interlace display
-> >> modes.
-> >>
-> >> E3 does not have interlace display support as far as I can see, so the
-> >> interlace issue does not concern it.
-> >>
-> >> Debugging display issues remotely without a display is quite
-> >> challenging, and I did not find any issues in the code, nor could I find
-> >> a way to stop the underruns by twiddling with the related registers.
-> >>
-> >> My pure guess is that the single underruns occurring when starting the
-> >> display hint at either a startup sequence issue, or some kind of initial
-> >> fifo loading issue. The interlace underruns hint at a bigger
-> >> misconfiguration, but as the display works fine, the issue might be just
-> >> an underrun at the start of the frame and the HW quickly catching up, or
-> >> at the end of the frame, where one block in the pipeline expects more
-> >> data but the previous block has already stopped (so maybe a misconfig
-> >> between using interlaced height vs progressive height?).
-> >>
-> >> But at the moment I have no solution to this, and as the displays work
-> >> fine, I think it makes sense to just revert the print.
-> > 
-> > Is there any value in instead 'ignoring' any underruns if say the frame
-> > count is < 5 to ignore startup underruns, and keep it as an active print
-> > if something causes underruns later once the pipeline is established?
-> > 
-> > But maybe that doesn't change much - and if there's no current perceived
-> > issue
-> 
-> A single underrun at enable time could/should probably be ignored, as it
-> might be just issue with the initial fifo filling or such (even then
-> it's a bit annoying, but I've seen some HW docs (not on this platform)
-> telling to ignore such underruns).
-> 
-> But that wouldn't help with the underrun flood for interlace. I think
-> there's a clear issue for ilace here, but I have no idea where exactly.
-> And, the display works fine, so the display controller can recover
-> instantly.
-> 
-> > Anyway, I don't object to this revert. It's low impact and it's only
-> > undoing 'your' work so no one else will complain :D
-> 
-> Yep... I hate disabling error reporting, but I think it's the best
-> option here, at least until someone with the board can debug it
-> properly. In any case, if there are "real" underruns, the error is also
-> visible on the display, you don't need the console print to show it.
+Hi Hugo,
 
-Quoting https://lore.kernel.org/all/1651584010-10156-1-git-send-email-erosca@de.adit-jv.com/
+Thank you for testing.
 
-"A barely noticeable (especially if hardly reproducible) display flicker
-may not be the biggest concern in the development environment. However,
-an automotive OEM will not only notice it, but will also be haunted by
-its phenomenon/nature till it is understood in the greatest detail and
-ultimately eradicated, to avoid impairing user experience.
+On Tue, Nov 11, 2025 12:02 PM, Hugo Villeneuve wrote:
+> I just tested your patchset on kernel 6.17.7, and my display no longer wo=
+rks.
+>
+> Also tested on torvalds/master tree commit 4427259cc7f7, with similar
+> results:
+>
+>     rzg2l-cpg 11010000.clock-controller: hsclk out of range
 
-Troubleshooting the above without the right tools becomes a nightmare."
+I'm pretty sure you are using 4 lanes, and a 24-bit panel, but what is the =
+vclk of your display?
 
-I think we need to get to the bottom of this and fix the root cause,
-unless we receive an explicit acknowledgement from Renesas that underrun
-detection is not desired.
+I want to check out the math.
 
-> > Reviewed-by: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
-> >
-> >> Signed-off-by: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-> >> ---
-> >>  drivers/media/platform/renesas/vsp1/vsp1_drm.c  |  3 ---
-> >>  drivers/media/platform/renesas/vsp1/vsp1_drv.c  | 11 +----------
-> >>  drivers/media/platform/renesas/vsp1/vsp1_pipe.h |  2 --
-> >>  drivers/media/platform/renesas/vsp1/vsp1_regs.h |  2 --
-> >>  4 files changed, 1 insertion(+), 17 deletions(-)
-> >>
-> >> diff --git a/drivers/media/platform/renesas/vsp1/vsp1_drm.c b/drivers/media/platform/renesas/vsp1/vsp1_drm.c
-> >> index 15d266439564..b8f211db16fc 100644
-> >> --- a/drivers/media/platform/renesas/vsp1/vsp1_drm.c
-> >> +++ b/drivers/media/platform/renesas/vsp1/vsp1_drm.c
-> >> @@ -721,9 +721,6 @@ int vsp1_du_setup_lif(struct device *dev, unsigned int pipe_index,
-> >>                 return 0;
-> >>         }
-> >>  
-> >> -       /* Reset the underrun counter */
-> >> -       pipe->underrun_count = 0;
-> >> -
-> >>         drm_pipe->width = cfg->width;
-> >>         drm_pipe->height = cfg->height;
-> >>         pipe->interlaced = cfg->interlaced;
-> >> diff --git a/drivers/media/platform/renesas/vsp1/vsp1_drv.c b/drivers/media/platform/renesas/vsp1/vsp1_drv.c
-> >> index b8d06e88c475..68e92d3c5915 100644
-> >> --- a/drivers/media/platform/renesas/vsp1/vsp1_drv.c
-> >> +++ b/drivers/media/platform/renesas/vsp1/vsp1_drv.c
-> >> @@ -47,8 +47,7 @@
-> >>  
-> >>  static irqreturn_t vsp1_irq_handler(int irq, void *data)
-> >>  {
-> >> -       u32 mask = VI6_WPF_IRQ_STA_DFE | VI6_WPF_IRQ_STA_FRE |
-> >> -                  VI6_WPF_IRQ_STA_UND;
-> >> +       u32 mask = VI6_WPF_IRQ_STA_DFE | VI6_WPF_IRQ_STA_FRE;
-> >>         struct vsp1_device *vsp1 = data;
-> >>         irqreturn_t ret = IRQ_NONE;
-> >>         unsigned int i;
-> >> @@ -63,14 +62,6 @@ static irqreturn_t vsp1_irq_handler(int irq, void *data)
-> >>                 status = vsp1_read(vsp1, VI6_WPF_IRQ_STA(i));
-> >>                 vsp1_write(vsp1, VI6_WPF_IRQ_STA(i), ~status & mask);
-> >>  
-> >> -               if ((status & VI6_WPF_IRQ_STA_UND) && wpf->entity.pipe) {
-> >> -                       wpf->entity.pipe->underrun_count++;
-> >> -
-> >> -                       dev_warn_ratelimited(vsp1->dev,
-> >> -                               "Underrun occurred at WPF%u (total underruns %u)\n",
-> >> -                               i, wpf->entity.pipe->underrun_count);
-> >> -               }
-> >> -
-> >>                 if (status & VI6_WPF_IRQ_STA_DFE) {
-> >>                         vsp1_pipeline_frame_end(wpf->entity.pipe);
-> >>                         ret = IRQ_HANDLED;
-> >> diff --git a/drivers/media/platform/renesas/vsp1/vsp1_pipe.h b/drivers/media/platform/renesas/vsp1/vsp1_pipe.h
-> >> index 7f623b8cbe5c..9cc2f1646b00 100644
-> >> --- a/drivers/media/platform/renesas/vsp1/vsp1_pipe.h
-> >> +++ b/drivers/media/platform/renesas/vsp1/vsp1_pipe.h
-> >> @@ -137,8 +137,6 @@ struct vsp1_pipeline {
-> >>  
-> >>         unsigned int partitions;
-> >>         struct vsp1_partition *part_table;
-> >> -
-> >> -       u32 underrun_count;
-> >>  };
-> >>  
-> >>  void vsp1_pipeline_reset(struct vsp1_pipeline *pipe);
-> >> diff --git a/drivers/media/platform/renesas/vsp1/vsp1_regs.h b/drivers/media/platform/renesas/vsp1/vsp1_regs.h
-> >> index 10cfbcd1b6e0..188d26289714 100644
-> >> --- a/drivers/media/platform/renesas/vsp1/vsp1_regs.h
-> >> +++ b/drivers/media/platform/renesas/vsp1/vsp1_regs.h
-> >> @@ -32,12 +32,10 @@
-> >>  #define VI6_STATUS_SYS_ACT(n)          BIT((n) + 8)
-> >>  
-> >>  #define VI6_WPF_IRQ_ENB(n)             (0x0048 + (n) * 12)
-> >> -#define VI6_WPF_IRQ_ENB_UNDE           BIT(16)
-> >>  #define VI6_WPF_IRQ_ENB_DFEE           BIT(1)
-> >>  #define VI6_WPF_IRQ_ENB_FREE           BIT(0)
-> >>  
-> >>  #define VI6_WPF_IRQ_STA(n)             (0x004c + (n) * 12)
-> >> -#define VI6_WPF_IRQ_STA_UND            BIT(16)
-> >>  #define VI6_WPF_IRQ_STA_DFE            BIT(1)
-> >>  #define VI6_WPF_IRQ_STA_FRE            BIT(0)
-> >>  
-> >>
-> >> ---
-> >> base-commit: 76eeb9b8de9880ca38696b2fb56ac45ac0a25c6c
-> >> change-id: 20250908-rcar-vsp-underrun-revert-f3e64612c62d
+Thank you,
+Chris
 
--- 
-Regards,
-
-Laurent Pinchart
