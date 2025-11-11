@@ -2,46 +2,46 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 46E43C4F049
-	for <lists+dri-devel@lfdr.de>; Tue, 11 Nov 2025 17:23:48 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9BDD5C4F04C
+	for <lists+dri-devel@lfdr.de>; Tue, 11 Nov 2025 17:23:49 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 88DE110E605;
-	Tue, 11 Nov 2025 16:23:43 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0A1C610E607;
+	Tue, 11 Nov 2025 16:23:44 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="boOjrTEB";
+	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="O/aVePhS";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from bali.collaboradmins.com (bali.collaboradmins.com
  [148.251.105.195])
- by gabe.freedesktop.org (Postfix) with ESMTPS id AAC5810E605
- for <dri-devel@lists.freedesktop.org>; Tue, 11 Nov 2025 16:23:41 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2AE7110E342
+ for <dri-devel@lists.freedesktop.org>; Tue, 11 Nov 2025 16:23:42 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
  s=mail; t=1762878220;
- bh=8zcmj9BvwIMYd16A8xrYlIZH0evnYqLh7yqL/DtaYP4=;
+ bh=yxPPNdLuBpu5VHtj2V0Tc1GS3sAseQxyJz6E8RFBUqA=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=boOjrTEBBhntQM9QEDFMXb3M1ZR75iGOP730kHJqbSBib+ooTmkmj1X8trzBNO7us
- 6zLIT0cjZETxgOVSBgm6R9D774+eHtiCmwQTMBDoiIho8+vWS2raoHl2esX2q5Ll8E
- DoNwLwyMuiSAocV7xqUOArECOteXHxuEXhO9eUzCJEQKotWfQDUfH/+wU7hmhkRSyR
- JIEEC/F2mrXAKx1e/mwWBt19ZZ0RVSoqPuuCPINx7N5aFKzuXijPHp7zG+gpxGXnyV
- dHbZBkBLSceJ9sYLKUkr3TF1gFWJrQIurDJtceXvHjHY6RlDr2HSRe2NbfF0CCy9/L
- V6QeFaMf+yOfw==
+ b=O/aVePhSMYnLXFPLZOM7mhlq5WQpm+S3PECvm8VfLSmbIM4bj+WcNwDQawduMcrdV
+ yjucv6EjwMYXGuZkkXEGAZHepqKV44XIiVDHMDEm2s/VXwgnIdrI8rpZee19i34gFS
+ zCZSqRu6OzuU6fQrLdzmp+Oz7qy77+nu+Dl7+vPrFpRGmmUJuU5pQWwBJfweWEuVfg
+ OJAHNJLmk5kEvjgnyGN0Gb8iZQVB5gy71YsC6cUi/T7KsRSNP8NOPGV4LkTvTs7Rh5
+ blm4Cl0/jxewtUBxKUEUqHBCaQQo8ScNCPd3NRapycemHFMw5kpI4cr7SerySRwDh1
+ 2SiyY4fiPw1MA==
 Received: from localhost.localdomain (unknown
  [IPv6:2a02:2f08:eb0f:ad00:ce0:1b50:8618:f920])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
  (No client certificate requested) (Authenticated sender: mvlad)
- by bali.collaboradmins.com (Postfix) with ESMTPSA id EB73117E1340;
- Tue, 11 Nov 2025 17:23:39 +0100 (CET)
+ by bali.collaboradmins.com (Postfix) with ESMTPSA id 73CB217E1389;
+ Tue, 11 Nov 2025 17:23:40 +0100 (CET)
 From: Marius Vlad <marius.vlad@collabora.com>
 To: dri-devel@lists.freedesktop.org
 Cc: dmitry.baryshkov@oss.qualcomm.com, tzimmermann@suse.de,
  simona.vetter@ffwll.ch, jani.nikula@linux.intel.com,
  ian.forbes@broadcom.com, louis.chauvet@bootlin.com,
  daniel.stone@collabora.com
-Subject: [PATCH 1/4] drm: Introduce a new connector status
-Date: Tue, 11 Nov 2025 18:23:35 +0200
-Message-ID: <20251111162338.15141-2-marius.vlad@collabora.com>
+Subject: [PATCH 2/4] drm: Propagate connector status change
+Date: Tue, 11 Nov 2025 18:23:36 +0200
+Message-ID: <20251111162338.15141-3-marius.vlad@collabora.com>
 X-Mailer: git-send-email 2.47.2
 In-Reply-To: <20251111162338.15141-1-marius.vlad@collabora.com>
 References: <20251111162338.15141-1-marius.vlad@collabora.com>
@@ -62,128 +62,59 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Introduce a new boolean variable used to track connector's
-connect/disconnect status and it is being used on both polling and the
-HPD (Hot Plug Detect) paths.
+On the HPD (Hot Plug Detect) path this change makes use of the connector
+status to notify all connectors, rather than just first one found that
+suffered a status change.
 
-A subsequent change would make use of this connector status to propagate
-per-connector udev hotplug events.
-
-The connector status is set in the drm_connector_funcs.fill_modes/vkms
-ConfigFS connector's status and cleared out when firing out KMS uevents.
-
-Allows user-space to receive the connector's ID, rather than having a
-generic hot-plug event for all connectors, or in the HPD path, just the
-first one found with a connection status change.
+Similarly on the polling side, this also takes into consideration
+sending per-connector udev hotplug events.
 
 Signed-off-by: Marius Vlad <marius.vlad@collabora.com>
 ---
- drivers/gpu/drm/drm_connector.c      |  1 +
- drivers/gpu/drm/drm_probe_helper.c   | 17 +++++++++++++++++
- drivers/gpu/drm/drm_sysfs.c          |  1 +
- drivers/gpu/drm/vkms/vkms_configfs.c |  6 ++++++
- include/drm/drm_connector.h          |  3 +++
- 5 files changed, 28 insertions(+)
+ drivers/gpu/drm/drm_probe_helper.c | 22 +++++++++++++++++-----
+ 1 file changed, 17 insertions(+), 5 deletions(-)
 
-diff --git a/drivers/gpu/drm/drm_connector.c b/drivers/gpu/drm/drm_connector.c
-index 272d6254ea47..3c6628ee3096 100644
---- a/drivers/gpu/drm/drm_connector.c
-+++ b/drivers/gpu/drm/drm_connector.c
-@@ -274,6 +274,7 @@ static int drm_connector_init_only(struct drm_device *dev,
- 
- 	/* provide ddc symlink in sysfs */
- 	connector->ddc = ddc;
-+	connector->status_changed = false;
- 
- 	INIT_LIST_HEAD(&connector->head);
- 	INIT_LIST_HEAD(&connector->global_connector_list_entry);
 diff --git a/drivers/gpu/drm/drm_probe_helper.c b/drivers/gpu/drm/drm_probe_helper.c
-index 09b12c30df69..f0474368e98d 100644
+index f0474368e98d..63960f589b6b 100644
 --- a/drivers/gpu/drm/drm_probe_helper.c
 +++ b/drivers/gpu/drm/drm_probe_helper.c
-@@ -629,6 +629,8 @@ int drm_helper_probe_single_connector_modes(struct drm_connector *connector,
- 			mod_delayed_work(system_wq,
- 					 &dev->mode_config.output_poll_work,
- 					 0);
-+
-+		connector->status_changed = true;
- 	}
+@@ -861,8 +861,14 @@ static void output_poll_execute(struct work_struct *work)
+ 	mutex_unlock(&dev->mode_config.mutex);
  
- 	/*
-@@ -732,6 +734,17 @@ EXPORT_SYMBOL(drm_helper_probe_single_connector_modes);
-  */
- void drm_kms_helper_hotplug_event(struct drm_device *dev)
- {
-+	struct drm_connector *connector;
-+	struct drm_connector_list_iter conn_iter;
-+
-+	mutex_lock(&dev->mode_config.mutex);
-+	drm_connector_list_iter_begin(dev, &conn_iter);
-+	drm_for_each_connector_iter(connector, &conn_iter) {
-+		connector->status_changed = false;
+ out:
+-	if (changed)
+-		drm_kms_helper_hotplug_event(dev);
++	if (changed) {
++		drm_connector_list_iter_begin(dev, &conn_iter);
++		drm_for_each_connector_iter(connector, &conn_iter) {
++			if (connector->status_changed)
++				drm_kms_helper_connector_hotplug_event(connector);
++		}
++		drm_connector_list_iter_end(&conn_iter);
 +	}
-+	drm_connector_list_iter_end(&conn_iter);
-+	mutex_unlock(&dev->mode_config.mutex);
-+
- 	drm_sysfs_hotplug_event(dev);
- 	drm_client_dev_hotplug(dev);
- }
-@@ -748,6 +761,10 @@ void drm_kms_helper_connector_hotplug_event(struct drm_connector *connector)
- {
- 	struct drm_device *dev = connector->dev;
  
-+	mutex_lock(&dev->mode_config.mutex);
-+	connector->status_changed = false;
-+	mutex_unlock(&dev->mode_config.mutex);
-+
- 	drm_sysfs_connector_hotplug_event(connector);
- 	drm_client_dev_hotplug(dev);
- }
-diff --git a/drivers/gpu/drm/drm_sysfs.c b/drivers/gpu/drm/drm_sysfs.c
-index b01ffa4d6509..bd9161490116 100644
---- a/drivers/gpu/drm/drm_sysfs.c
-+++ b/drivers/gpu/drm/drm_sysfs.c
-@@ -199,6 +199,7 @@ static ssize_t status_store(struct device *device,
- 		return ret;
+ 	if (repoll)
+ 		schedule_delayed_work(delayed_work, DRM_OUTPUT_POLL_PERIOD);
+@@ -1124,10 +1130,16 @@ bool drm_helper_hpd_irq_event(struct drm_device *dev)
+ 	drm_connector_list_iter_end(&conn_iter);
+ 	mutex_unlock(&dev->mode_config.mutex);
  
- 	old_force = connector->force;
-+	connector->status_changed = true;
+-	if (changed == 1)
++	if (changed == 1) {
+ 		drm_kms_helper_connector_hotplug_event(first_changed_connector);
+-	else if (changed > 0)
+-		drm_kms_helper_hotplug_event(dev);
++	} else if (changed > 0) {
++		drm_connector_list_iter_begin(dev, &conn_iter);
++		drm_for_each_connector_iter(connector, &conn_iter) {
++			if (connector->status_changed)
++				drm_kms_helper_connector_hotplug_event(connector);
++		}
++		drm_connector_list_iter_end(&conn_iter);
++	}
  
- 	if (sysfs_streq(buf, "detect"))
- 		connector->force = 0;
-diff --git a/drivers/gpu/drm/vkms/vkms_configfs.c b/drivers/gpu/drm/vkms/vkms_configfs.c
-index 506666e21c91..6d6dd1a2c3a6 100644
---- a/drivers/gpu/drm/vkms/vkms_configfs.c
-+++ b/drivers/gpu/drm/vkms/vkms_configfs.c
-@@ -537,8 +537,14 @@ static ssize_t connector_status_store(struct config_item *item,
- {
- 	struct vkms_configfs_connector *connector;
- 	enum drm_connector_status status;
-+	struct vkms_connector *vkms_connector;
-+	struct vkms_device *vkms_dev;
- 
- 	connector = connector_item_to_vkms_configfs_connector(item);
-+	vkms_connector = connector->config->connector;
-+	vkms_dev = connector->config->config->dev;
-+	scoped_guard(mutex, &vkms_dev->drm.mode_config.mutex)
-+		vkms_connector->base.status_changed = true;
- 
- 	if (kstrtouint(page, 10, &status))
- 		return -EINVAL;
-diff --git a/include/drm/drm_connector.h b/include/drm/drm_connector.h
-index 8f34f4b8183d..e4310df3d55c 100644
---- a/include/drm/drm_connector.h
-+++ b/include/drm/drm_connector.h
-@@ -2146,6 +2146,9 @@ struct drm_connector {
- 	/** @force: a DRM_FORCE_<foo> state for forced mode sets */
- 	enum drm_connector_force force;
- 
-+	/** @status_changed: if the old status doesn't match current connection status */
-+	bool status_changed;
-+
- 	/**
- 	 * @edid_override: Override EDID set via debugfs.
- 	 *
+ 	if (first_changed_connector)
+ 		drm_connector_put(first_changed_connector);
 -- 
 2.47.2
 
