@@ -2,78 +2,141 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1975EC4F379
-	for <lists+dri-devel@lfdr.de>; Tue, 11 Nov 2025 18:17:06 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id A1D89C4F34E
+	for <lists+dri-devel@lfdr.de>; Tue, 11 Nov 2025 18:13:38 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 65B0910E621;
-	Tue, 11 Nov 2025 17:17:03 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 32CC510E619;
+	Tue, 11 Nov 2025 17:13:32 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="HphOeyGL";
+	dkim=pass (2048-bit key; unprotected) header.d=Nvidia.com header.i=@Nvidia.com header.b="WXFB7cmI";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pj1-f44.google.com (mail-pj1-f44.google.com
- [209.85.216.44])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E99CB10E06B
- for <dri-devel@lists.freedesktop.org>; Tue, 11 Nov 2025 11:37:33 +0000 (UTC)
-Received: by mail-pj1-f44.google.com with SMTP id
- 98e67ed59e1d1-343774bd9b4so2450904a91.2
- for <dri-devel@lists.freedesktop.org>; Tue, 11 Nov 2025 03:37:33 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1762861053; x=1763465853; darn=lists.freedesktop.org;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:from:to:cc:subject:date:message-id:reply-to;
- bh=UKj1IvLy5c2i5aotV94CJILL6XNH/z+FL6hHNrbGtSM=;
- b=HphOeyGLq/e9gsmBDUrQnxSbbmL13YZpqa9QyUgOgRVhRL/CUcYIEJrIjqRErw7v9E
- 7RiNuWMgNuGXFvC80oHydU6kN0wvGeOk8m6lmLzb492dEL1LGhyDV+lHtfSpblX+xUeP
- zliD+YQFGZ2OwW2xDkiPQcJr9DG/kDyQem0HdDt3VKnI1ieedmOYPZJiXPXNSgkFXLBE
- lQa29Dppr2aqNp2ORnM6Kn9dr1NdAZjKSJTX5YZQWIgf1LGyH8R22eVajYXyUt9Yd1eT
- z1hvSrlvznQ516ZJQYkpJVE36dsnaxEmNpV5fKe1f3rAiQ5MUvIxb6rBXhTZMl9jSPCj
- 29pQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1762861053; x=1763465853;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=UKj1IvLy5c2i5aotV94CJILL6XNH/z+FL6hHNrbGtSM=;
- b=lzmmB/slt9IBlU9vB55c1/Kar8/zVoIBSxnsA0vUa/o9gtzNOXzax0EaW6/KjzFqe3
- Yky5mhcjDwvx57MwlAEadfRTEERrE0VkDo2akxSV79e2sbhb3JHlVKe4MvHLSURSAxtR
- +4aF8GlSlCW5Uwe7pJW2/tY/JktwXkGOc2v8Yd9lbhdNzwOfFbKEa2P+2we4i9e7l5tt
- CE9nkAva2tcdD7gEkNDymAumVepfCKu5EuUZfWjHc9L9qXw6LHesJ5NpQ30e4bEmpe+r
- RK98xaD8CuM1IAuzvcesGTvTkYOwh7iWAlUtyFtTgCiS1icJWBDn5jeS/iMzEZ10Ei5u
- aLGg==
-X-Gm-Message-State: AOJu0YyJYlISUVxOJAV/zpBWtgak/2hwexELUyzPv6EPyRn3IrdgNCjn
- 1LmkVwu3D6cTdX4Ge+THXLp+h4+koDr5zSzI8aMPNX5KwbzwhBdZ8J7I
-X-Gm-Gg: ASbGncutXlpAe/qSaeJAALsutr8rJQEaEF1TbflQZDe6RNrZ6qL8bfRI0WAA5p20zGt
- NMRWVFTkLvhO1sfcYB1zaiX97Tas2nYbLhwPx08PxuLWLIWOFRgkbcfjndwa54LDPS7tkGq/Fmm
- VIBcrLSmA8D0hQKEiUBaoxpMs7p1DeUmvR041IFFmx3OblQ69sWf0C369j+qsXl6l5wpLUSfULo
- ZSdnSUlxTI6oXKyFuLFRnAKaKX1BWKkwnYk6RC1RGaqwHxdlg1YGRuURiJyatK2M3jebvX0wZ8j
- YiolzzxbORzFHlu3e6wBulu1HlBOz2bNBHvFvsMuAXVgyps7CetBOo9k+tSanCPjOYL5zkpkgnQ
- GqtfPOWs4Vt6mMLxIwxHE1ysCPFm33zlqKq/y5zQfKF69tPLWtRE1h5dCvbG5hhtvwPTRnKCIPg
- F7B2OSjLA3Q3ixPTV5BbttkU0Q9Sta
-X-Google-Smtp-Source: AGHT+IGjxi0V+gnnbb+bhG8XDgM5LZDOYM3GDNlnKgiYoSvZUnLKPh+1D38yKt7FiZfh6R6R+84haQ==
-X-Received: by 2002:a17:90b:2fcd:b0:32e:64ca:e84e with SMTP id
- 98e67ed59e1d1-3436cb227c9mr13365843a91.15.1762861053348; 
- Tue, 11 Nov 2025 03:37:33 -0800 (PST)
-Received: from rahul-mintos.ban-spse ([165.204.156.251])
- by smtp.gmail.com with ESMTPSA id
- 41be03b00d2f7-ba902c9d0d4sm15048526a12.36.2025.11.11.03.37.30
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 11 Nov 2025 03:37:33 -0800 (PST)
-From: Abhishek Rajput <abhiraj21put@gmail.com>
-To: liviu.dudau@arm.com, maarten.lankhorst@linux.intel.com, mripard@kernel.org,
- tzimmermann@suse.de, airlied@gmail.com, simona@ffwll.ch
-Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- abhiraj21put@gmail.com
-Subject: [PATCH] drm/komeda: Convert logging in d71_component.c to drm_* with
- drm_device parameter
-Date: Tue, 11 Nov 2025 17:07:17 +0530
-Message-ID: <20251111113717.139401-1-abhiraj21put@gmail.com>
-X-Mailer: git-send-email 2.43.0
-MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
+Received: from BYAPR05CU005.outbound.protection.outlook.com
+ (mail-westusazon11010068.outbound.protection.outlook.com [52.101.85.68])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3534810E610;
+ Tue, 11 Nov 2025 17:13:30 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=ZTZx/F5JgleK+Y+vsJ2enLvu5rzixX1ArLVXnIX22uaKMwZiEMMx9mCt/mvFS4DNMSt9qDC/D9+uxqzn37LNEzqBAxwqBo6M3FAe2pc8UtpdIZYxBgT7JVJyA3QdP9XA6DTJPDI/Hi9wUdY+tCKgZSODc+dYrQjcUCHbA2TANa7OzzrZ22OK/ZgdleOn+LNsOmja1s0oD7M98nwG1h3lRIu+/9yz+a5aN/TCNMD7KRqZf0+tYu4L3yB7wXWapgxJh5nWcKVTd3lNyeMC1nEPV0i/qSSRPrAI8D1aZH7DoF9NQOSCCoFPCTH5YTGpU6RQLvziUUAujxlZ7mFyvklRpw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=R2XmfnR6AeRRa02lZxlBdXkTXQ42eLuqGF6x1gwGbH8=;
+ b=lLs/vVXBr1CWZRVArN99nspKppIOlePAvHUprD+hUGHL55RccdxJdrtWyweu/N7eSeHMg90RhtEU/96NcU4B55F+e0I5zwaOKp/zUVWfQ6rFa/d9QqF9X2g5osjsq/iEjNdAbr2yiYyIEbaOubEYcSuAGxfhYheDR4XDfhe7IoQNfzGNBkhzmUgmveXg9zk1TvovkkJHWIoEXtSfYtFvn637DjJdoStZ2yJZ7YvMLlvDMuGMiw8mS3b+44oZno+HtnMNd2OsUcGG6x/uE1jYaYMw2TlO9PCsaTR/jUH4tTATFavDS1CVPPJmwCk+czGgb8w4Hv70cYo2CYtDsCqSIw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
+ dkim=pass header.d=nvidia.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=R2XmfnR6AeRRa02lZxlBdXkTXQ42eLuqGF6x1gwGbH8=;
+ b=WXFB7cmIuUUW1uyVDwvgQaN0ZgHuP/KnUyKQaahY0iVNysCs5JycHm7jROkXemR12/KTaKfvMZdfuWrIIAB58J4Y5J53GhTTVEw2tS1yJkfXvJ6ZdgFSK00Lv/3v+39q/wbd68CzJ5aTutx4o56qLgvcXxWAFARncgjk21teZWzCOmcocapCtaNxGM8DgJLmItgY0DiUX3eA5LaTQ38EBwTkMyKgYxXGL+vgBdQVatGq0nCOYDgYOVM8TndIpj3Q4uRbZe+hiare68DDNCIT6TianlQ5AXNpCF3nkgGsNDgjChnSMRwiH++ViurrtfMdLylHc/WmrcKcW22WpCZfpQ==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=nvidia.com;
+Received: from SN7PR12MB8059.namprd12.prod.outlook.com (2603:10b6:806:32b::7)
+ by BL1PR12MB5730.namprd12.prod.outlook.com (2603:10b6:208:385::9)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9320.15; Tue, 11 Nov
+ 2025 17:13:24 +0000
+Received: from SN7PR12MB8059.namprd12.prod.outlook.com
+ ([fe80::4ee2:654e:1fe8:4b91]) by SN7PR12MB8059.namprd12.prod.outlook.com
+ ([fe80::4ee2:654e:1fe8:4b91%2]) with mapi id 15.20.9298.015; Tue, 11 Nov 2025
+ 17:13:24 +0000
+From: Joel Fernandes <joelagnelf@nvidia.com>
+To: linux-kernel@vger.kernel.org, rust-for-linux@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, dakr@kernel.org, airlied@gmail.com
+Cc: acourbot@nvidia.com, apopple@nvidia.com, ojeda@kernel.org,
+ alex.gaynor@gmail.com, boqun.feng@gmail.com, gary@garyguo.net,
+ bjorn3_gh@protonmail.com, lossin@kernel.org, a.hindborg@kernel.org,
+ aliceryhl@google.com, tmgross@umich.edu, simona@ffwll.ch,
+ maarten.lankhorst@linux.intel.com, mripard@kernel.org, tzimmermann@suse.de,
+ jhubbard@nvidia.com, joelagnelf@nvidia.com, ttabi@nvidia.com,
+ joel@joelfernandes.org, elle@weathered-steel.dev,
+ daniel.almeida@collabora.com, arighi@nvidia.com, phasta@kernel.org,
+ nouveau@lists.freedesktop.org
+Subject: [PATCH v2 1/3] rust: helpers: Add list helpers for C linked list
+ operations
+Date: Tue, 11 Nov 2025 12:13:12 -0500
+Message-Id: <20251111171315.2196103-1-joelagnelf@nvidia.com>
+X-Mailer: git-send-email 2.34.1
 Content-Transfer-Encoding: 8bit
-X-Mailman-Approved-At: Tue, 11 Nov 2025 17:17:02 +0000
+Content-Type: text/plain
+X-ClientProxiedBy: BL1PR13CA0200.namprd13.prod.outlook.com
+ (2603:10b6:208:2be::25) To SN7PR12MB8059.namprd12.prod.outlook.com
+ (2603:10b6:806:32b::7)
+MIME-Version: 1.0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: SN7PR12MB8059:EE_|BL1PR12MB5730:EE_
+X-MS-Office365-Filtering-Correlation-Id: d0357731-0756-4a62-8902-08de21459f52
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;ARA:13230040|1800799024|376014|7416014|366016;
+X-Microsoft-Antispam-Message-Info: =?us-ascii?Q?fRdQshzOQnCw8uKr5U/v4o+5oh8xn1Mjmr9RuvomyB/QsAgEC3+763hxHnv7?=
+ =?us-ascii?Q?nqKCyL+hMBPegO37jKltFc1NCaI6IxseRZAlnIB4S2JrnyO+4Q/sUjTZy9r6?=
+ =?us-ascii?Q?Jn6+A7Z+kymYUnVmPClGQvvkwezntu3QfgZLe4sdBClBlQlRJ3ykYE57D/WK?=
+ =?us-ascii?Q?N+64mTZOxvPsfqdeUbzPyPpb0dCgPZLCRWoK1/rYDzTXv+eTDnZjDNrrlN71?=
+ =?us-ascii?Q?wl8U/lSFKnt/Etd6/wrNzbE+KGHCP1TgPmeTaPfZUrqPmLwqw1VCwsqOdOGy?=
+ =?us-ascii?Q?kURlFVfGVfOZAT/8I3q2YWktozaMd+yiZ+mp52fX1j0+eZDnTGHtZtnS3EVA?=
+ =?us-ascii?Q?iW/TKNGILqqN0W/jF47TlwDv/+yl0VAW2/eYtOWou+X0hqKNzEPm1R+L2oFV?=
+ =?us-ascii?Q?Aq8ZLNiwXb5n5lRsQvQZdPCDrxR6s1mBXdZrQ9C/vq6ZBlLVZMHdFIY0Y1rd?=
+ =?us-ascii?Q?B/eh2oicy7nMYscDdeA2NE1LMTgQafkasRoey9e6OxtogjQ1yzz0lgTgjtRp?=
+ =?us-ascii?Q?pvYtb83NlZ65lbJgFsfZ3Lt3JXbi1LUubsHcau/WeDZbW8zJmg9pJRReED8w?=
+ =?us-ascii?Q?Tr//6RplOfNGsAd70ydjTFhGne+4L5ncnooeTzfNnsJil03bUtqCnBsDyPTW?=
+ =?us-ascii?Q?dPFRLjpNk6MBd5szS5FPG0SsPrpOX44MvR6+qpsGruWAZxA8J3vrdnB+VGhd?=
+ =?us-ascii?Q?h23RsySFQ4vptqs1SvTlY8H8iKgkpOf+l5NJJNursRlaD7QHtSaBurzIwN0E?=
+ =?us-ascii?Q?Us9reUhUfanrN7sopedDQANzTRP19Fmy6tnoVgi1H69AyR5bnFVGjzMGwgf7?=
+ =?us-ascii?Q?J3zOmkudlOrOJF0k0X1ZVW1OVBPv46qObsjOuzoxLuorHqILZdHFooHjni5Q?=
+ =?us-ascii?Q?Ni4i4W06uoIKcuP5IEz3FFPTn26O3REu5Fk9/7x/50vCswn3bugRLwGTPbJB?=
+ =?us-ascii?Q?gfxJqPnm4wgn1a+5cw7HHLh+9ZaBABnktMoK9MbVV78qWeBXg1MnIVGjt924?=
+ =?us-ascii?Q?nn6r51YNtSuIHbLwNjmnH3o04CB+YTYt5Av1sPxj+b/P+7k2vTTZGJP7h7z/?=
+ =?us-ascii?Q?0uwKU+7bA50t3Vj6kj9BxH7tUc4X8Gn2eEsOSNJZVDrFg+F5s79yGFwXb5sc?=
+ =?us-ascii?Q?fnhSDexUtqGNQJIpG8Zrro7qvINx+t0UAiSBndzhagh5lefVVQJ1eb4SRBNJ?=
+ =?us-ascii?Q?Xpy2gc9lVzW1ODNM/SEgasWPfYadXotNJTMLXF/TkAPUsa3y9Wmyhe632uPf?=
+ =?us-ascii?Q?FleiBWxqhY5GxLoDhjGbDRjVof0GG+NBaEl0L0MtuGAIViO+g/4nQVPqFaBX?=
+ =?us-ascii?Q?aKmcqEK7Y05Q8BnAQg/x3WqMiAGAQJ3cyePRZ+UDMyCzZgrSbJwaUtM8VoAb?=
+ =?us-ascii?Q?zUgiuy4bgN5UUuJN9oVLxqSsct3jCRbLLli7Br8lYWuzFJrvvRpEOu9qAdXK?=
+ =?us-ascii?Q?L3NU8MtzJxtPuA6Qi6Jqn1Iriua6x7RD?=
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:SN7PR12MB8059.namprd12.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230040)(1800799024)(376014)(7416014)(366016); DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?GVR5ueLTztWOqOJzu6/YfucISYbNO8ybtgl2d3BEiOyebHV8Owru1U0ZDR7N?=
+ =?us-ascii?Q?a0C9tM1TdL0j11/gFk/77tEfJpP6/LvC2xwyFqAcXUH/pZLcaWS1TVVsbKwA?=
+ =?us-ascii?Q?NB7u+Zn4opfT7dL2JN/ROwuzebj3UVSpZFqaFlGpJDjbCfiYgGLDCQdqZgqq?=
+ =?us-ascii?Q?TLrs6tzViRf9LBi4Tql5Y4x524R+ap7hhN9eMPeyX941ZIcZrgUpc63CN0jm?=
+ =?us-ascii?Q?ZnDcyVkUUncUJaWZDOtE4elDS3yh2BnnCnuXilmHLw3lkyMGymml12Q9uN/g?=
+ =?us-ascii?Q?kbQeoDQs1ZaIW3ooPWBAB1nDA/F4ztL8dN5p5b0+9nWvzlPk9mKLq4m2Exiu?=
+ =?us-ascii?Q?g4QuQz84s6jbXMASh+tWLx2972L79bQIKeGHthPWyn4H65o8vohkycdErZsd?=
+ =?us-ascii?Q?0VgUu7GaSh5ucwgH9UCd7/b7fVptLbGRePsAKBCoX6v97htRBudSt7Dyhspj?=
+ =?us-ascii?Q?ctv/Q0jI+v3XUOhwfKu0zBoZ+5ciAG+CWqmvjyUVxS2yqtVwEYGfL22tutBN?=
+ =?us-ascii?Q?I0v2FKrB/7ed9i1d3eNbd0R05XtVmOpz1klgA1ek51ARScxPn1n1QfcloN3O?=
+ =?us-ascii?Q?3q+lbr2Kq9koq5JbpcvHybKu/gj6WcBobN+GYD1Wmbre9GhZJLWFezGxRS6l?=
+ =?us-ascii?Q?8AYK0PU5ydvzxnboj9vqTllxl46Am//n/1LXr+k13VlkWo+TGSbnMfkoNIX/?=
+ =?us-ascii?Q?sujLrroHyeas+hA3g5sMXiG9KFD3/qUL4pAKG8Db52v2BhTRYJYLpSOHIu68?=
+ =?us-ascii?Q?wrzgC1W8r5lbKHVM0p8XtuOdKm+SW1/Js/6yOrf9DrLL55B7Eq1JuVgKk2LT?=
+ =?us-ascii?Q?hFJ9LnF3b98qOOPoOS44H6NHSNzqsuhxjInAmcmI4Kx0x9KaPzZl5MFWgc82?=
+ =?us-ascii?Q?qw77th+rwrjzlUcwITK5b2VpgYiHzumvBfvGEFC9+OZxUFIWpFJJP4hm8rDg?=
+ =?us-ascii?Q?ewgxrvCNfFWfLNNZ+/yJhSjprv1A/oGDhvLDgJTrRmEKRg8j0hKK13e/dUAg?=
+ =?us-ascii?Q?F27+Os0CR+g+yloIisUKmYAuKIOTkJTx3jfG35SdYkXnVq9Fxx0sIhQkoEFr?=
+ =?us-ascii?Q?3FBVIadb4JdLJwdv/BuPX2k+PkH9txF31JeuzALZpu6gZ6r9tQJv/liAkQQN?=
+ =?us-ascii?Q?N+awjQK3uWT78bUvPIh4H22CQ+Hq+9F/ufESpy3NQRRTWMkoE+B+O14ZKNsX?=
+ =?us-ascii?Q?Hf7uFYdjAymFAMdPEk6dAezskY42xNY/059S+fvmY69SJvjG6IvXt/havQPf?=
+ =?us-ascii?Q?KVh9ABjaKkKVSJ10KiTKiUaSwvfAJwv7Y91NFFSFhUbXBEwMGhIPl667irXY?=
+ =?us-ascii?Q?NWy4t7ceL91ROpnU+OK/1MytbpBWVun42sC38DwX0Qfm6yHBav/3P+rGa0hI?=
+ =?us-ascii?Q?RYeTtsza846EfUyLPrVf4iPJJFYMrBNiuZ7geGOBgzWe/8mWvdaEu1yF+uUC?=
+ =?us-ascii?Q?pj18glzPyczHGInO6lU8DBlRfJUXvLch4U2S0ymSyuLzBa7ebaMyEJ63uvXn?=
+ =?us-ascii?Q?jWycra/vQkwaI/dbQX/bFqN5YaoJaTun13LbwcA+YUhMNJIYDQuZ4Km66hDI?=
+ =?us-ascii?Q?e5HDQG75FfJwVbx9ACCyydQKDTYgJQLVoOHm1TUj?=
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: d0357731-0756-4a62-8902-08de21459f52
+X-MS-Exchange-CrossTenant-AuthSource: SN7PR12MB8059.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 11 Nov 2025 17:13:24.4735 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: 50keQRaZ440gXubkch2+aHu7umBtgBrbCoTMxbt+c/cK3S+9nUbi0Fg9JOeUNefxnoWhdZA/ELrgBTkUDWfqjg==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BL1PR12MB5730
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -89,177 +152,67 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Replace DRM_ERROR() calls in
-drivers/gpu/drm/arm/display/komeda/d71/d71_component.c
-with the corresponding drm_err() helper.
+Add Rust helper functions for common C linked list operations
+that are implemented as macros or inline functions and thus not
+directly accessible from Rust.
 
-The drm_*() logging helpers take a struct drm_device * as the first
-argument, allowing the DRM core to prefix log messages with the
-corresponding device instance. This improves log traceability when
-multiple display controllers are present.
-
-The drm_device pointer is now safely obtained using
-komeda_kms_attach(d71->mdev), ensuring proper initialization and
-alignment with Komeda’s internal design.
-
-This change aligns komeda with the DRM TODO item:
-"Convert logging to drm_* functions with drm_device parameter".
-
-Signed-off-by: Abhishek Rajput <abhiraj21put@gmail.com>
+Signed-off-by: Joel Fernandes <joelagnelf@nvidia.com>
 ---
- .../arm/display/komeda/d71/d71_component.c    | 34 ++++++++++++++-----
- 1 file changed, 25 insertions(+), 9 deletions(-)
+ rust/helpers/helpers.c |  1 +
+ rust/helpers/list.c    | 32 ++++++++++++++++++++++++++++++++
+ 2 files changed, 33 insertions(+)
+ create mode 100644 rust/helpers/list.c
 
-diff --git a/drivers/gpu/drm/arm/display/komeda/d71/d71_component.c b/drivers/gpu/drm/arm/display/komeda/d71/d71_component.c
-index 67e5d3b4190f..3524ca623d6e 100644
---- a/drivers/gpu/drm/arm/display/komeda/d71/d71_component.c
-+++ b/drivers/gpu/drm/arm/display/komeda/d71/d71_component.c
-@@ -409,6 +409,8 @@ static const struct komeda_component_funcs d71_layer_funcs = {
- static int d71_layer_init(struct d71_dev *d71,
- 			  struct block_header *blk, u32 __iomem *reg)
- {
-+	struct komeda_kms_dev *kms = komeda_kms_attach(d71->mdev);
-+	struct drm_device *drm = &kms->base;
- 	struct komeda_component *c;
- 	struct komeda_layer *layer;
- 	u32 pipe_id, layer_id, layer_info;
-@@ -421,7 +423,7 @@ static int d71_layer_init(struct d71_dev *d71,
- 				 get_valid_inputs(blk),
- 				 1, reg, "LPU%d_LAYER%d", pipe_id, layer_id);
- 	if (IS_ERR(c)) {
--		DRM_ERROR("Failed to add layer component\n");
-+		drm_err(drm, "Failed to add layer component\n");
- 		return PTR_ERR(c);
- 	}
- 
-@@ -527,6 +529,8 @@ static const struct komeda_component_funcs d71_wb_layer_funcs = {
- static int d71_wb_layer_init(struct d71_dev *d71,
- 			     struct block_header *blk, u32 __iomem *reg)
- {
-+	struct komeda_kms_dev *kms = komeda_kms_attach(d71->mdev);
-+	struct drm_device *drm = &kms->base;
- 	struct komeda_component *c;
- 	struct komeda_layer *wb_layer;
- 	u32 pipe_id, layer_id;
-@@ -539,7 +543,7 @@ static int d71_wb_layer_init(struct d71_dev *d71,
- 				 1, get_valid_inputs(blk), 0, reg,
- 				 "LPU%d_LAYER_WR", pipe_id);
- 	if (IS_ERR(c)) {
--		DRM_ERROR("Failed to add wb_layer component\n");
-+		drm_err(drm, "Failed to add wb_layer component\n");
- 		return PTR_ERR(c);
- 	}
- 
-@@ -837,6 +841,8 @@ static const struct komeda_component_funcs d71_scaler_funcs = {
- static int d71_scaler_init(struct d71_dev *d71,
- 			   struct block_header *blk, u32 __iomem *reg)
- {
-+	struct komeda_kms_dev *kms = komeda_kms_attach(d71->mdev);
-+	struct drm_device *drm = &kms->base;
- 	struct komeda_component *c;
- 	struct komeda_scaler *scaler;
- 	u32 pipe_id, comp_id;
-@@ -851,7 +857,7 @@ static int d71_scaler_init(struct d71_dev *d71,
- 				 pipe_id, BLOCK_INFO_BLK_ID(blk->block_info));
- 
- 	if (IS_ERR(c)) {
--		DRM_ERROR("Failed to initialize scaler");
-+		drm_err(drm, "Failed to initialize scaler");
- 		return PTR_ERR(c);
- 	}
- 
-@@ -945,6 +951,8 @@ static const struct komeda_component_funcs d71_splitter_funcs = {
- static int d71_splitter_init(struct d71_dev *d71,
- 			     struct block_header *blk, u32 __iomem *reg)
- {
-+	struct komeda_kms_dev *kms = komeda_kms_attach(d71->mdev);
-+	struct drm_device *drm = &kms->base;
- 	struct komeda_component *c;
- 	struct komeda_splitter *splitter;
- 	u32 pipe_id, comp_id;
-@@ -959,7 +967,7 @@ static int d71_splitter_init(struct d71_dev *d71,
- 				 "CU%d_SPLITTER", pipe_id);
- 
- 	if (IS_ERR(c)) {
--		DRM_ERROR("Failed to initialize splitter");
-+		drm_err(drm, "Failed to initialize splitter");
- 		return -1;
- 	}
- 
-@@ -1015,6 +1023,8 @@ static const struct komeda_component_funcs d71_merger_funcs = {
- static int d71_merger_init(struct d71_dev *d71,
- 			   struct block_header *blk, u32 __iomem *reg)
- {
-+	struct komeda_kms_dev *kms = komeda_kms_attach(d71->mdev);
-+	struct drm_device *drm = &kms->base;
- 	struct komeda_component *c;
- 	struct komeda_merger *merger;
- 	u32 pipe_id, comp_id;
-@@ -1030,7 +1040,7 @@ static int d71_merger_init(struct d71_dev *d71,
- 				 "CU%d_MERGER", pipe_id);
- 
- 	if (IS_ERR(c)) {
--		DRM_ERROR("Failed to initialize merger.\n");
-+		drm_err(drm, "Failed to initialize merger.\n");
- 		return PTR_ERR(c);
- 	}
- 
-@@ -1126,6 +1136,8 @@ static const struct komeda_component_funcs d71_improc_funcs = {
- static int d71_improc_init(struct d71_dev *d71,
- 			   struct block_header *blk, u32 __iomem *reg)
- {
-+	struct komeda_kms_dev *kms = komeda_kms_attach(d71->mdev);
-+	struct drm_device *drm = &kms->base;
- 	struct komeda_component *c;
- 	struct komeda_improc *improc;
- 	u32 pipe_id, comp_id, value;
-@@ -1139,7 +1151,7 @@ static int d71_improc_init(struct d71_dev *d71,
- 				 get_valid_inputs(blk),
- 				 IPS_NUM_OUTPUT_IDS, reg, "DOU%d_IPS", pipe_id);
- 	if (IS_ERR(c)) {
--		DRM_ERROR("Failed to add improc component\n");
-+		drm_err(drm, "Failed to add improc component\n");
- 		return PTR_ERR(c);
- 	}
- 
-@@ -1253,6 +1265,8 @@ static const struct komeda_component_funcs d71_timing_ctrlr_funcs = {
- static int d71_timing_ctrlr_init(struct d71_dev *d71,
- 				 struct block_header *blk, u32 __iomem *reg)
- {
-+	struct komeda_kms_dev *kms = komeda_kms_attach(d71->mdev);
-+	struct drm_device *drm = &kms->base;
- 	struct komeda_component *c;
- 	struct komeda_timing_ctrlr *ctrlr;
- 	u32 pipe_id, comp_id;
-@@ -1266,7 +1280,7 @@ static int d71_timing_ctrlr_init(struct d71_dev *d71,
- 				 1, BIT(KOMEDA_COMPONENT_IPS0 + pipe_id),
- 				 BS_NUM_OUTPUT_IDS, reg, "DOU%d_BS", pipe_id);
- 	if (IS_ERR(c)) {
--		DRM_ERROR("Failed to add display_ctrl component\n");
-+		drm_err(drm, "Failed to add display_ctrl component\n");
- 		return PTR_ERR(c);
- 	}
- 
-@@ -1280,6 +1294,8 @@ static int d71_timing_ctrlr_init(struct d71_dev *d71,
- int d71_probe_block(struct d71_dev *d71,
- 		    struct block_header *blk, u32 __iomem *reg)
- {
-+	struct komeda_kms_dev *kms = komeda_kms_attach(d71->mdev);
-+	struct drm_device *drm = &kms->base;
- 	struct d71_pipeline *pipe;
- 	int blk_id = BLOCK_INFO_BLK_ID(blk->block_info);
- 
-@@ -1346,8 +1362,8 @@ int d71_probe_block(struct d71_dev *d71,
- 		break;
- 
- 	default:
--		DRM_ERROR("Unknown block (block_info: 0x%x) is found\n",
--			  blk->block_info);
-+		drm_err(drm, "Unknown block (block_info: 0x%x) is found\n",
-+			blk->block_info);
- 		err = -EINVAL;
- 		break;
- 	}
+diff --git a/rust/helpers/helpers.c b/rust/helpers/helpers.c
+index 79c72762ad9c..634fa2386bbb 100644
+--- a/rust/helpers/helpers.c
++++ b/rust/helpers/helpers.c
+@@ -32,6 +32,7 @@
+ #include "io.c"
+ #include "jump_label.c"
+ #include "kunit.c"
++#include "list.c"
+ #include "maple_tree.c"
+ #include "mm.c"
+ #include "mutex.c"
+diff --git a/rust/helpers/list.c b/rust/helpers/list.c
+new file mode 100644
+index 000000000000..fea2a18621da
+--- /dev/null
++++ b/rust/helpers/list.c
+@@ -0,0 +1,32 @@
++// SPDX-License-Identifier: GPL-2.0
++
++/*
++ * Helpers for C Circular doubly linked list implementation.
++ */
++
++#include <linux/list.h>
++
++bool rust_helper_list_empty(const struct list_head *head)
++{
++	return list_empty(head);
++}
++
++void rust_helper_list_del(struct list_head *entry)
++{
++	list_del(entry);
++}
++
++void rust_helper_INIT_LIST_HEAD(struct list_head *list)
++{
++	INIT_LIST_HEAD(list);
++}
++
++void rust_helper_list_add(struct list_head *new, struct list_head *head)
++{
++	list_add(new, head);
++}
++
++void rust_helper_list_add_tail(struct list_head *new, struct list_head *head)
++{
++	list_add_tail(new, head);
++}
 -- 
-2.43.0
+2.34.1
 
