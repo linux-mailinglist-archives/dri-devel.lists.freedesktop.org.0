@@ -2,34 +2,34 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E3661C4D2D2
-	for <lists+dri-devel@lfdr.de>; Tue, 11 Nov 2025 11:51:22 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 193C1C4D2DB
+	for <lists+dri-devel@lfdr.de>; Tue, 11 Nov 2025 11:51:35 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4699C10E04B;
-	Tue, 11 Nov 2025 10:51:21 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6081010E54E;
+	Tue, 11 Nov 2025 10:51:33 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=airkyi.com header.i=@airkyi.com header.b="Kv7t9xPc";
+	dkim=pass (1024-bit key; unprotected) header.d=airkyi.com header.i=@airkyi.com header.b="ASZ4TVFg";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtpbgsg1.qq.com (smtpbgsg1.qq.com [54.254.200.92])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C5A1910E54C
- for <dri-devel@lists.freedesktop.org>; Tue, 11 Nov 2025 10:51:19 +0000 (UTC)
+Received: from bg5.exmail.qq.com (bg5.exmail.qq.com [43.154.209.5])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id AF09910E54D
+ for <dri-devel@lists.freedesktop.org>; Tue, 11 Nov 2025 10:51:31 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=airkyi.com;
- s=altu2504; t=1762858261;
- bh=3KVgbAMLqk9xskfSyH7zcOVwcHIfJ+/kd/q1XTa1m00=;
+ s=altu2504; t=1762858268;
+ bh=iH4TyyzlCs63+PYsRRwCgixuDYK1uZRjwAYMJ2JsaAI=;
  h=From:To:Subject:Date:Message-Id;
- b=Kv7t9xPc+i3gbz2yVd3Qbs/FSj7Qefrvm0COEXtakt9i4Epi64P5JUA5eFxBuNx72
- eXBhrKar30zokvXuvwl5c46HqglaXoX0McsPel58+4eRfc0A89PmyIEqt5wXvywqtR
- Ca8PKcawlaAc+/6Z4AZvxH6vbXq4bhD5eG4rmFF8=
-X-QQ-mid: zesmtpsz9t1762858252t9993007f
-X-QQ-Originating-IP: QIEzzurO6Fp6z4rwWPRwhcxu3akUrwReXd3stTEf5Lk=
+ b=ASZ4TVFgFYhUgifkSgajyi99ZZcOwMW1pSqGDSbBrBhjateBFeDh9BnRl8dTC8EoC
+ bymsWVmgW3Db+3Rrfew+sN4kmd5yt+evY94zbyVrYVJ4ehWzWe6OXNBwSUpC9omiu/
+ 3svFWgdcFuOm40qMTsJEqoRC0lP7azKS26+D2+qg=
+X-QQ-mid: zesmtpsz9t1762858256t97625740
+X-QQ-Originating-IP: uB8mCGoHOoLZ1YWe3fAK9YaOMzLs1IbVHP3rribHjTI=
 Received: from DESKTOP-8BT1A2O.localdomain ( [58.22.7.114])
  by bizesmtp.qq.com (ESMTP) with 
- id ; Tue, 11 Nov 2025 18:50:49 +0800 (CST)
+ id ; Tue, 11 Nov 2025 18:50:53 +0800 (CST)
 X-QQ-SSF: 0000000000000000000000000000000
 X-QQ-GoodBg: 0
-X-BIZMAIL-ID: 9719519489223886703
+X-BIZMAIL-ID: 18215502699769285738
 From: Chaoyi Chen <kernel@airkyi.com>
 To: Heikki Krogerus <heikki.krogerus@linux.intel.com>,
  Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
@@ -58,30 +58,30 @@ Cc: linux-usb@vger.kernel.org, devicetree@vger.kernel.org,
  linux-kernel@vger.kernel.org, linux-phy@lists.infradead.org,
  linux-arm-kernel@lists.infradead.org, linux-rockchip@lists.infradead.org,
  dri-devel@lists.freedesktop.org
-Subject: [PATCH v9 01/10] usb: typec: Add notifier functions
-Date: Tue, 11 Nov 2025 18:50:31 +0800
-Message-Id: <20251111105040.94-2-kernel@airkyi.com>
+Subject: [PATCH v9 02/10] usb: typec: Export all typec device types
+Date: Tue, 11 Nov 2025 18:50:32 +0800
+Message-Id: <20251111105040.94-3-kernel@airkyi.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20251111105040.94-1-kernel@airkyi.com>
 References: <20251111105040.94-1-kernel@airkyi.com>
 X-QQ-SENDSIZE: 520
 Feedback-ID: zesmtpsz:airkyi.com:qybglogicsvrgz:qybglogicsvrgz6b-0
-X-QQ-XMAILINFO: N0zPMTspoMafQdocF3oDrFAtcq1nd5Y6kaTZcX3zxteSgglfcqJzG7Jh
- ar1tPV1O2kzBZ6SwEAg0AflEJNA7lFQIS9tAc2mdfxP+3ORhe7Q10ihLeSz8CeMOlQMwekD
- 87GcpjG25lzQbFV6DJPpp/jrofZpLs0iTg55bGZZHZdU4SvV3T4BGTeZR+XtEpWR5EfUJYZ
- W+kQjoHPNAYzciJXAf23Q/3mcVf0JaYBBgWh1NpxjpZ94MEwYGHEBpPo38Ni52CA94Zj92r
- 32iUJwJBi4Yz3m0b/37zX9AF32/Rbl/qCpH2BNyfHPXmRkJmGs2Q0exrg/BBmHoWw9rcePw
- jU02Hk1yB185cDqixer7Rm3yOC2B28AWs0wEU+u6WG4ijlKzYLtQLknJrihZIYiBgFG42dG
- L3Ckp5p9miaE9op3rKV+QDyLX86gmm8MURq4IkEwOHcJoI+hubHewY1zn1zUzhuzSmw8prC
- 4+DXC8cSfDjevoROGFSMKCV3ze042sLs1/qCWL6n8W28x2D24ce5KD80oYEW+Bw5I5xXwYB
- nyyftkIu9SzvMrCawADMBYHOy0H7VRmdS7LcSTKiNkOQjxuFHRazC9U9xmi/g15XZh3Y0cb
- hwhvvJBerIVIdIMMGW/FW28KJ1kmjUZMMZv4UELBhVw1H/Q7po9kMsWnI5BnHW8Y0NhDXXa
- bR1KqCswjjdLZwQZeerVlyzEOmMuiZJX/fGRv0CrOpRL+BlwdV1u6y2vjii2hN9Ug6qOGuP
- UxNad56wDq306aLswhxJ16+nDiqZJC2RrfCxHJ8QX1KlP4uNGhATxE629xcDJkUqTrBF9ZR
- 9grjEuCiDEkrS+6MWrXEKF2COUnZNTFlpx3LL6fdHdFoPkvT9K9jiMU248cNWxeuyuFp7OO
- Fx3ApWf9tBc4D5GJSIvFUR/OHDY8aXNWsFf0bPnZbw1BH3B02yKCqjgFV2hN+u+W7MKoPre
- rmGVadVNmliPTJotCz6oQ8OTt8Ond5vP4u+tf01TyM5uh6PjyG6O+z9P7HxheBuyAjDU=
-X-QQ-XMRINFO: Mp0Kj//9VHAxr69bL5MkOOs=
+X-QQ-XMAILINFO: NfykWmRlrd2oJyFO4fwe5TS0axn6/Kttof4anGjVHoKeDx4fvOeEtf6n
+ LS07Smxr230qlEtzDYbRHXQyTwPOVx92I3h3WBr0YkBJsRmNtPudQ8eodfa7WLyWVdSyxqy
+ AT/DE5V1JWEdO8lFbyXS8yBnGhgVVvuTbPHZXaV8VR2YJykMKg8hbDRgeNvHqLpoFWEt0zz
+ 3v117iCy2nsGP3R7pmvkDyZZWrHVoPgAICYnzYlYT8gh6pFEe1dgmWkeztQ3g5V0+HD9ctS
+ xzH6XIEPXTBXR+AzxcGzr6ObVatwDHOzAul9c30hpe4GhKxeapa0kjphinoI0JWCEpsqoPy
+ SOTz8wZ7o0jHjMm9BDZzVxuFdrKxl+At+mdcVxfyMxUESc8ZdVMq1dTay/zuMfIyxV1Bfpm
+ S4mG7x9Cn6IUObgCwJw7sYrhzT66MZS/EymVeTrEVJJcQNghtJRt6VhklKWwYr0WX02VI4A
+ OLzyb+VhpWnZxQXMxF6gin8AfiHcMuY022GpHjvC+3S17Y3+uxB/kCDiOWl7fq3MpPUTb2W
+ Wv7sZ9Y6mdFGFK7EVreRIXvb+fnHUFdrl2RoH+u8Qd/6JmmAwZDhzVmnRZpD4B3NM5afaQB
+ XBnJEl1HE530rlnIMLuWQfN0mcmge0f9V0Nx2dvvXbB2zG1xRR446O6ZlIZuhibbbynKvuJ
+ 0mN5ik2kfvjT1ykOIm6MhqBX03z0l4knZI+9ncb2jJeji7XESgb0iiS8uhDKu/VLsZ19KIF
+ 7gfWJCYV+7/WIhAQ9fm4XflCimEq0DLIv2DsH3vQ+nyfY0UU8KRJQn+8t0j6cuv3WWLH491
+ JRYXMwfJjjjk+8waoMP99YliDxO8Wf8bLAm+usa8SlYOOhD5apDnLEIcQjA943dZEHY2bVv
+ DMpkUVgLCoBZVU3/zr1aJovIXVb19rMYRG6EVy4mk6XAsz/341MBCDL3WTbk7xy6S6S3y0N
+ S/Hyq2S5MkW3OXna1J98NaJqMrlG9/TMd2z7jasgN5CFoGYAXlLZICyRDeid7FDnVcGQ=
+X-QQ-XMRINFO: OD9hHCdaPRBwq3WW+NvGbIU=
 X-QQ-RECHKSPAM: 0
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -100,121 +100,97 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: Chaoyi Chen <chaoyi.chen@rock-chips.com>
 
-Some other part of kernel may want to know the event of typec bus.
-
-This patch add common notifier function to notify these event.
+Export all typec device types for identification.
 
 Signed-off-by: Chaoyi Chen <chaoyi.chen@rock-chips.com>
+Reviewed-by: Heikki Krogerus <heikki.krogerus@linux.intel.com>
 ---
 
-Changes in v9:
-- Remove redundant header files.
+(no changes since v9)
 
-Changes in v8:
-- Fix coding style.
+ drivers/usb/typec/class.c |  4 ++++
+ drivers/usb/typec/class.h | 10 ----------
+ include/linux/usb/typec.h | 10 ++++++++++
+ 3 files changed, 14 insertions(+), 10 deletions(-)
 
- drivers/usb/typec/Makefile        |  2 +-
- drivers/usb/typec/bus.h           |  2 ++
- drivers/usb/typec/class.c         |  2 ++
- drivers/usb/typec/notify.c        | 23 +++++++++++++++++++++++
- include/linux/usb/typec_altmode.h |  9 +++++++++
- 5 files changed, 37 insertions(+), 1 deletion(-)
- create mode 100644 drivers/usb/typec/notify.c
-
-diff --git a/drivers/usb/typec/Makefile b/drivers/usb/typec/Makefile
-index 7a368fea61bc..20d09c5314d7 100644
---- a/drivers/usb/typec/Makefile
-+++ b/drivers/usb/typec/Makefile
-@@ -1,6 +1,6 @@
- # SPDX-License-Identifier: GPL-2.0
- obj-$(CONFIG_TYPEC)		+= typec.o
--typec-y				:= class.o mux.o bus.o pd.o retimer.o
-+typec-y				:= class.o mux.o notify.o bus.o pd.o retimer.o
- typec-$(CONFIG_ACPI)		+= port-mapper.o
- obj-$(CONFIG_TYPEC)		+= altmodes/
- obj-$(CONFIG_TYPEC_TCPM)	+= tcpm/
-diff --git a/drivers/usb/typec/bus.h b/drivers/usb/typec/bus.h
-index 643b8c81786d..820b59b6d434 100644
---- a/drivers/usb/typec/bus.h
-+++ b/drivers/usb/typec/bus.h
-@@ -26,6 +26,8 @@ struct altmode {
- 	struct altmode			*plug[2];
- };
- 
-+void typec_notify_event(unsigned long event, void *data);
-+
- #define to_altmode(d) container_of(d, struct altmode, adev)
- 
- extern const struct bus_type typec_bus;
 diff --git a/drivers/usb/typec/class.c b/drivers/usb/typec/class.c
-index 9b2647cb199b..9d2aa3dd3f56 100644
+index 9d2aa3dd3f56..449f921acd9c 100644
 --- a/drivers/usb/typec/class.c
 +++ b/drivers/usb/typec/class.c
-@@ -600,6 +600,8 @@ typec_register_altmode(struct device *parent,
- 		return ERR_PTR(ret);
- 	}
+@@ -792,6 +792,7 @@ const struct device_type typec_partner_dev_type = {
+ 	.groups = typec_partner_groups,
+ 	.release = typec_partner_release,
+ };
++EXPORT_SYMBOL_GPL(typec_partner_dev_type);
  
-+	typec_notify_event(TYPEC_ALTMODE_REGISTERED, &alt->adev);
-+
- 	return &alt->adev;
- }
- 
-diff --git a/drivers/usb/typec/notify.c b/drivers/usb/typec/notify.c
-new file mode 100644
-index 000000000000..9e50b54da359
---- /dev/null
-+++ b/drivers/usb/typec/notify.c
-@@ -0,0 +1,23 @@
-+// SPDX-License-Identifier: GPL-2.0
-+#include <linux/notifier.h>
-+
-+#include "bus.h"
-+
-+static BLOCKING_NOTIFIER_HEAD(typec_notifier_list);
-+
-+int typec_altmode_register_notify(struct notifier_block *nb)
-+{
-+	return blocking_notifier_chain_register(&typec_notifier_list, nb);
-+}
-+EXPORT_SYMBOL_GPL(typec_altmode_register_notify);
-+
-+int typec_altmode_unregister_notify(struct notifier_block *nb)
-+{
-+	return blocking_notifier_chain_unregister(&typec_notifier_list, nb);
-+}
-+EXPORT_SYMBOL_GPL(typec_altmode_unregister_notify);
-+
-+void typec_notify_event(unsigned long event, void *data)
-+{
-+	blocking_notifier_call_chain(&typec_notifier_list, event, data);
-+}
-diff --git a/include/linux/usb/typec_altmode.h b/include/linux/usb/typec_altmode.h
-index f7db3bd4c90e..59e20702504b 100644
---- a/include/linux/usb/typec_altmode.h
-+++ b/include/linux/usb/typec_altmode.h
-@@ -10,6 +10,7 @@
- #define MODE_DISCOVERY_MAX	6
- 
- struct typec_altmode_ops;
-+struct notifier_block;
+ static void typec_partner_link_device(struct typec_partner *partner, struct device *dev)
+ {
+@@ -1146,6 +1147,7 @@ const struct device_type typec_plug_dev_type = {
+ 	.groups = typec_plug_groups,
+ 	.release = typec_plug_release,
+ };
++EXPORT_SYMBOL_GPL(typec_plug_dev_type);
  
  /**
-  * struct typec_altmode - USB Type-C alternate mode device
-@@ -77,6 +78,14 @@ int typec_altmode_notify(struct typec_altmode *altmode, unsigned long conf,
- const struct typec_altmode *
- typec_altmode_get_partner(struct typec_altmode *altmode);
+  * typec_plug_set_num_altmodes - Set the number of available plug altmodes
+@@ -1294,6 +1296,7 @@ const struct device_type typec_cable_dev_type = {
+ 	.groups = typec_cable_groups,
+ 	.release = typec_cable_release,
+ };
++EXPORT_SYMBOL_GPL(typec_cable_dev_type);
  
-+enum usb_typec_event {
-+	TYPEC_ALTMODE_REGISTERED,
-+	TYPEC_ALTMODE_UNREGISTERED,
-+};
-+
-+int typec_altmode_register_notify(struct notifier_block *nb);
-+int typec_altmode_unregister_notify(struct notifier_block *nb);
-+
  /**
-  * struct typec_cable_ops - Cable alternate mode operations vector
-  * @enter: Operations to be executed with Enter Mode Command
+  * typec_cable_get - Get a reference to the USB Type-C cable
+@@ -2033,6 +2036,7 @@ const struct device_type typec_port_dev_type = {
+ 	.uevent = typec_uevent,
+ 	.release = typec_release,
+ };
++EXPORT_SYMBOL_GPL(typec_port_dev_type);
+ 
+ /* --------------------------------------- */
+ /* Driver callbacks to report role updates */
+diff --git a/drivers/usb/typec/class.h b/drivers/usb/typec/class.h
+index db2fe96c48ff..f04f6987bed8 100644
+--- a/drivers/usb/typec/class.h
++++ b/drivers/usb/typec/class.h
+@@ -87,16 +87,6 @@ struct typec_port {
+ #define to_typec_cable(_dev_) container_of(_dev_, struct typec_cable, dev)
+ #define to_typec_partner(_dev_) container_of(_dev_, struct typec_partner, dev)
+ 
+-extern const struct device_type typec_partner_dev_type;
+-extern const struct device_type typec_cable_dev_type;
+-extern const struct device_type typec_plug_dev_type;
+-extern const struct device_type typec_port_dev_type;
+-
+-#define is_typec_partner(dev) ((dev)->type == &typec_partner_dev_type)
+-#define is_typec_cable(dev) ((dev)->type == &typec_cable_dev_type)
+-#define is_typec_plug(dev) ((dev)->type == &typec_plug_dev_type)
+-#define is_typec_port(dev) ((dev)->type == &typec_port_dev_type)
+-
+ extern const struct class typec_mux_class;
+ extern const struct class retimer_class;
+ extern const struct class typec_class;
+diff --git a/include/linux/usb/typec.h b/include/linux/usb/typec.h
+index 309251572e2e..02fed8293415 100644
+--- a/include/linux/usb/typec.h
++++ b/include/linux/usb/typec.h
+@@ -56,6 +56,16 @@ enum typec_role {
+ 	TYPEC_SOURCE,
+ };
+ 
++extern const struct device_type typec_partner_dev_type;
++extern const struct device_type typec_cable_dev_type;
++extern const struct device_type typec_plug_dev_type;
++extern const struct device_type typec_port_dev_type;
++
++#define is_typec_partner(dev) ((dev)->type == &typec_partner_dev_type)
++#define is_typec_cable(dev) ((dev)->type == &typec_cable_dev_type)
++#define is_typec_plug(dev) ((dev)->type == &typec_plug_dev_type)
++#define is_typec_port(dev) ((dev)->type == &typec_port_dev_type)
++
+ static inline int is_sink(enum typec_role role)
+ {
+ 	return role == TYPEC_SINK;
 -- 
 2.51.1
 
