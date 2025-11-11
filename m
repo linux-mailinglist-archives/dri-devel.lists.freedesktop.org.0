@@ -2,85 +2,85 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id F05C7C4ECD3
-	for <lists+dri-devel@lfdr.de>; Tue, 11 Nov 2025 16:36:13 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2E74FC4ECF7
+	for <lists+dri-devel@lfdr.de>; Tue, 11 Nov 2025 16:38:46 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4E42210E5BB;
-	Tue, 11 Nov 2025 15:36:12 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BB05410E5C5;
+	Tue, 11 Nov 2025 15:38:43 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=googlemail.com header.i=@googlemail.com header.b="LSpN1Nh3";
+	dkim=pass (2048-bit key; unprotected) header.d=googlemail.com header.i=@googlemail.com header.b="ZfCFbSJA";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-f47.google.com (mail-wm1-f47.google.com
- [209.85.128.47])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0B75D10E5BB
- for <dri-devel@lists.freedesktop.org>; Tue, 11 Nov 2025 15:36:11 +0000 (UTC)
-Received: by mail-wm1-f47.google.com with SMTP id
- 5b1f17b1804b1-471191ac79dso44359485e9.3
- for <dri-devel@lists.freedesktop.org>; Tue, 11 Nov 2025 07:36:10 -0800 (PST)
+Received: from mail-wr1-f51.google.com (mail-wr1-f51.google.com
+ [209.85.221.51])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 092FE10E5C5
+ for <dri-devel@lists.freedesktop.org>; Tue, 11 Nov 2025 15:38:43 +0000 (UTC)
+Received: by mail-wr1-f51.google.com with SMTP id
+ ffacd0b85a97d-429c8632fcbso2744976f8f.1
+ for <dri-devel@lists.freedesktop.org>; Tue, 11 Nov 2025 07:38:42 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=googlemail.com; s=20230601; t=1762875369; x=1763480169;
+ d=googlemail.com; s=20230601; t=1762875521; x=1763480321;
  darn=lists.freedesktop.org; 
- h=content-transfer-encoding:in-reply-to:from:content-language
- :references:cc:to:subject:user-agent:mime-version:date:message-id
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
  :from:to:cc:subject:date:message-id:reply-to;
- bh=ppR1x+hLMCIFniD0aWhZe//Po7//TeOQkjJokWKR8R8=;
- b=LSpN1Nh3nStjUfwSdXslDx2hcQsvc44nWrYkcaDf1H/QGvq+1VQolRnJ69B/9S53E7
- TKh2ChX+eBdlvKa7QVCxLuLwhgnIatkmwAisfIVLCeROFY6jsRBZrViJxmCrbWlFMVNP
- iKemEv8xfbYMk7yoD/Z+Lyqhqcxn/CAknL6x1/cpLWa03pMw0Yyluq0OisDQBtjC3xvo
- UUK1z7s9WkTk+JNGsNXr264Wj+vOasj3ftolAKzsuQkh8/a2yx0xWC1lnlWzrv0xtaMd
- PRlQjZ5wv2Gkg0MXMW5dlQtivrdRMTQaQKNdkCg3S+HdU7g+20Nw6aS7xxBgNzy7jZQM
- ZYZg==
+ bh=3Z3KNi/DxIS9jxGYKRVmgnqOuehq+jpu6RacnYqWJr0=;
+ b=ZfCFbSJAj7GldtEHaHKEoVDiR27XDO5xReVB4Iky0NgKbf55nVNE4EObcZD2C7B4WF
+ G/kGQnMPPA2E7s5brhyFuIq/87IwnfmGCd0uxf5BYtFUPIxWbiGjSQdg1YhO+csI+KaZ
+ LquLvSD9GQyaFLV6GwJnWeouP3Iye5QJwKO+ePaKcvztfFrMoJVZciSkJ2NXwAuzk/kS
+ lmdYfKeS19nzmW3xaU3624bEWyEpPtF8W1zGcUdrs8sBfrH2rL1igUMGXeFHfY4V2oG/
+ 15A3ayWiWtlgFzdD/UKtNQHwm3tfzqxl6Iy91HVuOtwOJMjLigv4W7Nsv3EBvIhrYWwj
+ IcHA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1762875369; x=1763480169;
- h=content-transfer-encoding:in-reply-to:from:content-language
- :references:cc:to:subject:user-agent:mime-version:date:message-id
+ d=1e100.net; s=20230601; t=1762875521; x=1763480321;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
  :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
  :reply-to;
- bh=ppR1x+hLMCIFniD0aWhZe//Po7//TeOQkjJokWKR8R8=;
- b=HaFveAPVD4MEDDxtVkqfG8QiavVpJpnzXlF1/Xd3Vb9Tg1PIHV1OKRyQivHKGepnrB
- /fpUORar7p8dC8YwLoY3U0UsnZ2GnnNNcqb16F/m6QNNkp1pFg41ptQddKd5XOrKFN4A
- FbaS56ydNFO0eUiJ/7y155fErL4PxT8EFS8p7Cj5vGUqjQiK0vgXxyybuXtxTrbAEF5c
- rhdclvrxBXE6n192o1nRiq5gx/dE3sPMF+ZvM+gmI7n+mwNBIbK5N5Gnxb5mBngl/+Pe
- JTtX0l1q9bYYr1dfbx1mNiyEL9Nvp9VOTdnjGSlbmsuFwTBWwdost4+x4SgUy3DWR4wx
- yqDA==
+ bh=3Z3KNi/DxIS9jxGYKRVmgnqOuehq+jpu6RacnYqWJr0=;
+ b=k1af46e3CZtif1VjQ7o4zv+n8sDxvjbWmnhiGj8aQ7XtGb1czT7EuHrI0dZwclE2VS
+ UMn9M0uOq0wJtr2nAOcgzcjxtjtLWODR7cSHC8HY5DQp2VICGb0RO9OZWNJ4FigojrCP
+ KF9T4Dn4TyaumzuwiZb0rurM3XB6za/OWL3SnqfIcDOzlUgwTH5wctf1rTZL3sfHqFYX
+ DB7pf14CdUC1bp45XkXYOJASzoJBW3w/Om1Yq+SKx0kQGPRWjVsfqzDQeHmrLNpuPY6F
+ Ikg62llDDETgDL/QXsQk6VKRRrIALYdWi37zcAZYJaZQw2U++f1Ugzd8x2pLAEgk4vu1
+ rtMA==
 X-Forwarded-Encrypted: i=1;
- AJvYcCUohReOyCUU76T+u5/Wdqts7l3GFsPle+pc72qRXBLAxcChKzRDXZx0v2R/waIrunWs61CCCCAL+lM=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Yx2UaCJsYkqFNcbMuV4JpHa2N2bXVJZI9BEpSrx0fZS7psJAPfT
- Y67YEBvjtJMyIbJqF3kDtqFDmphHdc91y8vJYI5k1I2BluWgQUrRWAA=
-X-Gm-Gg: ASbGncuxJ0aSg5wrL4zoVaiZIPfo2uTTV6o9FGxb+0OfZDEDCD39d40T8m48tRRBcoj
- saBVkKr9878kJd9yAi0izm+v+vcxjeUnXGKBOQMTYt6Wjxi6B2cAAfrQh6823sL82KzsSt6qTnl
- 2hYK0Xv6zvHhMf4se+njzvh156nq4DAw3PVMjvAdyLENFxBMEP/Y4rERTkR5qzUAKsQHsfPAe5z
- YgcFwg/4HjLm7ppHtDD5kTRwPWCWa+dmvn/HoHaXj79p9h8sUafubtTVy+Q9NkxYHZ0r7HAyGJE
- /SkznBqiGvX0iPFXMCEcdX46qDhWLxtbAnwjyAgDO966LLWc4AHsf6yI5rnwXyw1fmSqg58o2tL
- jDeA4fktHoJCy4CDnbvKSE45QlQOktyE0DJxfITVf6ehCAi8DTkSfa/4wxmHCvFrzGkWUyJox4z
- eAQH4FtUHjeLSKc7rBXmncbI8rXCvh8nDYIm7efrOFnjTEn/ezXexV
-X-Google-Smtp-Source: AGHT+IEojolfoccSO+8VSzilqIjHUxDcGXaj6DHabhOg/LEXqYLd3SjX02gv/CDQ8AJjB3/I7SQ/bA==
-X-Received: by 2002:a05:600c:3b8d:b0:46f:b327:ecfb with SMTP id
- 5b1f17b1804b1-47773230895mr107537725e9.9.1762875369310; 
- Tue, 11 Nov 2025 07:36:09 -0800 (PST)
+ AJvYcCU49z6AKn/BqDY+h1dbj3Ck3SjDcOfxFY+GSqhBIYlSzNPXUOKb981296hvke5/jiQ9JBd2I/qQOMk=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YxOUpUUAMocf6Jtlfjd/yp08bzNng3bx0TerE2tQfilClmJCoby
+ C+NhOpf8xWudXvAkOYkRU88xUoG5UMPCpUrdpGw6avPVlflpKGZ1CHE=
+X-Gm-Gg: ASbGnctWaGq8hk5VTrFkiLKww4N+lSh8qOvBaxRJjSa4ayQ9wMlADaiHOfvENDaDeAD
+ uSlelTSdv6BTIl4rYFXXNWp8jd6ipnc40tVTW/VrQK1GFJco2Sq0VopQVkEMoNqWRAHn9Gy79rn
+ 8chdNeBvAJbxDuwAbCmnxD3i8A54B/YDwOcewlyS3cVOY+/CmhbCsdfeeAJKZ27SN0V7GAdVKpC
+ sTYPYLY8gviflD9uQiaJFMrPO72dGGYXXbvn1yqDF1Tj2+oKE4f4hULiu0pUgrOgvBQC4yl4HA3
+ J0/G4Ebe7BGxoh0p//Um/XSrB6Bb79fba4H2Mu3FVZ9fBb5Xrc3UktjszfZvp5k3PmYOiv+WHHt
+ ex2S9zlnPRGUmxggWsYiOzLjQVe6t8ioonYyCkfw62tMi/M4JE12QZBJGGRzJW1UlNFqFHxwSLs
+ J4RNPYgO1QL+LqbptixOoVVgdF1XPHp1g6uprBp/nLrz4FND4F5JHel2GvGu8tKrU=
+X-Google-Smtp-Source: AGHT+IGr5k1MYZxi19RfrXM6/pRT8tlYiYJwqAkLdMBMajzstQMx8i0KeC8engDNBWF73zohYoxtxw==
+X-Received: by 2002:a05:6000:310d:b0:42b:41dc:1b5e with SMTP id
+ ffacd0b85a97d-42b41dc1d9amr3742697f8f.30.1762875521287; 
+ Tue, 11 Nov 2025 07:38:41 -0800 (PST)
 Received: from [192.168.1.3] (p5b2b46e7.dip0.t-ipconnect.de. [91.43.70.231])
  by smtp.gmail.com with ESMTPSA id
- ffacd0b85a97d-42ac675cd25sm29278958f8f.22.2025.11.11.07.36.08
+ ffacd0b85a97d-42ac679607esm28297235f8f.43.2025.11.11.07.38.40
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 11 Nov 2025 07:36:08 -0800 (PST)
-Message-ID: <657784d1-72df-43f1-91c4-2d19984dfb14@googlemail.com>
-Date: Tue, 11 Nov 2025 16:36:08 +0100
+ Tue, 11 Nov 2025 07:38:41 -0800 (PST)
+Message-ID: <32141af0-a792-4c2f-a7cf-cc1cf59d6a55@googlemail.com>
+Date: Tue, 11 Nov 2025 16:38:40 +0100
 MIME-Version: 1.0
 User-Agent: Betterbird (Windows)
-Subject: Re: [PATCH 6.12 070/565] drm/ast: Clear preserved bits from register
+Subject: Re: [PATCH 6.17 105/849] drm/ast: Clear preserved bits from register
  output value
+Content-Language: de-DE
 To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, stable@vger.kernel.org
 Cc: patches@lists.linux.dev, Thomas Zimmermann <tzimmermann@suse.de>,
  Jocelyn Falempe <jfalempe@redhat.com>, Nick Bowler <nbowler@draconx.ca>,
  Douglas Anderson <dianders@chromium.org>, Dave Airlie <airlied@redhat.com>,
  dri-devel@lists.freedesktop.org
-References: <20251111004526.816196597@linuxfoundation.org>
- <20251111004528.526435608@linuxfoundation.org>
-Content-Language: de-DE
+References: <20251111004536.460310036@linuxfoundation.org>
+ <20251111004538.940185021@linuxfoundation.org>
 From: Peter Schneider <pschneider1968@googlemail.com>
-In-Reply-To: <20251111004528.526435608@linuxfoundation.org>
+In-Reply-To: <20251111004538.940185021@linuxfoundation.org>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -101,8 +101,8 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 Hi Greg,
 
 
-Am 11.11.2025 um 01:38 schrieb Greg Kroah-Hartman:
-> 6.12-stable review patch.  If anyone has any objections, please let me know.
+Am 11.11.2025 um 01:34 schrieb Greg Kroah-Hartman:
+> 6.17-stable review patch.  If anyone has any objections, please let me know.
 > 
 > ------------------
 > 
@@ -142,7 +142,7 @@ Am 11.11.2025 um 01:38 schrieb Greg Kroah-Hartman:
 > 
 > --- a/drivers/gpu/drm/ast/ast_drv.h
 > +++ b/drivers/gpu/drm/ast/ast_drv.h
-> @@ -286,13 +286,13 @@ static inline void __ast_write8_i(void _
+> @@ -284,13 +284,13 @@ static inline void __ast_write8_i(void _
 >   	__ast_write8(addr, reg + 1, val);
 >   }
 >   
@@ -180,6 +180,7 @@ mainline 6.18-rc2, and they work fine together, and Linus has both of them in hi
 Also, I tested both of them already on top of 6.12.5 and 6.17.5, and they were fine, too. Please see:
 
 https://lore.kernel.org/lkml/045e6362-01db-47f3-9a4f-8a86b2c15d00@googlemail.com/
+
 
 
 Beste Grüße,
