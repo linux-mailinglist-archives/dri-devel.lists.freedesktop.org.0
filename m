@@ -2,131 +2,204 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0B3F9C4A4C5
-	for <lists+dri-devel@lfdr.de>; Tue, 11 Nov 2025 02:16:17 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6B234C4AB8C
+	for <lists+dri-devel@lfdr.de>; Tue, 11 Nov 2025 02:38:27 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 413DB10E4D5;
-	Tue, 11 Nov 2025 01:16:13 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7E71110E4C5;
+	Tue, 11 Nov 2025 01:38:24 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=amd.com header.i=@amd.com header.b="VkuW/KNB";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="azhudx8d";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from SA9PR02CU001.outbound.protection.outlook.com
- (mail-southcentralusazon11013054.outbound.protection.outlook.com
- [40.93.196.54])
- by gabe.freedesktop.org (Postfix) with ESMTPS id F2C6610E4EB
- for <dri-devel@lists.freedesktop.org>; Tue, 11 Nov 2025 01:16:11 +0000 (UTC)
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8B8A910E4B5;
+ Tue, 11 Nov 2025 01:38:22 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1762825102; x=1794361102;
+ h=from:to:cc:subject:date:message-id:references:
+ in-reply-to:content-transfer-encoding:mime-version;
+ bh=9GuXh/hJUe207FbZNvR2lQ17NWvJehZO7NjlhN2H/AU=;
+ b=azhudx8dMWp/TBrRNsmKlqeUfIEBduA+p25d2Sh0yOwLXzuMLXDJlkll
+ 3xKT1n8Bc/FH2Bm69LxgVXcf9HMsXkKmhMoH58wn86PM21RvJl6d8mVKb
+ EMrADqHGgB0n94e0WqsaaisIjs0xXMvec4P8ufitunNTV1htzr3p72AG4
+ NwWR+OInvFRb8beAzKXtaYWi3FBOq3f3psJ+mIvl5UhrwNB21+qIVXecr
+ Dga9215CTW8Jmi310jVJaIJREdzUsQAfFC6vSFtrZ6vMlOnqBlAmgzNyf
+ Y4u9up6Mmu0eUdSzQYdd05OSFR0sya8/RJe9jtwL//uVLJsijJFYRPdSv A==;
+X-CSE-ConnectionGUID: sXoDuuOKR46DFLgomxE+5A==
+X-CSE-MsgGUID: AMaBvkeEQ/WMxChDCoJpXA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11609"; a="68742141"
+X-IronPort-AV: E=Sophos;i="6.19,295,1754982000"; d="scan'208";a="68742141"
+Received: from fmviesa002.fm.intel.com ([10.60.135.142])
+ by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 10 Nov 2025 17:38:22 -0800
+X-CSE-ConnectionGUID: jtaE9xTtTl6+OI7jlJ3u+w==
+X-CSE-MsgGUID: NNmswenBRDCQDposCVNxVw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.19,295,1754982000"; d="scan'208";a="212209983"
+Received: from fmsmsx903.amr.corp.intel.com ([10.18.126.92])
+ by fmviesa002.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 10 Nov 2025 17:38:22 -0800
+Received: from FMSMSX902.amr.corp.intel.com (10.18.126.91) by
+ fmsmsx903.amr.corp.intel.com (10.18.126.92) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.2562.27; Mon, 10 Nov 2025 17:38:21 -0800
+Received: from fmsedg901.ED.cps.intel.com (10.1.192.143) by
+ FMSMSX902.amr.corp.intel.com (10.18.126.91) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.2562.27 via Frontend Transport; Mon, 10 Nov 2025 17:38:21 -0800
+Received: from SN4PR0501CU005.outbound.protection.outlook.com (40.93.194.12)
+ by edgegateway.intel.com (192.55.55.81) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.2562.27; Mon, 10 Nov 2025 17:38:21 -0800
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=CbNZAFsmPyrapRWcuFS50hp4Cp/dwDjfVl75H9KtLb+gK4ak7Gd/A6Mb4J78URhXaPdyCoETKnkfw+FKBdTUjMnL/SeQ0sKmWNzqU2+MlKjEtDPCrxpPsJqERsyjW7yA6gOEaJQZ2Lb8PYZpYkuczpy5ihtPDm8TR38DN1OBkbNzgP5LGXXtT8bLYOMohGsGVxJ/yi+UmvErYovr5VW8xoVflrnGR2mVLXCMroLD52TrGJWiIAcwgLd3WUcq/hZJcCqeQbIc4mQftCwFqgJzn5h3++GSqNSZNoMFusKid+i76sqSKHZbi4USS/rqrLEWYYaUPcOnlGs2Vs7cMLKncA==
+ b=LZWBRpqJrObY7QdZatVHM9vtdIIlNwKku8dNNztLnRy3mRmBK0yR6a2Bs5W52n8AlvHHA2mdVd9FDKz0xFIgLP5sVQgbopQ0iZ21wm2F+kPbgfh5oc48oWPD/ZJHQCEZk3DlYxv356GQ1VI8gFGVllTUuMy24Y4iLrON87EduGVwmYWgL++IvY0vhSgJJ0DyQWM+qaPtLmoYZbxwv+zggmamJh+2yeHqGYjsuYWzVWWinqsXslMUbapsSG8ib38wHivo9GieZJTMK45dbc3FZasZevmVFLwZmPGw+pMnP9Dw8StSsYbiS6WH7HERzPAAiMb79+wzsV0B5W8n9Tzp4w==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=Wmj7QPN8OJHFWXxfylXywFP0D/5vh/FNHnZ+3MFl/7c=;
- b=gMF5H9gKERDZlT1v1D/dtghTFyYpGms/g37jABbXxnFE1NNllsIGvhsFnwC5snW9FxEo8NaJuwgCY5Me3DQJMNerZi9qUafpc2yOKaqWUTxdaJRVD+A9kzTZ5Ucv/q7sfjRAckPFIFFxzS8W10gGk8KLYQmRSAho3+6zF0Jtgn9PeJoAlq11ScA13wCtxQfyOFoDzxbtZ56lQjtazc/Hp7TgU9Zqxv8Hx1TmeJx298m9Xh3JhnWBVhtWTKgsCqFzHS9KcmqvO4h1yt4fM21B+gIhRiaO9DMye7erjYmGMeuwy+wZGKOu+wdHM/y0eFe21f7NTqmJhfeMrHrQ3gSMCA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 165.204.84.17) smtp.rcpttodomain=kernel.org smtp.mailfrom=amd.com; dmarc=pass
- (p=quarantine sp=quarantine pct=100) action=none header.from=amd.com;
- dkim=none (message not signed); arc=none (0)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=Wmj7QPN8OJHFWXxfylXywFP0D/5vh/FNHnZ+3MFl/7c=;
- b=VkuW/KNB1NnT2b7+7oeYeC3l4OmHbZdAy2Gy7z2Fl5yyH7RrzH6XxdBMGHuIEmudU2vDKNvthcrClRrivPUAMI+K6hrzV0+GbZGItF7T4JiBgwgWqNnXjXkDf4HmptScQ8jDa/1wHRMWwq0RPL/t8WNM/cqRniDInpSpRxj+hsc=
-Received: from CH5P223CA0006.NAMP223.PROD.OUTLOOK.COM (2603:10b6:610:1f3::23)
- by SA1PR12MB999109.namprd12.prod.outlook.com (2603:10b6:806:4a1::21)
+ bh=9GuXh/hJUe207FbZNvR2lQ17NWvJehZO7NjlhN2H/AU=;
+ b=GLqH9EUGtzZNO3ImWewJq18/RiG9l03UhYS5EEr5HmoRg5cwJjmympfXn+s7DZ+wQ+qyt+XtoZJa2GM9RK3aTAOgH5bzFrDOtKtQ577MM2Dodr2Af2k/UzG6BS4BsQ57qejYf8mAwehjrOpWFjWfAj+mqjs1l6NhmNCpQn3/P6EpH8YP2265y6za5UyEtEhsItayR4bbu2uvKZ8N1UUQADRf1mpJDDWCOmfcWVhjwOrlKVAsVxEd31YUCs2yXUW4l7PzRDim2UerzSpORDX3M7ghX3xpYwW9MgimxnBAl263b6XvaZanY6rt6A/F5gvuu2tfLGCbMMES6PTGkajzSQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
+Received: from BN9PR11MB5276.namprd11.prod.outlook.com (2603:10b6:408:135::18)
+ by SJ0PR11MB5152.namprd11.prod.outlook.com (2603:10b6:a03:2ae::22)
  with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9298.16; Tue, 11 Nov
- 2025 01:16:06 +0000
-Received: from CH2PEPF00000148.namprd02.prod.outlook.com
- (2603:10b6:610:1f3:cafe::6f) by CH5P223CA0006.outlook.office365.com
- (2603:10b6:610:1f3::23) with Microsoft SMTP Server (version=TLS1_3,
- cipher=TLS_AES_256_GCM_SHA384) id 15.20.9298.16 via Frontend Transport; Tue,
- 11 Nov 2025 01:16:00 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
- smtp.mailfrom=amd.com; dkim=none (message not signed)
- header.d=none;dmarc=pass action=none header.from=amd.com;
-Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
- 165.204.84.17 as permitted sender) receiver=protection.outlook.com;
- client-ip=165.204.84.17; helo=satlexmb07.amd.com; pr=C
-Received: from satlexmb07.amd.com (165.204.84.17) by
- CH2PEPF00000148.mail.protection.outlook.com (10.167.244.105) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.9320.13 via Frontend Transport; Tue, 11 Nov 2025 01:16:06 +0000
-Received: from SATLEXMB06.amd.com (10.181.40.147) by satlexmb07.amd.com
- (10.181.42.216) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.2.2562.17; Mon, 10 Nov
- 2025 17:16:03 -0800
-Received: from satlexmb08.amd.com (10.181.42.217) by SATLEXMB06.amd.com
- (10.181.40.147) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.39; Mon, 10 Nov
- 2025 19:16:03 -0600
-Received: from xsjdavidzha51.xilinx.com (10.180.168.240) by satlexmb08.amd.com
- (10.181.42.217) with Microsoft SMTP Server id 15.2.2562.17 via
- Frontend Transport; Mon, 10 Nov 2025 17:16:02 -0800
-From: David Zhang <yidong.zhang@amd.com>
-To: <ogabbay@kernel.org>, <quic_jhugo@quicinc.com>,
- <maciej.falkowski@linux.intel.com>, <dri-devel@lists.freedesktop.org>
-CC: David Zhang <yidong.zhang@amd.com>, <linux-kernel@vger.kernel.org>,
- <sonal.santan@amd.com>, <mario.limonciello@amd.com>, <lizhi.hou@amd.com>,
- Nishad Saraf <nishads@amd.com>
-Subject: [PATCH V1 5/5] accel/amd_vpci: Add communication channel service
-Date: Mon, 10 Nov 2025 17:15:50 -0800
-Message-ID: <20251111011550.439157-6-yidong.zhang@amd.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20251111011550.439157-1-yidong.zhang@amd.com>
-References: <20251111011550.439157-1-yidong.zhang@amd.com>
+ 2025 01:38:19 +0000
+Received: from BN9PR11MB5276.namprd11.prod.outlook.com
+ ([fe80::b576:d3bd:c8e0:4bc1]) by BN9PR11MB5276.namprd11.prod.outlook.com
+ ([fe80::b576:d3bd:c8e0:4bc1%5]) with mapi id 15.20.9298.015; Tue, 11 Nov 2025
+ 01:38:19 +0000
+From: "Tian, Kevin" <kevin.tian@intel.com>
+To: "Winiarski, Michal" <michal.winiarski@intel.com>, Alex Williamson
+ <alex@shazbot.org>, "De Marchi, Lucas" <lucas.demarchi@intel.com>,
+ =?utf-8?B?VGhvbWFzIEhlbGxzdHLDtm0=?= <thomas.hellstrom@linux.intel.com>,
+ "Vivi, Rodrigo" <rodrigo.vivi@intel.com>, Jason Gunthorpe <jgg@ziepe.ca>,
+ Yishai Hadas <yishaih@nvidia.com>, Shameer Kolothum
+ <skolothumtho@nvidia.com>, "intel-xe@lists.freedesktop.org"
+ <intel-xe@lists.freedesktop.org>, "linux-kernel@vger.kernel.org"
+ <linux-kernel@vger.kernel.org>, "kvm@vger.kernel.org" <kvm@vger.kernel.org>,
+ "Brost, Matthew" <matthew.brost@intel.com>, "Wajdeczko, Michal"
+ <Michal.Wajdeczko@intel.com>
+CC: "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>, "Jani
+ Nikula" <jani.nikula@linux.intel.com>, Joonas Lahtinen
+ <joonas.lahtinen@linux.intel.com>, Tvrtko Ursulin <tursulin@ursulin.net>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, "Laguna,
+ Lukasz" <lukasz.laguna@intel.com>, Christoph Hellwig <hch@infradead.org>
+Subject: RE: [PATCH v5 28/28] vfio/xe: Add device specific vfio_pci driver
+ variant for Intel graphics
+Thread-Topic: [PATCH v5 28/28] vfio/xe: Add device specific vfio_pci driver
+ variant for Intel graphics
+Thread-Index: AQHcUqd+vf1n1dVj5UmyiLVe2Lh3r7TssNbQ
+Date: Tue, 11 Nov 2025 01:38:19 +0000
+Message-ID: <BN9PR11MB527638018267BA3AF8CD49678CCFA@BN9PR11MB5276.namprd11.prod.outlook.com>
+References: <20251111010439.347045-1-michal.winiarski@intel.com>
+ <20251111010439.347045-29-michal.winiarski@intel.com>
+In-Reply-To: <20251111010439.347045-29-michal.winiarski@intel.com>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=intel.com;
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: BN9PR11MB5276:EE_|SJ0PR11MB5152:EE_
+x-ms-office365-filtering-correlation-id: 2e836767-b030-463b-df1c-08de20c2fe31
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;
+ ARA:13230040|1800799024|7416014|376014|366016|38070700021|921020; 
+x-microsoft-antispam-message-info: =?utf-8?B?WTlIRUNIRWloK1h6VUpzREttUEtkSDFWckg2SGF0WFN5VkY5b3N0TElycWdM?=
+ =?utf-8?B?TEpUZFRIQ0NFMGxNbWRZTVFFc3FCTzhDSlgzNEh2SmwvZ08wVFNVNGJPS2tv?=
+ =?utf-8?B?QnN1TEhnOVBhWlZyZ0d5RWtaUi96ZDB2SjN4dEdqb2I5T2JCbEYxb21DU2F0?=
+ =?utf-8?B?a1MveXp0cVB2bHUyQThEYnp3bFcwOTIrN3kyTGZhck0zYk1ZcVhXNmV6UUlt?=
+ =?utf-8?B?dVpxY3NOVHdVYllrTWtGS3gyL1ZzaVRmRE5qUGFKM0xKcjFXSk9uK1E2ZkNT?=
+ =?utf-8?B?YUxnRkcxdFZYdWtVR01tdDZ3OGx3Sm0wakJKcVhNRlUxald3Y1ZYVkwrUUFp?=
+ =?utf-8?B?aFB3UUxiVzJ1R0VLM05mTmdQaXBMR2V6S09KWVdoT1ZDYUNjSVlKcklEODVu?=
+ =?utf-8?B?OVF1YVFxb0tib0hSVVUxRnNZUXJ4NDhqOHN2VHJoNzhUUFNYcm9TVzZTZE9n?=
+ =?utf-8?B?ZzNmckFyeGlFZVpPK3pwekRpeE1IaENxNmdEV3ZHR1JrK2FoTzhSQUhrS3Rk?=
+ =?utf-8?B?NlBGckhEL1VPV1JsQzNPUVhKWU1PTDJBaU92VithVGF3Tlo1Wm5hSmVnWnla?=
+ =?utf-8?B?cDMxWWY2TGV4dWxKcHZQeEcvS3RMaXRMd3YwQlIvWFdwc1ZwUWFKZGdycDlK?=
+ =?utf-8?B?bzZLREh4SmxuaDlYazlYMjN4aTFueUFWYTlsaEcxWjJSbHdJNTZERlBuVzB5?=
+ =?utf-8?B?NElxMVM2NTlXa1FMbkQvaFZVSDJOcUJCbnZ1Nk4yUk45ZWw1Q0NYdktuNmlF?=
+ =?utf-8?B?SWJCNmNxcGdJNTVRS3R5M2h3SjRQbkVxQWpSZEFCOXNoelRVMml3Ymw1SFdI?=
+ =?utf-8?B?eGVxaFJIVG1PR0tzOWdHVGRTQ3hwU3dXOC9URW0wTzBDbjVOREdOWGhucWd1?=
+ =?utf-8?B?NVFsUDdFbnIyd3lQN0loT0tLSzNxYWlxOXpOYzdZdjZ1eHIzMUZPOXl2V0d0?=
+ =?utf-8?B?Y0I0NEc0bjBPWFgrK3lpWmJGZE9jWW1paDlSNlpMQUduckhwZjZOczdveVk0?=
+ =?utf-8?B?YmRkZnZ5bWt6OVpUS3NEZlBpMUI3c200bDBMc1EyT2dMODRpZVhyNzdyRFhE?=
+ =?utf-8?B?Y0Flb2ovNVZjbTVlMDd0SXhsS2RkeE1pM2t3OS9td0Z1ZHlrcWJuaHhUcVpl?=
+ =?utf-8?B?dEdrVWQ0QlVRTSt4THNoUmNSREozbFd3dFE3M1FUVzE4S3h4ck1FWEdSTVdC?=
+ =?utf-8?B?Z2JVMWJzcVdJaVgycEhZd2Y1Sko0Z0FYTnFSUWNkOVRITzJKUjZrcDNWMytQ?=
+ =?utf-8?B?ZVNKc3NUb3F3Mm93SDk2L3dRTkhBL1VsUTg4dllnYUpYaWpVcEc5NS9QSTZW?=
+ =?utf-8?B?QTk4M2tJUWtKQlptNVNnSHdaOUVaSGVKMWkvNGxMc1B4ckIxUyt5c0xBV0FX?=
+ =?utf-8?B?bnNadDBaSHhGTjV1S3NPeXk2Y3BUakxkT3k5aUNxRWRMZVdjd2xBV1FVZTZE?=
+ =?utf-8?B?dUFQbU4xSUZaOGZtdzVJUlhoS1YvN1FHR2k3QWZINXl0WnMzNEFrTWt0TTJN?=
+ =?utf-8?B?TWtQUnNVNVN3RmY3WDB5ejdobGs2WENOZDl3K2hiSjVkaERVSWdKOHBFTVhm?=
+ =?utf-8?B?bmcwTXIyMDhscThqdXc3SkxLWDdmTFlmQ0hNcXJZNUd2aEdBcFYwNjdFWjBp?=
+ =?utf-8?B?WTVIK04xdTF4cXVScWxiM3piMnlneGFlaUFQTU1CVzJ4U0tWQnZIVGJYZnpo?=
+ =?utf-8?B?UUlnR1NtcTUvVTJWSDNYSjh5ZjB5UEpZSkloUU5TY29mcUZ3dHdSU3AyRHhz?=
+ =?utf-8?B?dkk0WjRESWxsbVBZZkpLME4xZlN3Sk5OL0VYRC9ibjRkN21RQjdrY3lvS0hi?=
+ =?utf-8?B?Z1NoVjdBL0VFaEQ3WFVmWWlPVGF4U01HS2VhRHd0M09XTTVoM1NqK3FhVUUr?=
+ =?utf-8?B?VHdQZTY3RnV2U1FxbEVGV1FqT1A4bWtGMG5SMzdmVUZMWVhyUkF3cE9qRUpu?=
+ =?utf-8?B?ekxveTVnUG1GaEg3Y3NOY0g5SU5FZ1ZubnpTUmhXNDhHU1hsVUJXaDFnYm5r?=
+ =?utf-8?B?VjFYS3VqeDAxbGE5Ni9CVnBzZWdBSjdnZHVHSGtmbkRJdWx1UUQycmJDTzRQ?=
+ =?utf-8?B?QjlOYUVlUi9ieGVHcGR6Y1R6VTVpSnlPenRQdz09?=
+x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:BN9PR11MB5276.namprd11.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230040)(1800799024)(7416014)(376014)(366016)(38070700021)(921020);
+ DIR:OUT; SFP:1101; 
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: =?utf-8?B?NHZ0SnlkaXF0RFpCcHVOMVJXR1JsVnluMnQrclo0ZTNpNy9Lemp2QldmTE1p?=
+ =?utf-8?B?cURydFEyVGVwMERZTmhzZWcyZDlSdURocTRGenc5NytadTVEQTRCT0o3TkUy?=
+ =?utf-8?B?dXp4V2E0WXI0cVhrcXZENkUxL1VBYjdsVlY4TlJodnhTWVhyQTNsTzJsdm5O?=
+ =?utf-8?B?dTRCbU1ic1BUQkpOaS9UV0NBQ1B5YVdWUHJ6dm1oUkV4Tm9UdHRqeER3RlVD?=
+ =?utf-8?B?dWtMa3NtWGRQUVVUa3NkMmttQm1LMU56eUtGNE53bDBlSlo1cFUvYnovUm1V?=
+ =?utf-8?B?N2NRemFtdWZCNzJnOU1JMklNWUJDN3R6RzhHcHEycUZZbGpkV1VmVGdSbEdi?=
+ =?utf-8?B?cVp4U0JOaUwrckZhQ1VPTnRic0NLbzFseW0rU0xlUDhKUHZ1OG0rclZ4aVhN?=
+ =?utf-8?B?VmdJaTl2c2plT0FPbkJPSEtWMHBxcko1d1N4TWNQTGpaenI0U0gyOGJwU0py?=
+ =?utf-8?B?c0ZKS05PUTJyandBRXJGSWhlWDJNc3JjRkNhZlhha29OSHNLN3BzUVNmV3FP?=
+ =?utf-8?B?OFNuQVJCODJlSU1nVzI5TS9nVWswa3lJdHRBVkpwaGVEM1d4blJSV3Z5Ynd2?=
+ =?utf-8?B?NDBDdFEvSW4zK2xCUTVpaXR3VS9ERHlIVkF6T0RQaFZQTExMUXpQVnU5alpp?=
+ =?utf-8?B?d09oSU9PaTZ0M1IvejN2WmhlLzJyQW43VXArLyt3N0lRNnJYT29wbFNhZGdW?=
+ =?utf-8?B?SGN3Y0YvMmhyc2RGbjNlZzFVRmlIbXhiWWg1ZnFxbERwWGhqRDFsZzhhWHJD?=
+ =?utf-8?B?OFA5UU9qZ1VmUjVQWVp5dCt0K01BVHBCNEsxSnZoSXowYnltYStGZnNHM1RD?=
+ =?utf-8?B?RFBmai9yZXlTYzdjUXBLSWd2bGVpSDlPYnVJUWljOGFLaTFrTnRvUHpwZDYw?=
+ =?utf-8?B?czE0cUNiU1NvSnhoOFRPUURUWDltTHlIbDdpZE92KzhqNjVyd2pJMXNYOXdZ?=
+ =?utf-8?B?OWpUV0NQV2lrY0UweGlvNW1UbWVDSmZtRHJBMVBDSEkrNEdGajlqNFVESUs3?=
+ =?utf-8?B?bFYzaW5qWE5hMm8xUytUMWEyZVFGZFArYkVZaUczVGF1K3JabEk1b1RIbkVV?=
+ =?utf-8?B?RDJpcU5NNm5LZW9wQ1pmNStGNDhaU0tjajZ4VmZxOWtkVlFOS0U3cFVXWXo3?=
+ =?utf-8?B?TENIMzBtMitVZkhWNTgvMTBMZVprZXRpOHRmQ1NEdTFXa2Fza1BFWnR3MDQw?=
+ =?utf-8?B?OVpVQTJOQTFzL252QTl3S3daN1NPRnI5bFpoWTNIT2wzZUhJY0EwQlA2eDV0?=
+ =?utf-8?B?ZFpnT2pwTVM4V3VTTjA0RnY5MTRNN2YvS0xVSFFmbXJWMFlRMndrbjdlWG5N?=
+ =?utf-8?B?a0JIWDVodUR3Z0tTOWtRb01TeVZ2Kzh0V1JqZHlIdi9KK3k5YkpQQ2tMcE5X?=
+ =?utf-8?B?VHJNdm52TThLcFE4ekx0L3I5YklyTUdjNlJFUzlEMEszcDdwcnJzelNESE5D?=
+ =?utf-8?B?eVJsbkxCU2FpRXhBeHpuUy9ReXZGQ1RDSWd6LzFzVHNuWVFsN3VwTHYrM3pZ?=
+ =?utf-8?B?UXdDcExPbUJ2eE1UM0NXOXpoVStTLzY4emxVUG5oYisxTVhkLzJiVkZQak9Y?=
+ =?utf-8?B?TVJrbDFoUkJRMGpOUjgyRmcwTjMrNVFuaFA5TUh2bnFUTHVmQUtOeHhMdlpC?=
+ =?utf-8?B?WDZZbzVwMHROUTRjaTFYUTEvUFNycHZrMVppR0EwZXF5TEVxT016aXVwV2p3?=
+ =?utf-8?B?Q08zZ2RTZFpOc1NCZXdRTjR3Z2J4bGZYeEZKYWZmSE11VVVaTEV0MVI1Q1o1?=
+ =?utf-8?B?bk5ydVBCamZTYWZlbHFEL3hwSldGaWVSZmdOelA0RUgrdHAwTWJFS3BESkpR?=
+ =?utf-8?B?TE9NdzFLL3poR3p0S3kyaVo4STVFUE1jQWRxUlRkc3V1akhqc01WVEovUmtM?=
+ =?utf-8?B?cUNEc1U5ZGgwdG94SGRaSTlteW1iamtOU1QwSGYzT0xJbmduczVvaVN1Q2dS?=
+ =?utf-8?B?QjBUd3dyZmRtKzhTNzFlYUxyekttdzV1RkE5QU0wRnVtOGEyWGJUTHRadGFT?=
+ =?utf-8?B?TEh5cVpld2M2ZUFibnpnbjhrWGhlQi9JSW13Q0h5RHJ4Qk85S3Rkd1Axb3l5?=
+ =?utf-8?B?aG9WcmV0bjZkb2JmcUNjMVZmMnVQREV6VFBjZCtvYkVBS1F5T0R0Y0VVNTRa?=
+ =?utf-8?Q?NJrkvY5VESK3Ai9aTUN8Gz2kd?=
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: CH2PEPF00000148:EE_|SA1PR12MB999109:EE_
-X-MS-Office365-Filtering-Correlation-Id: 1bc4664b-3bde-469d-5430-08de20bfe3a2
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
- ARA:13230040|1800799024|36860700013|376014|82310400026; 
-X-Microsoft-Antispam-Message-Info: =?us-ascii?Q?/gjRXC3yd1L2QUQpx3daU29WAVme9D7L00RTlowPVUo7ni7F1o0PAGow0HAY?=
- =?us-ascii?Q?LjGwUDcO10Qtzlcc7qM9bBjilLNRYM8V+xRcNkel0GLIx9DSkSiNXHKlnn01?=
- =?us-ascii?Q?pF+Umf/MlDNey6GnkJFA1uAHscdhQ/r7yvhgLm7msV311lmuogjkab2AISEg?=
- =?us-ascii?Q?YIgoyM8AuDShgauo0FkX0ADxNRYzoCaWqcBly3QRkl4ulntMK673rQIUUjfx?=
- =?us-ascii?Q?Z1Ojb3X6LaPnP+Rdc3HHLq7ZB2BEeOSlBKBT+RDFj2Ir4UXb0QqezVsEdmj5?=
- =?us-ascii?Q?B2XCR1m1TYeYcV6u1RukUAAeQLEW/Ol+cl/vlVmeED8LxInHlXLCLosHMAaI?=
- =?us-ascii?Q?KaSVUQE6Ekf8VyjaHBoRD9XPo+Cj0IBS1eP02TNkquFvyfVYqVgRwaQ/iHGR?=
- =?us-ascii?Q?fSwT1ZM46Fc3bAFmo1GQUZQ31TmExUGW8Iz5HKkkRbJUF190THX4eu/shtzP?=
- =?us-ascii?Q?90wzaM3V0wLzbhm6dZzmhbwFAetbNC54CnM1VftnFlQWK/P08mHE118DMpvC?=
- =?us-ascii?Q?jNzdHtKOCPmQFqrTNzUq3NZIOW2Q2mZg26dBlIrMX1mNysphbrl+2VAYH5MG?=
- =?us-ascii?Q?wSinyj7TqXfSxCKKKbp+isr/Vk9g4iX1KoGzOGscTn/AxZ8Z5SEG45MBdf2z?=
- =?us-ascii?Q?IGJQUebHaG95V1OktbKcOOPOab3MarQQ/wa2KQf0Hs2nuNvj96C+4pEcv05j?=
- =?us-ascii?Q?afubCmr+0Dt0DVhaaAJlEf5DT3G7U25Bcr7UzAf6PfX178B4sKAwK6+mvt4g?=
- =?us-ascii?Q?6xSHJvRwNKWiSB93Q017Nfp6uEdcvVKgqBaYRXh2WlFoX4vlx5xL4bRbZgAR?=
- =?us-ascii?Q?L4FfOYxKJzPLuolwStBi0RH5e8cLm2TXijKY16euAhaMa3/WWUhM+bHEJepr?=
- =?us-ascii?Q?Y9NleXm1SMHS9ZoBMhhyahbTZ0Pc2peZ+JXqqpq5LF6WLxZRBhrHvbh2egtj?=
- =?us-ascii?Q?LQM2GtZ6PcvUyF+3Fj1YCVj5OHrlfjrQWjbxM4tLiLbFrnmQwub4hW5Vr4Lh?=
- =?us-ascii?Q?CJKaSv7H+gTxf1F+CMIy6+uEiGugGZ6oChynXtSgupvHIwnf1I49nfoB0wJY?=
- =?us-ascii?Q?8Fub1LbgL0xItKBQu2Iu62PZ2o84OcnYwJwQA8c1KAVOK8EVS0+7VxkLlji0?=
- =?us-ascii?Q?lCgI7YVBHwW+8fnHH+wqsy01fIbYbKmCTlSrHYZ+W+PE5AbebH3ntPtYbXie?=
- =?us-ascii?Q?gJr98qUHA+Y3jxK/wcQvcbafvWBqRd9wXt82M38jYFZoKxvCbZLdrIa6VLgh?=
- =?us-ascii?Q?j9Vhsa3oQkAUIzdWS+ZbUqeBp18Lt64urT1QLbX3cVNpCIk6vLvNqk99DpwR?=
- =?us-ascii?Q?c6zA9QHrL1aWGfp23r8gZbgv3fv6VEyVwWV+LMrzE74/jGQJMjWQsURn2Wwd?=
- =?us-ascii?Q?aObWCgsQY7+GQIfPAheIiWwqo8Hz/nnq4XuBgvsvCAJlVmKcVd0nnKp2n18b?=
- =?us-ascii?Q?0wZ1MUDkbvb1Zjgzq8ko7ci2lkEmp2aMtNdzDGUWtCkkd39iwRhvYMRSdjLu?=
- =?us-ascii?Q?zB3C7LIgqi6JzKIYyULsHN2m/SPlezg3LSaAdb/RG9UwDv05PmLPqXWUUg7j?=
- =?us-ascii?Q?00SsDGIsiYuah9p/7AA=3D?=
-X-Forefront-Antispam-Report: CIP:165.204.84.17; CTRY:US; LANG:en; SCL:1; SRV:;
- IPV:CAL; SFV:NSPM; H:satlexmb07.amd.com; PTR:InfoDomainNonexistent; CAT:NONE;
- SFS:(13230040)(1800799024)(36860700013)(376014)(82310400026); DIR:OUT;
- SFP:1101; 
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 11 Nov 2025 01:16:06.2557 (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 1bc4664b-3bde-469d-5430-08de20bfe3a2
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d; Ip=[165.204.84.17];
- Helo=[satlexmb07.amd.com]
-X-MS-Exchange-CrossTenant-AuthSource: CH2PEPF00000148.namprd02.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA1PR12MB999109
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: BN9PR11MB5276.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 2e836767-b030-463b-df1c-08de20c2fe31
+X-MS-Exchange-CrossTenant-originalarrivaltime: 11 Nov 2025 01:38:19.3294 (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: PVPLey8hNn2WmybrT2mEsFJ6Lible4q/q1kGksxS7JSoyBWjzB3AygS3UPRZdzpNT9hQO+DHMCrC5smgVonXDw==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SJ0PR11MB5152
+X-OriginatorOrg: intel.com
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -142,525 +215,21 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This patch introduces the communication channel (comm_chan) service, which
-enables communication between the management PF driver and the user PF
-driver.
-
-The comm_chan service provides a shared-memory-based command channel
-located in a BAR-mapped region. The user PF driver issues requests by
-writing command messages into this region. The management PF driver
-periodically polls the region and process any pending requests.
-
-Supported operations include firmware (xclbin) reloads, where the
-management PF invokes 'versal_pci_load_xclbin' to reprogram the embedded
-firmware through the remote management queue service.
-
-This service provides the foundation for dynamic firmware updates and other
-management requests from the user PFs.
-
-Co-developed-by: Nishad Saraf <nishads@amd.com>
-Signed-off-by: Nishad Saraf <nishads@amd.com>
-Signed-off-by: David Zhang <yidong.zhang@amd.com>
----
- drivers/accel/amd_vpci/Makefile               |   3 +-
- drivers/accel/amd_vpci/versal-pci-comm-chan.c | 295 ++++++++++++++++++
- drivers/accel/amd_vpci/versal-pci-comm-chan.h |  14 +
- drivers/accel/amd_vpci/versal-pci-main.c      |  78 ++++-
- drivers/accel/amd_vpci/versal-pci.h           |   6 +
- 5 files changed, 394 insertions(+), 2 deletions(-)
- create mode 100644 drivers/accel/amd_vpci/versal-pci-comm-chan.c
- create mode 100644 drivers/accel/amd_vpci/versal-pci-comm-chan.h
-
-diff --git a/drivers/accel/amd_vpci/Makefile b/drivers/accel/amd_vpci/Makefile
-index bacd305783dd..8adfde3490fd 100644
---- a/drivers/accel/amd_vpci/Makefile
-+++ b/drivers/accel/amd_vpci/Makefile
-@@ -5,4 +5,5 @@ obj-$(CONFIG_DRM_ACCEL_AMD_VPCI) := versal-pci.o
- versal-pci-y := \
- 	versal-pci-main.o \
- 	versal-pci-rm-queue.o \
--	versal-pci-rm-service.o
-+	versal-pci-rm-service.o \
-+	versal-pci-comm-chan.o
-diff --git a/drivers/accel/amd_vpci/versal-pci-comm-chan.c b/drivers/accel/amd_vpci/versal-pci-comm-chan.c
-new file mode 100644
-index 000000000000..93759dbdf398
---- /dev/null
-+++ b/drivers/accel/amd_vpci/versal-pci-comm-chan.c
-@@ -0,0 +1,295 @@
-+// SPDX-License-Identifier: GPL-2.0
-+/*
-+ * Driver for Versal PCIe device
-+ *
-+ * Copyright (C) 2025 Advanced Micro Devices, Inc. All rights reserved.
-+ */
-+
-+#include <linux/bitfield.h>
-+#include <linux/pci.h>
-+
-+#include "versal-pci.h"
-+#include "versal-pci-comm-chan.h"
-+
-+#define COMM_CHAN_PROTOCOL_VERSION		1
-+#define COMM_CHAN_PCI_BAR_OFF			0x2000000
-+#define COMM_CHAN_TIMER				(HZ / 10)
-+#define COMM_CHAN_DATA_LEN			16
-+#define COMM_CHAN_DATA_TYPE_MASK		GENMASK(7, 0)
-+#define COMM_CHAN_DATA_EOM_MASK			BIT(31)
-+#define COMM_CHAN_MSG_END			BIT(31)
-+
-+#define COMM_CHAN_REG_WRDATA_OFF		0x0
-+#define COMM_CHAN_REG_RDDATA_OFF		0x8
-+#define COMM_CHAN_REG_STATUS_OFF		0x10
-+#define COMM_CHAN_REG_ERROR_OFF			0x14
-+#define COMM_CHAN_REG_RIT_OFF			0x1C
-+#define COMM_CHAN_REG_IS_OFF			0x20
-+#define COMM_CHAN_REG_IE_OFF			0x24
-+#define COMM_CHAN_REG_CTRL_OFF			0x2C
-+#define COMM_CHAN_REGS_SIZE			SZ_4K
-+
-+#define COMM_CHAN_IRQ_DISABLE_ALL		0
-+#define COMM_CHAN_IRQ_RECEIVE_ENABLE		BIT(1)
-+#define COMM_CHAN_IRQ_CLEAR_ALL			GENMASK(2, 0)
-+#define COMM_CHAN_CLEAR_FIFO			GENMASK(1, 0)
-+#define COMM_CHAN_RECEIVE_THRESHOLD		15
-+
-+enum comm_chan_req_ops {
-+	COMM_CHAN_REQ_OPS_UNKNOWN		= 0,
-+	COMM_CHAN_REQ_OPS_HOT_RESET		= 5,
-+	COMM_CHAN_REQ_OPS_GET_PROTOCOL_VERSION	= 19,
-+	COMM_CHAN_REQ_OPS_LOAD_XCLBIN_UUID	= 20,
-+	COMM_CHAN_REQ_OPS_MAX,
-+};
-+
-+enum comm_chan_msg_type {
-+	COMM_CHAN_MSG_INVALID			= 0,
-+	COMM_CHAN_MSG_START			= 2,
-+	COMM_CHAN_MSG_BODY			= 3,
-+};
-+
-+enum comm_chan_msg_service_type {
-+	COMM_CHAN_MSG_SRV_RESPONSE		= BIT(0),
-+	COMM_CHAN_MSG_SRV_REQUEST		= BIT(1),
-+};
-+
-+struct comm_chan_hw_msg {
-+	struct {
-+		__u32		type;
-+		__u32		payload_size;
-+	} header;
-+	struct {
-+		__u64		id;
-+		__u32		flags;
-+		__u32		size;
-+		__u32		payload[COMM_CHAN_DATA_LEN - 6];
-+	} body;
-+} __packed;
-+
-+struct comm_chan_srv_req {
-+	__u64			flags;
-+	__u32			opcode;
-+	__u32			data[];
-+};
-+
-+struct comm_chan_srv_ver_resp {
-+	__u32			version;
-+};
-+
-+struct comm_chan_srv_uuid_resp {
-+	__u32			ret;
-+};
-+
-+struct comm_chan_msg {
-+	__u64			id;
-+	__u32			flags;
-+	__u32			len;
-+	__u32			bytes_read;
-+	__u32			data[10];
-+};
-+
-+struct comm_chan_device {
-+	struct versal_pci_device	*vdev;
-+	struct timer_list		timer;
-+	struct work_struct		work;
-+};
-+
-+static inline struct comm_chan_device *to_ccdev_work(struct work_struct *w)
-+{
-+	return container_of(w, struct comm_chan_device, work);
-+}
-+
-+static inline struct comm_chan_device *to_ccdev_timer(struct timer_list *t)
-+{
-+	return container_of(t, struct comm_chan_device, timer);
-+}
-+
-+static inline u32 comm_chan_read(struct comm_chan_device *cdev, u32 offset)
-+{
-+	return readl(cdev->vdev->io_regs + COMM_CHAN_PCI_BAR_OFF + offset);
-+}
-+
-+static inline void comm_chan_write(struct comm_chan_device *cdev, u32 offset, const u32 value)
-+{
-+	writel(value, cdev->vdev->io_regs + COMM_CHAN_PCI_BAR_OFF + offset);
-+}
-+
-+static u32 comm_chan_set_uuid_resp(void *payload, int ret)
-+{
-+	struct comm_chan_srv_uuid_resp *resp = (struct comm_chan_srv_uuid_resp *)payload;
-+	u32 resp_len = sizeof(*resp);
-+
-+	resp->ret = (u32)ret;
-+
-+	return resp_len;
-+}
-+
-+static u32 comm_chan_set_protocol_resp(void *payload)
-+{
-+	struct comm_chan_srv_ver_resp *resp = (struct comm_chan_srv_ver_resp *)payload;
-+	u32 resp_len = sizeof(*resp);
-+
-+	resp->version = COMM_CHAN_PROTOCOL_VERSION;
-+
-+	return resp_len;
-+}
-+
-+static void comm_chan_write_response(struct comm_chan_device *ccdev,
-+				     struct comm_chan_hw_msg *response,
-+				     u64 msg_id, u32 size)
-+{
-+	response->header.type = COMM_CHAN_MSG_START | COMM_CHAN_MSG_END;
-+	response->header.payload_size = size;
-+
-+	response->body.flags = COMM_CHAN_MSG_SRV_RESPONSE;
-+	response->body.size = size;
-+	response->body.id = msg_id;
-+
-+	for (int i = 0; i < COMM_CHAN_DATA_LEN; i++)
-+		comm_chan_write(ccdev, COMM_CHAN_REG_WRDATA_OFF, ((u32 *)response)[i]);
-+}
-+
-+static void comm_chan_send_response(struct comm_chan_device *ccdev, u64 msg_id, int ret)
-+{
-+	struct versal_pci_device *vdev = ccdev->vdev;
-+	struct comm_chan_hw_msg response = {0};
-+	u32 size;
-+
-+	vdev_err(vdev, "return response ret: %d", ret);
-+	size = comm_chan_set_uuid_resp(response.body.payload, ret);
-+
-+	comm_chan_write_response(ccdev, &response, msg_id, size);
-+}
-+
-+static void comm_chan_opcode_response(struct comm_chan_device *ccdev, u64 msg_id, void *payload)
-+{
-+	struct comm_chan_srv_req *req = (struct comm_chan_srv_req *)payload;
-+	struct versal_pci_device *vdev = ccdev->vdev;
-+	struct comm_chan_hw_msg response = {0};
-+	u32 size;
-+	int ret;
-+
-+	switch (req->opcode) {
-+	case COMM_CHAN_REQ_OPS_GET_PROTOCOL_VERSION:
-+		size = comm_chan_set_protocol_resp(response.body.payload);
-+		break;
-+	case COMM_CHAN_REQ_OPS_LOAD_XCLBIN_UUID:
-+		ret = versal_pci_load_xclbin(vdev, (uuid_t *)req->data);
-+		size = comm_chan_set_uuid_resp(response.body.payload, ret);
-+		break;
-+	default:
-+		vdev_err(vdev, "Unsupported request opcode: %d", req->opcode);
-+		size = comm_chan_set_uuid_resp(response.body.payload, -EOPNOTSUPP);
-+		break;
-+	}
-+
-+	vdev_dbg(vdev, "Response opcode: %d", req->opcode);
-+	comm_chan_write_response(ccdev, &response, msg_id, size);
-+}
-+
-+#define STATUS_IS_READY(status) ((status) & BIT(1))
-+#define STATUS_IS_ERROR(status) ((status) & BIT(2))
-+
-+static void comm_chan_check_request(struct work_struct *w)
-+{
-+	struct comm_chan_device *ccdev = to_ccdev_work(w);
-+	u32 status = 0, request[COMM_CHAN_DATA_LEN] = {0};
-+	struct comm_chan_hw_msg *hw_msg;
-+	u8 type, eom;
-+	int i;
-+
-+	status = comm_chan_read(ccdev, COMM_CHAN_REG_IS_OFF);
-+	if (!STATUS_IS_READY(status))
-+		return;
-+	if (STATUS_IS_ERROR(status)) {
-+		vdev_err(ccdev->vdev, "An error has occurred with comms");
-+		return;
-+	}
-+
-+	/* ACK status */
-+	comm_chan_write(ccdev, COMM_CHAN_REG_IS_OFF, status);
-+
-+	for (i = 0; i < COMM_CHAN_DATA_LEN; i++)
-+		request[i] = comm_chan_read(ccdev, COMM_CHAN_REG_RDDATA_OFF);
-+
-+	hw_msg = (struct comm_chan_hw_msg *)request;
-+	type = FIELD_GET(COMM_CHAN_DATA_TYPE_MASK, hw_msg->header.type);
-+	eom = FIELD_GET(COMM_CHAN_DATA_EOM_MASK, hw_msg->header.type);
-+
-+	/*
-+	 * Only support fixed size 64B messages, therefor every msg should
-+	 * have EndOfMsg(eom) as 1. Ignore invalid messages.
-+	 */
-+	if (!eom || type != COMM_CHAN_MSG_START) {
-+		vdev_err(ccdev->vdev, "Unsupported eom 0x%x but type 0x%x", eom, type);
-+		goto enotsupp;
-+	}
-+
-+	if (hw_msg->body.flags != COMM_CHAN_MSG_SRV_REQUEST) {
-+		vdev_err(ccdev->vdev, "Unsupported service request");
-+		goto enotsupp;
-+	}
-+
-+	if (hw_msg->body.size > sizeof(hw_msg->body.payload)) {
-+		vdev_err(ccdev->vdev, "msg is too big: %d", hw_msg->body.size);
-+		goto enotsupp;
-+	}
-+
-+	/* Now decode and respond appropriately */
-+	comm_chan_opcode_response(ccdev, hw_msg->body.id, hw_msg->body.payload);
-+	return;
-+
-+enotsupp:
-+	comm_chan_send_response(ccdev, hw_msg->body.id, -EOPNOTSUPP);
-+}
-+
-+static void comm_chan_sched_work(struct timer_list *t)
-+{
-+	struct comm_chan_device *ccdev = to_ccdev_timer(t);
-+
-+	/* Schedule a work in the general workqueue */
-+	schedule_work(&ccdev->work);
-+	/* Periodic timer */
-+	mod_timer(&ccdev->timer, jiffies + COMM_CHAN_TIMER);
-+}
-+
-+static void comm_chan_config(struct comm_chan_device *ccdev)
-+{
-+	/* Disable interrupts */
-+	comm_chan_write(ccdev, COMM_CHAN_REG_IE_OFF, COMM_CHAN_IRQ_DISABLE_ALL);
-+	/* Clear request and response FIFOs */
-+	comm_chan_write(ccdev, COMM_CHAN_REG_CTRL_OFF, COMM_CHAN_CLEAR_FIFO);
-+	/* Clear interrupts */
-+	comm_chan_write(ccdev, COMM_CHAN_REG_IS_OFF, COMM_CHAN_IRQ_CLEAR_ALL);
-+	/* Setup RIT reg */
-+	comm_chan_write(ccdev, COMM_CHAN_REG_RIT_OFF, COMM_CHAN_RECEIVE_THRESHOLD);
-+	/* Enable RIT interrupt */
-+	comm_chan_write(ccdev, COMM_CHAN_REG_IE_OFF, COMM_CHAN_IRQ_RECEIVE_ENABLE);
-+
-+	/* Create and schedule timer to do recurring work */
-+	INIT_WORK(&ccdev->work, &comm_chan_check_request);
-+	timer_setup(&ccdev->timer, &comm_chan_sched_work, 0);
-+	mod_timer(&ccdev->timer, jiffies + COMM_CHAN_TIMER);
-+}
-+
-+void versal_pci_comm_chan_fini(struct comm_chan_device *ccdev)
-+{
-+	/* First stop scheduling new work then cancel work */
-+	timer_delete_sync(&ccdev->timer);
-+	cancel_work_sync(&ccdev->work);
-+}
-+
-+struct comm_chan_device *versal_pci_comm_chan_init(struct versal_pci_device *vdev)
-+{
-+	struct comm_chan_device *ccdev;
-+
-+	ccdev = devm_kzalloc(&vdev->pdev->dev, sizeof(*ccdev), GFP_KERNEL);
-+	if (!ccdev)
-+		return ERR_PTR(-ENOMEM);
-+
-+	ccdev->vdev = vdev;
-+
-+	comm_chan_config(ccdev);
-+	return ccdev;
-+}
-diff --git a/drivers/accel/amd_vpci/versal-pci-comm-chan.h b/drivers/accel/amd_vpci/versal-pci-comm-chan.h
-new file mode 100644
-index 000000000000..6699c337901b
---- /dev/null
-+++ b/drivers/accel/amd_vpci/versal-pci-comm-chan.h
-@@ -0,0 +1,14 @@
-+/* SPDX-License-Identifier: GPL-2.0 */
-+/*
-+ * Driver for Versal PCIe device
-+ *
-+ * Copyright (C) 2025 Advanced Micro Devices, Inc. All rights reserved.
-+ */
-+
-+#ifndef __VERSAL_PCI_COMM_CHAN_H
-+#define __VERSAL_PCI_COMM_CHAN_H
-+
-+struct comm_chan_device *versal_pci_comm_chan_init(struct versal_pci_device *vdev);
-+void versal_pci_comm_chan_fini(struct comm_chan_device *ccdev);
-+
-+#endif	/* __VERSAL_PCI_COMM_CHAN_H */
-diff --git a/drivers/accel/amd_vpci/versal-pci-main.c b/drivers/accel/amd_vpci/versal-pci-main.c
-index 426651739a19..396159c0259c 100644
---- a/drivers/accel/amd_vpci/versal-pci-main.c
-+++ b/drivers/accel/amd_vpci/versal-pci-main.c
-@@ -8,6 +8,7 @@
- #include <linux/pci.h>
- 
- #include "versal-pci.h"
-+#include "versal-pci-comm-chan.h"
- #include "versal-pci-rm-service.h"
- #include "versal-pci-rm-queue.h"
- 
-@@ -98,6 +99,67 @@ static int versal_pci_load_shell(struct versal_pci_device *vdev, char *fw_name)
- 	return ret;
- }
- 
-+int versal_pci_load_xclbin(struct versal_pci_device *vdev, uuid_t *xuuid)
-+{
-+	const char *xclbin_location = "xilinx/xclbins";
-+	char fw_name[128];
-+	const struct firmware *fw;
-+	struct axlf *xclbin;
-+	int ret;
-+
-+	ret = snprintf(fw_name, sizeof(fw_name), "%s/%pUb_%s.xclbin",
-+		       xclbin_location, xuuid, vdev->fw_id);
-+	if (ret >= sizeof(fw_name)) {
-+		vdev_err(vdev, "uuid is too long");
-+		return -EINVAL;
-+	}
-+
-+	vdev_info(vdev, "trying to load %s", fw_name);
-+	ret = request_firmware(&fw, fw_name, &vdev->pdev->dev);
-+	if (ret) {
-+		vdev_warn(vdev, "request xclbin fw %s failed %d", fw_name, ret);
-+		return ret;
-+	}
-+
-+	xclbin = (struct axlf *)fw->data;
-+	if (memcmp(xclbin->magic, VERSAL_XCLBIN_MAGIC_ID, sizeof(VERSAL_XCLBIN_MAGIC_ID))) {
-+		vdev_err(vdev, "Invalid fpga firmware");
-+		ret = -EINVAL;
-+		goto release_firmware;
-+	}
-+
-+	if (!fw->size ||
-+	    fw->size != xclbin->header.length ||
-+	    fw->size < sizeof(*xclbin)) {
-+		vdev_err(vdev, "Invalid xclbin size %zu", fw->size);
-+		ret = -EINVAL;
-+		goto release_firmware;
-+	}
-+
-+	if (!uuid_equal(&vdev->intf_uuid, &xclbin->header.rom_uuid)) {
-+		vdev_err(vdev, "base shell doesn't match uuid %pUb", &xclbin->header.uuid);
-+		ret = -EINVAL;
-+		goto release_firmware;
-+	}
-+
-+	ret = versal_pci_upload_fw(vdev, RM_QUEUE_OP_LOAD_XCLBIN,
-+				   (char *)xclbin, xclbin->header.length);
-+	if (ret) {
-+		vdev_err(vdev, "failed to load xclbin %s : %d", fw_name, ret);
-+		goto release_firmware;
-+	}
-+
-+	vdev_info(vdev, "Downloaded xclbin %pUb of size %lld Bytes",
-+		  &xclbin->header.uuid, xclbin->header.length);
-+
-+	uuid_copy(&vdev->xclbin_uuid, &xclbin->header.uuid);
-+
-+release_firmware:
-+	release_firmware(fw);
-+
-+	return ret;
-+}
-+
- static inline struct versal_pci_device *item_to_vdev(struct config_item *item)
- {
- 	return container_of(to_configfs_subsystem(to_config_group(item)),
-@@ -160,10 +222,13 @@ static const struct config_item_type versal_pci_cfs_table = {
- static int versal_pci_cfs_init(struct versal_pci_device *vdev)
- {
- 	struct configfs_subsystem *subsys = &vdev->cfs_subsys;
-+	char dev_name[64] = "";
-+
-+	snprintf(dev_name, sizeof(dev_name), "%s%x", DRV_NAME, versal_pci_devid(vdev));
- 
- 	snprintf(subsys->su_group.cg_item.ci_namebuf,
- 		 sizeof(subsys->su_group.cg_item.ci_namebuf),
--		 "%s%x", DRV_NAME, versal_pci_devid(vdev));
-+		 "%s", dev_name);
- 
- 	subsys->su_group.cg_item.ci_type = &versal_pci_cfs_table;
- 
-@@ -185,6 +250,7 @@ static void versal_pci_device_teardown(struct versal_pci_device *vdev)
- {
- 	versal_pci_cfs_fini(&vdev->cfs_subsys);
- 	versal_pci_fw_fini(vdev);
-+	versal_pci_comm_chan_fini(vdev->ccdev);
- 	versal_pci_rm_fini(vdev->rdev);
- }
- 
-@@ -236,6 +302,13 @@ static int versal_pci_device_setup(struct versal_pci_device *vdev)
- 		return ret;
- 	}
- 
-+	vdev->ccdev = versal_pci_comm_chan_init(vdev);
-+	if (IS_ERR(vdev->ccdev)) {
-+		ret = PTR_ERR(vdev->ccdev);
-+		vdev_err(vdev, "Failed to init comm channel, err %d", ret);
-+		goto rm_fini;
-+	}
-+
- 	ret = versal_pci_fw_init(vdev);
- 	if (ret) {
- 		vdev_err(vdev, "Failed to init fw, err %d", ret);
-@@ -251,6 +324,9 @@ static int versal_pci_device_setup(struct versal_pci_device *vdev)
- 	return 0;
- 
- comm_chan_fini:
-+	versal_pci_comm_chan_fini(vdev->ccdev);
-+
-+rm_fini:
- 	versal_pci_rm_fini(vdev->rdev);
- 
- 	return ret;
-diff --git a/drivers/accel/amd_vpci/versal-pci.h b/drivers/accel/amd_vpci/versal-pci.h
-index 89f3590137ce..a9b55b2759a7 100644
---- a/drivers/accel/amd_vpci/versal-pci.h
-+++ b/drivers/accel/amd_vpci/versal-pci.h
-@@ -26,6 +26,7 @@
- 	dev_dbg(&(vdev)->pdev->dev, fmt, ##args)
- 
- struct versal_pci_device;
-+struct comm_chan_device;
- struct rm_cmd;
- 
- struct axlf_header {
-@@ -52,13 +53,18 @@ struct versal_pci_device {
- 	struct pci_dev			*pdev;
- 
- 	struct rm_device		*rdev;
-+	struct comm_chan_device         *ccdev;
- 	struct fw_info			fw;
- 
- 	void __iomem			*io_regs;
-+	uuid_t				xclbin_uuid;
- 	uuid_t				intf_uuid;
- 	__u8				fw_id[UUID_STRING_LEN + 1];
- 
- 	struct configfs_subsystem	cfs_subsys;
- };
- 
-+/* versal pci driver APIs */
-+int versal_pci_load_xclbin(struct versal_pci_device *vdev, uuid_t *xclbin_uuid);
-+
- #endif	/* __VERSAL_PCI_H */
--- 
-2.34.1
-
+PiBGcm9tOiBXaW5pYXJza2ksIE1pY2hhbCA8bWljaGFsLndpbmlhcnNraUBpbnRlbC5jb20+DQo+
+IFNlbnQ6IFR1ZXNkYXksIE5vdmVtYmVyIDExLCAyMDI1IDk6MDUgQU0NCj4gKw0KPiArCS8qDQo+
+ICsJICogQXMgdGhlIGhpZ2hlciBWRklPIGxheWVycyBhcmUgaG9sZGluZyBsb2NrcyBhY3Jvc3Mg
+cmVzZXQgYW5kIHVzaW5nDQo+ICsJICogdGhvc2Ugc2FtZSBsb2NrcyB3aXRoIHRoZSBtbV9sb2Nr
+IHdlIG5lZWQgdG8gcHJldmVudCBBQkJBDQo+IGRlYWRsb2NrDQo+ICsJICogd2l0aCB0aGUgc3Rh
+dGVfbXV0ZXggYW5kIG1tX2xvY2suDQo+ICsJICogSW4gY2FzZSB0aGUgc3RhdGVfbXV0ZXggd2Fz
+IHRha2VuIGFscmVhZHkgd2UgZGVmZXIgdGhlIGNsZWFudXANCj4gd29yaw0KPiArCSAqIHRvIHRo
+ZSB1bmxvY2sgZmxvdyBvZiB0aGUgb3RoZXIgcnVubmluZyBjb250ZXh0Lg0KPiArCSAqLw0KPiAr
+CXNwaW5fbG9jaygmeGVfdmRldi0+cmVzZXRfbG9jayk7DQo+ICsJeGVfdmRldi0+ZGVmZXJyZWRf
+cmVzZXQgPSB0cnVlOw0KPiArCWlmICghbXV0ZXhfdHJ5bG9jaygmeGVfdmRldi0+c3RhdGVfbXV0
+ZXgpKSB7DQo+ICsJCXNwaW5fdW5sb2NrKCZ4ZV92ZGV2LT5yZXNldF9sb2NrKTsNCj4gKwkJcmV0
+dXJuOw0KPiArCX0NCj4gKwlzcGluX3VubG9jaygmeGVfdmRldi0+cmVzZXRfbG9jayk7DQo+ICsJ
+eGVfdmZpb19wY2lfc3RhdGVfbXV0ZXhfdW5sb2NrKHhlX3ZkZXYpOw0KPiArDQo+ICsJeGVfdmZp
+b19wY2lfcmVzZXQoeGVfdmRldik7DQo+ICt9DQoNCkphc29uIHN1Z2dlc3RlZCB0byBkbyB0aGlz
+IGluIHRoZSBjb3JlIGdpdmVuIGl0J3MgY29tbW9uIFsxXS4NCg0KSWYgeW91IGRpc2FncmVlLCB0
+aGVuIHBsZWFzZSByYWlzZSBpdCBhbmQgZ2V0IGNvbnNlbnN1cyBpbiB0aGF0IHRocmVhZA0KaW5z
+dGVhZCBvZiBydXNoaW5nIHRvIHBvc3QgYSBuZXcgdmVyc2lvbi4uLg0KDQpbMV0gaHR0cHM6Ly9s
+b3JlLmtlcm5lbC5vcmcvYWxsLzIwMjUxMTA4MDA0NzU0LkdEMTg1OTE3OEB6aWVwZS5jYS8NCg==
