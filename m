@@ -2,59 +2,48 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D5B7EC4D901
-	for <lists+dri-devel@lfdr.de>; Tue, 11 Nov 2025 13:01:48 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 79933C4D94F
+	for <lists+dri-devel@lfdr.de>; Tue, 11 Nov 2025 13:07:17 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 338B310E560;
-	Tue, 11 Nov 2025 12:01:47 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C6BB689C83;
+	Tue, 11 Nov 2025 12:07:14 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=bootlin.com header.i=@bootlin.com header.b="mkjuM7uc";
+	dkim=pass (1024-bit key; unprotected) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="fyjIzro3";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtpout-04.galae.net (smtpout-04.galae.net [185.171.202.116])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E185C10E559
- for <dri-devel@lists.freedesktop.org>; Tue, 11 Nov 2025 12:01:45 +0000 (UTC)
-Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
- by smtpout-04.galae.net (Postfix) with ESMTPS id 209F2C0F544;
- Tue, 11 Nov 2025 12:01:23 +0000 (UTC)
-Received: from mail.galae.net (mail.galae.net [212.83.136.155])
- by smtpout-01.galae.net (Postfix) with ESMTPS id A2678606FB;
- Tue, 11 Nov 2025 12:01:44 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon)
- with ESMTPSA id E17F01037194B; Tue, 11 Nov 2025 13:01:41 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
- t=1762862503; h=from:subject:date:message-id:to:cc:mime-version:content-type:
- content-transfer-encoding:in-reply-to:references;
- bh=PnYF/WVZ8teADO7+ckgdcFUlsnZ8kt+JkbUC+EyFzls=;
- b=mkjuM7ucmizitTP2HZ89qJvFxamtghtTBXhh+wSny5JLPy6QGXMR33TgwJDQJuBuxrQgGx
- OTE3WsJ8dQIWPD3OXd4u9bYK1XWghAAeH5TpK3m0nuHXZqXDygy70hSiInvPgXD5BxgZbz
- ZhYJAEA0Jo1hz3cvjkEsMB0LmsTH/nkjVrp6ZFJl6n48uf+kPH48JpytIip2jjpgx8Ctzk
- mAsLMbqUrS5R22mi92nRxvtjwdCKxR+R22u3U2+1Y1Q016XK8HEo5DL+My3BiIiKVUIvms
- JGr+Mvy7fAYnNkvqfUwsIxM/f8VAfqglNPSaZyIbsbKzrmjTqN8A50hyX/V0pA==
-From: Luca Ceresoli <luca.ceresoli@bootlin.com>
-Date: Tue, 11 Nov 2025 13:01:27 +0100
-Subject: [PATCH v4 7/7] drm/bridge: prevent encoder chain changes in
- pre_enable/post_disable
-MIME-Version: 1.0
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
+ [213.167.242.64])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id AC8A389C83
+ for <dri-devel@lists.freedesktop.org>; Tue, 11 Nov 2025 12:07:13 +0000 (UTC)
+Received: from pendragon.ideasonboard.com
+ (cpc89244-aztw30-2-0-cust6594.18-1.cable.virginm.net [86.31.185.195])
+ by perceval.ideasonboard.com (Postfix) with ESMTPSA id 863A0FE;
+ Tue, 11 Nov 2025 13:05:13 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+ s=mail; t=1762862713;
+ bh=O8CvrRoMfamiivBrhxyLoF+42dG2wZYImhw8qkUTm7Y=;
+ h=In-Reply-To:References:Subject:From:Cc:To:Date:From;
+ b=fyjIzro3aBiXkBcHDQQx8QsTQC8m9VXT5JaBenEIju1kycZ+PDjvx3biBqD5F6r2J
+ xYvqYyWVOoe/PrLUAS48CJgw1AHSUWEZ/bentPCNtclZcEn/HPr8MRgpty6xFjzc2l
+ kuNmuj1EWPGO0HZLV3o/Z9sdsXJV5Gxa2tGt1Ql8=
 Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20251111-drm-bridge-alloc-encoder-chain-mutex-v4-7-12b13eb8c0f8@bootlin.com>
-References: <20251111-drm-bridge-alloc-encoder-chain-mutex-v4-0-12b13eb8c0f8@bootlin.com>
-In-Reply-To: <20251111-drm-bridge-alloc-encoder-chain-mutex-v4-0-12b13eb8c0f8@bootlin.com>
-To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
- Andrzej Hajda <andrzej.hajda@intel.com>, 
- Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>, 
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>, 
- Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>
-Cc: Hui Pu <Hui.Pu@gehealthcare.com>, 
- Thomas Petazzoni <thomas.petazzoni@bootlin.com>, 
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org, 
- Luca Ceresoli <luca.ceresoli@bootlin.com>
-X-Mailer: b4 0.14.2
-X-Last-TLS-Session-Version: TLSv1.3
+MIME-Version: 1.0
+Content-Transfer-Encoding: quoted-printable
+In-Reply-To: <20250910-rcar-vsp-underrun-revert-v1-1-2fa8d3b1b879@ideasonboard.com>
+References: <20250910-rcar-vsp-underrun-revert-v1-1-2fa8d3b1b879@ideasonboard.com>
+Subject: Re: [PATCH] Revert "media: vsp1: Add underrun debug print"
+From: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
+Cc: linux-media@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ Duy Nguyen <duy.nguyen.rh@renesas.com>,
+ Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>,
+ Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+Date: Tue, 11 Nov 2025 12:07:09 +0000
+Message-ID: <176286282930.2141792.17722042639840544380@ping.linuxembedded.co.uk>
+User-Agent: alot/0.9.1
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -70,72 +59,149 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Take the encoder chain mutex while iterating over the encoder chain in
-drm_atomic_bridge_chain_pre_enable() and
-drm_atomic_bridge_chain_post_disable() to ensure the lists won't change
-while being inspected.
+Quoting Tomi Valkeinen (2025-09-10 08:26:43)
+> This reverts commit 1dc30075fb0fe02b74b1ea7fd1c1c734a89f1448.
+>=20
+> There have been reports of lots of underruns happening on earlier
+> generation SoCs (M3, E3) with display use cases, e.g.:
+>=20
+> vsp1 fea28000.vsp: Underrun occurred at WPF0 (total underruns 1)
+>=20
+> but the display still working fine, and reverting the above commit,
+> which added underrun prints, makes the prints go away (obviously).
+>=20
+> I made some tests on a remote M3, with no display connected, and I can
+> confirm that there seem to be a single underrun report quite often when
+> enabling a display, and an underrun flood when using interlace display
+> modes.
+>=20
+> E3 does not have interlace display support as far as I can see, so the
+> interlace issue does not concern it.
+>=20
+> Debugging display issues remotely without a display is quite
+> challenging, and I did not find any issues in the code, nor could I find
+> a way to stop the underruns by twiddling with the related registers.
+>=20
+> My pure guess is that the single underruns occurring when starting the
+> display hint at either a startup sequence issue, or some kind of initial
+> fifo loading issue. The interlace underruns hint at a bigger
+> misconfiguration, but as the display works fine, the issue might be just
+> an underrun at the start of the frame and the HW quickly catching up, or
+> at the end of the frame, where one block in the pipeline expects more
+> data but the previous block has already stopped (so maybe a misconfig
+> between using interlaced height vs progressive height?).
+>=20
+> But at the moment I have no solution to this, and as the displays work
+> fine, I think it makes sense to just revert the print.
 
-These functions have nested list_for_each_*() loops, which makes them
-complicated. list_for_each_entry_from() loops could be replaced by
-drm_for_each_bridge_in_chain_from(), but it would not work in a nested way
-in its current implementation. Besides, there is no "_reverse" variant of
-drm_for_each_bridge_in_chain_from().
+Is there any value in instead 'ignoring' any underruns if say the frame
+count is < 5 to ignore startup underruns, and keep it as an active print
+if something causes underruns later once the pipeline is established?
 
-Keep code simple and readable by explicitly locking around the outer
-loop. Thankfully there are no break or return points inside the loops, so
-the change is trivial and readable.
+But maybe that doesn't change much - and if there's no current perceived
+issue
 
-Reviewed-by: Maxime Ripard <mripard@kernel.org>
-Signed-off-by: Luca Ceresoli <luca.ceresoli@bootlin.com>
----
 
-Changes in v3:
-- Lock encoder->bridge_chain_mutex directly, no wrappers
-- Improved commit message
+Anyway, I don't object to this revert. It's low impact and it's only
+undoing 'your' work so no one else will complain :D
 
-Changes in v2:
-- Improved commit message
----
- drivers/gpu/drm/drm_bridge.c | 4 ++++
- 1 file changed, 4 insertions(+)
+Reviewed-by: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
 
-diff --git a/drivers/gpu/drm/drm_bridge.c b/drivers/gpu/drm/drm_bridge.c
-index eca138eadbc579013db3f588e260489a026baf67..76895b0f84d3828034c965b3786c24bfe8b31bfd 100644
---- a/drivers/gpu/drm/drm_bridge.c
-+++ b/drivers/gpu/drm/drm_bridge.c
-@@ -769,6 +769,7 @@ void drm_atomic_bridge_chain_post_disable(struct drm_bridge *bridge,
- 
- 	encoder = bridge->encoder;
- 
-+	mutex_lock(&encoder->bridge_chain_mutex);
- 	list_for_each_entry_from(bridge, &encoder->bridge_chain, chain_node) {
- 		limit = NULL;
- 
-@@ -817,6 +818,7 @@ void drm_atomic_bridge_chain_post_disable(struct drm_bridge *bridge,
- 			/* Jump all bridges that we have already post_disabled */
- 			bridge = limit;
- 	}
-+	mutex_unlock(&encoder->bridge_chain_mutex);
- }
- EXPORT_SYMBOL(drm_atomic_bridge_chain_post_disable);
- 
-@@ -863,6 +865,7 @@ void drm_atomic_bridge_chain_pre_enable(struct drm_bridge *bridge,
- 
- 	encoder = bridge->encoder;
- 
-+	mutex_lock(&encoder->bridge_chain_mutex);
- 	list_for_each_entry_reverse(iter, &encoder->bridge_chain, chain_node) {
- 		if (iter->pre_enable_prev_first) {
- 			next = iter;
-@@ -905,6 +908,7 @@ void drm_atomic_bridge_chain_pre_enable(struct drm_bridge *bridge,
- 		if (iter == bridge)
- 			break;
- 	}
-+	mutex_unlock(&encoder->bridge_chain_mutex);
- }
- EXPORT_SYMBOL(drm_atomic_bridge_chain_pre_enable);
- 
-
--- 
-2.51.1
-
+>=20
+> Signed-off-by: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+> ---
+>  drivers/media/platform/renesas/vsp1/vsp1_drm.c  |  3 ---
+>  drivers/media/platform/renesas/vsp1/vsp1_drv.c  | 11 +----------
+>  drivers/media/platform/renesas/vsp1/vsp1_pipe.h |  2 --
+>  drivers/media/platform/renesas/vsp1/vsp1_regs.h |  2 --
+>  4 files changed, 1 insertion(+), 17 deletions(-)
+>=20
+> diff --git a/drivers/media/platform/renesas/vsp1/vsp1_drm.c b/drivers/med=
+ia/platform/renesas/vsp1/vsp1_drm.c
+> index 15d266439564..b8f211db16fc 100644
+> --- a/drivers/media/platform/renesas/vsp1/vsp1_drm.c
+> +++ b/drivers/media/platform/renesas/vsp1/vsp1_drm.c
+> @@ -721,9 +721,6 @@ int vsp1_du_setup_lif(struct device *dev, unsigned in=
+t pipe_index,
+>                 return 0;
+>         }
+> =20
+> -       /* Reset the underrun counter */
+> -       pipe->underrun_count =3D 0;
+> -
+>         drm_pipe->width =3D cfg->width;
+>         drm_pipe->height =3D cfg->height;
+>         pipe->interlaced =3D cfg->interlaced;
+> diff --git a/drivers/media/platform/renesas/vsp1/vsp1_drv.c b/drivers/med=
+ia/platform/renesas/vsp1/vsp1_drv.c
+> index b8d06e88c475..68e92d3c5915 100644
+> --- a/drivers/media/platform/renesas/vsp1/vsp1_drv.c
+> +++ b/drivers/media/platform/renesas/vsp1/vsp1_drv.c
+> @@ -47,8 +47,7 @@
+> =20
+>  static irqreturn_t vsp1_irq_handler(int irq, void *data)
+>  {
+> -       u32 mask =3D VI6_WPF_IRQ_STA_DFE | VI6_WPF_IRQ_STA_FRE |
+> -                  VI6_WPF_IRQ_STA_UND;
+> +       u32 mask =3D VI6_WPF_IRQ_STA_DFE | VI6_WPF_IRQ_STA_FRE;
+>         struct vsp1_device *vsp1 =3D data;
+>         irqreturn_t ret =3D IRQ_NONE;
+>         unsigned int i;
+> @@ -63,14 +62,6 @@ static irqreturn_t vsp1_irq_handler(int irq, void *dat=
+a)
+>                 status =3D vsp1_read(vsp1, VI6_WPF_IRQ_STA(i));
+>                 vsp1_write(vsp1, VI6_WPF_IRQ_STA(i), ~status & mask);
+> =20
+> -               if ((status & VI6_WPF_IRQ_STA_UND) && wpf->entity.pipe) {
+> -                       wpf->entity.pipe->underrun_count++;
+> -
+> -                       dev_warn_ratelimited(vsp1->dev,
+> -                               "Underrun occurred at WPF%u (total underr=
+uns %u)\n",
+> -                               i, wpf->entity.pipe->underrun_count);
+> -               }
+> -
+>                 if (status & VI6_WPF_IRQ_STA_DFE) {
+>                         vsp1_pipeline_frame_end(wpf->entity.pipe);
+>                         ret =3D IRQ_HANDLED;
+> diff --git a/drivers/media/platform/renesas/vsp1/vsp1_pipe.h b/drivers/me=
+dia/platform/renesas/vsp1/vsp1_pipe.h
+> index 7f623b8cbe5c..9cc2f1646b00 100644
+> --- a/drivers/media/platform/renesas/vsp1/vsp1_pipe.h
+> +++ b/drivers/media/platform/renesas/vsp1/vsp1_pipe.h
+> @@ -137,8 +137,6 @@ struct vsp1_pipeline {
+> =20
+>         unsigned int partitions;
+>         struct vsp1_partition *part_table;
+> -
+> -       u32 underrun_count;
+>  };
+> =20
+>  void vsp1_pipeline_reset(struct vsp1_pipeline *pipe);
+> diff --git a/drivers/media/platform/renesas/vsp1/vsp1_regs.h b/drivers/me=
+dia/platform/renesas/vsp1/vsp1_regs.h
+> index 10cfbcd1b6e0..188d26289714 100644
+> --- a/drivers/media/platform/renesas/vsp1/vsp1_regs.h
+> +++ b/drivers/media/platform/renesas/vsp1/vsp1_regs.h
+> @@ -32,12 +32,10 @@
+>  #define VI6_STATUS_SYS_ACT(n)          BIT((n) + 8)
+> =20
+>  #define VI6_WPF_IRQ_ENB(n)             (0x0048 + (n) * 12)
+> -#define VI6_WPF_IRQ_ENB_UNDE           BIT(16)
+>  #define VI6_WPF_IRQ_ENB_DFEE           BIT(1)
+>  #define VI6_WPF_IRQ_ENB_FREE           BIT(0)
+> =20
+>  #define VI6_WPF_IRQ_STA(n)             (0x004c + (n) * 12)
+> -#define VI6_WPF_IRQ_STA_UND            BIT(16)
+>  #define VI6_WPF_IRQ_STA_DFE            BIT(1)
+>  #define VI6_WPF_IRQ_STA_FRE            BIT(0)
+> =20
+>=20
+> ---
+> base-commit: 76eeb9b8de9880ca38696b2fb56ac45ac0a25c6c
+> change-id: 20250908-rcar-vsp-underrun-revert-f3e64612c62d
+>=20
+> Best regards,
+> --=20
+> Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+>
