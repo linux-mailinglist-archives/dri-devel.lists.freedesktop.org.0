@@ -2,148 +2,74 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 79E5DC4F4EB
-	for <lists+dri-devel@lfdr.de>; Tue, 11 Nov 2025 18:49:01 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 74FA2C4F644
+	for <lists+dri-devel@lfdr.de>; Tue, 11 Nov 2025 19:15:03 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9D24B10E630;
-	Tue, 11 Nov 2025 17:48:58 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 41B9810E633;
+	Tue, 11 Nov 2025 18:15:00 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=renesas.com header.i=@renesas.com header.b="oUsfT4Af";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="PTyOuaBc";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from OS0P286CU011.outbound.protection.outlook.com
- (mail-japanwestazon11010055.outbound.protection.outlook.com [52.101.228.55])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E7E4410E630
- for <dri-devel@lists.freedesktop.org>; Tue, 11 Nov 2025 17:48:56 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=BvB64nKhZunyj5T4TYw1q1KcGORqkmR2Q5s6YuXgeGbUN9cC6MlmLxmcdAwbAozHLokpab7p/tE+LGWYnwYEIFJt3pzOrbENkYSN/0puilhdJY2U4N4HgZZPv1rqN1gx/P1JDluxl8g+YWOeUIAQAPIFeFFByL9UltgAXGMltwoYTAEs1t1+zC1E6Q05xaTKJdk7dgGr5sFzzDfNo25kSsBTc68U/CaaVuuXbm4/GWWk9/BNFDXSn/QMqQsrea59C59iNBZR0ubLl4vpWSiFF99SHC7EkyEKxCevipUlQrnNqKFJc3EKF0XttTJYL1H285ugWAidXDQfnKSghzCtQQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=ZJ93Zc882msbIgJOr1JIIOpg7Kh5nWIgRSocTSiCMUw=;
- b=LzqgZ7HLJ+dejUNsgXZrL8tcJIjbUSLzfVKDrkFqCXP2YBK9s7tNC7rNE5RDYbVwZOv75n4p09PPV3u52Sg9BAHabC+LqWDtpc+qId5YJ1aLAtEHlDtxFpvk89uGJPIM9jYwUBqRwrI8bAJGRWXvpDh4gDicVTAbtXXYq4JkNikaevpDkVNtRsSInyjZPip3iFOCapdojTtm1GNEMUwCbHRPDFhdbYsvB7tEUgomlR5WD4yHNfE95z/3//yiUEj2oBcRAaq90Yw46QfNYhc9t56+1w7BGnVSOwCjxU1q8zmk70BbCsKJMaXcC9johA491R9vCOsD2jJchtPZIY5MHw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=renesas.com; dmarc=pass action=none header.from=renesas.com;
- dkim=pass header.d=renesas.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=renesas.com;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=ZJ93Zc882msbIgJOr1JIIOpg7Kh5nWIgRSocTSiCMUw=;
- b=oUsfT4Af746Y/SPM72gPJr70FMy1qgx81ET0hD0nPJ88IcbvPP67xhl2KbI3sVZ9secIhH+fmGQ3YMOESej2EqU94uieDU2K+/HIFdHqz88kxmy+5T3SylcQ2fa0nThKt9LcPN3kA6jBIVx1NHBjLsOIOdeqrmZNbVjr0iE3nCc=
-Received: from OS3PR01MB8319.jpnprd01.prod.outlook.com (2603:1096:604:1a2::11)
- by TY7PR01MB14553.jpnprd01.prod.outlook.com (2603:1096:405:23f::7)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9320.15; Tue, 11 Nov
- 2025 17:48:54 +0000
-Received: from OS3PR01MB8319.jpnprd01.prod.outlook.com
- ([fe80::6473:1660:bdc2:c983]) by OS3PR01MB8319.jpnprd01.prod.outlook.com
- ([fe80::6473:1660:bdc2:c983%6]) with mapi id 15.20.9320.013; Tue, 11 Nov 2025
- 17:48:53 +0000
-From: Chris Brandt <Chris.Brandt@renesas.com>
-To: Hugo Villeneuve <hugo@hugovil.com>
-CC: Geert Uytterhoeven <geert+renesas@glider.be>, Michael Turquette
- <mturquette@baylibre.com>, Stephen Boyd <sboyd@kernel.org>, Biju Das
- <biju.das.jz@bp.renesas.com>, Maarten Lankhorst
- <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
- Simona Vetter <simona@ffwll.ch>, Hien Huynh <hien.huynh.px@renesas.com>,
- Nghia Vo <nghia.vo.zn@renesas.com>, "linux-renesas-soc@vger.kernel.org"
- <linux-renesas-soc@vger.kernel.org>, "linux-clk@vger.kernel.org"
- <linux-clk@vger.kernel.org>, "dri-devel@lists.freedesktop.org"
- <dri-devel@lists.freedesktop.org>
-Subject: RE: [PATCH v4 0/2] Remove hard coded values for MIPI-DSI
-Thread-Topic: [PATCH v4 0/2] Remove hard coded values for MIPI-DSI
-Thread-Index: AQHcTqMq7HmTg5AWsEKO+ner0HLbLrTtvHUAgAAMAXA=
-Date: Tue, 11 Nov 2025 17:48:53 +0000
-Message-ID: <OS3PR01MB8319C8A2BD72FC7787ACFEFA8ACFA@OS3PR01MB8319.jpnprd01.prod.outlook.com>
-References: <20251105222530.979537-1-chris.brandt@renesas.com>
- <20251111120148.943a0e193a65469a53a0cbc8@hugovil.com>
-In-Reply-To: <20251111120148.943a0e193a65469a53a0cbc8@hugovil.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=renesas.com;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: OS3PR01MB8319:EE_|TY7PR01MB14553:EE_
-x-ms-office365-filtering-correlation-id: 331dd724-d8e3-49ea-3c13-08de214a94b5
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;
- ARA:13230040|7416014|376014|366016|1800799024|38070700021; 
-x-microsoft-antispam-message-info: =?us-ascii?Q?//WYPVfBEDnVS9y3y6Ly8YHCC3IGrfpegDBXO56kv/z7Yf9ADrA6rbiiVYU9?=
- =?us-ascii?Q?+WM9y2F6xAAfbfmcM5QDdo6kRpwSYFjwU83t2BlNdMDta9mNvics2s1IpMrY?=
- =?us-ascii?Q?G96fZabGSygHwkHwumnOutWfzy93670kIFSVSqS7ME1ghxJayxh9e6b23jfo?=
- =?us-ascii?Q?TeEiHReYm/koSFfMecvq9QlIOJMK+6AVxZQtroCUAkj3ogRyA346n2nnrpdY?=
- =?us-ascii?Q?CpnLW6O+kzCdg6davQnyn2oajjHrt5TY2nHMdF7NE6kn5ZJS5OxERGrIzIc2?=
- =?us-ascii?Q?+5XWBWBQRA1nQ25EvdftbzbWIvXtsaH5j6CI6Z7ijpRMjtY41P09nlCckiRu?=
- =?us-ascii?Q?XlFiSo4T4mJtxpQqF12txvMfdMBzjBtHztB77Sb/wOhOhCDThKw3m4I2rCdB?=
- =?us-ascii?Q?Tx72mC9EkOSKSxLrVxFH7dbPVqh4iOKzGjAwcDnPtCdMKNaE+aC+zDVH1Bga?=
- =?us-ascii?Q?LcTHHNqMEUZNBV2edIAK1ogiUR3JTAOIcjFVfxpSI7zNK751MUHYirQASztO?=
- =?us-ascii?Q?rpIeCvvgyRR7aSlcigMdHsNGgtlpkVnDcY0cgxrWfH/mzNCUqG1fJWD29vWK?=
- =?us-ascii?Q?o5wp/OEmfwjiiRUz+E6EnRBW99QAx4oUQJFPi/jhokXLk/vXeZP6/5C44vaG?=
- =?us-ascii?Q?c0DtWgDnisC8oJxVNib2cBd+UlwgmU8kojG2NBMfxhVTSEnnh2e0enx7DODN?=
- =?us-ascii?Q?u1Z9G0g29utxLpPCQB6KNQrIorwFqY01BpeRxD9PvcM3cO/3VjZzdLKnsr1u?=
- =?us-ascii?Q?G4VmKh9jfMKTFLv2xdQkUymfHZF8t1UNGxFZz5G0T1QJ43/kZ43nZ8xUfS5X?=
- =?us-ascii?Q?GeTdd9mV4owuq6PF+wYphYBslkIY3Eod6hHG3dIWtn7MCgpn0HGhQkqTLFG3?=
- =?us-ascii?Q?uqsE9ZuCRqKo5OVrRB289/uwTn56bKPkFLHJbsUHX+0O4wNgAxvW+ymw0cWT?=
- =?us-ascii?Q?yjqfsZbAVVbqC7woWSyyI/1ByYnxrWX5D9ut998hLj1tXig3kxxnUM86wOOU?=
- =?us-ascii?Q?bCl6IzBrQJnjwnGjgk/3YoLSay0BzDcl/oVCtEfCGWVWFtESKnOs5Gt1I/PZ?=
- =?us-ascii?Q?a7nr2bcTR2Y1gqPGeU/GKIIekTMWN3avr/i7bm1NbWmZfz+bD4ACzdtMUEbI?=
- =?us-ascii?Q?x5wDFOU7mDHkTanWH29Ec/nLA0RBKTDRMvk+EPNvhvsZusPWKFeqXRWiPcnJ?=
- =?us-ascii?Q?DsFH33Vu+pzKG3F/7Qw3cDneqyfgEhD+bzs5e/3epebKNAMfOdTDz6ksOuXj?=
- =?us-ascii?Q?R1hnhk4MSpJPpoMRjy+uXSx1adPYFL+y/vZO4ZqoJX3JAdhEe5szNC7V6k2+?=
- =?us-ascii?Q?z3z6Ys2tlbmspPFcYR391WUhUTARCnUfNJ1NtExoM0HMi0HFzHNoZ12EnHP0?=
- =?us-ascii?Q?Oog9SzOf1kyGz+MfPix8aMnDBAaoDiKbbZ9MMcjCPbSJIl1O2KJju8/5SxQO?=
- =?us-ascii?Q?CS2+5dhkkeBAcjPCCAUkRNrQgKGggoZ3Qrag6mzKyoQVRZh32LMxxlIbmhFb?=
- =?us-ascii?Q?NwEWyDNn126T+Ux+69TmJB+RERa+G/PlJ8kT?=
-x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:OS3PR01MB8319.jpnprd01.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230040)(7416014)(376014)(366016)(1800799024)(38070700021); DIR:OUT;
- SFP:1101; 
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?us-ascii?Q?rR8bwJTHGswBwSDYqUjfuBPjzp07XOZd4W//mDZljnp3XNXjkEBNhUJ+cg/P?=
- =?us-ascii?Q?LG5MnMsGwiFPcKiqfTQQ2ijMWumrQERQW+udHu7K/ea6lX6CvDmbxEobGZcq?=
- =?us-ascii?Q?+hc/I7FtWChM9Th1fvLOHdDTwYMkHmppY2uuHmAAYddZJbXwEOHWR84v2gkC?=
- =?us-ascii?Q?Dery17/KRvouU/XVUdRSYd0SO7CU9Pi1HHoEgedOy2gIRoTx7C86RYUhG7m2?=
- =?us-ascii?Q?F4+7rxyrJYVkh2cUoQX6cX6h3iENtNGRkJJwSvLhr+Dzj6HTvtA4iMbAwL4v?=
- =?us-ascii?Q?yP1q4CXrOVLqM4wstOvx8R9LeugefnesoIQVgvKsr1ZOu3mjmvZNkWkFWN0T?=
- =?us-ascii?Q?mjQR2C7HALWGyJvf7W9ynhi3bvn0tN/KT0oJd7g7Ri8HVtMe0wJRQ5zAXSZ1?=
- =?us-ascii?Q?yPpOl8xlToA/K6dJF6UbO8goRK38K/IMxKqr69Kzf/1nXSpBM11XATdWmotS?=
- =?us-ascii?Q?6ryYvk6yxkYY0rzwpcpdYEmxwnK/8GuAAHPyBptY4feivJBSuhaOkMLY9BXG?=
- =?us-ascii?Q?V9GPGrdf5OH88GwMfjQWy3fgOmgc6v9yBXIqEyglBaTV92h8UTuTrJZgWJs7?=
- =?us-ascii?Q?8v9YlDUpRLBFzPU5wREh8/f045bWBEPhOH7GK62GIjOq9Hmv095/Q/EVDB31?=
- =?us-ascii?Q?PfO5jw6ZYe86ZJnlWHmDwdBhiaOged5fxN3ClICfSHooN/fUrS80Fe4am7vZ?=
- =?us-ascii?Q?+Rm/VNy7uZR+ABUgAQUtLhXsPvQKJnf+fApXstCrw9eqG0kq2PeAeqjVmkgW?=
- =?us-ascii?Q?htvAQoAjo+wx1xSpX9QPX0HyAnU6SncnCsQwgFJeQs6ejmTvYwZII0imfCQZ?=
- =?us-ascii?Q?KOPbdQ+s8KSsHUGH5FkCQMSXh0hX0UKzbgBJ07gWExXyoWgqTu9Wx929Qsbr?=
- =?us-ascii?Q?V+xKVD9qvCHhaH/iljjytJIuAl/8R2z3UujA/dce9Q8SxZDMtwXWcGmpwX/6?=
- =?us-ascii?Q?gf1juCRd8Cg91ksrpov+GvSoT3Cg1Hi0yosUmpum5P8gM/8b7ouHnlaFUXWQ?=
- =?us-ascii?Q?bgoLroOMmldgB4W9L06vv8M1p6vjduJZqQ3TgCujBiqsePx+4qlNRz1Cetc5?=
- =?us-ascii?Q?megZcdqfUiNMS2aOefYQN7N3olTrPNsMtPi5v9hxmY54yNwua2fplcZdvMot?=
- =?us-ascii?Q?sha4ewOhEwCmJAyM4wyPVm6Y4THnVfzLNTEf/gs4d+Ux7nfY3rhdEf+RIXRa?=
- =?us-ascii?Q?LMtOUOS0/wVLSwXUHSzQU7QEpDVOuVKp5ewYHM0OeiwahRYiBjABdZxdlaHg?=
- =?us-ascii?Q?JCKb9558mtLXmBHikCA7qenpviOGNnwgQ0P9dberX1TkVAuuSUne+UrUaakh?=
- =?us-ascii?Q?V4/UrkLfUiEh0oIXRTkBIZMYvlbNOuyCThjmGBgWRgSOOCf6tawl0gyK2E7b?=
- =?us-ascii?Q?M5vmOiZm802CQwR8COYv2DTdegknZrDJdKCDLxmJKR4WoaTulNdzsgRDFCZK?=
- =?us-ascii?Q?YjHvN6B3OA7gWKI2VUsVsCJSv5OmbP9CSbJavDYZio8ePOvFWNQpPXseIW2N?=
- =?us-ascii?Q?erfj+u72X5IbF+dF2D2kNy0xmrtwYrYKHpH9YmC4M5k08s93dNDeXVf3fGaG?=
- =?us-ascii?Q?l//keCyMQ2QkqrJkcc1ZMkW/O+h/L0GAAfgRz+1z?=
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 490B210E633
+ for <dri-devel@lists.freedesktop.org>; Tue, 11 Nov 2025 18:14:59 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by tor.source.kernel.org (Postfix) with ESMTP id 036FE60209;
+ Tue, 11 Nov 2025 18:14:58 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id ADF59C4CEF7;
+ Tue, 11 Nov 2025 18:14:50 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1762884897;
+ bh=YJZ2BYCy/RFNPtkZFsqxaPgXCs3zWEQSsNMKkzCW8hI=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=PTyOuaBcX/6ltywosBlk/NwujGRrcJfEf8qH4zrh95pJAt8KmLpY0rchl/8qtmmFz
+ Qa8aDw06RDCss8Kjwi1Qe/onQEh5ofgzEewAcX+H2bNOc7Br0Em4wLlqP2YplseInE
+ UU14ps8vqndAKHvQrGwOSZl4mE10pCFh2mkdJNjMIWPUkgxgVEyX4mwIdoMls+80we
+ Hco0gmIy2hh/V6SIk7fVd1rSUqsggZXdtjysstDTlfkDjXZG/9OTl5AKEGRAb5K6lr
+ BSDUwHwZplb8f+HiSYVis4M+DIzNyu2PPjkMhdxWTXnGXJ2ls1CidyEq6/oXFK1ICK
+ 2Xjdgg8pBJJqA==
+Date: Tue, 11 Nov 2025 18:14:48 +0000
+From: Conor Dooley <conor@kernel.org>
+To: Michal Wilczynski <m.wilczynski@samsung.com>
+Cc: Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Emil Renner Berthing <kernel@esmil.dk>,
+ Hal Feng <hal.feng@starfivetech.com>,
+ Michael Turquette <mturquette@baylibre.com>,
+ Stephen Boyd <sboyd@kernel.org>, Conor Dooley <conor+dt@kernel.org>,
+ Xingyu Wu <xingyu.wu@starfivetech.com>, Vinod Koul <vkoul@kernel.org>,
+ Kishon Vijay Abraham I <kishon@kernel.org>,
+ Andrzej Hajda <andrzej.hajda@intel.com>,
+ Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, Lee Jones <lee@kernel.org>,
+ Philipp Zabel <p.zabel@pengutronix.de>,
+ Paul Walmsley <paul.walmsley@sifive.com>,
+ Palmer Dabbelt <palmer@dabbelt.com>,
+ Albert Ou <aou@eecs.berkeley.edu>, Alexandre Ghiti <alex@ghiti.fr>,
+ Marek Szyprowski <m.szyprowski@samsung.com>,
+ Icenowy Zheng <uwu@icenowy.me>,
+ Maud Spierings <maudspierings@gocontroll.com>,
+ Andy Yan <andyshrk@163.com>, Heiko Stuebner <heiko@sntech.de>,
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-clk@vger.kernel.org, linux-phy@lists.infradead.org,
+ dri-devel@lists.freedesktop.org, linux-riscv@lists.infradead.org
+Subject: Re: [PATCH RFC 00/13] drm: starfive: jh7110: Enable display subsystem
+Message-ID: <20251111-footing-eclair-332f5f0769f2@spud>
+References: <CGME20251108010451eucas1p1c7bf340dbd2b1b7cbfb53d6debce7a2e@eucas1p1.samsung.com>
+ <20251108-jh7110-clean-send-v1-0-06bf43bb76b1@samsung.com>
+ <20251110-clang-baking-b8b27730356e@spud>
+ <00e897dc-9966-439b-a74a-7604a1870027@samsung.com>
 MIME-Version: 1.0
-X-OriginatorOrg: renesas.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: OS3PR01MB8319.jpnprd01.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 331dd724-d8e3-49ea-3c13-08de214a94b5
-X-MS-Exchange-CrossTenant-originalarrivaltime: 11 Nov 2025 17:48:53.9271 (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 53d82571-da19-47e4-9cb4-625a166a4a2a
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: S2P27++2qUGb/xjREmnuaLaLdSXUC9qoMXA5JsjQMehCCMFAKxhskv2K3yDny1XpciXrfnv29nSy+deVO4/T77o2oUZxVf3YZkc149tGy6c=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: TY7PR01MB14553
+Content-Type: multipart/signed; micalg=pgp-sha512;
+ protocol="application/pgp-signature"; boundary="/gBidW5Sm+Kw8wVT"
+Content-Disposition: inline
+In-Reply-To: <00e897dc-9966-439b-a74a-7604a1870027@samsung.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -159,24 +85,73 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Hugo,
 
-Thank you for testing.
+--/gBidW5Sm+Kw8wVT
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-On Tue, Nov 11, 2025 12:02 PM, Hugo Villeneuve wrote:
-> I just tested your patchset on kernel 6.17.7, and my display no longer wo=
-rks.
->
-> Also tested on torvalds/master tree commit 4427259cc7f7, with similar
-> results:
->
->     rzg2l-cpg 11010000.clock-controller: hsclk out of range
+On Tue, Nov 11, 2025 at 04:33:28PM +0100, Michal Wilczynski wrote:
+>=20
+>=20
+> On 11/10/25 20:35, Conor Dooley wrote:
+> > On Sat, Nov 08, 2025 at 02:04:34AM +0100, Michal Wilczynski wrote:
+> >> This series enables the display subsystem on the StarFive JH7110 SoC.
+> >> This hardware has a complex set of dependencies that this series aims =
+to
+> >> solve.
+> >>
+> >> I believe this is a PHY tuning issue that can be fixed in the new
+> >> phy-jh7110-inno-hdmi.c driver without changing the overall architectur=
+e.
+> >> I plan to continue debugging these modes and will submit follow up fix=
+es
+> >> as needed.
+> >>
+> >> The core architectural plumbing is sound and ready for review.
+> >>
+> >> Notes:
+> >> - The JH7110 does not have a centralized MAINTAINERS entry like the
+> >>   TH1520, and driver maintainership seems fragmented. I have therefore
+> >>   added a MAINTAINERS entry for the display subsystem and am willing to
+> >>   help with its maintenance.
+> >=20
+> > Yeah, bunch of different folks wrote the drivers, so lots of entries.
+> > Pretty much all as you've done here, authors are responsible for the
+> > individual components and Emil is the platform maintainer but
+> > responsible for most drivers.
+> >=20
+> > Do you need any feedback dt wise on the RFC, or is it too likely that
+> > we'll both waste our breath if the DRM folks don't approve of your
+> > approach for the rest of this series?
+>=20
+> Hi Conor,
+>=20
+> Thank you for your response.
+>=20
+> That's a fair point about the risk of the DRM approach being rejected.
+> While I can't be certain, I'm hopeful that part is relatively
+> straightforward, as it primarily integrates other recently reviewed
+> (though not yet merged) components like the inno-hdmi bridge and dc8200
+> drivers.
+>=20
+> To be honest, I was more concerned that the DT part of the series would
+> be more problematic. Given that, I would find it very helpful to get
+> your feedback on the DT aspects now, if you have the time.
 
-I'm pretty sure you are using 4 lanes, and a 24-bit panel, but what is the =
-vclk of your display?
+Right. You'll definitely want some actual DRM people to weigh in though
+before making changes, I am really not familiar enough with this type of
+hardware to know if the breakdown is correct.
 
-I want to check out the math.
+--/gBidW5Sm+Kw8wVT
+Content-Type: application/pgp-signature; name="signature.asc"
 
-Thank you,
-Chris
+-----BEGIN PGP SIGNATURE-----
 
+iHUEABYKAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCaRN9GAAKCRB4tDGHoIJi
+0r8GAPkBsYDP7LLqp2+h6FYJs9F/YlRAnuueN9JB2on22suIYQEA03Yvk0N2Sfh+
+Ee2i/GJcLr7XOYAXK2mOE8f+CiHaLQU=
+=L7ty
+-----END PGP SIGNATURE-----
+
+--/gBidW5Sm+Kw8wVT--
