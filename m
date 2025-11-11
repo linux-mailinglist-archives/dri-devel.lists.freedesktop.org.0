@@ -2,54 +2,54 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9B842C4CBDA
-	for <lists+dri-devel@lfdr.de>; Tue, 11 Nov 2025 10:44:38 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id E01A2C4CC5E
+	for <lists+dri-devel@lfdr.de>; Tue, 11 Nov 2025 10:52:07 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E247310E4E8;
-	Tue, 11 Nov 2025 09:44:19 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A77C010E05B;
+	Tue, 11 Nov 2025 09:52:04 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=wanadoo.fr header.i=@wanadoo.fr header.b="MyrqbHIw";
+	dkim=pass (2048-bit key; unprotected) header.d=wanadoo.fr header.i=@wanadoo.fr header.b="CK1iDT5h";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp.smtpout.orange.fr (smtp-18.smtpout.orange.fr
- [80.12.242.18])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8C99710E4E8
- for <dri-devel@lists.freedesktop.org>; Tue, 11 Nov 2025 09:44:18 +0000 (UTC)
+Received: from smtp.smtpout.orange.fr (smtp-20.smtpout.orange.fr
+ [80.12.242.20])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id AB86A10E05B
+ for <dri-devel@lists.freedesktop.org>; Tue, 11 Nov 2025 09:52:03 +0000 (UTC)
 Received: from [IPV6:2a01:cb10:785:b00:8347:f260:7456:7662]
  ([IPv6:2a01:cb10:785:b00:8347:f260:7456:7662])
  by smtp.orange.fr with ESMTPA
- id Ikv8vvv4mV77oIkv9vtG0N; Tue, 11 Nov 2025 10:44:16 +0100
+ id Il2dvVh0IctOkIl2dvVzyv; Tue, 11 Nov 2025 10:52:02 +0100
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=wanadoo.fr;
- s=t20230301; t=1762854257;
- bh=CHfLli/YyfFwV3T0yFA5G67pC7Ph9J6EzmMhdJSTX8Q=;
+ s=t20230301; t=1762854722;
+ bh=gfy7N/mDK+VpLubk+NOWvskvwmHqqBPmJx4tUfYEUDw=;
  h=Message-ID:Date:MIME-Version:Subject:To:From;
- b=MyrqbHIwDIIicrv0dBc9pNSUOif9qqZ3Q74BUyuUG1+zXfgFU0lbDirwv10WniNvE
- rpD9UL+grgg+40XvtnkngWeCx8xhVlpzXrzr+M6KEmQ7UsG5MF+EbVTJrLlSagSQHC
- yEyuCfK2BpKelwB1h9BXz6G+vP2I6Fn8Lt4Cdy2lDhrpL7kMVVWdGTTz0Ej4bmLF7i
- MpsGvTklr9drVCRxy29UCnCESthcl6okud7P0l+RvE5YWQTq1yowP+MBboUpug4UsI
- 97D612mB25qwdaNeavvsy/yFeH8vQiL2LYklYvLkHqeUFaVvh1Nu9D6qbnCANbKFPE
- CbzWXS+pBLuQA==
+ b=CK1iDT5h78TDCDCJVut3FTukn6kfp8u9E5nv+falxzhViaXuy1bB/KwPURIcrvV5o
+ DUXwXXWG1m7CFhTSXVUsTF/nIe4W7iOex2qnuMit4hluqk0y30+VMCZrk7Q0u6vkGV
+ 4i3zz+5xj9VplSUgN+3jYQskKbiippzWrwgaoB2bPA/NNKAl0qMANU1tzorsxAdSkH
+ BVsUwrnSGWjtvgkrmPjmvYJAFoMd3sjxLchzA+anMBwn6gXRqQutigL7qKOHLQFIzg
+ Q6dzLdeWUcPYz9b+oQdeguevKtXVpes5SIjF6f5f2QCmZYdbpIFJjBJs6Cc2e0cLiY
+ GwCRSuoF9gRwQ==
 X-ME-Helo: [IPV6:2a01:cb10:785:b00:8347:f260:7456:7662]
 X-ME-Auth: Y2hyaXN0b3BoZS5qYWlsbGV0QHdhbmFkb28uZnI=
-X-ME-Date: Tue, 11 Nov 2025 10:44:17 +0100
+X-ME-Date: Tue, 11 Nov 2025 10:52:02 +0100
 X-ME-IP: 2a01:cb10:785:b00:8347:f260:7456:7662
-Message-ID: <269e26c5-556c-47c5-bd1a-163bf2386365@wanadoo.fr>
-Date: Tue, 11 Nov 2025 10:44:14 +0100
+Message-ID: <3f40d64a-5312-40b1-890d-68d6c5e5203b@wanadoo.fr>
+Date: Tue, 11 Nov 2025 10:51:58 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH V1 3/5] accel/amd_vpci: Add Remote Management(RM) queue
- infrastructure
+Subject: Re: [PATCH V1 4/5] accel/amd_vpci: Add Remote Management (RM) queue
+ service APIs
 To: David Zhang <yidong.zhang@amd.com>, ogabbay@kernel.org,
  quic_jhugo@quicinc.com, maciej.falkowski@linux.intel.com,
  dri-devel@lists.freedesktop.org
 Cc: linux-kernel@vger.kernel.org, sonal.santan@amd.com,
  mario.limonciello@amd.com, lizhi.hou@amd.com, Nishad Saraf <nishads@amd.com>
 References: <20251111011550.439157-1-yidong.zhang@amd.com>
- <20251111011550.439157-4-yidong.zhang@amd.com>
+ <20251111011550.439157-5-yidong.zhang@amd.com>
 From: Christophe JAILLET <christophe.jaillet@wanadoo.fr>
 Content-Language: en-US, fr-FR
-In-Reply-To: <20251111011550.439157-4-yidong.zhang@amd.com>
+In-Reply-To: <20251111011550.439157-5-yidong.zhang@amd.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -68,21 +68,18 @@ Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 Le 11/11/2025 à 02:15, David Zhang a écrit :
-> This patch introduces a Remote Management (RM) queue service, which
-> provides a way to communicate between the management PCIe function (PF0)
-> and the embedded firmware running on AMD Versal SoCs.
+> This patch introduces a set of APIs for allowing the PCIe driver submit
+> commands, transfer binary payloads and retrieve firmware metadata.
 > 
-> The RM service implements a hardware-based ring buffer for bidirectional
-> command and response exchange between the host driver and the firmware.
-> 
-> This patch adds the core infrastructure for:
->    - Initializing and managing the RM queue
->    - Submitting commands to the embedded firmware
->    - Polling for command completion
-> 
-> Subsequent patches will integrate the infrastructure with the firmware
-> management logic to enable firmware download, status query, and other
-> control operations.
+> Key features:
+> - RM queue command APIs:
+>    - create and destroy RM queue commands
+>    - Initialized command data payloads
+>    - Send and poll for command completion
+> - Service-level operations:
+>    - Retrieve firmware ID
+>    - Program accelerator and APU firmware images
+>    - Periodic health monitoring
 > 
 > Co-developed-by: Nishad Saraf <nishads@amd.com>
 > Signed-off-by: Nishad Saraf <nishads@amd.com>
@@ -90,37 +87,99 @@ Le 11/11/2025 à 02:15, David Zhang a écrit :
 
 ...
 
-> diff --git a/drivers/accel/amd_vpci/versal-pci-rm-service.h b/drivers/accel/amd_vpci/versal-pci-rm-service.h
-> new file mode 100644
-> index 000000000000..d2397a1a672c
-> --- /dev/null
-> +++ b/drivers/accel/amd_vpci/versal-pci-rm-service.h
+> +static void rm_check_health(struct work_struct *w)
+> +{
+> +	struct rm_device *rdev = to_rdev_health_monitor(w);
+> +	u32 max_len = PAGE_SIZE;
+> +	struct rm_cmd *cmd;
+> +	int ret;
+> +
+> +	ret = rm_queue_create_cmd(rdev, RM_QUEUE_OP_GET_LOG_PAGE, &cmd);
+> +	if (ret)
+> +		return;
+> +
+> +	ret = rm_queue_payload_init(cmd, RM_CMD_LOG_PAGE_AXI_TRIP_STATUS);
+> +	if (ret)
+> +		goto destroy_cmd;
+> +
+> +	ret = rm_queue_send_cmd(cmd, RM_CMD_WAIT_CONFIG_TIMEOUT);
+> +	if (ret == -ETIME || ret == -EINVAL)
+> +		goto payload_fini;
+> +
+> +	if (ret) {
+> +		u32 log_len = cmd->cq_msg.data.page.len;
+> +
+> +		if (log_len > max_len) {
+> +			vdev_warn(rdev->vdev, "msg size %d is greater than requested %d",
+> +				  log_len, max_len);
+> +			log_len = max_len;
+> +		}
+> +
+> +		if (log_len) {
+> +			char *buffer = vzalloc(log_len);
+> +
+> +			if (!buffer)
+> +				goto payload_fini;
+> +
+> +			ret = rm_queue_copy_response(cmd, buffer, log_len);
+> +			if (ret) {
+> +				vfree(buffer);
+> +				goto payload_fini;
+> +			}
+> +
+> +			vdev_err(rdev->vdev, "%s", buffer);
+
+This looks like the normal path. is vdev_err() expected here?
+
+> +			vfree(buffer);
+> +
+> +		} else {
+> +			vdev_err(rdev->vdev, "firewall check ret%d", ret);
+> +		}
+> +
+> +		rdev->firewall_tripped = 1;
+> +	}
+> +
+> +payload_fini:
+> +	rm_queue_payload_fini(cmd);
+> +destroy_cmd:
+> +	rm_queue_destroy_cmd(cmd);
+> +
+> +	vdev_dbg(rdev->vdev, "check result: %d", ret);
+> +}
 
 ...
 
-> +#define RM_CMD_ID_MIN			1
-> +#define RM_CMD_ID_MAX			(BIT(17) - 1)
-> +#define RM_CMD_SQ_HDR_OPS_MSK		GENMASK(15, 0)
-> +#define RM_CMD_SQ_HDR_SIZE_MSK		GENMASK(14, 0)
-> +#define RM_CMD_SQ_SLOT_SIZE		SZ_512
-> +#define RM_CMD_CQ_SLOT_SIZE		SZ_16
-> +#define RM_CMD_CQ_BUFFER_SIZE		(1024 * 1024)
-
-SZ_1M to be consistent with other xx_SIZE macro?
-
-> +#define RM_CMD_CQ_BUFFER_OFFSET		0x0
-> +#define RM_CMD_LOG_PAGE_TYPE_MASK	GENMASK(15, 0)
-> +#define RM_CMD_VMR_CONTROL_MSK		GENMASK(10, 8)
-> +#define RM_CMD_VMR_CONTROL_PS_MASK	BIT(9)
+> +struct rm_device *versal_pci_rm_init(struct versal_pci_device *vdev)
+> +{
+> +	struct rm_header *header;
+> +	struct rm_device *rdev;
+> +	u32 status;
+> +	int ret;
 > +
-> +#define RM_CMD_WAIT_CONFIG_TIMEOUT	msecs_to_jiffies(10 * 1000)
-> +#define RM_CMD_WAIT_DOWNLOAD_TIMEOUT	msecs_to_jiffies(300 * 1000)
-
-secs_to_jiffies() maybe to be less verbose?
-
+> +	rdev = devm_kzalloc(&vdev->pdev->dev, sizeof(*rdev), GFP_KERNEL);
+> +	if (!rdev)
+> +		return ERR_PTR(-ENOMEM);
 > +
-> +#define RM_COMPLETION_TIMER		(HZ / 10)
-> +#define RM_HEALTH_CHECK_TIMER		(HZ)
+> +	rdev->vdev = vdev;
+> +	header = &rdev->rm_metadata;
+> +
+> +	rm_shmem_bulk_read(rdev, RM_HDR_OFF, (u32 *)header, sizeof(*header));
+> +	if (header->magic != RM_HDR_MAGIC_NUM) {
+> +		vdev_err(vdev, "Invalid RM header 0x%x", header->magic);
+> +		ret = -ENODEV;
+> +		goto err;
+> +	}
+> +
+> +	status = rm_shmem_read(rdev, header->status_off);
+> +	if (!status) {
+> +		vdev_err(vdev, "RM status %d is not ready", status);
+
+This can be simplified, status is knwon to be 0.
+
+> +		ret = -ENODEV;
+> +		goto err;
+> +	}
 
 ...
 
