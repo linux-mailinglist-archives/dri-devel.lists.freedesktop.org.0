@@ -2,115 +2,85 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2CBDAC49D61
-	for <lists+dri-devel@lfdr.de>; Tue, 11 Nov 2025 01:11:46 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id E4842C49D8F
+	for <lists+dri-devel@lfdr.de>; Tue, 11 Nov 2025 01:17:37 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2796910E325;
-	Tue, 11 Nov 2025 00:11:42 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A333B10E039;
+	Tue, 11 Nov 2025 00:17:35 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="RQNhfVxW";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="UIgXPaoo";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B4C2F10E101;
- Tue, 11 Nov 2025 00:11:40 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by tor.source.kernel.org (Postfix) with ESMTP id 708F960147;
- Tue, 11 Nov 2025 00:11:39 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id DE3B5C113D0;
- Tue, 11 Nov 2025 00:11:38 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1762819899;
- bh=UJb6mXnrZynjLpPgHUrW0+nPkNlnIA1ohpPmrhdt5kI=;
- h=Date:From:To:Cc:Subject:In-Reply-To:From;
- b=RQNhfVxWS3kSkUZ3/Yn/h0BmXL51tmLd+96fcvkdQVv1vGLPiWTHRkycOoEeo86n+
- AomTbI2OwWKrh916BvopP2FmTFRSTMpM+ffKgocFApMJHdp1EKgU6X5hO4qa0osljw
- 17UC1rMSI+vUK4hzsEvsvxu9BntOhbPUYi/m0034GgTDaN8qQYvPNZ+teI5+B2ybWa
- HwOKozmrkxff/CrJtzPPwDnYAm5CuGW9jLgaRZXE1tGy7RFW1GXxjP1lsvTw64BiD6
- 3+AvpY4WKIjmTgnbEp1K+YKbfLbuPtZz53Jb09WBB7saLr4xY2Ybz2RWqug2curgjQ
- RYENRwzTM6ubQ==
-Date: Mon, 10 Nov 2025 18:11:37 -0600
-From: Bjorn Helgaas <helgaas@kernel.org>
-To: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-Cc: Corey Minyard <corey@minyard.net>,
- Christian =?utf-8?B?S8O2bmln?= <christian.koenig@amd.com>,
- "Dr. David Alan Gilbert" <linux@treblig.org>,
- Alex Deucher <alexander.deucher@amd.com>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>,
- Rob Clark <robin.clark@oss.qualcomm.com>,
- Matthew Brost <matthew.brost@intel.com>,
- Hans Verkuil <hverkuil@kernel.org>,
- Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
- Ulf Hansson <ulf.hansson@linaro.org>,
- Vitaly Lifshits <vitaly.lifshits@intel.com>,
- Manivannan Sadhasivam <mani@kernel.org>,
- Niklas Cassel <cassel@kernel.org>, Calvin Owens <calvin@wbinvd.org>,
- Sagi Maimon <maimon.sagi@gmail.com>,
- "Martin K. Petersen" <martin.petersen@oracle.com>,
- Karan Tilak Kumar <kartilak@cisco.com>,
- Casey Schaufler <casey@schaufler-ca.com>,
- Steven Rostedt <rostedt@goodmis.org>, Petr Mladek <pmladek@suse.com>,
- Max Kellermann <max.kellermann@ionos.com>,
- Takashi Iwai <tiwai@suse.de>, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org, openipmi-developer@lists.sourceforge.net,
- linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
- linaro-mm-sig@lists.linaro.org, amd-gfx@lists.freedesktop.org,
- linux-arm-msm@vger.kernel.org, freedreno@lists.freedesktop.org,
- intel-xe@lists.freedesktop.org, linux-mmc@vger.kernel.org,
- netdev@vger.kernel.org, intel-wired-lan@lists.osuosl.org,
- linux-pci@vger.kernel.org, linux-s390@vger.kernel.org,
- linux-scsi@vger.kernel.org, linux-staging@lists.linux.dev,
- ceph-devel@vger.kernel.org, linux-trace-kernel@vger.kernel.org,
- linux-sound@vger.kernel.org, Rasmus Villemoes <linux@rasmusvillemoes.dk>,
- Sergey Senozhatsky <senozhatsky@chromium.org>,
- Jonathan Corbet <corbet@lwn.net>, Sumit Semwal <sumit.semwal@linaro.org>,
- Gustavo Padovan <gustavo@padovan.org>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Dmitry Baryshkov <lumag@kernel.org>,
- Abhinav Kumar <abhinav.kumar@linux.dev>,
- Jessica Zhang <jesszhan0024@gmail.com>, Sean Paul <sean@poorly.run>,
- Marijn Suijten <marijn.suijten@somainline.org>,
- Konrad Dybcio <konradybcio@kernel.org>,
- Lucas De Marchi <lucas.demarchi@intel.com>,
- Thomas =?utf-8?Q?Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>,
- Mauro Carvalho Chehab <mchehab@kernel.org>,
- Vladimir Oltean <olteanv@gmail.com>, Andrew Lunn <andrew@lunn.ch>,
- "David S. Miller" <davem@davemloft.net>,
- Eric Dumazet <edumazet@google.com>,
- Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
- Tony Nguyen <anthony.l.nguyen@intel.com>,
- Przemek Kitszel <przemyslaw.kitszel@intel.com>,
- Krzysztof =?utf-8?Q?Wilczy=C5=84ski?= <kwilczynski@kernel.org>,
- Kishon Vijay Abraham I <kishon@kernel.org>,
- Bjorn Helgaas <bhelgaas@google.com>,
- Rodolfo Giometti <giometti@enneenne.com>,
- Jonathan Lemon <jonathan.lemon@gmail.com>,
- Vadim Fedorenko <vadim.fedorenko@linux.dev>,
- Richard Cochran <richardcochran@gmail.com>,
- Stefan Haberland <sth@linux.ibm.com>,
- Jan Hoeppner <hoeppner@linux.ibm.com>, Heiko Carstens <hca@linux.ibm.com>,
- Vasily Gorbik <gor@linux.ibm.com>,
- Alexander Gordeev <agordeev@linux.ibm.com>,
- Christian Borntraeger <borntraeger@linux.ibm.com>,
- Sven Schnelle <svens@linux.ibm.com>, Satish Kharat <satishkh@cisco.com>,
- Sesidhar Baddela <sebaddel@cisco.com>,
- "James E.J. Bottomley" <James.Bottomley@hansenpartnership.com>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Xiubo Li <xiubli@redhat.com>, Ilya Dryomov <idryomov@gmail.com>,
- Masami Hiramatsu <mhiramat@kernel.org>,
- Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
- Andrew Morton <akpm@linux-foundation.org>,
- Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>
-Subject: Re: [PATCH v1 17/23] PCI: epf-test: Switch to use %ptSp
-Message-ID: <20251111001137.GA2145521@bhelgaas>
+Received: from mail-io1-f48.google.com (mail-io1-f48.google.com
+ [209.85.166.48])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9104C10E338
+ for <dri-devel@lists.freedesktop.org>; Tue, 11 Nov 2025 00:17:34 +0000 (UTC)
+Received: by mail-io1-f48.google.com with SMTP id
+ ca18e2360f4ac-9486b567baaso304904639f.0
+ for <dri-devel@lists.freedesktop.org>; Mon, 10 Nov 2025 16:17:34 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20230601; t=1762820253; x=1763425053; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:in-reply-to:from:content-language
+ :references:cc:to:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=2Q8HKQ4KcnH36XoiAPXuxGl+urZnJV8rIP1Qwq36EqA=;
+ b=UIgXPaoohds1MS0w1urUh+ff+XYDAaDnBgr3fNro0n26jqttbCPetvCYctcre+o5Ls
+ tlB9vCc6PfpHIgH+6yIHqdTG0c+kHVLelSf0Zzlvp6kOgRMAIrK89R1N+rzYuC6kzr1V
+ m9itxiWSl1c64a12Zn3FbudvGCNhX7oO2y537bGmsniow9/Wd6okUfRkmVblI6DHVsb/
+ a5MMTomHh8PWKQ5XRpcgvP413ZlMDriFNOdEmkaYQHJ9twHKtehkcWrg6KdKIc4C6qa7
+ Pzx8xhZJkc0iMqIZ9M2sg+AB8GNYKIUE1dSJ0PzwyaHWJA+nAMzBWU6poxJ/8uMGf5Xu
+ OU9Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1762820253; x=1763425053;
+ h=content-transfer-encoding:in-reply-to:from:content-language
+ :references:cc:to:subject:user-agent:mime-version:date:message-id
+ :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=2Q8HKQ4KcnH36XoiAPXuxGl+urZnJV8rIP1Qwq36EqA=;
+ b=XROnl+1I2s+qqMkVb9h3H/5FD6H6Y/HMiY8sJHXfuDejDE9ErBLqEgVkhg5uhq8LAi
+ F/srXzIV7eLj0ll7hKHmYkgBzvAge+r4TNZiBpiD5XGLYfbF2WTWhjn5YdK9mMAdw9jM
+ W2OZdgGjwiH5BPF7EArhzW6nV4ikK/Aqah/qy5Sq407P98XJfhjJ/4vd6MP8SeDgalE6
+ RV5E4Tjh9zTPdJ2Si3rnrlfMHB4lDOnFFztGiCgfiEJhJOS6yaTFZRwdnh83aW4R111+
+ 8HbDW3ykgZI+5F+DRteB+cKQ+Xxdgf5MBVRQpcEscJlmFzRNE6jiawEL7H8ID3mxl0GU
+ +4iA==
+X-Gm-Message-State: AOJu0YyUqT5UwfSobbQiJNXicpzHBPDVzuTayV2a1CYOFMtbbKE+hkRe
+ vq7AbjEIe4u2HP/9UNK1SQLbIhFROdwJHftF4f+uXxkuOJguj6nDUjXT
+X-Gm-Gg: ASbGnctxyw0JQ9swdpK9XnCYR8UGaNAfajB+02z4STx5lHKOfQG/cvtCnreIuePe7xB
+ cpsPjA/bi1yxbJ/WIl8Qr92SdZvvfmD/F7E3b1wvIgNoC8jCumtGJMBX78afddSK2A/dhV80GR4
+ HHe848yN+ELYVT7yznXkEU3dCRd8zSkzsmOFxjvhUxMaQvRlf7sVWlDGFm0PZV1Fkc98Irr9pad
+ qtmxd290bryphtljRNl7rEY03sORFLveB+ngR0ifQ5yh2cfxwWraBTxEgpKlUEkS6JZ2Ced1gFq
+ 6/GoGHzbwuBZ2vkFXSQKAPahcVNF3TUorVOu2oRutBmgSa6+52wfzPJtBE31gI6t6/284f6lfs+
+ I0QYJhNccyBYMYG6FKuHpKFYjBY4t1q/+cgLrtsorJ+pUqeJpjXLznPtUY4ysaqwpo6afwJOeVL
+ WTXVgvWgLVU1zrxNNU8omp8sk77QOSZ5/1kqoBjbdwHhHsru2mQqY=
+X-Google-Smtp-Source: AGHT+IEAm+mJm6K/xigqu97Kf9Pb7DwxatHpmYK1k/IstJxUHVyghC6X6TBmTN8zYaB+T4/gOtOTNw==
+X-Received: by 2002:a05:6602:6412:b0:948:5f42:32a1 with SMTP id
+ ca18e2360f4ac-94895f8ea61mr1547811039f.5.1762820253527; 
+ Mon, 10 Nov 2025 16:17:33 -0800 (PST)
+Received: from [100.64.0.17] (c-68-55-107-1.hsd1.mi.comcast.net. [68.55.107.1])
+ by smtp.gmail.com with ESMTPSA id
+ 8926c6da1cb9f-5b746923f26sm5588519173.38.2025.11.10.16.17.32
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 10 Nov 2025 16:17:33 -0800 (PST)
+Message-ID: <13627c6c-f428-4520-b0d4-32fca1e7a2a0@gmail.com>
+Date: Mon, 10 Nov 2025 19:17:31 -0500
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20251110184727.666591-18-andriy.shevchenko@linux.intel.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] drm/amdgpu: use static ids for ACP platform devs
+To: Alex Deucher <alexdeucher@gmail.com>
+Cc: dri-devel@lists.freedesktop.org, amd-gfx@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, alexander.deucher@amd.com,
+ christian.koenig@amd.com, airlied@gmail.com, simona@ffwll.ch,
+ sunil.khatri@amd.com, boyuan.zhang@amd.com
+References: <20250325210517.2097188-1-bradynorander@gmail.com>
+ <CADnq5_MNBUY=jWbnq-gZQ_4_M_sBJGAgMD0bj2cMdnkoU9G=HA@mail.gmail.com>
+ <9ab05b38-6f77-4b0b-8a1b-8314e2873047@gmail.com>
+ <CADnq5_No+w+tco9j35GBM3+CYBTo018eLwWec278d3VBJHPQxw@mail.gmail.com>
+Content-Language: en-US
+From: Brady Norander <bradynorander@gmail.com>
+In-Reply-To: <CADnq5_No+w+tco9j35GBM3+CYBTo018eLwWec278d3VBJHPQxw@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -126,34 +96,24 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Nov 10, 2025 at 07:40:36PM +0100, Andy Shevchenko wrote:
-> Use %ptSp instead of open coded variants to print content of
-> struct timespec64 in human readable format.
+On 11/10/25 14:14, Alex Deucher wrote:
+> On Tue, Mar 25, 2025 at 7:11 PM Brady Norander <bradynorander@gmail.com> wrote:
+>>
+>> On 3/25/25 6:12 PM, Alex Deucher wrote:
+>>>
+>>> While you are at it, can you take a look at
+>>> drivers/gpu/drm/amd/amdgpu/isp_v4_1_0.c and
+>>> drivers/gpu/drm/amd/amdgpu/isp_v4_1_1.c as well?
+>>>
+>>> Alex
+>>
+>> I think it makes more sense to handle that in a separate patch as it is
+>> an unrelated ip block.
 > 
-> Signed-off-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+> Sure. Can you send a patch to fix those up as well if needed?
+> 
+> Alex
 
-Acked-by: Bjorn Helgaas <bhelgaas@google.com>
-
-> ---
->  drivers/pci/endpoint/functions/pci-epf-test.c | 5 ++---
->  1 file changed, 2 insertions(+), 3 deletions(-)
-> 
-> diff --git a/drivers/pci/endpoint/functions/pci-epf-test.c b/drivers/pci/endpoint/functions/pci-epf-test.c
-> index b05e8db575c3..debd235253c5 100644
-> --- a/drivers/pci/endpoint/functions/pci-epf-test.c
-> +++ b/drivers/pci/endpoint/functions/pci-epf-test.c
-> @@ -331,9 +331,8 @@ static void pci_epf_test_print_rate(struct pci_epf_test *epf_test,
->  		rate = div64_u64(size * NSEC_PER_SEC, ns * 1000);
->  
->  	dev_info(&epf_test->epf->dev,
-> -		 "%s => Size: %llu B, DMA: %s, Time: %llu.%09u s, Rate: %llu KB/s\n",
-> -		 op, size, dma ? "YES" : "NO",
-> -		 (u64)ts.tv_sec, (u32)ts.tv_nsec, rate);
-> +		 "%s => Size: %llu B, DMA: %s, Time: %ptSp s, Rate: %llu KB/s\n",
-> +		 op, size, dma ? "YES" : "NO", &ts, rate);
->  }
->  
->  static void pci_epf_test_copy(struct pci_epf_test *epf_test,
-> -- 
-> 2.50.1
-> 
+I don't know if that driver needs this, and I also don't have that 
+hardware to test it. If that driver needs this fix, then this can be 
+revisited but I don't think it should block this patch being merged now.
