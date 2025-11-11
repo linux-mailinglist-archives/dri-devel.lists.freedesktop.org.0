@@ -2,74 +2,38 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 530B8C4F6C0
-	for <lists+dri-devel@lfdr.de>; Tue, 11 Nov 2025 19:24:02 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 48D38C4F6D2
+	for <lists+dri-devel@lfdr.de>; Tue, 11 Nov 2025 19:25:25 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4870510E0DC;
-	Tue, 11 Nov 2025 18:24:00 +0000 (UTC)
-Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="svEXRkNt";
-	dkim-atps=neutral
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3D08110E16A;
+	Tue, 11 Nov 2025 18:25:23 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sea.source.kernel.org (sea.source.kernel.org [172.234.252.31])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B83DF10E0DC
- for <dri-devel@lists.freedesktop.org>; Tue, 11 Nov 2025 18:23:58 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by sea.source.kernel.org (Postfix) with ESMTP id 4D32A40204;
- Tue, 11 Nov 2025 18:23:58 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3FC9CC16AAE;
- Tue, 11 Nov 2025 18:23:51 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1762885438;
- bh=wEYcTbf1t7TK5WW9GO1kpaI4TRakvg9qgXLkq9cJOpU=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=svEXRkNtCnUwLzz9/rJbkFLcNcd6SGYPjddbxn4Etm9Jt2qrErXd0qB2spLZdptHN
- TB6QNXBuh+iOwtSg0W257gr4zpGKitMLxwsFiYmLNnu3FynnkwyB20He99hD08e5Ma
- ZRKd8b8TwRtip9skzFP3yG7VSqUpCZyYSD3VY0W/I+Y32F2Wo88CPCOg+px6vQLJXA
- PZvLZDa7nxRs1ylhtnkVEypmlO7dV2T95z0lnd4Q6fv7oyREOIhDAYVVoPXDB1ydv4
- E5Dt9Ox6dMYp72GWkqCQvv5fHZH7QOHFK50VrpL1bsBfPaycV8x8IVmtToalySQQ0f
- oSkwIuzURyHPQ==
-Date: Tue, 11 Nov 2025 18:23:49 +0000
-From: Conor Dooley <conor@kernel.org>
-To: Michal Wilczynski <m.wilczynski@samsung.com>
-Cc: Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Emil Renner Berthing <kernel@esmil.dk>,
- Hal Feng <hal.feng@starfivetech.com>,
- Michael Turquette <mturquette@baylibre.com>,
- Stephen Boyd <sboyd@kernel.org>, Conor Dooley <conor+dt@kernel.org>,
- Xingyu Wu <xingyu.wu@starfivetech.com>, Vinod Koul <vkoul@kernel.org>,
- Kishon Vijay Abraham I <kishon@kernel.org>,
- Andrzej Hajda <andrzej.hajda@intel.com>,
- Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, Lee Jones <lee@kernel.org>,
- Philipp Zabel <p.zabel@pengutronix.de>,
- Paul Walmsley <paul.walmsley@sifive.com>,
- Palmer Dabbelt <palmer@dabbelt.com>,
- Albert Ou <aou@eecs.berkeley.edu>, Alexandre Ghiti <alex@ghiti.fr>,
- Marek Szyprowski <m.szyprowski@samsung.com>,
- Icenowy Zheng <uwu@icenowy.me>,
- Maud Spierings <maudspierings@gocontroll.com>,
- Andy Yan <andyshrk@163.com>, Heiko Stuebner <heiko@sntech.de>,
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-clk@vger.kernel.org, linux-phy@lists.infradead.org,
- dri-devel@lists.freedesktop.org, linux-riscv@lists.infradead.org
-Subject: Re: [PATCH RFC 04/13] dt-bindings: display: bridge: Add
- starfive,jh7110-hdmi-controller
-Message-ID: <20251111-filler-wisplike-2c30631e82a0@spud>
-References: <20251108-jh7110-clean-send-v1-0-06bf43bb76b1@samsung.com>
- <CGME20251108010458eucas1p11d128a6dd0aab3171db7c001e69ecfc8@eucas1p1.samsung.com>
- <20251108-jh7110-clean-send-v1-4-06bf43bb76b1@samsung.com>
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 79D1F10E16A
+ for <dri-devel@lists.freedesktop.org>; Tue, 11 Nov 2025 18:25:21 +0000 (UTC)
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+ by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 4F4841655
+ for <dri-devel@lists.freedesktop.org>; Tue, 11 Nov 2025 10:25:13 -0800 (PST)
+Received: from e110455-lin.cambridge.arm.com (usa-sjc-imap-foss1.foss.arm.com
+ [10.121.207.14])
+ by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPA id BF5BB3F63F
+ for <dri-devel@lists.freedesktop.org>; Tue, 11 Nov 2025 10:25:20 -0800 (PST)
+Date: Tue, 11 Nov 2025 18:25:13 +0000
+From: Liviu Dudau <liviu.dudau@arm.com>
+To: Abhishek Rajput <abhiraj21put@gmail.com>
+Cc: maarten.lankhorst@linux.intel.com, mripard@kernel.org,
+ tzimmermann@suse.de, airlied@gmail.com, simona@ffwll.ch,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] drm/komeda: Convert logging in d71_component.c to drm_*
+ with drm_device parameter
+Message-ID: <aRN_ierYW0i1VT0E@e110455-lin.cambridge.arm.com>
+References: <20251111113717.139401-1-abhiraj21put@gmail.com>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
- protocol="application/pgp-signature"; boundary="ZI6TsvLTJLuPL419"
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20251108-jh7110-clean-send-v1-4-06bf43bb76b1@samsung.com>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20251111113717.139401-1-abhiraj21put@gmail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -85,198 +49,207 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+On Tue, Nov 11, 2025 at 05:07:17PM +0530, Abhishek Rajput wrote:
+> Replace DRM_ERROR() calls in
+> drivers/gpu/drm/arm/display/komeda/d71/d71_component.c
+> with the corresponding drm_err() helper.
+> 
+> The drm_*() logging helpers take a struct drm_device * as the first
+> argument, allowing the DRM core to prefix log messages with the
+> corresponding device instance. This improves log traceability when
+> multiple display controllers are present.
+> 
+> The drm_device pointer is now safely obtained using
+> komeda_kms_attach(d71->mdev), ensuring proper initialization and
+> alignment with Komeda’s internal design.
 
---ZI6TsvLTJLuPL419
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+That is absolutely not safe! komeda_kms_attach() is a heavy operation
+that allocates a new drm device and it is meant to be used only at
+probe time to "attach" a komeda KMS device. You cannot call it
+from deep inside the implementation of a komeda_component.
 
-On Sat, Nov 08, 2025 at 02:04:38AM +0100, Michal Wilczynski wrote:
-> Add the dt-binding for the StarFive JH7110 Innosilicon HDMI controller
-> (DRM bridge).
->=20
-> This device is the second child of the starfive,jh7110-hdmi-mfd node. It
-> consumes register access clocks (sys, mclk, bclk) from the voutcrg and
-> both the pixel clock (pclk) and the PHY from its hdmi_phy sibling.
->=20
-> Signed-off-by: Michal Wilczynski <m.wilczynski@samsung.com>
+When you've sent the previous patch I did have a look at d71_component.c
+before replying but I've realised that it is not that easy to convert
+to drm_err(). So we either remove all the error messages, which I'm
+reluctant to do as they are useful for bring up, or we leave the file
+alone.
+
+For this patch:
+
+NACKED by Liviu Dudau <liviu.dudau@arm.com>
+
+Best regards,
+Liviu
+
+> 
+> This change aligns komeda with the DRM TODO item:
+> "Convert logging to drm_* functions with drm_device parameter".
+> 
+> Signed-off-by: Abhishek Rajput <abhiraj21put@gmail.com>
 > ---
->  .../starfive,jh7110-inno-hdmi-controller.yaml      | 123 +++++++++++++++=
-++++++
->  MAINTAINERS                                        |   1 +
->  2 files changed, 124 insertions(+)
->=20
-> diff --git a/Documentation/devicetree/bindings/display/bridge/starfive,jh=
-7110-inno-hdmi-controller.yaml b/Documentation/devicetree/bindings/display/=
-bridge/starfive,jh7110-inno-hdmi-controller.yaml
-> new file mode 100644
-> index 0000000000000000000000000000000000000000..3707c9dbff9c9fdc0ed7db472=
-0a6dd8eabeeb774
-> --- /dev/null
-> +++ b/Documentation/devicetree/bindings/display/bridge/starfive,jh7110-in=
-no-hdmi-controller.yaml
-> @@ -0,0 +1,123 @@
-> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-> +%YAML 1.2
-> +---
-> +$id: http://devicetree.org/schemas/display/bridge/starfive,jh7110-inno-h=
-dmi-controller.yaml#
-> +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> +
-> +title: StarFive JH7110 Innosilicon HDMI Controller
-> +
-> +maintainers:
-> +  - Michal Wilczynski <m.wilczynski@samsung.com>
-> +
-> +description:
-> +  The controller portion of the StarFive JH7110 INNO HDMI IP.
-> +
-> +properties:
-> +  compatible:
-> +    const: starfive,jh7110-inno-hdmi-controller
-> +
-> +  interrupts:
-> +    maxItems: 1
-> +
-> +  clocks:
-> +    items:
-> +      - description: System clock for register access
-> +      - description: Module clock
-> +      - description: Bus clock
-> +      - description: Pixel clock from PHY
-> +
-> +  clock-names:
-> +    items:
-> +      - const: sys
-> +      - const: mclk
-> +      - const: bclk
-> +      - const: pclk
-> +
-> +  resets:
-> +    maxItems: 1
-> +
-> +  reset-names:
-> +    const: hdmi_tx
-> +
-> +  phys:
-> +    maxItems: 1
-> +
-> +  phy-names:
-> +    const: hdmi-phy
-> +
-> +  ports:
-> +    $ref: /schemas/graph.yaml#/properties/ports
-> +    description:
-> +      A graph node with one input port and one output port.
-> +
-> +required:
-> +  - compatible
-> +  - interrupts
-> +  - clocks
-> +  - clock-names
-> +  - resets
-> +  - reset-names
-> +  - phys
-> +  - phy-names
-> +  - ports
-> +
-> +additionalProperties: false
-> +
-> +examples:
-> +  - |
-> +    #include <dt-bindings/clock/starfive,jh7110-crg.h>
-> +    #include <dt-bindings/reset/starfive,jh7110-crg.h>
-> +
-> +    soc {
-> +        #address-cells =3D <1>;
-> +        #size-cells =3D <1>;
-> +
-> +        hdmi_mfd: hdmi@29590000 {
-> +            compatible =3D "starfive,jh7110-hdmi-mfd";
-> +            reg =3D <0x29590000 0x4000>;
-> +
-> +            hdmi_phy: phy {
-> +                compatible =3D "starfive,jh7110-inno-hdmi-phy";
-> +                clocks =3D <&xin24m>;
-> +                clock-names =3D "refoclk";
-> +                #clock-cells =3D <0>;
-> +                clock-output-names =3D "hdmi_pclk";
-> +                #phy-cells =3D <0>;
-> +            };
-> +
-> +            hdmi_controller: controller {
+>  .../arm/display/komeda/d71/d71_component.c    | 34 ++++++++++++++-----
+>  1 file changed, 25 insertions(+), 9 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/arm/display/komeda/d71/d71_component.c b/drivers/gpu/drm/arm/display/komeda/d71/d71_component.c
+> index 67e5d3b4190f..3524ca623d6e 100644
+> --- a/drivers/gpu/drm/arm/display/komeda/d71/d71_component.c
+> +++ b/drivers/gpu/drm/arm/display/komeda/d71/d71_component.c
+> @@ -409,6 +409,8 @@ static const struct komeda_component_funcs d71_layer_funcs = {
+>  static int d71_layer_init(struct d71_dev *d71,
+>  			  struct block_header *blk, u32 __iomem *reg)
+>  {
+> +	struct komeda_kms_dev *kms = komeda_kms_attach(d71->mdev);
+> +	struct drm_device *drm = &kms->base;
+>  	struct komeda_component *c;
+>  	struct komeda_layer *layer;
+>  	u32 pipe_id, layer_id, layer_info;
+> @@ -421,7 +423,7 @@ static int d71_layer_init(struct d71_dev *d71,
+>  				 get_valid_inputs(blk),
+>  				 1, reg, "LPU%d_LAYER%d", pipe_id, layer_id);
+>  	if (IS_ERR(c)) {
+> -		DRM_ERROR("Failed to add layer component\n");
+> +		drm_err(drm, "Failed to add layer component\n");
+>  		return PTR_ERR(c);
+>  	}
+>  
+> @@ -527,6 +529,8 @@ static const struct komeda_component_funcs d71_wb_layer_funcs = {
+>  static int d71_wb_layer_init(struct d71_dev *d71,
+>  			     struct block_header *blk, u32 __iomem *reg)
+>  {
+> +	struct komeda_kms_dev *kms = komeda_kms_attach(d71->mdev);
+> +	struct drm_device *drm = &kms->base;
+>  	struct komeda_component *c;
+>  	struct komeda_layer *wb_layer;
+>  	u32 pipe_id, layer_id;
+> @@ -539,7 +543,7 @@ static int d71_wb_layer_init(struct d71_dev *d71,
+>  				 1, get_valid_inputs(blk), 0, reg,
+>  				 "LPU%d_LAYER_WR", pipe_id);
+>  	if (IS_ERR(c)) {
+> -		DRM_ERROR("Failed to add wb_layer component\n");
+> +		drm_err(drm, "Failed to add wb_layer component\n");
+>  		return PTR_ERR(c);
+>  	}
+>  
+> @@ -837,6 +841,8 @@ static const struct komeda_component_funcs d71_scaler_funcs = {
+>  static int d71_scaler_init(struct d71_dev *d71,
+>  			   struct block_header *blk, u32 __iomem *reg)
+>  {
+> +	struct komeda_kms_dev *kms = komeda_kms_attach(d71->mdev);
+> +	struct drm_device *drm = &kms->base;
+>  	struct komeda_component *c;
+>  	struct komeda_scaler *scaler;
+>  	u32 pipe_id, comp_id;
+> @@ -851,7 +857,7 @@ static int d71_scaler_init(struct d71_dev *d71,
+>  				 pipe_id, BLOCK_INFO_BLK_ID(blk->block_info));
+>  
+>  	if (IS_ERR(c)) {
+> -		DRM_ERROR("Failed to initialize scaler");
+> +		drm_err(drm, "Failed to initialize scaler");
+>  		return PTR_ERR(c);
+>  	}
+>  
+> @@ -945,6 +951,8 @@ static const struct komeda_component_funcs d71_splitter_funcs = {
+>  static int d71_splitter_init(struct d71_dev *d71,
+>  			     struct block_header *blk, u32 __iomem *reg)
+>  {
+> +	struct komeda_kms_dev *kms = komeda_kms_attach(d71->mdev);
+> +	struct drm_device *drm = &kms->base;
+>  	struct komeda_component *c;
+>  	struct komeda_splitter *splitter;
+>  	u32 pipe_id, comp_id;
+> @@ -959,7 +967,7 @@ static int d71_splitter_init(struct d71_dev *d71,
+>  				 "CU%d_SPLITTER", pipe_id);
+>  
+>  	if (IS_ERR(c)) {
+> -		DRM_ERROR("Failed to initialize splitter");
+> +		drm_err(drm, "Failed to initialize splitter");
+>  		return -1;
+>  	}
+>  
+> @@ -1015,6 +1023,8 @@ static const struct komeda_component_funcs d71_merger_funcs = {
+>  static int d71_merger_init(struct d71_dev *d71,
+>  			   struct block_header *blk, u32 __iomem *reg)
+>  {
+> +	struct komeda_kms_dev *kms = komeda_kms_attach(d71->mdev);
+> +	struct drm_device *drm = &kms->base;
+>  	struct komeda_component *c;
+>  	struct komeda_merger *merger;
+>  	u32 pipe_id, comp_id;
+> @@ -1030,7 +1040,7 @@ static int d71_merger_init(struct d71_dev *d71,
+>  				 "CU%d_MERGER", pipe_id);
+>  
+>  	if (IS_ERR(c)) {
+> -		DRM_ERROR("Failed to initialize merger.\n");
+> +		drm_err(drm, "Failed to initialize merger.\n");
+>  		return PTR_ERR(c);
+>  	}
+>  
+> @@ -1126,6 +1136,8 @@ static const struct komeda_component_funcs d71_improc_funcs = {
+>  static int d71_improc_init(struct d71_dev *d71,
+>  			   struct block_header *blk, u32 __iomem *reg)
+>  {
+> +	struct komeda_kms_dev *kms = komeda_kms_attach(d71->mdev);
+> +	struct drm_device *drm = &kms->base;
+>  	struct komeda_component *c;
+>  	struct komeda_improc *improc;
+>  	u32 pipe_id, comp_id, value;
+> @@ -1139,7 +1151,7 @@ static int d71_improc_init(struct d71_dev *d71,
+>  				 get_valid_inputs(blk),
+>  				 IPS_NUM_OUTPUT_IDS, reg, "DOU%d_IPS", pipe_id);
+>  	if (IS_ERR(c)) {
+> -		DRM_ERROR("Failed to add improc component\n");
+> +		drm_err(drm, "Failed to add improc component\n");
+>  		return PTR_ERR(c);
+>  	}
+>  
+> @@ -1253,6 +1265,8 @@ static const struct komeda_component_funcs d71_timing_ctrlr_funcs = {
+>  static int d71_timing_ctrlr_init(struct d71_dev *d71,
+>  				 struct block_header *blk, u32 __iomem *reg)
+>  {
+> +	struct komeda_kms_dev *kms = komeda_kms_attach(d71->mdev);
+> +	struct drm_device *drm = &kms->base;
+>  	struct komeda_component *c;
+>  	struct komeda_timing_ctrlr *ctrlr;
+>  	u32 pipe_id, comp_id;
+> @@ -1266,7 +1280,7 @@ static int d71_timing_ctrlr_init(struct d71_dev *d71,
+>  				 1, BIT(KOMEDA_COMPONENT_IPS0 + pipe_id),
+>  				 BS_NUM_OUTPUT_IDS, reg, "DOU%d_BS", pipe_id);
+>  	if (IS_ERR(c)) {
+> -		DRM_ERROR("Failed to add display_ctrl component\n");
+> +		drm_err(drm, "Failed to add display_ctrl component\n");
+>  		return PTR_ERR(c);
+>  	}
+>  
+> @@ -1280,6 +1294,8 @@ static int d71_timing_ctrlr_init(struct d71_dev *d71,
+>  int d71_probe_block(struct d71_dev *d71,
+>  		    struct block_header *blk, u32 __iomem *reg)
+>  {
+> +	struct komeda_kms_dev *kms = komeda_kms_attach(d71->mdev);
+> +	struct drm_device *drm = &kms->base;
+>  	struct d71_pipeline *pipe;
+>  	int blk_id = BLOCK_INFO_BLK_ID(blk->block_info);
+>  
+> @@ -1346,8 +1362,8 @@ int d71_probe_block(struct d71_dev *d71,
+>  		break;
+>  
+>  	default:
+> -		DRM_ERROR("Unknown block (block_info: 0x%x) is found\n",
+> -			  blk->block_info);
+> +		drm_err(drm, "Unknown block (block_info: 0x%x) is found\n",
+> +			blk->block_info);
+>  		err = -EINVAL;
+>  		break;
+>  	}
+> -- 
+> 2.43.0
+> 
 
-If this stuff doesn't make sense to have an example of without the phy,
-then just have an example in the parent and drop it from both child
-bindings. Or just drop the parent node and phy, and let the binding
-checking tools "invent" a fake phy for checking purposes.
-
-> +                compatible =3D "starfive,jh7110-inno-hdmi-controller";
-> +                interrupts =3D <99>;
-> +                clocks =3D <&voutcrg JH7110_VOUTCLK_HDMI_TX_SYS>,
-> +                         <&voutcrg JH7110_VOUTCLK_HDMI_TX_MCLK>,
-> +                         <&voutcrg JH7110_VOUTCLK_HDMI_TX_BCLK>,
-> +                         <&hdmi_phy>;
-> +                clock-names =3D "sys", "mclk", "bclk", "pclk";
-> +                resets =3D <&voutcrg JH7110_VOUTRST_HDMI_TX_HDMI>;
-> +                reset-names =3D "hdmi_tx";
-> +                phys =3D <&hdmi_phy>;
-> +                phy-names =3D "hdmi-phy";
-> +
-> +                ports {
-> +                    #address-cells =3D <1>;
-> +                    #size-cells =3D <0>;
-> +
-> +                    port@0 {
-> +                        reg =3D <0>;
-> +                        hdmi_in: endpoint {
-> +                            remote-endpoint =3D <&dpu_out_dpi0>;
-> +                        };
-> +                    };
-> +
-> +                    port@1 {
-> +                        reg =3D <1>;
-> +                        hdmi_out: endpoint {
-> +                            remote-endpoint =3D <&hdmi_con_in>;
-> +                        };
-> +                    };
-> +                };
-> +            };
-> +        };
-> +    };
-> +
-> +...
-> diff --git a/MAINTAINERS b/MAINTAINERS
-> index a75ba7a44ee84db6a75b91c1a0867a37db2ebcdb..66fab45bbee8c1a5f73d09bb4=
-70d28029b8c6139 100644
-> --- a/MAINTAINERS
-> +++ b/MAINTAINERS
-> @@ -24047,6 +24047,7 @@ F:	drivers/net/ethernet/stmicro/stmmac/dwmac-star=
-five.c
->  STARFIVE JH7110 DISPLAY SUBSYSTEM
->  M:	Michal Wilczynski <m.wilczynski@samsung.com>
->  S:	Maintained
-> +F:	Documentation/devicetree/bindings/display/bridge/starfive,jh7110-inno=
--hdmi-controller.yaml
->  F:	Documentation/devicetree/bindings/phy/starfive,jh7110-inno-hdmi-phy.y=
-aml
->  F:	Documentation/devicetree/bindings/soc/starfive/starfive,jh7110-vout-s=
-ubsystem.yaml
-> =20
->=20
-> --=20
-> 2.34.1
->=20
-
---ZI6TsvLTJLuPL419
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYKAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCaRN/NQAKCRB4tDGHoIJi
-0mTRAQDrzGla63doQ7J4bgwmc6WLb+V4M/UVNE1RPfdo2TM/PwD/RU18YcQAMUxv
-zYNvIsiBtHO1QpriMfcWzYUSA0r4WAA=
-=LhXK
------END PGP SIGNATURE-----
-
---ZI6TsvLTJLuPL419--
+-- 
+====================
+| I would like to |
+| fix the world,  |
+| but they're not |
+| giving me the   |
+ \ source code!  /
+  ---------------
+    ¯\_(ツ)_/¯
