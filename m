@@ -2,71 +2,71 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8DAE4C4E39D
-	for <lists+dri-devel@lfdr.de>; Tue, 11 Nov 2025 14:47:05 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9C1FCC4E3A9
+	for <lists+dri-devel@lfdr.de>; Tue, 11 Nov 2025 14:47:23 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id EF3F110E155;
-	Tue, 11 Nov 2025 13:47:02 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E191A10E5D1;
+	Tue, 11 Nov 2025 13:47:21 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="LXsoOk01";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="Q98ujS9q";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-f44.google.com (mail-wr1-f44.google.com
- [209.85.221.44])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5DF8D10E5D0
- for <dri-devel@lists.freedesktop.org>; Tue, 11 Nov 2025 13:47:02 +0000 (UTC)
-Received: by mail-wr1-f44.google.com with SMTP id
- ffacd0b85a97d-429c7e438a8so3689879f8f.2
- for <dri-devel@lists.freedesktop.org>; Tue, 11 Nov 2025 05:47:02 -0800 (PST)
+Received: from mail-wr1-f52.google.com (mail-wr1-f52.google.com
+ [209.85.221.52])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A4EC610E5D1
+ for <dri-devel@lists.freedesktop.org>; Tue, 11 Nov 2025 13:47:20 +0000 (UTC)
+Received: by mail-wr1-f52.google.com with SMTP id
+ ffacd0b85a97d-42b3c5defb2so1350542f8f.2
+ for <dri-devel@lists.freedesktop.org>; Tue, 11 Nov 2025 05:47:20 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1762868821; x=1763473621; darn=lists.freedesktop.org;
+ d=gmail.com; s=20230601; t=1762868839; x=1763473639; darn=lists.freedesktop.org;
  h=mime-version:user-agent:content-transfer-encoding:references
  :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
  :date:message-id:reply-to;
- bh=lqp3H7Hh0ahbpm5asw7hSYjR5fyabNxukpQSjLLjqfI=;
- b=LXsoOk01bcgJNcB6RG1z+spbwtjS3C/q8qdi5jQrEu0ZAyVxgIrd8v92kf6a+D0lQu
- ZR84zMW8XzVoTfUWWQWOIypVT4xMaY29qIYstaKwipFnHwb4fhPrrIrucXKQs5egz94R
- KVrEjMJHVNmMCb3mYPOxNDNT0lDDuIFrzDJGv9Z6TE5tr1htBElzlidBCBw6k5tqu3r4
- wiKIqYlHa3bQpNks0Gvl56SXCsFpTHq7WLT/LA2VySJw55aZUGhwWAQkkUtJfZIa4wlQ
- vBjwWWM6PpEj7bN6Hz6xYcGteDch5QkUk2lpzhxJ07MeTTaF6ZLfC3tsr8Wm+u2sV99Q
- UjUg==
+ bh=ly63k+uQ36PRYVBBMUEsolHGJhhPruNEH5O585g5cVs=;
+ b=Q98ujS9q6HDYigmjPdr+TBnOcq/w7C+XQBvUeQa7ctkuugvOQaNF6rncNSQ9O0HLFq
+ qrAU5b3mSEYUleSLGRPZh8r28+wZqMH+ZXj+r9Nqx9VVWu3nbvVLkn2SlgZml9WsnUwa
+ npM+jt01RLf9F1eonVf7aBuaoXSOl0EdJuiNHGE16Df9xlwH/WSS642p9snpgYC0axx8
+ 3NsHEUGXVGNcGN2O9hDh4EpMY79ejBWZGO4lc+nmGTsYab8Az31DoL0zLki4F0a6lB07
+ RTZe11ZUz384fruqzaU8LyPu++i/oldbxUXj1fQrCav22V+SeovDGcSVooy2EwmhcQPU
+ 5Lrg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1762868821; x=1763473621;
+ d=1e100.net; s=20230601; t=1762868839; x=1763473639;
  h=mime-version:user-agent:content-transfer-encoding:references
  :in-reply-to:date:cc:to:from:subject:message-id:x-gm-gg
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=lqp3H7Hh0ahbpm5asw7hSYjR5fyabNxukpQSjLLjqfI=;
- b=k+aHfPuupFG8Xr8swzaiZFnJ858bQSn1MIZokUfKcNMfz7aOa6zkOgx0kt9fi0J+CA
- A6v4NfyqQJXY1VYxOFqLSTY57XM+te2x5mjMavLr02wh94HSwl7h8jmpwVNzF9r6JKND
- a3U4BzKihwiL4GwRGvNRaAFP4KNyN6CuKm944gPVKqR/euXR/M0kSeTu6zDHr85wgOQn
- 7ZOiWtAh6k3f9PEu+41isf+Dw50TxtCmOVhTQyaHnDfBgtmeIgLQEayrb/C4JIxVkP81
- YPS/ussZEczHzbGyaToqzU37gav+eFDtDc/+OhxeYnLpcCIYNi1B7ox/KWOE8hALC2Vs
- /V0g==
+ bh=ly63k+uQ36PRYVBBMUEsolHGJhhPruNEH5O585g5cVs=;
+ b=tegNvYWSB39zOZpWTaknjPsMUrnign9QnLa/rBjvCwPyyEuecsV53VA3Hkhf5XsV1/
+ ssTcfX4MSlUemE0Iwc/jMlaVscH6dxKViUtdKqmiaUeENZ25+YiUaq1ZIf5W6EEhPv/w
+ H9/8bCuE+JfcJ4np/mKIq5pkKigNEsZdY+xMVHEYRJGJnCvWC2mnC9WU4DvSjKvVEsMc
+ 3Qu1b6iDfmaub+133ZRAkDP0FrxOdcSEP/f3gWofgXOkAOhbcxa3h9q2naX5t4+69ac4
+ ILMjADkIw3qSOY78jBu8WVvKWgxvZXpDNmp0pNkj4hpcN4j3Sb4dyCh1z2HEMCNQ2dip
+ 1+sA==
 X-Forwarded-Encrypted: i=1;
- AJvYcCVdZMKGL+QTXhD6ulyEyW4Stf0dXTkfiDr5uAjCaw2mrVQaHFHH/DGUwuEoC2l0yU7Fq4OqNcKhMAE=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YzzKRN8mwzaFviaDh+rTsdO6H5B34tF9vmRdVEpVhcfVQRCFZE/
- DfhyfNADZXtaX5ow8qFuoAvaTbw1uhT/ne8JVvCce1+UQA0O3kElOnjh
-X-Gm-Gg: ASbGnctOMYwe7gVkj6vphlGdVryjZtu9n0XcTsI40e9Kgpy8pbuv4+T3+mVht6bRRBE
- q0VUyy9WBj8e50tTbjHaqJcUfe0TvHcbghkZbtHcRfry+qKQMSO01feVWzlhzUbiWygGFy/LJ0Z
- efptF3GIj70AnQ696jowQkkuNG20g8KcEzwjq866flgRsNSmKHiEsqH0GW6hwYP57SFQZ9O8Je5
- exnwtP3xMR8aKQruJ9aCOKOZCukL1XwX44fslGEQDxAiZdb1GqnCG+1cVO6Cbn+1DhWrwdVJdaO
- JJ6jM7rO7zgmRK1Kkl5K4QIuqln1hVxax9/ytdhAhbcdNVJ8UfagXrJWVym3pNiS+pWXuL2nWyn
- DDU+/KJBwyhDoYhMOd9jvSNTgaeYV/3jVBZ1G6fKkAmP29ME2dHGkNgRQzKzjIhE0mkp7+W7BbT
- prHxDoa5D55R+iQmL0Qas0/kTT1cdi04KV9JQUu3YlZBLFXnboVO4e
-X-Google-Smtp-Source: AGHT+IHagdKxC9CDq9Z5KrnivvzwMC1LqsmSwImIzBnIdoRYO8w7pjRNA08g73rvSt+TxQnf33h8Gw==
-X-Received: by 2002:a05:6000:2107:b0:425:742e:7823 with SMTP id
- ffacd0b85a97d-42b2dc12cfamr8200062f8f.12.1762868820773; 
- Tue, 11 Nov 2025 05:47:00 -0800 (PST)
+ AJvYcCXosvo0qSHMKnfddPYOdphwbftvaynDjPjWrOhXCfmqCT53e3zj4se24f7myXJU27c+gJABsZZnj30=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YxJeHrTvXoFd6fRhiaICcsDEc9vY7rCB6ejEPUW3Q3Otyg+qoWL
+ icR8wqb7Yp5GqoIekeBImX18vL9elcoWy4o7oElgvdvoQ62FcDtcQPVb
+X-Gm-Gg: ASbGnctfuMX9ZKjit65eHbsrN6xCOH/+Ff6mbZDPUzFdocoCCrSo4rWkb2AdlFzyX1h
+ G7qwppDYPJL6q6V9ZxeIbEzObcAfS7MabGsJoLYdcuVpi809BUQjEk/OUZB5uRbSCvbj5fpbQVe
+ 3yU7OpWyBWZbrt+tJisQj3rHEkhYUNxriMPaFdGWyToNQHSAoc/ljjc60vVWrB8U7OJ+YRwt33i
+ C0N5gzywi5Fmn4eaQtTYjXOnZEl+A3gwsrq3xGxrBUUXBwozJ9+zcEcPX2k7Oy+HOWGDiN6G4WI
+ Rsf9OZMCYjJZ68S/lCFRRZDkKYprgUcWbfzDIkUu7BP3pRcQ8n2hWS7hOPlgKgjJkw5aBSSiVXC
+ FpcRL1gZ9oWYrvyNsHzslT3jBHOT2mcuQMCkF8XFMszwX8TWRGu/m29VsvVEpKx2O77TFDvvl8a
+ DyDAJCIjgQc7pPxc1jMNEmmZ+89aQNHMB7zxYl3vfOr/rnORD9KFKx
+X-Google-Smtp-Source: AGHT+IEaHVbovSzAk2lICJIM9e+6Qh2XrQ7YBl8vD/liOcYKJlhB97hC6Mu5CZwVI181Skv5+W7Ytg==
+X-Received: by 2002:adf:9c82:0:b0:42b:3090:2683 with SMTP id
+ ffacd0b85a97d-42b3090289amr7696308f8f.53.1762868839072; 
+ Tue, 11 Nov 2025 05:47:19 -0800 (PST)
 Received: from ?IPv6:2001:4c4e:24e1:af00:ca8b:1d2c:125:e560?
  ([2001:4c4e:24e1:af00:ca8b:1d2c:125:e560])
  by smtp.gmail.com with ESMTPSA id
- ffacd0b85a97d-42b2f7a0512sm21076633f8f.18.2025.11.11.05.46.59
+ ffacd0b85a97d-42b2e9644fbsm20357500f8f.25.2025.11.11.05.47.17
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 11 Nov 2025 05:47:00 -0800 (PST)
-Message-ID: <614c1ff4a998c140b2ed812b9a707839339cb94a.camel@gmail.com>
-Subject: Re: [PATCH v7 06/15] drm/amd/display: get panel id with drm_edid
- helper
+ Tue, 11 Nov 2025 05:47:18 -0800 (PST)
+Message-ID: <34b8e7bdc34003cf82c1d660ad949abb8901f99a.camel@gmail.com>
+Subject: Re: [PATCH v7 07/15] drm/amd/display: get SAD from drm_eld when
+ parsing EDID caps
 From: Timur =?ISO-8859-1?Q?Krist=F3f?= <timur.kristof@gmail.com>
 To: Melissa Wen <mwen@igalia.com>, Harry Wentland <harry.wentland@amd.com>, 
  Alex Hung <alex.hung@amd.com>, Mario Limonciello
@@ -79,10 +79,10 @@ To: Melissa Wen <mwen@igalia.com>, Harry Wentland <harry.wentland@amd.com>,
 Cc: Michel Daenzer <michel.daenzer@mailbox.org>, Jani Nikula
  <jani.nikula@linux.intel.com>, amd-gfx@lists.freedesktop.org, 
  dri-devel@lists.freedesktop.org, kernel-dev@igalia.com
-Date: Tue, 11 Nov 2025 14:46:57 +0100
-In-Reply-To: <20251106165536.161662-7-mwen@igalia.com>
+Date: Tue, 11 Nov 2025 14:47:15 +0100
+In-Reply-To: <20251106165536.161662-8-mwen@igalia.com>
 References: <20251106165536.161662-1-mwen@igalia.com>
- <20251106165536.161662-7-mwen@igalia.com>
+ <20251106165536.161662-8-mwen@igalia.com>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 User-Agent: Evolution 3.56.2 (3.56.2-2.fc42) 
@@ -103,7 +103,12 @@ Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 On Thu, 2025-11-06 at 13:49 -0300, Melissa Wen wrote:
-> Instead of using driver-specific code, use DRM helpers.
+> drm_edid_connector_update() updates display info, filling ELD with
+> audio
+> info from Short-Audio Descriptors in the last step of
+> update_dislay_info(). Our goal is stopping using raw edid, so we can
+> extract SAD from drm_eld instead of access raw edid to get audio
+> caps.
 >=20
 > Reviewed-by: Mario Limonciello <mario.limonciello@amd.com>
 > Signed-off-by: Melissa Wen <mwen@igalia.com>
@@ -111,48 +116,85 @@ On Thu, 2025-11-06 at 13:49 -0300, Melissa Wen wrote:
 Reviewed-by: Timur Krist=C3=B3f <timur.kristof@gmail.com>
 
 > ---
-> =C2=A0.../drm/amd/display/amdgpu_dm/amdgpu_dm_helpers.c | 15 +++++-------=
+> =C2=A0.../amd/display/amdgpu_dm/amdgpu_dm_helpers.c | 22 ++++++++++------=
 -
 > --
-> =C2=A01 file changed, 5 insertions(+), 10 deletions(-)
+> =C2=A01 file changed, 12 insertions(+), 10 deletions(-)
 >=20
 > diff --git
 > a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_helpers.c
 > b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_helpers.c
-> index 632cf2a32a4e..c055841c3a8f 100644
+> index c055841c3a8f..4333b02dc552 100644
 > --- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_helpers.c
 > +++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_helpers.c
-> @@ -49,16 +49,11 @@
-> =C2=A0#include "ddc_service_types.h"
-> =C2=A0#include "clk_mgr.h"
+> @@ -34,6 +34,7 @@
+> =C2=A0#include <drm/drm_probe_helper.h>
+> =C2=A0#include <drm/amdgpu_drm.h>
+> =C2=A0#include <drm/drm_edid.h>
+> +#include <drm/drm_eld.h>
+> =C2=A0#include <drm/drm_fixed.h>
 > =C2=A0
-> -static u32 edid_extract_panel_id(struct edid *edid)
-> +static void apply_edid_quirks(struct drm_device *dev,
-> +			=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 const struct drm_edid *drm_edid,
-> +			=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 struct dc_edid_caps *edid_caps)
-> =C2=A0{
-> -	return (u32)edid->mfg_id[0] << 24=C2=A0=C2=A0 |
-> -	=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 (u32)edid->mfg_id[1] << 16=C2=A0=
-=C2=A0 |
-> -	=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 (u32)EDID_PRODUCT_ID(edid);
-> -}
-> -
-> -static void apply_edid_quirks(struct drm_device *dev, struct edid
-> *edid, struct dc_edid_caps *edid_caps)
-> -{
-> -	uint32_t panel_id =3D edid_extract_panel_id(edid);
-> +	uint32_t panel_id =3D drm_edid_get_panel_id(drm_edid);
+> =C2=A0#include "dm_services.h"
+> @@ -107,9 +108,7 @@ enum dc_edid_status dm_helpers_parse_edid_caps(
+> =C2=A0	struct edid *edid_buf =3D edid ? (struct edid *) edid-
+> >raw_edid : NULL;
+> =C2=A0	const struct drm_edid *drm_edid;
+> =C2=A0	struct drm_edid_product_id product_id;
+> -	struct cea_sad *sads;
+> -	int sad_count =3D -1;
+> -	int sadb_count =3D -1;
+> +	int sad_count, sadb_count;
+> =C2=A0	int i =3D 0;
+> =C2=A0	uint8_t *sadb =3D NULL;
+> =C2=A0	enum dc_edid_status result =3D EDID_OK;
+> @@ -123,6 +122,7 @@ enum dc_edid_status dm_helpers_parse_edid_caps(
+> =C2=A0	if (!drm_edid_valid(drm_edid))
+> =C2=A0		result =3D EDID_BAD_CHECKSUM;
 > =C2=A0
-> =C2=A0	switch (panel_id) {
-> =C2=A0	/* Workaround for monitors that need a delay after detecting
-> the link */
-> @@ -143,7 +138,7 @@ enum dc_edid_status dm_helpers_parse_edid_caps(
+> +	drm_edid_connector_update(connector, drm_edid);
+> =C2=A0	drm_edid_get_product_id(drm_edid, &product_id);
 > =C2=A0
-> =C2=A0	edid_caps->edid_hdmi =3D connector->display_info.is_hdmi;
+> =C2=A0	edid_caps->manufacturer_id =3D product_id.manufacturer_name;
+> @@ -140,7 +140,7 @@ enum dc_edid_status dm_helpers_parse_edid_caps(
 > =C2=A0
-> -	apply_edid_quirks(dev, edid_buf, edid_caps);
-> +	apply_edid_quirks(dev, drm_edid, edid_caps);
+> =C2=A0	apply_edid_quirks(dev, drm_edid, edid_caps);
 > =C2=A0
-> =C2=A0	sad_count =3D drm_edid_to_sad((struct edid *) edid->raw_edid,
+> -	sad_count =3D drm_edid_to_sad((struct edid *) edid->raw_edid,
 > &sads);
+> +	sad_count =3D drm_eld_sad_count(connector->eld);
 > =C2=A0	if (sad_count <=3D 0) {
+> =C2=A0		drm_edid_free(drm_edid);
+> =C2=A0		return result;
+> @@ -148,12 +148,15 @@ enum dc_edid_status dm_helpers_parse_edid_caps(
+> =C2=A0
+> =C2=A0	edid_caps->audio_mode_count =3D min(sad_count,
+> DC_MAX_AUDIO_DESC_COUNT);
+> =C2=A0	for (i =3D 0; i < edid_caps->audio_mode_count; ++i) {
+> -		struct cea_sad *sad =3D &sads[i];
+> +		struct cea_sad sad;
+> =C2=A0
+> -		edid_caps->audio_modes[i].format_code =3D sad->format;
+> -		edid_caps->audio_modes[i].channel_count =3D sad-
+> >channels + 1;
+> -		edid_caps->audio_modes[i].sample_rate =3D sad->freq;
+> -		edid_caps->audio_modes[i].sample_size =3D sad->byte2;
+> +		if (drm_eld_sad_get(connector->eld, i, &sad) < 0)
+> +			continue;
+> +
+> +		edid_caps->audio_modes[i].format_code =3D sad.format;
+> +		edid_caps->audio_modes[i].channel_count =3D
+> sad.channels + 1;
+> +		edid_caps->audio_modes[i].sample_rate =3D sad.freq;
+> +		edid_caps->audio_modes[i].sample_size =3D sad.byte2;
+> =C2=A0	}
+> =C2=A0
+> =C2=A0	sadb_count =3D drm_edid_to_speaker_allocation((struct edid *)
+> edid->raw_edid, &sadb);
+> @@ -168,7 +171,6 @@ enum dc_edid_status dm_helpers_parse_edid_caps(
+> =C2=A0	else
+> =C2=A0		edid_caps->speaker_flags =3D DEFAULT_SPEAKER_LOCATION;
+> =C2=A0
+> -	kfree(sads);
+> =C2=A0	kfree(sadb);
+> =C2=A0	drm_edid_free(drm_edid);
+> =C2=A0
