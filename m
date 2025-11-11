@@ -2,45 +2,47 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id F2681C4EF5C
-	for <lists+dri-devel@lfdr.de>; Tue, 11 Nov 2025 17:15:23 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 15277C4F046
+	for <lists+dri-devel@lfdr.de>; Tue, 11 Nov 2025 17:23:46 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8495210E06C;
-	Tue, 11 Nov 2025 16:15:20 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 82F4A10E342;
+	Tue, 11 Nov 2025 16:23:43 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="GWGoehvn";
+	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="AAB9tkAD";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sea.source.kernel.org (sea.source.kernel.org [172.234.252.31])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A66BB10E06C
- for <dri-devel@lists.freedesktop.org>; Tue, 11 Nov 2025 16:15:18 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by sea.source.kernel.org (Postfix) with ESMTP id 6AFFB42CBC;
- Tue, 11 Nov 2025 16:15:18 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 644BEC16AAE;
- Tue, 11 Nov 2025 16:15:16 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1762877718;
- bh=fLUCOZcJGqs10IzWWpUN1U+QCtifLHFvmvQS6PWoXi8=;
+Received: from bali.collaboradmins.com (bali.collaboradmins.com
+ [148.251.105.195])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 705DE10E342
+ for <dri-devel@lists.freedesktop.org>; Tue, 11 Nov 2025 16:23:41 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+ s=mail; t=1762878219;
+ bh=cAJW4FhExWtTjTIkoi4c9dVWKg6JSjrBmuNCJuakvw4=;
  h=From:To:Cc:Subject:Date:From;
- b=GWGoehvnXJiDbmFG8JSrPQbK/ND2R25jREsH4qUqkUpz6VdOsJCSB75/6+rdPPttd
- rf9PfNB9biA1Ehi0597tOk99ZcBXbNLsmRvN8XATqFhy9UF7w12pfDVjFexjB56v85
- naPWyVqvzmMTXpa7cV829H1xytWwLFRpcDpSzoQNA9sDOXqJmIGDOjysl2AUMMTqYg
- XHJlaGM9AJtZ7Sv5si/xG3KQ1Em3c2CYV8x0t1Kwl5oUhEj2ysx+mU7jZprqChdw5k
- WVZEZkuGMzIv/YCO9kNMacbKuwhlim2Z70vvPBtjZ7/OMZ/+fy5GjjWNq9MmEKkt4L
- 0F0v/cq97GRgA==
-From: Philipp Stanner <phasta@kernel.org>
-To: Matthew Brost <matthew.brost@intel.com>,
- Danilo Krummrich <dakr@kernel.org>, Philipp Stanner <phasta@kernel.org>,
- =?UTF-8?q?Christian=20K=C3=B6nig?= <ckoenig.leichtzumerken@gmail.com>,
- tursulin@ursulin.net
-Cc: dri-devel@lists.freedesktop.org,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH] drm/sched: Fix outdated sched_job docu
-Date: Tue, 11 Nov 2025 17:15:03 +0100
-Message-ID: <20251111161502.86180-2-phasta@kernel.org>
-X-Mailer: git-send-email 2.49.0
+ b=AAB9tkADuCofi005O1MX8pFTY5tQz5P7nWOneoTtWStEwReomY4eaoxQKCPP5pKTM
+ 3NY4pFYJSukOqG81jJmbRVMPyrYv6/8e5bmdaVGLZvTDlqIAVkKYm2X1+OFao7ImcI
+ n8OjBYhgc9zu7jIqVuSt6p5NVqeM+hot6uFy4eWqQrT+JB/ab6MIiXuWdxOxXG6BER
+ tsKTzX0vP1zjr6rKqhg1n326vCTtZ4d/u2lrqWej/w8aykxki39Uap+3hdrNFKaaUe
+ 9RKEhKH/URuremdr7zeHWdFMEPZAwMzfxGlfOYF9t2VSk7HIDwL2JeG5wFXns9ogW2
+ lonWy649ZiOnw==
+Received: from localhost.localdomain (unknown
+ [IPv6:2a02:2f08:eb0f:ad00:ce0:1b50:8618:f920])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested) (Authenticated sender: mvlad)
+ by bali.collaboradmins.com (Postfix) with ESMTPSA id 6C0C617E1203;
+ Tue, 11 Nov 2025 17:23:39 +0100 (CET)
+From: Marius Vlad <marius.vlad@collabora.com>
+To: dri-devel@lists.freedesktop.org
+Cc: dmitry.baryshkov@oss.qualcomm.com, tzimmermann@suse.de,
+ simona.vetter@ffwll.ch, jani.nikula@linux.intel.com,
+ ian.forbes@broadcom.com, louis.chauvet@bootlin.com,
+ daniel.stone@collabora.com
+Subject: [PATCH v5 0/4] Pass down hot-plug CONNECTOR ID to user-space
+Date: Tue, 11 Nov 2025 18:23:34 +0200
+Message-ID: <20251111162338.15141-1-marius.vlad@collabora.com>
+X-Mailer: git-send-email 2.47.2
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -58,26 +60,62 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-There is no such thing as a "done_list" anymore. Remove mention of it.
+Patch series addresses a shortcoming where we're sending a hot plug event
+without passing the actual CONNECTOR that caused it. This takes into
+consideration both the polling path and the HPD (Hot Plug Detect) path.
+It also adds support for the vkms driver (using ConfigFS) for
+propagating the CONNECTOR ID when changing the connector's status.
 
-Signed-off-by: Philipp Stanner <phasta@kernel.org>
----
- include/drm/gpu_scheduler.h | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+v5:
 
-diff --git a/include/drm/gpu_scheduler.h b/include/drm/gpu_scheduler.h
-index fb88301b3c45..18d6210ce2d0 100644
---- a/include/drm/gpu_scheduler.h
-+++ b/include/drm/gpu_scheduler.h
-@@ -320,7 +320,7 @@ struct drm_sched_fence *to_drm_sched_fence(struct dma_fence *f);
-  * struct drm_sched_job - A job to be run by an entity.
-  *
-  * @queue_node: used to append this struct to the queue of jobs in an entity.
-- * @list: a job participates in a "pending" and "done" lists.
-+ * @list: for enqueueing the job into the list of pending jobs.
-  * @sched: the scheduler instance on which this job is scheduled.
-  * @s_fence: contains the fences for the scheduling of job.
-  * @finish_cb: the callback for the finished fence.
+- vkms: add support for sending the CONNECTOR ID when hot-plugging through 
+  ConfigFS - as reported by Louis, vkms can now make use of ConfigFS to 
+  simulate connector status.
+- vkms: add a small change to ignore previous/old drm connector status
+  when sending out hot-plug uevent.
+
+v4:
+
+- removed the "This patch" bit - Dmitry
+- added a short note when the flag is set and cleared - Dmitry
+- address double dead-locking detected - kbot: https://lore.kernel.org/dri-devel/202509251410.fdfbcac3-lkp@intel.com/
+- virtual connectors do not seem have any kind of hotplug - added
+  polling in vkms - as noted by Ian
+- v4 is at https://lore.kernel.org/dri-devel/20251103174558.7709-1-marius.vlad@collabora.com/
+
+v3: Address comments from Dmitry
+
+- guard connector status write with mode_config.mutex
+- avoid setting up the connector status and immediately unset it. Do the
+  unset in drm_kms_helper_hotplug_event/drm_kms_helper_connector_hotplug_event
+- v3 is at https://lore.kernel.org/dri-devel/20250923083636.4749-1-marius.vlad@collabora.com/
+
+v2: Address comments from Daniel
+
+- split patch into 2, one that introduces a bool to track connector
+  connection status change and a patch that uses that to be able to send
+  hot plug events with the proper CONNECTOR ID to udev and further pass
+  that down to user-space
+- nuke out mutex when iterating connector list
+- fix typo
+- v2 is at https://lore.kernel.org/dri-devel/20250729165708.9947-1-marius.vlad@collabora.com/
+
+
+Marius Vlad (4):
+  drm: Introduce a new connector status
+  drm: Propagate connector status change
+  vkms: Do not send hotplug events for same connector status
+  vkms: Pass the vkms connector as opposed to the vkms device
+
+ drivers/gpu/drm/drm_connector.c       |  1 +
+ drivers/gpu/drm/drm_probe_helper.c    | 39 +++++++++++++++++++++++----
+ drivers/gpu/drm/drm_sysfs.c           |  1 +
+ drivers/gpu/drm/vkms/vkms_configfs.c  | 12 +++++++--
+ drivers/gpu/drm/vkms/vkms_connector.c |  6 ++---
+ drivers/gpu/drm/vkms/vkms_connector.h |  4 +--
+ include/drm/drm_connector.h           |  3 +++
+ 7 files changed, 54 insertions(+), 12 deletions(-)
+
 -- 
-2.49.0
+2.47.2
 
