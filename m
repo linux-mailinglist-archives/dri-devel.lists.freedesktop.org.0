@@ -2,45 +2,45 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 684FFC52186
-	for <lists+dri-devel@lfdr.de>; Wed, 12 Nov 2025 12:52:06 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6DAF6C52189
+	for <lists+dri-devel@lfdr.de>; Wed, 12 Nov 2025 12:52:07 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E9ED210E6F1;
+	by gabe.freedesktop.org (Postfix) with ESMTP id DF28E10E6EE;
 	Wed, 12 Nov 2025 11:52:00 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="frnLCODB";
+	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="ZUaNhNLd";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from bali.collaboradmins.com (bali.collaboradmins.com
  [148.251.105.195])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 72CEE10E092
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D99A110E092
  for <dri-devel@lists.freedesktop.org>; Wed, 12 Nov 2025 11:51:57 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
  s=mail; t=1762948316;
- bh=MNFG92VM+fjJmmf/6g5gyILVW940G/lH0HPoBTXe0oQ=;
+ bh=PCgPXrOXI7MbTC8NduCnwRGe0+3aGhHpSaTS8G/LlKk=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=frnLCODBJks51cGUy05Ct3xa7wHkAtqqdsrKs04TkL8Rw3UskcVQsUovNAKLPM/Rk
- EXUwsrMlrrSSv29MpYcdCZqUFsXjVqUx23fR4QnrFNGLDkZBcht0di/rPzb2W6PUmJ
- voBRJlvnQg/lyC02Mbbazk57RpJLKo2WU+P50xPzIrlmVAU5FfD/hotynPMxnt4ohY
- O5KpkBv9TXrjmtPufUv987u8hi0Mm2Im03gTGIwdoDF1BOtLx8MQfioslGzGejND57
- +OLClvG3VhigQTH5UgDU7vWS4Jw1TNqcY/HEpueos29lwNlsT7ao7qxSDRb3cmTFZu
- h2ozg8mTfmgeA==
+ b=ZUaNhNLdWNnth9UNUvwYxjAH0vvy+AK/X7BEdJpsZ8kVT9Zthl7ooVKUGm6DVZwnY
+ AYi8/aAiq1y2jNtPQpnD3GYObMLwrmZGtD4yzkT+8849z9IlsJCbSKzd80RqJrQohk
+ KQl4dsV+hyRYTzA+HCSBnx8hLL8sh6IW0KMY31ESOXOOa8yMMMWbDY/Salq6SfNTRR
+ xwaIjvsxTKsWTGkcTZ0ijCzW1s4APZs2pqI78axbEKellXDJY7T7YjBbBhA1I5HmWF
+ fS6TVpsULKEfOzJVfDYOP5L7MmO7xtRTGwU2rAVPqvkMlVaruL7naOfvT2J9VCc+BI
+ 7bDSfpn8GoNTA==
 Received: from fedora (unknown [IPv6:2a01:e0a:2c:6930:a2a7:f53:ebb0:945e])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
  (No client certificate requested) (Authenticated sender: bbrezillon)
- by bali.collaboradmins.com (Postfix) with ESMTPSA id BD31817E13B9;
- Wed, 12 Nov 2025 12:51:55 +0100 (CET)
+ by bali.collaboradmins.com (Postfix) with ESMTPSA id 3DE4A17E13C3;
+ Wed, 12 Nov 2025 12:51:56 +0100 (CET)
 From: Boris Brezillon <boris.brezillon@collabora.com>
 To: Boris Brezillon <boris.brezillon@collabora.com>,
  Steven Price <steven.price@arm.com>, Liviu Dudau <liviu.dudau@arm.com>,
  =?UTF-8?q?Adri=C3=A1n=20Larumbe?= <adrian.larumbe@collabora.com>
 Cc: dri-devel@lists.freedesktop.org, Florent Tomasin <florent.tomasin@arm.com>,
  Heinrich Fink <hfink@snap.com>, kernel@collabora.com
-Subject: [PATCH v2 4/8] drm/panthor: Fix the full_tick check
-Date: Wed, 12 Nov 2025 12:51:38 +0100
-Message-ID: <20251112115142.1270931-5-boris.brezillon@collabora.com>
+Subject: [PATCH v2 5/8] drm/panthor: Fix immediate ticking on a disabled tick
+Date: Wed, 12 Nov 2025 12:51:39 +0100
+Message-ID: <20251112115142.1270931-6-boris.brezillon@collabora.com>
 X-Mailer: git-send-email 2.51.1
 In-Reply-To: <20251112115142.1270931-1-boris.brezillon@collabora.com>
 References: <20251112115142.1270931-1-boris.brezillon@collabora.com>
@@ -61,52 +61,49 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-We have a full tick when the remaining time to the next tick is zero,
-not the other way around. Declare a full_tick variable so we don't get
-that test wrong in other places.
+We have a few paths where we schedule the tick work immediately without
+changing the resched_target. If the tick was stopped, this would lead
+to a remaining_jiffies that's always > 0, and it wouldn't force a full
+tick in that case. Add extra checks to cover that case properly.
 
 v2:
-- Add R-b
+- Fix typo
+- Simplify the code as suggested by Steve
 
 Fixes: de8548813824 ("drm/panthor: Add the scheduler logical block")
 Signed-off-by: Boris Brezillon <boris.brezillon@collabora.com>
 Reviewed-by: Steven Price <steven.price@arm.com>
 ---
- drivers/gpu/drm/panthor/panthor_sched.c | 7 +++++--
- 1 file changed, 5 insertions(+), 2 deletions(-)
+ drivers/gpu/drm/panthor/panthor_sched.c | 9 +++++++--
+ 1 file changed, 7 insertions(+), 2 deletions(-)
 
 diff --git a/drivers/gpu/drm/panthor/panthor_sched.c b/drivers/gpu/drm/panthor/panthor_sched.c
-index f08a05d36fc0..dd3a3b8cd5ad 100644
+index dd3a3b8cd5ad..4c137581fe40 100644
 --- a/drivers/gpu/drm/panthor/panthor_sched.c
 +++ b/drivers/gpu/drm/panthor/panthor_sched.c
-@@ -2349,6 +2349,7 @@ static void tick_work(struct work_struct *work)
+@@ -2346,6 +2346,7 @@ static void tick_work(struct work_struct *work)
+ 						      tick_work.work);
+ 	struct panthor_device *ptdev = sched->ptdev;
+ 	struct panthor_sched_tick_ctx ctx;
++	u64 resched_target = sched->resched_target;
  	u64 remaining_jiffies = 0, resched_delay;
  	u64 now = get_jiffies_64();
  	int prio, ret, cookie;
-+	bool full_tick;
+@@ -2358,8 +2359,12 @@ static void tick_work(struct work_struct *work)
+ 	if (drm_WARN_ON(&ptdev->base, ret))
+ 		goto out_dev_exit;
  
- 	if (!drm_dev_enter(&ptdev->base, &cookie))
- 		return;
-@@ -2360,15 +2361,17 @@ static void tick_work(struct work_struct *work)
- 	if (time_before64(now, sched->resched_target))
- 		remaining_jiffies = sched->resched_target - now;
- 
-+	full_tick = remaining_jiffies == 0;
+-	if (time_before64(now, sched->resched_target))
+-		remaining_jiffies = sched->resched_target - now;
++	/* If the tick is stopped, calculate when the next tick would be */
++	if (resched_target == U64_MAX)
++		resched_target = sched->last_tick + sched->tick_period;
 +
- 	mutex_lock(&sched->lock);
- 	if (panthor_device_reset_is_pending(sched->ptdev))
- 		goto out_unlock;
++	if (time_before64(now, resched_target))
++		remaining_jiffies = resched_target - now;
  
--	tick_ctx_init(sched, &ctx, remaining_jiffies != 0);
-+	tick_ctx_init(sched, &ctx, full_tick);
- 	if (ctx.csg_upd_failed_mask)
- 		goto out_cleanup_ctx;
+ 	full_tick = remaining_jiffies == 0;
  
--	if (remaining_jiffies) {
-+	if (!full_tick) {
- 		/* Scheduling forced in the middle of a tick. Only RT groups
- 		 * can preempt non-RT ones. Currently running RT groups can't be
- 		 * preempted.
 -- 
 2.51.1
 
