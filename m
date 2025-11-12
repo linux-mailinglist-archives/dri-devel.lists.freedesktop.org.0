@@ -2,140 +2,62 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0AA10C534C7
-	for <lists+dri-devel@lfdr.de>; Wed, 12 Nov 2025 17:10:34 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id E19A9C536AE
+	for <lists+dri-devel@lfdr.de>; Wed, 12 Nov 2025 17:34:57 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4D66210E76F;
-	Wed, 12 Nov 2025 16:10:32 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A3A3410E04F;
+	Wed, 12 Nov 2025 16:34:54 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=suse.de header.i=@suse.de header.b="zUNHAruI";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="uR7Naycu";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="zUNHAruI";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="uR7Naycu";
+	dkim=pass (2048-bit key; unprotected) header.d=bootlin.com header.i=@bootlin.com header.b="1V81eMYT";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 248F610E778
- for <dri-devel@lists.freedesktop.org>; Wed, 12 Nov 2025 16:10:31 +0000 (UTC)
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org
- [IPv6:2a07:de40:b281:104:10:150:64:97])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested)
- by smtp-out1.suse.de (Postfix) with ESMTPS id AFCBF21B8C;
- Wed, 12 Nov 2025 16:10:29 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1762963829; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=f2jyOSCgOp6rbYKKzi7ASlW4X80QPLA7gT4BUHkx5qI=;
- b=zUNHAruIXqjRxZdFnVzK5RuQzalreXKYuWyelPfhCviz3NyRt3ZxUVBm2e3pNDJ0xFLf+O
- qaFNIkJz2Th820e9k45/cptdzCv9HZ+1M4YxonVkVBakZeeSGBrPbxiWknPtGJTGvCp6Au
- pSibBZeQJyfCUd0JvXjUtXBMOknil40=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1762963829;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=f2jyOSCgOp6rbYKKzi7ASlW4X80QPLA7gT4BUHkx5qI=;
- b=uR7NaycuXc4GO+J9paJy5e6Ob5ZBgh2YXRILONUjAnVMrWkS4X6yNgsV4n49Cw7tdwLXhP
- qL5zpaCoNad06JCw==
-Authentication-Results: smtp-out1.suse.de;
- dkim=pass header.d=suse.de header.s=susede2_rsa header.b=zUNHAruI;
- dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=uR7Naycu
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1762963829; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=f2jyOSCgOp6rbYKKzi7ASlW4X80QPLA7gT4BUHkx5qI=;
- b=zUNHAruIXqjRxZdFnVzK5RuQzalreXKYuWyelPfhCviz3NyRt3ZxUVBm2e3pNDJ0xFLf+O
- qaFNIkJz2Th820e9k45/cptdzCv9HZ+1M4YxonVkVBakZeeSGBrPbxiWknPtGJTGvCp6Au
- pSibBZeQJyfCUd0JvXjUtXBMOknil40=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1762963829;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=f2jyOSCgOp6rbYKKzi7ASlW4X80QPLA7gT4BUHkx5qI=;
- b=uR7NaycuXc4GO+J9paJy5e6Ob5ZBgh2YXRILONUjAnVMrWkS4X6yNgsV4n49Cw7tdwLXhP
- qL5zpaCoNad06JCw==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested)
- by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 871963EA61;
- Wed, 12 Nov 2025 16:10:29 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
- by imap1.dmz-prg2.suse.org with ESMTPSA id sz/DH3WxFGkoGgAAD6G6ig
- (envelope-from <tzimmermann@suse.de>); Wed, 12 Nov 2025 16:10:29 +0000
-Message-ID: <59e889d6-bd03-4e61-94ac-cc0066b451c2@suse.de>
-Date: Wed, 12 Nov 2025 17:10:29 +0100
+Received: from smtpout-03.galae.net (smtpout-03.galae.net [185.246.85.4])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 683A210E04F
+ for <dri-devel@lists.freedesktop.org>; Wed, 12 Nov 2025 16:34:53 +0000 (UTC)
+Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
+ by smtpout-03.galae.net (Postfix) with ESMTPS id A886C4E41670;
+ Wed, 12 Nov 2025 16:34:51 +0000 (UTC)
+Received: from mail.galae.net (mail.galae.net [212.83.136.155])
+ by smtpout-01.galae.net (Postfix) with ESMTPS id 6FECA6070B;
+ Wed, 12 Nov 2025 16:34:51 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon)
+ with ESMTPSA id 7B3AF102F194E; Wed, 12 Nov 2025 17:34:46 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
+ t=1762965290; h=from:subject:date:message-id:to:cc:mime-version:content-type:
+ content-transfer-encoding; bh=EFQ/d0mDDHLA3p6JwHrNOVGaA5Lyvd3F8ihxq1rPJ40=;
+ b=1V81eMYTV0tVPKpVTdfqUbEBGLkExMv/CZ4OE9izM91q/+T6INLU4rb5Q7r/+ftVEuyf2d
+ VQ3PFToTtL0I7IFcnNnOfQyq7r/CBjhpDGgi/qn3G9qRBWYkxJ+3uD7XUi5mCPFaeXdYhB
+ XGMPMnhSMn0gVUiBj6pNg3JVFgUmg9d5CPMmuDd5UpoZAnJL4julCJ+E5EZSjuvT5AeWuT
+ RZ/DayR1oGMHILQnyOrD5ZD25/OIpnRJnRp9fsVeg7i34Er8tLBWvQtHbf4eUpZ6cxAmyx
+ zdC+LbP40v/+JzSRItmGU3yvrXp1I9M1Wu3f2A4rcmqyBaZ5+Gk4Agis/jORWw==
+From: Luca Ceresoli <luca.ceresoli@bootlin.com>
+Subject: [PATCH v3 0/2] drm/bridge: handle gracefully atomic updates during
+ bridge removal
+Date: Wed, 12 Nov 2025 17:34:33 +0100
+Message-Id: <20251112-drm-bridge-atomic-vs-remove-v3-0-85db717ce094@bootlin.com>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 17/24] drm/vblank: merge drm_vblank_restore() into
- drm_crtc_vblank_restore()
-To: Jani Nikula <jani.nikula@intel.com>, dri-devel@lists.freedesktop.org
-Cc: intel-gfx@lists.freedesktop.org, intel-xe@lists.freedesktop.org,
- ville.syrjala@linux.intel.com
-References: <cover.1762791343.git.jani.nikula@intel.com>
- <926fae6a95d64e8ad1caf3c3f1ef2a0d25594b72.1762791343.git.jani.nikula@intel.com>
-Content-Language: en-US
-From: Thomas Zimmermann <tzimmermann@suse.de>
-Autocrypt: addr=tzimmermann@suse.de; keydata=
- xsBNBFs50uABCADEHPidWt974CaxBVbrIBwqcq/WURinJ3+2WlIrKWspiP83vfZKaXhFYsdg
- XH47fDVbPPj+d6tQrw5lPQCyqjwrCPYnq3WlIBnGPJ4/jreTL6V+qfKRDlGLWFjZcsrPJGE0
- BeB5BbqP5erN1qylK9i3gPoQjXGhpBpQYwRrEyQyjuvk+Ev0K1Jc5tVDeJAuau3TGNgah4Yc
- hdHm3bkPjz9EErV85RwvImQ1dptvx6s7xzwXTgGAsaYZsL8WCwDaTuqFa1d1jjlaxg6+tZsB
- 9GluwvIhSezPgnEmimZDkGnZRRSFiGP8yjqTjjWuf0bSj5rUnTGiyLyRZRNGcXmu6hjlABEB
- AAHNJ1Rob21hcyBaaW1tZXJtYW5uIDx0emltbWVybWFubkBzdXNlLmRlPsLAjgQTAQgAOAIb
- AwULCQgHAgYVCgkICwIEFgIDAQIeAQIXgBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftODH
- AAoJEGgNwR1TC3ojx1wH/0hKGWugiqDgLNXLRD/4TfHBEKmxIrmfu9Z5t7vwUKfwhFL6hqvo
- lXPJJKQpQ2z8+X2vZm/slsLn7J1yjrOsoJhKABDi+3QWWSGkaGwRJAdPVVyJMfJRNNNIKwVb
- U6B1BkX2XDKDGffF4TxlOpSQzdtNI/9gleOoUA8+jy8knnDYzjBNOZqLG2FuTdicBXblz0Mf
- vg41gd9kCwYXDnD91rJU8tzylXv03E75NCaTxTM+FBXPmsAVYQ4GYhhgFt8S2UWMoaaABLDe
- 7l5FdnLdDEcbmd8uLU2CaG4W2cLrUaI4jz2XbkcPQkqTQ3EB67hYkjiEE6Zy3ggOitiQGcqp
- j//OwE0EWznS4AEIAMYmP4M/V+T5RY5at/g7rUdNsLhWv1APYrh9RQefODYHrNRHUE9eosYb
- T6XMryR9hT8XlGOYRwKWwiQBoWSDiTMo/Xi29jUnn4BXfI2px2DTXwc22LKtLAgTRjP+qbU6
- 3Y0xnQN29UGDbYgyyK51DW3H0If2a3JNsheAAK+Xc9baj0LGIc8T9uiEWHBnCH+RdhgATnWW
- GKdDegUR5BkDfDg5O/FISymJBHx2Dyoklv5g4BzkgqTqwmaYzsl8UxZKvbaxq0zbehDda8lv
- hFXodNFMAgTLJlLuDYOGLK2AwbrS3Sp0AEbkpdJBb44qVlGm5bApZouHeJ/+n+7r12+lqdsA
- EQEAAcLAdgQYAQgAIAIbDBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftOH6AAoJEGgNwR1T
- C3ojVSkIALpAPkIJPQoURPb1VWjh34l0HlglmYHvZszJWTXYwavHR8+k6Baa6H7ufXNQtThR
- yIxJrQLW6rV5lm7TjhffEhxVCn37+cg0zZ3j7zIsSS0rx/aMwi6VhFJA5hfn3T0TtrijKP4A
- SAQO9xD1Zk9/61JWk8OysuIh7MXkl0fxbRKWE93XeQBhIJHQfnc+YBLprdnxR446Sh8Wn/2D
- Ya8cavuWf2zrB6cZurs048xe0UbSW5AOSo4V9M0jzYI4nZqTmPxYyXbm30Kvmz0rYVRaitYJ
- 4kyYYMhuULvrJDMjZRvaNe52tkKAvMevcGdt38H4KSVXAylqyQOW5zvPc4/sq9c=
-In-Reply-To: <926fae6a95d64e8ad1caf3c3f1ef2a0d25594b72.1762791343.git.jani.nikula@intel.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-X-Rspamd-Queue-Id: AFCBF21B8C
-X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
-X-Spamd-Result: default: False [-4.51 / 50.00]; BAYES_HAM(-3.00)[100.00%];
- NEURAL_HAM_LONG(-1.00)[-1.000];
- R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
- NEURAL_HAM_SHORT(-0.20)[-1.000]; MIME_GOOD(-0.10)[text/plain];
- MX_GOOD(-0.01)[]; ARC_NA(0.00)[]; RCVD_VIA_SMTP_AUTH(0.00)[];
- RCVD_TLS_ALL(0.00)[];
- RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from]; 
- TO_DN_SOME(0.00)[]; MIME_TRACE(0.00)[0:+];
- SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
- FUZZY_RATELIMITED(0.00)[rspamd.com];
- MID_RHS_MATCH_FROM(0.00)[]; RCPT_COUNT_FIVE(0.00)[5];
- FROM_EQ_ENVFROM(0.00)[]; FROM_HAS_DN(0.00)[];
- RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
- RCVD_COUNT_TWO(0.00)[2]; TO_MATCH_ENVRCPT_ALL(0.00)[];
- DBL_BLOCKED_OPENRESOLVER(0.00)[intel.com:email,suse.com:url,imap1.dmz-prg2.suse.org:helo,imap1.dmz-prg2.suse.org:rdns,suse.de:email,suse.de:mid,suse.de:dkim];
- DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
- DKIM_TRACE(0.00)[suse.de:+]
-X-Rspamd-Action: no action
-X-Spam-Flag: NO
-X-Spam-Score: -4.51
-X-Spam-Level: 
+X-B4-Tracking: v=1; b=H4sIABm3FGkC/43NzQ6CMAzA8VchO1szRoDNk+9hPOyjSBPHzEYWD
+ eHdHVyMF+Px3za/LixhJEzsVC0sYqZEYSrRHCpmRz3dEMiVZoKLlksuwUUPJpIrGz0HTxZygog
+ +ZITa9caUSytxYEV4RBzoueuXa+mR0hzia3+W6236n5tr4KBbgappDJdank0I852mow2ebXIWH
+ 02J7rcmitapoXet1bVW4ltb1/UNikiIWRYBAAA=
+X-Change-ID: 20250808-drm-bridge-atomic-vs-remove-1d7bb202c8ef
+To: Maxime Ripard <mripard@kernel.org>, Simona Vetter <simona@ffwll.ch>, 
+ Andrzej Hajda <andrzej.hajda@intel.com>, 
+ Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>, 
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>, 
+ Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>
+Cc: Hui Pu <Hui.Pu@gehealthcare.com>, 
+ Thomas Petazzoni <thomas.petazzoni@bootlin.com>, 
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org, 
+ Luca Ceresoli <luca.ceresoli@bootlin.com>, 
+ Dmitry Baryshkov <lumag@kernel.org>
+X-Mailer: b4 0.14.2
+X-Last-TLS-Session-Version: TLSv1.3
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -151,115 +73,82 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+This is a first attempt at gracefully handling the case of atomic updates
+happening concurrently to physical removal of DRM bridges.
 
+This is part of the work to support hotplug of DRM bridges. The grand plan
+was discussed in [1].
 
-Am 10.11.25 um 17:17 schrieb Jani Nikula:
-> The extra function serves no useful purpose.
->
-> This allows us to drop another superfluous pipe check warning.
->
-> Signed-off-by: Jani Nikula <jani.nikula@intel.com>
+Here's the work breakdown (➜ marks the current series):
 
-Reviewed-by: Thomas Zimmermann <tzimmermann@suse.de>
+ 1. … add refcounting to DRM bridges (struct drm_bridge)
+    (based on devm_drm_bridge_alloc() [0])
+    A. ✔ add new alloc API and refcounting (v6.16)
+    B. ✔ convert all bridge drivers to new API (v6.17)
+    C. ✔ kunit tests (v6.17)
+    D. ✔ add get/put to drm_bridge_add/remove() + attach/detach()
+         and warn on old allocation pattern (v6.17)
+    E. … add get/put on drm_bridge accessors
+       1. ✔ drm_bridge_chain_get_first_bridge(), add cleanup action (v6.18)
+       2. ✔ drm_bridge_get_prev_bridge() (v6.18)
+       3. ✔ drm_bridge_get_next_bridge() (v6.19)
+       4. ✔ drm_for_each_bridge_in_chain() (v6.19)
+       5. ✔ drm_bridge_connector_init (v6.19)
+       6. … protect encoder bridge chain with a mutex
+       7. of_drm_find_bridge
+       8. drm_of_find_panel_or_bridge, *_of_get_bridge
+       9. ✔ enforce drm_bridge_add before drm_bridge_attach (v6.19)
+    F. ✔ debugfs improvements
+       1. ✔ add top-level 'bridges' file (v6.16)
+       2. ✔ show refcount and list lingering bridges (v6.19)
+ 2. ➜ handle gracefully atomic updates during bridge removal
+    A. ➜ Add drm_dev_enter/exit() to protect device resources
+    B. … protect private_obj removal from list
+ 3. … DSI host-device driver interaction
+ 4. ✔ removing the need for the "always-disconnected" connector
+ 5. finish the hotplug bridge work, moving code to the core and potentially
+    removing the hotplug-bridge itself (this needs to be clarified as
+    points 1-3 are developed)
 
-> ---
->   drivers/gpu/drm/drm_vblank.c | 57 +++++++++++++++---------------------
->   1 file changed, 23 insertions(+), 34 deletions(-)
->
-> diff --git a/drivers/gpu/drm/drm_vblank.c b/drivers/gpu/drm/drm_vblank.c
-> index 0ff69b06b2bd..64cd96207ad5 100644
-> --- a/drivers/gpu/drm/drm_vblank.c
-> +++ b/drivers/gpu/drm/drm_vblank.c
-> @@ -1524,23 +1524,41 @@ void drm_crtc_vblank_on(struct drm_crtc *crtc)
->   }
->   EXPORT_SYMBOL(drm_crtc_vblank_on);
->   
-> -static void drm_vblank_restore(struct drm_device *dev, unsigned int pipe)
-> +/**
-> + * drm_crtc_vblank_restore - estimate missed vblanks and update vblank count.
-> + * @crtc: CRTC in question
-> + *
-> + * Power manamement features can cause frame counter resets between vblank
-> + * disable and enable. Drivers can use this function in their
-> + * &drm_crtc_funcs.enable_vblank implementation to estimate missed vblanks since
-> + * the last &drm_crtc_funcs.disable_vblank using timestamps and update the
-> + * vblank counter.
-> + *
-> + * Note that drivers must have race-free high-precision timestamping support,
-> + * i.e.  &drm_crtc_funcs.get_vblank_timestamp must be hooked up and
-> + * &drm_vblank_crtc_config.disable_immediate must be set to indicate the
-> + * time-stamping functions are race-free against vblank hardware counter
-> + * increments.
-> + */
-> +void drm_crtc_vblank_restore(struct drm_crtc *crtc)
->   {
-> +	struct drm_device *dev = crtc->dev;
-> +	unsigned int pipe = drm_crtc_index(crtc);
-> +	struct drm_vblank_crtc *vblank = drm_crtc_vblank_crtc(crtc);
->   	ktime_t t_vblank;
-> -	struct drm_vblank_crtc *vblank;
->   	int framedur_ns;
->   	u64 diff_ns;
->   	u32 cur_vblank, diff = 1;
->   	int count = DRM_TIMESTAMP_MAXRETRIES;
->   	u32 max_vblank_count = drm_max_vblank_count(dev, pipe);
->   
-> -	if (drm_WARN_ON(dev, pipe >= dev->num_crtcs))
-> -		return;
-> +	drm_WARN_ON_ONCE(dev, !crtc->funcs->get_vblank_timestamp);
-> +	drm_WARN_ON_ONCE(dev, vblank->inmodeset);
-> +	drm_WARN_ON_ONCE(dev, !vblank->config.disable_immediate);
->   
->   	assert_spin_locked(&dev->vbl_lock);
->   	assert_spin_locked(&dev->vblank_time_lock);
->   
-> -	vblank = drm_vblank_crtc(dev, pipe);
->   	drm_WARN_ONCE(dev,
->   		      drm_debug_enabled(DRM_UT_VBL) && !vblank->framedur_ns,
->   		      "Cannot compute missed vblanks without frame duration\n");
-> @@ -1561,35 +1579,6 @@ static void drm_vblank_restore(struct drm_device *dev, unsigned int pipe)
->   		    diff, diff_ns, framedur_ns, cur_vblank - vblank->last);
->   	vblank->last = (cur_vblank - diff) & max_vblank_count;
->   }
-> -
-> -/**
-> - * drm_crtc_vblank_restore - estimate missed vblanks and update vblank count.
-> - * @crtc: CRTC in question
-> - *
-> - * Power manamement features can cause frame counter resets between vblank
-> - * disable and enable. Drivers can use this function in their
-> - * &drm_crtc_funcs.enable_vblank implementation to estimate missed vblanks since
-> - * the last &drm_crtc_funcs.disable_vblank using timestamps and update the
-> - * vblank counter.
-> - *
-> - * Note that drivers must have race-free high-precision timestamping support,
-> - * i.e.  &drm_crtc_funcs.get_vblank_timestamp must be hooked up and
-> - * &drm_vblank_crtc_config.disable_immediate must be set to indicate the
-> - * time-stamping functions are race-free against vblank hardware counter
-> - * increments.
-> - */
-> -void drm_crtc_vblank_restore(struct drm_crtc *crtc)
-> -{
-> -	struct drm_device *dev = crtc->dev;
-> -	unsigned int pipe = drm_crtc_index(crtc);
-> -	struct drm_vblank_crtc *vblank = drm_vblank_crtc(dev, pipe);
-> -
-> -	drm_WARN_ON_ONCE(dev, !crtc->funcs->get_vblank_timestamp);
-> -	drm_WARN_ON_ONCE(dev, vblank->inmodeset);
-> -	drm_WARN_ON_ONCE(dev, !vblank->config.disable_immediate);
-> -
-> -	drm_vblank_restore(dev, pipe);
-> -}
->   EXPORT_SYMBOL(drm_crtc_vblank_restore);
->   
->   static int drm_queue_vblank_event(struct drm_vblank_crtc *vblank,
+The idea was proposed by Maxime [1] and is based on the existing
+drm_dev_enter/exit() already existing for the DRM device.
 
+This small series implements the core mechanism in drm_bridge.c and uses it
+in the ti-sn65dsi83 driver. This prevents usage of device resources by
+various code paths that can happen concurrently to unplug of the SN65DSI8x
+bridge.
+
+[0] https://lore.kernel.org/lkml/20250206-hotplug-drm-bridge-v6-0-9d6f2c9c3058@bootlin.com/#t
+[1] https://lore.kernel.org/all/20250106-vigorous-talented-viper-fa49d9@houat/
+
+Signed-off-by: Luca Ceresoli <luca.ceresoli@bootlin.com>
+---
+Changes in v3:
+- Call drm_bridge_remove() in drm_bridge_unplug() as suggested by Maxime
+- Fix kerneldoc errors (reported here:
+  https://lore.kernel.org/lkml/202509271654.j3IsjsAJ-lkp@intel.com/)
+- Some cleanups in patch 2
+- Link to v2: https://lore.kernel.org/r/20250926-drm-bridge-atomic-vs-remove-v2-0-69f7d5ca1a92@bootlin.com
+
+Changes in v2:
+- No changes to patch 1, discussion pending
+- Use devres instead of a flag in patch 2
+- Link to v1: https://lore.kernel.org/r/20250808-drm-bridge-atomic-vs-remove-v1-0-a52e933b08a8@bootlin.com
+
+---
+Luca Ceresoli (2):
+      drm/bridge: add drm_bridge_unplug() and drm_bridge_enter/exit()
+      drm/bridge: ti-sn65dsi83: protect device resources on unplug
+
+ drivers/gpu/drm/bridge/ti-sn65dsi83.c | 86 +++++++++++++++++++++++++++--------
+ drivers/gpu/drm/drm_bridge.c          | 62 +++++++++++++++++++++++++
+ include/drm/drm_bridge.h              | 12 +++++
+ 3 files changed, 140 insertions(+), 20 deletions(-)
+---
+base-commit: 604046a2d68bf5a67f111579d749a046c3a26669
+change-id: 20250808-drm-bridge-atomic-vs-remove-1d7bb202c8ef
+
+Best regards,
 -- 
---
-Thomas Zimmermann
-Graphics Driver Developer
-SUSE Software Solutions Germany GmbH
-Frankenstr. 146, 90461 Nürnberg, Germany, www.suse.com
-GF: Jochen Jaser, Andrew McDonald, Werner Knoblich, (HRB 36809, AG Nürnberg)
-
+Luca Ceresoli <luca.ceresoli@bootlin.com>
 
