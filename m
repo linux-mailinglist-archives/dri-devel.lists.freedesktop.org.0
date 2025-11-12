@@ -2,155 +2,80 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D8D8FC50C93
-	for <lists+dri-devel@lfdr.de>; Wed, 12 Nov 2025 07:56:24 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8074CC50DEA
+	for <lists+dri-devel@lfdr.de>; Wed, 12 Nov 2025 08:11:29 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id EA63E10E12B;
-	Wed, 12 Nov 2025 06:56:21 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5656410E6AD;
+	Wed, 12 Nov 2025 07:11:27 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=bp.renesas.com header.i=@bp.renesas.com header.b="EPlEranA";
+	dkim=pass (1024-bit key; unprotected) header.d=samsung.com header.i=@samsung.com header.b="LRSaTTSR";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from OS0P286CU010.outbound.protection.outlook.com
- (mail-japanwestazon11011005.outbound.protection.outlook.com [40.107.74.5])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7C2D110E12B
- for <dri-devel@lists.freedesktop.org>; Wed, 12 Nov 2025 06:56:20 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=vw/iy1KzvMXm4Bavn6qu+JowjmWY6txtX9iXMAON6VqIyToqY+p3RLB+oLFxDW44028hjg7c8+IX9ajDLsG5a2klyue99LeouD9gpMBI8goDKAQMUORln7JvagWEVc8nW/JB66up4FWO8qMP8CMHT34Kdhq4Jt8DOxKxXaPVJPyNFDpJcadGDbnvXdiM7JTS2UneULBqX3c8AABKHn5ZK+WDp1eSOrlBo+UCm6yrY16DsHiZGAQwcCD0UzfnmvDzp3nNr79d4hbM01kNLl0/Uvz8PfxXUZMCl8N2Bx6N/w4JI8pJcNH4HCYyvaqU09OMcAlL0EkXsbPXNVVP+fcpyA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=NFrxxMLJrgPbQn3XCpSyX/p2GkTuj9W7p5gSA1rUlVI=;
- b=B3K6WPa6hoMvEKxiQf3qhi5BndwXfKcEmWb6BLMAafCtmB93XBrrygr8e1S1fEA4bhQ8eKwzAIY8RUaFffLh4EHv7KagbDJYMCOIVxEyBUUpqnbim8up6v1Mx7TzzGCU/yPgkcmKfO34vf+J4lZivbst4+L+V3/qDBRWr0xDtX8Gbq0St7gcsCmeAGpv18D34SDdY8ZDxi/H/2DtoreNG7XG9ebhtDgJrb4gXiCkVRv+19McY7IkJs1tEykZYgZWeS6ds25ScAr/f5U7UwbxBI1MJoxKyUNCKMjbyNZ/S65UORPRdrWmriAHZKdB/kTMrHFyFEeSWuJGxFczYUjanQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=bp.renesas.com; dmarc=pass action=none
- header.from=bp.renesas.com; dkim=pass header.d=bp.renesas.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bp.renesas.com;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=NFrxxMLJrgPbQn3XCpSyX/p2GkTuj9W7p5gSA1rUlVI=;
- b=EPlEranAfxZdyoyNY3DTldSfJzLtuCAEcshD81Ej+mPb9ERK8xfuTOnrpxy0pHltNTkoIjLUgNQEsTlPMS0VdlVwcsaeNDXVSZNjGKL/tHr+eedfLZ05262moCovb4VhAz+mBbERleZ8wSXdWqRAP7I9MCceicr7mHdXyonTXjE=
-Received: from TY3PR01MB11346.jpnprd01.prod.outlook.com (2603:1096:400:3d0::7)
- by OS3PR01MB10374.jpnprd01.prod.outlook.com (2603:1096:604:1fa::14)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9320.16; Wed, 12 Nov
- 2025 06:56:14 +0000
-Received: from TY3PR01MB11346.jpnprd01.prod.outlook.com
- ([fe80::86ef:ca98:234d:60e1]) by TY3PR01MB11346.jpnprd01.prod.outlook.com
- ([fe80::86ef:ca98:234d:60e1%6]) with mapi id 15.20.9320.013; Wed, 12 Nov 2025
- 06:56:14 +0000
-From: Biju Das <biju.das.jz@bp.renesas.com>
-To: Chris Brandt <Chris.Brandt@renesas.com>, biju.das.au
- <biju.das.au@gmail.com>
-CC: "airlied@gmail.com" <airlied@gmail.com>, "dri-devel@lists.freedesktop.org"
- <dri-devel@lists.freedesktop.org>, "geert+renesas@glider.be"
- <geert+renesas@glider.be>, Hien Huynh <hien.huynh.px@renesas.com>,
- "hugo@hugovil.com" <hugo@hugovil.com>, "linux-clk@vger.kernel.org"
- <linux-clk@vger.kernel.org>, "linux-renesas-soc@vger.kernel.org"
- <linux-renesas-soc@vger.kernel.org>, "maarten.lankhorst@linux.intel.com"
- <maarten.lankhorst@linux.intel.com>, "mripard@kernel.org"
- <mripard@kernel.org>, "mturquette@baylibre.com" <mturquette@baylibre.com>,
- Nghia Vo <nghia.vo.zn@renesas.com>, "sboyd@kernel.org" <sboyd@kernel.org>,
- "simona@ffwll.ch" <simona@ffwll.ch>, "tzimmermann@suse.de"
- <tzimmermann@suse.de>
-Subject: RE: [PATCH v4 1/2] clk: renesas: rzg2l: Remove DSI clock rate
- restrictions
-Thread-Topic: [PATCH v4 1/2] clk: renesas: rzg2l: Remove DSI clock rate
- restrictions
-Thread-Index: AQHcUIhzzvEMa+4Ez0iYgZqH/QRQ77TtxCkggADbmGA=
-Date: Wed, 12 Nov 2025 06:56:14 +0000
-Message-ID: <TY3PR01MB11346555E90212D667267082686CCA@TY3PR01MB11346.jpnprd01.prod.outlook.com>
-References: <CWLP123MB44995816738B58D66F4729B0FCC0A@CWLP123MB4499.GBRP123.PROD.OUTLOOK.COM>
- <OS3PR01MB8319B194964E67E3F7EFC86E8ACFA@OS3PR01MB8319.jpnprd01.prod.outlook.com>
-In-Reply-To: <OS3PR01MB8319B194964E67E3F7EFC86E8ACFA@OS3PR01MB8319.jpnprd01.prod.outlook.com>
-Accept-Language: en-GB, en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-msip_labels: 
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=bp.renesas.com;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: TY3PR01MB11346:EE_|OS3PR01MB10374:EE_
-x-ms-office365-filtering-correlation-id: 8d7e6258-c87c-4eac-1daf-08de21b8920c
-x-ld-processed: 53d82571-da19-47e4-9cb4-625a166a4a2a,ExtAddr
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;
- ARA:13230040|366016|1800799024|376014|7416014|38070700021; 
-x-microsoft-antispam-message-info: =?us-ascii?Q?YnqTXJIPbkfQ4/jDLxhLKhsi5Hdq13Z5W45hx0qgM/qNelpU505TAiJx8xDu?=
- =?us-ascii?Q?FaAJzgLBhZ1YCt5xVIkH8wAq2sdYgeYt4LdNcLAbHHyvVaLowP1p6IDbcuak?=
- =?us-ascii?Q?XdFfT/MdFsX7YZvR1puipBd4QG361pY1hKO+1rN2fzJcKZMTiZVqu6yQzO56?=
- =?us-ascii?Q?JnQjTTh4nMEuWuGu3O8hzHFOl+UaS1JEuB1KxN18ZsiXGYRL8WSD2vSdlVWz?=
- =?us-ascii?Q?7ma8qtjtWXxPWGy8dtqkUzfNL9ZS/QSj5XT6M0efEe89aIDsHLjjfPV0zFZp?=
- =?us-ascii?Q?xxz0soxe/n6wsQYj1XNxuEbU1p65ruaoHq1rhvpHGhu/gKNE/cMTG8YPK54R?=
- =?us-ascii?Q?hzAnMz5zZstan/Tn5mZQC64EOVs5j4i+0nMCDlQj2xlmLI9552EcEfC4kQDn?=
- =?us-ascii?Q?/hogvujm4tv3x72RiTqZvXJ+ckn6x07o2KhU1Or9zil3BW15znG0lvHwrtm8?=
- =?us-ascii?Q?6ACqMPoUcjrjfuxq8ZgLoLmUVLDKRPzw7KETp9gaZqV1P/xoAwAI18m+sJI7?=
- =?us-ascii?Q?58242Mxv1Hs+cOvhvsS5j1WRJ6w65eU7LKRbL200B3eC2GUPN3nXTWO7+Dbn?=
- =?us-ascii?Q?NWdKYiJF1I4lanmERZVpEeF0WgZtViZUCNYK9oPvgwPHIBFP6VFsyUSCw60Y?=
- =?us-ascii?Q?cM2BpfoEM3L7uxPHcMaaBClvWvYGkNVmElKGwkXY+zEtderY6Fi/keGR2p5U?=
- =?us-ascii?Q?6SPdO9zRQlozgMyN+LS3062nGVATqw1UtOKgpDTUBTER4UMWACsSoKqvmpp4?=
- =?us-ascii?Q?XhgvBwh7lzv0eHnZarLSTa3Zzw+WiZWcUi8T5q/vdcXGQLX99IcJUYGA+cdb?=
- =?us-ascii?Q?CHH9jQRBl3tamf+Rywm0RxnawNEbrjQIzMgNyPVGD53i+vzj5nTdGOWxtiCX?=
- =?us-ascii?Q?FUHbzEvfBAgNgI3jeT9vqampB9sLOLCFrmNQwLwFGe0YJVQsj7UEwFHYiNc7?=
- =?us-ascii?Q?YSvkecEKOU7VqYnNQFQWcDvXaFc8igXnnmqzyNS+O/AxuJQZ++ISmsTTwtyX?=
- =?us-ascii?Q?4/2OwwBiLhricY82k7TeLFTn6qHCFLg5wgqKqSpu7k1zWIrETT42AtuiwkOf?=
- =?us-ascii?Q?FQjybcW0THBcovL7A0z1837DeA0Rer0CXVp+2ef/5Bwtxsf9kpnhu1uLbNO4?=
- =?us-ascii?Q?PAf4AJGjRSr28i4NpT+mWBugow0aBVB2YtL5Udp7G3PH2z0l2xLxgLaYNtSl?=
- =?us-ascii?Q?uyxvGgMNGnstR45GVQeo3rzZ4KeOFUXvJvaqHJ+P7NicpFBmRhrg7UZ92Y2u?=
- =?us-ascii?Q?WCC9s/RSAV6CHp9BlqPEPmR7Qs72IWB0hikUcv6yiyXDxxoyyis2i9khOIKe?=
- =?us-ascii?Q?to2T/asNMMErenNEPJ4HA6xmKZZ+7KXWCx27m1WlWocWUQqesZnWjkF1K7JN?=
- =?us-ascii?Q?+UlSn/Hbcnp5uGIrFuggwXNBSubO8yHO84XsXaaQild6eGZodZHUZICDXr7q?=
- =?us-ascii?Q?F/OYZz8cZbO8vdd7XX7yNMxbeglu0YfbF7H5R51IBAKUGlUMZRUTWAJijZv0?=
- =?us-ascii?Q?hF1tZKoS9N1HtsmY9uUk+atG7f86iFktLspA?=
-x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:TY3PR01MB11346.jpnprd01.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230040)(366016)(1800799024)(376014)(7416014)(38070700021); DIR:OUT;
- SFP:1101; 
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?us-ascii?Q?sUFzJi29JguIDrXHJ+Dm6UZnjlnZx6SOeV+0UeYBeyMpm+gbugATpATsdhIo?=
- =?us-ascii?Q?wAfoC9lmy0CRgbCSy9QCJdmGtRzRGdGnY7wqCf4s+eTv+J6+ycaHao1QJtdo?=
- =?us-ascii?Q?CwJnEwAAbiSck3OFnaukoBYc+jAYu+1hAJMzJRhj4Wp0LJM8m8toOUHIvJzA?=
- =?us-ascii?Q?rzhf7bNZ41AVEJ/YuYtJO4rpDBDLC/rJxRoSLl4jbxUROq6Ji/xCDPGIT4LM?=
- =?us-ascii?Q?ighUO+Mk4WQJT6DjmpYUK6SlTb+2gav6avOQEBHkJgw84xfVg0M6CT9bGm/m?=
- =?us-ascii?Q?3nc4NText9jvjcyjoLq5t9LCed/q/gz5LvZGHsPVfdKysHhKj9W+vuOIf0Ij?=
- =?us-ascii?Q?1hi9w3ybJysgTEEKkCtN5ixETv7gQ514H7uE4JCWYMkh3gTfZxgm122Roc4V?=
- =?us-ascii?Q?f+9nenWuTdadi83SLBnOQyK4mroclOY+h2xx8QAjOxzRZVCo+XCRccsbG1xV?=
- =?us-ascii?Q?0jmfBR3Cu+CBYtbX3SJ4tL+yqGKHCM4y8osyndCFs9RPDioGApcVqBglVO6p?=
- =?us-ascii?Q?zjo/Ztlnx5bwpjSTbBV1eZXMipfcUHw54MlebWxcz8oNdcmeL4JAdz2p26E1?=
- =?us-ascii?Q?ae60jAfjLxn/DSwKZ5BGk8gZ6rdcj55+S6j01ryVuHo2yemzCjNR/niwrLOA?=
- =?us-ascii?Q?2mNsrbkiHuVTsvK8hefd3AhC3dlMV0kueYNeaARHUNqPkG2kVeoq+cU6u1AO?=
- =?us-ascii?Q?57p53VwgzwgZMSTLf0ixmYu+XMW8AjiYk0I4Ts4aYL1rfBWUC37jqQEDqe+m?=
- =?us-ascii?Q?UW03CLyUThimpZpT8BRlllDYaBD3x/rRSNLufghwyz0fnXUxaHxfie1Z6mD0?=
- =?us-ascii?Q?MghkM9/ZCmHOe8Vnd20XXdCoZon/doTL3HI1ohAGkINtur0Ftnjp1EqNrJeZ?=
- =?us-ascii?Q?w5EMBDXYGy/m2M0w3liYWDWVHF8+9NKro7cny4bMY7ygE/0AD3RVFlfZKVjy?=
- =?us-ascii?Q?rBEb+Quyq+sO4s4w8K8dFEt0r6koxBlT7jVDIaKDhZ81sAOTNjV+g4HwSE75?=
- =?us-ascii?Q?1LF7lS0A8AGHVy8BhJLgkyIcS659e/zyEQ4WXd9aOP3WbUK31oIDtBG9mSkl?=
- =?us-ascii?Q?SSmD30uG9CldQ6XjiBrcFXJZTS4/gNac/v2eDDiNtLS7REf9oy2X10LtonUi?=
- =?us-ascii?Q?Fj5ET17gWc0pG40GsOUL4piKXpHTYsjTmcs2sbP6mHPIRg1OJFRWoogrhEsU?=
- =?us-ascii?Q?tRxeXK+MVoXHNS07HF2rrfF8ufZ63hwZfHpTKdp17QH/s4TY55cmQ1j/5U4q?=
- =?us-ascii?Q?u7NxZxV1AXnD2Kck/8fVevTbSex7i8IYPNpLIbq0IxSuA14Q+PvLd4euYHTB?=
- =?us-ascii?Q?C1r+wzQw9FKG1+/A+QGSRfLbCXBo3w3CqIFpQc7N6w/ozU5it6crrINHDGIt?=
- =?us-ascii?Q?AdQJpiwOsQifm21LlsVW/AS1jHlBmbWwj53HJYaSZHxkyFRRnabztlmamTdk?=
- =?us-ascii?Q?tuTgUgWHwp+BweiGGnug/qfLD3nH4Q+Oj9h+u5wjqpnZqQy0AD24DVDZ/349?=
- =?us-ascii?Q?7sLElk4Tq5wvV3xYR596hYI6YVytyoZhj9mhjhIz4ybXcd5uP19zwQqsIpCL?=
- =?us-ascii?Q?4OpBT5UXbYc+JGR7PTy8qTatPoqB/mQWf/qrPocznrk7z0L16x9Gbza5vsmV?=
- =?us-ascii?Q?0g=3D=3D?=
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+X-Greylist: delayed 521 seconds by postgrey-1.36 at gabe;
+ Wed, 12 Nov 2025 02:53:11 UTC
+Received: from mailout2.samsung.com (mailout2.samsung.com [203.254.224.25])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2C7C510E174
+ for <dri-devel@lists.freedesktop.org>; Wed, 12 Nov 2025 02:53:11 +0000 (UTC)
+Received: from epcas2p1.samsung.com (unknown [182.195.41.53])
+ by mailout2.samsung.com (KnoxPortal) with ESMTP id
+ 20251112024427epoutp02d79d938c592a450148fe99d348c520fb~3IkcT_R3c2645726457epoutp02V
+ for <dri-devel@lists.freedesktop.org>; Wed, 12 Nov 2025 02:44:27 +0000 (GMT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 mailout2.samsung.com
+ 20251112024427epoutp02d79d938c592a450148fe99d348c520fb~3IkcT_R3c2645726457epoutp02V
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
+ s=mail20170921; t=1762915467;
+ bh=yOWODANQDIHMfLu0rwnPfEXOOr2ZhK5K8qrgiyRk9cg=;
+ h=From:To:Cc:In-Reply-To:Subject:Date:References:From;
+ b=LRSaTTSRrmj6wG8naMR2N/py93mKLQp4hlsnLNeqSxmLzihpzMWPRjV5XpZ81AzdO
+ sYWjgNMT17IiEQ1+sY+ANhz26ZlgOzDcNLGudEMdp4GQrqBL90w2v5O8aqsJOkrtiS
+ 89fnjjKaJ+YO0CLIKLq4F4OTRcYs7C4P0dMYbWLk=
+Received: from epsnrtp03.localdomain (unknown [182.195.42.155]) by
+ epcas2p1.samsung.com (KnoxPortal) with ESMTPS id
+ 20251112024427epcas2p170cb0b4b978d81daff8bc7c88295d370~3IkcB9zdH1160111601epcas2p1q;
+ Wed, 12 Nov 2025 02:44:27 +0000 (GMT)
+Received: from epcas2p2.samsung.com (unknown [182.195.38.208]) by
+ epsnrtp03.localdomain (Postfix) with ESMTP id 4d5nmW0sB7z3hhT7; Wed, 12 Nov
+ 2025 02:44:27 +0000 (GMT)
+Received: from epsmtip1.samsung.com (unknown [182.195.34.30]) by
+ epcas2p2.samsung.com (KnoxPortal) with ESMTPA id
+ 20251112024426epcas2p2aca7746bef270abaec0ae578405f48a7~3IkbGjLlV2914629146epcas2p2Q;
+ Wed, 12 Nov 2025 02:44:26 +0000 (GMT)
+Received: from KORCO180968 (unknown [12.80.207.170]) by epsmtip1.samsung.com
+ (KnoxPortal) with ESMTPA id
+ 20251112024426epsmtip1b3344ef6680e6abf662312475b3240e3~3IkbBjKhd2474724747epsmtip1j;
+ Wed, 12 Nov 2025 02:44:26 +0000 (GMT)
+From: <hy_fifty.lee@samsung.com>
+To: "'Inki Dae'" <daeinki@gmail.com>
+Cc: "'Seung-Woo Kim'" <sw0312.kim@samsung.com>, "'Kyungmin Park'"
+ <kyungmin.park@samsung.com>, "'David Airlie'" <airlied@gmail.com>, "'Simona
+ Vetter'" <simona@ffwll.ch>, "'Krzysztof Kozlowski'" <krzk@kernel.org>,
+ "'Alim	Akhtar'" <alim.akhtar@samsung.com>,
+ <dri-devel@lists.freedesktop.org>, <linux-arm-kernel@lists.infradead.org>,
+ <linux-samsung-soc@vger.kernel.org>, <linux-kernel@vger.kernel.org>
+In-Reply-To: <CAAQKjZM3qgQO=FaAuc4d1aUT1fCT6Vfo0X7Y7B=NwRNM=B34wA@mail.gmail.com>
+Subject: RE: [PATCH 1/3] drm/exynos: plane: Disable fully off-screen planes
+ instead of zero-sized update
+Date: Wed, 12 Nov 2025 11:44:26 +0900
+Message-ID: <000001dc537e$42b8bc20$c82a3460$@samsung.com>
 MIME-Version: 1.0
-X-OriginatorOrg: bp.renesas.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: TY3PR01MB11346.jpnprd01.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 8d7e6258-c87c-4eac-1daf-08de21b8920c
-X-MS-Exchange-CrossTenant-originalarrivaltime: 12 Nov 2025 06:56:14.0858 (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 53d82571-da19-47e4-9cb4-625a166a4a2a
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: yLm+yyItuQJE+oZIcbEemC/B92LjjdCgNHxGRsFHwfcVj3hrTKSs2zFe5sz5sc2u9f+jCSZq7d8038QXjYINLrrslv3CaGKdVijHAHOJQ2M=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: OS3PR01MB10374
+Content-Transfer-Encoding: quoted-printable
+X-Mailer: Microsoft Outlook 16.0
+Thread-Index: AQKrEiEoxOdjyVP8b+iXtap5zLOX/ADk05gtAXiteQICvjd5q7MlRQUg
+Content-Language: ko
+X-CMS-MailID: 20251112024426epcas2p2aca7746bef270abaec0ae578405f48a7
+X-Msg-Generator: CA
+Content-Type: text/plain; charset="utf-8"
+X-Sendblock-Type: AUTO_CONFIDENTIAL
+CMS-TYPE: 102P
+cpgsPolicy: CPGSC10-234,Y
+X-CFilter-Loop: Reflected
+X-CMS-RootMailID: 20250929042917epcas2p4c8f375cc2355b3a48141cdddb04a01c4
+References: <CGME20250929042917epcas2p4c8f375cc2355b3a48141cdddb04a01c4@epcas2p4.samsung.com>
+ <20250929043110.3631025-1-hy_fifty.lee@samsung.com>
+ <20250929043110.3631025-2-hy_fifty.lee@samsung.com>
+ <CAAQKjZM3qgQO=FaAuc4d1aUT1fCT6Vfo0X7Y7B=NwRNM=B34wA@mail.gmail.com>
+X-Mailman-Approved-At: Wed, 12 Nov 2025 07:11:22 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -166,100 +91,113 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Chris,
-
 > -----Original Message-----
-> From: Chris Brandt <Chris.Brandt@renesas.com>
-> Sent: 11 November 2025 20:43
-> Subject: RE: [PATCH v4 1/2] clk: renesas: rzg2l: Remove DSI clock rate re=
-strictions
+> From: Inki Dae <daeinki=40gmail.com>
+> Sent: Monday, November 10, 2025 11:24 AM
+> To: Hoyoung Lee <hy_fifty.lee=40samsung.com>
+> Cc: Seung-Woo Kim <sw0312.kim=40samsung.com>; Kyungmin Park
+> <kyungmin.park=40samsung.com>; David Airlie <airlied=40gmail.com>; Simona
+> Vetter <simona=40ffwll.ch>; Krzysztof Kozlowski <krzk=40kernel.org>; Alim
+> Akhtar <alim.akhtar=40samsung.com>; dri-devel=40lists.freedesktop.org; li=
+nux-
+> arm-kernel=40lists.infradead.org; linux-samsung-soc=40vger.kernel.org; li=
+nux-
+> kernel=40vger.kernel.org
+> Subject: Re: =5BPATCH 1/3=5D drm/exynos: plane: Disable fully off-screen
+> planes instead of zero-sized update
 >=20
-> Hi Biju
+> Thanks for contribution,
 >=20
-> On Sat, Nov 8, 2025 3:30 AM, Biju Das wrote:
-> > > +	if (dsi_div_target =3D=3D PLL5_TARGET_DPI) {
-> > > +		/* Fixed settings for DPI */
-> > > +		priv->mux_dsi_div_params.clksrc =3D 0;
-> > > +		priv->mux_dsi_div_params.dsi_div_a =3D 3; /* Divided by 8 */
-> > > +		priv->mux_dsi_div_params.dsi_div_b =3D 0; /* Divided by 1 */
-> > > +		dsi_div_ab_desired =3D 8;			/* (1 << a) * (b + 1) */
-> >
-> > This block is duplicated may be add a helper function(), if you are pla=
-nning to send another series.
->=20
-> Actually, I just found another issue with the current driver when it was =
-assuming everything to be
-> hard-coded.
->=20
-> The current code calls rzg2l_cpg_get_vclk_rate()    BEFORE   calling rzg2=
-l_cpg_get_foutpostdiv_rate().
->=20
-> 	vclk_rate =3D rzg2l_cpg_get_vclk_rate(hw, rate);
-> 	sipll5->foutpostdiv_rate =3D
-> 		rzg2l_cpg_get_foutpostdiv_rate(priv, &params, vclk_rate);
->=20
->=20
-> The problem is that rzg2l_cpg_get_vclk_rate() is using the current values=
- of dsi_div_a,  dsi_div_b and
-> clksrc  to calculate a vclk.
-> But, the real values of dsi_div_a, dsi_div_b and clksrc are not set until=
- later in
-> rzg2l_cpg_get_foutpostdiv_rate().
->=20
-> So we have a chicken-and-egg scenario.
->=20
-> We can get around this by using the new "dsi_div_ab_desired" variable bec=
-ause we don't care what the
-> current settings are, we only care what we want them to be.
->=20
-> static unsigned long rzg2l_cpg_get_vclk_rate(struct clk_hw *hw,
-> 					     unsigned long rate)
-> {
-> -	struct sipll5 *sipll5 =3D to_sipll5(hw);
-> -	struct rzg2l_cpg_priv *priv =3D sipll5->priv;
-> -	unsigned long vclk;
-> -
-> -	vclk =3D rate / ((1 << priv->mux_dsi_div_params.dsi_div_a) *
-> -		       (priv->mux_dsi_div_params.dsi_div_b + 1));
-> -
-> -	if (priv->mux_dsi_div_params.clksrc)
-> -		vclk /=3D 2;
-> -
-> -	return vclk;
->=20
-> + 	return rate / dsi_div_ab_desired;
-> }
->=20
->=20
-> Since this function is only called one place in the driver, I suggest we =
-get rid of it and just do:
->=20
-> 	vclk_rate =3D rate / dsi_div_ab_desired;
-> 	sipll5->foutpostdiv_rate =3D
-> 		rzg2l_cpg_get_foutpostdiv_rate(priv, &params, vclk_rate);
->=20
->=20
-> Finally, how this all relates to your comment is that instead of the same=
- code block in 2 places, we
-> can just set the default desired divider and target in rzg2l_cpg_sipll5_r=
-egister() which is always
-> called early.
->=20
-> 	/* Default settings for DPI */
-> -	priv->mux_dsi_div_params.clksrc =3D 0;
-> -	priv->mux_dsi_div_params.dsi_div_a =3D 3; /* Divided by 8 */
-> -	priv->mux_dsi_div_params.dsi_div_b =3D 0; /* Divided by 1 */
-> -	dsi_div_ab_desired =3D 8;			/* (1 << a) * (b + 1) */
-> +	rzg2l_cpg_dsi_div_set_divider(8, PLL5_TARGET_DPI);
->=20
->=20
-> I just did some testing with DPI and DSI, and so far everything works the=
- same.
->=20
->=20
-> What do you think???
-
-OK for me.
-
-Thanks,
-Biju
+> 2025=EB=85=84=209=EC=9B=94=2029=EC=9D=BC=20(=EC=9B=94)=20=EC=98=A4=ED=9B=
+=84=201:29,=20Hoyoung=20Lee=20<hy_fifty.lee=40samsung.com>=EB=8B=98=EC=9D=
+=B4=20=EC=9E=91=0D=0A>=20=EC=84=B1:=0D=0A>=20>=0D=0A>=20>=20Some=20configur=
+ations=20require=20additional=20actions=20when=20all=20windows=20are=0D=0A>=
+=20>=20disabled=20to=20keep=20DECON=20operating=20correctly.=20Programming=
+=20a=20zero-sized=0D=0A>=20>=20window=20in=20->atomic_update()=20leaves=20t=
+he=20plane=20logically=20enabled=20and=20can=0D=0A>=20>=20bypass=20those=20=
+disable=20semantics.=0D=0A>=20>=0D=0A>=20>=20Treat=20a=20fully=20off-screen=
+=20plane=20as=20not=20visible=20and=20take=20the=20explicit=0D=0A>=20>=20di=
+sable=20path.=0D=0A>=20>=0D=0A>=20>=20Implementation=20details:=0D=0A>=20>=
+=20-=20exynos_plane_mode_set():=20if=20computed=20actual_w/actual_h=20is=20=
+zero,=20mark=0D=0A>=20>=20=20=20state->visible=20=3D=20false=20and=20return=
+=20early.=0D=0A>=20>=20-=20exynos_plane_atomic_check():=20if=20=21visible,=
+=20skip=20further=20checks=20and=0D=0A>=20>=20=20=20return=200.=0D=0A>=20>=
+=20-=20exynos_plane_atomic_update():=20if=20=21visible,=20call=20->disable_=
+plane();=0D=0A>=20>=20=20=20otherwise=20call=20->update_plane().=0D=0A>=20>=
+=0D=0A>=20>=20No=20functional=20change=20for=20visible=20planes;=20off-scre=
+en=20planes=20are=20now=0D=0A>=20>=20cleanly=20disabled,=20ensuring=20the=
+=20disable=20hooks=20run=20consistently.=0D=0A>=20>=0D=0A>=20>=20Signed-off=
+-by:=20Hoyoung=20Lee=20<hy_fifty.lee=40samsung.com>=0D=0A>=20>=20---=0D=0A>=
+=20>=20=20drivers/gpu/drm/exynos/exynos_drm_plane.c=20=7C=2012=20++++++++++=
++-=0D=0A>=20>=20=201=20file=20changed,=2011=20insertions(+),=201=20deletion=
+(-)=0D=0A>=20>=0D=0A>=20>=20diff=20--git=20a/drivers/gpu/drm/exynos/exynos_=
+drm_plane.c=0D=0A>=20>=20b/drivers/gpu/drm/exynos/exynos_drm_plane.c=0D=0A>=
+=20>=20index=207c3aa77186d3..842974154d79=20100644=0D=0A>=20>=20---=20a/dri=
+vers/gpu/drm/exynos/exynos_drm_plane.c=0D=0A>=20>=20+++=20b/drivers/gpu/drm=
+/exynos/exynos_drm_plane.c=0D=0A>=20>=20=40=40=20-91,6=20+91,11=20=40=40=20=
+static=20void=20exynos_plane_mode_set(struct=0D=0A>=20exynos_drm_plane_stat=
+e=20*exynos_state)=0D=0A>=20>=20=20=20=20=20=20=20=20=20actual_w=20=3D=20ex=
+ynos_plane_get_size(crtc_x,=20crtc_w,=20mode->hdisplay);=0D=0A>=20>=20=20=
+=20=20=20=20=20=20=20actual_h=20=3D=20exynos_plane_get_size(crtc_y,=20crtc_=
+h,=0D=0A>=20>=20mode->vdisplay);=0D=0A>=20>=0D=0A>=20>=20+=20=20=20=20=20=
+=20=20if=20(=21actual_w=20=7C=7C=20=21actual_h)=20=7B=0D=0A>=20>=20+=20=20=
+=20=20=20=20=20=20=20=20=20=20=20=20=20state->visible=20=3D=20false;=0D=0A>=
+=20=0D=0A>=20The=20state->visible=20field=20in=20the=20DRM=20atomic=20frame=
+work=20is=20set=20to=20true=20only=0D=0A>=20when=20the=20following=20condit=
+ions=20are=20met:=0D=0A>=20-=20Both=20state->crtc=20and=20state->fb=20are=
+=20present=20(having=20only=20one=20of=20them=0D=0A>=20results=20in=20an=20=
+error).=0D=0A>=20-=20src_w/src_h=20and=20crtc_w/crtc_h=20are=20non-zero.=0D=
+=0A>=20-=20The=20source=20rectangle=20does=20not=20exceed=20the=20framebuff=
+er=20bounds=20(e.g.,=20src_x=0D=0A>=20+=20src_w=20<=3D=20fb->width).=0D=0A>=
+=20-=20Rotation=20and=20clipping=20checks=20pass=20successfully.=0D=0A>=20=
+=0D=0A>=20However,=20this=20patch=20modifies=20the=20state->visible=20value=
+=20within=20vendor-=0D=0A>=20specific=20code.=20Doing=20so=20can=20be=20pro=
+blematic=20because=20it=20overrides=20a=20field=0D=0A>=20that=20is=20manage=
+d=20by=20the=20DRM=20atomic=20framework.=20Even=20if=20it=20currently=20wor=
+ks,=0D=0A>=20it=20may=20lead=20to=20unexpected=20behavior=20in=20the=20futu=
+re.=0D=0A>=20=0D=0A>=20For=20example,=20if=20the=20DRM=20atomic=20framework=
+=20sets=20visible=20=3D=20true=20after=0D=0A>=20validating=20the=20above=20=
+conditions=20and=20begins=20processing=20certain=20logic,=20but=0D=0A>=20th=
+e=20vendor=20driver=20later=20changes=20it=20to=20false,=20the=20framework=
+=20may=20still=0D=0A>=20assume=20the=20variable=20remains=20true,=20resulti=
+ng=20in=20inconsistent=20states.=0D=0A>=20=0D=0A>=20Turning=20off=20a=20pla=
+ne=20when=20it=20doesn=E2=80=99t=20need=20to=20be=20displayed=20is=20a=20go=
+od=20idea=20I=0D=0A>=20think.=20You=20might=20consider=20contributing=20thi=
+s=20behavior=20upstream=20so=20it=20can=20be=0D=0A>=20properly=20handled=20=
+within=20the=20DRM=20atomic=20framework=20itself.=0D=0A>=20=0D=0A>=20Thanks=
+,=0D=0A>=20Inki=20Dae=0D=0A>=20=0D=0A>=20>=20+=20=20=20=20=20=20=20=20=20=
+=20=20=20=20=20=20return;=0D=0A>=20>=20+=20=20=20=20=20=20=20=7D=0D=0A>=20>=
+=20+=0D=0A>=20>=20=20=20=20=20=20=20=20=20if=20(crtc_x=20<=200)=20=7B=0D=0A=
+>=20>=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20if=20(actual_w)=0D=
+=0A>=20>=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=
+=20=20=20src_x=20+=3D=20((-crtc_x)=20*=20exynos_state->h_ratio)=0D=0A>=20>=
+=20>>=2016;=20=40=40=20-244,6=20+249,9=20=40=40=20static=20int=20exynos_pla=
+ne_atomic_check(struct=0D=0A>=20drm_plane=20*plane,=0D=0A>=20>=20=20=20=20=
+=20=20=20=20=20/*=20translate=20state=20into=20exynos_state=20*/=0D=0A>=20>=
+=20=20=20=20=20=20=20=20=20exynos_plane_mode_set(exynos_state);=0D=0A>=20>=
+=0D=0A>=20>=20+=20=20=20=20=20=20=20if=20(=21new_plane_state->visible)=0D=
+=0A>=20>=20+=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20return=200;=0D=0A>=
+=20>=20+=0D=0A>=20>=20=20=20=20=20=20=20=20=20ret=20=3D=20exynos_drm_plane_=
+check_format(exynos_plane->config,=0D=0A>=20exynos_state);=0D=0A>=20>=20=20=
+=20=20=20=20=20=20=20if=20(ret)=0D=0A>=20>=20=20=20=20=20=20=20=20=20=20=20=
+=20=20=20=20=20=20return=20ret;=0D=0A>=20>=20=40=40=20-263,8=20+271,10=20=
+=40=40=20static=20void=20exynos_plane_atomic_update(struct=0D=0A>=20drm_pla=
+ne=20*plane,=0D=0A>=20>=20=20=20=20=20=20=20=20=20if=20(=21new_state->crtc)=
+=0D=0A>=20>=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20return;=0D=0A=
+>=20>=0D=0A>=20>=20-=20=20=20=20=20=20=20if=20(exynos_crtc->ops->update_pla=
+ne)=0D=0A>=20>=20+=20=20=20=20=20=20=20if=20(new_state->visible=20&&=20exyn=
+os_crtc->ops->update_plane)=0D=0A>=20>=20=20=20=20=20=20=20=20=20=20=20=20=
+=20=20=20=20=20exynos_crtc->ops->update_plane(exynos_crtc,=0D=0A>=20>=20exy=
+nos_plane);=0D=0A>=20>=20+=20=20=20=20=20=20=20else=20if=20(exynos_crtc->op=
+s->disable_plane)=0D=0A>=20>=20+=20=20=20=20=20=20=20=20=20=20=20=20=20=20=
+=20exynos_crtc->ops->disable_plane(exynos_crtc,=0D=0A>=20>=20+=20exynos_pla=
+ne);=0D=0A>=20>=20=20=7D=0D=0A>=20>=0D=0A>=20>=20=20static=20void=20exynos_=
+plane_atomic_disable(struct=20drm_plane=20*plane,=0D=0A>=20>=20--=0D=0A>=20=
+>=202.34.1=0D=0A>=20>=0D=0A>=20>=0D=0A=0D=0AHi=20Inki,=0D=0AThanks=20for=20=
+the=20review.=0D=0A=0D=0AI=20agree=20that=20mutating=20state->visible=20val=
+ue=20in=20vendor=20code=20is=20risky.=0D=0ARather=20than=20touching=20the=
+=20DRM=20atomic=20framework=20or=20that=20field,=20how=20about=20we=20add=
+=20a=20driver-private=20flag=20in=20Exynos(e.g.=20exynos_drm_plane_state->v=
+isible)=20and=20use=20that=20instead?=0D=0AIf=20this=20approach=20sounds=20=
+reasonable=20to=20you,=20I=E2=80=99ll=20spin=20a=20v2=20along=20these=20lin=
+es.=0D=0A=0D=0ABRs,=0D=0AHoyoung=20Lee=0D=0A=0D=0A=0D=0A
