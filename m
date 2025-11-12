@@ -2,140 +2,63 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1858CC51435
-	for <lists+dri-devel@lfdr.de>; Wed, 12 Nov 2025 10:05:16 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 25F4BC518CC
+	for <lists+dri-devel@lfdr.de>; Wed, 12 Nov 2025 11:06:53 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 28C2B10E6DB;
-	Wed, 12 Nov 2025 09:05:13 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1724210E1B3;
+	Wed, 12 Nov 2025 10:06:50 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=suse.de header.i=@suse.de header.b="Xgs0dhIf";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="C5nSjURi";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="Xgs0dhIf";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="C5nSjURi";
+	dkim=pass (1024-bit key; unprotected) header.d=huawei.com header.i=@huawei.com header.b="0qh8C1VQ";
+	dkim=pass (1024-bit key) header.d=huawei.com header.i=@huawei.com header.b="0qh8C1VQ";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 617D010E6E0
- for <dri-devel@lists.freedesktop.org>; Wed, 12 Nov 2025 09:05:11 +0000 (UTC)
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org
- [IPv6:2a07:de40:b281:104:10:150:64:97])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested)
- by smtp-out1.suse.de (Postfix) with ESMTPS id 6559D21972;
- Wed, 12 Nov 2025 09:05:09 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1762938309; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=J/TmIh/726SD2uzT4Xj1gI0ltsOmqugSFW3idW77EBY=;
- b=Xgs0dhIfjzDlqapH6iNWrz7MVRwqJpH8jQBSvaTNtQAIpaihpoNVFgZGnMeHvdcQDV2LTE
- GonlTfHDu5IdYs1nI57lOfND8R3/ej6q2KlHnfeSDbZs6DZ0s09FQ2w/4uhCs+zFYusEnx
- FsKinWCnpZZs7FaaOYAtwP7wICoWJ7s=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1762938309;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=J/TmIh/726SD2uzT4Xj1gI0ltsOmqugSFW3idW77EBY=;
- b=C5nSjURiM2deUVfP4dkJioa6HVdYY12qvQo+sg57hYAbiEtikaZVPFTRAE1n+KusnKn2+Z
- hwcFFo4DpEvkTYCg==
-Authentication-Results: smtp-out1.suse.de;
- dkim=pass header.d=suse.de header.s=susede2_rsa header.b=Xgs0dhIf;
- dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=C5nSjURi
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1762938309; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=J/TmIh/726SD2uzT4Xj1gI0ltsOmqugSFW3idW77EBY=;
- b=Xgs0dhIfjzDlqapH6iNWrz7MVRwqJpH8jQBSvaTNtQAIpaihpoNVFgZGnMeHvdcQDV2LTE
- GonlTfHDu5IdYs1nI57lOfND8R3/ej6q2KlHnfeSDbZs6DZ0s09FQ2w/4uhCs+zFYusEnx
- FsKinWCnpZZs7FaaOYAtwP7wICoWJ7s=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1762938309;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=J/TmIh/726SD2uzT4Xj1gI0ltsOmqugSFW3idW77EBY=;
- b=C5nSjURiM2deUVfP4dkJioa6HVdYY12qvQo+sg57hYAbiEtikaZVPFTRAE1n+KusnKn2+Z
- hwcFFo4DpEvkTYCg==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested)
- by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 2BEF83EA61;
- Wed, 12 Nov 2025 09:05:09 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
- by imap1.dmz-prg2.suse.org with ESMTPSA id IN+ECcVNFGnQZwAAD6G6ig
- (envelope-from <tzimmermann@suse.de>); Wed, 12 Nov 2025 09:05:09 +0000
-Message-ID: <3cdaa6b2-e2d7-4413-a38b-63c6fc60b6a2@suse.de>
-Date: Wed, 12 Nov 2025 10:05:08 +0100
+X-Greylist: delayed 1001 seconds by postgrey-1.36 at gabe;
+ Wed, 12 Nov 2025 07:36:05 UTC
+Received: from szxga01-in.huawei.com (szxga01-in.huawei.com [45.249.212.187])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7E2A010E6BB
+ for <dri-devel@lists.freedesktop.org>; Wed, 12 Nov 2025 07:36:05 +0000 (UTC)
+dkim-signature: v=1; a=rsa-sha256; d=huawei.com; s=dkim;
+ c=relaxed/relaxed; q=dns/txt; h=From;
+ bh=irUYqWMOySTEOFqOXf1mC30hXOb+We/PmI+gXOE9qqA=;
+ b=0qh8C1VQEQBhlxZ+YTNIaa2TvA7bkXHSTRPozST6Cuzum6aFvy/PZ/lIMOC724yu+SBu8zlhU
+ s/+4FjyDGIK8VpX0klYMK5qTyHP4dWa0rgBL2WikLsuWQ4ppaCzY+8B5zoAdCe2MoQKqPSR5c6q
+ IUpyc5ttMQ17X3cmj71vA3c=
+Received: from canpmsgout02.his.huawei.com (unknown [172.19.92.185])
+ by szxga01-in.huawei.com (SkyGuard) with ESMTPS id 4d5vsF4m8Zz1BFn4
+ for <dri-devel@lists.freedesktop.org>; Wed, 12 Nov 2025 15:18:57 +0800 (CST)
+dkim-signature: v=1; a=rsa-sha256; d=huawei.com; s=dkim;
+ c=relaxed/relaxed; q=dns/txt; h=From;
+ bh=irUYqWMOySTEOFqOXf1mC30hXOb+We/PmI+gXOE9qqA=;
+ b=0qh8C1VQEQBhlxZ+YTNIaa2TvA7bkXHSTRPozST6Cuzum6aFvy/PZ/lIMOC724yu+SBu8zlhU
+ s/+4FjyDGIK8VpX0klYMK5qTyHP4dWa0rgBL2WikLsuWQ4ppaCzY+8B5zoAdCe2MoQKqPSR5c6q
+ IUpyc5ttMQ17X3cmj71vA3c=
+Received: from mail.maildlp.com (unknown [172.19.163.174])
+ by canpmsgout02.his.huawei.com (SkyGuard) with ESMTPS id 4d5vqX5nKMzcbQc;
+ Wed, 12 Nov 2025 15:17:28 +0800 (CST)
+Received: from kwepemh100007.china.huawei.com (unknown [7.202.181.92])
+ by mail.maildlp.com (Postfix) with ESMTPS id 1BB9A14022E;
+ Wed, 12 Nov 2025 15:19:18 +0800 (CST)
+Received: from huawei.com (10.67.174.33) by kwepemh100007.china.huawei.com
+ (7.202.181.92) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.11; Wed, 12 Nov
+ 2025 15:19:17 +0800
+From: Gu Bowen <gubowen5@huawei.com>
+To: Daniel Vetter <daniel@ffwll.ch>, Helge Deller <deller@gmx.de>
+CC: <linux-fbdev@vger.kernel.org>, <dri-devel@lists.freedesktop.org>,
+ <stable@vger.kernel.org>, Lu Jialin <lujialin4@huawei.com>, Gu Bowen
+ <gubowen5@huawei.com>
+Subject: [PATCH stable] fbdev: Fix out-of-bounds issue in sys_fillrect()
+Date: Wed, 12 Nov 2025 15:32:07 +0800
+Message-ID: <20251112073207.1731125-1-gubowen5@huawei.com>
+X-Mailer: git-send-email 2.43.0
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] drm/client: fix MODULE_PARM_DESC string for "active"
-To: Randy Dunlap <rdunlap@infradead.org>, dri-devel@lists.freedesktop.org
-Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, David Airlie <airlied@gmail.com>,
- Simona Vetter <simona@ffwll.ch>, Jocelyn Falempe <jfalempe@redhat.com>,
- Javier Martinez Canillas <javierm@redhat.com>
-References: <20251112010920.2355712-1-rdunlap@infradead.org>
-Content-Language: en-US
-From: Thomas Zimmermann <tzimmermann@suse.de>
-Autocrypt: addr=tzimmermann@suse.de; keydata=
- xsBNBFs50uABCADEHPidWt974CaxBVbrIBwqcq/WURinJ3+2WlIrKWspiP83vfZKaXhFYsdg
- XH47fDVbPPj+d6tQrw5lPQCyqjwrCPYnq3WlIBnGPJ4/jreTL6V+qfKRDlGLWFjZcsrPJGE0
- BeB5BbqP5erN1qylK9i3gPoQjXGhpBpQYwRrEyQyjuvk+Ev0K1Jc5tVDeJAuau3TGNgah4Yc
- hdHm3bkPjz9EErV85RwvImQ1dptvx6s7xzwXTgGAsaYZsL8WCwDaTuqFa1d1jjlaxg6+tZsB
- 9GluwvIhSezPgnEmimZDkGnZRRSFiGP8yjqTjjWuf0bSj5rUnTGiyLyRZRNGcXmu6hjlABEB
- AAHNJ1Rob21hcyBaaW1tZXJtYW5uIDx0emltbWVybWFubkBzdXNlLmRlPsLAjgQTAQgAOAIb
- AwULCQgHAgYVCgkICwIEFgIDAQIeAQIXgBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftODH
- AAoJEGgNwR1TC3ojx1wH/0hKGWugiqDgLNXLRD/4TfHBEKmxIrmfu9Z5t7vwUKfwhFL6hqvo
- lXPJJKQpQ2z8+X2vZm/slsLn7J1yjrOsoJhKABDi+3QWWSGkaGwRJAdPVVyJMfJRNNNIKwVb
- U6B1BkX2XDKDGffF4TxlOpSQzdtNI/9gleOoUA8+jy8knnDYzjBNOZqLG2FuTdicBXblz0Mf
- vg41gd9kCwYXDnD91rJU8tzylXv03E75NCaTxTM+FBXPmsAVYQ4GYhhgFt8S2UWMoaaABLDe
- 7l5FdnLdDEcbmd8uLU2CaG4W2cLrUaI4jz2XbkcPQkqTQ3EB67hYkjiEE6Zy3ggOitiQGcqp
- j//OwE0EWznS4AEIAMYmP4M/V+T5RY5at/g7rUdNsLhWv1APYrh9RQefODYHrNRHUE9eosYb
- T6XMryR9hT8XlGOYRwKWwiQBoWSDiTMo/Xi29jUnn4BXfI2px2DTXwc22LKtLAgTRjP+qbU6
- 3Y0xnQN29UGDbYgyyK51DW3H0If2a3JNsheAAK+Xc9baj0LGIc8T9uiEWHBnCH+RdhgATnWW
- GKdDegUR5BkDfDg5O/FISymJBHx2Dyoklv5g4BzkgqTqwmaYzsl8UxZKvbaxq0zbehDda8lv
- hFXodNFMAgTLJlLuDYOGLK2AwbrS3Sp0AEbkpdJBb44qVlGm5bApZouHeJ/+n+7r12+lqdsA
- EQEAAcLAdgQYAQgAIAIbDBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftOH6AAoJEGgNwR1T
- C3ojVSkIALpAPkIJPQoURPb1VWjh34l0HlglmYHvZszJWTXYwavHR8+k6Baa6H7ufXNQtThR
- yIxJrQLW6rV5lm7TjhffEhxVCn37+cg0zZ3j7zIsSS0rx/aMwi6VhFJA5hfn3T0TtrijKP4A
- SAQO9xD1Zk9/61JWk8OysuIh7MXkl0fxbRKWE93XeQBhIJHQfnc+YBLprdnxR446Sh8Wn/2D
- Ya8cavuWf2zrB6cZurs048xe0UbSW5AOSo4V9M0jzYI4nZqTmPxYyXbm30Kvmz0rYVRaitYJ
- 4kyYYMhuULvrJDMjZRvaNe52tkKAvMevcGdt38H4KSVXAylqyQOW5zvPc4/sq9c=
-In-Reply-To: <20251112010920.2355712-1-rdunlap@infradead.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-Spam-Level: 
-X-Spam-Flag: NO
-X-Rspamd-Queue-Id: 6559D21972
-X-Rspamd-Action: no action
-X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
-X-Spamd-Result: default: False [-4.51 / 50.00]; BAYES_HAM(-3.00)[100.00%];
- NEURAL_HAM_LONG(-1.00)[-1.000];
- NEURAL_HAM_SHORT(-0.20)[-1.000];
- R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
- MIME_GOOD(-0.10)[text/plain]; MX_GOOD(-0.01)[];
- RCVD_TLS_ALL(0.00)[]; FREEMAIL_ENVRCPT(0.00)[gmail.com];
- RCVD_VIA_SMTP_AUTH(0.00)[];
- FUZZY_RATELIMITED(0.00)[rspamd.com]; MIME_TRACE(0.00)[0:+];
- ARC_NA(0.00)[]; RCPT_COUNT_SEVEN(0.00)[8];
- MID_RHS_MATCH_FROM(0.00)[];
- DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
- FROM_HAS_DN(0.00)[];
- FREEMAIL_CC(0.00)[linux.intel.com,kernel.org,gmail.com,ffwll.ch,redhat.com];
- TO_DN_SOME(0.00)[]; FROM_EQ_ENVFROM(0.00)[];
- DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:rdns,imap1.dmz-prg2.suse.org:helo,infradead.org:email,suse.de:dkim,suse.de:mid,suse.de:email,suse.com:url];
- RCVD_COUNT_TWO(0.00)[2]; TO_MATCH_ENVRCPT_ALL(0.00)[];
- DKIM_TRACE(0.00)[suse.de:+]
-X-Spam-Score: -4.51
+Content-Type: text/plain
+X-Originating-IP: [10.67.174.33]
+X-ClientProxiedBy: kwepems200001.china.huawei.com (7.221.188.67) To
+ kwepemh100007.china.huawei.com (7.202.181.92)
+X-Mailman-Approved-At: Wed, 12 Nov 2025 10:06:49 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -151,57 +74,111 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+There was an out-of-bounds issue found by syzkaller test on v6.6.
 
+BUG: unable to handle page fault for address: ffffc90000c3f000
+PGD 100000067 P4D 100000067 PUD 100c80067 PMD 10ac1c067 PTE 0
+Oops: 0002 [#1] PREEMPT SMP KASAN PTI
+CPU: 3 PID: 6521 Comm: syz.3.1365 Not tainted 6.6.0+ #82
+Hardware name: QEMU Standard PC (i440FX + PIIX, 1996), BIOS rel-1.14.0-0-g155821a1990b-prebuilt.qemu.org 04/01/2014
+RIP: 0010:memset64 arch/x86/include/asm/string_64.h:58 [inline]
+RIP: 0010:memset_l include/linux/string.h:168 [inline]
+RIP: 0010:bitfill_aligned drivers/video/fbdev/core/sysfillrect.c:53 [inline]
+RIP: 0010:bitfill_aligned+0x144/0x1c0 drivers/video/fbdev/core/sysfillrect.c:25
+Code: 23 04 24 48 31 d0 49 89 46 f8 44 89 e0 44 29 f8 29 c3 e8 9f 39 49 fe 89 d8 31 d2 4c 89 f7 41 f7 f4 48 89 c3 48 89 c1 48 89 e8 <f3> 48 ab 31 ff 4c 89 ee e8 df 2f 49 fe 4d 85 ed 0f 84 6b ff ff ff
+RSP: 0018:ffff888119ce7418 EFLAGS: 00010246
+RAX: 0000000000000000 RBX: 0000000000000180 RCX: 0000000000000180
+RDX: 0000000000000000 RSI: ffffc90003873000 RDI: ffffc90000c3f000
+RBP: 0000000000000000 R08: 0000000000006000 R09: 0000000000000040
+R10: 0000000000000000 R11: 0000000000000001 R12: 0000000000000040
+R13: 0000000000000000 R14: ffffc90000c3f000 R15: 0000000000000000
+FS:  00007f1704b926c0(0000) GS:ffff8881f5980000(0000) knlGS:0000000000000000
+CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+CR2: ffffc90000c3f000 CR3: 00000001230d0002 CR4: 0000000000770ee0
+DR0: 0000000000000000 DR1: 000000000000e000 DR2: 0000000000000000
+DR3: 0000000000000000 DR6: 00000000ffff0ff0 DR7: 0000000000000400
+PKRU: 80000000
+Call Trace:
+ <TASK>
+ sys_fillrect+0x429/0x830 drivers/video/fbdev/core/sysfillrect.c:281
+ drm_fbdev_generic_defio_fillrect+0x27/0x140 drivers/gpu/drm/drm_fbdev_generic.c:37
+ bit_clear+0x183/0x220 drivers/video/fbdev/core/bitblit.c:73
+ __fbcon_clear+0x5ea/0x670 drivers/video/fbdev/core/fbcon.c:1281
+ fbcon_scroll+0x41e/0x560 drivers/video/fbdev/core/fbcon.c:1847
+ con_scroll+0x464/0x6a0 drivers/tty/vt/vt.c:577
+ lf+0x274/0x2d0 drivers/tty/vt/vt.c:1461
+ do_con_trol+0x5ea/0x3d80 drivers/tty/vt/vt.c:2149
+ do_con_write+0x780/0x10c0 drivers/tty/vt/vt.c:2905
+ con_write+0x28/0xc0 drivers/tty/vt/vt.c:3245
+ do_output_char+0x5de/0x850 drivers/tty/n_tty.c:433
+ process_output drivers/tty/n_tty.c:500 [inline]
+ n_tty_write+0x442/0xb00 drivers/tty/n_tty.c:2406
+ iterate_tty_write+0x2b5/0x630 drivers/tty/tty_io.c:1017
+ file_tty_write.constprop.0+0x20c/0x3b0 drivers/tty/tty_io.c:1088
+ call_write_iter include/linux/fs.h:2085 [inline]
+ do_iter_readv_writev+0x210/0x3c0 fs/read_write.c:737
+ do_iter_write+0x181/0x4e0 fs/read_write.c:862
+ vfs_writev+0x15b/0x4d0 fs/read_write.c:935
+ do_writev+0x136/0x370 fs/read_write.c:978
+ do_syscall_x64 arch/x86/entry/common.c:51 [inline]
+ do_syscall_64+0x59/0x110 arch/x86/entry/common.c:81
+ entry_SYSCALL_64_after_hwframe+0x78/0xe2
 
-Am 12.11.25 um 02:09 schrieb Randy Dunlap:
-> The MODULE_PARM_DESC string for the "active" parameter is missing a
-> space and has an extraneous trailing ']' character. Correct these.
->
-> Before patch:
-> $ modinfo -p ./drm_client_lib.ko
-> active:Choose which drm client to start, default isfbdev] (string)
->
-> After patch:
-> $ modinfo -p ./drm_client_lib.ko
-> active:Choose which drm client to start, default is fbdev (string)
->
-> Fixes: f7b42442c4ac ("drm/log: Introduce a new boot logger to draw the kmsg on the screen")
+When the virtual console is rotated in the backend state, it can lead to
+inconsistencies between the size of the virtual console's size and its
+hook functions. In such cases, clearing the screen may result in
+out-of-bounds issue.
 
-Reviewed-by: Thomas Zimmermann <tzimmermann@suse.de>
+Fix it by adding a check in sys_fillrect() and moving set_blitting_type()
+to the visible area of the VC.
 
-> Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
-> ---
-> Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
-> Cc: Maxime Ripard <mripard@kernel.org>
-> Cc: Thomas Zimmermann <tzimmermann@suse.de>
-> Cc: David Airlie <airlied@gmail.com>
-> Cc: Simona Vetter <simona@ffwll.ch>
-> Cc: Jocelyn Falempe <jfalempe@redhat.com>
-> Cc: Javier Martinez Canillas <javierm@redhat.com>
-> ---
->   drivers/gpu/drm/clients/drm_client_setup.c |    4 ++--
->   1 file changed, 2 insertions(+), 2 deletions(-)
->
-> --- linux-next-20251110.orig/drivers/gpu/drm/clients/drm_client_setup.c
-> +++ linux-next-20251110/drivers/gpu/drm/clients/drm_client_setup.c
-> @@ -13,8 +13,8 @@
->   static char drm_client_default[16] = CONFIG_DRM_CLIENT_DEFAULT;
->   module_param_string(active, drm_client_default, sizeof(drm_client_default), 0444);
->   MODULE_PARM_DESC(active,
-> -		 "Choose which drm client to start, default is"
-> -		 CONFIG_DRM_CLIENT_DEFAULT "]");
-> +		 "Choose which drm client to start, default is "
-> +		 CONFIG_DRM_CLIENT_DEFAULT);
->   
->   /**
->    * drm_client_setup() - Setup in-kernel DRM clients
+CC: stable@vger.kernel.org      # fbdev had been refactored on 6.15-rc1
+Fixes: 68648ed1f58d ("fbdev: add drawing functions for framebuffers in system RAM")
+Signed-off-by: Gu Bowen <gubowen5@huawei.com>
+---
+ drivers/video/fbdev/core/fbcon.c       | 2 +-
+ drivers/video/fbdev/core/sysfillrect.c | 6 ++++++
+ 2 files changed, 7 insertions(+), 1 deletion(-)
 
+diff --git a/drivers/video/fbdev/core/fbcon.c b/drivers/video/fbdev/core/fbcon.c
+index b49f15a3442e..a6602f230089 100644
+--- a/drivers/video/fbdev/core/fbcon.c
++++ b/drivers/video/fbdev/core/fbcon.c
+@@ -2702,9 +2702,9 @@ static void fbcon_modechanged(struct fb_info *info)
+ 		return;
+ 
+ 	p = &fb_display[vc->vc_num];
+-	set_blitting_type(vc, info);
+ 
+ 	if (con_is_visible(vc)) {
++		set_blitting_type(vc, info);
+ 		var_to_display(p, &info->var, info);
+ 		cols = FBCON_SWAP(ops->rotate, info->var.xres, info->var.yres);
+ 		rows = FBCON_SWAP(ops->rotate, info->var.yres, info->var.xres);
+diff --git a/drivers/video/fbdev/core/sysfillrect.c b/drivers/video/fbdev/core/sysfillrect.c
+index bcdcaeae6538..e5c4ee317b0b 100644
+--- a/drivers/video/fbdev/core/sysfillrect.c
++++ b/drivers/video/fbdev/core/sysfillrect.c
+@@ -238,6 +238,7 @@ void sys_fillrect(struct fb_info *p, const struct fb_fillrect *rect)
+ 	u32 bpp = p->var.bits_per_pixel;
+ 	unsigned long *dst;
+ 	int dst_idx, left;
++	long dst_offset;
+ 
+ 	if (p->state != FBINFO_STATE_RUNNING)
+ 		return;
+@@ -277,6 +278,11 @@ void sys_fillrect(struct fb_info *p, const struct fb_fillrect *rect)
+ 		}
+ 		while (height--) {
+ 			dst += dst_idx >> (ffs(bits) - 1);
++			dst_offset = (unsigned long)dst - (unsigned long)p->screen_base;
++			if (dst_offset < 0 || dst_offset >= p->fix.smem_len) {
++				pr_err("dst offset out of bound: dst_offset(%ld)", dst_offset);
++				return;
++			}
+ 			dst_idx &= (bits - 1);
+ 			fill_op32(p, dst, dst_idx, pat, width*bpp, bits);
+ 			dst_idx += p->fix.line_length*8;
 -- 
---
-Thomas Zimmermann
-Graphics Driver Developer
-SUSE Software Solutions Germany GmbH
-Frankenstr. 146, 90461 Nürnberg, Germany, www.suse.com
-GF: Jochen Jaser, Andrew McDonald, Werner Knoblich, (HRB 36809, AG Nürnberg)
-
+2.43.0
 
