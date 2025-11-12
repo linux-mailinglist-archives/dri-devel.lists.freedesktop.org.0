@@ -2,86 +2,163 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 49C01C53191
-	for <lists+dri-devel@lfdr.de>; Wed, 12 Nov 2025 16:39:55 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1A5C5C53221
+	for <lists+dri-devel@lfdr.de>; Wed, 12 Nov 2025 16:46:10 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1276810E75B;
-	Wed, 12 Nov 2025 15:39:53 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E913910E75A;
+	Wed, 12 Nov 2025 15:46:05 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="X+FJMhqm";
+	dkim=pass (1024-bit key; unprotected) header.d=amd.com header.i=@amd.com header.b="y2oqLB3m";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-f41.google.com (mail-lf1-f41.google.com
- [209.85.167.41])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2056E10E75B
- for <dri-devel@lists.freedesktop.org>; Wed, 12 Nov 2025 15:39:52 +0000 (UTC)
-Received: by mail-lf1-f41.google.com with SMTP id
- 2adb3069b0e04-59578e38613so888168e87.2
- for <dri-devel@lists.freedesktop.org>; Wed, 12 Nov 2025 07:39:52 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1762961990; x=1763566790; darn=lists.freedesktop.org;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
- bh=AQMGHeuVetKMPR9AyI2Wocgl9opG9fOrKP3UuI7HdsU=;
- b=X+FJMhqmPuVd+UmJcBVhgGERfkUKFqvbnpBC/cBgD3ahP284NwbjAfjkd/bZAwI299
- Kb09/eQTCwffC/48V7zQa382cy6GfW24084LUAaT8Oo1nRmWPji9NXLer4UCzuTeiV/H
- MwHCwUgiRXzc9aMA5JNPOr4wNt29YokUYfdyTV4McpJ0TSOD6sHOgtNb2n9yN9/wQCZN
- UfUap6PqgSRAZYagysLpYcJmz5jSaqlJtP4X1xG/71cKpoa6ETdqJZsINUO1KtTFjjSz
- Np9EqqbEs4OoV6r7cO0FHEjtUObV36RtlKSesmnQHkeBogXowc8JVe6qPQxq4bB0nGeF
- vO9g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1762961990; x=1763566790;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=AQMGHeuVetKMPR9AyI2Wocgl9opG9fOrKP3UuI7HdsU=;
- b=BMAlx0gvGHBsjnMYz54LkedleF5apoBJPs7vzeQ/lcQFeGdgtspVLk7cGvhXCe3SVm
- UdoVoL76g/CdsywWpXWU9WCrCJqUlK/UpJ671dda6ohuM5AYYcmUGs9HG8Cze5oOihoc
- 7P5Nk82wo93jRQivOl8EDJb80OLv+hqst/7UQdOmVUNyLfu4k18bFbS5pGbFFF6eKYVJ
- +L2uMHrZwhuMS+dlTAyQm7NpoiS5LJIy2GEfUNSLn3kQ1n1KbvHD+UEu/rbWOn4voTsS
- MYGyd1rCXaeyra59LMG/iVujCASLfKG30xz6XCuJx54uUtO7WchhwHgi8/de+zamLA57
- kB0w==
-X-Forwarded-Encrypted: i=1;
- AJvYcCUWV9AbtxwtEmJ4lGGiLlWZh3k5pMMUpyjcijNSW2cBWRFQAoYfx/ma6z5fBvE39c5ViORAeKtAWXc=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YwFPGOmwyDEJkKHmLm7qCX8w8lbfbI692cQ7PnubZhapEoW/v1u
- cZ+f+n3EayvVR/UtS4LEUSuCqx14/n/lKA+gzsJgMIuta60grP1lYUnW
-X-Gm-Gg: ASbGncv+gN3ehBmg6JSTzzI8dBe1H71pMPOd3GL5cPr8moBXRX2n/b5gFg9JmB/ibio
- Whb+4iJMqSiJ2OSH4CmDvXJh0Q6ydhOJ0tSxpHfeExLgspbsXdFc5W4qT90bH/3QVynK3viVqDF
- xl7E2yZ8bQGFeUgZPLk93w2X/vj7nIek6VjzglXeWrT/kLFuNlYou5qZjHS0SHMOC6UNNRi2MIQ
- gmNVva/Y6p4PZ/G7+HO08MnzqGDQ+uStpeQvG+jDH3lXZY4lJzf75cjGqc9AtJeTeDWsVyAZmWN
- tyCZK8/Wo3l1kFR31y73rU9kqK241rmIyUO5o0P4LZtGWHzGEfDfCOh3W6fLKyCPBVG6Dqhmw/v
- be8SODMyoKyvNGjugdycPf+npyw7Tlh1j1ADbWBmgwdyRdYPJz5EPmfsN1gtPTbayBa+SEpBZdv
- RRL34N4/7yAMduhvkTM4NTVrXcjQ/vXTp8IN7E
-X-Google-Smtp-Source: AGHT+IG6fxfn9Ejevg+kHxxkHAI8+e+Pp8yzrvtVeAeXPBB99bQNtGL7z+dS6UndPXzRJTWN+ZedwA==
-X-Received: by 2002:a05:6512:2390:b0:592:fc68:5b9d with SMTP id
- 2adb3069b0e04-59576df324dmr1311109e87.10.1762961989929; 
- Wed, 12 Nov 2025 07:39:49 -0800 (PST)
-Received: from gmail.com (83-233-6-197.cust.bredband2.com. [83.233.6.197])
- by smtp.gmail.com with ESMTPSA id
- 2adb3069b0e04-5944a5a0b7esm5951757e87.109.2025.11.12.07.39.48
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 12 Nov 2025 07:39:49 -0800 (PST)
-Date: Wed, 12 Nov 2025 16:39:47 +0100
-From: Marcus Folkesson <marcus.folkesson@gmail.com>
-To: Lars Rask <Lars.Rask@axis.com>
-Cc: "david@lechnology.com" <david@lechnology.com>,
- "jagan@amarulasolutions.com" <jagan@amarulasolutions.com>,
- "agx@sigxcpu.org" <agx@sigxcpu.org>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- Kernel <Kernel@axis.com>, Amir Dawd Seid <Amir.Seid@axis.com>,
- Johan Adolfsson <Johan.Adolfsson@axis.com>,
- Daniel Larsson Persson <Daniel.Larsson.Persson@axis.com>
-Subject: Re: [RFC] What to base new driver for Raystar RDX0063 display panel
- using Sitronix ST75156 chip on?
-Message-ID: <aRSqQ8AFWhUFlOyT@gmail.com>
-References: <AS2PR02MB89157A26C4CFF62811208A739FCCA@AS2PR02MB8915.eurprd02.prod.outlook.com>
+Received: from PH8PR06CU001.outbound.protection.outlook.com
+ (mail-westus3azon11012068.outbound.protection.outlook.com [40.107.209.68])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1F9E910E75A;
+ Wed, 12 Nov 2025 15:46:05 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=Z0cNMnguQbgv2vOU91JBH6HXp0dbx2C9KOq7piEnINmbKy0ROu1XG+Wg8vvxJHueycJHd+qtdyfjMqfsUA3JrUDx5W/Uch6k52fcIQrkZ6cCISxhSDepFai0lgp2fccPpTwqK2G7i3i93RkBA9MZhZXFOOk52vcTSG5h9X7V2PDZSmDXXKtENjI0z9YwPGQgAJcxmWwom3Ijm/ynPOWRlfdHuPKg+yxGby7g5UtknD2sVXiBTYfHEgCb2e56IPJgCsIMhVIevNDJGwB3UVxjieQHnczCFwuhWbLcdHQWb7Qu7IuDx3Qh0HyLSAYjZ5CLGMctEmobXvKYTM4/rQAwxA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=h3R6SIbn844oBGwFdm5GJpB8oyDBFa6hd7gJcbSaJMA=;
+ b=DbZDF6wPtvfZzkJUhtURG11GN8Lbfnek5qNk+6NzHErrpt6iIhpBok8v+q8wAv3bakIVZpiwuF+eMkx64vNEERA4hjMyoaGglGwrH4kSQ86W6OdFjAGsUMw23v3TLATTaGsuvdg+I1NZdzVQ8b2R6Ri2SsriBQcITxYpbEjss1gQ2xahBVJLslRp8WsafBBeAzEQr6vrOcInz1JS8taAfERmjk8jc6EYH0dPABEUsfwkO5Pt1ROduP2gUt5SomTzJ/xZaXsa1+zBmyVAE5y3h/mJE6fDDSY3LQ5vYQh4N9s7J8Zeonr3v3dAJd+r/ntF+vgpO+rC9e5XiIolcQ0KFw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=h3R6SIbn844oBGwFdm5GJpB8oyDBFa6hd7gJcbSaJMA=;
+ b=y2oqLB3maVftHhhxXrTlDUsE2uoaEPChXKOTajeXT5qN/TkNHOfkPhs/i6sXZdl7wQUxJ68j9/M8rP+aaRJQZLSCtU8uIJjGy6UTtiED2hwSbR0TcrzoKfUDIQ0CITe0BfJ4q0WgBErxUSkEP/LcLQWK36qd9mV8iSgoUtw1py0=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=amd.com;
+Received: from MN0PR12MB6101.namprd12.prod.outlook.com (2603:10b6:208:3cb::10)
+ by DM4PR12MB5987.namprd12.prod.outlook.com (2603:10b6:8:6a::21) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9320.15; Wed, 12 Nov
+ 2025 15:46:00 +0000
+Received: from MN0PR12MB6101.namprd12.prod.outlook.com
+ ([fe80::37ee:a763:6d04:81ca]) by MN0PR12MB6101.namprd12.prod.outlook.com
+ ([fe80::37ee:a763:6d04:81ca%7]) with mapi id 15.20.9298.010; Wed, 12 Nov 2025
+ 15:45:59 +0000
+Message-ID: <31275a6b-803b-4efc-a558-cbc7ff750932@amd.com>
+Date: Wed, 12 Nov 2025 09:45:55 -0600
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v7 03/15] drm/amd/display: use drm_edid_product_id for
+ parsing EDID product info
+To: Melissa Wen <mwen@igalia.com>, Harry Wentland <harry.wentland@amd.com>,
+ Alex Hung <alex.hung@amd.com>, Rodrigo Siqueira <siqueira@igalia.com>,
+ airlied@gmail.com, alexander.deucher@amd.com, andrzej.hajda@intel.com,
+ christian.koenig@amd.com, jernej.skrabec@gmail.com, jonas@kwiboo.se,
+ Laurent.pinchart@ideasonboard.com, maarten.lankhorst@linux.intel.com,
+ mripard@kernel.org, neil.armstrong@linaro.org, rfoss@kernel.org,
+ simona@ffwll.ch, sunpeng.li@amd.com, tzimmermann@suse.de
+Cc: Michel Daenzer <michel.daenzer@mailbox.org>,
+ Jani Nikula <jani.nikula@linux.intel.com>, amd-gfx@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org, kernel-dev@igalia.com
+References: <20251106165536.161662-1-mwen@igalia.com>
+ <20251106165536.161662-4-mwen@igalia.com>
+Content-Language: en-US
+From: Mario Limonciello <mario.limonciello@amd.com>
+In-Reply-To: <20251106165536.161662-4-mwen@igalia.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: SA0PR11CA0010.namprd11.prod.outlook.com
+ (2603:10b6:806:d3::15) To MN0PR12MB6101.namprd12.prod.outlook.com
+ (2603:10b6:208:3cb::10)
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
- protocol="application/pgp-signature"; boundary="ijoNkkVX71GLNuQ2"
-Content-Disposition: inline
-In-Reply-To: <AS2PR02MB89157A26C4CFF62811208A739FCCA@AS2PR02MB8915.eurprd02.prod.outlook.com>
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: MN0PR12MB6101:EE_|DM4PR12MB5987:EE_
+X-MS-Office365-Filtering-Correlation-Id: 3e94b410-9eeb-43e9-79f3-08de220293af
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+ ARA:13230040|376014|1800799024|7416014|366016|921020|7053199007; 
+X-Microsoft-Antispam-Message-Info: =?utf-8?B?T0FoVHhxUVM5dUJpZ0ZVcFJOT1YrN3NxZTMwSWJYTG01Z1htOVdkQzdTNlVw?=
+ =?utf-8?B?MjlsRlhZTEFKZkQ0T0VjU3JBT2tlTVJ5L21Pa1dRVjBmRHlJVHA3TGplOUI4?=
+ =?utf-8?B?YXJQYXJGQkkxWXB2eDJIUHMwb2RmdzV3a2pVV0k1VHVtOWlKa1ZoS3U0cFFI?=
+ =?utf-8?B?V3RlcWhtR1dHK2ZOZmNKYW51MXoxSEJkclZGbFo1OVFKQU9CUkg0b3JCWm4v?=
+ =?utf-8?B?WUZZYmdKWlhuQ0tyVnBjeVVDdkdjVit2S09WWngvL0ZIR25mc0RMN3VTenMv?=
+ =?utf-8?B?RlBBNEtpSGl5SDFQUCtRN09XZ3hMWnFOcjduUkVlZ2ZleHExL01qemJKMUJQ?=
+ =?utf-8?B?TnAwbGVoYUpJdldLczU5QW4wak1VOXUrU2NMaCtOZ1ZuZGRtVUtMRzNlNjBZ?=
+ =?utf-8?B?TW9SYkh0aC9FcVV3TlFFWXc3R1ZWWVp3QTdKVWhwS2YveGtPbHkrWXNoc1hE?=
+ =?utf-8?B?YkFDeWZ2azNMSnZFckxGazlONngvUWxWVHh6WU84L1BmTDU3NFZGdHdMa2Zp?=
+ =?utf-8?B?bXhuQVAxTTE2VzNJL1pPOStIZTBzdE44VVE1YU80OW12M3BmelVWU09qTSsx?=
+ =?utf-8?B?anFjN0pZcnlIdExSWGtMNElDNkxQT3grOUkvVTBwSFNndHBVMUk3ZXBDL3hD?=
+ =?utf-8?B?RDBrZFhob0VGRXdtZjd0dS9YYUVwRFNVZTNsdjc1Q3BaeVdYYWx2N2c2STY3?=
+ =?utf-8?B?L3E5MXdYOWlGaFFlU1JtZjBFdGZIOElOclZEUnlRL2psRDhyRVFEdVVLdFF6?=
+ =?utf-8?B?UUZYZmJsRWk5bm56ckhSZlE4SS9nSjRBc0pCZzdwSGRrbVJUakZQWkMvM0ZX?=
+ =?utf-8?B?cnVWTnpFdlNNaEJ1dk52a1hrYUpFVGlFV0Fkei9Tbll6WWZKdzRPamh2TUVB?=
+ =?utf-8?B?YnlNc1A1eThjNHJJK2x4UTc3eWZWbVFlNWFFWFQySjhJQXJlaTFuc1JDYkdi?=
+ =?utf-8?B?bFc5MmFMcTJUQUxTb2lzNXJkN0pHaVJNODh1VkVpQlBpc0lWc1dYM1VEenNS?=
+ =?utf-8?B?bkQ0bklYRFAvL0NtRG0vR0pwQ1ZuOVNHbkxNWGZEdmZUV296S1MxVUMrSW9S?=
+ =?utf-8?B?NytGVzlkYW5LZE51RkhZZW1sOXJLNDQ0aVpqMjhvSkpWcVl2R1J6eXVEaUpR?=
+ =?utf-8?B?MHRzaWFLRXc3MHZpUktJczduUGZ0K3N0UWNNNlA2Zmk1MG94L0x3VjVLLzJB?=
+ =?utf-8?B?QmN3UUJzV1lYVHp4cFBaZ1U1aXVtYXI5MGtUNS9ENW4xWHVUN0kwaC9DVDIw?=
+ =?utf-8?B?OWs4VXlwVURBTE1zUXhmRFV3TEErR2NlbmgweXhyNkFPdGVhbTVDQkVDZ242?=
+ =?utf-8?B?eTZDb3RtSUtTZ2szVTBydlN1V0V2MWMxRzhrODVpZUxkRWhFaGt5S01ZY292?=
+ =?utf-8?B?MlZnVWF2ZElIcWR4V05KKzQreDRBb0V2WE4yYTJ2ZGIvaFhldjd1Z3JPWmd2?=
+ =?utf-8?B?S3FzK2NaeUFEMjVpSS9IQnkyOVNnRDk5THA1dW02RnVhQWhxTjk3N0IxNTRh?=
+ =?utf-8?B?SkxnZ0lFTUt2ZWFNVlpvWkM2SWxMTllRanFRS25LaG1KdHZkNGVwTDNMV2h3?=
+ =?utf-8?B?NlZnQnlWMHpmNmxlQzh5d2JwMll6WXd5TGNJT3lLbmtVSzgzZ3U5R3hOVm9q?=
+ =?utf-8?B?Zlg4UkU4aEZSRG1ld1FXa2RJUzJqeSs5ZnZkaHE2S3RDYyt2UWpZSEhtRmJ6?=
+ =?utf-8?B?dStrSzlCMmc1RGZaNmI4WEdrMEZ2U3dGQXVqTmVTR3NsMmtjM01kdVV6Y1dm?=
+ =?utf-8?B?ODRlS2tuVHFEdjU0bEZ3SkZYTU1jYkVjSzRFdktzR3A3UGF6N3NwektpWUI5?=
+ =?utf-8?B?ejdkeDR1SlhPdzc3aFlZSUxSYnN3bWdDL0xtV0I3VHBJNVRaTzVHQUdYWWdq?=
+ =?utf-8?B?R1dtWGRGOHlKODhFOC9OYmJKOTZGdFZJN0NnNmZTc1FLRncxblozZzdmV0pX?=
+ =?utf-8?B?V1lnWkR3cXJYTlBzVzFxbXlEUFRFbDRVRlRkOW1mUnNWL2lpMHlDYmVCRDdD?=
+ =?utf-8?Q?NLLa0uZXDGpfs7gC6JpJ5QyuPMZA/M=3D?=
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:MN0PR12MB6101.namprd12.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230040)(376014)(1800799024)(7416014)(366016)(921020)(7053199007);
+ DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?WmVJdllxYjlqOUFtV0tYU0NGdml0T2lIS2YwaGtuenBrUnhucGZoQURPclNJ?=
+ =?utf-8?B?b2l0TThiUGxsNlI4YUR1b1ladDFMc0E5Zmt6UFE0dE56a1Y5d1NOMHl0YnE1?=
+ =?utf-8?B?TmFoN2prZHZob1M1RlRGQkRIRkxBTTFJUWdWbUgyV0lncWd3dmJBK0V4YWtz?=
+ =?utf-8?B?SUw4TXJxSW9nMlBOeWYxR2pxc0tFVHJPK3B0azNLc2t6YnJVQTQvcTF5SFRW?=
+ =?utf-8?B?T2pTMmg5cWxqMGFqZUpoZFpkeE5UY1dnc2FzT0t6c2tjNGtBQlJiaTZ2OExj?=
+ =?utf-8?B?d2VURXpjZkI3L29SY25rZlU2SGYyVExqcjVGYXVkaTdWY0dOYTVHa253bGlT?=
+ =?utf-8?B?eWxJZVBDMWRLUHYvOGZCTmR2ZFludU9DdGU2NGZHTTZKaVlYWjVNcE81ZGZi?=
+ =?utf-8?B?bTloTW16ZHB5OWt5TXNiNGo5QUQreGZaNHl6dTJsdUMyc3g4czByWGo3QkRS?=
+ =?utf-8?B?VkFCYUFrR1BGOW9TMUN2Y0hRNjk5RmRWK0M3SVlhck5rSHZmZzd0d2FEdWUr?=
+ =?utf-8?B?Q25LMVFoOUVtSCtwUExlaWl5VjcyY1BZSnVzK0FKaWJDV3gwalBZZEQrYjVS?=
+ =?utf-8?B?Z0VTanJTekN1Zkc4V3VKVTNuaWN0dlkwcW1pMEN6TWJZdjlyWXRieWV3M2FL?=
+ =?utf-8?B?dUhaZmxKeVhaZU9xVkxNelBac0YyeHZRRUs1UGFTMFkxbkRETHRQUC9USENF?=
+ =?utf-8?B?SS9Ea0E4M2lNTkVucFBHNTlkN0NCdXFZOWhxOHlEN1NCK056Qlh2U3QySUo3?=
+ =?utf-8?B?N09lL1I4cWVEQ24wMGcvZ0F0SE5LRkNFaGp1Nzl1a3d4d1N3VDE5dTNmM3d2?=
+ =?utf-8?B?YzJQVUVzNE9HWERyZWRvZ2xFRHo1Y3Nxb1pNQ3ZJb2ZhSzU1WCtCSkxqNUxt?=
+ =?utf-8?B?VVpPWDFIZGxmS2FDeGhKaEpWSFdqVlczRzZ3SzJMSW54U0dKNnBOSDNXQTM2?=
+ =?utf-8?B?MHdmeE5IcFhxeTc4a05wQWVMbEd2a3psWGFyRitGRlJEQmdwUnlMVlREM1Zj?=
+ =?utf-8?B?Ni9mYW5BbGhpdDdjNXFBdm04U3cyL0RVWUsvVEJGd0JYNVQ0MWhLSVk1V1Yy?=
+ =?utf-8?B?bTIvWjlIRW9oRVdmZU9LaXFsckJzVG1MU2w5cDUxd203eCtnQjdZUVB3RllM?=
+ =?utf-8?B?M1hxVGpzdUp4UVF2VGFTUklpTXRTQ1g4R2Jsd1UwZU44QWg0S09BMnlSaE01?=
+ =?utf-8?B?dmxDMU12aU5DYXNnK2E0RCtTNVlUbnhVUjMvcFQzOUxNR2lSNWtyRU9FMzFS?=
+ =?utf-8?B?N0pyM29EZHNGUThZbVBWek00K2VVZHN0Y284U0ZZMFNTRE1jamk4QldNOW5K?=
+ =?utf-8?B?ZlRZL2xXTHIzRnY5UGFwR3BDNmZ4SHQvWTZzS01JNU1LUzFmV0JZeDR0TW5B?=
+ =?utf-8?B?V01ZTHhBZTQ2aVZicUV0U2NPTThpeDdsa3pYejdyaUFpcHVYazdMZ3IxNDNW?=
+ =?utf-8?B?SnQ3N0l4R29DQW1JMElKNkpId1NrSGlsQVdxWFZWYkhnc3JTbUIrR0hYRWh1?=
+ =?utf-8?B?MnlkQkJOSEswMmgxdHVxcDE0MXpPZFp4Tm1oVmVUVkN2b210N0h2YTB0TDhr?=
+ =?utf-8?B?NmRSTzJydlNjbEgwc3kwZDY0QkhjMlZVVGFTbEpXYVlmSlp3M2ZLdWt3ejEr?=
+ =?utf-8?B?S1h5d3B3eWdEcHUzN2tJVzBkS3V3WGJPbDN6VTNXQmpvcFVaZnEwalIrOFZW?=
+ =?utf-8?B?a1FSQVcybHBVcnVQMFpRNXF4bDhiVHI4VksyWGcrSHE2WFN0NGlyZGhFQmJP?=
+ =?utf-8?B?NGdIa1o2WUtWU2toUVVidnVOVUxmcFg0dlhPSmtTQUxPRHMvUE1HNXdHRVkz?=
+ =?utf-8?B?MUNpdSs4eDBJTkpHdGdiNkV5eDRKdUpsaElTRStSdVNUb3hXQXVXVGFqVUlo?=
+ =?utf-8?B?a3JJSEFmMEpMQUNjVVdLUjNaQzZXQ1hTY0xIU1d4N0FDVHptem5TZk1KaC9n?=
+ =?utf-8?B?VktoYUZ1R2pZdmlFSUtnRVh5N2pmcVFxMVo2NGJBaWw3ZDNiVUh3MGlLbDF0?=
+ =?utf-8?B?OXp1Y0QzTWFRY0JTMkdKR05md0p3azR1R2g1cFFkUG5GZ3k2aGQwQWlCbVBP?=
+ =?utf-8?B?K3locjR0STB0RjdSNXp3TDlCY0w3TjV2bTdoM0pSWDlOV2N5eHZPdG9MKzBz?=
+ =?utf-8?Q?WI/5AfRF3CnKgKGCQqoZIFRdr?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 3e94b410-9eeb-43e9-79f3-08de220293af
+X-MS-Exchange-CrossTenant-AuthSource: MN0PR12MB6101.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 12 Nov 2025 15:45:59.8443 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: OnOILOvj2wdn+iKcH5qIP9uK7GwMIT8nRvuCgi5+at+k0srC5KIgAa9B5QQTqVVeYk7VAWqou/PMxcs7Ua67Fw==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM4PR12MB5987
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -97,115 +174,59 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+On 11/6/25 10:49 AM, Melissa Wen wrote:
+> Use drm_edid_product_id [1] to get debug info from drm_edid instead of
+> directly parsing raw EDID.
+> 
+> [1] 3ddbd345539e ("drm/edid: add drm_edid_get_product_id()").
 
---ijoNkkVX71GLNuQ2
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Correct syntax is commit XXXXXXXXX ("description").  IE something like this:
 
-Hi Lars,
+commit 3ddbd345539e ("drm/edid: add drm_edid_get_product_id()") 
+introduced drm_edid_product_id.  Use this to get debug info from 
+drm_edid instead of directly parsing the raw EDID.
 
-On Wed, Nov 12, 2025 at 03:08:08PM +0000, Lars Rask wrote:
-> Hi,
-> I'm trying to create a driver for a small lcd display called Raystar RDX0=
-063 that is using the
-> Sitronix ST75156 chip. The display is used in SPI 4 wire mode similar to =
-many other tiny MIPI
-> DBI displays, but the register set and framebuffer format is not MIPI DBI=
- compliant, since each
-> byte sent is actually 1 column of 8 rows.
->=20
-> The datasheets for the Raystar RDX0063 display and the Sitronix ST75156 c=
-hip are unfortunately
-> not publicly available, but you can find the datasheet for Sitronix ST756=
-7 (which is similar to=20
-> ST75156) here: https://www.topwaydisplay.com/sites/default/files/2020-05/=
-ST7567.pdf
+> 
+> Signed-off-by: Melissa Wen <mwen@igalia.com>
+> --
+> 
+> v5:
+> - replace series url to commit hash (Mario)
+> ---
+>   .../drm/amd/display/amdgpu_dm/amdgpu_dm_helpers.c | 15 ++++++++-------
+>   1 file changed, 8 insertions(+), 7 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_helpers.c b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_helpers.c
+> index 70014bec7099..7d05cff08233 100644
+> --- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_helpers.c
+> +++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_helpers.c
+> @@ -111,6 +111,7 @@ enum dc_edid_status dm_helpers_parse_edid_caps(
+>   	struct drm_device *dev = connector->dev;
+>   	struct edid *edid_buf = edid ? (struct edid *) edid->raw_edid : NULL;
+>   	const struct drm_edid *drm_edid;
+> +	struct drm_edid_product_id product_id;
+>   	struct cea_sad *sads;
+>   	int sad_count = -1;
+>   	int sadb_count = -1;
+> @@ -127,13 +128,13 @@ enum dc_edid_status dm_helpers_parse_edid_caps(
+>   	if (!drm_edid_valid(drm_edid))
+>   		result = EDID_BAD_CHECKSUM;
+>   
+> -	edid_caps->manufacturer_id = (uint16_t) edid_buf->mfg_id[0] |
+> -					((uint16_t) edid_buf->mfg_id[1])<<8;
+> -	edid_caps->product_id = (uint16_t) edid_buf->prod_code[0] |
+> -					((uint16_t) edid_buf->prod_code[1])<<8;
+> -	edid_caps->serial_number = edid_buf->serial;
+> -	edid_caps->manufacture_week = edid_buf->mfg_week;
+> -	edid_caps->manufacture_year = edid_buf->mfg_year;
+> +	drm_edid_get_product_id(drm_edid, &product_id);
+> +
+> +	edid_caps->manufacturer_id = product_id.manufacturer_name;
+> +	edid_caps->product_id = le16_to_cpu(product_id.product_code);
+> +	edid_caps->serial_number = le32_to_cpu(product_id.serial_number);
+> +	edid_caps->manufacture_week = product_id.week_of_manufacture;
+> +	edid_caps->manufacture_year = product_id.year_of_manufacture;
+>   	edid_caps->analog = !(edid_buf->input & DRM_EDID_INPUT_DIGITAL);
+>   
+>   	drm_edid_get_monitor_name(edid_buf,
 
-Support for ST7567 is mainlined (st7571 driver), and once this [1] series
-is applied, it should also support the SPI interface.
-
-Hard to tell without seeing the datasheet for ST75156, but if it's
-similar to ST7567, you might be able to just add an entry in the st7571
-driver for it.
-
->=20
-> The main difference seems to be that ST75156 supports a higher resolution=
- than ST7567,
-> as can be seen here:=20
-> https://www.sitronix.com.tw/en/products/industrial-display-driver-ic/mono=
--stn-lcd-driver-ic
-
-This is how st7567 is defined:
-
-const struct st7571_panel_data st7567_config =3D {
-	.init =3D st7567_lcd_init,
-	.parse_dt =3D st7567_parse_dt,
-	.constraints =3D {
-		.min_nlines =3D 1,
-		.max_nlines =3D 64,
-		.min_ncols =3D 128,
-		.max_ncols =3D 128,
-		.support_grayscale =3D false,
-	},
-};
-
-I think a similar structure for ST75156 with is enough.
-
->=20
-> As a first attempt to create the driver, the panel-mipi-dbi driver was ex=
-tended with "tweaks"
-> to support non MIPI DBI panels. This seems to work. However, after some d=
-iscussion with the
-> maintainer that is no longer active (https://github.com/notro/panel-mipi-=
-dbi/discussions/14)
-> the conclusion was that these "tweaks" were not upstreamable, and that I =
-need to create a new
-> driver specifically for the Raystar RDX0063 display panel using the Sitro=
-nix st75156 chip
-> instead.
->=20
-> In order to make my driver upstreamable, which driver should I be "inspir=
-ed" by (i.e copy and modify)
-> and base my work on? The drivers in drivers/gpu/drm/sitronix/ and drivers=
-/gpu/drm/tiny/ usually uses
-> struct mipi_dbi_dev and mipi_db_command() helpers, but drivers/gpu/drm/pa=
-nel/panel-sitronix-st7789v.c
-> does not.
->=20
-> Should I create my new driver as /gpu/drm/sitronix/st75156.c and use mipi=
-_dbi helpers where applicable?
-> If it is preferable to avoid using the mipi dbi helpers, is there another=
- set of helper functions that
-> I should use instead?
->=20
-> Best regards
-> /Lars Rask
-
-[1] https://lists.freedesktop.org/archives/dri-devel/2025-October/532431.ht=
-ml
-
-Best regards,
-Marcus Folkesson
-
---ijoNkkVX71GLNuQ2
-Content-Type: application/pgp-signature; name=signature.asc
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAEBCgAdFiEEBVGi6LZstU1kwSxliIBOb1ldUjIFAmkUqj4ACgkQiIBOb1ld
-UjIwBRAAyVBRr+dj9P84ET1/ILprKUFBu+JfI+tKodLXmLdii2HbxF0cmHeA1RAt
-RRZKnPiJ57IWFI7dolRE4shsRvW026F9aRRIcKRP+cB+p+szTZryhbm6Hc61Uj1J
-nPYsAOSh6ynFsAFGJypFd1irqhTMIfhTrACZ7DXrd8jwKHJR1diyv4LT7QdLm0R5
-Hx73yvI5x19IkEEoIc+TR1BqSVSxgo860YdClgfsWubLLRV9GBV+FKz6BCD4fwXk
-mxgUtwcAh0iwKz7GVNs8wFiHVbYsaLtwmFElVlfKAhpN2O3mI3ubrwR14yUw9gGk
-7BbCQKoOh/cFBhE+5e19BBuXILZ9nJm4q/YqZgC3l8YeC2j0pwJprCV6PvhtHJly
-D6pjfcnyMnNXu3oZEolxNOcRwwc/XQp0ANDPQ2+G4dTwslKrpxN7n857/anRMKg1
-GdsHaTnMzwVARh2rBDfPbaPHYrY4a/GwHIBPYnVldehAVkIclcS/XCD824lAhhh/
-rx2Sxsv+zYN3qgZ1/ztZagkyyGe2jUECiEWdrxzptUeviPOtG5FNPaOTSFi0xpZS
-MJVFSD80ZCkUyT9vDgvp4ovxwmd8yKFTuyiow5RDzY2jqivNajHlKfmcJt6GPHQh
-Hgs2L5Pi+pj4fWuNk/4EMPFiRcUhVjH9aEH0ML7ZeRFTw6FtTyQ=
-=ZOZV
------END PGP SIGNATURE-----
-
---ijoNkkVX71GLNuQ2--
