@@ -2,60 +2,129 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 13801C536B4
-	for <lists+dri-devel@lfdr.de>; Wed, 12 Nov 2025 17:35:02 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 68DACC5371A
+	for <lists+dri-devel@lfdr.de>; Wed, 12 Nov 2025 17:38:29 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 38B7B10E77A;
-	Wed, 12 Nov 2025 16:35:00 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8CCD610E063;
+	Wed, 12 Nov 2025 16:38:27 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=bootlin.com header.i=@bootlin.com header.b="uXGm9niC";
+	dkim=pass (1024-bit key; unprotected) header.d=suse.de header.i=@suse.de header.b="CR/pz9Sj";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="5M6k0W29";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="CR/pz9Sj";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="5M6k0W29";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtpout-02.galae.net (smtpout-02.galae.net [185.246.84.56])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D1E6610E77A
- for <dri-devel@lists.freedesktop.org>; Wed, 12 Nov 2025 16:34:56 +0000 (UTC)
-Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
- by smtpout-02.galae.net (Postfix) with ESMTPS id C39D01A1A42;
- Wed, 12 Nov 2025 16:34:55 +0000 (UTC)
-Received: from mail.galae.net (mail.galae.net [212.83.136.155])
- by smtpout-01.galae.net (Postfix) with ESMTPS id 996F86070B;
- Wed, 12 Nov 2025 16:34:55 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon)
- with ESMTPSA id 10D10102F1BA8; Wed, 12 Nov 2025 17:34:52 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
- t=1762965294; h=from:subject:date:message-id:to:cc:mime-version:content-type:
- content-transfer-encoding:in-reply-to:references;
- bh=0pMT+aT4AJiznRBcaHknDkWgDDjg3dsj5pXkKOf+n0k=;
- b=uXGm9niCgFce1r9ejT7Q27ZwTUZBk8vJxQc2SmlAWHeACNSg4Aqfw3fZVCw4CbfNctuvB3
- hzOZKd9NarrtUO0cuGkE1IDaGe1Mp7imOKTqORu/f7D4ANOyKZa1dv4mhT61OsCZPNALaL
- rRX4inqocvpaHXArIQyEdNPJXYcxTLq8szAKB7KwzdJo5ajk6XdxPu4P5njHRJ4zxUSzu4
- xg8eXeXXqmYfYYegYgVY6xC14Yvds1tRcRDAZm1N0lifgSx8ZtBwE3YS7SmWHZxpIiVYqb
- F2KcpeH6cpUzwxkn9P2EPNg+gAC/o3hmd5M4ehrgZfvA/tdv1Z/fStH/7C86CQ==
-From: Luca Ceresoli <luca.ceresoli@bootlin.com>
-Date: Wed, 12 Nov 2025 17:34:35 +0100
-Subject: [PATCH v3 2/2] drm/bridge: ti-sn65dsi83: protect device resources
- on unplug
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1309E10E063
+ for <dri-devel@lists.freedesktop.org>; Wed, 12 Nov 2025 16:38:26 +0000 (UTC)
+Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested)
+ by smtp-out2.suse.de (Postfix) with ESMTPS id D49411F828;
+ Wed, 12 Nov 2025 16:38:24 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1762965504; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=QOTQ8kFcKyQt82u63Oko28CQvjCSCWy89WaXQ5uuhkk=;
+ b=CR/pz9SjIfqt537C/XNTvDFW+uYnCDgr1HrCYIJidWfYhhPTX9jHKZvOxqrotSeORiW8RK
+ seSHuBQeCviY3TMx+9QYERp2qD0xGgi4tf7ImiV8KzuXDm1/kI0it8Oi2edpvbu/QSbBzk
+ DTZPXelueHFTPJ2GkoS9Bg4DnHuF+G0=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1762965504;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=QOTQ8kFcKyQt82u63Oko28CQvjCSCWy89WaXQ5uuhkk=;
+ b=5M6k0W29GxZEfX7BfwEwklJlwO+4ORcbCNjjnvAajqKTh4DW2PpeCV6dR4xc/e359J0o06
+ TgQ4sdryCP8tMzBA==
+Authentication-Results: smtp-out2.suse.de;
+	none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1762965504; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=QOTQ8kFcKyQt82u63Oko28CQvjCSCWy89WaXQ5uuhkk=;
+ b=CR/pz9SjIfqt537C/XNTvDFW+uYnCDgr1HrCYIJidWfYhhPTX9jHKZvOxqrotSeORiW8RK
+ seSHuBQeCviY3TMx+9QYERp2qD0xGgi4tf7ImiV8KzuXDm1/kI0it8Oi2edpvbu/QSbBzk
+ DTZPXelueHFTPJ2GkoS9Bg4DnHuF+G0=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1762965504;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=QOTQ8kFcKyQt82u63Oko28CQvjCSCWy89WaXQ5uuhkk=;
+ b=5M6k0W29GxZEfX7BfwEwklJlwO+4ORcbCNjjnvAajqKTh4DW2PpeCV6dR4xc/e359J0o06
+ TgQ4sdryCP8tMzBA==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested)
+ by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id A93353EA61;
+ Wed, 12 Nov 2025 16:38:24 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+ by imap1.dmz-prg2.suse.org with ESMTPSA id +QDeJwC4FGmkNQAAD6G6ig
+ (envelope-from <tzimmermann@suse.de>); Wed, 12 Nov 2025 16:38:24 +0000
+Message-ID: <4ec157ce-8a6e-4603-9fe9-fe48887adde2@suse.de>
+Date: Wed, 12 Nov 2025 17:38:24 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20251112-drm-bridge-atomic-vs-remove-v3-2-85db717ce094@bootlin.com>
-References: <20251112-drm-bridge-atomic-vs-remove-v3-0-85db717ce094@bootlin.com>
-In-Reply-To: <20251112-drm-bridge-atomic-vs-remove-v3-0-85db717ce094@bootlin.com>
-To: Maxime Ripard <mripard@kernel.org>, Simona Vetter <simona@ffwll.ch>, 
- Andrzej Hajda <andrzej.hajda@intel.com>, 
- Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>, 
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>, 
- Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>
-Cc: Hui Pu <Hui.Pu@gehealthcare.com>, 
- Thomas Petazzoni <thomas.petazzoni@bootlin.com>, 
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org, 
- Luca Ceresoli <luca.ceresoli@bootlin.com>, 
- Dmitry Baryshkov <lumag@kernel.org>
-X-Mailer: b4 0.14.2
-X-Last-TLS-Session-Version: TLSv1.3
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 18/24] drm/vblank: add drm_crtc_from_vblank() helper
+To: Jani Nikula <jani.nikula@intel.com>, dri-devel@lists.freedesktop.org
+Cc: intel-gfx@lists.freedesktop.org, intel-xe@lists.freedesktop.org,
+ ville.syrjala@linux.intel.com
+References: <cover.1762791343.git.jani.nikula@intel.com>
+ <20b6cbb09fb5d3075c9642d8e5cc633a4d8a8d15.1762791343.git.jani.nikula@intel.com>
+Content-Language: en-US
+From: Thomas Zimmermann <tzimmermann@suse.de>
+Autocrypt: addr=tzimmermann@suse.de; keydata=
+ xsBNBFs50uABCADEHPidWt974CaxBVbrIBwqcq/WURinJ3+2WlIrKWspiP83vfZKaXhFYsdg
+ XH47fDVbPPj+d6tQrw5lPQCyqjwrCPYnq3WlIBnGPJ4/jreTL6V+qfKRDlGLWFjZcsrPJGE0
+ BeB5BbqP5erN1qylK9i3gPoQjXGhpBpQYwRrEyQyjuvk+Ev0K1Jc5tVDeJAuau3TGNgah4Yc
+ hdHm3bkPjz9EErV85RwvImQ1dptvx6s7xzwXTgGAsaYZsL8WCwDaTuqFa1d1jjlaxg6+tZsB
+ 9GluwvIhSezPgnEmimZDkGnZRRSFiGP8yjqTjjWuf0bSj5rUnTGiyLyRZRNGcXmu6hjlABEB
+ AAHNJ1Rob21hcyBaaW1tZXJtYW5uIDx0emltbWVybWFubkBzdXNlLmRlPsLAjgQTAQgAOAIb
+ AwULCQgHAgYVCgkICwIEFgIDAQIeAQIXgBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftODH
+ AAoJEGgNwR1TC3ojx1wH/0hKGWugiqDgLNXLRD/4TfHBEKmxIrmfu9Z5t7vwUKfwhFL6hqvo
+ lXPJJKQpQ2z8+X2vZm/slsLn7J1yjrOsoJhKABDi+3QWWSGkaGwRJAdPVVyJMfJRNNNIKwVb
+ U6B1BkX2XDKDGffF4TxlOpSQzdtNI/9gleOoUA8+jy8knnDYzjBNOZqLG2FuTdicBXblz0Mf
+ vg41gd9kCwYXDnD91rJU8tzylXv03E75NCaTxTM+FBXPmsAVYQ4GYhhgFt8S2UWMoaaABLDe
+ 7l5FdnLdDEcbmd8uLU2CaG4W2cLrUaI4jz2XbkcPQkqTQ3EB67hYkjiEE6Zy3ggOitiQGcqp
+ j//OwE0EWznS4AEIAMYmP4M/V+T5RY5at/g7rUdNsLhWv1APYrh9RQefODYHrNRHUE9eosYb
+ T6XMryR9hT8XlGOYRwKWwiQBoWSDiTMo/Xi29jUnn4BXfI2px2DTXwc22LKtLAgTRjP+qbU6
+ 3Y0xnQN29UGDbYgyyK51DW3H0If2a3JNsheAAK+Xc9baj0LGIc8T9uiEWHBnCH+RdhgATnWW
+ GKdDegUR5BkDfDg5O/FISymJBHx2Dyoklv5g4BzkgqTqwmaYzsl8UxZKvbaxq0zbehDda8lv
+ hFXodNFMAgTLJlLuDYOGLK2AwbrS3Sp0AEbkpdJBb44qVlGm5bApZouHeJ/+n+7r12+lqdsA
+ EQEAAcLAdgQYAQgAIAIbDBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftOH6AAoJEGgNwR1T
+ C3ojVSkIALpAPkIJPQoURPb1VWjh34l0HlglmYHvZszJWTXYwavHR8+k6Baa6H7ufXNQtThR
+ yIxJrQLW6rV5lm7TjhffEhxVCn37+cg0zZ3j7zIsSS0rx/aMwi6VhFJA5hfn3T0TtrijKP4A
+ SAQO9xD1Zk9/61JWk8OysuIh7MXkl0fxbRKWE93XeQBhIJHQfnc+YBLprdnxR446Sh8Wn/2D
+ Ya8cavuWf2zrB6cZurs048xe0UbSW5AOSo4V9M0jzYI4nZqTmPxYyXbm30Kvmz0rYVRaitYJ
+ 4kyYYMhuULvrJDMjZRvaNe52tkKAvMevcGdt38H4KSVXAylqyQOW5zvPc4/sq9c=
+In-Reply-To: <20b6cbb09fb5d3075c9642d8e5cc633a4d8a8d15.1762791343.git.jani.nikula@intel.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Spamd-Result: default: False [-4.30 / 50.00]; BAYES_HAM(-3.00)[100.00%];
+ NEURAL_HAM_LONG(-1.00)[-1.000];
+ NEURAL_HAM_SHORT(-0.20)[-1.000]; MIME_GOOD(-0.10)[text/plain];
+ FUZZY_RATELIMITED(0.00)[rspamd.com];
+ RCVD_VIA_SMTP_AUTH(0.00)[]; MIME_TRACE(0.00)[0:+];
+ ARC_NA(0.00)[]; TO_DN_SOME(0.00)[]; MID_RHS_MATCH_FROM(0.00)[];
+ RCVD_TLS_ALL(0.00)[];
+ DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+ FROM_HAS_DN(0.00)[]; RCPT_COUNT_FIVE(0.00)[5];
+ FROM_EQ_ENVFROM(0.00)[]; TO_MATCH_ENVRCPT_ALL(0.00)[];
+ RCVD_COUNT_TWO(0.00)[2];
+ DBL_BLOCKED_OPENRESOLVER(0.00)[suse.com:url]
+X-Spam-Flag: NO
+X-Spam-Score: -4.30
+X-Spam-Level: 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -71,229 +140,63 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-To support hot-unplug of this bridge we need to protect access to device
-resources in case sn65dsi83_remove() happens concurrently to other code.
 
-Some care is needed for the case when the unplug happens before
-sn65dsi83_atomic_disable() has a chance to enter the critical section
-(i.e. a successful drm_bridge_enter() call), which occurs whenever the
-hardware is removed while the display is active. When that happens,
-sn65dsi83_atomic_disable() in unable to release the resources taken by
-sn65dsi83_atomic_pre_enable().
 
-To ensure those resources are released exactly once on device removal:
+Am 10.11.25 um 17:17 schrieb Jani Nikula:
+> We have a handful of places where we need to get the crtc from the
+> vblank. Add a small helper for it.
+>
+> Signed-off-by: Jani Nikula <jani.nikula@intel.com>
 
- * move the code to release them to a dedicated function
- * register that function when the resources are taken in
-   sn65dsi83_atomic_pre_enable()
- * if sn65dsi83_atomic_disable() happens before sn65dsi83_remove()
-   (typical non-hot-unplug case):
-   * sn65dsi83_atomic_disable() can enter the critical section
-     (drm_bridge_enter() returns 0) -> it releases and executes the
-     devres action
- * if sn65dsi83_atomic_disable() happens after sn65dsi83_remove()
-   (typical hot-unplug case):
-   * sn65dsi83_remove() -> drm_bridge_unplug() prevents
-     sn65dsi83_atomic_disable() from entering the critical section
-     (drm_bridge_enter() returns nonzero), so sn65dsi83_atomic_disable()
-     cannot release and execute the devres action
-   * the devres action is executed at the end of sn65dsi83_remove()
+Reviewed-by: Thomas Zimmermann <tzimmermann@suse.de>
 
-Signed-off-by: Luca Ceresoli <luca.ceresoli@bootlin.com>
+Maybe not strictly necessary.
 
----
-
-Changes in v3:
-- Don't call drm_bridge_remove(), it's now in drm_bridge_unplug()
-- use gotos for error management in sn65dsi83_atomic_pre_enable()
-- simplify sn65dsi83_release_resources() comment
-
-Changes in v2:
-- Use a devres action instead of a flag
----
- drivers/gpu/drm/bridge/ti-sn65dsi83.c | 86 +++++++++++++++++++++++++++--------
- 1 file changed, 66 insertions(+), 20 deletions(-)
-
-diff --git a/drivers/gpu/drm/bridge/ti-sn65dsi83.c b/drivers/gpu/drm/bridge/ti-sn65dsi83.c
-index 033c44326552ab167d4e8d9b74957c585e4c6fb7..ac74b9e85b97604c95a255fc2c59bd0e7a3137f5 100644
---- a/drivers/gpu/drm/bridge/ti-sn65dsi83.c
-+++ b/drivers/gpu/drm/bridge/ti-sn65dsi83.c
-@@ -406,6 +406,10 @@ static void sn65dsi83_reset_work(struct work_struct *ws)
- {
- 	struct sn65dsi83 *ctx = container_of(ws, struct sn65dsi83, reset_work);
- 	int ret;
-+	int idx;
-+
-+	if (!drm_bridge_enter(&ctx->bridge, &idx))
-+		return;
- 
- 	/* Reset the pipe */
- 	ret = sn65dsi83_reset_pipe(ctx);
-@@ -415,12 +419,18 @@ static void sn65dsi83_reset_work(struct work_struct *ws)
- 	}
- 	if (ctx->irq)
- 		enable_irq(ctx->irq);
-+
-+	drm_bridge_exit(idx);
- }
- 
- static void sn65dsi83_handle_errors(struct sn65dsi83 *ctx)
- {
- 	unsigned int irq_stat;
- 	int ret;
-+	int idx;
-+
-+	if (!drm_bridge_enter(&ctx->bridge, &idx))
-+		return;
- 
- 	/*
- 	 * Schedule a reset in case of:
-@@ -441,6 +451,8 @@ static void sn65dsi83_handle_errors(struct sn65dsi83 *ctx)
- 
- 		schedule_work(&ctx->reset_work);
- 	}
-+
-+	drm_bridge_exit(idx);
- }
- 
- static void sn65dsi83_monitor_work(struct work_struct *work)
-@@ -463,6 +475,37 @@ static void sn65dsi83_monitor_stop(struct sn65dsi83 *ctx)
- 	cancel_delayed_work_sync(&ctx->monitor_work);
- }
- 
-+/*
-+ * Release resources taken by sn65dsi83_atomic_pre_enable().
-+ *
-+ * Invoked by sn65dsi83_atomic_disable() normally, or by devres after
-+ * sn65dsi83_remove() in case this happens befora atomic_disable.
-+ */
-+static void sn65dsi83_release_resources(void *data)
-+{
-+	struct sn65dsi83 *ctx = (struct sn65dsi83 *)data;
-+	int ret;
-+
-+	if (ctx->irq) {
-+		/* Disable irq */
-+		regmap_write(ctx->regmap, REG_IRQ_EN, 0x0);
-+		regmap_write(ctx->regmap, REG_IRQ_GLOBAL, 0x0);
-+	} else {
-+		/* Stop the polling task */
-+		sn65dsi83_monitor_stop(ctx);
-+	}
-+
-+	/* Put the chip in reset, pull EN line low, and assure 10ms reset low timing. */
-+	gpiod_set_value_cansleep(ctx->enable_gpio, 0);
-+	usleep_range(10000, 11000);
-+
-+	ret = regulator_disable(ctx->vcc);
-+	if (ret)
-+		dev_err(ctx->dev, "Failed to disable vcc: %d\n", ret);
-+
-+	regcache_mark_dirty(ctx->regmap);
-+}
-+
- static void sn65dsi83_atomic_pre_enable(struct drm_bridge *bridge,
- 					struct drm_atomic_state *state)
- {
-@@ -478,11 +521,15 @@ static void sn65dsi83_atomic_pre_enable(struct drm_bridge *bridge,
- 	__le16 le16val;
- 	u16 val;
- 	int ret;
-+	int idx;
-+
-+	if (!drm_bridge_enter(bridge, &idx))
-+		return;
- 
- 	ret = regulator_enable(ctx->vcc);
- 	if (ret) {
- 		dev_err(ctx->dev, "Failed to enable vcc: %d\n", ret);
--		return;
-+		goto err_exit;
- 	}
- 
- 	/* Deassert reset */
-@@ -625,7 +672,7 @@ static void sn65dsi83_atomic_pre_enable(struct drm_bridge *bridge,
- 		dev_err(ctx->dev, "failed to lock PLL, ret=%i\n", ret);
- 		/* On failure, disable PLL again and exit. */
- 		regmap_write(ctx->regmap, REG_RC_PLL_EN, 0x00);
--		return;
-+		goto err_add_action;
- 	}
- 
- 	/* Trigger reset after CSR register update. */
-@@ -633,6 +680,11 @@ static void sn65dsi83_atomic_pre_enable(struct drm_bridge *bridge,
- 
- 	/* Wait for 10ms after soft reset as specified in datasheet */
- 	usleep_range(10000, 12000);
-+
-+err_add_action:
-+	devm_add_action(ctx->dev, sn65dsi83_release_resources, ctx);
-+err_exit:
-+	drm_bridge_exit(idx);
- }
- 
- static void sn65dsi83_atomic_enable(struct drm_bridge *bridge,
-@@ -640,6 +692,10 @@ static void sn65dsi83_atomic_enable(struct drm_bridge *bridge,
- {
- 	struct sn65dsi83 *ctx = bridge_to_sn65dsi83(bridge);
- 	unsigned int pval;
-+	int idx;
-+
-+	if (!drm_bridge_enter(bridge, &idx))
-+		return;
- 
- 	/* Clear all errors that got asserted during initialization. */
- 	regmap_read(ctx->regmap, REG_IRQ_STAT, &pval);
-@@ -659,32 +715,22 @@ static void sn65dsi83_atomic_enable(struct drm_bridge *bridge,
- 		/* Use the polling task */
- 		sn65dsi83_monitor_start(ctx);
- 	}
-+
-+	drm_bridge_exit(idx);
- }
- 
- static void sn65dsi83_atomic_disable(struct drm_bridge *bridge,
- 				     struct drm_atomic_state *state)
- {
- 	struct sn65dsi83 *ctx = bridge_to_sn65dsi83(bridge);
--	int ret;
-+	int idx;
- 
--	if (ctx->irq) {
--		/* Disable irq */
--		regmap_write(ctx->regmap, REG_IRQ_EN, 0x0);
--		regmap_write(ctx->regmap, REG_IRQ_GLOBAL, 0x0);
--	} else {
--		/* Stop the polling task */
--		sn65dsi83_monitor_stop(ctx);
--	}
--
--	/* Put the chip in reset, pull EN line low, and assure 10ms reset low timing. */
--	gpiod_set_value_cansleep(ctx->enable_gpio, 0);
--	usleep_range(10000, 11000);
-+	if (!drm_bridge_enter(bridge, &idx))
-+		return;
- 
--	ret = regulator_disable(ctx->vcc);
--	if (ret)
--		dev_err(ctx->dev, "Failed to disable vcc: %d\n", ret);
-+	devm_release_action(ctx->dev, sn65dsi83_release_resources, ctx);
- 
--	regcache_mark_dirty(ctx->regmap);
-+	drm_bridge_exit(idx);
- }
- 
- static enum drm_mode_status
-@@ -1005,7 +1051,7 @@ static void sn65dsi83_remove(struct i2c_client *client)
- {
- 	struct sn65dsi83 *ctx = i2c_get_clientdata(client);
- 
--	drm_bridge_remove(&ctx->bridge);
-+	drm_bridge_unplug(&ctx->bridge);
- }
- 
- static const struct i2c_device_id sn65dsi83_id[] = {
+> ---
+>   drivers/gpu/drm/drm_vblank.c | 9 +++++++--
+>   1 file changed, 7 insertions(+), 2 deletions(-)
+>
+> diff --git a/drivers/gpu/drm/drm_vblank.c b/drivers/gpu/drm/drm_vblank.c
+> index 64cd96207ad5..34d0b6939d52 100644
+> --- a/drivers/gpu/drm/drm_vblank.c
+> +++ b/drivers/gpu/drm/drm_vblank.c
+> @@ -188,6 +188,11 @@ drm_crtc_vblank_crtc(struct drm_crtc *crtc)
+>   }
+>   EXPORT_SYMBOL(drm_crtc_vblank_crtc);
+>   
+> +static struct drm_crtc *drm_crtc_from_vblank(struct drm_vblank_crtc *vblank)
+> +{
+> +	return drm_crtc_from_index(vblank->dev, vblank->pipe);
+> +}
+> +
+>   static void store_vblank(struct drm_vblank_crtc *vblank,
+>   			 u32 vblank_count_inc,
+>   			 ktime_t t_vblank, u32 last)
+> @@ -1605,7 +1610,7 @@ static int drm_queue_vblank_event(struct drm_vblank_crtc *vblank,
+>   	e->event.vbl.user_data = vblwait->request.signal;
+>   	e->event.vbl.crtc_id = 0;
+>   	if (drm_core_check_feature(dev, DRIVER_MODESET)) {
+> -		struct drm_crtc *crtc = drm_crtc_from_index(dev, pipe);
+> +		struct drm_crtc *crtc = drm_crtc_from_vblank(vblank);
+>   
+>   		if (crtc)
+>   			e->event.vbl.crtc_id = crtc->base.id;
+> @@ -1855,7 +1860,7 @@ static void drm_handle_vblank_events(struct drm_vblank_crtc *vblank)
+>   {
+>   	struct drm_device *dev = vblank->dev;
+>   	unsigned int pipe = vblank->pipe;
+> -	struct drm_crtc *crtc = drm_crtc_from_index(dev, pipe);
+> +	struct drm_crtc *crtc = drm_crtc_from_vblank(vblank);
+>   	bool high_prec = false;
+>   	struct drm_pending_vblank_event *e, *t;
+>   	ktime_t now;
 
 -- 
-2.51.1
+--
+Thomas Zimmermann
+Graphics Driver Developer
+SUSE Software Solutions Germany GmbH
+Frankenstr. 146, 90461 Nürnberg, Germany, www.suse.com
+GF: Jochen Jaser, Andrew McDonald, Werner Knoblich, (HRB 36809, AG Nürnberg)
+
 
