@@ -2,44 +2,44 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 51FC4C536B1
-	for <lists+dri-devel@lfdr.de>; Wed, 12 Nov 2025 17:35:00 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 13801C536B4
+	for <lists+dri-devel@lfdr.de>; Wed, 12 Nov 2025 17:35:02 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 03FE110E77C;
-	Wed, 12 Nov 2025 16:34:57 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 38B7B10E77A;
+	Wed, 12 Nov 2025 16:35:00 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=bootlin.com header.i=@bootlin.com header.b="N5q44cJc";
+	dkim=pass (2048-bit key; unprotected) header.d=bootlin.com header.i=@bootlin.com header.b="uXGm9niC";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from smtpout-02.galae.net (smtpout-02.galae.net [185.246.84.56])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1365310E77A
- for <dri-devel@lists.freedesktop.org>; Wed, 12 Nov 2025 16:34:55 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D1E6610E77A
+ for <dri-devel@lists.freedesktop.org>; Wed, 12 Nov 2025 16:34:56 +0000 (UTC)
 Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
- by smtpout-02.galae.net (Postfix) with ESMTPS id B06E31A1A42;
- Wed, 12 Nov 2025 16:34:53 +0000 (UTC)
+ by smtpout-02.galae.net (Postfix) with ESMTPS id C39D01A1A42;
+ Wed, 12 Nov 2025 16:34:55 +0000 (UTC)
 Received: from mail.galae.net (mail.galae.net [212.83.136.155])
- by smtpout-01.galae.net (Postfix) with ESMTPS id 801DF6070B;
- Wed, 12 Nov 2025 16:34:53 +0000 (UTC)
+ by smtpout-01.galae.net (Postfix) with ESMTPS id 996F86070B;
+ Wed, 12 Nov 2025 16:34:55 +0000 (UTC)
 Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon)
- with ESMTPSA id 0D1DD102F084F; Wed, 12 Nov 2025 17:34:50 +0100 (CET)
+ with ESMTPSA id 10D10102F1BA8; Wed, 12 Nov 2025 17:34:52 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
- t=1762965292; h=from:subject:date:message-id:to:cc:mime-version:content-type:
+ t=1762965294; h=from:subject:date:message-id:to:cc:mime-version:content-type:
  content-transfer-encoding:in-reply-to:references;
- bh=AbBF9YK95hha/G3M+Fz+28OT4bWjR1IMawslI9+BHEU=;
- b=N5q44cJcURD+I6ZaGZujoY1LJ5r+oAAO9Dn/gr8R9vqI56UPqbOCi5YrhPJwh9oijOD6Ay
- zoRctqubfuVasY/rqGGVY/SK55fhWBh/60qss3SrDtXSUUuPiKZj+cPsJz+qJ4QdrEL3tZ
- q4b3nra6CdfdshIGXnTN5oWiimBDKoP2045flPsJH6oKIim+a3EWx6xMRXsEj4fzSKiqbZ
- coxHQdv9wghleS1WepYu3/3pOBZUTHviW2Oinv3gSSFpnxK+fr21OezJU0sN8DV9gTeuTs
- a0MRxSR5/SMlTzDhxOh+3vNxMqOQOb4hUk83sgPpMFmk+h2m1FcoOntk/hvt9w==
+ bh=0pMT+aT4AJiznRBcaHknDkWgDDjg3dsj5pXkKOf+n0k=;
+ b=uXGm9niCgFce1r9ejT7Q27ZwTUZBk8vJxQc2SmlAWHeACNSg4Aqfw3fZVCw4CbfNctuvB3
+ hzOZKd9NarrtUO0cuGkE1IDaGe1Mp7imOKTqORu/f7D4ANOyKZa1dv4mhT61OsCZPNALaL
+ rRX4inqocvpaHXArIQyEdNPJXYcxTLq8szAKB7KwzdJo5ajk6XdxPu4P5njHRJ4zxUSzu4
+ xg8eXeXXqmYfYYegYgVY6xC14Yvds1tRcRDAZm1N0lifgSx8ZtBwE3YS7SmWHZxpIiVYqb
+ F2KcpeH6cpUzwxkn9P2EPNg+gAC/o3hmd5M4ehrgZfvA/tdv1Z/fStH/7C86CQ==
 From: Luca Ceresoli <luca.ceresoli@bootlin.com>
-Date: Wed, 12 Nov 2025 17:34:34 +0100
-Subject: [PATCH v3 1/2] drm/bridge: add drm_bridge_unplug() and
- drm_bridge_enter/exit()
+Date: Wed, 12 Nov 2025 17:34:35 +0100
+Subject: [PATCH v3 2/2] drm/bridge: ti-sn65dsi83: protect device resources
+ on unplug
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20251112-drm-bridge-atomic-vs-remove-v3-1-85db717ce094@bootlin.com>
+Message-Id: <20251112-drm-bridge-atomic-vs-remove-v3-2-85db717ce094@bootlin.com>
 References: <20251112-drm-bridge-atomic-vs-remove-v3-0-85db717ce094@bootlin.com>
 In-Reply-To: <20251112-drm-bridge-atomic-vs-remove-v3-0-85db717ce094@bootlin.com>
 To: Maxime Ripard <mripard@kernel.org>, Simona Vetter <simona@ffwll.ch>, 
@@ -71,138 +71,228 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-To allow DRM bridges to be removable, add synchronization functions
-allowing to tell when a bridge hardware has been physically unplugged and
-to mark a critical section that should not be entered after that.
+To support hot-unplug of this bridge we need to protect access to device
+resources in case sn65dsi83_remove() happens concurrently to other code.
 
-This is inspired by the drm_dev_unplugged/enter/exit() functions for struct
-drm_device.
+Some care is needed for the case when the unplug happens before
+sn65dsi83_atomic_disable() has a chance to enter the critical section
+(i.e. a successful drm_bridge_enter() call), which occurs whenever the
+hardware is removed while the display is active. When that happens,
+sn65dsi83_atomic_disable() in unable to release the resources taken by
+sn65dsi83_atomic_pre_enable().
 
-Suggested-by: Maxime Ripard <mripard@kernel.org>
-Link: https://lore.kernel.org/all/20250106-vigorous-talented-viper-fa49d9@houat/
+To ensure those resources are released exactly once on device removal:
+
+ * move the code to release them to a dedicated function
+ * register that function when the resources are taken in
+   sn65dsi83_atomic_pre_enable()
+ * if sn65dsi83_atomic_disable() happens before sn65dsi83_remove()
+   (typical non-hot-unplug case):
+   * sn65dsi83_atomic_disable() can enter the critical section
+     (drm_bridge_enter() returns 0) -> it releases and executes the
+     devres action
+ * if sn65dsi83_atomic_disable() happens after sn65dsi83_remove()
+   (typical hot-unplug case):
+   * sn65dsi83_remove() -> drm_bridge_unplug() prevents
+     sn65dsi83_atomic_disable() from entering the critical section
+     (drm_bridge_enter() returns nonzero), so sn65dsi83_atomic_disable()
+     cannot release and execute the devres action
+   * the devres action is executed at the end of sn65dsi83_remove()
+
 Signed-off-by: Luca Ceresoli <luca.ceresoli@bootlin.com>
 
 ---
 
 Changes in v3:
-- call drm_bridge_remove() in drm_bridge_unplug()
-- Fixed kerneldoc variable names (reported here:
-  https://lore.kernel.org/lkml/202509271654.j3IsjsAJ-lkp@intel.com/)
----
- drivers/gpu/drm/drm_bridge.c | 62 ++++++++++++++++++++++++++++++++++++++++++++
- include/drm/drm_bridge.h     | 12 +++++++++
- 2 files changed, 74 insertions(+)
+- Don't call drm_bridge_remove(), it's now in drm_bridge_unplug()
+- use gotos for error management in sn65dsi83_atomic_pre_enable()
+- simplify sn65dsi83_release_resources() comment
 
-diff --git a/drivers/gpu/drm/drm_bridge.c b/drivers/gpu/drm/drm_bridge.c
-index 8f355df883d8ac8de9d361ec302f4ccbf3bca0d6..db40c26d1cb354f818f12a5a53f9baa6a7fc3574 100644
---- a/drivers/gpu/drm/drm_bridge.c
-+++ b/drivers/gpu/drm/drm_bridge.c
-@@ -27,6 +27,7 @@
- #include <linux/media-bus-format.h>
- #include <linux/module.h>
- #include <linux/mutex.h>
-+#include <linux/srcu.h>
- 
- #include <drm/drm_atomic_state_helper.h>
- #include <drm/drm_bridge.h>
-@@ -202,6 +203,67 @@ static DEFINE_MUTEX(bridge_lock);
- static LIST_HEAD(bridge_list);
- static LIST_HEAD(bridge_lingering_list);
- 
-+DEFINE_STATIC_SRCU(drm_bridge_unplug_srcu);
-+
-+/**
-+ * drm_bridge_enter - Enter DRM bridge critical section
-+ * @bridge: DRM bridge
-+ * @idx: Pointer to index that will be passed to the matching drm_bridge_exit()
-+ *
-+ * This function marks and protects the beginning of a section that should not
-+ * be entered after the bridge has been unplugged. The section end is marked
-+ * with drm_bridge_exit(). Calls to this function can be nested.
-+ *
-+ * Returns:
-+ * True if it is OK to enter the section, false otherwise.
-+ */
-+bool drm_bridge_enter(struct drm_bridge *bridge, int *idx)
-+{
-+	*idx = srcu_read_lock(&drm_bridge_unplug_srcu);
-+
-+	if (bridge->unplugged) {
-+		srcu_read_unlock(&drm_bridge_unplug_srcu, *idx);
-+		return false;
-+	}
-+
-+	return true;
-+}
-+EXPORT_SYMBOL(drm_bridge_enter);
-+
-+/**
-+ * drm_bridge_exit - Exit DRM bridge critical section
-+ * @idx: index returned by drm_bridge_enter()
-+ *
-+ * This function marks the end of a section that should not be entered after
-+ * the bridge has been unplugged.
-+ */
-+void drm_bridge_exit(int idx)
-+{
-+	srcu_read_unlock(&drm_bridge_unplug_srcu, idx);
-+}
-+EXPORT_SYMBOL(drm_bridge_exit);
-+
-+/**
-+ * drm_bridge_unplug - declare a DRM bridge was unplugged and remove it
-+ * @bridge: DRM bridge
-+ *
-+ * This tells the bridge has been physically unplugged and no operations on
-+ * device resources must be done anymore. Entry-points can use
-+ * drm_bridge_enter() and drm_bridge_exit() to protect device resources in
-+ * a race free manner.
-+ *
-+ * Also unregisters the bridge.
-+ */
-+void drm_bridge_unplug(struct drm_bridge *bridge)
-+{
-+	bridge->unplugged = true;
-+
-+	synchronize_srcu(&drm_bridge_unplug_srcu);
-+
-+	drm_bridge_remove(bridge);
-+}
-+EXPORT_SYMBOL(drm_bridge_unplug);
-+
- static void __drm_bridge_free(struct kref *kref)
+Changes in v2:
+- Use a devres action instead of a flag
+---
+ drivers/gpu/drm/bridge/ti-sn65dsi83.c | 86 +++++++++++++++++++++++++++--------
+ 1 file changed, 66 insertions(+), 20 deletions(-)
+
+diff --git a/drivers/gpu/drm/bridge/ti-sn65dsi83.c b/drivers/gpu/drm/bridge/ti-sn65dsi83.c
+index 033c44326552ab167d4e8d9b74957c585e4c6fb7..ac74b9e85b97604c95a255fc2c59bd0e7a3137f5 100644
+--- a/drivers/gpu/drm/bridge/ti-sn65dsi83.c
++++ b/drivers/gpu/drm/bridge/ti-sn65dsi83.c
+@@ -406,6 +406,10 @@ static void sn65dsi83_reset_work(struct work_struct *ws)
  {
- 	struct drm_bridge *bridge = container_of(kref, struct drm_bridge, refcount);
-diff --git a/include/drm/drm_bridge.h b/include/drm/drm_bridge.h
-index 0ff7ab4aa8689a022458f935a7ffb23a2b715802..d2683846cc619007f85a6f605b9d23ce971e04b3 100644
---- a/include/drm/drm_bridge.h
-+++ b/include/drm/drm_bridge.h
-@@ -1143,6 +1143,14 @@ struct drm_bridge {
- 	 */
- 	struct kref refcount;
- 
-+	/**
-+	 * @unplugged:
-+	 *
-+	 * Flag to tell if the bridge has been unplugged.
-+	 * See drm_bridge_enter() and drm_bridge_unplug().
-+	 */
-+	bool unplugged;
+ 	struct sn65dsi83 *ctx = container_of(ws, struct sn65dsi83, reset_work);
+ 	int ret;
++	int idx;
 +
- 	/** @driver_private: pointer to the bridge driver's internal context */
- 	void *driver_private;
- 	/** @ops: bitmask of operations supported by the bridge */
-@@ -1278,6 +1286,10 @@ drm_priv_to_bridge(struct drm_private_obj *priv)
- 	return container_of(priv, struct drm_bridge, base);
++	if (!drm_bridge_enter(&ctx->bridge, &idx))
++		return;
+ 
+ 	/* Reset the pipe */
+ 	ret = sn65dsi83_reset_pipe(ctx);
+@@ -415,12 +419,18 @@ static void sn65dsi83_reset_work(struct work_struct *ws)
+ 	}
+ 	if (ctx->irq)
+ 		enable_irq(ctx->irq);
++
++	drm_bridge_exit(idx);
  }
  
-+bool drm_bridge_enter(struct drm_bridge *bridge, int *idx);
-+void drm_bridge_exit(int idx);
-+void drm_bridge_unplug(struct drm_bridge *bridge);
+ static void sn65dsi83_handle_errors(struct sn65dsi83 *ctx)
+ {
+ 	unsigned int irq_stat;
+ 	int ret;
++	int idx;
 +
- struct drm_bridge *drm_bridge_get(struct drm_bridge *bridge);
- void drm_bridge_put(struct drm_bridge *bridge);
++	if (!drm_bridge_enter(&ctx->bridge, &idx))
++		return;
  
+ 	/*
+ 	 * Schedule a reset in case of:
+@@ -441,6 +451,8 @@ static void sn65dsi83_handle_errors(struct sn65dsi83 *ctx)
+ 
+ 		schedule_work(&ctx->reset_work);
+ 	}
++
++	drm_bridge_exit(idx);
+ }
+ 
+ static void sn65dsi83_monitor_work(struct work_struct *work)
+@@ -463,6 +475,37 @@ static void sn65dsi83_monitor_stop(struct sn65dsi83 *ctx)
+ 	cancel_delayed_work_sync(&ctx->monitor_work);
+ }
+ 
++/*
++ * Release resources taken by sn65dsi83_atomic_pre_enable().
++ *
++ * Invoked by sn65dsi83_atomic_disable() normally, or by devres after
++ * sn65dsi83_remove() in case this happens befora atomic_disable.
++ */
++static void sn65dsi83_release_resources(void *data)
++{
++	struct sn65dsi83 *ctx = (struct sn65dsi83 *)data;
++	int ret;
++
++	if (ctx->irq) {
++		/* Disable irq */
++		regmap_write(ctx->regmap, REG_IRQ_EN, 0x0);
++		regmap_write(ctx->regmap, REG_IRQ_GLOBAL, 0x0);
++	} else {
++		/* Stop the polling task */
++		sn65dsi83_monitor_stop(ctx);
++	}
++
++	/* Put the chip in reset, pull EN line low, and assure 10ms reset low timing. */
++	gpiod_set_value_cansleep(ctx->enable_gpio, 0);
++	usleep_range(10000, 11000);
++
++	ret = regulator_disable(ctx->vcc);
++	if (ret)
++		dev_err(ctx->dev, "Failed to disable vcc: %d\n", ret);
++
++	regcache_mark_dirty(ctx->regmap);
++}
++
+ static void sn65dsi83_atomic_pre_enable(struct drm_bridge *bridge,
+ 					struct drm_atomic_state *state)
+ {
+@@ -478,11 +521,15 @@ static void sn65dsi83_atomic_pre_enable(struct drm_bridge *bridge,
+ 	__le16 le16val;
+ 	u16 val;
+ 	int ret;
++	int idx;
++
++	if (!drm_bridge_enter(bridge, &idx))
++		return;
+ 
+ 	ret = regulator_enable(ctx->vcc);
+ 	if (ret) {
+ 		dev_err(ctx->dev, "Failed to enable vcc: %d\n", ret);
+-		return;
++		goto err_exit;
+ 	}
+ 
+ 	/* Deassert reset */
+@@ -625,7 +672,7 @@ static void sn65dsi83_atomic_pre_enable(struct drm_bridge *bridge,
+ 		dev_err(ctx->dev, "failed to lock PLL, ret=%i\n", ret);
+ 		/* On failure, disable PLL again and exit. */
+ 		regmap_write(ctx->regmap, REG_RC_PLL_EN, 0x00);
+-		return;
++		goto err_add_action;
+ 	}
+ 
+ 	/* Trigger reset after CSR register update. */
+@@ -633,6 +680,11 @@ static void sn65dsi83_atomic_pre_enable(struct drm_bridge *bridge,
+ 
+ 	/* Wait for 10ms after soft reset as specified in datasheet */
+ 	usleep_range(10000, 12000);
++
++err_add_action:
++	devm_add_action(ctx->dev, sn65dsi83_release_resources, ctx);
++err_exit:
++	drm_bridge_exit(idx);
+ }
+ 
+ static void sn65dsi83_atomic_enable(struct drm_bridge *bridge,
+@@ -640,6 +692,10 @@ static void sn65dsi83_atomic_enable(struct drm_bridge *bridge,
+ {
+ 	struct sn65dsi83 *ctx = bridge_to_sn65dsi83(bridge);
+ 	unsigned int pval;
++	int idx;
++
++	if (!drm_bridge_enter(bridge, &idx))
++		return;
+ 
+ 	/* Clear all errors that got asserted during initialization. */
+ 	regmap_read(ctx->regmap, REG_IRQ_STAT, &pval);
+@@ -659,32 +715,22 @@ static void sn65dsi83_atomic_enable(struct drm_bridge *bridge,
+ 		/* Use the polling task */
+ 		sn65dsi83_monitor_start(ctx);
+ 	}
++
++	drm_bridge_exit(idx);
+ }
+ 
+ static void sn65dsi83_atomic_disable(struct drm_bridge *bridge,
+ 				     struct drm_atomic_state *state)
+ {
+ 	struct sn65dsi83 *ctx = bridge_to_sn65dsi83(bridge);
+-	int ret;
++	int idx;
+ 
+-	if (ctx->irq) {
+-		/* Disable irq */
+-		regmap_write(ctx->regmap, REG_IRQ_EN, 0x0);
+-		regmap_write(ctx->regmap, REG_IRQ_GLOBAL, 0x0);
+-	} else {
+-		/* Stop the polling task */
+-		sn65dsi83_monitor_stop(ctx);
+-	}
+-
+-	/* Put the chip in reset, pull EN line low, and assure 10ms reset low timing. */
+-	gpiod_set_value_cansleep(ctx->enable_gpio, 0);
+-	usleep_range(10000, 11000);
++	if (!drm_bridge_enter(bridge, &idx))
++		return;
+ 
+-	ret = regulator_disable(ctx->vcc);
+-	if (ret)
+-		dev_err(ctx->dev, "Failed to disable vcc: %d\n", ret);
++	devm_release_action(ctx->dev, sn65dsi83_release_resources, ctx);
+ 
+-	regcache_mark_dirty(ctx->regmap);
++	drm_bridge_exit(idx);
+ }
+ 
+ static enum drm_mode_status
+@@ -1005,7 +1051,7 @@ static void sn65dsi83_remove(struct i2c_client *client)
+ {
+ 	struct sn65dsi83 *ctx = i2c_get_clientdata(client);
+ 
+-	drm_bridge_remove(&ctx->bridge);
++	drm_bridge_unplug(&ctx->bridge);
+ }
+ 
+ static const struct i2c_device_id sn65dsi83_id[] = {
 
 -- 
 2.51.1
