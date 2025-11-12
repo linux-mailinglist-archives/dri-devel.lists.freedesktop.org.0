@@ -2,82 +2,74 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E4BCAC50538
-	for <lists+dri-devel@lfdr.de>; Wed, 12 Nov 2025 03:20:37 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 84D74C505D3
+	for <lists+dri-devel@lfdr.de>; Wed, 12 Nov 2025 03:51:11 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BB4B710E04D;
-	Wed, 12 Nov 2025 02:20:34 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6ADC110E021;
+	Wed, 12 Nov 2025 02:51:08 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="B2I9MviD";
+	dkim=pass (1024-bit key; unprotected) header.d=rock-chips.com header.i=@rock-chips.com header.b="BfnanaLs";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pf1-f170.google.com (mail-pf1-f170.google.com
- [209.85.210.170])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0914110E04D
- for <dri-devel@lists.freedesktop.org>; Wed, 12 Nov 2025 02:20:33 +0000 (UTC)
-Received: by mail-pf1-f170.google.com with SMTP id
- d2e1a72fcca58-7af6a6f20easo284319b3a.0
- for <dri-devel@lists.freedesktop.org>; Tue, 11 Nov 2025 18:20:33 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1762914032; x=1763518832; darn=lists.freedesktop.org;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=LxUF+h7S30BNbJmH4g7pCp3lBzmymefVuj0S5lsfjbg=;
- b=B2I9MviDjFLRzD/u2JEAgvJcQN4becBqOTGGyoGtFVxgOM22t0l7rvt/VM+g5ilzeI
- UdOqPBHQfEFarDTt7lDTSOuTbVNYrmrySdsJqr9FgFMcwwPbY6Xu/mMtdspgZLg18nXb
- JngYYt+nS8jxIy0Cx2rs4z0sHvmh1LfSqdsqDn5Fx25legmdlhK/bDwD4HmoaFqlaG4u
- WFzLEZuP+RKkg9+IUTomazWEKE/OEI/fZwCoEVCzKeqsN8K7zl0tWXwzSHkWtuTpNiak
- y07J37DUe9xtjupqDb5geVOQuZXdghFafjXUIUHfuJdPhVJVAVYq1pyG8qYosiQhsvSK
- +HAA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1762914032; x=1763518832;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
- :to:cc:subject:date:message-id:reply-to;
- bh=LxUF+h7S30BNbJmH4g7pCp3lBzmymefVuj0S5lsfjbg=;
- b=gSB/q4kTlX624R0ZMqqw52tWCVRgjzQj6twXOAh7ZzFGuYi9EzTwyJqzw+rREcGKdY
- tIbREmtaNSG5pkdVSK3VeMUedFJi6qUyiKhIst1lUUQPVhKuZTebE4ZwyLaflF2/AcAj
- alW5WTCWuePQipXJh9OVFTzqze5HGUYqoXqWZfI/wau4eahxHAjXUA7TR31ruBtEw7wW
- iieg1nbx5g6AQTtI92TCzvM7EIAScFNOAcZjA5+1Lta4XT+PEBXM+zCHE1eRLOSCu0vf
- 5/a7NbN2IQjT6KhpXHJLIGBHgsZUM0ajkD24n+gqUnRZClJuOZ8pJrV0UuI68StzgMRi
- ZxOA==
-X-Forwarded-Encrypted: i=1;
- AJvYcCW85tpEitnTjSsuJpK/zP6uS6irwT+kugQ5XfcA/Of1DSxzbZgozpbSD2DBm3EVKne6slTIzoSzKhs=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YzKTBhTYFVPnJm+ubGcvR1/0qxn4Gv7V167sK7RWO4LGW6flqOQ
- RUSB2spsHvfLQGCvgK/PX9uhkJas6ihV7ZNq7EdyUVQbhTK7fuPOqLeycSrRFBtZ+bZ0auaq3GD
- b89VzvOS8QFbxqhngVos+wqqdvgtkyn4=
-X-Gm-Gg: ASbGncsWtqV+X8ISPlpw6wLTUgA/iFKfbxZMLOvHd8vMJ6FX1FVnlXWIlGfz5cpcdFE
- ywwSXk+7a4QFmqrQHyjjhV6YLrN4W4/+QdV4Z2oTxDsLDyYywFmGmqmpbtPAo3TOXlgxv/zTxO4
- 77e+KQQ4Q+TUblKWGx0nL9B69y6317Pq3ePcXx062DxLJv0nRun8rUCgIPsOFpfLINfU7y4XNow
- yHP6+0BP5D26RSH5/nne7dPuWO8U4QplR6X/9ez1fu/SyauDSRehBwj7sxN
-X-Google-Smtp-Source: AGHT+IFtc6HQrz/xKZ9emyb5FEGlT0SRf+ATUq6DWBXr3zYhujoZ6/yNyjXJ5nXZWWbTjr5BzqbESW0tw1NXrAGBcT8=
-X-Received: by 2002:a17:90a:d88b:b0:340:be4d:8980 with SMTP id
- 98e67ed59e1d1-343dde27552mr1630702a91.14.1762914032513; Tue, 11 Nov 2025
- 18:20:32 -0800 (PST)
+Received: from mail-m1973184.qiye.163.com (mail-m1973184.qiye.163.com
+ [220.197.31.84])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A6A4310E021
+ for <dri-devel@lists.freedesktop.org>; Wed, 12 Nov 2025 02:51:06 +0000 (UTC)
+Received: from [172.16.12.149] (unknown [58.22.7.114])
+ by smtp.qiye.163.com (Hmail) with ESMTP id 2943c7c46;
+ Wed, 12 Nov 2025 10:50:59 +0800 (GMT+08:00)
+Message-ID: <d4861ef9-a25c-491c-9a00-d65fe75d2677@rock-chips.com>
+Date: Wed, 12 Nov 2025 10:50:57 +0800
 MIME-Version: 1.0
-References: <20250923053001.2678596-1-shengjiu.wang@nxp.com>
-In-Reply-To: <20250923053001.2678596-1-shengjiu.wang@nxp.com>
-From: Shengjiu Wang <shengjiu.wang@gmail.com>
-Date: Wed, 12 Nov 2025 10:20:20 +0800
-X-Gm-Features: AWmQ_bk8d1h8tBpBrZUtGjow-hV3gnwT5P-EgH-CH9iaE3RQY3pwj7BwDScJKrc
-Message-ID: <CAA+D8APHUZmP8qfta4=YL200hJkiikru8yQPddvBZyx-+-1ZtQ@mail.gmail.com>
-Subject: Re: [PATCH v7 0/7] drm/bridge: imx: Add HDMI PAI driver on i.MX8MP
-To: Shengjiu Wang <shengjiu.wang@nxp.com>, Shawn Guo <shawnguo@kernel.org>
-Cc: andrzej.hajda@intel.com, neil.armstrong@linaro.org, rfoss@kernel.org, 
- Laurent.pinchart@ideasonboard.com, jonas@kwiboo.se, jernej.skrabec@gmail.com, 
- maarten.lankhorst@linux.intel.com, mripard@kernel.org, tzimmermann@suse.de, 
- airlied@gmail.com, simona@ffwll.ch, lumag@kernel.org, dianders@chromium.org, 
- cristian.ciocaltea@collabora.com, luca.ceresoli@bootlin.com, 
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org, 
- victor.liu@nxp.com, s.hauer@pengutronix.de, kernel@pengutronix.de, 
- festevam@gmail.com, imx@lists.linux.dev, linux-arm-kernel@lists.infradead.org, 
- robh@kernel.org, krzk+dt@kernel.org, conor+dt@kernel.org, 
- p.zabel@pengutronix.de, devicetree@vger.kernel.org, l.stach@pengutronix.de, 
- perex@perex.cz, tiwai@suse.com, linux-sound@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v9 04/10] dt-bindings: phy: rockchip: rk3399-typec-phy:
+ Support mode-switch
+To: Krzysztof Kozlowski <krzk@kernel.org>, Chaoyi Chen <kernel@airkyi.com>,
+ Heikki Krogerus <heikki.krogerus@linux.intel.com>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>,
+ Peter Chen <hzpeterchen@gmail.com>, Rob Herring <robh@kernel.org>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
+ <conor+dt@kernel.org>, Vinod Koul <vkoul@kernel.org>,
+ Kishon Vijay Abraham I <kishon@kernel.org>, Heiko Stuebner
+ <heiko@sntech.de>, Sandy Huang <hjc@rock-chips.com>,
+ Andy Yan <andy.yan@rock-chips.com>,
+ Yubing Zhang <yubing.zhang@rock-chips.com>,
+ Frank Wang <frank.wang@rock-chips.com>,
+ Andrzej Hajda <andrzej.hajda@intel.com>,
+ Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Amit Sunil Dhamne <amitsd@google.com>, Dragan Simic <dsimic@manjaro.org>,
+ Johan Jonker <jbx6244@gmail.com>, Diederik de Haas <didi.debian@cknow.org>,
+ Peter Robinson <pbrobinson@gmail.com>
+Cc: linux-usb@vger.kernel.org, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-phy@lists.infradead.org,
+ linux-arm-kernel@lists.infradead.org, linux-rockchip@lists.infradead.org,
+ dri-devel@lists.freedesktop.org
+References: <20251111105040.94-1-kernel@airkyi.com>
+ <20251111105040.94-5-kernel@airkyi.com>
+ <868f09fd-8fe8-4c01-952f-6317604c43a3@kernel.org>
+Content-Language: en-US
+From: Chaoyi Chen <chaoyi.chen@rock-chips.com>
+In-Reply-To: <868f09fd-8fe8-4c01-952f-6317604c43a3@kernel.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-HM-Tid: 0a9a75f93d9b03abkunm3992e66e1852d51
+X-HM-MType: 1
+X-HM-Spam-Status: e1kfGhgUHx5ZQUpXWQgPGg8OCBgUHx5ZQUlOS1dZFg8aDwILHllBWSg2Ly
+ tZV1koWUFDSUNOT01LS0k3V1ktWUFJV1kPCRoVCBIfWUFZGh5NTFZMQkMZSRpJGUJJHkpWFRQJFh
+ oXVRMBExYaEhckFA4PWVdZGBILWUFZTkNVSUlVTFVKSk9ZV1kWGg8SFR0UWUFZT0tIVUpLSEpPSE
+ xVSktLVUpCS0tZBg++
+DKIM-Signature: a=rsa-sha256;
+ b=BfnanaLsNym3HyzqwH3OnGP1xmT0wPf4OoG6mLeXNzKNon4hMOY5ybAPzIG5A2swqv9GW1Dk0xahQPlEdSUzGVGO030Q+pdtfdO7Vn8vOx3D4j7Jqoib9PCmnjI9PllpUI2CFlrsM/l5X+lLXGTAlfSSW9PssoQIt4PnwxpBKbs=;
+ s=default; c=relaxed/relaxed; d=rock-chips.com; v=1; 
+ bh=7NS+b33zjPCJC+YQ9D+VMMD2zKMV2hZ3cis1B+LtXgQ=;
+ h=date:mime-version:subject:message-id:from;
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -93,82 +85,28 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Shawn
+On 11/11/2025 7:09 PM, Krzysztof Kozlowski wrote:
 
-On Tue, Sep 23, 2025 at 1:30=E2=80=AFPM Shengjiu Wang <shengjiu.wang@nxp.co=
-m> wrote:
+> On 11/11/2025 11:50, Chaoyi Chen wrote:
+>> While an external Type-C controller is still required to detect cable
+>> attachment and report USB PD events, the actual mode and orientation
+>> switching is performed internally by the PHY through software
+>> configuration. This allows the PHY to act as a Type-C multiplexer for
+>> both data role and DP altmode configuration.
+>>
+>> To reflect this hardware design, this patch introduces a new
+>> "mode-switch" property for the dp-port node in the device tree bindings.
+>> This property indicates that the connected PHY is capable of handling
+>> Type-C mode switching itself.
+>>
+>> Signed-off-by: Chaoyi Chen <chaoyi.chen@rock-chips.com>
+>>
+>> Acked-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+> There are never blank lines between tags.
 >
-> The HDMI TX Parallel Audio Interface (HTX_PAI) is a digital module that
-> acts as the bridge between the Audio Subsystem to the HDMI TX Controller.
->
-> Add HDMI PAI driver on i.MX8MP to make HDMI audio function fully work.
->
-> changes in v7:
-> - add back the mutex which removed in v6
-> - add Tested-by tag from Alexander.
->
-> changes in v6:
-> - remove mutex in dw_hdmi_set_sample_iec958()
->
-> changes in v5:
-> - add empty line commit message for patch 7
-> - remove blank line in dts node
-> - add component_unbind_all when dw_hdmi_probe return error
->
-> changes in v4:
-> - separate dts for soc and board
-> - bind hdmi_pai with hdmi_tx by moving some code to .bind() and .unbind()
-> - add "select DRM_DW_HDMI" to fix build error reported by test robot
-> - remove unnecessary code/definition in pai driver
->
-> changes in v3:
-> - add space and 'U' in asoundef.h
-> - add more commit message for binding doc commit
-> - add bitfield.h header for fixing build error
->
-> changes in v2:
-> - address some comments on commit messages
-> - add two more commits:
->   add definitions for the bits in IEC958 subframe
->   add API dw_hdmi_set_sample_iec958() for iec958 format
-> - use component helper in hdmi_pai and hdmi_tx driver
-> - use regmap in hdmi_pai driver.
-> - add clocks in binding doc
->
-> Shengjiu Wang (7):
->   dt-bindings: display: imx: add HDMI PAI for i.MX8MP
->   ALSA: Add definitions for the bits in IEC958 subframe
->   drm/bridge: dw-hdmi: Add API dw_hdmi_to_plat_data() to get plat_data
->   drm/bridge: dw-hdmi: Add API dw_hdmi_set_sample_iec958() for iec958
->     format
->   drm/bridge: imx: add driver for HDMI TX Parallel Audio Interface
->   arm64: dts: imx8mp: Add hdmi parallel audio interface node
->   arm64: dts: imx8mp-evk: enable hdmi_pai device
+Sorry for that. I will pay attention to this in future submissions.
 
-Could you please review the above two dts patches?
-Thanks.
+-- 
+Best,
+Chaoyi
 
-Best regards
-Shengjiu wang
-
->
->  .../display/bridge/fsl,imx8mp-hdmi-tx.yaml    |  12 ++
->  .../display/imx/fsl,imx8mp-hdmi-pai.yaml      |  69 ++++++++
->  arch/arm64/boot/dts/freescale/imx8mp-evk.dts  |   4 +
->  arch/arm64/boot/dts/freescale/imx8mp.dtsi     |  27 ++-
->  drivers/gpu/drm/bridge/imx/Kconfig            |  11 ++
->  drivers/gpu/drm/bridge/imx/Makefile           |   1 +
->  drivers/gpu/drm/bridge/imx/imx8mp-hdmi-pai.c  | 158 ++++++++++++++++++
->  drivers/gpu/drm/bridge/imx/imx8mp-hdmi-tx.c   |  65 ++++++-
->  .../drm/bridge/synopsys/dw-hdmi-gp-audio.c    |   5 +
->  drivers/gpu/drm/bridge/synopsys/dw-hdmi.c     |  18 +-
->  include/drm/bridge/dw_hdmi.h                  |  11 +-
->  include/sound/asoundef.h                      |   9 +
->  12 files changed, 382 insertions(+), 8 deletions(-)
->  create mode 100644 Documentation/devicetree/bindings/display/imx/fsl,imx=
-8mp-hdmi-pai.yaml
->  create mode 100644 drivers/gpu/drm/bridge/imx/imx8mp-hdmi-pai.c
->
-> --
-> 2.34.1
->
