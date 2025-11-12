@@ -2,78 +2,136 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8E431C518CF
-	for <lists+dri-devel@lfdr.de>; Wed, 12 Nov 2025 11:06:55 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 587E0C514C8
+	for <lists+dri-devel@lfdr.de>; Wed, 12 Nov 2025 10:14:36 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 17B4C10E1C6;
-	Wed, 12 Nov 2025 10:06:53 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0571110E03A;
+	Wed, 12 Nov 2025 09:14:32 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="XlqmbVbw";
+	dkim=pass (1024-bit key; unprotected) header.d=suse.de header.i=@suse.de header.b="QR788Ehv";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="hHMTr/sU";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="QR788Ehv";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="hHMTr/sU";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ej1-f43.google.com (mail-ej1-f43.google.com
- [209.85.218.43])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B5A9E10E6C7
- for <dri-devel@lists.freedesktop.org>; Wed, 12 Nov 2025 08:02:32 +0000 (UTC)
-Received: by mail-ej1-f43.google.com with SMTP id
- a640c23a62f3a-b7321b03aecso92677966b.3
- for <dri-devel@lists.freedesktop.org>; Wed, 12 Nov 2025 00:02:32 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1762934551; x=1763539351; darn=lists.freedesktop.org;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:from:to:cc:subject:date:message-id:reply-to;
- bh=X1vSzWoIsU/LU/7nkUUUbQ83OoHkgHR/WVO8I+WEFiQ=;
- b=XlqmbVbw8r0B6RVaGQy0su53abTnskI8ziNvK/S11Why5aqZdNQXD2sO5iEfm636U3
- J4UzkCSAbBpa8G2KV8WNLw7xgt8B6A9Ze5ovwwO8CfQ6tSgqKGvmyfwiqCDbHd5jwtqD
- v54cV8Gb/OxIBDyeMsn1DXmKJxl/dOAiBIEc3u/K5CdlwggzOCp7HTfqpR+JaZhE6vYA
- fztlVnP+JNRZgH/cjkRmFXyEEzV3lrFJV64GEeJfQ7liz+5T5ZAbQL8VoKV18s07hK9t
- nYIh6kyHatVqGCZisxI0yuxWsWMIX+0n8RosPb6FNkAArhYzlI7n4au1u84I36YipmoV
- nZZg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1762934551; x=1763539351;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=X1vSzWoIsU/LU/7nkUUUbQ83OoHkgHR/WVO8I+WEFiQ=;
- b=SPcMDA/PSKK/zMFNXRqtO33GS24LCPy7qO/gxGBY8Ttbal8a+n3RoXXhCRVwKIV+er
- AJc9zUcx4xyfyO3BuAJTkzjL+KqfOMG0cYJWmlipL8XDH4XcDKH7oPgDpEh0jZcuAcQL
- txAT2+vovFY9n2KMptvG5XZehby0sIhYdYCrAV64R+8l+vZqOX/XKKZvoNWdRIPemzLB
- PhIm3E5yRvTtJiQW02bXXlQJWiR7HKXskCMYYt0D40FOy5da4gH+1aVmgyrrIrV0aTi0
- JlUyfqI7hBJuzUYwGTVZX4Tp0CH0yH1lBF23rIFcqRvKRGmIU6uMUqxtVjB3jsPqhOJt
- Xedg==
-X-Forwarded-Encrypted: i=1;
- AJvYcCUaSQoEg63fK/qXB/b/0P+/39v8/Q7liVg7vKkBSNybKo7cavudF7Z11r3tJd7I2FeHf+EKsV40tyQ=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YysyuZhpGkC7oAuYsQKeuD0sRvzSgjxPaXftMFwWizL+cfsQ5SA
- P1dJmXd8WB55eUeLl6KFB3bcwsN5WcfgBHwdlv61TrhvjtjeB2q8sRQa
-X-Gm-Gg: ASbGncv6TpA/aRkdpCt7I9+tlQS9EixqycXbYSnO3r7RLA+U+XK/PKn0AdvAOp4Wn+L
- joM7P0DzOgiD1y3/49f3yJRo8r+gXkY2lbRWSMa1kgU17vT7e0orcqK1TJnFDLlj1Mx6V3aiYY6
- sRXn0zi6E5nyJlidL62kC2Ezo9EKlLUe63ixQ5YkzIqfGPNx/p8TXN99u4D6A9HskSoupvD9XZr
- jx6lEvo8fxvKy6nHwv54v+5j5vU2IRh/EsFfoVmOVHiIKu1T3klJe2+UCCJSx/RYW5Tsg1Yy4O2
- Ivz8z4EkrAs5AwpZWSVkxCG1r/3ZjXYEMNY0Ujs5EuxmY5bNGkeFyGMpRv/w2DePmg2lOiq8PRA
- Mi6JDREQ7E97Z47F0/ON0E5N7b10Fsp88khnX3SYnpM5jbNZmJ/MR5Hp9PTqC5GA3cSZDpaU=
-X-Google-Smtp-Source: AGHT+IH4ZMrWaoefx3L7WnsU9NJXJjf/H4U0hsMcEo73wphLyQhueMcVj/mEqHE3McBEcd+WIQvBUg==
-X-Received: by 2002:a17:907:7285:b0:b46:31be:e8fe with SMTP id
- a640c23a62f3a-b7331973fb1mr219408666b.11.1762934550973; 
- Wed, 12 Nov 2025 00:02:30 -0800 (PST)
-Received: from pc.. ([41.209.14.102]) by smtp.gmail.com with ESMTPSA id
- a640c23a62f3a-b72bf9bc83asm1515992366b.51.2025.11.12.00.02.26
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 12 Nov 2025 00:02:30 -0800 (PST)
-From: Erick Karanja <karanja99erick@gmail.com>
-To: mripard@kernel.org,
-	dave.stevenson@raspberrypi.com
-Cc: mcanal@igalia.com, kernel-list@raspberrypi.com,
- maarten.lankhorst@linux.intel.com, tzimmermann@suse.de, airlied@gmail.com,
- simona@ffwll.ch, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, Erick Karanja <karanja99erick@gmail.com>
-Subject: [PATCH] drm/vc4: Replace lock/unlock pattern to use guard
-Date: Wed, 12 Nov 2025 11:02:20 +0300
-Message-ID: <20251112080220.223318-1-karanja99erick@gmail.com>
-X-Mailer: git-send-email 2.43.0
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 88FAE10E1B9
+ for <dri-devel@lists.freedesktop.org>; Wed, 12 Nov 2025 09:14:30 +0000 (UTC)
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org
+ [IPv6:2a07:de40:b281:104:10:150:64:97])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested)
+ by smtp-out2.suse.de (Postfix) with ESMTPS id 979B31F45E;
+ Wed, 12 Nov 2025 09:14:28 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1762938868; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=MS+ji2unL0OwJEg4Mgxqi3o8/fC+Ex1E3jkwaRB6HcQ=;
+ b=QR788Ehvn33w6xL46RLQ/ySw6DBUk2DwAOqnP1L9jXsqqcUiETq9g64A+WKp0uZJttPHzC
+ aE326Bc/cIhMwH6QadHCHVDMQPwccttam+0UW1nVtCXKzoxE8/XvtvhbJgRXTk7vNYEmQA
+ 6Z7HL9Ku7eELGfXGafPlwsTRkKQbxBg=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1762938868;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=MS+ji2unL0OwJEg4Mgxqi3o8/fC+Ex1E3jkwaRB6HcQ=;
+ b=hHMTr/sUW9/1v5u56CbkG4g6PJkZq8EqoGUz/ybcvCz6g6QG1BKzI5Vt/wjWsubyAcmTVU
+ 5N7RO2YCgFEXWSBg==
+Authentication-Results: smtp-out2.suse.de;
+ dkim=pass header.d=suse.de header.s=susede2_rsa header.b=QR788Ehv;
+ dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b="hHMTr/sU"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1762938868; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=MS+ji2unL0OwJEg4Mgxqi3o8/fC+Ex1E3jkwaRB6HcQ=;
+ b=QR788Ehvn33w6xL46RLQ/ySw6DBUk2DwAOqnP1L9jXsqqcUiETq9g64A+WKp0uZJttPHzC
+ aE326Bc/cIhMwH6QadHCHVDMQPwccttam+0UW1nVtCXKzoxE8/XvtvhbJgRXTk7vNYEmQA
+ 6Z7HL9Ku7eELGfXGafPlwsTRkKQbxBg=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1762938868;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=MS+ji2unL0OwJEg4Mgxqi3o8/fC+Ex1E3jkwaRB6HcQ=;
+ b=hHMTr/sUW9/1v5u56CbkG4g6PJkZq8EqoGUz/ybcvCz6g6QG1BKzI5Vt/wjWsubyAcmTVU
+ 5N7RO2YCgFEXWSBg==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested)
+ by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 6A6703EA61;
+ Wed, 12 Nov 2025 09:14:28 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+ by imap1.dmz-prg2.suse.org with ESMTPSA id 0SyHGPRPFGnucAAAD6G6ig
+ (envelope-from <tzimmermann@suse.de>); Wed, 12 Nov 2025 09:14:28 +0000
+Message-ID: <6c1a7e8f-1fde-4829-8639-826be7fe4def@suse.de>
+Date: Wed, 12 Nov 2025 10:14:28 +0100
 MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2] drm/vmwgfx: Add drm_panic support
+To: Ian Forbes <ian.forbes@broadcom.com>, dri-devel@lists.freedesktop.org
+Cc: bcm-kernel-feedback-list@broadcom.com, zack.rusin@broadcom.com,
+ maaz.mombasawala@broadcom.com, Ryosuke Yasuoka <ryasuoka@redhat.com>
+References: <20251023200447.206834-1-ian.forbes@broadcom.com>
+ <20251107204620.1021749-1-ian.forbes@broadcom.com>
+Content-Language: en-US
+From: Thomas Zimmermann <tzimmermann@suse.de>
+Autocrypt: addr=tzimmermann@suse.de; keydata=
+ xsBNBFs50uABCADEHPidWt974CaxBVbrIBwqcq/WURinJ3+2WlIrKWspiP83vfZKaXhFYsdg
+ XH47fDVbPPj+d6tQrw5lPQCyqjwrCPYnq3WlIBnGPJ4/jreTL6V+qfKRDlGLWFjZcsrPJGE0
+ BeB5BbqP5erN1qylK9i3gPoQjXGhpBpQYwRrEyQyjuvk+Ev0K1Jc5tVDeJAuau3TGNgah4Yc
+ hdHm3bkPjz9EErV85RwvImQ1dptvx6s7xzwXTgGAsaYZsL8WCwDaTuqFa1d1jjlaxg6+tZsB
+ 9GluwvIhSezPgnEmimZDkGnZRRSFiGP8yjqTjjWuf0bSj5rUnTGiyLyRZRNGcXmu6hjlABEB
+ AAHNJ1Rob21hcyBaaW1tZXJtYW5uIDx0emltbWVybWFubkBzdXNlLmRlPsLAjgQTAQgAOAIb
+ AwULCQgHAgYVCgkICwIEFgIDAQIeAQIXgBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftODH
+ AAoJEGgNwR1TC3ojx1wH/0hKGWugiqDgLNXLRD/4TfHBEKmxIrmfu9Z5t7vwUKfwhFL6hqvo
+ lXPJJKQpQ2z8+X2vZm/slsLn7J1yjrOsoJhKABDi+3QWWSGkaGwRJAdPVVyJMfJRNNNIKwVb
+ U6B1BkX2XDKDGffF4TxlOpSQzdtNI/9gleOoUA8+jy8knnDYzjBNOZqLG2FuTdicBXblz0Mf
+ vg41gd9kCwYXDnD91rJU8tzylXv03E75NCaTxTM+FBXPmsAVYQ4GYhhgFt8S2UWMoaaABLDe
+ 7l5FdnLdDEcbmd8uLU2CaG4W2cLrUaI4jz2XbkcPQkqTQ3EB67hYkjiEE6Zy3ggOitiQGcqp
+ j//OwE0EWznS4AEIAMYmP4M/V+T5RY5at/g7rUdNsLhWv1APYrh9RQefODYHrNRHUE9eosYb
+ T6XMryR9hT8XlGOYRwKWwiQBoWSDiTMo/Xi29jUnn4BXfI2px2DTXwc22LKtLAgTRjP+qbU6
+ 3Y0xnQN29UGDbYgyyK51DW3H0If2a3JNsheAAK+Xc9baj0LGIc8T9uiEWHBnCH+RdhgATnWW
+ GKdDegUR5BkDfDg5O/FISymJBHx2Dyoklv5g4BzkgqTqwmaYzsl8UxZKvbaxq0zbehDda8lv
+ hFXodNFMAgTLJlLuDYOGLK2AwbrS3Sp0AEbkpdJBb44qVlGm5bApZouHeJ/+n+7r12+lqdsA
+ EQEAAcLAdgQYAQgAIAIbDBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftOH6AAoJEGgNwR1T
+ C3ojVSkIALpAPkIJPQoURPb1VWjh34l0HlglmYHvZszJWTXYwavHR8+k6Baa6H7ufXNQtThR
+ yIxJrQLW6rV5lm7TjhffEhxVCn37+cg0zZ3j7zIsSS0rx/aMwi6VhFJA5hfn3T0TtrijKP4A
+ SAQO9xD1Zk9/61JWk8OysuIh7MXkl0fxbRKWE93XeQBhIJHQfnc+YBLprdnxR446Sh8Wn/2D
+ Ya8cavuWf2zrB6cZurs048xe0UbSW5AOSo4V9M0jzYI4nZqTmPxYyXbm30Kvmz0rYVRaitYJ
+ 4kyYYMhuULvrJDMjZRvaNe52tkKAvMevcGdt38H4KSVXAylqyQOW5zvPc4/sq9c=
+In-Reply-To: <20251107204620.1021749-1-ian.forbes@broadcom.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-Mailman-Approved-At: Wed, 12 Nov 2025 10:06:49 +0000
+X-Rspamd-Queue-Id: 979B31F45E
+X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
+X-Spamd-Result: default: False [-4.51 / 50.00]; BAYES_HAM(-3.00)[100.00%];
+ NEURAL_HAM_LONG(-1.00)[-1.000];
+ R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+ NEURAL_HAM_SHORT(-0.20)[-1.000]; MIME_GOOD(-0.10)[text/plain];
+ MX_GOOD(-0.01)[]; FUZZY_RATELIMITED(0.00)[rspamd.com];
+ ARC_NA(0.00)[]; MIME_TRACE(0.00)[0:+];
+ RCVD_VIA_SMTP_AUTH(0.00)[]; TO_DN_SOME(0.00)[];
+ MID_RHS_MATCH_FROM(0.00)[]; RCVD_TLS_ALL(0.00)[];
+ DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+ FROM_EQ_ENVFROM(0.00)[]; FROM_HAS_DN(0.00)[];
+ RCPT_COUNT_FIVE(0.00)[6]; RCVD_COUNT_TWO(0.00)[2];
+ TO_MATCH_ENVRCPT_ALL(0.00)[];
+ DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,imap1.dmz-prg2.suse.org:rdns,suse.de:mid,suse.de:dkim];
+ DKIM_TRACE(0.00)[suse.de:+]
+X-Rspamd-Action: no action
+X-Spam-Flag: NO
+X-Spam-Score: -4.51
+X-Spam-Level: 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -89,131 +147,120 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Replace manual lock/unlock patterns with guard.
-This simplifies the code.
+Hi
 
-Generated-by: Coccinelle SmPL
-Signed-off-by: Erick Karanja <karanja99erick@gmail.com>
----
- drivers/gpu/drm/vc4/vc4_v3d.c | 45 ++++++++++++++---------------------
- 1 file changed, 18 insertions(+), 27 deletions(-)
+Am 07.11.25 um 21:46 schrieb Ian Forbes:
+> Sets up VRAM as the scanout buffer then switches to legacy mode.
+>
+> Suggested-by: Ryosuke Yasuoka <ryasuoka@redhat.com>
+> Signed-off-by: Ian Forbes <ian.forbes@broadcom.com>
+> ---
+>
+> v2:
+>   - Set SVGA_REG_CONFIG_DONE=false so that SVGA3 works correctly
+>
+>   drivers/gpu/drm/vmwgfx/vmwgfx_kms.c  | 35 ++++++++++++++++++++++++++++
+>   drivers/gpu/drm/vmwgfx/vmwgfx_kms.h  |  5 ++++
+>   drivers/gpu/drm/vmwgfx/vmwgfx_stdu.c |  2 ++
+>   3 files changed, 42 insertions(+)
+>
+> diff --git a/drivers/gpu/drm/vmwgfx/vmwgfx_kms.c b/drivers/gpu/drm/vmwgfx/vmwgfx_kms.c
+> index efdbb67a4966..87448e86d3b3 100644
+> --- a/drivers/gpu/drm/vmwgfx/vmwgfx_kms.c
+> +++ b/drivers/gpu/drm/vmwgfx/vmwgfx_kms.c
+> @@ -20,6 +20,7 @@
+>   #include <drm/drm_rect.h>
+>   #include <drm/drm_sysfs.h>
+>   #include <drm/drm_edid.h>
+> +#include <drm/drm_panic.h>
+>   
+>   void vmw_du_init(struct vmw_display_unit *du)
+>   {
+> @@ -2025,3 +2026,37 @@ bool vmw_user_object_is_null(struct vmw_user_object *uo)
+>   {
+>   	return !uo->buffer && !uo->surface;
+>   }
+> +
+> +int
+> +vmw_get_scanout_buffer(struct drm_plane *plane, struct drm_scanout_buffer *sb)
+> +{
+> +	void  *vram;
+> +	struct vmw_private *vmw_priv = container_of(plane->dev, struct vmw_private, drm);
+> +
+> +	// Only call on the primary display
+> +	if (container_of(plane, struct vmw_display_unit, primary)->unit != 0)
+> +		return -EINVAL;
+> +
+> +	vmw_write(vmw_priv, SVGA_REG_CONFIG_DONE, false);
+> +
+> +	vram = memremap(vmw_priv->vram_start, vmw_priv->vram_size,
+> +			MEMREMAP_WB | MEMREMAP_DEC);
 
-diff --git a/drivers/gpu/drm/vc4/vc4_v3d.c b/drivers/gpu/drm/vc4/vc4_v3d.c
-index bb09df5000bd..8271a6610d6e 100644
---- a/drivers/gpu/drm/vc4/vc4_v3d.c
-+++ b/drivers/gpu/drm/vc4/vc4_v3d.c
-@@ -130,17 +130,15 @@ vc4_v3d_pm_get(struct vc4_dev *vc4)
- 	if (WARN_ON_ONCE(vc4->gen > VC4_GEN_4))
- 		return -ENODEV;
- 
--	mutex_lock(&vc4->power_lock);
-+	guard(mutex)(&vc4->power_lock);
- 	if (vc4->power_refcount++ == 0) {
- 		int ret = pm_runtime_get_sync(&vc4->v3d->pdev->dev);
- 
- 		if (ret < 0) {
- 			vc4->power_refcount--;
--			mutex_unlock(&vc4->power_lock);
- 			return ret;
- 		}
- 	}
--	mutex_unlock(&vc4->power_lock);
- 
- 	return 0;
- }
-@@ -151,12 +149,11 @@ vc4_v3d_pm_put(struct vc4_dev *vc4)
- 	if (WARN_ON_ONCE(vc4->gen > VC4_GEN_4))
- 		return;
- 
--	mutex_lock(&vc4->power_lock);
-+	guard(mutex)(&vc4->power_lock);
- 	if (--vc4->power_refcount == 0) {
- 		pm_runtime_mark_last_busy(&vc4->v3d->pdev->dev);
- 		pm_runtime_put_autosuspend(&vc4->v3d->pdev->dev);
- 	}
--	mutex_unlock(&vc4->power_lock);
- }
- 
- static void vc4_v3d_init_hw(struct drm_device *dev)
-@@ -173,7 +170,6 @@ static void vc4_v3d_init_hw(struct drm_device *dev)
- int vc4_v3d_get_bin_slot(struct vc4_dev *vc4)
- {
- 	struct drm_device *dev = &vc4->base;
--	unsigned long irqflags;
- 	int slot;
- 	uint64_t seqno = 0;
- 	struct vc4_exec_info *exec;
-@@ -182,23 +178,22 @@ int vc4_v3d_get_bin_slot(struct vc4_dev *vc4)
- 		return -ENODEV;
- 
- try_again:
--	spin_lock_irqsave(&vc4->job_lock, irqflags);
--	slot = ffs(~vc4->bin_alloc_used);
--	if (slot != 0) {
--		/* Switch from ffs() bit index to a 0-based index. */
--		slot--;
--		vc4->bin_alloc_used |= BIT(slot);
--		spin_unlock_irqrestore(&vc4->job_lock, irqflags);
--		return slot;
--	}
-+	scoped_guard (spinlock_irqsave, &vc4->job_lock) {
-+		slot = ffs(~vc4->bin_alloc_used);
-+		if (slot != 0) {
-+			/* Switch from ffs() bit index to a 0-based index. */
-+			slot--;
-+			vc4->bin_alloc_used |= BIT(slot);
-+			return slot;
-+		}
- 
--	/* Couldn't find an open slot.  Wait for render to complete
-+		/* Couldn't find an open slot.  Wait for render to complete
- 	 * and try again.
- 	 */
--	exec = vc4_last_render_job(vc4);
--	if (exec)
--		seqno = exec->seqno;
--	spin_unlock_irqrestore(&vc4->job_lock, irqflags);
-+		exec = vc4_last_render_job(vc4);
-+		if (exec)
-+			seqno = exec->seqno;
-+	}
- 
- 	if (seqno) {
- 		int ret = vc4_wait_for_seqno(dev, seqno, ~0ull, true);
-@@ -328,10 +323,10 @@ int vc4_v3d_bin_bo_get(struct vc4_dev *vc4, bool *used)
- 	if (WARN_ON_ONCE(vc4->gen > VC4_GEN_4))
- 		return -ENODEV;
- 
--	mutex_lock(&vc4->bin_bo_lock);
-+	guard(mutex)(&vc4->bin_bo_lock);
- 
- 	if (used && *used)
--		goto complete;
-+		return ret;
- 
- 	if (vc4->bin_bo)
- 		kref_get(&vc4->bin_bo_kref);
-@@ -341,9 +336,6 @@ int vc4_v3d_bin_bo_get(struct vc4_dev *vc4, bool *used)
- 	if (ret == 0 && used)
- 		*used = true;
- 
--complete:
--	mutex_unlock(&vc4->bin_bo_lock);
--
- 	return ret;
- }
- 
-@@ -363,9 +355,8 @@ void vc4_v3d_bin_bo_put(struct vc4_dev *vc4)
- 	if (WARN_ON_ONCE(vc4->gen > VC4_GEN_4))
- 		return;
- 
--	mutex_lock(&vc4->bin_bo_lock);
-+	guard(mutex)(&vc4->bin_bo_lock);
- 	kref_put(&vc4->bin_bo_kref, bin_bo_release);
--	mutex_unlock(&vc4->bin_bo_lock);
- }
- 
- #ifdef CONFIG_PM
+Does that really work? We just had a kernel panic, so remapping might be 
+difficult.
+
+> +	if (!vram)
+> +		return -ENOMEM;
+> +
+> +	sb->map[0].vaddr = vram;
+> +	sb->format = drm_format_info(DRM_FORMAT_RGB565);
+> +	sb->width  = vmw_priv->initial_width;
+> +	sb->height = vmw_priv->initial_height;
+> +	sb->pitch[0] = sb->width * 2;
+> +	return 0;
+> +}
+> +
+> +void vmw_panic_flush(struct drm_plane *plane)
+> +{
+> +	struct vmw_private *vmw_priv = container_of(plane->dev, struct vmw_private, drm);
+> +
+> +	vmw_kms_write_svga(vmw_priv,
+> +			   vmw_priv->initial_width, vmw_priv->initial_height,
+> +			   vmw_priv->initial_width * 2, 16, 16);
+> +}
+
+I think we should consider adding a callback table for these operations. 
+There's flush here and the vmap above is another possible candidate.
+
+Best regards
+Thomas
+
+> diff --git a/drivers/gpu/drm/vmwgfx/vmwgfx_kms.h b/drivers/gpu/drm/vmwgfx/vmwgfx_kms.h
+> index 445471fe9be6..8e37561cd527 100644
+> --- a/drivers/gpu/drm/vmwgfx/vmwgfx_kms.h
+> +++ b/drivers/gpu/drm/vmwgfx/vmwgfx_kms.h
+> @@ -500,6 +500,11 @@ int vmw_kms_stdu_readback(struct vmw_private *dev_priv,
+>   
+>   int vmw_du_helper_plane_update(struct vmw_du_update_plane *update);
+>   
+> +struct drm_scanout_buffer;
+> +
+> +int vmw_get_scanout_buffer(struct drm_plane *pl, struct drm_scanout_buffer *sb);
+> +void vmw_panic_flush(struct drm_plane *plane);
+> +
+>   /**
+>    * vmw_du_translate_to_crtc - Translate a rect from framebuffer to crtc
+>    * @state: Plane state.
+> diff --git a/drivers/gpu/drm/vmwgfx/vmwgfx_stdu.c b/drivers/gpu/drm/vmwgfx/vmwgfx_stdu.c
+> index add13294fb7c..faacfef7baa5 100644
+> --- a/drivers/gpu/drm/vmwgfx/vmwgfx_stdu.c
+> +++ b/drivers/gpu/drm/vmwgfx/vmwgfx_stdu.c
+> @@ -1506,6 +1506,8 @@ drm_plane_helper_funcs vmw_stdu_primary_plane_helper_funcs = {
+>   	.atomic_update = vmw_stdu_primary_plane_atomic_update,
+>   	.prepare_fb = vmw_stdu_primary_plane_prepare_fb,
+>   	.cleanup_fb = vmw_stdu_primary_plane_cleanup_fb,
+> +	.get_scanout_buffer = vmw_get_scanout_buffer,
+> +	.panic_flush = vmw_panic_flush,
+>   };
+>   
+>   static const struct drm_crtc_helper_funcs vmw_stdu_crtc_helper_funcs = {
+
 -- 
-2.43.0
+--
+Thomas Zimmermann
+Graphics Driver Developer
+SUSE Software Solutions Germany GmbH
+Frankenstr. 146, 90461 Nürnberg, Germany, www.suse.com
+GF: Jochen Jaser, Andrew McDonald, Werner Knoblich, (HRB 36809, AG Nürnberg)
+
 
