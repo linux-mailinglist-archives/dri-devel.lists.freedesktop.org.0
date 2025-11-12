@@ -2,31 +2,31 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 30CC8C508CF
-	for <lists+dri-devel@lfdr.de>; Wed, 12 Nov 2025 05:41:41 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 27793C5092C
+	for <lists+dri-devel@lfdr.de>; Wed, 12 Nov 2025 05:59:57 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CD3D510E688;
-	Wed, 12 Nov 2025 04:41:37 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5EC0110E192;
+	Wed, 12 Nov 2025 04:59:37 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=hugovil.com header.i=@hugovil.com header.b="yOlYPZVm";
+	dkim=pass (1024-bit key; unprotected) header.d=hugovil.com header.i=@hugovil.com header.b="L4N/mXW1";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail.hugovil.com (mail.hugovil.com [162.243.120.170])
- by gabe.freedesktop.org (Postfix) with ESMTPS id F2D6710E688
- for <dri-devel@lists.freedesktop.org>; Wed, 12 Nov 2025 04:41:35 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2FF2C10E192
+ for <dri-devel@lists.freedesktop.org>; Wed, 12 Nov 2025 04:59:36 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=hugovil.com
  ; s=x;
  h=Subject:Content-Transfer-Encoding:Mime-Version:Message-Id:Cc:To:From
  :Date:subject:date:message-id:reply-to;
- bh=821GAUmPBVEwrBJC99nnDTItYKBj2TA2hT9R1ERel+k=; b=yOlYPZVmmb0iVUaEcyn/MV5F9l
- cyMaIscqGIXZ5S6MYe/SkVU7q0S+/o0r0CUuWN0KbowakMHRljB/h7T7JCp+TKgB3E3I7Q5+HaQzV
- ROBpbdao2+kP3rjiM7UYnYnEYWJXtqcXQ65juGiJs+N4Roj7fbMhUEchyynb/1osn9hg=;
-Received: from modemcable168.174-80-70.mc.videotron.ca ([70.80.174.168]:45172
+ bh=ZwVGQrGH2Pn9miA+mBL4YGZmNELIJz3cPUT2NXe3WmM=; b=L4N/mXW1RaUViMZBpspyCJHgct
+ R8SWZhpOgXV5cM+5tkF8LlrFBP5BeE8H0kvUpIO+yNYgOPO/TG6OZSo2dn6cl3KnMWMLUSaZkFBlc
+ 0azgSP+/VVOpq9mJdqHg36BuwHWFt+GgEDIcrozqzrf3qpPmW6VqGqUskssTRx2O7Ky8=;
+Received: from modemcable168.174-80-70.mc.videotron.ca ([70.80.174.168]:33412
  helo=pettiford) by mail.hugovil.com with esmtpa (Exim 4.92)
  (envelope-from <hugo@hugovil.com>)
- id 1vJ2fa-0007Ue-Tn; Tue, 11 Nov 2025 23:41:24 -0500
-Date: Tue, 11 Nov 2025 23:41:22 -0500
+ id 1vJ2x2-0000wG-C8; Tue, 11 Nov 2025 23:59:25 -0500
+Date: Tue, 11 Nov 2025 23:59:23 -0500
 From: Hugo Villeneuve <hugo@hugovil.com>
 To: Chris Brandt <chris.brandt@renesas.com>
 Cc: Geert Uytterhoeven <geert+renesas@glider.be>, Michael Turquette
@@ -37,7 +37,7 @@ Cc: Geert Uytterhoeven <geert+renesas@glider.be>, Michael Turquette
  Simona Vetter <simona@ffwll.ch>, Hien Huynh <hien.huynh.px@renesas.com>,
  Nghia Vo <nghia.vo.zn@renesas.com>, linux-renesas-soc@vger.kernel.org,
  linux-clk@vger.kernel.org, dri-devel@lists.freedesktop.org
-Message-Id: <20251111234122.5542a64223c6e286ca89dbd8@hugovil.com>
+Message-Id: <20251111235923.edc2597d320948f4f4d266e6@hugovil.com>
 In-Reply-To: <20251105222530.979537-2-chris.brandt@renesas.com>
 References: <20251105222530.979537-1-chris.brandt@renesas.com>
  <20251105222530.979537-2-chris.brandt@renesas.com>
@@ -161,20 +161,6 @@ Chris Brandt <chris.brandt@renesas.com> wrote:
 > +
 > +/* Required division ratio for MIPI D-PHY clock depending on number of lanes and bpp. */
 > +static unsigned int dsi_div_ab_desired;
-
-If I understand correctly, this value should hold:
-    (b + 1) << a
-with:
-    a = 0 to 3
-    b = 0 to 15
-this gives a maximum of:
-    (15 + 1) << 3 = 128
-
-it is also computed as "DSI_AB_divider = bpp * 2 / num_lanes"
-giving a maximum of 24 * 2 / 1 = 48
-
-So change type to u8?
-
 > +
 >  struct rzg2l_pll5_mux_dsi_div_param {
 >  	u8 clksrc;
@@ -193,11 +179,6 @@ So change type to u8?
 > +	unsigned int a, b, odd;
 > +	unsigned int dsi_div_ab_calc;
 > +
-
-Based on my tests, it seems we can arrive at this point with a
-non-initialized dsi_div_ab_desired (0). Since valid values are from 1
-to 128, add a check for this before using it.
-
 > +	if (dsi_div_target == PLL5_TARGET_DSI) {
 > +		/*
 > +		 * VCO-->[POSTDIV1,2]--FOUTPOSTDIV-->|   |-->[1/(DSI DIV A * B)]--> MIPI_DSI_VCLK
@@ -216,16 +197,10 @@ to 128, add a check for this before using it.
 > +		odd = dsi_div_ab_desired & 1;
 > +		if (odd) {
 > +			/* divider is odd */
-
-You can drop this comment, as your "odd" variable is self-explanatory.
-
 > +			priv->mux_dsi_div_params.clksrc = 0;	/* FOUTPOSTDIV */
 > +			dsi_div_ab_calc = dsi_div_ab_desired;
 > +		} else {
 > +			/* divider is even */
-
-ditto.
-
 > +			priv->mux_dsi_div_params.clksrc = 1;	/*  FOUT1PH0 */
 > +			dsi_div_ab_calc = dsi_div_ab_desired / 2;
 > +		}
@@ -239,9 +214,6 @@ ditto.
 > +			/* FOUTPOSTDIV: DIV_DSI_A must always be 1/1 */
 > +			if (odd && a != 0)
 > +				continue;
-
-Use break instead of continue?
-
 > +
 > +			for (b = 0; b < 16; b++) {
 > +				/* FOUTPOSTDIV: DIV_DSI_B must always be odd divider 1/(b+1) */
@@ -249,25 +221,6 @@ Use break instead of continue?
 > +					continue;
 > +
 > +				if ((b + 1) << a == dsi_div_ab_calc) {
-
-
-It took me a while to decipher this :)
-
-Use an inline function to compute div_ab to improve readability,
-and you can reuse this function elsewhere instead of hardcoding the
-div_ab value (to for example):
-
-static inline u8 rzg2l_cpg_div_ab(u8 a, u8 b)
-{
-	return (b + 1) << a;
-}
-
-and then:
-
-    ...
-    if (rzg2l_cpg_div_ab(a, b) == dsi_div_ab_calc) {
-    ...
-
 > +					priv->mux_dsi_div_params.dsi_div_a = a;
 > +					priv->mux_dsi_div_params.dsi_div_b = b;
 > +					goto calc_pll_clk;
@@ -291,14 +244,6 @@ and then:
 > +		priv->mux_dsi_div_params.dsi_div_b = 0; /* Divided by 1 */
 > +		dsi_div_ab_desired = 8;			/* (1 << a) * (b + 1) */
 > +	}
-
-Here this block could be combined as an if/else-if:
-
-    if (dsi_div_target == PLL5_TARGET_DPI) {
-        ...
-    } else if (dsi_div_target == PLL5_TARGET_DSI) {
-        ...
-
 > +
 > +calc_pll_clk:
 > +	/* PLL5 (MIPI_DSI_PLLCLK) = VCO / POSTDIV1 / POSTDIV2 */
@@ -321,9 +266,6 @@ Here this block could be combined as an if/else-if:
 > +				if (params->pl5_intin < PLL5_INTIN_MIN ||
 > +				    params->pl5_intin > PLL5_INTIN_MAX)
 > +					continue;
-
-Insert line for readability
-
 > +				params->pl5_fracin = div_u64(((u64)
 > +						     (foutvco_rate * params->pl5_refdiv) %
 > +						     (EXTAL_FREQ_IN_MEGA_HZ * MEGA)) << 24,
@@ -347,14 +289,13 @@ Insert line for readability
 > +
 > +	foutpostdiv_rate = DIV_ROUND_CLOSEST(foutvco_rate,
 > +					     params->pl5_postdiv1 * params->pl5_postdiv2);
->  
+
+By the way, the change from DIV_ROUND_CLOSEST_ULL to DIV_ROUND_CLOSEST
+suggested by Geert is not related to this patch, and need to go into
+a separate patch with a proper description why.
+
+  
 >  	return foutpostdiv_rate;
-
-You can drop foutpostdiv_rate intermediate variable and return directly,
-all on one line:
-
-    return DIV_ROUND_CLOSEST(foutvco_rate, params->pl5_postdiv1 * params->pl5_postdiv2);
-
 >  }
 > @@ -607,7 +719,7 @@ static unsigned long rzg2l_cpg_get_vclk_parent_rate(struct clk_hw *hw,
 >  	struct rzg2l_pll5_param params;
@@ -385,16 +326,7 @@ all on one line:
 >  	sipll5->foutpostdiv_rate =
 > -		rzg2l_cpg_get_foutpostdiv_rate(&params, vclk_rate);
 > +		rzg2l_cpg_get_foutpostdiv_rate(priv, &params, vclk_rate);
-
-Before this patch, rzg2l_cpg_get_foutpostdiv_rate() seemed to
-always return a valid rate. Therefore, no validation was done of the
-computed rate.
-
-Now with your patch it may return "0" if the rate is invalid. Therefore
-you need to check for this here and return a corresponding error
-code.
-
- 
+>  
 >  	/* Put PLL5 into standby mode */
 >  	writel(CPG_SIPLL5_STBY_RESETB_WEN, priv->base + CPG_SIPLL5_STBY);
 > @@ -945,9 +1064,11 @@ rzg2l_cpg_sipll5_register(const struct cpg_core_clk *core,
@@ -409,9 +341,6 @@ code.
 > +	priv->mux_dsi_div_params.dsi_div_a = 3; /* Divided by 8 */
 > +	priv->mux_dsi_div_params.dsi_div_b = 0; /* Divided by 1 */
 > +	dsi_div_ab_desired = 8;			/* (1 << a) * (b + 1) */
-
-Use inline function rzg2l_cpg_div_ab() previously suggested.
-
 >  
 >  	return clk_hw->clk;
 >  }
