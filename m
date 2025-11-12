@@ -2,202 +2,99 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id ACE6FC52881
-	for <lists+dri-devel@lfdr.de>; Wed, 12 Nov 2025 14:46:20 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2FE4BC528AB
+	for <lists+dri-devel@lfdr.de>; Wed, 12 Nov 2025 14:49:00 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6D80710E743;
-	Wed, 12 Nov 2025 13:46:17 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3F39010E14D;
+	Wed, 12 Nov 2025 13:48:57 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="e57IMpBs";
+	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="AcX6SvEW";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A520C10E737;
- Wed, 12 Nov 2025 13:46:15 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1762955175; x=1794491175;
- h=date:from:to:cc:subject:message-id:references:
- content-transfer-encoding:in-reply-to:mime-version;
- bh=kNwxAqeWKoudj7dTJ0zgjEo6VQUCImNvxA2Q2HFPJZQ=;
- b=e57IMpBsMYefLt/aF1ZvcszsPCm+dbdcNVA70EfhP5pZfu2SH6ExfpZB
- 26bYqACyKzrEC3phlOdPjFRUWGXk7vfDbZJIkQYwOQK9aqt+gcI5I9m6T
- DolaA8fs2mdZbcFpHe7yZS5JK0jwnCazFcwQQVqpWc6MeaMuY8up4MgOp
- Q0AsREInExdThnVN2wglx9YeybpUWMeq7C5ylJUaXbu466WiCIl0Avb0V
- ZyCuKxwUI7bbk18q8wxAwsL5fhONdiOm0raaScsE8NYDnFt5rw4cJdZTO
- U5/y9pOaJNviC7IEs1y1kFQ/MLnzPlubAybnYPxTOskSuENMYmJlHrgk4 A==;
-X-CSE-ConnectionGUID: x+n0ei9XQh+tP1NiOKdY2g==
-X-CSE-MsgGUID: yihH/MoWTZWl6VANGXG7qg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11611"; a="64921978"
-X-IronPort-AV: E=Sophos;i="6.19,299,1754982000"; d="scan'208";a="64921978"
-Received: from orviesa010.jf.intel.com ([10.64.159.150])
- by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 12 Nov 2025 05:46:15 -0800
-X-CSE-ConnectionGUID: 02rbdkxqSriJHYNFwpYJhw==
-X-CSE-MsgGUID: pcODwp31RNaZsPPdIFic6Q==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.19,299,1754982000"; d="scan'208";a="188510964"
-Received: from orsmsx903.amr.corp.intel.com ([10.22.229.25])
- by orviesa010.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 12 Nov 2025 05:46:15 -0800
-Received: from ORSMSX901.amr.corp.intel.com (10.22.229.23) by
- ORSMSX903.amr.corp.intel.com (10.22.229.25) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.27; Wed, 12 Nov 2025 05:46:14 -0800
-Received: from ORSEDG902.ED.cps.intel.com (10.7.248.12) by
- ORSMSX901.amr.corp.intel.com (10.22.229.23) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.27 via Frontend Transport; Wed, 12 Nov 2025 05:46:14 -0800
-Received: from BYAPR05CU005.outbound.protection.outlook.com (52.101.85.51) by
- edgegateway.intel.com (134.134.137.112) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.27; Wed, 12 Nov 2025 05:46:14 -0800
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=MwsZEqNEpeGR5wWNnX9rH9XzUpxe3aQq3LrBq58/x+HsllylK+ipgrH33ynStxpQIIDd7g3xzPTlwYmePhPPv8li7zu2a5Mcx9gfohwcKPPn8DzgSDN9keQrNOJWcvkv4YvBrpxcAXk2EPsZTHpPKY8/IWVhWdHHnQYtYmEqAGuUZMocLBwq311Aytn9U3mH5+80SQMN1RLykL9376RwYq7C8kd4zhTLtElrrC39hjp/7ZdfzmkCy5AQrTdh7Loe5S3CDdJy/t1QvMLdfU/QQpcFaj7XsyHEfae4kabJiZ41S7bMLRIX4ysGx6s5waR4GYXBpwrg7ABMDlC+kUmDgA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=/7Y94JI3rtk5U/pCiWhDVcwwZ2abt4lF3pOklxZJNyM=;
- b=TL+o3NZRuwJ/w0pmJwLQ+rs7xjLLtHYPPcpzjrV2MsRqxEWB15G4YNt8kKlbhKtA8SvfTzQY7hPnug/ccswHm3aJsq7ItPf2JKoAfiXkPdMhqJ/cfGiZsmoUM6oDBbboZb51uPqf0r5f8wrLjbleXbGwDLuNaAPNSWb/IJGBYlCVH2uGAlWE9c9RPqLpe9Okp2tWOHPpIhEytCOpY71YILw3u3WnfRq2u3/RYAM8C2xA+QxQYRRfdc98WGHsox9RiU8NO+cwMQNRUdtnBKyqfrnFzPrwyk+dUHOVIQxc10ryZW9CFbDYPvHEKzTjtiqgzWIfxxmALCfgU5VtAFLLMg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=intel.com;
-Received: from DM4PR11MB5373.namprd11.prod.outlook.com (2603:10b6:5:394::7) by
- PH3PPFAB4263235.namprd11.prod.outlook.com (2603:10b6:518:1::d41) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9320.15; Wed, 12 Nov
- 2025 13:46:12 +0000
-Received: from DM4PR11MB5373.namprd11.prod.outlook.com
- ([fe80::927a:9c08:26f7:5b39]) by DM4PR11MB5373.namprd11.prod.outlook.com
- ([fe80::927a:9c08:26f7:5b39%5]) with mapi id 15.20.9320.013; Wed, 12 Nov 2025
- 13:46:12 +0000
-Date: Wed, 12 Nov 2025 14:46:08 +0100
-From: "Winiarski, Michal" <michal.winiarski@intel.com>
-To: "Tian, Kevin" <kevin.tian@intel.com>, Jason Gunthorpe <jgg@ziepe.ca>
-CC: Alex Williamson <alex@shazbot.org>, "De Marchi, Lucas"
- <lucas.demarchi@intel.com>, Thomas =?utf-8?Q?Hellstr=C3=B6m?=
- <thomas.hellstrom@linux.intel.com>, "Vivi, Rodrigo" <rodrigo.vivi@intel.com>, 
- Yishai Hadas <yishaih@nvidia.com>, Shameer Kolothum
- <skolothumtho@nvidia.com>, "intel-xe@lists.freedesktop.org"
- <intel-xe@lists.freedesktop.org>, "linux-kernel@vger.kernel.org"
- <linux-kernel@vger.kernel.org>, "kvm@vger.kernel.org" <kvm@vger.kernel.org>,
- "Brost, Matthew" <matthew.brost@intel.com>, "Wajdeczko, Michal"
- <Michal.Wajdeczko@intel.com>, "dri-devel@lists.freedesktop.org"
- <dri-devel@lists.freedesktop.org>, Jani Nikula <jani.nikula@linux.intel.com>, 
- Joonas Lahtinen <joonas.lahtinen@linux.intel.com>, Tvrtko Ursulin
- <tursulin@ursulin.net>, David Airlie <airlied@gmail.com>, Simona Vetter
- <simona@ffwll.ch>, "Laguna, Lukasz" <lukasz.laguna@intel.com>, "Christoph
- Hellwig" <hch@infradead.org>
-Subject: Re: [PATCH v5 28/28] vfio/xe: Add device specific vfio_pci driver
- variant for Intel graphics
-Message-ID: <ndd4kt4elbm7ixzyouhorgatjwv73ldyjo6bmrbipxvaqzccjs@ssavf6b5ric3>
-References: <20251111010439.347045-1-michal.winiarski@intel.com>
- <20251111010439.347045-29-michal.winiarski@intel.com>
- <BN9PR11MB527638018267BA3AF8CD49678CCFA@BN9PR11MB5276.namprd11.prod.outlook.com>
- <7ig24norebemzdih64rcpvdj22xee23ha7bndiltkgjlpmoau2@25usxq7teedz>
- <DM4PR11MB52784CBB6C5AF6F19E373A278CCFA@DM4PR11MB5278.namprd11.prod.outlook.com>
-Content-Type: text/plain; charset="utf-8"
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <DM4PR11MB52784CBB6C5AF6F19E373A278CCFA@DM4PR11MB5278.namprd11.prod.outlook.com>
-X-ClientProxiedBy: VI1PR09CA0148.eurprd09.prod.outlook.com
- (2603:10a6:803:12c::32) To DM4PR11MB5373.namprd11.prod.outlook.com
- (2603:10b6:5:394::7)
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BADE510E14D
+ for <dri-devel@lists.freedesktop.org>; Wed, 12 Nov 2025 13:48:56 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1762955335;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=QnWpDiHJVGTRHZS8gOf0ZaUZrjzwmfuF3CeAh7zOUtM=;
+ b=AcX6SvEWNkIcZ1XYx3e8Vbo77hcCWKT5RuFjAhS+eUBOMU34haXb4OuQQHta6vavwW/9y+
+ ZSpnlSFdDBHjE6KB5Z6mFNa2oJJIFtYUSyAqbcMzTIJ6su7m0Qfvel4/EELq1AuAjrXl0u
+ HlpWRBhmnAYyknjKhLJueVXniOICj+Q=
+Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
+ [209.85.221.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-130-npEwz9bIOxqdEevZqMep2A-1; Wed, 12 Nov 2025 08:48:54 -0500
+X-MC-Unique: npEwz9bIOxqdEevZqMep2A-1
+X-Mimecast-MFC-AGG-ID: npEwz9bIOxqdEevZqMep2A_1762955333
+Received: by mail-wr1-f71.google.com with SMTP id
+ ffacd0b85a97d-42b352355a1so381938f8f.1
+ for <dri-devel@lists.freedesktop.org>; Wed, 12 Nov 2025 05:48:54 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1762955333; x=1763560133;
+ h=mime-version:user-agent:content-transfer-encoding:references
+ :in-reply-to:date:cc:to:from:subject:message-id:x-gm-gg
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=XWyDO31RkKP0fb8ylCf2xdfPh0pZfpa0tuLIjbqVmcU=;
+ b=PcWa2EZNwVWSj/F1AR7AfvS4sz3X9EeCdbrqk8jEajlrT8eocXQZuOSWSyilegnc27
+ 7KUyz1IQsArvb/I2ydIpsBjaX/WqLOMM+9t9dsg2Qdb129ZASk5zneUPMq6hfVd+sSoA
+ PPv0tn1oXJGfUJ1hxbbd5CA/bmM/5ghGqUJlnlqc112ZczMTAgQsY7kDv4Gr8s8hTrpf
+ fmynIXGNkuiYYpsZLISSHzwFhHIhxhHBjEAPzkUogRcBX2ZphAQnMpPEL7cF+RagLJGl
+ PJYiKP4iBZbcWVZsgmo7kpmHDV1jy3O4iZPedN+uIBNYwONhmXn3vTzmSDJVslxsJ3gb
+ qMjA==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCUvr3bs4zNcEMjNCpoA3JFle8wrvYiLhVgiRcs8ZSg5Iqmgmwq8IwcAxCeKAp9amhDRKytnJth1FKc=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YyzeZ2ARTFsQLihzbVG7oD2oxhXKnm1u+MJVguVJtI6JwVQuo1X
+ M37HnbDurA+5FMpElmBeB25yDKg+LHFW95YvXOh15Zm5oIMJxkPhbZzmHueRhOCTmt6H7ykDe3G
+ ahNSWWzQHrClFnNfFhaYE5s1CPriBdb1Lt8KRHIwAZuX0PHWP9HZhcl9tKHC7d+6rRqG+jw==
+X-Gm-Gg: ASbGncsNdMfS7hCXW/Db7EM22SCoxtCCva64SyIO396AUR6OGmm8yWN7zEF97oL14nf
+ PmjYqnWsKDJGSzjlq6BqrVJ68PPDUZVUUHBGW04P8swgj8eflkobcCauRjqwja287Nte7HB0Xvl
+ HoqJJylW6qA3x3PhhXsFlGY3eUNtod1qMT7sxlC6zKerSZz5U/tZZU6Qg2UQUH1PTeaJLmDI4h7
+ gKjDUwUPapXqj5KzjvsmoIlk5APpUeAXcpH/nWQhAX8zNS0nOu/VSajePvfpm2J29aauG9f7WDG
+ sVhqlpT1gj9fdgd30BtN8hqPQpcftGGtonRFkyBqpticndi7jNHtvSL1JZHXZLH9MQRlzoQZtNo
+ V0VuXmCxTEmLUhb8E68d2kiy6ag==
+X-Received: by 2002:a05:6000:381:b0:425:6fb5:2add with SMTP id
+ ffacd0b85a97d-42b432c933fmr6446343f8f.19.1762955333181; 
+ Wed, 12 Nov 2025 05:48:53 -0800 (PST)
+X-Google-Smtp-Source: AGHT+IHairxwoAyj2QZ7EyFevZy2n0xk0/DyUsFo9xfLw4F55TorCEbw92l58K6kvBm8rCUAMSCi0Q==
+X-Received: by 2002:a05:6000:381:b0:425:6fb5:2add with SMTP id
+ ffacd0b85a97d-42b432c933fmr6446315f8f.19.1762955332678; 
+ Wed, 12 Nov 2025 05:48:52 -0800 (PST)
+Received: from [10.200.68.138] (nat-pool-muc-u.redhat.com. [149.14.88.27])
+ by smtp.gmail.com with ESMTPSA id
+ 5b1f17b1804b1-47787e2bcf9sm37351945e9.3.2025.11.12.05.48.51
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 12 Nov 2025 05:48:52 -0800 (PST)
+Message-ID: <0558310f433debe93dddee0b6373bcb406b8bd62.camel@redhat.com>
+Subject: Re: [PATCH v7 1/2] drm/panthor: Make the timeout per-queue instead
+ of per-job
+From: Philipp Stanner <pstanner@redhat.com>
+To: Boris Brezillon <boris.brezillon@collabora.com>
+Cc: Steven Price <steven.price@arm.com>, Liviu Dudau <liviu.dudau@arm.com>, 
+ =?ISO-8859-1?Q?Adri=E1n?= Larumbe <adrian.larumbe@collabora.com>, Maarten
+ Lankhorst <maarten.lankhorst@linux.intel.com>, Maxime Ripard
+ <mripard@kernel.org>,  Thomas Zimmermann <tzimmermann@suse.de>,
+ dri-devel@lists.freedesktop.org, Detlev Casanova
+ <detlev.casanova@collabora.com>, Ashley Smith <ashley.smith@collabora.com>,
+ kernel@collabora.com
+Date: Wed, 12 Nov 2025 14:48:51 +0100
+In-Reply-To: <20251112143104.2cabebb9@fedora>
+References: <20251112121744.1356882-1-boris.brezillon@collabora.com>
+ <20251112121744.1356882-2-boris.brezillon@collabora.com>
+ <7cea7efb7ff0ab34ab7352158ecce731a3f714d8.camel@redhat.com>
+ <20251112143104.2cabebb9@fedora>
+User-Agent: Evolution 3.52.4 (3.52.4-2.fc40)
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: DM4PR11MB5373:EE_|PH3PPFAB4263235:EE_
-X-MS-Office365-Filtering-Correlation-Id: 06aec29f-bf16-4f11-4035-08de21f1d799
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|376014|366016|7416014|1800799024;
-X-Microsoft-Antispam-Message-Info: =?utf-8?B?ajVnNHZaT1VFd2FocEZhUHRzaHRkZkFOcHZiN1RiS1laUzNuaWJmcFduSVZL?=
- =?utf-8?B?cStnK0swOHNzbkZ6cW8vbE1JYStXWFdsbWlnOVpWR2hNaHhBTXp4am5WVVBV?=
- =?utf-8?B?ejY3ZWg1RkdrMXZGWnJDRGo0cXB2aDhoVlJwSVpiNzVtWGpnK0ZTRWhZUi9i?=
- =?utf-8?B?SUZ1OCtySjRzckRXNFB4MEJxZEM5N2txYTF3RjNHajlUdXNzSi8rUVYvZk1m?=
- =?utf-8?B?ZTE0aFRBdERGQWdRK1NQWjhjTE9JZlVGQUlxLzFUUURiRitPYTFNR05Kd0FY?=
- =?utf-8?B?SFVOc3JjU05aeWhzYUlJNmVXSTIzRFM5Y0JrTVpIM3pKakhKL2xJMmw4UVV5?=
- =?utf-8?B?a29vY1hjUk5TZEVHSkpoL2plOTF3bzJ2dlBCdllQejRtRTU4Q2FabEpWZUw1?=
- =?utf-8?B?NFlLK1ovVEtXRzVSTTRmRDc4RXo0ODQ4UERjNnZhN05wYlBJeWhjQUhWY1FH?=
- =?utf-8?B?ajRXbkN2ZExvM0QrUmQ2SlFJQU9ZQkJ2U1BnR1J5Nkw4QXRRTEcvaXd3UGZP?=
- =?utf-8?B?MTJuWTA0Y1phZmF5cHNQdnNyNGRVellvbWFiS3dac3ZkYUhaa1l4SGdkM3Bj?=
- =?utf-8?B?cVc1a05IdDUrUm1CV3I0UWVWak4zcU03R2JJZmprRmdleWFzbnQyZTM4M1Nm?=
- =?utf-8?B?MnpBdndUbEM0Qm13bzc5ZTBTYVc5VTVwOTJrWGx1aEo4MU9CbldxeTUvYkJW?=
- =?utf-8?B?TW91TmQrRXlPL3JSWUtaSG1HSGxicG0yVXIzaHU0KytMK2xjcDhrTDFzQUNr?=
- =?utf-8?B?bitnVVBiL3JwdTcyeTZ5S1IwMzFzRjR2K01SQnkyKytoNDBDYXhuNVZBOGJI?=
- =?utf-8?B?WDk4cVFwRzBpcW82NmwyZHJ2T09hMmpybSt6eGpyekJ4VUdWUGJka2dDNGti?=
- =?utf-8?B?SnhPeUFQQ0ZIekM1bzlwSDBMWjVDQWZTVUtkNEtXa2tVODRIT2RMVWF5aGlJ?=
- =?utf-8?B?ems0TWdyMUladmVML0hVSEJBS3pqbjdpMnpkendJWkF5SUg4eGMraW5OVkM3?=
- =?utf-8?B?d0NHc25acVJ6ZGdJYzRNcFFRNHh3ZWZSb3RzeEFvSWFaNDhHemd1ek9KWG95?=
- =?utf-8?B?M29iU2twdDl3eENPbDZneXBGbjRTMFpZdncwOUp0bEJDaG9pOVQzWHk2TjhE?=
- =?utf-8?B?SDZkck51ejg3Y0NpMDZlbmFTU1dHZ3FOZ0NUcHJwbUtxeWRwellFMTMrbSs1?=
- =?utf-8?B?TVp4K1l3S3llRGJKYUN1VmtRTmJGclFjSFpnMldic2pDVHVWaGlxckczd1Fi?=
- =?utf-8?B?SmVMT25hQ1VRMEFyQTlQaWFkVDBMY1QrL2FraW9JWXU2OS8vT1JVSkVLSXZG?=
- =?utf-8?B?bU5CaUREZEJHYk5aZlFFT2NiSjhta3BaWWJzbUN3eXIrQ3QvM01yYk9LcHdy?=
- =?utf-8?B?VmlyVnZ0Mkw5VmJSOVhoYlFlcStiaC9XblZCd2xqSVQrSHRYMnVwY3RUVlM3?=
- =?utf-8?B?SHlXc2F6dlNLODVuN3ViQ0htMVJHK3ZJdHA0clRIZTdPR0JOZDlIdWZ3TXVI?=
- =?utf-8?B?ZTlYdXRlZEZLd1NSRGh2YmtxNjZkYkFvNXZERUwzbGlMQXAveEVmZDJtOHBk?=
- =?utf-8?B?enBZRld1dU9GcHI5MXQxWFFkOVdURU1JWldZTjVHTEgzQ21sdkhrQWFSK1o3?=
- =?utf-8?B?QTBPVzh0QXdURFp5UDZYb0pBNS9rajdtRzJISDRpc29PeW9mZ1BER1FpQnZp?=
- =?utf-8?B?dy9pWTh3UmxuZFl1NTRadmlaVkRtQ3pzSnZuQ1VnSDFHNzZacnh3M0FYdGRF?=
- =?utf-8?B?MXdDL3JZcUFtZ01ZT2tkMVZkVHJqcHRWSndreDNjVXI0MDNzVTU4VDBsaWlp?=
- =?utf-8?B?czNJRXZZdzYycy80allHRlNUVmw5eTJ1azFFa1N5bTlLUjJIQWVoV293TGM4?=
- =?utf-8?B?eGFaVWVUUXB2TWNCZWhEYjZSeUovNzRWS3lMZVJBOTg3UWJ2SU0vVDZxNEFs?=
- =?utf-8?B?Q2xWU0dKbkxMUklPdDI1aU5IRlBIVDMwbGcwNW5YRmtTdXZwRVVUWktvalEv?=
- =?utf-8?B?NDRDdmtiNkpRPT0=?=
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:DM4PR11MB5373.namprd11.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230040)(376014)(366016)(7416014)(1800799024); DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?THp1RmQrck5WVExUam91V2w1dHp4dWJuaFlkektTb2d5YnZ6SFZ4SkJVNkpN?=
- =?utf-8?B?M0JUdzNqdDZqek9WQktJTGxqTHdJUXpJNk4wZGh6b0tZL3hrNG5tMENMemxD?=
- =?utf-8?B?VUtsWkJqaDFGQmRuY1Y4STFlc2crZ0FrY0J2MDV1cUNBV2xJTm9rSDcwMkVM?=
- =?utf-8?B?b3M4RzZleEgzV2h6dXFNWm1qRjU0dHpMQlFWM3l1Y0puVklKMWlFY3h3UE02?=
- =?utf-8?B?MTI0TEV2dXRkZXorM3ZFeThvSmRLVThnZUhERFBDNnp4dEtaWDZ1NHFSUExk?=
- =?utf-8?B?Y2hCWHd3L2tIQ2lJMkFFSjQ4NXVhUFp6U3FLNkJqMllKTllsYUttQlp6U1BH?=
- =?utf-8?B?WXlXK1JrMlFrdnEreWNRUm1aaWJUSHdCMUhqc0NRZWdDSE1HdVVhT1hsVE9Z?=
- =?utf-8?B?ZXorek9BcUZZK2JSWXI2dng5NG1STTBESE1NZDZJYnBOTUtHdlUrQng4NWJE?=
- =?utf-8?B?YWl2TlV0bXBjbDhmNVJ3alRzRXRCclp5cFRCWlFSNjVLUVh3ZSs2VHhSODhv?=
- =?utf-8?B?cTdFR2h2OXVXK3BXMG9vN0d4TWhBVzhvaWg4NGorZGdITzNpWjRtQWdhNUJk?=
- =?utf-8?B?VFpwN3RtT2d4dmowRzI2VFlZdEJrK05HSWJCU0lHVnNTRXZubVpNd3EyWUxC?=
- =?utf-8?B?SmkxQVdtQWIzUkxLaEowM2tPcVZsK0Noc0Y2Rk90K2pNL09MTmdmOW1rMnhq?=
- =?utf-8?B?TWJqWnI1Z3JFNlRrMGwyaU4wS1drUGxmV3NDUDlLN0xPNG8wOXBidklERHdT?=
- =?utf-8?B?Rjh6OVdkQnVSWThiQ1JLT3FhU25zZEVjdGhta3g4SVRnamg2SER4TjY4Zndu?=
- =?utf-8?B?dEp5UUJDMmkzK2pEY09RZklEVkg3Nm13OEpRcG9sUHdRVndPOWd6RkhVaG1K?=
- =?utf-8?B?UGFKT0FGWWdjejFlUkwyRTVuMnFHS3l1SzFDZlBUMG5yN01ldUhieVd6aE1p?=
- =?utf-8?B?UVNDT2EyYms1dEpGU0lucG8rOXd4OGdCV3U4UTBEUGlVVHFGdm1OdUtpdVQ4?=
- =?utf-8?B?S3J2WWxxU2svVDh6ZEhheVRsODRuWm9rQ08yZDVPOFVaeTdyMkdpZmdkUENx?=
- =?utf-8?B?eTZvRjRYQ1ZhZ3lHT3VLSitaMy9Lc1hNYXBjdG1pQS9EVHkyeDlTVEVtWXQ3?=
- =?utf-8?B?WGVKRGE1OUROdkVQdFBRemg5VlJhR1VoTndCMHBvTUNyRnZ2TnB2MnU4dncx?=
- =?utf-8?B?dDRYR3FydHpaN01tSUU5eXdrTTdadHRUQnNYdFUvdHNMZVBNT3lkVHFWbkpT?=
- =?utf-8?B?eUtrZEJBNStNRFFzOVdEWWFjSTlCdzZHOUM0eFVaS1pTeTVwcE1DekQ5V3NG?=
- =?utf-8?B?UVVjQk5sYWs3OXk1RCtPdzEzUlBIQTYzMm1BLzZ6MHkxWlF4V3Nvbk5zOCtI?=
- =?utf-8?B?WEEzQnk1VWl3R3hiRUdGUHYrTlFGYWNuRHZqd1pBbGQybXZyUGI1N0xRMEJl?=
- =?utf-8?B?NEpYYis1R2RJanE2MHU1b2ZTV05FNTFtTmh3SFkrbzJJQWxYLzMxdGVBTEhM?=
- =?utf-8?B?V2VqRkxhZ0hmL1BPNmZMY24xWVo1ejdibHJUSzNld2d4dVBaak9sRXhERWg0?=
- =?utf-8?B?ZWNmRGpDTGlJQjZZdnpicUdlWGJvT3ZJci9MUTBzNjFGWUh2QnFmelZZSXdE?=
- =?utf-8?B?bUpjOURDV1pNQ2V4NEJrZEZSSW45YWdjbEVHZmUvQlhmdmdsT2g5c1NlVHZ2?=
- =?utf-8?B?RzhtRmNPRnJrWGZDbUgzenhqZ3BsVU1PRE16NElZRjBmTEpjdmxKSzA0R1Bp?=
- =?utf-8?B?WllraWQ2V245U3o5Qkd4TWlKb0ZGVndIY1pkenplQy9abnlIaWlranFCNWJG?=
- =?utf-8?B?czk4ZGx6eHFVQnhXYnhTVXlCL0xNN1lGL0pBd0VJNmlzbVFIdTJ5UDVUK0JG?=
- =?utf-8?B?eHhoYTg4WWNLbEdRbjJkL0M4KzFiUmFlWHRudGlzZE5BMFNLamdtckNGbnFM?=
- =?utf-8?B?MEhNYzlvMnFSSDNqQ2RJbEkyQnhQZHJrMUZDaVdNOE5BOHdjMjdlOXZmc29l?=
- =?utf-8?B?YU1YTXRyUktpM2l4cGhRSGVDM0hadVgzRTU5cFoyd3NIOFBDeitlM01xSjd4?=
- =?utf-8?B?ZzlPRXM2TFFDRVN4aWJDLzV0eVlpQXV3WFVtalZIR08zWS9qRTlTdGpndURZ?=
- =?utf-8?B?OGxReFRRQjJYKzh1aGNLMXdCMkRGcGRwN1NxZUpEejM4bXVDTGdWMW04Z0dX?=
- =?utf-8?B?amc9PQ==?=
-X-MS-Exchange-CrossTenant-Network-Message-Id: 06aec29f-bf16-4f11-4035-08de21f1d799
-X-MS-Exchange-CrossTenant-AuthSource: DM4PR11MB5373.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 12 Nov 2025 13:46:12.3691 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: NFRIiiOPumdipXwp9sVVXMkYyXq6Teoc0k09On4L6KFvSArPtgV/rhpVQy18rNiEcUBuO9PrGmb39fixmbFPeVQLF1sjlcpDJRKtlAiAoSw=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH3PPFAB4263235
-X-OriginatorOrg: intel.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-MFC-PROC-ID: 6DuPBM1nBIQy_VOZA2rTJjl1EccqP1lV3wr_gZ-o8_E_1762955333
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -213,85 +110,184 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Nov 11, 2025 at 10:53:16AM +0100, Tian, Kevin wrote:
-> > From: Winiarski, Michal <michal.winiarski@intel.com>
-> > Sent: Tuesday, November 11, 2025 4:26 PM
-> > 
-> > On Tue, Nov 11, 2025 at 02:38:19AM +0100, Tian, Kevin wrote:
-> > > > From: Winiarski, Michal <michal.winiarski@intel.com>
-> > > > Sent: Tuesday, November 11, 2025 9:05 AM
-> > > > +
-> > > > +	/*
-> > > > +	 * As the higher VFIO layers are holding locks across reset and using
-> > > > +	 * those same locks with the mm_lock we need to prevent ABBA
-> > > > deadlock
-> > > > +	 * with the state_mutex and mm_lock.
-> > > > +	 * In case the state_mutex was taken already we defer the cleanup
-> > > > work
-> > > > +	 * to the unlock flow of the other running context.
-> > > > +	 */
-> > > > +	spin_lock(&xe_vdev->reset_lock);
-> > > > +	xe_vdev->deferred_reset = true;
-> > > > +	if (!mutex_trylock(&xe_vdev->state_mutex)) {
-> > > > +		spin_unlock(&xe_vdev->reset_lock);
-> > > > +		return;
-> > > > +	}
-> > > > +	spin_unlock(&xe_vdev->reset_lock);
-> > > > +	xe_vfio_pci_state_mutex_unlock(xe_vdev);
-> > > > +
-> > > > +	xe_vfio_pci_reset(xe_vdev);
-> > > > +}
-> > >
-> > > Jason suggested to do this in the core given it's common [1].
-> > >
-> > > If you disagree, then please raise it and get consensus in that thread
-> > > instead of rushing to post a new version...
-> > >
-> > > [1] https://lore.kernel.org/all/20251108004754.GD1859178@ziepe.ca/
-> > 
-> > Hi,
-> > 
-> > I agree that it should be done in the core eventually.
-> > I didn't view it as something blocking next revision, as the discussion
-> > was in the context of converting every driver, which is something that
-> > probably shouldn't be done as part of this series.
-> 
-> well it doesn't make much sense to push a new driver specific
-> implementation when the core approach is preferred.
+On Wed, 2025-11-12 at 14:31 +0100, Boris Brezillon wrote:
+> Hi Philipp,
+>=20
+> On Wed, 12 Nov 2025 13:38:00 +0100
+> Philipp Stanner <pstanner@redhat.com> wrote:
+>=20
+> > On Wed, 2025-11-12 at 13:17 +0100, Boris Brezillon wrote:
+> > > From: Ashley Smith <ashley.smith@collabora.com>
+> > >=20
+> > > The timeout logic provided by drm_sched leads to races when we try
+> > > to suspend it while the drm_sched workqueue queues more jobs. Let's
+> > > overhaul the timeout handling in panthor to have our own delayed work
+> > > that's resumed/suspended when a group is resumed/suspended. When an
+> > > actual timeout occurs, we call drm_sched_fault() to report it
+> > > through drm_sched, still. But otherwise, the drm_sched timeout is
+> > > disabled (set to MAX_SCHEDULE_TIMEOUT), which leaves us in control of
+> > > how we protect modifications on the timer.
+> > >=20
+> > > One issue seems to be when we call drm_sched_suspend_timeout() from
+> > > both queue_run_job() and tick_work() which could lead to races due to
+> > > drm_sched_suspend_timeout() not having a lock. Another issue seems to
+> > > be in queue_run_job() if the group is not scheduled, we suspend the
+> > > timeout again which undoes what drm_sched_job_begin() did when callin=
+g
+> > > drm_sched_start_timeout(). So the timeout does not reset when a job
+> > > is finished.
+> > >=20
+> > > =C2=A0=20
+> >=20
+> > [=E2=80=A6]
+> >=20
+> > > +
+> > > +static void
+> > > +queue_reset_timeout_locked(struct panthor_queue *queue)
+> > > +{
+> > > +=09lockdep_assert_held(&queue->fence_ctx.lock);
+> > > +
+> > > +=09if (queue->timeout.remaining !=3D MAX_SCHEDULE_TIMEOUT) {
+> > > +=09=09mod_delayed_work(queue->scheduler.timeout_wq,=C2=A0=20
+> >=20
+> > Here you are interfering with the scheduler's internals again, don't
+> > you. I think we agreed that we don't want to do such things anymore,
+> > didn't we?
+>=20
+> We're not really touching drm_gpu_scheduler's internals, we're just
+> retrieving the timeout workqueue we passed at init time:
+> panthor_queue::timeout is panthor internals not drm_sched internals.
+>=20
+> This being said, I agree we should use ptdev->reset.wq instead of
+> retrieving the timeout workqueue through the drm_gpu_scheduler object.
+>=20
+> Just to be clear, the goal of this patch is to bypass the
+> drm_gpu_scheduler timeout logic entirely, so we can have our own thing
+> that's not racy (see below).
 
-This would generally mean that accepting any new VFIO driver variant
-would be blocked until core approach materializes.
+OK. timeout_wq sharing is intended and allowed, so if that's what
+you're doing, good. But I agree that accessing the wq through the
+driver's struct is then cleaner and more obviously correct.
 
-Jason, can you confirm that this is indeed what you have in mind?
-Just to determine how urgent the core-side changes are, and whether
-there's anything we can do to help with that.
+>=20
+> >=20
+> > You could write a proper drm_sched API function which serves your
+> > usecase.
+>=20
+> It's not really lack of support for our usecase that drives this
+> change, but more the fact the current helpers are racy for drivers that
+> have a 1:1 entity:sched relationship with queues that can be scheduled
+> out behind drm_gpu_scheduler's back.
 
-> > 
-> > Note that the v6.19 feature pull for Xe is likely going to happen
-> > tomorrow, so that's part of the reason for "rushing" the next version.
-> > I wanted to collect all the r-bs on Xe side to be prepared for that.
-> > If any parts of this series need to go through Xe tree, it will need to
-> > be merged there soon (or wait all the way until v6.20 / v7).
-> 
-> at least the v5 cover-letter should tell something about this plan.
-> instead of leaving unaddressed opens in previous version not
-> mentioned at all.
-> 
-> then I'll leave to Alex and Rodrigo to decide the merge plan. From
-> my side I didn’t feel very risky having Xe patches and VFIO patches
-> go in the mainline separately - the remaining open is mostly
-> contained in vfio side. 
-> 
-> But now only one VFIO variant driver reviewer (me) looked at this
-> series in depth. Jason gave some valuable inputs but I'm afraid
-> he hasn't done a thorough review yet. Not sure we are at a point 
-> with confidence that the interface between VFIO/Xe has been finalized...
+And you also can't stop drm_sched to prevent races?
 
-I posted a subset of this series separately for inclusion in Xe tree:
-https://lore.kernel.org/intel-xe/20251112132220.516975-1-michal.winiarski@intel.com/
+>=20
+> >=20
+> > Or could maybe DRM_GPU_SCHED_STAT_NO_HANG be returned from your driver
+> > in case an interrupt actually fires?
+>=20
+> I don't think it helps, see below.
+>=20
+> >=20
+> > > +=09=09=09=09 &queue->timeout.work,
+> > > +=09=09=09=09 msecs_to_jiffies(JOB_TIMEOUT_MS));
+> > > +=09}
+> > > +}
+> > > +
+> > > +static bool
+> > > +group_can_run(struct panthor_group *group)
+> > > +{
+> > > +=09return group->state !=3D PANTHOR_CS_GROUP_TERMINATED &&
+> > > +=09=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 group->state !=3D PANTHOR_CS=
+_GROUP_UNKNOWN_STATE &&
+> > > +=09=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 !group->destroyed && group->=
+fatal_queues =3D=3D 0 &&
+> > > +=09=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 !group->timedout;
+> > > +}
+> > > +
+> > > =C2=A0=20
+> >=20
+> > [=E2=80=A6]
+> >=20
+> > > +queue_suspend_timeout(struct panthor_queue *queue)
+> > > +{
+> > > +=09spin_lock(&queue->fence_ctx.lock);
+> > > +=09queue_suspend_timeout_locked(queue);
+> > > +=09spin_unlock(&queue->fence_ctx.lock);
+> > > +}
+> > > +
+> > > +static void
+> > > +queue_resume_timeout(struct panthor_queue *queue)
+> > > +{
+> > > +=09spin_lock(&queue->fence_ctx.lock);
+> > > +
+> > > +=09if (queue_timeout_is_suspended(queue)) {
+> > > +=09=09mod_delayed_work(queue->scheduler.timeout_wq,=C2=A0=20
+> >=20
+> > There is drm_sched_resume_timeout(). Why can it not be used?
+>=20
+> Because it's racy. I don't remember all the details, but IIRC, it had
+> to do with job insertion calling drm_sched_start_timeout() while we're
+> calling drm_sched_resume_timeout() from cs_slot_reset_locked(). We
+> tried to make it work, but we gave up at some point and went for a
+> driver-specific timer, because ultimately what we want is a per-queue
+> timeout that we can pause/resume without drm_sched interfering when new
+> jobs are queued to our ring buffers: we resume when the execution
+> context (AKA group) is scheduled in, and we pause when this execution
+> context is scheduled out.
+>=20
+> That's the very reason we set drm_gpu_scheduler::timeout to
+> MAX_SCHEDULE_TIMEOUT at init time (AKA, timeout disabled) and never
+> touch that again. When our driver-internal timer expires, we forward
+> the information to the drm_sched layer by calling drm_sched_fault().
 
-If there are any changes requested to the interface and it impacts the
-underlying implementation, we'll sort it out on Xe side.
+That sounds all.. stressful ;)
 
-Thanks,
--Michał
+As you know I only learned a few weeks ago about your group scheduler
+on top of drm_sched. I wish I had heard about it when it was
+implemented; we might have come up with the idea for drm_jobqueue
+sooner.
+
+>=20
+> >=20
+> > > +=09=09=09=09 &queue->timeout.work,
+> > > +=09=09=09=09 queue->timeout.remaining);
+> > > +
+> > > +=09=09queue->timeout.remaining =3D MAX_SCHEDULE_TIMEOUT;
+> > > +=09}
+> > > +
+> > > +=09spin_unlock(&queue->fence_ctx.lock);
+> > > +}
+> > > +
+> > > =C2=A0=20
+> >=20
+> > [=E2=80=A6]
+> >=20
+> > > =C2=A0
+> > > @@ -3270,6 +3379,11 @@ queue_timedout_job(struct drm_sched_job *sched=
+_job)
+> > > =C2=A0
+> > > =C2=A0=09queue_start(queue);
+> > > =C2=A0
+> > > +=09/* We already flagged the queue as faulty, make sure we don't get
+> > > +=09 * called again.
+> > > +=09 */
+> > > +=09queue->scheduler.timeout =3D MAX_SCHEDULE_TIMEOUT;
+> > > +
+> > > =C2=A0=09return DRM_GPU_SCHED_STAT_RESET;=C2=A0=20
+> >=20
+> > DRM_GPU_SCHED_STAT_NO_HANG instead of just modifying the scheduler's
+> > internal data??
+>=20
+>=20
+> =09queue->scheduler.timeout =3D MAX_SCHEDULE_TIMEOUT;
+>=20
+> is a leftover from a previous version. We shouldn't have to modify that
+> here because the timeout is initialized to MAX_SCHEDULE_TIMEOUT and
+> never touched again.
+
+So you agree that it can be removed in v8?
+
+
+P.
+
