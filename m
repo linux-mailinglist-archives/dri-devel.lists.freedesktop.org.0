@@ -2,64 +2,64 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 62366C52724
-	for <lists+dri-devel@lfdr.de>; Wed, 12 Nov 2025 14:23:34 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 543A7C5272B
+	for <lists+dri-devel@lfdr.de>; Wed, 12 Nov 2025 14:23:37 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id AC63410E728;
-	Wed, 12 Nov 2025 13:23:32 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A4C9A10E72A;
+	Wed, 12 Nov 2025 13:23:35 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="iQdAO4vG";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="l4DuIoo2";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2A99E10E090;
- Wed, 12 Nov 2025 13:23:29 +0000 (UTC)
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 93F3E10E726;
+ Wed, 12 Nov 2025 13:23:32 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1762953809; x=1794489809;
+ t=1762953812; x=1794489812;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:content-transfer-encoding:mime-version;
- bh=WBEKYlMAQGvsh/y3JIRm7/zvyagzI7/ParR/ccg+/NQ=;
- b=iQdAO4vGCCRdpwbBpOJsMh0E8XkuorLFAmBUHOFQ9jR7O13J6mdudH+L
- di7Ax6k483Ra1tZR4qvkbHb9MzSvZQzsDdYoPpDbZVOrFqOT3gdsZMLdm
- YNP8bKHe8YOV/BOCjwAIofBcnHqLJDWgpcCaDb9f+Xv7tzGdaNX9xM+UU
- C+k2gWfzK/hMzzlTQMq3UVzPGpe59Z1fUSBi8S77l8xO+G3GKuajxfpny
- 0CM1Jz4vZN0k1cgJdL4VjkB2aM26aFl6hqoFPSZwUHaRErBOvB62cMziW
- hxUPGNxEU3eYRy0jD6Yp9cLOhSNelp/YIgpVD4TCzs3Kg1lR+5zdHgy0z Q==;
-X-CSE-ConnectionGUID: oMvdh72jRCKh6o6aj66aMA==
-X-CSE-MsgGUID: r5ZRehSlRGG+GOlWc8+FPw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11611"; a="87656304"
-X-IronPort-AV: E=Sophos;i="6.19,299,1754982000"; d="scan'208";a="87656304"
-Received: from fmviesa004.fm.intel.com ([10.60.135.144])
- by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 12 Nov 2025 05:23:29 -0800
-X-CSE-ConnectionGUID: sz0ThVD1ShmJ3A9TPVIJZg==
-X-CSE-MsgGUID: zAGE3FTpQkCOLc1C+Ud2qQ==
+ bh=A0VbFBJ/ggqiwEiq6XfgQD64KootGSTYRHKIWud+Ea4=;
+ b=l4DuIoo2T5XNrY4znHf6W969kXQ1b2iPSCIQNYrmOXG/QZvLaf0ZgKid
+ Yknn3mrdmmb43xSc6Zx2mS0ZGq4nPD/jQI6JyjVSkjNo9tTVitqaizOFv
+ y0nz9Nfikd6HiESGqck+4e0a3aLHAwchVIxh9E/nTTgKIsMn26J7riaQG
+ 124FRu+SApfGXxBqTbCmXKPRU0zLjIZrYD/dlJnPkNWw/pNpnQVE+ww0x
+ V3uIAGXvgUWf0Tz5h+hvLjVyUzx39ERdmWVNTHbbSJhrdmMHw3NXc2sRI
+ T+NtYRO5xT06KvnSkk8OsXem32/gyvuaaSBqKHZiRwMCDIWnYYIbf/eZf w==;
+X-CSE-ConnectionGUID: KUMcdj5tTnupDHSqamw/qw==
+X-CSE-MsgGUID: w+dh4pKOQCm3xz2CmcZRwA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11611"; a="82646438"
+X-IronPort-AV: E=Sophos;i="6.19,299,1754982000"; d="scan'208";a="82646438"
+Received: from orviesa006.jf.intel.com ([10.64.159.146])
+ by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 12 Nov 2025 05:23:32 -0800
+X-CSE-ConnectionGUID: x+IroXZsTTOZwT9y1yql9Q==
+X-CSE-MsgGUID: ouBk0nx9TuOPBPiN3oyrDw==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.19,299,1754982000"; d="scan'208";a="194199514"
-Received: from orsmsx903.amr.corp.intel.com ([10.22.229.25])
- by fmviesa004.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 12 Nov 2025 05:23:28 -0800
-Received: from ORSMSX902.amr.corp.intel.com (10.22.229.24) by
- ORSMSX903.amr.corp.intel.com (10.22.229.25) with Microsoft SMTP Server
+X-IronPort-AV: E=Sophos;i="6.19,299,1754982000"; d="scan'208";a="188475853"
+Received: from fmsmsx901.amr.corp.intel.com ([10.18.126.90])
+ by orviesa006.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 12 Nov 2025 05:23:32 -0800
+Received: from FMSMSX903.amr.corp.intel.com (10.18.126.92) by
+ fmsmsx901.amr.corp.intel.com (10.18.126.90) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.27; Wed, 12 Nov 2025 05:23:27 -0800
-Received: from ORSEDG901.ED.cps.intel.com (10.7.248.11) by
- ORSMSX902.amr.corp.intel.com (10.22.229.24) with Microsoft SMTP Server
+ 15.2.2562.27; Wed, 12 Nov 2025 05:23:31 -0800
+Received: from fmsedg902.ED.cps.intel.com (10.1.192.144) by
+ FMSMSX903.amr.corp.intel.com (10.18.126.92) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.27 via Frontend Transport; Wed, 12 Nov 2025 05:23:27 -0800
-Received: from CH4PR04CU002.outbound.protection.outlook.com (40.107.201.55) by
- edgegateway.intel.com (134.134.137.111) with Microsoft SMTP Server
+ 15.2.2562.27 via Frontend Transport; Wed, 12 Nov 2025 05:23:31 -0800
+Received: from MW6PR02CU001.outbound.protection.outlook.com (52.101.48.29) by
+ edgegateway.intel.com (192.55.55.82) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.27; Wed, 12 Nov 2025 05:23:27 -0800
+ 15.2.2562.27; Wed, 12 Nov 2025 05:23:31 -0800
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=x+9A1MT5faUmeNvL1JnvamLusrj7ir6fcLIjUIjIwkD0ece4U/gNce+dc1qV9lMXS7l7WZ673mKyN4S/2AY4ifTuat+YVs0Yoxs8z8Hb6pwvNaOTpQslN2WBrKn6Ch0LY0bUtcOGHiUte6Et832gTrqBHcjobsr9p22v/9BaMBJhCzUVcnLRchBfdTPcrkgSLdZbOVlpr2QCzbgz17NF6bm4Scf2SJvQkH1djxebjG7BnAcUQJg4GmCR93pYZWU4RRYFn9sS1WBO13o/N6jUNfRawo+2xLTRyvlDCWJ8VHB83OLKtYbMdJDL+k4XiVktlZ75xOY/EobCMjT5k+kyfQ==
+ b=l1xNgnfMJ0EwTllh0q+RzeqReXY6D46sHPgvMK79+RNc7jrUXn5HQgYWkinDn+AZToiCn5DRsdPCqtCqbX9RkOQMLlPFZpLIFEl8xiuO7TlAIEU46x/tjaAulqDDvsjc07VmOFtdjqdSRbgaAYrmXj+pln3hYE1QjbErRqDb2rE086yCsTFAJNHAngtqjrIZAO9Lqr+uFWLyevDSAQNmgEHVN8HEJgsXt9FWbFAghlzYfHyzRm2WD8+2zlOhVpHGzXBkpAADN5M9aUaQbej5PEp+WwiCLEGDJ6/DOHPQXDF9PyA0FqicwvCCXLNwzrxHesdVaefSlyosra7H0wzQ2Q==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=Uh1eRq3oGbIbMY7TV2ti1Al+hy6OHk5mjO16eiLN3Ks=;
- b=q0qOEF6+e3SRunj74u5qQfSitNlUsnkRJD+j1haJnZzkWJOUL9Qf96PARM15y4Z4zX/4ybn/euiww8kg/GNQ46W2WqBAsmihAGGZgkSmmtGalneKYVp27ptDEwCavrJm4RcChBX+kC17E/Hm2CCPRqfe28kPvMZEKuEEgkOor2m6kkdpLdwQP5pFEorA38b3tuSM6azWpd8F0p2MqpBDaY4N8HI5IlGpK4mk0SGm01KvQhaalc8zxRBKDFGjATL7gxHBbocVXud1gXVMZjGlnC+yIZ1bnnN63KbgO065vfyRbVgMbaWOuJEM7bQSYHeyL5Y6uL5nGg5oQXINcmR4RQ==
+ bh=nuqicpi8r7Ssj7yjx7GWufZWA3RATNCkD5yIz6z7ABQ=;
+ b=dcSciivbGfiYkIAYfYo8MoNEBfPCf/YEskw4YuPBenHdlEafb6rkXAUqto3w6YhVWryiAzyiekIvj+zkd26zLziBZwXXf/65Ycqdw/T/fYNQ5hOFtI1pyFHkVO521aLmSATcWfvRYefTnl+zfW7gzTgqPaGTATXiP15XOgdC7sUIvdSgCY3I5Db+H/2V2Oi4dA6z5ueHgcQEqLtCvtlWO4+2oiEdaC3aNd/mGN0dIOconlu90hTt/j/WVCc2zCnDcI0/MbHm1fkSLjYMclkbO8dt3NDcNxrQloM8fYiDSnL4CNo0JcDmNwleyhGXWLADBUCPJuo15i3XnNAqpyva4g==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
  dkim=pass header.d=intel.com; arc=none
@@ -69,11 +69,11 @@ Received: from DM4PR11MB5373.namprd11.prod.outlook.com (2603:10b6:5:394::7) by
  PH7PR11MB6929.namprd11.prod.outlook.com (2603:10b6:510:204::8) with
  Microsoft
  SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.9298.16; Wed, 12 Nov 2025 13:23:24 +0000
+ 15.20.9298.16; Wed, 12 Nov 2025 13:23:28 +0000
 Received: from DM4PR11MB5373.namprd11.prod.outlook.com
  ([fe80::927a:9c08:26f7:5b39]) by DM4PR11MB5373.namprd11.prod.outlook.com
  ([fe80::927a:9c08:26f7:5b39%5]) with mapi id 15.20.9320.013; Wed, 12 Nov 2025
- 13:23:24 +0000
+ 13:23:28 +0000
 From: =?UTF-8?q?Micha=C5=82=20Winiarski?= <michal.winiarski@intel.com>
 To: Lucas De Marchi <lucas.demarchi@intel.com>,
  =?UTF-8?q?Thomas=20Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>,
@@ -86,106 +86,106 @@ CC: <dri-devel@lists.freedesktop.org>, Jani Nikula
  David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, "Lukasz
  Laguna" <lukasz.laguna@intel.com>, =?UTF-8?q?Micha=C5=82=20Winiarski?=
  <michal.winiarski@intel.com>
-Subject: [PATCH 08/24] drm/xe/pf: Add minimalistic migration descriptor
-Date: Wed, 12 Nov 2025 14:22:04 +0100
-Message-ID: <20251112132220.516975-9-michal.winiarski@intel.com>
+Subject: [PATCH 09/24] drm/xe/pf: Expose VF migration data size over debugfs
+Date: Wed, 12 Nov 2025 14:22:05 +0100
+Message-ID: <20251112132220.516975-10-michal.winiarski@intel.com>
 X-Mailer: git-send-email 2.51.2
 In-Reply-To: <20251112132220.516975-1-michal.winiarski@intel.com>
 References: <20251112132220.516975-1-michal.winiarski@intel.com>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: WA2P291CA0018.POLP291.PROD.OUTLOOK.COM
- (2603:10a6:1d0:1e::13) To DM4PR11MB5373.namprd11.prod.outlook.com
+X-ClientProxiedBy: WA2P291CA0023.POLP291.PROD.OUTLOOK.COM
+ (2603:10a6:1d0:1e::19) To DM4PR11MB5373.namprd11.prod.outlook.com
  (2603:10b6:5:394::7)
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
 X-MS-TrafficTypeDiagnostic: DM4PR11MB5373:EE_|PH7PR11MB6929:EE_
-X-MS-Office365-Filtering-Correlation-Id: a301e0d9-92b7-4897-d916-08de21eea850
+X-MS-Office365-Filtering-Correlation-Id: ddbc7dc0-231e-4e9e-adc1-08de21eeaa9f
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;ARA:13230040|1800799024|366016|376014;
-X-Microsoft-Antispam-Message-Info: =?utf-8?B?UHNIUkJickRJeSs5K3EyN3FpU0hvMytEd3d2eGd4UzBEMk1ZQ3ZpZzFXRXhZ?=
- =?utf-8?B?WE9OcG81Y2Q0U1NCdUtlSTlJTHFvSktHV1VIVE8rekNOSVhGK2FSZXBiUnhZ?=
- =?utf-8?B?MjhGSCtzS1FrMFRncHNtZWRvSEpVbkJFVW10cEtRU2VOMXpIN3M2ZVpWQnY4?=
- =?utf-8?B?MG0xTkp5b1NSWERRaWE2MTRvMlVqYllSOEVwajdhSElxQUwrQkk2bFo5YlBN?=
- =?utf-8?B?S204NGtoVEEvMnpyODVpQ0g1V201WUtOdk1paWNaMWxOV0tacXR1dVUxQkNU?=
- =?utf-8?B?clpheXJsMjlINXVXM1hMSUtiOU9zSXBqVVhkYVI1WHhpNk9rRDRDSWtRbEFx?=
- =?utf-8?B?cjV5ZHRid1hmN1RRcjhiL3JTTE9qK3d2ODBaaTI1ZmZjcFZmOUdHV0I4WGdk?=
- =?utf-8?B?SVM2MUppblVDM0xSZ05wWitaeHJUVGJaSnc3UThjcVdTQ0hsZnRJNEI1WEVn?=
- =?utf-8?B?aFdhNkJtbzZYbllQazYyNkNEck05b0hWNWQybjJNV1ladUdHbmlqY3ZpYlFK?=
- =?utf-8?B?WFAya1h4SndYREdoSHRpSVZ3NnkzL25oZi9PUEFPQXRCbjFiSE5pK0JsOFNq?=
- =?utf-8?B?K2tGNVZ0VFV0NGZHRWRIclN2YllTRWNxZE1xMTQ5VXRDYlg5bUdTRTArQ3R2?=
- =?utf-8?B?WFllUnRPSS9YQlVUcGsyRDg5TENYOHdERjhtTllqcEFWUGxQZDNib2ZieDFU?=
- =?utf-8?B?bUdhSnJnemtSS0Y2LzkxQkg1OUFVSnJQYTJCZng1SmFod1JDUFZjRGVveS8x?=
- =?utf-8?B?d2JTZUptQ3J2MW5hUzh6Q3NoRVBoNEd0TWtONFBzVE8xZGRYZVZUMHN2bTUw?=
- =?utf-8?B?RzFHMGRVempoeTFZRzE1MUxVeHpKU3ZJY2pVeUg3U0lTZkZvMHZqTDIyVUY0?=
- =?utf-8?B?QkhKRXZwdFZmcVJYWkRPWXQxUVBld2R4WlV6MUI5T0F0Wm4vSU0wTGtjVmc4?=
- =?utf-8?B?WENna0pyYU81d2Nsb01zTHVJN2RRSVhzQ2wyM3Q0UGpJU0VCU3k2cUJYdFFZ?=
- =?utf-8?B?eWpMbXhRT2ZndmE0Q3JQSjhvczhUdkpBSHpoRXpZdE1nSVRaOTZUSEZZVDZP?=
- =?utf-8?B?VE5ZT0UrcU0waW1TN3EyMUF0cStnOGQraGVTc0R6QUpxQko3SksyZytnLzFa?=
- =?utf-8?B?UVpCem1RU3kwc1BZWmI2ZkZMMEUrQ0ovN1BWaFFXOUppTjdBbHJYekhDWHg3?=
- =?utf-8?B?WnBhWDI5ZTdIYXZOd2ZaRGp5ZEtsZGtwbkt2MGQ4bnhYdHRaaHpicXJJNUhE?=
- =?utf-8?B?WXRZNmZ4aGsvbWdZSm9lemZKK2NZQThFYUc4NmhGbFhoZ0xEUXM4S3hRd3Vu?=
- =?utf-8?B?WjNrdDdZcVFuKzB2T1B2SDliQ0N2MTJNT0NNRERiMENiR1BWWUIvVFNFV1kz?=
- =?utf-8?B?VFRtcFl5b0RlaFBqUURIclliREJBUGRMZDg2cStzeDgwVEd1cjZUdHZjVXZk?=
- =?utf-8?B?VHpqTDg2WDZ2V1FlQitsWUFYazRscy9CMmpLMEN2VTcwRWFJdVFWNjhIYURr?=
- =?utf-8?B?RmRRY3RBT0VTa0lXRzMrMXVkTzBWNy93YXRLMTFwSGNGd2t4UnN5b0tmTFFn?=
- =?utf-8?B?cmNNYzhGbE9RaGlGOU9OcEo3T3dLSlpDb2hSS1QxTzZGTmhQOWplakZTVjhB?=
- =?utf-8?B?S0JLSDBuY0Q3bFdCY2Ixdk5NYklTRnpGcTdvSUxXdHpQTGx6bzZCR08wa1py?=
- =?utf-8?B?VXEzRkloNng5SUNQekZ4bkVOUk0rd2t4Rmx3OWl2OFRQWWp2c3hXSkVqd3Rx?=
- =?utf-8?B?RmxrT1FYZjA0RnhqTEpnenZSU1VRK3ZIUnJGWTNhNW5NbWdwZTFQaEFUWFls?=
- =?utf-8?B?MFgyZGFLcE1Oc1g3TXFxUGEzdGpuVEFaT0o3WndYb3R1Z1MrYTFBSVplaHZH?=
- =?utf-8?B?T2o5R2toYzRsaHR0czhwWUxKdUVGSFBsazFjVjg3Z1lJU0xwZEx1a2lqWWlZ?=
- =?utf-8?Q?JKtif1xySyYf1Kfavy3Wtfkebz/DGxYa?=
+X-Microsoft-Antispam-Message-Info: =?utf-8?B?ekR0RUh4anBrY3A5bVF0eldYT3VCK0hXNHVJM1JGRVpGTnd0a3QyK1NSK3lu?=
+ =?utf-8?B?WEk4YllrL2pEK1ZqaEhQVldjQ1krUzN3cmRETmxnR1VSQ2pGbXdTVjYwL09q?=
+ =?utf-8?B?VmIrd005VE0rUmh2S2NyNllnTUZFVk9rcnN4bU5jTFFIZSt0NGZuUUtka1pP?=
+ =?utf-8?B?MENmMU0xR1cyY2R4aXEyQnh5QkNZdUJEckozZ3FlcThaczF0dDl3ZXFmRXN5?=
+ =?utf-8?B?YzY4QXBxWExEenZ2MjNRYjR2aVhzNlBSQlM4UFZrWTUwekxqb3poY1E3SDFV?=
+ =?utf-8?B?aVpwU2ZPclNLWkNZZVJZYmVROXFJenllckZBMjlBZjcrTk1Oa3VEbEtld3cr?=
+ =?utf-8?B?RC9XM2hVbldOUTRWVmtvNHVwSncwc2pRSEtIY1J4MjZFemxhb0VYbGFOU0Ir?=
+ =?utf-8?B?TndVK09qbDlvRTVSZjJZc0lzeUxrUG5tQnNmdDdlT09NaGJKemhNUkcwNjNt?=
+ =?utf-8?B?dTR4Ny8rY2FTdUNFbTZuVUM4VStvOS9UcW5RVHBjb2k4WnlVb0dOK1B3OEly?=
+ =?utf-8?B?bnc1Qzg0ZlRXZVp2Zi9VbXFBdFFwNTMxOE5ZZWlGTjBkRlBBMW9sMDM3K3pQ?=
+ =?utf-8?B?NXJxQkgvOERHekM4WmJMcEp4ZTBleGR4T3VjWEtYbWpLcUlUa29RYnVZZ1dY?=
+ =?utf-8?B?dU85QlhGMTFRN1N4bHRVZlk4dUVEV3Q4dVRJSzY2TnNpaUJrQVBLdC9PeHNQ?=
+ =?utf-8?B?aEFWbjJVOWpOK0VrYWNnZTBwOGhPczYvWUlEeXZrZ1A3UjZsd3dPU2RabHdU?=
+ =?utf-8?B?SFNaYTBlWlVaSjJsSEpZU2VLVVZUVUgvUlA4b3BqSUdUYkhGd28zVVNxeWpC?=
+ =?utf-8?B?UEdZYVJmNTF6NzgvYXhTMGJOMklGTnk2VHF5WWYxMUZqcFlyUjZBWlB0d2ln?=
+ =?utf-8?B?QlN0RlFjT1N4ZjhocC9VUE5IZitlb2h1djFQUlgzUFRTenpib25aWWE3dVVI?=
+ =?utf-8?B?Unlad0l5c3E2a2ZEMTBOT3FWQ1FHdjlhTXZ5bThKTEYvRHU2VktrS1BHZmt5?=
+ =?utf-8?B?U3ZoU0M3cU9DNkFMcFhsWFFJbUpTVE9ZMXVOMjFCaGR1Uk5DNTEyeUFvdFln?=
+ =?utf-8?B?bG1LMDhCOGczSDZGQ0hFbG4rcnZ4RGlXekZzVmVzUG8vS2xHdEFLUWJYdTJ1?=
+ =?utf-8?B?Tyt6bkpTTHozbkZncW5KRDBWNS9yL0IyU1hHbldUQUdyR24zclhrYVBDSkQ3?=
+ =?utf-8?B?RktqSnZnajZ0TEhXUkhGckZIVmxBMU5vYlhxZkxaYjBvd0RQSzJmRDBVR1Ni?=
+ =?utf-8?B?OUh4WTE2cHAzNnRBbkdtYk9jNXZ2T25zcVlzclF0QWhZVWs1K2lpaW9kUWNP?=
+ =?utf-8?B?Ykx2Z2lNU0hJdGVhTkM5NUptR2xIVDNhV0RmdFFXMWo4cGlod0RDWmNTUVA1?=
+ =?utf-8?B?eTN1Q2FMVUlldlNKL2xuVCthejRYUlBBeVh5eFptM1BNNVpBMm0yZDZUQUtB?=
+ =?utf-8?B?bXR2MS9mb2RYbUltZWF6aGFEamh4aVp0NHp1RVY4UTJSU2k1cEc5U2EvbmU5?=
+ =?utf-8?B?L3RCTjc0UnBQc0VZb1FpdjVMazF5enBZYjlUTlpweStMN21KZTAweGo3bEdV?=
+ =?utf-8?B?a01aVlVTU2R5V1pnemQza1NYZ2ZFczVpVHh4QWpxdno1cjlsMmxieHdxUVZ3?=
+ =?utf-8?B?Wnd0UU1BbmFKRzBLaTczVzNPaGVrUjhpVTRmTVhvb3VNVERlU2RRdk90Y1N2?=
+ =?utf-8?B?VVdvcnRmanE2bE5HZ2IzTHdmS1Y1M2N0WTQvUFVQM1R2dnFsbmFFa3BGYXN2?=
+ =?utf-8?B?VXZ4dDN5MHZzb2oybzlKcnorbFBiYVNDM3huS0RwaGRGM2VYemJQa1IyakR0?=
+ =?utf-8?B?UkpTR0MvLzNaNkdackNmc0s0RHhVUE94VVpuVE9XSjZRdnNDMVprVk1pVDBi?=
+ =?utf-8?B?N1QvRnJnalJwL25mdldkcXRzTTBQdUR4Tk83RmgwaGRjSVgxcXorYU1nYi9p?=
+ =?utf-8?Q?Ph1S77/1AWaO7TG1THr5GvTRpxZ417Pg?=
 X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
  IPV:NLI; SFV:NSPM; H:DM4PR11MB5373.namprd11.prod.outlook.com; PTR:; CAT:NONE;
  SFS:(13230040)(1800799024)(366016)(376014); DIR:OUT; SFP:1101; 
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?eWIwUG0zLzh6dXhkaFpoa3RiclhQNkdCV0NpUXVCYWlZR2xFWEJBa3J1TWNU?=
- =?utf-8?B?WE1XSlo1TlFzZlRMdndFa1p5bzhkbTBEVCtlUmluUXk1MlBVUlVhQmhVVnY4?=
- =?utf-8?B?QUpsTWdSL2RRTEdlQVoxdkQvN2RUSWttNklEWWlRUDB1OW1zQTZGelloODdW?=
- =?utf-8?B?MUpJYUZKNWlWYndHWFhVdXNuNlYreCtYRjJGK2xzajBaN0pla2hqQjNublF0?=
- =?utf-8?B?STU5elFTQUtGNDREcjU2YmkyQVU0VWFudFl3U015cmxFMXZwNTl2WmJycVJ1?=
- =?utf-8?B?Mzc2U0JwajFzSkprVHJ2a2RBN2hlZktKWTZpY1ZUbEx3cjEvLzZFK014MTNK?=
- =?utf-8?B?V0NaUldaK1d6eFFRUC9zWjA4eWg5SWdDaDlPd0MrYXo0RUdCUkJBNUtSWGVo?=
- =?utf-8?B?RXU0eFVxV3FMRUJEZ2hCRVMzUnlJajJDN1Qzdit6RHdtNlhTWWlzM2JCY0Qw?=
- =?utf-8?B?b3JmNU01TmtFcWVxVkl5OVhlQnRlSzlyK0ZveUt0dlJDOFh1MG5zNjlkek1H?=
- =?utf-8?B?TXlSbmJiMi9KTTU2N3JWTEl4WGNPODEvd3liaElpWGRIeTliWEtkTWdDWVp6?=
- =?utf-8?B?V0liMGtyWlI2ZUVZbkF1bzRtU3hEdTBiRVU3KzBDRGVpdWFmWlBRWHlvRkh6?=
- =?utf-8?B?SzFkSGNiT1BPd1BlYmNWS0lxMXhIZm5KeGZyUk05dmVKZkJFRVd1N0NQaWxT?=
- =?utf-8?B?WXhTVlpKU0FFY0NaTkUrc2JraEJwb0FmZTdYY1hiQTgwNUxMTE9ucU9Hcndw?=
- =?utf-8?B?NTdIUlczUWJKZHVobDljcndsSWtYOXpnZDUwMVdCSFRva3dEK2FkR1dibXB0?=
- =?utf-8?B?Mml3QzlXMTByVWUvcEpod0huTGRONkVSYWFXQW01RkF0TTg4UTkrV1ZUSysr?=
- =?utf-8?B?U0pIQUUrSHlkZ3R6aG0vdzVDSkZpeEl4ckNQOXRsZk9MT1JTSi9FN2RreEYx?=
- =?utf-8?B?RzgyZTRua1Z6KzZORE5JRWcxZ29yQXZLU1IwcENlM1NDa21tSUhUV3NyZnFQ?=
- =?utf-8?B?WjhZeE50S3F4YmF2bm9OVnVGMVd2Z011UzBmcmtpbnRpL210OFdiMms4QlUw?=
- =?utf-8?B?Z2R4Skh0MFJqT1lsWkFkVUw1SGtWQVpiLzVpNStZR1NXVVE4MVF5L2dIYVoy?=
- =?utf-8?B?YlVUNDJabTh5VmY4Uzl5S2VpS1Q1Mjl1NzJyZ0prMVpKQU1qand0dG5relhu?=
- =?utf-8?B?U1BSbi93eCtETFp6T0loVzhxMHFpRktkWmdIMWdKVDNJempwS29wbDNHdkhS?=
- =?utf-8?B?cCt1ZXZhWnB0eGhqSUFDVU01a2JnTVltclJET1B1OXAxcllzOHVwdE1MdWlM?=
- =?utf-8?B?YkRwb1hGTVYxQVdkSE9nRTRZcEhyUzNYZG9oMUZIaU1Mc3FIeFVnQ05pSS94?=
- =?utf-8?B?Qkd5OWxibTY0NlRPTFN4aVBrbmVBS25wMGpEYlUvWU12UHVNaEpmRmd1WHl5?=
- =?utf-8?B?c0doRjlHakc4Q1ZJNnNNeVB5KzNoQjM4aENjV2VkSHZ2L1ZrS0h6WGxpOFQr?=
- =?utf-8?B?UDg0SG9zMmdrRFhxK2NwbjB1OWd1VW16U0NKMEhpQ2VwWm9CeTBUNG0zekJt?=
- =?utf-8?B?WU5uTm1DcW9sTGxVRms0bWErL3lHdUZOVE5lMm9JaWlSNXBkbktQMG53U2Rn?=
- =?utf-8?B?R3FLR09BT2NOS0dIRmpkM1AvTDgrVVRDc3V2UTFhWjJHalVDQ0kzQjRSMXd3?=
- =?utf-8?B?TktFeFJpV0ZKMVdONmtBOFlnOENNK3Rmb1haTWdFM0NFNFZIZnpjMXdQTTgy?=
- =?utf-8?B?T1liUHBoWlQ0ajNkVkZzMUtzQXVDZXNuTWdUVlh4UTUrbS9qMnp2aHdNVEZq?=
- =?utf-8?B?cnZJWVNlL2VuZmhVczMxenljNzFYUEl4YzhQaVZ4cUFDMUJoTXFCaGtsWndM?=
- =?utf-8?B?dTVTZlA2b2UwT0xvenlSakY4d3dYVmhlVlZaUGZxT3ErRlFaV2dHajFuUE1Z?=
- =?utf-8?B?M0NkOUt6Snl4T2NhVHcxRnJrdUdlcHh6VEwzVEZTS241eUxDUzcyMzVCZ3BU?=
- =?utf-8?B?b3JKS1NuR2hEbkZXd05GTSt0VUtlZ2YvaGNJVklhM3pXZk9kS3Vqci9zaVE5?=
- =?utf-8?B?V1d2Z1NETzQ4NkdieWlTL0xXTnhuSjBHOUpUWFM2dkJwNkZVSHBHOFNiNUNy?=
- =?utf-8?B?TG9NZEZsRHhXeStIS1NreGFsanFuQWxpd2xNdTZHU2pDTmNobWllVkY1cjdU?=
- =?utf-8?B?bEE9PQ==?=
-X-MS-Exchange-CrossTenant-Network-Message-Id: a301e0d9-92b7-4897-d916-08de21eea850
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?Y2RVazNrcWJLRUhrWHB6SjBPTTJyNnRzVUdsOCtyMGpiTVZnbXN6cjQvcE4x?=
+ =?utf-8?B?a0VUckowTWRMRjdSclNPUXNydGZWbWc0Y0FHNWxIZnZ5QzRzUjdZa1UwcXQ3?=
+ =?utf-8?B?Tm9zWjA1aTliOWZrbE9VRnJLS2RMNlR4ZTZrWmNFKzNSMWJGVG9FRUhYa2po?=
+ =?utf-8?B?Kzk0SkkwSjBGS0pTZkZYNzJxUVdkSjBlS2svK0hraXN4bUtMNHpZckJyc0JO?=
+ =?utf-8?B?cFhsNXZ5WU9nNlZwdTh6S2RqSjNDMW5TUzBFejIxRkNkUlhSdU9VRXFGLzRq?=
+ =?utf-8?B?L1BYUi9IdUJxSHdySE8vOXpsM0N4NjF3VUIvRWRvd0RKS2hNKzVTclRTQ1RM?=
+ =?utf-8?B?L1gvWkE3NDlBN2hlUmU4WjZOeGF4OCtTMDNDSjI5TVEyd0dTa0s3eG1WdWts?=
+ =?utf-8?B?L1J0ektOYXFuU0lmR1FMNE9GTVpNV3BRamo4MWVVRit6ZFZMQnhGaTNEVU9H?=
+ =?utf-8?B?MzJwajFla3J1MUhWbXFIVGJhdFVsVmN2TEgzbi9PSkl0RVQ4eDBwQUc3cm83?=
+ =?utf-8?B?bjZJRGVpdFRtZlB6K016Y0xDd05uVGZyUmxVdmVrcU5YZTRNam5OOUx5RVE4?=
+ =?utf-8?B?NVdTdW1nejJaSXh6ZU45NFArNDl4d2RnKy9xd1Uwd1dTLzNTc01uWnZER2dx?=
+ =?utf-8?B?R0wrUE9vaU5TZlR5cmxhekcvQWNvZ0tzbHc2enBJMFVKMnJXa3dDaFZVeWtU?=
+ =?utf-8?B?SkpQdmc1cnBmbU1jRStqTWpSeXI0U01qTG15V0lqTzBha3ZCbHI4YXRxS05o?=
+ =?utf-8?B?c0RicmxScGd1RnB3MFFncUx5d1F0endLVzBUK0RZaDRXYlcvWW5aTVl2WXB1?=
+ =?utf-8?B?eWZ3aExyVnYycWUxb1VjRi9LUjZwbnV6VGNic0RMcWp4MHlBZndPMDc5MXZn?=
+ =?utf-8?B?azF3T08zVU5sckhoSXF2dDBDeHlyV0FMaDBKRE4zRlVDM0paYm0rMWk2SVl3?=
+ =?utf-8?B?eVR1Rm1xS2lOa0c2Nk1wVGd2TlhhSU11QyszNmtaaXMwY0pTb0lIalhlckh0?=
+ =?utf-8?B?OXNWS05wZE1qOHd6WGhMeExNK1ZEaGI1bEY1Nnp1aW9HbmdlSkN1RWMxMnB3?=
+ =?utf-8?B?ODgwc3B3cXpOWVA1VnBXVndDODFlbkZEUHM4dGJCVDAwcFpGRXdJOHFha3Bh?=
+ =?utf-8?B?YkhiTkd5TXYwUUdZWVd5WEZEdXRBL2NQSVgyRlh3WFZXazU1bmxqeFBUdzg1?=
+ =?utf-8?B?TDNybE91dFZhVDlMaDJDSlZEcUI1WUFaN2FIOEdSUTFJMjZmVVdmK0NtZy9y?=
+ =?utf-8?B?L2oyaHZFR2xxbVdNeVl0YmdKRHhRcStPTHZCMFZqSXBHT3hRTlMvT09BTzJH?=
+ =?utf-8?B?NnUwYmJJbDgwVXU3NUhmM2RFUkpVcVpudjA4ZjhBMzFyNlkzUTBIaVBvTnF2?=
+ =?utf-8?B?ZUdQNTVCb0JwVW1acXgvVUxieWdhNWRNU1ZiN2U2cFlwK2Z0eU1rR2dKS05o?=
+ =?utf-8?B?Njk2VmJ5NWFndlZVcFRPaW5pUWhVY3dCWHBmQzhhbFZXa1ZjMmFBelp5bEFq?=
+ =?utf-8?B?aFcrZFBmUlBSZVE2QTY3azFLZXZuM3pOc1pqZ2tLZkc0dXEvUFdhMHNJQ3Ux?=
+ =?utf-8?B?R2V5WEdKZWNmd3V5ckRXem1ESXY4bGdBY29md3RWb2lodnN5NjJGL09pemFi?=
+ =?utf-8?B?azJsQjg4SDdPRG1MYmlZcEc2aFhUMEpzQ2xnYWZrSTE0WFMyL05GOXM5MDZr?=
+ =?utf-8?B?UFdzbk12MHJnbi9Tc1phZlpEUlozcVMycldSOVlraEVIdVNuMGl5cE44cm5T?=
+ =?utf-8?B?T3dlV09hRmR0SzdyTXAxNHRUUlRNZWpvQUJ4SUlCUnhiZFh5U2VlekdQYTB3?=
+ =?utf-8?B?VUVzZk82MVNhNFlDUndQVHNYWVU0dU4yUmphdURoaHc5OEJZTWlPSC96dUFN?=
+ =?utf-8?B?U0hYQk9Bd05ZSDdCY0doYjI4aGVtZUVTV0libkZNVFJhUFRnSHkzQnlYUllk?=
+ =?utf-8?B?bHRQaEpGTlExM0QvK2JNVVptRUgwbXFqSElzbSt0MkJKVEhqR0xlcUd3QXZ6?=
+ =?utf-8?B?NkNsemJkU1l2VFJLSmFabFJtTEZZK0ZoK0plcGdvSU1FWVVvc1dUamVuQVNt?=
+ =?utf-8?B?dVY5MlMybkUxUGxUQ29zbmcwdE4zaTdEYVlEdGtOMWFmQnhpVGNiZE5NNm1v?=
+ =?utf-8?B?R0JpUXVmREpXcXpDMFpEanBBalV3K0N5SHJPYXp1TW8wN3pUQTdmeEcvWlA5?=
+ =?utf-8?B?Znc9PQ==?=
+X-MS-Exchange-CrossTenant-Network-Message-Id: ddbc7dc0-231e-4e9e-adc1-08de21eeaa9f
 X-MS-Exchange-CrossTenant-AuthSource: DM4PR11MB5373.namprd11.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 12 Nov 2025 13:23:24.4274 (UTC)
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 12 Nov 2025 13:23:28.3596 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: lUBbyofk0hpNniC0dAX4oWEpHzLXv+S3a5jP7lj3HCYotZFEByjpMWCzyhzYe4usgi0nz/LZsDliH8PYEBoPB5FQoIee+/ADiy6Zw6SXlso=
+X-MS-Exchange-CrossTenant-UserPrincipalName: LMcygsr5ZipOyMGEUtJiA8A2R2YZ2EEcVJr24JCOeQTXy5+ZGFMENbBpX7H89BqnMuaMKrXBgeas1WVLmmxbavFZhylqjVN9S8J7EX9+DtY=
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH7PR11MB6929
 X-OriginatorOrg: intel.com
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -203,176 +203,160 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The descriptor reuses the KLV format used by GuC and contains metadata
-that can be used to quickly fail migration when source is incompatible
-with destination.
+The size is normally used to make a decision on when to stop the device
+(mainly when it's in a pre_copy state).
 
 Signed-off-by: Michał Winiarski <michal.winiarski@intel.com>
 Reviewed-by: Michal Wajdeczko <michal.wajdeczko@intel.com>
 ---
- drivers/gpu/drm/xe/xe_sriov_packet.c       | 92 +++++++++++++++++++++-
- drivers/gpu/drm/xe/xe_sriov_packet.h       |  2 +
- drivers/gpu/drm/xe/xe_sriov_pf_migration.c |  6 ++
- 3 files changed, 99 insertions(+), 1 deletion(-)
+ drivers/gpu/drm/xe/xe_gt_sriov_pf_migration.c | 21 +++++++++++++
+ drivers/gpu/drm/xe/xe_gt_sriov_pf_migration.h |  2 ++
+ drivers/gpu/drm/xe/xe_sriov_pf_debugfs.c      | 28 +++++++++++++++++
+ drivers/gpu/drm/xe/xe_sriov_pf_migration.c    | 30 +++++++++++++++++++
+ drivers/gpu/drm/xe/xe_sriov_pf_migration.h    |  1 +
+ 5 files changed, 82 insertions(+)
 
-diff --git a/drivers/gpu/drm/xe/xe_sriov_packet.c b/drivers/gpu/drm/xe/xe_sriov_packet.c
-index c612f37e9707c..bab9946968964 100644
---- a/drivers/gpu/drm/xe/xe_sriov_packet.c
-+++ b/drivers/gpu/drm/xe/xe_sriov_packet.c
-@@ -5,6 +5,7 @@
- 
- #include "xe_bo.h"
- #include "xe_device.h"
-+#include "xe_guc_klv_helpers.h"
- #include "xe_printk.h"
- #include "xe_sriov_packet.h"
- #include "xe_sriov_packet_types.h"
-@@ -350,11 +351,19 @@ ssize_t xe_sriov_packet_write_single(struct xe_device *xe, unsigned int vfid,
- 	return copied;
+diff --git a/drivers/gpu/drm/xe/xe_gt_sriov_pf_migration.c b/drivers/gpu/drm/xe/xe_gt_sriov_pf_migration.c
+index 4e49022810ea5..0ffe64ee469fe 100644
+--- a/drivers/gpu/drm/xe/xe_gt_sriov_pf_migration.c
++++ b/drivers/gpu/drm/xe/xe_gt_sriov_pf_migration.c
+@@ -396,6 +396,27 @@ ssize_t xe_gt_sriov_pf_migration_write_guc_state(struct xe_gt *gt, unsigned int
  }
- 
--#define MIGRATION_DESCRIPTOR_DWORDS 0
-+#define MIGRATION_KLV_DEVICE_DEVID_KEY	0xf001u
-+#define MIGRATION_KLV_DEVICE_DEVID_LEN	1u
-+#define MIGRATION_KLV_DEVICE_REVID_KEY	0xf002u
-+#define MIGRATION_KLV_DEVICE_REVID_LEN	1u
-+
-+#define MIGRATION_DESCRIPTOR_DWORDS	(GUC_KLV_LEN_MIN + MIGRATION_KLV_DEVICE_DEVID_LEN + \
-+					 GUC_KLV_LEN_MIN + MIGRATION_KLV_DEVICE_REVID_LEN)
- static size_t pf_descriptor_init(struct xe_device *xe, unsigned int vfid)
- {
- 	struct xe_sriov_packet **desc = pf_pick_descriptor(xe, vfid);
- 	struct xe_sriov_packet *data;
-+	unsigned int len = 0;
-+	u32 *klvs;
- 	int ret;
- 
- 	data = xe_sriov_packet_alloc(xe);
-@@ -368,11 +377,92 @@ static size_t pf_descriptor_init(struct xe_device *xe, unsigned int vfid)
- 		return ret;
- 	}
- 
-+	klvs = data->vaddr;
-+	klvs[len++] = PREP_GUC_KLV_CONST(MIGRATION_KLV_DEVICE_DEVID_KEY,
-+					 MIGRATION_KLV_DEVICE_DEVID_LEN);
-+	klvs[len++] = xe->info.devid;
-+	klvs[len++] = PREP_GUC_KLV_CONST(MIGRATION_KLV_DEVICE_REVID_KEY,
-+					 MIGRATION_KLV_DEVICE_REVID_LEN);
-+	klvs[len++] = xe->info.revid;
-+
-+	xe_assert(xe, len == MIGRATION_DESCRIPTOR_DWORDS);
-+
- 	*desc = data;
- 
- 	return 0;
- }
+ #endif /* CONFIG_DEBUG_FS */
  
 +/**
-+ * xe_sriov_packet_process_descriptor() - Process migration data descriptor packet.
-+ * @xe: the &xe_device
-+ * @vfid: the VF identifier
-+ * @data: the &xe_sriov_packet containing the descriptor
++ * xe_gt_sriov_pf_migration_size() - Total size of migration data from all components within a GT.
++ * @gt: the &xe_gt
++ * @vfid: the VF identifier (can't be 0)
 + *
-+ * The descriptor uses the same KLV format as GuC, and contains metadata used for
-+ * checking migration data compatibility.
++ * This function is for PF only.
 + *
-+ * Return: 0 on success, -errno on failure.
++ * Return: total migration data size in bytes or a negative error code on failure.
 + */
-+int xe_sriov_packet_process_descriptor(struct xe_device *xe, unsigned int vfid,
-+				       struct xe_sriov_packet *data)
++ssize_t xe_gt_sriov_pf_migration_size(struct xe_gt *gt, unsigned int vfid)
 +{
-+	u32 num_dwords = data->hdr.size / sizeof(u32);
-+	u32 *klvs = data->vaddr;
++	ssize_t total = 0;
 +
-+	xe_assert(xe, data->hdr.type == XE_SRIOV_PACKET_TYPE_DESCRIPTOR);
++	xe_gt_assert(gt, IS_SRIOV_PF(gt_to_xe(gt)));
++	xe_gt_assert(gt, vfid != PFID);
++	xe_gt_assert(gt, vfid <= xe_sriov_pf_get_totalvfs(gt_to_xe(gt)));
 +
-+	if (data->hdr.size % sizeof(u32)) {
-+		xe_sriov_warn(xe, "Aborting migration, descriptor not in KLV format (size=%llu)\n",
-+			      data->hdr.size);
-+		return -EINVAL;
-+	}
-+
-+	while (num_dwords >= GUC_KLV_LEN_MIN) {
-+		u32 key = FIELD_GET(GUC_KLV_0_KEY, klvs[0]);
-+		u32 len = FIELD_GET(GUC_KLV_0_LEN, klvs[0]);
-+
-+		klvs += GUC_KLV_LEN_MIN;
-+		num_dwords -= GUC_KLV_LEN_MIN;
-+
-+		if (len > num_dwords) {
-+			xe_sriov_warn(xe, "Aborting migration, truncated KLV %#x, len %u\n",
-+				      key, len);
-+			return -EINVAL;
-+		}
-+
-+		switch (key) {
-+		case MIGRATION_KLV_DEVICE_DEVID_KEY:
-+			if (*klvs != xe->info.devid) {
-+				xe_sriov_warn(xe,
-+					      "Aborting migration, devid mismatch %#06x!=%#06x\n",
-+					      *klvs, xe->info.devid);
-+				return -ENODEV;
-+			}
-+			break;
-+		case MIGRATION_KLV_DEVICE_REVID_KEY:
-+			if (*klvs != xe->info.revid) {
-+				xe_sriov_warn(xe,
-+					      "Aborting migration, revid mismatch %#06x!=%#06x\n",
-+					      *klvs, xe->info.revid);
-+				return -ENODEV;
-+			}
-+			break;
-+		default:
-+			xe_sriov_dbg(xe,
-+				     "Skipping unknown migration KLV %#x, len=%u\n",
-+				     key, len);
-+			print_hex_dump_bytes("desc: ", DUMP_PREFIX_OFFSET, klvs,
-+					     min(SZ_64, len * sizeof(u32)));
-+			break;
-+		}
-+
-+		klvs += len;
-+		num_dwords -= len;
-+	}
-+
-+	return 0;
++	/* Nothing to query yet - will be updated once per-GT migration data types are added */
++	return total;
 +}
 +
- static void pf_pending_init(struct xe_device *xe, unsigned int vfid)
- {
- 	struct xe_sriov_packet **data = pf_pick_pending(xe, vfid);
-diff --git a/drivers/gpu/drm/xe/xe_sriov_packet.h b/drivers/gpu/drm/xe/xe_sriov_packet.h
-index fd8da5069b53f..2731e52cf7efd 100644
---- a/drivers/gpu/drm/xe/xe_sriov_packet.h
-+++ b/drivers/gpu/drm/xe/xe_sriov_packet.h
-@@ -24,5 +24,7 @@ ssize_t xe_sriov_packet_read_single(struct xe_device *xe, unsigned int vfid,
- ssize_t xe_sriov_packet_write_single(struct xe_device *xe, unsigned int vfid,
- 				     const char __user *buf, size_t len);
- int xe_sriov_packet_save_init(struct xe_device *xe, unsigned int vfid);
-+int xe_sriov_packet_process_descriptor(struct xe_device *xe, unsigned int vfid,
-+				       struct xe_sriov_packet *data);
+ /**
+  * xe_gt_sriov_pf_migration_ring_empty() - Check if a migration ring is empty.
+  * @gt: the &xe_gt
+diff --git a/drivers/gpu/drm/xe/xe_gt_sriov_pf_migration.h b/drivers/gpu/drm/xe/xe_gt_sriov_pf_migration.h
+index b4c7b5dc9e914..3ad3c3609b415 100644
+--- a/drivers/gpu/drm/xe/xe_gt_sriov_pf_migration.h
++++ b/drivers/gpu/drm/xe/xe_gt_sriov_pf_migration.h
+@@ -15,6 +15,8 @@ int xe_gt_sriov_pf_migration_init(struct xe_gt *gt);
+ int xe_gt_sriov_pf_migration_save_guc_state(struct xe_gt *gt, unsigned int vfid);
+ int xe_gt_sriov_pf_migration_restore_guc_state(struct xe_gt *gt, unsigned int vfid);
  
- #endif
-diff --git a/drivers/gpu/drm/xe/xe_sriov_pf_migration.c b/drivers/gpu/drm/xe/xe_sriov_pf_migration.c
-index c13205ee1acd6..bbaf0caed0572 100644
---- a/drivers/gpu/drm/xe/xe_sriov_pf_migration.c
-+++ b/drivers/gpu/drm/xe/xe_sriov_pf_migration.c
-@@ -177,9 +177,15 @@ xe_sriov_pf_migration_save_consume(struct xe_device *xe, unsigned int vfid)
- static int pf_handle_descriptor(struct xe_device *xe, unsigned int vfid,
- 				struct xe_sriov_packet *data)
- {
-+	int ret;
++ssize_t xe_gt_sriov_pf_migration_size(struct xe_gt *gt, unsigned int vfid);
 +
- 	if (data->hdr.tile_id != 0 || data->hdr.gt_id != 0)
- 		return -EINVAL;
+ bool xe_gt_sriov_pf_migration_ring_empty(struct xe_gt *gt, unsigned int vfid);
+ bool xe_gt_sriov_pf_migration_ring_full(struct xe_gt *gt, unsigned int vfid);
+ void xe_gt_sriov_pf_migration_ring_free(struct xe_gt *gt, unsigned int vfid);
+diff --git a/drivers/gpu/drm/xe/xe_sriov_pf_debugfs.c b/drivers/gpu/drm/xe/xe_sriov_pf_debugfs.c
+index 4ca86ff4b7dae..00fe73bd86dfe 100644
+--- a/drivers/gpu/drm/xe/xe_sriov_pf_debugfs.c
++++ b/drivers/gpu/drm/xe/xe_sriov_pf_debugfs.c
+@@ -254,6 +254,33 @@ static const struct file_operations data_vf_fops = {
+ 	.llseek		= default_llseek,
+ };
  
-+	ret = xe_sriov_packet_process_descriptor(xe, vfid, data);
-+	if (ret)
++static ssize_t size_read(struct file *file, char __user *ubuf, size_t count, loff_t *ppos)
++{
++	struct dentry *dent = file_dentry(file)->d_parent;
++	struct xe_device *xe = extract_xe(dent);
++	unsigned int vfid = extract_vfid(dent);
++	char buf[21];
++	ssize_t ret;
++	int len;
++
++	xe_pm_runtime_get(xe);
++	ret = xe_sriov_pf_migration_size(xe, vfid);
++	xe_pm_runtime_put(xe);
++	if (ret < 0)
 +		return ret;
 +
- 	xe_sriov_packet_free(data);
++	len = scnprintf(buf, sizeof(buf), "%zd\n", ret);
++
++	return simple_read_from_buffer(ubuf, count, ppos, buf, len);
++}
++
++static const struct file_operations size_vf_fops = {
++	.owner		= THIS_MODULE,
++	.open		= simple_open,
++	.read		= size_read,
++	.llseek		= default_llseek,
++};
++
+ static void pf_populate_vf(struct xe_device *xe, struct dentry *vfdent)
+ {
+ 	debugfs_create_file("pause", 0200, vfdent, xe, &pause_vf_fops);
+@@ -263,6 +290,7 @@ static void pf_populate_vf(struct xe_device *xe, struct dentry *vfdent)
+ 	debugfs_create_file("save", 0600, vfdent, xe, &save_vf_fops);
+ 	debugfs_create_file("restore", 0600, vfdent, xe, &restore_vf_fops);
+ 	debugfs_create_file("migration_data", 0600, vfdent, xe, &data_vf_fops);
++	debugfs_create_file("migration_size", 0400, vfdent, xe, &size_vf_fops);
+ }
  
- 	return 0;
+ static void pf_populate_with_tiles(struct xe_device *xe, struct dentry *dent, unsigned int vfid)
+diff --git a/drivers/gpu/drm/xe/xe_sriov_pf_migration.c b/drivers/gpu/drm/xe/xe_sriov_pf_migration.c
+index bbaf0caed0572..21b06ce6830a4 100644
+--- a/drivers/gpu/drm/xe/xe_sriov_pf_migration.c
++++ b/drivers/gpu/drm/xe/xe_sriov_pf_migration.c
+@@ -310,3 +310,33 @@ ssize_t xe_sriov_pf_migration_write(struct xe_device *xe, unsigned int vfid,
+ 
+ 	return produced;
+ }
++
++/**
++ * xe_sriov_pf_migration_size() - Total size of migration data from all components within a device
++ * @xe: the &xe_device
++ * @vfid: the VF identifier (can't be 0)
++ *
++ * This function is for PF only.
++ *
++ * Return: total migration data size in bytes or a negative error code on failure.
++ */
++ssize_t xe_sriov_pf_migration_size(struct xe_device *xe, unsigned int vfid)
++{
++	size_t size = 0;
++	struct xe_gt *gt;
++	ssize_t ret;
++	u8 gt_id;
++
++	xe_assert(xe, IS_SRIOV_PF(xe));
++	xe_assert(xe, vfid);
++
++	for_each_gt(gt, xe, gt_id) {
++		ret = xe_gt_sriov_pf_migration_size(gt, vfid);
++		if (ret < 0)
++			return ret;
++
++		size += ret;
++	}
++
++	return size;
++}
+diff --git a/drivers/gpu/drm/xe/xe_sriov_pf_migration.h b/drivers/gpu/drm/xe/xe_sriov_pf_migration.h
+index dbf8094900df8..b806298a0bb62 100644
+--- a/drivers/gpu/drm/xe/xe_sriov_pf_migration.h
++++ b/drivers/gpu/drm/xe/xe_sriov_pf_migration.h
+@@ -18,6 +18,7 @@ int xe_sriov_pf_migration_restore_produce(struct xe_device *xe, unsigned int vfi
+ 					  struct xe_sriov_packet *data);
+ struct xe_sriov_packet *
+ xe_sriov_pf_migration_save_consume(struct xe_device *xe, unsigned int vfid);
++ssize_t xe_sriov_pf_migration_size(struct xe_device *xe, unsigned int vfid);
+ wait_queue_head_t *xe_sriov_pf_migration_waitqueue(struct xe_device *xe, unsigned int vfid);
+ 
+ ssize_t xe_sriov_pf_migration_read(struct xe_device *xe, unsigned int vfid,
 -- 
 2.51.2
 
