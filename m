@@ -2,148 +2,129 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 112FBC54AFB
-	for <lists+dri-devel@lfdr.de>; Wed, 12 Nov 2025 23:09:43 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id ED423C54B66
+	for <lists+dri-devel@lfdr.de>; Wed, 12 Nov 2025 23:27:26 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 375B210E7B0;
-	Wed, 12 Nov 2025 22:09:40 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 37AD710E08C;
+	Wed, 12 Nov 2025 22:27:24 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="YaOQ2gMv";
-	dkim=pass (2048-bit key; unprotected) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="InB+IHmV";
+	dkim=pass (1024-bit key; unprotected) header.d=amd.com header.i=@amd.com header.b="l4pQ9z+w";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
- [205.220.168.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C536510E7B0
- for <dri-devel@lists.freedesktop.org>; Wed, 12 Nov 2025 22:09:38 +0000 (UTC)
-Received: from pps.filterd (m0279863.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id
- 5ACGuUWP721987
- for <dri-devel@lists.freedesktop.org>; Wed, 12 Nov 2025 22:09:38 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
- cc:content-transfer-encoding:content-type:date:from:in-reply-to
- :message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
- PKqNXD1DollfLI5h1J2Xseqpi/6Yas+Ng79HmXPNvu8=; b=YaOQ2gMvd3/T2S8/
- MFfA/GNKngL5oDoYFpGPtoDfaZtgNEd3XKI7mFuEDVr3AoHNMLQ1RveVof/P4K1C
- MBTr1vFrsSX3rd8CT/nDm0Cx7/HQSUMMxBkD2xD/pggoeQbc4UdQ0At17NM7gWW9
- 5m2RJOwq74SAEruoLtIqCJDADeMt6FI2XMOwC3eITawkofhDN8nltztqtxQRHftW
- foR+RMjQpLY4n/Nag8BcHwprobmGjkMqulU/Feeqm5lHY85HMukVa2nwk57pu4Nv
- QPdO5BzUJ37cd+3xC7xlgxq0B5paVicxwtHp1lLFddI5EtFgX5NYPRo3fQUlSEkf
- j0E5tQ==
-Received: from mail-pl1-f200.google.com (mail-pl1-f200.google.com
- [209.85.214.200])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4acqu1t95b-1
- (version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
- for <dri-devel@lists.freedesktop.org>; Wed, 12 Nov 2025 22:09:38 +0000 (GMT)
-Received: by mail-pl1-f200.google.com with SMTP id
- d9443c01a7336-295592eb5dbso1501015ad.0
- for <dri-devel@lists.freedesktop.org>; Wed, 12 Nov 2025 14:09:38 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=oss.qualcomm.com; s=google; t=1762985378; x=1763590178;
- darn=lists.freedesktop.org; 
- h=content-transfer-encoding:in-reply-to:from:content-language
- :references:cc:to:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=PKqNXD1DollfLI5h1J2Xseqpi/6Yas+Ng79HmXPNvu8=;
- b=InB+IHmViIyvsMQUtku3MYBKC+0JuYk5FN9KaPC3xEC8JqCnRInKvS5dx2Ob1X8WbY
- 6FwV7NJgZik7ESpW2y/GB4TLMlc7WQosvOnRTHk8NSmUn59AD0500jLfxlNH2HVKxpRQ
- qJFX+R47/4kshaP1njyI3xV7b78xWTEbH6rLzsRsNkcOKuHr/0ltJo5h8mu6njCG7Szw
- FQu+zR9OkVOpc0I7F6k1vZSKbJXkr1wwpJUO4Qmx/cB2dpdRiVR73Ji5Y38DJZoBkFIQ
- 3FjD9laqweUhcfYPxtHyXai5ad4XQryIDpbJomceJwJ9KGfValWAu9cRYYMNmAw8NnQh
- kyEw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1762985378; x=1763590178;
- h=content-transfer-encoding:in-reply-to:from:content-language
- :references:cc:to:subject:user-agent:mime-version:date:message-id
- :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=PKqNXD1DollfLI5h1J2Xseqpi/6Yas+Ng79HmXPNvu8=;
- b=Zte1To7D3rDiJapkFtbnLt42wyeV1eu4V4lOIObDRhgZRq+81DDZ9NxcG7tvwE8Tvn
- +ZnFSh+G9gLUhRH5lGvtgdD4HVAGE5kUonnQ78y2RajvHch0uQlZCZEel6wVjFa8j+Hn
- NzUrTgndaEDa8h2AKyFH0Fa5KzhweqvXe2bzQKMB1vqge312EQEeD/GIa5y9k5bhDd3q
- X9+kx7bitS+7XjWxV5NoWi0PO6lMOy5qOEb2yrQU1K2i5IZlSd7I89hHhKJKStq6BhWZ
- 92etrTCKTnoWgu2QZ4xvLYXIzma3nabCs+jO2NQwrlPaXmfk/zo+UQAc9ja9zok/Jw9L
- yt5Q==
-X-Forwarded-Encrypted: i=1;
- AJvYcCV9b9F+ezwsLa9dHFz4vc4IjlC6Q4HOjldVTD+5q7SphJq/lrdtfqel/FMtDq8PMn4+MKhzw+Kj5yM=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Yxe4Yvje1Goj2mtWWEm7FscqpnzGMJHvNCcdPGIc/nDF6+RM2b5
- 9O1s++A0rznQeJws/MCuafeeLJk4k6nYBJDlAdNt31yZlWUMiIKzkB2wQQnFJ+ObsxPzwUTA2no
- 8TE1SudPht5g6fpFiqPrKLl5Bu7azFuqN2SG8UN1xM7vXGY40qZOUEob/alpZJdCMW6JIa8c=
-X-Gm-Gg: ASbGncvPE6bW7EeG9kq0mdmfLArj/LsoDpWFRdw0HI1Szaylq8N/fZvgsZwHUDLcKfV
- lr+xTcw0O7n5/Sv006tN/QrYqknpFi/GSrR+34QgvmUmNUcUnzj9FkLMzUUQVIrDtPEjsqSK0rx
- ZTDcj6f1ZdfG3N5DBx+k/pN3xtraB2l0HetHvt4V0DdaEUs4jW4K655UR7qWYYiFN8BKJrcHmjz
- K3bEaNL2Twil6TCjX1DVNsUrwn/Mkp/6i/4gffMAfLZus4ajTvcWiEWDP1apNA62MvvVU+P7obf
- Fe2E/hGEE5cz5cp0HFtLbgHqFSuORnjiwQ8irfnIq/i6kkXNV6Ac+X9JcCNwdmopWCfPAUpV6Jm
- RnthZMgoPsDpRXJE9bYFnPQ==
-X-Received: by 2002:a17:903:1b6b:b0:295:4d97:84dd with SMTP id
- d9443c01a7336-2984edd59fdmr58284545ad.51.1762985377578; 
- Wed, 12 Nov 2025 14:09:37 -0800 (PST)
-X-Google-Smtp-Source: AGHT+IHbDPQwjbxvdgWkQp34t9iHfLbIFLfFbNnosXkOr7CJTuwb5+1HxivTIaNHyQXba3NQUZhkaQ==
-X-Received: by 2002:a17:903:1b6b:b0:295:4d97:84dd with SMTP id
- d9443c01a7336-2984edd59fdmr58284135ad.51.1762985377049; 
- Wed, 12 Nov 2025 14:09:37 -0800 (PST)
-Received: from [192.168.1.5] ([106.222.234.47])
- by smtp.gmail.com with ESMTPSA id
- d9443c01a7336-2985c2b0c9dsm1704455ad.67.2025.11.12.14.09.29
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 12 Nov 2025 14:09:36 -0800 (PST)
-Message-ID: <d4753c6b-b3cc-423b-912e-61f8b7bc3c1a@oss.qualcomm.com>
-Date: Thu, 13 Nov 2025 03:39:27 +0530
+Received: from CH4PR04CU002.outbound.protection.outlook.com
+ (mail-northcentralusazon11013056.outbound.protection.outlook.com
+ [40.107.201.56])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 89D9810E08C;
+ Wed, 12 Nov 2025 22:27:23 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=PUc8IhiVlhPf6fzAZ5ZhU1X8oA3IbD1q0GY/a1pqoiy8owg84p4DT6nyYJ13SauD2fsxWdx8SJfNHvp1/mXD6Nz9SMVuzVNBPmROYd0DfVK1tKgDWdZwsugA2iwDRXKmaWiEL8Qtor9zWBgP47alN8lmrQgnT2a0RDy371aIuQybTXQHpTtBy5wCvZ9XQd2ORRBsGBpNc5svMoN+NldWm9XZBWtOHk/DUxJDbo61xLu3BSXI38/C7xWJ5VoMNziZhQIoofnAjlZxdPS8Ip1uWn5PX8isy+f8OOHRySw7aYYk7q1cJ9uSbZuErRs1t4EhqelIDbLb3zMDhfAPnkhZyg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=W9awpognap/YT6iIJNxCWqkU+X3OWts3FBoskuj8cxY=;
+ b=XgGgHoYpYTz2pQTpY4rb4j5Jucq3TPsBFu9f3Nnlac7aYb4uTDJLdT6k7sShV7N9ueFP58d5fh3+Fer28QfY2Uy5PGU7QSsbZMvFjDECAb3sB6+AIoMz8oSD5ePTIl9qCON4C2NW5Ux9PxJbHiKYzCbViE8XiAgH0MMmMfxKNkLD0g8DY+X/OgxyetxAlec1l3DaySJvViITlb9JGfZ8z1Ac7uSDyKouZ23IKJkDtcrn53oZeyUX6XIEaKe0F2WhF9ydR2BOtBuAs4sja4EObIB9BvZHi8qJj4Cim+LouYE/n98hsjbAcUyfFz3hI/qMuuZUw6jvoe+uYNNyAcJRdw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 165.204.84.17) smtp.rcpttodomain=ffwll.ch smtp.mailfrom=amd.com; dmarc=pass
+ (p=quarantine sp=quarantine pct=100) action=none header.from=amd.com;
+ dkim=none (message not signed); arc=none (0)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=W9awpognap/YT6iIJNxCWqkU+X3OWts3FBoskuj8cxY=;
+ b=l4pQ9z+wS2pAoPOHXohRXqdN9cxPmrT7IxO86wSXWHJpZ+p67mGkuiifBd0g99F9Jwbi3BNINUjSlEsqWlssxgUNggVwrG7BDv1iQ0eL8k40RJezASWoRJtnZ4W2tYIVqtIVJCqMQ18wpcDtCHIPen3oAIWqqj6X/r7qfb5t4qM=
+Received: from SJ0PR13CA0036.namprd13.prod.outlook.com (2603:10b6:a03:2c2::11)
+ by SA1PR12MB7318.namprd12.prod.outlook.com (2603:10b6:806:2b3::18)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9298.16; Wed, 12 Nov
+ 2025 22:27:12 +0000
+Received: from MWH0EPF000971E8.namprd02.prod.outlook.com
+ (2603:10b6:a03:2c2:cafe::e1) by SJ0PR13CA0036.outlook.office365.com
+ (2603:10b6:a03:2c2::11) with Microsoft SMTP Server (version=TLS1_3,
+ cipher=TLS_AES_256_GCM_SHA384) id 15.20.9343.5 via Frontend Transport; Wed,
+ 12 Nov 2025 22:27:12 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
+ smtp.mailfrom=amd.com; dkim=none (message not signed)
+ header.d=none;dmarc=pass action=none header.from=amd.com;
+Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
+ 165.204.84.17 as permitted sender) receiver=protection.outlook.com;
+ client-ip=165.204.84.17; helo=satlexmb07.amd.com; pr=C
+Received: from satlexmb07.amd.com (165.204.84.17) by
+ MWH0EPF000971E8.mail.protection.outlook.com (10.167.243.68) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.9320.13 via Frontend Transport; Wed, 12 Nov 2025 22:27:11 +0000
+Received: from dogwood-dvt-marlim.amd.com (10.180.168.240) by
+ satlexmb07.amd.com (10.181.42.216) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.2562.17; Wed, 12 Nov 2025 14:27:07 -0800
+From: Mario Limonciello <mario.limonciello@amd.com>
+To: Simona Vetter <simona@ffwll.ch>
+CC: Alex Deucher <alexander.deucher@amd.com>,
+ =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>, David Airlie
+ <airlied@gmail.com>, "open list:RADEON and AMDGPU DRM DRIVERS"
+ <amd-gfx@lists.freedesktop.org>, "open list:DRM DRIVERS"
+ <dri-devel@lists.freedesktop.org>, open list <linux-kernel@vger.kernel.org>,
+ Mario Limonciello <mario.limonciello@amd.com>, Simona Vetter
+ <simona.vetter@ffwll.ch>, Harry Wentland <Harry.Wentland@amd.com>
+Subject: [PATCH] drm/amd: Move adaptive backlight modulation property to drm
+ core
+Date: Wed, 12 Nov 2025 16:26:46 -0600
+Message-ID: <20251112222646.495189-1-mario.limonciello@amd.com>
+X-Mailer: git-send-email 2.51.2
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 02/21] drm/msm/a6xx: Fix the gemnoc workaround
-To: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
-Cc: Rob Clark <robin.clark@oss.qualcomm.com>,
- Bjorn Andersson <andersson@kernel.org>,
- Konrad Dybcio <konradybcio@kernel.org>, Sean Paul <sean@poorly.run>,
- Dmitry Baryshkov <lumag@kernel.org>, Abhinav Kumar
- <abhinav.kumar@linux.dev>, Jessica Zhang <jesszhan0024@gmail.com>,
- Marijn Suijten <marijn.suijten@somainline.org>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Jonathan Marek <jonathan@marek.ca>, Jordan Crouse
- <jordan@cosmicpenguin.net>,
- Will Deacon <will@kernel.org>, Robin Murphy <robin.murphy@arm.com>,
- Joerg Roedel <joro@8bytes.org>, Rob Herring <robh@kernel.org>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- Connor Abbott <cwabbott0@gmail.com>, linux-arm-msm@vger.kernel.org,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- freedreno@lists.freedesktop.org, linux-arm-kernel@lists.infradead.org,
- iommu@lists.linux.dev, devicetree@vger.kernel.org
-References: <20251110-kaana-gpu-support-v2-0-bef18acd5e94@oss.qualcomm.com>
- <20251110-kaana-gpu-support-v2-2-bef18acd5e94@oss.qualcomm.com>
- <a1273bdf-d926-48b4-877e-48d5ff45e7d9@oss.qualcomm.com>
-Content-Language: en-US
-From: Akhil P Oommen <akhilpo@oss.qualcomm.com>
-In-Reply-To: <a1273bdf-d926-48b4-877e-48d5ff45e7d9@oss.qualcomm.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Proofpoint-ORIG-GUID: DD3XlkugJ718Yn-lin5ht6uaHli-xyP1
-X-Authority-Analysis: v=2.4 cv=Hpl72kTS c=1 sm=1 tr=0 ts=691505a2 cx=c_pps
- a=IZJwPbhc+fLeJZngyXXI0A==:117 a=2IP1oaZ8+KUWsYovLW0HHw==:17
- a=IkcTkHD0fZMA:10 a=6UeiqGixMTsA:10 a=s4-Qcg_JpJYA:10
- a=VkNPw1HP01LnGYTKEx00:22 a=EUspDBNiAAAA:8 a=vAHTylR2Z3b6qOykXHEA:9
- a=QEXdDO2ut3YA:10 a=uG9DUKGECoFWVXl0Dc02:22
-X-Proofpoint-GUID: DD3XlkugJ718Yn-lin5ht6uaHli-xyP1
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUxMTEyMDE3OSBTYWx0ZWRfX05ysMigaTZf6
- PSmXvjCQdmouAEl4pra8dFMcHRlNyuzKHbtAF9yeQcFkL4RLDPpNiI/D8h9BQMP/mU5fzsE3YSO
- 3F5w/TKgYi3T0Xz+htWVnqC80I7PWhIAy2zutVN6EtY8oZlFzV5B6FBAkq5yHtOu1Ksy5a+u1cH
- ZzsO0cjiV0dfkMMdzYoxpj9drbTLpUGWbFxKAGiuJ6/czi/nkGDG3lfQuL7epP6PiTBB5wJ7JN9
- OMAAZu8Ct8S63VqvmC0F9T3VwuEuzwWuHplrOOuKgozOQhqS78a+22ZxAu3ZPHT+rZ8uhdWuMH+
- qv07auSvT3kxNBv7C5A0zUSCmQkqN8EAXZ83ia99x33fs7NvSeKZtBILcEfZrJEteILsC6gvQeS
- w34zLL4nKqP0JrdWc11E6s0iNmrPxg==
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.9,FMLib:17.12.100.49
- definitions=2025-11-12_06,2025-11-12_01,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- priorityscore=1501 impostorscore=0 malwarescore=0 spamscore=0 suspectscore=0
- adultscore=0 phishscore=0 lowpriorityscore=0 clxscore=1015 bulkscore=0
- classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.22.0-2510240001 definitions=main-2511120179
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-Originating-IP: [10.180.168.240]
+X-ClientProxiedBy: satlexmb08.amd.com (10.181.42.217) To satlexmb07.amd.com
+ (10.181.42.216)
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: MWH0EPF000971E8:EE_|SA1PR12MB7318:EE_
+X-MS-Office365-Filtering-Correlation-Id: e375af5b-5060-40de-d7fd-08de223a9feb
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+ ARA:13230040|1800799024|376014|36860700013|82310400026; 
+X-Microsoft-Antispam-Message-Info: =?us-ascii?Q?+v7Xmr3f4QW+gLEFCUjTbw1P1AohS9s0b2M3yAIxcF095s36ZpspvuJT/2/v?=
+ =?us-ascii?Q?Bx/Je01WIVMwf5VnlyQEq5YwT9RhRgSUoDCA6wKAaTA6d7Oe2hPc4erpq8WL?=
+ =?us-ascii?Q?wO34bNcd2n2u6R1jDOJzrd4LpnkO/fl39SGWEDqJskN1DyOaUzeZRLuEBJWw?=
+ =?us-ascii?Q?/N3CkrDJ/Wt3QUnBfpW1ElW5ZGBu1IKTIX0cGO+6VtUtujywVret3+d1CMro?=
+ =?us-ascii?Q?QMm0xTD72IU8a156ubYZ94cC67U5B+dGh4VsPnR/2dwiiGDhkm43jOM/XyVi?=
+ =?us-ascii?Q?O3UUXNby8y65R+Sx6nwKh/gssxIHAFx7p+lAO3ilguIe+45fILidefygXEm8?=
+ =?us-ascii?Q?HzjcOipKqbZrKZ+Vf7nxwjwyeOlg0ylwuVJo/s+50q7NwquxKEiLjV1usPLK?=
+ =?us-ascii?Q?0NqJdk/vKh/FfBpBu6I2DfZFoIptcqyEcFx1MdfpZHtydBoljVwVskd1q2VT?=
+ =?us-ascii?Q?7F7DFaRL9Z0KMBg3RXlK2bTFTXkYHjLqkg1So+Y+Fv5tm43khhD/H1TzCZ5V?=
+ =?us-ascii?Q?CiWtho5TkA1hcrq5QlVwBfKJwqgOr5Dj8Mp5j5VAutXkDVfdWdfl6nhgv+dR?=
+ =?us-ascii?Q?iyRGYIhP2fDaGvPJ8Vz8hwuXPRHdGIc6lfzIJKqMUPUjI8RHQvGjetIgxYy7?=
+ =?us-ascii?Q?LPKuSCza2Jm20xPDqwcnkmXNdI1t0Ex+5yXrlpsCG4Di0iS7mm41bkIEUcqG?=
+ =?us-ascii?Q?NToo+xRVPHRsCIlgRwgIJgcOdVh/EtTHeFUxEe7Uy1d5qDWi23mmxjFEihAA?=
+ =?us-ascii?Q?fjXRpvoFSMAXSSgrWWMHWzMGsXHdIEpX/LdDmPUeQbXDcLD4D1jOtTGGLcfu?=
+ =?us-ascii?Q?OIBC7SAj5c/QpJ44BAFLGHdM3In4Eq8exyG4gXYiVYo05YbdBNlzT6tJSqKg?=
+ =?us-ascii?Q?pMCgZ/C/u2yZZ8GlzuSDnDmMGjzkhyk5bGRzkrxhAmH7mRDmuti5ieyt/MEo?=
+ =?us-ascii?Q?66P93nUoV/OZ57ADDmjPU+lGYyoVRxwWVrgZNn1YAtNyCGkuWhtuN5gMhUC1?=
+ =?us-ascii?Q?RuCHaiGcFA+RpU21zvwRxy5T5sxl55OkFEqjVZ3YzLfFaNuh5UA5FU9XeCPr?=
+ =?us-ascii?Q?KSzBdPvvC9vviFAsmlnyAO1MYRytpIrdrngC8WiiK9Qb9oUBxr9229OLuRuM?=
+ =?us-ascii?Q?Vm/585ArYjltlpKidu1IP3ZpwfPlade6ekFpEaS7AjzJQqI7J3P9D5sQP8XN?=
+ =?us-ascii?Q?CxgtVptx6y38Z/BaXdcdztCkvmETh1DaXLRdoyR2NJnfWKStw6lwppn4yeNy?=
+ =?us-ascii?Q?in1Z3W3a5jqo3pVbBvQFbNa0dWZ4JD2dJhP5sUaCqY3yR1g/0vnv1EvxSsz3?=
+ =?us-ascii?Q?8u8JAkL+fa8L6chtIb7UrQ5CGe+8mDOu6xWeuiwWFOB79W8GoARd3Etg9bZA?=
+ =?us-ascii?Q?tjBDIxuifaE433Va3bSOsn25cnejOoRojT0eF3EIxBcqelLy0IChdYMqZ+Ns?=
+ =?us-ascii?Q?wm6T87qQovEEvN19n06eBO6PL/ikaczhyJOxlKcBUkkpnvVwFlXTw8PTY3VS?=
+ =?us-ascii?Q?Mf+6ijDEUxauEr5DMXxd8rakytCSIZjhzT25fOyoQZmzHjTbTy2Bp3GPpmFw?=
+ =?us-ascii?Q?Ry69y+X0PbuyJVuMYz8=3D?=
+X-Forefront-Antispam-Report: CIP:165.204.84.17; CTRY:US; LANG:en; SCL:1; SRV:;
+ IPV:CAL; SFV:NSPM; H:satlexmb07.amd.com; PTR:InfoDomainNonexistent; CAT:NONE;
+ SFS:(13230040)(1800799024)(376014)(36860700013)(82310400026); DIR:OUT;
+ SFP:1101; 
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 12 Nov 2025 22:27:11.8330 (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: e375af5b-5060-40de-d7fd-08de223a9feb
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d; Ip=[165.204.84.17];
+ Helo=[satlexmb07.amd.com]
+X-MS-Exchange-CrossTenant-AuthSource: MWH0EPF000971E8.namprd02.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA1PR12MB7318
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -159,44 +140,224 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 11/12/2025 3:48 PM, Konrad Dybcio wrote:
-> On 11/10/25 5:37 PM, Akhil P Oommen wrote:
->> Correct the register offset and enable this workaround for all A7x
->> and newer GPUs to match the recommendation. Also, downstream does this
->> w/a after moving the fence to allow mode. So do the same.
-> 
-> It does so for _notify_slumber(), but not for _pwrctl_suspend() in kgsl,
-> but in my understanding, making sure the bus arbiter doesn't gate access
-> first makes more sense
+The adaptive backlight modulation property is supported on AMD hardware but
+compositors should be aware of it in standard DRM property documentation.
 
-Yes. I didn't change the order in a6xx_gmu_force_off() (equivalent of
-kgsl_pwrctl_suspend)
+Move the helper to create the property and documentation into DRM.
 
--Akhil
+Suggested-by: Simona Vetter <simona.vetter@ffwll.ch>
+Reviewed-by: Harry Wentland <Harry.Wentland@amd.com>
+Signed-off-by: Mario Limonciello <mario.limonciello@amd.com>
+---
+ drivers/gpu/drm/amd/amdgpu/amdgpu_display.c | 69 +++------------------
+ drivers/gpu/drm/amd/amdgpu/amdgpu_display.h |  7 ---
+ drivers/gpu/drm/drm_connector.c             | 63 +++++++++++++++++++
+ include/drm/drm_connector.h                 |  8 +++
+ 4 files changed, 80 insertions(+), 67 deletions(-)
 
-> 
->>
->> Fixes: dbfbb376b50c ("drm/msm/a6xx: Add A621 support")
->> Signed-off-by: Akhil P Oommen <akhilpo@oss.qualcomm.com>
->> ---
->>  drivers/gpu/drm/msm/adreno/a6xx_gmu.c | 8 ++++----
->>  1 file changed, 4 insertions(+), 4 deletions(-)
->>
->> diff --git a/drivers/gpu/drm/msm/adreno/a6xx_gmu.c b/drivers/gpu/drm/msm/adreno/a6xx_gmu.c
->> index 4e6dc16e4a4c..605bb55de8d5 100644
->> --- a/drivers/gpu/drm/msm/adreno/a6xx_gmu.c
->> +++ b/drivers/gpu/drm/msm/adreno/a6xx_gmu.c
->> @@ -485,8 +485,9 @@ static void a6xx_gemnoc_workaround(struct a6xx_gmu *gmu)
->>  	 * in the power down sequence not being fully executed. That in turn can
->>  	 * prevent CX_GDSC from collapsing. Assert Qactive to avoid this.
->>  	 */
->> -	if (adreno_is_a621(adreno_gpu) || adreno_is_7c3(adreno_gpu))
->> -		gmu_write(gmu, REG_A6XX_GMU_AO_AHB_FENCE_CTRL, BIT(0));
->> +	if (adreno_is_a7xx(adreno_gpu) || (adreno_is_a621(adreno_gpu) ||
->> +				adreno_is_7c3(adreno_gpu)))
->> +		gmu_write(gmu, REG_A6XX_GPU_GMU_CX_GMU_CX_FALNEXT_INTF, BIT(0));
-> 
-> Arghhh copypasta, thanks for catching this!
-> 
-> Konrad
+diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_display.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_display.c
+index f8b35c487b6c..3d840bef77bf 100644
+--- a/drivers/gpu/drm/amd/amdgpu/amdgpu_display.c
++++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_display.c
+@@ -1363,67 +1363,9 @@ static const struct drm_prop_enum_list amdgpu_dither_enum_list[] = {
+ 	{ AMDGPU_FMT_DITHER_ENABLE, "on" },
+ };
+ 
+-/**
+- * DOC: property for adaptive backlight modulation
+- *
+- * The 'adaptive backlight modulation' property is used for the compositor to
+- * directly control the adaptive backlight modulation power savings feature
+- * that is part of DCN hardware.
+- *
+- * The property will be attached specifically to eDP panels that support it.
+- *
+- * The property is by default set to 'sysfs' to allow the sysfs file 'panel_power_savings'
+- * to be able to control it.
+- * If set to 'off' the compositor will ensure it stays off.
+- * The other values 'min', 'bias min', 'bias max', and 'max' will control the
+- * intensity of the power savings.
+- *
+- * Modifying this value can have implications on color accuracy, so tread
+- * carefully.
+- */
+-static int amdgpu_display_setup_abm_prop(struct amdgpu_device *adev)
+-{
+-	const struct drm_prop_enum_list props[] = {
+-		{ ABM_SYSFS_CONTROL, "sysfs" },
+-		{ ABM_LEVEL_OFF, "off" },
+-		{ ABM_LEVEL_MIN, "min" },
+-		{ ABM_LEVEL_BIAS_MIN, "bias min" },
+-		{ ABM_LEVEL_BIAS_MAX, "bias max" },
+-		{ ABM_LEVEL_MAX, "max" },
+-	};
+-	struct drm_property *prop;
+-	int i;
+-
+-	if (!adev->dc_enabled)
+-		return 0;
+-
+-	prop = drm_property_create(adev_to_drm(adev), DRM_MODE_PROP_ENUM,
+-				"adaptive backlight modulation",
+-				6);
+-	if (!prop)
+-		return -ENOMEM;
+-
+-	for (i = 0; i < ARRAY_SIZE(props); i++) {
+-		int ret;
+-
+-		ret = drm_property_add_enum(prop, props[i].type,
+-						props[i].name);
+-
+-		if (ret) {
+-			drm_property_destroy(adev_to_drm(adev), prop);
+-
+-			return ret;
+-		}
+-	}
+-
+-	adev->mode_info.abm_level_property = prop;
+-
+-	return 0;
+-}
+-
+ int amdgpu_display_modeset_create_props(struct amdgpu_device *adev)
+ {
+-	int sz;
++	int ret, sz;
+ 
+ 	adev->mode_info.coherent_mode_property =
+ 		drm_property_create_range(adev_to_drm(adev), 0, "coherent", 0, 1);
+@@ -1467,7 +1409,14 @@ int amdgpu_display_modeset_create_props(struct amdgpu_device *adev)
+ 					 "dither",
+ 					 amdgpu_dither_enum_list, sz);
+ 
+-	return amdgpu_display_setup_abm_prop(adev);
++	adev->mode_info.abm_level_property = drm_create_abm_property(adev_to_drm(adev));
++	if (IS_ERR(adev->mode_info.abm_level_property)) {
++		ret = PTR_ERR(adev->mode_info.abm_level_property);
++		adev->mode_info.abm_level_property = NULL;
++		return ret;
++	}
++
++	return 0;
+ }
+ 
+ void amdgpu_display_update_priority(struct amdgpu_device *adev)
+diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_display.h b/drivers/gpu/drm/amd/amdgpu/amdgpu_display.h
+index 2b1536a16752..dfa0d642ac16 100644
+--- a/drivers/gpu/drm/amd/amdgpu/amdgpu_display.h
++++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_display.h
+@@ -54,11 +54,4 @@ int amdgpu_display_resume_helper(struct amdgpu_device *adev);
+ int amdgpu_display_get_scanout_buffer(struct drm_plane *plane,
+ 				      struct drm_scanout_buffer *sb);
+ 
+-#define ABM_SYSFS_CONTROL	-1
+-#define ABM_LEVEL_OFF		0
+-#define ABM_LEVEL_MIN		1
+-#define ABM_LEVEL_BIAS_MIN	2
+-#define ABM_LEVEL_BIAS_MAX	3
+-#define ABM_LEVEL_MAX		4
+-
+ #endif
+diff --git a/drivers/gpu/drm/drm_connector.c b/drivers/gpu/drm/drm_connector.c
+index 272d6254ea47..376169dac247 100644
+--- a/drivers/gpu/drm/drm_connector.c
++++ b/drivers/gpu/drm/drm_connector.c
+@@ -2603,6 +2603,69 @@ static int drm_mode_create_colorspace_property(struct drm_connector *connector,
+ 	return 0;
+ }
+ 
++/**
++ * DOC: integrated panel properties
++ *
++ * adaptive backlight modulation:
++ *	Adaptive backlight modulation (ABM) is a power savings feature that
++ *	dynamically adjusts the backlight brightness based on the content
++ *	displayed on the screen. By reducing the backlight brightness for
++ *	darker images and increasing it for brighter images, ABM helps to
++ *	conserve energy and extend battery life on devices with integrated
++ *	displays.  This feature is part of AMD DCN hardware.
++ *
++ *	sysfs
++ *		The ABM property is exposed to userspace via sysfs interface
++ *		located at 'amdgpu/panel_power_savings' under the DRM device.
++ *	off
++ *		Adaptive backlight modulation is disabled.
++ *	min
++ *		Adaptive backlight modulation is enabled at minimum intensity.
++ *	bias min
++ *		Adaptive backlight modulation is enabled at a more intense
++ *		level than 'min'.
++ *	bias max
++ *		Adaptive backlight modulation is enabled at a more intense
++ *		level than 'bias min'.
++ *	max
++ *		Adaptive backlight modulation is enabled at maximum intensity.
++ */
++struct drm_property *drm_create_abm_property(struct drm_device *dev)
++{
++	const struct drm_prop_enum_list props[] = {
++		{ ABM_SYSFS_CONTROL, "sysfs" },
++		{ ABM_LEVEL_OFF, "off" },
++		{ ABM_LEVEL_MIN, "min" },
++		{ ABM_LEVEL_BIAS_MIN, "bias min" },
++		{ ABM_LEVEL_BIAS_MAX, "bias max" },
++		{ ABM_LEVEL_MAX, "max" },
++	};
++	struct drm_property *prop;
++	int i;
++
++	prop = drm_property_create(dev, DRM_MODE_PROP_ENUM,
++				"adaptive backlight modulation",
++				6);
++	if (!prop)
++		return ERR_PTR(-ENOMEM);
++
++	for (i = 0; i < ARRAY_SIZE(props); i++) {
++		int ret;
++
++		ret = drm_property_add_enum(prop, props[i].type,
++						props[i].name);
++
++		if (ret) {
++			drm_property_destroy(dev, prop);
++
++			return ERR_PTR(ret);
++		}
++	}
++
++	return prop;
++}
++EXPORT_SYMBOL(drm_create_abm_property);
++
+ /**
+  * drm_mode_create_hdmi_colorspace_property - create hdmi colorspace property
+  * @connector: connector to create the Colorspace property on.
+diff --git a/include/drm/drm_connector.h b/include/drm/drm_connector.h
+index 8f34f4b8183d..644c0d49500f 100644
+--- a/include/drm/drm_connector.h
++++ b/include/drm/drm_connector.h
+@@ -2454,6 +2454,7 @@ int drm_connector_attach_hdr_output_metadata_property(struct drm_connector *conn
+ bool drm_connector_atomic_hdr_metadata_equal(struct drm_connector_state *old_state,
+ 					     struct drm_connector_state *new_state);
+ int drm_mode_create_aspect_ratio_property(struct drm_device *dev);
++struct drm_property *drm_create_abm_property(struct drm_device *dev);
+ int drm_mode_create_hdmi_colorspace_property(struct drm_connector *connector,
+ 					     u32 supported_colorspaces);
+ int drm_mode_create_dp_colorspace_property(struct drm_connector *connector,
+@@ -2563,4 +2564,11 @@ const char *drm_get_colorspace_name(enum drm_colorspace colorspace);
+ 	drm_for_each_encoder_mask(encoder, (connector)->dev, \
+ 				  (connector)->possible_encoders)
+ 
++#define ABM_SYSFS_CONTROL	-1
++#define ABM_LEVEL_OFF		0
++#define ABM_LEVEL_MIN		1
++#define ABM_LEVEL_BIAS_MIN	2
++#define ABM_LEVEL_BIAS_MAX	3
++#define ABM_LEVEL_MAX		4
++
+ #endif
+-- 
+2.51.2
 
