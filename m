@@ -2,74 +2,82 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id ADA5FC50377
-	for <lists+dri-devel@lfdr.de>; Wed, 12 Nov 2025 02:37:49 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id E4BCAC50538
+	for <lists+dri-devel@lfdr.de>; Wed, 12 Nov 2025 03:20:37 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0897910E679;
-	Wed, 12 Nov 2025 01:37:47 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BB4B710E04D;
+	Wed, 12 Nov 2025 02:20:34 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=rock-chips.com header.i=@rock-chips.com header.b="Tk/Nru/Z";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="B2I9MviD";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-m155116.qiye.163.com (mail-m155116.qiye.163.com
- [101.71.155.116])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5B3D810E678
- for <dri-devel@lists.freedesktop.org>; Wed, 12 Nov 2025 01:37:44 +0000 (UTC)
-Received: from [172.16.12.149] (unknown [58.22.7.114])
- by smtp.qiye.163.com (Hmail) with ESMTP id 2940ec243;
- Wed, 12 Nov 2025 09:37:38 +0800 (GMT+08:00)
-Message-ID: <b1a339e7-a011-4b4b-8988-2e3768753c85@rock-chips.com>
-Date: Wed, 12 Nov 2025 09:37:36 +0800
+Received: from mail-pf1-f170.google.com (mail-pf1-f170.google.com
+ [209.85.210.170])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0914110E04D
+ for <dri-devel@lists.freedesktop.org>; Wed, 12 Nov 2025 02:20:33 +0000 (UTC)
+Received: by mail-pf1-f170.google.com with SMTP id
+ d2e1a72fcca58-7af6a6f20easo284319b3a.0
+ for <dri-devel@lists.freedesktop.org>; Tue, 11 Nov 2025 18:20:33 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20230601; t=1762914032; x=1763518832; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=LxUF+h7S30BNbJmH4g7pCp3lBzmymefVuj0S5lsfjbg=;
+ b=B2I9MviDjFLRzD/u2JEAgvJcQN4becBqOTGGyoGtFVxgOM22t0l7rvt/VM+g5ilzeI
+ UdOqPBHQfEFarDTt7lDTSOuTbVNYrmrySdsJqr9FgFMcwwPbY6Xu/mMtdspgZLg18nXb
+ JngYYt+nS8jxIy0Cx2rs4z0sHvmh1LfSqdsqDn5Fx25legmdlhK/bDwD4HmoaFqlaG4u
+ WFzLEZuP+RKkg9+IUTomazWEKE/OEI/fZwCoEVCzKeqsN8K7zl0tWXwzSHkWtuTpNiak
+ y07J37DUe9xtjupqDb5geVOQuZXdghFafjXUIUHfuJdPhVJVAVYq1pyG8qYosiQhsvSK
+ +HAA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1762914032; x=1763518832;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
+ :to:cc:subject:date:message-id:reply-to;
+ bh=LxUF+h7S30BNbJmH4g7pCp3lBzmymefVuj0S5lsfjbg=;
+ b=gSB/q4kTlX624R0ZMqqw52tWCVRgjzQj6twXOAh7ZzFGuYi9EzTwyJqzw+rREcGKdY
+ tIbREmtaNSG5pkdVSK3VeMUedFJi6qUyiKhIst1lUUQPVhKuZTebE4ZwyLaflF2/AcAj
+ alW5WTCWuePQipXJh9OVFTzqze5HGUYqoXqWZfI/wau4eahxHAjXUA7TR31ruBtEw7wW
+ iieg1nbx5g6AQTtI92TCzvM7EIAScFNOAcZjA5+1Lta4XT+PEBXM+zCHE1eRLOSCu0vf
+ 5/a7NbN2IQjT6KhpXHJLIGBHgsZUM0ajkD24n+gqUnRZClJuOZ8pJrV0UuI68StzgMRi
+ ZxOA==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCW85tpEitnTjSsuJpK/zP6uS6irwT+kugQ5XfcA/Of1DSxzbZgozpbSD2DBm3EVKne6slTIzoSzKhs=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YzKTBhTYFVPnJm+ubGcvR1/0qxn4Gv7V167sK7RWO4LGW6flqOQ
+ RUSB2spsHvfLQGCvgK/PX9uhkJas6ihV7ZNq7EdyUVQbhTK7fuPOqLeycSrRFBtZ+bZ0auaq3GD
+ b89VzvOS8QFbxqhngVos+wqqdvgtkyn4=
+X-Gm-Gg: ASbGncsWtqV+X8ISPlpw6wLTUgA/iFKfbxZMLOvHd8vMJ6FX1FVnlXWIlGfz5cpcdFE
+ ywwSXk+7a4QFmqrQHyjjhV6YLrN4W4/+QdV4Z2oTxDsLDyYywFmGmqmpbtPAo3TOXlgxv/zTxO4
+ 77e+KQQ4Q+TUblKWGx0nL9B69y6317Pq3ePcXx062DxLJv0nRun8rUCgIPsOFpfLINfU7y4XNow
+ yHP6+0BP5D26RSH5/nne7dPuWO8U4QplR6X/9ez1fu/SyauDSRehBwj7sxN
+X-Google-Smtp-Source: AGHT+IFtc6HQrz/xKZ9emyb5FEGlT0SRf+ATUq6DWBXr3zYhujoZ6/yNyjXJ5nXZWWbTjr5BzqbESW0tw1NXrAGBcT8=
+X-Received: by 2002:a17:90a:d88b:b0:340:be4d:8980 with SMTP id
+ 98e67ed59e1d1-343dde27552mr1630702a91.14.1762914032513; Tue, 11 Nov 2025
+ 18:20:32 -0800 (PST)
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v9 08/10] drm/rockchip: cdn-dp: Add multiple bridges to
- support PHY port selection
-To: Luca Ceresoli <luca.ceresoli@bootlin.com>, Chaoyi Chen
- <kernel@airkyi.com>, Heikki Krogerus <heikki.krogerus@linux.intel.com>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>,
- Peter Chen <hzpeterchen@gmail.com>, Rob Herring <robh@kernel.org>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
- <conor+dt@kernel.org>, Vinod Koul <vkoul@kernel.org>,
- Kishon Vijay Abraham I <kishon@kernel.org>, Heiko Stuebner
- <heiko@sntech.de>, Sandy Huang <hjc@rock-chips.com>,
- Andy Yan <andy.yan@rock-chips.com>,
- Yubing Zhang <yubing.zhang@rock-chips.com>,
- Frank Wang <frank.wang@rock-chips.com>,
- Andrzej Hajda <andrzej.hajda@intel.com>,
- Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Amit Sunil Dhamne <amitsd@google.com>, Dragan Simic <dsimic@manjaro.org>,
- Johan Jonker <jbx6244@gmail.com>, Diederik de Haas <didi.debian@cknow.org>,
- Peter Robinson <pbrobinson@gmail.com>
-Cc: linux-usb@vger.kernel.org, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-phy@lists.infradead.org,
- linux-arm-kernel@lists.infradead.org, linux-rockchip@lists.infradead.org,
- dri-devel@lists.freedesktop.org
-References: <20251111105040.94-1-kernel@airkyi.com>
- <20251111105040.94-9-kernel@airkyi.com>
- <DE5YP3AVGOG3.OHP68Z0F6KBU@bootlin.com>
-Content-Language: en-US
-From: Chaoyi Chen <chaoyi.chen@rock-chips.com>
-In-Reply-To: <DE5YP3AVGOG3.OHP68Z0F6KBU@bootlin.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-HM-Tid: 0a9a75b6143303abkunm0bec24bf182fd85
-X-HM-MType: 1
-X-HM-Spam-Status: e1kfGhgUHx5ZQUpXWQgPGg8OCBgUHx5ZQUlOS1dZFg8aDwILHllBWSg2Ly
- tZV1koWUFDSUNOT01LS0k3V1ktWUFJV1kPCRoVCBIfWUFZGU5CH1ZLGhlKSRoZTRkdGhlWFRQJFh
- oXVRMBExYaEhckFA4PWVdZGBILWUFZTkNVSUlVTFVKSk9ZV1kWGg8SFR0UWUFZT0tIVUpLSEpPSE
- xVSktLVUpCS0tZBg++
-DKIM-Signature: a=rsa-sha256;
- b=Tk/Nru/ZXVusFVKbKnTzrvZjOWOaCSKNx0UhTU/r6bAGi1AV3GIuBfvKLPYpROhN5dcfQ/LW/LdDtr2b8FluwyDk6CX6J5pHBwa6nVLjtWatW30ti/VVinHazm1zdSRphcteWPPYDyfsscBZj+MB05yUSLqGfbaiGVQtdEbMdRA=;
- s=default; c=relaxed/relaxed; d=rock-chips.com; v=1; 
- bh=BPllQae7e6Ghf002hw3ANDVcq7ch0jsTkPsZyexqDhM=;
- h=date:mime-version:subject:message-id:from;
+References: <20250923053001.2678596-1-shengjiu.wang@nxp.com>
+In-Reply-To: <20250923053001.2678596-1-shengjiu.wang@nxp.com>
+From: Shengjiu Wang <shengjiu.wang@gmail.com>
+Date: Wed, 12 Nov 2025 10:20:20 +0800
+X-Gm-Features: AWmQ_bk8d1h8tBpBrZUtGjow-hV3gnwT5P-EgH-CH9iaE3RQY3pwj7BwDScJKrc
+Message-ID: <CAA+D8APHUZmP8qfta4=YL200hJkiikru8yQPddvBZyx-+-1ZtQ@mail.gmail.com>
+Subject: Re: [PATCH v7 0/7] drm/bridge: imx: Add HDMI PAI driver on i.MX8MP
+To: Shengjiu Wang <shengjiu.wang@nxp.com>, Shawn Guo <shawnguo@kernel.org>
+Cc: andrzej.hajda@intel.com, neil.armstrong@linaro.org, rfoss@kernel.org, 
+ Laurent.pinchart@ideasonboard.com, jonas@kwiboo.se, jernej.skrabec@gmail.com, 
+ maarten.lankhorst@linux.intel.com, mripard@kernel.org, tzimmermann@suse.de, 
+ airlied@gmail.com, simona@ffwll.ch, lumag@kernel.org, dianders@chromium.org, 
+ cristian.ciocaltea@collabora.com, luca.ceresoli@bootlin.com, 
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org, 
+ victor.liu@nxp.com, s.hauer@pengutronix.de, kernel@pengutronix.de, 
+ festevam@gmail.com, imx@lists.linux.dev, linux-arm-kernel@lists.infradead.org, 
+ robh@kernel.org, krzk+dt@kernel.org, conor+dt@kernel.org, 
+ p.zabel@pengutronix.de, devicetree@vger.kernel.org, l.stach@pengutronix.de, 
+ perex@perex.cz, tiwai@suse.com, linux-sound@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -85,261 +93,82 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hello Luca,
+Hi Shawn
 
-On 11/11/2025 11:14 PM, Luca Ceresoli wrote:
-> Hello Chaoyi,
+On Tue, Sep 23, 2025 at 1:30=E2=80=AFPM Shengjiu Wang <shengjiu.wang@nxp.co=
+m> wrote:
 >
-> On Tue Nov 11, 2025 at 11:50 AM CET, Chaoyi Chen wrote:
->> From: Chaoyi Chen <chaoyi.chen@rock-chips.com>
->>
->> The RK3399 has two USB/DP combo PHY and one CDN-DP controller. And
->> the CDN-DP can be switched to output to one of the PHYs. If both ports
->> are plugged into DP, DP will select the first port for output.
->>
->> This patch adds support for multiple bridges, enabling users to flexibly
->> select the output port. For each PHY port, a separate encoder and bridge
->> are registered.
->>
->> The change is based on the DRM AUX HPD bridge, rather than the
->> extcon approach. This requires the DT to correctly describe the
->> connections between the first bridge in bridge chain and DP
->> controller. For example, the bridge chain may be like this:
->>
->> PHY aux birdge -> fsa4480 analog audio switch bridge ->
->> onnn,nb7vpq904m USB reminder bridge -> USB-C controller AUX HPD bridge
->>
->> In this case, the connection relationships among the PHY aux bridge
->> and the DP contorller need to be described in DT.
->>
->> In addition, the cdn_dp_parse_next_bridge_dt() will parses it and
->> determines whether to register one or two bridges.
->>
->> Since there is only one DP controller, only one of the PHY ports can
->> output at a time. The key is how to switch between different PHYs,
->> which is handled by cdn_dp_switch_port() and cdn_dp_enable().
->>
->> There are two cases:
->>
->> 1. Neither bridge is enabled. In this case, both bridges can
->> independently read the EDID, and the PHY port may switch before
->> reading the EDID.
->>
->> 2. One bridge is already enabled. In this case, other bridges are not
->> allowed to read the EDID. So we will try to return the cached EDID.
->>
->> Since the scenario of two ports plug in at the same time is rare,
->> I don't have a board which support two TypeC connector to test this.
->> Therefore, I tested forced switching on a single PHY port, as well as
->> output using a fake PHY port alongside a real PHY port.
->>
->> Signed-off-by: Chaoyi Chen <chaoyi.chen@rock-chips.com>
-> [...]
+> The HDMI TX Parallel Audio Interface (HTX_PAI) is a digital module that
+> acts as the bridge between the Audio Subsystem to the HDMI TX Controller.
 >
->> @@ -966,28 +1084,16 @@ static int cdn_dp_pd_event(struct notifier_block *nb,
->>   	return NOTIFY_DONE;
->>   }
->>
->> -static int cdn_dp_bind(struct device *dev, struct device *master, void *data)
->> +static int cdn_bridge_add(struct device *dev,
->> +			  struct drm_bridge *bridge,
->> +			  struct drm_bridge *next_bridge,
->> +			  struct drm_encoder *encoder)
->>   {
->>   	struct cdn_dp_device *dp = dev_get_drvdata(dev);
->> -	struct drm_encoder *encoder;
->> +	struct drm_device *drm_dev = dp->drm_dev;
->> +	struct drm_bridge *last_bridge = NULL;
->>   	struct drm_connector *connector;
->> -	struct cdn_dp_port *port;
->> -	struct drm_device *drm_dev = data;
->> -	int ret, i;
-> [...]
+> Add HDMI PAI driver on i.MX8MP to make HDMI audio function fully work.
 >
->> +	if (next_bridge) {
->> +		ret = drm_bridge_attach(encoder, next_bridge, bridge,
->> +					DRM_BRIDGE_ATTACH_NO_CONNECTOR);
->> +		if (ret)
->> +			return ret;
->> +
->> +		last_bridge = next_bridge;
->> +		while (drm_bridge_get_next_bridge(last_bridge))
->> +			last_bridge = drm_bridge_get_next_bridge(last_bridge);
-> DRM bridges are now refcounted, and you are not calling drm_bridge_get()
-> and drm_bridge_put() here. But here you can use
-> drm_bridge_chain_get_last_bridge() which will simplify your job.
+> changes in v7:
+> - add back the mutex which removed in v6
+> - add Tested-by tag from Alexander.
 >
-> Don't forget to call drm_bridge_put() on the returned bridge when the
-> bridge is not referenced anymore. This should be as easy as adding a
-> cleanup action on the variable declaration above:
+> changes in v6:
+> - remove mutex in dw_hdmi_set_sample_iec958()
 >
-> -	struct drm_bridge *last_bridge = NULL;
-> +	struct drm_bridge *last_bridge __free(drm_bridge_put) = NULL;
+> changes in v5:
+> - add empty line commit message for patch 7
+> - remove blank line in dts node
+> - add component_unbind_all when dw_hdmi_probe return error
+>
+> changes in v4:
+> - separate dts for soc and board
+> - bind hdmi_pai with hdmi_tx by moving some code to .bind() and .unbind()
+> - add "select DRM_DW_HDMI" to fix build error reported by test robot
+> - remove unnecessary code/definition in pai driver
+>
+> changes in v3:
+> - add space and 'U' in asoundef.h
+> - add more commit message for binding doc commit
+> - add bitfield.h header for fixing build error
+>
+> changes in v2:
+> - address some comments on commit messages
+> - add two more commits:
+>   add definitions for the bits in IEC958 subframe
+>   add API dw_hdmi_set_sample_iec958() for iec958 format
+> - use component helper in hdmi_pai and hdmi_tx driver
+> - use regmap in hdmi_pai driver.
+> - add clocks in binding doc
+>
+> Shengjiu Wang (7):
+>   dt-bindings: display: imx: add HDMI PAI for i.MX8MP
+>   ALSA: Add definitions for the bits in IEC958 subframe
+>   drm/bridge: dw-hdmi: Add API dw_hdmi_to_plat_data() to get plat_data
+>   drm/bridge: dw-hdmi: Add API dw_hdmi_set_sample_iec958() for iec958
+>     format
+>   drm/bridge: imx: add driver for HDMI TX Parallel Audio Interface
+>   arm64: dts: imx8mp: Add hdmi parallel audio interface node
+>   arm64: dts: imx8mp-evk: enable hdmi_pai device
 
-Ah, I have seen your patch about this. Thank you for the reminder, I will fix this in v10.
+Could you please review the above two dts patches?
+Thanks.
+
+Best regards
+Shengjiu wang
 
 >
->> @@ -1029,8 +1147,102 @@ static int cdn_dp_bind(struct device *dev, struct device *master, void *data)
->>   		return ret;
->>   	}
->>
->> +	if (last_bridge)
->> +		connector->fwnode = fwnode_handle_get(of_fwnode_handle(last_bridge->of_node));
->> +
->>   	drm_connector_attach_encoder(connector, encoder);
->>
->> +	return 0;
->> +}
->> +
->> +static int cdn_dp_parse_next_bridge_dt(struct cdn_dp_device *dp)
->> +{
->> +	struct device_node *np = dp->dev->of_node;
->> +	struct device_node *port __free(device_node) = of_graph_get_port_by_id(np, 1);
->> +	struct drm_bridge *bridge;
->> +	int count = 0;
->> +	int ret = 0;
->> +	int i;
->> +
->> +	/* If device use extcon, do not use hpd bridge */
->> +	for (i = 0; i < dp->ports; i++) {
->> +		if (dp->port[i]->extcon) {
->> +			dp->bridge_count = 1;
->> +			return 0;
->> +		}
->> +	}
->> +
->> +
->> +	/* One endpoint may correspond to one next bridge. */
->> +	for_each_of_graph_port_endpoint(port, dp_ep) {
->> +		struct device_node *next_bridge_node __free(device_node) =
->> +			of_graph_get_remote_port_parent(dp_ep);
->> +
->> +		bridge = of_drm_find_bridge(next_bridge_node);
->> +		if (!bridge) {
->> +			ret = -EPROBE_DEFER;
->> +			goto out;
->> +		}
->> +
->> +		dp->next_bridge_valid = true;
->> +		dp->next_bridge_list[count].bridge = bridge;
-> You are storing a reference to a drm_bridge, so have to increment the
-> refcount:
+>  .../display/bridge/fsl,imx8mp-hdmi-tx.yaml    |  12 ++
+>  .../display/imx/fsl,imx8mp-hdmi-pai.yaml      |  69 ++++++++
+>  arch/arm64/boot/dts/freescale/imx8mp-evk.dts  |   4 +
+>  arch/arm64/boot/dts/freescale/imx8mp.dtsi     |  27 ++-
+>  drivers/gpu/drm/bridge/imx/Kconfig            |  11 ++
+>  drivers/gpu/drm/bridge/imx/Makefile           |   1 +
+>  drivers/gpu/drm/bridge/imx/imx8mp-hdmi-pai.c  | 158 ++++++++++++++++++
+>  drivers/gpu/drm/bridge/imx/imx8mp-hdmi-tx.c   |  65 ++++++-
+>  .../drm/bridge/synopsys/dw-hdmi-gp-audio.c    |   5 +
+>  drivers/gpu/drm/bridge/synopsys/dw-hdmi.c     |  18 +-
+>  include/drm/bridge/dw_hdmi.h                  |  11 +-
+>  include/sound/asoundef.h                      |   9 +
+>  12 files changed, 382 insertions(+), 8 deletions(-)
+>  create mode 100644 Documentation/devicetree/bindings/display/imx/fsl,imx=
+8mp-hdmi-pai.yaml
+>  create mode 100644 drivers/gpu/drm/bridge/imx/imx8mp-hdmi-pai.c
 >
-> 		dp->next_bridge_list[count].bridge = drm_bridge_get(bridge);
-> 		                                     ^^^^^^^^^^^^^^
+> --
+> 2.34.1
 >
-> FYI there is a plan to replace of_drm_find_bridge() with a function that
-> increases the bridge refcount before returning the bridge, but it's not
-> there yet. When that will happen, the explicit drm_bridge_get() won't be
-> needed anymore and this code can be updated accordingly.
->
-> Also you have to call drm_bridge_put() to release that reference when the
-> pointer goes away. I guess that should happen in cdn_dp_unbind().
-
-You're right, this is indeed a pitfall. I will fix it in v10.
-
->
->> +static int cdn_dp_bind(struct device *dev, struct device *master, void *data)
->> +{
-> In this function you do:
-> ...(see below)...
->
->> +	struct cdn_dp_device *dp = dev_get_drvdata(dev);
->> +	struct drm_bridge *bridge, *next_bridge;
->> +	struct drm_encoder *encoder;
->> +	struct cdn_dp_port *port;
->> +	struct drm_device *drm_dev = data;
->> +	struct cdn_dp_bridge *dp_bridge;
->> +	int ret, i;
->> +
->> +	ret = cdn_dp_parse_dt(dp);
->> +	if (ret < 0)
-> .> +		return ret;
->> +
->> +	ret = cdn_dp_parse_next_bridge_dt(dp);
-> 1. compute the next bridges and store them in dp->next_bridge_list[]
-> ...
->
->> +	if (ret)
->> +		return ret;
->> +
->> +	dp->drm_dev = drm_dev;
->> +	dp->connected = false;
->> +	dp->active = false;
->> +	dp->active_port = -1;
->> +	dp->fw_loaded = false;
->> +
->> +	for (i = 0; i < dp->bridge_count; i++) {
->> +		dp_bridge = devm_drm_bridge_alloc(dev, struct cdn_dp_bridge, bridge,
->> +						    &cdn_dp_bridge_funcs);
->> +		if (IS_ERR(dp_bridge))
->> +			return PTR_ERR(dp_bridge);
->> +		dp_bridge->id = i;
->> +		dp_bridge->parent = dp;
->> +		if (!dp->next_bridge_valid)
->> +			dp_bridge->connected = true;
->> +		dp->bridge_list[i] = dp_bridge;
->> +	}
->> +
->> +	for (i = 0; i < dp->bridge_count; i++) {
->> +		encoder = &dp->bridge_list[i]->encoder.encoder;
->> +		bridge = &dp->bridge_list[i]->bridge;
->> +		next_bridge = dp->next_bridge_list[i].bridge;
->> +		ret = cdn_bridge_add(dev, bridge, next_bridge, encoder);
-> ...
-> 2. pass the dp->next_bridge_list[i].bridge to cdn_bridge_add
-> 3. not use  dp->next_bridge_list[i] elsewhere
->
-> So you may want to change this function to parse into a local array, with
-> function scope. If you do this, the drm_bridge_get/put() I mentioned above
-> should still exist, but would be localized to this function, thus even
-> easier to handle.
->
-> Even better, you can parse the DT one bridge at a time inside the for loop,
-> so you don't need to store any next_bridge pointer array. This will need a
-> bit of rework of cdn_dp_parse_next_bridge_dt() though, and I haven't
-> checked in detail so it might be not worth.
-
-The next_bridge is obtained through of_drm_find_bridge(). According to your description just now, drm_bridge_put() needs to be called in cdn_dp_unbind(). So if I understand correctly, we do need to store this pointer.
-
-
->
-> [...]
->
->> +struct cdn_dp_bridge {
->> +	struct cdn_dp_device *parent;
->> +	struct drm_bridge bridge;
->> +	struct rockchip_encoder encoder;
->> +	bool connected;
->> +	bool enabled;
->> +	int id;
->> +};
->> +
->> +struct cdn_dp_next_bridge {
->> +	struct cdn_dp_device *parent;
->> +	struct drm_bridge *bridge;
->> +	int id;
-> The @parent and @id fields are unused if I'm not mistaken.
->
-> If it is the case then you can... (see below)
->
->>   struct cdn_dp_device {
->>   	struct device *dev;
->>   	struct drm_device *drm_dev;
->> -	struct drm_bridge bridge;
->> -	struct rockchip_encoder encoder;
->> +	int bridge_count;
->> +	struct cdn_dp_bridge *bridge_list[MAX_PHY];
->> +	struct cdn_dp_next_bridge next_bridge_list[MAX_PHY];
-> ...replace this line with:
-> 	struct drm_bridge *next_bridge[MAX_PHY];
->
-> Unless of course you just don't store the next_bridge at all, as I
-> suggested above, and which looks way easier and more efficient.
-
-Yes, the structure cdn_dp_next_bridge is only reserved for future expansion. I will replace it with a simpler struct drm_bridge in v10.
-
--- 
-Best,
-Chaoyi
-
