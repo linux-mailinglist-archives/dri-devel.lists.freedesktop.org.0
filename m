@@ -2,149 +2,244 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A4FC8C548BA
-	for <lists+dri-devel@lfdr.de>; Wed, 12 Nov 2025 22:07:54 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6CF92C548FC
+	for <lists+dri-devel@lfdr.de>; Wed, 12 Nov 2025 22:11:50 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 598AF10E035;
-	Wed, 12 Nov 2025 21:07:51 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B407310E127;
+	Wed, 12 Nov 2025 21:11:47 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="dvvDkzDV";
-	dkim=pass (2048-bit key; unprotected) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="GIEr/UXu";
+	dkim=pass (2048-bit key; unprotected) header.d=oracle.com header.i=@oracle.com header.b="HA7I/1Rz";
+	dkim=pass (1024-bit key; unprotected) header.d=oracle.onmicrosoft.com header.i=@oracle.onmicrosoft.com header.b="W+fHs7sm";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
- [205.220.180.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5B43C10E127
- for <dri-devel@lists.freedesktop.org>; Wed, 12 Nov 2025 21:07:50 +0000 (UTC)
-Received: from pps.filterd (m0279873.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id
- 5ACFwsgK1814791
- for <dri-devel@lists.freedesktop.org>; Wed, 12 Nov 2025 21:07:49 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
- cc:content-transfer-encoding:content-type:date:from:in-reply-to
- :message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
- DWMyaNg51yAfSqWuMQm6DsWh4pCeuwKPEWjNwRpWJFc=; b=dvvDkzDVzUeQRl9f
- VrapumChgiXe5wG4wMkNAAmc2X+v0HRLKhYGwECmwLn5SDxIJ/dG/L89sSSR45qP
- ws/IZSe+6bPavyd8gMfbInM3Vv7+zndUAV5zTFh9Y6OpkBqTNSRsaRRbYP5cduFh
- CWIGmuBHr6CPR6DZ9CP5ozuz6ll0/H859hD/xnRJFd/1ZpqZYXtlIFIachq2RHSu
- sKXNp8q1MWPTPRoWierLXH2yOCmctffd4K/7zW9wQSi6Q25dXAYbl/036hXGPNTS
- 6DEQYSJcnphMTKRTv5QBoptmROh+jLflb8MXJeXYwixIjZT1LANQj0T8y7PtViCw
- gIt9tw==
-Received: from mail-pf1-f199.google.com (mail-pf1-f199.google.com
- [209.85.210.199])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4acwbprxnt-1
- (version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
- for <dri-devel@lists.freedesktop.org>; Wed, 12 Nov 2025 21:07:48 +0000 (GMT)
-Received: by mail-pf1-f199.google.com with SMTP id
- d2e1a72fcca58-7a9fb6fcc78so45869b3a.3
- for <dri-devel@lists.freedesktop.org>; Wed, 12 Nov 2025 13:07:48 -0800 (PST)
+Received: from mx0a-00069f02.pphosted.com (mx0a-00069f02.pphosted.com
+ [205.220.165.32])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E35B610E127;
+ Wed, 12 Nov 2025 21:11:46 +0000 (UTC)
+Received: from pps.filterd (m0246617.ppops.net [127.0.0.1])
+ by mx0b-00069f02.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 5ACL0x6x020711;
+ Wed, 12 Nov 2025 21:11:28 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=cc
+ :content-type:date:from:in-reply-to:message-id:mime-version
+ :references:subject:to; s=corp-2025-04-25; bh=CTPa4rylIO4buuN6AT
+ 0ngxlmtscwDy27k99RTSkv4/c=; b=HA7I/1Rzhue/6C7t5ldQbbJYH3x0hWUw8m
+ ihwsMvvU5e4QwQcjiIdeRygA86Iu8fnPoo6bSf31mEKl9nf9jPFnkx1aKsWGbH1n
+ SouVk5v+d/phFPjWIbWFz2eR0wsL/dA7DQJhufBWb4rbBHdHa9gv7D6DmMnKSUfY
+ YS0lSkJayOQpDCiKywjEG2PMMAraeItbjLKQgkJ1AvWATQB2u9U25y2iQHGin+Bk
+ wfTCfqyRP8HUXHSuty4HO9PxPLGBjpsthPUzC4oVut39RzixazmLnQnuHg9jgczm
+ ySC2UozwHH1gNBWZhnJ1UVRQvMRMABh3JOZLUAx8Cb9gi9ayazMg==
+Received: from phxpaimrmta02.imrmtpd1.prodappphxaev1.oraclevcn.com
+ (phxpaimrmta02.appoci.oracle.com [147.154.114.232])
+ by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 4acxfvgg2b-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Wed, 12 Nov 2025 21:11:28 +0000 (GMT)
+Received: from pps.filterd
+ (phxpaimrmta02.imrmtpd1.prodappphxaev1.oraclevcn.com [127.0.0.1])
+ by phxpaimrmta02.imrmtpd1.prodappphxaev1.oraclevcn.com (8.18.1.2/8.18.1.2)
+ with ESMTP id 5ACJxJVF005486; Wed, 12 Nov 2025 21:11:27 GMT
+Received: from cy7pr03cu001.outbound.protection.outlook.com
+ (mail-westcentralusazon11010041.outbound.protection.outlook.com
+ [40.93.198.41])
+ by phxpaimrmta02.imrmtpd1.prodappphxaev1.oraclevcn.com (PPS) with ESMTPS id
+ 4a9vab86s9-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Wed, 12 Nov 2025 21:11:27 +0000
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=gZaGu4gcySK+j4LXpb5rkp1BZc/XqvYEd0SF0ZtCzH+TnBsWZJ4YKXLd5U+LRa16yYwc3L/aEb4oeuLSi99DBy5G2+8AW5xQe+YvQmIYryrvbQGhgBIBC1mA/R3n83aEhcP7X5ygU6hF9nSxpC6+MT7OKDx5X0DOKxZY+ck/yRVmbj2y+Qh5fajAju8laDwXZfkdIVHsr5wYDJz78ZGLSoGrGjmblHtwT1ANj3CSGZLdVimtoWqvmS31cZwS0NMDqpH0BDkIHycQAe1SY7Xen9QESjR8GAG1vqr+7ClpHiwOUUdPwA5LzU9MbJNDQAzqglHcqL8rw9AVAFm9q/KW6g==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=CTPa4rylIO4buuN6AT0ngxlmtscwDy27k99RTSkv4/c=;
+ b=tfGPP9sarIWzflTD6k21iDHqN7wtuRomQqMKvOVOBX34WbZ5G5Q3VUmCz0i3GOiKnro14VAAlSfKa/3UL3RteggWqB0mXyrsEQP85xUQ0RrW1CUWUrTsE8Wlm2xSt9mzXy1FYopML7tfw0vp+xpKBnbA4V172nkw4bsv7PNvEi3ju08n+z481teK8ZeNO7WxgqskXmSTs89ynNjLnE3Jlndb4cYanZgtEEb+w7FqY0D0X8+LPlaV4uZ4+kpkiYdtXOhpgiE9Xdzbc7wxSFfZYkFjHusznb5SDkCpSsqK9M5Tm6fJfDPAXHegJZB/6oB0rYW3vd4gR5oWBzOKqgpWug==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=oracle.com; dmarc=pass action=none header.from=oracle.com;
+ dkim=pass header.d=oracle.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=oss.qualcomm.com; s=google; t=1762981668; x=1763586468;
- darn=lists.freedesktop.org; 
- h=content-transfer-encoding:in-reply-to:from:content-language
- :references:cc:to:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=DWMyaNg51yAfSqWuMQm6DsWh4pCeuwKPEWjNwRpWJFc=;
- b=GIEr/UXuPpk1rtx4g3ZNt73b00PXgrJOM9zj7skj3DXanlmpaZa3lOqQC4VThSMIBq
- YkF53l6gnTOvdJGu2mumXvaGVBIGsf4usL22eYkhepUn1Uk88cwqXz+0lcExmqr2Cg4X
- 3R4/7y0qod4WXZpkWvQO+yyED7dV+2FaTtvpFOeYiX8SJq+b+JS5V5ue1JP8NtLsQVKX
- rFOp0oYoMUmKJkyIVIULHHz5kty2gG0bFvjDV7wAZCT6kBureOiGZsdaUpbSfhQ/uQzQ
- arEizNr8w/wQ9QmuBxoUHp2BHKlUENOr1ehbxIkYAkvUKzG35AYUGAZprGPVsBdCE4Wx
- oROg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1762981668; x=1763586468;
- h=content-transfer-encoding:in-reply-to:from:content-language
- :references:cc:to:subject:user-agent:mime-version:date:message-id
- :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=DWMyaNg51yAfSqWuMQm6DsWh4pCeuwKPEWjNwRpWJFc=;
- b=EJSeApA/dKhcb/FR0QdhkxUsgX9eSBfIabjUPDDMEYBmOlHbG3y65vh12dkkDCPteJ
- DFT0UBE9WrKhDzNuF2KXo2nN5/0DchwiTjg22dAFu07Htq/7P/HFsFRL1b1QpmWqUNrF
- z5eZBAOWssc4GUQMJsXIifOlncqrQVx68QZ4jgNhvFoZe2/8LVY80FB5N9IIbTDk1/tC
- INXKsj27gK/2k2LR6blxCTUbFnRzCfJdoWrtREETYN/EpC1NE4tlq9BYrep0C+Um7cXk
- jRoQBi5O7WQ4zMb+T19K2ogawlDrUE5gDyu87PGuIMbhjUfjT/bkuypgOkDJN93jG7sv
- EpSA==
-X-Forwarded-Encrypted: i=1;
- AJvYcCUnJxA3DAhwKfyEdo0VlQ1pUxFLaXcReSGCislq19FukvBsmWuGZ47FFr18BBjo6bislNeHVCSKyWw=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Yx5S5l6CY12Hk8x+cRY9s6wrfg7m8KwiJNBtPRUDffFqYA/y8s4
- fH317dcfuAUcoQQj/RRKCHw1S6QjHoArldnu9wcpwu5RiyaWGzMKtZW0e/NmivndgW4AajZCguk
- tb7HVNvuWR76yr8BuE/AyaoYdROsN40ABQBQp5BEZEXtSzj/1MxBi/6iDXOiKDp47agEhX9M=
-X-Gm-Gg: ASbGncu4LG+EgvlSzb4OeKuxPmk4yT2/KjBmVdCgLGFtitErdNJZ3A0L/XGdSn9pTc4
- XBCADwJ0qu5c0hSETNs6lHmArV1rrJ7SQHZZEHlOYThsiSpvUka8eDUH9dPdZqSrj0oHbg4G3F8
- ZQlFfdx0WAARpGiFucz3oNfTC/CTi3JCKVFPIzsBzmDh1YBzgV8obchGxMw+8CcZATIf7JZB6Ho
- 9ab3mIszzfuu27uKgICHaa050u9GevuAdJ95h7mO5DeHZCW/uxyE8UuWAuxy/wVlL20DbOxbw3V
- prUJhv3uocsV4fIgnn71nDifCzMc7WEQ9T7RoXw0HvgaKu+YQyDcKqFXPsGvWUlNzqM6gzt3ci2
- 0s6X2mySGQY/hNcbOdZViNQ==
-X-Received: by 2002:a05:6a00:9508:b0:77f:416e:de8e with SMTP id
- d2e1a72fcca58-7b7a4edebdbmr4669585b3a.26.1762981667654; 
- Wed, 12 Nov 2025 13:07:47 -0800 (PST)
-X-Google-Smtp-Source: AGHT+IGKzD5r9VfuhnSBaFB/wMVsbTr573DGBz89wF4dbIOOszP4AA+4sdkCrWHfyRuslYFgh/6AuQ==
-X-Received: by 2002:a05:6a00:9508:b0:77f:416e:de8e with SMTP id
- d2e1a72fcca58-7b7a4edebdbmr4669532b3a.26.1762981667046; 
- Wed, 12 Nov 2025 13:07:47 -0800 (PST)
-Received: from [192.168.1.5] ([106.222.234.47])
- by smtp.gmail.com with ESMTPSA id
- d2e1a72fcca58-7b0c9c0874bsm19343016b3a.16.2025.11.12.13.07.39
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 12 Nov 2025 13:07:46 -0800 (PST)
-Message-ID: <7ece2feb-79ab-478e-936b-607cfda22707@oss.qualcomm.com>
-Date: Thu, 13 Nov 2025 02:37:37 +0530
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 17/21] drm/msm/a8xx: Add support for Adreno X2-85 GPU
-To: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
-Cc: Rob Clark <robin.clark@oss.qualcomm.com>,
- Bjorn Andersson <andersson@kernel.org>,
- Konrad Dybcio <konradybcio@kernel.org>, Sean Paul <sean@poorly.run>,
- Dmitry Baryshkov <lumag@kernel.org>, Abhinav Kumar
- <abhinav.kumar@linux.dev>, Jessica Zhang <jesszhan0024@gmail.com>,
- Marijn Suijten <marijn.suijten@somainline.org>,
+ d=oracle.onmicrosoft.com; s=selector2-oracle-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=CTPa4rylIO4buuN6AT0ngxlmtscwDy27k99RTSkv4/c=;
+ b=W+fHs7smyfKcLolUvtW/pL+jOF+qI3xoUx+Y6nHWAEKWARPtS5ywG+H+JUiJ0UpKus+acJ+VPmtyflWcPpExqHU+gIyyXVG0oBr6WtYWR3koel0lbxmJlLXzMZhmLGtZumB/cCOl97VEYcIPf/oqMKs9ETarcuSLikVStoTdzjo=
+Received: from DS7PR10MB5344.namprd10.prod.outlook.com (2603:10b6:5:3ab::6) by
+ MW6PR10MB7613.namprd10.prod.outlook.com (2603:10b6:303:23b::13) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9320.15; Wed, 12 Nov
+ 2025 21:11:17 +0000
+Received: from DS7PR10MB5344.namprd10.prod.outlook.com
+ ([fe80::b527:ca1f:1129:a680]) by DS7PR10MB5344.namprd10.prod.outlook.com
+ ([fe80::b527:ca1f:1129:a680%4]) with mapi id 15.20.9320.013; Wed, 12 Nov 2025
+ 21:11:17 +0000
+To: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+Cc: Corey Minyard <corey@minyard.net>, Christian =?utf-8?Q?K=C3=B6nig?=
+ <christian.koenig@amd.com>, "Dr. David Alan Gilbert" <linux@treblig.org>,
+ Alex Deucher <alexander.deucher@amd.com>, Thomas Zimmermann
+ <tzimmermann@suse.de>, Dmitry Baryshkov
+ <dmitry.baryshkov@oss.qualcomm.com>, Rob Clark
+ <robin.clark@oss.qualcomm.com>, Matthew Brost <matthew.brost@intel.com>,
+ Ulf Hansson <ulf.hansson@linaro.org>, Vitaly Lifshits
+ <vitaly.lifshits@intel.com>, Manivannan Sadhasivam <mani@kernel.org>,
+ Niklas Cassel <cassel@kernel.org>, Calvin Owens <calvin@wbinvd.org>,
+ Vadim Fedorenko <vadim.fedorenko@linux.dev>, Sagi Maimon
+ <maimon.sagi@gmail.com>, "Martin K. Petersen" <martin.petersen@oracle.com>,
+ Karan Tilak Kumar <kartilak@cisco.com>,
+ Hans Verkuil <hverkuil+cisco@kernel.org>, Casey Schaufler
+ <casey@schaufler-ca.com>, Steven Rostedt <rostedt@goodmis.org>, Petr
+ Mladek <pmladek@suse.com>, Viacheslav Dubeyko <Slava.Dubeyko@ibm.com>,
+ Max Kellermann <max.kellermann@ionos.com>, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org, openipmi-developer@lists.sourceforge.net,
+ linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ linaro-mm-sig@lists.linaro.org, amd-gfx@lists.freedesktop.org,
+ linux-arm-msm@vger.kernel.org, freedreno@lists.freedesktop.org,
+ intel-xe@lists.freedesktop.org, linux-mmc@vger.kernel.org,
+ netdev@vger.kernel.org, intel-wired-lan@lists.osuosl.org,
+ linux-pci@vger.kernel.org, linux-s390@vger.kernel.org,
+ linux-scsi@vger.kernel.org, linux-staging@lists.linux.dev,
+ ceph-devel@vger.kernel.org, linux-trace-kernel@vger.kernel.org, Rasmus
+ Villemoes <linux@rasmusvillemoes.dk>, Sergey Senozhatsky
+ <senozhatsky@chromium.org>, Jonathan Corbet <corbet@lwn.net>, Sumit
+ Semwal <sumit.semwal@linaro.org>, Gustavo Padovan <gustavo@padovan.org>,
  David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Jonathan Marek <jonathan@marek.ca>, Jordan Crouse
- <jordan@cosmicpenguin.net>,
- Will Deacon <will@kernel.org>, Robin Murphy <robin.murphy@arm.com>,
- Joerg Roedel <joro@8bytes.org>, Rob Herring <robh@kernel.org>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- Connor Abbott <cwabbott0@gmail.com>, linux-arm-msm@vger.kernel.org,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- freedreno@lists.freedesktop.org, linux-arm-kernel@lists.infradead.org,
- iommu@lists.linux.dev, devicetree@vger.kernel.org
-References: <20251110-kaana-gpu-support-v2-0-bef18acd5e94@oss.qualcomm.com>
- <20251110-kaana-gpu-support-v2-17-bef18acd5e94@oss.qualcomm.com>
- <f9aafd73-fe4a-4399-a0c8-0da1c109283a@oss.qualcomm.com>
-Content-Language: en-US
-From: Akhil P Oommen <akhilpo@oss.qualcomm.com>
-In-Reply-To: <f9aafd73-fe4a-4399-a0c8-0da1c109283a@oss.qualcomm.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Authority-Analysis: v=2.4 cv=NvjcssdJ c=1 sm=1 tr=0 ts=6914f724 cx=c_pps
- a=WW5sKcV1LcKqjgzy2JUPuA==:117 a=2IP1oaZ8+KUWsYovLW0HHw==:17
- a=IkcTkHD0fZMA:10 a=6UeiqGixMTsA:10 a=s4-Qcg_JpJYA:10
- a=VkNPw1HP01LnGYTKEx00:22 a=EUspDBNiAAAA:8 a=wj3I1jakp0zn3Am71_UA:9
- a=QEXdDO2ut3YA:10 a=OpyuDcXvxspvyRM73sMx:22
-X-Proofpoint-GUID: ELV1C0qUQhiqdSsP5GhOjzUOdGlUuA8t
-X-Proofpoint-ORIG-GUID: ELV1C0qUQhiqdSsP5GhOjzUOdGlUuA8t
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUxMTEyMDE3MSBTYWx0ZWRfXxlZK5GeJYjcy
- XKgnF/MJXQcCXZXjk87lFKq2tp7q9IuFaecuI4WL5RA65rTiOcoj5QpUJQ9yb81BxwL7VjeSmHt
- C/r5RjZ4VN5eJs4Wv1OOAsS8ndvAlf3ZFOGABbod0cv3whRhYp0FpbgjRj11BlACiT3MD8gzVpe
- R/3C9Xr/jlluGfFv35AWRWGseRgI7JcFaUcyBQah5vMAU+OrW4jKDVoxKlLC/WnYBIkiweKBXN9
- S3gaAOQ4KI3YydkcSpUMfj0F7tHNmXQnGHB2ht5fT7XVjlTcrOyYXrtWEtzkNDUbE2QQFqJgI4J
- pdWgYhwqlWrd4IcoZU6CEQrjsJQgSWNu9eEeXTQvuXlwrMea5667g8m6TF3PSUxepkX0PSX7Xdv
- 0tcfwd5dDFuOUUeY5FFeh53TfxR2Jw==
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Maxime Ripard
+ <mripard@kernel.org>, Dmitry Baryshkov <lumag@kernel.org>, Abhinav Kumar
+ <abhinav.kumar@linux.dev>, Jessica Zhang <jesszhan0024@gmail.com>, Sean
+ Paul <sean@poorly.run>, Marijn Suijten <marijn.suijten@somainline.org>,
+ Konrad Dybcio <konradybcio@kernel.org>, Lucas De Marchi
+ <lucas.demarchi@intel.com>, Thomas =?utf-8?Q?Hellstr=C3=B6m?=
+ <thomas.hellstrom@linux.intel.com>, Rodrigo Vivi <rodrigo.vivi@intel.com>,
+ Vladimir Oltean <olteanv@gmail.com>, Andrew Lunn <andrew@lunn.ch>,
+ "David S. Miller" <davem@davemloft.net>, Eric
+ Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>, Paolo
+ Abeni <pabeni@redhat.com>, Tony Nguyen <anthony.l.nguyen@intel.com>,
+ Przemek Kitszel <przemyslaw.kitszel@intel.com>, Krzysztof =?utf-8?Q?Wil?=
+ =?utf-8?Q?czy=C5=84ski?= <kwilczynski@kernel.org>,
+ Kishon Vijay Abraham I <kishon@kernel.org>,
+ Bjorn Helgaas <bhelgaas@google.com>, Rodolfo Giometti
+ <giometti@enneenne.com>, Richard Cochran <richardcochran@gmail.com>,
+ Jonathan Lemon <jonathan.lemon@gmail.com>, Stefan Haberland
+ <sth@linux.ibm.com>, Jan Hoeppner <hoeppner@linux.ibm.com>, Heiko
+ Carstens <hca@linux.ibm.com>, Vasily Gorbik <gor@linux.ibm.com>,
+ Alexander Gordeev <agordeev@linux.ibm.com>, Christian Borntraeger
+ <borntraeger@linux.ibm.com>, Sven Schnelle <svens@linux.ibm.com>, Satish
+ Kharat <satishkh@cisco.com>, Sesidhar Baddela <sebaddel@cisco.com>,
+ "James E.J. Bottomley" <James.Bottomley@HansenPartnership.com>, Mauro
+ Carvalho Chehab <mchehab@kernel.org>, Greg Kroah-Hartman
+ <gregkh@linuxfoundation.org>, Xiubo Li <xiubli@redhat.com>, Ilya Dryomov
+ <idryomov@gmail.com>, Masami Hiramatsu <mhiramat@kernel.org>, Mathieu
+ Desnoyers <mathieu.desnoyers@efficios.com>, Andrew Morton
+ <akpm@linux-foundation.org>
+Subject: Re: [PATCH v2 20/21] scsi: snic: Switch to use %ptSp
+From: "Martin K. Petersen" <martin.petersen@oracle.com>
+In-Reply-To: <20251111122735.880607-21-andriy.shevchenko@linux.intel.com>
+ (Andy Shevchenko's message of "Tue, 11 Nov 2025 13:20:20 +0100")
+Organization: Oracle Corporation
+Message-ID: <yq1bjl7ez3u.fsf@ca-mkp.ca.oracle.com>
+References: <20251111122735.880607-1-andriy.shevchenko@linux.intel.com>
+ <20251111122735.880607-21-andriy.shevchenko@linux.intel.com>
+Date: Wed, 12 Nov 2025 16:11:15 -0500
+Content-Type: text/plain
+X-ClientProxiedBy: YQBPR0101CA0181.CANPRD01.PROD.OUTLOOK.COM
+ (2603:10b6:c01:f::24) To DS7PR10MB5344.namprd10.prod.outlook.com
+ (2603:10b6:5:3ab::6)
+MIME-Version: 1.0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: DS7PR10MB5344:EE_|MW6PR10MB7613:EE_
+X-MS-Office365-Filtering-Correlation-Id: f15191a9-4a53-4cc3-3480-08de2230050e
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;ARA:13230040|1800799024|7416014|376014|366016;
+X-Microsoft-Antispam-Message-Info: =?us-ascii?Q?hfQ8qw4dxh1a8R6PlAJUpT1Nefu5WYuZARtupzIbSLytW8e3ri53xs/OdyGH?=
+ =?us-ascii?Q?tt5Ltv8UICKOcByX52MW4XQqezKqamksIwNoi5pWSBJvHrebPATgWEekShUj?=
+ =?us-ascii?Q?YMJpen5EEJmQQPepsKKXrwDrufcUXMLjk4SEBoBH/9lLGwJ94XAPFBuQ4svX?=
+ =?us-ascii?Q?zLZ1wbPWxnrMDi3pJOOLteWxTpAa/p3LAwGQmH2hnSlpPflkxRCTXFuLWxWb?=
+ =?us-ascii?Q?fW9Jo5upfcHjJFtR0gluX8sL0OFWN51XaXvjGHrJ7mw4YOAJ5+g7WzM5zuiC?=
+ =?us-ascii?Q?aveSC2e+mKXFlzaFBnzMmxMT+FEhvMNunlR4/FNhH/n94EfMBPh8Ewu7oZwK?=
+ =?us-ascii?Q?t6U3uj/6RI6mK51Gfghc5MBSa3b7kKxrlCIE2Z6oGCCK+6nmGkCMekquDAy7?=
+ =?us-ascii?Q?z7nWeRoPN/3ZfvWSo7q1DqEu4PxpdPnw3bZGgxD3bh9Ur/viJn10ot3L9obE?=
+ =?us-ascii?Q?dsMfv14k9Zkr2guqaHSuXgL5mHKnH1fRElyK9HDwKBkhcNJu0bGDHJsELAFE?=
+ =?us-ascii?Q?EnxHHNJHA7f6FJMZT4aqJyaF/P6eY3sKipvwQP1ygHcb5B3caC8V/IGFO1d+?=
+ =?us-ascii?Q?UoUfmUuzhk2r9msBDSAPWg7Gh771QHUqGoKAvdyicpwCbA6QgFfF2DKseFeC?=
+ =?us-ascii?Q?JtX8o2LwUyQ3iMHtwPRXqe99hI5mBIjWgYJGRs/54cqYFwgY+viC7JPPU5+2?=
+ =?us-ascii?Q?25BVe+IQr+LRUetcx3P5ScFbiA6DTSChVYAm9Y/TcJxGYEVr+f6UAK/HAuD5?=
+ =?us-ascii?Q?AVVKTFozWg7nbqS84HGV3a1zo+BL7LFBHGlbj7WhawR5nMunHRPiYiw+VYOu?=
+ =?us-ascii?Q?ox9EhlkMmIujnz7fELqHR/RVQebwNvPODVFhHawNkhCO9eNrO1vYKzxkFe4L?=
+ =?us-ascii?Q?ijnHbwfScATRWeXgJJq6uawgTTWp8kiNrgL6S4zR5opAXRs5F7FTo6MDvhWC?=
+ =?us-ascii?Q?LNGqN5OLWdEYB/Xp2RWqPWBCJ/avNAjhVC3l6cAAld+TxUQekTKnuJMZIXSy?=
+ =?us-ascii?Q?6Tl9S8nH3/7HPVGQQ36RiXaP8fY8ZaFwedOsemSxOWHpA9KU45rOEuIB1N+h?=
+ =?us-ascii?Q?mhQWIbSINiVUnSSSz+AC/0tKUd3L+wAnZc7o14OW0fvjaiVAotEMOplB5J83?=
+ =?us-ascii?Q?Lm7gqdtOMbcmDNzH0BtIu3aZ84PvTtbOsoCUhTfXm9b8ZCvWvm9BIClsOhlS?=
+ =?us-ascii?Q?3rsteHFH+Xz9JeJWVjDDoNe+YY32r/tEvfzslTFOt4Lij485FRUDwAbCvZqA?=
+ =?us-ascii?Q?7Y6iI7G3Mdv30mBbnReCyCg53T1GwcRmDbIrWzLZlSuSHVLBABk6f4bFMrKE?=
+ =?us-ascii?Q?3NKEj+ZPof38qMdy/JZNp3TjERbm7XlYP2/xiJMTh37zZVxVgRi7Idch2n67?=
+ =?us-ascii?Q?19rMwoX//oKrJchtjYj8o3QIBiGQviQqXeS5GFkgBFxLAZ6K8qXpgIDipxpt?=
+ =?us-ascii?Q?ZUgsB787dar3tlYp4chJlAQph9v9ZxPi?=
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:DS7PR10MB5344.namprd10.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230040)(1800799024)(7416014)(376014)(366016); DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?NcH0EVIrFu3t34Z8cL81Iql+wt9Gp7/YSnyRXGdqQyCKSRVEPiicv/pBkzwf?=
+ =?us-ascii?Q?/XKmGBfF3akrVKaWc6UynxAr1Ie6YsFAykciNij4OYbZ/00aXZacNE/CaZab?=
+ =?us-ascii?Q?wC99q6b68fBa54nLE+RgjyorAawMjYCnN03ATh2Pf/IFBYN7+pS3Nr8WUWhh?=
+ =?us-ascii?Q?gna0EpWKuuEEQxdrX8co/PnQnXbb4y+EEqS2h5SpTFWwdL23fgrAH/9vOUIt?=
+ =?us-ascii?Q?LaFg4/xN2xcUD3LYgwvXX15kJ+l6D2NRL/m3UOq36A1R65jxemy+4lw31Ig7?=
+ =?us-ascii?Q?X4QBh2seRxoVJdJ/JhtH/EHlNtuFQPjQ8NmU+PGewS0i+T6cDaXR6kxwm8pF?=
+ =?us-ascii?Q?rBmf1CLUp4fjwR3kst0RQwLu1DKeK9ClC3GcLT5tDCKZTMcC9lFDmMpsCLJ0?=
+ =?us-ascii?Q?dt4SRqMVKyyH3hl7I9selDfd8sangckgoBFbHAgn2n32lHjhH9vSHdA3vWTY?=
+ =?us-ascii?Q?1vnuu52rW2GCCfw7w0LJw+K38Q5K5GX2CVvFXYoweK5xxyZEoBDQrdOu0g4v?=
+ =?us-ascii?Q?XbcJMUhRf6qX1h+9cCmeanWVUCl94klljZUcG1C02ubWx5Omdr4gX4NDw8+v?=
+ =?us-ascii?Q?O7Ev9PEvTMt9Ox+8JY/ZpgvsDysVc/sDkZmT8ZV16TXp1/56j90Wv+ThDaom?=
+ =?us-ascii?Q?lkWmZ/+S9+G1PKY06Krr1AAUSND+myML46dON567LU4M7uPdTFemuf0j2n3A?=
+ =?us-ascii?Q?gs2PednzSf9nAbyHwZV1XCx6KiUtR3QiK411oVFUt6uWaj/YUVg+jlPjMAzl?=
+ =?us-ascii?Q?JUA5v4TTpBa3U/J5HwEqJQRSTu7536Mf+GUY2xZk+XSjadkbtVCYssUbMMqZ?=
+ =?us-ascii?Q?iGti5rC25IyWeghnuRQ+CaRquoNQg2PbLYC20TVti2bgbLfi9LIKck/+leux?=
+ =?us-ascii?Q?toCsGUZHK/7BuTuQ5kgRMusBzejaJFMBMpmHtnnmFOVOOWf1Ov7bHhuIxwac?=
+ =?us-ascii?Q?Q+LaWT9ZpOsMN+T7d9NxT7mtNRjyfgp05bNxBDQl4zmUlzmX5fRCyR6300ZI?=
+ =?us-ascii?Q?znYZHho7N7d4PcpujBG2ZHHx0RvtbQ/f40E2aHNRCeTxqiofokouohyNz7J3?=
+ =?us-ascii?Q?KYqfZR7m9WpYvGDsDM4p9aOpdBQLtBaL7toJAF8a7zymMxRYo539r0nSiqlZ?=
+ =?us-ascii?Q?8mg24JUUaxydA3kUd8+RC5NXXWW2MT9pOxVWr/R6f3uE4rEtpQyJfZc7CljQ?=
+ =?us-ascii?Q?yWgF4C9hq/pSrvWAex6f4Er5mCLj2jLt98Z37uFVlT3k0dms07biTN2Gb0fJ?=
+ =?us-ascii?Q?dPa742T/efwPUwF9f5hF+EvoEGa/WIwDcT4FXlzgrlotRQircI6PRUrNl1dv?=
+ =?us-ascii?Q?VwYivn75nmR6layOYf4RefrwcOZMlnq4AwpV0Fa4ztbm9CdyCOBlT8qoAV2Q?=
+ =?us-ascii?Q?1RKq2GbJY+RtlMOmaM2R0zJ43J1xigaVXy+3g7TJXeLmA7MMKlnNCpIKEs5S?=
+ =?us-ascii?Q?eD0TSJb1N0RH2LvmTHcvRx3FM21oHGU/6p2CTwDUN8EyxUkXYKHOGrcjG6lp?=
+ =?us-ascii?Q?54OIjPTh+460fEy/jGH/eFf3KCptSB5WbIATGx8Hlg//GbLWaWWEBUg+a9g0?=
+ =?us-ascii?Q?2FqdxhbNLyJ1nm+wrjLIcwG+EeYbJGN1Ij++bOIIvvAYuhf4lg3Aubr7al7H?=
+ =?us-ascii?Q?PA=3D=3D?=
+X-MS-Exchange-AntiSpam-ExternalHop-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-ExternalHop-MessageData-0: L21j1axj6aNV9IXhqSavBW7TMcJqPfjdWR3KZvY49kqQGptBvjNvwdq5Nej0pl1QeB00ER/geeHOnpyzZ4QFn20Ytat4eKBwFRNimvGC7ag+goeMjNoz/3lwfQXSnBlIKM3Q0HYGqEhoe5ABTgZ6g7hOZvCf4if3oVQij9xgXHJVxrnW1C3UTSPvVlXvqNo74K7Cr93qShJJQOYP2kUgvd9QaKbvIVUHi4SLtJM8IeVqbY8rQvHqXqWluj2t4m4g9m0hnompevJEZbNoZOG5oVeWocbaIN8TCvfLc1vLJaP6/cWQioas+DMeDuv5Gn0JeN0t4a5lFBVIA0KZLcaCMILe6+3wUTm8Gy/9h/cvycSU0goxbMoMkuSJkSkTpD0lkX3MiL3K+hrqEq5Csmc8Vy3INewdjtB3DuFUDEiJ5Q2A1JtTYT8+PzeTAU4gGTCIIswlV46qQ93fZn0C2UiHo9Xou32KbelpSXtbl8FKgOsT7Gonz2L8B8ivjaA56Jt42n9pHSyUHnBev+6XZareU4/IEswLWv0EuTTCreA3Rw6MTsD3a0xhzrydfSXBTEbNWdI1VIvMzyX3TxKdaXJsxpzcRW41qTNUzFesJ8/Nvns=
+X-OriginatorOrg: oracle.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: f15191a9-4a53-4cc3-3480-08de2230050e
+X-MS-Exchange-CrossTenant-AuthSource: DS7PR10MB5344.namprd10.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 12 Nov 2025 21:11:17.4080 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 4e2c6054-71cb-48f1-bd6c-3a9705aca71b
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: MCSZO8cRzJ95rt05evNANN+D4s/9Js83TtQIeBTo5Kbxcx7MvviSOKpmaXvju+Osu3vBd4vNnBr6BBsCEmlfdyJblFQBnfB+f0lPnI2aSMM=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MW6PR10MB7613
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.9,FMLib:17.12.100.49
  definitions=2025-11-12_06,2025-11-12_01,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- clxscore=1015 spamscore=0 suspectscore=0 phishscore=0 bulkscore=0
- priorityscore=1501 malwarescore=0 adultscore=0 lowpriorityscore=0
- impostorscore=0 classifier=typeunknown authscore=0 authtc= authcc=
- route=outbound adjust=0 reason=mlx scancount=1 engine=8.22.0-2510240001
- definitions=main-2511120171
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 mlxlogscore=999
+ malwarescore=0
+ adultscore=0 bulkscore=0 suspectscore=0 spamscore=0 mlxscore=0
+ phishscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2510240000 definitions=main-2511120171
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUxMTEyMDEzOSBTYWx0ZWRfX6AVRuhFauGdG
+ jIaaauiravrN3zEQqJunO6ppk97EPMNnutTy8QwJcQOtqhIBrxuiE/LgtHzqLef++6zlSAAxBSm
+ u350pYHlF1w9kazVyV5yL0HlkQ5r8uskwajbWQSmyK+L4R09bidmcutUzmaSFB2WrYsvJ8/2oT2
+ lNWSJNHvrtdY9iN16lwkRjquiVpLmpqvP/JQ2D6ADDkdi7q+dtbYP7RViDNVVd5p7U23UbrXqmV
+ 4PDfqTRMuhuus4kMFArUKueTtaNRw9BXs8yJ8oNQFmeJBAVUqo0Wy9OOcaeJ/4xDvuLD1v10ujs
+ TppyyrHFwcfHjpahs0wBcSffpOVpJXM2hEnWZCODXn3ApE+jeDIoh9wcRYoiUFpIR0VutNbGJ4d
+ CCIhjkNKpUm4bWvkRwqdBhdgNAj/Ow==
+X-Proofpoint-ORIG-GUID: ws2ULu3dqGG4LhhwVgwQtU4Xk5Z_DCU9
+X-Proofpoint-GUID: ws2ULu3dqGG4LhhwVgwQtU4Xk5Z_DCU9
+X-Authority-Analysis: v=2.4 cv=FKYWBuos c=1 sm=1 tr=0 ts=6914f800 cx=c_pps
+ a=OOZaFjgC48PWsiFpTAqLcw==:117 a=OOZaFjgC48PWsiFpTAqLcw==:17
+ a=6eWqkTHjU83fiwn7nKZWdM+Sl24=:19 a=z/mQ4Ysz8XfWz/Q5cLBRGdckG28=:19
+ a=lCpzRmAYbLLaTzLvsPZ7Mbvzbb8=:19 a=xqWC_Br6kY4A:10 a=6UeiqGixMTsA:10
+ a=GoEa3M9JfhUA:10 a=VkNPw1HP01LnGYTKEx00:22 a=yPCof4ZbAAAA:8
+ a=JNz3O4sEs4oywJvo4n4A:9 a=MTAcVbZMd_8A:10 a=UhEZJTgQB8St2RibIkdl:22
+ a=Z5ABNNGmrOfJ6cZ5bIyy:22 a=QOGEsqRv6VhmHaoFNykA:22
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -160,196 +255,13 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 11/12/2025 8:11 PM, Konrad Dybcio wrote:
-> On 11/10/25 5:37 PM, Akhil P Oommen wrote:
->> Adreno X2-85 GPU is found in the next generation of Qualcomm's compute
->> series chipset called Snapdragon X2 Elite (a.k.a Glymur). It is based
->> on the new A8x slice architecture and features up to 4 slices. Due to
->> the wider 12 channel DDR support, there is higher DDR bandwidth available
->> than previous generation to improve performance.
->>
->> Add a new entry in the catalog along with the necessary register
->> configurations to enable support for it.
->>
->> Signed-off-by: Akhil P Oommen <akhilpo@oss.qualcomm.com>
->> ---
-> 
-> [...]
-> 
->>  drivers/gpu/drm/msm/adreno/a6xx_catalog.c | 131 ++++++++++++++++++++++++++++++
->>  drivers/gpu/drm/msm/adreno/a8xx_gpu.c     |   3 +
->>  drivers/gpu/drm/msm/adreno/adreno_gpu.h   |   5 ++
->>  3 files changed, 139 insertions(+)
->>
->> diff --git a/drivers/gpu/drm/msm/adreno/a6xx_catalog.c b/drivers/gpu/drm/msm/adreno/a6xx_catalog.c
->> index fa3ae725f389..2e5b0573c212 100644
->> --- a/drivers/gpu/drm/msm/adreno/a6xx_catalog.c
->> +++ b/drivers/gpu/drm/msm/adreno/a6xx_catalog.c
->> @@ -1625,6 +1625,108 @@ static const struct adreno_info a7xx_gpus[] = {
->>  };
->>  DECLARE_ADRENO_GPULIST(a7xx);
->>  
->> +static const struct adreno_reglist_pipe x285_nonctxt_regs[] = {
-> 
-> It's certainly not the same silicon, but a830 sets a bunch more regs
-> here and has a lot more comments in kgsl. Could you check if any of
-> these settings are required/beneficial?
 
-This list will see more updates.
+Andy,
 
-> 
-> 
->> +static const u32 x285_protect_regs[] = {
->> +	A6XX_PROTECT_RDONLY(0x00008, 0x039b),
-> 
-> In case anyone asks, there are simply no registers before 0x8<<2
-> 
->> +	A6XX_PROTECT_RDONLY(0x003b4, 0x008b),
->> +	A6XX_PROTECT_NORDWR(0x00440, 0x001f),
->> +	A6XX_PROTECT_RDONLY(0x00580, 0x005f),
->> +	A6XX_PROTECT_NORDWR(0x005e0, 0x011f),
->> +	A6XX_PROTECT_RDONLY(0x0074a, 0x0005),
->> +	A6XX_PROTECT_RDONLY(0x00759, 0x0026),
->> +	A6XX_PROTECT_RDONLY(0x00789, 0x0000),
->> +	A6XX_PROTECT_RDONLY(0x0078c, 0x0013),
->> +	A6XX_PROTECT_NORDWR(0x00800, 0x0029),
->> +	A6XX_PROTECT_NORDWR(0x0082c, 0x0000),
->> +	A6XX_PROTECT_NORDWR(0x00837, 0x00af),
->> +	A6XX_PROTECT_RDONLY(0x008e7, 0x00c9),
->> +	A6XX_PROTECT_NORDWR(0x008ec, 0x00c3),
->> +	A6XX_PROTECT_NORDWR(0x009b1, 0x0250),
->> +	A6XX_PROTECT_RDONLY(0x00ce0, 0x0001),
->> +	A6XX_PROTECT_RDONLY(0x00df0, 0x0000),
->> +	A6XX_PROTECT_NORDWR(0x00df1, 0x0000),
->> +	A6XX_PROTECT_NORDWR(0x00e01, 0x0000),
->> +	A6XX_PROTECT_NORDWR(0x00e03, 0x1fff),
->> +	A6XX_PROTECT_NORDWR(0x03c00, 0x00c5),
->> +	A6XX_PROTECT_RDONLY(0x03cc6, 0x0039),
-> 
-> 830 has start=0x03cc6 len=0x1fff but that must be a bug unless a lot of
-> registers have shifted from there.. I see there's perf counters so perhaps
-> perfetto-proofing?
-> 
->> +	A6XX_PROTECT_NORDWR(0x03d00, 0x1fff),
->> +	A6XX_PROTECT_NORDWR(0x08600, 0x01ff),
->> +	A6XX_PROTECT_NORDWR(0x08e00, 0x00ff),
->> +	A6XX_PROTECT_RDONLY(0x08f00, 0x0000),
->> +	A6XX_PROTECT_NORDWR(0x08f01, 0x01be),
->> +	A6XX_PROTECT_NORDWR(0x09600, 0x01ff),
->> +	A6XX_PROTECT_RDONLY(0x0981a, 0x02e5),
->> +	A6XX_PROTECT_NORDWR(0x09e00, 0x01ff),
->> +	A6XX_PROTECT_NORDWR(0x0a600, 0x01ff),
->> +	A6XX_PROTECT_NORDWR(0x0a82e, 0x0000),
->> +	A6XX_PROTECT_NORDWR(0x0ae00, 0x0006),
-> 
-> 830 has len=4 here, with len=6 you can't write to GEN8_SP_NC_MODE_CNTL_2
-> which I think may be useful for UMD
-On A8x, all non-ctxt register configurations are moved to KMD.
+> Use %ptSp instead of open coded variants to print content of
+> struct timespec64 in human readable format.
 
-> 
->> +	A6XX_PROTECT_NORDWR(0x0ae08, 0x0006),
->> +	A6XX_PROTECT_NORDWR(0x0ae10, 0x00bf),
->> +	A6XX_PROTECT_RDONLY(0x0aed0, 0x002f),
->> +	A6XX_PROTECT_NORDWR(0x0af00, 0x027f),
->> +	A6XX_PROTECT_NORDWR(0x0b600, 0x1fff),
-> 
-> This carveout differs slightly vs 830 but I think that's mandated
-> 
->> +	A6XX_PROTECT_NORDWR(0x0dc00, 0x1fff),
->> +	A6XX_PROTECT_RDONLY(0x0fc00, 0x1fff),
->> +	A6XX_PROTECT_NORDWR(0x18400, 0x003f),
->> +	A6XX_PROTECT_RDONLY(0x18440, 0x013f),
->> +	A6XX_PROTECT_NORDWR(0x18580, 0x1fff),
->> +	A6XX_PROTECT_NORDWR(0x1b400, 0x1fff),
->> +	A6XX_PROTECT_NORDWR(0x1f400, 0x0477),
->> +	A6XX_PROTECT_RDONLY(0x1f878, 0x0507),
-> 
-> This differs vs a830 but it's kgsl that has a harmless? logic bug:
-> 
-> { GEN8_CP_PROTECT_REG_GLOBAL + 40, 0x1f400, 0x1f877, 1 },
-> { GEN8_CP_PROTECT_REG_GLOBAL + 41, 0x1f878, 0x1ffff, 0 },
-> { GEN8_CP_PROTECT_REG_GLOBAL + 42, 0x1f930, 0x1fc59, 1 },
-> 
-> (0x1f930 is overwritten)
+Reviewed-by: Martin K. Petersen <martin.petersen@oracle.com>
 
-I think this overlay is intentional to save a protect register.
-Otherwise, we need to use 3 Protect registers to describe this range.
-
-> 
->> +	A6XX_PROTECT_NORDWR(0x1f930, 0x0329),
->> +	A6XX_PROTECT_NORDWR(0x1fd80, 0x1fff),
->> +	A6XX_PROTECT_NORDWR(0x27800, 0x007f),
->> +	A6XX_PROTECT_RDONLY(0x27880, 0x0385),
->> +	A6XX_PROTECT_NORDWR(0x27882, 0x000a),
-> 
-> These 2 seem to have been changed vs 830 for counters (all good)
-We are not opening up the perfcounters to UMD for A8x at the moment. We
-should think about the UABI for perfcounter before that.
-
-> 
->> +	A6XX_PROTECT_NORDWR(0x27c06, 0x0000),
->> +};
->> +
->> +DECLARE_ADRENO_PROTECT(x285_protect, 64);
->> +
->>  static const uint32_t a840_pwrup_reglist_regs[] = {
->>  	REG_A7XX_SP_HLSQ_TIMEOUT_THRESHOLD_DP,
->>  	REG_A7XX_SP_READ_SEL,
->> @@ -1809,6 +1911,35 @@ static const struct adreno_reglist a840_gbif[] = {
->>  
->>  static const struct adreno_info a8xx_gpus[] = {
->>  	{
->> +		.chip_ids = ADRENO_CHIP_IDS(0x44070041),
->> +		.family = ADRENO_8XX_GEN1,
->> +		.fw = {
->> +			[ADRENO_FW_SQE] = "gen80100_sqe.fw",
->> +			[ADRENO_FW_GMU] = "gen80100_gmu.bin",
->> +		},
->> +		.gmem = 21 * SZ_1M,
->> +		.inactive_period = DRM_MSM_INACTIVE_PERIOD,
->> +		.quirks = ADRENO_QUIRK_HAS_CACHED_COHERENT |
->> +			  ADRENO_QUIRK_HAS_HW_APRIV,
-> 
-> No preemption and IFPC - I supopose the smart thing to do before we
-> know things are stable
-
-Right.
-
-> 
->> +		.funcs = &a8xx_gpu_funcs,
->> +		.a6xx = &(const struct a6xx_info) {
->> +			.protect = &x285_protect,
->> +			.nonctxt_reglist = x285_nonctxt_regs,
->> +			.gbif_cx = a840_gbif,
->> +			.gmu_chipid = 0x8010100,
-> 
-> Is this the chip id for the final revision silicon?
-
-Yes. For v2.
-
-> 
-> [...]
-> 
->> diff --git a/drivers/gpu/drm/msm/adreno/a8xx_gpu.c b/drivers/gpu/drm/msm/adreno/a8xx_gpu.c
->> index ad140b0d641d..d283d0b55623 100644
->> --- a/drivers/gpu/drm/msm/adreno/a8xx_gpu.c
->> +++ b/drivers/gpu/drm/msm/adreno/a8xx_gpu.c
->> @@ -175,6 +175,9 @@ static void a8xx_set_hwcg(struct msm_gpu *gpu, bool state)
->>  	struct a6xx_gmu *gmu = &a6xx_gpu->gmu;
->>  	u32 val;
->>  
->> +	if (adreno_is_x285(adreno_gpu))
->> +		gpu_write(gpu, REG_A8XX_RBBM_CGC_0_PC, 0x00000702);
-> 
-> kgsl sets this only when turning on hwcg (bool state in this func) and
-> on a830 family - should we turn this into an A8XX_GEN1 check?
-
-X285 is not strictly Gen1 or Gen2. HW development is not really linear.
-I might update it to GEN2 in future when we add more a8x features. Not sure.
-
-We can revisit this when we add A830 GPU.
-
--Akhil.
- >
-> Konrad
-
+-- 
+Martin K. Petersen
