@@ -2,52 +2,92 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id BBF87C52407
-	for <lists+dri-devel@lfdr.de>; Wed, 12 Nov 2025 13:28:55 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 87CA5C52425
+	for <lists+dri-devel@lfdr.de>; Wed, 12 Nov 2025 13:31:50 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1BC2E10E0A7;
-	Wed, 12 Nov 2025 12:28:54 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1BB9B10E0BB;
+	Wed, 12 Nov 2025 12:31:48 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=igalia.com header.i=@igalia.com header.b="DukIzBAk";
+	dkim=pass (2048-bit key; unprotected) header.d=quicinc.com header.i=@quicinc.com header.b="hBEJr5Kn";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from fanzine2.igalia.com (fanzine2.igalia.com [213.97.179.56])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B17EF10E0A7
- for <dri-devel@lists.freedesktop.org>; Wed, 12 Nov 2025 12:28:51 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
- s=20170329;
- h=Content-Transfer-Encoding:Content-Type:In-Reply-To:From:
- References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender:Reply-To:
- Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
- Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
- List-Subscribe:List-Post:List-Owner:List-Archive;
- bh=Z/oFAOOmMQ0/xmq4cK9tIn6jRgDAk04qzI7JFjovQ8Y=; b=DukIzBAkAnixVqORGlyaGIFYbr
- 9LfCkYJjWBa0fqrwQlD10XNHtrgGUhDSLfFm2qbshu+LGjeA/Qba7Feevaeg7BiYuLnonba4ze239
- BEtNCNpv05WkadkaFVaheazB/h1jLyLCyfboNx7Ssvf+AMmRZwACOhYlyYL1TD66Qxz9gq9FkJayj
- eDnvxMYNCUgxQ+Dc9KKxF4PD+VFrWy1Soi4NvG2Nu5fT9FZEo8uZIKeklUTPkh8fftaOYYcpBvurx
- px2RiTrbk9xMv70d2r1G9Hoq3TQj/VZbyv9w8mU2papyZQuWb5Dp69fnf+Uil9+KRp1umohXASLbZ
- mxyIRUUQ==;
-Received: from gwsc.sc.usp.br ([143.107.225.16] helo=[172.24.35.236])
- by fanzine2.igalia.com with esmtpsa 
- (Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_128_GCM:128) (Exim)
- id 1vJ9xk-005YHq-29; Wed, 12 Nov 2025 13:28:36 +0100
-Message-ID: <7d1df5ed-7119-4e59-b1e0-e54aa572282b@igalia.com>
-Date: Wed, 12 Nov 2025 09:28:30 -0300
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] drm/vc4: Replace lock/unlock pattern to use guard
-To: Erick Karanja <karanja99erick@gmail.com>, mripard@kernel.org,
- dave.stevenson@raspberrypi.com
-Cc: kernel-list@raspberrypi.com, maarten.lankhorst@linux.intel.com,
- tzimmermann@suse.de, airlied@gmail.com, simona@ffwll.ch,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
-References: <20251112080220.223318-1-karanja99erick@gmail.com>
-From: =?UTF-8?Q?Ma=C3=ADra_Canal?= <mcanal@igalia.com>
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
+ [205.220.180.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 616E010E0BB
+ for <dri-devel@lists.freedesktop.org>; Wed, 12 Nov 2025 12:31:46 +0000 (UTC)
+Received: from pps.filterd (m0279871.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id
+ 5AC9X7Cd1001850
+ for <dri-devel@lists.freedesktop.org>; Wed, 12 Nov 2025 12:31:45 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
+ content-type:date:from:message-id:mime-version:subject:to; s=
+ qcppdkim1; bh=+4bUAt1CMikXthfl1C/J0gVBT7uywjILz/MvHhBx7HQ=; b=hB
+ EJr5KnZr3ATEEO5gCBsqRDmfamPKNwHquahPpMbSz9Ri1LSPlTYIIwwYFI3AuPuR
+ sqx87RTnRiQvx8UDFxuubrx1c0K6cze9vDIph4nKnfZdCNdECJAuquMkmfYMANCf
+ wb6uS8g9BEcVKfiw9IXqUVdix0kcSINXncet+pxFk88r8SfoD/gSSAVEBUE0cHGN
+ CtekHNGaSUXVwugt4XBxjtRsUIcvGZm1FxfAP5CeGbo9vOGdLo+HNvgy55/5behN
+ ihCFyQbaW4+bO43JyYYH7qqHSd3zDNA6HNW/2hP9qJrRWxnrRnv0J4/Q4IukhSMn
+ 4o0W51MTC9C0AAFyYtQA==
+Received: from nalasppmta03.qualcomm.com (Global_NAT1.qualcomm.com
+ [129.46.96.20])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4acqq20j73-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT)
+ for <dri-devel@lists.freedesktop.org>; Wed, 12 Nov 2025 12:31:45 +0000 (GMT)
+Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com
+ [10.47.209.196])
+ by NALASPPMTA03.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTPS id 5ACCVipc017739
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT)
+ for <dri-devel@lists.freedesktop.org>; Wed, 12 Nov 2025 12:31:44 GMT
+Received: from nalasex01b.na.qualcomm.com (10.47.209.197) by
+ nalasex01a.na.qualcomm.com (10.47.209.196) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1748.24; Wed, 12 Nov 2025 04:31:44 -0800
+Received: from nalasex01b.na.qualcomm.com ([fe80::c836:8dbf:dfb4:e65]) by
+ nalasex01b.na.qualcomm.com ([fe80::c836:8dbf:dfb4:e65%12]) with mapi id
+ 15.02.1748.024; Wed, 12 Nov 2025 04:31:43 -0800
+From: "Chenna Kesava Raju (QUIC)" <quic_chennak@quicinc.com>
+To: "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>
+Subject: Questions regarding DRM Scheduler Priority Levels
+Thread-Topic: Questions regarding DRM Scheduler Priority Levels
+Thread-Index: AdxT0CDZnLbeOr87QRCXKXSHgiWdlA==
+Date: Wed, 12 Nov 2025 12:31:43 +0000
+Message-ID: <4ac498dfbfeb4d4d837646f9e9492f28@quicinc.com>
+Accept-Language: en-US
 Content-Language: en-US
-In-Reply-To: <20251112080220.223318-1-karanja99erick@gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [10.204.79.16]
+Content-Type: multipart/alternative;
+ boundary="_000_4ac498dfbfeb4d4d837646f9e9492f28quicinccom_"
+MIME-Version: 1.0
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
+ signatures=585085
+X-Authority-Analysis: v=2.4 cv=EbHFgfmC c=1 sm=1 tr=0 ts=69147e31 cx=c_pps
+ a=ouPCqIW2jiPt+lZRy3xVPw==:117 a=ouPCqIW2jiPt+lZRy3xVPw==:17
+ a=xqWC_Br6kY4A:10 a=NLXER-EnJvcA:10 a=6UeiqGixMTsA:10
+ a=VkNPw1HP01LnGYTKEx00:22 a=VzwAoTRWOTBjjDw7xpMA:9 a=CjuIK1q_8ugA:10
+ a=yMhMjlubAAAA:8 a=SSmOFEACAAAA:8 a=nMwCmy1Owc974DdezdsA:9
+ a=o-Srxm9XTVx-1mwb:21 a=gKO2Hq4RSVkA:10 a=UiCQ7L4-1S4A:10 a=hTZeC7Yk6K0A:10
+ a=frz4AuCg-hUA:10
+X-Proofpoint-ORIG-GUID: m3u3KcBY3Z898S5V2oj_gui-mVBYmEUr
+X-Proofpoint-GUID: m3u3KcBY3Z898S5V2oj_gui-mVBYmEUr
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUxMTEyMDEwMSBTYWx0ZWRfXyGeEiYtjs9Fl
+ l/RVmTDVQZFCbEf7wwsZfgigw0gZjuTwaxkI5f3gVZG4eH2GjF+K597ixa3JNvF1E5hf6VyuAD7
+ hH+A3ITCMntVwuqmQYH2ukQlbxxd+jBIAdx4+1uLD418WK6jXbxjW17byfXmbQxE+K9pd1zvaNi
+ tK8JVlqUMYWgpT4LRlU2SW6bKaNNSsWUcyqiVqr9z2Lh/EpShAsrVaMQ485bUi+8BlJRsE+b8o9
+ dTzo8Q7NQUIc9QV9wJBnlNtz6LoXOVnDAQWhwDg4WHkO6cfn/rllAwt6hZ4DbsOrVwe8VOUJGn0
+ ialyHrkLTe+CcskjtCwbDmAiaiQ1yJmHWCu3s2wqT4tjxAOwSbpcUfWbd6t7qjhGWZgC5bCrkvq
+ xLdrHT3p0UUom48w2PaWyM2UGAm89Q==
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.9,FMLib:17.12.100.49
+ definitions=2025-11-12_03,2025-11-11_03,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ lowpriorityscore=0 clxscore=1011 impostorscore=0 suspectscore=0 bulkscore=0
+ malwarescore=0 adultscore=0 phishscore=0 priorityscore=1501 spamscore=0
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.22.0-2510240001 definitions=main-2511120101
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -63,91 +103,179 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Erick,
+--_000_4ac498dfbfeb4d4d837646f9e9492f28quicinccom_
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 
-On 12/11/25 05:02, Erick Karanja wrote:
-> Replace manual lock/unlock patterns with guard.
-> This simplifies the code.
-> 
-> Generated-by: Coccinelle SmPL
-> Signed-off-by: Erick Karanja <karanja99erick@gmail.com>
-> ---
->   drivers/gpu/drm/vc4/vc4_v3d.c | 45 ++++++++++++++---------------------
->   1 file changed, 18 insertions(+), 27 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/vc4/vc4_v3d.c b/drivers/gpu/drm/vc4/vc4_v3d.c
-> index bb09df5000bd..8271a6610d6e 100644
-> --- a/drivers/gpu/drm/vc4/vc4_v3d.c
-> +++ b/drivers/gpu/drm/vc4/vc4_v3d.c
-> @@ -130,17 +130,15 @@ vc4_v3d_pm_get(struct vc4_dev *vc4)
->   	if (WARN_ON_ONCE(vc4->gen > VC4_GEN_4))
->   		return -ENODEV;
->   
-> -	mutex_lock(&vc4->power_lock);
-> +	guard(mutex)(&vc4->power_lock);
->   	if (vc4->power_refcount++ == 0) {
->   		int ret = pm_runtime_get_sync(&vc4->v3d->pdev->dev);
->   
->   		if (ret < 0) {
->   			vc4->power_refcount--;
-> -			mutex_unlock(&vc4->power_lock);
->   			return ret;
->   		}
->   	}
-> -	mutex_unlock(&vc4->power_lock);
->   
->   	return 0;
->   }
-> @@ -151,12 +149,11 @@ vc4_v3d_pm_put(struct vc4_dev *vc4)
->   	if (WARN_ON_ONCE(vc4->gen > VC4_GEN_4))
->   		return;
->   
-> -	mutex_lock(&vc4->power_lock);
-> +	guard(mutex)(&vc4->power_lock);
->   	if (--vc4->power_refcount == 0) {
->   		pm_runtime_mark_last_busy(&vc4->v3d->pdev->dev);
->   		pm_runtime_put_autosuspend(&vc4->v3d->pdev->dev);
->   	}
-> -	mutex_unlock(&vc4->power_lock);
->   }
->   
->   static void vc4_v3d_init_hw(struct drm_device *dev)
-> @@ -173,7 +170,6 @@ static void vc4_v3d_init_hw(struct drm_device *dev)
->   int vc4_v3d_get_bin_slot(struct vc4_dev *vc4)
->   {
->   	struct drm_device *dev = &vc4->base;
-> -	unsigned long irqflags;
->   	int slot;
->   	uint64_t seqno = 0;
->   	struct vc4_exec_info *exec;
-> @@ -182,23 +178,22 @@ int vc4_v3d_get_bin_slot(struct vc4_dev *vc4)
->   		return -ENODEV;
->   
->   try_again:
-> -	spin_lock_irqsave(&vc4->job_lock, irqflags);
-> -	slot = ffs(~vc4->bin_alloc_used);
-> -	if (slot != 0) {
-> -		/* Switch from ffs() bit index to a 0-based index. */
-> -		slot--;
-> -		vc4->bin_alloc_used |= BIT(slot);
-> -		spin_unlock_irqrestore(&vc4->job_lock, irqflags);
-> -		return slot;
-> -	}
-> +	scoped_guard (spinlock_irqsave, &vc4->job_lock) {
-> +		slot = ffs(~vc4->bin_alloc_used);
-> +		if (slot != 0) {
-> +			/* Switch from ffs() bit index to a 0-based index. */
-> +			slot--;
-> +			vc4->bin_alloc_used |= BIT(slot);
-> +			return slot;
-> +		}
->   
-> -	/* Couldn't find an open slot.  Wait for render to complete
-> +		/* Couldn't find an open slot.  Wait for render to complete
->   	 * and try again.
->   	 */
+Hi All,
 
-Could you please align the rest of the comment?
+We are currently developing a driver using the Accel framework to enable ap=
+plications to offload their tasks to the NPU.
+As part of this effort, we are considering the use of the DRM scheduler for=
+ job management. These applications may have their own priority levels to m=
+anage task execution efficiently on the NPU. However, since the DRM schedul=
+er currently supports only a limited set of job priority levels (DRM_SCHED_=
+PRIORITY_KERNEL, DRM_SCHED_PRIORITY_HIGH, DRM_SCHED_PRIORITY_NORMAL, and DR=
+M_SCHED_PRIORITY_LOW), we have a couple of questions:
 
-Best Regards,
-- Maíra
+
+  *   Are there any plans to increase the number of supported priority leve=
+ls?
+  *   Is there any flexibility or scope for customizing priority levels whe=
+n using the DRM scheduler?
+
+Thanks,
+Chenna
+
+--_000_4ac498dfbfeb4d4d837646f9e9492f28quicinccom_
+Content-Type: text/html; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
+
+<html xmlns:o=3D"urn:schemas-microsoft-com:office:office" xmlns:w=3D"urn:sc=
+hemas-microsoft-com:office:word" xmlns:m=3D"http://schemas.microsoft.com/of=
+fice/2004/12/omml" xmlns=3D"http://www.w3.org/TR/REC-html40">
+<head>
+<meta http-equiv=3D"Content-Type" content=3D"text/html; charset=3Dus-ascii"=
+>
+<meta name=3D"Generator" content=3D"Microsoft Word 15 (filtered medium)">
+<style><!--
+/* Font Definitions */
+@font-face
+	{font-family:Wingdings;
+	panose-1:5 0 0 0 0 0 0 0 0 0;}
+@font-face
+	{font-family:"Cambria Math";
+	panose-1:2 4 5 3 5 4 6 3 2 4;}
+@font-face
+	{font-family:Aptos;}
+/* Style Definitions */
+p.MsoNormal, li.MsoNormal, div.MsoNormal
+	{margin:0in;
+	font-size:12.0pt;
+	font-family:"Aptos",sans-serif;
+	mso-ligatures:standardcontextual;}
+p.MsoListParagraph, li.MsoListParagraph, div.MsoListParagraph
+	{mso-style-priority:34;
+	margin-top:0in;
+	margin-right:0in;
+	margin-bottom:0in;
+	margin-left:.5in;
+	font-size:12.0pt;
+	font-family:"Aptos",sans-serif;
+	mso-ligatures:standardcontextual;}
+span.EmailStyle17
+	{mso-style-type:personal-compose;
+	font-family:"Aptos",sans-serif;
+	color:windowtext;}
+.MsoChpDefault
+	{mso-style-type:export-only;}
+@page WordSection1
+	{size:8.5in 11.0in;
+	margin:1.0in 1.0in 1.0in 1.0in;}
+div.WordSection1
+	{page:WordSection1;}
+/* List Definitions */
+@list l0
+	{mso-list-id:959141479;
+	mso-list-type:hybrid;
+	mso-list-template-ids:-965727660 67698689 67698691 67698693 67698689 67698=
+691 67698693 67698689 67698691 67698693;}
+@list l0:level1
+	{mso-level-number-format:bullet;
+	mso-level-text:\F0B7;
+	mso-level-tab-stop:none;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	font-family:Symbol;}
+@list l0:level2
+	{mso-level-number-format:bullet;
+	mso-level-text:o;
+	mso-level-tab-stop:none;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	font-family:"Courier New";}
+@list l0:level3
+	{mso-level-number-format:bullet;
+	mso-level-text:\F0A7;
+	mso-level-tab-stop:none;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	font-family:Wingdings;}
+@list l0:level4
+	{mso-level-number-format:bullet;
+	mso-level-text:\F0B7;
+	mso-level-tab-stop:none;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	font-family:Symbol;}
+@list l0:level5
+	{mso-level-number-format:bullet;
+	mso-level-text:o;
+	mso-level-tab-stop:none;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	font-family:"Courier New";}
+@list l0:level6
+	{mso-level-number-format:bullet;
+	mso-level-text:\F0A7;
+	mso-level-tab-stop:none;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	font-family:Wingdings;}
+@list l0:level7
+	{mso-level-number-format:bullet;
+	mso-level-text:\F0B7;
+	mso-level-tab-stop:none;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	font-family:Symbol;}
+@list l0:level8
+	{mso-level-number-format:bullet;
+	mso-level-text:o;
+	mso-level-tab-stop:none;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	font-family:"Courier New";}
+@list l0:level9
+	{mso-level-number-format:bullet;
+	mso-level-text:\F0A7;
+	mso-level-tab-stop:none;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	font-family:Wingdings;}
+ol
+	{margin-bottom:0in;}
+ul
+	{margin-bottom:0in;}
+--></style>
+</head>
+<body lang=3D"EN-US" link=3D"#467886" vlink=3D"#96607D" style=3D"word-wrap:=
+break-word">
+<div class=3D"WordSection1">
+<p class=3D"MsoNormal">Hi All, <o:p></o:p></p>
+<p class=3D"MsoNormal"><o:p>&nbsp;</o:p></p>
+<p class=3D"MsoNormal">We are currently developing a driver using the Accel=
+ framework to enable applications to offload their tasks to the NPU.<o:p></=
+o:p></p>
+<p class=3D"MsoNormal">As part of this effort, we are considering the use o=
+f the DRM scheduler for job management. These applications may have their o=
+wn priority levels to manage task execution efficiently on the NPU. However=
+, since the DRM scheduler currently
+ supports only a limited set of job priority levels (DRM_SCHED_PRIORITY_KER=
+NEL, DRM_SCHED_PRIORITY_HIGH, DRM_SCHED_PRIORITY_NORMAL, and DRM_SCHED_PRIO=
+RITY_LOW), we have a couple of questions:<o:p></o:p></p>
+<p class=3D"MsoNormal"><o:p>&nbsp;</o:p></p>
+<ul style=3D"margin-top:0in" type=3D"disc">
+<li class=3D"MsoListParagraph" style=3D"margin-left:0in;mso-list:l0 level1 =
+lfo1">Are there any plans to increase the number of supported priority leve=
+ls?<o:p></o:p></li><li class=3D"MsoListParagraph" style=3D"margin-left:0in;=
+mso-list:l0 level1 lfo1">Is there any flexibility or scope for customizing =
+priority levels when using the DRM scheduler?<o:p></o:p></li></ul>
+<p class=3D"MsoNormal"><o:p>&nbsp;</o:p></p>
+<p class=3D"MsoNormal">Thanks, <o:p></o:p></p>
+<p class=3D"MsoNormal">Chenna <o:p></o:p></p>
+</div>
+</body>
+</html>
+
+--_000_4ac498dfbfeb4d4d837646f9e9492f28quicinccom_--
