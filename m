@@ -2,121 +2,61 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B016BC5296B
-	for <lists+dri-devel@lfdr.de>; Wed, 12 Nov 2025 15:00:54 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id B32ADC52A13
+	for <lists+dri-devel@lfdr.de>; Wed, 12 Nov 2025 15:13:04 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1F83510E747;
-	Wed, 12 Nov 2025 14:00:53 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6515010E746;
+	Wed, 12 Nov 2025 14:13:02 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="YZ0FyE35";
-	dkim=pass (2048-bit key; unprotected) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="jqI73YUP";
+	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="Mo0r9dAm";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
- [205.220.168.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B964510E746
- for <dri-devel@lists.freedesktop.org>; Wed, 12 Nov 2025 14:00:49 +0000 (UTC)
-Received: from pps.filterd (m0279863.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id
- 5AC9fStR721886
- for <dri-devel@lists.freedesktop.org>; Wed, 12 Nov 2025 14:00:49 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
- cc:content-transfer-encoding:content-type:date:from:in-reply-to
- :message-id:mime-version:references:reply-to:subject:to; s=
- qcppdkim1; bh=pFBpxvCThnvTjNirIlaCiwpE5flozd6oDfK2MM6c4Bc=; b=YZ
- 0FyE35DJvhsctetv+GZA8d1/C4lvdQEfA3egCJ3nsIXAUrl3WEDcaAMK+tCUm4OA
- W1F+D/489qT7pQqR3I6pWkn4gh19aYk2pU+kxaxo6DbAnnCQHz3/CuqVZXCzVn+F
- a7zHSSYvd+gNv2I7a6UY6wG3QYrsMC4Noogdaa/yku6pFWVMVIYo3atzE9I3agug
- LcsMu2d/+E7xQ/etXeTThjfgRMtIFMoDmHSngwc/h4GlAv9txoZA+ywdtkMXPri5
- 4AbQgCCfu4sZ1b34/Eu2pniR8jzlwIMuxn/Im0+QRsSfJZ9nrvlLEvIcsOE2t7CD
- 1oKaWhHhbMdbZv/MSWrQ==
-Received: from mail-oo1-f70.google.com (mail-oo1-f70.google.com
- [209.85.161.70])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4acqu1rscp-1
- (version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
- for <dri-devel@lists.freedesktop.org>; Wed, 12 Nov 2025 14:00:49 +0000 (GMT)
-Received: by mail-oo1-f70.google.com with SMTP id
- 006d021491bc7-656cc4098f3so1231950eaf.2
- for <dri-devel@lists.freedesktop.org>; Wed, 12 Nov 2025 06:00:49 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=oss.qualcomm.com; s=google; t=1762956048; x=1763560848;
- darn=lists.freedesktop.org; 
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :reply-to:in-reply-to:references:mime-version:from:to:cc:subject
- :date:message-id:reply-to;
- bh=pFBpxvCThnvTjNirIlaCiwpE5flozd6oDfK2MM6c4Bc=;
- b=jqI73YUPfmqsgWy1KwupAIG08BJytolGxMu9asObDerSQofjYsz4ciCLhapIPkoOg8
- D7HZuY+K4rpZ4OG9abbgIBVHmovyLL0nRWtqjAg2fx4rS34LLJCZm5Rp/HcEEkxlwPac
- prgfjVJpzV+83SRt5FRkTN9R98NruvUhu8j3JwUYx7tZSQ56IPkwzEJQPPEPsQJQtf9S
- fRn/+MHPwQOqBBTxCrmynuK+i/bUGa3DwK0K3GQcy+qgOo7XhQvt+WdPQ9YplRc9EXSZ
- 5mlj2saV5snx/IUyjvka/OKfM6brd5JE2Xqm8163ylaJL/6H8vBAA3aw/lRxbRHj3SO8
- 1FwQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1762956048; x=1763560848;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :reply-to:in-reply-to:references:mime-version:x-gm-gg
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=pFBpxvCThnvTjNirIlaCiwpE5flozd6oDfK2MM6c4Bc=;
- b=T4SaCG5ZRCWsjslX3WeaaKuNGLhCeHnHqwaKHh/RDYpo7cc5H6blZ2/C3SlthZpOYF
- dOLIzP7J9SEJFan8FoEOA8I4v0xjoBZxfcMgoRNsJXSd2mYMjxyxEo4k4b1J3GRVorB2
- zd+lh7xEn//su464pzaYUrgiXKlEpjr7l3WaYGpK0urD+xcGhXkJD/TtH0KjKzVfQb5z
- ff5Sl0PD7rTlRXx9zVw0j//0OScAD4+ugY9zNkcIB9t52VsavTy0nmcMz0JANqyy/RkE
- ygtAF5z6OKVmwU+tA6yEdnLyqPvxhsjQb4I97qYrO164dgHoOSQ1ctyqo/vgT4Q0xRJZ
- h9Hw==
-X-Forwarded-Encrypted: i=1;
- AJvYcCU7Z2y3qbnQbieum1jibCvtCoQZjO9C7j8CBBY4GGV+acmdZ4g4Cjce9aQDkVP7560jQmcgWvsQPUw=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YyBasnXwasUcaTayQV+miJAVYYKOBNzndft2/wmbnHlGY3rGqEn
- MsCgxJUJEC4FO6oKuIJz/tWuPYeLG1f9iFKp6wboFvqS1aMKUuSWROZeRWMARwTK20eWroWfbVf
- xj3mNKAb/hHQ4netlDuQzCjL6vA74Btmn/MhnX+FcsN8St4nr5wIMXPq+GGx9PF18xyHvGgpspv
- zwTbZBjnmdbew+yPFr197WRxO13N2MCkZf+r/zgR6x+Vvxzg==
-X-Gm-Gg: ASbGncvO/+VAfc/mh7hZ9i5XgvwId2ps9JA20xaV0rb8YRd1IsxaSEw7GGOYYHeZnHi
- UeoL9RkxTy/tMbF5jM0oUxWKqhSjqdrLurt1NRAVxnLp6LIvEIf9MJ+Wn6wlbHCc7hZ4IuGTbc8
- MlWZY07Lt6TzlosDQRgjb526D9eyRAUJdVkwo8ZgACfa0wFADY2VEPvtJnAHfLP/FZa6w4nIJMj
- ddmSwMlAOgInBM=
-X-Received: by 2002:a05:6808:1b12:b0:450:507:c77d with SMTP id
- 5614622812f47-450744c0bd4mr1438122b6e.2.1762956048309; 
- Wed, 12 Nov 2025 06:00:48 -0800 (PST)
-X-Google-Smtp-Source: AGHT+IGH96c1EnT3cd13kxATKATzWmWR3BVJ09jffO+pUV8+0w4fuulnyNcRl+pIMD8xQH7UGqOY2SEAhMOOnfhadkY=
-X-Received: by 2002:a05:6808:1b12:b0:450:507:c77d with SMTP id
- 5614622812f47-450744c0bd4mr1438095b6e.2.1762956047813; Wed, 12 Nov 2025
- 06:00:47 -0800 (PST)
+Received: from bali.collaboradmins.com (bali.collaboradmins.com
+ [148.251.105.195])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3969410E74E
+ for <dri-devel@lists.freedesktop.org>; Wed, 12 Nov 2025 14:13:00 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+ s=mail; t=1762956778;
+ bh=1anQwW+XrvEeREwsNwKf0XHcRB8fCX03qKFDsKzDbgA=;
+ h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+ b=Mo0r9dAmyzv8PTG44rXQCUlUSHnFCU38oU6JBXsgiBR6rnQtvtJrTNFhvvaGvyGfw
+ MHK4XcP5pBzHmBM8zzXgiU+BQ/J9V3m9Ivb931/M5JoRN4yTNmefHGqcJFRKujiIZF
+ 5ryxWP2WhlqZY+d2ZzHr1aGOzgOqsQnkOkbI9RMYHHd14lXWT/In8fPIih1p8FNds1
+ 8vkg9DH/M9K2qmP/LgRcTlUXaLG/wbxr1zX1K07EFbOCvx6Ah7daxYqI54btfti3ha
+ gMdtn4eMG7yG5eXu7yk3Z7c3rBPAD3mUwNB0pT4JneH67zRKrjRMq6Ty6NczMQQudm
+ ORuEkcFEI0i2w==
+Received: from fedora (unknown [IPv6:2a01:e0a:2c:6930:d919:a6e:5ea1:8a9f])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange ECDHE (prime256v1) server-signature RSA-PSS (4096 bits)
+ server-digest SHA256) (No client certificate requested)
+ (Authenticated sender: bbrezillon)
+ by bali.collaboradmins.com (Postfix) with ESMTPSA id 5840517E0364;
+ Wed, 12 Nov 2025 15:12:58 +0100 (CET)
+Date: Wed, 12 Nov 2025 15:12:53 +0100
+From: Boris Brezillon <boris.brezillon@collabora.com>
+To: Philipp Stanner <pstanner@redhat.com>
+Cc: Steven Price <steven.price@arm.com>, Liviu Dudau <liviu.dudau@arm.com>,
+ =?UTF-8?B?QWRyacOhbg==?= Larumbe <adrian.larumbe@collabora.com>, Maarten
+ Lankhorst <maarten.lankhorst@linux.intel.com>, Maxime Ripard
+ <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ dri-devel@lists.freedesktop.org, Detlev Casanova
+ <detlev.casanova@collabora.com>, Ashley Smith <ashley.smith@collabora.com>,
+ kernel@collabora.com
+Subject: Re: [PATCH v7 1/2] drm/panthor: Make the timeout per-queue instead
+ of per-job
+Message-ID: <20251112151253.7cfba768@fedora>
+In-Reply-To: <0558310f433debe93dddee0b6373bcb406b8bd62.camel@redhat.com>
+References: <20251112121744.1356882-1-boris.brezillon@collabora.com>
+ <20251112121744.1356882-2-boris.brezillon@collabora.com>
+ <7cea7efb7ff0ab34ab7352158ecce731a3f714d8.camel@redhat.com>
+ <20251112143104.2cabebb9@fedora>
+ <0558310f433debe93dddee0b6373bcb406b8bd62.camel@redhat.com>
+Organization: Collabora
+X-Mailer: Claws Mail 4.3.1 (GTK 3.24.51; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-References: <20251020113708.7403-1-hehuiwen@kylinos.cn>
-In-Reply-To: <20251020113708.7403-1-hehuiwen@kylinos.cn>
-From: Rob Clark <rob.clark@oss.qualcomm.com>
-Date: Wed, 12 Nov 2025 06:00:37 -0800
-X-Gm-Features: AWmQ_bmSomh-Lqktfo9-_yIT0yuHH5MOogLEutWFwCLiDDcs5TN9J_P3zC898No
-Message-ID: <CACSVV02vOhbW9U-9ZAT3QAh8ZKqr1vyO0sQY7CDRAGrwM997NA@mail.gmail.com>
-Subject: Re: [PATCH] drm/msm: Fix NULL pointer dereference in
- crashstate_get_vm_logs()
-To: Huiwen He <hehuiwen@kylinos.cn>
-Cc: Dmitry Baryshkov <lumag@kernel.org>, David Airlie <airlied@gmail.com>,
- linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org,
- freedreno@lists.freedesktop.org, linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
-X-Proofpoint-ORIG-GUID: cqs4kBz86d_ellvzxHVhdP-POY2WB6dT
-X-Authority-Analysis: v=2.4 cv=Hpl72kTS c=1 sm=1 tr=0 ts=69149311 cx=c_pps
- a=lkkFf9KBb43tY3aOjL++dA==:117 a=IkcTkHD0fZMA:10 a=6UeiqGixMTsA:10
- a=s4-Qcg_JpJYA:10 a=VkNPw1HP01LnGYTKEx00:22 a=G_YO64yXUFrr-ST3v2gA:9
- a=QEXdDO2ut3YA:10 a=k4UEASGLJojhI9HsvVT1:22
-X-Proofpoint-GUID: cqs4kBz86d_ellvzxHVhdP-POY2WB6dT
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUxMTEyMDExMyBTYWx0ZWRfXyP7sof00y4C7
- K5nrnLymFSPjLwUTE7gG1+U3Ui+gKG4l4eobJc51RleNWlU8pGSZb7pk8DE2yWaeLq8/lVfgXFY
- JwLFaS2aRKVxaUo2qU6BpDBgYMQ9dcJLM4Ff6pJhTxx06zMkuSoGeVts8R1rIpj9y1NebqryiPW
- DHsnPGRZCcfrfyA0AYCCSm+RMhq8jowEuyfpMN/WliZqekNzvEpvL+UEBo08hTeoaLUBpmdrQW+
- k2iKKVRamMHYUz8thbbgf8JBTswSLe5VoAA7vGxsN70Qabhppsk1dKagIeNi2TIfeyeS/xrML2D
- BLkN9CZR0qVL3tAFG3doq1/NL81umBSAubdDH/RfwN5WrzTDfoav70zatfIhBh9YN4jQEwBMGXT
- sShSJiIsb5s1o4oOg7pp1aa5fBsC3g==
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.9,FMLib:17.12.100.49
- definitions=2025-11-12_03,2025-11-11_03,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- priorityscore=1501 impostorscore=0 malwarescore=0 spamscore=0 suspectscore=0
- adultscore=0 phishscore=0 lowpriorityscore=0 clxscore=1015 bulkscore=0
- classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.22.0-2510240001 definitions=main-2511120113
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -129,53 +69,212 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Reply-To: rob.clark@oss.qualcomm.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Oct 20, 2025 at 4:37=E2=80=AFAM Huiwen He <hehuiwen@kylinos.cn> wro=
-te:
->
-> crashstate_get_vm_logs() did not check the result of kmalloc_array()
-> before using state->vm_logs. In low memory situations, kmalloc_array()
-> may fail and return NULL, leading to a kernel crash when the array
-> is accessed in the subsequent loop.
->
-> Fix this by checking the return value of kmalloc_array(). If allocation
-> fails, set state->nr_vm_logs to 0, and exit the function safely.
->
-> Fixes: 9edc52967cc7 ("drm/msm: Add VM logging for VM_BIND updates")
-> Signed-off-by: Huiwen He <hehuiwen@kylinos.cn>
-> ---
->  drivers/gpu/drm/msm/msm_gpu.c | 6 ++++++
->  1 file changed, 6 insertions(+)
->
-> diff --git a/drivers/gpu/drm/msm/msm_gpu.c b/drivers/gpu/drm/msm/msm_gpu.=
-c
-> index 17759abc46d7..51df6ff945d2 100644
-> --- a/drivers/gpu/drm/msm/msm_gpu.c
-> +++ b/drivers/gpu/drm/msm/msm_gpu.c
-> @@ -348,6 +348,12 @@ static void crashstate_get_vm_logs(struct msm_gpu_st=
-ate *state, struct msm_gem_v
->
->         state->vm_logs =3D kmalloc_array(
->                 state->nr_vm_logs, sizeof(vm->log[0]), GFP_KERNEL);
-> +       if (!state->vm_logs) {
-> +               state->nr_vm_logs =3D 0;
-> +               mutex_unlock(&vm->mmu_lock);
-> +               return;
+On Wed, 12 Nov 2025 14:48:51 +0100
+Philipp Stanner <pstanner@redhat.com> wrote:
 
-You could simplify this by just setting state->nr_vm_logs to zero and
-dropping the other two lines
+> On Wed, 2025-11-12 at 14:31 +0100, Boris Brezillon wrote:
+> > Hi Philipp,
+> >=20
+> > On Wed, 12 Nov 2025 13:38:00 +0100
+> > Philipp Stanner <pstanner@redhat.com> wrote:
+> >  =20
+> > > On Wed, 2025-11-12 at 13:17 +0100, Boris Brezillon wrote: =20
+> > > > From: Ashley Smith <ashley.smith@collabora.com>
+> > > >=20
+> > > > The timeout logic provided by drm_sched leads to races when we try
+> > > > to suspend it while the drm_sched workqueue queues more jobs. Let's
+> > > > overhaul the timeout handling in panthor to have our own delayed wo=
+rk
+> > > > that's resumed/suspended when a group is resumed/suspended. When an
+> > > > actual timeout occurs, we call drm_sched_fault() to report it
+> > > > through drm_sched, still. But otherwise, the drm_sched timeout is
+> > > > disabled (set to MAX_SCHEDULE_TIMEOUT), which leaves us in control =
+of
+> > > > how we protect modifications on the timer.
+> > > >=20
+> > > > One issue seems to be when we call drm_sched_suspend_timeout() from
+> > > > both queue_run_job() and tick_work() which could lead to races due =
+to
+> > > > drm_sched_suspend_timeout() not having a lock. Another issue seems =
+to
+> > > > be in queue_run_job() if the group is not scheduled, we suspend the
+> > > > timeout again which undoes what drm_sched_job_begin() did when call=
+ing
+> > > > drm_sched_start_timeout(). So the timeout does not reset when a job
+> > > > is finished.
+> > > >=20
+> > > > =C2=A0  =20
+> > >=20
+> > > [=E2=80=A6]
+> > >  =20
+> > > > +
+> > > > +static void
+> > > > +queue_reset_timeout_locked(struct panthor_queue *queue)
+> > > > +{
+> > > > +	lockdep_assert_held(&queue->fence_ctx.lock);
+> > > > +
+> > > > +	if (queue->timeout.remaining !=3D MAX_SCHEDULE_TIMEOUT) {
+> > > > +		mod_delayed_work(queue->scheduler.timeout_wq,=C2=A0  =20
+> > >=20
+> > > Here you are interfering with the scheduler's internals again, don't
+> > > you. I think we agreed that we don't want to do such things anymore,
+> > > didn't we? =20
+> >=20
+> > We're not really touching drm_gpu_scheduler's internals, we're just
+> > retrieving the timeout workqueue we passed at init time:
+> > panthor_queue::timeout is panthor internals not drm_sched internals.
+> >=20
+> > This being said, I agree we should use ptdev->reset.wq instead of
+> > retrieving the timeout workqueue through the drm_gpu_scheduler object.
+> >=20
+> > Just to be clear, the goal of this patch is to bypass the
+> > drm_gpu_scheduler timeout logic entirely, so we can have our own thing
+> > that's not racy (see below). =20
+>=20
+> OK. timeout_wq sharing is intended and allowed, so if that's what
+> you're doing, good. But I agree that accessing the wq through the
+> driver's struct is then cleaner and more obviously correct.
 
-BR,
--R
+Will do.
 
-> +       }
-> +
->         for (int i =3D 0; i < state->nr_vm_logs; i++) {
->                 int idx =3D (i + first) & vm_log_mask;
->
-> --
-> 2.43.0
->
+>=20
+> >  =20
+> > >=20
+> > > You could write a proper drm_sched API function which serves your
+> > > usecase. =20
+> >=20
+> > It's not really lack of support for our usecase that drives this
+> > change, but more the fact the current helpers are racy for drivers that
+> > have a 1:1 entity:sched relationship with queues that can be scheduled
+> > out behind drm_gpu_scheduler's back. =20
+>=20
+> And you also can't stop drm_sched to prevent races?
+
+That's the thing, I don't want to stop the drm_gpu_scheduler attached
+to a panthor_queue, I want new jobs to be queued to the ring buffer
+until this ring buffer is full (which is controller with the
+::credit_limit property), even if the group this queue belongs to is
+not currently active on the FW side. Those jobs will get executed at
+some later point when the group gets picked by the panthor scheduler.
+
+>=20
+> >  =20
+> > >=20
+> > > Or could maybe DRM_GPU_SCHED_STAT_NO_HANG be returned from your driver
+> > > in case an interrupt actually fires? =20
+> >=20
+> > I don't think it helps, see below.
+> >  =20
+> > >  =20
+> > > > +				 &queue->timeout.work,
+> > > > +				 msecs_to_jiffies(JOB_TIMEOUT_MS));
+> > > > +	}
+> > > > +}
+> > > > +
+> > > > +static bool
+> > > > +group_can_run(struct panthor_group *group)
+> > > > +{
+> > > > +	return group->state !=3D PANTHOR_CS_GROUP_TERMINATED &&
+> > > > +	=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 group->state !=3D PANTHOR_CS=
+_GROUP_UNKNOWN_STATE &&
+> > > > +	=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 !group->destroyed && group->=
+fatal_queues =3D=3D 0 &&
+> > > > +	=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 !group->timedout;
+> > > > +}
+> > > > +
+> > > > =C2=A0  =20
+> > >=20
+> > > [=E2=80=A6]
+> > >  =20
+> > > > +queue_suspend_timeout(struct panthor_queue *queue)
+> > > > +{
+> > > > +	spin_lock(&queue->fence_ctx.lock);
+> > > > +	queue_suspend_timeout_locked(queue);
+> > > > +	spin_unlock(&queue->fence_ctx.lock);
+> > > > +}
+> > > > +
+> > > > +static void
+> > > > +queue_resume_timeout(struct panthor_queue *queue)
+> > > > +{
+> > > > +	spin_lock(&queue->fence_ctx.lock);
+> > > > +
+> > > > +	if (queue_timeout_is_suspended(queue)) {
+> > > > +		mod_delayed_work(queue->scheduler.timeout_wq,=C2=A0  =20
+> > >=20
+> > > There is drm_sched_resume_timeout(). Why can it not be used? =20
+> >=20
+> > Because it's racy. I don't remember all the details, but IIRC, it had
+> > to do with job insertion calling drm_sched_start_timeout() while we're
+> > calling drm_sched_resume_timeout() from cs_slot_reset_locked(). We
+> > tried to make it work, but we gave up at some point and went for a
+> > driver-specific timer, because ultimately what we want is a per-queue
+> > timeout that we can pause/resume without drm_sched interfering when new
+> > jobs are queued to our ring buffers: we resume when the execution
+> > context (AKA group) is scheduled in, and we pause when this execution
+> > context is scheduled out.
+> >=20
+> > That's the very reason we set drm_gpu_scheduler::timeout to
+> > MAX_SCHEDULE_TIMEOUT at init time (AKA, timeout disabled) and never
+> > touch that again. When our driver-internal timer expires, we forward
+> > the information to the drm_sched layer by calling drm_sched_fault(). =20
+>=20
+> That sounds all.. stressful ;)
+
+Yeah, it's not ideal :-/.
+
+>=20
+> As you know I only learned a few weeks ago about your group scheduler
+> on top of drm_sched. I wish I had heard about it when it was
+> implemented; we might have come up with the idea for drm_jobqueue
+> sooner.
+
+Might have simplified things, I guess, but that's life, and I'm happy
+to transition to drm_jobqueue when it's deemed ready.
+
+>=20
+> >  =20
+> > >  =20
+> > > > +				 &queue->timeout.work,
+> > > > +				 queue->timeout.remaining);
+> > > > +
+> > > > +		queue->timeout.remaining =3D MAX_SCHEDULE_TIMEOUT;
+> > > > +	}
+> > > > +
+> > > > +	spin_unlock(&queue->fence_ctx.lock);
+> > > > +}
+> > > > +
+> > > > =C2=A0  =20
+> > >=20
+> > > [=E2=80=A6]
+> > >  =20
+> > > > =C2=A0
+> > > > @@ -3270,6 +3379,11 @@ queue_timedout_job(struct drm_sched_job *sch=
+ed_job)
+> > > > =C2=A0
+> > > > =C2=A0	queue_start(queue);
+> > > > =C2=A0
+> > > > +	/* We already flagged the queue as faulty, make sure we don't get
+> > > > +	 * called again.
+> > > > +	 */
+> > > > +	queue->scheduler.timeout =3D MAX_SCHEDULE_TIMEOUT;
+> > > > +
+> > > > =C2=A0	return DRM_GPU_SCHED_STAT_RESET;=C2=A0  =20
+> > >=20
+> > > DRM_GPU_SCHED_STAT_NO_HANG instead of just modifying the scheduler's
+> > > internal data?? =20
+> >=20
+> >=20
+> > 	queue->scheduler.timeout =3D MAX_SCHEDULE_TIMEOUT;
+> >=20
+> > is a leftover from a previous version. We shouldn't have to modify that
+> > here because the timeout is initialized to MAX_SCHEDULE_TIMEOUT and
+> > never touched again. =20
+>=20
+> So you agree that it can be removed in v8?
+
+Yep, I think it can go away. I'll make sure it still works without it,
+and also get the wq from some driver fields instead of going back to
+drm_gpu_scheduler::timeout_wq.
