@@ -2,83 +2,55 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C83EAC5166B
-	for <lists+dri-devel@lfdr.de>; Wed, 12 Nov 2025 10:42:19 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5D585C51683
+	for <lists+dri-devel@lfdr.de>; Wed, 12 Nov 2025 10:43:03 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C0B2C10E1C2;
-	Wed, 12 Nov 2025 09:42:17 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B26CE10E1C3;
+	Wed, 12 Nov 2025 09:43:01 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=ursulin.net header.i=@ursulin.net header.b="CEKxbElq";
+	dkim=fail reason="signature verification failed" (1024-bit key; unprotected) header.d=163.com header.i=@163.com header.b="c3HMPR9E";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-f44.google.com (mail-wm1-f44.google.com
- [209.85.128.44])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 16EB810E1C2
- for <dri-devel@lists.freedesktop.org>; Wed, 12 Nov 2025 09:42:16 +0000 (UTC)
-Received: by mail-wm1-f44.google.com with SMTP id
- 5b1f17b1804b1-471191ac79dso5724575e9.3
- for <dri-devel@lists.freedesktop.org>; Wed, 12 Nov 2025 01:42:16 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=ursulin.net; s=google; t=1762940534; x=1763545334; darn=lists.freedesktop.org;
- h=content-transfer-encoding:in-reply-to:from:content-language
- :references:cc:to:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=non7jFyDgpV9ioaJdY/PWd6esrFFlJ4jS7hnF3MLWcI=;
- b=CEKxbElqAmSm+xujM2W4vQzD/ipCAuXvY7WRoqVgE/fFmeRnUaMO0TDZCZ3wCDSx9n
- IULc1mRp8KBI6JRKuJ3UkVE95NPBBJST5tHiXPpY8NIl+hRaWzWXhDRTk8VQrZI9e1cz
- NsL9YZ9V/NxvF+yF8N65x7kWxnsgvIOJ5C+lHkeLjtBYo7DR6XTJrcn/bIuXZDLVS9Y/
- m7RAcbFqrcxh+k+GVsNOrX4r7fP5tDG/onkSVdehg70mH7iuKHgCEIXLxsPz3mZl/ESD
- b5G4VRDMHJjKiam8MXN3+vM4Anq4r7xvSIMsrOrRhrdX4hv6+aw2N0xpYWISFmMpfeb7
- jwcg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1762940534; x=1763545334;
- h=content-transfer-encoding:in-reply-to:from:content-language
- :references:cc:to:subject:user-agent:mime-version:date:message-id
- :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=non7jFyDgpV9ioaJdY/PWd6esrFFlJ4jS7hnF3MLWcI=;
- b=Rxh/7FXjRs36hklBG4C6mU+d9aYBtX3nBn6wSover0fKk/yY53OWKYX7tzUCprFA5T
- CxQZRZZ4rgkrkXHs6V92mntnh6gZ6L6rqDb5KG2GkHeH3U5nFQANBkcKWgS94MwGwpeh
- nOyHNRjH97/znzo60UiZ9d6WH9NJ7caPr72G8IpM+99gORBVUH9JIhZC+zQh0Y8d8RHp
- U7A3U/5M76OAKdzyRZxdl2zqH4G1RGzT5YDjTLCVC3uwZj4/3WkgnDib/LSvEcahhzFt
- TvbGPxScNzYDEHIz7zVsHCS9K7XdVRAwQj22PoQ2GpY6dBFnmkbjK5U57Y8jysfm412D
- VYKQ==
-X-Gm-Message-State: AOJu0YySgzViRGTz3qMVqrX55vLCvB+eYXuv8fpQKsrtGkn/G5gJz8ir
- o0ttC9NcqJVPZXSxcKKS1UNP9aPBHCSVDA7Hbv1xL4szKOZn6dVZlTT1I6CWT3Wpw2A=
-X-Gm-Gg: ASbGncv/ZRPMU1+Q2nrW740TmtGh+sKr5iDD+Yd4K5/S+nnmpbA3I0cWeirz6gbBXc+
- jAm1KN0CmUSiYDXu1DlU47ezDIApcwy+qaCArXCFCy83sKlnVWvSlrJSXzGYXzuaxRRE34sNCaf
- 3gxJwXGEphhw0pistwJ9B9u6fKkBS5iT9O+QEfW5RZMZNilgkfBKKY0DISi/9jXipvvibB62rqh
- hP4zfGGmpMlWFgd4nq21+NtfMBOVId6VQoz18LOCgtsZpezuJdhXBj06B3/RkPr9jqdhkFM2Guh
- pj37i23Vz5/4rS2gpMdwkMJ3WMnjSFgnUXzHlZP692DHcdZafxRto1wjevEAyKaRD4tV4UQv/Da
- 9twQ/a4RlhgTgtoMUGSO4MrAiVBN4EsKNSN1DceBMUc+iHGaSZfi8/dNUEaoS5ju6JzCULwrkI3
- UNZ+vzrcAYGBlSoeVUTY4nozcZpzkOoJr2
-X-Google-Smtp-Source: AGHT+IEUD7F/bL8359XxwqylO1O60OBLZSd4tmhEK3pFqGhIuhFA3c+ouW/g75Uh+RBAA2Oa4hCSZA==
-X-Received: by 2002:a05:600c:1c08:b0:475:df91:de03 with SMTP id
- 5b1f17b1804b1-477870b67d1mr22341115e9.39.1762940534598; 
- Wed, 12 Nov 2025 01:42:14 -0800 (PST)
-Received: from [192.168.0.101] ([90.240.106.137])
- by smtp.gmail.com with ESMTPSA id
- 5b1f17b1804b1-47787e486fbsm25160545e9.5.2025.11.12.01.42.14
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 12 Nov 2025 01:42:14 -0800 (PST)
-Message-ID: <e9c02871-fa80-46c7-8b96-bad3a6a2c5b9@ursulin.net>
-Date: Wed, 12 Nov 2025 09:42:13 +0000
+Received: from m16.mail.163.com (m16.mail.163.com [220.197.31.3])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1FBB910E1C3
+ for <dri-devel@lists.freedesktop.org>; Wed, 12 Nov 2025 09:42:58 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=163.com;
+ s=s110527; h=Date:From:To:Subject:Content-Type:MIME-Version:
+ Message-ID; bh=0ytA45AcC3m5jLGB+lFVkAnwnttXTpMu3Auy1JGfI1M=; b=c
+ 3HMPR9EHgBt5Yg+onaLba/j4MRgEeVID2UoMG889Q0Hr6J7wajgG9gWNkJ+ds2zu
+ K49ULEDtKjFoX+mP9jTIiesgaJT0ypiCbziotDR3ieoeEZckK12Fs92w8QGoUFdn
+ mLg7w0nAZvtuUejcbWGbc99jWyPGD36DhDkz7kl96A=
+Received: from andyshrk$163.com ( [58.22.7.114] ) by
+ ajax-webmail-wmsvr-40-143 (Coremail) ; Wed, 12 Nov 2025 17:42:52 +0800
+ (CST)
+X-Originating-IP: [58.22.7.114]
+Date: Wed, 12 Nov 2025 17:42:52 +0800 (CST)
+From: "Andy Yan" <andyshrk@163.com>
+To: "Daniel Stone" <daniels@collabora.com>
+Cc: dri-devel@lists.freedesktop.org, andy.yan@rock-chips.com,
+ hjc@rock-chips.com, heiko@sntech.de, cristian.ciocaltea@collabora.com
+Subject: Re:Re:Re:[PATCH 10/13] drm/rockchip: Enforce AFBC source alignment
+ in plane_check
+X-Priority: 3
+X-Mailer: Coremail Webmail Server Version 2023.4-cmXT build
+ 20250723(a044bf12) Copyright (c) 2002-2025 www.mailtech.cn 163com
+In-Reply-To: <65f151be.7a26.19a7733902d.Coremail.andyshrk@163.com>
+References: <20251015110042.41273-1-daniels@collabora.com>
+ <20251015110042.41273-11-daniels@collabora.com>
+ <7b4e26ec.75f3.19a77276b53.Coremail.andyshrk@163.com>
+ <65f151be.7a26.19a7733902d.Coremail.andyshrk@163.com>
+X-CM-CTRLMSGS: 9xdCZnBsdXM9MTc2Mjk0MDU3MTE4NF9mODkzMWNjZTA3MTA0M2E0MzA4NzJlN
+ DA3MGJmMWU1YQ==
+X-NTES-SC: AL_Qu2dAPWfv00s5CCZY+kfmUgWjuw/WsG1v/Ul1YBSP556jC/r9w8EW0F9P2DJ/eylCi2JqwmXdhF1xuZrRphXfrkUkQGJVSvpCgUjqI7mAAAWcA==
+Content-Transfer-Encoding: base64
+Content-Type: text/plain; charset=UTF-8
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] drm/sched: Document racy behavior of
- drm_sched_entity_push_job()
-To: Philipp Stanner <phasta@kernel.org>,
- Matthew Brost <matthew.brost@intel.com>,
- =?UTF-8?Q?Christian_K=C3=B6nig?= <ckoenig.leichtzumerken@gmail.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
-Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
-References: <20251112073138.93355-2-phasta@kernel.org>
-Content-Language: en-GB
-From: Tvrtko Ursulin <tursulin@ursulin.net>
-In-Reply-To: <20251112073138.93355-2-phasta@kernel.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Message-ID: <774a0afc.8d99.19a7772517a.Coremail.andyshrk@163.com>
+X-Coremail-Locale: zh_CN
+X-CM-TRANSID: jygvCgD330ycVhRpkO8gAA--.26222W
+X-CM-SenderInfo: 5dqg52xkunqiywtou0bp/xtbB0h4EXmkUVBs1AwACsQ
+X-Coremail-Antispam: 1U5529EdanIXcx71UUUUU7vcSsGvfC2KfnxnUU==
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -94,57 +66,49 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
-On 12/11/2025 07:31, Philipp Stanner wrote:
-> drm_sched_entity_push_job() uses the unlocked spsc_queue. It takes a
-> reference to that queue's tip at the start, and some time later removes
-> that entry from that list, without locking or protection against
-> preemption.
-
-I couldn't figure out what you refer to by tip reference at the start, 
-and later removes it. Are you talking about the top level view from 
-drm_sched_entity_push_job() or where exactly?
-> This is by design, since the spsc_queue demands single producer and
-> single consumer. It was, however, never documented.
-> 
-> Document that you must not call drm_sched_entity_push_job() in parallel
-> for the same entity.
-> 
-> Signed-off-by: Philipp Stanner <phasta@kernel.org>
-> ---
->   drivers/gpu/drm/scheduler/sched_entity.c | 3 +++
->   1 file changed, 3 insertions(+)
-> 
-> diff --git a/drivers/gpu/drm/scheduler/sched_entity.c b/drivers/gpu/drm/scheduler/sched_entity.c
-> index 5a4697f636f2..b31e8d14aa20 100644
-> --- a/drivers/gpu/drm/scheduler/sched_entity.c
-> +++ b/drivers/gpu/drm/scheduler/sched_entity.c
-> @@ -562,6 +562,9 @@ void drm_sched_entity_select_rq(struct drm_sched_entity *entity)
->    * drm_sched_entity_push_job - Submit a job to the entity's job queue
->    * @sched_job: job to submit
->    *
-> + * It is illegal to call this function in parallel, at least for jobs belonging
-> + * to the same entity. Doing so leads to undefined behavior.
-
-One thing that is documented in the very next paragraph is that the 
-design implies a lock held between arm and push. At least to ensure 
-seqno order matches the queue order.
-
-I did not get what other breakage you found, but I also previously did 
-find something other than that. Hm.. if I could only remember what it 
-was. Probably mine was something involving drm_sched_entity_select_rq(), 
-drm_sched_entity_modify_sched() and (theoretical) multi-threaded 
-userspace submit on the same entity. Luckily it seems no one does that.
-
-The issue you found is separate and not theoretically fixed by this 
-hypothetical common lock held over arm and push?
-
-Regards,
-
-Tvrtko
-
-> + *
->    * Note: To guarantee that the order of insertion to queue matches the job's
->    * fence sequence number this function should be called with drm_sched_job_arm()
->    * under common lock for the struct drm_sched_entity that was set up for
-
+CgpIZWxsbyBEYW5pZWwsCgrlnKggMjAyNS0xMS0xMiAxNjozNDoxOe+8jCJBbmR5IFlhbiIgPGFu
+ZHlzaHJrQDE2My5jb20+IOWGmemBk++8mgo+Cj4KPkhlbGxvIERhbmllbO+8jAo+Cj5BdCAyMDI1
+LTExLTEyIDE2OjIxOjAzLCAiQW5keSBZYW4iIDxhbmR5c2hya0AxNjMuY29tPiB3cm90ZToKPj4K
+Pj5IZWxsbywKPj4KPj5BdCAyMDI1LTEwLTE1IDE5OjAwOjM5LCAiRGFuaWVsIFN0b25lIiA8ZGFu
+aWVsc0Bjb2xsYWJvcmEuY29tPiB3cm90ZToKPj4+UGxhbmVzIGNhbiBvbmx5IHNvdXJjZSBBRkJD
+IGZyYW1lYnVmZmVycyBhdCBtdWx0aXBsZXMgb2YgNHB4IHdpZGUuCj4+Pkluc3RlYWQgb2YgY2xp
+cHBpbmcgd2hlbiB0aGUgdXNlciBhc2tzIGZvciBhbiB1bmFsaWduZWQgc291cmNlCj4+PnJlY3Rh
+bmdsZSwgcmVqZWN0IHRoZSBjb25maWd1cmF0aW9uIGluIHRoZSBwbGFuZSdzIGF0b21pYyBjaGVj
+ay4KPj4+Cj4+PlNpZ25lZC1vZmYtYnk6IERhbmllbCBTdG9uZSA8ZGFuaWVsc0Bjb2xsYWJvcmEu
+Y29tPgo+Pj4tLS0KPj4+IGRyaXZlcnMvZ3B1L2RybS9yb2NrY2hpcC9yb2NrY2hpcF9kcm1fdm9w
+Mi5jIHwgMTYgKysrKysrKysrKy0tLS0tLQo+Pj4gMSBmaWxlIGNoYW5nZWQsIDEwIGluc2VydGlv
+bnMoKyksIDYgZGVsZXRpb25zKC0pCj4+Pgo+Pj5kaWZmIC0tZ2l0IGEvZHJpdmVycy9ncHUvZHJt
+L3JvY2tjaGlwL3JvY2tjaGlwX2RybV92b3AyLmMgYi9kcml2ZXJzL2dwdS9kcm0vcm9ja2NoaXAv
+cm9ja2NoaXBfZHJtX3ZvcDIuYwo+Pj5pbmRleCA2NTQzNzQzN2UzZDUuLjBhYmFmM2UwZWFiNiAx
+MDA2NDQKPj4+LS0tIGEvZHJpdmVycy9ncHUvZHJtL3JvY2tjaGlwL3JvY2tjaGlwX2RybV92b3Ay
+LmMKPj4+KysrIGIvZHJpdmVycy9ncHUvZHJtL3JvY2tjaGlwL3JvY2tjaGlwX2RybV92b3AyLmMK
+Pj4+QEAgLTEwNjgsMTIgKzEwNjgsMTkgQEAgc3RhdGljIGludCB2b3AyX3BsYW5lX2F0b21pY19j
+aGVjayhzdHJ1Y3QgZHJtX3BsYW5lICpwbGFuZSwKPj4+IAkgKiBUaGlzIGlzIHdvcmthcm91bmQg
+c29sdXRpb24gZm9yIElDIGRlc2lnbjoKPj4+IAkgKiBlc21hcnQgY2FuJ3Qgc3VwcG9ydCBzY2Fs
+ZSBkb3duIHdoZW4gc3JjX3cgJSAxNiA9PSAxLgo+Pj4gCSAqLwo+Pj4tCWlmICghdm9wMl9jbHVz
+dGVyX3dpbmRvdyh3aW4pICYmIHNyY193ID4gZHNwX3cgJiYgKHNyY193ICYgMSkpIHsKPj4+Kwlp
+ZiAoIXZvcDJfY2x1c3Rlcl93aW5kb3cod2luKSAmJiBzcmNfdyA+IGRlc3RfdyAmJiAoc3JjX3cg
+JiAxKSkgewo+Pj4gCQlkcm1fZGJnX2ttcyh2b3AyLT5kcm0sCj4+PiAJCQkgICAgImVTbWFydCB3
+aW5kb3dzIGNhbm5vdCBkb3duc2NhbGUgb2RkLXdpZHRoIHNvdXJjZSByZWdpb25zXG4iKTsKPj4+
+IAkJcmV0dXJuIC1FSU5WQUw7Cj4+PiAJfQo+Pj4gCj4+PisJaWYgKGRybV9pc19hZmJjKGZiLT5t
+b2RpZmllcikgJiYgc3JjX3cgJSA0KSB7Cj4+PisJCWRybV9kYmdfa21zKHZvcDItPmRybSwKPj4+
+KwkJCSAgICAiQUZCQyBzb3VyY2UgcmVjdGFuZ2xlcyBtdXN0IGJlIDQtYnl0ZSBhbGlnbmVkOyBp
+cyAlZFxuIiwKPiAgCj4gIHMvNC1ieXRlLzQgcGl4ZWwvCgpJJ3ZlIGNoZWNrZWQgb3VyIEJTUCBj
+b2RlLCBhbmQgdGhpcyBsaW1pdGF0aW9uIG9ubHkgYXBwbGllcyB0byBSSzM1NjguIApPdGhlciBT
+b0NzIGxpa2UgUkszNTg4L1JLMzU3NiBkb24ndCBoYXZlIHRoaXMgbGltaXRhdGlvbi4KCgo+Cj4+
+PisJCQkgICAgc3JjX3cpOwo+Pj4rCQlyZXR1cm4gLUVJTlZBTDsKPj4+Kwl9Cj4+Cj4KPkp1c3Qg
+YXMgYSBub3RlIGhlcmU6Cj5BZnRlciBhcHBseWluZyB0aGlzIHBhdGNoLCBhbGwgd2VzdG9uLXNp
+bXBsZS1lZ2wgdGVzdHMgdW5kZXIgV2VzdG9uIHdpbGwgZmFsbCBiYWNrIHRvIEdQVSBjb21wb3Np
+dGluZyBtb2RlLiAKPlRoaXMgaXMgYmVjYXVzZSB0aGUgcmVuZGVyZWQgYm94ZXMgaW4gd2VzdG9u
+LXNpbXBsZS1lZ2wgaGF2ZSBhIGZpeGVkIHNpemUgb2YgMjUweDI1MCwgd2hpY2ggaXMgbm90IGFs
+aWduZWQgdG8gNCBwaXhlbHMgYW5kIGNhbm5vdCBiZSBhZGp1c3RlZC4KPgo+Pgo+Pgo+Pj4rCj4+
+PiAJcmV0dXJuIDA7Cj4+PiB9Cj4+PiAKPj4+QEAgLTEyMzQsMTEgKzEyNDEsOCBAQCBzdGF0aWMg
+dm9pZCB2b3AyX3BsYW5lX2F0b21pY191cGRhdGUoc3RydWN0IGRybV9wbGFuZSAqcGxhbmUsCj4+
+PiAJV0FSTl9PTihzcmNfdyA8IDQpOwo+Pj4gCVdBUk5fT04oc3JjX2ggPCA0KTsKPj4+IAo+Pj4t
+CWlmIChhZmJjX2VuICYmIHNyY193ICUgNCkgewo+Pj4tCQlkcm1fZGJnX2ttcyh2b3AyLT5kcm0s
+ICJ2cCVkICVzIHNyY193WyVkXSBub3QgNCBwaXhlbCBhbGlnbmVkXG4iLAo+Pj4tCQkJICAgIHZw
+LT5pZCwgd2luLT5kYXRhLT5uYW1lLCBzcmNfdyk7Cj4+Pi0JCXNyY193ID0gQUxJR05fRE9XTihz
+cmNfdywgNCk7Cj4+Pi0JfQo+Pj4rCWlmIChkcm1faXNfYWZiYyhmYi0+bW9kaWZpZXIpKQo+Pj4r
+CQlXQVJOX09OKHNyY193ICUgNCk7Cj4+PiAKPj4+IAlhY3RfaW5mbyA9IChzcmNfaCAtIDEpIDw8
+IDE2IHwgKChzcmNfdyAtIDEpICYgMHhmZmZmKTsKPj4+IAlkc3BfaW5mbyA9IChkc3BfaCAtIDEp
+IDw8IDE2IHwgKChkc3BfdyAtIDEpICYgMHhmZmZmKTsKPj4+LS0gCj4+PjIuNTEuMAo=
