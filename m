@@ -2,46 +2,46 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 36BB1C594B2
-	for <lists+dri-devel@lfdr.de>; Thu, 13 Nov 2025 18:57:46 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id C9503C594BB
+	for <lists+dri-devel@lfdr.de>; Thu, 13 Nov 2025 18:57:49 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 30A0710E10A;
-	Thu, 13 Nov 2025 17:57:44 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 442F310E1E9;
+	Thu, 13 Nov 2025 17:57:45 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="sqBgScq2";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="LUyTtw2r";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from sea.source.kernel.org (sea.source.kernel.org [172.234.252.31])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CCF9010E1DF
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B81E910E10A
  for <dri-devel@lists.freedesktop.org>; Thu, 13 Nov 2025 17:57:43 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by sea.source.kernel.org (Postfix) with ESMTP id 8C4834468B;
+ by sea.source.kernel.org (Postfix) with ESMTP id 8BEA444686;
  Thu, 13 Nov 2025 17:57:43 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 3ED12C113D0;
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 4A72CC19423;
  Thu, 13 Nov 2025 17:57:43 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
  s=k20201202; t=1763056663;
- bh=RCFsjUix1XQ76jxISlR0S+cS2leVOmgzdskYmMSCvic=;
+ bh=GVLBLculdCKnhAiFJ2ef4yLpdlinMTlal7/JRCLg0f0=;
  h=From:Date:Subject:References:In-Reply-To:To:Cc:Reply-To:From;
- b=sqBgScq29bnowgvQ38/PLeX6P2J3e7wicY1LCMI5OXYjPFa3I7X6z3xugLkXLvz+S
- rYXWhFd3dV+Dn8EqfyE50RWl/1S9RoSXs7nuGHOaHaSgzlYcJJeObU4BCOainSy9yR
- 6lv09kIeQT3ERrmr4Q4RTwVy5NtsckfqvVzi3hWcTJewfFAu2IyzHsooSpXi9KkLtv
- aCXnDr1oLvQNU35WiZ0reV/XaS6zdrAlD/UTuq0K5l6YjEbwylPSVwYM9KuVQ1lXub
- M8WgZFHOVAK5mO7hh7TJu6MMdwxzYxVYm652bfFjhV4VMkM/ZsRzBQWLIQ5VqW048B
- dMSGXtvm+ngPg==
+ b=LUyTtw2rmME8Jz8lhPxijBZgVwqcWVLEbyx9HoHTTEI+SSqbOg+6xB/WlwUZ6T3Mj
+ O7jY78xhqVR7PZ/r6h13FibQokgSeaDsKinnrGYX7MUD2slZvFOJxHQLSXvJqYxid1
+ 7THfXCqMkkGTWUnxpS5W2vyrfY3MiUVU9glaxmXBpQfeFDRHm1gdOwGFw++VRc1hst
+ wSnJ2RjGx2E3RizbxOHjLo4CeQbnoBt4Rplk0/9QSdMv6Zvl7hVKvWrtucPuRXGoGz
+ zY7DG2HVuvtKS7sMNd9y22alHemdJNTKdrv2ZQdnM7tHJrjMIdSDwgRfT5TsMlPtw0
+ 5ITaoAzSEHeRw==
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org
  (localhost.localdomain [127.0.0.1])
- by smtp.lore.kernel.org (Postfix) with ESMTP id 3271FCD8CAF;
+ by smtp.lore.kernel.org (Postfix) with ESMTP id 41079CD8CB9;
  Thu, 13 Nov 2025 17:57:43 +0000 (UTC)
 From: David Heidelberg via B4 Relay <devnull+david.ixit.cz@kernel.org>
-Date: Thu, 13 Nov 2025 18:57:36 +0100
-Subject: [PATCH v2 02/12] arch: arm64: qcom: sdm845-enchilada: Specify
- panel name within the compatible
+Date: Thu, 13 Nov 2025 18:57:37 +0100
+Subject: [PATCH v2 03/12] drm/panel: sofef00: Clean up panel description
+ after s6e3fc2x01 removal
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20251113-sofef00-rebuild-v2-2-e175053061ec@ixit.cz>
+Message-Id: <20251113-sofef00-rebuild-v2-3-e175053061ec@ixit.cz>
 References: <20251113-sofef00-rebuild-v2-0-e175053061ec@ixit.cz>
 In-Reply-To: <20251113-sofef00-rebuild-v2-0-e175053061ec@ixit.cz>
 To: Neil Armstrong <neil.armstrong@linaro.org>, 
@@ -59,21 +59,21 @@ Cc: dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
  linux-kernel@vger.kernel.org, linux-arm-msm@vger.kernel.org, 
  phone-devel@vger.kernel.org, David Heidelberg <david@ixit.cz>
 X-Mailer: b4 0.14.3
-X-Developer-Signature: v=1; a=openpgp-sha256; l=978; i=david@ixit.cz;
+X-Developer-Signature: v=1; a=openpgp-sha256; l=2398; i=david@ixit.cz;
  h=from:subject:message-id;
- bh=XdEJMzUlqHmVFvRkb119Ya6neFS+DHA5Y7GV7B5h8w4=;
- b=owEBbQKS/ZANAwAIAWACP8TTSSByAcsmYgBpFhwUx5fxhZW3ru/k/CW3PaGg7zjqBNcd1dxuy
- WwS+gVUg/6JAjMEAAEIAB0WIQTXegnP7twrvVOnBHRgAj/E00kgcgUCaRYcFAAKCRBgAj/E00kg
- ciOeD/94fR70j8mcyMtewNc7kRaVyQ+Uf9kvO5pfU7PAvyoGj6eaIMNgCZmw5d3CuDkjm1LlqRN
- KANBySbzAKuH3t+0rayZBiMjWPV72E2PuqMRYKk1/JnD6W9+GGaX0boMH+WbgdQjOTIxfgwMAcT
- VNXfgmsksZcsX+UM4XJXXFb3HHvd8r0gR7U1Fvz+gzT7fDlAE790cSJOnQ2YC4xHNQbqLSED1te
- 5aac+sYU2kkbfbLJ3IsTGqRuxhltvmzE8daMEkekpyBqnFJnvc1FWTdjz/mg7c8aPGOyYyyMv3N
- 4D7HDbVEuZ1b8m3De/F9WT/p9LO2Tx7k2YmTQZZ8QvIO+mu0QydnW6BsWxoJpIXb2cUOvD2r442
- T1KeNz2tJaTIN2e5jDeJ9ci8OVIStlFtY2m0HY3N4Tir/zZsu9NNxamFO9OHjjVu25EdZU/HWEw
- f6fE81aL2NV7HJ/8hAuAzqacp5NXMij3PwWUk2RnzBVixtSsiux181tt4R0HTZhVozMLeX7165/
- 3IYWscFVeLGMY3QOoDCm9YzGfUE1K03YcJMCOyQZAe29mVkIw8HkhMa/GdbEQW/V5vCfwaRqCAe
- 6ZmfmZgsuUzmWaAS6k8qrrEJh0PszMU1CL19KmfjgmpaPbUR3V/h5ORHylvpOXki0dZqD5zKYvO
- IyDko+cwq5UXTvQ==
+ bh=bCUObjPE6sND+pIgM/wutRNG+EBQRl07BHTzasDZhH4=;
+ b=owEBbQKS/ZANAwAIAWACP8TTSSByAcsmYgBpFhwUwr2wir4U7ZIpBZumdeQhzmdrM5CQ0pfPU
+ JhiNpj4bW6JAjMEAAEIAB0WIQTXegnP7twrvVOnBHRgAj/E00kgcgUCaRYcFAAKCRBgAj/E00kg
+ cmi3D/0bTHoMJmN/Qo9o/LvNKjVSwqXrRUWf+hKCXWN71h4CU/p0Ch1ymDLvZBeRzt8a4OhWCen
+ O4Oj5GulsPt9EiOZyD0VdMbnida8rKnO2/AhKjjTXel/PSH6uGcFmK3jneUEe8vXea4/pBJk+XF
+ izmgXvIg9KBz+qVfzzQF2jlUNpZr0FMydljZKshetQl0pPn0nRgmHOKZ7jwrHUFI3c7njZmij2T
+ 2W7+V9NFhpSmqDuRk7oj0nCLs0twtuqZrpZbhRmGlsad1W8PxM1WkLFUmAZLM4sPo/Mgnpje+Di
+ j8oqoTOJxhC+NEKtV03vXkVQqHx/9tpas3jQRKZNBIJVe7qLVjq3RYj3ETQnfO2e6kLMwbZh1ZO
+ UsDLhStxOPRpboxawEhygeLR4uW/prsnxcoM9UIMLhWRQeLO9wFo6bysMkpf9keFNy6vTz1Kh31
+ sqPonL1f4Wnfpy2uCFz+xJuh8XaaqB4G+8FkZDmhPyluXdwZGzgyWO5OC1B0U+Ja0ltLO4FU6ji
+ Svq/B1ge+nO+f0KCDZxcR0GA+QCjushTYotwhVZx9AX9KmLOsvYGgVySqf3TOega737zOqszSt9
+ HnKlF4UCODAKiM8+GH5sDJRQALP1qQCElDie9oTUCVNywpmxbwnMgRroHsjavY9xUIQHANulsp9
+ 1PRC7gwC9ZKvsOQ==
 X-Developer-Key: i=david@ixit.cz; a=openpgp;
  fpr=D77A09CFEEDC2BBD53A7047460023FC4D3492072
 X-Endpoint-Received: by B4 Relay for david@ixit.cz/default with auth_id=355
@@ -96,36 +96,63 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: David Heidelberg <david@ixit.cz>
 
-sofef00 is name of the DDIC, it doesn't contain name of the panel used.
-The DDIC is also paired with other panels, so make clear which panel is
-used.
+Remove leftover from s6e3fc2x01 support drop and clarify supported panel.
 
-New device-tree will work with old driver as expected, due to secondary
-compatible.
+The Samsung SOFEF00 DDIC is used in multiple phones, so describe it
+properly and generalize.
 
-cosmetic: sort the node.
-
+Fixes: e1eb7293ab41 ("drm/panel: samsung-sofef00: Drop s6e3fc2x01 support")
 Signed-off-by: David Heidelberg <david@ixit.cz>
 ---
- arch/arm64/boot/dts/qcom/sdm845-oneplus-enchilada.dts | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ drivers/gpu/drm/panel/Kconfig                 | 7 ++++---
+ drivers/gpu/drm/panel/panel-samsung-sofef00.c | 4 ++--
+ 2 files changed, 6 insertions(+), 5 deletions(-)
 
-diff --git a/arch/arm64/boot/dts/qcom/sdm845-oneplus-enchilada.dts b/arch/arm64/boot/dts/qcom/sdm845-oneplus-enchilada.dts
-index a259eb9d45ae0..8aead6dc25e00 100644
---- a/arch/arm64/boot/dts/qcom/sdm845-oneplus-enchilada.dts
-+++ b/arch/arm64/boot/dts/qcom/sdm845-oneplus-enchilada.dts
-@@ -31,9 +31,9 @@ battery: battery {
+diff --git a/drivers/gpu/drm/panel/Kconfig b/drivers/gpu/drm/panel/Kconfig
+index ad54537d914a4..4a0b4da0fea46 100644
+--- a/drivers/gpu/drm/panel/Kconfig
++++ b/drivers/gpu/drm/panel/Kconfig
+@@ -881,16 +881,17 @@ config DRM_PANEL_SAMSUNG_S6E8AA5X01_AMS561RA01
+ 	  DSI protocol with 4 lanes.
+ 
+ config DRM_PANEL_SAMSUNG_SOFEF00
+-	tristate "Samsung sofef00/s6e3fc2x01 OnePlus 6/6T DSI cmd mode panels"
++	tristate "Samsung SOFEF00 DSI panel controller"
+ 	depends on OF
+ 	depends on DRM_MIPI_DSI
+ 	depends on BACKLIGHT_CLASS_DEVICE
+ 	select VIDEOMODE_HELPERS
+ 	help
+ 	  Say Y or M here if you want to enable support for the Samsung AMOLED
+-	  command mode panels found in the OnePlus 6/6T smartphones.
++	  panel SOFEF00 DDIC and connected panel.
++	  Currently supported panels:
+ 
+-	  The panels are 2280x1080@60Hz and 2340x1080@60Hz respectively
++	    Samsung AMS628NW01 (found in OnePlus 6, 1080x2280@60Hz)
+ 
+ config DRM_PANEL_SEIKO_43WVF1G
+ 	tristate "Seiko 43WVF1G panel"
+diff --git a/drivers/gpu/drm/panel/panel-samsung-sofef00.c b/drivers/gpu/drm/panel/panel-samsung-sofef00.c
+index 064258217d50a..c88574ea66e1c 100644
+--- a/drivers/gpu/drm/panel/panel-samsung-sofef00.c
++++ b/drivers/gpu/drm/panel/panel-samsung-sofef00.c
+@@ -252,7 +252,7 @@ static struct mipi_dsi_driver sofef00_panel_driver = {
+ 	.probe = sofef00_panel_probe,
+ 	.remove = sofef00_panel_remove,
+ 	.driver = {
+-		.name = "panel-oneplus6",
++		.name = "panel-samsung-sofef00",
+ 		.of_match_table = sofef00_panel_of_match,
+ 	},
  };
+@@ -260,5 +260,5 @@ static struct mipi_dsi_driver sofef00_panel_driver = {
+ module_mipi_dsi_driver(sofef00_panel_driver);
  
- &display_panel {
--	status = "okay";
-+	compatible = "samsung,sofef00-ams628nw01", "samsung,sofef00";
- 
--	compatible = "samsung,sofef00";
-+	status = "okay";
- };
- 
- &bq27441_fg {
+ MODULE_AUTHOR("Casey Connolly <casey.connolly@linaro.org>");
+-MODULE_DESCRIPTION("DRM driver for Samsung AMOLED DSI panels found in OnePlus 6/6T phones");
++MODULE_DESCRIPTION("DRM driver for Samsung SOFEF00 DDIC");
+ MODULE_LICENSE("GPL v2");
 
 -- 
 2.51.0
