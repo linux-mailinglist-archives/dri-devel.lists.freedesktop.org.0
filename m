@@ -2,46 +2,46 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0EF78C58299
-	for <lists+dri-devel@lfdr.de>; Thu, 13 Nov 2025 16:03:17 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id A8B17C58298
+	for <lists+dri-devel@lfdr.de>; Thu, 13 Nov 2025 16:03:16 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 035D710E894;
-	Thu, 13 Nov 2025 15:03:15 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BE43610E892;
+	Thu, 13 Nov 2025 15:03:14 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="A8tCM0xH";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="ZWVUYrzm";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5D5C210E887;
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DD00B10E88C;
  Thu, 13 Nov 2025 15:03:11 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
  t=1763046192; x=1794582192;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=A975XfHCRPt/SGOY9KPV2BC/xVEqsYogPzxpf03ZbBE=;
- b=A8tCM0xH4+dFEFJF8Y0ZsQUiM5GtVC8GZdu2c2rJmD4Q97T21n+v6Gdj
- etUQKsPjIS3705JFIde8igObvDU6R6vTLNfaIIWQKIu+7DdsOQc5ZK/t6
- 9uYADHt6mttXOZKaAohPBRjiGgMSk9iMLLNCYVkp98+BVOaiMumPVdADK
- n2noVF5ZMQ2jwj7t5mlcZgPelEl+vav6xlrD9pkCzkL/BrHX9Ewkdq6B+
- qIWjeZA70GEahk2x6OgtnUL+pSjGTIUCMJdPezGnJfSBp6fR3HCMHgkyp
- Dv/5fHQVYf+kAPG+u0ebGm4cbhTzYa44Obb4ZODNhL74vhTjQ5pJtnpwb w==;
-X-CSE-ConnectionGUID: Eh86c16ORVeumqMhZzheVw==
-X-CSE-MsgGUID: TFHpkDneTLOy9tjUKa6Gcw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11531"; a="65054588"
-X-IronPort-AV: E=Sophos;i="6.17,312,1747724400"; d="scan'208";a="65054588"
+ bh=o4N7T+qVK77oOwqrK9kudMEIR18gnJzq4LSbPHl39rw=;
+ b=ZWVUYrzmBEKIwX0usMyxOrfSYoP2UgwY0nrSn14TRTocAUycenIAgTRj
+ l8izBXSkdqS2W+UCFV0Qx+Gzdw4rG/TE+809ZF6/ILywe6di7esYwyey3
+ zRgBBHa7+hI0PBi9IA7VYApyXMqVLZwAY118IrGbIWBeNxP1wTMAjYjBt
+ FuLd8QX5KnuXQQmJ43dy/FSLyB/dwoeS1iip1RVhpYNKkG+bUW16qE7O+
+ Caxijdx2jef0d59Jaft004gMLVwUKLxPbL+Ypwvp4IUN61vMjatUgDq9A
+ 6ifT5JJbVvPduH2KFBqN6+IjAqOXENgpXLtlAU2A75z9MepZIPBjbizON w==;
+X-CSE-ConnectionGUID: XXvHSWbNT1CEEFPWfG8MFw==
+X-CSE-MsgGUID: idm+yjm2RH6YvMw+4sKsXA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11531"; a="65054609"
+X-IronPort-AV: E=Sophos;i="6.17,312,1747724400"; d="scan'208";a="65054609"
 Received: from fmviesa001.fm.intel.com ([10.60.135.141])
  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 13 Nov 2025 07:02:57 -0800
-X-CSE-ConnectionGUID: MRqfhPF0SeWMn+GQYCg4mw==
-X-CSE-MsgGUID: TLYpYaZfSH6Qb6Q5p/osFw==
+ 13 Nov 2025 07:02:58 -0800
+X-CSE-ConnectionGUID: cRt8JpLrQ+2Mar8fig0Szg==
+X-CSE-MsgGUID: 58dBm0YDQsaIwzqwvxDHqQ==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.19,302,1754982000"; d="scan'208";a="220325109"
+X-IronPort-AV: E=Sophos;i="6.19,302,1754982000"; d="scan'208";a="220325119"
 Received: from black.igk.intel.com ([10.91.253.5])
- by fmviesa001.fm.intel.com with ESMTP; 13 Nov 2025 07:02:44 -0800
+ by fmviesa001.fm.intel.com with ESMTP; 13 Nov 2025 07:02:45 -0800
 Received: by black.igk.intel.com (Postfix, from userid 1003)
- id 5A8EAA4; Thu, 13 Nov 2025 16:02:19 +0100 (CET)
+ id 60B69A5; Thu, 13 Nov 2025 16:02:19 +0100 (CET)
 From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
 To: Corey Minyard <corey@minyard.net>,
  =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
@@ -113,9 +113,9 @@ Cc: Rasmus Villemoes <linux@rasmusvillemoes.dk>,
  Masami Hiramatsu <mhiramat@kernel.org>,
  Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
  Andrew Morton <akpm@linux-foundation.org>
-Subject: [PATCH v3 14/21] net: dsa: sja1105: Switch to use %ptSp
-Date: Thu, 13 Nov 2025 15:32:28 +0100
-Message-ID: <20251113150217.3030010-15-andriy.shevchenko@linux.intel.com>
+Subject: [PATCH v3 15/21] PCI: epf-test: Switch to use %ptSp
+Date: Thu, 13 Nov 2025 15:32:29 +0100
+Message-ID: <20251113150217.3030010-16-andriy.shevchenko@linux.intel.com>
 X-Mailer: git-send-email 2.50.1
 In-Reply-To: <20251113150217.3030010-1-andriy.shevchenko@linux.intel.com>
 References: <20251113150217.3030010-1-andriy.shevchenko@linux.intel.com>
@@ -139,38 +139,28 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 Use %ptSp instead of open coded variants to print content of
 struct timespec64 in human readable format.
 
-Reviewed-by: Aleksandr Loktionov <aleksandr.loktionov@intel.com>
+Acked-by: Bjorn Helgaas <bhelgaas@google.com>
 Signed-off-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
 ---
- drivers/net/dsa/sja1105/sja1105_tas.c | 8 +++-----
- 1 file changed, 3 insertions(+), 5 deletions(-)
+ drivers/pci/endpoint/functions/pci-epf-test.c | 5 ++---
+ 1 file changed, 2 insertions(+), 3 deletions(-)
 
-diff --git a/drivers/net/dsa/sja1105/sja1105_tas.c b/drivers/net/dsa/sja1105/sja1105_tas.c
-index d7818710bc02..d5949d2c3e71 100644
---- a/drivers/net/dsa/sja1105/sja1105_tas.c
-+++ b/drivers/net/dsa/sja1105/sja1105_tas.c
-@@ -775,9 +775,8 @@ static void sja1105_tas_state_machine(struct work_struct *work)
- 		base_time_ts = ns_to_timespec64(base_time);
- 		now_ts = ns_to_timespec64(now);
+diff --git a/drivers/pci/endpoint/functions/pci-epf-test.c b/drivers/pci/endpoint/functions/pci-epf-test.c
+index b05e8db575c3..debd235253c5 100644
+--- a/drivers/pci/endpoint/functions/pci-epf-test.c
++++ b/drivers/pci/endpoint/functions/pci-epf-test.c
+@@ -331,9 +331,8 @@ static void pci_epf_test_print_rate(struct pci_epf_test *epf_test,
+ 		rate = div64_u64(size * NSEC_PER_SEC, ns * 1000);
  
--		dev_dbg(ds->dev, "OPER base time %lld.%09ld (now %lld.%09ld)\n",
--			base_time_ts.tv_sec, base_time_ts.tv_nsec,
--			now_ts.tv_sec, now_ts.tv_nsec);
-+		dev_dbg(ds->dev, "OPER base time %ptSp (now %ptSp)\n",
-+			&base_time_ts, &now_ts);
+ 	dev_info(&epf_test->epf->dev,
+-		 "%s => Size: %llu B, DMA: %s, Time: %llu.%09u s, Rate: %llu KB/s\n",
+-		 op, size, dma ? "YES" : "NO",
+-		 (u64)ts.tv_sec, (u32)ts.tv_nsec, rate);
++		 "%s => Size: %llu B, DMA: %s, Time: %ptSp s, Rate: %llu KB/s\n",
++		 op, size, dma ? "YES" : "NO", &ts, rate);
+ }
  
- 		break;
- 
-@@ -798,8 +797,7 @@ static void sja1105_tas_state_machine(struct work_struct *work)
- 		if (now < tas_data->oper_base_time) {
- 			/* TAS has not started yet */
- 			diff = ns_to_timespec64(tas_data->oper_base_time - now);
--			dev_dbg(ds->dev, "time to start: [%lld.%09ld]",
--				diff.tv_sec, diff.tv_nsec);
-+			dev_dbg(ds->dev, "time to start: [%ptSp]", &diff);
- 			break;
- 		}
- 
+ static void pci_epf_test_copy(struct pci_epf_test *epf_test,
 -- 
 2.50.1
 
