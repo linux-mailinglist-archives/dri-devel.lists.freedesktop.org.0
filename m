@@ -2,54 +2,55 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E675BC58AA9
-	for <lists+dri-devel@lfdr.de>; Thu, 13 Nov 2025 17:20:22 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id CC7D6C58AE2
+	for <lists+dri-devel@lfdr.de>; Thu, 13 Nov 2025 17:23:28 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 078B010E151;
-	Thu, 13 Nov 2025 16:20:20 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D82EC10E8A9;
+	Thu, 13 Nov 2025 16:23:26 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; secure) header.d=mailbox.org header.i=@mailbox.org header.b="WQa6KZMH";
+	dkim=pass (2048-bit key; secure) header.d=mailbox.org header.i=@mailbox.org header.b="u4iY0wfv";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mout-p-201.mailbox.org (mout-p-201.mailbox.org [80.241.56.171])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5719710E151;
- Thu, 13 Nov 2025 16:20:18 +0000 (UTC)
-Received: from smtp1.mailbox.org (smtp1.mailbox.org [10.196.197.1])
+Received: from mout-p-202.mailbox.org (mout-p-202.mailbox.org [80.241.56.172])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B7F6210E8A9;
+ Thu, 13 Nov 2025 16:23:25 +0000 (UTC)
+Received: from smtp202.mailbox.org (smtp202.mailbox.org [10.196.197.202])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
  (No client certificate requested)
- by mout-p-201.mailbox.org (Postfix) with ESMTPS id 4d6lqL3TQpz9sR1;
- Thu, 13 Nov 2025 17:20:14 +0100 (CET)
+ by mout-p-202.mailbox.org (Postfix) with ESMTPS id 4d6lty4yJVz9sp0;
+ Thu, 13 Nov 2025 17:23:22 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org;
  s=mail20150812; 
- t=1763050814; h=from:from:reply-to:reply-to:subject:subject:date:date:
+ t=1763051002; h=from:from:reply-to:reply-to:subject:subject:date:date:
  message-id:message-id:to:to:cc:mime-version:mime-version:
  content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=YmRdbE5yV4ESUST58NcAN6JqHsVuMkNSnMIS9GDZAGU=;
- b=WQa6KZMHCUapheBVUl2E09g0X2rIXp5QuLRKtn6jam5FE29gVdaDvMRjrQXcu/auldmsXk
- hwPMU+/5XPRgDr63/cEGkCiVrPSPWpJwjS78WMe+XmEKPla+nWm8RSZzdni0e2UcGmAoSD
- ke6/QQrZyZpPMFESp2966Jnxoil9yqhMKHBIxMYCTakvCOcQ9xLa4C+BuXXgL/QXzXYeoi
- HZ6KQpSnhg5+VLP6zIxvr5e58xx4EKxYf8SmI5TE8Mgyu240cSJ9Y2eOMfCQUhExb72YDC
- K8hh2cGQxomIIjMLME7lJDQZRZ1QOKG1n0E9a3ZYll/iItgB0W5Ybluz2R/Nuw==
-Message-ID: <26a1379427d97e969654061224fb36d37e87af24.camel@mailbox.org>
-Subject: Re: Independence for dma_fences! v3
+ bh=EpvkBNKd/xPBaK17iPRIIBTgOGDAPant06qZh/pNZ7A=;
+ b=u4iY0wfvZpuFW3vnC1wLS28SwWjVe6pgdXg/IQqlc57JmztDcLMZUWEQGnfSARvXBDIdJk
+ XYXl4exYgRHnmYe0FhQqrsHNap1edltyNnnCGfjc4J4iyyJ3bubOaeImI8e7K9ypy/X+Y9
+ v0Klsx+yv2kvdCFwRNCnJmngiORUhCCDmjPV5Nec/8EjeHiuTNcQj1mwZ03kUqumTTBKBI
+ 2aqgnMiIXb+YUBY8nDjrOHuytahnJ+xNNYKKuA0Ob5St9X+ddqKxGsB0l/Dttg4CgSGn7Z
+ iWgJnRfmxqgDbaKMTDFYMGLk2mJMdFIij5uLN7IfncJd/M+XRJhrLepV+06lzw==
+Message-ID: <cfa60e2d9902602c41b277fd8bd254576b2f4187.camel@mailbox.org>
+Subject: Re: [PATCH 08/18] drm/sched: use inline locks for the drm-sched-fence
 From: Philipp Stanner <phasta@mailbox.org>
 To: Christian =?ISO-8859-1?Q?K=F6nig?= <ckoenig.leichtzumerken@gmail.com>, 
  alexdeucher@gmail.com, simona.vetter@ffwll.ch, tursulin@ursulin.net, 
  matthew.brost@intel.com, dri-devel@lists.freedesktop.org, 
  amd-gfx@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org, 
  sumit.semwal@linaro.org
-Date: Thu, 13 Nov 2025 17:20:09 +0100
-In-Reply-To: <20251113145332.16805-1-christian.koenig@amd.com>
+Date: Thu, 13 Nov 2025 17:23:19 +0100
+In-Reply-To: <20251113145332.16805-9-christian.koenig@amd.com>
 References: <20251113145332.16805-1-christian.koenig@amd.com>
+ <20251113145332.16805-9-christian.koenig@amd.com>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 MIME-Version: 1.0
-X-MBO-RS-ID: 5ba540eb57a2f5f87b1
-X-MBO-RS-META: 86wo5zyfm9y79pcoertnf597wdntngqd
+X-MBO-RS-ID: 5b9c762a8f61f71ad61
+X-MBO-RS-META: b6kyy13na4iho37yxz1xt9n58cppo6yw
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -67,63 +68,15 @@ Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 On Thu, 2025-11-13 at 15:51 +0100, Christian K=C3=B6nig wrote:
-> Hi everyone,
+> Using the inline lock is now the recommended way for dma_fence implementa=
+tions.
 >=20
-> dma_fences have ever lived under the tyranny dictated by the module
-> lifetime of their issuer, leading to crashes should anybody still holding
-> a reference to a dma_fence when the module of the issuer was unloaded.
+> So use this approach for the scheduler fences as well just in case if
+> anybody uses this as blueprint for its own implementation.
 >=20
-> The basic problem is that when buffer are shared between drivers
-> dma_fence objects can leak into external drivers and stay there even
-> after they are signaled. The dma_resv object for example only lazy releas=
-es
-> dma_fences.
->=20
-> So what happens is that when the module who originally created the dma_fe=
-nce
-> unloads the dma_fence_ops function table becomes unavailable as well and =
-so
-> any attempt to release the fence crashes the system.
->=20
-> Previously various approaches have been discussed, including changing the
-> locking semantics of the dma_fence callbacks (by me) as well as using the
-> drm scheduler as intermediate layer (by Sima) to disconnect dma_fences
-> from their actual users, but none of them are actually solving all proble=
-ms.
->=20
-> Tvrtko did some really nice prerequisite work by protecting the returned
-> strings of the dma_fence_ops by RCU. This way dma_fence creators where
-> able to just wait for an RCU grace period after fence signaling before
-> they could be save to free those data structures.
->=20
-> Now this patch set here goes a step further and protects the whole
-> dma_fence_ops structure by RCU, so that after the fence signals the
-> pointer to the dma_fence_ops is set to NULL when there is no wait nor
-> release callback given. All functionality which use the dma_fence_ops
-> reference are put inside an RCU critical section, except for the
-> deprecated issuer specific wait and of course the optional release
-> callback.
->=20
-> Additional to the RCU changes the lock protecting the dma_fence state
-> previously had to be allocated external. This set here now changes the
-> functionality to make that external lock optional and allows dma_fences
-> to use an inline lock and be self contained.
->=20
-> This patch set addressed all previous code review comments and is based
-> on drm-tip, includes my changes for amdgpu as well as Mathew's patches fo=
-r XE.
->=20
-> Going to push the core DMA-buf changes to drm-misc-next as soon as I get
-> the appropriate rb. The driver specific changes can go upstream through
-> the driver channels as necessary.
+> Also saves about 4 bytes for the external spinlock.
 
-No changelog? :(
+So you changed your mind and want to keep this patch?
 
 P.
-
->=20
-> Please review and comment,
-> Christian.
->=20
->=20
 
