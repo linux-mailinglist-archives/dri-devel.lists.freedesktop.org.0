@@ -2,43 +2,43 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B4533C556A5
-	for <lists+dri-devel@lfdr.de>; Thu, 13 Nov 2025 03:20:40 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id CD8AEC556AE
+	for <lists+dri-devel@lfdr.de>; Thu, 13 Nov 2025 03:21:02 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 24B7810E111;
-	Thu, 13 Nov 2025 02:20:39 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3896110E1B1;
+	Thu, 13 Nov 2025 02:21:01 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=collabora.com header.i=dmitry.osipenko@collabora.com header.b="Ykx6cwph";
+	dkim=pass (1024-bit key; unprotected) header.d=collabora.com header.i=dmitry.osipenko@collabora.com header.b="ewVT+7dU";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from sender4-pp-f112.zoho.com (sender4-pp-f112.zoho.com
  [136.143.188.112])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DBDA210E111
- for <dri-devel@lists.freedesktop.org>; Thu, 13 Nov 2025 02:20:37 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; t=1763000430; cv=none; 
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5A86C10E1B1
+ for <dri-devel@lists.freedesktop.org>; Thu, 13 Nov 2025 02:21:00 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; t=1763000452; cv=none; 
  d=zohomail.com; s=zohoarc; 
- b=Fsnr9vZ5NGrdP8x/dqCqh3iOzrS213gfxHn23mHhelONJvn7foNpXlzeHKxvxX/FOCMpG3tfxit8geZeiDi6C4ePmzp4Vwuj4b/Hywcb28qrtBwCCo9MiYj7N0hgVxE65jMC9wwodDXy7kTKVtX+kXrh/40dvgmiAE4NWTqmy4I=
+ b=kmYOQaxioT9b5FLQ51Jl3oYVHY06BtNudAk0KzUakVNkhQ/EBiCMDfV5Xou9XH2H+iFNStnj92rooJRlrfJg6QqRpfPLh4G6iiQ73FSCKlZpIf7lbOsmSFjXEp9EGwIaeCQOQKPuYjkiW61hVc5nT9Nz7LURBVA1KD4BEBp7J2o=
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
- s=zohoarc; t=1763000430;
+ s=zohoarc; t=1763000452;
  h=Content-Type:Content-Transfer-Encoding:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To:Cc;
- bh=mqbuiA6KomhjuHhIUVCCeKDvtezWgMjIt+vfJaSlA9M=; 
- b=LFKKKW4HxofqGNOe77SPsABG3PsoZykfocEmr19x1tEMQeqnHQCFfdtB+YzZgRUFeudwSRj45aVmkcRZ0cYza03h9qvOW/7fCwJj9IyGZFxdpNUnlM8aEWBn2eoovilD43+arr+Uu9TcCrNPTNjSLaRbAw65oRKCKrDMhN9yw9o=
+ bh=CXbCEYcoIZPhCKLcaNaYTRUshcOwu+FGWa82wu+M1QI=; 
+ b=aRrDgyATyFQFm498va5cwdmPwrDHf0E0xL4a1jFgkYs22kE2el96hSV1SEoWETzp2G3Uvgfz9ZiIJQ93L7V1ZSi/yrJyJr+3tXdEcZ+ql4HzINY1zklP6BS4X2qOT4Dgy6o0Xm3vZ4ywwQMgN0JmNhn5WV4RKaWjkK1Ayn0vtGI=
 ARC-Authentication-Results: i=1; mx.zohomail.com;
  dkim=pass  header.i=collabora.com;
  spf=pass  smtp.mailfrom=dmitry.osipenko@collabora.com;
  dmarc=pass header.from=<dmitry.osipenko@collabora.com>
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1763000430; 
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1763000452; 
  s=zohomail; d=collabora.com; i=dmitry.osipenko@collabora.com; 
  h=Message-ID:Date:Date:MIME-Version:Subject:Subject:To:To:References:From:From:In-Reply-To:Content-Type:Content-Transfer-Encoding:Message-Id:Reply-To:Cc;
- bh=mqbuiA6KomhjuHhIUVCCeKDvtezWgMjIt+vfJaSlA9M=;
- b=Ykx6cwph64ihkasvXdZAt5C9ZxEisXM1VhJPJBMryvm1kFToEgnNDoCLD2Z2Uj9+
- 1qhWBNL1dDP7AUfVB7JnO7NdOkGNnJt9p7niAap1JGKrWfepYAu23M2k8uC/lYLqgEe
- UoCaNOCLnGiSAFAAc+Kbsqa1O/Ia2QUpiSxemGQM=
-Received: by mx.zohomail.com with SMTPS id 1763000427524775.8518137767941;
- Wed, 12 Nov 2025 18:20:27 -0800 (PST)
-Message-ID: <77d96772-9518-4a60-a258-4bf58bf576ff@collabora.com>
-Date: Thu, 13 Nov 2025 05:20:21 +0300
+ bh=CXbCEYcoIZPhCKLcaNaYTRUshcOwu+FGWa82wu+M1QI=;
+ b=ewVT+7dUej6DO3PGZypeXdikOfDqH8ybtF9oPhy5bgrD9tbxNiryBKL9A4vxnTYy
+ AxqQvyxUUk/qnPKQmL6eK7hVNOaHQS8I6CBtY8vRTdf7eJk1rJdwZfjcpqsxxLuqkMd
+ gwXRnNnBAacnb/VcjxGmr3HFpmeymJ+qTgMXNGVY=
+Received: by mx.zohomail.com with SMTPS id 1763000449665737.2364341632508;
+ Wed, 12 Nov 2025 18:20:49 -0800 (PST)
+Message-ID: <43c1ee1b-a9be-489b-82f6-0f4d24a409d5@collabora.com>
+Date: Thu, 13 Nov 2025 05:20:43 +0300
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
 Subject: Re: [PATCH 2/3] drm/virtio: honor blob_alignment requirements
@@ -76,23 +76,22 @@ Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 On 11/10/25 15:52, Sergio Lopez wrote:
-> diff --git a/drivers/gpu/drm/virtio/virtgpu_object.c b/drivers/gpu/drm/virtio/virtgpu_object.c
-> index e6363c887500..6118344bff84 100644
-> --- a/drivers/gpu/drm/virtio/virtgpu_object.c
-> +++ b/drivers/gpu/drm/virtio/virtgpu_object.c
-> @@ -246,8 +246,10 @@ int virtio_gpu_object_create(struct virtio_gpu_device *vgdev,
->  		if (params->blob_mem == VIRTGPU_BLOB_MEM_GUEST)
->  			bo->guest_blob = true;
+> @@ -216,8 +216,14 @@ int virtio_gpu_vram_create(struct virtio_gpu_device *vgdev,
+>  		return ret;
+>  	}
 >  
-> -		virtio_gpu_cmd_resource_create_blob(vgdev, bo, params,
-> -						    ents, nents);
-> +		ret = virtio_gpu_cmd_resource_create_blob(vgdev, bo, params,
-> +							  ents, nents);
-> +		if (ret)
-> +			goto err_put_objs;
+> -	virtio_gpu_cmd_resource_create_blob(vgdev, &vram->base, params, NULL,
+> -					    0);
+> +	ret = virtio_gpu_cmd_resource_create_blob(vgdev, &vram->base, params,
+> +						  NULL, 0);
+> +	if (ret) {
+> +		drm_gem_free_mmap_offset(obj);
+> +		kfree(vram);
+> +		return ret;
+> +	}
 
-Isn't it impossible for host to import guest blob when HOST_PAGE_SIZE >
-GUEST_PAGE_SIZE?
+virtio_gpu_cleanup_object() shall be used to free obj, otherwise
+resource_ida and etc is leaked
 
 -- 
 Best regards,
