@@ -2,43 +2,43 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 75666C5A73D
-	for <lists+dri-devel@lfdr.de>; Fri, 14 Nov 2025 00:04:01 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id D2C61C5A752
+	for <lists+dri-devel@lfdr.de>; Fri, 14 Nov 2025 00:05:45 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3F02C10E956;
-	Thu, 13 Nov 2025 23:03:59 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1D29810E957;
+	Thu, 13 Nov 2025 23:05:44 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=amd.com header.i=@amd.com header.b="TsGMAqyD";
+	dkim=pass (1024-bit key; unprotected) header.d=amd.com header.i=@amd.com header.b="ix7QUKe3";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from SJ2PR03CU001.outbound.protection.outlook.com
- (mail-westusazon11012037.outbound.protection.outlook.com [52.101.43.37])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 684CC10E955
- for <dri-devel@lists.freedesktop.org>; Thu, 13 Nov 2025 23:03:57 +0000 (UTC)
+Received: from BN1PR04CU002.outbound.protection.outlook.com
+ (mail-eastus2azon11010066.outbound.protection.outlook.com [52.101.56.66])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9C05F10E95D
+ for <dri-devel@lists.freedesktop.org>; Thu, 13 Nov 2025 23:05:42 +0000 (UTC)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=TkMF68MYu6kuYyQeCMcOJRnm51bZjcyalpMKS7tvv/FgGeX568kg8lgF7FaunVslNX4p++Xyc1+2TkMBhuJgNGLXrSE6cjsTXbMdN+qsIzbUsHslENh+XaYktLBPjiAPaqAIAK7c9WTdYmw0NDPIqqZ/0x5/ebfRaFZDsd5El3g+tqEga0NSM/mARayjilvxy5TG6DJZjcYndlulFgKcFxtKtranJ42w2kof5BOuI3gnwODvz7gX3WtG/cJDEaKGWV5Z9jkxk4nXGsSFTdJNZ5D1EbWFkQ2S0ebx+YGnS27IRuqoyau9XZ/W5U+BXhlPFuYQBE3oWNKDK0mQAaHBAQ==
+ b=SK3JL+fpapsbhJ/agxSXGpi4gDZpg9i38LU3+uHNp1BtOxqJtHmlj6K30JJgxsJ7XLsPKBJPnXPa9oDcheaTAvkyV5G23LdrQoi4jXxeHH55JSKqaVxO7n7pi12e4L1Hb4yoTHoOW1ugt2xUnx3Zxfq7GODo1KTZFZqaA1oOmnQPM4q7WN9F99LkcXIl4/NZKwV53+X/Y3goig79/YVms1VRYlBPcfxNzicb+z3fUfW7uM7ZDuwwXTb/phjBZlIqCROU1nHhhHLhMy9g3ajg+lF7+sjYnVJZgVmBAtmyntrJwj5Hcob5SY++vtskhkoS9ViAnmrU+jM2+TQ+kOjeVw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=T+SigxA3jIw4aLehrwkR3qFXSxAjyqmmsOTF8/NvVms=;
- b=x8plUV8SmNLm4HOpar/wDNoaR2oDFq9Q46EFGXlKt+5vkJMwsOB0UPMUyQ+vbdw0iQT+vlChQQ6wLNRtt8mbCIurSZ13A3tAGgMms+9ft5oGCjXxauYsOxsAZ+ih6S+Av09+PE1BIRrVTkU/mAWIPadf8Supm8tz17ecv6aQYAuRyrIfYRy+/zgJkkx3mMFbHUoEvXBSohpM9bYhGoM4EcUvoWl2SwVlY6K93knKDE5rTHuf5J2TkHh5R62U4DLb0Lpk01lfLrql6RBqhJhgGaIWp+gRUUTGncwQtSuXNs1xgWR0jMVyNxTiwrY2hJTCIZW3md9RTWk1CNPmWa7ugA==
+ bh=W/IhicxQAFcjKbw4pBdVmM9seqtL+ttQeiIvnnV/eek=;
+ b=huFAuO6ENjb3WLV+lfGdkUrxSnTmCVFUCFvjQmM2G0ZsNf7wHIA/5BAIzx2l/YTgCwBltN++ZC0oA4hJC427fzlhEBrxG25btqu7iN0LyknKDwKRfzMieO459Z4/+cUI48jB0Mw+rFf0LaHC2H2YWPOubwC+hdX+URHk7Cabgc9ki7BK5bCelWaKHiiemaMpEb6CTt7evPbZD8YDJutBOMqAa0nmD46tobtx4pmvTOjlpIPTqIUEVjniBMZGpD1Nj6bRrFZisu8Pass7MddUG9VyIwO94NaP2litVD1DvP4ZCXj8JAFvA5Zp1rq//+aCJYZT0UVwwuqHnVXdR0slQg==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
  header.d=amd.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=T+SigxA3jIw4aLehrwkR3qFXSxAjyqmmsOTF8/NvVms=;
- b=TsGMAqyDKFlENJ9dhkAo0+lfdVyMSJabWRUu+7Em1xRJT8FWpnkWavJpMNbNy90udlOMEAkCb8qgUGme3QJ1F/CL5F0k3xJ57GpLdW5XwRdOMC5FLIoSU3vvpr1AqFPP6UBvIkgX/j1PLvCxehSVWUBdEayhpi6ltMmnMEdQ4WY=
+ bh=W/IhicxQAFcjKbw4pBdVmM9seqtL+ttQeiIvnnV/eek=;
+ b=ix7QUKe3f6xQZ7XG3sRb16zuABOnkTM4M3hQtPQE9khV+b6lnNlSG5e9bzFoI/53oeENZ0NSiUaUSIKA58GTs4/Ku/OBRLZ19aGnFpGQ2ythncCfEF1AWdrS2Rj8d4PvcNWXwgq8pHaKOCWyUI9J6PTrafqRItfVIkYawCM/zOA=
 Received: from MW4PR12MB7165.namprd12.prod.outlook.com (2603:10b6:303:21b::14)
  by CH3PR12MB8583.namprd12.prod.outlook.com (2603:10b6:610:15f::12)
  with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9320.17; Thu, 13 Nov
- 2025 23:03:54 +0000
+ 2025 23:05:34 +0000
 Received: from MW4PR12MB7165.namprd12.prod.outlook.com
  ([fe80::a32f:9b78:fc2e:6076]) by MW4PR12MB7165.namprd12.prod.outlook.com
  ([fe80::a32f:9b78:fc2e:6076%5]) with mapi id 15.20.9298.010; Thu, 13 Nov 2025
- 23:03:47 +0000
+ 23:05:34 +0000
 From: "Klymenko, Anatoliy" <Anatoliy.Klymenko@amd.com>
 To: Sean Anderson <sean.anderson@linux.dev>, Laurent Pinchart
  <laurent.pinchart@ideasonboard.com>, Tomi Valkeinen
@@ -51,22 +51,21 @@ CC: "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>, Mike
  "linux-arm-kernel@lists.infradead.org"
  <linux-arm-kernel@lists.infradead.org>, Simona Vetter <simona@ffwll.ch>,
  "Simek, Michal" <michal.simek@amd.com>
-Subject: RE: [PATCH 3/3] drm: zynqmp: Add blend mode property to graphics plane
-Thread-Topic: [PATCH 3/3] drm: zynqmp: Add blend mode property to graphics
- plane
-Thread-Index: AQHcVN1gVOfL1cVpIU6CqHq/hvIMtrTxNXCg
-Date: Thu, 13 Nov 2025 23:03:47 +0000
-Message-ID: <MW4PR12MB716514EB76EE4585605D0E5AE6CDA@MW4PR12MB7165.namprd12.prod.outlook.com>
+Subject: RE: [PATCH 1/3] drm: zynqmp: Check property creation status
+Thread-Topic: [PATCH 1/3] drm: zynqmp: Check property creation status
+Thread-Index: AQHcVN1dvvdzxTZ3Z0O/ShaViFTDK7TxOeNQ
+Date: Thu, 13 Nov 2025 23:05:34 +0000
+Message-ID: <MW4PR12MB71657E3EF2B400C4A583E500E6CDA@MW4PR12MB7165.namprd12.prod.outlook.com>
 References: <20251113203715.2768107-1-sean.anderson@linux.dev>
- <20251113203715.2768107-4-sean.anderson@linux.dev>
-In-Reply-To: <20251113203715.2768107-4-sean.anderson@linux.dev>
+ <20251113203715.2768107-2-sean.anderson@linux.dev>
+In-Reply-To: <20251113203715.2768107-2-sean.anderson@linux.dev>
 Accept-Language: en-US
 Content-Language: en-US
 X-MS-Has-Attach: 
 X-MS-TNEF-Correlator: 
 msip_labels: MSIP_Label_dce362fe-1558-4fb5-9f64-8a6240d76441_Enabled=True;
  MSIP_Label_dce362fe-1558-4fb5-9f64-8a6240d76441_SiteId=3dd8961f-e488-4e60-8e11-a82d994e183d;
- MSIP_Label_dce362fe-1558-4fb5-9f64-8a6240d76441_SetDate=2025-11-13T22:48:09.0000000Z;
+ MSIP_Label_dce362fe-1558-4fb5-9f64-8a6240d76441_SetDate=2025-11-13T23:04:05.0000000Z;
  MSIP_Label_dce362fe-1558-4fb5-9f64-8a6240d76441_Name=AMD
  Internal Distribution
  Only; MSIP_Label_dce362fe-1558-4fb5-9f64-8a6240d76441_ContentBits=3;
@@ -75,81 +74,81 @@ authentication-results: dkim=none (message not signed)
  header.d=none;dmarc=none action=none header.from=amd.com;
 x-ms-publictraffictype: Email
 x-ms-traffictypediagnostic: MW4PR12MB7165:EE_|CH3PR12MB8583:EE_
-x-ms-office365-filtering-correlation-id: 99f2ce67-8da4-42f0-02b0-08de2308e732
+x-ms-office365-filtering-correlation-id: a4c63178-5e11-4ad1-e25d-08de230926de
 x-ms-exchange-senderadcheck: 1
 x-ms-exchange-antispam-relay: 0
 x-microsoft-antispam: BCL:0;
  ARA:13230040|7416014|376014|366016|1800799024|38070700021; 
-x-microsoft-antispam-message-info: =?us-ascii?Q?1xbRP18jbwqk2Bc74qyqEnFtJcZb8kNBb6uZUOR9hCZpF+V0VoEQuqoqhNWM?=
- =?us-ascii?Q?V7OtTTvO495tEFozAT4eTzqSqVNPRQFtYhL7ToF5O+bFdBBXc28/OJDHzTGy?=
- =?us-ascii?Q?AVXLZ9PxTD+f9VmZy+YB718XWjmzzDOT8kWDc2Ctj2AK3RLHSWeYj3PsqQja?=
- =?us-ascii?Q?N2VN6r9WMJPYa+ful9tMwnVh230dsyN/UDd8ptouD/MSbsXNdNFEmnzcabya?=
- =?us-ascii?Q?vKxD87fmipNlyvfOokR95F12XHeDU741HvdUCa0MMlozKJPIEfPWAtgdLe8q?=
- =?us-ascii?Q?rJy5N00w2lol4pdzt6lg0t80umy6a8isaU8C45ijuIJE5hPSGg7wVF5sYkgw?=
- =?us-ascii?Q?Jnjv2q7NvDt9bt3IDsrJ1uPmnPlFEWYmGaQI22DJkN6BF8VJpc93i00exPnQ?=
- =?us-ascii?Q?yF5pVo84fQoh+tlhfhTmUVm8L14KUJIUD0+bd3SJEYiM3mVFTFNnkyBYuTnR?=
- =?us-ascii?Q?VA8gLDLoRketO2q5dJKFnk2N+ys9tUvg3xH/PmaKBCmUt80wUKfs8+xc1XBP?=
- =?us-ascii?Q?TRbMicu3VjuZI9Oib3z5RLJwwQEv1iKhNapp9Q6tVpF+NdemZpcbbMHcS8nc?=
- =?us-ascii?Q?XrNHVC++NcEEoUWXTaubhuL/xi8gsHcPXQ9ZJuE1McE4gBPovKz5HtWopuhk?=
- =?us-ascii?Q?JnC7PkElJxgmizaYBJXXhyF00g96yhMxL7Skcnxn1VzeNlaz729/INKF3ckh?=
- =?us-ascii?Q?6emuxDUT4j+sd3q5QYTm9x62fb42TGRuS7NomfQpXgLbKe+27rczQ+bjXjLG?=
- =?us-ascii?Q?RlB9Pa5WKwmydysEVzKlZN/5ZdPtGFnC+P5D02mFstzOav9o5QuIl8slZOPz?=
- =?us-ascii?Q?ib4IolbnKO9LKLzZGsmEsVwBEkaFQTc98gkWVpjMbDP+/WOEePSmgO3dDgAp?=
- =?us-ascii?Q?ymXtbZjfhyPAg5pkV2G+v1GMadrHZaDuROYfXeXrdYblLsr03xTd3RJ+ex3X?=
- =?us-ascii?Q?eCL6S+oPw8ET0osCHpauZxCDVsP+QNP/UVIgIXS3QVAiBvXgyNTZ6SycyTyC?=
- =?us-ascii?Q?tUBNmP4j5bYrWkqHZ9Mwwel1pBglC7ehGL/4fPBBbTi9z+xarOjF7ufsrqVp?=
- =?us-ascii?Q?W19ZiXpVt+kGhEHjyIckEH3by0zT9gJxwc9Pu+haHqYT7CBNpDuvAoQe8MHZ?=
- =?us-ascii?Q?EkrFzFr1tFl99k19JhZwz0JS/Neod+MqeYis0xDk3b/DLDGq7CQbhZvHy39Z?=
- =?us-ascii?Q?C5K8vZIWEaffz0coBsAgyRF/qR3IQKO3m80HMGN1IBzlSGpeddMjzyxVrZwL?=
- =?us-ascii?Q?x7CUN/3kzvttG2fyl0wxQM/yDcAMzUWQAMvD0bcoI+V7KiRUVCbHD3LM6pN7?=
- =?us-ascii?Q?HLUEL+qcGZQ6rgtQwMn/vOjLuXYO+YZtOdqU5TB/iKIX/1Kt06BYfV+PHFRf?=
- =?us-ascii?Q?aMF6CUIkqfRNrvrF/2eCyM90G0gaE92ByG9sPGvJ0A3fXItl05lTFraVAR4X?=
- =?us-ascii?Q?PjpxMQ/ogXt6lSxUzeNR0n13kt0qaAImfm1sPX2ZrnicAz5oEjcSwNqMNf1a?=
- =?us-ascii?Q?1VBrY9SXM5KGDLOXLJRhedl9ztFTiTAzDQLb?=
+x-microsoft-antispam-message-info: =?us-ascii?Q?qeprQ00NdWu2PpVFYMwuknShDhomwlB54J66CzddIcJ+lOste5T939f1X9gl?=
+ =?us-ascii?Q?bT/EkF3W5+gs/qY1OdcjyL8b1LE6TG9LsEFw6oo0F4SDanUAzmkSh+GwGzOc?=
+ =?us-ascii?Q?ddkntyaMorp6GwzEcmOz9U2LgjDBHxjKzSquzWk23owGpApdCfZ7QALOtE7j?=
+ =?us-ascii?Q?2CXgVp4KhS5PID63UN2IYSTEG6YOtRu5UdvHinLnQWvbPcgBZ39t/cMzhVaT?=
+ =?us-ascii?Q?e+7ypFHh1ZecqwWvWdsgiUCH13JEmodGs1N8nz5FLRSIdr2SOzeF38HK6lMl?=
+ =?us-ascii?Q?9kE01n6rKiLQ3GhsVwv6QWP0KYWbMMbXrrxVxqHytyZglYlL5v9dMK7gQIS4?=
+ =?us-ascii?Q?m8i0zBbdJPXt3dQKnVOTyJxafKitg95uAtCxwINczsuMGKI6+L0aDNtqMhc+?=
+ =?us-ascii?Q?QdN5hdrQ/nSsVYk8bRxXd36xDUHBkOBu/FZPs0IsodATK9F11MEYcYNvNbgW?=
+ =?us-ascii?Q?+ei0jfQ/a4nOoa+WjlOf+9GHIflY6aFzdIHLAFDyQFmegDoLr5Yh99ao863A?=
+ =?us-ascii?Q?MPbx996skpE8BMLKh70hiX+D0t3REa4zTwN0AQw9xARDBBWLYQu82E2x2Zlb?=
+ =?us-ascii?Q?rnxVWEFqDLwa1KzyeiotbJ2fLqV6afarp7z1OC2M2ZqdTRQDv08Q2XTILf1s?=
+ =?us-ascii?Q?wyGDGlwoeMjT2uD69Nqc+GYXS4oEaZ+iHGISD5X0oNTWJPlmQ1Jn1clqnVQR?=
+ =?us-ascii?Q?TM9gX/RMDPy/saKuMa+hl920+k4V1SbHDsYVVZPySYh0iQ9kQClDv8R4shJG?=
+ =?us-ascii?Q?xptVLpybq8g9cRLvQHZGJaYCjaq/fG0XqgqT1fRJyfE8zT/W6CScWuqdU7wd?=
+ =?us-ascii?Q?S4EWDb/PfvW6QtcgGVFxPmPl9Kw/BBIhnTwvZF+jEk6GN/JGZuiVRwmWjLpj?=
+ =?us-ascii?Q?HNei7lcxgKdLaVOdkPmzLrh/hFAa9fNhkfuO6Gjj9ULlUdG7PVDeItlZzMWo?=
+ =?us-ascii?Q?0mCXjKYiD0fN9YrwZCL48YoNtyTX/Dgd5usnTdq6SGow/+YUyZiNUEBFAdnc?=
+ =?us-ascii?Q?H6PWbmgRpTKRrFAgGhytUoA3Bk10il8Sp6jNQ8c39yXJob1SNFKDQA2Pfrxe?=
+ =?us-ascii?Q?/DWZHC11hiw0xkdyt5qp29cc2cEw/j1QmITgGF10cSGDpNxw9saCjy6N1UCe?=
+ =?us-ascii?Q?+A/EWPQ3WRjQ682nXKtOuhVkF0xLwM6VcGEC9zc5XBOLLc0ebGwGMy0hFaZI?=
+ =?us-ascii?Q?ekT3Ty7lDkViRp0ZQJNW2+jOM2GnHcOROi31Q2fkDJMGQmca9FBFBsUOb14z?=
+ =?us-ascii?Q?HL35rwfzQINVH61B5q5gE3ngk/xezAiLmYODHYhfd8gvTgBeg5fUjoyqJnms?=
+ =?us-ascii?Q?4zAIPgeclxf+NSkgQ0ru9Ektom4zyxpuDnqA3ofTafQ5iatPcauzuV9L2+pa?=
+ =?us-ascii?Q?2zHFqf5yPsUDSpm2k90LuiBmvfMHAAYpFBTe0bt96w/3ivqsiR4M1CB4jy+v?=
+ =?us-ascii?Q?5xfVyfiDnvSYXpIoCqskGJbT3C5CQczi9povv2n3LLgwqcEpOqaGuWtgoB8X?=
+ =?us-ascii?Q?k67MW8vj7DwFwaLfX93OLCk9DJUg51X7BUL0?=
 x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
  IPV:NLI; SFV:NSPM; H:MW4PR12MB7165.namprd12.prod.outlook.com; PTR:; CAT:NONE;
  SFS:(13230040)(7416014)(376014)(366016)(1800799024)(38070700021); DIR:OUT;
  SFP:1101; 
 x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?us-ascii?Q?xkymapVumhJwwK+KfRbrnwUy//NuUIszeA9d0kBwMzJ4/F/EZdsiSBka2kty?=
- =?us-ascii?Q?NiUymYS6zP9tR2r0tuIc5MO78+V703u7xGmbTGfcfUkeevv7VOBmPBPWVKW4?=
- =?us-ascii?Q?o/zoyqvRQj/1/Q05anyGv/sxo8Zk8bE47SXGqp1bXIbvQGYatBUUU2y3Veup?=
- =?us-ascii?Q?I2Mv+0Y5+EKDbTc6+m29GN9jw/I84N8A+EBrBw9fLenYQv3jNt2YK+uRzwQ+?=
- =?us-ascii?Q?OArA9gdvMtlbbd4efT3c2n4XFukulgdqGLuvYlgxdy9+nEqvEbdRye2L7dEK?=
- =?us-ascii?Q?4OJ9+2j3MwtwfPV1RMvaNvgkkRJAGcYyPrbxVX1FpKOVrVlVv7JZ/1nDazlQ?=
- =?us-ascii?Q?BZDN7a3QJ3kzrrAlCv0iYqlJ4sBAPSp49z+1nim0bdd6LNGdixaDIRl1DKNl?=
- =?us-ascii?Q?BLCTtsJpw9GNDdUfKlTmafCuDZXWgKfNqSmAB3pxJ547WBtPxTK3WnMhU2lR?=
- =?us-ascii?Q?kwD9n4785gqdCG1HF9z7Aw9xbFVjH2BYzjVyanZjrrlO0ookMrBn37UnZpIo?=
- =?us-ascii?Q?NjFsw/ceA+RQYli3JJ/p/tLVJlo4DIPlkGh5oE+UtRBGi0onBgXvszTSnJMq?=
- =?us-ascii?Q?TbtC4TXBFHnOzMXe+p8xEs9GOZvGJcDr1IukHBV9LxTWOlZm7G4tnKrS2ptr?=
- =?us-ascii?Q?0gx9rZ2NHjaky9ZCJYtAZunCXIXZd5jthxkQ7Aic/AhLT2cUg5Pktlk5kzBw?=
- =?us-ascii?Q?Dw1pGWVSeU22YHPsFzwav8HLDbOaDGeYZXRfi/a8jhsb5tNatvR+sb+RPD2T?=
- =?us-ascii?Q?5vadPwbcCgmb3/lteh4oWH8vRsCb/tuYrDwO3QwFkEpXix2cHOqzWZ2qmMtt?=
- =?us-ascii?Q?uy2a5xFkHTuGRXzWIsBgQpfitd4Lzrc4b57PtpvSQ5amM/Ng6OI4DrLGO77f?=
- =?us-ascii?Q?kG/vDXvC4yrEWKWeFFJCFYMHFO4NZNrEchynVSuHsQJ7QNsP845lRYlY8DyH?=
- =?us-ascii?Q?D+L+fy1wbwbj6lSU9Hy5RbCrtR9TxgVNO35OtJuXhl4dVDSfIBvTTHxYuylg?=
- =?us-ascii?Q?7TShApSaWf5vBQ/JXAFUqwkv603zWDIlpDdDpLKYXwvMfVz06p63/skJ8S9Y?=
- =?us-ascii?Q?dcQETXWSgHUi/E/+lM1FUS6AQWISIS+TFd9LGXOgLRCwnICFoanpyq0DZHqF?=
- =?us-ascii?Q?XHZW234/JA2lwnmp6QqJsou8lAXw4MH9WkzFjgnGlf5MepzdGrKWEumv+mU8?=
- =?us-ascii?Q?BKX2+uBTPDP1Gueio49WV4GNG47DVtEusRk9kqtsHDxIXYqa68QCLHJQXvnl?=
- =?us-ascii?Q?ykO4E5aQbVwbKgEAQ2BDbzTt5nJHZVT3jiaS4yawMQq1apVlpY2EIB2aMcVP?=
- =?us-ascii?Q?dBwdpkeLJZSB2hma44qiqp5UKonA2CRZxU8i9osTRozZZjdPcibuPua+bfOr?=
- =?us-ascii?Q?N+A8ffPoj6gFD2NapZ6tEiRYT7lcuzXrqLNMHhCC+iz0IuVkjedHVXZ6OS/n?=
- =?us-ascii?Q?TBAds5pgzDOCPKS44+8EEtng+I6N35V2uZqD67BE7AHlHVZQt2rH6gc18V6f?=
- =?us-ascii?Q?2e8ytUlhz5X9J4VHRyBgeKivizRNJFr9FchBKihYkd9h5NT/9H15ArL1n2WP?=
- =?us-ascii?Q?qlHcmOhxqn+3xL5E7zU=3D?=
+x-ms-exchange-antispam-messagedata-0: =?us-ascii?Q?WXjQ0PJ0vgl8Lt+KIHATndPqSQLXeQVBm00hMZG2J4yddUJqzebIazQipisy?=
+ =?us-ascii?Q?OQaRf6xvQJRwertmBmxnc+sAhdnuIi0zn8RMbGkM2Osg6CZjES3t3EfnFoZ+?=
+ =?us-ascii?Q?WMezQfBjoXqoyuic6yBQAAMd5IgjLFochT85QVhReae+7vEYbVdDHyhje0UP?=
+ =?us-ascii?Q?5K1MrZx9z+FL/suLXK+Ta2uvcJ2GbJHiS9jAVJ72fwID4wXKxn/DpZG6qJZA?=
+ =?us-ascii?Q?l3hbA/DcJy1HGogIyLyGON5JYkxM1rRpOiheCdFpHRuX8CYh4n4OhvTJN18H?=
+ =?us-ascii?Q?njrjMukEPM1tHmy0VTrnWzzgMYOG4U3W00UhxPY70Um4DsC2vFxQJ8RLKpiK?=
+ =?us-ascii?Q?HpZ1vvjl+J/8RuYHwXUsf4d9FlLXI5J2X0dnQHsGb9p+P/gWbUU1kRUtNSvB?=
+ =?us-ascii?Q?zZfXnVZcMvOaKux0PKLCxUEzZ0nfRFQxuWeVKO3b1sJxEdtyR8hWzqKCsqcX?=
+ =?us-ascii?Q?fRwx3DL6td14rmqgwvfksMOBZoGvg/hzcNxzp9Wg9HTxWCW+Uuw2E1zlEMpY?=
+ =?us-ascii?Q?9gH9BuHxcQvt9Jnq5EYRKLWXW+o5UK5lUPkpWG2ddofZ2xHnDxVIzq2NaHoA?=
+ =?us-ascii?Q?lkJbs+OHajZWu0Nuylq6SsCGVKHpIhO6L+Ou6gsBOlLtHiQMmWwFb4bNFF5n?=
+ =?us-ascii?Q?B6UwusfLyx0y0drdvq4QDelN05KS2xk7b4ZxEs1puTDf+Al/5jjUUSlye+AU?=
+ =?us-ascii?Q?vMiyEUF+wlPccZgQ9K4YekMudXxU6rqjiKI6Qhii3Fol4/GmCN0/EuSQYREO?=
+ =?us-ascii?Q?K/DyjNqz6cSQDNwZ2hWuMeWMhu396PQS5XwRHib+CJn0cAuJrghBsV+ciwAX?=
+ =?us-ascii?Q?qTPbsmqUaKas5MNalJ2xTOL0+Jmge42a/JEVaJtWO0S94antcS8bqtgu4pJZ?=
+ =?us-ascii?Q?CkxHTqCYLHt5WEK/MT+SZIjagAK4M5ii4E1rVcFBFL3ldvVt+vi1NqsqTNpW?=
+ =?us-ascii?Q?2pKqR/QA3bo3joEwHxRvpOLsrspmxnMMXftqDBIL53Dcj2O1zve13mSQSjRx?=
+ =?us-ascii?Q?Fo7ZvetRpKBe7fA0gZ8kpNdoY8enuX8Oq+z167cSfz104VwYiKwZLjVVX2KN?=
+ =?us-ascii?Q?zpLewywbN4S3e7wiYlk0cZ4Tewh9lEusIT1wjpa+ABJzQHd0Z6O4MGFlyW5U?=
+ =?us-ascii?Q?qnNS9Qmq6mt3NFibR5YZF8kZv+2XnvXWy7SRlyuTxb4m5c6OQ2UCXw2YcjAZ?=
+ =?us-ascii?Q?WFmUxuziEXOiWUen7gW51XmOl/jFcVqhnZ7ibGVNprtDw8R/1cuzb18nY0aJ?=
+ =?us-ascii?Q?U8ZvGZtDwdDP4ld46lUL+FazQ6uYSp3R1a5LPjCgw+ZsPGAR8Iu9ctGB2ogB?=
+ =?us-ascii?Q?lgOr6FUjXPXU3dcenX2sSRWdETJAkYLMl3xELmzpb7zCdhBFPLkVLswsrJ50?=
+ =?us-ascii?Q?90NctfCJ3ygDAj/mgNgeouHmn5aVMT4+Rvz0W58ctcI1BxG48nG5TzymmpQE?=
+ =?us-ascii?Q?iT5xp6X56H6GyrwOJ78Prm83vP2A2FX+JMsaXnEWFJlA+pszGqleLJn5p4om?=
+ =?us-ascii?Q?gUxvSkMqKoZtt083hLtNmubenOTVFwUKEOdzsEsOCpjL79KJWQAuv06ewGkG?=
+ =?us-ascii?Q?irln4aRkeSQMwK009ng=3D?=
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: quoted-printable
 MIME-Version: 1.0
 X-OriginatorOrg: amd.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
 X-MS-Exchange-CrossTenant-AuthSource: MW4PR12MB7165.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 99f2ce67-8da4-42f0-02b0-08de2308e732
-X-MS-Exchange-CrossTenant-originalarrivaltime: 13 Nov 2025 23:03:47.8470 (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: a4c63178-5e11-4ad1-e25d-08de230926de
+X-MS-Exchange-CrossTenant-originalarrivaltime: 13 Nov 2025 23:05:34.6504 (UTC)
 X-MS-Exchange-CrossTenant-fromentityheader: Hosted
 X-MS-Exchange-CrossTenant-id: 3dd8961f-e488-4e60-8e11-a82d994e183d
 X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: HE06jRnfwOxUBJjj+AZjq9Xiv2+Qhz41SFc5XAn+UUB3hEaZTly/woLteMECzPPMdSlX4mr51ZNM1q4NYa2HAA==
+X-MS-Exchange-CrossTenant-userprincipalname: pkYyvt5xpfcCtzuvDtDgTmWAv1UZgrzuGjo+1UMFUoV4NvsCySTR8mEI75UPtvh9Fzyjb/8Cjp5pdWmIH6ogrg==
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: CH3PR12MB8583
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -170,8 +169,6 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 Hi Sean,
 
-Thank you for the patch.
-
 > -----Original Message-----
 > From: Sean Anderson <sean.anderson@linux.dev>
 > Sent: Thursday, November 13, 2025 12:37 PM
@@ -186,97 +183,59 @@ Thank you for the patch.
 > arm-kernel@lists.infradead.org; Simona Vetter <simona@ffwll.ch>; Simek,
 > Michal <michal.simek@amd.com>; Sean Anderson
 > <sean.anderson@linux.dev>
-> Subject: [PATCH 3/3] drm: zynqmp: Add blend mode property to graphics pla=
-ne
+> Subject: [PATCH 1/3] drm: zynqmp: Check property creation status
 >
 > Caution: This message originated from an External Source. Use proper caut=
 ion
 > when opening attachments, clicking links, or responding.
 >
 >
-> When global alpha is enabled, per-pixel alpha is ignored. Allow
-> userspace to explicitly specify whether to use per-pixel alpha by
-> exposing it through the blend mode property. I'm not sure whether the
-> per-pixel alpha is pre-multiplied or not [1], but apparently it *must* be
-> pre-multiplied so I guess we have to advertise it.
+> Make sure to return an error in the event that we can't create our
+> properties.
 >
-> [1] All we get is "The alpha value available with the graphics stream
->     will define the transparency of the graphics."
+> Fixes: 650f12042b85 ("drm: xlnx: zynqmp_dpsub: Add global alpha support")
+> Fixes: 8c772f0b2b8e ("drm: xlnx: zynqmp_dpsub: Expose plane ordering to
+> userspace")
 >
 > Signed-off-by: Sean Anderson <sean.anderson@linux.dev>
 > ---
 >
->  drivers/gpu/drm/xlnx/zynqmp_kms.c | 24 ++++++++++++++++++++++--
->  1 file changed, 22 insertions(+), 2 deletions(-)
+>  drivers/gpu/drm/xlnx/zynqmp_kms.c | 12 +++++++++---
+>  1 file changed, 9 insertions(+), 3 deletions(-)
 >
 > diff --git a/drivers/gpu/drm/xlnx/zynqmp_kms.c
 > b/drivers/gpu/drm/xlnx/zynqmp_kms.c
-> index 456ada9ac003..fa1cfc16db36 100644
+> index 2bee0a2275ed..c80a2d4034f3 100644
 > --- a/drivers/gpu/drm/xlnx/zynqmp_kms.c
 > +++ b/drivers/gpu/drm/xlnx/zynqmp_kms.c
-> @@ -61,6 +61,13 @@ static int zynqmp_dpsub_plane_atomic_check(struct
-> drm_plane *plane,
->         if (!new_plane_state->crtc)
->                 return 0;
->
-> +       if (new_plane_state->pixel_blend_mode !=3D
-> DRM_MODE_BLEND_PIXEL_NONE &&
-> +           new_plane_state->alpha >> 8 !=3D 0xff) {
-> +               drm_dbg_kms(plane->dev,
-> +                           "Plane alpha must be 1.0 when using pixel alp=
-ha\n");
-> +               return -EINVAL;
-> +       }
-> +
->         crtc_state =3D drm_atomic_get_crtc_state(state, new_plane_state->=
-crtc);
->         if (IS_ERR(crtc_state))
->                 return PTR_ERR(crtc_state);
-> @@ -117,9 +124,13 @@ static void
-> zynqmp_dpsub_plane_atomic_update(struct drm_plane *plane,
->
->         zynqmp_disp_layer_update(layer, new_state);
->
-> -       if (plane->index =3D=3D ZYNQMP_DPSUB_LAYER_GFX)
-> -               zynqmp_disp_blend_set_global_alpha(dpsub->disp, true,
-> +       if (plane->index =3D=3D ZYNQMP_DPSUB_LAYER_GFX) {
-> +               bool blend =3D plane->state->pixel_blend_mode =3D=3D
-> +                            DRM_MODE_BLEND_PIXEL_NONE;
-> +
-> +               zynqmp_disp_blend_set_global_alpha(dpsub->disp, blend,
->                                                    plane->state->alpha >>=
- 8);
-> +       }
->
->         /*
->          * Unconditionally enable the layer, as it may have been disabled
-> @@ -179,9 +190,18 @@ static int zynqmp_dpsub_create_planes(struct
+> @@ -174,9 +174,15 @@ static int zynqmp_dpsub_create_planes(struct
 > zynqmp_dpsub *dpsub)
->                         return ret;
 >
->                 if (i =3D=3D ZYNQMP_DPSUB_LAYER_GFX) {
-> +                       unsigned int blend_modes =3D
-> +                               BIT(DRM_MODE_BLEND_PIXEL_NONE) |
-> +                               BIT(DRM_MODE_BLEND_PREMULTI);
-
-| BIT(DRM_MODE_BLEND_COVERAGE) - this is what implemented in the hardware.
-
+>                 drm_plane_helper_add(plane, &zynqmp_dpsub_plane_helper_fu=
+ncs);
+>
+> -               drm_plane_create_zpos_immutable_property(plane, i);
+> -               if (i =3D=3D ZYNQMP_DPSUB_LAYER_GFX)
+> -                       drm_plane_create_alpha_property(plane);
+> +               ret =3D drm_plane_create_zpos_immutable_property(plane, i=
+);
+> +               if (ret)
+> +                       return ret;
 > +
->                         ret =3D drm_plane_create_alpha_property(plane);
->                         if (ret)
->                                 return ret;
-> +
-> +                       ret =3D drm_plane_create_blend_mode_property(plan=
-e,
-> +                                                                  blend_=
-modes);
+> +               if (i =3D=3D ZYNQMP_DPSUB_LAYER_GFX) {
+> +                       ret =3D drm_plane_create_alpha_property(plane);
 > +                       if (ret)
 > +                               return ret;
->                 }
+> +               }
 >         }
 >
+>         return 0;
 > --
 > 2.35.1.1320.gc452695387.dirty
+
+Looks good to me.
+
+Reviewed-by: Anatoliy Klymenko <anatoliy.klymenko@amd.com>
 
 Thank you,
 Anatoliy
