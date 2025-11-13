@@ -2,102 +2,173 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4206EC5647B
-	for <lists+dri-devel@lfdr.de>; Thu, 13 Nov 2025 09:32:14 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7847BC5661D
+	for <lists+dri-devel@lfdr.de>; Thu, 13 Nov 2025 09:54:30 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 82E9210E5F0;
-	Thu, 13 Nov 2025 08:32:10 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 977EC10E7D9;
+	Thu, 13 Nov 2025 08:54:26 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=ursulin.net header.i=@ursulin.net header.b="d4nEDJJG";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="JLaEE8kc";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-f43.google.com (mail-wr1-f43.google.com
- [209.85.221.43])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 19D0410E5F0
- for <dri-devel@lists.freedesktop.org>; Thu, 13 Nov 2025 08:32:09 +0000 (UTC)
-Received: by mail-wr1-f43.google.com with SMTP id
- ffacd0b85a97d-42b3377aaf2so281592f8f.2
- for <dri-devel@lists.freedesktop.org>; Thu, 13 Nov 2025 00:32:08 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=ursulin.net; s=google; t=1763022727; x=1763627527; darn=lists.freedesktop.org;
- h=content-transfer-encoding:in-reply-to:from:content-language
- :references:cc:to:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=AfukhjueqtZooUC/G//3QoUA+cHzS0R+6tZVZXxzXXs=;
- b=d4nEDJJGdSNHJubI+/9qRClBM21OaY4/Aa1aa11hZSaUicQQK51t3GA+inwMqkPLxs
- pNlpfqEASE926pJcMkaQ0/NXPQsg/A4zrmesmvptQYK0hnKXGUlX11WszFUQjiI7dQtq
- bTAxIwIwtB/01k5KN8CbNhsAh2pF5mcsgXrrzn4JUlClO/7ulONru7zm4/YHqc4ek2uv
- EPhdae4qEFKWWX3I4vj2OfUnwsF3LNVHq9zHT+Lgd1bGypoHqbhKhsJeQXZeIsfv61pR
- cSw471sskuOA9yyjVWNMZhTmxvqoT11Tlek1yXHl+OGCVbUNfHwMO/tRxT65WLYv6EUA
- 3gBQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1763022727; x=1763627527;
- h=content-transfer-encoding:in-reply-to:from:content-language
- :references:cc:to:subject:user-agent:mime-version:date:message-id
- :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=AfukhjueqtZooUC/G//3QoUA+cHzS0R+6tZVZXxzXXs=;
- b=OOpI1+VhwpSjKncOVCnCmVgMqvil8BCIF6ypJSFmLea6+IHMCkVfCGZxA8HFuEoSij
- 4yJIChRs+xp978GXRdr86O99GFf6/HyWJLBQnGUhkleEMe1yLa64CRGaj4Zc1OmAZEFo
- WagiIkybccHLtrP4XjorhllIDLIsLOhug8LiK2RL9jXnD+XzLD6zXvG4BgFeqZl9aZt3
- vSIRDYJZoezm5MhMbfY6iIAKFDxE6YE9IBzlCiJ1+M4UB7SxT7stcQ05BxjazrCnMB4P
- 6LVUHKVvxBlOguLXGlVIzyn8EeD6wTadWEVqk+nuGy3O/xcBl9RRifriBnFT/wW0yNYt
- E3JQ==
-X-Forwarded-Encrypted: i=1;
- AJvYcCUrW7BS0g284P0Dz2CILPuf4iLcRP96uhuNCPiuFTpl0bwr+JeNlv+xZn/H91pChD9EQHcKYwu/mlQ=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YyDxj7COSGL2o4jTIC/POnd/4dbpdFT2EnTlXJk5841ERoe/Awm
- V062q1y/NUdVvzWl9Sg/1btdGI4uguTAdTJCgdPf2bAVa3EAgJPWtJds264wMvpxXuQ=
-X-Gm-Gg: ASbGnct9NrgVAsPVAvNs5XTUvf0VDF4QQF0Tap9pQlBqZdNStgRv1PTeBj3EOP42RDj
- Tp/gYyT9c4jp+XLO0Gfz1nhdP5/Dl5UpjD9O2uJBQovgJQ3ZEDtgVjt2uxiEGHC89XCNLa7KzkP
- 7sV3rSRmHQ+tcSAm1VPDhTJC76R0yYGkofn3kOv9Hadei558l//uaql+a8oqD4UP6LSne2O8nLD
- MIAMXEGVyzr91K76oEq8NY6xEs2uYw7/26vox4m5D+HK5fHZVmPj8GLmWRb9B5bWQCkO6r4Xv+1
- iD0PG9O/a2qT3FpxVgxjb0PwbhjlvgJsO7G8GmHMSZkbVTkxLeETOHFaWJtVpXY/BXmLIADzdIv
- rc6mdUaLjRHXTn5N+uI1GTDa6P558QPSqTUrPvS9VsMkrqWQGzNeyMOZ6Pe214WG28Ds8Zm+zSl
- BmHwa61JddZA6CpXlFENJSMxvK+2+vjNfC
-X-Google-Smtp-Source: AGHT+IH0c2l5RRE+V35m+0cvDUuaufSmqRTK85FmE16+vXzvxBENUBvWli2MnoVwwrZQ3zZ9MhCvfw==
-X-Received: by 2002:a05:6000:401e:b0:42b:3dbe:3a54 with SMTP id
- ffacd0b85a97d-42b4bb98aa5mr4746433f8f.17.1763022727108; 
- Thu, 13 Nov 2025 00:32:07 -0800 (PST)
-Received: from [192.168.0.101] ([90.240.106.137])
- by smtp.gmail.com with ESMTPSA id
- ffacd0b85a97d-42b53e85cc0sm2715644f8f.17.2025.11.13.00.32.06
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 13 Nov 2025 00:32:06 -0800 (PST)
-Message-ID: <4a311b00-9d69-4f0f-8b82-5f6b7c4c9a9f@ursulin.net>
-Date: Thu, 13 Nov 2025 08:32:05 +0000
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 68E5510E34F;
+ Thu, 13 Nov 2025 08:54:25 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1763024066; x=1794560066;
+ h=from:to:cc:subject:date:message-id:references:
+ in-reply-to:content-transfer-encoding:mime-version;
+ bh=ubqLNy97mvTUDIJcbRh3sYSjsduTQ2VffaQBSQ6CMSA=;
+ b=JLaEE8kcMzZ373nOD3qg5Aq16YrJ9u5fbY352jT2cUXZUPQ9cenO0Soz
+ CPFO5IyS60CXlC7HMcETrera8Mzr3F+U7Cnt384ZFJQ7oiCtxn1XqmfI/
+ HAI6i5F1KSiSiKXziDmWJR4PB5Z77B2ks3b/49TtteKspfrq30CGW4lEJ
+ 1hOvFbLuZH8UTpmUd9/7zNkiQDi7CNovMYwslL2E7XyBw7FyJ8zxcpLa+
+ /2rGGqsouOot1E5buxyjiXLDJyxxkdvBZc8KRLJjT1haAU8s+tz6g2qQ9
+ iEnYWydCiMKjDShZTO5UljqmUe98OlCaEdiCIzYRUOK1Knk7HYFCfaD/y A==;
+X-CSE-ConnectionGUID: tjMqjwKxR9uVcbyzoJgLJQ==
+X-CSE-MsgGUID: IKEaxrRARfCkwGAiQQS7CA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11611"; a="75778101"
+X-IronPort-AV: E=Sophos;i="6.19,301,1754982000"; d="scan'208";a="75778101"
+Received: from fmviesa005.fm.intel.com ([10.60.135.145])
+ by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 13 Nov 2025 00:54:25 -0800
+X-CSE-ConnectionGUID: 61KLkP9XSK+ddgUoV9cDwA==
+X-CSE-MsgGUID: RCJ0oASIQoWqlUu2eBQQWw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.19,301,1754982000"; d="scan'208";a="193701209"
+Received: from orsmsx901.amr.corp.intel.com ([10.22.229.23])
+ by fmviesa005.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 13 Nov 2025 00:54:25 -0800
+Received: from ORSMSX902.amr.corp.intel.com (10.22.229.24) by
+ ORSMSX901.amr.corp.intel.com (10.22.229.23) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.2562.27; Thu, 13 Nov 2025 00:54:24 -0800
+Received: from ORSEDG903.ED.cps.intel.com (10.7.248.13) by
+ ORSMSX902.amr.corp.intel.com (10.22.229.24) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.2562.27 via Frontend Transport; Thu, 13 Nov 2025 00:54:24 -0800
+Received: from CO1PR03CU002.outbound.protection.outlook.com (52.101.46.25) by
+ edgegateway.intel.com (134.134.137.113) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.2562.27; Thu, 13 Nov 2025 00:54:24 -0800
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=o6tGtvDB4HN+UVdIOzSv2tRhORt5B6AMiAraWdPIXAUbh7VzVJEHqkL3a0+IOKs1X6DOI76PCgjtWKM8TiwwWmX4+zgwcrlUmDqh1V+xDTaC9xhVypIcvJoWQ6FHsTcOLMCJjdD/g/44YBXTcLJxmnOom02osOCt71cFgCsO9wSeVEJUuyQvM0mEigbvntztL96rb7VPuKjlMU3v2N1GROlvZ+KoZZkzQG7IQdz71PZy88MgBwAmU3+vrjsFrV8Tlpx6i8W1iAMY6GofYM4zrLXUbpOfR0gg01wN1otgjkepnzy4yc61Vp8rU9WmMK9k1tiQ1kcpq7XoGb3xy0smQw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=ilPzzLcPI61MKpJTPgFYfRsJtt0wzQebl9F4tNeDEy8=;
+ b=Hl/Agyp/jT1elPP18qkEnqEn3cw/Wu9/E8QGoiVjFF/JbO0Togvq6KDTklJsXVVHX+u5lj0y3eVPS7pOSrurpcYh11S93SURRJO3YCKSFMCkb+PhunlFHKBnlYBm43dkQjqT1mpHieBf+vB150bu3AlfivVguoGZJj31ZzkKA5cBIc+lORWWacfW7m014GHZsdNzP6AOLsMAPXyplldUoM4mcqxvW97eTWeUmXnhxP82FnBuwIs46vuiqJEVcc3JJtkgHI1BTWPGawPU5xMcskTBrosHn1/EQNVSuS4f+vTd2vdQJjaBvBlohd8xWZXCpb9X/gqF6+ywV6a3mR3f4w==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
+Received: from DM3PPF208195D8D.namprd11.prod.outlook.com
+ (2603:10b6:f:fc00::f13) by SA2PR11MB4779.namprd11.prod.outlook.com
+ (2603:10b6:806:11a::7) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9320.16; Thu, 13 Nov
+ 2025 08:54:22 +0000
+Received: from DM3PPF208195D8D.namprd11.prod.outlook.com
+ ([fe80::95c9:5973:5297:d3cc]) by DM3PPF208195D8D.namprd11.prod.outlook.com
+ ([fe80::95c9:5973:5297:d3cc%4]) with mapi id 15.20.9320.013; Thu, 13 Nov 2025
+ 08:54:22 +0000
+From: "Kandpal, Suraj" <suraj.kandpal@intel.com>
+To: Jani Nikula <jani.nikula@linux.intel.com>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+ "intel-xe@lists.freedesktop.org" <intel-xe@lists.freedesktop.org>,
+ "intel-gfx@lists.freedesktop.org" <intel-gfx@lists.freedesktop.org>
+CC: "Nautiyal, Ankit K" <ankit.k.nautiyal@intel.com>, "Murthy, Arun R"
+ <arun.r.murthy@intel.com>, "Deak, Imre" <imre.deak@intel.com>
+Subject: RE: [PATCH] drm/display/dp_mst: Add protection against 0 vcpi
+Thread-Topic: [PATCH] drm/display/dp_mst: Add protection against 0 vcpi
+Thread-Index: AQHcVFeIsN6bopHDnE6NSW3ozkyKJbTwRXoAgAAHsBA=
+Date: Thu, 13 Nov 2025 08:54:22 +0000
+Message-ID: <DM3PPF208195D8D7C8C263E115ABED5A500E3CDA@DM3PPF208195D8D.namprd11.prod.outlook.com>
+References: <20251113043918.716367-1-suraj.kandpal@intel.com>
+ <c47f1221281e998f53169ffd0a2e06b301bb1605@intel.com>
+In-Reply-To: <c47f1221281e998f53169ffd0a2e06b301bb1605@intel.com>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=intel.com;
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: DM3PPF208195D8D:EE_|SA2PR11MB4779:EE_
+x-ms-office365-filtering-correlation-id: 4455f3ae-5231-410d-0684-08de22923d41
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0; ARA:13230040|1800799024|366016|376014|38070700021;
+x-microsoft-antispam-message-info: =?us-ascii?Q?4QlZKiP0moWutl6QdAhfnbiYpr8KKDGLGK1wEycT/bzFRFXNJIdNnHjO+c3A?=
+ =?us-ascii?Q?06oD85jRd0Vy2Iyn/7ByoiQQgG7CIe8hk7iBIds6DrFFLJOz+wziamXWIVmv?=
+ =?us-ascii?Q?FB5goEGGwTIozocxQXW0qHpT9aXC3ZnCxAXYUkNhpod+JdtEPOUNOyDpR81G?=
+ =?us-ascii?Q?pm8OiTD3SpJwLv+wTWu+JYRGTt64Ul+4UTuIz7igexFoDiM2GUUghekA/v95?=
+ =?us-ascii?Q?9fk/oimOstCoFoDjYBt+TYqjrDwCreZxqpDt4cz5Y5Pbv3cOPYe6Q1OoJ1ZS?=
+ =?us-ascii?Q?DPpUOvUQrkwWY3z2GlQS1yCqVN2bSQy4zNlyiyNL8a0I47oyue/OVK+ICiCC?=
+ =?us-ascii?Q?uXnu4Y0V/tskZ9ZrYaFIGSH/8MKG6/r2xcC3pa4gWaPZ+A0tgSDpH7cVbRF5?=
+ =?us-ascii?Q?PulZSse/k4V3PFWuuHslAeuTTXPg3D51bssdpAPfi6Mtf6Nw5rK+EiktqBaj?=
+ =?us-ascii?Q?4QCM9N+L4tDuSHexU55s/d+WLAGUzMt2GXA9qVf8Y9RWZpDP57k18HcdbBaI?=
+ =?us-ascii?Q?szsROyw5RsVMiBu8xjbx70YHx/hTirhuxC5ABqw85jLM5QPiqSZB+4rl1nEw?=
+ =?us-ascii?Q?HPUkUGm0tD1bNPwvXP+CmLc3PqA0kizspyRBdx8PpmIOPkhPHjgL9Qv8ZEdP?=
+ =?us-ascii?Q?IBLYCAEzcbPoPlrUGT8NKR5pPtOCyHAZ5BZYWLaq6LuhbKDHvdZ00OE+3h6t?=
+ =?us-ascii?Q?ljtp6lehp8Ujn91qMCCoHdTgH4GNOXi3U8nb6LWWDrJAFXuQZoJVSK/F5oqJ?=
+ =?us-ascii?Q?MZEjCZAdle/EB+MuASO+MxRJPTVcIDqLF+GeYvYZeS3U94EgZ4x3N1nZMWPY?=
+ =?us-ascii?Q?LYOIGmU0wot1cL12Vr6jMjE7lOZg3Z21V0+GqgM7yu6rD6Kj5j69yFssemB1?=
+ =?us-ascii?Q?pkTJ9A6QS7mb+Qw0fDmYFA3n5lo+3U7nnWN/jBs4vFJO/I3by5MskztxYqWS?=
+ =?us-ascii?Q?mfTJDbuQqspevVrzeuTQ7ppDKDRwE8NkNzZcu2NAae7XeVFBkl30kvQacBgH?=
+ =?us-ascii?Q?NQPegMT9O6qAYbEjJ6clK6wrTQiNAb6px65qrmc+qj3LuQnRUpj6plBJlL0m?=
+ =?us-ascii?Q?lF3qJnWUrqZe6cV9LL5Byi/LN0r4AZJn+9NAdmxmNU9YSRjmwWfq4EPDRzDQ?=
+ =?us-ascii?Q?ylKMde041DT+Mvi8JMLuveXrpyI+jA9MNEZFkVFxDwzC4y7ekF7ohOrCr8Oq?=
+ =?us-ascii?Q?XQkYxRzZv+RmPbwLLxOke+5ZQyABDbVJhV0h2uPsNq0o97sEgALEoGJN+fZH?=
+ =?us-ascii?Q?5LkJS3t1YvvRAoRxlQVZ3LU6123zz0moKm6TbL6x4RkDR68HdOUUH6tmVlSe?=
+ =?us-ascii?Q?qv2kGoJBT9+RnfPqZ3RuNMq3k00S6Oz64n32MdQfRjvhruz0E8VhY8UbuIhF?=
+ =?us-ascii?Q?7XQT9mHGy+Ro1Mle0IXeoXWquKlr/yWxL1Kcifv0UHDt1JhHgHG7F+3QyT1Q?=
+ =?us-ascii?Q?KIKtMmA5YnXW5+0/U5mmgwbjlQ5go2bPIF7myjxUWhqb1/LP5Vfh4tGmRku0?=
+ =?us-ascii?Q?VEzxCAriO8L8AMVTzPO1vdf7W+rRY8lSiniI?=
+x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:DM3PPF208195D8D.namprd11.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230040)(1800799024)(366016)(376014)(38070700021); DIR:OUT; SFP:1101; 
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: =?us-ascii?Q?iT3WfkUlShX6MBL5wolOe0xWRYzShIdgs0XRqSHMXixQHWY95LrptruvyqMG?=
+ =?us-ascii?Q?zL/HNqxXhQFJn7N8yiyAjjTzZoEw1wFum/ke9r1nA/ZR4ET+iEsZG+Z/nNg0?=
+ =?us-ascii?Q?RKpKTNVX/S0EZyX/W8pdUWCweNouk35QKLRLQdSlyOQhMJaqytXwLO5SHMXC?=
+ =?us-ascii?Q?7PS9HgILZ9R47YPHyUupt8oL+MB8mq47UIJ0Us7LGwKd4l1w+Q0Z4uOWW0HB?=
+ =?us-ascii?Q?OXfpzm8Z7sqKO46xRowhLCtv2WHyYlnu5mrF1Hla35Z0qOtqqK92JxIp/oWo?=
+ =?us-ascii?Q?C+5tILuqLXkIiPOMfo/qZ9E+w7qkYRfUV+TOoKDmK9CNuUuBZSsmeTCqp2yR?=
+ =?us-ascii?Q?2WRzdu6cHLMRU0x4b7doiPr6Al8BiFGQTBStxwZOj8W7Qfc70D7VG9kgELFc?=
+ =?us-ascii?Q?Wzc1QrY3RNvm7efCNUJOchdS0ERNR+Qoqd36cJFy1wt1/wWWXa/lo2wRKjbR?=
+ =?us-ascii?Q?2+E0MZY0JFa8z9J/PlbADmdpBAD+Wq6xzjuhgU5raIlbuq8yCO6zFTU//hS8?=
+ =?us-ascii?Q?mpnrofRwmrCdb4mCNtqvbuYtOxJldY8jTldN/UCtdCAr5ipHlXyMEG1uZ+22?=
+ =?us-ascii?Q?SYFuQsJk41uY4+YngC7rXe5km+zN1j+PQoWPDRbpuRaFWXuWRunkgoM+R0Xg?=
+ =?us-ascii?Q?2Q2sIz8dpNBrowuV4TGOfKuSaG5DJ4p2uZ+Nqb1aECw8LRRPFWBvCE7DHA4l?=
+ =?us-ascii?Q?MY7Cul9EHfGIAVT3v+PwhjBe5qCZHVJirZws3t5uXU3l3Iirv6baWGUl2yB3?=
+ =?us-ascii?Q?8a6Sg/FXPj6742H+iz1QsV2EzXPMeeAlClin+w+eLEpsqnPmJeC+osVIwhFG?=
+ =?us-ascii?Q?jCt2diLKQcBI//GUt7a0SvHtInGAogKnUcPpjTk5v7QcrKY5PeuoCMgX8TqQ?=
+ =?us-ascii?Q?OcQw2qxZVOpp0/1PSukHmPqqWvpZQcMQ5M9fNM6F0B8fbe7YP3LGzbH9QJeq?=
+ =?us-ascii?Q?ShrBy3vcBBQ+aShSUpWzYQX/Bw+FrOBrvw3DPIfdKCwmRPess77bxFnz51Jw?=
+ =?us-ascii?Q?qKsZePhlO9bkNZBTdKHct4bUDnqxifKbOtgE+e6ivRM6sb6gWvESeOkLCJbx?=
+ =?us-ascii?Q?ERgtzN0RFyEWYNL0z6pnGnDiuj+XDMefx1yspMm76RA+2/BObDNMSQbZvahY?=
+ =?us-ascii?Q?7TrLrKNZZqfdKBdQ/4sp3w3UfbSmhrQoCV5Ki6dWEVDOYPfWuXBPHGlsSWWo?=
+ =?us-ascii?Q?0l0zQeGuBXJ2lOT86IGUsfCQOHOinHUDC2ak0igd+mnH3SOfICW1uc4EtEG3?=
+ =?us-ascii?Q?76kedtzVkXUb7w44x2815IUBGVhT0tWPTj5UxNutIKEuXiZh7s6apWhERICh?=
+ =?us-ascii?Q?6DaeonfjXtxOtj2gi3BCzbQp55sv3wz0cJzWUWrzvXxdV03AlFZiI+PjeURe?=
+ =?us-ascii?Q?z19Tpxo4DNZftQB8R/gdsFONGXtoMmz84W5kjDV5s3rcGLyEvJzWEXStTHNa?=
+ =?us-ascii?Q?BsZKMWP7lvrDc0SGlKBqH+SJmrAPQ9H+jhhozK8V+qfKi4cdUOFgWgysWIRd?=
+ =?us-ascii?Q?RCVdl5JPdmyjghvF0jpVUxMFvY5BS6LOgluoRI9HDYtwhoJnj72eIMxkFM1q?=
+ =?us-ascii?Q?iJHzNld77X7Fz9PCeEssJr7lPERTzqqPxwkeOL1w?=
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v7 05/11] drm/i915: Use huge tmpfs mountpoint helpers
-To: =?UTF-8?Q?Lo=C3=AFc_Molinari?= <loic.molinari@collabora.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Jani Nikula <jani.nikula@linux.intel.com>,
- Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>,
- Boris Brezillon <boris.brezillon@collabora.com>,
- Rob Herring <robh@kernel.org>, Steven Price <steven.price@arm.com>,
- Liviu Dudau <liviu.dudau@arm.com>, Melissa Wen <mwen@igalia.com>,
- =?UTF-8?Q?Ma=C3=ADra_Canal?= <mcanal@igalia.com>,
- Hugh Dickins <hughd@google.com>, Baolin Wang
- <baolin.wang@linux.alibaba.com>, Andrew Morton <akpm@linux-foundation.org>,
- Al Viro <viro@zeniv.linux.org.uk>, =?UTF-8?Q?Miko=C5=82aj_Wasiak?=
- <mikolaj.wasiak@intel.com>, Christian Brauner <brauner@kernel.org>,
- Nitin Gote <nitin.r.gote@intel.com>, Andi Shyti
- <andi.shyti@linux.intel.com>, Jonathan Corbet <corbet@lwn.net>,
- Christopher Healy <healych@amazon.com>, Matthew Wilcox
- <willy@infradead.org>, Bagas Sanjaya <bagasdotme@gmail.com>
-Cc: linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- intel-gfx@lists.freedesktop.org, linux-mm@kvack.org,
- linux-doc@vger.kernel.org, kernel@collabora.com
-References: <20251110155000.2936-1-loic.molinari@collabora.com>
- <20251110155000.2936-6-loic.molinari@collabora.com>
-Content-Language: en-GB
-From: Tvrtko Ursulin <tursulin@ursulin.net>
-In-Reply-To: <20251110155000.2936-6-loic.molinari@collabora.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: DM3PPF208195D8D.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 4455f3ae-5231-410d-0684-08de22923d41
+X-MS-Exchange-CrossTenant-originalarrivaltime: 13 Nov 2025 08:54:22.0851 (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: AZJ3y3Dx7BvwcjVFf9+SPg9ss6iTuJrb34BANjKVb0KRrYFsYvUjatpR0rO85ug4xoaQLp+piF6m/MrSisKTkA==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA2PR11MB4779
+X-OriginatorOrg: intel.com
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -113,310 +184,110 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+.deak@intel.com>; Kandpal,
+> Suraj <suraj.kandpal@intel.com>
+> Subject: Re: [PATCH] drm/display/dp_mst: Add protection against 0 vcpi
+>=20
+> On Thu, 13 Nov 2025, Suraj Kandpal <suraj.kandpal@intel.com> wrote:
+> > When releasing a timeslot there is a slight chance we may end up with
+> > the wrong payload mask due to overflow if the delayed_destroy_work
+> > ends up coming into play after a DP 2.1 monitor gets disconnected
+> > which causes vcpi to become 0 then we try to make the payload =3D
+> > ~BIT(vcpi - 1) which is a negative shift.
+>=20
+> Is that a real scenario or a hypothetical one?
+>=20
 
-On 10/11/2025 15:49, Loïc Molinari wrote:
-> Make use of the new drm_gem_huge_mnt_create() and
-> drm_gem_has_huge_mnt() helpers to avoid code duplication. Now that
-> it's just a few lines long, the single function in i915_gemfs.c is
-> moved into v3d_gem_shmem.c.
-> 
-> v3:
-> - use huge tmpfs mountpoint in drm_device
-> - move i915_gemfs.c into i915_gem_shmem.c
-> 
-> v4:
-> - clean up mountpoint creation error handling
-> 
-> v5:
-> - use drm_gem_has_huge_mnt() helper
-> 
-> v7:
-> - include <drm/drm_print.h> in i915_gem_shmem.c
-> 
-> Signed-off-by: Loïc Molinari <loic.molinari@collabora.com>
-> ---
->   drivers/gpu/drm/i915/Makefile                 |  3 +-
->   drivers/gpu/drm/i915/gem/i915_gem_shmem.c     | 48 +++++++++----
->   drivers/gpu/drm/i915/gem/i915_gemfs.c         | 71 -------------------
->   drivers/gpu/drm/i915/gem/i915_gemfs.h         | 14 ----
->   .../gpu/drm/i915/gem/selftests/huge_pages.c   | 11 +--
->   drivers/gpu/drm/i915/i915_drv.h               |  5 --
->   6 files changed, 42 insertions(+), 110 deletions(-)
->   delete mode 100644 drivers/gpu/drm/i915/gem/i915_gemfs.c
->   delete mode 100644 drivers/gpu/drm/i915/gem/i915_gemfs.h
-> 
-> diff --git a/drivers/gpu/drm/i915/Makefile b/drivers/gpu/drm/i915/Makefile
-> index 84ec79b64960..b5a8c0a6b747 100644
-> --- a/drivers/gpu/drm/i915/Makefile
-> +++ b/drivers/gpu/drm/i915/Makefile
-> @@ -169,8 +169,7 @@ gem-y += \
->   	gem/i915_gem_ttm_move.o \
->   	gem/i915_gem_ttm_pm.o \
->   	gem/i915_gem_userptr.o \
-> -	gem/i915_gem_wait.o \
-> -	gem/i915_gemfs.o
-> +	gem/i915_gem_wait.o
->   i915-y += \
->   	$(gem-y) \
->   	i915_active.o \
-> diff --git a/drivers/gpu/drm/i915/gem/i915_gem_shmem.c b/drivers/gpu/drm/i915/gem/i915_gem_shmem.c
-> index 26dda55a07ff..9bba6f8cdee2 100644
-> --- a/drivers/gpu/drm/i915/gem/i915_gem_shmem.c
-> +++ b/drivers/gpu/drm/i915/gem/i915_gem_shmem.c
-> @@ -9,14 +9,16 @@
->   #include <linux/uio.h>
->   
->   #include <drm/drm_cache.h>
-> +#include <drm/drm_gem.h>
-> +#include <drm/drm_print.h>
->   
->   #include "gem/i915_gem_region.h"
->   #include "i915_drv.h"
->   #include "i915_gem_object.h"
->   #include "i915_gem_tiling.h"
-> -#include "i915_gemfs.h"
->   #include "i915_scatterlist.h"
->   #include "i915_trace.h"
-> +#include "i915_utils.h"
->   
->   /*
->    * Move folios to appropriate lru and release the batch, decrementing the
-> @@ -515,9 +517,9 @@ static int __create_shmem(struct drm_i915_private *i915,
->   	if (BITS_PER_LONG == 64 && size > MAX_LFS_FILESIZE)
->   		return -E2BIG;
->   
-> -	if (i915->mm.gemfs)
-> -		filp = shmem_file_setup_with_mnt(i915->mm.gemfs, "i915", size,
-> -						 flags);
-> +	if (drm_gem_has_huge_mnt(&i915->drm))
-> +		filp = shmem_file_setup_with_mnt(i915->drm.huge_mnt, "i915",
-> +						 size, flags);
->   	else
->   		filp = shmem_file_setup("i915", size, flags);
->   	if (IS_ERR(filp))
-> @@ -644,21 +646,41 @@ i915_gem_object_create_shmem_from_data(struct drm_i915_private *i915,
->   
->   static int init_shmem(struct intel_memory_region *mem)
->   {
-> -	i915_gemfs_init(mem->i915);
-> -	intel_memory_region_set_name(mem, "system");
-> +	struct drm_i915_private *i915 = mem->i915;
-> +	int err;
->   
-> -	return 0; /* We have fallback to the kernel mnt if gemfs init failed. */
-> -}
-> +	/*
-> +	 * By creating our own shmemfs mountpoint, we can pass in
-> +	 * mount flags that better match our usecase.
-> +	 *
-> +	 * One example, although it is probably better with a per-file
-> +	 * control, is selecting huge page allocations ("huge=within_size").
-> +	 * However, we only do so on platforms which benefit from it, or to
-> +	 * offset the overhead of iommu lookups, where with latter it is a net
-> +	 * win even on platforms which would otherwise see some performance
-> +	 * regressions such a slow reads issue on Broadwell and Skylake.
-> +	 */
->   
-> -static int release_shmem(struct intel_memory_region *mem)
-> -{
-> -	i915_gemfs_fini(mem->i915);
-> -	return 0;
-> +	if (GRAPHICS_VER(i915) < 11 && !i915_vtd_active(i915))
-> +		goto no_thp;
-> +
-> +	err = drm_gem_huge_mnt_create(&i915->drm, "within_size");
-> +	if (drm_gem_has_huge_mnt(&i915->drm))
-> +		drm_info(&i915->drm, "Using Transparent Hugepages\n");
-> +	else if (err)
-> +		drm_notice(&i915->drm,
-> +			   "Transparent Hugepage support is recommended for optimal performance%s\n",
-> +			   GRAPHICS_VER(i915) >= 11 ? " on this platform!" :
-> +						      " when IOMMU is enabled!");
+This is a real scenario which ends up throwing the below error
+<7> [515.287237] xe 0000:03:00.0: [drm:drm_dp_mst_get_port_malloc [drm_disp=
+lay_helper]] port ffff888126ce9000 (3)
+<4> [515.287267] -----------[ cut here ]-----------
+<3> [515.287268] UBSAN: shift-out-of-bounds in ../drivers/gpu/drm/display/d=
+rm_dp_mst_topology.c:4575:36
+<3> [515.287271] shift exponent -1 is negative
+<4> [515.287275] CPU: 7 UID: 0 PID: 3108 Comm: kworker/u64:33 Tainted: G S =
+U 6.17.0-rc6-lgci-xe-xe-3795-3e79699fa1b216e92+ #1 PREEMPT(voluntary)
+<4> [515.287279] Tainted: [S]=3DCPU_OUT_OF_SPEC, [U]=3DUSER
+<4> [515.287279] Hardware name: ASUS System Product Name/PRIME Z790-P WIFI,=
+ BIOS 1645 03/15/2024
+<4> [515.287281] Workqueue: drm_dp_mst_wq drm_dp_delayed_destroy_work [drm_=
+display_helper]
+<4> [515.287303] Call Trace:
+<4> [515.287304] <TASK>
+<4> [515.287306] dump_stack_lvl+0xc1/0xf0
+<4> [515.287313] dump_stack+0x10/0x20
+<4> [515.287316] __ubsan_handle_shift_out_of_bounds+0x133/0x2e0
+<4> [515.287324] ? drm_atomic_get_private_obj_state+0x186/0x1d0
+<4> [515.287333] drm_dp_atomic_release_time_slots.cold+0x17/0x3d [drm_displ=
+ay_helper]
+<4> [515.287355] mst_connector_atomic_check+0x159/0x180 [xe]
+<4> [515.287546] drm_atomic_helper_check_modeset+0x4d9/0xfa0
+<4> [515.287550] ? __ww_mutex_lock.constprop.0+0x6f/0x1a60
+<4> [515.287562] intel_atomic_check+0x119/0x2b80 [xe]
+<4> [515.287740] ? find_held_lock+0x31/0x90
+<4> [515.287747] ? lock_release+0xce/0x2a0
+<4> [515.287754] drm_atomic_check_only+0x6a2/0xb40
+<4> [515.287758] ? drm_atomic_add_affected_connectors+0x12b/0x140
+<4> [515.287765] drm_atomic_commit+0x6e/0xf0
+<4> [515.287766] ? _pfx__drm_printfn_info+0x10/0x10
+<4> [515.287774] drm_client_modeset_commit_atomic+0x25c/0x2b0
+<4> [515.287794] drm_client_modeset_commit_locked+0x60/0x1b0
+<4> [515.287795] ? mutex_lock_nested+0x1b/0x30
+<4> [515.287801] drm_client_modeset_commit+0x26/0x50
+<4> [515.287804] __drm_fb_helper_restore_fbdev_mode_unlocked+0xdc/0x110
+<4> [515.287810] drm_fb_helper_hotplug_event+0x120/0x140
+<4> [515.287814] drm_fbdev_client_hotplug+0x28/0xd0
+<4> [515.287819] drm_client_hotplug+0x6c/0xf0
+<4> [515.287824] drm_client_dev_hotplug+0x9e/0xd0
+<4> [515.287829] drm_kms_helper_hotplug_event+0x1a/0x30
+<4> [515.287834] drm_dp_delayed_destroy_work+0x3df/0x410 [drm_display_helpe=
+r]
+<4> [515.287861] process_one_work+0x22b/0x6f0
+<4> [515.287874] worker_thread+0x1e8/0x3d0
+<4> [515.287879] ? __pfx_worker_thread+0x10/0x10
+<4> [515.287882] kthread+0x11c/0x250
+<4> [515.287886] ? __pfx_kthread+0x10/0x10
+<4> [515.287890] ret_from_fork+0x2d7/0x310
+<4> [515.287894] ? __pfx_kthread+0x10/0x10
+<4> [515.287897] ret_from_fork_asm+0x1a/0x30
 
-
-Drm_gem_huge_mnt_create() will return 0, and drm_gem_has_huge_mnt() will 
-return false.
-
-So looking from the i915 perspective, when 
-CONFIG_TRANSPARENT_HUGEPAGE=n, currently it will log the above notice 
-message, and after the change it will not.
-
-To preserve current behaviour it might be that "else if (err)" just 
-needs to become a plan "else"?
+Refer to gitlab xe issue:  6303
 
 Regards,
+Suraj Kandpal
 
-Tvrtko
-
-> +
-> + no_thp:
-> +	intel_memory_region_set_name(mem, "system");
-> +
-> +	return 0; /* We have fallback to the kernel mnt if huge mnt failed. */
->   }
->   
->   static const struct intel_memory_region_ops shmem_region_ops = {
->   	.init = init_shmem,
-> -	.release = release_shmem,
->   	.init_object = shmem_object_init,
->   };
->   
-> diff --git a/drivers/gpu/drm/i915/gem/i915_gemfs.c b/drivers/gpu/drm/i915/gem/i915_gemfs.c
-> deleted file mode 100644
-> index 1f1290214031..000000000000
-> --- a/drivers/gpu/drm/i915/gem/i915_gemfs.c
-> +++ /dev/null
-> @@ -1,71 +0,0 @@
-> -// SPDX-License-Identifier: MIT
-> -/*
-> - * Copyright © 2017 Intel Corporation
-> - */
-> -
-> -#include <linux/fs.h>
-> -#include <linux/mount.h>
-> -#include <linux/fs_context.h>
-> -
-> -#include <drm/drm_print.h>
-> -
-> -#include "i915_drv.h"
-> -#include "i915_gemfs.h"
-> -#include "i915_utils.h"
-> -
-> -void i915_gemfs_init(struct drm_i915_private *i915)
-> -{
-> -	struct file_system_type *type;
-> -	struct fs_context *fc;
-> -	struct vfsmount *gemfs;
-> -	int ret;
-> -
-> -	/*
-> -	 * By creating our own shmemfs mountpoint, we can pass in
-> -	 * mount flags that better match our usecase.
-> -	 *
-> -	 * One example, although it is probably better with a per-file
-> -	 * control, is selecting huge page allocations ("huge=within_size").
-> -	 * However, we only do so on platforms which benefit from it, or to
-> -	 * offset the overhead of iommu lookups, where with latter it is a net
-> -	 * win even on platforms which would otherwise see some performance
-> -	 * regressions such a slow reads issue on Broadwell and Skylake.
-> -	 */
-> -
-> -	if (GRAPHICS_VER(i915) < 11 && !i915_vtd_active(i915))
-> -		return;
-> -
-> -	if (!IS_ENABLED(CONFIG_TRANSPARENT_HUGEPAGE))
-> -		goto err;
-> -
-> -	type = get_fs_type("tmpfs");
-> -	if (!type)
-> -		goto err;
-> -
-> -	fc = fs_context_for_mount(type, SB_KERNMOUNT);
-> -	if (IS_ERR(fc))
-> -		goto err;
-> -	ret = vfs_parse_fs_string(fc, "source", "tmpfs");
-> -	if (!ret)
-> -		ret = vfs_parse_fs_string(fc, "huge", "within_size");
-> -	if (!ret)
-> -		gemfs = fc_mount_longterm(fc);
-> -	put_fs_context(fc);
-> -	if (ret)
-> -		goto err;
-> -
-> -	i915->mm.gemfs = gemfs;
-> -	drm_info(&i915->drm, "Using Transparent Hugepages\n");
-> -	return;
-> -
-> -err:
-> -	drm_notice(&i915->drm,
-> -		   "Transparent Hugepage support is recommended for optimal performance%s\n",
-> -		   GRAPHICS_VER(i915) >= 11 ? " on this platform!" :
-> -					      " when IOMMU is enabled!");
-> -}
-> -
-> -void i915_gemfs_fini(struct drm_i915_private *i915)
-> -{
-> -	kern_unmount(i915->mm.gemfs);
-> -}
-> diff --git a/drivers/gpu/drm/i915/gem/i915_gemfs.h b/drivers/gpu/drm/i915/gem/i915_gemfs.h
-> deleted file mode 100644
-> index 16d4333c9a4e..000000000000
-> --- a/drivers/gpu/drm/i915/gem/i915_gemfs.h
-> +++ /dev/null
-> @@ -1,14 +0,0 @@
-> -/* SPDX-License-Identifier: MIT */
-> -/*
-> - * Copyright © 2017 Intel Corporation
-> - */
-> -
-> -#ifndef __I915_GEMFS_H__
-> -#define __I915_GEMFS_H__
-> -
-> -struct drm_i915_private;
-> -
-> -void i915_gemfs_init(struct drm_i915_private *i915);
-> -void i915_gemfs_fini(struct drm_i915_private *i915);
-> -
-> -#endif
-> diff --git a/drivers/gpu/drm/i915/gem/selftests/huge_pages.c b/drivers/gpu/drm/i915/gem/selftests/huge_pages.c
-> index bd08605a1611..2b9f7d86b46e 100644
-> --- a/drivers/gpu/drm/i915/gem/selftests/huge_pages.c
-> +++ b/drivers/gpu/drm/i915/gem/selftests/huge_pages.c
-> @@ -1316,7 +1316,7 @@ typedef struct drm_i915_gem_object *
->   
->   static inline bool igt_can_allocate_thp(struct drm_i915_private *i915)
->   {
-> -	return i915->mm.gemfs && has_transparent_hugepage();
-> +	return drm_gem_has_huge_mnt(&i915->drm);
->   }
->   
->   static struct drm_i915_gem_object *
-> @@ -1761,7 +1761,8 @@ static int igt_tmpfs_fallback(void *arg)
->   	struct drm_i915_private *i915 = arg;
->   	struct i915_address_space *vm;
->   	struct i915_gem_context *ctx;
-> -	struct vfsmount *gemfs = i915->mm.gemfs;
-> +	struct vfsmount *huge_mnt =
-> +		drm_gem_has_huge_mnt(&i915->drm) ? i915->drm.huge_mnt : NULL;
->   	struct drm_i915_gem_object *obj;
->   	struct i915_vma *vma;
->   	struct file *file;
-> @@ -1782,10 +1783,10 @@ static int igt_tmpfs_fallback(void *arg)
->   	/*
->   	 * Make sure that we don't burst into a ball of flames upon falling back
->   	 * to tmpfs, which we rely on if on the off-chance we encounter a failure
-> -	 * when setting up gemfs.
-> +	 * when setting up a huge mountpoint.
->   	 */
->   
-> -	i915->mm.gemfs = NULL;
-> +	i915->drm.huge_mnt = NULL;
->   
->   	obj = i915_gem_object_create_shmem(i915, PAGE_SIZE);
->   	if (IS_ERR(obj)) {
-> @@ -1819,7 +1820,7 @@ static int igt_tmpfs_fallback(void *arg)
->   out_put:
->   	i915_gem_object_put(obj);
->   out_restore:
-> -	i915->mm.gemfs = gemfs;
-> +	i915->drm.huge_mnt = huge_mnt;
->   
->   	i915_vm_put(vm);
->   out:
-> diff --git a/drivers/gpu/drm/i915/i915_drv.h b/drivers/gpu/drm/i915/i915_drv.h
-> index 95f9ddf22ce4..93a5af3de334 100644
-> --- a/drivers/gpu/drm/i915/i915_drv.h
-> +++ b/drivers/gpu/drm/i915/i915_drv.h
-> @@ -141,11 +141,6 @@ struct i915_gem_mm {
->   	 */
->   	atomic_t free_count;
->   
-> -	/**
-> -	 * tmpfs instance used for shmem backed objects
-> -	 */
-> -	struct vfsmount *gemfs;
-> -
->   	struct intel_memory_region *regions[INTEL_REGION_UNKNOWN];
->   
->   	struct notifier_block oom_notifier;
-
+> >
+> > Signed-off-by: Suraj Kandpal <suraj.kandpal@intel.com>
+> > ---
+> >  drivers/gpu/drm/display/drm_dp_mst_topology.c | 4 +++-
+> >  1 file changed, 3 insertions(+), 1 deletion(-)
+> >
+> > diff --git a/drivers/gpu/drm/display/drm_dp_mst_topology.c
+> > b/drivers/gpu/drm/display/drm_dp_mst_topology.c
+> > index 64e5c176d5cc..3cf1eafcfcb5 100644
+> > --- a/drivers/gpu/drm/display/drm_dp_mst_topology.c
+> > +++ b/drivers/gpu/drm/display/drm_dp_mst_topology.c
+> > @@ -4531,6 +4531,7 @@ int drm_dp_atomic_release_time_slots(struct
+> drm_atomic_state *state,
+> >  	struct drm_dp_mst_atomic_payload *payload;
+> >  	struct drm_connector_state *old_conn_state, *new_conn_state;
+> >  	bool update_payload =3D true;
+> > +	int bit;
+> >
+> >  	old_conn_state =3D drm_atomic_get_old_connector_state(state, port-
+> >connector);
+> >  	if (!old_conn_state->crtc)
+> > @@ -4572,7 +4573,8 @@ int drm_dp_atomic_release_time_slots(struct
+> drm_atomic_state *state,
+> >  	if (!payload->delete) {
+> >  		payload->pbn =3D 0;
+> >  		payload->delete =3D true;
+> > -		topology_state->payload_mask &=3D ~BIT(payload->vcpi - 1);
+> > +		bit =3D payload->vcpi ? payload->vcpi - 1 : 0;
+> > +		topology_state->payload_mask &=3D ~BIT(bit);
+> >  	}
+> >
+> >  	return 0;
+>=20
+> --
+> Jani Nikula, Intel
