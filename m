@@ -2,59 +2,48 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5CC10C59F48
-	for <lists+dri-devel@lfdr.de>; Thu, 13 Nov 2025 21:24:40 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 36A60C59FC7
+	for <lists+dri-devel@lfdr.de>; Thu, 13 Nov 2025 21:37:49 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 65E9810E1F8;
-	Thu, 13 Nov 2025 20:24:37 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 18F6610E204;
+	Thu, 13 Nov 2025 20:37:47 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="kANWmNZt";
+	dkim=pass (1024-bit key; unprotected) header.d=linux.dev header.i=@linux.dev header.b="qw7RRXK8";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
- by gabe.freedesktop.org (Postfix) with ESMTPS id AEF7C10E1F8
- for <dri-devel@lists.freedesktop.org>; Thu, 13 Nov 2025 20:24:36 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by tor.source.kernel.org (Postfix) with ESMTP id B6B0B600CB;
- Thu, 13 Nov 2025 20:24:35 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 17A4AC4CEFB;
- Thu, 13 Nov 2025 20:24:34 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1763065475;
- bh=4NO2Xdkz+jSDa61SzpnaLxD87yK+fJMEQl6hv5p3foU=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=kANWmNZt1Ib/MEjszjq3IIn1PYr6mCiLIBAhiqYeog6m2ahduTP9W0j9Wjdh98b94
- 5NwldTDIdGZvV/ZnR3ppFS5bn1vWpQ/cKeSHou9697vZZGaCGDRdn+YCA1rEjU4Unw
- X3S7a45nV5XpczwpLG9uvQhr5SxrhtLOc3iy/rtBEZwNWxHH2TTRJC8oHasptjG6ZG
- HvqBE6U5UyhUwN3H5UcQhgs+ueZMDM/DIIWhhiBQDDNYu+ho+SnBhvm0CsZzuWXW/o
- 4MnZIqnYisZWY7Kv4N+JVQIhEofCUwYqwSxCqwJIqWDkYg01Lrd5GgtOaf96FAJvIB
- firhIZDFs8TUg==
-Date: Thu, 13 Nov 2025 14:28:58 -0600
-From: Bjorn Andersson <andersson@kernel.org>
-To: david@ixit.cz
-Cc: Neil Armstrong <neil.armstrong@linaro.org>, 
- Jessica Zhang <jessica.zhang@oss.qualcomm.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Rob Herring <robh@kernel.org>, 
- Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
- Thierry Reding <thierry.reding@gmail.com>, Sam Ravnborg <sam@ravnborg.org>, 
- Konrad Dybcio <konradybcio@kernel.org>,
- Casey Connolly <casey.connolly@linaro.org>, 
- dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org, 
- linux-arm-msm@vger.kernel.org, phone-devel@vger.kernel.org
-Subject: Re: [PATCH v2 02/12] arch: arm64: qcom: sdm845-enchilada: Specify
- panel name within the compatible
-Message-ID: <mccbyhok747hjopkigm7rj7y6564bhnqxzcpo5yqjhbfffa4z4@5odvenhhsh3p>
-References: <20251113-sofef00-rebuild-v2-0-e175053061ec@ixit.cz>
- <20251113-sofef00-rebuild-v2-2-e175053061ec@ixit.cz>
+Received: from out-183.mta1.migadu.com (out-183.mta1.migadu.com
+ [95.215.58.183])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 400A510E1AB
+ for <dri-devel@lists.freedesktop.org>; Thu, 13 Nov 2025 20:37:38 +0000 (UTC)
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and
+ include these headers.
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
+ t=1763066256;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=qHKb8nZ94N3WA1yikSZyZEzqqdJhxqdxLh9FZi2dFGc=;
+ b=qw7RRXK8g7dVcOIwWFyBhCOGxeEyKGlPY8SCf8HGmQ/S+t9XSFbEdnsxIELPr1iMXa4xNS
+ Q2kegdj1L07dkQfQs/qGKML2Xpuou3+4Q/uGz02UaYa/rD6lT23lP3llsAd9zTxdsAq60U
+ PNRdQTnZk8GoxDN5SpE0mWDgA1qUTjM=
+From: Sean Anderson <sean.anderson@linux.dev>
+To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
+ dri-devel@lists.freedesktop.org
+Cc: linux-kernel@vger.kernel.org, Mike Looijmans <mike.looijmans@topic.nl>,
+ David Airlie <airlied@gmail.com>, Thomas Zimmermann <tzimmermann@suse.de>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Anatoliy Klymenko <anatoliy.klymenko@amd.com>,
+ Maxime Ripard <mripard@kernel.org>, linux-arm-kernel@lists.infradead.org,
+ Simona Vetter <simona@ffwll.ch>, Michal Simek <michal.simek@amd.com>,
+ Sean Anderson <sean.anderson@linux.dev>
+Subject: [PATCH 0/3] drm: zynqmp: Make the video plane primary
+Date: Thu, 13 Nov 2025 15:37:11 -0500
+Message-Id: <20251113203715.2768107-1-sean.anderson@linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20251113-sofef00-rebuild-v2-2-e175053061ec@ixit.cz>
+Content-Transfer-Encoding: 8bit
+X-Migadu-Flow: FLOW_OUT
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -70,48 +59,24 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Nov 13, 2025 at 06:57:36PM +0100, David Heidelberg via B4 Relay wrote:
-> From: David Heidelberg <david@ixit.cz>
+The graphics plane does not support XRGB8888, which is the default mode
+X uses for 24-bit color. Because of this, X must be set to use 16-bit
+color, which has a measurable performance penalty. Make the video plane
+the primary plane as it natively supports XRGB8888. An alternative
+approach to add XRGB8888 to the graphics plane is discussed in [1], as
+well as in patch 2.
 
-No "arch: " prefix on these files, please. (If patch 1 is picked in the
-current form, I can fix it up for you) 
+[1] https://lore.kernel.org/dri-devel/20250627145058.6880-1-mike.looijmans@topic.nl/
 
-Regards,
-Bjorn
 
-> 
-> sofef00 is name of the DDIC, it doesn't contain name of the panel used.
-> The DDIC is also paired with other panels, so make clear which panel is
-> used.
-> 
-> New device-tree will work with old driver as expected, due to secondary
-> compatible.
-> 
-> cosmetic: sort the node.
-> 
-> Signed-off-by: David Heidelberg <david@ixit.cz>
-> ---
->  arch/arm64/boot/dts/qcom/sdm845-oneplus-enchilada.dts | 4 ++--
->  1 file changed, 2 insertions(+), 2 deletions(-)
-> 
-> diff --git a/arch/arm64/boot/dts/qcom/sdm845-oneplus-enchilada.dts b/arch/arm64/boot/dts/qcom/sdm845-oneplus-enchilada.dts
-> index a259eb9d45ae0..8aead6dc25e00 100644
-> --- a/arch/arm64/boot/dts/qcom/sdm845-oneplus-enchilada.dts
-> +++ b/arch/arm64/boot/dts/qcom/sdm845-oneplus-enchilada.dts
-> @@ -31,9 +31,9 @@ battery: battery {
->  };
->  
->  &display_panel {
-> -	status = "okay";
-> +	compatible = "samsung,sofef00-ams628nw01", "samsung,sofef00";
->  
-> -	compatible = "samsung,sofef00";
-> +	status = "okay";
->  };
->  
->  &bq27441_fg {
-> 
-> -- 
-> 2.51.0
-> 
-> 
+Sean Anderson (3):
+  drm: zynqmp: Check property creation status
+  drm: zynqmp: Make the video plane primary
+  drm: zynqmp: Add blend mode property to graphics plane
+
+ drivers/gpu/drm/xlnx/zynqmp_kms.c | 42 +++++++++++++++++++++++++------
+ 1 file changed, 34 insertions(+), 8 deletions(-)
+
+-- 
+2.35.1.1320.gc452695387.dirty
+
