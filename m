@@ -2,53 +2,53 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id DBA7EC57670
-	for <lists+dri-devel@lfdr.de>; Thu, 13 Nov 2025 13:28:59 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0D5F9C57679
+	for <lists+dri-devel@lfdr.de>; Thu, 13 Nov 2025 13:29:03 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4142210E7FB;
-	Thu, 13 Nov 2025 12:28:58 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7602510E803;
+	Thu, 13 Nov 2025 12:29:01 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="LIjA3HEf";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="gwuhrZkd";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7DE7A10E7FA;
- Thu, 13 Nov 2025 12:28:55 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6E9A410E800;
+ Thu, 13 Nov 2025 12:28:58 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1763036935; x=1794572935;
+ t=1763036938; x=1794572938;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=3QloVio8FCNMqVWahwDG4pq8x/HwGXKTJNND5ov3VK4=;
- b=LIjA3HEfWWQTszMIKaTEcTs2OmERxrxq7LfOjwHhb4GubmvAXsgPcHM4
- ws2xORMsHHuZTI6V7vGP/bd7udvR16gfwTuzc7ZLVEUAOP4wf0RifJ7z2
- esddQ5T3cQVsqZfNwxcl4KEPQckoPHlogvv1BlUJwbyjMJJE+mdMzzOiR
- FtAYYc9Oif+wZrnlVMvwW/HOfJhSA5VlMlAAyg9wFKETet47G3jy0q4f8
- MvoKg1z3x0UbpO3xXO4+AyNlw15DMZA5y1MB0qhRZ2lckUZQhiy0FZCYU
- pIR1ZEFYHsIOGTaA39HBGDUe2wpPVC1E8fJ0HzEwvM9gmy076kFnEyQue Q==;
-X-CSE-ConnectionGUID: o2S3NV5PTn2dWOqVS1aidQ==
-X-CSE-MsgGUID: t3MWAql+QtueY0gtYvANHg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11611"; a="52677892"
-X-IronPort-AV: E=Sophos;i="6.19,301,1754982000"; d="scan'208";a="52677892"
+ bh=y/2Mp22D9iVqZSFtYvbjh6Fm+hUedevOD3Gs1DbjXwY=;
+ b=gwuhrZkdrh029EB6Zsze4+JnYSd5UQaojKEKbpiiI0xCFGqziR+HWyVw
+ uoWiM5E3p0pAFIm5JqoOPZkBTIOMEgZl3gBrerlKHQ83F7eyCU19d4k/K
+ KWK37zeHsNpwzZTwQvpq+iCBsh15nai27jAZrx5bT/qocx4hAAode9/za
+ JEyK0ONc5XbuKfAMA5VzVi/MLXicNI/i3SEydrm+h+KMfPPjTbJeaO4X4
+ EsA8UlFJX5aOu527i7fQUrs3YCzsZVtd35q5ZX94UZeL0B62TMZHDUG3X
+ eUvyrEgqK9mRT4jBpTpyiHvZH+Bd0Fl3Nx35k17bKymP0KcVxOJk99Mqu w==;
+X-CSE-ConnectionGUID: w6fqexjhQUWvvFniSoeTXw==
+X-CSE-MsgGUID: 7XIuPIpES0+crLdHP5JTwQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11611"; a="52677897"
+X-IronPort-AV: E=Sophos;i="6.19,301,1754982000"; d="scan'208";a="52677897"
 Received: from orviesa006.jf.intel.com ([10.64.159.146])
  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 13 Nov 2025 04:28:55 -0800
-X-CSE-ConnectionGUID: n9kz8yB2QRun7n7YCJ161w==
-X-CSE-MsgGUID: D5VE1htnRaSKWMr45HujdQ==
+ 13 Nov 2025 04:28:58 -0800
+X-CSE-ConnectionGUID: cpWx+49cTXSM1SR8U/NHHQ==
+X-CSE-MsgGUID: xIoJMKb5RNeNwNi1To+4BA==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.19,301,1754982000"; d="scan'208";a="188757729"
+X-IronPort-AV: E=Sophos;i="6.19,301,1754982000"; d="scan'208";a="188757733"
 Received: from srr4-3-linux-101-amanna.iind.intel.com ([10.223.74.76])
- by orviesa006.jf.intel.com with ESMTP; 13 Nov 2025 04:28:53 -0800
+ by orviesa006.jf.intel.com with ESMTP; 13 Nov 2025 04:28:56 -0800
 From: Animesh Manna <animesh.manna@intel.com>
 To: intel-gfx@lists.freedesktop.org, intel-xe@lists.freedesktop.org,
  dri-devel@lists.freedesktop.org
 Cc: jani.nikula@intel.com, suraj.kandpal@intel.com,
  Animesh Manna <animesh.manna@intel.com>,
  =?UTF-8?q?Jouni=20H=C3=B6gander?= <jouni.hogander@intel.com>
-Subject: [PATCH v4 02/10] drm/i915/alpm: alpm_init() for DP2.1
-Date: Thu, 13 Nov 2025 17:31:11 +0530
-Message-Id: <20251113120119.1437955-3-animesh.manna@intel.com>
+Subject: [PATCH v4 03/10] drm/i915/alpm: Enable debugfs for DP2.1
+Date: Thu, 13 Nov 2025 17:31:12 +0530
+Message-Id: <20251113120119.1437955-4-animesh.manna@intel.com>
 X-Mailer: git-send-email 2.29.0
 In-Reply-To: <20251113120119.1437955-1-animesh.manna@intel.com>
 References: <20251113120119.1437955-1-animesh.manna@intel.com>
@@ -70,103 +70,35 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Initialize ALPM for DP2.1 and separate out ALPM mutex-init
-from alpm-init.
+Enable ALPM debug info through lobf debug info.
 
-v2: Separate out mutex-init. [Jani]
-v3: Refactor further to avoid DISPLAY_VER check in multiple places. [Jani]
-V4: Cosmetic changes. [Suraj]
+v2: cosmetic change. [Suraj]
+v3: Use common api instead of DISPLAY_VER check in multiple places. [Jani]
 
 Cc: Jouni Högander <jouni.hogander@intel.com>
 Reviewed-by: Suraj Kandpal <suraj.kandpal@intel.com>
 Signed-off-by: Animesh Manna <animesh.manna@intel.com>
 ---
- drivers/gpu/drm/i915/display/intel_alpm.c | 16 ++++++++++++++--
- drivers/gpu/drm/i915/display/intel_alpm.h |  3 ++-
- drivers/gpu/drm/i915/display/intel_dp.c   |  8 +++++++-
- 3 files changed, 23 insertions(+), 4 deletions(-)
+ drivers/gpu/drm/i915/display/intel_alpm.c | 4 +---
+ 1 file changed, 1 insertion(+), 3 deletions(-)
 
 diff --git a/drivers/gpu/drm/i915/display/intel_alpm.c b/drivers/gpu/drm/i915/display/intel_alpm.c
-index 6372f533f65b..14acd6717e59 100644
+index 14acd6717e59..3e271de5504b 100644
 --- a/drivers/gpu/drm/i915/display/intel_alpm.c
 +++ b/drivers/gpu/drm/i915/display/intel_alpm.c
-@@ -41,7 +41,20 @@ bool intel_alpm_is_alpm_aux_less(struct intel_dp *intel_dp,
- 		(crtc_state->has_lobf && intel_alpm_aux_less_wake_supported(intel_dp));
- }
+@@ -551,11 +551,9 @@ DEFINE_SIMPLE_ATTRIBUTE(i915_edp_lobf_debug_fops,
  
--void intel_alpm_init(struct intel_dp *intel_dp)
-+bool intel_alpm_source_supported(struct intel_connector *connector)
-+{
-+	struct intel_display *display = to_intel_display(connector);
-+
-+	if (!((connector->base.connector_type == DRM_MODE_CONNECTOR_DisplayPort &&
-+	       DISPLAY_VER(display) >= 35) ||
-+	    (connector->base.connector_type == DRM_MODE_CONNECTOR_eDP &&
-+	     DISPLAY_VER(display) >= 20)))
-+		return false;
-+
-+	return true;
-+}
-+
-+void intel_alpm_get_sink_capability(struct intel_dp *intel_dp)
+ void intel_alpm_lobf_debugfs_add(struct intel_connector *connector)
  {
- 	u8 dpcd;
+-	struct intel_display *display = to_intel_display(connector);
+ 	struct dentry *root = connector->base.debugfs_entry;
  
-@@ -49,7 +62,6 @@ void intel_alpm_init(struct intel_dp *intel_dp)
+-	if (DISPLAY_VER(display) < 20 ||
+-	    connector->base.connector_type != DRM_MODE_CONNECTOR_eDP)
++	if (!intel_alpm_source_supported(connector))
  		return;
  
- 	intel_dp->alpm_dpcd = dpcd;
--	mutex_init(&intel_dp->alpm.lock);
- }
- 
- static int get_silence_period_symbols(const struct intel_crtc_state *crtc_state)
-diff --git a/drivers/gpu/drm/i915/display/intel_alpm.h b/drivers/gpu/drm/i915/display/intel_alpm.h
-index 53599b464dea..bcc354a46a1d 100644
---- a/drivers/gpu/drm/i915/display/intel_alpm.h
-+++ b/drivers/gpu/drm/i915/display/intel_alpm.h
-@@ -15,7 +15,8 @@ struct intel_connector;
- struct intel_atomic_state;
- struct intel_crtc;
- 
--void intel_alpm_init(struct intel_dp *intel_dp);
-+bool intel_alpm_source_supported(struct intel_connector *connector);
-+void intel_alpm_get_sink_capability(struct intel_dp *intel_dp);
- bool intel_alpm_compute_params(struct intel_dp *intel_dp,
- 			       struct intel_crtc_state *crtc_state);
- void intel_alpm_lobf_compute_config(struct intel_dp *intel_dp,
-diff --git a/drivers/gpu/drm/i915/display/intel_dp.c b/drivers/gpu/drm/i915/display/intel_dp.c
-index 0ec82fcbcf48..81dd5bf7e3c5 100644
---- a/drivers/gpu/drm/i915/display/intel_dp.c
-+++ b/drivers/gpu/drm/i915/display/intel_dp.c
-@@ -6074,6 +6074,9 @@ intel_dp_detect(struct drm_connector *_connector,
- 	if (ret == 1)
- 		connector->base.epoch_counter++;
- 
-+	if (intel_alpm_source_supported(connector))
-+		intel_alpm_get_sink_capability(intel_dp);
-+
- 	if (!intel_dp_is_edp(intel_dp))
- 		intel_psr_init_dpcd(intel_dp);
- 
-@@ -6716,7 +6719,7 @@ static bool intel_edp_init_connector(struct intel_dp *intel_dp,
- 	 */
- 	intel_hpd_enable_detection(encoder);
- 
--	intel_alpm_init(intel_dp);
-+	intel_alpm_get_sink_capability(intel_dp);
- 
- 	/* Cache DPCD and EDID for edp. */
- 	has_dpcd = intel_edp_init_dpcd(intel_dp, connector);
-@@ -6932,6 +6935,9 @@ intel_dp_init_connector(struct intel_digital_port *dig_port,
- 
- 	intel_psr_init(intel_dp);
- 
-+	if (intel_alpm_source_supported(connector))
-+		mutex_init(&intel_dp->alpm.lock);
-+
- 	return true;
- 
- fail:
+ 	debugfs_create_file("i915_edp_lobf_debug", 0644, root,
 -- 
 2.29.0
 
