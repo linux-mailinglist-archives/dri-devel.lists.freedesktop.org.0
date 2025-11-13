@@ -2,64 +2,64 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 13210C5811A
-	for <lists+dri-devel@lfdr.de>; Thu, 13 Nov 2025 15:54:08 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9C7D3C580E7
+	for <lists+dri-devel@lfdr.de>; Thu, 13 Nov 2025 15:53:54 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2AC1B10E851;
-	Thu, 13 Nov 2025 14:54:06 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A12BD10E84B;
+	Thu, 13 Nov 2025 14:53:49 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="j2lpBLAA";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="G9MlpPx4";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ej1-f51.google.com (mail-ej1-f51.google.com
- [209.85.218.51])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 176F510E841
+Received: from mail-ed1-f45.google.com (mail-ed1-f45.google.com
+ [209.85.208.45])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CCF0710E83E
  for <dri-devel@lists.freedesktop.org>; Thu, 13 Nov 2025 14:53:45 +0000 (UTC)
-Received: by mail-ej1-f51.google.com with SMTP id
- a640c23a62f3a-b72cbc24637so158720166b.0
+Received: by mail-ed1-f45.google.com with SMTP id
+ 4fb4d7f45d1cf-64165cd689eso3401274a12.0
  for <dri-devel@lists.freedesktop.org>; Thu, 13 Nov 2025 06:53:45 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1763045623; x=1763650423; darn=lists.freedesktop.org;
+ d=gmail.com; s=20230601; t=1763045624; x=1763650424; darn=lists.freedesktop.org;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
- :reply-to; bh=NKmnEQ/nUI33x0xsdd1mSPqaJsxAwU8yNUcMzUe1VSA=;
- b=j2lpBLAAAPJkzvBYkJnjkgLpmE0UU6R8SmPEQukPBRLnRVE3rSWcZlDs2ELHQSgz72
- q2XPwjES9WiVhfNoe0XBzAXPH6bVLQIPP+N6PAqL4xP4YB4h/sfC6nlbioVMLnav4RRA
- LH1qaPK1FG8yi4rxWdNFzhVVkDWiI0fa+CFgAOn0OL4AYWnzd67vNtWvKieY/uPkKnq0
- OgPfJZV04wy5e5Zp3tDJvqbgTnexpi0Vy7pc7K3CIx7sLP7PxelT2G3H4Xa0b/tlchhd
- OBN3S9YoXWlIp9xuiGniwyn+oNfmqt8U03wMfnItiA8uKJLc67SW6gkPPf75qlFXD+Uy
- vSGA==
+ :reply-to; bh=Xwyu8SCiFn4mAgJ3pD0lgYvgHMUO+OEdoQazcZIs6fA=;
+ b=G9MlpPx4OXjFXCOBgEFoASGNE23CR8mLrm1E03GzrnG8+3egiemaKIu1N+NBb7Deqe
+ FG+AuoXvmCtNqQENabuLlU3LbbnEEwdfLlU51JJu0fHynvjE+k0R7kl7wzPYqH1iq9f6
+ e53rSrCqjT+OjlZZCSSVGmXusvLr6NOfNhd95rEl9Yz44QfCvO59zvFFbgGuTbsfE9Su
+ XlKJF1pduHHA0fKE1cTumJ3gHeMBoXQNzULp4hYOTTotP219kEUoEvwyx2iFW4z2+Ofd
+ 61d27DNB7JRtxdaj/43DzP1N1ABdtFTESIZlL+Ig1+7dkUsIUHThdQz0gauTRLzIWwMF
+ 0R2A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1763045623; x=1763650423;
+ d=1e100.net; s=20230601; t=1763045624; x=1763650424;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:to:from:x-gm-gg:x-gm-message-state:from:to
  :cc:subject:date:message-id:reply-to;
- bh=NKmnEQ/nUI33x0xsdd1mSPqaJsxAwU8yNUcMzUe1VSA=;
- b=sUnw1AwPu+xEgbWZUbeOwvaMAQZuerWd1N9l+rSKZenrwTXmVhXmGfs59UeRca7Du+
- GWxk4u1q0q7qTWpNAM9Szmuhel6lHGSH3THU1T2/cG/fibah/uOoUdZuExyj6XSkYey+
- S9miOyXFkWnJVAQSOWQbB9ddr0zF/B7vgOjzFTo3RCE6uwzPJx6YZCVprgLCGhKf2n0e
- AwjXr/hTtbJZurgUi+pKWGHvYOh7I+5WeI0NyAld9mx6VcEwzuDBzOVMii7wC1kVaYm+
- VTuwdvQZXKj/RqFSoGk+bNowvVf9w7GylA1YNXdtV+8n6qpYcA/Mw+iOtzG61oND44iH
- 31Ig==
+ bh=Xwyu8SCiFn4mAgJ3pD0lgYvgHMUO+OEdoQazcZIs6fA=;
+ b=DV+jj6FlZuE7nuyn3UQgd1/HhpRhVzSpvQy4asCuT4DmNOSWjqmQ/IP3Ajl6qpk+iQ
+ s8/oscFd4k1c2sYQvDF5RPe2/5RtlltG2UD8/WAM+sviyiHZu67THaUi6gLqPHTyQDA+
+ 4hAsMAavwP/acYmT+beKVaH9rKaghP5yWS7I+5EXS0VecmTPV80Bpy94kYs3iB+GpRd1
+ c6njH3R+Bo6CFDDXFUWig3oiFD2vcLaqXg1/LdtZQfmiLKzWjSxdzN1x5Dc1Hi3ApMDQ
+ SxV652Uggq8X9Hq9pF3GbJrMAxsR7IP8bi9D0j5hZ/+JZHbKJjwx3+QZ54/3DwjS+Gfq
+ O87Q==
 X-Forwarded-Encrypted: i=1;
- AJvYcCWQZk3DFXf2FaD3yJNV5P9ilJzy0VAHXpW3eQDwTj0D37z+dEJXCRjzygQjRkjcAXVWTsUurKHhZAs=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YwctlhtOuNWC5kBXjeu0JIt9GpcjFPr65ZlhM2byWfyzpkfanpn
- zFARQ9i/KxfwoAGVz7pMD7Hd6bm99gsI4M24rYGnbp41h5FzGJG+RN3M
-X-Gm-Gg: ASbGncvYJtF0aX/2JdUX98chgMLzimHDIHeogxjfBjexVlRD6cSefY6LCdZE4b4DYfo
- 8a9+RQ9TJln7NzC5XcTCvETHvpRsxLMmtThTsK2ZsU5RMiC6n0x+15NJchQZcopAMHfTgvHnxN3
- FedbFbaiiuBL/lO88C+aC5LlhuLyppYhW3jpUJ93H+W7IgcHiaEagHkiWMpo0gXaN9MrdIu3jXQ
- tAGswmlMGzrRMlEHZvwizXV44EctSCnYD05i/jKpsSEUBp47j+qjho578AVf+B1inNyc9YbKtbe
- jWbfGoC369m/ANw97duWz7wY3+IYW5sBra+yGh1RQezNq6fYxrX/j18Y8qiGa5absjL0eni/9Zs
- QCTKFlWheiDc+TCtQkovty3xmTmaw0u1WNA3Mxng1by24vzunYAIF/6QuSJPeb0TaVLaHa4+R8e
- nHlJdhT+a4SEw=
-X-Google-Smtp-Source: AGHT+IGg++u+GaHI/MTXIjLOGncykPNSekn7i6/RimPgdNfxQMkJ6YRb52ePk8VS7b1+3/78EaXHzQ==
-X-Received: by 2002:a17:907:7f8c:b0:b30:c9d5:3adc with SMTP id
- a640c23a62f3a-b7331aaad1cmr676555866b.49.1763045623545; 
- Thu, 13 Nov 2025 06:53:43 -0800 (PST)
+ AJvYcCXdkRE/p7TeoWPMvdUwwUoUVYaGroGNVpzL4KPoOqDPncOc9OsIrA6OMOcBWTezHUOgOAUIf/Lq6s4=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YzNuExiGdqr2FnEFXCjlfgcSa3XNpjBqxEURL1nZ5xmrwCEgCnU
+ ZVS5cmek2IK6XZfjShn+IlQ1EvYZKe63u9TC8cfqaB1oyTDgLpfmZhj0
+X-Gm-Gg: ASbGncs3GsjaIS2/vDyCUvwKM7RusLNuUkR0yyzJMYeDNWgeTagbVW1iAZPViHiPniL
+ KWCRB/FLx8m9AmBpCwFDvXphdVOHd2AiJKIMRaS9cqDBHzaGAhqIsuc2nXM7NEXa/CK1pj9PHRC
+ NyHFGV8QQTz+ExODDqwhO3WYcpOc7HPU44XSm1/VHM/if4BdwnuqE3Gy4ETcaMSeEMbnE1Qs1a1
+ rY3hiitKPYwXTi+oxn/2jvvBXi3rfPXiQWdtifZwr88s066FaM1CfLFDbucZUotAPE+qdn9zI9i
+ 1cKpN854MbelOyckUWcfLzkj5GqVX4GKXIh7JCX6QDN9jQ6awOnNzXOrIa8O4mn/Pj5BkhZezpV
+ 5gjaINkTaSPDesktA7w5UElDU1oTUgf2TovC2f0n6uXZ/93p5cHiSLe8xpXAKvTtF2RKfEf0D7m
+ HeUFypIV68bx4=
+X-Google-Smtp-Source: AGHT+IEw4YS4smpt6WicO5Q6hlDrx5fmWS4sNTZNppd+ozXro9T4f2MOiNnNLcV7TyOpypzG5Un2eg==
+X-Received: by 2002:a17:907:2d14:b0:b04:48b5:6ea5 with SMTP id
+ a640c23a62f3a-b734816d1fcmr419558266b.17.1763045624277; 
+ Thu, 13 Nov 2025 06:53:44 -0800 (PST)
 Received: from able.fritz.box ([2a00:e180:15aa:c600:cef:d94:436c:abc5])
  by smtp.gmail.com with ESMTPSA id
- a640c23a62f3a-b73513b400fsm173747166b.1.2025.11.13.06.53.42
+ a640c23a62f3a-b73513b400fsm173747166b.1.2025.11.13.06.53.43
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
  Thu, 13 Nov 2025 06:53:43 -0800 (PST)
 From: "=?UTF-8?q?Christian=20K=C3=B6nig?=" <ckoenig.leichtzumerken@gmail.com>
@@ -69,9 +69,9 @@ To: phasta@mailbox.org, alexdeucher@gmail.com, simona.vetter@ffwll.ch,
  tursulin@ursulin.net, matthew.brost@intel.com,
  dri-devel@lists.freedesktop.org, amd-gfx@lists.freedesktop.org,
  linaro-mm-sig@lists.linaro.org, sumit.semwal@linaro.org
-Subject: [PATCH 11/18] drm/amdgpu: independence for the amdgpu_eviction_fence!
-Date: Thu, 13 Nov 2025 15:51:48 +0100
-Message-ID: <20251113145332.16805-12-christian.koenig@amd.com>
+Subject: [PATCH 12/18] drm/amdgpu: independence for the amdgpu_vm_tlb_fence!
+Date: Thu, 13 Nov 2025 15:51:49 +0100
+Message-ID: <20251113145332.16805-13-christian.koenig@amd.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20251113145332.16805-1-christian.koenig@amd.com>
 References: <20251113145332.16805-1-christian.koenig@amd.com>
@@ -93,42 +93,37 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This should allow amdgpu_fences to outlive the amdgpu module.
+This should allow amdgpu_vm_tlb_fences to outlive the amdgpu module.
 
 Signed-off-by: Christian König <christian.koenig@amd.com>
 Reviewed-by: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
 ---
- drivers/gpu/drm/amd/amdgpu/amdgpu_eviction_fence.c | 3 +--
- drivers/gpu/drm/amd/amdgpu/amdgpu_eviction_fence.h | 1 -
- 2 files changed, 1 insertion(+), 3 deletions(-)
+ drivers/gpu/drm/amd/amdgpu/amdgpu_vm_tlb_fence.c | 4 +---
+ 1 file changed, 1 insertion(+), 3 deletions(-)
 
-diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_eviction_fence.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_eviction_fence.c
-index 23d7d0b0d625..95ee22c43ceb 100644
---- a/drivers/gpu/drm/amd/amdgpu/amdgpu_eviction_fence.c
-+++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_eviction_fence.c
-@@ -167,9 +167,8 @@ amdgpu_eviction_fence_create(struct amdgpu_eviction_fence_mgr *evf_mgr)
+diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_vm_tlb_fence.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_vm_tlb_fence.c
+index 5d26797356a3..27bf1f569830 100644
+--- a/drivers/gpu/drm/amd/amdgpu/amdgpu_vm_tlb_fence.c
++++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_vm_tlb_fence.c
+@@ -33,7 +33,6 @@ struct amdgpu_tlb_fence {
+ 	struct amdgpu_device	*adev;
+ 	struct dma_fence	*dependency;
+ 	struct work_struct	work;
+-	spinlock_t		lock;
+ 	uint16_t		pasid;
  
- 	ev_fence->evf_mgr = evf_mgr;
- 	get_task_comm(ev_fence->timeline_name, current);
--	spin_lock_init(&ev_fence->lock);
- 	dma_fence_init64(&ev_fence->base, &amdgpu_eviction_fence_ops,
--			 &ev_fence->lock, evf_mgr->ev_fence_ctx,
-+			 NULL, evf_mgr->ev_fence_ctx,
- 			 atomic_inc_return(&evf_mgr->ev_fence_seq));
- 	return ev_fence;
- }
-diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_eviction_fence.h b/drivers/gpu/drm/amd/amdgpu/amdgpu_eviction_fence.h
-index fcd867b7147d..fb70efb54338 100644
---- a/drivers/gpu/drm/amd/amdgpu/amdgpu_eviction_fence.h
-+++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_eviction_fence.h
-@@ -27,7 +27,6 @@
- 
- struct amdgpu_eviction_fence {
- 	struct dma_fence base;
--	spinlock_t	 lock;
- 	char		 timeline_name[TASK_COMM_LEN];
- 	struct amdgpu_eviction_fence_mgr *evf_mgr;
  };
+@@ -98,9 +97,8 @@ void amdgpu_vm_tlb_fence_create(struct amdgpu_device *adev, struct amdgpu_vm *vm
+ 	f->dependency = *fence;
+ 	f->pasid = vm->pasid;
+ 	INIT_WORK(&f->work, amdgpu_tlb_fence_work);
+-	spin_lock_init(&f->lock);
+ 
+-	dma_fence_init64(&f->base, &amdgpu_tlb_fence_ops, &f->lock,
++	dma_fence_init64(&f->base, &amdgpu_tlb_fence_ops, NULL,
+ 			 vm->tlb_fence_context, atomic64_read(&vm->tlb_seq));
+ 
+ 	/* TODO: We probably need a separate wq here */
 -- 
 2.43.0
 
