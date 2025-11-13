@@ -2,43 +2,43 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id CD8AEC556AE
-	for <lists+dri-devel@lfdr.de>; Thu, 13 Nov 2025 03:21:02 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9B840C556EA
+	for <lists+dri-devel@lfdr.de>; Thu, 13 Nov 2025 03:28:36 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3896110E1B1;
-	Thu, 13 Nov 2025 02:21:01 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 22EE710E1B7;
+	Thu, 13 Nov 2025 02:28:34 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=collabora.com header.i=dmitry.osipenko@collabora.com header.b="ewVT+7dU";
+	dkim=pass (1024-bit key; unprotected) header.d=collabora.com header.i=dmitry.osipenko@collabora.com header.b="HLSrsczI";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from sender4-pp-f112.zoho.com (sender4-pp-f112.zoho.com
  [136.143.188.112])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5A86C10E1B1
- for <dri-devel@lists.freedesktop.org>; Thu, 13 Nov 2025 02:21:00 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; t=1763000452; cv=none; 
+ by gabe.freedesktop.org (Postfix) with ESMTPS id F32DF10E1B7
+ for <dri-devel@lists.freedesktop.org>; Thu, 13 Nov 2025 02:28:32 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; t=1763000905; cv=none; 
  d=zohomail.com; s=zohoarc; 
- b=kmYOQaxioT9b5FLQ51Jl3oYVHY06BtNudAk0KzUakVNkhQ/EBiCMDfV5Xou9XH2H+iFNStnj92rooJRlrfJg6QqRpfPLh4G6iiQ73FSCKlZpIf7lbOsmSFjXEp9EGwIaeCQOQKPuYjkiW61hVc5nT9Nz7LURBVA1KD4BEBp7J2o=
+ b=QOXoLRPKZJnnSuO9Fyo1Vep1RIhLKfUSt+sCW6+HMBSWPbRRdECmashijBYT/x4eZda2U/U3A/Zkjl7f/SZE8AD9Xq+KKbcwoUCm+reZ6NiOrZuiCdH4N6KKTg6LWy3hD4CR6IUxM00mPNDjQfHTK7AzX1cQIU3B2sv+BKJHjU0=
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
- s=zohoarc; t=1763000452;
+ s=zohoarc; t=1763000905;
  h=Content-Type:Content-Transfer-Encoding:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To:Cc;
- bh=CXbCEYcoIZPhCKLcaNaYTRUshcOwu+FGWa82wu+M1QI=; 
- b=aRrDgyATyFQFm498va5cwdmPwrDHf0E0xL4a1jFgkYs22kE2el96hSV1SEoWETzp2G3Uvgfz9ZiIJQ93L7V1ZSi/yrJyJr+3tXdEcZ+ql4HzINY1zklP6BS4X2qOT4Dgy6o0Xm3vZ4ywwQMgN0JmNhn5WV4RKaWjkK1Ayn0vtGI=
+ bh=WVo+VYg/7XEVG4AiQ+g7ZNcwWrXnBYHst4gCom/13Xo=; 
+ b=QahlkIr0EYqBWhHcx6FZ1cxoyXKKeSMB9Nf/RJ5jpMdXg5u+WGPDMvwS4gu3kt8o2WGvf2SPbfctmImFw+UKWg0ANJ6O1AaAcxMFaj/K2/i47lARmZeD55knybjbFmsVLzt7Xns52tpsk7zQJQAak+ogLFXiQWyLsHBnOAhC/IU=
 ARC-Authentication-Results: i=1; mx.zohomail.com;
  dkim=pass  header.i=collabora.com;
  spf=pass  smtp.mailfrom=dmitry.osipenko@collabora.com;
  dmarc=pass header.from=<dmitry.osipenko@collabora.com>
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1763000452; 
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1763000905; 
  s=zohomail; d=collabora.com; i=dmitry.osipenko@collabora.com; 
  h=Message-ID:Date:Date:MIME-Version:Subject:Subject:To:To:References:From:From:In-Reply-To:Content-Type:Content-Transfer-Encoding:Message-Id:Reply-To:Cc;
- bh=CXbCEYcoIZPhCKLcaNaYTRUshcOwu+FGWa82wu+M1QI=;
- b=ewVT+7dUej6DO3PGZypeXdikOfDqH8ybtF9oPhy5bgrD9tbxNiryBKL9A4vxnTYy
- AxqQvyxUUk/qnPKQmL6eK7hVNOaHQS8I6CBtY8vRTdf7eJk1rJdwZfjcpqsxxLuqkMd
- gwXRnNnBAacnb/VcjxGmr3HFpmeymJ+qTgMXNGVY=
-Received: by mx.zohomail.com with SMTPS id 1763000449665737.2364341632508;
- Wed, 12 Nov 2025 18:20:49 -0800 (PST)
-Message-ID: <43c1ee1b-a9be-489b-82f6-0f4d24a409d5@collabora.com>
-Date: Thu, 13 Nov 2025 05:20:43 +0300
+ bh=WVo+VYg/7XEVG4AiQ+g7ZNcwWrXnBYHst4gCom/13Xo=;
+ b=HLSrsczITCgGyJq1D983V9K8vp7fWe2q8t4XizklLm372A78ob2gpAlLjtAAYnC3
+ VArhuR5fRThF+KIWljm76a+DgMRoMGekmCYjUbcWAtKEHJA/dO2bFlDEqv8A99LoBXF
+ S9baNhpz8o8DTBcKSZH9lnakVl949tkFwQPoA3+c=
+Received: by mx.zohomail.com with SMTPS id 1763000902278326.27648556926727;
+ Wed, 12 Nov 2025 18:28:22 -0800 (PST)
+Message-ID: <7f06489d-0ed8-4d7b-a152-9cb35e04dbb0@collabora.com>
+Date: Thu, 13 Nov 2025 05:28:15 +0300
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
 Subject: Re: [PATCH 2/3] drm/virtio: honor blob_alignment requirements
@@ -76,22 +76,20 @@ Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 On 11/10/25 15:52, Sergio Lopez wrote:
-> @@ -216,8 +216,14 @@ int virtio_gpu_vram_create(struct virtio_gpu_device *vgdev,
->  		return ret;
->  	}
+> diff --git a/drivers/gpu/drm/virtio/virtgpu_vq.c b/drivers/gpu/drm/virtio/virtgpu_vq.c
+> index 8181b22b9b46..d558ba2d213a 100644
+> --- a/drivers/gpu/drm/virtio/virtgpu_vq.c
+> +++ b/drivers/gpu/drm/virtio/virtgpu_vq.c
+> @@ -1393,6 +1393,10 @@ int virtio_gpu_cmd_map(struct virtio_gpu_device *vgdev,
+>  	struct virtio_gpu_vbuffer *vbuf;
+>  	struct virtio_gpu_resp_map_info *resp_buf;
 >  
-> -	virtio_gpu_cmd_resource_create_blob(vgdev, &vram->base, params, NULL,
-> -					    0);
-> +	ret = virtio_gpu_cmd_resource_create_blob(vgdev, &vram->base, params,
-> +						  NULL, 0);
-> +	if (ret) {
-> +		drm_gem_free_mmap_offset(obj);
-> +		kfree(vram);
-> +		return ret;
-> +	}
+> +	if (vgdev->has_blob_alignment &&
+> +	    !IS_ALIGNED(offset, vgdev->blob_alignment))
+> +		return -EINVAL;
 
-virtio_gpu_cleanup_object() shall be used to free obj, otherwise
-resource_ida and etc is leaked
+The vram offset should have been validated when obj is created. Checking
+offset here on cmd_map() should be unnecessary.
 
 -- 
 Best regards,
