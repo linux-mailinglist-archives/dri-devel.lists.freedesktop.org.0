@@ -2,58 +2,63 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 05ACCC562CC
-	for <lists+dri-devel@lfdr.de>; Thu, 13 Nov 2025 09:11:40 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5167DC562F9
+	for <lists+dri-devel@lfdr.de>; Thu, 13 Nov 2025 09:14:36 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id ECB6B10E349;
-	Thu, 13 Nov 2025 08:11:36 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8344710E525;
+	Thu, 13 Nov 2025 08:14:33 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="iDHWcOGt";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="D7WLbIWJ";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 69CB210E349;
- Thu, 13 Nov 2025 08:11:35 +0000 (UTC)
+Received: from sea.source.kernel.org (sea.source.kernel.org [172.234.252.31])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4C39510E5E7;
+ Thu, 13 Nov 2025 08:14:32 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by tor.source.kernel.org (Postfix) with ESMTP id 8B80B601E7;
- Thu, 13 Nov 2025 08:11:34 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 42499C4CEF5;
- Thu, 13 Nov 2025 08:11:29 +0000 (UTC)
+ by sea.source.kernel.org (Postfix) with ESMTP id E7DEE43AA7;
+ Thu, 13 Nov 2025 08:14:31 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B0688C16AAE;
+ Thu, 13 Nov 2025 08:14:25 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1763021494;
- bh=O8/4yYbDn5UvAv8eXrrJaN23L8cShgzLui+TfXKp1QM=;
+ s=k20201202; t=1763021671;
+ bh=HUjyFQg8cbSBM/m0KdBHYnt+AadWQlTiWGDbHUQMrBw=;
  h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
- b=iDHWcOGtOoaOO/RBq5s2ufqGJDtJfD6YpA+VxAtQBSmNSevQVbAWR6VzNeikOElGj
- kmnAZeJO3vY6QladhL9RFN9zrb0iHDBOlvhSq9J8hE/nDFFTJvRqDnYcr1afrZ9/3+
- //RPkw0jd3aFQGKmLDYMB6yc2PSaf+znL9zG1uQbqbN6TuB4uiL9ZDH0FWt2Cy1p8Y
- sXRuceo6HZgIHMJRtuNQYWbkngxYFFpnRLYp4cXT3SqaS6VxB0Y8AazJ3ZTheeADQQ
- 6nJwTkFlGzw1OIdv9g2AISqclYcY6VLRdmuiu8ee9RnZZk1/APY9OVqfzihHtyumY5
- KNqRtlzH4YQ9g==
-Message-ID: <559f1531-f97e-4927-b4ba-86a51262bef5@kernel.org>
-Date: Thu, 13 Nov 2025 09:11:27 +0100
+ b=D7WLbIWJ7WNL/xuRASebggpDrwwDv5EthT43rrnFTRWAxt2A23HpZAWfies/mgbxw
+ 2tWJE+AKBWd8vPHMENdKZQLgkXIdP4bW7a/BDIGL3NofKVneVCK5sZd2kgIOurGqsM
+ n2I49BSqyiLvTs2DhemeuuCl2SbXjwoFviHRvwlfMx2oRiXDQENj/ozNCFnkOO/VDJ
+ kEJCHfrJYwTOuUChgP34efiB/7mEWlp6kYNQN0s3fwm0WMIhXQmUnl4vG4S9rXteLz
+ DNPjfCytz1V394QTONKCYgP7U1eJN1PN95xVxoM30NDo9fzk27zU6crELncndaH0vo
+ dTRbIKWSahTMg==
+Message-ID: <c5b028e4-3bc4-424c-ab02-5fb6d379c801@kernel.org>
+Date: Thu, 13 Nov 2025 09:14:23 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 3/6] dt-bindings: display/msm/rgmu: Document A612 RGMU
+Subject: Re: [PATCH v2 20/21] dt-bindings: display/msm/gmu: Add Adreno X2-85
+ GMU
 To: Akhil P Oommen <akhilpo@oss.qualcomm.com>
-Cc: Rob Clark <robin.clark@oss.qualcomm.com>, Sean Paul <sean@poorly.run>,
- Konrad Dybcio <konradybcio@kernel.org>, Dmitry Baryshkov <lumag@kernel.org>,
- Abhinav Kumar <abhinav.kumar@linux.dev>,
+Cc: Rob Clark <robin.clark@oss.qualcomm.com>,
+ Bjorn Andersson <andersson@kernel.org>,
+ Konrad Dybcio <konradybcio@kernel.org>, Sean Paul <sean@poorly.run>,
+ Dmitry Baryshkov <lumag@kernel.org>, Abhinav Kumar
+ <abhinav.kumar@linux.dev>, Jessica Zhang <jesszhan0024@gmail.com>,
  Marijn Suijten <marijn.suijten@somainline.org>,
  David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Jonathan Marek <jonathan@marek.ca>, Jordan Crouse
+ <jordan@cosmicpenguin.net>, Will Deacon <will@kernel.org>,
+ Robin Murphy <robin.murphy@arm.com>, Joerg Roedel <joro@8bytes.org>,
+ Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>,
  Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
  Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>, Bjorn Andersson <andersson@kernel.org>,
- Jessica Zhang <jesszhan0024@gmail.com>,
- Dan Carpenter <dan.carpenter@linaro.org>, linux-arm-msm@vger.kernel.org,
- dri-devel@lists.freedesktop.org, freedreno@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, devicetree@vger.kernel.org,
- Jie Zhang <jie.zhang@oss.qualcomm.com>
-References: <20251107-qcs615-spin-2-v2-0-a2d7c4fbf6e6@oss.qualcomm.com>
- <20251107-qcs615-spin-2-v2-3-a2d7c4fbf6e6@oss.qualcomm.com>
- <20251110-persimmon-wombat-of-holiness-6b3f9c@kuoka>
- <07221941-4546-4153-b845-594be006e79a@oss.qualcomm.com>
+ Connor Abbott <cwabbott0@gmail.com>, linux-arm-msm@vger.kernel.org,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ freedreno@lists.freedesktop.org, linux-arm-kernel@lists.infradead.org,
+ iommu@lists.linux.dev, devicetree@vger.kernel.org
+References: <20251110-kaana-gpu-support-v2-0-bef18acd5e94@oss.qualcomm.com>
+ <20251110-kaana-gpu-support-v2-20-bef18acd5e94@oss.qualcomm.com>
+ <20251111-magnetic-jasper-slug-3abc3e@kuoka>
+ <ad372979-adab-4486-ac69-90a9df1ae512@oss.qualcomm.com>
 From: Krzysztof Kozlowski <krzk@kernel.org>
 Content-Language: en-US
 Autocrypt: addr=krzk@kernel.org; keydata=
@@ -99,7 +104,7 @@ Autocrypt: addr=krzk@kernel.org; keydata=
  jWt87ecuHlpL3uuQ0ZZNWqHgZoQLXoqC2ZV5KrtKWb/jyiFX/sxSrodALf0zf+tfHv0FZWT2
  zHjUqd0t4njD/UOsuIMOQn4Ig0SdivYPfZukb5cdasKJukG1NOpbW7yRNivaCnfZz6dTawXw
  XRIV/KDsHQiyVxKvN73bThKhONkcX2LWuD928tAR6XMM2G5ovxLe09vuOzzfTWQDsm++9UKF a/A=
-In-Reply-To: <07221941-4546-4153-b845-594be006e79a@oss.qualcomm.com>
+In-Reply-To: <ad372979-adab-4486-ac69-90a9df1ae512@oss.qualcomm.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -117,31 +122,49 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 11/11/2025 15:51, Akhil P Oommen wrote:
->>> +  - |
->>> +    #include <dt-bindings/clock/qcom,qcs615-gpucc.h>
->>> +    #include <dt-bindings/clock/qcom,qcs615-gcc.h>
->>> +    #include <dt-bindings/interrupt-controller/arm-gic.h>
->>> +    #include <dt-bindings/power/qcom,rpmhpd.h>
->>> +
->>> +    rgmu: rgmu@506a000 {
+On 11/11/2025 15:25, Akhil P Oommen wrote:
+> On 11/11/2025 1:19 PM, Krzysztof Kozlowski wrote:
+>> On Mon, Nov 10, 2025 at 10:07:26PM +0530, Akhil P Oommen wrote:
+>>> Document Adreno X2-85 GMU found in Glymur chipsets in the
+>>> dt-binding specification. It is very similar to Adreno 840
+>>> GMU with the additional requirement of RSCC HUB clock.
+>>>
+>>> Signed-off-by: Akhil P Oommen <akhilpo@oss.qualcomm.com>
+>>> ---
 >>
->> Drop label.
+>> <form letter>
+>> This is a friendly reminder during the review process.
 >>
->> Node names should be generic. See also an explanation and list of
->> examples (not exhaustive) in DT specification:
->> https://devicetree-specification.readthedocs.io/en/latest/chapter2-devicetree-basics.html#generic-names-recommendation
->> If you cannot find a name matching your device, please check in kernel
->> sources for similar cases or you can grow the spec (via pull request to
->> DT spec repo).
+>> It looks like you received a tag and forgot to add it.
+>>
+>> If you do not know the process, here is a short explanation:
+>> Please add Acked-by/Reviewed-by/Tested-by tags when posting new
+>> versions of patchset, under or above your Signed-off-by tag, unless
+>> patch changed significantly (e.g. new properties added to the DT
+>> bindings). Tag is "received", when provided in a message replied to you
+>> on the mailing list. Tools like b4 can help here. However, there's no
+>> need to repost patches *only* to add the tags. The upstream maintainer
+>> will do that for tags received on the version they apply.
+>>
+>> Please read:
+>> https://elixir.bootlin.com/linux/v6.12-rc3/source/Documentation/process/submitting-patches.rst#L577
+>>
+>> If a tag was not added on purpose, please state why and what changed.
+>> </form letter>
+>>
 > 
-> I guess we can use 'gmu' here as that name is already in use for other
-> chipsets?
-> 
-> Ack for all other suggestions. Will update the patch.
+> I think you got confused. These are new patches I have included for
+> Glymur support in Rev 2 (as mentioned in the cover letter). Did you
+> confuse with the other patch for Kaanapali?
+
+I did check in the changelog and there is nothing about new bindings
+patch, so you expect me to keep guessing what is happening here.
+
+Squash this with previous patch then. It's really churn to deal with one
+single liner per patch and commit msg has absoutely ZERO content to be
+useful on its own.
 
 
-Yes, then let's just use existing gmu.
 
 Best regards,
 Krzysztof
