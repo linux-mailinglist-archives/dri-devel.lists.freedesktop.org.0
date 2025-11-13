@@ -2,63 +2,53 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id CB789C57163
-	for <lists+dri-devel@lfdr.de>; Thu, 13 Nov 2025 12:05:55 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9F3C9C5729F
+	for <lists+dri-devel@lfdr.de>; Thu, 13 Nov 2025 12:25:37 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2714010E050;
-	Thu, 13 Nov 2025 11:05:53 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C280410E096;
+	Thu, 13 Nov 2025 11:25:34 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="nG89sjJk";
+	dkim=pass (2048-bit key; unprotected) header.d=cknow-tech.com header.i=@cknow-tech.com header.b="RJ40f5UZ";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from bali.collaboradmins.com (bali.collaboradmins.com
- [148.251.105.195])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 281FC10E050
- for <dri-devel@lists.freedesktop.org>; Thu, 13 Nov 2025 11:05:51 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1763031949;
- bh=A3l1bqL2ZaHUeIvDTdtz9/4VdzTCmqZnngzv4BIt73E=;
- h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
- b=nG89sjJkj48Upcqe3d0WT3HjMFRLbTjxNavBQrQ7+yio4bWlotn+pMSPb4uBqM4Jq
- k74P6Taw//OcDh7kMlPIg7dojE64h/XeH2ztSXcbohN0BKU0u5WnwoQU3cBk/RwKsW
- bR0K5BCOSRzpv+M1I+B7ivmXk8ZdOxOLbTZcghsO6vt/oHZE06gnxz5MZd5KAsHC7q
- vp0hWY8tpsgf+YgVA0BhCx/Mf7/QnyKkw0W5lASu6a480PEGxCwZCQOMmwB+Pplu+C
- XieQ3bbS6VZVrXcTExIQSHbsWokuEjBZf1BhoCiinIoRaBNy8qaEm+jiqLkLBYmkGI
- iBvELZG6MG/rA==
-Received: from fedora (unknown [IPv6:2a01:e0a:2c:6930:d919:a6e:5ea1:8a9f])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange ECDHE (prime256v1) server-signature RSA-PSS (4096 bits)
- server-digest SHA256) (No client certificate requested)
- (Authenticated sender: bbrezillon)
- by bali.collaboradmins.com (Postfix) with ESMTPSA id 5285217E12D5;
- Thu, 13 Nov 2025 12:05:49 +0100 (CET)
-Date: Thu, 13 Nov 2025 12:05:45 +0100
-From: Boris Brezillon <boris.brezillon@collabora.com>
-To: Philipp Stanner <pstanner@redhat.com>
-Cc: Steven Price <steven.price@arm.com>, Liviu Dudau <liviu.dudau@arm.com>,
- =?UTF-8?B?QWRyacOhbg==?= Larumbe <adrian.larumbe@collabora.com>, Maarten
- Lankhorst <maarten.lankhorst@linux.intel.com>, Maxime Ripard
- <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- dri-devel@lists.freedesktop.org, Detlev Casanova
- <detlev.casanova@collabora.com>, Ashley Smith <ashley.smith@collabora.com>,
- kernel@collabora.com
-Subject: Re: [PATCH v7 1/2] drm/panthor: Make the timeout per-queue instead
- of per-job
-Message-ID: <20251113120545.7a4ef9cc@fedora>
-In-Reply-To: <fb6a92b02e4d6bf96b998a47184efb55fd4f952f.camel@redhat.com>
-References: <20251112121744.1356882-1-boris.brezillon@collabora.com>
- <20251112121744.1356882-2-boris.brezillon@collabora.com>
- <7cea7efb7ff0ab34ab7352158ecce731a3f714d8.camel@redhat.com>
- <20251112143104.2cabebb9@fedora>
- <0558310f433debe93dddee0b6373bcb406b8bd62.camel@redhat.com>
- <20251112151253.7cfba768@fedora>
- <fb6a92b02e4d6bf96b998a47184efb55fd4f952f.camel@redhat.com>
-Organization: Collabora
-X-Mailer: Claws Mail 4.3.1 (GTK 3.24.51; x86_64-redhat-linux-gnu)
-MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
+X-Greylist: delayed 412 seconds by postgrey-1.36 at gabe;
+ Thu, 13 Nov 2025 11:25:32 UTC
+Received: from out-176.mta1.migadu.com (out-176.mta1.migadu.com
+ [95.215.58.176])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 72EA210E096
+ for <dri-devel@lists.freedesktop.org>; Thu, 13 Nov 2025 11:25:32 +0000 (UTC)
+Mime-Version: 1.0
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cknow-tech.com;
+ s=key1; t=1763032718;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=C+r3eA7uqjYviG5Wbo7UxLrUTDN7ePU6jG8MMKZBMMA=;
+ b=RJ40f5UZpL+AYew0HKB3Ry38U/jj0BY+uYJilws9y2DZDU9YIyC5HmOU8C8hRQ4YjgUhvf
+ 0wZ6+z/JUelK8f5JxA6G9Ed+Q+ptcnrvdz9NkqNzJEfDrFwKjsPHgF5ZuaByEYgqFyontT
+ SaKpUYpQ9wXtNskzxYj3/+Bjm97+7+RfuxuO5oMCGDI04ns5jPrD4OLUXvsme6H5w4UykS
+ 1HL62VZP/mV0Ioyt1uDv/yVRsZ2u4i9Q2E4W1f9Wa6LcKf8A8dWf0PC8CxZ8bTqtX1nKco
+ kzqeEaRzmGZP/OrF7kvUaHs38mlDYj9OC8c6mhADKRu5h/k5SobOqRT47hBpGw==
 Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Date: Thu, 13 Nov 2025 12:18:17 +0100
+Message-Id: <DE7IXK6SWV7J.3B9AOCCGWT4EH@cknow-tech.com>
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and
+ include these headers.
+From: "Diederik de Haas" <diederik@cknow-tech.com>
+To: "Dang Huynh" <dang.huynh@mainlining.org>, "Andy Yan" <andyshrk@163.com>
+Cc: <heiko@sntech.de>, <hjc@rock-chips.com>, <diederik@cknow-tech.com>,
+ <dri-devel@lists.freedesktop.org>, <linux-arm-kernel@lists.infradead.org>,
+ <linux-kernel@vger.kernel.org>, <linux-rockchip@lists.infradead.org>, "Andy
+ Yan" <andy.yan@rock-chips.com>
+Subject: Re: [PATCH] drm/rockchip: vop2: Use OVL_LAYER_SEL configuration
+ instead of use win_mask calculate used layers
+References: <20251112085024.2480111-1-andyshrk@163.com>
+ <hrg6geclph37olvqr3o5v4d4mifvl25kaemh7f2z3hwega7h2b@muf2gkfqzvvz>
+In-Reply-To: <hrg6geclph37olvqr3o5v4d4mifvl25kaemh7f2z3hwega7h2b@muf2gkfqzvvz>
+X-Migadu-Flow: FLOW_OUT
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -74,62 +64,147 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, 13 Nov 2025 11:56:03 +0100
-Philipp Stanner <pstanner@redhat.com> wrote:
+On Thu Nov 13, 2025 at 9:11 AM CET, Dang Huynh wrote:
+> Hi Andy,
+>
+> This fix works on my device. No more black box around the cursor.
+>
+> Tested-by: Dang Huynh <dang.huynh@mainlining.org>
 
-> On Wed, 2025-11-12 at 15:12 +0100, Boris Brezillon wrote:
-> > On Wed, 12 Nov 2025 14:48:51 +0100
-> > Philipp Stanner <pstanner@redhat.com> wrote:
-> >  =20
-> > >  =20
->=20
-> [=E2=80=A6]
->=20
-> > > > =C2=A0  =20
-> > > > >=20
-> > > > > You could write a proper drm_sched API function which serves your
-> > > > > usecase.=C2=A0  =20
-> > > >=20
-> > > > It's not really lack of support for our usecase that drives this
-> > > > change, but more the fact the current helpers are racy for drivers =
-that
-> > > > have a 1:1 entity:sched relationship with queues that can be schedu=
-led
-> > > > out behind drm_gpu_scheduler's back.=C2=A0  =20
-> > >=20
-> > > And you also can't stop drm_sched to prevent races? =20
-> >=20
-> > That's the thing, I don't want to stop the drm_gpu_scheduler attached
-> > to a panthor_queue, I want new jobs to be queued to the ring buffer
-> > until this ring buffer is full (which is controller with the
-> > ::credit_limit property), even if the group this queue belongs to is
-> > not currently active on the FW side. Those jobs will get executed at
-> > some later point when the group gets picked by the panthor scheduler. =
-=20
->=20
-> Ah, OK! Understood.
->=20
-> > >=20
-> > > As you know I only learned a few weeks ago about your group scheduler
-> > > on top of drm_sched. I wish I had heard about it when it was
-> > > implemented; we might have come up with the idea for drm_jobqueue
-> > > sooner. =20
-> >=20
-> > Might have simplified things, I guess, but that's life, and I'm happy
-> > to transition to drm_jobqueue when it's deemed ready. =20
->=20
-> JQ is in Rust, potentially one day with a C ABI. So that could only
-> happen if your driver's users are OK with relying on LLVM for building
-> the kernel.
->=20
-> BTW would be interesting for me to know to what degree that's a problem
-> for common distributions and users.
+Thanks for testing and your Tested-by tag :-D
 
-That's a good question. I must admit I never thought of this because I
-usually build my kernels on a full-blown distro with both llvm and gcc
-installed, so I can easily pick the one I need for the task. For distro
-builds that should be okay, but for {yocto,buildroot,custom}-based
-build systems the transition might be painful/annoying, but I'd expect
-people to move to llvm if they have to. I mean, the ultimate goal is
-for Tyr to replace Panthor so we don't have to maintain two drivers, so
-if that's going to be a problem, I'd rather know it now :-).
+FYI: Apparently something went wrong with delivery it as it only arrived
+at LKML, but not dri-devel, linux-arm-kernel or linux-rockchip MLs.
+No idea if that's problematic (for b4 f.e.) though.
+
+'lore' has it here:
+https://lore.kernel.org/all/hrg6geclph37olvqr3o5v4d4mifvl25kaemh7f2z3hwega7=
+h2b@muf2gkfqzvvz/
+
+Cheers,
+ Diederik
+
+> On Wed, Nov 12, 2025 at 04:50:23PM +0800, Andy Yan wrote:
+>> From: Andy Yan <andy.yan@rock-chips.com>
+>>=20
+>> When there are multiple Video Ports, and only one of them is working
+>> (for example, VP1 is working while VP0 is not), in this case, the
+>> win_mask of VP0 is 0. However, we have already set the port mux for VP0
+>> according to vp0->nlayers, and at the same time, in the OVL_LAYER_SEL
+>> register, there are windows will also be assigned to layers which will
+>> map to the inactive VPs. In this situation, vp0->win_mask is zero as it
+>> now working, it is more reliable to calculate the used layers based on
+>> the configuration of the OVL_LAYER_SEL register.
+>>=20
+>> Note: as the configuration of OVL_LAYER_SEL is take effect when the
+>> vsync is come, so we use the value backup in vop2->old_layer_sel instead
+>> of read OVL_LAYER_SEL directly.
+>>=20
+>> Fixes: 3e89a8c68354 ("drm/rockchip: vop2: Fix the update of LAYER/PORT s=
+elect registers when there are multi display output on rk3588/rk3568")
+>> Reported-by: Diederik de Haas <diederik@cknow-tech.com>
+>> Closes: https://bugs.kde.org/show_bug.cgi?id=3D511274
+>> Signed-off-by: Andy Yan <andy.yan@rock-chips.com>
+>> ---
+>>=20
+>>  drivers/gpu/drm/rockchip/rockchip_vop2_reg.c | 49 +++++++++++++++++---
+>>  1 file changed, 42 insertions(+), 7 deletions(-)
+>>=20
+>> diff --git a/drivers/gpu/drm/rockchip/rockchip_vop2_reg.c b/drivers/gpu/=
+drm/rockchip/rockchip_vop2_reg.c
+>> index d22ce11a4235..f3950e8476a7 100644
+>> --- a/drivers/gpu/drm/rockchip/rockchip_vop2_reg.c
+>> +++ b/drivers/gpu/drm/rockchip/rockchip_vop2_reg.c
+>> @@ -1369,6 +1369,25 @@ static const struct vop2_regs_dump rk3588_regs_du=
+mp[] =3D {
+>>  	},
+>>  };
+>> =20
+>> +/*
+>> + * phys_id is used to identify a main window(Cluster Win/Smart Win, not
+>> + * include the sub win of a cluster or the multi area) that can do over=
+lay
+>> + * in main overlay stage.
+>> + */
+>> +static struct vop2_win *vop2_find_win_by_phys_id(struct vop2 *vop2, uin=
+t8_t phys_id)
+>> +{
+>> +	struct vop2_win *win;
+>> +	int i;
+>> +
+>> +	for (i =3D 0; i < vop2->data->win_size; i++) {
+>> +		win =3D &vop2->win[i];
+>> +		if (win->data->phys_id =3D=3D phys_id)
+>> +			return win;
+>> +	}
+>> +
+>> +	return NULL;
+>> +}
+>> +
+>>  static unsigned long rk3568_set_intf_mux(struct vop2_video_port *vp, in=
+t id, u32 polflags)
+>>  {
+>>  	struct vop2 *vop2 =3D vp->vop2;
+>> @@ -1842,15 +1861,31 @@ static void vop2_parse_alpha(struct vop2_alpha_c=
+onfig *alpha_config,
+>>  	alpha->dst_alpha_ctrl.bits.factor_mode =3D ALPHA_SRC_INVERSE;
+>>  }
+>> =20
+>> -static int vop2_find_start_mixer_id_for_vp(struct vop2 *vop2, u8 port_i=
+d)
+>> +static int vop2_find_start_mixer_id_for_vp(struct vop2_video_port *vp)
+>>  {
+>> -	struct vop2_video_port *vp;
+>> -	int used_layer =3D 0;
+>> +	struct vop2 *vop2 =3D vp->vop2;
+>> +	struct vop2_win *win;
+>> +	u32 layer_sel =3D vop2->old_layer_sel;
+>> +	u32 used_layer =3D 0;
+>> +	unsigned long win_mask =3D vp->win_mask;
+>> +	unsigned long phys_id;
+>> +	bool match;
+>>  	int i;
+>> =20
+>> -	for (i =3D 0; i < port_id; i++) {
+>> -		vp =3D &vop2->vps[i];
+>> -		used_layer +=3D hweight32(vp->win_mask);
+>> +	for (i =3D 0; i < 31; i +=3D 4) {
+>> +		match =3D false;
+>> +		for_each_set_bit(phys_id, &win_mask, ROCKCHIP_VOP2_ESMART3) {
+>> +			win =3D vop2_find_win_by_phys_id(vop2, phys_id);
+>> +			if (win->data->layer_sel_id[vp->id] =3D=3D ((layer_sel >> i) & 0xf))=
+ {
+>> +				match =3D true;
+>> +				break;
+>> +			}
+>> +		}
+>> +
+>> +		if (!match)
+>> +			used_layer +=3D 1;
+>> +		else
+>> +			break;
+>>  	}
+>> =20
+>>  	return used_layer;
+>> @@ -1935,7 +1970,7 @@ static void vop2_setup_alpha(struct vop2_video_por=
+t *vp)
+>>  	u32 dst_global_alpha =3D DRM_BLEND_ALPHA_OPAQUE;
+>> =20
+>>  	if (vop2->version <=3D VOP_VERSION_RK3588)
+>> -		mixer_id =3D vop2_find_start_mixer_id_for_vp(vop2, vp->id);
+>> +		mixer_id =3D vop2_find_start_mixer_id_for_vp(vp);
+>>  	else
+>>  		mixer_id =3D 0;
+>> =20
+>> --=20
+>> 2.43.0
+>>=20
+>> base-commit: ded94ec6167e84195507237100f6278941e36fdd
+>> branch: drm-misc-next-2025-1016
+>>=20
+>>=20
+>> _______________________________________________
+>> Linux-rockchip mailing list
+>> Linux-rockchip@lists.infradead.org
+>> http://lists.infradead.org/mailman/listinfo/linux-rockchip
+
